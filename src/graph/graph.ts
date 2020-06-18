@@ -831,6 +831,7 @@ export default class Graph extends EventEmitter implements IGraph {
   /**
    * 显示元素
    * @param {Item} item 指定元素
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
    */
   public showItem(item: Item | string, stack: boolean = true): void {
     const itemController: ItemController = this.get('itemController');
@@ -847,6 +848,7 @@ export default class Graph extends EventEmitter implements IGraph {
   /**
    * 隐藏元素
    * @param {Item} item 指定元素
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
    */
   public hideItem(item: Item | string, stack: boolean = true): void {
     const itemController: ItemController = this.get('itemController');
@@ -883,6 +885,7 @@ export default class Graph extends EventEmitter implements IGraph {
   /**
    * 删除元素
    * @param {Item} item 元素id或元素实例
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
    */
   public remove(item: Item | string, stack: boolean = true): void {
     this.removeItem(item, stack);
@@ -891,6 +894,7 @@ export default class Graph extends EventEmitter implements IGraph {
   /**
    * 删除元素
    * @param {Item} item 元素id或元素实例
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
    */
   public removeItem(item: Item | string, stack: boolean = true): void {
     // 如果item是字符串，且查询的节点实例不存在，则认为是删除group
@@ -924,8 +928,9 @@ export default class Graph extends EventEmitter implements IGraph {
 
   /**
    * 新增元素 或 节点分组
-   * @param {string} type 元素类型(node | edge | group)
+   * @param {ITEM_TYPE} type 元素类型(node | edge | group)
    * @param {ModelConfig} model 元素数据模型
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
    * @return {Item} 元素实例
    */
   public addItem(type: ITEM_TYPE, model: ModelConfig, stack: boolean = true) {
@@ -1057,6 +1062,13 @@ export default class Graph extends EventEmitter implements IGraph {
     return item;
   }
 
+  /**
+   * 新增元素 或 节点分组
+   * @param {ITEM_TYPE} type 元素类型(node | edge | group)
+   * @param {ModelConfig} model 元素数据模型
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
+   * @return {Item} 元素实例
+   */
   public add(type: ITEM_TYPE, model: ModelConfig, stack: boolean = true): Item {
     return this.addItem(type, model, stack);
   }
@@ -1096,6 +1108,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * 更新元素
    * @param {Item} item 元素id或元素实例
    * @param {Partial<NodeConfig> | EdgeConfig} cfg 需要更新的数据
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
    */
   public update(item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig, stack: boolean = true): void {
     this.updateItem(item, cfg, stack);
@@ -1264,7 +1277,8 @@ export default class Graph extends EventEmitter implements IGraph {
 
   /**
    * 更改源数据，根据新数据重新渲染视图
-   * @param {object} data 源数据
+   * @param {GraphData | TreeGraphData} data 源数据
+   * @param {boolean} 是否入栈，默认为true
    * @return {object} this
    */
   public changeData(data?: GraphData | TreeGraphData, stack: boolean = true): Graph {
