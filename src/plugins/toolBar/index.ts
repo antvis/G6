@@ -141,15 +141,6 @@ export default class ToolBar extends Base {
     }
 
     this.bindUndoRedo()
-
-    const undoDom = document.querySelector('.g6-component-toolbar li[code="undo"]')
-    const undoDomIcon = document.querySelector('.g6-component-toolbar li[code="undo"] svg')
-    const redoDom = document.querySelector('.g6-component-toolbar li[code="redo"]')
-    const redoDomIcon = document.querySelector('.g6-component-toolbar li[code="redo"] svg')
-    undoDom.setAttribute('style', 'cursor: not-allowed')
-    undoDomIcon.setAttribute('style', 'opacity: 0.4')
-    redoDom.setAttribute('style', 'cursor: not-allowed')
-    redoDomIcon.setAttribute('style', 'opacity: 0.4')
   }
 
   private bindUndoRedo() {
@@ -170,7 +161,7 @@ export default class ToolBar extends Base {
       const undoStackLen = undoStack.length
       const redoStackLen = redoStack.length
       // undo 不可用
-      if (undoStackLen === 0) {
+      if (undoStackLen === 1) {
         undoDom.setAttribute('style', 'cursor: not-allowed')
         undoDomIcon.setAttribute('style', 'opacity: 0.4')
       } else {
@@ -195,7 +186,6 @@ export default class ToolBar extends Base {
   public undo() {
     const graph: IGraph = this.get('graph')
     const undoStack = graph.getUndoStack()
-    const redoStack = graph.getRedoStack()
 
     if (!undoStack || undoStack.length === 0) {
       return
@@ -204,7 +194,7 @@ export default class ToolBar extends Base {
     const currentData = undoStack.pop()
     if (currentData) {
       let { action, data } = currentData
-      redoStack.push(clone({ action, data }))
+      graph.pushStack(action, clone(data), 'redo')
 
       if (undoStack.length > 0) {
         const current = undoStack.peek()
@@ -233,11 +223,6 @@ export default class ToolBar extends Base {
           break;
       }
     }
-
-    // graph.emit('stackchange', {
-    //   undoStack: graph.getUndoStack(),
-    //   redoStack: graph.getRedoStack()
-    // })
   }
 
   /**
@@ -283,11 +268,6 @@ export default class ToolBar extends Base {
           break;
       }
     }
-
-    // graph.emit('stackchange', {
-    //   undoStack: graph.getUndoStack(),
-    //   redoStack: graph.getRedoStack()
-    // })
   }
 
   /**

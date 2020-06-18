@@ -153,7 +153,7 @@ describe('toolbar', () => {
     expect(firstStackData.action).toEqual('visible')
     expect(firstStackData.data).toEqual('node1')
   })
-  it.only('test default config', () => {
+  it('test default config', () => {
     const toolbar = new G6.ToolBar();
     const graph = new G6.Graph({
       container: div,
