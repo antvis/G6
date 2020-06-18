@@ -507,8 +507,9 @@ export interface IGraph extends EventEmitter {
    * 将操作类型和操作数据入栈
    * @param action 操作类型
    * @param data 入栈的数据
+   * @param stackType 入栈的类型
    */
-  pushStack(action?: string, data?: unknown): void;
+  pushStack(action?: string, data?: unknown, stackType?: 'redo' | 'undo'): void;
 
   /**
    * 销毁画布

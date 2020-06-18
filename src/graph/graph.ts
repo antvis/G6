@@ -2852,6 +2852,14 @@ export default class Graph extends EventEmitter implements IGraph {
     return res;
   }
 
+  public getUndoStack() {
+    return this.undoStack;
+  }
+
+  public getRedoStack() {
+    return this.redoStack;
+  }
+
   /**
    * 获取 undo 和 redo 栈的数据
    */
@@ -2874,12 +2882,26 @@ export default class Graph extends EventEmitter implements IGraph {
    * 将操作类型和操作数据入栈
    * @param action 操作类型
    * @param data 入栈的数据
+   * @param stackType 栈的类型
    */
-  public pushStack(action: string = 'update', data?: unknown) {
+  public pushStack(action: string = 'update', data?: unknown, stackType: string = 'undo') {
     const stackData = data ? clone(data) : clone(this.save())
-    this.undoStack.push({
-      action,
-      data: stackData
+
+    if (stackType === 'redo') {
+      this.redoStack.push({
+        action,
+        data: stackData
+      })
+    } else {
+      this.undoStack.push({
+        action,
+        data: stackData
+      })
+    }
+
+    this.emit('stackchange', {
+      undoStack: this.undoStack,
+      redoStack: this.redoStack
     })
   }
 
