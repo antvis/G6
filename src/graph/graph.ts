@@ -25,7 +25,8 @@ import {
   ModeOption,
   ModeType,
   States,
-  ComboTree
+  ComboTree,
+  StackData
 } from '../types';
 import { getAllNodeInGroups } from '../util/group';
 import { move } from '../util/math';
@@ -43,8 +44,6 @@ import {
 import PluginBase from '../plugins/base';
 import createDom from '@antv/dom-util/lib/create-dom';
 import { plainCombosToTrees, traverseTree, reconstructTree, traverseTreeUp } from '../util/graphic';
-import degree from '../algorithm/degree';
-import Stack from '../algorithm/structs/stack'
 import degree from '../algorithm/degree';
 import Stack from '../algorithm/structs/stack'
 
@@ -2927,143 +2926,6 @@ export default class Graph extends EventEmitter implements IGraph {
       undoStack: this.undoStack,
       redoStack: this.redoStack
     })
-  }
-
-  /**
-   * 获取 undo 和 redo 栈的数据
-   */
-  public getStackData(): {
-    undoStack: GraphData[];
-    redoStack: GraphData[]
-  } {
-    return {
-      undoStack: this.undoStack.toArray(),
-      redoStack: this.redoStack.toArray()
-    }
-  }
-
-  /**
-   * 清空 undo stack & redo stack
-   */
-  public clearStack() {
-    this.undoStack.clear()
-    this.redoStack.clear()
-  }
-
-  /**
-   * 将操作类型和操作数据入栈
-   * @param action 操作类型
-   * @param data 入栈的数据
-   */
-  public pushStack(action: string = 'update', data?: unknown) {
-    const stackData = data ? clone(data) : clone(this.save())
-    this.undoStack.push({
-      action,
-      data: stackData
-    })
-
-    this.emit('stackchange', {
-      undoStack: this.undoStack,
-      redoStack: this.redoStack
-    })
-  }
-
-  /**
-   * undo 操作
-   * @param callback 用户自定义扩展方法
-   * @param isNotExtend 是否不基于 G6 默认提供的 undo 扩展，默认基于 G6 提供的 undo 操作扩展
-   */
-  public undo(callback?: (type: string, data: unknown) => void, isNotExtend: boolean = false) {
-    if (!this.undoStack || this.undoStack.length === 0) {
-      return
-    }
-
-    const currentData = this.undoStack.pop()
-    if (currentData) {
-      const { action, data } = currentData
-      this.redoStack.push(clone({ action, data }))
-
-      if (isNotExtend) {
-        callback && callback(action, data)
-        return
-      }
-
-      switch (action) {
-        case 'visible':
-          let item = data
-          if (isString(data)) {
-            item = this.findById(data)
-          }
-          item.get('visible') ? this.hideItem(item, false) : this.showItem(item, false)
-          break;
-        case 'render':
-        case 'update':
-          this.changeData(data, false)
-          break;
-        case 'delete':
-          const { type, ...model } = data
-          this.addItem(type, model, false)
-          break;
-        case 'add':
-          this.removeItem(data.id, false)
-          break;
-        default:
-          callback && callback(action, data)
-          break;
-      }
-    }
-  }
-
-  /**
-   * redo 操作
-   * @param callback 用户自定义扩展方法
-   * @param isNotExtend 是否不基于 G6 默认提供的 redo 扩展，默认基于 G6 提供的 redo 操作扩展
-   */
-  public redo(callback?: (type: string, data: unknown) => void, isNotExtend: boolean = false) {
-    if (!this.redoStack || this.redoStack.length === 0) {
-      return
-    }
-
-    let currentData = this.redoStack.pop()
-    if (currentData) {
-      let { action, data } = currentData
-      this.pushStack(action, clone(data))
-      if (action === 'render') {
-        currentData = this.redoStack.pop()
-        action = currentData.action
-        data = currentData.data
-        this.pushStack(action, clone(data))
-      }
-
-      if (isNotExtend) {
-        callback && callback(action, data)
-        return
-      }
-
-      switch (action) {
-        case 'visible':
-          let item = data
-          if (isString(data)) {
-            item = this.findById(data)
-          }
-          item.get('visible') ? this.hideItem(item, false) : this.showItem(item, false)
-          break;
-        case 'render':
-        case 'update':
-          this.changeData(data, false)
-          break;
-        case 'delete':
-          this.removeItem(data.id, false)
-          break;
-        case 'add':
-          const { type, ...model } = data
-          this.addItem(type, model, false)
-          break;
-        default:
-          callback && callback(action, data)
-          break;
-      }
-    }
   }
 
   /**

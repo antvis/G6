@@ -1,6 +1,6 @@
 import modifyCSS from '@antv/dom-util/lib/modify-css';
 import createDOM from '@antv/dom-util/lib/create-dom';
-import isString from '@ANTV/util/lib/is-string'
+import { clone, isString } from '@antv/util/lib';
 import Base, { IPluginBaseConfig } from '../base';
 import { IGraph } from '../../interface/graph';
 import { Point } from '@antv/g-base';
@@ -141,6 +141,15 @@ export default class ToolBar extends Base {
     }
 
     this.bindUndoRedo()
+
+    const undoDom = document.querySelector('.g6-component-toolbar li[code="undo"]')
+    const undoDomIcon = document.querySelector('.g6-component-toolbar li[code="undo"] svg')
+    const redoDom = document.querySelector('.g6-component-toolbar li[code="redo"]')
+    const redoDomIcon = document.querySelector('.g6-component-toolbar li[code="redo"] svg')
+    undoDom.setAttribute('style', 'cursor: not-allowed')
+    undoDomIcon.setAttribute('style', 'opacity: 0.4')
+    redoDom.setAttribute('style', 'cursor: not-allowed')
+    redoDomIcon.setAttribute('style', 'opacity: 0.4')
   }
 
   private bindUndoRedo() {
@@ -157,10 +166,11 @@ export default class ToolBar extends Base {
     graph.on('stackchange', evt => {
       const { undoStack, redoStack } = evt
       console.log(undoStack, redoStack)
+      debugger
       const undoStackLen = undoStack.length
       const redoStackLen = redoStack.length
       // undo 不可用
-      if (undoStackLen === 1) {
+      if (undoStackLen === 0) {
         undoDom.setAttribute('style', 'cursor: not-allowed')
         undoDomIcon.setAttribute('style', 'opacity: 0.4')
       } else {
@@ -180,6 +190,107 @@ export default class ToolBar extends Base {
   }
 
   /**
+   * undo 操作
+   */
+  public undo() {
+    const graph: IGraph = this.get('graph')
+    const undoStack = graph.getUndoStack()
+    const redoStack = graph.getRedoStack()
+
+    if (!undoStack || undoStack.length === 0) {
+      return
+    }
+
+    const currentData = undoStack.pop()
+    if (currentData) {
+      let { action, data } = currentData
+      redoStack.push(clone({ action, data }))
+
+      if (undoStack.length > 0) {
+        const current = undoStack.peek()
+        action = current.action
+        data = current.data
+      }
+
+      switch (action) {
+        case 'visible':
+          let item = data
+          if (isString(data)) {
+            item = graph.findById(data)
+          }
+          item.get('visible') ? graph.hideItem(item, false) : graph.showItem(item, false)
+          break;
+        case 'render':
+        case 'update':
+          graph.changeData(data, false)
+          break;
+        case 'delete':
+          const { type, ...model } = data
+          graph.addItem(type, model, false)
+          break;
+        case 'add':
+          graph.removeItem(data.id, false)
+          break;
+      }
+    }
+
+    // graph.emit('stackchange', {
+    //   undoStack: graph.getUndoStack(),
+    //   redoStack: graph.getRedoStack()
+    // })
+  }
+
+  /**
+   * redo 操作
+   */
+  public redo() {
+    const graph: IGraph = this.get('graph')
+    const redoStack = graph.getRedoStack()
+    
+    if (!redoStack || redoStack.length === 0) {
+      return
+    }
+
+    let currentData = redoStack.pop()
+    if (currentData) {
+      let { action, data } = currentData
+      graph.pushStack(action, clone(data))
+      if (action === 'render') {
+        currentData = redoStack.pop()
+        action = currentData.action
+        data = currentData.data
+        graph.pushStack(action, clone(data))
+      }
+
+      switch (action) {
+        case 'visible':
+          let item = data
+          if (isString(data)) {
+            item = graph.findById(data)
+          }
+          item.get('visible') ? graph.hideItem(item, false) : graph.showItem(item, false)
+          break;
+        case 'render':
+        case 'update':
+          graph.changeData(data, false)
+          break;
+        case 'delete':
+          graph.removeItem(data.id, false)
+          break;
+        case 'add':
+          const { type, ...model } = data
+          graph.addItem(type, model, false)
+          break;
+      }
+    }
+
+    // graph.emit('stackchange', {
+    //   undoStack: graph.getUndoStack(),
+    //   redoStack: graph.getRedoStack()
+    // })
+  }
+
+  /**
    * 根据 Toolbar 上不同类型对图进行操作
    * @param code 操作类型编码
    * @param graph Graph 实例
@@ -188,10 +299,10 @@ export default class ToolBar extends Base {
     const currentZoom = graph.getZoom()
     switch(code) {
       case 'redo':
-        graph.redo();
+        this.redo();
         break;
       case 'undo':
-        graph.undo()
+        this.undo()
         break;
       case 'zoomOut':
         const ratioOut = 1 + 0.05 * 5;
