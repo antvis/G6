@@ -16,7 +16,8 @@ import {
   ModeOption,
   ModeType,
   ComboConfig,
-  GraphAnimateConfig
+  GraphAnimateConfig,
+  StackData
 } from '../types';
 import { IEdge, INode, ICombo } from './item';
 import PluginBase from '../plugins/base';
@@ -494,8 +495,8 @@ export interface IGraph extends EventEmitter {
    * 获取 undo 和 redo 栈的数据
    */
   getStackData(): {
-    undoStack: Stack[],
-    redoStack: Stack[]
+    undoStack: StackData[],
+    redoStack: StackData[]
   }
 
   /**

@@ -643,3 +643,9 @@ export interface IAlgorithmCallbacks {
   leave?: (param: { current: INode, previous?: INode }) => void;
   allowTraversal?: (param: { previous?: INode, current?: INode, next: INode }) => boolean;
 }
+
+// 栈中数据格式
+export interface StackData {
+  action: string;
+  data: GraphData;
+}
