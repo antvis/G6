@@ -20,6 +20,7 @@ import {
 } from '../types';
 import { IEdge, INode, ICombo } from './item';
 import PluginBase from '../plugins/base';
+import Stack from '../algorithm/structs/stack';
 
 export interface IGraph extends EventEmitter {
   getDefaultCfg(): Partial<GraphOptions>;
@@ -479,6 +480,14 @@ export interface IGraph extends EventEmitter {
   updateCombos(): void;
 
   /**
+   * 获取 undo 和 redo 栈的数据
+   */
+  getStackData(): {
+    undoStack: Stack[],
+    redoStack: Stack[]
+  }
+
+  /**
    * 清空 undo stack & redo stack
    */
   clearStack(): void;
@@ -489,20 +498,6 @@ export interface IGraph extends EventEmitter {
    * @param data 入栈的数据
    */
   pushStack(action?: string, data?: unknown): void;
-
-   /**
-   * undo 操作
-   * @param callback 用户自定义扩展方法
-   * @param isNotExtend 是否不基于 G6 默认提供的 undo 扩展，默认基于 G6 提供的 undo 操作扩展
-   */
-  undo(callback?: (type: string, data: unknown) => void, isNotExtend?: boolean): void;
-
-  /**
-   * redo 操作
-   * @param callback 用户自定义扩展方法
-   * @param isNotExtend 是否不基于 G6 默认提供的 redo 扩展，默认基于 G6 提供的 redo 操作扩展
-   */
-  redo(callback?: (type: string, data: unknown) => void, isNotExtend?: boolean): void;
 
   /**
    * 销毁画布
