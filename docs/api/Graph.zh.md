@@ -1644,94 +1644,29 @@ graph.stopAnimate();
 
 判断当前是否有正在执行的动画。
 
-## 其他
 
-### addPlugin(plugin)
+## 计算
 
-添加指定的插件。
+### getNodeDegree(node, degreeType)
+
+获取节点的出度、入度、总度数，或同时获得以上三种。
 
 **参数**
 
-| 名称   | 类型   | 是否必选 | 描述     |
-| ------ | ------ | -------- | -------- |
-| plugin | Object | true     | 插件实例 |
+| 名称 | 类型   | 是否必选 | 描述       |
+| ---- | ------ | -------- | ---------- |
+| node | string / INode  | true     | 节点 ID 或实例 |
+| degreeType | `'in'` \ `'out'` \ `'total'` \ `'all'` | false     | 获取度数的类型。设置为 `'in'` 将返回入度；`'out'` 将返回出度；`'total'` 将返回总度数；`'all'` 将返回一个含有三种度数的对象：`{ inDegree, outDegree, degree}`；若不指定，将返回总度数 |
+
 
 **用法**
 
 ```javascript
-import { Minimap } from '@antv/g6';
-const miniMap = new Minimap({
-  size: [200, 100],
-  className: 'minimap'
-})
-
-graph.addPlugin(miniMap);
+graph.getNodeDegree('node1', 'in');
 ```
 
-### removePlugin(plugin)
 
-移除指定的插件。
-
-**参数**
-
-| 名称   | 类型   | 是否必选 | 描述     |
-| ------ | ------ | -------- | -------- |
-| plugin | Object | true     | 插件实例 |
-
-**用法**
-
-```javascript
-// 使用 removePlugin 删除通过 addPlugin 添加的实例
-graph.removePlugin(miniMap);
-```
-
-### get(key)
-
-根据 key 获取属性值。
-
-**参数**
-
-| 名称 | 类型   | 是否必选 | 描述     |
-| ---- | ------ | -------- | -------- |
-| key  | string | true     | 属性的键 |
-
-**用法**
-
-```javascript
-// 获取 group
-const group = graph.get('group');
-
-// 获取 canvas 实例
-const canvas = graph.get('canvas');
-
-// 获取 autoPaint 值
-const autoPaint = graph.get('autoPaint');
-```
-
-### set(key, val)
-
-设置属性值。
-
-**参数**
-
-| 名称 | 类型                    | 是否必选 | 描述     |
-| ---- | ----------------------- | -------- | -------- |
-| key  | string                  | true     | 属性的键 |
-| val  | string / Object / Array | true     | 属性的值 |
-
-**用法**
-
-```javascript
-// 设置 capture 值为 false
-graph.set('capture', false);
-
-// 设置 customGroup 值为 group
-graph.set('customGroup', group);
-
-// 设置 nodeIdList 值为数组
-graph.set('nodeIdList', [1, 3, 5]);
-```
-
+## 导出
 
 ### downloadFullImage(name, type, imageConfig)
 
@@ -1844,4 +1779,221 @@ graph.toFullDataUrl(
 
 ```javascript
 const dataURL = graph.toDataURL();
+```
+
+
+## 其他
+
+### addPlugin(plugin)
+
+添加指定的插件。
+
+**参数**
+
+| 名称   | 类型   | 是否必选 | 描述     |
+| ------ | ------ | -------- | -------- |
+| plugin | Object | true     | 插件实例 |
+
+**用法**
+
+```javascript
+import { Minimap } from '@antv/g6';
+const miniMap = new Minimap({
+  size: [200, 100],
+  className: 'minimap'
+})
+
+graph.addPlugin(miniMap);
+```
+
+### removePlugin(plugin)
+
+移除指定的插件。
+
+**参数**
+
+| 名称   | 类型   | 是否必选 | 描述     |
+| ------ | ------ | -------- | -------- |
+| plugin | Object | true     | 插件实例 |
+
+**用法**
+
+```javascript
+// 使用 removePlugin 删除通过 addPlugin 添加的实例
+graph.removePlugin(miniMap);
+```
+
+### get(key)
+
+根据 key 获取属性值。
+
+**参数**
+
+| 名称 | 类型   | 是否必选 | 描述     |
+| ---- | ------ | -------- | -------- |
+| key  | string | true     | 属性的键 |
+
+**用法**
+
+```javascript
+// 获取 group
+const group = graph.get('group');
+
+// 获取 canvas 实例
+const canvas = graph.get('canvas');
+
+// 获取 autoPaint 值
+const autoPaint = graph.get('autoPaint');
+```
+
+### set(key, val)
+
+设置属性值。
+
+**参数**
+
+| 名称 | 类型                    | 是否必选 | 描述     |
+| ---- | ----------------------- | -------- | -------- |
+| key  | string                  | true     | 属性的键 |
+| val  | string / Object / Array | true     | 属性的值 |
+
+**用法**
+
+```javascript
+// 设置 capture 值为 false
+graph.set('capture', false);
+
+// 设置 customGroup 值为 group
+graph.set('customGroup', group);
+
+// 设置 nodeIdList 值为数组
+graph.set('nodeIdList', [1, 3, 5]);
+```
+
+
+### getContainer()
+
+获取 Graph 的 DOM 容器。
+
+**参数**
+
+无参数
+
+**用法**
+
+```javascript
+graph.getContainer()
+```
+
+
+### getGroup()
+
+获取 Graph 根[图形分组](/zh/docs/manual/advanced/keyconcept/graphics-group)。
+
+**参数**
+
+无参数
+
+**用法**
+
+```javascript
+graph.getGroup()
+```
+
+
+### getMinZoom()
+
+获取 graph 当前允许的最小缩放比例。
+
+**参数**
+
+无参数
+
+**用法**
+
+```javascript
+graph.getMinZoom()
+```
+
+
+### setMinZoom(ratio)
+
+设置 graph 当前允许的最小缩放比例。
+
+**参数**
+
+| 名称 | 类型                    | 是否必选 | 描述     |
+| ---- | ----------------------- | -------- | -------- |
+| ratio  | number                  | true     | 最小缩放比例值 |
+
+
+**用法**
+
+```javascript
+graph.setMinZoom(0.001)
+```
+
+
+
+### getMaxZoom()
+
+获取 graph 当前允许的最大缩放比例。
+
+**参数**
+
+无参数
+
+**用法**
+
+```javascript
+graph.getMaxZoom()
+```
+
+
+### setMaxZoom(ratio)
+
+设置 graph 当前允许的最大缩放比例。
+
+**参数**
+
+| 名称 | 类型                    | 是否必选 | 描述     |
+| ---- | ----------------------- | -------- | -------- |
+| ratio  | number                  | true     | 最大缩放比例值 |
+
+
+**用法**
+
+```javascript
+graph.setMaxZoom(1000)
+```
+
+
+### getWidth()
+
+获取 graph 当前的宽度。
+
+**参数**
+
+无参数
+
+**用法**
+
+```javascript
+graph.getWidth()
+```
+
+
+
+### getHeight()
+
+获取 graph 当前的高度。
+
+**参数**
+
+无参数
+
+**用法**
+
+```javascript
+graph.getHeight()
 ```

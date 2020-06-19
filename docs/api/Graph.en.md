@@ -1658,95 +1658,29 @@ graph.stopAnimate();
 
 Return if the graph is animating.
 
-## Others
 
-### addPlugin(plugin)
 
-Add plugin to graph.
+## Calculation
 
-**Parameters**
+### getNodeDegree(node, degreeType)
+
+Get the in-degree, out-degree, degree, or all of the three kinds of degree.
+
+**Parameter**
 
 | Name   | Type   | Required | Description             |
-| ------ | ------ | -------- | ----------------------- |
-| plugin | Object | true     | Instance of the plugin. |
+| ---- | ------ | -------- | ---------- |
+| node | string / INode  | true     | Node's ID or item |
+| degreeType | `'in'` \ `'out'` \ `'total'` \ `'all'` | false     | The degree type. If it is assigned to `'in'`, returns the in-degree; `'out'` returns out-degree; `'total'` returns total degree; `'all'` returns an object contains three kinds of the degree: `{ inDegree, outDegree, degree}`; If it is not assigned, returns total degree as default |
+
 
 **Usage**
 
 ```javascript
-import { Minimap } from '@antv/g6';
-const miniMap = new Minimap({
-  size: [200, 100],
-  className: 'minimap'
-})
-
-graph.addPlugin(miniMap);
+graph.getNodeDegree('node1', 'in');
 ```
 
-### removePlugin(plugin)
-
-Remove the plugin from graph.
-
-**Parameters**
-
-| Name   | Type   | Required | Description                 |
-| ------ | ------ | -------- | --------------------------- |
-| plugin | Object | true     | The Instance of the plugin. |
-
-**Usage**
-
-```javascript
-// use removePlugin to remove plugin instance added by addPlugin
-graph.removePlugin(miniMap);
-```
-
-### get(key)
-
-Get an property of graph by key.
-
-**Parameters**
-
-| Name | Type   | Required | Description          |
-| ---- | ------ | -------- | -------------------- |
-| key  | string | true     | Key of the property. |
-
-**Usage**
-
-```javascript
-// get the group
-const group = graph.get('group');
-
-// get the canvas instance
-const canvas = graph.get('canvas');
-
-// get the value of autoPaint
-const autoPaint = graph.get('autoPaint');
-```
-
-### set(key, val)
-
-Set the value to an property.
-
-**Parameters**
-
-| Name | Type                    | Required | Description                |
-| ---- | ----------------------- | -------- | -------------------------- |
-| key  | string                  | true     | The key of the property.   |
-| val  | string / Object / Array | true     | The value of the property. |
-
-**Usage**
-
-```javascript
-// Set capture to false
-graph.set('capture', false);
-
-// Set customGroup to group
-graph.set('customGroup', group);
-
-// Set nodeIdList to [1, 3, 5]
-graph.set('nodeIdList', [1, 3, 5]);
-```
-
-
+## Download
 
 ### downloadFullImage(name, type, imageConfig)
 
@@ -1859,3 +1793,223 @@ graph.toFullDataUrl(
 
 )
 ```
+
+
+
+## Others
+
+### addPlugin(plugin)
+
+Add plugin to graph.
+
+**Parameters**
+
+| Name   | Type   | Required | Description             |
+| ------ | ------ | -------- | ----------------------- |
+| plugin | Object | true     | Instance of the plugin. |
+
+**Usage**
+
+```javascript
+import { Minimap } from '@antv/g6';
+const miniMap = new Minimap({
+  size: [200, 100],
+  className: 'minimap'
+})
+
+graph.addPlugin(miniMap);
+```
+
+### removePlugin(plugin)
+
+Remove the plugin from graph.
+
+**Parameters**
+
+| Name   | Type   | Required | Description                 |
+| ------ | ------ | -------- | --------------------------- |
+| plugin | Object | true     | The Instance of the plugin. |
+
+**Usage**
+
+```javascript
+// use removePlugin to remove plugin instance added by addPlugin
+graph.removePlugin(miniMap);
+```
+
+### get(key)
+
+Get an property of graph by key.
+
+**Parameters**
+
+| Name | Type   | Required | Description          |
+| ---- | ------ | -------- | -------------------- |
+| key  | string | true     | Key of the property. |
+
+**Usage**
+
+```javascript
+// get the group
+const group = graph.get('group');
+
+// get the canvas instance
+const canvas = graph.get('canvas');
+
+// get the value of autoPaint
+const autoPaint = graph.get('autoPaint');
+```
+
+### set(key, val)
+
+Set the value to an property.
+
+**Parameters**
+
+| Name | Type                    | Required | Description                |
+| ---- | ----------------------- | -------- | -------------------------- |
+| key  | string                  | true     | The key of the property.   |
+| val  | string / Object / Array | true     | The value of the property. |
+
+**Usage**
+
+```javascript
+// Set capture to false
+graph.set('capture', false);
+
+// Set customGroup to group
+graph.set('customGroup', group);
+
+// Set nodeIdList to [1, 3, 5]
+graph.set('nodeIdList', [1, 3, 5]);
+```
+
+
+
+### getContainer()
+
+Get the DOM container of the graph.
+
+**Parameter**
+
+No parameter.
+
+**Usage**
+
+```javascript
+graph.getContainer()
+```
+
+
+### getGroup()
+
+Get the root [graphics group](/en/docs/manual/advanced/keyconcept/graphics-group) of the graph.
+
+**Parameter**
+
+No parameter.
+
+**Usage**
+
+```javascript
+graph.getGroup()
+```
+
+
+### getMinZoom()
+
+Get the `minZoom` for the graph, which is the lower limit of the zoom ratio.
+
+**Parameter**
+
+No parameter
+
+**Usage**
+
+```javascript
+graph.getMinZoom()
+```
+
+
+### setMinZoom(ratio)
+
+Set the `minZoom` for the graph, which is the lower limit of the zoom ratio.
+
+**Parameter**
+
+| Name | Type                    | Required | Description                |
+| ---- | ----------------------- | -------- | -------- |
+| ratio  | number                  | true     | The minimum zoom ratio value |
+
+
+**Usage**
+
+```javascript
+graph.setMinZoom(0.001)
+```
+
+
+
+### getMaxZoom()
+
+Get the `maxZoom` for the graph, which is the upper limit of the zoom ratio.
+
+**Parameter**
+
+No parameter.
+
+**Usage**
+
+```javascript
+graph.getMaxZoom()
+```
+
+
+### setMaxZoom(ratio)
+
+Set the `maxZoom` for the graph, which is the upper limit of the zoom ratio.
+
+**Parameter**
+
+| Name | Type                    | Required | Description                |
+| ---- | ----------------------- | -------- | -------- |
+| ratio  | number                  | true     | The maximum zoom ratio value |
+
+
+**Usage**
+
+```javascript
+graph.setMaxZoom(1000)
+```
+
+
+### getWidth()
+
+Get the current width of the graph.
+
+**Parameter**
+
+No parameter.
+
+**Usage**
+
+```javascript
+graph.getWidth()
+```
+
+
+
+### getHeight()
+
+Get the current height of the graph.
+
+**Parameter**
+
+No parameter.
+
+**Usage**
+
+```javascript
+graph.getHeight()
+```
+
