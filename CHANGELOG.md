@@ -100,7 +100,7 @@
 
 - feat: zoom-canvas behavior supports hiding non-keyshape elements when scaling canvas;
 - refactor: when the second parameter is null, clearItemStates will clear all states of the item;
-- fix: (changeData bug)[https://github.com/antvis/G6/issues/1323];
+- fix: [changeData bug](https://github.com/antvis/G6/issues/1323);
 - fix: update antv/hierarchy to fix fixedRoot for TreeGraph;
 - fix: problem of a graph has multiple polyline edges;
 - fix: problem of dagre with controlPoints and loop edges.
