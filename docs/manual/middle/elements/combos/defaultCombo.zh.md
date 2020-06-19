@@ -91,8 +91,8 @@ const graph = new G6.Graph({
 | stroke | false | String | 文本描边颜色 |
 | lineWidth | false | Number | 文本描边粗细 |
 | opacity | false | Number | 文本透明度 |
-| font | false | String | 文本内容的当前字体属性 |
 | fontSize | false | Number | 文本字体大小 |
+| fontFamily | false | Number | 文字字体 |
 | ... Combo 标签与节点、边标签样式属性相同，统一整理在 [Text 图形 API](/zh/docs/api/nodeEdge/shapeProperties/#文本-text)   |
 
 下面代码演示在实例化图时全局配置方法中配置  `label` 和  `labelCfg`。

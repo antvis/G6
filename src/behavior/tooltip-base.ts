@@ -82,5 +82,5 @@ export default {
     this.height = canvas.get('height');
     this.container = container;
     return container;
-  },
+  }
 };

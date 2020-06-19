@@ -93,7 +93,7 @@ const graph = new G6.Graph({
 | stroke | false | String | 文本描边颜色 |
 | lineWidth | false | Number | 文本描边粗细 |
 | opacity | false | Number | 文本透明度 |
-| font | false | String | 文本内容的当前字体属性 |
+| fontFamily | false | Number | 文本字体 |
 | fontSize | false | Number | 文本字体大小 |
 | ... 节点标签与边标签样式属性相同，统一整理在 [Text 图形 API](/zh/docs/api/nodeEdge/shapeProperties/#文本-text) |  |  |  |
 

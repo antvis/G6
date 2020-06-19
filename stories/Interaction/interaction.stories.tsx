@@ -4,6 +4,7 @@ import React from 'react';
 import MoveViewPort from './component/view-port';
 import AltTab from './component/alt-tab';
 import AddItem from './component/addItem';
+import Tooltip from './component/tooltip';
 
 export default { title: 'Interaction' };
 
@@ -16,4 +17,7 @@ storiesOf('Interaction', module)
   ))
   .add('add item', () => (
     <AddItem />
+  ))
+  .add('tooltip', () => (
+    <Tooltip />
   ));
