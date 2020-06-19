@@ -1,5 +1,8 @@
 # ChangeLog
 
+#### 3.5.7
+- feat: shouldBegin for click-select behavior.
+
 #### 3.5.6
 - feat: dropCap for intended TreeGraph layout.
 
