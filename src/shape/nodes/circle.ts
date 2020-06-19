@@ -161,12 +161,13 @@ Shape.registerNode(
      * @return {Object} 节点的样式
      */
     getShapeStyle(cfg: NodeConfig): ShapeStyle {
-      // 如果设置了color，则覆盖默认的stroke属性
+      const { style: defaultStyle } = this.getOptions(cfg) as ModelConfig &
+        Exclude<NodeConfig, 'id'>;
       const strokeStyle = {
         stroke: cfg.color,
       };
-      const { style } = this.getOptions(cfg, { style: strokeStyle }) as ModelConfig &
-        Exclude<NodeConfig, 'id'>;
+      // 如果设置了color，则覆盖默认的stroke属性
+      const style = deepMix({}, defaultStyle, strokeStyle);
       const size = (this as ShapeOptions).getSize!(cfg);
       const r = size[0] / 2;
       const styles = Object.assign(
