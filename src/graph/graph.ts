@@ -440,6 +440,55 @@ export default class Graph extends EventEmitter implements IGraph {
   }
 
   /**
+   * 获取 graph 的最小缩放比例
+   * @return minZoom
+   */
+  public getMinZoom() {
+    return this.get('minZoom');
+  }
+
+  /**
+   * 设置 graph 的最小缩放比例
+   * @return minZoom
+   */
+  public setMinZoom(ratio: number) {
+    return this.set('minZoom', ratio);
+  }
+
+  /**
+   * 获取 graph 的最大缩放比例
+   * @param maxZoom
+   */
+  public getMaxZoom() {
+    return this.get('maxZoom');
+  }
+
+  /**
+   * 设置 graph 的最大缩放比例
+   * @param maxZoom
+   */
+  public setMaxZoom(ratio: number) {
+    return this.set('maxZoom', ratio);
+  }
+
+  /**
+   * 获取 graph 的宽度
+   * @return width
+   */
+  public getWidth() {
+    return this.get('width');
+  }
+
+  /**
+   * 获取 graph 的高度
+   * @return width
+   */
+  public getHeight() {
+    return this.get('height');
+  }
+
+
+  /**
    * 清理元素多个状态
    * @param {string|Item} item 元素id或元素实例
    * @param {string[]} states 状态

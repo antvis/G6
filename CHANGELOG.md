@@ -2,7 +2,7 @@
 
 #### 3.5.7
 - feat: shouldBegin for click-select behavior;
-- feat: graph.getGroup and graph.getContainer API;
+- feat: graph.getGroup, graph.getContainer, graph.getMinZoom, graph.setMinZoom, graph.getMaxZoom, graph.setMaxZoom, graph.getWidth, graph.getHeight API;
 - fix: combo edge dashLine attribute;
 - fix: combo collapse and expand with edges problem;
 - fix: destroy the tooltip DOMs when destroy the graph.
