@@ -1,6 +1,6 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
-import { mix } from '@antv/util';
+import { mix, deepMix } from '@antv/util';
 import { Item, NodeConfig, ModelConfig, ShapeStyle } from '../../types';
 import Global from '../../global';
 import Shape from '../shape';
@@ -47,6 +47,12 @@ Shape.registerNode(
     },
     shapeType: 'rect',
     labelPosition: 'center',
+    getCustomConfig(cfg: NodeConfig): ModelConfig {
+      return {};
+    },
+    getOptions(cfg: NodeConfig): ModelConfig {
+      return deepMix({}, this.options, this.getCustomConfig(cfg) || {}, cfg);
+    },
     drawShape(cfg: NodeConfig, group: GGroup): IShape {
       const style = this.getShapeStyle!(cfg);
 
@@ -66,8 +72,7 @@ Shape.registerNode(
      * @param {Group} group Group实例
      */
     drawLinkPoints(cfg: NodeConfig, group: GGroup) {
-      const { linkPoints: defaultLinkPoints } = this.options as ModelConfig;
-      const linkPoints = mix({}, defaultLinkPoints, cfg.linkPoints);
+      const { linkPoints } = this.getOptions(cfg) as ModelConfig & Exclude<NodeConfig, 'id'>;
 
       const { top, left, right, bottom, size: markSize, r: markR, ...markStyle } = linkPoints;
       const size = (this as ShapeOptions).getSize!(cfg);
@@ -140,12 +145,13 @@ Shape.registerNode(
      * @return {Object} 节点的样式
      */
     getShapeStyle(cfg: NodeConfig) {
-      const { style: defaultStyle } = this.options as ModelConfig;
+      const { style: defaultStyle } = this.getOptions(cfg) as ModelConfig &
+        Exclude<NodeConfig, 'id'>;
       const strokeStyle: ShapeStyle = {
         stroke: cfg.color,
       };
       // 如果设置了color，则覆盖默认的stroke属性
-      const style = mix({}, defaultStyle, strokeStyle, cfg.style);
+      const style = mix({}, defaultStyle, strokeStyle);
       const size = (this as ShapeOptions).getSize!(cfg);
       const width = style.width || size[0];
       const height = style.height || size[1];
@@ -163,7 +169,8 @@ Shape.registerNode(
     },
     update(cfg: NodeConfig, item: Item) {
       const group = item.getContainer();
-      const { style: defaultStyle } = this.options as ModelConfig;
+      // 这里不传 cfg 参数是因为 cfg.style 需要最后覆盖样式
+      const { style: defaultStyle } = this.getOptions() as ModelConfig & Exclude<NodeConfig, 'id'>;
       const size = (this as ShapeOptions).getSize!(cfg);
       const keyShape = item.get('keyShape');
       if (!cfg.size) {

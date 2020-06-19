@@ -5,7 +5,6 @@ import { Item, NodeConfig, ShapeStyle, ModelConfig } from '../../types';
 import Global from '../../global';
 import Shape from '../shape';
 import { ShapeOptions } from '../../interface/shape';
-import { isNumber, isArray } from '@antv/util';
 
 // 带有图标的圆，可用于拓扑图中
 Shape.registerNode(
@@ -52,10 +51,15 @@ Shape.registerNode(
     shapeType: 'circle',
     // 文本位置
     labelPosition: 'center',
+    getCustomConfig(cfg: NodeConfig): ModelConfig {
+      return {};
+    },
+    getOptions(cfg: NodeConfig): ModelConfig {
+      return deepMix({}, this.options, this.getCustomConfig(cfg) || {}, cfg);
+    },
     drawShape(cfg: NodeConfig, group: GGroup): IShape {
-      const { icon: defaultIcon } = this.options as ModelConfig;
+      const { icon } = this.getOptions(cfg) as ModelConfig & Exclude<NodeConfig, 'id'>;
       const style = this.getShapeStyle!(cfg);
-      const icon = deepMix({}, defaultIcon, cfg.icon);
       const keyShape: IShape = group.addShape('circle', {
         attrs: style,
         className: `${this.type}-keyShape`,
@@ -86,8 +90,7 @@ Shape.registerNode(
      * @param {Group} group Group实例
      */
     drawLinkPoints(cfg: NodeConfig, group: GGroup) {
-      const { linkPoints: defaultLinkPoints } = this.options as ModelConfig;
-      const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
+      const { linkPoints } = this.getOptions(cfg) as ModelConfig & Exclude<NodeConfig, 'id'>;
 
       const { top, left, right, bottom, size: markSize, r: markR, ...markStyle } = linkPoints;
       const size = this.getSize!(cfg);
@@ -158,12 +161,12 @@ Shape.registerNode(
      * @return {Object} 节点的样式
      */
     getShapeStyle(cfg: NodeConfig): ShapeStyle {
-      const { style: defaultStyle } = this.options as ModelConfig;
+      // 如果设置了color，则覆盖默认的stroke属性
       const strokeStyle = {
         stroke: cfg.color,
       };
-      // 如果设置了color，则覆盖默认的stroke属性
-      const style = deepMix({}, defaultStyle, strokeStyle, cfg.style);
+      const { style } = this.getOptions(cfg, { style: strokeStyle }) as ModelConfig &
+        Exclude<NodeConfig, 'id'>;
       const size = (this as ShapeOptions).getSize!(cfg);
       const r = size[0] / 2;
       const styles = Object.assign(

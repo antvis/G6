@@ -89,8 +89,14 @@ Shape.registerNode(
       ],
     },
     shapeType: 'modelRect',
+    getCustomConfig(cfg: NodeConfig): ModelConfig {
+      return {};
+    },
+    getOptions(cfg: NodeConfig): ModelConfig & Exclude<NodeConfig, 'id'> {
+      return deepMix({}, this.options, this.getCustomConfig(cfg) || {}, cfg);
+    },
     drawShape(cfg: NodeConfig, group: GGroup): IShape {
-      const { preRect: defaultPreRect } = this.options as ModelConfig;
+      const { preRect } = this.getOptions(cfg) as ModelConfig & Exclude<NodeConfig, 'id'>;
       const style = this.getShapeStyle!(cfg);
       const size = (this as ShapeOptions).getSize!(cfg);
       const width = size[0];
@@ -103,7 +109,6 @@ Shape.registerNode(
         draggable: true,
       });
 
-      const preRect = mix({}, defaultPreRect, cfg.preRect);
       const { show: preRectShow, ...preRectStyle } = preRect;
       if (preRectShow) {
         group.addShape('rect', {
@@ -115,7 +120,7 @@ Shape.registerNode(
           },
           className: 'pre-rect',
           name: 'pre-rect',
-          draggable: true
+          draggable: true,
         });
       }
 
@@ -132,8 +137,7 @@ Shape.registerNode(
      * @param {Group} group Group实例
      */
     drawLogoIcon(cfg: NodeConfig, group: GGroup) {
-      const { logoIcon: defaultLogoIcon } = this.options as ModelConfig;
-      const logoIcon = mix({}, defaultLogoIcon, cfg.logoIcon);
+      const { logoIcon } = this.getOptions(cfg) as ModelConfig & Exclude<NodeConfig, 'id'>;
       const size = (this as ShapeOptions).getSize!(cfg);
       const width = size[0];
 
@@ -149,7 +153,7 @@ Shape.registerNode(
           },
           className: 'rect-logo-icon',
           name: 'rect-logo-icon',
-          draggable: true
+          draggable: true,
         });
       }
     },
@@ -159,8 +163,7 @@ Shape.registerNode(
      * @param {Group} group Group实例
      */
     drawStateIcon(cfg: NodeConfig, group: GGroup) {
-      const { stateIcon: defaultStateIcon } = this.options as ModelConfig;
-      const stateIcon = mix({}, defaultStateIcon, cfg.stateIcon);
+      const { stateIcon } = this.getOptions(cfg) as ModelConfig & Exclude<NodeConfig, 'id'>;
       const size = (this as ShapeOptions).getSize!(cfg);
       const width = size[0];
 
@@ -176,7 +179,7 @@ Shape.registerNode(
           },
           className: 'rect-state-icon',
           name: 'rect-state-icon',
-          draggable: true
+          draggable: true,
         });
       }
     },
@@ -186,8 +189,7 @@ Shape.registerNode(
      * @param {Group} group Group实例
      */
     drawLinkPoints(cfg: NodeConfig, group: GGroup) {
-      const { linkPoints: defaultLinkPoints } = this.options as ModelConfig;
-      const linkPoints = mix({}, defaultLinkPoints, cfg.linkPoints);
+      const { linkPoints } = this.getOptions(cfg) as ModelConfig & Exclude<NodeConfig, 'id'>;
 
       const { top, left, right, bottom, size: markSize, r: markR, ...markStyle } = linkPoints;
       const size = (this as ShapeOptions).getSize!(cfg);
@@ -255,17 +257,8 @@ Shape.registerNode(
       }
     },
     drawLabel(cfg: NodeConfig, group: GGroup): IShape {
-      const {
-        labelCfg: defaultLabelCfg,
-        logoIcon: defaultLogoIcon,
-        descriptionCfg: defaultDescritionCfg,
-      } = this.options as ModelConfig;
-
-      const logoIcon = mix({}, defaultLogoIcon, cfg.logoIcon);
-
-      const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
-
-      const descriptionCfg = deepMix({}, defaultDescritionCfg, cfg.descriptionCfg);
+      const { labelCfg, logoIcon, descriptionCfg } = this.getOptions(cfg) as ModelConfig &
+        Exclude<NodeConfig, 'id'>;
 
       const size = (this as ShapeOptions).getSize!(cfg);
       const width = size[0];
@@ -291,19 +284,19 @@ Shape.registerNode(
           },
           className: 'text-shape',
           name: 'text-shape',
-          draggable: true
+          draggable: true,
         });
 
         group.addShape('text', {
           attrs: {
             ...descriptionStyle,
             x: offsetX,
-            y: 17 + descriptionPaddingTop,
+            y: 17 + (descriptionPaddingTop as any),
             text: cfg.description,
           },
           className: 'rect-description',
           name: 'rect-description',
-          draggable: true
+          draggable: true,
         });
       } else {
         label = group.addShape('text', {
@@ -311,9 +304,9 @@ Shape.registerNode(
             ...fontStyle,
             x: offsetX,
             y: 7,
-            text: cfg.label
+            text: cfg.label,
           },
-          draggable: true
+          draggable: true,
         });
       }
       return label;
@@ -324,12 +317,13 @@ Shape.registerNode(
      * @return {Object} 节点的样式
      */
     getShapeStyle(cfg: NodeConfig) {
-      const { style: defaultStyle } = this.options as ModelConfig;
+      const { style: defaultStyle } = this.getOptions(cfg) as ModelConfig &
+        Exclude<NodeConfig, 'id'>;
       const strokeStyle: ShapeStyle = {
         stroke: cfg.color,
       };
       // 如果设置了color，则覆盖默认的stroke属性
-      const style: ShapeStyle = mix({}, defaultStyle, strokeStyle, cfg.style);
+      const style: ShapeStyle = mix({}, defaultStyle, strokeStyle);
       const size = (this as ShapeOptions).getSize!(cfg);
       const width = style.width || size[0];
       const height = style.height || size[1];
@@ -346,12 +340,8 @@ Shape.registerNode(
       return styles;
     },
     update(cfg: NodeConfig, item: Item) {
-      const {
-        style: defaultStyle,
-        labelCfg: defaultLabelCfg,
-        descriptionCfg: defaultDescritionCfg,
-      } = this.options as ModelConfig;
-      const style = mix({}, defaultStyle, cfg.style);
+      const { style, labelCfg, descriptionCfg } = this.getOptions(cfg) as ModelConfig &
+        Exclude<NodeConfig, 'id'>;
       const size = (this as ShapeOptions).getSize!(cfg);
       const width = size[0];
       const height = size[1];
@@ -366,9 +356,7 @@ Shape.registerNode(
 
       const group = item.getContainer();
 
-      const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
-
-      const logoIconShape = group.find(element => element.get('className') === 'rect-logo-icon');
+      const logoIconShape = group.find((element) => element.get('className') === 'rect-logo-icon');
       const currentLogoIconAttr = logoIconShape ? logoIconShape.attr() : {};
 
       const logoIcon = mix({}, currentLogoIconAttr, cfg.logoIcon);
@@ -386,8 +374,8 @@ Shape.registerNode(
         offsetX = -width / 2 + offset;
       }
 
-      const label = group.find(element => element.get('className') === 'node-label');
-      const description = group.find(element => element.get('className') === 'rect-description');
+      const label = group.find((element) => element.get('className') === 'node-label');
+      const description = group.find((element) => element.get('className') === 'rect-description');
       if (cfg.label) {
         if (!label) {
           group.addShape('text', {
@@ -399,7 +387,7 @@ Shape.registerNode(
             },
             className: 'node-label',
             name: 'node-label',
-            draggable: true
+            draggable: true,
           });
         } else {
           const cfgStyle = cfg.labelCfg ? cfg.labelCfg.style : {};
@@ -418,19 +406,18 @@ Shape.registerNode(
         }
       }
       if (isString(cfg.description)) {
-        const descriptionCfg = deepMix({}, defaultDescritionCfg, cfg.descriptionCfg);
         const { paddingTop } = descriptionCfg;
         if (!description) {
           group.addShape('text', {
             attrs: {
               ...descriptionCfg.style,
               x: offsetX,
-              y: 17 + paddingTop,
+              y: 17 + (paddingTop as any),
               text: cfg.description,
             },
             className: 'rect-description',
             name: 'rect-description',
-            draggable: true
+            draggable: true,
           });
         } else {
           const cfgStyle = cfg.descriptionCfg ? cfg.descriptionCfg.style : {};
@@ -440,12 +427,12 @@ Shape.registerNode(
           description.resetMatrix();
           description.attr({
             ...descriptionStyle,
-            y: 17 + paddingTop,
+            y: 17 + (paddingTop as any),
           });
         }
       }
 
-      const preRectShape = group.find(element => element.get('className') === 'pre-rect');
+      const preRectShape = group.find((element) => element.get('className') === 'pre-rect');
       if (preRectShape) {
         const preRect = mix({}, preRectShape.attr(), cfg.preRect);
         preRectShape.attr({
@@ -473,7 +460,9 @@ Shape.registerNode(
         (this as any).drawLogoIcon(cfg, group);
       }
 
-      const stateIconShape = group.find(element => element.get('className') === 'rect-state-icon');
+      const stateIconShape = group.find(
+        (element) => element.get('className') === 'rect-state-icon',
+      );
       const currentStateIconAttr = stateIconShape ? stateIconShape.attr() : {};
       const stateIcon = mix({}, currentStateIconAttr, cfg.stateIcon);
       if (stateIconShape) {

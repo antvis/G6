@@ -1,6 +1,6 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
-import { mix } from '@antv/util';
+import { mix, deepMix } from '@antv/util';
 import { Item, NodeConfig, ShapeStyle, ModelConfig } from '../../types';
 import Global from '../../global';
 import Shape from '../shape';
@@ -49,10 +49,15 @@ Shape.registerNode(
     shapeType: 'circle',
     // 文本位置
     labelPosition: 'center',
+    getCustomConfig(cfg: NodeConfig): ModelConfig {
+      return {};
+    },
+    getOptions(cfg: NodeConfig): ModelConfig {
+      return deepMix({}, this.options, this.getCustomConfig(cfg) || {}, cfg);
+    },
     drawShape(cfg: NodeConfig, group: GGroup): IShape {
-      const { icon: defaultIcon } = this.options as ModelConfig;
+      const { icon } = this.getOptions(cfg) as ModelConfig & Exclude<NodeConfig, 'id'>;
       const style = this.getShapeStyle!(cfg);
-      const icon = mix({}, defaultIcon, cfg.icon);
 
       const keyShape = group.addShape('path', {
         attrs: style,
@@ -71,7 +76,7 @@ Shape.registerNode(
           },
           className: `${this.type}-icon`,
           name: `${this.type}-icon`,
-          draggable: true
+          draggable: true,
         });
       }
 
@@ -85,8 +90,7 @@ Shape.registerNode(
      * @param {Group} group Group实例
      */
     drawLinkPoints(cfg: NodeConfig, group: GGroup) {
-      const { linkPoints: defaultLinkPoints } = this.options as ModelConfig;
-      const linkPoints = mix({}, defaultLinkPoints, cfg.linkPoints);
+      const { linkPoints } = this.getOptions(cfg) as ModelConfig & Exclude<NodeConfig, 'id'>;
 
       const { top, left, right, bottom, size: markSize, r: markR, ...markStyle } = linkPoints;
       const size = this.getSize!(cfg);
@@ -171,19 +175,21 @@ Shape.registerNode(
      * @return {Object} 节点的样式
      */
     getShapeStyle(cfg: NodeConfig): ShapeStyle {
-      const { style: defaultStyle } = this.options as ModelConfig;
+      const { style: defaultStyle } = this.getOptions(cfg) as ModelConfig &
+        Exclude<NodeConfig, 'id'>;
       const strokeStyle: ShapeStyle = {
         stroke: cfg.color,
       };
       // 如果设置了color，则覆盖默认的stroke属性
-      const style = mix({}, defaultStyle, strokeStyle, cfg.style);
+      const style = mix({}, defaultStyle, strokeStyle);
       const path = (this as any).getPath(cfg);
       const styles = { path, ...style };
       return styles;
     },
     update(cfg: NodeConfig, item: Item) {
       const group = item.getContainer();
-      const { style: defaultStyle } = this.options as ModelConfig;
+      // 这里不传 cfg 参数是因为 cfg.style 需要最后覆盖样式
+      const { style: defaultStyle } = this.getOptions() as ModelConfig;
       const path = (this as any).getPath(cfg);
       // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
       const strokeStyle = {
