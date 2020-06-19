@@ -300,7 +300,6 @@ group.addShape('path', {
 | shadowOffsetX | 设置阴影距形状的水平距离 |  |
 | shadowOffsetY | 设置阴影距形状的垂直距离 |  |
 | opacity | 设置绘图的当前 alpha 或透明值 | 对应 Canvas 属性 `globalAlpha` |
-| font | 设置文本内容的当前字体属性 |  |
 | textAlign | 设置文本内容的当前对齐方式 | 支持的属性：`center` / `end` / `left` / `right` / `start`，默认值为 `start` |
 | textBaseline | 设置在绘制文本时使用的当前文本基线 | 支持的属性:<br />`top` / `middle` / `bottom` / `alphabetic` / `hanging`。默认值为 `bottom` |
 | fontStyle | 字体样式 | 对应 `font-style` |

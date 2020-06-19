@@ -424,6 +424,22 @@ export default class Graph extends EventEmitter implements IGraph {
   }
 
   /**
+   * 获取 graph 的根图形分组
+   * @return 根 group
+   */
+  public getGroup() {
+    return this.get('group');
+  }
+
+  /**
+   * 获取 graph 的 DOM 容器
+   * @return DOM 容器
+   */
+  public getContainer() {
+    return this.get('container');
+  }
+
+  /**
    * 清理元素多个状态
    * @param {string|Item} item 元素id或元素实例
    * @param {string[]} states 状态
@@ -2526,6 +2542,12 @@ export default class Graph extends EventEmitter implements IGraph {
           edgeWeightMap[vedgeId] = edge.getModel().size || 1;
           addedVEdges[vedgeId] = vedge;
         }
+      } else if ((cnodes.includes(source) || ccombos.includes(source))
+        && (cnodes.includes(target) || ccombos.includes(target))) {
+        // both source and target are in the combo, if the target and source are both visible, show the edge
+        if (source.isVisible() && target.isVisible()) {
+          edge.show();
+        }
       }
     });
   }
@@ -2724,6 +2746,17 @@ export default class Graph extends EventEmitter implements IGraph {
    */
   public destroy() {
     this.clear();
+    // destroy tooltip doms
+    const tooltipContainers = document.getElementsByClassName('g6-tooltip');
+    if (tooltipContainers) {
+      for (let i = 0; i < tooltipContainers.length; i++) {
+        const container = tooltipContainers[i];
+        if (!container) continue;
+        const parent = container.parentElement;
+        if (!parent) continue;
+        parent.removeChild(container);
+      }
+    }
 
     each(this.get('plugins'), plugin => {
       plugin.destroyPlugin();

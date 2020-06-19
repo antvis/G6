@@ -330,7 +330,6 @@ group.addShape('path', {
 | shadowOffsetX | Number | The horizontal offset of the shadow. |
 | shadowOffsetY | Number | The vertical offset of the shadow. |
 | opacity | Number | The opacity (alpha value) of the shape. The corresponding property in Canvas is `globalAlpha`. |
-| font | String | The font of the text. |
 | textAlign | String | The align way of the text. Options: `'center'` / `'end'` / `'left'` / `'right'` / `'start'`. `'start'` by default. |
 | textBaseline | String | The base line of the text. Options: <br />`'top'` / `'middle'` / `'bottom'` / `'alphabetic'` / `'hanging'`. `'bottom'` by default. |
 | fontStyle | String | The font style of the text. The corresponding property in CSS is `font-style` |

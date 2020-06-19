@@ -50,6 +50,7 @@ export type ShapeStyle = Partial<{
   fillOpacity: number;
   lineWidth: number;
   lineAppendWidth: number;
+  lineDash: number[];
   path: string | object[];
   points: object[];
   matrix: number[];

@@ -1,7 +1,11 @@
 # ChangeLog
 
 #### 3.5.7
-- feat: shouldBegin for click-select behavior.
+- feat: shouldBegin for click-select behavior;
+- feat: graph.getGroup and graph.getContainer API;
+- fix: combo edge dashLine attribute;
+- fix: combo collapse and expand with edges problem;
+- fix: destroy the tooltip DOMs when destroy the graph.
 
 #### 3.5.6
 - feat: dropCap for intended TreeGraph layout.
