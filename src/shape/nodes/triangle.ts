@@ -1,5 +1,5 @@
 import Shape from '../shape';
-import { mix } from '@antv/util';
+import { mix, deepMix } from '@antv/util';
 import Global from '../../global';
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
@@ -53,11 +53,16 @@ Shape.registerNode(
     shapeType: 'triangle',
     // 文本位置
     labelPosition: 'bottom',
+    getCustomConfig(cfg: NodeConfig): ModelConfig {
+      return {};
+    },
+    getOptions(cfg: NodeConfig): ModelConfig {
+      return deepMix({}, this.options, this.getCustomConfig(cfg) || {}, cfg);
+    },
     drawShape(cfg: NodeConfig, group: GGroup): IShape {
-      const { icon: defaultIcon, direction: defaultDirection } = this.options as ModelConfig;
+      const { icon, direction: defaultDirection } = this.getOptions(cfg) as ModelConfig &
+        Exclude<NodeConfig, 'id'>;
       const style = this.getShapeStyle!(cfg);
-      const icon = mix({}, defaultIcon, cfg.icon);
-
       const direction = cfg.direction || defaultDirection;
 
       const keyShape = group.addShape('path', {
@@ -85,7 +90,7 @@ Shape.registerNode(
           },
           className: `${this.type}-icon`,
           name: `${this.type}-icon`,
-          draggable: true
+          draggable: true,
         });
       }
 
@@ -99,9 +104,8 @@ Shape.registerNode(
      * @param {Group} group Group实例
      */
     drawLinkPoints(cfg: NodeConfig, group: GGroup) {
-      const { linkPoints: defaultLinkPoints, direction: defaultDirection } = this
-        .options as ModelConfig;
-      const linkPoints = mix({}, defaultLinkPoints, cfg.linkPoints);
+      const { linkPoints, direction: defaultDirection } = this.getOptions(cfg) as ModelConfig &
+        Exclude<NodeConfig, 'id'>;
 
       const direction = cfg.direction || defaultDirection;
 
@@ -223,7 +227,8 @@ Shape.registerNode(
       }
     },
     getPath(cfg: ModelConfig) {
-      const { direction: defaultDirection } = this.options as ModelConfig;
+      const { direction: defaultDirection } = this.getOptions(cfg) as ModelConfig &
+        Exclude<NodeConfig, 'id'>;
 
       const direction = cfg.direction || defaultDirection;
       const size = (this as ShapeOptions).getSize!(cfg);
@@ -268,19 +273,21 @@ Shape.registerNode(
      * @return {Object} 节点的样式
      */
     getShapeStyle(cfg: NodeConfig) {
-      const { style: defaultStyle } = this.options as ModelConfig;
+      const { style: defaultStyle } = this.getOptions(cfg) as ModelConfig &
+        Exclude<NodeConfig, 'id'>;
       const strokeStyle: ShapeStyle = {
         stroke: cfg.color,
       };
       // 如果设置了color，则覆盖默认的stroke属性
-      const style = mix({}, defaultStyle, strokeStyle, cfg.style);
+      const style = mix({}, defaultStyle, strokeStyle);
       const path = (this as any).getPath(cfg);
       const styles = { path, ...style };
       return styles;
     },
     update(cfg: NodeConfig, item: Item) {
       const group = item.getContainer();
-      const { style: defaultStyle } = this.options as ModelConfig;
+      // 这里不传 cfg 参数是因为 cfg.style 需要最后覆盖样式
+      const { style: defaultStyle } = this.getOptions() as ModelConfig & Exclude<NodeConfig, 'id'>;
       const path = (this as any).getPath(cfg);
       // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
       const strokeStyle = {
@@ -301,15 +308,17 @@ Shape.registerNode(
      * @param {Group} group Item所在的group
      */
     updateLinkPoints(cfg: NodeConfig, group: GGroup) {
-      const { linkPoints: defaultLinkPoints, direction: defaultDirection } = this
-        .options as ModelConfig;
+      const {
+        linkPoints: defaultLinkPoints,
+        direction: defaultDirection,
+      } = this.getOptions() as ModelConfig & Exclude<NodeConfig, 'id'>;
 
       const direction = cfg.direction || defaultDirection;
 
-      const markLeft = group.find(element => element.get('className') === 'link-point-left');
-      const markRight = group.find(element => element.get('className') === 'link-point-right');
-      const markTop = group.find(element => element.get('className') === 'link-point-top');
-      const markBottom = group.find(element => element.get('className') === 'link-point-bottom');
+      const markLeft = group.find((element) => element.get('className') === 'link-point-left');
+      const markRight = group.find((element) => element.get('className') === 'link-point-right');
+      const markTop = group.find((element) => element.get('className') === 'link-point-top');
+      const markBottom = group.find((element) => element.get('className') === 'link-point-bottom');
 
       let currentLinkPoints = defaultLinkPoints;
       const existLinkPoint = markLeft || markRight || markTop || markBottom;

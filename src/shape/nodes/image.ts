@@ -1,7 +1,8 @@
 import Shape from '../shape';
-import { NodeConfig, Item } from '../../types';
+import { NodeConfig, Item, ModelConfig } from '../../types';
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
+import { deepMix } from '@antv/util';
 
 /**
  * 基本的图片，可以添加文本，默认文本在图片的下面
@@ -50,6 +51,12 @@ Shape.registerNode(
     },
     shapeType: 'image',
     labelPosition: 'bottom',
+    getCustomConfig(cfg: NodeConfig): ModelConfig {
+      return {};
+    },
+    getOptions(cfg: NodeConfig): ModelConfig {
+      return deepMix({}, this.options, this.getCustomConfig(cfg) || {}, cfg);
+    },
     drawShape(cfg: NodeConfig, group: GGroup): IShape {
       const { shapeType } = this; // || this.type，都已经加了 shapeType
       const style = this.getShapeStyle!(cfg);
@@ -64,7 +71,7 @@ Shape.registerNode(
       return shape;
     },
     drawClip(cfg: NodeConfig, shape: IShape) {
-      const clip = Object.assign({}, this.options!.clipCfg, cfg.clipCfg);
+      const { clipCfg: clip } = this.getOptions(cfg);
 
       if (!clip.show) {
         return;
@@ -80,7 +87,7 @@ Shape.registerNode(
             x,
             y,
             ...style,
-          }
+          },
         });
       } else if (type === 'rect') {
         const { width, height } = clip;
@@ -94,7 +101,7 @@ Shape.registerNode(
             width,
             height,
             ...style,
-          }
+          },
         });
       } else if (type === 'ellipse') {
         const { rx, ry } = clip;
@@ -106,7 +113,7 @@ Shape.registerNode(
             rx,
             ry,
             ...style,
-          }
+          },
         });
       } else if (type === 'polygon') {
         const { points } = clip;
@@ -115,7 +122,7 @@ Shape.registerNode(
           attrs: {
             points,
             ...style,
-          }
+          },
         });
       } else if (type === 'path') {
         const { path } = clip;
@@ -124,13 +131,13 @@ Shape.registerNode(
           attrs: {
             path,
             ...style,
-          }
+          },
         });
       }
     },
     getShapeStyle(cfg: NodeConfig) {
       const size = this.getSize!(cfg);
-      const img = cfg.img || this.options!.img;
+      const { img } = this.getOptions(cfg);
       let width = size[0];
       let height = size[1];
       if (cfg.style) {
@@ -153,7 +160,8 @@ Shape.registerNode(
     updateShapeStyle(cfg: NodeConfig, item: Item) {
       const group = item.getContainer();
       const shapeClassName = `${this.itemType}-shape`;
-      const shape = group.find(element => element.get('className') === shapeClassName) || item.getKeyShape();
+      const shape =
+        group.find((element) => element.get('className') === shapeClassName) || item.getKeyShape();
       const shapeStyle = this.getShapeStyle!(cfg);
       if (shape) {
         shape.attr(shapeStyle);

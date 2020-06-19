@@ -1,6 +1,6 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
-import { mix } from '@antv/util';
+import { mix, deepMix } from '@antv/util';
 import { Item, NodeConfig, ShapeStyle, ModelConfig } from '../../types';
 import Global from '../../global';
 import Shape from '../shape';
@@ -51,10 +51,15 @@ Shape.registerNode(
     shapeType: 'star',
     // 文本位置
     labelPosition: 'center',
+    getCustomConfig(cfg: NodeConfig): ModelConfig {
+      return {};
+    },
+    getOptions(cfg: NodeConfig): ModelConfig {
+      return deepMix({}, this.options, this.getCustomConfig(cfg) || {}, cfg);
+    },
     drawShape(cfg: NodeConfig, group: GGroup): IShape {
-      const { icon: defaultIcon } = this.options as ModelConfig;
+      const { icon } = this.getOptions(cfg) as ModelConfig & Exclude<NodeConfig, 'id'>;
       const style = this.getShapeStyle!(cfg);
-      const icon = mix({}, defaultIcon, cfg.icon);
 
       const keyShape = group.addShape('path', {
         attrs: style,
@@ -87,8 +92,7 @@ Shape.registerNode(
      * @param {Group} group Group实例
      */
     drawLinkPoints(cfg: NodeConfig, group: GGroup) {
-      const { linkPoints: defaultLinkPoints } = this.options as ModelConfig;
-      const linkPoints = mix({}, defaultLinkPoints, cfg.linkPoints);
+      const { linkPoints } = this.getOptions(cfg) as ModelConfig & Exclude<NodeConfig, 'id'>;
 
       const {
         top,
@@ -223,19 +227,21 @@ Shape.registerNode(
      * @return {Object} 节点的样式
      */
     getShapeStyle(cfg: NodeConfig): ShapeStyle {
-      const { style: defaultStyle } = this.options as ModelConfig;
+      const { style: defaultStyle } = this.getOptions(cfg) as ModelConfig &
+        Exclude<NodeConfig, 'id'>;
       const strokeStyle: ShapeStyle = {
         stroke: cfg.color,
       };
       // 如果设置了color，则覆盖原来默认的 stroke 属性。但 cfg 中但 stroke 属性优先级更高
-      const style = mix({}, defaultStyle, strokeStyle, cfg.style);
+      const style = mix({}, defaultStyle, strokeStyle);
       const path = (this as any).getPath(cfg);
       const styles = { path, ...style };
       return styles;
     },
     update(cfg: NodeConfig, item: Item) {
       const group = item.getContainer();
-      const { style: defaultStyle } = this.options as ModelConfig;
+      // 这里不传 cfg 参数是因为 cfg.style 需要最后覆盖样式
+      const { style: defaultStyle } = this.getOptions() as ModelConfig & Exclude<NodeConfig, 'id'>;
       const path = (this as any).getPath(cfg);
       // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
       const strokeStyle = {
@@ -259,14 +265,14 @@ Shape.registerNode(
     updateLinkPoints(cfg: NodeConfig, group: GGroup) {
       const { linkPoints: defaultLinkPoints } = this.options as ModelConfig;
 
-      const markLeft = group.find(element => element.get('className') === 'link-point-left');
-      const markRight = group.find(element => element.get('className') === 'link-point-right');
-      const markTop = group.find(element => element.get('className') === 'link-point-top');
+      const markLeft = group.find((element) => element.get('className') === 'link-point-left');
+      const markRight = group.find((element) => element.get('className') === 'link-point-right');
+      const markTop = group.find((element) => element.get('className') === 'link-point-top');
       const markLeftBottom = group.find(
-        element => element.get('className') === 'link-point-left-bottom',
+        (element) => element.get('className') === 'link-point-left-bottom',
       );
       const markRightBottom = group.find(
-        element => element.get('className') === 'link-point-right-bottom',
+        (element) => element.get('className') === 'link-point-right-bottom',
       );
 
       let currentLinkPoints = defaultLinkPoints;
@@ -283,12 +289,12 @@ Shape.registerNode(
       const { left, right, top, leftBottom, rightBottom } = cfg.linkPoints
         ? cfg.linkPoints
         : {
-          left: undefined,
-          right: undefined,
-          top: undefined,
-          leftBottom: undefined,
-          rightBottom: undefined,
-        };
+            left: undefined,
+            right: undefined,
+            top: undefined,
+            leftBottom: undefined,
+            rightBottom: undefined,
+          };
 
       const size = (this as ShapeOptions).getSize!(cfg);
       const outerR = size[0];
