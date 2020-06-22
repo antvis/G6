@@ -64,8 +64,8 @@ describe('shape node test', () => {
           color: 'blue',
           label: '你好，我好，大家好',
           labelCfg: {
-            position: 'top'
-          }
+            position: 'top',
+          },
         },
         group,
       );
@@ -209,8 +209,8 @@ describe('shape node test', () => {
 
       item.update({
         style: {
-          fill: 'steelblue'
-        }
+          fill: 'steelblue',
+        },
       });
       expect(shape.attr('fill')).toBe('steelblue');
       canvas.draw();
@@ -286,7 +286,7 @@ describe('shape node test', () => {
         group,
       });
 
-      const label = group.get('children')[1];
+      let label = group.get('children')[1];
       expect(label.attr('x')).toBe(0);
       expect(label.attr('y')).toBe(-10 - Global.nodeLabel.offset);
 
@@ -294,7 +294,7 @@ describe('shape node test', () => {
         'ellipse',
         {
           size: [60, 20],
-          color: 'green',
+          color: 'red',
           label: 'ellipse position',
           labelCfg: {
             position: 'left',
@@ -302,6 +302,8 @@ describe('shape node test', () => {
         },
         item,
       );
+      label = group.get('children')[1];
+
       expect(label.attr('y')).toBe(0);
       expect(label.attr('x')).toBe(-30 - Global.nodeLabel.offset);
 
@@ -391,11 +393,11 @@ describe('shape node test', () => {
           top: false,
         },
       });
-      const topPoint = group.find(g => {
+      const topPoint = group.find((g) => {
         return g.get('className') === 'link-point-top';
       });
       expect(topPoint).toBe(null);
-      const bottomPoint = group.find(g => {
+      const bottomPoint = group.find((g) => {
         return g.get('className') === 'link-point-bottom';
       });
       expect(bottomPoint).not.toBe(null);
@@ -410,7 +412,7 @@ describe('shape node test', () => {
           lineWidth: 2,
         },
       });
-      const leftPoint = group.find(g => {
+      const leftPoint = group.find((g) => {
         return g.get('className') === 'link-point-left';
       });
       expect(leftPoint).not.toBe(null);
@@ -418,7 +420,7 @@ describe('shape node test', () => {
       expect(leftPoint.attr('fill')).toBe('#f00');
       expect(leftPoint.attr('stroke')).toBe('#0f0');
       expect(leftPoint.attr('lineWidth')).toBe(2);
-      const rightPoint = group.find(g => {
+      const rightPoint = group.find((g) => {
         return g.get('className') === 'link-point-right';
       });
       expect(rightPoint).not.toBe(null);
@@ -433,15 +435,15 @@ describe('shape node test', () => {
           lineWidth: 2,
         },
       });
-      const leftPoint2 = group.find(g => {
+      const leftPoint2 = group.find((g) => {
         return g.get('className') === 'link-point-left';
       });
       expect(leftPoint2).toBe(null);
-      const topPoint2 = group.find(g => {
+      const topPoint2 = group.find((g) => {
         return g.get('className') === 'link-point-top';
       });
       expect(topPoint2).not.toBe(null);
-      const rightPoint2 = group.find(g => {
+      const rightPoint2 = group.find((g) => {
         return g.get('className') === 'link-point-right';
       });
       expect(rightPoint2).not.toBe(null);
@@ -451,7 +453,7 @@ describe('shape node test', () => {
           stroke: '#000',
         },
       });
-      const bottomPoint2 = group.find(g => {
+      const bottomPoint2 = group.find((g) => {
         return g.get('className') === 'link-point-bottom';
       });
       expect(bottomPoint2.attr('r')).toBe(5);
@@ -496,11 +498,11 @@ describe('shape node test', () => {
           top: false,
         },
       });
-      const topPoint = group.find(g => {
+      const topPoint = group.find((g) => {
         return g.get('className') === 'link-point-top';
       });
       expect(topPoint).toBe(null);
-      const bottomPoint = group.find(g => {
+      const bottomPoint = group.find((g) => {
         return g.get('className') === 'link-point-bottom';
       });
       expect(bottomPoint).not.toBe(null);
@@ -515,7 +517,7 @@ describe('shape node test', () => {
           lineWidth: 2,
         },
       });
-      const leftPoint = group.find(g => {
+      const leftPoint = group.find((g) => {
         return g.get('className') === 'link-point-left';
       });
       expect(leftPoint).not.toBe(null);
@@ -523,7 +525,7 @@ describe('shape node test', () => {
       expect(leftPoint.attr('fill')).toBe('#f00');
       expect(leftPoint.attr('stroke')).toBe('#0f0');
       expect(leftPoint.attr('lineWidth')).toBe(2);
-      const rightPoint = group.find(g => {
+      const rightPoint = group.find((g) => {
         return g.get('className') === 'link-point-right';
       });
       expect(rightPoint).not.toBe(null);
@@ -538,15 +540,15 @@ describe('shape node test', () => {
           lineWidth: 2,
         },
       });
-      const leftPoint2 = group.find(g => {
+      const leftPoint2 = group.find((g) => {
         return g.get('className') === 'link-point-left';
       });
       expect(leftPoint2).toBe(null);
-      const topPoint2 = group.find(g => {
+      const topPoint2 = group.find((g) => {
         return g.get('className') === 'link-point-top';
       });
       expect(topPoint2).not.toBe(null);
-      const rightPoint2 = group.find(g => {
+      const rightPoint2 = group.find((g) => {
         return g.get('className') === 'link-point-right';
       });
       expect(rightPoint2).not.toBe(null);
@@ -556,7 +558,7 @@ describe('shape node test', () => {
           stroke: '#000',
         },
       });
-      const bottomPoint2 = group.find(g => {
+      const bottomPoint2 = group.find((g) => {
         return g.get('className') === 'link-point-bottom';
       });
       expect(bottomPoint2.attr('r')).toBe(5);
@@ -601,11 +603,11 @@ describe('shape node test', () => {
           top: false,
         },
       });
-      const topPoint = group.find(g => {
+      const topPoint = group.find((g) => {
         return g.get('className') === 'link-point-top';
       });
       expect(topPoint).toBe(null);
-      const bottomPoint = group.find(g => {
+      const bottomPoint = group.find((g) => {
         return g.get('className') === 'link-point-bottom';
       });
       expect(bottomPoint).not.toBe(null);
@@ -620,7 +622,7 @@ describe('shape node test', () => {
           lineWidth: 2,
         },
       });
-      const leftPoint = group.find(g => {
+      const leftPoint = group.find((g) => {
         return g.get('className') === 'link-point-left';
       });
       expect(leftPoint).not.toBe(null);
@@ -628,7 +630,7 @@ describe('shape node test', () => {
       expect(leftPoint.attr('fill')).toBe('#f00');
       expect(leftPoint.attr('stroke')).toBe('#0f0');
       expect(leftPoint.attr('lineWidth')).toBe(2);
-      const rightPoint = group.find(g => {
+      const rightPoint = group.find((g) => {
         return g.get('className') === 'link-point-right';
       });
       expect(rightPoint).not.toBe(null);
@@ -643,15 +645,15 @@ describe('shape node test', () => {
           lineWidth: 2,
         },
       });
-      const leftPoint2 = group.find(g => {
+      const leftPoint2 = group.find((g) => {
         return g.get('className') === 'link-point-left';
       });
       expect(leftPoint2).toBe(null);
-      const topPoint2 = group.find(g => {
+      const topPoint2 = group.find((g) => {
         return g.get('className') === 'link-point-top';
       });
       expect(topPoint2).not.toBe(null);
-      const rightPoint2 = group.find(g => {
+      const rightPoint2 = group.find((g) => {
         return g.get('className') === 'link-point-right';
       });
       expect(rightPoint2).not.toBe(null);
@@ -661,7 +663,7 @@ describe('shape node test', () => {
           stroke: '#000',
         },
       });
-      const bottomPoint2 = group.find(g => {
+      const bottomPoint2 = group.find((g) => {
         return g.get('className') === 'link-point-bottom';
       });
       expect(bottomPoint2.attr('r')).toBe(5);
@@ -706,11 +708,11 @@ describe('shape node test', () => {
           top: false,
         },
       });
-      const topPoint = group.find(g => {
+      const topPoint = group.find((g) => {
         return g.get('className') === 'link-point-top';
       });
       expect(topPoint).toBe(null);
-      const bottomPoint = group.find(g => {
+      const bottomPoint = group.find((g) => {
         return g.get('className') === 'link-point-bottom';
       });
       expect(bottomPoint).not.toBe(null);
@@ -725,7 +727,7 @@ describe('shape node test', () => {
           lineWidth: 2,
         },
       });
-      const leftPoint = group.find(g => {
+      const leftPoint = group.find((g) => {
         return g.get('className') === 'link-point-left';
       });
       expect(leftPoint).not.toBe(null);
@@ -733,7 +735,7 @@ describe('shape node test', () => {
       expect(leftPoint.attr('fill')).toBe('#f00');
       expect(leftPoint.attr('stroke')).toBe('#0f0');
       expect(leftPoint.attr('lineWidth')).toBe(2);
-      const rightPoint = group.find(g => {
+      const rightPoint = group.find((g) => {
         return g.get('className') === 'link-point-right';
       });
       expect(rightPoint).not.toBe(null);
@@ -748,15 +750,15 @@ describe('shape node test', () => {
           lineWidth: 2,
         },
       });
-      const leftPoint2 = group.find(g => {
+      const leftPoint2 = group.find((g) => {
         return g.get('className') === 'link-point-left';
       });
       expect(leftPoint2).toBe(null);
-      const topPoint2 = group.find(g => {
+      const topPoint2 = group.find((g) => {
         return g.get('className') === 'link-point-top';
       });
       expect(topPoint2).not.toBe(null);
-      const rightPoint2 = group.find(g => {
+      const rightPoint2 = group.find((g) => {
         return g.get('className') === 'link-point-right';
       });
       expect(rightPoint2).not.toBe(null);
@@ -766,7 +768,7 @@ describe('shape node test', () => {
           stroke: '#000',
         },
       });
-      const bottomPoint2 = group.find(g => {
+      const bottomPoint2 = group.find((g) => {
         return g.get('className') === 'link-point-bottom';
       });
       expect(bottomPoint2.attr('r')).toBe(5);

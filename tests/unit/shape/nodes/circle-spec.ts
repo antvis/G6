@@ -59,7 +59,7 @@ describe('circle test', () => {
       const group = node.get('group');
       expect(group.getCount()).toEqual(2);
 
-      const label = group.find(g => {
+      const label = group.find((g) => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toBe(undefined);
@@ -112,7 +112,7 @@ describe('circle test', () => {
       expect(keyShape.attr('stroke')).toEqual('#ccc');
       expect(keyShape.attr('r')).toEqual(25);
 
-      const icon = group.find(g => {
+      const icon = group.find((g) => {
         return g.get('className') === 'circle-icon';
       });
       expect(icon).not.toBe(undefined);
@@ -172,21 +172,21 @@ describe('circle test', () => {
       expect(keyShape.attr('r')).toEqual(17.5);
       expect(keyShape.attr('lineWidth')).toEqual(1);
 
-      const markTop = group.find(g => {
+      const markTop = group.find((g) => {
         return g.get('className') === 'link-point-top';
       });
       expect(markTop).not.toBe(null);
       expect(markTop.attr('r')).toEqual(5);
       expect(markTop.attr('fill')).toEqual('#fff');
 
-      const markBottom = group.find(g => {
+      const markBottom = group.find((g) => {
         return g.get('className') === 'link-point-bottom';
       });
       expect(markBottom).not.toBe(null);
 
       let hasTrigger = false;
       expect(hasTrigger).toBe(false);
-      graph.on('node:mouseenter', evt => {
+      graph.on('node:mouseenter', (evt) => {
         hasTrigger = evt.hasTrigger;
         graph.setItemState(evt.item, 'hover', true);
       });
@@ -284,7 +284,7 @@ describe('circle test', () => {
       });
       let group = node.get('group');
       expect(group.getCount()).toEqual(3);
-      const icon = group.find(g => {
+      const icon = group.find((g) => {
         return g.get('className') === 'circle-icon';
       });
       expect(icon.attr('width')).toEqual(50);
@@ -343,7 +343,7 @@ describe('circle test', () => {
         },
       });
 
-      const label = group.find(g => {
+      const label = group.find((g) => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toEqual(null);
@@ -401,7 +401,7 @@ describe('circle test', () => {
         },
       });
 
-      const label = group.find(g => {
+      const label = group.find((g) => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toEqual(null);
@@ -432,7 +432,7 @@ describe('circle test', () => {
       graph.data(data);
       graph.render();
 
-      graph.on('node:mouseenter', e => {
+      graph.on('node:mouseenter', (e) => {
         const item = e.item;
         item.update({
           label: 'Circle',
@@ -457,7 +457,7 @@ describe('circle test', () => {
         });
       });
 
-      graph.on('node:mouseleave', e => {
+      graph.on('node:mouseleave', (e) => {
         const item = e.item;
         item.update({
           label: ' ',
@@ -505,7 +505,7 @@ describe('circle test', () => {
       graph.data(data);
       graph.render();
 
-      graph.on('node:mouseenter', e => {
+      graph.on('node:mouseenter', (e) => {
         const item = e.item;
         item.update({
           descriptionCfg: {
@@ -519,7 +519,7 @@ describe('circle test', () => {
         });
       });
 
-      graph.on('node:mouseleave', e => {
+      graph.on('node:mouseleave', (e) => {
         const item = e.item;
         item.update({
           descriptionCfg: {

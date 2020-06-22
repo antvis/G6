@@ -186,12 +186,12 @@ const singleNode: ShapeOptions = {
    * @param {Group} group Item所在的group
    */
   updateLinkPoints(cfg: NodeConfig, group: GGroup) {
-    const { linkPoints: defaultLinkPoints } = this.options as ModelConfig;
+    const { linkPoints: defaultLinkPoints } = this.getOptions(cfg) as ModelConfig;
 
-    const markLeft = group.find(element => element.get('className') === 'link-point-left');
-    const markRight = group.find(element => element.get('className') === 'link-point-right');
-    const markTop = group.find(element => element.get('className') === 'link-point-top');
-    const markBottom = group.find(element => element.get('className') === 'link-point-bottom');
+    const markLeft = group.find((element) => element.get('className') === 'link-point-left');
+    const markRight = group.find((element) => element.get('className') === 'link-point-right');
+    const markTop = group.find((element) => element.get('className') === 'link-point-top');
+    const markBottom = group.find((element) => element.get('className') === 'link-point-bottom');
 
     let currentLinkPoints;
     if (markLeft) {
@@ -332,15 +332,16 @@ const singleNode: ShapeOptions = {
   },
   updateIcon(cfg: NodeConfig, item: Item) {
     const group = item.getContainer();
-    const { icon: defaultIcon } = this.options as NodeConfig;
-    const icon = mix({}, defaultIcon, cfg.icon);
+    const { icon } = this.getOptions(cfg) as NodeConfig;
     const { show } = cfg.icon ? cfg.icon : { show: undefined };
-    const iconShape = group.find(element => element.get('className') === `${this.type}-icon`);
+    const iconShape = group.find((element) => element.get('className') === `${this.type}-icon`);
+    // console.log(1111, 'updateIcon', iconShape, this.type, show);
     if (iconShape) {
       // 若原先存在 icon
       if (show || show === undefined) {
+        // console.log('若传入 show: true, 或没有设置，则更新原有的 icon 样式');
         // 若传入 show: true, 或没有设置，则更新原有的 icon 样式
-        const iconConfig = mix({}, defaultIcon, iconShape.attr(), cfg.icon);
+        const iconConfig = mix({}, iconShape.attr(), icon);
         const { width: w, height: h } = iconConfig;
         iconShape.attr({
           ...iconConfig,
@@ -348,10 +349,12 @@ const singleNode: ShapeOptions = {
           y: -h / 2,
         });
       } else {
+        // console.log('若传入了 show: false 则删除原先的 icon');
         // 若传入了 show: false 则删除原先的 icon
         iconShape.remove();
       }
     } else if (show) {
+      // console.log('如果原先不存在 icon，但传入了 show: true，则新增 icon', this.type);
       // 如果原先不存在 icon，但传入了 show: true，则新增 icon
       const { width: w, height: h } = icon;
       group.addShape('image', {
@@ -364,7 +367,7 @@ const singleNode: ShapeOptions = {
         name: `${this.type}-icon`,
       });
       // to ensure the label is on the top of all the shapes
-      const labelShape = group.find(element => element.get('className') === `node-label`);
+      const labelShape = group.find((element) => element.get('className') === `node-label`);
       if (labelShape) {
         labelShape.toFront();
       }

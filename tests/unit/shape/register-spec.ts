@@ -30,7 +30,7 @@ describe('register node', () => {
       },
     ],
   };
-  it('shape test wihout extended shape and draw function, update the node', () => {
+  it('shape test without extended shape and draw function, update the node', () => {
     G6.registerNode('custom-node', {
       drawShape(cfg, group) {
         let fill = '#87e8de';
@@ -47,7 +47,7 @@ describe('register node', () => {
         });
 
         return keyShape;
-      }
+      },
     });
     const graph = new G6.Graph({
       container: div,
@@ -70,7 +70,7 @@ describe('register node', () => {
     expect(node.get('group').get('children')[0].attr('fill')).toBe('steelblue');
     graph.destroy();
   });
-  it('register node wihout draw and drawShape, extend circle', () => {
+  it('register node without draw and drawShape, extend circle', () => {
     G6.registerNode(
       'custom-node',
       {
@@ -98,12 +98,12 @@ describe('register node', () => {
     });
     graph.data(data);
     graph.render();
-    graph.on('node:click', evt => {
+    graph.on('node:click', (evt) => {
       const { item } = evt;
       graph.setItemState(item, 'active', true);
     });
-    graph.on('canvas:click', evt => {
-      graph.getNodes().forEach(node => {
+    graph.on('canvas:click', (evt) => {
+      graph.getNodes().forEach((node) => {
         graph.setItemState(node, 'active', false);
       });
     });
@@ -111,7 +111,7 @@ describe('register node', () => {
     expect(graph.getNodes()[0].getModel().y).not.toBe(undefined);
     graph.destroy();
   });
-  it('register edge wihout draw and drawShape function, extend quadratic', () => {
+  it('register edge without draw and drawShape function, extend quadratic', () => {
     G6.registerEdge(
       'custom-edge',
       {
@@ -139,5 +139,6 @@ describe('register node', () => {
     graph.render();
     expect(graph.getNodes()[0].getModel().x).not.toBe(undefined);
     expect(graph.getNodes()[0].getModel().y).not.toBe(undefined);
+    graph.destroy();
   });
 });

@@ -193,7 +193,8 @@ Shape.registerNode(
     update(cfg: NodeConfig, item: Item) {
       const group = item.getContainer();
       // 这里不传 cfg 参数是因为 cfg.style 需要最后覆盖样式
-      const { style: defaultStyle } = this.getOptions() as ModelConfig & Exclude<NodeConfig, 'id'>;
+      const { style: defaultStyle } = this.getOptions({}) as ModelConfig &
+        Exclude<NodeConfig, 'id'>;
       const size = this.getSize!(cfg);
 
       const strokeStyle = {
