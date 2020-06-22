@@ -1710,7 +1710,7 @@ graph.downloadFullImage('tree-graph', {
 });
 ```
 
-### downloadImage(name, backgroundColor)
+### downloadImage(name, type, backgroundColor)
 
 Export the canvas as an image.
 
@@ -1718,7 +1718,8 @@ Export the canvas as an image.
 
 | Name | Type   | Required | Description            |
 | ---- | ------ | -------- | ---------------------- |
-| name | String | false     | The name of the image. 'graph' by default. |
+| name | String | false     | The name of the image. 'graph' by default |
+| type | `'image/png'` / `'image/jpeg'` / `'image/webp'` / `'image/bmp'` | false     | The type of the image. When the `renderer` of the graph is `'canvas'`(default), `type` takes effect. When the `renderer` is `'svg'`, `toFullDataURL` will export a svg file |
 | backgroundColor | String | false     | The background color of the image. If it is not assigned, the background will be transparent. |
 
 **Usage**

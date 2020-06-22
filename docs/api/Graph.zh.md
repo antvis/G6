@@ -1697,7 +1697,7 @@ graph.downloadFullImage('tree-graph', {
 ```
 
 
-### downloadImage(name, backgroundColor)
+### downloadImage(name, type, backgroundColor)
 
 将画布上的元素导出为图片。
 

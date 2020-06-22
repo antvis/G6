@@ -86,7 +86,7 @@
     "ml-matrix": "^6.5.0"
   },
   "devDependencies": {
-    "@antv/gatsby-theme-antv": "^0.10.59",
+    "@antv/gatsby-theme-antv": "0.10.62",
     "@babel/core": "^7.7.7",
     "@babel/preset-react": "^7.7.4",
     "@storybook/addon-actions": "^5.2.8",
@@ -101,7 +101,7 @@
     "babel-loader": "^8.0.6",
     "event-simulate": "~1.0.0",
     "father": "^2.29.1",
-    "gatsby": "2.20.24",
+    "gatsby": "2.21.37",
     "gh-pages": "^2.1.1",
     "husky": "^4.2.5",
     "insert-css": "^2.0.0",
