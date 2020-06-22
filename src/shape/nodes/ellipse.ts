@@ -74,8 +74,8 @@ Shape.registerNode(
             y: -height! / 2,
             ...icon,
           },
-          className: 'ellipse-icon',
-          name: 'ellipse-icon',
+          className: `${this.type}-icon`,
+          name: `${this.type}-icon`,
           draggable: true
         });
       }

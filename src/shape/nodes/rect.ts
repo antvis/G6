@@ -52,8 +52,8 @@ Shape.registerNode(
 
       const keyShape = group.addShape('rect', {
         attrs: style,
-        className: 'rect-keyShape',
-        name: 'rect-keyShape',
+        className: `${this.type}-keyShape`,
+        name: `${this.type}-keyShape`,
         draggable: true,
       });
 

@@ -5,7 +5,8 @@
 - feat: graph.getGroup, graph.getContainer, graph.getMinZoom, graph.setMinZoom, graph.getMaxZoom, graph.setMaxZoom, graph.getWidth, graph.getHeight API;
 - fix: combo edge dashLine attribute;
 - fix: combo collapse and expand with edges problem;
-- fix: destroy the tooltip DOMs when destroy the graph.
+- fix: destroy the tooltip DOMs when destroy the graph;
+- fix: unify the shape names for custom node and extended node.
 
 #### 3.5.6
 - feat: dropCap for intended TreeGraph layout.
