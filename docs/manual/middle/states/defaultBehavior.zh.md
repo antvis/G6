@@ -63,7 +63,7 @@ const graph = new G6.Graph({
 ### collapse-expand-combo
 V3.5 以上版本支持。
 
-- 含义：收起和展开 Combo；
+- 含义：收起和展开 Combo。若图配置有布局，则该 behavior 被触发后会触发图的重新布局。若希望避免重新布局，可以通过监听 combo 点击事件和 [graph.collapseExpandCombo API](/zh/docs/api/Graph#collapseexpandcombocombo) 控制收缩展开逻辑；
 - 配置项：
   - `type: 'collapse-expand-combo'`；
   - `trigger`：触发方式，默认为双击收起或展示，可配置 click 和 dblclick。
