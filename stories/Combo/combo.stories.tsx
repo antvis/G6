@@ -12,6 +12,7 @@ import ComboDragCollapseExpand from './component/combo-drag-collapse-expand';
 import RegisterRectCombo from './component/register-rect-combo';
 import RegisterCircleCombo from './component/register-circle-combo';
 import Edges from './component/edges';
+import DagreCombo from './component/dagre-combo';
 
 export default { title: 'Combo' };
 
@@ -45,4 +46,6 @@ storiesOf('Combo', module)
     <ComboDragCollapseExpand />
   )).add('edges', () => (
     <Edges />
+  )).add('dagre combo', () => (
+    <DagreCombo />
   ));

@@ -46,8 +46,8 @@ export default class ItemController {
    */
   public addItem<T extends Item>(type: ITEM_TYPE, model: ModelConfig) {
     const { graph } = this;
-    const parent: Group = graph.get(`${type}Group`) || graph.get('group');
     const vType = type === VEDGE ? EDGE : type;
+    const parent: Group = graph.get(`${vType}Group`) || graph.get('group');
     const upperType = upperFirst(vType);
 
     let item: Item | null = null;
@@ -490,6 +490,7 @@ export default class ItemController {
    * @memberof ItemController
    */
   public addCombos(comboTrees: ComboTree[], comboModels: ComboConfig[]) {
+    const { graph } = this;
     comboTrees && comboTrees.forEach((ctree: ComboTree) => {
       traverseTreeUp<ComboTree>(ctree, child => {
         let comboModel;
@@ -506,8 +507,20 @@ export default class ItemController {
         return true;
       });
     });
-    const comboGroup = this.graph.get('comboGroup');
+    const comboGroup = graph.get('comboGroup');
     if (comboGroup) comboGroup.sort();
+    // refresh the edges' source and target point position
+    setTimeout(() => {
+      if (graph.destroyed) return;
+      const edges: IEdge[] = graph.get('edges');
+      const vedges: IEdge[] = graph.get('vedges');
+      each(edges, (edge: IEdge) => {
+        edge.refresh();
+      });
+      each(vedges, (vedge: IEdge) => {
+        vedge.refresh();
+      });
+    }, 450);
   }
 
   /**

@@ -6,7 +6,8 @@
 - fix: combo edge dashLine attribute;
 - fix: combo collapse and expand with edges problem;
 - fix: destroy the tooltip DOMs when destroy the graph;
-- fix: unify the shape names for custom node and extended node.
+- fix: unify the shape names for custom node and extended node;
+- fix: update the edges after first render with collapsed combos.
 
 #### 3.5.6
 - feat: dropCap for intended TreeGraph layout.
