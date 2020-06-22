@@ -58,7 +58,7 @@ Shape.registerNode(
       const icon = deepMix({}, defaultIcon, cfg.icon);
       const keyShape: IShape = group.addShape('circle', {
         attrs: style,
-        className: 'circle-keyShape',
+        className: `${this.type}-keyShape`,
         draggable: true,
       });
 
@@ -70,8 +70,8 @@ Shape.registerNode(
             y: -height / 2,
             ...icon,
           },
-          className: 'circle-icon',
-          name: 'circle-icon',
+          className: `${this.type}-icon`,
+          name: `${this.type}-icon`,
           draggable: true
         });
       }

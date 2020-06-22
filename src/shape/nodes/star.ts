@@ -58,8 +58,8 @@ Shape.registerNode(
 
       const keyShape = group.addShape('path', {
         attrs: style,
-        className: 'star-keyShape',
-        name: 'star-keyShape',
+        className: `${this.type}-keyShape`,
+        name: `${this.type}-keyShape`,
         draggable: true,
       });
 
@@ -71,8 +71,8 @@ Shape.registerNode(
             y: -h! / 2,
             ...icon,
           },
-          className: 'star-icon',
-          name: 'star-icon',
+          className: `${this.type}-icon`,
+          name: `${this.type}-icon`,
           draggable: true
         });
       }

@@ -56,8 +56,8 @@ Shape.registerNode(
       delete style.fill;
       const shape = group.addShape(shapeType, {
         attrs: style,
-        className: 'image-keyShape',
-        name: 'image-keyShape',
+        className: `${this.type}-keyShape`,
+        name: `${this.type}-keyShape`,
         draggable: true,
       });
       (this as any).drawClip(cfg, shape);

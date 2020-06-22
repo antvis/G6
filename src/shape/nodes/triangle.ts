@@ -62,8 +62,8 @@ Shape.registerNode(
 
       const keyShape = group.addShape('path', {
         attrs: style,
-        className: 'triangle-keyShape',
-        name: 'triangle-keyShape',
+        className: `${this.type}-keyShape`,
+        name: `${this.type}-keyShape`,
         draggable: true,
       });
 
@@ -83,8 +83,8 @@ Shape.registerNode(
             y: iconH,
             ...icon,
           },
-          className: 'triangle-icon',
-          name: 'triangle-icon',
+          className: `${this.type}-icon`,
+          name: `${this.type}-icon`,
           draggable: true
         });
       }

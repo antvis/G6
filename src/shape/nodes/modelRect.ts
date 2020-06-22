@@ -98,8 +98,8 @@ Shape.registerNode(
 
       const keyShape = group.addShape('rect', {
         attrs: style,
-        className: 'modelRect-keyShape',
-        name: 'modelRect-keyShape',
+        className: `${this.type}-keyShape`,
+        name: `${this.type}-keyShape`,
         draggable: true,
       });
 
