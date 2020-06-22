@@ -480,12 +480,13 @@ Dagre 是一种层次布局。
 
 #### align
 
-**类型**： String<br />**可选值**：'UL' | 'UR' | 'DL' | 'DR'<br />**默认值**：'UL'<br />**是否必须**：false<br />**说明**：节点对齐方式。U：upper（上）；D：down（下）；L：left（左）；R：right（右）
+**类型**： String<br />**可选值**：'UL' | 'UR' | 'DL' | 'DR' | undefined<br />**默认值**：'UL'<br />**是否必须**：false<br />**说明**：节点对齐方式。U：upper（上）；D：down（下）；L：left（左）；R：right（右）
 
 - 'UL'：对齐到左上角；
 - 'UR'：对齐到右上角；
 - 'DL'：对齐到左下角；
-- 'DR'：对齐到右下角。
+- 'DR'：对齐到右下角；
+- undefined：默认，中间对齐。
 
 #### nodesep
 

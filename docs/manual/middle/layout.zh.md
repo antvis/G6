@@ -176,7 +176,7 @@ const graph = new G6.Graph({
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
 | rankdir | String | 'TB' / 'BT' / 'LR' / 'RL' | 'TB' | layout 的方向。T：top；B：bottom；L：left；R：right |
-| align | String | 'UL' / 'UR' / 'DL' / 'DR' | 'UL' | 节点对齐方式。U：upper；D：down；L：left；R：right |
+| align | String | 'UL' / 'UR' / 'DL' / 'DR' / undefined | undefined | 节点对齐方式。默认值是 `undefined`，代表对齐到中心。U：upper；D：down；L：left；R：right |
 | nodesep | Number | 40 | 50 | 在 `rankdir` 为 `'TB'` 或 `'BT'` 时代表节点水平间距(px)；在 `rankdir` 为 `'LR'` 或 `'RL'` 时代表节点的竖直间距。优先级高于 `nodesepFunc` |
 | ranksep | Number | 40 | 50 | 层间距（px）。在`rankdir` 为 `'TB'` 或 `'BT'` 时是竖直方向相邻层间距；在`rankdir` 为 `'LR'` 或 `'RL'` 时代表水平方向相邻层间距。优先级高于 `ranksepFunc` |
 | nodesepFunc<br /><br /> | Function | d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | 节点水平间距（px）的回调函数，通过该参数可以对不同节点设置不同的节点间距。在`rankdir` 为 'TB' 或 'BT' 时是节点的水平间距；在`rankdir` 为 'LR' 或 'RL' 时是节点的竖直间距。优先级高于 `nodesep`，即若设置了 `nodesep`，则 `nodesepFunc` 不生效 |

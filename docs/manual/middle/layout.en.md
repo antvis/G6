@@ -178,7 +178,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
 | rankdir | String | 'TB' / 'BT' / 'LR' / 'RL' | 'TB' | The layout direction. T: top; B: bottom; L: left; R: right |
-| align | String | 'UL' / 'UR' / 'DL' / 'DR' | 'UL' | The alignment of the nodes. U: upper; D: down; L: left; R: right |
+| align | String | 'UL' / 'UR' / 'DL' / 'DR' / undefined | undefined | The alignment of the nodes. `undefined` by default, align to the center. U: upper; D: down; L: left; R: right |
 | nodesep | Number | 40 | 50 | The separation between nodes with unit px. When `rankdir` is `'TB'` or `'BT'`, `nodesep` represents the horizontal separations between nodes; When `rankdir` is `'LR'` or `'RL'`, `nodesep` represents the vertical separations between nodes |
 | ranksep | Number | 40 | 50 | The separations between adjacent levels with unit px. When `rankdir` is `'TB'` or `'BT'`, `ranksep` represents the vertical separations between adjacent levels; when `rankdir` is `'LR'` or `'RL'`, `rankdir` represents the horizontal separations between adjacent levels |
 | nodesepFunc<br /><br /> | Function | d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | The function for node separation with unit px. You can adjust the separations between different node pairs by using this function instead of `nodesep`. When `rankdir` is `'LR'` or `'RL'`, `nodesep` represents the vertical separations between nodes. The priority of `nodesepFunc` is lower than `nodesep`, which means if `nodesep` is assigned, the `nodesepFunc` will not take effect |
