@@ -58,8 +58,9 @@ Shape.registerNode(
       return deepMix({}, this.options, this.getCustomConfig(cfg) || {}, cfg);
     },
     drawShape(cfg: NodeConfig, group: GGroup): IShape {
-      const { icon } = this.getOptions(cfg) as ModelConfig & Exclude<NodeConfig, 'id'>;
+      const { icon: defaultIcon } = this.getOptions(cfg) as ModelConfig & Exclude<NodeConfig, 'id'>;
       const style = this.getShapeStyle!(cfg);
+      const icon = deepMix({}, defaultIcon, cfg.icon);
       const keyShape: IShape = group.addShape('circle', {
         attrs: style,
         className: `${this.type}-keyShape`,
