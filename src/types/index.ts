@@ -125,6 +125,7 @@ export interface ModeOption {
   onlyChangeComboSize?: boolean;
   includeEdges?: boolean;
   direction?: 'x' | 'y';
+  offset: number;
   shouldUpdate?: (e: IG6GraphEvent) => boolean;
   shouldBegin?: (e: IG6GraphEvent) => boolean;
   shouldEnd?: (e: IG6GraphEvent) => boolean;
