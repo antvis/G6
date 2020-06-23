@@ -46,6 +46,8 @@ import createDom from '@antv/dom-util/lib/create-dom';
 import { plainCombosToTrees, traverseTree, reconstructTree, traverseTreeUp } from '../util/graphic';
 import degree from '../algorithm/degree';
 import Stack from '../algorithm/structs/stack'
+import adjMatrix from '../algorithm/adjacent-matrix';
+import floydWarshall from '../algorithm/floydWarshall'
 
 const NODE = 'node';
 const SVG = 'svg';
@@ -2370,7 +2372,12 @@ export default class Graph extends EventEmitter implements IGraph {
       console.warn('The combo to be collapsed does not exist!');
       return;
     }
+
     const comboModel = combo.getModel();
+
+    const itemController: ItemController = this.get('itemController');
+    itemController.collapseCombo(combo);
+    comboModel.collapsed = true;
 
     // add virtual edges
     const edges = this.getEdges().concat(this.get('vedges'));
@@ -2414,6 +2421,7 @@ export default class Graph extends EventEmitter implements IGraph {
     const edgeWeightMap = {};
     const addedVEdges = [];
     edges.forEach(edge => {
+      if (edge.isVisible() && !edge.getModel().isVEdge) return;
       let source = edge.getSource();
       let target = edge.getTarget();
       if (((cnodes.includes(source) || ccombos.includes(source))
@@ -2485,9 +2493,6 @@ export default class Graph extends EventEmitter implements IGraph {
       }, false)
     });
 
-    const itemController: ItemController = this.get('itemController');
-    itemController.collapseCombo(combo);
-    comboModel.collapsed = true;
   }
 
   /**
@@ -2548,6 +2553,7 @@ export default class Graph extends EventEmitter implements IGraph {
     const edgeWeightMap = {};
     const addedVEdges = {};
     edges.forEach(edge => {
+      if (edge.isVisible() && !edge.getModel().isVEdge) return;
       let source = edge.getSource();
       let target = edge.getTarget();
       let sourceId = source.get('id');
@@ -2907,7 +2913,7 @@ export default class Graph extends EventEmitter implements IGraph {
       console.warn('请先启用 undo & redo 功能，在实例化 Graph 时候配置 enabledStack: true !')
       return
     }
-    
+
     const stackData = data ? clone(data) : clone(this.save())
 
     if (stackType === 'redo') {
@@ -2926,6 +2932,48 @@ export default class Graph extends EventEmitter implements IGraph {
       undoStack: this.undoStack,
       redoStack: this.redoStack
     })
+
+
+  /**
+   * 获取邻接矩阵
+   *
+   * @param {boolean} cache 是否使用缓存的
+   * @param {boolean} directed 是否是有向图，默认取 graph.directed
+   * @returns {Matrix} 邻接矩阵
+   * @memberof IGraph
+   */
+  public getAdjMatrix(cache: boolean = true, directed?: boolean): Number | Object {
+    if (directed === undefined) directed = this.get('directed');
+    let currentAdjMatrix = this.get('adjMatrix');
+    if (!currentAdjMatrix || !cache) {
+      currentAdjMatrix = adjMatrix(this, directed);
+      this.set('adjMatrix', currentAdjMatrix);
+    }
+    return currentAdjMatrix;
+  }
+
+
+  /**
+   * 获取最短路径矩阵
+   *
+   * @param {boolean} cache 是否使用缓存的
+   * @param {boolean} directed 是否是有向图，默认取 graph.directed
+   * @returns {Matrix} 最短路径矩阵
+   * @memberof IGraph
+   */
+  public getShortestPathMatrix(cache: boolean = true, directed?: boolean): Number | Object {
+    if (directed === undefined) directed = this.get('directed');
+    let currentAdjMatrix = this.get('adjMatrix');
+    let currentShourtestPathMatrix = this.get('shortestPathMatrix');
+    if (!currentAdjMatrix || !cache) {
+      currentAdjMatrix = adjMatrix(this, directed);
+      this.set('adjMatrix', currentAdjMatrix);
+    }
+    if (!currentShourtestPathMatrix || !cache) {
+      currentShourtestPathMatrix = floydWarshall(this, directed);
+      this.set('shortestPathMatrix', currentShourtestPathMatrix);
+    }
+    return currentShourtestPathMatrix;
   }
 
   /**
@@ -2936,7 +2984,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
     // 清空栈数据
     this.clearStack();
-    
+
     each(this.get('plugins'), plugin => {
       plugin.destroyPlugin();
     });
