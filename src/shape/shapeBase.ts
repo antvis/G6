@@ -374,6 +374,7 @@ export const shapeBase: ShapeOptions = {
             mix(originStyle[keyShapeName], {
               [key]: enableStyle,
             });
+            delete originStyle[key]
           }
           delete enableStatesStyle[key];
         }

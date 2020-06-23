@@ -421,7 +421,7 @@ const FlowTree = () => {
         width: window.innerWidth,
         height: window.innerHeight,
         modes: {
-          default: ['drag-canvas'],
+          default: ['drag-canvas', 'drag-node'],
         },
         defaultNode: {
           shape: 'operation',

@@ -5,6 +5,14 @@
   },
   "demos": [
     {
+      "filename": "customEdgeTree.js",
+      "title": {
+        "zh": "自定义树图中的边",
+        "en": "Edges on Tree"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AncCQ5e7XncAAAAAAAAAAABkARQnAQ"
+    },
+    {
       "filename": "treeEdgeLabel.js",
       "title": {
         "zh": "树图边上的标签",
