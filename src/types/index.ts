@@ -271,7 +271,7 @@ export interface GraphOptions {
   linkCenter?: boolean;
 }
 
-interface StateStyles {
+export interface StateStyles {
   [key: string]: ShapeStyle | {
     [key: string]: ShapeStyle
   }
