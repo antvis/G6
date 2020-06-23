@@ -187,7 +187,9 @@ export default {
     }
     
     // 拖动结束后，入栈
-    graph.pushStack('update', clone(graph.save()))
+    if (graph.get('enabledStack')) {
+      graph.pushStack('update', clone(graph.save()))
+    }
 
     this.point = {};
     this.origin = null;
