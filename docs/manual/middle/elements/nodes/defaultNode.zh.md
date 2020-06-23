@@ -81,8 +81,8 @@ const graph = new G6.Graph({
 
 | 名称 | 是否必须 | 类型 | 备注 |
 | --- | --- | --- | --- |
-| position | false | String | 文本相对于节点的位置，目前支持的位置有:  `'center'`，`'top'`，`'left'`，`'right'`，`'bottom'`。默认为 `'center'` |
-| offset | false | Number | 文本的偏移，`position` 为 `'bottom'` 时，文本的上方偏移量；`position` 为 `'left'` 时，文本的右方偏移量；以此类推在其他 `position` 时的情况。 |
+| position | false | String | 文本相对于节点的位置，目前支持的位置有：`'center'`，`'top'`，`'left'`，`'right'`，`'bottom'`。默认为 `'center'`。modelRect 节点不支持该属性 |
+| offset | false | Number | 文本的偏移，`position` 为 `'bottom'` 时，文本的上方偏移量；`position` 为 `'left'` 时，文本的右方偏移量；以此类推在其他 `position` 时的情况。modelRect 节点的 `offset` 为左边距 |
 | style | false | Object | 标签的样式属性。 |
 
 上表中的标签的样式属性 `style` 的常用配置项如下：
@@ -109,7 +109,7 @@ const graph = new G6.Graph({
     label: 'node-label',
     labelCfg: {
       position: 'bottom',
-      offset: [10, 10, 10, 10],
+      offset: 10,
       style: {
         fill: '#666',
       },

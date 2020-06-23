@@ -107,7 +107,7 @@ const graph = new G6.Graph({
     label: 'node-label',
     labelCfg: {
       position: 'bottom',
-      offset: [10, 10, 10, 10],
+      offset: 10,
       style: {
         fill: '#666',
       },
