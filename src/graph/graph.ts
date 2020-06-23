@@ -97,10 +97,10 @@ export default class Graph extends EventEmitter implements IGraph {
   public destroyed: boolean;
 
   // undo 栈
-  protected undoStack: Stack
+  private undoStack: Stack
 
   // redo 栈
-  protected redoStack: Stack
+  private redoStack: Stack
 
   constructor(cfg: GraphOptions) {
     super();
@@ -109,9 +109,12 @@ export default class Graph extends EventEmitter implements IGraph {
     this.animating = false;
     this.destroyed = false;
 
-    // 实例化 undo 和 redo 栈
-    this.undoStack = new Stack(this.cfg.maxStep)
-    this.redoStack = new Stack(this.cfg.maxStep)
+    // 启用 stack 后，实例化 undoStack 和 redoStack
+    if (this.cfg.enabledStack) {
+      // 实例化 undo 和 redo 栈
+      this.undoStack = new Stack(this.cfg.maxStep)
+      this.redoStack = new Stack(this.cfg.maxStep)
+    }
   }
 
   private init() {
@@ -403,7 +406,11 @@ export default class Graph extends EventEmitter implements IGraph {
        */
       groupStyle: {},
 
-      maxStep: 10
+      // 默认不启用 undo & redo 功能
+      enabledStack: false,
+
+      // 只有当 enabledStack 为 true 时才起作用
+      maxStep: 10,
     };
   }
 
@@ -836,7 +843,7 @@ export default class Graph extends EventEmitter implements IGraph {
   public showItem(item: Item | string, stack: boolean = true): void {
     const itemController: ItemController = this.get('itemController');
     itemController.changeItemVisibility(item, true);
-    if (stack) {
+    if (stack && this.get('enabledStack')) {
       if (isString(item)) {
         this.pushStack('visible', item)
       } else {
@@ -853,7 +860,7 @@ export default class Graph extends EventEmitter implements IGraph {
   public hideItem(item: Item | string, stack: boolean = true): void {
     const itemController: ItemController = this.get('itemController');
     itemController.changeItemVisibility(item, false);
-    if (stack) {
+    if (stack && this.get('enabledStack')) {
       if (isString(item)) {
         this.pushStack('visible', item)
       } else {
@@ -910,7 +917,7 @@ export default class Graph extends EventEmitter implements IGraph {
       if ((nodeItem as Item).getType) type = (nodeItem as Item).getType();
 
       // 将删除的元素入栈
-      if (stack) {
+      if (stack && this.get('enabledStack')) {
         this.pushStack('delete', {
           ...(nodeItem as Item).getModel(),
           type
@@ -1052,7 +1059,7 @@ export default class Graph extends EventEmitter implements IGraph {
     }
     this.autoPaint();
 
-    if (stack) {
+    if (stack && this.get('enabledStack')) {
       this.pushStack('add', {
         ...item.getModel(),
         type
@@ -1099,7 +1106,7 @@ export default class Graph extends EventEmitter implements IGraph {
       each(states, state => this.setItemState(currentItem, state, true))
     }
 
-    if (stack) {
+    if (stack && this.get('enabledStack')) {
       this.pushStack()
     }
   }
@@ -1152,8 +1159,10 @@ export default class Graph extends EventEmitter implements IGraph {
     const self = this;
     const data: GraphData = this.get('data');
 
-    // render 之前清空 redo 和 undo 栈
-    this.clearStack()
+    if (this.get('enabledStack')) {
+      // render 之前清空 redo 和 undo 栈
+      this.clearStack()
+    }
 
     if (!data) {
       throw new Error('data must be defined first');
@@ -1233,7 +1242,9 @@ export default class Graph extends EventEmitter implements IGraph {
       }
     }
 
-    this.pushStack('render')
+    if (this.get('enabledStack')) {
+      this.pushStack('render')
+    }
   }
 
   /**
@@ -1282,7 +1293,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @return {object} this
    */
   public changeData(data?: GraphData | TreeGraphData, stack: boolean = true): Graph {
-    if (stack) {
+    if (stack && this.get('enabledStack')) {
       this.pushStack('update', data)
     }
     const self = this;
@@ -2864,6 +2875,10 @@ export default class Graph extends EventEmitter implements IGraph {
    * 获取 undo 和 redo 栈的数据
    */
   public getStackData() {
+    if (!this.get('enabledStack')) {
+      return null
+    }
+
     return {
       undoStack: this.undoStack.toArray(),
       redoStack: this.redoStack.toArray()
@@ -2874,8 +2889,10 @@ export default class Graph extends EventEmitter implements IGraph {
    * 清空 undo stack & redo stack
    */
   public clearStack() {
-    this.undoStack.clear()
-    this.redoStack.clear()
+    if (this.get('enabledStack')) {
+      this.undoStack.clear()
+      this.redoStack.clear()
+    }
   }
 
   /**
@@ -2885,6 +2902,11 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param stackType 栈的类型
    */
   public pushStack(action: string = 'update', data?: unknown, stackType: string = 'undo') {
+    if (!this.get('enabledStack')) {
+      console.warn('请先启用 undo & redo 功能，在实例化 Graph 时候配置 enabledStack: true !')
+      return
+    }
+    
     const stackData = data ? clone(data) : clone(this.save())
 
     if (stackType === 'redo') {
