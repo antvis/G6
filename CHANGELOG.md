@@ -1,5 +1,12 @@
 # ChangeLog
 
+#### 3.5.8
+- fix: combo edge problem, issues #1722;
+- feat: adjacency matrix algorithm;
+- feat: Floyd Warshall shortest path algorithm;
+- feat: built-in arrows;
+- feat: built-in markers;
+
 #### 3.5.7
 - feat: shouldBegin for click-select behavior;
 - feat: graph.getGroup, graph.getContainer, graph.getMinZoom, graph.setMinZoom, graph.getMaxZoom, graph.setMaxZoom, graph.getWidth, graph.getHeight API;
