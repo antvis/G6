@@ -5,7 +5,7 @@ div.id = 'container';
 document.body.appendChild(div);
 
 describe('edge click state', () => {
-  it.only('edge ', () => {
+  it('edge ', () => {
     G6.registerBehavior("active-edge", {
       getEvents() {
         return {

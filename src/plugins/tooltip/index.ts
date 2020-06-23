@@ -8,7 +8,7 @@ import Base, { IPluginBaseConfig } from '../base';
 import { IGraph } from '../../interface/graph';
 
 insertCss(`
-  .g6-tooltip {
+  .g6-component-tooltip {
     border: 1px solid #e2e2e2;
     border-radius: 4px;
     font-size: 12px;
@@ -64,7 +64,7 @@ export default class Tooltip extends Base {
   }
 
   public init() {
-    const tooltip = createDOM(`<div class='g6-tooltip'></div>`)
+    const tooltip = createDOM(`<div class='g6-component-tooltip'></div>`)
     modifyCSS(tooltip, { position: 'absolute', visibility: 'hidden' });
     document.body.appendChild(tooltip)
     this.set('tooltip', tooltip)
