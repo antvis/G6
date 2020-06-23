@@ -1,6 +1,6 @@
 ---
 title: 节点分组 Group
-order: 4
+order: 5
 ---
 
 G6 支持节点分组。建议使用新的分组机制 [Combo](/zh/examples/interaction/combo).

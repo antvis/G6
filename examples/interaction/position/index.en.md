@@ -1,6 +1,6 @@
 ---
 title: Click to Focus a Node
-order: 5
+order: 6
 ---
 
 Move the graph by interaction.

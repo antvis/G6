@@ -13,6 +13,14 @@
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2uMmRo5wYPUAAAAAAAAAAABkARQnAQ"
     },
     {
+      "filename": "lrDagreUL.js",
+      "title": {
+        "zh": "自左向右的 Dagre 上对齐",
+        "en": "Dagre from Left to Right"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LJpmR4G7J3YAAAAAAAAAAABkARQnAQ"
+    },
+    {
       "filename": "lrDagre.js",
       "title": {
         "zh": "自左向右的 Dagre",

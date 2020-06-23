@@ -1,6 +1,6 @@
 ---
 title: Label and Background Updating
-order: 2
+order: 3
 ---
 
 Update the label or background of items with interaction.

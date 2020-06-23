@@ -1,6 +1,6 @@
 ---
 title: Onload Data to TreeGraph
-order: 1
+order: 2
 ---
 
 Click the nodes on the tree graph to onload multiple data.
