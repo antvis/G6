@@ -311,7 +311,11 @@ export default class ToolBar extends Base {
     const toolBar = this.get('toolBar')
 
     if (toolBar) {
-      document.body.removeChild(toolBar);
+      let container: HTMLDivElement | null = this.get('container');
+      if (!container) {
+        container = this.get('graph').get('container');
+      }
+      container.removeChild(toolBar);
     }
 
     const handleClick = this.get('handleClick')

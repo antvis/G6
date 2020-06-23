@@ -8,7 +8,7 @@ import Base, { IPluginBaseConfig } from '../base';
 import { IGraph } from '../../interface/graph';
 
 insertCss(`
-  .g6-contextmenu {
+  .g6-component-contextmenu {
     border: 1px solid #e2e2e2;
     border-radius: 4px;
     font-size: 12px;
@@ -62,7 +62,7 @@ export default class Menu extends Base {
   }
 
   public init() {
-    const menu = createDOM(`<div class='g6-contextmenu'></div>`)
+    const menu = createDOM(`<div class='g6-component-contextmenu'></div>`)
     modifyCSS(menu, { position: 'absolute', visibility: 'hidden' });
     document.body.appendChild(menu)
     this.set('menu', menu)

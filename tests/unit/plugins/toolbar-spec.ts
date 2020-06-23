@@ -16,7 +16,8 @@ describe('toolbar', () => {
       plugins: [toolbar],
       modes: {
         default: ['drag-node', 'zoom-canvas', 'drag-canvas']
-      }
+      },
+      enabledStack: true
     });
 
     const data = {
@@ -152,6 +153,8 @@ describe('toolbar', () => {
     firstStackData = redoStack[0]
     expect(firstStackData.action).toEqual('visible')
     expect(firstStackData.data).toEqual('node1')
+
+    graph.destroy()
   })
   it('test default config', () => {
     const toolbar = new G6.ToolBar();
@@ -162,7 +165,8 @@ describe('toolbar', () => {
       plugins: [toolbar],
       modes: {
         default: ['drag-node', 'zoom-canvas', 'drag-canvas']
-      }
+      },
+      enabledStack: true
     });
 
     const data = {
@@ -184,6 +188,8 @@ describe('toolbar', () => {
 
     graph.data(data)
     graph.render()
+
+    graph.destroy()
   })
   it('set config', () => {
     const tc = document.createElement('div');
@@ -221,7 +227,8 @@ describe('toolbar', () => {
       plugins: [toolbar],
       modes: {
         default: ['drag-node', 'zoom-canvas', 'drag-canvas']
-      }
+      },
+      enabledStack: true
     });
 
     const data = {
@@ -237,5 +244,7 @@ describe('toolbar', () => {
 
     graph.data(data)
     graph.render()
+
+    graph.destroy()
   })
 });

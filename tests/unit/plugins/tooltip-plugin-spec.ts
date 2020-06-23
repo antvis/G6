@@ -50,7 +50,7 @@ describe('tooltip', () => {
 
     const tooltipPlugin = graph.get('plugins')[0]
     expect(tooltipPlugin.get('offset')).toBe(6)
-    expect(tooltipPlugin.get('tooltip').outerHTML).toBe(`<div class="g6-tooltip" style="position: absolute; visibility: hidden;"></div>`)
+    expect(tooltipPlugin.get('tooltip').outerHTML).toBe(`<div class="g6-component-tooltip" style="position: absolute; visibility: hidden;"></div>`)
 
     graph.destroy()
   })
