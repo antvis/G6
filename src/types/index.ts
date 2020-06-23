@@ -271,7 +271,12 @@ export interface GraphOptions {
   linkCenter?: boolean;
 
   /**
-   * redo & undo 最大步数
+   * 是否启用 stack，即是否开启 redo & undo 功能
+   */
+  enabledStack?: boolean;
+
+  /**
+   * redo & undo 最大步数, 只有当 enabledStack 为 true 时才起作用
    */
   maxStep?: number;
 }

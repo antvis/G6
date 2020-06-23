@@ -1563,14 +1563,26 @@ describe('node Neighbors', () => {
   })
 })
 
-describe('redo stack & undo stack', () => {
+describe.only('redo stack & undo stack', () => {
+  it('default stack is undefined', () => {
+    const graph = new Graph({
+      container: 'global-spec',
+      width: 500,
+      height: 500,
+    })
+
+    expect(graph.getUndoStack()).toBe(undefined)
+    expect(graph.getRedoStack()).toBe(undefined)
+  })
+
   const graph = new Graph({
     container: 'global-spec',
     width: 500,
-    height: 500
+    height: 500,
+    enabledStack: true
   })
 
-  it('undo & redo stack is null', () => {
+  it('undo & redo stack is not null', () => {
     expect(graph.getUndoStack()).not.toBe(null)
     expect(graph.getRedoStack()).not.toBe(null)
   })
