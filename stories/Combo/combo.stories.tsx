@@ -13,6 +13,7 @@ import RegisterRectCombo from './component/register-rect-combo';
 import RegisterCircleCombo from './component/register-circle-combo';
 import Edges from './component/edges';
 import DagreCombo from './component/dagre-combo';
+import Edges2 from './component/edges2';
 
 export default { title: 'Combo' };
 
@@ -48,4 +49,6 @@ storiesOf('Combo', module)
     <Edges />
   )).add('dagre combo', () => (
     <DagreCombo />
+  )).add('edges2 ', () => (
+    <Edges2 />
   ));
