@@ -81,11 +81,7 @@ Shape.registerNode(
           },
           className: `${this.type}-icon`,
           name: `${this.type}-icon`,
-<<<<<<< HEAD
-          draggable: true
-=======
           draggable: true,
->>>>>>> test: add test case for all node
         });
       }
 
