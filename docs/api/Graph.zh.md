@@ -817,7 +817,7 @@ graph.setItemState('node2', 'body', 'ill');
 | 名称   | 类型            | 是否必选 | 描述               |
 | ------ | --------------- | -------- | ------------------ |
 | item   | string / Object | true     | 元素 ID 或元素实例 |
-| states | string / Array  | null     | false              | 取值可以是单个状态值，也可以是状态值数组 |
+| states | string / Array / null  |   false   | 取值可以是单个状态值，也可以是状态值数组 |
 
 **用法**
 

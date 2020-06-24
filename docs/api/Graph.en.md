@@ -250,7 +250,7 @@ Collapse a Combo.
 
 | Name | Type | Required | Description |
 | ------- | ------ | -------- | ------- |
-| combo | string | ICombo     | The ID of the combo or the combo item to be collapsed |
+| combo | string / ICombo| true    | The ID of the combo or the combo item to be collapsed |
 
 **Usage**
 ```
@@ -264,7 +264,7 @@ Expand a Combo.
 
 | Name | Type | Required | Description |
 | ------- | ------ | -------- | ------- |
-| combo | string | ICombo     | The ID of the combo or the combo item to be expanded |
+| combo | string / ICombo | true    | The ID of the combo or the combo item to be expanded |
 
 **Usage**
 ```
@@ -813,7 +813,7 @@ Clear the states of the item. This function could clear multiple states in the s
 | Name   | Type            | Required | Description                         |
 | ------ | --------------- | -------- | ----------------------------------- |
 | item   | string / Object | true     | The id or the instance of the item. |
-| states | string / Array  | null     | false                               | It can be a single state value, an array, or null. When it is null, this operation will clear all state of the item. |
+| states | string / Array / null     | false                               | It can be a single state value, an array, or null. When it is null, this operation will clear all state of the item. |
 
 **Usage**
 

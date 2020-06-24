@@ -27,12 +27,12 @@ describe('marker test', () => {
     }]
   };
 
-  it('triangle arrow ', () => {
+  it('collapse and expand arrow ', () => {
     G6.registerNode('marker-node', {
       afterDraw: (cfg, group) => {
         group.addShape('marker', {
           attrs: {
-            x: 5,
+            x: 20,
             y: 0,
             r: 6,
             symbol: G6.Marker.collapse,
@@ -41,7 +41,19 @@ describe('marker test', () => {
             lineWidth: 1,
           },
           name: 'collapse-icon',
-        })
+        });
+        group.addShape('marker', {
+          attrs: {
+            x: -20,
+            y: 0,
+            r: 6,
+            symbol: G6.Marker.expand,
+            stroke: '#666',
+            fill: '#fff',
+            lineWidth: 1,
+          },
+          name: 'collapse-icon',
+        });
       }
     }, 'circle');
     const cfg = {
@@ -50,6 +62,10 @@ describe('marker test', () => {
       height: 500,
       defaultNode: {
         type: 'marker-node',
+        style: {
+          r: 20
+        }
+        // size: [20, 20]
         // style: {
         //   opacity: 0.1
         // }
