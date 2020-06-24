@@ -419,7 +419,7 @@ export default class LayoutController {
       layoutMethod.forceSimulation.stop();
     }
     graph.emit('beforelayout');
-    layoutMethod.execute();
+    layoutMethod.execute(reloadData);
     if (this.layoutType !== 'force' && !layoutMethod.enableTick) {
       graph.emit('afterlayout');
     }

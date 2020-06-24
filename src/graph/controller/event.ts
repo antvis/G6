@@ -236,12 +236,10 @@ export default class EventController {
     const canvas: Canvas = graph.get('canvas');
 
     each(EVENTS, event => {
-      console.log(' event', event);
       canvas.off(event, canvasHandler);
     });
 
     each(extendEvents, event => {
-      console.log('extend event', event);
       event.remove();
     });
 
