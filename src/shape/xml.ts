@@ -276,8 +276,11 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
     const xmlParser = document.createElement('div');
     xmlParser.innerHTML = target;
     const xml = xmlParser.children[0] as HTMLElement;
+    const result = generateTarget(parseXML(xml));
 
-    return generateTarget(parseXML(xml));
+    xmlParser.remove();
+
+    return result;
   }
 
   return {
