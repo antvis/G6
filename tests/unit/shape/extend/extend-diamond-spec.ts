@@ -4,7 +4,7 @@ const div = document.createElement('div');
 div.id = 'graph-spec';
 document.body.appendChild(div);
 
-describe('register node with getCustomConfig function, extend circle', () => {
+describe('register node with getCustomConfig function, extend diamond', () => {
   const data = {
     nodes: [
       {
@@ -41,7 +41,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
           };
         },
       },
-      'circle',
+      'diamond',
     );
     const graph = new G6.Graph({
       container: div,
@@ -55,7 +55,6 @@ describe('register node with getCustomConfig function, extend circle', () => {
     graph.render();
     const node = graph.getNodes()[0];
     const keyShape = node.getKeyShape();
-    expect(keyShape.attr('r')).toEqual(10);
     expect(keyShape.attr('stroke')).toEqual('blue');
     expect(keyShape.attr('fill')).toEqual('red');
     expect(keyShape.attr('lineWidth')).toEqual(10);
@@ -76,7 +75,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
           };
         },
       },
-      'circle',
+      'diamond',
     );
     const graph = new G6.Graph({
       container: div,
@@ -91,7 +90,6 @@ describe('register node with getCustomConfig function, extend circle', () => {
     const node = graph.getNodes()[0];
     const group = node.get('group');
     const keyShape = node.getKeyShape();
-    expect(keyShape.attr('r')).toEqual(10);
     expect(keyShape.attr('stroke')).toEqual('#5B8FF9');
     expect(keyShape.attr('fill')).toEqual('#C6E5FF');
     expect(keyShape.attr('lineWidth')).toEqual(1);
@@ -119,7 +117,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
           };
         },
       },
-      'circle',
+      'diamond',
     );
     const graph = new G6.Graph({
       container: div,
@@ -134,7 +132,6 @@ describe('register node with getCustomConfig function, extend circle', () => {
     const node = graph.getNodes()[0];
     const group = node.get('group');
     const keyShape = node.getKeyShape();
-    expect(keyShape.attr('r')).toEqual(10);
     expect(keyShape.attr('stroke')).toEqual('#5B8FF9');
     expect(keyShape.attr('fill')).toEqual('#C6E5FF');
     expect(keyShape.attr('lineWidth')).toEqual(1);
@@ -164,7 +161,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
           };
         },
       },
-      'circle',
+      'diamond',
     );
     const graph = new G6.Graph({
       container: div,
@@ -186,7 +183,6 @@ describe('register node with getCustomConfig function, extend circle', () => {
     const keyShape = node.getKeyShape();
     expect(keyShape.attr('fill')).toEqual('#C6E5FF');
     expect(keyShape.attr('stroke')).toEqual('#5B8FF9');
-    expect(keyShape.attr('r')).toEqual(10);
     expect(keyShape.attr('lineWidth')).toEqual(1);
 
     const markTop = group.find((g) => {
@@ -233,7 +229,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
             };
           },
         },
-        'circle',
+        'diamond',
       );
       const graph = new G6.Graph({
         container: div,
@@ -258,7 +254,6 @@ describe('register node with getCustomConfig function, extend circle', () => {
       const group = node.get('group');
       expect(group.getCount()).toEqual(3);
       const keyShape = node.getKeyShape();
-      expect(keyShape.attr('r')).toBe(15);
       expect(keyShape.attr('fill')).toBe('steelblue');
       expect(keyShape.attr('lineWidth')).toBe(5);
 
@@ -279,7 +274,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
             };
           },
         },
-        'circle',
+        'diamond',
       );
       const graph = new G6.Graph({
         container: div,
@@ -361,7 +356,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
             };
           },
         },
-        'circle',
+        'diamond',
       );
       const graph = new G6.Graph({
         container: div,
@@ -398,7 +393,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
       expect(label.attr('fill')).toEqual('#ff0');
 
       node.update({
-        label: 'new circle label',
+        label: 'new diamond label',
       });
       // test if it will keep the current fill without setting
       node.update({
@@ -410,7 +405,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
           },
         },
       });
-      expect(label.attr('text')).toEqual('new circle label');
+      expect(label.attr('text')).toEqual('new diamond label');
       expect(label.attr('fill')).toEqual('#ff0');
       expect(label.attr('stroke')).toEqual('black');
       expect(label.attr('lineWidth')).toEqual(3);
@@ -432,7 +427,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
             };
           },
         },
-        'circle',
+        'diamond',
       );
       const graph = new G6.Graph({
         container: div,
@@ -463,13 +458,13 @@ describe('register node with getCustomConfig function, extend circle', () => {
       expect(label).toEqual(null);
 
       node.update({
-        label: 'new circle label',
+        label: 'new diamond label',
       });
       label = group.find((g) => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toEqual(null);
-      expect(label.attr('text')).toEqual('new circle label');
+      expect(label.attr('text')).toEqual('new diamond label');
       expect(label.attr('fill')).toEqual('red');
 
       node.update({
@@ -482,7 +477,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
       label = group.find((g) => {
         return g.get('className') === 'node-label';
       });
-      expect(label.attr('text')).toEqual('new circle label');
+      expect(label.attr('text')).toEqual('new diamond label');
       expect(label.attr('fill')).toEqual('#ff0');
       graph.destroy();
       expect(graph.destroyed).toBe(true);
@@ -500,7 +495,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
             };
           },
         },
-        'circle',
+        'diamond',
       );
       const graph = new G6.Graph({
         container: div,
@@ -571,7 +566,6 @@ describe('register node with getCustomConfig function, extend circle', () => {
         });
       });
     });
-
     it('update label, linkPoints, icon from none', () => {
       const graph = new G6.Graph({
         container: div,

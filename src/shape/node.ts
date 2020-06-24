@@ -34,7 +34,7 @@ const singleNode: ShapeOptions = {
    * @return {Array} 宽高
    */
   getSize(cfg: ModelConfig): number[] {
-    let size: number | number[] = cfg.size || this.options!.size || Global.defaultNode.size;
+    let size: number | number[] = cfg.size || this.getOptions({})!.size || Global.defaultNode.size;
 
     // size 是数组，但长度为1，则补长度为2
     if (isArray(size) && size.length === 1) {
@@ -335,11 +335,9 @@ const singleNode: ShapeOptions = {
     const { icon } = this.getOptions(cfg) as NodeConfig;
     const { show } = cfg.icon ? cfg.icon : { show: undefined };
     const iconShape = group.find((element) => element.get('className') === `${this.type}-icon`);
-    // console.log(1111, 'updateIcon', iconShape, this.type, show);
     if (iconShape) {
       // 若原先存在 icon
       if (show || show === undefined) {
-        // console.log('若传入 show: true, 或没有设置，则更新原有的 icon 样式');
         // 若传入 show: true, 或没有设置，则更新原有的 icon 样式
         const iconConfig = mix({}, iconShape.attr(), icon);
         const { width: w, height: h } = iconConfig;
@@ -349,12 +347,10 @@ const singleNode: ShapeOptions = {
           y: -h / 2,
         });
       } else {
-        // console.log('若传入了 show: false 则删除原先的 icon');
         // 若传入了 show: false 则删除原先的 icon
         iconShape.remove();
       }
     } else if (show) {
-      // console.log('如果原先不存在 icon，但传入了 show: true，则新增 icon', this.type);
       // 如果原先不存在 icon，但传入了 show: true，则新增 icon
       const { width: w, height: h } = icon;
       group.addShape('image', {
