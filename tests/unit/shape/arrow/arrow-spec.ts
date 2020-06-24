@@ -94,4 +94,14 @@ describe('arrow test', () => {
       }
     });
   });
+  it.only('triangle rect arrow ', () => {
+    graph.updateItem(edge, {
+      style: {
+        endArrow: {
+          path: G6.Arrow.triangleRect(15, 15, 15, 3, 5, 25),
+          d: 25
+        }
+      }
+    });
+  });
 });

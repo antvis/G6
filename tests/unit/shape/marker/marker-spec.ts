@@ -54,6 +54,30 @@ describe('marker test', () => {
           },
           name: 'collapse-icon',
         });
+        group.addShape('marker', {
+          attrs: {
+            x: 0,
+            y: -20,
+            r: 6,
+            symbol: G6.Marker.downTriangle,
+            stroke: '#666',
+            fill: '#fff',
+            lineWidth: 1,
+          },
+          name: 'collapse-icon',
+        });
+        group.addShape('marker', {
+          attrs: {
+            x: 0,
+            y: 20,
+            r: 6,
+            symbol: G6.Marker.upTriangle,
+            stroke: '#666',
+            fill: '#fff',
+            lineWidth: 1,
+          },
+          name: 'collapse-icon',
+        });
       }
     }, 'circle');
     const cfg = {
