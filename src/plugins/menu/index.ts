@@ -62,7 +62,8 @@ export default class Menu extends Base {
   }
 
   public init() {
-    const menu = createDOM(`<div class='g6-component-contextmenu'></div>`)
+    const className = this.get('className')
+    const menu = createDOM(`<div class=${className || 'g6-component-contextmenu'}></div>`)
     modifyCSS(menu, { position: 'absolute', visibility: 'hidden' });
     document.body.appendChild(menu)
     this.set('menu', menu)
@@ -140,20 +141,20 @@ export default class Menu extends Base {
   }
 
   public destroy() {
-    const container = this.get('menu')
+    const menu = this.get('menu')
     const handler = this.get('handler');
 
-    if (container) {
-      document.body.removeChild(container);
+    const handleMenuClick = this.get('handleMenuClick')
+    if (handleMenuClick) {
+      menu.removeEventListener('click', handleMenuClick)
+    }
+    
+    if (menu) {
+      document.body.removeChild(menu);
     }
 
     if (handler) {
       document.body.removeEventListener('click', handler);
-    }
-
-    const handleMenuClick = this.get('handleMenuClick')
-    if (handleMenuClick) {
-      container.removeEventListener('click', handleMenuClick)
     }
   }
 }

@@ -197,6 +197,7 @@ describe('toolbar', () => {
     document.body.appendChild(tc);
     const toolbar = new G6.ToolBar({
       container: tc,
+      className: 'g6-xxxy',
       getContent: () => {
         return `
           <ul>
