@@ -11,40 +11,87 @@ describe('arrow test', () => {
     container: div,
     width: 500,
     height: 500,
+    linkCenter: true,
     defaultNode: {
       type: 'circle',
       style: {
-        opacity: 0.1
+        opacity: 0.3
       }
     },
   };
   const graph = new Graph(cfg);
+  const data: GraphData = {
+    nodes: [
+      {
+        id: '1',
+        x: 100,
+        y: 100,
+      },
+      {
+        id: '2',
+        x: 200,
+        y: 200,
+        size: 50,
+        type: 'circle',
+      },
+    ],
+    edges: [{
+      source: '1',
+      target: '2',
+    }]
+  };
+  graph.data(data);
+  graph.render();
 
-  it('triangle arrow ', () => {
-    const data: GraphData = {
-      nodes: [
-        {
-          id: '1',
-          x: 100,
-          y: 100,
-        },
-        {
-          id: '2',
-          x: 200,
-          y: 200,
-        },
-      ],
-      edges: [{
-        source: '1',
-        target: '2',
-        style: {
-          endArrow: {
-            path: G6.Arrow.triangle(10, 20)
-          }
+  const edge = graph.getEdges()[0];
+  it.only('triangle arrow ', () => {
+    graph.updateItem(edge, {
+      style: {
+        endArrow: {
+          path: G6.Arrow.triangle(10, 20, 25),
+          d: 25
         }
-      }]
-    };
-    graph.data(data);
-    graph.render();
+      }
+    });
+  });
+  it.only('vee arrow ', () => {
+    graph.updateItem(edge, {
+      style: {
+        endArrow: {
+          path: G6.Arrow.vee(15, 20, 25),
+          d: 25
+        }
+      }
+    });
+  });
+  it.only('circle arrow ', () => {
+    graph.updateItem(edge, {
+      style: {
+        endArrow: {
+          path: G6.Arrow.circle(5, 25),
+          d: 25
+        }
+      }
+    });
+  });
+  it.only('diamond arrow ', () => {
+    graph.updateItem(edge, {
+      style: {
+        endArrow: {
+          path: G6.Arrow.diamond(15, 15, 25),
+          d: 25
+        }
+      }
+    });
+  });
+  it.only('rect arrow ', () => {
+    graph.updateItem(edge, {
+      style: {
+        endArrow: {
+          path: G6.Arrow.rect(15, 15, 25),
+          d: 25
+        }
+      }
+    });
   });
 });
