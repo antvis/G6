@@ -4,7 +4,7 @@
  */
 
 import JSON5 from 'json5';
-import lodash from 'lodash';
+import get from '@antv/util/lib/get'
 
 /**
  * 内部用于最终实际渲染的结构
@@ -27,7 +27,7 @@ const keyConvert = str => str.split('-').reduce((a, b) => a + b.charAt(0).toUppe
 export const xmlDataRenderer = (xml: string) => data => {
   return xml.split(/{{|}}/g).map(text => {
     if (/^[\w.]+$/g.test(text.trim())) {
-      return lodash.get(data, text.trim(), text)
+      return get(data, text.trim(), text)
     }
     return text;
   }).join('')
