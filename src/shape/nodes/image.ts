@@ -136,13 +136,14 @@ Shape.registerNode(
       }
     },
     getShapeStyle(cfg: NodeConfig) {
+      const { style: defaultStyle } = this.getOptions(cfg);
       const size = this.getSize!(cfg);
       const { img } = this.getOptions(cfg);
       let width = size[0];
       let height = size[1];
-      if (cfg.style) {
-        width = cfg.style.width || size[0];
-        height = cfg.style.height || size[1];
+      if (defaultStyle) {
+        width = defaultStyle.width || size[0];
+        height = defaultStyle.height || size[1];
       }
       const style = Object.assign(
         {},
@@ -153,7 +154,7 @@ Shape.registerNode(
           height,
           img,
         },
-        cfg.style,
+        defaultStyle,
       );
       return style;
     },

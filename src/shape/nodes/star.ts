@@ -78,7 +78,11 @@ Shape.registerNode(
           },
           className: `${this.type}-icon`,
           name: `${this.type}-icon`,
+<<<<<<< HEAD
           draggable: true
+=======
+          draggable: true,
+>>>>>>> test: add test case for all node
         });
       }
 
@@ -265,7 +269,6 @@ Shape.registerNode(
      */
     updateLinkPoints(cfg: NodeConfig, group: GGroup) {
       const { linkPoints: defaultLinkPoints } = this.options as ModelConfig;
-
       const markLeft = group.find((element) => element.get('className') === 'link-point-left');
       const markRight = group.find((element) => element.get('className') === 'link-point-right');
       const markTop = group.find((element) => element.get('className') === 'link-point-top');
