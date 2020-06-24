@@ -8,6 +8,9 @@ G6 中支持插件提供了一些可插拔的组件，包括：
 - [Grid](#grid)
 - [Minimap](#minimap)
 - [Edge Bundling](#edge-bundling)
+- [Menu](#menu)
+- [ToolBar](#toolbar)
+- [Tooltip](#tooltip)
 
 ## 配置方法
 
@@ -88,3 +91,239 @@ Minimap 是用于快速预览和探索图的工具。
 | iterations | Number | 90 | 初始的内迭代次数，每次外迭代中将会被乘以 `iterRate` |
 | iterRate | Number | 0.6666667 | 迭代下降率 |
 | bundleThreshold | Number | 0.6 | 判定边是否应该绑定在一起的相似容忍度，数值越大，被绑在一起的边相似度越低，数量越多 |
+
+## Menu
+
+Menu 用于配置节点上的右键菜单。
+
+### 配置项
+
+| 名称 | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| className | string | null | menu 容器的 class 类名 |
+| getContent | (graph?: IGraph) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z9iXQq_kcrYAAAAAAAAAAABkARQnAQ' width=60 alt='img'/> | 菜单项内容，支持 DOM 元素或字符串 |
+| handleMenuClick | (target: HTMLElement, item: Item) => void | undefined | 点击菜单项的回调函数 |
+
+### 用法
+
+实例化 Menu 插件时，如果不传参数，则使用 G6 默认提供的值，只能展示默认的菜单项，不能进行任何操作。
+
+```
+// 实例化 Menu 插件
+const menu = new G6.Menu();
+const graph = new G6.Graph({
+  //... 其他配置项
+  plugins: [menu], // 配置 Menu 插件
+});
+```
+
+#### DOM Menu
+
+```
+const menu = new G6.Menu({
+  getContent(e) {
+    const outDiv = document.createElement('div');
+    outDiv.style.width = '180px';
+    outDiv.innerHTML = `<ul>
+        <li>测试01</li>
+        <li>测试01</li>
+        <li>测试01</li>
+        <li>测试01</li>
+        <li>测试01</li>
+      </ul>`
+    return outDiv
+  },
+  handleMenuClick(target, item) {
+    console.log(target, item)
+  },
+});
+
+const graph = new G6.Graph({
+  //... 其他配置项
+  plugins: [menu], // 配置 Menu 插件
+});
+```
+
+#### String Menu
+
+```
+const menu = new G6.Menu({
+  getContent(graph) {
+    return `<ul>
+      <li title='1'>测试02</li>
+      <li title='2'>测试02</li>
+      <li>测试02</li>
+      <li>测试02</li>
+      <li>测试02</li>
+    </ul>`;
+  },
+  handleMenuClick(target, item) {
+    console.log(target, item)
+  },
+});
+
+const graph = new G6.Graph({
+  //... 其他配置项
+  plugins: [menu], // 配置 Menu 插件
+});
+```
+
+## ToolBar
+
+ToolBar 集成了以下常见的操作：
+- 重做；
+- 撤销；
+- 放大；
+- 缩小；
+- 适应屏幕；
+- 实际大小。
+
+### 配置项
+
+| 名称 | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| container | HTMLDivElement | null | null | ToolBar 容器，如果不设置，则默认使用 canvas 的 DOM 容器 |
+| className | string | null | ToolBar 内容元素的 class 类名 |
+| getContent | (graph?: IGraph) => HTMLDivElement | string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z9iXQq_kcrYAAAAAAAAAAABkARQnAQ' width=60 alt='img'/> | ToolBar 内容，支持 DOM 元素或字符串 |
+| handleClick | (code: string, graph: IGraph) => void | undefined | 点击 ToolBar 中每个图标的回调函数 |
+| position | Point | null | null | ToolBar 的位置坐标 |
+
+### 用法
+
+#### 默认用法
+默认的 ToolBar 提供了撤销、重做、放大等功能。
+
+```
+const toolbar = new G6.ToolBar();
+
+const graph = new G6.Graph({
+  //... 其他配置项
+  plugins: [toolbar], // 配置 Menu 插件
+});
+```
+
+#### String ToolBar
+
+```
+const tc = document.createElement('div');
+tc.id = 'toolbarContainer';
+document.body.appendChild(tc);
+
+const toolbar = new G6.ToolBar({
+  container: tc,
+  getContent: () => {
+    return `
+      <ul>
+        <li code='add'>测试</li>
+        <li code='undo'>撤销</li>
+      </ul>
+    `
+  },
+  handleClick: (code, graph) => {
+    if (code === 'add') {
+      graph.addItem('node', {
+        id: 'node2',
+        label: 'node2',
+        x: 300,
+        y: 150
+      })
+    } else if (code === 'undo') {
+      toolbar.undo()
+    }
+  }
+});
+
+const graph = new G6.Graph({
+  //... 其他配置项
+  plugins: [toolbar], // 配置 Menu 插件
+});
+```
+
+#### DOM ToolBar
+
+```
+const toolbar = new G6.ToolBar({
+  getContent: () => {
+    const outDiv = document.createElement('div');
+    outDiv.style.width = '180px';
+    outDiv.innerHTML = `<ul>
+        <li>测试01</li>
+        <li>测试01</li>
+        <li>测试01</li>
+        <li>测试01</li>
+        <li>测试01</li>
+      </ul>`
+    return outDiv
+  },
+  handleClick: (code, graph) => {
+    
+  }
+});
+
+const graph = new G6.Graph({
+  //... 其他配置项
+  plugins: [toolbar], // 配置 Menu 插件
+});
+```
+
+## ToolTip
+
+ToolTip 插件主要用于在节点和边上展示一些辅助信息，G6 4.0 以后，Tooltip 插件将会替换 Behavior 中的 tooltip。
+
+### 配置项
+
+| 名称 | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| className | string | null | tooltip 容器的 class 类名 |
+| container | HTMLDivElement | null | null | Tooltip 容器，如果不设置，则默认使用 canvas 的 DOM 容器 |
+| getContent | (graph?: IGraph) => HTMLDivElement | string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z9iXQq_kcrYAAAAAAAAAAABkARQnAQ' width=60 alt='img'/> | Tooltip 内容，支持 DOM 元素或字符串 |
+| offset | number | 6 | tooltip 的偏移值，作用于 x y 两个方向上 |
+
+### 用法
+
+默认的 Tooltip 只展示元素类型和 ID，一般情况下都需要用户自己定义 Tooltip 上面展示的内容。
+
+#### Dom Tooltip
+```
+const tooltip = new G6.Tooltip({
+  offset: 10,
+  getContent(e) {
+    const outDiv = document.createElement('div');
+    outDiv.style.width = '180px';
+    outDiv.innerHTML = `
+      <h4>自定义tooltip</h4>
+      <ul>
+        <li>Label: ${e.item.getModel().label || e.item.getModel().id}</li>
+      </ul>`
+    return outDiv
+  },
+});
+
+const graph = new G6.Graph({
+  //... 其他配置项
+  plugins: [tooltip], // 配置 Menu 插件
+});
+```
+
+#### String Tooltip
+```
+const tooltip = new G6.Tooltip({
+  getContent(e) {
+    return `<div style='width: 180px;'>
+      <ul id='menu'>
+        <li title='1'>测试02</li>
+        <li title='2'>测试02</li>
+        <li>测试02</li>
+        <li>测试02</li>
+        <li>测试02</li>
+      </ul>
+    </div>`;
+  },
+});
+
+const graph = new G6.Graph({
+  //... 其他配置项
+  plugins: [tooltip], // 配置 Menu 插件
+});
+```
+

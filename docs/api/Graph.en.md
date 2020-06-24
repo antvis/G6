@@ -44,6 +44,8 @@ The life cycle of an instance of Graph is: Initialize -> Load data -> Render -> 
 | groupStyle | Object |  | Group style for nodes, please refer to [Node Group](/en/docs/manual/middle/nodeGroup) for detail. |
 | layout | Object |  | Configurations for layout. The `type` in it is the name of layout method with the options: `'random'`, `'radial'`, `'mds'`, `'circular'`, `'fruchterman'`, `'force'`, `'dagre'`, `'concentric'`, `'grid'`. For more configurations for different layout methods, please refer to [Layout API](/en/docs/api/layout/Layout). |
 | renderer | string | 'canvas' / 'svg' | Render the graph with Canvas or SVG. It is supported expecting V3.3.x |
+| enabledStack | boolean | false | Whether to enable stack，thar is, whether to support redo & undo operating, the configuration item V3.6 and above support. |
+| maxStep | number | 10 | the max step of redo & undo, Only works if the enabledStack is true，the configuration item V3.6 and above support. |
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> In G6 3.1, we added two new configurations for graph: `nodeStateStyles` and `edgeStateStyles`. In the same time, we deleted `nodeStyle` and `edgeStyle` . To upgrate, replace `nodeStyle` with `nodeStateStyles`, and replace `edgeStyle` with `edgeStateStyles`, and keep the sub-configuration inside them.
 
@@ -203,7 +205,7 @@ const data = {
 graph.read(data);
 ```
 
-### changeData(data)
+### changeData(data, stack)
 
 Change the data source, and render the graph according to the new data.
 
@@ -212,6 +214,7 @@ Change the data source, and render the graph according to the new data.
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | data | Object | false | Graph data, it should be an object containing an array of nodes and an array of edges. If it is not assigned, the graph will be re-rendered with the current data on the graph |
+| stack | boolean | false | Whether push into the operator to the undo & redo stack, When enableStack is set to true when new Graph, it will be automatically pushed into the stack by default. If it is not needed, set this parameter to false. |
 
 **Usage**
 
@@ -360,7 +363,7 @@ graph.expandGroup('groupId');
 
 ## Update
 
-### addItem(type, model)
+### addItem(type, model, stack)
 
 Add item(node, edge, or group) to the graph.
 
@@ -372,6 +375,7 @@ Add item(node, edge, or group) to the graph.
 | --- | --- | --- | --- |
 | type | string | true | The type of the item. Options: `'node'`, `'edge'`, and `'group'`. |
 | model | Object | true | The data model of the item, refer to [Item Model Properties](/en/docs/api/nodeEdge/itemProperties). When `type: 'group'`, refer to [Create Node Group](/en/docs/manual/advanced/create-node-group) |
+| stack | boolean | false | Whether push into the operator to the undo & redo stack, When enableStack is set to true when new Graph, it will be automatically pushed into the stack by default. If it is not needed, set this parameter to false. |
 
 **Usage**
 
@@ -403,11 +407,11 @@ const model = {
 graph.addItem('group', model);
 ```
 
-### add(type, model)
+### add(type, model, stack)
 
 The same as addItem(type, model).
 
-### updateItem(item, model)
+### updateItem(item, model, stack)
 
 Update the item with new data model.
 If there are combos in the graph, after calling updateItem to update the position of a node, call [updateCombo(combo)](/en/docs/api/Graph#updatecombocombo) to update the sizes and positions of the related combos.
@@ -418,6 +422,7 @@ If there are combos in the graph, after calling updateItem to update the positio
 | ---- | --------------- | -------- | ----------------------------------- |
 | item | string / Object | true     | The ID or the instance of the item |
 | cfg  | Object          | false    | New data model, refer to [Item Model Properties](/en/docs/api/nodeEdge/itemProperties) |
+| stack | boolean | false | Whether push into the operator to the undo & redo stack, When enableStack is set to true when new Graph, it will be automatically pushed into the stack by default. If it is not needed, set this parameter to false. |
 
 **Usage**
 
@@ -438,7 +443,7 @@ const item = graph.findById('node');
 graph.updateItem(item, model);
 ```
 
-### update(item, model)
+### update(item, model, stack)
 
 The same as updateItem(item, model).
 
@@ -507,7 +512,7 @@ graph.updateComboTree('combo1', 'combo2')
 
 
 
-### removeItem(item)
+### removeItem(item, stack)
 
 Remove the item. When the item is the id of a group, this operation will delete the corresponding group.
 
@@ -516,6 +521,7 @@ Remove the item. When the item is the id of a group, this operation will delete 
 | Name | Type            | Required | Description                         |
 | ---- | --------------- | -------- | ----------------------------------- |
 | item | string / Object | true     | The id or the instance of the item. |
+| stack | boolean | false | Whether push into the operator to the undo & redo stack, When enableStack is set to true when new Graph, it will be automatically pushed into the stack by default. If it is not needed, set this parameter to false. |
 
 **Usage**
 
@@ -525,7 +531,7 @@ const item = graph.findById('node');
 graph.removeItem(item);
 ```
 
-### remove(item)
+### remove(item, stack)
 
 The same as removeItem(item)。
 
@@ -734,7 +740,7 @@ graph.destroy();
 
 ## State
 
-### showItem(item)
+### showItem(item, stack)
 
 Show the item. If the item is a node, the related edges will be shown in the same time. Different from that, [item.show()](/en/docs/api/nodeEdge/Item#show) only show the node item itself.
 
@@ -743,6 +749,7 @@ Show the item. If the item is a node, the related edges will be shown in the sam
 | Name | Type            | Required | Description                         |
 | ---- | --------------- | -------- | ----------------------------------- |
 | item | string / Object | true     | The id or the instance of the item. |
+| stack | boolean | false | Whether push into the operator to the undo & redo stack, When enableStack is set to true when new Graph, it will be automatically pushed into the stack by default. If it is not needed, set this parameter to false. |
 
 **Usage**
 
@@ -755,7 +762,7 @@ graph.showItem(item);
 graph.showItem('nodeId');
 ```
 
-### hideItem(item)
+### hideItem(item, stack)
 
 Hide the item. If the item is a node, the related edges will be hidden in the same time. Different from that, [item.hide()](/en/docs/api/nodeEdge/Item#hide) only hide the node item itself.
 
@@ -764,6 +771,7 @@ Hide the item. If the item is a node, the related edges will be hidden in the sa
 | Name | Type            | Required | Description                         |
 | ---- | --------------- | -------- | ----------------------------------- |
 | item | string / Object | true     | The id or the instance of the item. |
+| stack | boolean | false | Whether push into the operator to the undo & redo stack, When enableStack is set to true when new Graph, it will be automatically pushed into the stack by default. If it is not needed, set this parameter to false. |
 
 **Usage**
 

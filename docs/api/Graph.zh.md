@@ -44,6 +44,8 @@ Graph 的生命周期为：初始化—>加载数据—>渲染—>更新—>销�
 | groupStyle | Object |  | groupStyle 用于指定分组的样式，详情参看 [节点分组 Group](/zh/docs/manual/middle/nodeGroup) 教程 |
 | layout | Object |  | 布局配置项，使用 type 字段指定使用的布局方式，type 可取以下值：random, radial, mds, circular, fruchterman, force, dagre，各布局详细的配置请参考  [Layout API 文档](/zh/docs/api/layout/Layout) |
 | renderer | string | 'canvas' / 'svg' | 渲染方式，该配置项除 V3.3.x 外其他版本均支持。 |
+| enabledStack | boolean | false | 是否启用 stack，即是否开启 redo & undo 功能，该配置项 V3.6 及以上版本支持。 |
+| maxStep | number | 10 | redo & undo 最大步数, 只有当 enabledStack 为 true 时才起作用，该配置项 V3.6 及以上版本支持。 |
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> G6 3.1 版本中实例化 Graph 时，新增了 `nodeStateStyles` 及  `edgeStateStyles` 两个配置项，删除了 `nodeStyle` 和 `edgeStyle` ，使用 3.1 以下版本的同学，只需要将  `nodeStyle` 改成 `nodeStateStyles` ，将  `edgeStyle` 改成  `edgeStateStyles` ，配置内容保持不变。
 
@@ -203,7 +205,7 @@ const data = {
 graph.read(data);
 ```
 
-### changeData(data)
+### changeData(data, stack)
 
 更新数据源，根据新的数据重新渲染视图。
 
@@ -212,6 +214,7 @@ graph.read(data);
 | 名称 | 类型   | 是否必选 | 描述                                     |
 | ---- | ------ | -------- | ---------------------------------------- |
 | data | Object | false     | 图数据，是一个包括 nodes 和 edges 的对象。若不指定该参数，则使用当前数据重新渲染 |
+| stack | boolean | false | 操作是否入 undo & redo 栈，当实例化 Graph 时设置 enableStack 为 true 时，默认情况下会自动入栈，入栈以后，就支持 undo & redo 操作，如果不需要，则设置该参数为 false 即可 |
 
 **用法**
 
@@ -361,7 +364,7 @@ graph.expandGroup('groupId');
 
 ## 更新
 
-### addItem(type, model)
+### addItem(type, model, stack)
 
 新增元素（节点，边，或节点分组）。
 
@@ -373,6 +376,7 @@ graph.expandGroup('groupId');
 | --- | --- | --- | --- |
 | type | string | true | 元素类型，可选值为 `'node'`、`'edge'` 和 `'group'` |
 | model | Object | true | 元素的数据模型，具体内容参见[元素配置项](/zh/docs/api/nodeEdge/itemProperties)。`type: 'group'` 时，参看 [手动创建节点分组文档](/zh/docs/manual/advanced/create-node-group) |
+| stack | boolean | false | 操作是否入 undo & redo 栈，当实例化 Graph 时设置 enableStack 为 true 时，默认情况下会自动入栈，入栈以后，就支持 undo & redo 操作，如果不需要，则设置该参数为 false 即可 |
 
 **用法**
 
@@ -404,11 +408,11 @@ const model = {
 graph.addItem('group', model);
 ```
 
-### add(type, model)
+### add(type, model, stack)
 
-同 addItem(type, model)。
+同 addItem(type, model, stack)。
 
-### updateItem(item, model)
+### updateItem(item, model, stack)
 
 更新元素，包括更新数据、样式等。
 若图上有 combo，使用该函数更新一个节点位置后，需要调用 [updateCombo(combo)](/zh/docs/api/Graph#updatecombocombo) 以更新相关 combo 的位置。
@@ -419,6 +423,7 @@ graph.addItem('group', model);
 | ---- | --------------- | -------- | ------------------ |
 | item | string / Object | true     | 元素 ID 或元素实例 |
 | cfg  | Object          | false    | 需要更新的数据模型，具体内容参见[元素配置项](/zh/docs/api/nodeEdge/itemProperties)  |
+| stack | boolean | false | 操作是否入 undo & redo 栈，当实例化 Graph 时设置 enableStack 为 true 时，默认情况下会自动入栈，入栈以后，就支持 undo & redo 操作，如果不需要，则设置该参数为 false 即可 |
 
 **用法**
 
@@ -439,9 +444,9 @@ const item = graph.findById('node');
 graph.updateItem(item, model);
 ```
 
-### update(item, model)
+### update(item, model, stack)
 
-同 updateItem(item, model)。
+同 updateItem(item, model, stack)。
 
 
 ### updateCombos()
@@ -503,7 +508,7 @@ graph.updateComboTree('combo1', 'combo2')
 
 
 
-### removeItem(item)
+### removeItem(item, stack)
 
 删除元素，当 item 为 group ID 时候，则删除分组。
 
@@ -512,6 +517,7 @@ graph.updateComboTree('combo1', 'combo2')
 | 名称 | 类型            | 是否必选 | 描述               |
 | ---- | --------------- | -------- | ------------------ |
 | item | string / Object | true     | 元素 ID 或元素实例 |
+| stack | boolean | false | 操作是否入 undo & redo 栈，当实例化 Graph 时设置 enableStack 为 true 时，默认情况下会自动入栈，入栈以后，就支持 undo & redo 操作，如果不需要，则设置该参数为 false 即可 |
 
 **用法**
 
@@ -519,11 +525,14 @@ graph.updateComboTree('combo1', 'combo2')
 // 通过 ID 查询节点实例
 const item = graph.findById('node');
 graph.removeItem(item);
+
+// 该操作不会进入到 undo & redo 栈，即 redo & undo 操作会忽略该操作
+graph.removeItem(item, false)
 ```
 
-### remove(item)
+### remove(item, stack)
 
-同 removeItem(item)。
+同 removeItem(item, stack)。
 
 ### refresh()
 
@@ -740,7 +749,7 @@ graph.destroy();
 
 ## 状态
 
-### showItem(item)
+### showItem(item, stack)
 
 显示指定的元素。若 item 为节点，则相关边也会随之显示。而 [item.show()](/zh/docs/api/nodeEdge/Item#show) 则将只显示自身。
 
@@ -749,6 +758,7 @@ graph.destroy();
 | 名称 | 类型            | 是否必选 | 描述               |
 | ---- | --------------- | -------- | ------------------ |
 | item | string / Object | true     | 元素 ID 或元素实例 |
+| stack | boolean | false | 操作是否入 undo & redo 栈，当实例化 Graph 时设置 enableStack 为 true 时，默认情况下会自动入栈，入栈以后，就支持 undo & redo 操作，如果不需要，则设置该参数为 false 即可 |
 
 **用法**
 
@@ -761,7 +771,7 @@ graph.showItem(item);
 graph.showItem('nodeId');
 ```
 
-### hideItem(item)
+### hideItem(item, stack)
 
 隐藏指定元素。若 item 为节点，则相关边也会随之隐藏。而 [item.hide()](/zh/docs/api/nodeEdge/Item#hide) 则将只隐藏自身。
 
@@ -770,6 +780,7 @@ graph.showItem('nodeId');
 | 名称 | 类型            | 是否必选 | 描述               |
 | ---- | --------------- | -------- | ------------------ |
 | item | string / Object | true     | 元素 ID 或元素实例 |
+| stack | boolean | false | 操作是否入 undo & redo 栈，当实例化 Graph 时设置 enableStack 为 true 时，默认情况下会自动入栈，入栈以后，就支持 undo & redo 操作，如果不需要，则设置该参数为 false 即可 |
 
 **用法**
 

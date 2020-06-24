@@ -101,6 +101,9 @@ export default class ToolBar extends Base {
       toolBarDOM = createDOM(toolBar)
     }
 
+    const className = this.get('className')
+    toolBarDOM.setAttribute('class', className || 'g6-component-toolbar')
+    
     let container: HTMLDivElement | null = this.get('container');
     if (!container) {
       container = this.get('graph').get('container');

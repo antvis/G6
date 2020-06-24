@@ -64,7 +64,8 @@ export default class Tooltip extends Base {
   }
 
   public init() {
-    const tooltip = createDOM(`<div class='g6-component-tooltip'></div>`)
+    const className = this.get('className')
+    const tooltip = createDOM(`<div class=${className || 'g6-component-tooltip'}></div>`)
     modifyCSS(tooltip, { position: 'absolute', visibility: 'hidden' });
     document.body.appendChild(tooltip)
     this.set('tooltip', tooltip)
