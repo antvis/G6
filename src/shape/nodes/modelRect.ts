@@ -89,14 +89,8 @@ Shape.registerNode(
       ],
     },
     shapeType: 'modelRect',
-    getCustomConfig(cfg: NodeConfig): ModelConfig {
-      return {};
-    },
-    getOptions(cfg: NodeConfig): ModelConfig & Exclude<NodeConfig, 'id'> {
-      return deepMix({}, this.options, this.getCustomConfig(cfg) || {}, cfg);
-    },
     drawShape(cfg: NodeConfig, group: GGroup): IShape {
-      const { preRect } = this.getOptions(cfg) as ModelConfig & Exclude<NodeConfig, 'id'>;
+      const { preRect } = this.getOptions(cfg) as NodeConfig;
       const style = this.getShapeStyle!(cfg);
       const size = (this as ShapeOptions).getSize!(cfg);
       const width = size[0];
@@ -137,7 +131,7 @@ Shape.registerNode(
      * @param {Group} group Group实例
      */
     drawLogoIcon(cfg: NodeConfig, group: GGroup) {
-      const { logoIcon } = this.getOptions(cfg) as ModelConfig & Exclude<NodeConfig, 'id'>;
+      const { logoIcon } = this.getOptions(cfg) as NodeConfig;
       const size = (this as ShapeOptions).getSize!(cfg);
       const width = size[0];
 
@@ -163,7 +157,7 @@ Shape.registerNode(
      * @param {Group} group Group实例
      */
     drawStateIcon(cfg: NodeConfig, group: GGroup) {
-      const { stateIcon } = this.getOptions(cfg) as ModelConfig & Exclude<NodeConfig, 'id'>;
+      const { stateIcon } = this.getOptions(cfg) as NodeConfig;
       const size = (this as ShapeOptions).getSize!(cfg);
       const width = size[0];
 
@@ -189,7 +183,7 @@ Shape.registerNode(
      * @param {Group} group Group实例
      */
     drawLinkPoints(cfg: NodeConfig, group: GGroup) {
-      const { linkPoints } = this.getOptions(cfg) as ModelConfig & Exclude<NodeConfig, 'id'>;
+      const { linkPoints } = this.getOptions(cfg) as NodeConfig;
 
       const { top, left, right, bottom, size: markSize, r: markR, ...markStyle } = linkPoints;
       const size = (this as ShapeOptions).getSize!(cfg);

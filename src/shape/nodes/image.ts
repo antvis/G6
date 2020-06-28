@@ -51,12 +51,6 @@ Shape.registerNode(
     },
     shapeType: 'image',
     labelPosition: 'bottom',
-    getCustomConfig(cfg: NodeConfig): ModelConfig {
-      return {};
-    },
-    getOptions(cfg: NodeConfig): ModelConfig {
-      return deepMix({}, this.options, this.getCustomConfig(cfg) || {}, cfg);
-    },
     drawShape(cfg: NodeConfig, group: GGroup): IShape {
       const { shapeType } = this; // || this.type，都已经加了 shapeType
       const style = this.getShapeStyle!(cfg);

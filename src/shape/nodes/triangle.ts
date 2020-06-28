@@ -53,12 +53,6 @@ Shape.registerNode(
     shapeType: 'triangle',
     // 文本位置
     labelPosition: 'bottom',
-    getCustomConfig(cfg: NodeConfig): ModelConfig {
-      return {};
-    },
-    getOptions(cfg: NodeConfig): ModelConfig {
-      return deepMix({}, this.options, this.getCustomConfig(cfg) || {}, cfg);
-    },
     drawShape(cfg: NodeConfig, group: GGroup): IShape {
       const { icon, direction: defaultDirection } = this.getOptions(cfg) as ModelConfig &
         Exclude<NodeConfig, 'id'>;
@@ -311,7 +305,7 @@ Shape.registerNode(
     updateLinkPoints(cfg: NodeConfig, group: GGroup) {
       const { linkPoints: defaultLinkPoints, direction: defaultDirection } = this.getOptions(
         {},
-      ) as ModelConfig & Exclude<NodeConfig, 'id'>;
+      ) as NodeConfig;
 
       const direction = cfg.direction || defaultDirection;
 
