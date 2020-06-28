@@ -1,6 +1,6 @@
 ---
 title: Loop
-order: 6
+order: 7
 ---
 
 G6 内置了折线 loop  边，其默认样式如下。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sPBIR40KLOkAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>

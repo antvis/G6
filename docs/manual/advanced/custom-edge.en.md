@@ -196,7 +196,7 @@ graph.on('edge:mouseleave', ev => {
 
 ## 4. Custom Arrow
 
-The default end arrows might not meet the requirements sometimes. You can register an edge with a custom arrow by the custom mechanism of G6.<br />
+G6 (v3.5.8 and later versions) provides [default arrow and built-in arrows](/en/docs/manual/middle/elements/edges/arrow) for edges. The default end arrows might not meet the requirements sometimes. You can register an edge with a custom arrow by the custom mechanism of G6.<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*f1G9RJ5dE2oAAAAAAAAAAABkARQnAQ' alt='img' width='250'/>
 

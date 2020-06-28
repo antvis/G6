@@ -1,6 +1,6 @@
 ---
 title: Line
-order: 1
+order: 2
 ---
 
 A built-in edge Line has the default style as below.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*prQjRbZtUUkAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>

@@ -1,6 +1,6 @@
 ---
 title: Quadratic
-order: 3
+order: 4
 ---
 
 A built-in edge Quadratic has the default style as below.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YUOlRZaDDZgAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>

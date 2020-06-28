@@ -1,6 +1,6 @@
 ---
 title: Loop
-order: 6
+order: 7
 ---
 
 A built-in edge Line has the default style as below.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sPBIR40KLOkAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
