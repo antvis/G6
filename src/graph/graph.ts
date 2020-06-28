@@ -1397,14 +1397,15 @@ export default class Graph extends EventEmitter implements IGraph {
   /**
    * 根据已经存在的节点或 combo 创建新的 combo
    * @param combo combo ID 或 Combo 配置
-   * @param elements 添加到 Combo 中的元素，包括节点和 combo
+   * @param children 添加到 Combo 中的元素，包括节点和 combo
    */
-  public createCombo(combo: string | ComboConfig, elements: string[]): void {
+  public createCombo(combo: string | ComboConfig, children: string[]): void {
     // step 1: 创建新的 Combo
     let comboId = ''
+    let currentCombo: ICombo;
     if (isString(combo)) {
       comboId = combo
-      this.addItem('combo', {
+      currentCombo = this.addItem('combo', {
         id: combo
       }, false)
     } else {
@@ -1413,40 +1414,44 @@ export default class Graph extends EventEmitter implements IGraph {
         console.warn('Create combo failed. Please assign a unique string id for the adding combo.');
         return;
       }
-      this.addItem('combo', combo, false)
+      currentCombo = this.addItem('combo', combo, false)
     }
+    const comboModel = currentCombo.getModel();
 
-    const currentCombo = this.findById(comboId) as ICombo
-
-    const trees = elements.map(elementId => {
+    const trees = children.map(elementId => {
       const item = this.findById(elementId)
 
       // step 2: 将元素添加到 Combo 中
       currentCombo.addChild(item as INode | ICombo)
 
-      const model = item.getModel()
       let type = '';
       if (item.getType) type = item.getType();
-      if (type === 'combo') {
-        (model as ComboConfig).parentId = comboId
-      } else if (type === 'node') {
-        (model as NodeConfig).comboId = comboId
+      const cItem = {
+        id: item.getID(),
+        depth: (comboModel.depth as number) + 2,
+        itemType: type
       }
 
-      return {
-        depth: 1,
-        itemType: type,
-        ...model
+      if (type === 'combo') {
+        (cItem as ComboConfig).parentId = comboId
+      } else if (type === 'node') {
+        (cItem as NodeConfig).comboId = comboId
       }
+
+      return cItem
     })
 
     // step3: 更新 comboTrees 结构
     const comboTrees = this.get('comboTrees')
     comboTrees && comboTrees.forEach(ctree => {
-      if (ctree.id === comboId) {
-        ctree.itemType = 'combo'
-        ctree.children = trees
-      }
+      traverseTreeUp<ComboTree>(ctree, child => {
+        if (child.id === comboId) {
+          child.itemType = 'combo'
+          child.children = trees as ComboTree[];
+          return false;;
+        }
+        return true;
+      });
     })
 
     this.updateCombos()
@@ -1593,6 +1598,7 @@ export default class Graph extends EventEmitter implements IGraph {
     comboId = comboItem.get('id');
 
     const comboTrees = this.get('comboTrees');
+    console.log(comboTrees);
     const itemController: ItemController = self.get('itemController');
 
     const itemMap = self.get('itemMap');
@@ -1612,6 +1618,7 @@ export default class Graph extends EventEmitter implements IGraph {
             }
           })
 
+          console.log('update combo', childItem, child.children);
           // 更新具体的 Combo
           itemController.updateCombo(childItem, child.children);
 
