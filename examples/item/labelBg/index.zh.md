@@ -1,6 +1,6 @@
 ---
 title: 设置文本背景
-order: 7
+order: 8
 ---
 
 设置 Node 或 Edge label 的背景。

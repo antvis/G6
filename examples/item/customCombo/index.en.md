@@ -1,6 +1,6 @@
 ---
 title: Custom Combo
-order: 5
+order: 6
 ---
 
 The custom combo mechanism in G6 allows users to design their own node by extending the built-in combo types when there are no appropriate built-in nodes for their scenario.
