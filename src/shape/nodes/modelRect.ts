@@ -1,8 +1,7 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
-import deepMix from '@antv/util/lib/deep-mix';
 import { mix, isString } from '@antv/util';
-import { Item, NodeConfig, ModelConfig, ShapeStyle } from '../../types';
+import { Item, NodeConfig, ShapeStyle } from '../../types';
 import Shape from '../shape';
 import Global from '../../global';
 import { ShapeOptions } from '../../interface/shape';
@@ -251,8 +250,7 @@ Shape.registerNode(
       }
     },
     drawLabel(cfg: NodeConfig, group: GGroup): IShape {
-      const { labelCfg, logoIcon, descriptionCfg } = this.getOptions(cfg) as ModelConfig &
-        Exclude<NodeConfig, 'id'>;
+      const { labelCfg, logoIcon, descriptionCfg } = this.getOptions(cfg) as NodeConfig;
 
       const size = (this as ShapeOptions).getSize!(cfg);
       const width = size[0];
@@ -311,8 +309,7 @@ Shape.registerNode(
      * @return {Object} 节点的样式
      */
     getShapeStyle(cfg: NodeConfig) {
-      const { style: defaultStyle } = this.getOptions(cfg) as ModelConfig &
-        Exclude<NodeConfig, 'id'>;
+      const { style: defaultStyle } = this.getOptions(cfg) as NodeConfig;
       const strokeStyle: ShapeStyle = {
         stroke: cfg.color,
       };
@@ -334,8 +331,7 @@ Shape.registerNode(
       return styles;
     },
     update(cfg: NodeConfig, item: Item) {
-      const { style, labelCfg, descriptionCfg } = this.getOptions(cfg) as ModelConfig &
-        Exclude<NodeConfig, 'id'>;
+      const { style, labelCfg, descriptionCfg } = this.getOptions(cfg) as NodeConfig;
       const size = (this as ShapeOptions).getSize!(cfg);
       const width = size[0];
       const height = size[1];

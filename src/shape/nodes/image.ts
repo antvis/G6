@@ -1,8 +1,7 @@
 import Shape from '../shape';
-import { NodeConfig, Item, ModelConfig } from '../../types';
+import { NodeConfig, Item } from '../../types';
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
-import { deepMix } from '@antv/util';
 
 /**
  * 基本的图片，可以添加文本，默认文本在图片的下面

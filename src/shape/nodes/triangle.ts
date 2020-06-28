@@ -1,5 +1,5 @@
 import Shape from '../shape';
-import { mix, deepMix } from '@antv/util';
+import { mix } from '@antv/util';
 import Global from '../../global';
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
@@ -54,8 +54,7 @@ Shape.registerNode(
     // 文本位置
     labelPosition: 'bottom',
     drawShape(cfg: NodeConfig, group: GGroup): IShape {
-      const { icon, direction: defaultDirection } = this.getOptions(cfg) as ModelConfig &
-        Exclude<NodeConfig, 'id'>;
+      const { icon, direction: defaultDirection } = this.getOptions(cfg) as NodeConfig;
       const style = this.getShapeStyle!(cfg);
       const direction = cfg.direction || defaultDirection;
 
@@ -98,8 +97,7 @@ Shape.registerNode(
      * @param {Group} group Group实例
      */
     drawLinkPoints(cfg: NodeConfig, group: GGroup) {
-      const { linkPoints, direction: defaultDirection } = this.getOptions(cfg) as ModelConfig &
-        Exclude<NodeConfig, 'id'>;
+      const { linkPoints, direction: defaultDirection } = this.getOptions(cfg) as NodeConfig;
 
       const direction = cfg.direction || defaultDirection;
 
@@ -221,8 +219,7 @@ Shape.registerNode(
       }
     },
     getPath(cfg: ModelConfig) {
-      const { direction: defaultDirection } = this.getOptions(cfg) as ModelConfig &
-        Exclude<NodeConfig, 'id'>;
+      const { direction: defaultDirection } = this.getOptions(cfg) as NodeConfig;
 
       const direction = cfg.direction || defaultDirection;
       const size = (this as ShapeOptions).getSize!(cfg);
@@ -267,8 +264,7 @@ Shape.registerNode(
      * @return {Object} 节点的样式
      */
     getShapeStyle(cfg: NodeConfig) {
-      const { style: defaultStyle } = this.getOptions(cfg) as ModelConfig &
-        Exclude<NodeConfig, 'id'>;
+      const { style: defaultStyle } = this.getOptions(cfg) as NodeConfig;
       const strokeStyle: ShapeStyle = {
         stroke: cfg.color,
       };
@@ -281,8 +277,7 @@ Shape.registerNode(
     update(cfg: NodeConfig, item: Item) {
       const group = item.getContainer();
       // 这里不传 cfg 参数是因为 cfg.style 需要最后覆盖样式
-      const { style: defaultStyle } = this.getOptions({}) as ModelConfig &
-        Exclude<NodeConfig, 'id'>;
+      const { style: defaultStyle } = this.getOptions({}) as NodeConfig;
       const path = (this as any).getPath(cfg);
       // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
       const strokeStyle = {

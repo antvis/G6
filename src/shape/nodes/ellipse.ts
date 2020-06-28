@@ -1,10 +1,9 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
-import { mix, deepMix } from '@antv/util';
-import { Item, NodeConfig, ModelConfig, ShapeStyle } from '../../types';
+import { mix } from '@antv/util';
+import { Item, NodeConfig, ShapeStyle } from '../../types';
 import Global from '../../global';
 import Shape from '../shape';
-import { ShapeOptions } from '../../interface/shape';
 
 /**
  * 基本的椭圆，可以添加文本，默认文本居中
@@ -162,8 +161,7 @@ Shape.registerNode(
      * @return {Object} 节点的样式
      */
     getShapeStyle(cfg: NodeConfig): ShapeStyle {
-      const { style: defaultStyle } = this.getOptions(cfg) as ModelConfig &
-        Exclude<NodeConfig, 'id'>;
+      const { style: defaultStyle } = this.getOptions(cfg) as NodeConfig;
       const strokeStyle: ShapeStyle = {
         stroke: cfg.color,
       };
@@ -187,8 +185,7 @@ Shape.registerNode(
     update(cfg: NodeConfig, item: Item) {
       const group = item.getContainer();
       // 这里不传 cfg 参数是因为 cfg.style 需要最后覆盖样式
-      const { style: defaultStyle } = this.getOptions({}) as ModelConfig &
-        Exclude<NodeConfig, 'id'>;
+      const { style: defaultStyle } = this.getOptions({}) as NodeConfig;
       const size = this.getSize!(cfg);
 
       const strokeStyle = {
