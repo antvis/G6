@@ -513,6 +513,12 @@ export interface IGraph extends EventEmitter {
   pushStack(action?: string, data?: unknown, stackType?: 'redo' | 'undo'): void;
 
   /**
+   * 根据节点的 bbox 更新 combo 及其祖先 combos 的绘制，包括 combos 的位置和范围
+   * @param combo 需要更新的 combo
+   */
+  updateCombo(combo: string | ICombo): void;
+
+  /**
    * 销毁画布
    */
   destroy(): void;

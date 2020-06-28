@@ -6,7 +6,8 @@
 - feat: Floyd Warshall shortest path algorithm;
 - feat: built-in arrows;
 - feat: built-in markers;
-- fix: force layout with addItem and relayout.
+- fix: force layout with addItem and relayout;
+- fix: create combo with parentId problem.
 
 #### 3.5.7
 - feat: shouldBegin for click-select behavior;
