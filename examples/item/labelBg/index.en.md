@@ -1,6 +1,6 @@
 ---
 title: Label Background
-order: 7
+order: 8
 ---
 
 Set the background of the label on Node or Edge.
