@@ -47,12 +47,6 @@ Shape.registerNode(
     },
     shapeType: 'rect',
     labelPosition: 'center',
-    getCustomConfig(cfg: NodeConfig): ModelConfig {
-      return {};
-    },
-    getOptions(cfg: NodeConfig): ModelConfig {
-      return deepMix({}, this.options, this.getCustomConfig(cfg) || {}, cfg);
-    },
     drawShape(cfg: NodeConfig, group: GGroup): IShape {
       const style = this.getShapeStyle!(cfg);
 
@@ -72,7 +66,7 @@ Shape.registerNode(
      * @param {Group} group Group实例
      */
     drawLinkPoints(cfg: NodeConfig, group: GGroup) {
-      const { linkPoints } = this.getOptions(cfg) as ModelConfig & Exclude<NodeConfig, 'id'>;
+      const { linkPoints } = this.getOptions(cfg) as NodeConfig;
 
       const { top, left, right, bottom, size: markSize, r: markR, ...markStyle } = linkPoints;
       const size = (this as ShapeOptions).getSize!(cfg);
