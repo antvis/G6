@@ -1,7 +1,7 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
 import deepMix from '@antv/util/lib/deep-mix';
-import { Item, NodeConfig, ShapeStyle, ModelConfig } from '../../types';
+import { Item, NodeConfig, ShapeStyle } from '../../types';
 import Global from '../../global';
 import Shape from '../shape';
 import { ShapeOptions } from '../../interface/shape';
@@ -156,8 +156,7 @@ Shape.registerNode(
      * @return {Object} 节点的样式
      */
     getShapeStyle(cfg: NodeConfig): ShapeStyle {
-      const { style: defaultStyle } = this.getOptions(cfg) as ModelConfig &
-        Exclude<NodeConfig, 'id'>;
+      const { style: defaultStyle } = this.getOptions(cfg) as NodeConfig;
       const strokeStyle = {
         stroke: cfg.color,
       };
