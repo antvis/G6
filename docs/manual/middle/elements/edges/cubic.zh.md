@@ -1,6 +1,6 @@
 ---
 title: Cubic
-order: 4
+order: 5
 ---
 
 G6 内置了  cubic  边，其默认样式如下。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rcLiTa6Ih3AAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>

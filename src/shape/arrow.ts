@@ -37,7 +37,7 @@ export default {
         L ${begin + length / 2},${width / 2} Z`;
         return path;
     },
-    triangleRect: (tWidth: number, tLength: number, rWidth: number, rLength: number, gap: number = 5, d: number = 0) => {
+    triangleRect: (tWidth: number = 15, tLength: number = 15, rWidth: number = 15, rLength: number = 3, gap: number = 5, d: number = 0) => {
         const begin = d * 2;
         const rectBegin = begin + tLength + gap;
         const path = `M ${begin},0 L ${begin + tLength},-${tWidth / 2} L ${

@@ -1,6 +1,6 @@
 ---
 title: Arc
-order: 5
+order: 6
 ---
 
 A built-in edge Arc has the default style as below.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9JBjS6bdrHMAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>

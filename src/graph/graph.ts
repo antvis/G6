@@ -1598,7 +1598,6 @@ export default class Graph extends EventEmitter implements IGraph {
     comboId = comboItem.get('id');
 
     const comboTrees = this.get('comboTrees');
-    console.log(comboTrees);
     const itemController: ItemController = self.get('itemController');
 
     const itemMap = self.get('itemMap');
@@ -1618,7 +1617,6 @@ export default class Graph extends EventEmitter implements IGraph {
             }
           })
 
-          console.log('update combo', childItem, child.children);
           // 更新具体的 Combo
           itemController.updateCombo(childItem, child.children);
 

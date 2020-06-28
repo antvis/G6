@@ -1,6 +1,6 @@
 ---
 title: Polyline
-order: 2
+order: 3
 ---
 
 A built-in edge Polyline has the default style as below.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aRHcQZStrPgAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
