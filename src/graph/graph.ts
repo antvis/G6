@@ -169,11 +169,16 @@ export default class Graph extends EventEmitter implements IGraph {
         height
       });
     } else {
-      canvas = new GCanvas({
+      const canvasCfg: any = {
         container,
         width,
         height
-      });
+      };
+      const pixelRatio = this.get('pixelRatio');
+      if (pixelRatio) {
+        canvasCfg.pixelRatio = pixelRatio;
+      }
+      canvas = new GCanvas(canvasCfg);
     }
 
     this.set('canvas', canvas);
