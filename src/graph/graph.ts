@@ -2942,6 +2942,7 @@ export default class Graph extends EventEmitter implements IGraph {
       undoStack: this.undoStack,
       redoStack: this.redoStack
     })
+  }
 
 
   /**

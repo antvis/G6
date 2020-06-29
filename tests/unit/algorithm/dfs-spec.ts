@@ -68,7 +68,7 @@ const data = {
 }
 
 describe('depthFirstSearch', () => {
-  it.only('should perform DFS operation on graph', () => {
+  it('should perform DFS operation on graph', () => {
     const graph = new G6.Graph({
       container: 'container',
       width: 500,

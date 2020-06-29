@@ -44,7 +44,7 @@ describe('arrow test', () => {
   graph.render();
 
   const edge = graph.getEdges()[0];
-  it.only('triangle arrow ', () => {
+  it('triangle arrow ', () => {
     graph.updateItem(edge, {
       style: {
         endArrow: {
@@ -54,7 +54,7 @@ describe('arrow test', () => {
       }
     });
   });
-  it.only('vee arrow ', () => {
+  it('vee arrow ', () => {
     graph.updateItem(edge, {
       style: {
         endArrow: {
@@ -64,7 +64,7 @@ describe('arrow test', () => {
       }
     });
   });
-  it.only('circle arrow ', () => {
+  it('circle arrow ', () => {
     graph.updateItem(edge, {
       style: {
         endArrow: {
@@ -74,7 +74,7 @@ describe('arrow test', () => {
       }
     });
   });
-  it.only('diamond arrow ', () => {
+  it('diamond arrow ', () => {
     graph.updateItem(edge, {
       style: {
         endArrow: {
@@ -84,7 +84,7 @@ describe('arrow test', () => {
       }
     });
   });
-  it.only('rect arrow ', () => {
+  it('rect arrow ', () => {
     graph.updateItem(edge, {
       style: {
         endArrow: {
@@ -94,7 +94,7 @@ describe('arrow test', () => {
       }
     });
   });
-  it.only('triangle rect arrow ', () => {
+  it('triangle rect arrow ', () => {
     graph.updateItem(edge, {
       style: {
         endArrow: {
