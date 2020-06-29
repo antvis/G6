@@ -7,7 +7,9 @@
 - feat: built-in arrows;
 - feat: built-in markers;
 - fix: force layout with addItem and relayout;
-- fix: create combo with parentId problem.
+- fix: create combo with parentId problem;
+- feat: allow user to configure the pixelRatio for Canvas;
+- chore: update G to resolve the blur canvas problem.
 
 #### 3.5.7
 - feat: shouldBegin for click-select behavior;
