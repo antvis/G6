@@ -6,8 +6,8 @@ order: 1
 
 No matter built-in edges or [custom edges](/en/docs/manual/advanced/custom-edge), arrows can be assigned to the end or begin position of an edge. There are three kinds of arrows in G6: default arrow, built-in arrow, and custom arrow.
 
+<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GkXiSbN9JJsAAAAAAAAAAABkARQnAQ' width=500 alt='img'/>
 
-<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mGusTo9FcCYAAAAAAAAAAABkARQnAQ' width=250 alt='img'/>
 
 
 ## Default Arrow

@@ -5,7 +5,7 @@ order: 1
 
 无论是内置边还是[自定义边](/zh/docs/manual/advanced/custom-edge)，都可以为其配置起始端箭头与结束端箭头。G6 中的箭头分为默认箭头、内置箭头、自定义箭头。
 
-<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mGusTo9FcCYAAAAAAAAAAABkARQnAQ' width=250 alt='img'/>
+<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GkXiSbN9JJsAAAAAAAAAAABkARQnAQ' width=500 alt='img'/>
 
 
 ## 默认箭头
