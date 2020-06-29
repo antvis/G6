@@ -1408,33 +1408,30 @@ export default class Graph extends EventEmitter implements IGraph {
     // step 1: 创建新的 Combo
     let comboId = ''
     let currentCombo: ICombo;
+    let comboConfig: ComboConfig;
+    if (!combo) return;
     if (isString(combo)) {
       comboId = combo
-      currentCombo = this.addItem('combo', {
+      comboConfig = {
         id: combo
-      }, false)
+      };
     } else {
       comboId = combo.id
       if (!comboId) {
         console.warn('Create combo failed. Please assign a unique string id for the adding combo.');
         return;
       }
-      currentCombo = this.addItem('combo', combo, false)
+      comboConfig = combo;
     }
-    const comboModel = currentCombo.getModel();
 
-    const trees = children.map(elementId => {
+    const trees: ComboTree[] = children.map(elementId => {
       const item = this.findById(elementId)
-
-      // step 2: 将元素添加到 Combo 中
-      currentCombo.addChild(item as INode | ICombo)
 
       let type = '';
       if (item.getType) type = item.getType();
-      const cItem = {
+      const cItem: ComboTree = {
         id: item.getID(),
-        depth: (comboModel.depth as number) + 2,
-        itemType: type
+        itemType: type as "node" | "combo"
       }
 
       if (type === 'combo') {
@@ -1445,6 +1442,18 @@ export default class Graph extends EventEmitter implements IGraph {
 
       return cItem
     })
+
+    comboConfig.children = trees;
+
+    currentCombo = this.addItem('combo', comboConfig, false)
+    const comboModel = currentCombo.getModel();
+
+    trees.forEach(child => {
+      const item = this.findById(child.id)
+      // step 2: 将元素添加到 Combo 中
+      currentCombo.addChild(item as INode | ICombo)
+      child.depth = (comboModel.depth as number) + 2;
+    });
 
     // step3: 更新 comboTrees 结构
     const comboTrees = this.get('comboTrees')
@@ -1458,8 +1467,7 @@ export default class Graph extends EventEmitter implements IGraph {
         return true;
       });
     })
-
-    this.updateCombos()
+    this.sortCombos();
   }
 
   /**

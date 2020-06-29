@@ -15,6 +15,7 @@ import Edges from './component/edges';
 import DagreCombo from './component/dagre-combo';
 import Edges2 from './component/edges2';
 import CreateCombo from './component/create-combo';
+import RemoveItem from './component/remove-item';
 
 export default { title: 'Combo' };
 
@@ -54,4 +55,6 @@ storiesOf('Combo', module)
     <Edges2 />
   )).add('create combo ', () => (
     <CreateCombo />
+  )).add('remove item ', () => (
+    <RemoveItem />
   ));
