@@ -650,3 +650,17 @@ export interface StackData {
   action: string;
   data: GraphData;
 }
+
+// 渲染legend的数据接口定义
+export interface LegendDataCfg {
+  val: number | string,
+  label: string
+}
+// legend colormap的数据格式
+export interface ColorMapCfg {
+  [key: string]: any
+}
+// 记录legend选择状态的数据格式
+export interface SelectedStatusCfg {
+  [key: string]: boolean
+}

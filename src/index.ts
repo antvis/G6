@@ -20,6 +20,7 @@ const Bundling = Plugins.Bundling;
 const Menu = Plugins.Menu;
 const ToolBar = Plugins.ToolBar
 const Tooltip = Plugins.Tooltip
+const Legend = Plugins.Legend
 
 export {
   registerNode,
@@ -38,7 +39,8 @@ export {
   registerBehavior,
   Algorithm,
   ToolBar,
-  Tooltip
+  Tooltip,
+  Legend
 };
 
 export default {
@@ -59,6 +61,7 @@ export default {
   Menu: Plugins.Menu,
   ToolBar: Plugins.ToolBar,
   Tooltip: Plugins.Tooltip,
+  Legend: Plugins.Legend,
   Algorithm,
   Arrow,
   Marker

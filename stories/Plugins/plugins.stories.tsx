@@ -4,17 +4,21 @@ import React from 'react';
 import Grid from './component/grid';
 import Minimap from './component/minimap';
 import MinimapForce from './component/minimap-force';
+import Legend from './component/legend'
 
 export default { title: 'Plugins' };
 
 storiesOf('Plugins', module)
-.add('grid', () => (
-  <Grid />
-))
-.add('minimap', () => (
-  <Minimap />
-))
+  .add('grid', () => (
+    <Grid />
+  ))
+  .add('minimap', () => (
+    <Minimap />
+  ))
 
-.add('minimap force', () => (
-  <MinimapForce />
-))
+  .add('minimap force', () => (
+    <MinimapForce />
+  ))
+  .add('category legend', () => (
+    <Legend />
+  ))

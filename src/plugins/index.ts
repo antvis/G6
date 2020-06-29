@@ -4,6 +4,7 @@ import Minimap from './minimap';
 import Bundling from './bundling';
 import ToolBar from './toolBar'
 import Tooltip from './tooltip'
+import Legend from './legend'
 
 export default {
   Menu,
@@ -11,5 +12,6 @@ export default {
   Minimap,
   Bundling,
   ToolBar,
-  Tooltip
+  Tooltip,
+  Legend
 };
