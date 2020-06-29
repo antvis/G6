@@ -353,6 +353,7 @@ export default class ItemController {
     const comboTrees = graph.get('comboTrees');
     const id = item.get('id');
     if (type === NODE) {
+      const comboId = item.getModel().comboId as string;
       if (comboTrees) {
         let brothers = comboTrees;
         let found = false; // the flag to terminate the forEach circulation
@@ -376,8 +377,9 @@ export default class ItemController {
       for (let i = edges.length; i >= 0; i--) {
         graph.removeItem(edges[i], false);
       }
-    }
-    else if (type === COMBO) {
+      if (comboId) graph.updateCombo(comboId);
+    } else if (type === COMBO) {
+      const parentId = item.getModel().parentId as string;
       let comboInTree;
       // find the subtree rooted at the item to be removed
       let found = false; // the flag to terminate the forEach circulation
@@ -403,6 +405,7 @@ export default class ItemController {
       for (let i = edges.length; i >= 0; i--) {
         graph.removeItem(edges[i], false);
       }
+      if (parentId) graph.updateCombo(parentId);
     }
 
     item.destroy();

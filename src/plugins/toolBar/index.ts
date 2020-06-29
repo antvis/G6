@@ -54,7 +54,6 @@ export default class ToolBar extends Base {
       handleClick: undefined,
       // 指定菜单内容，function(e) {...}
       getContent: (e) => {
-        console.log(e)
         return `
           <ul class='g6-component-toolbar'>
             <li code='redo'>
@@ -101,12 +100,12 @@ export default class ToolBar extends Base {
     if (isString(toolBar)) {
       toolBarDOM = createDOM(toolBar)
     }
-    
+
     let container: HTMLDivElement | null = this.get('container');
     if (!container) {
       container = this.get('graph').get('container');
     }
-    
+
     container!.appendChild(toolBarDOM);
     this.set('toolBar', toolBarDOM)
 
@@ -135,7 +134,7 @@ export default class ToolBar extends Base {
 
     if (pos) {
       modifyCSS(toolBarDOM, {
-        top: `${pos.y}px`, 
+        top: `${pos.y}px`,
         left: `${pos.x}px`
       });
     }
@@ -149,15 +148,13 @@ export default class ToolBar extends Base {
     const undoDomIcon = document.querySelector('.g6-component-toolbar li[code="undo"] svg')
     const redoDom = document.querySelector('.g6-component-toolbar li[code="redo"]')
     const redoDomIcon = document.querySelector('.g6-component-toolbar li[code="redo"] svg')
-    
+
     if (!undoDom || !undoDomIcon || !redoDom || !redoDomIcon) {
       return;
     }
 
     graph.on('stackchange', evt => {
       const { undoStack, redoStack } = evt
-      console.log(undoStack, redoStack)
-      debugger
       const undoStackLen = undoStack.length
       const redoStackLen = redoStack.length
       // undo 不可用
@@ -231,7 +228,7 @@ export default class ToolBar extends Base {
   public redo() {
     const graph: IGraph = this.get('graph')
     const redoStack = graph.getRedoStack()
-    
+
     if (!redoStack || redoStack.length === 0) {
       return
     }
@@ -277,7 +274,7 @@ export default class ToolBar extends Base {
    */
   private handleDefaultOperator(code: string, graph: IGraph) {
     const currentZoom = graph.getZoom()
-    switch(code) {
+    switch (code) {
       case 'redo':
         this.redo();
         break;

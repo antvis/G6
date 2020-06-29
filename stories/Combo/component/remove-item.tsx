@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import G6 from '../../../src';
 import { IGraph } from '../../../src/interface/graph';
-import { ComboConfig, GraphData } from '../../../src/types';
-import { IGroup } from '@antv/g-base/lib/interfaces';
+import { GraphData } from '../../../src/types';
 
 let graph: IGraph = null;
 
@@ -25,10 +24,10 @@ const data: GraphData = {
     id: '1-2',
     source: '1',
     target: '2'
-  }]
+  }],
 };
 
-const CreateCombo = () => {
+const RemoveItem = () => {
   const container = React.useRef();
   useEffect(() => {
     if (!graph) {
@@ -74,10 +73,10 @@ const CreateCombo = () => {
           graph.addItem('edge', { id: 'o1-o3', source: 'o1', target: 'o3' })
           graph.addItem('edge', { id: 'o1-o2', source: 'o1', target: 'o2' })
 
-          graph.hideItem('2');
+          // graph.hideItem('2');
 
-          // graph.removeItem('2');
-          // graph.removeItem('1-2');
+          graph.removeItem('2');
+          graph.removeItem('1-2');
 
           graph.layout();
           graph.createCombo({
@@ -96,17 +95,17 @@ const CreateCombo = () => {
 
           graph.hideItem(item);
 
-          // const removeEdgeIds = [];
-          // graph.getEdges().forEach(edge => {
-          //   const edgeModel = edge.getModel();
-          //   if (edgeModel.source === id || edgeModel.target === id) {
-          //     removeEdgeIds.push(edgeModel.id);
-          //   }
-          // });
-          // removeEdgeIds.forEach(eid => {
-          //   graph.removeItem(eid);
-          // })
-          // graph.removeItem(id);
+          const removeEdgeIds = [];
+          graph.getEdges().forEach(edge => {
+            const edgeModel = edge.getModel();
+            if (edgeModel.source === id || edgeModel.target === id) {
+              removeEdgeIds.push(edgeModel.id);
+            }
+          });
+          removeEdgeIds.forEach(eid => {
+            graph.removeItem(eid);
+          })
+          graph.removeItem(id);
 
 
           graph.layout();
@@ -120,7 +119,8 @@ const CreateCombo = () => {
       });
       graph.on('canvas:click', e => {
 
-        graph.updateCombos();
+        // graph.removeItem('2');
+        // graph.removeItem('o1');
         // graph.refreshPositions();
       })
     }
@@ -129,4 +129,4 @@ const CreateCombo = () => {
   </div>;
 };
 
-export default CreateCombo;
+export default RemoveItem;

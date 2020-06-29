@@ -1,5 +1,9 @@
 # ChangeLog
 
+#### 3.5.9
+- fix: multiple animate update shape for combo;
+- fix: removeItem from a combo.
+
 #### 3.5.8
 - fix: combo edge problem, issues #1722;
 - feat: adjacency matrix algorithm;
