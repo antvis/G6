@@ -1199,6 +1199,11 @@ export default class Graph extends EventEmitter implements IGraph {
       self.add('edge', edge, false);
     });
 
+    let animate = self.get('animate');
+    if (self.get('fitView') || self.get('fitCenter')) {
+      self.set('animate', false);
+    }
+
     // layout
     const layoutController = self.get('layoutController');
     if (!layoutController.layout(success)) {
@@ -1212,7 +1217,12 @@ export default class Graph extends EventEmitter implements IGraph {
       }
       self.autoPaint();
       self.emit('afterrender');
+
+      if (self.get('fitView') || self.get('fitCenter')) {
+        self.set('animate', animate);
+      }
     }
+
 
     if (!this.get('groupByTypes')) {
       if (combos && combos.length !== 0) {
