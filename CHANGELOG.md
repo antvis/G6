@@ -1,5 +1,8 @@
 # ChangeLog
 
+#### 3.5.10
+- fix: fitView and fitCenter with animate in the initial state.
+
 #### 3.5.9
 - fix: multiple animate update shape for combo;
 - fix: removeItem from a combo.
