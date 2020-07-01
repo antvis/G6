@@ -1,7 +1,8 @@
 # ChangeLog
 
 #### 3.5.10
-- fix: fitView and fitCenter with animate in the initial state.
+- fix: fitView and fitCenter with animate in the initial state;
+- fix: dulplicated edges in nodeselectchange event of brush-select.
 
 #### 3.5.9
 - fix: multiple animate update shape for combo;

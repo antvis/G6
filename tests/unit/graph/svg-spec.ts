@@ -1338,7 +1338,7 @@ describe('behaviors', () => {
     graph.setMode('default');
 
     graph.once('nodeselectchange', (evt) => {
-      expect(evt.selectedItems.edges.length).toBe(4);
+      expect(evt.selectedItems.edges.length).toBe(2);
       expect(evt.selectedItems.nodes.length).toBe(3);
     });
 
