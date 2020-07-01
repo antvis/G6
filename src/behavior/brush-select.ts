@@ -14,8 +14,8 @@ export default {
         stroke: '#DDEEFE',
         lineWidth: 1,
       },
-      onSelect() {},
-      onDeselect() {},
+      onSelect() { },
+      onDeselect() { },
       selectedState: 'selected',
       trigger: DEFAULT_TRIGGER,
       includeEdges: true,
@@ -153,7 +153,7 @@ export default {
     if (this.includeEdges) {
       // 选中边，边的source和target都在选中的节点中时才选中
       selectedNodes.forEach(node => {
-        const edges = node.getEdges();
+        const edges = node.getOutEdges();
         edges.forEach(edge => {
           const model = edge.getModel();
           const { source, target } = model;
