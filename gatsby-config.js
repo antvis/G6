@@ -123,6 +123,14 @@ module.exports = {
         order: 0,
       },
       {
+        slug: 'manual/advanced/theory',
+        title: {
+          zh: '深度原理解析',
+          en: 'Theory Blog',
+        },
+        order: 1,
+      },
+      {
         slug: 'api/nodeEdge',
         title: {
           zh: '节点/边/Combo',
