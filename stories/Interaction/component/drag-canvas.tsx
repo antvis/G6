@@ -69,8 +69,9 @@ const DragCanvas = () => {
         container: container.current as string | HTMLElement,
         width: 800,
         height: 500,
+        minZoom: 0.001,
         modes: {
-          default: ["drag-canvas"]
+          default: ["drag-canvas", 'zoom-canvas']
         },
         plugins: [grid]
       });
