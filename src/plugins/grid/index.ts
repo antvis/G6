@@ -39,7 +39,8 @@ export default class Grid extends Base {
         class='g6-grid' 
         style='position:absolute;
         transform-origin: 0% 0% 0px;
-        background-image: ${img}
+        background-image: ${img};
+        user-select: none
         '></div>`,
     );
 
