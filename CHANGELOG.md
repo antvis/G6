@@ -3,7 +3,9 @@
 #### 3.5.10
 - fix: fitView and fitCenter with animate in the initial state;
 - fix: dulplicated edges in nodeselectchange event of brush-select;
-- fix: triple click and drag canvas problem.
+- fix: triple click and drag canvas problem;
+- fix: sync the minZoom and maxZoom in drag-canvas and graph;
+- feat: initial x and y for combo data.
 
 #### 3.5.9
 - fix: multiple animate update shape for combo;

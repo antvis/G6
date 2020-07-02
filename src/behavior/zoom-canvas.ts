@@ -6,8 +6,8 @@ export default {
   getDefaultCfg(): object {
     return {
       sensitivity: 2,
-      minZoom: 0.2,
-      maxZoom: 10,
+      minZoom: undefined,
+      maxZoom: undefined,
       enableOptimize: false,
       optimizeZoom: 0.7
     };
@@ -34,33 +34,35 @@ export default {
       ratio = 1 + DELTA * sensitivity;
     }
     const zoom = ratio * graph.getZoom();
-    if (zoom > this.get('maxZoom') || zoom < this.get('minZoom')) {
+    const minZoom = this.get('minZoom') || graph.get('minZoom');
+    const maxZoom = this.get('maxZoom') || graph.get('maxZoom');
+    if (zoom > maxZoom || zoom < minZoom) {
       return;
     }
 
     const enableOptimize = this.get('enableOptimize')
-    if(enableOptimize) {
+    if (enableOptimize) {
       const optimizeZoom = this.get('optimizeZoom')
 
       const currentZoom = graph.getZoom()
-      if(currentZoom < optimizeZoom) {
+      if (currentZoom < optimizeZoom) {
         const nodes = graph.getNodes()
         const edges = graph.getEdges()
         nodes.map(node => {
-          if(!node.destroyed) {
+          if (!node.destroyed) {
             const children = node.getContainer().get('children')
             children.map(shape => {
-              if(!shape.destoryed && !shape.get('isKeyShape')) {
+              if (!shape.destoryed && !shape.get('isKeyShape')) {
                 shape.hide()
               }
             })
           }
         })
-  
+
         edges.map(edge => {
           const children = edge.getContainer().get('children')
           children.map(shape => {
-            if(!shape.get('isKeyShape')) {
+            if (!shape.get('isKeyShape')) {
               shape.hide()
             }
           })
@@ -71,23 +73,23 @@ export default {
         nodes.map(node => {
           const children = node.getContainer().get('children')
           children.map(shape => {
-            if(!shape.get('visible')) {
+            if (!shape.get('visible')) {
               shape.show()
             }
           })
         })
-  
+
         edges.map(edge => {
           const children = edge.getContainer().get('children')
           children.map(shape => {
-            if(!shape.get('visible')) {
+            if (!shape.get('visible')) {
               shape.show()
             }
           })
         })
       }
     }
-    
+
     graph.zoom(ratio, { x: point.x, y: point.y });
     graph.emit('wheelzoom', e);
   },
