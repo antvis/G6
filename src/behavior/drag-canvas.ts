@@ -14,8 +14,10 @@ export default {
   getEvents(): { [key in G6Event]?: string } {
     return {
       dragstart: 'onMouseDown',
+      mousedown: 'onMouseDown',
       drag: 'onMouseMove',
       dragend: 'onMouseUp',
+      mouseup: 'onMouseUp',
       'canvas:click': 'onMouseUp',
       keyup: 'onKeyUp',
       focus: 'onKeyUp',
@@ -57,6 +59,9 @@ export default {
   },
   onMouseDown(e: IG6GraphEvent) {
     const self = this as any;
+    if (window && window.event && typeof window !== 'undefined' && !(window.event as any).buttons && !(window.event as any).button) {
+      return;
+    }
 
     if (self.keydown || e.shape) {
       return;
@@ -133,5 +138,8 @@ export default {
   },
   onKeyUp() {
     (this as any).keydown = false;
-  },
+    this.origin = null;
+    this.dragging = false;
+    this.dragbegin = false;
+  }
 };
