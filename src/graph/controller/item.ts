@@ -130,8 +130,8 @@ export default class ItemController {
       const children: ComboTree[] = (model as ComboConfig).children;
 
       const comboBBox = getComboBBox(children, graph);
-      model.x = comboBBox.x || Math.random() * 100;
-      model.y = comboBBox.y || Math.random() * 100;
+      model.x = comboBBox.x || model.x || Math.random() * 100;
+      model.y = comboBBox.y || model.y || Math.random() * 100;
 
       const comboGroup = parent.addGroup();
       comboGroup.setZIndex((model as ComboConfig).depth as number);

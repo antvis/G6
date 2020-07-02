@@ -130,6 +130,11 @@ const data: GraphData = {
     }, {
       id: 'E',
       // type: 'rect'
+    }, {
+      id: 'empty',
+      label: 'empty',
+      x: 300,
+      y: 300
     }]
 };
 
@@ -216,7 +221,7 @@ const DefaultCombo = () => {
         height: 800,
         groupByTypes: false,
         modes: {
-          default: ['drag-canvas']
+          default: ['drag-canvas', 'drag-combo']
         },
         // layout: {
         //   type: 'comboForce'
