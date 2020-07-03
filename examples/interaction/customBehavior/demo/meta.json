@@ -1,0 +1,16 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "dragCanvasTwoFingers.js",
+      "title": {
+        "zh": "两指平移画布",
+        "en": "Drag Canvas by Two fingers"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wc1-QaqOPsgAAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}
