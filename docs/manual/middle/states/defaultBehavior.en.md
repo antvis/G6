@@ -66,7 +66,8 @@ Supported by V3.5 or later.
 - Description: collapse or expand Combo. If the graph has layout configuration, this behavior will trigger re-layout. If you do not want re-layout the graph after collapsing or expanding a combo, use combo's click listener and [graph.collapseExpandCombo API](/en/docs/api/Graph#collapseexpandcombocombo) instead;
 - Configurations: 
   - `type: 'collapse-expand-combo'`;
-  - `trigger`: Specify which key to hold for collapse and expand combo. `dblclick` by default. Options: `'click'`, `'dblclick'`.
+  - `trigger`: Specify which key to hold for collapse and expand combo. `dblclick` by default. Options: `'click'`, `'dblclick'`;
+  - `relayout`: Whether relayout the graph after collapsing or expanding, `true` by default.
 
 **Default Configuration**
 
@@ -85,7 +86,8 @@ const graph = new G6.Graph({
   modes: {
     default: [{
       type: 'collapse-expand-combo',
-      trigger: 'click'
+      trigger: 'click',
+      relayout: false // do not relayout after collapsing or expanding
     }],
   },
 });

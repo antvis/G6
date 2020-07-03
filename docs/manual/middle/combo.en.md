@@ -155,7 +155,7 @@ To allow the users to interact with the combos, we implemented three built-in be
 
 #### collapse-expand-combo
 
-`'collapse-expand-combo'`behavior supports collapsing or expanding the combo by double clicking. The children will be hidden when the combo is collapsed, and the edges related to the children will link to the combo. If the graph has layout configuration, this behavior will trigger re-layout. If you do not want re-layout the graph after collapsing or expanding a combo, use combo's click listener and [graph.collapseExpandCombo API](/en/docs/api/Graph#collapseexpandcombocombo) instead.
+`'collapse-expand-combo'`behavior supports collapsing or expanding the combo by double clicking. The children will be hidden when the combo is collapsed, and the edges related to the children will link to the combo. If the graph has layout configuration and the `relayout` for this behavior is `true` (`true` by default), this behavior will trigger re-layout. If you do not want re-layout the graph after collapsing or expanding a combo, assign `relayout: false` for this behavior, or use combo's click listener and [graph.collapseExpandCombo API](/en/docs/api/Graph#collapseexpandcombocombo) instead.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*X0_PSYizJ4AAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 

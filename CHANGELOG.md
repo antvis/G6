@@ -5,7 +5,9 @@
 - fix: dulplicated edges in nodeselectchange event of brush-select;
 - fix: triple click and drag canvas problem;
 - fix: sync the minZoom and maxZoom in drag-canvas and graph;
-- feat: initial x and y for combo data.
+- feat: initial x and y for combo data;
+- feat: dagre layout supports sortByCombo;
+- feat: allow user to disable relayout in collapse-expand-combo behavior.
 
 #### 3.5.9
 - fix: multiple animate update shape for combo;
