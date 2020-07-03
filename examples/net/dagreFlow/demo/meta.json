@@ -13,6 +13,14 @@
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2uMmRo5wYPUAAAAAAAAAAABkARQnAQ"
     },
     {
+      "filename": "dagreCombo.js",
+      "title": {
+        "zh": "带有 Combo 的流程图",
+        "en": "Dagre with Combos"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*94EUTJ8l2QAAAAAAAAAAAABkARQnAQ"
+    },
+    {
       "filename": "lrDagreUL.js",
       "title": {
         "zh": "自左向右的 Dagre 上对齐",
