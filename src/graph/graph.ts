@@ -2735,6 +2735,7 @@ export default class Graph extends EventEmitter implements IGraph {
     } else {
       this.collapseCombo(combo);
     }
+    this.updateCombo(combo)
   }
 
   /**

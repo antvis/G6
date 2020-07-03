@@ -532,6 +532,12 @@ d => {
 
 **类型**: Boolean<br />**默认值**: false<br />**是否必须**: false<br />**说明**: 是否启用 web-worker 以防布局计算时间过长阻塞页面交互
 
+
+#### sortByCombo
+
+**类型**: Boolean<br />**默认值**: false<br />**是否必须**: false<br />**说明**: 同一层节点是否根据每个节点数据中的 `comboId` 进行排序，以防止 combo 重叠
+
+
 ### 方法
 
 与父类 Layout 的方法相同。使用该布局时不需要关心内部方法的调用，由 G6 控制。

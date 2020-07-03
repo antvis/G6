@@ -533,6 +533,10 @@ d => {
 
 **Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to enable the web-worker in case layout calculation takes too long to block page interaction
 
+#### sortByCombo
+
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to sort the nodes in a level according to the `comboId` in their data. Enable `sortByCombo` to avoid combo overlappings
+
 ### Function
 
 The same as the superclass Layout, users do not need to concern about the function calling, which will be controlled by G6.
