@@ -230,31 +230,13 @@ export interface IGraph extends EventEmitter {
   getCombos(): ICombo[];
 
   /**
-   * 获取以 node 为起点的所有邻居节点
-   *
-   * @param {(string | INode)} node 节点 ID 或实例
-   * @returns {INode[]}
-   * @memberof IGraph
-   */
-  getSourceNeighbors(node: string | INode): INode[];
-
-  /**
-   * 获取以 node 为终点的所有邻居节点
-   *
-   * @param {(string | INode)} node 节点 ID 或实例
-   * @returns {INode[]}
-   * @memberof IGraph
-   */
-  getTargetNeighbors(node: string | INode): INode[];
-
-  /**
    * 获取节点所有的邻居节点，有向图中效果同无向图
    *
    * @param {(string | INode)} node 节点 ID 或实例
    * @returns {INode[]}
    * @memberof IGraph
    */
-  getNeighbors(node: string | INode): INode[];
+  getNeighbors(node: string | INode, type?: 'source' | 'target' | undefined): INode[];
 
   /**
    * 获取指定 combo 中所有的节点

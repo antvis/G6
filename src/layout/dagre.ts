@@ -128,6 +128,20 @@ export default class DagreLayout extends BaseLayout {
     Object.keys(levels).forEach(key => {
       const levelNodes = levels[key].nodes;
       const nodesNum = levelNodes.length;
+      const comboCenters = {};
+      levelNodes.forEach(lnode => {
+        const lnodeCombo = lnode.comboId;
+        if (!comboCenters[lnodeCombo]) comboCenters[lnodeCombo] = { x: 0, y: 0, count: 0 };
+        comboCenters[lnodeCombo].x += lnode.x;
+        comboCenters[lnodeCombo].y += lnode.y;
+        comboCenters[lnodeCombo].count++;
+      });
+      Object.keys(comboCenters).forEach(ckey => {
+        comboCenters[ckey].x /= comboCenters[ckey].count;
+        comboCenters[ckey].y /= comboCenters[ckey].count;
+      });
+
+
       if (nodesNum === 1) return;
       const sortedByX = levelNodes.sort((a, b) => { return a.x - b.x });
       const minX = sortedByX[0].x;
