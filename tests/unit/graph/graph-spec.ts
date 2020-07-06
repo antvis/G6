@@ -60,7 +60,7 @@ describe('graph', () => {
   it('invalid container', () => {
     expect(() => {
       // eslint-disable-next-line no-new
-      new Graph({} as any); 
+      new Graph({} as any);
     }).toThrowError('invalid container');
   });
 
@@ -1461,7 +1461,7 @@ describe('auto rotate label on edge', () => {
     graph.on('canvas:click', evt => {
       graph.downloadFullImage('graph', {
         backgroundColor: '#fff',
-        padding: [ 40, 10, 10, 10 ]
+        padding: [40, 10, 10, 10]
       });
     });
   });
@@ -1536,21 +1536,21 @@ describe('node Neighbors', () => {
   graph.render()
 
   it('getSourceNeighbors', () => {
-    const neighbors = graph.getSourceNeighbors('B')
+    const neighbors = graph.getNeighbors('B', 'target')
     expect(neighbors.length).toBe(1)
     expect(neighbors[0].getID()).toEqual('C')
-    
-    const neighborE = graph.getSourceNeighbors('A')
+
+    const neighborE = graph.getNeighbors('A', 'target')
     expect(neighborE.length).toBe(3)
     expect(neighborE[0].getID()).toEqual('B')
   })
 
   it('getTargetNeighbors', () => {
-    const neighbors = graph.getTargetNeighbors('B')
+    const neighbors = graph.getNeighbors('B', 'source')
     expect(neighbors.length).toBe(1)
     expect(neighbors[0].getID()).toEqual('A')
 
-    const neighborE = graph.getTargetNeighbors('E')
+    const neighborE = graph.getNeighbors('E', 'source')
     expect(neighborE.length).toBe(1)
     expect(neighborE[0].getID()).toEqual('A')
   })
@@ -1619,7 +1619,7 @@ describe('redo stack & undo stack', () => {
 
     // update 后，undo stack 中有 2 条数据，一条 render，一条 update
     graph.update('node1', {
-      x: 120, 
+      x: 120,
       y: 200
     })
 
@@ -1635,7 +1635,7 @@ describe('redo stack & undo stack', () => {
 
     // 执行 update 后，undo stack 中有3条数据
     graph.update('node2', {
-      x: 120, 
+      x: 120,
       y: 350
     })
 
@@ -1696,7 +1696,7 @@ describe('redo stack & undo stack', () => {
     let stackData = graph.getStackData()
     let undoStack = stackData.undoStack
     let redoStack = stackData.redoStack
-  
+
     expect(undoStack.length).toBe(0)
     expect(redoStack.length).toBe(0)
   })
