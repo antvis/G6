@@ -81,7 +81,7 @@ const DragCanvas = () => {
   });
   return (
     <div>
-      <input value='123123123' />
+      {/* <input value='123123123' /> */}
       <div ref={container}>
 
       </div>
