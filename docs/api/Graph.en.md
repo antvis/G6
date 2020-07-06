@@ -44,8 +44,8 @@ The life cycle of an instance of Graph is: Initialize -> Load data -> Render -> 
 | groupStyle | Object |  | Group style for nodes, please refer to [Node Group](/en/docs/manual/middle/nodeGroup) for detail. |
 | layout | Object |  | Configurations for layout. The `type` in it is the name of layout method with the options: `'random'`, `'radial'`, `'mds'`, `'circular'`, `'fruchterman'`, `'force'`, `'dagre'`, `'concentric'`, `'grid'`. For more configurations for different layout methods, please refer to [Layout API](/en/docs/api/layout/Layout). |
 | renderer | string | 'canvas' / 'svg' | Render the graph with Canvas or SVG. It is supported expecting V3.3.x |
-| enabledStack | boolean | false | Whether to enable stack，thar is, whether to support redo & undo operating, the configuration item V3.6 and above support. |
-| maxStep | number | 10 | the max step of redo & undo, Only works if the enabledStack is true，the configuration item V3.6 and above support. |
+| enabledStack | boolean | false | Whether to enable stack，that is, whether to support redo & undo operation. Support by V3.6 and latter versions. |
+| maxStep | number | 10 | The max step number of redo & undo, works only when the `enabledStack` is `true`. Support by V3.6 and latter versions. |
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> In G6 3.1, we added two new configurations for graph: `nodeStateStyles` and `edgeStateStyles`. In the same time, we deleted `nodeStyle` and `edgeStyle` . To upgrate, replace `nodeStyle` with `nodeStateStyles`, and replace `edgeStyle` with `edgeStateStyles`, and keep the sub-configuration inside them.
 
@@ -214,7 +214,7 @@ Change the data source, and render the graph according to the new data.
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | data | Object | false | Graph data, it should be an object containing an array of nodes and an array of edges. If it is not assigned, the graph will be re-rendered with the current data on the graph |
-| stack | boolean | false | Whether push into the operator to the undo & redo stack, When enableStack is set to true when new Graph, it will be automatically pushed into the stack by default. If it is not needed, set this parameter to false. |
+| stack | boolean | false | Whether to push the operator into the undo & redo stack. If the `enableStack` is `true`, this operation will be automatically pushed into the stack by default. Set `stack` to be `false` if you do not want it. |
 
 **Usage**
 
@@ -375,7 +375,7 @@ Add item(node, edge, or group) to the graph.
 | --- | --- | --- | --- |
 | type | string | true | The type of the item. Options: `'node'`, `'edge'`, and `'group'`. |
 | model | Object | true | The data model of the item, refer to [Item Model Properties](/en/docs/api/nodeEdge/itemProperties). When `type: 'group'`, refer to [Create Node Group](/en/docs/manual/advanced/create-node-group) |
-| stack | boolean | false | Whether push into the operator to the undo & redo stack, When enableStack is set to true when new Graph, it will be automatically pushed into the stack by default. If it is not needed, set this parameter to false. |
+| stack | boolean | false | Whether to push the operator into the undo & redo stack. If the `enableStack` is `true`, this operation will be automatically pushed into the stack by default. Set `stack` to be `false` if you do not want it. |
 
 **Usage**
 
@@ -422,7 +422,7 @@ If there are combos in the graph, after calling updateItem to update the positio
 | ---- | --------------- | -------- | ----------------------------------- |
 | item | string / Object | true     | The ID or the instance of the item |
 | cfg  | Object          | false    | New data model, refer to [Item Model Properties](/en/docs/api/nodeEdge/itemProperties) |
-| stack | boolean | false | Whether push into the operator to the undo & redo stack, When enableStack is set to true when new Graph, it will be automatically pushed into the stack by default. If it is not needed, set this parameter to false. |
+| stack | boolean | false | Whether to push the operator into the undo & redo stack. If the `enableStack` is `true`, this operation will be automatically pushed into the stack by default. Set `stack` to be `false` if you do not want it. |
 
 **Usage**
 
@@ -521,7 +521,7 @@ Remove the item. When the item is the id of a group, this operation will delete 
 | Name | Type            | Required | Description                         |
 | ---- | --------------- | -------- | ----------------------------------- |
 | item | string / Object | true     | The id or the instance of the item. |
-| stack | boolean | false | Whether push into the operator to the undo & redo stack, When enableStack is set to true when new Graph, it will be automatically pushed into the stack by default. If it is not needed, set this parameter to false. |
+| stack | boolean | false | Whether to push the operator into the undo & redo stack. If the `enableStack` is `true`, this operation will be automatically pushed into the stack by default. Set `stack` to be `false` if you do not want it. |
 
 **Usage**
 
@@ -749,7 +749,7 @@ Show the item. If the item is a node, the related edges will be shown in the sam
 | Name | Type            | Required | Description                         |
 | ---- | --------------- | -------- | ----------------------------------- |
 | item | string / Object | true     | The id or the instance of the item. |
-| stack | boolean | false | Whether push into the operator to the undo & redo stack, When enableStack is set to true when new Graph, it will be automatically pushed into the stack by default. If it is not needed, set this parameter to false. |
+| stack | boolean | false | Whether to push the operator into the undo & redo stack. If the `enableStack` is `true`, this operation will be automatically pushed into the stack by default. Set `stack` to be `false` if you do not want it. |
 
 **Usage**
 
@@ -771,7 +771,7 @@ Hide the item. If the item is a node, the related edges will be hidden in the sa
 | Name | Type            | Required | Description                         |
 | ---- | --------------- | -------- | ----------------------------------- |
 | item | string / Object | true     | The id or the instance of the item. |
-| stack | boolean | false | Whether push into the operator to the undo & redo stack, When enableStack is set to true when new Graph, it will be automatically pushed into the stack by default. If it is not needed, set this parameter to false. |
+| stack | boolean | false | Whether to push the operator into the undo & redo stack. If the `enableStack` is `true`, this operation will be automatically pushed into the stack by default. Set `stack` to be `false` if you do not want it. |
 
 **Usage**
 

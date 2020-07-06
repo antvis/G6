@@ -3,7 +3,7 @@ title: Plugins
 order: 11
 ---
 
-There are several plugins in G6 which can be used inside and ouside G6 freely.
+There are several plugins in G6 which can be used for G6's graph or other applications.
 
 - [Grid](#grid)
 - [Minimap](#minimap)
@@ -11,7 +11,7 @@ There are several plugins in G6 which can be used inside and ouside G6 freely.
 
 ## Configure to Graph
 
-You only need to instantiate it and configure the minimap onto the instance of Graph:
+Instantiate the plugin and configure the minimap onto the instance of Graph:
 
 ```javascript
 // Instantialize the Grid plugin
@@ -26,7 +26,7 @@ const graph = new G6.Graph({
 
 ## Grid
 
-Grid draw grids on the canvas.
+Grid plugin draws grids on the canvas.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*y8u6Rrc78uIAAAAAAAAAAABkARQnAQ' width=300 alt='img'/>
 
@@ -34,9 +34,9 @@ Use the code in [Configure to Graph](#configure-to-graph) to instantiate grid pl
 
 ### Configuration
 
-| Name | Type | Description |
-| --- | --- | --- |
-| img | Srting | base64 formatted string for the grid image |
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| img | Srting | false | base64 formatted string for the grid image |
 
 
 ## Minimap
@@ -49,24 +49,24 @@ It can be configured to adjust the styles and functions.
 
 ### Configuration
 
-| Name | Type | Description |
-| --- | --- | --- |
-| container | Object | The DOM container of Minimap. The plugin will generate a new one if `container` is not defined |
-| className | String | The className of the DOM element of the Minimap |
-| viewportClassName | String | The className of the DOM element of the view port on the Minimap |
-| type | String | Render type. Options: `'default'`: Render all the graphics shapes on the graph; `'keyShape'`: Only render the keyShape of the items on the graph to reach better performance; `'delegate'`: Only render the delegate of the items on the graph to reach better performance. Performance: `'default'` < `'keyShape'` < `'delegate'`. `'default'` by default |
-| size | Array | The size of the Minimap |
-| delegateStyle | Object | Takes effect when `type` is `'delegate'`. The style of the delegate of the items on the graph |
+| Name | Type |  Required | Description |
+| --- | --- | --- | --- |
+| container | Object | false | The DOM container of Minimap. The plugin will generate a new one if `container` is not defined |
+| className | String | false | The className of the DOM element of the Minimap |
+| viewportClassName | String | false | The className of the DOM element of the view port on the Minimap |
+| type | String | false | Render type. Options: `'default'`: Render all the graphics shapes on the graph; `'keyShape'`: Only render the keyShape of the items on the graph to reach better performance; `'delegate'`: Only render the delegate of the items on the graph to reach better performance. Performance: `'default'` < `'keyShape'` < `'delegate'`. `'default'` by default |
+| size | Array | false | The size of the Minimap |
+| delegateStyle | Object | false | Takes effect when `type` is `'delegate'`. The style of the delegate of the items on the graph |
 
 The `delegateStyle` has the properties:
 
-| Name        | Type   | Description             |
-| ----------- | ------ | ----------------------- |
-| fill        | String | Filling color           |
-| stroke      | String | Stroke color            |
-| lineWidth   | Number | The width of the stroke |
-| opacity     | Number | Opacity                 |
-| fillOpacity | Number | Filling opacity         |
+| Name        | Type   |  Required | Description             |
+| ----------- | ------ | ------ | ----------------------- |
+| fill        | String |  false | Filling color           |
+| stroke      | String |  false | Stroke color            |
+| lineWidth   | Number |  false | The width of the stroke |
+| opacity     | Number |  false | Opacity                 |
+| fillOpacity | Number |  false | Filling opacity         |
 
 ## Edge Bundling
 
@@ -80,13 +80,15 @@ The edge bundling plugin can be configured to adjust the styles and functions.
 
 ### Configuration
 
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| K | Number | 0.1 | The strength of the bundling |
-| lambda | Number | 0.1 | The initial step length |
-| divisions | Number | 1 | The initial number of division on each edge. It will be multipled by `divRate` in each cycle |
-| divRate | Number | 2 | The rate of the divisions increasement. Large number means smoother result, but the performance will be worse when the number is too large |
-| cycles | Number | 6 | The number of outer interations |
-| iterations | Number | 90 | The initial number of inner interations. It will be multiplied by `iterRate` in each cycle |
-| iterRate | Number | 0.6666667 | The rate of the iterations decreasement |
-| bundleThreshold | Number | 0.6 | The edge similarity threshold for bundling. Large number means the edges in one bundle have smaller similarity, in other words, more edges in one bundle |
+
+| Name | Type |  Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| K | Number |  false | 0.1 | The strength of the bundling |
+| lambda | Number |  false | 0.1 | The initial step length |
+| divisions | Number |  false | 1 | The initial number of division on each edge. It will be multipled by `divRate` in each cycle |
+| divRate | Number |  false | 2 | The rate of the divisions increasement. Large number means smoother result, but the performance will be worse when the number is too large |
+| cycles | Number |  false | 6 | The number of outer interations |
+| iterations | Number | false | 90 | The initial number of inner interations. It will be multiplied by `iterRate` in each cycle |
+| iterRate | Number | false | 0.6666667 | The rate of the iterations decreasement |
+| bundleThreshold | Number | false | 0.6 | The edge similarity threshold for bundling. Large number means the edges in one bundle have smaller similarity, in other words, more edges in one bundle |
+
