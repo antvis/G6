@@ -301,23 +301,7 @@ export interface INode extends IItemBase {
    * @returns {INode[]}
    * @memberof INode
    */
-  getNeighbors(): INode[];
-
-  /**
-   * 获取以 node 为起点的所有邻居节点
-   *
-   * @returns {INode[]}
-   * @memberof INode
-   */
-  getSourceNeighbors(): INode[];
-
-  /**
-   * 获取以 node 为终点的所有邻居节点
-   *
-   * @returns {INode[]}
-   * @memberof INode
-   */
-  getTargetNeighbors(): INode[];
+  getNeighbors(type?: 'source' | 'target' | undefined): INode[];
 }
 
 export interface ICombo extends INode {

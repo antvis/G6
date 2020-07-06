@@ -61,7 +61,7 @@ const breadthFirstSearch = (graph: IGraph, startNodeId: string, originalCallback
     })
 
     // 将所有邻居添加到队列中以便遍历
-    graph.getSourceNeighbors(currentNode).forEach((nextNode: INode) => {
+    graph.getNeighbors(currentNode, 'target').forEach((nextNode: INode) => {
       if (callbacks.allowTraversal({
         previous: previousNode,
         current: currentNode,
