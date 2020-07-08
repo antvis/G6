@@ -43,7 +43,7 @@ import G6 from '@antv/g6';
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span>
 
-- 在  `{$version}` 中填写版本号，例如  `3.4.7`；
+- 在  `{$version}` 中填写版本号，例如  `3.5.10`；
 - 最新版可以在  <a href='https://www.npmjs.com/package/@antv/g6' target='_blank'>NPM</a>  查看最新版本及版本号；
 - 详情参考 Github 分支：<a href='https://github.com/antvis/g6/tree/master' target='_blank'>https://github.com/antvis/g6/tree/master</a>。
 

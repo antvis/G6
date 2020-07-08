@@ -19,7 +19,7 @@ G6 3.3.0 supports three build outcomes:
 
 The built outcomes of esm and commonjs do not support layouts with Web-Worker.
 
-if you want to support layouts with Web-Worker, please use the file of [CDN](https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.3.1/dist/g6.min.js).
+if you want to support layouts with Web-Worker, please use the file of [CDN](https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.5.10/dist/g6.min.js).
 
 ## Util
 
@@ -53,9 +53,9 @@ const grid = new Grid({
 })
 
 
-// G6 3.3
+// G6 3.5.10
 // Import by CDN. Yuo only need to import G6.
-<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.3.1/dist/g6.min.js"></script>
+<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.5.10/dist/g6.min.js"></script>
 // Or import by NPM. Yuo only need to import G6.
 import G6 from '@antv/G6'
 

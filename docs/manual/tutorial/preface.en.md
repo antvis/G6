@@ -36,7 +36,7 @@ It doesn't matter if you're not familiar with G6. But we’ll assume that you ha
 
 ## Setup
 
-Any code editor works for this Tutorial. We recommend to run this demo in Chrome. In this tutorial, we import G6 V3.3.1 by CDN. We simplified the code to make it easy. For other environments, please refer to the installation guide in [Getting Started](/en/docs/manual/getting-started).
+Any code editor works for this Tutorial. We recommend to run this demo in Chrome. In this tutorial, we import G6 V3.5.10 by CDN. We simplified the code to make it easy. For other environments, please refer to the installation guide in [Getting Started](/en/docs/manual/getting-started).
 
 New an index.html file, and add the code below:
 
@@ -49,7 +49,7 @@ New an index.html file, and add the code below:
   </head>
   <body>
     <!-- import G6 by CDN -->
-    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.3.1/dist/g6.min.js"></script>
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.5.10/dist/g6.min.js"></script>
 
     <script>
       console.log(G6.Global.version);
