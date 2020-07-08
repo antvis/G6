@@ -108,7 +108,7 @@ G6.registerNode('icon-node', {
   draw(cfg, group) {
     const styles = this.getShapeStyle(cfg)
     const { labelCfg = {} } = cfg
-    
+
     const keyShape = group.addShape('rect', {
       attrs: {
         ...styles,
@@ -124,6 +124,7 @@ G6.registerNode('icon-node', {
      *    img: ''
      *  }
      */
+    console.log('cfg.leftIcon', cfg.leftIcon);
     if (cfg.leftIcon) {
       const { style, img } = cfg.leftIcon
       group.addShape('rect', {
@@ -320,9 +321,17 @@ graph.on('node:click', evt => {
       if (!model.children) {
         model.children = []
       }
+      const id = `n-${Math.random()}`;
       model.children.push({
-        id: Math.random(),
-        label: Math.random()
+        id,
+        label: id.substr(0, 8),
+        leftIcon: {
+          style: {
+            fill: '#e6fffb',
+            stroke: '#e6fffb'
+          },
+          img: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ'
+        }
       })
       graph.updateChild(model, model.id)
     } else if (name === 'remove-item') {
