@@ -52,7 +52,7 @@ const data = {
 
 ## 配置项说明
 
-自环是指连接单个节点自身的边，是一种边的特殊情况。支持 [边通用配置项](zh/docs/manual/middle/elements/edges/defaultEdge/#边的通用属性)，以下表格对部分常用配置项进行说明。在通用属性基础上，支持了特殊的配置 `loopCfg`。
+自环是指连接单个节点自身的边，是一种边的特殊情况。支持 [边通用配置项](/zh/docs/manual/middle/elements/edges/defaultEdge/#边的通用属性)，以下表格对部分常用配置项进行说明。在通用属性基础上，支持了特殊的配置 `loopCfg`。
 
 loop 边支持以下的配置项，对于 Object 类型的配置项将在后面有详细讲解：
 

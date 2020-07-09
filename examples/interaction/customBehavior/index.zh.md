@@ -7,4 +7,4 @@ order: 10
 
 ## 使用指南
 
-使用 `graph.registerBehavior` 自定义交互，教程参见 [自定义交互](zh/docs/manual/advanced/custom-behavior)。
+使用 `graph.registerBehavior` 自定义交互，教程参见 [自定义交互](/zh/docs/manual/advanced/custom-behavior)。

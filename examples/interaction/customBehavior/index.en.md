@@ -7,4 +7,4 @@ Custom a behavior when the [built-in behaviors](/en/docs/manual/middle/states/de
 
 ## Usage
 
-Custom a behavior with `graph.registerBehavior`, refer to [Custom Behavior Doc](en/docs/manual/advanced/custom-behavior).
+Custom a behavior with `graph.registerBehavior`, refer to [Custom Behavior Doc](/en/docs/manual/advanced/custom-behavior).
