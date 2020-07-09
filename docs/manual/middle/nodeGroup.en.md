@@ -5,7 +5,7 @@ order: 9
 
 > The title of Node Group is supported from G6 V3.1.2.
 
-Node Group is a practical function for graph visualization. It is supported from G6 V3.0.5. Refer to the demo <a href='/zh/examples/interaction/nodeGroup' target='_blank'>Demo</a>. <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*G1OBSJf672QAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
+Node Group is a practical function for graph visualization. It is supported from G6 V3.0.5. Refer to the demo <a href='/en/examples/interaction/nodeGroup' target='_blank'>Demo</a>. <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*G1OBSJf672QAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
 ### Data Structure
 
