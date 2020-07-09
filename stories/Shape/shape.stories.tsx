@@ -11,6 +11,7 @@ import HideItem from './component/hide-item';
 import Arc from './component/arc';
 import CustomCardNode from './component/card-node'
 import ExtendNode from './component/extend-node';
+import AddItemState from './component/add-shape'
 
 export default { title: 'Shape' };
 
@@ -44,3 +45,4 @@ storiesOf('Shape', module)
   ))
   .add('card-node', () => <CustomCardNode />)
   .add('extend-node', () => <ExtendNode />)
+  .add('additem state', () => <AddItemState />)

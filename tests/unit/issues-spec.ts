@@ -110,7 +110,12 @@ describe('dragenter dragleave', () => {
       x: 200,
       y: 100
     }],
-    edges: []
+    edges: [
+      {
+        source: 'node1',
+        target: 'node2'
+      }
+    ]
   };
   const graph = new Graph({
     container: 'container',
@@ -139,7 +144,7 @@ describe('dragenter dragleave', () => {
       console.log('dragover')
     });
   });
-  graph.destroy();
+  // graph.destroy();
 });
 
 // closes: #1026

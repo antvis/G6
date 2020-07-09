@@ -290,7 +290,7 @@ export const shapeBase: ShapeOptions = {
     const type = item.getType();
 
     const stateName = isBoolean(value) ? name : `${name}:${value}`;
-    const shapeStateStyle = this.getStateStyle(stateName, true, item);
+    const shapeStateStyle = this.getStateStyle(stateName, item);
     const itemStateStyle = item.getStateStyle(stateName);
 
     // 不允许设置一个不存在的状态
@@ -324,8 +324,10 @@ export const shapeBase: ShapeOptions = {
       // 所有生效的 state 的样式
       const enableStatesStyle = clone(item.getCurrentStatesStyle());
 
+      const model = item.getModel()
       // 原始样式
-      const originStyle = clone(item.getOriginStyle());
+      // const originStyle = clone(item.getOriginStyle());
+      const originStyle = mix({}, model.style, clone(item.getOriginStyle()))
 
       const keyShapeName = shape.get('name');
       const keyShapeStyles = shape.attr();
@@ -419,22 +421,19 @@ export const shapeBase: ShapeOptions = {
    * @param {Item} item Node或Edge的实例
    * @return {object} 样式
    */
-  getStateStyle(name: string, value: string | boolean, item: Item): ShapeStyle {
+  getStateStyle(name: string, item: Item): ShapeStyle {
     const model = item.getModel();
     const type = item.getType();
-    const { stateStyles } = this.getOptions(model);
-    if (value) {
-      const modelStateStyle = model.stateStyles
-        ? model.stateStyles[name]
-        : stateStyles && stateStyles[name];
+    const { stateStyles, style = {} } = this.getOptions(model);
+   
+    const modelStateStyle = model.stateStyles
+      ? model.stateStyles[name]
+      : stateStyles && stateStyles[name];
 
-      if (type === 'combo') {
-        return mix({}, modelStateStyle);
-      }
-      return mix({}, model.style, modelStateStyle);
+    if (type === 'combo') {
+      return mix({}, modelStateStyle);
     }
-
-    return {} as ShapeStyle;
+    return mix({}, style, modelStateStyle);
   },
   /**
    * 获取控制点

@@ -16,6 +16,7 @@ import DagreCombo from './component/dagre-combo';
 import Edges2 from './component/edges2';
 import CreateCombo from './component/create-combo';
 import RemoveItem from './component/remove-item';
+import RenderBug from './component/renderBug'
 
 export default { title: 'Combo' };
 
@@ -57,4 +58,4 @@ storiesOf('Combo', module)
     <CreateCombo />
   )).add('remove item ', () => (
     <RemoveItem />
-  ));
+  )).add('render bug', () => (<RenderBug />))
