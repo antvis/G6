@@ -26,14 +26,14 @@ G6.registerNode(
     /**
      * 绘制节点，包含文本
      * @param  {Object} cfg 节点的配置项
-     * @param  {G.Group} group 节点的容器
+     * @param  {G.Group} group 图形分组，节点中的图形对象的容器
      * @return {G.Shape} 绘制的图形，通过 node.get('keyShape') 可以获取到
      */
     draw(cfg, group) {},
     /**
      * 绘制后的附加操作，默认没有任何操作
      * @param  {Object} cfg 节点的配置项
-     * @param  {G.Group} group 节点的容器
+     * @param  {G.Group} group 图形分组，节点中的图形对象的容器
      */
     afterDraw(cfg, group) {},
     /**
@@ -90,14 +90,14 @@ G6.registerEdge(
     /**
      * 绘制边，包含文本
      * @param  {Object} cfg 边的配置项
-     * @param  {G.Group} group 边的容器
+     * @param  {G.Group} group 图形分组，边中的图形对象的容器
      * @return {G.Shape} 绘制的图形，通过 node.get('keyShape') 可以获取到
      */
     draw(cfg, group) {},
     /**
      * 绘制后的附加操作，默认没有任何操作
      * @param  {Object} cfg 边的配置项
-     * @param  {G.Group} group 边的容器
+     * @param  {G.Group} group 图形分组，边中的图形对象的容器
      */
     afterDraw(cfg, group) {},
     /**
@@ -148,14 +148,14 @@ G6.registerNode(
     /**
      * 绘制 combo，包含文本
      * @param  {Object} cfg combo 的配置项
-     * @param  {G.Group} group combo 的容器
+     * @param  {G.Group} group 图形分组，combo 中的图形对象的容器
      * @return {G.Shape} 绘制的图形，通过 combo.get('keyShape') 可以获取到
      */
     draw(cfg, group) {},
     /**
      * 绘制后的附加操作，默认没有任何操作
      * @param  {Object} cfg combo 的配置项
-     * @param  {G.Group} group combo 的容器
+     * @param  {G.Group} group 图形分组，combo 中的图形对象的容器
      */
     afterDraw(cfg, group) {},
     /**

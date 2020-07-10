@@ -37,10 +37,14 @@ Graphics Group is refered by [Custom Node](/en/docs/manual/advanced/custom-node)
 
 The functions below will be used in [Custom Node](/en/docs/manual/advanced/custom-node) and [Custom Edge](/en/docs/manual/advanced/custom-edge).
 
-### Instantiating a Group
+### Get group of item
 
-```
-const group = new Group(cfgs);
+```javascript
+// Find the graphics group of the item
+const group = item.getContainer();
+
+// equal to
+const group = item.get('group');
 ```
 
 ### Functions of Group

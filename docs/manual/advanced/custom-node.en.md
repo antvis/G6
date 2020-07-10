@@ -38,14 +38,14 @@ G6.registerNode(
     /**
      * Draw the node with label
      * @param  {Object} cfg The configurations of the node
-     * @param  {G.Group} group The container of the node
+     * @param  {G.Group} group Graphics group, the container of the shapes of the node
      * @return {G.Shape} The keyShape of the node. It can be obtained by node.get('keyShape')
      */
     draw(cfg, group) {},
     /**
      * The extra operations after drawing the node. There is no operation in this function by default
      * @param  {Object} cfg The configurations of the node
-     * @param  {G.Group} group The container of the node
+     * @param  {G.Group} group Graphics group, the container of the shapes of the node
      */
     afterDraw(cfg, group) {},
     /**

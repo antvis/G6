@@ -31,7 +31,7 @@ G6.regitserCombo(
      * Draw the shapes of the Combo.
      * Do not need the label shape, it will be added by the extended class
      * @param  {Object} cfg The configurations of the combo
-     * @param  {G.Group} group The container of the combo
+     * @param  {G.Group} group Graphics group, the container of the shapes of the combo
      * @return {G.Shape} The keyShape of the combo. It can be obtained by combo.get('keyShape')
      * More details about keyShape can be found in Middle-Graph Elements-Graphis Shape and keyShape
      */
@@ -39,7 +39,7 @@ G6.regitserCombo(
     /**
      * The extra operations after drawing the combo. There is no operation in this function by default
      * @param  {Object} cfg The configurations of the combo
-     * @param  {G.Group} group The container of the combo
+     * @param  {G.Group} group Graphics group, the container of the shapes of the combo
      */
     afterDraw(cfg, group) {},
     /**
