@@ -26,14 +26,14 @@ G6.registerNode(
     /**
      * Draw this type of node with label
      * @param  {Object} cfg The configurations of this type of node
-     * @param  {G.Group} group The container of this type of node
+     * @param  {G.Group} group Graphics group, the container of the shapes of the node
      * @return {G.Shape} The keyShape of the type of node. The keyShape can be obtained by node.get('keyShape')
      */
     draw(cfg, group) {},
     /**
      * Operations to be executed after drawing. No operation by default
      * @param  {Object} cfg The configurations of this type of node
-     * @param  {G.Group} group The container of this tyep of node
+     * @param  {G.Group} group Graphics group, the container of the shapes of the node
      */
     afterDraw(cfg, group) {},
     /**
@@ -89,14 +89,14 @@ G6.registerEdge(
     /**
      * Draw this type of edge with label
      * @param  {Object} cfg The configurations of this type of edge
-     * @param  {G.Group} group The container of this tyep of edge
+     * @param  {G.Group} group Graphics group, the container of the shapes of the edge
      * @return {G.Shape} The keyShape of the type of edge. The keyShape can be obtained by edge.get('keyShape')
      */
     draw(cfg, group) {},
     /**
      * Operations to be executed after drawing. No operation by default
      * @param  {Object} cfg The configurations of this type of edge
-     * @param  {G.Group} group The container of this tyep of edge
+     * @param  {G.Group} group Graphics group, the container of the shapes of the edge
      */
     afterDraw(cfg, group) {},
     /**
@@ -148,14 +148,14 @@ G6.registerCombo(
     /**
      * Draw this type of combo with label
      * @param  {Object} cfg The configurations of this type of combo
-     * @param  {G.Group} group The container of this type of combo
+     * @param  {G.Group} group Graphics group, the container of the shapes in the combo
      * @return {G.Shape} The keyShape of the type of combo. The keyShape can be obtained by combo.get('keyShape')
      */
     draw(cfg, group) {},
     /**
      * Operations to be executed after drawing. No operation by default
      * @param  {Object} cfg The configurations of this type of combo
-     * @param  {G.Group} group The container of this tyep of combo
+     * @param  {G.Group} group Graphics group, the container of the shapes in the combo
      */
     afterDraw(cfg, group) {},
     /**

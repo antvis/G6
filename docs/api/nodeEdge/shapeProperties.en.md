@@ -83,6 +83,37 @@ rect.attr({
     stroke: '#666'
 });
 ```
+### setClip(clipCfg)
+Sets and returns the clip object.
+
+`clipCfg` 
+
+
+| Name | Description | Type | Remark |
+| --- | --- | --- | --- |
+| type | The type of shape of clipping | String | Options: `'circle'`, `'rect'`, `'ellipse'` |
+| x | The x coordinate of the clipping shape | Number | 0 by default. Only takes effect when the `type` is `'circle'`, `'rect'`, or `'ellipse'` |
+| y | The y coordinate of the clipping shape | Number | 0 by default. Only takes effect when the `type` is `'circle'`, `'rect'`, or `'ellipse' |
+| show | Whether to clip the image | Boolean | Do not clip by default. |
+| r | The radius of circle clipping | Number | Takes effect when the `type` is `'circle'` |
+| width | The width of the clipping | Number | Takes effect when the `type` is `'rect'` |
+| height | The height of the clipping | Number | Takes effect when the `type` is `'rect'` |
+| rx | The major radius of the ellipse clipping | Number | Takes effect when the `type` is `'ellipse'` |
+| ry | The minor radius of the ellipse clipping | Number | Takes effect when the `type` is `'ellipse'` |
+
+
+```javascript
+shape.setClip({
+  type: 'circle', // circle, rect, ellipse, Polygon, path clip
+  attrs: {
+    r: 10,
+    x: 0,
+    y: 0,
+  },
+```
+
+### getClip()
+Get the clip object.
 
 
 

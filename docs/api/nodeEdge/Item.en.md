@@ -130,7 +130,7 @@ Get the container of the item.
 **Return**
 
 - The type of return value: G.Group;
-- Return the group where the item in.
+- Return the graphics group where the item in.
 
 **Usage**
 

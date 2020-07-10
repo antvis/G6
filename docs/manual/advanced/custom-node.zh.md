@@ -33,7 +33,7 @@ G6.registerNode(
     /**
      * 绘制节点，包含文本
      * @param  {Object} cfg 节点的配置项
-     * @param  {G.Group} group 节点的容器
+     * @param  {G.Group} group 图形分组，节点中图形对象的容器
      * @return {G.Shape} 返回一个绘制的图形作为 keyShape，通过 node.get('keyShape') 可以获取。
      * 关于 keyShape 可参考文档 核心概念-节点/边/Combo-图形 Shape 与 keyShape
      */
@@ -41,7 +41,7 @@ G6.registerNode(
     /**
      * 绘制后的附加操作，默认没有任何操作
      * @param  {Object} cfg 节点的配置项
-     * @param  {G.Group} group 节点的容器
+     * @param  {G.Group} group 图形分组，节点中图形对象的容器
      */
     afterDraw(cfg, group) {},
     /**
