@@ -4,7 +4,7 @@ import { BBox, Point } from '@antv/g-base/lib/types';
 import GCanvas from '@antv/g-canvas/lib/canvas';
 import GSVGCanvas from '@antv/g-svg/lib/canvas';
 import { mat3 } from '@antv/matrix-util/lib';
-import { clone, deepMix, each, isPlainObject, isString, isNumber } from '@antv/util'
+import { clone, deepMix, each, isPlainObject, isString, isNumber, groupBy } from '@antv/util'
 import { IGraph } from '../interface/graph';
 import { IEdge, INode, ICombo } from '../interface/item';
 import {
@@ -25,12 +25,10 @@ import {
   ModeOption,
   ModeType,
   States,
-  ComboTree,
-  StackData
+  ComboTree
 } from '../types';
 import { getAllNodeInGroups } from '../util/group';
 import { move } from '../util/math';
-import { groupBy } from 'lodash';
 import Global from '../global';
 import {
   CustomGroup,
