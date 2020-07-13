@@ -189,6 +189,13 @@ export interface IGraph extends EventEmitter {
   setItemState(item: Item | string, state: string, value: string | boolean): void;
 
   /**
+   * 将指定状态的优先级提升为最高优先级
+   * @param {Item} item 元素id或元素实例
+   * @param state 状态名称
+   */
+  priorityState(item: Item | string, state: string): void;
+
+  /**
    * 设置视图初始化数据
    * @param {GraphData} data 初始化数据
    */

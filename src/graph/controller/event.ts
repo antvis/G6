@@ -10,32 +10,32 @@ import { IG6GraphEvent, Matrix, Item } from '../../types';
 import { cloneEvent, isViewportChanged } from '../../util/base';
 import { mat3 } from '@antv/matrix-util';
 
-
 type Fun = () => void;
 
-const EVENTS = [
-  'click',
-  'mousedown',
-  'mouseup',
-  'dblclick',
-  'contextmenu',
-  'mouseenter',
-  'mouseout',
-  'mouseover',
-  'mousemove',
-  'mouseleave',
-  'dragstart',
-  'dragend',
-  'drag',
-  'dragenter',
-  'dragleave',
-  'dragover',
-  'dragout',
-  'drop',
-  'touchstart',
-  'touchmove',
-  'touchend',
-];
+// const EVENTS = [
+//   'click',
+//   'mousedown',
+//   'mouseup',
+//   'dblclick',
+//   'contextmenu',
+//   'mouseenter',
+//   'mouseout',
+//   'mouseover',
+//   'mousemove',
+//   'mouseleave',
+//   'dragstart',
+//   'dragend',
+//   'drag',
+//   'dragenter',
+//   'dragleave',
+//   'dragover',
+//   'dragout',
+//   'drop',
+//   'touchstart',
+//   'touchmove',
+//   'touchend',
+// ];
+
 export default class EventController {
   private graph: Graph;
 
@@ -69,9 +69,11 @@ export default class EventController {
     const originHandler = wrapBehavior(this, 'onExtendEvents');
     const wheelHandler = wrapBehavior(this, 'onWheelEvent');
 
-    each(EVENTS, event => {
-      canvas.on(event, canvasHandler);
-    });
+    // each(EVENTS, event => {
+    //   canvas.on(event, canvasHandler);
+    // });
+
+    canvas.on('*', canvasHandler)
 
     this.canvasHandler = canvasHandler;
     extendEvents.push(addEventListener(el, 'DOMMouseScroll', wheelHandler));
@@ -157,6 +159,8 @@ export default class EventController {
 
     graph.emit(`${type}:${eventType}`, evt);
 
+    graph.emit(evt.name, evt);
+
     if (eventType === 'dragstart') {
       this.dragging = true;
     }
@@ -235,9 +239,11 @@ export default class EventController {
     const { graph, canvasHandler, extendEvents } = this;
     const canvas: Canvas = graph.get('canvas');
 
-    each(EVENTS, event => {
-      canvas.off(event, canvasHandler);
-    });
+    // each(EVENTS, event => {
+    //   canvas.off(event, canvasHandler);
+    // });
+
+    canvas.off('*', canvasHandler);
 
     each(extendEvents, event => {
       event.remove();
