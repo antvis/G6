@@ -48,6 +48,9 @@ export default {
     let zoom = graphZoom;
     // 兼容IE、Firefox及Chrome
     if (e.wheelDelta < 0) {
+      // ratio = 1 - DELTA * sensitivity;
+      // ratio = graphZoom - DELTA * sensitivity;
+      // zoom = graphZoom * ratio;
       ratio = 1 - DELTA * sensitivity;
     } else {
       ratio = 1 / (1 - DELTA * sensitivity);
