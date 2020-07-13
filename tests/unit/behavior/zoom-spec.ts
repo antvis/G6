@@ -19,8 +19,8 @@ function createWheelEvent(canvas, delta, x, y) {
   return e;
 }
 
-function approximateEqual(a, b) {
-  return Math.abs(a - b) < 0.0001;
+function approximateEqual(a, b, threshold = 0.02) {
+  return Math.abs(a - b) < threshold;
 }
 
 describe('zoom-canvas', () => {
@@ -38,14 +38,14 @@ describe('zoom-canvas', () => {
     let matrix = graph.get('group').getMatrix();
     expect(approximateEqual(matrix[0], 1.1)).toBe(true);
     expect(approximateEqual(matrix[4], 1.1)).toBe(true);
-    expect(approximateEqual(matrix[6], -10)).toBe(true);
-    expect(approximateEqual(matrix[7], -10)).toBe(true);
+    expect(approximateEqual(matrix[6], -11.1)).toBe(true);
+    expect(approximateEqual(matrix[7], -11.1)).toBe(true);
     graph.emit('wheel', e);
     matrix = graph.get('group').getMatrix();
-    expect(approximateEqual(matrix[0], 1.21)).toBe(true);
-    expect(approximateEqual(matrix[4], 1.21)).toBe(true);
-    expect(approximateEqual(matrix[6], -21)).toBe(true);
-    expect(approximateEqual(matrix[7], -21)).toBe(true);
+    expect(approximateEqual(matrix[0], 1.23)).toBe(true);
+    expect(approximateEqual(matrix[4], 1.23)).toBe(true);
+    expect(approximateEqual(matrix[6], -23.45)).toBe(true);
+    expect(approximateEqual(matrix[7], -23.45)).toBe(true);
     graph.destroy();
   });
   it('event not prevented', () => {
@@ -117,8 +117,8 @@ describe('zoom-canvas', () => {
     e = createWheelEvent(graph.get('canvas').get('el'), 100, 100, 100);
     graph.emit('wheel', e);
     matrix = graph.get('group').getMatrix();
-    expect(matrix[0]).toEqual(0.45);
-    expect(matrix[4]).toEqual(0.45);
+    expect(matrix[0]).toEqual(0.5);
+    expect(matrix[4]).toEqual(0.5);
   });
   it('unbind zoom', () => {
     const graph = new Graph({
@@ -162,11 +162,10 @@ describe('zoom-canvas', () => {
     let e = createWheelEvent(graph.get('canvas').get('el'), 100, 100, 100);
     graph.emit('wheel', e);
     let matrix = graph.get('group').getMatrix();
-    console.log(matrix)
     expect(approximateEqual(matrix[0], 1.1)).toBe(true);
     expect(approximateEqual(matrix[4], 1.1)).toBe(true);
-    expect(approximateEqual(matrix[6], -10)).toBe(true);
-    expect(approximateEqual(matrix[7], -10)).toBe(true);
+    expect(approximateEqual(matrix[6], -11.1)).toBe(true);
+    expect(approximateEqual(matrix[7], -11.1)).toBe(true);
 
     const data = {
       nodes: [
