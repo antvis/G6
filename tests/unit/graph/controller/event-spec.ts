@@ -256,3 +256,92 @@ describe('event', () => {
     expect(graph.destroyed).toBe(true);
   });
 });
+
+describe('event with name', () => {
+  it('default node', () => {
+    G6.registerNode('custom-node', {
+      drawShape(cfg, group) {
+        const keyShape = group.addShape('rect', {
+          attrs: {
+            width: 120,
+            height: 50,
+            stroke: 'red',
+            fill: '#ccc'
+          },
+          name: 'custom-node-rect'
+        })
+
+        group.addShape('rect', {
+          attrs: {
+            width: 70,
+            height: 30,
+            stroke: 'green',
+            fill: 'green',
+            x: 20,
+            y: 10
+          },
+          name: 'custom-node-subrect'
+        })
+        return keyShape
+      }
+    }, 'single-node')
+
+    const graph = new G6.Graph({
+      container: 'event-spec',
+      width: 500,
+      height: 400,
+      nodeStateStyles: {
+        selected: {
+          fill: 'red'
+        }
+      },
+      defaultNode: {
+        type: 'custom-node',
+        linkPoint: {
+          show: true
+        }
+      }
+    })
+
+    const data = {
+      nodes: [
+        {
+          id: 'node',
+          label: 'node',
+          x: 100,
+          y: 200
+        },
+        {
+          id: 'node1',
+          label: 'node1',
+          x: 300,
+          y: 200
+        }
+      ]
+    }
+
+    graph.data(data)
+    graph.render()
+
+    graph.on('node:mouseenter', evt => {
+      graph.setItemState(evt.item, 'selected', true)
+    })
+
+    graph.on('node:mouseleave', evt => {
+      graph.setItemState(evt.item, 'selected', false)
+    })
+
+    graph.on('custom-node-rect:click', evt => {
+      graph.setItemState(evt.item, 'selected', true)
+      const name = evt.target.get('name')
+      expect(name).toEqual('custom-node-rect')
+    })
+
+    graph.on('custom-node-subrect:click', evt => {
+      const name = evt.target.get('name')
+      expect(name).toEqual('custom-node-subrect')
+    })
+
+    graph.destroy()
+  })
+})

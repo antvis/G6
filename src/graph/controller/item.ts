@@ -447,6 +447,25 @@ export default class ItemController {
   }
 
   /**
+   * 将指定状态的优先级提升为最高优先级
+   * @param {Item} item 元素id或元素实例
+   * @param state 状态名称
+   */
+  public priorityState(item: Item | string, state: string): void {
+    const { graph } = this;
+
+    let currentItem = item
+    if (isString(item)) {
+      currentItem = graph.findById(item)
+    }
+    // 先取消已有的 state
+    this.setItemState(currentItem as Item, state, false)
+
+    // 再设置state，则此时该优先级为最高
+    this.setItemState(currentItem as Item, state, true)
+  } 
+
+  /**
    * 清除所有指定的状态
    *
    * @param {Item} item Item 实例
