@@ -310,6 +310,8 @@ export const shapeBase: ShapeOptions = {
         const style = styles[key];
         if (isPlainObject(style)) {
           const subShape = group.find((element) => element.get('name') === key);
+
+
           if (subShape) {
             subShape.attr(style);
           }
