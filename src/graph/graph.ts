@@ -1151,6 +1151,16 @@ export default class Graph extends EventEmitter implements IGraph {
   }
 
   /**
+   * 将指定状态的优先级提升为最高优先级
+   * @param {Item} item 元素id或元素实例
+   * @param state 状态名称
+   */
+  public priorityState(item: Item | string, state: string): void {
+    const itemController: ItemController = this.get('itemController')
+    itemController.priorityState(item, state);
+  }
+
+  /**
    * 设置视图初始化数据
    * @param {GraphData} data 初始化数据
    */

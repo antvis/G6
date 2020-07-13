@@ -1,5 +1,9 @@
 # ChangeLog
 
+#### 3.5.11
+- feat: graph.priorityState api;
+- feat: graph.on support name:event mode.
+
 #### 3.5.10
 - fix: fitView and fitCenter with animate in the initial state;
 - fix: dulplicated edges in nodeselectchange event of brush-select;
