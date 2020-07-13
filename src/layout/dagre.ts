@@ -159,7 +159,6 @@ export default class DagreLayout extends BaseLayout {
         }
         return 0;
       });
-      console.log('sortedByCombo', sortedByCombo);
       sortedByCombo.forEach((node, i) => {
         node.x = minX + i * gap;
       });

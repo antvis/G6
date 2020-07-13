@@ -65,6 +65,8 @@ export type ShapeStyle = Partial<{
   cursor: string;
   position: string;
   fontSize: number;
+
+  keepVisualSize: boolean
 }>;
 
 export interface IShapeBase extends ShapeBase {
@@ -126,6 +128,13 @@ export interface ModeOption {
   includeEdges?: boolean;
   direction?: 'x' | 'y';
   offset?: number;
+  fixSelectedItems?: Partial<{
+    fixAll: boolean;
+    fixShape: boolean;
+    fixLineWidth: boolean;
+    fixLabel: boolean;
+    fixState: string
+  }>;
   shouldUpdate?: (e: IG6GraphEvent) => boolean;
   shouldBegin?: (e: IG6GraphEvent) => boolean;
   shouldEnd?: (e: IG6GraphEvent) => boolean;
