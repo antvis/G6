@@ -74,7 +74,7 @@
     "@antv/dom-util": "^2.0.1",
     "@antv/event-emitter": "~0.1.0",
     "@antv/g-base": "^0.4.1",
-    "@antv/g-canvas": "^0.4.3",
+    "@antv/g-canvas": "^0.4.14",
     "@antv/g-math": "^0.1.1",
     "@antv/g-svg": "^0.4.1",
     "@antv/hierarchy": "^0.6.2",
