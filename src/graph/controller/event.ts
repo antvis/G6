@@ -195,7 +195,7 @@ export default class EventController {
   private handleMouseMove(evt: IG6GraphEvent, type: string) {
     const { graph, preItem } = this;
     const canvas: Canvas = graph.get('canvas');
-    const item = evt.target === canvas ? null : evt.item;
+    const item = (evt.target as any) === canvas ? null : evt.item;
 
     evt = cloneEvent(evt) as IG6GraphEvent;
 
