@@ -100,6 +100,7 @@ const graph = new G6.Graph({
 - 配置项：
   - `type: 'drag-canvas'`；
   - `direction`：允许拖拽方向，支持`'x'`，`'y'`，`'both'`，默认方向为 `'both'`；
+  - `enableOptimize`：是否开启优化，开启后拖动画布过程中隐藏所有的边及节点上非 keyShape 部分，默认开启；
   - `shouldBegin(e)`：是否允许触发该操作。
 - 相关时机事件：
   - `canvas:dragstart`：画布拖拽开始时触发，使用 `graph.on('canvas:dragstart', e => {...})` 监听；
