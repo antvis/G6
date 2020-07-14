@@ -6,6 +6,7 @@ import Node from '../item/node';
 import { IGraph } from '../interface/graph';
 import { IEdge, INode, ICombo } from '../interface/item';
 import { ILabelConfig } from '../interface/shape';
+import Group from '@antv/g-canvas/lib/group';
 
 // Math types
 export interface IPoint {
@@ -665,4 +666,38 @@ export interface IAlgorithmCallbacks {
 export interface StackData {
   action: string;
   data: GraphData;
+}
+
+export interface HullCfg {
+  id: string,
+  members?: Item[],
+  nonMembers?: Item[],
+  group?: Group,
+  mode?: string, // 'convex' or 'bubble'
+  name?: string,
+  padding?: number,
+  style?: {
+    fill?: string,
+    stroke?: string,
+    opacity?: number
+  },
+  autoUpdate?: boolean, // 是否支持拖动和更新节点时，对hull进行动态更新
+  bubbleCfg?: BubblesetCfg
+}
+
+export interface BubblesetCfg {
+  morphBuffer?: number;
+  threshold?: number;
+  pixelGroupSize?: number;
+  maxMarchingIterations?: number;
+  maxRoutingIterations?: number;
+  nodeR0?: number;
+  nodeR1?: number;
+  edgeR0?: number;
+  edgeR1?: number;
+  nodeInfluenceFactor?: number;
+  edgeInfluenceFactor?: number;
+  negativeNodeInfluenceFactor?: number;
+  memberInfluenceFactor?: number;
+  nonMemberInfluenceFactor?: number;
 }

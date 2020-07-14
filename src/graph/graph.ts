@@ -25,7 +25,8 @@ import {
   ModeOption,
   ModeType,
   States,
-  ComboTree
+  ComboTree,
+  HullCfg
 } from '../types';
 import { getAllNodeInGroups } from '../util/group';
 import { move } from '../util/math';
@@ -46,6 +47,8 @@ import degree from '../algorithm/degree';
 import Stack from '../algorithm/structs/stack'
 import adjMatrix from '../algorithm/adjacent-matrix';
 import floydWarshall from '../algorithm/floydWarshall'
+
+import Hull from '../item/hull'
 
 const NODE = 'node';
 const SVG = 'svg';
@@ -1210,7 +1213,7 @@ export default class Graph extends EventEmitter implements IGraph {
       self.add('edge', edge, false);
     });
 
-    let animate = self.get('animate');
+    const animate = self.get('animate');
     if (self.get('fitView') || self.get('fitCenter')) {
       self.set('animate', false);
     }
@@ -3020,5 +3023,51 @@ export default class Graph extends EventEmitter implements IGraph {
     this.destroyed = true;
     this.redoStack = null
     this.undoStack = null
+  }
+
+  public addHull(cfg: HullCfg) {
+    let parent = this.get('hullGroup');
+    let hullMap = this.get('hullMap')
+    if (!hullMap) {
+      hullMap = {}
+      this.set('hullMap', hullMap)
+    }
+    if (!parent) {
+      parent = this.get('group').addGroup({
+        id: 'hullGroup'
+      })
+      parent.toBack()
+      this.set('hullGroup', parent)
+    }
+    const group = parent.addGroup({
+      id: `${cfg.id}-container`
+    });
+    const hull = new Hull(this, {
+      ...cfg,
+      group
+    })
+    const hullId = hull.id
+    hullMap[hullId] = hull
+    return hull
+  }
+
+  public getHulls() {
+    return this.get('hullMap')
+  }
+
+  public getHullById(hullId: string) {
+    return this.get('hullMap')[hullId]
+  }
+
+  public removeHull(hull: Hull | string) {
+    let hullInstance: Hull;
+    if (isString(hull)) {
+      hullInstance = this.getHullById(hull)
+    } else {
+      hullInstance = hull
+    }
+    let hullMap = this.get('hullMap')
+    delete hullMap[hullInstance.id];
+    hullInstance.destroy()
   }
 }
