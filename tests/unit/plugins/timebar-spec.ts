@@ -97,7 +97,7 @@ describe('TimeBar', () => {
     graph.destroy()
   })
 
-  it.only('config TimeBar style', () => {
+  it('config TimeBar style', () => {
     const timeBarData = []
 
     for(let i = 0; i < 100; i++) {
