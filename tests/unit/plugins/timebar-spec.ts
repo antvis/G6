@@ -173,6 +173,6 @@ describe('TimeBar', () => {
     expect(slider.get('maxText')).toEqual(99)
     expect(slider.get('minText')).toEqual(0)
     expect(slider.get('height')).toBe(26)
-    // graph.destroy()
+    graph.destroy()
   })
 });
