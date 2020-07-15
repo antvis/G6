@@ -77,7 +77,7 @@
     "@antv/g-canvas": "^0.5.2",
     "@antv/g-math": "^0.1.1",
     "@antv/g-svg": "^0.5.1",
-    "@antv/g-webgpu": "^0.2.0",
+    "@antv/g-webgpu": "^0.4.1",
     "@antv/hierarchy": "^0.6.2",
     "@antv/matrix-util": "^2.0.4",
     "@antv/path-util": "^2.0.3",
