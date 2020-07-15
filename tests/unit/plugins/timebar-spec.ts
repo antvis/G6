@@ -26,7 +26,7 @@ const data = {
   ]
 }
 
-for(let i = 0; i < 100; i++) {
+for (let i = 0; i < 100; i++) {
   const id = `node-${i}`
   data.nodes.push({
     id,
@@ -45,7 +45,7 @@ describe('TimeBar', () => {
   it('TimeBar with default', () => {
     const timeBarData = []
 
-    for(let i = 0; i < 100; i++) {
+    for (let i = 0; i < 100; i++) {
       timeBarData.push({
         date: `2020${i}`,
         value: Math.round(Math.random() * 300)
@@ -100,7 +100,7 @@ describe('TimeBar', () => {
   it('config TimeBar style', () => {
     const timeBarData = []
 
-    for(let i = 0; i < 100; i++) {
+    for (let i = 0; i < 100; i++) {
       timeBarData.push({
         date: i,
         value: Math.round(Math.random() * 300)

@@ -54,7 +54,7 @@ type TimeBarOption = Partial<{
   // 滑块文本
   readonly minText: string;
   readonly maxText: string;
-  
+
   readonly trend: TrendConfig;
 }>;
 
@@ -67,7 +67,7 @@ interface TimeBarConfig extends IPluginBaseConfig {
 
 export default class TimeBar extends Base {
   private cacheGraphData: GraphData
-  
+
   constructor(cfg?: TimeBarConfig) {
     super(cfg);
   }
@@ -132,7 +132,7 @@ export default class TimeBar extends Base {
     })
 
     const timeBarConfig: TimeBarOption = this.get('timebar')
-    const { trend = {} as TrendConfig , ...option } = timeBarConfig
+    const { trend = {} as TrendConfig, ...option } = timeBarConfig
 
     const config = {
       container: group,
@@ -197,13 +197,13 @@ export default class TimeBar extends Base {
         }
 
         // 过滤不在 min 和 max 范围内的节点
-        const filterData = this.cacheGraphData.nodes.filter((d: any) => d.date >=  minText && d.date <= maxText)
+        const filterData = this.cacheGraphData.nodes.filter((d: any) => d.date >= minText && d.date <= maxText)
 
         const nodeIds = filterData.map(node => node.id)
 
         // 过滤 source 或 target 不在 min 和 max 范围内的边
         const fileterEdges = this.cacheGraphData.edges.filter(edge => nodeIds.includes(edge.source) && nodeIds.includes(edge.target))
-        
+
         graph.changeData({
           nodes: filterData,
           edges: fileterEdges
