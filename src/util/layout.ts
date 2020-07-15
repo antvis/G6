@@ -195,7 +195,7 @@ export const buildTextureDataWithTwoEdgeAttr = (nodes, edges, attrs1: Function, 
  * @param  {ModelConfig[]}  items the items to be read
  * @return {Float32Array} the attributes' value array to be read by GPU
  */
-export const attributesToTextureData = (attributeNames: string[], items): Float32Array => {
+export const attributesToTextureData = (attributeNames: string[], items): { array: Float32Array, count: number } => {
     const dataArray = [];
     const attributeNum = attributeNames.length;
     const attributteStringMap = {};
@@ -213,7 +213,10 @@ export const attributesToTextureData = (attributeNames: string[], items): Float3
             }
         });
     });
-    return new Float32Array(dataArray);
+    return {
+        array: new Float32Array(dataArray),
+        count: Object.keys(attributteStringMap).length
+    };
 }
 
 /**

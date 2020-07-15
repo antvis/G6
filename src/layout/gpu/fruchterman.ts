@@ -8,168 +8,62 @@ import { BaseLayout } from '../layout';
 import { isNumber } from '@antv/util';
 import { World } from '@antv/g-webgpu';
 import { buildTextureData, attributesToTextureData } from '../../util/layout'
+import { cCode, gCode } from './fruchtermanShader';
+import LayoutWorker from '../worker/layout.worker';
+import { LAYOUT_MESSAGE } from '../worker/layoutConst';
 
-const gCode = `
+
+const gCode2 = `
 import { globalInvocationID, debug } from 'g-webgpu';
 
-const SPEED_DIVISOR = 800;
-const MAX_EDGE_PER_VERTEX;
 const VERTEX_COUNT;
+const CLUSTER_COUNT;
 
 @numthreads(1, 1, 1)
-class Fruchterman {
-  @in @out
+class CalcCenter {
+  @in
   u_Data: vec4[];
 
   @in
-  u_K: float;
+  u_NodeAttributes: vec4[]; // [[clusterIdx, 0, 0, 0], ...]
 
-  @in
-  u_K2: float;
-  
-  @in
-  u_CenterX: float;
-
-  @in
-  u_CenterY: float;
-
-  @in
-  u_Gravity: float;
-
-  @in
-  u_Speed: float;
-
-  @in
-  u_MaxDisplace: float;
-
-  @in
-  u_Clustering: float;
-
-  @in
-  u_AttributeArray: vec4[];
-
-  calcRepulsive(i: int, currentNode: vec4): vec2 {
-    let dx = 0, dy = 0;
-    for (let j = 0; j < VERTEX_COUNT; j++) {
-      if (i != j) {
-        const nextNode = this.u_Data[j];
-        const xDist = currentNode[0] - nextNode[0];
-        const yDist = currentNode[1] - nextNode[1];
-        const dist = (xDist * xDist + yDist * yDist) + 0.01;
-
-        let param = this.u_K2 / dist;
-        if (this.u_Clustering == 1) {
-          const attributesi = this.u_AttributeArray[i];
-          const attributesj = this.u_AttributeArray[j];
-          const clusteri = attributesi[0];
-          const clusterj = attributesj[0]
-          if (clusteri != clusterj) {
-            param = param * 2;
-          } else {
-            param *= -1
-          }
-        }
-        
-        if (dist > 0.0) {
-          dx += param * xDist ;
-          dy += param * yDist ;
-        }
-      }
-    }
-    return [dx, dy];
-  }
-
-  calcGravity(currentNode: vec4): vec2 {
-    const vx = currentNode[0] - this.u_CenterX;
-    const vy = currentNode[1] - this.u_CenterY;
-    const gf = 0.01 * this.u_K * this.u_Gravity;
-    return [gf * vx, gf * vy];
-  }
-
-  calcAttractive(i: int, currentNode: vec4): vec2 {
-    let dx = 0, dy = 0;
-    const arr_offset = int(floor(currentNode[2] + 0.5));
-    const length = int(floor(currentNode[3] + 0.5));
-    const node_buffer: vec4;
-    for (let p = 0; p < MAX_EDGE_PER_VERTEX; p++) {
-      if (p >= length) break;
-      const arr_idx = arr_offset + p;
-      // when arr_idx % 4 == 0 update currentNodedx_buffer
-      const buf_offset = arr_idx - arr_idx / 4 * 4;
-      if (p == 0 || buf_offset == 0) {
-        node_buffer = this.u_Data[int(arr_idx / 4)];
-      }
-      const float_j = buf_offset == 0 ? node_buffer[0] :
-                      buf_offset == 1 ? node_buffer[1] :
-                      buf_offset == 2 ? node_buffer[2] :
-                                        node_buffer[3];
-      const nextNode = this.u_Data[int(float_j)];
-      const xDist = currentNode[0] - nextNode[0];
-      const yDist = currentNode[1] - nextNode[1];
-      const dist = sqrt(xDist * xDist + yDist * yDist) + 0.01;
-      let attractiveF = dist / this.u_K;
-      if (this.u_Clustering == 1) {
-        const attributesi = this.u_AttributeArray[i];
-        const attributesj = this.u_AttributeArray[int(float_j)];
-        const clusteri = attributesi[0];
-        const clusterj = attributesj[0]
-        if (clusteri == clusterj) {
-          attractiveF = attractiveF * 3;
-        }
-      }
-      if (dist > 0.0) {
-        dx -= xDist * attractiveF;
-        dy -= yDist * attractiveF;
-      }
-    }
-    return [dx, dy];
-  }
+  @out
+  u_ClusterCenters: vec4[]; // [[cx, cy, nodeCount, clusterIdx], ...]
 
   @main
   compute() {
-    const i = globalInvocationID.x;
-    const currentNode = this.u_Data[i];
-
-    let dx = 0, dy = 0;
-
-    if (i >= VERTEX_COUNT) {
-      this.u_Data[i] = currentNode;
-      return;
+    // init the cluster centers
+    for (let i = 0; i < CLUSTER_COUNT; i++) {
+      this.u_ClusterCenters[i] = [ 0, 0, 0, 0 ]
     }
 
-    // repulsive
-    const repulsive = this.calcRepulsive(i, currentNode);
-    dx += repulsive[0];
-    dy += repulsive[1];
+    for (let j = 0; j < VERTEX_COUNT; j++) {
+      const attributes = this.u_NodeAttributes[j];
+      const clusterIdx: float = attributes[0];
+      const center = this.u_ClusterCenters[int(clusterIdx)];
+      const sumx: float = center.x + this.u_Data[j].x;
+      const sumy: float = center.y + this.u_Data[j].y;
+      const count = center.z + 1;
+      this.u_ClusterCenters[int(clusterIdx)] =
+      [
+        sumx, // cx
+        sumy, // cy
+        count, // nodeCount
+        clusterIdx,
+      ]
+      // !!! sumx sumy count 有值，但 this.u_ClusterCenters[int(clusterIdx)] 未被赋值成功
+      // debug(this.u_ClusterCenters[int(clusterIdx)].x);
+    }
 
-    // attractive
-    const attractive = this.calcAttractive(i, currentNode);
-    dx += attractive[0];
-    dy += attractive[1];
-
-    // gravity
-    const gravity = this.calcGravity(currentNode);
-    dx -= gravity[0];
-    dy -= gravity[1];
-
-    // speed
-    dx *= this.u_Speed;
-    dy *= this.u_Speed;
-
-    // move
-    const distLength = sqrt(dx * dx + dy * dy);
-    if (distLength > 0.0) {
-      const limitedDist = min(this.u_MaxDisplace * this.u_Speed, distLength);
-
-      this.u_Data[i] = [
-        currentNode[0] + dx / distLength * limitedDist,
-        currentNode[1] + dy / distLength * limitedDist,
-        currentNode[2],
-        currentNode[3]
+    for (let k = 0; k < CLUSTER_COUNT; k++) {
+      const center = this.u_ClusterCenters[k];
+      this.u_ClusterCenters[k] = [
+        center.x / center.z,
+        center.y / center.z,
+        center.z,
+        center.w
       ];
     }
-//const currentDis = this.u_MaxDisplace;
-    //this.u_MaxDisplace = currentDis * 0.99;
   }
 }
 `;
@@ -204,6 +98,8 @@ export default class FruchtermanGPULayout extends BaseLayout {
   public clusterField: string = 'cluster';
   /** 聚类力大小 */
   public clusterGravity: number = 10;
+  /** 是否启用web worker。前提是在web worker里执行布局，否则无效	*/
+  public workerEnabled: boolean = false;
 
   public nodes: Node[] = [];
   public edges: Edge[] = [];
@@ -216,6 +112,8 @@ export default class FruchtermanGPULayout extends BaseLayout {
 
   public canvasEl: HTMLCanvasElement;
   public onLayoutEnd: () => void;
+
+  private worker = null;
 
   public getDefaultCfg() {
     return {
@@ -273,63 +171,57 @@ export default class FruchtermanGPULayout extends BaseLayout {
     const maxDisplace = Math.sqrt(area) / 10;
     const k2 = area / (nodes.length + 1);
     const k = Math.sqrt(k2);
-    const gravity = self.gravity;
     const speed = self.speed;
     const clustering = self.clustering;
     let curMaxDisplace = maxDisplace;
 
-    const attributeArray = attributesToTextureData([self.clusterField], nodes);
-
-    // const clusterMap: {
-    //   [key: string]: {
-    //     name: string | number;
-    //     cx: number;
-    //     cy: number;
-    //     count: number;
-    //   };
-    // } = {};
-    // if (clustering) {
-    //   nodes.forEach(n => {
-    //     if (clusterMap[n.cluster] === undefined) {
-    //       const cluster = {
-    //         name: n.cluster,
-    //         cx: 0,
-    //         cy: 0,
-    //         count: 0,
-    //       };
-    //       clusterMap[n.cluster] = cluster;
-    //     }
-    //     const c = clusterMap[n.cluster];
-    //     if (isNumber(n.x)) {
-    //       c.cx += n.x;
-    //     }
-    //     if (isNumber(n.y)) {
-    //       c.cy += n.y;
-    //     }
-    //     c.count++;
-    //   });
-    //   for (const key in clusterMap) {
-    //     clusterMap[key].cx /= clusterMap[key].count;
-    //     clusterMap[key].cy /= clusterMap[key].count;
-    //   }
-    // }
+    const { array: attributeArray, count: clusterCount } = attributesToTextureData([self.clusterField], nodes);
 
     const numParticles = nodes.length;
     const { maxEdgePerVetex, array: nodesEdgesArray } = buildTextureData(nodes, edges);
 
-    const canvas = self.canvasEl;
 
-    const world = new World(canvas, {
-      engineOptions: {
-        supportCompute: true,
-      },
-    });
+    // web worker test
+    let workerEnabled = self.workerEnabled;
+    const offScreenCanvas = document.createElement('canvas');
 
-    const compute = world.createComputePipeline({
-      shader: gCode,
-      dispatch: [numParticles, 1, 1],
-      maxIteration,
-      onCompleted: (finalParticleData) => {
+    console.log('goint to layout', workerEnabled);
+
+    if (
+      workerEnabled &&
+      !navigator['gpu'] && // WebGPU 还不支持 OffscreenCanvas
+      'OffscreenCanvas' in window &&
+      'transferControlToOffscreen' in offScreenCanvas
+    ) {
+      if (self.worker) {
+        self.worker.terminate();
+        self.worker = null;
+      }
+      const worker = new LayoutWorker();
+      const offscreen = offScreenCanvas.transferControlToOffscreen();
+      worker.postMessage({
+        canvas: offscreen,
+        type: LAYOUT_MESSAGE.GPURUN,
+        layoutCfg: {
+          maxIteration,
+          maxEdgePerVetex,
+          nodeNum: numParticles,
+          k,
+          k2,
+          centerX: center[0],
+          centerY: center[1],
+          gravity: self.gravity,
+          clusterGravity: self.clusterGravity,
+          speed: speed,
+          maxDisplace,
+          clustering: clustering ? 1 : 0,
+          gCode
+        },
+        builtData: nodesEdgesArray,
+        attributeArray
+      }, [offscreen]);
+      worker.onmessage = evt => {
+        const { finalParticleData } = evt.data;
         self.nodes.forEach((node, i) => {
           const x = finalParticleData[4 * i];
           const y = finalParticleData[4 * i + 1];
@@ -337,53 +229,111 @@ export default class FruchtermanGPULayout extends BaseLayout {
           node.y = y;
         });
         self.onLayoutEnd && self.onLayoutEnd();
+      };
+      // worker.addEventListener('message', (e: MessageEvent) => {
+      //   const { finalParticleData } = e.data;
+      //   self.nodes.forEach((node, i) => {
+      //     const x = finalParticleData[4 * i];
+      //     const y = finalParticleData[4 * i + 1];
+      //     node.x = x;
+      //     node.y = y;
+      //   });
+      //   self.onLayoutEnd && self.onLayoutEnd();
+      // });
+      self.worker = worker;
+    } else {
+      const time = window.performance.now();
+      const world = new World({
+        engineOptions: {
+          supportCompute: true,
+        }
+      });
 
-        // 计算完成后销毁相关 GPU 资源
-        world.destroy();
-      },
-      onIterationCompleted: (iter) => {
-        curMaxDisplace *= 0.99;
-        world.setBinding(
-          compute,
-          'u_MaxDisplace',
-          curMaxDisplace,
-        );
+      // const compute = world.createComputePipeline({
+      //   shader: gCode,
+      //   onCompleted: (result) => {
+      //     // 获取 Shader 的编译结果，用户可以输出到 console 中并保存
+      //     console.log(world.getPrecompiledBundle(compute));
+      //   },
+      // });
+
+      console.log('without worker', numParticles, maxIteration, world)
+      const compute = world.createComputePipeline({
+        shader: gCode,
+        // precompiled: true,
+        // shader: cCode,
+        dispatch: [numParticles, 1, 1],
+        maxIteration,
+        onIterationCompleted: async () => {
+          if (clustering) {
+            world.setBinding(compute2, 'u_Data', {
+              entity: compute,
+            });
+          }
+
+          curMaxDisplace *= 0.99;
+          world.setBinding(
+            compute,
+            'u_MaxDisplace',
+            curMaxDisplace,
+          );
+          return;
+        },
+        onCompleted: (finalParticleData) => {
+          self.nodes.forEach((node, i) => {
+            const x = finalParticleData[4 * i];
+            const y = finalParticleData[4 * i + 1];
+            node.x = x;
+            node.y = y;
+          });
+          self.onLayoutEnd && self.onLayoutEnd();
+
+          // 计算完成后销毁相关 GPU 资源
+          world.destroy();
+          console.log('in gpu', window.performance.now() - time);
+        }
+      });
+
+      world.setBinding(compute, 'u_Data', nodesEdgesArray);
+      world.setBinding(compute, 'u_K', k);
+      world.setBinding(compute, 'u_K2', k2);
+      world.setBinding(compute, 'u_Gravity', self.gravity);
+      world.setBinding(compute, 'u_ClusterGravity', self.clusterGravity);
+      world.setBinding(compute, 'u_Speed', speed);
+      world.setBinding(compute, 'u_MaxDisplace', maxDisplace);
+      world.setBinding(compute, 'u_Clustering', clustering ? 1 : 0);
+      world.setBinding(compute, 'u_AttributeArray', attributeArray);
+      world.setBinding(compute, 'u_CenterX', center[0]);
+      world.setBinding(compute, 'u_CenterY', center[1]);
+      world.setBinding(compute, 'MAX_EDGE_PER_VERTEX', maxEdgePerVetex);
+      world.setBinding(compute, 'VERTEX_COUNT', numParticles);
+
+
+      console.log('compute2', compute, clustering);
+
+
+      let compute2;
+      // 第二个管线用于计算聚类
+      if (clustering) {
+        compute2 = world.createComputePipeline({
+          shader: gCode2,
+          dispatch: [1, 1, 1],
+          maxIteration,
+          onIterationCompleted: async () => {
+            world.setBinding(compute, 'u_ClusterCenters', {
+              entity: compute2,
+            });
+          },
+          onCompleted: (finalParticleData) => {
+            world.destroy();
+          },
+        });
+        world.setBinding(compute2, 'u_Data', nodesEdgesArray);
+        world.setBinding(compute2, 'u_NodeAttributes', attributeArray);
+        world.setBinding(compute2, 'VERTEX_COUNT', numParticles);
+        world.setBinding(compute2, 'CLUSTER_COUNT', clusterCount);
+        console.log('finish');
       }
-    });
-
-    world.setBinding(compute, 'u_Data', nodesEdgesArray);
-    world.setBinding(
-      compute,
-      'u_K',
-      k,
-    );
-    world.setBinding(
-      compute,
-      'u_K2',
-      k2,
-    );
-    world.setBinding(
-      compute,
-      'u_CenterX',
-      self.width / 2,
-    );
-    world.setBinding(
-      compute,
-      'u_CenterY',
-      self.height / 2,
-    );
-    world.setBinding(compute, 'u_Gravity', gravity);
-    world.setBinding(compute, 'u_Speed', speed);
-    world.setBinding(
-      compute,
-      'u_MaxDisplace',
-      maxDisplace,
-    );
-    world.setBinding(compute, 'u_Clustering', clustering ? 1 : 0);
-    world.setBinding(compute, 'u_AttributeArray', attributeArray);
-    world.setBinding(compute, 'u_CenterX', center[0]);
-    world.setBinding(compute, 'u_CenterY', center[1]);
-    world.setBinding(compute, 'MAX_EDGE_PER_VERTEX', maxEdgePerVetex);
-    world.setBinding(compute, 'VERTEX_COUNT', numParticles);
+    }
   }
 }
