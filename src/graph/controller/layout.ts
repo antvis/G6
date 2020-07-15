@@ -153,7 +153,7 @@ export default class LayoutController {
       }
       if (enableGPU) {
         layoutType = `${layoutType}-gpu`;
-        layoutCfg.canvasEl = this.graph.get('canvas').get('el');
+        // layoutCfg.canvasEl = this.graph.get('canvas').get('el');
         isGPU = true;
       }
     }
@@ -161,11 +161,9 @@ export default class LayoutController {
     console.log('layout', isGPU, layoutType);
 
     this.stopWorker();
-    if (layoutCfg.workerEnabled && this.layoutWithWorker(this.data, success)) {
+    if (layoutCfg.workerEnabled && !isGPU && this.layoutWithWorker(this.data, success)) {
       // 如果启用布局web worker并且浏览器支持web worker，用web worker布局。否则回退到不用web worker布局。
-      if (!isGPU) return true;
-      // gpu 版本暂时不支持 worker
-      else console.warn('Web worker of G6 does not support layout with GPU.');
+      return true;
     }
 
     if (layoutType === 'force' || layoutType === 'g6force') {
@@ -231,11 +229,12 @@ export default class LayoutController {
       // 若存在节点没有位置信息，且没有设置 layout，在 initPositions 中 random 给出了所有节点的位置，不需要再次执行 random 布局
       // 所有节点都有位置信息，且指定了 layout，则执行布局（代表不是第一次进行布局）
       if (hasLayoutType) {
+        graph.emit('beginlayout');
         layoutMethod.execute();
       }
       this.layoutMethod = layoutMethod;
     }
-    if ((hasLayoutType || !allHavePos) && this.layoutType !== 'force' && !enableTick) {
+    if ((hasLayoutType || !allHavePos) && (this.layoutType !== 'force' && !enableTick) && !isGPU) {
       graph.emit('afterlayout');
       this.refreshLayout();
     }
