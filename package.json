@@ -82,9 +82,7 @@
     "@antv/util": "~2.0.5",
     "d3-force": "^2.0.1",
     "dagre": "^0.8.5",
-    "eslint": "^7.4.0",
-    "lint": "^0.7.0",
-    "lodash": "^4.17.15",
+    "insert-css": "^2.0.0",
     "ml-matrix": "^6.5.0"
   },
   "devDependencies": {
@@ -106,7 +104,6 @@
     "gatsby": "^2.23.9",
     "gh-pages": "^2.1.1",
     "husky": "^4.2.5",
-    "insert-css": "^2.0.0",
     "jest": "^26.0.1",
     "jest-electron": "^0.1.7",
     "jest-extended": "^0.11.2",
