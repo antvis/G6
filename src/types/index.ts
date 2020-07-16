@@ -350,7 +350,7 @@ export interface ModelConfig extends ModelStyle {
   y?: number;
   size?: number | number[];
   color?: string;
-  visible: boolean;
+  visible?: boolean;
   anchorPoints?: number[][];
   startPoint?: {
     x: number,

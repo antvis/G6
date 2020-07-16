@@ -17,14 +17,14 @@ export const CLS_LABEL_BG_SUFFIX = '-label-bg';
 // 单个 shape 带有一个 label，共用这段代码
 export const shapeBase: ShapeOptions = {
   // 默认样式及配置
-  options: {},
+  options: {visible: true},
   itemType: '', // node, edge, combo 等
   /**
    * 形状的类型，例如 circle，ellipse，polyline...
    */
   type: '',
   getCustomConfig(cfg: ModelConfig): ModelConfig {
-    return {};
+    return {visible: cfg.visible};
   },
   getOptions(cfg: ModelConfig): ModelConfig {
     return deepMix({}, this.options, this.getCustomConfig(cfg) || {}, cfg);
@@ -37,6 +37,7 @@ export const shapeBase: ShapeOptions = {
    * @return {IShape} 绘制的图形
    */
   draw(cfg: ModelConfig, group: GGroup): IShape {
+    // console.log(this.getOptions(cfg)) 将会总是输出默认的true
     if (!cfg.visible) {
       group.set(cfg.visible, false);
     }
