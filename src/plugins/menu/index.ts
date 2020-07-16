@@ -94,8 +94,8 @@ export default class Menu extends Base {
 
     const bbox = container.getBoundingClientRect();
 
-    let x = e.item.getModel().x;
-    let y = e.item.getModel().y;
+    let x = e.item?.getModel().x || e.x; // 当在canvas上非node / edge 元素上点击的时候会报错 TypeError: Cannot read property 'getModel' of null
+    let y = e.item?.getModel().y || e.y; // 当无法获取modal时，使用鼠标在画布位置代替modal位置
 
     // 若菜单超出画布范围，反向
     if (x + bbox.width > width) {
