@@ -26,6 +26,7 @@ export default {
     },
     size: 20,
     color: '#5B8FF9',
+    visible: true,
   },
   edgeLabel: {
     style: {

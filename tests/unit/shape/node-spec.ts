@@ -46,6 +46,7 @@ describe('shape node test', () => {
         {
           size: 40,
           color: 'red',
+          visible: true,
         },
         group,
       );
@@ -62,6 +63,7 @@ describe('shape node test', () => {
         {
           size: 20,
           color: 'blue',
+          visible: false,
           label: '你好，我好，大家好',
           labelCfg: {
             position: 'top',

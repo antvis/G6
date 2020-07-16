@@ -37,6 +37,9 @@ export const shapeBase: ShapeOptions = {
    * @return {IShape} 绘制的图形
    */
   draw(cfg: ModelConfig, group: GGroup): IShape {
+    if (!cfg.visible) {
+      group.set(cfg.visible, false);
+    }
     const shape: IShape = this.drawShape!(cfg, group);
     shape.set('className', this.itemType + CLS_SHAPE_SUFFIX);
     if (cfg.label) {

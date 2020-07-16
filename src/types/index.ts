@@ -212,6 +212,7 @@ export interface GraphOptions {
     type: string;
     size: number | number[];
     color: string;
+    visible: boolean;
   }> & ModelStyle;
 
   /**
@@ -222,6 +223,7 @@ export interface GraphOptions {
     type: string;
     size: number | number[];
     color: string;
+    visible: boolean;
   }> & ModelStyle;
 
   /**
@@ -231,6 +233,7 @@ export interface GraphOptions {
     type: string;
     size: number | number[];
     color: string;
+    visible: boolean;
   }> & ModelStyle;
 
   nodeStateStyles?: StateStyles;
@@ -347,6 +350,7 @@ export interface ModelConfig extends ModelStyle {
   y?: number;
   size?: number | number[];
   color?: string;
+  visible: boolean;
   anchorPoints?: number[][];
   startPoint?: {
     x: number,
