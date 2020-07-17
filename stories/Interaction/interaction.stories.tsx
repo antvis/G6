@@ -7,6 +7,7 @@ import AddItem from './component/addItem';
 import Tooltip from './component/tooltip';
 import DragCanvas from './component/drag-canvas';
 import ZoomCanvasFix from './component/zoom-canvas-fix'
+import LassoSelect from './component/lasso-select'
 
 export default { title: 'Interaction' };
 
@@ -26,4 +27,7 @@ storiesOf('Interaction', module)
     <DragCanvas />
   )).add('zoom canvas fix items', () => (
     <ZoomCanvasFix />
+  ))
+  .add('lasso select', () => (
+    <LassoSelect />
   ));
