@@ -31,7 +31,7 @@ export class BaseLayout<Cfg = any> implements ILayout<Cfg> {
     self.combos = data.combos || [];
   }
 
-  public execute() { }
+  public execute(ctx?: Worker) { }
 
   public layout(data: GraphData) {
     const self = this;
