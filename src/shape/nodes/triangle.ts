@@ -13,6 +13,7 @@ Shape.registerNode(
     // 自定义节点时的配置
     options: {
       size: 40,
+      visible: true,
       direction: 'up',
       style: {
         stroke: Global.defaultShapeStrokeColor,

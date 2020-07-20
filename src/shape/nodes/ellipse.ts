@@ -14,6 +14,7 @@ Shape.registerNode(
     // 自定义节点时的配置
     options: {
       size: [120, 60],
+      visible: true,
       style: {
         x: 0,
         y: 0,

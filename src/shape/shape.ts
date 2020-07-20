@@ -121,7 +121,7 @@ const ShapeFactoryBase = {
  */
 const ShapeFramework = {
   // 默认样式及配置
-  options: {},
+  options: {visible: true},
   /**
    * 绘制
    */

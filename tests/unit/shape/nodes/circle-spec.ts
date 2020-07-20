@@ -47,6 +47,7 @@ describe('circle test', () => {
             label: 'circle',
             x: 200,
             y: 100,
+            visible: false,
           },
         ],
       };
@@ -56,6 +57,9 @@ describe('circle test', () => {
       const nodes = graph.getNodes();
       expect(nodes.length).toEqual(1);
       const node = nodes[0];
+      const visible = node._cfg.model.visible;
+      // _cfg.model.visible == false, _cfg.visible == true
+      expect(visible).toEqual(false);
       const group = node.get('group');
       expect(group.getCount()).toEqual(2);
 

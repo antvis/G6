@@ -13,6 +13,7 @@ Shape.registerNode(
     // 自定义节点时的配置
     options: {
       size: 60,
+      visible: true,
       style: {
         stroke: Global.defaultShapeStrokeColor,
         fill: Global.defaultShapeFillColor,

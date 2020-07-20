@@ -24,7 +24,7 @@ export const shapeBase: ShapeOptions = {
    */
   type: '',
   getCustomConfig(cfg: ModelConfig): ModelConfig {
-    return {visible: cfg.visible};
+    return {};
   },
   getOptions(cfg: ModelConfig): ModelConfig {
     return deepMix({}, this.options, this.getCustomConfig(cfg) || {}, cfg);
@@ -37,10 +37,8 @@ export const shapeBase: ShapeOptions = {
    * @return {IShape} 绘制的图形
    */
   draw(cfg: ModelConfig, group: GGroup): IShape {
-    // console.log(this.getOptions(cfg)) 将会总是输出默认的true
-    if (!cfg.visible) {
-      group.set(cfg.visible, false);
-    }
+    const {visible} = this.getOptions(cfg);
+    group.set("visible", visible);
     const shape: IShape = this.drawShape!(cfg, group);
     shape.set('className', this.itemType + CLS_SHAPE_SUFFIX);
     if (cfg.label) {

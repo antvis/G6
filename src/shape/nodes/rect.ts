@@ -12,6 +12,7 @@ Shape.registerNode(
     // 自定义节点时的配置
     options: {
       size: [100, 30],
+      visible: true,
       style: {
         radius: 0,
         stroke: Global.defaultShapeStrokeColor,

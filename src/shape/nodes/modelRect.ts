@@ -12,6 +12,7 @@ Shape.registerNode(
     // 自定义节点时的配置
     options: {
       size: [185, 70],
+      visible: true,
       style: {
         radius: 5,
         stroke: '#69c0ff',
