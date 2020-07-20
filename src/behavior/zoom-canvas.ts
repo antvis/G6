@@ -73,61 +73,75 @@ export default {
       const optimizeZoom = this.get('optimizeZoom')
 
       const currentZoom = graph.getZoom()
+      const nodes = graph.getNodes()
+      const edges = graph.getEdges()
+      const nodesLength = nodes.length;
+      const edgesLength = edges.length;
       if (currentZoom < optimizeZoom) {
-        const nodes = graph.getNodes()
-        const edges = graph.getEdges()
-        nodes.map(node => {
+        for (let n = 0; n < nodesLength; n++) {
+          const node = nodes[n];
           if (!node.destroyed) {
-            const children = node.getContainer().get('children')
-            children.map(shape => {
+            const children = node.getContainer().get('children');
+            const childrenLength = children.length;
+            for (let c = 0; c < childrenLength; c++) {
+              const shape = children[c];
               if (!shape.destoryed && !shape.get('isKeyShape')) {
                 shape.hide()
               }
-            })
+            }
           }
-        })
+        }
 
-        edges.map(edge => {
+        for (let e = 0; e < edgesLength; e++) {
+          const edge = edges[e];
           const children = edge.getContainer().get('children')
-          children.map(shape => {
+          const childrenLength = children.length;
+          for (let c = 0; c < childrenLength; c++) {
+            const shape = children[c];
             if (!shape.get('isKeyShape')) {
               shape.hide()
             }
-          })
-        })
+          }
+        }
       } else {
-        const nodes = graph.getNodes()
-        const edges = graph.getEdges()
-        nodes.map(node => {
+        for (let n = 0; n < nodesLength; n++) {
+          const node = nodes[n];
           const children = node.getContainer().get('children')
-          children.map(shape => {
+          const childrenLength = children.length;
+          for (let c = 0; c < childrenLength; c++) {
+            const shape = children[c];
             if (!shape.get('visible')) {
               shape.show()
             }
-          })
-        })
+          }
+        }
 
-        edges.map(edge => {
+        for (let e = 0; e < edgesLength; e++) {
+          const edge = edges[e];
           const children = edge.getContainer().get('children')
-          children.map(shape => {
+          const childrenLength = children.length;
+          for (let c = 0; c < childrenLength; c++) {
+            const shape = children[c];
             if (!shape.get('visible')) {
               shape.show()
             }
-          })
-        })
+          }
+        }
       }
     }
 
 
     // fix the items when zooming
-    if (graphZoom <= 1) {//
+    if (graphZoom <= 1) {
       let fixNodes, fixEdges;
       if (fixSelectedItems.fixShape || fixSelectedItems.fixLineWidth || fixSelectedItems.fixLabel) {
         fixNodes = graph.findAllByState('node', fixSelectedItems.fixState);
         fixEdges = graph.findAllByState('edge', fixSelectedItems.fixState);
 
         const scale = graphZoom / zoom;
-        fixNodes.forEach(node => {
+        const fixNodesLength = fixNodes.length;
+        for (let fn = 0; fn < fixNodesLength; fn++) {
+          const node = fixNodes[fn];
           const group = node.getContainer();
           const nodeModel = node.getModel();
           const itemStateStyle = node.getStateStyle(fixSelectedItems.fixState);
@@ -142,8 +156,10 @@ export default {
             mat3.translate(groupMatrix, groupMatrix, [x, y]);
             group.setMatrix(groupMatrix);
           } else {
-            const children = group.get('children')
-            children.map(shape => {
+            const children = group.get('children');
+            const childrenLength = children.length;
+            for (let c = 0; c < childrenLength; c++) {
+              const shape = children[c];
               let fontSize, lineWidth;
               if (fixSelectedItems.fixLabel) {
                 const shapeType = shape.get('type');
@@ -162,16 +178,23 @@ export default {
                   if (fontSize) return;
                 }
               }
-            });
+            }
           }
-        });
-        fixEdges.forEach(edge => {
+        }
+
+
+        const fixEdgesLength = fixEdges.length;
+        for (let fe = 0; fe < fixEdgesLength; fe++) {
+          const edge = fixEdges[fe];
           const group = edge.getContainer();
           const children = group.get('children')
           const nodeModel = edge.getModel();
           const itemStateStyle = edge.getStateStyle(fixSelectedItems.fixState);
           const shapeStateStyle = edge.get('shapeFactory').getShape(nodeModel.shape || nodeModel.type).getStateStyle(fixSelectedItems.fixState, edge)[fixSelectedItems.fixState];
-          children.map(shape => {
+
+          const childrenLength = children.length;
+          for (let c = 0; c < childrenLength; c++) {
+            const shape = children[c];
             let fontSize, lineWidth;
             if (fixSelectedItems.fixLabel) {
               const shapeType = shape.get('type');
@@ -190,8 +213,8 @@ export default {
                 if (fontSize) return;
               }
             }
-          });
-        });
+          }
+        }
       }
 
 
