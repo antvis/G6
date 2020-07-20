@@ -1,21 +1,21 @@
 import Base, { IPluginBaseConfig } from '../base';
+import { INode, IEdge } from "../../interface/item";
 import modifyCSS from '@antv/dom-util/lib/modify-css';
 import createDom from '@antv/dom-util/lib/create-dom';
 import insertCss from 'insert-css';
 
 import { LegendDataCfg, ColorMapCfg, SelectedStatusCfg } from '../../types'
-import { CATE_20 } from './defaultColor'
 
 interface LegendConfig extends IPluginBaseConfig {
   nodeAttr?: string;
   edgeAttr?: string;
   nodeLegendData?: LegendDataCfg[] | string[] | number[];
   edgeLegendData?: LegendDataCfg[] | string[] | number[];
-  nodeColorMap?: ColorMapCfg | [];
-  edgeColorMap?: ColorMapCfg | [];
   nodeSelectedStatus?: SelectedStatusCfg;
   edgeSelectedStatus?: SelectedStatusCfg;
-  handleLegendChange?: (evt: Event, type: string) => void;
+  // nodeColorAttr?: string; // 配置legend的颜色使用node中的哪个style属性，默认为fill
+  // edgeColorAttr?: string;
+  handleLegendChange?: (evt: Event, selectedItems: INode[] | IEdge[], selected: boolean) => void; // 点击legend后的行为。默认情况下，为隐藏被选中节点/边，淡化被选中legend
 }
 
 insertCss(`
@@ -55,10 +55,6 @@ insertCss(`
 )
 
 export default class Legend extends Base {
-  constructor(cfg: LegendConfig) {
-    super(cfg);
-  }
-
   public getDefaultCfgs(): LegendConfig {
     const self = this;
     return {
@@ -66,52 +62,44 @@ export default class Legend extends Base {
       className: 'g6-component-legend',
       nodeAttr: null,
       edgeAttr: null,
+      nodeColorAttr: 'fill',
+      edgeColorAttr: 'stroke',
       nodeLegendData: null,
       edgeLegendData: null,
       nodeSelectedStatus: {}, // 初始状态下的legend状态。默认为全没有选中
       edgeSelectedStatus: {},
-      nodeColorMap: null,
-      edgeColorMap: null,
-      handleLegendChange(evt, type) { // 点击legend的行为。默认情况下，为隐藏被选中节点/边，淡化被选中legend
-        self.toggleSelectedItems(type)
+      handleLegendChange(evt: Event, selectedItems: INode[] | IEdge[], select: boolean) { // legend的选中状态改变后的行为。默认情况下，为隐藏被选中节点/边，淡化被选中legend
         self.toggleSelectedLegends(evt)
-      },
+        self.toggleSelectedItems(selectedItems, select)
+      }
     };
   }
 
-  private onClickLegend(cate, legendType, evt) {
-    this.toggleSelectedCat(cate, legendType)
-    this.get('handleLegendChange')(evt, legendType)
-  }
-
-  // 更新selectedCatStatus
-  private toggleSelectedCat(cat, legendType) {
-    let selected = this.get('nodeSelectedStatus');
-    if (legendType === 'edge') {
-      selected = this.get('edgeSelectedStatus')
-    }
+  private onClickLegend(cat, legendType, evt) {
+    const legendItem = evt.currentTarget
+    // 更新selectedCatStatus
+    const selected = legendType === 'node' ? this.get('nodeSelectedStatus') : this.get('edgeSelectedStatus');
     selected[cat.val] = !selected[cat.val]
-    this.set('selected', selected)
+
+    const selectedItems = this.getSelectedItems(legendType, cat.val)
+    this.get('graph').emit('legendchange', {
+      evt,
+      legendType,
+      val: cat.val,
+      select: this.get(`${legendType}SelectedStatus`)[cat.val], // true: 选择，false：取消选择
+      selectedItems
+    })
+
+    this.get('handleLegendChange')(evt, selectedItems, selected[cat.val])
   }
 
-  // 隐藏选中的点/边
-  public toggleSelectedItems(legendType) {
+  // 隐藏（显示）选中（取消选中）的点/边
+  public toggleSelectedItems(items, selected) {
     const graph = this.get('graph')
-    if (legendType === 'node') {
-      const selected = this.get('nodeSelectedStatus')
-      const serieName = this.get('nodeAttr')
-      graph.getNodes().forEach(n => {
-        if (selected[n.getModel()[serieName]]) graph.hideItem(n)
-        else graph.showItem(n)
-      })
-    } else if (legendType === "edge") {
-      const selected = this.get('edgeSelectedStatus')
-      const serieName = this.get('edgeAttr')
-      graph.getEdges().forEach(edge => {
-        if (selected[edge.getModel()[serieName]]) graph.hideItem(edge)
-        else graph.showItem(edge)
-      })
-    }
+    items.forEach(item => {
+      if (selected) graph.hideItem(item)
+      else graph.showItem(item)
+    })
   }
 
   // 选中的legend淡化，并添加selected class
@@ -125,15 +113,28 @@ export default class Legend extends Base {
     }
   }
 
+  public getSelectedItems(type, val) {
+    let selectedItems = []
+    const serieName = type === 'node' ? this.get('nodeAttr') : this.get('edgeAttr')
+    const selected = type === 'node' ? this.get('nodeSelectedStatus') : this.get('edgeSelectedStatus');
+    if (type === 'node') {
+      selectedItems = this.get('graph').getNodes().filter(n => n.getModel()[serieName] === val)
+    } else {
+      selectedItems = this.get('graph').getEdges().filter(e => e.getModel()[serieName] === val)
+    }
+    return selectedItems
+  }
+
   // 设置渲染legend items所需的数据
   private initLegendData(type) {
+    const colorMap = {}
     const cateCfg = type === 'edge' ? 'edgeLegendData' : 'nodeLegendData'
     const attrName = type === 'edge' ? this.get('edgeAttr') : this.get('nodeAttr')
-    let legendData = this.get(cateCfg)
+    const graph = this.get('graph')
 
+    let legendData = this.get(cateCfg)
     if (!legendData || legendData.length === 0) {
       // 如果没有指定nodeLegendData，通过指定的attr获得该attr所有可能取值
-      const graph = this.get('graph')
       let allCats;
       legendData = []
       if (type === 'node') {
@@ -153,7 +154,17 @@ export default class Legend extends Base {
         }
       })
     }
+    // 设置颜色映射
+    for (const legend of legendData) {
+      const item = graph.find(type, ele => ele.getModel()[attrName] === legend.val)
+      if (type === 'node') {
+        colorMap[legend.val] = item.get('styles')[this.get('nodeColorAttr')] || item.get('originStyle')[this.get('nodeColorAttr')]// || 
+      } else if (type === 'edge') {
+        colorMap[legend.val] = item.get('styles')[this.get('edgeColorAttr')] || item.get('originStyle')['edge-shape'][this.get('edgeColorAttr')] // || 
+      }
+    }
     this.set(cateCfg, legendData)
+    this.set(`${type}ColorMap`, colorMap)
     return legendData
   }
 
@@ -176,7 +187,6 @@ export default class Legend extends Base {
 
   private createLegendItems(type) {
     const legendData = this.initLegendData(type)
-    this.setColorMap(`${type}ColorMap`, legendData)
     this.initSelectedStatus(legendData, `${type}SelectedStatus`)
 
     const itemDoms = legendData.map((cate, i) => {
@@ -230,46 +240,6 @@ export default class Legend extends Base {
     this.set(statusName, selectedStatus)
   }
 
-  private setColorMap(attrName, cats) {
-    let colorMap = this.get(attrName)
-    // if no config colorMap, use default color
-    if (!colorMap || Object.keys(colorMap).length === 0) {
-      colorMap = {}
-      cats.forEach((cat, i) => {
-        colorMap[cat.val] = CATE_20[i % 20]
-      })
-      this.set(attrName, colorMap)
-    }
-    return colorMap
-  }
-
-  private setGraphColor() {
-    const graph = this.get('graph')
-    const nodeAttr = this.get('nodeAttr')
-    const edgeAttr = this.get('edgeAttr')
-    if (nodeAttr) {
-      const nodeColorMap = this.get('nodeColorMap')
-      graph.node(n => {
-        return {
-          style: {
-            fill: nodeColorMap[n[nodeAttr]],
-          }
-        }
-      })
-    }
-    if (edgeAttr) {
-      const edgeColorMap = this.get('edgeColorMap')
-      graph.edge(e => {
-        return {
-          style: {
-            stroke: edgeColorMap[e[edgeAttr]],
-          }
-        }
-      })
-    }
-    graph.render()
-  }
-
   public init() {
     // create legend div
     const graph = this.get('graph')
@@ -288,10 +258,8 @@ export default class Legend extends Base {
     const renderLegend = () => {
       this.render()
       graph.off('afterrender', renderLegend)
-
-      // 为nodes & edges设置和legend相同的color map
-      this.setGraphColor()
     }
+
     graph.on('afterrender', renderLegend)
   }
 
@@ -304,7 +272,7 @@ export default class Legend extends Base {
     const nodeFragment = this.createLegendItems('node')
     const edgeFragment = this.createLegendItems('edge')
 
-    // add Legend items: 如果node和edge legend都存在则渲染tab，否则直接渲染
+    // add Legend items: 如果node和edge legend都存在则创建tab渲染，否则直接渲染
     if (this.get('nodeAttr') === null) {
       legendElem.appendChild(edgeFragment)
     } else if (this.get('edgeAttr') === null) {

@@ -5,8 +5,6 @@ const div = document.createElement('div');
 div.id = 'legend-plugin';
 document.body.appendChild(div);
 
-
-
 describe('category legend', () => {
   it('legend with default config & destroy', () => {
     const legend = new G6.Legend({

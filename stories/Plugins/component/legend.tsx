@@ -35,6 +35,47 @@ const LegendDemo = () => {
       });
 
       graph.data(data);
+      const nodeColors = [
+        '#F8D0CB',
+        '#6DC8EC',
+        '#D3EEF9',
+        '#945FB9',
+        '#DECFEA',
+        '#FF9845',
+        '#FFE0C7',
+        '#1E9493',
+        '#BBDEDE',
+        '#FF99C3',
+        '#FFE0ED'
+      ];
+      const edgeColors = [
+        '#5B8FF9',
+        '#CDDDFD',
+        '#5AD8A6',
+        '#CDF3E4',
+        '#5D7092',
+        '#CED4DE',
+        '#F6BD16',
+        '#FCEBB9',
+        '#E86452',
+        '#FF99C3',
+        '#FFE0ED'
+      ];
+
+      graph.node(n => {
+        return {
+          style: {
+            fill: nodeColors[n.group as number],
+          }
+        }
+      })
+      graph.edge(e => {
+        return {
+          style: {
+            stroke: edgeColors[e.group as number],
+          }
+        }
+      })
       graph.render();
 
       graph.on('node:dragstart', function (e) {
@@ -48,6 +89,10 @@ const LegendDemo = () => {
         e.item.get('model').fx = null;
         e.item.get('model').fy = null;
       });
+
+      // graph.on('legendchange', (data) => {
+      //   console.log(data)
+      // })
 
       const refreshDragedNodePosition = (e) => {
         const model = e.item.get('model');
