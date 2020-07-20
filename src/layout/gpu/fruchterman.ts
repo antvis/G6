@@ -128,7 +128,7 @@ export default class FruchtermanGPULayout extends BaseLayout {
   /**
    * 执行布局
    */
-  public execute() {
+  public execute(ctx?: Worker) {
     const self = this;
     const nodes = self.nodes;
     const center = self.center;
@@ -152,10 +152,10 @@ export default class FruchtermanGPULayout extends BaseLayout {
     self.nodeMap = nodeMap;
     self.nodeIdxMap = nodeIdxMap;
     // layout
-    self.run();
+    self.run(ctx);
   }
 
-  public run() {
+  public run(ctx?: Worker) {
     const self = this;
     const nodes = self.nodes;
     const edges = self.edges;
@@ -183,7 +183,10 @@ export default class FruchtermanGPULayout extends BaseLayout {
 
     // web worker test
     let workerEnabled = self.workerEnabled;
+    let layoutWithWorker = false;
     const offScreenCanvas = document.createElement('canvas');
+
+    let world;
 
     console.log('goint to layout', workerEnabled);
 
@@ -200,50 +203,22 @@ export default class FruchtermanGPULayout extends BaseLayout {
       const worker = new LayoutWorker();
       const offscreen = offScreenCanvas.transferControlToOffscreen();
       worker.postMessage({
-        canvas: offscreen,
         type: LAYOUT_MESSAGE.GPURUN,
-        layoutCfg: {
-          maxIteration,
-          maxEdgePerVetex,
-          nodeNum: numParticles,
-          k,
-          k2,
-          centerX: center[0],
-          centerY: center[1],
-          gravity: self.gravity,
-          clusterGravity: self.clusterGravity,
-          speed: speed,
-          maxDisplace,
-          clustering: clustering ? 1 : 0,
-          gCode
-        },
-        builtData: nodesEdgesArray,
-        attributeArray
-      }, [offscreen]);
-      worker.onmessage = evt => {
-        const { finalParticleData } = evt.data;
-        self.nodes.forEach((node, i) => {
-          const x = finalParticleData[4 * i];
-          const y = finalParticleData[4 * i + 1];
-          node.x = x;
-          node.y = y;
-        });
-        self.onLayoutEnd && self.onLayoutEnd();
-      };
-      // worker.addEventListener('message', (e: MessageEvent) => {
-      //   const { finalParticleData } = e.data;
-      //   self.nodes.forEach((node, i) => {
-      //     const x = finalParticleData[4 * i];
-      //     const y = finalParticleData[4 * i + 1];
-      //     node.x = x;
-      //     node.y = y;
-      //   });
-      //   self.onLayoutEnd && self.onLayoutEnd();
-      // });
+        layoutCfg: { type: 'fruchterman-gpu' },
+      });
       self.worker = worker;
+
+
+      world = new World({
+        canvas: offscreen, // 传入 OffscreenCanvas
+        engineOptions: {
+          supportCompute: true,
+        },
+      });
+
+      layoutWithWorker = true;
     } else {
-      const time = window.performance.now();
-      const world = new World({
+      world = new World({
         engineOptions: {
           supportCompute: true,
         }
@@ -256,84 +231,102 @@ export default class FruchtermanGPULayout extends BaseLayout {
       //     console.log(world.getPrecompiledBundle(compute));
       //   },
       // });
+    }
 
-      console.log('without worker', numParticles, maxIteration, world)
-      const compute = world.createComputePipeline({
-        shader: gCode,
-        // precompiled: true,
-        // shader: cCode,
-        dispatch: [numParticles, 1, 1],
+
+
+    const compute = world.createComputePipeline({
+      shader: gCode,
+      // precompiled: true,
+      // shader: cCode,
+      dispatch: [numParticles, 1, 1],
+      maxIteration,
+      onIterationCompleted: async () => {
+        if (clustering) {
+          world.setBinding(compute2, 'u_Data', {
+            entity: compute,
+          });
+        }
+
+        curMaxDisplace *= 0.99;
+        world.setBinding(
+          compute,
+          'u_MaxDisplace',
+          curMaxDisplace,
+        );
+        return;
+      },
+      onCompleted: (finalParticleData) => {
+        // if (layoutWithWorker) {
+        //   // 传递数据给主线程
+        //   ctx.postMessage({
+        //     type: LAYOUT_MESSAGE.END,
+        //     vertexEdgeData: finalParticleData,
+        //     // edgeIndexBufferData,
+        //   });
+        // } else {
+        self.nodes.forEach((node, i) => {
+          const x = finalParticleData[4 * i];
+          const y = finalParticleData[4 * i + 1];
+          node.x = x;
+          node.y = y;
+        });
+        self.onLayoutEnd && self.onLayoutEnd();
+        // }
+
+        // 计算完成后销毁相关 GPU 资源
+        world.destroy();
+      }
+    });
+
+    world.setBinding(compute, 'u_Data', nodesEdgesArray);
+    world.setBinding(compute, 'u_K', k);
+    world.setBinding(compute, 'u_K2', k2);
+    world.setBinding(compute, 'u_Gravity', self.gravity);
+    world.setBinding(compute, 'u_ClusterGravity', self.clusterGravity);
+    world.setBinding(compute, 'u_Speed', speed);
+    world.setBinding(compute, 'u_MaxDisplace', maxDisplace);
+    world.setBinding(compute, 'u_Clustering', clustering ? 1 : 0);
+    world.setBinding(compute, 'u_AttributeArray', attributeArray);
+    world.setBinding(compute, 'u_CenterX', center[0]);
+    world.setBinding(compute, 'u_CenterY', center[1]);
+    world.setBinding(compute, 'MAX_EDGE_PER_VERTEX', maxEdgePerVetex);
+    world.setBinding(compute, 'VERTEX_COUNT', numParticles);
+
+
+    let compute2;
+    // 第二个管线用于计算聚类
+    if (clustering) {
+      compute2 = world.createComputePipeline({
+        shader: gCode2,
+        dispatch: [1, 1, 1],
         maxIteration,
         onIterationCompleted: async () => {
-          if (clustering) {
-            world.setBinding(compute2, 'u_Data', {
-              entity: compute,
-            });
-          }
-
-          curMaxDisplace *= 0.99;
-          world.setBinding(
-            compute,
-            'u_MaxDisplace',
-            curMaxDisplace,
-          );
-          return;
+          world.setBinding(compute, 'u_ClusterCenters', {
+            entity: compute2,
+          });
         },
         onCompleted: (finalParticleData) => {
-          self.nodes.forEach((node, i) => {
-            const x = finalParticleData[4 * i];
-            const y = finalParticleData[4 * i + 1];
-            node.x = x;
-            node.y = y;
-          });
-          self.onLayoutEnd && self.onLayoutEnd();
-
-          // 计算完成后销毁相关 GPU 资源
           world.destroy();
-          console.log('in gpu', window.performance.now() - time);
-        }
+        },
       });
+      world.setBinding(compute2, 'u_Data', nodesEdgesArray);
+      world.setBinding(compute2, 'u_NodeAttributes', attributeArray);
+      world.setBinding(compute2, 'VERTEX_COUNT', numParticles);
+      world.setBinding(compute2, 'CLUSTER_COUNT', clusterCount);
+    }
 
-      world.setBinding(compute, 'u_Data', nodesEdgesArray);
-      world.setBinding(compute, 'u_K', k);
-      world.setBinding(compute, 'u_K2', k2);
-      world.setBinding(compute, 'u_Gravity', self.gravity);
-      world.setBinding(compute, 'u_ClusterGravity', self.clusterGravity);
-      world.setBinding(compute, 'u_Speed', speed);
-      world.setBinding(compute, 'u_MaxDisplace', maxDisplace);
-      world.setBinding(compute, 'u_Clustering', clustering ? 1 : 0);
-      world.setBinding(compute, 'u_AttributeArray', attributeArray);
-      world.setBinding(compute, 'u_CenterX', center[0]);
-      world.setBinding(compute, 'u_CenterY', center[1]);
-      world.setBinding(compute, 'MAX_EDGE_PER_VERTEX', maxEdgePerVetex);
-      world.setBinding(compute, 'VERTEX_COUNT', numParticles);
-
-
-      console.log('compute2', compute, clustering);
-
-
-      let compute2;
-      // 第二个管线用于计算聚类
-      if (clustering) {
-        compute2 = world.createComputePipeline({
-          shader: gCode2,
-          dispatch: [1, 1, 1],
-          maxIteration,
-          onIterationCompleted: async () => {
-            world.setBinding(compute, 'u_ClusterCenters', {
-              entity: compute2,
-            });
-          },
-          onCompleted: (finalParticleData) => {
-            world.destroy();
-          },
+    if (layoutWithWorker) {
+      self.worker.onmessage = evt => {
+        const { finalParticleData } = evt.data;
+        self.nodes.forEach((node, i) => {
+          const x = finalParticleData[4 * i];
+          const y = finalParticleData[4 * i + 1];
+          node.x = x;
+          node.y = y;
         });
-        world.setBinding(compute2, 'u_Data', nodesEdgesArray);
-        world.setBinding(compute2, 'u_NodeAttributes', attributeArray);
-        world.setBinding(compute2, 'VERTEX_COUNT', numParticles);
-        world.setBinding(compute2, 'CLUSTER_COUNT', clusterCount);
-        console.log('finish');
-      }
+        self.onLayoutEnd && self.onLayoutEnd();
+      };
     }
   }
 }
