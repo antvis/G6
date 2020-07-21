@@ -47,7 +47,6 @@ describe('circle test', () => {
             label: 'circle',
             x: 200,
             y: 100,
-            visible: false,
           },
         ],
       };
@@ -57,9 +56,6 @@ describe('circle test', () => {
       const nodes = graph.getNodes();
       expect(nodes.length).toEqual(1);
       const node = nodes[0];
-      const visible = node._cfg.model.visible;
-      // _cfg.model.visible == false, _cfg.visible == true
-      expect(visible).toEqual(false);
       const group = node.get('group');
       expect(group.getCount()).toEqual(2);
 
@@ -70,8 +66,36 @@ describe('circle test', () => {
       expect(label.attr('fill')).toEqual('#595959');
       const type = label.get('type');
       expect(type).toEqual('text');
-      graph.destroy();
-      expect(graph.destroyed).toBe(true);
+    });
+
+
+    it('circle with visible', () => {
+      const data = {
+        nodes: [
+          {
+            id: 'node1',
+            x: 200,
+            y: 100,
+            visible: false,
+          },
+          {
+            id: 'node2',
+            x: 300,
+            y: 200,
+            visible: true,
+          },
+        ],
+      };
+      graph.data(data);
+      graph.render();
+
+      const nodes = graph.getNodes();
+      expect(nodes.length).toEqual(2);
+      console.log(nodes[1]);
+      expect(nodes[0]._cfg.model.visible).toEqual(false); // _cfg.model.visible == false, _cfg.visible == true
+      expect(nodes[1]._cfg.model.visible).toEqual(true);
+      // graph.destroy();
+      // expect(graph.destroyed).toBe(true);
     });
   });
 
