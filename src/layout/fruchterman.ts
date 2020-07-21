@@ -107,8 +107,10 @@ export default class FruchtermanLayout extends BaseLayout {
       self.height = window.innerHeight;
     }
     const center = self.center;
-    const maxDisplace = self.width / 10;
-    const k = Math.sqrt((self.width * self.height) / (nodes.length + 1));
+    const area = self.height * self.width;
+    const maxDisplace = Math.sqrt(area) / 10;
+    const k2 = area / (nodes.length + 1);
+    const k = Math.sqrt(k2);
     const gravity = self.gravity;
     const speed = self.speed;
     const clustering = self.clustering;
@@ -150,7 +152,7 @@ export default class FruchtermanLayout extends BaseLayout {
       nodes.forEach((_, j) => {
         displacements[j] = { x: 0, y: 0 };
       });
-      self.applyCalculate(nodes, edges, displacements, k);
+      self.applyCalculate(nodes, edges, displacements, k, k2);
 
       // gravity for clusters
       if (clustering) {
@@ -210,13 +212,13 @@ export default class FruchtermanLayout extends BaseLayout {
     }
   }
 
-  private applyCalculate(nodes: Node[], edges: Edge[], displacements: Point[], k: number) {
+  private applyCalculate(nodes: Node[], edges: Edge[], displacements: Point[], k: number, k2: number) {
     const self = this;
-    self.calRepulsive(nodes, displacements, k);
+    self.calRepulsive(nodes, displacements, k2);
     self.calAttractive(edges, displacements, k);
   }
 
-  private calRepulsive(nodes: Node[], displacements: Point[], k: number) {
+  private calRepulsive(nodes: Node[], displacements: Point[], k2: number) {
     nodes.forEach((v, i) => {
       displacements[i] = { x: 0, y: 0 };
       nodes.forEach((u, j) => {
@@ -233,7 +235,7 @@ export default class FruchtermanLayout extends BaseLayout {
           vecX = 0.01 * sign;
           vecY = 0.01 * sign;
         }
-        const common = (k * k) / vecLengthSqr;
+        const common = (k2) / vecLengthSqr;
         displacements[i].x += vecX * common;
         displacements[i].y += vecY * common;
       });

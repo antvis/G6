@@ -243,7 +243,6 @@ export default class GraphinForceLayout extends BaseLayout {
       const direX = vecX / vecLength;
       const direY = vecY / vecLength;
       const length = linkDistance(edge) || 1;
-      // console.log('length,', edge.source, length)
       const diff = length - vecLength;
       const param = diff * edgeStrength(edge);
       const sourceIdx = nodeIdxMap[edge.source];
