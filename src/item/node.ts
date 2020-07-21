@@ -108,8 +108,17 @@ export default class Node extends Item implements INode {
   public getLinkPoint(point: IPoint): IPoint | null {
     const keyShape: IShapeBase = this.get('keyShape');
     const type: string = keyShape.get('type');
-    const bbox = this.getBBox();
-    const { centerX, centerY } = bbox;
+    const itemType: string = this.get('type');
+    let bbox, centerX, centerY;
+    if (itemType === 'combo') {
+      bbox = this.getKeyShape().getCanvasBBox();
+      centerX = (bbox.maxX + bbox.minX) / 2;
+      centerY = (bbox.maxY + bbox.minY) / 2;
+    } else {
+      bbox = this.getBBox();
+      centerX = bbox.centerX;
+      centerY = bbox.centerY;
+    }
     const anchorPoints = this.getAnchorPoints();
     let intersectPoint: IPoint | null;
     switch (type) {

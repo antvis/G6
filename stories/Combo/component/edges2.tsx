@@ -20,7 +20,7 @@ const data: GraphData = {
         id: '4',
         comboId: '分组2',
         x: 400,
-        y: 100
+        y: 150
     }
     ],
     edges: [
@@ -33,7 +33,51 @@ const data: GraphData = {
         {
             id: '分组1',
             label: '分组1',
-            //collapsed: true
+            // collapsed: true
+        },
+        {
+            id: '分组2',
+            label: '分组2',
+            //collapsed: true,
+        },
+        {
+            id: '分组3',
+            label: '分组3',
+            x: 100,
+            y: 300
+            //collapsed: true,
+        }
+    ]
+};
+
+const data2: GraphData = {
+    nodes: [{
+        id: '1',
+        comboId: '分组1',
+        x: 100,
+        y: 100
+    }, {
+        id: '2',
+        comboId: '分组2',
+        x: 200,
+        y: 100
+    }, {
+        id: '4',
+        comboId: '分组2',
+        x: 400,
+        y: 150
+    }
+    ],
+    edges: [
+        {
+            source: '分组1',
+            target: '分组2',
+        }
+    ],
+    combos: [
+        {
+            id: '分组1',
+            label: '分组1',
         },
         {
             id: '分组2',
@@ -42,7 +86,6 @@ const data: GraphData = {
         }
     ]
 };
-
 const Edges2 = () => {
     const container = React.useRef();
     useEffect(() => {
@@ -53,6 +96,7 @@ const Edges2 = () => {
                 height: 800,
                 groupByTypes: false,
                 defaultEdge: {
+                    type: 'polyline',
                     style: {
                         endArrow: true
                     }
@@ -61,13 +105,15 @@ const Edges2 = () => {
                     type: 'rect',
                     size: [50, 60], // The minimum size of the Combo
                     padding: [20, 10, 10, 20],
+                    // padding: [0, 0, 0, 0],
                     style: {
                         lineWidth: 3,
+                        opacity: 0.1
                     },
-                    anchorPoints: [
-                        [0.5, 1],
-                        [0.5, 0],
-                    ],
+                    // anchorPoints: [
+                    //     [0.5, 1],
+                    //     [0.5, 0],
+                    // ],
                     labelCfg: {
                         refY: 10,
                         refX: 20,
@@ -78,7 +124,7 @@ const Edges2 = () => {
                     default: ['drag-canvas', 'drag-node',
                         {
                             type: 'drag-combo',
-                            enableDelegate: true //拖动时禁止合并
+                            // enableDelegate: true //拖动时禁止合并
                         }
                     ],
                 },
@@ -88,6 +134,16 @@ const Edges2 = () => {
             graph.on('combo:click', function (e) {
                 graph.collapseExpandCombo(e.item);
                 graph.refreshPositions();
+            });
+
+            graph.on('canvas:click', e => {
+                // graph.addItem('edge', {
+                //     source: '分组1',
+                //     target: '分组2',
+                // });
+                // graph.updateCombos();
+                // graph.changeData(data2);
+                graph.getEdges()[0].refresh()
             });
         }
     });

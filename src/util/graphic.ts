@@ -652,6 +652,8 @@ export const getComboBBox = (children: ComboTree[], graph: IGraph): BBox => {
     y: undefined,
     width: undefined,
     height: undefined,
+    centerX: undefined,
+    centerY: undefined
   };
 
   if (!children || children.length === 0) {
@@ -672,6 +674,9 @@ export const getComboBBox = (children: ComboTree[], graph: IGraph): BBox => {
   comboBBox.y = (comboBBox.minY + comboBBox.maxY) / 2;
   comboBBox.width = comboBBox.maxX - comboBBox.minX;
   comboBBox.height = comboBBox.maxY - comboBBox.minY;
+
+  comboBBox.centerX = (comboBBox.minX + comboBBox.maxX) / 2;
+  comboBBox.centerY = (comboBBox.minY + comboBBox.maxY) / 2;
 
   Object.keys(comboBBox).forEach(key => {
     if (comboBBox[key] === Infinity || comboBBox[key] === -Infinity) {

@@ -86,6 +86,7 @@ Shape.registerEdge(
     },
     getPath(points: Point[], routeCfg?: any): Array<Array<string | number>> | string {
       const { source, target, offset, radius } = routeCfg as any;
+      // 指定了控制点
       if (!offset || points.length > 2) {
         if (radius) {
           return getPathWithBorderRadiusByPolyline(points, radius);
@@ -101,6 +102,8 @@ Shape.registerEdge(
         });
         return pathArray;
       }
+
+      // 未指定控制点
       let polylinePoints: any;
       if (radius) {
         polylinePoints = simplifyPolyline(
@@ -116,6 +119,7 @@ Shape.registerEdge(
         offset,
       );
       const res = pointsToPolygon(polylinePoints);
+      console.log('path of polyline', points, source, target, polylinePoints, res)
       return res;
     },
   },
