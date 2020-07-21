@@ -957,13 +957,11 @@ export default class Graph extends EventEmitter implements IGraph {
           text: title,
         };
       }
-
       return this.get('customGroupControll').create(
         groupId,
         nodes,
         groupType,
         zIndex,
-        true,
         groupTitle,
       );
     }

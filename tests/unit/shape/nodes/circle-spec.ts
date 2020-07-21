@@ -91,9 +91,24 @@ describe('circle test', () => {
 
       const nodes = graph.getNodes();
       expect(nodes.length).toEqual(2);
-      console.log(nodes[1]);
-      expect(nodes[0]._cfg.model.visible).toEqual(false); // _cfg.model.visible == false, _cfg.visible == true
+      expect(nodes[0]._cfg.model.visible).toEqual(false);
       expect(nodes[1]._cfg.model.visible).toEqual(true);
+      expect(nodes[0]._cfg.visible).toEqual(true);
+      expect(nodes[1]._cfg.visible).toEqual(true);
+
+      nodes[0].show();
+      nodes[1].hide();
+      expect(nodes[0]._cfg.model.visible).toEqual(true);
+      expect(nodes[1]._cfg.model.visible).toEqual(false);
+      expect(nodes[0]._cfg.visible).toEqual(true);
+      expect(nodes[1]._cfg.visible).toEqual(false);
+
+      nodes[0].changeVisibility(false);
+      nodes[1].changeVisibility(true);
+      expect(nodes[0]._cfg.model.visible).toEqual(false);
+      expect(nodes[1]._cfg.model.visible).toEqual(true);
+      expect(nodes[0]._cfg.visible).toEqual(false);
+      expect(nodes[1]._cfg.visible).toEqual(true);
       // graph.destroy();
       // expect(graph.destroyed).toBe(true);
     });

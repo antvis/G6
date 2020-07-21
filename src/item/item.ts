@@ -682,6 +682,9 @@ export default class ItemBase implements IItemBase {
     } else {
       group.hide();
     }
+    if (this.getModel().visible != undefined) {
+      this.getModel().visible = visible;
+    }
     this.set('visible', visible);
   }
 
