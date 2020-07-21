@@ -123,8 +123,8 @@ graph.render();
 graph.on('node:contextmenu', evt => {
   evt.preventDefault();
   evt.stopPropagation();
-  conextMenuContainer.style.left = `${evt.x + 20}px`;
-  conextMenuContainer.style.top = `${evt.y}px`;
+  conextMenuContainer.style.left = `${evt.canvasX + 20}px`;
+  conextMenuContainer.style.top = `${evt.canvasY}px`;
 });
 
 graph.on('node:mouseleave', () => {
