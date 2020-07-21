@@ -10,6 +10,7 @@ import { World } from '@antv/g-webgpu';
 import { proccessToFunc, buildTextureDataWithTwoEdgeAttr, arrayToTextureData } from '../../util/layout'
 import { getDegree } from '../../util/math'
 import { gCode, cCode } from './graphinForceShader';
+import { LAYOUT_MESSAGE } from '../worker/layoutConst';
 
 
 type NodeMap = {
@@ -52,6 +53,8 @@ export default class GraphinForceGPULayout extends BaseLayout {
   public gatherDiscreteCenter: IPointTuple | undefined;
   /** 聚集离散点的重力大小，gatherDiscrete 为 true 时生效 */
   public gatherDiscreteGravity: number = 200;
+  /** 是否启用web worker。前提是在web worker里执行布局，否则无效	*/
+  public workerEnabled: boolean = false;
 
   public nodes: NodeConfig[] = [];
   public edges: EdgeConfig[] = [];
@@ -62,7 +65,6 @@ export default class GraphinForceGPULayout extends BaseLayout {
   public nodeMap: NodeMap = {};
   public nodeIdxMap: NodeIdxMap = {};
 
-  public canvasEl: HTMLCanvasElement;
   public onLayoutEnd: () => void;
   /** 存储节点度数 */
   private degrees: number[];
@@ -113,7 +115,41 @@ export default class GraphinForceGPULayout extends BaseLayout {
     self.run();
   }
 
-  public run() {
+  public executeWithWorker(canvas?: HTMLCanvasElement, ctx?: any) {
+    const self = this;
+    const nodes = self.nodes;
+    const center = self.center;
+
+    if (!nodes || nodes.length === 0) {
+      return;
+    }
+    if (nodes.length === 1) {
+      nodes[0].x = center[0];
+      nodes[0].y = center[1];
+      return;
+    }
+    const nodeMap: NodeMap = {};
+    const nodeIdxMap: NodeIdxMap = {};
+    nodes.forEach((node, i) => {
+      if (!isNumber(node.x)) node.x = Math.random() * self.width;
+      if (!isNumber(node.y)) node.y = Math.random() * self.height;
+      nodeMap[node.id] = node;
+      nodeIdxMap[node.id] = i;
+    });
+    self.nodeMap = nodeMap;
+    self.nodeIdxMap = nodeIdxMap;
+
+    self.nodeStrength = proccessToFunc(self.nodeStrength, 1);
+    self.edgeStrength = proccessToFunc(self.edgeStrength, 1);
+
+    if (!self.gatherDiscreteCenter) {
+      self.gatherDiscreteCenter = [self.width / 4, self.height / 4];
+    }
+    // layout
+    self.run(canvas, ctx);
+  }
+
+  public run(canvas?: HTMLCanvasElement, ctx?: any) {
     const self = this;
     const nodes = self.nodes;
     const edges = self.edges;
@@ -127,8 +163,6 @@ export default class GraphinForceGPULayout extends BaseLayout {
 
     const numParticles = nodes.length;
 
-
-    const canvas = self.canvasEl;
 
     self.linkDistance = proccessToFunc(self.linkDistance) as ((d?: any) => number);
     self.edgeStrength = proccessToFunc(self.edgeStrength) as ((d?: any) => number);
@@ -151,12 +185,23 @@ export default class GraphinForceGPULayout extends BaseLayout {
 
     const nodeAttributeArray = arrayToTextureData([masses, self.degrees, nodeStrengths]);
 
-    const time = window.performance.now();
-    const world = new World({
-      engineOptions: {
-        supportCompute: true,
-      }
-    });
+    let workerEnabled = self.workerEnabled;
+    let world;
+
+    if (workerEnabled) {
+      world = new World({
+        canvas,
+        engineOptions: {
+          supportCompute: true,
+        },
+      });
+    } else {
+      world = new World({
+        engineOptions: {
+          supportCompute: true,
+        }
+      });
+    }
 
     // const compute = world.createComputePipeline({
     //   shader: gCode,
@@ -165,6 +210,8 @@ export default class GraphinForceGPULayout extends BaseLayout {
     //     console.log(world.getPrecompiledBundle(compute));
     //   },
     // });
+
+    const onLayoutEnd = self.onLayoutEnd;
 
     const compute = world.createComputePipeline({
       shader: gCode,
@@ -181,17 +228,26 @@ export default class GraphinForceGPULayout extends BaseLayout {
         );
       },
       onCompleted: (finalParticleData) => {
-        self.nodes.forEach((node, i) => {
-          const x = finalParticleData[4 * i];
-          const y = finalParticleData[4 * i + 1];
-          node.x = x;
-          node.y = y;
-        });
-        self.onLayoutEnd && self.onLayoutEnd();
+        if (canvas) {
+          // 传递数据给主线程
+          ctx.postMessage({
+            type: LAYOUT_MESSAGE.GPUEND,
+            vertexEdgeData: finalParticleData,
+            // edgeIndexBufferData,
+          });
+        } else {
+          nodes.forEach((node, i) => {
+            const x = finalParticleData[4 * i];
+            const y = finalParticleData[4 * i + 1];
+            node.x = x;
+            node.y = y;
+          });
+        }
+
+        onLayoutEnd && onLayoutEnd();
 
         // 计算完成后销毁相关 GPU 资源
         world.destroy();
-        console.log('in gpu', window.performance.now() - time);
       },
     });
 

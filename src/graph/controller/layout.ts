@@ -2,6 +2,8 @@ import Layout from '../../layout';
 import LayoutWorker from '../../layout/worker/layout.worker';
 import { LAYOUT_MESSAGE } from '../../layout/worker/layoutConst';
 import { isNaN, gpuDetector } from '../../util/base';
+import { mix } from '@antv/util';
+import { GraphData } from '../../types';
 
 import { IGraph } from '../../interface/graph';
 
@@ -44,6 +46,8 @@ export default class LayoutController {
   private workerData;
 
   private data;
+
+  private isGPU: boolean;
 
   constructor(graph: IGraph) {
     this.graph = graph;
@@ -149,7 +153,8 @@ export default class LayoutController {
     // 若用户指定开启 gpu，且当前浏览器支持 webgl，且该算法存在 GPU 版本（目前仅支持 fruchterman 和 graphinForce），使用 gpu 版本的布局
     if (layoutType && layoutCfg.gpuEnabled) {
       let enableGPU = true;
-      if (!gpuDetector.webgl) {
+      // 打开下面语句将会导致 webworker 报找不到 window
+      if (!gpuDetector().webgl) {
         console.warn(`Your browser does not support webGL or GPGPU. The layout will run in CPU.`);
         enableGPU = false;
       }
@@ -163,14 +168,15 @@ export default class LayoutController {
         isGPU = true;
       }
     }
+    this.isGPU = isGPU;
 
-    console.log('layout', isGPU, layoutType);
 
     this.stopWorker();
-    if (layoutCfg.workerEnabled && !isGPU && this.layoutWithWorker(this.data, success)) {
+    if (layoutCfg.workerEnabled && this.layoutWithWorker(this.data, success)) {
       // 如果启用布局web worker并且浏览器支持web worker，用web worker布局。否则回退到不用web worker布局。
       return true;
     }
+
 
     if (layoutType === 'force' || layoutType === 'g6force') {
       const { onTick } = layoutCfg;
@@ -255,7 +261,7 @@ export default class LayoutController {
    */
   private layoutWithWorker(data, success?: () => void): boolean {
     const { nodes, edges } = data;
-    const { layoutCfg, graph } = this;
+    const { layoutCfg, graph, isGPU } = this;
     const worker = this.getWorker();
     // 每次worker message event handler调用之间的共享数据，会被修改。
     const { workerData } = this;
@@ -270,12 +276,30 @@ export default class LayoutController {
     workerData.currentTickData = null;
 
     graph.emit('beforelayout');
+
+    const offScreenCanvas = document.createElement('canvas');
+    const gpuWorkerAbility = isGPU && !navigator['gpu'] && // WebGPU 还不支持 OffscreenCanvas
+      'OffscreenCanvas' in window && 'transferControlToOffscreen' in offScreenCanvas;
+
+
     // NOTE: postMessage的message参数里面不能包含函数，否则postMessage会报错，
     // 例如：'function could not be cloned'。
     // 详情参考：https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm
     // 所以这里需要把过滤layoutCfg里的函数字段过滤掉。
     const filteredLayoutCfg = filterObject(layoutCfg, value => typeof value !== 'function');
-    worker.postMessage({ type: LAYOUT_MESSAGE.RUN, nodes, edges, layoutCfg: filteredLayoutCfg });
+    if (!gpuWorkerAbility) {
+      worker.postMessage({ type: LAYOUT_MESSAGE.RUN, nodes, edges, layoutCfg: filteredLayoutCfg });
+    } else {
+      const offscreen: any = offScreenCanvas.transferControlToOffscreen();
+      // filteredLayoutCfg.canvas = offscreen;
+      filteredLayoutCfg.type = `${filteredLayoutCfg.type}-gpu`;
+      worker.postMessage({
+        type: LAYOUT_MESSAGE.GPURUN,
+        nodes, edges,
+        layoutCfg: filteredLayoutCfg,
+        canvas: offscreen
+      }, [offscreen]);
+    }
     worker.onmessage = event => {
       this.handleWorkerMessage(event, data, success);
     };
@@ -343,17 +367,31 @@ export default class LayoutController {
           graph.emit('afterlayout');
         }
         break;
+      case LAYOUT_MESSAGE.GPUEND:
+        // 如果没有tick消息（非力导布局）
+        if (workerData.currentTick == null) {
+
+          updateGPUWorkerLayoutPosition(data, eventData);
+          this.refreshLayout();
+          // 非力导布局，没有tick消息，只有end消息，所以需要执行一次回调。
+          if (success) {
+            success();
+          }
+          graph.emit('afterlayout');
+        }
+        break;
       case LAYOUT_MESSAGE.ERROR:
+        console.warn('Web-Worker layout error!', eventData.message);
         break;
       default:
         break;
     }
   }
 
+
   // 绘制
   public refreshLayout() {
     const { graph } = this;
-    console.log('refresh layout')
     if (graph.get('animate')) {
       graph.positionsAnimate();
     } else {
@@ -363,13 +401,12 @@ export default class LayoutController {
 
   // 更新布局参数
   public updateLayoutCfg(cfg) {
-    const { graph, layoutMethod } = this;
+    const { graph, layoutMethod, layoutType, layoutCfg } = this;
 
     this.layoutType = cfg.type;
     if (!layoutMethod) {
-      console.warn(
-        'You did not assign any layout type and the graph has no previous layout method!',
-      );
+      this.layoutCfg = mix({}, layoutCfg, cfg);
+      this.layout();
       return;
     }
     this.data = this.setDataFromGraph();
@@ -394,8 +431,6 @@ export default class LayoutController {
   public changeLayout(layoutType: string) {
     const { graph, layoutMethod } = this;
 
-    console.log('changelayout')
-
     this.layoutType = layoutType;
 
     this.layoutCfg = graph.get('layout') || {};
@@ -418,30 +453,37 @@ export default class LayoutController {
   }
 
   // 从 this.graph 获取数据
-  public setDataFromGraph() {
+  public setDataFromGraph(): GraphData {
     const nodes = [];
     const edges = [];
     const combos = [];
     const nodeItems = this.graph.getNodes();
     const edgeItems = this.graph.getEdges();
     const comboItems = this.graph.getCombos();
-    nodeItems.forEach(nodeItem => {
-      if (!nodeItem.isVisible()) return;
+    const nodeLength = nodeItems.length;
+    for (let i = 0; i < nodeLength; i++) {
+      const nodeItem = nodeItems[i];
+      if (!nodeItem.isVisible()) continue;
       const model = nodeItem.getModel();
       nodes.push(model);
-    });
-    edgeItems.forEach(edgeItem => {
-      if (edgeItem.destroyed || !edgeItem.isVisible()) return;
+    }
+
+    const edgeLength = edgeItems.length;
+    for (let i = 0; i < edgeLength; i++) {
+      const edgeItem = edgeItems[i];
+      if (edgeItem.destroyed || !edgeItem.isVisible()) continue;
       const model = edgeItem.getModel();
       if (!model.isComboEdge) edges.push(model);
-    });
-    comboItems.forEach(comboItem => {
-      if (comboItem.destroyed || !comboItem.isVisible()) return;
+    }
+
+    const comboLength = comboItems.length;
+    for (let i = 0; i < comboLength; i++) {
+      const comboItem = comboItems[i];
+      if (comboItem.destroyed || !comboItem.isVisible()) continue;
       const model = comboItem.getModel();
       combos.push(model);
-    });
-    const data: any = { nodes, edges, combos };
-    return data;
+    }
+    return { nodes, edges, combos } as GraphData;
   }
 
   // 重新布局
@@ -488,16 +530,21 @@ export default class LayoutController {
       return;
     }
     const meanCenter = [0, 0];
-    nodes.forEach(node => {
+    const nodeLength = nodes.length;
+    for (let i = 0; i < nodeLength; i++) {
+      const node = nodes[i];
       meanCenter[0] += node.x;
       meanCenter[1] += node.y;
-    });
+    }
+
     meanCenter[0] /= nodes.length;
     meanCenter[1] /= nodes.length;
-    nodes.forEach(node => {
+
+    for (let i = 0; i < nodeLength; i++) {
+      const node = nodes[i];
       node.x -= meanCenter[0];
       node.y -= meanCenter[1];
-    });
+    }
   }
 
   // 初始化节点到 center 附近
@@ -507,7 +554,9 @@ export default class LayoutController {
       return false;
     }
     let allHavePos = true;
-    nodes.forEach(node => {
+    const nodeLength = nodes.length;
+    for (let i = 0; i < nodeLength; i++) {
+      const node = nodes[i];
       if (isNaN(node.x)) {
         allHavePos = false;
         node.x = (Math.random() - 0.5) * 0.7 * graph.get('width') + center[0];
@@ -516,7 +565,7 @@ export default class LayoutController {
         allHavePos = false;
         node.y = (Math.random() - 0.5) * 0.7 * graph.get('height') + center[1];
       }
-    });
+    }
     return allHavePos;
   }
 
@@ -548,10 +597,12 @@ export default class LayoutController {
 function updateLayoutPosition(data, layoutData) {
   const { nodes } = data;
   const { nodes: layoutNodes } = layoutData;
-  nodes.forEach((node, i) => {
+  const nodeLength = nodes.length;
+  for (let i = 0; i < nodeLength; i++) {
+    const node = nodes[i];
     node.x = layoutNodes[i].x;
     node.y = layoutNodes[i].y;
-  });
+  }
 }
 
 function filterObject(collection, callback) {
@@ -566,4 +617,18 @@ function filterObject(collection, callback) {
     return result;
   }
   return collection;
+}
+
+
+function updateGPUWorkerLayoutPosition(data, layoutData) {
+  const { nodes } = data;
+  const { vertexEdgeData } = layoutData;
+  const nodeLength = nodes.length;
+  for (let i = 0; i < nodeLength; i++) {
+    const node = nodes[i];
+    const x = vertexEdgeData[4 * i];
+    const y = vertexEdgeData[4 * i + 1];
+    node.x = x;
+    node.y = y;
+  }
 }

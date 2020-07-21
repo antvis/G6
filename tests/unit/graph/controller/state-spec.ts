@@ -27,7 +27,7 @@ describe('graph state controller', () => {
   };
   graph.read(data);
 
-  it('set item state', () => {
+  it('set item state', done => {
     let graphCount = 0;
     let itemCount = 0;
 
@@ -44,6 +44,7 @@ describe('graph state controller', () => {
     expect(itemCount).toBe(2);
     timerOut(() => {
       expect(graphCount).toBe(1);
+      done();
     }, 16);
   });
 
@@ -62,7 +63,11 @@ describe('graph state controller', () => {
     expect(modes.default).toEqual([]);
   });
 
-  it('updateGraphStates', () => {
+  it('updateGraphStates', done => {
+    graph.clearItemStates('node1', 'selected');
+    graph.clearItemStates('node2', 'selected');
+    graph.clearItemStates('node3', 'selected');
+
     const node1 = graph.findById('node1');
     graph.setItemState(node1, 'selected', true);
     graph.setItemState(node1, 'hover', true);
@@ -76,6 +81,7 @@ describe('graph state controller', () => {
 
     timerOut(() => {
       graph.emit('node:mouseenter', { item: node1 });
-    }, 20);
+      done();
+    }, 21);
   });
 });

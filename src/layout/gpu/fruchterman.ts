@@ -9,7 +9,6 @@ import { isNumber } from '@antv/util';
 import { World } from '@antv/g-webgpu';
 import { buildTextureData, attributesToTextureData } from '../../util/layout'
 import { cCode, gCode } from './fruchtermanShader';
-import LayoutWorker from '../worker/layout.worker';
 import { LAYOUT_MESSAGE } from '../worker/layoutConst';
 
 
@@ -91,7 +90,7 @@ export default class FruchtermanGPULayout extends BaseLayout {
   /** 重力大小，影响图的紧凑程度 */
   public gravity: number = 10;
   /** 速度 */
-  public speed: number = 0.1;
+  public speed: number = 1;
   /** 是否产生聚类力 */
   public clustering: boolean = false;
   /** 根据哪个字段聚类 */
@@ -113,8 +112,6 @@ export default class FruchtermanGPULayout extends BaseLayout {
   public canvasEl: HTMLCanvasElement;
   public onLayoutEnd: () => void;
 
-  private worker = null;
-
   public getDefaultCfg() {
     return {
       maxIteration: 1000,
@@ -128,7 +125,7 @@ export default class FruchtermanGPULayout extends BaseLayout {
   /**
    * 执行布局
    */
-  public execute(ctx?: Worker) {
+  public execute() {
     const self = this;
     const nodes = self.nodes;
     const center = self.center;
@@ -152,10 +149,36 @@ export default class FruchtermanGPULayout extends BaseLayout {
     self.nodeMap = nodeMap;
     self.nodeIdxMap = nodeIdxMap;
     // layout
-    self.run(ctx);
+    self.run();
+  }
+  public executeWithWorker(canvas?: HTMLCanvasElement, ctx?: any) {
+    const self = this;
+    const nodes = self.nodes;
+    const center = self.center;
+
+    if (!nodes || nodes.length === 0) {
+      return;
+    }
+    if (nodes.length === 1) {
+      nodes[0].x = center[0];
+      nodes[0].y = center[1];
+      return;
+    }
+    const nodeMap: NodeMap = {};
+    const nodeIdxMap: NodeIdxMap = {};
+    nodes.forEach((node, i) => {
+      if (!isNumber(node.x)) node.x = Math.random() * this.width;
+      if (!isNumber(node.y)) node.y = Math.random() * this.height;
+      nodeMap[node.id] = node;
+      nodeIdxMap[node.id] = i;
+    });
+    self.nodeMap = nodeMap;
+    self.nodeIdxMap = nodeIdxMap;
+    // layout
+    self.run(canvas, ctx);
   }
 
-  public run(ctx?: Worker) {
+  public run(canvas?: HTMLCanvasElement, ctx?: any) {
     const self = this;
     const nodes = self.nodes;
     const edges = self.edges;
@@ -180,60 +203,26 @@ export default class FruchtermanGPULayout extends BaseLayout {
     const numParticles = nodes.length;
     const { maxEdgePerVetex, array: nodesEdgesArray } = buildTextureData(nodes, edges);
 
-
-    // web worker test
     let workerEnabled = self.workerEnabled;
-    let layoutWithWorker = false;
-    const offScreenCanvas = document.createElement('canvas');
 
     let world;
 
-    console.log('goint to layout', workerEnabled);
-
-    if (
-      workerEnabled &&
-      !navigator['gpu'] && // WebGPU 还不支持 OffscreenCanvas
-      'OffscreenCanvas' in window &&
-      'transferControlToOffscreen' in offScreenCanvas
-    ) {
-      if (self.worker) {
-        self.worker.terminate();
-        self.worker = null;
-      }
-      const worker = new LayoutWorker();
-      const offscreen = offScreenCanvas.transferControlToOffscreen();
-      worker.postMessage({
-        type: LAYOUT_MESSAGE.GPURUN,
-        layoutCfg: { type: 'fruchterman-gpu' },
-      });
-      self.worker = worker;
-
-
+    if (workerEnabled) {
       world = new World({
-        canvas: offscreen, // 传入 OffscreenCanvas
+        canvas,
         engineOptions: {
           supportCompute: true,
         },
       });
-
-      layoutWithWorker = true;
     } else {
       world = new World({
         engineOptions: {
           supportCompute: true,
         }
       });
-
-      // const compute = world.createComputePipeline({
-      //   shader: gCode,
-      //   onCompleted: (result) => {
-      //     // 获取 Shader 的编译结果，用户可以输出到 console 中并保存
-      //     console.log(world.getPrecompiledBundle(compute));
-      //   },
-      // });
     }
 
-
+    const onLayoutEnd = self.onLayoutEnd;
 
     const compute = world.createComputePipeline({
       shader: gCode,
@@ -257,22 +246,22 @@ export default class FruchtermanGPULayout extends BaseLayout {
         return;
       },
       onCompleted: (finalParticleData) => {
-        // if (layoutWithWorker) {
-        //   // 传递数据给主线程
-        //   ctx.postMessage({
-        //     type: LAYOUT_MESSAGE.END,
-        //     vertexEdgeData: finalParticleData,
-        //     // edgeIndexBufferData,
-        //   });
-        // } else {
-        self.nodes.forEach((node, i) => {
-          const x = finalParticleData[4 * i];
-          const y = finalParticleData[4 * i + 1];
-          node.x = x;
-          node.y = y;
-        });
-        self.onLayoutEnd && self.onLayoutEnd();
-        // }
+        if (canvas) {
+          // 传递数据给主线程
+          ctx.postMessage({
+            type: LAYOUT_MESSAGE.GPUEND,
+            vertexEdgeData: finalParticleData,
+            // edgeIndexBufferData,
+          });
+        } else {
+          nodes.forEach((node, i) => {
+            const x = finalParticleData[4 * i];
+            const y = finalParticleData[4 * i + 1];
+            node.x = x;
+            node.y = y;
+          });
+        }
+        onLayoutEnd && onLayoutEnd();
 
         // 计算完成后销毁相关 GPU 资源
         world.destroy();
@@ -316,17 +305,5 @@ export default class FruchtermanGPULayout extends BaseLayout {
       world.setBinding(compute2, 'CLUSTER_COUNT', clusterCount);
     }
 
-    if (layoutWithWorker) {
-      self.worker.onmessage = evt => {
-        const { finalParticleData } = evt.data;
-        self.nodes.forEach((node, i) => {
-          const x = finalParticleData[4 * i];
-          const y = finalParticleData[4 * i + 1];
-          node.x = x;
-          node.y = y;
-        });
-        self.onLayoutEnd && self.onLayoutEnd();
-      };
-    }
   }
 }

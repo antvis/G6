@@ -53,32 +53,32 @@ const data = {
     },
   ],
   combos: [
-  {
-    id: 'A',
-    parentId: 'C',
-    label: 'gorup A',
-    type: 'circle'
-  }, {
-    id: 'B',
-    parentId: 'C',
-    label: 'gorup B',
-    type: 'circle'
-  }, {
-    id: 'C',
-    label: 'gorup C',
-    // type: 'rect'
-  }, 
-  {
-    id: 'F',
-    label: 'gorup F'
-    // type: 'rect'
-  }, {
-    id: 'G',
-    label: 'gorup G',
-    // parentId: 'F'
-    type: 'circle'
-  }
-]
+    {
+      id: 'A',
+      parentId: 'C',
+      label: 'gorup A',
+      type: 'circle'
+    }, {
+      id: 'B',
+      parentId: 'C',
+      label: 'gorup B',
+      type: 'circle'
+    }, {
+      id: 'C',
+      label: 'gorup C',
+      // type: 'rect'
+    },
+    {
+      id: 'F',
+      label: 'gorup F'
+      // type: 'rect'
+    }, {
+      id: 'G',
+      label: 'gorup G',
+      // parentId: 'F'
+      type: 'circle'
+    }
+  ]
 };
 
 describe('collapse-expand-combo', () => {
@@ -88,7 +88,7 @@ describe('collapse-expand-combo', () => {
       width: 1000,
       height: 800,
       modes: {
-        default: [ 'collapse-expand-combo' ]
+        default: ['collapse-expand-combo']
       },
       defaultCombo: {
         type: 'circle',
@@ -117,7 +117,7 @@ describe('collapse-expand-combo', () => {
         }
       }
     });
-    
+
     graph.data(data);
     graph.render();
 
@@ -172,7 +172,7 @@ describe('collapse-expand-combo', () => {
       done();
     }, 250);
   });
-  it ('default collapsed set in data', done => {
+  it('default collapsed set in data', done => {
     data.combos.forEach((combo: ComboConfig) => {
       combo.collapsed = true;
     });
@@ -343,7 +343,7 @@ describe('collapse-expand-combo', () => {
       }
     });
     graph.read(data);
-    
+
     const node = graph.getNodes()[0];
     const comboB = graph.findById('B') as ICombo;
     graph.emit('dblclick', { item: node });
