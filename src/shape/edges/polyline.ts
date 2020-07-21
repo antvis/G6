@@ -119,6 +119,7 @@ Shape.registerEdge(
         offset,
       );
       const res = pointsToPolygon(polylinePoints);
+      console.log('path of polyline', points, source, target, polylinePoints, res)
       return res;
     },
   },
