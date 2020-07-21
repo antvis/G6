@@ -1,5 +1,5 @@
 import { each } from '@antv/util';
-import { IShapeBase } from '../../types';
+import { INode, ICombo } from '../../interface/item';
 import { Point } from '@antv/g-base/lib/types';
 
 interface PolyPoint {
@@ -203,6 +203,9 @@ export const getBBoxCrossPointsByPoint = (bbox: PBBox, point: PolyPoint): PolyPo
 export const distance = (p1: PolyPoint, p2: PolyPoint): number =>
   Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y);
 
+/**
+* 如果 points 中的一个节点 x 与 p 相等，则消耗 -2。y 同
+*/
 export const _costByPoints = (p: PolyPoint, points: PolyPoint[]): number => {
   const offset = -2;
   let result = 0;
@@ -218,6 +221,10 @@ export const _costByPoints = (p: PolyPoint, points: PolyPoint[]): number => {
   });
   return result;
 };
+
+/**
+* ps 经过 p 到 pt 的距离，减去其他路过节点造成的消耗
+*/
 export const heuristicCostEstimate = (
   p: PolyPoint,
   ps: PolyPoint,
@@ -238,6 +245,10 @@ export const reconstructPath = (
     reconstructPath(pathPoints, pointById, cameFrom, cameFrom[currentId], iterator + 1);
   }
 };
+
+/**
+* 从 arr 中删去 item
+*/
 export const removeFrom = (arr: PolyPoint[], item: PolyPoint) => {
   const index = arr.indexOf(item);
   if (index > -1) {
@@ -272,6 +283,9 @@ export const isSegmentCrossingBBox = (p1: PolyPoint, p2: PolyPoint, bbox: PBBox)
     isSegmentsIntersected(p1, p2, pc, pd)
   );
 };
+/**
+ * 在 points 中找到满足 x 或 y 和 point 的 x 或 y 相等，且与 point 连线不经过 bbox1 与 bbox2 的点
+ */
 export const getNeighborPoints = (
   points: PolyPoint[],
   point: PolyPoint,
@@ -328,6 +342,7 @@ export const pathFinder = (
   while (openSet.length) {
     let current: any;
     let lowestFScore = Infinity;
+    // 找到 openSet 中 fScore 最小的点
     openSet.forEach((p: any) => {
       if (fScore[p.id] < lowestFScore) {
         lowestFScore = fScore[p.id];
@@ -335,6 +350,7 @@ export const pathFinder = (
       }
     });
 
+    // 若 openSet 中 fScore 最小的点就是终点
     if (current === goal) {
       // ending condition
       const pathPoints: any = [];
@@ -428,12 +444,34 @@ export const getPathWithBorderRadiusByPolyline = (
 export const getPolylinePoints = (
   start: PolyPoint,
   end: PolyPoint,
-  sNode: IShapeBase,
-  tNode: IShapeBase,
+  sNode: INode | ICombo,
+  tNode: INode | ICombo,
   offset: number,
 ): PolyPoint[] => {
-  const sBBox = sNode && sNode.getBBox() ? sNode.getBBox() : getBBoxFromPoint(start);
-  const tBBox = tNode && tNode.getBBox() ? tNode.getBBox() : getBBoxFromPoint(end);
+  let sBBox: PBBox, tBBox: PBBox;
+
+  if (!sNode || !sNode.getType()) {
+    sBBox = getBBoxFromPoint(start);
+  } else if (sNode.getType() === 'combo') {
+    const sNodeKeyShape = sNode.getKeyShape();
+    sBBox = sNodeKeyShape.getCanvasBBox() || getBBoxFromPoint(start) as PBBox;
+    sBBox.centerX = (sBBox.minX + sBBox.maxX) / 2;
+    sBBox.centerY = (sBBox.minY + sBBox.maxY) / 2;
+  } else {
+    sBBox = sNode.getBBox();
+  }
+
+  if (!tNode || !tNode.getType()) {
+    tBBox = getBBoxFromPoint(end);
+  } else if (tNode.getType() === 'combo') {
+    const tNodeKeyShape = tNode.getKeyShape();
+    tBBox = tNodeKeyShape.getCanvasBBox() || getBBoxFromPoint(end) as PBBox;
+    tBBox.centerX = (tBBox.minX + tBBox.maxX) / 2;
+    tBBox.centerY = (tBBox.minY + tBBox.maxY) / 2;
+  } else {
+    tBBox = tNode && tNode.getBBox();
+  }
+
   if (isBBoxesOverlapping(sBBox, tBBox)) {
     // source and target nodes are overlapping
     return simplifyPolyline(getSimplePolyline(start, end));
@@ -478,6 +516,7 @@ export const getPolylinePoints = (
       y: sPoint.y,
     },
   ].forEach(p => {
+    // impossible!!
     if (
       isPointOutsideBBox(p, sxBBox) &&
       isPointOutsideBBox(p, txBBox) // &&
@@ -488,6 +527,7 @@ export const getPolylinePoints = (
   });
   connectPoints.unshift(sPoint);
   connectPoints.push(tPoint);
+  // filter out dulplicated points in connectPoints
   connectPoints = filterConnectPoints(connectPoints); // , sxBBox, txBBox, outerBBox
   const pathPoints = pathFinder(connectPoints, sPoint, tPoint, sBBox, tBBox, start, end);
   pathPoints.unshift(start);

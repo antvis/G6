@@ -27,15 +27,13 @@ export default class ViewController {
     const width: number = this.graph.get('width');
     const height: number = graph.get('height');
     return {
-      x: (width - padding[2] - padding[3]) / 2 + padding[3],
+      x: (width - padding[1] - padding[3]) / 2 + padding[3],
       y: (height - padding[0] - padding[2]) / 2 + padding[0],
     };
   }
 
   public fitCenter() {
     const { graph } = this;
-    const width: number = graph.get('width');
-    const height: number = graph.get('height');
     const group: Group = graph.get('group');
     group.resetMatrix();
     const bbox = group.getCanvasBBox();

@@ -3,6 +3,9 @@
 #### 3.5.11
 - feat: graph.priorityState api;
 - feat: graph.on support name:event mode.
+- fix: combo edge with uncorrect end points;
+- fix: combo polyline edge with wrong path;
+- fix: getViewCenter with padding problem.
 
 #### 3.5.10
 - fix: fitView and fitCenter with animate in the initial state;
