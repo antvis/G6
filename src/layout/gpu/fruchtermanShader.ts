@@ -1,5 +1,5 @@
 export
-    const gCode = `
+  const gCode = `
 import { globalInvocationID } from 'g-webgpu';
 
 const SPEED_DIVISOR = 800;
@@ -121,17 +121,6 @@ class Fruchterman {
       const yDist = currentNode[1] - nextNode[1];
       const dist = sqrt(xDist * xDist + yDist * yDist) + 0.01;
       let attractiveF = dist / this.u_K;
-
-      // 临时的无需计算平均中心的聚类方法
-    //   if (this.u_Clustering == 1) {
-    //     const attributesi = this.u_AttributeArray[i];
-    //     const attributesj = this.u_AttributeArray[int(float_j)];
-    //     const clusteri = attributesi[0];
-    //     const clusterj = attributesj[0]
-    //     if (clusteri == clusterj) {
-    //       attractiveF = attractiveF * 3;
-    //     }
-    //   }
     
       if (dist > 0.0) {
         dx -= xDist * attractiveF;
