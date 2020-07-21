@@ -69,17 +69,19 @@ describe('circle test', () => {
     });
 
 
-    it('circle with visible', () => {
+    it('circle visible', () => {
       const data = {
         nodes: [
           {
             id: 'node1',
-            x: 200,
+            label: 'node1',
+            x: 300,
             y: 100,
             visible: false,
           },
           {
             id: 'node2',
+            label: 'node2',
             x: 300,
             y: 200,
             visible: true,
@@ -110,8 +112,8 @@ describe('circle test', () => {
       expect(nodes[1].getModel().visible).toEqual(true);
       expect(nodes[0].get("visible")).toEqual(false);
       expect(nodes[1].get("visible")).toEqual(true);
-      // graph.destroy();
-      // expect(graph.destroyed).toBe(true);
+      graph.destroy();
+      expect(graph.destroyed).toBe(true);
     });
   });
 

@@ -439,5 +439,39 @@ describe('polyline e test', () => {
       expect(label.attr('fill')).toEqual('#0ff');
       expect(label.attr('text')).toEqual('new label');
     });
+    it('edge visible', () => {
+      const data = {
+        nodes: [
+          {
+            id: 'node1',
+            x: 200,
+            y: 200,
+          },
+          {
+            id: 'node2',
+            x: 150,
+            y: 100,
+          },
+        ],
+        edges: [
+          {
+            source: 'node1',
+            target: 'node2',
+            type: 'polyline',
+            visible: false,
+          },
+        ],
+      };
+      graph.data(data);
+      graph.render();
+
+      const edges = graph.getEdges();
+      expect(edges[0].getModel().visible).toEqual(false);
+      expect(edges[0].get("visible")).toEqual(true);
+
+      edges[0].show();
+      expect(edges[0].isVisible()).toEqual(true);
+      expect(edges[0].get("visible")).toEqual(true);
+    });
   });
 });
