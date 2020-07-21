@@ -5,7 +5,8 @@
 - feat: graph.on support name:event mode.
 - fix: combo edge with uncorrect end points;
 - fix: combo polyline edge with wrong path;
-- fix: getViewCenter with padding problem.
+- fix: getViewCenter with padding problem;
+- feat: allow user to configure the initial positions for empty combos.
 
 #### 3.5.10
 - fix: fitView and fitCenter with animate in the initial state;
