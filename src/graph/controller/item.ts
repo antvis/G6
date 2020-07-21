@@ -108,8 +108,14 @@ export default class ItemController {
         return;
       }
 
-      if ((source as Item).getType && (source as Item).getType() === 'combo') model.isComboEdge = true;
-      if ((target as Item).getType && (target as Item).getType() === 'combo') model.isComboEdge = true;
+      if ((source as Item).getType && (source as Item).getType() === 'combo') {
+        model.isComboEdge = true;
+        graph.updateCombo(source as ICombo);
+      }
+      if ((target as Item).getType && (target as Item).getType() === 'combo') {
+        model.isComboEdge = true;
+        graph.updateCombo(target as ICombo);
+      }
 
       item = new Edge({
         model,
@@ -245,7 +251,7 @@ export default class ItemController {
     if (type === NODE || type === COMBO) {
       const edges: IEdge[] = (item as INode).getEdges();
       each(edges, (edge: IEdge) => {
-        graph.refreshItem(edge);
+        edge.refresh();
       });
     }
     graph.emit('afterupdateitem', { item, cfg });
@@ -276,7 +282,12 @@ export default class ItemController {
       x: comboBBox.x,
       y: comboBBox.y
     });
-
+    const combEdges = combo.getEdges() || [];
+    const length = combEdges.length;
+    for (let i = 0; i < length; i++) {
+      const edge = combEdges[i];
+      edge && edge.refresh();
+    }
   }
 
   /**
@@ -534,18 +545,7 @@ export default class ItemController {
     });
     const comboGroup = graph.get('comboGroup');
     if (comboGroup) comboGroup.sort();
-    // refresh the edges' source and target point position
-    setTimeout(() => {
-      if (graph.destroyed) return;
-      const edges: IEdge[] = graph.get('edges');
-      const vedges: IEdge[] = graph.get('vedges');
-      each(edges, (edge: IEdge) => {
-        edge.refresh();
-      });
-      each(vedges, (vedge: IEdge) => {
-        vedge.refresh();
-      });
-    }, 450);
+
   }
 
   /**

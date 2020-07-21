@@ -80,6 +80,8 @@ export default class Combo extends Node implements ICombo {
     } else {
       bbox.width = bbox.maxX - bbox.minX;
       bbox.height = bbox.maxY - bbox.minY;
+      bbox.centerX = (bbox.minX + bbox.maxX) / 2;
+      bbox.centerY = (bbox.minY + bbox.maxY) / 2;
     }
     return bbox;
   }
@@ -225,6 +227,7 @@ export default class Combo extends Node implements ICombo {
     const bbox: IBBox = this.calculateCanvasBBox();
     return bbox;
   }
+
 
   public clearCache() {
     this.set(CACHE_BBOX, null); // 清理缓存的 bbox
