@@ -185,7 +185,7 @@ export default {
         })
       }
     }
-    
+
     // 拖动结束后，入栈
     if (graph.get('enabledStack')) {
       graph.pushStack('update', clone(graph.save()))
@@ -250,8 +250,8 @@ export default {
     const nodeId: string = item.get('id');
     if (!this.point[nodeId]) {
       this.point[nodeId] = {
-        x: model.x,
-        y: model.y,
+        x: model.x || 0,
+        y: model.y || 0,
       };
     }
 
