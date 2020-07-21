@@ -15,7 +15,6 @@ export default {
       optimizeZoom: 0.7,
       fixSelectedItems: {
         fixAll: false,
-        fixShape: false,
         fixLineWidth: false,
         fixLabel: false,
         fixState: 'selected'
@@ -26,7 +25,6 @@ export default {
     const { fixSelectedItems } = this;
 
     if (fixSelectedItems.fixAll) {
-      fixSelectedItems.fixShape = true;
       fixSelectedItems.fixLineWidth = true;
       fixSelectedItems.fixLabel = true;
     }
@@ -128,7 +126,7 @@ export default {
     // fix the items when zooming
     if (graphZoom <= 1) {
       let fixNodes, fixEdges;
-      if (fixSelectedItems.fixShape || fixSelectedItems.fixLineWidth || fixSelectedItems.fixLabel) {
+      if (fixSelectedItems.fixLineWidth || fixSelectedItems.fixLabel) {
         fixNodes = graph.findAllByState('node', fixSelectedItems.fixState);
         fixEdges = graph.findAllByState('edge', fixSelectedItems.fixState);
 
@@ -141,14 +139,15 @@ export default {
           const itemStateStyle = node.getStateStyle(fixSelectedItems.fixState);
           const shapeStateStyle = node.get('shapeFactory').getShape(nodeModel.shape || nodeModel.type).getStateStyle(fixSelectedItems.fixState, node)[fixSelectedItems.fixState];
           if (fixSelectedItems.fixAll) {
-            let groupMatrix = clone(group.getMatrix());
-            if (!groupMatrix) groupMatrix = mat3.create();
-            const model = node.getModel();
-            const { x, y } = model;
-            mat3.translate(groupMatrix, groupMatrix, [-x, -y]);
-            mat3.scale(groupMatrix, groupMatrix, [scale, scale]);
-            mat3.translate(groupMatrix, groupMatrix, [x, y]);
-            group.setMatrix(groupMatrix);
+            if (zoom <= 1) {
+              let groupMatrix = clone(group.getMatrix());
+              if (!groupMatrix) groupMatrix = mat3.create();
+              const { x, y } = node.getModel();
+              mat3.translate(groupMatrix, groupMatrix, [-x, -y]);
+              mat3.scale(groupMatrix, groupMatrix, [scale, scale]);
+              mat3.translate(groupMatrix, groupMatrix, [x, y]);
+              group.setMatrix(groupMatrix);
+            }
           } else {
             const children = group.get('children');
             const childrenLength = children.length;
