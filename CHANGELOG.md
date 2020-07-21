@@ -7,7 +7,8 @@
 - fix: combo polyline edge with wrong path;
 - fix: getViewCenter with padding problem;
 - feat: allow user to configure the initial positions for empty combos;
-- fix: Cannot read property 'getModel' of null problem on contextmenu when the target is not an item.
+- fix: cannot read property 'getModel' of null problem on contextmenu when the target is not an item;
+- feat: optimize by hiding edges and shapes which are not keyShape while dragging canvas.
 
 #### 3.5.10
 - fix: fitView and fitCenter with animate in the initial state;
