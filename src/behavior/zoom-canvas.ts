@@ -49,14 +49,8 @@ export default {
     let zoom = graphZoom;
     // 兼容IE、Firefox及Chrome
     if (e.wheelDelta < 0) {
-      // ratio = 1 - DELTA * sensitivity;
-      // ratio = graphZoom - DELTA * sensitivity;
-      // zoom = graphZoom * ratio;
       ratio = 1 - DELTA * sensitivity;
     } else {
-      // ratio = 1 + DELTA * sensitivity;
-      // ratio = graphZoom + DELTA * sensitivity;
-      // zoom = graphZoom / ratio;
       ratio = 1 / (1 - DELTA * sensitivity);
     }
     zoom = graphZoom * ratio;
@@ -167,7 +161,7 @@ export default {
                   fontSize = shape.attr('fontSize') || 12;
                   const oriFontSize = itemStateStyle[shape.get('name')].fontSize || shapeStateStyle[shape.get('name')].fontSize || 12;
                   if (zoom <= 1) shape.attr('fontSize', oriFontSize / zoom);// * graphZoom / zoom
-                  if (lineWidth) return;
+                  if (lineWidth) break;
                 }
               }
               if (fixSelectedItems.fixLineWidth) {
@@ -175,7 +169,7 @@ export default {
                   lineWidth = shape.attr('lineWidth') || 0;
                   const oriLineWidth = itemStateStyle.lineWidth || shapeStateStyle.lineWidth || 0;
                   if (zoom <= 1) shape.attr('lineWidth', oriLineWidth / zoom);// * graphZoom / zoom
-                  if (fontSize) return;
+                  if (fontSize) break;
                 }
               }
             }
@@ -202,7 +196,7 @@ export default {
                 fontSize = shape.attr('fontSize') || 12;
                 const oriFontSize = itemStateStyle[shape.get('name')].fontSize || shapeStateStyle[shape.get('name')].fontSize || 12;
                 if (zoom <= 1) shape.attr('fontSize', oriFontSize / zoom);
-                if (lineWidth) return;
+                if (lineWidth) break;
               }
             }
             if (fixSelectedItems.fixLineWidth) {
@@ -210,7 +204,7 @@ export default {
                 lineWidth = shape.attr('lineWidth') || 0;
                 const oriLineWidth = itemStateStyle.lineWidth || shapeStateStyle.lineWidth || 0;
                 if (zoom <= 1) shape.attr('lineWidth', oriLineWidth / zoom);
-                if (fontSize) return;
+                if (fontSize) break;
               }
             }
           }
@@ -219,8 +213,6 @@ export default {
 
 
     }
-
-    // graph.zoom(ratio, { x: point.x, y: point.y });
     graph.zoomTo(zoom, { x: point.x, y: point.y });
     graph.emit('wheelzoom', e);
   },
