@@ -82,8 +82,9 @@ const ZoomCanvasFix = () => {
               type: 'zoom-canvas',
               fixSelectedItems: {
                 fixState: 'selected',
-                fixLabel: true,
-                fixLineWidth: true
+                fixAll: true
+                // fixLabel: true,
+                // fixLineWidth: true
               }
             }]
         },
