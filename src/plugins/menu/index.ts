@@ -46,7 +46,7 @@ export default class Menu extends Base {
             <li>菜单项2</li>
           </ul>
         `
-      }, 
+      },
       // 菜单隐藏事件
       onHide() {
         return true;
@@ -71,7 +71,7 @@ export default class Menu extends Base {
 
   protected onMenuShow(e: IG6GraphEvent) {
     const self = this;
-    
+
     const container = this.get('menu')
     const getContent = this.get('getContent')
     let menu = getContent(e)
@@ -94,26 +94,26 @@ export default class Menu extends Base {
 
     const bbox = container.getBoundingClientRect();
 
-    let x = e.item.getModel().x;
-    let y = e.item.getModel().y;
+    let x = e.item.getModel().x || e.x;
+    let y = e.item.getModel().y || e.y;
 
     // 若菜单超出画布范围，反向
     if (x + bbox.width > width) {
       x = width - bbox.width;
     }
-    
+
     if (y + bbox.height > height) {
       y = height - bbox.height;
     }
-    
+
     const point = graph.getClientByPoint(x, y)
     e.canvasX = point.x;
     e.canvasY = point.y;
 
     modifyCSS(container, {
-      top: `${point.y}px`, 
-      left: `${point.x}px`, 
-      visibility: 'visible' 
+      top: `${point.y}px`,
+      left: `${point.x}px`,
+      visibility: 'visible'
     });
 
     const handler = (evt) => {
@@ -133,7 +133,7 @@ export default class Menu extends Base {
 
     // 隐藏菜单后需要移除事件监听
     document.body.removeEventListener('click', this.get('handler'));
-    
+
     const handleMenuClick = this.get('handleMenuClick')
     if (handleMenuClick) {
       container.removeEventListener('click', handleMenuClick)
@@ -148,7 +148,7 @@ export default class Menu extends Base {
     if (handleMenuClick) {
       menu.removeEventListener('click', handleMenuClick)
     }
-    
+
     if (menu) {
       document.body.removeChild(menu);
     }
