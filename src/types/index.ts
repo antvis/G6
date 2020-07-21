@@ -130,7 +130,6 @@ export interface ModeOption {
   offset?: number;
   fixSelectedItems?: Partial<{
     fixAll: boolean;
-    fixShape: boolean;
     fixLineWidth: boolean;
     fixLabel: boolean;
     fixState: string
