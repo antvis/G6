@@ -126,6 +126,9 @@ export default class ItemController {
         group: parent.addGroup(),
       });
     } else if (type === NODE) {
+      model.x = model.x || 0;
+      model.y = model.y || 0;
+
       item = new Node({
         model,
         styles,
