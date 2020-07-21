@@ -13,5 +13,6 @@ export const LAYOUT_MESSAGE = {
   ERROR: 'LAYOUT_ERROR',
   // layout tick, used in force directed layout
   TICK: 'LAYOUT_TICK',
-  GPURUN: 'GPU_LAYOUT_RUN'
+  GPURUN: 'GPU_LAYOUT_RUN',
+  GPUEND: 'GPU_LAYOUT_END'
 };

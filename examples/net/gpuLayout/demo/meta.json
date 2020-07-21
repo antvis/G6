@@ -5,6 +5,14 @@
   },
   "demos": [
     {
+      "filename": "frComplexDataWorker.js",
+      "title": {
+        "zh": "Fruchterman 布局 GPU + WebWorker",
+        "en": "Fruchterman Layout with GPU and WebWorker"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0sl9RZ7Cp28AAAAAAAAAAABkARQnAQ"
+    },
+    {
       "filename": "basicFruchterman.js",
       "title": {
         "zh": "基本 Fruchterman 布局",

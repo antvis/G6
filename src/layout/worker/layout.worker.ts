@@ -115,7 +115,7 @@ function handleLayoutMessage(event: Event) {
     }
 
     case LAYOUT_MESSAGE.GPURUN: {
-      const { nodes, edges, layoutCfg = {} } = event.data;
+      const { nodes, edges, layoutCfg = {}, canvas } = event.data;
 
       const { type: layoutType } = layoutCfg;
 
@@ -123,7 +123,8 @@ function handleLayoutMessage(event: Event) {
       if (!LayoutClass) {
         ctx.postMessage({ type: LAYOUT_MESSAGE.ERROR, message: `layout ${layoutType} not found` });
         break;
-      } else if (LayoutClass.split('-')[1] !== 'gpu') {
+      }
+      if (layoutType.split('-')[1] !== 'gpu') {
         ctx.postMessage({ type: LAYOUT_MESSAGE.ERROR, message: `layout ${layoutType} does not support GPU` });
         break;
       }
@@ -131,82 +132,12 @@ function handleLayoutMessage(event: Event) {
 
       const layoutMethod = new LayoutClass(layoutCfg);
       layoutMethod.init({ nodes, edges });
-      layoutMethod.execute(ctx);
-      // ctx.postMessage({ type: LAYOUT_MESSAGE.END, nodes });
-      layoutMethod.destroy();
-
-
-      // let curMaxDisplace = maxDisplace;
-
-      // const world = new World({
-      //   canvas,
-      //   engineOptions: {
-      //     supportCompute: true,
-      //   }
-      // });
-
-      // const compute = world.createComputePipeline({
-      //   shader: gCode,
-      //   dispatch: [nodeNum, 1, 1],
-      //   maxIteration,
-
-      //   onIterationCompleted: async () => {
-      //     if (clustering) {
-      //       world.setBinding(compute2, 'u_Data', {
-      //         entity: compute,
-      //       });
-      //     }
-
-      //     curMaxDisplace *= 0.99;
-      //     world.setBinding(
-      //       compute,
-      //       'u_MaxDisplace',
-      //       curMaxDisplace,
-      //     );
-      //     return;
-      //   },
-
-      //   onCompleted: (finalParticleData) => {
-      //     // 传递数据给主线程
-      //     ctx.postMessage({ type: LAYOUT_MESSAGE.END, finalParticleData });
-      //     world.destroy();
-      //   },
-      // });
-
-      // world.setBinding(compute, 'u_Data', builtData);
-      // world.setBinding(compute, 'u_AttributeArray', attributeArray);
-      // Object.keys(layoutCfg).forEach(key => {
-      //   if (key === 'clusterCount') return;
-      //   world.setBinding(compute, gpuVariableMapping[key], layoutCfg[key]);
-      // });
-
-
-      // let compute2;
-      // // 第二个管线用于计算聚类
-      // if (clustering) {
-      //   compute2 = world.createComputePipeline({
-      //     shader: gCode2,
-      //     dispatch: [1, 1, 1],
-      //     maxIteration,
-      //     onIterationCompleted: async () => {
-      //       world.setBinding(compute, 'u_ClusterCenters', {
-      //         entity: compute2,
-      //       });
-      //     },
-      //     onCompleted: (finalParticleData) => {
-      //       world.destroy();
-      //     },
-      //   });
-      //   world.setBinding(compute2, 'u_Data', builtData);
-      //   world.setBinding(compute2, 'u_NodeAttributes', attributeArray);
-      //   world.setBinding(compute2, 'VERTEX_COUNT', nodeNum);
-      //   world.setBinding(compute2, 'CLUSTER_COUNT', clusterCount);
+      layoutMethod.executeWithWorker(canvas, ctx);
+      break;
     }
+    default:
       break;
   }
-    default:
-  break;
-}
 }
 
 // listen to message posted to web worker
