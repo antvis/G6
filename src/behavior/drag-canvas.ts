@@ -10,7 +10,7 @@ export default {
   getDefaultCfg(): object {
     return {
       direction: 'both',
-      enableOptimize: true
+      enableOptimize: false
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -75,14 +75,14 @@ export default {
     if (this.enableOptimize) {
       // 开始拖动时关闭局部渲染
       this.graph.get('canvas').set('localRefresh', false)
-  
+
       // 拖动 canvas 过程中隐藏所有的边及label
       const graph: IGraph = this.graph
       const edges = graph.getEdges()
       for (let i = 0, len = edges.length; i < len; i++) {
         graph.hideItem(edges[i])
       }
-  
+
       const nodes = graph.getNodes()
       for (let j = 0, nodeLen = nodes.length; j < nodeLen; j++) {
         const container = nodes[j].getContainer()
@@ -138,7 +138,7 @@ export default {
       for (let i = 0, len = edges.length; i < len; i++) {
         graph.showItem(edges[i])
       }
-  
+
       const nodes = graph.getNodes()
       for (let j = 0, nodeLen = nodes.length; j < nodeLen; j++) {
         const container = nodes[j].getContainer()
