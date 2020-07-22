@@ -4,7 +4,6 @@ import G6 from '@antv/g6';
  * by 长哲
  */
 
-const INNER_CIRCLE_CLASS = 'node-inner-circle';
 const GRAPH_CONTAINER = 'container';
 
 // 注册自定义节点
@@ -24,7 +23,7 @@ G6.registerNode(
         name: 'key-shape',
       });
       // 绘制节点里面的小圆。点击这个小圆会显示tooltip
-      const innerCircle = group.addShape('circle', {
+      group.addShape('circle', {
         attrs: {
           x: 0,
           y: -30,
@@ -34,8 +33,6 @@ G6.registerNode(
         },
         name: 'circle-shape',
       });
-      // 设置className属性
-      innerCircle.set('className', INNER_CIRCLE_CLASS);
       return shape;
     },
   },
@@ -99,6 +96,11 @@ const graph = new G6.Graph({
       stroke: '#e2e2e2',
     },
   },
+  nodeStateStyles: {
+    selected: {
+      stroke: 'red'
+    }
+  }
 });
 
 graph.data(data);
@@ -107,18 +109,18 @@ graph.render();
 // 节点上的点击事件
 graph.on('node:click', function(event) {
   const { item } = event;
-  const shape = event.target;
-
-  if (shape.get('className') === INNER_CIRCLE_CLASS) {
-    // 如果点击是发生在节点里面的小圆上，则更新对应的label
-    graph.updateItem(item, {
-      label: '点击了圆',
-      labelCfg: {
-        style: {
-          fill: '#003a8c',
-          fontSize: 16,
-        },
-      },
-    });
-  }
+  graph.setItemState(item, 'selected', true)
 });
+
+graph.on('circle-shape:click', evt => {
+  const { item } = evt
+  graph.updateItem(item, {
+    label: '点击了圆',
+    labelCfg: {
+      style: {
+        fill: '#003a8c',
+        fontSize: 16,
+      },
+    },
+  });
+})
