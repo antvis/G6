@@ -136,11 +136,10 @@ const ZoomCanvasFix = () => {
       graph.on('canvas:click', e => {
         graph.findAllByState('node', 'selected').forEach(node => {
           graph.setItemState(node, 'selected', false);
-        })
+        });
         graph.findAllByState('edge', 'selected').forEach(edge => {
           graph.setItemState(edge, 'selected', false);
-        })
-
+        });
       });
     }
   });

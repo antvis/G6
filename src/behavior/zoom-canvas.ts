@@ -24,6 +24,7 @@ export default {
   getEvents(): { [key in G6Event]?: string } {
     const { fixSelectedItems } = this;
 
+    if (!fixSelectedItems.fixState) fixSelectedItems.fixState = 'selected';
     if (fixSelectedItems.fixAll) {
       fixSelectedItems.fixLineWidth = true;
       fixSelectedItems.fixLabel = true;
@@ -122,14 +123,14 @@ export default {
       }
     }
 
-
     // fix the items when zooming
     if (graphZoom <= 1) {
       let fixNodes, fixEdges;
-      if (fixSelectedItems.fixLineWidth || fixSelectedItems.fixLabel) {
+      if (fixSelectedItems.fixAll || fixSelectedItems.fixLineWidth || fixSelectedItems.fixLabel) {
         fixNodes = graph.findAllByState('node', fixSelectedItems.fixState);
         fixEdges = graph.findAllByState('edge', fixSelectedItems.fixState);
 
+        console.log('zooming ', fixNodes, fixSelectedItems.fixState);
         const scale = graphZoom / zoom;
         const fixNodesLength = fixNodes.length;
         for (let fn = 0; fn < fixNodesLength; fn++) {
@@ -158,7 +159,11 @@ export default {
                 const shapeType = shape.get('type');
                 if (shapeType === 'text') {
                   fontSize = shape.attr('fontSize') || 12;
-                  const oriFontSize = itemStateStyle[shape.get('name')].fontSize || shapeStateStyle[shape.get('name')].fontSize || 12;
+                  const itemStyle = itemStateStyle[shape.get('name')];
+                  const shapeStyle = shapeStateStyle[shape.get('name')];
+                  const itemFontSize = itemStyle ? itemStyle.fontSize : 12;
+                  const shapeFontSize = shapeStyle ? shapeStyle.fontSize : 12;
+                  const oriFontSize = itemFontSize || shapeFontSize || 12;
                   if (zoom <= 1) shape.attr('fontSize', oriFontSize / zoom);// * graphZoom / zoom
                   if (lineWidth) break;
                 }
@@ -193,7 +198,11 @@ export default {
               const shapeType = shape.get('type');
               if (shapeType === 'text') {
                 fontSize = shape.attr('fontSize') || 12;
-                const oriFontSize = itemStateStyle[shape.get('name')].fontSize || shapeStateStyle[shape.get('name')].fontSize || 12;
+                const itemStyle = itemStateStyle[shape.get('name')];
+                const shapeStyle = shapeStateStyle[shape.get('name')];
+                const itemFontSize = itemStyle ? itemStyle.fontSize : 12;
+                const shapeFontSize = shapeStyle ? shapeStyle.fontSize : 12;
+                const oriFontSize = itemFontSize || shapeFontSize || 12;
                 if (zoom <= 1) shape.attr('fontSize', oriFontSize / zoom);
                 if (lineWidth) break;
               }
@@ -201,7 +210,7 @@ export default {
             if (fixSelectedItems.fixLineWidth) {
               if (shape.get('isKeyShape')) {
                 lineWidth = shape.attr('lineWidth') || 0;
-                const oriLineWidth = itemStateStyle.lineWidth || shapeStateStyle.lineWidth || 0;
+                const oriLineWidth = itemStateStyle.lineWidth || shapeStateStyle.lineWidth || 1;
                 if (zoom <= 1) shape.attr('lineWidth', oriLineWidth / zoom);
                 if (fontSize) break;
               }

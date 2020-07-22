@@ -146,7 +146,12 @@ const graph = new G6.Graph({
   - `maxZoom`：最大缩放比例；
   - `enableOptimize`：是否开启性能优化，默认为 false，设置为 true 开启，开启后缩放比例小于 optimizeZoom 时自动隐藏非 keyShape；
   - `optimizeZoom`：当 enableOptimize 为 true 时起作用，默认值为 0.7，表示当缩放到哪个比例时开始隐藏非 keyShape；
-  - `shouldUpdate(e)`：是否允许发生缩放。
+  - `shouldUpdate(e)`：是否允许发生缩放；
+  - `fixSelectedItems`：在缩小画布时是否固定选定元素的描边粗细、文本大小、整体大小等，`fixSelectedItems` 是一个对象，有以下变量：
+    - `fixSelectedItems.fixState`：将被固定的元素状态，被设置为该状态的节点将会在画布缩小时参与固定大小的计算，默认为 `'selected'`；
+    - `fixSelectedItems.fixAll`：固定元素的整体大小，优先级高于 `fixSelectedItems.fixLineWidth` 和 `fixSelectedItems.fixLabel`；
+    - `fixSelectedItems.fixLineWidth`：固定元素的 keyShape 的描边粗细；
+    - `fixSelectedItems.fixLabel`：固定元素的文本大小。
 - 相关时机事件：
   - `wheelzoom(e)`：当缩放发生变化时被触发。使用 `graph.on('wheelzoom', e => {...})` 监听该时机事件。
 
