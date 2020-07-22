@@ -10,51 +10,51 @@ import { useEffect } from 'react';
 /**
  * Register a node type with DOM
  */
-G6.registerNode('dom-node', {
-  draw: (cfg, group) => {
-    const stroke = cfg.style ? cfg.style.stroke || '#5B8FF9' : '#5B8FF9';
-    const shape = group.addShape('dom', {
-      attrs: {
-        width: cfg.size[0],
-        height: cfg.size[1],
-        html: `
-        <div id=${cfg.id} class='dom-node' style="background-color: #fff; border: 2px solid ${stroke}; border-radius: 5px; width: ${cfg.size[0] - 5}px; height: ${cfg.size[1] - 5}px; display: flex;">
-          <div style="height: 100%; width: 33%; background-color: #CDDDFD">
-            <img alt="" style="line-height: 100%; margin-left: 7px;" src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ" width="20" height="20" />  
-          </div>
-          <span style="margin:auto; padding:auto; color: #5B8FF9">${cfg.label}</span>
-        </div>
-          `
-      },
-      draggable: true
-    });
-    return shape;
-  }
-});
+// G6.registerNode('dom-node', {
+//   draw: (cfg, group) => {
+//     const stroke = cfg.style ? cfg.style.stroke || '#5B8FF9' : '#5B8FF9';
+//     const shape = group.addShape('dom', {
+//       attrs: {
+//         width: cfg.size[0],
+//         height: cfg.size[1],
+//         html: `
+//         <div id=${cfg.id} class='dom-node' style="background-color: #fff; border: 2px solid ${stroke}; border-radius: 5px; width: ${cfg.size[0] - 5}px; height: ${cfg.size[1] - 5}px; display: flex;">
+//           <div style="height: 100%; width: 33%; background-color: #CDDDFD">
+//             <img alt="" style="line-height: 100%; margin-left: 7px;" src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ" width="20" height="20" />  
+//           </div>
+//           <span style="margin:auto; padding:auto; color: #5B8FF9">${cfg.label}</span>
+//         </div>
+//           `
+//       },
+//       draggable: true
+//     });
+//     return shape;
+//   }
+// });
 
-/** 数据 */
-const data = {
-  nodes: [
-    {
-      id: 'node1',
-      x: 10,
-      y: 100,
-      label: 'Homepage',
-    },
-    {
-      id: 'node2',
-      x: 200,
-      y: 100,
-      label: 'Subpage',
-    },
-  ],
-  edges: [
-    {
-      source: 'node1',
-      target: 'node2',
-    },
-  ],
-};
+// /** 数据 */
+// const data = {
+//   nodes: [
+//     {
+//       id: 'node1',
+//       x: 10,
+//       y: 100,
+//       label: 'Homepage',
+//     },
+//     {
+//       id: 'node2',
+//       x: 200,
+//       y: 100,
+//       label: 'Subpage',
+//     },
+//   ],
+//   edges: [
+//     {
+//       source: 'node1',
+//       target: 'node2',
+//     },
+//   ],
+// };
 
 const graphContainer = document.getElementById('container');
 const width = graphContainer.scrollWidth;
@@ -80,8 +80,8 @@ const graph = new G6.Graph({
   }
 });
 
-graph.data(data);
-graph.render();
+// graph.data(data);
+// graph.render();
 
 // // click listener for dom nodes to response the click by changing stroke color
 const listener = (dom) => {

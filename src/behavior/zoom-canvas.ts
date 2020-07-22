@@ -126,11 +126,7 @@ export default {
     // fix the items when zooming
     if (graphZoom <= 1) {
       let fixNodes, fixEdges;
-<<<<<<< HEAD
       if (fixSelectedItems.fixAll || fixSelectedItems.fixLineWidth || fixSelectedItems.fixLabel) {
-=======
-      if (fixSelectedItems.fixLineWidth || fixSelectedItems.fixLabel) {
->>>>>>> fix: fix all shapes by scale the node matrix.
         fixNodes = graph.findAllByState('node', fixSelectedItems.fixState);
         fixEdges = graph.findAllByState('edge', fixSelectedItems.fixState);
 
