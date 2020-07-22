@@ -22,7 +22,6 @@ export default {
       // eslint-disable-next-line no-console
       console.warn("Behavior collapse-expand 的 trigger 参数不合法，请输入 'click' 或 'dblclick'");
     }
-    console.log('triggertrigger', trigger);
     return {
       [`node:${trigger}`]: 'onNodeClick',
     };
