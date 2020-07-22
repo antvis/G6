@@ -147,6 +147,11 @@ The canvas can be dragged along x direction only.<br /><img src='https://gw.alip
   - `enableOptimize`: whether enable the optimization, false by default. If it is assigned to true, the shapes except keyShape will be hide when the ratio is smaller thant `optimizeZoom`;
   - `optimizeZoom`: Takes effect when `enableOptimize` is `true`. `0.7` by default. See `enableOptimize` upon.
   - `shouldUpdate(e)`: Whether allow the behavior happen.
+  - `fixSelectedItems`: Fix the line width, fontSize, or overall size of some items while zooming out the canvas. `fixSelectedItems` is an object with:
+    - `fixSelectedItems.fixState`: The state of the items to be fixed. Set the item state to be the value to make it fix while zooming out. `'selected'` by default;
+    - `fixSelectedItems.fixAll`: Fix the overall size of the selected items. `fixAll` has higher priority than `fixSelectedItems.fixLineWidth` and `fixSelectedItems.fixLabel`;
+    - `fixSelectedItems.fixLineWidth`: Fix the lineWidth of the keyShape of the fix item;
+    - `fixSelectedItems.fixLabel`: Fix the fontSize of the item.
 - Related timing events:
   - `wheelzoom(e)`: Triggered when user zoom the graph. Listened by `graph.on('wheelzoom', e => {...})`.
 
