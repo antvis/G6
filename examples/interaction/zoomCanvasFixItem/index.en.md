@@ -1,7 +1,9 @@
 ---
 title: Fix Items while Zooming
-order: 11
+order: 12
 ---
+
+To keep the selected items being highlighted, v3.5.11 supports a configuration `fixSelectedItems` for built-in behavior 'zoom-canvas'.
 
 ## Usage
 

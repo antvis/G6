@@ -100,7 +100,7 @@ const graph = new G6.Graph({
 - Configurations: 
   - `type: 'drag-canvas'`;
   - `direction`: The direction of dragging that is allowed. Options: `'x'`, `'y'`, `'both'`. `'both'` by default;
-  - `enableOptimize`: whether enable optimize, `true` by default, when drag canvas will auto hide all edges and the part of node that is not keyShape;
+  - `enableOptimize`: whether enable optimization, `false` by default. `enableOptimize: true` means hiding all edges and the shapes beside keyShapes of nodes while dragging canvas;
   - `shouldBegin(e)`: Whether allow the behavior happen on the current item (e.item).
 - Related timing events:
   - `canvas:dragstart`: Triggered when drag start. Listened by `graph.on('canvas:dragstart', e => {...})`;

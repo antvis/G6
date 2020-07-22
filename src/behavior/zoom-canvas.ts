@@ -194,7 +194,7 @@ export default {
           for (let c = 0; c < childrenLength; c++) {
             const shape = children[c];
             let fontSize, lineWidth;
-            if (fixSelectedItems.fixLabel) {
+            if (fixSelectedItems.fixLabel || fixSelectedItems.fixAll) {
               const shapeType = shape.get('type');
               if (shapeType === 'text') {
                 fontSize = shape.attr('fontSize') || 12;
@@ -207,7 +207,7 @@ export default {
                 if (lineWidth) break;
               }
             }
-            if (fixSelectedItems.fixLineWidth) {
+            if (fixSelectedItems.fixLineWidth || fixSelectedItems.fixAll) {
               if (shape.get('isKeyShape')) {
                 lineWidth = shape.attr('lineWidth') || 0;
                 const oriLineWidth = itemStateStyle.lineWidth || shapeStateStyle.lineWidth || 1;

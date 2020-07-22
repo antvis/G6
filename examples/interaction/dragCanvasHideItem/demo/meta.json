@@ -1,0 +1,16 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "hideItem.js",
+      "title": {
+        "zh": "拖拽画布时隐藏节点 keyShape 外所有图形",
+        "en": "Hide the Shapes beside keyShape of Nodes while Dragging"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hld6SrA4qacAAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}
