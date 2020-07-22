@@ -6,9 +6,10 @@
 - fix: combo edge with uncorrect end points;
 - fix: combo polyline edge with wrong path;
 - fix: getViewCenter with padding problem;
-- feat: allow user to configure the initial positions for empty combos;
 - fix: cannot read property 'getModel' of null problem on contextmenu when the target is not an item;
-- feat: optimize by hiding edges and shapes which are not keyShape while dragging canvas.
+- feat: allow user to configure the initial positions for empty combos;
+- feat: optimize by hiding edges and shapes which are not keyShape while dragging canvas;
+- feat: fix the initial positions by equably distributing for layout to produce similar result.
 
 #### 3.5.10
 - fix: fitView and fitCenter with animate in the initial state;

@@ -4,6 +4,7 @@ import { LAYOUT_MESSAGE } from '../../layout/worker/layoutConst';
 import { isNaN } from '../../util/base';
 
 import { IGraph } from '../../interface/graph';
+import { path2Absolute } from '@antv/path-util';
 
 const helper = {
   // pollyfill
@@ -463,14 +464,23 @@ export default class LayoutController {
       return false;
     }
     let allHavePos = true;
-    nodes.forEach(node => {
+    const width = graph.get('width') * 0.85;
+    const height = graph.get('height') * 0.85;
+    const nodeNum = nodes.length;
+    const horiNum = Math.sqrt(width * nodeNum / height);
+    const vertiNum = horiNum * height / width;
+    const horiGap = width / (horiNum - 1);
+    const vertiGap = height / (vertiNum - 1);
+    const beginX = center[0] - width / 2;
+    const beginY = center[1] - height / 2;
+    nodes.forEach((node, i) => {
       if (isNaN(node.x)) {
         allHavePos = false;
-        node.x = (Math.random() - 0.5) * 0.7 * graph.get('width') + center[0];
+        node.x = i % horiNum * horiGap + beginX;
       }
       if (isNaN(node.y)) {
         allHavePos = false;
-        node.y = (Math.random() - 0.5) * 0.7 * graph.get('height') + center[1];
+        node.y = i / horiNum * vertiGap + beginY;
       }
     });
     return allHavePos;
