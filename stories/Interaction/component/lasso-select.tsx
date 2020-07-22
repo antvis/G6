@@ -50,50 +50,36 @@ const LassoSelect = () => {
         width: 500,
         height: 500,
         modes: {
-          // default: ['drag-canvas', 'drag-node', 'zoom-canvas'],
-          default: [
+          default: ['drag-node', 'zoom-canvas',
             {
               type: 'lasso-select',
+              // trigger: 'drag',
               delegateStyle: {
                 fill: 'pink',
                 stroke: 'red',
                 opacity: 0.2,
                 lineWidth: 1
               },
-              onSelect: (nodes, edges) => {
-                nodes.concat(edges).forEach(item => {
-                  graph.updateItem(item, {
-                    style: {
-                      'stroke': 'red'
-                    }
-                  })
-                })
-              },
-              onDeselect: (nodes, edges) => {
-                nodes.forEach(node => {
-                  graph.updateItem(node, {
-                    style: {
-                      'stroke': '#5B8FF9'
-                    }
-                  })
-                })
-                edges.forEach(edge => {
-                  graph.updateItem(edge, {
-                    style: {
-                      'stroke': 'lightgray'
-                    }
-                  })
-                })
-              }
-            }]
+            }
+          ]
         },
+        nodeStateStyles: {
+          selected: {
+            stroke: 'red'
+          }
+        },
+        edgeStateStyles: {
+          selected: {
+            stroke: 'red'
+          }
+        }
       });
       graph.data(data);
       graph.render();
 
       // graph.on('nodeselectchange', e => {
       //   console.log(e);
-      // });
+      // })
     }
   });
   return <div ref={container}></div>;

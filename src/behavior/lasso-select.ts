@@ -33,31 +33,46 @@ export default {
       includeEdges: true,
       selectedEdges: [],
       selectedNodes: [],
+      // multiple: false,
     };
   },
   getEvents(): { [key in G6Event]?: string } {
     // 检测输入是否合法
     if (!(ALLOW_EVENTS.indexOf(this.trigger.toLowerCase()) > -1)) {
       this.trigger = DEFAULT_TRIGGER;
-      console.warn("Behavior lasso-select 的 trigger 参数不合法，请输入 'drag'、'shift'、'ctrl' 或 'alt'");
+      console.warn(
+        "Behavior lasso-select 的 trigger 参数不合法，请输入 'drag'、'shift'、'ctrl' 或 'alt'",
+      );
     }
     if (this.trigger === 'drag') {
       return {
         dragstart: 'onDragStart',
         drag: 'onDragMove',
         dragend: 'onDragEnd',
+        'canvas:click': 'clearStates',
       };
     }
     return {
-      mousedown: 'onDragStart',
-      mousemove: 'onDragMove',
-      mouseup: 'onDragEnd',
+      dragstart: 'onDragStart',
+      drag: 'onDragMove',
+      dragend: 'onDragEnd',
       keyup: 'onKeyUp',
       keydown: 'onKeyDown',
+      'canvas:click': 'clearStates',
     };
   },
   onDragStart(e: IG6GraphEvent) {
     let { lasso } = this;
+    const { item } = e;
+
+    // 排除在节点上拖动
+    if (item) {
+      return;
+    }
+    if (this.trigger !== 'drag' && !this.keydown) {
+      return;
+    }
+
     if (this.selectedNodes && this.selectedNodes.length !== 0) {
       this.clearStates();
     }
@@ -65,15 +80,16 @@ export default {
     if (!lasso) {
       lasso = this.createLasso();
     }
-
+    this.dragging = true;
     this.originPoint = { x: e.x, y: e.y };
     this.points.push(this.originPoint)
-    lasso.attr({ width: 0, height: 0 });
     lasso.show();
-    this.dragging = true;
   },
   onDragMove(e: IG6GraphEvent) {
     if (!this.dragging) {
+      return;
+    }
+    if (this.trigger !== 'drag' && !this.keydown) {
       return;
     }
     this.points.push({ x: e.x, y: e.y })
@@ -81,6 +97,9 @@ export default {
   },
   onDragEnd(e: IG6GraphEvent) {
     if (!this.lasso && !this.dragging) {
+      return;
+    }
+    if (this.trigger !== 'drag' && !this.keydown) {
       return;
     }
     this.points.push(this.originPoint)
@@ -202,8 +221,10 @@ export default {
     if (!code) {
       return;
     }
-    // 按住control键时，允许用户设置trigger为ctrl
-    if (code.toLowerCase() === this.trigger.toLowerCase() || code.toLowerCase() === 'control') {
+    // if (this.selectedNodes && this.selectedNodes.length !== 0) {
+    //   this.clearStates();
+    // }
+    if (code.toLowerCase() === this.trigger.toLowerCase()) {
       this.keydown = true;
     } else {
       this.keydown = false;
