@@ -130,7 +130,6 @@ export default {
         fixNodes = graph.findAllByState('node', fixSelectedItems.fixState);
         fixEdges = graph.findAllByState('edge', fixSelectedItems.fixState);
 
-        console.log('zooming ', fixNodes, fixSelectedItems.fixState);
         const scale = graphZoom / zoom;
         const fixNodesLength = fixNodes.length;
         for (let fn = 0; fn < fixNodesLength; fn++) {
