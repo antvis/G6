@@ -33,10 +33,12 @@ describe('lasso-select', () => {
     graph.addBehaviors(['lasso-select'], 'default');
 
     // 模拟选中node1
-    graph.emit('mousedown', { x: 50, y: 50 });
-    graph.emit('mousemove', { x: 50, y: 120 });
-    graph.emit('mousemove', { x: 110, y: 120 });
-    graph.emit('mouseup', { x: 110, y: 50 });
+    graph.emit('keydown', { canvasX: 20, canvasY: 20, key: 'shift' });
+    graph.emit('dragstart', { x: 50, y: 50 });
+    graph.emit('drag', { x: 50, y: 120 });
+    graph.emit('drag', { x: 110, y: 120 });
+    graph.emit('dragend', { x: 110, y: 50 });
+    graph.emit('keyup', { key: 'shift' });
 
     let selectedNodes = graph.findAllByState('node', 'selected');
     expect(selectedNodes.length).toEqual(1);
@@ -46,11 +48,13 @@ describe('lasso-select', () => {
     expect(selectedEdges.length).toEqual(0);
 
     // 模拟选中node1, node2, edge1
-    graph.emit('mousedown', { x: 50, y: 50 });
-    graph.emit('mousemove', { x: 50, y: 120 });
-    graph.emit('mousemove', { x: 130, y: 120 });
-    graph.emit('mousemove', { x: 130, y: 50 });
-    graph.emit('mouseup', { x: 130, y: 50 });
+    graph.emit('keydown', { canvasX: 20, canvasY: 20, key: 'shift' });
+    graph.emit('dragstart', { x: 50, y: 50 });
+    graph.emit('drag', { x: 50, y: 120 });
+    graph.emit('drag', { x: 130, y: 120 });
+    graph.emit('drag', { x: 130, y: 50 });
+    graph.emit('dragend', { x: 130, y: 50 });
+    graph.emit('keyup', { key: 'shift' });
 
     selectedNodes = graph.findAllByState('node', 'selected');
     expect(selectedNodes.length).toEqual(2);
@@ -77,10 +81,12 @@ describe('lasso-select', () => {
       ],
       'default',
     );
+    graph.emit('keydown', { canvasX: 20, canvasY: 20, key: 'shift' });
     graph.emit('dragstart', { x: 50, y: 50 });
     graph.emit('drag', { x: 50, y: 120 });
     graph.emit('drag', { x: 110, y: 120 });
     graph.emit('dragend', { x: 110, y: 50 });
+    graph.emit('keyup', { key: 'shift' });
     let selectedNodes = graph.findAllByState('node', 'customState');
     expect(selectedNodes.length).toEqual(1);
     expect(selectedNodes[0] === node1).toBe(true);
