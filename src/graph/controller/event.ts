@@ -163,8 +163,6 @@ export default class EventController {
     if (evt.name && !evt.name.includes(':')) graph.emit(`${type}:${eventType}`, evt); // emit('node:click', evt)
     else graph.emit(evt.name, evt); // emit('text-shape:click', evt)
 
-    graph.emit(evt.name, evt);
-
     if (eventType === 'dragstart') {
       this.dragging = true;
     }
