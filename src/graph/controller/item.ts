@@ -471,7 +471,7 @@ export default class ItemController {
 
     // 再设置state，则此时该优先级为最高
     this.setItemState(currentItem as Item, state, true)
-  } 
+  }
 
   /**
    * 清除所有指定的状态
