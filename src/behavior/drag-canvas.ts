@@ -74,7 +74,11 @@ export default {
 
     if (this.enableOptimize) {
       // 开始拖动时关闭局部渲染
-      this.graph.get('canvas').set('localRefresh', false)
+
+      const localRefresh: boolean = this.graph.get('canvas').get('localRefresh');
+      this.oriLocalRefresh = localRefresh;
+
+      this.graph.get('canvas').set('localRefresh', false);
 
       // 拖动 canvas 过程中隐藏所有的边及label
       const graph: IGraph = this.graph
@@ -153,7 +157,8 @@ export default {
 
       setTimeout(() => {
         // 拖动结束后开启局部渲染
-        graph.get('canvas').set('localRefresh', true)
+        const localRefresh = this.oriLocalRefresh === undefined ? true : this.oriLocalRefresh;
+        graph.get('canvas').set('localRefresh', localRefresh)
       }, 16)
     }
 

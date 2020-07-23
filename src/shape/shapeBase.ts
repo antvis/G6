@@ -310,8 +310,6 @@ export const shapeBase: ShapeOptions = {
         const style = styles[key];
         if (isPlainObject(style)) {
           const subShape = group.find((element) => element.get('name') === key);
-
-
           if (subShape) {
             subShape.attr(style);
           }
@@ -354,9 +352,9 @@ export const shapeBase: ShapeOptions = {
             filtetDisableStatesStyle[p] = subShapeStyles;
           }
         } else {
-          // 从图元素现有的样式中删除本次要取消的 states 中存在的属性值
-          const keptAttrs = ['x', 'y', 'cx', 'cy'];
-          if (keyShapeStyles[p] && !(keptAttrs.indexOf(p) > -1)) {
+          // 从图元素现有的样式中删除本次要取消的 states 中存在的属性值。使用对象检索更快
+          const keptAttrs = { 'x': 1, 'y': 1, 'cx': 1, 'cy': 1 };
+          if (keyShapeStyles[p] && !keptAttrs[p]) {
             delete keyShapeStyles[p];
           }
         }
@@ -433,7 +431,7 @@ export const shapeBase: ShapeOptions = {
       : stateStyles && stateStyles[name];
 
     if (type === 'combo') {
-      return mix({}, modelStateStyle);
+      return clone(modelStateStyle);
     }
     return mix({}, style, modelStateStyle);
   },
