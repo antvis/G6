@@ -169,6 +169,7 @@ G6.registerNode(
       });
       return shape;
     },
+    update: undefined
   },
   'single-node'
 );

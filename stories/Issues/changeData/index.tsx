@@ -61,12 +61,13 @@ export default () => {
   const handleChangeData = data => {
     const prevData = graph.current && graph.current.save();
     // mergeWith
-    const newData = Object.assign({},prevData, data, (objValue, srcValue) => {
+    const newData = Object.assign({}, prevData, data, (objValue, srcValue) => {
       if (isArray(objValue)) {
         return objValue.concat(srcValue);
       }
     });
 
+    console.log('newData', prevData, data, newData);
     graph.current && graph.current.changeData(newData);
   };
 
@@ -80,6 +81,10 @@ export default () => {
         {
           id: 'node6',
           label: '新增报告',
+        },
+        {
+          id: 'node5',
+          label: '新增报告1',
         },
       ],
       edges: [

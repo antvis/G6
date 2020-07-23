@@ -179,7 +179,6 @@ const props: IProps = {
 const defaultConfig = {
   width: 1600,
   height: 800,
-  pixelRatio: 1,
   modes: {
     default: ['zoom-canvas', 'drag-canvas'],
   },
@@ -199,7 +198,7 @@ const defaultConfig = {
  * @param {*} defaultValue 默认值
  */
 const get = (object: object, path: string, defaultValue?: any) => {
-  return object ?.[path] || defaultValue;
+  return object?.[path] || defaultValue;
 };
 
 // number to string
@@ -444,7 +443,7 @@ let isAnimating = false;
 let graph = null;
 
 const initGraph = (data?: ListItem[]) => {
-  if (!data ?.length) {
+  if (!data?.length) {
     return;
   }
   transformData(data);
@@ -462,7 +461,7 @@ const initGraph = (data?: ListItem[]) => {
   graph.data(getPosition(data, true));
   graph.render();
   graph.zoom(config.defaultZoom || 1);
-  if (data ?.length) {
+  if (data?.length) {
     graph.changeData(getPosition(backUpData));
   }
 };

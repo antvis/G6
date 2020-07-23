@@ -29,7 +29,7 @@ const data = {
     {
       source: '1',
       target: '2',
-      type: 'quadratic',
+      type: 'polyline',
       curveOffset: -150,
       curvePosition: 0.5
     },

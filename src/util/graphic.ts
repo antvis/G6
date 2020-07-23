@@ -29,7 +29,7 @@ export const getBBox = (element: IShapeBase, group: Group): IBBox => {
   if (group) {
     let matrix = group.getMatrix();
     if (!matrix) {
-      matrix = mat3.create();
+      matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
     }
     leftTop = applyMatrix(leftTop, matrix);
     rightBottom = applyMatrix(rightBottom, matrix);
@@ -58,7 +58,7 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
   const item = cfg.sourceNode || cfg.targetNode;
   const container: Group = item.get('group');
   let containerMatrix = container.getMatrix();
-  if (!containerMatrix) containerMatrix = mat3.create();
+  if (!containerMatrix) containerMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
 
   const keyShape: IShapeBase = item.getKeyShape();
   const bbox: IBBox = keyShape.getBBox();

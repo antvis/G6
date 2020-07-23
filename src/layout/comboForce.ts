@@ -385,14 +385,14 @@ export default class ComboForce extends BaseLayout {
   private initPos(comboMap) {
     const self = this;
     const nodes = self.nodes;
-    nodes.forEach(node => {
+    nodes.forEach((node, i) => {
       if (node.comboId) {
         const combo = comboMap[node.comboId];
-        node.x = combo.cx + Math.random() * 100;
-        node.y = combo.cy + Math.random() * 100;
+        node.x = combo.cx + 100 / (i + 1);
+        node.y = combo.cy + 100 / (i + 1);
       } else {
-        node.x = Math.random() * 100;
-        node.y = Math.random() * 100;
+        node.x = 100 / (i + 1);
+        node.y = 100 / (i + 1);
       }
     });
   }

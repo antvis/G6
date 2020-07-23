@@ -7,7 +7,6 @@ import { Item, Matrix, Padding, GraphAnimateConfig } from '../../types';
 import { formatPadding } from '../../util/base';
 import { applyMatrix, invertMatrix } from '../../util/math';
 import Graph from '../graph';
-import { mat3 } from '@antv/matrix-util';
 import modifyCSS from '@antv/dom-util/lib/modify-css';
 
 export default class ViewController {
@@ -84,7 +83,7 @@ export default class ViewController {
     const viewCenter = this.getViewCenter();
     const modelCenter = this.getPointByCanvas(viewCenter.x, viewCenter.y);
     let viewportMatrix: Matrix = this.graph.get('group').getMatrix();
-    if (!viewportMatrix) viewportMatrix = mat3.create();
+    if (!viewportMatrix) viewportMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
     if (animate) {
       const dx = (modelCenter.x - point.x) * viewportMatrix[0];
       const dy = (modelCenter.y - point.y) * viewportMatrix[4];
@@ -121,7 +120,7 @@ export default class ViewController {
   public getPointByCanvas(canvasX: number, canvasY: number): Point {
     let viewportMatrix: Matrix = this.graph.get('group').getMatrix();
     if (!viewportMatrix) {
-      viewportMatrix = mat3.create();
+      viewportMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
     }
     const point = invertMatrix({ x: canvasX, y: canvasY }, viewportMatrix);
     return point;
@@ -159,7 +158,7 @@ export default class ViewController {
   public getCanvasByPoint(x: number, y: number): Point {
     let viewportMatrix: Matrix = this.graph.get('group').getMatrix();
     if (!viewportMatrix) {
-      viewportMatrix = mat3.create();
+      viewportMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
     }
     return applyMatrix({ x, y }, viewportMatrix);
   }
@@ -176,7 +175,7 @@ export default class ViewController {
     }
     const group: Group = item.get('group');
     let matrix: Matrix = group.getMatrix();
-    if (!matrix) matrix = mat3.create();
+    if (!matrix) matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
 
     if (item) {
       // 用实际位置而不是model中的x,y,防止由于拖拽等的交互导致model的x,y并不是当前的x,y
