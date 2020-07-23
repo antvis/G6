@@ -10,6 +10,7 @@ import {
   getRectIntersectByPoint,
 } from '../util/math';
 import Item from './item';
+import { clone } from '@antv/util';
 
 const CACHE_ANCHOR_POINTS = 'anchorPointsCache';
 const CACHE_BBOX = 'bboxCache';
@@ -110,12 +111,11 @@ export default class Node extends Item implements INode {
     const type: string = keyShape.get('type');
     const itemType: string = this.get('type');
     let bbox, centerX, centerY;
+    bbox = this.getBBox();
     if (itemType === 'combo') {
-      bbox = this.getKeyShape().getCanvasBBox();
       centerX = (bbox.maxX + bbox.minX) / 2;
       centerY = (bbox.maxY + bbox.minY) / 2;
     } else {
-      bbox = this.getBBox();
       centerX = bbox.centerX;
       centerY = bbox.centerY;
     }

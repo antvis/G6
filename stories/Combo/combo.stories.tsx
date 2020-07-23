@@ -16,6 +16,8 @@ import DagreCombo from './component/dagre-combo';
 import Edges2 from './component/edges2';
 import CreateCombo from './component/create-combo';
 import RemoveItem from './component/remove-item';
+import DragNodeOut from './component/drag-node-out';
+import TreeGraphCreateCombo from './component/treegraph-create-combo';
 
 export default { title: 'Combo' };
 
@@ -57,4 +59,8 @@ storiesOf('Combo', module)
     <CreateCombo />
   )).add('remove item ', () => (
     <RemoveItem />
+  )).add('drag node out', () => (
+    <DragNodeOut />
+  )).add('treegraph create combo', () => (
+    <TreeGraphCreateCombo />
   ));
