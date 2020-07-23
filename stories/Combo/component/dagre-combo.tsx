@@ -225,7 +225,6 @@ const DagreCombo = () => {
         container: container.current as string | HTMLElement,
         width: 1000,
         height: 800,
-        linkCenter: true,
         groupByTypes: false,
         modes: {
           default: ['drag-canvas', 'drag-node',

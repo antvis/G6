@@ -65,7 +65,7 @@ const Minimap = () => {
             container: container.current as string | HTMLElement,
             width: 300,
             height: 400,
-            // plugins: [minimap],
+            plugins: [minimap],
             modes: {
               default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select']
             },

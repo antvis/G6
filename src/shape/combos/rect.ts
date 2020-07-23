@@ -198,7 +198,7 @@ Shape.registerCombo(
     },
     updateShape(cfg: ComboConfig, item: Item, keyShapeStyle: object) {
       const keyShape = item.get('keyShape');
-      const animate = this.options.animate;
+      const animate = cfg.animate === undefined ? this.options.animate : cfg.animate;
       if (animate && keyShape.animate) {
         keyShape.animate(keyShapeStyle, {
           duration: 200,

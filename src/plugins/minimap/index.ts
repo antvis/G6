@@ -588,7 +588,7 @@ export default class MiniMap extends Base {
 
     const ratio = Math.min(size[0] / width, size[1] / height);
 
-    let matrix: Matrix = mat3.create();
+    let matrix: Matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
 
     let minX = 0;
     let minY = 0;

@@ -66,28 +66,20 @@ export default {
     }
     graph.setItemState(item, activeState, true);
 
-    const outEdges = item.getOutEdges();
-    const inEdges = item.getInEdges();
-    const outLegnth = outEdges.length;
-    const inLegnth = inEdges.length;
-    for (let i = 0; i < outLegnth; i++) {
-      const edge = outEdges[i];
-      const target = edge.getTarget();
-      if (inactiveState) {
-        graph.setItemState(target, inactiveState, false);
+    const rEdges = item.getEdges();
+    const rEdgeLegnth = rEdges.length;
+    for (let i = 0; i < rEdgeLegnth; i++) {
+      const edge = rEdges[i];
+      let otherEnd;
+      if (edge.getSource() === item) {
+        otherEnd = edge.getTarget();
+      } else {
+        otherEnd = edge.getSource();
       }
-      graph.setItemState(target, activeState, true);
-      graph.setItemState(edge, inactiveState, false);
-      graph.setItemState(edge, activeState, true);
-      edge.toFront();
-    }
-    for (let i = 0; i < inLegnth; i++) {
-      const edge = inEdges[i];
-      const source = edge.getSource();
       if (inactiveState) {
-        graph.setItemState(source, inactiveState, false);
+        graph.setItemState(otherEnd, inactiveState, false);
       }
-      graph.setItemState(source, activeState, true);
+      graph.setItemState(otherEnd, activeState, true);
       graph.setItemState(edge, inactiveState, false);
       graph.setItemState(edge, activeState, true);
       edge.toFront();

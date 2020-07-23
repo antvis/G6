@@ -8,7 +8,6 @@ import wrapBehavior from '@antv/util/lib/wrap-behavior';
 import Graph from '../graph';
 import { IG6GraphEvent, Matrix, Item } from '../../types';
 import { cloneEvent, isViewportChanged } from '../../util/base';
-import { mat3 } from '@antv/matrix-util';
 
 type Fun = () => void;
 
@@ -100,6 +99,7 @@ export default class EventController {
    */
   protected onCanvasEvents(evt: IG6GraphEvent) {
     const { graph } = this;
+
     const canvas = graph.get('canvas');
     const { target } = evt;
     const eventType = evt.type;
@@ -114,12 +114,13 @@ export default class EventController {
 
     const group: Group = graph.get('group');
     let matrix: Matrix = group.getMatrix();
+
     if (!matrix) {
-      matrix = mat3.create();
+      matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
     }
 
     if (isViewportChanged(matrix)) {
-      point = graph.getPointByCanvas(evt.canvasX, evt.canvasY);
+      point = graph.getPointByClient(evt.clientX, evt.clientY);
     }
 
     evt.x = point.x;
@@ -152,13 +153,15 @@ export default class EventController {
 
     const type = item.getType();
 
-    // 事件target是触发事件的Shape实例，, item是触发事件的item实例
+    // 事件target是触发事件的Shape实例，item是触发事件的item实例
     evt.target = target;
     evt.item = item;
+
+    // emit('click', evt);
     graph.emit(eventType, evt);
 
-    if (evt.name && !evt.name.includes(':')) graph.emit(`${type}:${eventType}`, evt);
-    else graph.emit(evt.name, evt);
+    if (evt.name && !evt.name.includes(':')) graph.emit(`${type}:${eventType}`, evt); // emit('node:click', evt)
+    else graph.emit(evt.name, evt); // emit('text-shape:click', evt)
 
     if (eventType === 'dragstart') {
       this.dragging = true;

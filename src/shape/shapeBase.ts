@@ -7,7 +7,7 @@ import { IShape, IElement } from '@antv/g-canvas/lib/interfaces';
 import { ShapeOptions, ILabelConfig } from '../interface/shape';
 import { IPoint, Item, LabelStyle, ShapeStyle, ModelConfig, EdgeConfig } from '../types';
 import Global from '../global';
-import { mat3, transform } from '@antv/matrix-util';
+import { transform } from '@antv/matrix-util';
 import { deepMix, each, mix, isBoolean, isPlainObject, clone } from '@antv/util';
 
 const CLS_SHAPE_SUFFIX = '-shape';
@@ -72,7 +72,7 @@ export const shapeBase: ShapeOptions = {
       const labelBBox = label.getBBox();
       let labelMatrix = label.getMatrix();
       if (!labelMatrix) {
-        labelMatrix = mat3.create();
+        labelMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
       }
       if (labelStyle.rotateCenter) {
         switch (labelStyle.rotateCenter) {
@@ -231,7 +231,7 @@ export const shapeBase: ShapeOptions = {
         // 计算 label 的旋转矩阵
         if (rotate) {
           // if G 4.x define the rotateAtStart, use it directly instead of using the following codes
-          let rotateMatrix = mat3.create();
+          let rotateMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
           rotateMatrix = transform(rotateMatrix, [
             ['t', -labelStyle.x, -labelStyle.y],
             ['r', rotate],

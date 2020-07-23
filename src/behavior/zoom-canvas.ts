@@ -141,7 +141,7 @@ export default {
           if (fixSelectedItems.fixAll) {
             if (zoom <= 1) {
               let groupMatrix = clone(group.getMatrix());
-              if (!groupMatrix) groupMatrix = mat3.create();
+              if (!groupMatrix) groupMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
               const { x, y } = node.getModel();
               mat3.translate(groupMatrix, groupMatrix, [-x, -y]);
               mat3.scale(groupMatrix, groupMatrix, [scale, scale]);

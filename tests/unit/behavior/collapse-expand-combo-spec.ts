@@ -53,32 +53,32 @@ const data = {
     },
   ],
   combos: [
-  {
-    id: 'A',
-    parentId: 'C',
-    label: 'gorup A',
-    type: 'circle'
-  }, {
-    id: 'B',
-    parentId: 'C',
-    label: 'gorup B',
-    type: 'circle'
-  }, {
-    id: 'C',
-    label: 'gorup C',
-    // type: 'rect'
-  }, 
-  {
-    id: 'F',
-    label: 'gorup F'
-    // type: 'rect'
-  }, {
-    id: 'G',
-    label: 'gorup G',
-    // parentId: 'F'
-    type: 'circle'
-  }
-]
+    {
+      id: 'A',
+      parentId: 'C',
+      label: 'gorup A',
+      type: 'circle'
+    }, {
+      id: 'B',
+      parentId: 'C',
+      label: 'gorup B',
+      type: 'circle'
+    }, {
+      id: 'C',
+      label: 'gorup C',
+      // type: 'rect'
+    },
+    {
+      id: 'F',
+      label: 'gorup F'
+      // type: 'rect'
+    }, {
+      id: 'G',
+      label: 'gorup G',
+      // parentId: 'F'
+      type: 'circle'
+    }
+  ]
 };
 
 describe('collapse-expand-combo', () => {
@@ -88,7 +88,7 @@ describe('collapse-expand-combo', () => {
       width: 1000,
       height: 800,
       modes: {
-        default: [ 'collapse-expand-combo' ]
+        default: ['collapse-expand-combo']
       },
       defaultCombo: {
         type: 'circle',
@@ -117,15 +117,15 @@ describe('collapse-expand-combo', () => {
         }
       }
     });
-    
+
     graph.data(data);
     graph.render();
 
     const comboA = graph.findById('A') as ICombo;
     const comboC = graph.findById('C') as ICombo;
     // collapse A and collapse B
-    graph.emit('dblclick', { item: comboA });
-    graph.emit('dblclick', { item: comboC });
+    graph.emit('combo:dblclick', { item: comboA });
+    graph.emit('combo:dblclick', { item: comboC });
     expect(comboA.getModel().collapsed).toBe(true);
     expect(comboC.getModel().collapsed).toBe(true);
     comboA.getChildren().nodes.forEach(node => {
@@ -143,7 +143,7 @@ describe('collapse-expand-combo', () => {
 
     setTimeout(() => {
       // The console will warn: Fail to expand the combo since it's ancestor combo is collapsed.
-      graph.emit('dblclick', { item: comboA });
+      graph.emit('combo:dblclick', { item: comboA });
       expect(comboA.getModel().collapsed).toBe(true);
       comboA.getChildren().nodes.forEach(node => {
         expect(node.isVisible()).toBe(false);
@@ -152,7 +152,7 @@ describe('collapse-expand-combo', () => {
         expect(combo.isVisible()).toBe(false);
       });
 
-      graph.emit('dblclick', { item: comboC });
+      graph.emit('combo:dblclick', { item: comboC });
       expect(comboC.getModel().collapsed).toBe(false);
       comboC.getChildren().nodes.forEach(node => {
         expect(node.isVisible()).toBe(true);
@@ -172,7 +172,7 @@ describe('collapse-expand-combo', () => {
       done();
     }, 250);
   });
-  it ('default collapsed set in data', done => {
+  it('default collapsed set in data', done => {
     data.combos.forEach((combo: ComboConfig) => {
       combo.collapsed = true;
     });
@@ -212,8 +212,8 @@ describe('collapse-expand-combo', () => {
     const comboA = graph.findById('A') as ICombo;
     const comboC = graph.findById('C') as ICombo;
     // collapse A and collapse B
-    graph.emit('click', { item: comboA });
-    graph.emit('click', { item: comboC });
+    graph.emit('combo:click', { item: comboA });
+    graph.emit('combo:click', { item: comboC });
     expect(comboA.getModel().collapsed).toBe(true);
     expect(comboC.getModel().collapsed).toBe(true);
     comboA.getChildren().nodes.forEach(node => {
@@ -231,7 +231,7 @@ describe('collapse-expand-combo', () => {
 
     setTimeout(() => {
       // The console will warn: Fail to expand the combo since it's ancestor combo is collapsed.
-      graph.emit('click', { item: comboA });
+      graph.emit('combo:click', { item: comboA });
       expect(comboA.getModel().collapsed).toBe(true);
       comboA.getChildren().nodes.forEach(node => {
         expect(node.isVisible()).toBe(false);
@@ -240,7 +240,7 @@ describe('collapse-expand-combo', () => {
         expect(combo.isVisible()).toBe(false);
       });
 
-      graph.emit('click', { item: comboC });
+      graph.emit('combo:click', { item: comboC });
       expect(comboC.getModel().collapsed).toBe(false);
       comboC.getChildren().nodes.forEach(node => {
         expect(node.isVisible()).toBe(true);
@@ -280,7 +280,7 @@ describe('collapse-expand-combo', () => {
 
     const comboA = graph.findById('A') as ICombo;
     // collapse A and collapse B
-    graph.emit('mouseenter', { item: comboA });
+    graph.emit('combo:mouseenter', { item: comboA });
     expect(comboA.getModel().collapsed).toBe(undefined);
     comboA.getChildren().nodes.forEach(node => {
       expect(node.isVisible()).toBe(true);
@@ -313,7 +313,7 @@ describe('collapse-expand-combo', () => {
 
     const comboA = graph.findById('A') as ICombo;
     // collapse A and collapse B
-    graph.emit('dblclick', { item: comboA });
+    graph.emit('combo:dblclick', { item: comboA });
     expect(comboA.getModel().collapsed).toBe(true);
     comboA.getChildren().nodes.forEach(node => {
       expect(node.isVisible()).toBe(false);
@@ -343,10 +343,10 @@ describe('collapse-expand-combo', () => {
       }
     });
     graph.read(data);
-    
+
     const node = graph.getNodes()[0];
     const comboB = graph.findById('B') as ICombo;
-    graph.emit('dblclick', { item: node });
+    graph.emit('combo:dblclick', { item: node });
     expect(comboB.getModel().collapsed).toBe(undefined);
     comboB.getChildren().nodes.forEach(node => {
       expect(node.isVisible()).toBe(true);

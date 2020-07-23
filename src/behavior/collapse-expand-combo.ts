@@ -27,7 +27,7 @@ export default {
       );
     }
     return {
-      [`${trigger}`]: 'onComboClick',
+      [`combo:${trigger}`]: 'onComboClick',
     };
   },
   onComboClick(evt: IG6GraphEvent) {
@@ -43,6 +43,5 @@ export default {
     graph.collapseExpandCombo(comboId);
     if (relayout && graph.get('layout')) graph.layout();
     else graph.refreshPositions();
-    // graph.refreshPositions();
   },
 };
