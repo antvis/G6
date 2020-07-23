@@ -96,7 +96,7 @@ const Edges2 = () => {
                 height: 800,
                 groupByTypes: false,
                 defaultEdge: {
-                    type: 'polyline',
+                    type: 'line',
                     style: {
                         endArrow: true
                     }

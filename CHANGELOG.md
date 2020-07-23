@@ -1,5 +1,9 @@
 # ChangeLog
 
+#### 3.5.12
+- fix: node:click is triggered twice while clicking a node;
+- fix: update combo edge when drag node out of it problem.
+
 #### 3.5.11
 - feat: graph.priorityState api;
 - feat: graph.on support name:event mode.
