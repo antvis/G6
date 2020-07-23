@@ -49,6 +49,7 @@ const DragNodeOut = () => {
                 groupByTypes: false,
                 defaultCombo: {
                     type: 'circle',
+                    animate: false,
                     style: {
                         lineWidth: 1,
                     },

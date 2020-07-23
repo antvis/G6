@@ -1,4 +1,5 @@
 import { G6Event, IG6GraphEvent } from '../types';
+import { INode } from '../interface/item';
 
 export default {
   getDefaultCfg(): object {
@@ -25,16 +26,21 @@ export default {
     };
   },
   setAllItemStates(e: IG6GraphEvent) {
-    const { item } = e;
-    const graph = this.get('graph');
-    this.set('item', item);
+    const item: INode = e.item as INode;
+    const graph = this.graph;
+    this.item = item;
     if (!this.shouldUpdate(e.item, { event: e, action: 'activate' })) {
       return;
     }
     const self = this;
-    const activeState = this.get('activeState');
-    const inactiveState = this.get('inactiveState');
-    graph.getNodes().forEach(node => {
+    const activeState = this.activeState;
+    const inactiveState = this.inactiveState;
+    const nodes = graph.getNodes();
+    const edges = graph.getEdges();
+    const nodeLength = nodes.length;
+    const edgeLength = edges.length;
+    for (let i = 0; i < nodeLength; i++) {
+      const node = nodes[i];
       const hasSelected = node.hasState('selected');
       if (self.resetSelected) {
         if (hasSelected) {
@@ -45,38 +51,47 @@ export default {
       if (inactiveState) {
         graph.setItemState(node, inactiveState, true);
       }
-    });
-    graph.getEdges().forEach(edge => {
+    }
+
+    for (let i = 0; i < edgeLength; i++) {
+      const edge = edges[i];
       graph.setItemState(edge, activeState, false);
       if (inactiveState) {
         graph.setItemState(edge, inactiveState, true);
       }
-    });
+    }
+
     if (inactiveState) {
       graph.setItemState(item, inactiveState, false);
     }
     graph.setItemState(item, activeState, true);
-    graph.getEdges().forEach(edge => {
-      if (edge.getSource() === item) {
-        const target = edge.getTarget();
-        if (inactiveState) {
-          graph.setItemState(target, inactiveState, false);
-        }
-        graph.setItemState(target, activeState, true);
-        graph.setItemState(edge, inactiveState, false);
-        graph.setItemState(edge, activeState, true);
-        edge.toFront();
-      } else if (edge.getTarget() === item) {
-        const source = edge.getSource();
-        if (inactiveState) {
-          graph.setItemState(source, inactiveState, false);
-        }
-        graph.setItemState(source, activeState, true);
-        graph.setItemState(edge, inactiveState, false);
-        graph.setItemState(edge, activeState, true);
-        edge.toFront();
+
+    const outEdges = item.getOutEdges();
+    const inEdges = item.getInEdges();
+    const outLegnth = outEdges.length;
+    const inLegnth = inEdges.length;
+    for (let i = 0; i < outLegnth; i++) {
+      const edge = outEdges[i];
+      const target = edge.getTarget();
+      if (inactiveState) {
+        graph.setItemState(target, inactiveState, false);
       }
-    });
+      graph.setItemState(target, activeState, true);
+      graph.setItemState(edge, inactiveState, false);
+      graph.setItemState(edge, activeState, true);
+      edge.toFront();
+    }
+    for (let i = 0; i < inLegnth; i++) {
+      const edge = inEdges[i];
+      const source = edge.getSource();
+      if (inactiveState) {
+        graph.setItemState(source, inactiveState, false);
+      }
+      graph.setItemState(source, activeState, true);
+      graph.setItemState(edge, inactiveState, false);
+      graph.setItemState(edge, activeState, true);
+      edge.toFront();
+    }
     graph.emit('afteractivaterelations', { item: e.item, action: 'activate' });
   },
   clearActiveState(e: any) {
@@ -86,17 +101,24 @@ export default {
       return;
     }
 
-    const activeState = this.get('activeState');
-    const inactiveState = this.get('inactiveState');
+    const activeState = this.activeState;
+    const inactiveState = this.inactiveState;
 
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
-    graph.getNodes().forEach(node => {
+    const nodes = graph.getNodes();
+    const edges = graph.getEdges();
+    const nodeLength = nodes.length;
+    const edgeLength = edges.length;
+
+    for (let i = 0; i < nodeLength; i++) {
+      const node = nodes[i];
       graph.clearItemStates(node, [activeState, inactiveState]);
-    });
-    graph.getEdges().forEach(edge => {
+    }
+    for (let i = 0; i < edgeLength; i++) {
+      const edge = edges[i];
       graph.clearItemStates(edge, [activeState, inactiveState, 'deactivate']);
-    });
+    }
     graph.paint();
     graph.setAutoPaint(autoPaint);
     graph.emit('afteractivaterelations', {
@@ -106,20 +128,28 @@ export default {
   },
   clearAllItemStates(e: any) {
     const self = this;
-    const graph = self.get('graph');
+    const graph = self.graph;
     if (!self.shouldUpdate(e.item, { event: e, action: 'deactivate' })) {
       return;
     }
 
-    const activeState = this.get('activeState');
-    const inactiveState = this.get('inactiveState');
+    const activeState = this.activeState;
+    const inactiveState = this.inactiveState;
 
-    graph.getNodes().forEach(node => {
+    const nodes = graph.getNodes();
+    const edges = graph.getEdges();
+    const nodeLength = nodes.length;
+    const edgeLength = edges.length;
+
+    for (let i = 0; i < nodeLength; i++) {
+      const node = nodes[i];
       graph.clearItemStates(node, [activeState, inactiveState]);
-    });
-    graph.getEdges().forEach(edge => {
+    }
+    for (let i = 0; i < edgeLength; i++) {
+      const edge = edges[i];
       graph.clearItemStates(edge, [activeState, inactiveState, 'deactivate']);
-    });
+    }
+
     graph.emit('afteractivaterelations', {
       item: e.item || self.get('item'),
       action: 'deactivate',
