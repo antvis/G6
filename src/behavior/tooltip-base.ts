@@ -51,9 +51,9 @@ export default {
     });
   },
   updatePosition(e: IG6GraphEvent) {
-    const { width, height, container } = this;
-    let x = e.canvasX;
-    let y = e.canvasY;
+    const { width, height, container, graph } = this;
+    const point = graph.getPointByClient(e.clientX, e.clientY);
+    let { x, y } = graph.getCanvasByPoint(point.x, point.y);
     const bbox = container.getBoundingClientRect();
     if (x > width / 2) {
       x -= bbox.width;
