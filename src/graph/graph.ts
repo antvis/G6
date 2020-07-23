@@ -641,7 +641,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
     let matrix: Matrix = clone(group.getMatrix());
     if (!matrix) {
-      matrix = mat3.create();
+      matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
     }
     mat3.translate(matrix, matrix, [dx, dy]);
 
@@ -728,7 +728,7 @@ export default class Graph extends EventEmitter implements IGraph {
     const maxZoom: number = this.get('maxZoom');
 
     if (!matrix) {
-      matrix = mat3.create();
+      matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
     }
 
     if (center) {
@@ -1297,7 +1297,7 @@ export default class Graph extends EventEmitter implements IGraph {
       if (item) {
         if (self.get('animate') && type === NODE) {
           let containerMatrix = item.getContainer().getMatrix();
-          if (!containerMatrix) containerMatrix = mat3.create();
+          if (!containerMatrix) containerMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
           item.set('originAttrs', {
             x: containerMatrix[6],
             y: containerMatrix[7],
@@ -1924,7 +1924,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
           if (!originAttrs) {
             let containerMatrix = node.getContainer().getMatrix();
-            if (!containerMatrix) containerMatrix = mat3.create();
+            if (!containerMatrix) containerMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
             originAttrs = {
               x: containerMatrix[6],
               y: containerMatrix[7],
@@ -2056,6 +2056,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
     // 清空画布时同时清除数据
     this.set({ itemMap: {}, nodes: [], edges: [], groups: [] });
+    this.emit('afterrender');
     return this;
   }
 
@@ -2137,7 +2138,7 @@ export default class Graph extends EventEmitter implements IGraph {
     const vGroup = group.clone();
 
     let matrix = clone(vGroup.getMatrix());
-    if (!matrix) matrix = mat3.create();
+    if (!matrix) matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
     const centerX = (bbox.maxX + bbox.minX) / 2;
     const centerY = (bbox.maxY + bbox.minY) / 2;
     mat3.translate(matrix, matrix, [-centerX, -centerY]);
@@ -2217,7 +2218,7 @@ export default class Graph extends EventEmitter implements IGraph {
     const vGroup = group.clone();
 
     let matrix = clone(vGroup.getMatrix());
-    if (!matrix) matrix = mat3.create();
+    if (!matrix) matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
     const centerX = (bbox.maxX + bbox.minX) / 2;
     const centerY = (bbox.maxY + bbox.minY) / 2;
     mat3.translate(matrix, matrix, [-centerX, -centerY]);

@@ -196,10 +196,11 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/8c2353b0-99a9-4a93-a5e1-3e7
     const edges = data.edges;
     const classMap = new Map();
     let classId = 0;
-    nodes.forEach(function(node) {
+    nodes.forEach(function (node) {
       node.y = -node.y;
     });
-    edges.forEach(function(edge) {
+    edges.forEach(function (edge) {
+      edge.id = `edge-${edge.id}`;
       // edge cluster
       if (edge.class && classMap.get(edge.class) === undefined) {
         classMap.set(edge.class, classId);
@@ -209,7 +210,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/8c2353b0-99a9-4a93-a5e1-3e7
       edge.color = colors[cid % colors.length];
       const controlPoints = edge.controlPoints;
 
-      controlPoints.forEach(function(cp) {
+      controlPoints.forEach(function (cp) {
         cp.y = -cp.y;
       });
     });
@@ -229,16 +230,16 @@ function scaleNodesPoints(nodes, edges, graphSize) {
   let maxX = -99999999999999999;
   let minY = 99999999999999999;
   let maxY = -99999999999999999;
-  nodes.forEach(function(node) {
+  nodes.forEach(function (node) {
     if (node.x > maxX) maxX = node.x;
     if (node.x < minX) minX = node.x;
     if (node.y > maxY) maxY = node.y;
     if (node.y < minY) minY = node.y;
   });
 
-  edges.forEach(function(edge) {
+  edges.forEach(function (edge) {
     const controlPoints = edge.controlPoints;
-    controlPoints.forEach(function(cp) {
+    controlPoints.forEach(function (cp) {
       if (cp.x > maxX) maxX = cp.x;
       if (cp.x < minX) minX = cp.x;
       if (cp.y > maxY) maxY = cp.y;
@@ -248,15 +249,15 @@ function scaleNodesPoints(nodes, edges, graphSize) {
 
   const xScale = maxX - minX;
   const yScale = maxY - minY;
-  nodes.forEach(function(node) {
+  nodes.forEach(function (node) {
     node.orix = node.x;
     node.oriy = node.y;
     node.x = ((node.x - minX) / xScale) * size;
     node.y = ((node.y - minY) / yScale) * size;
   });
-  edges.forEach(function(edge) {
+  edges.forEach(function (edge) {
     const controlPoints = edge.controlPoints;
-    controlPoints.forEach(function(cp) {
+    controlPoints.forEach(function (cp) {
       cp.x = ((cp.x - minX) / xScale) * size;
       cp.y = ((cp.y - minY) / yScale) * size;
     });

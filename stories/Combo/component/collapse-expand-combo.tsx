@@ -82,7 +82,10 @@ const CollapseExpand = () => {
         width: 1000,
         height: 800,
         modes: {
-          default: ['drag-canvas', 'collapse-expand-combo']
+          default: ['drag-canvas', 'collapse-expand-combo', 'drag-combo', {
+            type: 'drag-node',
+            onlyChangeComboSize: true
+          }]
         },
         defaultCombo: {
           // size: [100, 100],

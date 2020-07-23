@@ -273,6 +273,7 @@ export default {
    * @param {number} y 拖动单个元素时候的y坐标
    */
   updateDelegate(e) {
+    const { graph } = this;
     if (!this.delegateRect) {
       // 拖动多个
       const parent = this.graph.get('group');

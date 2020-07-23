@@ -50,6 +50,9 @@ const AddItem = () => {
         container: container.current as string | HTMLElement,
         width: 500,
         height: 500,
+        modes: {
+          default: ['drag-node']
+        }
       });
       graph.data(data);
       graph.render();

@@ -161,7 +161,7 @@ export const getEllipseIntersectByPoint = (ellipse: IEllipse, point: Point): Poi
 export const applyMatrix = (point: Point, matrix: Matrix, tag: 0 | 1 = 1): Point => {
   const vector = [point.x, point.y, tag];
   if (!matrix || isNaN(matrix[0])) {
-    matrix = mat3.create();
+    matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
   }
 
   vec3.transformMat3(vector, vector, matrix);
@@ -181,12 +181,12 @@ export const applyMatrix = (point: Point, matrix: Matrix, tag: 0 | 1 = 1): Point
  */
 export const invertMatrix = (point: Point, matrix: Matrix, tag: 0 | 1 = 1): Point => {
   if (!matrix || isNaN(matrix[0])) {
-    matrix = mat3.create();
+    matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
   }
 
   let inversedMatrix = mat3.invert([], matrix);
   if (!inversedMatrix) {
-    inversedMatrix = mat3.create();
+    inversedMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
   }
   const vector = [point.x, point.y, tag];
   vec3.transformMat3(vector, vector, inversedMatrix);
@@ -335,7 +335,7 @@ export const translate = (group: IGroup, vec: Point) => {
 export const move = (group: IGroup, point: Point) => {
   let matrix: Matrix = group.getMatrix();
   if (!matrix) {
-    matrix = mat3.create();
+    matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
   }
   const bbox = group.getCanvasBBox();
   const vx = point.x - bbox.minX;
@@ -353,7 +353,7 @@ export const move = (group: IGroup, point: Point) => {
 export const scale = (group: IGroup, ratio: number | number[]) => {
   let matrix: Matrix = group.getMatrix();
   if (!matrix) {
-    matrix = mat3.create();
+    matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
   }
 
   let scaleXY = ratio;
@@ -378,7 +378,7 @@ export const scale = (group: IGroup, ratio: number | number[]) => {
 export const rotate = (group: IGroup, angle: number) => {
   let matrix: Matrix = group.getMatrix();
   if (!matrix) {
-    matrix = mat3.create();
+    matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
   }
   matrix = transform(matrix, [['r', angle]]);
 

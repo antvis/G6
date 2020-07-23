@@ -59,7 +59,7 @@ export const isViewportChanged = (matrix: Matrix) => {
   }
 
   const MATRIX_LEN = 9;
-  const ORIGIN_MATRIX = mat3.create();
+  const ORIGIN_MATRIX = [1, 0, 0, 0, 1, 0, 0, 0, 1];
 
   for (let i = 0; i < MATRIX_LEN; i++) {
     if (matrix[i] !== ORIGIN_MATRIX[i]) {
