@@ -3,7 +3,8 @@
 #### 3.5.12
 - fix: node:click is triggered twice while clicking a node;
 - fix: update combo edge when drag node out of it problem;
-- feat: animate configuration for combo, true by default.
+- feat: animate configuration for combo, true by default;
+- fix: calling canvas.on('*', ...) instead of origin way in event controller leads to malposition while dragging nodes with zoomed graph.
 
 #### 3.5.11
 - feat: graph.priorityState api;
