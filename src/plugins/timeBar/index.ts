@@ -38,7 +38,12 @@ type TimeBarOption = Partial<{
 
   readonly backgroundStyle: ShapeStyle;
   readonly foregroundStyle: ShapeStyle;
-  readonly handlerStyle: ShapeStyle;
+  // 滑块样式
+  readonly handlerStyle: {
+    width: number;
+    height: number;
+    style: ShapeStyle;
+  };
   readonly textStyle: ShapeStyle;
   // 允许滑动位置
   readonly minLimit: number;
@@ -95,20 +100,18 @@ export default class TimeBar extends Base {
       return
     }
 
-    const container = this.get('container')
+    const container: HTMLDivElement | null = this.get('container')
+
+    const graphContainer = this.get('graph').get('container');
 
     let timebar
     if (!container) {
-      timebar = createDOM(`<div id='g6-component-timebar'></div>`)
+      timebar = createDOM(`<div class='g6-component-timebar'></div>`)
       modifyCSS(timebar, { position: 'absolute' });
-      document.body.appendChild(timebar)
-    } else if (isString(container)) {
-      timebar = createDOM(`<div id=${container}></div>`)
-      modifyCSS(timebar, { position: 'absolute' });
-      document.body.appendChild(timebar)
     } else {
       timebar = container
     }
+    graphContainer.appendChild(timebar)
 
     this.set('timeBarContainer', timebar)
 
@@ -152,8 +155,6 @@ export default class TimeBar extends Base {
     config.maxText = data[data.length - 1].date
 
     this.set('trendData', data)
-
-    console.log('配置项', config)
 
     const slider = new Slider(config)
 
@@ -234,7 +235,11 @@ export default class TimeBar extends Base {
 
     const timeBarContainer = this.get('timeBarContainer')
     if (timeBarContainer) {
-      document.body.removeChild(timeBarContainer);
+      let container: HTMLDivElement | null = this.get('container');
+      if (!container) {
+        container = this.get('graph').get('container');
+      }
+      container.removeChild(timeBarContainer);
     }
   }
 }

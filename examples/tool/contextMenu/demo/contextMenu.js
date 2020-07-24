@@ -47,11 +47,30 @@ document.getElementById('container').appendChild(conextMenuContainer);
 
 const width = document.getElementById('container').scrollWidth;
 const height = document.getElementById('container').scrollHeight || 500;
+
+const contextMenu = new G6.Menu({
+  getContent(graph) {
+    console.log('graph',graph)
+    return `<ul>
+      <li title='1'>测试01</li>
+      <li title='2'>测试02</li>
+      <li>测试03</li>
+      <li>测试04</li>
+      <li>测试05</li>
+    </ul>`;
+  },
+  handleMenuClick: (target, item) => {
+    console.log(target, item)
+  }
+});
+
 const graph = new G6.Graph({
+  // 使用 contextMenu plugins 时，需要将 container 设置为 position: relative;
   container: 'container',
   width,
   height,
   linkCenter: true,
+  plugins: [contextMenu],
   defaultNode: {
     size: [80, 40],
     type: 'rect',
@@ -120,13 +139,3 @@ const data = {
 graph.data(data);
 graph.render();
 
-graph.on('node:contextmenu', evt => {
-  evt.preventDefault();
-  evt.stopPropagation();
-  conextMenuContainer.style.left = `${evt.canvasX + 20}px`;
-  conextMenuContainer.style.top = `${evt.canvasY}px`;
-});
-
-graph.on('node:mouseleave', () => {
-  conextMenuContainer.style.left = '-150px';
-});
