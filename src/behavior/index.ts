@@ -31,7 +31,7 @@ const behaviors = {
   'collapse-expand-group': CollapseExpandGroup,
   'collapse-expand': CollapseExpand,
   'drag-combo': DragCombo,
-  'collapse-expand-combo': CollapseExpandCombo
+  'collapse-expand-combo': CollapseExpandCombo,
 };
 
 each(behaviors, (behavior, type: string) => {

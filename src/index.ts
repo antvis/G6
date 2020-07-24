@@ -18,8 +18,9 @@ const Minimap = Plugins.Minimap;
 const Grid = Plugins.Grid;
 const Bundling = Plugins.Bundling;
 const Menu = Plugins.Menu;
-const ToolBar = Plugins.ToolBar
-const Tooltip = Plugins.Tooltip
+const ToolBar = Plugins.ToolBar;
+const Tooltip = Plugins.Tooltip;
+const Fisheye = Plugins.Fisheye;
 
 export {
   registerNode,
@@ -35,6 +36,7 @@ export {
   Grid,
   Bundling,
   Menu,
+  Fisheye,
   registerBehavior,
   Algorithm,
   ToolBar,
@@ -59,6 +61,7 @@ export default {
   Menu: Plugins.Menu,
   ToolBar: Plugins.ToolBar,
   Tooltip: Plugins.Tooltip,
+  Fisheye: Plugins.Fisheye,
   Algorithm,
   Arrow,
   Marker
