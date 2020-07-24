@@ -67,7 +67,11 @@ export default class Tooltip extends Base {
     const className = this.get('className')
     const tooltip = createDOM(`<div class=${className || 'g6-component-tooltip'}></div>`)
     modifyCSS(tooltip, { position: 'absolute', visibility: 'hidden' });
-    document.body.appendChild(tooltip)
+    let container: HTMLDivElement | null = this.get('container');
+    if (!container) {
+      container = this.get('graph').get('container');
+    }
+    container.appendChild(tooltip)
     this.set('tooltip', tooltip)
   }
 
@@ -150,7 +154,11 @@ export default class Tooltip extends Base {
     const tooltip = this.get('tooltip')
 
     if (tooltip) {
-      document.body.removeChild(tooltip);
+      let container: HTMLDivElement | null = this.get('container');
+      if (!container) {
+        container = this.get('graph').get('container');
+      }
+      container.removeChild(tooltip);
     }
   }
 }

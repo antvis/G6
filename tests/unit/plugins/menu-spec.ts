@@ -34,7 +34,7 @@ describe('menu', () => {
 
     graph.data(data)
     graph.render()
-    graph.destroy()
+    // graph.destroy()
   })
   it('menu with dom', () => {
     const menu = new G6.Menu({
