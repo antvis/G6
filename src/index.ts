@@ -18,10 +18,10 @@ const Minimap = Plugins.Minimap;
 const Grid = Plugins.Grid;
 const Bundling = Plugins.Bundling;
 const Menu = Plugins.Menu;
+const TimeBar = Plugins.TimeBar;
 const ToolBar = Plugins.ToolBar;
 const Tooltip = Plugins.Tooltip;
 const Fisheye = Plugins.Fisheye;
-const TimeBar = Plugins.TimeBar
 
 export {
   registerNode,
@@ -63,8 +63,8 @@ export default {
   Menu: Plugins.Menu,
   ToolBar: Plugins.ToolBar,
   Tooltip: Plugins.Tooltip,
-  Fisheye: Plugins.Fisheye,
   TimeBar,
+  Fisheye,
   Algorithm,
   Arrow,
   Marker
