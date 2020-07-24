@@ -38,6 +38,9 @@ describe('tooltip', () => {
       modes: {
         default: ['drag-node', 'zoom-canvas', 'drag-canvas']
       },
+      defaultNode: {
+        type: 'rect'
+      },
       defaultEdge: {
         style: {
           lineAppendWidth: 20
@@ -54,7 +57,7 @@ describe('tooltip', () => {
 
     graph.destroy()
   })
-  it('menu with dom', () => {
+  it('tooltip with dom', () => {
     const tooltip = new G6.Tooltip({
       offset: 10,
       getContent(e) {
@@ -91,7 +94,7 @@ describe('tooltip', () => {
     expect(tooltipPlugin.get('offset')).toBe(10)
     graph.destroy()
   })
-  it('menu with string', () => {
+  it('tooltip with string', () => {
     const tooltip = new G6.Tooltip({
       getContent(e) {
         return `<div style='width: 180px;'>
