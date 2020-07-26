@@ -424,6 +424,27 @@ graph.on('afteractivaterelations', e => {
     - `e.selectedItems`：当前操作后，所有被选中的 items 集合；
     - `e.select`：当前操作是选中(true)还是取消选中(false)。
 
+### lasso-select
+
+- 含义：自由圈选；
+- 配置项：
+  - `type: 'lasso-select'`；
+  - `delegateStyle`：拖动框选框的样式，包括 `fill`、`fillOpacity`、`stroke` 和 `lineWidth` 四个属性;
+  - `onSelect(nodes, edges)`：选中节点时的回调，参数 `nodes` 表示选中的节点，`edges`  表示选中的边；
+  - `onDeselect(nodes, edges)`：取消选中节点时的回调，参数 `nodes` 表示取消选中的节点，`edges`  表示取消选中的边；
+  - `selectedState`：选中的状态，默认值为 `'selected'`；
+  - `includeEdges`：框选过程中是否选中边，默认为 `true`，用户配置为 `false` 时，则不选中边；
+  - `trigger`：触发框选的动作，默认为 `'shift'`，即用户按住 Shift 键拖动就可以进行框选操作，可配置的的选项为: `'shift'`、`'ctrl' / 'control'`、`'alt'` 和 `'drag'` ，不区分大小写：
+    - `'shift'`：按住 Shift 键进行拖动框选；
+    - `'ctrl' / 'control'`：按住 Ctrl 键进行拖动框选；
+    - `'alt'`：按住 Alt 键进行拖动框选；
+    - 风险  `'drag'`：不需要按任何键，进行拖动框选，如果同时配置了 `drag-canvas`，则会与该选项冲突。
+  - `shouldUpdate(e)`：是否允许对该 behavior 发生，参考下面示例。
+- 相关时机事件：
+  - `'nodeselectchange'`：当选中的元素集合发生变化时将会触发该时机事件。使用 `graph.on('nodeselectchange', e => {...})` 监听。其参数 `e` 有以下字段：
+    - `e.selectedItems`：当前操作后，所有被选中的 items 集合；
+    - `e.select`：当前操作是选中(true)还是取消选中(false)。
+
 **默认配置**
 
 ```javascript
