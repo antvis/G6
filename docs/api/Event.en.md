@@ -114,7 +114,7 @@ Before and after being called some functions, G6 exports the timing events.
 | beforelayout | Activated before graph layout. `render` will layout the graph, so `render` will activate this event as well. |
 | afterlayout | Activated after graph layout being done. `render` will layout the graph, so `render` will activate this event as well. |
 | afteractivaterelations | Activated while activating a node by `'activate-relations'` Behavior which is assigned to the the instance of Graph. |
-| nodeselectchange | Activated while the selected items are changed by `'brush-select'` or `'click-select'` Behavior which is assigned to the instance of Graph. |
+| nodeselectchange | Activated while the selected items are changed by `'brush-select'`, `'click-select'` or `'lasso-select'` Behavior which is assigned to the instance of Graph. |
 | itemcollapsed | Activated while a node is clicked to collapse or expand by `'collapse-expand'` Behavior which is assigned to the instance of TreeGraph. |
 | tooltipchange | Activated after the show/hide state is changed by `'tooltip'` or `'edge-tooltip'` Behavior which is assigned to the instance of Graph. |
 | wheelzoom | Activated after the canvas being zoomed by `'zoom-canvas'` Behavior which is assigned to the instance of Graph. |

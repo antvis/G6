@@ -114,7 +114,7 @@ order: 8
 | beforelayout | 布局前触发。调用 `render` 时会进行布局，因此 `render` 时会触发。或用户主动调用图的 `layout` 时触发。 |
 | afterlayout | 布局完成后触发。调用 `render` 时会进行布局，因此 `render` 时布局完成后会触发。或用户主动调用图的 `layout` 时布局完成后触发。 |
 | afteractivaterelations | 使用了 `'activate-relations'` Behavior 并触发了该行为后，该事件被触发 |
-| nodeselectchange | 使用了 `'brush-select'` 或 `'click-select'` Behavior 且选中元素发生变化时，该事件被触发 |
+| nodeselectchange | 使用了 `'brush-select'` , `'click-select'` 或 `'lasso-select'` Behavior 且选中元素发生变化时，该事件被触发 |
 | itemcollapsed | 在 TreeGraph 上使用了 `'collapse-expand'` Behavior 并触发了该行为后，该事件被触发 |
 | tooltipchange | 使用了 `'tooltip'` 或 `'edge-tooltip'` Behavior 且 tooltip 的显示/隐藏被改变后，该事件被触发 |
 | wheelzoom | 使用了 `'zoom-canvas'` Behavior 并用滚轮对图进行缩放后，该事件被触发 |
