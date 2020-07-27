@@ -1,7 +1,9 @@
 # ChangeLog
 
-#### 3.5
-- feat: fisheye lens plugin.
+#### 3.6.0
+- feat: fisheye lens plugin;
+- feat: TimeBar & ToolBar plugin;
+- feat: lasso-select behavior.
 
 #### 3.5.12
 - fix: node:click is triggered twice while clicking a node;
