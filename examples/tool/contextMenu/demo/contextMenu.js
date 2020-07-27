@@ -30,21 +30,6 @@ descriptionDiv.id = 'discription';
 descriptionDiv.innerHTML = 'Right click a node to activate a contextMenu.';
 document.getElementById('container').appendChild(descriptionDiv);
 
-// JSX and HTML templates are available for the menu
-// create ul
-const conextMenuContainer = document.createElement('ul');
-conextMenuContainer.id = 'contextMenu';
-
-// create li
-const firstLi = document.createElement('li');
-firstLi.innerText = 'Option 1';
-conextMenuContainer.appendChild(firstLi);
-
-const lastLi = document.createElement('li');
-lastLi.innerText = 'Option 2';
-conextMenuContainer.appendChild(lastLi);
-document.getElementById('container').appendChild(conextMenuContainer);
-
 const width = document.getElementById('container').scrollWidth;
 const height = document.getElementById('container').scrollHeight || 500;
 
