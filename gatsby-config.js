@@ -41,6 +41,13 @@ module.exports = {
           en: 'Examples',
         },
       },
+      {
+        slug: 'https://www.yuque.com/antv/g6-blog',
+        title: {
+          zh: '博客',
+          en: 'blog',
+        },
+      },
     ],
     docs: [
       {
@@ -59,6 +66,7 @@ module.exports = {
         },
         order: 3,
       },
+      // ===========Concepts===================
       {
         slug: 'manual/middle',
         title: {
@@ -68,68 +76,105 @@ module.exports = {
         order: 4,
       },
       {
-        slug: 'manual/middle/states',
+        slug: 'manual/middle/shape',
         title: {
-          zh: '交互与事件',
-          en: 'Behavior & Event',
+          zh: '图形 Shape（选读）',
+          en: 'Shape',
         },
-        order: 4,
+        order: 2,
       },
+
       {
         slug: 'manual/middle/elements',
         title: {
-          zh: '节点/边/Combo',
+          zh: '图元素：节点/边/Combo',
           en: 'Graph Elements',
+          order: 2,
         },
       },
       {
         slug: 'manual/middle/elements/nodes',
         title: {
-          zh: '内置节点',
-          en: 'Built-in Node',
-        },
-        order: 1,
-      },
-      {
-        slug: 'manual/middle/elements/edges',
-        title: {
-          zh: '内置边',
-          en: 'Built-in Edge',
-        },
-        order: 2,
-      },
-      {
-        slug: 'manual/middle/elements/combos',
-        title: {
-          zh: '内置 Combo',
-          en: 'Built-in Combo',
+          zh: '节点',
+          en: 'Node',
         },
         order: 3,
       },
       {
-        slug: 'manual/advanced',
+        slug: 'manual/middle/elements/nodes/built-in',
         title: {
-          zh: '高级指引',
-          en: 'Advanced',
-        },
-        order: 5,
-      },
-      {
-        slug: 'manual/advanced/keyconcept',
-        title: {
-          zh: '概念解释',
-          en: 'Concepts',
+          zh: '内置节点类型',
+          en: 'Built-in Nodes',
         },
         order: 0,
       },
       {
-        slug: 'manual/advanced/theory',
+        slug: 'manual/middle/elements/edges',
         title: {
-          zh: '深度原理解析',
-          en: 'Theory Blog',
+          zh: '边',
+          en: 'Edge',
         },
         order: 1,
       },
+      {
+        slug: 'manual/middle/elements/edges/built-in',
+        title: {
+          zh: '内置边类型',
+          en: 'Built-in Edges',
+        },
+        order: 0,
+      },
+      {
+        slug: 'manual/middle/elements/combos',
+        title: {
+          zh: 'Combo',
+          en: 'Combo',
+        },
+        order: 2,
+      },
+      {
+        slug: 'manual/middle/elements/combos/built-in',
+        title: {
+          zh: '内置Combo',
+          en: 'Built-in Combos',
+        },
+        order: 0,
+      },
+      {
+        slug: 'manual/middle/elements/methods',
+        title: {
+          zh: '通用元素操作方法',
+          en: 'Common methods',
+        },
+        order: 4,
+      },
+
+      {
+        slug: 'manual/middle/layout',
+        title: {
+          zh: '图布局',
+          en: 'Graph Layouts',
+          order: 5,
+        },
+      },
+      {
+        slug: 'manual/middle/states',
+        title: {
+          zh: '交互与事件',
+          en: 'Behavior & Event',
+        },
+        order: 6,
+      },
+      // ==============================
+      {
+        slug: 'manual/advanced',
+        title: {
+          zh: '拓展阅读',
+          en: 'Further Reading',
+        },
+        order: 5,
+      },
+      // ==========API====================
       {
         slug: 'api/nodeEdge',
         title: {

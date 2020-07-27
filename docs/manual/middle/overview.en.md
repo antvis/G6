@@ -1,0 +1,42 @@
+---
+title: Overview of Main Concepts
+order: 0
+---
+
+- Graph
+  - 初始化和渲染（使用SVG渲染一节很短，可以合并到该章节中?）
+  - 图布局
+    - 内置布局
+    - 自定义布局
+- 图形（Shape）(选读)
+  - 图形和属性
+  - 关键图形（Key Shape）
+  - 图形分组（Shape group) 
+  - 图形变换 （Transform ）
+- 图元素（节点、边、Combo)
+  - 节点
+    - 内置节点
+    - 自定义节点
+    - 节点的连接点 anchorPoints
+  - 边
+    - 内置边
+    - 自定义边
+  - Combo
+    - 内置 Combo
+    - 自定义 Combo
+    - Combo 机制
+    - 创建与拆分 Combo
+    - (group、手动创建节点分组 -- 去掉？或者把内容搬到其他地方，说明即将移除）
+  - 元素控制
+    - 元素状态（State ）
+    - 更新节点或边的样式
+    - 层级调整
+    - 显示隐藏
+    - 锁定/解锁
+- 交互与事件
+  - 监听与绑定事件
+  - 内置的交互行为（Behavior）
+  - 自定义Behavior （选读）
+  - 交互模式 Mode
+- 动画
+- 插件

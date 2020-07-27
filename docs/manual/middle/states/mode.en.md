@@ -1,6 +1,6 @@
 ---
 title: Interaction Mode
-order: 5
+order: 3
 ---
 
 ## What is Mode

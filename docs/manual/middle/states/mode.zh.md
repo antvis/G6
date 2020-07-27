@@ -1,6 +1,6 @@
 ---
 title: 交互模式 Mode
-order: 5
+order: 3
 ---
 
 ## 什么是 Mode
@@ -83,5 +83,6 @@ graph.removeBehaviors(['drag-canvas', 'zoom-canvas'], 'default');
 
 ## 相关阅读
 
+- [使用多种交互模式](/zh/docs/manual/advanced/mode-and-custom-behavior)
 - [内置交互行为 Behavior](/zh/docs/manual/middle/states/defaultBehavior)
 - [自定义交互行为 Behavior](/zh/docs/manual/advanced/custom-behavior)
