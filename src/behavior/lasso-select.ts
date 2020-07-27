@@ -1,5 +1,5 @@
 import { G6Event, IG6GraphEvent, IPoint, Item } from '../types';
-import { isPolygonsIntersect } from '@antv/path-util';
+import isPolygonsIntersect from '@antv/path-util/lib/is-polygons-intersect';
 import { pathToPoints } from '../util/path'
 
 const DEFAULT_TRIGGER = 'shift';

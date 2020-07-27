@@ -1,6 +1,5 @@
 import modifyCSS from '@antv/dom-util/lib/modify-css';
 import createDOM from '@antv/dom-util/lib/create-dom';
-import isString from '@antv/util/lib/is-string'
 import { IGroup } from '@antv/g-base'
 import { Canvas } from '@antv/g-canvas'
 import { Slider } from '@antv/component'
@@ -80,10 +79,10 @@ export default class TimeBar extends Base {
       timebar: {
         x: 10,
         y: 10,
-        width: 400,
+        width: 380,
         height: 26,
-        minLimit: 0.05,
-        maxLimit: 0.95,
+        minLimit: 0,
+        maxLimit: 1,
         start: 0.1,
         end: 0.9,
       }
@@ -151,8 +150,13 @@ export default class TimeBar extends Base {
       data: trendData
     }
 
-    config.minText = data[0].date
-    config.maxText = data[data.length - 1].date
+
+    const min = Math.round(data.length * option.start)
+    let max = Math.round(data.length * option.end)
+    max = max >= data.length ? (data.length - 1) : max
+
+    config.minText = data[min].date
+    config.maxText = data[max].date
 
     this.set('trendData', data)
 
@@ -170,49 +174,60 @@ export default class TimeBar extends Base {
    * 当滑动时，最小值和最大值会变化，变化以后触发相应事件
    */
   private bindEvent() {
-    const graph: IGraph = this.get('graph')
     const slider = this.get('slider')
-    const rangeChange = this.get('rangeChange')
-    const trendData: Data[] = this.get('trendData')
+    const { start, end } = this.get('timebar');
+    const graph: IGraph = this.get('graph')
+    graph.on('afterrender', e => {
+      this.filterData({ value: [start, end] });
+    });
+
     slider.on('valuechanged', (evt: Callback) => {
-      const { value } = evt
-
-      const min = Math.round(trendData.length * value[0])
-      let max = Math.round(trendData.length * value[1])
-      max = max > trendData.length ? trendData.length : max
-      const minText = trendData[min].date
-      const maxText = trendData[max].date
-
-      slider.set('minText', minText)
-      slider.set('maxText', maxText)
-
-      if (rangeChange) {
-        rangeChange(graph, minText, maxText)
-      } else {
-        // 自动过滤数据，并渲染 graph
-        const graphData = graph.save() as GraphData
-
-        if (!this.cacheGraphData) {
-          this.cacheGraphData = graphData
-        }
-
-        // 过滤不在 min 和 max 范围内的节点
-        const filterData = this.cacheGraphData.nodes.filter((d: any) => d.date >= minText && d.date <= maxText)
-
-        const nodeIds = filterData.map(node => node.id)
-
-        // 过滤 source 或 target 不在 min 和 max 范围内的边
-        const fileterEdges = this.cacheGraphData.edges.filter(edge => nodeIds.includes(edge.source) && nodeIds.includes(edge.target))
-
-        graph.changeData({
-          nodes: filterData,
-          edges: fileterEdges
-        })
-
-      }
+      this.filterData(evt);
     })
   }
 
+  private filterData(evt) {
+    const { value } = evt
+
+    const trendData: Data[] = this.get('trendData')
+    const rangeChange = this.get('rangeChange')
+    const graph: IGraph = this.get('graph')
+    const slider = this.get('slider')
+    const min = Math.round(trendData.length * value[0])
+    let max = Math.round(trendData.length * value[1])
+    max = max >= trendData.length ? (trendData.length - 1) : max
+
+    const minText = trendData[min].date
+    const maxText = trendData[max].date
+
+    slider.set('minText', minText)
+    slider.set('maxText', maxText)
+
+    if (rangeChange) {
+      rangeChange(graph, minText, maxText)
+    } else {
+      // 自动过滤数据，并渲染 graph
+      const graphData = graph.save() as GraphData
+
+      if (!this.cacheGraphData || (this.cacheGraphData.nodes && this.cacheGraphData.nodes.length === 0)) {
+        this.cacheGraphData = graphData
+      }
+
+      // 过滤不在 min 和 max 范围内的节点
+      const filterData = this.cacheGraphData.nodes.filter((d: any) => d.date >= minText && d.date <= maxText)
+
+      const nodeIds = filterData.map(node => node.id)
+
+      // 过滤 source 或 target 不在 min 和 max 范围内的边
+      const fileterEdges = this.cacheGraphData.edges.filter(edge => nodeIds.includes(edge.source) && nodeIds.includes(edge.target))
+
+      graph.changeData({
+        nodes: filterData,
+        edges: fileterEdges
+      })
+
+    }
+  }
   public show() {
     const slider = this.get('slider')
     slider.show()

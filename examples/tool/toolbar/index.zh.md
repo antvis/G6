@@ -1,6 +1,6 @@
 ---
 title: 工具栏
-order: 0
+order: 4
 ---
 
 G6 中内置的 ToolBar 组件。
