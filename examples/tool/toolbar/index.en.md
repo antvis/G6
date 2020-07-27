@@ -1,6 +1,6 @@
 ---
 title: ToolBar
-order: 0
+order: 4
 ---
 
 ToolBar is a build-in Component in G6.

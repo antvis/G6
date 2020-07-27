@@ -174,39 +174,39 @@ const graph = new G6.Graph({
 
 ## ToolBar
 
-ToolBar 集成了以下常见的操作：
-- 重做；
-- 撤销；
-- 放大；
-- 缩小；
-- 适应屏幕；
-- 实际大小。
+ToolBar has the following operations by default:
+- Undo;
+- Redo;
+- Zoom-in;
+- Zoom-out;
+- Fit the View;
+- Actual Size.
 
 ### Configuration
 
-| 名称 | 类型 | 默认值 | 描述 |
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| container | HTMLDivElement | null | ToolBar 容器，如果不设置，则默认使用 canvas 的 DOM 容器 |
-| className | string | null | ToolBar 内容元素的 class 类名 |
-| getContent | (graph?: IGraph) => HTMLDivElement | string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ' width=80 alt='img'/> | ToolBar 内容，支持 DOM 元素或字符串 |
-| handleClick | (code: string, graph: IGraph) => void | undefined | 点击 ToolBar 中每个图标的回调函数 |
-| position | Point | null | ToolBar 的位置坐标 |
+| container | HTMLDivElement | null | The container of the ToolBar. It will take use the DOM of the canvas by default |
+| className | string | null | The class name of the sub DOM nodes of the ToolBar |
+| getContent | (graph?: IGraph) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ' width=80 alt='img'/> | The content of the ToolBar |
+| handleClick | (code: string, graph: IGraph) => void | undefined | The callback functions for the icons of the ToolBar |
+| position | Point | null | The position of the ToolBar |
 
 ### Usage
 
 #### Default Usage
-默认的 ToolBar 提供了撤销、重做、放大等功能。
+ToolBar provides some default operations above.
 
 ```
 const toolbar = new G6.ToolBar();
 
 const graph = new G6.Graph({
-  //... 其他配置项
-  plugins: [toolbar], // 配置 Menu 插件
+  //... Other configurations
+  plugins: [toolbar], // Use the ToolBar plugin
 });
 ```
 
-#### String ToolBar
+#### Custom ToolBar by String
 
 ```
 const tc = document.createElement('div');
@@ -218,8 +218,8 @@ const toolbar = new G6.ToolBar({
   getContent: () => {
     return `
       <ul>
-        <li code='add'>测试</li>
-        <li code='undo'>撤销</li>
+        <li code='add'>Add Node</li>
+        <li code='undo'>Undo</li>
       </ul>
     `
   },
@@ -238,12 +238,12 @@ const toolbar = new G6.ToolBar({
 });
 
 const graph = new G6.Graph({
-  //... 其他配置项
-  plugins: [toolbar], // 配置 Menu 插件
+  //... Other configurations
+  plugins: [toolbar], // Use the ToolBar plugin
 });
 ```
 
-#### DOM ToolBar
+#### Custom ToolBar by DOM
 
 ```
 const toolbar = new G6.ToolBar({
@@ -251,11 +251,11 @@ const toolbar = new G6.ToolBar({
     const outDiv = document.createElement('div');
     outDiv.style.width = '180px';
     outDiv.innerHTML = `<ul>
-        <li>测试01</li>
-        <li>测试01</li>
-        <li>测试01</li>
-        <li>测试01</li>
-        <li>测试01</li>
+        <li>example 01</li>
+        <li>example 02</li>
+        <li>example 03</li>
+        <li>example 04</li>
+        <li>example 05</li>
       </ul>`
     return outDiv
   },
@@ -265,33 +265,33 @@ const toolbar = new G6.ToolBar({
 });
 
 const graph = new G6.Graph({
-  //... 其他配置项
-  plugins: [toolbar], // 配置 Menu 插件
+  //... Other configurations
+  plugins: [toolbar], // Use the ToolBar plugin
 });
 ```
 
 ## TimeBar
 
-目前 G6 内置的 TimeBar 主要有以下功能：
-- 改变时间范围，过滤图上的数据；
-- TimeBar 上展示指定字段随时间推移的变化趋势。
+The built-in TimeBar plugin has the following abilities:
+- Filtering the data of the graph by changing the time range;
+- Demonstrating the trending of the data by an attribute on the TimeBar.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HJjmT7uQwjAAAAAAAAAAAABkARQnAQ' width=700 alt='img'/>
 
-**说明：** 目前的 TimeBar 功能还比较简单，不能用于较为复杂的时序分析。
+**Description:** It is a beta version of TimeBar, which will support complex time series graph and analysis in the future.
 
 ### Configuration
 
-| 名称 | 类型 | 默认值 | 描述 |
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| container | HTMLDivElement | null | TimeBar 容器，如果不设置，则默认创建 className 为 g6-component-timebar 的 DOM 容器 |
-| width | number | 400 | TimeBar 容器宽度 |
-| height | number | 400 | TimeBar 容器高度 |
-| timebar | TimeBarOption | {} | TimeBar 样式配置项 |
-| rangeChange | (graph: IGraph, min: number, max: number) => void | null | 改变时间范围后的回调函数 |
+| container | HTMLDivElement | null | The container of the TimeBar. A DOM container with className 'g6-component-timebar' will be used by default |
+| width | number | 400 | The width of the TimeBar's container |
+| height | number | 400 | The height of the TimeBar's container |
+| timebar | TimeBarOption | {} | The style configurations for TimeBar |
+| rangeChange | (graph: IGraph, min: number, max: number) => void | null | The callback function after changing the time range |
 
 
-**TimeBarOption 配置项**
+**TimeBarOption for timebar**
 
 ```
 interface HandleStyle {
@@ -301,25 +301,25 @@ interface HandleStyle {
 }
 ```
 
-| 名称 | 类型 | 默认值 | 描述 |
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| x | number | 0 | TimeBar 起始 x 坐标 |
-| y | number | 0 | TimeBar 起始 y 坐标 |
-| width | number | 400 | TimeBar 宽度 |
-| height | number | 400 | TimeBar 高度 |
-| backgroundStyle | ShapeStyle | {} | TimeBar 背景样式配置项 |
-| foregroundStyle | ShapeStyle | {} | TimeBar 选中部分样式配置项 |
-| handlerStyle | HandleStyle | null | 滑块样式设置 |
-| textStyle | ShapeStyle | null | 文本样式 |
-| minLimit | number | 0 | 允许滑块最左边（最小）位置，范围 0-1 |
-| maxLimit | number | 1 | 允许滑块最右边（最大）位置，范围 0-1 |
-| start | number | 0 | 滑块初始开始位置 |
-| end | number | 1 | 滑块初始结束位置 |
-| minText | string | null | 滑块最小值时显示的文本 |
-| maxText | string | null | 滑块最大值时显示的文本 |
-| trend | TrendConfig | null | 滑块上趋势图配置 |
+| x | number | 0 | The begining x of the TimeBar |
+| y | number | 0 | The begining y of the TimeBar |
+| width | number | 400 | The width of the TimeBar |
+| height | number | 400 | The height of the TimeBar |
+| backgroundStyle | ShapeStyle | {} | The background style of the TimeBar |
+| foregroundStyle | ShapeStyle | {} | The foreground style of the TimeBar, which indicates the selected area |
+| handlerStyle | HandleStyle | null | The style of the slider handler |
+| textStyle | ShapeStyle | null | The style of the texts |
+| minLimit | number | 0 | The minimum position for the slider on the left, range from 0 to 1 |
+| maxLimit | number | 1 | The maximum position for the slider on the right, range from 0 to 1 |
+| start | number | 0 | The initial start position of the slider |
+| end | number | 1 | The initial end position of the slider |
+| minText | string | null | The text for the minimum value |
+| maxText | string | null | The text for the maximum value |
+| trend | TrendConfig | null | The configuration of the trend chart on the TimeBar |
 
-**TrendConfig 配置项**
+**TrendConfig for trend**
 
 ```
 interface Data {
@@ -328,30 +328,29 @@ interface Data {
 }
 ```
 
-| 名称 | 类型 | 默认值 | 描述 |
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| data | Data[] | [] | 滑块上的数据源 |
-| smooth | boolean | false | 是否是平滑的曲线 |
-| isArea | boolean | false | 是否显示面积图 |
-| lineStyle | ShapeStyle | null | 折线的样式 |
-| areaStyle | ShapeStyle | null | 面积的样式，只有当 isArea 为 true 时生效 |
+| data | Data[] | [] | The data of the TimeBar |
+| smooth | boolean | false | Whether use the smooth curve instead of polylines for the trend chart |
+| isArea | boolean | false | Whether use the area chart instead of line chart |
+| lineStyle | ShapeStyle | null | The style of the line for line chart, takes effect when `isArea` is `false` |
+| areaStyle | ShapeStyle | null | The style of the area for area chart, takes effect when `isArea` is `true` |
 
-### 用法
+### Usage
 
-#### 默认用法
-G6 内置的默认的 TimeBar 有默认的样式及交互功能。
+#### Default Usage
 
 ```
 const timebar = new G6.TimeBar();
 
 const graph = new G6.Graph({
-  //... 其他配置项
-  plugins: [timebar], // 配置 timebar 插件
+  //... Other configurations
+  plugins: [timebar], // Use timebar plugin
 });
 ```
 
-##### 配置样式
-可以个性化定制 TimeBar 的样式，也可以自己定义时间范围改变后的处理方式。
+##### Style Configuration
+It is free to configure the style for the TimeBar, and listen to the value changing to do some response.
 
 ```
 const timebar = new G6.TimeBar({
@@ -376,34 +375,34 @@ const timebar = new G6.TimeBar({
     }
   },
   rangeChange: (graph, min, max) => {
-    // 拿到 Graph 实例和 timebar 上范围，自己可以控制图上的渲染逻辑
+    // Get the instance of the graph and the range of the timebar, you can control the rendering of the graph by yourself here
     console.log(graph, min, max)
   }
 });
 
 const graph = new G6.Graph({
-  //... 其他配置项
-  plugins: [timebar], // 配置 timebar 插件
+  //... Other configurations
+  plugins: [timebar], // Use timebar plugin
 });
 ```
 
 
 ## ToolTip
 
-ToolTip 插件主要用于在节点和边上展示一些辅助信息，G6 4.0 以后，Tooltip 插件将会替换 Behavior 中的 tooltip。
+ToolTip helps user to explore detail infomations on the node and edge. Do note that, This Tooltip Plugins will replace the tooltip in the built-in behavior after G6 4.0.
 
 ### Configuration
 
-| 名称 | 类型 | 默认值 | 描述 |
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| className | string | null | tooltip 容器的 class 类名 |
-| container | HTMLDivElement | null | Tooltip 容器，如果不设置，则默认使用 canvas 的 DOM 容器 |
-| getContent | (graph?: IGraph) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aPPuQquN5Q0AAAAAAAAAAABkARQnAQ' width=80 alt='img'/> | Tooltip 内容，支持 DOM 元素或字符串 |
-| offset | number | 6 | tooltip 的偏移值，作用于 x y 两个方向上 |
+| className | string | null | Tge class name of the tooltip's container |
+| container | HTMLDivElement | null | The container of the Tooltip. The canvas DOM will be used by default |
+| getContent | (graph?: IGraph) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aPPuQquN5Q0AAAAAAAAAAABkARQnAQ' width=80 alt='img'/> | The content of the Tooltip |
+| offset | number | 6 | The offset of the tooltip, takes effect both on x and y axis |
 
-### 用法
+### Usage
 
-默认的 Tooltip 只展示元素类型和 ID，一般情况下都需要用户自己定义 Tooltip 上面展示的内容。
+The content of the Tooltip is the type and id of the item by default. Users are free to custom the content of the Tooltip by configuring `getContent`:
 
 #### Dom Tooltip
 ```
@@ -413,7 +412,7 @@ const tooltip = new G6.Tooltip({
     const outDiv = document.createElement('div');
     outDiv.style.width = '180px';
     outDiv.innerHTML = `
-      <h4>自定义tooltip</h4>
+      <h4>Custom Tooltip</h4>
       <ul>
         <li>Label: ${e.item.getModel().label || e.item.getModel().id}</li>
       </ul>`
@@ -422,8 +421,8 @@ const tooltip = new G6.Tooltip({
 });
 
 const graph = new G6.Graph({
-  //... 其他配置项
-  plugins: [tooltip], // 配置 Menu 插件
+  //... Other configurations
+  plugins: [tooltip], // Use Tooltip plugin
 });
 ```
 
@@ -433,18 +432,18 @@ const tooltip = new G6.Tooltip({
   getContent(e) {
     return `<div style='width: 180px;'>
       <ul id='menu'>
-        <li title='1'>测试02</li>
-        <li title='2'>测试02</li>
-        <li>测试02</li>
-        <li>测试02</li>
-        <li>测试02</li>
+        <li title='1'>example 01</li>
+        <li title='2'>example 02</li>
+        <li>example 03</li>
+        <li>example 04</li>
+        <li>example 05</li>
       </ul>
     </div>`;
   },
 });
 
 const graph = new G6.Graph({
-  //... 其他配置项
-  plugins: [tooltip], // 配置 Menu 插件
+  //... Other configurations
+  plugins: [tooltip], // Use Tooltip plugin
 });
 ```

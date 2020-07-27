@@ -1,11 +1,11 @@
 ---
 title: TimeBar
-order: 0
+order: 5
 ---
 
 TimeBar is a build-in component in G6.
 
 ## Usage
 
-The demo below show how to use TimeBar on graph.
+The demo below shows how to use TimeBar on graph. The second demo demonstrates the configurations for the TimeBar.
 

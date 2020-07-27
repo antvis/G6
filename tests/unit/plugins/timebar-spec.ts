@@ -86,13 +86,13 @@ describe('TimeBar', () => {
     expect(timebarPlugin.get('trendData')).toEqual(timeBarData)
     expect(timebarPlugin.get('timebar').x).toBe(10)
     expect(timebarPlugin.get('timebar').y).toBe(10)
-    expect(timebarPlugin.get('timebar').width).toBe(400)
+    expect(timebarPlugin.get('timebar').width).toBe(380)
     expect(timebarPlugin.get('timebar').start).toBe(0.1)
 
     const slider = timebarPlugin.get('slider')
     expect(slider.get('name')).toEqual('slider')
-    expect(slider.get('maxText')).toEqual('202099')
-    expect(slider.get('minText')).toEqual('20200')
+    expect(slider.get('maxText')).toEqual('202090') // 0.9
+    expect(slider.get('minText')).toEqual('202010') // 0.1
     expect(slider.get('height')).toBe(26)
     graph.destroy()
   })
@@ -108,6 +108,8 @@ describe('TimeBar', () => {
     }
     const timebar = new G6.TimeBar({
       timebar: {
+        start: 0,
+        end: 1,
         backgroundStyle: {
           fill: '#08979c',
           opacity: 0.3
@@ -157,8 +159,8 @@ describe('TimeBar', () => {
     expect(timebarPlugin.get('trendData')).toEqual(timeBarData)
     expect(timeBar.x).toBe(10)
     expect(timeBar.y).toBe(10)
-    expect(timeBar.width).toBe(400)
-    expect(timeBar.start).toBe(0.1)
+    expect(timeBar.width).toBe(380)
+    expect(timeBar.start).toBe(0)
 
     const backgroundStyle = timeBar.backgroundStyle
     expect(backgroundStyle.fill).toEqual('#08979c')

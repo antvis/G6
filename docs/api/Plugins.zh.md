@@ -199,11 +199,11 @@ const toolbar = new G6.ToolBar();
 
 const graph = new G6.Graph({
   //... 其他配置项
-  plugins: [toolbar], // 配置 Menu 插件
+  plugins: [toolbar], // 配置 ToolBar 插件
 });
 ```
 
-#### String ToolBar
+#### 使用 String 自定义 ToolBar 功能
 
 ```
 const tc = document.createElement('div');
@@ -215,7 +215,7 @@ const toolbar = new G6.ToolBar({
   getContent: () => {
     return `
       <ul>
-        <li code='add'>测试</li>
+        <li code='add'>增加节点</li>
         <li code='undo'>撤销</li>
       </ul>
     `
@@ -236,11 +236,11 @@ const toolbar = new G6.ToolBar({
 
 const graph = new G6.Graph({
   //... 其他配置项
-  plugins: [toolbar], // 配置 Menu 插件
+  plugins: [toolbar], // 配置 ToolBar 插件
 });
 ```
 
-#### DOM ToolBar
+#### 使用 DOM 自定义 ToolBar 功能
 
 ```
 const toolbar = new G6.ToolBar({
@@ -249,10 +249,10 @@ const toolbar = new G6.ToolBar({
     outDiv.style.width = '180px';
     outDiv.innerHTML = `<ul>
         <li>测试01</li>
-        <li>测试01</li>
-        <li>测试01</li>
-        <li>测试01</li>
-        <li>测试01</li>
+        <li>测试02</li>
+        <li>测试03</li>
+        <li>测试04</li>
+        <li>测试05</li>
       </ul>`
     return outDiv
   },
@@ -263,7 +263,7 @@ const toolbar = new G6.ToolBar({
 
 const graph = new G6.Graph({
   //... 其他配置项
-  plugins: [toolbar], // 配置 Menu 插件
+  plugins: [toolbar], // 配置 ToolBar 插件
 });
 ```
 
@@ -420,7 +420,7 @@ const tooltip = new G6.Tooltip({
 
 const graph = new G6.Graph({
   //... 其他配置项
-  plugins: [tooltip], // 配置 Menu 插件
+  plugins: [tooltip], // 配置 Tooltip 插件
 });
 ```
 
@@ -442,7 +442,7 @@ const tooltip = new G6.Tooltip({
 
 const graph = new G6.Graph({
   //... 其他配置项
-  plugins: [tooltip], // 配置 Menu 插件
+  plugins: [tooltip], // 配置 Tooltip 插件
 });
 ```
 
