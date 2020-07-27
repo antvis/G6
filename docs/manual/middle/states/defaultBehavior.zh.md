@@ -1,6 +1,6 @@
 ---
 title: 内置的 Behavior
-order: 4
+order: 1
 ---
 
 ## 什么是 Behavior

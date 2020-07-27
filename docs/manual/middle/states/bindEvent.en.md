@@ -1,6 +1,6 @@
 ---
 title: Listener and Event
-order: 1
+order: 0
 ---
 
 G6 manages events by combining the [Behavior](/en/docs/manual/middle/states/defaultBehavior) and [Mode](/en/docs/manual/middle/states/mode). Besides, G6 provides lots of listeners for single events and timing, which monitor the canvas/nodes/edges and the timing of function call. These events can be categorized into the following four levels:

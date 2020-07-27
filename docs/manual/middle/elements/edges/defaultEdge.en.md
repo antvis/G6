@@ -1,5 +1,5 @@
 ---
-title: Built-in Edges
+title: Overview of Edges
 order: 0
 ---
 

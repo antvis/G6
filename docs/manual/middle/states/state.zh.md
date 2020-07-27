@@ -1,6 +1,6 @@
 ---
 title: 状态 State
-order: 6
+order: 4
 ---
 
 ## 什么是 state

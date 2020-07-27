@@ -1,6 +1,6 @@
 ---
 title: Built-in Behavior
-order: 4
+order: 1
 ---
 
 ## What is Behavior
