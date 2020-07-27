@@ -5,6 +5,7 @@ import Bundling from './bundling';
 import ToolBar from './toolBar';
 import Tooltip from './tooltip';
 import Fisheye from './fisheye';
+import TimeBar from './timeBar'
 
 export default {
   Menu,
@@ -13,5 +14,6 @@ export default {
   Bundling,
   ToolBar,
   Tooltip,
-  Fisheye
+  Fisheye,
+  TimeBar
 };

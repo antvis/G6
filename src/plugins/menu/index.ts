@@ -65,25 +65,37 @@ export default class Menu extends Base {
     const className = this.get('className')
     const menu = createDOM(`<div class=${className || 'g6-component-contextmenu'}></div>`)
     modifyCSS(menu, { position: 'absolute', visibility: 'hidden' });
-    document.body.appendChild(menu)
+    let container: HTMLDivElement | null = this.get('container');
+    if (!container) {
+      container = this.get('graph').get('container');
+    }
+    container.appendChild(menu)
+
     this.set('menu', menu)
   }
 
   protected onMenuShow(e: IG6GraphEvent) {
+    e.preventDefault()
+    e.stopPropagation()
+
+    if (!e.item) {
+      return
+    }
+
     const self = this;
 
-    const container = this.get('menu')
+    const menuDom = this.get('menu')
     const getContent = this.get('getContent')
     let menu = getContent(e)
     if (isString(menu)) {
-      container.innerHTML = menu
+      menuDom.innerHTML = menu
     } else {
-      container.innerHTML = menu.outerHTML
+      menuDom.innerHTML = menu.outerHTML
     }
 
     const handleMenuClick = this.get('handleMenuClick')
     if (handleMenuClick) {
-      container.addEventListener('click', evt => {
+      menuDom.addEventListener('click', evt => {
         handleMenuClick(evt.target, e.item)
       })
     }
@@ -92,10 +104,11 @@ export default class Menu extends Base {
     const width: number = graph.get('width');
     const height: number = graph.get('height');
 
-    const bbox = container.getBoundingClientRect();
+    const bbox = menuDom.getBoundingClientRect();
 
-    let x = e.item.getModel().x || e.x;
-    let y = e.item.getModel().y || e.y;
+
+    let x = e.canvasX//e.item.getModel().x || e.x;
+    let y = e.canvasY//e.item.getModel().y || e.y;
 
     // 若菜单超出画布范围，反向
     if (x + bbox.width > width) {
@@ -106,13 +119,13 @@ export default class Menu extends Base {
       y = height - bbox.height;
     }
 
-    const point = graph.getClientByPoint(x, y)
-    e.canvasX = point.x;
-    e.canvasY = point.y;
+    // const point = graph.getClientByPoint(x, y)
+    // e.canvasX = point.x;
+    // e.canvasY = point.y;
 
-    modifyCSS(container, {
-      top: `${point.y}px`,
-      left: `${point.x}px`,
+    modifyCSS(menuDom, {
+      top: `${y}px`,
+      left: `${x}px`,
       visibility: 'visible'
     });
 
@@ -126,9 +139,9 @@ export default class Menu extends Base {
   }
 
   private onMenuHide() {
-    const container = this.get('menu')
-    if (container) {
-      modifyCSS(container, { visibility: 'hidden' });
+    const menuDom = this.get('menu')
+    if (menuDom) {
+      modifyCSS(menuDom, { visibility: 'hidden' });
     }
 
     // 隐藏菜单后需要移除事件监听
@@ -136,7 +149,7 @@ export default class Menu extends Base {
 
     const handleMenuClick = this.get('handleMenuClick')
     if (handleMenuClick) {
-      container.removeEventListener('click', handleMenuClick)
+      menuDom.removeEventListener('click', handleMenuClick)
     }
   }
 
@@ -150,7 +163,11 @@ export default class Menu extends Base {
     }
 
     if (menu) {
-      document.body.removeChild(menu);
+      let container: HTMLDivElement | null = this.get('container');
+      if (!container) {
+        container = this.get('graph').get('container');
+      }
+      container.removeChild(menu);
     }
 
     if (handler) {

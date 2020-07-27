@@ -21,6 +21,7 @@ const Menu = Plugins.Menu;
 const ToolBar = Plugins.ToolBar;
 const Tooltip = Plugins.Tooltip;
 const Fisheye = Plugins.Fisheye;
+const TimeBar = Plugins.TimeBar
 
 export {
   registerNode,
@@ -40,7 +41,8 @@ export {
   registerBehavior,
   Algorithm,
   ToolBar,
-  Tooltip
+  Tooltip,
+  TimeBar
 };
 
 export default {
@@ -62,6 +64,7 @@ export default {
   ToolBar: Plugins.ToolBar,
   Tooltip: Plugins.Tooltip,
   Fisheye: Plugins.Fisheye,
+  TimeBar,
   Algorithm,
   Arrow,
   Marker

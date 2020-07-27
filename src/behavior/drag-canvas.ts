@@ -86,7 +86,6 @@ export default {
       for (let i = 0, len = edges.length; i < len; i++) {
         graph.hideItem(edges[i])
       }
-
       const nodes = graph.getNodes()
       for (let j = 0, nodeLen = nodes.length; j < nodeLen; j++) {
         const container = nodes[j].getContainer()
@@ -142,7 +141,6 @@ export default {
       for (let i = 0, len = edges.length; i < len; i++) {
         graph.showItem(edges[i])
       }
-
       const nodes = graph.getNodes()
       for (let j = 0, nodeLen = nodes.length; j < nodeLen; j++) {
         const container = nodes[j].getContainer()

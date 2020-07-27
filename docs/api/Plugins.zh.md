@@ -10,6 +10,7 @@ G6 中支持插件提供了一些可插拔的组件，包括：
 - [Edge Bundling](#edge-bundling)
 - [Menu](#menu)
 - [ToolBar](#toolbar)
+- [TimeBar](#timebar)
 - [Tooltip](#tooltip)
 
 ## 配置方法
@@ -265,6 +266,124 @@ const graph = new G6.Graph({
   plugins: [toolbar], // 配置 Menu 插件
 });
 ```
+
+## TimeBar
+
+目前 G6 内置的 TimeBar 主要有以下功能：
+- 改变时间范围，过滤图上的数据；
+- TimeBar 上展示指定字段随时间推移的变化趋势。
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HJjmT7uQwjAAAAAAAAAAAABkARQnAQ' width=700 alt='img'/>
+
+**说明：** 目前的 TimeBar 功能还比较简单，不能用于较为复杂的时序分析。
+
+### 配置项
+
+| 名称 | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| container | HTMLDivElement | null | TimeBar 容器，如果不设置，则默认创建 className 为 g6-component-timebar 的 DOM 容器 |
+| width | number | 400 | TimeBar 容器宽度 |
+| height | number | 400 | TimeBar 容器高度 |
+| timebar | TimeBarOption | {} | TimeBar 样式配置项 |
+| rangeChange | (graph: IGraph, min: number, max: number) => void | null | 改变时间范围后的回调函数 |
+
+
+**TimeBarOption 配置项**
+
+```
+interface HandleStyle {
+  width: number;
+  height: number;
+  style: ShapeStyle;
+}
+```
+
+| 名称 | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| x | number | 0 | TimeBar 起始 x 坐标 |
+| y | number | 0 | TimeBar 起始 y 坐标 |
+| width | number | 400 | TimeBar 宽度 |
+| height | number | 400 | TimeBar 高度 |
+| backgroundStyle | ShapeStyle | {} | TimeBar 背景样式配置项 |
+| foregroundStyle | ShapeStyle | {} | TimeBar 选中部分样式配置项 |
+| handlerStyle | HandleStyle | null | 滑块样式设置 |
+| textStyle | ShapeStyle | null | 文本样式 |
+| minLimit | number | 0 | 允许滑块最左边（最小）位置，范围 0-1 |
+| maxLimit | number | 1 | 允许滑块最右边（最大）位置，范围 0-1 |
+| start | number | 0 | 滑块初始开始位置 |
+| end | number | 1 | 滑块初始结束位置 |
+| minText | string | null | 滑块最小值时显示的文本 |
+| maxText | string | null | 滑块最大值时显示的文本 |
+| trend | TrendConfig | null | 滑块上趋势图配置 |
+
+**TrendConfig 配置项**
+
+```
+interface Data {
+  date: string;
+  value: number;
+}
+```
+
+| 名称 | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| data | Data[] | [] | 滑块上的数据源 |
+| smooth | boolean | false | 是否是平滑的曲线 |
+| isArea | boolean | false | 是否显示面积图 |
+| lineStyle | ShapeStyle | null | 折线的样式 |
+| areaStyle | ShapeStyle | null | 面积的样式，只有当 isArea 为 true 时生效 |
+
+### 用法
+
+#### 默认用法
+G6 内置的默认的 TimeBar 有默认的样式及交互功能。
+
+```
+const timebar = new G6.TimeBar();
+
+const graph = new G6.Graph({
+  //... 其他配置项
+  plugins: [timebar], // 配置 timebar 插件
+});
+```
+
+##### 配置样式
+可以个性化定制 TimeBar 的样式，也可以自己定义时间范围改变后的处理方式。
+
+```
+const timebar = new G6.TimeBar({
+  width: 600,
+  timebar: {
+    width: 600,
+    backgroundStyle: {
+      fill: '#08979c',
+      opacity: 0.3
+    },
+    foregroundStyle: {
+      fill: '#40a9ff',
+      opacity: 0.4
+    },
+    trend: {
+      data: timeBarData,
+      isArea: false,
+      smooth: true,
+      lineStyle: {
+        stroke: '#9254de'
+      }
+    }
+  },
+  rangeChange: (graph, min, max) => {
+    // 拿到 Graph 实例和 timebar 上范围，自己可以控制图上的渲染逻辑
+    console.log(graph, min, max)
+  }
+});
+
+const graph = new G6.Graph({
+  //... 其他配置项
+  plugins: [timebar], // 配置 timebar 插件
+});
+```
+
 
 ## ToolTip
 
