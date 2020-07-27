@@ -1,5 +1,5 @@
 ---
-title: Built-in Combos
+title: Overview of Combos
 order: 0
 ---
 
