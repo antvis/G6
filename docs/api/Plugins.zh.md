@@ -10,6 +10,7 @@ G6 中支持插件提供了一些可插拔的组件，包括：
 - [Edge Bundling](#edge-bundling)
 - [Menu](#menu)
 - [ToolBar](#toolbar)
+- [TimeBar](#timebar)
 - [Tooltip](#tooltip)
 
 ## 配置方法
