@@ -12,6 +12,7 @@ There are several plugins in G6 which can be used for G6's graph or other applic
 - [ToolBar](#toolbar)
 - [TimeBar](#timebar)
 - [Tooltip](#tooltip)
+- [Fisheye](#fisheye-lens)
 
 ## Configure to Graph
 
@@ -447,3 +448,21 @@ const graph = new G6.Graph({
   plugins: [tooltip], // Use Tooltip plugin
 });
 ```
+
+
+## Fisheye Lens
+
+Fisheye is designed for focus_context exploration, it keeps the context and the relationships between context and the focus while magnifing the focus area. 
+
+### Configuration
+
+| Name | Type |  Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| trigger | 'mousemove' / 'click' | false | 'mousemove' | The trigger for the lens |
+| d | Number | false | 1.5 | Magnify coefficient. Larger the value, larger the focus area will be magnified |
+| r | Number | false | 300 | The radius of the focus area |
+| delegateStyle | Object | false |  { stroke: '#000', strokeOpacity: 0.8, lineWidth: 2, fillOpacity: 0.1, fill: '#ccc' } | The style of the lens's delegate |
+| showLabel | Boolean | false | false | If the label is hidden, whether to show the label of nodes inside the focus area |
+
+
+### Usage
