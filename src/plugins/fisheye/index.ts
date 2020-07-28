@@ -1,7 +1,5 @@
-import createDOM from '@antv/dom-util/lib/create-dom';
-import modifyCSS from '@antv/dom-util/lib/modify-css';
+import { clone } from '@antv/util/lib';
 import { IG6GraphEvent, ShapeStyle } from '../../types';
-import { IGraph } from '../../interface/graph';
 import Graph from '../../graph/graph';
 import Base from '../base';
 
@@ -29,7 +27,7 @@ export default class Fisheye extends Base {
       trigger: 'mousemove',
       d: 1.5,
       r: 300,
-      delegateStyle: lensDelegateStyle,
+      delegateStyle: clone(lensDelegateStyle),
       showLabel: false
     };
   }
@@ -189,7 +187,11 @@ export default class Fisheye extends Base {
     this.restoreCache();
     graph.refreshPositions();
     let lensDelegate = this.get('delegate');
+    lensDelegate.remove()
     lensDelegate.destroy();
+  }
 
+  public destroy() {
+    this.clear();
   }
 }

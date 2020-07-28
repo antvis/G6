@@ -12,6 +12,7 @@ G6 中支持插件提供了一些可插拔的组件，包括：
 - [ToolBar](#toolbar)
 - [TimeBar](#timebar)
 - [Tooltip](#tooltip)
+- [Fisheye](#fisheye)
 
 ## 配置方法
 
@@ -446,3 +447,38 @@ const graph = new G6.Graph({
 });
 ```
 
+
+
+
+
+## Fisheye
+
+Fisheye 鱼眼放大镜是为 focus+context 的探索场景设计的，它能够保证在放大关注区域的同时，保证上下文以及上下文与关注中心的关系不丢失。
+
+### 配置项
+
+| 名称 | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| trigger | 'mousemove' / 'click' | 'mousemove' | 放大镜的触发事件 |
+| d | Number | 1.5 | 放大系数，数值越大，放大程度越大 |
+| r | Number | 300 | 放大区域的范围半径 |
+| delegateStyle | Object |  { stroke: '#000', strokeOpacity: 0.8, lineWidth: 2, fillOpacity: 0.1, fill: '#ccc' } | 放大镜蒙层样式 |
+| showLabel | Boolean | false | 若 label 默认被隐藏，是否在关注区域内展示 label |
+
+
+### 用法
+
+```
+const fisheye = new G6.Fisheye({
+  trigger: 'mousemove',
+  d: 1.5,
+  r: 300,
+  delegateStyle: clone(lensDelegateStyle),
+  showLabel: false
+});
+
+const graph = new G6.Graph({
+  //... 其他配置项
+  plugins: [fisheye], // 配置 fisheye 插件
+});
+```
