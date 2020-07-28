@@ -423,27 +423,6 @@ Assign `true` to `resetSelected` to reset the selected states for nodes after th
     - `e.selectedItems`: The set of selected items after the operation;
     - `e.select`: A boolean tag to distinguish whether the current operation is select(`true`) or deselect(`false`).
 
-### lasso-select
-
-- Description: Allows uers to select nodes by brushing;
-- Configurations:
-  - `type: 'lasso-select'`;
-  - `delegateStyle`: The styles of the marquee. It contains four configurations: `fill`、`fillOpacity`、`stroke` and `lineWidth`;
-  - `onSelect(nodes, edges)`: The callback function when selecting a node. `nodes` is the selected ndoes, `edges` is the selected edges;
-  - `onDeselect(nodes, edges)`: The callback function when canceling selections. `nodes` is the deselected ndoes, `edges` is the deselected edges;
-  - `selectedState`: The state of the selected nodes. `'selected'` by default;
-  - `includeEdges`: Whether to select the edges when selecting by brushing. `true` by default. `false` means do not select the edges.
-  - `trigger`: The trigger button for this operation. `'shift'` by default, which means the select by brushing operation will be activated by pressing Shift button. Options: `'shift'`, `'ctrl' / 'control'`, `'alt'` and `'drag'`, not case sensitive:
-    - `'shift'`: Select by brushing when Shift is pressed;
-    - `'ctrl' / 'control'`: Select by brushing when Ctrl is pressed;
-    - `'alt'`: Select by brushing when Alt is pressed;
-    - `'drag'`: Select by brushing without any pressed buttons. Note that it will conflict with the `drag-canvas`;
-  - `shouldUpdate(e)`: Whether allow the behavior happen on the current manipulated item (e.item). See the example below.
-- Related timing events: 
-  - `'nodeselectchange'`: Triggered when the set of selected items changed. Listened by `graph.on('nodeselectchange', e => {...})`. The fields of the parameter `e`:
-    - `e.selectedItems`: The set of selected items after the operation, include `nodes` and `edges`;
-    - `e.select`: A boolean tag to distinguish whether the current operation is select(`true`) or deselect(`false`).
-
 **Default Configuration**
 
 ```javascript
@@ -531,6 +510,29 @@ const graph = new G6.Graph({
 ```
 
 It is a solution to put these two conflicting events into two mdoes. They will be activated on different graph modes. Dragging operation corresponds to `drag-canvas` in the default mode. When user switch the state to brush mode by `graph.setModel('brush')`, the dragging operation will be responsed by `brush-select` instead. Refer to [Mode](/en/docs/manual/middle/states/mode) for more information.
+
+### lasso-select
+
+- Description: Allows uers to select nodes by drawing a line over or around objects.
+- Configurations:
+  - `type: 'lasso-select'`;
+  - `delegateStyle`: The styles of the marquee. It contains four configurations: `fill`、`fillOpacity`、`stroke` and `lineWidth`;
+  - `onSelect(nodes, edges)`: The callback function when selecting a node. `nodes` is the selected ndoes, `edges` is the selected edges;
+  - `onDeselect(nodes, edges)`: The callback function when canceling selections. `nodes` is the deselected ndoes, `edges` is the deselected edges;
+  - `selectedState`: The state of the selected nodes. `'selected'` by default;
+  - `includeEdges`: Whether to select the edges when selecting by brushing. `true` by default. `false` means do not select the edges.
+  - `trigger`: The trigger button for this operation. `'shift'` by default, which means the select by brushing operation will be activated by pressing Shift button. Options: `'shift'`, `'ctrl' / 'control'`, `'alt'` and `'drag'`, not case sensitive:
+    - `'shift'`: Select by brushing when Shift is pressed;
+    - `'ctrl' / 'control'`: Select by brushing when Ctrl is pressed;
+    - `'alt'`: Select by brushing when Alt is pressed;
+    - `'drag'`: Select by brushing without any pressed buttons. Note that it will conflict with the `drag-canvas`;
+  - `shouldUpdate(e)`: Whether allow the behavior happen on the current manipulated item (e.item). See the example below.
+- Related timing events: 
+  - `'nodeselectchange'`: Triggered when the set of selected items changed. Listened by `graph.on('nodeselectchange', e => {...})`. The fields of the parameter `e`:
+    - `e.selectedItems`: The set of selected items after the operation, include `nodes` and `edges`;
+    - `e.select`: A boolean tag to distinguish whether the current operation is select(`true`) or deselect(`false`).
+
+The  configuration of `lasso-select` behavior is the same as that of `brush-select` behavior.  
 
 ### collapse-expand
 

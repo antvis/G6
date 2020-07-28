@@ -23,6 +23,7 @@ The life cycle of an instance of Graph is: Initialize -> Load data -> Render -> 
 | fitView | Boolean | false | Whether to fit the canvas to the view port. |
 | fitViewPadding | Array | Number | Takes effect only when `fitView: true`. It is the padding between canvas and the border of view port.<br />- It can be a value, e.g. `fitViewPadding: 20`, which means the padding to the top, left, right, bottom are the same.<br />- Or an array, e.g. `fitViewPadding: [ 20, 40, 50, 20 ]`, the four values in the array indicate the padding to the top, right, bottom, left respectively. |
 | fitCenter | Boolean | false | *Supported by v3.5.1.* Whether to translate the graph to align its center with the canvas. Its priority is lower than `fitView` |
+| linkCenter | Boolean |  false | Whether to connect the edges to nodes' center. |
 | groupByTypes | Boolean | true | Whether to group the nodes and edges separately. When it is false, all the items (including nodes and edges) are in the same group, and the order/zindex of them are determined according to the order of their generation. When you are using Combo, **MUST** set `groupByTypes` to `false` |
 | autoPaint | Boolean | true | Whether to paint the graph automatically while item updated or view port changed. In order to enhance the performance, we recommend to turn off `antoPaint` when you are doing bulk operation on nodes or edges. This can be refered to [`setAutoPaint()`](#setautopaintauto). |
 | modes | Object |  | The interaction modes of this graph. Please refer to [Interaction Mode](/en/docs/manual/middle/states/mode) for detail。 |
@@ -1686,6 +1687,36 @@ Get the in-degree, out-degree, degree, or all of the three kinds of degree.
 
 ```javascript
 graph.getNodeDegree('node1', 'in');
+```
+
+### getShortestPathMatrix
+Get all-pairs shortest-path matrix of the graph.
+
+**Parameters**
+
+| 名称    | 类型   | 是否必选 | 描述    |
+| -------| ------ | -------- | ------- |
+| cache | boolean | false     | Whether to use the cached matrix, 'true' by default. |
+| directed | boolean | false     | Whether the graph is directed,  use the value of `graph.get('directed')` by default. | 
+
+**Usage**
+```javascript
+const matrix = graph.getShortestPathMatrix();
+```
+
+### getAdjMatrix
+Get the adjacency matrix of the graph.
+
+**Parameters**
+
+| 名称    | 类型   | 是否必选 | 描述    |
+| -------| ------ | -------- | ------- |
+| cache | boolean | false  | Whether to use the cached matrix, 'true' by default. |
+| directed | boolean | false  | Whether the graph is directed,  use the value of `graph.get('directed')` by default. |
+
+**Usage**
+``` javascript
+const matrix = graph.getAdjMatrix();
 ```
 
 ## Download

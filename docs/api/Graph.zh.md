@@ -23,6 +23,7 @@ Graph 的生命周期为：初始化—>加载数据—>渲染—>更新—>销�
 | fitView | Boolean | false | 是否开启画布自适应。开启后图自动适配画布大小。 |
 | fitViewPadding | Array | Number | `fitView` 为 `true` 时生效。图适应画布时，指定四周的留白。<br />- 可以是一个值, 例如：`fitViewPadding: 20`<br />- 也可以是一个数组，例如：`fitViewPadding: [ 20, 40, 50, 20 ]`<br />当指定一个值时，四边的边距都相等，当指定数组时，数组内数值依次对应 上，右，下，左四边的边距。 |
 | fitCenter | Boolean | false | *v3.5.1 后支持。*开启后，图将会被平移，图的中心将对齐到画布中心，但不缩放。优先级低于 fitView |
+| linkCenter | Boolean |  false | 指定边是否连入节点的中心 |
 | groupByTypes | Boolean | true | 各种元素是否在一个分组内，决定节点和边的层级问题，默认情况下所有的节点在一个分组中，所有的边在一个分组中，当这个参数为 false 时，节点和边的层级根据生成的顺序确定。当使用 Combo 时，**必须**将其设置为 `false` |
 | autoPaint | Boolean | true | 当图中元素更新，或视口变换时，是否自动重绘。建议在批量操作节点时关闭，以提高性能，完成批量操作后再打开，参见后面的 setAutoPaint() 方法。 |
 | modes | Object |  | 设置画布的模式。详情可见  [交互模式 Mode](/zh/docs/manual/middle/states/mode)  文档。 |
@@ -1676,6 +1677,43 @@ graph.stopAnimate();
 graph.getNodeDegree('node1', 'in');
 ```
 
+### getShortestPathMatrix
+获取图中两两节点之间的最短路径矩阵。
+
+**参数**
+
+| 名称    | 类型   | 是否必选 | 描述    |
+| -------| ------ | -------- | ------- |
+| cache | boolean | false     | 是否使用缓存，默认为 true |
+| directed | boolean | false     | 是否是有向图，默认取 graph.get('directed') | 
+
+**返回值**
+
+返回图的最短路径矩阵。
+
+**用法**
+```javascript
+const matrix = graph.getShortestPathMatrix();
+```
+
+### getAdjMatrix
+获取邻接矩阵。
+
+**参数**
+
+| 名称    | 类型   | 是否必选 | 描述    |
+| -------| ------ | -------- | ------- |
+| cache | boolean | false  | 是否使用缓存，默认为true|
+| directed | boolean | false  | 是否是有向图，默认取 graph.get('directed')|
+
+**返回值**
+
+返回图的邻接矩阵。
+
+**用法**
+``` javascript
+const matrix = graph.getAdjMatrix();
+```
 
 ## 导出
 
