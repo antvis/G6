@@ -51,6 +51,25 @@ const node = graph.findById('node');
 const hasLocked = node.hasLocked();
 ```
 
+## getNeighbors(type)
+
+**参数**
+
+| 名称    | 类型   | 是否必选 | 描述        |
+| ------- | ------ | -------- | ----------- |
+| type |  'source' / 'target' / undefined | false    | 邻居类型， 'source' 只获取当前节点的源节点，'target' 只获取当前节点指向的目标节点， 若不指定则返回所有类型的邻居 |
+
+**返回值**
+
+- 返回值类型：Array；
+- 返回值符合要求的节点实例数组。
+
+**用法**
+
+``` javascript
+const neighbors = node.getNeighbors('source')
+```
+
 ## getEdges()
 
 获取与当前节点有关联的所有边。

@@ -1548,6 +1548,23 @@ const elements: {
 } = graph.getComboChildren('combo1')
 ```
 
+### getNeighbors(node, type)
+
+**Parameters**
+
+| Name    | Type  | Required | Description      |
+| ------- | ------ | -------- | ----------- |
+| node | string / INode | true    | node ID or the node instance |
+| type |  'source' / 'target' / undefined | false    | The type of the neighbors, 'source': only return the source nodes; 'target': only return the target nodes, undefined: return all of the neighbors |
+
+**Return**
+- Type of the return value: Array;
+- Return a list of node items.
+
+**Usage**
+``` javascript
+const neighbors = graph.getNeighbors('node1', 'source')
+```
 
 ## Coordinate Transformation
 
@@ -1689,12 +1706,12 @@ Get the in-degree, out-degree, degree, or all of the three kinds of degree.
 graph.getNodeDegree('node1', 'in');
 ```
 
-### getShortestPathMatrix
+### getShortestPathMatrix(cache, directed)
 Get all-pairs shortest-path matrix of the graph.
 
 **Parameters**
 
-| 名称    | 类型   | 是否必选 | 描述    |
+| Name    | Type  | Required | Description |
 | -------| ------ | -------- | ------- |
 | cache | boolean | false     | Whether to use the cached matrix, 'true' by default. |
 | directed | boolean | false     | Whether the graph is directed,  use the value of `graph.get('directed')` by default. | 
@@ -1704,12 +1721,12 @@ Get all-pairs shortest-path matrix of the graph.
 const matrix = graph.getShortestPathMatrix();
 ```
 
-### getAdjMatrix
+### getAdjMatrix(cache, directed)
 Get the adjacency matrix of the graph.
 
 **Parameters**
 
-| 名称    | 类型   | 是否必选 | 描述    |
+| Name    | Type  | Required | Description |
 | -------| ------ | -------- | ------- |
 | cache | boolean | false  | Whether to use the cached matrix, 'true' by default. |
 | directed | boolean | false  | Whether the graph is directed,  use the value of `graph.get('directed')` by default. |

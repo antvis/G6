@@ -45,6 +45,23 @@ const node = graph.findById('node');
 const hasLocked = node.hasLocked();
 ```
 
+### getNeighbors(type)
+
+**Parameters**
+
+| Name    | Type  | Required | Description      |
+| ------- | ------ | -------- | ----------- |
+| type |  'source' / 'target' / undefined | false    | The type of the neighbors, 'source': only return the source nodes; 'target': only return the target nodes, undefined: return all of the neighbors |
+
+**Return**
+- Type of the return value: Array;
+- Return a list of node items.
+
+**Usage**
+``` javascript
+const neighbors = node.getNeighbors('source')
+```
+
 ## getEdges()
 
 Get the related edges (the node is the source or the target of the edge) of the node.
