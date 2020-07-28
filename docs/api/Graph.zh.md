@@ -1538,6 +1538,26 @@ const elements: {
 } = graph.getComboChildren('combo1')
 ```
 
+### getNeighbors(node, type)
+
+**参数**
+
+| 名称    | 类型   | 是否必选 | 描述        |
+| ------- | ------ | -------- | ----------- |
+| node | string / INode | true    | 节点 ID 或节点实例 |
+| type |  'source' / 'target' / undefined | false    | 邻居类型， 'source' 只获取当前节点的源节点，'target' 只获取当前节点指向的目标节点， 若不指定则返回所有类型的邻居 |
+
+**返回值**
+
+- 返回值类型：Array；
+- 返回值符合要求的节点数组。
+
+**用法**
+
+``` javascript
+const neighbors = graph.getNeighbors('node1', 'source')
+```
+
 ## 坐标转换
 
 这部分主要是说明视口坐标、Canvas 坐标和页面坐标之前的相互转换。其中视口坐标和 Canvas 坐标的示意图如下所示。
@@ -1677,7 +1697,7 @@ graph.stopAnimate();
 graph.getNodeDegree('node1', 'in');
 ```
 
-### getShortestPathMatrix
+### getShortestPathMatrix(cache, directed)
 获取图中两两节点之间的最短路径矩阵。
 
 **参数**
@@ -1696,7 +1716,7 @@ graph.getNodeDegree('node1', 'in');
 const matrix = graph.getShortestPathMatrix();
 ```
 
-### getAdjMatrix
+### getAdjMatrix(cache, directed)
 获取邻接矩阵。
 
 **参数**
