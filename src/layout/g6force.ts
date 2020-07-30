@@ -74,7 +74,7 @@ export default class G6Force extends BaseLayout {
   public optimizeRangeFactor: number = 1;
 
   /** 每次迭代的回调函数 */
-  public tick: () => void = () => {};
+  public tick: () => void = () => { };
 
   /** 内部计算参数 */
   public nodes: Node[] = [];
