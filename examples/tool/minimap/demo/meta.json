@@ -11,6 +11,14 @@
         "en": "Minimap"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r3dAQo-R3BoAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "imageMinimap.js",
+      "title": {
+        "zh": "使用图片的小地图",
+        "en": "Image Minimap"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r3dAQo-R3BoAAAAAAAAAAABkARQnAQ"
     }
   ]
 }
