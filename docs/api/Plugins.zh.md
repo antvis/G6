@@ -7,6 +7,7 @@ G6 中支持插件提供了一些可插拔的组件，包括：
 
 - [Grid](#grid)
 - [Minimap](#minimap)
+- [ImageMinimap](#image-minimap)
 - [Edge Bundling](#edge-bundling)
 - [Menu](#menu)
 - [ToolBar](#toolbar)
@@ -70,6 +71,73 @@ Minimap 是用于快速预览和探索图的工具。
 | lineWidth   | Number | 描边宽度   |
 | opacity     | Number | 透明度     |
 | fillOpacity | Number | 填充透明度 |
+
+
+## Image Minimap
+
+由于 [Minimap](#minimap) 的原理是将主画布内容复制到 minimap 的画布上，在大数据量下可能会造成双倍的绘制效率成本。为缓解该问题，Image Minimap 采用另一种机制，根据提供的图片地址或 base64 字符串 `graphImg` 绘制 `<img />` 代替 minimap 上的 canvas。该方法可以大大减轻两倍 canvas 绘制的压力。但 `graphImg` 完全交由 G6 的用户控制，需要注意主画布更新时需要使用 `updateGraphImg` 方法替换 `graphImg`。
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v1svQLkEPrUAAAAAAAAAAABkARQnAQ' width=300 alt='img'/>
+
+实例化时可以通过配置项调整 Image inimap 的样式和功能。
+
+### 配置项
+
+| 名称 | 类型 | 是否必须 | 描述 |
+| --- | --- | --- | --- |
+| graphImg | String | true | minimap 的图片地址或 base64 文本 |
+| width | Number | false | minimap 的宽度。Image Minimap 的长宽比一定等于主图长宽比。因此，若设置了 `width`，则按照主画布容器长宽比确定 `height`，也就是说，`width` 的优先级高于 `height`。 |
+| height | Number | false | minimap 的高度。Image Minimap 的长宽比一定等于主图长宽比。若未设置了 `width`，但设置了 `height`，则按照主画布容器长宽比确定 `width`；若设置了 `width` 则以 `width` 为准 |
+| container | Object | false | 放置 Minimap 的 DOM 容器。若不指定则自动生成 |
+| className | String | false | 生成的 DOM 元素的 className |
+| viewportClassName | String | false | Minimap 上视窗 DOM 元素的 className |
+| delegateStyle | Object | false | 在 `type` 为 `'delegate'` 时生效，代表元素大致图形的样式 |
+
+其中，`delegateStyle` 可以设置如下属性：
+
+| 名称        | 类型   | 描述       |
+| ----------- | ------ | ---------- |
+| fill        | String | 填充颜色   |
+| stroke      | String | 描边颜色   |
+| lineWidth   | Number | 描边宽度   |
+| opacity     | Number | 透明度     |
+| fillOpacity | Number | 填充透明度 |
+
+### API
+
+#### updateGraphImg(img)
+
+更新 minimap 图片。建议在主画布更新时使用该方法同步更新 minimap 图片。
+
+参数：
+
+| 名称        | 类型   | 是否必须 | 描述       |
+| ----------- | ------ | --- | ---------- |
+| img | String | true | minimap 的图片地址或 base64 文本 |
+
+
+### 用法
+
+实例化 Image Minimap 插件时，`graphImg` 是必要参数。
+
+```
+// 实例化 Image Minimap 插件
+const imageMinimap = new G6.ImageMinimap({
+  width: 200,
+  graphImg: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*eD7nT6tmYgAAAAAAAAAAAABkARQnAQ'
+});
+const graph = new G6.Graph({
+  //... 其他配置项
+  plugins: [imageMinimap], // 配置 imageMinimap 插件
+});
+
+graph.data(data);
+graph.render()
+
+... // 一些主画布更新操作
+imageMinimap.updateGraphImg(img); // 使用新的图片（用户自己生成）替换 minimap 图片
+
+```
 
 ## Edge Bundling
 

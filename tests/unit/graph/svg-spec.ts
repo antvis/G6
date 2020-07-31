@@ -2036,11 +2036,12 @@ describe('plugins', () => {
       const minimapGroup = minimap.get('canvas').get('children')[0];
       expect(minimapGroup.get('children').length).toBe(5);
       graph.zoom(2, { x: 250, y: 250 });
+
       expect(minimapGroup.get('children')[2].get('children').length).toBe(5);
       expect(minimapGroup.get('children')[3].get('children').length).toBe(5);
       const viewport = minimap.get('viewport');
-      expect(viewport.style.width).toBe('99.6678px');
-      expect(viewport.style.height).toBe('99.6678px');
+      expect(viewport.style.width).toBe('37.2093px');
+      expect(viewport.style.height).toBe('6.1794px');
       expect(viewport.style.left).toBe('162.791px');
       expect(viewport.style.top).toBe('113.821px');
       graph.destroy();

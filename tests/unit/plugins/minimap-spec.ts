@@ -55,10 +55,6 @@ describe('minimap', () => {
     const viewport = minimap.getViewport();
     expect(viewport).not.toBe(undefined);
     expect(viewport.className.indexOf('g6-minimap-viewport') >= 0).toBe(true);
-    expect(viewport.style.left).toEqual('0px');
-    expect(viewport.style.top).toEqual('0px');
-    expect(viewport.style.width).toEqual('200px');
-    expect(viewport.style.height).toEqual('200px');
 
     // 缩小的时候，viewport已经最大了，不会更大
     graph.zoom(0.5, { x: 250, y: 250 });
@@ -76,8 +72,8 @@ describe('minimap', () => {
       const height = parseFloat(viewport.style.height.substr(0, viewport.style.height.length - 2));
       expect(mathEqual(left, 47)).toBe(true);
       expect(mathEqual(top, 38)).toBe(true);
-      expect(mathEqual(width, 200)).toBe(true);
-      expect(mathEqual(height, 200)).toBe(true);
+      expect(mathEqual(width, 153)).toBe(true);
+      expect(mathEqual(height, 162)).toBe(true);
 
       minimap.destroyPlugin();
 
@@ -90,10 +86,11 @@ describe('minimap', () => {
         const top = parseFloat(viewport.style.top.substr(0, viewport.style.top.length - 2));
         const width = parseFloat(viewport.style.width.substr(0, viewport.style.width.length - 2));
         const height = parseFloat(viewport.style.height.substr(0, viewport.style.height.length - 2));
+
         expect(mathEqual(left, 47)).toBe(true);
         expect(mathEqual(top, 38)).toBe(true);
-        expect(mathEqual(width, 200)).toBe(true);
-        expect(mathEqual(height, 200)).toBe(true);
+        expect(mathEqual(width, 153)).toBe(true);
+        expect(mathEqual(height, 162)).toBe(true);
         done();
       }, 100);
     }, 100);
@@ -141,8 +138,8 @@ describe('minimap', () => {
     setTimeout(() => {
       expect(viewport.style.left).toEqual('68.8474px');
       expect(viewport.style.top).toEqual('59.5016px');
-      expect(viewport.style.width).toEqual('155.763px');
-      expect(viewport.style.height).toEqual('155.763px');
+      expect(viewport.style.width).toEqual('131.153px');
+      expect(viewport.style.height).toEqual('140.498px');
 
       const container = canvas.get('container');
 
@@ -153,21 +150,20 @@ describe('minimap', () => {
       });
 
       Simulate.simulate(container, 'mousemove', {
-        clientX: -50,
-        clientY: -50,
+        clientX: 98,
+        clientY: 91,
       });
 
       Simulate.simulate(container, 'mouseup', {
-        clientX: -50,
-        clientY: -50,
+        clientX: 98,
+        clientY: 91,
       });
 
       setTimeout(() => {
-
-        expect(viewport.style.left).toEqual('0.847352px');
-        expect(viewport.style.top).toEqual('0.501558px');
-        expect(viewport.style.width).toEqual('155.763px');
-        expect(viewport.style.height).toEqual('155.763px');
+        expect(viewport.style.left).toEqual('66.8474px');
+        expect(viewport.style.top).toEqual('50.5016px');
+        expect(viewport.style.width).toEqual('133.153px');
+        expect(viewport.style.height).toEqual('149.498px');
         const matrix = graph.get('group').getMatrix();
         expect(matrix[0]).toEqual(2);
         expect(matrix[4]).toEqual(2);
