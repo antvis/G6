@@ -3,20 +3,20 @@ import G6 from "../../../../src";
 
 const testXML = `
 <group>
-  <rect style="{
+  <rect style={{
     width: 100, height: 20, fill: '#1890ff', stroke: '#1890ff', radius: [6, 6, 0, 0]
-  }">
-    <text style="{ marginTop: 2, marginLeft: 50, textAlign: 'center', fontWeight: 'bold', fill: '#fff' }">{{id}}</text>
+  }}>
+    <text style={{ marginTop: 2, marginLeft: 50, textAlign: 'center', fontWeight: 'bold', fill: '#fff' }}>{{id}}</text>
   </rect>
 <group>
 `
 
 const testXMLNode = cfg => `
 <group>
-  <rect style="{
+  <rect style={{
     width: 100, height: 20, fill: '#1890ff', stroke: '#1890ff', radius: [6, 6, 0, 0]
-  }" keyshape="true" class-name="rect">
-    <text style="{ marginTop: 2, marginLeft: 50, textAlign: 'center', fontWeight: 'bold', fill: '#fff' }">${cfg.id}</text>
+}} keyshape="true" class-name="rect">
+    <text style={{ marginTop: 2, marginLeft: 50, textAlign: 'center', fontWeight: 'bold', fill: '#fff' }}>${cfg.id}</text>
   </rect>
 <group>
 `
@@ -25,15 +25,7 @@ const div = document.createElement('div');
 div.id = 'graph-spec';
 document.body.appendChild(div);
 
-const str2El = xml => {
-  const el = document.createElement('div');
-  el.innerHTML = xml;
-  return el.children[0] as HTMLElement;
-}
-
 describe('xml node test', () => {
-  const el = str2El(testXML);
-
   describe('registerTest', () => {
     it('register test', () => {
       G6.registerNode('test', testXMLNode);
@@ -64,6 +56,7 @@ describe('xml node test', () => {
       expect(group.getCount()).toEqual(2);
       const keyShape = node.getKeyShape();
       expect(keyShape.attr('fill')).toEqual('#1890ff');
+      console.log(keyShape);
       expect(keyShape.get('className')).toBe('rect');
 
       graph.destroy();
@@ -74,8 +67,11 @@ describe('xml node test', () => {
 
   describe('parse test', () => {
     it('xml to object', () => {
-      const el2 = str2El(xmlDataRenderer(testXML)({ id: 'node' }));
-      const obj = parseXML(el2);
+      const xmlText = xmlDataRenderer(testXML)({ id: 'node' });
+      const xmlParser = document.createElement('div');
+      xmlParser.innerHTML = xmlText;
+      const xml = xmlParser.children[0] as HTMLElement;
+      const obj = parseXML(xml);
       expect(obj.type).toBe('group');
       expect(obj.children[0].type).toBe('rect');
       expect(obj.children[0].attrs.stroke).toBe('#1890ff');
@@ -83,10 +79,15 @@ describe('xml node test', () => {
     });
 
     it('object generate target', () => {
-      const target = generateTarget(parseXML(el));
+      const xmlText = xmlDataRenderer(testXML)({ id: 'node' });
+      const xmlParser = document.createElement('div');
+      xmlParser.innerHTML = xmlText;
+      const xml = xmlParser.children[0] as HTMLElement;
+      const target = generateTarget(parseXML(xml));
 
       expect(target.bbox.x).toBe(0);
       expect(target.bbox.y).toBe(0);
+      console.log(target.children[0].bbox)
       expect(target.children[0].bbox.width).toBe(100);
       expect(target.children[0].children[0].bbox.x).toBe(50)
 
@@ -94,7 +95,11 @@ describe('xml node test', () => {
   });
 
   describe('compare test', () => {
-    const target = generateTarget(parseXML(el));
+    const xmlText = xmlDataRenderer(testXML)({ id: 'node' });
+    const xmlParser = document.createElement('div');
+    xmlParser.innerHTML = xmlText;
+    const xml = xmlParser.children[0] as HTMLElement;
+    const target = generateTarget(parseXML(xml));
 
     it('compare same', () => {
       const result = compareTwoTarget(target, target);
