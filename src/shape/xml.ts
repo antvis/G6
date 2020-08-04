@@ -3,8 +3,129 @@
  * @author xuzhi.mxz@antfin.com
  */
 
-import JSON5 from 'json5';
 import get from '@antv/util/lib/get'
+
+/**
+ * 一种更宽松的JSON 解析，如果遇到不符合规范的字段会直接转为字符串
+ * @param text json 内容
+ */
+function looseJSONParse(text) {
+  if (typeof text !== "string") {
+    return text;
+  }
+  const safeParse = (str) => {
+    if (typeof str !== 'string') {
+      return str;
+    }
+    try {
+      return JSON.parse(str.trim());
+    } catch (e) {
+      return str.trim();
+    }
+  };
+  const firstAttempt = safeParse(text);
+  if (firstAttempt && typeof firstAttempt !== 'string') {
+    return firstAttempt;
+  }
+  const tail = (arr) => arr[arr.length - 1];
+  const str = text.trim();
+  const objectStack = [];
+  const syntaxStack = [];
+  const isLastPair = (...syntaxes) => syntaxes.some(syntax => tail(syntaxStack) === syntax);
+  const getValueStore = () => tail(objectStack);
+  let rst = null;
+  let i = 0;
+  let temp = "";
+
+  while (i < str.length) {
+    const nowChar = str[i];
+    const isInString = isLastPair('"', '\'');
+
+    if (!isInString && !nowChar.trim()) {
+      i += 1;
+      continue;
+    }
+
+    const isLastTranslate = str[i - 1] === "\\";
+    const isInObject = isLastPair('}');
+    const isInArray = isLastPair(']');
+    const isWaitingValue = isLastPair(',');
+    const tempArr = getValueStore();
+
+    if (isInString) {
+      if (tail(syntaxStack) === nowChar && !isLastTranslate) {
+        syntaxStack.pop();
+        const value = safeParse(temp);
+        tempArr.push(value);
+        rst = value;
+        temp = "";
+      } else {
+        temp += nowChar;
+      }
+    } else if (isInArray && nowChar === ",") {
+      if (temp) {
+        tempArr.push(safeParse(temp));
+        temp = "";
+      }
+    } else if (isInObject && nowChar === ":") {
+      syntaxStack.push(',');
+      if (temp) {
+        tempArr.push(temp);
+        temp = "";
+      }
+    } else if (isWaitingValue && nowChar === ",") {
+      if (temp) {
+        tempArr.push(safeParse(temp));
+        temp = "";
+      }
+      syntaxStack.pop();
+    } else if (nowChar === "}" && (isInObject || isWaitingValue)) {
+      if (temp) {
+        tempArr.push(safeParse(temp));
+        temp = "";
+      }
+      if (isWaitingValue) {
+        syntaxStack.pop();
+      }
+      const obj = {};
+      for (let c = 1; c < tempArr.length; c += 2) {
+        obj[tempArr[c - 1]] = tempArr[c];
+      }
+      objectStack.pop();
+      if (objectStack.length) {
+        tail(objectStack).push(obj)
+      }
+      syntaxStack.pop();
+      rst = obj;
+    } else if (nowChar === "]" && isInArray) {
+      if (temp) {
+        tempArr.push(safeParse(temp));
+        temp = "";
+      }
+      objectStack.pop();
+      if (objectStack.length) {
+        tail(objectStack).push(tempArr);
+      }
+      syntaxStack.pop();
+      rst = tempArr;
+    } else if (nowChar === "{") {
+      objectStack.push([]);
+      syntaxStack.push("}");
+    } else if (nowChar === "[") {
+      objectStack.push([]);
+      syntaxStack.push("]");
+    } else if (nowChar === '"') {
+      syntaxStack.push('"');
+    } else if (nowChar === "'") {
+      syntaxStack.push("'");
+    } else {
+      temp += nowChar;
+    }
+
+    i += 1;
+  }
+  return rst || temp;
+}
 
 /**
  * 内部用于最终实际渲染的结构
@@ -26,6 +147,9 @@ const keyConvert = str => str.split('-').reduce((a, b) => a + b.charAt(0).toUppe
  */
 export const xmlDataRenderer = (xml: string) => data => {
   return xml.split(/{{|}}/g).map(text => {
+    if (text.includes(':')) {
+      return `"{${text.replace(/{{|}}/g, '')}}"`;
+    }
     if (/^[\w.]+$/g.test(text.trim())) {
       return get(data, text.trim(), text)
     }
@@ -53,15 +177,18 @@ export function parseXML(xml: HTMLElement) {
   Array.from(keys).forEach(k => {
     const key = keyConvert(k)
     const val = xml.getAttribute(k);
+
+    console.log('balll', key, looseJSONParse(val));
+
     try {
       if (key === 'style' || key === 'attrs') {
-        const style = JSON5.parse(val);
+        const style = looseJSONParse(val);
         attrs = {
           ...attrs,
           ...style,
         };
       } else {
-        rst[key] = JSON5.parse(val);
+        rst[key] = looseJSONParse(val);
       }
     } catch (e) {
       if (key === 'style') {
@@ -272,7 +399,8 @@ export function compareTwoTarget(nowTarget: NodeInstructure, formerTarget: NodeI
 export function createNodeFromXML(gen: string | ((node: any) => string)) {
   const structures = new Map();
   const compileXML = cfg => {
-    const target = typeof gen === 'function' ? gen(cfg) : xmlDataRenderer(gen)(cfg);
+    const rawStr = typeof gen === 'function' ? gen(cfg) : gen;
+    const target = xmlDataRenderer(rawStr)(cfg);
     const xmlParser = document.createElement('div');
     xmlParser.innerHTML = target;
     const xml = xmlParser.children[0] as HTMLElement;
