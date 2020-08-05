@@ -88,6 +88,7 @@
     "ml-matrix": "^6.5.0"
   },
   "devDependencies": {
+    "@antv/chart-node-g6": "^0.0.2",
     "@antv/gatsby-theme-antv": "0.10.69",
     "@babel/core": "^7.7.7",
     "@babel/preset-react": "^7.7.4",
@@ -101,7 +102,6 @@
     "@umijs/fabric": "^2.0.0",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
-    "chart-node-g6": "^1.0.0",
     "event-simulate": "~1.0.0",
     "father": "^2.29.1",
     "gatsby": "^2.23.9",
