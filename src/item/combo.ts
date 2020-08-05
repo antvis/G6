@@ -1,11 +1,10 @@
-import { ICombo, INode } from '../interface/item';
+import { ICombo, INode, IItemBaseConfig } from '../interface/item';
 import Group from '@antv/g-canvas/lib/group';
 import Node from './node';
 import { ComboConfig, IBBox, IShapeBase } from '../types';
 import Global from '../global';
 import { getBBox } from '../util/graphic';
 import isNumber from '@antv/util/lib/is-number';
-import { IItemBaseConfig } from '../interface/item';
 
 const CACHE_BBOX = 'bboxCache';
 const CACHE_CANVAS_BBOX = 'bboxCanvasCache';
@@ -35,7 +34,7 @@ export default class Combo extends Node implements ICombo {
         height: bbox.height || Global.defaultCombo.size[1]
       };
       newModel.style = Object.assign({}, styles, model.style, size);
-      let padding = model.padding || Global.defaultCombo.padding
+      const padding = model.padding || Global.defaultCombo.padding
       if (isNumber(padding)) {
         size.r += padding;
         size.width += padding * 2;
@@ -66,7 +65,6 @@ export default class Combo extends Node implements ICombo {
     bbox.centerY = (bbox.minY + bbox.maxY) / 2;
     const cacheSize = this.get(CACHE_SIZE);
     if (cacheSize) {
-      const keyShape: IShapeBase = this.get('keyShape');
       const type: string = keyShape.get('type');
       if (type === 'circle') {
         bbox.width = cacheSize.r * 2;
@@ -82,6 +80,8 @@ export default class Combo extends Node implements ICombo {
     } else {
       bbox.width = bbox.maxX - bbox.minX;
       bbox.height = bbox.maxY - bbox.minY;
+      bbox.centerX = (bbox.minX + bbox.maxX) / 2;
+      bbox.centerY = (bbox.minY + bbox.maxY) / 2;
     }
     return bbox;
   }
@@ -187,6 +187,7 @@ export default class Combo extends Node implements ICombo {
    * @return boolean 移除成功返回 true，否则返回 false
    */
   removeCombo(combo: ICombo): boolean {
+    if (!combo) return;
     const combos = this.getCombos();
     const index = combos.indexOf(combo);
     if (index > -1) {
@@ -202,6 +203,7 @@ export default class Combo extends Node implements ICombo {
   * @return boolean 移除成功返回 true，否则返回 false
   */
   removeNode(node: INode): boolean {
+    if (!node) return;
     const nodes = this.getNodes();
     const index = nodes.indexOf(node);
     if (index > -1) {
@@ -222,15 +224,10 @@ export default class Combo extends Node implements ICombo {
    */
   public getBBox(): IBBox {
     this.set(CACHE_CANVAS_BBOX, null);
-    let bbox: IBBox = this.calculateCanvasBBox();
-    // 计算 bbox 开销有些大，缓存
-    // let bbox: IBBox = this.get(CACHE_BBOX);
-    // if (!bbox) {
-    //   bbox = this.getCanvasBBox();
-    //   this.set(CACHE_BBOX, bbox);
-    // }
+    const bbox: IBBox = this.calculateCanvasBBox();
     return bbox;
   }
+
 
   public clearCache() {
     this.set(CACHE_BBOX, null); // 清理缓存的 bbox

@@ -81,6 +81,37 @@ rect.attr({
 });
 ```
 
+### setClip(clipCfg)
+设置并返回裁剪对象。
+
+`clipCfg` 配置项
+
+| 名称 | 含义 | 类型 | 备注 |
+| --- | --- | --- | --- |
+| type | 裁剪的图片形状 | String | 支持 `'circle'`、`'rect'`、`'ellipse'` |
+| x | 裁剪图形的 x 坐标 | Number | 默认为 0，类型为 `'circle'`、`'rect'`、`'ellipse'` 时生效 |
+| y | 裁剪图形的 y 坐标 | Number | 默认为 0，类型为 `'circle'`、`'rect'`、`'ellipse'` 时生效 |
+| show | 是否启用裁剪功能 | Boolean | 默认不裁剪，值为 `false` |
+| r | 剪裁圆形的半径 | Number | 剪裁 type 为  `'circle'` 时生效 |
+| width | 剪裁矩形的宽度 | Number | 剪裁 type 为 `'rect'` 时生效 |
+| height | 剪裁矩形的长度 | Number | 剪裁 type 为 `'rect'` 时生效 |
+| rx | 剪裁椭圆的长轴半径 | Number | 剪裁 type 为 `'ellipse'` 时生效 |
+| ry | 剪裁椭圆的短轴半径 | Number | 剪裁 type 为 `'ellipse'` 时生效 |
+
+用法
+
+```javascript
+shape.setClip({
+  type: 'circle', // 支持 circle、rect、ellipse、Polygon 及自定义 path clip
+  attrs: {
+    r: 10,
+    x: 0,
+    y: 0,
+  },
+```
+
+### getClip()
+获取裁剪对象。
 
 ## 圆图形 Circle
 
@@ -326,7 +357,6 @@ group.addShape('path', {
 | shadowOffsetX | Number | 设置阴影距形状的水平距离 |
 | shadowOffsetY | Number | 设置阴影距形状的垂直距离 |
 | opacity | Number | 设置绘图的当前 alpha 或透明值，范围 [0, 1]。对应 Canvas 属性 `globalAlpha` |
-| font | String | 设置文本内容的当前字体属性 |
 | textAlign | String | 设置文本内容的当前对齐方式。支持的属性：`center` / `end` / `left` / `right` / `start`，默认值为 `start` |
 | textBaseline | String | 设置在绘制文本时使用的当前文本基线。支持的属性:<br />`top` / `middle` / `bottom` / `alphabetic` / `hanging`。默认值为 `bottom` |
 | fontStyle | String | 字体样式。对应 `font-style` |

@@ -49,7 +49,7 @@ export default class ComboForce extends BaseLayout {
   /** 每次迭代位移的衰减相关参数 */
   public alpha: number = 1;
   public alphaMin: number = 0.001;
-  public alphaDecay: number = 1 - Math.pow(this.alphaMin, 1 / 300);
+  public alphaDecay: number = 1 - (this.alphaMin ** (1 / 300));
   public alphaTarget: number = 0;
   /** 节点运动速度衰减参数 */
   public velocityDecay: number = 0.6;
@@ -385,14 +385,14 @@ export default class ComboForce extends BaseLayout {
   private initPos(comboMap) {
     const self = this;
     const nodes = self.nodes;
-    nodes.forEach(node => {
+    nodes.forEach((node, i) => {
       if (node.comboId) {
         const combo = comboMap[node.comboId];
-        node.x = combo.cx + Math.random() * 100;
-        node.y = combo.cy + Math.random() * 100;
+        node.x = combo.cx + 100 / (i + 1);
+        node.y = combo.cy + 100 / (i + 1);
       } else {
-        node.x = Math.random() * 100;
-        node.y = Math.random() * 100;
+        node.x = 100 / (i + 1);
+        node.y = 100 / (i + 1);
       }
     });
   }
@@ -403,10 +403,10 @@ export default class ComboForce extends BaseLayout {
     const nodeIdxMap = self.nodeIdxMap;
     const comboTrees = self.comboTrees;
     const oriComboMap = self.oriComboMap;
-    let comboMap: ComboMap = {};
+    const comboMap: ComboMap = {};
 
     comboTrees && comboTrees.forEach(ctree => {
-      let treeChildren = [];
+      const treeChildren = [];
       traverseTreeUp<ComboTree>(ctree, treeNode => {
         if (treeNode.itemType === 'node') return true; // skip it
         if (!oriComboMap[treeNode.id]) return true; // means it is hidden, skip it
@@ -502,7 +502,7 @@ export default class ComboForce extends BaseLayout {
         const c = comboMap[treeNode.id];
 
         // higher depth the combo, larger the gravity
-        let gravityScale = (c.depth + 1) * 0.5;
+        const gravityScale = (c.depth + 1) * 0.5;
         // apply combo center force for all the descend nodes in this combo
         // and update the center position and count for this combo
         const comboX = c.cx;
@@ -545,8 +545,8 @@ export default class ComboForce extends BaseLayout {
     nodes.forEach((v, i) => {
       nodes.forEach((u, j) => {
         if (i < j) return;
-        let vx = v.x - u.x || 0.005;
-        let vy = v.y - u.y || 0.005;
+        const vx = v.x - u.x || 0.005;
+        const vy = v.y - u.y || 0.005;
         let vl2 = vx * vx + vy * vy;
         const vl = Math.sqrt(vl2);
         if (vl2 < 1) vl2 = vl;
@@ -575,7 +575,7 @@ export default class ComboForce extends BaseLayout {
     const comboSpacing = self.comboSpacing;
     const comboPadding = self.comboPadding;
     comboTrees && comboTrees.forEach(ctree => {
-      let treeChildren = [];
+      const treeChildren = [];
       traverseTreeUp<ComboTree>(ctree, treeNode => {
         if (treeNode.itemType === 'node') return true; // skip it
         const c = comboMap[treeNode.id];
@@ -642,9 +642,9 @@ export default class ComboForce extends BaseLayout {
             if (u.itemType === 'node') return; // skip it
             const cu = comboMap[u.id];
             if (!cu) return;  // means it is hidden, skip it
-            let vx = cv.cx - cu.cx || 0.005;
-            let vy = cv.cy - cu.cy || 0.005;
-            let l = vx * vx + vy * vy;
+            const vx = cv.cx - cu.cx || 0.005;
+            const vy = cv.cy - cu.cy || 0.005;
+            const l = vx * vx + vy * vy;
             const rv = cv.r;
             const ru = cu.r;
             const r = rv + ru;
@@ -660,8 +660,8 @@ export default class ComboForce extends BaseLayout {
               const ll = (r - sqrtl) / sqrtl * comboCollideStrength;
               const xl = vx * ll;
               const yl = vy * ll;
-              let rratio = ru2 / (rv2 + ru2);
-              let irratio = 1 - rratio;
+              const rratio = ru2 / (rv2 + ru2);
+              const irratio = 1 - rratio;
               // 两兄弟 combo 的子节点上施加斥力
               vnodes.forEach(vn => {
                 if (vn.itemType !== 'node') return; // skip it
@@ -708,9 +708,9 @@ export default class ComboForce extends BaseLayout {
       // center gravity
       if (center) {
         const gravity = self.gravity;
-        let vecX = v.x - center[0] || 0.005;
-        let vecY = v.y - center[1] || 0.005;
-        let l = Math.sqrt(vecX * vecX + vecY * vecY);
+        const vecX = v.x - center[0] || 0.005;
+        const vecY = v.y - center[1] || 0.005;
+        const l = Math.sqrt(vecX * vecX + vecY * vecY);
         displacements[i].x -= vecX * gravity * alpha / l;
         displacements[i].y -= vecY * gravity * alpha / l;
       }
@@ -720,14 +720,14 @@ export default class ComboForce extends BaseLayout {
           return;
         }
         if (!u.x || !u.y) return;
-        let { vl2, vl } = vecMap[`${v.id}-${u.id}`];
+        const { vl2, vl } = vecMap[`${v.id}-${u.id}`];
         if (vl > max) return;
 
-        let { vx, vy } = vecMap[`${v.id}-${u.id}`];
+        const { vx, vy } = vecMap[`${v.id}-${u.id}`];
 
         let depthDiff = (Math.abs(u.depth - v.depth) + 1) || 1;
         if (u.comboId !== v.comboId) depthDiff++;
-        let depthParam = depthDiff ? Math.pow(scale, depthDiff) : 1;
+        const depthParam = depthDiff ? scale ** depthDiff : 1;
 
         const params = nodeStrength(u) * alpha / vl2 * depthParam;
         displacements[i].x += vx * params;
@@ -775,9 +775,9 @@ export default class ComboForce extends BaseLayout {
       const u = self.nodeMap[e.source];
       const v = self.nodeMap[e.target];
 
-      let depthDiff = Math.abs(u.depth - v.depth);
+      const depthDiff = Math.abs(u.depth - v.depth);
       if (u.comboId === v.comboId) depthDiff / 2;
-      let depthParam = depthDiff ? Math.pow(scale, depthDiff) : 1;
+      let depthParam = depthDiff ? scale ** depthDiff : 1;
       if (u.comboId !== v.comboId && depthParam === 1) {
         depthParam = scale / 2;
       } else if (u.comboId === v.comboId) {
@@ -785,7 +785,7 @@ export default class ComboForce extends BaseLayout {
       }
 
       if (!isNumber(v.x) || !isNumber(u.x) || !isNumber(v.y) || !isNumber(u.y)) return;
-      let { vl, vx, vy } = vecMap[`${e.target}-${e.source}`];
+      const { vl, vx, vy } = vecMap[`${e.target}-${e.source}`];
       const l = (vl - linkDistance(e)) / vl * alpha * edgeStrength(e) * depthParam;
       const vecX = vx * l;
       const vecY = vy * l;

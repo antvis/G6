@@ -39,7 +39,7 @@ function depthFirstSearchRecursive(graph: IGraph, currentNode: INode, previousNo
     previous: previousNode
   });
 
-  graph.getSourceNeighbors(currentNode).forEach((nextNode) => {
+  graph.getNeighbors(currentNode, 'target').forEach((nextNode) => {
     if (callbacks.allowTraversal({
       previous: previousNode,
       current: currentNode,

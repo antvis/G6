@@ -36,7 +36,7 @@ const graph = new G6.Graph({
       bottom: true,
       left: true,
       right: true,
-      size: 5,
+      size: 10,
       fill: '#fff',
       lineWidth: 1,
       stroke: '#1890FF',

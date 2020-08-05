@@ -33,7 +33,7 @@ G6.registerNode(
     /**
      * 绘制节点，包含文本
      * @param  {Object} cfg 节点的配置项
-     * @param  {G.Group} group 节点的容器
+     * @param  {G.Group} group 图形分组，节点中图形对象的容器
      * @return {G.Shape} 返回一个绘制的图形作为 keyShape，通过 node.get('keyShape') 可以获取。
      * 关于 keyShape 可参考文档 核心概念-节点/边/Combo-图形 Shape 与 keyShape
      */
@@ -41,7 +41,7 @@ G6.registerNode(
     /**
      * 绘制后的附加操作，默认没有任何操作
      * @param  {Object} cfg 节点的配置项
-     * @param  {G.Group} group 节点的容器
+     * @param  {G.Group} group 图形分组，节点中图形对象的容器
      */
     afterDraw(cfg, group) {},
     /**
@@ -81,7 +81,7 @@ G6.registerNode(
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️ 注意:</strong></span>
 
-- 如果不从任何现有的节点扩展新节点时，`draw` 方法是必须的；
+- 如果不从任何现有的节点或从 `'single-node'` 扩展新节点时，`draw` 方法是必须的；
 - 节点内部所有图形**使用相对于节点自身的坐标系**，即 `(0, 0)` 是该节点的中心。而节点的坐标是相对于画布的，由该节点 group 上的矩阵控制，自定义节点中不需要用户感知。若在自定义节点内增加 `rect` 图形，要注意让它的 x 与 y 各减去其长与宽的一半。详见例子 [从无到有定义节点](#1-从无到有定义节点)；
 - `update` 方法可以不定义：
   - 当 `update` 未定义：若指定了 `registerNode` 的第三个参数 `extendedNodeName`（即代表继承指定的内置节点类型），则节点更新时将执行被继承的内置节点类型的 `update` 逻辑；若未指定 `registerNode` 的第三个参数，则节点更新时会执行 `draw` 方法，所有图形清除重绘；
@@ -224,13 +224,13 @@ G6.registerNode('diamond', {
 
 G6 中已经[内置了一些节点](/zh/docs/manual/middle/elements/nodes/defaultNode)，如果用户仅仅想对现有节点进行调整，复用原有的代码，则可以基于现有的节点进行扩展。同样实现 diamond ，可以基于  circle、ellipse、rect 等内置节点的进行扩展。single-node 是这些内置节点类型的基类，也可以基于它进行扩展。（single-edge 是所有内置边类型的基类。）
 
-下面以基于 single-node 为例进行扩展。`draw`，`update`，`setState` 方法在  single-node 中都有实现，这里仅需要复写 `getShapeStyle` 方法即可。返回的对象中包含自定义图形的路径和其他样式。
+下面以基于 single-node 为例进行扩展。`update`，`setState` 方法在  single-node 中都有实现，这里仅需要复写 `draw` 方法即可。返回的对象中包含自定义图形的路径和其他样式。
 
 ```javascript
 G6.registerNode(
   'diamond',
   {
-    getShapeStyle(cfg) {
+    draw(cfg, group) {
       const size = this.getSize(cfg); // 转换成 [width, height] 的模式
       const color = cfg.color;
       const width = size[0];
@@ -245,7 +245,7 @@ G6.registerNode(
         ['L', -width / 2, 0], // 左侧顶点
         ['Z'], // 封闭
       ];
-      const style = Util.mix(
+      const style = G6.Util.mix(
         {},
         {
           path: path,
@@ -253,11 +253,20 @@ G6.registerNode(
         },
         cfg.style,
       );
-      return style;
-    },
+      // 增加一个 path 图形作为 keyShape
+      const keyShape = group.addShape('path', {
+        attrs: {
+          ...style
+        },
+        draggable: true,
+        name: 'diamond-keyShape'
+      });
+      // 返回 keyShape
+      return keyShape;
+    }
   },
-  // 注意这里继承了 'single-edge'
-  'single-edge',
+  // 注意这里继承了 'single-node'
+  'single-node',
 );
 ```
 

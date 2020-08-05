@@ -38,14 +38,14 @@ G6.registerNode(
     /**
      * Draw the node with label
      * @param  {Object} cfg The configurations of the node
-     * @param  {G.Group} group The container of the node
+     * @param  {G.Group} group Graphics group, the container of the shapes of the node
      * @return {G.Shape} The keyShape of the node. It can be obtained by node.get('keyShape')
      */
     draw(cfg, group) {},
     /**
      * The extra operations after drawing the node. There is no operation in this function by default
      * @param  {Object} cfg The configurations of the node
-     * @param  {G.Group} group The container of the node
+     * @param  {G.Group} group Graphics group, the container of the shapes of the node
      */
     afterDraw(cfg, group) {},
     /**
@@ -230,8 +230,7 @@ For example, we are going to extend the single-node. `draw`, `update`, and `setS
 G6.registerNode(
   'diamond',
   {
-    shapeType: 'path', // It is required when the shape inherits from 'single-node', not required otherwise
-    getShapeStyle(cfg) {
+    draw(cfg, group) {
       const size = this.getSize(cfg); // translate to [width, height]
       const color = cfg.color;
       const width = size[0];
@@ -246,7 +245,7 @@ G6.registerNode(
         ['L', -width / 2, 0], // Left
         ['Z'], // Close the path
       ];
-      const style = Util.mix(
+      const style = G6.Util.mix(
         {},
         {
           path: path,
@@ -254,7 +253,16 @@ G6.registerNode(
         },
         cfg.style,
       );
-      return style;
+      // add a path as keyShape
+      const keyShape = group.addShape('path', {
+        attrs: {
+          ...style
+        },
+        draggable: true,
+        name: 'diamond-keyShape'
+      });
+      // return the keyShape
+      return keyShape;
     },
   },
   // Extend the 'single-node'

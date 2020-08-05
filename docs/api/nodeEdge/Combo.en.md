@@ -111,7 +111,7 @@ Remove the child item (a Node or a Combo).
 
 
 ### removeCombo(combo: ICombo)
-Remove a sub combo.
+Remove a sub combo from the parent. The `combo` will still exist on the graph but it is not belong to the parent combo any more. If you want to delete the combo from the graph, call [graph.removeItem](/en/docs/api/Graph#removeitemitem) instead
 
 **Parameters**
 
@@ -126,14 +126,14 @@ Remove a sub combo.
 - Return `true` to indicate successful executed.
 
 
-### removeNode(node: string | INode)
-Remove a child node.
+### removeNode(node: INode)
+Remove a child node from the combo. The node will still exist on the graph but it is not belong to the combo any more. If you want to delete the node from the graph, call [graph.removeItem](/en/docs/api/Graph#removeitemitem) instead
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
-| node | string / INode | true | Node ID or the item of Node |
+| node | INode | true | Node ID or the item of Node |
 
 
 **Return**

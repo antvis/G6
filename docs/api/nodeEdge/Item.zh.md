@@ -132,7 +132,7 @@ item.getBBox();
 **返回值**
 
 - 返回值类型：G.Group；
-- 返回元素所在的 group。
+- 返回元素所在的graphics group。
 
 **用法**
 

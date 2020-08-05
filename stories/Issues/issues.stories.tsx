@@ -27,4 +27,4 @@ storiesOf('Issues', module)
     <DomClick />
   ))
   .add('forcelayout', () => <ForceLayout />)
-  .add('ggeditor node issue', () => <GGEditorNode />)
+  .add('ggeditor node issue', () => <GGEditorNode />);

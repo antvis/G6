@@ -55,7 +55,7 @@ Shape.registerEdge(
       this.radius = style.radius;
       this.offset = style.offset;
 
-      let { startPoint, endPoint } = cfg;
+      const { startPoint, endPoint } = cfg;
       const controlPoints = (this as any).getControlPoints(cfg);
       let points = [startPoint]; // 添加起始点
       // 添加控制点
@@ -86,6 +86,7 @@ Shape.registerEdge(
     },
     getPath(points: Point[], routeCfg?: any): Array<Array<string | number>> | string {
       const { source, target, offset, radius } = routeCfg as any;
+      // 指定了控制点
       if (!offset || points.length > 2) {
         if (radius) {
           return getPathWithBorderRadiusByPolyline(points, radius);
@@ -101,6 +102,8 @@ Shape.registerEdge(
         });
         return pathArray;
       }
+
+      // 未指定控制点
       let polylinePoints: any;
       if (radius) {
         polylinePoints = simplifyPolyline(

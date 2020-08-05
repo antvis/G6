@@ -481,12 +481,13 @@ Dagre is an hierarchical layout.
 
 #### align
 
-**Type**: String<br />**Options**: 'UL' | 'UR' | 'DL' | 'DR'<br />**Default**: 'UL'<br />**Required**: false<br />**Description**: The alignment of the nodes. U: upper; D: down; L: left; R: right
+**Type**: String<br />**Options**: 'UL' | 'UR' | 'DL' | 'DR' | undefined<br />**Default**: 'UL'<br />**Required**: false<br />**Description**: The alignment of the nodes. U: upper; D: down; L: left; R: right
 
 - 'UL': aligns the nodes to the upper left;
 - 'UR': aligns the nodes to the upper right;
 - 'DL': aligns the nodes to the down left;
-- 'DR': aligns the nodes to the upper right.
+- 'DR': aligns the nodes to the upper right;
+- undefined: default value, align to the center.
 
 #### nodesep
 
@@ -531,6 +532,10 @@ d => {
 #### workerEnabled
 
 **Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to enable the web-worker in case layout calculation takes too long to block page interaction
+
+#### sortByCombo
+
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to sort the nodes in a level according to the `comboId` in their data. Enable `sortByCombo` to avoid combo overlappings
 
 ### Function
 

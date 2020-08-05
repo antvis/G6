@@ -41,9 +41,11 @@ const graph = new G6.Graph({
   width,
   height,
   nodeStateStyles: {
-  	fill: 'red',
-    'keyShape-name': {
-    	fill: 'red'
+    hover: {
+      fill: 'red',
+      'keyShape-name': {
+        fill: 'red'
+      }
     }
   },
   edgeStateStyles: {}
@@ -252,7 +254,7 @@ G6 中提供了 `hasState` 方法用于判断元素是否有某种状态。但�
 graph.setItemState(item, 'active', true)
 
 // 鼠标 hover
-const hasActived = graph.hasState('active')
+const hasActived = item.hasState('active')
 
 // 当节点没有 active 时才设置 hover 状态
 if(!hasActived) {

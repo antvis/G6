@@ -1,5 +1,85 @@
 # ChangeLog
 
+#### 3.6.0
+- feat: fisheye lens plugin;
+- feat: lasso-select behavior;
+- feat: TimeBar plugin;
+- feat: ToolBar plugin.
+
+#### 3.5.12
+- fix: node:click is triggered twice while clicking a node;
+- fix: update combo edge when drag node out of it problem;
+- feat: animate configuration for combo, true by default;
+- fix: calling canvas.on('*', ...) instead of origin way in event controller leads to malposition while dragging nodes with zoomed graph.
+
+#### 3.5.11
+- feat: graph.priorityState api;
+- feat: graph.on support name:event mode.
+- fix: combo edge with uncorrect end points;
+- fix: combo polyline edge with wrong path;
+- fix: getViewCenter with padding problem;
+- fix: cannot read property 'getModel' of null problem on contextmenu when the target is not an item;
+- feat: allow user to configure the initial positions for empty combos;
+- feat: optimize by hiding edges and shapes which are not keyShape while dragging canvas;
+- feat: fix the initial positions by equably distributing for layout to produce similar result.
+
+#### 3.5.10
+- fix: fitView and fitCenter with animate in the initial state;
+- fix: dulplicated edges in nodeselectchange event of brush-select;
+- fix: triple click and drag canvas problem;
+- fix: sync the minZoom and maxZoom in drag-canvas and graph;
+- fix: integrate getSourceNeighbors and getTargetNeighbors to getNeighbors(node, type);
+- feat: initial x and y for combo data;
+- feat: dagre layout supports sortByCombo;
+- feat: allow user to disable relayout in collapse-expand-combo behavior;
+- feat: dijkstra shortest path lenght algorithm.
+
+#### 3.5.9
+- fix: multiple animate update shape for combo;
+- fix: removeItem from a combo.
+
+#### 3.5.8
+- fix: combo edge problem, issues #1722;
+- feat: adjacency matrix algorithm;
+- feat: Floyd Warshall shortest path algorithm;
+- feat: built-in arrows;
+- feat: built-in markers;
+- fix: force layout with addItem and relayout;
+- fix: create combo with parentId problem;
+- feat: allow user to configure the pixelRatio for Canvas;
+- chore: update G to resolve the blur canvas problem.
+
+#### 3.5.7
+- feat: shouldBegin for click-select behavior;
+- feat: graph.getGroup, graph.getContainer, graph.getMinZoom, graph.setMinZoom, graph.getMaxZoom, graph.setMaxZoom, graph.getWidth, graph.getHeight API;
+- fix: combo edge dashLine attribute;
+- fix: combo collapse and expand with edges problem;
+- fix: destroy the tooltip DOMs when destroy the graph;
+- fix: unify the shape names for custom node and extended node;
+- fix: update the edges after first render with collapsed combos.
+
+#### 3.5.6
+- feat: dropCap for intended TreeGraph layout.
+
+#### 3.5.5
+- fix: custom node with setState problem;
+- fix: validationCombo in drag-combo and drag-node.
+
+#### 3.5.3
+- feat: focusItem with animation;
+- feat: generate the image url of the full graph by graph.toFullDataUrl;
+- fix: graph dispears after being dragged out of the canvas and back;
+- fix: the graph cannot be dragged back if it is already out of the view;
+- fix: size and radius of the linkPoints problem;
+- fix: combo graph with unused state name in comboStateStyles;
+- fix: preventDefault in drag-canvas behavior.
+
+#### 3.5.2
+- feat: degree algorithm;
+- feat: graph.getNodeDegree;
+- fix: downloadFullImage changes the matrix of the graph problem;
+- fix: circular layout modifies the origin data with infinite hierarchy problem.
+
 #### 3.5.1
 - feat: graph.fitCenter to align the graph center to canvas center;
 - fix: getType is not a function error occurs when addItem with point;
@@ -71,7 +151,7 @@
 
 - feat: zoom-canvas behavior supports hiding non-keyshape elements when scaling canvas;
 - refactor: when the second parameter is null, clearItemStates will clear all states of the item;
-- fix: (changeData bug)[https://github.com/antvis/G6/issues/1323];
+- fix: [changeData bug](https://github.com/antvis/G6/issues/1323);
 - fix: update antv/hierarchy to fix fixedRoot for TreeGraph;
 - fix: problem of a graph has multiple polyline edges;
 - fix: problem of dagre with controlPoints and loop edges.

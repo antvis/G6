@@ -103,8 +103,8 @@ The commonly used configurations for the `style` in the above table are:
 | stroke | false | String | The stroke color |
 | lineWidth | false | Number | The line width of the stroke |
 | opacity | false | Number | The opacity |
-| font | false | String | The font |
 | fontSize | false | Number | The font size |
+| fontFamily | false | Number | The font family |
 | ... The label styles of node and edge are the same, summarized in [Text Shape API](/en/docs/api/nodeEdge/shapeProperties/#text) |  |  |  |
 
 The following code shows how to configure `label` and `labelCfg` globally when instantiating a Graph:

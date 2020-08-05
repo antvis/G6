@@ -50,7 +50,7 @@ timeDiv.id = 'time';
 timeDiv.innerHTML = '11th January, 2020';
 graphDiv.parentNode.appendChild(timeDiv);
 
-const colors = [ '#FD5854', '#FDA25A', '#FFD574', '#3A5A3C' ];
+const colors = ['#FD5854', '#FDA25A', '#FFD574', '#3A5A3C'];
 const imgs = {
   'state-New South Wales': {
     src: 'https://gw.alipayobjects.com/zos/basement_prod/828aec79-8123-4ca7-baa8-1422a964003a.svg',
@@ -98,17 +98,17 @@ let minPop = Infinity;
 let maxPop = -Infinity;
 let minBrightness = Infinity;
 let maxBrightness = -Infinity;
-const leafSizeRange = [ 10, 100 ];
+const leafSizeRange = [10, 100];
 
 G6.registerNode('circle-bar', {
   drawShape(cfg, group) {
     const dist2Ori = Math.sqrt(cfg.x * cfg.x + cfg.y * cfg.y);
-    const vecToOrin = [ cfg.x / dist2Ori, cfg.y / dist2Ori ];
-    const startPoint = [ vecToOrin[0] * cfg.size / 2, vecToOrin[1] * cfg.size / 2 ];
+    const vecToOrin = [cfg.x / dist2Ori, cfg.y / dist2Ori];
+    const startPoint = [vecToOrin[0] * cfg.size / 2, vecToOrin[1] * cfg.size / 2];
     const scale = Math.sqrt(cfg.data.firePointNums[0]);
     const path = [
-      [ 'M', startPoint[0], startPoint[1] ],
-      [ 'L', vecToOrin[0] * scale + startPoint[0], vecToOrin[1] * scale + startPoint[1] ]
+      ['M', startPoint[0], startPoint[1]],
+      ['L', vecToOrin[0] * scale + startPoint[0], vecToOrin[1] * scale + startPoint[1]]
     ];
 
     let fillColor = colors[3];
@@ -151,15 +151,15 @@ G6.registerNode('circle-bar', {
       const firePointNum = cfg.data.firePointNums[count % 8] || 0;
       const targetScale = Math.sqrt(firePointNum);
       const targetPath = [
-        [ 'M', startPoint[0], startPoint[1] ],
-        [ 'L', vecToOrin[0] * targetScale + startPoint[0], vecToOrin[1] * targetScale + startPoint[1] ]
+        ['M', startPoint[0], startPoint[1]],
+        ['L', vecToOrin[0] * targetScale + startPoint[0], vecToOrin[1] * targetScale + startPoint[1]]
       ];
 
       fillColor = colors[3];
       if (cfg.data.fireBrightnesses[count % 8]) {
         const normalizedBrightness = (cfg.data.fireBrightnesses[count % 8] - minBrightness) / (maxBrightness - minBrightness); // [0, 1];
         const colorIdx = Math.floor(normalizedBrightness * 2);
-        fillColor = colors[ colorIdx ];
+        fillColor = colors[colorIdx];
       }
       bar.animate(
         {
@@ -168,9 +168,9 @@ G6.registerNode('circle-bar', {
           fill: fillColor,
           shadowColor: fillColor
         }, {
-          repeat: false,
-          duration: 300
-        }
+        repeat: false,
+        duration: 300
+      }
       );
 
 
@@ -180,9 +180,9 @@ G6.registerNode('circle-bar', {
           fill: fillColor,
           shadowColor: fillColor
         }, {
-          repeat: false,
-          duration: 300
-        }
+        repeat: false,
+        duration: 300
+      }
       );
     }, 1300, 'easeCubic');
 
@@ -227,6 +227,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/d676014a-0a11-4ea9-9af4-403
           'drag-canvas',
           {
             type: 'tooltip',
+            offset: 50,
             formatText(model) {
               const populationDes = LANG === 'en' ? 'Population' : '人口总数';
               const name = `${model.xlabel}</br>${populationDes}: ${model.population}`;
@@ -295,7 +296,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/d676014a-0a11-4ea9-9af4-403
       if (!item.isLeaf) {
         if (imgs[item.id]) {
           item.img = imgs[item.id].src;
-          item.size = [ imgs[item.id].width * mapImgScale, imgs[item.id].height * mapImgScale ];
+          item.size = [imgs[item.id].width * mapImgScale, imgs[item.id].height * mapImgScale];
         } else {
           item.size = 10;
         }
@@ -307,7 +308,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/d676014a-0a11-4ea9-9af4-403
         item.size = (item.population - minPop) / (maxPop - minPop) * sizeScale + leafSizeRange[0];
       }
       if (item.id === 'country-australia') {
-        item.size = [ 559 * mapImgScale, 464 * mapImgScale ];
+        item.size = [559 * mapImgScale, 464 * mapImgScale];
         item.style.shadowBlur = 200;
       }
     });
@@ -413,7 +414,7 @@ const legendData = {
     x: legendX,
     y: legendBeginY + legendYPadding * 5 + 10,
     shape: 'rect',
-    size: [ 2, 30 ],
+    size: [2, 30],
     style: {
       fill: '#3A5A3C',
       lineWidth: 0

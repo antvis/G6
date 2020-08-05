@@ -9,7 +9,7 @@ G6 提供了一系列[内置 Combo](/zh/docs/manual/middle/elements/combos/defau
 
 ## Combo 接口
 
-通过 [图形 Shape](/zh/docs/manual/middle/keyconcept/shape-keyshape) 章节的学习，我们应该已经知道了自定义 Combo 时需要满足以下两点：
+通过 [图形 Shape](/zh/docs/manual/middle/elements/shape-keyshape) 章节的学习，我们应该已经知道了自定义 Combo 时需要满足以下两点：
 
 - 控制 Combo 的生命周期；
 - 解析用户输入的数据，在图形上展示。
@@ -23,7 +23,7 @@ G6.registerCombo(
     /**
      * 绘制 Combo 中的图形。不需要为默认的 label 增加图形，父类方法会自动增加 label
      * @param  {Object} cfg Combo 的配置项
-     * @param  {G.Group} group Combo 的容器
+     * @param  {G.Group} group 图形分组，Combo 中的图形对象的容器
      * @return {G.Shape} 返回一个绘制的图形作为 keyShape，通过 combo.get('keyShape') 可以获取。
      * 关于 keyShape 可参考文档 核心概念-节点/边/Combo-图形 Shape 与 keyShape
      */
@@ -31,7 +31,7 @@ G6.registerCombo(
     /**
      * 绘制后的附加操作，默认没有任何操作
      * @param  {Object} cfg Combo 的配置项
-     * @param  {G.Group} group Combo 的容器
+     * @param  {G.Group} group 图形分组，Combo 中的图形对象的容器
      */
     afterDraw(cfg, group) {},
     /**

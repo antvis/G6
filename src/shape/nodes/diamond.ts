@@ -1,7 +1,7 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
 import { mix } from '@antv/util';
-import { Item, NodeConfig, ShapeStyle, ModelConfig } from '../../types';
+import { Item, NodeConfig, ShapeStyle } from '../../types';
 import Global from '../../global';
 import Shape from '../shape';
 
@@ -30,7 +30,7 @@ Shape.registerNode(
         bottom: false,
         left: false,
         // circle的大小
-        size: 3,
+        size: 10,
         lineWidth: 1,
         fill: '#72CC4A',
         stroke: '#72CC4A',
@@ -50,14 +50,13 @@ Shape.registerNode(
     // 文本位置
     labelPosition: 'center',
     drawShape(cfg: NodeConfig, group: GGroup): IShape {
-      const { icon: defaultIcon } = this.options as ModelConfig;
+      const { icon } = this.getOptions(cfg) as NodeConfig;
       const style = this.getShapeStyle!(cfg);
-      const icon = mix({}, defaultIcon, cfg.icon);
 
       const keyShape = group.addShape('path', {
         attrs: style,
-        className: 'diamond-keyShape',
-        name: 'diamond-keyShape',
+        className: `${this.type}-keyShape`,
+        name: `${this.type}-keyShape`,
         draggable: true,
       });
 
@@ -69,9 +68,9 @@ Shape.registerNode(
             y: -h! / 2,
             ...icon,
           },
-          className: 'diamond-icon',
-          name: 'diamond-icon',
-          draggable: true
+          className: `${this.type}-icon`,
+          name: `${this.type}-icon`,
+          draggable: true,
         });
       }
 
@@ -85,10 +84,9 @@ Shape.registerNode(
      * @param {Group} group Group实例
      */
     drawLinkPoints(cfg: NodeConfig, group: GGroup) {
-      const { linkPoints: defaultLinkPoints } = this.options as ModelConfig;
-      const linkPoints = mix({}, defaultLinkPoints, cfg.linkPoints);
+      const { linkPoints } = this.getOptions(cfg) as NodeConfig;
 
-      const { top, left, right, bottom, size: markSize, ...markStyle } = linkPoints;
+      const { top, left, right, bottom, size: markSize, r: markR, ...markStyle } = linkPoints;
       const size = this.getSize!(cfg);
       const width = size[0];
       const height = size[1];
@@ -99,7 +97,7 @@ Shape.registerNode(
             ...markStyle,
             x: -width / 2,
             y: 0,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-left',
           name: 'link-point-left',
@@ -114,7 +112,7 @@ Shape.registerNode(
             ...markStyle,
             x: width / 2,
             y: 0,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-right',
           name: 'link-point-right',
@@ -129,7 +127,7 @@ Shape.registerNode(
             ...markStyle,
             x: 0,
             y: -height / 2,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-top',
           name: 'link-point-top',
@@ -144,7 +142,7 @@ Shape.registerNode(
             ...markStyle,
             x: 0,
             y: height / 2,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-bottom',
           name: 'link-point-bottom',
@@ -171,19 +169,20 @@ Shape.registerNode(
      * @return {Object} 节点的样式
      */
     getShapeStyle(cfg: NodeConfig): ShapeStyle {
-      const { style: defaultStyle } = this.options as ModelConfig;
+      const { style: defaultStyle } = this.getOptions(cfg) as NodeConfig;
       const strokeStyle: ShapeStyle = {
         stroke: cfg.color,
       };
       // 如果设置了color，则覆盖默认的stroke属性
-      const style = mix({}, defaultStyle, strokeStyle, cfg.style);
+      const style = mix({}, defaultStyle, strokeStyle);
       const path = (this as any).getPath(cfg);
       const styles = { path, ...style };
       return styles;
     },
     update(cfg: NodeConfig, item: Item) {
       const group = item.getContainer();
-      const { style: defaultStyle } = this.options as ModelConfig;
+      // 这里不传 cfg 参数是因为 cfg.style 需要最后覆盖样式
+      const { style: defaultStyle } = this.getOptions({}) as NodeConfig;
       const path = (this as any).getPath(cfg);
       // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
       const strokeStyle = {

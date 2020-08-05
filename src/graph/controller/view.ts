@@ -3,11 +3,10 @@ import { Point } from '@antv/g-base/lib/types';
 import Group from '@antv/g-canvas/lib/group';
 import isNumber from '@antv/util/lib/is-number';
 import isString from '@antv/util/lib/is-string';
-import { Item, Matrix, Padding } from '../../types';
+import { Item, Matrix, Padding, GraphAnimateConfig } from '../../types';
 import { formatPadding } from '../../util/base';
 import { applyMatrix, invertMatrix } from '../../util/math';
 import Graph from '../graph';
-import { mat3 } from '@antv/matrix-util';
 import modifyCSS from '@antv/dom-util/lib/modify-css';
 
 export default class ViewController {
@@ -27,15 +26,13 @@ export default class ViewController {
     const width: number = this.graph.get('width');
     const height: number = graph.get('height');
     return {
-      x: (width - padding[2] - padding[3]) / 2 + padding[3],
+      x: (width - padding[1] - padding[3]) / 2 + padding[3],
       y: (height - padding[0] - padding[2]) / 2 + padding[0],
     };
   }
 
   public fitCenter() {
     const { graph } = this;
-    const width: number = graph.get('width');
-    const height: number = graph.get('height');
     const group: Group = graph.get('group');
     group.resetMatrix();
     const bbox = group.getCanvasBBox();
@@ -82,15 +79,37 @@ export default class ViewController {
     return formatPadding(padding);
   }
 
-  public focusPoint(point: Point) {
+  public focusPoint(point: Point, animate?: boolean, animateCfg?: GraphAnimateConfig) {
     const viewCenter = this.getViewCenter();
     const modelCenter = this.getPointByCanvas(viewCenter.x, viewCenter.y);
     let viewportMatrix: Matrix = this.graph.get('group').getMatrix();
-    if (!viewportMatrix) viewportMatrix = mat3.create();
-    this.graph.translate(
-      (modelCenter.x - point.x) * viewportMatrix[0],
-      (modelCenter.y - point.y) * viewportMatrix[4],
-    );
+    if (!viewportMatrix) viewportMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
+    if (animate) {
+      const dx = (modelCenter.x - point.x) * viewportMatrix[0];
+      const dy = (modelCenter.y - point.y) * viewportMatrix[4];
+      let lastX = 0;
+      let lastY = 0;
+      let newX = 0;
+      let newY = 0;
+      // 动画每次平移一点，直到目标位置
+      this.graph.get('canvas').animate(
+        ratio => {
+          newX = dx * ratio;
+          newY = dy * ratio;
+          this.graph.translate(newX - lastX, newY - lastY);
+          lastX = newX;
+          lastY = newY;
+        },
+        {
+          ...animateCfg
+        },
+      );
+    } else {
+      this.graph.translate(
+        (modelCenter.x - point.x) * viewportMatrix[0],
+        (modelCenter.y - point.y) * viewportMatrix[4],
+      );
+    }
   }
 
   /**
@@ -101,7 +120,7 @@ export default class ViewController {
   public getPointByCanvas(canvasX: number, canvasY: number): Point {
     let viewportMatrix: Matrix = this.graph.get('group').getMatrix();
     if (!viewportMatrix) {
-      viewportMatrix = mat3.create();
+      viewportMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
     }
     const point = invertMatrix({ x: canvasX, y: canvasY }, viewportMatrix);
     return point;
@@ -139,7 +158,7 @@ export default class ViewController {
   public getCanvasByPoint(x: number, y: number): Point {
     let viewportMatrix: Matrix = this.graph.get('group').getMatrix();
     if (!viewportMatrix) {
-      viewportMatrix = mat3.create();
+      viewportMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
     }
     return applyMatrix({ x, y }, viewportMatrix);
   }
@@ -147,21 +166,23 @@ export default class ViewController {
   /**
    * 将元素移动到画布中心
    * @param item Item 实例或 id
+   * @param {boolean} animate 是否带有动画地移动
+   * @param {GraphAnimateConfig} animateCfg 若带有动画，动画的配置项
    */
-  public focus(item: string | Item) {
+  public focus(item: string | Item, animate?: boolean, animateCfg?: GraphAnimateConfig) {
     if (isString(item)) {
       item = this.graph.findById(item);
     }
+    const group: Group = item.get('group');
+    let matrix: Matrix = group.getMatrix();
+    if (!matrix) matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
 
     if (item) {
-      const group: Group = item.get('group');
-      let matrix: Matrix = group.getMatrix();
-      if (!matrix) matrix = mat3.create();
       // 用实际位置而不是model中的x,y,防止由于拖拽等的交互导致model的x,y并不是当前的x,y
       this.focusPoint({
         x: matrix[6],
         y: matrix[7],
-      });
+      }, animate, animateCfg);
     }
   }
 

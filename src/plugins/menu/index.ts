@@ -1,30 +1,51 @@
 import modifyCSS from '@antv/dom-util/lib/modify-css';
+import createDOM from '@antv/dom-util/lib/create-dom';
+import isString from '@antv/util/lib/is-string'
+import insertCss from 'insert-css';
 import Graph from '../../graph/graph';
-import { IG6GraphEvent } from '../../types';
+import { IG6GraphEvent, Item } from '../../types';
 import Base, { IPluginBaseConfig } from '../base';
+import { IGraph } from '../../interface/graph';
+
+insertCss(`
+  .g6-component-contextmenu {
+    border: 1px solid #e2e2e2;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #545454;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px 8px;
+    box-shadow: rgb(174, 174, 174) 0px 0px 10px;
+  }
+  .g6-contextmenu-ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+`)
 
 interface MenuConfig extends IPluginBaseConfig {
-  createDOM?: boolean;
-  menu?: HTMLDivElement;
-  getContent?: (evt?: IG6GraphEvent) => string;
-  onShow: (evt?: IG6GraphEvent) => boolean;
-  onHide: (evt?: IG6GraphEvent) => boolean;
+  handleMenuClick?: (target: HTMLElement, item: Item) => void;
+  getContent?: (graph?: IGraph) => HTMLDivElement | string;
 }
 
 export default class Menu extends Base {
-  constructor(cfg: MenuConfig) {
+  constructor(cfg?: MenuConfig) {
     super(cfg);
   }
 
   public getDefaultCfgs(): MenuConfig {
     return {
-      createDOM: true, // 是否渲染 dom
-      container: null, // menu 容器。若不指定就用 graph 的 container
-      className: 'g6-analyzer-menu', // 指定 container css
-      getContent: undefined, // 指定菜单内容，function(e) {...}
-      // 菜单展示事件
-      onShow() {
-        return true;
+      handleMenuClick: undefined,
+      // 指定菜单内容，function(e) {...}
+      getContent: (graph) => {
+        return `
+          <ul class='g6-contextmenu-ul'>
+            <li>菜单项1</li>
+            <li>菜单项2</li>
+          </ul>
+        `
       },
       // 菜单隐藏事件
       onHide() {
@@ -41,65 +62,74 @@ export default class Menu extends Base {
   }
 
   public init() {
-    if (!this.get('createDOM')) {
-      return;
-    }
-
-    // 如果指定组件生成 menu 内容,生成菜单 dom
-    const menu = document.createElement('div');
-    menu.className = this.get('className');
-    modifyCSS(menu, { visibility: 'hidden' });
-
+    const className = this.get('className')
+    const menu = createDOM(`<div class=${className || 'g6-component-contextmenu'}></div>`)
+    modifyCSS(menu, { position: 'absolute', visibility: 'hidden' });
     let container: HTMLDivElement | null = this.get('container');
     if (!container) {
       container = this.get('graph').get('container');
     }
+    container.appendChild(menu)
 
-    container!.appendChild(menu);
-    this.set('menu', menu);
+    this.set('menu', menu)
   }
 
   protected onMenuShow(e: IG6GraphEvent) {
+    e.preventDefault()
+    e.stopPropagation()
+
+    if (!e.item) {
+      return
+    }
+
     const self = this;
-    // e.preventDefault()
-    // e.stopPropagation()
-    const menu: HTMLDivElement = this.get('menu');
-    const getContent: (evt?: IG6GraphEvent) => string = this.get('getContent');
-    const onShow = this.get('onShow');
 
-    if (getContent) {
-      menu.innerHTML = getContent(e);
-    }
-
-    if (menu) {
-      const graph: Graph = this.get('graph');
-      const width: number = graph.get('width');
-      const height: number = graph.get('height');
-
-      const bbox = menu.getBoundingClientRect();
-
-      let x = e.canvasX;
-      let y = e.canvasY;
-
-      // 若菜单超出画布范围，反向
-      if (x + bbox.width > width) {
-        x = width - bbox.width;
-        e.canvasX = x;
-      }
-
-      if (y + bbox.height > height) {
-        y = height - bbox.height;
-        e.canvasY = y;
-      }
-
-      if (!onShow || onShow(e) !== false) {
-        modifyCSS(menu, { top: y, left: x, visibility: 'visible' });
-      }
+    const menuDom = this.get('menu')
+    const getContent = this.get('getContent')
+    let menu = getContent(e)
+    if (isString(menu)) {
+      menuDom.innerHTML = menu
     } else {
-      onShow(e);
+      menuDom.innerHTML = menu.outerHTML
     }
 
-    const handler = () => {
+    const handleMenuClick = this.get('handleMenuClick')
+    if (handleMenuClick) {
+      menuDom.addEventListener('click', evt => {
+        handleMenuClick(evt.target, e.item)
+      })
+    }
+
+    const graph: Graph = this.get('graph');
+    const width: number = graph.get('width');
+    const height: number = graph.get('height');
+
+    const bbox = menuDom.getBoundingClientRect();
+
+
+    let x = e.canvasX//e.item.getModel().x || e.x;
+    let y = e.canvasY//e.item.getModel().y || e.y;
+
+    // 若菜单超出画布范围，反向
+    if (x + bbox.width > width) {
+      x = width - bbox.width;
+    }
+
+    if (y + bbox.height > height) {
+      y = height - bbox.height;
+    }
+
+    // const point = graph.getClientByPoint(x, y)
+    // e.canvasX = point.x;
+    // e.canvasY = point.y;
+
+    modifyCSS(menuDom, {
+      top: `${y}px`,
+      left: `${x}px`,
+      visibility: 'visible'
+    });
+
+    const handler = (evt) => {
       self.onMenuHide();
     };
 
@@ -109,25 +139,35 @@ export default class Menu extends Base {
   }
 
   private onMenuHide() {
-    const menu: HTMLDivElement = this.get('menu');
-    const hide: (evt?: IG6GraphEvent) => boolean = this.get('onHide');
-    const hasHide = hide();
-    if (hasHide) {
-      if (menu) {
-        modifyCSS(menu, { visibility: 'hidden' });
-      }
+    const menuDom = this.get('menu')
+    if (menuDom) {
+      modifyCSS(menuDom, { visibility: 'hidden' });
+    }
 
-      // 隐藏菜单后需要移除事件监听
-      document.body.removeEventListener('click', this.get('handler'));
+    // 隐藏菜单后需要移除事件监听
+    document.body.removeEventListener('click', this.get('handler'));
+
+    const handleMenuClick = this.get('handleMenuClick')
+    if (handleMenuClick) {
+      menuDom.removeEventListener('click', handleMenuClick)
     }
   }
 
   public destroy() {
-    const menu = this.get('menu');
+    const menu = this.get('menu')
     const handler = this.get('handler');
 
+    const handleMenuClick = this.get('handleMenuClick')
+    if (handleMenuClick) {
+      menu.removeEventListener('click', handleMenuClick)
+    }
+
     if (menu) {
-      menu.parentNode.removeChild(menu);
+      let container: HTMLDivElement | null = this.get('container');
+      if (!container) {
+        container = this.get('graph').get('container');
+      }
+      container.removeChild(menu);
     }
 
     if (handler) {

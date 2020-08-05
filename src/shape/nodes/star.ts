@@ -1,7 +1,7 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
 import { mix } from '@antv/util';
-import { Item, NodeConfig, ShapeStyle, ModelConfig } from '../../types';
+import { Item, NodeConfig, ShapeStyle } from '../../types';
 import Global from '../../global';
 import Shape from '../shape';
 import { ShapeOptions } from '../../interface/shape';
@@ -32,7 +32,7 @@ Shape.registerNode(
         leftBottom: false,
         rightBottom: false,
         // circle的大小
-        size: 3,
+        size: 10,
         lineWidth: 1,
         fill: '#fff',
         stroke: '#72CC4A',
@@ -52,14 +52,13 @@ Shape.registerNode(
     // 文本位置
     labelPosition: 'center',
     drawShape(cfg: NodeConfig, group: GGroup): IShape {
-      const { icon: defaultIcon } = this.options as ModelConfig;
+      const { icon } = this.getOptions(cfg) as NodeConfig;
       const style = this.getShapeStyle!(cfg);
-      const icon = mix({}, defaultIcon, cfg.icon);
 
       const keyShape = group.addShape('path', {
         attrs: style,
-        className: 'star-keyShape',
-        name: 'star-keyShape',
+        className: `${this.type}-keyShape`,
+        name: `${this.type}-keyShape`,
         draggable: true,
       });
 
@@ -71,8 +70,8 @@ Shape.registerNode(
             y: -h! / 2,
             ...icon,
           },
-          className: 'star-icon',
-          name: 'star-icon',
+          className: `${this.type}-icon`,
+          name: `${this.type}-icon`,
           draggable: true
         });
       }
@@ -87,8 +86,7 @@ Shape.registerNode(
      * @param {Group} group Group实例
      */
     drawLinkPoints(cfg: NodeConfig, group: GGroup) {
-      const { linkPoints: defaultLinkPoints } = this.options as ModelConfig;
-      const linkPoints = mix({}, defaultLinkPoints, cfg.linkPoints);
+      const { linkPoints } = this.getOptions(cfg) as NodeConfig;
 
       const {
         top,
@@ -97,6 +95,7 @@ Shape.registerNode(
         leftBottom,
         rightBottom,
         size: markSize,
+        r: markR,
         ...markStyle
       } = linkPoints;
       const size = (this as ShapeOptions).getSize!(cfg);
@@ -113,7 +112,7 @@ Shape.registerNode(
             ...markStyle,
             x: x1,
             y: -y1,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-right',
           name: 'link-point-right',
@@ -131,7 +130,7 @@ Shape.registerNode(
             ...markStyle,
             x: x1,
             y: -y1,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-top',
           name: 'link-point-top',
@@ -149,7 +148,7 @@ Shape.registerNode(
             ...markStyle,
             x: x1,
             y: -y1,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-left',
           name: 'link-point-left',
@@ -167,7 +166,7 @@ Shape.registerNode(
             ...markStyle,
             x: x1,
             y: -y1,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-left-bottom',
           name: 'link-point-left-bottom',
@@ -185,7 +184,7 @@ Shape.registerNode(
             ...markStyle,
             x: x1,
             y: -y1,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-right-bottom',
           name: 'link-point-right-bottom',
@@ -222,19 +221,20 @@ Shape.registerNode(
      * @return {Object} 节点的样式
      */
     getShapeStyle(cfg: NodeConfig): ShapeStyle {
-      const { style: defaultStyle } = this.options as ModelConfig;
+      const { style: defaultStyle } = this.getOptions(cfg) as NodeConfig;
       const strokeStyle: ShapeStyle = {
         stroke: cfg.color,
       };
       // 如果设置了color，则覆盖原来默认的 stroke 属性。但 cfg 中但 stroke 属性优先级更高
-      const style = mix({}, defaultStyle, strokeStyle, cfg.style);
+      const style = mix({}, defaultStyle, strokeStyle);
       const path = (this as any).getPath(cfg);
       const styles = { path, ...style };
       return styles;
     },
     update(cfg: NodeConfig, item: Item) {
       const group = item.getContainer();
-      const { style: defaultStyle } = this.options as ModelConfig;
+      // 这里不传 cfg 参数是因为 cfg.style 需要最后覆盖样式
+      const { style: defaultStyle } = this.getOptions({}) as NodeConfig;
       const path = (this as any).getPath(cfg);
       // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
       const strokeStyle = {
@@ -256,16 +256,15 @@ Shape.registerNode(
      * @param {Group} group Item所在的group
      */
     updateLinkPoints(cfg: NodeConfig, group: GGroup) {
-      const { linkPoints: defaultLinkPoints } = this.options as ModelConfig;
-
-      const markLeft = group.find(element => element.get('className') === 'link-point-left');
-      const markRight = group.find(element => element.get('className') === 'link-point-right');
-      const markTop = group.find(element => element.get('className') === 'link-point-top');
+      const { linkPoints: defaultLinkPoints } = this.getOptions({}) as NodeConfig;
+      const markLeft = group.find((element) => element.get('className') === 'link-point-left');
+      const markRight = group.find((element) => element.get('className') === 'link-point-right');
+      const markTop = group.find((element) => element.get('className') === 'link-point-top');
       const markLeftBottom = group.find(
-        element => element.get('className') === 'link-point-left-bottom',
+        (element) => element.get('className') === 'link-point-left-bottom',
       );
       const markRightBottom = group.find(
-        element => element.get('className') === 'link-point-right-bottom',
+        (element) => element.get('className') === 'link-point-right-bottom',
       );
 
       let currentLinkPoints = defaultLinkPoints;
@@ -277,7 +276,7 @@ Shape.registerNode(
       const linkPoints = mix({}, currentLinkPoints, cfg.linkPoints);
 
       const { fill: markFill, stroke: markStroke, lineWidth: borderWidth } = linkPoints;
-      let markSize = linkPoints.size;
+      let markSize = linkPoints.size / 2;
       if (!markSize) markSize = linkPoints.r;
       const { left, right, top, leftBottom, rightBottom } = cfg.linkPoints
         ? cfg.linkPoints

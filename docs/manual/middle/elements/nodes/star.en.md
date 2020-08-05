@@ -57,7 +57,7 @@ The [Node Common Properties](/en/docs/manual/middle/elements/nodes/defaultNode/#
 | label | The text of the label | String |  |
 | labelCfg | The configurations of the label | Object |  |
 | stateStyles | The styles in different states | Object | Refer to [Configure Styles for State](/en/docs/manual/middle/states/state#configure-styles-for-state) |
-| linkPoints | The link points **in visual** | Object | They are invisible by default. It is usually used with the [anchorPoints](http://localhost:8000/en/docs/manual/middle/elements/nodes/defaultNode/#common-property). The differences are described in [linkPoints](#linkpoints) |
+| linkPoints | The link points **in visual** | Object | They are invisible by default. It is usually used with the [anchorPoints](/en/docs/manual/middle/elements/anchorpoint). The differences are described in [linkPoints](#linkpoints) |
 | icon | The configurations of the icon on the star node | Object | It is invisible by default |
 
 ### style

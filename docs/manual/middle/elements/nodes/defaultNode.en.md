@@ -91,7 +91,7 @@ The commonly used configurations for the `style` in the above table are:
 | stroke | false | String | The stroke color of the label |
 | lineWidth | false | Number | The line width of the label |
 | opacity | false | Number | The opacity of the label |
-| font | false | String | The font of the label |
+| fontFamily | false | Number | The font family |
 | fontSize | false | Number | The font size of the label |
 | ... The label styles of node and edge are the same, summarized in [Text Shape API](/en/docs/api/nodeEdge/shapeProperties/#text) |  |  |  |
 
@@ -107,7 +107,7 @@ const graph = new G6.Graph({
     label: 'node-label',
     labelCfg: {
       position: 'bottom',
-      offset: [10, 10, 10, 10],
+      offset: 10,
       style: {
         fill: '#666',
       },

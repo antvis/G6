@@ -1,10 +1,9 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
 import { mix } from '@antv/util';
-import { Item, NodeConfig, ModelConfig, ShapeStyle } from '../../types';
+import { Item, NodeConfig, ShapeStyle } from '../../types';
 import Global from '../../global';
 import Shape from '../shape';
-import { ShapeOptions } from '../../interface/shape';
 
 /**
  * 基本的椭圆，可以添加文本，默认文本居中
@@ -35,7 +34,7 @@ Shape.registerNode(
         bottom: false,
         left: false,
         // circle的大小
-        size: 3,
+        size: 10,
         lineWidth: 1,
         fill: '#72CC4A',
         stroke: '#72CC4A',
@@ -55,9 +54,8 @@ Shape.registerNode(
     // 文本位置
     labelPosition: 'center',
     drawShape(cfg: NodeConfig, group: GGroup): IShape {
-      const { icon: defaultIcon } = this.options as ModelConfig;
+      const { icon } = this.getOptions(cfg) as NodeConfig;
       const style = this.getShapeStyle!(cfg);
-      const icon = mix({}, defaultIcon, cfg.icon);
 
       const keyShape = group.addShape('ellipse', {
         attrs: style,
@@ -74,9 +72,9 @@ Shape.registerNode(
             y: -height! / 2,
             ...icon,
           },
-          className: 'ellipse-icon',
-          name: 'ellipse-icon',
-          draggable: true
+          className: `${this.type}-icon`,
+          name: `${this.type}-icon`,
+          draggable: true,
         });
       }
 
@@ -90,10 +88,9 @@ Shape.registerNode(
      * @param {Group} group Group实例
      */
     drawLinkPoints(cfg: NodeConfig, group: GGroup) {
-      const { linkPoints: defaultLinkPoints } = this.options as ModelConfig;
-      const linkPoints = mix({}, defaultLinkPoints, cfg.linkPoints);
+      const { linkPoints } = this.getOptions(cfg) as NodeConfig;
 
-      const { top, left, right, bottom, size: markSize, ...markStyle } = linkPoints;
+      const { top, left, right, bottom, size: markSize, r: markR, ...markStyle } = linkPoints;
       const size = this.getSize!(cfg);
       const rx = size[0] / 2;
       const ry = size[1] / 2;
@@ -105,7 +102,7 @@ Shape.registerNode(
             ...markStyle,
             x: -rx,
             y: 0,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-left',
           name: 'link-point-left',
@@ -120,7 +117,7 @@ Shape.registerNode(
             ...markStyle,
             x: rx,
             y: 0,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-right',
           name: 'link-point-right',
@@ -135,7 +132,7 @@ Shape.registerNode(
             ...markStyle,
             x: 0,
             y: -ry,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-top',
           name: 'link-point-top',
@@ -150,7 +147,7 @@ Shape.registerNode(
             ...markStyle,
             x: 0,
             y: ry,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-bottom',
           name: 'link-point-bottom',
@@ -164,12 +161,12 @@ Shape.registerNode(
      * @return {Object} 节点的样式
      */
     getShapeStyle(cfg: NodeConfig): ShapeStyle {
-      const { style: defaultStyle } = this.options as ModelConfig;
+      const { style: defaultStyle } = this.getOptions(cfg) as NodeConfig;
       const strokeStyle: ShapeStyle = {
         stroke: cfg.color,
       };
       // 如果设置了color，则覆盖默认的stroke属性
-      const style = mix({}, defaultStyle, strokeStyle, cfg.style);
+      const style = mix({}, defaultStyle, strokeStyle);
       const size = this.getSize!(cfg);
       const rx = size[0] / 2;
       const ry = size[1] / 2;
@@ -187,7 +184,8 @@ Shape.registerNode(
     },
     update(cfg: NodeConfig, item: Item) {
       const group = item.getContainer();
-      const { style: defaultStyle } = this.options as ModelConfig;
+      // 这里不传 cfg 参数是因为 cfg.style 需要最后覆盖样式
+      const { style: defaultStyle } = this.getOptions({}) as NodeConfig;
       const size = this.getSize!(cfg);
 
       const strokeStyle = {

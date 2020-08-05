@@ -2,7 +2,7 @@ import { version } from '../package.json';
 import Behaviors from './behavior';
 import Graph from './graph/graph';
 import TreeGraph from './graph/tree-graph';
-import Shape from './shape';
+import Shape, { Arrow, Marker } from './shape';
 import Layout from './layout';
 import Global from './global';
 import Util from './util';
@@ -18,6 +18,10 @@ const Minimap = Plugins.Minimap;
 const Grid = Plugins.Grid;
 const Bundling = Plugins.Bundling;
 const Menu = Plugins.Menu;
+const Fisheye = Plugins.Fisheye;
+const ToolBar = Plugins.ToolBar;
+const Tooltip = Plugins.Tooltip;
+const TimeBar = Plugins.TimeBar;
 
 export {
   registerNode,
@@ -33,8 +37,12 @@ export {
   Grid,
   Bundling,
   Menu,
+  Fisheye,
   registerBehavior,
-  Algorithm
+  Algorithm,
+  ToolBar,
+  Tooltip,
+  TimeBar
 };
 
 export default {
@@ -53,5 +61,11 @@ export default {
   Grid: Plugins.Grid,
   Bundling: Plugins.Bundling,
   Menu: Plugins.Menu,
-  Algorithm
+  ToolBar: Plugins.ToolBar,
+  Tooltip: Plugins.Tooltip,
+  TimeBar,
+  Fisheye,
+  Algorithm,
+  Arrow,
+  Marker
 };

@@ -3,12 +3,12 @@ G6.registerEdge(
   'circle-running',
   {
     afterDraw(cfg, group) {
-      // 获得当前边的第一个图形，这里是边本身的 path
+      // get the first shape in the group, it is the edge's path here=
       const shape = group.get('children')[0];
-      // 边 path 的起点位置
+      // the start position of the edge's path
       const startPoint = shape.getPoint(0);
 
-      // 添加红色 circle 图形
+      // add red circle shape
       const circle = group.addShape('circle', {
         attrs: {
           x: startPoint.x,
@@ -19,27 +19,27 @@ G6.registerEdge(
         name: 'circle-shape',
       });
 
-      // 对红色圆点添加动画
+      // animation for the red circle
       circle.animate(
         ratio => {
-          // 每一帧的操作，入参 ratio：这一帧的比例值（Number）。返回值：这一帧需要变化的参数集（Object）。
-          // 根据比例值，获得在边 path 上对应比例的位置。
+          // the operations in each frame. Ratio ranges from 0 to 1 indicating the prograss of the animation. Returns the modified configurations
+          // get the position on the edge according to the ratio
           const tmpPoint = shape.getPoint(ratio);
-          // 返回需要变化的参数集，这里返回了位置 x 和 y
+          // returns the modified configurations here, x and y here
           return {
             x: tmpPoint.x,
             y: tmpPoint.y,
           };
         },
         {
-          repeat: true, // 动画重复
-          duration: 3000, // 一次动画的时间长度
+          repeat: true, // Whether executes the animation repeatly
+          duration: 3000, // the duration for executing once
         },
       );
     },
   },
-  'cubic',
-); // 该自定义边继承内置三阶贝塞尔曲线 cubic
+  'cubic', // extend the built-in edge 'cubic'
+);
 
 const data = {
   nodes: [

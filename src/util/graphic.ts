@@ -29,7 +29,7 @@ export const getBBox = (element: IShapeBase, group: Group): IBBox => {
   if (group) {
     let matrix = group.getMatrix();
     if (!matrix) {
-      matrix = mat3.create();
+      matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
     }
     leftTop = applyMatrix(leftTop, matrix);
     rightBottom = applyMatrix(rightBottom, matrix);
@@ -58,7 +58,7 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
   const item = cfg.sourceNode || cfg.targetNode;
   const container: Group = item.get('group');
   let containerMatrix = container.getMatrix();
-  if (!containerMatrix) containerMatrix = mat3.create();
+  if (!containerMatrix) containerMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
 
   const keyShape: IShapeBase = item.getKeyShape();
   const bbox: IBBox = keyShape.getBBox();
@@ -419,7 +419,7 @@ export const getLetterWidth = (letter, fontSize) => {
  */
 export const getTextSize = (text, fontSize) => {
   let width = 0;
-  const pattern = new RegExp("[\u4E00-\u9FA5]+");
+  const pattern = new RegExp("[\u{4E00}-\u{9FA5}]+");
   text.split('').forEach(letter => {
     if (pattern.test(letter)) {
       // 中文字符
@@ -469,9 +469,7 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) =
       if (mappedParent) {
         if (mappedParent.children) mappedParent.children.push(cd);
         else mappedParent.children = [cd];
-        return;
-      }
-      else {
+      } else {
         const parent = {
           id: mappedObj.parentId,
           children: [mappedObj]
@@ -654,6 +652,8 @@ export const getComboBBox = (children: ComboTree[], graph: IGraph): BBox => {
     y: undefined,
     width: undefined,
     height: undefined,
+    centerX: undefined,
+    centerY: undefined
   };
 
   if (!children || children.length === 0) {
@@ -662,7 +662,7 @@ export const getComboBBox = (children: ComboTree[], graph: IGraph): BBox => {
 
   children.forEach(child => {
     const childItem = graph.findById(child.id);
-    if (!childItem.isVisible()) return; // ignore hidden children
+    if (!childItem || !childItem.isVisible()) return; // ignore hidden children
     childItem.set('bboxCanvasCache', undefined);
     const childBBox = childItem.getCanvasBBox();
     if (childBBox.x && comboBBox.minX > childBBox.minX) comboBBox.minX = childBBox.minX;
@@ -674,6 +674,9 @@ export const getComboBBox = (children: ComboTree[], graph: IGraph): BBox => {
   comboBBox.y = (comboBBox.minY + comboBBox.maxY) / 2;
   comboBBox.width = comboBBox.maxX - comboBBox.minX;
   comboBBox.height = comboBBox.maxY - comboBBox.minY;
+
+  comboBBox.centerX = (comboBBox.minX + comboBBox.maxX) / 2;
+  comboBBox.centerY = (comboBBox.minY + comboBBox.maxY) / 2;
 
   Object.keys(comboBBox).forEach(key => {
     if (comboBBox[key] === Infinity || comboBBox[key] === -Infinity) {

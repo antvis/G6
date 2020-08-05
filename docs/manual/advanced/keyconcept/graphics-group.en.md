@@ -12,7 +12,7 @@ order: 1
 
 ## What
 
-Graphics Group (hereinafter referred to as Group) in G6 is similar to <a href='https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g' target='_blank'> `<g>` tag in SVG </a>: Group a container of a group of graphics. The transformations on a Group such as clipping, rotating, zooming, and translating will be applied to all the children of the Group. The properties like color and position will also be inherited by its children. Besides, Group can be nested for complicated objects.
+Graphics Group (hereinafter referred to as Group) in G6 is similar to <a href='https://developer.mozilla.org/en-US/docs/Web/SVG/Element/g' target='_blank'> `<g>` tag in SVG </a>: Group a container of a group of graphics. The transformations on a Group such as clipping, rotating, zooming, and translating will be applied to all the children of the Group. The properties like color and position will also be inherited by its children. Besides, Group can be nested for complicated objects.
 
 In G6, all the nodes instances in a Graph is grouped by a Group named `nodeGroup`, all the edges instances are grouped by `edgeGroup`. And the visual level (zIndex) of `nodeGroup` is higher than `edgeGroup`, which means all the nodes will be drawed on the top of all the edges.
 
@@ -37,10 +37,14 @@ Graphics Group is refered by [Custom Node](/en/docs/manual/advanced/custom-node)
 
 The functions below will be used in [Custom Node](/en/docs/manual/advanced/custom-node) and [Custom Edge](/en/docs/manual/advanced/custom-edge).
 
-### Instantiating a Group
+### Get group of item
 
-```
-const group = new Group(cfgs);
+```javascript
+// Find the graphics group of the item
+const group = item.getContainer();
+
+// equal to
+const group = item.get('group');
 ```
 
 ### Functions of Group

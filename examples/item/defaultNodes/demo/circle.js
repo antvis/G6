@@ -34,23 +34,23 @@ const graph = new G6.Graph({
       },
       position: 'bottom',
     },
-    // 节点上左右上下四个方向上的链接circle配置
+    // configurations for four linkpoints
     linkPoints: {
       top: true,
       right: true,
       bottom: true,
       left: true,
-      // circle的大小
-      size: 5,
+      // the diameter of the linkPoint
+      size: 10,
       lineWidth: 1,
       fill: '#fff',
       stroke: '#1890FF',
     },
-    // 节点中icon配置
+    // icon configuration
     icon: {
-      // 是否显示icon，值为 false 则不渲染icon
+      // whether show the icon
       show: true,
-      // icon的地址，字符串类型
+      // icon's img address, string type
       img:
         'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
       width: 60,
@@ -61,11 +61,11 @@ const graph = new G6.Graph({
     default: ['drag-canvas', 'drag-node'],
   },
   nodeStateStyles: {
-    // 鼠标hover状态下的配置
+    // node style of hover state
     hover: {
       fillOpacity: 0.8,
     },
-    // 选中节点状态下的配置
+    // node style of selected state
     selected: {
       lineWidth: 5,
     },

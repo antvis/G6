@@ -6,10 +6,11 @@ import { IPoint, IShapeBase, NodeConfig } from '../types';
 import {
   distance,
   getCircleIntersectByPoint,
-  getEllipseIntersectByPoint,  
+  getEllipseIntersectByPoint,
   getRectIntersectByPoint,
 } from '../util/math';
 import Item from './item';
+import { clone } from '@antv/util';
 
 const CACHE_ANCHOR_POINTS = 'anchorPointsCache';
 const CACHE_BBOX = 'bboxCache';
@@ -68,46 +69,28 @@ export default class Node extends Item implements INode {
    * @returns {INode[]}
    * @memberof Node
    */
-  public getNeighbors(): INode[] {
+  public getNeighbors(type?: 'target' | 'source' | undefined): INode[] {
     const edges = this.get('edges') as IEdge[]
 
+    if (type === 'target') {
+      // 当前节点为 source，它所指向的目标节点
+      const neighhborsConverter = (edge: IEdge) => {
+        return edge.getSource() === this;
+      }
+      return edges.filter(neighhborsConverter).map(edge => edge.getTarget());
+    } else if (type === 'source') {
+      // 当前节点为 target，它所指向的源节点
+      const neighhborsConverter = (edge: IEdge) => {
+        return edge.getTarget() === this
+      }
+      return edges.filter(neighhborsConverter).map(edge => edge.getSource())
+    }
+
+    // 若未指定 type ，则返回所有邻居
     const neighhborsConverter = (edge: IEdge) => {
       return edge.getSource() === this ? edge.getTarget() : edge.getSource()
     }
-
     return edges.map(neighhborsConverter)
-  }
-
-  /**
-   * 获取以当前节点为source的邻居节点
-   *
-   * @returns {INode[]}
-   * @memberof Node
-   */
-  public getSourceNeighbors(): INode[] {
-    const edges = this.get('edges') as IEdge[]
-
-    const neighhborsConverter = (edge: IEdge) => {
-      return edge.getSource() === this
-    }
-
-    return edges.filter(neighhborsConverter).map(edge => edge.getTarget())
-  }
-
-  /**
-   * 获取以当前节点为target的邻居节点
-   *
-   * @returns {INode[]}
-   * @memberof Node
-   */
-  public getTargetNeighbors(): INode[] {
-    const edges = this.get('edges') as IEdge[]
-
-    const neighhborsConverter = (edge: IEdge) => {
-      return edge.getTarget() === this
-    }
-
-    return edges.filter(neighhborsConverter).map(edge => edge.getSource())
   }
 
   /**
@@ -126,8 +109,16 @@ export default class Node extends Item implements INode {
   public getLinkPoint(point: IPoint): IPoint | null {
     const keyShape: IShapeBase = this.get('keyShape');
     const type: string = keyShape.get('type');
-    const bbox = this.getBBox();
-    const { centerX, centerY } = bbox;
+    const itemType: string = this.get('type');
+    let bbox, centerX, centerY;
+    bbox = this.getBBox();
+    if (itemType === 'combo') {
+      centerX = (bbox.maxX + bbox.minX) / 2;
+      centerY = (bbox.maxY + bbox.minY) / 2;
+    } else {
+      centerX = bbox.centerX;
+      centerY = bbox.centerY;
+    }
     const anchorPoints = this.getAnchorPoints();
     let intersectPoint: IPoint | null;
     switch (type) {

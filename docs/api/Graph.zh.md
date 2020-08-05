@@ -23,6 +23,7 @@ Graph 的生命周期为：初始化—>加载数据—>渲染—>更新—>销�
 | fitView | Boolean | false | 是否开启画布自适应。开启后图自动适配画布大小。 |
 | fitViewPadding | Array | Number | `fitView` 为 `true` 时生效。图适应画布时，指定四周的留白。<br />- 可以是一个值, 例如：`fitViewPadding: 20`<br />- 也可以是一个数组，例如：`fitViewPadding: [ 20, 40, 50, 20 ]`<br />当指定一个值时，四边的边距都相等，当指定数组时，数组内数值依次对应 上，右，下，左四边的边距。 |
 | fitCenter | Boolean | false | *v3.5.1 后支持。*开启后，图将会被平移，图的中心将对齐到画布中心，但不缩放。优先级低于 fitView |
+| linkCenter | Boolean |  false | 指定边是否连入节点的中心 |
 | groupByTypes | Boolean | true | 各种元素是否在一个分组内，决定节点和边的层级问题，默认情况下所有的节点在一个分组中，所有的边在一个分组中，当这个参数为 false 时，节点和边的层级根据生成的顺序确定。当使用 Combo 时，**必须**将其设置为 `false` |
 | autoPaint | Boolean | true | 当图中元素更新，或视口变换时，是否自动重绘。建议在批量操作节点时关闭，以提高性能，完成批量操作后再打开，参见后面的 setAutoPaint() 方法。 |
 | modes | Object |  | 设置画布的模式。详情可见  [交互模式 Mode](/zh/docs/manual/middle/states/mode)  文档。 |
@@ -34,7 +35,7 @@ Graph 的生命周期为：初始化—>加载数据—>渲染—>更新—>销�
 | defaultCombo | Object | {} | 默认状态下 Combo 的配置，比如 `type`, `color`。会被写入的 data 覆盖。3.5 版本新增。 |
 | plugins | Array | [] | 向 graph 注册插件。插件机制请见：[插件](/zh/docs/manual/tutorial/plugins#插件) |
 | animate | Boolean | false | 是否启用全局动画。 |
-| animateCfg | Object |  | 动画配置项，仅在 `animate` 为 `true` 时有效。 |
+| animateCfg | Object |  | 动画配置项，仅在 `animate` 为 `true` 时有效。关于 `animateCfg` 的更多配置项参见[基础动画教程](/zh/docs/manual/advanced/animation#animatecfg)。 |
 | animateCfg.<br />onFrame | Function | null | 回调函数，用于自定义节点运动路径，为空时线性运动。 |
 | animateCfg.<br />duration | Number | 500 | 动画时长，单位为毫秒。 |
 | animateCfg.<br />easing | string | easeLinear | 动画动效，可参见 d3 ease。 |
@@ -44,6 +45,8 @@ Graph 的生命周期为：初始化—>加载数据—>渲染—>更新—>销�
 | groupStyle | Object |  | groupStyle 用于指定分组的样式，详情参看 [节点分组 Group](/zh/docs/manual/middle/nodeGroup) 教程 |
 | layout | Object |  | 布局配置项，使用 type 字段指定使用的布局方式，type 可取以下值：random, radial, mds, circular, fruchterman, force, dagre，各布局详细的配置请参考  [Layout API 文档](/zh/docs/api/layout/Layout) |
 | renderer | string | 'canvas' / 'svg' | 渲染方式，该配置项除 V3.3.x 外其他版本均支持。 |
+| enabledStack | boolean | false | 是否启用 stack，即是否开启 redo & undo 功能，该配置项 V3.6 及以上版本支持。 |
+| maxStep | number | 10 | redo & undo 最大步数, 只有当 enabledStack 为 true 时才起作用，该配置项 V3.6 及以上版本支持。 |
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> G6 3.1 版本中实例化 Graph 时，新增了 `nodeStateStyles` 及  `edgeStateStyles` 两个配置项，删除了 `nodeStyle` 和 `edgeStyle` ，使用 3.1 以下版本的同学，只需要将  `nodeStyle` 改成 `nodeStateStyles` ，将  `edgeStyle` 改成  `edgeStateStyles` ，配置内容保持不变。
 
@@ -203,7 +206,7 @@ const data = {
 graph.read(data);
 ```
 
-### changeData(data)
+### changeData(data, stack)
 
 更新数据源，根据新的数据重新渲染视图。
 
@@ -212,6 +215,7 @@ graph.read(data);
 | 名称 | 类型   | 是否必选 | 描述                                     |
 | ---- | ------ | -------- | ---------------------------------------- |
 | data | Object | false     | 图数据，是一个包括 nodes 和 edges 的对象。若不指定该参数，则使用当前数据重新渲染 |
+| stack | boolean | false | 操作是否入 undo & redo 栈，当实例化 Graph 时设置 enableStack 为 true 时，默认情况下会自动入栈，入栈以后，就支持 undo & redo 操作，如果不需要，则设置该参数为 false 即可 |
 
 **用法**
 
@@ -361,7 +365,7 @@ graph.expandGroup('groupId');
 
 ## 更新
 
-### addItem(type, model)
+### addItem(type, model, stack)
 
 新增元素（节点，边，或节点分组）。
 
@@ -373,6 +377,7 @@ graph.expandGroup('groupId');
 | --- | --- | --- | --- |
 | type | string | true | 元素类型，可选值为 `'node'`、`'edge'` 和 `'group'` |
 | model | Object | true | 元素的数据模型，具体内容参见[元素配置项](/zh/docs/api/nodeEdge/itemProperties)。`type: 'group'` 时，参看 [手动创建节点分组文档](/zh/docs/manual/advanced/create-node-group) |
+| stack | boolean | false | 操作是否入 undo & redo 栈，当实例化 Graph 时设置 enableStack 为 true 时，默认情况下会自动入栈，入栈以后，就支持 undo & redo 操作，如果不需要，则设置该参数为 false 即可 |
 
 **用法**
 
@@ -404,11 +409,11 @@ const model = {
 graph.addItem('group', model);
 ```
 
-### add(type, model)
+### add(type, model, stack)
 
-同 addItem(type, model)。
+同 addItem(type, model, stack)。
 
-### updateItem(item, model)
+### updateItem(item, model, stack)
 
 更新元素，包括更新数据、样式等。
 若图上有 combo，使用该函数更新一个节点位置后，需要调用 [updateCombo(combo)](/zh/docs/api/Graph#updatecombocombo) 以更新相关 combo 的位置。
@@ -419,6 +424,7 @@ graph.addItem('group', model);
 | ---- | --------------- | -------- | ------------------ |
 | item | string / Object | true     | 元素 ID 或元素实例 |
 | cfg  | Object          | false    | 需要更新的数据模型，具体内容参见[元素配置项](/zh/docs/api/nodeEdge/itemProperties)  |
+| stack | boolean | false | 操作是否入 undo & redo 栈，当实例化 Graph 时设置 enableStack 为 true 时，默认情况下会自动入栈，入栈以后，就支持 undo & redo 操作，如果不需要，则设置该参数为 false 即可 |
 
 **用法**
 
@@ -439,9 +445,9 @@ const item = graph.findById('node');
 graph.updateItem(item, model);
 ```
 
-### update(item, model)
+### update(item, model, stack)
 
-同 updateItem(item, model)。
+同 updateItem(item, model, stack)。
 
 
 ### updateCombos()
@@ -503,7 +509,7 @@ graph.updateComboTree('combo1', 'combo2')
 
 
 
-### removeItem(item)
+### removeItem(item, stack)
 
 删除元素，当 item 为 group ID 时候，则删除分组。
 
@@ -512,6 +518,7 @@ graph.updateComboTree('combo1', 'combo2')
 | 名称 | 类型            | 是否必选 | 描述               |
 | ---- | --------------- | -------- | ------------------ |
 | item | string / Object | true     | 元素 ID 或元素实例 |
+| stack | boolean | false | 操作是否入 undo & redo 栈，当实例化 Graph 时设置 enableStack 为 true 时，默认情况下会自动入栈，入栈以后，就支持 undo & redo 操作，如果不需要，则设置该参数为 false 即可 |
 
 **用法**
 
@@ -519,11 +526,14 @@ graph.updateComboTree('combo1', 'combo2')
 // 通过 ID 查询节点实例
 const item = graph.findById('node');
 graph.removeItem(item);
+
+// 该操作不会进入到 undo & redo 栈，即 redo & undo 操作会忽略该操作
+graph.removeItem(item, false)
 ```
 
-### remove(item)
+### remove(item, stack)
 
-同 removeItem(item)。
+同 removeItem(item, stack)。
 
 ### refresh()
 
@@ -740,7 +750,7 @@ graph.destroy();
 
 ## 状态
 
-### showItem(item)
+### showItem(item, stack)
 
 显示指定的元素。若 item 为节点，则相关边也会随之显示。而 [item.show()](/zh/docs/api/nodeEdge/Item#show) 则将只显示自身。
 
@@ -749,6 +759,7 @@ graph.destroy();
 | 名称 | 类型            | 是否必选 | 描述               |
 | ---- | --------------- | -------- | ------------------ |
 | item | string / Object | true     | 元素 ID 或元素实例 |
+| stack | boolean | false | 操作是否入 undo & redo 栈，当实例化 Graph 时设置 enableStack 为 true 时，默认情况下会自动入栈，入栈以后，就支持 undo & redo 操作，如果不需要，则设置该参数为 false 即可 |
 
 **用法**
 
@@ -761,7 +772,7 @@ graph.showItem(item);
 graph.showItem('nodeId');
 ```
 
-### hideItem(item)
+### hideItem(item, stack)
 
 隐藏指定元素。若 item 为节点，则相关边也会随之隐藏。而 [item.hide()](/zh/docs/api/nodeEdge/Item#hide) 则将只隐藏自身。
 
@@ -770,6 +781,7 @@ graph.showItem('nodeId');
 | 名称 | 类型            | 是否必选 | 描述               |
 | ---- | --------------- | -------- | ------------------ |
 | item | string / Object | true     | 元素 ID 或元素实例 |
+| stack | boolean | false | 操作是否入 undo & redo 栈，当实例化 Graph 时设置 enableStack 为 true 时，默认情况下会自动入栈，入栈以后，就支持 undo & redo 操作，如果不需要，则设置该参数为 false 即可 |
 
 **用法**
 
@@ -785,7 +797,7 @@ graph.hideItem('nodeId');
 ### setItemState(item, state, value)
 
 设置元素状态。
-支持单个状态多值的情况，详情参考 [G6 状态管理最佳实践](https://g6.antv.vision/zh/docs/manual/middle/states/state-new)。
+支持单个状态多值的情况，详情参考 [G6 状态管理最佳实践](/zh/docs/manual/middle/states/state-new)。
 
 该方法在执行过程中会触发 `beforitemstatechange`，`afteritemstatechange` 事件。
 
@@ -800,9 +812,12 @@ graph.hideItem('nodeId');
 **用法**
 
 ```javascript
+// 布尔状态 'selected'
 graph.setItemState('node1', 'selected', true);
 
+// 多值状态 'body'
 graph.setItemState('node1', 'body', 'health');
+graph.setItemState('node2', 'body', 'ill');
 ```
 
 ### clearItemStates(item, states)
@@ -814,7 +829,7 @@ graph.setItemState('node1', 'body', 'health');
 | 名称   | 类型            | 是否必选 | 描述               |
 | ------ | --------------- | -------- | ------------------ |
 | item   | string / Object | true     | 元素 ID 或元素实例 |
-| states | string / Array  | null     | false              | 取值可以是单个状态值，也可以是状态值数组 |
+| states | string / Array / null  |   false   | 取值可以是单个状态值，也可以是状态值数组 |
 
 **用法**
 
@@ -1208,20 +1223,31 @@ graph.zoomTo(3, { x: 100, y: 100 });
 graph.zoomTo(0.5);
 ```
 
-### focusItem(item)
+### focusItem(item, animate, animateCfg)
 
-将元素移动到视口中心，该方法可用于做搜索后的缓动动画。
+移动图，使得 item 对齐到视口中心，该方法可用于做搜索后的缓动动画。
 
 **参数**
 
 | 名称 | 类型            | 是否必选 | 描述               |
 | ---- | --------------- | -------- | ------------------ |
 | item | string / Object | true     | 元素 ID 或元素实例 |
+| animate | boolean | false     | 是否带有动画。若未配置，则跟随 graph 的 `animate` 参数 |
+| animateCfg | Object | false     | 若带有动画，可配置动画，参见[基础动画教程](/zh/docs/manual/advanced/animation#animatecfg)。若未配置，则跟随 graph 的 `animateCfg` 参数 |
 
 **用法**
 
 ```javascript
 graph.focusItem(item);
+
+// 动画地移动
+graph.focusItem(item, true);
+
+// 动画地移动，并配置动画
+graph.focusItem(item, true, {
+  easing: 'easeCubic',
+  duration: 400
+});
 ```
 
 ### changeSize(width, height)
@@ -1512,6 +1538,26 @@ const elements: {
 } = graph.getComboChildren('combo1')
 ```
 
+### getNeighbors(node, type)
+
+**参数**
+
+| 名称    | 类型   | 是否必选 | 描述        |
+| ------- | ------ | -------- | ----------- |
+| node | string / INode | true    | 节点 ID 或节点实例 |
+| type |  'source' / 'target' / undefined | false    | 邻居类型， 'source' 只获取当前节点的源节点，'target' 只获取当前节点指向的目标节点， 若不指定则返回所有类型的邻居 |
+
+**返回值**
+
+- 返回值类型：Array；
+- 返回值符合要求的节点数组。
+
+**用法**
+
+``` javascript
+const neighbors = graph.getNeighbors('node1', 'source')
+```
+
 ## 坐标转换
 
 这部分主要是说明视口坐标、Canvas 坐标和页面坐标之前的相互转换。其中视口坐标和 Canvas 坐标的示意图如下所示。
@@ -1630,6 +1676,181 @@ graph.stopAnimate();
 
 判断当前是否有正在执行的动画。
 
+
+## 计算
+
+### getNodeDegree(node, degreeType)
+
+获取节点的出度、入度、总度数，或同时获得以上三种。
+
+**参数**
+
+| 名称 | 类型   | 是否必选 | 描述       |
+| ---- | ------ | -------- | ---------- |
+| node | string / INode  | true     | 节点 ID 或实例 |
+| degreeType | `'in'` \ `'out'` \ `'total'` \ `'all'` | false     | 获取度数的类型。设置为 `'in'` 将返回入度；`'out'` 将返回出度；`'total'` 将返回总度数；`'all'` 将返回一个含有三种度数的对象：`{ inDegree, outDegree, degree}`；若不指定，将返回总度数 |
+
+
+**用法**
+
+```javascript
+graph.getNodeDegree('node1', 'in');
+```
+
+### getShortestPathMatrix(cache, directed)
+获取图中两两节点之间的最短路径矩阵。
+
+**参数**
+
+| 名称    | 类型   | 是否必选 | 描述    |
+| -------| ------ | -------- | ------- |
+| cache | boolean | false     | 是否使用缓存，默认为 true |
+| directed | boolean | false     | 是否是有向图，默认取 graph.get('directed') | 
+
+**返回值**
+
+返回图的最短路径矩阵。
+
+**用法**
+```javascript
+const matrix = graph.getShortestPathMatrix();
+```
+
+### getAdjMatrix(cache, directed)
+获取邻接矩阵。
+
+**参数**
+
+| 名称    | 类型   | 是否必选 | 描述    |
+| -------| ------ | -------- | ------- |
+| cache | boolean | false  | 是否使用缓存，默认为true|
+| directed | boolean | false  | 是否是有向图，默认取 graph.get('directed')|
+
+**返回值**
+
+返回图的邻接矩阵。
+
+**用法**
+``` javascript
+const matrix = graph.getAdjMatrix();
+```
+
+## 导出
+
+### downloadFullImage(name, type, imageConfig)
+
+将画布上的元素导出为图片。
+
+**参数**
+
+| 名称 | 类型   | 是否必选 | 描述       |
+| ---- | ------ | -------- | ---------- |
+| name | String | false     | 图片的名称，不指定则为 'graph' |
+| type | `'image/png'` / `'image/jpeg'` / `'image/webp'` / `'image/bmp'` | false     | 图片的类型。图的 `renderer` 为默认的 `'canvas'` 时生效，图的 `renderer` 为 `'svg'` 时将导出 svg 文件 |
+| imageConfig | Object | false     | 图片的配置项，可选，具体字段见下方 |
+
+其中，imageConfig 为导出图片的配置参数：
+
+| 名称 | 类型   | 是否必选 | 描述       |
+| ---- | ------ | -------- | ---------- |
+| backgroundColor | String | false     | 图片的背景色，可选，不传值时将导出透明背景的图片 |
+| padding | Number / Number[] | false     | 导出图片的上左下右 padding 值。当 `padding` 为 number 类型时，四周 `padding` 相等 |
+
+**用法**
+
+```javascript
+graph.downloadFullImage('tree-graph', {
+  backgroundColor: '#ddd',
+  padding: [30, 15, 15, 15]
+});
+```
+
+
+### downloadImage(name, type, backgroundColor)
+
+将画布上的元素导出为图片。
+
+**参数**
+
+| 名称 | 类型   | 是否必选 | 描述       |
+| ---- | ------ | -------- | ---------- |
+| name | String | false     | 图片的名称，不指定则为 'graph' |
+| type | `'image/png'` / `'image/jpeg'` / `'image/webp'` / `'image/bmp'` | false     | 图片的类型。图的 `renderer` 为默认的 `'canvas'` 时生效，图的 `renderer` 为 `'svg'` 时将导出 svg 文件 |
+| backgroundColor | String | false     | 图片的背景色，可选，不传值时将导出透明背景的图片 |
+
+**用法**
+
+```javascript
+graph.downloadImage();
+```
+
+### toFullDataURL(callback, type, imageConfig)
+
+将画布上元素生成为图片的 URL。
+
+**参数**
+
+| 名称 | 类型   | 是否必选 | 描述       |
+| ---- | ------ | -------- | ---------- |
+| callback | Function | true | 异步生成 dataUrl 完成后的回调函数，在这里处理生成的 dataUrl 字符串 |
+| type | `'image/png'` / `'image/jpeg'` / `'image/webp'` / `'image/bmp'` | false     | 图片的类型。图的 `renderer` 为默认的 `'canvas'` 时生效，图的 `renderer` 为 `'svg'` 时将导出 svg 文件 |
+| imageConfig | Object | false     | 图片的配置项，可选，具体字段见下方 |
+
+
+其中，imageConfig 为导出图片的配置参数：
+
+| 名称 | 类型   | 是否必选 | 描述       |
+| ---- | ------ | -------- | ---------- |
+| backgroundColor | String | false     | 图片的背景色，可选，不传值时将导出透明背景的图片 |
+| padding | Number / Number[] | false     | 导出图片的上左下右 padding 值。当 `padding` 为 number 类型时，四周 `padding` 相等 |
+
+
+无返回值，生成的结果请在 callback 中处理。如下示例：
+
+
+**用法**
+
+```javascript
+graph.toFullDataUrl(
+  // 第一个参数为 callback，必须
+  (res) => {
+    // ... something
+    console.log(res); // 打印出结果
+  },
+  // 后两个参数不是必须
+  'image/jpeg',
+  imageConfig: {
+    backgroundColor: '#fff',
+    padding: 10
+  }
+
+)
+```
+
+
+### toDataURL(type, backgroundColor)
+
+将画布上元素生成为图片的 URL。
+
+**参数**
+
+| 名称 | 类型   | 是否必选 | 描述       |
+| ---- | ------ | -------- | ---------- |
+| type | `'image/png'` / `'image/jpeg'` / `'image/webp'` / `'image/bmp'` | false     | 图片的类型。图的 `renderer` 为默认的 `'canvas'` 时生效，图的 `renderer` 为 `'svg'` 时将导出 svg 文件 |
+| backgroundColor | String | false     | 图片的背景色，可选，不传值时将导出透明背景的图片 |
+
+**返回值**
+
+- 返回值类型：String；
+- 返回值表示生成的图片的 URL。
+
+**用法**
+
+```javascript
+const dataURL = graph.toDataURL();
+```
+
+
 ## 其他
 
 ### addPlugin(plugin)
@@ -1719,69 +1940,129 @@ graph.set('nodeIdList', [1, 3, 5]);
 ```
 
 
-### downloadFullImage(name, imageConfig)
+### getContainer()
 
-将画布上的元素导出为图片。
+获取 Graph 的 DOM 容器。
 
 **参数**
 
-| 名称 | 类型   | 是否必选 | 描述       |
-| ---- | ------ | -------- | ---------- |
-| name | String | false     | 图片的名称，不指定则为 'graph' |
-| imageConfig | Object | false     | 图片的配置项，可选，具体字段见下方 |
-
-其中，imageConfig 为导出图片的配置参数：
-
-| 名称 | 类型   | 是否必选 | 描述       |
-| ---- | ------ | -------- | ---------- |
-| backgroundColor | String | false     | 图片的背景色，可选，不传值时将导出透明背景的图片 |
-| padding | Number / Number[] | false     | 导出图片的上左下右 padding 值。当 `padding` 为 number 类型时，四周 `padding` 相等 |
+无参数
 
 **用法**
 
 ```javascript
-graph.downloadFullImage('tree-graph', {
-  backgroundColor: '#ddd',
-  padding: [30, 15, 15, 15]
-});
+graph.getContainer()
 ```
 
 
-### downloadImage(name, backgroundColor)
+### getGroup()
 
-将画布上的元素导出为图片。
+获取 Graph 根[图形分组](/zh/docs/manual/advanced/keyconcept/graphics-group)。
 
 **参数**
 
-| 名称 | 类型   | 是否必选 | 描述       |
-| ---- | ------ | -------- | ---------- |
-| name | String | false     | 图片的名称，不指定则为 'graph' |
-| backgroundColor | String | false     | 图片的背景色，可选，不传值时将导出透明背景的图片 |
+无参数
 
 **用法**
 
 ```javascript
-graph.downloadImage();
+graph.getGroup()
 ```
 
-### toDataURL(type, backgroundColor)
 
-将画布上元素生成为图片的 URL。
+### getMinZoom()
+
+获取 graph 当前允许的最小缩放比例。
 
 **参数**
 
-| 名称 | 类型   | 是否必选 | 描述       |
-| ---- | ------ | -------- | ---------- |
-| type | String | false     | 图片类型，可选值：`'image/png'`，`'image/jpeg'` |
-| backgroundColor | String | false     | 图片的背景色，可选，不传值时将导出透明背景的图片 |
-
-**返回值**
-
-- 返回值类型：String；
-- 返回值表示生成的图片的 URL。
+无参数
 
 **用法**
 
 ```javascript
-const dataURL = graph.toDataURL();
+graph.getMinZoom()
+```
+
+
+### setMinZoom(ratio)
+
+设置 graph 当前允许的最小缩放比例。
+
+**参数**
+
+| 名称 | 类型                    | 是否必选 | 描述     |
+| ---- | ----------------------- | -------- | -------- |
+| ratio  | number                  | true     | 最小缩放比例值 |
+
+
+**用法**
+
+```javascript
+graph.setMinZoom(0.001)
+```
+
+
+
+### getMaxZoom()
+
+获取 graph 当前允许的最大缩放比例。
+
+**参数**
+
+无参数
+
+**用法**
+
+```javascript
+graph.getMaxZoom()
+```
+
+
+### setMaxZoom(ratio)
+
+设置 graph 当前允许的最大缩放比例。
+
+**参数**
+
+| 名称 | 类型                    | 是否必选 | 描述     |
+| ---- | ----------------------- | -------- | -------- |
+| ratio  | number                  | true     | 最大缩放比例值 |
+
+
+**用法**
+
+```javascript
+graph.setMaxZoom(1000)
+```
+
+
+### getWidth()
+
+获取 graph 当前的宽度。
+
+**参数**
+
+无参数
+
+**用法**
+
+```javascript
+graph.getWidth()
+```
+
+
+
+### getHeight()
+
+获取 graph 当前的高度。
+
+**参数**
+
+无参数
+
+**用法**
+
+```javascript
+graph.getHeight()
 ```

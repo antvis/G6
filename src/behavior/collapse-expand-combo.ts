@@ -11,6 +11,7 @@ export default {
   getDefaultCfg(): object {
     return {
       trigger: DEFAULT_TRIGGER,
+      relayout: true
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -26,12 +27,12 @@ export default {
       );
     }
     return {
-      [`${trigger}`]: 'onComboClick',
+      [`combo:${trigger}`]: 'onComboClick',
     };
   },
   onComboClick(evt: IG6GraphEvent) {
     const { item } = evt;
-    const { graph } = this;
+    const { graph, relayout } = this;
 
     if (!item || item.getType() !== 'combo') return;
     const model = item.getModel();
@@ -40,8 +41,7 @@ export default {
       return;
     }
     graph.collapseExpandCombo(comboId);
-    if (graph.get('layout')) graph.layout();
+    if (relayout && graph.get('layout')) graph.layout();
     else graph.refreshPositions();
-    // graph.refreshPositions();
   },
 };

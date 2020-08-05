@@ -1,6 +1,6 @@
 ---
 title: Loop
-order: 6
+order: 7
 ---
 
 G6 内置了折线 loop  边，其默认样式如下。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sPBIR40KLOkAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
@@ -52,7 +52,7 @@ const data = {
 
 ## 配置项说明
 
-自环是指连接单个节点自身的边，是一种边的特殊情况。支持 [边通用配置项](zh/docs/manual/middle/elements/edges/defaultEdge/#边的通用属性)，以下表格对部分常用配置项进行说明。在通用属性基础上，支持了特殊的配置 `loopCfg`。
+自环是指连接单个节点自身的边，是一种边的特殊情况。支持 [边通用配置项](/zh/docs/manual/middle/elements/edges/defaultEdge/#边的通用属性)，以下表格对部分常用配置项进行说明。在通用属性基础上，支持了特殊的配置 `loopCfg`。
 
 loop 边支持以下的配置项，对于 Object 类型的配置项将在后面有详细讲解：
 

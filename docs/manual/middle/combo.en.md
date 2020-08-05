@@ -3,7 +3,7 @@ title: Node Combo
 order: 8
 ---
 
-Node Combo is a new feature for V3.5. The [node group](/zh/docs/manual/middle/nodeGroup) is also available. We recommend to use Combo for node grouping. <a href='/en/examples/item/defaultCombos' target='_blank'>Demo</a>. 
+Node Combo is a new feature for V3.5. The [node group](/en/docs/manual/middle/nodeGroup) is also available. We recommend to use Combo for node grouping. <a href='/en/examples/item/defaultCombos' target='_blank'>Demo</a>. 
 <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AngFRpOo4SAAAAAAAAAAAABkARQnAQ' width=600 alt='img'/>
 
 
@@ -133,13 +133,13 @@ graph.data(data);
 graph.render();
 ```
 
-There is no layout configuration in the code above, so the sizes and positions of combos are automatically calculate according the the child nodes' positions in their data. If you need auto layout, we suggest to configure the `'comboForce'` layout which is designed for combo graph. See [Combo Force Doc](/zh/docs/manual/middle/layout#combo-force) for detail.
+There is no layout configuration in the code above, so the sizes and positions of combos are automatically calculate according the the child nodes' positions in their data. If you need auto layout, we suggest to configure the `'comboForce'` layout which is designed for combo graph. See [Combo Force Doc](/en/docs/manual/middle/layout#combo-force) for detail.
 
 
 The result:
 <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ltsuTbIkG48AAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
-The example above uses the default [Circle Combo](/en/docs/manual/middle/elements/combos/circle), G6 also has [Rect Combo](/en/docs/manual/middle/elements/combos/rect). The configurations can be found in their docs. You can also customize a type of combo by [Custom Combo](/en/docs/manual/advanced/custom-combo) mechanism. <a href='/zh/examples/item/customCombo' target='_blank'>Custom Combo Demo</a>。
+The example above uses the default [Circle Combo](/en/docs/manual/middle/elements/combos/circle), G6 also has [Rect Combo](/en/docs/manual/middle/elements/combos/rect). The configurations can be found in their docs. You can also customize a type of combo by [Custom Combo](/en/docs/manual/advanced/custom-combo) mechanism. <a href='/en/examples/item/customCombo' target='_blank'>Custom Combo Demo</a>。
 
 <br />Now, users are not able to interact with the combos and nodes. We are going to introduce how to enable the interactions on combos next.
 
@@ -155,7 +155,7 @@ To allow the users to interact with the combos, we implemented three built-in be
 
 #### collapse-expand-combo
 
-`'collapse-expand-combo'`behavior supports collapsing or expanding the combo by double clicking. The children will be hidden when the combo is collapsed, and the edges related to the children will link to the combo.
+`'collapse-expand-combo'`behavior supports collapsing or expanding the combo by double clicking. The children will be hidden when the combo is collapsed, and the edges related to the children will link to the combo. If the graph has layout configuration and the `relayout` for this behavior is `true` (`true` by default), this behavior will trigger re-layout. If you do not want re-layout the graph after collapsing or expanding a combo, assign `relayout: false` for this behavior, or use combo's click listener and [graph.collapseExpandCombo API](/en/docs/api/Graph#collapseexpandcombocombo) instead.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*X0_PSYizJ4AAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 

@@ -11,6 +11,8 @@ import HideItem from './component/hide-item';
 import Arc from './component/arc';
 import CustomCardNode from './component/card-node'
 import XML from './component/xml'
+import ExtendNode from './component/extend-node';
+import LostStateStyle from './component/loseStateStyle'
 
 export default { title: 'Shape' };
 
@@ -46,3 +48,5 @@ storiesOf('Shape', module)
   .add('xml node', () => (
     <XML />
   ))
+  .add('extend-node', () => <ExtendNode />)
+  .add('lose state style', () => <LostStateStyle />)

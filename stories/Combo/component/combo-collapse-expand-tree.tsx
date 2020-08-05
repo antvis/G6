@@ -92,7 +92,7 @@ const ComboCollapseExpandTree = () => {
         height: 800,
         fitView: true,
         modes: {
-          default: ['drag-canvas', 'drag-node', 'zoom-canvas', 'collapse-expand-combo'], 
+          default: ['drag-canvas', 'drag-node', 'zoom-canvas', 'collapse-expand-combo'],
         },
         layout: {
           type: 'compactBox',
@@ -108,7 +108,7 @@ const ComboCollapseExpandTree = () => {
         groupByTypes: false,
         //animate: true
       });
-      
+
       graph.combo(combo => {
         const color = colors[combo.id as string];
         return {
@@ -121,18 +121,10 @@ const ComboCollapseExpandTree = () => {
         }
       });
 
-      
-      data.combos = [{
-        id: 'a'
-      }, {
-        id: 'b'
-      }, {
-        id: 'c'
-      }, {
-        id: 'd'
-      }];
       graph.data(data);
       graph.render();
+
+      graph.createCombo('a', ['Regression', 'Common']);
     }
   });
   return <div ref={container}></div>;

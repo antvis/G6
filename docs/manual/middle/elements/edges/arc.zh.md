@@ -1,6 +1,6 @@
 ---
 title: Arc
-order: 5
+order: 6
 ---
 
 G6 内置了圆弧  arc  边，其默认样式如下。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9JBjS6bdrHMAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
@@ -50,7 +50,7 @@ const data = {
 
 ## 配置项说明
 
-arc 边支持 [边通用配置项](zh/docs/manual/middle/elements/edges/defaultEdge/#边的通用属性)，以下表格对部分常用配置项进行说明。其中 `curveOffset` 属性是 `arc` 特有的属性，它控制了圆弧的大小以及弯曲的方向。
+arc 边支持 [边通用配置项](/zh/docs/manual/middle/elements/edges/defaultEdge/#边的通用属性)，以下表格对部分常用配置项进行说明。其中 `curveOffset` 属性是 `arc` 特有的属性，它控制了圆弧的大小以及弯曲的方向。
 
 ```javascript
 color: '#87e8de',

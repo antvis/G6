@@ -50,6 +50,7 @@ export type ShapeStyle = Partial<{
   fillOpacity: number;
   lineWidth: number;
   lineAppendWidth: number;
+  lineDash: number[];
   path: string | object[];
   points: object[];
   matrix: number[];
@@ -64,6 +65,8 @@ export type ShapeStyle = Partial<{
   cursor: string;
   position: string;
   fontSize: number;
+
+  keepVisualSize: boolean
 }>;
 
 export interface IShapeBase extends ShapeBase {
@@ -124,6 +127,13 @@ export interface ModeOption {
   onlyChangeComboSize?: boolean;
   includeEdges?: boolean;
   direction?: 'x' | 'y';
+  offset?: number;
+  fixSelectedItems?: Partial<{
+    fixAll: boolean;
+    fixLineWidth: boolean;
+    fixLabel: boolean;
+    fixState: string
+  }>;
   shouldUpdate?: (e: IG6GraphEvent) => boolean;
   shouldBegin?: (e: IG6GraphEvent) => boolean;
   shouldEnd?: (e: IG6GraphEvent) => boolean;
@@ -268,9 +278,19 @@ export interface GraphOptions {
    * Edge 是否连接到节点中间
    */
   linkCenter?: boolean;
+
+  /**
+   * 是否启用 stack，即是否开启 redo & undo 功能
+   */
+  enabledStack?: boolean;
+
+  /**
+   * redo & undo 最大步数, 只有当 enabledStack 为 true 时才起作用
+   */
+  maxStep?: number;
 }
 
-interface StateStyles {
+export interface StateStyles {
   [key: string]: ShapeStyle | {
     [key: string]: ShapeStyle
   }
@@ -336,6 +356,14 @@ export interface ModelConfig extends ModelStyle {
   size?: number | number[];
   color?: string;
   anchorPoints?: number[][];
+  startPoint?: {
+    x: number,
+    y: number
+  },
+  endPoint?: {
+    x: number,
+    y: number
+  },
 }
 
 export interface NodeConfig extends ModelConfig {
@@ -412,14 +440,6 @@ export interface ComboConfig extends ModelConfig {
   children?: ComboTree[];
   depth?: number;
   padding?: number | number[];
-  startPoint: {
-    x: number,
-    y: number
-  },
-  endPoint: {
-    x: number,
-    y: number
-  },
   collapseIcon?: Partial<{
     show: boolean;
     collapseSymbol: any;
@@ -631,4 +651,10 @@ export interface IAlgorithmCallbacks {
   enter?: (param: { current: INode, previous: INode }) => void;
   leave?: (param: { current: INode, previous?: INode }) => void;
   allowTraversal?: (param: { previous?: INode, current?: INode, next: INode }) => boolean;
+}
+
+// 栈中数据格式
+export interface StackData {
+  action: string;
+  data: GraphData;
 }

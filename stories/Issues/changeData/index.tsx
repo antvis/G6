@@ -1,6 +1,4 @@
 import React, { useRef, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import { mergeWith } from 'lodash';
 import G6 from '../../../src';
 import isArray from '@antv/util/lib/is-array';
 import { data } from './data';
@@ -62,12 +60,14 @@ export default () => {
    */
   const handleChangeData = data => {
     const prevData = graph.current && graph.current.save();
-    const newData = mergeWith(prevData, data, (objValue, srcValue) => {
+    // mergeWith
+    const newData = Object.assign({}, prevData, data, (objValue, srcValue) => {
       if (isArray(objValue)) {
         return objValue.concat(srcValue);
       }
     });
 
+    console.log('newData', prevData, data, newData);
     graph.current && graph.current.changeData(newData);
   };
 
@@ -81,6 +81,10 @@ export default () => {
         {
           id: 'node6',
           label: '新增报告',
+        },
+        {
+          id: 'node5',
+          label: '新增报告1',
         },
       ],
       edges: [

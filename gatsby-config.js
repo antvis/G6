@@ -23,21 +23,21 @@ module.exports = {
       {
         slug: 'docs/manual/introduction',
         title: {
-          zh: '文档',
-          en: 'Docs',
+          zh: '使用文档',
+          en: 'Manual',
         },
       },
       {
         slug: 'docs/api/Graph',
         title: {
-          zh: 'API',
+          zh: 'API 文档',
           en: 'API',
         },
       },
       {
         slug: 'examples',
         title: {
-          zh: '图表演示',
+          zh: '图表示例',
           en: 'Examples',
         },
       },
@@ -121,6 +121,14 @@ module.exports = {
           en: 'Concepts',
         },
         order: 0,
+      },
+      {
+        slug: 'manual/advanced/theory',
+        title: {
+          zh: '深度原理解析',
+          en: 'Theory Blog',
+        },
+        order: 1,
       },
       {
         slug: 'api/nodeEdge',

@@ -15,10 +15,13 @@ import {
   GraphOptions,
   ModeOption,
   ModeType,
-  ComboConfig
+  ComboConfig,
+  GraphAnimateConfig,
+  StackData
 } from '../types';
 import { IEdge, INode, ICombo } from './item';
 import PluginBase from '../plugins/base';
+import Stack from '../algorithm/structs/stack';
 
 export interface IGraph extends EventEmitter {
   getDefaultCfg(): Partial<GraphOptions>;
@@ -69,14 +72,16 @@ export interface IGraph extends EventEmitter {
   /**
    * 显示元素
    * @param {Item} item 指定元素
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
    */
-  showItem(item: Item | string): void;
+  showItem(item: Item | string, stack?: boolean): void;
 
   /**
    * 隐藏元素
    * @param {Item} item 指定元素
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
    */
-  hideItem(item: Item | string): void;
+  hideItem(item: Item | string, stack?: boolean): void;
 
   /**
    * 仅画布重新绘制
@@ -97,8 +102,10 @@ export interface IGraph extends EventEmitter {
   /**
    * 将元素移动到视口中心
    * @param {Item} item 指定元素
+   * @param {boolean} animate 是否带有动画地移动
+   * @param {GraphAnimateConfig} animateCfg 若带有动画，动画的配置项
    */
-  focusItem(item: Item | string): void;
+  focusItem(item: Item | string, animate?: boolean, animateCfg?: GraphAnimateConfig): void;
 
   /**
    * 调整视口适应视图
@@ -121,33 +128,37 @@ export interface IGraph extends EventEmitter {
   /**
    * 删除元素
    * @param {Item} item 元素id或元素实例
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
    */
-  removeItem(item: Item | string): void;
+  removeItem(item: Item | string, stack?: boolean): void;
 
   /**
    * 删除元素
    * @param {Item} item 元素id或元素实例
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
    */
-  remove(item: Item | string): void;
+  remove(item: Item | string, stack?: boolean): void;
 
   /**
    * 新增元素 或 节点分组
    * @param {string} type 元素类型(node | edge | group)
    * @param {ModelConfig} model 元素数据模型
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
    * @return {Item} 元素实例
    */
-  addItem(type: ITEM_TYPE, model: ModelConfig): Item;
+  addItem(type: ITEM_TYPE, model: ModelConfig, stack?: boolean): Item;
 
-  add(type: ITEM_TYPE, model: ModelConfig): Item;
+  add(type: ITEM_TYPE, model: ModelConfig, stack?: boolean): Item;
 
   /**
    * 更新元素
    * @param {Item} item 元素id或元素实例
    * @param {EdgeConfig | NodeConfig} cfg 需要更新的数据
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
    */
-  updateItem(item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig): void;
+  updateItem(item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig, stack?: boolean): void;
 
-  update(item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig): void;
+  update(item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig, stack?: boolean): void;
 
   /**
    * 更新 Combo 结构，例如移动子树等
@@ -176,6 +187,13 @@ export interface IGraph extends EventEmitter {
    * @param {boolean} value 是否启用状态或状态值
    */
   setItemState(item: Item | string, state: string, value: string | boolean): void;
+
+  /**
+   * 将指定状态的优先级提升为最高优先级
+   * @param {Item} item 元素id或元素实例
+   * @param state 状态名称
+   */
+  priorityState(item: Item | string, state: string): void;
 
   /**
    * 设置视图初始化数据
@@ -219,31 +237,13 @@ export interface IGraph extends EventEmitter {
   getCombos(): ICombo[];
 
   /**
-   * 获取以 node 为起点的所有邻居节点
-   *
-   * @param {(string | INode)} node 节点 ID 或实例
-   * @returns {INode[]}
-   * @memberof IGraph
-   */
-  getSourceNeighbors(node: string | INode): INode[];
-
-  /**
-   * 获取以 node 为终点的所有邻居节点
-   *
-   * @param {(string | INode)} node 节点 ID 或实例
-   * @returns {INode[]}
-   * @memberof IGraph
-   */
-  getTargetNeighbors(node: string | INode): INode[];
-
-  /**
    * 获取节点所有的邻居节点，有向图中效果同无向图
    *
    * @param {(string | INode)} node 节点 ID 或实例
    * @returns {INode[]}
    * @memberof IGraph
    */
-  getNeighbors(node: string | INode): INode[];
+  getNeighbors(node: string | INode, type?: 'source' | 'target' | undefined): INode[];
 
   /**
    * 获取指定 combo 中所有的节点
@@ -308,10 +308,11 @@ export interface IGraph extends EventEmitter {
 
   /**
    * 更改源数据，根据新数据重新渲染视图
-   * @param {GraphData} data 源数据
+   * @param {GraphData | TreeGraphData} data 源数据
+   * @param {boolean} 是否入栈，默认为true
    * @return {object} this
    */
-  changeData(data?: GraphData | TreeGraphData): Graph;
+  changeData(data?: GraphData | TreeGraphData, stack?: boolean): Graph;
 
   /**
    * 导出图数据
@@ -468,6 +469,43 @@ export interface IGraph extends EventEmitter {
    * 根据节点的 bbox 更新所有 combos 的绘制，包括 combos 的位置和范围
    */
   updateCombos(): void;
+
+  /**
+   * 获取 undo stack
+   */
+  getUndoStack(): Stack;
+
+  /**
+   * 获取 redo stack
+   */
+  getRedoStack(): Stack;
+
+  /**
+   * 获取 undo 和 redo 栈的数据
+   */
+  getStackData(): {
+    undoStack: StackData[],
+    redoStack: StackData[]
+  }
+
+  /**
+   * 清空 undo stack & redo stack
+   */
+  clearStack(): void;
+
+  /**
+   * 将操作类型和操作数据入栈
+   * @param action 操作类型
+   * @param data 入栈的数据
+   * @param stackType 入栈的类型
+   */
+  pushStack(action?: string, data?: unknown, stackType?: 'redo' | 'undo'): void;
+
+  /**
+   * 根据节点的 bbox 更新 combo 及其祖先 combos 的绘制，包括 combos 的位置和范围
+   * @param combo 需要更新的 combo
+   */
+  updateCombo(combo: string | ICombo): void;
 
   /**
    * 销毁画布

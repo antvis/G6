@@ -510,6 +510,43 @@ describe('drag-node', () => {
     expect(matrix[7]).toEqual(50);
     graph.destroy();
   });
+  it('drag new added node without config position', () => {
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [
+          {
+            type: 'drag-node',
+            delegateStyle: {
+              fillOpacity: 0.8,
+            },
+          },
+        ],
+      },
+      defaultNode: {
+        type: 'rect',
+        size: [114, 54],
+        style: {
+          radius: 4,
+        },
+      },
+    });
+    graph.render()
+    const node = graph.addItem('node', {
+      id: 'node1',
+    })
+
+    graph.emit('node:dragstart', { x: 0, y: 0, item: node });
+    graph.emit('node:drag', { x: 120, y: 120, item: node });
+    graph.emit('node:dragend', { x: 120, y: 120, item: node });
+    const matrix = node.get('group').getMatrix();
+    expect(matrix[0]).toEqual(1);
+    expect(matrix[6]).toEqual(120);
+    expect(matrix[7]).toEqual(120);
+    graph.destroy()
+  })
   it('drag node not update edge', () => {
     const graph = new Graph({
       container: div,

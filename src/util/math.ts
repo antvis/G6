@@ -2,7 +2,8 @@ import { Point } from '@antv/g-base/lib/types';
 import { IGroup } from '@antv/g-canvas/lib/interfaces';
 import { mat3, transform, vec3 } from '@antv/matrix-util';
 import isArray from '@antv/util/lib/is-array';
-import { GraphData, ICircle, IEllipse, IRect, Matrix, EdgeConfig, NodeIdxMap } from '../types';
+import { GraphData, ICircle, IEllipse, IRect, Matrix, EdgeConfig, NodeIdxMap, IBBox } from '../types';
+import { each } from '@antv/util';
 
 /**
  * 是否在区间内
@@ -160,8 +161,8 @@ export const getEllipseIntersectByPoint = (ellipse: IEllipse, point: Point): Poi
  */
 export const applyMatrix = (point: Point, matrix: Matrix, tag: 0 | 1 = 1): Point => {
   const vector = [point.x, point.y, tag];
-  if (!matrix || matrix[0] === NaN) {
-    matrix = mat3.create();
+  if (!matrix || isNaN(matrix[0])) {
+    matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
   }
 
   vec3.transformMat3(vector, vector, matrix);
@@ -180,13 +181,13 @@ export const applyMatrix = (point: Point, matrix: Matrix, tag: 0 | 1 = 1): Point
  * @return {object} transformed point
  */
 export const invertMatrix = (point: Point, matrix: Matrix, tag: 0 | 1 = 1): Point => {
-  if (!matrix || matrix[0] === NaN) {
-    matrix = mat3.create();
+  if (!matrix || isNaN(matrix[0])) {
+    matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
   }
 
   let inversedMatrix = mat3.invert([], matrix);
   if (!inversedMatrix) {
-    inversedMatrix = mat3.create();
+    inversedMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
   }
   const vector = [point.x, point.y, tag];
   vec3.transformMat3(vector, vector, inversedMatrix);
@@ -335,7 +336,7 @@ export const translate = (group: IGroup, vec: Point) => {
 export const move = (group: IGroup, point: Point) => {
   let matrix: Matrix = group.getMatrix();
   if (!matrix) {
-    matrix = mat3.create();
+    matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
   }
   const bbox = group.getCanvasBBox();
   const vx = point.x - bbox.minX;
@@ -353,7 +354,7 @@ export const move = (group: IGroup, point: Point) => {
 export const scale = (group: IGroup, ratio: number | number[]) => {
   let matrix: Matrix = group.getMatrix();
   if (!matrix) {
-    matrix = mat3.create();
+    matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
   }
 
   let scaleXY = ratio;
@@ -378,7 +379,7 @@ export const scale = (group: IGroup, ratio: number | number[]) => {
 export const rotate = (group: IGroup, angle: number) => {
   let matrix: Matrix = group.getMatrix();
   if (!matrix) {
-    matrix = mat3.create();
+    matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
   }
   matrix = transform(matrix, [['r', angle]]);
 
@@ -400,3 +401,172 @@ export const getDegree = (n: number, nodeIdxMap: NodeIdxMap, edges: EdgeConfig[]
   });
   return degrees;
 };
+
+// 判断点Q是否在p1和p2的线段上
+function onSegment(p1, p2, q) {
+  if (
+    (q[0] - p1[0]) * (p2[1] - p1[1]) === (p2[0] - p1[0]) * (q[1] - p1[1]) &&
+    Math.min(p1[0], p2[0]) <= q[0] &&
+    q[0] <= Math.max(p1[0], p2[0]) &&
+    Math.min(p1[1], p2[1]) <= q[1] &&
+    q[1] <= Math.max(p1[1], p2[1])
+  ) {
+    return true;
+  }
+  return false;
+}
+
+/**
+ * 判断点P在多边形内-射线法. Borrow from https://github.com/antvis/util/blob/master/packages/path-util/src/point-in-polygon.ts
+ * @param points 
+ * @param x 
+ * @param y 
+ */
+export const isPointInPolygon = (points: number[][], x: number, y: number) => {
+  let isHit = false;
+  const n = points.length;
+  // 判断两个double在eps精度下的大小关系
+  const tolerance = 1e-6;
+  function dcmp(x) {
+    if (Math.abs(x) < tolerance) {
+      return 0;
+    }
+
+    return x < 0 ? -1 : 1;
+  }
+  if (n <= 2) {
+    // svg 中点小于 3 个时，不显示，也无法被拾取
+    return false;
+  }
+  for (let i = 0; i < n; i++) {
+    const p1 = points[i];
+    const p2 = points[(i + 1) % n];
+    if (onSegment(p1, p2, [x, y])) {
+      // 点在多边形一条边上
+      return true;
+    }
+    // 前一个判断min(p1[1],p2[1])<P.y<=max(p1[1],p2[1])
+    // 后一个判断被测点 在 射线与边交点 的左边
+    if (
+      dcmp(p1[1] - y) > 0 !== dcmp(p2[1] - y) > 0 &&
+      dcmp(x - ((y - p1[1]) * (p1[0] - p2[0])) / (p1[1] - p2[1]) - p1[0]) < 0
+    ) {
+      isHit = !isHit;
+    }
+  }
+  return isHit;
+}
+
+// 判断两个BBox是否相交
+export const intersectBBox = (box1: Partial<IBBox>, box2: Partial<IBBox>) => {
+  return !(box2.minX > box1.maxX || box2.maxX < box1.minX || box2.minY > box1.maxY || box2.maxY < box1.minY);
+}
+
+const lineIntersectPolygon = (lines, line) => {
+  let isIntersect = false;
+  each(lines, l => {
+    if (getLineIntersect(l.from, l.to, line.from, line.to)) {
+      isIntersect = true;
+      return false;
+    }
+  });
+  return isIntersect;
+}
+
+/**
+ * 判断两个polygon是否相交。
+ * borrow from @antv/path-util
+ * @param points1 polygon1的顶点数组
+ * @param points2 polygon2的顶点数组
+ */
+export const isPolygonsIntersect = (points1: number[][], points2: number[][]): boolean => {
+  type BBox = Partial<IBBox>
+  const getBBox = (points): BBox => {
+    const xArr = points.map(p => p[0]);
+    const yArr = points.map(p => p[1]);
+    return {
+      minX: Math.min.apply(null, xArr),
+      maxX: Math.max.apply(null, xArr),
+      minY: Math.min.apply(null, yArr),
+      maxY: Math.max.apply(null, yArr)
+    };
+  }
+
+  const parseToLines = (points: number[][]) => {
+    const lines = [];
+    const count = points.length;
+    for (let i = 0; i < count - 1; i++) {
+      const point = points[i];
+      const next = points[i + 1];
+      lines.push({
+        from: {
+          x: point[0],
+          y: point[1]
+        },
+        to: {
+          x: next[0],
+          y: next[1]
+        }
+      });
+    }
+    if (lines.length > 1) {
+      const first = points[0];
+      const last = points[count - 1];
+      lines.push({
+        from: {
+          x: last[0],
+          y: last[1]
+        },
+        to: {
+          x: first[0],
+          y: first[1]
+        }
+      });
+    }
+    return lines;
+  }
+
+  // 空数组，或者一个点返回 false
+  if (points1.length < 2 || points2.length < 2) {
+    return false;
+  }
+
+  const bbox1 = getBBox(points1);
+  const bbox2 = getBBox(points2);
+  // 判定包围盒是否相交，比判定点是否在多边形内要快的多，可以筛选掉大多数情况
+  if (!intersectBBox(bbox1, bbox2)) {
+    return false;
+  }
+
+  let isIn = false;
+  // 判定点是否在多边形内部，一旦有一个点在另一个多边形内，则返回
+  each(points2, point => {
+    if (isPointInPolygon(points1, point[0], point[1])) {
+      isIn = true;
+      return false;
+    }
+  });
+  if (isIn) {
+    return true;
+  }
+  each(points1, point => {
+    if (isPointInPolygon(points2, point[0], point[1])) {
+      isIn = true;
+      return false;
+    }
+  });
+  if (isIn) {
+    return true;
+  }
+
+  const lines1 = parseToLines(points1);
+  const lines2 = parseToLines(points2);
+  let isIntersect = false;
+  each(lines2, line => {
+    if (lineIntersectPolygon(lines1, line)) {
+      isIntersect = true;
+      return false;
+    }
+  });
+  return isIntersect;
+}

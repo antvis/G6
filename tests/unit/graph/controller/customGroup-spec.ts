@@ -5,8 +5,8 @@
  * @LastEditTime: 2019-08-23 14:16:27
  * @Description: Group单测文件
  */
-import { groupBy } from 'lodash';
 import G6 from '../../../../src';
+import groupBy from '@antv/util/lib/group-by'
 import { getAllNodeInGroups } from '../../../../src/util/group';
 
 const div = document.createElement('div');

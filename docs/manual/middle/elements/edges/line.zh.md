@@ -1,6 +1,6 @@
 ---
 title: Line
-order: 1
+order: 2
 ---
 
 G6 内置了直线 line  边，其默认样式如下。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*prQjRbZtUUkAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
@@ -50,7 +50,7 @@ const data = {
 
 ## 配置项说明
 
-line 边支持 [边通用配置项](zh/docs/manual/middle/elements/edges/defaultEdge/#边的通用属性)，以下表格对部分常用配置项进行说明。对于 Object 类型的配置项将在后面有详细讲解：
+line 边支持 [边通用配置项](/zh/docs/manual/middle/elements/edges/defaultEdge/#边的通用属性)，以下表格对部分常用配置项进行说明。对于 Object 类型的配置项将在后面有详细讲解：
 
 | 名称     | 含义           | 类型   | 备注                             |
 | -------- | -------------- | ------ | -------------------------------- |

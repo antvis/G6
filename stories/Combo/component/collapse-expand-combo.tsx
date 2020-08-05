@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import G6 from '../../../src';
 import { IGraph } from '../../../src/interface/graph';
+import { GraphData } from '../../../src/types';
 
 let graph: IGraph = null;
 
-const data = {
+const data: GraphData = {
   nodes: [
     {
       id: 'node1',
@@ -42,32 +43,32 @@ const data = {
     },
   ],
   combos: [
-  {
-    id: 'A',
-    parentId: 'B',
-    label: 'gorup A',
-    padding: [10, 10, 10, 10]
-    // type: 'rect'
-  }, {
-    id: 'B',
-    // parentId: 'C',
-    label: 'gorup B',
-    // padding: [50, 10, 10, 50]
-    // type: 'rect'
-  },
-  // {
-  //   id: 'C',
-  //   label: 'gorup C',
-  //   // type: 'rect'
-  // },
-  {
-    id: 'D',
-    label: 'gorup D',
-    // type: 'rect'
-  }, {
-    id: 'E',
-    // type: 'rect'
-  }]
+    {
+      id: 'A',
+      parentId: 'B',
+      label: 'gorup A',
+      padding: [10, 10, 10, 10]
+      // type: 'rect'
+    }, {
+      id: 'B',
+      // parentId: 'C',
+      label: 'gorup B',
+      // padding: [50, 10, 10, 50]
+      // type: 'rect'
+    },
+    // {
+    //   id: 'C',
+    //   label: 'gorup C',
+    //   // type: 'rect'
+    // },
+    {
+      id: 'D',
+      label: 'gorup D',
+      // type: 'rect'
+    }, {
+      id: 'E',
+      // type: 'rect'
+    }]
 };
 
 
@@ -81,7 +82,10 @@ const CollapseExpand = () => {
         width: 1000,
         height: 800,
         modes: {
-          default: [ 'drag-canvas', 'collapse-expand-combo' ]
+          default: ['drag-canvas', 'collapse-expand-combo', 'drag-combo', {
+            type: 'drag-node',
+            onlyChangeComboSize: true
+          }]
         },
         defaultCombo: {
           // size: [100, 100],
@@ -94,18 +98,18 @@ const CollapseExpand = () => {
         // defaultNode: {
         //   type: 'custom-node'
         // }
-      //   comboStateStyles: {
-      //     selected: {
-      //       'text-shape': {
-      //         fill: '#f00',
-      //         fontSize: 20
-      //       },
-      //       fill: '#f00'
-      //     },
-      //     state2: {
-      //       stroke: '#0f0'
-      //     }
-      //   }
+        //   comboStateStyles: {
+        //     selected: {
+        //       'text-shape': {
+        //         fill: '#f00',
+        //         fontSize: 20
+        //       },
+        //       fill: '#f00'
+        //     },
+        //     state2: {
+        //       stroke: '#0f0'
+        //     }
+        //   }
       });
       graph.data(data);
       graph.render();

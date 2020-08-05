@@ -7,7 +7,7 @@ import { IShape, IElement } from '@antv/g-canvas/lib/interfaces';
 import { ShapeOptions, ILabelConfig } from '../interface/shape';
 import { IPoint, Item, LabelStyle, ShapeStyle, ModelConfig, EdgeConfig } from '../types';
 import Global from '../global';
-import { mat3, transform } from '@antv/matrix-util';
+import { transform } from '@antv/matrix-util';
 import { deepMix, each, mix, isBoolean, isPlainObject, clone } from '@antv/util';
 
 const CLS_SHAPE_SUFFIX = '-shape';
@@ -23,7 +23,12 @@ export const shapeBase: ShapeOptions = {
    * 形状的类型，例如 circle，ellipse，polyline...
    */
   type: '',
-
+  getCustomConfig(cfg: ModelConfig): ModelConfig {
+    return {};
+  },
+  getOptions(cfg: ModelConfig): ModelConfig {
+    return deepMix({}, this.options, this.getCustomConfig(cfg) || {}, cfg);
+  },
   /**
    * 绘制节点/边，包含文本
    * @override
@@ -46,14 +51,14 @@ export const shapeBase: ShapeOptions = {
    * @param group
    * @param keyShape
    */
-  afterDraw(cfg?: ModelConfig, group?: GGroup, keyShape?: IShape) {},
+  afterDraw(cfg?: ModelConfig, group?: GGroup, keyShape?: IShape) { },
   drawShape(cfg?: ModelConfig, group?: GGroup): IShape {
     return null as any;
   },
   drawLabel(cfg: ModelConfig, group: GGroup): IShape {
-    const { labelCfg: defaultLabelCfg } = this.options as ModelConfig;
-
-    const labelCfg = mix({}, defaultLabelCfg, cfg.labelCfg) as ILabelConfig;
+    const { labelCfg: defaultLabelCfg } = this.getOptions(cfg) as ModelConfig;
+    // image的情况下有可能为null
+    const labelCfg = (defaultLabelCfg || {}) as ILabelConfig;
     const labelStyle = this.getLabelStyle!(cfg, labelCfg, group);
     const rotate = labelStyle.rotate;
     delete labelStyle.rotate;
@@ -67,7 +72,7 @@ export const shapeBase: ShapeOptions = {
       const labelBBox = label.getBBox();
       let labelMatrix = label.getMatrix();
       if (!labelMatrix) {
-        labelMatrix = mat3.create();
+        labelMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
       }
       if (labelStyle.rotateCenter) {
         switch (labelStyle.rotateCenter) {
@@ -175,7 +180,7 @@ export const shapeBase: ShapeOptions = {
       const style = shapeStyle[key];
       if (isPlainObject(style)) {
         // 更新图元素样式，支持更新子元素
-        const subShape = group.find(element => element.get('name') === key);
+        const subShape = group.find((element) => element.get('name') === key);
         if (subShape) {
           subShape.attr(style);
         }
@@ -189,12 +194,11 @@ export const shapeBase: ShapeOptions = {
 
   updateLabel(cfg: ModelConfig, item: Item) {
     const group = item.getContainer();
-    const { labelCfg: defaultLabelCfg } = this.options as ModelConfig;
+    const { labelCfg: defaultLabelCfg } = this.getOptions({}) as ModelConfig;
     const labelClassName = this.itemType + CLS_LABEL_SUFFIX;
-    const label = group.find(element => element.get('className') === labelClassName);
+    const label = group.find((element) => element.get('className') === labelClassName);
     const labelBgClassname = this.itemType + CLS_LABEL_BG_SUFFIX;
-    let labelBg = group.find(element => element.get('classname') === labelBgClassname);
-
+    let labelBg = group.find((element) => element.get('classname') === labelBgClassname);
     // 防止 cfg.label = "" 的情况
     if (cfg.label || cfg.label === '') {
       // 若传入的新配置中有 label，（用户没传入但原先有 label，label 也会有值）
@@ -209,6 +213,7 @@ export const shapeBase: ShapeOptions = {
         if (item.getModel) {
           currentLabelCfg = item.getModel().labelCfg;
         }
+        // 这里不能去掉
         const labelCfg = deepMix({}, defaultLabelCfg, currentLabelCfg, cfg.labelCfg);
 
         // 获取位置信息
@@ -226,7 +231,7 @@ export const shapeBase: ShapeOptions = {
         // 计算 label 的旋转矩阵
         if (rotate) {
           // if G 4.x define the rotateAtStart, use it directly instead of using the following codes
-          let rotateMatrix = mat3.create();
+          let rotateMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
           rotateMatrix = transform(rotateMatrix, [
             ['t', -labelStyle.x, -labelStyle.y],
             ['r', rotate],
@@ -267,7 +272,7 @@ export const shapeBase: ShapeOptions = {
   },
 
   // update(cfg, item) // 默认不定义
-  afterUpdate(cfg?: ModelConfig, item?: Item) {},
+  afterUpdate(cfg?: ModelConfig, item?: Item) { },
   /**
    * 设置节点的状态，主要是交互状态，业务状态请在 draw 方法中实现
    * 单图形的节点仅考虑 selected、active 状态，有其他状态需求的用户自己复写这个方法
@@ -282,15 +287,21 @@ export const shapeBase: ShapeOptions = {
       return;
     }
 
-    const type = item.getType()
+    const type = item.getType();
 
     const stateName = isBoolean(value) ? name : `${name}:${value}`;
-    const shapeStateStyle = this.getStateStyle(stateName, true, item);
+    const shapeStateStyle = this.getStateStyle(stateName, item);
     const itemStateStyle = item.getStateStyle(stateName);
+
+    // 不允许设置一个不存在的状态
+    if (!itemStateStyle && !shapeStateStyle) {
+      return;
+    }
 
     // 要设置或取消的状态的样式
     // 当没有 state 状态时，默认使用 model.stateStyles 中的样式
     const styles = mix({}, itemStateStyle || shapeStateStyle);
+
     const group = item.getContainer();
 
     if (value) {
@@ -298,7 +309,7 @@ export const shapeBase: ShapeOptions = {
       for (const key in styles) {
         const style = styles[key];
         if (isPlainObject(style)) {
-          const subShape = group.find(element => element.get('name') === key);
+          const subShape = group.find((element) => element.get('name') === key);
           if (subShape) {
             subShape.attr(style);
           }
@@ -313,8 +324,11 @@ export const shapeBase: ShapeOptions = {
       // 所有生效的 state 的样式
       const enableStatesStyle = clone(item.getCurrentStatesStyle());
 
+      const model = item.getModel()
       // 原始样式
-      const originStyle = clone(item.getOriginStyle());
+      // const originStyle = clone(item.getOriginStyle());
+      const originStyle = mix({}, model.style, clone(item.getOriginStyle()))
+
 
       const keyShapeName = shape.get('name');
       const keyShapeStyles = shape.attr();
@@ -326,11 +340,11 @@ export const shapeBase: ShapeOptions = {
       for (const p in styles) {
         const style = styles[p];
         if (isPlainObject(style)) {
-          const subShape = group.find(element => element.get('name') === p);
+          const subShape = group.find((element) => element.get('name') === p);
           if (subShape) {
             const subShapeStyles = subShape.attr();
             // const current = subShapeStyles[p]
-            each(style, (value, key) => {
+            each(style, (v, key) => {
               if (subShapeStyles[key]) {
                 delete subShapeStyles[key];
               }
@@ -338,9 +352,9 @@ export const shapeBase: ShapeOptions = {
             filtetDisableStatesStyle[p] = subShapeStyles;
           }
         } else {
-          // 从图元素现有的样式中删除本次要取消的 states 中存在的属性值
-          const keptAttrs = ['x', 'y', 'cx', 'cy'];
-          if (keyShapeStyles[p] && !(keptAttrs.indexOf(p) > -1)) {
+          // 从图元素现有的样式中删除本次要取消的 states 中存在的属性值。使用对象检索更快
+          const keptAttrs = { 'x': 1, 'y': 1, 'cx': 1, 'cy': 1 };
+          if (keyShapeStyles[p] && !keptAttrs[p]) {
             delete keyShapeStyles[p];
           }
         }
@@ -367,6 +381,7 @@ export const shapeBase: ShapeOptions = {
             mix(originStyle[keyShapeName], {
               [key]: enableStyle,
             });
+            delete originStyle[key]
           }
           delete enableStatesStyle[key];
         }
@@ -378,18 +393,17 @@ export const shapeBase: ShapeOptions = {
       for (const originKey in originstyles) {
         const style = originstyles[originKey];
         if (isPlainObject(style)) {
-          const subShape = group.find(element => element.get('name') === originKey);
+          const subShape = group.find((element) => element.get('name') === originKey);
           if (subShape) {
             subShape.attr(style);
           }
         } else {
           // 当更新 combo 状态时，当不存在 keyShapeName 时候，则认为是设置到 keyShape 上面的
           if (type === 'combo') {
-            if (!keyShapeName) {
+            !keyShapeName &&
               shape.attr({
                 [originKey]: style,
               });
-            }
           } else {
             shape.attr({
               [originKey]: style,
@@ -404,21 +418,22 @@ export const shapeBase: ShapeOptions = {
    * 获取不同状态下的样式
    *
    * @param {string} name 状态名称
-   * @param {boolean} value 是否启用该状态
    * @param {Item} item Node或Edge的实例
    * @return {object} 样式
    */
-  getStateStyle(name: string, value: string | boolean, item: Item): ShapeStyle {
+  getStateStyle(name: string, item: Item): ShapeStyle {
     const model = item.getModel();
+    const type = item.getType();
+    const { stateStyles, style = {} } = this.getOptions(model);
 
-    if (value) {
-      const modelStateStyle = model.stateStyles
-        ? model.stateStyles[name]
-        : this.options.stateStyles && this.options.stateStyles[name];
-      return mix({}, model.style, modelStateStyle);
+    const modelStateStyle = model.stateStyles
+      ? model.stateStyles[name]
+      : stateStyles && stateStyles[name];
+
+    if (type === 'combo') {
+      return clone(modelStateStyle);
     }
-
-    return {} as ShapeStyle;
+    return mix({}, style, modelStateStyle);
   },
   /**
    * 获取控制点
@@ -434,8 +449,7 @@ export const shapeBase: ShapeOptions = {
    * @return {Array|null} 锚点的数组,如果为 null，则没有锚点
    */
   getAnchorPoints(cfg: ModelConfig): number[][] | undefined {
-    const { anchorPoints: defaultAnchorPoints } = this.options as ModelConfig;
-    const anchorPoints = cfg.anchorPoints || defaultAnchorPoints;
+    const { anchorPoints } = this.getOptions(cfg) as ModelConfig;
     return anchorPoints;
   },
 };

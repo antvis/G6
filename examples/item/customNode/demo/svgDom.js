@@ -1,4 +1,5 @@
 import G6 from '@antv/g6';
+import { useEffect } from 'react';
 
 /**
  *  This demo shows how to register a custom node with SVG DOM shape
@@ -55,8 +56,16 @@ const data = {
   ],
 };
 
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
+const graphContainer = document.getElementById('container');
+const width = graphContainer.scrollWidth;
+const height = (graphContainer.scrollHeight || 500) - 100;
+
+const descriptionDiv = document.createElement('div');
+descriptionDiv.innerHTML =
+  `由于打包问题，本 demo 的 111-113 行被暂时注释。需要您在代码栏中打开 111-113 行的注释以得到自定义 DOM 节点正确的交互。<br /> Due to the packing problem of the site, we have to note the line 111-113 of this demo temporary. Unnote them to see the result of custom DOM node with interactions please.`;
+const container = document.getElementById('container');
+graphContainer.appendChild(descriptionDiv);
+
 const graph = new G6.Graph({
   container: 'container',
   width,
@@ -74,9 +83,10 @@ const graph = new G6.Graph({
 graph.data(data);
 graph.render();
 
-// click listener for dom nodes to response the click by changing stroke color
+// // click listener for dom nodes to response the click by changing stroke color
 const listener = (dom) => {
   const nodeId = dom.id;
+  if (!nodeId) return;
   const node = graph.findById(nodeId);
   let stroke = '';
   if (!node.hasState('selected')) {
@@ -97,12 +107,12 @@ const bindClickListener = () => {
   const domNodes = document.getElementsByClassName('dom-node')
   for (let i = 0; i < domNodes.length; i++) {
     const dom = domNodes[i];
-    dom.addEventListener('click', (e) => {
-      listener(dom);
-    });
+    // open the following lines pls!
+    // dom.addEventListener('click', (e) => {
+    //   listener(dom);
+    // });
   }
 }
-
 
 bindClickListener();
 

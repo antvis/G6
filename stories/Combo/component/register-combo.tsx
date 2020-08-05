@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import G6 from '../../../src';
 import { IGraph } from '../../../src/interface/graph';
+import { GraphData } from '../../../src/types';
 
 let graph: IGraph = null;
 
-const data = {
+const data: GraphData = {
   nodes: [
     {
       id: 'node1',
@@ -42,35 +43,35 @@ const data = {
     },
   ],
   combos: [
-  {
-    id: 'A',
-    parentId: 'B',
-    label: 'gorup A',
-    padding: [50, 10, 10, 10]
-    // type: 'rect'
-  }, {
-    id: 'B',
-    // parentId: 'C',
-    label: 'gorup B',
-    // padding: [50, 10, 10, 50]
-    // type: 'rect'
-  },
-  // {
-  //   id: 'C',
-  //   label: 'gorup C',
-  //   // type: 'rect'
-  // },
-  {
-    id: 'D',
-    label: 'gorup D',
-    // type: 'rect'
-  }, {
-    id: 'E',
-    // type: 'rect'
-  }]
+    {
+      id: 'A',
+      parentId: 'B',
+      label: 'gorup A',
+      padding: [50, 10, 10, 10]
+      // type: 'rect'
+    }, {
+      id: 'B',
+      // parentId: 'C',
+      label: 'gorup B',
+      // padding: [50, 10, 10, 50]
+      // type: 'rect'
+    },
+    // {
+    //   id: 'C',
+    //   label: 'gorup C',
+    //   // type: 'rect'
+    // },
+    {
+      id: 'D',
+      label: 'gorup D',
+      // type: 'rect'
+    }, {
+      id: 'E',
+      // type: 'rect'
+    }]
 };
 
-const data2 = {
+const data2: GraphData = {
   nodes: [
     {
       id: 'node1',
@@ -114,30 +115,30 @@ const data2 = {
     },
   ],
   combos: [
-  {
-    id: 'A',
-    parentId: 'C',
-    label: 'gorup A',
-    type: 'circle'
-  }, {
-    id: 'B',
-    parentId: 'C',
-    label: 'gorup B',
-    type: 'circle'
-  }, {
-    id: 'C',
-    label: 'gorup C',
-    // type: 'rect'
-  }, {
-    id: 'F',
-    label: 'gorup F',
-    // type: 'rect'
-  }, {
-    id: 'G',
-    label: 'gorup G',
-    // parentId: 'F'
-    type: 'circle'
-  }]
+    {
+      id: 'A',
+      parentId: 'C',
+      label: 'gorup A',
+      type: 'circle'
+    }, {
+      id: 'B',
+      parentId: 'C',
+      label: 'gorup B',
+      type: 'circle'
+    }, {
+      id: 'C',
+      label: 'gorup C',
+      // type: 'rect'
+    }, {
+      id: 'F',
+      label: 'gorup F',
+      // type: 'rect'
+    }, {
+      id: 'G',
+      label: 'gorup G',
+      // parentId: 'F'
+      type: 'circle'
+    }]
 };
 
 const RegisterCombo = () => {
@@ -181,7 +182,7 @@ const RegisterCombo = () => {
         width: 1000,
         height: 800,
         modes: {
-          default: [ 'drag-canvas' ]
+          default: ['drag-canvas']
         },
         defaultCombo: {
           // size: [100, 100],
@@ -195,18 +196,18 @@ const RegisterCombo = () => {
         // defaultNode: {
         //   type: 'custom-node'
         // }
-      //   comboStateStyles: {
-      //     selected: {
-      //       'text-shape': {
-      //         fill: '#f00',
-      //         fontSize: 20
-      //       },
-      //       fill: '#f00'
-      //     },
-      //     state2: {
-      //       stroke: '#0f0'
-      //     }
-      //   }
+        //   comboStateStyles: {
+        //     selected: {
+        //       'text-shape': {
+        //         fill: '#f00',
+        //         fontSize: 20
+        //       },
+        //       fill: '#f00'
+        //     },
+        //     state2: {
+        //       stroke: '#0f0'
+        //     }
+        //   }
       });
       // graph.combo(combo => {
       //   return {

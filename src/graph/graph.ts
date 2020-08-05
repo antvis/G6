@@ -3,14 +3,8 @@ import { IGroup } from '@antv/g-base/lib/interfaces';
 import { BBox, Point } from '@antv/g-base/lib/types';
 import GCanvas from '@antv/g-canvas/lib/canvas';
 import GSVGCanvas from '@antv/g-svg/lib/canvas';
-import Group from '@antv/g-canvas/lib/group';
 import { mat3 } from '@antv/matrix-util/lib';
-import clone from '@antv/util/lib/clone';
-import deepMix from '@antv/util/lib/deep-mix';
-import each from '@antv/util/lib/each';
-import isPlainObject from '@antv/util/lib/is-plain-object';
-import isString from '@antv/util/lib/is-string';
-import isNumber from '@antv/util/lib/is-number';
+import { clone, deepMix, each, isPlainObject, isString, isNumber, groupBy } from '@antv/util'
 import { IGraph } from '../interface/graph';
 import { IEdge, INode, ICombo } from '../interface/item';
 import {
@@ -35,7 +29,6 @@ import {
 } from '../types';
 import { getAllNodeInGroups } from '../util/group';
 import { move } from '../util/math';
-import { groupBy } from 'lodash';
 import Global from '../global';
 import {
   CustomGroup,
@@ -49,14 +42,19 @@ import {
 import PluginBase from '../plugins/base';
 import createDom from '@antv/dom-util/lib/create-dom';
 import { plainCombosToTrees, traverseTree, reconstructTree, traverseTreeUp } from '../util/graphic';
+import degree from '../algorithm/degree';
+import Stack from '../algorithm/structs/stack'
+import adjMatrix from '../algorithm/adjacent-matrix';
+import floydWarshall from '../algorithm/floydWarshall'
 
 const NODE = 'node';
 const SVG = 'svg';
-const CANVAS = 'canvas';
 
 interface IGroupBBox {
   [key: string]: BBox;
 }
+
+type dataUrlType = 'image/png' | 'image/jpeg' | 'image/webp' | 'image/bmp';
 
 export interface PrivateGraphOption extends GraphOptions {
   data: GraphData;
@@ -99,12 +97,25 @@ export default class Graph extends EventEmitter implements IGraph {
 
   public destroyed: boolean;
 
+  // undo 栈
+  private undoStack: Stack
+
+  // redo 栈
+  private redoStack: Stack
+
   constructor(cfg: GraphOptions) {
     super();
     this.cfg = deepMix(this.getDefaultCfg(), cfg);
     this.init();
     this.animating = false;
     this.destroyed = false;
+
+    // 启用 stack 后，实例化 undoStack 和 redoStack
+    if (this.cfg.enabledStack) {
+      // 实例化 undo 和 redo 栈
+      this.undoStack = new Stack(this.cfg.maxStep)
+      this.redoStack = new Stack(this.cfg.maxStep)
+    }
   }
 
   private init() {
@@ -156,11 +167,16 @@ export default class Graph extends EventEmitter implements IGraph {
         height
       });
     } else {
-      canvas = new GCanvas({
+      const canvasCfg: any = {
         container,
         width,
         height
-      });
+      };
+      const pixelRatio = this.get('pixelRatio');
+      if (pixelRatio) {
+        canvasCfg.pixelRatio = pixelRatio;
+      }
+      canvas = new GCanvas(canvasCfg);
     }
 
     this.set('canvas', canvas);
@@ -395,6 +411,12 @@ export default class Graph extends EventEmitter implements IGraph {
        * group样式
        */
       groupStyle: {},
+
+      // 默认不启用 undo & redo 功能
+      enabledStack: false,
+
+      // 只有当 enabledStack 为 true 时才起作用
+      maxStep: 10,
     };
   }
 
@@ -419,6 +441,71 @@ export default class Graph extends EventEmitter implements IGraph {
   public get(key: string) {
     return this.cfg[key];
   }
+
+  /**
+   * 获取 graph 的根图形分组
+   * @return 根 group
+   */
+  public getGroup() {
+    return this.get('group');
+  }
+
+  /**
+   * 获取 graph 的 DOM 容器
+   * @return DOM 容器
+   */
+  public getContainer() {
+    return this.get('container');
+  }
+
+  /**
+   * 获取 graph 的最小缩放比例
+   * @return minZoom
+   */
+  public getMinZoom() {
+    return this.get('minZoom');
+  }
+
+  /**
+   * 设置 graph 的最小缩放比例
+   * @return minZoom
+   */
+  public setMinZoom(ratio: number) {
+    return this.set('minZoom', ratio);
+  }
+
+  /**
+   * 获取 graph 的最大缩放比例
+   * @param maxZoom
+   */
+  public getMaxZoom() {
+    return this.get('maxZoom');
+  }
+
+  /**
+   * 设置 graph 的最大缩放比例
+   * @param maxZoom
+   */
+  public setMaxZoom(ratio: number) {
+    return this.set('maxZoom', ratio);
+  }
+
+  /**
+   * 获取 graph 的宽度
+   * @return width
+   */
+  public getWidth() {
+    return this.get('width');
+  }
+
+  /**
+   * 获取 graph 的高度
+   * @return width
+   */
+  public getHeight() {
+    return this.get('height');
+  }
+
 
   /**
    * 清理元素多个状态
@@ -550,11 +637,11 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param dy 垂直方向位移
    */
   public translate(dx: number, dy: number): void {
-    const group: Group = this.get('group');
+    const group: IGroup = this.get('group');
 
     let matrix: Matrix = clone(group.getMatrix());
     if (!matrix) {
-      matrix = mat3.create();
+      matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
     }
     mat3.translate(matrix, matrix, [dx, dy]);
 
@@ -570,7 +657,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {number} y 垂直坐标
    */
   public moveTo(x: number, y: number): void {
-    const group: Group = this.get('group');
+    const group: IGroup = this.get('group');
     move(group, { x, y });
     this.emit('viewportchange', { action: 'move', matrix: group.getMatrix() });
   }
@@ -635,13 +722,13 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param center 以center的x, y坐标为中心缩放
    */
   public zoom(ratio: number, center?: Point): void {
-    const group: Group = this.get('group');
+    const group: IGroup = this.get('group');
     let matrix: Matrix = clone(group.getMatrix());
     const minZoom: number = this.get('minZoom');
     const maxZoom: number = this.get('maxZoom');
 
     if (!matrix) {
-      matrix = mat3.create();
+      matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
     }
 
     if (center) {
@@ -674,10 +761,19 @@ export default class Graph extends EventEmitter implements IGraph {
   /**
    * 将元素移动到视口中心
    * @param {Item} item 指定元素
+   * @param {boolean} animate 是否带有动画地移动
+   * @param {GraphAnimateConfig} animateCfg 若带有动画，动画的配置项
    */
-  public focusItem(item: Item | string): void {
+  public focusItem(item: Item | string, animate?: boolean, animateCfg?: GraphAnimateConfig): void {
     const viewController: ViewController = this.get('viewController');
-    viewController.focus(item);
+    let isAnimate = false;
+    if (animate) isAnimate = true;
+    else if (animate === undefined) isAnimate = this.get('animate');
+    let curAniamteCfg = {} as GraphAnimateConfig;
+    if (animateCfg) curAniamteCfg = animateCfg;
+    else if (animateCfg === undefined) curAniamteCfg = this.get('animateCfg');
+
+    viewController.focus(item, isAnimate, curAniamteCfg);
 
     this.autoPaint();
   }
@@ -748,19 +844,35 @@ export default class Graph extends EventEmitter implements IGraph {
   /**
    * 显示元素
    * @param {Item} item 指定元素
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
    */
-  public showItem(item: Item | string): void {
+  public showItem(item: Item | string, stack: boolean = true): void {
     const itemController: ItemController = this.get('itemController');
     itemController.changeItemVisibility(item, true);
+    if (stack && this.get('enabledStack')) {
+      if (isString(item)) {
+        this.pushStack('visible', item)
+      } else {
+        this.pushStack('visible', (item as Item).getID())
+      }
+    }
   }
 
   /**
    * 隐藏元素
    * @param {Item} item 指定元素
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
    */
-  public hideItem(item: Item | string): void {
+  public hideItem(item: Item | string, stack: boolean = true): void {
     const itemController: ItemController = this.get('itemController');
     itemController.changeItemVisibility(item, false);
+    if (stack && this.get('enabledStack')) {
+      if (isString(item)) {
+        this.pushStack('visible', item)
+      } else {
+        this.pushStack('visible', (item as Item).getID())
+      }
+    }
   }
 
   /**
@@ -786,16 +898,18 @@ export default class Graph extends EventEmitter implements IGraph {
   /**
    * 删除元素
    * @param {Item} item 元素id或元素实例
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
    */
-  public remove(item: Item | string): void {
-    this.removeItem(item);
+  public remove(item: Item | string, stack: boolean = true): void {
+    this.removeItem(item, stack);
   }
 
   /**
    * 删除元素
    * @param {Item} item 元素id或元素实例
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
    */
-  public removeItem(item: Item | string): void {
+  public removeItem(item: Item | string, stack: boolean = true): void {
     // 如果item是字符串，且查询的节点实例不存在，则认为是删除group
     let nodeItem = item;
     if (isString(item)) nodeItem = this.findById(item);
@@ -807,6 +921,15 @@ export default class Graph extends EventEmitter implements IGraph {
     } else if (nodeItem) {
       let type = '';
       if ((nodeItem as Item).getType) type = (nodeItem as Item).getType();
+
+      // 将删除的元素入栈
+      if (stack && this.get('enabledStack')) {
+        this.pushStack('delete', {
+          ...(nodeItem as Item).getModel(),
+          type
+        })
+      }
+
       const itemController: ItemController = this.get('itemController');
       itemController.removeItem(item);
       if (type === 'combo') {
@@ -818,11 +941,12 @@ export default class Graph extends EventEmitter implements IGraph {
 
   /**
    * 新增元素 或 节点分组
-   * @param {string} type 元素类型(node | edge | group)
+   * @param {ITEM_TYPE} type 元素类型(node | edge | group)
    * @param {ModelConfig} model 元素数据模型
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
    * @return {Item} 元素实例
    */
-  public addItem(type: ITEM_TYPE, model: ModelConfig) {
+  public addItem(type: ITEM_TYPE, model: ModelConfig, stack: boolean = true) {
     const itemController: ItemController = this.get('itemController');
     if (type === 'group') {
       const { groupId, nodes, type: groupType, zIndex, title } = model;
@@ -940,11 +1064,26 @@ export default class Graph extends EventEmitter implements IGraph {
       this.sortCombos();
     }
     this.autoPaint();
+
+    if (stack && this.get('enabledStack')) {
+      this.pushStack('add', {
+        ...item.getModel(),
+        type
+      })
+    }
+
     return item;
   }
 
-  public add(type: ITEM_TYPE, model: ModelConfig): Item {
-    return this.addItem(type, model);
+  /**
+   * 新增元素 或 节点分组
+   * @param {ITEM_TYPE} type 元素类型(node | edge | group)
+   * @param {ModelConfig} model 元素数据模型
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
+   * @return {Item} 元素实例
+   */
+  public add(type: ITEM_TYPE, model: ModelConfig, stack: boolean = true): Item {
+    return this.addItem(type, model, stack);
   }
 
   /**
@@ -952,7 +1091,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {Item} item 元素id或元素实例
    * @param {Partial<NodeConfig> | EdgeConfig} cfg 需要更新的数据
    */
-  public updateItem(item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig): void {
+  public updateItem(item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig, stack: boolean = true): void {
     const itemController: ItemController = this.get('itemController');
     let currentItem
     if (isString(item)) {
@@ -972,15 +1111,20 @@ export default class Graph extends EventEmitter implements IGraph {
     if (type === 'combo') {
       each(states, state => this.setItemState(currentItem, state, true))
     }
+
+    if (stack && this.get('enabledStack')) {
+      this.pushStack()
+    }
   }
 
   /**
    * 更新元素
    * @param {Item} item 元素id或元素实例
    * @param {Partial<NodeConfig> | EdgeConfig} cfg 需要更新的数据
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
    */
-  public update(item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig): void {
-    this.updateItem(item, cfg);
+  public update(item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig, stack: boolean = true): void {
+    this.updateItem(item, cfg, stack);
   }
 
   /**
@@ -1007,6 +1151,16 @@ export default class Graph extends EventEmitter implements IGraph {
   }
 
   /**
+   * 将指定状态的优先级提升为最高优先级
+   * @param {Item} item 元素id或元素实例
+   * @param state 状态名称
+   */
+  public priorityState(item: Item | string, state: string): void {
+    const itemController: ItemController = this.get('itemController')
+    itemController.priorityState(item, state);
+  }
+
+  /**
    * 设置视图初始化数据
    * @param {GraphData} data 初始化数据
    */
@@ -1021,6 +1175,11 @@ export default class Graph extends EventEmitter implements IGraph {
     const self = this;
     const data: GraphData = this.get('data');
 
+    if (this.get('enabledStack')) {
+      // render 之前清空 redo 和 undo 栈
+      this.clearStack()
+    }
+
     if (!data) {
       throw new Error('data must be defined first');
     }
@@ -1032,7 +1191,7 @@ export default class Graph extends EventEmitter implements IGraph {
     this.emit('beforerender');
 
     each(nodes, (node: NodeConfig) => {
-      self.add('node', node);
+      self.add('node', node, false);
     });
 
 
@@ -1045,8 +1204,13 @@ export default class Graph extends EventEmitter implements IGraph {
     }
 
     each(edges, (edge: EdgeConfig) => {
-      self.add('edge', edge);
+      self.add('edge', edge, false);
     });
+
+    let animate = self.get('animate');
+    if (self.get('fitView') || self.get('fitCenter')) {
+      self.set('animate', false);
+    }
 
     // layout
     const layoutController = self.get('layoutController');
@@ -1061,7 +1225,12 @@ export default class Graph extends EventEmitter implements IGraph {
       }
       self.autoPaint();
       self.emit('afterrender');
+
+      if (self.get('fitView') || self.get('fitCenter')) {
+        self.set('animate', animate);
+      }
     }
+
 
     if (!this.get('groupByTypes')) {
       if (combos && combos.length !== 0) {
@@ -1098,6 +1267,10 @@ export default class Graph extends EventEmitter implements IGraph {
         this.renderCustomGroup(data, groupType);
       }
     }
+
+    if (this.get('enabledStack')) {
+      this.pushStack('render')
+    }
   }
 
   /**
@@ -1124,16 +1297,16 @@ export default class Graph extends EventEmitter implements IGraph {
       if (item) {
         if (self.get('animate') && type === NODE) {
           let containerMatrix = item.getContainer().getMatrix();
-          if (!containerMatrix) containerMatrix = mat3.create();
+          if (!containerMatrix) containerMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
           item.set('originAttrs', {
             x: containerMatrix[6],
             y: containerMatrix[7],
           });
         }
 
-        self.updateItem(item, model);
+        self.updateItem(item, model, false);
       } else {
-        item = self.addItem(type, model);
+        item = self.addItem(type, model, false);
       }
       (items as { [key: string]: any[] })[`${type}s`].push(item);
     });
@@ -1141,12 +1314,15 @@ export default class Graph extends EventEmitter implements IGraph {
 
   /**
    * 更改源数据，根据新数据重新渲染视图
-   * @param {object} data 源数据
+   * @param {GraphData | TreeGraphData} data 源数据
+   * @param {boolean} 是否入栈，默认为true
    * @return {object} this
    */
-  public changeData(data?: GraphData | TreeGraphData): Graph {
+  public changeData(data?: GraphData | TreeGraphData, stack: boolean = true): Graph {
+    if (stack && this.get('enabledStack')) {
+      this.pushStack('update', data)
+    }
     const self = this;
-
     if (!data) {
       return this;
     }
@@ -1190,7 +1366,7 @@ export default class Graph extends EventEmitter implements IGraph {
         item.destroy();
       } else if ((items.nodes.indexOf(item) < 0 && items.edges.indexOf(item) < 0)) {
         delete itemMap[id];
-        self.remove(item);
+        self.remove(item, false);
       }
     });
 
@@ -1244,64 +1420,72 @@ export default class Graph extends EventEmitter implements IGraph {
   /**
    * 根据已经存在的节点或 combo 创建新的 combo
    * @param combo combo ID 或 Combo 配置
-   * @param elements 添加到 Combo 中的元素，包括节点和 combo
+   * @param children 添加到 Combo 中的元素，包括节点和 combo
    */
-  public createCombo(combo: string | ComboConfig, elements: string[]): void {
+  public createCombo(combo: string | ComboConfig, children: string[]): void {
     // step 1: 创建新的 Combo
     let comboId = ''
+    let currentCombo: ICombo;
+    let comboConfig: ComboConfig;
+    if (!combo) return;
     if (isString(combo)) {
       comboId = combo
-      this.addItem('combo', {
+      comboConfig = {
         id: combo
-      })
+      };
     } else {
       comboId = combo.id
       if (!comboId) {
         console.warn('Create combo failed. Please assign a unique string id for the adding combo.');
         return;
       }
-      this.addItem('combo', combo)
+      comboConfig = combo;
     }
 
-    const currentCombo = this.findById(comboId) as ICombo
-    console.log('currentCombo in create combo', currentCombo);
-
-    const trees = elements.map(elementId => {
+    const trees: ComboTree[] = children.map(elementId => {
       const item = this.findById(elementId)
 
-      // step 2: 将元素添加到 Combo 中
-      currentCombo.addChild(item as INode | ICombo)
-
-      const model = item.getModel()
       let type = '';
       if (item.getType) type = item.getType();
+      const cItem: ComboTree = {
+        id: item.getID(),
+        itemType: type as "node" | "combo"
+      }
+
       if (type === 'combo') {
-        (model as ComboConfig).parentId = comboId
+        (cItem as ComboConfig).parentId = comboId
       } else if (type === 'node') {
-        (model as NodeConfig).comboId = comboId
+        (cItem as NodeConfig).comboId = comboId
       }
 
-      return {
-        depth: 1,
-        itemType: type,
-        ...model
-      }
+      return cItem
     })
-    console.log('trees in create combo', trees);
 
+    comboConfig.children = trees;
+
+    currentCombo = this.addItem('combo', comboConfig, false)
+    const comboModel = currentCombo.getModel();
+
+    trees.forEach(child => {
+      const item = this.findById(child.id)
+      // step 2: 将元素添加到 Combo 中
+      currentCombo.addChild(item as INode | ICombo)
+      child.depth = (comboModel.depth as number) + 2;
+    });
 
     // step3: 更新 comboTrees 结构
     const comboTrees = this.get('comboTrees')
-    console.log('comboTrees in create combo', comboTrees);
     comboTrees && comboTrees.forEach(ctree => {
-      if (ctree.id === comboId) {
-        ctree.itemType = 'combo'
-        ctree.children = trees
-      }
+      traverseTreeUp<ComboTree>(ctree, child => {
+        if (child.id === comboId) {
+          child.itemType = 'combo'
+          child.children = trees as ComboTree[];
+          return false;;
+        }
+        return true;
+      });
     })
-    console.log('comboTrees in create combo', comboTrees);
-
-    this.updateCombos()
+    this.sortCombos();
   }
 
   /**
@@ -1339,7 +1523,7 @@ export default class Graph extends EventEmitter implements IGraph {
           // delete the related edges
           const edges = comboItem.getEdges();
           edges.forEach(edge => {
-            this.removeItem(edge);
+            this.removeItem(edge, false);
           });
           const index = comboItems.indexOf(combo);
           comboItems.splice(index, 1);
@@ -1457,13 +1641,22 @@ export default class Graph extends EventEmitter implements IGraph {
         if (comboId === child.id && childItem && childItem.getType && childItem.getType() === 'combo') {
           // 更新具体的 Combo 之前先清除所有的已有状态，以免将 state 中的样式更新为 Combo 的样式
           const states = [...childItem.getStates()]
-          each(states, state => this.setItemState(childItem, state, false))
+          // || !item.getStateStyle(stateName)
+          each(states, state => {
+            if (childItem.getStateStyle(state)) {
+              this.setItemState(childItem, state, false)
+            }
+          })
 
           // 更新具体的 Combo
           itemController.updateCombo(childItem, child.children);
 
           // 更新 Combo 后，还原已有的状态
-          each(states, state => this.setItemState(childItem, state, true));
+          each(states, state => {
+            if (childItem.getStateStyle(state)) {
+              this.setItemState(childItem, state, true)
+            }
+          });
 
           if (comboId) comboId = child.parentId;
         }
@@ -1486,7 +1679,7 @@ export default class Graph extends EventEmitter implements IGraph {
       uItem = item as INode | ICombo;
     }
 
-    let model = uItem.getModel();
+    const model = uItem.getModel();
     const oldParentId = (model.comboId as string) || (model.parentId as string);
 
     // 当 combo 存在parentId 或 comboId 时，才将其移除
@@ -1731,7 +1924,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
           if (!originAttrs) {
             let containerMatrix = node.getContainer().getMatrix();
-            if (!containerMatrix) containerMatrix = mat3.create();
+            if (!containerMatrix) containerMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
             originAttrs = {
               x: containerMatrix[6],
               y: containerMatrix[7],
@@ -1863,14 +2056,17 @@ export default class Graph extends EventEmitter implements IGraph {
 
     // 清空画布时同时清除数据
     this.set({ itemMap: {}, nodes: [], edges: [], groups: [] });
+    this.emit('afterrender');
     return this;
   }
 
   /**
-   * 返回图表的 dataUrl 用于生成图片
+   * 返回可见区域的图的 dataUrl，用于生成图片
+   * @param {String} type 图片类型，可选值："image/png" | "image/jpeg" | "image/webp" | "image/bmp"
+   * @param {string} backgroundColor 图片背景色
    * @return {string} 图片 dataURL
    */
-  public toDataURL(type?: string, backgroundColor?: string): string {
+  public toDataURL(type?: dataUrlType, backgroundColor?: string): string {
     const canvas: GCanvas = this.get('canvas');
     const renderer = canvas.getRenderer();
     const canvasDom = canvas.get('el');
@@ -1879,14 +2075,14 @@ export default class Graph extends EventEmitter implements IGraph {
 
     let dataURL = '';
     if (renderer === 'svg') {
-      const clone = canvasDom.cloneNode(true);
+      const cloneNode = canvasDom.cloneNode(true);
       const svgDocType = document.implementation.createDocumentType(
         'svg', '-//W3C//DTD SVG 1.1//EN', 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'
       );
       const svgDoc = document.implementation.createDocument('http://www.w3.org/2000/svg', 'svg', svgDocType);
-      svgDoc.replaceChild(clone, svgDoc.documentElement);
+      svgDoc.replaceChild(cloneNode, svgDoc.documentElement);
       const svgData = (new XMLSerializer()).serializeToString(svgDoc);
-      dataURL = 'data:image/svg+xml;charset=utf8,' + encodeURIComponent(svgData);
+      dataURL = `data:image/svg+xml;charset=utf8,${encodeURIComponent(svgData)}`;
     } else {
       let imageData;
       const context = canvasDom.getContext('2d');
@@ -1912,17 +2108,19 @@ export default class Graph extends EventEmitter implements IGraph {
   }
 
   /**
-   * 导出包含全图的图片
-   * @param {String} name 图片的名称
+   * 返回整个图（包括超出可见区域的部分）的 dataUrl，用于生成图片
+   * @param {Function} callback 异步生成 dataUrl 完成后的回调函数，在这里处理生成的 dataUrl 字符串
+   * @param {String} type 图片类型，可选值："image/png" | "image/jpeg" | "image/webp" | "image/bmp"
+   * @param {Object} imageConfig 图片配置项，包括背景色和上下左右的 padding
    */
-  public downloadFullImage(name?: string, imageConfig?: { backgroundColor?: string, padding?: number | number[] }): void {
+  public toFullDataURL(callback: (res: string) => any, type?: dataUrlType, imageConfig?: { backgroundColor?: string, padding?: number | number[] }) {
     const bbox = this.get('group').getCanvasBBox();
     const height = bbox.height;
     const width = bbox.width;
     const renderer = this.get('renderer');
-    const vContainerDOM = createDom('<div id="test"></div>');
+    const vContainerDOM: HTMLDivElement = createDom('<id="virtual-image"></div>');
 
-    let backgroundColor = imageConfig ? imageConfig.backgroundColor : undefined;
+    const backgroundColor = imageConfig ? imageConfig.backgroundColor : undefined;
     let padding = imageConfig ? imageConfig.padding : undefined;
     if (!padding) padding = [0, 0, 0, 0];
     else if (isNumber(padding)) padding = [padding, padding, padding, padding];
@@ -1939,8 +2137,8 @@ export default class Graph extends EventEmitter implements IGraph {
     const group = this.get('group');
     const vGroup = group.clone();
 
-    let matrix = vGroup.getMatrix();
-    if (!matrix) matrix = mat3.create();
+    let matrix = clone(vGroup.getMatrix());
+    if (!matrix) matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
     const centerX = (bbox.maxX + bbox.minX) / 2;
     const centerY = (bbox.maxY + bbox.minY) / 2;
     mat3.translate(matrix, matrix, [-centerX, -centerY]);
@@ -1952,18 +2150,98 @@ export default class Graph extends EventEmitter implements IGraph {
 
     const vCanvasEl = vCanvas.get('el');
 
+    let dataURL = '';
+    if (!type) type = 'image/png';
+
     setTimeout(() => {
-      const type = 'image/png';
-      let dataURL = '';
       if (renderer === 'svg') {
-        const clone = vCanvasEl.cloneNode(true);
+        const cloneNode = vCanvasEl.cloneNode(true);
         const svgDocType = document.implementation.createDocumentType(
           'svg', '-//W3C//DTD SVG 1.1//EN', 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'
         );
         const svgDoc = document.implementation.createDocument('http://www.w3.org/2000/svg', 'svg', svgDocType);
-        svgDoc.replaceChild(clone, svgDoc.documentElement);
+        svgDoc.replaceChild(cloneNode, svgDoc.documentElement);
         const svgData = (new XMLSerializer()).serializeToString(svgDoc);
-        dataURL = 'data:image/svg+xml;charset=utf8,' + encodeURIComponent(svgData);
+        dataURL = `data:image/svg+xml;charset=utf8,${encodeURIComponent(svgData)}`;
+      } else {
+        let imageData;
+        const context = vCanvasEl.getContext('2d');
+        let compositeOperation;
+        if (backgroundColor) {
+          const pixelRatio = window.devicePixelRatio;
+          imageData = context.getImageData(0, 0, vWidth * pixelRatio, vHeight * pixelRatio);
+          compositeOperation = context.globalCompositeOperation;
+          context.globalCompositeOperation = "destination-over";
+          context.fillStyle = backgroundColor;
+          context.fillRect(0, 0, vWidth, vHeight);
+        }
+        dataURL = vCanvasEl.toDataURL(type);
+        if (backgroundColor) {
+          context.clearRect(0, 0, vWidth, vHeight);
+          context.putImageData(imageData, 0, 0);
+          context.globalCompositeOperation = compositeOperation;
+        }
+      }
+      callback && callback(dataURL);
+    }, 16);
+  }
+
+  /**
+   * 导出包含全图的图片
+   * @param {String} name 图片的名称
+   * @param {String} type 图片类型，可选值："image/png" | "image/jpeg" | "image/webp" | "image/bmp"
+   * @param {Object} imageConfig 图片配置项，包括背景色和上下左右的 padding
+   */
+  public downloadFullImage(name?: string, type?: dataUrlType, imageConfig?: { backgroundColor?: string, padding?: number | number[] }): void {
+
+    const bbox = this.get('group').getCanvasBBox();
+    const height = bbox.height;
+    const width = bbox.width;
+    const renderer = this.get('renderer');
+    const vContainerDOM: HTMLDivElement = createDom('<id="virtual-image"></div>');
+
+    const backgroundColor = imageConfig ? imageConfig.backgroundColor : undefined;
+    let padding = imageConfig ? imageConfig.padding : undefined;
+    if (!padding) padding = [0, 0, 0, 0];
+    else if (isNumber(padding)) padding = [padding, padding, padding, padding];
+
+    const vHeight = height + padding[0] + padding[2];
+    const vWidth = width + padding[1] + padding[3];
+    const canvasOptions = {
+      container: vContainerDOM,
+      height: vHeight,
+      width: vWidth
+    };
+    const vCanvas = renderer === 'svg' ? new GSVGCanvas(canvasOptions) : new GCanvas(canvasOptions);
+
+    const group = this.get('group');
+    const vGroup = group.clone();
+
+    let matrix = clone(vGroup.getMatrix());
+    if (!matrix) matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
+    const centerX = (bbox.maxX + bbox.minX) / 2;
+    const centerY = (bbox.maxY + bbox.minY) / 2;
+    mat3.translate(matrix, matrix, [-centerX, -centerY]);
+    mat3.translate(matrix, matrix, [width / 2 + padding[3], height / 2 + padding[0]]);
+
+    vGroup.resetMatrix();
+    vGroup.setMatrix(matrix);
+    vCanvas.add(vGroup);
+
+    const vCanvasEl = vCanvas.get('el');
+
+    if (!type) type = 'image/png';
+    setTimeout(() => {
+      let dataURL = '';
+      if (renderer === 'svg') {
+        const cloneNode = vCanvasEl.cloneNode(true);
+        const svgDocType = document.implementation.createDocumentType(
+          'svg', '-//W3C//DTD SVG 1.1//EN', 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'
+        );
+        const svgDoc = document.implementation.createDocument('http://www.w3.org/2000/svg', 'svg', svgDocType);
+        svgDoc.replaceChild(cloneNode, svgDoc.documentElement);
+        const svgData = (new XMLSerializer()).serializeToString(svgDoc);
+        dataURL = `data:image/svg+xml;charset=utf8,${encodeURIComponent(svgData)}`;
       } else {
         let imageData;
         const context = vCanvasEl.getContext('2d');
@@ -1984,8 +2262,9 @@ export default class Graph extends EventEmitter implements IGraph {
         }
       }
 
+
       const link: HTMLAnchorElement = document.createElement('a');
-      const fileName: string = (name || 'graph') + (renderer === 'svg' ? '.svg' : '.png');
+      const fileName: string = (name || 'graph') + (renderer === 'svg' ? '.svg' : `.${type.split('/')[1]}`);
 
       this.dataURLToImage(dataURL, renderer, link, fileName);
 
@@ -1998,8 +2277,10 @@ export default class Graph extends EventEmitter implements IGraph {
   /**
    * 画布导出图片，图片仅包含画布可见区域部分内容
    * @param {String} name 图片的名称
+   * @param {String} type 图片类型，可选值："image/png" | "image/jpeg" | "image/webp" | "image/bmp"
+   * @param {string} backgroundColor 图片背景色
    */
-  public downloadImage(name?: string, backgroundColor?: string): void {
+  public downloadImage(name?: string, type?: dataUrlType, backgroundColor?: string): void {
     const self = this;
 
     if (self.isAnimating()) {
@@ -2008,10 +2289,11 @@ export default class Graph extends EventEmitter implements IGraph {
 
     const canvas = self.get('canvas');
     const renderer = canvas.getRenderer();
-    const fileName: string = (name || 'graph') + (renderer === 'svg' ? '.svg' : '.png');
+    if (!type) type = 'image/png';
+    const fileName: string = (name || 'graph') + (renderer === 'svg' ? '.svg' : type.split('/')[1]);
     const link: HTMLAnchorElement = document.createElement('a');
     setTimeout(() => {
-      const dataURL = self.toDataURL('image/png', backgroundColor);
+      const dataURL = self.toDataURL(type, backgroundColor);
       this.dataURLToImage(dataURL, renderer, link, fileName);
 
       const e = document.createEvent('MouseEvents');
@@ -2127,7 +2409,12 @@ export default class Graph extends EventEmitter implements IGraph {
       console.warn('The combo to be collapsed does not exist!');
       return;
     }
+
     const comboModel = combo.getModel();
+
+    const itemController: ItemController = this.get('itemController');
+    itemController.collapseCombo(combo);
+    comboModel.collapsed = true;
 
     // add virtual edges
     const edges = this.getEdges().concat(this.get('vedges'));
@@ -2171,6 +2458,7 @@ export default class Graph extends EventEmitter implements IGraph {
     const edgeWeightMap = {};
     const addedVEdges = [];
     edges.forEach(edge => {
+      if (edge.isVisible() && !edge.getModel().isVEdge) return;
       let source = edge.getSource();
       let target = edge.getTarget();
       if (((cnodes.includes(source) || ccombos.includes(source))
@@ -2178,7 +2466,7 @@ export default class Graph extends EventEmitter implements IGraph {
         || (source.getModel().id === comboModel.id)) {
         const edgeModel = edge.getModel();
         if (edgeModel.isVEdge) {
-          this.removeItem(edge);
+          this.removeItem(edge, false);
           return;
         }
 
@@ -2200,7 +2488,7 @@ export default class Graph extends EventEmitter implements IGraph {
           source: comboModel.id,
           target: targetId,
           isVEdge: true,
-        });
+        }, false);
         edgeWeightMap[`${comboModel.id}-${targetId}`] = edgeModel.size || 1;
         addedVEdges.push(vedge);
       } else if (((!cnodes.includes(source) && !ccombos.includes(source))
@@ -2208,7 +2496,7 @@ export default class Graph extends EventEmitter implements IGraph {
         || (target.getModel().id === comboModel.id)) {
         const edgeModel = edge.getModel();
         if (edgeModel.isVEdge) {
-          this.removeItem(edge);
+          this.removeItem(edge, false);
           return;
         }
         let sourceModel = source.getModel();
@@ -2227,7 +2515,7 @@ export default class Graph extends EventEmitter implements IGraph {
           target: comboModel.id,
           source: sourceId,
           isVEdge: true
-        });
+        }, false);
         edgeWeightMap[`${sourceId}-${comboModel.id}`] = edgeModel.size || 1;
         addedVEdges.push(vedge);
       }
@@ -2239,12 +2527,9 @@ export default class Graph extends EventEmitter implements IGraph {
       const vedgeModel = vedge.getModel();
       this.updateItem(vedge, {
         size: edgeWeightMap[`${vedgeModel.source}-${vedgeModel.target}`]
-      })
+      }, false)
     });
 
-    const itemController: ItemController = this.get('itemController');
-    itemController.collapseCombo(combo);
-    comboModel.collapsed = true;
   }
 
   /**
@@ -2305,6 +2590,7 @@ export default class Graph extends EventEmitter implements IGraph {
     const edgeWeightMap = {};
     const addedVEdges = {};
     edges.forEach(edge => {
+      if (edge.isVisible() && !edge.getModel().isVEdge) return;
       let source = edge.getSource();
       let target = edge.getTarget();
       let sourceId = source.get('id');
@@ -2316,7 +2602,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
         // ignore the virtual edges
         if (edge.getModel().isVEdge) {
-          this.removeItem(edge);
+          this.removeItem(edge, false);
           return;
         }
 
@@ -2354,14 +2640,14 @@ export default class Graph extends EventEmitter implements IGraph {
             edgeWeightMap[vedgeId] += (edge.getModel().size || 1);
             this.updateItem(addedVEdges[vedgeId], {
               size: edgeWeightMap[vedgeId]
-            })
+            }, false)
             return;
           }
           const vedge = this.addItem('vedge', {
             source: sourceId,
             target: targetId,
             isVEdge: true
-          });
+          }, false);
 
           edgeWeightMap[vedgeId] = edge.getModel().size || 1;
           addedVEdges[vedgeId] = vedge;
@@ -2373,7 +2659,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
         // ignore the virtual edges
         if (edge.getModel().isVEdge) {
-          this.removeItem(edge);
+          this.removeItem(edge, false);
           return;
         }
 
@@ -2411,16 +2697,22 @@ export default class Graph extends EventEmitter implements IGraph {
             edgeWeightMap[vedgeId] += (edge.getModel().size || 1);
             this.updateItem(addedVEdges[vedgeId], {
               size: edgeWeightMap[vedgeId]
-            })
+            }, false)
             return;
           }
           const vedge = this.addItem('vedge', {
             target: targetId,
             source: sourceId,
             isVEdge: true
-          });
+          }, false);
           edgeWeightMap[vedgeId] = edge.getModel().size || 1;
           addedVEdges[vedgeId] = vedge;
+        }
+      } else if ((cnodes.includes(source) || ccombos.includes(source))
+        && (cnodes.includes(target) || ccombos.includes(target))) {
+        // both source and target are in the combo, if the target and source are both visible, show the edge
+        if (source.isVisible() && target.isVisible()) {
+          edge.show();
         }
       }
     });
@@ -2452,6 +2744,7 @@ export default class Graph extends EventEmitter implements IGraph {
     } else {
       this.collapseCombo(combo);
     }
+    this.updateCombo(combo)
   }
 
   /**
@@ -2539,42 +2832,158 @@ export default class Graph extends EventEmitter implements IGraph {
    * @returns {INode[]}
    * @memberof IGraph
    */
-  public getNeighbors(node: string | INode): INode[] {
+  public getNeighbors(node: string | INode, type?: 'source' | 'target' | undefined): INode[] {
     let item = node as INode
     if (isString(node)) {
       item = this.findById(node) as INode
     }
-    return item.getNeighbors()
+    return item.getNeighbors(type)
+  }
+
+
+
+  /**
+   * 获取 node 的度数
+   *
+   * @param {(string | INode)} node 节点 ID 或实例
+   * @param {('in' | 'out' | 'total' | 'all' | undefined)} 度数类型，in 入度，out 出度，total 总度数，all 返回三种类型度数的对象
+   * @returns {Number | Object} 该节点的度数
+   * @memberof IGraph
+   */
+  public getNodeDegree(node: string | INode, type: 'in' | 'out' | 'total' | 'all' | undefined = undefined): Number | Object {
+    let item = node as INode
+    if (isString(node)) {
+      item = this.findById(node) as INode
+    }
+    let degrees = this.get('degrees');
+    if (!degrees) {
+      degrees = degree(this);
+    }
+    this.set('degees', degrees);
+    const nodeDegrees = degrees[item.getID()];
+    let res;
+    switch (type) {
+      case 'in':
+        res = nodeDegrees.inDegree;
+        break;
+      case 'out':
+        res = nodeDegrees.outDegree;
+        break;
+      case 'all':
+        res = nodeDegrees;
+        break;
+      default:
+        res = nodeDegrees.degree;
+        break;
+    }
+    return res;
+  }
+
+  public getUndoStack() {
+    return this.undoStack;
+  }
+
+  public getRedoStack() {
+    return this.redoStack;
   }
 
   /**
-   * 获取以 node 为起点的所有邻居节点
-   *
-   * @param {(string | INode)} node 节点 ID 或实例
-   * @returns {INode[]}
-   * @memberof IGraph
+   * 获取 undo 和 redo 栈的数据
    */
-  public getSourceNeighbors(node: string | INode): INode[] {
-    let item = node as INode
-    if (isString(node)) {
-      item = this.findById(node) as INode
+  public getStackData() {
+    if (!this.get('enabledStack')) {
+      return null
     }
-    return item.getSourceNeighbors()
+
+    return {
+      undoStack: this.undoStack.toArray(),
+      redoStack: this.redoStack.toArray()
+    }
   }
 
   /**
-   * 获取以 node 为终点的所有邻居节点
+   * 清空 undo stack & redo stack
+   */
+  public clearStack() {
+    if (this.get('enabledStack')) {
+      this.undoStack.clear()
+      this.redoStack.clear()
+    }
+  }
+
+  /**
+   * 将操作类型和操作数据入栈
+   * @param action 操作类型
+   * @param data 入栈的数据
+   * @param stackType 栈的类型
+   */
+  public pushStack(action: string = 'update', data?: unknown, stackType: string = 'undo') {
+    if (!this.get('enabledStack')) {
+      console.warn('请先启用 undo & redo 功能，在实例化 Graph 时候配置 enabledStack: true !')
+      return
+    }
+
+    const stackData = data ? clone(data) : clone(this.save())
+
+    if (stackType === 'redo') {
+      this.redoStack.push({
+        action,
+        data: stackData
+      })
+    } else {
+      this.undoStack.push({
+        action,
+        data: stackData
+      })
+    }
+
+    this.emit('stackchange', {
+      undoStack: this.undoStack,
+      redoStack: this.redoStack
+    })
+  }
+
+
+  /**
+   * 获取邻接矩阵
    *
-   * @param {(string | INode)} node 节点 ID 或实例
-   * @returns {INode[]}
+   * @param {boolean} cache 是否使用缓存的
+   * @param {boolean} directed 是否是有向图，默认取 graph.directed
+   * @returns {Matrix} 邻接矩阵
    * @memberof IGraph
    */
-  public getTargetNeighbors(node: string | INode): INode[] {
-    let item = node as INode
-    if (isString(node)) {
-      item = this.findById(node) as INode
+  public getAdjMatrix(cache: boolean = true, directed?: boolean): Number | Object {
+    if (directed === undefined) directed = this.get('directed');
+    let currentAdjMatrix = this.get('adjMatrix');
+    if (!currentAdjMatrix || !cache) {
+      currentAdjMatrix = adjMatrix(this, directed);
+      this.set('adjMatrix', currentAdjMatrix);
     }
-    return item.getTargetNeighbors()
+    return currentAdjMatrix;
+  }
+
+
+  /**
+   * 获取最短路径矩阵
+   *
+   * @param {boolean} cache 是否使用缓存的
+   * @param {boolean} directed 是否是有向图，默认取 graph.directed
+   * @returns {Matrix} 最短路径矩阵
+   * @memberof IGraph
+   */
+  public getShortestPathMatrix(cache: boolean = true, directed?: boolean): Number | Object {
+    if (directed === undefined) directed = this.get('directed');
+    let currentAdjMatrix = this.get('adjMatrix');
+    let currentShourtestPathMatrix = this.get('shortestPathMatrix');
+    if (!currentAdjMatrix || !cache) {
+      currentAdjMatrix = adjMatrix(this, directed);
+      this.set('adjMatrix', currentAdjMatrix);
+    }
+    if (!currentShourtestPathMatrix || !cache) {
+      currentShourtestPathMatrix = floydWarshall(this, directed);
+      this.set('shortestPathMatrix', currentShourtestPathMatrix);
+    }
+    return currentShourtestPathMatrix;
   }
 
   /**
@@ -2583,9 +2992,24 @@ export default class Graph extends EventEmitter implements IGraph {
   public destroy() {
     this.clear();
 
+    // 清空栈数据
+    this.clearStack();
+
     each(this.get('plugins'), plugin => {
       plugin.destroyPlugin();
     });
+
+    // destroy tooltip doms, removed when upgrade G6 4.0
+    const tooltipContainers = document.getElementsByClassName('g6-tooltip');
+    if (tooltipContainers) {
+      for (let i = 0; i < tooltipContainers.length; i++) {
+        const container = tooltipContainers[i];
+        if (!container) continue;
+        const parent = container.parentElement;
+        if (!parent) continue;
+        parent.removeChild(container);
+      }
+    }
 
     this.get('eventController').destroy();
     this.get('itemController').destroy();
@@ -2597,5 +3021,7 @@ export default class Graph extends EventEmitter implements IGraph {
     this.get('canvas').destroy();
     (this.cfg as any) = null;
     this.destroyed = true;
+    this.redoStack = null
+    this.undoStack = null
   }
 }

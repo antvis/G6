@@ -60,7 +60,7 @@ describe('graph', () => {
   it('invalid container', () => {
     expect(() => {
       // eslint-disable-next-line no-new
-      new Graph({} as any); 
+      new Graph({} as any);
     }).toThrowError('invalid container');
   });
 
@@ -684,6 +684,14 @@ describe('all node link center', () => {
     width: 500,
     height: 500,
     linkCenter: true,
+    nodeStateStyles: {
+      a: {
+        fill: 'red'
+      },
+      b: {
+        stroke: 'red'
+      }
+    }
   });
 
   it('init', () => {
@@ -1453,7 +1461,7 @@ describe('auto rotate label on edge', () => {
     graph.on('canvas:click', evt => {
       graph.downloadFullImage('graph', {
         backgroundColor: '#fff',
-        padding: [ 40, 10, 10, 10 ]
+        padding: [40, 10, 10, 10]
       });
     });
   });
@@ -1528,21 +1536,21 @@ describe('node Neighbors', () => {
   graph.render()
 
   it('getSourceNeighbors', () => {
-    const neighbors = graph.getSourceNeighbors('B')
+    const neighbors = graph.getNeighbors('B', 'target')
     expect(neighbors.length).toBe(1)
     expect(neighbors[0].getID()).toEqual('C')
-    
-    const neighborE = graph.getSourceNeighbors('A')
+
+    const neighborE = graph.getNeighbors('A', 'target')
     expect(neighborE.length).toBe(3)
     expect(neighborE[0].getID()).toEqual('B')
   })
 
   it('getTargetNeighbors', () => {
-    const neighbors = graph.getTargetNeighbors('B')
+    const neighbors = graph.getNeighbors('B', 'source')
     expect(neighbors.length).toBe(1)
     expect(neighbors[0].getID()).toEqual('A')
 
-    const neighborE = graph.getTargetNeighbors('E')
+    const neighborE = graph.getNeighbors('E', 'source')
     expect(neighborE.length).toBe(1)
     expect(neighborE[0].getID()).toEqual('A')
   })
@@ -1552,5 +1560,170 @@ describe('node Neighbors', () => {
     expect(neighbors.length).toBe(2)
     expect(neighbors[0].getID()).toEqual('A')
     expect(neighbors[1].getID()).toEqual('C')
+  })
+})
+
+describe('redo stack & undo stack', () => {
+  it('default stack is undefined', () => {
+    const graph = new Graph({
+      container: 'global-spec',
+      width: 500,
+      height: 500,
+    })
+
+    expect(graph.getUndoStack()).toBe(undefined)
+    expect(graph.getRedoStack()).toBe(undefined)
+  })
+
+  const graph = new Graph({
+    container: 'global-spec',
+    width: 500,
+    height: 500,
+    enabledStack: true
+  })
+
+  it('undo & redo stack is not null', () => {
+    expect(graph.getUndoStack()).not.toBe(null)
+    expect(graph.getRedoStack()).not.toBe(null)
+  })
+
+  const data = {
+    nodes: [
+      {
+        id: 'node1',
+        label: 'node1',
+        x: 100,
+        y: 100
+      },
+      {
+        id: 'node2',
+        label: 'node2',
+        x: 300,
+        y: 100
+      }
+    ]
+  }
+
+  graph.data(data)
+  graph.render()
+
+  it('fill undo stack', () => {
+    // redo 后，undo stack 有一条数据
+    let stackData = graph.getStackData()
+    let undoStack = stackData.undoStack
+    let redoStack = stackData.redoStack
+    expect(undoStack.length).toBe(1)
+    expect(undoStack[0].action).toEqual('render')
+    expect(undoStack[0].data.nodes.length).toEqual(2)
+    expect(redoStack.length).toBe(0)
+
+    // update 后，undo stack 中有 2 条数据，一条 render，一条 update
+    graph.update('node1', {
+      x: 120,
+      y: 200
+    })
+
+    stackData = graph.getStackData()
+    undoStack = stackData.undoStack
+    expect(undoStack.length).toBe(2)
+
+    let firstStackData = undoStack[0]
+    expect(firstStackData.action).toEqual('update')
+    expect(firstStackData.data.nodes[0].id).toEqual('node1')
+    expect(firstStackData.data.nodes[0].x).toEqual(120)
+    expect(firstStackData.data.nodes[0].y).toEqual(200)
+
+    // 执行 update 后，undo stack 中有3条数据
+    graph.update('node2', {
+      x: 120,
+      y: 350
+    })
+
+    stackData = graph.getStackData()
+    undoStack = stackData.undoStack
+    expect(undoStack.length).toBe(3)
+
+    firstStackData = undoStack[0]
+    expect(firstStackData.action).toEqual('update')
+    expect(firstStackData.data.nodes[1].id).toEqual('node2')
+    expect(firstStackData.data.nodes[1].x).toEqual(120)
+    expect(firstStackData.data.nodes[1].y).toEqual(350)
+
+    // addItem 后，undo 栈中有4条数据，1个render、2个update、1个add
+    graph.addItem('node', {
+      id: 'node3',
+      label: 'node3',
+      x: 150,
+      y: 150
+    })
+
+    stackData = graph.getStackData()
+    undoStack = stackData.undoStack
+    expect(undoStack.length).toBe(4)
+
+    firstStackData = undoStack[0]
+    expect(firstStackData.action).toEqual('add')
+    expect(firstStackData.data.id).toEqual('node3')
+    expect(firstStackData.data.x).toEqual(150)
+    expect(firstStackData.data.y).toEqual(150)
+
+    // hideItem 后，undo 栈中有5条数据，1个render、2个update、1个add、1个visible
+    graph.hideItem('node1')
+
+    stackData = graph.getStackData()
+    undoStack = stackData.undoStack
+    expect(undoStack.length).toBe(5)
+
+    firstStackData = undoStack[0]
+    expect(firstStackData.action).toEqual('visible')
+    expect(firstStackData.data).toEqual('node1')
+
+    // remove 后，undo 栈中有6条数据，1个render、2个update、1个add、1个visible、1个delete
+    graph.remove('node2')
+
+    stackData = graph.getStackData()
+    undoStack = stackData.undoStack
+    expect(undoStack.length).toBe(6)
+
+    firstStackData = undoStack[0]
+    expect(firstStackData.action).toEqual('delete')
+    expect(firstStackData.data.id).toEqual('node2')
+    expect(firstStackData.data.type).toEqual('node')
+  })
+
+  it('clear stack', () => {
+    graph.clearStack()
+    let stackData = graph.getStackData()
+    let undoStack = stackData.undoStack
+    let redoStack = stackData.redoStack
+
+    expect(undoStack.length).toBe(0)
+    expect(redoStack.length).toBe(0)
+  })
+
+  it('add edge', () => {
+    const source = graph.addItem('node', {
+      id: 'source',
+      color: '#666',
+      x: 50,
+      y: 50,
+      style: { lineWidth: 2, fill: '#666' },
+    });
+    const target = graph.addItem('node', {
+      id: 'target',
+      color: '#666',
+      x: 300,
+      y: 300,
+      type: 'rect',
+      style: { lineWidth: 2, fill: '#666' },
+    });
+    graph.addItem('edge', {
+      source,
+      target,
+      label: 'test label',
+      labelCfg: { autoRotate: true },
+    });
+
+    graph.destroy()
   })
 })

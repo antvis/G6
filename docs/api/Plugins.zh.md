@@ -8,6 +8,11 @@ G6 中支持插件提供了一些可插拔的组件，包括：
 - [Grid](#grid)
 - [Minimap](#minimap)
 - [Edge Bundling](#edge-bundling)
+- [Menu](#menu)
+- [ToolBar](#toolbar)
+- [TimeBar](#timebar)
+- [Tooltip](#tooltip)
+- [Fisheye](#fisheye)
 
 ## 配置方法
 
@@ -88,3 +93,392 @@ Minimap 是用于快速预览和探索图的工具。
 | iterations | Number | 90 | 初始的内迭代次数，每次外迭代中将会被乘以 `iterRate` |
 | iterRate | Number | 0.6666667 | 迭代下降率 |
 | bundleThreshold | Number | 0.6 | 判定边是否应该绑定在一起的相似容忍度，数值越大，被绑在一起的边相似度越低，数量越多 |
+
+## Menu
+
+Menu 用于配置节点上的右键菜单。
+
+### 配置项
+
+| 名称 | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| className | string | null | menu 容器的 class 类名 |
+| getContent | (graph?: IGraph) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OtOkS4g-vrkAAAAAAAAAAABkARQnAQ' width=60 alt='img'/> | 菜单项内容，支持 DOM 元素或字符串 |
+| handleMenuClick | (target: HTMLElement, item: Item) => void | undefined | 点击菜单项的回调函数 |
+
+### 用法
+
+实例化 Menu 插件时，如果不传参数，则使用 G6 默认提供的值，只能展示默认的菜单项，不能进行任何操作。
+
+```
+// 实例化 Menu 插件
+const menu = new G6.Menu();
+const graph = new G6.Graph({
+  //... 其他配置项
+  plugins: [menu], // 配置 Menu 插件
+});
+```
+
+#### DOM Menu
+
+```
+const menu = new G6.Menu({
+  getContent(e) {
+    const outDiv = document.createElement('div');
+    outDiv.style.width = '180px';
+    outDiv.innerHTML = `<ul>
+        <li>测试01</li>
+        <li>测试01</li>
+        <li>测试01</li>
+        <li>测试01</li>
+        <li>测试01</li>
+      </ul>`
+    return outDiv
+  },
+  handleMenuClick(target, item) {
+    console.log(target, item)
+  },
+});
+
+const graph = new G6.Graph({
+  //... 其他配置项
+  plugins: [menu], // 配置 Menu 插件
+});
+```
+
+#### String Menu
+
+```
+const menu = new G6.Menu({
+  getContent(graph) {
+    return `<ul>
+      <li title='1'>测试02</li>
+      <li title='2'>测试02</li>
+      <li>测试02</li>
+      <li>测试02</li>
+      <li>测试02</li>
+    </ul>`;
+  },
+  handleMenuClick(target, item) {
+    console.log(target, item)
+  },
+});
+
+const graph = new G6.Graph({
+  //... 其他配置项
+  plugins: [menu], // 配置 Menu 插件
+});
+```
+
+## ToolBar
+
+ToolBar 集成了以下常见的操作：
+- 重做；
+- 撤销；
+- 放大；
+- 缩小；
+- 适应屏幕；
+- 实际大小。
+
+### 配置项
+
+| 名称 | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| container | HTMLDivElement | null | ToolBar 容器，如果不设置，则默认使用 canvas 的 DOM 容器 |
+| className | string | null | ToolBar 内容元素的 class 类名 |
+| getContent | (graph?: IGraph) => HTMLDivElement | string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ' width=80 alt='img'/> | ToolBar 内容，支持 DOM 元素或字符串 |
+| handleClick | (code: string, graph: IGraph) => void | undefined | 点击 ToolBar 中每个图标的回调函数 |
+| position | Point | null | ToolBar 的位置坐标 |
+
+### 用法
+
+#### 默认用法
+默认的 ToolBar 提供了撤销、重做、放大等功能。
+
+```
+const toolbar = new G6.ToolBar();
+
+const graph = new G6.Graph({
+  //... 其他配置项
+  plugins: [toolbar], // 配置 ToolBar 插件
+});
+```
+
+#### 使用 String 自定义 ToolBar 功能
+
+```
+const tc = document.createElement('div');
+tc.id = 'toolbarContainer';
+document.body.appendChild(tc);
+
+const toolbar = new G6.ToolBar({
+  container: tc,
+  getContent: () => {
+    return `
+      <ul>
+        <li code='add'>增加节点</li>
+        <li code='undo'>撤销</li>
+      </ul>
+    `
+  },
+  handleClick: (code, graph) => {
+    if (code === 'add') {
+      graph.addItem('node', {
+        id: 'node2',
+        label: 'node2',
+        x: 300,
+        y: 150
+      })
+    } else if (code === 'undo') {
+      toolbar.undo()
+    }
+  }
+});
+
+const graph = new G6.Graph({
+  //... 其他配置项
+  plugins: [toolbar], // 配置 ToolBar 插件
+});
+```
+
+#### 使用 DOM 自定义 ToolBar 功能
+
+```
+const toolbar = new G6.ToolBar({
+  getContent: () => {
+    const outDiv = document.createElement('div');
+    outDiv.style.width = '180px';
+    outDiv.innerHTML = `<ul>
+        <li>测试01</li>
+        <li>测试02</li>
+        <li>测试03</li>
+        <li>测试04</li>
+        <li>测试05</li>
+      </ul>`
+    return outDiv
+  },
+  handleClick: (code, graph) => {
+    
+  }
+});
+
+const graph = new G6.Graph({
+  //... 其他配置项
+  plugins: [toolbar], // 配置 ToolBar 插件
+});
+```
+
+## TimeBar
+
+目前 G6 内置的 TimeBar 主要有以下功能：
+- 改变时间范围，过滤图上的数据；
+- TimeBar 上展示指定字段随时间推移的变化趋势。
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HJjmT7uQwjAAAAAAAAAAAABkARQnAQ' width=700 alt='img'/>
+
+**说明：** 目前的 TimeBar 功能还比较简单，不能用于较为复杂的时序分析。
+
+### 配置项
+
+| 名称 | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| container | HTMLDivElement | null | TimeBar 容器，如果不设置，则默认创建 className 为 g6-component-timebar 的 DOM 容器 |
+| width | number | 400 | TimeBar 容器宽度 |
+| height | number | 400 | TimeBar 容器高度 |
+| timebar | TimeBarOption | {} | TimeBar 样式配置项 |
+| rangeChange | (graph: IGraph, min: number, max: number) => void | null | 改变时间范围后的回调函数 |
+
+
+**TimeBarOption 配置项**
+
+```
+interface HandleStyle {
+  width: number;
+  height: number;
+  style: ShapeStyle;
+}
+```
+
+| 名称 | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| x | number | 0 | TimeBar 起始 x 坐标 |
+| y | number | 0 | TimeBar 起始 y 坐标 |
+| width | number | 400 | TimeBar 宽度 |
+| height | number | 400 | TimeBar 高度 |
+| backgroundStyle | ShapeStyle | {} | TimeBar 背景样式配置项 |
+| foregroundStyle | ShapeStyle | {} | TimeBar 选中部分样式配置项 |
+| handlerStyle | HandleStyle | null | 滑块样式设置 |
+| textStyle | ShapeStyle | null | 文本样式 |
+| minLimit | number | 0 | 允许滑块最左边（最小）位置，范围 0-1 |
+| maxLimit | number | 1 | 允许滑块最右边（最大）位置，范围 0-1 |
+| start | number | 0 | 滑块初始开始位置 |
+| end | number | 1 | 滑块初始结束位置 |
+| minText | string | null | 滑块最小值时显示的文本 |
+| maxText | string | null | 滑块最大值时显示的文本 |
+| trend | TrendConfig | null | 滑块上趋势图配置 |
+
+**TrendConfig 配置项**
+
+```
+interface Data {
+  date: string;
+  value: number;
+}
+```
+
+| 名称 | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| data | Data[] | [] | 滑块上的数据源 |
+| smooth | boolean | false | 是否是平滑的曲线 |
+| isArea | boolean | false | 是否显示面积图 |
+| lineStyle | ShapeStyle | null | 折线的样式 |
+| areaStyle | ShapeStyle | null | 面积的样式，只有当 isArea 为 true 时生效 |
+
+### 用法
+
+#### 默认用法
+G6 内置的默认的 TimeBar 有默认的样式及交互功能。
+
+```
+const timebar = new G6.TimeBar();
+
+const graph = new G6.Graph({
+  //... 其他配置项
+  plugins: [timebar], // 配置 timebar 插件
+});
+```
+
+##### 配置样式
+可以个性化定制 TimeBar 的样式，也可以自己定义时间范围改变后的处理方式。
+
+```
+const timebar = new G6.TimeBar({
+  width: 600,
+  timebar: {
+    width: 600,
+    backgroundStyle: {
+      fill: '#08979c',
+      opacity: 0.3
+    },
+    foregroundStyle: {
+      fill: '#40a9ff',
+      opacity: 0.4
+    },
+    trend: {
+      data: timeBarData,
+      isArea: false,
+      smooth: true,
+      lineStyle: {
+        stroke: '#9254de'
+      }
+    }
+  },
+  rangeChange: (graph, min, max) => {
+    // 拿到 Graph 实例和 timebar 上范围，自己可以控制图上的渲染逻辑
+    console.log(graph, min, max)
+  }
+});
+
+const graph = new G6.Graph({
+  //... 其他配置项
+  plugins: [timebar], // 配置 timebar 插件
+});
+```
+
+
+## ToolTip
+
+ToolTip 插件主要用于在节点和边上展示一些辅助信息，G6 4.0 以后，Tooltip 插件将会替换 Behavior 中的 tooltip。
+
+### 配置项
+
+| 名称 | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| className | string | null | tooltip 容器的 class 类名 |
+| container | HTMLDivElement | null | Tooltip 容器，如果不设置，则默认使用 canvas 的 DOM 容器 |
+| getContent | (graph?: IGraph) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aPPuQquN5Q0AAAAAAAAAAABkARQnAQ' width=80 alt='img'/> | Tooltip 内容，支持 DOM 元素或字符串 |
+| offset | number | 6 | tooltip 的偏移值，作用于 x y 两个方向上 |
+
+### 用法
+
+默认的 Tooltip 只展示元素类型和 ID，一般情况下都需要用户自己定义 Tooltip 上面展示的内容。
+
+#### Dom Tooltip
+```
+const tooltip = new G6.Tooltip({
+  offset: 10,
+  getContent(e) {
+    const outDiv = document.createElement('div');
+    outDiv.style.width = '180px';
+    outDiv.innerHTML = `
+      <h4>自定义tooltip</h4>
+      <ul>
+        <li>Label: ${e.item.getModel().label || e.item.getModel().id}</li>
+      </ul>`
+    return outDiv
+  },
+});
+
+const graph = new G6.Graph({
+  //... 其他配置项
+  plugins: [tooltip], // 配置 Tooltip 插件
+});
+```
+
+#### String Tooltip
+```
+const tooltip = new G6.Tooltip({
+  getContent(e) {
+    return `<div style='width: 180px;'>
+      <ul id='menu'>
+        <li title='1'>测试02</li>
+        <li title='2'>测试02</li>
+        <li>测试02</li>
+        <li>测试02</li>
+        <li>测试02</li>
+      </ul>
+    </div>`;
+  },
+});
+
+const graph = new G6.Graph({
+  //... 其他配置项
+  plugins: [tooltip], // 配置 Tooltip 插件
+});
+```
+
+
+
+
+
+## Fisheye
+
+Fisheye 鱼眼放大镜是为 focus+context 的探索场景设计的，它能够保证在放大关注区域的同时，保证上下文以及上下文与关注中心的关系不丢失。
+
+### 配置项
+
+| 名称 | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| trigger | 'mousemove' / 'click' | 'mousemove' | 放大镜的触发事件 |
+| d | Number | 1.5 | 放大系数，数值越大，放大程度越大 |
+| r | Number | 300 | 放大区域的范围半径 |
+| delegateStyle | Object |  { stroke: '#000', strokeOpacity: 0.8, lineWidth: 2, fillOpacity: 0.1, fill: '#ccc' } | 放大镜蒙层样式 |
+| showLabel | Boolean | false | 若 label 默认被隐藏，是否在关注区域内展示 label |
+
+
+### 用法
+
+```
+const fisheye = new G6.Fisheye({
+  trigger: 'mousemove',
+  d: 1.5,
+  r: 300,
+  delegateStyle: clone(lensDelegateStyle),
+  showLabel: false
+});
+
+const graph = new G6.Graph({
+  //... 其他配置项
+  plugins: [fisheye], // 配置 fisheye 插件
+});
+```

@@ -16,7 +16,7 @@ In this document, we will introduce the custom combo mechanism by two examples:
 
 ## The API of Register Combo
 
-As stated in [Shape](/en/docs/manual/middle/keyconcept/shape-keyshape), there are two points should be satisfied when customize a combo:
+As stated in [Shape](/en/docs/manual/middle/elements/shape-keyshape), there are two points should be satisfied when customize a combo:
 
 - Controll the life cycle of the combo;
 - Analyze the input data and show it by graphics.
@@ -31,7 +31,7 @@ G6.regitserCombo(
      * Draw the shapes of the Combo.
      * Do not need the label shape, it will be added by the extended class
      * @param  {Object} cfg The configurations of the combo
-     * @param  {G.Group} group The container of the combo
+     * @param  {G.Group} group Graphics group, the container of the shapes of the combo
      * @return {G.Shape} The keyShape of the combo. It can be obtained by combo.get('keyShape')
      * More details about keyShape can be found in Middle-Graph Elements-Graphis Shape and keyShape
      */
@@ -39,7 +39,7 @@ G6.regitserCombo(
     /**
      * The extra operations after drawing the combo. There is no operation in this function by default
      * @param  {Object} cfg The configurations of the combo
-     * @param  {G.Group} group The container of the combo
+     * @param  {G.Group} group Graphics group, the container of the shapes of the combo
      */
     afterDraw(cfg, group) {},
     /**

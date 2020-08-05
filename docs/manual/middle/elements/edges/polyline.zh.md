@@ -1,6 +1,6 @@
 ---
 title: Polyline
-order: 2
+order: 3
 ---
 
 G6 内置了折线 polyline  边，其默认样式如下。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aRHcQZStrPgAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
@@ -50,7 +50,7 @@ const data = {
 
 ## 配置项说明
 
-polyline 边支持 [边通用配置项](zh/docs/manual/middle/elements/edges/defaultEdge/#边的通用属性)，以下表格对部分常用配置项进行说明：
+polyline 边支持 [边通用配置项](/zh/docs/manual/middle/elements/edges/defaultEdge/#边的通用属性)，以下表格对部分常用配置项进行说明：
 
 ```javascript
 color: '#87e8de',

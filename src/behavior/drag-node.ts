@@ -6,7 +6,7 @@
  * @Description: 拖动节点的Behavior
  */
 import { Point } from '@antv/g-base/lib/types';
-import deepMix from '@antv/util/lib/deep-mix';
+import { deepMix, clone } from '@antv/util/lib';
 import { INode, ICombo } from '../interface/item';
 import { G6Event, IG6GraphEvent, Item, NodeConfig } from '../types';
 import Global from '../global';
@@ -37,18 +37,15 @@ export default {
     };
   },
   validationCombo(item: ICombo) {
-    if (!this.origin) {
-      return;
-    }
-
-    if (!item) {
-      return
+    if (!this.origin || !item) {
+      return false;
     }
 
     const type = item.getType()
     if (type !== 'combo') {
-      return
+      return false;
     }
+    return true;
   },
   /**
    * 开始拖动节点
@@ -176,9 +173,7 @@ export default {
         this.targets.map((node: INode) => {
           // 拖动的节点有 comboId，即是从其他 combo 中拖出时才处理
           const model = node.getModel()
-          if (model.comboId) {
-            graph.updateComboTree(node)
-          }
+          model.comboId && graph.updateComboTree(node)
         })
       } else {
         const targetComboModel = this.targetCombo.getModel()
@@ -189,6 +184,11 @@ export default {
           }
         })
       }
+    }
+
+    // 拖动结束后，入栈
+    if (graph.get('enabledStack')) {
+      graph.pushStack('update', clone(graph.save()))
     }
 
     this.point = {};
@@ -203,7 +203,7 @@ export default {
    */
   onDropCombo(evt: IG6GraphEvent) {
     const item = evt.item as ICombo
-    this.validationCombo(item)
+    if (!this.validationCombo(item)) return;
 
     const graph: IGraph = this.graph
 
@@ -219,7 +219,7 @@ export default {
    */
   onDragEnter(evt: IG6GraphEvent) {
     const item = evt.item as ICombo
-    this.validationCombo(item)
+    if (!this.validationCombo(item)) return;
 
     const graph: IGraph = this.graph
     if (this.comboActiveState) {
@@ -232,7 +232,7 @@ export default {
    */
   onDragLeave(evt: IG6GraphEvent) {
     const item = evt.item as ICombo
-    this.validationCombo(item)
+    if (!this.validationCombo(item)) return;
 
     const graph: IGraph = this.graph
     if (this.comboActiveState) {
@@ -250,8 +250,8 @@ export default {
     const nodeId: string = item.get('id');
     if (!this.point[nodeId]) {
       this.point[nodeId] = {
-        x: model.x,
-        y: model.y,
+        x: model.x || 0,
+        y: model.y || 0,
       };
     }
 
@@ -261,7 +261,7 @@ export default {
     const pos: Point = { x, y };
 
     if (this.get('updateEdge')) {
-      this.graph.updateItem(item, pos);
+      this.graph.updateItem(item, pos, false);
     } else {
       item.updatePosition(pos);
     }
@@ -273,6 +273,7 @@ export default {
    * @param {number} y 拖动单个元素时候的y坐标
    */
   updateDelegate(e) {
+    const { graph } = this;
     if (!this.delegateRect) {
       // 拖动多个
       const parent = this.graph.get('group');

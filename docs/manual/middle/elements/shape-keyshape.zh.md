@@ -126,4 +126,4 @@ Shape 作为 Graph 上的核心元素，这几个阶段都需要考虑，但是�
 - `update(cfg, n)`: 更新，更新时的配置项（更新的字段和原始字段的合并）和元素对象；
 - `setState(name, value, item)`: 响应节点/边/ Combo 状态的变化。
 
-关于自定义 Shape 更多的方法请参考 [Shape API](/zh/docs/api/Shape)。
+关于自定义节点和边的更多方法请参考 [自定义节点与边 API](/zh/docs/api/CustomItem)。

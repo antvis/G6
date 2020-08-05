@@ -1,5 +1,5 @@
 import G6 from '../../../src';
-import { isArray } from 'lodash'
+import isArray from '@antv/util/lib/is-array'
 
 const WRAPPER_BORDER_WIDTH = 2;
 const WRAPPER_HORIZONTAL_PADDING = 10;

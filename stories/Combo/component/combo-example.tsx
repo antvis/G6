@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import G6 from '../../../src';
 import { IGraph } from '../../../src/interface/graph';
-import { ComboConfig } from '../../../src/types';
+import { ComboConfig, GraphData } from '../../../src/types';
 import { IGroup } from '@antv/g-base/lib/interfaces';
 
 let graph: IGraph = null;
@@ -38,7 +38,7 @@ G6.registerCombo('custom-combo', {
   }
 }, 'circle-combo');
 
-const data = {
+const data: GraphData = {
   nodes: [
     {
       id: 'node1',
@@ -106,39 +106,39 @@ const data = {
     }
   ],
   combos: [
-  {
-    id: 'A',
-    parentId: 'B',
-    label: 'gorup A',
-    padding: [50, 30, 10, 10],
-    type: 'rect',
-    style: {
-      stroke: 'red',
-      fill: 'green'
+    {
+      id: 'A',
+      parentId: 'B',
+      label: 'gorup A',
+      padding: [50, 30, 10, 10],
+      type: 'rect',
+      style: {
+        stroke: 'red',
+        fill: 'green'
+      }
+    }, {
+      id: 'B',
+      label: 'gorup B',
+      padding: [50, 10, 10, 50],
+      // type: 'custom-combo'
+    },
+    {
+      id: 'D',
+      label: 'gorup D',
+      parentId: 'E',
+    },
+    {
+      id: 'E',
+    },
+    {
+      id: 'FF',
+      label: '空分组',
+      type: 'custom-combo',
+      style: {
+        stroke: 'green',
+        lineWidth: 3
+      }
     }
-  }, {
-    id: 'B',
-    label: 'gorup B',
-    padding: [50, 10, 10, 50],
-    // type: 'custom-combo'
-  },
-  {
-    id: 'D',
-    label: 'gorup D',
-    parentId: 'E',
-  }, 
-  {
-    id: 'E',
-  },
-  {
-    id: 'FF',
-    label: '空分组',
-    type: 'custom-combo',
-    style: {
-      stroke: 'green',
-      lineWidth: 3
-    }
-  }
   ]
 };
 
@@ -152,7 +152,7 @@ const DefaultCombo = () => {
         height: 800,
         groupByTypes: false,
         modes: {
-          default: [ 'drag-canvas', 'drag-combo', 'drag-node', 'collapse-expand-combo' ]
+          default: ['drag-canvas', 'drag-combo', 'drag-node', 'collapse-expand-combo']
         },
         defaultCombo: {
           // size: [100, 100],
@@ -181,7 +181,7 @@ const DefaultCombo = () => {
           }
         }
       });
-     
+
     }
     graph.data(data);
     graph.render();
@@ -190,7 +190,7 @@ const DefaultCombo = () => {
       graph.hideItem(e.item);
     })
     graph.on('combo:click', e => {
-      
+
     });
     // graph.on('canvas:click', e => {
     //   // graph.setItemState(graph.findById('A'), 'selected', true);
@@ -213,7 +213,7 @@ const DefaultCombo = () => {
       id: 'newCombo',
       label: 'newCombo',
       type: 'rect'
-    }, ['node6', 'node7'])
+    } as ComboConfig, ['node6', 'node7'])
   }
 
   const handleUnCombo = () => {

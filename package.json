@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "3.5.1",
+  "version": "3.6.0",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",
@@ -50,7 +50,7 @@
     "site:deploy": "npm run site:build && gh-pages -d public",
     "start": "npm run site:develop",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/combo-issue-spec.ts",
+    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/plugins/timebar-spec.ts",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
     "watch": "father build -w",
     "cdn": "antv-bin upload -n @antv/g6"
@@ -69,10 +69,12 @@
     "**/*.{js,ts,tsx}": "npm run lint-staged:js"
   },
   "dependencies": {
+    "@antv/color-util": "^2.0.5",
+    "@antv/component": "^0.6.1",
     "@antv/dom-util": "^2.0.1",
     "@antv/event-emitter": "~0.1.0",
     "@antv/g-base": "^0.4.1",
-    "@antv/g-canvas": "^0.4.3",
+    "@antv/g-canvas": "^0.4.14",
     "@antv/g-math": "^0.1.1",
     "@antv/g-svg": "^0.4.1",
     "@antv/hierarchy": "^0.6.2",
@@ -82,11 +84,11 @@
     "@antv/util": "~2.0.5",
     "d3-force": "^2.0.1",
     "dagre": "^0.8.5",
-    "lodash": "^4.17.15",
+    "insert-css": "^2.0.0",
     "ml-matrix": "^6.5.0"
   },
   "devDependencies": {
-    "@antv/gatsby-theme-antv": "^0.10.59",
+    "@antv/gatsby-theme-antv": "0.10.69",
     "@babel/core": "^7.7.7",
     "@babel/preset-react": "^7.7.4",
     "@storybook/addon-actions": "^5.2.8",
@@ -101,10 +103,9 @@
     "babel-loader": "^8.0.6",
     "event-simulate": "~1.0.0",
     "father": "^2.29.1",
-    "gatsby": "2.20.24",
+    "gatsby": "^2.23.9",
     "gh-pages": "^2.1.1",
     "husky": "^4.2.5",
-    "insert-css": "^2.0.0",
     "jest": "^26.0.1",
     "jest-electron": "^0.1.7",
     "jest-extended": "^0.11.2",

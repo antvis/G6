@@ -121,7 +121,7 @@ describe('tree graph without animate', () => {
       type: 'rect',
       children: [{ x: 150, y: 150, id: 'SubTreeNode3.1.1' }],
     };
-    graph.on('afteraddchild', function(e) {
+    graph.on('afteraddchild', function (e) {
       expect(e.item.getModel().id === 'SubTreeNode3.1' || e.item.getModel().id === 'SubTreeNode3.1.1').toBe(true);
       expect(e.item.get('parent').getModel().id === 'SubTreeNode3' || e.item.get('parent').getModel().id === 'SubTreeNode3.1').toBe(true);
       expect(e.parent.getModel().id === 'SubTreeNode3' || e.parent.getModel().id === 'SubTreeNode3.1').toBe(true);
@@ -535,10 +535,53 @@ describe('tree graph with animate', () => {
       expect(edge.get('source')).toEqual(graph3.findById('SubTreeNode4'));
       expect(edge.get('target')).toEqual(graph3.findById('SubTreeNode4.1'));
     });
-    
+
     graph3.changeData(data3);
 
     expect(graph3.save()).toEqual(data3);
+  });
+  it('collapse & expand with parameter trigger=dblclick', done => {
+    graph3.off();
+    graph3.moveTo(100, 150);
+
+    const parent = graph3.findById('SubTreeNode1');
+    let child = graph3.findById('SubTreeNode1.1');
+
+    let collapsed = undefined;
+    graph3.on('afteranimate', () => {
+      if (collapsed === undefined) return;
+      if (collapsed) {
+        expect(parent.getModel().collapsed).toBe(true);
+        expect(child.destroyed).toBe(true);
+      } else {
+        child = graph3.findById('SubTreeNode1.1');
+        expect(parent.getModel().collapsed).toBe(false);
+        expect(child.get('model').x).not.toEqual(parent.get('model').x);
+        expect(!!child.getModel().collapsed).toBe(false);
+        expect(child.get('model').y).not.toEqual(parent.get('model').y);
+        // done();
+      }
+    });
+    graph3.addBehaviors(
+      [
+        {
+          type: 'collapse-expand',
+          trigger: 'dblclick',
+        },
+      ],
+      'default',
+    );
+    timerOut(() => {
+      graph3.emit('node:dblclick', { item: parent });
+      collapsed = true;
+    }, 600);
+
+
+    timerOut(() => {
+      collapsed = false;
+      graph3.emit('node:dblclick', { item: parent });
+      done();
+    }, 1200);
   });
   it('collapse & expand', () => {
     graph3.off();
@@ -565,45 +608,6 @@ describe('tree graph with animate', () => {
     timerOut(() => {
       collapsed = false;
       graph3.emit('node:click', { item: parent });
-    }, 600);
-  });
-  it('collapse & expand with parameter trigger=dblclick', () => {
-    graph3.off();
-    graph3.moveTo(100, 150);
-
-    const parent = graph3.findById('SubTreeNode1');
-    let child = graph3.findById('SubTreeNode1.1');
-
-    let collapsed = true;
-    graph3.on('afteranimate', () => {
-      if (collapsed) {
-        console.log(parent.getModel().collapsed, child.destroyed)
-        expect(parent.getModel().collapsed).toBe(true);
-        expect(child.destroyed).toBe(true);
-      } else {
-        child = graph3.findById('SubTreeNode1.1');
-        expect(parent.getModel().collapsed).toBe(false);
-        expect(child.get('model').x).not.toEqual(parent.get('model').x);
-        expect(!!child.getModel().collapsed).toBe(false);
-        expect(child.get('model').y).not.toEqual(parent.get('model').y);
-        // done();
-      }
-    });
-    graph3.addBehaviors(
-      [
-        {
-          type: 'collapse-expand',
-          trigger: 'dblclick',
-        },
-      ],
-      'default',
-    );
-
-    graph3.emit('node:dblclick', { item: parent });
-
-    timerOut(() => {
-      collapsed = false;
-      graph3.emit('node:dblclick', { item: parent });
     }, 600);
   });
 

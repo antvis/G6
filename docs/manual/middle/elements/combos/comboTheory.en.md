@@ -1,29 +1,31 @@
 ---
-title: Combo Theory
+title: combo Theory
 order: 3
 ---
 
 > The English version is in progress
 
-## Combo 渲染视觉层级逻辑
+## The Rendering Logic of combo
 
-当图中只有 Node 和 Edge 而不存在 Combo 时，所有 Edge 的「视觉层级 zIndex」默认低于所有的 Node。但增加嵌套的 Combo 后，元素间的视觉层级需要较复杂的规则定义，方能符合合理的逻辑。为了方便说明，我们用 z(X) 表示 X 元素的视觉层级值。
-- 规则一：单层 Combo 中各元素层级关系是 z(Node) > z(Edge) > z(Combo)，如下所示：
+When there are no combos but nodes and edges, the visual index (zIndex) of edges are lower than nodes by default. For a graph with combos, rules about visual index should be specified to achieve reasonable result. For convenience, z(X) indicates the visual index(zIndex) in the following.
+
+- Rule 1: For one unnested combo, z(Node) > z(Edge) > z(combo), as shown below
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*q96OSKiu_F8AAAAAAAAAAABkARQnAQ' width=400 alt="img" />
 
-> z(a) = z(b) > z(e0) > z(Combo A)
+> z(a) = z(b) > z(e0) > z(combo A)
 
-- 规则一补充：假设 Combo A 内部的子元素包括子 Combo 及节点，且节点间存在边，则：z(子 Combo) > z(Node) > z(Edge) > z(Combo A 本身)，示例如下：
+- Rule 1+: Suppose that combo A has sub combos and nodes, and there are edges between the nodes, z(sub combo) > z(Node) > z(Edge) > z(combo A it self), as shown below:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wKcnQoN4c-MAAAAAAAAAAABkARQnAQ' width=400 alt="img" />
 
-> z(b1) = z(b2) > z(e2) > z(Combo B) > z(a1) = z(a2) > z(e1) > z(Combo A)
+> z(b1) = z(b2) > z(e2) > z(combo B) > z(a1) = z(a2) > z(e1) > z(combo A)
 
-- 规则二：通过规则一，可以得到所有 Combo 及 Node 的视觉层级值。若存在某条边 E 的两个端点 a 与 b 来自不同的 Combo，已知 z(a) 与 z(b)，则 z(E) 为 max(z(a), z(b)) 所在 Combo 内边的层级，即：
-  - 当 z(a) > z(b) 时，z(E) 等于 a 所在 Combo 内边的层级；
-  - 当 z(a) <= z(b)，z(E) 等于 b 所在 Combo 内边的层级。
-以下图为例，图中红色标注的边属于上述情况：
+- Rule 2: We now abtain all the visual indexes of combos and nodes by rule 1. If there is an edge E with end nodes a and b from different combos, and we already know z(a) and z(b), the z(E) will be equal to the visual index of the edges in the combo which contains the end node with larger z(x). That is:
+  - When z(a) > z(b), z(E) is equal to the visual index of the edges in the combo which contains a;
+  - When z(a) <= z(b), z(E) is equal to the visual index of the edges in the combo which contains b.
+
+As shown in the figure below, The edges with red label matches Rule 2:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dQwAQr0lCjQAAAAAAAAAAABkARQnAQ' width=400 alt="img" />
 
@@ -32,38 +34,38 @@ order: 3
 > z(e6) = z(e1)=z(e3)
 
 
-- 规则二补充：在上图的基础上，Combo B 收起后，如下左图；Combo A 收起后，如下右图。可以发现，在收缩一个 Combo 后，隐藏了与该 Combo 相关的节点及边，而增加了虚拟边来表示有外部元素连接到该 Combo 内的元素。
+- Rule 2+: The combo B of upper figure is collapsed as following figure. The related nodes and edges are hidden, and some vitual edges are added to represent the relationships between items inside and outside combo B.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RTF-Q5NgVtMAAAAAAAAAAABkARQnAQ' width=350 alt="img" />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sN2BRproFKQAAAAAAAAAAABkARQnAQ' width=350 alt="img" />
 
 
-## Combo 布局原理
-Combo 使用带有不重叠约束的力导型布局方法，Combo 布局分为以下三种情况：
-1. 布局最细粒度所有元素；
-2. 交互展开一个 Combo；
-3. 交互收起一个 Combo。
+## combo Layout Theory
+G6 provides a force-directed based layout for combo named 'comboForce'. There are three situations to be considered:
+1. Layout all the items;
+2. Expand a combo interactively;
+3. Collapse a combo interactively.
 
-力导向布局的原则：所有点对之间存在斥力 `Fr = k/r2`，边连接的点对之间存在引力 `Fa = ks * r`，其中 `r` 为两个节点之间的距离，`k` 与 `ks` 为系数。
+The principle of traditional force-directed layout: There are repulsive forces between all the node pairs as `Fr = k/r2`; There are attractive forces between the node pairs which have connections(edges) as `Fa = ks * r`. Where `r` is the distance between two nodes, `k` and `ks` are coefficient. To meet the requirement of combo layout, we add some additional strategies to make the nodes inside a combo more compact and avoid the combo overlappings.
 
-#### 为边上的引力 Fa 添加系数 m = f(c)
-- 「跨组边」—— 边两端节点来自不同的 Combos，减弱其引力大小，即 `m = f(c) < 1`。图中所有标出的边都为跨组边。跨越层数越多，减弱程度越高。如 `e46`、`e23`、`e12`、`e15` 跨越了一层，`e34`、`e13` 跨越了两层。因此 `f(c)` 是关于跨越层数(c)的函数，可以是 `m = 1/c` 等；
-- 同组边」—— 边两端节点来自相同 Combo，则引力定义方式不变，即 `m = f(c) = 1`。
+#### Define a coefficient m = f(c) for the attractive force Fa on the edge
+- 「Inter Edge」means an edge with two end nodes from different combos. All the edges in the below figure are inter edges. The attractive forces on them should be reduce the avoid this two combos overlapped. So the coefficient is `m = f(c) < 1`. Higher difference of the combos' depths, `m` should be smaller. E.g. the differences of `e46`, `e23`, `e12`, and `e15` are 1, and `e34`、`e13` are 2. So `f(c)` is a function about difference of the depths bewteen two end nodes' combos, e.g. `m = 1/c`;
+- 「Intra Edge」means an edge with two end nodes form the same combo,the coefficient is `m = f(c) = 1`.
 
-#### 增加 Combo 的中心力
-- 为方便描述，我们为 Combo X 定义层级的高低值 `P(X)`。如下图所示，A、B、C、D 四个组的层级高低：`P(A) > P(B) > P(C) > P(D)`；
-- 每个 Combo 中有由分组内节点当前的平均位置中心发出的重力，该平均中心根据每次迭代的节点位置进行更新；
-- `P(X)` 越小，其发出的重力 `G(X)` 越大。例如 `G(X) = 1/P(X)`；
-- 有些节点可能受到多个重力。例如下图 6 号节点，受到了它上层红色 Combo C 的重力 `G(C)`，绿色 Combo B 的重力 G(B)，黄色 Combo A 的重力 `G(A)`。`G(C) > G(B) > G(A)`。
+#### Gravity for combo
+- For convenience, we say `P(X)` is the hierarchy depth of combo X. As shown in the figure below, `P(A) > P(B) > P(C) > P(D)`;
+- Each combo has a gravity force G(X) for its succeeding nodes from their mean center. The mean center will be updated in each iteration;
+- Smaller `P(X)`, larger `G(X)`. e.g. `G(X) = 1/P(X)`;
+- Some nodes might be affected by multiple gravity forces. Such as the node #6 in the figure below, it is affected by the gravity forces `G(C)` from combo C with red stroke, `G(B)` from combo B with green stroke, and `G(A)` from combo A with yellow stroke, where `G(C) > G(B) > G(A)`.
 
-#### 迭代中的重叠检测
-- 每次迭代检测节点之间是否存在重叠：
-- 若两个节点之间存在重叠，则为二者间的斥力乘以一个放大系数 `R`，使之斥开。
-- 每次迭代（或每 `q` 次迭代）检测 Combo 之间是否存在重叠：
-- 首先计算最小能够包围该组内元素的圆形或矩形（根据 Combo Type 决定）；
-- 计算至上而下遍历，检测每个 Combo 内层级相同的子 Combos 是否存在重叠；
-- 若存在重叠则加大该 Combo 的重力。
+#### Overlapping detection
+- Detect the overlappings between nodes in each iteration, and:
+  - If two node overlapped, magnify a coefficient `R` to the repulsive force between them to take them apart.
+- Detect the overlappings between combos in each iteration (or each `q` iteraction in reduce the computation):
+  - First of all, compute the bounding box of the children (including nodes and sub combos);
+  - Then traverse the combo tree from top to bottom to find the overlapped combo pairs with same depth in a parent combo;
+  - Increase the gravity of the parent combo if two sub combos are overlapped.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Eu4FRJVqPScAAAAAAAAAAABkARQnAQ' width=400 alt="img" />
 
-> 相同颜色的 border 代表了相同的层级，该图层级由高到低分别是：A > B > C > D
+> The combos with same hierarchy depths are in the same color. The hierarchy depths on this graph is: A > B > C > D

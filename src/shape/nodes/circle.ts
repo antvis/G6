@@ -1,7 +1,7 @@
 import GGroup from '@antv/g-canvas/lib/group';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
 import deepMix from '@antv/util/lib/deep-mix';
-import { Item, NodeConfig, ShapeStyle, ModelConfig } from '../../types';
+import { Item, NodeConfig, ShapeStyle } from '../../types';
 import Global from '../../global';
 import Shape from '../shape';
 import { ShapeOptions } from '../../interface/shape';
@@ -32,7 +32,7 @@ Shape.registerNode(
         bottom: false,
         left: false,
         // circle的大小
-        size: 3,
+        size: 10,
         lineWidth: 1,
         fill: '#72CC4A',
         stroke: '#72CC4A',
@@ -52,12 +52,12 @@ Shape.registerNode(
     // 文本位置
     labelPosition: 'center',
     drawShape(cfg: NodeConfig, group: GGroup): IShape {
-      const { icon: defaultIcon } = this.options as ModelConfig;
+      const { icon: defaultIcon } = this.getOptions(cfg) as NodeConfig;
       const style = this.getShapeStyle!(cfg);
       const icon = deepMix({}, defaultIcon, cfg.icon);
       const keyShape: IShape = group.addShape('circle', {
         attrs: style,
-        className: 'circle-keyShape',
+        className: `${this.type}-keyShape`,
         draggable: true,
       });
 
@@ -69,8 +69,8 @@ Shape.registerNode(
             y: -height / 2,
             ...icon,
           },
-          className: 'circle-icon',
-          name: 'circle-icon',
+          className: `${this.type}-icon`,
+          name: `${this.type}-icon`,
           draggable: true
         });
       }
@@ -85,10 +85,9 @@ Shape.registerNode(
      * @param {Group} group Group实例
      */
     drawLinkPoints(cfg: NodeConfig, group: GGroup) {
-      const { linkPoints: defaultLinkPoints } = this.options as ModelConfig;
-      const linkPoints = deepMix({}, defaultLinkPoints, cfg.linkPoints);
+      const { linkPoints } = this.getOptions(cfg) as NodeConfig;
 
-      const { top, left, right, bottom, size: markSize, ...markStyle } = linkPoints;
+      const { top, left, right, bottom, size: markSize, r: markR, ...markStyle } = linkPoints;
       const size = this.getSize!(cfg);
       const r = size[0] / 2;
       if (left) {
@@ -98,7 +97,7 @@ Shape.registerNode(
             ...markStyle,
             x: -r,
             y: 0,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-left',
           name: 'link-point-left',
@@ -113,7 +112,7 @@ Shape.registerNode(
             ...markStyle,
             x: r,
             y: 0,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-right',
           name: 'link-point-right',
@@ -128,7 +127,7 @@ Shape.registerNode(
             ...markStyle,
             x: 0,
             y: -r,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-top',
           name: 'link-point-top',
@@ -143,7 +142,7 @@ Shape.registerNode(
             ...markStyle,
             x: 0,
             y: r,
-            r: markSize,
+            r: markSize / 2 || markR || 5,
           },
           className: 'link-point-bottom',
           name: 'link-point-bottom',
@@ -157,12 +156,12 @@ Shape.registerNode(
      * @return {Object} 节点的样式
      */
     getShapeStyle(cfg: NodeConfig): ShapeStyle {
-      const { style: defaultStyle } = this.options as ModelConfig;
+      const { style: defaultStyle } = this.getOptions(cfg) as NodeConfig;
       const strokeStyle = {
         stroke: cfg.color,
       };
       // 如果设置了color，则覆盖默认的stroke属性
-      const style = deepMix({}, defaultStyle, strokeStyle, cfg.style);
+      const style = deepMix({}, defaultStyle, strokeStyle);
       const size = (this as ShapeOptions).getSize!(cfg);
       const r = size[0] / 2;
       const styles = Object.assign(

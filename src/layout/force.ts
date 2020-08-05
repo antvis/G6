@@ -57,6 +57,7 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
 
   /** 是否正在布局 */
   private ticking: boolean | undefined = undefined;
+  private edgeForce: any;
 
   public getDefaultCfg() {
     return {
@@ -104,7 +105,7 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
   /**
    * 执行布局
    */
-  public execute() {
+  public execute(reloadData?: boolean) {
     const self = this;
     const nodes = self.nodes;
     const edges = self.edges;
@@ -147,6 +148,7 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
           if (self.linkDistance) {
             edgeForce.distance(self.linkDistance);
           }
+          self.edgeForce = edgeForce;
           simulation.force('link', edgeForce);
         }
         if (self.workerEnabled && !isInWorker()) {
@@ -188,6 +190,10 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
         console.warn(e);
       }
     } else {
+      if (reloadData) {
+        simulation.nodes(nodes);
+        self.edgeForce.links(edges);
+      }
       if (self.preventOverlap) {
         self.overlapProcess(simulation);
       }

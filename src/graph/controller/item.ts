@@ -46,8 +46,8 @@ export default class ItemController {
    */
   public addItem<T extends Item>(type: ITEM_TYPE, model: ModelConfig) {
     const { graph } = this;
-    const parent: Group = graph.get(`${type}Group`) || graph.get('group');
     const vType = type === VEDGE ? EDGE : type;
+    const parent: Group = graph.get(`${vType}Group`) || graph.get('group');
     const upperType = upperFirst(vType);
 
     let item: Item | null = null;
@@ -108,8 +108,14 @@ export default class ItemController {
         return;
       }
 
-      if ((source as Item).getType && (source as Item).getType() === 'combo') model.isComboEdge = true;
-      if ((target as Item).getType && (target as Item).getType() === 'combo') model.isComboEdge = true;
+      if ((source as Item).getType && (source as Item).getType() === 'combo') {
+        model.isComboEdge = true;
+        graph.updateCombo(source as ICombo);
+      }
+      if ((target as Item).getType && (target as Item).getType() === 'combo') {
+        model.isComboEdge = true;
+        graph.updateCombo(target as ICombo);
+      }
 
       item = new Edge({
         model,
@@ -130,8 +136,8 @@ export default class ItemController {
       const children: ComboTree[] = (model as ComboConfig).children;
 
       const comboBBox = getComboBBox(children, graph);
-      model.x = comboBBox.x || Math.random() * 100;
-      model.y = comboBBox.y || Math.random() * 100;
+      model.x = comboBBox.x || model.x || Math.random() * 100;
+      model.y = comboBBox.y || model.y || Math.random() * 100;
 
       const comboGroup = parent.addGroup();
       comboGroup.setZIndex((model as ComboConfig).depth as number);
@@ -242,7 +248,7 @@ export default class ItemController {
     if (type === NODE || type === COMBO) {
       const edges: IEdge[] = (item as INode).getEdges();
       each(edges, (edge: IEdge) => {
-        graph.refreshItem(edge);
+        edge.refresh();
       });
     }
     graph.emit('afterupdateitem', { item, cfg });
@@ -273,7 +279,12 @@ export default class ItemController {
       x: comboBBox.x,
       y: comboBBox.y
     });
-
+    const combEdges = combo.getEdges() || [];
+    const length = combEdges.length;
+    for (let i = 0; i < length; i++) {
+      const edge = combEdges[i];
+      edge && edge.refresh();
+    }
   }
 
   /**
@@ -288,8 +299,8 @@ export default class ItemController {
     children.nodes.forEach(node => {
       graph.hideItem(node);
     });
-    children.combos.forEach(combo => {
-      graph.hideItem(combo);
+    children.combos.forEach(c => {
+      graph.hideItem(c);
     });
   }
 
@@ -306,11 +317,11 @@ export default class ItemController {
     children.nodes.forEach(node => {
       graph.showItem(node);
     });
-    children.combos.forEach(combo => {
-      if (combo.getModel().collapsed) {
-        combo.show();
+    children.combos.forEach(c => {
+      if (c.getModel().collapsed) {
+        c.show();
       } else {
-        graph.showItem(combo);
+        graph.showItem(c);
       }
     });
   }
@@ -353,6 +364,7 @@ export default class ItemController {
     const comboTrees = graph.get('comboTrees');
     const id = item.get('id');
     if (type === NODE) {
+      const comboId = item.getModel().comboId as string;
       if (comboTrees) {
         let brothers = comboTrees;
         let found = false; // the flag to terminate the forEach circulation
@@ -361,8 +373,8 @@ export default class ItemController {
           if (found) return;
           traverseTree<ComboTree>(ctree, combo => {
             if (combo.id === id && brothers) {
-              const index = brothers.indexOf(combo);
-              brothers.splice(index, 1);
+              const bidx = brothers.indexOf(combo);
+              brothers.splice(bidx, 1);
               found = true;
               return false; // terminate the traverse
             }
@@ -374,10 +386,11 @@ export default class ItemController {
       // 若移除的是节点，需要将与之相连的边一同删除
       const edges = (item as INode).getEdges();
       for (let i = edges.length; i >= 0; i--) {
-        graph.removeItem(edges[i]);
+        graph.removeItem(edges[i], false);
       }
-    }
-    else if (type === COMBO) {
+      if (comboId) graph.updateCombo(comboId);
+    } else if (type === COMBO) {
+      const parentId = item.getModel().parentId as string;
       let comboInTree;
       // find the subtree rooted at the item to be removed
       let found = false; // the flag to terminate the forEach circulation
@@ -401,8 +414,9 @@ export default class ItemController {
       // 若移除的是 combo，需要将与之相连的边一同删除
       const edges = (item as ICombo).getEdges();
       for (let i = edges.length; i >= 0; i--) {
-        graph.removeItem(edges[i]);
+        graph.removeItem(edges[i], false);
       }
+      if (parentId) graph.updateCombo(parentId);
     }
 
     item.destroy();
@@ -426,7 +440,9 @@ export default class ItemController {
       stateName = `${state}:${value}`
     }
 
-    if (item.hasState(stateName) === value || (isString(value) && item.hasState(stateName))) {
+    // 已经存在要设置的 state，或不存在 state 的样式为 undefined
+    if (item.hasState(stateName) === value
+      || (isString(value) && item.hasState(stateName))) {
       return;
     }
 
@@ -436,6 +452,25 @@ export default class ItemController {
 
     graph.autoPaint();
     graph.emit('afteritemstatechange', { item, state: stateName, enabled: value });
+  }
+
+  /**
+   * 将指定状态的优先级提升为最高优先级
+   * @param {Item} item 元素id或元素实例
+   * @param state 状态名称
+   */
+  public priorityState(item: Item | string, state: string): void {
+    const { graph } = this;
+
+    let currentItem = item
+    if (isString(item)) {
+      currentItem = graph.findById(item)
+    }
+    // 先取消已有的 state
+    this.setItemState(currentItem as Item, state, false)
+
+    // 再设置state，则此时该优先级为最高
+    this.setItemState(currentItem as Item, state, true)
   }
 
   /**
@@ -488,6 +523,7 @@ export default class ItemController {
    * @memberof ItemController
    */
   public addCombos(comboTrees: ComboTree[], comboModels: ComboConfig[]) {
+    const { graph } = this;
     comboTrees && comboTrees.forEach((ctree: ComboTree) => {
       traverseTreeUp<ComboTree>(ctree, child => {
         let comboModel;
@@ -504,8 +540,9 @@ export default class ItemController {
         return true;
       });
     });
-    const comboGroup = this.graph.get('comboGroup');
+    const comboGroup = graph.get('comboGroup');
     if (comboGroup) comboGroup.sort();
+
   }
 
   /**

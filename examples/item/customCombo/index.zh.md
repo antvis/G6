@@ -1,6 +1,6 @@
 ---
 title: 自定义 Combo
-order: 5
+order: 6
 ---
 
 当 G6 的内置 Combo 不能满足需求时，G6 的自定义 Combo 机制允许用户通过扩展内置 Combo 来设计和定制新的节点类型。

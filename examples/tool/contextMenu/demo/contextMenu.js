@@ -30,28 +30,32 @@ descriptionDiv.id = 'discription';
 descriptionDiv.innerHTML = 'Right click a node to activate a contextMenu.';
 document.getElementById('container').appendChild(descriptionDiv);
 
-// JSX and HTML templates are available for the menu
-// create ul
-const conextMenuContainer = document.createElement('ul');
-conextMenuContainer.id = 'contextMenu';
-
-// create li
-const firstLi = document.createElement('li');
-firstLi.innerText = 'Option 1';
-conextMenuContainer.appendChild(firstLi);
-
-const lastLi = document.createElement('li');
-lastLi.innerText = 'Option 2';
-conextMenuContainer.appendChild(lastLi);
-document.getElementById('container').appendChild(conextMenuContainer);
-
 const width = document.getElementById('container').scrollWidth;
 const height = document.getElementById('container').scrollHeight || 500;
+
+const contextMenu = new G6.Menu({
+  getContent(graph) {
+    console.log('graph',graph)
+    return `<ul>
+      <li title='1'>测试01</li>
+      <li title='2'>测试02</li>
+      <li>测试03</li>
+      <li>测试04</li>
+      <li>测试05</li>
+    </ul>`;
+  },
+  handleMenuClick: (target, item) => {
+    console.log(target, item)
+  }
+});
+
 const graph = new G6.Graph({
+  // 使用 contextMenu plugins 时，需要将 container 设置为 position: relative;
   container: 'container',
   width,
   height,
   linkCenter: true,
+  plugins: [contextMenu],
   defaultNode: {
     size: [80, 40],
     type: 'rect',
@@ -120,13 +124,3 @@ const data = {
 graph.data(data);
 graph.render();
 
-graph.on('node:contextmenu', evt => {
-  evt.preventDefault();
-  evt.stopPropagation();
-  conextMenuContainer.style.left = `${evt.x + 20}px`;
-  conextMenuContainer.style.top = `${evt.y}px`;
-});
-
-graph.on('node:mouseleave', () => {
-  conextMenuContainer.style.left = '-150px';
-});

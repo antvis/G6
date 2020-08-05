@@ -124,7 +124,7 @@ $ npm install
 $ npm run test-live
 
 # build watching file changes and run demos
-$ npm run dev
+$ npm run demos
 ```
 
 ## 文档

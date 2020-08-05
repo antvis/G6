@@ -156,7 +156,7 @@ graph.render();
 
 #### collapse-expand-combo
 
-`collapse-expand-combo` Behavior，支持双击 Combo 收起和展开 Combo ，收起 Combo 以后，隐藏 Combo 中的所有节点，外部节点和 Combo 中节点有连线的情况下，所有连接会连接到 Combo 上面。
+`collapse-expand-combo` Behavior，支持双击 Combo 收起和展开 Combo ，收起 Combo 以后，隐藏 Combo 中的所有节点，外部节点和 Combo 中节点有连线的情况下，所有连接会连接到 Combo 上面。若图配置有布局且该 behavior 的 `relayout` 配置项为 `true`（默认为 `true`），则该 behavior 被触发后会触发图的重新布局。若希望避免重新布局，可以配置 `relayout` 为 `false` ，或通过监听 combo 点击事件和 [graph.collapseExpandCombo API](/zh/docs/api/Graph#collapseexpandcombocombo) 控制收缩展开逻辑。 
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*X0_PSYizJ4AAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 

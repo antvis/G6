@@ -31,6 +31,7 @@ export type ShapeOptions = Partial<{
    */
   draw(cfg?: ModelConfig, group?: GGroup): IShape;
 
+  getCustomConfig(cfg: ModelConfig): ModelConfig;
   drawShape(cfg?: ModelConfig, group?: GGroup): IShape;
   drawLabel(cfg: ModelConfig, group: GGroup): IShape;
   getLabelStyleByPosition(cfg: ModelConfig, labelCfg: ILabelConfig, group?: GGroup): LabelStyle;

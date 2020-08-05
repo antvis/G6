@@ -8,34 +8,33 @@ import wrapBehavior from '@antv/util/lib/wrap-behavior';
 import Graph from '../graph';
 import { IG6GraphEvent, Matrix, Item } from '../../types';
 import { cloneEvent, isViewportChanged } from '../../util/base';
-import { mat3 } from '@antv/matrix-util';
-
 
 type Fun = () => void;
 
-const EVENTS = [
-  'click',
-  'mousedown',
-  'mouseup',
-  'dblclick',
-  'contextmenu',
-  'mouseenter',
-  'mouseout',
-  'mouseover',
-  'mousemove',
-  'mouseleave',
-  'dragstart',
-  'dragend',
-  'drag',
-  'dragenter',
-  'dragleave',
-  'dragover',
-  'dragout',
-  'drop',
-  'touchstart',
-  'touchmove',
-  'touchend',
-];
+// const EVENTS = [
+//   'click',
+//   'mousedown',
+//   'mouseup',
+//   'dblclick',
+//   'contextmenu',
+//   'mouseenter',
+//   'mouseout',
+//   'mouseover',
+//   'mousemove',
+//   'mouseleave',
+//   'dragstart',
+//   'dragend',
+//   'drag',
+//   'dragenter',
+//   'dragleave',
+//   'dragover',
+//   'dragout',
+//   'drop',
+//   'touchstart',
+//   'touchmove',
+//   'touchend',
+// ];
+
 export default class EventController {
   private graph: Graph;
 
@@ -69,9 +68,11 @@ export default class EventController {
     const originHandler = wrapBehavior(this, 'onExtendEvents');
     const wheelHandler = wrapBehavior(this, 'onWheelEvent');
 
-    each(EVENTS, event => {
-      canvas.on(event, canvasHandler);
-    });
+    // each(EVENTS, event => {
+    //   canvas.on(event, canvasHandler);
+    // });
+
+    canvas.on('*', canvasHandler)
 
     this.canvasHandler = canvasHandler;
     extendEvents.push(addEventListener(el, 'DOMMouseScroll', wheelHandler));
@@ -98,6 +99,7 @@ export default class EventController {
    */
   protected onCanvasEvents(evt: IG6GraphEvent) {
     const { graph } = this;
+
     const canvas = graph.get('canvas');
     const { target } = evt;
     const eventType = evt.type;
@@ -112,12 +114,13 @@ export default class EventController {
 
     const group: Group = graph.get('group');
     let matrix: Matrix = group.getMatrix();
+
     if (!matrix) {
-      matrix = mat3.create();
+      matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
     }
 
     if (isViewportChanged(matrix)) {
-      point = graph.getPointByCanvas(evt.canvasX, evt.canvasY);
+      point = graph.getPointByClient(evt.clientX, evt.clientY);
     }
 
     evt.x = point.x;
@@ -150,12 +153,15 @@ export default class EventController {
 
     const type = item.getType();
 
-    // 事件target是触发事件的Shape实例，, item是触发事件的item实例
+    // 事件target是触发事件的Shape实例，item是触发事件的item实例
     evt.target = target;
     evt.item = item;
+
+    // emit('click', evt);
     graph.emit(eventType, evt);
 
-    graph.emit(`${type}:${eventType}`, evt);
+    if (evt.name && !evt.name.includes(':')) graph.emit(`${type}:${eventType}`, evt); // emit('node:click', evt)
+    else graph.emit(evt.name, evt); // emit('text-shape:click', evt)
 
     if (eventType === 'dragstart') {
       this.dragging = true;
@@ -195,7 +201,7 @@ export default class EventController {
   private handleMouseMove(evt: IG6GraphEvent, type: string) {
     const { graph, preItem } = this;
     const canvas: Canvas = graph.get('canvas');
-    const item = evt.target === canvas ? null : evt.item;
+    const item = (evt.target as any) === canvas ? null : evt.item;
 
     evt = cloneEvent(evt) as IG6GraphEvent;
 
@@ -235,9 +241,11 @@ export default class EventController {
     const { graph, canvasHandler, extendEvents } = this;
     const canvas: Canvas = graph.get('canvas');
 
-    each(EVENTS, event => {
-      canvas.off(event, canvasHandler);
-    });
+    // each(EVENTS, event => {
+    //   canvas.off(event, canvasHandler);
+    // });
+
+    canvas.off('*', canvasHandler);
 
     each(extendEvents, event => {
       event.remove();

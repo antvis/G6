@@ -100,7 +100,7 @@ Type: Number. THe width and the height of the graph.
 
 ### Commonly used Configuration
 
-There are some commonly used configurations. For complete configurations, please refer to [Graph API](/zh/docs/api/Graph).
+There are some commonly used configurations. For complete configurations, please refer to [Graph API](/en/docs/api/Graph).
 
 #### Rendering
 

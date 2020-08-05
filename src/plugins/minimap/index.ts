@@ -210,8 +210,8 @@ export default class MiniMap extends Base {
     const totaldy: number = this.get('totaldy');
     const graph: Graph = this.get('graph');
     const size: number[] = this.get('size');
-    let graphWidth = graph.get('width');
-    let graphHeight = graph.get('height');
+    const graphWidth = graph.get('width');
+    const graphHeight = graph.get('height');
     const topLeft: Point = graph.getPointByCanvas(0, 0);
     const bottomRight: Point = graph.getPointByCanvas(graphWidth, graphHeight);
     const graphBBox = graph.get('canvas').getCanvasBBox();
@@ -322,7 +322,7 @@ export default class MiniMap extends Base {
   private updateOneNodeKeyShape(item) {
     const canvas: GCanvas = this.get('canvas');
     const group = canvas.get('children')[0] || canvas.addGroup();
-    let itemMap = this.get('itemMap') || {};
+    const itemMap = this.get('itemMap') || {};
 
     // 差量更新 minimap 上的一个节点，对应主图的 item
     let mappedItem = itemMap[item.get('id')];
@@ -370,7 +370,7 @@ export default class MiniMap extends Base {
   }
 
   private clearDestroyedShapes() {
-    let itemMap = this.get('itemMap') || {};
+    const itemMap = this.get('itemMap') || {};
     const keys = Object.keys(itemMap);
     if (!keys || keys.length === 0) return;
     for (let i = keys.length - 1; i >= 0; i--) {
@@ -391,7 +391,7 @@ export default class MiniMap extends Base {
   private updateOneEdgeKeyShape(item) {
     const canvas: GCanvas = this.get('canvas');
     const group = canvas.get('children')[0] || canvas.addGroup();
-    let itemMap = this.get('itemMap') || {};
+    const itemMap = this.get('itemMap') || {};
     // 差量更新 minimap 上的一个节点，对应主图的 item
     let mappedItem = itemMap[item.get('id')];
     if (mappedItem) {
@@ -419,13 +419,13 @@ export default class MiniMap extends Base {
     const canvas: GCanvas = this.get('canvas');
     const group = canvas.get('children')[0] || canvas.addGroup();
     const delegateStyle = this.get('delegateStyle');
-    let itemMap = this.get('itemMap') || {};
+    const itemMap = this.get('itemMap') || {};
 
     // 差量更新 minimap 上的一个节点，对应主图的 item
     let mappedItem = itemMap[item.get('id')];
     const bbox = item.getBBox(); // 计算了节点父组矩阵的 bbox
     if (mappedItem) {
-      let attrs = {
+      const attrs = {
         x: bbox.minX,
         y: bbox.minY,
         width: bbox.width,
@@ -560,6 +560,8 @@ export default class MiniMap extends Base {
         // 得到的节点直接带有 x 和 y，每个节点不存在父 group，即每个节点位置不由父 group 控制
         this.updateDelegateShapes();
         break;
+      default:
+        break;
     }
 
     const group = canvas.get('children')[0];
@@ -586,7 +588,7 @@ export default class MiniMap extends Base {
 
     const ratio = Math.min(size[0] / width, size[1] / height);
 
-    let matrix: Matrix = mat3.create();
+    let matrix: Matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
 
     let minX = 0;
     let minY = 0;

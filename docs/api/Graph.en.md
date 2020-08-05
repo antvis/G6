@@ -23,6 +23,7 @@ The life cycle of an instance of Graph is: Initialize -> Load data -> Render -> 
 | fitView | Boolean | false | Whether to fit the canvas to the view port. |
 | fitViewPadding | Array | Number | Takes effect only when `fitView: true`. It is the padding between canvas and the border of view port.<br />- It can be a value, e.g. `fitViewPadding: 20`, which means the padding to the top, left, right, bottom are the same.<br />- Or an array, e.g. `fitViewPadding: [ 20, 40, 50, 20 ]`, the four values in the array indicate the padding to the top, right, bottom, left respectively. |
 | fitCenter | Boolean | false | *Supported by v3.5.1.* Whether to translate the graph to align its center with the canvas. Its priority is lower than `fitView` |
+| linkCenter | Boolean |  false | Whether to connect the edges to nodes' center. |
 | groupByTypes | Boolean | true | Whether to group the nodes and edges separately. When it is false, all the items (including nodes and edges) are in the same group, and the order/zindex of them are determined according to the order of their generation. When you are using Combo, **MUST** set `groupByTypes` to `false` |
 | autoPaint | Boolean | true | Whether to paint the graph automatically while item updated or view port changed. In order to enhance the performance, we recommend to turn off `antoPaint` when you are doing bulk operation on nodes or edges. This can be refered to [`setAutoPaint()`](#setautopaintauto). |
 | modes | Object |  | The interaction modes of this graph. Please refer to [Interaction Mode](/en/docs/manual/middle/states/mode) for detail。 |
@@ -34,7 +35,7 @@ The life cycle of an instance of Graph is: Initialize -> Load data -> Render -> 
 | defaultCombo | Object | {} | Default combo configurations in global, including type, size, color and so on. Its priority is lower than the configurations in data. It is a new feature of G6 3.5. |
 | plugins | Array | [] | Plugins for graph. Please refer to [Plugin](/en/docs/manual/tutorial/plugins##plugin) for detail. |
 | animate | Boolean | false | Wheter activate the global animation. Which will take effect while changing layouts, changing data, and other global operations. |
-| animateCfg | Object |  | The configurations for global animation. Takes effect only when `animate: true`. |
+| animateCfg | Object |  | The configurations for global animation. Takes effect only when `animate: true`. For more detail about animateCfg, see [Basic Animation Docs](/en/docs/manual/advanced/animation#animatecfg). |
 | animateCfg.<br />onFrame | Function | null | The callback function for every frame of animation. The path of custom animation for node can be defined here. The nodes will move linearly when `onFrame` is null. |
 | animateCfg.<br />duration | Number | 500 | Duration of animation with unit millisecond. |
 | animateCfg.<br />easing | string | easeLinear | The easing function name of animation. Please refer to ease in d3. |
@@ -44,6 +45,8 @@ The life cycle of an instance of Graph is: Initialize -> Load data -> Render -> 
 | groupStyle | Object |  | Group style for nodes, please refer to [Node Group](/en/docs/manual/middle/nodeGroup) for detail. |
 | layout | Object |  | Configurations for layout. The `type` in it is the name of layout method with the options: `'random'`, `'radial'`, `'mds'`, `'circular'`, `'fruchterman'`, `'force'`, `'dagre'`, `'concentric'`, `'grid'`. For more configurations for different layout methods, please refer to [Layout API](/en/docs/api/layout/Layout). |
 | renderer | string | 'canvas' / 'svg' | Render the graph with Canvas or SVG. It is supported expecting V3.3.x |
+| enabledStack | boolean | false | Whether to enable stack，that is, whether to support redo & undo operation. Support by V3.6 and latter versions. |
+| maxStep | number | 10 | The max step number of redo & undo, works only when the `enabledStack` is `true`. Support by V3.6 and latter versions. |
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> In G6 3.1, we added two new configurations for graph: `nodeStateStyles` and `edgeStateStyles`. In the same time, we deleted `nodeStyle` and `edgeStyle` . To upgrate, replace `nodeStyle` with `nodeStateStyles`, and replace `edgeStyle` with `edgeStateStyles`, and keep the sub-configuration inside them.
 
@@ -203,7 +206,7 @@ const data = {
 graph.read(data);
 ```
 
-### changeData(data)
+### changeData(data, stack)
 
 Change the data source, and render the graph according to the new data.
 
@@ -212,6 +215,7 @@ Change the data source, and render the graph according to the new data.
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | data | Object | false | Graph data, it should be an object containing an array of nodes and an array of edges. If it is not assigned, the graph will be re-rendered with the current data on the graph |
+| stack | boolean | false | Whether to push the operator into the undo & redo stack. If the `enableStack` is `true`, this operation will be automatically pushed into the stack by default. Set `stack` to be `false` if you do not want it. |
 
 **Usage**
 
@@ -250,7 +254,7 @@ Collapse a Combo.
 
 | Name | Type | Required | Description |
 | ------- | ------ | -------- | ------- |
-| combo | string | ICombo     | The ID of the combo or the combo item to be collapsed |
+| combo | string / ICombo| true    | The ID of the combo or the combo item to be collapsed |
 
 **Usage**
 ```
@@ -264,7 +268,7 @@ Expand a Combo.
 
 | Name | Type | Required | Description |
 | ------- | ------ | -------- | ------- |
-| combo | string | ICombo     | The ID of the combo or the combo item to be expanded |
+| combo | string / ICombo | true    | The ID of the combo or the combo item to be expanded |
 
 **Usage**
 ```
@@ -360,7 +364,7 @@ graph.expandGroup('groupId');
 
 ## Update
 
-### addItem(type, model)
+### addItem(type, model, stack)
 
 Add item(node, edge, or group) to the graph.
 
@@ -372,6 +376,7 @@ Add item(node, edge, or group) to the graph.
 | --- | --- | --- | --- |
 | type | string | true | The type of the item. Options: `'node'`, `'edge'`, and `'group'`. |
 | model | Object | true | The data model of the item, refer to [Item Model Properties](/en/docs/api/nodeEdge/itemProperties). When `type: 'group'`, refer to [Create Node Group](/en/docs/manual/advanced/create-node-group) |
+| stack | boolean | false | Whether to push the operator into the undo & redo stack. If the `enableStack` is `true`, this operation will be automatically pushed into the stack by default. Set `stack` to be `false` if you do not want it. |
 
 **Usage**
 
@@ -403,11 +408,11 @@ const model = {
 graph.addItem('group', model);
 ```
 
-### add(type, model)
+### add(type, model, stack)
 
 The same as addItem(type, model).
 
-### updateItem(item, model)
+### updateItem(item, model, stack)
 
 Update the item with new data model.
 If there are combos in the graph, after calling updateItem to update the position of a node, call [updateCombo(combo)](/en/docs/api/Graph#updatecombocombo) to update the sizes and positions of the related combos.
@@ -418,6 +423,7 @@ If there are combos in the graph, after calling updateItem to update the positio
 | ---- | --------------- | -------- | ----------------------------------- |
 | item | string / Object | true     | The ID or the instance of the item |
 | cfg  | Object          | false    | New data model, refer to [Item Model Properties](/en/docs/api/nodeEdge/itemProperties) |
+| stack | boolean | false | Whether to push the operator into the undo & redo stack. If the `enableStack` is `true`, this operation will be automatically pushed into the stack by default. Set `stack` to be `false` if you do not want it. |
 
 **Usage**
 
@@ -438,7 +444,7 @@ const item = graph.findById('node');
 graph.updateItem(item, model);
 ```
 
-### update(item, model)
+### update(item, model, stack)
 
 The same as updateItem(item, model).
 
@@ -507,7 +513,7 @@ graph.updateComboTree('combo1', 'combo2')
 
 
 
-### removeItem(item)
+### removeItem(item, stack)
 
 Remove the item. When the item is the id of a group, this operation will delete the corresponding group.
 
@@ -516,6 +522,7 @@ Remove the item. When the item is the id of a group, this operation will delete 
 | Name | Type            | Required | Description                         |
 | ---- | --------------- | -------- | ----------------------------------- |
 | item | string / Object | true     | The id or the instance of the item. |
+| stack | boolean | false | Whether to push the operator into the undo & redo stack. If the `enableStack` is `true`, this operation will be automatically pushed into the stack by default. Set `stack` to be `false` if you do not want it. |
 
 **Usage**
 
@@ -525,7 +532,7 @@ const item = graph.findById('node');
 graph.removeItem(item);
 ```
 
-### remove(item)
+### remove(item, stack)
 
 The same as removeItem(item)。
 
@@ -734,7 +741,7 @@ graph.destroy();
 
 ## State
 
-### showItem(item)
+### showItem(item, stack)
 
 Show the item. If the item is a node, the related edges will be shown in the same time. Different from that, [item.show()](/en/docs/api/nodeEdge/Item#show) only show the node item itself.
 
@@ -743,6 +750,7 @@ Show the item. If the item is a node, the related edges will be shown in the sam
 | Name | Type            | Required | Description                         |
 | ---- | --------------- | -------- | ----------------------------------- |
 | item | string / Object | true     | The id or the instance of the item. |
+| stack | boolean | false | Whether to push the operator into the undo & redo stack. If the `enableStack` is `true`, this operation will be automatically pushed into the stack by default. Set `stack` to be `false` if you do not want it. |
 
 **Usage**
 
@@ -755,7 +763,7 @@ graph.showItem(item);
 graph.showItem('nodeId');
 ```
 
-### hideItem(item)
+### hideItem(item, stack)
 
 Hide the item. If the item is a node, the related edges will be hidden in the same time. Different from that, [item.hide()](/en/docs/api/nodeEdge/Item#hide) only hide the node item itself.
 
@@ -764,6 +772,7 @@ Hide the item. If the item is a node, the related edges will be hidden in the sa
 | Name | Type            | Required | Description                         |
 | ---- | --------------- | -------- | ----------------------------------- |
 | item | string / Object | true     | The id or the instance of the item. |
+| stack | boolean | false | Whether to push the operator into the undo & redo stack. If the `enableStack` is `true`, this operation will be automatically pushed into the stack by default. Set `stack` to be `false` if you do not want it. |
 
 **Usage**
 
@@ -780,6 +789,9 @@ graph.hideItem('nodeId');
 
 Set the item's state.
 
+v3.4 and futher versions support multiple values for a state, refer to [Take Use of State Mechanism](/en/docs/manual/middle/states/state-new).
+
+
 This function will emit events `beforitemstatechange` and `afteritemstatechange`.
 
 **Parameters**
@@ -793,7 +805,12 @@ This function will emit events `beforitemstatechange` and `afteritemstatechange`
 **Usage**
 
 ```javascript
+// boolean values for state 'selected'
 graph.setItemState('node1', 'selected', true);
+
+// multiple values for state 'body'
+graph.setItemState('node1', 'body', 'health');
+graph.setItemState('node2', 'body', 'ill');
 ```
 
 ### clearItemStates(item, states)
@@ -805,7 +822,7 @@ Clear the states of the item. This function could clear multiple states in the s
 | Name   | Type            | Required | Description                         |
 | ------ | --------------- | -------- | ----------------------------------- |
 | item   | string / Object | true     | The id or the instance of the item. |
-| states | string / Array  | null     | false                               | It can be a single state value, an array, or null. When it is null, this operation will clear all state of the item. |
+| states | string / Array / null     | false                               | It can be a single state value, an array, or null. When it is null, this operation will clear all state of the item. |
 
 **Usage**
 
@@ -1216,7 +1233,7 @@ graph.zoomTo(3, { x: 100, y: 100 });
 graph.zoomTo(0.5);
 ```
 
-### focusItem(item)
+### focusItem(item, animate, animateCfg)
 
 Move the graph to center at the item. This operation can be used as easing animation after searching a node.
 
@@ -1225,11 +1242,22 @@ Move the graph to center at the item. This operation can be used as easing anima
 | Name | Type            | Required | Description                         |
 | ---- | --------------- | -------- | ----------------------------------- |
 | item | string / Object | true     | The id or the instance of the item. |
+| animate | boolean | false     | Whether move the graph with animation. If it is not assigned, animates following the graph's `animate`. |
+| animateCfg | Object | false     | The animation's configuraiton. Its configurations can be found in [Basic Animation Docs](/en/docs/manual/advanced/animation#animatecfg). If it is not assigned, animates following the graph's `animateCfg`.  |
 
 **Usage**
 
 ```javascript
 graph.focusItem(item);
+
+// focus with animation
+graph.focusItem(item, true);
+
+// focus with animation and animation's configuration
+graph.focusItem(item, true, {
+  easing: 'easeCubic',
+  duration: 400
+});
 ```
 
 ### changeSize(width, height)
@@ -1520,6 +1548,23 @@ const elements: {
 } = graph.getComboChildren('combo1')
 ```
 
+### getNeighbors(node, type)
+
+**Parameters**
+
+| Name    | Type  | Required | Description      |
+| ------- | ------ | -------- | ----------- |
+| node | string / INode | true    | node ID or the node instance |
+| type |  'source' / 'target' / undefined | false    | The type of the neighbors, 'source': only return the source nodes; 'target': only return the target nodes, undefined: return all of the neighbors |
+
+**Return**
+- Type of the return value: Array;
+- Return a list of node items.
+
+**Usage**
+``` javascript
+const neighbors = graph.getNeighbors('node1', 'source')
+```
 
 ## Coordinate Transformation
 
@@ -1639,6 +1684,175 @@ graph.stopAnimate();
 
 Return if the graph is animating.
 
+
+
+## Calculation
+
+### getNodeDegree(node, degreeType)
+
+Get the in-degree, out-degree, degree, or all of the three kinds of degree.
+
+**Parameter**
+
+| Name   | Type   | Required | Description             |
+| ---- | ------ | -------- | ---------- |
+| node | string / INode  | true     | Node's ID or item |
+| degreeType | `'in'` \ `'out'` \ `'total'` \ `'all'` | false     | The degree type. If it is assigned to `'in'`, returns the in-degree; `'out'` returns out-degree; `'total'` returns total degree; `'all'` returns an object contains three kinds of the degree: `{ inDegree, outDegree, degree}`; If it is not assigned, returns total degree as default |
+
+
+**Usage**
+
+```javascript
+graph.getNodeDegree('node1', 'in');
+```
+
+### getShortestPathMatrix(cache, directed)
+Get all-pairs shortest-path matrix of the graph.
+
+**Parameters**
+
+| Name    | Type  | Required | Description |
+| -------| ------ | -------- | ------- |
+| cache | boolean | false     | Whether to use the cached matrix, 'true' by default. |
+| directed | boolean | false     | Whether the graph is directed,  use the value of `graph.get('directed')` by default. | 
+
+**Usage**
+```javascript
+const matrix = graph.getShortestPathMatrix();
+```
+
+### getAdjMatrix(cache, directed)
+Get the adjacency matrix of the graph.
+
+**Parameters**
+
+| Name    | Type  | Required | Description |
+| -------| ------ | -------- | ------- |
+| cache | boolean | false  | Whether to use the cached matrix, 'true' by default. |
+| directed | boolean | false  | Whether the graph is directed,  use the value of `graph.get('directed')` by default. |
+
+**Usage**
+``` javascript
+const matrix = graph.getAdjMatrix();
+```
+
+## Download
+
+### downloadFullImage(name, type, imageConfig)
+
+Export the whole graph as an image, whatever (a part of) the graph is out of the screen.
+
+**Parameters**
+
+| Name | Type   | Required | Description            |
+| ---- | ------ | -------- | ---------- |
+| name | String | false     | The name of the image. 'graph' by default. |
+| type | `'image/png'` / `'image/jpeg'` / `'image/webp'` / `'image/bmp'` | false     | The type of the image. When the `renderer` of the graph is `'canvas'`(default), `type` takes effect. When the `renderer` is `'svg'`, `toFullDataURL` will export a svg file |
+| imageConfig | Object | false     | The configuration for the exported image, detials are shown below |
+
+where the `imageConfig` is the configuration for exported image:
+
+| Name | Type   | Required | Description            |
+| ---- | ------ | -------- | ---------- |
+| backgroundColor | String | false     | The background color of the image. If it is not assigned, the background will be transparent. |
+| padding | Number / Number[] | false     | The top, right, bottom, right paddings of the exported image. When its type is number, the paddings around the graph are the same |
+
+**Usage**
+
+```javascript
+graph.downloadFullImage('tree-graph', {
+  backgroundColor: '#ddd',
+  padding: [30, 15, 15, 15]
+});
+```
+
+### downloadImage(name, type, backgroundColor)
+
+Export the canvas as an image.
+
+**Parameters**
+
+| Name | Type   | Required | Description            |
+| ---- | ------ | -------- | ---------------------- |
+| name | String | false     | The name of the image. 'graph' by default |
+| type | `'image/png'` / `'image/jpeg'` / `'image/webp'` / `'image/bmp'` | false     | The type of the image. When the `renderer` of the graph is `'canvas'`(default), `type` takes effect. When the `renderer` is `'svg'`, `toFullDataURL` will export a svg file |
+| backgroundColor | String | false     | The background color of the image. If it is not assigned, the background will be transparent. |
+
+**Usage**
+
+```javascript
+graph.downloadImage();
+```
+
+### toDataURL(type, backgroundColor)
+
+Generate url of the image of the graph inside the view port.
+
+**Parameters**
+
+| Name | Type   | Required | Description            |
+| ---- | ------ | -------- | ---------- |
+| type | `'image/png'` / `'image/jpeg'` / `'image/webp'` / `'image/bmp'` | false     | The type of the image. When the `renderer` of the graph is `'canvas'`(default), `type` takes effect. When the `renderer` is `'svg'`, `toFullDataURL` will export a svg file |
+| backgroundColor | String | false     | The background color of the image. If it is not assigned, the background will be transparent. |
+
+**Return**
+
+- Type of the return value: string;
+- The return value is the image url.
+
+**Usage**
+
+```javascript
+const dataURL = graph.toDataURL();
+```
+
+
+
+### toFullDataURL(callback, type, backgroundColor)
+
+Generate url of the image of the whole graph including the part out of the view port.
+
+**Parameters**
+
+| Name | Type   | Required | Description            |
+| ---- | ------ | -------- | ---------- |
+| callback | Function | true | The callback function after finish generating the dataUrl of the full graph 
+Asynchronously |
+| type | `'image/png'` / `'image/jpeg'` / `'image/webp'` / `'image/bmp'` | false     | The type of the image. When the `renderer` of the graph is `'canvas'`(default), `type` takes effect. When the `renderer` is `'svg'`, `toFullDataURL` will export a svg file |
+| imageConfig | Object | false     | The configuration for the exported image, detials are shown below |
+
+where the `imageConfig` is the configuration for exported image:
+
+| Name | Type   | Required | Description            |
+| ---- | ------ | -------- | ---------- |
+| backgroundColor | String | false     | The background color of the image. If it is not assigned, the background will be transparent. |
+| padding | Number / Number[] | false     | The top, right, bottom, right paddings of the exported image. When its type is number, the paddings around the graph are the same |
+
+
+No return value, you can process the result in the callback function as shown below:
+
+
+**Usage**
+
+```javascript
+graph.toFullDataUrl(
+  // The first parameter: callback, required
+  (res) => {
+    // ... something
+    console.log(res); // e.g. print the result
+  },
+  // The second and third parameter is not required
+  'image/jpeg',
+  imageConfig: {
+    backgroundColor: '#fff',
+    padding: 10
+  }
+
+)
+```
+
+
+
 ## Others
 
 ### addPlugin(plugin)
@@ -1729,68 +1943,130 @@ graph.set('nodeIdList', [1, 3, 5]);
 
 
 
-### downloadFullImage(name, imageConfig)
+### getContainer()
 
-Export the whole graph as an image, whatever (a part of) the graph is out of the screen.
+Get the DOM container of the graph.
 
-**Parameters**
+**Parameter**
 
-| Name | Type   | Required | Description            |
-| ---- | ------ | -------- | ---------- |
-| name | String | false     | The name of the image. 'graph' by default. |
-| imageConfig | Object | false     | The configuration for the exported image, detials are shown below |
-
-where the `imageConfig` is the configuration for exported image:
-
-| Name | Type   | Required | Description            |
-| ---- | ------ | -------- | ---------- |
-| backgroundColor | String | false     | The background color of the image. If it is not assigned, the background will be transparent. |
-| padding | Number / Number[] | false     | The top, right, bottom, right paddings of the exported image. When its type is number, the paddings around the graph are the same |
+No parameter.
 
 **Usage**
 
 ```javascript
-graph.downloadFullImage('tree-graph', {
-  backgroundColor: '#ddd',
-  padding: [30, 15, 15, 15]
-});
+graph.getContainer()
 ```
 
-### downloadImage(name, backgroundColor)
 
-Export the canvas as an image.
+### getGroup()
 
-**Parameters**
+Get the root [graphics group](/en/docs/manual/advanced/keyconcept/graphics-group) of the graph.
 
-| Name | Type   | Required | Description            |
-| ---- | ------ | -------- | ---------------------- |
-| name | String | false     | The name of the image. 'graph' by default. |
-| backgroundColor | String | false     | The background color of the image. If it is not assigned, the background will be transparent. |
+**Parameter**
+
+No parameter.
 
 **Usage**
 
 ```javascript
-graph.downloadImage();
+graph.getGroup()
 ```
 
-### toDataURL()
 
-Generate url of a image of the canvas.
+### getMinZoom()
 
-**Parameters**
+Get the `minZoom` for the graph, which is the lower limit of the zoom ratio.
 
-| Name | Type   | Required | Description            |
-| ---- | ------ | -------- | ---------- |
-| type | String | false     | The type of the image, options: `'image/png'`, `'image/jpeg'` |
-| backgroundColor | String | false     | The background color of the image. If it is not assigned, the background will be transparent. |
+**Parameter**
 
-**Return**
-
-- Type of the return value: string;
-- The return value is the image url.
+No parameter
 
 **Usage**
 
 ```javascript
-const dataURL = graph.toDataURL();
+graph.getMinZoom()
 ```
+
+
+### setMinZoom(ratio)
+
+Set the `minZoom` for the graph, which is the lower limit of the zoom ratio.
+
+**Parameter**
+
+| Name | Type                    | Required | Description                |
+| ---- | ----------------------- | -------- | -------- |
+| ratio  | number                  | true     | The minimum zoom ratio value |
+
+
+**Usage**
+
+```javascript
+graph.setMinZoom(0.001)
+```
+
+
+
+### getMaxZoom()
+
+Get the `maxZoom` for the graph, which is the upper limit of the zoom ratio.
+
+**Parameter**
+
+No parameter.
+
+**Usage**
+
+```javascript
+graph.getMaxZoom()
+```
+
+
+### setMaxZoom(ratio)
+
+Set the `maxZoom` for the graph, which is the upper limit of the zoom ratio.
+
+**Parameter**
+
+| Name | Type                    | Required | Description                |
+| ---- | ----------------------- | -------- | -------- |
+| ratio  | number                  | true     | The maximum zoom ratio value |
+
+
+**Usage**
+
+```javascript
+graph.setMaxZoom(1000)
+```
+
+
+### getWidth()
+
+Get the current width of the graph.
+
+**Parameter**
+
+No parameter.
+
+**Usage**
+
+```javascript
+graph.getWidth()
+```
+
+
+
+### getHeight()
+
+Get the current height of the graph.
+
+**Parameter**
+
+No parameter.
+
+**Usage**
+
+```javascript
+graph.getHeight()
+```
+

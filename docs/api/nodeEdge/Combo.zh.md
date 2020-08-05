@@ -111,7 +111,7 @@ const result = combo.addChild(node)
 
 
 ### removeCombo(combo: ICombo)
-移除指定的子 combo。
+移除指定的子 combo。注意：移除后 `combo` 不再属于该父 Combo，但没有被删除。需要删除 `combo` 请调用 [graph.removeItem](/zh/docs/api/Graph#removeitemitem)
 
 **参数**
 
@@ -126,14 +126,14 @@ const result = combo.addChild(node)
 - 含义：返回 `true` 表示移除成功。
 
 
-### removeNode(node: string | INode)
-移除指定的子 Node。
+### removeNode(node: INode)
+移除指定的子 Node。注意：移除后该节点不再属于该 Combo，但没有被删除。需要删除节点请调用 [graph.removeItem](/zh/docs/api/Graph#removeitemitem)
 
 **参数**
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| node | string / INode | 是 | 节点 ID 或节点实例 |
+| node | INode | 是 | 节点 ID 或节点实例 |
 
 
 **返回值**

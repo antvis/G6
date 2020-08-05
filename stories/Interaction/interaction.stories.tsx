@@ -4,6 +4,11 @@ import React from 'react';
 import MoveViewPort from './component/view-port';
 import AltTab from './component/alt-tab';
 import AddItem from './component/addItem';
+import Tooltip from './component/tooltip';
+import DragCanvas from './component/drag-canvas';
+import ZoomCanvasFix from './component/zoom-canvas-fix'
+import LassoSelect from './component/lasso-select'
+import FishEye from './component/fisheye-lens';
 
 export default { title: 'Interaction' };
 
@@ -16,4 +21,16 @@ storiesOf('Interaction', module)
   ))
   .add('add item', () => (
     <AddItem />
+  ))
+  .add('tooltip', () => (
+    <Tooltip />
+  )).add('drag canvas', () => (
+    <DragCanvas />
+  )).add('zoom canvas fix items', () => (
+    <ZoomCanvasFix />
+  ))
+  .add('lasso select', () => (
+    <LassoSelect />
+  )).add('fisheye', () => (
+    <FishEye />
   ));

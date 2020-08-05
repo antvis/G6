@@ -1,6 +1,6 @@
 ---
 title: Cubic
-order: 4
+order: 5
 ---
 
 A built-in edge Cubic has the default style as below.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rcLiTa6Ih3AAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>

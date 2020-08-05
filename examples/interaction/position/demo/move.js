@@ -1,7 +1,7 @@
 import G6 from '@antv/g6';
 /**
- * 演示聚焦（focus）和动画
- * by 长哲
+ * Focus a node
+ * by Changzhe
  */
 const data = {
   nodes: [
@@ -64,45 +64,9 @@ graph.render();
 
 function handleNodeClick(event) {
   const item = event.item;
-  // 聚焦当前点击的节点（把节点放到视口中心）
-
-  const matrix = item.get('group').getMatrix();
-  const point = {
-    x: matrix[6],
-    y: matrix[7],
-  };
-  const w = graph.get('width');
-  const h = graph.get('height');
-  // 找到视口中心
-  const viewCenter = {
-    x: w / 2,
-    y: h / 2,
-  };
-  const modelCenter = graph.getPointByCanvas(viewCenter.x, viewCenter.y);
-  let viewportMatrix = graph.get('group').getMatrix();
-  if (!viewportMatrix) viewportMatrix = G6.Util.mat3.create();
-  // 画布平移的目标位置，最终目标是graph.translate(dx, dy);
-  const dx = (modelCenter.x - point.x) * viewportMatrix[0];
-  const dy = (modelCenter.y - point.y) * viewportMatrix[4];
-  let lastX = 0;
-  let lastY = 0;
-  let newX = void 0;
-  let newY = void 0;
-  // 动画每次平移一点，直到目标位置
-  graph.get('canvas').animate(
-    ratio => {
-      newX = dx * ratio;
-      newY = dy * ratio;
-      graph.translate(newX - lastX, newY - lastY);
-      lastX = newX;
-      lastY = newY;
-    },
-    {
-      duration: 300,
-      easing: 'easeCubic',
-    },
-  );
+  // animately move the graph to focus on the item.
+  graph.focusItem(item);
 }
 
-// 监听节点上的click事件
+// listen to the node click event
 graph.on('node:click', handleNodeClick);

@@ -175,7 +175,7 @@ const DagreLayout = () => {
 
       graph.on('canvas:click', e => {
         console.log(graph.toDataURL('image/jpeg', '#fff'));
-        graph.downloadImage('test', '#eee');
+        graph.downloadImage('test', 'image/png');
       });
     }
   });

@@ -4,7 +4,6 @@ import Canvas from '@antv/g-base/lib/abstract/canvas';
 import { IGraph } from '../../interface/graph';
 import { ViewPortEventParam } from '../../types';
 import Base, { IPluginBaseConfig } from '../base';
-import { mat3 } from '@antv/matrix-util';
 
 interface GridConfig {
   img?: string
@@ -39,7 +38,8 @@ export default class Grid extends Base {
         class='g6-grid' 
         style='position:absolute;
         transform-origin: 0% 0% 0px;
-        background-image: ${img}
+        background-image: ${img};
+        user-select: none
         '></div>`,
     );
 
@@ -76,7 +76,7 @@ export default class Grid extends Base {
   protected updateGrid(param: ViewPortEventParam) {
     const gridContainer: HTMLDivElement = this.get('gridContainer');
     let { matrix } = param;
-    if (!matrix) matrix = mat3.create();
+    if (!matrix) matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
 
     const transform = `matrix(${matrix[0]}, ${matrix[1]}, ${matrix[3]}, ${matrix[4]}, 0, 0)`;
 

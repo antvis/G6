@@ -44,7 +44,10 @@ export default {
     }
 
     const type = item.getType()
-    const { graph, keydown, multiple, shouldUpdate } = this;
+    const { graph, keydown, multiple, shouldUpdate, shouldBegin } = this;
+    if (!shouldBegin.call(this, evt)) {
+      return;
+    }
 
     // allow to select multiple nodes but did not press a key || do not allow the select multiple nodes
     if (!keydown || !multiple) {
@@ -100,7 +103,7 @@ export default {
     graph.emit('nodeselectchange', { selectedItems: { nodes: [], edges: [], combos: [] }, select: false });
   },
   onKeyDown(e: IG6GraphEvent) {
-    let code = e.key;
+    const code = e.key;
     if (!code) {
       return;
     }

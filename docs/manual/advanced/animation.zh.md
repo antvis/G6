@@ -9,13 +9,14 @@ G6 中的动画分为两个层次：
 - 元素（边和节点）动画：节点或边上的独立动画。
 
 <br />
+
 ## 全局动画
 G6 的全局动画指通过图实例进行某些全局操作时，产生的动画效果。例如：
 
 - `graph.updateLayout(cfg)` 布局的变化
 - `graph.changeData()` 数据的变化
 
-通过实例化图时配置 `animate: true`，可以达到每次进行上述操作时，动画效果变化的目的。配合 `animateCfg` 配置动画参数：<br />
+通过实例化图时配置 `animate: true`，可以达到每次进行上述操作时，动画效果变化的目的。配合 `animateCfg` 配置动画参数，`animateCfg` 具体配置参见 [animateCfg](#animateCfg)<br />
 
 ```javascript
 const graph = new G6.Graph({
@@ -27,12 +28,6 @@ const graph = new G6.Graph({
   },
 });
 ```
-
-### easing 函数
-
-easing 函数是指动画的函数。例如线性插值、先快后慢等。<br />G6 支持所有 d3.js 中的动画函数。因此，上面代码中 `animateCfg` 配置中的 String 类型的 `easing` 可以取值有：<br />`'easeLinear'` ，<br />`'easePolyIn'` ，`'easePolyOut'` ， `'easePolyInOut'` ，<br />`'easeQuad'` ，`'easeQuadIn'` ，`'easeQuadOut'` ， `'easeQuadInOut'` 。
-
-更多取值及所有取值含义参见：<a href='https://github.com/d3/d3/blob/master/API.md#easings-d3-ease' target='_blank'>d3 Easings</a>。
 
 ## 元素动画
 
@@ -59,7 +54,7 @@ easing 函数是指动画的函数。例如线性插值、先快后慢等。<br 
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aAjWQ4n_OOEAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 
-本例实现节点放大缩小，通过  `group.get('children')[0]` 找到需要更新的图形（这里找到该节点上第 0 个图形），然后调用该图形的 `animate` 方法指定动画的参数及每一帧的变化（  第一个参数是返回每一帧需要变化的参数集的函数，其参数 `ratio` 是当前正在进行的一次动画的进度，范围 [0, 1]，第二个参数是动画的参数）。
+本例实现节点放大缩小，通过  `group.get('children')[0]` 找到需要更新的图形（这里找到该节点上第 0 个图形），然后调用该图形的 `animate` 方法指定动画的参数及每一帧的变化（ 第一个参数是返回每一帧需要变化的参数集的函数，其参数 `ratio` 是当前正在进行的一次动画的进度，范围 [0, 1]；第二个参数是动画的参数，动画参数的具体配置参见 [animateCfg](#animateCfg)）。
 
 ```javascript
 // 放大、变小动画
@@ -99,7 +94,7 @@ G6.registerNode(
 
 在 `afterDraw` 方法中为已有节点添加额外的 shape ，并为这些新增的图形设置动画。<br />
 
-本例在 `afterDraw` 方法中，绘制了三个背景 circle ，分别使用不同的颜色填充，再调用 `animate` 方法实现这三个 circle 逐渐变大、变淡的动画。本例中没有使用函数参数的形式，直接在 `animate` 函数的第一个参数中设置每次动画结束时的最终目标样式，即半径增大 10，透明度降为 0.1。第二个参数设置动画的配置。<br />
+本例在 `afterDraw` 方法中，绘制了三个背景 circle ，分别使用不同的颜色填充，再调用 `animate` 方法实现这三个 circle 逐渐变大、变淡的动画。本例中没有使用函数参数的形式，直接在 `animate` 函数的第一个参数中设置每次动画结束时的最终目标样式，即半径增大 10，透明度降为 0.1。第二个参数设置动画的配置，动画参数的具体配置参见 [animateCfg](#animateCfg)。<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FxDJQ5eY-5oAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 
@@ -189,7 +184,7 @@ G6.registerNode('background-animate', {
 
 #### 部分图形旋转动画
 
-这一例也是在 `afterDraw` 方法中为已有节点添加额外的 shape （本例中为 image），并为这些新增的图形设置旋转动画。旋转动画较为复杂，需要通过矩阵的操作实现。<br />
+这一例也是在 `afterDraw` 方法中为已有节点添加额外的 shape （本例中为 image），并为这些新增的图形设置旋转动画。旋转动画较为复杂，需要通过矩阵的操作实现。`animate` 函数的第一个参数是返回每一帧需要变化的参数集的函数，其参数 `ratio` 是当前正在进行的一次动画的进度，范围 [0, 1]；第二个参数是动画的参数，动画参数的具体配置参见 [animateCfg](#animateCfg)<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*uFQsQqxIa_QAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 
@@ -255,7 +250,7 @@ G6.registerNode(
 
 #### 圆点运动
 
-本例通过在 `afterDraw` 方法中为边增加了一个 circle 图形，该图形沿着线运动。沿着线运动的原理：设定每一帧中，该 circle 在线上的相对位置。<br />
+本例通过在 `afterDraw` 方法中为边增加了一个 circle 图形，该图形沿着线运动。沿着线运动的原理：设定每一帧中，该 circle 在线上的相对位置。`animate` 函数的第一个参数是返回每一帧需要变化的参数集的函数，其参数 `ratio` 是当前正在进行的一次动画的进度，范围 [0, 1]；第二个参数是动画的参数，动画参数的具体配置参见 [animateCfg](#animateCfg)<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OAGPRZbYpw4AAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 
@@ -306,58 +301,39 @@ G6.registerEdge(
 
 #### 虚线运动的效果
 
-虚线运动的效果是通过计算线的 `lineDash` ，并在每一帧中不断修改实现。<br />
+虚线运动的效果是通过计算线的 `lineDash` ，并在每一帧中不断修改实现。`animate` 函数的第一个参数是返回每一帧需要变化的参数集的函数，其参数 `ratio` 是当前正在进行的一次动画的进度，范围 [0, 1]；第二个参数是动画的参数，动画参数的具体配置参见 [animateCfg](#animateCfg)<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VUgETK6aMzcAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 
 ```javascript
 // lineDash 的差值，可以在后面提供 util 方法自动计算
-const dashArray = [
-  [0, 1],
-  [0, 2],
-  [1, 2],
-  [0, 1, 1, 2],
-  [0, 2, 1, 2],
-  [1, 2, 1, 2],
-  [2, 2, 1, 2],
-  [3, 2, 1, 2],
-  [4, 2, 1, 2],
-];
-
 const lineDash = [4, 2, 1, 2];
-const interval = 9; // lineDash 的和
 G6.registerEdge(
   'line-dash',
   {
     afterDraw(cfg, group) {
       // 获得该边的第一个图形，这里是边的 path
       const shape = group.get('children')[0];
-      // 获得边的 path 的总长度
-      const length = shape.getTotalLength();
-      let totalArray = [];
-      // 计算出整条线的 lineDash
-      for (var i = 0; i < length; i += interval) {
-        totalArray = totalArray.concat(lineDash);
-      }
-
       let index = 0;
       // 边 path 图形的动画
       shape.animate(
-        ratio => {
-          // 每一帧的操作，入参 ratio：这一帧的比例值（Number）。返回值：这一帧需要变化的参数集（Object）。
-          const cfg = {
-            lineDash: dashArray[index].concat(totalArray),
+        () => {
+          index++;
+          if (index > 9) {
+            index = 0;
+          }
+          const res = {
+            lineDash,
+            lineDashOffset: -index,
           };
-          // 每次移动 1
-          index = (index + 1) % interval;
-          // 返回需要修改的参数集，这里只修改了 lineDash
-          return cfg;
+          // 返回需要修改的参数集，这里修改了 lineDash,lineDashOffset
+          return res;
         },
         {
           repeat: true, // 动画重复
-          duration: 3000,
+          duration: 3000, // 一次动画的时长为 3000
         },
-      ); // 一次动画的时长为 3000
+      );
     },
   },
   'cubic',
@@ -366,7 +342,7 @@ G6.registerEdge(
 
 #### 线从无到有
 
-线从无到有的动画效果，同样可以通过计算 `lineDash` 来实现。<br />
+线从无到有的动画效果，同样可以通过计算 `lineDash` 来实现。`animate` 函数的第一个参数是返回每一帧需要变化的参数集的函数，其参数 `ratio` 是当前正在进行的一次动画的进度，范围 [0, 1]；第二个参数是动画的参数，动画参数的具体配置参见 [animateCfg](#animateCfg)<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-l9lQ7Ck1QcAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 
@@ -379,17 +355,16 @@ G6.registerEdge(
       const length = group.getTotalLength();
       shape.animate(
         ratio => {
-          // 每一帧的操作，入参 ratio：这一帧的比例值（Number）。返回值：这一帧需要变化的参数集（Object）。
           const startLen = ratio * length;
-          // 计算线的lineDash
+          // 计算 lineDash
           const cfg = {
             lineDash: [startLen, length - startLen],
           };
           return cfg;
         },
         {
-          repeat: true, // 动画重复
-          duration: 2000, // 一次动画的时长为 2000
+          repeat: true, // 是否重复执行
+          duration: 2000, // 一次动画持续时长
         },
       );
     },
@@ -397,6 +372,7 @@ G6.registerEdge(
   'cubic',
 ); // 该自定义边继承了内置三阶贝塞尔曲线边 cubic
 ```
+
 
 ### 交互动画
 
@@ -407,27 +383,13 @@ G6.registerEdge(
 - 自定义边中复写 `setState` 方法监听该边的状态，以及某状态下的动画效果；
 - 监听中间的节点的 `mouseenter` 和 `mouseleave` 事件，触发相关边的状态变化。
 
-下面代码节选自 demo <a href='/zh/examples/scatter/stateChange' target='_blank'>状态切换动画</a>，请注意省略了部分代码，只展示了交互相关以及边动画相关的代码。
+下面代码节选自 demo <a href='/zh/examples/scatter/stateChange' target='_blank'>状态切换动画</a>，请注意省略了部分代码，只展示了交互相关以及边动画相关的代码。`animate` 函数的第一个参数是返回每一帧需要变化的参数集的函数，其参数 `ratio` 是当前正在进行的一次动画的进度，范围 [0, 1]；第二个参数是动画的参数，动画参数的具体配置参见 [animateCfg](#animateCfg)
 
 ```javascript
 // const data = ...
 // const graph = new G6.Graph({...});
 
-// lineDash 的差值，可以在后面提供 util 方法自动计算
-const dashArray = [
-  [0, 1],
-  [0, 2],
-  [1, 2],
-  [0, 1, 1, 2],
-  [0, 2, 1, 2],
-  [1, 2, 1, 2],
-  [2, 2, 1, 2],
-  [3, 2, 1, 2],
-  [4, 2, 1, 2],
-];
-
 const lineDash = [4, 2, 1, 2];
-const interval = 9; // lineDash 的总长度。
 
 // 注册名为 'can-running' 的边
 G6.registerEdge(
@@ -440,20 +402,19 @@ G6.registerEdge(
       if (name === 'running') {
         // running 状态为 true 时
         if (value) {
-          const length = shape.getTotalLength();
-          let totalArray = [];
-          for (var i = 0; i < length; i += interval) {
-            totalArray = totalArray.concat(lineDash);
-          }
-          let index = 0;
+          let index = 0;// 边 path 图形的动画
           shape.animate(
-            ratio => {
-              // 每一帧的操作，入参 ratio：这一帧的比例值（Number）。返回值：这一帧需要变化的参数集（Object）。
-              const cfg = {
-                lineDash: dashArray[index].concat(totalArray),
+            () => {
+              index++;
+              if (index > 9) {
+                index = 0;
+              }
+              const res = {
+                lineDash,
+                lineDashOffset: -index,
               };
-              index = (index + 1) % interval;
-              return cfg;
+              // 返回需要修改的参数集，这里修改了 lineDash,lineDashOffset
+              return res;
             },
             {
               repeat: true, // 动画重复
@@ -498,3 +459,23 @@ graph.on('node:mouseleave', ev => {
 ```
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️ 注意:</strong></span> `running` 为 `false` 时，要停止动画，同时把 `lineDash` 清空。
+
+
+## animateCfg
+
+| 配置项 | 类型            | 默认值 | 描述                         |
+| ---- | --------------- | -------- | ----------------------------------- |
+| duration | Number | 500     | 一次动画的时长 |
+| easing | boolean |  'linearEasing'    | 动画函数，见 [easing 函数](#easing-函数) |
+| delay | Number |  0     | 延迟一段时间后执行动画 |
+| repeat | boolean | false     | 是否重复执行动画 |
+| callback | Function | undefined     | 动画执行完时的回调函数 |
+| pauseCallback | Function | undefined     | 动画暂停时（`shape.pause()`）的回调函数 |
+| resumeCallback | Function | undefined     | 动画恢复时（`shape.resume()`）的回调函数 |
+
+
+### easing 函数
+
+easing 函数是指动画的函数。例如线性插值、先快后慢等。<br />G6 支持所有 d3.js 中的动画函数。因此，上面代码中 `animateCfg` 配置中的 String 类型的 `easing` 可以取值有：<br />`'easeLinear'` ，<br />`'easePolyIn'` ，`'easePolyOut'` ， `'easePolyInOut'` ，<br />`'easeQuad'` ，`'easeQuadIn'` ，`'easeQuadOut'` ， `'easeQuadInOut'` 。
+
+更多取值及所有取值含义参见：<a href='https://github.com/d3/d3/blob/master/API.md#easings-d3-ease' target='_blank'>d3 Easings</a>。

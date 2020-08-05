@@ -1,0 +1,24 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "timebar.js",
+      "title": {
+        "zh": "时间轴",
+        "en": "ToolBar"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*eq2kQ4N-pNcAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "configTimebar.js",
+      "title": {
+        "zh": "定义时间轴样式",
+        "en": "ToolBar"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*eq2kQ4N-pNcAAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}

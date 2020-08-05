@@ -8,23 +8,23 @@ G6.registerEdge(
       const length = shape.getTotalLength();
       shape.animate(
         ratio => {
-          // 每一帧的操作，入参 ratio：这一帧的比例值（Number）。返回值：这一帧需要变化的参数集（Object）。
+          // the operations in each frame. Ratio ranges from 0 to 1 indicating the prograss of the animation. Returns the modified configurations
           const startLen = ratio * length;
-          // 计算线的lineDash
+          // Calculate the lineDash
           const cfg = {
             lineDash: [startLen, length - startLen],
           };
           return cfg;
         },
         {
-          repeat: true, // 动画重复
-          duration: 2000, // 一次动画的时长为 2000
+          repeat: true, // Whether executes the animation repeatly
+          duration: 2000, // the duration for executing once
         },
       );
     },
   },
-  'cubic',
-); // 该自定义边继承了内置三阶贝塞尔曲线边 cubic
+  'cubic', // extend the built-in edge 'cubic'
+);
 
 const data = {
   nodes: [

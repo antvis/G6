@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import G6 from '../../../src';
 import { IGraph } from '../../../src/interface/graph';
+import { GraphData } from '../../../src/types';
 
 let graph: IGraph = null;
 
@@ -17,7 +18,7 @@ const colors = {
   j: '#FFD6E7',
 };
 
-const testData = {
+const testData: GraphData = {
   nodes: [
     {
       id: '0',
@@ -453,7 +454,7 @@ const testData = {
   ]
 };
 
-const testData2 = {
+const testData2: GraphData = {
   nodes: [{
     id: 'node0',
     x: 100,

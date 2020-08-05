@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import G6 from '../../../src';
 import { IGraph } from '../../../src/interface/graph';
+import { GraphData } from '../../../src/types';
 
 let graph: IGraph = null;
 
@@ -18,7 +19,7 @@ const colors = {
 };
 
 
-const testData = {
+const testData: GraphData = {
   nodes: [
     // {
     //   id: '0',
@@ -114,23 +115,23 @@ const testData = {
     },
   ],
   combos: [
-  //   {
-  //   id: 'a',
-  //   label: 'combo a'
-  // },
-  {
-    id: 'b',
-    label: 'combo b'
-  }, {
-    id: 'c',
-    label: 'combo c',
-    parentId: 'b'
-  },
-  {
-    id: 'd',
-    label: 'combo d',
-    // parentId: 'c'
-  }
+    //   {
+    //   id: 'a',
+    //   label: 'combo a'
+    // },
+    {
+      id: 'b',
+      label: 'combo b'
+    }, {
+      id: 'c',
+      label: 'combo c',
+      parentId: 'b'
+    },
+    {
+      id: 'd',
+      label: 'combo d',
+      // parentId: 'c'
+    }
   ]
 };
 
@@ -144,7 +145,7 @@ const CollapseExpandVEdge = () => {
         height: 800,
         fitView: true,
         modes: {
-          default: ['drag-combo', 'drag-node', 'zoom-canvas', 'collapse-expand-combo'], 
+          default: ['drag-combo', 'drag-node', 'zoom-canvas', 'collapse-expand-combo'],
         },
         defaultEdge: {
           size: 1,
@@ -160,7 +161,7 @@ const CollapseExpandVEdge = () => {
         groupByTypes: false,
         //animate: true
       });
-      
+
       graph.node(node => {
         const color = colors[node.comboId as string];
         return {

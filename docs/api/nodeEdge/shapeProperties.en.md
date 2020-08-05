@@ -83,6 +83,37 @@ rect.attr({
     stroke: '#666'
 });
 ```
+### setClip(clipCfg)
+Sets and returns the clip object.
+
+`clipCfg` 
+
+
+| Name | Description | Type | Remark |
+| --- | --- | --- | --- |
+| type | The type of shape of clipping | String | Options: `'circle'`, `'rect'`, `'ellipse'` |
+| x | The x coordinate of the clipping shape | Number | 0 by default. Only takes effect when the `type` is `'circle'`, `'rect'`, or `'ellipse'` |
+| y | The y coordinate of the clipping shape | Number | 0 by default. Only takes effect when the `type` is `'circle'`, `'rect'`, or `'ellipse' |
+| show | Whether to clip the image | Boolean | Do not clip by default. |
+| r | The radius of circle clipping | Number | Takes effect when the `type` is `'circle'` |
+| width | The width of the clipping | Number | Takes effect when the `type` is `'rect'` |
+| height | The height of the clipping | Number | Takes effect when the `type` is `'rect'` |
+| rx | The major radius of the ellipse clipping | Number | Takes effect when the `type` is `'ellipse'` |
+| ry | The minor radius of the ellipse clipping | Number | Takes effect when the `type` is `'ellipse'` |
+
+
+```javascript
+shape.setClip({
+  type: 'circle', // circle, rect, ellipse, Polygon, path clip
+  attrs: {
+    r: 10,
+    x: 0,
+    y: 0,
+  },
+```
+
+### getClip()
+Get the clip object.
 
 
 
@@ -330,7 +361,6 @@ group.addShape('path', {
 | shadowOffsetX | Number | The horizontal offset of the shadow. |
 | shadowOffsetY | Number | The vertical offset of the shadow. |
 | opacity | Number | The opacity (alpha value) of the shape. The corresponding property in Canvas is `globalAlpha`. |
-| font | String | The font of the text. |
 | textAlign | String | The align way of the text. Options: `'center'` / `'end'` / `'left'` / `'right'` / `'start'`. `'start'` by default. |
 | textBaseline | String | The base line of the text. Options: <br />`'top'` / `'middle'` / `'bottom'` / `'alphabetic'` / `'hanging'`. `'bottom'` by default. |
 | fontStyle | String | The font style of the text. The corresponding property in CSS is `font-style` |

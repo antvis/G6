@@ -56,15 +56,15 @@ Shape.registerNode(
       delete style.fill;
       const shape = group.addShape(shapeType, {
         attrs: style,
-        className: 'image-keyShape',
-        name: 'image-keyShape',
+        className: `${this.type}-keyShape`,
+        name: `${this.type}-keyShape`,
         draggable: true,
       });
       (this as any).drawClip(cfg, shape);
       return shape;
     },
     drawClip(cfg: NodeConfig, shape: IShape) {
-      const clip = Object.assign({}, this.options!.clipCfg, cfg.clipCfg);
+      const { clipCfg: clip } = this.getOptions(cfg);
 
       if (!clip.show) {
         return;
@@ -80,7 +80,7 @@ Shape.registerNode(
             x,
             y,
             ...style,
-          }
+          },
         });
       } else if (type === 'rect') {
         const { width, height } = clip;
@@ -94,7 +94,7 @@ Shape.registerNode(
             width,
             height,
             ...style,
-          }
+          },
         });
       } else if (type === 'ellipse') {
         const { rx, ry } = clip;
@@ -106,7 +106,7 @@ Shape.registerNode(
             rx,
             ry,
             ...style,
-          }
+          },
         });
       } else if (type === 'polygon') {
         const { points } = clip;
@@ -115,7 +115,7 @@ Shape.registerNode(
           attrs: {
             points,
             ...style,
-          }
+          },
         });
       } else if (type === 'path') {
         const { path } = clip;
@@ -124,18 +124,19 @@ Shape.registerNode(
           attrs: {
             path,
             ...style,
-          }
+          },
         });
       }
     },
     getShapeStyle(cfg: NodeConfig) {
+      const { style: defaultStyle } = this.getOptions(cfg);
       const size = this.getSize!(cfg);
-      const img = cfg.img || this.options!.img;
+      const { img } = this.getOptions(cfg);
       let width = size[0];
       let height = size[1];
-      if (cfg.style) {
-        width = cfg.style.width || size[0];
-        height = cfg.style.height || size[1];
+      if (defaultStyle) {
+        width = defaultStyle.width || size[0];
+        height = defaultStyle.height || size[1];
       }
       const style = Object.assign(
         {},
@@ -146,14 +147,15 @@ Shape.registerNode(
           height,
           img,
         },
-        cfg.style,
+        defaultStyle,
       );
       return style;
     },
     updateShapeStyle(cfg: NodeConfig, item: Item) {
       const group = item.getContainer();
       const shapeClassName = `${this.itemType}-shape`;
-      const shape = group.find(element => element.get('className') === shapeClassName) || item.getKeyShape();
+      const shape =
+        group.find((element) => element.get('className') === shapeClassName) || item.getKeyShape();
       const shapeStyle = this.getShapeStyle!(cfg);
       if (shape) {
         shape.attr(shapeStyle);

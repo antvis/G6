@@ -4,6 +4,101 @@ const div = document.createElement('div');
 div.id = 'container';
 document.body.appendChild(div);
 
+describe('edge click state', () => {
+  it('edge ', () => {
+    G6.registerBehavior("active-edge", {
+      getEvents() {
+        return {
+          "edge:click": "onEdgeSelect",
+          "edge:mouseenter": "onEdgeHover",
+          "edge:mouseleave": "onEdgeLeave",
+          "canvas:mousedown": "clearSelectedEdge"
+        };
+      },
+      onEdgeSelect(evt) {
+        console.log('mousedown')
+        const item = evt.item;
+        if (item.hasState("select")) {
+          this.graph.setItemState(item, 'select', false);
+          return;
+        }
+        this.graph.setItemState(item, 'select', true);
+      },
+      onEdgeHover(evt) {
+        console.log('hover')
+        const item = evt.item;
+        if (item.hasState("select")) {
+          return false;
+        }
+        this.graph.setItemState(item, 'hover', true);
+      },
+      onEdgeLeave(evt) {
+        console.log('leave')
+        const item = evt.item;
+        this.graph.setItemState(item, 'hover', false);
+      },
+      clearSelectedEdge(evt) {
+        console.log('clear')
+        const edges = this.graph.findAllByState("edge", 'select');
+        edges.forEach(edge => {
+          this.graph.setItemState(edge, 'select', false);
+        });
+      }
+    });
+    
+    const graph = new G6.Graph({
+      container: "container",
+      width: 500,
+      height: 500,
+      defaultEdge: {
+        type: "line",
+        style: {
+          stroke: "#24A0FF",
+          radius: 4,
+          offset: 15,
+          lineWidth: 2,
+          lineAppendWidth: 4,
+          cursor: "pointer",
+          endArrow: {
+            path: "M 0,0 L 7,3 L 5,0 L 7,-3 Z",
+            fill: "#24A0FF"
+          }
+        }
+      },
+      edgeStateStyles: {
+        hover: {
+          stroke: "#0ff",
+          endArrow: {
+            fill: "#FF7868"
+          }
+        },
+        select: {
+          stroke: "#FF7868",
+          endArrow: {
+            fill: "#FF7868"
+          }
+        }
+      },
+      modes: {
+        default: [
+          'drag-node',
+          'active-edge'
+        ]
+      }
+    });
+    
+    graph.read({
+      nodes: [
+        { id: '1', x: 100, y: 100},
+        { id: '2', x: 100, y: 220}
+      ],
+      edges: [
+        { source: '1', target: '2' }
+      ]
+    })
+  })
+})
+
 describe('dragenter dragleave', () => {
   const data = {
     nodes: [{
@@ -593,6 +688,11 @@ describe('changdata states', () => {
       },
       layout: {
         type: "circular"
+      },
+      nodeStateStyles: {
+        active: {
+          stroke: 'red'
+        }
       },
       edgeStateStyles: {
         active: {

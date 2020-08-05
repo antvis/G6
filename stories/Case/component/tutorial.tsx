@@ -593,111 +593,74 @@ const Tutorial = () => {
           });
         }
       });
-      // graph.get('canvas').set('localRefresh', false);
-      // $.getJSON('https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json', data => {
-      const main = async () => {
-        const response = await fetch(
-          'https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json',
-        );
-        const data = response as GraphData;
-        const nodes = data.nodes;
-        const edges = data.edges;
-        nodes.forEach(node => {
-          node.type = 'console-model-Node'
-          if (!node.style) {
-            node.style = {};
-          }
-          node.style.lineWidth = 1;
-          node.style.stroke = '#666';
-          node.style.fill = 'steelblue';
-          switch (node.class) {
-            case 'c0':
-              node.type = 'circle';
-              break;
-            case 'c1':
-              node.type = 'custom-rect';
-              node.size = [80, 60];
-              break;
-            case 'c2':
-              node.type = 'ellipse';
-              node.size = [100, 50];
-              break;
-          }
-        });
-        edges.push({
-          source: '19',
-          target: '19',
-          type: 'loop',
-          loopCfg: {
-            clockwise: true,
-            dist: 100
-          },
-          label: 'test',
-          labelCfg: {
-            //autoRotate: true,
-            style: {
-              stroke: "#AEC1DE",
-              lineWidth: 2,
-              fill: "#AEC1DE"
+
+      fetch('https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json')
+        .then(res => res.json())
+        .then(data => {
+          const nodes = data.nodes;
+          const edges = data.edges;
+          nodes.forEach(node => {
+            node.type = 'circle';//console-model-Node'
+            if (!node.style) {
+              node.style = {};
             }
-          },
-          style: {
-            lineWidth: 3,
-            opacity: 1,
-            size: 2,
-            radius: 5,
-            endArrow: {
-              path: "M 6,0 L -6,-6 L -3,0 L -6,6 Z",
-              d: 6
-            },
-            startArrow: {
-              path: "M 12,10 L 12,-10 L 2, -6, L 2,6 Z",
-              d: 3
-            },
-            stroke: "#AEC1DE",
-          },
-        });
-        edges.forEach(edge => {
-          edge.type = 'console-line'
-          if (!edge.style) {
-            edge.style = {};
-          }
-          edge.style.opacity = 0.6;
-          edge.style.stroke = 'grey';
-        });
-
-        graph.data(data);
-        graph.render();
-
-        graph.on('node:mouseenter', e => {
-          const nodeItem = e.item;
-          graph.setItemState(nodeItem, 'hover', true);
-        });
-        graph.on('node:mouseleave', e => {
-          const nodeItem = e.item;
-          graph.setItemState(nodeItem, 'hover', false);
-        });
-        graph.on('node:click', e => {
-          const clickNodes = graph.findAllByState('node', 'click');
-          clickNodes.forEach(cn => {
-            graph.setItemState(cn, 'click', false);
+            node.style.lineWidth = 1;
+            node.style.stroke = '#666';
+            node.style.fill = 'steelblue';
+            switch (node.class) {
+              case 'c0':
+                node.type = 'circle';
+                break;
+              case 'c1':
+                node.type = 'custom-rect';
+                node.size = [80, 60];
+                break;
+              case 'c2':
+                node.type = 'ellipse';
+                node.size = [100, 50];
+                break;
+            }
           });
-          const nodeItem = e.item;
-          graph.setItemState(nodeItem, 'click', true);
-        });
-        graph.on('edge:click', e => {
-          const clickEdges = graph.findAllByState('edge', 'click');
-          clickEdges.forEach(ce => {
-            graph.setItemState(ce, 'click', false);
+          edges.forEach(edge => {
+            // edge.type = 'console-line'
+            if (!edge.style) {
+              edge.style = {};
+            }
+            edge.style.opacity = 0.6;
+            edge.style.stroke = 'grey';
           });
-          const edgeItem = e.item;
-          graph.setItemState(edgeItem, 'click', true);
+
+          graph.data(data);
+          graph.render();
+
+          graph.on('node:mouseenter', e => {
+            const nodeItem = e.item;
+            graph.setItemState(nodeItem, 'hover', true);
+          });
+          graph.on('node:mouseleave', e => {
+            const nodeItem = e.item;
+            graph.setItemState(nodeItem, 'hover', false);
+          });
+          graph.on('node:click', e => {
+            const clickNodes = graph.findAllByState('node', 'click');
+            clickNodes.forEach(cn => {
+              graph.setItemState(cn, 'click', false);
+            });
+            const nodeItem = e.item;
+            graph.setItemState(nodeItem, 'click', true);
+          });
+          graph.on('edge:click', e => {
+            const clickEdges = graph.findAllByState('edge', 'click');
+            clickEdges.forEach(ce => {
+              graph.setItemState(ce, 'click', false);
+            });
+            const edgeItem = e.item;
+            graph.setItemState(edgeItem, 'click', true);
+          });
+
+
+
         });
-
-
-
-      };
-      main();
     }
   });
 

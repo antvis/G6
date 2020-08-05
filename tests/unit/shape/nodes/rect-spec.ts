@@ -89,7 +89,7 @@ describe('rect test', () => {
             left: true,
             right: true,
             fill: '#fff',
-            size: 5,
+            size: 10,
           },
         },
       };

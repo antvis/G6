@@ -7,7 +7,7 @@ Tooltip is a built-in components in G6.
 
 ## Usage
 
-The demo below show how to use tooltip on graph. Tooltip's style can be defined by the CSS with class name `g6-tooltip`:
+The demo below shows how to use tooltip on graph. Tooltip's style can be defined by the CSS with class name `g6-tooltip`:
 
 ```
 .g6-tooltip {

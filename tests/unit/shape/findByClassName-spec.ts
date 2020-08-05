@@ -30,7 +30,7 @@ describe('register node', () => {
       },
     ],
   };
-  it('shape test wihout extended shape and draw function', () => {
+  it('shape test without extended shape and draw function', () => {
     G6.registerNode(
       'custom-node',
       {
