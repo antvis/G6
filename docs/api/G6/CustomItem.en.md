@@ -1,9 +1,9 @@
 ---
-title: Custom Mechanism
-order: 9
+title: Register Node and Edge
+order: 10
 ---
 
-This document will introduce custom mechanism in G6, including custom node, custom edge, custom behavior, custom layout. All of them are mounted on global G6, called by `G6.registerXXX`.
+This document shows the functions that should be implemented or rewrited when custom nodes by `G6.registerNode` or custom edges by `G6.registerEdge`.
 
 ## G6.registerNode(nodeName, options, extendedNodeName)
 
@@ -188,123 +188,118 @@ G6.registerCombo(
 );
 ```
 
-## G6.registerBehavior(behaviorName, behavior)
+## Usage
 
-When the [built-in Behaviors](/en/docs/manual/middle/states/defaultBehavior) cannot satisfy your requirments, custom a type of Behavior by `G6.registerBehavior(behaviorName, behavior)`. See [Behavior API](/en/docs/api/Behavior) for detail.
-
-### Parameters
-
-| Name | Type | Required | Description |
-| --- | --- | --- | --- |
-| behaviorName | String | true | The name of custom Behavior. |
-| behavior | Object | true | The configurations of custom Behavior. For more information, please refer to [Behavior API](/en/docs/api/Behavior). |
-
-### Usage
+The following code is an example of customizing a type of edge:
 
 ```javascript
-// Custom a type of Behavior
-G6.registerBehavior('behaviorName', {
-  // Bind the event and its callback
-  getEvents() {
-    return {
-      'node:click': 'onClick',
-      mousemove: 'onMousemove',
-      'edge:click': 'onEdgeClick',
-    };
+import G6 from '@antv/g6';
+G6.registerEdge(
+  'edgeName',
+  {
+    labelPosition: 'center',
+    labelAutoRotate: true,
+    draw(cfg, group) {
+      // The other functions such as drawShape anddrawLabel can be called in draw(cfg, group)
+      this.drawShape();
+      const labelStyle = this.getLabelStyle(cfg);
+      // ...
+    },
+    drawShape(cfg, group) {
+      //
+    },
+    getLabelStyle(cfg) {
+      // Return the label's style
+      return {};
+    },
+    update(cfg, item) {
+      // Update the item according
+    },
   },
-  /**
-   * Handle the callback for node:click
-   * @override
-   * @param  {Object} evt The handler
-   */
-  onClick(evt) {
-    const node = evt.item;
-    const graph = this.graph;
-    const point = { x: evt.x, y: evt.y };
-    const model = node.getModel();
-    // TODO
-  },
-  /**
-   * Handle the callback for mousemove
-   * @override
-   * @param  {Object} evt The handler
-   */
-  onMousemove(evt) {
-    // TODO
-  },
-  /**
-   * Handle the callback for :click
-   * @override
-   * @param  {Object} evt The handler
-   */
-  onEdgeClick(evt) {
-    // TODO
-  },
-});
+  'line',
+);
 ```
 
-## G6.registerLayout(layoutName, layout)
+## Properties
 
-When the built-in Layouts cannot satisfy your requirments, custom a type of Layout by `G6.registerLayout(layoutName, layout)`.
+### labelPosition
 
-### Parameters
+The relative positions of label to the item. `'center'` by default.
 
-| Name | Type | Required | Description |
-| --- | --- | --- | --- |
-| layoutName | String | true | The name of the custom layout. |
-| layout | Object | true | The configurations of the custom layout. For more information, please refer to [Layout API](/en/docs/manual/middle/layout/custom-layout). |
+- When registering a type of node by `registerNode`, options of `labelPosition` includes: `'top'`, `'bottom'`, `'left'`, `'right'` and `'center'`;
+- When registering a type of edge by `registerEdge`, options of `labelPosition` includes: `'start'`, `'end'` and `'center'`.
 
-### Usage
+### labelAutoRotate
 
-```javascript
-G6.registerLayout('layoutName', {
-  /**
-   * The default configurations will be mixed by configurations from user
-   */
-  getDefaultCfg() {
-    return {};
-  },
-  /**
-   * Initialize
-   * @param {Object} data The data
-   */
-  init(data) {
-    const self = this;
-    self.nodes = data.nodes;
-    self.edges = data.edges;
-  },
-  /**
-   * Execute the layout
-   */
-  execute() {
-    // TODO
-  },
-  /**
-   * Layout with the data
-   * @param {Object} data The data
-   */
-  layout(data) {
-    const self = this;
-    self.init(data);
-    self.execute();
-  },
-  /**
-   * Update the configurations of the layout, but it does not execute the layout
-   * @param {Object} cfg The new configurations
-   */
-  updateCfg(cfg) {
-    const self = this;
-    Util.mix(self, cfg);
-  },
-  /**
-   * Destroy the layout
-   */
-  destroy() {
-    const self = this;
-    self.positions = null;
-    self.nodes = null;
-    self.edges = null;
-    self.destroyed = true;
-  },
-});
-```
+> Takes effect only when `registerEdge`.
+
+Whether to rotate the label according to the edge. `false` by default.
+
+**Tips: this is an unique property for edge.**
+
+## Draw Functions
+
+The parameters for the four functions about draw are the same. Please refer to `draw()`.
+
+### draw(cfg, group)
+
+Draw the node or edge, including the label on the it. Return `keyShape` of it.
+
+**Parameters**
+
+| Name  | Type    | Required | Description                             |
+| ----- | ------- | -------- | --------------------------------------- |
+| cfg   | Object  | true     | The configurations of the node or edge. |
+| group | G.Group | true     | The contianer of the node or edge.      |
+
+### afterDraw(cfg, group)
+
+This function will be called after the node or edge being drawed. It is appropriate for extending graphics or animations for built-in node or edge.
+
+This [demo](/en/examples/scatter/edge) shows how to add animations in afterDraw. The API about shape's animate can be refered to the [Animate API of G](https://g.antv.vision/en/docs/api/general/element/#%E5%8A%A8%E7%94%BB%E6%96%B9%E6%B3%95) which is the rendering engine of G6.
+
+## Update Functions
+
+### update(cfg, item)
+
+Update the node or edge, including the label on it.
+
+**Parameters**
+
+| Name | Type    | Required | Description                              |
+| ---- | ------- | -------- | ---------------------------------------- |
+| cfg  | Object  | true     | The configurations for the node or edge. |
+| item | G6.Item | true     | The item instance of the node or edge.   |
+
+### afterUpdate(cfg, item)
+
+This function will be called after the node or edge being updated.
+
+This [demo](/en/examples/scatter/edge) shows how to add animations. The API about shape's animate can be refered to the [Animate API of G](https://g.antv.vision/en/docs/api/general/element/#%E5%8A%A8%E7%94%BB%E6%96%B9%E6%B3%95) which is the rendering engine of G6.
+
+### shouldUpdate(type)
+
+Whether to allow the node or edge to be updated.
+
+**Paramters**
+
+| Name | Type   | Required | Description                                      |
+| ---- | ------ | -------- | ------------------------------------------------ |
+| type | String | true     | The type of the item. Options:`'node'`, `'edge'` |
+
+**Return**
+
+- The type of return value: Boolean;
+- Allow the node or edge to be updated if it returns `true`.
+
+### setState(name, value, item)
+
+After [`graph.setItemState(item, state, value)`](/en/docs/api/Graph/#setitemstateitem-state-enabled) is called, this function will do some responses.
+
+**Paramters**
+
+| Name  | Type    | Required | Description                       |
+| ----- | ------- | -------- | --------------------------------- |
+| name  | String  | true     | The name of the state.            |
+| value | Boolean | true     | The value of the state.           |
+| item  | G6.Item | true     | The instance of the node or edge. |

@@ -1,7 +1,11 @@
 ---
-title: 自定义机制
-order: 9
+title: 自定义节点与边
+order: 10
 ---
+
+本文介绍的相关方法是在自定义节点（registerNode）或自定义边（registerEdge）的过程中需要部分实现或复写的方法。
+
+**友情提示：**以下属性和 API 方法，全部用于自定义节点和边时候使用，即作为 `G6.registerNode` / `G6.registerEdge` 的第二个参数中的方法。
 
 本文介绍 G6 的自定义机制，包括自定义节点、自定义边、自定义 combo、自定义交互行为、自定义布局的相关方法。它们都被挂载在 G6 全局上，通过 `G6.registerXXX` 进行调用。
 
@@ -191,123 +195,114 @@ G6.registerNode(
 );
 ```
 
-## G6.registerBehavior(behaviorName, behavior)
+## 用法
 
-当 [内置 Behavior](/zh/docs/manual/middle/states/defaultBehavior) 不能满足需求时，使用 `registerBehavior(behaviorName, behavior)` 方法注册自定义的交互行为。详见 [Behavior API](/zh/docs/api/Behavior)。
-
-### 参数
-
-| 名称 | 类型 | 是否必选 | 描述 |
-| --- | --- | --- | --- |
-| behaviorName | String | true | 自定义 Behavior 的名称。 |
-| behavior | Object | true | 自定义 behavior 时的配置项，配置项中包括的方法及作用具体请参考：[Behavior API](/zh/docs/api/Behavior)。 |
-
-### 用法
+下面以注册边为例：
 
 ```javascript
-// 注册自定义 Behavior
-G6.registerBehavior('behaviorName', {
-  // 设置事件及处理事件的回调之间的对应关系
-  getEvents() {
-    return {
-      'node:click': 'onClick',
-      mousemove: 'onMousemove',
-      'edge:click': 'onEdgeClick',
-    };
+import G6 from '@antv/g6';
+G6.registerEdge(
+  'edgeName',
+  {
+    labelPosition: 'center',
+    labelAutoRotate: true,
+    draw(cfg, group) {
+      // 定义的其他方法，都可以在draw里面调用， 如 drawShape、drawLabel 等。
+      this.drawShape();
+      const labelStyle = this.getLabelStyle(cfg);
+      // ...
+    },
+    drawShape(cfg, group) {
+      //
+    },
+    getLabelStyle(cfg) {
+      // 根据业务返回 label 的样式
+      return {};
+    },
+    update(cfg, item) {
+      // 更新绘制的元素
+    },
   },
-  /**
-   * 处理 node:click 事件的回调
-   * @override
-   * @param  {Object} evt 事件句柄
-   */
-  onClick(evt) {
-    const node = evt.item;
-    const graph = this.graph;
-    const point = { x: evt.x, y: evt.y };
-    const model = node.getModel();
-    // TODO
-  },
-  /**
-   * 处理 mousemove 事件的回调
-   * @override
-   * @param  {Object} evt 事件句柄
-   */
-  onMousemove(evt) {
-    // TODO
-  },
-  /**
-   * 处理 :click 事件的回调
-   * @override
-   * @param  {Object} evt 事件句柄
-   */
-  onEdgeClick(evt) {
-    // TODO
-  },
-});
+  'line',
+);
 ```
 
-## G6.registerLayout(layoutName, layout)
+## 属性
 
-当内置布局不满足需求时，可以通过 `G6.registerLayout(layoutName, layout)` 方法自定义布局。
+### labelPosition
 
-### 参数
+文本相对于图形的位置，默认值为 `'center'`。
 
-| 名称 | 类型 | 是否必选 | 描述 |
-| --- | --- | --- | --- |
-| layoutName | String | true | 自定义布局名称。 |
-| layout | Object | true | 自定义布局的配置项，配置项中包括的方法及作用具体请参考：[Layout API](/zh/docs/manual/middle/layout/custom-layout)。 |
+- 当使用 `registerNode` 注册节点时，`labelPosition` 可选值包括：`'top'`、`'bottom'`、`'left'`、`'right'` 和 `'center'`；
+- 当使用 `registerEdge` 注册边时，`labelPosition` 可选值包括：`'start'`、`'end'` 和 `'center'`。
 
-### 用法
+### labelAutoRotate
 
-```javascript
-G6.registerLayout('layoutName', {
-  /**
-   * 定义自定义行为的默认参数，会与用户传入的参数进行合并
-   */
-  getDefaultCfg() {
-    return {};
-  },
-  /**
-   * 初始化
-   * @param {Object} data 数据
-   */
-  init(data) {
-    const self = this;
-    self.nodes = data.nodes;
-    self.edges = data.edges;
-  },
-  /**
-   * 执行布局
-   */
-  execute() {
-    // TODO
-  },
-  /**
-   * 根据传入的数据进行布局
-   * @param {Object} data 数据
-   */
-  layout(data) {
-    const self = this;
-    self.init(data);
-    self.execute();
-  },
-  /**
-   * 更新布局配置，但不执行布局
-   * @param {Object} cfg 需要更新的配置项
-   */
-  updateCfg(cfg) {
-    const self = this;
-    Util.mix(self, cfg);
-  },
-  /**
-   * 销毁
-   */
-  destroy() {
-    const self = this;
-    self.positions = null;
-    self.nodes = null;
-    self.edges = null;
-    self.destroyed = true;
-  },
-});
-```
+> 只有在 `registerEdge` 时生效。
+
+文本是否跟着线自动旋转，默认值为 `false`。
+
+**提示：edge 特有。**
+
+## 绘制函数
+
+绘制部分四个 API 的参数完全相同，参数说明部分参考 `draw()` 方法。
+
+### draw(cfg, group)
+
+绘制节点和边，包括节点和边上的文本，返回图形的 `keyShape`。
+
+**参数**
+
+| 名称  | 类型    | 是否必选 | 描述             |
+| ----- | ------- | -------- | ---------------- |
+| cfg   | Object  | true     | 节点或边的配置项 |
+| group | G.Group | true     | 节点或边的容器   |
+
+### afterDraw(cfg, group)
+
+绘制完成以后的操作，用户可继承现有的节点或边，在 `afterDraw()` 方法中扩展图形或添加动画。可参考在 afterDraw 中添加动画的 [demo](/zh/examples/scatter/edge)。图形动画 API 详见 G6 的渲染引擎 [G 的动画相关 API](https://g.antv.vision/zh/docs/api/general/element/#%E5%8A%A8%E7%94%BB%E6%96%B9%E6%B3%95)。
+
+## 更新函数
+
+### update(cfg, item)
+
+更新节点或边，包括节点或边上的文本。
+
+**参数**
+
+| 名称 | 类型    | 是否必选 | 描述             |
+| ---- | ------- | -------- | ---------------- |
+| cfg  | Object  | true     | 节点或边的配置项 |
+| item | G6.Item | true     | 节点或边的实例   |
+
+### afterUpdate(cfg, item)
+
+更新完以后的操作，如扩展图形或添加动画。可参考添加动画的 [demo](/zh/examples/scatter/edge)。图形动画 API 详见 G6 的渲染引擎 [G 的动画相关 API](https://g.antv.vision/zh/docs/api/general/element/#%E5%8A%A8%E7%94%BB%E6%96%B9%E6%B3%95)。
+
+### shouldUpdate(type)
+
+是否允许更新。
+
+**参数**
+
+| 名称 | 类型   | 是否必选 | 描述                           |
+| ---- | ------ | -------- | ------------------------------ |
+| type | String | true     | 元素类型，`'node'` 或 `'edge'` |
+
+**返回值**
+
+- 返回值类型：Boolean；
+- 返回 `true`，则允许更新，否则不允许更新。
+
+### setState(name, value, item)
+
+用于响应外部对元素状态的改变。当外部调用 [`graph.setItemState(item, state, value)`](/zh/docs/api/Graph/#setitemstateitem-state-enabled) 时，该函数作出相关响应。主要是交互状态，业务状态请在 `draw()` 方法中实现。单图形的节点仅考虑 `'selected'` 、`'active'` 状态，有其他状态需求的用户可以复写该方法。
+
+**参数**
+
+| 名称  | 类型    | 是否必选 | 描述                                       |
+| ----- | ------- | -------- | ------------------------------------------ |
+| name  | String  | true     | 状态名称                                   |
+| value | Boolean | true     | 状态是否可用，为 `true` 时可用，否则不可用 |
+| item  | G6.Item | true     | 节点或边的实例                             |

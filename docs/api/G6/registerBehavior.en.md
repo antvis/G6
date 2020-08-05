@@ -9,24 +9,57 @@ By default, Behavior has three callbacks: `shouldBegin`, `shouldUpdate`, and `sh
 
 This document is going to introduce how to customize a behavior. The infomation about the built-in behaviors can be found in the [Built-in Behaviors](/en/docs/manual/middle/states/defaultBehavior).
 
-## Usage
+
+## G6.registerBehavior(behaviorName, behavior)
+
+When the [built-in Behaviors](/en/docs/manual/middle/states/defaultBehavior) cannot satisfy your requirments, custom a type of Behavior by `G6.registerBehavior(behaviorName, behavior)`. See [Behavior API](/en/docs/api/Behavior) for detail.
+
+### Parameters
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| behaviorName | String | true | The name of custom Behavior. |
+| behavior | Object | true | The configurations of custom Behavior. For more information, please refer to [Behavior API](/en/docs/api/Behavior). |
+
+### Usage
 
 ```javascript
+// Custom a type of Behavior
 G6.registerBehavior('behaviorName', {
+  // Bind the event and its callback
   getEvents() {
     return {
-      'node:click': 'onNodeClick',
+      'node:click': 'onClick',
+      mousemove: 'onMousemove',
       'edge:click': 'onEdgeClick',
-      mousemove: 'onMouseMove',
     };
   },
-  onNodeClick(evt) {
+  /**
+   * Handle the callback for node:click
+   * @override
+   * @param  {Object} evt The handler
+   */
+  onClick(evt) {
+    const node = evt.item;
+    const graph = this.graph;
+    const point = { x: evt.x, y: evt.y };
+    const model = node.getModel();
     // TODO
   },
+  /**
+   * Handle the callback for mousemove
+   * @override
+   * @param  {Object} evt The handler
+   */
+  onMousemove(evt) {
+    // TODO
+  },
+  /**
+   * Handle the callback for :click
+   * @override
+   * @param  {Object} evt The handler
+   */
   onEdgeClick(evt) {
-    // TODO
-  },
-  onMouseMove(evt) {
     // TODO
   },
 });
