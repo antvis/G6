@@ -112,7 +112,7 @@ order: 8
 | beforemodechange | 调用 `setMode` / `addBehaviors` / `removeBehaviors` 方法之前触发 |
 | aftermodechange | 调用 `setMode` / `addBehaviors` / `removeBehaviors` 方法之后触发 |
 | beforelayout | 布局前触发。调用 `render` 时会进行布局，因此 `render` 时会触发。或用户主动调用图的 `layout` 时触发。 |
-| afterlayout | 布局完成后触发。调用 `render` 时会进行布局，因此 `render` 时布局完成后会触发。或用户主动调用图的 `layout` 时布局完成后触发。 |
+| afterrender | 布局完成后触发。调用 `render` 时会进行布局，因此 `render` 时布局完成后会触发。或用户主动调用图的 `layout` 时布局完成后触发。 |
 | afteractivaterelations | 使用了 `'activate-relations'` Behavior 并触发了该行为后，该事件被触发 |
 | nodeselectchange | 使用了 `'brush-select'` , `'click-select'` 或 `'lasso-select'` Behavior 且选中元素发生变化时，该事件被触发 |
 | itemcollapsed | 在 TreeGraph 上使用了 `'collapse-expand'` Behavior 并触发了该行为后，该事件被触发 |
@@ -184,7 +184,7 @@ order: 8
 | ---- | ---- | -------------------- |
 | item | Item | 当前操作的 item 实例 |
 
-#### beforelayout / afterlayout
+#### beforelayout / afterrender
 
 无参数
 
