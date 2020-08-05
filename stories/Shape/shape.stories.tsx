@@ -12,6 +12,12 @@ import Arc from './component/arc';
 import CustomCardNode from './component/card-node'
 import ExtendNode from './component/extend-node';
 import LostStateStyle from './component/loseStateStyle'
+import IntervalChart from './component/interval-chart'
+import LineChart from './component/line-chart'
+import ChartWithTooltip from './component/chart-tooltip'
+import PointChart from './component/point-chart'
+import PieChart from './component/pie-chart'
+import MultiChart from './component/multiChart'
 
 export default { title: 'Shape' };
 
@@ -46,3 +52,9 @@ storiesOf('Shape', module)
   .add('card-node', () => <CustomCardNode />)
   .add('extend-node', () => <ExtendNode />)
   .add('lose state style', () => <LostStateStyle />)
+  .add('IntervalChart', () => <IntervalChart />)
+  .add('LineChart', () => <LineChart />)
+  .add('ChartWithTooltip', () => <ChartWithTooltip />)
+  .add('PointChart', () => <PointChart />)
+  .add('PieChart', () => <PieChart />)
+  .add('MultiChart', () => <MultiChart />)

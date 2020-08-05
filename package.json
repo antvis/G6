@@ -50,7 +50,7 @@
     "site:deploy": "npm run site:build && gh-pages -d public",
     "start": "npm run site:develop",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/plugins/timebar-spec.ts",
+    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/shape/node-spec.ts",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
     "watch": "father build -w",
     "cdn": "antv-bin upload -n @antv/g6"
@@ -101,6 +101,7 @@
     "@umijs/fabric": "^2.0.0",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
+    "chart-node-g6": "^1.0.0",
     "event-simulate": "~1.0.0",
     "father": "^2.29.1",
     "gatsby": "^2.23.9",
