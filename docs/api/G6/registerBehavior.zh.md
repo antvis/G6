@@ -9,24 +9,56 @@ Behavior 默认包含 `shouldBegin`，`shouldUpdate`，`shouldEnd` 三个回调�
 
 本文将介绍如何自定义 Behavior。所有内置 Behavior 及其参数参见 [内置的 Behavior 教程](/zh/docs/manual/middle/states/defaultBehavior)。
 
-## 自定义 Behavior
+## G6.registerBehavior(behaviorName, behavior)
+
+当 [内置 Behavior](/zh/docs/manual/middle/states/defaultBehavior) 不能满足需求时，使用 `registerBehavior(behaviorName, behavior)` 方法注册自定义的交互行为。详见 [Behavior API](/zh/docs/api/Behavior)。
+
+### 参数
+
+| 名称 | 类型 | 是否必选 | 描述 |
+| --- | --- | --- | --- |
+| behaviorName | String | true | 自定义 Behavior 的名称。 |
+| behavior | Object | true | 自定义 behavior 时的配置项，配置项中包括的方法及作用具体请参考：[Behavior API](/zh/docs/api/Behavior)。 |
+
+### 用法
 
 ```javascript
+// 注册自定义 Behavior
 G6.registerBehavior('behaviorName', {
+  // 设置事件及处理事件的回调之间的对应关系
   getEvents() {
     return {
-      'node:click': 'onNodeClick',
+      'node:click': 'onClick',
+      mousemove: 'onMousemove',
       'edge:click': 'onEdgeClick',
-      mousemove: 'onMouseMove',
     };
   },
-  onNodeClick(evt) {
+  /**
+   * 处理 node:click 事件的回调
+   * @override
+   * @param  {Object} evt 事件句柄
+   */
+  onClick(evt) {
+    const node = evt.item;
+    const graph = this.graph;
+    const point = { x: evt.x, y: evt.y };
+    const model = node.getModel();
     // TODO
   },
+  /**
+   * 处理 mousemove 事件的回调
+   * @override
+   * @param  {Object} evt 事件句柄
+   */
+  onMousemove(evt) {
+    // TODO
+  },
+  /**
+   * 处理 :click 事件的回调
+   * @override
+   * @param  {Object} evt 事件句柄
+   */
   onEdgeClick(evt) {
-    // TODO
-  },
-  onMouseMove(evt) {
     // TODO
   },
 });
