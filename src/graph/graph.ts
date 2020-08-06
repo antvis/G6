@@ -1189,7 +1189,7 @@ export default class Graph extends EventEmitter implements IGraph {
   /**
    * 自动推荐布局
    */
-  public autoLayout(): Array<string | number> {
+  public autoLayout(): Array< Array<string | number> > {
     const self = this;
     const layoutController = this.get('layoutController');
 
