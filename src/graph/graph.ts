@@ -46,9 +46,9 @@ import { plainCombosToTrees, traverseTree, reconstructTree, traverseTreeUp } fro
 import degree from '../algorithm/degree';
 import Stack from '../algorithm/structs/stack';
 import adjMatrix from '../algorithm/adjacent-matrix';
-import floydWarshall from '../algorithm/floydWarshall';
-
 import Hull from '../item/hull';
+import floydWarshall from '../algorithm/floydWarshall';
+import layoutProbMap from '../algorithm/layoutProbMap';
 
 const NODE = 'node';
 const SVG = 'svg';
@@ -1184,6 +1184,142 @@ export default class Graph extends EventEmitter implements IGraph {
    */
   public data(data?: GraphData | TreeGraphData): void {
     this.set('data', data);
+  }
+
+  /**
+   * 自动推荐布局
+   */
+  public autoLayout(): any{
+    const self = this;
+    const layoutController = this.get('layoutController');
+
+    if (layoutController.getLayoutType()) {
+      throw new Error('graph already has a layout type');
+    }
+
+    // get data - nodes and edges only
+    const data: GraphData = this.get('data');
+
+    if (!data) {
+      throw new Error('data must be defined first');
+    }
+
+    const { nodes = [], edges = [] } = data;
+
+    var sensitiveFields = []; // 敏感字段
+    each(nodes, (node: NodeConfig) => {
+      if ("child" in node ||
+        "left" in node ||
+        "right" in node ||
+        "root" in node) {
+        sensitiveFields.push("tree");
+      }
+      if ("cluster" in node || "class" in node) {
+        sensitiveFields.push("cluster");
+      }
+      if ("level" in node) {
+        sensitiveFields.push("level");
+      }
+      self.add('node', node, false);
+    });
+
+    each(edges, (edge: EdgeConfig) => {
+      self.add('edge', edge, false);
+    });
+
+    this.emit("beforeautolayout");
+
+    // sort node according to degrees
+    let degrees = this.get('degrees');
+    if (!degrees) {
+      degrees = degree(this);
+    }
+    this.set('degrees', degrees);
+    
+    var sortedDegrees = [];
+    for (var n in degrees) {
+      sortedDegrees.push([n, degrees[n]["degree"]]);
+    }
+    sortedDegrees.sort(function(a, b) {
+      return b[1] - a[1];
+    });
+
+    // calculate degree vars
+    var nodeNum: number = sortedDegrees.length;
+    var maxDegree: number = sortedDegrees[0][1];
+    var sumDegree: number = 0;
+    for (let i = nodeNum - 1; i >= 0; i--) {
+      sumDegree += sortedDegrees[i][1];
+    }
+    var meanDegree: number = sumDegree / nodeNum;
+
+    // strength calculation
+    var strength: string = "";
+    if (maxDegree >= nodeNum - 1) {
+      strength = "connected"
+    } else if (maxDegree > nodeNum * 2 / 3) {
+      strength = "dense";
+    } else if (maxDegree < 5 && nodeNum <= 36) {
+      strength = "grid";
+    } else if (maxDegree > nodeNum / 3) {
+      strength = "normal";
+    } else {
+      strength = "sparse";
+    }
+
+    // tense calculation
+    var c: number = 0;
+    for (; c < nodeNum; c++) {
+      if (sortedDegrees[c][1] < meanDegree) {
+        break;
+      }
+    }
+    var tense: string = "";
+    if (strength === "grid"){
+      tense = "low";
+    } else {
+      if (c > nodeNum / 2) {
+        tense = "high";
+      } else {
+        tense = "low";
+      }
+    }
+
+    var layoutProb = layoutProbMap(sensitiveFields, strength, tense);
+    var sortedLayoutProb = [];
+    var probSum = 0;
+    for (var l in layoutProb) {
+      probSum += layoutProb[l];
+      sortedLayoutProb.push([l, layoutProb[l]]);
+    }
+    sortedLayoutProb.sort(function(a, b) {
+      return b[1] - a[1];
+    });
+
+    // select the applied layout
+    for (var i = 0; i < sortedLayoutProb.length; i++) {
+      sortedLayoutProb[i][1] /= probSum;
+    }
+
+    var chosedLayout: string = ""
+    var choice = Math.random();
+    var step = 0;
+    for (var i = 0; i < sortedLayoutProb.length; i++) {
+      step += sortedLayoutProb[i][1];
+      if (choice < step) {
+        chosedLayout = sortedLayoutProb[i][0];
+        break;
+      }
+    }
+
+    this.emit("afterautolayout");
+    // console.log(sensitiveFields, strength, tense, 
+    //               sortedLayoutProb, choice, chosedLayout);
+    this.updateLayout({
+      type: chosedLayout,
+    });
+    
+    return sortedLayoutProb;
   }
 
   /**
@@ -2952,7 +3088,7 @@ export default class Graph extends EventEmitter implements IGraph {
     if (!degrees) {
       degrees = degree(this);
     }
-    this.set('degees', degrees);
+    this.set('degrees', degrees);
     const nodeDegrees = degrees[item.getID()];
     let res;
     switch (type) {
