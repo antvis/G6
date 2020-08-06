@@ -10,6 +10,7 @@ import Quadratic from './component/quadratic';
 import HideItem from './component/hide-item';
 import Arc from './component/arc';
 import CustomCardNode from './component/card-node'
+import XML from './component/xml'
 import ExtendNode from './component/extend-node';
 import LostStateStyle from './component/loseStateStyle'
 
@@ -44,5 +45,8 @@ storiesOf('Shape', module)
     <HideItem />
   ))
   .add('card-node', () => <CustomCardNode />)
+  .add('xml node', () => (
+    <XML />
+  ))
   .add('extend-node', () => <ExtendNode />)
   .add('lose state style', () => <LostStateStyle />)
