@@ -1189,7 +1189,7 @@ export default class Graph extends EventEmitter implements IGraph {
   /**
    * 自动推荐布局
    */
-  public autoLayout(): any{
+  public autoLayout(): { [layoutname: string]: number } {
     const self = this;
     const layoutController = this.get('layoutController');
 
@@ -1208,17 +1208,14 @@ export default class Graph extends EventEmitter implements IGraph {
 
     let sensitiveFields = []; // 敏感字段
     each(nodes, (node: NodeConfig) => {
-      if ("child" in node ||
-        "left" in node ||
-        "right" in node ||
-        "root" in node) {
-        sensitiveFields.push("tree");
+      if (node.child || node.left || node.right || node.root) {
+        sensitiveFields.push('tree');
       }
-      if ("cluster" in node || "class" in node) {
-        sensitiveFields.push("cluster");
+      if (node.cluster || node.class) {
+        sensitiveFields.push('cluster');
       }
-      if ("level" in node) {
-        sensitiveFields.push("level");
+      if (node.level) {
+        sensitiveFields.push('level');
       }
       self.add('node', node, false);
     });
@@ -1227,7 +1224,7 @@ export default class Graph extends EventEmitter implements IGraph {
       self.add('edge', edge, false);
     });
 
-    this.emit("beforeautolayout");
+    this.emit('beforeautolayout');
 
     // sort node according to degrees
     let degrees = this.get('degrees');
@@ -1237,9 +1234,11 @@ export default class Graph extends EventEmitter implements IGraph {
     this.set('degrees', degrees);
     
     let sortedDegrees = [];
-    for (let n in degrees) {
-      sortedDegrees.push([n, degrees[n]["degree"]]);
-    }
+    Object.entries(degrees).forEach(([key, value]) => {
+      if (value.hasOwnProperty("degree")) {
+        sortedDegrees.push([key, value.degree]);
+      }
+    });
     sortedDegrees.sort((a, b) => {
       return b[1] - a[1];
     });
@@ -1254,31 +1253,32 @@ export default class Graph extends EventEmitter implements IGraph {
     let meanDegree: number = sumDegree / nodeNum;
 
     // strength calculation
-    let strength: string = "";
+    let strength: string = '';
     if (maxDegree >= nodeNum - 1) {
-      strength = "connected"
+      strength = 'connected'
     } else if (maxDegree > nodeNum * 2 / 3) {
-      strength = "dense";
+      strength = 'dense';
     } else if (maxDegree < 5 && nodeNum <= 36) {
-      strength = "grid";
+      strength = 'grid';
     } else if (maxDegree > nodeNum / 3) {
-      strength = "normal";
+      strength = 'normal';
     } else {
-      strength = "sparse";
+      strength = 'sparse';
     }
 
     // tense calculation
     let c: number = 0;
-    for (; c < nodeNum; c++) {
+    while (c < nodeNum) {
       if (sortedDegrees[c][1] < meanDegree) {
         break;
       }
+      c += 1;
     }
-    let tense: string = "";
+    let tense: string = '';
     if (c > nodeNum / 2) {
-      tense = "high";
+      tense = 'high';
     } else {
-      tense = "low";
+      tense = 'low';
     }
 
     let layoutProb = layoutProbMap(sensitiveFields, strength, tense);
@@ -1297,7 +1297,7 @@ export default class Graph extends EventEmitter implements IGraph {
       sortedLayoutProb[i][1] /= probSum;
     }
 
-    let chosedLayout: string = ""
+    let chosedLayout: string = ''
     let choice = Math.random();
     let step = 0;
     for (let i = 0; i < sortedLayoutProb.length; i++) {
@@ -1308,7 +1308,7 @@ export default class Graph extends EventEmitter implements IGraph {
       }
     }
 
-    this.emit("afterautolayout");
+    this.emit('afterautolayout');
     // console.log(sensitiveFields, strength, tense, 
     //               sortedLayoutProb, choice, chosedLayout);
     this.updateLayout({
