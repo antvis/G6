@@ -1275,14 +1275,10 @@ export default class Graph extends EventEmitter implements IGraph {
       }
     }
     let tense: string = "";
-    if (strength === "grid"){
-      tense = "low";
+    if (c > nodeNum / 2) {
+      tense = "high";
     } else {
-      if (c > nodeNum / 2) {
-        tense = "high";
-      } else {
-        tense = "low";
-      }
+      tense = "low";
     }
 
     let layoutProb = layoutProbMap(sensitiveFields, strength, tense);

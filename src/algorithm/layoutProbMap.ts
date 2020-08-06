@@ -85,9 +85,7 @@ const layoutProbMap = (sensitiveFields, force: string, tense: string) => {
       }
       break;
     case 'grid':
-      if (tense === "low") {
-        layoutProb["grid"] += 0.9;
-      }
+      layoutProb["grid"] += 0.9;
       break;
     default:
       break;
