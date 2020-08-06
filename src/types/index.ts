@@ -369,6 +369,7 @@ export interface ModelConfig extends ModelStyle {
     x: number,
     y: number
   },
+  visible?: boolean
 }
 
 export interface NodeConfig extends ModelConfig {

@@ -12,6 +12,7 @@ import Arc from './component/arc';
 import CustomCardNode from './component/card-node'
 import ExtendNode from './component/extend-node';
 import LostStateStyle from './component/loseStateStyle'
+import HideInData from './component/hide-in-data';
 
 export default { title: 'Shape' };
 
@@ -46,3 +47,4 @@ storiesOf('Shape', module)
   .add('card-node', () => <CustomCardNode />)
   .add('extend-node', () => <ExtendNode />)
   .add('lose state style', () => <LostStateStyle />)
+  .add('hide by data', () => <HideInData />)

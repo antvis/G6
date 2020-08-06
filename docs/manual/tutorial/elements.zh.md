@@ -31,9 +31,10 @@ order: 2
 ```javascript
 {
 	id: 'node0',          // 元素的 id
-  type: 'circle',      // 元素的图形
+  type: 'circle',       // 元素的图形
   size: 40,             // 元素的大小
   label: 'node0'        // 标签文字
+  visible: true,        // 控制初次渲染显示与隐藏，若为 false，代表隐藏。默认不隐藏
   labelCfg: {           // 标签配置属性
     positions: 'center',// 标签的属性，标签在元素中的位置
     style: {            // 包裹标签样式属性的字段 style 与标签其他属性在数据结构上并行

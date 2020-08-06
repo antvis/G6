@@ -201,7 +201,7 @@ export default class Edge extends Item implements IEdge {
     return this.get('target');
   }
 
-  public updatePosition() {}
+  public updatePosition() { }
 
   /**
    * 边不需要重计算容器位置，直接重新计算 path 位置
@@ -209,6 +209,9 @@ export default class Edge extends Item implements IEdge {
    */
   public update(cfg: EdgeConfig) {
     const model: EdgeConfig = this.get('model');
+    const oriVisible = model.visible;
+    const cfgVisible = cfg.visible;
+    if (oriVisible !== cfgVisible && cfgVisible !== undefined) this.changeVisibility(cfgVisible);
     Object.assign(model, cfg);
     this.updateShape();
     this.afterUpdate();

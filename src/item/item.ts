@@ -146,6 +146,8 @@ export default class ItemBase implements IItemBase {
     const group: Group = self.get('group');
     const model: ModelConfig = self.get('model');
     group.clear();
+    let visible = model.visible;
+    if (visible !== undefined && !visible) self.changeVisibility(visible);
 
     if (!shapeFactory) {
       return;
@@ -534,6 +536,9 @@ export default class ItemBase implements IItemBase {
    */
   public update(cfg: ModelConfig) {
     const model: ModelConfig = this.get('model');
+    const oriVisible = model.visible;
+    const cfgVisible = cfg.visible;
+    if (oriVisible !== cfgVisible && cfgVisible !== undefined) this.changeVisibility(cfgVisible);
     const originPosition: IPoint = { x: model.x!, y: model.y! };
     cfg.x = isNaN(cfg.x) ? model.x : cfg.x;
     cfg.y = isNaN(cfg.y) ? model.y : cfg.y;
