@@ -2,25 +2,25 @@
  * dense, high
  */
 
-var nodes = [];
-for (var i = 0; i < 36; i++) {
+let nodes = [];
+for (let i = 0; i < 36; i++) {
   nodes.push({
     id: i.toString(),
     label: i.toString(),
   })
 }
 
-var edges = [];
-for (var i = 0; i < 36; i++) {
+let edges = [];
+for (let i = 0; i < 36; i++) {
   if (i === 0) {
-    for (var j = 1; j < 26; j++) {
+    for (let j = 1; j < 26; j++) {
       edges.push({
         source: i.toString(),
         target: j.toString(),
       })
     }
   } else if (i > 20) {
-    for (var j = 1; j > 14 && j < 34; j++) {
+    for (let j = 1; j > 14 && j < 34; j++) {
       edges.push({
         source: i.toString(),
         target: j.toString(),

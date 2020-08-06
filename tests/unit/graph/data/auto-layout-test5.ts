@@ -2,18 +2,18 @@
  * normal, low
  */
 
-var nodes = [];
-for (var i = 0; i < 50; i++) {
+let nodes = [];
+for (let i = 0; i < 50; i++) {
   nodes.push({
     id: i.toString(),
     label: i.toString(),
   })
 }
 
-var edges = [];
-for (var i = 0; i < 50; i++) {
+let edges = [];
+for (let i = 0; i < 50; i++) {
   if (i === 0) {
-    for (var j = 1; j < 10; j++) {
+    for (let j = 1; j < 10; j++) {
       edges.push({
         source: i.toString(),
         target: j.toString(),
