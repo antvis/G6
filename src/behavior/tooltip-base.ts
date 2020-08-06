@@ -81,6 +81,7 @@ export default {
     this.width = canvas.get('width');
     this.height = canvas.get('height');
     this.container = container;
+    this.graph.get('tooltips').push(container);
     return container;
   }
 };

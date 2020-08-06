@@ -28,7 +28,12 @@ insertCss(`
 
 interface TooltipConfig extends IPluginBaseConfig {
   getContent?: (evt?: IG6GraphEvent) => HTMLDivElement | string;
-  offset?: number;
+  // offsetX 与 offsetY 需要加上父容器的 padding
+  offsetX?: number;
+  offsetY?: number;
+  shouldBegin?: (evt?: IG6GraphEvent) => boolean;
+  // 允许出现 tooltip 的 item 类型
+  itemTypes?: string[];
 }
 
 export default class Tooltip extends Base {
@@ -40,7 +45,8 @@ export default class Tooltip extends Base {
 
   public getDefaultCfgs(): TooltipConfig {
     return {
-      offset: 6,
+      offsetX: 6,
+      offsetY: 6,
       // 指定菜单内容，function(e) {...}
       getContent: (e) => {
         return `
@@ -48,6 +54,10 @@ export default class Tooltip extends Base {
           <span class='tooltip-id'>ID：${e.item.getID()}</span>
         `
       },
+      shouldBegin: e => {
+        return true
+      },
+      itemTypes: ['node', 'edge', 'combo']
     };
   }
 
@@ -59,23 +69,28 @@ export default class Tooltip extends Base {
       'node:mousemove': 'onMouseMove',
       'edge:mouseenter': 'onMouseEnter',
       'edge:mouseleave': 'onMouseLeave',
-      'edge:mousemove': 'onMouseMove',
+      'edge:mousemove': 'onMouseMove'
     };
   }
 
   public init() {
     const className = this.get('className')
     const tooltip = createDOM(`<div class=${className || 'g6-component-tooltip'}></div>`)
-    modifyCSS(tooltip, { position: 'absolute', visibility: 'hidden' });
     let container: HTMLDivElement | null = this.get('container');
     if (!container) {
       container = this.get('graph').get('container');
     }
+
+    modifyCSS(tooltip, { position: 'absolute', visibility: 'hidden' });
     container.appendChild(tooltip)
     this.set('tooltip', tooltip)
   }
 
   onMouseEnter(e: IG6GraphEvent) {
+    const shouldBegin = this.get('shouldBegin');
+    if (!shouldBegin(e)) return;
+    const itemTypes = this.get('itemTypes');
+    if (e.item && e.item.getType && itemTypes.indexOf(e.item.getType()) === -1) return;
     const { item } = e;
     const graph: IGraph = this.get('graph')
     this.currentTarget = item;
@@ -84,6 +99,10 @@ export default class Tooltip extends Base {
   }
 
   onMouseMove(e: IG6GraphEvent) {
+    const shouldBegin = this.get('shouldBegin');
+    if (!shouldBegin(e)) return;
+    const itemTypes = this.get('itemTypes');
+    if (e.item && e.item.getType && itemTypes.indexOf(e.item.getType()) === -1) return;
     if (!this.currentTarget || e.item !== this.currentTarget) {
       return;
     }
@@ -98,9 +117,13 @@ export default class Tooltip extends Base {
   }
 
   showTooltip(e: IG6GraphEvent) {
+    const shouldBegin = this.get('shouldBegin');
+    if (!shouldBegin(e)) return;
     if (!e.item) {
       return;
     }
+    const itemTypes = this.get('itemTypes');
+    if (e.item.getType && itemTypes.indexOf(e.item.getType()) === -1) return;
 
     const container = this.get('tooltip')
 
@@ -128,25 +151,26 @@ export default class Tooltip extends Base {
     const height: number = graph.get('height');
 
     const tooltip = this.get('tooltip')
-    
-    let x = e.clientX
-    let y = e.clientY
+
+    const offsetX = this.get('offsetX') || 0
+    const offsetY = this.get('offsetY') || 0
+
+    let x = e.canvasX + offsetX
+    let y = e.canvasY + offsetY
+
     const bbox = tooltip.getBoundingClientRect();
-    if (x > width / 2) {
-      x -= bbox.width / 2;
+    if (x + bbox.width > width) {
+      x = x - bbox.width - offsetX;
     }
-    
-    if (y > height / 2) {
-      y -= bbox.height;
+
+    if (y + bbox.height > height) {
+      y = y - bbox.height - offsetY;
     }
-    
-    const offset = this.get('offset')
-    const left = `${x + offset}px`;
-    const top = `${y - offset}px`;
+
     modifyCSS(tooltip, {
-      left, 
-      top, 
-      visibility: 'visible' 
+      left: `${x}px`,
+      top: `${y}px`,
+      visibility: 'visible'
     });
   }
 
