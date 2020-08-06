@@ -417,6 +417,9 @@ export default class Graph extends EventEmitter implements IGraph {
 
       // 只有当 enabledStack 为 true 时才起作用
       maxStep: 10,
+
+      // 存储图上的 tooltip dom，方便销毁
+      tooltips: []
     };
   }
 
@@ -3000,10 +3003,10 @@ export default class Graph extends EventEmitter implements IGraph {
     });
 
     // destroy tooltip doms, removed when upgrade G6 4.0
-    const tooltipContainers = document.getElementsByClassName('g6-tooltip');
-    if (tooltipContainers) {
-      for (let i = 0; i < tooltipContainers.length; i++) {
-        const container = tooltipContainers[i];
+    const tooltipDOMs = this.get('tooltips');
+    if (tooltipDOMs) {
+      for (let i = 0; i < tooltipDOMs.length; i++) {
+        const container = tooltipDOMs[i];
         if (!container) continue;
         const parent = container.parentElement;
         if (!parent) continue;

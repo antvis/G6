@@ -111,6 +111,11 @@ Menu is used to configure the right-click menu on the node.
 | className | string | null | the class name of the menu dom |
 | getContent | (graph?: IGraph) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OtOkS4g-vrkAAAAAAAAAAABkARQnAQ' width=60 alt='img'/> | the menu content，supports DOM or string |
 | handleMenuClick | (target: HTMLElement, item: Item) => void | undefined | the callback function when click the menu |
+| shouldBegin | (evt: G6Event) => boolean | undefined | Whether allow the tooltip show up. You can return true or false according to the content of the `evt.item` (current item of the event) or `evt.target` (current shape of the event) |
+| offsetX | number | 6 | the offset of tooltip along x axis, the padding of the parent container should be take into consider |
+| offsetY | number | 6 | the offset of tooltip along y axis, the padding of the parent container should be take into consider |
+| itemTypes | string[] | ['node', 'edge', 'combo'] | the item types that allow the tooltip show up. e.g. if you only want the node tooltip, set the `itemTypes` to be  ['node'] |
+
 
 ### Usage
 
@@ -129,6 +134,9 @@ const graph = new G6.Graph({
 
 ```
 const menu = new G6.Menu({
+  offsetX: 10,
+  offsetY: 20,
+  itemTypes: ['node'],
   getContent(e) {
     const outDiv = document.createElement('div');
     outDiv.style.width = '180px';
@@ -402,7 +410,10 @@ ToolTip helps user to explore detail infomations on the node and edge. Do note t
 | className | string | null | Tge class name of the tooltip's container |
 | container | HTMLDivElement | null | The container of the Tooltip. The canvas DOM will be used by default |
 | getContent | (graph?: IGraph) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aPPuQquN5Q0AAAAAAAAAAABkARQnAQ' width=80 alt='img'/> | The content of the Tooltip |
-| offset | number | 6 | The offset of the tooltip, takes effect both on x and y axis |
+| shouldBegin | (evt: G6Event) => boolean | undefined | Whether allow the tooltip show up. You can return true or false according to the content of the `evt.item` (current item of the event) or `evt.target` (current shape of the event) |
+| offsetX | number | 6 | the offset of tooltip along x axis, the padding of the parent container should be take into consider |
+| offsetY | number | 6 | the offset of tooltip along y axis, the padding of the parent container should be take into consider |
+| itemTypes | string[] | ['node', 'edge', 'combo'] | the item types that allow the tooltip show up. e.g. if you only want the node tooltip, set the `itemTypes` to be  ['node'] |
 
 ### Usage
 
@@ -411,18 +422,21 @@ The content of the Tooltip is the type and id of the item by default. Users are 
 #### Dom Tooltip
 ```
 const tooltip = new G6.Tooltip({
-  offset: 10,
+  offsetX: 10,
+  offsetY: 20,
   getContent(e) {
     const outDiv = document.createElement('div');
     outDiv.style.width = '180px';
     outDiv.innerHTML = `
-      <h4>Custom Tooltip</h4>
+      <h4>自定义tooltip</h4>
       <ul>
         <li>Label: ${e.item.getModel().label || e.item.getModel().id}</li>
       </ul>`
     return outDiv
   },
+  itemTypes: ['node']
 });
+
 
 const graph = new G6.Graph({
   //... Other configurations

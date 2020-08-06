@@ -173,6 +173,10 @@ Menu 用于配置节点上的右键菜单。
 | className | string | null | menu 容器的 class 类名 |
 | getContent | (graph?: IGraph) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OtOkS4g-vrkAAAAAAAAAAABkARQnAQ' width=60 alt='img'/> | 菜单项内容，支持 DOM 元素或字符串 |
 | handleMenuClick | (target: HTMLElement, item: Item) => void | undefined | 点击菜单项的回调函数 |
+| shouldBegin | (evt: G6Event) => boolean | undefined | 是否允许 menu 出现，可以根据 `evt.item`（当前鼠标事件中的元素） 或 `evt.target`（当前鼠标事件中的图形）的内容判断此时是否允许 menu 出现 |
+| offsetX | number | 6 | menu 的 x 方向偏移值，需要考虑父级容器的 padding |
+| offsetY | number | 6 | menu 的 y 方向偏移值，需要考虑父级容器的 padding |
+| itemTypes | string[] | ['node', 'edge', 'combo'] | menu 作用在哪些类型的元素上，若只想在节点上显示，可将其设置为 ['node'] |
 
 ### 用法
 
@@ -191,6 +195,9 @@ const graph = new G6.Graph({
 
 ```
 const menu = new G6.Menu({
+  offsetX: 6,
+  offsetX: 10,
+  itemTypes: ['node'],
   getContent(e) {
     const outDiv = document.createElement('div');
     outDiv.style.width = '180px';
@@ -464,8 +471,11 @@ ToolTip 插件主要用于在节点和边上展示一些辅助信息，G6 4.0 �
 | --- | --- | --- | --- |
 | className | string | null | tooltip 容器的 class 类名 |
 | container | HTMLDivElement | null | Tooltip 容器，如果不设置，则默认使用 canvas 的 DOM 容器 |
-| getContent | (graph?: IGraph) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aPPuQquN5Q0AAAAAAAAAAABkARQnAQ' width=80 alt='img'/> | Tooltip 内容，支持 DOM 元素或字符串 |
-| offset | number | 6 | tooltip 的偏移值，作用于 x y 两个方向上 |
+| getContent | (graph?: IGraph) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aPPuQquN5Q0AAAAAAAAAAABkARQnAQ' width=80 alt='img'/> | tooltip 内容，支持 DOM 元素或字符串 |
+| shouldBegin | (evt: G6Event) => boolean | undefined | 是否允许 tooltip 出现，可以根据 `evt.item`（当前鼠标事件中的元素） 或 `evt.target`（当前鼠标事件中的图形）的内容判断此时是否允许 tooltip 出现 |
+| offsetX | number | 6 | tooltip 的 x 方向偏移值，需要考虑父级容器的 padding |
+| offsetY | number | 6 | tooltip 的 y 方向偏移值，需要考虑父级容器的 padding |
+| itemTypes | string[] | ['node', 'edge', 'combo'] | tooltip 作用在哪些类型的元素上，若只想在节点上显示，可将其设置为 ['node'] |
 
 ### 用法
 
@@ -474,7 +484,8 @@ ToolTip 插件主要用于在节点和边上展示一些辅助信息，G6 4.0 �
 #### Dom Tooltip
 ```
 const tooltip = new G6.Tooltip({
-  offset: 10,
+  offsetX: 10,
+  offsetY: 20,
   getContent(e) {
     const outDiv = document.createElement('div');
     outDiv.style.width = '180px';
@@ -485,6 +496,7 @@ const tooltip = new G6.Tooltip({
       </ul>`
     return outDiv
   },
+  itemTypes: ['node']
 });
 
 const graph = new G6.Graph({

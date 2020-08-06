@@ -8,6 +8,7 @@ import AddNodeLayout from './component/addNodeLayout'
 import ChangeData from './component/changeData'
 import ComboForceLayout from './component/combo-force-layout';
 import ForceLayout from './component/force-layout';
+import CompactBox from './component/compact-box';
 
 export default { title: 'Layout' };
 
@@ -19,4 +20,5 @@ storiesOf('Layout', module)
   .add('change data', () => <ChangeData />)
   .add('combo force layout', () => <ComboForceLayout />)
   .add('Fruchterman worker layout', () => <FruchtermanWorker />)
-  .add('force layout', () => <ForceLayout />);
+  .add('force layout', () => <ForceLayout />)
+  .add('compactbox layout', () => <CompactBox />);

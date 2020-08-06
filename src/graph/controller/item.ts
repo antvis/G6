@@ -344,7 +344,8 @@ export default class ItemController {
       return;
     }
 
-    graph.emit('beforeremoveitem', { item });
+    const itemModel = clone(item.getModel());
+    graph.emit('beforeremoveitem', { item: itemModel });
 
     let type = '';
     if (item.getType) type = item.getType();
@@ -420,7 +421,7 @@ export default class ItemController {
     }
 
     item.destroy();
-    graph.emit('afterremoveitem', { item });
+    graph.emit('afterremoveitem', { item: itemModel });
   }
 
   /**
