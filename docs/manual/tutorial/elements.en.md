@@ -34,6 +34,7 @@ The data structure of a node:
   type: 'circle',      // The type of graphics shape of the node
   size: 40,             // The size
   label: 'node0'        // The label
+  visible: true,        // Controls the visible of the node when first render. false means hide the item. All the items are visible by default
   labelCfg: {           // The configurations for the label
     positions: 'center',// The relative position of the label
     style: {            // The style properties of the label
