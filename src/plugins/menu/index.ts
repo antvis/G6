@@ -91,6 +91,8 @@ export default class Menu extends Base {
     e.preventDefault()
     e.stopPropagation()
 
+    if (!e.item) return;
+
     const shouldBegin = this.get('shouldBegin');
     if (!shouldBegin(e)) return;
 
