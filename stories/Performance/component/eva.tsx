@@ -65,7 +65,13 @@ const Eva = () => {
           },
         },
         modes: {
-          default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'brush-select'], // 'drag-canvas',
+          default: [{
+            type: 'zoom-canvas',
+            enableOptimize: true
+          }, {
+            type: 'drag-canvas',
+            enableOptimize: true
+          }, 'drag-node', 'brush-select'], // 'drag-canvas',
         },
       });
       graph.get('canvas').set('localRefresh', true);
@@ -87,6 +93,7 @@ const Eva = () => {
               }
             });
           });
+          console.log('原始数据', data.nodes.length, data.edges.length)
           mapNodeSize(data.nodes, 'degree', [1, 15]);
           // console.log(data.nodes);
           graph.data(data);
@@ -99,6 +106,8 @@ const Eva = () => {
             const { item } = e;
             graph.setItemState(item, 'hover', false);
           });
+
+          console.log('图上数据大小', graph)
 
           /* normalize */
           // let cx = 0, cy = 0;
