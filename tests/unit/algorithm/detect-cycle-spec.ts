@@ -64,15 +64,12 @@ describe('detectDirectedCycle', () => {
     container: 'container',
     width: 500,
     height: 500,
-    layout: {
-      type: 'force'
-    },
     defaultNode: {
       type: 'node',
       labelCfg: {
         style: {
-          fill: '#fff',
-          fontSize: 14,
+          fill: '#333',
+          fontSize: 12,
         },
       },
     },
@@ -81,7 +78,7 @@ describe('detectDirectedCycle', () => {
         endArrow: true,
       }
     },
-    modes: { 'default': ['drag-node', 'drag-canvas'] }
+    modes: { 'default': ['drag-node', 'drag-canvas', 'zoom-canvas', 'lasso-select'] }
   })
 
   graph.data(data)
@@ -121,6 +118,7 @@ describe('detectDirectedCycle', () => {
       }
     )
     graph.changeData(data)
+    graph.render()
     const result = detectAllCycles(graph, true)
     // console.log('All cycles in the directed graph: ', result)
     expect(result.length).toEqual(3)
@@ -130,39 +128,28 @@ describe('detectDirectedCycle', () => {
     const nodeC = graph.findById('C')
     const nodeD = graph.findById('D')
 
-    const result2 = detectAllCycles(graph, true, graph.getNodes()[0])
+    const result2 = detectAllCycles(graph, true, ['B'])
+    expect(result2.length).toEqual(1)
     expect(result2[0]).toEqual({
       A: nodeB,
       B: nodeC,
       C: nodeD,
       D: nodeA
     });
-    expect(result2[1]).toEqual({
-      A: nodeC,
-      C: nodeD,
-      D: nodeA
-    });
-    // console.log(`All cycles include ${graph.getNodes()[2].getID()} in the directed graph: `, result2)
+    // console.log(`All cycles include 'B' in the directed graph: `, result2)
   })
   it('detect cycle in undirected graph', () => {
     const result = detectAllCycles(graph)
     expect(result.length).toEqual(3)
     // console.log(`All elemenetary cycles in the undirected graph: `, result)
-
-
-    const nodeA = graph.findById('A')
-    const nodeB = graph.findById('B')
-    const nodeC = graph.findById('C')
-    const result2 = detectAllCycles(graph, false, nodeB)
-    expect(result2.length).toEqual(1)
-    expect(result2[0]).toEqual({
-      A: nodeC,
-      C: nodeB,
-      B: nodeA,
-    })
+    const nodeD = graph.findById('D')
+    const nodeF = graph.findById('F')
+    const nodeE = graph.findById('E')
+    const result2 = detectAllCycles(graph, false, ['B'], false)
+    expect(Object.keys(result2[0]).sort()).toEqual(['D', 'E', 'F'])
     // console.log(`All elemenetary cycles include ${graph.getNodes()[1].getID()} in the undirected graph: `, result2)
   })
-  it('test a larger graph', () => {
+  it('test another graph', () => {
     const data = {
       nodes: [
         {
@@ -546,9 +533,31 @@ describe('detectDirectedCycle', () => {
       ],
     };
     graph.changeData(data)
-    const result = detectAllCycles(graph, true, graph.getNodes()[14])
+    const result = detectAllCycles(graph, true, ['14'])
     const result2 = detectAllCycles(graph)
     expect(result.length).toEqual(4);
     expect(result2.length).toEqual(27);
+  })
+  it('test a large graph', () => {
+    fetch(
+      'https://gw.alipayobjects.com/os/basement_prod/da5a1b47-37d6-44d7-8d10-f3e046dabf82.json',
+    )
+      .then(res => res.json())
+      .then(data => {
+        data.nodes.forEach(node => {
+          node.label = node.olabel;
+          node.degree = 0;
+          data.edges.forEach(edge => {
+            if (edge.source === node.id || edge.target === node.id) {
+              node.degree++;
+            }
+          });
+        });
+        graph.changeData(data);
+        const directedCycles = detectAllCycles(graph, true)
+        expect(directedCycles.length).toEqual(0);
+        const undirectedCycles = detectAllCycles(graph, false, ['1084'], false)
+        expect(undirectedCycles.length).toEqual(1548);
+      });
   })
 });

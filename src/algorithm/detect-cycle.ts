@@ -2,7 +2,7 @@ import dfs from './dfs'
 import { IAlgorithmCallbacks } from '../types'
 import { IGraph } from '../interface/graph';
 import { INode } from '../interface/item';
-import { detectStrongConnectComponents } from './connected-component'
+import getConnectedComponents, { detectStrongConnectComponents } from './connected-component'
 
 const detectDirectedCycle = (graph: IGraph) => {
   let cycle: {
@@ -80,81 +80,77 @@ const detectDirectedCycle = (graph: IGraph) => {
 
 /**
  * 检测无向图中的所有Base cycles
- * Time Complexity: O(N + M), Auxiliary Space: O(N + M)
- * graph coloring method
- * refer: https://www.geeksforgeeks.org/print-all-the-cycles-in-an-undirected-graph/
+ * refer: https://www.codeproject.com/Articles/1158232/Enumerating-All-Cycles-in-an-Undirected-Graph
  * @param graph 
- * @param directed 
- * @param node 
- * @return [{[key: string]: INode}] 返回所有的base cycle
+ * @param nodeIds 节点 ID 的数组
+ * @param include 包含或排除指定的节点
+ * @return [{[key: string]: INode}] 返回一组base cycles
  */
-export const detectAllUndirectedCycle = (graph: IGraph, mustInclude?: INode) => {
-  const color = {}
+export const detectAllUndirectedCycle = (graph: IGraph, nodeIds?: string[], include = true) => {
   const allCycles = []
-  const parent = {}
-  const mark = []
-  let cycleIdx = 0 // cycle的编号
-  const nodes = graph.getNodes()
+  const components = getConnectedComponents(graph, false)
 
-  const getCycle = (curNode: INode, prevNode: INode) => {
-    // already completely visited
-    let curNodeId = curNode.getID()
-    let prevNodeId = prevNode.getID()
-    let cyclePath = new Set()
-    if (color[curNodeId] === 2) return
+  // loop through all connected components
+  for (let component of components) {
+    if (!component.length) continue;
+    const root = component[0]
+    const rootId = root.get('id')
 
-    // seen but not completely visited: cycle detected
-    if (color[curNodeId] === 1) {
-      cycleIdx += 1
-      let tmpCur = prevNode
-      let tmpCurId = prevNodeId
-      mark[tmpCurId] = cycleIdx
-      cyclePath.add(tmpCur)
+    const stack = [root]
+    const parent = { [rootId]: root }
+    const used = { [rootId]: new Set() }
 
-      // backtrack
-      while (tmpCurId !== curNodeId) {
-        tmpCur = parent[tmpCurId]
-        tmpCurId = tmpCur.getID()
-        mark[tmpCurId] = cycleIdx
-        cyclePath.add(tmpCur)
-      }
+    // walk a spanning tree to find cycles
+    while (stack.length > 0) {
+      const curNode = stack.pop()
+      const curNodeId = curNode.get('id')
+      const neighbors = curNode.getNeighbors()
+      for (let i = 0; i < neighbors.length; i += 1) {
+        const neighbor = neighbors[i]
+        const neighborId = neighbor.get('id')
+        if (!(neighborId in used)) { // visit a new node
+          parent[neighborId] = curNode
+          stack.push(neighbor)
+          used[neighborId] = new Set([curNode])
+        } else if (neighborId === curNodeId) {// 自环
+          allCycles.push({ [neighbor.getID()]: curNode })
+        } else if (!used[curNodeId].has(neighbor)) { // a cycle found
+          let cycleValid = true
+          const cyclePath = [neighbor, curNode]
+          let p = parent[curNodeId]
+          while (used[neighborId].size && !used[neighborId].has(p)) {
+            cyclePath.push(p)
+            p = parent[p.getID()]
+          }
+          cyclePath.push(p)
 
-      if (!mustInclude || (mustInclude && cyclePath.has(mustInclude))) {
-        const cyclePathList: INode[] = Array.from(cyclePath) as INode[]
-        const cycle = {}
-        for (let i = 1; i < cyclePathList.length; i += 1) {
-          cycle[cyclePathList[i - 1].getID()] = cyclePathList[i]
+          if (nodeIds && include) { // 如果有指定包含的节点
+            cycleValid = false
+            if (cyclePath.findIndex(node => nodeIds.indexOf(node.get('id')) > -1) > -1) {
+              cycleValid = true
+            }
+          } else if (nodeIds && !include) { // 如果有指定不包含的节点
+            if (cyclePath.findIndex(node => nodeIds.indexOf(node.get('id')) > -1) > -1) {
+              cycleValid = false
+            }
+          }
+
+          // 把 node list 形式转换为 cycle 的格式
+          if (cycleValid) {
+            const cycle = {}
+            for (let i = 1; i < cyclePath.length; i += 1) {
+              cycle[cyclePath[i - 1].getID()] = cyclePath[i]
+            }
+            if (cyclePath.length) cycle[cyclePath[cyclePath.length - 1].getID()] = cyclePath[0]
+            allCycles.push(cycle)
+          }
+
+          used[neighborId].add(curNode)
         }
-        if (cyclePathList.length) cycle[cyclePathList[cyclePathList.length - 1].getID()] = cyclePathList[0]
-        allCycles.push(cycle)
       }
-      return
     }
-
-    parent[curNodeId] = prevNode
-    color[curNodeId] = 1
-
-    // dfs
-    const neighbors = curNode.getNeighbors()
-    for (let i = 0; i < neighbors.length; i++) {
-      const neighbor = neighbors[i]
-      if (neighbor === prevNode) continue
-
-      // 处理自环情况
-      if (neighbor === curNode) {
-        allCycles.push({ [curNode.getID()]: curNode })
-        continue
-      }
-      getCycle(neighbor, curNode)
-    }
-    color[curNodeId] = 2
   }
 
-  if (nodes.length) {
-    for (let neighbor of nodes[0].getNeighbors()) {
-      getCycle(neighbor, nodes[0])
-    }
-  }
   return allCycles
 }
 
@@ -163,15 +159,15 @@ export const detectAllUndirectedCycle = (graph: IGraph, mustInclude?: INode) => 
  * refer: https://www.cs.tufts.edu/comp/150GA/homeworks/hw1/Johnson%2075.PDF
  * refer: https://networkx.github.io/documentation/stable/_modules/networkx/algorithms/cycles.html#simple_cycles 
  * @param graph 
- * @param node 
+ * @param nodeIds 节点 ID 的数组
+ * @param include 包含或排除指定的节点 
  * @return [{[key: string]: INode}] 返回所有的“simple cycles”
  */
-export const detectAllDirectedCycle = (graph: IGraph, mustInclude?: INode) => {
+export const detectAllDirectedCycle = (graph: IGraph, nodeIds?: string[], include = true) => {
   const path = [] // stack of nodes in current path
   const blocked = new Set()
   const B = [] // remember portions of the graph that yield no elementary circuit
   const allCycles = []
-
   // 辅助函数： unblock all blocked nodes
   const unblock = (thisNode) => {
     const stack = [thisNode]
@@ -189,6 +185,7 @@ export const detectAllDirectedCycle = (graph: IGraph, mustInclude?: INode) => {
 
   const circuit = (node, start, adjList) => {
     let closed = false; // whether a path is closed
+    if (nodeIds && include === false && nodeIds.indexOf(node.get('id')) > -1) return closed
     path.push(node)
     blocked.add(node)
 
@@ -228,20 +225,23 @@ export const detectAllDirectedCycle = (graph: IGraph, mustInclude?: INode) => {
   const node2Idx = {}
   const idx2Node = {}
 
-  // Johnson's algorithm 要求给节点赋顺序，这里按节点在数组中的顺序
+  // Johnson's algorithm 要求给节点赋顺序，先按节点在数组中的顺序
   for (let i = 0; i < nodes.length; i += 1) {
     const node = nodes[i]
-    node2Idx[node.getID()] = i
+    const nodeId = node.getID()
+    node2Idx[nodeId] = i
     idx2Node[i] = node
   }
-  // 如果有指定的节点，则包含将指定节点和首位节点交换位置
-  if (mustInclude) {
-    node2Idx[nodes[0].getID()] = node2Idx[mustInclude.getID()]
-    node2Idx[mustInclude.getID()] = 0
-    idx2Node[0] = mustInclude
-    idx2Node[node2Idx[nodes[0].getID()]] = nodes[0]
+  // 如果有指定包含的节点，则把指定节点排序在前，以便提早结束搜索
+  if (nodeIds && include) {
+    for (let i = 0; i < nodeIds.length; i++) {
+      const nodeId = nodeIds[i];
+      node2Idx[nodes[i].getID()] = node2Idx[nodeId]
+      node2Idx[nodeId] = 0
+      idx2Node[0] = graph.findById(nodeId)
+      idx2Node[node2Idx[nodes[i].getID()]] = nodes[i]
+    }
   }
-
 
   // 返回 节点顺序 >= nodeOrder 的强连通分量的adjList
   const getMinComponentAdj = (components) => {
@@ -267,7 +267,7 @@ export const detectAllDirectedCycle = (graph: IGraph, mustInclude?: INode) => {
       adjList[node.getID()] = []
       for (let neighbor of node.getNeighbors('target').filter(n => component.indexOf(n) > -1)) {
         // 对自环情况 (点连向自身) 特殊处理：记录自环，但不加入adjList
-        if (neighbor === node) {
+        if (neighbor === node && !(include === false && nodeIds.indexOf(node.getId()) > -1)) {
           allCycles.push({ [node.getID()]: node })
         } else {
           adjList[node.getID()].push(node2Idx[neighbor.getID()])
@@ -295,8 +295,9 @@ export const detectAllDirectedCycle = (graph: IGraph, mustInclude?: INode) => {
         B[node.get('id')] = new Set()
       })
       const startNode = idx2Node[minIdx]
+      // startNode 不在指定要包含的节点中，提前结束搜索
+      if (nodeIds && include && nodeIds.indexOf(startNode.get('id')) === -1) return allCycles
       circuit(startNode, startNode, adjList)
-      if (mustInclude && mustInclude === startNode) return allCycles
       nodeIdx = minIdx + 1
     } else {
       break
@@ -309,15 +310,16 @@ export const detectAllDirectedCycle = (graph: IGraph, mustInclude?: INode) => {
  * 查找图中所有满足要求的圈
  * @param graph 
  * @param directed 是否为有向图
- * @param node 圈中需要包含的节点，若不指定则返回所有圈
+ * @param nodeIds 节点 ID 的数组，若不指定，则返回图中所有的圈
+ * @param include 包含或排除指定的节点 
  * @return [{[key: string]: Node}] 包含所有环的数组，每个环用一个Object表示，其中key为节点id，value为该节点在环中指向的下一个节点
  */
-export const detectAllCycles = (graph: IGraph, directed?: boolean, node?: INode) => {
+export const detectAllCycles = (graph: IGraph, directed?: boolean, nodeIds?: string[], include = true) => {
   if (directed === undefined) {
     directed = graph.get('directed')
   }
-  if (directed) return detectAllDirectedCycle(graph, node)
-  else return detectAllUndirectedCycle(graph, node)
+  if (directed) return detectAllDirectedCycle(graph, nodeIds, include)
+  else return detectAllUndirectedCycle(graph, nodeIds, include)
 }
 
 export default detectDirectedCycle
