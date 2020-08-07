@@ -212,6 +212,14 @@ module.exports = {
           en: 'Case',
         },
       },
+      {
+        slug: 'performance',
+        icon: 'net',
+        title: {
+          zh: '性能测试',
+          en: 'Performance'
+        }
+      }
     ],
     docsearchOptions: {
       apiKey: '9d1cd586972bb492b7b41b13a949ef30',
