@@ -8,7 +8,6 @@ import { INode } from '../interface/item';
 export function detectConnectedComponents(nodes: INode[]) {
   const allComponents = []
   const visited = {}
-  let count = 0;
   const nodeStack = []
 
   const getComponent = (node: INode) => {
@@ -66,7 +65,7 @@ export function detectStrongConnectComponents(nodes: INode[]) {
     const neighbors = node.getNeighbors('target').filter(n => nodes.indexOf(n) > -1)
     for (let i = 0; i < neighbors.length; i++) {
       const targetNode = neighbors[i]
-      if (indices[targetNode.get('id')] === undefined) {
+      if (!indices[targetNode.get('id')] && indices[targetNode.get('id')] !== 0) {
         getComponent(targetNode)
         // tree edge
         lowLink[node.get('id')] = Math.min(lowLink[node.get('id')], lowLink[targetNode.get('id')])
@@ -92,7 +91,7 @@ export function detectStrongConnectComponents(nodes: INode[]) {
   }
 
   for (let node of nodes) {
-    if (indices[node.get('id')] === undefined) {
+    if (!indices[node.get('id')] && indices[node.get('id')] !== 0) {
       getComponent(node)
     }
   }
