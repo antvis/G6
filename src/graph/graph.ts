@@ -49,7 +49,7 @@ import adjMatrix from '../algorithm/adjacent-matrix';
 import Hull from '../item/hull';
 import floydWarshall from '../algorithm/floydWarshall';
 import layoutProbMap from '../algorithm/layoutProbMap';
-import { detectAllUndirectedCycle } from '../algorithm/';
+import { detectAllCycles } from '../algorithm/';
 
 const NODE = 'node';
 const SVG = 'svg';
