@@ -1059,6 +1059,7 @@ export default class Graph extends EventEmitter implements IGraph {
       });
     } else {
       item = itemController.addItem(type, model);
+      let itemMap = this.get('itemMap');
     }
 
     if ((type === 'node' && model.comboId) || (type === 'combo' && model.parentId)) {
@@ -1187,52 +1188,75 @@ export default class Graph extends EventEmitter implements IGraph {
   }
 
   /**
-   * Recommend a layout with configurations.
+   * Prune some the redundant edge instances in the graph,
+   * to regard all kinds of graphs as undirected to facilitate recommend layout.
+   * Redundant edges include duplicate edges, symmetric edges, and self-cycle.
+   *
+   * Note that this.get('data').edges will still be the input edges,
+   * to get the edges after pruning, please use this.getEdges().
+   * 
+   * @return   {EdgeConfig[]} retrun the edges pruned.
    */
-  public autoLayout(): Array< Array<string | number> > {
-    return this.autoLayoutType();
+  private pruneRedundantEdges(): EdgeConfig[] {
+    const data: GraphData = this.get('data');
+    const { nodes = [], edges = [] } = data;
+    const prunedEdges: EdgeConfig[] = [];
+    let edgesNum = edges.length;
+    for (let i = 0; i < edgesNum; i++) {
+      for (let j = 0; j < i; j++) {
+        if ((edges[i].source === edges[i].target) 
+          || (edges[i].source === edges[j].source && edges[i].target === edges[j].target)
+          || (edges[i].source === edges[j].target && edges[i].target === edges[j].source)
+          ) {
+          prunedEdges.push(edges[i]);
+          this.remove(edges[i].id);
+          break;
+        }
+      }
+    }
+    return prunedEdges;
   }
 
-
   /**
-   * Recommend a layout type.
+   * Get sensitive field names in the data.
+   * 
+   * @return   {{ [type: string]: string[] }} retrun the sensitive field names.
    */
-  private autoLayoutType(): Array< Array<string | number> > {
-    const self = this;
-    const layoutController = this.get('layoutController');
-
-    if (layoutController.getLayoutType()) {
-      throw new Error('graph already has a layout type');
-    }
-
-    // get data - nodes and edges only
+  private getSensitiveFields(): { [type: string]: string[] } {
     const data: GraphData = this.get('data');
-
-    if (!data) {
-      throw new Error('data must be defined first');
-    }
-
     const { nodes = [], edges = [] } = data;
 
-    let sensitiveFields = []; // 敏感字段
+    let sensitiveNodeFields = [];
+    let sensitiveEdgeFields = [];
     each(nodes, (node: NodeConfig) => {
       if (node.child || node.left || node.right || node.root) {
-        sensitiveFields.push('tree');
+        sensitiveNodeFields.push('tree');
       }
       if (node.cluster || node.class) {
-        sensitiveFields.push('cluster');
+        sensitiveNodeFields.push('cluster');
       }
       if (node.level) {
-        sensitiveFields.push('level');
+        sensitiveNodeFields.push('level');
       }
-      self.add('node', node, false);
     });
 
     each(edges, (edge: EdgeConfig) => {
-      self.add('edge', edge, false);
+      if (edge.weight) {
+        sensitiveNodeFields.push('weight');
+      }
     });
 
-    this.emit('beforeautolayout');
+    return {'node': sensitiveNodeFields, 'edge':sensitiveEdgeFields};
+  }
+
+  /**
+   * Recommend a layout type.
+   * 
+   * @return   {Array}  return the ordered recommending layout possibilities
+   */
+  private autoLayoutType(): Array< Array<string | number> > {
+
+    let sensitiveFields = this.getSensitiveFields().node;
 
     // sort node according to degrees
     let degrees = this.get('degrees');
@@ -1289,7 +1313,15 @@ export default class Graph extends EventEmitter implements IGraph {
       tense = 'low';
     }
 
-    let layoutProb = layoutProbMap(sensitiveFields, strength, tense);
+    // directivity calculation
+    let directivity: string = '';
+    if (detectAllCycles(this, false).length >= nodeNum - 2) {
+      directivity = 'low';
+    } else {
+      directivity = 'high';
+    }
+
+    let layoutProb = layoutProbMap(sensitiveFields, strength, tense, directivity);
     let sortedLayoutProb = [];
     let probSum = 0;
     for (let l in layoutProb) {
@@ -1323,6 +1355,53 @@ export default class Graph extends EventEmitter implements IGraph {
       type: chosedLayout,
     });
     
+    return sortedLayoutProb;
+  }
+
+  /**
+   * Recommend a layout with configurations.
+   */
+  public autoLayout(): Array< Array<string | number> > {
+    
+    // pre-requisites
+    const layoutController = this.get('layoutController');
+    if (layoutController.getLayoutType()) {
+      throw new Error('graph already has a layout type');
+    }
+
+    const data = this.get('data');
+    if (!data) {
+      throw new Error('data must be defined first');
+    }
+    const { nodes = [], edges = [] } = data;
+    each(nodes, (node: NodeConfig) => {
+      if (!node.id) {
+        throw new Error('nodes must have ids to auto-layout');
+      }
+    });
+    each(edges, (edge: EdgeConfig) => {
+      if (!edge.id) {
+        throw new Error('edges must have ids to auto-layout');
+      }
+    });
+
+    this.clear();
+    each(nodes, (node: NodeConfig) => {
+      this.add('node', node, false);
+    });
+    each(edges, (edge: EdgeConfig) => {
+      this.add('edge', edge, false);
+    });
+
+    // prune this.data.edges
+    const prunedEdges: EdgeConfig[] = this.pruneRedundantEdges();
+
+    this.emit('beforeautolayout');
+    
+    let sortedLayoutProb = this.autoLayoutType();
+
+    this.clear();
+
     return sortedLayoutProb;
   }
 

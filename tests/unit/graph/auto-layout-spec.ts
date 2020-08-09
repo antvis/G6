@@ -77,7 +77,7 @@ describe('dense low layout', () => {
   globalGraph.data(data3);
   var sortedLayoutProb = globalGraph.autoLayout();
   it('best layout 3', () => {
-    expect(sortedLayoutProb[0][0]).toBe("mds");
+    expect(sortedLayoutProb[0][0]).toBe("fruchterman");
   });
   globalGraph.render();
 });
@@ -131,7 +131,7 @@ describe('sparse high layout', () => {
   globalGraph.data(data6);
   var sortedLayoutProb = globalGraph.autoLayout();
   it('best layout 6', () => {
-    expect(sortedLayoutProb[0][0]).toBe("fruchterman");
+    expect(sortedLayoutProb[0][0]).toBe("force");
   });
   globalGraph.render();
 });
@@ -149,7 +149,7 @@ describe('sparse low layout', () => {
   globalGraph.data(data7);
   var sortedLayoutProb = globalGraph.autoLayout();
   it('best layout 7', () => {
-    expect(sortedLayoutProb[0][0]).toBe("grid");
+    expect(sortedLayoutProb[0][0]).toBe("force");
   });
   globalGraph.render();
 });
