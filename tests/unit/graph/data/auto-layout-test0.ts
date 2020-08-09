@@ -29,29 +29,31 @@ let edgeNum = Math.floor(nodeNum + Math.floor(randn_bm(nodeNum,  nodeNum * (node
 let nodes = [];
 for (let i = 0; i < nodeNum; i++) {
   nodes.push({
-    id: i.toString(),
+    id: 'node'+i.toString(),
     label: i.toString(),
   })
 }
 
 let edges = [];
-for (let i = 0; i < nodeNum; i++) {
+let edgeIdx = 0;
+while (edgeIdx < nodeNum) {
   edges.push({
-    source: i.toString(),
-    target: ((i+1)%10).toString(),
-  })
+    id: 'edge'+edgeIdx.toString(),
+    source: 'node'+edgeIdx.toString(),
+    target: 'node'+((edgeIdx+1)%nodeNum).toString(),
+  });
+  edgeIdx += 1;
 }
 
-for (let i = 0; i < edgeNum; i++) {
+while (edgeIdx < edgeNum) {
   let s = Math.floor(Math.random() * nodeNum);
   let t = Math.floor(Math.random() * nodeNum);
-  while (t === s) {
-    t = Math.floor(Math.random() * nodeNum);
-  }
   edges.push({
-    source: s.toString(),
-    target: t.toString(),
-  })
+    id: 'edge'+edgeIdx.toString(),
+    source: 'node'+s.toString(),
+    target: 'node'+t.toString(),
+  });
+  edgeIdx++;
 }
 
 export default {

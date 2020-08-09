@@ -1,4 +1,4 @@
-const layoutProbMap = (sensitiveFields: Array<string>, force: string, tense: string) => { 
+const layoutProbMap = (sensitiveFields: Array<string>, force: string, tense: string, directivity: string) => { 
   // ToDo: add directivity after PR #1881
   
   const layoutProb = {
@@ -76,16 +76,32 @@ const layoutProbMap = (sensitiveFields: Array<string>, force: string, tense: str
       break;
     case 'sparse':
       if (tense === 'high') {
-        layoutProb.force += 0.7;
-        layoutProb.fruchterman += 0.9;
+        layoutProb.force += 0.6;
+        layoutProb.fruchterman += 0.6;
       } else {
-        layoutProb.force += 0.7;
-        layoutProb.grid += 0.8;
-        layoutProb.fruchterman += 0.7;
+        layoutProb.force += 0.4;
+        layoutProb.grid += 0.4;
+        layoutProb.fruchterman += 0.4;
       }
       break;
     case 'grid':
       layoutProb.grid += 0.9;
+      break;
+    default:
+      break;
+  }
+
+  switch (directivity) {
+    case 'high':
+      layoutProb.dagre += 0.4;
+      break;
+    case 'low':
+      layoutProb.force += 0.1;
+      layoutProb.radial += 0.1;
+      layoutProb.concentric += 0.1;
+      layoutProb.circular += 0.1;
+      layoutProb.mds += 0.1;
+      layoutProb.fruchterman += 0.1;
       break;
     default:
       break;
