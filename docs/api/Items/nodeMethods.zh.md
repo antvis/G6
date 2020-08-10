@@ -1,11 +1,11 @@
 ---
-title: Node
+title: node 实例方法
 order: 1
 ---
 
 Node 继承自 Item。所以 Item 上面的方法在 Node 实例中都可以调用。本文仅介绍 Node 类的通用方法，内置节点见 [内置节点文档](/zh/docs/manual/middle/elements/nodes/defaultNode) 和 [demo](/zh/examples/item/defaultNodes)，自定义节点见 [自定义节点文档](/zh/docs/manual/middle/elements/nodes/custom-node) 和 [demo](/zh/examples/item/customNode)。
 
-## lock()
+### node.lock()
 
 > 3.1.4 版本新增
 
@@ -20,7 +20,7 @@ const node = graph.findById('node');
 node.lock();
 ```
 
-## unlock()
+### node.unlock()
 
 > 3.1.4 版本新增
 
@@ -33,7 +33,7 @@ const node = graph.findById('node');
 node.unlock();
 ```
 
-## hasLocked()
+### node.hasLocked()
 
 > 3.1.4 版本新增
 
@@ -51,7 +51,7 @@ const node = graph.findById('node');
 const hasLocked = node.hasLocked();
 ```
 
-## getNeighbors(type)
+### node.getNeighbors(type)
 
 **参数**
 
@@ -70,7 +70,7 @@ const hasLocked = node.hasLocked();
 const neighbors = node.getNeighbors('source');
 ```
 
-## getEdges()
+### node.getEdges()
 
 获取与当前节点有关联的所有边。
 
@@ -86,7 +86,7 @@ const neighbors = node.getNeighbors('source');
 const edges = node.getEdges();
 ```
 
-## getInEdges()
+### node.getInEdges()
 
 获取与当前节点关联的所有入边。
 
@@ -102,7 +102,7 @@ const edges = node.getEdges();
 const edges = node.getInEdges();
 ```
 
-## getOutEdges()
+### node.getOutEdges()
 
 获取与当前节点关联的所有出边。
 
@@ -118,7 +118,7 @@ const edges = node.getInEdges();
 const edges = node.getOutEdges();
 ```
 
-## getAnchorPoints()
+### node.getAnchorPoints()
 
 获取节点上面定义的锚点。
 
@@ -149,7 +149,7 @@ const edges = node.getOutEdges();
 const anchor = node.getAnchorPoints();
 ```
 
-## getLinkPoint(point)
+### node.getLinkPoint(point)
 
 获取距离指定坐标最近的一个锚点。
 
@@ -175,7 +175,7 @@ const point = {
 const linkPoint = node.getLinkPoint(point);
 ```
 
-## getLinkPointByAnchor(index)
+### node.getLinkPointByAnchor(index)
 
 根据锚点索引获取连接点的 x、y 坐标。
 
@@ -197,7 +197,7 @@ const linkPoint = node.getLinkPoint(point);
 const anchor = node.getLinkPointByAnchor(0);
 ```
 
-## addEdge(edge)
+### node.addEdge(edge)
 
 添加指定的边到当前节点上。
 
@@ -216,7 +216,7 @@ const edge = new Edge({
 node.addEdge(edge);
 ```
 
-## removeEdge(edge)
+### node.removeEdge(edge)
 
 移除与当前节点相关的指定边。
 

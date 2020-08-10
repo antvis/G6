@@ -109,7 +109,6 @@ graph.on(eventName, evt => {
 | edge:drop | 被拖拽的元素在目标边元素上同时鼠标放开触发的事件，此事件作用在目标边元素上 |
 | edge:contextmenu | 用户在边上右击鼠标时触发并打开右键菜单，见 [Demo](/zh/examples/tool/contextMenu) |
 
-
 ### Combo 交互事件
 
 Combo 继承所有 Node 事件。
@@ -134,8 +133,6 @@ Combo 继承所有 Node 事件。
 | canvas:dragenter | 当拖曳画布进入目标元素的时候触发的事件，此事件作用在目标画布上 |
 | canvas:dragleave | 当拖曳画布离开目标元素的时候触发的事件，此事件作用在目标画布上 |
 | canvas:drop | 被拖拽的元素在空白画布上同时鼠标放开触发的事件，此事件作用在目标画布上 |
-
-
 
 ## 时机事件
 
@@ -211,7 +208,7 @@ graph.on(timingEventName, evt => {
 | item  | Item   | 已经添加的 item 实例 |
 | model | Object | item 数据模型        |
 
-#### beforeremoveitem / afterremoveitem
+#### beforeremoveitem / afterremoveitem
 
 | 名称 | 类型 | 描述               |
 | ---- | ---- | ------------------ |
@@ -264,8 +261,8 @@ graph.on(timingEventName, evt => {
 
 #### graphstatechange
 
-| 名称 | 类型 | 描述                 |
-| ---- | ---- | -------------------- |
+| 名称   | 类型   | 描述                                                                         |
+| ------ | ------ | ---------------------------------------------------------------------------- |
 | states | Object | 当前各个状态下的元素，格式举例 `{ hover: [Node, Node], selected: [ Node ] }` |
 
 #### afteractivaterelations
@@ -286,9 +283,9 @@ graph.on(timingEventName, evt => {
 
 `beforecreateedge` 无参数。`aftercreateedge` 参数如下：
 
-| 名称          | 类型   | 描述                                                             |
-| ------------- | ------ | ---------------------------------------------------------------- |
-| edge        | Item   | 当前被创建的边实例                                             |
+| 名称 | 类型 | 描述               |
+| ---- | ---- | ------------------ |
+| edge | Item | 当前被创建的边实例 |
 
 #### itemcollapsed
 
@@ -324,7 +321,7 @@ graph.on(timingEventName, evt => {
 | 名称   | 类型   | 描述                                          |
 | ------ | ------ | --------------------------------------------- |
 | items   | Item[]   | 当前操作的 item 实例                          |
-| targetItem | null/Node/Combo | 拖动节点结束后，节点是放到canvas、Node 还是 Combo 上面 |
+| targetItem | null/Node/Combo | 拖动节点结束后，节点是放到 canvas、Node 还是 Combo 上面 |
 
 #### stackchange
 

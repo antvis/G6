@@ -1,5 +1,5 @@
 ---
-title: Item
+title: item.*
 order: 0
 ---
 
@@ -7,7 +7,7 @@ Item is the object of node / edge in G6.
 
 ## Update
 
-### update(model)
+### item.update(model)
 
 Update the item according to the data model.
 
@@ -41,7 +41,7 @@ const model = {
 item.update(model);
 ```
 
-### refresh()
+### item.refresh()
 
 Refresh the item with its positions and style in the item's data model. This operation will clear the cache in the same time.
 
@@ -56,7 +56,7 @@ It is usually called after:
 item.refresh();
 ```
 
-### updatePosition(cfg)
+### item.updatePosition(cfg)
 
 Update the position of the item. We recommend to call this function for single item to avoid repainting the whole canvas.
 
@@ -86,7 +86,7 @@ item.updatePosition(cfg1);
 
 ## Destroy
 
-### destroy()
+### item.destroy()
 
 Destroy an item, including stopping the animation, deleting the items in a group, clearing the configurations, setting the `destroyed` to be `true`, and so on.
 
@@ -98,7 +98,7 @@ item.destroy();
 
 ## Common Usage
 
-### getBBox()
+### item.getBBox()
 
 Get the **bounding box** of the item.
 
@@ -123,7 +123,7 @@ The return value includes:
 item.getBBox();
 ```
 
-### getContainer()
+### item.getContainer()
 
 Get the container of the item.
 
@@ -142,7 +142,7 @@ const group = item.getContainer();
 const group = item.get('group');
 ```
 
-### getKeyShape()
+### item.getKeyShape()
 
 Get the key shape of the item. `keyShape` is used for calculating the node size, edge length, and so on.
 
@@ -161,7 +161,7 @@ const keyShape = item.getKeyShape();
 const keyShape = item.get('keyShape');
 ```
 
-### getModel()
+### item.getModel()
 
 Get the data model of the item.
 
@@ -180,7 +180,7 @@ const model = item.getModel();
 const model = item.get('model');
 ```
 
-### getType()
+### item.getType()
 
 Get the type of the item.
 
@@ -199,7 +199,7 @@ const type = item.getType();
 const type = item.get('type');
 ```
 
-### enableCapture(enable)
+### item.enableCapture(enable)
 
 Whether to enable the item to be picked and enable its interaction events.
 
@@ -219,7 +219,7 @@ item.enableCapture(false);
 item.enableCapture(true);
 ```
 
-### clearCache()
+### item.clearCache()
 
 Clear the cache. It is usually called after updating or refreshing operation.
 
@@ -232,7 +232,7 @@ item.clearCache();
 
 ## State
 
-### show()
+### item.show()
 
 Show the item. Show the item itself. Different from that, when the item is a node, [graph.showItem(item)](/en/docs/api/Graph#showitemitem) will show the node and its related edges in the same time.
 
@@ -242,7 +242,7 @@ Show the item. Show the item itself. Different from that, when the item is a nod
 item.show();
 ```
 
-### hide()
+### item.hide()
 
 Hide the item. Hide the item itself. Different from that, when the item is a node, [graph.hideItem(item)](/en/docs/api/Graph#hideitemitem) will hide the node and its related edges in the same time.
 
@@ -252,7 +252,7 @@ Hide the item. Hide the item itself. Different from that, when the item is a nod
 item.hide();
 ```
 
-### changeVisibility(visible)
+### item.changeVisibility(visible)
 
 Change the visibility of the item.
 
@@ -272,7 +272,7 @@ item.changeVisibility(true);
 item.changeVisibility(false);
 ```
 
-### isVisible()
+### item.isVisible()
 
 Query the visibility of the item.
 
@@ -287,7 +287,7 @@ Query the visibility of the item.
 const visible = item.isVisible();
 ```
 
-### toFront()
+### item.toFront()
 
 Set the visual level / zindex to the front to avoid being overlapped by other items.
 
@@ -297,7 +297,7 @@ Set the visual level / zindex to the front to avoid being overlapped by other it
 item.toFront();
 ```
 
-### toBack()
+### item.toBack()
 
 Set the visual level / zindex to the back.
 
@@ -307,7 +307,7 @@ Set the visual level / zindex to the back.
 item.toBack();
 ```
 
-### setState(state, enable)
+### item.setState(state, enable)
 
 Update the state of the item.
 
@@ -325,7 +325,7 @@ item.setState('selected', true);
 item.setState('actived', false);
 ```
 
-### clearStates(states)
+### item.clearStates(states)
 
 Clear all the states of the item. If the `states` is null, this operatcion will clear **the first** state of the item by default.
 
@@ -345,7 +345,7 @@ item.clearStates('selected');
 item.clearStates(['actived', 'hover']);
 ```
 
-### getStates()
+### item.getStates()
 
 Get all the states of the item.
 
@@ -361,7 +361,7 @@ Get all the states of the item.
 const states = item.getStates();
 ```
 
-### hasState(state)
+### item.hasState(state)
 
 Query the `state` value of the node.
 
@@ -385,7 +385,7 @@ const state = item.hasState('hover');
 
 ## Style
 
-### getStateStyle(state)
+### item.getStateStyle(state)
 
 Get the style of the item. The global style, default style, and custom style will be mixed in the return value.
 
@@ -407,7 +407,7 @@ Get the style of the item. The global style, default style, and custom style wil
 const style = item.getStateStyle('selected');
 ```
 
-### getOriginStyle()
+### item.getOriginStyle()
 
 Get the keyShape's style of the item.
 
@@ -419,10 +419,10 @@ Get the keyShape's style of the item.
 **Usage**
 
 ```javascript
-const style = item.getKeyShapeStyle();
+const style = item.getOriginStyle();
 ```
 
-### getCurrentStatesStyle()
+### item.getCurrentStatesStyle()
 
 Get the item's styles of all the states.
 

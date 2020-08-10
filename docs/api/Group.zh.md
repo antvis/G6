@@ -15,9 +15,9 @@ const group = item.getContainer();
 const group = item.get('group');
 ```
 
-## 实例方法
+## group 实例方法
 
-### addGroup(cfg)
+### group.addGroup(cfg)
 
 向分组中添加新的分组。
 
@@ -52,7 +52,7 @@ group.addGroup({
 });
 ```
 
-### addShape(type, cfgs)
+### group.addShape(type, cfgs)
 
 向分组中添加新的图形。<br /><span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 在分组上添加的 clip， transform 等操作会影响到该分组中的所有图形。所有图形及其绘图属性请见 [Shape Doc](/zh/docs/manual/middle/elements/shape/shape-keyshape)。
 
@@ -95,7 +95,7 @@ group.addShape('rect', {
 });
 ```
 
-### contain(child)
+### group.contain(child)
 
 该分组是否包含此元素。<br />返回值: Boolean
 
@@ -111,7 +111,7 @@ group.addShape('rect', {
 const has = group.contain(child);
 ```
 
-### find(fn)
+### group.find(fn)
 
 根据指定条件返回对应元素，**只返回符合条件的第一个元素**。
 
@@ -129,7 +129,7 @@ const child = group.find(function (item) {
 });
 ```
 
-### findById(id)
+### group.findById(id)
 
 根据元素 ID 返回对应的实例。<br />返回值：Object。
 
@@ -145,7 +145,7 @@ const child = group.find(function (item) {
 const group1 = group.findById('group1');
 ```
 
-### findAll(fn)
+### group.findAll(fn)
 
 返回所有符合条件的元素。<br />返回值: [ Object ]
 
@@ -163,7 +163,7 @@ const children = group.findAll(function (item) {
 });
 ```
 
-### getShape(x,y)
+### group.getShape(x,y)
 
 返回该坐标点最上层的元素。<br />返回值: Object
 
@@ -181,7 +181,7 @@ const children = group.findAll(function (item) {
 const element = group.getShape(10, 30);
 ```
 
-### getFirst()
+### group.getFirst()
 
 获取该分组的第一个子元素。<br />返回值: Object
 
@@ -195,7 +195,7 @@ const childrens = group.get('children');
 const child = childrens[0];
 ```
 
-### getLast()
+### group.getLast()
 
 获取该分组的最后一个子元素。<br />返回值: Object
 
@@ -209,7 +209,7 @@ const childrens = group.get('children');
 const child = childrens[childrens.length - 1];
 ```
 
-### getChildByIndex(index）
+### group.getChildByIndex(index）
 
 返回第 `index`  个子元素，从 `0` 开始计数。<br />返回值: Object
 
@@ -225,7 +225,7 @@ const child = childrens[childrens.length - 1];
 const child = group.getChildByIndex(2);
 ```
 
-### removeChild(child)
+### group.removeChild(child)
 
 从分组中删除一个分组或一个图形。
 
@@ -241,7 +241,7 @@ const child = group.getChildByIndex(2);
 group.removeChild(child);
 ```
 
-### sort()
+### group.sort()
 
 排序方法。<br />一般用于在设置子元素层叠顺序时使用。
 
@@ -253,7 +253,7 @@ group.removeChild(child);
 group.sort();
 ```
 
-### clear()
+### group.clear()
 
 清除该组的所有子元素。
 
