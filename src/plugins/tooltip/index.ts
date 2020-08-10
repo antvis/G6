@@ -69,7 +69,8 @@ export default class Tooltip extends Base {
       'node:mousemove': 'onMouseMove',
       'edge:mouseenter': 'onMouseEnter',
       'edge:mouseleave': 'onMouseLeave',
-      'edge:mousemove': 'onMouseMove'
+      'edge:mousemove': 'onMouseMove',
+      'afterremoveitem': 'onMouseLeave'
     };
   }
 
