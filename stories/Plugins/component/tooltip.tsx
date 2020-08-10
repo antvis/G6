@@ -65,6 +65,12 @@ const Tooltip = () => {
         height += 50;
         graph.changeSize(width, height)
       });
+      graph.on('node:click', e => {
+        graph.removeItem(e.item);
+      })
+      graph.on('edge:click', e => {
+        graph.removeItem(e.item);
+      })
     }
   });
   return <div><div style={{ backgroundColor: '#000', width: '100px', height: '100px' }}></div><div style={{ left: '100px' }} ref={container}></div></div>;
