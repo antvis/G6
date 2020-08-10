@@ -1,11 +1,11 @@
 ---
-title: Edge
+title: edge 实例方法
 order: 2
 ---
 
 Edge 继承自 Item。所以 Item 的方法在 Edge 实例中都可以使用。本文仅介绍 Edge 类的通用方法，内置边见 [内置边文档](/zh/docs/manual/middle/elements/edges/defaultEdge) 和 [demo](/zh/examples/item/defaultEdges)，自定义节点见 [自定义边文档](/zh/docs/manual/middle/elements/edges/custom-edge) 和 [demo](/zh/examples/item/customEdge)。
 
-## setSource(source)
+### edge.setSource(source)
 
 设置边的起始节点。
 
@@ -19,17 +19,17 @@ Edge 继承自 Item。所以 Item 的方法在 Edge 实例中都可以使用。�
 
 ```javascript
 const edge = new Edge({
-  // TODO
+  // ...
 });
 
 const node = new Node({
-  // TODO
+  // ..
 });
 
 edge.setSource(node);
 ```
 
-## setTarget(target)
+### edge.setTarget(target)
 
 设置边的终止节点。
 
@@ -42,18 +42,10 @@ edge.setSource(node);
 **用法**
 
 ```javascript
-const edge = new Edge({
-  // TODO
-});
-
-const node = new Node({
-  // TODO
-});
-
 edge.setTarget(node);
 ```
 
-## getSource()
+### edge.getSource()
 
 获取当前边的起始节点。
 
@@ -65,14 +57,10 @@ edge.setTarget(node);
 **用法**
 
 ```javascript
-const edge = new Edge({
-  // TODO
-});
-
 const node = edge.getSource();
 ```
 
-## getTarget()
+### edge.getTarget()
 
 获取当前边的终止节点。
 
@@ -84,9 +72,5 @@ const node = edge.getSource();
 **用法**
 
 ```javascript
-const edge = new Edge({
-  // TODO
-});
-
 const node = edge.getTarget();
 ```

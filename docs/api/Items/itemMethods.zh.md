@@ -1,5 +1,5 @@
 ---
-title: Item
+title: 元素实例方法
 order: 0
 ---
 
@@ -7,7 +7,7 @@ Item 是 G6 中绘图元素实例，目前包含节点和边的实例。对于�
 
 ## 更新
 
-### update(model)
+### item.update(model)
 
 根据元素数据项，更新元素。
 
@@ -43,7 +43,7 @@ const model = {
 item.update(model);
 ```
 
-### refresh()
+### item.refresh()
 
 刷新元素，包括更新元素位置，更新元素样式，清除之前的缓存。
 
@@ -58,7 +58,7 @@ item.update(model);
 item.refresh();
 ```
 
-### updatePosition(cfg)
+### item.updatePosition(cfg)
 
 更新元素位置，避免整体重新绘制。
 
@@ -88,7 +88,7 @@ item.updatePosition(cfg1);
 
 ## 销毁
 
-### destroy()
+### item.destroy()
 
 销毁元素，主要包括停止动画、删除 group 中的所有元素、清空配置项、设置 `destroyed` 为 `true` 等操作。
 
@@ -100,7 +100,7 @@ item.destroy();
 
 ## 通用
 
-### getBBox()
+### item.getBBox()
 
 获取元素的包围盒。
 
@@ -125,7 +125,7 @@ item.destroy();
 item.getBBox();
 ```
 
-### getContainer()
+### item.getContainer()
 
 获取元素的容器。
 
@@ -144,7 +144,7 @@ const group = item.getContainer();
 const group = item.get('group');
 ```
 
-### getKeyShape()
+### item.getKeyShape()
 
 获取元素的关键形状，用于计算节点大小、连线截距等。
 
@@ -163,7 +163,7 @@ const keyShape = item.getKeyShape();
 const keyShape = item.get('keyShape');
 ```
 
-### getModel()
+### item.getModel()
 
 获取元素的数据模型。
 
@@ -182,7 +182,7 @@ const model = item.getModel();
 const model = item.get('model');
 ```
 
-### getType()
+### item.getType()
 
 获取元素的类型。
 
@@ -201,7 +201,7 @@ const type = item.getType();
 const type = item.get('type');
 ```
 
-### enableCapture(enable)
+### item.enableCapture(enable)
 
 是否拾取及触发该元素的交互事件。
 
@@ -221,7 +221,7 @@ item.enableCapture(false);
 item.enableCapture(true);
 ```
 
-### clearCache()
+### item.clearCache()
 
 更新或刷新等操作后，清除缓存。
 
@@ -234,7 +234,7 @@ item.clearCache();
 
 ## 状态
 
-### show()
+### item.show()
 
 显示元素。只显示 item 自身，若需要在显示节点的同时显示相关边，应调用 [graph.showItem(item)](/zh/docs/api/Graph#showitemitem)。
 
@@ -244,7 +244,7 @@ item.clearCache();
 item.show();
 ```
 
-### hide()
+### item.hide()
 
 隐藏元素。只隐藏 item 自身，若需要在隐藏节点的同时隐藏相关边，应调用 [graph.hideItem(item)](/zh/docs/api/Graph#hideitemitem)。
 
@@ -254,7 +254,7 @@ item.show();
 item.hide();
 ```
 
-### changeVisibility(visible)
+### item.changeVisibility(visible)
 
 更改元素是否显示。
 
@@ -274,7 +274,7 @@ item.changeVisibility(true);
 item.changeVisibility(false);
 ```
 
-### isVisible()
+### item.isVisible()
 
 查询元素显示状态。
 
@@ -289,7 +289,7 @@ item.changeVisibility(false);
 const visible = item.isVisible();
 ```
 
-### toFront()
+### item.toFront()
 
 将元素的层级设置到最上层，即当有元素重叠时，将元素置于顶层。
 
@@ -299,7 +299,7 @@ const visible = item.isVisible();
 item.toFront();
 ```
 
-### toBack()
+### item.toBack()
 
 将元素的层级设置到最下层，即当有元素重叠时，将元素置于底层。
 
@@ -309,7 +309,7 @@ item.toFront();
 item.toBack();
 ```
 
-### setState(state, enable)
+### item.setState(state, enable)
 
 更新元素的状态。
 
@@ -327,7 +327,7 @@ item.setState('selected', true);
 item.setState('actived', false);
 ```
 
-### clearStates(states)
+### item.clearStates(states)
 
 清除指定的状态，如果不传 states ，则默认清除**第一个**状态。
 
@@ -347,7 +347,7 @@ item.clearStates('selected');
 item.clearStates(['actived', 'hover']);
 ```
 
-### getStates()
+### item.getStates()
 
 获取当前元素的所有状态。
 
@@ -363,7 +363,7 @@ item.clearStates(['actived', 'hover']);
 const states = item.getStates();
 ```
 
-### hasState(state)
+### item.hasState(state)
 
 判断元素是否具有某种指定的状态。
 
@@ -387,7 +387,7 @@ const state = item.hasState('hover');
 
 ## 样式
 
-### getStateStyle(state)
+### item.getStateStyle(state)
 
 获取元素指定状态的样式，返回的样式会将全局样式、默认样式和元素自定义样式合并。
 
@@ -409,7 +409,7 @@ const state = item.hasState('hover');
 const style = item.getStateStyle('selected');
 ```
 
-### getOriginStyle()
+### item.getOriginStyle()
 
 获取元素 keyShape 的样式。
 
@@ -424,7 +424,7 @@ const style = item.getStateStyle('selected');
 const style = item.getOriginStyle();
 ```
 
-### getCurrentStatesStyle()
+### item.getCurrentStatesStyle()
 
 获取当前元素的所有状态的样式。
 

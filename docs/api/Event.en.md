@@ -208,7 +208,7 @@ No parameters.
 | item  | Item   | The added item.                   |
 | model | Object | The data model of the added item. |
 
-#### beforeremoveitem / afterremoveitem
+#### beforeremoveitem / afterremoveitem
 
 | Name | Type | Description       |
 | ---- | ---- | ----------------- |
@@ -268,16 +268,16 @@ No parameters.
 
 #### graphstatechange
 
-| Name   | Type   | Description                   |
-| ---- | ---- | -------------------- |
+| Name | Type | Description |
+| --- | --- | --- |
 | states | Object | The items with different states, e.g. `{ hover: [Node, Node], selected: [ Node ] }` |
 
 #### afteractivaterelations
 
-| Name   | Type   | Description                   |
-| ------ | ------ | -------------------- |
+| Name   | Type   | Description                    |
+| ------ | ------ | ------------------------------ |
 | item   | Item   | The manipulated item currently |
-| action | String | The current action name           |
+| action | String | The current action name        |
 
 #### nodeselectchange
 
@@ -290,10 +290,9 @@ No parameters.
 
 `beforecreateedge` has no parameters. The parameters of `aftercreateedge` are:
 
-| Name      | Type    | Description                                                       |
-| ------------- | ------ | ---------------------------------------------------------------- |
-| edge        | Item   | The created edge                                             |
-
+| Name | Type | Description      |
+| ---- | ---- | ---------------- |
+| edge | Item | The created edge |
 
 #### itemcollapsed
 
@@ -327,9 +326,9 @@ No parameters.
 
 #### dragnodeend
 
-| Name   | Type   | Description                                     |
-| ------ | ------ | ----------------------------------------------- |
-| items   | Item[]   | The manipulated items.                           |
+| Name | Type | Description |
+| --- | --- | --- |
+| items | Item[] | The manipulated items. |
 | targetItem | null/Node/Combo | The position where the node is placed after dragging, the default is null, that is, placed on the canvas. |
 
 #### stackchange

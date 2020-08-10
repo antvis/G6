@@ -1,11 +1,11 @@
 ---
-title: Node
+title: node.*
 order: 1
 ---
 
 Node inherits from item. The functions of Item are also available for Node. This document will only introduce the common functions for Node class. All the built-in nodes can be found in [Built-in Nodes Doc](/en/docs/manual/middle/elements/nodes/defaultNode) and [demo](/en/examples/item/defaultNodes), Custom Node can be found in [Custom Node Doc](/en/docs/manual/middle/elements/nodes/custom-node) and [demo](/en/examples/item/customNode).
 
-## lock()
+### node.lock()
 
 Lock the current node. The locked node will not response the drag event any more.
 
@@ -18,7 +18,7 @@ const node = graph.findById('node');
 node.lock();
 ```
 
-## unlock()
+### node.unlock()
 
 Unlock the locked node.
 
@@ -29,7 +29,7 @@ const node = graph.findById('node');
 node.unlock();
 ```
 
-## hasLocked()
+### node.hasLocked()
 
 Query the lock state of the node.
 
@@ -45,7 +45,7 @@ const node = graph.findById('node');
 const hasLocked = node.hasLocked();
 ```
 
-### getNeighbors(type)
+### node.getNeighbors(type)
 
 **Parameters**
 
@@ -64,7 +64,7 @@ const hasLocked = node.hasLocked();
 const neighbors = node.getNeighbors('source');
 ```
 
-## getEdges()
+### node.getEdges()
 
 Get the related edges (the node is the source or the target of the edge) of the node.
 
@@ -80,7 +80,7 @@ Get the related edges (the node is the source or the target of the edge) of the 
 const edges = node.getEdges();
 ```
 
-## getInEdges()
+### node.getInEdges()
 
 Get the related in-edges, whose target is the node.
 
@@ -96,7 +96,7 @@ Get the related in-edges, whose target is the node.
 const edges = node.getInEdges();
 ```
 
-## getOutEdges()
+### node.getOutEdges()
 
 Get the related out-edges, whose source is the node.
 
@@ -112,7 +112,7 @@ Get the related out-edges, whose source is the node.
 const edges = node.getOutEdges();
 ```
 
-## getAnchorPoints()
+### node.getAnchorPoints()
 
 Get all the anchor points of the node.
 
@@ -143,7 +143,7 @@ Get all the anchor points of the node.
 const anchor = node.getAnchorPoints();
 ```
 
-## getLinkPoint(point)
+### node.getLinkPoint(point)
 
 Get the nearest anchor point of the node to `point`.
 
@@ -169,7 +169,7 @@ const point = {
 const linkPoint = node.getLinkPoint(point);
 ```
 
-## getLinkPointByAnchor(index)
+### node.getLinkPointByAnchor(index)
 
 Get the (x, y) of the anchor point with the `index`.
 
@@ -191,7 +191,7 @@ Get the (x, y) of the anchor point with the `index`.
 const anchor = node.getLinkPointByAnchor(0);
 ```
 
-## addEdge(edge)
+### node.addEdge(edge)
 
 Add the `edge` to the node.
 
@@ -210,7 +210,7 @@ const edge = new Edge({
 node.addEdge(edge);
 ```
 
-## removeEdge(edge)
+### node.removeEdge(edge)
 
 Remove the `edge` from the node.
 

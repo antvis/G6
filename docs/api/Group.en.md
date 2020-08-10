@@ -15,9 +15,9 @@ const group = item.getContainer();
 const group = item.get('group');
 ```
 
-## Functions
+## Methods
 
-### addGroup(cfg)
+### group.addGroup(cfg)
 
 Add a new group to the group.
 
@@ -52,7 +52,7 @@ group.addGroup({
 });
 ```
 
-### addShape(type, cfgs)
+### group.addShape(type, cfgs)
 
 Add a new shape into the group<br /><span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> the clip and transform operations will affect all the shapes in the group. The graphics and their properties are introduced in [Shape Doc](/en/docs/manual/middle/elements/shape/shape-keyshape).
 
@@ -94,7 +94,7 @@ group.addShape('rect', {
 });
 ```
 
-### contain(child)
+### group.contain(child)
 
 Whether the group contains the child.<br />The type of the return value: Boolean.
 
@@ -110,7 +110,7 @@ Whether the group contains the child.<br />The type of the return value: Boolean
 const has = group.contain(child);
 ```
 
-### find(fn)
+### group.find(fn)
 
 Find **the first** element that matches the rule.
 
@@ -128,7 +128,7 @@ const child = group.find(function (item) {
 });
 ```
 
-### findById(id)
+### group.findById(id)
 
 Find the element by its id. <br />The type of the return value: Object。
 
@@ -144,7 +144,7 @@ Find the element by its id. <br />The type of the return value: Object。
 const group1 = group.findById('group1');
 ```
 
-### findAll(fn)
+### group.findAll(fn)
 
 Find all the elements that match the rule.<br />The type of the return value: [ Object ]
 
@@ -162,7 +162,7 @@ const children = group.findAll(function (item) {
 });
 ```
 
-### getShape(x,y)
+### group.getShape(x,y)
 
 Get the top shape which is on (x, y). <br />The type of the return value: Object
 
@@ -180,7 +180,7 @@ Get the top shape which is on (x, y). <br />The type of the return value: Object
 const element = group.getShape(10, 30);
 ```
 
-### getFirst()
+### group.getFirst()
 
 Get **the first** element of the group. <br />The type of the return value: Object
 
@@ -194,7 +194,7 @@ const childrens = group.get('children');
 const child = childrens[0];
 ```
 
-### getLast()
+### group.getLast()
 
 Get the last element of the group. <br />The type of the return value: Object
 
@@ -208,7 +208,7 @@ const childrens = group.get('children');
 const child = childrens[childrens.length - 1];
 ```
 
-### getChildByIndex(index）
+### group.getChildByIndex(index）
 
 Get the `index`-th child of the group started from `0`.<br />The type of the return value: Object
 
@@ -224,7 +224,7 @@ Get the `index`-th child of the group started from `0`.<br />The type of the ret
 const child = group.getChildByIndex(2);
 ```
 
-### removeChild(child)
+### group.removeChild(child)
 
 Remove a group or a graphics from the group.
 
@@ -240,7 +240,7 @@ Remove a group or a graphics from the group.
 group.removeChild(child);
 ```
 
-### sort()
+### group.sort()
 
 Sort method. <br />In general, it is called for ordering the children of the group.
 
@@ -252,7 +252,7 @@ Typical scenerio: we set index for each `shape` when add `shape` by `group.addSh
 group.sort();
 ```
 
-### clear()
+### group.clear()
 
 Clear all the children in the group.
 

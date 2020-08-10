@@ -1,11 +1,11 @@
 ---
-title: Edge
+title: edge.*
 order: 2
 ---
 
 Edge inherits from item. The functions of Item are also available for Edge. This document will only introduce the common functions for Edge class. All the built-in edges can be found in [Built-in Edges Doc](/en/docs/manual/middle/elements/edges/defaultEdge) and [demo](/en/examples/item/defaultEdges), Custom Edge can be found in [Custom Edge Doc](/en/docs/manual/middle/elements/edges/custom-edge) and [demo](/en/examples/item/customEdge).
 
-## setSource(source)
+### edge.setSource(source)
 
 Set the source item (node) of the edge.
 
@@ -19,17 +19,17 @@ Set the source item (node) of the edge.
 
 ```javascript
 const edge = new Edge({
-  // TODO
+  // ...
 });
 
 const node = new Node({
-  // TODO
+  // ...
 });
 
 edge.setSource(node);
 ```
 
-## setTarget(target)
+### edge.setTarget(target)
 
 Set the target item (node) of the edge.
 
@@ -42,18 +42,10 @@ Set the target item (node) of the edge.
 **Usage**
 
 ```javascript
-const edge = new Edge({
-  // TODO
-});
-
-const node = new Node({
-  // TODO
-});
-
 edge.setTarget(node);
 ```
 
-## getSource()
+### edge.getSource()
 
 Get the current source item (node) of the edge.
 
@@ -65,14 +57,10 @@ Get the current source item (node) of the edge.
 **Usage**
 
 ```javascript
-const edge = new Edge({
-  // TODO
-});
-
 const node = edge.getSource();
 ```
 
-## getTarget()
+### edge.getTarget()
 
 Get the current target item (node) of the edge.
 
@@ -84,9 +72,5 @@ Get the current target item (node) of the edge.
 **Usage**
 
 ```javascript
-const edge = new Edge({
-  // TODO
-});
-
 const node = edge.getTarget();
 ```
