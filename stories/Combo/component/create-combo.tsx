@@ -120,7 +120,7 @@ const CreateCombo = () => {
       });
       graph.on('canvas:click', e => {
 
-        graph.updateCombos();
+        console.log(graph.getCombos())
         // graph.refreshPositions();
       })
     }
