@@ -127,16 +127,5 @@
     "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10",
     "worker-loader": "^2.0.0"
-  },
-  "babel": {
-    "presets": [
-      "@babel/preset-env",
-      "@babel/preset-react",
-      {
-        "plugins": [
-          "@babel/plugin-proposal-class-properties"
-        ]
-      }
-    ]
   }
 }
