@@ -8,7 +8,8 @@
 - fix: tooltip plugin position and hidden by removeItem;
 - fix: tooltip behavior hidden by removeItem;
 - fix: menu plugin with clicking on canvas problem;
-- fix: menu plugin with clickHandler problem.
+- fix: menu plugin with clickHandler problem;
+- fix: createCombo with double nodes problem.
 
 #### 3.6.0
 - feat: fisheye lens plugin;

@@ -148,9 +148,12 @@ export default class ItemController {
         group: comboGroup,
       });
 
+      const comboModel = item.getModel();
+
       children && children.forEach(child => {
         const childItem = graph.findById(child.id) as ICombo | INode;
         (item as ICombo).addChild(childItem);
+        child.depth = (comboModel.depth as number) + 2;
       });
 
       // collapse the combo if the collapsed is true in the model
