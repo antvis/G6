@@ -50,7 +50,7 @@
     "site:deploy": "npm run site:build && gh-pages -d public",
     "start": "npm run site:develop",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/algorithm/detect-cycle-spec",
+    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/plugins/minimap-spec",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
     "watch": "father build -w",
     "cdn": "antv-bin upload -n @antv/g6"
@@ -126,5 +126,8 @@
     "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10",
     "worker-loader": "^2.0.0"
-  }
+  },
+  "plugins": [
+    "@babel/plugin-proposal-class-properties"
+  ]
 }

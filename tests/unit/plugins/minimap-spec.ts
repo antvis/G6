@@ -75,11 +75,6 @@ describe('minimap', () => {
       expect(mathEqual(width, 153)).toBe(true);
       expect(mathEqual(height, 162)).toBe(true);
 
-      minimap.destroyPlugin();
-
-      const container: HTMLElement = div.childNodes[1] as HTMLElement;
-      expect(container.innerHTML).toEqual('');
-
       graph.zoom(2.5, { x: 250, y: 250 });
       setTimeout(() => {
         const left = parseFloat(viewport.style.left.substr(0, viewport.style.left.length - 2));
@@ -87,10 +82,16 @@ describe('minimap', () => {
         const width = parseFloat(viewport.style.width.substr(0, viewport.style.width.length - 2));
         const height = parseFloat(viewport.style.height.substr(0, viewport.style.height.length - 2));
 
-        expect(mathEqual(left, 47)).toBe(true);
-        expect(mathEqual(top, 38)).toBe(true);
-        expect(mathEqual(width, 153)).toBe(true);
-        expect(mathEqual(height, 162)).toBe(true);
+        expect(mathEqual(left, 121)).toBe(true);
+        expect(mathEqual(top, 112)).toBe(true);
+        expect(mathEqual(width, 78)).toBe(true);
+        expect(mathEqual(height, 87)).toBe(true);
+
+        minimap.destroyPlugin();
+
+        const container: HTMLElement = div.childNodes[1] as HTMLElement;
+        expect(container.innerHTML).toEqual('');
+
         done();
       }, 100);
     }, 100);
