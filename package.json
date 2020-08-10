@@ -88,7 +88,7 @@
     "ml-matrix": "^6.5.0"
   },
   "devDependencies": {
-    "@antv/gatsby-theme-antv": "0.10.69",
+    "@antv/gatsby-theme-antv": "0.11.2",
     "@babel/core": "^7.7.7",
     "@babel/preset-react": "^7.7.4",
     "@storybook/addon-actions": "^5.2.8",
