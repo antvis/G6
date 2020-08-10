@@ -40,7 +40,12 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             // babelrc: true,
-            presets: ['@babel/preset-env'],
+            presets: [
+              '@babel/preset-env',
+              plugins: [
+                '@babel/plugin-proposal-class-properties'
+              ]
+            ],
           },
         },
       },

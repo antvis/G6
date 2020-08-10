@@ -125,9 +125,7 @@
     "typescript": "^3.5.3",
     "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10",
-    "worker-loader": "^2.0.0"
-  },
-  "plugins": [
-    "@babel/plugin-proposal-class-properties"
-  ]
+    "worker-loader": "^2.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.1.0"
+  }
 }
