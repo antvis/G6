@@ -90,6 +90,7 @@
   "devDependencies": {
     "@antv/gatsby-theme-antv": "0.11.2",
     "@babel/core": "^7.7.7",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/preset-react": "^7.7.4",
     "@storybook/addon-actions": "^5.2.8",
     "@storybook/addon-info": "^5.2.8",
@@ -125,7 +126,17 @@
     "typescript": "^3.5.3",
     "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10",
-    "worker-loader": "^2.0.0",
-    "@babel/plugin-proposal-class-properties": "^7.1.0"
+    "worker-loader": "^2.0.0"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react",
+      {
+        "plugins": [
+          "@babel/plugin-proposal-class-properties"
+        ]
+      }
+    ]
   }
 }
