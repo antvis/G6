@@ -7,8 +7,7 @@ module.exports = {
       options: {
         GATrackingId: 'UA-148148901-4',
       },
-    },
-    '@babel/plugin-syntax-class-properties'
+    }
   ],
   // Customize your site metadata:
   siteMetadata: {
