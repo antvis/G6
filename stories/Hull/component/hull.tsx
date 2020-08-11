@@ -4,203 +4,121 @@ import { Graph } from '../../../src';
 let graph = null;
 const data = {
   nodes: [
-    {
-      id: '1',
-      label: '公司1',
-      group: 1
-    },
-    {
-      id: '2',
-      label: '公司2',
-      group: 1
-    },
-    {
-      id: '3',
-      label: '公司3',
-      group: 1
-    },
-    {
-      id: '4',
-      label: '公司4',
-      group: 1
-    },
-    {
-      id: '5',
-      label: '公司5',
-      group: 2
-    },
-    {
-      id: '6',
-      label: '公司6',
-      group: 2
-    },
-    {
-      id: '7',
-      label: '公司7',
-      group: 2
-    },
-    {
-      id: '8',
-      label: '公司8',
-      group: 2
-    },
-    {
-      id: '9',
-      label: '公司9',
-      group: 2
-    },
+    { id: 'node0', size: 50 },
+    { id: 'node1', size: 30 },
+    { id: 'node2', size: 30 },
+    { id: 'node3', size: 30 },
+    { id: 'node4', size: 30, isLeaf: true },
+    { id: 'node5', size: 30, isLeaf: true },
+    { id: 'node6', size: 15, isLeaf: true },
+    { id: 'node7', size: 15, isLeaf: true },
+    { id: 'node8', size: 15, isLeaf: true },
+    { id: 'node9', size: 15, isLeaf: true },
+    { id: 'node10', size: 15, isLeaf: true },
+    { id: 'node11', size: 15, isLeaf: true },
+    { id: 'node12', size: 15, isLeaf: true },
+    { id: 'node13', size: 15, isLeaf: true },
+    { id: 'node14', size: 15, isLeaf: true },
+    { id: 'node15', size: 15, isLeaf: true },
+    { id: 'node16', size: 15, isLeaf: true },
   ],
   edges: [
-    {
-      source: '1',
-      target: '1',
-      type: 'loop'
-    },
-    {
-      source: '2',
-      target: '2',
-      type: 'loop'
-    },
-    {
-      source: '1',
-      target: '2',
-      data: {
-        type: 'A',
-        amount: '100,000 元',
-        date: '2019-08-03',
-      },
-    },
-    {
-      source: '1',
-      target: '3',
-      data: {
-        type: 'B',
-        amount: '100,000 元',
-        date: '2019-08-03',
-      },
-    },
-    {
-      source: '2',
-      target: '5',
-      data: {
-        type: 'C',
-        amount: '100,000 元',
-        date: '2019-08-03',
-      },
-    },
-    {
-      source: '5',
-      target: '6',
-      data: {
-        type: 'B',
-        amount: '100,000 元',
-        date: '2019-08-03',
-      },
-    },
-    {
-      source: '3',
-      target: '4',
-      data: {
-        type: 'C',
-        amount: '100,000 元',
-        date: '2019-08-03',
-      },
-    },
-    {
-      source: '4',
-      target: '7',
-      data: {
-        type: 'B',
-        amount: '100,000 元',
-        date: '2019-08-03',
-      },
-    },
-    {
-      source: '1',
-      target: '8',
-      data: {
-        type: 'B',
-        amount: '100,000 元',
-        date: '2019-08-03',
-      },
-    },
-    {
-      source: '1',
-      target: '9',
-      data: {
-        type: 'C',
-        amount: '100,000 元',
-        date: '2019-08-03',
-      },
-    },
+    { source: 'node0', target: 'node1' },
+    { source: 'node0', target: 'node2' },
+    { source: 'node0', target: 'node3' },
+    { source: 'node0', target: 'node4' },
+    { source: 'node0', target: 'node5' },
+    { source: 'node1', target: 'node6' },
+    { source: 'node1', target: 'node7' },
+    { source: 'node2', target: 'node8' },
+    { source: 'node2', target: 'node9' },
+    { source: 'node2', target: 'node10' },
+    { source: 'node2', target: 'node11' },
+    { source: 'node2', target: 'node12' },
+    { source: 'node2', target: 'node13' },
+    { source: 'node3', target: 'node14' },
+    { source: 'node3', target: 'node15' },
+    { source: 'node3', target: 'node16' },
   ],
 };
+const nodes = data.nodes;
+
 
 const HullDemo = () => {
   const container = React.useRef();
   useEffect(() => {
     if (!graph) {
+
       graph = new Graph({
         container: container.current as string | HTMLElement,
         width: 500,
         height: 500,
         modes: {
-          default: ['drag-canvas', 'zoom-canvas', 'drag-node']
+          default: ['drag-canvas', 'zoom-canvas', 'drag-node', 'lasso-select']
+        },
+        layout: {
+          type: 'force',
+          preventOverlap: true,
+          linkDistance: d => {
+            if (d.source.id === 'node0') {
+              return 300;
+            }
+            return 60;
+          },
+          nodeStrength: d => {
+            if (d.isLeaf) {
+              return -50;
+            }
+            return -10;
+          },
+          edgeStrength: d => {
+            if (d.source.id === 'node1' || d.source.id === 'node2' || d.source.id === 'node3') {
+              return 0.7;
+            }
+            return 0.1;
+          },
         },
       });
-      graph.data(data);
+      graph.data({
+        nodes,
+        edges: data.edges.map(function (edge, i) {
+          edge['id'] = 'edge' + i;
+          return Object.assign({}, edge);
+        }),
+      });
       graph.render();
 
-      let members = graph.getNodes().filter(node => node.getModel().group === 2);
-      let nonMembers = graph.getNodes().filter(node => node.getModel().group === 1);
+      let centerNodes = graph.getNodes().filter(node => !node.getModel().isLeaf);
 
-      const hull = graph.addHull({
-        id: 'hull1',
-        mode: 'convex',
-        members: nonMembers,
-      })
-      const hull2 = graph.addHull({
-        id: 'hull2',
-        members,
-        nonMembers,
-        padding: 10,
-        style: {
-          fill: 'pink',
-          stroke: 'red',
-        },
-        autoUpdate: true
-      })
-
-      graph.on('canvas:click', ev => {
-        const item = graph.addItem('node', {
-          x: ev.x,
-          y: ev.y,
-          id: Math.random(),
-          group: 1
+      graph.on('afterlayout', () => {
+        graph.addHull({
+          id: 'centerNode-hull',
+          type: 'bubble',
+          members: centerNodes,
+          padding: 10
         })
-        nonMembers.push(item)
-        hull.addMember(item)
-        hull2.addNonMember(item)
-      })
-      graph.on('canvas:contextmenu', ev => {
-        ev.preventDefault()
-        ev.stopPropagation();
-        const item = graph.addItem('node', {
-          x: ev.x,
-          y: ev.y,
-          id: Math.random(),
-          group: 2
+
+        graph.addHull({
+          id: 'centerNode-hull',
+          members: [graph.findById('node6'), graph.findById('node7')],
+          padding: 10,
+          style: {
+            fill: 'lightgreen',
+            stroke: 'green',
+          }
         })
-        console.log(hull2.contain(item))
-        members.push(item);
-        hull.addNonMember(item)
-        hull2.addMember(item)
-        console.log(hull2.contain(item))
+
+        graph.addHull({
+          id: 'centerNode-hull',
+          members: [graph.findById('node8'), graph.findById('node9'), graph.findById('node10'), graph.findById('node11'), graph.findById('node12')],
+          padding: 10,
+          style: {
+            fill: 'lightgreen',
+            stroke: 'green',
+          }
+        })
       })
 
-      graph.on('dblclick', () => {
-        hull2.destroy()
-      })
     }
   })
 

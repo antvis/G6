@@ -673,7 +673,7 @@ export interface HullCfg {
   members?: Item[],
   nonMembers?: Item[],
   group?: Group,
-  mode?: string, // 'convex' or 'bubble'
+  type?: string, // 'round-convex' /'smooth-convex' / 'bubble'
   name?: string,
   padding?: number,
   style?: {
@@ -681,7 +681,7 @@ export interface HullCfg {
     stroke?: string,
     opacity?: number
   },
-  autoUpdate?: boolean, // 是否支持拖动和更新节点时，对hull进行动态更新
+  update?: string, // 'auto' / 'drag' / 'none' : 自动更新/ 拖拽调整member / 不更新
   bubbleCfg?: BubblesetCfg
 }
 

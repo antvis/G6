@@ -4,14 +4,14 @@ import { squareDist, pointLineDist, itemIntersectByLine, getPointsCenter, fracti
 const defauleOps = {
   maxRoutingIterations: 100,  // number of times to run the algorithm to refine the path finding in difficult areas
   maxMarchingIterations: 100, // number of times to refine the boundary
-  pixelGroupSize: 4, // the resolution of the algorithm in square pixels
-  edgeR0: 5, // the distance from edges at which energy is 1 (full influence)
+  pixelGroupSize: 2, // the resolution of the algorithm in square pixels
+  edgeR0: 10, // the distance from edges at which energy is 1 (full influence)
   edgeR1: 10, // the distance from edges at which energy is 0 (no influence)
   nodeR0: 5, // the distance from nodes which energy is 1 (full influence)
   nodeR1: 10, // the distance from nodes at which energy is 0 (no influence)
   morphBuffer: 5,// DEFAULT_NODE_R0; the amount of space to move the virtual edge when wrapping around obstacles
   threshold: 0.001,
-  skip: 8,
+  skip: 16,
   nodeInfluenceFactor: 1,
   edgeInfluenceFactor: 1,
   negativeNodeInfluenceFactor: -0.5,
@@ -363,7 +363,6 @@ export const genBubbleSet = (members: Item[], nonMembers: Item[], ops?: Bubblese
       for (let i = 0, j = 0; j < size; j += 1, i += options.skip) {
         hull.push({ x: marchedPath[i].x, y: marchedPath[i].y });
       }
-      hull.push(hull[0])
     }
 
     const isContourValid = () => {
