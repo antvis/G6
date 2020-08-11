@@ -3,7 +3,7 @@
  */
 
 let nodes = [];
-for (let i = 0; i < 36; i++) {
+for (let i = 0; i < 10; i++) {
   nodes.push({
     id: 'node'+i.toString(),
     label: i.toString(),
@@ -12,18 +12,9 @@ for (let i = 0; i < 36; i++) {
 
 let edges = [];
 let edgeIdx = 0;
-for (let i = 0; i < 36; i++) {
+for (let i = 0; i < 10; i++) {
   if (i === 0) {
-    for (let j = 1; j < 26; j++) {
-      edges.push({
-        id: 'edge'+edgeIdx.toString(),
-        source: 'node'+i.toString(),
-        target: 'node'+j.toString(),
-      });
-      edgeIdx += 1;
-    }
-  } else if (i > 20) {
-    for (let j = 1; j > 14 && j < 34; j++) {
+    for (let j = 1; j < 7; j++) {
       edges.push({
         id: 'edge'+edgeIdx.toString(),
         source: 'node'+i.toString(),
@@ -35,7 +26,7 @@ for (let i = 0; i < 36; i++) {
     edges.push({
       id: 'edge'+edgeIdx.toString(),
       source: 'node'+i.toString(),
-      target: 'node'+((i+1)%36).toString(),
+      target: 'node'+((i+1)%10).toString(),
     });
     edgeIdx += 1;
   }
