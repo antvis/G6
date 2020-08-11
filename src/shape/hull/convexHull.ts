@@ -37,5 +37,8 @@ export const genConvexHull = (items: Item[]) => {
     }
     upper.push(points[i]);
   }
-  return lower.concat(upper);
+  upper.pop();
+  lower.pop();
+  const strictHull = lower.concat(upper);
+  return strictHull;
 }
