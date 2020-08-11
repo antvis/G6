@@ -104,7 +104,7 @@
     "babel-loader": "^8.0.6",
     "event-simulate": "~1.0.0",
     "father": "^2.29.1",
-    "gatsby": "^2.23.9",
+    "gatsby": "^2.24.40",
     "gh-pages": "^2.1.1",
     "husky": "^4.2.5",
     "jest": "^26.0.1",
