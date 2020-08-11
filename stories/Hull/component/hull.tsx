@@ -100,7 +100,7 @@ const HullDemo = () => {
 
         graph.addHull({
           id: 'centerNode-hull',
-          members: [graph.findById('node6'), graph.findById('node7')],
+          members: ['node6', 'node7'],
           padding: 10,
           style: {
             fill: 'lightgreen',
@@ -110,7 +110,7 @@ const HullDemo = () => {
 
         graph.addHull({
           id: 'centerNode-hull',
-          members: [graph.findById('node8'), graph.findById('node9'), graph.findById('node10'), graph.findById('node11'), graph.findById('node12')],
+          members: ['node8', 'node9', 'node10', 'node11', 'node12'],
           padding: 10,
           style: {
             fill: 'lightgreen',

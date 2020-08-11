@@ -670,8 +670,8 @@ export interface StackData {
 
 export interface HullCfg {
   id: string,
-  members?: Item[],
-  nonMembers?: Item[],
+  members?: Item[] | string[], // 节点实例或节点 Id 数组
+  nonMembers?: Item[] | string[],
   group?: Group,
   type?: string, // 'round-convex' /'smooth-convex' / 'bubble'
   name?: string,
