@@ -26,8 +26,8 @@ export default class Hull {
     this.graph = graph
     this.id = this.cfg.id
     this.group = this.cfg.group
-    this.members = cfg.members || []
-    this.nonMembers = cfg.nonMembers || []
+    this.members = this.cfg.members.map(item => isString(item) ? graph.findById(item) : item)
+    this.nonMembers = this.cfg.nonMembers.map(item => isString(item) ? graph.findById(item) : item)
 
     const nodeSize = this.members.length && this.members[0].getKeyShape().getCanvasBBox().width / 2
     this.padding = this.cfg.padding > 0 ? this.cfg.padding + nodeSize : 10 + nodeSize;
