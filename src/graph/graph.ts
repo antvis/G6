@@ -2051,7 +2051,7 @@ export default class Graph extends EventEmitter implements IGraph {
     this.initGroups();
 
     // 清空画布时同时清除数据
-    this.set({ itemMap: {}, nodes: [], edges: [], groups: [] });
+    this.set({ itemMap: {}, nodes: [], edges: [], groups: [], combos: [], comboTrees: [] });
     this.emit('afterrender');
     return this;
   }
