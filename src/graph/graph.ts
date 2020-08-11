@@ -1254,9 +1254,12 @@ export default class Graph extends EventEmitter implements IGraph {
    * 
    * @return   {Array}  return the ordered recommending layout possibilities
    */
-  private autoLayoutType(): Array< Array<string | number> > {
+  public autoLayoutType(): Array< Array<string | number> > {
 
     let sensitiveFields = this.getSensitiveFields().node;
+
+    // prune this.data.edges
+    this.pruneRedundantEdges();
 
     // sort node according to degrees
     let degrees = this.get('degrees');
@@ -1359,6 +1362,89 @@ export default class Graph extends EventEmitter implements IGraph {
   }
 
   /**
+   * Recommend configurations for the layout.
+   */
+  public autoLayoutCfg(): void {
+
+    let width = this.get('width');
+    let height = this.get('height');
+
+    const layoutController = this.get('layoutController');
+    const layoutType = layoutController.getLayoutType();
+    if (!layoutType) {
+      throw new Error('must have a type of layout to configure');
+    }
+
+    // get pruned data
+    this.pruneRedundantEdges();
+    const nodes = this.getNodes();
+    const edges = this.getEdges();
+    
+    // update layout configurations
+    switch (layoutType) {
+      case 'force':
+        this.updateLayout({
+          preventOverlap: true,
+        });
+        break;
+
+      case 'radial':
+        this.updateLayout({
+          preventOverlap: true,
+          strictRadial: true,
+          unitRadius: Math.max(width, height) / 10,
+          linkDistance: Math.max(width, height) / 5,
+        });
+        break;
+      
+      case 'concentric':
+        this.updateLayout({
+          preventOverlap: true,
+          maxLevelDiff: 1,
+          sortBy: 'degree',
+        });
+        break;
+
+      case 'grid':
+        let rows = 0;
+        if (width >= length) {
+          rows = Math.floor(Math.sqrt(nodes.length)) + 1;
+        } else {
+          rows = Math.floor(Math.sqrt(nodes.length));
+        }
+        this.updateLayout({
+          preventOverlap: true,
+          rows: rows,
+        });
+        break;
+
+      case 'circular':
+        this.updateLayout({
+          radius: Math.min(width, height) / 2.5,
+          sortBy: 'degree',
+          preventOverlap: true,
+        });
+        break;
+
+      case 'dagre':
+        this.updateLayout({
+          align: 'DL',
+          nodesep: 5,
+          ranksep: 5,
+        });
+        break;
+
+      case 'mds':
+        this.updateLayout({
+          linkDistance: Math.min(width, height) / 10,
+        });
+
+      case 'fruchterman': 
+        this.updateLayout({});
+    }
+  }
+
+  /**
    * Recommend a layout with configurations.
    */
   public autoLayout(): Array< Array<string | number> > {
@@ -1393,14 +1479,11 @@ export default class Graph extends EventEmitter implements IGraph {
       this.add('edge', edge, false);
     });
 
-    // prune this.data.edges
-    this.pruneRedundantEdges();
-
     this.emit('beforeautolayout');
-    
     let sortedLayoutProb = this.autoLayoutType();
-
-    this.clear();
+    this.render();
+    this.autoLayoutCfg();
+    this.emit('afterautolayout');
 
     return sortedLayoutProb;
   }

@@ -14,7 +14,7 @@ let edges = [];
 let edgeIdx = 0;
 for (let i = 0; i < 36; i++) {
   if (i < 5) {
-    for (let j = 1; j < 24; j++) {
+    for (let j = 1; j < 26; j++) {
       edges.push({
         id: 'edge'+edgeIdx.toString(),
         source: 'node'+i.toString(),

@@ -19,13 +19,12 @@ describe('random data layout', () => {
     width: 600,
     height: 800,
     modes: {
-      default: ['drag-node'],
+      default: ['drag-node', 'drag-canvas'],
     },
   });
 
   globalGraph.data(data0);
   var sortedLayoutProb = globalGraph.autoLayout();
-  globalGraph.render();
 });
 
 describe('connected low layout', () => {
@@ -34,7 +33,7 @@ describe('connected low layout', () => {
     width: 600,
     height: 800,
     modes: {
-      default: ['drag-node'],
+      default: ['drag-node', 'drag-canvas'],
     },
   });
 
@@ -43,7 +42,6 @@ describe('connected low layout', () => {
   it('best layout 1', () => {
     expect(sortedLayoutProb[0][0]).toBe("concentric");
   });
-  globalGraph.render();
 });
 
 describe('dense high layout', () => {
@@ -52,7 +50,7 @@ describe('dense high layout', () => {
     width: 600,
     height: 800,
     modes: {
-      default: ['drag-node'],
+      default: ['drag-node', 'drag-canvas'],
     },
   });
 
@@ -61,7 +59,6 @@ describe('dense high layout', () => {
   it('best layout 2', () => {
     expect(sortedLayoutProb[0][0]).toBe("mds");
   });
-  globalGraph.render();
 });
 
 describe('dense low layout', () => {
@@ -70,16 +67,15 @@ describe('dense low layout', () => {
     width: 600,
     height: 800,
     modes: {
-      default: ['drag-node'],
+      default: ['drag-node', 'drag-canvas'],
     },
   });
 
   globalGraph.data(data3);
   var sortedLayoutProb = globalGraph.autoLayout();
   it('best layout 3', () => {
-    expect(sortedLayoutProb[0][0]).toBe("fruchterman");
+    expect(sortedLayoutProb[0][0]).toBe("mds");
   });
-  globalGraph.render();
 });
 
 describe('normal high layout', () => {
@@ -88,7 +84,7 @@ describe('normal high layout', () => {
     width: 600,
     height: 800,
     modes: {
-      default: ['drag-node'],
+      default: ['drag-node', 'drag-canvas'],
     },
   });
 
@@ -97,7 +93,6 @@ describe('normal high layout', () => {
   it('best layout 4', () => {
     expect(sortedLayoutProb[0][0]).toBe("fruchterman");
   });
-  globalGraph.render();
 });
 
 describe('normal low layout', () => {
@@ -106,7 +101,7 @@ describe('normal low layout', () => {
     width: 600,
     height: 800,
     modes: {
-      default: ['drag-node'],
+      default: ['drag-node', 'drag-canvas'],
     },
   });
 
@@ -115,7 +110,6 @@ describe('normal low layout', () => {
   it('best layout 5', () => {
     expect(sortedLayoutProb[0][0]).toBe("fruchterman");
   });
-  globalGraph.render();
 });
 
 describe('sparse high layout', () => {
@@ -124,7 +118,7 @@ describe('sparse high layout', () => {
     width: 600,
     height: 800,
     modes: {
-      default: ['drag-node'],
+      default: ['drag-node', 'drag-canvas'],
     },
   });
 
@@ -133,7 +127,6 @@ describe('sparse high layout', () => {
   it('best layout 6', () => {
     expect(sortedLayoutProb[0][0]).toBe("force");
   });
-  globalGraph.render();
 });
 
 describe('sparse low layout', () => {
@@ -142,7 +135,7 @@ describe('sparse low layout', () => {
     width: 600,
     height: 800,
     modes: {
-      default: ['drag-node'],
+      default: ['drag-node', 'drag-canvas'],
     },
   });
 
@@ -151,16 +144,15 @@ describe('sparse low layout', () => {
   it('best layout 7', () => {
     expect(sortedLayoutProb[0][0]).toBe("force");
   });
-  globalGraph.render();
 });
 
 describe('grid low layout', () => {
   const globalGraph = new Graph({
     container: div,
     width: 600,
-    height: 800,
+    height: 600,
     modes: {
-      default: ['drag-node'],
+      default: ['drag-node', 'drag-canvas'],
     },
   });
 
@@ -169,7 +161,6 @@ describe('grid low layout', () => {
   it('best layout 8', () => {
     expect(sortedLayoutProb[0][0]).toBe("grid");
   });
-  globalGraph.render();
 });
 
 describe('dataset layout', () => {
@@ -178,29 +169,21 @@ describe('dataset layout', () => {
     width: 600,
     height: 800,
     modes: {
-      default: ['drag-node'],
+      default: ['drag-node', 'drag-canvas'],
     },
   });
 
-  function best_layout_9() {
-    return fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
-    .then(res => res.json())
-    .then(data => {
-      return {
-        nodes: data.nodes,
-        edges: data.edges.map(function(edge, i) {
-          edge.id = 'edge' + i;
-          return Object.assign({}, edge);
-        }),
-      }
+  fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
+  .then(res => res.json())
+  .then(data => {
+    globalGraph.data({
+      nodes: data.nodes,
+      edges: data.edges.map(function(edge, i) {
+        edge.id = 'edge' + i;
+        return Object.assign({}, edge);
+      }),
     })
-  }
-
-  best_layout_9().then(data9 => {
-    globalGraph.data(data9);
-    let sortedLayoutProb = globalGraph.autoLayout();
-    expect(sortedLayoutProb[0][0]).toBe("fruchterman");
-    globalGraph.render();
-  });
+    globalGraph.autoLayout();
+  })
 
 });
