@@ -161,11 +161,11 @@ export const xmlDataRenderer = (xml: string) => data => {
  * 解析XML，并转化为相应的JSON结构
  * @param xml xml解析后的节点
  */
-export function parseXML(xml: HTMLElement) {
+export function parseXML(xml: HTMLElement, cfg) {
   let attrs = {} as { [key: string]: any };
   const keys = xml.getAttributeNames && xml.getAttributeNames() || [] as string[];
-  const children = xml.children && Array.from(xml.children).map(e => parseXML(e as HTMLElement));
-  const rst = {} as NodeInstructure;
+  const children = xml.children && Array.from(xml.children).map(e => parseXML(e as HTMLElement, cfg));
+  const rst = {} as { [key: string]: any } & NodeInstructure;
   const tagName = xml.tagName ? xml.tagName.toLowerCase() : 'group';
 
   if (tagName === 'text') {
@@ -177,8 +177,6 @@ export function parseXML(xml: HTMLElement) {
   Array.from(keys).forEach(k => {
     const key = keyConvert(k)
     const val = xml.getAttribute(k);
-
-    console.log('balll', key, looseJSONParse(val));
 
     try {
       if (key === 'style' || key === 'attrs') {
@@ -199,6 +197,20 @@ export function parseXML(xml: HTMLElement) {
   });
 
   rst.attrs = attrs;
+
+  if (cfg && cfg.style && rst.name && typeof cfg.style[rst.name] === 'object') {
+    rst.attrs = {
+      ...rst.attrs,
+      ...cfg.style[rst.name],
+    }
+  }
+
+  if (cfg && cfg.style && rst.keyshape) {
+    rst.attrs = {
+      ...rst.attrs,
+      ...cfg.style,
+    }
+  }
 
   if (children.length) {
     rst.children = children
@@ -397,14 +409,14 @@ export function compareTwoTarget(nowTarget: NodeInstructure, formerTarget: NodeI
  * @param gen 
  */
 export function createNodeFromXML(gen: string | ((node: any) => string)) {
-  const structures = new Map();
+  const structures = {};
   const compileXML = cfg => {
     const rawStr = typeof gen === 'function' ? gen(cfg) : gen;
     const target = xmlDataRenderer(rawStr)(cfg);
     const xmlParser = document.createElement('div');
     xmlParser.innerHTML = target;
     const xml = xmlParser.children[0] as HTMLElement;
-    const result = generateTarget(parseXML(xml));
+    const result = generateTarget(parseXML(xml, cfg));
 
     xmlParser.remove();
 
@@ -439,7 +451,7 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
 
       renderTarget(target);
 
-      structures.set(cfg.id, [target]);
+      structures[cfg.id] = [target];
 
       return keyshape;
     },
@@ -453,13 +465,13 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
       this.update(cfg, node);
     },
     update(cfg, node) {
-      if (!structures.get(cfg.id)) {
-        structures.set(cfg.id, [])
+      if (!structures[cfg.id]) {
+        structures[cfg.id] = []
       }
       const container = node.getContainer();
       const children = container.get('children');
       const target = compileXML(cfg);
-      const lastTarget = structures.get(cfg.id).pop();
+      const lastTarget = structures[cfg.id].pop();
       const diff = compareTwoTarget(target, lastTarget);
       const addShape = node => {
         container.addShape(node.type, { attrs: node.attrs });
@@ -504,7 +516,7 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
 
       updateTarget(diff);
 
-      structures.get(cfg.id).push(target);
+      structures[cfg.id].push(target);
     },
     getAnchorPoints() {
       return [
