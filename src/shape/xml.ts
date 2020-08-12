@@ -410,6 +410,7 @@ export function compareTwoTarget(nowTarget: NodeInstructure, formerTarget: NodeI
  */
 export function createNodeFromXML(gen: string | ((node: any) => string)) {
   const structures = {};
+  const shapeDefault = {};
   const compileXML = cfg => {
     const rawStr = typeof gen === 'function' ? gen(cfg) : gen;
     const target = xmlDataRenderer(rawStr)(cfg);
@@ -474,7 +475,7 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
       const lastTarget = structures[cfg.id].pop();
       const diff = compareTwoTarget(target, lastTarget);
       const addShape = node => {
-        container.addShape(node.type, { attrs: node.attrs });
+        const shape = container.addShape(node.type, { attrs: node.attrs });
         if (node.children?.length) {
           node.children.map(e => addShape(e))
         }
@@ -493,7 +494,8 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
           switch (target.action) {
             case 'change':
               if (targetShape) {
-                targetShape.attr(target.val.attrs);
+                const originAttr = node.getOriginStyle() || {};
+                targetShape.attr({ ...originAttr, ...target.val.attrs });
               }
               break;
             case 'add':

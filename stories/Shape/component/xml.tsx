@@ -83,10 +83,17 @@ const XML = () => {
         width: 1000,
         height: 800,
         defaultNode: {
-          type: "test",
+          type: "test"
         },
         modes: {
           default: ['drag-node', 'drag-canvas']
+        },
+        nodeStateStyles: {
+          hover: {
+            fill: 'blue',
+            stroke: 'green',
+            lineWidth: 3
+          }
         },
         defaultEdge: {
           style: {
@@ -97,6 +104,13 @@ const XML = () => {
       });
       graph.data(data);
       graph.render();
+      graph.on('node:mouseenter', evt => {
+        graph.setItemState(evt.item, 'hover', true)
+      })
+
+      graph.on('node:mouseleave', evt => {
+        graph.setItemState(evt.item, 'hover', false)
+      })
     }
 
     return () => {
