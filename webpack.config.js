@@ -26,8 +26,7 @@ module.exports = {
           {
             loader: 'worker-loader',
             options: {
-              inline: true,
-              fallback: false,
+              inline: 'fallback',
               name: 'g6Layout.worker.js',
             },
           },
