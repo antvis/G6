@@ -1385,22 +1385,22 @@ export default class Graph extends EventEmitter implements IGraph {
     // update layout configurations
     switch (layoutType) {
       case 'force':
-        let cfg = {
+        let forceCfg = {
           preventOverlap: true,
           nodeStrength: null,
           edgeStrength: null,
         }
         if ('value' in sensitiveFields.node) {
-          cfg['nodeStrength'] = d => {
+          forceCfg['nodeStrength'] = d => {
             return d.value;
           }
         }
         if ('weight' in sensitiveFields.edge) {
-          cfg['edgeStrength'] = d => {
+          forceCfg['edgeStrength'] = d => {
             return d.weight;
           }
         }
-        this.updateLayout(cfg);
+        this.updateLayout(forceCfg);
         break;
 
       case 'radial':
@@ -1444,10 +1444,11 @@ export default class Graph extends EventEmitter implements IGraph {
 
       case 'dagre':
         let bbox = this.get('group').getCanvasBBox();
+        let dir = '';
         if ((bbox.width - bbox.height) * (height - width) > 0) {
-          let dir = 'LR';
+          dir = 'LR';
         } else {
-          let dir = 'TB';
+          dir = 'TB';
         }
         this.updateLayout({
           rankdir: dir,
@@ -1462,17 +1463,17 @@ export default class Graph extends EventEmitter implements IGraph {
         });
 
       case 'fruchterman': 
-        let cfg = {
+        let fruchCfg = {
           preventOverlap: true,
           cluster: false,
           gravity: 10,
           clusterGravity: null,
         };
         if ('cluster' in sensitiveFields.node) {
-          cfg['cluster'] = true;
-          cfg['clusterGravity'] = cfg.gravity;
+          fruchCfg['cluster'] = true;
+          fruchCfg['clusterGravity'] = fruchCfg.gravity;
         }
-        this.updateLayout(cfg);
+        this.updateLayout(fruchCfg);
     }
   }
 
