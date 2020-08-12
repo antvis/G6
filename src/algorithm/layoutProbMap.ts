@@ -34,10 +34,9 @@ const layoutProbMap = (sensitiveFields: Array<string>, force: string, tense: str
     case 'connected':
       // ToDo: in a finer-grain.
       layoutProb.force += 0.2;
-      layoutProb.radial += 0.6;
+      layoutProb.radial += 0.4;
       layoutProb.concentric += 0.9;
       layoutProb.circular += 0.1;
-      layoutProb.dagre += 0.1;
       layoutProb.mds += 0.1;
       layoutProb.fruchterman += 0.1;
     case 'dense':
