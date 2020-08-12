@@ -1439,29 +1439,11 @@ export default class Graph extends EventEmitter implements IGraph {
         break;
 
       case 'dagre':
-        let minX = width;
-        let maxX = 0;
-        let minY = height;
-        let maxY = 0;
-        let rankdir = '';
-        nodes.forEach(node => {
-          let x_pos = node._cfg.model.x;
-          let y_pos = node._cfg.model.y;
-          if (x_pos < minX) {
-            minX = x_pos;
-          } else if (x_pos > maxX) {
-            maxX = x_pos;
-          }
-          if (y_pos < minY) {
-            minY = y_pos;
-          } else if (y_pos > maxY) {
-            maxY = y_pos;
-          }
-        });
-        if (((maxX - minX) - (maxY - minY)) * (height - width) > 0) {
-          rankdir = 'LR';
+        let bbox = this.get('group').getCanvasBBox();
+        if ((bbox.width - bbox.height) * (height - width) > 0) {
+          let rankdir = 'LR';
         } else {
-          rankdir = 'TB';
+          let rankdir = 'TB';
         }
         this.updateLayout({
           rankdir: rankdir;
