@@ -118,7 +118,11 @@ export default class Menu extends Base {
 
     const handleMenuClick = this.get('handleMenuClick')
     if (handleMenuClick) {
-      menuDom.addEventListener('click', handleMenuClick);
+      const handleMenuClickWrapper = (evt) => {
+        handleMenuClick(evt.target, e.item)
+      }
+      this.set('handleMenuClickWrapper', handleMenuClickWrapper)
+      menuDom.addEventListener('click', handleMenuClickWrapper);
     }
 
     const graph: Graph = this.get('graph');
@@ -166,9 +170,9 @@ export default class Menu extends Base {
     // 隐藏菜单后需要移除事件监听
     document.body.removeEventListener('click', this.get('handler'));
 
-    const handleMenuClick = this.get('handleMenuClick')
-    if (handleMenuClick) {
-      menuDom.removeEventListener('click', handleMenuClick)
+    const handleMenuClickWrapper = this.get('handleMenuClickWrapper');
+    if (handleMenuClickWrapper) {
+      menuDom.removeEventListener('click', handleMenuClickWrapper);
     }
   }
 
@@ -176,9 +180,9 @@ export default class Menu extends Base {
     const menu = this.get('menu')
     const handler = this.get('handler');
 
-    const handleMenuClick = this.get('handleMenuClick')
-    if (handleMenuClick) {
-      menu.removeEventListener('click', handleMenuClick)
+    const handleMenuClickWrapper = this.get('handleMenuClickWrapper');
+    if (handleMenuClickWrapper) {
+      menu.removeEventListener('click', handleMenuClickWrapper);
     }
 
     if (menu) {
