@@ -42,7 +42,7 @@ const textXML = cfg => `
 </group>
 `;
 
-G6.registerNodeByXML('test', textXML);
+G6.registerNode('test', textXML);
 
 let n = 0;
 
