@@ -1,5 +1,5 @@
 // 注意：这里不能直接require原始的src文件，而要使用build后的文件，因为web worker代码是通过worker-loader内联进来的
-import G6 from '../../../dist/g6.min';
+import G6 from '../../../src';
 import dataset from './data';
 import { mathEqual } from './util';
 
