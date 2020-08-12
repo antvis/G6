@@ -149,7 +149,7 @@ describe('sparse low layout', () => {
 describe('grid low layout', () => {
   const globalGraph = new Graph({
     container: div,
-    width: 600,
+    width: 800,
     height: 600,
     modes: {
       default: ['drag-node', 'drag-canvas'],

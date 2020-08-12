@@ -23,7 +23,7 @@ const layoutProbMap = (sensitiveFields: Array<string>, force: string, tense: str
         layoutProb.fruchterman += 0.9;
         break;
       case 'level':
-        layoutProb.dagre += 0.9;
+        layoutProb.dagre += 0.6;
         break;
       default:
         break;
