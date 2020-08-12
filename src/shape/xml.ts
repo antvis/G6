@@ -410,7 +410,6 @@ export function compareTwoTarget(nowTarget: NodeInstructure, formerTarget: NodeI
  */
 export function createNodeFromXML(gen: string | ((node: any) => string)) {
   const structures = {};
-  const shapeDefault = {};
   const compileXML = cfg => {
     const rawStr = typeof gen === 'function' ? gen(cfg) : gen;
     const target = xmlDataRenderer(rawStr)(cfg);
