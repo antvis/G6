@@ -151,13 +151,13 @@ const HullDemo = () => {
       graph.data(data);
       graph.render();
 
-      const hull = graph.addHull({
+      const hull1 = graph.createHull({
         id: 'hull1',
         type: 'smooth-convex',
         padding: 15,
         members: graph.getNodes().filter(node => node.getModel().group === 1),
       })
-      const hull2 = graph.addHull({
+      const hull2 = graph.createHull({
         id: 'hull2',
         members: graph.getNodes().filter(node => node.getModel().group === 2),
         nonMembers: graph.getNodes().filter(node => node.getModel().group === 1),
@@ -180,6 +180,28 @@ const HullDemo = () => {
           group: 2
         })
         hull2.addMember(item)
+      })
+
+      graph.on('afterupdateitem', e => {
+        if (hull1.members.indexOf(e.item) > -1 || hull1.nonMembers.indexOf(e.item) > -1) {
+          hull1.updateData(hull1.members)
+        }
+      })
+
+      graph.on('node:dragend', e => {
+        const item = e.item;
+        const memberIdx = hull2.members.indexOf(item)
+        if (memberIdx > -1) {
+          // 如果移出原hull范围，则去掉
+          if (!hull2.contain(item)) {
+            hull2.removeMember(item)
+          }
+          else {
+            hull2.updateData(hull2.members)
+          }
+        } else {
+          if (hull2.contain(item)) hull2.addMember(item)
+        }
       })
     }
   })

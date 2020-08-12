@@ -3025,7 +3025,7 @@ export default class Graph extends EventEmitter implements IGraph {
     this.undoStack = null
   }
 
-  public addHull(cfg: HullCfg) {
+  public createHull(cfg: HullCfg) {
     let parent = this.get('hullGroup');
     let hullMap = this.get('hullMap')
     if (!hullMap) {
@@ -3039,16 +3039,21 @@ export default class Graph extends EventEmitter implements IGraph {
       parent.toBack()
       this.set('hullGroup', parent)
     }
-    const group = parent.addGroup({
-      id: `${cfg.id}-container`
-    });
-    const hull = new Hull(this, {
-      ...cfg,
-      group
-    })
-    const hullId = hull.id
-    hullMap[hullId] = hull
-    return hull
+    if (hullMap[cfg.id]) {
+      console.warn('Existed hull id.')
+      return hullMap[cfg.id]
+    } else {
+      const group = parent.addGroup({
+        id: `${cfg.id}-container`
+      });
+      const hull = new Hull(this, {
+        ...cfg,
+        group
+      })
+      const hullId = hull.id
+      hullMap[hullId] = hull
+      return hull
+    }
   }
 
   public getHulls() {

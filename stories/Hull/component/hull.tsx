@@ -91,15 +91,15 @@ const HullDemo = () => {
       let centerNodes = graph.getNodes().filter(node => !node.getModel().isLeaf);
 
       graph.on('afterlayout', () => {
-        graph.addHull({
+        const hull1 = graph.createHull({
           id: 'centerNode-hull',
           type: 'bubble',
           members: centerNodes,
           padding: 10
         })
 
-        graph.addHull({
-          id: 'centerNode-hull',
+        const hull2 = graph.createHull({
+          id: 'leafNode-hull1',
           members: ['node6', 'node7'],
           padding: 10,
           style: {
@@ -108,8 +108,8 @@ const HullDemo = () => {
           }
         })
 
-        graph.addHull({
-          id: 'centerNode-hull',
+        const hull3 = graph.createHull({
+          id: 'leafNode-hull2',
           members: ['node8', 'node9', 'node10', 'node11', 'node12'],
           padding: 10,
           style: {
@@ -117,6 +117,13 @@ const HullDemo = () => {
             stroke: 'green',
           }
         })
+
+        graph.on('afterupdateitem', e => {
+          hull1.updateData(hull1.members)
+          hull2.updateData(hull2.members)
+          hull3.updateData(hull3.members)
+        })
+
       })
 
     }
