@@ -138,20 +138,20 @@ export const getClosedSpline = (points: IPoint[]) => {
   points.push(second)
 
   let closedPath = []
-  for (var i = 1; i < points.length - 2; i += 1) {
-    var x0 = points[i - 1].x;
-    var y0 = points[i - 1].y;
-    var x1 = points[i].x;
-    var y1 = points[i].y;
-    var x2 = points[i + 1].x;
-    var y2 = points[i + 1].y;
-    var x3 = i !== points.length - 2 ? points[i + 2].x : x2;
-    var y3 = i !== points.length - 2 ? points[i + 2].y : y2;
+  for (let i = 1; i < points.length - 2; i += 1) {
+    let x0 = points[i - 1].x;
+    let y0 = points[i - 1].y;
+    let x1 = points[i].x;
+    let y1 = points[i].y;
+    let x2 = points[i + 1].x;
+    let y2 = points[i + 1].y;
+    let x3 = i !== points.length - 2 ? points[i + 2].x : x2;
+    let y3 = i !== points.length - 2 ? points[i + 2].y : y2;
 
-    var cp1x = x1 + (x2 - x0) / 6;
-    var cp1y = y1 + (y2 - y0) / 6;
-    var cp2x = x2 - (x3 - x1) / 6;
-    var cp2y = y2 - (y3 - y1) / 6;
+    let cp1x = x1 + (x2 - x0) / 6;
+    let cp1y = y1 + (y2 - y0) / 6;
+    let cp2x = x2 - (x3 - x1) / 6;
+    let cp2y = y2 - (y3 - y1) / 6;
     closedPath.push(["C", cp1x, cp1y, cp2x, cp2y, x2, y2]);
   }
   closedPath.unshift(['M', last.x, last.y]);
@@ -164,8 +164,11 @@ const vecScaleTo = (v: number[], length: number) => { // Vector with direction o
 
 const unitNormal = (p0: number[], p1: number[]) => {
   // Returns the unit normal to the line segment from p0 to p1.
-  var n = [p0[1] - p1[1], p1[0] - p0[0]];
-  var nLength = Math.sqrt(n[0] * n[0] + n[1] * n[1]);
+  let n = [p0[1] - p1[1], p1[0] - p0[0]];
+  let nLength = Math.sqrt(n[0] * n[0] + n[1] * n[1]);
+  if (nLength === 0) {
+    throw new Error('p0 should not be equal to p1')
+  }
   return [n[0] / nLength, n[1] / nLength];
 };
 
@@ -179,28 +182,24 @@ const vecFrom = (p0: number[], p1: number[]) => {               // Vector from p
  */
 export function roundedHull(polyPoints: number[][], padding: number) {
   // The rounded hull path around a single point
-  const roundedHull1 = (polyPoints) => {
-    var p1 = [polyPoints[0][0], polyPoints[0][1] - padding];
-    var p2 = [polyPoints[0][0], polyPoints[0][1] + padding];
+  const roundedHull1 = (polyPoints: number[][]) => {
+    let p1 = [polyPoints[0][0], polyPoints[0][1] - padding];
+    let p2 = [polyPoints[0][0], polyPoints[0][1] + padding];
 
-    return 'M ' + p1
-      + ' A ' + [padding, padding, '0,0,0', p2].join(',')
-      + ' A ' + [padding, padding, '0,0,0', p1].join(',');
+    return `M ${p1} A ${padding},${padding},0,0,0,${p2} A ${padding},${padding},0,0,0,${p1}`;
   };
 
   // The rounded hull path around two points
-  const roundedHull2 = (polyPoints) => {
-    var offsetVector = vec2.scale([], unitNormal(polyPoints[0], polyPoints[1]), padding);
-    var invOffsetVector = vec2.scale([], offsetVector, -1);
+  const roundedHull2 = (polyPoints: number[][]) => {
+    let offsetVector = vec2.scale([], unitNormal(polyPoints[0], polyPoints[1]), padding);
+    let invOffsetVector = vec2.scale([], offsetVector, -1);
 
-    var p0 = vec2.add([], polyPoints[0], offsetVector);
-    var p1 = vec2.add([], polyPoints[1], offsetVector);
-    var p2 = vec2.add([], polyPoints[1], invOffsetVector);
-    var p3 = vec2.add([], polyPoints[0], invOffsetVector);
+    let p0 = vec2.add([], polyPoints[0], offsetVector);
+    let p1 = vec2.add([], polyPoints[1], offsetVector);
+    let p2 = vec2.add([], polyPoints[1], invOffsetVector);
+    let p3 = vec2.add([], polyPoints[0], invOffsetVector);
 
-    return 'M ' + p0
-      + ' L ' + p1 + ' A ' + [padding, padding, '0,0,0', p2].join(',')
-      + ' L ' + p3 + ' A ' + [padding, padding, '0,0,0', p0].join(',');
+    return `M ${p0} L ${p1} A ${[padding, padding, '0,0,0', p2].join(',')} L ${p3} A ${[padding, padding, '0,0,0', p0].join(',')}`;
   };
 
   // 特殊情况处理：节点数小于等于2
@@ -208,25 +207,25 @@ export function roundedHull(polyPoints: number[][], padding: number) {
   if (polyPoints.length === 1) return roundedHull1(polyPoints);
   if (polyPoints.length === 2) return roundedHull2(polyPoints);
 
-  var segments = new Array(polyPoints.length);
+  let segments = new Array(polyPoints.length);
 
   // Calculate each offset (outwards) segment of the convex hull.
-  for (var segmentIndex = 0; segmentIndex < segments.length; ++segmentIndex) {
-    var p0 = (segmentIndex === 0) ? polyPoints[polyPoints.length - 1] : polyPoints[segmentIndex - 1];
-    var p1 = polyPoints[segmentIndex];
+  for (let segmentIndex = 0; segmentIndex < segments.length; ++segmentIndex) {
+    let p0 = (segmentIndex === 0) ? polyPoints[polyPoints.length - 1] : polyPoints[segmentIndex - 1];
+    let p1 = polyPoints[segmentIndex];
 
     // Compute the offset vector for the line segment, with length = padding.
-    var offset = vec2.scale([], unitNormal(p0, p1), padding);
+    let offset = vec2.scale([], unitNormal(p0, p1), padding);
 
     segments[segmentIndex] = [vec2.add([], p0, offset), vec2.add([], p1, offset)];
   }
 
-  var arcData = 'A ' + [padding, padding, '0,0,0,'].join(',');
+  let arcData = `A ${[padding, padding, '0,0,0,'].join(',')}`;
 
   segments = segments.map(function (segment, index) {
-    var pathFragment = "";
+    let pathFragment = "";
     if (index === 0) {
-      var pathFragment = 'M ' + segments[segments.length - 1][1] + ' ';
+      pathFragment = `M ${segments[segments.length - 1][1]} `;
     }
     pathFragment += arcData + segment[0] + ' L ' + segment[1];
 
@@ -238,39 +237,34 @@ export function roundedHull(polyPoints: number[][], padding: number) {
 
 // Returns the SVG path data string representing the polygon, expanded and smoothed.
 export function paddedHull(polyPoints: number[][], padding: number) {
-  var pointCount = polyPoints.length;
+  let pointCount = polyPoints.length;
 
   const smoothHull1 = (polyPoints) => {
     // Returns the path for a circular hull around a single point.
 
-    var p1 = [polyPoints[0][0], polyPoints[0][1] - padding];
-    var p2 = [polyPoints[0][0], polyPoints[0][1] + padding];
+    let p1 = [polyPoints[0][0], polyPoints[0][1] - padding];
+    let p2 = [polyPoints[0][0], polyPoints[0][1] + padding];
 
-    return 'M ' + p1
-      + ' A ' + [padding, padding, '0,0,0', p2].join(',')
-      + ' A ' + [padding, padding, '0,0,0', p1].join(',');
+    return `M ${p1} A ${[padding, padding, '0,0,0', p2].join(',')} A ${[padding, padding, '0,0,0', p1].join(',')}`;
   };
 
   // Returns the path for a rounded hull around two points.
   const smoothHull2 = (polyPoints) => {
-    var v = vecFrom(polyPoints[0], polyPoints[1]);
-    var extensionVec = vecScaleTo(v, padding);
+    let v = vecFrom(polyPoints[0], polyPoints[1]);
+    let extensionVec = vecScaleTo(v, padding);
 
-    var extension0 = vec2.add([], polyPoints[0], vec2.scale([], extensionVec, -1));
-    var extension1 = vec2.add([], polyPoints[1], extensionVec);
+    let extension0 = vec2.add([], polyPoints[0], vec2.scale([], extensionVec, -1));
+    let extension1 = vec2.add([], polyPoints[1], extensionVec);
 
-    var tangentHalfLength = 1.2 * padding;
-    var controlDelta = vecScaleTo(vec2.normalize([], v), tangentHalfLength);
-    var invControlDelta = vec2.scale([], controlDelta, -1);
+    let tangentHalfLength = 1.2 * padding;
+    let controlDelta = vecScaleTo(vec2.normalize([], v), tangentHalfLength);
+    let invControlDelta = vec2.scale([], controlDelta, -1);
 
-    var control0 = vec2.add([], extension0, invControlDelta);
-    var control1 = vec2.add([], extension1, invControlDelta);
-    var control3 = vec2.add([], extension0, controlDelta);
+    let control0 = vec2.add([], extension0, invControlDelta);
+    let control1 = vec2.add([], extension1, invControlDelta);
+    let control3 = vec2.add([], extension0, controlDelta);
 
-    return 'M ' + extension0
-      + ' C ' + [control0, control1, extension1].join(',')
-      + ' S ' + [control3, extension0].join(',')
-      + ' Z';
+    return `M ${extension0} C ${[control0, control1, extension1].join(',')} S ${[control3, extension0].join(',')} Z`;
   };
 
   // Handle special cases
@@ -279,7 +273,7 @@ export function paddedHull(polyPoints: number[][], padding: number) {
   if (pointCount === 2) return smoothHull2(polyPoints);
 
   let hullPoints = polyPoints.map(function (point, index) {
-    var pNext = polyPoints[(index + 1) % pointCount];
+    let pNext = polyPoints[(index + 1) % pointCount];
     return {
       p: point,
       v: vec2.normalize([], vecFrom(point, pNext))
@@ -287,9 +281,9 @@ export function paddedHull(polyPoints: number[][], padding: number) {
   });
 
   // Compute the expanded hull points, and the nearest prior control point for each.
-  for (var i = 0; i < hullPoints.length; ++i) {
-    var priorIndex = (i > 0) ? (i - 1) : (pointCount - 1);
-    var extensionVec = vec2.normalize([], vec2.add([], hullPoints[priorIndex].v, vec2.scale([], hullPoints[i].v, -1)));
+  for (let i = 0; i < hullPoints.length; ++i) {
+    let priorIndex = (i > 0) ? (i - 1) : (pointCount - 1);
+    let extensionVec = vec2.normalize([], vec2.add([], hullPoints[priorIndex].v, vec2.scale([], hullPoints[i].v, -1)));
     hullPoints[i].p = vec2.add([], hullPoints[i].p, vec2.scale([], extensionVec, padding));
   }
 

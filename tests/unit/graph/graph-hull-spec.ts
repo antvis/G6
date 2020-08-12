@@ -154,14 +154,14 @@ describe('graph hull', () => {
   const nonMembers = graph.getNodes().filter(node => node.getModel().group === 1);
 
   it('add a convex hull', () => {
-    graph.addHull({
+    graph.createHull({
       id: 'hull1',
       members,
-      mode: 'convex'
+      type: 'round-convex'
     })
   })
   it('add a bubble hull', () => {
-    graph.addHull({
+    graph.createHull({
       id: 'hull2',
       nonMembers: members,
       members: nonMembers,

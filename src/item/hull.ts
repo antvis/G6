@@ -10,6 +10,12 @@ import { IGraph } from '../interface/graph';
 import { genConvexHull } from '../shape/hull/convexHull';
 import { genBubbleSet } from '../shape/hull/bubbleset';
 
+/**
+ * 用于包裹内部的成员的轮廓。
+ * convex hull(凸包)：http://geomalgorithms.com/a10-_hull-1.html#Monotone%20Chain
+ * bubble: 使用 bubbleset算法，refer: http://vialab.science.uoit.ca/wp-content/papercite-data/pdf/col2009c.pdf
+ * 通过配置 padding 可以调节包裹轮廓对节点的松紧程度
+ */
 export default class Hull {
   id: string;
   graph: IGraph;
@@ -19,7 +25,8 @@ export default class Hull {
   members: Item[];
   nonMembers: Item[];
   padding: number;
-  bubbleCfg: BubblesetCfg;
+  bubbleCfg: Partial<BubblesetCfg>;
+  type: string;
 
   constructor(graph: IGraph, cfg: HullCfg) {
     this.cfg = deepMix(this.getDefaultCfg(), cfg)
@@ -28,53 +35,17 @@ export default class Hull {
     this.group = this.cfg.group
     this.members = this.cfg.members.map(item => isString(item) ? graph.findById(item) : item)
     this.nonMembers = this.cfg.nonMembers.map(item => isString(item) ? graph.findById(item) : item)
+    this.setPadding()
+    this.setType()
 
-    const nodeSize = this.members.length && this.members[0].getKeyShape().getCanvasBBox().width / 2
-    this.padding = this.cfg.padding > 0 ? this.cfg.padding + nodeSize : 10 + nodeSize;
-    this.cfg.bubbleCfg = {
-      nodeR0: this.padding - nodeSize,
-      nodeR1: this.padding - nodeSize,
-      morphBuffer: this.padding - nodeSize
-    }
     this.path = this.calcPath(this.members, this.nonMembers)
     this.render()
-
-    if (this.cfg.update && this.cfg.update !== 'none') {
-      graph.on('afterremoveitem', e => {
-        this.removeMember(e.item)
-        this.removeNonMember(e.item)
-      })
-      if (this.cfg.update === 'auto') {
-        graph.on('afterupdateitem', e => {
-          if (this.members.indexOf(e.item) > -1 || this.nonMembers.indexOf(e.item) > -1) {
-            this.updateData(this.members, this.nonMembers)
-          }
-        })
-      } else if (this.cfg.update === 'drag') { // 允许拖拽调整hull的成员
-        graph.on('node:dragend', e => {
-          const item = e.item;
-          const memberIdx = this.members.indexOf(item)
-          if (memberIdx > -1) {
-            // 如果移出原hull范围，则去掉
-            if (!this.contain(item)) {
-              this.removeMember(item)
-            }
-            else {
-              this.updateData(this.members, this.nonMembers)
-            }
-          } else {
-            if (this.contain(item)) this.addMember(item)
-          }
-        })
-      }
-    }
   }
 
   public getDefaultCfg(): HullCfg {
     return {
       id: 'g6-hull',
       type: 'round-convex', // 'round-convex' /'smooth-convex' / 'bubble'
-      name: 'g6-hull',
       members: [],
       nonMembers: [],
       style: {
@@ -82,20 +53,34 @@ export default class Hull {
         stroke: 'blue',
         opacity: 0.2,
       },
-      update: 'auto',
       padding: 10,
+    }
+  }
+
+  setPadding() {
+    const nodeSize = this.members.length && this.members[0].getKeyShape().getCanvasBBox().width / 2
+    this.padding = this.cfg.padding > 0 ? this.cfg.padding + nodeSize : 10 + nodeSize;
+    this.cfg.bubbleCfg = {
+      nodeR0: this.padding - nodeSize,
+      nodeR1: this.padding - nodeSize,
+      morphBuffer: this.padding - nodeSize
+    }
+  }
+
+  setType() {
+    this.type = this.cfg.type
+    if (this.members.length < 3) {
+      this.type = 'round-convex'
+    }
+    if (this.type !== 'round-convex' && this.type !== 'smooth-convex' && this.type !== 'bubble') {
+      console.warn('The hull type should be either round-convex, smooth-convex or bubble, round-convex is used by default.')
+      this.type = 'round-convex'
     }
   }
 
   calcPath(members: Item[], nonMembers: Item[]) {
     let contour, path, hull;
-    let type = this.cfg.type
-
-    if (members.length < 3) {
-      type = 'round-convex'
-    }
-
-    switch (type) {
+    switch (this.type) {
       case 'round-convex':
         contour = genConvexHull(members)
         hull = roundedHull(contour.map(p => [p.x, p.y]), this.padding)
@@ -110,9 +95,6 @@ export default class Hull {
         contour = genBubbleSet(members, nonMembers, this.cfg.bubbleCfg)
         path = contour.length >= 2 && getClosedSpline(contour)
         break;
-      default:
-        console.warn('Set type to round-convex, smooth-convex or bubble.')
-        path = []
     }
     return path
   }
@@ -124,7 +106,7 @@ export default class Hull {
         ...this.cfg.style
       },
       id: this.id,
-      name: this.cfg.name,
+      name: this.cfg.id,
     })
     this.group.toBack()
   }
@@ -134,8 +116,9 @@ export default class Hull {
    * @param item 节点实例
    * @return boolean 添加成功返回 true，否则返回 false
    */
-  public addMember(item: Item): boolean {
+  public addMember(item: Item | string): boolean {
     if (!item) return;
+    if (isString(item)) item = this.graph.findById(item)
     this.members.push(item)
     const index = this.nonMembers.indexOf(item);
     if (index > -1) {
@@ -150,8 +133,9 @@ export default class Hull {
    * @param item 节点实例
    * @return boolean 添加成功返回 true，否则返回 false
    */
-  public addNonMember(item: Item): boolean {
+  public addNonMember(item: Item | string): boolean {
     if (!item) return;
+    if (isString(item)) item = this.graph.findById(item)
     this.nonMembers.push(item)
     const index = this.members.indexOf(item);
     if (index > -1) {
@@ -166,8 +150,9 @@ export default class Hull {
   * @param node 节点实例
   * @return boolean 移除成功返回 true，否则返回 false
   */
-  public removeMember(item: Item): boolean {
+  public removeMember(item: Item | string): boolean {
     if (!item) return;
+    if (isString(item)) item = this.graph.findById(item)
     const index = this.members.indexOf(item);
     if (index > -1) {
       this.members.splice(index, 1);
@@ -181,8 +166,9 @@ export default class Hull {
   * @param node 节点实例
   * @return boolean 移除成功返回 true，否则返回 false
   */
-  public removeNonMember(item: Item): boolean {
+  public removeNonMember(item: Item | string): boolean {
     if (!item) return;
+    if (isString(item)) item = this.graph.findById(item)
     const index = this.nonMembers.indexOf(item);
     if (index > -1) {
       this.nonMembers.splice(index, 1);
@@ -192,11 +178,11 @@ export default class Hull {
     return false;
   }
 
-  public updateData(members: Item[], nonMembers: Item[]) {
+  public updateData(members: Item[] | string[], nonMembers: string[] | Item[]) {
     this.group.findById(this.id).remove()
-    this.members = members
-    this.nonMembers = nonMembers
-    this.path = this.calcPath(members, nonMembers)
+    if (members) this.members = (members as any[]).map(item => isString(item) ? this.graph.findById(item) : item)
+    if (nonMembers) this.nonMembers = (nonMembers as any[]).map(item => isString(item) ? this.graph.findById(item) : item)
+    this.path = this.calcPath(this.members, this.nonMembers)
     this.render()
   }
 
@@ -205,6 +191,22 @@ export default class Hull {
     path.attr({
       ...cfg
     });
+  }
+
+  public updateCfg(cfg: Partial<HullCfg>) {
+    this.cfg = deepMix(this.cfg, cfg)
+    this.id = this.cfg.id
+    this.group = this.cfg.group
+    if (cfg.members) {
+      this.members = this.cfg.members.map(item => isString(item) ? this.graph.findById(item) : item)
+    }
+    if (cfg.nonMembers) {
+      this.nonMembers = this.cfg.nonMembers.map(item => isString(item) ? this.graph.findById(item) : item)
+    }
+    this.setPadding()
+    this.setType()
+    this.path = this.calcPath(this.members, this.nonMembers)
+    this.render()
   }
 
   /**
