@@ -115,11 +115,11 @@ export default class Menu extends Base {
     } else {
       menuDom.innerHTML = menu.outerHTML
     }
+    // 清除之前监听的事件
+    this.removeMenuEventListener()
 
     const handleMenuClick = this.get('handleMenuClick')
     if (handleMenuClick) {
-      this.removeMenuEventListener()
-
       const handleMenuClickWrapper = (evt) => {
         handleMenuClick(evt.target, e.item)
       }
