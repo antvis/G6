@@ -13,6 +13,12 @@ import CustomCardNode from './component/card-node'
 import ExtendNode from './component/extend-node';
 import LostStateStyle from './component/loseStateStyle'
 import HideInData from './component/hide-in-data';
+import IntervalChart from './component/interval-chart'
+import LineChart from './component/line-chart'
+import PointChart from './component/point-chart'
+import PieChart from './component/pie-chart'
+import MultiChart from './component/multi-chart'
+
 
 export default { title: 'Shape' };
 
@@ -48,3 +54,8 @@ storiesOf('Shape', module)
   .add('extend-node', () => <ExtendNode />)
   .add('lose state style', () => <LostStateStyle />)
   .add('hide by data', () => <HideInData />)
+  .add('IntervalChart', () => <IntervalChart />)
+  .add('LineChart', () => <LineChart />)
+  .add('PointChart', () => <PointChart />)
+  .add('PieChart', () => <PieChart />)
+  .add('MultiChart', () => <MultiChart />)
