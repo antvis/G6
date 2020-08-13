@@ -118,6 +118,8 @@ export default class Menu extends Base {
 
     const handleMenuClick = this.get('handleMenuClick')
     if (handleMenuClick) {
+      this.removeMenuEventListener()
+
       const handleMenuClickWrapper = (evt) => {
         handleMenuClick(evt.target, e.item)
       }
@@ -161,6 +163,20 @@ export default class Menu extends Base {
     this.set('handler', handler);
   }
 
+  private removeMenuEventListener() {
+    const handleMenuClickWrapper = this.get('handleMenuClickWrapper');
+    const handler = this.get('handler');
+
+    if (handleMenuClickWrapper) {
+      const menuDom = this.get('menu')
+      menuDom.removeEventListener('click', handleMenuClickWrapper);
+      this.set('handleMenuClickWrapper', null);
+    }
+    if (handler) {
+      document.body.removeEventListener('click', handler);
+    }
+  }
+
   private onMenuHide() {
     const menuDom = this.get('menu')
     if (menuDom) {
@@ -168,22 +184,13 @@ export default class Menu extends Base {
     }
 
     // 隐藏菜单后需要移除事件监听
-    document.body.removeEventListener('click', this.get('handler'));
-
-    const handleMenuClickWrapper = this.get('handleMenuClickWrapper');
-    if (handleMenuClickWrapper) {
-      menuDom.removeEventListener('click', handleMenuClickWrapper);
-    }
+    this.removeMenuEventListener()
   }
 
   public destroy() {
     const menu = this.get('menu')
-    const handler = this.get('handler');
+    this.removeMenuEventListener()
 
-    const handleMenuClickWrapper = this.get('handleMenuClickWrapper');
-    if (handleMenuClickWrapper) {
-      menu.removeEventListener('click', handleMenuClickWrapper);
-    }
 
     if (menu) {
       let container: HTMLDivElement | null = this.get('container');
@@ -191,10 +198,6 @@ export default class Menu extends Base {
         container = this.get('graph').get('container');
       }
       container.removeChild(menu);
-    }
-
-    if (handler) {
-      document.body.removeEventListener('click', handler);
     }
   }
 }
