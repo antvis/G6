@@ -474,7 +474,7 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
       const lastTarget = structures[cfg.id].pop();
       const diff = compareTwoTarget(target, lastTarget);
       const addShape = node => {
-        const shape = container.addShape(node.type, { attrs: node.attrs });
+        container.addShape(node.type, { attrs: node.attrs });
         if (node.children?.length) {
           node.children.map(e => addShape(e))
         }
