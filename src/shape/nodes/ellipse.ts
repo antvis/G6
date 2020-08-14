@@ -54,7 +54,7 @@ Shape.registerNode(
     // 文本位置
     labelPosition: 'center',
     drawShape(cfg: NodeConfig, group: GGroup): IShape {
-      const { icon } = this.getOptions(cfg) as NodeConfig;
+      const { icon = {} } = this.getOptions(cfg) as NodeConfig;
       const style = this.getShapeStyle!(cfg);
 
       const keyShape = group.addShape('ellipse', {
@@ -88,7 +88,7 @@ Shape.registerNode(
      * @param {Group} group Group实例
      */
     drawLinkPoints(cfg: NodeConfig, group: GGroup) {
-      const { linkPoints } = this.getOptions(cfg) as NodeConfig;
+      const { linkPoints = {} } = this.getOptions(cfg) as NodeConfig;
 
       const { top, left, right, bottom, size: markSize, r: markR, ...markStyle } = linkPoints;
       const size = this.getSize!(cfg);

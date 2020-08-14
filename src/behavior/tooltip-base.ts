@@ -32,7 +32,7 @@ export default {
   },
   showTooltip(e: IG6GraphEvent) {
     let { container } = this;
-    if (!e.item) {
+    if (!e.item || e.item.destroyed) {
       return;
     }
 

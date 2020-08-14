@@ -9,6 +9,10 @@ const data = {
     {
       id: '1',
       name: 'name1',
+      type: 'test-rect',
+      style: {
+        fill: 'red'
+      }
     },
     {
       id: '2',
@@ -75,6 +79,15 @@ const data = {
   ],
 };
 
+G6.registerNode('test-rect', {
+  options: {
+    // linkPoints: {}
+  },
+  afterDraw (cfg, group) {
+    console.log('draw done')
+  }
+}, 'star');
+
 const Polyline = () => {
   const container = React.useRef();
 
@@ -96,7 +109,11 @@ const Polyline = () => {
           type: 'polyline',
           style: {
             radius: 20,
-            endArrow: true,
+            endArrow: {
+              path: G6.Arrow.triangle(15, 20, 10),
+              d: 20,
+              fill: '#A3B1BF'
+            },
             lineWidth: 2,
             stroke: '#C2C8D5',
           },
@@ -106,12 +123,39 @@ const Polyline = () => {
             clockwise: true,
           },
         },
+        edgeStateStyles: {
+          hover: {
+            stroke: '#1890ff',
+            lineWidth: 2,
+            endArrow: {
+              path: G6.Arrow.triangle(45, 45, 10),
+              d: 34,
+              fill: 'red'
+            }
+          },
+          selected: {
+            stroke: 'green'
+          }
+        },
         modes: {
           default: ['drag-node'],
         },
       });
       graph.data(data);
       graph.render();
+
+      graph.on('edge:mouseenter', evt => {
+        const { item } = evt;
+        graph.setItemState(item, 'selected', true)
+        graph.setItemState(item, 'hover', true)
+      });
+      
+      graph.on('edge:mouseleave', evt => {
+        const { item } = evt;
+        graph.setItemState(item, 'hover', false);
+        graph.setItemState(item, 'selected', false)
+      });
+      
     }
   });
 
