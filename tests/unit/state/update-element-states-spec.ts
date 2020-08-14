@@ -323,7 +323,7 @@ describe('update', () => {
     graph.render();
 
     const item = graph.findById('node1')
-    debugger
+    
     graph.setItemState(item, 'hover', true)
     graph.setItemState(item, 'comCircle', 'selected')
     expect(item.hasState('hover')).toBe(true)

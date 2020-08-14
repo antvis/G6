@@ -52,7 +52,7 @@ Shape.registerNode(
     // 文本位置
     labelPosition: 'center',
     drawShape(cfg: NodeConfig, group: GGroup): IShape {
-      const { icon: defaultIcon } = this.getOptions(cfg) as NodeConfig;
+      const { icon: defaultIcon = {} } = this.getOptions(cfg) as NodeConfig;
       const style = this.getShapeStyle!(cfg);
       const icon = deepMix({}, defaultIcon, cfg.icon);
       const keyShape: IShape = group.addShape('circle', {
@@ -63,7 +63,7 @@ Shape.registerNode(
 
       const { width, height, show } = icon;
       if (show) {
-        const image = group.addShape('image', {
+        group.addShape('image', {
           attrs: {
             x: -width / 2,
             y: -height / 2,
@@ -85,7 +85,7 @@ Shape.registerNode(
      * @param {Group} group Group实例
      */
     drawLinkPoints(cfg: NodeConfig, group: GGroup) {
-      const { linkPoints } = this.getOptions(cfg) as NodeConfig;
+      const { linkPoints = {} } = this.getOptions(cfg) as NodeConfig;
 
       const { top, left, right, bottom, size: markSize, r: markR, ...markStyle } = linkPoints;
       const size = this.getSize!(cfg);
