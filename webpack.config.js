@@ -28,6 +28,7 @@ module.exports = {
             options: {
               inline: 'fallback',
               filename: 'g6Layout.worker.js',
+              esModule: false,
             },
           },
         ],
