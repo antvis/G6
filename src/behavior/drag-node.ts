@@ -37,7 +37,7 @@ export default {
     };
   },
   validationCombo(item: ICombo) {
-    if (!this.origin || !item) {
+    if (!this.origin || !item || item.destroyed) {
       return false;
     }
 
@@ -57,7 +57,7 @@ export default {
     }
 
     const item: INode = evt.item as INode;
-    if (!item || item.hasLocked()) {
+    if (!item || item.destroyed || item.hasLocked()) {
       return;
     }
 

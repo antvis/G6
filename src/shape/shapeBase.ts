@@ -12,6 +12,7 @@ import { deepMix, each, mix, isBoolean, isPlainObject, clone } from '@antv/util'
 
 const CLS_SHAPE_SUFFIX = '-shape';
 const CLS_LABEL_SUFFIX = '-label';
+const ARROWS = ['startArrow', 'endArrow']
 export const CLS_LABEL_BG_SUFFIX = '-label-bg';
 
 // 单个 shape 带有一个 label，共用这段代码
@@ -308,7 +309,7 @@ export const shapeBase: ShapeOptions = {
       // style 为要设置的状态的样式
       for (const key in styles) {
         const style = styles[key];
-        if (isPlainObject(style)) {
+        if (isPlainObject(style) && !ARROWS.includes(key)) {
           const subShape = group.find((element) => element.get('name') === key);
           if (subShape) {
             subShape.attr(style);
@@ -339,7 +340,7 @@ export const shapeBase: ShapeOptions = {
       // style 为要取消的状态的样式
       for (const p in styles) {
         const style = styles[p];
-        if (isPlainObject(style)) {
+        if (isPlainObject(style) && !ARROWS.includes(p)) {
           const subShape = group.find((element) => element.get('name') === p);
           if (subShape) {
             const subShapeStyles = subShape.attr();
@@ -371,7 +372,7 @@ export const shapeBase: ShapeOptions = {
 
       for (const key in enableStatesStyle) {
         const enableStyle = enableStatesStyle[key];
-        if (!isPlainObject(enableStyle)) {
+        if (!isPlainObject(enableStyle) || ARROWS.includes(key)) {
           // 把样式属性merge到keyShape中
           if (!keyShapeName) {
             mix(originStyle, {
@@ -392,7 +393,7 @@ export const shapeBase: ShapeOptions = {
 
       for (const originKey in originstyles) {
         const style = originstyles[originKey];
-        if (isPlainObject(style)) {
+        if (isPlainObject(style) && !ARROWS.includes(originKey)) {
           const subShape = group.find((element) => element.get('name') === originKey);
           if (subShape) {
             subShape.attr(style);
