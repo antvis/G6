@@ -470,15 +470,6 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
 
       return keyshape;
     },
-    setState(name, value, node) {
-      const cfg = Object.assign({}, node.get('model') || {});
-      // 根据状态构造style
-      if (value && cfg.style && cfg.style[name]) {
-        cfg.style = { ...cfg.style, ...cfg.style[name] }
-      }
-      // 根据上下文更新
-      this.update(cfg, node);
-    },
     update(cfg, node) {
       if (!structures[cfg.id]) {
         structures[cfg.id] = []
