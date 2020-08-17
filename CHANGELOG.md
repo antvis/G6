@@ -1,5 +1,10 @@
 # ChangeLog
 
+#### 3.6.2
+
+- fix: polyline with rect and radius=0 problem;
+- chore: update hierarchy to solve the children ordering problem for indented tree layout.
+
 #### 3.6.1-beta
 
 - chore: update g-canvas to support quickHit and pruning the rendering of the graph outside the viewport;
