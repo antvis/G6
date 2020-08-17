@@ -176,6 +176,9 @@ export const detectAllDirectedCycle = (graph: IGraph, nodeIds?: string[], includ
   const blocked = new Set();
   const B = []; // remember portions of the graph that yield no elementary circuit
   const allCycles = [];
+  const idx2Node = {};
+  const node2Idx = {};
+
   // 辅助函数： unblock all blocked nodes
   const unblock = (thisNode) => {
     const stack = [thisNode];
@@ -192,8 +195,6 @@ export const detectAllDirectedCycle = (graph: IGraph, nodeIds?: string[], includ
   };
 
   const circuit = (node, start, adjList) => {
-    const idx2Node = {};
-    const node2Idx = {};
     let closed = false; // whether a path is closed
     if (nodeIds && include === false && nodeIds.indexOf(node.get('id')) > -1) return closed;
     path.push(node);
