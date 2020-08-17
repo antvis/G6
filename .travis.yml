@@ -1,16 +1,10 @@
 language: node_js
 
 node_js:
-  - '10'
+  - '12'
 
 env:
   - NODE_ENV=test
-
-addons:
-  apt:
-    packages:
-      - xvfb
-      - libgconf-2-4
 
 install:
   - export DISPLAY=':99.0'
@@ -18,4 +12,13 @@ install:
   - npm install
 
 script:
-  - npm run ci && cat ./coverage/lcov.info | rm -rf ./coverage
+  - |
+    if [ "$TEST_TYPE" = test ]; then
+      npm run ci && cat ./coverage/lcov.info | rm -rf ./coverage
+    else
+      npm run $TEST_TYPE
+    fi
+env:
+  matrix:
+    - TEST_TYPE=lint
+    - TEST_TYPE=test
