@@ -28,6 +28,16 @@ interface TrendConfig {
   readonly areaStyle?: ShapeStyle;
 }
 
+interface ExtendedTrendConfig {
+  readonly data: number[];
+  // 样式
+  readonly smooth?: boolean;
+  readonly isArea?: boolean;
+  readonly backgroundStyle?: ShapeStyle;
+  readonly lineStyle?: ShapeStyle;
+  readonly areaStyle?: ShapeStyle;
+}
+
 type TimeBarOption = Partial<{
   // position size
   readonly x: number;
@@ -55,6 +65,8 @@ type TimeBarOption = Partial<{
   readonly maxText: string;
 
   readonly trend: TrendConfig;
+
+  readonly trendCfg: ExtendedTrendConfig;
 }>;
 
 interface TimeBarConfig extends IPluginBaseConfig {

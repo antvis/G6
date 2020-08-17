@@ -6,25 +6,18 @@ import { isNaN } from '../../util/base';
 import { IGraph } from '../../interface/graph';
 import { path2Absolute } from '@antv/path-util';
 
+// eslint-disable-next-line @typescript-eslint/no-implied-eval
+const mockRaf = (cb: TimerHandler) => setTimeout(cb, 16);
+const mockCaf = (reqId: number) => clearTimeout(reqId);
+
 const helper = {
   // pollyfill
   requestAnimationFrame(callback: FrameRequestCallback) {
-    const fn =
-      window.requestAnimationFrame ||
-      window.webkitRequestAnimationFrame ||
-      function setTimeout(cb: TimerHandler) {
-        // eslint-disable-next-line
-        return setTimeout(cb, 16);
-      };
+    const fn = window.requestAnimationFrame || window.webkitRequestAnimationFrame || mockRaf;
     return fn(callback);
   },
   cancelAnimationFrame(requestId: number) {
-    const fn =
-      window.cancelAnimationFrame ||
-      window.webkitCancelAnimationFrame ||
-      function clearTimeout(reqId: number) {
-        return clearTimeout(reqId);
-      };
+    const fn = window.cancelAnimationFrame || window.webkitCancelAnimationFrame || mockCaf;
     return fn(requestId);
   },
 };
