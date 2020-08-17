@@ -53,7 +53,7 @@ const graph = new G6.Graph({
       'drag-node',
       {
         type: 'drag-canvas',
-        enableOptimize: true // enable the optimize to hide the shapes beside nodes' keyShape
+        enableOptimize: true, // enable the optimize to hide the shapes beside nodes' keyShape
       },
     ],
   },
@@ -75,13 +75,13 @@ const graph = new G6.Graph({
   nodeStateStyles: {
     yourStateName: {
       stroke: '#f00',
-      lineWidth: 3
+      lineWidth: 3,
     },
   },
   edgeStateStyles: {
     yourStateName: {
       stroke: '#f00',
-      lineWidth: 3
+      lineWidth: 3,
     },
   },
 });

@@ -514,21 +514,20 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) =
 
   // proccess the nodes
   const nodeMap = {};
-  nodes &&
-    nodes.forEach((node) => {
-      nodeMap[node.id] = node;
-      const combo = addedMap[node.comboId as string];
-      if (combo) {
-        const cnode: NodeConfig = {
-          id: node.id,
-          comboId: node.comboId as string,
-        };
-        if (combo.children) combo.children.push(cnode);
-        else combo.children = [cnode];
-        cnode.itemType = 'node';
-        addedMap[node.id] = cnode;
-      }
-    });
+  (nodes || []).forEach((node) => {
+    nodeMap[node.id] = node;
+    const combo = addedMap[node.comboId as string];
+    if (combo) {
+      const cnode: NodeConfig = {
+        id: node.id,
+        comboId: node.comboId as string,
+      };
+      if (combo.children) combo.children.push(cnode);
+      else combo.children = [cnode];
+      cnode.itemType = 'node';
+      addedMap[node.id] = cnode;
+    }
+  });
 
   // assign the depth for each element
   result.forEach((tree: ComboTree) => {
@@ -571,40 +570,39 @@ export const reconstructTree = (
   };
   let foundSubTree = false;
   let oldParentId = 'root';
-  trees &&
-    trees.forEach((tree) => {
-      if (foundSubTree) return;
-      if (tree.id === subtreeId) {
-        subtree = tree;
-        if (tree.itemType === 'combo') {
+  (trees || []).forEach((tree) => {
+    if (foundSubTree) return;
+    if (tree.id === subtreeId) {
+      subtree = tree;
+      if (tree.itemType === 'combo') {
+        subtree.parentId = newParentId;
+      } else {
+        subtree.comboId = newParentId;
+      }
+      foundSubTree = true;
+      return;
+    }
+    traverseTree<ComboTree>(tree, (child: any) => {
+      comboChildsMap[child.id] = {
+        children: child.children,
+      };
+      // store the old parent id to delete the subtree from the old parent's children in next recursion
+      brothers = comboChildsMap[child.parentId || child.comboId || 'root'].children;
+      if (child && (child.removed || subtreeId === child.id) && brothers) {
+        oldParentId = child.parentId || child.comboId || 'root';
+        subtree = child;
+        // re-assign the parentId or comboId for the moved subtree
+        if (child.itemType === 'combo') {
           subtree.parentId = newParentId;
         } else {
           subtree.comboId = newParentId;
         }
         foundSubTree = true;
-        return;
+        return false;
       }
-      traverseTree<ComboTree>(tree, (child: any) => {
-        comboChildsMap[child.id] = {
-          children: child.children,
-        };
-        // store the old parent id to delete the subtree from the old parent's children in next recursion
-        brothers = comboChildsMap[child.parentId || child.comboId || 'root'].children;
-        if (child && (child.removed || subtreeId === child.id) && brothers) {
-          oldParentId = child.parentId || child.comboId || 'root';
-          subtree = child;
-          // re-assign the parentId or comboId for the moved subtree
-          if (child.itemType === 'combo') {
-            subtree.parentId = newParentId;
-          } else {
-            subtree.comboId = newParentId;
-          }
-          foundSubTree = true;
-          return false;
-        }
-        return true;
-      });
+      return true;
     });
+  });
 
   brothers = comboChildsMap[oldParentId].children;
   const index = brothers ? brothers.indexOf(subtree) : -1;
@@ -629,23 +627,22 @@ export const reconstructTree = (
     // newParentId is undefined means the subtree will have no parent
     if (newParentId) {
       let newParentDepth = 0;
-      trees &&
-        trees.forEach((tree) => {
-          if (found) return; // terminate
-          traverseTree<ComboTree>(tree, (child: any) => {
-            // append subtree to the new parent ans assign the depth to the subtree
-            if (newParentId === child.id) {
-              found = true;
-              if (child.children) child.children.push(subtree);
-              else child.children = [subtree];
-              newParentDepth = child.depth;
-              if (subtree.itemType === 'node') subtree.depth = newParentDepth + 2;
-              else subtree.depth = newParentDepth + 1;
-              return false; // terminate
-            }
-            return true;
-          });
+      (trees || []).forEach((tree) => {
+        if (found) return; // terminate
+        traverseTree<ComboTree>(tree, (child: any) => {
+          // append subtree to the new parent ans assign the depth to the subtree
+          if (newParentId === child.id) {
+            found = true;
+            if (child.children) child.children.push(subtree);
+            else child.children = [subtree];
+            newParentDepth = child.depth;
+            if (subtree.itemType === 'node') subtree.depth = newParentDepth + 2;
+            else subtree.depth = newParentDepth + 1;
+            return false; // terminate
+          }
+          return true;
         });
+      });
     } else if ((!newParentId || !found) && subtree.itemType !== 'node') {
       // if the newParentId is undefined or it is not found in the tree, add the subTree to the root
       trees.push(subtree);

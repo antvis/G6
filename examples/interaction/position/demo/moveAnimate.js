@@ -74,7 +74,7 @@ function handleNodeClick(event) {
   // the second parameter controlls whether move with animation, the third parameter is the animate configuration
   graph.focusItem(item, true, {
     easing: 'easeCubic',
-    duration: 500
+    duration: 500,
   });
 }
 

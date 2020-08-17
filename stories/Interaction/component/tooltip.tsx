@@ -50,21 +50,21 @@ const Tooltip = () => {
         width: 500,
         height: 500,
         modes: {
-          default: ['drag-canvas', 'zoom-canvas', 'tooltip', 'edge-tooltip']
-        }
+          default: ['drag-canvas', 'zoom-canvas', 'tooltip', 'edge-tooltip'],
+        },
       });
       graph.data(data);
       graph.render();
-      graph.on('node:click', e => {
-        graph.destroy()
-      })
-      graph.on('edge:click', e => {
-        graph.destroy()
-      })
-      graph.on('keydown', e => {
+      graph.on('node:click', (e) => {
+        graph.destroy();
+      });
+      graph.on('edge:click', (e) => {
+        graph.destroy();
+      });
+      graph.on('keydown', (e) => {
         console.log('key down');
       });
-      graph.on('keyup', e => {
+      graph.on('keyup', (e) => {
         console.log('key up');
       });
     }

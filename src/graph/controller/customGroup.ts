@@ -1,4 +1,3 @@
-
 /*
  * @Author: moyee
  * @Date: 2019-07-30 12:10:26
@@ -16,7 +15,7 @@ import { IGraph } from '../../interface/graph';
 import { IEdge, INode } from '../../interface/item';
 import { traverseTree } from '../../util/graphic';
 
-let treeGroup = null
+let treeGroup = null;
 
 interface ICustomGroup {
   nodeGroup: IGroup;
@@ -146,7 +145,7 @@ export default class CustomGroup {
   ) {
     const { graph } = this;
     const customGroup: IGroup = graph.get('customGroup');
-    const hasGroupIds: string[] = customGroup.get('children').map(data => data.get('id'));
+    const hasGroupIds: string[] = customGroup.get('children').map((data) => data.get('id'));
 
     if (hasGroupIds.indexOf(groupId) > -1) {
       // eslint-disable-next-line no-console
@@ -174,7 +173,7 @@ export default class CustomGroup {
     if (updateDataModel) {
       const groups = graph.get('groups');
       // 如果是手动创建group，则原始数据中是没有groupId信息的，需要将groupId添加到node中
-      nodes.forEach(nodeId => {
+      nodes.forEach((nodeId) => {
         const node = graph.findById(nodeId);
         const model = node.getModel();
         if (!model.groupId) {
@@ -183,7 +182,7 @@ export default class CustomGroup {
       });
 
       // 如果是手动创建 group，则将 group 也添加到 groups 中
-      if (!groups.find(data => data.id === groupId)) {
+      if (!groups.find((data) => data.id === groupId)) {
         groups.push({
           id: groupId,
           title,
@@ -194,7 +193,7 @@ export default class CustomGroup {
       }
     }
 
-    const groupData = graph.get('groups').filter(data => data.id === groupId);
+    const groupData = graph.get('groups').filter((data) => data.id === groupId);
 
     if (groupData && groupData.length > 0) {
       groupTitle = groupData[0].title;
@@ -230,7 +229,6 @@ export default class CustomGroup {
       // 更新群组及属性样式
       this.setDeletageGroupByStyle(groupId, nodeGroup, { width, height, x: cx, y: cy, r: lastR });
     } else {
-
       const rectPadding = paddingValue * defaultStyle.disCoefficient;
 
       keyShape = nodeGroup.addShape('rect', {
@@ -304,7 +302,7 @@ export default class CustomGroup {
     } else {
       styles = deepMix({}, defaultStyle, style);
     }
-    Object.keys(styles).forEach(s => {
+    Object.keys(styles).forEach((s) => {
       keyShape.attr(s, styles[s]);
     });
   }
@@ -340,7 +338,7 @@ export default class CustomGroup {
     let maxy = -Infinity;
 
     // 获取已节点的所有最大最小x y值
-    nodes.forEach(id => {
+    nodes.forEach((id) => {
       const element = isString(id) ? graph.findById(id) : id;
       const bbox = element.getBBox();
       const { minX, minY, maxX, maxY } = bbox;
@@ -376,25 +374,25 @@ export default class CustomGroup {
   }
 
   /**
-  * 扁平的数据格式转成树形
-  * @param {array} data 扁平结构的数据
-  * @param {string} value 树状结构的唯一标识
-  * @param {string} parentId 父节点的键值
-  * @return {array} 转成的树形结构数据
-  */
+   * 扁平的数据格式转成树形
+   * @param {array} data 扁平结构的数据
+   * @param {string} value 树状结构的唯一标识
+   * @param {string} parentId 父节点的键值
+   * @return {array} 转成的树形结构数据
+   */
   public flatToTree(data, value = 'id', parentId = 'parentId') {
     const children = 'children';
     const valueMap = [];
     const tree = [];
 
-    data.forEach(v => {
+    data.forEach((v) => {
       valueMap[v[value]] = v;
     });
 
-    data.forEach(v => {
+    data.forEach((v) => {
       const parent = valueMap[v[parentId]];
       if (parent) {
-        !parent[children] && (parent[children] = []);
+        parent[children] = parent[children] || [];
         parent[children].push(v);
       } else {
         tree.push(v);
@@ -410,37 +408,36 @@ export default class CustomGroup {
    * @return {number} 在x和y方向上的偏移值
    */
   public getGroupPadding(groupId: string): number {
-
     const { graph } = this;
     const { default: defaultStyle } = this.styles;
     // 检测操作的群组中是否包括子群组
     const groups = graph.get('groups');
 
-
     // 计算每个 groupId 包含的组的数量
-    const currentGroups = groups.filter(g => g.parentId === groupId)
+    const currentGroups = groups.filter((g) => g.parentId === groupId);
 
-    let count = 1
+    let count = 1;
     if (currentGroups.length > 0) {
       if (!treeGroup) {
-        treeGroup = this.flatToTree(groups)
+        treeGroup = this.flatToTree(groups);
       }
 
       traverseTree(treeGroup[0], (param) => {
         if (param.parentId === groupId && param.children) {
-          count += param.children.length
-          return true
+          count += param.children.length;
+          return true;
         }
-      })
+      });
     }
 
-
-    const big = groups.filter(g => g.id === groupId && !g.parentId)
+    const big = groups.filter((g) => g.id === groupId && !g.parentId);
     if (big.length > 0) {
-      count += 1
+      count += 1;
     }
-    const hasSubGroup = !!(groups.filter(g => g.parentId === groupId).length > 0);
-    const paddingValue = hasSubGroup ? defaultStyle.maxDis + (count > 1 ? count / 2 : 1) * 30 : defaultStyle.minDis;
+    const hasSubGroup = !!(groups.filter((g) => g.parentId === groupId).length > 0);
+    const paddingValue = hasSubGroup
+      ? defaultStyle.maxDis + (count > 1 ? count / 2 : 1) * 30
+      : defaultStyle.minDis;
     return paddingValue;
   }
 
@@ -522,7 +519,7 @@ export default class CustomGroup {
       graphNodes[groupId].push(tmpNodeId);
     }
     // 获取groupId的父群组
-    const parentGroup = groups.filter(g => g.id === groupId);
+    const parentGroup = groups.filter((g) => g.id === groupId);
     let parentId = null;
     if (parentGroup.length > 0) {
       // eslint-disable-next-line prefer-destructuring
@@ -556,7 +553,7 @@ export default class CustomGroup {
     const keyShape = nodeGroup.get('keyShape');
     const { r, width, height, offsetX, offsetY, ...otherStyle } = collapse;
 
-    Object.keys(otherStyle).forEach(style => {
+    Object.keys(otherStyle).forEach((style) => {
       keyShape.attr(style, otherStyle[style]);
     });
 
@@ -571,7 +568,7 @@ export default class CustomGroup {
       type: 'circle',
     };
 
-    const titleShape = nodeGroup.find(element => element.get('className') === 'group-title');
+    const titleShape = nodeGroup.find((element) => element.get('className') === 'group-title');
 
     // 收起群组时候动画
     if (groupType === 'circle') {
@@ -614,25 +611,25 @@ export default class CustomGroup {
 
     const edges = graph.getEdges();
     // 获取所有source在群组外，target在群组内的边
-    const sourceOutTargetInEdges = edges.filter(edge => {
+    const sourceOutTargetInEdges = edges.filter((edge) => {
       const model = edge.getModel();
       return !nodesInGroup.includes(model.source) && nodesInGroup.includes(model.target);
     });
 
     // 获取所有source在群组外，target在群组内的边
-    const sourceInTargetOutEdges = edges.filter(edge => {
+    const sourceInTargetOutEdges = edges.filter((edge) => {
       const model = edge.getModel();
       return nodesInGroup.includes(model.source) && !nodesInGroup.includes(model.target);
     });
 
     // 获取群组中节点之间的所有边
-    const edgeAllInGroup = edges.filter(edge => {
+    const edgeAllInGroup = edges.filter((edge) => {
       const model = edge.getModel();
       return nodesInGroup.includes(model.source) && nodesInGroup.includes(model.target);
     });
 
     // 隐藏群组中的所有节点
-    nodesInGroup.forEach(nodeId => {
+    nodesInGroup.forEach((nodeId) => {
       const node = graph.findById(nodeId);
       const model = node.getModel() as NodeConfig;
       const { groupId } = model;
@@ -645,7 +642,7 @@ export default class CustomGroup {
       node.hide();
     });
 
-    edgeAllInGroup.forEach(edge => {
+    edgeAllInGroup.forEach((edge) => {
       const source = edge.getSource();
       const target = edge.getTarget();
       if (source.isVisible() && target.isVisible()) {
@@ -687,7 +684,7 @@ export default class CustomGroup {
     const { graph } = this;
     // 更新source在外的节点
     const edgesOuts = {};
-    sourceOutTargetInEdges.map(edge => {
+    sourceOutTargetInEdges.map((edge) => {
       const model = edge.getModel();
       const id = edge.get('id');
       const { target } = model;
@@ -700,7 +697,7 @@ export default class CustomGroup {
 
     // 更新target在外的节点
     const edgesIn = {};
-    sourceInTargetOutEdges.map(edge => {
+    sourceInTargetOutEdges.map((edge) => {
       const model = edge.getModel();
       const id = edge.get('id');
       const { source } = model;
@@ -736,18 +733,18 @@ export default class CustomGroup {
 
     // 显示之前隐藏的节点和群组
     const nodesInGroup = graph.get('groupNodes')[id];
-    const noCustomNodes = nodesInGroup.filter(node => node.indexOf('custom-node') === -1);
+    const noCustomNodes = nodesInGroup.filter((node) => node.indexOf('custom-node') === -1);
     const { width, height } = this.calculationGroupPosition(noCustomNodes);
     const { nodeGroup } = this.getDeletageGroupById(id);
     const keyShape = nodeGroup.get('keyShape');
 
     const { default: defaultStyle, collapse } = this.styles;
 
-    Object.keys(defaultStyle).forEach(style => {
+    Object.keys(defaultStyle).forEach((style) => {
       keyShape.attr(style, defaultStyle[style]);
     });
 
-    const titleShape = nodeGroup.find(element => element.get('className') === 'group-title');
+    const titleShape = nodeGroup.find((element) => element.get('className') === 'group-title');
 
     // 检测操作的群组中是否包括子群组
     const paddingValue = this.getGroupPadding(id);
@@ -777,7 +774,7 @@ export default class CustomGroup {
     if (titleShape) {
       // 根据groupId获取group数据，判断是否需要添加title
       let groupTitle = null;
-      const groupData = graph.get('groups').filter(data => data.id === id);
+      const groupData = graph.get('groups').filter((data) => data.id === id);
 
       if (groupData && groupData.length > 0) {
         groupTitle = groupData[0].title;
@@ -810,7 +807,7 @@ export default class CustomGroup {
 
     // 群组动画一会后再显示节点和边
     setTimeout(() => {
-      nodesInGroup.forEach(nodeId => {
+      nodesInGroup.forEach((nodeId) => {
         const node = graph.findById(nodeId);
         const model = node.getModel() as NodeConfig;
         const { groupId } = model;
@@ -830,12 +827,12 @@ export default class CustomGroup {
 
       const edges = graph.getEdges();
       // 获取群组中节点之间的所有边
-      const edgeAllInGroup = edges.filter(edge => {
+      const edgeAllInGroup = edges.filter((edge) => {
         const model = edge.getModel();
         return nodesInGroup.includes(model.source) || nodesInGroup.includes(model.target);
       });
 
-      edgeAllInGroup.forEach(edge => {
+      edgeAllInGroup.forEach((edge) => {
         const source = edge.getSource();
         const target = edge.getTarget();
         if (source.isVisible() && target.isVisible()) {
@@ -855,7 +852,7 @@ export default class CustomGroup {
       } = delegates;
 
       // 恢复source在外的节点
-      sourceOutTargetInEdges.map(edge => {
+      sourceOutTargetInEdges.map((edge) => {
         const edgeId = edge.get('id');
         const sourceOuts = edgesOuts[edgeId];
         graph.updateItem(edge, {
@@ -865,7 +862,7 @@ export default class CustomGroup {
       });
 
       // 恢复target在外的节点
-      sourceInTargetOutEdges.map(edge => {
+      sourceInTargetOutEdges.map((edge) => {
         const edgeId = edge.get('id');
         const sourceIn = edgesIn[edgeId];
         graph.updateItem(edge, {
@@ -892,7 +889,7 @@ export default class CustomGroup {
     nodesInGroup.splice(index, 1);
 
     // 获取groupId的父群组
-    const parentGroup = groups.filter(g => g.id === groupId);
+    const parentGroup = groups.filter((g) => g.id === groupId);
     let parentId = null;
     if (parentGroup.length > 0) {
       // eslint-disable-next-line prefer-destructuring
@@ -924,7 +921,7 @@ export default class CustomGroup {
     const groupNodes = graph.get('groupNodes');
     const nodes = groupNodes[groupId];
     // 删除原群组中node中的groupID
-    nodes.forEach(nodeId => {
+    nodes.forEach((nodeId) => {
       const node = graph.findById(nodeId);
       const model = node.getModel();
       const gId = model.groupId;
@@ -943,7 +940,7 @@ export default class CustomGroup {
     // 删除groups数据中的groupId
     const groups = graph.get('groups');
     if (groups.length > 0) {
-      const filterGroup = groups.filter(group => group.id !== groupId);
+      const filterGroup = groups.filter((group) => group.id !== groupId);
       graph.set('groups', filterGroup);
     }
 
@@ -965,7 +962,7 @@ export default class CustomGroup {
     // 删除groupNodes中的groupId数据
     delete groupNodes[groupId];
     if (parentGroupId) {
-      groupNodes[parentGroupId] = groupNodes[parentGroupId].filter(node => !nodes.includes(node));
+      groupNodes[parentGroupId] = groupNodes[parentGroupId].filter((node) => !nodes.includes(node));
     }
   }
 
@@ -1021,7 +1018,7 @@ export default class CustomGroup {
         const parentGroupNodes = groupNodes[parentGroupId];
 
         groupNodes[parentGroupId] = parentGroupNodes.filter(
-          node => currentGroupNodes.indexOf(node) === -1,
+          (node) => currentGroupNodes.indexOf(node) === -1,
         );
 
         const { x: x1, y: y1, width, height } = this.calculationGroupPosition(
@@ -1031,7 +1028,7 @@ export default class CustomGroup {
         const paddingValue = this.getGroupPadding(parentGroupId);
 
         const groupTitleShape = parentGroup.find(
-          element => element.get('className') === 'group-title',
+          (element) => element.get('className') === 'group-title',
         );
 
         let titleX = 0;
@@ -1129,12 +1126,12 @@ export default class CustomGroup {
     }
 
     // 更新完群组位置后，重新设置群组起始位置
-    otherGroupId.forEach(id => {
+    otherGroupId.forEach((id) => {
       // 更新群组位置
       const { nodeGroup: othergroup } = this.getDeletageGroupById(id);
       const groupKeyShape = othergroup.get('keyShape');
 
-      const noCustomNodes = groupNodes[id].filter(node => node.indexOf('custom-node') === -1);
+      const noCustomNodes = groupNodes[id].filter((node) => node.indexOf('custom-node') === -1);
       const { x, y, width, height } = this.calculationGroupPosition(noCustomNodes, position);
       let titleX = 0;
       let titleY = 0;
@@ -1192,11 +1189,11 @@ export default class CustomGroup {
   public updateGroupTitle(group: IGroup, groupId: string, x: number, y: number) {
     const { graph } = this;
 
-    const groupTitleShape = group.find(element => element.get('className') === 'group-title');
+    const groupTitleShape = group.find((element) => element.get('className') === 'group-title');
 
     if (groupTitleShape) {
       let titleConfig = null;
-      const groupData = graph.get('groups').filter(data => data.id === groupId);
+      const groupData = graph.get('groups').filter((data) => data.id === groupId);
 
       if (groupData && groupData.length > 0) {
         titleConfig = groupData[0].title;
@@ -1243,7 +1240,7 @@ export default class CustomGroup {
       const groupsData = graph.get('groups');
       graph.set(
         'groups',
-        groupsData.filter(gdata => gdata.id !== groupId),
+        groupsData.filter((gdata) => gdata.id !== groupId),
       );
 
       // step 3: 删除原来的群组

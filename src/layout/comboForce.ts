@@ -444,82 +444,81 @@ export default class ComboForce extends BaseLayout {
     const oriComboMap = self.oriComboMap;
     const comboMap: ComboMap = {};
 
-    comboTrees &&
-      comboTrees.forEach((ctree) => {
-        const treeChildren = [];
-        traverseTreeUp<ComboTree>(ctree, (treeNode) => {
-          if (treeNode.itemType === 'node') return true; // skip it
-          if (!oriComboMap[treeNode.id]) return true; // means it is hidden, skip it
-          if (comboMap[treeNode.id] === undefined) {
-            const combo = {
-              name: treeNode.id,
-              cx: 0,
-              cy: 0,
-              count: 0,
-              depth: self.oriComboMap[treeNode.id].depth,
-              children: [],
-            };
-            comboMap[treeNode.id] = combo;
-          }
-          const children = treeNode.children;
-          if (children) {
-            children.forEach((child) => {
-              if (!comboMap[child.id] && !nodeMap[child.id]) return true; // means it is hidden
-              treeChildren.push(child);
-            });
-          }
-          const c = comboMap[treeNode.id];
-          c.cx = 0;
-          c.cy = 0;
-
-          // In order to layout the empty combo, add a virtual node to it
-          if (treeChildren.length === 0) {
-            c.empty = true;
-            const oriCombo = oriComboMap[treeNode.id];
-            const idx = Object.keys(nodeMap).length;
-            const virtualNodeId = `${treeNode.id}-visual-child-${idx}`;
-            const vnode = {
-              id: virtualNodeId,
-              x: oriCombo.x,
-              y: oriCombo.y,
-              depth: c.depth + 1,
-              itemType: 'node',
-            };
-            self.nodes.push(vnode);
-            nodeMap[virtualNodeId] = vnode;
-            nodeIdxMap[virtualNodeId] = idx;
-            c.cx = oriCombo.x;
-            c.cy = oriCombo.y;
-            treeChildren.push(vnode);
-          }
-
-          treeChildren.forEach((child) => {
-            c.count++;
-            if (child.itemType !== 'node') {
-              const childCombo = comboMap[child.id];
-              if (isNumber(childCombo.cx)) c.cx += childCombo.cx;
-              if (isNumber(childCombo.cy)) c.cy += childCombo.cy;
-              return;
-            }
-            const node = nodeMap[child.id];
-            // means the node is hidden, skip it
-            if (!node) return;
-
-            if (isNumber(node.x)) {
-              c.cx += node.x;
-            }
-            if (isNumber(node.y)) {
-              c.cy += node.y;
-            }
+    (comboTrees || []).forEach((ctree) => {
+      const treeChildren = [];
+      traverseTreeUp<ComboTree>(ctree, (treeNode) => {
+        if (treeNode.itemType === 'node') return true; // skip it
+        if (!oriComboMap[treeNode.id]) return true; // means it is hidden, skip it
+        if (comboMap[treeNode.id] === undefined) {
+          const combo = {
+            name: treeNode.id,
+            cx: 0,
+            cy: 0,
+            count: 0,
+            depth: self.oriComboMap[treeNode.id].depth,
+            children: [],
+          };
+          comboMap[treeNode.id] = combo;
+        }
+        const children = treeNode.children;
+        if (children) {
+          children.forEach((child) => {
+            if (!comboMap[child.id] && !nodeMap[child.id]) return true; // means it is hidden
+            treeChildren.push(child);
           });
-          c.cx /= c.count;
-          c.cy /= c.count;
+        }
+        const c = comboMap[treeNode.id];
+        c.cx = 0;
+        c.cy = 0;
 
-          c.children = treeChildren;
+        // In order to layout the empty combo, add a virtual node to it
+        if (treeChildren.length === 0) {
+          c.empty = true;
+          const oriCombo = oriComboMap[treeNode.id];
+          const idx = Object.keys(nodeMap).length;
+          const virtualNodeId = `${treeNode.id}-visual-child-${idx}`;
+          const vnode = {
+            id: virtualNodeId,
+            x: oriCombo.x,
+            y: oriCombo.y,
+            depth: c.depth + 1,
+            itemType: 'node',
+          };
+          self.nodes.push(vnode);
+          nodeMap[virtualNodeId] = vnode;
+          nodeIdxMap[virtualNodeId] = idx;
+          c.cx = oriCombo.x;
+          c.cy = oriCombo.y;
+          treeChildren.push(vnode);
+        }
 
-          return true;
+        treeChildren.forEach((child) => {
+          c.count++;
+          if (child.itemType !== 'node') {
+            const childCombo = comboMap[child.id];
+            if (isNumber(childCombo.cx)) c.cx += childCombo.cx;
+            if (isNumber(childCombo.cy)) c.cy += childCombo.cy;
+            return;
+          }
+          const node = nodeMap[child.id];
+          // means the node is hidden, skip it
+          if (!node) return;
+
+          if (isNumber(node.x)) {
+            c.cx += node.x;
+          }
+          if (isNumber(node.y)) {
+            c.cy += node.y;
+          }
         });
+        c.cx /= c.count;
+        c.cy /= c.count;
+
+        c.children = treeChildren;
+
+        return true;
       });
+    });
 
     return comboMap;
   }
@@ -533,47 +532,46 @@ export default class ComboForce extends BaseLayout {
     const nodeIdxMap = self.nodeIdxMap;
     const nodeMap = self.nodeMap;
     const comboMap = self.comboMap;
-    comboTrees &&
-      comboTrees.forEach((ctree) => {
-        traverseTreeUp<ComboTree>(ctree, (treeNode) => {
-          if (treeNode.itemType === 'node') return true; // skip it
-          const combo = comboMap[treeNode.id];
-          // means the combo is hidden, skip it
-          if (!combo) return true;
-          const c = comboMap[treeNode.id];
+    (comboTrees || []).forEach((ctree) => {
+      traverseTreeUp<ComboTree>(ctree, (treeNode) => {
+        if (treeNode.itemType === 'node') return true; // skip it
+        const combo = comboMap[treeNode.id];
+        // means the combo is hidden, skip it
+        if (!combo) return true;
+        const c = comboMap[treeNode.id];
 
-          // higher depth the combo, larger the gravity
-          const gravityScale = (c.depth + 1) * 0.5;
-          // apply combo center force for all the descend nodes in this combo
-          // and update the center position and count for this combo
-          const comboX = c.cx;
-          const comboY = c.cy;
-          c.cx = 0;
-          c.cy = 0;
-          c.children.forEach((child) => {
-            if (child.itemType !== 'node') {
-              const childCombo = comboMap[child.id];
-              if (childCombo && isNumber(childCombo.cx)) c.cx += childCombo.cx;
-              if (childCombo && isNumber(childCombo.cy)) c.cy += childCombo.cy;
-              return;
-            }
-            const node = nodeMap[child.id];
-            const vecX = node.x - comboX || 0.005;
-            const vecY = node.y - comboY || 0.005;
-            const l = Math.sqrt(vecX * vecX + vecY * vecY);
-            const childIdx = nodeIdxMap[node.id];
-            const params = ((comboGravity * alpha) / l) * gravityScale;
-            displacements[childIdx].x -= vecX * params;
-            displacements[childIdx].y -= vecY * params;
+        // higher depth the combo, larger the gravity
+        const gravityScale = (c.depth + 1) * 0.5;
+        // apply combo center force for all the descend nodes in this combo
+        // and update the center position and count for this combo
+        const comboX = c.cx;
+        const comboY = c.cy;
+        c.cx = 0;
+        c.cy = 0;
+        c.children.forEach((child) => {
+          if (child.itemType !== 'node') {
+            const childCombo = comboMap[child.id];
+            if (childCombo && isNumber(childCombo.cx)) c.cx += childCombo.cx;
+            if (childCombo && isNumber(childCombo.cy)) c.cy += childCombo.cy;
+            return;
+          }
+          const node = nodeMap[child.id];
+          const vecX = node.x - comboX || 0.005;
+          const vecY = node.y - comboY || 0.005;
+          const l = Math.sqrt(vecX * vecX + vecY * vecY);
+          const childIdx = nodeIdxMap[node.id];
+          const params = ((comboGravity * alpha) / l) * gravityScale;
+          displacements[childIdx].x -= vecX * params;
+          displacements[childIdx].y -= vecY * params;
 
-            if (isNumber(node.x)) c.cx += node.x;
-            if (isNumber(node.y)) c.cy += node.y;
-          });
-          c.cx /= c.count;
-          c.cy /= c.count;
-          return true;
+          if (isNumber(node.x)) c.cx += node.x;
+          if (isNumber(node.y)) c.cy += node.y;
         });
+        c.cx /= c.count;
+        c.cy /= c.count;
+        return true;
       });
+    });
   }
 
   private applyCalculate(displacements: Point[]) {
@@ -614,49 +612,48 @@ export default class ComboForce extends BaseLayout {
     const nodeSize = self.nodeSize as ((d?: unknown) => number) | undefined;
     const comboSpacing = self.comboSpacing;
     const comboPadding = self.comboPadding;
-    comboTrees &&
-      comboTrees.forEach((ctree) => {
-        const treeChildren = [];
-        traverseTreeUp<ComboTree>(ctree, (treeNode) => {
-          if (treeNode.itemType === 'node') return true; // skip it
-          const c = comboMap[treeNode.id];
-          // means the combo is hidden, skip it
-          if (!c) return;
-          const children = treeNode.children;
-          if (children) {
-            children.forEach((child) => {
-              // means the combo is hidden.
-              if (!comboMap[child.id] && !nodeMap[child.id]) return;
-              treeChildren.push(child);
-            });
-          }
-
-          c.minX = Infinity;
-          c.minY = Infinity;
-          c.maxX = -Infinity;
-          c.maxY = -Infinity;
-          treeChildren.forEach((child) => {
-            if (child.itemType !== 'node') return true; // skip it
-            const node = nodeMap[child.id];
-            if (!node) return true; // means it is hidden
-            const r = nodeSize(node);
-            const nodeMinX = node.x - r;
-            const nodeMinY = node.y - r;
-            const nodeMaxX = node.x + r;
-            const nodeMaxY = node.y + r;
-            if (c.minX > nodeMinX) c.minX = nodeMinX;
-            if (c.minY > nodeMinY) c.minY = nodeMinY;
-            if (c.maxX < nodeMaxX) c.maxX = nodeMaxX;
-            if (c.maxY < nodeMaxY) c.maxY = nodeMaxY;
+    (comboTrees || []).forEach((ctree) => {
+      const treeChildren = [];
+      traverseTreeUp<ComboTree>(ctree, (treeNode) => {
+        if (treeNode.itemType === 'node') return true; // skip it
+        const c = comboMap[treeNode.id];
+        // means the combo is hidden, skip it
+        if (!c) return;
+        const children = treeNode.children;
+        if (children) {
+          children.forEach((child) => {
+            // means the combo is hidden.
+            if (!comboMap[child.id] && !nodeMap[child.id]) return;
+            treeChildren.push(child);
           });
-          let minSize = self.oriComboMap[treeNode.id].size || Global.defaultCombo.size;
-          if (isArray(minSize)) minSize = minSize[0];
-          const maxLength = Math.max(c.maxX - c.minX, c.maxY - c.minY, minSize as number);
-          c.r = maxLength / 2 + comboSpacing(c) / 2 + comboPadding(c);
+        }
 
-          return true;
+        c.minX = Infinity;
+        c.minY = Infinity;
+        c.maxX = -Infinity;
+        c.maxY = -Infinity;
+        treeChildren.forEach((child) => {
+          if (child.itemType !== 'node') return true; // skip it
+          const node = nodeMap[child.id];
+          if (!node) return true; // means it is hidden
+          const r = nodeSize(node);
+          const nodeMinX = node.x - r;
+          const nodeMinY = node.y - r;
+          const nodeMaxX = node.x + r;
+          const nodeMaxY = node.y + r;
+          if (c.minX > nodeMinX) c.minX = nodeMinX;
+          if (c.minY > nodeMinY) c.minY = nodeMinY;
+          if (c.maxX < nodeMaxX) c.maxX = nodeMaxX;
+          if (c.maxY < nodeMaxY) c.maxY = nodeMaxY;
         });
+        let minSize = self.oriComboMap[treeNode.id].size || Global.defaultCombo.size;
+        if (isArray(minSize)) minSize = minSize[0];
+        const maxLength = Math.max(c.maxX - c.minX, c.maxY - c.minY, minSize as number);
+        c.r = maxLength / 2 + comboSpacing(c) / 2 + comboPadding(c);
+
+        return true;
       });
+    });
   }
 
   /**
@@ -817,8 +814,10 @@ export default class ComboForce extends BaseLayout {
       const u = self.nodeMap[e.source];
       const v = self.nodeMap[e.target];
 
-      const depthDiff = Math.abs(u.depth - v.depth);
-      if (u.comboId === v.comboId) depthDiff / 2;
+      let depthDiff = Math.abs(u.depth - v.depth);
+      if (u.comboId === v.comboId) {
+        depthDiff = depthDiff / 2;
+      }
       let depthParam = depthDiff ? scale ** depthDiff : 1;
       if (u.comboId !== v.comboId && depthParam === 1) {
         depthParam = scale / 2;

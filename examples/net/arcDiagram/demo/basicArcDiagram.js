@@ -46,18 +46,18 @@ const graph = new G6.Graph({
     },
   },
 });
-graph.on('edge:mouseenter', function(e) {
+graph.on('edge:mouseenter', function (e) {
   const edge = e.item;
   graph.setItemState(edge, 'hover', true);
 });
-graph.on('edge:mouseleave', function(e) {
+graph.on('edge:mouseleave', function (e) {
   const edge = e.item;
   graph.setItemState(edge, 'hover', false);
 });
 
 fetch('https://gw.alipayobjects.com/os/basement_prod/70cde3be-22e8-4291-98f1-4d5a5b75b62f.json')
-  .then(res => res.json())
-  .then(data => {
+  .then((res) => res.json())
+  .then((data) => {
     const edges = data.edges;
     const nodes = data.nodes;
     const nodeMap = new Map();
@@ -71,7 +71,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/70cde3be-22e8-4291-98f1-4d5
     const yLength = end[1] - begin[1];
     const xSep = xLength / n;
     const ySep = yLength / n;
-    nodes.forEach(function(node, i) {
+    nodes.forEach(function (node, i) {
       node.x = begin[0] + i * xSep;
       node.y = begin[1] + i * ySep;
       nodeMap.set(node.id, node);
@@ -99,7 +99,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/70cde3be-22e8-4291-98f1-4d5
         },
       };
     });
-    edges.forEach(edge => {
+    edges.forEach((edge) => {
       edge.type = 'arc';
       const source = nodeMap.get(edge.source);
       const target = nodeMap.get(edge.target);
@@ -115,7 +115,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/70cde3be-22e8-4291-98f1-4d5
     // map the value to node size
     let maxValue = -9999,
       minValue = 9999;
-    nodes.forEach(function(n) {
+    nodes.forEach(function (n) {
       if (maxValue < n.value) maxValue = n.value;
       if (minValue > n.value) minValue = n.value;
     });
@@ -140,7 +140,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/70cde3be-22e8-4291-98f1-4d5
 function scaleNodeProp(nodes, propName, refPropName, dataRange, outRange) {
   const outLength = outRange[1] - outRange[0];
   const dataLength = dataRange[1] - dataRange[0];
-  nodes.forEach(function(n) {
+  nodes.forEach(function (n) {
     n[propName] = ((n[refPropName] - dataRange[0]) * outLength) / dataLength + outRange[0];
   });
 }

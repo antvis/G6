@@ -7,8 +7,7 @@ import './combos';
 import './nodes';
 import './edges';
 
-
-export { default as Arrow } from './arrow'
-export { default as Marker } from './marker'
+export { default as Arrow } from './arrow';
+export { default as Marker } from './marker';
 
 export default Shape;

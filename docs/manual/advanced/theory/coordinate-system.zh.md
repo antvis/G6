@@ -3,11 +3,11 @@ title: G6 坐标系深度解析
 order: 0
 ---
 
-在 G6 中，实例化图时指定 `container` 字段指定了画布 `<Canvas></Canvas>`  标签的父容器。而 DOM 的坐标与真正绘制图形时的坐标并不是同一套坐标系，这可能会使得如下场景中用户指定坐标时产生困惑：
+在 G6 中，实例化图时指定 `container` 字段指定了画布 `<Canvas></Canvas>` 标签的父容器。而 DOM 的坐标与真正绘制图形时的坐标并不是同一套坐标系，这可能会使得如下场景中用户指定坐标时产生困惑：
+
 - 在画布上放置一个 `position: absolute` 的 DOM 元素，如 tooltip、 menu 等时：
   - 在鼠标点击画布上的位置放置；
-  - 鼠标点击节点时，在节点位置。
-上面问题在 graph 缩放、平移后更加凸显。下面，我们将深度解析这些坐标之间的关系。
+  - 鼠标点击节点时，在节点位置。上面问题在 graph 缩放、平移后更加凸显。下面，我们将深度解析这些坐标之间的关系。
 
 ## 三个坐标系
 
@@ -19,7 +19,6 @@ order: 0
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*WBCHS6uJSIMAAAAAAAAAAABkARQnAQ' alt='img' width='500'/>
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*yeEVR6ihc74AAAAAAAAAAABkARQnAQ' alt='img' width='500'/>
-
 
 ### canvasX/canvasY
 
@@ -33,15 +32,13 @@ const Graph = new G6.Graph({
 })
 ```
 
-则下图 Container DOM 的宽高即为 550*500。canvasX/canvsY 的原点在 Container DOM 的左上角，Container DOM 右下角的 canvasX/canvasY 坐标为（550，500）。
+则下图 Container DOM 的宽高即为 550\*500。canvasX/canvsY 的原点在 Container DOM 的左上角，Container DOM 右下角的 canvasX/canvasY 坐标为（550，500）。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1wNDQI9sgRoAAAAAAAAAAABkARQnAQ' alt='img' width='500'/>
 
-
 ### pointX/pointY
 
-以上两种坐标系均可理解为 DOM 相关的坐标，其取值均为整数。而在真正绘制图形时，图形是根据 pointX/pointY 定位的，即节点的 (x, y) 等都是与pointX/pointY 坐标系相对应的。图的缩放、平移其实是整个 pointX/pointY 坐标系的缩放和平移。
-
+以上两种坐标系均可理解为 DOM 相关的坐标，其取值均为整数。而在真正绘制图形时，图形是根据 pointX/pointY 定位的，即节点的 (x, y) 等都是与 pointX/pointY 坐标系相对应的。图的缩放、平移其实是整个 pointX/pointY 坐标系的缩放和平移。
 
 ## 三个坐标系的关系
 
@@ -51,7 +48,6 @@ const Graph = new G6.Graph({
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*8ZjgQL9GE1gAAAAAAAAAAABkARQnAQ' alt='img' width='500'/>
 
-
 ### 图无变换
 
 下图展示了当图没有缩放和平移，也就是说其变换矩阵 matrix 为单位矩阵时，三个坐标系的关系。可以看到 canvasX/canvasY 与 pointX/pointY 两个坐标系是完全重合的，坐标轴尺度、原点位置完全一致。如下图中树图根节点（黑点标注的）位置，其 canvasX/canvasY 和 pointX/pointY 坐标值是一样的。而 clientX/clientY 的原点在浏览器内容左上角，黑点的 clientX/clientY 则需要加上 Container DOM 的左边距和上边距。
@@ -60,13 +56,12 @@ const Graph = new G6.Graph({
 
 > 图 1：图无变换时的三种坐标系。
 
-
 ### 图缩放
 
 当图被缩放：以 pointX/pointY 坐标系的原点为缩放中心，放大为原来的两倍，即图的变换矩阵 matrix 为：
 
 ```
-matrix = 
+matrix =
   2 0 0
   0 2 0
   0 0 1
@@ -84,13 +79,12 @@ canvasX/canvasY 和 clientX/clientY 坐标系不随图的变换而变化。换�
 
 可以看到上图中，图 1 中的树图根节点位置（黑点 A）的 canvasX/canvasY 和 clientX/clientY 坐标不变，仍然分别是 (90, 250) 和 (290, 350)。但由于 pointX/pointY 的坐标轴尺度发生了变化，所以它的 pointX/pointY 变为了 (45, 125)。而现在的根节点（黑点 B 标记）的绘制坐标不变，pointX/pointY 仍然是 (90, 250)，但黑点 B 对应的 canvasX/canvasY 和 clientX/clientY 分别变为了 (180, 500)，(380, 600)。
 
-
 ### 图缩放 + 平移
 
 当图在上一节的基础上再进行平移：把图的左上角移动到 (50, 50) 的位置，即图的变换矩阵 matrix 为：
 
 ```
-matrix = 
+matrix =
   2  0  0
   0  2  0
   50 50 1
@@ -106,9 +100,7 @@ canvasX/canvasY 和 clientX/clientY 坐标系不随图的变换而变化。换�
 
 > 图 3：图缩放+平移变换时的三种坐标系。
 
-
 可以看到上图中，图 1 中的树图根节点位置（黑点 A）的 canvasX/canvasY 和 clientX/clientY 坐标不变，仍然分别是 (90, 250) 和 (290, 350)。但由于 pointX/pointY 的坐标轴尺度、原点发生了变化，所以它的 pointX/pointY 变为了 (20, 100)。而现在的根节点（黑点 B 标记）的绘制坐标不变，pointX/pointY 仍然是 (90, 250)，但黑点 B 对应的 canvasX/canvasY 和 clientX/clientY 分别变为了 (230, 550)，(430, 650)。
-
 
 ## 使用 API 进行转换
 
@@ -119,7 +111,6 @@ canvasX/canvasY 和 clientX/clientY 坐标系不随图的变换而变化。换�
 - event.clientX, event.clientY => clientX/clientY。
 
 可以发现后两者的名字是直接对应的，我们只需要注意 event 中的 x 和 y 对应的是 pointX/pointY 坐标系即可。
-
 
 ### getCanvasByPoint
 
@@ -138,6 +129,7 @@ canvasX/canvasY 和 clientX/clientY 坐标系不随图的变换而变化。换�
 将 clientX/clientY 坐标系的坐标值转换为 pointX/pointY 的坐标值。
 
 可以发现 G6 的上述四个 API 都是围绕 point，通过上面四个 API 可以进行组合从而使得 clientX/clientY 与 canvasX/canvasY 进行转换：
+
 - clientX/clientY 转 canvasX/canvasY：
 
 ```
@@ -161,8 +153,7 @@ const clientXY = graph.getClientByPoint(point.x, point.y);
 - 在鼠标点击画布上的位置放置；
 - 鼠标点击节点时，在节点位置。
 
-如果使用了错误的坐标系来给定悬浮 DOM 元素的位置，将会出现偏移，在图有缩放、平移等变化时，偏移更加严重。
-在了解如何使用坐标系给悬浮 DOM 定位前，我们先定义一个悬浮 DOM 元素：
+如果使用了错误的坐标系来给定悬浮 DOM 元素的位置，将会出现偏移，在图有缩放、平移等变化时，偏移更加严重。在了解如何使用坐标系给悬浮 DOM 定位前，我们先定义一个悬浮 DOM 元素：
 
 ```
   const floatDOM = createDom(`

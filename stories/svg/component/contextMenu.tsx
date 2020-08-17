@@ -44,19 +44,17 @@ const data = {
 const ContextMenu = () => {
   const container: any = React.useRef();
 
-
   useEffect(() => {
-
     // JSX and HTML templates are available for the menu
     // create ul
     const conextMenuContainer = document.createElement('ul');
     conextMenuContainer.id = 'contextMenu';
-  
+
     // create li
     const firstLi = document.createElement('li');
     firstLi.innerText = 'Option 1';
     conextMenuContainer.appendChild(firstLi);
-  
+
     const lastLi = document.createElement('li');
     lastLi.innerText = 'Option 2';
     conextMenuContainer.appendChild(lastLi);
@@ -71,13 +69,13 @@ const ContextMenu = () => {
         height: 500,
         // renderer: 'svg',
         modes: {
-          default: ['drag-canvas', 'zoom-canvas']
-        }
+          default: ['drag-canvas', 'zoom-canvas'],
+        },
       });
       graph.data(data);
       graph.render();
 
-      graph.on('node:contextmenu', evt => {
+      graph.on('node:contextmenu', (evt) => {
         evt.preventDefault();
         evt.stopPropagation();
         conextMenuContainer.style.display = 'block';
@@ -88,7 +86,6 @@ const ContextMenu = () => {
       graph.on('node:mouseleave', () => {
         conextMenuContainer.style.left = '-150px';
       });
-
     }
   });
   return <div ref={container}></div>;

@@ -63,7 +63,7 @@ The table below shows the built-in edges and their special properties:
 | shadowOffsetX | false | Number | The x offset of the shadow |
 | shadowOffsetY | false | Number | The y offset of the shadow |
 | lineDash | false | Array | The style of the dash line. It is an array that describes the length of gaps and line segments. If the number of the elements in the array is odd, the elements will be dulplicated. Such as [5, 15, 25] will be regarded as [5, 15, 25, 5, 15, 25] |
-| cursor | false    | String | The type of the mouse when hovering the edge. The options are the same as [cursor in CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) |
+| cursor | false | String | The type of the mouse when hovering the edge. The options are the same as [cursor in CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) |
 
 Configure `style` globally when instantiating the Graph:
 
@@ -193,7 +193,7 @@ By this way, we can configure different nodes with different properties.<br />
 ```javascript
 // const data = ...
 // const graph = ...
-graph.edge(edge => {
+graph.edge((edge) => {
   return {
     id: edge.id,
     type: 'polyline',

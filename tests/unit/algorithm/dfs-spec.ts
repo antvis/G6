@@ -1,71 +1,69 @@
-
 import G6, { Algorithm } from '../../../src';
-const { depthFirstSearch } = Algorithm
+const { depthFirstSearch } = Algorithm;
 
 const div = document.createElement('div');
 div.id = 'container';
 document.body.appendChild(div);
 
-
 const data = {
   nodes: [
     {
-      id: 'A'
+      id: 'A',
     },
     {
-      id: 'B'
+      id: 'B',
     },
     {
-      id: 'C'
+      id: 'C',
     },
     {
-      id: 'D'
+      id: 'D',
     },
     {
-      id: 'E'
+      id: 'E',
     },
     {
-      id: 'F'
+      id: 'F',
     },
     {
-      id: 'G'
+      id: 'G',
     },
   ],
   edges: [
     {
       source: 'A',
-      target: 'B'
+      target: 'B',
     },
     {
       source: 'B',
-      target: 'C'
+      target: 'C',
     },
     {
       source: 'C',
-      target: 'G'
+      target: 'G',
     },
     {
       source: 'A',
-      target: 'D'
+      target: 'D',
     },
     {
       source: 'A',
-      target: 'E'
+      target: 'E',
     },
     {
       source: 'E',
-      target: 'F'
+      target: 'F',
     },
     {
       source: 'F',
-      target: 'D'
+      target: 'D',
     },
     {
       source: 'D',
-      target: 'G'
+      target: 'G',
     },
-  ]
-}
+  ],
+};
 
 describe('depthFirstSearch', () => {
   it('should perform DFS operation on graph', () => {
@@ -74,10 +72,10 @@ describe('depthFirstSearch', () => {
       width: 500,
       height: 500,
       // layout
-    })
+    });
 
-    graph.data(data)
-    graph.render()
+    graph.data(data);
+    graph.render();
 
     const enterNodeCallback = jest.fn();
     const leaveNodeCallback = jest.fn();
@@ -107,7 +105,9 @@ describe('depthFirstSearch', () => {
     for (let callIndex = 0; callIndex < graph.getNodes().length; callIndex += 1) {
       const params = enterNodeCallback.mock.calls[callIndex][0];
       expect(params.current.get('id')).toEqual(enterNodeParamsMap[callIndex].currentNode);
-      expect(params.previous && params.previous.get('id')).toEqual(enterNodeParamsMap[callIndex].previousNode);
+      expect(params.previous && params.previous.get('id')).toEqual(
+        enterNodeParamsMap[callIndex].previousNode,
+      );
     }
 
     const leaveNodeParamsMap = [
@@ -123,10 +123,12 @@ describe('depthFirstSearch', () => {
     for (let callIndex = 0; callIndex < graph.getNodes().length; callIndex += 1) {
       const params = leaveNodeCallback.mock.calls[callIndex][0];
       expect(params.current.get('id')).toEqual(leaveNodeParamsMap[callIndex].currentNode);
-      expect(params.previous && params.previous.get('id')).toEqual(leaveNodeParamsMap[callIndex].previousNode);
+      expect(params.previous && params.previous.get('id')).toEqual(
+        leaveNodeParamsMap[callIndex].previousNode,
+      );
     }
 
-    graph.destroy()
+    graph.destroy();
   });
 
   it('allow users to redefine node visiting logic', () => {
@@ -135,10 +137,10 @@ describe('depthFirstSearch', () => {
       width: 500,
       height: 500,
       // layout
-    })
+    });
 
-    graph.data(data)
-    graph.render()
+    graph.data(data);
+    graph.render();
 
     const enterNodeCallback = jest.fn();
     const leaveNodeCallback = jest.fn();
@@ -146,9 +148,7 @@ describe('depthFirstSearch', () => {
     depthFirstSearch(graph, 'A', {
       enter: enterNodeCallback,
       leave: leaveNodeCallback,
-      allowTraversal: ({
-        current: currentNode,
-        next: nextNode }) => {
+      allowTraversal: ({ current: currentNode, next: nextNode }) => {
         return !(currentNode.get('id') === 'A' && nextNode.get('id') === 'B');
       },
     });
@@ -169,7 +169,9 @@ describe('depthFirstSearch', () => {
     for (let callIndex = 0; callIndex < graph.getNodes().length; callIndex += 1) {
       const params = enterNodeCallback.mock.calls[callIndex][0];
       expect(params.current.get('id')).toEqual(enterNodeParamsMap[callIndex].currentNode);
-      expect(params.previous && params.previous.get('id')).toEqual(enterNodeParamsMap[callIndex].previousNode);
+      expect(params.previous && params.previous.get('id')).toEqual(
+        enterNodeParamsMap[callIndex].previousNode,
+      );
     }
 
     const leaveNodeParamsMap = [
@@ -185,9 +187,11 @@ describe('depthFirstSearch', () => {
     for (let callIndex = 0; callIndex < graph.getNodes().length; callIndex += 1) {
       const params = leaveNodeCallback.mock.calls[callIndex][0];
       expect(params.current.get('id')).toEqual(leaveNodeParamsMap[callIndex].currentNode);
-      expect(params.previous && params.previous.get('id')).toEqual(leaveNodeParamsMap[callIndex].previousNode);
+      expect(params.previous && params.previous.get('id')).toEqual(
+        leaveNodeParamsMap[callIndex].previousNode,
+      );
     }
 
-    graph.destroy()
+    graph.destroy();
   });
 });

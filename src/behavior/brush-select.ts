@@ -14,8 +14,8 @@ export default {
         stroke: '#DDEEFE',
         lineWidth: 1,
       },
-      onSelect() { },
-      onDeselect() { },
+      onSelect() {},
+      onDeselect() {},
       selectedState: 'selected',
       trigger: DEFAULT_TRIGGER,
       includeEdges: true,
@@ -104,8 +104,8 @@ export default {
 
     const nodes = graph.findAllByState('node', selectedState);
     const edges = graph.findAllByState('edge', selectedState);
-    nodes.forEach(node => graph.setItemState(node, selectedState, false));
-    edges.forEach(edge => graph.setItemState(edge, selectedState, false));
+    nodes.forEach((node) => graph.setItemState(node, selectedState, false));
+    edges.forEach((edge) => graph.setItemState(edge, selectedState, false));
 
     this.selectedNodes = [];
 
@@ -133,7 +133,7 @@ export default {
     const bottom = max(p1.y, p2.y);
     const selectedNodes = [];
     const selectedIds = [];
-    graph.getNodes().forEach(node => {
+    graph.getNodes().forEach((node) => {
       const bbox = node.getBBox();
       if (
         bbox.centerX >= left &&
@@ -152,9 +152,9 @@ export default {
     const selectedEdges = [];
     if (this.includeEdges) {
       // 选中边，边的source和target都在选中的节点中时才选中
-      selectedNodes.forEach(node => {
+      selectedNodes.forEach((node) => {
         const edges = node.getOutEdges();
-        edges.forEach(edge => {
+        edges.forEach((edge) => {
           const model = edge.getModel();
           const { source, target } = model;
           if (

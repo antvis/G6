@@ -31,7 +31,7 @@ const graph = new G6.Graph({
         formatText: function formatText(model) {
           return model.name;
         },
-        offset: 30
+        offset: 30,
       },
       {
         type: 'edge-tooltip',
@@ -44,7 +44,7 @@ const graph = new G6.Graph({
             edge.getTarget().getModel().name
           );
         },
-        offset: 30
+        offset: 30,
       },
       'activate-relations',
     ],
@@ -80,11 +80,11 @@ const graph = new G6.Graph({
 });
 
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/xiaomi.json')
-  .then(res => res.json())
-  .then(data => {
+  .then((res) => res.json())
+  .then((data) => {
     graph.data({
       nodes: data.nodes,
-      edges: data.edges.map(function(edge, i) {
+      edges: data.edges.map(function (edge, i) {
         edge.id = 'edge' + i;
         return Object.assign({}, edge);
       }),

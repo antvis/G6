@@ -52,12 +52,12 @@ const NodeAmount = () => {
     graph.data(data);
     graph.render();
 
-    graph.on('node:click', evt => {
+    graph.on('node:click', (evt) => {
       const { item } = evt;
       graph.setItemState(item, 'select', true);
     });
     graph.on('canvas:click', () => {
-      graph.getNodes().forEach(node => {
+      graph.getNodes().forEach((node) => {
         graph.setItemState(node, 'select', false);
       });
     });

@@ -385,7 +385,7 @@ const data = {
 
 const nodes = data.nodes;
 
-nodes.forEach(function(node, i) {
+nodes.forEach(function (node, i) {
   if (i <= 16 && i !== 12) {
     if (!node.style) {
       node.style = {
@@ -424,7 +424,7 @@ const graph = new G6.Graph({
 graph.data(data);
 graph.render();
 
-setTimeout(function() {
+setTimeout(function () {
   const nodes = data.nodes;
   const edges = data.edges;
   const newNodes = [];
@@ -434,14 +434,14 @@ setTimeout(function() {
   nodes[0].fx = nodes[0].x;
   nodes[0].fy = nodes[0].y;
   // add the nodes which should be re-layout
-  nodes.forEach(function(node, i) {
+  nodes.forEach(function (node, i) {
     if (i <= 16 && i !== 12) {
       newNodes.push(node);
       newNodeMap.set(node.id, i);
     }
   });
   // add related edges
-  edges.forEach(function(edge) {
+  edges.forEach(function (edge) {
     const sourceId = edge.source;
     const targetId = edge.target;
     if (newNodeMap.get(sourceId) !== undefined && newNodeMap.get(targetId) !== undefined) {

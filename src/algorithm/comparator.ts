@@ -1,6 +1,6 @@
 export default class Comparator {
-  private compare
-  
+  private compare;
+
   /**
    * @param {function(a: *, b: *)} [compareFunction] - It may be custom compare function that, let's
    * say may compare custom objects together.

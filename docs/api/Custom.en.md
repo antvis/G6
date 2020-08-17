@@ -125,8 +125,6 @@ G6.registerEdge(
 );
 ```
 
-
-
 ## G6.registerCombo(comboName, options, extendedComboName)
 
 When the built-in combos cannot satisfy your requirments, custom a type of combo by `G6.registerCombo(comboName, options, extendedComboName)`.

@@ -26,7 +26,7 @@ describe('activate-relations', () => {
       },
       inactive: {
         lineWidth: 1,
-      }
+      },
     },
     edgeStateStyles: {
       active: {
@@ -35,7 +35,7 @@ describe('activate-relations', () => {
       },
       inactive: {
         lineWidth: 1,
-      }
+      },
     },
   });
 
@@ -44,8 +44,8 @@ describe('activate-relations', () => {
   graph.addItem('node', { id: 'node3', x: 80, y: 250, label: 'node3' });
   graph.addItem('edge', { source: 'node1', target: 'node2' });
   graph.addItem('edge', { source: 'node1', target: 'node3' });
-  it('default activate', done => {
-    graph.on('afteractivaterelations', e => {
+  it('default activate', (done) => {
+    graph.on('afteractivaterelations', (e) => {
       const action = e.action;
       if (e.item === node1) {
         if (action === 'activate') {
@@ -93,10 +93,10 @@ describe('activate-relations', () => {
     graph.emit('node:mouseleave', { item: node2 });
     graph.removeBehaviors(['activate-relations'], 'default');
     // graph.removeEvent();
-    graph.off('afteractivaterelations')
+    graph.off('afteractivaterelations');
   });
-  it('click to activate', done => {
-    graph.on('afteractivaterelations', e => {
+  it('click to activate', (done) => {
+    graph.on('afteractivaterelations', (e) => {
       const action = e.action;
       if (e.item === node1) {
         if (action === 'activate') {
@@ -146,15 +146,15 @@ describe('activate-relations', () => {
       ],
       'default',
     );
-    
+
     graph.emit('node:click', { item: node1 });
     graph.emit('canvas:click', {});
     graph.emit('node:click', { item: node2 });
     graph.emit('canvas:click', {});
     graph.removeBehaviors(['activate-relations'], 'default');
-    graph.off('afteractivaterelations')
+    graph.off('afteractivaterelations');
   });
-  it('custom state', done => {
+  it('custom state', (done) => {
     const graph2 = new Graph({
       container: div,
       width: 500,
@@ -163,20 +163,20 @@ describe('activate-relations', () => {
       nodeStateStyles: {
         highlight: {},
         inactive: {},
-        active: {}
+        active: {},
       },
       edgeStateStyles: {
         highlight: {},
         inactive: {},
-        active: {}
-      }
+        active: {},
+      },
     });
     const g2node1 = graph2.addItem('node', { id: 'node1', x: 100, y: 100, label: 'node1' });
     const g2node2 = graph2.addItem('node', { id: 'node2', x: 200, y: 200, label: 'node2' });
     graph2.addItem('node', { id: 'node3', x: 80, y: 150, label: 'node3' });
     graph2.addItem('edge', { source: 'node1', target: 'node2' });
     graph2.addItem('edge', { source: 'node1', target: 'node3' });
-    graph2.on('afteractivaterelations', e => {
+    graph2.on('afteractivaterelations', (e) => {
       const action = e.action;
       if (e.item === g2node1) {
         if (action === 'activate') {
@@ -251,8 +251,8 @@ describe('activate-relations', () => {
     expect(edges.length).toEqual(0);
     graph.emit('canvas:click', {});
     graph.removeBehaviors(['activate-relations'], 'default');
-    graph.off('node:click')
-    graph.off('canvas:click')
+    graph.off('node:click');
+    graph.off('canvas:click');
   });
   it('combine selected state', () => {
     graph.addBehaviors(

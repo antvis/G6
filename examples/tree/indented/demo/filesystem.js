@@ -34,7 +34,7 @@ G6.registerNode('file-node', {
         name: 'marker-shape',
       });
     } else {
-      isLeaf = true
+      isLeaf = true;
     }
     const shape = group.addShape('text', {
       attrs: {
@@ -57,7 +57,7 @@ G6.registerNode('file-node', {
     keyShape.attr({
       width: backRectW,
       height: bbox.height + 4,
-      x: backRectX
+      x: backRectX,
     });
     return keyShape;
   },
@@ -165,7 +165,7 @@ const data = {
   ],
 };
 
-graph.node(node => {
+graph.node((node) => {
   return {
     type: 'file-node',
     label: node.name,

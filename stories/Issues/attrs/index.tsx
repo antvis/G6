@@ -96,7 +96,7 @@ export default () => {
         renderer: 'svg',
         layout: {
           type: 'dagre',
-          nodesepFunc: d => {
+          nodesepFunc: (d) => {
             if (d.id === '3') {
               return 70;
             }
@@ -157,7 +157,7 @@ export default () => {
     graph.data(data);
     graph.render();
 
-    graph.on('node:click', evt => {
+    graph.on('node:click', (evt) => {
       let node = evt.item;
       var child = node.get('group').find(function (item) {
         return item.get('name') === 'icon-text-shape'; //找到图标节点

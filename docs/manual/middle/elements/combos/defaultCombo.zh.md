@@ -9,7 +9,6 @@ G6 的内置 Combo 包括 circle 和 rect 两种类型，分别如下图所示�
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 使用 Combo 时，必须在示例化图时配置 `groupByTypes` 设置为 `false`，图中元素的视觉层级才能合理。
 
-
 ## 内置 Combo 类型说明
 
 下面表格中显示了内置的各类 Combo，同时对一些特殊的字段进行了说明：
@@ -24,7 +23,7 @@ G6 的内置 Combo 包括 circle 和 rect 两种类型，分别如下图所示�
 所有内置的 Combo 支持的通用属性：
 
 | 属性名 | 类型 | 是否必须 | 示例 | 说明 |
-| ----- | ---- | ---- | ---- | ---- |
+| --- | --- | --- | --- | --- |
 | id | string | true | 'comboA' | 一个 Combo 的唯一标识，**必须是 string 类型，必须唯一** |
 | type | string | false | 'rect' | 指定该 Combo 的类型，可以是内置 Combo 的类型名，也可以是自定义 Combo 的类型名。默认是 `'circle'` |
 | parentId | string | false | 'comboB' | 该 Combo 的父 Combo 的 ID |
@@ -38,18 +37,18 @@ G6 的内置 Combo 包括 circle 和 rect 两种类型，分别如下图所示�
 
 Object 类型。通过 `style` 配置来修改 Combo 的填充色、边框颜色、阴影等属性。下表是 `style` 对象中常用的配置项：
 
-| 名称          | 是否必须 | 类型   | 备注                          |
-| ------------- | -------- | ------ | ----------------------------- |
-| fill          | false    | String | Combo 填充色                    |
-| stroke        | false    | String | Combo 的描边颜色                |
-| lineWidth     | false    | Number | 描边宽度                      |
-| shadowColor   | false    | String | 阴影颜色                      |
-| shadowBlur    | false    | Number | 阴影范围                      |
-| shadowOffsetX | false    | Number | 阴影 x 方向偏移量             |
-| shadowOffsetY | false    | Number | 阴影 y 方向偏移量             |
-| opacity       | false    | Number | 设置绘图的当前 alpha 或透明值 |
-| fillOpacity   | false    | Number | 设置填充的 alpha 或透明值     |
-| cursor        | false    | String | 鼠标在该 Combo 上时的鼠标样式，[CSS 的 cursor](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) 选项都支持  |
+| 名称 | 是否必须 | 类型 | 备注 |
+| --- | --- | --- | --- |
+| fill | false | String | Combo 填充色 |
+| stroke | false | String | Combo 的描边颜色 |
+| lineWidth | false | Number | 描边宽度 |
+| shadowColor | false | String | 阴影颜色 |
+| shadowBlur | false | Number | 阴影范围 |
+| shadowOffsetX | false | Number | 阴影 x 方向偏移量 |
+| shadowOffsetY | false | Number | 阴影 y 方向偏移量 |
+| opacity | false | Number | 设置绘图的当前 alpha 或透明值 |
+| fillOpacity | false | Number | 设置填充的 alpha 或透明值 |
+| cursor | false | String | 鼠标在该 Combo 上时的鼠标样式，[CSS 的 cursor](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) 选项都支持 |
 
 下面代码演示在实例化图时全局配置方法中配置 `style`：
 
@@ -93,7 +92,7 @@ const graph = new G6.Graph({
 | opacity | false | Number | 文本透明度 |
 | fontSize | false | Number | 文本字体大小 |
 | fontFamily | false | Number | 文字字体 |
-| ... Combo 标签与节点、边标签样式属性相同，统一整理在 [Text 图形 API](/zh/docs/api/nodeEdge/shapeProperties/#文本-text)   |
+| ... Combo 标签与节点、边标签样式属性相同，统一整理在 [Text 图形 API](/zh/docs/api/nodeEdge/shapeProperties/#文本-text) |
 
 下面代码演示在实例化图时全局配置方法中配置  `label` 和  `labelCfg`。
 
@@ -190,7 +189,7 @@ const data = {
 ```javascript
 // const data = ...
 // const graph = ...
-graph.combo(combo => {
+graph.combo((combo) => {
   return {
     id: combo.id,
     type: 'rect',
@@ -208,14 +207,17 @@ graph.render();
 
 ```javascript
 const data = {
-  nodes: [{
-    id: 'node1',
-    label: 'Node1',
-    comboId: 'rect_combo'
-  }, {
-    id: 'node2',
-    label: 'Node 2'
-  }],
+  nodes: [
+    {
+      id: 'node1',
+      label: 'Node1',
+      comboId: 'rect_combo',
+    },
+    {
+      id: 'node2',
+      label: 'Node 2',
+    },
+  ],
   combos: [
     {
       id: 'circle_combo',
@@ -242,7 +244,6 @@ graph.render();
 ```
 
 显示结果： <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*biK0SJmQB6gAAAAAAAAAAABkARQnAQ' width='250' alt='img'/>
-
 
 ### 调整 Combo 配置
 

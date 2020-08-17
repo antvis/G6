@@ -155,7 +155,7 @@ export default {
   },
   onOutOfRange(e: IG6GraphEvent) {
     const canvasElement = this.graph.get('canvas').get('el');
-    const listener = ev => {
+    const listener = (ev) => {
       if (ev.target !== canvasElement) {
         this.onDragEnd(e);
         // 终止时需要判断此时是否在监听画布外的 mouseup 事件，若有则解绑

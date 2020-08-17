@@ -8,7 +8,6 @@ const ForceLayout = () => {
   const container = React.useRef();
   useEffect(() => {
     if (!graph) {
-
       const graph = new G6.Graph({
         container: container.current as string | HTMLElement,
         width: 500,
@@ -29,12 +28,12 @@ const ForceLayout = () => {
           color: '#e2e2e2',
         },
         modes: {
-          default: ['drag-canvas']
-        }
+          default: ['drag-canvas'],
+        },
       });
       fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
-        .then(res => res.json())
-        .then(data => {
+        .then((res) => res.json())
+        .then((data) => {
           graph.data({
             nodes: data.nodes,
             edges: data.edges.map(function (edge, i) {
@@ -47,7 +46,7 @@ const ForceLayout = () => {
 
           const forceLayout = graph.get('layoutController').layoutMethod;
           graph.on('node:dragstart', function (e) {
-            graph.layout()
+            graph.layout();
             refreshDragedNodePosition(e);
           });
           graph.on('node:drag', function (e) {
@@ -59,18 +58,18 @@ const ForceLayout = () => {
             e.item.get('model').fy = null;
           });
 
-          graph.on('canvas:click', e => {
+          graph.on('canvas:click', (e) => {
             graph.addItem('node', {
               id: 'newnode',
               label: 'xx',
               x: 0,
-              y: 0
-            })
+              y: 0,
+            });
             graph.addItem('edge', {
               source: 'newnode',
-              target: 'Myriel'
-            })
-            graph.layout()
+              target: 'Myriel',
+            });
+            graph.layout();
           });
         });
 
@@ -78,7 +77,7 @@ const ForceLayout = () => {
         const model = e.item.get('model');
         model.fx = e.x;
         model.fy = e.y;
-      }
+      };
     }
   });
   return <div ref={container}></div>;

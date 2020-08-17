@@ -79,7 +79,7 @@ First, we count the total degrees of each node based on the data by simple JavaS
 ```javascript
 const nodes = data.nodes;
 const edges = data.edges;
-nodes.forEach(n => {
+nodes.forEach((n) => {
   n.y = -n.y;
   n.degree = 0;
   n.inDegree = 0;
@@ -87,10 +87,10 @@ nodes.forEach(n => {
 });
 // Compute the degree of each node
 const nodeIdMap = new Map();
-nodes.forEach(node => {
+nodes.forEach((node) => {
   nodeIdMap.set(node.id, node);
 });
-edges.forEach(e => {
+edges.forEach((e) => {
   const source = nodeIdMap.get(e.source);
   const target = nodeIdMap.get(e.target);
   source.outDegree++;
@@ -100,7 +100,7 @@ edges.forEach(e => {
 });
 let maxDegree = -9999,
   minDegree = 9999;
-nodes.forEach(n => {
+nodes.forEach((n) => {
   if (maxDegree < n.degree) maxDegree = n.degree;
   if (minDegree > n.degree) minDegree = n.degree;
 });
@@ -124,7 +124,7 @@ scaleNodeProp(nodes, 'size', 'degree', degreeDataRange, sizeRange);
 function scaleNodeProp(nodes, propName, refPropName, dataRange, outRange) {
   const outLength = outRange[1] - outRange[0];
   const dataLength = dataRange[1] - dataRange[0];
-  nodes.forEach(n => {
+  nodes.forEach((n) => {
     n[propName] = ((n[refPropName] - dataRange[0]) * outLength) / dataLength + outRange[0];
   });
 }

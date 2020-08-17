@@ -72,13 +72,13 @@ const graph = new G6.Graph({
 graph.data(data);
 graph.render();
 // Listen to the mouse enter event on node
-graph.on('node:mouseenter', evt => {
+graph.on('node:mouseenter', (evt) => {
   const node = evt.item;
   // activate the hover state of the node
   graph.setItemState(node, 'hover', true);
 });
 // Listen to the mouse leave event on node
-graph.on('node:mouseleave', evt => {
+graph.on('node:mouseleave', (evt) => {
   const node = evt.item;
   // inactivate the hover state of the node
   graph.setItemState(node, 'hover', false);

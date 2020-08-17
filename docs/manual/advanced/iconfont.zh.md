@@ -282,8 +282,7 @@ graph.render();
 
 ## 注意事项
 
-看了代码大家应该很清楚了，实质就是用了 text 图形，但有几个需要注意的地方：<br />
-**1、text 的 `fontFamily` 必须和 iconfont.css 里面的 `font-family` 保持一致：**<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v0CoQoNIyJ8AAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
+看了代码大家应该很清楚了，实质就是用了 text 图形，但有几个需要注意的地方：<br /> **1、text 的 `fontFamily` 必须和 iconfont.css 里面的 `font-family` 保持一致：**<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v0CoQoNIyJ8AAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wndRQo6U-oUAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
@@ -299,10 +298,8 @@ graph.render();
 // 在 graph.render() 之后调用以下语句：
 setTimeout(() => {
   graph.paint();
-}, 16)
-
+}, 16);
 ```
-
 
 ## 工具函数 getIcon
 
@@ -311,14 +308,14 @@ setTimeout(() => {
 ```javascript
 import fonts from '../fonts/iconfont.json';
 
-const icons = fonts.glyphs.map(icon => {
+const icons = fonts.glyphs.map((icon) => {
   return {
     name: icon.name,
     unicode: String.fromCodePoint(icon.unicode_decimal), // `\\u${icon.unicode}`,
   };
 });
 const getIcon = (type: string) => {
-  const matchIcon = icons.find(icon => {
+  const matchIcon = icons.find((icon) => {
     return icon.name === type;
   }) || { unicode: '', name: 'default' };
   return matchIcon.unicode;

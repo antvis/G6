@@ -31,7 +31,7 @@ G6.registerNode('area', {
     const everyIncAngle = (2 * Math.PI * (360 / 5)) / 360;
     const tempIncValues = [baseR, baseR, baseR, baseR, baseR];
     const allRs = [];
-    cfg.details.forEach(cat => {
+    cfg.details.forEach((cat) => {
       const oneRs = [];
       cat.values.forEach((v, i) => {
         const R = tempIncValues[i] + v * 0.4;
@@ -58,7 +58,7 @@ G6.registerNode('area', {
     allRs.reverse().forEach((Rs, index) => {
       let curAngle = 0;
       const poss = [];
-      Rs.forEach(r => {
+      Rs.forEach((r) => {
         const xPos = r * Math.cos(curAngle);
         const yPos = r * Math.sin(curAngle);
         curAngle += everyIncAngle;

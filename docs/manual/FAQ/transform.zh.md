@@ -78,8 +78,9 @@ rect.transform([
 - 🗑 以 (0, 0) 点为中心的旋转函数 rotateAtStart。
 
 在 G6 3.3 版本中要应用矩阵变换的效果，需要手动设置矩阵的值：
+
 - 获取当前矩阵：getMatrix()；
-- 设置矩阵：setMatrix(matrix) 或 attr('matrix', matrix)； 
+- 设置矩阵：setMatrix(matrix) 或 attr('matrix', matrix)；
 - 重置矩阵：resetMatrix()。
 
 为了方面使用，我们提供了矩阵变换的工具方法：
@@ -88,13 +89,14 @@ rect.transform([
 import { transform } from '@antv/matrix-util';
 // 3*3 矩阵变换，用于二维渲染
 trasform(m, [
-  [ 't', 100, 50 ], // translate (100, 50)
-  [ 'r', Math.PI ], // rotate Math.PI
-  [ 's', 2, 2 ], // scale 2 times at x-axis and y-axis
+  ['t', 100, 50], // translate (100, 50)
+  ['r', Math.PI], // rotate Math.PI
+  ['s', 2, 2], // scale 2 times at x-axis and y-axis
 ]);
 ```
 
 #### 示例
+
 以下方法实现了在自定义节点 example 中增加一个矩形，并将该矩形位移 `(100, 50)` 后，旋转 `Math.PI / 4`，最后在 x 方向放大 2 倍，并在 y 方向缩小 2 倍：
 
 ```javascript
@@ -113,21 +115,21 @@ G6.registerNode('example', {
       },
       // must be assigned in G6 3.3 and later versions. it can be any value you want
       name: 'rect-shape',
-      draggable: true
+      draggable: true,
     });
     const matrix = rect.getMatrix();
-    
+
     // 图形或分组的初始矩阵时 null，为了避免变换一个 null 矩阵，需要通过 mat3.create() 将其初始化为单位矩阵
     if (!matrix) matrix = mat3.create();
 
     // 3*3 矩阵变换，用于二维渲染
     const newMatrix = trasform(matrix, [
-      [ 't', 100, 50 ], // translate
-      [ 'r', Math.PI / 4 ], // rotate
-      [ 's', 2, 0.5 ], // scale
+      ['t', 100, 50], // translate
+      ['r', Math.PI / 4], // rotate
+      ['s', 2, 0.5], // scale
     ]);
 
     rect.setMatrix(newMatrix);
-  }
+  },
 });
 ```

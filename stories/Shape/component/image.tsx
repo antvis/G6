@@ -11,7 +11,7 @@ const Image = () => {
       {
         id: '0',
         label: '0',
-        shape:'image'
+        shape: 'image',
       },
       {
         id: '1',
@@ -32,7 +32,7 @@ const Image = () => {
       {
         id: '5',
         label: '5',
-        shape:'image'
+        shape: 'image',
       },
       {
         id: '6',
@@ -215,7 +215,6 @@ const Image = () => {
 
     graph.data(data);
     graph.render();
-
   });
 
   return <div ref={container}></div>;

@@ -158,12 +158,11 @@ export default class ItemController {
 
       const comboModel = item.getModel();
 
-      children &&
-        children.forEach((child) => {
-          const childItem = graph.findById(child.id) as ICombo | INode;
-          (item as ICombo).addChild(childItem);
-          child.depth = (comboModel.depth as number) + 2;
-        });
+      (children || []).forEach((child) => {
+        const childItem = graph.findById(child.id) as ICombo | INode;
+        (item as ICombo).addChild(childItem);
+        child.depth = (comboModel.depth as number) + 2;
+      });
 
       // collapse the combo if the collapsed is true in the model
       if (model.collapsed) {
@@ -294,7 +293,7 @@ export default class ItemController {
     const length = combEdges.length;
     for (let i = 0; i < length; i++) {
       const edge = combEdges[i];
-      edge && edge.refresh();
+      edge?.refresh();
     }
   }
 
@@ -405,18 +404,17 @@ export default class ItemController {
       let comboInTree;
       // find the subtree rooted at the item to be removed
       let found = false; // the flag to terminate the forEach circulation
-      comboTrees &&
-        comboTrees.forEach((ctree) => {
-          if (found) return;
-          traverseTree<ComboTree>(ctree, (combo) => {
-            if (combo.id === id) {
-              comboInTree = combo;
-              found = true;
-              return false; // terminate the traverse
-            }
-            return true;
-          });
+      (comboTrees || []).forEach((ctree) => {
+        if (found) return;
+        traverseTree<ComboTree>(ctree, (combo) => {
+          if (combo.id === id) {
+            comboInTree = combo;
+            found = true;
+            return false; // terminate the traverse
+          }
+          return true;
         });
+      });
       comboInTree.removed = true;
       if (comboInTree && comboInTree.children) {
         comboInTree.children.forEach((child) => {
@@ -535,23 +533,22 @@ export default class ItemController {
    */
   public addCombos(comboTrees: ComboTree[], comboModels: ComboConfig[]) {
     const { graph } = this;
-    comboTrees &&
-      comboTrees.forEach((ctree: ComboTree) => {
-        traverseTreeUp<ComboTree>(ctree, (child) => {
-          let comboModel;
-          comboModels.forEach((model) => {
-            if (model.id === child.id) {
-              model.children = child.children;
-              model.depth = child.depth;
-              comboModel = model;
-            }
-          });
-          if (comboModel) {
-            this.addItem('combo', comboModel);
+    (comboTrees || []).forEach((ctree: ComboTree) => {
+      traverseTreeUp<ComboTree>(ctree, (child) => {
+        let comboModel;
+        comboModels.forEach((model) => {
+          if (model.id === child.id) {
+            model.children = child.children;
+            model.depth = child.depth;
+            comboModel = model;
           }
-          return true;
         });
+        if (comboModel) {
+          this.addItem('combo', comboModel);
+        }
+        return true;
       });
+    });
     const comboGroup = graph.get('comboGroup');
     if (comboGroup) comboGroup.sort();
   }
@@ -595,19 +592,18 @@ export default class ItemController {
       const id = item.get('id');
       let children = [];
       let found = false; // flag the terminate the forEach
-      comboTrees &&
-        comboTrees.forEach((ctree) => {
-          if (found) return;
-          if (!ctree.children || ctree.children.length === 0) return;
-          traverseTree<ComboTree>(ctree, (combo) => {
-            if (combo.id === id) {
-              children = combo.children;
-              found = true;
-              return false; // terminate the traverse
-            }
-            return true;
-          });
+      (comboTrees || []).forEach((ctree) => {
+        if (found) return;
+        if (!ctree.children || ctree.children.length === 0) return;
+        traverseTree<ComboTree>(ctree, (combo) => {
+          if (combo.id === id) {
+            children = combo.children;
+            found = true;
+            return false; // terminate the traverse
+          }
+          return true;
         });
+      });
       children.forEach((child) => {
         const childItem = graph.findById(child.id);
         this.changeItemVisibility(childItem, visible);

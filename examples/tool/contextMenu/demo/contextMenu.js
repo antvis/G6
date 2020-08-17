@@ -35,7 +35,7 @@ const height = document.getElementById('container').scrollHeight || 500;
 
 const contextMenu = new G6.Menu({
   getContent(graph) {
-    console.log('graph', graph)
+    console.log('graph', graph);
     return `<ul>
       <li title='1'>测试01</li>
       <li title='2'>测试02</li>
@@ -45,7 +45,7 @@ const contextMenu = new G6.Menu({
     </ul>`;
   },
   handleMenuClick: (target, item) => {
-    console.log(target, item)
+    console.log(target, item);
   },
   // offsetX and offsetY include the padding of the parent container
   // 需要加上父级容器的 padding-left 16 与自身偏移量 10
@@ -54,7 +54,7 @@ const contextMenu = new G6.Menu({
   offsetY: 24 + 28 + 10,
   // the types of items that allow the menu show up
   // 在哪些类型的元素上响应
-  itemTypes: ['node', 'edge']
+  itemTypes: ['node', 'edge'],
 });
 
 const graph = new G6.Graph({
@@ -131,4 +131,3 @@ const data = {
 
 graph.data(data);
 graph.render();
-

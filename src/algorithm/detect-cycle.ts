@@ -144,10 +144,12 @@ export const detectAllUndirectedCycle = (graph: IGraph, nodeIds?: string[], incl
           // 把 node list 形式转换为 cycle 的格式
           if (cycleValid) {
             const cycle = {};
-            for (let i = 1; i < cyclePath.length; i += 1) {
-              cycle[cyclePath[i - 1].getID()] = cyclePath[i];
+            for (let index = 1; index < cyclePath.length; index += 1) {
+              cycle[cyclePath[index - 1].getID()] = cyclePath[index];
             }
-            if (cyclePath.length) cycle[cyclePath[cyclePath.length - 1].getID()] = cyclePath[0];
+            if (cyclePath.length) {
+              cycle[cyclePath[cyclePath.length - 1].getID()] = cyclePath[0];
+            }
             allCycles.push(cycle);
           }
 
@@ -181,8 +183,8 @@ export const detectAllDirectedCycle = (graph: IGraph, nodeIds?: string[], includ
       const node = stack.pop();
       if (blocked.has(node)) {
         blocked.delete(node);
-        B[node.get('id')].forEach((node) => {
-          stack.push(node);
+        B[node.get('id')].forEach((n) => {
+          stack.push(n);
         });
         B[node.get('id')].clear();
       }
@@ -190,6 +192,8 @@ export const detectAllDirectedCycle = (graph: IGraph, nodeIds?: string[], includ
   };
 
   const circuit = (node, start, adjList) => {
+    const idx2Node = {};
+    const node2Idx = {};
     let closed = false; // whether a path is closed
     if (nodeIds && include === false && nodeIds.indexOf(node.get('id')) > -1) return closed;
     path.push(node);
@@ -200,10 +204,12 @@ export const detectAllDirectedCycle = (graph: IGraph, nodeIds?: string[], includ
       const neighbor = idx2Node[neighbors[i]];
       if (neighbor === start) {
         const cycle = {};
-        for (let i = 1; i < path.length; i += 1) {
-          cycle[path[i - 1].getID()] = path[i];
+        for (let index = 1; index < path.length; index += 1) {
+          cycle[path[index - 1].getID()] = path[index];
         }
-        if (path.length) cycle[path[path.length - 1].getID()] = path[0];
+        if (path.length) {
+          cycle[path[path.length - 1].getID()] = path[0];
+        }
         allCycles.push(cycle);
         closed = true;
       } else if (!blocked.has(neighbor)) {
@@ -228,8 +234,6 @@ export const detectAllDirectedCycle = (graph: IGraph, nodeIds?: string[], includ
   };
 
   const nodes = graph.getNodes();
-  const node2Idx = {};
-  const idx2Node = {};
 
   // Johnson's algorithm 要求给节点赋顺序，先按节点在数组中的顺序
   for (let i = 0; i < nodes.length; i += 1) {

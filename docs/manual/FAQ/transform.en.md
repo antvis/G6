@@ -78,6 +78,7 @@ After G6 3.3, the following transform methods are discarded:
 - 🗑 rotateAtStart: rotate the shape or group with center (0, 0)。
 
 To achive some transformation in G6 3.3, you should set the matrix value manually:
+
 - Get the current matrix of a shape or a group: getMatrix();
 - Set the matrix to a shape or a group: setMatrix(matrix) or attr('matrix', matrix);
 - Reset the matrix: resetMatrix().
@@ -95,6 +96,7 @@ trasform(m, [
 ```
 
 #### Example
+
 The following code registers a custom node with a transfromed rect with: translation with vector `(100, 50)`, rotating with angle `Math.PI / 4`, maginifying 2 times on x-axis and 0.5 times on y-axis:
 
 ```javascript
@@ -115,18 +117,18 @@ G6.registerNode('example', {
       name: 'rect-shape',
     });
     const matrix = rect.getMatrix();
-    
+
     // the init matrix for a shape or a group is null, initiate it with unit matrix
     if (!matrix) matrix = mat3.create();
 
     // transform a 3*3 matrix
     const newMatrix = trasform(matrix, [
-      [ 't', 100, 50 ], // translate
-      [ 'r', Math.PI / 4 ], // rotate
-      [ 's', 2, 0.5 ], // scale
+      ['t', 100, 50], // translate
+      ['r', Math.PI / 4], // rotate
+      ['s', 2, 0.5], // scale
     ]);
 
     rect.setMatrix(newMatrix);
-  }
+  },
 });
 ```

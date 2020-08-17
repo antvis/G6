@@ -5,7 +5,6 @@ import G6 from '@antv/g6';
  *
  */
 
-
 /**
  * format the string
  * @param {string} str The origin string
@@ -16,7 +15,7 @@ import G6 from '@antv/g6';
 const fittingString = (str, maxWidth, fontSize) => {
   let currentWidth = 0;
   let res = str;
-  const pattern = new RegExp("[\u4E00-\u9FA5]+"); // distinguish the Chinese charactors and letters
+  const pattern = new RegExp('[\u4E00-\u9FA5]+'); // distinguish the Chinese charactors and letters
   str.split('').forEach((letter, i) => {
     if (currentWidth > maxWidth) return;
     if (pattern.test(letter)) {
@@ -32,7 +31,6 @@ const fittingString = (str, maxWidth, fontSize) => {
   });
   return res;
 };
-
 
 const globalFontSize = 12;
 const data = {

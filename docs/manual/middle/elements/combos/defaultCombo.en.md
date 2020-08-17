@@ -16,12 +16,12 @@ The table below shows the built-in Combos and their special properties:
 | Name | Description | Default |
 | --- | --- | --- |
 | circle | Circle Combo: <br />- `size` is a number representing the diameter<br />- The circle is centered at the combo position<br />- `color` takes effect on the stroke<br />- The label is placed on the top of the circle by default<br />- More properties are described in [circle](/en/docs/manual/middle/elements/combos/circle)<br />- <a href='/en/examples/item/defaultCombos#circle' target='_blank'>Demo</a> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ijeuQoiH0JUAAAAAAAAAAABkARQnAQ' width=150 alt='img'/> |
-| rect | Rect Combo: <br />- `size` is an array, e.g. [100, 50]<br />- The rect in centered at the combo position<br />- `color` takes effect on the stroke<br />- The label is placed on the left top of the circle by default<br />- More properties are described in [rect](/zh/docs/manual/middle/elements/combos/rect)<br />- <a href='/en/examples/item/defaultCombos#rect' target='_blank'>Demo</a> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Khp4QpxXVlQAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>  |
+| rect | Rect Combo: <br />- `size` is an array, e.g. [100, 50]<br />- The rect in centered at the combo position<br />- `color` takes effect on the stroke<br />- The label is placed on the left top of the circle by default<br />- More properties are described in [rect](/zh/docs/manual/middle/elements/combos/rect)<br />- <a href='/en/examples/item/defaultCombos#rect' target='_blank'>Demo</a> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Khp4QpxXVlQAAAAAAAAAAABkARQnAQ' width=150 alt='img'/> |
 
 ## Common Property
 
 | Name | Required | Type | Example | Remark |
-| --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | id | true | String | 'comboA' | The id of the Combo, **Must** be a unique string |
 | type | false | String | 'rect' | The shape type of the Combo. It can be the type of built-in Combo, or the custom Combo. `'circle'` by default |
 | parentId | string | false | 'comboB' | The ID of the parent Combo |
@@ -35,18 +35,18 @@ The table below shows the built-in Combos and their special properties:
 
 `style` is an object to configure the filling color, stroke color, shadow, and so on. Here is the commonly used properties in `style`:
 
-| Name          | Required | Type   | Remark                                        |
-| ------------- | -------- | ------ | --------------------------------------------- |
-| fill          | false    | String | The filling color                             |
-| stroke        | false    | String | The stroke color                              |
-| lineWidth     | false    | Number | The line width of the stroke                  |
-| shadowColor   | false    | String | The shadow color                              |
-| shadowBlur    | false    | Number | The blur of the shadow                        |
-| shadowOffsetX | false    | Number | The x offset of the shadow                    |
-| shadowOffsetY | false    | Number | The y offset of the shadow                    |
-| opacity       | false    | Number | The alpha or transparency of the combo         |
-| fillOpacity   | false    | Number | The filling alpha or transparency of the combo |
-| cursor        | false    | String | The type of the mouse when hovering the combo. The options are the same as [cursor in CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) |
+| Name | Required | Type | Remark |
+| --- | --- | --- | --- |
+| fill | false | String | The filling color |
+| stroke | false | String | The stroke color |
+| lineWidth | false | Number | The line width of the stroke |
+| shadowColor | false | String | The shadow color |
+| shadowBlur | false | Number | The blur of the shadow |
+| shadowOffsetX | false | Number | The x offset of the shadow |
+| shadowOffsetY | false | Number | The y offset of the shadow |
+| opacity | false | Number | The alpha or transparency of the combo |
+| fillOpacity | false | Number | The filling alpha or transparency of the combo |
+| cursor | false | String | The type of the mouse when hovering the combo. The options are the same as [cursor in CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) |
 
 Configure `style` globally when instantiating the Graph:
 
@@ -187,7 +187,7 @@ By this way, we can configure different combos with different properties.
 ```javascript
 // const data = ...
 // const graph = ...
-graph.combo(combo => {
+graph.combo((combo) => {
   return {
     id: combo.id,
     type: 'rect',
@@ -205,14 +205,17 @@ graph.render();
 
 ```javascript
 const data = {
-  nodes: [{
-    id: 'node1',
-    label: 'Node1',
-    comboId: 'rect_combo'
-  }, {
-    id: 'node2',
-    label: 'Node 2'
-  }],
+  nodes: [
+    {
+      id: 'node1',
+      label: 'Node1',
+      comboId: 'rect_combo',
+    },
+    {
+      id: 'node2',
+      label: 'Node 2',
+    },
+  ],
   combos: [
     {
       id: 'circle_combo',
@@ -240,7 +243,6 @@ graph.render();
 
 The result: <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*biK0SJmQB6gAAAAAAAAAAABkARQnAQ' width='750' height='100' alt='img'/>
 
-
 ### Adjust the Properties
 
 By writing the properties into the data, we adjust the label position, color, and styles of the combo with `'rect_combo'` as its id. Replace the following code to the code about `'rect_combo'`'s data to obtain the result.
@@ -267,7 +269,6 @@ By writing the properties into the data, we adjust the label position, color, an
 ```
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NF3eRLJP1DkAAAAAAAAAAABkARQnAQ' width='750' height='100' alt='img'/>
-
 
 ## Related Reading
 

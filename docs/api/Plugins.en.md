@@ -39,10 +39,9 @@ Use the code in [Configure to Graph](#configure-to-graph) to instantiate grid pl
 
 ### Configuration
 
-| Name | Type | Required | Description |
-| --- | --- | --- | --- |
-| img | Srting | false | base64 formatted string for the grid image |
-
+| Name | Type   | Required | Description                                |
+| ---- | ------ | -------- | ------------------------------------------ |
+| img  | Srting | false    | base64 formatted string for the grid image |
 
 ## Minimap
 
@@ -54,7 +53,7 @@ It can be configured to adjust the styles and functions.
 
 ### Configuration
 
-| Name | Type |  Required | Description |
+| Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | container | Object | false | The DOM container of Minimap. The plugin will generate a new one if `container` is not defined |
 | className | String | false | The className of the DOM element of the Minimap |
@@ -65,15 +64,13 @@ It can be configured to adjust the styles and functions.
 
 The `delegateStyle` has the properties:
 
-| Name        | Type   |  Required | Description             |
-| ----------- | ------ | ------ | ----------------------- |
-| fill        | String |  false | Filling color           |
-| stroke      | String |  false | Stroke color            |
-| lineWidth   | Number |  false | The width of the stroke |
-| opacity     | Number |  false | Opacity                 |
-| fillOpacity | Number |  false | Filling opacity         |
-
-
+| Name        | Type   | Required | Description             |
+| ----------- | ------ | -------- | ----------------------- |
+| fill        | String | false    | Filling color           |
+| stroke      | String | false    | Stroke color            |
+| lineWidth   | Number | false    | The width of the stroke |
+| opacity     | Number | false    | Opacity                 |
+| fillOpacity | Number | false    | Filling opacity         |
 
 ## Image Minimap
 
@@ -86,10 +83,10 @@ Configure the Image Minimap when instantiating the minimap.
 ### Configuration
 
 | Name | Type | Required | Description |
-| --- | --- | --- |
+| --- | --- | --- | --- |
 | graphImg | String | true | The src or base64 string of the minimap |
-| width | Number | false |  The width of the minimap. The aspect ratio of the minimap will always be the same as the main graph. The `width`'s priority is higher than `height`, that is, if the `width`is assigned, the `height` will be adjusted to meet the aspect ratio |
-| height | Number | false |  The height of the minimap. The aspect ratio of the minimap will always be the same as the main graph. If the `width` is not assigned while the `height` is assigned, the `width` will be equal to `height` * aspect ratio |
+| width | Number | false | The width of the minimap. The aspect ratio of the minimap will always be the same as the main graph. The `width`'s priority is higher than `height`, that is, if the `width`is assigned, the `height` will be adjusted to meet the aspect ratio |
+| height | Number | false | The height of the minimap. The aspect ratio of the minimap will always be the same as the main graph. If the `width` is not assigned while the `height` is assigned, the `width` will be equal to `height` \* aspect ratio |
 | container | Object | false | The DOM container of Minimap. The plugin will generate a new one if `container` is not defined |
 | className | String | false | The className of the DOM element of the Minimap |
 | viewportClassName | String | false | The className of the DOM element of the view port on the Minimap |
@@ -97,13 +94,13 @@ Configure the Image Minimap when instantiating the minimap.
 
 The `delegateStyle` has the properties:
 
-| Name        | Type   |  Required | Description             |
-| ----------- | ------ | ------ | ----------------------- |
-| fill        | String |  false | Filling color           |
-| stroke      | String |  false | Stroke color            |
-| lineWidth   | Number |  false | The width of the stroke |
-| opacity     | Number |  false | Opacity                 |
-| fillOpacity | Number |  false | Filling opacity         |
+| Name        | Type   | Required | Description             |
+| ----------- | ------ | -------- | ----------------------- |
+| fill        | String | false    | Filling color           |
+| stroke      | String | false    | Stroke color            |
+| lineWidth   | Number | false    | The width of the stroke |
+| opacity     | Number | false    | Opacity                 |
+| fillOpacity | Number | false    | Filling opacity         |
 
 ### API
 
@@ -113,10 +110,9 @@ Update the `graphImg` for the minimap. We recommand you to update the graphImg w
 
 Parameters:
 
-| Name | Type | Required | Description |
-| ----------- | ------ | --- | ---------- |
-| img | String | true | minimap 的图片地址或 base64 文本 |
-
+| Name | Type   | Required | Description                      |
+| ---- | ------ | -------- | -------------------------------- |
+| img  | String | true     | minimap 的图片地址或 base64 文本 |
 
 ### Usage
 
@@ -153,17 +149,16 @@ The edge bundling plugin can be configured to adjust the styles and functions.
 
 ### Configuration
 
-| Name | Type |  Required | Default | Description |
+| Name | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
-| K | Number |  false | 0.1 | The strength of the bundling |
-| lambda | Number |  false | 0.1 | The initial step length |
-| divisions | Number |  false | 1 | The initial number of division on each edge. It will be multipled by `divRate` in each cycle |
-| divRate | Number |  false | 2 | The rate of the divisions increasement. Large number means smoother result, but the performance will be worse when the number is too large |
-| cycles | Number |  false | 6 | The number of outer interations |
+| K | Number | false | 0.1 | The strength of the bundling |
+| lambda | Number | false | 0.1 | The initial step length |
+| divisions | Number | false | 1 | The initial number of division on each edge. It will be multipled by `divRate` in each cycle |
+| divRate | Number | false | 2 | The rate of the divisions increasement. Large number means smoother result, but the performance will be worse when the number is too large |
+| cycles | Number | false | 6 | The number of outer interations |
 | iterations | Number | false | 90 | The initial number of inner interations. It will be multiplied by `iterRate` in each cycle |
 | iterRate | Number | false | 0.6666667 | The rate of the iterations decreasement |
 | bundleThreshold | Number | false | 0.6 | The edge similarity threshold for bundling. Large number means the edges in one bundle have smaller similarity, in other words, more edges in one bundle |
-
 
 ## Menu
 
@@ -244,6 +239,7 @@ const graph = new G6.Graph({
 ## ToolBar
 
 ToolBar has the following operations by default:
+
 - Undo;
 - Redo;
 - Zoom-in;
@@ -264,6 +260,7 @@ ToolBar has the following operations by default:
 ### Usage
 
 #### Default Usage
+
 ToolBar provides some default operations above.
 
 ```
@@ -329,7 +326,7 @@ const toolbar = new G6.ToolBar({
     return outDiv
   },
   handleClick: (code, graph) => {
-    
+
   }
 });
 
@@ -342,6 +339,7 @@ const graph = new G6.Graph({
 ## TimeBar
 
 The built-in TimeBar plugin has the following abilities:
+
 - Filtering the data of the graph by changing the time range;
 - Demonstrating the trending of the data by an attribute on the TimeBar.
 
@@ -358,7 +356,6 @@ The built-in TimeBar plugin has the following abilities:
 | height | number | 400 | The height of the TimeBar's container |
 | timebar | TimeBarOption | {} | The style configurations for TimeBar |
 | rangeChange | (graph: IGraph, min: number, max: number) => void | null | The callback function after changing the time range |
-
 
 **TimeBarOption for timebar**
 
@@ -419,6 +416,7 @@ const graph = new G6.Graph({
 ```
 
 ##### Style Configuration
+
 It is free to configure the style for the TimeBar, and listen to the value changing to do some response.
 
 ```
@@ -455,7 +453,6 @@ const graph = new G6.Graph({
 });
 ```
 
-
 ## ToolTip
 
 ToolTip helps user to explore detail infomations on the node and edge. Do note that, This Tooltip Plugins will replace the tooltip in the built-in behavior after G6 4.0.
@@ -470,13 +467,14 @@ ToolTip helps user to explore detail infomations on the node and edge. Do note t
 | shouldBegin | (evt: G6Event) => boolean | undefined | Whether allow the tooltip show up. You can return true or false according to the content of the `evt.item` (current item of the event) or `evt.target` (current shape of the event) |
 | offsetX | number | 6 | the offset of tooltip along x axis, the padding of the parent container should be take into consider |
 | offsetY | number | 6 | the offset of tooltip along y axis, the padding of the parent container should be take into consider |
-| itemTypes | string[] | ['node', 'edge', 'combo'] | the item types that allow the tooltip show up. e.g. if you only want the node tooltip, set the `itemTypes` to be  ['node'] |
+| itemTypes | string[] | ['node', 'edge', 'combo'] | the item types that allow the tooltip show up. e.g. if you only want the node tooltip, set the `itemTypes` to be ['node'] |
 
 ### Usage
 
 The content of the Tooltip is the type and id of the item by default. Users are free to custom the content of the Tooltip by configuring `getContent`:
 
 #### Dom Tooltip
+
 ```
 const tooltip = new G6.Tooltip({
   offsetX: 10,
@@ -501,6 +499,7 @@ const graph = new G6.Graph({
 ```
 
 #### String Tooltip
+
 ```
 const tooltip = new G6.Tooltip({
   getContent(e) {
@@ -522,20 +521,18 @@ const graph = new G6.Graph({
 });
 ```
 
-
 ## Fisheye Lens
 
-Fisheye is designed for focus_context exploration, it keeps the context and the relationships between context and the focus while magnifing the focus area. 
+Fisheye is designed for focus_context exploration, it keeps the context and the relationships between context and the focus while magnifing the focus area.
 
 ### Configuration
 
-| Name | Type |  Required | Default | Description |
+| Name | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
 | trigger | 'mousemove' / 'click' | false | 'mousemove' | The trigger for the lens |
 | d | Number | false | 1.5 | Magnify coefficient. Larger the value, larger the focus area will be magnified |
 | r | Number | false | 300 | The radius of the focus area |
-| delegateStyle | Object | false |  { stroke: '#000', strokeOpacity: 0.8, lineWidth: 2, fillOpacity: 0.1, fill: '#ccc' } | The style of the lens's delegate |
+| delegateStyle | Object | false | { stroke: '#000', strokeOpacity: 0.8, lineWidth: 2, fillOpacity: 0.1, fill: '#ccc' } | The style of the lens's delegate |
 | showLabel | Boolean | false | false | If the label is hidden, whether to show the label of nodes inside the focus area |
-
 
 ### Usage

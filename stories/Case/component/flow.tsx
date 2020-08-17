@@ -216,7 +216,7 @@ const CustomFlow = () => {
           const controlPoint = {
             x:
               ((line1EndPoint.x - startPoint.x) * (endPoint.y - startPoint.y)) /
-              (line1EndPoint.y - startPoint.y) +
+                (line1EndPoint.y - startPoint.y) +
               startPoint.x,
             y: endPoint.y,
           };
@@ -322,12 +322,15 @@ const CustomFlow = () => {
             stroke: '#72CC4A',
             width: 150,
           },
-          anchorPoints: [[0, 0.5], [1, 0.5]]
+          anchorPoints: [
+            [0, 0.5],
+            [1, 0.5],
+          ],
         },
         defaultEdge: {
           type: 'polyline2',
           sourceAnchor: 1,
-          targetAnchor: 0
+          targetAnchor: 0,
         },
       });
 

@@ -12,14 +12,14 @@ const data: GraphData = {
       x: 150,
       y: 150,
       label: 'node1',
-      comboId: 'A'
+      comboId: 'A',
     },
     {
       id: 'node2',
       x: 200,
       y: 250,
       label: 'node2',
-      comboId: 'B'
+      comboId: 'B',
     },
     {
       id: 'node3',
@@ -47,9 +47,10 @@ const data: GraphData = {
       id: 'A',
       parentId: 'B',
       label: 'gorup A',
-      padding: [50, 10, 10, 10]
+      padding: [50, 10, 10, 10],
       // type: 'rect'
-    }, {
+    },
+    {
       id: 'B',
       // parentId: 'C',
       label: 'gorup B',
@@ -65,10 +66,12 @@ const data: GraphData = {
       id: 'D',
       label: 'gorup D',
       // type: 'rect'
-    }, {
+    },
+    {
       id: 'E',
       // type: 'rect'
-    }]
+    },
+  ],
 };
 
 const data2: GraphData = {
@@ -78,7 +81,7 @@ const data2: GraphData = {
       x: 150,
       y: 150,
       label: 'node1',
-      comboId: 'A'
+      comboId: 'A',
     },
     {
       id: 'node2',
@@ -97,7 +100,7 @@ const data2: GraphData = {
       x: 200,
       y: 350,
       label: 'node4',
-      comboId: 'B'
+      comboId: 'B',
     },
   ],
   edges: [
@@ -119,61 +122,70 @@ const data2: GraphData = {
       id: 'A',
       parentId: 'C',
       label: 'gorup A',
-      type: 'circle'
-    }, {
+      type: 'circle',
+    },
+    {
       id: 'B',
       parentId: 'C',
       label: 'gorup B',
-      type: 'circle'
-    }, {
+      type: 'circle',
+    },
+    {
       id: 'C',
       label: 'gorup C',
       // type: 'rect'
-    }, {
+    },
+    {
       id: 'F',
       label: 'gorup F',
       // type: 'rect'
-    }, {
+    },
+    {
       id: 'G',
       label: 'gorup G',
       // parentId: 'F'
-      type: 'circle'
-    }]
+      type: 'circle',
+    },
+  ],
 };
 
 const RegisterCombo = () => {
   const container = React.useRef();
-  G6.registerCombo('custom-combo', {
-    draw: (cfg, group) => {
-      const style = cfg.style || {};
-      const keyShape = group.addShape('circle', {
-        attrs: style,
-        className: 'circle-combo',
-        name: 'circle-combo',
-        draggable: true,
-      });
-      group.addShape('marker', {
-        attrs: {
-          x: keyShape.attr('r') + 5,
-          y: 0,
-          r: 5,
-          stroke: '#C00',
-          symbol: 'triangle-down'
-        },
-        name: 'marker-shape'
-      })
-      return keyShape;
+  G6.registerCombo(
+    'custom-combo',
+    {
+      draw: (cfg, group) => {
+        const style = cfg.style || {};
+        const keyShape = group.addShape('circle', {
+          attrs: style,
+          className: 'circle-combo',
+          name: 'circle-combo',
+          draggable: true,
+        });
+        group.addShape('marker', {
+          attrs: {
+            x: keyShape.attr('r') + 5,
+            y: 0,
+            r: 5,
+            stroke: '#C00',
+            symbol: 'triangle-down',
+          },
+          name: 'marker-shape',
+        });
+        return keyShape;
+      },
+      update: (cfg, item) => {
+        const group = item.get('group');
+        if (cfg.markerStyle) {
+          const marker = group.find((ele) => ele.get('name') === 'marker-shape');
+          marker.attr(cfg.markerStyle);
+        }
+        const keyShape = group.get('children')[0];
+        keyShape.attr(cfg.style);
+      },
     },
-    update: (cfg, item) => {
-      const group = item.get('group');
-      if (cfg.markerStyle) {
-        const marker = group.find(ele => ele.get('name') === 'marker-shape');
-        marker.attr(cfg.markerStyle);
-      }
-      const keyShape = group.get('children')[0];
-      keyShape.attr(cfg.style);
-    }
-  }, 'circle-combo');
+    'circle-combo',
+  );
 
   useEffect(() => {
     if (!graph) {
@@ -182,16 +194,16 @@ const RegisterCombo = () => {
         width: 1000,
         height: 800,
         modes: {
-          default: ['drag-canvas']
+          default: ['drag-canvas'],
         },
         defaultCombo: {
           // size: [100, 100],
-          type: 'custom-combo',//custom-combo
+          type: 'custom-combo', //custom-combo
           style: {
             fill: '#ccc',
             stroke: '#000',
-            opacity: 0.8
-          }
+            opacity: 0.8,
+          },
         },
         // defaultNode: {
         //   type: 'custom-node'
@@ -223,10 +235,10 @@ const RegisterCombo = () => {
       graph.data(data);
       graph.render();
       let selected = false;
-      graph.on('node:click', e => {
+      graph.on('node:click', (e) => {
         graph.hideItem(e.item);
-      })
-      graph.on('combo:click', e => {
+      });
+      graph.on('combo:click', (e) => {
         // selected = !selected;
         // graph.setItemState(e.item, 'selected', selected);
         // graph.setItemState(e.item, 'state2', selected);
@@ -237,11 +249,11 @@ const RegisterCombo = () => {
         graph.updateItem(e.item, {
           // type: 'rect',
           style: {
-            fill: '#f00'
+            fill: '#f00',
           },
           markerStyle: {
-            fill: '#0f0'
-          }
+            fill: '#0f0',
+          },
           // label: 'new Label',
           // labelCfg: {
           //   position: 'bottom'
@@ -249,7 +261,7 @@ const RegisterCombo = () => {
         });
         // graph.uncombo(e.item);
       });
-      graph.on('canvas:click', e => {
+      graph.on('canvas:click', (e) => {
         // graph.setItemState(graph.findById('A'), 'selected', true);
         // console.log( graph.findAllByState('combo', 'selected'))
         // const hidedCombos = graph.findAll('combo', combo => {
@@ -269,7 +281,7 @@ const RegisterCombo = () => {
 
         graph.addItem('combo', {
           id: 'M',
-          parentId: 'B'
+          parentId: 'B',
         });
         // graph.updateItem('A', {
         //   parentId: 'B'

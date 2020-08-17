@@ -572,11 +572,11 @@ describe('shape edge test', () => {
           },
           group,
         );
-        group.setMatrix([ 0.5, 0, 0, 0, 0.5, 0, 0, 0, 1]);
-        group.setMatrix([ 0.5, 0, 0, 0, 0.5, 0, 100, 100, 1]);
+        group.setMatrix([0.5, 0, 0, 0, 0.5, 0, 0, 0, 1]);
+        group.setMatrix([0.5, 0, 0, 0, 0.5, 0, 100, 100, 1]);
       }
-      canvasGroup.setMatrix([ 0.8, 0, 0, 0, 0.8, 0, 0, 0, 1]);
-      canvasGroup.setMatrix([ 0.8, 0, 0, 0, 0.8, 0, 200, 200, 1]);
+      canvasGroup.setMatrix([0.8, 0, 0, 0, 0.8, 0, 0, 0, 1]);
+      canvasGroup.setMatrix([0.8, 0, 0, 0, 0.8, 0, 200, 200, 1]);
       canvas.draw();
       const label = canvasGroup.get('children')[1].get('children')[1];
       expect(label.attr('rotate')).toBe(undefined);

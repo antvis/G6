@@ -29,7 +29,7 @@ G6.registerNode('circleLine', {
     }
 
     const everyIncAngle = (2 * Math.PI * (360 / 5 / 5)) / 360;
-    cfg.details.forEach(cat => {
+    cfg.details.forEach((cat) => {
       // 计算一系列点的位置
       const postions = [];
       cat.values.forEach((item, index) => {
@@ -45,7 +45,7 @@ G6.registerNode('circleLine', {
           postions.push([xPos, yPos]);
         }
       });
-      const pathArrayL = postions.map(item => ['L', ...item]);
+      const pathArrayL = postions.map((item) => ['L', ...item]);
       // add the connecting line
       group.addShape('path', {
         attrs: {

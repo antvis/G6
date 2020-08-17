@@ -114,8 +114,7 @@ Type: Number | Array; Default: 0. It is the padding between canvas and the borde
 
 - `fitCenter`
 
-Type: Boolean; Default: 'false'. Whether to translate the graph to align its center with the canvas. *Supported by v3.5.1.* 
-
+Type: Boolean; Default: 'false'. Whether to translate the graph to align its center with the canvas. _Supported by v3.5.1._
 
 #### Global Item Configuration
 

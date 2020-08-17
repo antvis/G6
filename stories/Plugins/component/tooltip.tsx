@@ -46,7 +46,7 @@ const Tooltip = () => {
   useEffect(() => {
     if (!graph) {
       const tooltip = new G6.Tooltip({
-        offset: 0
+        offset: 0,
       });
       graph = new Graph({
         container: container.current as string | HTMLElement,
@@ -54,26 +54,32 @@ const Tooltip = () => {
         height: 500,
         plugins: [tooltip],
         modes: {
-          default: ['drag-canvas', 'zoom-canvas']
-        }
+          default: ['drag-canvas', 'zoom-canvas'],
+        },
       });
       graph.data(data);
       graph.render();
-      let width = 500, height = 500;
-      graph.on('canvas:click', evt => {
+      let width = 500,
+        height = 500;
+      graph.on('canvas:click', (evt) => {
         width += 100;
         height += 50;
-        graph.changeSize(width, height)
+        graph.changeSize(width, height);
       });
-      graph.on('node:click', e => {
+      graph.on('node:click', (e) => {
         graph.removeItem(e.item);
-      })
-      graph.on('edge:click', e => {
+      });
+      graph.on('edge:click', (e) => {
         graph.removeItem(e.item);
-      })
+      });
     }
   });
-  return <div><div style={{ backgroundColor: '#000', width: '100px', height: '100px' }}></div><div style={{ left: '100px' }} ref={container}></div></div>;
+  return (
+    <div>
+      <div style={{ backgroundColor: '#000', width: '100px', height: '100px' }}></div>
+      <div style={{ left: '100px' }} ref={container}></div>
+    </div>
+  );
 };
 
 export default Tooltip;

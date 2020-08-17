@@ -48,7 +48,6 @@ There might be multiple 'colleague' type relationships betwenn node A and B, e.g
 
 **Applicable Scene:** Cluster relationships with same type into one edge to reduce the visual clutter.
 
-
 ## Circle Detection
 
 Suppose that we know a circle of friends: A is a friend of B, B is a friend of C, C is a friend of A. Now we want to figure out if D and E are related to the known circle. Input D and E into circle detection, D and E will show up if they are related to the circle.

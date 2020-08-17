@@ -11,8 +11,8 @@ describe('graph state controller', () => {
     width: 500,
     height: 500,
     nodeStateStyles: {
-      selected: {}
-    }
+      selected: {},
+    },
   });
   const data = {
     nodes: [

@@ -44,7 +44,7 @@ CompactBox is the default layout for TreeGraph. It will consider the bounding bo
 **Type**: Function<br />**Example**:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   return d.id + '_node';
 };
@@ -57,7 +57,7 @@ d => {
 **Type**: Number | Function<br />**Example**:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   if (d.id === 'testId') return 50;
   return 100;
@@ -71,7 +71,7 @@ d => {
 **Type**: Number | Function<br />**Example**:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   if (d.id === 'testId') return 50;
   return 100;
@@ -85,7 +85,7 @@ d => {
 **Type**: Number | Function<br />**Example**:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   if (d.id === 'testId') return 50;
   return 100;
@@ -99,7 +99,7 @@ d => {
 **Type**: Number | Function<br />**Example**:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   if (d.id === 'testId') return 50;
   return 100;
@@ -193,7 +193,7 @@ Indented layout represents the hierarchy by indent between them. Each node will 
 **Type**: Number | Function<br />**Example**:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   if (d.id === 'testId') return 50;
   return 100;
@@ -207,7 +207,7 @@ d => {
 **Type**: Number | Function<br />**Example**:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   if (d.id === 'testId') return 50;
   return 100;
@@ -221,7 +221,7 @@ d => {
 **Type**: Function<br />**Example**:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   if (d.id === 'testId') return 'left';
   return 'right';
@@ -232,12 +232,11 @@ d => {
 
 #### dropCap
 
-**Type**: Boolean 
+**Type**: Boolean
 
 <br />**Required**: false
 
 <br />**Explanation**: Whether place the first child node at the next line. `true` by default
-
 
 ## Mindmap
 
@@ -264,7 +263,7 @@ Mindmap arranged the nodes with same depth on the same level. Different from com
 **Type**: Number | Function<br />**Example**:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   if (d.id === 'testId') return 50;
   return 100;
@@ -278,7 +277,7 @@ d => {
 **Type**: Number | Function<br />**Example**:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   if (d.id === 'testId') return 50;
   return 100;
@@ -292,7 +291,7 @@ d => {
 **Type**: Number | Function<br />**Example**:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   if (d.id === 'testId') return 50;
   return 100;
@@ -306,7 +305,7 @@ d => {
 **Type**: Number | Function<br />**Example**:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   if (d.id === 'testId') return 50;
   return 100;
@@ -320,7 +319,7 @@ d => {
 **Type**: Function<br />**Example**:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   if (d.id === 'test-child-id') return 'right';
   return 'left';

@@ -33,7 +33,7 @@ const graph = new G6.Graph({
         fontSize: 18,
       },
       position: 'bottom',
-      offset: 30
+      offset: 30,
     },
     // configurations for the four linkpoints
     linkPoints: {
@@ -76,17 +76,17 @@ const graph = new G6.Graph({
 graph.data(data);
 graph.render();
 
-graph.on('node:mouseenter', evt => {
+graph.on('node:mouseenter', (evt) => {
   const { item } = evt;
   graph.setItemState(item, 'hover', true);
 });
 
-graph.on('node:mouseleave', evt => {
+graph.on('node:mouseleave', (evt) => {
   const { item } = evt;
   graph.setItemState(item, 'hover', false);
 });
 
-graph.on('node:click', evt => {
+graph.on('node:click', (evt) => {
   const { item } = evt;
   graph.setItemState(item, 'selected', true);
 });

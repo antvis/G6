@@ -3,9 +3,7 @@ title: Circle
 order: 1
 ---
 
-G6 内置了圆  Circle Combo，其默认样式如下。标签文本位于圆形上方。
-<a href='/zh/examples/item/defaultCombos#circle' target='_blank'>Demo</a>
-<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ijeuQoiH0JUAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
+G6 内置了圆  Circle Combo，其默认样式如下。标签文本位于圆形上方。 <a href='/zh/examples/item/defaultCombos#circle' target='_blank'>Demo</a> <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ijeuQoiH0JUAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ## 使用方法
 
@@ -61,13 +59,12 @@ Circle Combo 支持 [Combo 通用配置](/zh/docs/manual/middle/elements/combos/
 | 名称 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
 | size | 圆的直径 | Number / Array | `size` 为数组时，取第一个值 |
-| style | circle 默认样式 | Object | 参见下文 [样式属性 style](./circle#样式属性-style) 内容 |
+| style | circle 默认样式 | Object | 参见下文 [样式属性  style](./circle#样式属性-style) 内容 |
 | label | 标签文本内容 | String |  |
 | labelCfg | 标签文本配置项 | Object | 参见下文 [标签文本配置 labelCfg](./circle#标签文本配置-labelcfg) |
 | stateStyles | 各状态下的样式 | Object | 详见[配置状态样式](/zh/docs/manual/middle/states/state#配置-state-样式) |
 
-
-### 样式属性 style
+### 样式属性  style
 
 Object 类型。支持 [Combo 通用样式](/zh/docs/manual/middle/elements/combos/defaultCombo#样式属性-style)。通过 `style` 配置来修改 Combo 的填充色、描边等属性。下面代码演示在实例化图时全局配置方法中配置 `style`，使之达到如下图效果。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ydTKSqv-lh4AAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
@@ -119,7 +116,7 @@ const graph = new G6.Graph({
       refX: 5,
       style: {
         fill: '#bae637',
-        fontSize: 15
+        fontSize: 15,
         // ... 其他文本样式的配置
       },
     },

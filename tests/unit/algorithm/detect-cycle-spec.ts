@@ -1,5 +1,5 @@
 import G6, { Algorithm } from '../../../src';
-const { detectDirectedCycle, detectAllCycles } = Algorithm
+const { detectDirectedCycle, detectAllCycles } = Algorithm;
 
 const div = document.createElement('div');
 div.id = 'container';
@@ -8,57 +8,57 @@ document.body.appendChild(div);
 const data = {
   nodes: [
     {
-      id: 'A'
+      id: 'A',
     },
     {
-      id: 'B'
+      id: 'B',
     },
     {
-      id: 'C'
+      id: 'C',
     },
     {
-      id: 'D'
+      id: 'D',
     },
     {
-      id: 'E'
+      id: 'E',
     },
     {
-      id: 'F'
+      id: 'F',
     },
     {
-      id: 'G'
+      id: 'G',
     },
   ],
   edges: [
     {
       source: 'A',
-      target: 'B'
+      target: 'B',
     },
     {
       source: 'B',
-      target: 'C'
+      target: 'C',
     },
     {
       source: 'A',
-      target: 'C'
+      target: 'C',
     },
     {
       source: 'D',
-      target: 'A'
+      target: 'A',
     },
     {
       source: 'D',
-      target: 'E'
+      target: 'E',
     },
     {
       source: 'E',
-      target: 'F'
+      target: 'F',
     },
-  ]
-}
-data.nodes.forEach(d => {
-  d['label'] = d.id
-})
+  ],
+};
+data.nodes.forEach((d) => {
+  d['label'] = d.id;
+});
 describe('detectDirectedCycle', () => {
   const graph = new G6.Graph({
     container: 'container',
@@ -76,34 +76,32 @@ describe('detectDirectedCycle', () => {
     defaultEdge: {
       style: {
         endArrow: true,
-      }
+      },
     },
-    modes: { 'default': ['drag-node', 'drag-canvas', 'zoom-canvas', 'lasso-select'] }
-  })
+    modes: { default: ['drag-node', 'drag-canvas', 'zoom-canvas', 'lasso-select'] },
+  });
 
-  graph.data(data)
-  graph.render()
+  graph.data(data);
+  graph.render();
 
   it('should detect directed cycle', () => {
-    let result = detectDirectedCycle(graph)
+    let result = detectDirectedCycle(graph);
     // debugger
     expect(result).toBeNull();
 
-    data.edges.push(
-      {
-        source: 'F',
-        target: 'D'
-      }
-    )
+    data.edges.push({
+      source: 'F',
+      target: 'D',
+    });
 
-    graph.changeData(data)
+    graph.changeData(data);
     // 返回格式：
     // { currentNodeId: prevNode }
-    result = detectDirectedCycle(graph)
+    result = detectDirectedCycle(graph);
 
-    const nodeF = graph.findById('F')
-    const nodeD = graph.findById('D')
-    const nodeE = graph.findById('E')
+    const nodeF = graph.findById('F');
+    const nodeD = graph.findById('D');
+    const nodeE = graph.findById('E');
     expect(result).toEqual({
       D: nodeF,
       F: nodeE,
@@ -111,44 +109,42 @@ describe('detectDirectedCycle', () => {
     });
   });
   it('detect all cycles in directed graph', () => {
-    data.edges.push(
-      {
-        source: 'C',
-        target: 'D'
-      }
-    )
-    graph.changeData(data)
-    graph.render()
-    const result = detectAllCycles(graph, true)
+    data.edges.push({
+      source: 'C',
+      target: 'D',
+    });
+    graph.changeData(data);
+    graph.render();
+    const result = detectAllCycles(graph, true);
     // console.log('All cycles in the directed graph: ', result)
-    expect(result.length).toEqual(3)
+    expect(result.length).toEqual(3);
 
-    const nodeA = graph.findById('A')
-    const nodeB = graph.findById('B')
-    const nodeC = graph.findById('C')
-    const nodeD = graph.findById('D')
+    const nodeA = graph.findById('A');
+    const nodeB = graph.findById('B');
+    const nodeC = graph.findById('C');
+    const nodeD = graph.findById('D');
 
-    const result2 = detectAllCycles(graph, true, ['B'])
-    expect(result2.length).toEqual(1)
+    const result2 = detectAllCycles(graph, true, ['B']);
+    expect(result2.length).toEqual(1);
     expect(result2[0]).toEqual({
       A: nodeB,
       B: nodeC,
       C: nodeD,
-      D: nodeA
+      D: nodeA,
     });
     // console.log(`All cycles include 'B' in the directed graph: `, result2)
-  })
+  });
   it('detect cycle in undirected graph', () => {
-    const result = detectAllCycles(graph)
-    expect(result.length).toEqual(3)
+    const result = detectAllCycles(graph);
+    expect(result.length).toEqual(3);
     // console.log(`All elemenetary cycles in the undirected graph: `, result)
-    const nodeD = graph.findById('D')
-    const nodeF = graph.findById('F')
-    const nodeE = graph.findById('E')
-    const result2 = detectAllCycles(graph, false, ['B'], false)
-    expect(Object.keys(result2[0]).sort()).toEqual(['D', 'E', 'F'])
+    const nodeD = graph.findById('D');
+    const nodeF = graph.findById('F');
+    const nodeE = graph.findById('E');
+    const result2 = detectAllCycles(graph, false, ['B'], false);
+    expect(Object.keys(result2[0]).sort()).toEqual(['D', 'E', 'F']);
     // console.log(`All elemenetary cycles include ${graph.getNodes()[1].getID()} in the undirected graph: `, result2)
-  })
+  });
   it('test another graph', () => {
     const data = {
       nodes: [
@@ -532,32 +528,30 @@ describe('detectDirectedCycle', () => {
         },
       ],
     };
-    graph.changeData(data)
-    const result = detectAllCycles(graph, true, ['14'])
-    const result2 = detectAllCycles(graph)
+    graph.changeData(data);
+    const result = detectAllCycles(graph, true, ['14']);
+    const result2 = detectAllCycles(graph);
     expect(result.length).toEqual(4);
     expect(result2.length).toEqual(27);
-  })
+  });
   it('test a large graph', () => {
-    fetch(
-      'https://gw.alipayobjects.com/os/basement_prod/da5a1b47-37d6-44d7-8d10-f3e046dabf82.json',
-    )
-      .then(res => res.json())
-      .then(data => {
-        data.nodes.forEach(node => {
+    fetch('https://gw.alipayobjects.com/os/basement_prod/da5a1b47-37d6-44d7-8d10-f3e046dabf82.json')
+      .then((res) => res.json())
+      .then((data) => {
+        data.nodes.forEach((node) => {
           node.label = node.olabel;
           node.degree = 0;
-          data.edges.forEach(edge => {
+          data.edges.forEach((edge) => {
             if (edge.source === node.id || edge.target === node.id) {
               node.degree++;
             }
           });
         });
         graph.changeData(data);
-        const directedCycles = detectAllCycles(graph, true)
+        const directedCycles = detectAllCycles(graph, true);
         expect(directedCycles.length).toEqual(0);
-        const undirectedCycles = detectAllCycles(graph, false, ['1084'], false)
+        const undirectedCycles = detectAllCycles(graph, false, ['1084'], false);
         expect(undirectedCycles.length).toEqual(1548);
       });
-  })
+  });
 });

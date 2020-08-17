@@ -42,19 +42,19 @@ G6 的内置节点包括 circle，rect，ellipse，diamond，triangle，star，i
 
 Object 类型。通过 `style` 配置来修改节点的填充色、边框颜色、阴影等属性。下表是 `style` 对象中常用的配置项：
 
-| 名称          | 是否必须 | 类型   | 备注                          |
-| ------------- | -------- | ------ | ----------------------------- |
-| fill          | false    | String | 节点填充色                    |
-| stroke        | false    | String | 节点的描边颜色                |
-| lineWidth     | false    | Number | 描边宽度                      |
-| lineDash     | false    | Number[] | 描边虚线，数组代表实、虚长度    |
-| shadowColor   | false    | String | 阴影颜色                      |
-| shadowBlur    | false    | Number | 阴影范围                      |
-| shadowOffsetX | false    | Number | 阴影 x 方向偏移量             |
-| shadowOffsetY | false    | Number | 阴影 y 方向偏移量             |
-| opacity       | false    | Number | 设置绘图的当前 alpha 或透明值 |
-| fillOpacity   | false    | Number | 设置填充的 alpha 或透明值     |
-| cursor        | false    | String | 鼠标在该节点上时的鼠标样式，[CSS 的 cursor](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) 选项都支持  |
+| 名称 | 是否必须 | 类型 | 备注 |
+| --- | --- | --- | --- |
+| fill | false | String | 节点填充色 |
+| stroke | false | String | 节点的描边颜色 |
+| lineWidth | false | Number | 描边宽度 |
+| lineDash | false | Number[] | 描边虚线，数组代表实、虚长度 |
+| shadowColor | false | String | 阴影颜色 |
+| shadowBlur | false | Number | 阴影范围 |
+| shadowOffsetX | false | Number | 阴影 x 方向偏移量 |
+| shadowOffsetY | false | Number | 阴影 y 方向偏移量 |
+| opacity | false | Number | 设置绘图的当前 alpha 或透明值 |
+| fillOpacity | false | Number | 设置填充的 alpha 或透明值 |
+| cursor | false | String | 鼠标在该节点上时的鼠标样式，[CSS 的 cursor](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) 选项都支持 |
 
 下面代码演示在实例化图时全局配置方法中配置 `style`：
 
@@ -75,7 +75,7 @@ const graph = new G6.Graph({
 });
 ```
 
-### 标签文本 label 及其配置 labelCfg
+### 标签文本 label 及其配置  labelCfg
 
 `label` String 类型。标签文本的文字内容。<br />`labelCfg` Object 类型。配置标签文本。下面是 `labelCfg` 对象中的常用配置项：
 
@@ -186,7 +186,7 @@ const data = {
 ```javascript
 // const data = ...
 // const graph = ...
-graph.node(node => {
+graph.node((node) => {
   return {
     id: node.id,
     type: 'rect',

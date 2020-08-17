@@ -111,8 +111,9 @@ export default class Node extends Item implements INode {
     const keyShape: IShapeBase = this.get('keyShape');
     const type: string = keyShape.get('type');
     const itemType: string = this.get('type');
-    let bbox, centerX, centerY;
-    bbox = this.getBBox();
+    let centerX;
+    let centerY;
+    const bbox = this.getBBox();
     if (itemType === 'combo') {
       centerX = (bbox.maxX + bbox.minX) / 2;
       centerY = (bbox.maxY + bbox.minY) / 2;

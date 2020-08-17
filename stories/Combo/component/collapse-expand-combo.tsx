@@ -12,14 +12,14 @@ const data: GraphData = {
       x: 150,
       y: 150,
       label: 'node1',
-      comboId: 'A'
+      comboId: 'A',
     },
     {
       id: 'node2',
       x: 200,
       y: 250,
       label: 'node2',
-      comboId: 'B'
+      comboId: 'B',
     },
     {
       id: 'node3',
@@ -47,9 +47,10 @@ const data: GraphData = {
       id: 'A',
       parentId: 'B',
       label: 'gorup A',
-      padding: [10, 10, 10, 10]
+      padding: [10, 10, 10, 10],
       // type: 'rect'
-    }, {
+    },
+    {
       id: 'B',
       // parentId: 'C',
       label: 'gorup B',
@@ -65,12 +66,13 @@ const data: GraphData = {
       id: 'D',
       label: 'gorup D',
       // type: 'rect'
-    }, {
+    },
+    {
       id: 'E',
       // type: 'rect'
-    }]
+    },
+  ],
 };
-
 
 const CollapseExpand = () => {
   const container = React.useRef();
@@ -82,18 +84,23 @@ const CollapseExpand = () => {
         width: 1000,
         height: 800,
         modes: {
-          default: ['drag-canvas', 'collapse-expand-combo', 'drag-combo', {
-            type: 'drag-node',
-            onlyChangeComboSize: true
-          }]
+          default: [
+            'drag-canvas',
+            'collapse-expand-combo',
+            'drag-combo',
+            {
+              type: 'drag-node',
+              onlyChangeComboSize: true,
+            },
+          ],
         },
         defaultCombo: {
           // size: [100, 100],
           style: {
             fill: '#ccc',
             stroke: '#000',
-            opacity: 0.8
-          }
+            opacity: 0.8,
+          },
         },
         // defaultNode: {
         //   type: 'custom-node'

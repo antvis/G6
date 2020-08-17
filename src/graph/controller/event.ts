@@ -72,7 +72,7 @@ export default class EventController {
     //   canvas.on(event, canvasHandler);
     // });
 
-    canvas.on('*', canvasHandler)
+    canvas.on('*', canvasHandler);
 
     this.canvasHandler = canvasHandler;
     extendEvents.push(addEventListener(el, 'DOMMouseScroll', wheelHandler));
@@ -160,7 +160,8 @@ export default class EventController {
     // emit('click', evt);
     graph.emit(eventType, evt);
 
-    if (evt.name && !evt.name.includes(':')) graph.emit(`${type}:${eventType}`, evt); // emit('node:click', evt)
+    if (evt.name && !evt.name.includes(':')) graph.emit(`${type}:${eventType}`, evt);
+    // emit('node:click', evt)
     else graph.emit(evt.name, evt); // emit('text-shape:click', evt)
 
     if (eventType === 'dragstart') {
@@ -247,7 +248,7 @@ export default class EventController {
 
     canvas.off('*', canvasHandler);
 
-    each(extendEvents, event => {
+    each(extendEvents, (event) => {
       event.remove();
     });
 

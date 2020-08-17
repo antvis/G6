@@ -15,8 +15,8 @@ describe('arrow test', () => {
     defaultNode: {
       type: 'circle',
       style: {
-        opacity: 0.3
-      }
+        opacity: 0.3,
+      },
     },
   };
   const graph = new Graph(cfg);
@@ -35,10 +35,12 @@ describe('arrow test', () => {
         type: 'circle',
       },
     ],
-    edges: [{
-      source: '1',
-      target: '2',
-    }]
+    edges: [
+      {
+        source: '1',
+        target: '2',
+      },
+    ],
   };
   graph.data(data);
   graph.render();
@@ -49,9 +51,9 @@ describe('arrow test', () => {
       style: {
         endArrow: {
           path: G6.Arrow.triangle(10, 20, 25),
-          d: 25
-        }
-      }
+          d: 25,
+        },
+      },
     });
   });
   it('vee arrow ', () => {
@@ -59,9 +61,9 @@ describe('arrow test', () => {
       style: {
         endArrow: {
           path: G6.Arrow.vee(15, 20, 25),
-          d: 25
-        }
-      }
+          d: 25,
+        },
+      },
     });
   });
   it('circle arrow ', () => {
@@ -69,9 +71,9 @@ describe('arrow test', () => {
       style: {
         endArrow: {
           path: G6.Arrow.circle(5, 25),
-          d: 25
-        }
-      }
+          d: 25,
+        },
+      },
     });
   });
   it('diamond arrow ', () => {
@@ -79,9 +81,9 @@ describe('arrow test', () => {
       style: {
         endArrow: {
           path: G6.Arrow.diamond(15, 15, 25),
-          d: 25
-        }
-      }
+          d: 25,
+        },
+      },
     });
   });
   it('rect arrow ', () => {
@@ -89,9 +91,9 @@ describe('arrow test', () => {
       style: {
         endArrow: {
           path: G6.Arrow.rect(15, 15, 25),
-          d: 25
-        }
-      }
+          d: 25,
+        },
+      },
     });
   });
   it('triangle rect arrow ', () => {
@@ -99,9 +101,9 @@ describe('arrow test', () => {
       style: {
         endArrow: {
           path: G6.Arrow.triangleRect(15, 15, 15, 3, 5, 25),
-          d: 25
-        }
-      }
+          d: 25,
+        },
+      },
     });
   });
 });
