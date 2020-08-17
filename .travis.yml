@@ -20,7 +20,7 @@ install:
 script:
   - |
     if [ "$TEST_TYPE" = test ]; then
-      yarn ci && cat ./coverage/lcov.info | rm -rf ./coverage
+      yarn ci && bash <(curl -s https://codecov.io/bash)
     else
       yarn $TEST_TYPE
     fi
