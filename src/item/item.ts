@@ -186,15 +186,32 @@ export default class ItemBase implements IItemBase {
 
     each(children, child => {
       const name = child.get('name')
+      const isKeyShape = child.get('isKeyShape')
       if (name) {
         originStyles[name] = self.getShapeStyleByName(name)
+        if (isKeyShape) {
+          mix(originStyles[name], cfg?.style && cfg?.style[name] || cfg?.style)
+        } else {
+          mix(originStyles[name], cfg?.style && cfg?.style[name])
+        }
       } else {
         const keyShapeName = keyShape.get('name')
         const keyShapeStyle = self.getShapeStyleByName()
         if (!keyShapeName) {
-          Object.assign(originStyles, keyShapeStyle)
+          // 如果是 keyShape，则需要合并 style 里面的属性
+          if (isKeyShape) {
+            mix(originStyles, keyShapeStyle, cfg?.style)
+          } else {
+            mix(originStyles, keyShapeStyle)
+          }
         } else {
           originStyles[keyShapeName] = keyShapeStyle
+          // 如果是 keyShape，则需要合并 style 里面的属性
+          if (isKeyShape) {
+            mix(originStyles[keyShapeName], cfg?.style && cfg?.style[keyShapeName] || cfg?.style)
+          } else {
+            mix(originStyles[keyShapeName], cfg?.style && cfg?.style[keyShapeName])
+          }
         }
       }
     })
@@ -202,11 +219,11 @@ export default class ItemBase implements IItemBase {
     const drawOriginStyle = this.getOriginStyle()
     let styles = {}
     if (cfg) {
-      styles = deepMix({}, drawOriginStyle, originStyles, cfg.style, {
+      styles = deepMix({}, drawOriginStyle, originStyles[name] || originStyles, cfg.style, {
         labelCfg: cfg.labelCfg
       })
     } else {
-      styles = deepMix({}, drawOriginStyle, originStyles)
+      styles = deepMix({}, drawOriginStyle, originStyles[name] || originStyles)
     }
 
     self.set('originStyle', styles);
