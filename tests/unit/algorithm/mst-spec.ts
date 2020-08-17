@@ -1,5 +1,5 @@
 import G6, { Algorithm } from '../../../src';
-const { minimumSpanningTree } = Algorithm
+const { minimumSpanningTree } = Algorithm;
 
 const div = document.createElement('div');
 div.id = 'container';
@@ -8,25 +8,25 @@ document.body.appendChild(div);
 const data = {
   nodes: [
     {
-      id: 'A'
+      id: 'A',
     },
     {
-      id: 'B'
+      id: 'B',
     },
     {
-      id: 'C'
+      id: 'C',
     },
     {
-      id: 'D'
+      id: 'D',
     },
     {
-      id: 'E'
+      id: 'E',
     },
     {
-      id: 'F'
+      id: 'F',
     },
     {
-      id: 'G'
+      id: 'G',
     },
   ],
   edges: [
@@ -64,21 +64,21 @@ const data = {
       source: 'F',
       target: 'D',
       weight: 3,
-    }
-  ]
-}
-data.nodes.forEach(node => node['label'] = node.id)
-data.edges.forEach(edge => edge['label'] = edge.weight)
+    },
+  ],
+};
+data.nodes.forEach((node) => (node['label'] = node.id));
+data.edges.forEach((edge) => (edge['label'] = edge.weight));
 describe('minimumSpanningTree', () => {
   const graph = new G6.Graph({
     container: 'container',
     width: 500,
     height: 500,
     layout: {
-      type: 'force'
+      type: 'force',
     },
     modes: {
-      default: ['drag-node']
+      default: ['drag-node'],
     },
     defaultNode: {
       labelCfg: {
@@ -99,32 +99,31 @@ describe('minimumSpanningTree', () => {
     },
     edgeStateStyles: {
       mst: {
-        stroke: 'red'
-      }
-    }
-  })
+        stroke: 'red',
+      },
+    },
+  });
 
-  graph.data(data)
-  graph.render()
+  graph.data(data);
+  graph.render();
 
   it('test kruskal algorithm', () => {
-    let result = minimumSpanningTree(graph, 'weight')
-    let totalWeight = 0
+    let result = minimumSpanningTree(graph, 'weight');
+    let totalWeight = 0;
     for (let edge of result) {
       graph.setItemState(edge, 'mst', true);
-      totalWeight += edge.getModel()['weight']
+      totalWeight += edge.getModel()['weight'];
     }
     expect(totalWeight).toEqual(10);
   });
 
   it('test prim algorithm', () => {
-    let result = minimumSpanningTree(graph, 'weight', 'prim')
-    let totalWeight = 0
+    let result = minimumSpanningTree(graph, 'weight', 'prim');
+    let totalWeight = 0;
     for (let edge of result) {
       graph.setItemState(edge, 'mst', true);
-      totalWeight += edge.getModel()['weight']
+      totalWeight += edge.getModel()['weight'];
     }
     expect(totalWeight).toEqual(10);
   });
-
 });

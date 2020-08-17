@@ -3,11 +3,13 @@
  */
 export default class UnionFind {
   count: number;
+
   parent: {};
+
   constructor(items: (number | string)[]) {
     this.count = items.length;
     this.parent = {};
-    for (let i of items) {
+    for (const i of items) {
       this.parent[i] = i;
     }
   }
@@ -21,17 +23,17 @@ export default class UnionFind {
   }
 
   union(a, b) {
-    let rootA = this.find(a);
-    let rootB = this.find(b);
+    const rootA = this.find(a);
+    const rootB = this.find(b);
 
     if (rootA === rootB) return;
 
     // make the element with smaller root the parent
     if (rootA < rootB) {
-      if (this.parent[b] != b) this.union(this.parent[b], a);
+      if (this.parent[b] !== b) this.union(this.parent[b], a);
       this.parent[b] = this.parent[a];
     } else {
-      if (this.parent[a] != a) this.union(this.parent[a], b);
+      if (this.parent[a] !== a) this.union(this.parent[a], b);
       this.parent[a] = this.parent[b];
     }
   }
