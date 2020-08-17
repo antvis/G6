@@ -89,14 +89,16 @@ const singleCombo: ShapeOptions = {
         break;
       case 'left':
         style = {
-          x: - dis + (refX as number),
+          x: -dis + (refX as number),
           y: 0,
           textAlign: 'left',
         };
         break;
       case 'center':
         style = {
-          x: 0, y: 0, text: cfg!.label,
+          x: 0,
+          y: 0,
+          text: cfg!.label,
           textAlign: 'center',
         };
         break;
@@ -128,7 +130,7 @@ const singleCombo: ShapeOptions = {
       keyShape.animate(keyShapeStyle, {
         duration: 200,
         easing: 'easeLinear',
-      })
+      });
     } else {
       keyShape.attr({
         ...keyShapeStyle,
@@ -137,8 +139,8 @@ const singleCombo: ShapeOptions = {
 
     (this as any).updateLabel(cfg, item);
     // special for some types of nodes
-  }
+  },
 };
 
-const singleComboDef = Object.assign({}, shapeBase, singleCombo);
+const singleComboDef = { ...shapeBase, ...singleCombo };
 Shape.registerCombo('single-combo', singleComboDef);

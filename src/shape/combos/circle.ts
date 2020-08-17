@@ -6,7 +6,6 @@ import Shape from '../shape';
 import { ShapeOptions } from '../../interface/shape';
 import { isNumber, clone, mix, isArray } from '@antv/util';
 
-
 // 圆形 Combo
 Shape.registerCombo(
   'circle',
@@ -20,15 +19,15 @@ Shape.registerCombo(
         stroke: Global.defaultCombo.style.stroke,
         fill: Global.defaultCombo.style.fill,
         lineWidth: Global.defaultCombo.style.lineWidth,
-        opacity: 0.8
+        opacity: 0.8,
       },
       labelCfg: {
         style: {
           fill: '#595959',
         },
         refX: 0,
-        refY: 0
-      }
+        refY: 0,
+      },
     },
     shapeType: 'circle',
     // 文本位置
@@ -58,7 +57,7 @@ Shape.registerCombo(
       const strokeStyle: ShapeStyle = {
         stroke: cfg.color,
       };
-      
+
       // 如果设置了color，则覆盖默认的stroke属性
       const style = mix({}, defaultStyle, strokeStyle, cfg.style);
       const size = (this as ShapeOptions).getSize!(cfg);
@@ -66,14 +65,11 @@ Shape.registerCombo(
       if (!isNumber(style.r) || isNaN(style.r)) r = size[0] / 2 || Global.defaultCombo.style.r;
       else r = Math.max(style.r, size[0] / 2) || size[0] / 2;
       style.r = r + padding;
-      const styles = Object.assign(
-        {},
-        {
-          x: 0,
-          y: 0
-        },
-        style,
-      );
+      const styles = {
+        x: 0,
+        y: 0,
+        ...style,
+      };
       if (cfg.style) cfg.style.r = r;
       else {
         cfg.style = { r };
@@ -85,7 +81,7 @@ Shape.registerCombo(
       let padding: number | number[] = cfg.padding || this.options.padding;
       if (isArray(padding)) padding = padding[0];
       const cfgStyle = clone(cfg.style);
-      const r = Math.max(cfgStyle.r, size[0] / 2) || size[0] / 2;;
+      const r = Math.max(cfgStyle.r, size[0] / 2) || size[0] / 2;
       cfgStyle.r = r + padding;
 
       const itemCacheSize = item.get('sizeCache');
@@ -95,7 +91,7 @@ Shape.registerCombo(
 
       // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
       const strokeStyle = {
-        stroke: cfg.color
+        stroke: cfg.color,
       };
       // 与 getShapeStyle 不同在于，update 时需要获取到当前的 style 进行融合。即新传入的配置项中没有涉及的属性，保留当前的配置。
       const keyShape = item.get('keyShape');
@@ -103,11 +99,11 @@ Shape.registerCombo(
 
       if (cfg.style) cfg.style.r = r;
       else {
-        cfg.style = { r }
+        cfg.style = { r };
       }
 
       (this as any).updateShape(cfg, item, style, true);
-    }
+    },
   },
   'single-combo',
 );

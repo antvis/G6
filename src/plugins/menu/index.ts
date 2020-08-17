@@ -1,6 +1,6 @@
 import modifyCSS from '@antv/dom-util/lib/modify-css';
 import createDOM from '@antv/dom-util/lib/create-dom';
-import isString from '@antv/util/lib/is-string'
+import isString from '@antv/util/lib/is-string';
 import insertCss from 'insert-css';
 import Graph from '../../graph/graph';
 import { IG6GraphEvent, Item } from '../../types';
@@ -23,7 +23,7 @@ insertCss(`
     list-style: none;
   }
 
-`)
+`);
 
 interface MenuConfig extends IPluginBaseConfig {
   handleMenuClick?: (target: HTMLElement, item: Item) => void;
@@ -53,16 +53,16 @@ export default class Menu extends Base {
             <li>菜单项1</li>
             <li>菜单项2</li>
           </ul>
-        `
+        `;
       },
-      shouldBegin: e => {
-        return true
+      shouldBegin: (e) => {
+        return true;
       },
       // 菜单隐藏事件
       onHide() {
         return true;
       },
-      itemTypes: ['node', 'edge', 'combo']
+      itemTypes: ['node', 'edge', 'combo'],
     };
   }
 
@@ -74,22 +74,22 @@ export default class Menu extends Base {
   }
 
   public init() {
-    const className = this.get('className')
-    const menu = createDOM(`<div class=${className || 'g6-component-contextmenu'}></div>`)
+    const className = this.get('className');
+    const menu = createDOM(`<div class=${className || 'g6-component-contextmenu'}></div>`);
     modifyCSS(menu, { position: 'absolute', visibility: 'hidden' });
     let container: HTMLDivElement | null = this.get('container');
     if (!container) {
       container = this.get('graph').get('container');
     }
-    container.appendChild(menu)
+    container.appendChild(menu);
 
-    this.set('menu', menu)
+    this.set('menu', menu);
   }
 
   protected onMenuShow(e: IG6GraphEvent) {
     const self = this;
-    e.preventDefault()
-    e.stopPropagation()
+    e.preventDefault();
+    e.stopPropagation();
 
     if (!e.item) return;
 
@@ -103,27 +103,26 @@ export default class Menu extends Base {
     }
 
     if (!e.item) {
-      return
+      return;
     }
 
-
-    const menuDom = this.get('menu')
-    const getContent = this.get('getContent')
-    let menu = getContent(e)
+    const menuDom = this.get('menu');
+    const getContent = this.get('getContent');
+    const menu = getContent(e);
     if (isString(menu)) {
-      menuDom.innerHTML = menu
+      menuDom.innerHTML = menu;
     } else {
-      menuDom.innerHTML = menu.outerHTML
+      menuDom.innerHTML = menu.outerHTML;
     }
     // 清除之前监听的事件
-    this.removeMenuEventListener()
+    this.removeMenuEventListener();
 
-    const handleMenuClick = this.get('handleMenuClick')
+    const handleMenuClick = this.get('handleMenuClick');
     if (handleMenuClick) {
       const handleMenuClickWrapper = (evt) => {
-        handleMenuClick(evt.target, e.item)
-      }
-      this.set('handleMenuClickWrapper', handleMenuClickWrapper)
+        handleMenuClick(evt.target, e.item);
+      };
+      this.set('handleMenuClickWrapper', handleMenuClickWrapper);
       menuDom.addEventListener('click', handleMenuClickWrapper);
     }
 
@@ -133,12 +132,11 @@ export default class Menu extends Base {
 
     const bbox = menuDom.getBoundingClientRect();
 
+    const offsetX = this.get('offsetX') || 0;
+    const offsetY = this.get('offsetY') || 0;
 
-    const offsetX = this.get('offsetX') || 0
-    const offsetY = this.get('offsetY') || 0
-
-    let x = e.canvasX + offsetX
-    let y = e.canvasY + offsetY
+    let x = e.canvasX + offsetX;
+    let y = e.canvasY + offsetY;
 
     if (x + bbox.width > width) {
       x = x - bbox.width - offsetX;
@@ -151,7 +149,7 @@ export default class Menu extends Base {
     modifyCSS(menuDom, {
       top: `${y}px`,
       left: `${x}px`,
-      visibility: 'visible'
+      visibility: 'visible',
     });
 
     const handler = (evt) => {
@@ -168,7 +166,7 @@ export default class Menu extends Base {
     const handler = this.get('handler');
 
     if (handleMenuClickWrapper) {
-      const menuDom = this.get('menu')
+      const menuDom = this.get('menu');
       menuDom.removeEventListener('click', handleMenuClickWrapper);
       this.set('handleMenuClickWrapper', null);
     }
@@ -178,19 +176,18 @@ export default class Menu extends Base {
   }
 
   private onMenuHide() {
-    const menuDom = this.get('menu')
+    const menuDom = this.get('menu');
     if (menuDom) {
       modifyCSS(menuDom, { visibility: 'hidden' });
     }
 
     // 隐藏菜单后需要移除事件监听
-    this.removeMenuEventListener()
+    this.removeMenuEventListener();
   }
 
   public destroy() {
-    const menu = this.get('menu')
-    this.removeMenuEventListener()
-
+    const menu = this.get('menu');
+    this.removeMenuEventListener();
 
     if (menu) {
       let container: HTMLDivElement | null = this.get('container');

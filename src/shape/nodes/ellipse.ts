@@ -170,16 +170,13 @@ Shape.registerNode(
       const size = this.getSize!(cfg);
       const rx = size[0] / 2;
       const ry = size[1] / 2;
-      const styles = Object.assign(
-        {},
-        {
-          x: 0,
-          y: 0,
-          rx,
-          ry,
-        },
-        style,
-      );
+      const styles = {
+        x: 0,
+        y: 0,
+        rx,
+        ry,
+        ...style,
+      };
       return styles;
     },
     update(cfg: NodeConfig, item: Item) {

@@ -371,5 +371,5 @@ const singleNode: ShapeOptions = {
   },
 };
 
-const singleNodeDef = Object.assign({}, shapeBase, singleNode);
+const singleNodeDef = { ...shapeBase, ...singleNode };
 Shape.registerNode('single-node', singleNodeDef);

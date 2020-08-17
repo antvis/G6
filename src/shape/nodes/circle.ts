@@ -71,7 +71,7 @@ Shape.registerNode(
           },
           className: `${this.type}-icon`,
           name: `${this.type}-icon`,
-          draggable: true
+          draggable: true,
         });
       }
 
@@ -164,15 +164,12 @@ Shape.registerNode(
       const style = deepMix({}, defaultStyle, strokeStyle);
       const size = (this as ShapeOptions).getSize!(cfg);
       const r = size[0] / 2;
-      const styles = Object.assign(
-        {},
-        {
-          x: 0,
-          y: 0,
-          r,
-        },
-        style,
-      );
+      const styles = {
+        x: 0,
+        y: 0,
+        r,
+        ...style,
+      };
       return styles;
     },
     update(cfg: NodeConfig, item: Item) {
