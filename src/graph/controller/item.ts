@@ -227,7 +227,7 @@ export default class ItemController {
       each(cfg, (val, key) => {
         if (model[key]) {
           if (isObject(val) && !isArray(val)) {
-            cfg[key] = { ...model[key], ...cfg[key] };
+            cfg[key] = { ...(model[key] as Object), ...(cfg[key] as Object) };
           }
         }
       });
