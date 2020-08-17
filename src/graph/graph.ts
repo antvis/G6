@@ -1477,7 +1477,7 @@ export default class Graph extends EventEmitter implements IGraph {
     comboConfig.children = trees;
 
     // step 2: 添加 Combo，addItem 时会将子将元素添加到 Combo 中
-    const currentCombo = this.addItem('combo', comboConfig, false);
+    this.addItem('combo', comboConfig, false);
 
     // step3: 更新 comboTrees 结构
     const comboTrees = this.get('comboTrees');
