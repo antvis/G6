@@ -57,7 +57,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
@@ -118,7 +118,6 @@
     "rimraf": "^3.0.0",
     "ts-jest": "^24.1.0",
     "ts-loader": "^7.0.3",
-    "ttypescript": "^1.5.8",
     "typedoc": "^0.17.6",
     "typedoc-plugin-markdown": "^2.2.11",
     "typescript": "^3.5.3",
