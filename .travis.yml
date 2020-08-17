@@ -7,16 +7,14 @@ env:
   - NODE_ENV=test
 
 install:
-  - export DISPLAY=':99.0'
-  - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-  - npm install
+  - yarn
 
 script:
   - |
     if [ "$TEST_TYPE" = test ]; then
-      npm run ci && cat ./coverage/lcov.info | rm -rf ./coverage
+      yarn ci && cat ./coverage/lcov.info | rm -rf ./coverage
     else
-      npm run $TEST_TYPE
+      yarn $TEST_TYPE
     fi
 env:
   matrix:
