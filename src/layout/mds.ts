@@ -16,6 +16,7 @@ import { BaseLayout } from './layout';
 export default class MDSLayout extends BaseLayout {
   /** 布局中心 */
   public center: IPointTuple = [0, 0];
+
   /** 边长度 */
   public linkDistance: number = 50;
 
@@ -27,6 +28,7 @@ export default class MDSLayout extends BaseLayout {
       linkDistance: 50,
     };
   }
+
   /**
    * 执行布局
    */
@@ -60,6 +62,7 @@ export default class MDSLayout extends BaseLayout {
       nodes[i].y = p[1] + center[1];
     });
   }
+
   /**
    * mds 算法
    * @return {array} positions 计算后的节点位置数组
@@ -89,8 +92,8 @@ export default class MDSLayout extends BaseLayout {
 
   public handleInfinity(distances: Matrix[]) {
     let maxDistance = -999999;
-    distances.forEach(row => {
-      row.forEach(value => {
+    distances.forEach((row) => {
+      row.forEach((value) => {
         if (value === Infinity) {
           return;
         }

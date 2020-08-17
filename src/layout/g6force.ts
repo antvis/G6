@@ -24,49 +24,72 @@ type NodeMap = {
 export default class G6Force extends BaseLayout {
   /** 布局中心 */
   public center: IPointTuple = [0, 0];
+
   /** 停止迭代的最大迭代数 */
   public maxIteration: number = 500;
+
   /** 重力大小，影响图的紧凑程度 */
   public gravity: number = 10;
+
   /** 是否产生聚类力 */
   public clustering: boolean = false;
+
   /** 聚类力大小 */
   public clusterGravity: number = 10;
+
   /** 默认边长度 */
   public linkDistance: number | ((d?: unknown) => number) = 50;
+
   /** 每次迭代位移的衰减相关参数 */
   public alpha: number = 1;
+
   public alphaMin: number = 0.001;
-  public alphaDecay: number = 1 - (this.alphaMin ** (1 / 300));
+
+  public alphaDecay: number = 1 - this.alphaMin ** (1 / 300);
+
   public alphaTarget: number = 0;
+
   /** 节点运动速度衰减参数 */
   public velocityDecay: number = 0.6;
+
   /** 边引力大小 */
   public linkStrength: number | ((d?: unknown) => number) = 1;
+
   /** 节点引力大小 */
   public nodeStrength: number | ((d?: unknown) => number) = 30;
+
   /** 是否开启防止重叠 */
   public preventOverlap: boolean = false;
+
   /** 防止重叠的碰撞力大小 */
   public collideStrength: number = 1;
+
   /** 节点大小，用于防止重叠 */
   public nodeSize: number | number[] | ((d?: unknown) => number) | undefined;
+
   /** 节点最小间距，防止重叠时的间隙 */
   public nodeSpacing: ((d?: unknown) => number) | undefined;
+
   /** 优化计算斥力的速度，两节点间距超过 optimizeRangeFactor * width 则不再计算斥力和重叠斥力 */
   public optimizeRangeFactor: number = 1;
+
   /** 每次迭代的回调函数 */
-  public tick: () => void = () => { };
+  public tick: () => void = () => {};
 
   /** 内部计算参数 */
   public nodes: Node[] = [];
-  public edges: Edge[] = [];
-  private width: number = 300;
-  private height: number = 300;
-  private bias: number[] = [];
-  private nodeMap: NodeMap = {};
-  private nodeIdxMap: NodeIdxMap = {};
 
+  public edges: Edge[] = [];
+
+  private width: number = 300;
+
+  private height: number = 300;
+
+  private bias: number[] = [];
+
+  private nodeMap: NodeMap = {};
+
+  private nodeIdxMap: NodeIdxMap = {};
 
   public getDefaultCfg() {
     return {
@@ -77,9 +100,10 @@ export default class G6Force extends BaseLayout {
       clusterGravity: 10,
       preventOverlap: false,
       nodeSpacing: undefined,
-      collideStrength: 10
+      collideStrength: 10,
     };
   }
+
   /**
    * 执行布局
    */
@@ -154,7 +178,7 @@ export default class G6Force extends BaseLayout {
 
     // move to center
     const meanCenter = [0, 0];
-    nodes.forEach(n => {
+    nodes.forEach((n) => {
       if (!isNumber(n.x) || !isNumber(n.y)) return;
       meanCenter[0] += n.x;
       meanCenter[1] += n.y;
@@ -203,7 +227,7 @@ export default class G6Force extends BaseLayout {
 
     // nodeSize to function
     if (!nodeSize) {
-      nodeSizeFunc = d => {
+      nodeSizeFunc = (d) => {
         if (d.size) {
           if (isArray(d.size)) {
             const res = d.size[0] > d.size[1] ? d.size[0] : d.size[1];
@@ -214,17 +238,17 @@ export default class G6Force extends BaseLayout {
         return 10 + nodeSpacingFunc(d);
       };
     } else if (isFunction(nodeSize)) {
-      nodeSizeFunc = d => {
+      nodeSizeFunc = (d) => {
         const size = nodeSize(d);
         return size + nodeSpacingFunc(d);
       };
     } else if (isArray(nodeSize)) {
       const larger = nodeSize[0] > nodeSize[1] ? nodeSize[0] : nodeSize[1];
       const radius = larger / 2;
-      nodeSizeFunc = d => radius + nodeSpacingFunc(d);
+      nodeSizeFunc = (d) => radius + nodeSpacingFunc(d);
     } else if (isNumber(nodeSize)) {
       const radius = nodeSize / 2;
-      nodeSizeFunc = d => radius + nodeSpacingFunc(d);
+      nodeSizeFunc = (d) => radius + nodeSpacingFunc(d);
     } else {
       nodeSizeFunc = () => 10;
     }
@@ -237,9 +261,9 @@ export default class G6Force extends BaseLayout {
       linkDistance = 50;
     }
     if (isNumber(linkDistance)) {
-      linkDistanceFunc = d => {
+      linkDistanceFunc = (d) => {
         return linkDistance;
-      }
+      };
     }
     this.linkDistance = linkDistanceFunc;
 
@@ -250,9 +274,9 @@ export default class G6Force extends BaseLayout {
       linkStrength = 1;
     }
     if (isNumber(linkStrength)) {
-      linkStrengthFunc = d => {
+      linkStrengthFunc = (d) => {
         return linkStrength;
-      }
+      };
     }
     this.linkStrength = linkStrengthFunc;
 
@@ -263,9 +287,9 @@ export default class G6Force extends BaseLayout {
       nodeStrength = 30;
     }
     if (isNumber(nodeStrength)) {
-      nodeStrengthFunc = d => {
+      nodeStrengthFunc = (d) => {
         return nodeStrength;
-      }
+      };
     }
     this.nodeStrength = nodeStrengthFunc;
   }
@@ -281,7 +305,7 @@ export default class G6Force extends BaseLayout {
         count: number;
       };
     } = {};
-    nodes.forEach(n => {
+    nodes.forEach((n) => {
       if (clusterMap[n.cluster] === undefined) {
         const cluster = {
           name: n.cluster,
@@ -319,8 +343,8 @@ export default class G6Force extends BaseLayout {
       const vecX = n.x - c.cx;
       const vecY = n.y - c.cy;
       const l = Math.sqrt(vecX * vecX + vecY * vecY);
-      displacements[j].x -= vecX * clusterGravity * alpha / l;
-      displacements[j].y -= vecY * clusterGravity * alpha / l;
+      displacements[j].x -= (vecX * clusterGravity * alpha) / l;
+      displacements[j].y -= (vecY * clusterGravity * alpha) / l;
     });
 
     for (const key in clusterMap) {
@@ -329,7 +353,7 @@ export default class G6Force extends BaseLayout {
       clusterMap[key].count = 0;
     }
 
-    nodes.forEach(n => {
+    nodes.forEach((n) => {
       const c = clusterMap[n.cluster];
       if (isNumber(n.x)) {
         c.cx += n.x;
@@ -377,7 +401,7 @@ export default class G6Force extends BaseLayout {
 
   private calRepulsive(nodes: Node[], displacements: Point[], vecMap: any) {
     const max = this.width * this.optimizeRangeFactor * this.width * this.optimizeRangeFactor;
-    const nodeStrength = this.nodeStrength as ((d?: unknown) => number);;
+    const nodeStrength = this.nodeStrength as (d?: unknown) => number;
     const alpha = this.alpha;
     const collideStrength = this.collideStrength;
     const preventOverlap = this.preventOverlap;
@@ -390,8 +414,8 @@ export default class G6Force extends BaseLayout {
         if (!isNumber(v.x) || !isNumber(u.x) || !isNumber(v.y) || !isNumber(u.y)) return;
         const { vl, vx, vy } = vecMap[`${v.id}-${u.id}`];
         if (vl > max) return;
-        displacements[i].x += vx * nodeStrength(u) * alpha / vl;
-        displacements[i].y += vy * nodeStrength(u) * alpha / vl;
+        displacements[i].x += (vx * nodeStrength(u) * alpha) / vl;
+        displacements[i].y += (vy * nodeStrength(u) * alpha) / vl;
 
         // collide strength
         if (preventOverlap && i < j) {
@@ -400,8 +424,8 @@ export default class G6Force extends BaseLayout {
           const r = ri + rj;
           if (vl < r * r) {
             const { sqrtVl } = vecMap[`${v.id}-${u.id}`];
-            const ll = (r - sqrtVl) / sqrtVl * collideStrength;
-            let rratio = rj * rj / (ri * ri + rj * rj);
+            const ll = ((r - sqrtVl) / sqrtVl) * collideStrength;
+            let rratio = (rj * rj) / (ri * ri + rj * rj);
             const xl = vx * ll;
             const yl = vy * ll;
             displacements[i].x += xl * rratio;
@@ -416,9 +440,9 @@ export default class G6Force extends BaseLayout {
   }
 
   private calAttractive(edges: Edge[], displacements: Point[], vecMap: any) {
-    const linkDistance = this.linkDistance as ((d?: unknown) => number);
+    const linkDistance = this.linkDistance as (d?: unknown) => number;
     const alpha = this.alpha;
-    const linkStrength = this.linkStrength as ((d?: unknown) => number);
+    const linkStrength = this.linkStrength as (d?: unknown) => number;
     const bias = this.bias;
     edges.forEach((e, i) => {
       if (!e.source || !e.target) return;
@@ -431,7 +455,7 @@ export default class G6Force extends BaseLayout {
       const v = this.nodeMap[e.target];
       if (!isNumber(v.x) || !isNumber(u.x) || !isNumber(v.y) || !isNumber(u.y)) return;
       const { vl, sqrtVl, vx, vy } = vecMap[`${e.target}-${e.source}`];
-      const l = (sqrtVl - linkDistance(e)) / sqrtVl * alpha * linkStrength(e);
+      const l = ((sqrtVl - linkDistance(e)) / sqrtVl) * alpha * linkStrength(e);
       const vecX = vx * l;
       const vecY = vy * l;
       const b = bias[i];

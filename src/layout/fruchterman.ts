@@ -26,24 +26,32 @@ const SPEED_DIVISOR = 800;
 export default class FruchtermanLayout extends BaseLayout {
   /** 布局中心 */
   public center: IPointTuple = [0, 0];
+
   /** 停止迭代的最大迭代数 */
   public maxIteration: number = 1000;
+
   /** 重力大小，影响图的紧凑程度 */
   public gravity: number = 10;
+
   /** 速度 */
   public speed: number = 1;
+
   /** 是否产生聚类力 */
   public clustering: boolean = false;
+
   /** 聚类力大小 */
   public clusterGravity: number = 10;
 
   public nodes: Node[] = [];
+
   public edges: Edge[] = [];
 
   public width: number = 300;
+
   public height: number = 300;
 
   public nodeMap: NodeMap = {};
+
   public nodeIdxMap: NodeIdxMap = {};
 
   public getDefaultCfg() {
@@ -56,6 +64,7 @@ export default class FruchtermanLayout extends BaseLayout {
       clusterGravity: 10,
     };
   }
+
   /**
    * 执行布局
    */
@@ -112,7 +121,7 @@ export default class FruchtermanLayout extends BaseLayout {
       };
     } = {};
     if (clustering) {
-      nodes.forEach(n => {
+      nodes.forEach((n) => {
         if (clusterMap[n.cluster] === undefined) {
           const cluster = {
             name: n.cluster,
@@ -161,7 +170,7 @@ export default class FruchtermanLayout extends BaseLayout {
           clusterMap[key].count = 0;
         }
 
-        nodes.forEach(n => {
+        nodes.forEach((n) => {
           const c = clusterMap[n.cluster];
           if (isNumber(n.x)) {
             c.cx += n.x;
@@ -232,7 +241,7 @@ export default class FruchtermanLayout extends BaseLayout {
   }
 
   private calAttractive(edges: Edge[], displacements: Point[], k: number) {
-    edges.forEach(e => {
+    edges.forEach((e) => {
       if (!e.source || !e.target) return;
       const uIndex = this.nodeIdxMap[e.source];
       const vIndex = this.nodeIdxMap[e.target];

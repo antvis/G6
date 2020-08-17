@@ -111,7 +111,7 @@ const singleEdge: ShapeOptions = {
       stroke: cfg.color,
     };
     const shape =
-      group.find(element => element.get('className') === 'edge-shape') || item.getKeyShape();
+      group.find((element) => element.get('className') === 'edge-shape') || item.getKeyShape();
 
     const { size } = cfg;
     cfg = this.getPathPoints!(cfg);
@@ -154,7 +154,7 @@ const singleEdge: ShapeOptions = {
     const style: LabelStyle = {};
 
     const pathShape =
-      group && (group.find(element => element.get('className') === CLS_SHAPE) as Path);
+      group && (group.find((element) => element.get('className') === CLS_SHAPE) as Path);
 
     // 不对 pathShape 进行判空，如果线不存在，说明有问题了
     let pointPercent;
@@ -220,7 +220,7 @@ const singleEdge: ShapeOptions = {
     const autoRotate = isNil(labelCfg.autoRotate) ? this.labelAutoRotate : labelCfg.autoRotate;
 
     const pathShape =
-      group && (group.find(element => element.get('className') === CLS_SHAPE) as Path);
+      group && (group.find((element) => element.get('className') === CLS_SHAPE) as Path);
 
     // 不对 pathShape 进行判空，如果线不存在，说明有问题了
     let pointPercent;
@@ -240,7 +240,6 @@ const singleEdge: ShapeOptions = {
       style.y = cfg.startPoint!.y + offsetY;
       return style;
     }
-
 
     let offsetStyle = getLabelPosition(
       pathShape,
@@ -356,7 +355,7 @@ const singleEdge: ShapeOptions = {
   },
 };
 
-const singleEdgeDef = Object.assign({}, shapeBase, singleEdge);
+const singleEdgeDef = { ...shapeBase, ...singleEdge };
 Shape.registerEdge('single-edge', singleEdgeDef);
 
 // 直线, 不支持控制点
@@ -515,7 +514,8 @@ Shape.registerEdge(
       if (cfg.curveOffset === undefined) cfg.curveOffset = this.curveOffset;
       if (cfg.curvePosition === undefined) cfg.curvePosition = this.curvePosition;
       if (isNumber(cfg.curveOffset)) cfg.curveOffset = [cfg.curveOffset, -cfg.curveOffset];
-      if (isNumber(cfg.curvePosition)) cfg.curvePosition = [cfg.curvePosition, 1 - cfg.curvePosition];
+      if (isNumber(cfg.curvePosition))
+        cfg.curvePosition = [cfg.curvePosition, 1 - cfg.curvePosition];
       if (!controlPoints || !controlPoints.length || controlPoints.length < 2) {
         const { startPoint, endPoint } = cfg;
         const innerPoint1 = getControlPoint(
@@ -560,7 +560,8 @@ Shape.registerEdge(
     getControlPoints(cfg: EdgeConfig): IPoint[] {
       const { startPoint, endPoint } = cfg;
       if (cfg.curvePosition !== undefined) this.curvePosition = cfg.curvePosition;
-      if (isNumber(this.curvePosition)) this.curvePosition = [this.curvePosition, 1 - this.curvePosition];
+      if (isNumber(this.curvePosition))
+        this.curvePosition = [this.curvePosition, 1 - this.curvePosition];
       const innerPoint1 = {
         x: startPoint!.x,
         y: (endPoint!.y - startPoint!.y) * (this as any).curvePosition[0] + startPoint!.y,
@@ -584,7 +585,8 @@ Shape.registerEdge(
     getControlPoints(cfg: EdgeConfig): IPoint[] {
       const { startPoint, endPoint } = cfg;
       if (cfg.curvePosition !== undefined) this.curvePosition = cfg.curvePosition;
-      if (isNumber(this.curvePosition)) this.curvePosition = [this.curvePosition, 1 - this.curvePosition];
+      if (isNumber(this.curvePosition))
+        this.curvePosition = [this.curvePosition, 1 - this.curvePosition];
       const innerPoint1 = {
         x: (endPoint!.x - startPoint!.x) * (this as any).curvePosition[0] + startPoint!.x,
         y: startPoint!.y,

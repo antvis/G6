@@ -25,7 +25,7 @@ export const getAllNodeInGroups = (data: GraphData): GroupNodeIds => {
       result[parentId] = subGroupIds;
     }
   }
-  const allGroupsId = Object.assign({}, groupById, result);
+  const allGroupsId = { ...groupById, ...result };
 
   // 缓存所有group包括的groupID
   const groupIds: { [key: string]: string[] } = {};
@@ -33,7 +33,7 @@ export const getAllNodeInGroups = (data: GraphData): GroupNodeIds => {
     if (!groupId || groupId === 'undefined') {
       continue;
     }
-    const subGroupIds = allGroupsId[groupId].map(node => node.id);
+    const subGroupIds = allGroupsId[groupId].map((node) => node.id);
 
     // const nodesInGroup = data.nodes.filter(node => node.groupId === groupId).map(node => node.id);
     groupIds[groupId] = subGroupIds;
@@ -54,15 +54,19 @@ export const getAllNodeInGroups = (data: GraphData): GroupNodeIds => {
     const parentSubGroupIds: string[] = [];
 
     for (const subId of subGroupIds) {
-      const tmpGroupId = allGroupsId[subId].map(node => node.id);
+      const tmpGroupId = allGroupsId[subId].map((node) => node.id);
       // const tmpNodes = data.nodes.filter(node => node.groupId === subId).map(node => node.id);
       parentSubGroupIds.push(...tmpGroupId);
     }
 
     const nodesInGroup = data.nodes
       ? data.nodes
-        .filter(node => parentSubGroupIds.indexOf(node.groupId!) > -1 || parentSubGroupIds.indexOf(node.parentId as string) > -1)
-        .map(node => node.id)
+          .filter(
+            (node) =>
+              parentSubGroupIds.indexOf(node.groupId!) > -1 ||
+              parentSubGroupIds.indexOf(node.parentId as string) > -1,
+          )
+          .map((node) => node.id)
       : [];
     groupNodes[groupId] = nodesInGroup;
   }

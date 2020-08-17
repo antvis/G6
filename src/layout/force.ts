@@ -22,41 +22,54 @@ import { clone } from '@antv/util';
 export default class ForceLayout<Cfg = any> extends BaseLayout {
   /** 向心力作用点 */
   public center: IPointTuple = [0, 0];
+
   /** 节点作用力 */
   public nodeStrength: number | null = null;
+
   /** 边的作用力, 默认为根据节点的入度出度自适应 */
   public edgeStrength: number | null = null;
+
   /** 是否防止节点相互覆盖 */
   public preventOverlap: boolean = false;
+
   /** 节点大小 / 直径，用于防止重叠时的碰撞检测 */
   public nodeSize: number | number[] | ((d?: unknown) => number) | undefined;
+
   /** 节点间距，防止节点重叠时节点之间的最小距离（两节点边缘最短距离） */
   public nodeSpacing: ((d?: unknown) => number) | undefined;
+
   /** 默认边长度 */
   public linkDistance: number = 50;
+
   /** 自定义 force 方法 */
   public forceSimulation: any;
+
   /** 迭代阈值的衰减率 [0, 1]，0.028 对应最大迭代数为 300 */
   public alphaDecay: number = 0.028;
+
   /** 停止迭代的阈值 */
   public alphaMin: number = 0.001;
+
   /** 当前阈值 */
   public alpha: number = 0.3;
+
   /** 防止重叠的力强度 */
   public collideStrength: number = 1;
+
   /** 是否启用web worker。前提是在web worker里执行布局，否则无效	*/
   public workerEnabled: boolean = false;
 
-  public tick: () => void = () => { };
+  public tick: () => void = () => {};
 
   /** 布局完成回调 */
-  public onLayoutEnd: () => void = () => { };
+  public onLayoutEnd: () => void = () => {};
 
   /** 布局每一次迭代完成的回调 */
-  public onTick: () => void = () => { };
+  public onTick: () => void = () => {};
 
   /** 是否正在布局 */
   private ticking: boolean | undefined = undefined;
+
   private edgeForce: any;
 
   public getDefaultCfg() {
@@ -73,9 +86,9 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
       alphaMin: 0.001,
       alpha: 0.3,
       collideStrength: 1,
-      tick() { },
-      onLayoutEnd() { }, // 布局完成回调
-      onTick() { }, // 每一迭代布局回调
+      tick() {},
+      onLayoutEnd() {}, // 布局完成回调
+      onTick() {}, // 每一迭代布局回调
       // 是否启用web worker。前提是在web worker里执行布局，否则无效
       workerEnabled: false,
     };
@@ -89,10 +102,10 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
     const self = this;
     self.nodes = data.nodes || [];
     const edges = data.edges || [];
-    self.edges = edges.map(edge => {
+    self.edges = edges.map((edge) => {
       const res = {};
       const expectKeys = ['targetNode', 'sourceNode', 'startPoint', 'endPoint'];
-      Object.keys(edge).forEach(key => {
+      Object.keys(edge).forEach((key) => {
         if (!(expectKeys.indexOf(key) > -1)) {
           res[key] = edge[key];
         }
@@ -223,7 +236,7 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
     }
 
     if (!nodeSize) {
-      nodeSizeFunc = d => {
+      nodeSizeFunc = (d) => {
         if (d.size) {
           if (isArray(d.size)) {
             const res = d.size[0] > d.size[1] ? d.size[0] : d.size[1];
@@ -234,17 +247,17 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
         return 10 + nodeSpacingFunc(d);
       };
     } else if (isFunction(nodeSize)) {
-      nodeSizeFunc = d => {
+      nodeSizeFunc = (d) => {
         const size = nodeSize(d);
         return size + nodeSpacingFunc(d);
       };
     } else if (isArray(nodeSize)) {
       const larger = nodeSize[0] > nodeSize[1] ? nodeSize[0] : nodeSize[1];
       const radius = larger / 2;
-      nodeSizeFunc = d => radius + nodeSpacingFunc(d);
+      nodeSizeFunc = (d) => radius + nodeSpacingFunc(d);
     } else if (isNumber(nodeSize)) {
       const radius = nodeSize / 2;
-      nodeSizeFunc = d => radius + nodeSpacingFunc(d);
+      nodeSizeFunc = (d) => radius + nodeSpacingFunc(d);
     } else {
       nodeSizeFunc = () => 10;
     }
