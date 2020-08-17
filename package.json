@@ -126,6 +126,6 @@
     "typescript": "^3.5.3",
     "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10",
-    "worker-loader": "^2.0.0"
+    "worker-loader": "^3.0.0"
   }
 }
