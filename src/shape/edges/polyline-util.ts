@@ -9,16 +9,16 @@ interface PolyPoint {
 }
 
 type PBBox = Partial<{
-  x: number,
-  y: number,
-  minX: number,
-  minY: number,
-  maxX: number,
-  maxY: number,
-  height: number,
-  width: number,
-  centerX: number,
-  centerY: number
+  x: number;
+  y: number;
+  minX: number;
+  minY: number;
+  maxX: number;
+  maxY: number;
+  height: number;
+  width: number;
+  centerX: number;
+  centerY: number;
 }>;
 
 export const getBBoxFromPoint = (point: PolyPoint): PBBox => {
@@ -39,7 +39,7 @@ export const getBBoxFromPoint = (point: PolyPoint): PBBox => {
 export const getBBoxFromPoints = (points: PolyPoint[] = []): PBBox => {
   const xs: number[] = [];
   const ys: number[] = [];
-  points.forEach(p => {
+  points.forEach((p) => {
     xs.push(p.x);
     ys.push(p.y);
   });
@@ -66,12 +66,12 @@ export const filterConnectPoints = (points: PolyPoint[]): PolyPoint[] => {
   // pre-process: remove duplicated points
   const result: any[] = [];
   const pointsMap: any = {};
-  points.forEach(p => {
+  points.forEach((p) => {
     const id = `${p.x}-${p.y}`;
     p.id = id;
     pointsMap[id] = p;
   });
-  each(pointsMap, p => {
+  each(pointsMap, (p) => {
     result.push(p);
   });
   return result;
@@ -204,12 +204,13 @@ export const distance = (p1: PolyPoint, p2: PolyPoint): number =>
   Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y);
 
 /**
-* 如果 points 中的一个节点 x 与 p 相等，则消耗 -2。y 同
-*/
+ * 如果 points 中的一个节点 x 与 p 相等，则消耗 -2。y 同
+ */
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export const _costByPoints = (p: PolyPoint, points: PolyPoint[]): number => {
   const offset = -2;
   let result = 0;
-  points.forEach(point => {
+  points.forEach((point) => {
     if (point) {
       if (p.x === point.x) {
         result += offset;
@@ -223,8 +224,8 @@ export const _costByPoints = (p: PolyPoint, points: PolyPoint[]): number => {
 };
 
 /**
-* ps 经过 p 到 pt 的距离，减去其他路过节点造成的消耗
-*/
+ * ps 经过 p 到 pt 的距离，减去其他路过节点造成的消耗
+ */
 export const heuristicCostEstimate = (
   p: PolyPoint,
   ps: PolyPoint,
@@ -247,8 +248,8 @@ export const reconstructPath = (
 };
 
 /**
-* 从 arr 中删去 item
-*/
+ * 从 arr 中删去 item
+ */
 export const removeFrom = (arr: PolyPoint[], item: PolyPoint) => {
   const index = arr.indexOf(item);
   if (index > -1) {
@@ -261,13 +262,13 @@ export const isSegmentsIntersected = (
   p2: PolyPoint,
   p3: PolyPoint,
 ): boolean => {
-  const s1_x = p1.x - p0.x;
-  const s1_y = p1.y - p0.y;
-  const s2_x = p3.x - p2.x;
-  const s2_y = p3.y - p2.y;
+  const s1X = p1.x - p0.x;
+  const s1Y = p1.y - p0.y;
+  const s2X = p3.x - p2.x;
+  const s2Y = p3.y - p2.y;
 
-  const s = (-s1_y * (p0.x - p2.x) + s1_x * (p0.y - p2.y)) / (-s2_x * s1_y + s1_x * s2_y);
-  const t = (s2_x * (p0.y - p2.y) - s2_y * (p0.x - p2.x)) / (-s2_x * s1_y + s1_x * s2_y);
+  const s = (-s1Y * (p0.x - p2.x) + s1X * (p0.y - p2.y)) / (-s2X * s1Y + s1X * s2Y);
+  const t = (s2X * (p0.y - p2.y) - s2Y * (p0.x - p2.x)) / (-s2X * s1Y + s1X * s2Y);
 
   return s >= 0 && s <= 1 && t >= 0 && t <= 1;
 };
@@ -293,7 +294,7 @@ export const getNeighborPoints = (
   bbox2: PBBox,
 ): PolyPoint[] => {
   const neighbors: Point[] = [];
-  points.forEach(p => {
+  points.forEach((p) => {
     if (p !== point) {
       if (p.x === point.x || p.y === point.y) {
         if (!isSegmentCrossingBBox(p, point, bbox1) && !isSegmentCrossingBBox(p, point, bbox2)) {
@@ -335,7 +336,7 @@ export const pathFinder = (
     [key: string]: PolyPoint;
   } = {};
 
-  points.forEach(p => {
+  points.forEach((p) => {
     pointById[p.id] = p;
   });
 
@@ -361,7 +362,7 @@ export const pathFinder = (
     removeFrom(openSet, current);
     closedSet.push(current);
 
-    getNeighborPoints(points, current, sBBox, tBBox).forEach(neighbor => {
+    getNeighborPoints(points, current, sBBox, tBBox).forEach((neighbor) => {
       if (closedSet.indexOf(neighbor) !== -1) {
         return;
       }
@@ -371,18 +372,14 @@ export const pathFinder = (
       }
 
       const tentativeGScore = fScore[current.id] + distance(current, neighbor); // + distance(neighbor, goal);
-      if (
-        gScore[neighbor.id] &&
-        tentativeGScore >= gScore[neighbor.id]
-      ) {
+      if (gScore[neighbor.id] && tentativeGScore >= gScore[neighbor.id]) {
         return;
       }
 
       cameFrom[neighbor.id] = current.id;
       gScore[neighbor.id] = tentativeGScore;
       fScore[neighbor.id] =
-        gScore[neighbor.id] +
-        heuristicCostEstimate(neighbor, goal, start, os, ot);
+        gScore[neighbor.id] + heuristicCostEstimate(neighbor, goal, start, os, ot);
     });
   }
   // throw new Error('Cannot find path');
@@ -454,7 +451,7 @@ export const getPolylinePoints = (
     sBBox = getBBoxFromPoint(start);
   } else if (sNode.getType() === 'combo') {
     const sNodeKeyShape = sNode.getKeyShape();
-    sBBox = sNodeKeyShape.getCanvasBBox() || getBBoxFromPoint(start) as PBBox;
+    sBBox = sNodeKeyShape.getCanvasBBox() || (getBBoxFromPoint(start) as PBBox);
     sBBox.centerX = (sBBox.minX + sBBox.maxX) / 2;
     sBBox.centerY = (sBBox.minY + sBBox.maxY) / 2;
   } else {
@@ -465,7 +462,7 @@ export const getPolylinePoints = (
     tBBox = getBBoxFromPoint(end);
   } else if (tNode.getType() === 'combo') {
     const tNodeKeyShape = tNode.getKeyShape();
-    tBBox = tNodeKeyShape.getCanvasBBox() || getBBoxFromPoint(end) as PBBox;
+    tBBox = tNodeKeyShape.getCanvasBBox() || (getBBoxFromPoint(end) as PBBox);
     tBBox.centerX = (tBBox.minX + tBBox.maxX) / 2;
     tBBox.centerY = (tBBox.minY + tBBox.maxY) / 2;
   } else {
@@ -502,7 +499,7 @@ export const getPolylinePoints = (
   [lineBBox, sMixBBox, tMixBBox].forEach((bbox: PBBox) => {
     connectPoints = connectPoints.concat(
       getBBoxCrossPointsByPoint(bbox, centerPoint).filter(
-        p => isPointOutsideBBox(p, sxBBox) && isPointOutsideBBox(p, txBBox),
+        (p) => isPointOutsideBBox(p, sxBBox) && isPointOutsideBBox(p, txBBox),
       ),
     );
   });
@@ -515,7 +512,7 @@ export const getPolylinePoints = (
       x: tPoint.x,
       y: sPoint.y,
     },
-  ].forEach(p => {
+  ].forEach((p) => {
     // impossible!!
     if (
       isPointOutsideBBox(p, sxBBox) &&

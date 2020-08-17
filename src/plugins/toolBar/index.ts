@@ -45,10 +45,6 @@ interface ToolBarConfig extends IPluginBaseConfig {
 }
 
 export default class ToolBar extends Base {
-  constructor(cfg?: ToolBarConfig) {
-    super(cfg);
-  }
-
   public getDefaultCfgs(): ToolBarConfig {
     return {
       handleClick: undefined,
@@ -203,24 +199,31 @@ export default class ToolBar extends Base {
       }
 
       switch (action) {
-        case 'visible':
+        case 'visible': {
           let item = data;
           if (isString(data)) {
             item = graph.findById(data);
           }
-          item.get('visible') ? graph.hideItem(item, false) : graph.showItem(item, false);
+          if (item.get('visible')) {
+            graph.hideItem(item, false);
+          } else {
+            graph.showItem(item, false);
+          }
           break;
+        }
         case 'render':
         case 'update':
           graph.changeData(data, false);
           break;
-        case 'delete':
+        case 'delete': {
           const { type, ...model } = data;
           graph.addItem(type, model, false);
           break;
+        }
         case 'add':
           graph.removeItem(data.id, false);
           break;
+        default:
       }
     }
   }
@@ -248,13 +251,18 @@ export default class ToolBar extends Base {
       }
 
       switch (action) {
-        case 'visible':
+        case 'visible': {
           let item = data;
           if (isString(data)) {
             item = graph.findById(data);
           }
-          item.get('visible') ? graph.hideItem(item, false) : graph.showItem(item, false);
+          if (item.get('visible')) {
+            graph.hideItem(item, false);
+          } else {
+            graph.showItem(item, false);
+          }
           break;
+        }
         case 'render':
         case 'update':
           graph.changeData(data, false);
@@ -262,10 +270,12 @@ export default class ToolBar extends Base {
         case 'delete':
           graph.removeItem(data.id, false);
           break;
-        case 'add':
+        case 'add': {
           const { type, ...model } = data;
           graph.addItem(type, model, false);
           break;
+        }
+        default:
       }
     }
   }
@@ -284,26 +294,29 @@ export default class ToolBar extends Base {
       case 'undo':
         this.undo();
         break;
-      case 'zoomOut':
+      case 'zoomOut': {
         const ratioOut = 1 + 0.05 * 5;
         if (ratioOut * currentZoom > 5) {
           return;
         }
         graph.zoomTo(currentZoom * 1.1);
         break;
-      case 'zoomIn':
+      }
+      case 'zoomIn': {
         const ratioIn = 1 - 0.05 * 5;
         if (ratioIn * currentZoom < 0.3) {
           return;
         }
         graph.zoomTo(currentZoom * 0.9);
         break;
+      }
       case 'realZoom':
         graph.zoomTo(1);
         break;
       case 'autoZoom':
         graph.fitView([20, 20]);
         break;
+      default:
     }
   }
 

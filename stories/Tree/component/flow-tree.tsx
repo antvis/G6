@@ -210,27 +210,27 @@ G6.registerNode(
         attrs:
           cfg._row === 1
             ? {
-              x: cfg.x,
-              y: cfg._content ? cfg.y - 10 : cfg.y,
-              width: 150,
-              height: cfg._content ? 48 : 28,
-              radius: cfg._content ? 4 : 12,
-              stroke: '#1890FF',
-              fill: '#E6F7FF',
-              fillOpacity: 0.4,
-              lineWidth: 2,
-            }
+                x: cfg.x,
+                y: cfg._content ? cfg.y - 10 : cfg.y,
+                width: 150,
+                height: cfg._content ? 48 : 28,
+                radius: cfg._content ? 4 : 12,
+                stroke: '#1890FF',
+                fill: '#E6F7FF',
+                fillOpacity: 0.4,
+                lineWidth: 2,
+              }
             : {
-              x: cfg.x,
-              y: cfg._content ? cfg.y - 10 : cfg.y,
-              width: 150,
-              height: cfg._content ? 48 : 28,
-              radius: cfg._content ? 24 : 12,
-              stroke: '#13C2C2',
-              fill: '#E6FFFB',
-              fillOpacity: 0.4,
-              lineWidth: 2,
-            },
+                x: cfg.x,
+                y: cfg._content ? cfg.y - 10 : cfg.y,
+                width: 150,
+                height: cfg._content ? 48 : 28,
+                radius: cfg._content ? 24 : 12,
+                stroke: '#13C2C2',
+                fill: '#E6FFFB',
+                fillOpacity: 0.4,
+                lineWidth: 2,
+              },
       });
 
       var bbbox = rect.getBBox();
@@ -270,25 +270,25 @@ G6.registerNode(
         attrs:
           cfg._row === 1
             ? {
-              x: cfg.x - 70,
-              y: cfg.y + 4,
-              width: 50,
-              height: 20,
-              radius: 4,
-              stroke: '#1890FF',
-              fill: '#1890FF',
-              lineWidth: 2,
-            }
+                x: cfg.x - 70,
+                y: cfg.y + 4,
+                width: 50,
+                height: 20,
+                radius: 4,
+                stroke: '#1890FF',
+                fill: '#1890FF',
+                lineWidth: 2,
+              }
             : {
-              x: cfg.x - 70,
-              y: cfg.y + 4,
-              width: 50,
-              height: 20,
-              radius: 4,
-              stroke: '#13C2C2',
-              fill: '#13C2C2',
-              lineWidth: 2,
-            },
+                x: cfg.x - 70,
+                y: cfg.y + 4,
+                width: 50,
+                height: 20,
+                radius: 4,
+                stroke: '#13C2C2',
+                fill: '#13C2C2',
+                lineWidth: 2,
+              },
       });
       return rect;
     },

@@ -247,7 +247,7 @@ const DefaultShape = () => {
     graph.data(data);
     graph.render();
 
-    graph.on('node:click', ev => {
+    graph.on('node:click', (ev) => {
       //const clickNodes = graph.findAllByState('node', 'click');
 
       //clickNodes.forEach(cn => {
@@ -259,7 +259,7 @@ const DefaultShape = () => {
       graph.setItemState(nodeItem, 'select', true);
     });
 
-    graph.on('node:mouseenter', evt => {
+    graph.on('node:mouseenter', (evt) => {
       const { item } = evt;
       graph.setItemState(item, 'hover', true);
     });

@@ -10,19 +10,19 @@ const data = {
       id: 'node1',
       label: 'node1',
       x: 10,
-      y: 20
+      y: 20,
     },
     {
       id: 'node2',
       label: 'node2',
       x: 10,
-      y: 30
+      y: 30,
     },
     {
       id: 'node3',
       label: 'node3',
       x: 20,
-      y: 20
+      y: 20,
     },
   ],
   edges: [
@@ -50,20 +50,20 @@ const AnimateFitView = () => {
         width: 500,
         height: 500,
         modes: {
-          default: ['drag-canvas', 'zoom-canvas']
+          default: ['drag-canvas', 'zoom-canvas'],
         },
         layout: {
-          type: 'dagre'
+          type: 'dagre',
         },
         animate: true,
-        fitView: true
+        fitView: true,
       });
       graph.data(data);
       graph.render();
 
       graph.on('canvas:click', () => {
         graph.updateLayout({
-          type: 'fruchterman'
+          type: 'fruchterman',
         });
       });
     }

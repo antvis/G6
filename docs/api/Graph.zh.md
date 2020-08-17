@@ -23,7 +23,7 @@ Graph 的生命周期为：初始化—>加载数据—>渲染—>更新—>销�
 | fitView | Boolean | false | 是否开启画布自适应。开启后图自动适配画布大小。 |
 | fitViewPadding | Array | Number | `fitView` 为 `true` 时生效。图适应画布时，指定四周的留白。<br />- 可以是一个值, 例如：`fitViewPadding: 20`<br />- 也可以是一个数组，例如：`fitViewPadding: [ 20, 40, 50, 20 ]`<br />当指定一个值时，四边的边距都相等，当指定数组时，数组内数值依次对应 上，右，下，左四边的边距。 |
 | fitCenter | Boolean | false | *v3.5.1 后支持。*开启后，图将会被平移，图的中心将对齐到画布中心，但不缩放。优先级低于 fitView |
-| linkCenter | Boolean |  false | 指定边是否连入节点的中心 |
+| linkCenter | Boolean | false | 指定边是否连入节点的中心 |
 | groupByTypes | Boolean | true | 各种元素是否在一个分组内，决定节点和边的层级问题，默认情况下所有的节点在一个分组中，所有的边在一个分组中，当这个参数为 false 时，节点和边的层级根据生成的顺序确定。当使用 Combo 时，**必须**将其设置为 `false` |
 | autoPaint | Boolean | true | 当图中元素更新，或视口变换时，是否自动重绘。建议在批量操作节点时关闭，以提高性能，完成批量操作后再打开，参见后面的 setAutoPaint() 方法。 |
 | modes | Object |  | 设置画布的模式。详情可见  [交互模式 Mode](/zh/docs/manual/middle/states/mode)  文档。 |
@@ -31,7 +31,7 @@ Graph 的生命周期为：初始化—>加载数据—>渲染—>更新—>销�
 | edgeStateStyles | Object | {} | 各个状态下边的样式，例如 `hover`、`selected`，3.1 版本新增。 |
 | comboStateStyles | Object | {} | 各个状态下 Combo 的样式，例如 `hover`、`selected`，3.5 版本新增。 |
 | defaultNode | Object | {} | 默认状态下节点的配置，比如 `type`, `size`, `color`。会被写入的 data 覆盖。 |
-| defaultEdge | Object | {} | 默认状态下边的配置，比如 `type`, `size`, `color`。会被写入的 data 覆盖。  |
+| defaultEdge | Object | {} | 默认状态下边的配置，比如 `type`, `size`, `color`。会被写入的 data 覆盖。 |
 | defaultCombo | Object | {} | 默认状态下 Combo 的配置，比如 `type`, `color`。会被写入的 data 覆盖。3.5 版本新增。 |
 | plugins | Array | [] | 向 graph 注册插件。插件机制请见：[插件](/zh/docs/manual/tutorial/plugins#插件) |
 | animate | Boolean | false | 是否启用全局动画。 |
@@ -212,9 +212,9 @@ graph.read(data);
 
 **参数**
 
-| 名称 | 类型   | 是否必选 | 描述                                     |
-| ---- | ------ | -------- | ---------------------------------------- |
-| data | Object | false     | 图数据，是一个包括 nodes 和 edges 的对象。若不指定该参数，则使用当前数据重新渲染 |
+| 名称 | 类型 | 是否必选 | 描述 |
+| --- | --- | --- | --- |
+| data | Object | false | 图数据，是一个包括 nodes 和 edges 的对象。若不指定该参数，则使用当前数据重新渲染 |
 | stack | boolean | false | 操作是否入 undo & redo 栈，当实例化 Graph 时设置 enableStack 为 true 时，默认情况下会自动入栈，入栈以后，就支持 undo & redo 操作，如果不需要，则设置该参数为 false 即可 |
 
 **用法**
@@ -246,57 +246,63 @@ graph.changeData();
 ```
 
 ### collapseCombo(combo)
+
 收起指定的 Combo。
 
 **参数**
 
-| 名称    | 类型   | 是否必选 | 描述    |
-| ------- | ------ | -------- | ------- |
+| 名称  | 类型            | 是否必选 | 描述                   |
+| ----- | --------------- | -------- | ---------------------- |
 | combo | string / ICombo | true     | combo ID 或 combo 实例 |
 
 **用法**
+
 ```
 graph.collapseCombo('combo1')
 ```
 
 ### expandCombo(combo)
+
 展开指定的 Combo。
 
 **参数**
 
-| 名称    | 类型   | 是否必选 | 描述    |
-| ------- | ------ | -------- | ------- |
+| 名称  | 类型            | 是否必选 | 描述                   |
+| ----- | --------------- | -------- | ---------------------- |
 | combo | string / ICombo | true     | combo ID 或 combo 实例 |
 
 **用法**
+
 ```
 graph.expandCombo('combo1')
 ```
 
 ### collapseExpandCombo(combo)
+
 展开或收缩指定的 Combo。
 
 **参数**
 
-| 名称    | 类型   | 是否必选 | 描述    |
-| ------- | ------ | -------- | ------- |
+| 名称  | 类型            | 是否必选 | 描述                   |
+| ----- | --------------- | -------- | ---------------------- |
 | combo | string / ICombo | true     | combo ID 或 combo 实例 |
 
 **用法**
+
 ```
 graph.collapseExpandCombo('combo1')
 ```
 
-
 ### createCombo(combo, elements)
+
 根据已经存在的节点或 combo 创建新的 combo。
 
 **参数**
 
-| 名称    | 类型   | 是否必选 | 描述    |
-| ------- | ------ | -------- | ------- |
-| combo | string / ComboConfig | true    | combo ID 或 Combo 配置 |
-| elements | string[] | true    | 添加到 Combo 中的元素 ID，包括节点和 combo |
+| 名称     | 类型                 | 是否必选 | 描述                                       |
+| -------- | -------------------- | -------- | ------------------------------------------ |
+| combo    | string / ComboConfig | true     | combo ID 或 Combo 配置                     |
+| elements | string[]             | true     | 添加到 Combo 中的元素 ID，包括节点和 combo |
 
 **用法**
 
@@ -314,21 +320,20 @@ graph.createCombo({
 ```
 
 ### uncombo(combo)
+
 拆解 Combo，即拆分组/解组。调用后，combo 本身将被删除，而该分组内部的子元素将会成为该分组父分组（若存在）的子元素。
 
 **参数**
 
-| 名称    | 类型   | 是否必选 | 描述    |
-| ------- | ------ | -------- | ------- |
-| combo | string / ICombo | true    | 需要被拆解的 Combo item 或 id |
+| 名称  | 类型            | 是否必选 | 描述                          |
+| ----- | --------------- | -------- | ----------------------------- |
+| combo | string / ICombo | true     | 需要被拆解的 Combo item 或 id |
 
 **用法**
 
 ```
 graph.uncombo('combo1')
 ```
-
-
 
 ### collapseGroup(groupId)
 
@@ -361,7 +366,6 @@ graph.collapseGroup('groupId');
 ```javascript
 graph.expandGroup('groupId');
 ```
-
 
 ## 更新
 
@@ -415,15 +419,14 @@ graph.addItem('group', model);
 
 ### updateItem(item, model, stack)
 
-更新元素，包括更新数据、样式等。
-若图上有 combo，使用该函数更新一个节点位置后，需要调用 [updateCombo(combo)](/zh/docs/api/Graph#updatecombocombo) 以更新相关 combo 的位置。
+更新元素，包括更新数据、样式等。若图上有 combo，使用该函数更新一个节点位置后，需要调用 [updateCombo(combo)](/zh/docs/api/Graph#updatecombocombo) 以更新相关 combo 的位置。
 
 **参数**
 
-| 名称 | 类型            | 是否必选 | 描述               |
-| ---- | --------------- | -------- | ------------------ |
-| item | string / Object | true     | 元素 ID 或元素实例 |
-| cfg  | Object          | false    | 需要更新的数据模型，具体内容参见[元素配置项](/zh/docs/api/nodeEdge/itemProperties)  |
+| 名称 | 类型 | 是否必选 | 描述 |
+| --- | --- | --- | --- |
+| item | string / Object | true | 元素 ID 或元素实例 |
+| cfg | Object | false | 需要更新的数据模型，具体内容参见[元素配置项](/zh/docs/api/nodeEdge/itemProperties) |
 | stack | boolean | false | 操作是否入 undo & redo 栈，当实例化 Graph 时设置 enableStack 为 true 时，默认情况下会自动入栈，入栈以后，就支持 undo & redo 操作，如果不需要，则设置该参数为 false 即可 |
 
 **用法**
@@ -449,8 +452,8 @@ graph.updateItem(item, model);
 
 同 updateItem(item, model, stack)。
 
-
 ### updateCombos()
+
 根据子元素（子节点与子 combo）的 bbox 更新所有 combos 的绘制，包括 combos 的位置和范围。
 
 **用法**
@@ -460,25 +463,24 @@ graph.updateItem(item, model);
 graph.updateCombos();
 ```
 
-
 ### updateCombo(combo)
+
 仅更新 combo 及其所有祖先 combo。建议在使用 graph.updateItem 来更新节点位置时，调用该方法以更新节点的祖先 combos。
 
 **参数**
 
-| 名称 | 类型            | 是否必选 | 描述               |
-| ---- | --------------- | -------- | ----------------------------------- |
-| combo | string / ICombo | true    | Combo ID 或 Combo 实例 |
+| 名称  | 类型            | 是否必选 | 描述                   |
+| ----- | --------------- | -------- | ---------------------- |
+| combo | string / ICombo | true     | Combo ID 或 Combo 实例 |
 
 **用法**
 
 ```javascript
-
 // 更新了某个节点的位置
 const node1 = graph.findById('node1');
 graph.updateItem(node1, {
   x: 100,
-  y: 100
+  y: 100,
 });
 const comboId = node1.getModel().comboId;
 
@@ -486,16 +488,16 @@ const comboId = node1.getModel().comboId;
 graph.updateCombo(comboId);
 ```
 
-
 ### updateComboTree(item, parentId)
+
 更新 Combo 结构，例如移动子树等。
 
 **参数**
 
-| 名称 | 类型    | 是否必选 | 描述         |
-| ---- | ------- | -------- | ------------ |
-| item | string / INode / ICombo  | true    | 需要被更新的 Combo 或 节点 ID |
-| parentId | string / undefined | false  | 新的父 combo ID，undefined 代表没有父 combo |
+| 名称     | 类型                    | 是否必选 | 描述                                        |
+| -------- | ----------------------- | -------- | ------------------------------------------- |
+| item     | string / INode / ICombo | true     | 需要被更新的 Combo 或 节点 ID               |
+| parentId | string / undefined      | false    | 新的父 combo ID，undefined 代表没有父 combo |
 
 **用法**
 
@@ -507,17 +509,15 @@ graph.updateComboTree('combo1')
 graph.updateComboTree('combo1', 'combo2')
 ```
 
-
-
 ### removeItem(item, stack)
 
 删除元素，当 item 为 group ID 时候，则删除分组。
 
 **参数**
 
-| 名称 | 类型            | 是否必选 | 描述               |
-| ---- | --------------- | -------- | ------------------ |
-| item | string / Object | true     | 元素 ID 或元素实例 |
+| 名称 | 类型 | 是否必选 | 描述 |
+| --- | --- | --- | --- |
+| item | string / Object | true | 元素 ID 或元素实例 |
 | stack | boolean | false | 操作是否入 undo & redo 栈，当实例化 Graph 时设置 enableStack 为 true 时，默认情况下会自动入栈，入栈以后，就支持 undo & redo 操作，如果不需要，则设置该参数为 false 即可 |
 
 **用法**
@@ -528,7 +528,7 @@ const item = graph.findById('node');
 graph.removeItem(item);
 
 // 该操作不会进入到 undo & redo 栈，即 redo & undo 操作会忽略该操作
-graph.removeItem(item, false)
+graph.removeItem(item, false);
 ```
 
 ### remove(item, stack)
@@ -664,17 +664,17 @@ function refreshDragedNodePosition(e) {
   model.fy = e.y;
 }
 
-graph.on('node:dragstart', e => {
+graph.on('node:dragstart', (e) => {
   // 拖动节点时重新布局
   graph.layout();
   refreshDragedNodePosition(e);
 });
 
-graph.on('node:drag', e => {
+graph.on('node:drag', (e) => {
   refreshDragedNodePosition(e);
 });
 
-graph.on('node:dragend', e => {
+graph.on('node:dragend', (e) => {
   e.item.get('model').fx = null;
   e.item.get('model').fy = null;
 });
@@ -756,9 +756,9 @@ graph.destroy();
 
 **参数**
 
-| 名称 | 类型            | 是否必选 | 描述               |
-| ---- | --------------- | -------- | ------------------ |
-| item | string / Object | true     | 元素 ID 或元素实例 |
+| 名称 | 类型 | 是否必选 | 描述 |
+| --- | --- | --- | --- |
+| item | string / Object | true | 元素 ID 或元素实例 |
 | stack | boolean | false | 操作是否入 undo & redo 栈，当实例化 Graph 时设置 enableStack 为 true 时，默认情况下会自动入栈，入栈以后，就支持 undo & redo 操作，如果不需要，则设置该参数为 false 即可 |
 
 **用法**
@@ -778,9 +778,9 @@ graph.showItem('nodeId');
 
 **参数**
 
-| 名称 | 类型            | 是否必选 | 描述               |
-| ---- | --------------- | -------- | ------------------ |
-| item | string / Object | true     | 元素 ID 或元素实例 |
+| 名称 | 类型 | 是否必选 | 描述 |
+| --- | --- | --- | --- |
+| item | string / Object | true | 元素 ID 或元素实例 |
 | stack | boolean | false | 操作是否入 undo & redo 栈，当实例化 Graph 时设置 enableStack 为 true 时，默认情况下会自动入栈，入栈以后，就支持 undo & redo 操作，如果不需要，则设置该参数为 false 即可 |
 
 **用法**
@@ -796,18 +796,17 @@ graph.hideItem('nodeId');
 
 ### setItemState(item, state, value)
 
-设置元素状态。
-支持单个状态多值的情况，详情参考 [G6 状态管理最佳实践](/zh/docs/manual/middle/states/state-new)。
+设置元素状态。支持单个状态多值的情况，详情参考 [G6 状态管理最佳实践](/zh/docs/manual/middle/states/state-new)。
 
 该方法在执行过程中会触发 `beforitemstatechange`，`afteritemstatechange` 事件。
 
 **参数**
 
-| 名称    | 类型            | 是否必选 | 描述                                                 |
-| ------- | --------------- | -------- | ----------- |
-| item    | string / Item | true     | 元素 ID 或元素实例 |
-| state   | string          | true     | 状态值，支持自定义，如 selected、hover、actived 等。 |
-| value | Boolean / string   | true     | 是否启用状态 |
+| 名称  | 类型             | 是否必选 | 描述                                                 |
+| ----- | ---------------- | -------- | ---------------------------------------------------- |
+| item  | string / Item    | true     | 元素 ID 或元素实例                                   |
+| state | string           | true     | 状态值，支持自定义，如 selected、hover、actived 等。 |
+| value | Boolean / string | true     | 是否启用状态                                         |
 
 **用法**
 
@@ -826,10 +825,10 @@ graph.setItemState('node2', 'body', 'ill');
 
 **参数**
 
-| 名称   | 类型            | 是否必选 | 描述               |
-| ------ | --------------- | -------- | ------------------ |
-| item   | string / Object | true     | 元素 ID 或元素实例 |
-| states | string / Array / null  |   false   | 取值可以是单个状态值，也可以是状态值数组 |
+| 名称   | 类型                  | 是否必选 | 描述                                     |
+| ------ | --------------------- | -------- | ---------------------------------------- |
+| item   | string / Object       | true     | 元素 ID 或元素实例                       |
+| states | string / Array / null | false    | 取值可以是单个状态值，也可以是状态值数组 |
 
 **用法**
 
@@ -852,14 +851,14 @@ graph.clearItemStates(node);
 
 **参数**
 
-| 名称   | 类型     | 是否必选 | 描述             |
-| ------ | -------- | -------- | ---------------- |
+| 名称   | 类型     | 是否必选 | 描述               |
+| ------ | -------- | -------- | ------------------ |
 | nodeFn | Function | true     | 返回每个节点的配置 |
 
 **用法**
 
 ```javascript
-graph.node(node => {
+graph.node((node) => {
   return {
     id: node.id,
     type: 'rect',
@@ -888,7 +887,7 @@ graph.render();
 **用法**
 
 ```javascript
-graph.edge(edge => {
+graph.edge((edge) => {
   return {
     id: edge.id,
     type: 'cubic-horizontal',
@@ -910,14 +909,14 @@ graph.render();
 
 **参数**
 
-| 名称   | 类型     | 是否必选 | 描述             |
-| ------ | -------- | -------- | ---------------- |
+| 名称    | 类型     | 是否必选 | 描述                  |
+| ------- | -------- | -------- | --------------------- |
 | comboFn | Function | true     | 返回每个 combo 的配置 |
 
 **用法**
 
 ```javascript
-graph.combo(combo => {
+graph.combo((combo) => {
   return {
     id: combo.id,
     type: 'rect',
@@ -1031,44 +1030,39 @@ graph.setMode('custom')
 const mode = graph.getCurrentMode();
 ```
 
-
 ### on(eventName, handler)
 
 为图绑定事件监听。
 
 **参数**
 
-| 名称 | 类型   | 是否必选 | 描述       |
-| ---- | ------ | -------- | ---------- |
-| eventName | string | true     | 事件名，可选事件名参见 [Event](/zh/docs/api/Event) |
-| handler | Function | true     | 监听函数 |
+| 名称      | 类型     | 是否必选 | 描述                                               |
+| --------- | -------- | -------- | -------------------------------------------------- |
+| eventName | string   | true     | 事件名，可选事件名参见 [Event](/zh/docs/api/Event) |
+| handler   | Function | true     | 监听函数                                           |
 
 这里对 `handler` 的参数 `evt` 中 `item` 和 `target` 参数进行解释：
 
-| 名称 | 类型   | 是否必选 | 描述       |
-| ---- | ------ | -------- | ---------- |
-| item | string | true     | 被操作的 item |
-| target | Function | true     | 被操作的具体[图形](/zh/docs/manual/middle/elements/shape-keyshape) |
-
-
+| 名称 | 类型 | 是否必选 | 描述 |
+| --- | --- | --- | --- |
+| item | string | true | 被操作的 item |
+| target | Function | true | 被操作的具体[图形](/zh/docs/manual/middle/elements/shape-keyshape) |
 
 **用法**
 
 ```javascript
 // 为图上的所有节点绑定点击监听
-graph.on('node:click', evt => {
+graph.on('node:click', (evt) => {
   const item = evt.item; // 被操作的节点 item
   const target = evt.target; // 被操作的具体图形
   // ...
 });
 
 // 为画布绑定点击监听
-graph.on('click', evt => {
+graph.on('click', (evt) => {
   // ...
 });
 ```
-
-
 
 ### off(eventName, handler)
 
@@ -1076,25 +1070,22 @@ graph.on('click', evt => {
 
 **参数**
 
-| 名称 | 类型   | 是否必选 | 描述       |
-| ---- | ------ | -------- | ---------- |
-| eventName | string | true     | 事件名，可选事件名参见 [Event](/zh/docs/api/Event) |
-| handler | Function | true     | 监听函数 |
+| 名称      | 类型     | 是否必选 | 描述                                               |
+| --------- | -------- | -------- | -------------------------------------------------- |
+| eventName | string   | true     | 事件名，可选事件名参见 [Event](/zh/docs/api/Event) |
+| handler   | Function | true     | 监听函数                                           |
 
 这里对 `handler` 的参数 `evt` 中 `item` 和 `target` 同 [`graph.on(eventName, handler)`](#oneventname-handler)。该 `handler` 必须与绑定该事件的 `handler` 是同一对象。
-
-
 
 **用法**
 
 ```javascript
-
 // 监听函数
-const fn = evt => {
+const fn = (evt) => {
   const item = evt.item; // 被操作的节点 item
   const target = evt.target; // 被操作的具体图形
   // ...
-}
+};
 // 为图上的所有节点绑定点击监听
 graph.on('node:click', fn);
 
@@ -1102,33 +1093,28 @@ graph.on('node:click', fn);
 graph.off('node:click', fn);
 ```
 
-
-
 ### off(eventName)
 
 为图解除某事件的所有监听。
 
 **参数**
 
-| 名称 | 类型   | 是否必选 | 描述       |
-| ---- | ------ | -------- | ---------- |
+| 名称      | 类型   | 是否必选 | 描述                                               |
+| --------- | ------ | -------- | -------------------------------------------------- |
 | eventName | string | true     | 事件名，可选事件名参见 [Event](/zh/docs/api/Event) |
-
-
 
 **用法**
 
 ```javascript
-
 // 监听函数
-const fn1 = evt => {
+const fn1 = (evt) => {
   const item = evt.item; // 被操作的节点 item
   const target = evt.target; // 被操作的具体图形
   // ...
-}
-const fn2 = evt => {
+};
+const fn2 = (evt) => {
   // ...
-}
+};
 // 为图上的所有节点绑定点击监听
 graph.on('node:click', fn1);
 graph.on('node:click', fn2);
@@ -1137,23 +1123,20 @@ graph.on('node:click', fn2);
 graph.off('node:click');
 ```
 
-
 ### off()
 
 为图解除所有监听。该函数无参数。
 
-
 **用法**
 
 ```javascript
-
 // 监听函数
-const fn1 = evt => {
+const fn1 = (evt) => {
   // ...
-}
-const fn2 = evt => {
+};
+const fn2 = (evt) => {
   // ...
-}
+};
 // 为图上的所有节点绑定点击监听
 graph.on('node:mouseenter', fn1);
 graph.on('afteranimate', fn2);
@@ -1161,7 +1144,6 @@ graph.on('afteranimate', fn2);
 // 解除图上所有监听事件
 graph.off();
 ```
-
 
 ### getZoom()
 
@@ -1229,11 +1211,11 @@ graph.zoomTo(0.5);
 
 **参数**
 
-| 名称 | 类型            | 是否必选 | 描述               |
-| ---- | --------------- | -------- | ------------------ |
-| item | string / Object | true     | 元素 ID 或元素实例 |
-| animate | boolean | false     | 是否带有动画。若未配置，则跟随 graph 的 `animate` 参数 |
-| animateCfg | Object | false     | 若带有动画，可配置动画，参见[基础动画教程](/zh/docs/manual/advanced/animation#animatecfg)。若未配置，则跟随 graph 的 `animateCfg` 参数 |
+| 名称 | 类型 | 是否必选 | 描述 |
+| --- | --- | --- | --- |
+| item | string / Object | true | 元素 ID 或元素实例 |
+| animate | boolean | false | 是否带有动画。若未配置，则跟随 graph 的 `animate` 参数 |
+| animateCfg | Object | false | 若带有动画，可配置动画，参见[基础动画教程](/zh/docs/manual/advanced/animation#animatecfg)。若未配置，则跟随 graph 的 `animateCfg` 参数 |
 
 **用法**
 
@@ -1246,7 +1228,7 @@ graph.focusItem(item, true);
 // 动画地移动，并配置动画
 graph.focusItem(item, true, {
   easing: 'easeCubic',
-  duration: 400
+  duration: 400,
 });
 ```
 
@@ -1338,7 +1320,6 @@ graph.fitView([20, 10, 20, 15]);
 graph.fitCenter();
 ```
 
-
 ## 查找
 
 ### find(type, fn)
@@ -1360,7 +1341,7 @@ graph.fitCenter();
 **用法**
 
 ```javascript
-const findNode = graph.find('node', node => {
+const findNode = graph.find('node', (node) => {
   return node.get('model').x === 100;
 });
 ```
@@ -1405,7 +1386,7 @@ const node = graph.findById('node');
 **用法**
 
 ```javascript
-const nodes = graph.findAll('node', node => {
+const nodes = graph.findAll('node', (node) => {
   return node.get('model').x;
 });
 ```
@@ -1495,6 +1476,7 @@ const edges = graph.getEdges();
 ```
 
 ### getCombos()
+
 获取当前图中所有 combo 的实例。
 
 **返回值**
@@ -1508,33 +1490,35 @@ const edges = graph.getEdges();
 const combos = graph.getCombos();
 ```
 
-
 ### getComboChildren(combo)
+
 获取指定 combo 中所有的子节点及子 combo。
 
 **参数**
 
-| 名称    | 类型   | 是否必选 | 描述        |
-| ------- | ------ | -------- | ----------- |
-| combo | string / ICombo | true    | Combo ID 或 combo 实例 |
+| 名称  | 类型            | 是否必选 | 描述                   |
+| ----- | --------------- | -------- | ---------------------- |
+| combo | string / ICombo | true     | Combo ID 或 combo 实例 |
 
 **返回值**
 
 - 返回值类型：Object，格式如下
+
 ```javascript
 {
     nodes: INode[],
     edges: ICombo[]
 }
 ```
+
 - 返回指定 combo 中的子元素（子节点及子 combo）。
 
 **用法**
 
 ```
-const elements: { 
-  nodes: INode[], 
-  combos: ICombo[] 
+const elements: {
+  nodes: INode[],
+  combos: ICombo[]
 } = graph.getComboChildren('combo1')
 ```
 
@@ -1542,10 +1526,10 @@ const elements: {
 
 **参数**
 
-| 名称    | 类型   | 是否必选 | 描述        |
-| ------- | ------ | -------- | ----------- |
-| node | string / INode | true    | 节点 ID 或节点实例 |
-| type |  'source' / 'target' / undefined | false    | 邻居类型， 'source' 只获取当前节点的源节点，'target' 只获取当前节点指向的目标节点， 若不指定则返回所有类型的邻居 |
+| 名称 | 类型 | 是否必选 | 描述 |
+| --- | --- | --- | --- |
+| node | string / INode | true | 节点 ID 或节点实例 |
+| type | 'source' / 'target' / undefined | false | 邻居类型， 'source' 只获取当前节点的源节点，'target' 只获取当前节点指向的目标节点， 若不指定则返回所有类型的邻居 |
 
 **返回值**
 
@@ -1554,8 +1538,8 @@ const elements: {
 
 **用法**
 
-``` javascript
-const neighbors = graph.getNeighbors('node1', 'source')
+```javascript
+const neighbors = graph.getNeighbors('node1', 'source');
 ```
 
 ## 坐标转换
@@ -1676,7 +1660,6 @@ graph.stopAnimate();
 
 判断当前是否有正在执行的动画。
 
-
 ## 计算
 
 ### getNodeDegree(node, degreeType)
@@ -1685,11 +1668,10 @@ graph.stopAnimate();
 
 **参数**
 
-| 名称 | 类型   | 是否必选 | 描述       |
-| ---- | ------ | -------- | ---------- |
-| node | string / INode  | true     | 节点 ID 或实例 |
-| degreeType | `'in'` \ `'out'` \ `'total'` \ `'all'` | false     | 获取度数的类型。设置为 `'in'` 将返回入度；`'out'` 将返回出度；`'total'` 将返回总度数；`'all'` 将返回一个含有三种度数的对象：`{ inDegree, outDegree, degree}`；若不指定，将返回总度数 |
-
+| 名称 | 类型 | 是否必选 | 描述 |
+| --- | --- | --- | --- |
+| node | string / INode | true | 节点 ID 或实例 |
+| degreeType | `'in'` \ `'out'` \ `'total'` \ `'all'` | false | 获取度数的类型。设置为 `'in'` 将返回入度；`'out'` 将返回出度；`'total'` 将返回总度数；`'all'` 将返回一个含有三种度数的对象：`{ inDegree, outDegree, degree}`；若不指定，将返回总度数 |
 
 **用法**
 
@@ -1698,40 +1680,44 @@ graph.getNodeDegree('node1', 'in');
 ```
 
 ### getShortestPathMatrix(cache, directed)
+
 获取图中两两节点之间的最短路径矩阵。
 
 **参数**
 
-| 名称    | 类型   | 是否必选 | 描述    |
-| -------| ------ | -------- | ------- |
-| cache | boolean | false     | 是否使用缓存，默认为 true |
-| directed | boolean | false     | 是否是有向图，默认取 graph.get('directed') | 
+| 名称     | 类型    | 是否必选 | 描述                                       |
+| -------- | ------- | -------- | ------------------------------------------ |
+| cache    | boolean | false    | 是否使用缓存，默认为 true                  |
+| directed | boolean | false    | 是否是有向图，默认取 graph.get('directed') |
 
 **返回值**
 
 返回图的最短路径矩阵。
 
 **用法**
+
 ```javascript
 const matrix = graph.getShortestPathMatrix();
 ```
 
 ### getAdjMatrix(cache, directed)
+
 获取邻接矩阵。
 
 **参数**
 
-| 名称    | 类型   | 是否必选 | 描述    |
-| -------| ------ | -------- | ------- |
-| cache | boolean | false  | 是否使用缓存，默认为true|
-| directed | boolean | false  | 是否是有向图，默认取 graph.get('directed')|
+| 名称     | 类型    | 是否必选 | 描述                                       |
+| -------- | ------- | -------- | ------------------------------------------ |
+| cache    | boolean | false    | 是否使用缓存，默认为 true                  |
+| directed | boolean | false    | 是否是有向图，默认取 graph.get('directed') |
 
 **返回值**
 
 返回图的邻接矩阵。
 
 **用法**
-``` javascript
+
+```javascript
 const matrix = graph.getAdjMatrix();
 ```
 
@@ -1743,28 +1729,27 @@ const matrix = graph.getAdjMatrix();
 
 **参数**
 
-| 名称 | 类型   | 是否必选 | 描述       |
-| ---- | ------ | -------- | ---------- |
-| name | String | false     | 图片的名称，不指定则为 'graph' |
-| type | `'image/png'` / `'image/jpeg'` / `'image/webp'` / `'image/bmp'` | false     | 图片的类型。图的 `renderer` 为默认的 `'canvas'` 时生效，图的 `renderer` 为 `'svg'` 时将导出 svg 文件 |
-| imageConfig | Object | false     | 图片的配置项，可选，具体字段见下方 |
+| 名称 | 类型 | 是否必选 | 描述 |
+| --- | --- | --- | --- |
+| name | String | false | 图片的名称，不指定则为 'graph' |
+| type | `'image/png'` / `'image/jpeg'` / `'image/webp'` / `'image/bmp'` | false | 图片的类型。图的 `renderer` 为默认的 `'canvas'` 时生效，图的 `renderer` 为 `'svg'` 时将导出 svg 文件 |
+| imageConfig | Object | false | 图片的配置项，可选，具体字段见下方 |
 
 其中，imageConfig 为导出图片的配置参数：
 
-| 名称 | 类型   | 是否必选 | 描述       |
-| ---- | ------ | -------- | ---------- |
-| backgroundColor | String | false     | 图片的背景色，可选，不传值时将导出透明背景的图片 |
-| padding | Number / Number[] | false     | 导出图片的上左下右 padding 值。当 `padding` 为 number 类型时，四周 `padding` 相等 |
+| 名称 | 类型 | 是否必选 | 描述 |
+| --- | --- | --- | --- |
+| backgroundColor | String | false | 图片的背景色，可选，不传值时将导出透明背景的图片 |
+| padding | Number / Number[] | false | 导出图片的上左下右 padding 值。当 `padding` 为 number 类型时，四周 `padding` 相等 |
 
 **用法**
 
 ```javascript
 graph.downloadFullImage('tree-graph', {
   backgroundColor: '#ddd',
-  padding: [30, 15, 15, 15]
+  padding: [30, 15, 15, 15],
 });
 ```
-
 
 ### downloadImage(name, type, backgroundColor)
 
@@ -1772,11 +1757,11 @@ graph.downloadFullImage('tree-graph', {
 
 **参数**
 
-| 名称 | 类型   | 是否必选 | 描述       |
-| ---- | ------ | -------- | ---------- |
-| name | String | false     | 图片的名称，不指定则为 'graph' |
-| type | `'image/png'` / `'image/jpeg'` / `'image/webp'` / `'image/bmp'` | false     | 图片的类型。图的 `renderer` 为默认的 `'canvas'` 时生效，图的 `renderer` 为 `'svg'` 时将导出 svg 文件 |
-| backgroundColor | String | false     | 图片的背景色，可选，不传值时将导出透明背景的图片 |
+| 名称 | 类型 | 是否必选 | 描述 |
+| --- | --- | --- | --- |
+| name | String | false | 图片的名称，不指定则为 'graph' |
+| type | `'image/png'` / `'image/jpeg'` / `'image/webp'` / `'image/bmp'` | false | 图片的类型。图的 `renderer` 为默认的 `'canvas'` 时生效，图的 `renderer` 为 `'svg'` 时将导出 svg 文件 |
+| backgroundColor | String | false | 图片的背景色，可选，不传值时将导出透明背景的图片 |
 
 **用法**
 
@@ -1790,23 +1775,20 @@ graph.downloadImage();
 
 **参数**
 
-| 名称 | 类型   | 是否必选 | 描述       |
-| ---- | ------ | -------- | ---------- |
+| 名称 | 类型 | 是否必选 | 描述 |
+| --- | --- | --- | --- |
 | callback | Function | true | 异步生成 dataUrl 完成后的回调函数，在这里处理生成的 dataUrl 字符串 |
-| type | `'image/png'` / `'image/jpeg'` / `'image/webp'` / `'image/bmp'` | false     | 图片的类型。图的 `renderer` 为默认的 `'canvas'` 时生效，图的 `renderer` 为 `'svg'` 时将导出 svg 文件 |
-| imageConfig | Object | false     | 图片的配置项，可选，具体字段见下方 |
-
+| type | `'image/png'` / `'image/jpeg'` / `'image/webp'` / `'image/bmp'` | false | 图片的类型。图的 `renderer` 为默认的 `'canvas'` 时生效，图的 `renderer` 为 `'svg'` 时将导出 svg 文件 |
+| imageConfig | Object | false | 图片的配置项，可选，具体字段见下方 |
 
 其中，imageConfig 为导出图片的配置参数：
 
-| 名称 | 类型   | 是否必选 | 描述       |
-| ---- | ------ | -------- | ---------- |
-| backgroundColor | String | false     | 图片的背景色，可选，不传值时将导出透明背景的图片 |
-| padding | Number / Number[] | false     | 导出图片的上左下右 padding 值。当 `padding` 为 number 类型时，四周 `padding` 相等 |
-
+| 名称 | 类型 | 是否必选 | 描述 |
+| --- | --- | --- | --- |
+| backgroundColor | String | false | 图片的背景色，可选，不传值时将导出透明背景的图片 |
+| padding | Number / Number[] | false | 导出图片的上左下右 padding 值。当 `padding` 为 number 类型时，四周 `padding` 相等 |
 
 无返回值，生成的结果请在 callback 中处理。如下示例：
-
 
 **用法**
 
@@ -1819,14 +1801,12 @@ graph.toFullDataUrl(
   },
   // 后两个参数不是必须
   'image/jpeg',
-  imageConfig: {
+  (imageConfig: {
     backgroundColor: '#fff',
-    padding: 10
-  }
-
-)
+    padding: 10,
+  }),
+);
 ```
-
 
 ### toDataURL(type, backgroundColor)
 
@@ -1834,10 +1814,10 @@ graph.toFullDataUrl(
 
 **参数**
 
-| 名称 | 类型   | 是否必选 | 描述       |
-| ---- | ------ | -------- | ---------- |
-| type | `'image/png'` / `'image/jpeg'` / `'image/webp'` / `'image/bmp'` | false     | 图片的类型。图的 `renderer` 为默认的 `'canvas'` 时生效，图的 `renderer` 为 `'svg'` 时将导出 svg 文件 |
-| backgroundColor | String | false     | 图片的背景色，可选，不传值时将导出透明背景的图片 |
+| 名称 | 类型 | 是否必选 | 描述 |
+| --- | --- | --- | --- |
+| type | `'image/png'` / `'image/jpeg'` / `'image/webp'` / `'image/bmp'` | false | 图片的类型。图的 `renderer` 为默认的 `'canvas'` 时生效，图的 `renderer` 为 `'svg'` 时将导出 svg 文件 |
+| backgroundColor | String | false | 图片的背景色，可选，不传值时将导出透明背景的图片 |
 
 **返回值**
 
@@ -1849,7 +1829,6 @@ graph.toFullDataUrl(
 ```javascript
 const dataURL = graph.toDataURL();
 ```
-
 
 ## 其他
 
@@ -1869,8 +1848,8 @@ const dataURL = graph.toDataURL();
 import { Minimap } from '@antv/g6';
 const miniMap = new Minimap({
   size: [200, 100],
-  className: 'minimap'
-})
+  className: 'minimap',
+});
 
 graph.addPlugin(miniMap);
 ```
@@ -1939,7 +1918,6 @@ graph.set('customGroup', group);
 graph.set('nodeIdList', [1, 3, 5]);
 ```
 
-
 ### getContainer()
 
 获取 Graph 的 DOM 容器。
@@ -1951,9 +1929,8 @@ graph.set('nodeIdList', [1, 3, 5]);
 **用法**
 
 ```javascript
-graph.getContainer()
+graph.getContainer();
 ```
-
 
 ### getGroup()
 
@@ -1966,9 +1943,8 @@ graph.getContainer()
 **用法**
 
 ```javascript
-graph.getGroup()
+graph.getGroup();
 ```
-
 
 ### getMinZoom()
 
@@ -1981,9 +1957,8 @@ graph.getGroup()
 **用法**
 
 ```javascript
-graph.getMinZoom()
+graph.getMinZoom();
 ```
-
 
 ### setMinZoom(ratio)
 
@@ -1991,18 +1966,15 @@ graph.getMinZoom()
 
 **参数**
 
-| 名称 | 类型                    | 是否必选 | 描述     |
-| ---- | ----------------------- | -------- | -------- |
-| ratio  | number                  | true     | 最小缩放比例值 |
-
+| 名称  | 类型   | 是否必选 | 描述           |
+| ----- | ------ | -------- | -------------- |
+| ratio | number | true     | 最小缩放比例值 |
 
 **用法**
 
 ```javascript
-graph.setMinZoom(0.001)
+graph.setMinZoom(0.001);
 ```
-
-
 
 ### getMaxZoom()
 
@@ -2015,9 +1987,8 @@ graph.setMinZoom(0.001)
 **用法**
 
 ```javascript
-graph.getMaxZoom()
+graph.getMaxZoom();
 ```
-
 
 ### setMaxZoom(ratio)
 
@@ -2025,17 +1996,15 @@ graph.getMaxZoom()
 
 **参数**
 
-| 名称 | 类型                    | 是否必选 | 描述     |
-| ---- | ----------------------- | -------- | -------- |
-| ratio  | number                  | true     | 最大缩放比例值 |
-
+| 名称  | 类型   | 是否必选 | 描述           |
+| ----- | ------ | -------- | -------------- |
+| ratio | number | true     | 最大缩放比例值 |
 
 **用法**
 
 ```javascript
-graph.setMaxZoom(1000)
+graph.setMaxZoom(1000);
 ```
-
 
 ### getWidth()
 
@@ -2048,10 +2017,8 @@ graph.setMaxZoom(1000)
 **用法**
 
 ```javascript
-graph.getWidth()
+graph.getWidth();
 ```
-
-
 
 ### getHeight()
 
@@ -2064,5 +2031,5 @@ graph.getWidth()
 **用法**
 
 ```javascript
-graph.getHeight()
+graph.getHeight();
 ```

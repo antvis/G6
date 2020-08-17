@@ -7,7 +7,7 @@ module.exports = {
       options: {
         GATrackingId: 'UA-148148901-4',
       },
-    }
+    },
   ],
   // Customize your site metadata:
   siteMetadata: {
@@ -217,9 +217,9 @@ module.exports = {
         icon: 'net',
         title: {
           zh: '性能测试',
-          en: 'Performance'
-        }
-      }
+          en: 'Performance',
+        },
+      },
     ],
     docsearchOptions: {
       apiKey: '9d1cd586972bb492b7b41b13a949ef30',

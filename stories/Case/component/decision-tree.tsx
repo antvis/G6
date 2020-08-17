@@ -24,13 +24,13 @@ const LIMIT_OVERFLOW_HEIGHT = height;
 const mapNodeSize = (nodes, propertyName, visualRange) => {
   let minp = 9999999999;
   let maxp = -9999999999;
-  nodes.forEach(node => {
+  nodes.forEach((node) => {
     minp = node[propertyName] < minp ? node[propertyName] : minp;
     maxp = node[propertyName] > maxp ? node[propertyName] : maxp;
   });
   const rangepLength = maxp - minp;
   const rangevLength = visualRange[1] - visualRange[0];
-  nodes.forEach(node => {
+  nodes.forEach((node) => {
     node.size = ((node[propertyName] - minp) / rangepLength) * rangevLength + visualRange[0];
   });
 };
@@ -93,7 +93,7 @@ const DecisionTree = () => {
     if (!graph) {
       const layoutCfg = {
         type: 'force',
-        nodeSize: d => {
+        nodeSize: (d) => {
           return d.size / 2 + 5;
         },
         nodeStrength: 2500,
@@ -105,7 +105,7 @@ const DecisionTree = () => {
           const height = graph.get('height');
           const width = graph.get('width');
           const padding = 10;
-          nodeItems.forEach(item => {
+          nodeItems.forEach((item) => {
             const model = item.getModel();
             if (model.x > width - padding) model.x = width - padding;
             else if (model.x < padding) model.x = padding;
@@ -168,24 +168,24 @@ const DecisionTree = () => {
         graph.translate(-moveX, -moveY);
       };
 
-      const refreshDragedNodePosition = e => {
+      const refreshDragedNodePosition = (e) => {
         const model = e.item.get('model');
         model.fx = e.x;
         model.fy = e.y;
       };
-      graph.on('node:dragstart', e => {
+      graph.on('node:dragstart', (e) => {
         graph.layout();
         refreshDragedNodePosition(e);
       });
-      graph.on('node:drag', e => {
+      graph.on('node:drag', (e) => {
         refreshDragedNodePosition(e);
       });
-      graph.on('node:dragend', e => {
+      graph.on('node:dragend', (e) => {
         e.item.get('model').fx = null;
         e.item.get('model').fy = null;
       });
 
-      const loadData = data => {
+      const loadData = (data) => {
         const layoutController = graph.get('layoutController');
         layoutController.layoutCfg.nodeStrength = 2500;
         layoutController.layoutCfg.collideStrength = 0.8;
@@ -198,7 +198,7 @@ const DecisionTree = () => {
         nodeMap = new Map();
         edgesMap = new Map();
         // find the roots
-        nodes.forEach(node => {
+        nodes.forEach((node) => {
           if (node.level === 0) {
             node.color = gColors[showNodes.length % gColors.length];
             node.style = {
@@ -228,7 +228,7 @@ const DecisionTree = () => {
         mapNodeSize(showNodes, 'childrenNum', [120, 180]);
 
         // map the color to F nodes, same to its parent
-        nodes.forEach(node => {
+        nodes.forEach((node) => {
           if (node.level !== 0 && !node.isLeaf) {
             const parent = nodeMap.get(node.tags[0]);
             node.color = parent.color;
@@ -237,7 +237,7 @@ const DecisionTree = () => {
             };
           }
         });
-        edges.forEach(edge => {
+        edges.forEach((edge) => {
           // map the id
           edge.id = `${edge.source}-${edge.target}`;
           edge.style = {
@@ -254,7 +254,7 @@ const DecisionTree = () => {
         graph.render();
       };
 
-      graph.on('node:mouseenter', e => {
+      graph.on('node:mouseenter', (e) => {
         const item = e.item;
         const model = item.getModel();
         if (model.level === 0) {
@@ -264,7 +264,7 @@ const DecisionTree = () => {
         graph.setAutoPaint(false);
         const nodeItems = graph.getNodes();
         const edgeItems = graph.getEdges();
-        nodeItems.forEach(node => {
+        nodeItems.forEach((node) => {
           graph.setItemState(node, 'dark', true);
           node.getModel().light = false;
         });
@@ -278,11 +278,11 @@ const DecisionTree = () => {
         // if the model is F node, find the leaves of it
         if (!model.isLeaf && model.level !== 0) {
           fTag = model.tag;
-          nodeItems.forEach(item => {
+          nodeItems.forEach((item) => {
             const itemModel = item.getModel();
             if (!itemModel.isLeaf) return;
             const modelTags: string[] = itemModel.tags as string[];
-            modelTags.forEach(mt => {
+            modelTags.forEach((mt) => {
               const mts = mt.split('-');
               if (mts[1] === fTag) {
                 graph.setItemState(item, 'dark', false);
@@ -293,7 +293,7 @@ const DecisionTree = () => {
         }
 
         // find the tags
-        tags.forEach(t => {
+        tags.forEach((t) => {
           const ts = t.split('-');
           findTagsMap.set(ts[0], mid);
           mid++;
@@ -303,14 +303,14 @@ const DecisionTree = () => {
           }
         });
         // find the nodes with tag === tags[?]
-        nodeItems.forEach(item => {
+        nodeItems.forEach((item) => {
           const node = item.getModel();
           if (findTagsMap.get(node.tag) !== undefined) {
             graph.setItemState(item, 'dark', false);
             node.light = true;
           }
         });
-        edgeItems.forEach(item => {
+        edgeItems.forEach((item) => {
           const source = item.getSource().getModel();
           const target = item.getTarget().getModel();
           if (source.light && target.light) {
@@ -328,10 +328,10 @@ const DecisionTree = () => {
           const nodeItems = graph.getNodes();
           const edgeItems = graph.getEdges();
           highlighting = false;
-          nodeItems.forEach(item => {
+          nodeItems.forEach((item) => {
             graph.setItemState(item, 'dark', false);
           });
-          edgeItems.forEach(item => {
+          edgeItems.forEach((item) => {
             graph.setItemState(item, 'dark', false);
           });
         }
@@ -340,13 +340,13 @@ const DecisionTree = () => {
       fetch(
         'https://gw.alipayobjects.com/os/basement_prod/8bb5334a-5dd1-4147-a90e-8dccec62685e.json',
       )
-        .then(res => res.json())
-        .then(data => {
+        .then((res) => res.json())
+        .then((data) => {
           loadData(data);
         });
 
       // click root to expand
-      graph.on('node:click', e => {
+      graph.on('node:click', (e) => {
         curShowNodes = [];
         curShowEdges = [];
         const item = e.item;
@@ -360,7 +360,7 @@ const DecisionTree = () => {
           const forceLayout = layoutController.layoutMethod;
           forceLayout.forceSimulation.stop();
           // light the level 0 nodes
-          showNodes.forEach(snode => {
+          showNodes.forEach((snode) => {
             const item = graph.findById(snode.id);
             graph.setItemState(item, 'dark', false);
             if (snode.x < 0.5 * width) {
@@ -373,12 +373,12 @@ const DecisionTree = () => {
           model.y = height / 2;
           // animatively hide the items which are going to disappear
           if (curShowEdges.length) {
-            curShowEdges.forEach(csedge => {
+            curShowEdges.forEach((csedge) => {
               const item = graph.findById(csedge.id);
               item && graph.setItemState(item, 'disappearing', true);
             });
           }
-          curShowNodes.forEach(csnode => {
+          curShowNodes.forEach((csnode) => {
             const item = graph.findById(csnode.id);
             item && graph.setItemState(item, 'disappearing', true);
           });
@@ -403,7 +403,7 @@ const DecisionTree = () => {
               return -80;
             };
             layoutController.layoutCfg.collideStrength = 0.2;
-            layoutController.layoutCfg.linkDistance = d => {
+            layoutController.layoutCfg.linkDistance = (d) => {
               if (d.source.level !== 0) return 120;
               const length = 250;
               return length;
@@ -416,7 +416,7 @@ const DecisionTree = () => {
             const findTags = [];
             curShowNodesMap = new Map();
             // find the nodes which are the descendants of clicked model
-            nodes.forEach(node => {
+            nodes.forEach((node) => {
               if (!node.tags) return;
               const tags = node.tags;
               const tlength = tags.length;
@@ -486,7 +486,7 @@ const DecisionTree = () => {
                   edge.color = model.color;
                   curShowEdges.push(edge);
                 }
-                tags.forEach(t => {
+                tags.forEach((t) => {
                   const ts = t.split('-');
                   if (ts[0] !== tag) {
                     findTags.push(ts[0]);
@@ -499,7 +499,7 @@ const DecisionTree = () => {
             });
 
             // find the nodes which are the ancestors of the current curShowNodes
-            nodes.forEach(node => {
+            nodes.forEach((node) => {
               const findTagsLength = findTags.length;
               for (let i = 0; i < findTagsLength; i++) {
                 if (node.tag === findTags[i] && curShowNodesMap.get(node.id) === undefined) {
@@ -549,10 +549,10 @@ const DecisionTree = () => {
             });
             const nodeItems = graph.getNodes();
             const edgeItems = graph.getEdges();
-            edgeItems.forEach(item => {
+            edgeItems.forEach((item) => {
               graph.clearItemStates(item);
             });
-            nodeItems.forEach(item => {
+            nodeItems.forEach((item) => {
               graph.clearItemStates(item);
               graph.setItemState(item, 'appearing', true);
             });
@@ -567,14 +567,14 @@ const DecisionTree = () => {
         const edgeItems = graph.getEdges();
         if (highlighting) {
           highlighting = false;
-          nodeItems.forEach(item => {
+          nodeItems.forEach((item) => {
             graph.setItemState(item, 'dark', false);
           });
-          edgeItems.forEach(item => {
+          edgeItems.forEach((item) => {
             graph.setItemState(item, 'dark', false);
           });
         } else {
-          nodeItems.forEach(item => {
+          nodeItems.forEach((item) => {
             const model = item.getModel();
             if (model.level === 0) {
               graph.setItemState(item, 'dark', false);
@@ -582,7 +582,7 @@ const DecisionTree = () => {
               graph.setItemState(item, 'disappearing', true);
             }
           });
-          edgeItems.forEach(item => {
+          edgeItems.forEach((item) => {
             graph.setItemState(item, 'disappearing', true);
           });
           curShowNodes = [];
@@ -809,7 +809,7 @@ const DecisionTree = () => {
             const label = shape.get('parent').get('children')[1];
             if (name === 'disappearing' && value) {
               shape.animate(
-                ratio => {
+                (ratio) => {
                   return {
                     opacity: 1 - ratio,
                     r: shape.attr('r') * (1 - ratio),
@@ -820,7 +820,7 @@ const DecisionTree = () => {
                 },
               );
               label.animate(
-                ratio => {
+                (ratio) => {
                   return {
                     opacity: 1 - ratio,
                   };
@@ -832,7 +832,7 @@ const DecisionTree = () => {
             } else if (name === 'appearing' && value) {
               const r = (item.getModel().size as number) / 2;
               shape.animate(
-                ratio => {
+                (ratio) => {
                   return {
                     opacity: ratio,
                     r: r * ratio,
@@ -895,7 +895,7 @@ const DecisionTree = () => {
           afterDraw(cfg, group) {
             const shape = group.get('children')[0];
             shape.animate(
-              ratio => {
+              (ratio) => {
                 const opacity = ratio * (cfg.style.opacity as number);
                 const strokeOpacity = ratio * (cfg.style.strokeOpacity as number);
                 return {
@@ -912,7 +912,7 @@ const DecisionTree = () => {
             const shape = item.get('keyShape');
             if (name === 'disappearing' && value) {
               shape.animate(
-                ratio => {
+                (ratio) => {
                   return {
                     opacity: 1 - ratio,
                     strokeOpacity: 1 - ratio,

@@ -1,5 +1,5 @@
 import G6, { Algorithm } from '../../../src';
-const { breadthFirstSearch } = Algorithm
+const { breadthFirstSearch } = Algorithm;
 
 const div = document.createElement('div');
 div.id = 'container';
@@ -8,28 +8,28 @@ document.body.appendChild(div);
 const data = {
   nodes: [
     {
-      id: 'A'
+      id: 'A',
     },
     {
-      id: 'B'
+      id: 'B',
     },
     {
-      id: 'C'
+      id: 'C',
     },
     {
-      id: 'D'
+      id: 'D',
     },
     {
-      id: 'E'
+      id: 'E',
     },
     {
-      id: 'F'
+      id: 'F',
     },
     {
-      id: 'G'
+      id: 'G',
     },
     {
-      id: 'H'
+      id: 'H',
     },
   ],
   edges: [
@@ -61,8 +61,8 @@ const data = {
       source: 'F',
       target: 'D',
     },
-  ]
-}
+  ],
+};
 
 describe('breadthFirstSearch', () => {
   it('should perform BFS operation on graph', () => {
@@ -74,10 +74,10 @@ describe('breadthFirstSearch', () => {
       width: 500,
       height: 500,
       // layout
-    })
+    });
 
-    graph.data(data)
-    graph.render()
+    graph.data(data);
+    graph.render();
 
     // Traverse graphs without callbacks first.
     breadthFirstSearch(graph, 'A');
@@ -91,13 +91,13 @@ describe('breadthFirstSearch', () => {
     expect(enterNodeCallback).toHaveBeenCalledTimes(7);
     expect(leaveNodeCallback).toHaveBeenCalledTimes(7);
 
-    const nodeA = graph.findById('A')
-    const nodeB = graph.findById('B')
-    const nodeC = graph.findById('C')
-    const nodeD = graph.findById('D')
-    const nodeE = graph.findById('E')
-    const nodeF = graph.findById('F')
-    const nodeG = graph.findById('G')
+    const nodeA = graph.findById('A');
+    const nodeB = graph.findById('B');
+    const nodeC = graph.findById('C');
+    const nodeD = graph.findById('D');
+    const nodeE = graph.findById('E');
+    const nodeF = graph.findById('F');
+    const nodeG = graph.findById('G');
 
     const enterNodeParamsMap = [
       { currentNode: nodeA, previousNode: null },
@@ -113,7 +113,9 @@ describe('breadthFirstSearch', () => {
       const params = enterNodeCallback.mock.calls[callIndex][0];
       expect(params.current.get('id')).toEqual(enterNodeParamsMap[callIndex].currentNode.get('id'));
       expect(params.previous && params.previous.get('id')).toEqual(
-        enterNodeParamsMap[callIndex].previousNode && enterNodeParamsMap[callIndex].previousNode.get('id'));
+        enterNodeParamsMap[callIndex].previousNode &&
+          enterNodeParamsMap[callIndex].previousNode.get('id'),
+      );
     }
 
     const leaveNodeParamsMap = [
@@ -130,10 +132,12 @@ describe('breadthFirstSearch', () => {
       const params = leaveNodeCallback.mock.calls[callIndex][0];
       expect(params.current.get('id')).toEqual(leaveNodeParamsMap[callIndex].currentNode.get('id'));
       expect(params.previous && params.previous.get('id')).toEqual(
-        leaveNodeParamsMap[callIndex].previousNode && leaveNodeParamsMap[callIndex].previousNode.get('id'));
+        leaveNodeParamsMap[callIndex].previousNode &&
+          leaveNodeParamsMap[callIndex].previousNode.get('id'),
+      );
     }
 
-    graph.destroy()
+    graph.destroy();
   });
 
   it('should allow to create custom node visiting logic', () => {
@@ -142,10 +146,10 @@ describe('breadthFirstSearch', () => {
       width: 500,
       height: 500,
       // layout
-    })
+    });
 
-    graph.data(data)
-    graph.render()
+    graph.data(data);
+    graph.render();
 
     const enterNodeCallback = jest.fn();
     const leaveNodeCallback = jest.fn();
@@ -167,13 +171,15 @@ describe('breadthFirstSearch', () => {
       { currentNode: 'D', previousNode: 'A' },
       { currentNode: 'E', previousNode: 'D' },
       { currentNode: 'F', previousNode: 'E' },
-      { currentNode: 'D', previousNode: 'F' }
+      { currentNode: 'D', previousNode: 'F' },
     ];
 
     for (let callIndex = 0; callIndex < 5; callIndex += 1) {
       const params = enterNodeCallback.mock.calls[callIndex][0];
       expect(params.current.get('id')).toEqual(enterNodeParamsMap[callIndex].currentNode);
-      expect(params.previous && params.previous.get('id')).toEqual(enterNodeParamsMap[callIndex].previousNode);
+      expect(params.previous && params.previous.get('id')).toEqual(
+        enterNodeParamsMap[callIndex].previousNode,
+      );
     }
 
     const leaveNodeParamsMap = [
@@ -187,7 +193,9 @@ describe('breadthFirstSearch', () => {
     for (let callIndex = 0; callIndex < 5; callIndex += 1) {
       const params = leaveNodeCallback.mock.calls[callIndex][0];
       expect(params.current.get('id')).toEqual(leaveNodeParamsMap[callIndex].currentNode);
-      expect(params.previous && params.previous.get('id')).toEqual(leaveNodeParamsMap[callIndex].previousNode);
+      expect(params.previous && params.previous.get('id')).toEqual(
+        leaveNodeParamsMap[callIndex].previousNode,
+      );
     }
   });
 });

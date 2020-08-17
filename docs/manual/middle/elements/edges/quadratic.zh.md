@@ -60,10 +60,10 @@ quadratic 边支持 [边通用配置项](/zh/docs/manual/middle/elements/edges/d
 | labelCfg | 标签文本配置项 | Object |  |
 | controlPoints | 控制点数组 | Array | 不指定时将会使用默认的控制点：曲线中心附近。示例：`[{ x: 10, y: 20 }]` |
 | curveOffset | 控制点距离两端点连线的距离，可理解为控制边的弯曲程度 | Number / Number[] | cubic、horizontal、cubic-vertical、cubic-horizontal 等贝塞尔曲线特有 |
-| curvePosition | 控制点在两端点连线上的相对位置，范围 0～1 | Number / Number[] | cubic、horizontal、cubic-vertical、cubic-horizontal 等贝塞尔曲线特有 |
+| curvePosition | 控制点在两端点连线上的相对位置，范围 0 ～ 1 | Number / Number[] | cubic、horizontal、cubic-vertical、cubic-horizontal 等贝塞尔曲线特有 |
 | stateStyles | 各状态下的样式 | Object | 详见[配置状态样式](/zh/docs/manual/middle/states/state#配置-state-样式) |
 
-### 样式属性 style
+### 样式属性  style
 
 Object 类型。配置项与 [边通用样式属性](/zh/docs/manual/middle/elements/edges/defaultEdge/#样式属性-style) 相同。下面代码演示在实例化图时全局配置方法中配置 `style`。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*TWjZRqKStFcAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 

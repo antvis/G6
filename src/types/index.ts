@@ -6,7 +6,7 @@ import Node from '../item/node';
 import { IGraph } from '../interface/graph';
 import { IEdge, INode, ICombo } from '../interface/item';
 import { ILabelConfig } from '../interface/shape';
-import { IGroup } from '@antv/g-base'
+import { IGroup } from '@antv/g-base';
 
 // Math types
 export interface IPoint {
@@ -67,7 +67,7 @@ export type ShapeStyle = Partial<{
   position: string;
   fontSize: number;
 
-  keepVisualSize: boolean
+  keepVisualSize: boolean;
 }>;
 
 export interface IShapeBase extends ShapeBase {
@@ -133,7 +133,7 @@ export interface ModeOption {
     fixAll: boolean;
     fixLineWidth: boolean;
     fixLabel: boolean;
-    fixState: string
+    fixState: string;
   }>;
   shouldUpdate?: (e: IG6GraphEvent) => boolean;
   shouldBegin?: (e: IG6GraphEvent) => boolean;
@@ -172,7 +172,7 @@ export interface GraphOptions {
   /**
    * renderer canvas or svg
    */
-  renderer?: string,
+  renderer?: string;
 
   fitView?: boolean;
 
@@ -221,7 +221,8 @@ export interface GraphOptions {
     type: string;
     size: number | number[];
     color: string;
-  }> & ModelStyle;
+  }> &
+    ModelStyle;
 
   /**
    * 默认状态下边的配置，比如 type, size, color。会被写入的 data 覆盖。
@@ -231,7 +232,8 @@ export interface GraphOptions {
     type: string;
     size: number | number[];
     color: string;
-  }> & ModelStyle;
+  }> &
+    ModelStyle;
 
   /**
    * Combo 默认配置
@@ -240,14 +242,15 @@ export interface GraphOptions {
     type: string;
     size: number | number[];
     color: string;
-  }> & ModelStyle;
+  }> &
+    ModelStyle;
 
   nodeStateStyles?: StateStyles;
 
   edgeStateStyles?: StateStyles;
 
   // Combo 状态样式
-  comboStateStyles?: StateStyles
+  comboStateStyles?: StateStyles;
 
   /**
    * 向 graph 注册插件。插件机制请见：plugin
@@ -293,13 +296,15 @@ export interface GraphOptions {
   /**
    * 存储图上的 tooltip dom，方便销毁
    */
-  tooltips?: []
+  tooltips?: [];
 }
 
 export interface StateStyles {
-  [key: string]: ShapeStyle | {
-    [key: string]: ShapeStyle
-  }
+  [key: string]:
+    | ShapeStyle
+    | {
+        [key: string]: ShapeStyle;
+      };
 }
 
 // model types (node edge group)
@@ -363,14 +368,14 @@ export interface ModelConfig extends ModelStyle {
   color?: string;
   anchorPoints?: number[][];
   startPoint?: {
-    x: number,
-    y: number
-  },
+    x: number;
+    y: number;
+  };
   endPoint?: {
-    x: number,
-    y: number
-  },
-  visible?: boolean
+    x: number;
+    y: number;
+  };
+  visible?: boolean;
 }
 
 export interface NodeConfig extends ModelConfig {
@@ -456,7 +461,7 @@ export interface ComboConfig extends ModelConfig {
     stroke: string;
     offsetX: number;
     offsetY: number;
-  }>
+  }>;
 }
 
 export interface EdgeConfig extends ModelConfig {
@@ -519,10 +524,10 @@ export interface TreeGraphData {
   depth?: number;
   collapsed?: boolean;
   style?:
-  | ShapeStyle
-  | {
-    [key: string]: ShapeStyle;
-  };
+    | ShapeStyle
+    | {
+        [key: string]: ShapeStyle;
+      };
   stateStyles?: StateStyles;
 }
 
@@ -606,7 +611,7 @@ export enum G6Event {
   COMBO_DROP = 'combo:drop',
   COMBO_DRAGOVER = 'combo:dragover',
   COMBO_DRAGLEAVE = 'combo:dragleave',
-  COMBO_DRAGENTER = 'combo:dragenter'
+  COMBO_DRAGENTER = 'combo:dragenter',
 }
 
 export type DefaultBehaviorType = IG6GraphEvent | string | number | object;
@@ -639,6 +644,7 @@ export interface IG6GraphEvent extends GraphEvent {
 // Node Edge Combo 实例
 export type Item = INode | IEdge | ICombo;
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export type ITEM_TYPE = 'node' | 'edge' | 'combo' | 'group' | 'vedge';
 
 export type NodeIdxMap = {
@@ -657,9 +663,9 @@ export interface Indexable<T> {
 
 // 图算法回调方法接口定义
 export interface IAlgorithmCallbacks {
-  enter?: (param: { current: INode, previous: INode }) => void;
-  leave?: (param: { current: INode, previous?: INode }) => void;
-  allowTraversal?: (param: { previous?: INode, current?: INode, next: INode }) => boolean;
+  enter?: (param: { current: INode; previous: INode }) => void;
+  leave?: (param: { current: INode; previous?: INode }) => void;
+  allowTraversal?: (param: { previous?: INode; current?: INode; next: INode }) => boolean;
 }
 
 // 栈中数据格式
@@ -669,27 +675,27 @@ export interface StackData {
 }
 
 export interface HullCfg {
-  id: string,
-  members?: Item[] | string[], // 节点实例或节点 Id 数组
-  nonMembers?: Item[] | string[],
-  group?: IGroup,
-  type?: string, // 'round-convex'(圆角凸包) /'smooth-convex'(平滑凸包) / 'bubble'(平滑凹包),
-  padding?: number, // 轮廓边缘和内部成员间距
+  id: string;
+  members?: Item[] | string[]; // 节点实例或节点 Id 数组
+  nonMembers?: Item[] | string[];
+  group?: IGroup;
+  type?: string; // 'round-convex'(圆角凸包) /'smooth-convex'(平滑凸包) / 'bubble'(平滑凹包),
+  padding?: number; // 轮廓边缘和内部成员间距
   style?: {
-    fill?: string,
-    stroke?: string,
-    opacity?: number
-  },
-  bubbleCfg?: BubblesetCfg // 用于更精细控制bubble的效果（点和边轮廓的松弛程度，轮廓粒度），一般不需要配置
+    fill?: string;
+    stroke?: string;
+    opacity?: number;
+  };
+  bubbleCfg?: BubblesetCfg; // 用于更精细控制bubble的效果（点和边轮廓的松弛程度，轮廓粒度），一般不需要配置
 }
 
 export interface BubblesetCfg {
   morphBuffer?: number; // DEFAULT_NODE_R0; the amount of space to move the virtual edge when wrapping around obstacles
   pixelGroupSize?: number; // the resolution of the algorithm in square pixels, 4 by default
   maxMarchingIterations?: number; // number of times to refine the boundary, 100 by default
-  maxRoutingIterations?: number;  // number of times to run the algorithm to refine the path finding in difficult areas
+  maxRoutingIterations?: number; // number of times to run the algorithm to refine the path finding in difficult areas
   nodeR0?: number; // the distance from nodes which energy is 1 (full influence)
-  nodeR1?: number;  // the distance from nodes at which energy is 0 (no influence)
+  nodeR1?: number; // the distance from nodes at which energy is 0 (no influence)
   edgeR0?: number; // the distance from edges at which energy is 1 (full influence)
   edgeR1?: number; // the distance from edges at which energy is 0 (no influence)
   nodeInfluenceFactor?: number; // node influence factor

@@ -17,69 +17,69 @@ const colors = {
   j: '#FFD6E7',
 };
 const data = {
-  "id": "Modeling Methods",
-  "children": [
+  id: 'Modeling Methods',
+  children: [
     {
-      "id": "Classification",
+      id: 'Classification',
       comboId: 'a',
-      "children": [
-        { "id": "Logistic regression", comboId: 'a', },
-        { "id": "Linear discriminant analysis", comboId: 'a' },
-        { "id": "Rules", comboId: 'a' },
-        { "id": "Decision trees", comboId: 'a' },
-        { "id": "Naive Bayes", comboId: 'a' },
-        { "id": "K nearest neighbor", comboId: 'a' },
-        { "id": "Probabilistic neural network", comboId: 'a' },
-        { "id": "Support vector machine", comboId: 'a' }
-      ]
+      children: [
+        { id: 'Logistic regression', comboId: 'a' },
+        { id: 'Linear discriminant analysis', comboId: 'a' },
+        { id: 'Rules', comboId: 'a' },
+        { id: 'Decision trees', comboId: 'a' },
+        { id: 'Naive Bayes', comboId: 'a' },
+        { id: 'K nearest neighbor', comboId: 'a' },
+        { id: 'Probabilistic neural network', comboId: 'a' },
+        { id: 'Support vector machine', comboId: 'a' },
+      ],
     },
     {
-      "id": "Consensus",
-      "children": [
+      id: 'Consensus',
+      children: [
         {
-          "id": "Models diversity",
+          id: 'Models diversity',
           comboId: 'a',
-          "children": [
-            { "id": "Different initializations", comboId: 'a' },
-            { "id": "Different parameter choices", comboId: 'a' },
-            { "id": "Different architectures", comboId: 'a' },
-            { "id": "Different modeling methods", comboId: 'a' },
-            { "id": "Different training sets", comboId: 'a' },
-            { "id": "Different feature sets", comboId: 'a' }
-          ]
+          children: [
+            { id: 'Different initializations', comboId: 'a' },
+            { id: 'Different parameter choices', comboId: 'a' },
+            { id: 'Different architectures', comboId: 'a' },
+            { id: 'Different modeling methods', comboId: 'a' },
+            { id: 'Different training sets', comboId: 'a' },
+            { id: 'Different feature sets', comboId: 'a' },
+          ],
         },
         {
-          "id": "Methods",
+          id: 'Methods',
           comboId: 'b',
-          "children": [
-            { "id": "Classifier selection", comboId: 'b' },
-            { "id": "Classifier fusion", comboId: 'b' }
-          ]
+          children: [
+            { id: 'Classifier selection', comboId: 'b' },
+            { id: 'Classifier fusion', comboId: 'b' },
+          ],
         },
         {
-          "id": "Common",
+          id: 'Common',
           comboId: 'c',
-          "children": [
-            { "id": "Bagging", comboId: 'c' },
-            { "id": "Boosting", comboId: 'c' },
-            { "id": "AdaBoost", comboId: 'c' }
-          ]
-        }
-      ]
+          children: [
+            { id: 'Bagging', comboId: 'c' },
+            { id: 'Boosting', comboId: 'c' },
+            { id: 'AdaBoost', comboId: 'c' },
+          ],
+        },
+      ],
     },
     {
-      "id": "Regression",
+      id: 'Regression',
       comboId: 'd',
-      "children": [
-        { "id": "Multiple linear regression", comboId: 'd' },
-        { "id": "Partial least squares", comboId: 'd' },
-        { "id": "Multi-layer feedforward neural network" },
-        { "id": "General regression neural network" },
-        { "id": "Support vector regression" }
-      ]
-    }
+      children: [
+        { id: 'Multiple linear regression', comboId: 'd' },
+        { id: 'Partial least squares', comboId: 'd' },
+        { id: 'Multi-layer feedforward neural network' },
+        { id: 'General regression neural network' },
+        { id: 'Support vector regression' },
+      ],
+    },
   ],
-  combos: []
+  combos: [],
 };
 
 const ComboCollapseExpandTree = () => {
@@ -103,22 +103,22 @@ const ComboCollapseExpandTree = () => {
         },
         defaultCombo: {
           type: 'circle',
-          padding: 50
+          padding: 50,
         },
         groupByTypes: false,
         //animate: true
       });
 
-      graph.combo(combo => {
+      graph.combo((combo) => {
         const color = colors[combo.id as string];
         return {
           // size: 80,
           style: {
             lineWidth: 2,
             stroke: color,
-            fillOpacity: 0.8
+            fillOpacity: 0.8,
           },
-        }
+        };
       });
 
       graph.data(data);

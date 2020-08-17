@@ -1,7 +1,6 @@
-
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect } from 'react';
 import G6 from '../../../src';
-import './baseNode'
+import './baseNode';
 // import "./styles.css";
 
 function getNodeSide(item): 'left' | 'right' {
@@ -43,7 +42,6 @@ function getRectPath(x: number, y: number, w: number, h: number, r: number) {
   return res;
 }
 
-
 function getUnfoldButtonPath() {
   const w = 14;
   const h = 14;
@@ -64,8 +62,6 @@ function getFoldButtonPath() {
   return rect + hp + vp;
 }
 
-
-
 export const FOLD_BUTTON_CLASS_NAME = 'node-fold-button';
 export const UNFOLD_BUTTON_CLASS_NAME = 'node-unfold-button';
 
@@ -84,7 +80,7 @@ const bizMindNode = {
   drawButton(model, group) {
     const { children, collapsed } = model;
 
-    [FOLD_BUTTON_CLASS_NAME, UNFOLD_BUTTON_CLASS_NAME].forEach(className => {
+    [FOLD_BUTTON_CLASS_NAME, UNFOLD_BUTTON_CLASS_NAME].forEach((className) => {
       const shape = group.findByClassName(className);
 
       if (shape) {
@@ -125,7 +121,9 @@ const bizMindNode = {
     }
 
     const group = item.getContainer();
-    const shape = group.findByClassName(!collapsed ? FOLD_BUTTON_CLASS_NAME : UNFOLD_BUTTON_CLASS_NAME);
+    const shape = group.findByClassName(
+      !collapsed ? FOLD_BUTTON_CLASS_NAME : UNFOLD_BUTTON_CLASS_NAME,
+    );
 
     const [width, height] = this.getSize(model);
 
@@ -155,12 +153,12 @@ G6.registerNode('pathNode', {
         stroke: '#ccc1d8',
       },
     });
-  }
-})
+  },
+});
 
 export default () => {
   const graphContainer = useRef(null);
-  let graph = null
+  let graph = null;
 
   // 图初始化
   useEffect(() => {
@@ -186,26 +184,25 @@ export default () => {
         //   },
         // },
         defaultNode: {
-          type: "pathNode",
+          type: 'pathNode',
         },
-      
+
         defaultEdge: {
-          type: "cubic-vertical",
+          type: 'cubic-vertical',
           style: {
             radius: 20,
             offset: 45,
             endArrow: true,
             lineWidth: 2,
-            stroke: "#C2C8D5"
-          }
+            stroke: '#C2C8D5',
+          },
         },
         modes: {
-          default: ["drag-canvas", "zoom-canvas", "click-select"]
+          default: ['drag-canvas', 'zoom-canvas', 'click-select'],
         },
-        fitView: true
+        fitView: true,
       });
     }
-    
 
     // const data = {
     //   id: '0',
@@ -234,20 +231,18 @@ export default () => {
         {
           id: 'node1',
           x: 100,
-          y: 100
-        }
-      ]
-    }
-    
+          y: 100,
+        },
+      ],
+    };
+
     graph.data(data);
     graph.render();
 
-    graph.on('click', evt  => {
-      console.log(evt)
-    })
-    
+    graph.on('click', (evt) => {
+      console.log(evt);
+    });
   }, []);
-
 
   return (
     <div>

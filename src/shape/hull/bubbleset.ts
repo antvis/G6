@@ -1,36 +1,46 @@
-import { IPoint, IBBox, Item, BubblesetCfg } from '../../types'
-import { squareDist, pointLineDist, itemIntersectByLine, getPointsCenter, fractionToLine, isPointsOverlap, getRectDistSq, Line, isPointInPolygon } from '../../util/math'
+import { IPoint, IBBox, Item, BubblesetCfg } from '../../types';
+import {
+  squareDist,
+  pointLineDist,
+  itemIntersectByLine,
+  getPointsCenter,
+  fractionToLine,
+  isPointsOverlap,
+  getRectDistSq,
+  Line,
+  isPointInPolygon,
+} from '../../util/math';
 
 const defauleOps = {
-  maxRoutingIterations: 100,  // number of times to run the algorithm to refine the path finding in difficult areas
+  maxRoutingIterations: 100, // number of times to run the algorithm to refine the path finding in difficult areas
   maxMarchingIterations: 100, // number of times to refine the boundary
   pixelGroupSize: 2, // the resolution of the algorithm in square pixels
   edgeR0: 10, // the distance from edges at which energy is 1 (full influence)
   edgeR1: 10, // the distance from edges at which energy is 0 (no influence)
   nodeR0: 5, // the distance from nodes which energy is 1 (full influence)
   nodeR1: 10, // the distance from nodes at which energy is 0 (no influence)
-  morphBuffer: 5,// DEFAULT_NODE_R0; the amount of space to move the virtual edge when wrapping around obstacles
+  morphBuffer: 5, // DEFAULT_NODE_R0; the amount of space to move the virtual edge when wrapping around obstacles
   threshold: 0.001,
   skip: 16,
   nodeInfluenceFactor: 1,
   edgeInfluenceFactor: 1,
   negativeNodeInfluenceFactor: -0.5,
-}
+};
 
 /**
  * Marching square algorithm for traching the contour of a pixel group
  * https://www.emanueleferonato.com/2013/03/01/using-marching-squares-algorithm-to-trace-the-contour-of-an-image/
- * @param potentialArea 
- * @param threshold 
+ * @param potentialArea
+ * @param threshold
  */
 function MarchingSquares(contour, potentialArea, threshold) {
   let marched = false;
   const getVal = (x: number, y: number) => {
-    return potentialArea.cells[x + y * potentialArea.width]
-  }
+    return potentialArea.cells[x + y * potentialArea.width];
+  };
 
   const getState = (x: number, y: number) => {
-    let squareVal = 0
+    let squareVal = 0;
     if (getVal(x - 1, y - 1) >= threshold) {
       squareVal += 1;
     }
@@ -44,7 +54,7 @@ function MarchingSquares(contour, potentialArea, threshold) {
       squareVal += 8;
     }
     return squareVal;
-  }
+  };
 
   const doMarch = (xPos: number, yPos: number) => {
     let x = xPos;
@@ -53,9 +63,9 @@ function MarchingSquares(contour, potentialArea, threshold) {
     let prevY;
 
     for (let i = 0; i < potentialArea.width * potentialArea.height; i++) {
-      prevX = x
-      prevY = y
-      if (contour.findIndex(item => item.x === x && item.y === y) > -1) {
+      prevX = x;
+      prevY = y;
+      if (contour.findIndex((item) => item.x === x && item.y === y) > -1) {
         if (contour[0].x !== x || contour[0].y !== y) {
           // encountered a loop but haven't returned to start: change direction using conditionals and continue back to start
         } else {
@@ -69,7 +79,7 @@ function MarchingSquares(contour, potentialArea, threshold) {
       // assign the move direction according to state of the square
       switch (state) {
         case -1:
-          console.warn('Marched out of bounds')
+          console.warn('Marched out of bounds');
           return true;
         case 0:
         case 3:
@@ -83,7 +93,13 @@ function MarchingSquares(contour, potentialArea, threshold) {
           x--; // go left
           break;
         case 6: // go left if come from up else go right
-          (prevX === 0 && prevY === -1) ? x-- : x++
+          if (prevX === 0) {
+            if (prevY === -1) {
+              x -= 1;
+            } else {
+              x += 1;
+            }
+          }
           break;
         case 1:
         case 13:
@@ -91,7 +107,13 @@ function MarchingSquares(contour, potentialArea, threshold) {
           y--; // go up
           break;
         case 9: // go up if come from right else go down
-          (prevX === 1 && prevY === 0) ? y-- : y++
+          if (prevX === 1) {
+            if (prevY === 0) {
+              y -= 1;
+            } else {
+              y += 1;
+            }
+          }
           break;
         case 10:
         case 8:
@@ -103,9 +125,9 @@ function MarchingSquares(contour, potentialArea, threshold) {
           return true;
       }
     }
-  }
+  };
 
-  this.march = function () {
+  this.march = () => {
     for (let x = 0; x < potentialArea.width && !marched; x += 1) {
       for (let y = 0; y < potentialArea.height && !marched; y += 1) {
         if (getVal(x, y) > threshold && getState(x, y) !== 15) {
@@ -113,38 +135,38 @@ function MarchingSquares(contour, potentialArea, threshold) {
         }
       }
     }
-    return marched
-  }
+    return marched;
+  };
 }
 
 /**
  * Space partition & assign value to each cell
- * @param points 
+ * @param points
  */
 const initGridCells = (width: number, height: number, pixelGroupSize: number) => {
   const scaleWidth = Math.ceil(width / pixelGroupSize);
   const scaleHeight = Math.ceil(height / pixelGroupSize);
-  const gridCells = new Float32Array(Math.max(0, scaleWidth * scaleHeight)).fill(0)
+  const gridCells = new Float32Array(Math.max(0, scaleWidth * scaleHeight)).fill(0);
   return {
     cells: gridCells,
     width: scaleWidth,
-    height: scaleHeight
-  }
-}
+    height: scaleHeight,
+  };
+};
 
 /**
  * Find the optimal already visited member to item;
-   Optimal: minimize cost(j) = distance(i,j) ∗ countObstacles(i,j) 
- * @param item 
- * @param visited 
+   Optimal: minimize cost(j) = distance(i,j) ∗ countObstacles(i,j)
+ * @param item
+ * @param visited
  */
 const pickBestNeighbor = (item: Item, visited: Item[], nonMembers: Item[]): Item | null => {
   let closestNeighbour = null;
   let minCost = Number.POSITIVE_INFINITY;
 
-  visited.forEach(neighbourItem => {
-    const itemP = { x: item.getModel().x, y: item.getModel().y }
-    const neighbourItemP = { x: neighbourItem.getModel().x, y: neighbourItem.getModel().y }
+  visited.forEach((neighbourItem) => {
+    const itemP = { x: item.getModel().x, y: item.getModel().y };
+    const neighbourItemP = { x: neighbourItem.getModel().x, y: neighbourItem.getModel().y };
     const dist = squareDist(itemP, neighbourItemP);
     const directLine = new Line(itemP.x, itemP.y, neighbourItemP.x, neighbourItemP.y);
     const numberObstacles = nonMembers.reduce((count, _item) => {
@@ -154,24 +176,24 @@ const pickBestNeighbor = (item: Item, visited: Item[], nonMembers: Item[]): Item
       return count;
     }, 0);
     // console.log(item.getID(), neighbourItem.getID(), numberObstacles)
-    if (dist * ((numberObstacles + 1) ** 2) < minCost) {
+    if (dist * (numberObstacles + 1) ** 2 < minCost) {
       closestNeighbour = neighbourItem;
-      minCost = dist * ((numberObstacles + 1) ** 2);
+      minCost = dist * (numberObstacles + 1) ** 2;
     }
   });
-  return closestNeighbour
-}
+  return closestNeighbour;
+};
 
 /**
  * 返回和线相交的item中，离边的起点最近的item
- * @param items 
- * @param line 
+ * @param items
+ * @param line
  */
 const getIntersectItem = (items: Item[], line: Line): Item | null => {
   let minDistance = Number.POSITIVE_INFINITY;
   let closestItem = null;
 
-  items.forEach(item => {
+  items.forEach((item) => {
     const distance = fractionToLine(item, line);
     // find closest intersection
     if (distance >= 0 && distance < minDistance) {
@@ -180,40 +202,52 @@ const getIntersectItem = (items: Item[], line: Line): Item | null => {
     }
   });
   return closestItem;
-}
+};
 
 /**
  * Modify the directLine and Route virtual edges around obstacles
  */
-const computeRoute = (directLine: Line, nonMembers: Item[], maxRoutingIterations: number, morphBuffer: number): Line[] => {
-  const checkedLines: Line[] = []
-  const linesToCheck: Line[] = []
+const computeRoute = (
+  directLine: Line,
+  nonMembers: Item[],
+  maxRoutingIterations: number,
+  morphBuffer: number,
+): Line[] => {
+  const checkedLines: Line[] = [];
+  const linesToCheck: Line[] = [];
   linesToCheck.push(directLine);
 
   let hasIntersection = true;
   let iterations = 0;
 
   const pointExists = (point: IPoint, lines: Line[]) => {
-    let flag = false
+    let flag = false;
     lines.forEach((line) => {
       if (flag) return;
-      if (isPointsOverlap(point, { x: line.x1, y: line.y1 }) || isPointsOverlap(point, { x: line.x2, y: line.y2 })) {
+      if (
+        isPointsOverlap(point, { x: line.x1, y: line.y1 }) ||
+        isPointsOverlap(point, { x: line.x2, y: line.y2 })
+      ) {
         flag = true;
       }
     });
-    return flag
-  }
+    return flag;
+  };
   const isPointInNonMembers = (point: IPoint, _nonMembers: Item[]) => {
     for (const item of _nonMembers) {
-      const bbox = item.getBBox()
-      const itemContour = [[bbox.x, bbox.y], [bbox.x + bbox.width, bbox.y],
-      [bbox.x, bbox.y + bbox.height], [bbox.x + bbox.width, bbox.y + bbox.height]]
+      const bbox = item.getBBox();
+      const itemContour = [
+        [bbox.x, bbox.y],
+        [bbox.x + bbox.width, bbox.y],
+        [bbox.x, bbox.y + bbox.height],
+        [bbox.x + bbox.width, bbox.y + bbox.height],
+      ];
       if (isPointInPolygon(itemContour, point.x, point.y)) {
-        return true
+        return true;
       }
     }
-    return false
-  }
+    return false;
+  };
 
   // outer loop end when no more intersections or out of iterations
   while (hasIntersection && iterations < maxRoutingIterations) {
@@ -223,36 +257,39 @@ const computeRoute = (directLine: Line, nonMembers: Item[], maxRoutingIterations
       const line = linesToCheck.pop();
       const closestItem = getIntersectItem(nonMembers, line);
       if (closestItem) {
-        const [intersections, countIntersections] = itemIntersectByLine(closestItem, line)
+        const [intersections, countIntersections] = itemIntersectByLine(closestItem, line);
         // if line passes through item
         if (countIntersections === 2) {
           const testReroute = (isFirst: boolean) => {
             let tempMorphBuffer = morphBuffer;
             let virtualNode = rerouteLine(closestItem, tempMorphBuffer, intersections, isFirst);
             // test the virtualNode already exists
-            let exist = pointExists(virtualNode, linesToCheck) || pointExists(virtualNode, checkedLines);
+            let exist =
+              pointExists(virtualNode, linesToCheck) || pointExists(virtualNode, checkedLines);
             let pointInside = isPointInNonMembers(virtualNode, nonMembers);
 
-            while (!exist && pointInside && (tempMorphBuffer >= 1)) {
+            while (!exist && pointInside && tempMorphBuffer >= 1) {
               // try a smaller buffer
               tempMorphBuffer /= 1.5;
               virtualNode = rerouteLine(closestItem, tempMorphBuffer, intersections, isFirst);
-              exist = pointExists(virtualNode, linesToCheck) || pointExists(virtualNode, checkedLines);
+              exist =
+                pointExists(virtualNode, linesToCheck) || pointExists(virtualNode, checkedLines);
               pointInside = isPointInNonMembers(virtualNode, nonMembers);
             }
 
             // 第二次route时不要求pointInside
-            if (virtualNode && (!exist) && (!isFirst || !pointInside)) {
+            if (virtualNode && !exist && (!isFirst || !pointInside)) {
               // add 2 rerouted lines to check
               linesToCheck.push(new Line(line.x1, line.y1, virtualNode.x, virtualNode.y));
               linesToCheck.push(new Line(virtualNode.x, virtualNode.y, line.x2, line.y2));
               hasIntersection = true;
             }
-          }
+          };
 
-          testReroute(true)
-          if (!hasIntersection) { // if we didn't find a valid point around the first corner, try the second
-            testReroute(false)
+          testReroute(true);
+          if (!hasIntersection) {
+            // if we didn't find a valid point around the first corner, try the second
+            testReroute(false);
           }
         }
       }
@@ -269,16 +306,22 @@ const computeRoute = (directLine: Line, nonMembers: Item[], maxRoutingIterations
   while (linesToCheck.length) {
     checkedLines.push(linesToCheck.pop());
   }
-  return checkedLines
-}
+  return checkedLines;
+};
 
 /**
  *  Connect item with visited members using direct line or virtual edges
  */
-function getRoute(item: Item, nonMembers: Item[], visited: Item[], maxRoutingIterations: number, morphBuffer: number) {
-  const optimalNeighbor = pickBestNeighbor(item, visited, nonMembers)
+function getRoute(
+  item: Item,
+  nonMembers: Item[],
+  visited: Item[],
+  maxRoutingIterations: number,
+  morphBuffer: number,
+) {
+  const optimalNeighbor = pickBestNeighbor(item, visited, nonMembers);
   if (optimalNeighbor === null) {
-    return []
+    return [];
   }
 
   //  merge the consecutive lines
@@ -302,8 +345,13 @@ function getRoute(item: Item, nonMembers: Item[], visited: Item[], maxRoutingIte
       }
     }
     return finalRoute;
-  }
-  const directLine = new Line(item.getModel().x, item.getModel().y, optimalNeighbor.getModel().x, optimalNeighbor.getModel().y);
+  };
+  const directLine = new Line(
+    item.getModel().x,
+    item.getModel().y,
+    optimalNeighbor.getModel().x,
+    optimalNeighbor.getModel().y,
+  );
   const checkedLines = computeRoute(directLine, nonMembers, maxRoutingIterations, morphBuffer);
   const finalRoute = mergeLines(checkedLines);
   return finalRoute;
@@ -311,22 +359,34 @@ function getRoute(item: Item, nonMembers: Item[], visited: Item[], maxRoutingIte
 
 /**
  * Calculate the countor that includes the  selected items and exclues the non-selected items
- * @param graph 
- * @param members 
- * @param nonMembers 
- * @param options 
+ * @param graph
+ * @param members
+ * @param nonMembers
+ * @param options
  */
 export const genBubbleSet = (members: Item[], nonMembers: Item[], ops?: BubblesetCfg) => {
   // eslint-disable-next-line no-redeclare
-  const options = Object.assign(defauleOps, ops)
-  const centroid = getPointsCenter(members.map(item => ({ x: item.getModel().x, y: item.getModel().y })));
+  const options = Object.assign(defauleOps, ops);
+  const centroid = getPointsCenter(
+    members.map((item) => ({ x: item.getModel().x, y: item.getModel().y })),
+  );
   // 按照到中心距离远近排序
-  members = members.sort((a, b) => (squareDist({ x: a.getModel().x, y: a.getModel().y }, centroid) - squareDist({ x: b.getModel().x, y: b.getModel().y }, centroid)))
+  members = members.sort(
+    (a, b) =>
+      squareDist({ x: a.getModel().x, y: a.getModel().y }, centroid) -
+      squareDist({ x: b.getModel().x, y: b.getModel().y }, centroid),
+  );
   const visited: Item[] = [];
   const virtualEdges: Line[] = [];
-  members.forEach(item => {
-    const lines = getRoute(item, nonMembers, visited, options.maxRoutingIterations, options.morphBuffer);
-    lines.forEach(l => {
+  members.forEach((item) => {
+    const lines = getRoute(
+      item,
+      nonMembers,
+      visited,
+      options.maxRoutingIterations,
+      options.morphBuffer,
+    );
+    lines.forEach((l) => {
       virtualEdges.push(l);
     });
     visited.push(item);
@@ -337,24 +397,31 @@ export const genBubbleSet = (members: Item[], nonMembers: Item[], ops?: Bubblese
   // });
 
   const activeRegion = getActiveRregion(members, virtualEdges, options.nodeR0);
-  const potentialArea = initGridCells(activeRegion.width, activeRegion.height, options.pixelGroupSize)
+  const potentialArea = initGridCells(
+    activeRegion.width,
+    activeRegion.height,
+    options.pixelGroupSize,
+  );
 
   // Use march squares to generate contour
   let contour = [];
   let hull = [];
   for (let iterations = 0; iterations < options.maxMarchingIterations; iterations++) {
     fillPotentialArea(members, nonMembers, virtualEdges, activeRegion, potentialArea, options);
-    contour = []
-    hull = []
+    contour = [];
+    hull = [];
     if (!new MarchingSquares(contour, potentialArea, options.threshold).march()) continue;
-    const marchedPath = contour.map(point => ({ x: Math.round(point.x * options.pixelGroupSize + activeRegion.minX), y: Math.round(point.y * options.pixelGroupSize + activeRegion.minY) }))
+    const marchedPath = contour.map((point) => ({
+      x: Math.round(point.x * options.pixelGroupSize + activeRegion.minX),
+      y: Math.round(point.y * options.pixelGroupSize + activeRegion.minY),
+    }));
     // const marchedPath = marchingSquares(potentialArea, options.threshold).map(point => ({ x: Math.round(point.x * options.pixelGroupSize + activeRegion.minX), y: Math.round(point.y * options.pixelGroupSize + activeRegion.minY) }))
     if (marchedPath) {
       let size = marchedPath.length;
       if (options.skip > 1) {
         size = Math.floor(marchedPath.length / options.skip);
         // if we reduced too much (fewer than three points in reduced surface) reduce skip and try again
-        while ((size < 3) && (options.skip > 1)) {
+        while (size < 3 && options.skip > 1) {
           options.skip -= 1;
           size = Math.floor(marchedPath.length / options.skip);
         }
@@ -367,18 +434,19 @@ export const genBubbleSet = (members: Item[], nonMembers: Item[], ops?: Bubblese
 
     const isContourValid = () => {
       for (const item of members) {
-        const hullPoints = hull.map(point => [point.x, point.y])
-        if (!isPointInPolygon(hullPoints, item.getBBox().centerX, item.getBBox().centerY)) return false
+        const hullPoints = hull.map((point) => [point.x, point.y]);
+        if (!isPointInPolygon(hullPoints, item.getBBox().centerX, item.getBBox().centerY))
+          return false;
       }
       // 不强制要求所有nonMembers都没有包含在内
       // for (const item of nonMembers) {
       //   if (isPointInPolygon({ x: item.getBBox().centerX, y: item.getBBox().centerY }, contour)) return false
       // }
-      return true
-    }
+      return true;
+    };
 
     if (hull && isContourValid()) {
-      return hull
+      return hull;
     }
 
     // update parameters for next iteraction
@@ -393,13 +461,13 @@ export const genBubbleSet = (members: Item[], nonMembers: Item[], ops?: Bubblese
       break;
     }
   }
-  return hull
-}
+  return hull;
+};
 
 /**
  * unionboundingbox
- * @param members 
- * @param edges 
+ * @param members
+ * @param edges
  */
 function getActiveRregion(members: Item[], edges: Line[], offset: number): IBBox {
   const activeRegion = {
@@ -410,14 +478,14 @@ function getActiveRregion(members: Item[], edges: Line[], offset: number): IBBox
     width: 0,
     height: 0,
     x: 0,
-    y: 0
-  }
-  const bboxes = []
+    y: 0,
+  };
+  const bboxes = [];
 
-  members.forEach(item => {
-    bboxes.push(item.getBBox())
-  })
-  edges.forEach(l => {
+  members.forEach((item) => {
+    bboxes.push(item.getBBox());
+  });
+  edges.forEach((l) => {
     bboxes.push(l.getBBox());
   });
 
@@ -427,21 +495,28 @@ function getActiveRregion(members: Item[], edges: Line[], offset: number): IBBox
     activeRegion.maxX = (bbox.maxX > activeRegion.maxX ? bbox.maxX : activeRegion.maxX) + offset;
     activeRegion.maxY = (bbox.maxY > activeRegion.maxY ? bbox.maxY : activeRegion.maxY) + offset;
   }
-  activeRegion.width = activeRegion.maxX - activeRegion.minX
-  activeRegion.height = activeRegion.maxY - activeRegion.minY
-  activeRegion.x = activeRegion.minX
-  activeRegion.y = activeRegion.minY
-  return activeRegion
+  activeRegion.width = activeRegion.maxX - activeRegion.minX;
+  activeRegion.height = activeRegion.maxY - activeRegion.minY;
+  activeRegion.x = activeRegion.minX;
+  activeRegion.y = activeRegion.minY;
+  return activeRegion;
 }
 
-function fillPotentialArea(members: Item[], nonMembers: Item[], edges: Line[], activeRegion: IBBox, potentialArea, options: BubblesetCfg) {
+function fillPotentialArea(
+  members: Item[],
+  nonMembers: Item[],
+  edges: Line[],
+  activeRegion: IBBox,
+  potentialArea,
+  options: BubblesetCfg,
+) {
   function pos2GridIx(x, offset) {
-    const gridIx = Math.floor((x - offset) / options.pixelGroupSize)
-    return gridIx < 0 ? 0 : gridIx
+    const gridIx = Math.floor((x - offset) / options.pixelGroupSize);
+    return gridIx < 0 ? 0 : gridIx;
   }
 
   function gridIx2Pos(x, offset) {
-    return x * options.pixelGroupSize + offset
+    return x * options.pixelGroupSize + offset;
   }
 
   // using inverse a for numerical stability
@@ -449,15 +524,27 @@ function fillPotentialArea(members: Item[], nonMembers: Item[], edges: Line[], a
   const edgeInfA = (options.edgeR0 - options.edgeR1) * (options.edgeR0 - options.edgeR1);
 
   const getAffectedRegion = (bbox, thresholdR) => {
-    const startX = Math.min(pos2GridIx(bbox.minX, thresholdR + activeRegion.minX), potentialArea.width);
-    const startY = Math.min(pos2GridIx(bbox.minY, thresholdR + activeRegion.minY), potentialArea.height);
-    const endX = Math.min(pos2GridIx(bbox.maxX, -thresholdR + activeRegion.minX), potentialArea.width);
-    const endY = Math.min(pos2GridIx(bbox.maxY, -thresholdR + activeRegion.minY), potentialArea.height);
-    return [startX, startY, endX, endY]
-  }
+    const startX = Math.min(
+      pos2GridIx(bbox.minX, thresholdR + activeRegion.minX),
+      potentialArea.width,
+    );
+    const startY = Math.min(
+      pos2GridIx(bbox.minY, thresholdR + activeRegion.minY),
+      potentialArea.height,
+    );
+    const endX = Math.min(
+      pos2GridIx(bbox.maxX, -thresholdR + activeRegion.minX),
+      potentialArea.width,
+    );
+    const endY = Math.min(
+      pos2GridIx(bbox.maxY, -thresholdR + activeRegion.minY),
+      potentialArea.height,
+    );
+    return [startX, startY, endX, endY];
+  };
   const addItemInfluence = (item: Item, influenceFactor: number) => {
     const bbox = item.getBBox();
-    const [startX, startY, endX, endY] = getAffectedRegion(bbox, options.nodeR1)
+    const [startX, startY, endX, endY] = getAffectedRegion(bbox, options.nodeR1);
     // console.log(startX, startY, endX, endY)
     // calculate item influence for each cell
     for (let y = startY; y < endY; y += 1) {
@@ -476,11 +563,11 @@ function fillPotentialArea(members: Item[], nonMembers: Item[], edges: Line[], a
         }
       }
     }
-  }
+  };
 
   const addEdgeInfluence = (line: Line, influenceFactor: number) => {
     const bbox = line.getBBox();
-    const [startX, startY, endX, endY] = getAffectedRegion(bbox, options.edgeR1)
+    const [startX, startY, endX, endY] = getAffectedRegion(bbox, options.edgeR1);
     // for every point in active part of potentialArea, calculate distance to nearest point on line and add influence
     for (let y = startY; y < endY; y += 1) {
       for (let x = startX; x < endX; x += 1) {
@@ -497,22 +584,22 @@ function fillPotentialArea(members: Item[], nonMembers: Item[], edges: Line[], a
         }
       }
     }
-  }
+  };
 
   if (options.nodeInfluenceFactor) {
-    members.forEach(item => {
-      addItemInfluence(item, options.nodeInfluenceFactor / nodeInfA)
+    members.forEach((item) => {
+      addItemInfluence(item, options.nodeInfluenceFactor / nodeInfA);
     });
   }
 
   if (options.edgeInfluenceFactor) {
-    edges.forEach(edge => {
-      addEdgeInfluence(edge, options.edgeInfluenceFactor / edgeInfA)
-    })
+    edges.forEach((edge) => {
+      addEdgeInfluence(edge, options.edgeInfluenceFactor / edgeInfA);
+    });
   }
   if (options.negativeNodeInfluenceFactor) {
-    nonMembers.forEach(item => {
-      addItemInfluence(item, options.negativeNodeInfluenceFactor / nodeInfA)
+    nonMembers.forEach((item) => {
+      addItemInfluence(item, options.negativeNodeInfluenceFactor / nodeInfA);
     });
   }
 }
@@ -521,15 +608,15 @@ function rerouteLine(item, buffer: number, intersections: IPoint[], wrapNormal: 
   const bbox = item.getBBox();
   const [topIntersect, leftIntersect, bottomIntersect, rightIntersect] = intersections;
   const cornerPos = {
-    'topLeft': { x: bbox.minX - buffer, y: bbox.minY - buffer },
-    'topRight': { x: bbox.maxX + buffer, y: bbox.minY - buffer },
-    'bottomLeft': { x: bbox.minX - buffer, y: bbox.maxY + buffer },
-    'bottomRight': { x: bbox.maxX + buffer, y: bbox.maxY + buffer }
-  }
+    topLeft: { x: bbox.minX - buffer, y: bbox.minY - buffer },
+    topRight: { x: bbox.maxX + buffer, y: bbox.minY - buffer },
+    bottomLeft: { x: bbox.minX - buffer, y: bbox.maxY + buffer },
+    bottomRight: { x: bbox.maxX + buffer, y: bbox.maxY + buffer },
+  };
 
   const totalArea = bbox.height * bbox.width;
   function calcHalfArea(intersect1, intersect2) {
-    return bbox.width * (((intersect1.y - bbox.minY) + (intersect2.y - bbox.minY)) * 0.5)
+    return bbox.width * ((intersect1.y - bbox.minY + (intersect2.y - bbox.minY)) * 0.5);
   }
 
   // 根据线和boundingbox相交的情况，确定control point的位置
@@ -540,10 +627,12 @@ function rerouteLine(item, buffer: number, intersections: IPoint[], wrapNormal: 
     // 相交区域分成上下两个梯形，比较面积
     const topArea = calcHalfArea(leftIntersect, rightIntersect);
     if (topArea < totalArea * 0.5) {
-      if (leftIntersect.y > rightIntersect.y) return wrapNormal ? cornerPos.topLeft : cornerPos.bottomRight;
+      if (leftIntersect.y > rightIntersect.y)
+        return wrapNormal ? cornerPos.topLeft : cornerPos.bottomRight;
       return wrapNormal ? cornerPos.topRight : cornerPos.bottomLeft;
     }
-    if (leftIntersect.y < rightIntersect.y) return wrapNormal ? cornerPos.bottomLeft : cornerPos.topRight;
+    if (leftIntersect.y < rightIntersect.y)
+      return wrapNormal ? cornerPos.bottomLeft : cornerPos.topRight;
     return wrapNormal ? cornerPos.bottomRight : cornerPos.topLeft;
   }
 
@@ -553,11 +642,13 @@ function rerouteLine(item, buffer: number, intersections: IPoint[], wrapNormal: 
   }
 
   // 相交区域分成左右两个梯形
-  const leftArea = calcHalfArea(topIntersect, bottomIntersect);;
+  const leftArea = calcHalfArea(topIntersect, bottomIntersect);
   if (leftArea < totalArea * 0.5) {
-    if (topIntersect.x > bottomIntersect.x) return wrapNormal ? cornerPos.topLeft : cornerPos.bottomRight;
+    if (topIntersect.x > bottomIntersect.x)
+      return wrapNormal ? cornerPos.topLeft : cornerPos.bottomRight;
     return wrapNormal ? cornerPos.bottomLeft : cornerPos.topRight;
   }
-  if (topIntersect.x < bottomIntersect.x) return wrapNormal ? cornerPos.topRight : cornerPos.bottomLeft;
+  if (topIntersect.x < bottomIntersect.x)
+    return wrapNormal ? cornerPos.topRight : cornerPos.bottomLeft;
   return wrapNormal ? cornerPos.bottomRight : cornerPos.topLeft;
 }

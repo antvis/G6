@@ -698,7 +698,7 @@ graph.data({
 });
 graph.render();
 
-graph.on('node:click', ev => {
+graph.on('node:click', (ev) => {
   const itemModel = ev.item.getModel();
   const nodes = graph.getNodes();
   const edges = graph.getEdges();
@@ -708,9 +708,9 @@ graph.on('node:click', ev => {
   const newNodeModels = newData.nodes;
   const newEdgeModels = [];
   // deduplication the items in newEdgeModels
-  newData.edges.forEach(function(e) {
+  newData.edges.forEach(function (e) {
     let exist = false;
-    newEdgeModels.forEach(function(ne) {
+    newEdgeModels.forEach(function (ne) {
       if (ne.source === e.source && ne.target === e.target) exist = true;
     });
     if (!exist) {
@@ -724,11 +724,11 @@ graph.on('node:click', ev => {
 
   // add new nodes to graph
   const nodeMap = new Map();
-  nodes.forEach(n => {
+  nodes.forEach((n) => {
     const nModel = n.getModel();
     nodeMap.set(nModel.id, n);
   });
-  newNodeModels.forEach(nodeModel => {
+  newNodeModels.forEach((nodeModel) => {
     if (nodeMap.get(nodeModel.id) === undefined) {
       // set the initial positions of the new nodes to the focus(clicked) node
       nodeModel.x = itemModel.x;
@@ -739,12 +739,12 @@ graph.on('node:click', ev => {
 
   // add new edges to graph
   const edgeMap = new Map();
-  edges.forEach(function(e, i) {
+  edges.forEach(function (e, i) {
     const eModel = e.getModel();
     edgeMap.set(eModel.source + ',' + eModel.target, i);
   });
   const oldEdgeNum = edges.length;
-  newEdgeModels.forEach(function(em, i) {
+  newEdgeModels.forEach(function (em, i) {
     const exist = edgeMap.get(em.source + ',' + em.target);
     if (exist === undefined) {
       graph.addItem('edge', em);
@@ -752,10 +752,10 @@ graph.on('node:click', ev => {
     }
   });
 
-  edges.forEach(e => {
+  edges.forEach((e) => {
     allEdgeModels.push(e.getModel());
   });
-  nodes.forEach(n => {
+  nodes.forEach((n) => {
     allNodeModels.push(n.getModel());
   });
   // the max degree about foces(clicked) node in the newly added data

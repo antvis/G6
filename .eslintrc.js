@@ -8,6 +8,7 @@ module.exports = {
     'no-bitwise': 0,
     'import/order': 0,
     'no-plusplus': 0,
+    'no-console': ['error', { allow: ['warn', 'error'] }],
     'operator-assignment': 0,
     'consistent-return': 0,
     'lines-between-class-members': 0,
@@ -21,6 +22,7 @@ module.exports = {
     'prefer-destructuring': 0,
     'guard-for-in': 0,
     'no-restricted-globals': 0,
+    'max-classes-per-file': 0,
     // 后面需要去掉
     'no-restricted-syntax': 0,
     'prefer-spread': 0,

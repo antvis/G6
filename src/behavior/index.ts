@@ -12,9 +12,9 @@ import DragGroup from './drag-group';
 import DragNodeWidthGroup from './drag-node-with-group';
 import CollapseExpandGroup from './collapse-expand-group';
 import CollapseExpand from './collapse-expand';
-import DragCombo from './drag-combo'
+import DragCombo from './drag-combo';
 import CollapseExpandCombo from './collapse-expand-combo';
-import LassoSelect from './lasso-select'
+import LassoSelect from './lasso-select';
 
 const behaviors = {
   'drag-canvas': DragCanvas,

@@ -8,12 +8,6 @@ import Tooltip from './component/tooltip';
 export default { title: 'SVG' };
 
 storiesOf('SVG', module)
-.add('grid', () => (
-  <Grid />
-))
-.add('context menu', () => (
-  <ContextMenu />
-))
-.add('tooltip', () => (
-  <Tooltip />
-))
+  .add('grid', () => <Grid />)
+  .add('context menu', () => <ContextMenu />)
+  .add('tooltip', () => <Tooltip />);

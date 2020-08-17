@@ -7,14 +7,14 @@ let graph: IGraph = null;
 const mapNodeSize = (nodes, propertyName, visualRange) => {
   let minp = 9999999999;
   let maxp = -9999999999;
-  nodes.forEach(node => {
+  nodes.forEach((node) => {
     node[propertyName] = Math.pow(node[propertyName], 1 / 3);
     minp = node[propertyName] < minp ? node[propertyName] : minp;
     maxp = node[propertyName] > maxp ? node[propertyName] : maxp;
   });
   const rangepLength = maxp - minp;
   const rangevLength = visualRange[1] - visualRange[0];
-  nodes.forEach(node => {
+  nodes.forEach((node) => {
     node.size = ((node[propertyName] - minp) / rangepLength) * rangevLength + visualRange[0];
   });
 };
@@ -65,13 +65,18 @@ const Eva = () => {
           },
         },
         modes: {
-          default: [{
-            type: 'zoom-canvas',
-            enableOptimize: true
-          }, {
-            type: 'drag-canvas',
-            enableOptimize: true
-          }, 'drag-node', 'brush-select'], // 'drag-canvas',
+          default: [
+            {
+              type: 'zoom-canvas',
+              enableOptimize: true,
+            },
+            {
+              type: 'drag-canvas',
+              enableOptimize: true,
+            },
+            'drag-node',
+            'brush-select',
+          ], // 'drag-canvas',
         },
       });
       graph.get('canvas').set('localRefresh', true);
@@ -79,35 +84,35 @@ const Eva = () => {
       fetch(
         'https://gw.alipayobjects.com/os/basement_prod/0b9730ff-0850-46ff-84d0-1d4afecd43e6.json',
       )
-        .then(res => res.json())
-        .then(data => {
-          data.nodes.forEach(node => {
+        .then((res) => res.json())
+        .then((data) => {
+          data.nodes.forEach((node) => {
             node.label = node.olabel;
             node.labelCfg.style = {
               fontSize: 1.3,
             };
             node.degree = 0;
-            data.edges.forEach(edge => {
+            data.edges.forEach((edge) => {
               if (edge.source === node.id || edge.target === node.id) {
                 node.degree++;
               }
             });
           });
-          console.log('原始数据', data.nodes.length, data.edges.length)
+          console.log('原始数据', data.nodes.length, data.edges.length);
           mapNodeSize(data.nodes, 'degree', [1, 15]);
           // console.log(data.nodes);
           graph.data(data);
           graph.render();
-          graph.on('node:mouseenter', e => {
+          graph.on('node:mouseenter', (e) => {
             const { item } = e;
             graph.setItemState(item, 'hover', true);
           });
-          graph.on('node:mouseleave', e => {
+          graph.on('node:mouseleave', (e) => {
             const { item } = e;
             graph.setItemState(item, 'hover', false);
           });
 
-          console.log('图上数据大小', graph)
+          console.log('图上数据大小', graph);
 
           /* normalize */
           // let cx = 0, cy = 0;

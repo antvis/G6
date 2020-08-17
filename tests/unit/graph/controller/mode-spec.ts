@@ -1,6 +1,6 @@
 import { ModeController } from '../../../../src/graph/controller';
 import Graph from '../../../../src/graph/graph';
-import { GraphOptions, ModeOption } from '../../../../src/types'
+import { GraphOptions, ModeOption } from '../../../../src/types';
 
 const div = document.createElement('div');
 div.id = 'graph-spec';

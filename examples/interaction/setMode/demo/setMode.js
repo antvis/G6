@@ -151,15 +151,15 @@ const graph = new G6.Graph({
     selected: {
       stroke: '#666',
       lineWidth: 2,
-      fill: 'steelblue'
-    }
+      fill: 'steelblue',
+    },
   },
 });
 graph.data(data);
 graph.render();
 
 // Listen to the selector, change the mode when the selector is changed
-selector.addEventListener('change', e => {
+selector.addEventListener('change', (e) => {
   const value = e.target.value;
   // change the behavior mode
   graph.setMode(value);

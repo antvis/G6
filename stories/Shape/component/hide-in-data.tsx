@@ -11,7 +11,7 @@ const data = {
       name: 'name1',
       x: 100,
       y: 110,
-      visible: false
+      visible: false,
     },
     {
       id: '2',
@@ -31,7 +31,7 @@ const data = {
       id: 'e12',
       source: '1',
       target: '2',
-      visible: false
+      visible: false,
     },
     {
       id: 'e13',
@@ -55,16 +55,16 @@ const HideInData = () => {
       });
       graph.data(data);
       graph.render();
-      graph.on('canvas:click', e => {
+      graph.on('canvas:click', (e) => {
         graph.updateItem(graph.findById('1'), {
-          visible: true
+          visible: true,
         });
         graph.updateItem(graph.findById('2'), {
-          visible: false
+          visible: false,
         });
         graph.hideItem('1');
         graph.hideItem('e12');
-        graph.showItem('2')
+        graph.showItem('2');
       });
     }
   });

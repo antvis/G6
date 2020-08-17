@@ -59,7 +59,7 @@ describe('rect test', () => {
       const group = node.get('group');
       expect(group.getCount()).toEqual(2);
 
-      const label = group.find(g => {
+      const label = group.find((g) => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toBe(undefined);
@@ -119,21 +119,21 @@ describe('rect test', () => {
       expect(keyShape.attr('width')).toEqual(35);
       expect(keyShape.attr('lineWidth')).toEqual(1);
 
-      const markTop = group.find(g => {
+      const markTop = group.find((g) => {
         return g.get('className') === 'link-point-top';
       });
       expect(markTop).not.toBe(null);
       expect(markTop.attr('r')).toEqual(5);
       expect(markTop.attr('fill')).toEqual('#fff');
 
-      const markBottom = group.find(g => {
+      const markBottom = group.find((g) => {
         return g.get('className') === 'link-point-bottom';
       });
       expect(markBottom).not.toBe(null);
 
       let hasTrigger = false;
       expect(hasTrigger).toBe(false);
-      graph.on('node:mouseenter', evt => {
+      graph.on('node:mouseenter', (evt) => {
         hasTrigger = evt.hasTrigger;
         graph.setItemState(evt.item, 'hover', true);
       });
@@ -228,7 +228,7 @@ describe('rect test', () => {
         },
       });
 
-      const label = group.find(g => {
+      const label = group.find((g) => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toEqual(null);
@@ -284,7 +284,7 @@ describe('rect test', () => {
         },
       });
 
-      const label = group.find(g => {
+      const label = group.find((g) => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toEqual(null);

@@ -49,17 +49,19 @@ const hasLocked = node.hasLocked();
 
 **Parameters**
 
-| Name    | Type  | Required | Description      |
-| ------- | ------ | -------- | ----------- |
-| type |  'source' / 'target' / undefined | false    | The type of the neighbors, 'source': only return the source nodes; 'target': only return the target nodes, undefined: return all of the neighbors |
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| type | 'source' / 'target' / undefined | false | The type of the neighbors, 'source': only return the source nodes; 'target': only return the target nodes, undefined: return all of the neighbors |
 
 **Return**
+
 - Type of the return value: Array;
 - Return a list of node items.
 
 **Usage**
-``` javascript
-const neighbors = node.getNeighbors('source')
+
+```javascript
+const neighbors = node.getNeighbors('source');
 ```
 
 ## getEdges()

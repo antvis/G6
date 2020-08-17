@@ -53,9 +53,9 @@ const Erdos = () => {
       fetch(
         'https://gw.alipayobjects.com/os/basement_prod/9e119b99-2580-43be-a8db-f55bb682c881.json',
       )
-        .then(res => res.json())
-        .then(data => {
-          data.nodes.forEach(node => {
+        .then((res) => res.json())
+        .then((data) => {
+          data.nodes.forEach((node) => {
             node.label = undefined;
             node.size = undefined;
           });
@@ -69,7 +69,7 @@ const Erdos = () => {
             maxX = -Infinity,
             minY = Infinity,
             maxY = -Infinity;
-          data.nodes.forEach(node => {
+          data.nodes.forEach((node) => {
             cx += node.x;
             cy += node.y;
             if (minX > node.x) minX = node.x;
@@ -80,7 +80,7 @@ const Erdos = () => {
           const scale = maxX - minX > maxY - minY ? maxX - minX : maxY - minY;
           cx /= data.nodes.length;
           cy /= data.nodes.length;
-          data.nodes.forEach(node => {
+          data.nodes.forEach((node) => {
             node.x -= cx;
             node.y -= cy;
             node.x = (graphSize * node.x) / scale + graphSize / 2;
@@ -89,7 +89,7 @@ const Erdos = () => {
           graph.positionsAnimate();
           console.log(data.nodes.length, data.edges.length);
         });
-      graph.on('node:click', evt => {
+      graph.on('node:click', (evt) => {
         const { item } = evt;
         item.toFront();
         graph.setItemState(item, 'hover', true);

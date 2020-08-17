@@ -4,40 +4,42 @@ import { IGraph } from '../../../src/interface/graph';
 
 let graph: IGraph = null;
 
-G6.registerNode('self-node', {
-  draw(cfg, group) {
-    
-    const keyShape = group.addShape('circle', {
-      attrs: {
-        x: 0,
-        y: 0,
-        // ...keyShapeStyle,
-        r: cfg.sizee,
-        fill: 'red',
-      },
-      name: 'main-node'
-    })
+G6.registerNode(
+  'self-node',
+  {
+    draw(cfg, group) {
+      const keyShape = group.addShape('circle', {
+        attrs: {
+          x: 0,
+          y: 0,
+          // ...keyShapeStyle,
+          r: cfg.sizee,
+          fill: 'red',
+        },
+        name: 'main-node',
+      });
 
-    group.addShape('circle', {
-      attrs: {
-        r: 5,
-        fill: 'blue',
-        x: 10,
-        y: 5
-      },
-      name: 'sub-node'
-    })
+      group.addShape('circle', {
+        attrs: {
+          r: 5,
+          fill: 'blue',
+          x: 10,
+          y: 5,
+        },
+        name: 'sub-node',
+      });
 
-    return keyShape
-  }
-}, 'single-node')//, 'circle'
+      return keyShape;
+    },
+  },
+  'single-node',
+); //, 'circle'
 
 const CustomNode = () => {
   const container = React.useRef();
 
   useEffect(() => {
     if (!graph) {
-
       const data = {
         nodes: [
           {
@@ -46,7 +48,7 @@ const CustomNode = () => {
             type: 'self-node',
             x: 250,
             y: 150,
-            sizee: 40
+            sizee: 40,
           },
         ],
       };
@@ -58,16 +60,15 @@ const CustomNode = () => {
       graph.data(data);
       graph.render();
 
-      graph.on('node:click', evt => {
+      graph.on('node:click', (evt) => {
         graph.updateItem(evt.item, {
-            style: {
-                fill: 'pink'
-              }
-          })
+          style: {
+            fill: 'pink',
+          },
+        });
       });
     }
   });
-  
 
   return <div ref={container}></div>;
 };

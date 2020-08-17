@@ -67,10 +67,6 @@ interface TimeBarConfig extends IPluginBaseConfig {
 export default class TimeBar extends Base {
   private cacheGraphData: GraphData;
 
-  constructor(cfg?: TimeBarConfig) {
-    super(cfg);
-  }
-
   public getDefaultCfgs(): TimeBarConfig {
     return {
       width: 400,

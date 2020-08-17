@@ -438,12 +438,11 @@ export const isPointInPolygon = (points: number[][], x: number, y: number) => {
   const n = points.length;
   // 判断两个double在eps精度下的大小关系
   const tolerance = 1e-6;
-  function dcmp(x) {
-    if (Math.abs(x) < tolerance) {
+  function dcmp(xValue) {
+    if (Math.abs(xValue) < tolerance) {
       return 0;
     }
-
-    return x < 0 ? -1 : 1;
+    return xValue < 0 ? -1 : 1;
   }
   if (n <= 2) {
     // svg 中点小于 3 个时，不显示，也无法被拾取

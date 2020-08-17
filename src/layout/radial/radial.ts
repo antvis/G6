@@ -39,7 +39,7 @@ function getWeightMatrix(M: Matrix[]) {
 
 function getIndexById(array: any[], id: string) {
   let index = -1;
-  array.forEach(function (a, i) {
+  array.forEach((a, i) => {
     if (a.id === id) {
       index = i;
     }

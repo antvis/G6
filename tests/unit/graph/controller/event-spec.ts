@@ -16,7 +16,7 @@ describe('event', () => {
     expect(graph.get('eventController')).not.toBe(undefined);
 
     let a = 0;
-    graph.on('canvas:click', e => {
+    graph.on('canvas:click', (e) => {
       a = e.a;
     });
 
@@ -52,7 +52,7 @@ describe('event', () => {
 
     const shape = node.get('group').get('children')[0];
 
-    graph.on('node:mousedown', e => {
+    graph.on('node:mousedown', (e) => {
       target = e.item;
       expect(target === node).toBe(true);
     });
@@ -69,7 +69,7 @@ describe('event', () => {
   it('dom event', () => {
     let evt = null;
 
-    const fn = e => {
+    const fn = (e) => {
       evt = e;
       expect(evt).not.toBe(null);
       expect(evt.type).toEqual('keydown');
@@ -104,16 +104,16 @@ describe('event', () => {
     let enter = 0;
     let leave = 0;
 
-    graph.on('node:mouseenter', e => {
+    graph.on('node:mouseenter', (e) => {
       enter++;
       expect(e.item === node);
     });
 
-    graph.on('mousemove', e => {
+    graph.on('mousemove', (e) => {
       enter++;
     });
 
-    graph.on('node:mouseleave', e => {
+    graph.on('node:mouseleave', (e) => {
       leave++;
       expect(e.item === node);
     });
@@ -164,7 +164,7 @@ describe('event', () => {
     //   }
     // });
 
-    graph.on('mouseup', e => {
+    graph.on('mouseup', (e) => {
       expect(e.canvasX).toBe(10);
       expect(e.canvasY).toBe(10);
       expect(e.x).toBe(-80);
@@ -202,7 +202,7 @@ describe('event', () => {
     const bbox = canvas.getBoundingClientRect();
 
     let targetItem;
-    graph.on('mousedown', e => {
+    graph.on('mousedown', (e) => {
       targetItem = e.target;
       expect(targetItem === graph.get('canvas')).toBe(true);
     });
@@ -230,12 +230,12 @@ describe('event', () => {
     const canvas = graph.get('canvas');
     const node = graph.addItem('node', { x: 100, y: 100, size: 50, label: 'test' });
 
-    graph.on('node:mouseleave', e => {
+    graph.on('node:mouseleave', (e) => {
       triggered = true;
       expect(e.type).toEqual('mouseleave');
     });
 
-    graph.on('mousemove', e => {
+    graph.on('mousemove', (e) => {
       count += 1;
       expect(e.type).toEqual('mousemove');
     });
@@ -259,32 +259,36 @@ describe('event', () => {
 
 describe('event with name', () => {
   it('default node', () => {
-    G6.registerNode('custom-node', {
-      drawShape(cfg, group) {
-        const keyShape = group.addShape('rect', {
-          attrs: {
-            width: 120,
-            height: 50,
-            stroke: 'red',
-            fill: '#ccc'
-          },
-          name: 'custom-node-rect'
-        })
+    G6.registerNode(
+      'custom-node',
+      {
+        drawShape(cfg, group) {
+          const keyShape = group.addShape('rect', {
+            attrs: {
+              width: 120,
+              height: 50,
+              stroke: 'red',
+              fill: '#ccc',
+            },
+            name: 'custom-node-rect',
+          });
 
-        group.addShape('rect', {
-          attrs: {
-            width: 70,
-            height: 30,
-            stroke: 'green',
-            fill: 'green',
-            x: 20,
-            y: 10
-          },
-          name: 'custom-node-subrect'
-        })
-        return keyShape
-      }
-    }, 'single-node')
+          group.addShape('rect', {
+            attrs: {
+              width: 70,
+              height: 30,
+              stroke: 'green',
+              fill: 'green',
+              x: 20,
+              y: 10,
+            },
+            name: 'custom-node-subrect',
+          });
+          return keyShape;
+        },
+      },
+      'single-node',
+    );
 
     const graph = new G6.Graph({
       container: 'event-spec',
@@ -292,16 +296,16 @@ describe('event with name', () => {
       height: 400,
       nodeStateStyles: {
         selected: {
-          fill: 'red'
-        }
+          fill: 'red',
+        },
       },
       defaultNode: {
         type: 'custom-node',
         linkPoint: {
-          show: true
-        }
-      }
-    })
+          show: true,
+        },
+      },
+    });
 
     const data = {
       nodes: [
@@ -309,39 +313,39 @@ describe('event with name', () => {
           id: 'node',
           label: 'node',
           x: 100,
-          y: 200
+          y: 200,
         },
         {
           id: 'node1',
           label: 'node1',
           x: 300,
-          y: 200
-        }
-      ]
-    }
+          y: 200,
+        },
+      ],
+    };
 
-    graph.data(data)
-    graph.render()
+    graph.data(data);
+    graph.render();
 
-    graph.on('node:mouseenter', evt => {
-      graph.setItemState(evt.item, 'selected', true)
-    })
+    graph.on('node:mouseenter', (evt) => {
+      graph.setItemState(evt.item, 'selected', true);
+    });
 
-    graph.on('node:mouseleave', evt => {
-      graph.setItemState(evt.item, 'selected', false)
-    })
+    graph.on('node:mouseleave', (evt) => {
+      graph.setItemState(evt.item, 'selected', false);
+    });
 
-    graph.on('custom-node-rect:click', evt => {
-      graph.setItemState(evt.item, 'selected', true)
-      const name = evt.target.get('name')
-      expect(name).toEqual('custom-node-rect')
-    })
+    graph.on('custom-node-rect:click', (evt) => {
+      graph.setItemState(evt.item, 'selected', true);
+      const name = evt.target.get('name');
+      expect(name).toEqual('custom-node-rect');
+    });
 
-    graph.on('custom-node-subrect:click', evt => {
-      const name = evt.target.get('name')
-      expect(name).toEqual('custom-node-subrect')
-    })
+    graph.on('custom-node-subrect:click', (evt) => {
+      const name = evt.target.get('name');
+      expect(name).toEqual('custom-node-subrect');
+    });
 
-    graph.destroy()
-  })
-})
+    graph.destroy();
+  });
+});

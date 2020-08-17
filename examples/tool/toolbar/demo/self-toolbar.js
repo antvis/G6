@@ -86,7 +86,7 @@ const toolbar = new G6.ToolBar({
         <li code='undo'>撤销</li>
         <li code='redo'>回退</li>
       </ul>
-    `
+    `;
   },
   handleClick: (code, graph) => {
     if (code === 'add') {
@@ -94,14 +94,14 @@ const toolbar = new G6.ToolBar({
         id: 'node2',
         label: 'node2',
         x: 300,
-        y: 150
-      })
+        y: 150,
+      });
     } else if (code === 'undo') {
-      toolbar.undo()
+      toolbar.undo();
     } else if (code === 'redo') {
-      toolbar.redo()
+      toolbar.redo();
     }
-  }
+  },
 });
 
 const graph = new G6.Graph({
@@ -127,9 +127,7 @@ const graph = new G6.Graph({
     },
   },
   modes: {
-    default: [
-      'drag-node'
-    ],
+    default: ['drag-node'],
   },
 });
 graph.data(data);

@@ -43,35 +43,33 @@ const data = {
 };
 const nodes = data.nodes;
 
-
 const HullDemo = () => {
   const container = React.useRef();
   useEffect(() => {
     if (!graph) {
-
       graph = new Graph({
         container: container.current as string | HTMLElement,
         width: 500,
         height: 500,
         modes: {
-          default: ['drag-canvas', 'zoom-canvas', 'drag-node', 'lasso-select']
+          default: ['drag-canvas', 'zoom-canvas', 'drag-node', 'lasso-select'],
         },
         layout: {
           type: 'force',
           preventOverlap: true,
-          linkDistance: d => {
+          linkDistance: (d) => {
             if (d.source.id === 'node0') {
               return 300;
             }
             return 60;
           },
-          nodeStrength: d => {
+          nodeStrength: (d) => {
             if (d.isLeaf) {
               return -50;
             }
             return -10;
           },
-          edgeStrength: d => {
+          edgeStrength: (d) => {
             if (d.source.id === 'node1' || d.source.id === 'node2' || d.source.id === 'node3') {
               return 0.7;
             }
@@ -88,15 +86,15 @@ const HullDemo = () => {
       });
       graph.render();
 
-      let centerNodes = graph.getNodes().filter(node => !node.getModel().isLeaf);
+      let centerNodes = graph.getNodes().filter((node) => !node.getModel().isLeaf);
 
       graph.on('afterlayout', () => {
         const hull1 = graph.createHull({
           id: 'centerNode-hull',
           type: 'bubble',
           members: centerNodes,
-          padding: 10
-        })
+          padding: 10,
+        });
 
         const hull2 = graph.createHull({
           id: 'leafNode-hull1',
@@ -105,8 +103,8 @@ const HullDemo = () => {
           style: {
             fill: 'lightgreen',
             stroke: 'green',
-          }
-        })
+          },
+        });
 
         const hull3 = graph.createHull({
           id: 'leafNode-hull2',
@@ -115,21 +113,19 @@ const HullDemo = () => {
           style: {
             fill: 'lightgreen',
             stroke: 'green',
-          }
-        })
+          },
+        });
 
-        graph.on('afterupdateitem', e => {
-          hull1.updateData(hull1.members)
-          hull2.updateData(hull2.members)
-          hull3.updateData(hull3.members)
-        })
-
-      })
-
+        graph.on('afterupdateitem', (e) => {
+          hull1.updateData(hull1.members);
+          hull2.updateData(hull2.members);
+          hull3.updateData(hull3.members);
+        });
+      });
     }
-  })
+  });
 
   return <div ref={container}></div>;
-}
+};
 
-export default HullDemo
+export default HullDemo;

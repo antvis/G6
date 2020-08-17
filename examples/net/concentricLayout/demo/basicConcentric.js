@@ -29,8 +29,8 @@ const graph = new G6.Graph({
 });
 
 fetch('https://gw.alipayobjects.com/os/basement_prod/8dacf27e-e1bc-4522-b6d3-4b6d9b9ed7df.json')
-  .then(res => res.json())
-  .then(data => {
+  .then((res) => res.json())
+  .then((data) => {
     graph.data(data);
     graph.render();
   });

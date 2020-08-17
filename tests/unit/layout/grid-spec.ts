@@ -284,7 +284,7 @@ describe('grid layout', () => {
   });
 
   it('grid layout with preventOverlap, nodeSize is an array', () => {
-    data.nodes.forEach(node => {
+    data.nodes.forEach((node) => {
       node['size'] = undefined;
     });
     const graph = new G6.Graph({
@@ -333,7 +333,7 @@ describe('grid layout', () => {
       container: div,
       layout: {
         type: 'grid',
-        position: d => {
+        position: (d) => {
           return {
             row: d['row'],
             col: d['col'],
@@ -356,7 +356,7 @@ describe('grid layout', () => {
       container: div,
       layout: {
         type: 'grid',
-        position: d => {
+        position: (d) => {
           return {
             row: d['row'],
           };
@@ -378,7 +378,7 @@ describe('grid layout', () => {
       container: div,
       layout: {
         type: 'grid',
-        position: d => {
+        position: (d) => {
           return {
             col: d['col'],
           };

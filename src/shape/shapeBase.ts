@@ -400,10 +400,11 @@ export const shapeBase: ShapeOptions = {
         } else {
           // 当更新 combo 状态时，当不存在 keyShapeName 时候，则认为是设置到 keyShape 上面的
           if (type === 'combo') {
-            !keyShapeName &&
+            if (!keyShapeName) {
               shape.attr({
                 [originKey]: style,
               });
+            }
           } else {
             shape.attr({
               [originKey]: style,

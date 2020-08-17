@@ -122,7 +122,7 @@ const DagreArrow = () => {
         height: 600,
         layout: {
           type: 'dagre',
-          nodesepFunc: d => {
+          nodesepFunc: (d) => {
             if (d.id === '3') {
               return 500;
             }
@@ -153,7 +153,7 @@ const DagreArrow = () => {
               formatText(model: any) {
                 const cfg = model.conf;
                 const text = [];
-                cfg.forEach(row => {
+                cfg.forEach((row) => {
                   text.push(row.label + ':' + row.value + '<br>');
                 });
                 return text.join('\n');

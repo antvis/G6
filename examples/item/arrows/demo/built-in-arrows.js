@@ -95,8 +95,8 @@ const data = {
       target: '1',
       label: 'default arrow',
       style: {
-        endArrow: true
-      }
+        endArrow: true,
+      },
     },
     {
       id: 'edge1',
@@ -105,9 +105,9 @@ const data = {
       label: 'triangle arrow',
       style: {
         endArrow: {
-          path: G6.Arrow.triangle()
-        }
-      }
+          path: G6.Arrow.triangle(),
+        },
+      },
     },
     {
       id: 'edge2',
@@ -116,9 +116,9 @@ const data = {
       label: 'vee arrow',
       style: {
         endArrow: {
-          path: G6.Arrow.vee()
-        }
-      }
+          path: G6.Arrow.vee(),
+        },
+      },
     },
     {
       id: 'edge3',
@@ -128,9 +128,9 @@ const data = {
       style: {
         endArrow: {
           path: G6.Arrow.circle(5, 3),
-          d: 3
-        }
-      }
+          d: 3,
+        },
+      },
     },
     {
       id: 'edge4',
@@ -140,9 +140,9 @@ const data = {
       style: {
         endArrow: {
           path: G6.Arrow.diamond(10, 10, 3),
-          d: 3
-        }
-      }
+          d: 3,
+        },
+      },
     },
     {
       id: 'edge5',
@@ -152,9 +152,9 @@ const data = {
       style: {
         endArrow: {
           path: G6.Arrow.rect(10, 10, 3),
-          d: 3
-        }
-      }
+          d: 3,
+        },
+      },
     },
     {
       id: 'edge6',
@@ -164,9 +164,9 @@ const data = {
       style: {
         endArrow: {
           path: G6.Arrow.rect(10, 2, 5),
-          d: 5
-        }
-      }
+          d: 5,
+        },
+      },
     },
     {
       id: 'edge7',
@@ -175,16 +175,16 @@ const data = {
       label: 'triangleRect arrow',
       style: {
         endArrow: {
-          path: G6.Arrow.triangleRect(10, 10, 10, 2, 4)
-        }
-      }
+          path: G6.Arrow.triangleRect(10, 10, 10, 2, 4),
+        },
+      },
     },
   ],
 };
 
 const width = document.getElementById('container').scrollWidth;
 const height = document.getElementById('container').scrollHeight || 500;
-data.edges.forEach(edge => {
+data.edges.forEach((edge) => {
   edge.style.stroke = '#F6BD16';
   console.log(edge.style.endArrow);
   if (edge.id !== 'edge0') edge.style.endArrow.fill = '#F6BD16';

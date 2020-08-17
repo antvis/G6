@@ -17,29 +17,29 @@ const data = {
 };
 
 for (let i = 0; i < 100; i++) {
-  const id = `node-${i}`
+  const id = `node-${i}`;
   data.nodes.push({
     id,
     date: `2020${i}`,
-    value: Math.round(Math.random() * 300)
-  })
+    value: Math.round(Math.random() * 300),
+  });
 
   data.edges.push({
     source: `node-${Math.round(Math.random() * 90)}`,
-    target: `node-${Math.round(Math.random() * 90)}`
-  })
+    target: `node-${Math.round(Math.random() * 90)}`,
+  });
 }
 
 const width = document.getElementById('container').scrollWidth;
 const height = document.getElementById('container').scrollHeight || 500;
 
-const timeBarData = []
+const timeBarData = [];
 
 for (let i = 0; i < 100; i++) {
   timeBarData.push({
     date: `2020${i}`,
-    value: Math.round(Math.random() * 300)
-  })
+    value: Math.round(Math.random() * 300),
+  });
 }
 
 const nodeSize = 20;
@@ -56,11 +56,11 @@ const timebar = new G6.TimeBar({
       fill: '#ddd',
       opacity: 0.2,
       lineWidth: 1,
-      stroke: '#aaa'
+      stroke: '#aaa',
     },
     foregroundStyle: {
       fill: '#f00',
-      opacity: 0.1
+      opacity: 0.1,
     },
     trend: {
       data: timeBarData,
@@ -69,23 +69,23 @@ const timebar = new G6.TimeBar({
       lineStyle: {
         stroke: '#f00',
         lineWidth: 2,
-        opacity: 0.5
-      }
+        opacity: 0.5,
+      },
     },
     textStyle: {
       fontWeight: 500,
       fill: '#000',
-      fontSize: 14
+      fontSize: 14,
     },
     handlerStyle: {
       width: 10,
       height: 35,
-    }
+    },
   },
   rangeChange: (graph, min, max) => {
     // 拿到 Graph 实例和 timebar 上范围，自己可以控制图上的渲染逻辑
-    console.log(graph, min, max)
-  }
+    console.log(graph, min, max);
+  },
 });
 // constrained the layout inside the area
 const constrainBox = { x: 10, y: 10, width: 580, height: 450 };
@@ -96,7 +96,7 @@ const onTick = () => {
   let miny = 99999999;
   let maxy = -99999999;
   let maxsize = -9999999;
-  data.nodes.forEach(node => {
+  data.nodes.forEach((node) => {
     if (minx > node.x) {
       minx = node.x;
     }
@@ -112,12 +112,11 @@ const onTick = () => {
   });
   const scalex = (constrainBox.width - nodeSize / 2) / (maxx - minx);
   const scaley = (constrainBox.height - nodeSize / 2) / (maxy - miny);
-  data.nodes.forEach(node => {
+  data.nodes.forEach((node) => {
     node.x = (node.x - minx) * scalex + constrainBox.x;
     node.y = (node.y - miny) * scaley + constrainBox.y;
   });
 };
-
 
 const graph = new G6.Graph({
   container: 'container',
@@ -128,7 +127,7 @@ const graph = new G6.Graph({
   layout: {
     type: 'force',
     preventOverlap: true,
-    onTick
+    onTick,
   },
   defaultNode: {
     size: nodeSize,
@@ -139,9 +138,7 @@ const graph = new G6.Graph({
     },
   },
   modes: {
-    default: [
-      'drag-node'
-    ],
+    default: ['drag-node'],
   },
 });
 graph.data(data);

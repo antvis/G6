@@ -60,10 +60,13 @@
     }
   },
   "lint-staged": {
-    "**/*.{js,jsx,tsx,ts,less,md,json}": [
+    "**/*.{js,jsx,ts,tsx}": [
+      "npm run lint-staged:js",
       "prettier --write"
     ],
-    "**/*.{js,jsx,ts,tsx}": "npm run lint-staged:js"
+    "**/*.{less,md,json}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@antv/color-util": "^2.0.5",

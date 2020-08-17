@@ -126,7 +126,7 @@ G6.registerEdge(
           name: 'circle-shape',
         });
         circle.animate(
-          ratio => {
+          (ratio) => {
             ratio += i / circleCount;
             if (ratio > 1) {
               ratio %= 1;
@@ -190,8 +190,8 @@ const graph = new G6.Graph({
 
 const graphSize = [500, 500];
 fetch('https://gw.alipayobjects.com/os/basement_prod/8c2353b0-99a9-4a93-a5e1-3e7df1eac64f.json')
-  .then(res => res.json())
-  .then(data => {
+  .then((res) => res.json())
+  .then((data) => {
     const nodes = data.nodes;
     const edges = data.edges;
     const classMap = new Map();

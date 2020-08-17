@@ -10,7 +10,7 @@ order: 1
 You might meet the error while building your project with lastest version G6 & rollup:
 
 ```
-error     Error: 'groupBy' is not exported by node_modules/_lodash@4.17.15@lodash/lodash.js 
+error     Error: 'groupBy' is not exported by node_modules/_lodash@4.17.15@lodash/lodash.js
     at error (/Users/gaoli/GitHub/GGEditor/node_modules/_rollup@1.31.1@rollup/dist/shared/node-entry.js:5400:30)
     at Module.error (/Users/gaoli/GitHub/GGEditor/node_modules/_rollup@1.31.1@rollup/dist/shared/node-entry.js:9820:16)
     at handleMissingExport (/Users/gaoli/GitHub/GGEditor/node_modules/_rollup@1.31.1@rollup/dist/shared/node-entry.js:9721:28)
@@ -26,7 +26,6 @@ error     Error: 'groupBy' is not exported by node_modules/_lodash@4.17.15@lodas
 remark：3.2.x version can build success。
 
 ## Solution
+
 1. add `babel-plugin-lodash` plugin，this plugin will auto optimize lodash references
 2. set `@rollup/plugin-node-resolve` plugin browser property to true，fixed G's problem。
-
- 

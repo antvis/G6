@@ -3,13 +3,13 @@ import G6 from '@antv/g6';
 const ICON_MAP = {
   a: 'https://gw.alipayobjects.com/mdn/rms_8fd2eb/afts/img/A*0HC-SawWYUoAAAAAAAAAAABkARQnAQ',
   b: 'https://gw.alipayobjects.com/mdn/rms_8fd2eb/afts/img/A*sxK0RJ1UhNkAAAAAAAAAAABkARQnAQ',
-}
+};
 
 G6.registerNode(
   'card-node',
   {
     drawShape: function drawShape(cfg, group) {
-      const color = cfg.error ? '#F4664A' : '#30BF78'
+      const color = cfg.error ? '#F4664A' : '#30BF78';
       const r = 2;
       const shape = group.addShape('rect', {
         attrs: {
@@ -18,7 +18,7 @@ G6.registerNode(
           width: 200,
           height: 60,
           stroke: color,
-          radius: r
+          radius: r,
         },
         name: 'main-box',
         draggable: true,
@@ -60,7 +60,7 @@ G6.registerNode(
           text: cfg.title,
           fill: '#fff',
         },
-        name: 'title'
+        name: 'title',
       });
 
       if (cfg.nodeLevel > 0) {
@@ -90,7 +90,7 @@ G6.registerNode(
             text: item.title,
             fill: 'rgba(0,0,0, 0.4)',
           },
-          name: `index-title-${index}`
+          name: `index-title-${index}`,
         });
 
         // value text
@@ -103,14 +103,13 @@ G6.registerNode(
             text: item.value,
             fill: '#595959',
           },
-          name: `index-title-${index}`
+          name: `index-title-${index}`,
         });
-
       });
       return shape;
     },
   },
-  'single-node'
+  'single-node',
 );
 
 const width = document.getElementById('container').scrollWidth;
@@ -125,7 +124,7 @@ const graph = new G6.Graph({
     default: ['drag-canvas', 'drag-node'],
   },
   defaultNode: {
-    shape: 'card-node'
+    shape: 'card-node',
   },
   fitView: true,
 });
@@ -141,10 +140,10 @@ const data = {
       panels: [
         { title: '成功率', value: '11%' },
         { title: '耗时', value: '111' },
-        { title: '错误数', value: '111' }
+        { title: '错误数', value: '111' },
       ],
       x: 100,
-      y: 100
+      y: 100,
     },
     {
       title: 'node2',
@@ -155,10 +154,10 @@ const data = {
       panels: [
         { title: '成功率', value: '11%' },
         { title: '耗时', value: '111' },
-        { title: '错误数', value: '111' }
+        { title: '错误数', value: '111' },
       ],
       x: 100,
-      y: 200
+      y: 200,
     },
     {
       title: 'node3',
@@ -169,11 +168,11 @@ const data = {
       panels: [
         { title: '成功率', value: '11%' },
         { title: '耗时', value: '111' },
-        { title: '错误数', value: '111' }
+        { title: '错误数', value: '111' },
       ],
       collapse: true,
       x: 100,
-      y: 300
+      y: 300,
     },
   ],
 };

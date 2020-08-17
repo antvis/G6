@@ -42,7 +42,7 @@ describe('model rect test', () => {
       expect(keyShape.attr('fill')).toEqual('#ffffff');
       expect(keyShape.attr('radius')).toEqual(5);
 
-      const preRect = group.find(g => {
+      const preRect = group.find((g) => {
         return g.get('className') === 'pre-rect';
       });
       expect(preRect).not.toBe(null);
@@ -51,7 +51,7 @@ describe('model rect test', () => {
       expect(preRect.attr('width')).toEqual(4);
       expect(preRect.attr('fill')).toEqual('#40a9ff');
 
-      const logoIcon = group.find(g => {
+      const logoIcon = group.find((g) => {
         return g.get('className') === 'rect-logo-icon';
       });
       expect(logoIcon).not.toBe(null);
@@ -60,7 +60,7 @@ describe('model rect test', () => {
         'https://gw.alipayobjects.com/zos/basement_prod/4f81893c-1806-4de4-aff3-9a6b266bc8a2.svg',
       );
 
-      const stateIcon = group.find(g => {
+      const stateIcon = group.find((g) => {
         return g.get('className') === 'rect-state-icon';
       });
       expect(stateIcon).not.toBe(null);
@@ -69,7 +69,7 @@ describe('model rect test', () => {
         'https://gw.alipayobjects.com/zos/basement_prod/300a2523-67e0-4cbf-9d4a-67c077b40395.svg',
       );
 
-      const label = group.find(g => {
+      const label = group.find((g) => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toBe(null);
@@ -115,7 +115,7 @@ describe('model rect test', () => {
       const keyShape = node.getKeyShape();
       expect(keyShape.attr('fill')).toEqual('red');
 
-      const preRect = group.find(g => {
+      const preRect = group.find((g) => {
         return g.get('className') === 'pre-rect';
       });
       expect(preRect).not.toBe(null);
@@ -151,11 +151,11 @@ describe('model rect test', () => {
     expect(group.getCount()).toEqual(4);
     const descriptionPaddingTop = 5;
 
-    const labelShapeBeforeUpdated = group.find(g => {
+    const labelShapeBeforeUpdated = group.find((g) => {
       return g.get('className') === 'node-label';
     });
     expect(labelShapeBeforeUpdated).toBe(null);
-    const descriptionShapeBeforeUpdated = group.find(g => {
+    const descriptionShapeBeforeUpdated = group.find((g) => {
       return g.get('className') === 'rect-description';
     });
     expect(descriptionShapeBeforeUpdated).toBe(null);
@@ -180,7 +180,7 @@ describe('model rect test', () => {
     // // modelRect + label + description + logoIcon + stateIcon + preRect
     expect(group.getCount()).toEqual(6);
 
-    const labelShape = group.find(g => {
+    const labelShape = group.find((g) => {
       return g.get('className') === 'node-label';
     });
     expect(labelShape).not.toBe(null);
@@ -189,7 +189,7 @@ describe('model rect test', () => {
     expect(labelShape.attr('x')).toEqual(-46.5);
     expect(labelShape.attr('y')).toEqual(-5);
 
-    const descriptionShape = group.find(g => {
+    const descriptionShape = group.find((g) => {
       return g.get('className') === 'rect-description';
     });
     expect(descriptionShape).not.toBe(null);
@@ -198,7 +198,7 @@ describe('model rect test', () => {
     expect(descriptionShape.attr('x')).toEqual(-46.5);
     expect(descriptionShape.attr('y')).toEqual(17 + descriptionPaddingTop);
 
-    const logoIcon = group.find(g => {
+    const logoIcon = group.find((g) => {
       return g.get('className') === 'rect-logo-icon';
     });
     expect(logoIcon).not.toBe(null);
@@ -207,7 +207,7 @@ describe('model rect test', () => {
       'https://gw.alipayobjects.com/zos/basement_prod/4f81893c-1806-4de4-aff3-9a6b266bc8a2.svg',
     );
 
-    const stateIcon = group.find(g => {
+    const stateIcon = group.find((g) => {
       return g.get('className') === 'rect-state-icon';
     });
     expect(stateIcon).not.toBe(null);
@@ -247,12 +247,12 @@ describe('model rect test', () => {
     const group = item.get('group');
     expect(group.getCount()).toEqual(6);
 
-    const labelShapeBeforeUpdated = group.find(g => {
+    const labelShapeBeforeUpdated = group.find((g) => {
       return g.get('className') === 'node-label';
     });
     expect(labelShapeBeforeUpdated).not.toBe(null);
     expect(labelShapeBeforeUpdated.attr('text')).toBe('old label');
-    const descriptionShapeBeforeUpdated = group.find(g => {
+    const descriptionShapeBeforeUpdated = group.find((g) => {
       return g.get('className') === 'rect-description';
     });
     expect(descriptionShapeBeforeUpdated).not.toBe(null);
@@ -279,7 +279,7 @@ describe('model rect test', () => {
     // modelRect + label + description + logoIcon + stateIcon + preRect
     expect(group.getCount()).toEqual(5);
 
-    const labelShape = group.find(g => {
+    const labelShape = group.find((g) => {
       return g.get('className') === 'node-label';
     });
     expect(labelShape).not.toBe(null);
@@ -289,7 +289,7 @@ describe('model rect test', () => {
     expect(labelShape.attr('x')).toEqual(-62.5);
     expect(labelShape.attr('y')).toEqual(-5);
 
-    const descriptionShape = group.find(g => {
+    const descriptionShape = group.find((g) => {
       return g.get('className') === 'rect-description';
     });
     expect(descriptionShape).not.toBe(null);
@@ -298,12 +298,12 @@ describe('model rect test', () => {
     expect(descriptionShape.attr('x')).toEqual(-62.5);
     expect(descriptionShape.attr('y')).toEqual(17);
 
-    const logoIcon = group.find(g => {
+    const logoIcon = group.find((g) => {
       return g.get('className') === 'rect-logo-icon';
     });
     expect(logoIcon).toBe(null);
 
-    const stateIcon = group.find(g => {
+    const stateIcon = group.find((g) => {
       return g.get('className') === 'rect-state-icon';
     });
     expect(stateIcon).not.toBe(null);
@@ -358,10 +358,10 @@ describe('model rect test', () => {
       },
     });
 
-    const label = group.find(g => {
+    const label = group.find((g) => {
       return g.get('className') === 'node-label';
     });
-    const description = group.find(g => {
+    const description = group.find((g) => {
       return g.get('className') === 'rect-description';
     });
     expect(label).not.toEqual(null);
@@ -438,31 +438,31 @@ describe('model rect test', () => {
       const group = node.get('group');
       // modelRect + label + description + stateIcon + preRect + linkPoints * 2
       expect(group.getCount()).toEqual(7);
-      const logoIcon = group.find(g => {
+      const logoIcon = group.find((g) => {
         return g.get('className') === 'rect-logo-icon';
       });
       expect(logoIcon).toBe(null);
 
-      const stateIcon = group.find(g => {
+      const stateIcon = group.find((g) => {
         return g.get('className') === 'rect-state-icon';
       });
       expect(stateIcon).not.toBe(null);
       expect(stateIcon.attr('width')).toEqual(25);
       expect(stateIcon.attr('height')).toEqual(25);
 
-      const markLeft = group.find(g => {
+      const markLeft = group.find((g) => {
         return g.get('className') === 'link-point-left';
       });
       expect(markLeft).toBe(null);
 
-      const markTop = group.find(g => {
+      const markTop = group.find((g) => {
         return g.get('className') === 'link-point-top';
       });
       expect(markTop).not.toBe(null);
       expect(markTop.attr('r')).toEqual(5);
       expect(markTop.attr('y')).toEqual(-35);
 
-      const markBottom = group.find(g => {
+      const markBottom = group.find((g) => {
         return g.get('className') === 'link-point-bottom';
       });
       expect(markBottom).not.toBe(null);
@@ -502,19 +502,19 @@ describe('model rect test', () => {
       const group = node.get('group');
       // modelRect + label + description + stateIcon + logoIcon + preRect + linkPoints * 2
       expect(group.getCount()).toEqual(8);
-      const markLeft = group.find(g => {
+      const markLeft = group.find((g) => {
         return g.get('className') === 'link-point-left';
       });
       expect(markLeft).not.toBe(null);
       expect(markLeft.attr('r')).toEqual(5);
       expect(markLeft.attr('y')).toEqual(0);
 
-      const markTop = group.find(g => {
+      const markTop = group.find((g) => {
         return g.get('className') === 'link-point-top';
       });
       expect(markTop).toBe(null);
 
-      const markBottom = group.find(g => {
+      const markBottom = group.find((g) => {
         return g.get('className') === 'link-point-bottom';
       });
       expect(markBottom).toBe(null);
@@ -557,11 +557,11 @@ describe('model rect test', () => {
           top: false,
         },
       });
-      const topPoint = group.find(g => {
+      const topPoint = group.find((g) => {
         return g.get('className') === 'link-point-top';
       });
       expect(topPoint).toBe(null);
-      const bottomPoint = group.find(g => {
+      const bottomPoint = group.find((g) => {
         return g.get('className') === 'link-point-bottom';
       });
       expect(bottomPoint).not.toBe(null);
@@ -576,7 +576,7 @@ describe('model rect test', () => {
           lineWidth: 2,
         },
       });
-      const leftPoint = group.find(g => {
+      const leftPoint = group.find((g) => {
         return g.get('className') === 'link-point-left';
       });
       expect(leftPoint).not.toBe(null);
@@ -584,7 +584,7 @@ describe('model rect test', () => {
       expect(leftPoint.attr('fill')).toBe('#f00');
       expect(leftPoint.attr('stroke')).toBe('#0f0');
       expect(leftPoint.attr('lineWidth')).toBe(2);
-      const rightPoint = group.find(g => {
+      const rightPoint = group.find((g) => {
         return g.get('className') === 'link-point-right';
       });
       expect(rightPoint).not.toBe(null);
@@ -599,15 +599,15 @@ describe('model rect test', () => {
           lineWidth: 2,
         },
       });
-      const leftPoint2 = group.find(g => {
+      const leftPoint2 = group.find((g) => {
         return g.get('className') === 'link-point-left';
       });
       expect(leftPoint2).toBe(null);
-      const topPoint2 = group.find(g => {
+      const topPoint2 = group.find((g) => {
         return g.get('className') === 'link-point-top';
       });
       expect(topPoint2).not.toBe(null);
-      const rightPoint2 = group.find(g => {
+      const rightPoint2 = group.find((g) => {
         return g.get('className') === 'link-point-right';
       });
       expect(rightPoint2).not.toBe(null);
@@ -617,7 +617,7 @@ describe('model rect test', () => {
           stroke: '#000',
         },
       });
-      const bottomPoint2 = group.find(g => {
+      const bottomPoint2 = group.find((g) => {
         return g.get('className') === 'link-point-bottom';
       });
       expect(bottomPoint2.attr('r')).toBe(5);
@@ -667,12 +667,12 @@ describe('model rect test', () => {
           show: true,
         },
       });
-      const stateIcon = group.find(g => {
+      const stateIcon = group.find((g) => {
         return g.get('className') === 'rect-state-icon';
       });
       expect(stateIcon).toBe(null);
 
-      const logoIcon = group.find(g => {
+      const logoIcon = group.find((g) => {
         return g.get('className') === 'rect-logo-icon';
       });
       expect(logoIcon).not.toBe(null);
@@ -683,7 +683,7 @@ describe('model rect test', () => {
           show: true,
         },
       });
-      const stateIcon2 = group.find(g => {
+      const stateIcon2 = group.find((g) => {
         return g.get('className') === 'rect-state-icon';
       });
       expect(stateIcon2).not.toBe(null);
@@ -707,12 +707,12 @@ describe('model rect test', () => {
           offset: 60,
         },
       });
-      const stateIcon3 = group.find(g => {
+      const stateIcon3 = group.find((g) => {
         return g.get('className') === 'rect-state-icon';
       });
       expect(stateIcon3.attr('x')).toBe(66.5);
 
-      const logoIcon3 = group.find(g => {
+      const logoIcon3 = group.find((g) => {
         return g.get('className') === 'rect-logo-icon';
       });
       expect(logoIcon3.attr('x')).toBe(-46.5);

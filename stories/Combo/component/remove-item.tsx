@@ -6,25 +6,32 @@ import { GraphData } from '../../../src/types';
 let graph: IGraph = null;
 
 const data: GraphData = {
-  nodes: [{
-    id: '0',
-    label: '0'
-  }, {
-    id: '1',
-    label: '1'
-  }, {
-    id: '2',
-    label: '2'
-  }],
-  edges: [{
-    id: '0-1',
-    source: '0',
-    target: '1'
-  }, {
-    id: '1-2',
-    source: '1',
-    target: '2'
-  }],
+  nodes: [
+    {
+      id: '0',
+      label: '0',
+    },
+    {
+      id: '1',
+      label: '1',
+    },
+    {
+      id: '2',
+      label: '2',
+    },
+  ],
+  edges: [
+    {
+      id: '0-1',
+      source: '0',
+      target: '1',
+    },
+    {
+      id: '1-2',
+      source: '1',
+      target: '2',
+    },
+  ],
 };
 
 const RemoveItem = () => {
@@ -43,8 +50,8 @@ const RemoveItem = () => {
             'drag-node',
             {
               type: 'drag-combo',
-              onlyChangeComboSize: true
-            }
+              onlyChangeComboSize: true,
+            },
           ],
         },
         defaultCombo: {
@@ -59,19 +66,19 @@ const RemoveItem = () => {
       graph.data(data);
       graph.render();
 
-      graph.on('node:click', e => {
+      graph.on('node:click', (e) => {
         const item = e.item;
         const model = item.getModel();
         const id = item.getID();
         if (id === '2') {
-          graph.addItem('node', { id: 'o1', label: 'o1' })
-          graph.addItem('node', { id: 'o2', label: 'o2' })
-          graph.addItem('node', { id: 'o3', label: 'o3' })
-          graph.addItem('edge', { id: '1-o1', source: '1', target: 'o1' })
-          graph.addItem('edge', { id: '1-o2', source: '1', target: 'o2' })
-          graph.addItem('edge', { id: '1-o3', source: '1', target: 'o3' })
-          graph.addItem('edge', { id: 'o1-o3', source: 'o1', target: 'o3' })
-          graph.addItem('edge', { id: 'o1-o2', source: 'o1', target: 'o2' })
+          graph.addItem('node', { id: 'o1', label: 'o1' });
+          graph.addItem('node', { id: 'o2', label: 'o2' });
+          graph.addItem('node', { id: 'o3', label: 'o3' });
+          graph.addItem('edge', { id: '1-o1', source: '1', target: 'o1' });
+          graph.addItem('edge', { id: '1-o2', source: '1', target: 'o2' });
+          graph.addItem('edge', { id: '1-o3', source: '1', target: 'o3' });
+          graph.addItem('edge', { id: 'o1-o3', source: 'o1', target: 'o3' });
+          graph.addItem('edge', { id: 'o1-o2', source: 'o1', target: 'o2' });
 
           // graph.hideItem('2');
 
@@ -79,54 +86,53 @@ const RemoveItem = () => {
           graph.removeItem('1-2');
 
           graph.layout();
-          graph.createCombo({
-            id: 'outercombo',
-            label: 'outercombo'
-          }, ['o1', 'o2', 'o3']);
+          graph.createCombo(
+            {
+              id: 'outercombo',
+              label: 'outercombo',
+            },
+            ['o1', 'o2', 'o3'],
+          );
         } else if (id === 'o2' || id === 'o3') {
-
           console.log(id, id + '1', id + '2', id + '3');
-          graph.addItem('node', { id: id + '1', label: id + '1' })
-          graph.addItem('node', { id: id + '2', label: id + '2' })
-          graph.addItem('node', { id: id + '3', label: id + '3' })
-          graph.addItem('edge', { id: `o1-${id}1`, source: 'o1', target: id + '1' })
-          graph.addItem('edge', { id: `${id}1-${id}2`, source: id + '1', target: id + '2' })
-          graph.addItem('edge', { id: `${id}1-${id}3`, source: id + '1', target: id + '3' })
+          graph.addItem('node', { id: id + '1', label: id + '1' });
+          graph.addItem('node', { id: id + '2', label: id + '2' });
+          graph.addItem('node', { id: id + '3', label: id + '3' });
+          graph.addItem('edge', { id: `o1-${id}1`, source: 'o1', target: id + '1' });
+          graph.addItem('edge', { id: `${id}1-${id}2`, source: id + '1', target: id + '2' });
+          graph.addItem('edge', { id: `${id}1-${id}3`, source: id + '1', target: id + '3' });
 
           graph.hideItem(item);
 
           const removeEdgeIds = [];
-          graph.getEdges().forEach(edge => {
+          graph.getEdges().forEach((edge) => {
             const edgeModel = edge.getModel();
             if (edgeModel.source === id || edgeModel.target === id) {
               removeEdgeIds.push(edgeModel.id);
             }
           });
-          removeEdgeIds.forEach(eid => {
+          removeEdgeIds.forEach((eid) => {
             graph.removeItem(eid);
-          })
+          });
           graph.removeItem(id);
-
 
           graph.layout();
           // setTimeout(() => {
           graph.createCombo(
             { id: 'innercombo' + id, label: 'innercombo' + id, parentId: 'outercombo' },
-            [id + '1', id + '2', id + '3']
+            [id + '1', id + '2', id + '3'],
           );
           // }, 1000)
         }
       });
-      graph.on('canvas:click', e => {
-
+      graph.on('canvas:click', (e) => {
         // graph.removeItem('2');
         // graph.removeItem('o1');
         // graph.refreshPositions();
-      })
+      });
     }
   });
-  return <div ref={container}>
-  </div>;
+  return <div ref={container}></div>;
 };
 
 export default RemoveItem;

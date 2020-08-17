@@ -445,7 +445,7 @@ const strokes = [
 const nodes = data.nodes;
 const clusterMap = new Map();
 let clusterId = 0;
-nodes.forEach(function(node) {
+nodes.forEach(function (node) {
   // cluster
   if (node.cluster && clusterMap.get(node.cluster) === undefined) {
     clusterMap.set(node.cluster, clusterId);
@@ -487,7 +487,7 @@ const graph = new G6.Graph({
     style: {
       endArrow: {
         path: 'M 0,0 L 8,4 L 8,-4 Z',
-        fill: '#e2e2e2'
+        fill: '#e2e2e2',
       },
     },
   },

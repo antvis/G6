@@ -44,12 +44,13 @@ order: 7
 ```javascript
 const graph = new G6.Graph({
   // ...                      // 其他配置项
-  layout: {                // Object，可选，布局的方法及其配置项，默认为 random 布局。
-  	type: 'force',
+  layout: {
+    // Object，可选，布局的方法及其配置项，默认为 random 布局。
+    type: 'force',
     preventOverlap: true,
     nodeSize: 30,
     // ...                    // 其他配置
-  }
+  },
 });
 ```
 
@@ -185,7 +186,6 @@ const graph = new G6.Graph({
 | workerEnabled | Boolean | true / false | false | 是否启用 web-worker 以防布局计算时间过长阻塞页面交互 |
 | sortByCombo | Boolean | true / false | false | 同一层节点是否根据每个节点数据中的 `comboId` 进行排序，以防止 combo 重叠 |
 
-
 #### Concentric
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ux0-SYBy6Y8AAAAAAAAAAABkARQnAQ' width=300 alt='img'/><br />注：该算法参考 <a href='https://github.com/cytoscape/cytoscape.js' target='_blank'>cytoscape.js</a>，遵守 MIT 开源协议。<br />**描述**：同心圆布局。<br />**API**：[Concentric API](/zh/docs/api/layout/Graph/#concentric)<br />**参数**：
@@ -220,11 +220,9 @@ const graph = new G6.Graph({
 | sortBy | String | 'degree' / 'property1' / 'weight' / ... | 'degree' | 指定排序的依据（节点属性名），数值越高则该节点被放置得越中心。若为 undefined，则会计算节点的度数，度数越高，节点将被放置得越中心 |
 | workerEnabled | Boolean | true / false | false | 是否启用 web-worker 以防布局计算时间过长阻塞页面交互 |
 
-
 #### Combo Force
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AngFRpOo4SAAAAAAAAAAAABkARQnAQ' width=300 alt='img' /><br />**API**：[Combo Force API](/zh/docs/api/layout/Graph/#combo-force)<br />**参数**：
-
 
 | 参数名 | 类型 | 示例 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -255,7 +253,6 @@ const graph = new G6.Graph({
 | depthRepulsiveForceScale | Number |  | 2 | 根据边两端节点层级差距的调整斥力系数的因子，取值范围 [1, Infinity]。层级差距越大，斥力越大 |
 | velocityDecay | Number | 0.4 | 0.6 | 每个迭代节点运动速度衰减参数 |
 | workerEnabled | Boolean | true / false | false | 是否启用 web-worker 以防布局计算时间过长阻塞页面交互 |
-
 
 ## 树图 TreeGraph
 
@@ -496,10 +493,11 @@ graph.positionsAnimate();
 ```javascript
 const graph = new G6.Graph({
   // ...                      // 其他配置项
-  layout: {                // Object，可选，布局的方法及其配置项，默认为 random 布局。
-  	type: 'fruchterman',
-    workerEnabled: true,   // 开启 Web-Worker
+  layout: {
+    // Object，可选，布局的方法及其配置项，默认为 random 布局。
+    type: 'fruchterman',
+    workerEnabled: true, // 开启 Web-Worker
     // ...                 // 其他配置
-  }
+  },
 });
 ```

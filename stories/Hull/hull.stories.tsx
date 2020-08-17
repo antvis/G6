@@ -6,9 +6,5 @@ import InteractiveHull from './component/interactiveHull';
 export default { title: 'Hull' };
 
 storiesOf('Hull', module)
-  .add('Hull', () => (
-    <Hull />
-  ))
-  .add('Interactive hull', () => (
-    <InteractiveHull />
-  ))
+  .add('Hull', () => <Hull />)
+  .add('Interactive hull', () => <InteractiveHull />);

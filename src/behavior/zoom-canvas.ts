@@ -1,7 +1,6 @@
 import { G6Event, IG6GraphEvent } from '../types';
 import { mat3 } from '@antv/matrix-util';
-import { clone } from '@antv/util'
-
+import { clone } from '@antv/util';
 
 const DELTA = 0.05;
 
@@ -17,8 +16,8 @@ export default {
         fixAll: false,
         fixLineWidth: false,
         fixLabel: false,
-        fixState: 'selected'
-      }
+        fixState: 'selected',
+      },
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -60,14 +59,13 @@ export default {
       return;
     }
 
-
-    const enableOptimize = this.get('enableOptimize')
+    const enableOptimize = this.get('enableOptimize');
     if (enableOptimize) {
-      const optimizeZoom = this.get('optimizeZoom')
+      const optimizeZoom = this.get('optimizeZoom');
 
-      const currentZoom = graph.getZoom()
-      const nodes = graph.getNodes()
-      const edges = graph.getEdges()
+      const currentZoom = graph.getZoom();
+      const nodes = graph.getNodes();
+      const edges = graph.getEdges();
       const nodesLength = nodes.length;
       const edgesLength = edges.length;
       if (currentZoom < optimizeZoom) {
@@ -79,44 +77,44 @@ export default {
             for (let c = 0; c < childrenLength; c++) {
               const shape = children[c];
               if (!shape.destoryed && !shape.get('isKeyShape')) {
-                shape.hide()
+                shape.hide();
               }
             }
           }
         }
 
-        for (let e = 0; e < edgesLength; e++) {
-          const edge = edges[e];
-          const children = edge.getContainer().get('children')
+        for (let edgeIndex = 0; edgeIndex < edgesLength; edgeIndex++) {
+          const edge = edges[edgeIndex];
+          const children = edge.getContainer().get('children');
           const childrenLength = children.length;
           for (let c = 0; c < childrenLength; c++) {
             const shape = children[c];
             if (!shape.get('isKeyShape')) {
-              shape.hide()
+              shape.hide();
             }
           }
         }
       } else {
         for (let n = 0; n < nodesLength; n++) {
           const node = nodes[n];
-          const children = node.getContainer().get('children')
+          const children = node.getContainer().get('children');
           const childrenLength = children.length;
           for (let c = 0; c < childrenLength; c++) {
             const shape = children[c];
             if (!shape.get('visible')) {
-              shape.show()
+              shape.show();
             }
           }
         }
 
-        for (let e = 0; e < edgesLength; e++) {
-          const edge = edges[e];
-          const children = edge.getContainer().get('children')
+        for (let edgeIndex = 0; edgeIndex < edgesLength; edgeIndex++) {
+          const edge = edges[edgeIndex];
+          const children = edge.getContainer().get('children');
           const childrenLength = children.length;
           for (let c = 0; c < childrenLength; c++) {
             const shape = children[c];
             if (!shape.get('visible')) {
-              shape.show()
+              shape.show();
             }
           }
         }
@@ -137,7 +135,10 @@ export default {
           const group = node.getContainer();
           const nodeModel = node.getModel();
           const itemStateStyle = node.getStateStyle(fixSelectedItems.fixState);
-          const shapeStateStyle = node.get('shapeFactory').getShape(nodeModel.shape || nodeModel.type).getStateStyle(fixSelectedItems.fixState, node)[fixSelectedItems.fixState];
+          const shapeStateStyle = node
+            .get('shapeFactory')
+            .getShape(nodeModel.shape || nodeModel.type)
+            .getStateStyle(fixSelectedItems.fixState, node)[fixSelectedItems.fixState];
           if (fixSelectedItems.fixAll) {
             if (zoom <= 1) {
               let groupMatrix = clone(group.getMatrix());
@@ -163,7 +164,7 @@ export default {
                   const itemFontSize = itemStyle ? itemStyle.fontSize : 12;
                   const shapeFontSize = shapeStyle ? shapeStyle.fontSize : 12;
                   const oriFontSize = itemFontSize || shapeFontSize || 12;
-                  if (zoom <= 1) shape.attr('fontSize', oriFontSize / zoom);// * graphZoom / zoom
+                  if (zoom <= 1) shape.attr('fontSize', oriFontSize / zoom); // * graphZoom / zoom
                   if (lineWidth) break;
                 }
               }
@@ -171,7 +172,7 @@ export default {
                 if (shape.get('isKeyShape')) {
                   lineWidth = shape.attr('lineWidth') || 0;
                   const oriLineWidth = itemStateStyle.lineWidth || shapeStateStyle.lineWidth || 0;
-                  if (zoom <= 1) shape.attr('lineWidth', oriLineWidth / zoom);// * graphZoom / zoom
+                  if (zoom <= 1) shape.attr('lineWidth', oriLineWidth / zoom); // * graphZoom / zoom
                   if (fontSize) break;
                 }
               }
@@ -179,15 +180,17 @@ export default {
           }
         }
 
-
         const fixEdgesLength = fixEdges.length;
         for (let fe = 0; fe < fixEdgesLength; fe++) {
           const edge = fixEdges[fe];
           const group = edge.getContainer();
-          const children = group.get('children')
+          const children = group.get('children');
           const nodeModel = edge.getModel();
           const itemStateStyle = edge.getStateStyle(fixSelectedItems.fixState);
-          const shapeStateStyle = edge.get('shapeFactory').getShape(nodeModel.shape || nodeModel.type).getStateStyle(fixSelectedItems.fixState, edge)[fixSelectedItems.fixState];
+          const shapeStateStyle = edge
+            .get('shapeFactory')
+            .getShape(nodeModel.shape || nodeModel.type)
+            .getStateStyle(fixSelectedItems.fixState, edge)[fixSelectedItems.fixState];
 
           const childrenLength = children.length;
           for (let c = 0; c < childrenLength; c++) {
@@ -217,8 +220,6 @@ export default {
           }
         }
       }
-
-
     }
     graph.zoomTo(zoom, { x: point.x, y: point.y });
     graph.emit('wheelzoom', e);

@@ -83,5 +83,5 @@ export default {
     this.container = container;
     this.graph.get('tooltips').push(container);
     return container;
-  }
+  },
 };

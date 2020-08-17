@@ -145,7 +145,7 @@ G6.registerEdge(
       const shape = group.get('children')[0];
       const length = shape.getTotalLength();
       shape.animate(
-        ratio => {
+        (ratio) => {
           const startLen = ratio * length;
           // 计算线的lineDash
           const cfg = {

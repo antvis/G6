@@ -184,22 +184,22 @@ const vecFrom = (p0: number[], p1: number[]) => {
  */
 export function roundedHull(polyPoints: number[][], padding: number) {
   // The rounded hull path around a single point
-  const roundedHull1 = (polyPoints: number[][]) => {
-    const p1 = [polyPoints[0][0], polyPoints[0][1] - padding];
-    const p2 = [polyPoints[0][0], polyPoints[0][1] + padding];
+  const roundedHull1 = (points: number[][]) => {
+    const p1 = [points[0][0], points[0][1] - padding];
+    const p2 = [points[0][0], points[0][1] + padding];
 
     return `M ${p1} A ${padding},${padding},0,0,0,${p2} A ${padding},${padding},0,0,0,${p1}`;
   };
 
   // The rounded hull path around two points
-  const roundedHull2 = (polyPoints: number[][]) => {
-    const offsetVector = vec2.scale([], unitNormal(polyPoints[0], polyPoints[1]), padding);
+  const roundedHull2 = (points: number[][]) => {
+    const offsetVector = vec2.scale([], unitNormal(points[0], points[1]), padding);
     const invOffsetVector = vec2.scale([], offsetVector, -1);
 
-    const p0 = vec2.add([], polyPoints[0], offsetVector);
-    const p1 = vec2.add([], polyPoints[1], offsetVector);
-    const p2 = vec2.add([], polyPoints[1], invOffsetVector);
-    const p3 = vec2.add([], polyPoints[0], invOffsetVector);
+    const p0 = vec2.add([], points[0], offsetVector);
+    const p1 = vec2.add([], points[1], offsetVector);
+    const p2 = vec2.add([], points[1], invOffsetVector);
+    const p3 = vec2.add([], points[0], invOffsetVector);
 
     return `M ${p0} L ${p1} A ${[padding, padding, '0,0,0', p2].join(',')} L ${p3} A ${[
       padding,
@@ -230,13 +230,12 @@ export function roundedHull(polyPoints: number[][], padding: number) {
 
   const arcData = `A ${[padding, padding, '0,0,0,'].join(',')}`;
 
-  segments = segments.map(function (segment, index) {
+  segments = segments.map((segment, index) => {
     let pathFragment = '';
     if (index === 0) {
       pathFragment = `M ${segments[segments.length - 1][1]} `;
     }
     pathFragment += `${arcData + segment[0]} L ${segment[1]}`;
-
     return pathFragment;
   });
 
@@ -247,11 +246,11 @@ export function roundedHull(polyPoints: number[][], padding: number) {
 export function paddedHull(polyPoints: number[][], padding: number) {
   const pointCount = polyPoints.length;
 
-  const smoothHull1 = (polyPoints) => {
+  const smoothHull1 = (points) => {
     // Returns the path for a circular hull around a single point.
 
-    const p1 = [polyPoints[0][0], polyPoints[0][1] - padding];
-    const p2 = [polyPoints[0][0], polyPoints[0][1] + padding];
+    const p1 = [points[0][0], points[0][1] - padding];
+    const p2 = [points[0][0], points[0][1] + padding];
 
     return `M ${p1} A ${[padding, padding, '0,0,0', p2].join(',')} A ${[
       padding,
@@ -262,12 +261,12 @@ export function paddedHull(polyPoints: number[][], padding: number) {
   };
 
   // Returns the path for a rounded hull around two points.
-  const smoothHull2 = (polyPoints) => {
-    const v = vecFrom(polyPoints[0], polyPoints[1]);
+  const smoothHull2 = (points) => {
+    const v = vecFrom(points[0], points[1]);
     const extensionVec = vecScaleTo(v, padding);
 
-    const extension0 = vec2.add([], polyPoints[0], vec2.scale([], extensionVec, -1));
-    const extension1 = vec2.add([], polyPoints[1], extensionVec);
+    const extension0 = vec2.add([], points[0], vec2.scale([], extensionVec, -1));
+    const extension1 = vec2.add([], points[1], extensionVec);
 
     const tangentHalfLength = 1.2 * padding;
     const controlDelta = vecScaleTo(vec2.normalize([], v), tangentHalfLength);
@@ -288,7 +287,7 @@ export function paddedHull(polyPoints: number[][], padding: number) {
   if (pointCount === 1) return smoothHull1(polyPoints);
   if (pointCount === 2) return smoothHull2(polyPoints);
 
-  const hullPoints = polyPoints.map(function (point, index) {
+  const hullPoints = polyPoints.map((point, index) => {
     const pNext = polyPoints[(index + 1) % pointCount];
     return {
       p: point,

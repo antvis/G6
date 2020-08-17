@@ -53,8 +53,8 @@ G6.registerBehavior('drag-canvas-exclude-lockedNode', {
       y: clientY,
     };
     // 和内置 drag-canvas 不同的地方是在这里
-    const lockedNodes = this.graph.findAll('node', node => !node.hasLocked());
-    lockedNodes.forEach(node => {
+    const lockedNodes = this.graph.findAll('node', (node) => !node.hasLocked());
+    lockedNodes.forEach((node) => {
       node.get('group').translate(dx, dy);
     });
     this.graph.paint();
@@ -130,7 +130,7 @@ G6.registerBehavior('drag-canvas-exclude-lockedNode', {
     if (this.dragging) {
       const self = this;
       const canvasElement = self.graph.get('canvas').get('el');
-      const fn = ev => {
+      const fn = (ev) => {
         if (ev.target !== canvasElement) {
           self.onMouseUp(e);
         }
@@ -197,8 +197,8 @@ G6.registerBehavior('zoom-canvas-exclude-lockedNode', {
       return;
     }
     graph.zoom(ratio, { x: point.x, y: point.y });
-    const lockedNodes = this.graph.findAll('node', node => !node.hasLocked());
-    lockedNodes.forEach(node => {
+    const lockedNodes = this.graph.findAll('node', (node) => !node.hasLocked());
+    lockedNodes.forEach((node) => {
       const matrix = Util.clone(node.get('group').getMatrix());
       const center = node.getModel();
       Util.mat3.translate(matrix, matrix, [-center.x, -center.y]);

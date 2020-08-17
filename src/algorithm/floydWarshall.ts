@@ -2,14 +2,11 @@ import { IGraph } from '../interface/graph';
 import adjMatrix from './adjacent-matrix';
 import { Matrix } from '../types';
 
-
 const floydWarshall = (graph: IGraph, directed?: boolean) => {
-
   let adjacentMatrix = graph.get('adjMatrix');
   if (!adjacentMatrix) {
     adjacentMatrix = adjMatrix(graph, directed);
   }
-
 
   const dist: Matrix[] = [];
   const size = adjacentMatrix.length;
@@ -36,6 +33,6 @@ const floydWarshall = (graph: IGraph, directed?: boolean) => {
     }
   }
   return dist;
-}
+};
 
-export default floydWarshall
+export default floydWarshall;

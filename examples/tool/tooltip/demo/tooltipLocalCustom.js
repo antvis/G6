@@ -16,48 +16,52 @@ insertCss(`
   }
 `);
 
-G6.registerNode('rNode', {
-  drawShape: (cfg, group) => {
-    const rect = group.addShape('rect', {
-      attrs: {
-        x: -cfg.size[0] / 2,
-        y: -cfg.size[1] / 2,
-        width: cfg.size[0],
-        height: cfg.size[1],
-        ...cfg.style
-      },
-      name: 'rect-shape'
-    });
-    const responseRect = group.addShape('rect', {
-      attrs: {
-        width: 30,
-        height: 15,
-        x: -cfg.size[0] / 2 + 5,
-        y: -cfg.size[1] / 2 + 5,
-        fill: '#fff',
-        stroke: cfg.style.stroke,
-        lineWidth: 1
-      },
-      name: 'tooltip-response-shape'
-    });
-    const responseText = group.addShape('text', {
-      attrs: {
-        text: 'hover here!',
-        fill: '#f00',
-        x: -cfg.size[0] / 2 + 10,
-        y: -cfg.size[1] / 2 + 10,
-        textBaseline: 'top'
-      },
-      name: 'tooltip-response-text-shape'
-    });
-    const textBBox = responseText.getBBox();
-    responseRect.attr({
-      width: textBBox.width + 10,
-      height: textBBox.height + 10
-    })
-    return rect;
-  }
-}, 'rect')
+G6.registerNode(
+  'rNode',
+  {
+    drawShape: (cfg, group) => {
+      const rect = group.addShape('rect', {
+        attrs: {
+          x: -cfg.size[0] / 2,
+          y: -cfg.size[1] / 2,
+          width: cfg.size[0],
+          height: cfg.size[1],
+          ...cfg.style,
+        },
+        name: 'rect-shape',
+      });
+      const responseRect = group.addShape('rect', {
+        attrs: {
+          width: 30,
+          height: 15,
+          x: -cfg.size[0] / 2 + 5,
+          y: -cfg.size[1] / 2 + 5,
+          fill: '#fff',
+          stroke: cfg.style.stroke,
+          lineWidth: 1,
+        },
+        name: 'tooltip-response-shape',
+      });
+      const responseText = group.addShape('text', {
+        attrs: {
+          text: 'hover here!',
+          fill: '#f00',
+          x: -cfg.size[0] / 2 + 10,
+          y: -cfg.size[1] / 2 + 10,
+          textBaseline: 'top',
+        },
+        name: 'tooltip-response-text-shape',
+      });
+      const textBBox = responseText.getBBox();
+      responseRect.attr({
+        width: textBBox.width + 10,
+        height: textBBox.height + 10,
+      });
+      return rect;
+    },
+  },
+  'rect',
+);
 const data = {
   nodes: [
     {
@@ -101,8 +105,7 @@ const data = {
   ],
 };
 const descriptionDiv = document.createElement('div');
-descriptionDiv.innerHTML =
-  'Hover the sub rect with red border to show the tooltip.';
+descriptionDiv.innerHTML = 'Hover the sub rect with red border to show the tooltip.';
 const container = document.getElementById('container');
 container.appendChild(descriptionDiv);
 const width = container.scrollWidth;
@@ -143,14 +146,16 @@ const graph = new G6.Graph({
           return true;
         },
         shouldUpdate: (e) => {
-          if (e.target.get('name') === 'tooltip-response-shape' ||
-            e.target.get('name') === 'tooltip-response-text-shape') {
+          if (
+            e.target.get('name') === 'tooltip-response-shape' ||
+            e.target.get('name') === 'tooltip-response-text-shape'
+          ) {
             const div = document.getElementsByClassName('g6-tooltip')[0];
             if (div) div.style.display = 'block';
-            return true
+            return true;
           }
           return false;
-        }
+        },
       },
     ],
   },

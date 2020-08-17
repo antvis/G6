@@ -20,20 +20,20 @@ G6 支持以下图形：
 
 ## 通用属性
 
-| 属性名        | 类型 | 示例                              | 含义                           |
-| ------------- | -----------| ---------------------------------- | ------------------------------ |
-| fill          | String | - 'rgb(18, 150, 231)' <br/> - '#c193af' <br/>- 'l(0) 0:#ffffff 0.5:#7ec2f3 1:#1890ff' <br/>-  'r(0.5, 0.5, 0.1) 0:#ffffff 1:#1890ff' | 设置用于填充绘画的颜色(RGB 或 16 进制)、[渐变](/zh/docs/manual/FAQ/gradient#gatsby-focus-wrapper)或模式，对应 Canvas 属性 `fillStyle`   |
-| stroke        | String |  - 'rgb(18, 150, 231)' <br/> - '#c193af' <br/>- 'l(0) 0:#ffffff 0.5:#7ec2f3 1:#1890ff' <br/>-  'r(0.5, 0.5, 0.1) 0:#ffffff 1:#1890ff'     | 设置用于笔触的颜色(RGB 或 16 进制)、[渐变](/zh/docs/manual/FAQ/gradient#gatsby-focus-wrapper)或模式，对应 Canvas 属性 `strokeStyle` |
-| lineWidth     | Number | 2                           | 描边宽度                               |
-| lineDash      | Number/ Number[] | [5, 10]  | 描边虚线，Number[] 类型代表实、虚长度    |
-| shadowColor   | String | 'rgb(18, 150, 231)' / '#c193a1'                 | 设置用于阴影的颜色                              |
-| shadowBlur    | Number | 50            | 设置用于阴影的模糊级别，数值越大，越模糊               |
-| shadowOffsetX | Number | 10           | 设置阴影距形状的水平距离                               |
-| shadowOffsetY | Number | 10           | 设置阴影距形状的垂直距离                               |
-| opacity       | Number | 0.8      | 设置绘图的当前 alpha 或透明值，范围 [0, 1]，对应 Canvas 属性 `globalAlpha` |
-| fillOpacity   | Number | 0.8          | 设置填充的 alpha 或透明值，优先级高于 opacity，范围 [0, 1]                               |
-| strokeOpacity   | Number | 0.8          | 设置描边的 alpha 或透明值，优先级高于 opacity，范围 [0, 1]                               |
-| cursor       | String | 'pointer'  | 鼠标在该节点上时的鼠标样式，[CSS 的 cursor](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) 选项都支持 |
+| 属性名 | 类型 | 示例 | 含义 |
+| --- | --- | --- | --- |
+| fill | String | - 'rgb(18, 150, 231)' <br/> - '#c193af' <br/>- 'l(0) 0:#ffffff 0.5:#7ec2f3 1:#1890ff' <br/>- 'r(0.5, 0.5, 0.1) 0:#ffffff 1:#1890ff' | 设置用于填充绘画的颜色(RGB 或 16 进制)、[渐变](/zh/docs/manual/FAQ/gradient#gatsby-focus-wrapper)或模式，对应 Canvas 属性 `fillStyle` |
+| stroke | String | - 'rgb(18, 150, 231)' <br/> - '#c193af' <br/>- 'l(0) 0:#ffffff 0.5:#7ec2f3 1:#1890ff' <br/>- 'r(0.5, 0.5, 0.1) 0:#ffffff 1:#1890ff' | 设置用于笔触的颜色(RGB 或 16 进制)、[渐变](/zh/docs/manual/FAQ/gradient#gatsby-focus-wrapper)或模式，对应 Canvas 属性 `strokeStyle` |
+| lineWidth | Number | 2 | 描边宽度 |
+| lineDash | Number/ Number[] | [5, 10] | 描边虚线，Number[] 类型代表实、虚长度 |
+| shadowColor | String | 'rgb(18, 150, 231)' / '#c193a1' | 设置用于阴影的颜色 |
+| shadowBlur | Number | 50 | 设置用于阴影的模糊级别，数值越大，越模糊 |
+| shadowOffsetX | Number | 10 | 设置阴影距形状的水平距离 |
+| shadowOffsetY | Number | 10 | 设置阴影距形状的垂直距离 |
+| opacity | Number | 0.8 | 设置绘图的当前 alpha 或透明值，范围 [0, 1]，对应 Canvas 属性 `globalAlpha` |
+| fillOpacity | Number | 0.8 | 设置填充的 alpha 或透明值，优先级高于 opacity，范围 [0, 1] |
+| strokeOpacity | Number | 0.8 | 设置描边的 alpha 或透明值，优先级高于 opacity，范围 [0, 1] |
+| cursor | String | 'pointer' | 鼠标在该节点上时的鼠标样式，[CSS 的 cursor](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) 选项都支持 |
 
 ### 用法
 
@@ -82,6 +82,7 @@ rect.attr({
 ```
 
 ### setClip(clipCfg)
+
 设置并返回裁剪对象。
 
 `clipCfg` 配置项
@@ -111,13 +112,14 @@ shape.setClip({
 ```
 
 ### getClip()
+
 获取裁剪对象。
 
 ## 圆图形 Circle
 
 ### 特殊属性
 
-| 属性名  | 类型    | 含义          |
+| 属性名 | 类型   | 含义          |
 | ------ | ------ | ------------- |
 | x      | Number | 圆心的 x 坐标 |
 | y      | Number | 圆心的 y 坐标 |
@@ -142,8 +144,8 @@ group.addShape('circle', {
 
 ### 特殊属性
 
-| 属性名 | 类型    | 含义          |
-| ------ | ---- | ------------- |
+| 属性名 | 类型   | 含义          |
+| ------ | ------ | ------------- |
 | x      | Number | 圆心的 x 坐标 |
 | y      | Number | 圆心的 y 坐标 |
 | rx     | Number | 水平半径      |
@@ -211,10 +213,10 @@ group.addShape('marker', {
     x: 10,
     y: 10,
     r: 10,
-    symbol: 'triangle-down'
+    symbol: 'triangle-down',
   },
   // must be assigned in G6 3.3 and later versions. it can be any value you want
-  name: 'marker-shape'
+  name: 'marker-shape',
 });
 
 // 使用路径自定义 symbol
@@ -223,17 +225,12 @@ group.addShape('marker', {
     x: 10,
     y: 10,
     r: 10,
-    symbol: function(x, y, r) {
-      return [
-        [ 'M', x, y ],
-        [ 'L', x + r, y + r ],
-        [ 'L', x + r * 2, y ],
-        [ 'Z' ]
-      ]
-    }
+    symbol: function (x, y, r) {
+      return [['M', x, y], ['L', x + r, y + r], ['L', x + r * 2, y], ['Z']];
+    },
   },
   // must be assigned in G6 3.3 and later versions. it can be any value you want
-  name: 'marker-shape'
+  name: 'marker-shape',
 });
 ```
 
@@ -241,8 +238,8 @@ group.addShape('marker', {
 
 ### 特殊属性
 
-| 属性名  | 类型 | 含义 |
-| ------ | -------------------- | -------- |
+| 属性名 | 类型  | 含义                 |
+| ------ | ----- | -------------------- |
 | points | Array | 多边形的所有端点坐标 |
 
 ### 用法
@@ -270,7 +267,7 @@ group.addShape('polygon', {
 | 属性名 | 类型 | 含义 |
 | --- | --- | --- |
 | x | Number | 矩形左上角的 x 坐标 |
-| y | Number |矩形左上角的 y 坐标 |
+| y | Number | 矩形左上角的 y 坐标 |
 | width | Number | 矩形的宽度 |
 | height | Number | 矩形的高度 |
 | radius | Number / Number[] | 定义圆角。支持整数或数组形式，分别对应左上、右上、右下、左下角的半径：<br />- radius 缩写为 1 或 [ 1 ] 相当于 [ 1, 1, 1, 1 ]<br />- radius 缩写为 [ 1, 2 ] 相当于 [ 1, 2, 1, 2 ]<br />- radius 缩写为 [ 1, 2, 3 ] 相当于 [ 1, 2, 3, 2 ]<br /> |
@@ -302,17 +299,11 @@ group.addShape('rect', {
 | --- | --- | --- |
 | path | String / Array | 线条路径，可以是 String 形式，也可以是线段的数组。格式参考：[SVG path](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Tutorial/Paths) |
 | startArrow | Boolean / Object | 起始端的箭头，为 `true` 时为默认的箭头效果，也可以是一个自定义箭头 |
-| endArrow |  Boolean / Object | 末尾端的箭头，为 `true` 时为默认的箭头效果，也可以是一个自定义箭头 |
+| endArrow | Boolean / Object | 末尾端的箭头，为 `true` 时为默认的箭头效果，也可以是一个自定义箭头 |
 | lineAppendWidth | Number | 边的击中范围。提升边的击中范围，扩展响应范围，数值越大，响应范围越广 |
-| lineCap | String | 设置线条的结束端点样式。可选：<br/> - `'bevel'`: 斜角
-<br/> - `'round'`: 圆角
-<br/> - `'miter'`: 尖角 (默认) |
-| lineJoin | String | 设置两条线相交时，所创建的拐角形状。可选：<br/> - `'bevel'`: 斜角
-<br/> - `'round'`: 圆角
-<br/> - `'miter'`: 尖角 (默认) |
-| lineWidth | Number | 设置当前的线条宽度 |
-| miterLimit | Number | 设置最大斜接长度 |
-| lineDash | Number[] | 设置线的虚线样式，可以指定一个数组。一组描述交替绘制线段和间距（坐标空间单位）长度的数字。 如果数组元素的数量是奇数， 数组的元素会被复制并重复。例如， [5, 15, 25] 会变成 [5, 15, 25, 5, 15, 25]。可参考[setLineDash](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setLineDash) |
+| lineCap | String | 设置线条的结束端点样式。可选：<br/> - `'bevel'`: 斜角 |
+
+<br/> - `'round'`: 圆角 <br/> - `'miter'`: 尖角 (默认) | | lineJoin | String | 设置两条线相交时，所创建的拐角形状。可选：<br/> - `'bevel'`: 斜角 <br/> - `'round'`: 圆角 <br/> - `'miter'`: 尖角 (默认) | | lineWidth | Number | 设置当前的线条宽度 | | miterLimit | Number | 设置最大斜接长度 | | lineDash | Number[] | 设置线的虚线样式，可以指定一个数组。一组描述交替绘制线段和间距（坐标空间单位）长度的数字。 如果数组元素的数量是奇数， 数组的元素会被复制并重复。例如， [5, 15, 25] 会变成 [5, 15, 25, 5, 15, 25]。可参考[setLineDash](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setLineDash) |
 
 ### 用法
 
@@ -388,15 +379,16 @@ group.addShape('text', {
 
 > 仅在 Graph 的 `renderer` 为 `'svg'` 时可以使用。
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span>
+
 - 只支持原生 HTML DOM，不支持各类 react、vue 组件；
 - 使用 `'dom'` 进行自定义的节点或边，不支持 G6 的交互事件，请使用原生 DOM 的交互事件。
 
 ### 特殊属性
 
-| 属性名 | 类型 | 含义 |
-| --- | --- | --- |
-| html | String | DOM 的 HTML 值 |
+| 属性名 | 类型   | 含义           |
+| ------ | ------ | -------------- |
+| html   | String | DOM 的 HTML 值 |
 
 ### 用法
 
@@ -407,13 +399,15 @@ group.addShape('dom', {
     height: cfg.size[1],
     // DOM's html
     html: `
-    <div style="background-color: #fff; border: 2px solid #5B8FF9; border-radius: 5px; width: ${cfg.size[0]-5}px; height: ${cfg.size[1]-5}px; display: flex;">
+    <div style="background-color: #fff; border: 2px solid #5B8FF9; border-radius: 5px; width: ${
+      cfg.size[0] - 5
+    }px; height: ${cfg.size[1] - 5}px; display: flex;">
       <div style="height: 100%; width: 33%; background-color: #CDDDFD">
         <img alt="img" style="line-height: 100%; padding-top: 6px; padding-left: 8px;" src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ" width="20" height="20" />  
       </div>
       <span style="margin:auto; padding:auto; color: #5B8FF9">${cfg.label}</span>
     </div>
-      `
+      `,
   },
   // must be assigned in G6 3.3 and later versions. it can be any value you want
   name: 'dom-shape',

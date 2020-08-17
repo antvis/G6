@@ -124,6 +124,5 @@ const graph = new G6.Graph({
   },
 });
 
-
 graph.data(data);
 graph.render();

@@ -55,11 +55,12 @@ G6 使用布局的方式非常简单，在图实例化的时候，加上 layout 
 ```javascript
 const graph = new G6.Graph({
   // ...                      // 其他配置项
-  layout: {                // Object，可选，布局的方法及其配置项，默认为 random 布局。
-    type: 'force',         // 指定为力导向布局
-    preventOverlap: true,  // 防止节点重叠
+  layout: {
+    // Object，可选，布局的方法及其配置项，默认为 random 布局。
+    type: 'force', // 指定为力导向布局
+    preventOverlap: true, // 防止节点重叠
     // nodeSize: 30        // 节点大小，用于算法中防止节点重叠时的碰撞检测。由于已经在上一节的元素配置中设置了每个节点的 size 属性，则不需要在此设置 nodeSize。
-  }
+  },
 });
 ```
 
@@ -135,7 +136,7 @@ const graph = new G6.Graph({
 
         const nodes = remoteData.nodes;
         const edges = remoteData.edges;
-        nodes.forEach(node => {
+        nodes.forEach((node) => {
           if (!node.style) {
             node.style = {};
           }
@@ -159,7 +160,7 @@ const graph = new G6.Graph({
             }
           }
         });
-        edges.forEach(edge => {
+        edges.forEach((edge) => {
           if (!edge.style) {
             edge.style = {};
           }

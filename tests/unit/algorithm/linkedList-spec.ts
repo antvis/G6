@@ -1,23 +1,23 @@
-import LinkedList, { LinkedListNode } from '../../../src/algorithm/structs/linked-list'
+import LinkedList, { LinkedListNode } from '../../../src/algorithm/structs/linked-list';
 
 describe('LinkedListNode', () => {
   it('create list node with value', () => {
-    const node = new LinkedListNode(1 as any)
-    expect(node.value).toBe(1)
-    expect(node.next).toBeNull()
-  })
+    const node = new LinkedListNode(1 as any);
+    expect(node.value).toBe(1);
+    expect(node.next).toBeNull();
+  });
 
   it('crate list node with object', () => {
     const nodeValue = {
       value: 1,
-      key: 'test'
-    }
+      key: 'test',
+    };
 
-    const node = new LinkedListNode(nodeValue as any)
-    expect(node.value.value).toBe(1)
-    expect(node.value.key).toBe('test')
-    expect(node.next).toBeNull()
-  })
+    const node = new LinkedListNode(nodeValue as any);
+    expect(node.value.value).toBe(1);
+    expect(node.value.key).toBe('test');
+    expect(node.next).toBeNull();
+  });
 
   it('should link nodes together', () => {
     const node2 = new LinkedListNode(2);
@@ -41,11 +41,11 @@ describe('LinkedListNode', () => {
   it('should convert node to string with custom stringifier', () => {
     const nodeValue = { value: 1, key: 'test' };
     const node = new LinkedListNode(nodeValue);
-    const toStringCallback = value => `value: ${value.value}, key: ${value.key}`;
+    const toStringCallback = (value) => `value: ${value.value}, key: ${value.key}`;
 
     expect(node.toString(toStringCallback)).toBe('value: 1, key: test');
   });
-})
+});
 
 describe('LinkedList', () => {
   it('should create empty linked list', () => {
@@ -189,11 +189,9 @@ describe('LinkedList', () => {
     const nodeValue1 = { value: 1, key: 'key1' };
     const nodeValue2 = { value: 2, key: 'key2' };
 
-    linkedList
-      .append(nodeValue1)
-      .prepend(nodeValue2);
+    linkedList.append(nodeValue1).prepend(nodeValue2);
 
-    const nodeStringifier = value => `${value.key}:${value.value}`;
+    const nodeStringifier = (value) => `${value.key}:${value.value}`;
 
     expect(linkedList.toString(nodeStringifier)).toBe('key2:2,key1:1');
   });
@@ -206,9 +204,7 @@ describe('LinkedList', () => {
     linkedList.append(1);
     expect(linkedList.find({ value: 1 })).toBeDefined();
 
-    linkedList
-      .append(2)
-      .append(3);
+    linkedList.append(2).append(3);
 
     const node = linkedList.find({ value: 2 });
 
@@ -224,12 +220,12 @@ describe('LinkedList', () => {
       .append({ value: 2, key: 'test2' })
       .append({ value: 3, key: 'test3' });
 
-    const node = linkedList.find({ callback: value => value.key === 'test2' });
+    const node = linkedList.find({ callback: (value) => value.key === 'test2' });
 
     expect(node).toBeDefined();
     expect(node.value.value).toBe(2);
     expect(node.value.key).toBe('test2');
-    expect(linkedList.find({ callback: value => value.key === 'test5' })).toBeNull();
+    expect(linkedList.find({ callback: (value) => value.key === 'test5' })).toBeNull();
   });
 
   it('should create linked list from array', () => {
@@ -269,10 +265,7 @@ describe('LinkedList', () => {
     const linkedList = new LinkedList();
 
     // Add test values to linked list.
-    linkedList
-      .append(1)
-      .append(2)
-      .append(3);
+    linkedList.append(1).append(2).append(3);
 
     expect(linkedList.toString()).toBe('1,2,3');
     expect(linkedList.head.value).toBe(1);
@@ -290,4 +283,4 @@ describe('LinkedList', () => {
     expect(linkedList.head.value).toBe(1);
     expect(linkedList.tail.value).toBe(3);
   });
-})
+});

@@ -57,7 +57,7 @@ describe('zoom-canvas', () => {
         default: [
           {
             type: 'zoom-canvas',
-            shouldUpdate: e => {
+            shouldUpdate: (e) => {
               expect(e.defaultPrevented).toBe(false);
               return false;
             },
@@ -78,7 +78,7 @@ describe('zoom-canvas', () => {
         default: [
           {
             type: 'zoom-canvas',
-            shouldUpdate: e => {
+            shouldUpdate: (e) => {
               expect(e).not.toBe(undefined);
               return false;
             },
@@ -152,10 +152,12 @@ describe('zoom-canvas', () => {
       width: 500,
       height: 500,
       modes: {
-        default: [{
-          type: 'zoom-canvas',
-          enableOptimize: true
-        }]
+        default: [
+          {
+            type: 'zoom-canvas',
+            enableOptimize: true,
+          },
+        ],
       },
     });
 
@@ -173,48 +175,48 @@ describe('zoom-canvas', () => {
           id: 'node1',
           x: 100,
           y: 100,
-          label: 'label'
+          label: 'label',
         },
         {
           id: 'node2',
           x: 100,
           y: 200,
-          label: 'label2'
-        }
+          label: 'label2',
+        },
       ],
       edges: [
         {
           source: 'node1',
           target: 'node2',
-          label: 'edge'
-        }
-      ]
-    }
+          label: 'edge',
+        },
+      ],
+    };
 
-    graph.data(data)
-    graph.render()
+    graph.data(data);
+    graph.render();
 
     // 默认 zoom=1，会显示所有元素
-    let node1 = graph.findById('node1')
-    let container = node1.getContainer()
-    container.get('children').map(child => {
-      expect(child.get('visible')).toBe(true)
-    })
+    let node1 = graph.findById('node1');
+    let container = node1.getContainer();
+    container.get('children').map((child) => {
+      expect(child.get('visible')).toBe(true);
+    });
 
-    graph.zoom(0.5)
+    graph.zoom(0.5);
     e = createWheelEvent(graph.get('canvas').get('el'), 100, 100, 100);
     graph.emit('wheel', e);
 
     // 只显示 keyShape
-    node1 = graph.findById('node1')
-    container = node1.getContainer()
-    expect(node1.getKeyShape().get('visible')).toBe(true)
-    container.get('children').map(child => {
+    node1 = graph.findById('node1');
+    container = node1.getContainer();
+    expect(node1.getKeyShape().get('visible')).toBe(true);
+    container.get('children').map((child) => {
       if (!child.get('isKeyShape')) {
-        expect(child.get('visible')).toBe(false)
+        expect(child.get('visible')).toBe(false);
       }
-    })
+    });
 
-    graph.destroy()
-  })
+    graph.destroy();
+  });
 });

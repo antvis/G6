@@ -38,7 +38,7 @@ describe('star test', () => {
       const keyShape = node.getKeyShape();
       expect(keyShape.attr('fill')).toEqual('#C6E5FF');
 
-      const label = group.find(g => {
+      const label = group.find((g) => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toBe(null);
@@ -84,17 +84,17 @@ describe('star test', () => {
       const keyShape = node.getKeyShape();
       expect(keyShape.attr('fill')).toEqual('#C6E5FF');
 
-      const leftbottom = group.find(g => {
+      const leftbottom = group.find((g) => {
         return g.get('className') === 'link-point-left-bottom';
       });
       expect(leftbottom).not.toBe(null);
 
-      const rightbottom = group.find(g => {
+      const rightbottom = group.find((g) => {
         return g.get('className') === 'link-point-right-bottom';
       });
       expect(rightbottom).not.toBe(null);
 
-      const right = group.find(g => {
+      const right = group.find((g) => {
         return g.get('className') === 'link-point-right';
       });
       expect(right).not.toBe(null);
@@ -187,11 +187,11 @@ describe('star test', () => {
           leftBottom: true,
         },
       });
-      const topPoint = group.find(g => {
+      const topPoint = group.find((g) => {
         return g.get('className') === 'link-point-top';
       });
       expect(topPoint).toBe(null);
-      const bottomPoint = group.find(g => {
+      const bottomPoint = group.find((g) => {
         return g.get('className') === 'link-point-left-bottom';
       });
       expect(bottomPoint).not.toBe(null);
@@ -206,11 +206,11 @@ describe('star test', () => {
           lineWidth: 2,
         },
       });
-      const leftPoint = group.find(g => {
+      const leftPoint = group.find((g) => {
         return g.get('className') === 'link-point-left';
       });
       expect(leftPoint).toBe(null);
-      const rightPoint = group.find(g => {
+      const rightPoint = group.find((g) => {
         return g.get('className') === 'link-point-right';
       });
       expect(rightPoint).not.toBe(null);
@@ -218,7 +218,7 @@ describe('star test', () => {
       expect(rightPoint.attr('fill')).toBe('#f00');
       expect(rightPoint.attr('stroke')).toBe('#0f0');
       expect(rightPoint.attr('lineWidth')).toBe(2);
-      const bottomPoint2 = group.find(g => {
+      const bottomPoint2 = group.find((g) => {
         return g.get('className') === 'link-point-left-bottom';
       });
       expect(bottomPoint2).not.toBe(null);
@@ -233,15 +233,15 @@ describe('star test', () => {
           lineWidth: 2,
         },
       });
-      const leftPoint2 = group.find(g => {
+      const leftPoint2 = group.find((g) => {
         return g.get('className') === 'link-point-left';
       });
       expect(leftPoint2).toBe(null);
-      const topPoint2 = group.find(g => {
+      const topPoint2 = group.find((g) => {
         return g.get('className') === 'link-point-top';
       });
       expect(topPoint2).not.toBe(null);
-      const rightPoint2 = group.find(g => {
+      const rightPoint2 = group.find((g) => {
         return g.get('className') === 'link-point-right';
       });
       expect(rightPoint2).not.toBe(null);
@@ -251,7 +251,7 @@ describe('star test', () => {
           stroke: '#000',
         },
       });
-      const bottomPoint3 = group.find(g => {
+      const bottomPoint3 = group.find((g) => {
         return g.get('className') === 'link-point-left-bottom';
       });
       expect(bottomPoint3.attr('r')).toBe(10);
@@ -348,7 +348,7 @@ describe('star test', () => {
         },
       });
 
-      const label = group.find(g => {
+      const label = group.find((g) => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toEqual(null);
@@ -404,7 +404,7 @@ describe('star test', () => {
         },
       });
 
-      const label = group.find(g => {
+      const label = group.find((g) => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toEqual(null);
@@ -447,7 +447,7 @@ describe('star test', () => {
         },
       });
       expect(group.getCount()).toEqual(2);
-      const icon = group.find(g => {
+      const icon = group.find((g) => {
         return g.get('className') === 'star-icon';
       });
       expect(icon).not.toEqual(null);

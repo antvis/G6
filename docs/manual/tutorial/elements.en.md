@@ -129,7 +129,7 @@ const graph = new G6.Graph({
 
 ```javascript
 const nodes = remoteData.nodes;
-nodes.forEach(node => {
+nodes.forEach((node) => {
   if (!node.style) {
     node.style = {};
   }
@@ -171,7 +171,7 @@ We further set the line widths for edges according to their weight:
 
 // Traverse the egdes data
 const edges = remoteData.edges;
-edges.forEach(edge => {
+edges.forEach((edge) => {
   if (!edge.style) {
     edge.style = {};
   }
@@ -205,7 +205,7 @@ const graph = new G6.Graph({
 
 // Traverse the egdes data
 const edges = remoteData.edges;
-edges.forEach(edge => {
+edges.forEach((edge) => {
   if (!edge.style) {
     edge.style = {};
   }
@@ -259,7 +259,7 @@ graph.render();
         const remoteData = await response.json();
         const nodes = remoteData.nodes;
         const edges = remoteData.edges;
-        nodes.forEach(node => {
+        nodes.forEach((node) => {
           if (!node.style) {
             node.style = {};
           }
@@ -283,7 +283,7 @@ graph.render();
             }
           }
         });
-        edges.forEach(edge => {
+        edges.forEach((edge) => {
           if (!edge.style) {
             edge.style = {};
           }

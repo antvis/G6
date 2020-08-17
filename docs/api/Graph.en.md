@@ -22,8 +22,8 @@ The life cycle of an instance of Graph is: Initialize -> Load data -> Render -> 
 | height | Number | undefined | The height of the canvas for graph with the unit 'px'. |
 | fitView | Boolean | false | Whether to fit the canvas to the view port. |
 | fitViewPadding | Array | Number | Takes effect only when `fitView: true`. It is the padding between canvas and the border of view port.<br />- It can be a value, e.g. `fitViewPadding: 20`, which means the padding to the top, left, right, bottom are the same.<br />- Or an array, e.g. `fitViewPadding: [ 20, 40, 50, 20 ]`, the four values in the array indicate the padding to the top, right, bottom, left respectively. |
-| fitCenter | Boolean | false | *Supported by v3.5.1.* Whether to translate the graph to align its center with the canvas. Its priority is lower than `fitView` |
-| linkCenter | Boolean |  false | Whether to connect the edges to nodes' center. |
+| fitCenter | Boolean | false | _Supported by v3.5.1._ Whether to translate the graph to align its center with the canvas. Its priority is lower than `fitView` |
+| linkCenter | Boolean | false | Whether to connect the edges to nodes' center. |
 | groupByTypes | Boolean | true | Whether to group the nodes and edges separately. When it is false, all the items (including nodes and edges) are in the same group, and the order/zindex of them are determined according to the order of their generation. When you are using Combo, **MUST** set `groupByTypes` to `false` |
 | autoPaint | Boolean | true | Whether to paint the graph automatically while item updated or view port changed. In order to enhance the performance, we recommend to turn off `antoPaint` when you are doing bulk operation on nodes or edges. This can be refered to [`setAutoPaint()`](#setautopaintauto). |
 | modes | Object |  | The interaction modes of this graph. Please refer to [Interaction Mode](/en/docs/manual/middle/states/mode) for detail。 |
@@ -246,58 +246,64 @@ graph.changeData(data);
 graph.changeData();
 ```
 
-
 ### collapseCombo(combo)
+
 Collapse a Combo.
 
 **Parameters**
 
-| Name | Type | Required | Description |
-| ------- | ------ | -------- | ------- |
-| combo | string / ICombo| true    | The ID of the combo or the combo item to be collapsed |
+| Name  | Type            | Required | Description                                           |
+| ----- | --------------- | -------- | ----------------------------------------------------- |
+| combo | string / ICombo | true     | The ID of the combo or the combo item to be collapsed |
 
 **Usage**
+
 ```
 graph.collapseCombo('combo1')
 ```
 
 ### expandCombo(combo)
+
 Expand a Combo.
 
 **Parameters**
 
-| Name | Type | Required | Description |
-| ------- | ------ | -------- | ------- |
-| combo | string / ICombo | true    | The ID of the combo or the combo item to be expanded |
+| Name  | Type            | Required | Description                                          |
+| ----- | --------------- | -------- | ---------------------------------------------------- |
+| combo | string / ICombo | true     | The ID of the combo or the combo item to be expanded |
 
 **Usage**
+
 ```
 graph.expandCombo('combo1')
 ```
 
 ### collapseExpandCombo(combo)
+
 Expand the `combo` if it is collapsed. Collapse the `combo` if it is expanded.
 
 **Parameters**
 
 | Name | Type | Required | Description |
-| ------- | ------ | -------- | ------- |
-| combo | string / ICombo  | true   | The ID of the combo or the combo item to be collapsed or expanded |
+| --- | --- | --- | --- |
+| combo | string / ICombo | true | The ID of the combo or the combo item to be collapsed or expanded |
 
 **Usage**
+
 ```
 graph.collapseExpandCombo('combo1')
 ```
 
 ### createCombo(combo, elements)
+
 Create a new combo with existing nodes or combos to be its children.
 
 **Parameters**
 
 | Name | Type | Required | Description |
-| ------- | ------ | -------- | ------- |
-| combo | string / ICombo  | true   | The ID or the configuration of the combo to be created |
-| elements | string[]     | The IDs of the existing nodes or combos to be the children of the newly created combo |
+| --- | --- | --- | --- |
+| combo | string / ICombo | true | The ID or the configuration of the combo to be created |
+| elements | string[] | The IDs of the existing nodes or combos to be the children of the newly created combo |
 
 **Usage**
 
@@ -315,20 +321,20 @@ graph.createCombo({
 ```
 
 ### uncombo(combo)
+
 Ungroup the combo, which deletes the combo itself, and appends the children of the combo to its parent(if it exists).
 
 **Parameters**
 
-| Name | Type | Required | Description |
-| ------- | ------ | -------- | ------- |
-| combo | string / ICombo | true | The ID of the item or the combo item to be updated |
+| Name  | Type            | Required | Description                                        |
+| ----- | --------------- | -------- | -------------------------------------------------- |
+| combo | string / ICombo | true     | The ID of the item or the combo item to be updated |
 
 **Usage**
 
 ```
 graph.uncombo('combo1')
 ```
-
 
 ### collapseGroup(groupId)
 
@@ -414,15 +420,14 @@ The same as addItem(type, model).
 
 ### updateItem(item, model, stack)
 
-Update the item with new data model.
-If there are combos in the graph, after calling updateItem to update the position of a node, call [updateCombo(combo)](/en/docs/api/Graph#updatecombocombo) to update the sizes and positions of the related combos.
+Update the item with new data model. If there are combos in the graph, after calling updateItem to update the position of a node, call [updateCombo(combo)](/en/docs/api/Graph#updatecombocombo) to update the sizes and positions of the related combos.
 
 **Parameters**
 
-| Name | Type            | Required | Description                         |
-| ---- | --------------- | -------- | ----------------------------------- |
-| item | string / Object | true     | The ID or the instance of the item |
-| cfg  | Object          | false    | New data model, refer to [Item Model Properties](/en/docs/api/nodeEdge/itemProperties) |
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| item | string / Object | true | The ID or the instance of the item |
+| cfg | Object | false | New data model, refer to [Item Model Properties](/en/docs/api/nodeEdge/itemProperties) |
 | stack | boolean | false | Whether to push the operator into the undo & redo stack. If the `enableStack` is `true`, this operation will be automatically pushed into the stack by default. Set `stack` to be `false` if you do not want it. |
 
 **Usage**
@@ -448,10 +453,9 @@ graph.updateItem(item, model);
 
 The same as updateItem(item, model).
 
-
 ### updateCombos()
-Update the sizes and positions of all the combos according to the bboxes of its children.
 
+Update the sizes and positions of all the combos according to the bboxes of its children.
 
 **Usage**
 
@@ -460,26 +464,24 @@ Update the sizes and positions of all the combos according to the bboxes of its 
 graph.updateCombos();
 ```
 
-
-
 ### updateCombo(combo)
+
 Update the positions and sizes of the combo and all of its ancestors.
 
 **Parameters**
 
-| Name | Type            | Required | Description                         |
-| ---- | --------------- | -------- | ----------------------------------- |
-| combo | string / ICombo | true    | The ID or the instance of the combo |
+| Name  | Type            | Required | Description                         |
+| ----- | --------------- | -------- | ----------------------------------- |
+| combo | string / ICombo | true     | The ID or the instance of the combo |
 
 **Usage**
 
 ```javascript
-
 // Update a node's position
 const node1 = graph.findById('node1');
 graph.updateItem(node1, {
   x: 100,
-  y: 100
+  y: 100,
 });
 
 // the combo who contains the node
@@ -489,17 +491,16 @@ const comboId = node1.getModel().comboId;
 graph.updateCombo(comboId);
 ```
 
-
-
 ### updateComboTree(item, parentId)
+
 Update the hierarchy structure of the combo, such as move a combo into another one.
 
 **Parameters**
 
-| Name | Type            | Required | Description                         |
-| ---- | ------- | -------- | ------------ |
-| item | string / INode / ICombo     | The ID or the item of the node/combo to be updated |
-| parentId | string | undefined     | The ID of the new parent combo, undefined means updating the item with no parent |
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| item | string / INode / ICombo | The ID or the item of the node/combo to be updated |
+| parentId | string | undefined | The ID of the new parent combo, undefined means updating the item with no parent |
 
 **Usage**
 
@@ -511,17 +512,15 @@ graph.updateComboTree('combo1')
 graph.updateComboTree('combo1', 'combo2')
 ```
 
-
-
 ### removeItem(item, stack)
 
 Remove the item. When the item is the id of a group, this operation will delete the corresponding group.
 
 **Parameters**
 
-| Name | Type            | Required | Description                         |
-| ---- | --------------- | -------- | ----------------------------------- |
-| item | string / Object | true     | The id or the instance of the item. |
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| item | string / Object | true | The id or the instance of the item. |
 | stack | boolean | false | Whether to push the operator into the undo & redo stack. If the `enableStack` is `true`, this operation will be automatically pushed into the stack by default. Set `stack` to be `false` if you do not want it. |
 
 **Usage**
@@ -659,17 +658,17 @@ function refreshDragedNodePosition(e) {
   model.fy = e.y;
 }
 
-graph.on('node:dragstart', e => {
+graph.on('node:dragstart', (e) => {
   // Relayout when dragging the node
   graph.layout();
   refreshDragedNodePosition(e);
 });
 
-graph.on('node:drag', e => {
+graph.on('node:drag', (e) => {
   refreshDragedNodePosition(e);
 });
 
-graph.on('node:dragend', e => {
+graph.on('node:dragend', (e) => {
   e.item.get('model').fx = null;
   e.item.get('model').fy = null;
 });
@@ -747,9 +746,9 @@ Show the item. If the item is a node, the related edges will be shown in the sam
 
 **Parameters**
 
-| Name | Type            | Required | Description                         |
-| ---- | --------------- | -------- | ----------------------------------- |
-| item | string / Object | true     | The id or the instance of the item. |
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| item | string / Object | true | The id or the instance of the item. |
 | stack | boolean | false | Whether to push the operator into the undo & redo stack. If the `enableStack` is `true`, this operation will be automatically pushed into the stack by default. Set `stack` to be `false` if you do not want it. |
 
 **Usage**
@@ -769,9 +768,9 @@ Hide the item. If the item is a node, the related edges will be hidden in the sa
 
 **Parameters**
 
-| Name | Type            | Required | Description                         |
-| ---- | --------------- | -------- | ----------------------------------- |
-| item | string / Object | true     | The id or the instance of the item. |
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| item | string / Object | true | The id or the instance of the item. |
 | stack | boolean | false | Whether to push the operator into the undo & redo stack. If the `enableStack` is `true`, this operation will be automatically pushed into the stack by default. Set `stack` to be `false` if you do not want it. |
 
 **Usage**
@@ -790,7 +789,6 @@ graph.hideItem('nodeId');
 Set the item's state.
 
 v3.4 and futher versions support multiple values for a state, refer to [Take Use of State Mechanism](/en/docs/manual/middle/states/state-new).
-
 
 This function will emit events `beforitemstatechange` and `afteritemstatechange`.
 
@@ -819,10 +817,10 @@ Clear the states of the item. This function could clear multiple states in the s
 
 **Parameters**
 
-| Name   | Type            | Required | Description                         |
-| ------ | --------------- | -------- | ----------------------------------- |
-| item   | string / Object | true     | The id or the instance of the item. |
-| states | string / Array / null     | false                               | It can be a single state value, an array, or null. When it is null, this operation will clear all state of the item. |
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| item | string / Object | true | The id or the instance of the item. |
+| states | string / Array / null  | false | It can be a single state value, an array, or null. When it is null, this operation will clear all state of the item. |
 
 **Usage**
 
@@ -852,7 +850,7 @@ Set the style and other configurations for each node.
 **Usage**
 
 ```javascript
-graph.node(node => {
+graph.node((node) => {
   return {
     id: node.id,
     type: 'rect',
@@ -881,7 +879,7 @@ Set the style and other configurations for each edge.
 **Usage**
 
 ```javascript
-graph.edge(edge => {
+graph.edge((edge) => {
   return {
     id: edge.id,
     type: 'cubic-horizontal',
@@ -895,8 +893,6 @@ graph.data(data);
 graph.render();
 ```
 
-
-
 ### combo(comboFn)
 
 Set the style and other configurations for each combo.
@@ -905,14 +901,14 @@ Set the style and other configurations for each combo.
 
 **Parameters**
 
-| Name   | Type     | Required | Description                              |
-| ------ | -------- | -------- | ---------------- |
+| Name    | Type     | Required | Description                               |
+| ------- | -------- | -------- | ----------------------------------------- |
 | comboFn | Function | true     | Return the configurations for each combo. |
 
 **Usage**
 
 ```javascript
-graph.combo(combo => {
+graph.combo((combo) => {
   return {
     id: combo.id,
     type: 'rect',
@@ -925,7 +921,6 @@ graph.combo(combo => {
 graph.data(data);
 graph.render();
 ```
-
 
 ## Interaction
 
@@ -1025,50 +1020,43 @@ Get the current mode.
 const mode = graph.getCurrentMode();
 ```
 
-
-
 ### on(eventName, handler)
 
 Bind event listeners for graph.
 
 **Parameters**
 
-| Name | Type   | Required | Description       |
-| ---- | ------ | -------- | ---------- |
-| eventName | string | true     | Name of the event, options are in [Event](/en/docs/api/Event) |
-| handler | Function | true     | The listener function |
+| Name      | Type     | Required | Description                                                   |
+| --------- | -------- | -------- | ------------------------------------------------------------- |
+| eventName | string   | true     | Name of the event, options are in [Event](/en/docs/api/Event) |
+| handler   | Function | true     | The listener function                                         |
 
 Here is the description for the objects `item` and `target` of the `handler`'s parameter `evt`:
 
-| Name | Type   | Required | Description       |
-| ---- | ------ | -------- | ---------- |
-| item | string | true     | The manipulated item |
-| target | Function | true     | The manipulated [Graphics Shape](/en/docs/manual/middle/elements/shape-keyshape) |
-
-
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| item | string | true | The manipulated item |
+| target | Function | true | The manipulated [Graphics Shape](/en/docs/manual/middle/elements/shape-keyshape) |
 
 **Usage**
 
 ```javascript
-
 const graph = new G6.Graph({
   // ...
-})
+});
 
 // bind the node click listener for nodes of the graph
-graph.on('node:click', evt => {
+graph.on('node:click', (evt) => {
   const item = evt.item; // The manipulated node item
   const target = evt.target; // The manipulated graphics shape
   // ...
 });
 
 // bind the click listener for canvas
-graph.on('click', evt => {
+graph.on('click', (evt) => {
   // ...
 });
 ```
-
-
 
 ### off(eventName, handler)
 
@@ -1076,29 +1064,26 @@ Unbind the specific listener.
 
 **Parameters**
 
-| Name | Type   | Required | Description       |
-| ---- | ------ | -------- | ---------- |
-| eventName | string | true     | Name of the event, options are in [Event](/en/docs/api/Event) |
-| handler | Function | true     | The listener function |
+| Name      | Type     | Required | Description                                                   |
+| --------- | -------- | -------- | ------------------------------------------------------------- |
+| eventName | string   | true     | Name of the event, options are in [Event](/en/docs/api/Event) |
+| handler   | Function | true     | The listener function                                         |
 
 The objects `item` and `target` of the `handler`'s parameter `evt` are the same as the ones described in [`graph.on(eventName, handler)`](#oneventname-handler). The `handler` should be the same object of binded `handler`.
-
-
 
 **Usage**
 
 ```javascript
-
 const graph = new G6.Graph({
   // ...
-})
+});
 
 // listeners
-const fn = evt => {
+const fn = (evt) => {
   const item = evt.item; // The manipulated node item
   const target = evt.target; // The manipulated graphics shape
   // ...
-}
+};
 // bind node click listener
 graph.on('node:click', fn);
 
@@ -1106,37 +1091,32 @@ graph.on('node:click', fn);
 graph.off('node:click', fn);
 ```
 
-
-
 ### off(eventName)
 
 Unbind all the listeners for the graph.
 
 **Parameters**
 
-| Name | Type   | Required | Description       |
-| ---- | ------ | -------- | ---------- |
+| Name      | Type   | Required | Description                                                   |
+| --------- | ------ | -------- | ------------------------------------------------------------- |
 | eventName | string | true     | Name of the event, options are in [Event](/en/docs/api/Event) |
-
-
 
 **Usage**
 
 ```javascript
-
 const graph = new G6.Graph({
   // ...
-})
+});
 
 // listeners
-const fn1 = evt => {
+const fn1 = (evt) => {
   const item = evt.item; // the manipulated node item
   const target = evt.target; // the manipulated graphics shape
   // ...
-}
-const fn2 = evt => {
+};
+const fn2 = (evt) => {
   // ...
-}
+};
 // bind two listeners for nodes of the graph
 graph.on('node:click', fn1);
 graph.on('node:click', fn2);
@@ -1145,7 +1125,6 @@ graph.on('node:click', fn2);
 graph.off('node:click');
 ```
 
-
 ### off()
 
 Unbind all the event listeners of the graph. There is no parameter for this function.
@@ -1153,18 +1132,17 @@ Unbind all the event listeners of the graph. There is no parameter for this func
 **Usage**
 
 ```javascript
-
 const graph = new G6.Graph({
   // ...
-})
+});
 
 // listeners
-const fn1 = evt => {
+const fn1 = (evt) => {
   // ...
-}
-const fn2 = evt => {
+};
+const fn2 = (evt) => {
   // ...
-}
+};
 // bind mouseenter listner for the nodes of the graph
 graph.on('node:mouseenter', fn1);
 // bind afteranimate timing listener for graph
@@ -1173,7 +1151,6 @@ graph.on('afteranimate', fn2);
 // unbind all the events of the graph
 graph.off();
 ```
-
 
 ### getZoom()
 
@@ -1239,11 +1216,11 @@ Move the graph to center at the item. This operation can be used as easing anima
 
 **Parameters**
 
-| Name | Type            | Required | Description                         |
-| ---- | --------------- | -------- | ----------------------------------- |
-| item | string / Object | true     | The id or the instance of the item. |
-| animate | boolean | false     | Whether move the graph with animation. If it is not assigned, animates following the graph's `animate`. |
-| animateCfg | Object | false     | The animation's configuraiton. Its configurations can be found in [Basic Animation Docs](/en/docs/manual/advanced/animation#animatecfg). If it is not assigned, animates following the graph's `animateCfg`.  |
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| item | string / Object | true | The id or the instance of the item. |
+| animate | boolean | false | Whether move the graph with animation. If it is not assigned, animates following the graph's `animate`. |
+| animateCfg | Object | false | The animation's configuraiton. Its configurations can be found in [Basic Animation Docs](/en/docs/manual/advanced/animation#animatecfg). If it is not assigned, animates following the graph's `animateCfg`. |
 
 **Usage**
 
@@ -1256,7 +1233,7 @@ graph.focusItem(item, true);
 // focus with animation and animation's configuration
 graph.focusItem(item, true, {
   easing: 'easeCubic',
-  duration: 400
+  duration: 400,
 });
 ```
 
@@ -1337,10 +1314,9 @@ graph.fitView([20, 10]);
 graph.fitView([20, 10, 20, 15]);
 ```
 
-
 ### fitCenter()
 
-*Supported by v3.5.1.* Translate the graph to align its center with the canvas.
+_Supported by v3.5.1._ Translate the graph to align its center with the canvas.
 
 **Usage**
 
@@ -1348,8 +1324,6 @@ graph.fitView([20, 10, 20, 15]);
 // Call the following function after rendering and animation
 graph.fitCenter();
 ```
-
-
 
 ## Search
 
@@ -1372,7 +1346,7 @@ Find single item according to a rule.
 **Usage**
 
 ```javascript
-const findNode = graph.find('node', node => {
+const findNode = graph.find('node', (node) => {
   return node.get('model').x === 100;
 });
 ```
@@ -1417,7 +1391,7 @@ Find all the items that match the rule.
 **Usage**
 
 ```javascript
-const nodes = graph.findAll('node', node => {
+const nodes = graph.findAll('node', (node) => {
   return node.get('model').x;
 });
 ```
@@ -1504,8 +1478,8 @@ Get all the edge items in the graph.
 const edges = graph.getEdges();
 ```
 
-
 ### getCombos()
+
 Get all the combo items in the graph.
 
 **Return**
@@ -1520,31 +1494,34 @@ const combos = graph.getCombos();
 ```
 
 ### getComboChildren(combo)
+
 Get the children of the `combo`.
 
 **Parameters**
 
-| Name    | Type   | Required | Description   |
-| ------- | ------ | -------- | ----------- |
+| Name  | Type            | Required | Description                              |
+| ----- | --------------- | -------- | ---------------------------------------- |
 | combo | string / ICombo | true     | The ID or of the combo or the combo item |
 
 **Return**
 
 - Type of the return value: Object. Formated as:
+
 ```javascript
 {
     nodes: INode[],
     edges: ICombo[]
 }
 ```
+
 - Return the children (sub nodes and combos) of the `combo`.
 
 **Usage**
 
 ```
-const elements: { 
-  nodes: INode[], 
-  combos: ICombo[] 
+const elements: {
+  nodes: INode[],
+  combos: ICombo[]
 } = graph.getComboChildren('combo1')
 ```
 
@@ -1552,18 +1529,20 @@ const elements: {
 
 **Parameters**
 
-| Name    | Type  | Required | Description      |
-| ------- | ------ | -------- | ----------- |
-| node | string / INode | true    | node ID or the node instance |
-| type |  'source' / 'target' / undefined | false    | The type of the neighbors, 'source': only return the source nodes; 'target': only return the target nodes, undefined: return all of the neighbors |
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| node | string / INode | true | node ID or the node instance |
+| type | 'source' / 'target' / undefined | false | The type of the neighbors, 'source': only return the source nodes; 'target': only return the target nodes, undefined: return all of the neighbors |
 
 **Return**
+
 - Type of the return value: Array;
 - Return a list of node items.
 
 **Usage**
-``` javascript
-const neighbors = graph.getNeighbors('node1', 'source')
+
+```javascript
+const neighbors = graph.getNeighbors('node1', 'source');
 ```
 
 ## Coordinate Transformation
@@ -1684,8 +1663,6 @@ graph.stopAnimate();
 
 Return if the graph is animating.
 
-
-
 ## Calculation
 
 ### getNodeDegree(node, degreeType)
@@ -1694,11 +1671,10 @@ Get the in-degree, out-degree, degree, or all of the three kinds of degree.
 
 **Parameter**
 
-| Name   | Type   | Required | Description             |
-| ---- | ------ | -------- | ---------- |
-| node | string / INode  | true     | Node's ID or item |
-| degreeType | `'in'` \ `'out'` \ `'total'` \ `'all'` | false     | The degree type. If it is assigned to `'in'`, returns the in-degree; `'out'` returns out-degree; `'total'` returns total degree; `'all'` returns an object contains three kinds of the degree: `{ inDegree, outDegree, degree}`; If it is not assigned, returns total degree as default |
-
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| node | string / INode | true | Node's ID or item |
+| degreeType | `'in'` \ `'out'` \ `'total'` \ `'all'` | false | The degree type. If it is assigned to `'in'`, returns the in-degree; `'out'` returns out-degree; `'total'` returns total degree; `'all'` returns an object contains three kinds of the degree: `{ inDegree, outDegree, degree}`; If it is not assigned, returns total degree as default |
 
 **Usage**
 
@@ -1707,32 +1683,36 @@ graph.getNodeDegree('node1', 'in');
 ```
 
 ### getShortestPathMatrix(cache, directed)
+
 Get all-pairs shortest-path matrix of the graph.
 
 **Parameters**
 
-| Name    | Type  | Required | Description |
-| -------| ------ | -------- | ------- |
-| cache | boolean | false     | Whether to use the cached matrix, 'true' by default. |
-| directed | boolean | false     | Whether the graph is directed,  use the value of `graph.get('directed')` by default. | 
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| cache | boolean | false | Whether to use the cached matrix, 'true' by default. |
+| directed | boolean | false | Whether the graph is directed, use the value of `graph.get('directed')` by default. |
 
 **Usage**
+
 ```javascript
 const matrix = graph.getShortestPathMatrix();
 ```
 
 ### getAdjMatrix(cache, directed)
+
 Get the adjacency matrix of the graph.
 
 **Parameters**
 
-| Name    | Type  | Required | Description |
-| -------| ------ | -------- | ------- |
-| cache | boolean | false  | Whether to use the cached matrix, 'true' by default. |
-| directed | boolean | false  | Whether the graph is directed,  use the value of `graph.get('directed')` by default. |
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| cache | boolean | false | Whether to use the cached matrix, 'true' by default. |
+| directed | boolean | false | Whether the graph is directed, use the value of `graph.get('directed')` by default. |
 
 **Usage**
-``` javascript
+
+```javascript
 const matrix = graph.getAdjMatrix();
 ```
 
@@ -1744,25 +1724,25 @@ Export the whole graph as an image, whatever (a part of) the graph is out of the
 
 **Parameters**
 
-| Name | Type   | Required | Description            |
-| ---- | ------ | -------- | ---------- |
-| name | String | false     | The name of the image. 'graph' by default. |
-| type | `'image/png'` / `'image/jpeg'` / `'image/webp'` / `'image/bmp'` | false     | The type of the image. When the `renderer` of the graph is `'canvas'`(default), `type` takes effect. When the `renderer` is `'svg'`, `toFullDataURL` will export a svg file |
-| imageConfig | Object | false     | The configuration for the exported image, detials are shown below |
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| name | String | false | The name of the image. 'graph' by default. |
+| type | `'image/png'` / `'image/jpeg'` / `'image/webp'` / `'image/bmp'` | false | The type of the image. When the `renderer` of the graph is `'canvas'`(default), `type` takes effect. When the `renderer` is `'svg'`, `toFullDataURL` will export a svg file |
+| imageConfig | Object | false | The configuration for the exported image, detials are shown below |
 
 where the `imageConfig` is the configuration for exported image:
 
-| Name | Type   | Required | Description            |
-| ---- | ------ | -------- | ---------- |
-| backgroundColor | String | false     | The background color of the image. If it is not assigned, the background will be transparent. |
-| padding | Number / Number[] | false     | The top, right, bottom, right paddings of the exported image. When its type is number, the paddings around the graph are the same |
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| backgroundColor | String | false | The background color of the image. If it is not assigned, the background will be transparent. |
+| padding | Number / Number[] | false | The top, right, bottom, right paddings of the exported image. When its type is number, the paddings around the graph are the same |
 
 **Usage**
 
 ```javascript
 graph.downloadFullImage('tree-graph', {
   backgroundColor: '#ddd',
-  padding: [30, 15, 15, 15]
+  padding: [30, 15, 15, 15],
 });
 ```
 
@@ -1772,11 +1752,11 @@ Export the canvas as an image.
 
 **Parameters**
 
-| Name | Type   | Required | Description            |
-| ---- | ------ | -------- | ---------------------- |
-| name | String | false     | The name of the image. 'graph' by default |
-| type | `'image/png'` / `'image/jpeg'` / `'image/webp'` / `'image/bmp'` | false     | The type of the image. When the `renderer` of the graph is `'canvas'`(default), `type` takes effect. When the `renderer` is `'svg'`, `toFullDataURL` will export a svg file |
-| backgroundColor | String | false     | The background color of the image. If it is not assigned, the background will be transparent. |
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| name | String | false | The name of the image. 'graph' by default |
+| type | `'image/png'` / `'image/jpeg'` / `'image/webp'` / `'image/bmp'` | false | The type of the image. When the `renderer` of the graph is `'canvas'`(default), `type` takes effect. When the `renderer` is `'svg'`, `toFullDataURL` will export a svg file |
+| backgroundColor | String | false | The background color of the image. If it is not assigned, the background will be transparent. |
 
 **Usage**
 
@@ -1790,10 +1770,10 @@ Generate url of the image of the graph inside the view port.
 
 **Parameters**
 
-| Name | Type   | Required | Description            |
-| ---- | ------ | -------- | ---------- |
-| type | `'image/png'` / `'image/jpeg'` / `'image/webp'` / `'image/bmp'` | false     | The type of the image. When the `renderer` of the graph is `'canvas'`(default), `type` takes effect. When the `renderer` is `'svg'`, `toFullDataURL` will export a svg file |
-| backgroundColor | String | false     | The background color of the image. If it is not assigned, the background will be transparent. |
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| type | `'image/png'` / `'image/jpeg'` / `'image/webp'` / `'image/bmp'` | false | The type of the image. When the `renderer` of the graph is `'canvas'`(default), `type` takes effect. When the `renderer` is `'svg'`, `toFullDataURL` will export a svg file |
+| backgroundColor | String | false | The background color of the image. If it is not assigned, the background will be transparent. |
 
 **Return**
 
@@ -1806,31 +1786,27 @@ Generate url of the image of the graph inside the view port.
 const dataURL = graph.toDataURL();
 ```
 
-
-
 ### toFullDataURL(callback, type, backgroundColor)
 
 Generate url of the image of the whole graph including the part out of the view port.
 
 **Parameters**
 
-| Name | Type   | Required | Description            |
-| ---- | ------ | -------- | ---------- |
-| callback | Function | true | The callback function after finish generating the dataUrl of the full graph 
-Asynchronously |
-| type | `'image/png'` / `'image/jpeg'` / `'image/webp'` / `'image/bmp'` | false     | The type of the image. When the `renderer` of the graph is `'canvas'`(default), `type` takes effect. When the `renderer` is `'svg'`, `toFullDataURL` will export a svg file |
-| imageConfig | Object | false     | The configuration for the exported image, detials are shown below |
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| callback | Function | true | The callback function after finish generating the dataUrl of the full graph |
+| Asynchronously |
+| type | `'image/png'` / `'image/jpeg'` / `'image/webp'` / `'image/bmp'` | false | The type of the image. When the `renderer` of the graph is `'canvas'`(default), `type` takes effect. When the `renderer` is `'svg'`, `toFullDataURL` will export a svg file |
+| imageConfig | Object | false | The configuration for the exported image, detials are shown below |
 
 where the `imageConfig` is the configuration for exported image:
 
-| Name | Type   | Required | Description            |
-| ---- | ------ | -------- | ---------- |
-| backgroundColor | String | false     | The background color of the image. If it is not assigned, the background will be transparent. |
-| padding | Number / Number[] | false     | The top, right, bottom, right paddings of the exported image. When its type is number, the paddings around the graph are the same |
-
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| backgroundColor | String | false | The background color of the image. If it is not assigned, the background will be transparent. |
+| padding | Number / Number[] | false | The top, right, bottom, right paddings of the exported image. When its type is number, the paddings around the graph are the same |
 
 No return value, you can process the result in the callback function as shown below:
-
 
 **Usage**
 
@@ -1843,15 +1819,12 @@ graph.toFullDataUrl(
   },
   // The second and third parameter is not required
   'image/jpeg',
-  imageConfig: {
+  (imageConfig: {
     backgroundColor: '#fff',
-    padding: 10
-  }
-
-)
+    padding: 10,
+  }),
+);
 ```
-
-
 
 ## Others
 
@@ -1871,8 +1844,8 @@ Add plugin to graph.
 import { Minimap } from '@antv/g6';
 const miniMap = new Minimap({
   size: [200, 100],
-  className: 'minimap'
-})
+  className: 'minimap',
+});
 
 graph.addPlugin(miniMap);
 ```
@@ -1941,8 +1914,6 @@ graph.set('customGroup', group);
 graph.set('nodeIdList', [1, 3, 5]);
 ```
 
-
-
 ### getContainer()
 
 Get the DOM container of the graph.
@@ -1954,9 +1925,8 @@ No parameter.
 **Usage**
 
 ```javascript
-graph.getContainer()
+graph.getContainer();
 ```
-
 
 ### getGroup()
 
@@ -1969,9 +1939,8 @@ No parameter.
 **Usage**
 
 ```javascript
-graph.getGroup()
+graph.getGroup();
 ```
-
 
 ### getMinZoom()
 
@@ -1984,9 +1953,8 @@ No parameter
 **Usage**
 
 ```javascript
-graph.getMinZoom()
+graph.getMinZoom();
 ```
-
 
 ### setMinZoom(ratio)
 
@@ -1994,18 +1962,15 @@ Set the `minZoom` for the graph, which is the lower limit of the zoom ratio.
 
 **Parameter**
 
-| Name | Type                    | Required | Description                |
-| ---- | ----------------------- | -------- | -------- |
-| ratio  | number                  | true     | The minimum zoom ratio value |
-
+| Name  | Type   | Required | Description                  |
+| ----- | ------ | -------- | ---------------------------- |
+| ratio | number | true     | The minimum zoom ratio value |
 
 **Usage**
 
 ```javascript
-graph.setMinZoom(0.001)
+graph.setMinZoom(0.001);
 ```
-
-
 
 ### getMaxZoom()
 
@@ -2018,9 +1983,8 @@ No parameter.
 **Usage**
 
 ```javascript
-graph.getMaxZoom()
+graph.getMaxZoom();
 ```
-
 
 ### setMaxZoom(ratio)
 
@@ -2028,17 +1992,15 @@ Set the `maxZoom` for the graph, which is the upper limit of the zoom ratio.
 
 **Parameter**
 
-| Name | Type                    | Required | Description                |
-| ---- | ----------------------- | -------- | -------- |
-| ratio  | number                  | true     | The maximum zoom ratio value |
-
+| Name  | Type   | Required | Description                  |
+| ----- | ------ | -------- | ---------------------------- |
+| ratio | number | true     | The maximum zoom ratio value |
 
 **Usage**
 
 ```javascript
-graph.setMaxZoom(1000)
+graph.setMaxZoom(1000);
 ```
-
 
 ### getWidth()
 
@@ -2051,10 +2013,8 @@ No parameter.
 **Usage**
 
 ```javascript
-graph.getWidth()
+graph.getWidth();
 ```
-
-
 
 ### getHeight()
 
@@ -2067,6 +2027,5 @@ No parameter.
 **Usage**
 
 ```javascript
-graph.getHeight()
+graph.getHeight();
 ```
-

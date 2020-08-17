@@ -258,7 +258,7 @@ describe('radial', () => {
         focusNode,
         unitRadius,
         preventOverlap: true,
-        nodeSpacing: d => {
+        nodeSpacing: (d) => {
           return 5;
         },
         nodeSize: [nodeSize, nodeSize],
@@ -306,7 +306,7 @@ describe('radial', () => {
     const unitRadius = 100;
     const focusNode = data.nodes[5];
     const nodeSize = [40, 20];
-    data.nodes.forEach(node => {
+    data.nodes.forEach((node) => {
       node.size = nodeSize;
     });
     const graph = new G6.Graph({
@@ -356,7 +356,7 @@ describe('radial', () => {
   it('preventOverlap, no nodeSize, no data size', () => {
     const unitRadius = 100;
     const focusNode = data.nodes[5];
-    data.nodes.forEach(node => {
+    data.nodes.forEach((node) => {
       node.size = undefined;
     });
     const graph = new G6.Graph({
@@ -648,7 +648,7 @@ describe('radial layout', () => {
       height: 500,
       container: div,
     });
-    data.nodes.forEach(node => {
+    data.nodes.forEach((node) => {
       delete node.size;
     });
     graph.data(data);
@@ -1134,7 +1134,7 @@ describe('radial layout', () => {
     });
     const colors = ['#e5e5e5', 'green', '#5AD8A6', '#5B8FF9'];
     const colorsObj = { a: '#e5e5e5', b: 'green', c: '#5AD8A6', d: '#5B8FF9' };
-    data2.nodes.forEach(node => {
+    data2.nodes.forEach((node) => {
       node.size = 15;
       node.label = ' ';
       node.style = {

@@ -7,14 +7,14 @@ let graph: IGraph = null;
 const mapNodeSize = (nodes, propertyName, visualRange) => {
   let minp = 9999999999;
   let maxp = -9999999999;
-  nodes.forEach(node => {
+  nodes.forEach((node) => {
     node[propertyName] = Math.pow(node[propertyName], 1 / 3);
     minp = node[propertyName] < minp ? node[propertyName] : minp;
     maxp = node[propertyName] > maxp ? node[propertyName] : maxp;
   });
   const rangepLength = maxp - minp;
   const rangevLength = visualRange[1] - visualRange[0];
-  nodes.forEach(node => {
+  nodes.forEach((node) => {
     node.size = ((node[propertyName] - minp) / rangepLength) * rangevLength + visualRange[0];
   });
 };
@@ -67,13 +67,13 @@ const RtOccupy = () => {
       fetch(
         'https://gw.alipayobjects.com/os/basement_prod/667ce192-910d-4082-b134-ce78ed46be0a.json',
       )
-        .then(res => res.json())
-        .then(data => {
+        .then((res) => res.json())
+        .then((data) => {
           // console.log(data);
-          data.nodes.forEach(node => {
+          data.nodes.forEach((node) => {
             node.label = node.olabel;
             node.degree = 0;
-            data.edges.forEach(edge => {
+            data.edges.forEach((edge) => {
               if (edge.source === node.id || edge.target === node.id) {
                 node.degree++;
               }
@@ -104,7 +104,7 @@ const RtOccupy = () => {
           //   node.y = graphSize * node.y / scale + graphSize / 2;
           // });
           // graph.positionsAnimate();
-          graph.on('node:dragstart', e => {
+          graph.on('node:dragstart', (e) => {
             graph.setItemState(e.item, 'selected', true);
             e.item.toFront();
           });

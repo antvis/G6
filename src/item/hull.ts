@@ -114,6 +114,7 @@ export default class Hull {
         contour = genBubbleSet(members, nonMembers, this.cfg.bubbleCfg);
         path = contour.length >= 2 && getClosedSpline(contour);
         break;
+      default:
     }
     return path;
   }

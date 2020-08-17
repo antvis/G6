@@ -19,10 +19,6 @@ const lensDelegateStyle = {
   fill: '#ccc',
 };
 export default class Fisheye extends Base {
-  constructor(cfg?: FisheyeConfig) {
-    super(cfg);
-  }
-
   public getDefaultCfgs(): FisheyeConfig {
     return {
       trigger: 'mousemove',

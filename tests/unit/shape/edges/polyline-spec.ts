@@ -22,9 +22,9 @@ describe('polyline e test', () => {
         type: 'rect',
         size: [100, 50],
         style: {
-          opacity: 0.1
-        }
-      }
+          opacity: 0.1,
+        },
+      },
     });
     it('default polyline config', () => {
       const data = {
@@ -162,7 +162,7 @@ describe('polyline e test', () => {
       const group = edge.get('group');
       expect(group.getCount()).toEqual(2);
 
-      const label = group.find(g => {
+      const label = group.find((g) => {
         return g.get('className') === 'edge-label';
       });
       expect(label).not.toBe(undefined);
@@ -309,7 +309,7 @@ describe('polyline e test', () => {
       const edges = graph.getEdges();
       const edge = edges[0];
       const group = edge.get('group');
-      const label = group.find(g => {
+      const label = group.find((g) => {
         return g.get('className') === 'edge-label';
       });
       expect(label.attr('text')).toEqual('polyline');
@@ -376,7 +376,7 @@ describe('polyline e test', () => {
           },
         },
       });
-      const label = group.find(g => {
+      const label = group.find((g) => {
         return g.get('className') === 'edge-label';
       });
       expect(label.attr('fill')).toEqual('#0ff');
@@ -433,7 +433,7 @@ describe('polyline e test', () => {
           },
         },
       });
-      const label = group.find(g => {
+      const label = group.find((g) => {
         return g.get('className') === 'edge-label';
       });
       expect(label.attr('fill')).toEqual('#0ff');

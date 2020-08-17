@@ -5,52 +5,59 @@ import { GraphData } from '../../../src/types';
 
 let graph: IGraph = null;
 
-G6.registerCombo('rectCircleCombo', {
-  drawShape: function drawShape(cfg, group) {
-    const self = this;
-    cfg.padding = cfg.padding || [10, 10, 10, 10];
-    cfg.size = self.getSize(cfg);
-    cfg.style = Object.assign({
-      fill: '#ccc',
-      stroke: '#333',
-      lineWidth: 2,
-    }, cfg.style);
-    const keyShapeHeight = cfg.size[0] + cfg.padding[0] + cfg.padding[2];
-    const keyShapeWidth = cfg.size[1] + cfg.padding[1] + cfg.padding[3];
-    // 绘制一个矩形作为 keyShape，与 'rect' Combo 的 keyShape 一致
-    const rect = group.addShape('rect', {
-      attrs: {
-        ...cfg.style,
-        x: -cfg.size[0] / 2 - cfg.padding[3],
-        y: -cfg.size[1] / 2 - cfg.padding[0],
-        width: keyShapeWidth,
-        height: keyShapeHeight
-      }
-    });
-    // 增加右侧圆
-    group.addShape('circle', {
-      attrs: {
-        ...cfg.style,
-        fill: '#fff',
-        opacity: 1,
+G6.registerCombo(
+  'rectCircleCombo',
+  {
+    drawShape: function drawShape(cfg, group) {
+      const self = this;
+      cfg.padding = cfg.padding || [10, 10, 10, 10];
+      cfg.size = self.getSize(cfg);
+      cfg.style = Object.assign(
+        {
+          fill: '#ccc',
+          stroke: '#333',
+          lineWidth: 2,
+        },
+        cfg.style,
+      );
+      const keyShapeHeight = cfg.size[0] + cfg.padding[0] + cfg.padding[2];
+      const keyShapeWidth = cfg.size[1] + cfg.padding[1] + cfg.padding[3];
+      // 绘制一个矩形作为 keyShape，与 'rect' Combo 的 keyShape 一致
+      const rect = group.addShape('rect', {
+        attrs: {
+          ...cfg.style,
+          x: -cfg.size[0] / 2 - cfg.padding[3],
+          y: -cfg.size[1] / 2 - cfg.padding[0],
+          width: keyShapeWidth,
+          height: keyShapeHeight,
+        },
+      });
+      // 增加右侧圆
+      group.addShape('circle', {
+        attrs: {
+          ...cfg.style,
+          fill: '#fff',
+          opacity: 1,
+          x: cfg.style.width / 2 + cfg.padding[3],
+          y: (cfg.padding[2] - cfg.padding[0]) / 2,
+          r: 5,
+        },
+        draggable: true,
+        name: 'combo-circle-shape',
+      });
+      return rect;
+    },
+    afterUpdate: function afterUpdate(cfg, node) {
+      const group = node.get('group');
+      const circle = group.find((ele) => ele.get('name') === 'combo-circle-shape');
+      circle.attr({
         x: cfg.style.width / 2 + cfg.padding[3],
         y: (cfg.padding[2] - cfg.padding[0]) / 2,
-        r: 5
-      },
-      draggable: true,
-      name: 'combo-circle-shape'
-    });
-    return rect;
+      });
+    },
   },
-  afterUpdate: function afterUpdate(cfg, node) {
-    const group = node.get('group');
-    const circle = group.find(ele => ele.get('name') === 'combo-circle-shape');
-    circle.attr({
-      x: cfg.style.width / 2 + cfg.padding[3],
-      y: (cfg.padding[2] - cfg.padding[0]) / 2
-    });
-  }
-}, 'rect');
+  'rect',
+);
 
 const data: GraphData = {
   nodes: [
@@ -59,14 +66,14 @@ const data: GraphData = {
       x: 150,
       y: 150,
       label: 'node1',
-      comboId: 'A'
+      comboId: 'A',
     },
     {
       id: 'node2',
       x: 200,
       y: 250,
       label: 'node2',
-      comboId: 'B'
+      comboId: 'B',
     },
     {
       id: 'node3',
@@ -79,14 +86,14 @@ const data: GraphData = {
       x: 50,
       y: 50,
       label: 'node4',
-      comboId: 'D'
+      comboId: 'D',
     },
     {
       id: 'node5',
       x: 100,
       y: 100,
       label: 'node5',
-      comboId: 'E'
+      comboId: 'E',
     },
   ],
   edges: [
@@ -108,9 +115,10 @@ const data: GraphData = {
       id: 'A',
       parentId: 'B',
       label: 'gorup A',
-      padding: [50, 10, 10, 10]
+      padding: [50, 10, 10, 10],
       // type: 'rect'
-    }, {
+    },
+    {
       id: 'B',
       // parentId: 'C',
       label: 'gorup B',
@@ -127,15 +135,18 @@ const data: GraphData = {
       label: 'gorup D',
       parentId: 'E',
       // type: 'rect'
-    }, {
+    },
+    {
       id: 'E',
       // type: 'rect'
-    }, {
+    },
+    {
       id: 'empty',
       label: 'empty',
       x: 300,
-      y: 300
-    }]
+      y: 300,
+    },
+  ],
 };
 
 const data2: GraphData = {
@@ -145,7 +156,7 @@ const data2: GraphData = {
       x: 150,
       y: 150,
       label: 'node1',
-      comboId: 'A'
+      comboId: 'A',
     },
     {
       id: 'node2',
@@ -164,7 +175,7 @@ const data2: GraphData = {
       x: 200,
       y: 350,
       label: 'node4',
-      comboId: 'B'
+      comboId: 'B',
     },
   ],
   edges: [
@@ -189,26 +200,31 @@ const data2: GraphData = {
       id: 'A',
       parentId: 'C',
       label: 'gorup A',
-      type: 'circle'
-    }, {
+      type: 'circle',
+    },
+    {
       id: 'B',
       parentId: 'C',
       label: 'gorup B',
-      type: 'circle'
-    }, {
+      type: 'circle',
+    },
+    {
       id: 'C',
       label: 'gorup C',
       // type: 'rect'
-    }, {
+    },
+    {
       id: 'F',
       label: 'gorup F',
       // type: 'rect'
-    }, {
+    },
+    {
       id: 'G',
       label: 'gorup G',
       // parentId: 'F'
-      type: 'circle'
-    }]
+      type: 'circle',
+    },
+  ],
 };
 
 const DefaultCombo = () => {
@@ -221,7 +237,7 @@ const DefaultCombo = () => {
         height: 800,
         groupByTypes: false,
         modes: {
-          default: ['drag-canvas', 'drag-combo']
+          default: ['drag-canvas', 'drag-combo'],
         },
         // layout: {
         //   type: 'comboForce'
@@ -335,13 +351,13 @@ const DefaultCombo = () => {
 
       //   graph.updateComboTree('A', 'M');
       // });
-      graph.on('canvas:click', e => {
+      graph.on('canvas:click', (e) => {
         const node1 = graph.findById('node1');
         graph.updateItem(node1, {
           x: 100,
-          y: 100
+          y: 100,
         });
-        graph.updateCombo(node1.getModel().comboId as string)
+        graph.updateCombo(node1.getModel().comboId as string);
       });
     }
   });

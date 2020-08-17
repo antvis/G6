@@ -91,9 +91,7 @@ const graph = new G6.Graph({
     },
   },
   modes: {
-    default: [
-      'drag-node'
-    ],
+    default: ['drag-node'],
   },
 });
 graph.data(data);

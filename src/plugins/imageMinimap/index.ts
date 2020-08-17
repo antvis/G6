@@ -21,8 +21,8 @@ function getImgNaturalDimension(img, callback?) {
     // IE6/7/8
     const image = new Image();
     image.src = img.src;
-    image.onload = function () {
-      callback && callback(image.width, image.height);
+    image.onload = () => {
+      callback?.(image.width, image.height);
     };
   }
   return [nWidth, nHeight];
@@ -39,10 +39,6 @@ interface MiniMapConfig extends IPluginBaseConfig {
 }
 
 export default class ImageMiniMap extends Base {
-  constructor(cfg?: MiniMapConfig) {
-    super(cfg);
-  }
-
   public getDefaultCfgs(): MiniMapConfig {
     return {
       container: null,
@@ -89,7 +85,7 @@ export default class ImageMiniMap extends Base {
 
     const containerDOM = this.get('container');
     const viewport = createDOM(
-      `<div class=${cfgs.viewportClassName} 
+      `<div class=${cfgs.viewportClassName}
       style='position:absolute;
         left:0;
         top:0;

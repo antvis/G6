@@ -21,14 +21,14 @@ const LIMIT_OVERFLOW_HEIGHT = height;
 const mapNodeSizeAndFontSize = (nodes, propertyName, visualRange) => {
   let minp = 9999999999;
   let maxp = -9999999999;
-  nodes.forEach(node => {
+  nodes.forEach((node) => {
     const propertyValue = node[propertyName] > 5000 ? 5000 : node[propertyName];
     minp = propertyValue < minp ? propertyValue : minp;
     maxp = propertyValue > maxp ? propertyValue : maxp;
   });
   const rangepLength = maxp - minp;
   const rangevLength = visualRange[1] - visualRange[0];
-  nodes.forEach(node => {
+  nodes.forEach((node) => {
     const propertyValue = node[propertyName] > 5000 ? 5000 : node[propertyName];
     node.size = ((propertyValue - minp) / rangepLength) * rangevLength + visualRange[0];
     if (node.labelCfg && node.labelCfg.style) {
@@ -45,7 +45,7 @@ const Colors = { noun: '#588c73', adj: '#f2e394', v: '#d96459', adv: '#f2ae72' }
 let graph;
 const layoutCfg = {
   type: 'force',
-  nodeSize: d => {
+  nodeSize: (d) => {
     return d.size / 2 + 5;
   },
   nodeStrength: 2500,
@@ -57,7 +57,7 @@ const layoutCfg = {
     const height = graph.get('height');
     const width = graph.get('width');
     const padding = 10;
-    nodeItems.forEach(item => {
+    nodeItems.forEach((item) => {
       const model = item.getModel();
       if (model.x > width - padding) model.x = width - padding;
       else if (model.x < padding) model.x = padding;
@@ -252,7 +252,7 @@ G6.registerNode(
       const label = shape.get('parent').get('children')[1];
       if (name === 'disappearing' && value) {
         shape.animate(
-          ratio => {
+          (ratio) => {
             return {
               opacity: 1 - ratio,
               r: shape.attr('r') * (1 - ratio),
@@ -263,7 +263,7 @@ G6.registerNode(
           },
         );
         label.animate(
-          ratio => {
+          (ratio) => {
             return {
               opacity: 1 - ratio,
             };
@@ -275,7 +275,7 @@ G6.registerNode(
       } else if (name === 'appearing' && value) {
         const r = item.getModel().size / 2;
         shape.animate(
-          ratio => {
+          (ratio) => {
             return {
               opacity: ratio,
               r: r * ratio,
@@ -287,7 +287,7 @@ G6.registerNode(
           },
         );
         label.animate(
-          ratio => {
+          (ratio) => {
             return {
               opacity: ratio,
             };
@@ -322,7 +322,7 @@ G6.registerEdge(
     afterDraw(cfg, group) {
       const shape = group.get('children')[0];
       shape.animate(
-        ratio => {
+        (ratio) => {
           const opacity = ratio * cfg.style.opacity;
           const strokeOpacity = ratio * cfg.style.strokeOpacity;
           return {
@@ -339,7 +339,7 @@ G6.registerEdge(
       const shape = item.get('keyShape');
       if (name === 'disappearing' && value) {
         shape.animate(
-          ratio => {
+          (ratio) => {
             return {
               opacity: 1 - ratio,
               strokeOpacity: 1 - ratio,
@@ -412,19 +412,19 @@ function refreshDragedNodePosition(e) {
   model.fx = e.x;
   model.fy = e.y;
 }
-graph.on('node:dragstart', e => {
+graph.on('node:dragstart', (e) => {
   graph.layout();
   refreshDragedNodePosition(e);
 });
-graph.on('node:drag', e => {
+graph.on('node:drag', (e) => {
   refreshDragedNodePosition(e);
 });
-graph.on('node:dragend', e => {
+graph.on('node:dragend', (e) => {
   e.item.get('model').fx = null;
   e.item.get('model').fy = null;
 });
 
-const loadData = data => {
+const loadData = (data) => {
   const layoutController = graph.get('layoutController');
   layoutController.layoutCfg.nodeStrength = 30;
   layoutController.layoutCfg.collideStrength = 0.8;
@@ -437,7 +437,7 @@ const loadData = data => {
   nodeMap = new Map();
   edgesMap = new Map();
   // find the roots
-  nodes.forEach(node => {
+  nodes.forEach((node) => {
     if (!node.neighbor) {
       node.label = node.text;
       node.color = Colors[node.type];
@@ -464,13 +464,13 @@ const loadData = data => {
   });
 
   mapNodeSizeAndFontSize(showNodes, 'count', [40, 120]);
-  showNodes.forEach(snode => {
+  showNodes.forEach((snode) => {
     if (snode.size < 80) {
       snode.shape = 'circle';
     }
   });
 
-  edges.forEach(edge => {
+  edges.forEach((edge) => {
     // map the id
     edge.id = `${edge.source}-${edge.target}`;
     edge.style = {
@@ -488,13 +488,13 @@ const loadData = data => {
 };
 
 fetch('https://gw.alipayobjects.com/os/basement_prod/0a749386-8593-44a2-a132-81dfa1fc3158.json')
-  .then(res => res.json())
-  .then(data => {
+  .then((res) => res.json())
+  .then((data) => {
     loadData(data);
   });
 
 // click root to expand
-graph.on('node:click', e => {
+graph.on('node:click', (e) => {
   curShowNodes = [];
   curShowEdges = [];
   const item = e.item;
@@ -508,7 +508,7 @@ graph.on('node:click', e => {
     const forceLayout = layoutController.layoutMethod;
     forceLayout.forceSimulation.stop();
     // light the level 0 nodes
-    showNodes.forEach(snode => {
+    showNodes.forEach((snode) => {
       if (snode.x < 0.5 * width) {
         snode.x = 300;
       } else {
@@ -519,12 +519,12 @@ graph.on('node:click', e => {
     model.y = height / 2;
     // animatively hide the items which are going to disappear
     if (curShowEdges.length) {
-      curShowEdges.forEach(csedge => {
+      curShowEdges.forEach((csedge) => {
         const item = graph.findById(csedge.id);
         item && graph.setItemState(item, 'disappearing', true);
       });
     }
-    curShowNodes.forEach(csnode => {
+    curShowNodes.forEach((csnode) => {
       const item = graph.findById(csnode.id);
       item && graph.setItemState(item, 'disappearing', true);
     });
@@ -549,7 +549,7 @@ graph.on('node:click', e => {
         return -80;
       };
       layoutController.layoutCfg.collideStrength = 0.2;
-      layoutController.layoutCfg.linkDistance = d => {
+      layoutController.layoutCfg.linkDistance = (d) => {
         if (!d.source.neighbor && !d.target.neighbor) return 150;
         return 80;
       };
@@ -559,7 +559,7 @@ graph.on('node:click', e => {
 
       curShowNodesMap = new Map();
       // find the nodes which are the descendants of clicked model
-      edges.forEach(edge => {
+      edges.forEach((edge) => {
         let nodeId = '';
         let node;
         if (edge.source === model.id) {
@@ -569,7 +569,7 @@ graph.on('node:click', e => {
         } else {
           return;
         }
-        nodes.forEach(tnode => {
+        nodes.forEach((tnode) => {
           if (tnode.id === nodeId) {
             node = tnode;
           }
@@ -612,7 +612,7 @@ graph.on('node:click', e => {
         }
       });
 
-      edges.forEach(edge => {
+      edges.forEach((edge) => {
         if (edge.source === model.id || edge.target === model.id) {
           curShowEdges.push(edge);
         }
@@ -625,10 +625,10 @@ graph.on('node:click', e => {
       });
       const nodeItems = graph.getNodes();
       const edgeItems = graph.getEdges();
-      edgeItems.forEach(item => {
+      edgeItems.forEach((item) => {
         graph.clearItemStates(item);
       });
-      nodeItems.forEach(item => {
+      nodeItems.forEach((item) => {
         graph.clearItemStates(item);
         graph.setItemState(item, 'appearing', true);
       });
@@ -644,13 +644,13 @@ graph.on('canvas:click', () => {
   if (highlighting) {
     highlighting = false;
   } else {
-    nodeItems.forEach(item => {
+    nodeItems.forEach((item) => {
       const model = item.getModel();
       if (model.neighbor) {
         graph.setItemState(item, 'disappearing', true);
       }
     });
-    edgeItems.forEach(item => {
+    edgeItems.forEach((item) => {
       graph.setItemState(item, 'disappearing', true);
     });
     curShowNodes = [];
