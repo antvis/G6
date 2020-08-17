@@ -31,7 +31,7 @@ G6.registerEdge('line-arrow', {
         stroke,
         lineWidth: 1,
         startArrow,
-        endArrow
+        endArrow,
       },
       className: 'edge-shape',
       name: 'edge-shape',

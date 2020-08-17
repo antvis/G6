@@ -15,14 +15,14 @@ const data = {
       x: 150,
       y: 150,
       label: 'node1',
-      comboId: 'A'
+      comboId: 'A',
     },
     {
       id: 'node2',
       x: 200,
       y: 250,
       label: 'node2',
-      comboId: 'A'
+      comboId: 'A',
     },
     {
       id: 'node3',
@@ -35,7 +35,7 @@ const data = {
       x: 200,
       y: 350,
       label: 'node4',
-      comboId: 'B'
+      comboId: 'B',
     },
   ],
   edges: [
@@ -57,65 +57,68 @@ const data = {
       id: 'A',
       parentId: 'C',
       label: 'gorup A',
-      type: 'circle'
-    }, {
+      type: 'circle',
+    },
+    {
       id: 'B',
       parentId: 'C',
       label: 'gorup B',
-      type: 'circle'
-    }, {
+      type: 'circle',
+    },
+    {
       id: 'C',
       label: 'gorup C',
       // type: 'rect'
     },
     {
       id: 'F',
-      label: 'gorup F'
+      label: 'gorup F',
       // type: 'rect'
-    }, {
+    },
+    {
       id: 'G',
       label: 'gorup G',
       // parentId: 'F'
-      type: 'circle'
-    }
-  ]
+      type: 'circle',
+    },
+  ],
 };
 
 describe('collapse-expand-combo', () => {
-  it('default collapse expand combo', done => {
+  it('default collapse expand combo', (done) => {
     const graph = new G6.Graph({
       container: 'container',
       width: 1000,
       height: 800,
       modes: {
-        default: ['collapse-expand-combo']
+        default: ['collapse-expand-combo'],
       },
       defaultCombo: {
         type: 'circle',
         style: {
-          fill: '#b5f5ec'
-        }
+          fill: '#b5f5ec',
+        },
       },
       nodeStateStyles: {
         selected: {
-          fill: 'red'
-        }
+          fill: 'red',
+        },
       },
       comboStateStyles: {
         active: {
-          stroke: 'red'
+          stroke: 'red',
         },
         selected: {
           'text-shape': {
             fill: '#f00',
-            fontSize: 20
+            fontSize: 20,
           },
-          fill: '#36cfc9'
+          fill: '#36cfc9',
         },
         state2: {
-          stroke: '#0f0'
-        }
-      }
+          stroke: '#0f0',
+        },
+      },
     });
 
     graph.data(data);
@@ -128,16 +131,16 @@ describe('collapse-expand-combo', () => {
     graph.emit('combo:dblclick', { item: comboC });
     expect(comboA.getModel().collapsed).toBe(true);
     expect(comboC.getModel().collapsed).toBe(true);
-    comboA.getChildren().nodes.forEach(node => {
+    comboA.getChildren().nodes.forEach((node) => {
       expect(node.isVisible()).toBe(false);
     });
-    comboA.getChildren().combos.forEach(combo => {
+    comboA.getChildren().combos.forEach((combo) => {
       expect(combo.isVisible()).toBe(false);
     });
-    comboC.getChildren().nodes.forEach(node => {
+    comboC.getChildren().nodes.forEach((node) => {
       expect(node.isVisible()).toBe(false);
     });
-    comboC.getChildren().combos.forEach(combo => {
+    comboC.getChildren().combos.forEach((combo) => {
       expect(combo.isVisible()).toBe(false);
     });
 
@@ -145,34 +148,34 @@ describe('collapse-expand-combo', () => {
       // The console will warn: Fail to expand the combo since it's ancestor combo is collapsed.
       graph.emit('combo:dblclick', { item: comboA });
       expect(comboA.getModel().collapsed).toBe(true);
-      comboA.getChildren().nodes.forEach(node => {
+      comboA.getChildren().nodes.forEach((node) => {
         expect(node.isVisible()).toBe(false);
       });
-      comboA.getChildren().combos.forEach(combo => {
+      comboA.getChildren().combos.forEach((combo) => {
         expect(combo.isVisible()).toBe(false);
       });
 
       graph.emit('combo:dblclick', { item: comboC });
       expect(comboC.getModel().collapsed).toBe(false);
-      comboC.getChildren().nodes.forEach(node => {
+      comboC.getChildren().nodes.forEach((node) => {
         expect(node.isVisible()).toBe(true);
       });
-      comboC.getChildren().combos.forEach(combo => {
+      comboC.getChildren().combos.forEach((combo) => {
         expect(combo.isVisible()).toBe(true);
       });
       // but A is still in collapsed state
       expect(comboA.getModel().collapsed).toBe(true);
-      comboA.getChildren().nodes.forEach(node => {
+      comboA.getChildren().nodes.forEach((node) => {
         expect(node.isVisible()).toBe(false);
       });
-      comboA.getChildren().combos.forEach(combo => {
+      comboA.getChildren().combos.forEach((combo) => {
         expect(combo.isVisible()).toBe(false);
       });
       graph.destroy();
       done();
     }, 250);
   });
-  it('default collapsed set in data', done => {
+  it('default collapsed set in data', (done) => {
     data.combos.forEach((combo: ComboConfig) => {
       combo.collapsed = true;
     });
@@ -192,7 +195,7 @@ describe('collapse-expand-combo', () => {
       done();
     }, 250);
   });
-  it('collapse-expand-combo behavior with click trigger', done => {
+  it('collapse-expand-combo behavior with click trigger', (done) => {
     data.combos.forEach((combo: ComboConfig) => {
       delete combo.collapsed;
     });
@@ -201,10 +204,12 @@ describe('collapse-expand-combo', () => {
       width: 1000,
       height: 800,
       modes: {
-        default: [{
-          type: 'collapse-expand-combo',
-          trigger: 'click'
-        }]
+        default: [
+          {
+            type: 'collapse-expand-combo',
+            trigger: 'click',
+          },
+        ],
       },
     });
     graph.read(data);
@@ -216,16 +221,16 @@ describe('collapse-expand-combo', () => {
     graph.emit('combo:click', { item: comboC });
     expect(comboA.getModel().collapsed).toBe(true);
     expect(comboC.getModel().collapsed).toBe(true);
-    comboA.getChildren().nodes.forEach(node => {
+    comboA.getChildren().nodes.forEach((node) => {
       expect(node.isVisible()).toBe(false);
     });
-    comboA.getChildren().combos.forEach(combo => {
+    comboA.getChildren().combos.forEach((combo) => {
       expect(combo.isVisible()).toBe(false);
     });
-    comboC.getChildren().nodes.forEach(node => {
+    comboC.getChildren().nodes.forEach((node) => {
       expect(node.isVisible()).toBe(false);
     });
-    comboC.getChildren().combos.forEach(combo => {
+    comboC.getChildren().combos.forEach((combo) => {
       expect(combo.isVisible()).toBe(false);
     });
 
@@ -233,27 +238,27 @@ describe('collapse-expand-combo', () => {
       // The console will warn: Fail to expand the combo since it's ancestor combo is collapsed.
       graph.emit('combo:click', { item: comboA });
       expect(comboA.getModel().collapsed).toBe(true);
-      comboA.getChildren().nodes.forEach(node => {
+      comboA.getChildren().nodes.forEach((node) => {
         expect(node.isVisible()).toBe(false);
       });
-      comboA.getChildren().combos.forEach(combo => {
+      comboA.getChildren().combos.forEach((combo) => {
         expect(combo.isVisible()).toBe(false);
       });
 
       graph.emit('combo:click', { item: comboC });
       expect(comboC.getModel().collapsed).toBe(false);
-      comboC.getChildren().nodes.forEach(node => {
+      comboC.getChildren().nodes.forEach((node) => {
         expect(node.isVisible()).toBe(true);
       });
-      comboC.getChildren().combos.forEach(combo => {
+      comboC.getChildren().combos.forEach((combo) => {
         expect(combo.isVisible()).toBe(true);
       });
       // but A is still in collapsed state
       expect(comboA.getModel().collapsed).toBe(true);
-      comboA.getChildren().nodes.forEach(node => {
+      comboA.getChildren().nodes.forEach((node) => {
         expect(node.isVisible()).toBe(false);
       });
-      comboA.getChildren().combos.forEach(combo => {
+      comboA.getChildren().combos.forEach((combo) => {
         expect(combo.isVisible()).toBe(false);
       });
       graph.destroy();
@@ -261,7 +266,7 @@ describe('collapse-expand-combo', () => {
     }, 250);
   });
 
-  it('collapse-expand-combo behavior with invalid trigger', done => {
+  it('collapse-expand-combo behavior with invalid trigger', (done) => {
     data.combos.forEach((combo: ComboConfig) => {
       delete combo.collapsed;
     });
@@ -270,10 +275,12 @@ describe('collapse-expand-combo', () => {
       width: 1000,
       height: 800,
       modes: {
-        default: [{
-          type: 'collapse-expand-combo',
-          trigger: 'mouseenter'
-        }]
+        default: [
+          {
+            type: 'collapse-expand-combo',
+            trigger: 'mouseenter',
+          },
+        ],
       },
     });
     graph.read(data);
@@ -282,17 +289,17 @@ describe('collapse-expand-combo', () => {
     // collapse A and collapse B
     graph.emit('combo:mouseenter', { item: comboA });
     expect(comboA.getModel().collapsed).toBe(undefined);
-    comboA.getChildren().nodes.forEach(node => {
+    comboA.getChildren().nodes.forEach((node) => {
       expect(node.isVisible()).toBe(true);
     });
-    comboA.getChildren().combos.forEach(combo => {
+    comboA.getChildren().combos.forEach((combo) => {
       expect(combo.isVisible()).toBe(true);
     });
     graph.destroy();
     done();
   });
 
-  it('collapse-expand-combo behavior with layout', done => {
+  it('collapse-expand-combo behavior with layout', (done) => {
     data.combos.forEach((combo: ComboConfig) => {
       delete combo.collapsed;
     });
@@ -301,13 +308,15 @@ describe('collapse-expand-combo', () => {
       width: 1000,
       height: 800,
       modes: {
-        default: [{
-          type: 'collapse-expand-combo'
-        }]
+        default: [
+          {
+            type: 'collapse-expand-combo',
+          },
+        ],
       },
       layout: {
-        type: 'comboForce'
-      }
+        type: 'comboForce',
+      },
     });
     graph.read(data);
 
@@ -315,17 +324,17 @@ describe('collapse-expand-combo', () => {
     // collapse A and collapse B
     graph.emit('combo:dblclick', { item: comboA });
     expect(comboA.getModel().collapsed).toBe(true);
-    comboA.getChildren().nodes.forEach(node => {
+    comboA.getChildren().nodes.forEach((node) => {
       expect(node.isVisible()).toBe(false);
     });
-    comboA.getChildren().combos.forEach(combo => {
+    comboA.getChildren().combos.forEach((combo) => {
       expect(combo.isVisible()).toBe(false);
     });
     graph.destroy();
     done();
   });
 
-  it('click on item which is not a combo', done => {
+  it('click on item which is not a combo', (done) => {
     data.combos.forEach((combo: ComboConfig) => {
       delete combo.collapsed;
     });
@@ -334,13 +343,17 @@ describe('collapse-expand-combo', () => {
       width: 1000,
       height: 800,
       modes: {
-        default: [{
-          type: 'collapse-expand-combo'
-        }, 'zoom-canvas', 'drag-canvas']
+        default: [
+          {
+            type: 'collapse-expand-combo',
+          },
+          'zoom-canvas',
+          'drag-canvas',
+        ],
       },
       layout: {
-        type: 'comboForce'
-      }
+        type: 'comboForce',
+      },
     });
     graph.read(data);
 
@@ -348,13 +361,13 @@ describe('collapse-expand-combo', () => {
     const comboB = graph.findById('B') as ICombo;
     graph.emit('combo:dblclick', { item: node });
     expect(comboB.getModel().collapsed).toBe(undefined);
-    comboB.getChildren().nodes.forEach(node => {
+    comboB.getChildren().nodes.forEach((node) => {
       expect(node.isVisible()).toBe(true);
     });
-    comboB.getChildren().combos.forEach(combo => {
+    comboB.getChildren().combos.forEach((combo) => {
       expect(combo.isVisible()).toBe(true);
     });
     graph.destroy();
     done();
-  })
+  });
 });

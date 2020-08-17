@@ -31,7 +31,7 @@ const data = {
       target: '2',
       type: 'polyline',
       curveOffset: -150,
-      curvePosition: 0.5
+      curvePosition: 0.5,
     },
     {
       source: '1',

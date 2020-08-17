@@ -116,4 +116,4 @@ export const calculationItemsBBox = (items: Item[]) => {
     minX: minx,
     minY: miny,
   };
-}
+};

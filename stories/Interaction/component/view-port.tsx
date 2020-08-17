@@ -68,7 +68,7 @@ const MoveViewPort = () => {
       graph.data(data);
       graph.render();
 
-      const handleNodeClick = event => {
+      const handleNodeClick = (event) => {
         const item = event.item;
         // 聚焦当前点击的节点（把节点放到视口中心）
 
@@ -96,7 +96,7 @@ const MoveViewPort = () => {
         let newY = void 0;
         // 动画每次平移一点，直到目标位置
         graph.get('canvas').animate(
-          ratio => {
+          (ratio) => {
             newX = dx * ratio;
             newY = dy * ratio;
             graph.translate(newX - lastX, newY - lastY);

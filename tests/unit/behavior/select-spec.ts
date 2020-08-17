@@ -16,8 +16,8 @@ describe('select-node', () => {
         default: ['click-select'],
       },
       nodeStateStyles: {
-        selected: {}
-      }
+        selected: {},
+      },
     });
     const node = graph.addItem('node', {
       color: '#666',
@@ -28,7 +28,7 @@ describe('select-node', () => {
     });
     graph.paint();
 
-    graph.once('nodeselectchange', e => {
+    graph.once('nodeselectchange', (e) => {
       expect(e.selectedItems.nodes.length).toEqual(1);
     });
 
@@ -48,8 +48,8 @@ describe('select-node', () => {
         default: ['click-select'],
       },
       nodeStateStyles: {
-        selected: {}
-      }
+        selected: {},
+      },
     });
     const node1 = graph.addItem('node', {
       color: '#666',
@@ -125,8 +125,8 @@ describe('select-node', () => {
         ],
       },
       nodeStateStyles: {
-        selected: {}
-      }
+        selected: {},
+      },
     });
     const node = graph.addItem('node', {
       color: '#666',
@@ -181,8 +181,8 @@ describe('select-node', () => {
         ],
       },
       nodeStateStyles: {
-        selected: {}
-      }
+        selected: {},
+      },
     });
     const node1 = graph.addItem('node', {
       color: '#666',

@@ -130,10 +130,10 @@ function refreshDragedNodePosition(e) {
   model.fx = e.x;
   model.fy = e.y;
 }
-graph.on('node:dragstart', e => {
+graph.on('node:dragstart', (e) => {
   graph.layout();
   refreshDragedNodePosition(e);
 });
-graph.on('node:drag', e => {
+graph.on('node:drag', (e) => {
   refreshDragedNodePosition(e);
 });

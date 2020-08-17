@@ -58,7 +58,7 @@ export default () => {
    * 手动合并数据，达到异步加载的效果
    * @param {*} data  后端返回的新数据
    */
-  const handleChangeData = data => {
+  const handleChangeData = (data) => {
     const prevData = graph.current && graph.current.save();
     // mergeWith
     const newData = Object.assign({}, prevData, data, (objValue, srcValue) => {
@@ -100,9 +100,9 @@ export default () => {
   /**
    * 递归隐藏节点和边
    */
-  const collapsePrev = node => {
+  const collapsePrev = (node) => {
     const edges = node.getInEdges();
-    edges.forEach(edge => {
+    edges.forEach((edge) => {
       edge.hide();
       const sourceNode = edge.getSource();
       if (sourceNode.getOutEdges().length === 1) {

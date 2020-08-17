@@ -1,14 +1,13 @@
 import G6 from '@antv/g6';
 
-
 const fisheye = new G6.Fisheye({
   r: 200,
   showLabel: true,
   delegateStyle: {
     fill: '#f00',
     lineDash: [5, 5],
-    stroke: '#666'
-  }
+    stroke: '#666',
+  },
 });
 const colors = [
   '#8FE9FF',
@@ -57,17 +56,17 @@ const graph = new G6.Graph({
   plugins: [fisheye],
   layout: {
     type: 'force',
-    preventOverlap: true
+    preventOverlap: true,
   },
   modes: {
-    default: ['drag-canvas', 'zoom-canvas']
-  }
+    default: ['drag-canvas', 'zoom-canvas'],
+  },
 });
 
-clearButton.addEventListener('click', e => {
+clearButton.addEventListener('click', (e) => {
   fisheye.clear();
 });
-swithButton.addEventListener('click', e => {
+swithButton.addEventListener('click', (e) => {
   if (swithButton.value === 'Disable') {
     swithButton.value = 'Enable';
     graph.removePlugin(fisheye);
@@ -77,27 +76,29 @@ swithButton.addEventListener('click', e => {
       r: 200,
       showLabel: true,
     });
-    graph.addPlugin(fisheye)
+    graph.addPlugin(fisheye);
   }
 });
 
-
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
-  .then(res => res.json())
-  .then(data => {
-    data.nodes.forEach(node => {
+  .then((res) => res.json())
+  .then((data) => {
+    data.nodes.forEach((node) => {
       node.label = node.id;
       node.size = Math.random() * 30 + 10;
       node.style = {
         fill: colors[Math.floor(Math.random() * 9)],
-        lineWidth: 0
-      }
+        lineWidth: 0,
+      };
     });
     graph.data(data);
     graph.render();
-    graph.getNodes().forEach(node => {
-      node.getContainer().getChildren().forEach(shape => {
-        if (shape.get('type') === 'text') shape.set('visible', false);
-      });
+    graph.getNodes().forEach((node) => {
+      node
+        .getContainer()
+        .getChildren()
+        .forEach((shape) => {
+          if (shape.get('type') === 'text') shape.set('visible', false);
+        });
     });
   });

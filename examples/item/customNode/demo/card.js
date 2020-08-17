@@ -1,10 +1,9 @@
 import G6 from '@antv/g6';
 
-
 let graph;
 
 const ERROR_COLOR = '#F5222D';
-const getNodeConfig = node => {
+const getNodeConfig = (node) => {
   if (node.nodeError) {
     return {
       basicColor: ERROR_COLOR,
@@ -137,9 +136,9 @@ const nodeBasicMethod = {
   },
   afterDraw: (cfg, group) => {
     /* 操作 marker 的背景色显示隐藏 */
-    const icon = group.find(element => element.get('name') === 'collapse-icon');
+    const icon = group.find((element) => element.get('name') === 'collapse-icon');
     if (icon) {
-      const bg = group.find(element => element.get('name') === 'collapse-icon-bg');
+      const bg = group.find((element) => element.get('name') === 'collapse-icon-bg');
       icon.on('mouseenter', () => {
         bg.attr('opacity', 1);
         graph.get('canvas').draw();
@@ -150,13 +149,13 @@ const nodeBasicMethod = {
       });
     }
     /* ip 显示 */
-    const ipBox = group.find(element => element.get('name') === 'ip-box');
+    const ipBox = group.find((element) => element.get('name') === 'ip-box');
     if (ipBox) {
       /* ip 复制的几个元素 */
-      const ipLine = group.find(element => element.get('name') === 'ip-cp-line');
-      const ipBG = group.find(element => element.get('name') === 'ip-cp-bg');
-      const ipIcon = group.find(element => element.get('name') === 'ip-cp-icon');
-      const ipCPBox = group.find(element => element.get('name') === 'ip-cp-box');
+      const ipLine = group.find((element) => element.get('name') === 'ip-cp-line');
+      const ipBG = group.find((element) => element.get('name') === 'ip-cp-bg');
+      const ipIcon = group.find((element) => element.get('name') === 'ip-cp-icon');
+      const ipCPBox = group.find((element) => element.get('name') === 'ip-cp-box');
 
       const onMouseEnter = () => {
         ipLine.attr('opacity', 1);
@@ -182,7 +181,7 @@ const nodeBasicMethod = {
       ipCPBox.on('mouseleave', () => {
         onMouseLeave();
       });
-      ipCPBox.on('click', () => { });
+      ipCPBox.on('click', () => {});
     }
   },
   setState: (name, value, item) => {
@@ -199,14 +198,14 @@ const nodeBasicMethod = {
     graph.setAutoPaint(false);
     if (name === 'emptiness') {
       if (value) {
-        childrens.forEach(shape => {
+        childrens.forEach((shape) => {
           if (hasOpacityClass.indexOf(shape.get('name')) > -1) {
             return;
           }
           shape.attr('opacity', 0.4);
         });
       } else {
-        childrens.forEach(shape => {
+        childrens.forEach((shape) => {
           if (hasOpacityClass.indexOf(shape.get('name')) > -1) {
             return;
           }
@@ -407,7 +406,6 @@ G6.registerNode('card-node', {
   afterDraw: nodeBasicMethod.afterDraw,
   setState: nodeBasicMethod.setState,
 });
-
 
 const width = document.getElementById('container').scrollWidth;
 const height = document.getElementById('container').scrollHeight || 500;

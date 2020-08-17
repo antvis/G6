@@ -21,7 +21,7 @@ function initHierarchy(nodes: Node[], edges: Edge[], nodeMap: NodeIdxMap, direct
     nodes[i].parent = [];
   });
   if (directed) {
-    edges.forEach(e => {
+    edges.forEach((e) => {
       let sourceIdx = 0;
       if (e.source) {
         sourceIdx = nodeMap[e.source];
@@ -34,7 +34,7 @@ function initHierarchy(nodes: Node[], edges: Edge[], nodeMap: NodeIdxMap, direct
       nodes[targetIdx].parent.push(nodes[sourceIdx].id);
     });
   } else {
-    edges.forEach(e => {
+    edges.forEach((e) => {
       let sourceIdx = 0;
       if (e.source) {
         sourceIdx = nodeMap[e.source];
@@ -78,33 +78,46 @@ function compareDegree(a: Node, b: Node) {
 export default class CircularLayout extends BaseLayout {
   /** 布局中心 */
   public center: IPointTuple = [0, 0];
+
   /** 固定半径，若设置了 radius，则 startRadius 与 endRadius 不起效 */
   public radius: number | null = null;
+
   /** 起始半径 */
   public startRadius: number | null = null;
+
   /** 终止半径 */
   public endRadius: number | null = null;
+
   /** 起始角度 */
   public startAngle: number = 0;
+
   /** 终止角度 */
   public endAngle: number = 2 * Math.PI;
+
   /** 是否顺时针 */
   public clockwise: boolean = true;
+
   /** 节点在环上分成段数（几个段将均匀分布），在 endRadius - startRadius != 0 时生效 */
   public divisions: number = 1;
+
   /** 节点在环上排序的依据，可选: 'topology', 'degree', 'null' */
   public ordering: 'topology' | 'topology-directed' | 'degree' | null = null;
+
   /** how many 2*pi from first to last nodes */
   public angleRatio = 1;
 
   public nodes: Node[] = [];
+
   public edges: Edge[] = [];
 
   private nodeMap: NodeIdxMap = {};
+
   private degrees: number[] = [];
+
   private astep: number | undefined;
 
   public width: number = 300;
+
   public height: number = 300;
 
   public getDefaultCfg() {
@@ -121,6 +134,7 @@ export default class CircularLayout extends BaseLayout {
       angleRatio: 1,
     };
   }
+
   /**
    * 执行布局
    */
@@ -208,6 +222,7 @@ export default class CircularLayout extends BaseLayout {
       layoutNodes[i].weight = degrees[i];
     }
   }
+
   /**
    * 根据节点的拓扑结构排序
    * @return {array} orderedNodes 排序后的结果
@@ -229,7 +244,9 @@ export default class CircularLayout extends BaseLayout {
     cnodes.forEach((cnode, i) => {
       if (i !== 0) {
         if (
-          (i === n - 1 || degrees[i] !== degrees[i + 1] || connect(orderedCNodes[k], cnode, edges)) &&
+          (i === n - 1 ||
+            degrees[i] !== degrees[i + 1] ||
+            connect(orderedCNodes[k], cnode, edges)) &&
           pickFlags[i] !== true
         ) {
           orderedCNodes.push(cnode);
@@ -267,6 +284,7 @@ export default class CircularLayout extends BaseLayout {
     });
     return resNodes;
   }
+
   /**
    * 根据节点度数大小排序
    * @return {array} orderedNodes 排序后的结果

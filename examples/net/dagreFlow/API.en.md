@@ -24,7 +24,7 @@ title: API
 **Type**: Function<br />**Default**: undefined<br />**Example**:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   if (d.id === 'testId') return 100;
   return 10;
@@ -38,7 +38,7 @@ d => {
 **Type**: Function<br />**Default**: undefined<br />**Example**:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   if (d.id === 'testId') return 100;
   return 10;

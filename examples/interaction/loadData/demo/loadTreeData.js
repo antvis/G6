@@ -35,7 +35,7 @@ const graph = new G6.TreeGraph({
     },
   },
 });
-graph.node(function(node) {
+graph.node(function (node) {
   return {
     size: 16,
     anchorPoints: [
@@ -53,7 +53,7 @@ graph.node(function(node) {
   };
 });
 
-graph.edge(function() {
+graph.edge(function () {
   return {
     type: 'cubic-horizontal',
     color: '#A3B1BF',
@@ -128,7 +128,7 @@ graph.render();
 
 let count = 0;
 
-graph.on('node:click', function(evt) {
+graph.on('node:click', function (evt) {
   const item = evt.item;
 
   const nodeId = item.get('id');

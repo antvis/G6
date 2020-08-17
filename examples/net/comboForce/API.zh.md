@@ -1,10 +1,10 @@
 ---
 title: API
 ---
+
 ## center
 
 **类型**： Array<br />**示例**：[ 0, 0 ]<br />**默认值**：图的中心<br />**是否必须**：false<br />**说明**：布局的中心
-
 
 ## maxIteration
 
@@ -27,9 +27,11 @@ title: API
 **类型**：Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否防止节点之间以及 combo 之间的重叠，若开启，则 `preventNodeOverlap` 与 `preventComboOverlap` 将均被开启。详见 `preventNodeOverlap` 与 `preventComboOverlap` 介绍
 
 ## preventNodeOverlap
+
 **类型**：Boolean<br />**默认值**：true<br />**是否必须**：false<br />**说明**：是否防止节点之间的重叠。必须配合下面属性 `nodeSize` 或节点数据中的 `size` 属性，只有在数据中设置了 `size` 或在该布局中配置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测
 
 ## preventComboOverlap
+
 **类型**：Boolean<br />**默认值**：true<br />**是否必须**：false<br />**说明**：是否防止 combo 之间的重叠
 
 ## collideStrength
@@ -53,7 +55,7 @@ title: API
 **类型**: Number / Function<br />**默认值**: 0<br />**是否必须**: false <br />**示例**: Example 1: 10 <br />Example 2:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   if (d.id === 'node1') {
     return 100;
@@ -64,13 +66,12 @@ d => {
 
 <br />**描述**: `preventNodeOverlap` 或 `preventOverlap` 为 `true` 时生效, 防止重叠时节点边缘间距的最小值。可以是回调函数, 为不同节点设置不同的最小间距, 如示例 2 所示
 
-
 ## comboSpacing
 
 **类型**: Number / Function<br />**默认值**: 0<br />**是否必须**: false <br />**示例**: Example 1: 10 <br />Example 2:
 
 ```javascript
-d => {
+(d) => {
   // d is a combo
   if (d.id === 'combo1') {
     return 100;
@@ -81,13 +82,12 @@ d => {
 
 <br />**描述**: `preventComboOverlap` 或 `preventOverlap` 为 `true` 时生效, 防止重叠时 combo 边缘间距的最小值。可以是回调函数, 为不同节点设置不同的最小间距, 如示例 2 所示
 
-
 ## comboPadding
 
 **类型**: Number / Function<br />**默认值**: 10<br />**是否必须**: false <br />**示例**: Example 1: 10 <br />Example 2:
 
 ```javascript
-d => {
+(d) => {
   // d is a combo
   if (d.id === 'combo1') {
     return 100;
@@ -118,7 +118,6 @@ d => {
 
 **类型**：Function<br />**默认值**：{}<br />**是否必须**：false<br />**说明**：布局完成后的回调函数
 
-
 ## gravity
 
 **类型**： Number<br />**默认值**：10<br />**是否必须**：false<br />**说明**：重力的大小，影响布局的紧凑程度
@@ -127,16 +126,13 @@ d => {
 
 **类型**： Number<br />**默认值**：30<br />**是否必须**：false<br />**说明**：每个 combo 内部的重力大小，影响聚类的紧凑程度
 
-
 ## optimizeRangeFactor
 
 **类型**： Number<br />**默认值**：1<br />**是否必须**：false<br />**说明**：优化计算性能，两节点间距超过 `optimizeRangeFactor * width` 则不再计算斥力和重叠斥力。通过合理设置该参数可以较少计算量
 
-
 ## depthAttractiveForceScale
 
 **类型**： Number<br />**默认值**：0.5<br />**是否必须**：false<br />**说明**：根据边两端节点层级差距的调整引力的系数的因子，取值范围 [0, 1]。层级差距越大，引力越小
-
 
 ## depthRepulsiveForceScale
 

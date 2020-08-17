@@ -21,7 +21,7 @@ title: API
 **类型**：Number | Function<br />**示例**：
 
 ```javascript
-d => {
+(d) => {
   // d 是一个节点
   if (d.id === 'testId') return 50;
   return 100;
@@ -37,7 +37,7 @@ d => {
 **类型**：Number | Function<br />**示例**：
 
 ```javascript
-d => {
+(d) => {
   // d 是一个节点
   if (d.id === 'testId') return 50;
   return 100;
@@ -53,7 +53,7 @@ d => {
 **类型**：Number | Function<br />**示例**：
 
 ```javascript
-d => {
+(d) => {
   // d 是一个节点
   if (d.id === 'testId') return 50;
   return 100;
@@ -69,7 +69,7 @@ d => {
 **类型**：Number | Function<br />**示例**：
 
 ```javascript
-d => {
+(d) => {
   // d 是一个节点
   if (d.id === 'testId') return 50;
   return 100;
@@ -85,7 +85,7 @@ d => {
 **类型**：Function<br />**示例**：
 
 ```javascript
-d => {
+(d) => {
   // d 是一个节点
   if (d.id === 'test-child-id') return 'right';
   return 'left';

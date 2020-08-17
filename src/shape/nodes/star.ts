@@ -72,7 +72,7 @@ Shape.registerNode(
           },
           className: `${this.type}-icon`,
           name: `${this.type}-icon`,
-          draggable: true
+          draggable: true,
         });
       }
 

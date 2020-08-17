@@ -3,12 +3,9 @@ title: Arrow
 order: 1
 ---
 
-
 No matter built-in edges or [custom edges](/en/docs/manual/advanced/custom-edge), arrows can be assigned to the end or begin position of an edge. There are three kinds of arrows in G6: default arrow, built-in arrow, and custom arrow.
 
 <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GkXiSbN9JJsAAAAAAAAAAABkARQnAQ' width=500 alt='img'/>
-
-
 
 ## Default Arrow
 
@@ -25,7 +22,6 @@ style: {
 }
 ```
 
-
 ## Built-in Arrow
 
 Supported by v3.5.8 and later versions.
@@ -33,13 +29,13 @@ Supported by v3.5.8 and later versions.
 ### Overview
 
 | Name | Parameters | Usage | Result |
-| ---- | -- | ------ | ------------ |
-| triangle | <div style="width: 150pt">The paramters are arrow's width (10 by default), length (15 by default), and offset (0 by default, corresponds to `d`), respectively.</div> | endArrow: {<br />  path: G6.Arrow.triangle(10, 20, 25),<br />  d: 25<br />} | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*s8LxSZoxSEsAAAAAAAAAAABkARQnAQ' width=200 alt='img'/> |
-| vee | <div style="width: 150pt">The paramters are arrow's width (15 by default), length (20 by default), and offset (0 by default, corresponds to `d`), respectively. </div> | endArrow: {<br />  path: G6.Arrow.vee(10, 20, 25),<br />  d: 25<br />} | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2DBOTJfZZS0AAAAAAAAAAABkARQnAQ' width=200 alt='img'/> |
-| circle | <div style="width: 150pt">The paramters are arrow's radius (5 by default) and offset (0 by default, corresponds to `d`) respectively. </div> | endArrow: {<br />  path: G6.Arrow.circle(10, 25),<br/>  d: 25<br />} | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*h2XSSJrdUHkAAAAAAAAAAABkARQnAQ' width=200 alt='img'/> |
-| diamond | <div style="width: 150pt">The paramters are arrow's width (15 by default), length (15 by default), and offset (0 by default, corresponds to `d`), respectively. </div> | endArrow: {<br />  path: G6.Arrow.diamond(10, 20, 25),<br />  d: 25<br />} | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FIHORJpJov0AAAAAAAAAAABkARQnAQ' width=200 alt='img'/> |
-| rect | <div style="width: 150pt">The paramters are arrow's width (10 by default), length (10 by default), and offset (0 by default, corresponds to `d`), respectively. </div> | endArrow: {<br />  path: G6.Arrow.rect(10, 20, 25),<br />  d: 25<br />} | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AkBLSoxXptUAAAAAAAAAAABkARQnAQ' width=200 alt='img'/> |
-| triangleRect | <div style="width: 150pt">The paramters are triangle's width (15 by default), triangle's length (20 by default), rect's width (15 by default), rect's length (3 by default), gap between the triangle and the rect (3 by default), and offset (0 by default, corresponds to `d`), respectively. </div> | endArrow: {<br />  path: G6.Arrow.triangleRect(15, 15, 15, 3, 5, 25),<br />  d: 25<br />} | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rPPeT4kFVdwAAAAAAAAAAABkARQnAQ' width=200 alt='img'/> |
+| --- | --- | --- | --- |
+| triangle | <div style="width: 150pt">The paramters are arrow's width (10 by default), length (15 by default), and offset (0 by default, corresponds to `d`), respectively.</div> | endArrow: {<br /> path: G6.Arrow.triangle(10, 20, 25),<br /> d: 25<br />} | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*s8LxSZoxSEsAAAAAAAAAAABkARQnAQ' width=200 alt='img'/> |
+| vee | <div style="width: 150pt">The paramters are arrow's width (15 by default), length (20 by default), and offset (0 by default, corresponds to `d`), respectively. </div> | endArrow: {<br /> path: G6.Arrow.vee(10, 20, 25),<br /> d: 25<br />} | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2DBOTJfZZS0AAAAAAAAAAABkARQnAQ' width=200 alt='img'/> |
+| circle | <div style="width: 150pt">The paramters are arrow's radius (5 by default) and offset (0 by default, corresponds to `d`) respectively. </div> | endArrow: {<br /> path: G6.Arrow.circle(10, 25),<br/> d: 25<br />} | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*h2XSSJrdUHkAAAAAAAAAAABkARQnAQ' width=200 alt='img'/> |
+| diamond | <div style="width: 150pt">The paramters are arrow's width (15 by default), length (15 by default), and offset (0 by default, corresponds to `d`), respectively. </div> | endArrow: {<br /> path: G6.Arrow.diamond(10, 20, 25),<br /> d: 25<br />} | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FIHORJpJov0AAAAAAAAAAABkARQnAQ' width=200 alt='img'/> |
+| rect | <div style="width: 150pt">The paramters are arrow's width (10 by default), length (10 by default), and offset (0 by default, corresponds to `d`), respectively. </div> | endArrow: {<br /> path: G6.Arrow.rect(10, 20, 25),<br /> d: 25<br />} | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AkBLSoxXptUAAAAAAAAAAABkARQnAQ' width=200 alt='img'/> |
+| triangleRect | <div style="width: 150pt">The paramters are triangle's width (15 by default), triangle's length (20 by default), rect's width (15 by default), rect's length (3 by default), gap between the triangle and the rect (3 by default), and offset (0 by default, corresponds to `d`), respectively. </div> | endArrow: {<br /> path: G6.Arrow.triangleRect(15, 15, 15, 3, 5, 25),<br /> d: 25<br />} | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rPPeT4kFVdwAAAAAAAAAAABkARQnAQ' width=200 alt='img'/> |
 
 ### Usage
 
@@ -61,7 +57,6 @@ style: {
 ## Custom Arrow
 
 Please follow the [Custom Arrow](/en/docs/manual/advanced/custom-edge) in the Advanced Doc.
-
 
 ## Configure the Arrow Style
 

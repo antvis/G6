@@ -106,7 +106,7 @@ describe('drag signle layer group', () => {
 
     const { nodeGroup } = groupControll.getDeletageGroupById('group1');
 
-    const nodes = data.nodes.filter(node => node.groupId === 'group1');
+    const nodes = data.nodes.filter((node) => node.groupId === 'group1');
 
     expect(nodes.length).toEqual(2);
 
@@ -143,7 +143,7 @@ describe('drag signle layer group', () => {
       target: keyShape,
     });
 
-    const nodeIds = data.nodes.filter(node => node.groupId === 'group1').map(node => node.id);
+    const nodeIds = data.nodes.filter((node) => node.groupId === 'group1').map((node) => node.id);
     const { x, y, width: w, height: h } = groupControll.calculationGroupPosition(nodeIds);
     // const r = w > h ? w / 2 : h / 2;
     const cx = (w + 2 * x) / 2;
@@ -247,7 +247,7 @@ describe('drag signle layer group', () => {
 
     const { nodeGroup } = groupControll.getDeletageGroupById('group2');
 
-    const nodes = data.nodes.filter(node => node.groupId === 'group2');
+    const nodes = data.nodes.filter((node) => node.groupId === 'group2');
 
     expect(nodes.length).toEqual(1);
 
@@ -812,7 +812,7 @@ describe('drag node with group', () => {
     graph.data(data);
     graph.render();
 
-    const nodes = data.nodes.filter(node => node.groupId === 'group1');
+    const nodes = data.nodes.filter((node) => node.groupId === 'group1');
 
     expect(nodes.length).toEqual(2);
 
@@ -870,7 +870,7 @@ describe('drag node with group', () => {
       // expect(matrixEnd[6]).toEqual(974.5);
       // expect(matrixEnd[7]).toEqual(399.5);
 
-      const gnodes = graph.getNodes().filter(node => {
+      const gnodes = graph.getNodes().filter((node) => {
         const model = node.getModel();
         return model.groupId === 'group1';
       });
@@ -953,7 +953,7 @@ describe('drag node with group', () => {
     graph.data(data2);
     graph.render();
 
-    const nodes = data2.nodes.filter(node => node.groupId === 'group1');
+    const nodes = data2.nodes.filter((node) => node.groupId === 'group1');
 
     expect(nodes.length).toEqual(2);
 
@@ -1010,7 +1010,7 @@ describe('drag node with group', () => {
     expect(matrixEnd[6]).toEqual(300);
     expect(matrixEnd[7]).toEqual(350);
 
-    const gnodes = graph.getNodes().filter(node => {
+    const gnodes = graph.getNodes().filter((node) => {
       const model = node.getModel();
       return model.groupId === 'group1';
     });
@@ -1085,13 +1085,13 @@ describe('drag node with group', () => {
     graph.data(data2);
     graph.render();
 
-    const nodes = data2.nodes.filter(node => node.groupId === 'group1');
+    const nodes = data2.nodes.filter((node) => node.groupId === 'group1');
 
     expect(nodes.length).toEqual(2);
 
     // 将group2中的node3拖入到group1中
     const node = graph.findById('node3');
-    const group3Nodes = data2.nodes.filter(node => node.groupId === 'group2');
+    const group3Nodes = data2.nodes.filter((node) => node.groupId === 'group2');
     expect(group3Nodes.length).toEqual(1);
 
     const matrixBefore = node.get('group').getMatrix();
@@ -1139,18 +1139,18 @@ describe('drag node with group', () => {
     expect(matrixEnd[6]).toEqual(100);
     expect(matrixEnd[7]).toEqual(40);
 
-    const gnodes = graph.getNodes().filter(node => {
+    const gnodes = graph.getNodes().filter((node) => {
       const model = node.getModel();
       return model.groupId === 'group1';
     });
     // 将指定节点拖如到group1中，group中有3个节点
     expect(gnodes.length).toEqual(3);
     const node3GroupId = gnodes
-      .filter(node => {
+      .filter((node) => {
         const model = node.getModel();
         return model.id === 'node3';
       })
-      .map(node => {
+      .map((node) => {
         const model = node.getModel();
         return model.groupId;
       });

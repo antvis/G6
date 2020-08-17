@@ -18,19 +18,19 @@ G6 中的元素（节点/边）是**由一个或多个**[**图形 Shape**](/zh/d
 
 ## 各图形 Shape 的通用属性
 
-| 属性名        | 含义                               | 备注                           |
-| ------------- | ---------------------------------- | ------------------------------ |
-| fill          | 设置用于填充绘画的颜色、渐变或模式 | 对应 Canvas 属性 `fillStyle`   |
-| stroke        | 设置用于笔触的颜色、渐变或模式     | 对应 Canvas 属性 `strokeStyle` |
-| lineWidth     | 描边宽度                           |                                |
-| lineDash     | 描边虚线  | Number[] 类型代表实、虚长度    |
-| shadowColor   | 设置用于阴影的颜色                 |                                |
-| shadowBlur    | 设置用于阴影的模糊级别             | 数值越大，越模糊               |
-| shadowOffsetX | 设置阴影距形状的水平距离           |                                |
-| shadowOffsetY | 设置阴影距形状的垂直距离           |                                |
-| opacity       | 设置绘图的当前 alpha 或透明值      | 对应 Canvas 属性 `globalAlpha` |
-| fillOpacity   | 设置填充的 alpha 或透明值          |                                |
-| cursor      | 鼠标在该节点上时的鼠标样式，[CSS 的 cursor](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) 选项都支持  |  |
+| 属性名 | 含义 | 备注 |
+| --- | --- | --- |
+| fill | 设置用于填充绘画的颜色、渐变或模式 | 对应 Canvas 属性 `fillStyle` |
+| stroke | 设置用于笔触的颜色、渐变或模式 | 对应 Canvas 属性 `strokeStyle` |
+| lineWidth | 描边宽度 |  |
+| lineDash | 描边虚线 | Number[] 类型代表实、虚长度 |
+| shadowColor | 设置用于阴影的颜色 |  |
+| shadowBlur | 设置用于阴影的模糊级别 | 数值越大，越模糊 |
+| shadowOffsetX | 设置阴影距形状的水平距离 |  |
+| shadowOffsetY | 设置阴影距形状的垂直距离 |  |
+| opacity | 设置绘图的当前 alpha 或透明值 | 对应 Canvas 属性 `globalAlpha` |
+| fillOpacity | 设置填充的 alpha 或透明值 |  |
+| cursor | 鼠标在该节点上时的鼠标样式，[CSS 的 cursor](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) 选项都支持 |  |
 
 ### 用法
 
@@ -230,7 +230,7 @@ group.addShape('marker', {
     x: 10,
     y: 10,
     r: 10,
-    symbol: function(x, y, r) {
+    symbol: function (x, y, r) {
       return [['M', x, y], ['L', x + r, y + r], ['L', x + r * 2, y], ['Z']];
     },
   },
@@ -327,21 +327,20 @@ group.addShape('text', {
 });
 ```
 
-
-
 ## DOM (svg)
 
 > 仅在 Graph 的 `renderer` 为 `'svg'` 时可以使用。
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span>
+
 - 只支持原生 HTML DOM，不支持各类 react、vue 组件；
 - 使用 dom 进行自定义的节点或边，不支持 G6 的交互事件，请使用原生 DOM 的交互事件。
 
 ### 特殊属性
 
-| 属性名 | 含义 | 备注 |
-| --- | --- | --- |
-| html | DOM 的 html 值 |  |
+| 属性名 | 含义           | 备注 |
+| ------ | -------------- | ---- |
+| html   | DOM 的 html 值 |      |
 
 ### 用法
 
@@ -352,13 +351,15 @@ group.addShape('dom', {
     height: cfg.size[1],
     // DOM's html
     html: `
-    <div style="background-color: #fff; border: 2px solid #5B8FF9; border-radius: 5px; width: ${cfg.size[0]-5}px; height: ${cfg.size[1]-5}px; display: flex;">
+    <div style="background-color: #fff; border: 2px solid #5B8FF9; border-radius: 5px; width: ${
+      cfg.size[0] - 5
+    }px; height: ${cfg.size[1] - 5}px; display: flex;">
       <div style="height: 100%; width: 33%; background-color: #CDDDFD">
         <img alt="img" style="line-height: 100%; padding-top: 6px; padding-left: 8px;" src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ" width="20" height="20" />  
       </div>
       <span style="margin:auto; padding:auto; color: #5B8FF9">${cfg.label}</span>
     </div>
-      `
+      `,
   },
   // must be assigned in G6 3.3 and later versions. it can be any value you want
   name: 'dom-shape',

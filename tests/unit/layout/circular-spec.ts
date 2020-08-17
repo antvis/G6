@@ -173,7 +173,7 @@ describe('circular layout', () => {
       width: 500,
       height: 500,
     });
-    data.nodes.forEach(node => {
+    data.nodes.forEach((node) => {
       node.label = node.id;
     });
     graph.data(data);
@@ -206,7 +206,7 @@ describe('circular layout', () => {
       width: 500,
       height: 500,
     });
-    data.nodes.forEach(node => {
+    data.nodes.forEach((node) => {
       node.label = node.id;
       node.size = 10;
     });
@@ -241,7 +241,7 @@ describe('circular layout', () => {
       width: 500,
       height: 500,
     });
-    data.nodes.forEach(node => {
+    data.nodes.forEach((node) => {
       node.label = node.id;
     });
     graph.data(data);

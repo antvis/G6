@@ -12,7 +12,7 @@ G6 3.x 中如何设置让某些边前置，即让边显示在最上面，从而�
 G6 3.x 中默认所有边是在节点的下面，所有节点属于一个名为 `nodeGroup` 的[图形分组](/zh/docs/manual/advanced/keyconcept/graphics-group)，所有边属于名为 `edgeGroup` 的[图形分组](/zh/docs/manual/advanced/keyconcept/graphics-group)。可以通过修改图形分组的层级以**改变全体节点与全体边的层级**。在改变层级后，**必须调用 `graph.paint()` 以重新绘制图**。
 
 ```javascript
-document.getElementById('changeView').addEventListener('click', evt => {
+document.getElementById('changeView').addEventListener('click', (evt) => {
   const edgeGroup = graph.get('edgeGroup'); // 得到默认的边图形分组
   edgeGroup.toFront(); // 将边图形分组前置
   graph.paint(); // 必须调用以重绘
@@ -26,7 +26,7 @@ const graph = new G6.Graph({
   // ... 其他实例化图的配置项
   groupByTypes: false, // 关闭按照元素类型进行分组
 });
-document.getElementById('changeView').addEventListener('click', evt => {
+document.getElementById('changeView').addEventListener('click', (evt) => {
   const edge = graph.findById('edge1'); // 根据边的 id 查找边实例
   const node = graph.findById('node1'); // 根据节点的 id 查找节点实例
   edge.toFront(); // 将该边放置在所有图形的最前面

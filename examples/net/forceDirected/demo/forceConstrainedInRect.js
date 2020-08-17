@@ -10,8 +10,8 @@ const width = graphDiv.scrollWidth;
 const height = graphDiv.scrollHeight || 500;
 
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
-  .then(res => res.json())
-  .then(data => {
+  .then((res) => res.json())
+  .then((data) => {
     const nodes = data.nodes;
 
     // 灰色区域
@@ -33,7 +33,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       let miny = 99999999;
       let maxy = -99999999;
       let maxsize = -9999999;
-      nodes.forEach(node => {
+      nodes.forEach((node) => {
         if (minx > node.x) {
           minx = node.x;
         }
@@ -52,7 +52,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       });
       const scalex = (constrainBox.width - maxsize) / (maxx - minx);
       const scaley = (constrainBox.height - maxsize) / (maxy - miny);
-      nodes.forEach(node => {
+      nodes.forEach((node) => {
         node.x = (node.x - minx) * scalex + constrainBox.x;
         node.y = (node.y - miny) * scaley + constrainBox.y;
       });
@@ -82,7 +82,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
 
     graph.data({
       nodes: data.nodes,
-      edges: data.edges.map(function(edge, i) {
+      edges: data.edges.map(function (edge, i) {
         edge.id = 'edge' + i;
         return Object.assign({}, edge);
       }),

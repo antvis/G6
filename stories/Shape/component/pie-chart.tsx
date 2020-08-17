@@ -1,68 +1,72 @@
 import React, { useEffect } from 'react';
 import G6 from '../../../src';
 import { IGraph } from '../../../src/interface/graph';
-import Chart from '@antv/chart-node-g6'
+import Chart from '@antv/chart-node-g6';
 
-G6.registerNode('node-with-pie', {
-  draw(cfg, group) {
-    const keyShape = group.addShape('circle', {
-      attrs: {
-        x: 0,
-        y: 0,
-        r: 100,
-        fill: cfg.style.fill,
-        stroke: cfg.style.stroke
-      }
-    })
-
-    const view = new Chart({
-      group,
-      region: {
-        start: {
-          x: -0.22,
-          y: -0.2
+G6.registerNode(
+  'node-with-pie',
+  {
+    draw(cfg, group) {
+      const keyShape = group.addShape('circle', {
+        attrs: {
+          x: 0,
+          y: 0,
+          r: 100,
+          fill: cfg.style.fill,
+          stroke: cfg.style.stroke,
         },
-        end: {
-          x: 0.25,
-          y: 0.2
-        }
-      },
-    })
-    
-    view.data(cfg.trendData as any);
-    
-    (view as any)
-      .interval()
-      .position('year*population')
-      .label('year', {
-        offset: -15,
-      })
-      .color('year')
-      .style({
-        lineWidth: 1,
-        stroke: '#95de64',
-        fontSize: 8
       });
 
-    view.axis(false)
+      const view = new Chart({
+        group,
+        region: {
+          start: {
+            x: -0.22,
+            y: -0.2,
+          },
+          end: {
+            x: 0.25,
+            y: 0.2,
+          },
+        },
+      });
 
-    view.legend(false)
+      view.data(cfg.trendData as any);
 
-    // 极坐标下的柱状图
-    view.coordinate('polar');
-    
-    view.render();
+      (view as any)
+        .interval()
+        .position('year*population')
+        .label('year', {
+          offset: -15,
+        })
+        .color('year')
+        .style({
+          lineWidth: 1,
+          stroke: '#95de64',
+          fontSize: 8,
+        });
 
-    keyShape.set('intervalView', view)
+      view.axis(false);
 
-    return keyShape
+      view.legend(false);
+
+      // 极坐标下的柱状图
+      view.coordinate('polar');
+
+      view.render();
+
+      keyShape.set('intervalView', view);
+
+      return keyShape;
+    },
+    update(cfg, item) {
+      const keyShape = item.getKeyShape();
+      const view = keyShape.get('intervalView');
+      view.changeData(cfg.trendData);
+    },
   },
-  update(cfg, item) {
-    const keyShape = item.getKeyShape()
-    const view = keyShape.get('intervalView')
-    view.changeData(cfg.trendData)
-  }
-}, 'single-node')
+  'single-node',
+);
 
 let graph: IGraph = null;
 
@@ -103,12 +107,12 @@ const PieChart = () => {
       {
         id: '0',
         label: '0',
-        trendData: trendData1
+        trendData: trendData1,
       },
       {
         id: '5',
         label: '5',
-        trendData: trendData2
+        trendData: trendData2,
       },
     ],
     edges: [
@@ -140,7 +144,7 @@ const PieChart = () => {
           type: 'node-with-pie',
           style: {
             fill: '#fff',
-            stroke: '#69c0ff'
+            stroke: '#69c0ff',
           },
         },
         defaultEdge: {
@@ -155,9 +159,9 @@ const PieChart = () => {
         },
         nodeStateStyles: {
           hover: {
-            stroke: 'red'
-          }
-        }
+            stroke: 'red',
+          },
+        },
       });
     }
 
@@ -165,8 +169,7 @@ const PieChart = () => {
     graph.render();
   });
 
-  return <div ref={container}>
-  </div>;
+  return <div ref={container}></div>;
 };
 
 export default PieChart;

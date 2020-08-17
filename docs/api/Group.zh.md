@@ -5,8 +5,7 @@ order: 11
 
 图形分组 Graphics Group（下文简称 Group） 类似于 <a href='https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/g' target='_blank'>SVG 中的 `<g>` 标签</a>：Group  是用来组合图形对象的容器。在 Group  上添加变换（例如剪裁、旋转、放缩、平移等）会应用到其所有的子元素上。在 Group  上添加属性（例如颜色、位置等）会被其所有的子元素继承。此外， Group 可以多层嵌套使用，因此可以用来定义复杂的对象。关于 Group 更详细的介绍请参考 [图形分组 Group](/zh/docs/manual/advanced/keyconcept/graphics-group) 文档。
 
-
-## 获取元素的group
+## 获取元素的 group
 
 ```javascript
 // 获取元素(节点/边/Combo)的图形对象的容器
@@ -24,10 +23,9 @@ const group = item.get('group');
 
 **参数**
 
-| 名称 | 类型 | 说明 |
-| --- | --- | --- |
-| cfg | Object | 分组到配置项，非必须 |
-
+| 名称 | 类型   | 说明                 |
+| ---- | ------ | -------------------- |
+| cfg  | Object | 分组到配置项，非必须 |
 
 其中，`cfg` 不是必须指定到，它包括以下字段：
 
@@ -71,8 +69,8 @@ group.addGroup({
 | --- | --- | --- |
 | attrs | Object | 图形样式，必须配置，例如：`{x: 0, y: 10, fill: '#0f0'}` |
 | name | String | 图形的标识，可以不唯一。在 G6 3.3 及以后版本中必须指定。另外，`name` 可以用于组内搜索到该元素：`const shape = group.find(element => element.name === 'shape-name')`，find 函数用法见 [find(fn)](#findfn) |
-| capture | Boolean |该图形是否可以被鼠标事件捕捉到，即是否能够响应各鼠标事件。非必须指定 |
-| visible | Boolean |该图形是否可见。非必须指定，默认为 `true` |
+| capture | Boolean | 该图形是否可以被鼠标事件捕捉到，即是否能够响应各鼠标事件。非必须指定 |
+| visible | Boolean | 该图形是否可见。非必须指定，默认为 `true` |
 | draggable | Boolean | 该图形是否允许被拖拽。例如，自定义节点通过 `addShape` 添加图形，当该图形的 `draggable` 值为 `true` 时，鼠标在该自定义节点的这个图形上才能够响应 `dragstart`，`drag`，与 `dragend` 事件；在实例化图时的 `modes` 中配置的 `'drag-node'` 交互才可以在该图形上进行拖拽时生效 |
 | zIndex | Number | 该图形的视觉层次 z-index。非必须指定。指定后，调用 `group.sort()` 可以对组内所有图形根据各自 zIndex 进行视觉层次的排序 |
 
@@ -126,7 +124,7 @@ const has = group.contain(child);
 **用法**
 
 ```javascript
-const child = group.find(function(item) {
+const child = group.find(function (item) {
   return item.attr('fill') === 'red'; // 找到首个填充为红色的图形
 });
 ```
@@ -160,7 +158,7 @@ const group1 = group.findById('group1');
 **用法**
 
 ```javascript
-const children = group.findAll(function(item) {
+const children = group.findAll(function (item) {
   return item.get('id') < 10; // 获取所有id小于10的元素
 });
 ```

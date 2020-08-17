@@ -11,8 +11,8 @@ describe('item controller', () => {
     height: 500,
     nodeStateStyles: {
       select: {},
-      hover: {}
-    }
+      hover: {},
+    },
   });
   it('init item controller', () => {
     const itemController = graph.get('itemController');
@@ -144,7 +144,7 @@ describe('item controller', () => {
     const shape = node.get('keyShape');
     expect(shape.attr('fill')).toEqual('#ccc');
   });
-  it('fresh graph', done => {
+  it('fresh graph', (done) => {
     graph.clear();
     const node = graph.addItem('node', { id: 'node6', x: 100, y: 100, size: 50 });
     const node2 = graph.addItem('node', { id: 'node7', x: 100, y: 200, size: 50 });

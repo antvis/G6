@@ -19,7 +19,7 @@ function fetchData() {
       panels: [
         { title: '成功率', value: '11%' },
         { title: '耗时', value: '111' },
-        { title: '错误数', value: '111' }
+        { title: '错误数', value: '111' },
       ],
     },
     {
@@ -32,11 +32,11 @@ function fetchData() {
       panels: [
         { title: '成功率', value: '11%' },
         { title: '耗时', value: '111' },
-        { title: '错误数', value: '111' }
+        { title: '错误数', value: '111' },
       ],
-    }
-  ]
-  return childData
+    },
+  ];
+  return childData;
 }
 
 const COLLAPSE_ICON = function COLLAPSE_ICON(x, y, r) {
@@ -63,13 +63,13 @@ const EXPAND_ICON = function EXPAND_ICON(x, y, r) {
 const ICON_MAP = {
   a: 'https://gw.alipayobjects.com/mdn/rms_8fd2eb/afts/img/A*0HC-SawWYUoAAAAAAAAAAABkARQnAQ',
   b: 'https://gw.alipayobjects.com/mdn/rms_8fd2eb/afts/img/A*sxK0RJ1UhNkAAAAAAAAAAABkARQnAQ',
-}
+};
 
 G6.registerNode(
   'onestep-box',
   {
     drawShape: function drawShape(cfg: any, group) {
-      const color = cfg.error ? '#F4664A' : '#30BF78'
+      const color = cfg.error ? '#F4664A' : '#30BF78';
       const r = 2;
       const shape = group.addShape('rect', {
         attrs: {
@@ -78,7 +78,7 @@ G6.registerNode(
           width: 200,
           height: 60,
           stroke: color,
-          radius: r
+          radius: r,
         },
         name: 'main-box',
         draggable: true,
@@ -120,7 +120,7 @@ G6.registerNode(
           text: cfg.title,
           fill: '#fff',
         },
-        name: 'title'
+        name: 'title',
       });
 
       if (cfg.nodeLevel > 0) {
@@ -150,7 +150,7 @@ G6.registerNode(
             text: item.title,
             fill: 'rgba(0,0,0, 0.4)',
           },
-          name: `index-title-${index}`
+          name: `index-title-${index}`,
         });
 
         // 值
@@ -163,15 +163,14 @@ G6.registerNode(
             text: item.value,
             fill: '#595959',
           },
-          name: `index-title-${index}`
+          name: `index-title-${index}`,
         });
-
       });
       return shape;
     },
-    update: undefined
+    update: undefined,
   },
-  'single-node'
+  'single-node',
 );
 
 const data = {
@@ -183,7 +182,7 @@ const data = {
   panels: [
     { title: '成功率', value: '11%' },
     { title: '耗时', value: '111' },
-    { title: '错误数', value: '111' }
+    { title: '错误数', value: '111' },
   ],
   children: [
     {
@@ -195,9 +194,9 @@ const data = {
       panels: [
         { title: '成功率', value: '11%' },
         { title: '耗时', value: '111' },
-        { title: '错误数', value: '111' }
+        { title: '错误数', value: '111' },
       ],
-      collapse: true
+      collapse: true,
     },
     {
       title: 'node2',
@@ -208,7 +207,7 @@ const data = {
       panels: [
         { title: '成功率', value: '11%' },
         { title: '耗时', value: '111' },
-        { title: '错误数', value: '111' }
+        { title: '错误数', value: '111' },
       ],
     },
     {
@@ -220,9 +219,9 @@ const data = {
       panels: [
         { title: '成功率', value: '11%' },
         { title: '耗时', value: '111' },
-        { title: '错误数', value: '111' }
+        { title: '错误数', value: '111' },
       ],
-      collapse: true
+      collapse: true,
     },
   ],
 };
@@ -237,7 +236,7 @@ const CustomCardNode = () => {
         width: 1000,
         height: 800,
         modes: {
-          default: ['drag-canvas', 'drag-node']
+          default: ['drag-canvas', 'drag-node'],
         },
         defaultNode: {
           type: 'onestep-box',
@@ -247,7 +246,7 @@ const CustomCardNode = () => {
           ],
         },
         defaultEdge: {
-          type: 'cubic-horizontal'
+          type: 'cubic-horizontal',
         },
         // fitView: true,
         layout: {
@@ -276,7 +275,7 @@ const CustomCardNode = () => {
     graph.data(data);
     graph.render();
 
-    graph.on('node:click', event => {
+    graph.on('node:click', (event) => {
       const { item } = event;
       const name = event.target.get('name');
       const model = item.getModel();
@@ -284,7 +283,7 @@ const CustomCardNode = () => {
       if (name === 'collapse-icon') {
         const children = model.children;
         if (!children || children.length === 0) {
-          const childData = fetchData()
+          const childData = fetchData();
           // 手动改变图标
           model.children = childData;
           graph.changeData();
@@ -292,7 +291,6 @@ const CustomCardNode = () => {
       }
     });
   });
-
 
   return <div ref={container}></div>;
 };

@@ -55,8 +55,7 @@ const data = {
   ],
 };
 const descriptionDiv = document.createElement('div');
-descriptionDiv.innerHTML =
-  'Hover the node label to show the tooltip';
+descriptionDiv.innerHTML = 'Hover the node label to show the tooltip';
 const container = document.getElementById('container');
 container.appendChild(descriptionDiv);
 const width = container.scrollWidth;
@@ -100,10 +99,10 @@ const graph = new G6.Graph({
           if (e.target.get('name') === 'text-shape') {
             const div = document.getElementsByClassName('g6-tooltip')[0];
             if (div) div.style.display = 'block';
-            return true
+            return true;
           }
           return false;
-        }
+        },
       },
     ],
   },

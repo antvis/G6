@@ -13,10 +13,10 @@ G6.registerNode('crect', {
         width,
         height: 20,
         lineWidth: 0,
-        opacity: 0
+        opacity: 0,
       },
       name: 'rect-shape',
-      draggable: true
+      draggable: true,
     });
     const label = group.addShape('text', {
       attrs: {
@@ -24,10 +24,10 @@ G6.registerNode('crect', {
         fill: '#ccc',
         fontSize,
         x: 0,
-        y: 0
+        y: 0,
       },
       name: 'label-shape',
-      draggable: true
+      draggable: true,
     });
     const labelBBox = label.getBBox();
     const icon = group.addShape('circle', {
@@ -35,10 +35,10 @@ G6.registerNode('crect', {
         x: labelBBox.maxX + 10,
         y: (labelBBox.minY + labelBBox.maxY) / 2,
         r: 5,
-        stroke: '#000'
+        stroke: '#000',
       },
       name: 'circle-shape',
-      draggable: true
+      draggable: true,
     });
     const bboxWidth = label.getBBox().width + 20;
     rect.attr({ width: bboxWidth });
@@ -48,31 +48,31 @@ G6.registerNode('crect', {
         lineWidth: 1,
         fill: '#ccc',
         stroke: '#ccc',
-        path: [['M', 0, 0], ['L', bboxWidth, 0]]
+        path: [
+          ['M', 0, 0],
+          ['L', bboxWidth, 0],
+        ],
       },
       name: 'path-shape',
-      draggable: true
-    })
+      draggable: true,
+    });
 
     return rect;
   },
   getAnchorPoints: (type, cfg) => {
     return [
       [0, 0.5],
-      [1, 0.5]
+      [1, 0.5],
     ];
-  }
+  },
 });
 
-
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.json')
-  .then(res => res.json())
-  .then(data => {
-
+  .then((res) => res.json())
+  .then((data) => {
     const graphDiv = document.getElementById('container');
     const descriptionDiv = document.createElement('div');
-    descriptionDiv.innerHTML =
-      'The nodes of a subtree is aligned to the left.';
+    descriptionDiv.innerHTML = 'The nodes of a subtree is aligned to the left.';
     graphDiv.appendChild(descriptionDiv);
 
     const width = graphDiv.scrollWidth;
@@ -82,11 +82,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       width,
       height,
       modes: {
-        default: [
-          'collapse-expand',
-          'drag-canvas',
-          'zoom-canvas',
-        ],
+        default: ['collapse-expand', 'drag-canvas', 'zoom-canvas'],
       },
       defaultNode: {
         type: 'crect',
@@ -114,9 +110,9 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
         },
         getWidth: function getWidth(d) {
           return G6.Util.getTextSize(d.id, fontSize)[0] + 20;
-        }
+        },
       },
-      fitView: true
+      fitView: true,
     });
     graph.data(data);
     graph.render();

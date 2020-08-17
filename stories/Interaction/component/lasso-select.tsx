@@ -50,7 +50,9 @@ const LassoSelect = () => {
         width: 500,
         height: 500,
         modes: {
-          default: ['drag-node', 'zoom-canvas',
+          default: [
+            'drag-node',
+            'zoom-canvas',
             {
               type: 'lasso-select',
               // trigger: 'drag',
@@ -58,21 +60,21 @@ const LassoSelect = () => {
                 fill: 'pink',
                 stroke: 'red',
                 opacity: 0.2,
-                lineWidth: 1
+                lineWidth: 1,
               },
-            }
-          ]
+            },
+          ],
         },
         nodeStateStyles: {
           selected: {
-            stroke: 'red'
-          }
+            stroke: 'red',
+          },
         },
         edgeStateStyles: {
           selected: {
-            stroke: 'red'
-          }
-        }
+            stroke: 'red',
+          },
+        },
       });
       graph.data(data);
       graph.render();

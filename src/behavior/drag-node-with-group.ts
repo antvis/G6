@@ -202,7 +202,7 @@ export default {
       ) {
         // 拖出了group，则删除item中的groupId字段，同时删除group中的nodeID
         const currentGroupNodes = groupNodes[groupId];
-        groupNodes[groupId] = currentGroupNodes.filter(node => node !== id);
+        groupNodes[groupId] = currentGroupNodes.filter((node) => node !== id);
 
         customGroupControll.dynamicChangeGroupSize(evt, currentGroup, keyShape);
 
@@ -247,9 +247,9 @@ export default {
       customGroupControll.dynamicChangeGroupSize(evt, nodeInGroup, keyShape);
     } else if (!this.inGroupId && groupId) {
       // 拖出到群组之外了，则删除数据中的groupId
-      Object.keys(groupNodes).forEach(gnode => {
+      Object.keys(groupNodes).forEach((gnode) => {
         const currentGroupNodes = groupNodes[gnode];
-        groupNodes[gnode] = currentGroupNodes.filter(node => node !== id);
+        groupNodes[gnode] = currentGroupNodes.filter((node) => node !== id);
       });
 
       const currentGroup = customGroup[groupId].nodeGroup;

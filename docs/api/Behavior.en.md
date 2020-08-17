@@ -155,7 +155,7 @@ const graph = new G6.Graph({
       'drag-canvas',
       {
         type: 'self-behavior',
-        shouldUpdate: e => {
+        shouldUpdate: (e) => {
           if (e.target.type !== 'text') {
             return false;
           }

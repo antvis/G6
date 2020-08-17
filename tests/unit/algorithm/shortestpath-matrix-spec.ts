@@ -9,35 +9,35 @@ const data = {
   nodes: [
     {
       id: 'A',
-      label: '0'
+      label: '0',
     },
     {
       id: 'B',
-      label: '1'
+      label: '1',
     },
     {
       id: 'C',
-      label: '2'
+      label: '2',
     },
     {
       id: 'D',
-      label: '3'
+      label: '3',
     },
     {
       id: 'E',
-      label: '4'
+      label: '4',
     },
     {
       id: 'F',
-      label: '5'
+      label: '5',
     },
     {
       id: 'G',
-      label: '6'
+      label: '6',
     },
     {
       id: 'H',
-      label: '7'
+      label: '7',
     },
   ],
   edges: [
@@ -69,8 +69,8 @@ const data = {
       source: 'F',
       target: 'D',
     },
-  ]
-}
+  ],
+};
 
 describe('Shortest Path Matrix on graph', () => {
   const graph = new G6.Graph({
@@ -79,13 +79,13 @@ describe('Shortest Path Matrix on graph', () => {
     height: 500,
     defaultEdge: {
       style: {
-        endArrow: true
-      }
-    }
-  })
+        endArrow: true,
+      },
+    },
+  });
 
-  graph.data(data)
-  graph.render()
+  graph.data(data);
+  graph.render();
 
   it('get graph shortest path matrix', () => {
     const matrix = graph.getShortestPathMatrix();
@@ -109,15 +109,15 @@ describe('Shortest Path Matrix on graph', () => {
   it('add items and cache', () => {
     graph.addItem('node', {
       id: 'I',
-      label: '8'
+      label: '8',
     });
     graph.addItem('edge', {
       source: 'I',
-      target: 'A'
+      target: 'A',
     });
     graph.addItem('edge', {
       source: 'C',
-      target: 'A'
+      target: 'A',
     });
     // use the cache
     const cachedMatrix = graph.getShortestPathMatrix();
@@ -151,13 +151,13 @@ describe('Shortest Path Matrix on graph', () => {
     expect(node0[6]).toBe(2);
     expect(node0[7]).toBe(Infinity);
     expect(node0[8]).toBe(1);
-  })
+  });
 
   it('directed', () => {
     // do not use the cache and directed
     const matrix = graph.getShortestPathMatrix(false, true);
     expect(Object.keys(matrix).length).toBe(9);
-    console.log(matrix)
+    console.log(matrix);
     const node0 = matrix[0];
     expect(node0.length).toBe(9);
     expect(node0[0]).toBe(0);
@@ -176,8 +176,6 @@ describe('Shortest Path Matrix on graph', () => {
   });
 });
 
-
-
 describe('Adjacency Matrix by Algorithm', () => {
   const graph = new G6.Graph({
     container: 'container',
@@ -185,13 +183,13 @@ describe('Adjacency Matrix by Algorithm', () => {
     height: 500,
     defaultEdge: {
       style: {
-        endArrow: true
-      }
-    }
-  })
+        endArrow: true,
+      },
+    },
+  });
 
-  graph.data(data)
-  graph.render()
+  graph.data(data);
+  graph.render();
 
   it('get graph shortestpath matrix', () => {
     const matrix = floydWarshall(graph);
@@ -214,15 +212,15 @@ describe('Adjacency Matrix by Algorithm', () => {
   it('add items and cache', () => {
     graph.addItem('node', {
       id: 'I',
-      label: '8'
+      label: '8',
     });
     graph.addItem('edge', {
       source: 'I',
-      target: 'A'
+      target: 'A',
     });
     graph.addItem('edge', {
       source: 'C',
-      target: 'A'
+      target: 'A',
     });
 
     const matrix = floydWarshall(graph);
@@ -239,7 +237,7 @@ describe('Adjacency Matrix by Algorithm', () => {
     expect(node0[6]).toBe(2);
     expect(node0[7]).toBe(Infinity);
     expect(node0[8]).toBe(1);
-  })
+  });
 
   it('directed', () => {
     // directed

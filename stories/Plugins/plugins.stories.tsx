@@ -12,26 +12,12 @@ import ContextMenu from './component/comtextMenu';
 export default { title: 'Plugins' };
 
 storiesOf('Plugins', module)
-  .add('grid', () => (
-    <Grid />
-  ))
-  .add('minimap', () => (
-    <Minimap />
-  ))
+  .add('grid', () => <Grid />)
+  .add('minimap', () => <Minimap />)
 
-  .add('minimap force', () => (
-    <MinimapForce />
-  ))
+  .add('minimap force', () => <MinimapForce />)
 
-  .add('image minimap', () => (
-    <ImgMinimap />
-  ))
-  .add('image minimap small graph', () => (
-    <ImgMinimap2 />
-  ))
-  .add('tooltip', () => (
-    <Tooltip />
-  ))
-  .add('context menu', () => (
-    <ContextMenu />
-  ))
+  .add('image minimap', () => <ImgMinimap />)
+  .add('image minimap small graph', () => <ImgMinimap2 />)
+  .add('tooltip', () => <Tooltip />)
+  .add('context menu', () => <ContextMenu />);

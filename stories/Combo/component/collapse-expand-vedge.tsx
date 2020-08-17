@@ -18,7 +18,6 @@ const colors = {
   j: '#FFD6E7',
 };
 
-
 const testData: GraphData = {
   nodes: [
     // {
@@ -40,28 +39,28 @@ const testData: GraphData = {
       label: '2',
       comboId: 'b',
       x: 300,
-      y: 200
+      y: 200,
     },
     {
       id: '3',
       label: '3',
       comboId: 'b',
       x: 370,
-      y: 260
+      y: 260,
     },
     {
       id: '4',
       label: '4',
       comboId: 'c',
       x: 360,
-      y: 510
+      y: 510,
     },
     {
       id: '5',
       label: '5',
       comboId: 'd',
       x: 120,
-      y: 510
+      y: 510,
     },
   ],
   edges: [
@@ -121,18 +120,19 @@ const testData: GraphData = {
     // },
     {
       id: 'b',
-      label: 'combo b'
-    }, {
+      label: 'combo b',
+    },
+    {
       id: 'c',
       label: 'combo c',
-      parentId: 'b'
+      parentId: 'b',
     },
     {
       id: 'd',
       label: 'combo d',
       // parentId: 'c'
-    }
-  ]
+    },
+  ],
 };
 
 const CollapseExpandVEdge = () => {
@@ -151,8 +151,8 @@ const CollapseExpandVEdge = () => {
           size: 1,
           color: '#666',
           style: {
-            endArrow: true
-          }
+            endArrow: true,
+          },
         },
         defaultCombo: {
           type: 'circle',
@@ -162,7 +162,7 @@ const CollapseExpandVEdge = () => {
         //animate: true
       });
 
-      graph.node(node => {
+      graph.node((node) => {
         const color = colors[node.comboId as string];
         return {
           size: 20,
@@ -171,22 +171,22 @@ const CollapseExpandVEdge = () => {
             stroke: '#ccc',
             fill: color,
           },
-        }
+        };
       });
-      graph.combo(combo => {
+      graph.combo((combo) => {
         const color = colors[combo.id as string];
         return {
           // size: 80,
           style: {
             lineWidth: 2,
             stroke: color,
-            fillOpacity: 0.8
+            fillOpacity: 0.8,
           },
-        }
+        };
       });
 
       graph.get('canvas').set('localRefresh', false);
-      graph.data(testData);//testData_pos
+      graph.data(testData); //testData_pos
       graph.render();
     }
   });

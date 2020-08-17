@@ -16,7 +16,9 @@ interface EventMapType {
 
 export default abstract class PluginBase {
   private _events: EventMapType;
+
   public _cfgs: IPluginBaseConfig;
+
   public destroyed: boolean;
 
   /**

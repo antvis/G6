@@ -35,7 +35,7 @@ title: API
 **Type**: Number / Function <br />**Default**: 0 <br />**Required**: false <br />**Example**: Example 1: 10 <br />Example 2:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   if (d.id === 'node1') {
     return 100;

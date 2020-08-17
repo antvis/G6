@@ -49,12 +49,12 @@ const data = {
     {
       source: '1',
       target: '1',
-      type: 'loop'
+      type: 'loop',
     },
     {
       source: '2',
       target: '2',
-      type: 'loop'
+      type: 'loop',
     },
     {
       source: '1',
@@ -145,8 +145,8 @@ const ForceLoop = () => {
           type: 'force',
         },
         defaultEdge: {
-          type: 'quadratic'
-        }
+          type: 'quadratic',
+        },
       });
       data.nodes.forEach((node: any) => {
         node.x = 0;

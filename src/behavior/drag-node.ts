@@ -23,7 +23,7 @@ export default {
       onlyChangeComboSize: false,
       // 拖动过程中目标 combo 状态样式
       comboActiveState: '',
-      selectedState: 'selected'
+      selectedState: 'selected',
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -41,7 +41,7 @@ export default {
       return false;
     }
 
-    const type = item.getType()
+    const type = item.getType();
     if (type !== 'combo') {
       return false;
     }
@@ -49,7 +49,7 @@ export default {
   },
   /**
    * 开始拖动节点
-   * @param evt 
+   * @param evt
    */
   onDragStart(evt: IG6GraphEvent) {
     if (!this.shouldBegin.call(this, evt)) {
@@ -62,8 +62,8 @@ export default {
     }
 
     // 拖动时，设置拖动元素的 capture 为false，则不拾取拖动的元素
-    const group = item.getContainer()
-    group.set('capture', false)
+    const group = item.getContainer();
+    group.set('capture', false);
 
     // 如果拖动的target 是linkPoints / anchorPoints 则不允许拖动
     const { target } = evt;
@@ -79,7 +79,7 @@ export default {
     this.targets = [];
 
     // 将节点拖入到指定的 Combo
-    this.targetCombo = null
+    this.targetCombo = null;
 
     // 获取所有选中的元素
     const nodes = graph.findAllByState('node', this.selectedState);
@@ -87,17 +87,17 @@ export default {
     const currentNodeId = item.get('id');
 
     // 当前拖动的节点是否是选中的节点
-    const dragNodes = nodes.filter(node => {
+    const dragNodes = nodes.filter((node) => {
       const nodeId = node.get('id');
       return currentNodeId === nodeId;
     });
 
     // 只拖动当前节点
     if (dragNodes.length === 0) {
-      this.targets.push(item)
+      this.targets.push(item);
     } else if (nodes.length > 1) {
       // 拖动多个节点
-      nodes.forEach(node => {
+      nodes.forEach((node) => {
         const locked = node.hasLocked();
         if (!locked) {
           this.targets.push(node);
@@ -118,7 +118,7 @@ export default {
 
   /**
    * 持续拖动节点
-   * @param evt 
+   * @param evt
    */
   onDrag(evt: IG6GraphEvent) {
     if (!this.origin) {
@@ -132,14 +132,14 @@ export default {
     if (this.get('enableDelegate')) {
       this.updateDelegate(evt);
     } else {
-      this.targets.map(target => {
+      this.targets.map((target) => {
         this.update(target, evt);
       });
     }
   },
   /**
    * 拖动结束，设置拖动元素capture为true，更新元素位置，如果是拖动涉及到 combo，则更新 combo 结构
-   * @param evt 
+   * @param evt
    */
   onDragEnd(evt: IG6GraphEvent) {
     if (!this.origin || !this.shouldEnd.call(this, evt)) {
@@ -147,10 +147,10 @@ export default {
     }
 
     // 拖动结束后，设置拖动元素 group 的 capture 为 true，允许拾取拖动元素
-    const item = evt.item as INode
+    const item = evt.item as INode;
     if (item) {
-      const group = item.getContainer()
-      group.set('capture', true)
+      const group = item.getContainer();
+      group.set('capture', true);
     }
 
     if (this.delegateRect) {
@@ -160,37 +160,37 @@ export default {
 
     // 当开启 delegate 时，拖动结束后需要更新所有已选中节点的位置
     if (this.get('enableDelegate')) {
-      this.targets.map(node => this.update(node, evt));
+      this.targets.map((node) => this.update(node, evt));
     }
 
-    const graph: IGraph = this.graph
+    const graph: IGraph = this.graph;
 
     // 拖动结束后是动态改变 Combo 大小还是将节点从 Combo 中删除
     if (this.onlyChangeComboSize) {
       // 拖动节点结束后，动态改变 Combo 的大小
-      graph.updateCombos()
+      graph.updateCombos();
     } else {
       // 拖放到了最外面，如果targets中有 combo，则删除掉
       if (!this.targetCombo) {
         this.targets.map((node: INode) => {
           // 拖动的节点有 comboId，即是从其他 combo 中拖出时才处理
-          const model = node.getModel()
-          model.comboId && graph.updateComboTree(node)
-        })
+          const model = node.getModel();
+          model.comboId && graph.updateComboTree(node);
+        });
       } else {
-        const targetComboModel = this.targetCombo.getModel()
+        const targetComboModel = this.targetCombo.getModel();
         this.targets.map((node: INode) => {
-          const nodeModel = node.getModel()
+          const nodeModel = node.getModel();
           if (nodeModel.comboId !== targetComboModel.id) {
-            graph.updateComboTree(node, targetComboModel.id)
+            graph.updateComboTree(node, targetComboModel.id);
           }
-        })
+        });
       }
     }
 
     // 拖动结束后，入栈
     if (graph.get('enabledStack')) {
-      graph.pushStack('update', clone(graph.save()))
+      graph.pushStack('update', clone(graph.save()));
     }
 
     this.point = {};
@@ -201,50 +201,50 @@ export default {
   },
   /**
    * 拖动过程中将节点放置到 combo 上
-   * @param evt 
+   * @param evt
    */
   onDropCombo(evt: IG6GraphEvent) {
-    const item = evt.item as ICombo
+    const item = evt.item as ICombo;
     if (!this.validationCombo(item)) return;
 
-    const graph: IGraph = this.graph
+    const graph: IGraph = this.graph;
 
     if (this.comboActiveState) {
-      graph.setItemState(item, this.comboActiveState, false)
+      graph.setItemState(item, this.comboActiveState, false);
     }
 
-    this.targetCombo = item
+    this.targetCombo = item;
   },
   /**
    * 将节点拖入到 Combo 中
-   * @param evt 
+   * @param evt
    */
   onDragEnter(evt: IG6GraphEvent) {
-    const item = evt.item as ICombo
+    const item = evt.item as ICombo;
     if (!this.validationCombo(item)) return;
 
-    const graph: IGraph = this.graph
+    const graph: IGraph = this.graph;
     if (this.comboActiveState) {
-      graph.setItemState(item, this.comboActiveState, true)
+      graph.setItemState(item, this.comboActiveState, true);
     }
   },
   /**
    * 将节点从 Combo 中拖出
-   * @param evt 
+   * @param evt
    */
   onDragLeave(evt: IG6GraphEvent) {
-    const item = evt.item as ICombo
+    const item = evt.item as ICombo;
     if (!this.validationCombo(item)) return;
 
-    const graph: IGraph = this.graph
+    const graph: IGraph = this.graph;
     if (this.comboActiveState) {
-      graph.setItemState(item, this.comboActiveState, false)
+      graph.setItemState(item, this.comboActiveState, false);
     }
   },
   /**
    * 更新节点
    * @param item 拖动的节点实例
-   * @param evt 
+   * @param evt
    */
   update(item: Item, evt: IG6GraphEvent) {
     const { origin } = this;
@@ -314,7 +314,7 @@ export default {
 
     const nodes = graph.findAllByState('node', this.selectedState);
     if (nodes.length === 0) {
-      nodes.push(evt.item)
+      nodes.push(evt.item);
     }
 
     let minx = Infinity;

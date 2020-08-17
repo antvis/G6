@@ -37,8 +37,8 @@ const data = {
       style: {
         endArrow: {
           path: 'M 3,-5 L 3,5 L 15,10 L 15,-10 Z',
-        }
-      }
+        },
+      },
     },
     {
       id: 'edge1',
@@ -48,15 +48,15 @@ const data = {
       style: {
         endArrow: {
           path: 'M0,0 L10,4 L14,14 L18,4 L28,0 L18,-4 L14,-14 L10,-4 Z',
-        }
-      }
+        },
+      },
     },
   ],
 };
 
 const width = document.getElementById('container').scrollWidth;
 const height = document.getElementById('container').scrollHeight || 500;
-data.edges.forEach(edge => {
+data.edges.forEach((edge) => {
   edge.style.stroke = '#F6BD16';
   console.log(edge.style.endArrow);
   edge.style.endArrow.fill = '#F6BD16';

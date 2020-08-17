@@ -23,7 +23,7 @@ title: API
 **Type**: Number | Function<br />**Example**:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   if (d.id === 'testId') return 50;
   return 100;
@@ -37,7 +37,7 @@ d => {
 **Type**: Number | Function<br />**Example**:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   if (d.id === 'testId') return 50;
   return 100;
@@ -51,7 +51,7 @@ d => {
 **Type**: Function<br />**Example**:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   if (d.id === 'testId') return 'left';
   return 'right';
@@ -60,13 +60,10 @@ d => {
 
 **Required**: false<br />**Explanation**: The callback function of node position(left or right of root node). Only affects the nodes which are connected to the root node directly. And the descendant nodes will be placed according to it
 
-
 ## dropCap
 
-**Type**: Boolean 
+**Type**: Boolean
 
 <br />**Required**: false
 
 <br />**Explanation**: Whether place the first child node at the next line. `true` by default
-
-

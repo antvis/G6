@@ -35,7 +35,7 @@ comboItem.hide();
 
 ```javascript
 // 鼠标点击节点，隐藏该节点
-graph.on('node:click', ev => {
+graph.on('node:click', (ev) => {
   const node = ev.item;
   console.log('before hide(), the nodevisible = ', node.get('visible'));
   node.hide();
@@ -44,7 +44,7 @@ graph.on('node:click', ev => {
 });
 
 // 鼠标点击边，隐藏该边
-graph.on('edge:click', ev => {
+graph.on('edge:click', (ev) => {
   const edge = ev.item;
   console.log('before hide(), the edge visible = ', edge.get('visible'));
   edge.hide();
@@ -53,13 +53,13 @@ graph.on('edge:click', ev => {
 });
 
 // 鼠标点击画布，显示所有节点和边
-graph.on('canvas:click', ev => {
+graph.on('canvas:click', (ev) => {
   const nodes = graph.getNodes();
   const edges = graph.getEdges();
-  nodes.forEach(node => {
+  nodes.forEach((node) => {
     node.show();
   });
-  edges.forEach(edge => {
+  edges.forEach((edge) => {
     edge.show();
   });
   graph.paint();

@@ -38,7 +38,7 @@ describe('triangle test', () => {
       const keyShape = node.getKeyShape();
       expect(keyShape.attr('fill')).toEqual('#C6E5FF');
 
-      const label = group.find(g => {
+      const label = group.find((g) => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toBe(null);
@@ -264,7 +264,7 @@ describe('triangle test', () => {
           top: false,
         },
       });
-      const topPoint = group.find(g => {
+      const topPoint = group.find((g) => {
         return g.get('className') === 'link-point-top';
       });
       expect(topPoint).toBe(null);
@@ -281,11 +281,11 @@ describe('triangle test', () => {
           lineWidth: 2,
         },
       });
-      const leftPoint = group.find(g => {
+      const leftPoint = group.find((g) => {
         return g.get('className') === 'link-point-left';
       });
       expect(leftPoint).toBe(null);
-      const rightPoint = group.find(g => {
+      const rightPoint = group.find((g) => {
         return g.get('className') === 'link-point-right';
       });
       expect(rightPoint).not.toBe(null);
@@ -293,7 +293,7 @@ describe('triangle test', () => {
       expect(rightPoint.attr('fill')).toBe('#f00');
       expect(rightPoint.attr('stroke')).toBe('#0f0');
       expect(rightPoint.attr('lineWidth')).toBe(2);
-      const bottomPoint = group.find(g => {
+      const bottomPoint = group.find((g) => {
         return g.get('className') === 'link-point-bottom';
       });
       expect(bottomPoint).not.toBe(null);
@@ -309,15 +309,15 @@ describe('triangle test', () => {
           lineWidth: 2,
         },
       });
-      const leftPoint2 = group.find(g => {
+      const leftPoint2 = group.find((g) => {
         return g.get('className') === 'link-point-left';
       });
       expect(leftPoint2).toBe(null);
-      const topPoint2 = group.find(g => {
+      const topPoint2 = group.find((g) => {
         return g.get('className') === 'link-point-top';
       });
       expect(topPoint2).not.toBe(null);
-      const rightPoint2 = group.find(g => {
+      const rightPoint2 = group.find((g) => {
         return g.get('className') === 'link-point-right';
       });
       expect(rightPoint2).not.toBe(null);
@@ -420,7 +420,7 @@ describe('triangle test', () => {
         },
       });
 
-      const label = group.find(g => {
+      const label = group.find((g) => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toEqual(null);
@@ -470,7 +470,7 @@ describe('triangle test', () => {
         label: 'triangle label',
       });
 
-      const label = group.find(g => {
+      const label = group.find((g) => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toEqual(null);
@@ -513,7 +513,7 @@ describe('triangle test', () => {
       });
       let group = node.get('group');
       expect(group.getCount()).toEqual(3);
-      const icon = group.find(g => {
+      const icon = group.find((g) => {
         return g.get('className') === 'triangle-icon';
       });
       expect(icon.attr('width')).toEqual(50);

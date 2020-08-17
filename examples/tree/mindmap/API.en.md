@@ -19,7 +19,7 @@ title: API
 **Type**: Number | Function<br />**Example**:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   if (d.id === 'testId') return 50;
   return 100;
@@ -33,7 +33,7 @@ d => {
 **Type**: Number | Function<br />**Example**:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   if (d.id === 'testId') return 50;
   return 100;
@@ -47,7 +47,7 @@ d => {
 **Type**: Number | Function<br />**Example**:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   if (d.id === 'testId') return 50;
   return 100;
@@ -61,7 +61,7 @@ d => {
 **Type**: Number | Function<br />**Example**:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   if (d.id === 'testId') return 50;
   return 100;
@@ -75,7 +75,7 @@ d => {
 **Type**: Function<br />**Example**:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   if (d.id === 'test-child-id') return 'right';
   return 'left';

@@ -387,7 +387,7 @@ const descriptionDiv = document.createElement('div');
 descriptionDiv.innerHTML =
   'Circular layout with radius: take full use of the canvas, ordering: topology';
 const graphDiv = document.getElementById('container');
-graphDiv.appendChild(descriptionDiv)
+graphDiv.appendChild(descriptionDiv);
 
 const width = document.getElementById('container').scrollWidth;
 const height = (document.getElementById('container').scrollHeight || 500) - 20;
@@ -416,7 +416,7 @@ const graph = new G6.Graph({
     style: {
       endArrow: {
         path: 'M 0,0 L 8,4 L 8,-4 Z',
-        fill: '#e2e2e2'
+        fill: '#e2e2e2',
       },
     },
   },

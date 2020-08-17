@@ -7,4 +7,4 @@ Bundling is a built-in components in G6. It is used for bundling the complex edg
 
 ## Usage
 
-The demo below show how to use Bundling on graph. 
+The demo below show how to use Bundling on graph.

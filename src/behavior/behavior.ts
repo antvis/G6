@@ -21,7 +21,7 @@ export default class Behavior {
     Object.assign(prototype, behavior);
 
     // eslint-disable-next-line func-names
-    const base = function(cfg: object) {
+    const base = function (cfg: object) {
       Object.assign(this, this.getDefaultCfg(), cfg);
 
       const events = this.getEvents();

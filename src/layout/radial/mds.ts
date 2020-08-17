@@ -4,8 +4,10 @@ import { Matrix as MLMatrix, SingularValueDecomposition } from 'ml-matrix';
 export default class MDS {
   /** distance matrix */
   public distances: Matrix[];
+
   /** dimensions */
   public dimension: number;
+
   /** link distance */
   public linkDistance: number;
 

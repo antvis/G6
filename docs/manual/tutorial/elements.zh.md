@@ -127,7 +127,7 @@ const graph = new G6.Graph({
 
 ```javascript
 const nodes = remoteData.nodes;
-nodes.forEach(node => {
+nodes.forEach((node) => {
   if (!node.style) {
     node.style = {};
   }
@@ -169,7 +169,7 @@ graph.data(remoteData);
 
 // 遍历边数据
 const edges = remoteData.edges;
-edges.forEach(edge => {
+edges.forEach((edge) => {
   if (!edge.style) {
     edge.style = {};
   }
@@ -203,7 +203,7 @@ const graph = new G6.Graph({
 
 // 遍历边数据
 const edges = remoteData.edges;
-edges.forEach(edge => {
+edges.forEach((edge) => {
   if (!edge.style) {
     edge.style = {};
   }
@@ -259,7 +259,7 @@ graph.render();
         const remoteData = await response.json();
         const nodes = remoteData.nodes;
         const edges = remoteData.edges;
-        nodes.forEach(node => {
+        nodes.forEach((node) => {
           if (!node.style) {
             node.style = {};
           }
@@ -283,7 +283,7 @@ graph.render();
             }
           }
         });
-        edges.forEach(edge => {
+        edges.forEach((edge) => {
           if (!edge.style) {
             edge.style = {};
           }

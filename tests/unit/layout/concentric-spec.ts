@@ -105,7 +105,7 @@ describe('concentric layout', () => {
       width: 500,
       height: 500,
     });
-    data.nodes.forEach(node => {
+    data.nodes.forEach((node) => {
       node.size = [10, 20];
     });
     graph.data(data);

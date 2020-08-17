@@ -1,11 +1,28 @@
 import Group from '@antv/g-canvas/lib/group';
 import {
-  each, isNil, isPlainObject,
-  isString, isBoolean, uniqueId, mix, deepMix
-} from '@antv/util'
+  each,
+  isNil,
+  isPlainObject,
+  isString,
+  isBoolean,
+  uniqueId,
+  mix,
+  deepMix,
+} from '@antv/util';
 import { IItemBase, IItemBaseConfig } from '../interface/item';
 import Shape from '../shape/shape';
-import { IBBox, IPoint, IShapeBase, ModelConfig, ShapeStyle, Indexable, NodeConfig, EdgeConfig, ComboConfig, ITEM_TYPE } from '../types';
+import {
+  IBBox,
+  IPoint,
+  IShapeBase,
+  ModelConfig,
+  ShapeStyle,
+  Indexable,
+  NodeConfig,
+  EdgeConfig,
+  ComboConfig,
+  ITEM_TYPE,
+} from '../types';
 import { getBBox } from '../util/graphic';
 import { translate } from '../util/math';
 import { IGroup } from '@antv/g-base/lib/interfaces';
@@ -87,7 +104,7 @@ export default class ItemBase implements IItemBase {
 
     if (!id) {
       id = uniqueId(this.get('type'));
-      this.get('model').id = id
+      this.get('model').id = id;
     }
 
     this.set('id', id);
@@ -119,7 +136,6 @@ export default class ItemBase implements IItemBase {
     return bbox;
   }
 
-
   /**
    * 根据 keyshape 计算包围盒
    */
@@ -146,7 +162,7 @@ export default class ItemBase implements IItemBase {
     const group: Group = self.get('group');
     const model: ModelConfig = self.get('model');
     group.clear();
-    let visible = model.visible;
+    const visible = model.visible;
     if (visible !== undefined && !visible) self.changeVisibility(visible);
 
     if (!shapeFactory) {
@@ -177,36 +193,36 @@ export default class ItemBase implements IItemBase {
    * @param group Group 容器
    */
   private setOriginStyle(cfg?: ModelConfig) {
-    const originStyles = {}
+    const originStyles = {};
     const group: Group = this.get('group');
-    const children = group.get('children')
+    const children = group.get('children');
     const keyShape: IShapeBase = this.getKeyShape();
 
-    const self = this
+    const self = this;
 
-    each(children, child => {
-      const name = child.get('name')
+    each(children, (child) => {
+      const name = child.get('name');
       if (name) {
-        originStyles[name] = self.getShapeStyleByName(name)
+        originStyles[name] = self.getShapeStyleByName(name);
       } else {
-        const keyShapeName = keyShape.get('name')
-        const keyShapeStyle = self.getShapeStyleByName()
+        const keyShapeName = keyShape.get('name');
+        const keyShapeStyle = self.getShapeStyleByName();
         if (!keyShapeName) {
-          Object.assign(originStyles, keyShapeStyle)
+          Object.assign(originStyles, keyShapeStyle);
         } else {
-          originStyles[keyShapeName] = keyShapeStyle
+          originStyles[keyShapeName] = keyShapeStyle;
         }
       }
-    })
+    });
 
-    const drawOriginStyle = this.getOriginStyle()
-    let styles = {}
+    const drawOriginStyle = this.getOriginStyle();
+    let styles = {};
     if (cfg) {
       styles = deepMix({}, drawOriginStyle, originStyles, cfg.style, {
-        labelCfg: cfg.labelCfg
-      })
+        labelCfg: cfg.labelCfg,
+      });
     } else {
-      styles = deepMix({}, drawOriginStyle, originStyles)
+      styles = deepMix({}, drawOriginStyle, originStyles);
     }
 
     self.set('originStyle', styles);
@@ -220,7 +236,7 @@ export default class ItemBase implements IItemBase {
   private restoreStates(shapeFactory: any, shapeType: string) {
     const self = this;
     const states: string[] = self.get('states');
-    each(states, state => {
+    each(states, (state) => {
       shapeFactory.setState(shapeType, state, true, self);
     });
   }
@@ -248,7 +264,7 @@ export default class ItemBase implements IItemBase {
    */
   public set(key: string | object, val?: unknown): void {
     if (isPlainObject(key)) {
-      this._cfg = Object.assign({}, this._cfg, key);
+      this._cfg = { ...this._cfg, ...key };
     } else {
       this._cfg[key] = val;
     }
@@ -269,17 +285,17 @@ export default class ItemBase implements IItemBase {
   /**
    * 渲染前的逻辑，提供给子类复写
    */
-  protected beforeDraw() { }
+  protected beforeDraw() {}
 
   /**
    * 渲染后的逻辑，提供给子类复写
    */
-  protected afterDraw() { }
+  protected afterDraw() {}
 
   /**
    * 更新后做一些工作
    */
-  protected afterUpdate() { }
+  protected afterUpdate() {}
 
   /**
    * draw shape
@@ -295,30 +311,30 @@ export default class ItemBase implements IItemBase {
     let currentShape: IShapeBase = this.getKeyShape();
 
     if (name) {
-      currentShape = group.find(element => element.get('name') === name) as IShapeBase
+      currentShape = group.find((element) => element.get('name') === name) as IShapeBase;
     }
 
     if (currentShape) {
       const styles: ShapeStyle & Indexable<any> = {};
       // 这里要排除掉所有 states 中样式
-      const states = this.get('states')
-      states.map(state => {
-        const style = this.getStateStyle(state)
+      const states = this.get('states');
+      states.map((state) => {
+        const style = this.getStateStyle(state);
         for (const key in style) {
           if (!isPlainObject(style[key])) {
             if (!RESERVED_STYLES.includes(key)) {
-              RESERVED_STYLES.push(key)
+              RESERVED_STYLES.push(key);
             }
           } else {
-            const subStyle = style[key]
+            const subStyle = style[key];
             for (const subKey in subStyle) {
               if (!RESERVED_STYLES.includes(subKey)) {
-                RESERVED_STYLES.push(subKey)
+                RESERVED_STYLES.push(subKey);
               }
             }
           }
         }
-      })
+      });
       each(currentShape.attr(), (val, key) => {
         if (RESERVED_STYLES.indexOf(key) < 0) {
           styles[key] = val;
@@ -334,7 +350,7 @@ export default class ItemBase implements IItemBase {
     if (styles) {
       // merge graph的item样式与数据模型中的样式
       const newModel = model;
-      newModel.style = Object.assign({}, styles, model.style);
+      newModel.style = { ...styles, ...model.style };
       return newModel;
     }
     return model;
@@ -359,8 +375,8 @@ export default class ItemBase implements IItemBase {
 
   public getCurrentStatesStyle(): ShapeStyle {
     const self = this;
-    let styles = {}
-    each(self.getStates(), state => {
+    let styles = {};
+    each(self.getStates(), (state) => {
       styles = Object.assign(styles, self.getStateStyle(state));
     });
     return styles;
@@ -375,14 +391,14 @@ export default class ItemBase implements IItemBase {
   public setState(state: string, value: string | boolean) {
     const states: string[] = this.get('states');
     const shapeFactory = this.get('shapeFactory');
-    let stateName = state
-    let filterStateName = state
+    let stateName = state;
+    let filterStateName = state;
     if (isString(value)) {
-      stateName = `${state}:${value}`
-      filterStateName = `${state}:`
+      stateName = `${state}:${value}`;
+      filterStateName = `${state}:`;
     }
 
-    let newStates = states
+    let newStates = states;
 
     if (isBoolean(value)) {
       const index = states.indexOf(filterStateName);
@@ -396,15 +412,15 @@ export default class ItemBase implements IItemBase {
       }
     } else if (isString(value)) {
       // 过滤掉 states 中 filterStateName 相关的状态
-      const filterStates = states.filter(name => name.includes(filterStateName))
+      const filterStates = states.filter((name) => name.includes(filterStateName));
 
       if (filterStates.length > 0) {
-        this.clearStates(filterStates)
+        this.clearStates(filterStates);
       }
-      newStates = newStates.filter(name => !name.includes(filterStateName))
+      newStates = newStates.filter((name) => !name.includes(filterStateName));
 
-      newStates.push(stateName)
-      this.set('states', newStates)
+      newStates.push(stateName);
+      this.set('states', newStates);
     }
 
     if (shapeFactory) {
@@ -427,19 +443,19 @@ export default class ItemBase implements IItemBase {
     const model: ModelConfig = self.get('model');
     const shape = model.shape || model.type;
     if (!states) {
-      states = originStates
+      states = originStates;
     }
 
     if (isString(states)) {
       states = [states];
     }
 
-    const newStates = originStates.filter(state => states.indexOf(state) === -1);
+    const newStates = originStates.filter((state) => states.indexOf(state) === -1);
     self.set('states', newStates);
 
-    states.forEach(state => {
+    states.forEach((state) => {
       shapeFactory.setState(shape, state, false, self);
-    })
+    });
   }
 
   /**
@@ -478,7 +494,7 @@ export default class ItemBase implements IItemBase {
    * 获取 Item 的ID
    */
   public getID(): string {
-    return this.get('id')
+    return this.get('id');
   }
 
   /**
@@ -543,12 +559,12 @@ export default class ItemBase implements IItemBase {
     cfg.x = isNaN(cfg.x) ? model.x : cfg.x;
     cfg.y = isNaN(cfg.y) ? model.y : cfg.y;
 
-    const styles = this.get('styles')
+    const styles = this.get('styles');
     if (cfg.stateStyles) {
       // 更新 item 时更新 this.get('styles') 中的值
-      const { stateStyles } = cfg
-      mix(styles, stateStyles)
-      delete cfg.stateStyles
+      const { stateStyles } = cfg;
+      mix(styles, stateStyles);
+      delete cfg.stateStyles;
     }
 
     // 直接将更新合到原数据模型上，可以保证用户在外部修改源数据然后刷新时的样式符合期待。
@@ -589,7 +605,7 @@ export default class ItemBase implements IItemBase {
     }
 
     // 更新完以后重新设置原始样式
-    this.setOriginStyle(model)
+    this.setOriginStyle(model);
 
     // 更新后重置节点状态
     this.restoreStates(shapeFactory, shape);
@@ -650,7 +666,7 @@ export default class ItemBase implements IItemBase {
    * 将元素放到最前面
    */
   public toFront() {
-    const group: IGroup = this.get('group')
+    const group: IGroup = this.get('group');
     group.toFront();
   }
 
@@ -658,7 +674,7 @@ export default class ItemBase implements IItemBase {
    * 将元素放到最后面
    */
   public toBack() {
-    const group: IGroup = this.get('group')
+    const group: IGroup = this.get('group');
     group.toBack();
   }
 

@@ -305,11 +305,10 @@ export interface INode extends IItemBase {
 }
 
 export interface ICombo extends INode {
-
   /**
    * 获取 Combo 中所有的子元素，包括 Combo、Node 及 Edge
    */
-  getChildren: () => { nodes: INode[], combos: ICombo[] };
+  getChildren: () => { nodes: INode[]; combos: ICombo[] };
 
   /**
    * 获取 Combo 中所有节点
@@ -342,7 +341,6 @@ export interface ICombo extends INode {
    */
   addNode: (node: string | INode) => boolean;
 
-
   /**
    * 从 Combo 中移除子元素
    * @param item Combo 或 Node 实例
@@ -358,9 +356,9 @@ export interface ICombo extends INode {
   removeCombo: (combo: ICombo) => boolean;
 
   /**
-  * 向 Combo 中移除指定的节点
-  * @param node 节点实例
-  * @return boolean 移除成功返回 true，否则返回 false
-  */
+   * 向 Combo 中移除指定的节点
+   * @param node 节点实例
+   * @return boolean 移除成功返回 true，否则返回 false
+   */
   removeNode: (node: string | INode) => boolean;
 }

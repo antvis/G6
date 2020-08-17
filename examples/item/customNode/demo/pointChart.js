@@ -28,7 +28,7 @@ G6.registerNode('justPoints', {
     }
     const everyIncAngle = (2 * Math.PI * (360 / 5 / 5)) / 360;
     nowAngle = nowAngle + everyIncAngle / 2;
-    cfg.details.forEach(cat => {
+    cfg.details.forEach((cat) => {
       // Calculate the positions for vertexes
       const postions = [];
       cat.values.forEach((item, index) => {

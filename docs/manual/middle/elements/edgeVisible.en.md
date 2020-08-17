@@ -35,7 +35,7 @@ In this example, we bind the listeners to node clicking, edge clicking, and canv
 
 ```javascript
 // Hide the node when the mouse clicks on it
-graph.on('node:click', ev => {
+graph.on('node:click', (ev) => {
   const node = ev.item;
   console.log('before hide(), the nodevisible = ', node.get('visible'));
   node.hide();
@@ -44,7 +44,7 @@ graph.on('node:click', ev => {
 });
 
 // Hide the edge when the mouse clicks on it
-graph.on('edge:click', ev => {
+graph.on('edge:click', (ev) => {
   const edge = ev.item;
   console.log('before hide(), the edge visible = ', edge.get('visible'));
   edge.hide();
@@ -53,13 +53,13 @@ graph.on('edge:click', ev => {
 });
 
 // Show all the nodes and edges when the mouse clicks the canvas
-graph.on('canvas:click', ev => {
+graph.on('canvas:click', (ev) => {
   const nodes = graph.getNodes();
   const edges = graph.getEdges();
-  nodes.forEach(node => {
+  nodes.forEach((node) => {
     node.show();
   });
-  edges.forEach(edge => {
+  edges.forEach((edge) => {
     edge.show();
   });
   graph.paint();

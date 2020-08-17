@@ -53,8 +53,8 @@ const Tooltip = () => {
         renderer: 'svg',
         plugins: [grid],
         modes: {
-          default: ['tooltip', 'edge-tooltip']
-        }
+          default: ['tooltip', 'edge-tooltip'],
+        },
       });
       graph.data(data);
       graph.render();

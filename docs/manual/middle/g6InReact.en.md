@@ -32,7 +32,7 @@ import ReactDOM from 'react-dom';
 import { data } from './data';
 import G6 from '@antv/g6';
 
-export default function() {
+export default function () {
   const ref = React.useRef(null);
   let graph = null;
 
@@ -86,7 +86,7 @@ const [nodeTooltipX, setNodeToolTipX] = useState(0);
 const [nodeTooltipY, setNodeToolTipY] = useState(0);
 
 // Listen to the mouse event on node
-graph.on('node:mouseenter', evt => {
+graph.on('node:mouseenter', (evt) => {
   const { item } = evt;
   const model = item.getModel();
   const { x, y } = model;

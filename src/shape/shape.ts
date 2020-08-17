@@ -131,17 +131,17 @@ const ShapeFramework = {
   /**
    * 绘制
    */
-  drawShape(/* cfg, group */) { },
+  drawShape(/* cfg, group */) {},
   /**
    * 绘制完成后的操作，便于用户继承现有的节点、边
    */
-  afterDraw(/* cfg, group */) { },
+  afterDraw(/* cfg, group */) {},
   // update(cfg, item) // 默认不定义
-  afterUpdate(/* cfg, item */) { },
+  afterUpdate(/* cfg, item */) {},
   /**
    * 设置节点、边状态
    */
-  setState(/* name, value, item */) { },
+  setState(/* name, value, item */) {},
   /**
    * 获取控制点
    * @param  {Object} cfg 节点、边的配置项
@@ -177,7 +177,7 @@ export default class Shape {
   public static registerFactory(factoryType: string, cfg: object): object {
     const className = ucfirst(factoryType);
     const factoryBase = ShapeFactoryBase;
-    const shapeFactory = Object.assign({}, factoryBase, cfg) as any;
+    const shapeFactory = { ...factoryBase, ...cfg } as any;
     (Shape as any)[className] = shapeFactory;
     shapeFactory.className = className;
     return shapeFactory;
@@ -196,7 +196,7 @@ export default class Shape {
     const shapeFactory = Shape.Node;
     const extendShape = extendShapeType ? shapeFactory.getShape(extendShapeType) : ShapeFramework;
 
-    const shapeObj = Object.assign({}, extendShape, nodeDefinition);
+    const shapeObj = { ...extendShape, ...nodeDefinition };
     shapeObj.type = shapeType;
     shapeObj.itemType = 'node';
     shapeFactory[shapeType] = shapeObj;
@@ -210,7 +210,7 @@ export default class Shape {
   ) {
     const shapeFactory = Shape.Edge;
     const extendShape = extendShapeType ? shapeFactory.getShape(extendShapeType) : ShapeFramework;
-    const shapeObj = Object.assign({}, extendShape, edgeDefinition);
+    const shapeObj = { ...extendShape, ...edgeDefinition };
     shapeObj.type = shapeType;
     shapeObj.itemType = 'edge';
     shapeFactory[shapeType] = shapeObj;
@@ -225,14 +225,13 @@ export default class Shape {
     const shapeFactory = Shape.Combo;
     const extendShape = extendShapeType ? shapeFactory.getShape(extendShapeType) : ShapeFramework;
 
-    const shapeObj = Object.assign({}, extendShape, comboDefinition);
+    const shapeObj = { ...extendShape, ...comboDefinition };
     shapeObj.type = shapeType;
     shapeObj.itemType = 'combo';
     shapeFactory[shapeType] = shapeObj;
     return shapeObj;
   }
 }
-
 
 // 注册 Node 的工厂方法
 Shape.registerFactory('node', {
@@ -248,4 +247,3 @@ Shape.registerFactory('edge', {
 Shape.registerFactory('combo', {
   defaultShapeType: 'circle',
 });
-

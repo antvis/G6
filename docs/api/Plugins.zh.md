@@ -39,9 +39,9 @@ Grid 插件在画布上绘制了网格。
 
 ### 配置项
 
-| 名称 | 类型 | 描述 |
-| --- | --- | --- |
-| img | String | grid 图片，base64 格式字符串 |
+| 名称 | 类型   | 描述                         |
+| ---- | ------ | ---------------------------- |
+| img  | String | grid 图片，base64 格式字符串 |
 
 ## Minimap
 
@@ -71,7 +71,6 @@ Minimap 是用于快速预览和探索图的工具。
 | lineWidth   | Number | 描边宽度   |
 | opacity     | Number | 透明度     |
 | fillOpacity | Number | 填充透明度 |
-
 
 ## Image Minimap
 
@@ -111,10 +110,9 @@ Minimap 是用于快速预览和探索图的工具。
 
 参数：
 
-| 名称        | 类型   | 是否必须 | 描述       |
-| ----------- | ------ | --- | ---------- |
-| img | String | true | minimap 的图片地址或 base64 文本 |
-
+| 名称 | 类型   | 是否必须 | 描述                             |
+| ---- | ------ | -------- | -------------------------------- |
+| img  | String | true     | minimap 的图片地址或 base64 文本 |
 
 ### 用法
 
@@ -248,6 +246,7 @@ const graph = new G6.Graph({
 ## ToolBar
 
 ToolBar 集成了以下常见的操作：
+
 - 重做；
 - 撤销；
 - 放大；
@@ -268,6 +267,7 @@ ToolBar 集成了以下常见的操作：
 ### 用法
 
 #### 默认用法
+
 默认的 ToolBar 提供了撤销、重做、放大等功能。
 
 ```
@@ -333,7 +333,7 @@ const toolbar = new G6.ToolBar({
     return outDiv
   },
   handleClick: (code, graph) => {
-    
+
   }
 });
 
@@ -346,6 +346,7 @@ const graph = new G6.Graph({
 ## TimeBar
 
 目前 G6 内置的 TimeBar 主要有以下功能：
+
 - 改变时间范围，过滤图上的数据；
 - TimeBar 上展示指定字段随时间推移的变化趋势。
 
@@ -363,7 +364,6 @@ const graph = new G6.Graph({
 | timebar | TimeBarOption | {} | TimeBar 样式配置项 |
 | rangeChange | (graph: IGraph, min: number, max: number) => void | null | 改变时间范围后的回调函数 |
 
-
 **TimeBarOption 配置项**
 
 ```
@@ -374,23 +374,23 @@ interface HandleStyle {
 }
 ```
 
-| 名称 | 类型 | 默认值 | 描述 |
-| --- | --- | --- | --- |
-| x | number | 0 | TimeBar 起始 x 坐标 |
-| y | number | 0 | TimeBar 起始 y 坐标 |
-| width | number | 400 | TimeBar 宽度 |
-| height | number | 400 | TimeBar 高度 |
-| backgroundStyle | ShapeStyle | {} | TimeBar 背景样式配置项 |
-| foregroundStyle | ShapeStyle | {} | TimeBar 选中部分样式配置项 |
-| handlerStyle | HandleStyle | null | 滑块样式设置 |
-| textStyle | ShapeStyle | null | 文本样式 |
-| minLimit | number | 0 | 允许滑块最左边（最小）位置，范围 0-1 |
-| maxLimit | number | 1 | 允许滑块最右边（最大）位置，范围 0-1 |
-| start | number | 0 | 滑块初始开始位置 |
-| end | number | 1 | 滑块初始结束位置 |
-| minText | string | null | 滑块最小值时显示的文本 |
-| maxText | string | null | 滑块最大值时显示的文本 |
-| trend | TrendConfig | null | 滑块上趋势图配置 |
+| 名称            | 类型        | 默认值 | 描述                                 |
+| --------------- | ----------- | ------ | ------------------------------------ |
+| x               | number      | 0      | TimeBar 起始 x 坐标                  |
+| y               | number      | 0      | TimeBar 起始 y 坐标                  |
+| width           | number      | 400    | TimeBar 宽度                         |
+| height          | number      | 400    | TimeBar 高度                         |
+| backgroundStyle | ShapeStyle  | {}     | TimeBar 背景样式配置项               |
+| foregroundStyle | ShapeStyle  | {}     | TimeBar 选中部分样式配置项           |
+| handlerStyle    | HandleStyle | null   | 滑块样式设置                         |
+| textStyle       | ShapeStyle  | null   | 文本样式                             |
+| minLimit        | number      | 0      | 允许滑块最左边（最小）位置，范围 0-1 |
+| maxLimit        | number      | 1      | 允许滑块最右边（最大）位置，范围 0-1 |
+| start           | number      | 0      | 滑块初始开始位置                     |
+| end             | number      | 1      | 滑块初始结束位置                     |
+| minText         | string      | null   | 滑块最小值时显示的文本               |
+| maxText         | string      | null   | 滑块最大值时显示的文本               |
+| trend           | TrendConfig | null   | 滑块上趋势图配置                     |
 
 **TrendConfig 配置项**
 
@@ -401,17 +401,18 @@ interface Data {
 }
 ```
 
-| 名称 | 类型 | 默认值 | 描述 |
-| --- | --- | --- | --- |
-| data | Data[] | [] | 滑块上的数据源 |
-| smooth | boolean | false | 是否是平滑的曲线 |
-| isArea | boolean | false | 是否显示面积图 |
-| lineStyle | ShapeStyle | null | 折线的样式 |
-| areaStyle | ShapeStyle | null | 面积的样式，只有当 isArea 为 true 时生效 |
+| 名称      | 类型       | 默认值 | 描述                                     |
+| --------- | ---------- | ------ | ---------------------------------------- |
+| data      | Data[]     | []     | 滑块上的数据源                           |
+| smooth    | boolean    | false  | 是否是平滑的曲线                         |
+| isArea    | boolean    | false  | 是否显示面积图                           |
+| lineStyle | ShapeStyle | null   | 折线的样式                               |
+| areaStyle | ShapeStyle | null   | 面积的样式，只有当 isArea 为 true 时生效 |
 
 ### 用法
 
 #### 默认用法
+
 G6 内置的默认的 TimeBar 有默认的样式及交互功能。
 
 ```
@@ -424,6 +425,7 @@ const graph = new G6.Graph({
 ```
 
 ##### 配置样式
+
 可以个性化定制 TimeBar 的样式，也可以自己定义时间范围改变后的处理方式。
 
 ```
@@ -460,7 +462,6 @@ const graph = new G6.Graph({
 });
 ```
 
-
 ## ToolTip
 
 ToolTip 插件主要用于在节点和边上展示一些辅助信息，G6 4.0 以后，Tooltip 插件将会替换 Behavior 中的 tooltip。
@@ -482,6 +483,7 @@ ToolTip 插件主要用于在节点和边上展示一些辅助信息，G6 4.0 �
 默认的 Tooltip 只展示元素类型和 ID，一般情况下都需要用户自己定义 Tooltip 上面展示的内容。
 
 #### Dom Tooltip
+
 ```
 const tooltip = new G6.Tooltip({
   offsetX: 10,
@@ -506,6 +508,7 @@ const graph = new G6.Graph({
 ```
 
 #### String Tooltip
+
 ```
 const tooltip = new G6.Tooltip({
   getContent(e) {
@@ -527,10 +530,6 @@ const graph = new G6.Graph({
 });
 ```
 
-
-
-
-
 ## Fisheye
 
 Fisheye 鱼眼放大镜是为 focus+context 的探索场景设计的，它能够保证在放大关注区域的同时，保证上下文以及上下文与关注中心的关系不丢失。
@@ -542,9 +541,8 @@ Fisheye 鱼眼放大镜是为 focus+context 的探索场景设计的，它能够
 | trigger | 'mousemove' / 'click' | 'mousemove' | 放大镜的触发事件 |
 | d | Number | 1.5 | 放大系数，数值越大，放大程度越大 |
 | r | Number | 300 | 放大区域的范围半径 |
-| delegateStyle | Object |  { stroke: '#000', strokeOpacity: 0.8, lineWidth: 2, fillOpacity: 0.1, fill: '#ccc' } | 放大镜蒙层样式 |
+| delegateStyle | Object | { stroke: '#000', strokeOpacity: 0.8, lineWidth: 2, fillOpacity: 0.1, fill: '#ccc' } | 放大镜蒙层样式 |
 | showLabel | Boolean | false | 若 label 默认被隐藏，是否在关注区域内展示 label |
-
 
 ### 用法
 

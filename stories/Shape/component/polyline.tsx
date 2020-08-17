@@ -11,8 +11,8 @@ const data = {
       name: 'name1',
       type: 'test-rect',
       style: {
-        fill: 'red'
-      }
+        fill: 'red',
+      },
     },
     {
       id: '2',
@@ -79,14 +79,18 @@ const data = {
   ],
 };
 
-G6.registerNode('test-rect', {
-  options: {
-    // linkPoints: {}
+G6.registerNode(
+  'test-rect',
+  {
+    options: {
+      // linkPoints: {}
+    },
+    afterDraw(cfg, group) {
+      console.log('draw done');
+    },
   },
-  afterDraw (cfg, group) {
-    console.log('draw done')
-  }
-}, 'star');
+  'star',
+);
 
 const Polyline = () => {
   const container = React.useRef();
@@ -112,7 +116,7 @@ const Polyline = () => {
             endArrow: {
               path: G6.Arrow.triangle(15, 20, 10),
               d: 20,
-              fill: '#A3B1BF'
+              fill: '#A3B1BF',
             },
             lineWidth: 2,
             stroke: '#C2C8D5',
@@ -130,12 +134,12 @@ const Polyline = () => {
             endArrow: {
               path: G6.Arrow.triangle(45, 45, 10),
               d: 34,
-              fill: 'red'
-            }
+              fill: 'red',
+            },
           },
           selected: {
-            stroke: 'green'
-          }
+            stroke: 'green',
+          },
         },
         modes: {
           default: ['drag-node'],
@@ -144,18 +148,17 @@ const Polyline = () => {
       graph.data(data);
       graph.render();
 
-      graph.on('edge:mouseenter', evt => {
+      graph.on('edge:mouseenter', (evt) => {
         const { item } = evt;
-        graph.setItemState(item, 'selected', true)
-        graph.setItemState(item, 'hover', true)
+        graph.setItemState(item, 'selected', true);
+        graph.setItemState(item, 'hover', true);
       });
-      
-      graph.on('edge:mouseleave', evt => {
+
+      graph.on('edge:mouseleave', (evt) => {
         const { item } = evt;
         graph.setItemState(item, 'hover', false);
-        graph.setItemState(item, 'selected', false)
+        graph.setItemState(item, 'selected', false);
       });
-      
     }
   });
 

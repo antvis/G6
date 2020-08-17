@@ -36,8 +36,8 @@ G6.registerNode('stacked-bar-node', {
     const baseR = 30;
     let nowAngle = 0;
     const everyIncAngle = (2 * Math.PI * (360 / 5 / 5)) / 360;
-    cfg.details.forEach(cat => {
-      cat.values.forEach(item => {
+    cfg.details.forEach((cat) => {
+      cat.values.forEach((item) => {
         const baseNbr = Math.ceil(item / 10);
         const baseIncR = 7;
         let nowStartR = baseR;

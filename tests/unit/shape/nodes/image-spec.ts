@@ -61,7 +61,7 @@ describe('image test', () => {
       const group = node.get('group');
       expect(group.getCount()).toEqual(2);
 
-      const label = group.find(g => {
+      const label = group.find((g) => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toBe(undefined);
@@ -419,7 +419,7 @@ describe('image test', () => {
         },
       });
 
-      const label = group.find(g => {
+      const label = group.find((g) => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toEqual(null);
@@ -474,7 +474,7 @@ describe('image test', () => {
         },
       });
 
-      const label = group.find(g => {
+      const label = group.find((g) => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toEqual(null);

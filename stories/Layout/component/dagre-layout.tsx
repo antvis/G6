@@ -122,7 +122,7 @@ const DagreLayout = () => {
         layout: {
           type: 'dagre',
           controlPoints: true,
-          nodesepFunc: d => {
+          nodesepFunc: (d) => {
             if (d.id === '3') {
               return 500;
             }
@@ -173,7 +173,7 @@ const DagreLayout = () => {
       graph.data(data);
       graph.render();
 
-      graph.on('canvas:click', e => {
+      graph.on('canvas:click', (e) => {
         console.log(graph.toDataURL('image/jpeg', '#fff'));
         graph.downloadImage('test', 'image/png');
       });

@@ -83,12 +83,7 @@ describe('graph', () => {
     expect(inst.get('group')).not.toBe(undefined);
 
     expect(inst.get('group').get('className')).toEqual('root-container');
-    expect(
-      inst
-        .get('group')
-        .get('id')
-        .endsWith('-root'),
-    ).toBe(true);
+    expect(inst.get('group').get('id').endsWith('-root')).toBe(true);
 
     const children = inst.get('group').get('children');
     expect(children.length).toBe(5);
@@ -629,10 +624,7 @@ describe('graph', () => {
 
   it('client point & model point convert', () => {
     const group = globalGraph.get('group');
-    const bbox = globalGraph
-      .get('canvas')
-      .get('el')
-      .getBoundingClientRect();
+    const bbox = globalGraph.get('canvas').get('el').getBoundingClientRect();
 
     let point = globalGraph.getPointByClient(bbox.left + 100, bbox.top + 100);
 
@@ -686,12 +678,12 @@ describe('all node link center', () => {
     linkCenter: true,
     nodeStateStyles: {
       a: {
-        fill: 'red'
+        fill: 'red',
       },
       b: {
-        stroke: 'red'
-      }
-    }
+        stroke: 'red',
+      },
+    },
   });
 
   it('init', () => {
@@ -936,7 +928,7 @@ describe('all node link center', () => {
       },
     });
 
-    defaultGraph.on('node:click', e => {
+    defaultGraph.on('node:click', (e) => {
       e.item.setState(e.item, 'selected', true);
       e.item.refresh();
     });
@@ -1111,7 +1103,7 @@ describe('mapper fn', () => {
   });
 
   it('node & edge mapper', () => {
-    graph.node(node => ({
+    graph.node((node) => ({
       id: `${node.id}Mapped`,
       size: [30, 30],
       label: node.id,
@@ -1122,7 +1114,7 @@ describe('mapper fn', () => {
       },
     }));
 
-    graph.edge(edge => ({
+    graph.edge((edge) => ({
       id: `edge${edge.id}`,
       label: edge.id,
       labelCfg: {
@@ -1144,7 +1136,7 @@ describe('mapper fn', () => {
     expect(keyShape.attr('fill')).toEqual('#666');
 
     const container = node.getContainer();
-    let label = container.find(element => element.get('className') === 'node-label');
+    let label = container.find((element) => element.get('className') === 'node-label');
     expect(label).not.toBe(undefined);
     expect(label.attr('text')).toEqual('node');
     expect(label.attr('fill')).toEqual('#666');
@@ -1158,7 +1150,7 @@ describe('mapper fn', () => {
     expect(keyShape.attr('opacity')).toEqual(0.5);
     expect(keyShape.get('type')).toEqual('path');
 
-    label = edge.getContainer().find(element => element.get('className') === 'edge-label');
+    label = edge.getContainer().find((element) => element.get('className') === 'edge-label');
     expect(label).not.toBe(undefined);
     expect(label.attr('text')).toEqual('edge');
     expect(label.attr('x')).toEqual(115.5);
@@ -1169,7 +1161,7 @@ describe('mapper fn', () => {
   });
 
   it('node & edge mapper with states', () => {
-    graph.node(node => ({
+    graph.node((node) => ({
       type: 'rect',
       label: node.id,
       style: {
@@ -1193,9 +1185,9 @@ describe('mapper fn', () => {
 
     let keyShape = node.getKeyShape();
     expect(keyShape.attr('fill')).toEqual('#666');
-    expect(node.getContainer().find(element => element.get('className') === 'node-label')).not.toBe(
-      undefined,
-    );
+    expect(
+      node.getContainer().find((element) => element.get('className') === 'node-label'),
+    ).not.toBe(undefined);
 
     graph.setItemState(node, 'selected', true);
     expect(keyShape.attr('blue'));
@@ -1423,7 +1415,6 @@ describe('auto rotate label on edge', () => {
   });
 });
 
-
 describe('auto rotate label on edge', () => {
   const graph = new Graph({
     container: div,
@@ -1458,10 +1449,10 @@ describe('auto rotate label on edge', () => {
   it('downloadFullImage', () => {
     graph.data(data);
     graph.render();
-    graph.on('canvas:click', evt => {
+    graph.on('canvas:click', (evt) => {
       graph.downloadFullImage('graph', {
         backgroundColor: '#fff',
-        padding: [40, 10, 10, 10]
+        padding: [40, 10, 10, 10],
       });
     });
   });
@@ -1471,33 +1462,33 @@ describe('node Neighbors', () => {
   const graph = new Graph({
     container: 'global-spec',
     width: 500,
-    height: 500
-  })
+    height: 500,
+  });
   const data = {
     nodes: [
       {
-        id: 'A'
+        id: 'A',
       },
       {
-        id: 'B'
+        id: 'B',
       },
       {
-        id: 'C'
+        id: 'C',
       },
       {
-        id: 'D'
+        id: 'D',
       },
       {
-        id: 'E'
+        id: 'E',
       },
       {
-        id: 'F'
+        id: 'F',
       },
       {
-        id: 'G'
+        id: 'G',
       },
       {
-        id: 'H'
+        id: 'H',
       },
     ],
     edges: [
@@ -1529,39 +1520,39 @@ describe('node Neighbors', () => {
         source: 'F',
         target: 'D',
       },
-    ]
-  }
+    ],
+  };
 
-  graph.data(data)
-  graph.render()
+  graph.data(data);
+  graph.render();
 
   it('getSourceNeighbors', () => {
-    const neighbors = graph.getNeighbors('B', 'target')
-    expect(neighbors.length).toBe(1)
-    expect(neighbors[0].getID()).toEqual('C')
+    const neighbors = graph.getNeighbors('B', 'target');
+    expect(neighbors.length).toBe(1);
+    expect(neighbors[0].getID()).toEqual('C');
 
-    const neighborE = graph.getNeighbors('A', 'target')
-    expect(neighborE.length).toBe(3)
-    expect(neighborE[0].getID()).toEqual('B')
-  })
+    const neighborE = graph.getNeighbors('A', 'target');
+    expect(neighborE.length).toBe(3);
+    expect(neighborE[0].getID()).toEqual('B');
+  });
 
   it('getTargetNeighbors', () => {
-    const neighbors = graph.getNeighbors('B', 'source')
-    expect(neighbors.length).toBe(1)
-    expect(neighbors[0].getID()).toEqual('A')
+    const neighbors = graph.getNeighbors('B', 'source');
+    expect(neighbors.length).toBe(1);
+    expect(neighbors[0].getID()).toEqual('A');
 
-    const neighborE = graph.getNeighbors('E', 'source')
-    expect(neighborE.length).toBe(1)
-    expect(neighborE[0].getID()).toEqual('A')
-  })
+    const neighborE = graph.getNeighbors('E', 'source');
+    expect(neighborE.length).toBe(1);
+    expect(neighborE[0].getID()).toEqual('A');
+  });
 
   it('getNeighbors', () => {
-    const neighbors = graph.getNeighbors('B')
-    expect(neighbors.length).toBe(2)
-    expect(neighbors[0].getID()).toEqual('A')
-    expect(neighbors[1].getID()).toEqual('C')
-  })
-})
+    const neighbors = graph.getNeighbors('B');
+    expect(neighbors.length).toBe(2);
+    expect(neighbors[0].getID()).toEqual('A');
+    expect(neighbors[1].getID()).toEqual('C');
+  });
+});
 
 describe('redo stack & undo stack', () => {
   it('default stack is undefined', () => {
@@ -1569,23 +1560,23 @@ describe('redo stack & undo stack', () => {
       container: 'global-spec',
       width: 500,
       height: 500,
-    })
+    });
 
-    expect(graph.getUndoStack()).toBe(undefined)
-    expect(graph.getRedoStack()).toBe(undefined)
-  })
+    expect(graph.getUndoStack()).toBe(undefined);
+    expect(graph.getRedoStack()).toBe(undefined);
+  });
 
   const graph = new Graph({
     container: 'global-spec',
     width: 500,
     height: 500,
-    enabledStack: true
-  })
+    enabledStack: true,
+  });
 
   it('undo & redo stack is not null', () => {
-    expect(graph.getUndoStack()).not.toBe(null)
-    expect(graph.getRedoStack()).not.toBe(null)
-  })
+    expect(graph.getUndoStack()).not.toBe(null);
+    expect(graph.getRedoStack()).not.toBe(null);
+  });
 
   const data = {
     nodes: [
@@ -1593,113 +1584,113 @@ describe('redo stack & undo stack', () => {
         id: 'node1',
         label: 'node1',
         x: 100,
-        y: 100
+        y: 100,
       },
       {
         id: 'node2',
         label: 'node2',
         x: 300,
-        y: 100
-      }
-    ]
-  }
+        y: 100,
+      },
+    ],
+  };
 
-  graph.data(data)
-  graph.render()
+  graph.data(data);
+  graph.render();
 
   it('fill undo stack', () => {
     // redo 后，undo stack 有一条数据
-    let stackData = graph.getStackData()
-    let undoStack = stackData.undoStack
-    let redoStack = stackData.redoStack
-    expect(undoStack.length).toBe(1)
-    expect(undoStack[0].action).toEqual('render')
-    expect(undoStack[0].data.nodes.length).toEqual(2)
-    expect(redoStack.length).toBe(0)
+    let stackData = graph.getStackData();
+    let undoStack = stackData.undoStack;
+    let redoStack = stackData.redoStack;
+    expect(undoStack.length).toBe(1);
+    expect(undoStack[0].action).toEqual('render');
+    expect(undoStack[0].data.nodes.length).toEqual(2);
+    expect(redoStack.length).toBe(0);
 
     // update 后，undo stack 中有 2 条数据，一条 render，一条 update
     graph.update('node1', {
       x: 120,
-      y: 200
-    })
+      y: 200,
+    });
 
-    stackData = graph.getStackData()
-    undoStack = stackData.undoStack
-    expect(undoStack.length).toBe(2)
+    stackData = graph.getStackData();
+    undoStack = stackData.undoStack;
+    expect(undoStack.length).toBe(2);
 
-    let firstStackData = undoStack[0]
-    expect(firstStackData.action).toEqual('update')
-    expect(firstStackData.data.nodes[0].id).toEqual('node1')
-    expect(firstStackData.data.nodes[0].x).toEqual(120)
-    expect(firstStackData.data.nodes[0].y).toEqual(200)
+    let firstStackData = undoStack[0];
+    expect(firstStackData.action).toEqual('update');
+    expect(firstStackData.data.nodes[0].id).toEqual('node1');
+    expect(firstStackData.data.nodes[0].x).toEqual(120);
+    expect(firstStackData.data.nodes[0].y).toEqual(200);
 
     // 执行 update 后，undo stack 中有3条数据
     graph.update('node2', {
       x: 120,
-      y: 350
-    })
+      y: 350,
+    });
 
-    stackData = graph.getStackData()
-    undoStack = stackData.undoStack
-    expect(undoStack.length).toBe(3)
+    stackData = graph.getStackData();
+    undoStack = stackData.undoStack;
+    expect(undoStack.length).toBe(3);
 
-    firstStackData = undoStack[0]
-    expect(firstStackData.action).toEqual('update')
-    expect(firstStackData.data.nodes[1].id).toEqual('node2')
-    expect(firstStackData.data.nodes[1].x).toEqual(120)
-    expect(firstStackData.data.nodes[1].y).toEqual(350)
+    firstStackData = undoStack[0];
+    expect(firstStackData.action).toEqual('update');
+    expect(firstStackData.data.nodes[1].id).toEqual('node2');
+    expect(firstStackData.data.nodes[1].x).toEqual(120);
+    expect(firstStackData.data.nodes[1].y).toEqual(350);
 
     // addItem 后，undo 栈中有4条数据，1个render、2个update、1个add
     graph.addItem('node', {
       id: 'node3',
       label: 'node3',
       x: 150,
-      y: 150
-    })
+      y: 150,
+    });
 
-    stackData = graph.getStackData()
-    undoStack = stackData.undoStack
-    expect(undoStack.length).toBe(4)
+    stackData = graph.getStackData();
+    undoStack = stackData.undoStack;
+    expect(undoStack.length).toBe(4);
 
-    firstStackData = undoStack[0]
-    expect(firstStackData.action).toEqual('add')
-    expect(firstStackData.data.id).toEqual('node3')
-    expect(firstStackData.data.x).toEqual(150)
-    expect(firstStackData.data.y).toEqual(150)
+    firstStackData = undoStack[0];
+    expect(firstStackData.action).toEqual('add');
+    expect(firstStackData.data.id).toEqual('node3');
+    expect(firstStackData.data.x).toEqual(150);
+    expect(firstStackData.data.y).toEqual(150);
 
     // hideItem 后，undo 栈中有5条数据，1个render、2个update、1个add、1个visible
-    graph.hideItem('node1')
+    graph.hideItem('node1');
 
-    stackData = graph.getStackData()
-    undoStack = stackData.undoStack
-    expect(undoStack.length).toBe(5)
+    stackData = graph.getStackData();
+    undoStack = stackData.undoStack;
+    expect(undoStack.length).toBe(5);
 
-    firstStackData = undoStack[0]
-    expect(firstStackData.action).toEqual('visible')
-    expect(firstStackData.data).toEqual('node1')
+    firstStackData = undoStack[0];
+    expect(firstStackData.action).toEqual('visible');
+    expect(firstStackData.data).toEqual('node1');
 
     // remove 后，undo 栈中有6条数据，1个render、2个update、1个add、1个visible、1个delete
-    graph.remove('node2')
+    graph.remove('node2');
 
-    stackData = graph.getStackData()
-    undoStack = stackData.undoStack
-    expect(undoStack.length).toBe(6)
+    stackData = graph.getStackData();
+    undoStack = stackData.undoStack;
+    expect(undoStack.length).toBe(6);
 
-    firstStackData = undoStack[0]
-    expect(firstStackData.action).toEqual('delete')
-    expect(firstStackData.data.id).toEqual('node2')
-    expect(firstStackData.data.type).toEqual('node')
-  })
+    firstStackData = undoStack[0];
+    expect(firstStackData.action).toEqual('delete');
+    expect(firstStackData.data.id).toEqual('node2');
+    expect(firstStackData.data.type).toEqual('node');
+  });
 
   it('clear stack', () => {
-    graph.clearStack()
-    let stackData = graph.getStackData()
-    let undoStack = stackData.undoStack
-    let redoStack = stackData.redoStack
+    graph.clearStack();
+    let stackData = graph.getStackData();
+    let undoStack = stackData.undoStack;
+    let redoStack = stackData.redoStack;
 
-    expect(undoStack.length).toBe(0)
-    expect(redoStack.length).toBe(0)
-  })
+    expect(undoStack.length).toBe(0);
+    expect(redoStack.length).toBe(0);
+  });
 
   it('add edge', () => {
     const source = graph.addItem('node', {
@@ -1724,6 +1715,6 @@ describe('redo stack & undo stack', () => {
       labelCfg: { autoRotate: true },
     });
 
-    graph.destroy()
-  })
-})
+    graph.destroy();
+  });
+});

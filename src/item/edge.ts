@@ -1,4 +1,4 @@
-import { isString, isPlainObject, isNil } from '@antv/util'
+import { isString, isPlainObject, isNil } from '@antv/util';
 import { IEdge, INode, ICombo } from '../interface/item';
 import { EdgeConfig, IPoint, NodeConfig, SourceTarget, Indexable } from '../types';
 import Item from './item';
@@ -173,11 +173,11 @@ export default class Edge extends Item implements IEdge {
     }
 
     if (!isString(out.source) && !isPlainObject(out.source)) {
-      out.source = (out.source as any).getID()
+      out.source = (out.source as any).getID();
     }
 
     if (!isString(out.target) && !isPlainObject(out.target)) {
-      out.target = (out.target as any).getID()
+      out.target = (out.target as any).getID();
     }
 
     return out;
@@ -201,7 +201,7 @@ export default class Edge extends Item implements IEdge {
     return this.get('target');
   }
 
-  public updatePosition() { }
+  public updatePosition() {}
 
   /**
    * 边不需要重计算容器位置，直接重新计算 path 位置

@@ -6,7 +6,7 @@
  * @Description: Group单测文件
  */
 import G6 from '../../../../src';
-import groupBy from '@antv/util/lib/group-by'
+import groupBy from '@antv/util/lib/group-by';
 import { getAllNodeInGroups } from '../../../../src/util/group';
 
 const div = document.createElement('div');
@@ -113,7 +113,7 @@ describe('signle layer group', () => {
         continue;
       }
       const currentNodes = nodesInGroup[node];
-      const nodeIds = currentNodes.map(nodeId => nodeId.id);
+      const nodeIds = currentNodes.map((nodeId) => nodeId.id);
       const { x, y, width, height } = groupControll.calculationGroupPosition(nodeIds);
       const r = width > height ? width / 2 : height / 2;
       const cx = (width + 2 * x) / 2;
@@ -302,7 +302,9 @@ describe('signle layer group', () => {
     expect(nodeGroup.get('id')).toEqual('group2');
     expect(nodeGroup.get('destroyed')).toBe(undefined);
 
-    const nodeInGroup2 = data.nodes.filter(node => node.groupId === 'group2').map(node => node.id);
+    const nodeInGroup2 = data.nodes
+      .filter((node) => node.groupId === 'group2')
+      .map((node) => node.id);
     const { width, height, x, y } = groupControll.calculationGroupPosition(nodeInGroup2);
 
     const r = width > height ? width / 2 : height / 2;
@@ -471,7 +473,7 @@ describe('signle layer group', () => {
     const groupControll = graph.get('customGroupControll');
 
     const nodes = graph.getNodes();
-    const groupNodes = nodes.filter(node => {
+    const groupNodes = nodes.filter((node) => {
       const model = node.getModel();
       return model.groupId === 'group1';
     });
@@ -514,7 +516,7 @@ describe('signle layer group', () => {
       expect(keyShape.attr('x')).toBe(groupStyle.x);
       expect(keyShape.attr('y')).toBe(groupStyle.y);
 
-      const nodeIds = groupNodes.map(node => {
+      const nodeIds = groupNodes.map((node) => {
         const model = node.getModel();
         return model.id;
       });
@@ -618,8 +620,8 @@ describe('signle layer group', () => {
     expect(groupNodes.bym.length).toBe(1);
     expect(groupNodes.p1.length).toBe(1);
 
-    const filterNodes = graph.save().nodes.filter(node => node.groupId);
-    filterNodes.forEach(node => {
+    const filterNodes = graph.save().nodes.filter((node) => node.groupId);
+    filterNodes.forEach((node) => {
       expect(node.id).not.toEqual('node1');
       expect(node.id).not.toEqual('node2');
     });
@@ -1006,7 +1008,7 @@ describe('create node group', () => {
     expect(children.length).toBe(2);
 
     const { nodes } = graph.save();
-    const groupNodes = nodes.filter(node => node.groupId === 'xxx');
+    const groupNodes = nodes.filter((node) => node.groupId === 'xxx');
     expect(groupNodes.length).toBe(2);
   });
 });

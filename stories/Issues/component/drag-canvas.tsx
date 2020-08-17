@@ -50,8 +50,8 @@ const DragCanvas = () => {
         width: 1000,
         height: 800,
         modes: {
-          default: [ 'drag-canvas' ]
-        }
+          default: ['drag-canvas'],
+        },
       });
       graph.data(data);
       graph.render();

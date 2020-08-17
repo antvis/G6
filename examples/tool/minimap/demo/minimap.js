@@ -179,7 +179,7 @@ const width = document.getElementById('container').scrollWidth;
 let height = document.getElementById('container').scrollHeight || 500;
 height -= 110;
 const minimap = new G6.Minimap({
-  size: [150, 100]
+  size: [150, 100],
 });
 const graph = new G6.Graph({
   container: 'container',
@@ -208,9 +208,9 @@ const graph = new G6.Graph({
     },
   },
   modes: {
-    default: [ 'drag-canvas', 'zoom-canvas' ],
+    default: ['drag-canvas', 'zoom-canvas'],
   },
-  plugins: [ minimap ]
+  plugins: [minimap],
 });
 graph.data(data);
 graph.render();

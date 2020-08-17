@@ -22,14 +22,14 @@ An item (node/edge) in G6 **Consists of One or More** [**Graphics Shape**](/en/d
 | --- | --- | --- |
 | fill | The color or gradient color for filling. | The corresponding property in canvas is `fillStyle`. |
 | stroke | The color, gradient color, or pattern for stroke. | The corresponding property in canvas is `strokeStyle`. |
-| lineWidth     | The width of the stroke  |                                |
-| lineDash     | The lineDash of the stroke  | Number[] are the lengths of the lineDash    |
+| lineWidth | The width of the stroke |  |
+| lineDash | The lineDash of the stroke | Number[] are the lengths of the lineDash |
 | shadowColor | The color for shadow. |  |
 | shadowBlur | The blur level for shadow. | Larger the value, more blur. |
 | shadowOffsetX | The horizontal offset of the shadow. |  |
 | shadowOffsetY | The vertical offset of the shadow. |  |
 | opacity | The opacity (alpha value) of the shape. | The corresponding property in canvas is `globalAlpha`. |
-| cursor        | The type of the mouse when hovering the node. The options are the same as [cursor in CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) |  |
+| cursor | The type of the mouse when hovering the node. The options are the same as [cursor in CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) |  |
 
 ### Usage
 
@@ -48,7 +48,6 @@ group.addShape('rect', {
 });
 ```
 
-
 ## The Common Functions of Shapes
 
 ### attr()
@@ -59,7 +58,7 @@ Get or set the shape's attributes.
 
 Get the shape's attribute named `name`.
 
-``` javascript
+```javascript
 const width = shape.attr('width');
 ```
 
@@ -67,18 +66,16 @@ const width = shape.attr('width');
 
 Update the shape's attribute named `name` with `value`.
 
-
 ### attr({...})
 
 Update the shape's multiple attributes.
 
 ```javascript
 rect.attr({
-    fill: '#999',
-    stroke: '#666'
+  fill: '#999',
+  stroke: '#666',
 });
 ```
-
 
 ## Circle
 
@@ -232,7 +229,7 @@ group.addShape('marker', {
     x: 10,
     y: 10,
     r: 10,
-    symbol: function(x, y, r) {
+    symbol: function (x, y, r) {
       return [['M', x, y], ['L', x + r, y + r], ['L', x + r * 2, y], ['Z']];
     },
   },
@@ -329,20 +326,20 @@ group.addShape('text', {
 });
 ```
 
-
 ## DOM (svg)
 
 > This shape is available only when the `renderer` is assgined to `'svg'` for graph instance.
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span> 
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span>
+
 - Only support native HTML DOM, but not react or other components;
 - If you custom a Node type or an Edge type with dom shape, please use the original DOM events instead of events of G6.
 
 ### Properties
 
-| Name | Description | Remark |
-| --- | --- | --- |
-| html | The html value for DOM shape |  |
+| Name | Description                  | Remark |
+| ---- | ---------------------------- | ------ |
+| html | The html value for DOM shape |        |
 
 ### Usage
 
@@ -353,13 +350,15 @@ group.addShape('dom', {
     height: cfg.size[1],
     // DOM's html
     html: `
-    <div style="background-color: #fff; border: 2px solid #5B8FF9; border-radius: 5px; width: ${cfg.size[0]-5}px; height: ${cfg.size[1]-5}px; display: flex;">
+    <div style="background-color: #fff; border: 2px solid #5B8FF9; border-radius: 5px; width: ${
+      cfg.size[0] - 5
+    }px; height: ${cfg.size[1] - 5}px; display: flex;">
       <div style="height: 100%; width: 33%; background-color: #CDDDFD">
         <img alt="img" style="line-height: 100%; padding-top: 6px; padding-left: 8px;" src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ" width="20" height="20" />  
       </div>
       <span style="margin:auto; padding:auto; color: #5B8FF9">${cfg.label}</span>
     </div>
-      `
+      `,
   },
   // must be assigned in G6 3.3 and later versions. it can be any value you want
   name: 'dom-shape',

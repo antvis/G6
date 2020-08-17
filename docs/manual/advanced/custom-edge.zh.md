@@ -111,7 +111,7 @@ G6.registerEdge(
       const shape = group.get('children')[0];
       const length = shape.getTotalLength();
       shape.animate(
-        ratio => {
+        (ratio) => {
           const startLen = ratio * length;
           const cfg = {
             lineDash: [startLen, length - startLen],
@@ -144,7 +144,7 @@ G6.registerEdge(
 <br />
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️注意:</strong></span>
 
- 边过细时点击很难被击中，可以设置  `lineAppendWidth`  来提升击中范围。
+边过细时点击很难被击中，可以设置  `lineAppendWidth`  来提升击中范围。
 
 ```javascript
 // 基于 line 扩展出新的边
@@ -175,17 +175,17 @@ G6.registerEdge(
 );
 
 // 点击时选中，再点击时取消
-graph.on('edge:click', ev => {
+graph.on('edge:click', (ev) => {
   const edge = ev.item;
   graph.setItemState(edge, 'selected', !edge.hasState('selected')); // 切换选中
 });
 
-graph.on('edge:mouseenter', ev => {
+graph.on('edge:mouseenter', (ev) => {
   const edge = ev.item;
   graph.setItemState(edge, 'active', true);
 });
 
-graph.on('edge:mouseleave', ev => {
+graph.on('edge:mouseleave', (ev) => {
   const edge = ev.item;
   graph.setItemState(edge, 'active', false);
 });
@@ -207,13 +207,14 @@ G6（v3.5.8 及后续版本）为内置边、自定义边提供了[默认箭头�
 
 > （左）v3.4.1 之前的自定义箭头坐标系演示。（右）v3.4.1 及之后版本的自定义箭头坐标系演示。
 
-
 G6 中有三种途径在边上配置自定义箭头：
+
 - 配置自定义箭头到边的全局配置中；
 - 在数据中为单条边配置；
 - 在自定义边中配置。
 
 ### 方法 1: 全局配置
+
 ```javascript
 const graph = new Graph({
   // ... 图的其他配置项
@@ -229,13 +230,14 @@ const graph = new Graph({
         stroke: '#666',
         opacity: 0.8,
         // ...
-      }
-    }
-  }
+      },
+    },
+  },
 });
 ```
 
 ### 方法 2: 在数据中配置
+
 ```javascript
 const data = {
   nodes: [
@@ -243,29 +245,31 @@ const data = {
     { id: 'node2' },
     // ... 其他节点
   ],
-  edges: [{
-    source: 'node1',
-    target: 'node2',
-    style: {
-      endArrow: {
-        // 自定义箭头指向(0, 0)，尾部朝向 x 轴正方向的 path
-        path: 'M 0,0 L 20,10 L 20,-10 Z',
-        // 箭头的偏移量，负值代表向 x 轴正方向移动
-        // d: -10,
-        // v3.4.1 后支持各样式属性
-        fill: '#333',
-        stroke: '#666',
-        opacity: 0.8,
-        // ...
+  edges: [
+    {
+      source: 'node1',
+      target: 'node2',
+      style: {
+        endArrow: {
+          // 自定义箭头指向(0, 0)，尾部朝向 x 轴正方向的 path
+          path: 'M 0,0 L 20,10 L 20,-10 Z',
+          // 箭头的偏移量，负值代表向 x 轴正方向移动
+          // d: -10,
+          // v3.4.1 后支持各样式属性
+          fill: '#333',
+          stroke: '#666',
+          opacity: 0.8,
+          // ...
+        },
       },
-    }
-  },
-  //... 其他边
-  ]
-}
+    },
+    //... 其他边
+  ],
+};
 ```
 
 ### 方法 3: 自定义边中配置
+
 ```javascript
 // 使用方法二：自定义边，并带有自定义箭头
 G6.registerEdge('line-arrow', {

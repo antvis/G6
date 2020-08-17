@@ -29,15 +29,15 @@ const beginColor = '#5b8c00'; // green
 const endColor = '#ff4d4f'; // red
 
 fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4b9bcbc25f.json')
-  .then(res => res.json())
-  .then(data => {
+  .then((res) => res.json())
+  .then((data) => {
     const nodes = data.nodes;
     const edges = data.edges;
 
     const nodeMap = new Map();
     const clusterMap = new Map();
     let cidx = 0;
-    nodes.forEach(function(n) {
+    nodes.forEach(function (n) {
       nodeMap.set(n.id, n);
       let region = n.region.split(' ');
       if (n.region === 'East Asia') region = n.region;
@@ -60,7 +60,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
       n.exportValue = 0;
     });
     // map the value of
-    edges.forEach(function(e) {
+    edges.forEach(function (e) {
       if (e.value === '') e.value = 0;
       const v = parseFloat(e.value);
       nodeMap.get(e.source).exportValue += v;
@@ -111,7 +111,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
       },
     });
 
-    graph.on('afterlayout', function() {
+    graph.on('afterlayout', function () {
       descriptionDiv.innerHTML = 'Done!';
     });
 
@@ -119,7 +119,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
     graph.render();
 
     const edgeItems = graph.getEdges();
-    edgeItems.forEach(function(e) {
+    edgeItems.forEach(function (e) {
       const lineWidth = 0.4;
       const strokeOpacity = 0.2;
       let stroke = 'l(0) 0:' + beginColor + ' 1:' + endColor;
@@ -138,14 +138,14 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
     });
     graph.paint();
 
-    graph.on('node:click', function(e) {
+    graph.on('node:click', function (e) {
       const targetItem = e.item;
       const model = targetItem.getModel();
       const graphEdges = graph.getEdges();
       const graphNodes = graph.getNodes();
       // click on the cluster node
       if (model.id.substr(0, 7) === 'cluster') {
-        graphNodes.forEach(function(gn) {
+        graphNodes.forEach(function (gn) {
           const gnModel = gn.getModel();
           // show the common nodes
           if (gnModel.cluster === model.cluster && gnModel.id.substr(0, 7) !== 'cluster') {
@@ -155,7 +155,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
           if (gnModel.id === model.id) graph.removeItem(gn);
         });
 
-        graphEdges.forEach(function(ge) {
+        graphEdges.forEach(function (ge) {
           const sourceModel = ge.get('sourceNode').getModel();
           const targetModel = ge.get('targetNode').getModel();
           // show the common edges
@@ -222,7 +222,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
           count: 0,
           exportValue: 0,
         };
-        nodes.forEach(function(n) {
+        nodes.forEach(function (n) {
           if (n.cluster === model.cluster) {
             center.x += n.x;
             center.y += n.y;
@@ -266,7 +266,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
         });
 
         // add edges about the cluster
-        graphEdges.forEach(function(ge) {
+        graphEdges.forEach(function (ge) {
           const sourceModel = ge.get('sourceNode').getModel();
           const targetModel = ge.get('targetNode').getModel();
           if (!ge.get('sourceNode').get('visible') || !ge.get('targetNode').get('visible')) return;
@@ -311,7 +311,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
         });
 
         // hide the common nodes in the cluster
-        graphNodes.forEach(function(gn) {
+        graphNodes.forEach(function (gn) {
           if (
             gn.getModel().cluster === model.cluster &&
             gn.getModel().id.substr(0, 7) !== 'cluster'
@@ -319,7 +319,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
             gn.hide();
         });
         // hide the common edges about cluster
-        graphEdges.forEach(function(ge) {
+        graphEdges.forEach(function (ge) {
           if (!ge.get('sourceNode').get('visible') || !ge.get('targetNode').get('visible'))
             ge.hide();
         });
@@ -329,7 +329,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
 
 function mapValueToProp(items, valueName, propName, range) {
   const valueRange = [9999999999, -9999999999];
-  items.forEach(function(n) {
+  items.forEach(function (n) {
     if (n[valueName] > valueRange[1]) valueRange[1] = n[valueName];
     if (n[valueName] < valueRange[0]) valueRange[0] = n[valueName];
   });
@@ -337,13 +337,13 @@ function mapValueToProp(items, valueName, propName, range) {
   const rLength = range[1] - range[0];
   const propNameStrs = propName.split('.');
   if (propNameStrs[0] === 'style' && propNameStrs.length > 1) {
-    items.forEach(function(n) {
+    items.forEach(function (n) {
       if (n.style === undefined) n.style = {};
       n.style[propNameStrs[1]] =
         (rLength * (n[valueName] - valueRange[0])) / valueLength + range[0];
     });
   } else {
-    items.forEach(function(n) {
+    items.forEach(function (n) {
       n[propNameStrs[0]] = (rLength * (n[valueName] - valueRange[0])) / valueLength + range[0];
     });
   }

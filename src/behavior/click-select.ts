@@ -9,7 +9,7 @@ export default {
     return {
       multiple: true,
       trigger: DEFAULT_TRIGGER,
-      selectedState: 'selected'
+      selectedState: 'selected',
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -38,12 +38,12 @@ export default {
     };
   },
   onClick(evt: IG6GraphEvent) {
-    const { item } = evt
+    const { item } = evt;
     if (!item || item.destroyed) {
-      return
+      return;
     }
 
-    const type = item.getType()
+    const type = item.getType();
     const { graph, keydown, multiple, shouldUpdate, shouldBegin } = this;
     if (!shouldBegin.call(this, evt)) {
       return;
@@ -52,7 +52,7 @@ export default {
     // allow to select multiple nodes but did not press a key || do not allow the select multiple nodes
     if (!keydown || !multiple) {
       const selected = graph.findAllByState(type, this.selectedState);
-      each(selected, combo => {
+      each(selected, (combo) => {
         if (combo !== item) {
           graph.setItemState(combo, this.selectedState, false);
         }
@@ -69,7 +69,7 @@ export default {
         target: item,
         selectedItems: {
           nodes: selectedNodes,
-          combos: selectedCombos
+          combos: selectedCombos,
         },
         select: false,
       });
@@ -83,7 +83,7 @@ export default {
         target: item,
         selectedItems: {
           nodes: selectedNodes,
-          combos: selectedCombos
+          combos: selectedCombos,
         },
         select: true,
       });
@@ -92,15 +92,18 @@ export default {
   onCanvasClick() {
     const { graph } = this;
     const selected = graph.findAllByState('node', this.selectedState);
-    each(selected, node => {
+    each(selected, (node) => {
       graph.setItemState(node, this.selectedState, false);
     });
 
-    const selectedCombos = graph.findAllByState('combo', this.selectedState)
-    each(selectedCombos, combo => {
+    const selectedCombos = graph.findAllByState('combo', this.selectedState);
+    each(selectedCombos, (combo) => {
       graph.setItemState(combo, this.selectedState, false);
     });
-    graph.emit('nodeselectchange', { selectedItems: { nodes: [], edges: [], combos: [] }, select: false });
+    graph.emit('nodeselectchange', {
+      selectedItems: { nodes: [], edges: [], combos: [] },
+      select: false,
+    });
   },
   onKeyDown(e: IG6GraphEvent) {
     const code = e.key;

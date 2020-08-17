@@ -7,37 +7,41 @@ const div = document.createElement('div');
 div.id = 'drag-combo-spec';
 document.body.appendChild(div);
 
-G6.registerCombo('custom-combo', {
-  draw: (cfg, group) => {
-    const style = cfg.style || {};
-    const keyShape = group.addShape('circle', {
-      attrs: style,
-      className: 'circle-combo',
-      name: 'circle-combo',
-      draggable: true,
-    });
-    group.addShape('marker', {
-      attrs: {
-        x: 0,//keyShape.attr('r') + 5,
-        y: 0,
-        r: 5,
-        stroke: 'blue',
-        symbol: 'triangle-down'
-      },
-      name: 'marker-shape'
-    })
-    return keyShape;
+G6.registerCombo(
+  'custom-combo',
+  {
+    draw: (cfg, group) => {
+      const style = cfg.style || {};
+      const keyShape = group.addShape('circle', {
+        attrs: style,
+        className: 'circle-combo',
+        name: 'circle-combo',
+        draggable: true,
+      });
+      group.addShape('marker', {
+        attrs: {
+          x: 0, //keyShape.attr('r') + 5,
+          y: 0,
+          r: 5,
+          stroke: 'blue',
+          symbol: 'triangle-down',
+        },
+        name: 'marker-shape',
+      });
+      return keyShape;
+    },
+    update: (cfg, item) => {
+      const group = item.get('group');
+      if (cfg.markerStyle) {
+        const marker = group.find((ele) => ele.get('name') === 'marker-shape');
+        marker.attr(cfg.markerStyle);
+      }
+      const keyShape = group.get('children')[0];
+      keyShape.attr(cfg.style);
+    },
   },
-  update: (cfg, item) => {
-    const group = item.get('group');
-    if (cfg.markerStyle) {
-      const marker = group.find(ele => ele.get('name') === 'marker-shape');
-      marker.attr(cfg.markerStyle);
-    }
-    const keyShape = group.get('children')[0];
-    keyShape.attr(cfg.style);
-  }
-}, 'circle-combo');
+  'circle-combo',
+);
 
 describe('drag-combo', () => {
   it('drag combo', () => {
@@ -48,14 +52,14 @@ describe('drag-combo', () => {
           x: 150,
           y: 150,
           label: 'node1',
-          comboId: 'A'
+          comboId: 'A',
         },
         {
           id: 'node2',
           x: 200,
           y: 250,
           label: 'node2',
-          comboId: 'A'
+          comboId: 'A',
         },
         {
           id: 'node3',
@@ -68,7 +72,7 @@ describe('drag-combo', () => {
           x: 200,
           y: 350,
           label: 'node4',
-          comboId: 'B'
+          comboId: 'B',
         },
       ],
       edges: [
@@ -90,27 +94,30 @@ describe('drag-combo', () => {
           id: 'A',
           parentId: 'C',
           label: 'gorup A',
-          type: 'circle'
-        }, {
+          type: 'circle',
+        },
+        {
           id: 'B',
           parentId: 'C',
           label: 'gorup B',
-        }, {
+        },
+        {
           id: 'C',
           label: 'gorup C',
           // type: 'rect'
         },
         {
           id: 'F',
-          label: 'gorup F'
+          label: 'gorup F',
           // type: 'rect'
-        }, {
+        },
+        {
           id: 'G',
           label: 'gorup G',
           // parentId: 'F'
-          type: 'custom-combo'
-        }
-      ]
+          type: 'custom-combo',
+        },
+      ],
     };
 
     const graph = new G6.Graph({
@@ -118,44 +125,44 @@ describe('drag-combo', () => {
       width: 1000,
       height: 800,
       modes: {
-        default: ['drag-canvas', 'drag-combo']
+        default: ['drag-canvas', 'drag-combo'],
       },
       defaultCombo: {
         // size: [100, 100],
         // type: 'custom-combo',
         style: {
-          fill: '#b5f5ec'
-        }
+          fill: '#b5f5ec',
+        },
       },
       comboStateStyles: {
         active: {
-          stroke: 'red'
+          stroke: 'red',
         },
         selected: {
           'text-shape': {
             fill: '#f00',
-            fontSize: 20
+            fontSize: 20,
           },
-          fill: '#36cfc9'
+          fill: '#36cfc9',
         },
         state2: {
-          stroke: '#0f0'
-        }
-      }
+          stroke: '#0f0',
+        },
+      },
     });
 
     graph.data(data);
     graph.render();
 
-    graph.on('node:click', e => {
+    graph.on('node:click', (e) => {
       // graph.hideItem(e.item);
       // graph.render()
-    })
-    graph.on('combo:click', e => {
+    });
+    graph.on('combo:click', (e) => {
       // selected = !selected;
       graph.setItemState(e.item, 'selected', true);
-      const combos = graph.findAllByState('combo', 'selected')
-      console.log(combos)
+      const combos = graph.findAllByState('combo', 'selected');
+      console.log(combos);
       // graph.setItemState(e.item, 'state2', selected);
       // graph.getNodes().forEach(node => {
       //   node.hide();
@@ -174,14 +181,13 @@ describe('drag-combo', () => {
       // graph.uncombo(e.item);
     });
 
-    graph.on('canvas:click', evt => {
-      const combos = graph.findAllByState('combo', 'selected')
-      combos.map(combo => {
-        graph.clearItemStates(combo)
-      })
-    })
-
-  })
+    graph.on('canvas:click', (evt) => {
+      const combos = graph.findAllByState('combo', 'selected');
+      combos.map((combo) => {
+        graph.clearItemStates(combo);
+      });
+    });
+  });
 
   it('combo example', () => {
     const data = {
@@ -191,14 +197,14 @@ describe('drag-combo', () => {
           x: 150,
           y: 150,
           label: 'node1',
-          comboId: 'A'
+          comboId: 'A',
         },
         {
           id: 'node2',
           x: 200,
           y: 250,
           label: 'node2',
-          comboId: 'B'
+          comboId: 'B',
         },
         {
           id: 'node3',
@@ -211,27 +217,27 @@ describe('drag-combo', () => {
           x: 50,
           y: 50,
           label: 'node4',
-          comboId: 'D'
+          comboId: 'D',
         },
         {
           id: 'node5',
           x: 100,
           y: 100,
           label: 'node5',
-          comboId: 'E'
+          comboId: 'E',
         },
         {
           id: 'node6',
           x: 500,
           y: 200,
-          label: 'node6'
+          label: 'node6',
         },
         {
           id: 'node7',
           x: 600,
           y: 200,
-          label: 'node7'
-        }
+          label: 'node7',
+        },
       ],
       edges: [
         {
@@ -248,8 +254,8 @@ describe('drag-combo', () => {
         },
         {
           source: 'A',
-          target: 'D'
-        }
+          target: 'D',
+        },
       ],
       combos: [
         {
@@ -263,7 +269,8 @@ describe('drag-combo', () => {
           //   fill: 'green'
           // },
           // collapsed: true
-        }, {
+        },
+        {
           id: 'B',
           label: 'gorup B',
           padding: [50, 10, 10, 50],
@@ -286,8 +293,8 @@ describe('drag-combo', () => {
           //   stroke: 'green',
           //   lineWidth: 3
           // }
-        }
-      ]
+        },
+      ],
     };
 
     const graph = new G6.Graph({
@@ -296,21 +303,27 @@ describe('drag-combo', () => {
       height: 800,
       groupByTypes: false,
       modes: {
-        default: ['drag-canvas', {
-          type: 'drag-combo',
-          activeState: 'active'
-        }, {
+        default: [
+          'drag-canvas',
+          {
+            type: 'drag-combo',
+            activeState: 'active',
+          },
+          {
             type: 'drag-node',
-            comboActiveState: 'active'
-          }, 'collapse-expand-combo', 'click-select']
+            comboActiveState: 'active',
+          },
+          'collapse-expand-combo',
+          'click-select',
+        ],
       },
       defaultCombo: {
         // size: [100, 100],
         type: 'circle',
         style: {
           fill: '#f0f0f0',
-          stroke: '#bfbfbf'
-        }
+          stroke: '#bfbfbf',
+        },
       },
       comboStateStyles: {
         selected: {
@@ -318,37 +331,37 @@ describe('drag-combo', () => {
           //   fill: '#f00',
           //   fontSize: 20
           // },
-          stroke: '#8c8c8c'
+          stroke: '#8c8c8c',
         },
         active: {
           stroke: '#722ed1',
-          lineWidth: 2
+          lineWidth: 2,
         },
         state2: {
-          stroke: '#0f0'
-        }
+          stroke: '#0f0',
+        },
       },
       nodeStateStyles: {
         selected: {
           stroke: 'green',
-          lineWidth: 2
-        }
+          lineWidth: 2,
+        },
       },
       defaultEdge: {
         style: {
           stroke: '#bfbfbf',
           lineWidth: 2,
-          endArrow: true
-        }
-      }
+          endArrow: true,
+        },
+      },
     });
 
     graph.data(data);
     graph.render();
 
-    graph.on('nodeselectchange', evt => {
-      console.log(evt)
-    })
+    graph.on('nodeselectchange', (evt) => {
+      console.log(evt);
+    });
 
     // 删错 combo
     // graph.on('combo:click', evt => {
@@ -374,5 +387,5 @@ describe('drag-combo', () => {
     //   const { item } = evt
     //   graph.setItemState(item, 'hover', false)
     // })
-  })
-})
+  });
+});

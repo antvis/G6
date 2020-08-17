@@ -9,7 +9,16 @@ import upperFirst from '@antv/util/lib/upper-first';
 import Edge from '../../item/edge';
 import Node from '../../item/node';
 import Combo from '../../item/combo';
-import { EdgeConfig, Item, ITEM_TYPE, ModelConfig, NodeConfig, NodeMap, ComboTree, ComboConfig } from '../../types';
+import {
+  EdgeConfig,
+  Item,
+  ITEM_TYPE,
+  ModelConfig,
+  NodeConfig,
+  NodeMap,
+  ComboTree,
+  ComboConfig,
+} from '../../types';
 import Graph from '../graph';
 
 import { IEdge, INode, ICombo } from '../../interface/item';
@@ -131,8 +140,7 @@ export default class ItemController {
         styles,
         group: parent.addGroup(),
       });
-    }
-    else if (type === COMBO) {
+    } else if (type === COMBO) {
       const children: ComboTree[] = (model as ComboConfig).children;
 
       const comboBBox = getComboBBox(children, graph);
@@ -150,11 +158,12 @@ export default class ItemController {
 
       const comboModel = item.getModel();
 
-      children && children.forEach(child => {
-        const childItem = graph.findById(child.id) as ICombo | INode;
-        (item as ICombo).addChild(childItem);
-        child.depth = (comboModel.depth as number) + 2;
-      });
+      children &&
+        children.forEach((child) => {
+          const childItem = graph.findById(child.id) as ICombo | INode;
+          (item as ICombo).addChild(childItem);
+          child.depth = (comboModel.depth as number) + 2;
+        });
 
       // collapse the combo if the collapsed is true in the model
       if (model.collapsed) {
@@ -219,7 +228,7 @@ export default class ItemController {
       each(cfg, (val, key) => {
         if (model[key]) {
           if (isObject(val) && !isArray(val)) {
-            cfg[key] = Object.assign({}, model[key], cfg[key]);
+            cfg[key] = { ...model[key], ...cfg[key] };
           }
         }
       });
@@ -257,7 +266,6 @@ export default class ItemController {
     graph.emit('afterupdateitem', { item, cfg });
   }
 
-
   /**
    * 根据 combo 的子元素更新 combo 的位置及大小
    *
@@ -280,7 +288,7 @@ export default class ItemController {
     combo.set('bbox', comboBBox);
     combo.update({
       x: comboBBox.x,
-      y: comboBBox.y
+      y: comboBBox.y,
     });
     const combEdges = combo.getEdges() || [];
     const length = combEdges.length;
@@ -299,10 +307,10 @@ export default class ItemController {
       combo = graph.findById(combo) as ICombo;
     }
     const children = (combo as ICombo).getChildren();
-    children.nodes.forEach(node => {
+    children.nodes.forEach((node) => {
       graph.hideItem(node);
     });
-    children.combos.forEach(c => {
+    children.combos.forEach((c) => {
       graph.hideItem(c);
     });
   }
@@ -317,10 +325,10 @@ export default class ItemController {
       combo = graph.findById(combo) as ICombo;
     }
     const children = (combo as ICombo).getChildren();
-    children.nodes.forEach(node => {
+    children.nodes.forEach((node) => {
       graph.showItem(node);
     });
-    children.combos.forEach(c => {
+    children.combos.forEach((c) => {
       if (c.getModel().collapsed) {
         c.show();
       } else {
@@ -328,7 +336,6 @@ export default class ItemController {
       }
     });
   }
-
 
   /**
    * 删除指定的节点或边
@@ -373,9 +380,9 @@ export default class ItemController {
         let brothers = comboTrees;
         let found = false; // the flag to terminate the forEach circulation
         // remove the node from the children array of its parent fromt he tree
-        comboTrees.forEach(ctree => {
+        comboTrees.forEach((ctree) => {
           if (found) return;
-          traverseTree<ComboTree>(ctree, combo => {
+          traverseTree<ComboTree>(ctree, (combo) => {
             if (combo.id === id && brothers) {
               const bidx = brothers.indexOf(combo);
               brothers.splice(bidx, 1);
@@ -398,20 +405,21 @@ export default class ItemController {
       let comboInTree;
       // find the subtree rooted at the item to be removed
       let found = false; // the flag to terminate the forEach circulation
-      comboTrees && comboTrees.forEach(ctree => {
-        if (found) return;
-        traverseTree<ComboTree>(ctree, combo => {
-          if (combo.id === id) {
-            comboInTree = combo;
-            found = true;
-            return false; // terminate the traverse
-          }
-          return true;
+      comboTrees &&
+        comboTrees.forEach((ctree) => {
+          if (found) return;
+          traverseTree<ComboTree>(ctree, (combo) => {
+            if (combo.id === id) {
+              comboInTree = combo;
+              found = true;
+              return false; // terminate the traverse
+            }
+            return true;
+          });
         });
-      });
       comboInTree.removed = true;
       if (comboInTree && comboInTree.children) {
-        comboInTree.children.forEach(child => {
+        comboInTree.children.forEach((child) => {
           this.removeItem(child.id);
         });
       }
@@ -439,14 +447,13 @@ export default class ItemController {
   public setItemState(item: Item, state: string, value: string | boolean): void {
     const { graph } = this;
 
-    let stateName = state
+    let stateName = state;
     if (isString(value)) {
-      stateName = `${state}:${value}`
+      stateName = `${state}:${value}`;
     }
 
     // 已经存在要设置的 state，或不存在 state 的样式为 undefined
-    if (item.hasState(stateName) === value
-      || (isString(value) && item.hasState(stateName))) {
+    if (item.hasState(stateName) === value || (isString(value) && item.hasState(stateName))) {
       return;
     }
 
@@ -466,15 +473,15 @@ export default class ItemController {
   public priorityState(item: Item | string, state: string): void {
     const { graph } = this;
 
-    let currentItem = item
+    let currentItem = item;
     if (isString(item)) {
-      currentItem = graph.findById(item)
+      currentItem = graph.findById(item);
     }
     // 先取消已有的 state
-    this.setItemState(currentItem as Item, state, false)
+    this.setItemState(currentItem as Item, state, false);
 
     // 再设置state，则此时该优先级为最高
-    this.setItemState(currentItem as Item, state, true)
+    this.setItemState(currentItem as Item, state, true);
   }
 
   /**
@@ -528,25 +535,25 @@ export default class ItemController {
    */
   public addCombos(comboTrees: ComboTree[], comboModels: ComboConfig[]) {
     const { graph } = this;
-    comboTrees && comboTrees.forEach((ctree: ComboTree) => {
-      traverseTreeUp<ComboTree>(ctree, child => {
-        let comboModel;
-        comboModels.forEach(model => {
-          if (model.id === child.id) {
-            model.children = child.children;
-            model.depth = child.depth;
-            comboModel = model;
+    comboTrees &&
+      comboTrees.forEach((ctree: ComboTree) => {
+        traverseTreeUp<ComboTree>(ctree, (child) => {
+          let comboModel;
+          comboModels.forEach((model) => {
+            if (model.id === child.id) {
+              model.children = child.children;
+              model.depth = child.depth;
+              comboModel = model;
+            }
+          });
+          if (comboModel) {
+            this.addItem('combo', comboModel);
           }
+          return true;
         });
-        if (comboModel) {
-          this.addItem('combo', comboModel);
-        }
-        return true;
       });
-    });
     const comboGroup = graph.get('comboGroup');
     if (comboGroup) comboGroup.sort();
-
   }
 
   /**
@@ -588,19 +595,20 @@ export default class ItemController {
       const id = item.get('id');
       let children = [];
       let found = false; // flag the terminate the forEach
-      comboTrees && comboTrees.forEach(ctree => {
-        if (found) return;
-        if (!ctree.children || ctree.children.length === 0) return;
-        traverseTree<ComboTree>(ctree, combo => {
-          if (combo.id === id) {
-            children = combo.children;
-            found = true;
-            return false; // terminate the traverse
-          }
-          return true;
+      comboTrees &&
+        comboTrees.forEach((ctree) => {
+          if (found) return;
+          if (!ctree.children || ctree.children.length === 0) return;
+          traverseTree<ComboTree>(ctree, (combo) => {
+            if (combo.id === id) {
+              children = combo.children;
+              found = true;
+              return false; // terminate the traverse
+            }
+            return true;
+          });
         });
-      });
-      children.forEach(child => {
+      children.forEach((child) => {
         const childItem = graph.findById(child.id);
         this.changeItemVisibility(childItem, visible);
       });

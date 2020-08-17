@@ -252,14 +252,14 @@ const graph = new G6.Graph({
   height,
   layout: {
     type: 'dagre',
-    nodesepFunc: d => {
+    nodesepFunc: (d) => {
       if (d.id === '3') {
         return 500;
       }
       return 50;
     },
     ranksep: 70,
-    controlPoints: true
+    controlPoints: true,
   },
   defaultNode: {
     type: 'sql',
@@ -278,7 +278,7 @@ const graph = new G6.Graph({
     selected: {
       stroke: '#d9d9d9',
       fill: '#5394ef',
-    }
+    },
   },
   modes: {
     default: [
@@ -290,12 +290,12 @@ const graph = new G6.Graph({
         formatText(model) {
           const cfg = model.conf;
           const text = [];
-          cfg.forEach(row => {
+          cfg.forEach((row) => {
             text.push(row.label + ':' + row.value + '<br>');
           });
           return text.join('\n');
         },
-        offset: 30
+        offset: 30,
       },
     ],
   },

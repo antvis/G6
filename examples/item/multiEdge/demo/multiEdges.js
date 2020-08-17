@@ -3,17 +3,16 @@ import G6 from '@antv/g6';
 const setEdgesCurOffset = (edges, offsetDiff = 30) => {
   const len = edges.length;
   const edgeMap = {};
-  edges.forEach(edge => {
+  edges.forEach((edge) => {
     const { source, target } = edge;
     let sourceTarget = `${source}-${target}`;
     if (source > target) sourceTarget = `${source}-${target}`;
 
     if (!edgeMap[sourceTarget]) {
-      edgeMap[sourceTarget] = []
+      edgeMap[sourceTarget] = [];
     }
     edgeMap[sourceTarget].push(edge);
   });
-
 
   for (const key in edgeMap) {
     const arcEdges = edgeMap[key];
@@ -24,7 +23,7 @@ const setEdgesCurOffset = (edges, offsetDiff = 30) => {
       if (length % 2 === 1) {
         current.curveOffset = sign * Math.ceil(k / 2) * offsetDiff;
       } else {
-        current.curveOffset = sign * (Math.floor((k) / 2) * offsetDiff + offsetDiff / 2);
+        current.curveOffset = sign * (Math.floor(k / 2) * offsetDiff + offsetDiff / 2);
       }
       delete current.groupById;
     }
@@ -53,22 +52,22 @@ const data = {
       label: 'C',
     },
   ],
-  edges: []
+  edges: [],
 };
 
 for (let i = 0; i < 10; i++) {
   data.edges.push({
     source: 'node1',
     target: 'node2',
-    label: `${i}th edge of A-B`
-  })
+    label: `${i}th edge of A-B`,
+  });
 }
 for (let i = 0; i < 5; i++) {
   data.edges.push({
     source: 'node2',
     target: 'node3',
-    label: `${i}th edge of B-C`
-  })
+    label: `${i}th edge of B-C`,
+  });
 }
 
 setEdgesCurOffset(data.edges);
@@ -93,7 +92,7 @@ const graph = new G6.Graph({
       style: {
         fill: '#000',
         fontSize: 14,
-      }
+      },
     },
   },
   defaultEdge: {

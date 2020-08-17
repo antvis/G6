@@ -31,7 +31,7 @@ Shape.registerCombo(
       anchorPoints: [
         [0, 0.5],
         [1, 0.5],
-      ]
+      ],
     },
     shapeType: 'rect',
     labelPosition: 'top',
@@ -91,7 +91,9 @@ Shape.registerCombo(
           break;
         case 'center':
           style = {
-            x: 0, y: 0, text: cfg!.label,
+            x: 0,
+            y: 0,
+            text: cfg!.label,
             textAlign: 'center',
           };
           break;
@@ -125,13 +127,11 @@ Shape.registerCombo(
       let width: number;
       let height: number;
       if (!isNumber(style.width) || isNaN(style.width))
-        width = (size[0] || Global.defaultCombo.style.width)
-      else
-        width = (Math.max(style.width, size[0]) || size[0]);
+        width = size[0] || Global.defaultCombo.style.width;
+      else width = Math.max(style.width, size[0]) || size[0];
       if (!isNumber(style.height) || isNaN(style.height))
-        height = (size[1] || Global.defaultCombo.style.height);
-      else
-        height = (Math.max(style.height, size[1]) || size[1]);
+        height = size[1] || Global.defaultCombo.style.height;
+      else height = Math.max(style.height, size[1]) || size[1];
 
       const x = -width / 2 - padding[3];
       const y = -height / 2 - padding[0];
@@ -139,20 +139,16 @@ Shape.registerCombo(
       style.width = width + padding[1] + padding[3];
       style.height = height + padding[0] + padding[2];
 
-
-      const styles = Object.assign(
-        {},
-        {
-          x,
-          y,
-        },
-        style,
-      );
+      const styles = {
+        x,
+        y,
+        ...style,
+      };
       if (!cfg.style) {
         cfg.style = {
           width,
-          height
-        }
+          height,
+        };
       } else {
         cfg.style.width = width;
         cfg.style.height = height;
@@ -160,13 +156,12 @@ Shape.registerCombo(
       return styles;
     },
     update(cfg: ComboConfig, item: Item) {
-
       const size = (this as ShapeOptions).getSize!(cfg);
       let padding: number | number[] = cfg.padding || this.options.padding;
-      if (isNumber(padding)) padding = [padding, padding, padding, padding]
+      if (isNumber(padding)) padding = [padding, padding, padding, padding];
       const cfgStyle = clone(cfg.style);
-      const width = (Math.max(cfgStyle.width, size[0]) || size[0]);
-      const height = (Math.max(cfgStyle.height, size[1]) || size[1]);
+      const width = Math.max(cfgStyle.width, size[0]) || size[0];
+      const height = Math.max(cfgStyle.height, size[1]) || size[1];
 
       cfgStyle.width = width + padding[1] + padding[3];
       cfgStyle.height = height + padding[0] + padding[2];
@@ -181,17 +176,17 @@ Shape.registerCombo(
       cfgStyle.y = -height / 2 - padding[0];
       // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
       const strokeStyle = {
-        stroke: cfg.color
+        stroke: cfg.color,
       };
-      // 与 getShapeStyle 不同在于，update 时需要获取到当前的 style 进行融合。即新传入的配置项中没有涉及的属性，保留当前的配置。 
+      // 与 getShapeStyle 不同在于，update 时需要获取到当前的 style 进行融合。即新传入的配置项中没有涉及的属性，保留当前的配置。
       const keyShape = item.get('keyShape');
       const style = mix({}, keyShape.attr(), strokeStyle, cfgStyle);
 
       if (cfg.style) {
         cfg.style.width = width;
-        cfg.style.height = height
+        cfg.style.height = height;
       } else {
-        cfg.style = { width, height }
+        cfg.style = { width, height };
       }
 
       (this as any).updateShape(cfg, item, style, false);
@@ -203,7 +198,7 @@ Shape.registerCombo(
         keyShape.animate(keyShapeStyle, {
           duration: 200,
           easing: 'easeLinear',
-        })
+        });
       } else {
         keyShape.attr({
           ...keyShapeStyle,
@@ -211,7 +206,7 @@ Shape.registerCombo(
       }
 
       (this as any).updateLabel(cfg, item);
-    }
+    },
   },
   'single-combo',
 );
