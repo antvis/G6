@@ -1,6 +1,7 @@
 # ChangeLog
 
 #### 3.6.1-beta
+
 - chore: update g-canvas to support quickHit and pruning the rendering of the graph outside the viewport;
 - feat: add statistical chart nodes;
 - feat: add hull for create smooth contour to include specific items;
