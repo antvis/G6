@@ -21,9 +21,9 @@ const dijkstra = (
 
   const nodeNum = nodes.length;
   for (let i = 0; i < nodeNum; i++) {
-    //Process the vertices
-    let minNode = minVertex(D, nodes, marks);
-    let minNodId = minNode.get('id');
+    // Process the vertices
+    const minNode = minVertex(D, nodes, marks);
+    const minNodId = minNode.get('id');
     marks[minNodId] = true;
 
     if (D[minNodId] === Infinity) continue; // Unreachable vertices cannot be the intermediate point
@@ -45,7 +45,7 @@ const dijkstra = (
     });
   }
   const path = {};
-  for (let target in D) {
+  for (const target in D) {
     path[target] = [target];
     let prev = prevs[target];
     while (prev !== undefined) {
@@ -62,11 +62,11 @@ function minVertex(
   nodes: INode[],
   marks: { [key: string]: boolean },
 ) {
-  //找出最小的点
-  let minDis = Infinity,
-    minNode;
+  // 找出最小的点
+  let minDis = Infinity;
+  let minNode;
   for (let i = 0; i < nodes.length; i++) {
-    let nodeId = nodes[i].get('id');
+    const nodeId = nodes[i].get('id');
     if (!marks[nodeId] && D[nodeId] <= minDis) {
       minDis = D[nodeId];
       minNode = nodes[i];
