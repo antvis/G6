@@ -391,19 +391,19 @@ const FindPath = () => {
     let sourceNode, targetNode, operation;
     const contextMenu = new G6.Menu({
       getContent(graph) {
-        console.log('graph', graph)
+        console.log('graph', graph);
         return `<div>
           <div title='all'>所有路径</div>
           <div title='short'>最短路径</div>
         </div>`;
       },
       handleMenuClick: (target, item) => {
-        operation = target.title
-        sourceNode = item
+        operation = target.title;
+        sourceNode = item;
       },
       offsetX: 0,
       offsetY: 0,
-      itemTypes: ['node', 'edge']
+      itemTypes: ['node', 'edge'],
     });
 
     const graph = new G6.Graph({
@@ -413,69 +413,69 @@ const FindPath = () => {
       plugins: [contextMenu],
       defaultEdge: {
         style: {
-          endArrow: true
-        }
+          endArrow: true,
+        },
       },
       edgeStateStyles: {
         isPath: {
           stroke: 'orange',
           strokeOpacity: 0.4,
-          lineWidth: 3
+          lineWidth: 3,
         },
         highlight: {
           stroke: 'lightgreen',
           strokeOpacity: 0.6,
-          lineWidth: 4
-        }
+          lineWidth: 4,
+        },
       },
       modes: {
-        default: ['zoom-canvas', 'drag-canvas', 'drag-node']
-      }
-    })
+        default: ['zoom-canvas', 'drag-canvas', 'drag-node'],
+      },
+    });
 
-    graph.data(data)
-    graph.render()
+    graph.data(data);
+    graph.render();
 
-    graph.on('node:click', e => {
-      graph.getEdges().forEach(edge => {
-        graph.clearItemStates(edge)
-      })
+    graph.on('node:click', (e) => {
+      graph.getEdges().forEach((edge) => {
+        graph.clearItemStates(edge);
+      });
       if (sourceNode && operation === 'all') {
-        targetNode = e.item
-        const allPaths = findAllPath(graph, sourceNode, targetNode, true)
-        allPaths.forEach(path => {
+        targetNode = e.item;
+        const allPaths = findAllPath(graph, sourceNode, targetNode, true);
+        allPaths.forEach((path) => {
           for (let i = 0; i < path.length - 1; i++) {
-            const start = path[i]
-            const end = path[i + 1]
-            graph.getEdges().forEach(edge => {
+            const start = path[i];
+            const end = path[i + 1];
+            graph.getEdges().forEach((edge) => {
               if (edge.getSource().get('id') === start && edge.getTarget().get('id') === end) {
-                graph.setItemState(edge, 'isPath', true)
+                graph.setItemState(edge, 'isPath', true);
               }
-            })
+            });
           }
-        })
+        });
         sourceNode = null;
         targetNode = null;
       }
       if (sourceNode && operation === 'short') {
-        targetNode = e.item
-        const { length, path } = findShortestPath(graph, sourceNode, targetNode, true)
+        targetNode = e.item;
+        const { length, path } = findShortestPath(graph, sourceNode, targetNode, true);
         for (let i = 0; i < path.length - 1; i++) {
-          const start = path[i]
-          const end = path[i + 1]
-          graph.getEdges().forEach(edge => {
+          const start = path[i];
+          const end = path[i + 1];
+          graph.getEdges().forEach((edge) => {
             if (edge.getSource().get('id') === start && edge.getTarget().get('id') === end) {
-              graph.setItemState(edge, 'highlight', true)
+              graph.setItemState(edge, 'highlight', true);
             }
-          })
+          });
         }
         sourceNode = null;
         targetNode = null;
       }
-    })
-  })
+    });
+  });
 
   return <div ref={container}></div>;
-}
+};
 
 export default FindPath;

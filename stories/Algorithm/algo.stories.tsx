@@ -4,7 +4,4 @@ import FindPath from './component/path';
 
 export default { title: 'Algorithm' };
 
-storiesOf('Algorithm', module)
-  .add('find path', () => (
-    <FindPath />
-  ));
+storiesOf('Algorithm', module).add('find path', () => <FindPath />);
