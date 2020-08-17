@@ -2,8 +2,9 @@ import { Point } from '@antv/g-base/lib/types';
 import { IGroup } from '@antv/g-canvas/lib/interfaces';
 import { mat3, transform, vec3 } from '@antv/matrix-util';
 import isArray from '@antv/util/lib/is-array';
-import { GraphData, ICircle, IEllipse, IRect, Matrix, EdgeConfig, NodeIdxMap, IBBox } from '../types';
+import { GraphData, ICircle, IEllipse, IRect, Matrix, EdgeConfig, NodeIdxMap, IBBox, Item, IPoint } from '../types';
 import { each } from '@antv/util';
+
 
 /**
  * 是否在区间内
@@ -22,7 +23,7 @@ const isBetween = (value: number, min: number, max: number) => value >= min && v
  * @param  {Point}  p3 第二条线段终点
  * @return {Point}  交点
  */
-const getLineIntersect = (p0: Point, p1: Point, p2: Point, p3: Point): Point | null => {
+export const getLineIntersect = (p0: Point, p1: Point, p2: Point, p3: Point): Point | null => {
   const tolerance = 0.001;
 
   const E: Point = {
@@ -569,4 +570,153 @@ export const isPolygonsIntersect = (points1: number[][], points2: number[][]): b
     }
   });
   return isIntersect;
+}
+
+export class Line {
+  public x1: number;
+  public y1: number;
+  public x2: number;
+  public y2: number;
+  constructor(x1: number, y1: number, x2: number, y2: number) {
+    this.x1 = x1;
+    this.y1 = y1;
+    this.x2 = x2;
+    this.y2 = y2;
+  }
+  public getBBox() {
+    const minX = Math.min(this.x1, this.x2);
+    const minY = Math.min(this.y1, this.y2);
+    const maxX = Math.max(this.x1, this.x2);
+    const maxY = Math.max(this.y1, this.y2);
+    const res = {
+      x: minX,
+      y: minY,
+      minX,
+      minY,
+      maxX,
+      maxY,
+      width: maxX - minX,
+      height: maxY - minY,
+    };
+    return res;
+  }
+}
+
+export const getBBoxBoundLine = (bbox: IBBox, direction: string) => {
+  const bounds = {
+    'top': [bbox.minX, bbox.minY, bbox.maxX, bbox.minY],
+    'left': [bbox.minX, bbox.minY, bbox.minX, bbox.maxY],
+    'bottom': [bbox.minX, bbox.maxY, bbox.maxX, bbox.maxY],
+    'right': [bbox.maxX, bbox.minY, bbox.maxX, bbox.maxY]
+  }
+  return bounds[direction]
+}
+
+/**
+ * 计算两条线段相交时，相交点对第一条线段上的分割比例
+ */
+const fractionAlongLineA = (la: Line, lb: Line) => {
+  const uaT = (lb.x2 - lb.x1) * (la.y1 - lb.y1) - (lb.y2 - lb.y1) * (la.x1 - lb.x1);
+  const ubT = (la.x2 - la.x1) * (la.y1 - lb.y1) - (la.y2 - la.y1) * (la.x1 - lb.x1);
+  const uB = (lb.y2 - lb.y1) * (la.x2 - la.x1) - (lb.x2 - lb.x1) * (la.y2 - la.y1);
+  if (uB) {
+    const ua = uaT / uB;
+    const ub = ubT / uB;
+    if (ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1) {
+      return ua;
+    }
+  }
+  return Number.POSITIVE_INFINITY;
+}
+
+export const itemIntersectByLine = (item: Item, line: Line): [IPoint[], number] => {
+  const directions = ['top', 'left', 'bottom', 'right']
+  const bbox = item.getBBox();
+  let countIntersections = 0;
+  const intersections = []
+
+  for (let i = 0; i < 4; i++) {
+    const [x1, y1, x2, y2] = getBBoxBoundLine(bbox, directions[i])
+    intersections[i] = getLineIntersect({ x: line.x1, y: line.y1 }, { x: line.x2, y: line.y2 }, { x: x1, y: y1 }, { x: x2, y: y2 });
+    if (intersections[i]) {
+      countIntersections += 1;
+    }
+  }
+  return [intersections, countIntersections]
+}
+
+export const fractionToLine = (item: Item, line: Line) => {
+  const directions = ['top', 'left', 'bottom', 'right']
+  const bbox = item.getBBox();
+  let minDistance = Number.POSITIVE_INFINITY;
+  let countIntersections = 0;
+  for (let i = 0; i < 4; i++) {
+    const [x1, y1, x2, y2] = getBBoxBoundLine(bbox, directions[i])
+    let testDistance = fractionAlongLineA(line, new Line(x1, y1, x2, y2));
+    testDistance = Math.abs(testDistance - 0.5);
+    if ((testDistance >= 0) && (testDistance <= 1)) {
+      countIntersections += 1;
+      minDistance = testDistance < minDistance ? testDistance : minDistance;
+    }
+  }
+
+  if (countIntersections === 0) return -1;
+  return minDistance;
+}
+
+export const getPointsCenter = (points: IPoint[]): IPoint => {
+  let centerX = 0;
+  let centerY = 0;
+  if (points.length > 0) {
+    for (const point of points) {
+      centerX += point.x
+      centerY += point.y
+    }
+    centerX /= points.length
+    centerY /= points.length
+  }
+  return { x: centerX, y: centerY }
+}
+
+export const squareDist = (a: IPoint, b: IPoint): number => {
+  return (a.x - b.x) ** 2 + (a.y - b.y) ** 2
+}
+
+export const pointLineDist = (point: IPoint, line: Line) => {
+  const x1 = line.x1;
+  const y1 = line.y1;
+  const x2 = line.x2 - x1;
+  const y2 = line.y2 - y1;
+  let px = point.x - x1;
+  let py = point.y - y1;
+  let dotprod = px * x2 + py * y2;
+  let projlenSq;
+  if (dotprod <= 0) {
+    projlenSq = 0;
+  } else {
+    px = x2 - px;
+    py = y2 - py;
+    dotprod = px * x2 + py * y2;
+    if (dotprod <= 0) {
+      projlenSq = 0;
+    } else {
+      projlenSq = dotprod * dotprod / (x2 * x2 + y2 * y2);
+    }
+  }
+  let lenSq = px * px + py * py - projlenSq;
+  if (lenSq < 0) {
+    lenSq = 0;
+  }
+  return lenSq;
+}
+
+export const isPointsOverlap = (p1, p2, e = 1e-3) => {
+  return (p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2 < e ** 2
+}
+
+export const getRectDistSq = (item: Item, x: number, y: number) => {
+  const rect = item.getBBox()
+  const dx = Math.max(rect.minX - x, 0, x - rect.maxX);
+  const dy = Math.max(rect.minY - y, 0, y - rect.maxY);
+  return Math.sqrt(dx * dx + dy * dy);
 }

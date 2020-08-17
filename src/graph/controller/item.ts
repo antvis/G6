@@ -148,9 +148,12 @@ export default class ItemController {
         group: comboGroup,
       });
 
+      const comboModel = item.getModel();
+
       children && children.forEach(child => {
         const childItem = graph.findById(child.id) as ICombo | INode;
         (item as ICombo).addChild(childItem);
+        child.depth = (comboModel.depth as number) + 2;
       });
 
       // collapse the combo if the collapsed is true in the model
@@ -344,7 +347,8 @@ export default class ItemController {
       return;
     }
 
-    graph.emit('beforeremoveitem', { item });
+    const itemModel = clone(item.getModel());
+    graph.emit('beforeremoveitem', { item: itemModel });
 
     let type = '';
     if (item.getType) type = item.getType();
@@ -420,7 +424,7 @@ export default class ItemController {
     }
 
     item.destroy();
-    graph.emit('afterremoveitem', { item });
+    graph.emit('afterremoveitem', { item: itemModel });
   }
 
   /**

@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "3.6.0",
+  "version": "3.6.1",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",
@@ -50,7 +50,7 @@
     "site:deploy": "npm run site:build && gh-pages -d public",
     "start": "npm run site:develop",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/plugins/timebar-spec.ts",
+    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/state/update-element-states-spec.ts",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
     "watch": "father build -w",
     "cdn": "antv-bin upload -n @antv/g6"
@@ -73,10 +73,10 @@
     "@antv/component": "^0.6.1",
     "@antv/dom-util": "^2.0.1",
     "@antv/event-emitter": "~0.1.0",
-    "@antv/g-base": "^0.4.1",
-    "@antv/g-canvas": "^0.4.14",
+    "@antv/g-base": "^0.5.0",
+    "@antv/g-canvas": "^0.5.0",
     "@antv/g-math": "^0.1.1",
-    "@antv/g-svg": "^0.4.1",
+    "@antv/g-svg": "^0.5.0",
     "@antv/hierarchy": "^0.6.2",
     "@antv/matrix-util": "^2.0.4",
     "@antv/path-util": "^2.0.3",
@@ -88,8 +88,10 @@
     "ml-matrix": "^6.5.0"
   },
   "devDependencies": {
-    "@antv/gatsby-theme-antv": "0.10.69",
+    "@antv/chart-node-g6": "^0.0.2",
+    "@antv/gatsby-theme-antv": "^0.11.1",
     "@babel/core": "^7.7.7",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/preset-react": "^7.7.4",
     "@storybook/addon-actions": "^5.2.8",
     "@storybook/addon-info": "^5.2.8",
@@ -103,7 +105,7 @@
     "babel-loader": "^8.0.6",
     "event-simulate": "~1.0.0",
     "father": "^2.29.1",
-    "gatsby": "^2.23.9",
+    "gatsby": "^2.24.40",
     "gh-pages": "^2.1.1",
     "husky": "^4.2.5",
     "jest": "^26.0.1",

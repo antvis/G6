@@ -12,11 +12,12 @@ export default Object.assign(
         },
       };
     },
-    getEvents(): { [key in G6Event]?: string } {
+    getEvents(): { [key in G6Event | 'afterremoveitem']?: string } {
       return {
         'edge:mouseenter': 'onMouseEnter',
         'edge:mouseleave': 'onMouseLeave',
         'edge:mousemove': 'onMouseMove',
+        'afterremoveitem': 'onMouseLeave'
       };
     },
   },

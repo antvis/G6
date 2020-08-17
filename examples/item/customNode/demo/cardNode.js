@@ -1,26 +1,5 @@
 import G6 from '@antv/g6';
 
-const COLLAPSE_ICON = function COLLAPSE_ICON(x, y, r) {
-  return [
-    ['M', x, y],
-    ['a', r, r, 0, 1, 0, r * 2, 0],
-    ['a', r, r, 0, 1, 0, -r * 2, 0],
-    ['M', x + 2, y],
-    ['L', x + 2 * r - 2, y],
-  ];
-};
-const EXPAND_ICON = function EXPAND_ICON(x, y, r) {
-  return [
-    ['M', x, y],
-    ['a', r, r, 0, 1, 0, r * 2, 0],
-    ['a', r, r, 0, 1, 0, -r * 2, 0],
-    ['M', x + 2, y],
-    ['L', x + 2 * r - 2, y],
-    ['M', x + r, y - r + 2],
-    ['L', x + r, y + r - 2],
-  ];
-};
-
 const ICON_MAP = {
   a: 'https://gw.alipayobjects.com/mdn/rms_8fd2eb/afts/img/A*0HC-SawWYUoAAAAAAAAAAABkARQnAQ',
   b: 'https://gw.alipayobjects.com/mdn/rms_8fd2eb/afts/img/A*sxK0RJ1UhNkAAAAAAAAAAABkARQnAQ',
@@ -91,7 +70,7 @@ G6.registerNode(
             y: 30,
             r: 6,
             cursor: 'pointer',
-            symbol: cfg.collapse ? EXPAND_ICON : COLLAPSE_ICON,
+            symbol: cfg.collapse ? G6.Marker.expand : G6.Marker.collapse,
             stroke: '#666',
             lineWidth: 1,
           },

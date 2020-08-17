@@ -6,6 +6,7 @@ import Fisheye from './fisheye';
 import ToolBar from './toolBar';
 import Tooltip from './tooltip';
 import TimeBar from './timeBar';
+import ImageMinimap from './imageMinimap';
 
 export default {
   Menu,
@@ -15,5 +16,6 @@ export default {
   ToolBar,
   Tooltip,
   Fisheye,
-  TimeBar
+  TimeBar,
+  ImageMinimap
 };

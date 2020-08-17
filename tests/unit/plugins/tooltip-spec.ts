@@ -52,14 +52,14 @@ describe('tooltip', () => {
     graph.render()
 
     const tooltipPlugin = graph.get('plugins')[0]
-    expect(tooltipPlugin.get('offset')).toBe(6)
+    expect(tooltipPlugin.get('offsetX')).toBe(6)
     expect(tooltipPlugin.get('tooltip').outerHTML).toBe(`<div class="g6-component-tooltip" style="position: absolute; visibility: hidden;"></div>`)
 
-    graph.destroy()
+    // graph.destroy()
   })
   it('tooltip with dom', () => {
     const tooltip = new G6.Tooltip({
-      offset: 10,
+      offsetX: 10,
       getContent(e) {
         const outDiv = document.createElement('div');
         outDiv.style.width = '180px';
@@ -71,7 +71,7 @@ describe('tooltip', () => {
         return outDiv
       },
     });
-    expect(tooltip.get('offset')).toBe(10)
+    expect(tooltip.get('offsetX')).toBe(10)
 
     const graph = new G6.Graph({
       container: div,
@@ -91,7 +91,7 @@ describe('tooltip', () => {
     graph.data(data)
     graph.render()
     const tooltipPlugin = graph.get('plugins')[0]
-    expect(tooltipPlugin.get('offset')).toBe(10)
+    expect(tooltipPlugin.get('offsetX')).toBe(10)
     graph.destroy()
   })
   it('tooltip with string', () => {
@@ -109,7 +109,7 @@ describe('tooltip', () => {
       },
     });
 
-    expect(tooltip.get('offset')).toBe(6)
+    expect(tooltip.get('offsetX')).toBe(6)
     const graph = new G6.Graph({
       container: div,
       width: 500,

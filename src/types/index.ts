@@ -6,6 +6,7 @@ import Node from '../item/node';
 import { IGraph } from '../interface/graph';
 import { IEdge, INode, ICombo } from '../interface/item';
 import { ILabelConfig } from '../interface/shape';
+import { IGroup } from '@antv/g-base'
 
 // Math types
 export interface IPoint {
@@ -288,6 +289,11 @@ export interface GraphOptions {
    * redo & undo 最大步数, 只有当 enabledStack 为 true 时才起作用
    */
   maxStep?: number;
+
+  /**
+   * 存储图上的 tooltip dom，方便销毁
+   */
+  tooltips?: []
 }
 
 export interface StateStyles {
@@ -364,6 +370,7 @@ export interface ModelConfig extends ModelStyle {
     x: number,
     y: number
   },
+  visible?: boolean
 }
 
 export interface NodeConfig extends ModelConfig {
@@ -554,6 +561,7 @@ export enum G6Event {
   KEYDOWN = 'keydown',
   WHEEL = 'wheel',
   FOCUS = 'focus',
+  BLUR = 'blur',
 
   NODE_CLICK = 'node:click',
   NODE_CONTEXTMENU = 'node:contextmenu',
@@ -583,6 +591,7 @@ export enum G6Event {
   CANVAS_DRAGSTART = 'canvas:dragstart',
   CANVAS_DRAG = 'canvas:drag',
   CANVAS_DRAGEND = 'canvas:dragend',
+  CANVAS_DRAGLEAVE = 'canvas:dragleave',
 
   // combo
   COMBO_CLICK = 'combo:click',
@@ -657,4 +666,35 @@ export interface IAlgorithmCallbacks {
 export interface StackData {
   action: string;
   data: GraphData;
+}
+
+export interface HullCfg {
+  id: string,
+  members?: Item[] | string[], // 节点实例或节点 Id 数组
+  nonMembers?: Item[] | string[],
+  group?: IGroup,
+  type?: string, // 'round-convex'(圆角凸包) /'smooth-convex'(平滑凸包) / 'bubble'(平滑凹包),
+  padding?: number, // 轮廓边缘和内部成员间距
+  style?: {
+    fill?: string,
+    stroke?: string,
+    opacity?: number
+  },
+  bubbleCfg?: BubblesetCfg // 用于更精细控制bubble的效果（点和边轮廓的松弛程度，轮廓粒度），一般不需要配置
+}
+
+export interface BubblesetCfg {
+  morphBuffer?: number; // DEFAULT_NODE_R0; the amount of space to move the virtual edge when wrapping around obstacles
+  pixelGroupSize?: number; // the resolution of the algorithm in square pixels, 4 by default
+  maxMarchingIterations?: number; // number of times to refine the boundary, 100 by default
+  maxRoutingIterations?: number;  // number of times to run the algorithm to refine the path finding in difficult areas
+  nodeR0?: number; // the distance from nodes which energy is 1 (full influence)
+  nodeR1?: number;  // the distance from nodes at which energy is 0 (no influence)
+  edgeR0?: number; // the distance from edges at which energy is 1 (full influence)
+  edgeR1?: number; // the distance from edges at which energy is 0 (no influence)
+  nodeInfluenceFactor?: number; // node influence factor
+  negativeNodeInfluenceFactor?: number; // negativeNode influence factor
+  edgeInfluenceFactor?: number; // edge influence factor
+  memberInfluenceFactor?: number; // member influence factor
+  nonMemberInfluenceFactor?: number; // nonMember influence factor
 }

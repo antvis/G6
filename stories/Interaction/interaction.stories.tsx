@@ -9,6 +9,7 @@ import DragCanvas from './component/drag-canvas';
 import ZoomCanvasFix from './component/zoom-canvas-fix'
 import LassoSelect from './component/lasso-select'
 import FishEye from './component/fisheye-lens';
+import DragNodeCheckBox from './component/drag-node-checkbox';
 
 export default { title: 'Interaction' };
 
@@ -33,4 +34,6 @@ storiesOf('Interaction', module)
     <LassoSelect />
   )).add('fisheye', () => (
     <FishEye />
+  )).add('drag node checkbox', () => (
+    <DragNodeCheckBox />
   ));

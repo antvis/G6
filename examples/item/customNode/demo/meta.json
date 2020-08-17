@@ -21,6 +21,30 @@
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*b-g0RoOpI3sAAAAAAAAAAABkARQnAQ"
     },
     {
+      "filename": "lineChartNode.js",
+      "title": {
+        "zh": "节点中嵌入 G2 的折线图",
+        "en": "G2 Line Node"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZmavSL0dRJIAAAAAAAAAAAAAARQnAQ"
+    },
+    {
+      "filename": "intervalChartNode.js",
+      "title": {
+        "zh": "节点中嵌入 G2 的柱状图，点击节点可切换数据",
+        "en": "G2 Interval Node"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*D00uR5wb__kAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "pointChartNode.js",
+      "title": {
+        "zh": "节点中嵌入 G2 的散点图",
+        "en": "G2 Point Node"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*K7r7S7x-YhcAAAAAAAAAAAAAARQnAQ"
+    },
+    {
       "filename": "svgDom.js",
       "title": {
         "zh": "DOM 节点",
@@ -31,7 +55,7 @@
     {
       "filename": "areaChart.js",
       "title": {
-        "zh": "面积图",
+        "zh": "使用 G 自定义的面积图节点",
         "en": "Area Chart Node"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YWuhR5ZjZfkAAAAAAAAAAABkARQnAQ"
@@ -39,7 +63,7 @@
     {
       "filename": "stackChart.js",
       "title": {
-        "zh": "堆叠图",
+        "zh": "使用 G 自定义的堆叠图节点",
         "en": "Stacked Chart Node"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*giZSRafSctgAAAAAAAAAAABkARQnAQ"
@@ -47,7 +71,7 @@
     {
       "filename": "lineChart.js",
       "title": {
-        "zh": "折线图",
+        "zh": "使用 G 自定义的折线图节点",
         "en": "Line Chart Node"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mKmaTIBtVAUAAAAAAAAAAABkARQnAQ"
@@ -55,7 +79,7 @@
     {
       "filename": "barChart.js",
       "title": {
-        "zh": "南丁格尔图",
+        "zh": "使用 G 自定义的南丁格尔图节点",
         "en": "Nightingale Node"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lX3gRZWvbp4AAAAAAAAAAABkARQnAQ"
@@ -63,7 +87,7 @@
     {
       "filename": "pointChart.js",
       "title": {
-        "zh": "点线图",
+        "zh": "使用 G 自定义的点线图节点",
         "en": "Point Chart Node"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M0ycSarMV2sAAAAAAAAAAABkARQnAQ"
@@ -71,7 +95,7 @@
     {
       "filename": "pieChart.js",
       "title": {
-        "zh": "饼图",
+        "zh": "使用 G 自定义的饼图节点",
         "en": "Pie Chart Node"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*idENQpnwA1sAAAAAAAAAAABkARQnAQ"

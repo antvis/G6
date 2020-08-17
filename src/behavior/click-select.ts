@@ -39,7 +39,7 @@ export default {
   },
   onClick(evt: IG6GraphEvent) {
     const { item } = evt
-    if (!item) {
+    if (!item || item.destroyed) {
       return
     }
 

@@ -30,7 +30,7 @@ export default class Grid extends Base {
     const img = this.get('img') || GRID_PNG;
 
     const container: HTMLDivElement = createDOM(
-      `<div style="position: absolute; left:0;top:0;right:0;bottom:0;overflow: hidden;z-index: -1;"></div>`,
+      `<div class='g6-grid-container' style="position: absolute; left:0;top:0;right:0;bottom:0;overflow: hidden;z-index: -1;"></div>`,
     );
 
     const gridContainer: HTMLDivElement = createDOM(
