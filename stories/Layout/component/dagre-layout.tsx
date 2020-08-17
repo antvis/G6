@@ -7,6 +7,7 @@ const data = {
     {
       id: '1',
       name: 'name1',
+      size: [10, 20]
     },
     {
       id: '2',
@@ -131,16 +132,16 @@ const DagreLayout = () => {
           ranksep: 70,
         },
         defaultNode: {
-          type: 'sql',
+          type: 'rect',
         },
         defaultEdge: {
-          type: 'cubic',
+          type: 'polyline',
           style: {
-            radius: 20,
-            offset: 45,
-            endArrow: true,
-            lineWidth: 2,
-            stroke: '#C2C8D5',
+            radius: 0,
+            endArrow: {
+              path: 'M 0,0 L 0,4 L 8,-4 Z',
+              fill: '#ddd'
+            }
           },
         },
         modes: {
