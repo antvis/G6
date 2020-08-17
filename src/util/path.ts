@@ -16,7 +16,9 @@ const substitute = (str: string, o: any): string => {
     if (match.charAt(0) === '\\') {
       return match.slice(1);
     }
-    return o[name] || '';
+    let res = o[name];
+    if (res === 0) res = '0';
+    return res || '';
   });
 };
 
