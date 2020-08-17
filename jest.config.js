@@ -16,4 +16,5 @@ module.exports = {
       diagnostics: false,
     },
   },
+  setupFiles: ['jsdom-worker'],
 };
