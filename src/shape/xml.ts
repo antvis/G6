@@ -455,15 +455,6 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
 
       return keyshape;
     },
-    setState(name, value, node) {
-      const cfg = Object.assign({}, node.get('model') || {});
-      // 根据状态构造style
-      if (value && cfg.style && cfg.style[name]) {
-        cfg.style = { ...cfg.style, ...cfg.style[name] }
-      }
-      // 根据上下文更新
-      this.update(cfg, node);
-    },
     update(cfg, node) {
       if (!structures[cfg.id]) {
         structures[cfg.id] = []
@@ -493,7 +484,8 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
           switch (target.action) {
             case 'change':
               if (targetShape) {
-                targetShape.attr(target.val.attrs);
+                const originAttr = node.getOriginStyle() || {};
+                targetShape.attr({ ...originAttr, ...target.val.attrs });
               }
               break;
             case 'add':
