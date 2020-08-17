@@ -118,7 +118,6 @@
     "react-dom": "^16.13.1",
     "react-i18next": "^11.1.0",
     "rimraf": "^3.0.0",
-    "rollup-plugin-web-worker-loader": "^0.8.1",
     "ts-jest": "^24.1.0",
     "ts-loader": "^7.0.3",
     "ttypescript": "^1.5.8",
@@ -127,6 +126,6 @@
     "typescript": "^3.5.3",
     "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10",
-    "worker-loader": "^2.0.0"
+    "worker-loader": "^3.0.0"
   }
 }

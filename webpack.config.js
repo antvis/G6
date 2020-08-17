@@ -26,9 +26,8 @@ module.exports = {
           {
             loader: 'worker-loader',
             options: {
-              inline: true,
-              fallback: false,
-              name: 'g6Layout.worker.js',
+              inline: 'fallback',
+              filename: 'g6Layout.worker.js',
             },
           },
         ],
@@ -40,9 +39,7 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             // babelrc: true,
-            presets: [
-              '@babel/preset-env',
-            ],
+            presets: ['@babel/preset-env'],
           },
         },
       },
