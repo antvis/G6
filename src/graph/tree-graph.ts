@@ -1,5 +1,5 @@
 import { Point } from '@antv/g-base/lib/types';
-import Hierarchy from '@antv/hierarchy';
+import Hierarchy from '@antv/hierarchy/lib';
 import { each, isString } from '@antv/util/lib';
 import { ITreeGraph } from '../interface/graph';
 import { GraphData, Item, NodeConfig, ShapeStyle, TreeGraphData, GraphOptions } from '../types';
