@@ -146,15 +146,30 @@ const keyConvert = str => str.split('-').reduce((a, b) => a + b.charAt(0).toUppe
  * @param xml 
  */
 export const xmlDataRenderer = (xml: string) => data => {
-  return xml.split(/{{|}}/g).map(text => {
-    if (text.includes(':')) {
-      return `"{${text.replace(/{{|}}/g, '')}}"`;
+  const len = xml.length;
+  const arr = [];
+  let i = 0;
+  let tmp = '';
+  while (i < len) {
+    if (xml[i] === '{' && xml[i + 1] === '{') {
+      arr.push(tmp);
+      tmp = '';
+      i += 2
+    } else if (xml[i] === '}' && xml[i + 1] === '}') {
+      tmp = get(data, tmp, `"{${tmp}}"`);
+      if (arr.length) {
+        arr.push(arr.pop() + tmp);
+      }
+      i += 2;
+      tmp = '';
+    } else {
+      tmp += xml[i];
+      i += 1
     }
-    if (/^[\w.]+$/g.test(text.trim())) {
-      return get(data, text.trim(), text)
-    }
-    return text;
-  }).join('')
+  }
+
+  arr.push(tmp)
+  return arr.join('');
 }
 
 /**
@@ -484,7 +499,7 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
           switch (target.action) {
             case 'change':
               if (targetShape) {
-                const originAttr = node.getOriginStyle() || {};
+                const originAttr = target.val.keyshape ? node.getOriginStyle() : {};
                 targetShape.attr({ ...originAttr, ...target.val.attrs });
               }
               break;

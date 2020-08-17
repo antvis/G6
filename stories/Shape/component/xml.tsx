@@ -3,29 +3,29 @@ import G6 from '../../../src';
 import { IGraph } from '../../../src/interface/graph';
 
 const percentageBar = ({ width, used, height = 12 }) => `
-<rect style="{
+<rect style={{
   marginLeft: 10,
   marginTop: 3,
   width: ${width},
   height: ${height},
   fill: '#fff',
   stroke: '#1890ff'
-}"  classname="body" >
-  <rect style="{
+}}  classname="body" >
+  <rect style={{
     marginLeft: 10,
     width: ${width / 100 * used},
     height: ${height},
     fill: '#1890ff',
-    stroke: '#1890ff',
-  }"/>
+    stroke: '#1890ff'
+  }}/>
 </rect>
 `
 
 const textXML = cfg => `
 <group>
-  <rect style="{
-    width: 100, height: 20, fill: '#1890ff', stroke: '#1890ff', radius: [6, 6, 0, 0]
-  }">
+  <rect style={{
+    width: 100, height: 20, fill: '#1890ff', stroke: '#1890ff', radius: [6, 6, 0, 0], xx: 11
+  }}>
     <text style="{ marginTop: 2, marginLeft: 50, textAlign: 'center', fontWeight: 'bold', fill: '#fff' }">${cfg.id}</text>
   </rect>
   <rect style="{ width: 100, height: 80, stroke: '#1890ff', fill: 'rgba(24,144,255,0.15)', radius: [0, 0, 6, 6] }" keyshape="true" cursor="move">
@@ -110,7 +110,12 @@ const XML = () => {
 
       graph.on('node:mouseleave', evt => {
         graph.setItemState(evt.item, 'hover', false)
-      })
+      });
+
+      setTimeout(
+        () => graph.updateItem('node1', { 'cpuUsage': 99 }),
+        1000
+      )
     }
 
     return () => {
