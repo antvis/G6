@@ -62,11 +62,9 @@
   },
   "lint-staged": {
     "**/*.{js,jsx,tsx,ts,less,md,json}": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ],
-    "**/*.{js,jsx}": "npm run lint-staged:js",
-    "**/*.{js,ts,tsx}": "npm run lint-staged:js"
+    "**/*.{js,jsx,ts,tsx}": "npm run lint-staged:js"
   },
   "dependencies": {
     "@antv/color-util": "^2.0.5",
@@ -103,6 +101,7 @@
     "@umijs/fabric": "^2.0.0",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
+    "eslint": "^7.7.0",
     "event-simulate": "~1.0.0",
     "father": "^2.29.1",
     "gatsby": "^2.24.40",
@@ -112,7 +111,6 @@
     "jest-electron": "^0.1.7",
     "jest-extended": "^0.11.2",
     "lint-staged": "^9.2.3",
-    "pre-commit": "^1.2.2",
     "prettier": "^2.0.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
