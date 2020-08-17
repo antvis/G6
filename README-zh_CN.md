@@ -116,7 +116,11 @@ graph.render();
 $ npm install
 
 # run test case
-$ npm run test-live
+$ npm test
+
+# run test case in watch mode
+npm test -- --watch ./tests/unit/algorithm/find-path-spec
+DEBUG_MODE=1 npm test -- --watch ./tests/unit/algorithm/find-path-spec
 
 # build watching file changes and run demos
 $ npm run demos
