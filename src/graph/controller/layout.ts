@@ -201,7 +201,7 @@ export default class LayoutController {
       }
       this.layoutMethod = layoutMethod;
     }
-    if ((hasLayoutType || !allHavePos) && (this.layoutType !== 'force' && !(enableTick))) {
+    if ((hasLayoutType || !allHavePos) && this.layoutType !== 'force' && !enableTick) {
       graph.emit('afterlayout');
       this.refreshLayout();
     }
@@ -235,9 +235,9 @@ export default class LayoutController {
     // 例如：'function could not be cloned'。
     // 详情参考：https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm
     // 所以这里需要把过滤layoutCfg里的函数字段过滤掉。
-    const filteredLayoutCfg = filterObject(layoutCfg, value => typeof value !== 'function');
+    const filteredLayoutCfg = filterObject(layoutCfg, (value) => typeof value !== 'function');
     worker.postMessage({ type: LAYOUT_MESSAGE.RUN, nodes, edges, layoutCfg: filteredLayoutCfg });
-    worker.onmessage = event => {
+    worker.onmessage = (event) => {
       this.handleWorkerMessage(event, data, success);
     };
     return true;
@@ -382,17 +382,17 @@ export default class LayoutController {
     const nodeItems = this.graph.getNodes();
     const edgeItems = this.graph.getEdges();
     const comboItems = this.graph.getCombos();
-    nodeItems.forEach(nodeItem => {
+    nodeItems.forEach((nodeItem) => {
       if (!nodeItem.isVisible()) return;
       const model = nodeItem.getModel();
       nodes.push(model);
     });
-    edgeItems.forEach(edgeItem => {
+    edgeItems.forEach((edgeItem) => {
       if (edgeItem.destroyed || !edgeItem.isVisible()) return;
       const model = edgeItem.getModel();
       if (!model.isComboEdge) edges.push(model);
     });
-    comboItems.forEach(comboItem => {
+    comboItems.forEach((comboItem) => {
       if (comboItem.destroyed || !comboItem.isVisible()) return;
       const model = comboItem.getModel();
       combos.push(model);
@@ -411,7 +411,7 @@ export default class LayoutController {
       if (!nodes) {
         return false;
       }
-      this.initPositions(layoutCfg.center, nodes)
+      this.initPositions(layoutCfg.center, nodes);
       layoutMethod.init(this.data);
     }
 
@@ -429,7 +429,7 @@ export default class LayoutController {
 
   // 控制布局动画
   // eslint-disable-next-line class-methods-use-this
-  public layoutAnimate() { }
+  public layoutAnimate() {}
 
   // // 根据 type 创建 Layout 实例
   // private _getLayout() {
@@ -445,13 +445,13 @@ export default class LayoutController {
       return;
     }
     const meanCenter = [0, 0];
-    nodes.forEach(node => {
+    nodes.forEach((node) => {
       meanCenter[0] += node.x;
       meanCenter[1] += node.y;
     });
     meanCenter[0] /= nodes.length;
     meanCenter[1] /= nodes.length;
-    nodes.forEach(node => {
+    nodes.forEach((node) => {
       node.x -= meanCenter[0];
       node.y -= meanCenter[1];
     });
@@ -467,8 +467,8 @@ export default class LayoutController {
     const width = graph.get('width') * 0.85;
     const height = graph.get('height') * 0.85;
     const nodeNum = nodes.length;
-    const horiNum = Math.sqrt(width * nodeNum / height);
-    const vertiNum = horiNum * height / width;
+    const horiNum = Math.sqrt((width * nodeNum) / height);
+    const vertiNum = (horiNum * height) / width;
     const horiGap = width / (horiNum - 1);
     const vertiGap = height / (vertiNum - 1);
     const beginX = center[0] - width / 2;
@@ -476,11 +476,11 @@ export default class LayoutController {
     nodes.forEach((node, i) => {
       if (isNaN(node.x)) {
         allHavePos = false;
-        node.x = i % horiNum * horiGap + beginX;
+        node.x = (i % horiNum) * horiGap + beginX;
       }
       if (isNaN(node.y)) {
         allHavePos = false;
-        node.y = i / horiNum * vertiGap + beginY;
+        node.y = (i / horiNum) * vertiGap + beginY;
       }
     });
     return allHavePos;
@@ -515,7 +515,7 @@ function updateLayoutPosition(data, layoutData) {
 function filterObject(collection, callback) {
   const result = {};
   if (collection && typeof collection === 'object') {
-    Object.keys(collection).forEach(key => {
+    Object.keys(collection).forEach((key) => {
       if (collection.hasOwnProperty(key) && callback(collection[key])) {
         result[key] = collection[key];
       }

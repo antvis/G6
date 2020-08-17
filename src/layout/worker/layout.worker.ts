@@ -50,4 +50,4 @@ ctx.onmessage = (event: Event) => {
 };
 
 // https://stackoverflow.com/questions/50210416/webpack-worker-loader-fails-to-compile-typescript-worker
-export default null as any;
+export default ctx;

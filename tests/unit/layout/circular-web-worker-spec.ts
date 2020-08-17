@@ -1,5 +1,5 @@
 // 注意：这里不能直接require原始的src文件，而要使用build后的文件，因为web worker代码是通过worker-loader内联进来的
-import G6 from '../../../src';
+import G6 from '../../../dist/g6.min';
 import dataset from './data';
 import { mathEqual } from './util';
 
@@ -10,7 +10,7 @@ div.id = 'circular-layout-web-worker';
 document.body.appendChild(div);
 
 describe('circular layout(web worker)', () => {
-  it('circular layout(web worker) with default configs', done => {
+  it('circular layout(web worker) with default configs', (done) => {
     const graph = new G6.Graph({
       container: div,
       layout: {
@@ -36,7 +36,7 @@ describe('circular layout(web worker)', () => {
     graph.render();
   });
 
-  it('circular(web worker) counterclockwise, and fixed radius, start angle, end angle', done => {
+  it('circular(web worker) counterclockwise, and fixed radius, start angle, end angle', (done) => {
     const graph = new G6.Graph({
       container: div,
       layout: {
