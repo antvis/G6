@@ -644,6 +644,7 @@ export interface IG6GraphEvent extends GraphEvent {
 // Node Edge Combo 实例
 export type Item = INode | IEdge | ICombo;
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export type ITEM_TYPE = 'node' | 'edge' | 'combo' | 'group' | 'vedge';
 
 export type NodeIdxMap = {

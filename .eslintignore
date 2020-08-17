@@ -15,3 +15,5 @@ tests/
 stories/
 gatsby-browser.js
 site/
+webpack.*.js
+gatsby-*.js

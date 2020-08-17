@@ -57,7 +57,7 @@ interface IGroupBBox {
   [key: string]: BBox;
 }
 
-type dataUrlType = 'image/png' | 'image/jpeg' | 'image/webp' | 'image/bmp';
+type DataUrlType = 'image/png' | 'image/jpeg' | 'image/webp' | 'image/bmp';
 
 export interface PrivateGraphOption extends GraphOptions {
   data: GraphData;
@@ -1033,35 +1033,30 @@ export default class Graph extends EventEmitter implements IGraph {
       const itemMap = this.get('itemMap');
       let foundParent = false,
         foundNode = false;
-      comboTrees &&
-        comboTrees.forEach((ctree: ComboTree) => {
-          if (foundNode || foundParent) return; // terminate the forEach
-          traverseTreeUp<ComboTree>(ctree, (child) => {
-            if (child.id === model.id) {
-              // if the item exists in the tree already, terminate
-              foundNode = true;
-              return false;
-            }
-            if (model.comboId === child.id && !foundNode) {
-              // found the parent, add the item to the children of its parent in the tree
-              foundParent = true;
-              const cloneNode = clone(model);
-              cloneNode.itemType = 'node';
-              if (child.children) child.children.push(cloneNode as any);
-              else child.children = [cloneNode as any];
-              model.depth = child.depth + 1;
-            }
-            // update the size of all the ancestors
-            if (
-              foundParent &&
-              itemMap[child.id].getType &&
-              itemMap[child.id].getType() === 'combo'
-            ) {
-              itemController.updateCombo(itemMap[child.id], child.children);
-            }
-            return true;
-          });
+      (comboTrees || []).forEach((ctree: ComboTree) => {
+        if (foundNode || foundParent) return; // terminate the forEach
+        traverseTreeUp<ComboTree>(ctree, (child) => {
+          if (child.id === model.id) {
+            // if the item exists in the tree already, terminate
+            foundNode = true;
+            return false;
+          }
+          if (model.comboId === child.id && !foundNode) {
+            // found the parent, add the item to the children of its parent in the tree
+            foundParent = true;
+            const cloneNode = clone(model);
+            cloneNode.itemType = 'node';
+            if (child.children) child.children.push(cloneNode as any);
+            else child.children = [cloneNode as any];
+            model.depth = child.depth + 1;
+          }
+          // update the size of all the ancestors
+          if (foundParent && itemMap[child.id].getType && itemMap[child.id].getType() === 'combo') {
+            itemController.updateCombo(itemMap[child.id], child.children);
+          }
+          return true;
         });
+      });
     } else {
       item = itemController.addItem(type, model);
     }
@@ -1444,7 +1439,6 @@ export default class Graph extends EventEmitter implements IGraph {
   public createCombo(combo: string | ComboConfig, children: string[]): void {
     // step 1: 创建新的 Combo
     let comboId = '';
-    let currentCombo: ICombo;
     let comboConfig: ComboConfig;
     if (!combo) return;
     if (isString(combo)) {
@@ -1483,7 +1477,7 @@ export default class Graph extends EventEmitter implements IGraph {
     comboConfig.children = trees;
 
     // step 2: 添加 Combo，addItem 时会将子将元素添加到 Combo 中
-    currentCombo = this.addItem('combo', comboConfig, false);
+    const currentCombo = this.addItem('combo', comboConfig, false);
 
     // step3: 更新 comboTrees 结构
     const comboTrees = this.get('comboTrees');
@@ -2089,7 +2083,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {string} backgroundColor 图片背景色
    * @return {string} 图片 dataURL
    */
-  public toDataURL(type?: dataUrlType, backgroundColor?: string): string {
+  public toDataURL(type?: DataUrlType, backgroundColor?: string): string {
     const canvas: GCanvas = this.get('canvas');
     const renderer = canvas.getRenderer();
     const canvasDom = canvas.get('el');
@@ -2144,7 +2138,7 @@ export default class Graph extends EventEmitter implements IGraph {
    */
   public toFullDataURL(
     callback: (res: string) => any,
-    type?: dataUrlType,
+    type?: DataUrlType,
     imageConfig?: { backgroundColor?: string; padding?: number | number[] },
   ) {
     const bbox = this.get('group').getCanvasBBox();
@@ -2234,7 +2228,7 @@ export default class Graph extends EventEmitter implements IGraph {
    */
   public downloadFullImage(
     name?: string,
-    type?: dataUrlType,
+    type?: DataUrlType,
     imageConfig?: { backgroundColor?: string; padding?: number | number[] },
   ): void {
     const bbox = this.get('group').getCanvasBBox();
@@ -2329,7 +2323,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {String} type 图片类型，可选值："image/png" | "image/jpeg" | "image/webp" | "image/bmp"
    * @param {string} backgroundColor 图片背景色
    */
-  public downloadImage(name?: string, type?: dataUrlType, backgroundColor?: string): void {
+  public downloadImage(name?: string, type?: DataUrlType, backgroundColor?: string): void {
     const self = this;
 
     if (self.isAnimating()) {
@@ -2381,7 +2375,7 @@ export default class Graph extends EventEmitter implements IGraph {
           });
         }
       } else {
-        link.addEventListener('click', function () {
+        link.addEventListener('click', () => {
           link.download = fileName;
           link.href = dataURL;
         });
