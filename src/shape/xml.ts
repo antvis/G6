@@ -302,7 +302,7 @@ export function getBBox(node: NodeInstructure, offset: { x: number, y: number },
  * @param lastOffset 
  */
 export function generateTarget(target: NodeInstructure, lastOffset = { x: 0, y: 0 }) {
-  let defaultBbox = {
+  const defaultBbox = {
     x: 0, y: 0, width: 0, height: 0, ...lastOffset
   };
 
@@ -316,7 +316,7 @@ export function generateTarget(target: NodeInstructure, lastOffset = { x: 0, y: 
     }
 
     for (let index = 0; index < target.children.length; index++) {
-      target.children[index].attrs.key = (attrs.key || 'root') + '-' + index;
+      target.children[index].attrs.key = `${(attrs.key || 'root')}-${index}`;
       const node = generateTarget(target.children[index], offset);
       if (node.bbox) {
         const { bbox } = node;
@@ -440,7 +440,7 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
 
   return {
     draw(cfg, group) {
-      const target = compileXML(cfg);
+      const resultTarget = compileXML(cfg);
       let keyshape = group;
       const renderTarget = (target) => {
         const { attrs = {}, bbox, type, children, ...rest } = target;
@@ -464,9 +464,9 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
         }
       }
 
-      renderTarget(target);
+      renderTarget(resultTarget);
 
-      structures[cfg.id] = [target];
+      structures[cfg.id] = [resultTarget];
 
       return keyshape;
     },
@@ -476,20 +476,20 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
       }
       const container = node.getContainer();
       const children = container.get('children');
-      const target = compileXML(cfg);
+      const newTarget = compileXML(cfg);
       const lastTarget = structures[cfg.id].pop();
-      const diff = compareTwoTarget(target, lastTarget);
-      const addShape = node => {
-        container.addShape(node.type, { attrs: node.attrs });
-        if (node.children?.length) {
-          node.children.map(e => addShape(e))
+      const diffResult = compareTwoTarget(newTarget, lastTarget);
+      const addShape = shape => {
+        container.addShape(shape.type, { attrs: shape.attrs });
+        if (shape.children?.length) {
+          shape.children.map(e => addShape(e))
         }
       };
-      const delShape = node => {
-        const targetShape = children.find(e => e.attrs.key === node.attrs.key)
+      const delShape = shape => {
+        const targetShape = children.find(e => e.attrs.key === shape.attrs.key)
         container.removeChild(targetShape);
-        if (node.children?.length) {
-          node.children.map(e => delShape(e))
+        if (shape.children?.length) {
+          shape.children.map(e => delShape(e))
         }
       };
       const updateTarget = target => {
@@ -513,6 +513,8 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
               delShape(target.formerTarget)
               addShape(target.nowTarget)
               break;
+            default:
+              break;
           }
         }
 
@@ -521,9 +523,9 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
         }
       }
 
-      updateTarget(diff);
+      updateTarget(diffResult);
 
-      structures[cfg.id].push(target);
+      structures[cfg.id].push(newTarget);
     },
     getAnchorPoints() {
       return [
