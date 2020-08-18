@@ -29,7 +29,7 @@ const textXML = cfg => `
     <text style={{ marginTop: 2, marginLeft: 50, textAlign: 'center', fontWeight: 'bold', fill: '#fff' }}>${cfg.id}</text>
   </rect>
   <rect style={{ width: 100, height: 80, fill: 'rgba(24,144,255,0.15)', radius: [0, 0, 6, 6] }} keyshape="true" cursor="move">
-    ${cfg.cpuUsage > 60 ? '<text style={{marginLeft: 3 ,fill: "red"}}>FULL</text>' : ''}
+    ${cfg.cpuUsage > 60 ? '<text style={{marginLeft: 3 ,fill: red}}>FULL</text>' : ''}
     <text style={{ marginTop: 5, marginLeft: 3, fill: '#333'}}>${cfg.metric}: </text>
     <text style={{
       marginTop: 3,
