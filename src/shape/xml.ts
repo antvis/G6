@@ -302,7 +302,7 @@ export function getBBox(node: NodeInstructure, offset: { x: number, y: number },
  * @param lastOffset 
  */
 export function generateTarget(target: NodeInstructure, lastOffset = { x: 0, y: 0 }) {
-  let defaultBbox = {
+  const defaultBbox = {
     x: 0, y: 0, width: 0, height: 0, ...lastOffset
   };
 
@@ -316,7 +316,7 @@ export function generateTarget(target: NodeInstructure, lastOffset = { x: 0, y: 
     }
 
     for (let index = 0; index < target.children.length; index++) {
-      target.children[index].attrs.key = (attrs.key || 'root') + '-' + index;
+      target.children[index].attrs.key = `${attrs.key || 'root'}-${index}`;
       const node = generateTarget(target.children[index], offset);
       if (node.bbox) {
         const { bbox } = node;
@@ -442,10 +442,10 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
     draw(cfg, group) {
       const target = compileXML(cfg);
       let keyshape = group;
-      const renderTarget = (target) => {
-        const { attrs = {}, bbox, type, children, ...rest } = target;
-        if (target.type !== 'group') {
-          const shape = group.addShape(target.type, {
+      const renderTarget = (targetEl) => {
+        const { attrs = {}, bbox, type, children, ...rest } = targetEl;
+        if (targetEl.type !== 'group') {
+          const shape = group.addShape(targetEl.type, {
             attrs,
             origin: {
               bbox,
@@ -454,13 +454,13 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
             },
             ...rest
           });
-          if (target.keyshape) {
+          if (targetEl.keyshape) {
             keyshape = shape;
           }
         }
 
-        if (target.children) {
-          target.children.forEach(n => renderTarget(n))
+        if (targetEl.children) {
+          targetEl.children.forEach(n => renderTarget(n))
         }
       }
 
@@ -478,40 +478,42 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
       const children = container.get('children');
       const target = compileXML(cfg);
       const lastTarget = structures[cfg.id].pop();
-      const diff = compareTwoTarget(target, lastTarget);
-      const addShape = node => {
-        container.addShape(node.type, { attrs: node.attrs });
-        if (node.children?.length) {
-          node.children.map(e => addShape(e))
+      const diffResult = compareTwoTarget(target, lastTarget);
+      const addShape = targetNode => {
+        container.addShape(targetNode.type, { attrs: targetNode.attrs });
+        if (targetNode.children?.length) {
+          targetNode.children.map(e => addShape(e))
         }
       };
-      const delShape = node => {
-        const targetShape = children.find(e => e.attrs.key === node.attrs.key)
+      const delShape = targetNode => {
+        const targetShape = children.find(e => e.attrs.key === targetNode.attrs.key)
         container.removeChild(targetShape);
-        if (node.children?.length) {
-          node.children.map(e => delShape(e))
+        if (targetNode.children?.length) {
+          targetNode.children.map(e => delShape(e))
         }
       };
-      const updateTarget = target => {
-        const { key } = target;
-        if (target.type !== 'group') {
+      const updateTarget = diff => {
+        const { key } = diff;
+        if (diff.type !== 'group') {
           const targetShape = children.find(e => e.attrs.key === key)
-          switch (target.action) {
+          switch (diff.action) {
             case 'change':
               if (targetShape) {
-                const originAttr = target.val.keyshape ? node.getOriginStyle() : {};
-                targetShape.attr({ ...originAttr, ...target.val.attrs });
+                const originAttr = diff.val.keyshape ? node.getOriginStyle() : {};
+                targetShape.attr({ ...originAttr, ...diff.val.attrs });
               }
               break;
             case 'add':
-              addShape(target.val)
+              addShape(diff.val)
               break;
             case 'delete':
-              delShape(target.val)
+              delShape(diff.val)
               break;
             case 'restructure':
-              delShape(target.formerTarget)
-              addShape(target.nowTarget)
+              delShape(diff.formerTarget)
+              addShape(diff.nowTarget)
+              break;
+            default:
               break;
           }
         }
@@ -521,7 +523,7 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
         }
       }
 
-      updateTarget(diff);
+      updateTarget(diffResult);
 
       structures[cfg.id].push(target);
     },
