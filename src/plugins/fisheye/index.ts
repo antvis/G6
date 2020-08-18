@@ -11,9 +11,11 @@ interface FisheyeConfig {
   r?: number;
   delegateStyle?: ShapeStyle;
   showLabel?: boolean;
-  wheelScaleRange?: boolean;
+  scaleRByWheel?: boolean;
   maxR?: number;
   minR?: number;
+  maxD?: number;
+  minD?: number
 }
 
 const lensDelegateStyle = {
@@ -31,6 +33,8 @@ export default class Fisheye extends Base {
       r: 300,
       delegateStyle: clone(lensDelegateStyle),
       showLabel: false,
+      maxD: 5,
+      minD: 0
     };
   }
 
@@ -63,6 +67,8 @@ export default class Fisheye extends Base {
     self.set('cachedMagnifiedModels', []);
     self.set('cachedOriginPositions', {});
     self.set('r2', r * r);
+    const d = self.get('d');
+    self.set('molecularParam', (d + 1) * r);
   }
 
   protected createDelegate(e: IG6GraphEvent) {
@@ -79,7 +85,7 @@ export default class Fisheye extends Base {
       lensDelegate.on('drag', evt => {
         self.magnify(evt);
       });
-      if (this.get('wheelScaleRange')) {
+      if (this.get('scaleRByWheel')) {
         lensDelegate.on('mousewheel', evt => {
           self.scaleRange(evt);
         });
@@ -112,6 +118,8 @@ export default class Fisheye extends Base {
     r *= ratio;
     self.set('r', r);
     self.set('r2', r * r);
+    const d = self.get('d');
+    self.set('molecularParam', (d + 1) * r);
     self.magnify(e, mousePos);
   }
 
@@ -129,6 +137,7 @@ export default class Fisheye extends Base {
     const r = self.get('r');
     const r2 = self.get('r2');
     const d = self.get('d');
+    const molecularParam = self.get('molecularParam');
     const nodes = graph.getNodes();
     const nodeLength = nodes.length;
     let mCenter = mousePos ? { x: mousePos.x, y: mousePos.y } : { x: e.x, y: e.y };
@@ -145,11 +154,12 @@ export default class Fisheye extends Base {
       const model = nodes[i].getModel();
       const { x, y } = model;
       if (isNaN(x) || isNaN(y)) continue;
+      // the square of the distance between the node and the magnified center
       const dist2 = (x - mCenter.x) * (x - mCenter.x) + (y - mCenter.y) * (y - mCenter.y);
       if (!isNaN(dist2) && dist2 < r2 && dist2 !== 0) {
         const dist = Math.sqrt(dist2);
-        const param = dist / r;
-        const magnifiedDist = (r * (d + 1) * param) / (d * param + 1);
+        //(r * (d + 1) * (dist / r)) / (d * (dist / r) + 1);
+        const magnifiedDist = molecularParam * dist / (d * dist + r);
         const cos = (x - mCenter.x) / dist;
         const sin = (y - mCenter.y) / dist;
         model.x = cos * magnifiedDist + mCenter.x;
@@ -209,7 +219,7 @@ export default class Fisheye extends Base {
    */
   public updateParams(cfg: FisheyeConfig) {
     const self = this;
-    const { r, d, trigger } = cfg;
+    let { r, d, trigger, minD, maxD, minR, maxR } = cfg;
     if (!isNaN(cfg.r)) {
       self.set('r', r);
       self.set('r2', r * r);
@@ -217,6 +227,21 @@ export default class Fisheye extends Base {
     if (!isNaN(d)) {
       self.set('d', d);
     }
+    if (!isNaN(maxD)) {
+      self.set('maxD', maxD);
+    }
+    if (!isNaN(minD)) {
+      self.set('minD', minD);
+    }
+    if (!isNaN(maxR)) {
+      self.set('maxR', maxR);
+    }
+    if (!isNaN(minR)) {
+      self.set('minR', minR);
+    }
+    d = self.get('d');
+    r = self.get('r');
+    self.set('molecularParam', (d + 1) * r);
     if (trigger === 'mousemove' || trigger === 'click' || trigger === 'drag') {
       self.set('trigger', trigger);
     }
@@ -259,16 +284,20 @@ export default class Fisheye extends Base {
           const delta = e.x - dragPrePos.x > 0 ? 0.1 : -0.1;
           const d = self.get('d');
           const newD = d + delta;
-          if (newD < 10 && newD > 0) {
-            self.set('d', d + delta);
-            this.magnify(e);
+          const maxD = self.get('maxD');
+          const minD = self.get('minD');
+          if (newD < maxD && newD > minD) {
+            self.set('d', newD);
+            r = self.get('r');
+            self.set('molecularParam', (newD + 1) * r);
+            self.magnify(e);
           }
           self.set('dragPrePos', { x: e.x, y: e.y });
         });
         lensDelegate.on('dragend', e => {
           self.set('dragging', false)
         });
-        if (this.get('wheelScaleRange')) {
+        if (this.get('scaleRByWheel')) {
           lensDelegate.on('mousewheel', evt => {
             self.scaleRange(evt);
           });
