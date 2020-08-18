@@ -477,6 +477,31 @@ Fisheye 鱼眼放大镜是为 focus+context 的探索场景设计的，它能够
 | r | Number | 300 | 放大区域的范围半径 |
 | delegateStyle | Object | { stroke: '#000', strokeOpacity: 0.8, lineWidth: 2, fillOpacity: 0.1, fill: '#ccc' } | 放大镜蒙层样式 |
 | showLabel | Boolean | false | 若 label 默认被隐藏，是否在关注区域内展示 label |
+| scaleRByWheel | Boolean | false | 是否在放大镜上使用滚轮调整缩放范围 |
+| maxR | Number | 图的高度 | 滚轮调整缩放范围的最大半径 |
+| minR | Number | 0.05 * 图的高度 | 滚轮调整缩放范围的最小半径 |
+| maxD | Number | 5 | `trigger` 为 `'mousemove'` / `'click'` 时，可以在放大镜上左右拖拽调整缩放系数。maxD 指定了这种调整方式的最大缩放系数，建议取值范围 [0, 5]。若使用 `minimap.updateParam` 更新参数不受该系数限制  |
+| minD | Number | 0 | `trigger` 为 `'mousemove'` / `'click'` 时，可以在放大镜上左右拖拽调整缩放系数。maxD 指定了这种调整方式的最小缩放系数，建议取值范围 [0, 5]。若使用 `minimap.updateParam` 更新参数不受该系数限制 |
+
+### 成员函数
+
+#### updateParams(cfg)
+
+用于更新该 minimap 的部分配置项，包括 `trigger`，`d`，`r`，`maxR`，`minR`，`maxD`，`minD`。例如：
+
+```
+const fisheye = new G6.Fisheye({
+  trigger: 'mousemove'
+});
+
+... // 其他操作
+
+fisheye.updateParams({
+  d: 2,
+  r: 500,
+  // ...
+})
+```
 
 ### 用法
 
