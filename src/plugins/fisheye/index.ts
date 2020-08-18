@@ -158,7 +158,7 @@ export default class Fisheye extends Base {
       const dist2 = (x - mCenter.x) * (x - mCenter.x) + (y - mCenter.y) * (y - mCenter.y);
       if (!isNaN(dist2) && dist2 < r2 && dist2 !== 0) {
         const dist = Math.sqrt(dist2);
-        //(r * (d + 1) * (dist / r)) / (d * (dist / r) + 1);
+        // (r * (d + 1) * (dist / r)) / (d * (dist / r) + 1);
         const magnifiedDist = molecularParam * dist / (d * dist + r);
         const cos = (x - mCenter.x) / dist;
         const sin = (y - mCenter.y) / dist;
@@ -219,7 +219,7 @@ export default class Fisheye extends Base {
    */
   public updateParams(cfg: FisheyeConfig) {
     const self = this;
-    let { r, d, trigger, minD, maxD, minR, maxR } = cfg;
+    const { r, d, trigger, minD, maxD, minR, maxR } = cfg;
     if (!isNaN(cfg.r)) {
       self.set('r', r);
       self.set('r2', r * r);
@@ -239,9 +239,9 @@ export default class Fisheye extends Base {
     if (!isNaN(minR)) {
       self.set('minR', minR);
     }
-    d = self.get('d');
-    r = self.get('r');
-    self.set('molecularParam', (d + 1) * r);
+    const nd = self.get('d');
+    const nr = self.get('r');
+    self.set('molecularParam', (nd + 1) * nr);
     if (trigger === 'mousemove' || trigger === 'click' || trigger === 'drag') {
       self.set('trigger', trigger);
     }
