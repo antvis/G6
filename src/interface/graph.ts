@@ -217,6 +217,11 @@ export interface IGraph extends EventEmitter {
   refreshPositions(): void;
 
   /**
+   * 跟觉数据自动布局
+   */
+  autoLayout(): Array<Array<number|string>>;
+
+  /**
    * 根据data接口的数据渲染视图
    */
   render(): void;
