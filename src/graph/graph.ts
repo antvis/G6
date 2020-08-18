@@ -1466,7 +1466,6 @@ export default class Graph extends EventEmitter implements IGraph {
 
       case 'fruchterman': 
         let fruchCfg = {
-          preventOverlap: true,
           cluster: false,
           gravity: 10,
           clusterGravity: null,
