@@ -3,12 +3,17 @@ import { IG6GraphEvent, ShapeStyle } from '../../types';
 import Graph from '../../graph/graph';
 import Base from '../base';
 
+const DELTA = 0.05;
+
 interface FisheyeConfig {
-  trigger?: 'mousemove' | 'click';
+  trigger?: 'mousemove' | 'click' | 'drag';
   d?: number;
   r?: number;
   delegateStyle?: ShapeStyle;
   showLabel?: boolean;
+  wheelScaleRange?: boolean;
+  maxR?: number;
+  minR?: number;
 }
 
 const lensDelegateStyle = {
@@ -31,14 +36,25 @@ export default class Fisheye extends Base {
 
   // class-methods-use-this
   public getEvents() {
-    if ((this as any).get('trigger') === 'mousemove') {
-      return {
-        mousemove: 'magnify',
-      };
+    let events;
+    switch ((this as any).get('trigger')) {
+      case 'click':
+        events = {
+          click: 'magnify',
+        };
+        break;
+      case 'drag':
+        events = {
+          click: 'createDelegate',
+        };
+        break;
+      default:
+        events = {
+          mousemove: 'magnify',
+        };
+        break;
     }
-    return {
-      click: 'magnify',
-    };
+    return events;
   }
 
   public init() {
@@ -49,11 +65,61 @@ export default class Fisheye extends Base {
     self.set('r2', r * r);
   }
 
+  protected createDelegate(e: IG6GraphEvent) {
+    const self = this;
+    let lensDelegate = self.get('delegate');
+    if (!lensDelegate || lensDelegate.destroyed) {
+      self.magnify(e);
+      lensDelegate = self.get('delegate');
+      lensDelegate.on('dragstart', evt => {
+        self.set('delegateCenterDiff',
+          { x: lensDelegate.attr('x') - evt.x, y: lensDelegate.attr('y') - evt.y }
+        );
+      });
+      lensDelegate.on('drag', evt => {
+        self.magnify(evt);
+      });
+      if (this.get('wheelScaleRange')) {
+        lensDelegate.on('mousewheel', evt => {
+          self.scaleRange(evt);
+        });
+      }
+    }
+  }
+
   /**
-   * mousemove 或 click 事件的响应函数
-   * @param param
+   * 调整放大镜范围
+   * @param e wheel 事件
    */
-  protected magnify(e: IG6GraphEvent) {
+  protected scaleRange(e: IG6GraphEvent) {
+    if (!e && !e.originalEvent) return;
+    const self = this;
+    const graph: Graph = self.get('graph');
+    let ratio;
+    const mousePos = graph.getPointByClient(e.clientX, e.clientY);
+    if ((e.originalEvent as any).wheelDelta < 0) {
+      ratio = 1 - DELTA;
+    } else {
+      ratio = 1 / (1 - DELTA);
+    }
+    const maxR = self.get('maxR');
+    const minR = self.get('minR');
+    let r = self.get('r');
+    if ((r > (maxR || graph.get('height')) && ratio > 1)
+      || (r < (minR || (graph.get('height') * 0.05)) && ratio < 1)) {
+      ratio = 1;
+    }
+    r *= ratio;
+    self.set('r', r);
+    self.set('r2', r * r);
+    self.magnify(e, mousePos);
+  }
+
+  /**
+   * mousemove、click、drag 事件的响应函数
+   * @param e 鼠标事件
+   */
+  protected magnify(e: IG6GraphEvent, mousePos?) {
     const self = this;
     self.restoreCache();
     const graph: Graph = self.get('graph');
@@ -65,7 +131,15 @@ export default class Fisheye extends Base {
     const d = self.get('d');
     const nodes = graph.getNodes();
     const nodeLength = nodes.length;
-    const mCenter = { x: e.x, y: e.y };
+    let mCenter = mousePos ? { x: mousePos.x, y: mousePos.y } : { x: e.x, y: e.y };
+    if (self.get('dragging') && self.get('trigger') === 'mousemove') {
+      mCenter = self.get('cacheCenter');
+    }
+    const delegateCenterDiff = self.get('delegateCenterDiff');
+    if (delegateCenterDiff) {
+      mCenter.x += delegateCenterDiff.x;
+      mCenter.y += delegateCenterDiff.y;
+    }
     self.updateDelegate(mCenter, r);
     for (let i = 0; i < nodeLength; i++) {
       const model = nodes[i].getModel();
@@ -127,6 +201,12 @@ export default class Fisheye extends Base {
     self.set('cachedOriginPositions', {});
   }
 
+
+  /**
+   * 提供给用户调整系数
+   * @param {Point} mCenter
+   * @param {number} r
+   */
   public updateParams(cfg: FisheyeConfig) {
     const self = this;
     const { r, d, trigger } = cfg;
@@ -137,7 +217,7 @@ export default class Fisheye extends Base {
     if (!isNaN(d)) {
       self.set('d', d);
     }
-    if (trigger === 'mousemove' || trigger === 'click') {
+    if (trigger === 'mousemove' || trigger === 'click' || trigger === 'drag') {
       self.set('trigger', trigger);
     }
   }
@@ -164,13 +244,41 @@ export default class Fisheye extends Base {
           y: mCenter.y,
           ...attrs,
         },
-        name: 'lens-delegate-shape',
+        name: 'lens-shape',
+        draggable: true
       });
-      lensDelegate.set('capture', false);
+      // self.get('trigger') !== 'drag' && lensDelegate.set('capture', false);
+      if (self.get('trigger') === 'mousemove') {
+        lensDelegate.on('dragstart', e => {
+          self.set('dragging', true);
+          self.set('cacheCenter', { x: e.x, y: e.y });
+          self.set('dragPrePos', { x: e.x, y: e.y });
+        });
+        lensDelegate.on('drag', e => {
+          const dragPrePos = self.get('dragPrePos');
+          const delta = e.x - dragPrePos.x > 0 ? 0.1 : -0.1;
+          const d = self.get('d');
+          const newD = d + delta;
+          if (newD < 10 && newD > 0) {
+            self.set('d', d + delta);
+            this.magnify(e);
+          }
+          self.set('dragPrePos', { x: e.x, y: e.y });
+        });
+        lensDelegate.on('dragend', e => {
+          self.set('dragging', false)
+        });
+        if (this.get('wheelScaleRange')) {
+          lensDelegate.on('mousewheel', evt => {
+            self.scaleRange(evt);
+          });
+        }
+      }
     } else {
       lensDelegate.attr({
         x: mCenter.x,
         y: mCenter.y,
+        r: r / 1.5
       });
     }
     self.set('delegate', lensDelegate);

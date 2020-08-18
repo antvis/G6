@@ -9,6 +9,8 @@ const FishEye = () => {
   const fisheye = new G6.Fisheye({
     r: 200,
     showLabel: true,
+    trigger: 'drag',
+    wheelScaleRange: true
   });
   const colors = [
     '#8FE9FF',
@@ -27,7 +29,7 @@ const FishEye = () => {
       graph = new G6.Graph({
         container: container.current as string | HTMLElement,
         width: 1000,
-        height: 700,
+        height: 600,
         plugins: [fisheye],
         layout: {
           type: 'force',
@@ -47,7 +49,6 @@ const FishEye = () => {
               fill: colors[Math.floor(Math.random() * 9)],
               lineWidth: 0,
             };
-            console.log(node);
           });
           graph.data(data);
           graph.render();
