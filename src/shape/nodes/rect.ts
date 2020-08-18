@@ -66,7 +66,7 @@ Shape.registerNode(
      * @param {Group} group Group实例
      */
     drawLinkPoints(cfg: NodeConfig, group: GGroup) {
-      const { linkPoints } = this.getOptions(cfg) as NodeConfig;
+      const { linkPoints = {} } = this.getOptions(cfg) as NodeConfig;
 
       const { top, left, right, bottom, size: markSize, r: markR, ...markStyle } = linkPoints;
       const size = (this as ShapeOptions).getSize!(cfg);

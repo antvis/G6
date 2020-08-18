@@ -56,7 +56,7 @@ export default {
   },
   validationCombo(evt: IG6GraphEvent) {
     const { item } = evt
-    if (!item) {
+    if (!item || item.destroyed) {
       return false
     }
 
@@ -187,7 +187,7 @@ export default {
   onDrop(evt: IG6GraphEvent) {
     // 拖动的目标 combo
     const { item } = evt
-    if (!item || !this.targets) {
+    if (!item || !this.targets || item.destroyed) {
       return
     }
 

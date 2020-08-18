@@ -73,7 +73,6 @@ export default class G6Force extends BaseLayout {
       maxIteration: 1000,
       center: [0, 0],
       gravity: 10,
-      speed: 1,
       clustering: false,
       clusterGravity: 10,
       preventOverlap: false,
@@ -234,7 +233,7 @@ export default class G6Force extends BaseLayout {
     // linkDistance to function
     let linkDistance = this.linkDistance;
     let linkDistanceFunc;
-    if (linkDistance) {
+    if (!linkDistance) {
       linkDistance = 50;
     }
     if (isNumber(linkDistance)) {
@@ -367,8 +366,9 @@ export default class G6Force extends BaseLayout {
           vy = Math.random() * 0.01;
           vl += vy * vy;
         }
-        vecMap[`${v.id}-${u.id}`] = { vx, vy, vl };
-        vecMap[`${u.id}-${v.id}`] = { vx: -vx, vy: -vy, vl };
+        const sqrtVl = Math.sqrt(vl);
+        vecMap[`${v.id}-${u.id}`] = { vx, vy, vl, sqrtVl };
+        vecMap[`${u.id}-${v.id}`] = { vx: -vx, vy: -vy, vl, sqrtVl };
       });
     });
     self.calRepulsive(nodes, displacements, vecMap);
@@ -399,8 +399,8 @@ export default class G6Force extends BaseLayout {
           const rj = nodeSizeFunc(u);
           const r = ri + rj;
           if (vl < r * r) {
-            const sqrtl = Math.sqrt(vl);
-            const ll = (r - sqrtl) / sqrtl * collideStrength;
+            const { sqrtVl } = vecMap[`${v.id}-${u.id}`];
+            const ll = (r - sqrtVl) / sqrtVl * collideStrength;
             let rratio = rj * rj / (ri * ri + rj * rj);
             const xl = vx * ll;
             const yl = vy * ll;
@@ -430,8 +430,8 @@ export default class G6Force extends BaseLayout {
       const u = this.nodeMap[e.source];
       const v = this.nodeMap[e.target];
       if (!isNumber(v.x) || !isNumber(u.x) || !isNumber(v.y) || !isNumber(u.y)) return;
-      const { vl, vx, vy } = vecMap[`${e.target}-${e.source}`];
-      const l = (vl - linkDistance(e)) / vl * alpha * linkStrength(e);
+      const { vl, sqrtVl, vx, vy } = vecMap[`${e.target}-${e.source}`];
+      const l = (sqrtVl - linkDistance(e)) / sqrtVl * alpha * linkStrength(e);
       const vecX = vx * l;
       const vecY = vy * l;
       const b = bias[i];

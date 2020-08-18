@@ -22,6 +22,7 @@ const Fisheye = Plugins.Fisheye;
 const ToolBar = Plugins.ToolBar;
 const Tooltip = Plugins.Tooltip;
 const TimeBar = Plugins.TimeBar;
+const ImageMinimap = Plugins.ImageMinimap;
 
 export {
   registerNode,
@@ -42,7 +43,8 @@ export {
   Algorithm,
   ToolBar,
   Tooltip,
-  TimeBar
+  TimeBar,
+  ImageMinimap
 };
 
 export default {
@@ -65,6 +67,7 @@ export default {
   Tooltip: Plugins.Tooltip,
   TimeBar,
   Fisheye,
+  ImageMinimap,
   Algorithm,
   Arrow,
   Marker

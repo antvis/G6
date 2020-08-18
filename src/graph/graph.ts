@@ -25,7 +25,8 @@ import {
   ModeOption,
   ModeType,
   States,
-  ComboTree
+  ComboTree,
+  HullCfg
 } from '../types';
 import { getAllNodeInGroups } from '../util/group';
 import { move } from '../util/math';
@@ -46,6 +47,8 @@ import degree from '../algorithm/degree';
 import Stack from '../algorithm/structs/stack'
 import adjMatrix from '../algorithm/adjacent-matrix';
 import floydWarshall from '../algorithm/floydWarshall'
+
+import Hull from '../item/hull'
 
 const NODE = 'node';
 const SVG = 'svg';
@@ -417,6 +420,9 @@ export default class Graph extends EventEmitter implements IGraph {
 
       // 只有当 enabledStack 为 true 时才起作用
       maxStep: 10,
+
+      // 存储图上的 tooltip dom，方便销毁
+      tooltips: []
     };
   }
 
@@ -1207,7 +1213,7 @@ export default class Graph extends EventEmitter implements IGraph {
       self.add('edge', edge, false);
     });
 
-    let animate = self.get('animate');
+    const animate = self.get('animate');
     if (self.get('fitView') || self.get('fitCenter')) {
       self.set('animate', false);
     }
@@ -1463,15 +1469,8 @@ export default class Graph extends EventEmitter implements IGraph {
 
     comboConfig.children = trees;
 
+    // step 2: 添加 Combo，addItem 时会将子将元素添加到 Combo 中
     currentCombo = this.addItem('combo', comboConfig, false)
-    const comboModel = currentCombo.getModel();
-
-    trees.forEach(child => {
-      const item = this.findById(child.id)
-      // step 2: 将元素添加到 Combo 中
-      currentCombo.addChild(item as INode | ICombo)
-      child.depth = (comboModel.depth as number) + 2;
-    });
 
     // step3: 更新 comboTrees 结构
     const comboTrees = this.get('comboTrees')
@@ -2130,7 +2129,8 @@ export default class Graph extends EventEmitter implements IGraph {
     const canvasOptions = {
       container: vContainerDOM,
       height: vHeight,
-      width: vWidth
+      width: vWidth,
+      quickHit: true
     };
     const vCanvas = renderer === 'svg' ? new GSVGCanvas(canvasOptions) : new GCanvas(canvasOptions);
 
@@ -3000,10 +3000,10 @@ export default class Graph extends EventEmitter implements IGraph {
     });
 
     // destroy tooltip doms, removed when upgrade G6 4.0
-    const tooltipContainers = document.getElementsByClassName('g6-tooltip');
-    if (tooltipContainers) {
-      for (let i = 0; i < tooltipContainers.length; i++) {
-        const container = tooltipContainers[i];
+    const tooltipDOMs = this.get('tooltips');
+    if (tooltipDOMs) {
+      for (let i = 0; i < tooltipDOMs.length; i++) {
+        const container = tooltipDOMs[i];
         if (!container) continue;
         const parent = container.parentElement;
         if (!parent) continue;
@@ -3023,5 +3023,56 @@ export default class Graph extends EventEmitter implements IGraph {
     this.destroyed = true;
     this.redoStack = null
     this.undoStack = null
+  }
+
+  public createHull(cfg: HullCfg) {
+    let parent = this.get('hullGroup');
+    let hullMap = this.get('hullMap')
+    if (!hullMap) {
+      hullMap = {}
+      this.set('hullMap', hullMap)
+    }
+    if (!parent) {
+      parent = this.get('group').addGroup({
+        id: 'hullGroup'
+      })
+      parent.toBack()
+      this.set('hullGroup', parent)
+    }
+    if (hullMap[cfg.id]) {
+      console.warn('Existed hull id.')
+      return hullMap[cfg.id]
+    } else {
+      const group = parent.addGroup({
+        id: `${cfg.id}-container`
+      });
+      const hull = new Hull(this, {
+        ...cfg,
+        group
+      })
+      const hullId = hull.id
+      hullMap[hullId] = hull
+      return hull
+    }
+  }
+
+  public getHulls() {
+    return this.get('hullMap')
+  }
+
+  public getHullById(hullId: string) {
+    return this.get('hullMap')[hullId]
+  }
+
+  public removeHull(hull: Hull | string) {
+    let hullInstance: Hull;
+    if (isString(hull)) {
+      hullInstance = this.getHullById(hull)
+    } else {
+      hullInstance = hull
+    }
+    let hullMap = this.get('hullMap')
+    delete hullMap[hullInstance.id];
+    hullInstance.destroy()
   }
 }

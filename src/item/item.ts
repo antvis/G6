@@ -146,6 +146,8 @@ export default class ItemBase implements IItemBase {
     const group: Group = self.get('group');
     const model: ModelConfig = self.get('model');
     group.clear();
+    let visible = model.visible;
+    if (visible !== undefined && !visible) self.changeVisibility(visible);
 
     if (!shapeFactory) {
       return;
@@ -184,15 +186,32 @@ export default class ItemBase implements IItemBase {
 
     each(children, child => {
       const name = child.get('name')
+      const isKeyShape = child.get('isKeyShape')
       if (name) {
         originStyles[name] = self.getShapeStyleByName(name)
+        if (isKeyShape) {
+          mix(originStyles[name], cfg?.style && cfg?.style[name] || cfg?.style)
+        } else {
+          mix(originStyles[name], cfg?.style && cfg?.style[name])
+        }
       } else {
         const keyShapeName = keyShape.get('name')
         const keyShapeStyle = self.getShapeStyleByName()
         if (!keyShapeName) {
-          Object.assign(originStyles, keyShapeStyle)
+          // 如果是 keyShape，则需要合并 style 里面的属性
+          if (isKeyShape) {
+            mix(originStyles, keyShapeStyle, cfg?.style)
+          } else {
+            mix(originStyles, keyShapeStyle)
+          }
         } else {
           originStyles[keyShapeName] = keyShapeStyle
+          // 如果是 keyShape，则需要合并 style 里面的属性
+          if (isKeyShape) {
+            mix(originStyles[keyShapeName], cfg?.style && cfg?.style[keyShapeName] || cfg?.style)
+          } else {
+            mix(originStyles[keyShapeName], cfg?.style && cfg?.style[keyShapeName])
+          }
         }
       }
     })
@@ -200,11 +219,11 @@ export default class ItemBase implements IItemBase {
     const drawOriginStyle = this.getOriginStyle()
     let styles = {}
     if (cfg) {
-      styles = deepMix({}, drawOriginStyle, originStyles, cfg.style, {
+      styles = deepMix({}, drawOriginStyle, originStyles[name] || originStyles, cfg.style, {
         labelCfg: cfg.labelCfg
       })
     } else {
-      styles = deepMix({}, drawOriginStyle, originStyles)
+      styles = deepMix({}, drawOriginStyle, originStyles[name] || originStyles)
     }
 
     self.set('originStyle', styles);
@@ -534,6 +553,9 @@ export default class ItemBase implements IItemBase {
    */
   public update(cfg: ModelConfig) {
     const model: ModelConfig = this.get('model');
+    const oriVisible = model.visible;
+    const cfgVisible = cfg.visible;
+    if (oriVisible !== cfgVisible && cfgVisible !== undefined) this.changeVisibility(cfgVisible);
     const originPosition: IPoint = { x: model.x!, y: model.y! };
     cfg.x = isNaN(cfg.x) ? model.x : cfg.x;
     cfg.y = isNaN(cfg.y) ? model.y : cfg.y;

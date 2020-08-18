@@ -37,7 +37,7 @@ export default {
     };
   },
   validationCombo(item: ICombo) {
-    if (!this.origin || !item) {
+    if (!this.origin || !item || item.destroyed) {
       return false;
     }
 
@@ -57,7 +57,7 @@ export default {
     }
 
     const item: INode = evt.item as INode;
-    if (!item || item.hasLocked()) {
+    if (!item || item.destroyed || item.hasLocked()) {
       return;
     }
 
@@ -148,8 +148,10 @@ export default {
 
     // 拖动结束后，设置拖动元素 group 的 capture 为 true，允许拾取拖动元素
     const item = evt.item as INode
-    const group = item.getContainer()
-    group.set('capture', true)
+    if (item) {
+      const group = item.getContainer()
+      group.set('capture', true)
+    }
 
     if (this.delegateRect) {
       this.delegateRect.remove();

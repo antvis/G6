@@ -57,7 +57,6 @@ export default {
       dy = 0;
     }
     this.graph.translate(dx, dy);
-    this.graph.paint();
   },
   onMouseDown(e: IG6GraphEvent) {
     const self = this as any;
@@ -73,13 +72,6 @@ export default {
     self.dragging = false;
 
     if (this.enableOptimize) {
-      // 开始拖动时关闭局部渲染
-
-      const localRefresh: boolean = this.graph.get('canvas').get('localRefresh');
-      this.oriLocalRefresh = localRefresh;
-
-      this.graph.get('canvas').set('localRefresh', false);
-
       // 拖动 canvas 过程中隐藏所有的边及label
       const graph: IGraph = this.graph
       const edges = graph.getEdges()
@@ -93,7 +85,7 @@ export default {
         for (let child of children) {
           const isKeyShape = child.get('isKeyShape')
           if (!isKeyShape) {
-            child.set('visible', false)
+            child.hide()
           }
         }
       }
@@ -148,16 +140,10 @@ export default {
         for (let child of children) {
           const isKeyShape = child.get('isKeyShape')
           if (!isKeyShape) {
-            child.set('visible', true)
+            child.show()
           }
         }
       }
-
-      setTimeout(() => {
-        // 拖动结束后开启局部渲染
-        const localRefresh = this.oriLocalRefresh === undefined ? true : this.oriLocalRefresh;
-        graph.get('canvas').set('localRefresh', localRefresh)
-      }, 16)
     }
 
     if (!this.dragging) {

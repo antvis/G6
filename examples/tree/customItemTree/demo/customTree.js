@@ -1,25 +1,5 @@
 import G6 from '@antv/g6';
 
-const COLLAPSE_ICON = function COLLAPSE_ICON(x, y, r) {
-  return [
-    ['M', x - r, y - r],
-    ['a', r, r, 0, 1, 0, r * 2, 0],
-    ['a', r, r, 0, 1, 0, -r * 2, 0],
-    ['M', x + 2 - r, y - r],
-    ['L', x + r - 2, y - r],
-  ];
-};
-const EXPAND_ICON = function EXPAND_ICON(x, y, r) {
-  return [
-    ['M', x - r, y - r],
-    ['a', r, r, 0, 1, 0, r * 2, 0],
-    ['a', r, r, 0, 1, 0, -r * 2, 0],
-    ['M', x + 2 - r, y - r],
-    ['L', x + r - 2, y - r],
-    ['M', x, y - 2 * r + 2],
-    ['L', x, y - 2],
-  ];
-};
 G6.registerNode(
   'tree-node',
   {
@@ -49,9 +29,9 @@ G6.registerNode(
         group.addShape('marker', {
           attrs: {
             x: bbox.maxX + 12,
-            y: bbox.minX + bbox.height / 2,
+            y: 0,
             r: 6,
-            symbol: cfg.collapsed ? EXPAND_ICON : COLLAPSE_ICON,
+            symbol: cfg.collapsed ? G6.Marker.expand : G6.Marker.collapse,
             stroke: '#666',
             lineWidth: 2,
           },
@@ -84,9 +64,9 @@ const graph = new G6.TreeGraph({
           const data = item.get('model');
           const icon = item.get('group').find(element => element.get('name') === 'collapse-icon');
           if (collapsed) {
-            icon.attr('symbol', EXPAND_ICON);
+            icon.attr('symbol', G6.Marker.expand);
           } else {
-            icon.attr('symbol', COLLAPSE_ICON);
+            icon.attr('symbol', G6.Marker.collapse);
           }
           data.collapsed = collapsed;
           return true;

@@ -8,7 +8,7 @@ import isNil from '@antv/util/lib/is-nil';
 import each from '@antv/util/lib/each';
 import Graph from '../../graph/graph';
 import { Matrix, ShapeStyle } from '../../types';
-import { transform, mat3 } from '@antv/matrix-util';
+import { transform } from '@antv/matrix-util';
 import { Point } from '@antv/g-math/lib/types';
 import GraphEvent from '@antv/g-base/lib/event/graph-event';
 import { debounce } from '@antv/util';
@@ -145,17 +145,13 @@ export default class MiniMap extends Base {
         let dy = y - e.clientY;
 
         // 若视口移动到最左边或最右边了,仅移动到边界
-        if (left - dx < 0) {
-          dx = left;
-        } else if (left - dx + width > size[0]) {
-          dx = left + width - size[0];
+        if (left - dx < 0 || left - dx + width >= size[0]) {
+          dx = 0;
         }
 
         // 若视口移动到最上或最下边了，仅移动到边界
-        if (top - dy < 0) {
-          dy = top;
-        } else if (top - dy + height > size[1]) {
-          dy = top + height - size[1];
+        if (top - dy < 0 || top - dy + height >= size[1]) {
+          dy = 0;
         }
 
         left -= dx;
@@ -214,7 +210,6 @@ export default class MiniMap extends Base {
     const graphHeight = graph.get('height');
     const topLeft: Point = graph.getPointByCanvas(0, 0);
     const bottomRight: Point = graph.getPointByCanvas(graphWidth, graphHeight);
-    const graphBBox = graph.get('canvas').getCanvasBBox();
     const viewport: HTMLElement = this.get('viewport');
     if (!viewport) {
       this.initViewport();
@@ -229,54 +224,30 @@ export default class MiniMap extends Base {
     let left = topLeft.x * ratio + totaldx;
     let top = topLeft.y * ratio + totaldy;
 
-    if (width > size[0]) {
-      width = size[0];
-      if (graphBBox.maxX > graphWidth) {
-        left = -dx - ((graphBBox.maxX - graphWidth) / zoom) * ratio;
-      } else {
-        left = dx - graphBBox.minX / zoom * ratio;
-      }
+
+    const right = left + width;
+    const bottom = top + height;
+
+    if (left < 0) {
+      width += left;
+      left = 0;
     }
-    if (height > size[1]) {
-      height = size[1];
-      if (graphBBox.maxY > graphHeight) {
-        top = -dy - ((graphBBox.maxY - graphHeight) / zoom) * ratio
-      } else {
-        top = dy - graphBBox.minY / zoom * ratio;
-      }
+    if (right > size[0]) {
+      width = width - (right - size[0]);
+    }
+    if (top < 0) {
+      height += top;
+      top = 0;
+    }
+    if (bottom > size[1]) {
+      height = height - (bottom - size[1]);
     }
 
     // 缓存目前缩放比，在移动 minimap 视窗时就不用再计算大图的移动量
     this.set('ratio', ratio);
 
-    let correctLeft: number | string = `${left}px`;
-    let correctTop: number | string = `${top}px`;
-
-    const graphCanvasBBox = graph.get('canvas').getCanvasBBox();
-    if (width >= size[0]) {
-      if (graphCanvasBBox.minX > 0 && graphCanvasBBox.maxX < graphWidth) {
-        if (left >= 0 && left + width <= size[0]) {
-          correctLeft = `${left}px`;
-        } else if (left < 0) {
-          correctLeft = 0;
-        } else
-          if (left + width > size[0]) {
-            correctLeft = `${size[0] - width}px`;
-          }
-      }
-    }
-    if (height >= size[1]) {
-      if (graphCanvasBBox.minY > 0 && graphCanvasBBox.maxY < graphHeight) {
-        if (top >= 0 && top + height <= size[1]) {
-          correctTop = `${top}px`;
-        } else if (top < 0) {
-          correctTop = 0;
-        } else
-          if (top + height > size[1]) {
-            correctTop = `${size[1] - height}px`;
-          }
-      }
-    }
+    const correctLeft: number | string = `${left}px`;
+    const correctTop: number | string = `${top}px`;
 
     modifyCSS(viewport, {
       left: correctLeft,

@@ -1,5 +1,16 @@
 # ChangeLog
 
+#### 3.6.1
+- feat: image minimap;
+- feat: visible can be controlled in the data;
+- feat: item type for tooltip plugin;
+- feat: menu plugin with shouldUpdate;
+- fix: tooltip plugin position and hidden by removeItem;
+- fix: tooltip behavior hidden by removeItem;
+- fix: menu plugin with clicking on canvas problem;
+- fix: menu plugin with clickHandler problem;
+- fix: createCombo with double nodes problem.
+
 #### 3.6.0
 - feat: fisheye lens plugin;
 - feat: lasso-select behavior;

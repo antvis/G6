@@ -32,7 +32,7 @@ export default {
   },
   showTooltip(e: IG6GraphEvent) {
     let { container } = this;
-    if (!e.item) {
+    if (!e.item || e.item.destroyed) {
       return;
     }
 
@@ -81,6 +81,7 @@ export default {
     this.width = canvas.get('width');
     this.height = canvas.get('height');
     this.container = container;
+    this.graph.get('tooltips').push(container);
     return container;
   }
 };

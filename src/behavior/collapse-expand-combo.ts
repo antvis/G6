@@ -34,7 +34,7 @@ export default {
     const { item } = evt;
     const { graph, relayout } = this;
 
-    if (!item || item.getType() !== 'combo') return;
+    if (!item || item.destroyed || item.getType() !== 'combo') return;
     const model = item.getModel();
     const comboId = model.id;
     if (!comboId) {

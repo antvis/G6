@@ -54,7 +54,7 @@ Shape.registerNode(
     // 文本位置
     labelPosition: 'bottom',
     drawShape(cfg: NodeConfig, group: GGroup): IShape {
-      const { icon, direction: defaultDirection } = this.getOptions(cfg) as NodeConfig;
+      const { icon = {}, direction: defaultDirection } = this.getOptions(cfg) as NodeConfig;
       const style = this.getShapeStyle!(cfg);
       const direction = cfg.direction || defaultDirection;
 
@@ -75,7 +75,7 @@ Shape.registerNode(
         if (direction === 'left' || direction === 'right') {
           iconW += offset;
         }
-        const image = group.addShape('image', {
+        group.addShape('image', {
           attrs: {
             x: iconW,
             y: iconH,
@@ -97,7 +97,7 @@ Shape.registerNode(
      * @param {Group} group Group实例
      */
     drawLinkPoints(cfg: NodeConfig, group: GGroup) {
-      const { linkPoints, direction: defaultDirection } = this.getOptions(cfg) as NodeConfig;
+      const { linkPoints = {}, direction: defaultDirection } = this.getOptions(cfg) as NodeConfig;
 
       const direction = cfg.direction || defaultDirection;
 
