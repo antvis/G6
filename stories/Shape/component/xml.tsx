@@ -124,7 +124,6 @@ const XML = () => {
 
       graph.on('node:click', (evt) => {
         const { item } = evt
-        debugger
         graph.updateItem(item, {
           cpuUsage: 65,
           style: {
