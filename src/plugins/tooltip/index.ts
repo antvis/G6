@@ -1,6 +1,6 @@
 import modifyCSS from '@antv/dom-util/lib/modify-css';
 import createDOM from '@antv/dom-util/lib/create-dom';
-import isString from '@antv/util/lib/is-string'
+import isString from '@antv/util/lib/is-string';
 import insertCss from 'insert-css';
 import Graph from '../../graph/graph';
 import { IG6GraphEvent, Item } from '../../types';
@@ -24,7 +24,7 @@ insertCss(`
   .tooltip-id {
     color: #531dab;
   }
-`)
+`);
 
 interface TooltipConfig extends IPluginBaseConfig {
   getContent?: (evt?: IG6GraphEvent) => HTMLDivElement | string;
@@ -37,11 +37,7 @@ interface TooltipConfig extends IPluginBaseConfig {
 }
 
 export default class Tooltip extends Base {
-  private currentTarget: Item
-
-  constructor(cfg?: TooltipConfig) {
-    super(cfg);
-  }
+  private currentTarget: Item;
 
   public getDefaultCfgs(): TooltipConfig {
     return {
@@ -52,12 +48,12 @@ export default class Tooltip extends Base {
         return `
           <h4 class='tooltip-type'>类型：${e.item.getType()}</h4>
           <span class='tooltip-id'>ID：${e.item.getID()}</span>
-        `
+        `;
       },
-      shouldBegin: e => {
-        return true
+      shouldBegin: (e) => {
+        return true;
       },
-      itemTypes: ['node', 'edge', 'combo']
+      itemTypes: ['node', 'edge', 'combo'],
     };
   }
 
@@ -70,21 +66,21 @@ export default class Tooltip extends Base {
       'edge:mouseenter': 'onMouseEnter',
       'edge:mouseleave': 'onMouseLeave',
       'edge:mousemove': 'onMouseMove',
-      'afterremoveitem': 'onMouseLeave'
+      afterremoveitem: 'onMouseLeave',
     };
   }
 
   public init() {
-    const className = this.get('className')
-    const tooltip = createDOM(`<div class=${className || 'g6-component-tooltip'}></div>`)
+    const className = this.get('className');
+    const tooltip = createDOM(`<div class=${className || 'g6-component-tooltip'}></div>`);
     let container: HTMLDivElement | null = this.get('container');
     if (!container) {
       container = this.get('graph').get('container');
     }
 
     modifyCSS(tooltip, { position: 'absolute', visibility: 'hidden' });
-    container.appendChild(tooltip)
-    this.set('tooltip', tooltip)
+    container.appendChild(tooltip);
+    this.set('tooltip', tooltip);
   }
 
   onMouseEnter(e: IG6GraphEvent) {
@@ -93,7 +89,7 @@ export default class Tooltip extends Base {
     const itemTypes = this.get('itemTypes');
     if (e.item && e.item.getType && itemTypes.indexOf(e.item.getType()) === -1) return;
     const { item } = e;
-    const graph: IGraph = this.get('graph')
+    const graph: IGraph = this.get('graph');
     this.currentTarget = item;
     this.showTooltip(e);
     graph.emit('tooltipchange', { item: e.item, action: 'show' });
@@ -112,7 +108,7 @@ export default class Tooltip extends Base {
 
   onMouseLeave() {
     this.hideTooltip();
-    const graph: IGraph = this.get('graph')
+    const graph: IGraph = this.get('graph');
     graph.emit('tooltipchange', { item: this.currentTarget, action: 'hide' });
     this.currentTarget = null;
   }
@@ -126,21 +122,21 @@ export default class Tooltip extends Base {
     const itemTypes = this.get('itemTypes');
     if (e.item.getType && itemTypes.indexOf(e.item.getType()) === -1) return;
 
-    const container = this.get('tooltip')
+    const container = this.get('tooltip');
 
-    const getContent = this.get('getContent')
-    let tooltip = getContent(e)
+    const getContent = this.get('getContent');
+    const tooltip = getContent(e);
     if (isString(tooltip)) {
-      container.innerHTML = tooltip
+      container.innerHTML = tooltip;
     } else {
-      container.innerHTML = tooltip.outerHTML
+      container.innerHTML = tooltip.outerHTML;
     }
 
     this.updatePosition(e);
   }
 
   hideTooltip() {
-    const tooltip = this.get('tooltip')
+    const tooltip = this.get('tooltip');
     if (tooltip) {
       modifyCSS(tooltip, { visibility: 'hidden' });
     }
@@ -151,13 +147,13 @@ export default class Tooltip extends Base {
     const width: number = graph.get('width');
     const height: number = graph.get('height');
 
-    const tooltip = this.get('tooltip')
+    const tooltip = this.get('tooltip');
 
-    const offsetX = this.get('offsetX') || 0
-    const offsetY = this.get('offsetY') || 0
+    const offsetX = this.get('offsetX') || 0;
+    const offsetY = this.get('offsetY') || 0;
 
-    let x = e.canvasX + offsetX
-    let y = e.canvasY + offsetY
+    let x = e.canvasX + offsetX;
+    let y = e.canvasY + offsetY;
 
     const bbox = tooltip.getBoundingClientRect();
     if (x + bbox.width > width) {
@@ -171,12 +167,12 @@ export default class Tooltip extends Base {
     modifyCSS(tooltip, {
       left: `${x}px`,
       top: `${y}px`,
-      visibility: 'visible'
+      visibility: 'visible',
     });
   }
 
   public destroy() {
-    const tooltip = this.get('tooltip')
+    const tooltip = this.get('tooltip');
 
     if (tooltip) {
       let container: HTMLDivElement | null = this.get('container');

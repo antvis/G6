@@ -47,7 +47,7 @@ describe('combo node test', () => {
         group,
       );
       canvas.draw();
-      expect(shape.attr('r')).toBe(45);  // size / 2 + padding
+      expect(shape.attr('r')).toBe(45); // size / 2 + padding
       expect(group.getCount()).toBe(1);
     });
 
@@ -59,7 +59,7 @@ describe('combo node test', () => {
         {
           size: 200,
           color: 'blue',
-          label: '你好，我好，大家好'
+          label: '你好，我好，大家好',
         },
         group,
       );
@@ -149,14 +149,13 @@ describe('combo node test', () => {
 
       item.update({
         style: {
-          fill: 'steelblue'
-        }
+          fill: 'steelblue',
+        },
       });
       // since the update is animated, check it after 300ms
       setTimeout(() => {
         expect(shape.attr('fill')).toBe('steelblue');
       }, 300);
-
     });
 
     it('active', () => {
@@ -210,6 +209,5 @@ describe('combo node test', () => {
     it('clear', () => {
       canvas.destroy();
     });
-
   });
 });

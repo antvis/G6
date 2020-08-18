@@ -9,59 +9,59 @@ const data = {
     {
       id: '1',
       label: '公司1',
-      group: 1
+      group: 1,
     },
     {
       id: '2',
       label: '公司2',
-      group: 1
+      group: 1,
     },
     {
       id: '3',
       label: '公司3',
-      group: 1
+      group: 1,
     },
     {
       id: '4',
       label: '公司4',
-      group: 1
+      group: 1,
     },
     {
       id: '5',
       label: '公司5',
-      group: 2
+      group: 2,
     },
     {
       id: '6',
       label: '公司6',
-      group: 2
+      group: 2,
     },
     {
       id: '7',
       label: '公司7',
-      group: 2
+      group: 2,
     },
     {
       id: '8',
       label: '公司8',
-      group: 2
+      group: 2,
     },
     {
       id: '9',
       label: '公司9',
-      group: 2
+      group: 2,
     },
   ],
   edges: [
     {
       source: '1',
       target: '1',
-      type: 'loop'
+      type: 'loop',
     },
     {
       source: '2',
       target: '2',
-      type: 'loop'
+      type: 'loop',
     },
     {
       source: '1',
@@ -148,18 +148,18 @@ describe('graph hull', () => {
     },
   });
 
-  graph.data(data)
-  graph.render()
-  const members = graph.getNodes().filter(node => node.getModel().group === 2);
-  const nonMembers = graph.getNodes().filter(node => node.getModel().group === 1);
+  graph.data(data);
+  graph.render();
+  const members = graph.getNodes().filter((node) => node.getModel().group === 2);
+  const nonMembers = graph.getNodes().filter((node) => node.getModel().group === 1);
 
   it('add a convex hull', () => {
     graph.createHull({
       id: 'hull1',
       members,
-      type: 'round-convex'
-    })
-  })
+      type: 'round-convex',
+    });
+  });
   it('add a bubble hull', () => {
     graph.createHull({
       id: 'hull2',
@@ -170,16 +170,16 @@ describe('graph hull', () => {
         fill: 'pink',
         stroke: 'red',
       },
-    })
-    const hulls = Object.values(graph.getHulls())
-    expect(hulls.length).toEqual(2)
-  })
+    });
+    const hulls = Object.values(graph.getHulls());
+    expect(hulls.length).toEqual(2);
+  });
   it('remove hull', () => {
-    let hullShapes = graph.get('hullGroup').get('children')
-    expect(hullShapes.length).toEqual(2)
+    let hullShapes = graph.get('hullGroup').get('children');
+    expect(hullShapes.length).toEqual(2);
 
-    graph.removeHull('hull2')
-    hullShapes = graph.get('hullGroup').get('children')
-    expect(hullShapes.length).toEqual(1)
-  })
-})
+    graph.removeHull('hull2');
+    hullShapes = graph.get('hullGroup').get('children');
+    expect(hullShapes.length).toEqual(1);
+  });
+});

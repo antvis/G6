@@ -2,9 +2,19 @@ import { Point } from '@antv/g-base/lib/types';
 import { IGroup } from '@antv/g-canvas/lib/interfaces';
 import { mat3, transform, vec3 } from '@antv/matrix-util';
 import isArray from '@antv/util/lib/is-array';
-import { GraphData, ICircle, IEllipse, IRect, Matrix, EdgeConfig, NodeIdxMap, IBBox, Item, IPoint } from '../types';
+import {
+  GraphData,
+  ICircle,
+  IEllipse,
+  IRect,
+  Matrix,
+  EdgeConfig,
+  NodeIdxMap,
+  IBBox,
+  Item,
+  IPoint,
+} from '../types';
 import { each } from '@antv/util';
-
 
 /**
  * 是否在区间内
@@ -237,9 +247,9 @@ export const distance = (p1: Point, p2: Point): number => {
  */
 export const scaleMatrix = (matrix: Matrix[], ratio: number) => {
   const result: Matrix[] = [];
-  matrix.forEach(row => {
+  matrix.forEach((row) => {
     const newRow: number[] = [];
-    row.forEach(v => {
+    row.forEach((v) => {
       newRow.push(v * ratio);
     });
     result.push(newRow);
@@ -306,7 +316,7 @@ export const getAdjMatrix = (data: GraphData, directed: boolean): Matrix[] => {
   }
 
   if (edges) {
-    edges.forEach(e => {
+    edges.forEach((e) => {
       const { source, target } = e;
       const sIndex = nodeMap[source as string];
       const tIndex = nodeMap[target as string];
@@ -392,7 +402,7 @@ export const getDegree = (n: number, nodeIdxMap: NodeIdxMap, edges: EdgeConfig[]
   for (let i = 0; i < n; i++) {
     degrees[i] = 0;
   }
-  edges.forEach(e => {
+  edges.forEach((e) => {
     if (e.source) {
       degrees[nodeIdxMap[e.source]] += 1;
     }
@@ -419,21 +429,20 @@ function onSegment(p1, p2, q) {
 
 /**
  * 判断点P在多边形内-射线法. Borrow from https://github.com/antvis/util/blob/master/packages/path-util/src/point-in-polygon.ts
- * @param points 
- * @param x 
- * @param y 
+ * @param points
+ * @param x
+ * @param y
  */
 export const isPointInPolygon = (points: number[][], x: number, y: number) => {
   let isHit = false;
   const n = points.length;
   // 判断两个double在eps精度下的大小关系
   const tolerance = 1e-6;
-  function dcmp(x) {
-    if (Math.abs(x) < tolerance) {
+  function dcmp(xValue) {
+    if (Math.abs(xValue) < tolerance) {
       return 0;
     }
-
-    return x < 0 ? -1 : 1;
+    return xValue < 0 ? -1 : 1;
   }
   if (n <= 2) {
     // svg 中点小于 3 个时，不显示，也无法被拾取
@@ -456,23 +465,28 @@ export const isPointInPolygon = (points: number[][], x: number, y: number) => {
     }
   }
   return isHit;
-}
+};
 
 // 判断两个BBox是否相交
 export const intersectBBox = (box1: Partial<IBBox>, box2: Partial<IBBox>) => {
-  return !(box2.minX > box1.maxX || box2.maxX < box1.minX || box2.minY > box1.maxY || box2.maxY < box1.minY);
-}
+  return !(
+    box2.minX > box1.maxX ||
+    box2.maxX < box1.minX ||
+    box2.minY > box1.maxY ||
+    box2.maxY < box1.minY
+  );
+};
 
 const lineIntersectPolygon = (lines, line) => {
   let isIntersect = false;
-  each(lines, l => {
+  each(lines, (l) => {
     if (getLineIntersect(l.from, l.to, line.from, line.to)) {
       isIntersect = true;
       return false;
     }
   });
   return isIntersect;
-}
+};
 
 /**
  * 判断两个polygon是否相交。
@@ -481,17 +495,17 @@ const lineIntersectPolygon = (lines, line) => {
  * @param points2 polygon2的顶点数组
  */
 export const isPolygonsIntersect = (points1: number[][], points2: number[][]): boolean => {
-  type BBox = Partial<IBBox>
+  type BBox = Partial<IBBox>;
   const getBBox = (points): BBox => {
-    const xArr = points.map(p => p[0]);
-    const yArr = points.map(p => p[1]);
+    const xArr = points.map((p) => p[0]);
+    const yArr = points.map((p) => p[1]);
     return {
       minX: Math.min.apply(null, xArr),
       maxX: Math.max.apply(null, xArr),
       minY: Math.min.apply(null, yArr),
-      maxY: Math.max.apply(null, yArr)
+      maxY: Math.max.apply(null, yArr),
     };
-  }
+  };
 
   const parseToLines = (points: number[][]) => {
     const lines = [];
@@ -502,12 +516,12 @@ export const isPolygonsIntersect = (points1: number[][], points2: number[][]): b
       lines.push({
         from: {
           x: point[0],
-          y: point[1]
+          y: point[1],
         },
         to: {
           x: next[0],
-          y: next[1]
-        }
+          y: next[1],
+        },
       });
     }
     if (lines.length > 1) {
@@ -516,16 +530,16 @@ export const isPolygonsIntersect = (points1: number[][], points2: number[][]): b
       lines.push({
         from: {
           x: last[0],
-          y: last[1]
+          y: last[1],
         },
         to: {
           x: first[0],
-          y: first[1]
-        }
+          y: first[1],
+        },
       });
     }
     return lines;
-  }
+  };
 
   // 空数组，或者一个点返回 false
   if (points1.length < 2 || points2.length < 2) {
@@ -541,7 +555,7 @@ export const isPolygonsIntersect = (points1: number[][], points2: number[][]): b
 
   let isIn = false;
   // 判定点是否在多边形内部，一旦有一个点在另一个多边形内，则返回
-  each(points2, point => {
+  each(points2, (point) => {
     if (isPointInPolygon(points1, point[0], point[1])) {
       isIn = true;
       return false;
@@ -550,7 +564,7 @@ export const isPolygonsIntersect = (points1: number[][], points2: number[][]): b
   if (isIn) {
     return true;
   }
-  each(points1, point => {
+  each(points1, (point) => {
     if (isPointInPolygon(points2, point[0], point[1])) {
       isIn = true;
       return false;
@@ -563,26 +577,31 @@ export const isPolygonsIntersect = (points1: number[][], points2: number[][]): b
   const lines1 = parseToLines(points1);
   const lines2 = parseToLines(points2);
   let isIntersect = false;
-  each(lines2, line => {
+  each(lines2, (line) => {
     if (lineIntersectPolygon(lines1, line)) {
       isIntersect = true;
       return false;
     }
   });
   return isIntersect;
-}
+};
 
 export class Line {
   public x1: number;
+
   public y1: number;
+
   public x2: number;
+
   public y2: number;
+
   constructor(x1: number, y1: number, x2: number, y2: number) {
     this.x1 = x1;
     this.y1 = y1;
     this.x2 = x2;
     this.y2 = y2;
   }
+
   public getBBox() {
     const minX = Math.min(this.x1, this.x2);
     const minY = Math.min(this.y1, this.y2);
@@ -604,13 +623,13 @@ export class Line {
 
 export const getBBoxBoundLine = (bbox: IBBox, direction: string) => {
   const bounds = {
-    'top': [bbox.minX, bbox.minY, bbox.maxX, bbox.minY],
-    'left': [bbox.minX, bbox.minY, bbox.minX, bbox.maxY],
-    'bottom': [bbox.minX, bbox.maxY, bbox.maxX, bbox.maxY],
-    'right': [bbox.maxX, bbox.minY, bbox.maxX, bbox.maxY]
-  }
-  return bounds[direction]
-}
+    top: [bbox.minX, bbox.minY, bbox.maxX, bbox.minY],
+    left: [bbox.minX, bbox.minY, bbox.minX, bbox.maxY],
+    bottom: [bbox.minX, bbox.maxY, bbox.maxX, bbox.maxY],
+    right: [bbox.maxX, bbox.minY, bbox.maxX, bbox.maxY],
+  };
+  return bounds[direction];
+};
 
 /**
  * 计算两条线段相交时，相交点对第一条线段上的分割比例
@@ -627,34 +646,39 @@ const fractionAlongLineA = (la: Line, lb: Line) => {
     }
   }
   return Number.POSITIVE_INFINITY;
-}
+};
 
 export const itemIntersectByLine = (item: Item, line: Line): [IPoint[], number] => {
-  const directions = ['top', 'left', 'bottom', 'right']
+  const directions = ['top', 'left', 'bottom', 'right'];
   const bbox = item.getBBox();
   let countIntersections = 0;
-  const intersections = []
+  const intersections = [];
 
   for (let i = 0; i < 4; i++) {
-    const [x1, y1, x2, y2] = getBBoxBoundLine(bbox, directions[i])
-    intersections[i] = getLineIntersect({ x: line.x1, y: line.y1 }, { x: line.x2, y: line.y2 }, { x: x1, y: y1 }, { x: x2, y: y2 });
+    const [x1, y1, x2, y2] = getBBoxBoundLine(bbox, directions[i]);
+    intersections[i] = getLineIntersect(
+      { x: line.x1, y: line.y1 },
+      { x: line.x2, y: line.y2 },
+      { x: x1, y: y1 },
+      { x: x2, y: y2 },
+    );
     if (intersections[i]) {
       countIntersections += 1;
     }
   }
-  return [intersections, countIntersections]
-}
+  return [intersections, countIntersections];
+};
 
 export const fractionToLine = (item: Item, line: Line) => {
-  const directions = ['top', 'left', 'bottom', 'right']
+  const directions = ['top', 'left', 'bottom', 'right'];
   const bbox = item.getBBox();
   let minDistance = Number.POSITIVE_INFINITY;
   let countIntersections = 0;
   for (let i = 0; i < 4; i++) {
-    const [x1, y1, x2, y2] = getBBoxBoundLine(bbox, directions[i])
+    const [x1, y1, x2, y2] = getBBoxBoundLine(bbox, directions[i]);
     let testDistance = fractionAlongLineA(line, new Line(x1, y1, x2, y2));
     testDistance = Math.abs(testDistance - 0.5);
-    if ((testDistance >= 0) && (testDistance <= 1)) {
+    if (testDistance >= 0 && testDistance <= 1) {
       countIntersections += 1;
       minDistance = testDistance < minDistance ? testDistance : minDistance;
     }
@@ -662,25 +686,25 @@ export const fractionToLine = (item: Item, line: Line) => {
 
   if (countIntersections === 0) return -1;
   return minDistance;
-}
+};
 
 export const getPointsCenter = (points: IPoint[]): IPoint => {
   let centerX = 0;
   let centerY = 0;
   if (points.length > 0) {
     for (const point of points) {
-      centerX += point.x
-      centerY += point.y
+      centerX += point.x;
+      centerY += point.y;
     }
-    centerX /= points.length
-    centerY /= points.length
+    centerX /= points.length;
+    centerY /= points.length;
   }
-  return { x: centerX, y: centerY }
-}
+  return { x: centerX, y: centerY };
+};
 
 export const squareDist = (a: IPoint, b: IPoint): number => {
-  return (a.x - b.x) ** 2 + (a.y - b.y) ** 2
-}
+  return (a.x - b.x) ** 2 + (a.y - b.y) ** 2;
+};
 
 export const pointLineDist = (point: IPoint, line: Line) => {
   const x1 = line.x1;
@@ -700,7 +724,7 @@ export const pointLineDist = (point: IPoint, line: Line) => {
     if (dotprod <= 0) {
       projlenSq = 0;
     } else {
-      projlenSq = dotprod * dotprod / (x2 * x2 + y2 * y2);
+      projlenSq = (dotprod * dotprod) / (x2 * x2 + y2 * y2);
     }
   }
   let lenSq = px * px + py * py - projlenSq;
@@ -708,15 +732,15 @@ export const pointLineDist = (point: IPoint, line: Line) => {
     lenSq = 0;
   }
   return lenSq;
-}
+};
 
 export const isPointsOverlap = (p1, p2, e = 1e-3) => {
-  return (p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2 < e ** 2
-}
+  return (p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2 < e ** 2;
+};
 
 export const getRectDistSq = (item: Item, x: number, y: number) => {
-  const rect = item.getBBox()
+  const rect = item.getBBox();
   const dx = Math.max(rect.minX - x, 0, x - rect.maxX);
   const dy = Math.max(rect.minY - y, 0, y - rect.maxY);
   return Math.sqrt(dx * dx + dy * dy);
-}
+};

@@ -10,7 +10,7 @@ export default {
   getDefaultCfg(): object {
     return {
       direction: 'both',
-      enableOptimize: false
+      enableOptimize: false,
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -48,19 +48,29 @@ export default {
     const width = this.graph.get('width');
     const height = this.graph.get('height');
     const graphCanvasBBox = this.graph.get('canvas').getCanvasBBox();
-    if ((graphCanvasBBox.minX <= width && graphCanvasBBox.minX + dx > width)
-      || (graphCanvasBBox.maxX >= 0 && graphCanvasBBox.maxX + dx < 0)) {
+    if (
+      (graphCanvasBBox.minX <= width && graphCanvasBBox.minX + dx > width) ||
+      (graphCanvasBBox.maxX >= 0 && graphCanvasBBox.maxX + dx < 0)
+    ) {
       dx = 0;
     }
-    if ((graphCanvasBBox.minY <= height && graphCanvasBBox.minY + dy > height)
-      || (graphCanvasBBox.maxY >= 0 && graphCanvasBBox.maxY + dy < 0)) {
+    if (
+      (graphCanvasBBox.minY <= height && graphCanvasBBox.minY + dy > height) ||
+      (graphCanvasBBox.maxY >= 0 && graphCanvasBBox.maxY + dy < 0)
+    ) {
       dy = 0;
     }
     this.graph.translate(dx, dy);
   },
   onMouseDown(e: IG6GraphEvent) {
     const self = this as any;
-    if (window && window.event && typeof window !== 'undefined' && !(window.event as any).buttons && !(window.event as any).button) {
+    if (
+      window &&
+      window.event &&
+      typeof window !== 'undefined' &&
+      !(window.event as any).buttons &&
+      !(window.event as any).button
+    ) {
       return;
     }
 
@@ -73,19 +83,19 @@ export default {
 
     if (this.enableOptimize) {
       // 拖动 canvas 过程中隐藏所有的边及label
-      const graph: IGraph = this.graph
-      const edges = graph.getEdges()
+      const graph: IGraph = this.graph;
+      const edges = graph.getEdges();
       for (let i = 0, len = edges.length; i < len; i++) {
-        graph.hideItem(edges[i])
+        graph.hideItem(edges[i]);
       }
-      const nodes = graph.getNodes()
+      const nodes = graph.getNodes();
       for (let j = 0, nodeLen = nodes.length; j < nodeLen; j++) {
-        const container = nodes[j].getContainer()
-        const children = container.get('children')
-        for (let child of children) {
-          const isKeyShape = child.get('isKeyShape')
+        const container = nodes[j].getContainer();
+        const children = container.get('children');
+        for (const child of children) {
+          const isKeyShape = child.get('isKeyShape');
           if (!isKeyShape) {
-            child.hide()
+            child.hide();
           }
         }
       }
@@ -129,18 +139,18 @@ export default {
 
     if (this.enableOptimize) {
       // 拖动结束后显示所有的边
-      const edges = graph.getEdges()
+      const edges = graph.getEdges();
       for (let i = 0, len = edges.length; i < len; i++) {
-        graph.showItem(edges[i])
+        graph.showItem(edges[i]);
       }
-      const nodes = graph.getNodes()
+      const nodes = graph.getNodes();
       for (let j = 0, nodeLen = nodes.length; j < nodeLen; j++) {
-        const container = nodes[j].getContainer()
-        const children = container.get('children')
-        for (let child of children) {
-          const isKeyShape = child.get('isKeyShape')
+        const container = nodes[j].getContainer();
+        const children = container.get('children');
+        for (const child of children) {
+          const isKeyShape = child.get('isKeyShape');
           if (!isKeyShape) {
-            child.show()
+            child.show();
           }
         }
       }
@@ -182,5 +192,5 @@ export default {
     this.origin = null;
     this.dragging = false;
     this.dragbegin = false;
-  }
+  },
 };

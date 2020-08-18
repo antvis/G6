@@ -12,15 +12,13 @@ import Arc from './component/arc';
 import CustomCardNode from './component/card-node'
 import XML from './component/xml'
 import ExtendNode from './component/extend-node';
-import LostStateStyle from './component/loseStateStyle'
+import LostStateStyle from './component/loseStateStyle';
 import HideInData from './component/hide-in-data';
-import IntervalChart from './component/interval-chart'
-import LineChart from './component/line-chart'
-import PointChart from './component/point-chart'
-import PieChart from './component/pie-chart'
-import MultiChart from './component/multi-chart'
-
-import XML from './component/xml'
+import IntervalChart from './component/interval-chart';
+import LineChart from './component/line-chart';
+import PointChart from './component/point-chart';
+import PieChart from './component/pie-chart';
+import MultiChart from './component/multi-chart';
 
 export default { title: 'Shape' };
 
@@ -37,21 +35,11 @@ storiesOf('Shape', module)
     // 一个 add 表示添加一个 story
     <Image2 />
   ))
-  .add('custom node', () => (
-    <CustomNode />
-  ))
-  .add('polyline', () => (
-    <Polyline />
-  ))
-  .add('quadratic', () => (
-    <Quadratic />
-  ))
-  .add('arc', () => (
-    <Arc />
-  ))
-  .add('hide item', () => (
-    <HideItem />
-  ))
+  .add('custom node', () => <CustomNode />)
+  .add('polyline', () => <Polyline />)
+  .add('quadratic', () => <Quadratic />)
+  .add('arc', () => <Arc />)
+  .add('hide item', () => <HideItem />)
   .add('card-node', () => <CustomCardNode />)
   .add('xml node', () => (
     <XML />

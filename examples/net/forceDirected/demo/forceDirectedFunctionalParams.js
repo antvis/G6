@@ -9,19 +9,19 @@ const graph = new G6.Graph({
   layout: {
     type: 'force',
     preventOverlap: true,
-    linkDistance: d => {
+    linkDistance: (d) => {
       if (d.source.id === 'node0') {
         return 100;
       }
       return 30;
     },
-    nodeStrength: d => {
+    nodeStrength: (d) => {
       if (d.isLeaf) {
         return -50;
       }
       return -10;
     },
-    edgeStrength: d => {
+    edgeStrength: (d) => {
       if (d.source.id === 'node1' || d.source.id === 'node2' || d.source.id === 'node3') {
         return 0.7;
       }
@@ -83,21 +83,21 @@ const data = {
 const nodes = data.nodes;
 graph.data({
   nodes,
-  edges: data.edges.map(function(edge, i) {
+  edges: data.edges.map(function (edge, i) {
     edge.id = 'edge' + i;
     return Object.assign({}, edge);
   }),
 });
 graph.render();
 
-graph.on('node:dragstart', function(e) {
+graph.on('node:dragstart', function (e) {
   graph.layout();
   refreshDragedNodePosition(e);
 });
-graph.on('node:drag', function(e) {
+graph.on('node:drag', function (e) {
   refreshDragedNodePosition(e);
 });
-graph.on('node:dragend', function(e) {
+graph.on('node:dragend', function (e) {
   e.item.get('model').fx = null;
   e.item.get('model').fy = null;
 });

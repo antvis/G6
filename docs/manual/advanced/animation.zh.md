@@ -11,6 +11,7 @@ G6 中的动画分为两个层次：
 <br />
 
 ## 全局动画
+
 G6 的全局动画指通过图实例进行某些全局操作时，产生的动画效果。例如：
 
 - `graph.updateLayout(cfg)` 布局的变化
@@ -54,7 +55,7 @@ const graph = new G6.Graph({
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aAjWQ4n_OOEAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 
-本例实现节点放大缩小，通过  `group.get('children')[0]` 找到需要更新的图形（这里找到该节点上第 0 个图形），然后调用该图形的 `animate` 方法指定动画的参数及每一帧的变化（ 第一个参数是返回每一帧需要变化的参数集的函数，其参数 `ratio` 是当前正在进行的一次动画的进度，范围 [0, 1]；第二个参数是动画的参数，动画参数的具体配置参见 [animateCfg](#animateCfg)）。
+本例实现节点放大缩小，通过  `group.get('children')[0]` 找到需要更新的图形（这里找到该节点上第 0 个图形），然后调用该图形的 `animate` 方法指定动画的参数及每一帧的变化（  第一个参数是返回每一帧需要变化的参数集的函数，其参数 `ratio` 是当前正在进行的一次动画的进度，范围 [0, 1]；第二个参数是动画的参数，动画参数的具体配置参见 [animateCfg](#animateCfg)）。
 
 ```javascript
 // 放大、变小动画
@@ -66,7 +67,7 @@ G6.registerNode(
       const shape = group.get('children')[0];
       // 该图形的动画
       shape.animate(
-        ratio => {
+        (ratio) => {
           // 每一帧的操作，入参 ratio：这一帧的比例值（Number）。返回值：这一帧需要变化的参数集（Object）。
           // 先变大、再变小
           const diff = ratio <= 0.5 ? ratio * 10 : (1 - ratio) * 10;
@@ -210,7 +211,7 @@ G6.registerNode(
       });
       // 该图片 shape 的动画
       image.animate(
-        ratio => {
+        (ratio) => {
           // 每一帧的操作，入参 ratio：这一帧的比例值（Number）。返回值：这一帧需要变化的参数集（Object）。
           // 旋转通过矩阵来实现
           // 当前矩阵
@@ -278,7 +279,7 @@ G6.registerEdge(
 
       // 对红色圆点添加动画
       circle.animate(
-        ratio => {
+        (ratio) => {
           // 每一帧的操作，入参 ratio：这一帧的比例值（Number）。返回值：这一帧需要变化的参数集（Object）。
           // 根据比例值，获得在边 path 上对应比例的位置。
           const tmpPoint = shape.getPoint(ratio);
@@ -354,7 +355,7 @@ G6.registerEdge(
       const shape = group.get('children')[0];
       const length = group.getTotalLength();
       shape.animate(
-        ratio => {
+        (ratio) => {
           const startLen = ratio * length;
           // 计算 lineDash
           const cfg = {
@@ -372,7 +373,6 @@ G6.registerEdge(
   'cubic',
 ); // 该自定义边继承了内置三阶贝塞尔曲线边 cubic
 ```
-
 
 ### 交互动画
 
@@ -402,7 +402,7 @@ G6.registerEdge(
       if (name === 'running') {
         // running 状态为 true 时
         if (value) {
-          let index = 0;// 边 path 图形的动画
+          let index = 0; // 边 path 图形的动画
           shape.animate(
             () => {
               index++;
@@ -435,23 +435,23 @@ G6.registerEdge(
 ); // 该自定义边继承了内置横向三阶贝塞尔曲线边 cubic-horizontal
 
 // 监听节点的 mouseenter 事件
-graph.on('node:mouseenter', ev => {
+graph.on('node:mouseenter', (ev) => {
   // 获得当前鼠标操作的目标节点
   const node = ev.item;
   // 获得目标节点的所有相关边
   const edges = node.getEdges();
   // 将所有相关边的 running 状态置为 true，此时将会触发自定义节点的 setState 函数
-  edges.forEach(edge => graph.setItemState(edge, 'running', true));
+  edges.forEach((edge) => graph.setItemState(edge, 'running', true));
 });
 
 // 监听节点的 mouseleave 事件
-graph.on('node:mouseleave', ev => {
+graph.on('node:mouseleave', (ev) => {
   // 获得当前鼠标操作的目标节点
   const node = ev.item;
   // 获得目标节点的所有相关边
   const edges = node.getEdges();
   // 将所有相关边的 running 状态置为 false，此时将会触发自定义节点的 setState 函数
-  edges.forEach(edge => graph.setItemState(edge, 'running', false));
+  edges.forEach((edge) => graph.setItemState(edge, 'running', false));
 });
 
 // graph.data(data);
@@ -460,19 +460,17 @@ graph.on('node:mouseleave', ev => {
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️ 注意:</strong></span> `running` 为 `false` 时，要停止动画，同时把 `lineDash` 清空。
 
-
 ## animateCfg
 
-| 配置项 | 类型            | 默认值 | 描述                         |
-| ---- | --------------- | -------- | ----------------------------------- |
-| duration | Number | 500     | 一次动画的时长 |
-| easing | boolean |  'linearEasing'    | 动画函数，见 [easing 函数](#easing-函数) |
-| delay | Number |  0     | 延迟一段时间后执行动画 |
-| repeat | boolean | false     | 是否重复执行动画 |
-| callback | Function | undefined     | 动画执行完时的回调函数 |
-| pauseCallback | Function | undefined     | 动画暂停时（`shape.pause()`）的回调函数 |
-| resumeCallback | Function | undefined     | 动画恢复时（`shape.resume()`）的回调函数 |
-
+| 配置项         | 类型     | 默认值         | 描述                                     |
+| -------------- | -------- | -------------- | ---------------------------------------- |
+| duration       | Number   | 500            | 一次动画的时长                           |
+| easing         | boolean  | 'linearEasing' | 动画函数，见 [easing 函数](#easing-函数) |
+| delay          | Number   | 0              | 延迟一段时间后执行动画                   |
+| repeat         | boolean  | false          | 是否重复执行动画                         |
+| callback       | Function | undefined      | 动画执行完时的回调函数                   |
+| pauseCallback  | Function | undefined      | 动画暂停时（`shape.pause()`）的回调函数  |
+| resumeCallback | Function | undefined      | 动画恢复时（`shape.resume()`）的回调函数 |
 
 ### easing 函数
 

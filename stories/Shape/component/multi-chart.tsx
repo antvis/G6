@@ -1,108 +1,105 @@
 import React, { useEffect } from 'react';
 import G6 from '../../../src';
 import { IGraph } from '../../../src/interface/graph';
-import Chart from '@antv/chart-node-g6'
+import Chart from '@antv/chart-node-g6';
 
-G6.registerNode('node-with-multchart', {
-  draw(cfg, group) {
-    const canvas = group.get('canvas')
-    const keyShape = group.addShape('rect', {
-      attrs: {
-        x: 0,
-        y: 0,
-        width: 400,
-        height: 200,
-        fill: cfg.style.fill
-      }
-    })
-
-    group.addShape('rect', {
-      attrs: {
-        x: 0,
-        y: 0,
-        width: 400,
-        height: 40,
-        fill: '#69c0ff'
-      }
-    })
-
-    group.addShape('text', {
-      attrs: {
-        text: '浏览申请完成率',
-        x: 10, 
-        y:25,
-        fontSize: 14,
-        fill: '#fff' 
-      }
-    })
-
-    group.addShape('text', {
-      attrs: {
-        text: '2020-06-07 ~ 2020-06-14 | 均值',
-        x: 20,
-        y: 70,
-        fontSize: 13,
-        fill: '#8c8c8c'
-      }
-    })
-
-    group.addShape('text', {
-      attrs: {
-        text: '8.8%',
-        x: 20,
-        y: 110,
-        fontSize: 30,
-        fill: '#000'
-      }
-    })
-    
-    const chart = new Chart({
-      group,
-      region: {
-        start: {
-          x: 0.01,
-          y: 0.2
+G6.registerNode(
+  'node-with-multchart',
+  {
+    draw(cfg, group) {
+      const canvas = group.get('canvas');
+      const keyShape = group.addShape('rect', {
+        attrs: {
+          x: 0,
+          y: 0,
+          width: 400,
+          height: 200,
+          fill: cfg.style.fill,
         },
-        end: {
-          x: 0.8,
-          y: 0.35
-        }
-      },
-    });
+      });
 
-    chart.data(cfg.trendData as any);
-    
-    (chart as any)
-      .point()
-      .position('月份*月均降雨量')
-      .color('name');
-
-    (chart as any)
-      .line()
-      .position("月份*月均降雨量")
-      .color("name")
-      .shape('dash');
-
-    (chart as any)
-      .interval()
-      .position("月份*月均降雨量")
-      .color("name")
-      .adjust([
-        {
-          type: 'dodge',
-          marginRatio: 0,
+      group.addShape('rect', {
+        attrs: {
+          x: 0,
+          y: 0,
+          width: 400,
+          height: 40,
+          fill: '#69c0ff',
         },
-      ]);
-    chart.legend(false);
+      });
 
-    chart.axis('月均降雨量', false)
+      group.addShape('text', {
+        attrs: {
+          text: '浏览申请完成率',
+          x: 10,
+          y: 25,
+          fontSize: 14,
+          fill: '#fff',
+        },
+      });
 
-    chart.render();
+      group.addShape('text', {
+        attrs: {
+          text: '2020-06-07 ~ 2020-06-14 | 均值',
+          x: 20,
+          y: 70,
+          fontSize: 13,
+          fill: '#8c8c8c',
+        },
+      });
 
-    return keyShape
+      group.addShape('text', {
+        attrs: {
+          text: '8.8%',
+          x: 20,
+          y: 110,
+          fontSize: 30,
+          fill: '#000',
+        },
+      });
+
+      const chart = new Chart({
+        group,
+        region: {
+          start: {
+            x: 0.01,
+            y: 0.2,
+          },
+          end: {
+            x: 0.8,
+            y: 0.35,
+          },
+        },
+      });
+
+      chart.data(cfg.trendData as any);
+
+      (chart as any).point().position('月份*月均降雨量').color('name');
+
+      (chart as any).line().position('月份*月均降雨量').color('name').shape('dash');
+
+      (chart as any)
+        .interval()
+        .position('月份*月均降雨量')
+        .color('name')
+        .adjust([
+          {
+            type: 'dodge',
+            marginRatio: 0,
+          },
+        ]);
+      chart.legend(false);
+
+      chart.axis('月均降雨量', false);
+
+      chart.render();
+
+      return keyShape;
+    },
+    update: null,
   },
-  update: null
-}, 'single-node')
+  'single-node',
+);
 
 let graph: IGraph = null;
 
@@ -132,9 +129,9 @@ const MultiChart = () => {
       {
         id: '0',
         label: '0',
-        trendData: trendData
-      }
-    ]
+        trendData: trendData,
+      },
+    ],
   };
   useEffect(() => {
     if (!graph) {
@@ -172,9 +169,9 @@ const MultiChart = () => {
         },
         nodeStateStyles: {
           hover: {
-            stroke: 'red'
-          }
-        }
+            stroke: 'red',
+          },
+        },
       });
     }
 
@@ -182,8 +179,7 @@ const MultiChart = () => {
     graph.render();
   });
 
-  return <div ref={container}>
-  </div>;
+  return <div ref={container}></div>;
 };
 
 export default MultiChart;

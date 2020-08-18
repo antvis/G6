@@ -37,8 +37,8 @@ G6.registerNode('circleBar', {
     const baseR = 30;
     let nowAngle = 0;
     const everyIncAngle = (2 * Math.PI * (360 / 5 / 5)) / 360;
-    cfg.details.forEach(cat => {
-      cat.values.forEach(item => {
+    cfg.details.forEach((cat) => {
+      cat.values.forEach((item) => {
         const re = item + baseR;
         const path0 = getPath(
           0,

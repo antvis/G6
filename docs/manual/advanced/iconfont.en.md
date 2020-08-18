@@ -282,7 +282,7 @@ graph.render();
 
 ## Attention
 
-In fact, iconfont is a text shape. 
+In fact, iconfont is a text shape.
 
 <br />**1、The `fontFamily` of the text and the `font-family` in iconfont.css shoulde be kept consistent:**<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v0CoQoNIyJ8AAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
@@ -300,8 +300,7 @@ In fact, iconfont is a text shape.
 // Call the following code after graph.render()
 setTimeout(() => {
   graph.paint();
-}, 16)
-
+}, 16);
 ```
 
 ## Tool Function getIcon
@@ -311,14 +310,14 @@ You can write a function as below to transform unicode. Attention, unicode canno
 ```javascript
 import fonts from '../fonts/iconfont.json';
 
-const icons = fonts.glyphs.map(icon => {
+const icons = fonts.glyphs.map((icon) => {
   return {
     name: icon.name,
     unicode: String.fromCodePoint(icon.unicode_decimal), // `\\u${icon.unicode}`,
   };
 });
 const getIcon = (type: string) => {
-  const matchIcon = icons.find(icon => {
+  const matchIcon = icons.find((icon) => {
     return icon.name === type;
   }) || { unicode: '', name: 'default' };
   return matchIcon.unicode;

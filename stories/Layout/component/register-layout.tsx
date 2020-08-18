@@ -138,7 +138,7 @@ const RegisterLayout = () => {
           const part1NodeMap = new Map();
           const part2NodeMap = new Map();
           // separate the nodes and init the positions
-          nodes.forEach(function(node, i) {
+          nodes.forEach(function (node, i) {
             if (node.cluster === 'part1') {
               part1Nodes.push(node);
               part1NodeMap.set(node.id, i);
@@ -149,10 +149,10 @@ const RegisterLayout = () => {
           });
 
           // order the part1 node
-          part1Nodes.forEach(function(p1n) {
+          part1Nodes.forEach(function (p1n) {
             let index = 0;
             let adjCount = 0;
-            edges.forEach(function(edge) {
+            edges.forEach(function (edge) {
               const sourceId = edge.source;
               const targetId = edge.target;
               if (sourceId === p1n.id) {
@@ -166,13 +166,13 @@ const RegisterLayout = () => {
             index /= adjCount;
             p1n.index = index;
           });
-          part1Nodes.sort(function(a, b) {
+          part1Nodes.sort(function (a, b) {
             return a.index - b.index;
           });
-          part2Nodes.forEach(function(p2n) {
+          part2Nodes.forEach(function (p2n) {
             let index = 0;
             let adjCount = 0;
-            edges.forEach(function(edge) {
+            edges.forEach(function (edge) {
               const sourceId = edge.source;
               const targetId = edge.target;
               if (sourceId === p2n.id) {
@@ -186,7 +186,7 @@ const RegisterLayout = () => {
             index /= adjCount;
             p2n.index = index;
           });
-          part2Nodes.sort(function(a, b) {
+          part2Nodes.sort(function (a, b) {
             return a.index - b.index;
           });
 
@@ -198,7 +198,7 @@ const RegisterLayout = () => {
           if (direction === 'vertical') {
             begin = center[0] - height / 2;
           }
-          part1Nodes.forEach(function(p1n, i) {
+          part1Nodes.forEach(function (p1n, i) {
             if (direction === 'horizontal') {
               p1n.x = part1Pos;
               p1n.y = begin + i * (nodeSep + nodeSize);
@@ -207,7 +207,7 @@ const RegisterLayout = () => {
               p1n.y = part1Pos;
             }
           });
-          part2Nodes.forEach(function(p2n, i) {
+          part2Nodes.forEach(function (p2n, i) {
             if (direction === 'horizontal') {
               p2n.x = part2Pos;
               p2n.y = begin + i * (nodeSep + nodeSize);

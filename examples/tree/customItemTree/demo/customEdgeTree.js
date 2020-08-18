@@ -39,19 +39,19 @@ const data = {
           children: [
             {
               id: 'c1-2-1',
-              label: 'c1-2-1'
+              label: 'c1-2-1',
             },
             {
               id: 'c1-2-2',
-              label: 'c1-2-2'
+              label: 'c1-2-2',
             },
-          ]
+          ],
         },
-      ]
+      ],
     },
     {
       id: 'c2',
-      label: 'c2'
+      label: 'c2',
     },
     {
       id: 'c3',
@@ -59,7 +59,7 @@ const data = {
       children: [
         {
           id: 'c3-1',
-          label: 'c3-1'
+          label: 'c3-1',
         },
         {
           id: 'c3-2',
@@ -67,135 +67,141 @@ const data = {
           children: [
             {
               id: 'c3-2-1',
-              label: 'c3-2-1'
+              label: 'c3-2-1',
             },
             {
               id: 'c3-2-2',
-              label: 'c3-2-2'
+              label: 'c3-2-2',
             },
             {
               id: 'c3-2-3',
-              label: 'c3-2-3'
+              label: 'c3-2-3',
             },
-          ]
+          ],
         },
         {
           id: 'c3-3',
-          label: 'c3-3'
+          label: 'c3-3',
         },
-      ]
-    }
-  ]
-}
+      ],
+    },
+  ],
+};
 
-G6.Util.traverseTree(data, d => {
+G6.Util.traverseTree(data, (d) => {
   d.leftIcon = {
     style: {
       fill: '#e6fffb',
-      stroke: '#e6fffb'
+      stroke: '#e6fffb',
     },
-    img: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ'
-  }
-  return true
-})
+    img: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ',
+  };
+  return true;
+});
 
-G6.registerNode('icon-node', {
-  options: {
-    size: [60, 20],
-    stroke: '#91d5ff',
-    fill: '#91d5ff'
-  },
-  draw(cfg, group) {
-    const styles = this.getShapeStyle(cfg)
-    const { labelCfg = {} } = cfg
+G6.registerNode(
+  'icon-node',
+  {
+    options: {
+      size: [60, 20],
+      stroke: '#91d5ff',
+      fill: '#91d5ff',
+    },
+    draw(cfg, group) {
+      const styles = this.getShapeStyle(cfg);
+      const { labelCfg = {} } = cfg;
 
-    const keyShape = group.addShape('rect', {
-      attrs: {
-        ...styles,
-        x: 0,
-        y: 0
-      }
-    })
-
-    /**
-     * leftIcon 格式如下：
-     *  {
-     *    style: ShapeStyle;
-     *    img: ''
-     *  }
-     */
-    console.log('cfg.leftIcon', cfg.leftIcon);
-    if (cfg.leftIcon) {
-      const { style, img } = cfg.leftIcon
-      group.addShape('rect', {
+      const keyShape = group.addShape('rect', {
         attrs: {
-          x: 1,
-          y: 1,
-          width: 38,
-          height: styles.height - 2,
-          fill: '#8c8c8c',
-          ...style
-        }
-      })
-
-      group.addShape('image', {
-        attrs: {
-          x: 8,
-          y: 8,
-          width: 24,
-          height: 24,
-          img: img || 'https://g.alicdn.com/cm-design/arms-trace/1.0.155/styles/armsTrace/images/TAIR.png',
+          ...styles,
+          x: 0,
+          y: 0,
         },
-        name: 'image-shape',
       });
-    }
 
-    // 如果不需要动态增加或删除元素，则不需要 add 这两个 marker
-    group.addShape('marker', {
-      attrs: {
-        x: 40,
-        y: 52,
-        r: 6,
-        stroke: '#73d13d',
-        cursor: 'pointer',
-        symbol: EXPAND_ICON
-      },
-      name: 'add-item'
-    })
+      /**
+       * leftIcon 格式如下：
+       *  {
+       *    style: ShapeStyle;
+       *    img: ''
+       *  }
+       */
+      console.log('cfg.leftIcon', cfg.leftIcon);
+      if (cfg.leftIcon) {
+        const { style, img } = cfg.leftIcon;
+        group.addShape('rect', {
+          attrs: {
+            x: 1,
+            y: 1,
+            width: 38,
+            height: styles.height - 2,
+            fill: '#8c8c8c',
+            ...style,
+          },
+        });
 
-    group.addShape('marker', {
-      attrs: {
-        x: 80,
-        y: 52,
-        r: 6,
-        stroke: '#ff4d4f',
-        cursor: 'pointer',
-        symbol: COLLAPSE_ICON
-      },
-      name: 'remove-item'
-    })
+        group.addShape('image', {
+          attrs: {
+            x: 8,
+            y: 8,
+            width: 24,
+            height: 24,
+            img:
+              img ||
+              'https://g.alicdn.com/cm-design/arms-trace/1.0.155/styles/armsTrace/images/TAIR.png',
+          },
+          name: 'image-shape',
+        });
+      }
 
-    if (cfg.label) {
-      group.addShape('text', {
+      // 如果不需要动态增加或删除元素，则不需要 add 这两个 marker
+      group.addShape('marker', {
         attrs: {
-          ...labelCfg.style,
-          text: cfg.label,
-          x: 50,
-          y: 25,
-        }
-      })
-    }
+          x: 40,
+          y: 52,
+          r: 6,
+          stroke: '#73d13d',
+          cursor: 'pointer',
+          symbol: EXPAND_ICON,
+        },
+        name: 'add-item',
+      });
 
-    return keyShape
-  }
-}, 'rect')
+      group.addShape('marker', {
+        attrs: {
+          x: 80,
+          y: 52,
+          r: 6,
+          stroke: '#ff4d4f',
+          cursor: 'pointer',
+          symbol: COLLAPSE_ICON,
+        },
+        name: 'remove-item',
+      });
+
+      if (cfg.label) {
+        group.addShape('text', {
+          attrs: {
+            ...labelCfg.style,
+            text: cfg.label,
+            x: 50,
+            y: 25,
+          },
+        });
+      }
+
+      return keyShape;
+    },
+  },
+  'rect',
+);
 
 G6.registerEdge('flow-line', {
   draw(cfg, group) {
     const startPoint = cfg.startPoint;
     const endPoint = cfg.endPoint;
 
-    const { style } = cfg
+    const { style } = cfg;
     const shape = group.addShape('path', {
       attrs: {
         stroke: style.stroke,
@@ -203,37 +209,37 @@ G6.registerEdge('flow-line', {
         path: [
           ['M', startPoint.x, startPoint.y],
           ['L', startPoint.x, (startPoint.y + endPoint.y) / 2],
-          ['L', endPoint.x, (startPoint.y + endPoint.y) / 2,],
+          ['L', endPoint.x, (startPoint.y + endPoint.y) / 2],
           ['L', endPoint.x, endPoint.y],
         ],
       },
     });
 
     return shape;
-  }
+  },
 });
 
 const defaultStateStyles = {
   hover: {
     stroke: '#1890ff',
-    lineWidth: 2
-  }
-}
+    lineWidth: 2,
+  },
+};
 
 const defaultNodeStyle = {
   fill: '#91d5ff',
   stroke: '#40a9ff',
-  radius: 5
-}
+  radius: 5,
+};
 
 const defaultEdgeStyle = {
   stroke: '#91d5ff',
   endArrow: {
     path: 'M 0,0 L 12, 6 L 9,0 L 12, -6 Z',
     fill: '#91d5ff',
-    d: -20
-  }
-}
+    d: -20,
+  },
+};
 
 const defaultLayout = {
   type: 'compactBox',
@@ -253,21 +259,21 @@ const defaultLayout = {
   getHGap: function getHGap() {
     return 70;
   },
-}
+};
 
 const defaultLabelCfg = {
   style: {
     fill: '#000',
-    fontSize: 12
-  }
-}
+    fontSize: 12,
+  },
+};
 
 const width = document.getElementById('container').scrollWidth;
 const height = document.getElementById('container').scrollHeight || 500;
 
 const minimap = new G6.Minimap({
-  size: [150, 100]
-})
+  size: [150, 100],
+});
 const graph = new G6.TreeGraph({
   container: 'container',
   width,
@@ -275,16 +281,13 @@ const graph = new G6.TreeGraph({
   linkCenter: true,
   plugins: [minimap],
   modes: {
-    default: [
-      'drag-canvas',
-      'zoom-canvas',
-    ],
+    default: ['drag-canvas', 'zoom-canvas'],
   },
   defaultNode: {
     type: 'icon-node',
     size: [120, 40],
     style: defaultNodeStyle,
-    labelCfg: defaultLabelCfg
+    labelCfg: defaultLabelCfg,
   },
   defaultEdge: {
     type: 'flow-line',
@@ -292,34 +295,34 @@ const graph = new G6.TreeGraph({
   },
   nodeStateStyles: defaultStateStyles,
   edgeStateStyles: defaultStateStyles,
-  layout: defaultLayout
+  layout: defaultLayout,
 });
 
 graph.data(data);
 graph.render();
 graph.fitView();
 
-graph.on('node:mouseenter', evt => {
-  const { item } = evt
-  graph.setItemState(item, 'hover', true)
-})
+graph.on('node:mouseenter', (evt) => {
+  const { item } = evt;
+  graph.setItemState(item, 'hover', true);
+});
 
-graph.on('node:mouseleave', evt => {
-  const { item } = evt
-  graph.setItemState(item, 'hover', false)
-})
+graph.on('node:mouseleave', (evt) => {
+  const { item } = evt;
+  graph.setItemState(item, 'hover', false);
+});
 
-graph.on('node:click', evt => {
-  const { item, target } = evt
-  const targetType = target.get('type')
-  const name = target.get('name')
+graph.on('node:click', (evt) => {
+  const { item, target } = evt;
+  const targetType = target.get('type');
+  const name = target.get('name');
 
   // 增加元素
   if (targetType === 'marker') {
-    const model = item.getModel()
+    const model = item.getModel();
     if (name === 'add-item') {
       if (!model.children) {
-        model.children = []
+        model.children = [];
       }
       const id = `n-${Math.random()}`;
       model.children.push({
@@ -328,14 +331,15 @@ graph.on('node:click', evt => {
         leftIcon: {
           style: {
             fill: '#e6fffb',
-            stroke: '#e6fffb'
+            stroke: '#e6fffb',
           },
-          img: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ'
-        }
-      })
-      graph.updateChild(model, model.id)
+          img:
+            'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ',
+        },
+      });
+      graph.updateChild(model, model.id);
     } else if (name === 'remove-item') {
-      graph.removeChild(model.id)
+      graph.removeChild(model.id);
     }
   }
-})
+});

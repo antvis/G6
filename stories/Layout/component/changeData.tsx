@@ -391,37 +391,37 @@ const data2 = {
       id: 'b0',
       label: '0',
       x: 30,
-      y: 30
+      y: 30,
     },
     {
       id: 'b1',
       label: '1',
       x: 30,
-      y: 40
+      y: 40,
     },
     {
       id: 'b2',
       label: '2',
       x: 40,
-      y: 30
+      y: 30,
     },
     {
       id: 'b3',
       label: '3',
       x: 50,
-      y: 25
+      y: 25,
     },
     {
       id: 'b4',
       label: '4',
       x: 60,
-      y: 40
+      y: 40,
     },
     {
       id: 'b5',
       label: '5',
       x: 20,
-      y: 50
+      y: 50,
     },
   ],
   edges: [
@@ -459,7 +459,6 @@ const ChangeData = () => {
   const container = React.useRef();
   useEffect(() => {
     if (!graph) {
-
       const graph = new G6.Graph({
         container: container.current as string | HTMLElement,
         width: 500,
@@ -467,12 +466,12 @@ const ChangeData = () => {
         // layout: {
         //   type: 'force',
         // },
-        animate: true
+        animate: true,
       });
       graph.data(data);
       graph.render();
 
-      graph.on('canvas:click', e => {
+      graph.on('canvas:click', (e) => {
         graph.changeData(data2);
       });
     }

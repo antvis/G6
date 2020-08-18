@@ -7,4 +7,4 @@ The global rendering will be triggered frequently, which costs a lot. To improve
 
 ## Usage
 
-This demo hide the shapes beside the keyShape of nodes  by configuring the built-in behavesides `'drag-canvas'`. See the configuration `fixSelectedItems` in [zoom-canvas](/zh/docs/manual/middle/states/defaultBehavior#zoom-canvas) for detail.
+This demo hide the shapes beside the keyShape of nodes by configuring the built-in behavesides `'drag-canvas'`. See the configuration `fixSelectedItems` in [zoom-canvas](/zh/docs/manual/middle/states/defaultBehavior#zoom-canvas) for detail.

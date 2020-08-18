@@ -40,20 +40,20 @@ const data = {
   edges: [
     {
       source: 'node1',
-      target: 'node2'
+      target: 'node2',
     },
     {
       source: 'node2',
-      target: 'node3'
+      target: 'node3',
     },
     {
       source: 'node3',
-      target: 'node4'
+      target: 'node4',
     },
     {
       source: 'node4',
-      target: 'node1'
-    }
+      target: 'node1',
+    },
   ],
 };
 
@@ -64,7 +64,8 @@ const ImgMinimap2 = () => {
       const minimap = new G6.ImageMinimap({
         width: 600,
         padding: 10,
-        graphImg: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iBdpSKzx-_sAAAAAAAAAAABkARQnAQ'
+        graphImg:
+          'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iBdpSKzx-_sAAAAAAAAAAABkARQnAQ',
         //https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ
         //https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*DcGMQ7AN3Z0AAAAAAAAAAABkARQnAQ
       });

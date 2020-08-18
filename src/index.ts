@@ -7,7 +7,7 @@ import Layout from './layout';
 import Global from './global';
 import Util from './util';
 import Plugins from './plugins';
-import * as Algorithm from './algorithm'
+import * as Algorithm from './algorithm';
 
 const registerNode = Shape.registerNode;
 const registerEdge = Shape.registerEdge;
@@ -40,7 +40,11 @@ export {
   Menu,
   Fisheye,
   registerBehavior,
-  Algorithm
+  Algorithm,
+  ToolBar,
+  Tooltip,
+  TimeBar,
+  ImageMinimap,
 };
 
 export default {
@@ -66,5 +70,5 @@ export default {
   ImageMinimap,
   Algorithm,
   Arrow,
-  Marker
+  Marker,
 };

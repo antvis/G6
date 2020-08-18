@@ -11,12 +11,13 @@ There are two levels of animation in G6:
 <br />
 
 ## Global Animation
+
 The global animation is controlled by Graph instance. It takes effect when some global changes happen, such as:
 
 - `graph.updateLayout(cfg)` change the layout;
 - `graph.changeData()` change the data.
 
-Configure `animate: true` when instantiating a graph to achieve it. And the `animateCfg` is the configurations for the animate, see [animateCfg](#animateCfg) for more detail.  <br />
+Configure `animate: true` when instantiating a graph to achieve it. And the `animateCfg` is the configurations for the animate, see [animateCfg](#animateCfg) for more detail. <br />
 
 ```javascript
 const graph = new G6.Graph({
@@ -28,7 +29,6 @@ const graph = new G6.Graph({
   },
 });
 ```
-
 
 ## Item Animation
 
@@ -67,7 +67,7 @@ G6.registerNode(
       const shape = group.get('children')[0];
       // The animation
       shape.animate(
-        ratio => {
+        (ratio) => {
           // Returns the properties for each frame. The input parameter ratio is a number that range from 0 to 1. The return value is an object that defines the properties for this frame.
           // Magnify first, and then shrink
           const diff = ratio <= 0.5 ? ratio * 10 : (1 - ratio) * 10;
@@ -210,7 +210,7 @@ G6.registerNode(
       });
       // Add animation for the image
       image.animate(
-        ratio => {
+        (ratio) => {
           // Returns the properties for each frame. The input parameter ratio is a number that range from 0 to 1. The return value is an object that defines the properties for this frame.
           // Rotate by manipulating matrix
           // The current matrix
@@ -278,7 +278,7 @@ G6.registerEdge(
 
       // Add the animation to the red circle
       circle.animate(
-        ratio => {
+        (ratio) => {
           // Returns the properties for each frame. The input parameter ratio is a number that range from 0 to 1. The return value is an object that defines the properties for this frame
           // Get the position on the edge according to the ratio
           const tmpPoint = shape.getPoint(ratio);
@@ -352,7 +352,7 @@ G6.registerEdge(
       const shape = group.get('children')[0];
       const length = group.getTotalLength();
       shape.animate(
-        ratio => {
+        (ratio) => {
           // Returns the properties for each frame. The input parameter ratio is a number that range from 0 to 1. The return value is an object that defines the properties for this frame
           const startLen = ratio * length;
           // Calculate the lineDash
@@ -435,23 +435,23 @@ G6.registerEdge(
 ); // Extend the built-in edge cubic-horizontal
 
 // Listen the mouseenter event on node
-graph.on('node:mouseenter', ev => {
+graph.on('node:mouseenter', (ev) => {
   // Get the target node of the event
   const node = ev.item;
   // Get the related edges of the target node
   const edges = node.getEdges();
   // Turn the running state of all the related edges to be true. The setState function will be activated now
-  edges.forEach(edge => graph.setItemState(edge, 'running', true));
+  edges.forEach((edge) => graph.setItemState(edge, 'running', true));
 });
 
 // Listen the mouseleave event on node
-graph.on('node:mouseleave', ev => {
+graph.on('node:mouseleave', (ev) => {
   // Get the target node of the event
   const node = ev.item;
   // Get the related edges of the target node
   const edges = node.getEdges();
   // Turn the running state of all the related edges to be false. The setState function will be activated now
-  edges.forEach(edge => graph.setItemState(edge, 'running', false));
+  edges.forEach((edge) => graph.setItemState(edge, 'running', false));
 });
 
 // graph.data(data);
@@ -460,19 +460,17 @@ graph.on('node:mouseleave', ev => {
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️Attention:</strong></span> When `running` is turned to be `false`, the animation should be stopped and the `lineDash` should be cleared.
 
-
 ## animateCfg
 
-| Configuration | Type            | Default Value | Description                         |
-| ---- | --------------- | -------- | ----------------------------------- |
-| duration | Number | 500     | The duration for animating once |
-| easing | boolean |  'linearEasing'    | The easing function for the animation, see [Easing Function](#easing-Function) for more detail |
-| delay | Number |  0     | Execute the animation with delay |
-| repeat | boolean | false     | Whether execute the animation repeatly |
-| callback | Function | undefined     | Callback function after the animation finish |
-| pauseCallback | Function | undefined     | Callback function after the animation is paused by shape.pause() |
-| resumeCallback | Function | undefined     | Callback function after the animation is resume by shape.resume() |
-
+| Configuration | Type | Default Value | Description |
+| --- | --- | --- | --- |
+| duration | Number | 500 | The duration for animating once |
+| easing | boolean | 'linearEasing' | The easing function for the animation, see [Easing Function](#easing-Function) for more detail |
+| delay | Number | 0 | Execute the animation with delay |
+| repeat | boolean | false | Whether execute the animation repeatly |
+| callback | Function | undefined | Callback function after the animation finish |
+| pauseCallback | Function | undefined | Callback function after the animation is paused by shape.pause() |
+| resumeCallback | Function | undefined | Callback function after the animation is resume by shape.resume() |
 
 ### Easing Function
 

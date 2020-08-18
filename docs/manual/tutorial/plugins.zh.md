@@ -42,8 +42,6 @@ const graph = new G6.Graph({
 });
 ```
 
-
-
 ### Image Minimap
 
 由于 [Minimap](#minimap) 的原理是将主画布内容复制到 minimap 的画布上，在大数据量下可能会造成双倍的绘制效率成本。为缓解该问题，Image Minimap 采用另一种机制，根据提供的图片地址或 base64 字符串 `graphImg` 绘制 `<img />` 代替 minimap 上的 canvas。该方法可以大大减轻两倍 canvas 绘制的压力。但 `graphImg` 完全交由 G6 的用户控制，需要注意主画布更新时需要使用 `updateGraphImg` 方法替换 `graphImg`。
@@ -52,11 +50,9 @@ const graph = new G6.Graph({
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v1svQLkEPrUAAAAAAAAAAABkARQnAQ' width=300 alt='img'/>
 
-
 **使用方法**
 
 实例化 Image Minimap 插件时，`graphImg` 是必要参数。建议在主画布更新时使用 `updateGraphImg(img)` 同步更新 minimap 图片，其中参数 `img` 是图片地址或 base64 文本。
-
 
 ```javascript
 // 实例化 Image Minimap 插件
@@ -76,7 +72,6 @@ graph.render()
 imageMinimap.updateGraphImg(img); // 使用新的图片（用户自己生成）替换 minimap 图片
 
 ```
-
 
 ### Grid 网格
 

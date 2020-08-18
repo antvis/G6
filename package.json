@@ -41,8 +41,8 @@
     "coverage": "jest --coverage",
     "demos": "start-storybook -p 8080 -c .storybook",
     "doc": "rimraf apis && typedoc",
-    "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty  \"./\"",
-    "lint:src": "eslint --cache --ext .ts --format=pretty  \"./src\"",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx --format=pretty \"./\"",
+    "lint:src": "eslint --ext .ts --format=pretty \"./src\"",
     "prettier": "prettier -c --write \"**/*\"",
     "site:build": "npm run site:clean && GATSBY=true gatsby build --prefix-paths",
     "site:clean": "gatsby clean",
@@ -50,23 +50,23 @@
     "site:deploy": "npm run site:build && gh-pages -d public",
     "start": "npm run site:develop",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/algorithm/mst-spec.ts",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
     "watch": "father build -w",
     "cdn": "antv-bin upload -n @antv/g6"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
-    "**/*.{js,jsx,tsx,ts,less,md,json}": [
-      "prettier --write",
-      "git add"
+    "**/*.{js,jsx,ts,tsx}": [
+      "npm run lint-staged:js",
+      "prettier --write"
     ],
-    "**/*.{js,jsx}": "npm run lint-staged:js",
-    "**/*.{js,ts,tsx}": "npm run lint-staged:js"
+    "**/*.{less,md,json}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@antv/color-util": "^2.0.5",
@@ -100,9 +100,11 @@
     "@turf/turf": "^5.1.6",
     "@types/jest": "^25.2.1",
     "@types/node": "13.11.1",
+    "@typescript-eslint/eslint-plugin": "^3.9.0",
     "@umijs/fabric": "^2.0.0",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
+    "eslint": "^7.7.0",
     "event-simulate": "~1.0.0",
     "father": "^2.29.1",
     "gatsby": "^2.24.40",
@@ -111,22 +113,19 @@
     "jest": "^26.0.1",
     "jest-electron": "^0.1.7",
     "jest-extended": "^0.11.2",
-    "lint-staged": "^9.2.3",
-    "pre-commit": "^1.2.2",
+    "lint-staged": "^10.2.11",
     "prettier": "^2.0.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-i18next": "^11.1.0",
     "rimraf": "^3.0.0",
-    "rollup-plugin-web-worker-loader": "^0.8.1",
     "ts-jest": "^24.1.0",
     "ts-loader": "^7.0.3",
-    "ttypescript": "^1.5.8",
     "typedoc": "^0.17.6",
     "typedoc-plugin-markdown": "^2.2.11",
     "typescript": "^3.5.3",
     "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10",
-    "worker-loader": "^2.0.0"
+    "worker-loader": "^3.0.0"
   }
 }

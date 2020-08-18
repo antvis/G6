@@ -7,7 +7,7 @@ import G6 from '@antv/g6';
 G6.registerBehavior('double-finger-drag-canvas', {
   getEvents: function getEvents() {
     return {
-      wheel: 'onWheel'
+      wheel: 'onWheel',
     };
   },
 
@@ -31,9 +31,8 @@ G6.registerBehavior('double-finger-drag-canvas', {
       graph.translate(-x, -y);
     }
     ev.preventDefault();
-  }
+  },
 });
-
 
 const width = document.getElementById('container').scrollWidth;
 const height = document.getElementById('container').scrollHeight || 500;
@@ -42,19 +41,18 @@ const graph = new G6.Graph({
   width,
   height,
   modes: {
-    default: ['double-finger-drag-canvas']
+    default: ['double-finger-drag-canvas'],
   },
   layout: {
-    type: 'force'
+    type: 'force',
   },
 });
 
 graph.get('canvas').set('localRefresh', false);
 
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
-  .then(res => res.json())
-  .then(data => {
+  .then((res) => res.json())
+  .then((data) => {
     graph.data(data);
     graph.render();
   });
-

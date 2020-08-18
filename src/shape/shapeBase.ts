@@ -12,7 +12,7 @@ import { deepMix, each, mix, isBoolean, isPlainObject, clone } from '@antv/util'
 
 const CLS_SHAPE_SUFFIX = '-shape';
 const CLS_LABEL_SUFFIX = '-label';
-const ARROWS = ['startArrow', 'endArrow']
+const ARROWS = ['startArrow', 'endArrow'];
 export const CLS_LABEL_BG_SUFFIX = '-label-bg';
 
 // 单个 shape 带有一个 label，共用这段代码
@@ -52,7 +52,7 @@ export const shapeBase: ShapeOptions = {
    * @param group
    * @param keyShape
    */
-  afterDraw(cfg?: ModelConfig, group?: GGroup, keyShape?: IShape) { },
+  afterDraw(cfg?: ModelConfig, group?: GGroup, keyShape?: IShape) {},
   drawShape(cfg?: ModelConfig, group?: GGroup): IShape {
     return null as any;
   },
@@ -152,7 +152,7 @@ export const shapeBase: ShapeOptions = {
     const calculateStyle = this.getLabelStyleByPosition!(cfg, labelCfg, group);
     const attrName = `${this.itemType}Label`; // 取 nodeLabel，edgeLabel 的配置项
     const defaultStyle = (Global as any)[attrName] ? (Global as any)[attrName].style : null;
-    const labelStyle = Object.assign({}, defaultStyle, calculateStyle, labelCfg.style);
+    const labelStyle = { ...defaultStyle, ...calculateStyle, ...labelCfg.style };
     return labelStyle;
   },
 
@@ -225,7 +225,7 @@ export const shapeBase: ShapeOptions = {
         const cfgBgStyle = labelCfg.style && labelCfg.style.background;
 
         // 需要融合当前 label 的样式 label.attr()。不再需要全局/默认样式，因为已经应用在当前的 label 上
-        const labelStyle = Object.assign({}, label.attr(), calculateStyle, cfgStyle);
+        const labelStyle = { ...label.attr(), ...calculateStyle, ...cfgStyle };
         const rotate = labelStyle.rotate;
         delete labelStyle.rotate;
 
@@ -259,7 +259,7 @@ export const shapeBase: ShapeOptions = {
             group,
           );
           // const labelBgStyle = Object.assign({}, labelBg.attr(), calculateBgStyle, cfgBgStyle);
-          const labelBgStyle = Object.assign({}, calculateBgStyle, cfgBgStyle);
+          const labelBgStyle = { ...calculateBgStyle, ...cfgBgStyle };
           labelBg.resetMatrix();
           if (rotate) {
             labelBg.rotateAtStart(rotate);
@@ -273,7 +273,7 @@ export const shapeBase: ShapeOptions = {
   },
 
   // update(cfg, item) // 默认不定义
-  afterUpdate(cfg?: ModelConfig, item?: Item) { },
+  afterUpdate(cfg?: ModelConfig, item?: Item) {},
   /**
    * 设置节点的状态，主要是交互状态，业务状态请在 draw 方法中实现
    * 单图形的节点仅考虑 selected、active 状态，有其他状态需求的用户自己复写这个方法
@@ -325,11 +325,10 @@ export const shapeBase: ShapeOptions = {
       // 所有生效的 state 的样式
       const enableStatesStyle = clone(item.getCurrentStatesStyle());
 
-      const model = item.getModel()
+      const model = item.getModel();
       // 原始样式
       // const originStyle = clone(item.getOriginStyle());
-      const originStyle = mix({}, model.style, clone(item.getOriginStyle()))
-
+      const originStyle = mix({}, model.style, clone(item.getOriginStyle()));
 
       const keyShapeName = shape.get('name');
       const keyShapeStyles = shape.attr();
@@ -354,7 +353,7 @@ export const shapeBase: ShapeOptions = {
           }
         } else {
           // 从图元素现有的样式中删除本次要取消的 states 中存在的属性值。使用对象检索更快
-          const keptAttrs = { 'x': 1, 'y': 1, 'cx': 1, 'cy': 1 };
+          const keptAttrs = { x: 1, y: 1, cx: 1, cy: 1 };
           if (keyShapeStyles[p] && !keptAttrs[p]) {
             delete keyShapeStyles[p];
           }
@@ -382,7 +381,7 @@ export const shapeBase: ShapeOptions = {
             mix(originStyle[keyShapeName], {
               [key]: enableStyle,
             });
-            delete originStyle[key]
+            delete originStyle[key];
           }
           delete enableStatesStyle[key];
         }
@@ -401,10 +400,11 @@ export const shapeBase: ShapeOptions = {
         } else {
           // 当更新 combo 状态时，当不存在 keyShapeName 时候，则认为是设置到 keyShape 上面的
           if (type === 'combo') {
-            !keyShapeName &&
+            if (!keyShapeName) {
               shape.attr({
                 [originKey]: style,
               });
+            }
           } else {
             shape.attr({
               [originKey]: style,

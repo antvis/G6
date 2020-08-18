@@ -1,21 +1,26 @@
 import { G6Event, IG6GraphEvent, IPoint, Item } from '../types';
 import { isPolygonsIntersect } from '../util/math';
-import { pathToPoints } from '../util/path'
+import { pathToPoints } from '../util/path';
 
 const DEFAULT_TRIGGER = 'shift';
 const ALLOW_EVENTS = ['drag', 'shift', 'ctrl', 'alt', 'control'];
 
 const isItemIntersecPolygon = (item: Item, polyPoints: number[][]) => {
   let shapePoints;
-  const shape = item.getKeyShape()
+  const shape = item.getKeyShape();
   if (item.get('type') === 'path') {
-    shapePoints = pathToPoints(shape.attr('path'))
+    shapePoints = pathToPoints(shape.attr('path'));
   } else {
     const shapeBBox = shape.getCanvasBBox();
-    shapePoints = [[shapeBBox.minX, shapeBBox.minY], [shapeBBox.maxX, shapeBBox.minY], [shapeBBox.maxX, shapeBBox.maxY], [shapeBBox.minX, shapeBBox.maxY]];
+    shapePoints = [
+      [shapeBBox.minX, shapeBBox.minY],
+      [shapeBBox.maxX, shapeBBox.minY],
+      [shapeBBox.maxX, shapeBBox.maxY],
+      [shapeBBox.minX, shapeBBox.maxY],
+    ];
   }
-  return isPolygonsIntersect(polyPoints, shapePoints)
-}
+  return isPolygonsIntersect(polyPoints, shapePoints);
+};
 
 export default {
   getDefaultCfg(): object {
@@ -26,8 +31,8 @@ export default {
         stroke: '#DDEEFE',
         lineWidth: 1,
       },
-      onSelect() { },
-      onDeselect() { },
+      onSelect() {},
+      onDeselect() {},
       selectedState: 'selected',
       trigger: DEFAULT_TRIGGER,
       includeEdges: true,
@@ -82,7 +87,7 @@ export default {
     }
     this.dragging = true;
     this.originPoint = { x: e.x, y: e.y };
-    this.points.push(this.originPoint)
+    this.points.push(this.originPoint);
     lasso.show();
   },
   onDragMove(e: IG6GraphEvent) {
@@ -92,7 +97,7 @@ export default {
     if (this.trigger !== 'drag' && !this.keydown) {
       return;
     }
-    this.points.push({ x: e.x, y: e.y })
+    this.points.push({ x: e.x, y: e.y });
     this.updateLasso(e);
   },
   onDragEnd(e: IG6GraphEvent) {
@@ -102,35 +107,35 @@ export default {
     if (this.trigger !== 'drag' && !this.keydown) {
       return;
     }
-    this.points.push(this.originPoint)
+    this.points.push(this.originPoint);
     this.getSelectedItems();
 
     this.lasso.remove(true);
     this.lasso = null;
-    this.points = []
+    this.points = [];
     this.dragging = false;
   },
   getLassoPath() {
-    const points: IPoint[] = this.points
-    const path = []
+    const points: IPoint[] = this.points;
+    const path = [];
     if (points.length) {
       points.forEach((point, index) => {
         if (index === 0) {
-          path.push(['M', point.x, point.y])
+          path.push(['M', point.x, point.y]);
         } else {
-          path.push(['L', point.x, point.y])
+          path.push(['L', point.x, point.y]);
         }
-      })
-      path.push(['L', points[0].x, points[0].y])
+      });
+      path.push(['L', points[0].x, points[0].y]);
     }
-    return path
+    return path;
   },
   clearStates() {
     const { graph, selectedState } = this;
     const nodes = graph.findAllByState('node', selectedState);
     const edges = graph.findAllByState('edge', selectedState);
-    nodes.forEach(node => graph.setItemState(node, selectedState, false));
-    edges.forEach(edge => graph.setItemState(edge, selectedState, false));
+    nodes.forEach((node) => graph.setItemState(node, selectedState, false));
+    edges.forEach((edge) => graph.setItemState(edge, selectedState, false));
 
     if (this.onDeselect) {
       this.onDeselect(this.selectedNodes, this.selectedEdges);
@@ -149,11 +154,14 @@ export default {
   },
   getSelectedItems() {
     const { graph, shouldUpdate } = this;
-    const lassoContour = this.points.map(point => [graph.getCanvasByPoint(point.x, point.y).x, graph.getCanvasByPoint(point.x, point.y).y])
+    const lassoContour = this.points.map((point) => [
+      graph.getCanvasByPoint(point.x, point.y).x,
+      graph.getCanvasByPoint(point.x, point.y).y,
+    ]);
     const state = this.selectedState;
     const selectedNodes = [];
     const selectedIds = [];
-    graph.getNodes().forEach(node => {
+    graph.getNodes().forEach((node) => {
       if (isItemIntersecPolygon(node, lassoContour)) {
         if (shouldUpdate(node, 'select')) {
           selectedNodes.push(node);
@@ -166,9 +174,9 @@ export default {
     const selectedEdges = [];
     if (this.includeEdges) {
       // 选中边，边的source和target都在选中的节点中时才选中
-      selectedNodes.forEach(node => {
+      selectedNodes.forEach((node) => {
         const edges = node.getOutEdges();
-        edges.forEach(edge => {
+        edges.forEach((edge) => {
           const model = edge.getModel();
           const { source, target } = model;
           if (
@@ -213,7 +221,7 @@ export default {
   updateLasso(e: IG6GraphEvent) {
     const self = this;
     this.lasso.attr({
-      path: self.getLassoPath()
+      path: self.getLassoPath(),
     });
   },
   onKeyDown(e: IG6GraphEvent) {
@@ -235,7 +243,7 @@ export default {
       // 清除所有选中状态后，设置拖得动状态为false，并清除框选的lasso
       this.lasso.remove(true);
       this.lasso = null;
-      this.points = []
+      this.points = [];
       this.dragging = false;
     }
     this.keydown = false;

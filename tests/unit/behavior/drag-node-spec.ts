@@ -324,29 +324,20 @@ describe('drag-node', () => {
     });
     const edge = graph.addItem('edge', { source, target });
 
-    let path = edge
-      .get('group')
-      .get('children')[0]
-      .attr('path');
+    let path = edge.get('group').get('children')[0].attr('path');
     expect(path[0][1]).toEqual(57.77817459305202);
     expect(path[0][2]).toEqual(57.77817459305202);
     expect(path[1][1]).toEqual(289);
     expect(path[1][2]).toEqual(300);
     graph.emit('node:dragstart', { x: 100, y: 100, item: source });
     graph.emit('node:drag', { x: 120, y: 120, item: source });
-    path = edge
-      .get('group')
-      .get('children')[0]
-      .attr('path');
+    path = edge.get('group').get('children')[0].attr('path');
     expect(path[0][1]).toEqual(57.77817459305202);
     expect(path[0][2]).toEqual(57.77817459305202);
     expect(path[1][1]).toEqual(289);
     expect(path[1][2]).toEqual(300);
     graph.emit('node:dragend', { x: 140, y: 140, item: source });
-    path = edge
-      .get('group')
-      .get('children')[0]
-      .attr('path');
+    path = edge.get('group').get('children')[0].attr('path');
     expect(path[0][1]).toEqual(97.77817459305203);
     expect(path[0][2]).toEqual(97.77817459305203);
     expect(path[1][1]).toEqual(289);
@@ -422,7 +413,7 @@ describe('drag-node', () => {
       label: 'test label',
       labelCfg: { autoRotate: true },
     });
-    const label = edge.get('group').find(g => {
+    const label = edge.get('group').find((g) => {
       return g.get('className') === 'edge-label';
     });
     expect(label).not.toBe(undefined);
@@ -452,7 +443,7 @@ describe('drag-node', () => {
           {
             type: 'drag-node',
             enableDelegate: false,
-            shouldUpdate: e => {
+            shouldUpdate: (e) => {
               expect(e).not.toBe(undefined);
               return false;
             },
@@ -486,7 +477,7 @@ describe('drag-node', () => {
           {
             type: 'drag-node',
             enableDelegate: false,
-            shouldBegin: e => {
+            shouldBegin: (e) => {
               expect(e).not.toBe(undefined);
               return false;
             },
@@ -533,10 +524,10 @@ describe('drag-node', () => {
         },
       },
     });
-    graph.render()
+    graph.render();
     const node = graph.addItem('node', {
       id: 'node1',
-    })
+    });
 
     graph.emit('node:dragstart', { x: 0, y: 0, item: node });
     graph.emit('node:drag', { x: 120, y: 120, item: node });
@@ -545,8 +536,8 @@ describe('drag-node', () => {
     expect(matrix[0]).toEqual(1);
     expect(matrix[6]).toEqual(120);
     expect(matrix[7]).toEqual(120);
-    graph.destroy()
-  })
+    graph.destroy();
+  });
   it('drag node not update edge', () => {
     const graph = new Graph({
       container: div,
@@ -703,14 +694,9 @@ describe('drag-node', () => {
     graph.data(data);
     graph.render();
 
-    graph.on('node:click', e => {
+    graph.on('node:click', (e) => {
       console.log(e);
-      console.log(
-        graph
-          .getNodes()[0]
-          .get('group')
-          .get('children')[1],
-      );
+      console.log(graph.getNodes()[0].get('group').get('children')[1]);
     });
     const node = graph.getNodes()[0];
     const anchorPoint = node.get('group').get('children')[1];
@@ -761,7 +747,7 @@ describe('drag-node', () => {
       draggable: true,
       // name: 'circle2'
     });
-    canvas.on('drag', e => {
+    canvas.on('drag', (e) => {
       circle1.attr('x', e.x);
       circle1.attr('y', e.y);
     });

@@ -1,7 +1,7 @@
 language: node_js
 
 node_js:
-  - '10'
+  - '12'
 
 env:
   - NODE_ENV=test
@@ -15,7 +15,16 @@ addons:
 install:
   - export DISPLAY=':99.0'
   - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-  - npm install
+  - yarn
 
 script:
-  - npm run ci && cat ./coverage/lcov.info | rm -rf ./coverage
+  - |
+    if [ "$TEST_TYPE" = test ]; then
+      yarn ci && bash <(curl -s https://codecov.io/bash)
+    else
+      yarn $TEST_TYPE
+    fi
+env:
+  matrix:
+    - TEST_TYPE=lint
+    - TEST_TYPE=test

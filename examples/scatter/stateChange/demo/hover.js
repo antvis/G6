@@ -160,13 +160,13 @@ graph.render();
 graph.fitView();
 
 // set hover state
-graph.on('node:mouseenter', ev => {
+graph.on('node:mouseenter', (ev) => {
   const node = ev.item;
   const edges = node.getEdges();
-  edges.forEach(edge => graph.setItemState(edge, 'running', true));
+  edges.forEach((edge) => graph.setItemState(edge, 'running', true));
 });
-graph.on('node:mouseleave', ev => {
+graph.on('node:mouseleave', (ev) => {
   const node = ev.item;
   const edges = node.getEdges();
-  edges.forEach(edge => graph.setItemState(edge, 'running', false));
+  edges.forEach((edge) => graph.setItemState(edge, 'running', false));
 });

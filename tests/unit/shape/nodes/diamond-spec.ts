@@ -60,7 +60,7 @@ describe('diamond test', () => {
       const group = node.get('group');
       expect(group.getCount()).toEqual(2);
 
-      const label = group.find(g => g.get('className') === 'node-label');
+      const label = group.find((g) => g.get('className') === 'node-label');
       expect(label).not.toBe(undefined);
       expect(label.attr('fill')).toEqual('#595959');
       const type = label.get('type');
@@ -110,7 +110,7 @@ describe('diamond test', () => {
       expect(keyShape.attr('fill')).toEqual('red');
       expect(keyShape.attr('stroke')).toEqual('#ccc');
 
-      const icon = group.find(g => g.get('className') === 'diamond-icon');
+      const icon = group.find((g) => g.get('className') === 'diamond-icon');
       expect(icon).not.toBe(undefined);
       expect(icon.attr('img')).toEqual(
         'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
@@ -168,17 +168,17 @@ describe('diamond test', () => {
       expect(keyShape.attr('stroke')).toEqual('#5B8FF9');
       expect(keyShape.attr('lineWidth')).toEqual(1);
 
-      const markTop = group.find(g => g.get('className') === 'link-point-top');
+      const markTop = group.find((g) => g.get('className') === 'link-point-top');
       expect(markTop).not.toBe(null);
       expect(markTop.attr('r')).toEqual(5);
       expect(markTop.attr('fill')).toEqual('#fff');
 
-      const markBottom = group.find(g => g.get('className') === 'link-point-bottom');
+      const markBottom = group.find((g) => g.get('className') === 'link-point-bottom');
       expect(markBottom).not.toBe(null);
 
       let hasTrigger = false;
       expect(hasTrigger).toBe(false);
-      graph.on('node:mouseenter', evt => {
+      graph.on('node:mouseenter', (evt) => {
         hasTrigger = evt.hasTrigger;
         graph.setItemState(evt.item, 'hover', true);
       });
@@ -276,7 +276,7 @@ describe('diamond test', () => {
       });
       let group = node.get('group');
       expect(group.getCount()).toEqual(3);
-      const icon = group.find(g => g.get('className') === 'diamond-icon');
+      const icon = group.find((g) => g.get('className') === 'diamond-icon');
       expect(icon.attr('width')).toEqual(50);
       expect(icon.attr('x')).toEqual(-25);
       expect(icon.attr('y')).toEqual(-25);
@@ -334,7 +334,7 @@ describe('diamond test', () => {
         },
       });
 
-      const label = group.find(g => g.get('className') === 'node-label');
+      const label = group.find((g) => g.get('className') === 'node-label');
       expect(label).not.toEqual(null);
       expect(label.attr('text')).toEqual('new diamond label');
       expect(label.attr('fill')).toEqual('#ff0');
@@ -388,7 +388,7 @@ describe('diamond test', () => {
         },
       });
 
-      const label = group.find(g => g.get('className') === 'node-label');
+      const label = group.find((g) => g.get('className') === 'node-label');
       expect(label).not.toEqual(null);
       expect(label.attr('text')).toEqual('new diamond label');
       expect(label.attr('fill')).toEqual('#ff0');

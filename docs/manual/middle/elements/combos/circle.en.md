@@ -3,9 +3,7 @@ title: Circle
 order: 1
 ---
 
-Built-in Circle Combo has the default style as below, the label is drawed on the center of it.
-<a href='/en/examples/item/defaultCombos#circle' target='_blank'>Demo</a>
-<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ijeuQoiH0JUAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
+Built-in Circle Combo has the default style as below, the label is drawed on the center of it. <a href='/en/examples/item/defaultCombos#circle' target='_blank'>Demo</a> <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ijeuQoiH0JUAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ## Usage
 
@@ -118,7 +116,7 @@ const graph = new G6.Graph({
       refX: 5,
       style: {
         fill: '#bae637',
-        fontSize: 15
+        fontSize: 15,
         // ... The style of the label
       },
     },

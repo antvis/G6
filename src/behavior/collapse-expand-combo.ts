@@ -11,7 +11,7 @@ export default {
   getDefaultCfg(): object {
     return {
       trigger: DEFAULT_TRIGGER,
-      relayout: true
+      relayout: true,
     };
   },
   getEvents(): { [key in G6Event]?: string } {

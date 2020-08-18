@@ -52,12 +52,12 @@ const data = {
 
 line 边支持 [边通用配置项](/zh/docs/manual/middle/elements/edges/defaultEdge/#边的通用属性)，以下表格对部分常用配置项进行说明。对于 Object 类型的配置项将在后面有详细讲解：
 
-| 名称     | 含义           | 类型   | 备注                             |
-| -------- | -------------- | ------ | -------------------------------- |
-| color    | 直线的颜色     | String | 优先级低于 `style` 中的 `stroke` |
-| style    | 直线的样式     | Object | Canvas 支持的属性                |
-| label    | 标签文本文字   | String |                                  |
-| labelCfg | 标签文本配置项 | Object |                                  |
+| 名称 | 含义 | 类型 | 备注 |
+| --- | --- | --- | --- |
+| color | 直线的颜色 | String | 优先级低于 `style` 中的 `stroke` |
+| style | 直线的样式 | Object | Canvas 支持的属性 |
+| label | 标签文本文字 | String |  |
+| labelCfg | 标签文本配置项 | Object |  |
 | stateStyles | 各状态下的样式 | Object | 详见[配置状态样式](/zh/docs/manual/middle/states/state#配置-state-样式) |
 
 ### 样式属性 style

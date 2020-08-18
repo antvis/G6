@@ -21,7 +21,7 @@ G6.registerEdge(
 
       // animation for the red circle
       circle.animate(
-        ratio => {
+        (ratio) => {
           // the operations in each frame. Ratio ranges from 0 to 1 indicating the prograss of the animation. Returns the modified configurations
           // get the position on the edge according to the ratio
           const tmpPoint = shape.getPoint(ratio);

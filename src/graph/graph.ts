@@ -4,7 +4,7 @@ import { BBox, Point } from '@antv/g-base/lib/types';
 import GCanvas from '@antv/g-canvas/lib/canvas';
 import GSVGCanvas from '@antv/g-svg/lib/canvas';
 import { mat3 } from '@antv/matrix-util/lib';
-import { clone, deepMix, each, isPlainObject, isString, isNumber, groupBy } from '@antv/util'
+import { clone, deepMix, each, isPlainObject, isString, isNumber, groupBy } from '@antv/util';
 import { IGraph } from '../interface/graph';
 import { IEdge, INode, ICombo } from '../interface/item';
 import {
@@ -26,7 +26,7 @@ import {
   ModeType,
   States,
   ComboTree,
-  HullCfg
+  HullCfg,
 } from '../types';
 import { getAllNodeInGroups } from '../util/group';
 import { move } from '../util/math';
@@ -44,11 +44,11 @@ import PluginBase from '../plugins/base';
 import createDom from '@antv/dom-util/lib/create-dom';
 import { plainCombosToTrees, traverseTree, reconstructTree, traverseTreeUp } from '../util/graphic';
 import degree from '../algorithm/degree';
-import Stack from '../algorithm/structs/stack'
+import Stack from '../algorithm/structs/stack';
 import adjMatrix from '../algorithm/adjacent-matrix';
-import floydWarshall from '../algorithm/floydWarshall'
+import floydWarshall from '../algorithm/floydWarshall';
 
-import Hull from '../item/hull'
+import Hull from '../item/hull';
 
 const NODE = 'node';
 const SVG = 'svg';
@@ -57,7 +57,7 @@ interface IGroupBBox {
   [key: string]: BBox;
 }
 
-type dataUrlType = 'image/png' | 'image/jpeg' | 'image/webp' | 'image/bmp';
+type DataUrlType = 'image/png' | 'image/jpeg' | 'image/webp' | 'image/bmp';
 
 export interface PrivateGraphOption extends GraphOptions {
   data: GraphData;
@@ -101,10 +101,10 @@ export default class Graph extends EventEmitter implements IGraph {
   public destroyed: boolean;
 
   // undo 栈
-  private undoStack: Stack
+  private undoStack: Stack;
 
   // redo 栈
-  private redoStack: Stack
+  private redoStack: Stack;
 
   constructor(cfg: GraphOptions) {
     super();
@@ -116,8 +116,8 @@ export default class Graph extends EventEmitter implements IGraph {
     // 启用 stack 后，实例化 undoStack 和 redoStack
     if (this.cfg.enabledStack) {
       // 实例化 undo 和 redo 栈
-      this.undoStack = new Stack(this.cfg.maxStep)
-      this.redoStack = new Stack(this.cfg.maxStep)
+      this.undoStack = new Stack(this.cfg.maxStep);
+      this.redoStack = new Stack(this.cfg.maxStep);
     }
   }
 
@@ -167,13 +167,13 @@ export default class Graph extends EventEmitter implements IGraph {
       canvas = new GSVGCanvas({
         container,
         width,
-        height
+        height,
       });
     } else {
       const canvasCfg: any = {
         container,
         width,
-        height
+        height,
       };
       const pixelRatio = this.get('pixelRatio');
       if (pixelRatio) {
@@ -189,7 +189,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
   private initPlugin(): void {
     const self = this;
-    each(self.get('plugins'), plugin => {
+    each(self.get('plugins'), (plugin) => {
       if (!plugin.destroyed && plugin.initPlugin) {
         plugin.initPlugin(self);
       }
@@ -220,8 +220,8 @@ export default class Graph extends EventEmitter implements IGraph {
 
       const comboGroup: IGroup = group.addGroup({
         id: `${id}-combo`,
-        className: Global.comboContainerClassName
-      })
+        className: Global.comboContainerClassName,
+      });
 
       // 用于存储自定义的群组
       const customGroup: IGroup = group.addGroup({
@@ -422,7 +422,7 @@ export default class Graph extends EventEmitter implements IGraph {
       maxStep: 10,
 
       // 存储图上的 tooltip dom，方便销毁
-      tooltips: []
+      tooltips: [],
     };
   }
 
@@ -433,7 +433,7 @@ export default class Graph extends EventEmitter implements IGraph {
    */
   public set<T = any>(key: string | object, val?: T): Graph {
     if (isPlainObject(key)) {
-      this.cfg = Object.assign({}, this.cfg, key);
+      this.cfg = { ...this.cfg, ...key };
     } else {
       this.cfg[key] = val;
     }
@@ -512,7 +512,6 @@ export default class Graph extends EventEmitter implements IGraph {
     return this.get('height');
   }
 
-
   /**
    * 清理元素多个状态
    * @param {string|Item} item 元素id或元素实例
@@ -569,11 +568,11 @@ export default class Graph extends EventEmitter implements IGraph {
 
   /**
    * 设置各个 combo 的配置
-   * @param comboFn 
+   * @param comboFn
    */
   public combo(comboFn: (config: ComboConfig) => Partial<ComboConfig>): void {
     if (typeof comboFn === 'function') {
-      this.set('comboMapper', comboFn)
+      this.set('comboMapper', comboFn);
     }
   }
 
@@ -634,7 +633,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @return {object} 元素实例
    */
   public findAllByState<T extends Item>(type: ITEM_TYPE, state: string): T[] {
-    return this.findAll(type, item => item.hasState(state));
+    return this.findAll(type, (item) => item.hasState(state));
   }
 
   /**
@@ -857,9 +856,9 @@ export default class Graph extends EventEmitter implements IGraph {
     itemController.changeItemVisibility(item, true);
     if (stack && this.get('enabledStack')) {
       if (isString(item)) {
-        this.pushStack('visible', item)
+        this.pushStack('visible', item);
       } else {
-        this.pushStack('visible', (item as Item).getID())
+        this.pushStack('visible', (item as Item).getID());
       }
     }
   }
@@ -874,9 +873,9 @@ export default class Graph extends EventEmitter implements IGraph {
     itemController.changeItemVisibility(item, false);
     if (stack && this.get('enabledStack')) {
       if (isString(item)) {
-        this.pushStack('visible', item)
+        this.pushStack('visible', item);
       } else {
-        this.pushStack('visible', (item as Item).getID())
+        this.pushStack('visible', (item as Item).getID());
       }
     }
   }
@@ -932,8 +931,8 @@ export default class Graph extends EventEmitter implements IGraph {
       if (stack && this.get('enabledStack')) {
         this.pushStack('delete', {
           ...(nodeItem as Item).getModel(),
-          type
-        })
+          type,
+        });
       }
 
       const itemController: ItemController = this.get('itemController');
@@ -987,15 +986,15 @@ export default class Graph extends EventEmitter implements IGraph {
       let foundParent = false;
       comboTrees.forEach((ctree: ComboTree) => {
         if (foundParent) return; // terminate the forEach after the tree containing the item is done
-        traverseTreeUp<ComboTree>(ctree, child => {
+        traverseTreeUp<ComboTree>(ctree, (child) => {
           // find the parent
           if (model.parentId === child.id) {
             foundParent = true;
             const newCombo: ComboTree = {
               id: model.id as string,
               depth: child.depth + 2,
-              ...model
-            }
+              ...model,
+            };
             if (child.children) child.children.push(newCombo);
             else child.children = [newCombo];
             model.depth = newCombo.depth;
@@ -1014,7 +1013,7 @@ export default class Graph extends EventEmitter implements IGraph {
         const newCombo: ComboTree = {
           id: model.id as string,
           depth: 0,
-          ...model
+          ...model,
         };
         model.depth = newCombo.depth;
         comboTrees.push(newCombo);
@@ -1024,16 +1023,19 @@ export default class Graph extends EventEmitter implements IGraph {
     } else if (type === 'node' && isString(model.comboId) && comboTrees) {
       const parentCombo = this.findById(model.comboId as string);
       if (parentCombo && parentCombo.getType && parentCombo.getType() !== 'combo') {
-        console.warn(`'${model.comboId}' is a not id of a combo in the graph, the node will be added without combo.`);
+        console.warn(
+          `'${model.comboId}' is a not id of a combo in the graph, the node will be added without combo.`,
+        );
         return;
       }
       item = itemController.addItem(type, model);
 
       const itemMap = this.get('itemMap');
-      let foundParent = false, foundNode = false;
-      comboTrees && comboTrees.forEach((ctree: ComboTree) => {
+      let foundParent = false,
+        foundNode = false;
+      (comboTrees || []).forEach((ctree: ComboTree) => {
         if (foundNode || foundParent) return; // terminate the forEach
-        traverseTreeUp<ComboTree>(ctree, child => {
+        traverseTreeUp<ComboTree>(ctree, (child) => {
           if (child.id === model.id) {
             // if the item exists in the tree already, terminate
             foundNode = true;
@@ -1061,7 +1063,9 @@ export default class Graph extends EventEmitter implements IGraph {
 
     if ((type === 'node' && model.comboId) || (type === 'combo' && model.parentId)) {
       // add the combo to the parent's children array
-      const parentCombo = this.findById((model.comboId as string) || (model.parentId as string)) as ICombo;
+      const parentCombo = this.findById(
+        (model.comboId as string) || (model.parentId as string),
+      ) as ICombo;
       if (parentCombo) parentCombo.addChild(item);
     }
 
@@ -1074,8 +1078,8 @@ export default class Graph extends EventEmitter implements IGraph {
     if (stack && this.get('enabledStack')) {
       this.pushStack('add', {
         ...item.getModel(),
-        type
-      })
+        type,
+      });
     }
 
     return item;
@@ -1097,29 +1101,33 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {Item} item 元素id或元素实例
    * @param {Partial<NodeConfig> | EdgeConfig} cfg 需要更新的数据
    */
-  public updateItem(item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig, stack: boolean = true): void {
+  public updateItem(
+    item: Item | string,
+    cfg: Partial<NodeConfig> | EdgeConfig,
+    stack: boolean = true,
+  ): void {
     const itemController: ItemController = this.get('itemController');
-    let currentItem
+    let currentItem;
     if (isString(item)) {
-      currentItem = this.findById(item)
+      currentItem = this.findById(item);
     } else {
-      currentItem = item
+      currentItem = item;
     }
 
     let type = '';
     if (currentItem.getType) type = currentItem.getType();
-    const states = [...currentItem.getStates()]
+    const states = [...currentItem.getStates()];
     if (type === 'combo') {
-      each(states, state => this.setItemState(currentItem, state, false))
+      each(states, (state) => this.setItemState(currentItem, state, false));
     }
     itemController.updateItem(currentItem, cfg);
 
     if (type === 'combo') {
-      each(states, state => this.setItemState(currentItem, state, true))
+      each(states, (state) => this.setItemState(currentItem, state, true));
     }
 
     if (stack && this.get('enabledStack')) {
-      this.pushStack()
+      this.pushStack();
     }
   }
 
@@ -1129,7 +1137,11 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {Partial<NodeConfig> | EdgeConfig} cfg 需要更新的数据
    * @param {boolean} stack 本次操作是否入栈，默认为 true
    */
-  public update(item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig, stack: boolean = true): void {
+  public update(
+    item: Item | string,
+    cfg: Partial<NodeConfig> | EdgeConfig,
+    stack: boolean = true,
+  ): void {
     this.updateItem(item, cfg, stack);
   }
 
@@ -1144,10 +1156,10 @@ export default class Graph extends EventEmitter implements IGraph {
       item = this.findById(item);
     }
 
-    const itemController: ItemController = this.get('itemController')
+    const itemController: ItemController = this.get('itemController');
     itemController.setItemState(item, state, value);
 
-    const stateController: StateController = this.get('stateController')
+    const stateController: StateController = this.get('stateController');
 
     if (isString(value)) {
       stateController.updateState(item, `${state}:${value}`, true);
@@ -1162,7 +1174,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param state 状态名称
    */
   public priorityState(item: Item | string, state: string): void {
-    const itemController: ItemController = this.get('itemController')
+    const itemController: ItemController = this.get('itemController');
     itemController.priorityState(item, state);
   }
 
@@ -1183,7 +1195,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
     if (this.get('enabledStack')) {
       // render 之前清空 redo 和 undo 栈
-      this.clearStack()
+      this.clearStack();
     }
 
     if (!data) {
@@ -1199,7 +1211,6 @@ export default class Graph extends EventEmitter implements IGraph {
     each(nodes, (node: NodeConfig) => {
       self.add('node', node, false);
     });
-
 
     // process the data to tree structure
     if (combos && combos.length !== 0) {
@@ -1237,7 +1248,6 @@ export default class Graph extends EventEmitter implements IGraph {
       }
     }
 
-
     if (!this.get('groupByTypes')) {
       if (combos && combos.length !== 0) {
         this.sortCombos();
@@ -1247,14 +1257,14 @@ export default class Graph extends EventEmitter implements IGraph {
           const nodesArr = this.getNodes();
 
           // 遍历节点实例，将所有节点提前。
-          nodesArr.forEach(node => {
+          nodesArr.forEach((node) => {
             node.toFront();
           });
         } else {
           const edgesArr = this.getEdges();
 
           // 遍历节点实例，将所有节点提前。
-          edgesArr.forEach(edge => {
+          edgesArr.forEach((edge) => {
             edge.toBack();
           });
         }
@@ -1264,7 +1274,7 @@ export default class Graph extends EventEmitter implements IGraph {
     // 防止传入的数据不存在nodes
     if (data.nodes) {
       // 获取所有有groupID的node
-      const nodeInGroup = data.nodes.filter(node => node.groupId);
+      const nodeInGroup = data.nodes.filter((node) => node.groupId);
 
       // 所有node中存在groupID，则说明需要群组
       if (nodeInGroup.length > 0) {
@@ -1275,7 +1285,7 @@ export default class Graph extends EventEmitter implements IGraph {
     }
 
     if (this.get('enabledStack')) {
-      this.pushStack('render')
+      this.pushStack('render');
     }
   }
 
@@ -1298,7 +1308,7 @@ export default class Graph extends EventEmitter implements IGraph {
     let item: INode;
     const itemMap: NodeMap = this.get('itemMap');
 
-    each(models, model => {
+    each(models, (model) => {
       item = itemMap[model.id];
       if (item) {
         if (self.get('animate') && type === NODE) {
@@ -1326,7 +1336,7 @@ export default class Graph extends EventEmitter implements IGraph {
    */
   public changeData(data?: GraphData | TreeGraphData, stack: boolean = true): Graph {
     if (stack && this.get('enabledStack')) {
-      this.pushStack('update', data)
+      this.pushStack('update', data);
     }
     const self = this;
     if (!data) {
@@ -1334,8 +1344,8 @@ export default class Graph extends EventEmitter implements IGraph {
     }
 
     // 更改数据源后，取消所有状态
-    this.getNodes().map(node => self.clearItemStates(node))
-    this.getEdges().map(edge => self.clearItemStates(edge))
+    this.getNodes().map((node) => self.clearItemStates(node));
+    this.getEdges().map((edge) => self.clearItemStates(edge));
 
     const canvas = this.get('canvas');
     const localRefresh: boolean = canvas.get('localRefresh');
@@ -1370,7 +1380,7 @@ export default class Graph extends EventEmitter implements IGraph {
       if (item.getType && item.getType() === 'combo') {
         delete itemMap[id];
         item.destroy();
-      } else if ((items.nodes.indexOf(item) < 0 && items.edges.indexOf(item) < 0)) {
+      } else if (items.nodes.indexOf(item) < 0 && items.edges.indexOf(item) < 0) {
         delete itemMap[id];
         self.remove(item, false);
       }
@@ -1397,7 +1407,6 @@ export default class Graph extends EventEmitter implements IGraph {
     const layoutController = this.get('layoutController');
     layoutController.changeData();
 
-
     if (self.get('animate') && !layoutController.getLayoutType()) {
       // 如果没有指定布局
       self.positionsAnimate();
@@ -1410,7 +1419,6 @@ export default class Graph extends EventEmitter implements IGraph {
     }, 16);
     return this;
   }
-
 
   /**
    * 私有方法，在 render 和 changeData 的时候批量添加数据中所有平铺的 combos
@@ -1430,17 +1438,16 @@ export default class Graph extends EventEmitter implements IGraph {
    */
   public createCombo(combo: string | ComboConfig, children: string[]): void {
     // step 1: 创建新的 Combo
-    let comboId = ''
-    let currentCombo: ICombo;
+    let comboId = '';
     let comboConfig: ComboConfig;
     if (!combo) return;
     if (isString(combo)) {
-      comboId = combo
+      comboId = combo;
       comboConfig = {
-        id: combo
+        id: combo,
       };
     } else {
-      comboId = combo.id
+      comboId = combo.id;
       if (!comboId) {
         console.warn('Create combo failed. Please assign a unique string id for the adding combo.');
         return;
@@ -1448,43 +1455,45 @@ export default class Graph extends EventEmitter implements IGraph {
       comboConfig = combo;
     }
 
-    const trees: ComboTree[] = children.map(elementId => {
-      const item = this.findById(elementId)
+    const trees: ComboTree[] = children.map((elementId) => {
+      const item = this.findById(elementId);
 
       let type = '';
       if (item.getType) type = item.getType();
       const cItem: ComboTree = {
         id: item.getID(),
-        itemType: type as "node" | "combo"
-      }
+        itemType: type as 'node' | 'combo',
+      };
 
       if (type === 'combo') {
-        (cItem as ComboConfig).parentId = comboId
+        (cItem as ComboConfig).parentId = comboId;
       } else if (type === 'node') {
-        (cItem as NodeConfig).comboId = comboId
+        (cItem as NodeConfig).comboId = comboId;
       }
 
-      return cItem
-    })
+      return cItem;
+    });
 
     comboConfig.children = trees;
 
     // step 2: 添加 Combo，addItem 时会将子将元素添加到 Combo 中
-    currentCombo = this.addItem('combo', comboConfig, false)
+    this.addItem('combo', comboConfig, false);
 
     // step3: 更新 comboTrees 结构
-    const comboTrees = this.get('comboTrees')
-    comboTrees && comboTrees.forEach(ctree => {
-      traverseTreeUp<ComboTree>(ctree, child => {
+    const comboTrees = this.get('comboTrees');
+    (comboTrees || []).forEach((ctree) => {
+      traverseTreeUp<ComboTree>(ctree, (child) => {
         if (child.id === comboId) {
-          child.itemType = 'combo'
+          child.itemType = 'combo';
           child.children = trees as ComboTree[];
-          return false;;
+          return false;
         }
         return true;
       });
-    })
-    this.sortCombos();
+    });
+    if (comboTrees) {
+      this.sortCombos();
+    }
   }
 
   /**
@@ -1505,23 +1514,23 @@ export default class Graph extends EventEmitter implements IGraph {
 
     const parentId = comboItem.getModel().parentId;
     let comboTrees = self.get('comboTrees');
-    if (!comboTrees) comboTrees = []
+    if (!comboTrees) comboTrees = [];
     const itemMap = this.get('itemMap');
     const comboId = comboItem.get('id');
     let treeToBeUncombo;
     let brothers = [];
     const comboItems = this.get('combos');
-    const parentItem = this.findById(parentId as string) as ICombo
+    const parentItem = this.findById(parentId as string) as ICombo;
 
-    comboTrees.forEach(ctree => {
+    comboTrees.forEach((ctree) => {
       if (treeToBeUncombo) return; // terminate the forEach
-      traverseTreeUp<ComboTree>(ctree, subtree => {
+      traverseTreeUp<ComboTree>(ctree, (subtree) => {
         // find the combo to be uncomboed, delete the combo from map and cache
         if (subtree.id === comboId) {
           treeToBeUncombo = subtree;
           // delete the related edges
           const edges = comboItem.getEdges();
-          edges.forEach(edge => {
+          edges.forEach((edge) => {
             this.removeItem(edge, false);
           });
           const index = comboItems.indexOf(combo);
@@ -1540,19 +1549,19 @@ export default class Graph extends EventEmitter implements IGraph {
           }
 
           // append the combo's children to the combo's brothers array
-          treeToBeUncombo.children && treeToBeUncombo.children.forEach(child => {
-            const item = this.findById(child.id) as ICombo | INode
+          treeToBeUncombo.children?.forEach((child) => {
+            const item = this.findById(child.id) as ICombo | INode;
             const childModel = item.getModel();
             if (item.getType && item.getType() === 'combo') {
               child.parentId = parentId;
-              delete child.comboId
+              delete child.comboId;
               childModel.parentId = parentId; // update the parentId of the model
-              delete childModel.comboId
+              delete childModel.comboId;
             } else if (item.getType && item.getType() === 'node') {
-              child.comboId = parentId
+              child.comboId = parentId;
               childModel.comboId = parentId; // update the parentId of the model
             }
-            parentItem.addChild(item)
+            parentItem.addChild(item);
             brothers.push(child);
           });
           return false;
@@ -1566,7 +1575,7 @@ export default class Graph extends EventEmitter implements IGraph {
       const index = comboTrees.indexOf(treeToBeUncombo);
       comboTrees.splice(index, 1);
       // modify the parentId of the children
-      treeToBeUncombo.children && treeToBeUncombo.children.forEach(child => {
+      treeToBeUncombo.children?.forEach((child) => {
         child.parentId = undefined;
         const childModel = this.findById(child.id).getModel();
         childModel.parentId = undefined; // update the parentId of the model
@@ -1584,30 +1593,28 @@ export default class Graph extends EventEmitter implements IGraph {
     const itemController: ItemController = self.get('itemController');
 
     const itemMap = self.get('itemMap');
-    comboTrees && comboTrees.forEach((ctree: ComboTree) => {
-      traverseTreeUp<ComboTree>(ctree, child => {
+    (comboTrees || []).forEach((ctree: ComboTree) => {
+      traverseTreeUp<ComboTree>(ctree, (child) => {
         if (!child) {
           return true;
         }
         const childItem = itemMap[child.id];
         if (childItem && childItem.getType && childItem.getType() === 'combo') {
           // 更新具体的 Combo 之前先清除所有的已有状态，以免将 state 中的样式更新为 Combo 的样式
-          const states = [...childItem.getStates()]
-          each(states, state => this.setItemState(childItem, state, false))
+          const states = [...childItem.getStates()];
+          each(states, (state) => this.setItemState(childItem, state, false));
 
           // 更新具体的 Combo
           itemController.updateCombo(childItem, child.children);
 
           // 更新 Combo 后，还原已有的状态
-          each(states, state => this.setItemState(childItem, state, true));
-
+          each(states, (state) => this.setItemState(childItem, state, true));
         }
         return true;
       });
     });
     self.sortCombos();
   }
-
 
   /**
    * 根据节点的 bbox 更新 combo 及其祖先 combos 的绘制，包括 combos 的位置和范围
@@ -1631,29 +1638,34 @@ export default class Graph extends EventEmitter implements IGraph {
     const itemController: ItemController = self.get('itemController');
 
     const itemMap = self.get('itemMap');
-    comboTrees && comboTrees.forEach((ctree: ComboTree) => {
-      traverseTreeUp<ComboTree>(ctree, child => {
+    (comboTrees || []).forEach((ctree: ComboTree) => {
+      traverseTreeUp<ComboTree>(ctree, (child) => {
         if (!child) {
           return true;
         }
         const childItem = itemMap[child.id];
-        if (comboId === child.id && childItem && childItem.getType && childItem.getType() === 'combo') {
+        if (
+          comboId === child.id &&
+          childItem &&
+          childItem.getType &&
+          childItem.getType() === 'combo'
+        ) {
           // 更新具体的 Combo 之前先清除所有的已有状态，以免将 state 中的样式更新为 Combo 的样式
-          const states = [...childItem.getStates()]
+          const states = [...childItem.getStates()];
           // || !item.getStateStyle(stateName)
-          each(states, state => {
+          each(states, (state) => {
             if (childItem.getStateStyle(state)) {
-              this.setItemState(childItem, state, false)
+              this.setItemState(childItem, state, false);
             }
-          })
+          });
 
           // 更新具体的 Combo
           itemController.updateCombo(childItem, child.children);
 
           // 更新 Combo 后，还原已有的状态
-          each(states, state => {
+          each(states, (state) => {
             if (childItem.getStateStyle(state)) {
-              this.setItemState(childItem, state, true)
+              this.setItemState(childItem, state, true);
             }
           });
 
@@ -1683,35 +1695,35 @@ export default class Graph extends EventEmitter implements IGraph {
 
     // 当 combo 存在parentId 或 comboId 时，才将其移除
     if (model.parentId || model.comboId) {
-      const combo = this.findById((model.parentId || model.comboId) as string) as ICombo
+      const combo = this.findById((model.parentId || model.comboId) as string) as ICombo;
       if (combo) {
-        combo.removeChild(uItem)
+        combo.removeChild(uItem);
       }
     }
 
     let type = '';
-    if (uItem.getType) type = uItem.getType()
+    if (uItem.getType) type = uItem.getType();
 
     if (type === 'combo') {
-      model.parentId = parentId
+      model.parentId = parentId;
     } else if (type === 'node') {
-      model.comboId = parentId
+      model.comboId = parentId;
     }
 
     // 只有当移入到指定 combo 时才添加
     if (parentId) {
-      const parentCombo = this.findById(parentId) as ICombo
+      const parentCombo = this.findById(parentId) as ICombo;
       if (parentCombo) {
         // 将元素添加到 parentCombo 中
-        parentCombo.addChild(uItem as ICombo | INode)
+        parentCombo.addChild(uItem as ICombo | INode);
       }
     }
     // 如果原先有父亲 combo，则从原父 combo 的子元素数组中删除
     if (oldParentId) {
-      const parentCombo = this.findById(oldParentId) as ICombo
+      const parentCombo = this.findById(oldParentId) as ICombo;
       if (parentCombo) {
         // 将元素从 parentCombo 中移除
-        parentCombo.removeChild(uItem as ICombo | INode)
+        parentCombo.removeChild(uItem as ICombo | INode);
       }
     }
 
@@ -1734,17 +1746,17 @@ export default class Graph extends EventEmitter implements IGraph {
     if (!groups) {
       // 存在单个群组
       // 获取所有有groupID的node
-      const nodeInGroup = nodes.filter(node => node.groupId);
+      const nodeInGroup = nodes.filter((node) => node.groupId);
       const groupsArr: GroupConfig[] = [];
       // 根据groupID分组
       const groupIds = groupBy(nodeInGroup, 'groupId');
       // tslint:disable-next-line:forin
-      Object.keys(groupIds).forEach(groupId => {
-        const nodeIds = groupIds[groupId].map(node => node.id);
+      Object.keys(groupIds).forEach((groupId) => {
+        const nodeIds = groupIds[groupId].map((node) => node.id);
         this.get('customGroupControll').create(groupId, nodeIds, groupType, groupIndex);
         groupIndex--;
         // 获取所有不重复的 groupId
-        if (!groupsArr.find(d => d.id === groupId)) {
+        if (!groupsArr.find((d) => d.id === groupId)) {
           groupsArr.push({
             id: groupId,
           });
@@ -1761,7 +1773,7 @@ export default class Graph extends EventEmitter implements IGraph {
       // 第二种情况，存在嵌套的群组，数据中有groups字段
       const groupNodes = getAllNodeInGroups(data);
       // tslint:disable-next-line:forin
-      Object.keys(groupNodes).forEach(groupId => {
+      Object.keys(groupNodes).forEach((groupId) => {
         const tmpNodes = groupNodes[groupId];
         this.get('customGroupControll').create(groupId, tmpNodes, groupType, groupIndex);
         groupIndex--;
@@ -1836,7 +1848,6 @@ export default class Graph extends EventEmitter implements IGraph {
       });
     }
 
-
     self.emit('aftergraphrefresh');
     self.autoPaint();
   }
@@ -1861,14 +1872,14 @@ export default class Graph extends EventEmitter implements IGraph {
    * 获取图中所有的 combo 实例
    */
   public getCombos(): ICombo[] {
-    return this.get('combos')
+    return this.get('combos');
   }
 
   /**
    * 获取指定 Combo 中所有的节点
    * @param comboId combo ID
    */
-  public getComboChildren(combo: string | ICombo): { nodes: INode[], combos: ICombo[] } {
+  public getComboChildren(combo: string | ICombo): { nodes: INode[]; combos: ICombo[] } {
     if (isString(combo)) {
       combo = this.findById(combo) as ICombo;
     }
@@ -1893,7 +1904,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
     const nodes = self.getNodes();
 
-    const toNodes = nodes.map(node => {
+    const toNodes = nodes.map((node) => {
       const model = node.getModel();
       return {
         id: model.id,
@@ -1910,7 +1921,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
     canvas.animate(
       (ratio: number) => {
-        each(toNodes, data => {
+        each(toNodes, (data) => {
           const node: Item = self.findById(data.id);
 
           if (!node || node.destroyed) {
@@ -1970,7 +1981,7 @@ export default class Graph extends EventEmitter implements IGraph {
     const nodes: INode[] = self.get('nodes');
     const edges: IEdge[] = self.get('edges');
     const vedges: IEdge[] = self.get('vedges');
-    const combos: ICombo[] = self.get('combos')
+    const combos: ICombo[] = self.get('combos');
 
     let model: NodeConfig;
 
@@ -1993,7 +2004,11 @@ export default class Graph extends EventEmitter implements IGraph {
     each(edges, (edge: IEdge) => {
       const sourceModel = edge.getSource().getModel();
       const targetModel = edge.getTarget().getModel();
-      if (updatedNodes[sourceModel.id as string] || updatedNodes[targetModel.id as string] || edge.getModel().isComboEdge) {
+      if (
+        updatedNodes[sourceModel.id as string] ||
+        updatedNodes[targetModel.id as string] ||
+        edge.getModel().isComboEdge
+      ) {
         edge.refresh();
       }
     });
@@ -2065,7 +2080,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {string} backgroundColor 图片背景色
    * @return {string} 图片 dataURL
    */
-  public toDataURL(type?: dataUrlType, backgroundColor?: string): string {
+  public toDataURL(type?: DataUrlType, backgroundColor?: string): string {
     const canvas: GCanvas = this.get('canvas');
     const renderer = canvas.getRenderer();
     const canvasDom = canvas.get('el');
@@ -2076,11 +2091,17 @@ export default class Graph extends EventEmitter implements IGraph {
     if (renderer === 'svg') {
       const cloneNode = canvasDom.cloneNode(true);
       const svgDocType = document.implementation.createDocumentType(
-        'svg', '-//W3C//DTD SVG 1.1//EN', 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'
+        'svg',
+        '-//W3C//DTD SVG 1.1//EN',
+        'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd',
       );
-      const svgDoc = document.implementation.createDocument('http://www.w3.org/2000/svg', 'svg', svgDocType);
+      const svgDoc = document.implementation.createDocument(
+        'http://www.w3.org/2000/svg',
+        'svg',
+        svgDocType,
+      );
       svgDoc.replaceChild(cloneNode, svgDoc.documentElement);
-      const svgData = (new XMLSerializer()).serializeToString(svgDoc);
+      const svgData = new XMLSerializer().serializeToString(svgDoc);
       dataURL = `data:image/svg+xml;charset=utf8,${encodeURIComponent(svgData)}`;
     } else {
       let imageData;
@@ -2092,7 +2113,7 @@ export default class Graph extends EventEmitter implements IGraph {
         const pixelRatio = window.devicePixelRatio;
         imageData = context.getImageData(0, 0, width * pixelRatio, height * pixelRatio);
         compositeOperation = context.globalCompositeOperation;
-        context.globalCompositeOperation = "destination-over";
+        context.globalCompositeOperation = 'destination-over';
         context.fillStyle = backgroundColor;
         context.fillRect(0, 0, width, height);
       }
@@ -2112,7 +2133,11 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {String} type 图片类型，可选值："image/png" | "image/jpeg" | "image/webp" | "image/bmp"
    * @param {Object} imageConfig 图片配置项，包括背景色和上下左右的 padding
    */
-  public toFullDataURL(callback: (res: string) => any, type?: dataUrlType, imageConfig?: { backgroundColor?: string, padding?: number | number[] }) {
+  public toFullDataURL(
+    callback: (res: string) => any,
+    type?: DataUrlType,
+    imageConfig?: { backgroundColor?: string; padding?: number | number[] },
+  ) {
     const bbox = this.get('group').getCanvasBBox();
     const height = bbox.height;
     const width = bbox.width;
@@ -2130,7 +2155,7 @@ export default class Graph extends EventEmitter implements IGraph {
       container: vContainerDOM,
       height: vHeight,
       width: vWidth,
-      quickHit: true
+      quickHit: true,
     };
     const vCanvas = renderer === 'svg' ? new GSVGCanvas(canvasOptions) : new GCanvas(canvasOptions);
 
@@ -2157,11 +2182,17 @@ export default class Graph extends EventEmitter implements IGraph {
       if (renderer === 'svg') {
         const cloneNode = vCanvasEl.cloneNode(true);
         const svgDocType = document.implementation.createDocumentType(
-          'svg', '-//W3C//DTD SVG 1.1//EN', 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'
+          'svg',
+          '-//W3C//DTD SVG 1.1//EN',
+          'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd',
         );
-        const svgDoc = document.implementation.createDocument('http://www.w3.org/2000/svg', 'svg', svgDocType);
+        const svgDoc = document.implementation.createDocument(
+          'http://www.w3.org/2000/svg',
+          'svg',
+          svgDocType,
+        );
         svgDoc.replaceChild(cloneNode, svgDoc.documentElement);
-        const svgData = (new XMLSerializer()).serializeToString(svgDoc);
+        const svgData = new XMLSerializer().serializeToString(svgDoc);
         dataURL = `data:image/svg+xml;charset=utf8,${encodeURIComponent(svgData)}`;
       } else {
         let imageData;
@@ -2171,7 +2202,7 @@ export default class Graph extends EventEmitter implements IGraph {
           const pixelRatio = window.devicePixelRatio;
           imageData = context.getImageData(0, 0, vWidth * pixelRatio, vHeight * pixelRatio);
           compositeOperation = context.globalCompositeOperation;
-          context.globalCompositeOperation = "destination-over";
+          context.globalCompositeOperation = 'destination-over';
           context.fillStyle = backgroundColor;
           context.fillRect(0, 0, vWidth, vHeight);
         }
@@ -2182,7 +2213,7 @@ export default class Graph extends EventEmitter implements IGraph {
           context.globalCompositeOperation = compositeOperation;
         }
       }
-      callback && callback(dataURL);
+      callback?.(dataURL);
     }, 16);
   }
 
@@ -2192,8 +2223,11 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {String} type 图片类型，可选值："image/png" | "image/jpeg" | "image/webp" | "image/bmp"
    * @param {Object} imageConfig 图片配置项，包括背景色和上下左右的 padding
    */
-  public downloadFullImage(name?: string, type?: dataUrlType, imageConfig?: { backgroundColor?: string, padding?: number | number[] }): void {
-
+  public downloadFullImage(
+    name?: string,
+    type?: DataUrlType,
+    imageConfig?: { backgroundColor?: string; padding?: number | number[] },
+  ): void {
     const bbox = this.get('group').getCanvasBBox();
     const height = bbox.height;
     const width = bbox.width;
@@ -2210,7 +2244,7 @@ export default class Graph extends EventEmitter implements IGraph {
     const canvasOptions = {
       container: vContainerDOM,
       height: vHeight,
-      width: vWidth
+      width: vWidth,
     };
     const vCanvas = renderer === 'svg' ? new GSVGCanvas(canvasOptions) : new GCanvas(canvasOptions);
 
@@ -2236,11 +2270,17 @@ export default class Graph extends EventEmitter implements IGraph {
       if (renderer === 'svg') {
         const cloneNode = vCanvasEl.cloneNode(true);
         const svgDocType = document.implementation.createDocumentType(
-          'svg', '-//W3C//DTD SVG 1.1//EN', 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'
+          'svg',
+          '-//W3C//DTD SVG 1.1//EN',
+          'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd',
         );
-        const svgDoc = document.implementation.createDocument('http://www.w3.org/2000/svg', 'svg', svgDocType);
+        const svgDoc = document.implementation.createDocument(
+          'http://www.w3.org/2000/svg',
+          'svg',
+          svgDocType,
+        );
         svgDoc.replaceChild(cloneNode, svgDoc.documentElement);
-        const svgData = (new XMLSerializer()).serializeToString(svgDoc);
+        const svgData = new XMLSerializer().serializeToString(svgDoc);
         dataURL = `data:image/svg+xml;charset=utf8,${encodeURIComponent(svgData)}`;
       } else {
         let imageData;
@@ -2250,7 +2290,7 @@ export default class Graph extends EventEmitter implements IGraph {
           const pixelRatio = window.devicePixelRatio;
           imageData = context.getImageData(0, 0, vWidth * pixelRatio, vHeight * pixelRatio);
           compositeOperation = context.globalCompositeOperation;
-          context.globalCompositeOperation = "destination-over";
+          context.globalCompositeOperation = 'destination-over';
           context.fillStyle = backgroundColor;
           context.fillRect(0, 0, vWidth, vHeight);
         }
@@ -2262,9 +2302,9 @@ export default class Graph extends EventEmitter implements IGraph {
         }
       }
 
-
       const link: HTMLAnchorElement = document.createElement('a');
-      const fileName: string = (name || 'graph') + (renderer === 'svg' ? '.svg' : `.${type.split('/')[1]}`);
+      const fileName: string =
+        (name || 'graph') + (renderer === 'svg' ? '.svg' : `.${type.split('/')[1]}`);
 
       this.dataURLToImage(dataURL, renderer, link, fileName);
 
@@ -2280,7 +2320,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {String} type 图片类型，可选值："image/png" | "image/jpeg" | "image/webp" | "image/bmp"
    * @param {string} backgroundColor 图片背景色
    */
-  public downloadImage(name?: string, type?: dataUrlType, backgroundColor?: string): void {
+  public downloadImage(name?: string, type?: DataUrlType, backgroundColor?: string): void {
     const self = this;
 
     if (self.isAnimating()) {
@@ -2332,13 +2372,14 @@ export default class Graph extends EventEmitter implements IGraph {
           });
         }
       } else {
-        link.addEventListener('click', function () {
+        link.addEventListener('click', () => {
           link.download = fileName;
           link.href = dataURL;
         });
       }
     }
   }
+
   /**
    * 更换布局配置项
    * @param {object} cfg 新布局配置项
@@ -2425,18 +2466,18 @@ export default class Graph extends EventEmitter implements IGraph {
     const comboTrees = this.get('comboTrees');
     let found = false;
     let brothers = {};
-    comboTrees && comboTrees.forEach(ctree => {
+    (comboTrees || []).forEach((ctree) => {
       brothers[ctree.id] = ctree;
     });
-    comboTrees && comboTrees.forEach(ctree => {
+    (comboTrees || []).forEach((ctree) => {
       if (found) return; // if the combo is found, terminate the forEach
-      traverseTree(ctree, subTree => {
+      traverseTree(ctree, (subTree) => {
         // if the combo is found and the it is traversing the other brothers, terminate
         if (found && brothers[subTree.id]) return false;
         if (comboModel.parentId === subTree.id) {
           // if the parent is found, store the brothers
           brothers = {};
-          subTree.children.forEach(child => {
+          subTree.children.forEach((child) => {
             brothers[child.id] = child;
           });
         } else if (comboModel.id === subTree.id) {
@@ -2457,13 +2498,16 @@ export default class Graph extends EventEmitter implements IGraph {
 
     const edgeWeightMap = {};
     const addedVEdges = [];
-    edges.forEach(edge => {
+    edges.forEach((edge) => {
       if (edge.isVisible() && !edge.getModel().isVEdge) return;
       let source = edge.getSource();
       let target = edge.getTarget();
-      if (((cnodes.includes(source) || ccombos.includes(source))
-        && (!cnodes.includes(target) && !ccombos.includes(target)))
-        || (source.getModel().id === comboModel.id)) {
+      if (
+        ((cnodes.includes(source) || ccombos.includes(source)) &&
+          !cnodes.includes(target) &&
+          !ccombos.includes(target)) ||
+        source.getModel().id === comboModel.id
+      ) {
         const edgeModel = edge.getModel();
         if (edgeModel.isVEdge) {
           this.removeItem(edge, false);
@@ -2472,7 +2516,9 @@ export default class Graph extends EventEmitter implements IGraph {
 
         let targetModel = target.getModel();
         while (!target.isVisible()) {
-          target = this.findById((targetModel.parentId as string) || (targetModel.comboId as string)) as ICombo;
+          target = this.findById(
+            (targetModel.parentId as string) || (targetModel.comboId as string),
+          ) as ICombo;
           if (!target || (!targetModel.parentId && !targetModel.comboId)) return; // all the ancestors are hidden, then ignore the edge
           targetModel = target.getModel();
         }
@@ -2480,20 +2526,27 @@ export default class Graph extends EventEmitter implements IGraph {
         const targetId = targetModel.id;
 
         if (edgeWeightMap[`${comboModel.id}-${targetId}`]) {
-          edgeWeightMap[`${comboModel.id}-${targetId}`] += (edgeModel.size || 1);
+          edgeWeightMap[`${comboModel.id}-${targetId}`] += edgeModel.size || 1;
           return;
         }
         // the source is in the combo, the target is not
-        const vedge = this.addItem('vedge', {
-          source: comboModel.id,
-          target: targetId,
-          isVEdge: true,
-        }, false);
+        const vedge = this.addItem(
+          'vedge',
+          {
+            source: comboModel.id,
+            target: targetId,
+            isVEdge: true,
+          },
+          false,
+        );
         edgeWeightMap[`${comboModel.id}-${targetId}`] = edgeModel.size || 1;
         addedVEdges.push(vedge);
-      } else if (((!cnodes.includes(source) && !ccombos.includes(source))
-        && (cnodes.includes(target) || ccombos.includes(target)))
-        || (target.getModel().id === comboModel.id)) {
+      } else if (
+        (!cnodes.includes(source) &&
+          !ccombos.includes(source) &&
+          (cnodes.includes(target) || ccombos.includes(target))) ||
+        target.getModel().id === comboModel.id
+      ) {
         const edgeModel = edge.getModel();
         if (edgeModel.isVEdge) {
           this.removeItem(edge, false);
@@ -2501,21 +2554,27 @@ export default class Graph extends EventEmitter implements IGraph {
         }
         let sourceModel = source.getModel();
         while (!source.isVisible()) {
-          source = this.findById((sourceModel.parentId as string) || (sourceModel.comboId as string)) as ICombo;
+          source = this.findById(
+            (sourceModel.parentId as string) || (sourceModel.comboId as string),
+          ) as ICombo;
           if (!source || (!sourceModel.parentId && !sourceModel.comboId)) return; // all the ancestors are hidden, then ignore the edge
           sourceModel = source.getModel();
         }
         const sourceId = sourceModel.id;
         if (edgeWeightMap[`${sourceId}-${comboModel.id}`]) {
-          edgeWeightMap[`${sourceId}-${comboModel.id}`] += (edgeModel.size || 1);
+          edgeWeightMap[`${sourceId}-${comboModel.id}`] += edgeModel.size || 1;
           return;
         }
         // the target is in the combo, the source is not
-        const vedge = this.addItem('vedge', {
-          target: comboModel.id,
-          source: sourceId,
-          isVEdge: true
-        }, false);
+        const vedge = this.addItem(
+          'vedge',
+          {
+            target: comboModel.id,
+            source: sourceId,
+            isVEdge: true,
+          },
+          false,
+        );
         edgeWeightMap[`${sourceId}-${comboModel.id}`] = edgeModel.size || 1;
         addedVEdges.push(vedge);
       }
@@ -2523,13 +2582,16 @@ export default class Graph extends EventEmitter implements IGraph {
 
     // update the width of the virtual edges, which is the sum of merged actual edges
     // be attention that the actual edges with same endpoints but different directions will be represented by two different virtual edges
-    addedVEdges.forEach(vedge => {
+    addedVEdges.forEach((vedge) => {
       const vedgeModel = vedge.getModel();
-      this.updateItem(vedge, {
-        size: edgeWeightMap[`${vedgeModel.source}-${vedgeModel.target}`]
-      }, false)
+      this.updateItem(
+        vedge,
+        {
+          size: edgeWeightMap[`${vedgeModel.source}-${vedgeModel.target}`],
+        },
+        false,
+      );
     });
-
   }
 
   /**
@@ -2559,18 +2621,18 @@ export default class Graph extends EventEmitter implements IGraph {
     const comboTrees = this.get('comboTrees');
     let found = false;
     let brothers = {};
-    comboTrees && comboTrees.forEach(ctree => {
+    (comboTrees || []).forEach((ctree) => {
       brothers[ctree.id] = ctree;
     });
-    comboTrees && comboTrees.forEach(ctree => {
+    (comboTrees || []).forEach((ctree) => {
       if (found) return; // if the combo is found, terminate
-      traverseTree(ctree, subTree => {
+      traverseTree(ctree, (subTree) => {
         if (found && brothers[subTree.id]) {
           return false;
         }
         if (comboModel.parentId === subTree.id) {
           brothers = {};
-          subTree.children.forEach(child => {
+          subTree.children.forEach((child) => {
             brothers[child.id] = child;
           });
         } else if (comboModel.id === subTree.id) {
@@ -2578,7 +2640,7 @@ export default class Graph extends EventEmitter implements IGraph {
         }
         if (found) {
           const item = this.findById(subTree.id) as ICombo;
-          if (item && (item.getType && item.getType() === 'combo')) {
+          if (item && item.getType && item.getType() === 'combo') {
             cnodes = cnodes.concat(item.getNodes());
             ccombos = ccombos.concat(item.getCombos());
           }
@@ -2589,15 +2651,18 @@ export default class Graph extends EventEmitter implements IGraph {
 
     const edgeWeightMap = {};
     const addedVEdges = {};
-    edges.forEach(edge => {
+    edges.forEach((edge) => {
       if (edge.isVisible() && !edge.getModel().isVEdge) return;
       let source = edge.getSource();
       let target = edge.getTarget();
       let sourceId = source.get('id');
       let targetId = target.get('id');
-      if (((cnodes.includes(source) || ccombos.includes(source))
-        && (!cnodes.includes(target) && !ccombos.includes(target)))
-        || sourceId === comboModel.id) {
+      if (
+        ((cnodes.includes(source) || ccombos.includes(source)) &&
+          !cnodes.includes(target) &&
+          !ccombos.includes(target)) ||
+        sourceId === comboModel.id
+      ) {
         // the source is in the combo, the target is not
 
         // ignore the virtual edges
@@ -2609,7 +2674,9 @@ export default class Graph extends EventEmitter implements IGraph {
         let targetModel = target.getModel();
         // find the nearest visible ancestor
         while (!target.isVisible()) {
-          target = this.findById((targetModel.comboId as string) || (targetModel.parentId as string)) as ICombo;
+          target = this.findById(
+            (targetModel.comboId as string) || (targetModel.parentId as string),
+          ) as ICombo;
           if (!target || (!targetModel.parentId && !targetModel.comboId)) {
             return; // if all the ancestors of the oppsite are all hidden, ignore the edge
           }
@@ -2617,11 +2684,12 @@ export default class Graph extends EventEmitter implements IGraph {
         }
         targetId = targetModel.id;
 
-
         let sourceModel = source.getModel();
         // find the nearest visible ancestor
         while (!source.isVisible()) {
-          source = this.findById((sourceModel.comboId as string) || (sourceModel.parentId as string)) as ICombo;
+          source = this.findById(
+            (sourceModel.comboId as string) || (sourceModel.parentId as string),
+          ) as ICombo;
           if (!source || (!sourceModel.parentId && !sourceModel.comboId)) {
             return; // if all the ancestors of the oppsite are all hidden, ignore the edge
           }
@@ -2637,24 +2705,35 @@ export default class Graph extends EventEmitter implements IGraph {
           // update the width of the virtual edges, which is the sum of merged actual edges
           // be attention that the actual edges with same endpoints but different directions will be represented by two different virtual edges
           if (edgeWeightMap[vedgeId]) {
-            edgeWeightMap[vedgeId] += (edge.getModel().size || 1);
-            this.updateItem(addedVEdges[vedgeId], {
-              size: edgeWeightMap[vedgeId]
-            }, false)
+            edgeWeightMap[vedgeId] += edge.getModel().size || 1;
+            this.updateItem(
+              addedVEdges[vedgeId],
+              {
+                size: edgeWeightMap[vedgeId],
+              },
+              false,
+            );
             return;
           }
-          const vedge = this.addItem('vedge', {
-            source: sourceId,
-            target: targetId,
-            isVEdge: true
-          }, false);
+          const vedge = this.addItem(
+            'vedge',
+            {
+              source: sourceId,
+              target: targetId,
+              isVEdge: true,
+            },
+            false,
+          );
 
           edgeWeightMap[vedgeId] = edge.getModel().size || 1;
           addedVEdges[vedgeId] = vedge;
         }
-      } else if (((!cnodes.includes(source) && !ccombos.includes(source))
-        && (cnodes.includes(target) || ccombos.includes(target)))
-        || targetId === comboModel.id) {
+      } else if (
+        (!cnodes.includes(source) &&
+          !ccombos.includes(source) &&
+          (cnodes.includes(target) || ccombos.includes(target))) ||
+        targetId === comboModel.id
+      ) {
         // the target is in the combo, the source is not
 
         // ignore the virtual edges
@@ -2666,7 +2745,9 @@ export default class Graph extends EventEmitter implements IGraph {
         let sourceModel = source.getModel();
         // find the nearest visible ancestor
         while (!source.isVisible()) {
-          source = this.findById((sourceModel.comboId as string) || (sourceModel.parentId as string)) as ICombo;
+          source = this.findById(
+            (sourceModel.comboId as string) || (sourceModel.parentId as string),
+          ) as ICombo;
           if (!source || (!sourceModel.parentId && !sourceModel.comboId)) {
             return; // if all the ancestors of the oppsite are all hidden, ignore the edge
           }
@@ -2674,11 +2755,12 @@ export default class Graph extends EventEmitter implements IGraph {
         }
         sourceId = sourceModel.id;
 
-
         let targetModel = target.getModel();
         // find the nearest visible ancestor
         while (!target.isVisible()) {
-          target = this.findById((targetModel.comboId as string) || (targetModel.parentId as string)) as ICombo;
+          target = this.findById(
+            (targetModel.comboId as string) || (targetModel.parentId as string),
+          ) as ICombo;
           if (!target || (!targetModel.parentId && !targetModel.comboId)) {
             return; // if all the ancestors of the oppsite are all hidden, ignore the edge
           }
@@ -2694,22 +2776,32 @@ export default class Graph extends EventEmitter implements IGraph {
           // update the width of the virtual edges, which is the sum of merged actual edges
           // be attention that the actual edges with same endpoints but different directions will be represented by two different virtual edges
           if (edgeWeightMap[vedgeId]) {
-            edgeWeightMap[vedgeId] += (edge.getModel().size || 1);
-            this.updateItem(addedVEdges[vedgeId], {
-              size: edgeWeightMap[vedgeId]
-            }, false)
+            edgeWeightMap[vedgeId] += edge.getModel().size || 1;
+            this.updateItem(
+              addedVEdges[vedgeId],
+              {
+                size: edgeWeightMap[vedgeId],
+              },
+              false,
+            );
             return;
           }
-          const vedge = this.addItem('vedge', {
-            target: targetId,
-            source: sourceId,
-            isVEdge: true
-          }, false);
+          const vedge = this.addItem(
+            'vedge',
+            {
+              target: targetId,
+              source: sourceId,
+              isVEdge: true,
+            },
+            false,
+          );
           edgeWeightMap[vedgeId] = edge.getModel().size || 1;
           addedVEdges[vedgeId] = vedge;
         }
-      } else if ((cnodes.includes(source) || ccombos.includes(source))
-        && (cnodes.includes(target) || ccombos.includes(target))) {
+      } else if (
+        (cnodes.includes(source) || ccombos.includes(source)) &&
+        (cnodes.includes(target) || ccombos.includes(target))
+      ) {
         // both source and target are in the combo, if the target and source are both visible, show the edge
         if (source.isVisible() && target.isVisible()) {
           edge.show();
@@ -2744,7 +2836,7 @@ export default class Graph extends EventEmitter implements IGraph {
     } else {
       this.collapseCombo(combo);
     }
-    this.updateCombo(combo)
+    this.updateCombo(combo);
   }
 
   /**
@@ -2799,8 +2891,8 @@ export default class Graph extends EventEmitter implements IGraph {
     const depthMap = [];
     const dataDepthMap = {};
     const comboTrees = this.get('comboTrees');
-    comboTrees && comboTrees.forEach(cTree => {
-      traverseTree(cTree, child => {
+    (comboTrees || []).forEach((cTree) => {
+      traverseTree(cTree, (child) => {
         if (depthMap[child.depth]) depthMap[child.depth].push(child.id);
         else depthMap[child.depth] = [child.id];
         dataDepthMap[child.id] = child.depth;
@@ -2808,7 +2900,7 @@ export default class Graph extends EventEmitter implements IGraph {
       });
     });
     const edges = this.getEdges().concat(this.get('vedges'));
-    edges && edges.forEach(edgeItem => {
+    (edges || []).forEach((edgeItem) => {
       const edge = edgeItem.getModel();
       const sourceDepth: number = dataDepthMap[edge.source as string] || 0;
       const targetDepth: number = dataDepthMap[edge.target as string] || 0;
@@ -2816,11 +2908,11 @@ export default class Graph extends EventEmitter implements IGraph {
       if (depthMap[depth]) depthMap[depth].push(edge.id);
       else depthMap[depth] = [edge.id];
     });
-    depthMap.forEach(array => {
+    depthMap.forEach((array) => {
       if (!array || !array.length) return;
       for (let i = array.length - 1; i >= 0; i--) {
         const item = this.findById(array[i]);
-        item && item.toFront();
+        item?.toFront();
       }
     });
   }
@@ -2833,14 +2925,12 @@ export default class Graph extends EventEmitter implements IGraph {
    * @memberof IGraph
    */
   public getNeighbors(node: string | INode, type?: 'source' | 'target' | undefined): INode[] {
-    let item = node as INode
+    let item = node as INode;
     if (isString(node)) {
-      item = this.findById(node) as INode
+      item = this.findById(node) as INode;
     }
-    return item.getNeighbors(type)
+    return item.getNeighbors(type);
   }
-
-
 
   /**
    * 获取 node 的度数
@@ -2850,10 +2940,13 @@ export default class Graph extends EventEmitter implements IGraph {
    * @returns {Number | Object} 该节点的度数
    * @memberof IGraph
    */
-  public getNodeDegree(node: string | INode, type: 'in' | 'out' | 'total' | 'all' | undefined = undefined): Number | Object {
-    let item = node as INode
+  public getNodeDegree(
+    node: string | INode,
+    type: 'in' | 'out' | 'total' | 'all' | undefined = undefined,
+  ): Number | Object {
+    let item = node as INode;
     if (isString(node)) {
-      item = this.findById(node) as INode
+      item = this.findById(node) as INode;
     }
     let degrees = this.get('degrees');
     if (!degrees) {
@@ -2892,13 +2985,13 @@ export default class Graph extends EventEmitter implements IGraph {
    */
   public getStackData() {
     if (!this.get('enabledStack')) {
-      return null
+      return null;
     }
 
     return {
       undoStack: this.undoStack.toArray(),
-      redoStack: this.redoStack.toArray()
-    }
+      redoStack: this.redoStack.toArray(),
+    };
   }
 
   /**
@@ -2906,8 +2999,8 @@ export default class Graph extends EventEmitter implements IGraph {
    */
   public clearStack() {
     if (this.get('enabledStack')) {
-      this.undoStack.clear()
-      this.redoStack.clear()
+      this.undoStack.clear();
+      this.redoStack.clear();
     }
   }
 
@@ -2919,30 +3012,29 @@ export default class Graph extends EventEmitter implements IGraph {
    */
   public pushStack(action: string = 'update', data?: unknown, stackType: string = 'undo') {
     if (!this.get('enabledStack')) {
-      console.warn('请先启用 undo & redo 功能，在实例化 Graph 时候配置 enabledStack: true !')
-      return
+      console.warn('请先启用 undo & redo 功能，在实例化 Graph 时候配置 enabledStack: true !');
+      return;
     }
 
-    const stackData = data ? clone(data) : clone(this.save())
+    const stackData = data ? clone(data) : clone(this.save());
 
     if (stackType === 'redo') {
       this.redoStack.push({
         action,
-        data: stackData
-      })
+        data: stackData,
+      });
     } else {
       this.undoStack.push({
         action,
-        data: stackData
-      })
+        data: stackData,
+      });
     }
 
     this.emit('stackchange', {
       undoStack: this.undoStack,
-      redoStack: this.redoStack
-    })
+      redoStack: this.redoStack,
+    });
   }
-
 
   /**
    * 获取邻接矩阵
@@ -2961,7 +3053,6 @@ export default class Graph extends EventEmitter implements IGraph {
     }
     return currentAdjMatrix;
   }
-
 
   /**
    * 获取最短路径矩阵
@@ -2995,7 +3086,7 @@ export default class Graph extends EventEmitter implements IGraph {
     // 清空栈数据
     this.clearStack();
 
-    each(this.get('plugins'), plugin => {
+    each(this.get('plugins'), (plugin) => {
       plugin.destroyPlugin();
     });
 
@@ -3021,58 +3112,57 @@ export default class Graph extends EventEmitter implements IGraph {
     this.get('canvas').destroy();
     (this.cfg as any) = null;
     this.destroyed = true;
-    this.redoStack = null
-    this.undoStack = null
+    this.redoStack = null;
+    this.undoStack = null;
   }
 
   public createHull(cfg: HullCfg) {
     let parent = this.get('hullGroup');
-    let hullMap = this.get('hullMap')
+    let hullMap = this.get('hullMap');
     if (!hullMap) {
-      hullMap = {}
-      this.set('hullMap', hullMap)
+      hullMap = {};
+      this.set('hullMap', hullMap);
     }
     if (!parent) {
       parent = this.get('group').addGroup({
-        id: 'hullGroup'
-      })
-      parent.toBack()
-      this.set('hullGroup', parent)
+        id: 'hullGroup',
+      });
+      parent.toBack();
+      this.set('hullGroup', parent);
     }
     if (hullMap[cfg.id]) {
-      console.warn('Existed hull id.')
-      return hullMap[cfg.id]
-    } else {
-      const group = parent.addGroup({
-        id: `${cfg.id}-container`
-      });
-      const hull = new Hull(this, {
-        ...cfg,
-        group
-      })
-      const hullId = hull.id
-      hullMap[hullId] = hull
-      return hull
+      console.warn('Existed hull id.');
+      return hullMap[cfg.id];
     }
+    const group = parent.addGroup({
+      id: `${cfg.id}-container`,
+    });
+    const hull = new Hull(this, {
+      ...cfg,
+      group,
+    });
+    const hullId = hull.id;
+    hullMap[hullId] = hull;
+    return hull;
   }
 
   public getHulls() {
-    return this.get('hullMap')
+    return this.get('hullMap');
   }
 
   public getHullById(hullId: string) {
-    return this.get('hullMap')[hullId]
+    return this.get('hullMap')[hullId];
   }
 
   public removeHull(hull: Hull | string) {
     let hullInstance: Hull;
     if (isString(hull)) {
-      hullInstance = this.getHullById(hull)
+      hullInstance = this.getHullById(hull);
     } else {
-      hullInstance = hull
+      hullInstance = hull;
     }
-    let hullMap = this.get('hullMap')
+    const hullMap = this.get('hullMap');
     delete hullMap[hullInstance.id];
-    hullInstance.destroy()
+    hullInstance.destroy();
   }
 }

@@ -177,16 +177,16 @@ export default {
       target: 'b',
       size: 3,
       style: {
-        stroke: 'red'
-      }
+        stroke: 'red',
+      },
     },
     {
       source: 'a',
       target: '33',
       size: 3,
       style: {
-        stroke: 'blue'
-      }
+        stroke: 'blue',
+      },
     },
     {
       source: '0',
@@ -429,18 +429,23 @@ export default {
       target: '33',
     },
   ],
-  combos: [{
-    id: 'a',
-    label: 'combo a'
-  }, {
-    id: 'b',
-    label: 'combo b'
-  }, {
-    id: 'c',
-    label: 'combo c'
-  }, {
-    id: 'd',
-    label: 'combo d',
-    parentId: 'b'
-  }]
+  combos: [
+    {
+      id: 'a',
+      label: 'combo a',
+    },
+    {
+      id: 'b',
+      label: 'combo b',
+    },
+    {
+      id: 'c',
+      label: 'combo c',
+    },
+    {
+      id: 'd',
+      label: 'combo d',
+      parentId: 'b',
+    },
+  ],
 };

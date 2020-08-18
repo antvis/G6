@@ -18,7 +18,6 @@ const colors = {
   j: '#FFD6E7',
 };
 
-
 const testData: GraphData = {
   nodes: [
     {
@@ -198,16 +197,16 @@ const testData: GraphData = {
       target: 'b',
       size: 3,
       style: {
-        stroke: 'red'
-      }
+        stroke: 'red',
+      },
     },
     {
       source: 'a',
       target: '33',
       size: 3,
       style: {
-        stroke: 'blue'
-      }
+        stroke: 'blue',
+      },
     },
     {
       source: '0',
@@ -450,25 +449,29 @@ const testData: GraphData = {
       target: '33',
     },
   ],
-  combos: [{
-    id: 'a',
-    label: 'combo a'
-  }, {
-    id: 'b',
-    label: 'combo b'
-  }, {
-    id: 'c',
-    label: 'combo c'
-  }, {
-    id: 'd',
-    label: 'combo d',
-    parentId: 'b'
-  },
-  {
-    id: 'e',
-    label: 'combo e'
-  }
-  ]
+  combos: [
+    {
+      id: 'a',
+      label: 'combo a',
+    },
+    {
+      id: 'b',
+      label: 'combo b',
+    },
+    {
+      id: 'c',
+      label: 'combo c',
+    },
+    {
+      id: 'd',
+      label: 'combo d',
+      parentId: 'b',
+    },
+    {
+      id: 'e',
+      label: 'combo e',
+    },
+  ],
 };
 
 const ComboDragCollapseExpand = () => {
@@ -481,10 +484,10 @@ const ComboDragCollapseExpand = () => {
         height: 500,
         // fitView: true,
         modes: {
-          default: ['drag-combo', 'drag-node', 'zoom-canvas', 'drag-combo'],  // , 'collapse-expand-combo'
+          default: ['drag-combo', 'drag-node', 'zoom-canvas', 'drag-combo'], // , 'collapse-expand-combo'
         },
         layout: {
-          type: 'comboForce'
+          type: 'comboForce',
         },
         defaultEdge: {
           size: 1,
@@ -492,18 +495,18 @@ const ComboDragCollapseExpand = () => {
         },
         defaultCombo: {
           type: 'circle',
-          padding: 10
+          padding: 10,
         },
         comboStateStyles: {
           active: {
-            stroke: '#ccc'
-          }
+            stroke: '#ccc',
+          },
         },
         groupByTypes: false,
-        animate: true
+        animate: true,
       });
 
-      graph.node(node => {
+      graph.node((node) => {
         const color = colors[node.comboId as string];
         return {
           size: 20,
@@ -512,21 +515,21 @@ const ComboDragCollapseExpand = () => {
             stroke: '#ccc',
             fill: color,
           },
-        }
+        };
       });
-      graph.combo(combo => {
+      graph.combo((combo) => {
         const color = colors[combo.id as string];
         return {
           // size: 80,
           style: {
             lineWidth: 2,
             stroke: color,
-            fillOpacity: 0.8
+            fillOpacity: 0.8,
           },
-        }
+        };
       });
 
-      graph.data(testData);//testData_pos
+      graph.data(testData); //testData_pos
       graph.render();
       // const outputData = {
       //   nodes: [],
@@ -556,12 +559,12 @@ const ComboDragCollapseExpand = () => {
       // graph.uncombo(e.item);
       // graph.removeItem(e.item);
       // });
-      graph.on('canvas:click', e => {
+      graph.on('canvas:click', (e) => {
         //   graph.getCombos().forEach(combo => {
         //     if (!combo.isVisible()) graph.showItem(combo);
         //   });
         graph.addItem('combo', {
-          id: 'new combo'
+          id: 'new combo',
         });
       });
     }

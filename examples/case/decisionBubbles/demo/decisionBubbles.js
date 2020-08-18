@@ -22,13 +22,13 @@ const LIMIT_OVERFLOW_HEIGHT = height;
 const mapNodeSize = (nodes, propertyName, visualRange) => {
   let minp = 9999999999;
   let maxp = -9999999999;
-  nodes.forEach(node => {
+  nodes.forEach((node) => {
     minp = node[propertyName] < minp ? node[propertyName] : minp;
     maxp = node[propertyName] > maxp ? node[propertyName] : maxp;
   });
   const rangepLength = maxp - minp;
   const rangevLength = visualRange[1] - visualRange[0];
-  nodes.forEach(node => {
+  nodes.forEach((node) => {
     node.size = ((node[propertyName] - minp) / rangepLength) * rangevLength + visualRange[0];
   });
 };
@@ -88,7 +88,7 @@ lightColors.forEach((lcolor, i) => {
 let graph;
 const layoutCfg = {
   type: 'force',
-  nodeSize: d => {
+  nodeSize: (d) => {
     return d.size / 2 + 5;
   },
   nodeStrength: 2500,
@@ -100,7 +100,7 @@ const layoutCfg = {
     const height = graph.get('height');
     const width = graph.get('width');
     const padding = 10;
-    nodeItems.forEach(item => {
+    nodeItems.forEach((item) => {
       const model = item.getModel();
       if (model.x > width - padding) model.x = width - padding;
       else if (model.x < padding) model.x = padding;
@@ -118,7 +118,7 @@ G6.registerBehavior('double-finger-drag-canvas', {
     };
   },
 
-  onWheel: ev => {
+  onWheel: (ev) => {
     if (ev.ctrlKey) {
       const canvas = graph.get('canvas');
       const point = canvas.getPointByClient(ev.clientX, ev.clientY);
@@ -313,7 +313,7 @@ G6.registerNode(
       const label = shape.get('parent').get('children')[1];
       if (name === 'disappearing' && value) {
         shape.animate(
-          ratio => {
+          (ratio) => {
             return {
               opacity: 1 - ratio,
               r: shape.attr('r') * (1 - ratio),
@@ -324,7 +324,7 @@ G6.registerNode(
           },
         );
         label.animate(
-          ratio => {
+          (ratio) => {
             return {
               opacity: 1 - ratio,
             };
@@ -336,7 +336,7 @@ G6.registerNode(
       } else if (name === 'appearing' && value) {
         const r = item.getModel().size / 2;
         shape.animate(
-          ratio => {
+          (ratio) => {
             return {
               opacity: ratio,
               r: r * ratio,
@@ -354,9 +354,10 @@ G6.registerNode(
                 opacity: ratio,
               };
             },
-          }, {
-            duration: 300
-          }
+          },
+          {
+            duration: 300,
+          },
         );
       } else if (name === 'dark') {
         if (value) {
@@ -401,7 +402,7 @@ G6.registerEdge(
     afterDraw(cfg, group) {
       const shape = group.get('children')[0];
       shape.animate(
-        ratio => {
+        (ratio) => {
           const opacity = ratio * cfg.style.opacity;
           const strokeOpacity = ratio * cfg.style.strokeOpacity;
           return {
@@ -418,7 +419,7 @@ G6.registerEdge(
       const shape = item.get('keyShape');
       if (name === 'disappearing' && value) {
         shape.animate(
-          ratio => {
+          (ratio) => {
             return {
               opacity: 1 - ratio,
               strokeOpacity: 1 - ratio,
@@ -495,19 +496,19 @@ function refreshDragedNodePosition(e) {
   model.fx = e.x;
   model.fy = e.y;
 }
-graph.on('node:dragstart', e => {
+graph.on('node:dragstart', (e) => {
   graph.layout();
   refreshDragedNodePosition(e);
 });
-graph.on('node:drag', e => {
+graph.on('node:drag', (e) => {
   refreshDragedNodePosition(e);
 });
-graph.on('node:dragend', e => {
+graph.on('node:dragend', (e) => {
   e.item.get('model').fx = null;
   e.item.get('model').fy = null;
 });
 
-const loadData = data => {
+const loadData = (data) => {
   const layoutController = graph.get('layoutController');
   layoutController.layoutCfg.nodeStrength = 2500;
   layoutController.layoutCfg.collideStrength = 0.8;
@@ -520,7 +521,7 @@ const loadData = data => {
   nodeMap = new Map();
   edgesMap = new Map();
   // find the roots
-  nodes.forEach(node => {
+  nodes.forEach((node) => {
     if (node.level === 0) {
       node.color = gColors[showNodes.length % gColors.length];
       node.style = {
@@ -550,7 +551,7 @@ const loadData = data => {
   mapNodeSize(showNodes, 'childrenNum', [120, 180]);
 
   // map the color to F nodes, same to its parent
-  nodes.forEach(node => {
+  nodes.forEach((node) => {
     if (node.level !== 0 && !node.isLeaf) {
       const parent = nodeMap.get(node.tags[0]);
       node.color = parent.color;
@@ -559,7 +560,7 @@ const loadData = data => {
       };
     }
   });
-  edges.forEach(edge => {
+  edges.forEach((edge) => {
     // map the id
     edge.id = `${edge.source}-${edge.target}`;
     edge.style = {
@@ -576,7 +577,7 @@ const loadData = data => {
   graph.render();
 };
 
-graph.on('node:mouseenter', e => {
+graph.on('node:mouseenter', (e) => {
   const item = e.item;
   const model = item.getModel();
   if (model.level === 0) {
@@ -586,7 +587,7 @@ graph.on('node:mouseenter', e => {
   graph.setAutoPaint(false);
   const nodeItems = graph.getNodes();
   const edgeItems = graph.getEdges();
-  nodeItems.forEach(node => {
+  nodeItems.forEach((node) => {
     graph.setItemState(node, 'dark', true);
     node.getModel().light = false;
   });
@@ -600,11 +601,11 @@ graph.on('node:mouseenter', e => {
   // if the model is F node, find the leaves of it
   if (!model.isLeaf && model.level !== 0) {
     fTag = model.tag;
-    nodeItems.forEach(item => {
+    nodeItems.forEach((item) => {
       const itemModel = item.getModel();
       if (!itemModel.isLeaf) return;
       const modelTags = itemModel.tags;
-      modelTags.forEach(mt => {
+      modelTags.forEach((mt) => {
         const mts = mt.split('-');
         if (mts[1] === fTag) {
           graph.setItemState(item, 'dark', false);
@@ -615,7 +616,7 @@ graph.on('node:mouseenter', e => {
   }
 
   // find the tags
-  tags.forEach(t => {
+  tags.forEach((t) => {
     const ts = t.split('-');
     findTagsMap.set(ts[0], mid);
     mid++;
@@ -625,14 +626,14 @@ graph.on('node:mouseenter', e => {
     }
   });
   // find the nodes with tag === tags[?]
-  nodeItems.forEach(item => {
+  nodeItems.forEach((item) => {
     const node = item.getModel();
     if (findTagsMap.get(node.tag) !== undefined) {
       graph.setItemState(item, 'dark', false);
       node.light = true;
     }
   });
-  edgeItems.forEach(item => {
+  edgeItems.forEach((item) => {
     const source = item.getSource().getModel();
     const target = item.getTarget().getModel();
     if (source.light && target.light) {
@@ -650,23 +651,23 @@ graph.on('node:mouseleave', () => {
     const nodeItems = graph.getNodes();
     const edgeItems = graph.getEdges();
     highlighting = false;
-    nodeItems.forEach(item => {
+    nodeItems.forEach((item) => {
       graph.setItemState(item, 'dark', false);
     });
-    edgeItems.forEach(item => {
+    edgeItems.forEach((item) => {
       graph.setItemState(item, 'dark', false);
     });
   }
 });
 
 fetch('https://gw.alipayobjects.com/os/bmw-prod/fc6e64fc-be94-40fb-b9e2-2d13dd414f38.json')
-  .then(res => res.json())
-  .then(data => {
+  .then((res) => res.json())
+  .then((data) => {
     loadData(data);
   });
 
 // click root to expand
-graph.on('node:click', e => {
+graph.on('node:click', (e) => {
   curShowNodes = [];
   curShowEdges = [];
   const item = e.item;
@@ -680,7 +681,7 @@ graph.on('node:click', e => {
     const forceLayout = layoutController.layoutMethod;
     forceLayout.forceSimulation.stop();
     // light the level 0 nodes
-    showNodes.forEach(snode => {
+    showNodes.forEach((snode) => {
       const item = graph.findById(snode.id);
       graph.setItemState(item, 'dark', false);
       if (snode.x < 0.5 * width) {
@@ -693,12 +694,12 @@ graph.on('node:click', e => {
     model.y = height / 2;
     // animatively hide the items which are going to disappear
     if (curShowEdges.length) {
-      curShowEdges.forEach(csedge => {
+      curShowEdges.forEach((csedge) => {
         const item = graph.findById(csedge.id);
         item && graph.setItemState(item, 'disappearing', true);
       });
     }
-    curShowNodes.forEach(csnode => {
+    curShowNodes.forEach((csnode) => {
       const item = graph.findById(csnode.id);
       item && graph.setItemState(item, 'disappearing', true);
     });
@@ -723,7 +724,7 @@ graph.on('node:click', e => {
         return -80;
       };
       layoutController.layoutCfg.collideStrength = 0.2;
-      layoutController.layoutCfg.linkDistance = d => {
+      layoutController.layoutCfg.linkDistance = (d) => {
         if (d.source.level !== 0) return 120;
         const length = 250;
         return length;
@@ -736,7 +737,7 @@ graph.on('node:click', e => {
       const findTags = [];
       curShowNodesMap = new Map();
       // find the nodes which are the descendants of clicked model
-      nodes.forEach(node => {
+      nodes.forEach((node) => {
         if (!node.tags) return;
         const tags = node.tags;
         const tlength = tags.length;
@@ -806,7 +807,7 @@ graph.on('node:click', e => {
             edge.color = model.color;
             curShowEdges.push(edge);
           }
-          tags.forEach(t => {
+          tags.forEach((t) => {
             const ts = t.split('-');
             if (ts[0] !== tag) {
               findTags.push(ts[0]);
@@ -819,7 +820,7 @@ graph.on('node:click', e => {
       });
 
       // find the nodes which are the ancestors of the current curShowNodes
-      nodes.forEach(node => {
+      nodes.forEach((node) => {
         const findTagsLength = findTags.length;
         for (let i = 0; i < findTagsLength; i++) {
           if (node.tag === findTags[i] && curShowNodesMap.get(node.id) === undefined) {
@@ -869,10 +870,10 @@ graph.on('node:click', e => {
       });
       const nodeItems = graph.getNodes();
       const edgeItems = graph.getEdges();
-      edgeItems.forEach(item => {
+      edgeItems.forEach((item) => {
         graph.clearItemStates(item);
       });
-      nodeItems.forEach(item => {
+      nodeItems.forEach((item) => {
         graph.clearItemStates(item);
         graph.setItemState(item, 'appearing', true);
       });
@@ -887,14 +888,14 @@ graph.on('canvas:click', () => {
   const edgeItems = graph.getEdges();
   if (highlighting) {
     highlighting = false;
-    nodeItems.forEach(item => {
+    nodeItems.forEach((item) => {
       graph.setItemState(item, 'dark', false);
     });
-    edgeItems.forEach(item => {
+    edgeItems.forEach((item) => {
       graph.setItemState(item, 'dark', false);
     });
   } else {
-    nodeItems.forEach(item => {
+    nodeItems.forEach((item) => {
       const model = item.getModel();
       if (model.level === 0) {
         graph.setItemState(item, 'dark', false);
@@ -902,7 +903,7 @@ graph.on('canvas:click', () => {
         graph.setItemState(item, 'disappearing', true);
       }
     });
-    edgeItems.forEach(item => {
+    edgeItems.forEach((item) => {
       graph.setItemState(item, 'disappearing', true);
     });
     curShowNodes = [];

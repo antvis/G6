@@ -30,10 +30,6 @@ interface MiniMapConfig extends IPluginBaseConfig {
 }
 
 export default class MiniMap extends Base {
-  constructor(cfg?: MiniMapConfig) {
-    super(cfg);
-  }
-
   public getDefaultCfgs(): MiniMapConfig {
     return {
       container: null,
@@ -81,7 +77,7 @@ export default class MiniMap extends Base {
     const canvas = this.get('canvas');
 
     const containerDOM = canvas.get('container');
-    const viewport = createDOM(`<div class=${cfgs.viewportClassName} 
+    const viewport = createDOM(`<div class=${cfgs.viewportClassName}
       style='position:absolute;
         left:0;
         top:0;
@@ -224,7 +220,6 @@ export default class MiniMap extends Base {
     let left = topLeft.x * ratio + totaldx;
     let top = topLeft.y * ratio + totaldy;
 
-
     const right = left + width;
     const bottom = top + height;
 
@@ -315,7 +310,7 @@ export default class MiniMap extends Base {
       attrs.x = bbox.minX;
       attrs.y = bbox.minY;
     }
-    mappedItem.attr(attrs)
+    mappedItem.attr(attrs);
     if (!item.isVisible()) {
       mappedItem.hide();
     }
@@ -428,12 +423,15 @@ export default class MiniMap extends Base {
    * e.g. 拖拽节点只会在松手后的 100ms 后执行 updateCanvas
    * e.g. render 时大量 addItem 也只会执行一次 updateCanvas
    */
-  private handleUpdateCanvas = debounce((event) => {
-    const self = this;
-    if (self.destroyed) return;
-    self.updateCanvas();
-  }, 100, false);
-
+  private handleUpdateCanvas = debounce(
+    (event) => {
+      const self = this;
+      if (self.destroyed) return;
+      self.updateCanvas();
+    },
+    100,
+    false,
+  );
 
   public init() {
     this.initContainer();
@@ -541,7 +539,6 @@ export default class MiniMap extends Base {
     group.resetMatrix();
     // 该 bbox 是准确的，不计算 matrix 的包围盒
     const bbox = group.getCanvasBBox();
-
 
     const graphBBox = graph.get('canvas').getBBox();
 

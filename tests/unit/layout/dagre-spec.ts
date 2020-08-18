@@ -212,19 +212,19 @@ describe('dagre layout', () => {
       height: 500,
       layout: {
         type: 'dagre',
-        controlPoints: true
+        controlPoints: true,
       },
       defaultEdge: {
         type: 'polyline',
         style: {
-          endArrow: true
-        }
+          endArrow: true,
+        },
       },
       defaultNode: {
         style: {
-          opacity: 0.1
-        }
-      }
+          opacity: 0.1,
+        },
+      },
     });
     graph.data(data);
     graph.render();
@@ -241,7 +241,7 @@ describe('dagre layout', () => {
     graph.destroy();
   });
   it('dagre with number nodeSize and sepFunc', () => {
-    data.edges.forEach(edgeItem => {
+    data.edges.forEach((edgeItem) => {
       delete edgeItem.startPoint;
       delete edgeItem.endPoint;
       delete edgeItem.controlPoints;
@@ -265,8 +265,8 @@ describe('dagre layout', () => {
       height: 500,
       fitView: true,
       modes: {
-        default: ['drag-canvas']
-      }
+        default: ['drag-canvas'],
+      },
     });
     graph.data(data);
     graph.render();
@@ -281,7 +281,7 @@ describe('dagre layout', () => {
     // graph.destroy();
   });
   it('dagre with array nodeSize', () => {
-    data.edges.forEach(edgeItem => {
+    data.edges.forEach((edgeItem) => {
       delete edgeItem.startPoint;
       delete edgeItem.endPoint;
       delete edgeItem.controlPoints;
@@ -321,7 +321,7 @@ describe('dagre layout', () => {
   });
 
   it('dagre with number size in node data, controlpoints', () => {
-    data.edges.forEach(edgeItem => {
+    data.edges.forEach((edgeItem) => {
       delete edgeItem.startPoint;
       delete edgeItem.endPoint;
       delete edgeItem.controlPoints;
@@ -364,7 +364,7 @@ describe('dagre layout', () => {
     graph.destroy();
   });
   it('dagre with array size in node data', () => {
-    data.edges.forEach(edgeItem => {
+    data.edges.forEach((edgeItem) => {
       delete edgeItem.startPoint;
       delete edgeItem.endPoint;
       delete edgeItem.controlPoints;
@@ -394,7 +394,7 @@ describe('dagre layout', () => {
     expect(mathEqual(node.x, 350)).toEqual(true);
     expect(mathEqual(node.y, 85)).toEqual(true);
     expect(edge.controlPoints).toEqual(undefined);
-    
+
     graph.destroy();
   });
 });

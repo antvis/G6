@@ -53,8 +53,8 @@ const Grid = () => {
         renderer: 'svg',
         plugins: [grid],
         modes: {
-          default: ['drag-canvas', 'zoom-canvas']
-        }
+          default: ['drag-canvas', 'zoom-canvas'],
+        },
       });
       graph.data(data);
       graph.render();

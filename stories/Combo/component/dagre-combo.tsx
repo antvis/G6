@@ -214,7 +214,7 @@ const data: GraphData = {
       parentId: null,
       collapsed: true,
     },
-  ]
+  ],
 };
 const DagreCombo = () => {
   const container = React.useRef();
@@ -227,11 +227,13 @@ const DagreCombo = () => {
         height: 800,
         groupByTypes: false,
         modes: {
-          default: ['drag-canvas', 'drag-node',
+          default: [
+            'drag-canvas',
+            'drag-node',
             {
               type: 'drag-combo',
-              enableDelegate: false //拖动时禁止合并
-            }
+              enableDelegate: false, //拖动时禁止合并
+            },
           ],
         },
         defaultCombo: {
@@ -243,7 +245,7 @@ const DagreCombo = () => {
             [0.5, 1],
           ],
           style: {
-            lineWidth: 3
+            lineWidth: 3,
           },
           labelCfg: {
             refY: 10,
@@ -329,7 +331,7 @@ const DagreCombo = () => {
         graph.refreshPositions();
       });
 
-      graph.on('canvas:click', e => {
+      graph.on('canvas:click', (e) => {
         console.log(graph.getGroup());
       });
     }

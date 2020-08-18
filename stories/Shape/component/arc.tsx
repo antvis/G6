@@ -48,13 +48,13 @@ const Arc = () => {
         defaultEdge: {
           type: 'arc',
           style: {
-            endArrow: true
-          }
+            endArrow: true,
+          },
         },
         defaultNode: {
           style: {
-            opacity: 0
-          }
+            opacity: 0,
+          },
         },
         modes: {
           default: ['drag-node', 'drag-canvas'],

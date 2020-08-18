@@ -105,7 +105,7 @@ The listeners in G6 are mounted on the instance of Graph. `graph` is the instanc
 
 ```javascript
 // add listener on graph
-graph.on('itemType:event', e => {
+graph.on('itemType:event', (e) => {
   // do something
 });
 ```
@@ -114,22 +114,22 @@ Now, we add listeners to graph for **Tutorial Demo**, and update the states by `
 
 ```javascript
 // Mouse enter a node
-graph.on('node:mouseenter', e => {
+graph.on('node:mouseenter', (e) => {
   const nodeItem = e.item; // Get the target item
   graph.setItemState(nodeItem, 'hover', true); // Set the state 'hover' of the item to be true
 });
 
 // Mouse leave a node
-graph.on('node:mouseleave', e => {
+graph.on('node:mouseleave', (e) => {
   const nodeItem = e.item; // Get the target item
   graph.setItemState(nodeItem, 'hover', false); // Set the state 'hover' of the item to be false
 });
 
 // Click a node
-graph.on('node:click', e => {
+graph.on('node:click', (e) => {
   // Swich the 'click' state of the node to be false
   const clickNodes = graph.findAllByState('node', 'click');
-  clickNodes.forEach(cn => {
+  clickNodes.forEach((cn) => {
     graph.setItemState(cn, 'click', false);
   });
   const nodeItem = e.item; // et the clicked item
@@ -137,10 +137,10 @@ graph.on('node:click', e => {
 });
 
 // Click an edge
-graph.on('edge:click', e => {
+graph.on('edge:click', (e) => {
   // Swich the 'click' state of the edge to be false
   const clickEdges = graph.findAllByState('edge', 'click');
-  clickEdges.forEach(ce => {
+  clickEdges.forEach((ce) => {
     graph.setItemState(ce, 'click', false);
   });
   const edgeItem = e.item; // Get the clicked item
@@ -220,7 +220,7 @@ graph.on('edge:click', e => {
 
         const nodes = remoteData.nodes;
         const edges = remoteData.edges;
-        nodes.forEach(node => {
+        nodes.forEach((node) => {
           if (!node.style) {
             node.style = {};
           }
@@ -245,7 +245,7 @@ graph.on('edge:click', e => {
             }
           }
         });
-        edges.forEach(edge => {
+        edges.forEach((edge) => {
           if (!edge.style) {
             edge.style = {};
           }
@@ -258,22 +258,22 @@ graph.on('edge:click', e => {
         graph.render();
 
         // Mouse enter a node
-        graph.on('node:mouseenter', e => {
+        graph.on('node:mouseenter', (e) => {
           const nodeItem = e.item; // Get the target item
           graph.setItemState(nodeItem, 'hover', true); // Set the state 'hover' of the item to be true
         });
 
         // Mouse leave a node
-        graph.on('node:mouseleave', e => {
+        graph.on('node:mouseleave', (e) => {
           const nodeItem = e.item; // Get the target item
           graph.setItemState(nodeItem, 'hover', false); // Set the state 'hover' of the item to be false
         });
 
         // Click a node
-        graph.on('node:click', e => {
+        graph.on('node:click', (e) => {
           // Swich the 'click' state of the node to be false
           const clickNodes = graph.findAllByState('node', 'click');
-          clickNodes.forEach(cn => {
+          clickNodes.forEach((cn) => {
             graph.setItemState(cn, 'click', false);
           });
           const nodeItem = e.item; // et the clicked item
@@ -281,10 +281,10 @@ graph.on('edge:click', e => {
         });
 
         // Click an edge
-        graph.on('edge:click', e => {
+        graph.on('edge:click', (e) => {
           // Swich the 'click' state of the edge to be false
           const clickEdges = graph.findAllByState('edge', 'click');
-          clickEdges.forEach(ce => {
+          clickEdges.forEach((ce) => {
             graph.setItemState(ce, 'click', false);
           });
           const edgeItem = e.item; // Get the clicked item

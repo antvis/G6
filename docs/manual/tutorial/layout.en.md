@@ -135,7 +135,7 @@ The result:
 
         const nodes = remoteData.nodes;
         const edges = remoteData.edges;
-        nodes.forEach(node => {
+        nodes.forEach((node) => {
           if (!node.style) {
             node.style = {};
           }
@@ -159,7 +159,7 @@ The result:
             }
           }
         });
-        edges.forEach(edge => {
+        edges.forEach((edge) => {
           if (!edge.style) {
             edge.style = {};
           }

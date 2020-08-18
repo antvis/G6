@@ -5,17 +5,7 @@ order: 1
 
 G6 provides abundant [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode), including [circle](/en/docs/manual/middle/elements/nodes/circle), [rect](/en/docs/manual/middle/elements/nodes/rect, [ellipse](/en/docs/manual/middle/elements/nodes/ellipse), [diamond](/en/docs/manual/middle/elements/nodes/diamond), [triangle](/en/docs/manual/middle/elements/nodes/triangle), [star](/en/docs/manual/middle/elements/nodes/star), [image](/en/docs/manual/middle/elements/nodes/image), [modelRect](/en/docs/manual/middle/elements/nodes/modelRect). Besides, the custom machanism allows the users to design their own type of nodes by `G6.registerNode('nodeName', options)`. A node with complex graphics shapes, complex interactions, fantastic animations can be implemented easily.
 
-In this document, we will introduce the custom node mechanism by five examples: 
-<br />
-<strong>1. Register a brand new node: </strong>Draw the graphics; Optimize the performance.
-<br />
-<strong>2. Register a node by extending a built-in node: </strong>Add extra graphics shape; Add animation.
-<br />
-<strong>3. Adjust the anchorPoints(link points);</strong>
-<br />
-<strong>4. Register a node with state styles: </strong>Response the states change by styles and animations
-<strong>5. Custom Node with DOM </strong>
-
+In this document, we will introduce the custom node mechanism by five examples: <br /> <strong>1. Register a brand new node: </strong>Draw the graphics; Optimize the performance. <br /> <strong>2. Register a node by extending a built-in node: </strong>Add extra graphics shape; Add animation. <br /> <strong>3. Adjust the anchorPoints(link points);</strong> <br /> <strong>4. Register a node with state styles: </strong>Response the states change by styles and animations <strong>5. Custom Node with DOM </strong>
 
 As stated in [Shape](/en/docs/manual/middle/elements/shape-keyshape), there are two points should be satisfied when customize a node:
 
@@ -63,7 +53,7 @@ G6.registerNode(
      */
     afterUpdate(cfg, node) {},
     /**
-     * Should be rewritten when you want to response the state changes by animation. 
+     * Should be rewritten when you want to response the state changes by animation.
      * Responsing the state changes by styles can be configured, which is described in the document Middle-Behavior & Event-State
      * @param  {String} name The name of the state
      * @param  {Object} value The value of the state
@@ -162,7 +152,6 @@ G6.registerNode('diamond', {
 
 We have registered a dimond node. Attention: you need to assign `name` and `draggable` for the shapes added in the custom node, where the `name` can be not unique with any value you want. `draggable: true` means that the shape is allowed to response the drag events. Only when `draggable: true`, the interact behavior `'drag-node'` can be responsed on this shape. In the codes above, if you only assign `draggable: true` to the `keyShape` but not the `label`, the drag events will only be responsed on the `keyShape`.
 
-
 The following code uses the diamond node:
 
 ```javascript
@@ -256,10 +245,10 @@ G6.registerNode(
       // add a path as keyShape
       const keyShape = group.addShape('path', {
         attrs: {
-          ...style
+          ...style,
         },
         draggable: true,
-        name: 'diamond-keyShape'
+        name: 'diamond-keyShape',
       });
       // return the keyShape
       return keyShape;
@@ -300,7 +289,7 @@ G6.registerNode(
       });
       // Execute the animation
       image.animate(
-        ratio => {
+        (ratio) => {
           const matrix = Util.mat3.create();
           const toMatrix = Util.transform(matrix, [['r', ratio * Math.PI * 2]]);
           return {
@@ -419,7 +408,7 @@ G6.registerNode(
 );
 
 // Click to select, cancel by clicking again
-graph.on('node:click', ev => {
+graph.on('node:click', (ev) => {
   const node = ev.item;
   graph.setItemState(node, 'selected', !node.hasState('selected')); // Switch the selected state
 });
@@ -457,17 +446,16 @@ G6.registerNode(
 );
 
 // Activate 'running' by mouse entering. Turn it of by mouse leaving.
-graph.on('node:mouseenter', ev => {
+graph.on('node:mouseenter', (ev) => {
   const node = ev.item;
   graph.setItemState(node, 'running', true);
 });
 
-graph.on('node:mouseleave', ev => {
+graph.on('node:mouseleave', (ev) => {
   const node = ev.item;
   graph.setItemState(node, 'running', false);
 });
 ```
-
 
 ## 5. Custom Node with DOM
 
@@ -478,26 +466,32 @@ Here, we demonstrate customing a node named `'dom-node'` with DOM. We add a `'do
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VgQlQK1MdbIAAAAAAAAAAABkARQnAQ' alt='img' width='120'/>
 
 ```javascript
-G6.registerNode('dom-node', {
-  draw: (cfg: ModelConfig, group: Group) => {
-    return group.addShape('dom', {
-      attrs: {
-        width: cfg.size[0],
-        height: cfg.size[1],
-        // DOM's html
-        html: `
-        <div style="background-color: #fff; border: 2px solid #5B8FF9; border-radius: 5px; width: ${cfg.size[0]-5}px; height: ${cfg.size[1]-5}px; display: flex;">
+G6.registerNode(
+  'dom-node',
+  {
+    draw: (cfg: ModelConfig, group: Group) => {
+      return group.addShape('dom', {
+        attrs: {
+          width: cfg.size[0],
+          height: cfg.size[1],
+          // DOM's html
+          html: `
+        <div style="background-color: #fff; border: 2px solid #5B8FF9; border-radius: 5px; width: ${
+          cfg.size[0] - 5
+        }px; height: ${cfg.size[1] - 5}px; display: flex;">
           <div style="height: 100%; width: 33%; background-color: #CDDDFD">
             <img alt="img" style="line-height: 100%; padding-top: 6px; padding-left: 8px;" src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ" width="20" height="20" />  
           </div>
           <span style="margin:auto; padding:auto; color: #5B8FF9">${cfg.label}</span>
         </div>
-          `
-      },
-      draggable: true
-    });
+          `,
+        },
+        draggable: true,
+      });
+    },
   },
-}, 'single-node');
+  'single-node',
+);
 ```
 
 Now, we have `'dom-node'` type of node with DOM. Be attention that you should assign `name` and `draggable` for the shapes you added after V3.3, where `name` is an ununique string. The shape is allowed to be dragged when `draggable` is `true`.
@@ -512,10 +506,7 @@ const data = {
     { id: 'node1', x: 50, y: 100 },
     { id: 'node2', x: 150, y: 100 },
   ],
-  edges: [
-    source: 'node1',
-    target: 'node2'
-  ]
+  edges: [(source: 'node1'), (target: 'node2')],
 };
 const graph = new G6.Graph({
   container: 'mountNode',
@@ -523,34 +514,40 @@ const graph = new G6.Graph({
   height: 500,
   defaultNode: {
     type: 'dom-node',
-    size: [120, 40]
-  }
+    size: [120, 40],
+  },
 });
 graph.data(data);
 graph.render();
 ```
 
-
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span> DOM Shape in G6 does not support the events on Node and Edge. You can bind events for DOM as the way in HTML. e.g.:
+
 ```javascript
-G6.registerNode('dom-node', {
-  draw: (cfg: ModelConfig, group: Group) => {
-    return group.addShape('dom', {
-      attrs: {
-        width: cfg.size[0],
-        height: cfg.size[1],
-        // DOM's html with onclick event
-        html: `
-        <div onclick="alert('Hi')" style="background-color: #fff; border: 2px solid #5B8FF9; border-radius: 5px; width: ${cfg.size[0]-5}px; height: ${cfg.size[1]-5}px; display: flex;">
+G6.registerNode(
+  'dom-node',
+  {
+    draw: (cfg: ModelConfig, group: Group) => {
+      return group.addShape('dom', {
+        attrs: {
+          width: cfg.size[0],
+          height: cfg.size[1],
+          // DOM's html with onclick event
+          html: `
+        <div onclick="alert('Hi')" style="background-color: #fff; border: 2px solid #5B8FF9; border-radius: 5px; width: ${
+          cfg.size[0] - 5
+        }px; height: ${cfg.size[1] - 5}px; display: flex;">
           <div style="height: 100%; width: 33%; background-color: #CDDDFD">
             <img alt="img" style="line-height: 100%; padding-top: 6px; padding-left: 8px;" src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ" width="20" height="20" />  
           </div>
           <span style="margin:auto; padding:auto; color: #5B8FF9">${cfg.label}</span>
         </div>
-          `
-      },
-      draggable: true
-    });
+          `,
+        },
+        draggable: true,
+      });
+    },
   },
-}, 'single-node');
+  'single-node',
+);
 ```

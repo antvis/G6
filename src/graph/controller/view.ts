@@ -93,7 +93,7 @@ export default class ViewController {
       let newY = 0;
       // 动画每次平移一点，直到目标位置
       this.graph.get('canvas').animate(
-        ratio => {
+        (ratio) => {
           newX = dx * ratio;
           newY = dy * ratio;
           this.graph.translate(newX - lastX, newY - lastY);
@@ -101,7 +101,7 @@ export default class ViewController {
           lastY = newY;
         },
         {
-          ...animateCfg
+          ...animateCfg,
         },
       );
     } else {
@@ -179,10 +179,14 @@ export default class ViewController {
 
     if (item) {
       // 用实际位置而不是model中的x,y,防止由于拖拽等的交互导致model的x,y并不是当前的x,y
-      this.focusPoint({
-        x: matrix[6],
-        y: matrix[7],
-      }, animate, animateCfg);
+      this.focusPoint(
+        {
+          x: matrix[6],
+          y: matrix[7],
+        },
+        animate,
+        animateCfg,
+      );
     }
   }
 
@@ -203,7 +207,7 @@ export default class ViewController {
 
     // change the size of grid plugin if it exists on graph
     const plugins = graph.get('plugins');
-    plugins.forEach(plugin => {
+    plugins.forEach((plugin) => {
       if (plugin.get('gridContainer')) {
         const minZoom = graph.get('minZoom');
         modifyCSS(plugin.get('container'), {

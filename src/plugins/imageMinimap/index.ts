@@ -3,7 +3,7 @@ import Base, { IPluginBaseConfig } from '../base';
 import isString from '@antv/util/lib/is-string';
 import createDOM from '@antv/dom-util/lib/create-dom';
 import modifyCSS from '@antv/dom-util/lib/modify-css';
-import isNil from '@antv/util/lib/is-nil';;
+import isNil from '@antv/util/lib/is-nil';
 import Graph from '../../graph/graph';
 import { ShapeStyle } from '../../types';
 import { Point } from '@antv/g-math/lib/types';
@@ -11,20 +11,21 @@ import GraphEvent from '@antv/g-base/lib/event/graph-event';
 import { mat3 } from '@antv/matrix-util';
 import { applyMatrix } from '../../util/math';
 
-
 function getImgNaturalDimension(img, callback?) {
-  let nWidth, nHeight
-  if (img.naturalWidth) { // 现代浏览器
-    nWidth = img.naturalWidth
-    nHeight = img.naturalHeight
-  } else { // IE6/7/8
-    var image = new Image()
-    image.src = img.src
-    image.onload = function () {
-      callback && callback(image.width, image.height)
-    }
+  let nWidth, nHeight;
+  if (img.naturalWidth) {
+    // 现代浏览器
+    nWidth = img.naturalWidth;
+    nHeight = img.naturalHeight;
+  } else {
+    // IE6/7/8
+    const image = new Image();
+    image.src = img.src;
+    image.onload = () => {
+      callback?.(image.width, image.height);
+    };
   }
-  return [nWidth, nHeight]
+  return [nWidth, nHeight];
 }
 
 interface MiniMapConfig extends IPluginBaseConfig {
@@ -38,10 +39,6 @@ interface MiniMapConfig extends IPluginBaseConfig {
 }
 
 export default class ImageMiniMap extends Base {
-  constructor(cfg?: MiniMapConfig) {
-    super(cfg);
-  }
-
   public getDefaultCfgs(): MiniMapConfig {
     return {
       container: null,
@@ -88,13 +85,14 @@ export default class ImageMiniMap extends Base {
 
     const containerDOM = this.get('container');
     const viewport = createDOM(
-      `<div class=${cfgs.viewportClassName} 
+      `<div class=${cfgs.viewportClassName}
       style='position:absolute;
         left:0;
         top:0;
         box-sizing:border-box;
         border: 2px solid #1980ff'>
-      </div>`);
+      </div>`,
+    );
 
     // 计算拖拽水平方向距离
     let x = 0;
@@ -234,15 +232,21 @@ export default class ImageMiniMap extends Base {
     const graphCanvasBBox = graphGroup.getCanvasBBox();
 
     // 扩展 graphBBox 到和 graphWidth / graphHeight 等比
-    const graphCanvasBBoxMean = [(graphCanvasBBox.minX + graphCanvasBBox.maxX) / 2, (graphCanvasBBox.minY + graphCanvasBBox.maxY) / 2];
-    const graphCanvasBBoxSize = [graphCanvasBBox.maxX - graphCanvasBBox.minX, graphCanvasBBox.maxY - graphCanvasBBox.minY];
-    let expandedGraphCanvasBBox = {
+    const graphCanvasBBoxMean = [
+      (graphCanvasBBox.minX + graphCanvasBBox.maxX) / 2,
+      (graphCanvasBBox.minY + graphCanvasBBox.maxY) / 2,
+    ];
+    const graphCanvasBBoxSize = [
+      graphCanvasBBox.maxX - graphCanvasBBox.minX,
+      graphCanvasBBox.maxY - graphCanvasBBox.minY,
+    ];
+    const expandedGraphCanvasBBox = {
       centerX: graphCanvasBBoxMean[0],
       centerY: graphCanvasBBoxMean[1],
       width: 0,
       height: 0,
       minX: 0,
-      minY: 0
+      minY: 0,
     };
     if (graphCanvasBBox[0] / graphCanvasBBox[1] > aspectRatio) {
       expandedGraphCanvasBBox.width = graphCanvasBBoxSize[0];
@@ -257,7 +261,10 @@ export default class ImageMiniMap extends Base {
     let graphMatrix = graphGroup.getMatrix();
     if (!graphMatrix) graphMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
     const invertGraphMatrix = mat3.invert([], graphMatrix);
-    const minXY = applyMatrix({ x: expandedGraphCanvasBBox.minX, y: expandedGraphCanvasBBox.minY }, invertGraphMatrix);
+    const minXY = applyMatrix(
+      { x: expandedGraphCanvasBBox.minX, y: expandedGraphCanvasBBox.minY },
+      invertGraphMatrix,
+    );
 
     // 扩展 graphBBox 后的 bbox 的左上角对应的 canvas container 坐标
     const topLeft: Point = graph.getCanvasByPoint(minXY.x, minXY.y);
@@ -268,15 +275,15 @@ export default class ImageMiniMap extends Base {
     }
 
     // Viewport 与 minimap container 的比例 =  Graph container 与 expandedGraphBBox 比例
-    const vpToMc = graphWidth / ((expandedGraphCanvasBBox.width));
+    const vpToMc = graphWidth / expandedGraphCanvasBBox.width;
     // viewport 宽高 = vpToMc * minimap container 宽高
     let width = vpToMc * cWidth;
     let height = vpToMc * cHeight;
 
-    // vierport 左上角到 minimap container 的距离 / minimap container 宽高 
+    // vierport 左上角到 minimap container 的距离 / minimap container 宽高
     // = 主图 expandedBBox 左上角 canvas container 坐标距离 / expandedBBox 宽高
-    let left = cWidth * (-topLeft.x) / (expandedGraphCanvasBBox.width);
-    let top = cHeight * (-topLeft.y) / (expandedGraphCanvasBBox.height);
+    let left = (cWidth * -topLeft.x) / expandedGraphCanvasBBox.width;
+    let top = (cHeight * -topLeft.y) / expandedGraphCanvasBBox.height;
 
     const right = left + width;
     const bottom = top + height;
@@ -340,7 +347,7 @@ export default class ImageMiniMap extends Base {
     }
 
     const container: HTMLElement = createDOM(
-      `<div class='${className}' style='width: ${cWidth}px; height: ${cHeight}px; overflow: hidden; position: relative;'></div>`,//
+      `<div class='${className}' style='width: ${cWidth}px; height: ${cHeight}px; overflow: hidden; position: relative;'></div>`, //
     );
 
     if (isString(parentNode)) {
@@ -359,17 +366,16 @@ export default class ImageMiniMap extends Base {
       `<div class="g6-minimap-container" style="position: relative; width: 100%; height: 100%; text-align: center; display: table;"></div>`,
     );
     container.appendChild(containerDOM);
-    const span = createDOM(
-      `<span style="display: table-cell; vertical-align: middle; "></span>`,
-    );
+    const span = createDOM(`<span style="display: table-cell; vertical-align: middle; "></span>`);
     containerDOM.appendChild(span);
 
     self.set('containerDOM', containerDOM);
     self.set('containerSpan', span);
 
-
     const img = createDOM(
-      `<img alt="" src="${this.get('graphImg')}" style="display: inline-block;" ondragstart="return false;" onselectstart="return false;"/>`
+      `<img alt="" src="${this.get(
+        'graphImg',
+      )}" style="display: inline-block;" ondragstart="return false;" onselectstart="return false;"/>`,
     );
     self.set('imgDOM', img);
 
@@ -385,7 +391,7 @@ export default class ImageMiniMap extends Base {
     const cHeight = self.get('height');
 
     imgDOM.onload = () => {
-      const naturalSize = getImgNaturalDimension(imgDOM)
+      const naturalSize = getImgNaturalDimension(imgDOM);
       if (naturalSize[0] > naturalSize[1]) {
         imgDOM.width = cWidth;
       } else {
@@ -415,7 +421,7 @@ export default class ImageMiniMap extends Base {
 
     const graphBBox = graph.get('canvas').getCanvasBBox();
 
-    let width = graphBBox.width;
+    const width = graphBBox.width;
 
     const ratio = cWidth / width;
 
@@ -456,7 +462,7 @@ export default class ImageMiniMap extends Base {
 
     self.set('graphImg', img);
     const imgDOM = createDOM(
-      `<img alt="" src="${img}" style="display: inline-block;" ondragstart="return false;" onselectstart="return false;"/>`
+      `<img alt="" src="${img}" style="display: inline-block;" ondragstart="return false;" onselectstart="return false;"/>`,
     );
     self.set('imgDOM', imgDOM);
 
@@ -475,4 +481,3 @@ export default class ImageMiniMap extends Base {
     container.parentNode.removeChild(container);
   }
 }
-

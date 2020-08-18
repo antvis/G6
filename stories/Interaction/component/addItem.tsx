@@ -51,17 +51,17 @@ const AddItem = () => {
         width: 500,
         height: 500,
         modes: {
-          default: ['drag-node']
-        }
+          default: ['drag-node'],
+        },
       });
       graph.data(data);
       graph.render();
 
       const model = {
-        id: 'new node'
-      }
+        id: 'new node',
+      };
       // 监听节点上的click事件
-      graph.on('canvas:click', e => {
+      graph.on('canvas:click', (e) => {
         graph.addItem('node', model);
         console.log(model); // model 被修改
       });

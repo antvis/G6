@@ -22,7 +22,6 @@ It is related to the broswer, whose origin is at the left top of the broswer's c
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*WBCHS6uJSIMAAAAAAAAAAABkARQnAQ' alt='img' width='500'/>
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*yeEVR6ihc74AAAAAAAAAAABkARQnAQ' alt='img' width='500'/>
 
-
 ### canvasX/canvasY
 
 It is the self coordinate system of the Container DOM. We suppose that the `width` and `height` of the graph were assigned to be 550 and 500:
@@ -35,15 +34,13 @@ const Graph = new G6.Graph({
 })
 ```
 
-The size of the Container DOM is 550*500. The origin of the canvasX/canvasY system is at the left-top of the Container DOM, and the right-bottom point of the Container DOM is (550, 500).
+The size of the Container DOM is 550\*500. The origin of the canvasX/canvasY system is at the left-top of the Container DOM, and the right-bottom point of the Container DOM is (550, 500).
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1wNDQI9sgRoAAAAAAAAAAABkARQnAQ' alt='img' width='500'/>
-
 
 ### pointX/pointY
 
 The previous two coordinate systems are the DOM related systems, and the coordinate values are integer. Different from them, pointX/pointY is the real drawing coordinate systems for shapes on the canvas. For nodes, each node has (x, y) in pointX/pointY system as position information. Notice that when end users pan or zoom a graph, they are actually manipulating the pointX/pointY coordinate system.
-
 
 ## The Relationships between the Three System
 
@@ -53,7 +50,6 @@ The three systems in the figures of this section are colored with grey, blue, an
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*8ZjgQL9GE1gAAAAAAAAAAABkARQnAQ' alt='img' width='500'/>
 
-
 ### Graph without Transformation
 
 The figure below shows the case without transfromation, that is, the tranfromational matrix is a unit matrix. We can see from the figure that the canvasX/canvasY and pointX/pointY are overlapped, including the scale of the axes and the origin. The canvasX/canvasY and pointX/pointY coordinates of the root node's position, tagged by black point, of the graph are the same. And the origin of the clientX/clientY is at the left-top of the broswer's content, and the black point's clientX/clientY coordinate is equal to the canvasX/canvasY or pointX/pointY plus the left and top distance to the browser's border.
@@ -62,13 +58,12 @@ The figure below shows the case without transfromation, that is, the tranfromati
 
 > Figure 1: three coordinate systems when the graph has no transformation.
 
-
 ### Zoomed Graph
 
 In fact, zooming the graph is zooming the pointX/pointY system (centered at the its origin by default). Now we zoom the graph with scale `2`, which means the transformational matrix of the graph is:
 
 ```
-matrix = 
+matrix =
   2 0 0
   0 2 0
   0 0 1
@@ -86,13 +81,12 @@ In the same time, canvasX/canvasY and clientX/clientY coordinate systems stay un
 
 In figure 2, the canvasX/canvasY and clientX/clientY coordinate value of the black point in figure 1 stays unchanged with (90, 250) and (290, 350) respectively. Due to the changes of the scales of the pointX/pointY system, the value is changed to (45, 125). And the root node (marked with black point B) in figure 2 has same pointX/pointY value as figure 1, and its values in canvasX/canvasY and clientX/clientY are changed to (180, 500) and (380, 600) respectively.
 
-
 ### Zoomed and Translated Graph
 
 Based on the zoomed graph of previous section, we now translate with vector (50, 50), which means the transfromational matrix becomes:
 
 ```
-matrix = 
+matrix =
   2  0  0
   0  2  0
   50 50 1
@@ -108,9 +102,7 @@ In the sametime, canvasX/canvasY and clientX/clientY system stay unchanged. E.g.
 
 > Figure 3: Three coordinate systems of zoomed and translated graph.
 
-
 In figure 3, the canvasX/cnavasY and clientX/clientY coordinate value of the black point in figure 1 stays unchanged with (90, 250) and (290, 350) respectively. Due to the changes of the origin of the pointX.pointY system, the value is changed to (20, 100). And the root node (marked with black point B) in figure 3 has same pointX/pointY value as figure 1 and figure 2, and its canvasX/canvasY and clientX/clientY are chagned to (230, 550) and (430, 650) respectively.
-
 
 ## Translate the Coordinates with API
 
@@ -121,7 +113,6 @@ Sometimes we need to translate the coordinates for different usages. In G6, the 
 - event.clientX, event.clientY => clientX/clientY.
 
 Notice that the `x` and `y` are the velus of pointX/pointY system.
-
 
 ### getCanvasByPoint
 

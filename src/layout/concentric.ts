@@ -27,31 +27,43 @@ type NodeMap = {
 export default class ConcentricLayout extends BaseLayout {
   /** 布局中心 */
   public center: IPointTuple = [0, 0];
+
   public nodeSize: number | IPointTuple = 30;
+
   /** min spacing between outside of nodes (used for radius adjustment) */
   public minNodeSpacing: number = 10;
+
   /** prevents node overlap, may overflow boundingBox if not enough space */
   public preventOverlap: boolean = false;
+
   /** how many radians should be between the first and last node (defaults to full circle) */
   public sweep: number | undefined;
+
   /** whether levels have an equal radial distance betwen them, may cause bounding box overflow */
   public equidistant: boolean = false;
+
   /** where nodes start in radians */
   public startAngle: number = (3 / 2) * Math.PI;
+
   /** whether the layout should go clockwise (true) or counterclockwise/anticlockwise (false) */
   public clockwise: boolean = true;
+
   /** the letiation of concentric values in each level */
   public maxLevelDiff: undefined | number;
+
   /** 根据 sortBy 指定的属性进行排布，数值高的放在中心，如果是 sortBy 则会计算节点度数，度数最高的放在中心 */
   public sortBy: string = 'degree';
 
   public nodes: Node[] = [];
+
   public edges: Edge[] = [];
 
   public width: number = 300;
+
   public height: number = 300;
 
   private maxValueNode: Node | undefined;
+
   private counterclockwise: boolean | undefined;
 
   public getDefaultCfg() {
@@ -68,6 +80,7 @@ export default class ConcentricLayout extends BaseLayout {
       sortBy: 'degree',
     };
   }
+
   /**
    * 执行布局
    */
@@ -93,7 +106,7 @@ export default class ConcentricLayout extends BaseLayout {
     } else {
       maxNodeSize = self.nodeSize;
     }
-    nodes.forEach(node => {
+    nodes.forEach((node) => {
       layoutNodes.push(node);
       let nodeSize: number = maxNodeSize;
       if (isArray(node.size)) {
@@ -144,7 +157,7 @@ export default class ConcentricLayout extends BaseLayout {
     // put the values into levels
     const levels: any[] = [[]];
     let currentLevel = levels[0];
-    layoutNodes.forEach(node => {
+    layoutNodes.forEach((node) => {
       if (currentLevel.length > 0) {
         const diff = Math.abs(currentLevel[0][self.sortBy] - node[self.sortBy]);
         if (self.maxLevelDiff && diff >= self.maxLevelDiff) {
@@ -168,7 +181,7 @@ export default class ConcentricLayout extends BaseLayout {
 
     // find the metrics for each level
     let r = 0;
-    levels.forEach(level => {
+    levels.forEach((level) => {
       let sweep = self.sweep;
       if (sweep === undefined) {
         sweep = 2 * Math.PI - (2 * Math.PI) / level.length;
@@ -207,7 +220,7 @@ export default class ConcentricLayout extends BaseLayout {
     }
 
     // calculate the node positions
-    levels.forEach(level => {
+    levels.forEach((level) => {
       const dTheta = level.dTheta;
       const rr = level.r;
       level.forEach((node: Node, j: number) => {

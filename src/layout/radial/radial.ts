@@ -39,7 +39,7 @@ function getWeightMatrix(M: Matrix[]) {
 
 function getIndexById(array: any[], id: string) {
   let index = -1;
-  array.forEach(function (a, i) {
+  array.forEach((a, i) => {
     if (a.id === id) {
       index = i;
     }
@@ -57,35 +57,50 @@ function getEDistance(p1: IPointTuple, p2: IPointTuple) {
 export default class RadialLayout extends BaseLayout {
   /** 布局中心 */
   public center: IPointTuple = [0, 0];
+
   /** 停止迭代的最大迭代数 */
   public maxIteration: number = 1000;
+
   /** 中心点，默认为数据中第一个点 */
   public focusNode: string | Node | null = null;
+
   /** 每一圈半径 */
   public unitRadius: number | null = null;
+
   /** 默认边长度 */
   public linkDistance: number = 50;
+
   /** 是否防止重叠 */
   public preventOverlap: boolean = false;
+
   /** 节点直径 */
   public nodeSize: number | undefined;
+
   /** 节点间距，防止节点重叠时节点之间的最小距离（两节点边缘最短距离） */
   public nodeSpacing: number | Function | undefined;
+
   /** 是否必须是严格的 radial 布局，即每一层的节点严格布局在一个环上。preventOverlap 为 true 时生效 */
   public strictRadial: boolean = true;
+
   /** 防止重叠步骤的最大迭代次数 */
   public maxPreventOverlapIteration: number = 200;
 
   public sortBy: string | undefined;
+
   public sortStrength: number = 10;
 
   public width: number | undefined;
+
   public height: number | undefined;
 
   private focusIndex: number | undefined;
+
   private distances: Matrix[] | undefined;
+
   private eIdealDistances: Matrix[] | undefined;
+
   private weights: Matrix[] | undefined;
+
   private radii: number[] | undefined;
 
   public getDefaultCfg() {
@@ -104,6 +119,7 @@ export default class RadialLayout extends BaseLayout {
       sortStrength: 10,
     };
   }
+
   /**
    * 执行布局
    */
@@ -272,6 +288,7 @@ export default class RadialLayout extends BaseLayout {
       nodes[i].y = p[1] + center[1];
     });
   }
+
   public run() {
     const self = this;
     const maxIteration = self.maxIteration;

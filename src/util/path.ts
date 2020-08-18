@@ -105,7 +105,7 @@ export const pointsToPolygon = (points: IPoint[], z?: boolean): string => {
 
 export const pathToPoints = (path: any[]) => {
   const points = [];
-  path.forEach(seg => {
+  path.forEach((seg) => {
     const command = seg[0];
     if (command !== 'A') {
       for (let i = 1; i < seg.length; i = i + 2) {
@@ -117,7 +117,7 @@ export const pathToPoints = (path: any[]) => {
     }
   });
   return points;
-}
+};
 
 /**
  * 生成平滑的闭合曲线
@@ -127,83 +127,90 @@ export const getClosedSpline = (points: IPoint[]) => {
   if (points.length < 2) {
     throw new Error(`point length must largn than 2, now it's ${points.length}`);
   }
-  let first = points[0];
-  let second = points[1];
-  let last = points[points.length - 1]
-  let lastSecond = points[points.length - 2]
+  const first = points[0];
+  const second = points[1];
+  const last = points[points.length - 1];
+  const lastSecond = points[points.length - 2];
 
-  points.unshift(last)
-  points.unshift(lastSecond)
-  points.push(first)
-  points.push(second)
+  points.unshift(last);
+  points.unshift(lastSecond);
+  points.push(first);
+  points.push(second);
 
-  let closedPath = []
+  const closedPath = [];
   for (let i = 1; i < points.length - 2; i += 1) {
-    let x0 = points[i - 1].x;
-    let y0 = points[i - 1].y;
-    let x1 = points[i].x;
-    let y1 = points[i].y;
-    let x2 = points[i + 1].x;
-    let y2 = points[i + 1].y;
-    let x3 = i !== points.length - 2 ? points[i + 2].x : x2;
-    let y3 = i !== points.length - 2 ? points[i + 2].y : y2;
+    const x0 = points[i - 1].x;
+    const y0 = points[i - 1].y;
+    const x1 = points[i].x;
+    const y1 = points[i].y;
+    const x2 = points[i + 1].x;
+    const y2 = points[i + 1].y;
+    const x3 = i !== points.length - 2 ? points[i + 2].x : x2;
+    const y3 = i !== points.length - 2 ? points[i + 2].y : y2;
 
-    let cp1x = x1 + (x2 - x0) / 6;
-    let cp1y = y1 + (y2 - y0) / 6;
-    let cp2x = x2 - (x3 - x1) / 6;
-    let cp2y = y2 - (y3 - y1) / 6;
-    closedPath.push(["C", cp1x, cp1y, cp2x, cp2y, x2, y2]);
+    const cp1x = x1 + (x2 - x0) / 6;
+    const cp1y = y1 + (y2 - y0) / 6;
+    const cp2x = x2 - (x3 - x1) / 6;
+    const cp2y = y2 - (y3 - y1) / 6;
+    closedPath.push(['C', cp1x, cp1y, cp2x, cp2y, x2, y2]);
   }
   closedPath.unshift(['M', last.x, last.y]);
   return closedPath;
-}
+};
 
-const vecScaleTo = (v: number[], length: number) => { // Vector with direction of v with specified length
+const vecScaleTo = (v: number[], length: number) => {
+  // Vector with direction of v with specified length
   return vec2.scale([], vec2.normalize([], v), length);
-}
+};
 
 const unitNormal = (p0: number[], p1: number[]) => {
   // Returns the unit normal to the line segment from p0 to p1.
-  let n = [p0[1] - p1[1], p1[0] - p0[0]];
-  let nLength = Math.sqrt(n[0] * n[0] + n[1] * n[1]);
+  const n = [p0[1] - p1[1], p1[0] - p0[0]];
+  const nLength = Math.sqrt(n[0] * n[0] + n[1] * n[1]);
   if (nLength === 0) {
-    throw new Error('p0 should not be equal to p1')
+    throw new Error('p0 should not be equal to p1');
   }
   return [n[0] / nLength, n[1] / nLength];
 };
 
-const vecFrom = (p0: number[], p1: number[]) => {               // Vector from p0 to p1
+const vecFrom = (p0: number[], p1: number[]) => {
+  // Vector from p0 to p1
   return [p1[0] - p0[0], p1[1] - p0[1]];
-}
+};
 
 /**
  * 生成有圆角的多边形
- * 
+ *
  */
 export function roundedHull(polyPoints: number[][], padding: number) {
   // The rounded hull path around a single point
-  const roundedHull1 = (polyPoints: number[][]) => {
-    let p1 = [polyPoints[0][0], polyPoints[0][1] - padding];
-    let p2 = [polyPoints[0][0], polyPoints[0][1] + padding];
+  const roundedHull1 = (points: number[][]) => {
+    const p1 = [points[0][0], points[0][1] - padding];
+    const p2 = [points[0][0], points[0][1] + padding];
 
     return `M ${p1} A ${padding},${padding},0,0,0,${p2} A ${padding},${padding},0,0,0,${p1}`;
   };
 
   // The rounded hull path around two points
-  const roundedHull2 = (polyPoints: number[][]) => {
-    let offsetVector = vec2.scale([], unitNormal(polyPoints[0], polyPoints[1]), padding);
-    let invOffsetVector = vec2.scale([], offsetVector, -1);
+  const roundedHull2 = (points: number[][]) => {
+    const offsetVector = vec2.scale([], unitNormal(points[0], points[1]), padding);
+    const invOffsetVector = vec2.scale([], offsetVector, -1);
 
-    let p0 = vec2.add([], polyPoints[0], offsetVector);
-    let p1 = vec2.add([], polyPoints[1], offsetVector);
-    let p2 = vec2.add([], polyPoints[1], invOffsetVector);
-    let p3 = vec2.add([], polyPoints[0], invOffsetVector);
+    const p0 = vec2.add([], points[0], offsetVector);
+    const p1 = vec2.add([], points[1], offsetVector);
+    const p2 = vec2.add([], points[1], invOffsetVector);
+    const p3 = vec2.add([], points[0], invOffsetVector);
 
-    return `M ${p0} L ${p1} A ${[padding, padding, '0,0,0', p2].join(',')} L ${p3} A ${[padding, padding, '0,0,0', p0].join(',')}`;
+    return `M ${p0} L ${p1} A ${[padding, padding, '0,0,0', p2].join(',')} L ${p3} A ${[
+      padding,
+      padding,
+      '0,0,0',
+      p0,
+    ].join(',')}`;
   };
 
   // 特殊情况处理：节点数小于等于2
-  if (!polyPoints || polyPoints.length < 1) return "";
+  if (!polyPoints || polyPoints.length < 1) return '';
   if (polyPoints.length === 1) return roundedHull1(polyPoints);
   if (polyPoints.length === 2) return roundedHull2(polyPoints);
 
@@ -211,24 +218,24 @@ export function roundedHull(polyPoints: number[][], padding: number) {
 
   // Calculate each offset (outwards) segment of the convex hull.
   for (let segmentIndex = 0; segmentIndex < segments.length; ++segmentIndex) {
-    let p0 = (segmentIndex === 0) ? polyPoints[polyPoints.length - 1] : polyPoints[segmentIndex - 1];
-    let p1 = polyPoints[segmentIndex];
+    const p0 =
+      segmentIndex === 0 ? polyPoints[polyPoints.length - 1] : polyPoints[segmentIndex - 1];
+    const p1 = polyPoints[segmentIndex];
 
     // Compute the offset vector for the line segment, with length = padding.
-    let offset = vec2.scale([], unitNormal(p0, p1), padding);
+    const offset = vec2.scale([], unitNormal(p0, p1), padding);
 
     segments[segmentIndex] = [vec2.add([], p0, offset), vec2.add([], p1, offset)];
   }
 
-  let arcData = `A ${[padding, padding, '0,0,0,'].join(',')}`;
+  const arcData = `A ${[padding, padding, '0,0,0,'].join(',')}`;
 
-  segments = segments.map(function (segment, index) {
-    let pathFragment = "";
+  segments = segments.map((segment, index) => {
+    let pathFragment = '';
     if (index === 0) {
       pathFragment = `M ${segments[segments.length - 1][1]} `;
     }
-    pathFragment += arcData + segment[0] + ' L ' + segment[1];
-
+    pathFragment += `${arcData + segment[0]} L ${segment[1]}`;
     return pathFragment;
   });
 
@@ -237,58 +244,69 @@ export function roundedHull(polyPoints: number[][], padding: number) {
 
 // Returns the SVG path data string representing the polygon, expanded and smoothed.
 export function paddedHull(polyPoints: number[][], padding: number) {
-  let pointCount = polyPoints.length;
+  const pointCount = polyPoints.length;
 
-  const smoothHull1 = (polyPoints) => {
+  const smoothHull1 = (points) => {
     // Returns the path for a circular hull around a single point.
 
-    let p1 = [polyPoints[0][0], polyPoints[0][1] - padding];
-    let p2 = [polyPoints[0][0], polyPoints[0][1] + padding];
+    const p1 = [points[0][0], points[0][1] - padding];
+    const p2 = [points[0][0], points[0][1] + padding];
 
-    return `M ${p1} A ${[padding, padding, '0,0,0', p2].join(',')} A ${[padding, padding, '0,0,0', p1].join(',')}`;
+    return `M ${p1} A ${[padding, padding, '0,0,0', p2].join(',')} A ${[
+      padding,
+      padding,
+      '0,0,0',
+      p1,
+    ].join(',')}`;
   };
 
   // Returns the path for a rounded hull around two points.
-  const smoothHull2 = (polyPoints) => {
-    let v = vecFrom(polyPoints[0], polyPoints[1]);
-    let extensionVec = vecScaleTo(v, padding);
+  const smoothHull2 = (points) => {
+    const v = vecFrom(points[0], points[1]);
+    const extensionVec = vecScaleTo(v, padding);
 
-    let extension0 = vec2.add([], polyPoints[0], vec2.scale([], extensionVec, -1));
-    let extension1 = vec2.add([], polyPoints[1], extensionVec);
+    const extension0 = vec2.add([], points[0], vec2.scale([], extensionVec, -1));
+    const extension1 = vec2.add([], points[1], extensionVec);
 
-    let tangentHalfLength = 1.2 * padding;
-    let controlDelta = vecScaleTo(vec2.normalize([], v), tangentHalfLength);
-    let invControlDelta = vec2.scale([], controlDelta, -1);
+    const tangentHalfLength = 1.2 * padding;
+    const controlDelta = vecScaleTo(vec2.normalize([], v), tangentHalfLength);
+    const invControlDelta = vec2.scale([], controlDelta, -1);
 
-    let control0 = vec2.add([], extension0, invControlDelta);
-    let control1 = vec2.add([], extension1, invControlDelta);
-    let control3 = vec2.add([], extension0, controlDelta);
+    const control0 = vec2.add([], extension0, invControlDelta);
+    const control1 = vec2.add([], extension1, invControlDelta);
+    const control3 = vec2.add([], extension0, controlDelta);
 
-    return `M ${extension0} C ${[control0, control1, extension1].join(',')} S ${[control3, extension0].join(',')} Z`;
+    return `M ${extension0} C ${[control0, control1, extension1].join(',')} S ${[
+      control3,
+      extension0,
+    ].join(',')} Z`;
   };
 
   // Handle special cases
-  if (!polyPoints || pointCount < 1) return "";
+  if (!polyPoints || pointCount < 1) return '';
   if (pointCount === 1) return smoothHull1(polyPoints);
   if (pointCount === 2) return smoothHull2(polyPoints);
 
-  let hullPoints = polyPoints.map(function (point, index) {
-    let pNext = polyPoints[(index + 1) % pointCount];
+  const hullPoints = polyPoints.map((point, index) => {
+    const pNext = polyPoints[(index + 1) % pointCount];
     return {
       p: point,
-      v: vec2.normalize([], vecFrom(point, pNext))
+      v: vec2.normalize([], vecFrom(point, pNext)),
     };
   });
 
   // Compute the expanded hull points, and the nearest prior control point for each.
   for (let i = 0; i < hullPoints.length; ++i) {
-    let priorIndex = (i > 0) ? (i - 1) : (pointCount - 1);
-    let extensionVec = vec2.normalize([], vec2.add([], hullPoints[priorIndex].v, vec2.scale([], hullPoints[i].v, -1)));
+    const priorIndex = i > 0 ? i - 1 : pointCount - 1;
+    const extensionVec = vec2.normalize(
+      [],
+      vec2.add([], hullPoints[priorIndex].v, vec2.scale([], hullPoints[i].v, -1)),
+    );
     hullPoints[i].p = vec2.add([], hullPoints[i].p, vec2.scale([], extensionVec, padding));
   }
 
-  return hullPoints.map(obj => {
-    const point = obj.p
-    return { x: point[0], y: point[1] }
+  return hullPoints.map((obj) => {
+    const point = obj.p;
+    return { x: point[0], y: point[1] };
   });
 }

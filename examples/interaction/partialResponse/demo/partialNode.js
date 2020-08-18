@@ -98,22 +98,22 @@ const graph = new G6.Graph({
   },
   nodeStateStyles: {
     selected: {
-      stroke: 'red'
-    }
-  }
+      stroke: 'red',
+    },
+  },
 });
 
 graph.data(data);
 graph.render();
 
 // 节点上的点击事件
-graph.on('node:click', function(event) {
+graph.on('node:click', function (event) {
   const { item } = event;
-  graph.setItemState(item, 'selected', true)
+  graph.setItemState(item, 'selected', true);
 });
 
-graph.on('circle-shape:click', evt => {
-  const { item } = evt
+graph.on('circle-shape:click', (evt) => {
+  const { item } = evt;
   graph.updateItem(item, {
     label: '点击了圆',
     labelCfg: {
@@ -123,4 +123,4 @@ graph.on('circle-shape:click', evt => {
       },
     },
   });
-})
+});

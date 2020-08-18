@@ -1,5 +1,5 @@
 import G6 from '../../../src';
-import isArray from '@antv/util/lib/is-array'
+import isArray from '@antv/util/lib/is-array';
 
 const WRAPPER_BORDER_WIDTH = 2;
 const WRAPPER_HORIZONTAL_PADDING = 10;
@@ -81,12 +81,12 @@ const bizNode = {
       textBaseline: 'middle',
     },
     stateStyles: {
-      'active': {
+      active: {
         wrapperStyle: {},
         contentStyle: {},
         labelStyle: {},
       } as any,
-      'selected': {
+      selected: {
         wrapperStyle: {},
         contentStyle: {},
         labelStyle: {},
@@ -176,7 +176,10 @@ const bizNode = {
     const text = model.label;
     const font = `${fontStyle} ${fontWeight} ${fontSize}px ${fontFamily}`;
 
-    shape.attr('text', optimizeMultilineText(text, font, 2, width - WRAPPER_HORIZONTAL_PADDING * 2));
+    shape.attr(
+      'text',
+      optimizeMultilineText(text, font, 2, width - WRAPPER_HORIZONTAL_PADDING * 2),
+    );
   },
 
   update(model, item) {
@@ -190,7 +193,7 @@ const bizNode = {
     const model = item.getModel();
     const states = item.getStates();
 
-    [WRAPPER_CLASS_NAME, CONTENT_CLASS_NAME, LABEL_CLASS_NAME].forEach(className => {
+    [WRAPPER_CLASS_NAME, CONTENT_CLASS_NAME, LABEL_CLASS_NAME].forEach((className) => {
       const shape = group.findByClassName(className);
       const options = this.getOptions(model);
 
@@ -200,7 +203,7 @@ const bizNode = {
         ...options[`${shapeName}Style`],
       });
 
-      states.forEach(state => {
+      states.forEach((state) => {
         if (options.stateStyles[state] && options.stateStyles[state][`${shapeName}Style`]) {
           shape.attr({
             ...options.stateStyles[state][`${shapeName}Style`],

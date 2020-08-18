@@ -131,7 +131,7 @@ describe('tooltip', () => {
       [
         {
           type: 'tooltip',
-          shouldUpdate: e => {
+          shouldUpdate: (e) => {
             expect(e).not.toBe(undefined);
             return false;
           },
@@ -152,7 +152,7 @@ describe('tooltip', () => {
       [
         {
           type: 'tooltip',
-          shouldBegin: e => {
+          shouldBegin: (e) => {
             expect(e).not.toBe(undefined);
             return false;
           },
@@ -171,7 +171,7 @@ describe('tooltip', () => {
       [
         {
           type: 'tooltip',
-          shouldEnd: e => {
+          shouldEnd: (e) => {
             expect(e).not.toBe(undefined);
             return false;
           },

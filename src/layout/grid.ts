@@ -23,40 +23,59 @@ type Edge = EdgeConfig;
 export default class GridLayout extends BaseLayout {
   /** 布局起始点 */
   public begin: IPointTuple = [0, 0];
+
   /** prevents node overlap, may overflow boundingBox if not enough space */
   public preventOverlap: boolean = true;
+
   /** extra spacing around nodes when preventOverlap: true */
   public preventOverlapPadding: number = 10;
+
   /** uses all available space on false, uses minimal space on true */
   public condense: boolean = false;
+
   /** force num of rows in the grid */
   public rows: number | undefined;
+
   /** force num of columns in the grid */
   public cols: number | undefined;
+
   /** returns { row, col } for element */
   public position: ((node: Node) => { row: number; col: number }) | undefined;
+
   /** a sorting function to order the nodes; e.g. function(a, b){ return a.datapublic ('weight') - b.data('weight') } */
   public sortBy: string = 'degree';
+
   public nodeSize: number | number[] = 30;
 
   public nodes: Node[] = [];
+
   public edges: Edge[] = [];
 
   /** 布局中心 */
   public center: IPointTuple = [0, 0];
+
   public width: number = 300;
+
   public height: number = 300;
 
   private cells: number | undefined;
+
   private row: number = 0;
+
   private col: number = 0;
+
   private splits: number | undefined;
+
   private columns: number | undefined;
+
   private cellWidth: number = 0;
+
   private cellHeight: number = 0;
+
   private cellUsed: {
     [key: string]: boolean;
   } = {};
+
   private id2manPos: {
     [key: string]: {
       row: number;
@@ -77,6 +96,7 @@ export default class GridLayout extends BaseLayout {
       nodeSize: 30,
     };
   }
+
   /**
    * 执行布局
    */
@@ -96,7 +116,7 @@ export default class GridLayout extends BaseLayout {
 
     const edges = self.edges;
     const layoutNodes: Node[] = [];
-    nodes.forEach(node => {
+    nodes.forEach((node) => {
       layoutNodes.push(node);
     });
     const nodeIdxMap: NodeIdxMap = {};
@@ -183,7 +203,7 @@ export default class GridLayout extends BaseLayout {
     }
 
     if (self.preventOverlap) {
-      layoutNodes.forEach(node => {
+      layoutNodes.forEach((node) => {
         if (!node.x || !node.y) {
           // for bb
           node.x = 0;
@@ -266,6 +286,7 @@ export default class GridLayout extends BaseLayout {
       self.getPos(node);
     }
   }
+
   private small(val?: number): number | undefined {
     const self = this;
     let res: number | undefined;

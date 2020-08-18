@@ -105,7 +105,7 @@ G6 中所有元素监听都挂载在图实例上，如下代码中的 `graph` �
 
 ```javascript
 // 在图实例 graph 上监听
-graph.on('元素类型:事件名', e => {
+graph.on('元素类型:事件名', (e) => {
   // do something
 });
 ```
@@ -114,22 +114,22 @@ graph.on('元素类型:事件名', e => {
 
 ```javascript
 // 鼠标进入节点
-graph.on('node:mouseenter', e => {
+graph.on('node:mouseenter', (e) => {
   const nodeItem = e.item; // 获取鼠标进入的节点元素对象
   graph.setItemState(nodeItem, 'hover', true); // 设置当前节点的 hover 状态为 true
 });
 
 // 鼠标离开节点
-graph.on('node:mouseleave', e => {
+graph.on('node:mouseleave', (e) => {
   const nodeItem = e.item; // 获取鼠标离开的节点元素对象
   graph.setItemState(nodeItem, 'hover', false); // 设置当前节点的 hover 状态为 false
 });
 
 // 点击节点
-graph.on('node:click', e => {
+graph.on('node:click', (e) => {
   // 先将所有当前是 click 状态的节点置为非 click 状态
   const clickNodes = graph.findAllByState('node', 'click');
-  clickNodes.forEach(cn => {
+  clickNodes.forEach((cn) => {
     graph.setItemState(cn, 'click', false);
   });
   const nodeItem = e.item; // 获取被点击的节点元素对象
@@ -137,10 +137,10 @@ graph.on('node:click', e => {
 });
 
 // 点击边
-graph.on('edge:click', e => {
+graph.on('edge:click', (e) => {
   // 先将所有当前是 click 状态的边置为非 click 状态
   const clickEdges = graph.findAllByState('edge', 'click');
-  clickEdges.forEach(ce => {
+  clickEdges.forEach((ce) => {
     graph.setItemState(ce, 'click', false);
   });
   const edgeItem = e.item; // 获取被点击的边元素对象
@@ -222,7 +222,7 @@ graph.on('edge:click', e => {
 
         const nodes = remoteData.nodes;
         const edges = remoteData.edges;
-        nodes.forEach(node => {
+        nodes.forEach((node) => {
           if (!node.style) {
             node.style = {};
           }
@@ -247,7 +247,7 @@ graph.on('edge:click', e => {
             }
           }
         });
-        edges.forEach(edge => {
+        edges.forEach((edge) => {
           if (!edge.style) {
             edge.style = {};
           }
@@ -260,22 +260,22 @@ graph.on('edge:click', e => {
         graph.render();
 
         // 监听鼠标进入节点
-        graph.on('node:mouseenter', e => {
+        graph.on('node:mouseenter', (e) => {
           const nodeItem = e.item;
           // 设置目标节点的 hover 状态 为 true
           graph.setItemState(nodeItem, 'hover', true);
         });
         // 监听鼠标离开节点
-        graph.on('node:mouseleave', e => {
+        graph.on('node:mouseleave', (e) => {
           const nodeItem = e.item;
           // 设置目标节点的 hover 状态 false
           graph.setItemState(nodeItem, 'hover', false);
         });
         // 监听鼠标点击节点
-        graph.on('node:click', e => {
+        graph.on('node:click', (e) => {
           // 先将所有当前有 click 状态的节点的 click 状态置为 false
           const clickNodes = graph.findAllByState('node', 'click');
-          clickNodes.forEach(cn => {
+          clickNodes.forEach((cn) => {
             graph.setItemState(cn, 'click', false);
           });
           const nodeItem = e.item;
@@ -283,10 +283,10 @@ graph.on('edge:click', e => {
           graph.setItemState(nodeItem, 'click', true);
         });
         // 监听鼠标点击节点
-        graph.on('edge:click', e => {
+        graph.on('edge:click', (e) => {
           // 先将所有当前有 click 状态的边的 click 状态置为 false
           const clickEdges = graph.findAllByState('edge', 'click');
-          clickEdges.forEach(ce => {
+          clickEdges.forEach((ce) => {
             graph.setItemState(ce, 'click', false);
           });
           const edgeItem = e.item;

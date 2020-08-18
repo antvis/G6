@@ -433,59 +433,73 @@ const testData: GraphData = {
       target: '33',
     },
   ],
-  combos: [{
-    id: 'a',
-    label: 'combo a'
-  }, {
-    id: 'b',
-    label: 'combo b'
-  }, {
-    id: 'c',
-    label: 'combo c'
-  }, {
-    id: 'd',
-    label: 'combo d',
-    parentId: 'b'
-  },
+  combos: [
+    {
+      id: 'a',
+      label: 'combo a',
+    },
+    {
+      id: 'b',
+      label: 'combo b',
+    },
+    {
+      id: 'c',
+      label: 'combo c',
+    },
+    {
+      id: 'd',
+      label: 'combo d',
+      parentId: 'b',
+    },
     // {
     //   id: 'e',
     //   label: 'combo e'
     // }
-  ]
+  ],
 };
 
 const testData2: GraphData = {
-  nodes: [{
-    id: 'node0',
-    x: 100,
-    y: 100
-  }, {
-    id: 'node1',
-    x: 101,
-    y: 102
-  }, {
-    id: 'node2',
-    x: 103,
-    y: 101
-  }, {
-    id: 'node3',
-    x: 103,
-    y: 104
-  }],
-  edges: [{
-    source: 'node0',
-    target: 'node1'
-  }, {
-    source: 'node1',
-    target: 'node2'
-  }, {
-    source: 'node2',
-    target: 'node3'
-  }, {
-    source: 'node3',
-    target: 'node0'
-  }]
-}
+  nodes: [
+    {
+      id: 'node0',
+      x: 100,
+      y: 100,
+    },
+    {
+      id: 'node1',
+      x: 101,
+      y: 102,
+    },
+    {
+      id: 'node2',
+      x: 103,
+      y: 101,
+    },
+    {
+      id: 'node3',
+      x: 103,
+      y: 104,
+    },
+  ],
+  edges: [
+    {
+      source: 'node0',
+      target: 'node1',
+    },
+    {
+      source: 'node1',
+      target: 'node2',
+    },
+    {
+      source: 'node2',
+      target: 'node3',
+    },
+    {
+      source: 'node3',
+      target: 'node0',
+    },
+  ],
+};
 const ComboForceLayout = () => {
   const container = React.useRef();
   useEffect(() => {
@@ -513,14 +527,14 @@ const ComboForceLayout = () => {
           collideStrength: 0.5,
           maxIteration: 10,
           comboPadding: 5,
-          comboSpacing: 10
+          comboSpacing: 10,
         },
         defaultEdge: {
           size: 3,
           color: '#666',
-        }
+        },
       });
-      graph.node(node => {
+      graph.node((node) => {
         const color = colors[node.comboId as string];
         return {
           size: 20,
@@ -529,9 +543,9 @@ const ComboForceLayout = () => {
             stroke: '#ccc',
             fill: color,
           },
-        }
+        };
       });
-      graph.combo(combo => {
+      graph.combo((combo) => {
         const color = colors[combo.id as string];
         return {
           size: 20,
@@ -539,16 +553,16 @@ const ComboForceLayout = () => {
           style: {
             lineWidth: 2,
             stroke: color,
-            fillOpacity: 0.8
+            fillOpacity: 0.8,
           },
-        }
+        };
       });
 
       fetch(
         'https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4b9bcbc25f.json',
       )
-        .then(res => res.json())
-        .then(data => {
+        .then((res) => res.json())
+        .then((data) => {
           graph.data(testData);
           graph.render();
         });

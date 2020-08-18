@@ -30,9 +30,10 @@ order: 1
 <br />
 
 ## 如何使用图形分组 Group
-图形分组一般会在[自定义节点](/zh/docs/manual/advanced/custom-node)、[自定义边](/zh/docs/manual/advanced/custom-edge)时用到。Group的完整实例方法请参考[Graphics Group API](/zh/docs/api/Group)。
 
-### 获取元素的group
+图形分组一般会在[自定义节点](/zh/docs/manual/advanced/custom-node)、[自定义边](/zh/docs/manual/advanced/custom-edge)时用到。Group 的完整实例方法请参考[Graphics Group API](/zh/docs/api/Group)。
+
+### 获取元素的 group
 
 ```javascript
 // 获取元素(节点/边/Combo)的图形对象的容器

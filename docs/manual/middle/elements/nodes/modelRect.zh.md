@@ -97,7 +97,7 @@ modelRect 节点支持 [节点通用配置](/zh/docs/manual/middle/elements/node
     }
 ```
 
-### 样式属性 style
+### 样式属性  style
 
 Object 类型。支持 [节点通用样式](/zh/docs/manual/middle/elements/nodes/defaultNode#样式属性-style)。通过 `style` 配置来修改节点的填充色、描边等属性。下面代码演示在实例化图时全局配置方法中配置 `style`，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cJeKS59n4FAAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 

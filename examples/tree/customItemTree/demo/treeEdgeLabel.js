@@ -133,7 +133,7 @@ const graph = new G6.TreeGraph({
   },
 });
 
-graph.node(function(node) {
+graph.node(function (node) {
   return {
     size: 16,
     anchorPoints: [
@@ -152,7 +152,7 @@ graph.node(function(node) {
   };
 });
 let i = 0;
-graph.edge(function() {
+graph.edge(function () {
   i++;
   return {
     type: 'cubic-horizontal',

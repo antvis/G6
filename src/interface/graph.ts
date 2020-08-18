@@ -17,7 +17,7 @@ import {
   ModeType,
   ComboConfig,
   GraphAnimateConfig,
-  StackData
+  StackData,
 } from '../types';
 import { IEdge, INode, ICombo } from './item';
 import PluginBase from '../plugins/base';
@@ -249,7 +249,7 @@ export interface IGraph extends EventEmitter {
    * 获取指定 combo 中所有的节点
    * @param comboId Combo ID 或 combo 实例
    */
-  getComboChildren(combo: string | ICombo): { nodes: INode[], combos: ICombo[] };
+  getComboChildren(combo: string | ICombo): { nodes: INode[]; combos: ICombo[] };
 
   /**
    * 获取当前视口伸缩比例
@@ -484,9 +484,9 @@ export interface IGraph extends EventEmitter {
    * 获取 undo 和 redo 栈的数据
    */
   getStackData(): {
-    undoStack: StackData[],
-    redoStack: StackData[]
-  }
+    undoStack: StackData[];
+    redoStack: StackData[];
+  };
 
   /**
    * 清空 undo stack & redo stack

@@ -7,8 +7,8 @@ describe('menu', () => {
   it('menu with default', () => {
     const menu = new G6.Menu({
       handleMenuClick: (target, item) => {
-        console.log(target, item)
-      }
+        console.log(target, item);
+      },
     });
 
     const graph = new G6.Graph({
@@ -17,8 +17,8 @@ describe('menu', () => {
       height: 500,
       plugins: [menu],
       modes: {
-        default: ['drag-node', 'zoom-canvas', 'drag-canvas']
-      }
+        default: ['drag-node', 'zoom-canvas', 'drag-canvas'],
+      },
     });
 
     const data = {
@@ -27,15 +27,15 @@ describe('menu', () => {
           id: 'node1',
           label: 'node1',
           x: 100,
-          y: 100
-        }
-      ]
-    }
+          y: 100,
+        },
+      ],
+    };
 
-    graph.data(data)
-    graph.render()
+    graph.data(data);
+    graph.render();
     // graph.destroy()
-  })
+  });
   it('menu with dom', () => {
     const menu = new G6.Menu({
       getContent(e) {
@@ -47,8 +47,8 @@ describe('menu', () => {
           <li>测试01</li>
           <li>测试01</li>
           <li>测试01</li>
-        </ul>`
-        return outDiv
+        </ul>`;
+        return outDiv;
       },
     });
 
@@ -58,8 +58,8 @@ describe('menu', () => {
       height: 500,
       plugins: [menu],
       modes: {
-        default: ['drag-node', 'zoom-canvas', 'drag-canvas']
-      }
+        default: ['drag-node', 'zoom-canvas', 'drag-canvas'],
+      },
     });
 
     const data = {
@@ -68,19 +68,19 @@ describe('menu', () => {
           id: 'node1',
           label: 'node1',
           x: 100,
-          y: 100
-        }
-      ]
-    }
+          y: 100,
+        },
+      ],
+    };
 
-    graph.data(data)
-    graph.render()
-    graph.destroy()
-  })
+    graph.data(data);
+    graph.render();
+    graph.destroy();
+  });
   it('menu with string', () => {
     const menu = new G6.Menu({
       getContent(graph1) {
-        console.log('graph',graph1)
+        console.log('graph', graph1);
         return `<ul>
         <li title='1'>测试02</li>
         <li title='2'>测试02</li>
@@ -90,7 +90,7 @@ describe('menu', () => {
       </ul>`;
       },
       handleMenuClick(target, item) {
-        console.log(target, item)
+        console.log(target, item);
       },
     });
 
@@ -100,8 +100,8 @@ describe('menu', () => {
       height: 500,
       plugins: [menu],
       modes: {
-        default: ['drag-node', 'zoom-canvas', 'drag-canvas']
-      }
+        default: ['drag-node', 'zoom-canvas', 'drag-canvas'],
+      },
     });
 
     const data = {
@@ -110,13 +110,13 @@ describe('menu', () => {
           id: 'node1',
           label: 'node1',
           x: 100,
-          y: 100
-        }
-      ]
-    }
+          y: 100,
+        },
+      ],
+    };
 
-    graph.data(data)
-    graph.render()
-    graph.destroy()
-  })
+    graph.data(data);
+    graph.render();
+    graph.destroy();
+  });
 });

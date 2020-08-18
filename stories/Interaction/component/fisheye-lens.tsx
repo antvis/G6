@@ -20,7 +20,7 @@ const FishEye = () => {
     '#BFCFEE',
     '#FFA0C5',
     '#D5FF86',
-  ]
+  ];
 
   useEffect(() => {
     if (!graph) {
@@ -31,38 +31,45 @@ const FishEye = () => {
         plugins: [fisheye],
         layout: {
           type: 'force',
-          preventOverlap: true
+          preventOverlap: true,
         },
         modes: {
-          default: ['drag-canvas', 'zoom-canvas']
-        }
+          default: ['drag-canvas', 'zoom-canvas'],
+        },
       });
       fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
-        .then(res => res.json())
-        .then(data => {
-          data.nodes.forEach(node => {
+        .then((res) => res.json())
+        .then((data) => {
+          data.nodes.forEach((node) => {
             node.label = node.id;
             node.size = Math.random() * 40 + 20;
             node.style = {
               fill: colors[Math.floor(Math.random() * 9)],
-              lineWidth: 0
-            }
-            console.log(node)
+              lineWidth: 0,
+            };
+            console.log(node);
           });
           graph.data(data);
           graph.render();
-          graph.getNodes().forEach(node => {
-            node.getContainer().getChildren().forEach(shape => {
-              if (shape.get('type') === 'text') shape.set('visible', false);
-            });
+          graph.getNodes().forEach((node) => {
+            node
+              .getContainer()
+              .getChildren()
+              .forEach((shape) => {
+                if (shape.get('type') === 'text') shape.set('visible', false);
+              });
           });
         });
     }
   });
   const handleClear = () => {
     fisheye.clear();
-  }
-  return <div ref={container}><div onClick={handleClear}>click here to clear</div></div>;
+  };
+  return (
+    <div ref={container}>
+      <div onClick={handleClear}>click here to clear</div>
+    </div>
+  );
 };
 
 export default FishEye;

@@ -17,16 +17,16 @@ Item 是 G6 中绘图元素实例，目前包含节点和边的实例。对于�
 | ----- | ------ | -------- | -------------------------- |
 | model | Object | true     | 元素描述项，包括数据和样式 |
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>  提示：</strong></span>
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong> 提示：</strong></span>
 
 其中参数 model 可包括以下属性，下面属性的详细描述参见 [元素配置项](/zh/docs/api/nodeEdge/itemProperties)：
 
-| 名称  | 类型   | 是否必选 | 描述                                   |
-| ----- | ------ | -------- | -------------------------------------- |
-| style | Object | false    | 元素样式                               |
-| type  | String | false    | 元素的类型，不传则使用默认值           |
-| label | String | false    | 元素的文本标签，有该字段时默认会渲染 label |
-| labelCfg | Object | false    | 元素文本标签的样式 |
+| 名称     | 类型   | 是否必选 | 描述                                       |
+| -------- | ------ | -------- | ------------------------------------------ |
+| style    | Object | false    | 元素样式                                   |
+| type     | String | false    | 元素的类型，不传则使用默认值               |
+| label    | String | false    | 元素的文本标签，有该字段时默认会渲染 label |
+| labelCfg | Object | false    | 元素文本标签的样式                         |
 
 **用法**
 
@@ -132,7 +132,7 @@ item.getBBox();
 **返回值**
 
 - 返回值类型：G.Group；
-- 返回元素所在的graphics group。
+- 返回元素所在的 graphics group。
 
 **用法**
 

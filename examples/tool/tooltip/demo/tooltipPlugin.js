@@ -78,7 +78,7 @@ const tooltip = new G6.Tooltip({
   itemTypes: ['node', 'edge'],
   // custom the tooltip's content
   // 自定义 tooltip 内容
-  getContent: e => {
+  getContent: (e) => {
     const outDiv = document.createElement('div');
     outDiv.style.width = 'fit-content';
     //outDiv.style.padding = '0px 0px 20px 0px';
@@ -89,8 +89,8 @@ const tooltip = new G6.Tooltip({
       </ul>
       <ul>
         <li>Label: ${e.item.getModel().label || e.item.getModel().id}</li>
-      </ul>`
-    return outDiv
+      </ul>`;
+    return outDiv;
   },
 });
 const width = document.getElementById('container').scrollWidth;
@@ -102,7 +102,7 @@ const graph = new G6.Graph({
   linkCenter: true,
   plugins: [tooltip],
   modes: {
-    default: ['drag-node']
+    default: ['drag-node'],
   },
   defaultNode: {
     size: [80, 40],

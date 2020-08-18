@@ -6,7 +6,7 @@ import { ViewPortEventParam } from '../../types';
 import Base, { IPluginBaseConfig } from '../base';
 
 interface GridConfig {
-  img?: string
+  img?: string;
 }
 
 // 网格背景图片

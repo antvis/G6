@@ -145,12 +145,12 @@ const data = {
         style: {
           stroke: '#fff',
           lineWidth: 5,
-          fontSize: 20
-        }
+          fontSize: 20,
+        },
       },
       style: {
-        stroke: 'red'
-      }
+        stroke: 'red',
+      },
     },
     {
       source: 'a',
@@ -162,12 +162,12 @@ const data = {
         style: {
           stroke: '#fff',
           lineWidth: 5,
-          fontSize: 20
-        }
+          fontSize: 20,
+        },
       },
       style: {
-        stroke: 'blue'
-      }
+        stroke: 'blue',
+      },
     },
     {
       source: '0',
@@ -410,21 +410,25 @@ const data = {
       target: '33',
     },
   ],
-  combos: [{
-    id: 'a',
-    label: 'Combo A'
-  }, {
-    id: 'b',
-    label: 'Combo B'
-  }, {
-    id: 'c',
-    label: 'Combo D'
-  }, {
-    id: 'd',
-    label: 'Combo D',
-    parentId: 'b'
-  },
-  ]
+  combos: [
+    {
+      id: 'a',
+      label: 'Combo A',
+    },
+    {
+      id: 'b',
+      label: 'Combo B',
+    },
+    {
+      id: 'c',
+      label: 'Combo D',
+    },
+    {
+      id: 'd',
+      label: 'Combo D',
+      parentId: 'b',
+    },
+  ],
 };
 
 const width = document.getElementById('container').scrollWidth;
@@ -437,7 +441,7 @@ const graph = new G6.Graph({
   fitViewPadding: 50,
   layout: {
     type: 'comboForce',
-    nodeSpacing: d => 8
+    nodeSpacing: (d) => 8,
   },
   defaultNode: {
     size: 15,
@@ -452,8 +456,8 @@ const graph = new G6.Graph({
     color: '#e2e2e2',
   },
   modes: {
-    default: ['drag-combo', 'drag-node', 'drag-canvas', 'zoom-canvas']
-  }
+    default: ['drag-combo', 'drag-node', 'drag-canvas', 'zoom-canvas'],
+  },
 });
 
 graph.data(data);

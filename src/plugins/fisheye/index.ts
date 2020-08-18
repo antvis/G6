@@ -4,11 +4,11 @@ import Graph from '../../graph/graph';
 import Base from '../base';
 
 interface FisheyeConfig {
-  trigger?: 'mousemove' | 'click',
-  d?: number,
-  r?: number,
-  delegateStyle?: ShapeStyle,
-  showLabel?: boolean
+  trigger?: 'mousemove' | 'click';
+  d?: number;
+  r?: number;
+  delegateStyle?: ShapeStyle;
+  showLabel?: boolean;
 }
 
 const lensDelegateStyle = {
@@ -16,19 +16,16 @@ const lensDelegateStyle = {
   strokeOpacity: 0.8,
   lineWidth: 2,
   fillOpacity: 0.1,
-  fill: '#ccc'
-}
+  fill: '#ccc',
+};
 export default class Fisheye extends Base {
-  constructor(cfg?: FisheyeConfig) {
-    super(cfg);
-  }
   public getDefaultCfgs(): FisheyeConfig {
     return {
       trigger: 'mousemove',
       d: 1.5,
       r: 300,
       delegateStyle: clone(lensDelegateStyle),
-      showLabel: false
+      showLabel: false,
     };
   }
 
@@ -36,11 +33,11 @@ export default class Fisheye extends Base {
   public getEvents() {
     if ((this as any).get('trigger') === 'mousemove') {
       return {
-        'mousemove': 'magnify',
+        mousemove: 'magnify',
       };
     }
     return {
-      'click': 'magnify',
+      click: 'magnify',
     };
   }
 
@@ -51,7 +48,6 @@ export default class Fisheye extends Base {
     self.set('cachedOriginPositions', {});
     self.set('r2', r * r);
   }
-
 
   /**
    * mousemove 或 click 事件的响应函数
@@ -79,7 +75,7 @@ export default class Fisheye extends Base {
       if (!isNaN(dist2) && dist2 < r2 && dist2 !== 0) {
         const dist = Math.sqrt(dist2);
         const param = dist / r;
-        const magnifiedDist = r * (d + 1) * param / (d * param + 1);
+        const magnifiedDist = (r * (d + 1) * param) / (d * param + 1);
         const cos = (x - mCenter.x) / dist;
         const sin = (y - mCenter.y) / dist;
         model.x = cos * magnifiedDist + mCenter.x;
@@ -98,12 +94,11 @@ export default class Fisheye extends Base {
             if (shape.get('type') === 'text') {
               cachedOriginPositions[model.id].texts.push({
                 visible: shape.get('visible'),
-                shape
+                shape,
               });
               shape.set('visible', true);
             }
           }
-
         }
       }
     }
@@ -124,7 +119,7 @@ export default class Fisheye extends Base {
       const ori = cachedOriginPositions[id];
       node.x = ori.x;
       node.y = ori.y;
-      ori.texts.forEach(text => {
+      ori.texts.forEach((text) => {
         text.shape.set('visible', text.visible);
       });
     }
@@ -146,7 +141,6 @@ export default class Fisheye extends Base {
       self.set('trigger', trigger);
     }
   }
-
 
   /**
    * 放大镜的图形
@@ -186,8 +180,8 @@ export default class Fisheye extends Base {
     const graph = this.get('graph');
     this.restoreCache();
     graph.refreshPositions();
-    let lensDelegate = this.get('delegate');
-    lensDelegate.remove()
+    const lensDelegate = this.get('delegate');
+    lensDelegate.remove();
     lensDelegate.destroy();
   }
 

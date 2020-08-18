@@ -29,19 +29,17 @@ As shown in the figure below, The edges with red label matches Rule 2:
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dQwAQr0lCjQAAAAAAAAAAABkARQnAQ' width=400 alt="img" />
 
-> z(e4) = z(e2)
-> z(e5) = z(e2)
-> z(e6) = z(e1)=z(e3)
-
+> z(e4) = z(e2) z(e5) = z(e2) z(e6) = z(e1)=z(e3)
 
 - Rule 2+: The combo B of upper figure is collapsed as following figure. The related nodes and edges are hidden, and some vitual edges are added to represent the relationships between items inside and outside combo B.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RTF-Q5NgVtMAAAAAAAAAAABkARQnAQ' width=350 alt="img" />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sN2BRproFKQAAAAAAAAAAABkARQnAQ' width=350 alt="img" />
 
-
 ## combo Layout Theory
+
 G6 provides a force-directed based layout for combo named 'comboForce'. There are three situations to be considered:
+
 1. Layout all the items;
 2. Expand a combo interactively;
 3. Collapse a combo interactively.
@@ -49,16 +47,19 @@ G6 provides a force-directed based layout for combo named 'comboForce'. There ar
 The principle of traditional force-directed layout: There are repulsive forces between all the node pairs as `Fr = k/r2`; There are attractive forces between the node pairs which have connections(edges) as `Fa = ks * r`. Where `r` is the distance between two nodes, `k` and `ks` are coefficient. To meet the requirement of combo layout, we add some additional strategies to make the nodes inside a combo more compact and avoid the combo overlappings.
 
 #### Define a coefficient m = f(c) for the attractive force Fa on the edge
+
 - 「Inter Edge」means an edge with two end nodes from different combos. All the edges in the below figure are inter edges. The attractive forces on them should be reduce the avoid this two combos overlapped. So the coefficient is `m = f(c) < 1`. Higher difference of the combos' depths, `m` should be smaller. E.g. the differences of `e46`, `e23`, `e12`, and `e15` are 1, and `e34`、`e13` are 2. So `f(c)` is a function about difference of the depths bewteen two end nodes' combos, e.g. `m = 1/c`;
 - 「Intra Edge」means an edge with two end nodes form the same combo,the coefficient is `m = f(c) = 1`.
 
 #### Gravity for combo
+
 - For convenience, we say `P(X)` is the hierarchy depth of combo X. As shown in the figure below, `P(A) > P(B) > P(C) > P(D)`;
 - Each combo has a gravity force G(X) for its succeeding nodes from their mean center. The mean center will be updated in each iteration;
 - Smaller `P(X)`, larger `G(X)`. e.g. `G(X) = 1/P(X)`;
 - Some nodes might be affected by multiple gravity forces. Such as the node #6 in the figure below, it is affected by the gravity forces `G(C)` from combo C with red stroke, `G(B)` from combo B with green stroke, and `G(A)` from combo A with yellow stroke, where `G(C) > G(B) > G(A)`.
 
 #### Overlapping detection
+
 - Detect the overlappings between nodes in each iteration, and:
   - If two node overlapped, magnify a coefficient `R` to the repulsive force between them to take them apart.
 - Detect the overlappings between combos in each iteration (or each `q` iteraction in reduce the computation):

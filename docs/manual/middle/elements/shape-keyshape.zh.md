@@ -7,7 +7,7 @@ order: 6
 
 Shape 指 G6 中的图形、形状，它可以是圆形、矩形、路径等。它一般与 G6 中的节点、边、Combo 相关。**G6 中的每一种节点/边/ Combo 由一个或多个 Shape 组成。节点、边、Combo、标签文本的配置都会被体现到对应的图形上。**
 
-例如下图（左）的节点包含了一个圆形图形；下图（中）的节点含有有一个圆形和一个文本图形；下图（右）的节点中含有 5 个圆形（蓝绿色的圆和上下左右四个锚点）、一个文本图形。但每种节点/边/ Combo 都会有自己的唯一关键图形 keyShape，下图中三个节点的 keyShape 都是蓝绿色的圆，keyShape 主要用于交互检测、样式随[状态](/zh/docs/manual/middle/states/state)自动更新等，见 [keyShape](#keyshape)。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OcaaTIIu_4cAAAAAAAAAAABkARQnAQ' width=50 alt='img'/>     <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r5M0Sowd1R8AAAAAAAAAAABkARQnAQ' width=50 alt='img'/>      <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*pHoETad75CIAAAAAAAAAAABkARQnAQ' width=50 alt='img'/>
+例如下图（左）的节点包含了一个圆形图形；下图（中）的节点含有有一个圆形和一个文本图形；下图（右）的节点中含有 5 个圆形（蓝绿色的圆和上下左右四个锚点）、一个文本图形。但每种节点/边/ Combo 都会有自己的唯一关键图形 keyShape，下图中三个节点的 keyShape 都是蓝绿色的圆，keyShape 主要用于交互检测、样式随[状态](/zh/docs/manual/middle/states/state)自动更新等，见  [keyShape](#keyshape)。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OcaaTIIu_4cAAAAAAAAAAABkARQnAQ' width=50 alt='img'/>     <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*r5M0Sowd1R8AAAAAAAAAAABkARQnAQ' width=50 alt='img'/>      <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*pHoETad75CIAAAAAAAAAAABkARQnAQ' width=50 alt='img'/>
 
 > （左）只含有一个圆形图形的节点，keyShape 是该圆形。（中）含有圆形和文本图形的节点，keyShape 是圆形。（右）含有主要圆形、文本、上下左右四个小圆形的节点，keyShape 是圆形。
 
@@ -74,13 +74,13 @@ const graph = new G6.Graph({
 graph.data(data);
 graph.render();
 // 监听鼠标进入节点事件
-graph.on('node:mouseenter', evt => {
+graph.on('node:mouseenter', (evt) => {
   const node = evt.item;
   // 激活该节点的 hover 状态
   graph.setItemState(node, 'hover', true);
 });
 // 监听鼠标离开节点事件
-graph.on('node:mouseleave', evt => {
+graph.on('node:mouseleave', (evt) => {
   const node = evt.item;
   // 关闭该节点的 hover 状态
   graph.setItemState(node, 'hover', false);

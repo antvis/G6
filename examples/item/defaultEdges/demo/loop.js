@@ -46,7 +46,7 @@ const graph = new G6.Graph({
       stroke: '#F6BD16',
       endArrow: {
         path: 'M 0,0 L 20,10 L 20,-10 Z',
-        fill: '#F6BD16'
+        fill: '#F6BD16',
       },
     },
     // 更多关于 loop 的配置请参考http://antv.alipay.com/zh/docs/manual/middle/elements/edges/loop/#%E8%87%AA%E7%8E%AF%E7%89%B9%E6%AE%8A%E9%85%8D%E7%BD%AE-loopcfg

@@ -78,7 +78,6 @@ labelCfg: {
 | labelCfg | The configurations of the label | Object |  |
 | stateStyles | The styles in different states | Object | Refer to [Configure Styles for State](/en/docs/manual/middle/states/state#configure-styles-for-state) |
 
-
 ### Special Property: curveOffset
 
 `curveOffset` is the special property for arc edge, which controlls the size and the bending direction of the arc. The following code shows how to configure the `curveOffset` globally when instantiating a Graph.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*63NxRppr3tUAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>

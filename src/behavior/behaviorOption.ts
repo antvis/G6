@@ -38,7 +38,11 @@ export default {
   bind(graph: IGraph) {
     const { events } = this;
     this.graph = graph;
-    if (this.type === 'drag-canvas' || this.type === 'brush-select' || this.type === 'lasso-select') {
+    if (
+      this.type === 'drag-canvas' ||
+      this.type === 'brush-select' ||
+      this.type === 'lasso-select'
+    ) {
       graph.get('canvas').set('draggable', true);
     }
     each(events, (handler: () => void, event: G6Event) => {
@@ -47,12 +51,16 @@ export default {
     // To avoid the tabs switching makes the keydown related behaviors disable
     document.addEventListener('visibilitychange', () => {
       this.keydown = false;
-    })
+    });
   },
 
   unbind(graph: IGraph) {
     const { events } = this;
-    if (this.type === 'drag-canvas' || this.type === 'brush-select' || this.type === 'lasso-select') {
+    if (
+      this.type === 'drag-canvas' ||
+      this.type === 'brush-select' ||
+      this.type === 'lasso-select'
+    ) {
       graph.get('canvas').set('draggable', false);
     }
     each(events, (handler: () => void, event: G6Event) => {

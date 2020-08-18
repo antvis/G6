@@ -9,35 +9,35 @@ const data = {
   nodes: [
     {
       id: 'A',
-      label: '0'
+      label: '0',
     },
     {
       id: 'B',
-      label: '1'
+      label: '1',
     },
     {
       id: 'C',
-      label: '2'
+      label: '2',
     },
     {
       id: 'D',
-      label: '3'
+      label: '3',
     },
     {
       id: 'E',
-      label: '4'
+      label: '4',
     },
     {
       id: 'F',
-      label: '5'
+      label: '5',
     },
     {
       id: 'G',
-      label: '6'
+      label: '6',
     },
     {
       id: 'H',
-      label: '7'
+      label: '7',
     },
   ],
   edges: [
@@ -69,8 +69,8 @@ const data = {
       source: 'F',
       target: 'D',
     },
-  ]
-}
+  ],
+};
 
 describe('Adjacency Matrix on graph', () => {
   const graph = new G6.Graph({
@@ -79,13 +79,13 @@ describe('Adjacency Matrix on graph', () => {
     height: 500,
     defaultEdge: {
       style: {
-        endArrow: true
-      }
-    }
-  })
+        endArrow: true,
+      },
+    },
+  });
 
-  graph.data(data)
-  graph.render()
+  graph.data(data);
+  graph.render();
 
   it('get graph adjacency matrix', () => {
     const matrix = graph.getAdjMatrix();
@@ -102,15 +102,15 @@ describe('Adjacency Matrix on graph', () => {
   it('add items and cache', () => {
     graph.addItem('node', {
       id: 'I',
-      label: '8'
+      label: '8',
     });
     graph.addItem('edge', {
       source: 'I',
-      target: 'A'
+      target: 'A',
     });
     graph.addItem('edge', {
       source: 'C',
-      target: 'A'
+      target: 'A',
     });
     // use the cache
     const cachedMatrix = graph.getAdjMatrix();
@@ -137,7 +137,7 @@ describe('Adjacency Matrix on graph', () => {
     expect(node0Adj[6]).toBe(undefined);
     expect(node0Adj[7]).toBe(undefined);
     expect(node0Adj[8]).toBe(1);
-  })
+  });
 
   it('directed', () => {
     // do not use the cache and directed
@@ -157,8 +157,6 @@ describe('Adjacency Matrix on graph', () => {
   });
 });
 
-
-
 describe('Adjacency Matrix by Algorithm', () => {
   const graph = new G6.Graph({
     container: 'container',
@@ -166,13 +164,13 @@ describe('Adjacency Matrix by Algorithm', () => {
     height: 500,
     defaultEdge: {
       style: {
-        endArrow: true
-      }
-    }
-  })
+        endArrow: true,
+      },
+    },
+  });
 
-  graph.data(data)
-  graph.render()
+  graph.data(data);
+  graph.render();
 
   it('get graph adjacency matrix', () => {
     const matrix = adjMatrix(graph);
@@ -189,15 +187,15 @@ describe('Adjacency Matrix by Algorithm', () => {
   it('add items and cache', () => {
     graph.addItem('node', {
       id: 'I',
-      label: '8'
+      label: '8',
     });
     graph.addItem('edge', {
       source: 'I',
-      target: 'A'
+      target: 'A',
     });
     graph.addItem('edge', {
       source: 'C',
-      target: 'A'
+      target: 'A',
     });
 
     const matrix = adjMatrix(graph);
@@ -213,7 +211,7 @@ describe('Adjacency Matrix by Algorithm', () => {
     expect(node0Adj[6]).toBe(undefined);
     expect(node0Adj[7]).toBe(undefined);
     expect(node0Adj[8]).toBe(1);
-  })
+  });
 
   it('directed', () => {
     // directed
