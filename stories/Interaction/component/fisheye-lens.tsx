@@ -9,8 +9,8 @@ const FishEye = () => {
   const fisheye = new G6.Fisheye({
     r: 200,
     showLabel: true,
-    trigger: 'drag',
-    wheelScaleRange: true
+    // trigger: 'drag',
+    scaleRByWheel: true
   });
   const colors = [
     '#8FE9FF',
@@ -36,7 +36,7 @@ const FishEye = () => {
           preventOverlap: true,
         },
         modes: {
-          default: ['drag-canvas', 'zoom-canvas'],
+          // default: ['drag-canvas', 'zoom-canvas'],
         },
       });
       fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')

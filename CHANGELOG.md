@@ -3,7 +3,10 @@
 #### 3.6.2
 
 - fix: polyline with rect and radius=0 problem;
-- chore: update hierarchy to solve the children ordering problem for indented tree layout.
+- chore: update hierarchy to solve the children ordering problem for indented tree layout;
+- feat: fisheye with dragging;
+- feat: fisheye with scaling range and d;
+- chore: extract the public calculation to enhance the performance of fisheye.
 
 #### 3.6.1-beta
 

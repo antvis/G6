@@ -477,6 +477,31 @@ Fisheye is designed for focus_context exploration, it keeps the context and the 
 | r | Number | false | 300 | The radius of the focus area |
 | delegateStyle | Object | false | { stroke: '#000', strokeOpacity: 0.8, lineWidth: 2, fillOpacity: 0.1, fill: '#ccc' } | The style of the lens's delegate |
 | showLabel | Boolean | false | false | If the label is hidden, whether to show the label of nodes inside the focus area |
+| scaleRByWheel | Boolean | false | Whether to enable scaling the magnifying radius by mouse wheeling |
+| maxR | Number | The height of the graph | The maximum radius scaled by the wheel |
+| minR | Number | 0.05 * The height of the graph | The minimum radius scaled by the wheel |
+| maxD | Number | 5 | when `trigger` is `'mousemove'` or `'click'`, minimap allow users to adjust the magnifying coefficient `d` by dragging left / right on the lens. `maxD` is the maximum magnifying coefficient that limits this interaction. The suggested range for `maxD` is [0, 5]. Note that updating the configurations by `minimap.updateParam` will not be limited by `maxD`  |
+| minD | Number | 0 | when `trigger` is `'mousemove'` or `'click'`, minimap allow users to adjust the magnifying coefficient `d` by dragging left / right on the lens. `minD` is the minimum magnifying coefficient that limits this interaction. The suggested range for `minD` is [0, 5]. Note that updating the configurations by `minimap.updateParam` will not be limited by `minD` |
+
+### Member Function
+
+#### updateParams(cfg)
+
+Update partial of the configurations of the minimap instance, including `trigger`, `d`, `r`, `maxR`, `minR`, `maxD`, and `minD`. E.g.
+
+```
+const fisheye = new G6.Fisheye({
+  trigger: 'mousemove'
+});
+
+... // Other operations
+
+fisheye.updateParams({
+  d: 2,
+  r: 500,
+  // ...
+})
+```
 
 ### Usage
 
@@ -490,7 +515,7 @@ const fisheye = new G6.Fisheye({
 });
 
 const graph = new G6.Graph({
-  //... Other configurations
-  plugins: [fisheye], // Use fisheye plugin
+  //... Other graph configurations
+  plugins: [fisheye], // configuring fisheye plugin
 });
 ```
