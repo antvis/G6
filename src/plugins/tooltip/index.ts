@@ -152,8 +152,16 @@ export default class Tooltip extends Base {
     const offsetX = this.get('offsetX') || 0;
     const offsetY = this.get('offsetY') || 0;
 
-    let x = e.canvasX + offsetX;
-    let y = e.canvasY + offsetY;
+    // const mousePos = graph.getPointByClient(e.clientX, e.clientY);
+    const point = graph.getPointByClient(e.clientX, e.clientY);
+    let { x, y } = graph.getCanvasByPoint(point.x, point.y);
+
+    // let x = mousePos.x + offsetX;
+    // let y = mousePos.y + offsetY;
+    // let x = e.x + offsetX;
+    // let y = e.y + offsetY;
+    x += offsetX;
+    y += offsetY;
 
     const bbox = tooltip.getBoundingClientRect();
     if (x + bbox.width > width) {
@@ -163,6 +171,8 @@ export default class Tooltip extends Base {
     if (y + bbox.height > height) {
       y = y - bbox.height - offsetY;
     }
+
+    console.log(e.x, e.y, x, y);
 
     modifyCSS(tooltip, {
       left: `${x}px`,
