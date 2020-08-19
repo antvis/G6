@@ -16,7 +16,7 @@ const percentageBar = ({ width, used, height = 12 }) => `
     width: ${width / 100 * used},
     height: ${height},
     fill: '#1890ff',
-    stroke: '#1890ff',
+    stroke: '#1890ff'
   }}/>
 </rect>
 `
@@ -123,8 +123,7 @@ const XML = () => {
       })
 
       graph.on('node:click', (evt) => {
-        const { item } = evt
-        debugger
+        const { item } = evt;
         graph.updateItem(item, {
           cpuUsage: 65,
           style: {
