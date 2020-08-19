@@ -45,8 +45,8 @@ export default {
       };
     }
     if (self.key) {
-      events['keydown'] = 'onKeyDown';
-      events['keyup'] = 'onKeyUp';
+      events.keydown = 'onKeyDown';
+      events.keyup = 'onKeyUp';
     }
     return events;
   },
