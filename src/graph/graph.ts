@@ -1268,7 +1268,7 @@ export default class Graph extends EventEmitter implements IGraph {
     this.set('degrees', degrees);
 
     const sortedDegrees = [];
-    Object.entries(degrees).forEach(([key, value]) => {
+    Object.entries(degrees).forEach(([key, value]: any[]) => {
       if (value.degree) {
         sortedDegrees.push([key, value.degree]);
       }
