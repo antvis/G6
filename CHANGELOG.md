@@ -7,6 +7,7 @@
 - feat: fisheye with scaling range and d;
 - fix: polyline with rect and radius=0 problem;
 - fix: arrow state & linkpoint;
+- fix: the position of the tooltip plugin;
 - chore: update hierarchy to solve the children ordering problem for indented tree layout;
 - chore: extract the public calculation to enhance the performance of fisheye.
 

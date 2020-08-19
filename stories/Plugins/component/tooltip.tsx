@@ -46,7 +46,8 @@ const Tooltip = () => {
   useEffect(() => {
     if (!graph) {
       const tooltip = new G6.Tooltip({
-        offset: 0,
+        offsetX: 0,
+        offsetY: 100, // the height of the top div
       });
       graph = new Graph({
         container: container.current as string | HTMLElement,
