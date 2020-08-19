@@ -172,8 +172,6 @@ export default class Tooltip extends Base {
       y = y - bbox.height - offsetY;
     }
 
-    console.log(e.x, e.y, x, y);
-
     modifyCSS(tooltip, {
       left: `${x}px`,
       top: `${y}px`,
