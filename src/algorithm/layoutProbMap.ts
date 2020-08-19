@@ -1,18 +1,21 @@
-const layoutProbMap = (sensitiveFields: Array<string>, force: string, tense: string, directivity: string) => { 
-  // ToDo: add directivity after PR #1881
-  
+const layoutProbMap = (
+  sensitiveFields: Array<string>,
+  force: string,
+  tense: string,
+  directivity: string,
+) => {
   const layoutProb = {
-    'force': 0,
-    'radial': 0,
-    'concentric': 0,
-    'grid': 0,
-    'circular': 0,
-    'dagre': 0,
-    'mds': 0,
-    'fruchterman': 0
-  }
+    force: 0,
+    radial: 0,
+    concentric: 0,
+    grid: 0,
+    circular: 0,
+    dagre: 0,
+    mds: 0,
+    fruchterman: 0,
+  };
 
-  for (var n in sensitiveFields) {
+  for (const n in sensitiveFields) {
     switch (sensitiveFields[n]) {
       case 'tree':
         console.warn('recommend to use a tree graph');
@@ -39,6 +42,8 @@ const layoutProbMap = (sensitiveFields: Array<string>, force: string, tense: str
       layoutProb.circular += 0.1;
       layoutProb.mds += 0.1;
       layoutProb.fruchterman += 0.1;
+      break;
+
     case 'dense':
       if (tense === 'high') {
         layoutProb.force += 0.6;
@@ -54,6 +59,7 @@ const layoutProbMap = (sensitiveFields: Array<string>, force: string, tense: str
         layoutProb.fruchterman += 0.1;
       }
       break;
+
     case 'normal':
       if (tense === 'high') {
         layoutProb.force += 0.6;
@@ -73,6 +79,7 @@ const layoutProbMap = (sensitiveFields: Array<string>, force: string, tense: str
         layoutProb.fruchterman += 0.4;
       }
       break;
+
     case 'sparse':
       if (tense === 'high') {
         layoutProb.force += 0.6;
@@ -83,9 +90,11 @@ const layoutProbMap = (sensitiveFields: Array<string>, force: string, tense: str
         layoutProb.fruchterman += 0.4;
       }
       break;
+
     case 'grid':
       layoutProb.grid += 0.9;
       break;
+
     default:
       break;
   }
@@ -102,11 +111,12 @@ const layoutProbMap = (sensitiveFields: Array<string>, force: string, tense: str
       layoutProb.mds += 0.1;
       layoutProb.fruchterman += 0.1;
       break;
+
     default:
       break;
   }
 
   return layoutProb;
-}
+};
 
-export default layoutProbMap
+export default layoutProbMap;
