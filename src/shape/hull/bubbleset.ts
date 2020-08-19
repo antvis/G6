@@ -175,7 +175,6 @@ const pickBestNeighbor = (item: Item, visited: Item[], nonMembers: Item[]): Item
       }
       return count;
     }, 0);
-    // console.log(item.getID(), neighbourItem.getID(), numberObstacles)
     if (dist * (numberObstacles + 1) ** 2 < minCost) {
       closestNeighbour = neighbourItem;
       minCost = dist * (numberObstacles + 1) ** 2;
@@ -545,7 +544,6 @@ function fillPotentialArea(
   const addItemInfluence = (item: Item, influenceFactor: number) => {
     const bbox = item.getBBox();
     const [startX, startY, endX, endY] = getAffectedRegion(bbox, options.nodeR1);
-    // console.log(startX, startY, endX, endY)
     // calculate item influence for each cell
     for (let y = startY; y < endY; y += 1) {
       for (let x = startX; x < endX; x += 1) {
@@ -555,7 +553,6 @@ function fillPotentialArea(
         const tempX = gridIx2Pos(x, activeRegion.minX);
         const tempY = gridIx2Pos(y, activeRegion.minY);
         const distanceSq = getRectDistSq(item, tempX, tempY);
-        // console.log(distanceSq)
         // only influence if less than r1
         if (distanceSq < options.nodeR1 ** 2) {
           const dr = Math.sqrt(distanceSq) - options.nodeR1;

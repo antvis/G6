@@ -25,9 +25,9 @@ const primMST = (graph: IGraph, weight?: string) => {
   const compareWeight = (a: IEdge, b: IEdge) => {
     if (weight) {
       return (a.getModel()[weight] as number) - (b.getModel()[weight] as number);
-    } 
-      return 0;
-    
+    }
+    return 0;
+
   };
   const edgeQueue = new MinBinaryHeap(compareWeight);
   currNode.getEdges().forEach((edge) => {
@@ -36,7 +36,6 @@ const primMST = (graph: IGraph, weight?: string) => {
 
   while (!edgeQueue.isEmpty()) {
     // 选取与已加入的结点之间边权最小的结点
-    // console.log(edgeQueue.list.map(edge => edge.getModel().weight))
     const currEdge = edgeQueue.delMin();
     const source = currEdge.getSource();
     const target = currEdge.getTarget();
