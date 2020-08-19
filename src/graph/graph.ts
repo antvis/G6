@@ -1269,7 +1269,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
     const sortedDegrees = [];
     Object.entries(degrees).forEach(([key, value]) => {
-      if (value.hasOwnProperty('degree')) {
+      if (value.degree) {
         sortedDegrees.push([key, value.degree]);
       }
     });
