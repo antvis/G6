@@ -25,7 +25,7 @@ Supported by V3.5 or later versions.
   - `selectedState`: The state's name(string) when combo is selected, `'selected'` by default;
   - `shouldUpdate(e)`: Whether allow the behavior happens on the current item (e.item), see the example below for detail.
 
-**Default Configuration**
+**Using Default Configuration**
 
 ```javascript
 const graph = new G6.Graph({
@@ -69,10 +69,10 @@ Supported by V3.5 or later.
 - Description: collapse or expand Combo. If the graph has layout configuration, this behavior will trigger re-layout. If you do not want re-layout the graph after collapsing or expanding a combo, use combo's click listener and [graph.collapseExpandCombo API](/en/docs/api/Graph#collapseexpandcombocombo) instead;
 - Configurations:
   - `type: 'collapse-expand-combo'`;
-  - `trigger`: Specify which key to hold for collapse and expand combo. `dblclick` by default. Options: `'click'`, `'dblclick'`;
+  - `trigger`: Specify the trigger for collapsing and expanding a combo. `dblclick` by default. Options: `'click'`, `'dblclick'`;
   - `relayout`: Whether relayout the graph after collapsing or expanding, `true` by default.
 
-**Default Configuration**
+**Using Default Configuration**
 
 ```javascript
 const graph = new G6.Graph({
@@ -111,7 +111,7 @@ const graph = new G6.Graph({
   - `canvas:drag`: Triggered when dragging. Listened by `graph.on('canvas:drag', e => {...})`;
   - `canvas:dragend`: Triggered when drag end. Listened by `graph.on('canvas:drag', e => {...})`.
 
-**Default Configuration**
+**Using Default Configuration**
 
 ```javascript
 const graph = new G6.Graph({
@@ -123,7 +123,7 @@ const graph = new G6.Graph({
 
 By default, the x and y directions are both allowed.
 
-**Configuration**
+**Using Customized Configuration**
 
 ```javascript
 const graph = new G6.Graph({
@@ -145,7 +145,7 @@ The canvas can be dragged along x direction only.<br /><img src='https://gw.alip
 - Description: Zoom the canvas;
 - Configurations:
   - `type: 'zoom-canvas'`;
-  - `sensitivity`: The sensitivity of the zooming, range from 1 to 10. `5` by default；
+  - `sensitivity`: The sensitivity of the zooming, range from 1 to 10. `5` by default;
   - `minZoom`: minimum zoom ratio;
   - `maxZoom`: maximum zoom ratio;
   - `enableOptimize`: whether enable the optimization, false by default. If it is assigned to true, the shapes except keyShape will be hide when the ratio is smaller thant `optimizeZoom`;
@@ -176,7 +176,7 @@ The canvas can be dragged along x direction only.<br /><img src='https://gw.alip
   - `shouldUpdate(e)`: Whether allow update the node/ delegate's position while dragging;
   - `shouldEnd(e)`: Whether allow update the node/ delegate's position after drag end.
 
-**Default Configuration**
+**Using Default Configuration**
 
 ```javascript
 const graph = new G6.Graph({
@@ -215,7 +215,7 @@ const graph = new G6.Graph({
 - Configurations:
   - `type: 'click-select'`;
   - `multiple`: Whether to allow multiple selection. `true` by default. `false` means multiple selection is not allowed, and the `trigger` will not take effect.
-  - `trigger`: Specify which key to hold for multiple selection. `shift` by default, which means multiple selection is activated when the shift button is pressed. Options: `'shift'`, `'ctrl'`, `'alt'`, and so on;
+  - `trigger`: Specify which trigger for multiple selection. `shift` by default, which means multiple selection is activated when the shift button is pressed. Options: `'shift'`, `'ctrl'`, `'alt'`, and so on;
   - `shouldBegin(e)`: Whether allow the behavior happen on the current item (e.item), see the example below;
   - `shouldUpdate(e)`: Whether allow the behavior changes the state and state style of the on the current item (e.item), see the example below.
 - Related timing events:
@@ -224,7 +224,7 @@ const graph = new G6.Graph({
     - `e.selectedItems`: The set of selected items after this operation;
     - `e.select`: A boolean tag to distinguish if the current operation is select(`true`) or deselect (`false`).
 
-**Default Configuration**
+**Using Default Configuration**
 
 ```javascript
 const graph = new G6.Graph({
@@ -246,7 +246,7 @@ graph.on('nodeselectchange', (e) => {
 
 Press **`Shift`** button to select more items.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mOiIQqBof8sAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
-**Configuration**
+**Using Customized Configuration**
 
 ```javascript
 const graph = new G6.Graph({
@@ -359,7 +359,7 @@ The usage of edge-tooltip is similar to tooltip. It will be activated when the u
     - `e.item`: The current manipulated item;
     - `e.action`: A string tag to distinguish whether the current action is `'activate'` or `'deactivate'`.
 
-<br />**Default Configuration**<br />
+<br />**Using Default Configuration**<br />
 
 ```javascript
 const graph = new G6.Graph({
@@ -378,7 +378,7 @@ graph.on('afteractivaterelations', (e) => {
 
 The selected state of the selected node will be maintained after the `activate-relations` operation by default.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bG31RqbM4JMAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
-**Configuration**
+**Using Customized Configuration**
 
 ```javascript
 const graph = new G6.Graph({
@@ -425,7 +425,7 @@ Assign `true` to `resetSelected` to reset the selected states for nodes after th
     - `e.selectedItems`: The set of selected items after the operation;
     - `e.select`: A boolean tag to distinguish whether the current operation is select(`true`) or deselect(`false`).
 
-**Default Configuration**
+**Using Default Configuration**
 
 ```javascript
 const graph = new G6.Graph({
@@ -445,7 +445,7 @@ graph.on('nodeselectchange', (e) => {
 
 Select by brushing when the Shift button is pressed by default. And the edges are selectable as well.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IJizQonX75wAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
-**Configuration**
+**Using Customized Configuration**
 
 ```javascript
 const graph = new G6.Graph({
@@ -591,7 +591,7 @@ graph.on('itemcollapsed', (e) => {
   - `type: 'collapse-expand-group'`
   - `trigger`: The operation for collapsing and expanding. Options: `click` and `dblclick`. `dblclick` by default, which means double click.
 
-**Default Configuration**
+**Using Default Configuration**
 
 ```javascript
 const graph = new G6.Graph({
@@ -601,7 +601,7 @@ const graph = new G6.Graph({
 });
 ```
 
-**Configuration**<br />Assign `trigger` to **`click`**, the collapsing or expanding a node group will be triggered by click.
+**Using Customized Configuration**<br />Assign `trigger` to **`click`**, the collapsing or expanding a node group will be triggered by click.
 
 ```javascript
 const graph = new G6.Graph({
@@ -625,7 +625,7 @@ const graph = new G6.Graph({
   - `type: 'drag-group'`;
   - `delegateStyle`: The style of the `delegate` when dragging the group.
 
-**Default Configuration**
+**Using Default Configuration**
 
 ```javascript
 const graph = new G6.Graph({
@@ -645,12 +645,54 @@ const graph = new G6.Graph({
   - `minMultiple`;
   - `shouldBegin(e)`: Whether allow the current node (e.item) to be dragged.
 
-**Default Configuration**
+**Using Default Configuration**
 
 ```javascript
 const graph = new G6.Graph({
   modes: {
     default: ['drag-node-with-group'],
+  },
+});
+```
+
+### create-edge
+
+- Description: create edge by interaction;
+- Configurations:
+  - `type: 'create-edge'`;
+  - `trigger`: Specify the trigger for creating an edge, options: `'click'`, `'drag'`. The default value is `'click'`, which means the user is allowed to creat an edge by clicking two end nodes as source and target node respectively. `'drag'` means the user is allowed to create an edge by 'dragging' from a source node to a target ndoe. Note that `trigger: 'drag'` cannot create a self-loop edge;
+  - `key`: The assistant trigger key from the keyboard. If it is undefined or unset, only `trigger` decides the triggering interaction from user. Otherwise, this behavior will be triggered by `trigger` only when `key` is pressed. Options: `'shift'`, `'ctrl'`, 'control', `'alt'`, `'meta'`, `undefined`;
+  - `shouldBegin(e)`: Whether allow the behavior begins with the condition `e`;
+  - `shouldEnd(e)`: Whether allow the behavior ends under the condition `e`;
+- Related timing event:
+  - `'aftercreateedge'`: Triggered after the creating process is finished. Listen to it by `graph.on('aftercreateedge', e => {...})`, where the parameter `e` has a property `edge` which is the created edge.
+
+
+**Using Default Configuration**
+
+```javascript
+const graph = new G6.Graph({
+  modes: {
+    default: ['create-edge'],
+  },
+});
+graph.on('aftercreateedge', e => {
+  console.log(e.edge);
+});
+```
+
+**Using Customized Configuration**
+
+```javascript
+const graph = new G6.Graph({
+  modes: {
+    default: [
+    // takes effect when the 'shift' is been pressing and drag from a node to another
+    {
+      type: 'create-edge',
+      trigger: 'drag',
+      key: 'shift'
+    }],
   },
 });
 ```

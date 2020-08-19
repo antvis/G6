@@ -5,6 +5,8 @@
 - feat: find all paths and the shortest path between two nodes;
 - feat: fisheye with dragging;
 - feat: fisheye with scaling range and d;
+- feat: click and drag to create an edge by create-edge behavior;
+- feat: process multiple parallel edges to quadratic with proper curveOffset;
 - fix: polyline with rect and radius=0 problem;
 - fix: arrow state & linkpoint;
 - fix: the position of the tooltip plugin;

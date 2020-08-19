@@ -25,7 +25,7 @@ V3.5 以上版本支持。
   - `selectedState`：选中 Combo 的状态，默认为 selected，需要在 `comboStateStyles` 里面配置；
   - `shouldUpdate(e)`：是否允许当前被操作的 combo 被拖拽，参见下面示例。
 
-**默认配置**
+**使用默认配置**
 
 ```javascript
 const graph = new G6.Graph({
@@ -72,7 +72,7 @@ V3.5 以上版本支持。
   - `trigger`：触发方式，默认为双击收起或展示，可配置 `'click'` 和 `'dblclick'`；
   - `relayout`：收缩或展开后是否触发重新布局，默认为 `true`。
 
-**默认配置**
+**使用默认配置**
 
 ```javascript
 const graph = new G6.Graph({
@@ -111,7 +111,7 @@ const graph = new G6.Graph({
   - `canvas:drag`：画布拖拽中触发，使用 `graph.on('canvas:drag', e => {...})` 监听；
   - `canvas:dragend`：画布拖拽结束后触发，使用 `graph.on('canvas:drag', e => {...})` 监听。
 
-**默认配置**
+**使用默认配置**
 
 ```javascript
 const graph = new G6.Graph({
@@ -123,7 +123,7 @@ const graph = new G6.Graph({
 
 默认配置下，可以在 x 和 y 两个方向上拖动画布。
 
-**配置参数**
+**使用自定义参数**
 
 ```javascript
 const graph = new G6.Graph({
@@ -178,7 +178,7 @@ const graph = new G6.Graph({
   - `shouldUpdate(e)`：是否允许当前被操作的节点在拖动过程中更新自身/ delegate 位置；
   - `shouldEnd(e)`：是否允许当前被操作的节点在拖拽结束时更新位置。
 
-**默认配置**
+**使用默认配置**
 
 ```javascript
 const graph = new G6.Graph({
@@ -226,7 +226,7 @@ const graph = new G6.Graph({
     - `e.selectedItems`：当前操作后，所有被选中的 items 集合；
     - `e.select`：当前操作是选中(true)还是取消选中(false)。
 
-**默认配置**
+**使用默认配置**
 
 ```javascript
 const graph = new G6.Graph({
@@ -248,7 +248,7 @@ graph.on('nodeselectchange', (e) => {
 
 按住 **`Shift`** 键可多选。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mOiIQqBof8sAAAAAAAAAAABkARQnAQ' width=400/>
 
-**配置参数**
+**使用自定义参数**
 
 ```javascript
 const graph = new G6.Graph({
@@ -361,7 +361,7 @@ const graph = new G6.Graph({
     - `e.item`：当前操作的节点 item；
     - `e.action`：当前操作是选中(`'activate'`)还是取消选中(`'deactivate'`)。
 
-<br />**默认配置**<br />
+<br />**使用默认配置**<br />
 
 ```javascript
 const graph = new G6.Graph({
@@ -380,7 +380,7 @@ graph.on('afteractivaterelations', (e) => {
 
 默认情况下，选中的节点状态，在操作完以后仍然会保持选中状态。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bG31RqbM4JMAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
-**配置参数**
+**使用自定义参数**
 
 ```javascript
 const graph = new G6.Graph({
@@ -427,7 +427,7 @@ graph.on('afteractivaterelations', (e) => {
     - `e.selectedItems`：当前操作后，所有被选中的 items 集合；
     - `e.select`：当前操作是选中(true)还是取消选中(false)。
 
-**默认配置**
+**使用默认配置**
 
 ```javascript
 const graph = new G6.Graph({
@@ -447,7 +447,7 @@ graph.on('nodeselectchange', (e) => {
 
 默认情况下，按住 Shift 键进行框选，选中节点的同时，也会选中边。 <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IJizQonX75wAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
-**配置参数**
+**使用自定义参数**
 
 ```javascript
 const graph = new G6.Graph({
@@ -593,7 +593,7 @@ graph.on('itemcollapsed', (e) => {
   - `type：'collapse-expand-group'`
   - `trigger`：收起和展开节点分组的方式。支持 `'click'` 和 `'dblclick'` 两种方式。默认为 `'dblclick'`，即双击。
 
-**默认配置**
+**使用默认配置**
 
 ```javascript
 const graph = new G6.Graph({
@@ -603,7 +603,7 @@ const graph = new G6.Graph({
 });
 ```
 
-**配置参数**<br />配置 `trigger` 参数为 **`click`** 后，单击节点分组即可收起或展开分组。
+**使用自定义参数**<br />配置 `trigger` 参数为 **`click`** 后，单击节点分组即可收起或展开分组。
 
 ```javascript
 const graph = new G6.Graph({
@@ -627,7 +627,7 @@ const graph = new G6.Graph({
   - `type: 'drag-group'`；
   - `delegateStyle`：拖动节点分组时 `delegate` 的样式。
 
-**默认配置**
+**使用默认配置**
 
 ```javascript
 const graph = new G6.Graph({
@@ -647,12 +647,54 @@ const graph = new G6.Graph({
   - `minMultiple`；
   - `shouldBegin(e)`：是否允许当前被操作的节点被拖拽。
 
-**默认配置**
+**使用默认配置**
 
 ```javascript
 const graph = new G6.Graph({
   modes: {
     default: ['drag-node-with-group'],
+  },
+});
+```
+
+### create-edge
+
+- 含义：通过交互创建边；
+- 配置项：
+  - `type：'create-edge'`；
+  - `trigger`：该交互的触发条件，可选 `'click'`，`'drag'`。默认为 `'click'`，即分别点击两个节点为这两个节点创建边。`'drag'` 代表从一个节点“拖拽”出一条边，在另一个节点上松开鼠标完成创建。注意，`trigger: 'drag'` 不能创建一个自环边；
+  - `key`：键盘按键作为该交互的辅助触发，若不设置或设置为 undefined 则代表只根据 `trigger` 决定该交互的触发条件。可选值：`'shift'`，`'ctrl'`, 'control'，`'alt'`，`'meta'`，`undefined`；
+  - `shouldBegin(e)`：是否允许当前被操作的条件下开始创建边；
+  - `shouldEnd(e)`：是否允许当前被操作的条件下结束创建边；
+- 相关时机事件：
+  - `'aftercreateedge'`：当边创建完成时将会触发该时机事件。使用 `graph.on('aftercreateedge', e => {...})` 监听。其参数 `e` 中的 `edge` 字段即为刚刚创建的边。
+
+
+**使用默认配置**
+
+```javascript
+const graph = new G6.Graph({
+  modes: {
+    default: ['create-edge'],
+  },
+});
+graph.on('aftercreateedge', e => {
+  console.log(e.edge);
+});
+```
+
+**使用自定义参数**
+
+```javascript
+const graph = new G6.Graph({
+  modes: {
+    default: [
+    // 只有当 'shift' 键被按下，才能够通过从一个节点拖拽到另一个节点来创建一条边
+    {
+      type: 'create-edge',
+      trigger: 'drag',
+      key: 'shift'
+    }],
   },
 });
 ```
