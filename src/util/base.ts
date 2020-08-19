@@ -142,7 +142,7 @@ export const processParallelEdges = (edges, offsetDiff = 15) => {
   for (let i = 0; i < len; i++) {
     const edge = edges[i];
     const { source, target } = edge;
-    let sourceTarget = `${source}-${target}`;
+    const sourceTarget = `${source}-${target}`;
 
     if (tags[i]) continue;
     if (!edgeMap[sourceTarget]) {
@@ -187,13 +187,12 @@ export const processParallelEdges = (edges, offsetDiff = 15) => {
         continue;
       }
       current.type = 'quadratic'
-      const sign = (k % 2 === 0 ? 1 : -1) * (reverses[current.id] ? -1 : 1);//((k % 2 === 0 || !reverses[k]) ? 1 : -1);
+      const sign = (k % 2 === 0 ? 1 : -1) * (reverses[current.id] ? -1 : 1);
       if (length % 2 === 1) {
         current.curveOffset = sign * Math.ceil(k / 2) * cod;
       } else {
         current.curveOffset = sign * (Math.floor(k / 2) * cod + offsetDiff);
       }
-      console.log(current.id, k, current.curveOffset, sign)
     }
   }
   return edges;
