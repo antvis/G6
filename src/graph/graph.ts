@@ -1268,11 +1268,13 @@ export default class Graph extends EventEmitter implements IGraph {
     this.set('degrees', degrees);
 
     const sortedDegrees = [];
-    Object.entries(degrees).forEach(([key, value]: any[]) => {
-      if (value.degree) {
-        sortedDegrees.push([key, value.degree]);
-      }
-    });
+    Object.entries(degrees).forEach(
+      ([key, value]: Array<string | { [degreeType: string]: number }>) => {
+        if (value.degree) {
+          sortedDegrees.push([key, value.degree]);
+        }
+      },
+    );
     sortedDegrees.sort((a, b) => {
       return b[1] - a[1];
     });
