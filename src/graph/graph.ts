@@ -49,7 +49,7 @@ import adjMatrix from '../algorithm/adjacent-matrix';
 import Hull from '../item/hull';
 import floydWarshall from '../algorithm/floydWarshall';
 import layoutProbMap from '../algorithm/layoutProbMap';
-import { detectAllCycles } from '../algorithm/';
+import { detectAllCycles } from '../algorithm';
 
 const NODE = 'node';
 const SVG = 'svg';
@@ -1194,20 +1194,20 @@ export default class Graph extends EventEmitter implements IGraph {
    *
    * Note that this.get('data').edges will still be the input edges,
    * to get the edges after pruning, please use this.getEdges().
-   * 
+   *
    * @return   {EdgeConfig[]} retrun the edges pruned.
    */
   private pruneRedundantEdges(): EdgeConfig[] {
     const data: GraphData = this.get('data');
     const { edges = [] } = data;
     const prunedEdges: EdgeConfig[] = [];
-    let edgesNum = edges.length;
-    for (let i = 0; i < edgesNum; i++) {
+    for (let i = 0; i < edges.length; i++) {
       for (let j = 0; j < i; j++) {
-        if ((edges[i].source === edges[i].target) 
-          || (edges[i].source === edges[j].source && edges[i].target === edges[j].target)
-          || (edges[i].source === edges[j].target && edges[i].target === edges[j].source)
-          ) {
+        if (
+          edges[i].source === edges[i].target ||
+          (edges[i].source === edges[j].source && edges[i].target === edges[j].target) ||
+          (edges[i].source === edges[j].target && edges[i].target === edges[j].source)
+        ) {
           prunedEdges.push(edges[i]);
           this.remove(edges[i].id);
           break;
@@ -1219,15 +1219,15 @@ export default class Graph extends EventEmitter implements IGraph {
 
   /**
    * Get sensitive field names in the data.
-   * 
+   *
    * @return   {{ [type: string]: string[] }} retrun the sensitive field names.
    */
   private getSensitiveFields(): { [type: string]: string[] } {
     const data: GraphData = this.get('data');
     const { nodes = [], edges = [] } = data;
 
-    let sensitiveNodeFields = [];
-    let sensitiveEdgeFields = [];
+    const sensitiveNodeFields = [];
+    const sensitiveEdgeFields = [];
     each(nodes, (node: NodeConfig) => {
       if (node.child || node.left || node.right || node.root) {
         sensitiveNodeFields.push('tree');
@@ -1246,17 +1246,16 @@ export default class Graph extends EventEmitter implements IGraph {
       }
     });
 
-    return {'node': sensitiveNodeFields, 'edge':sensitiveEdgeFields};
+    return { node: sensitiveNodeFields, edge: sensitiveEdgeFields };
   }
 
   /**
    * Recommend a layout type.
-   * 
+   *
    * @return   {Array}  return the ordered recommending layout possibilities
    */
-  public autoLayoutType(): Array< Array<string | number> > {
-
-    let sensitiveFields = this.getSensitiveFields().node;
+  public autoLayoutType(): Array<Array<string | number>> {
+    const sensitiveFields = this.getSensitiveFields().node;
 
     // prune this.data.edges
     this.pruneRedundantEdges();
@@ -1267,11 +1266,11 @@ export default class Graph extends EventEmitter implements IGraph {
       degrees = degree(this);
     }
     this.set('degrees', degrees);
-    
-    let sortedDegrees = [];
+
+    const sortedDegrees = [];
     Object.entries(degrees).forEach(([key, value]) => {
-      if (value.hasOwnProperty("degree")) {
-        sortedDegrees.push([key, value["degree"]]);
+      if (value.hasOwnProperty('degree')) {
+        sortedDegrees.push([key, value.degree]);
       }
     });
     sortedDegrees.sort((a, b) => {
@@ -1279,19 +1278,19 @@ export default class Graph extends EventEmitter implements IGraph {
     });
 
     // calculate degree vars
-    let nodeNum: number = sortedDegrees.length;
-    let maxDegree: number = sortedDegrees[0][1];
+    const nodeNum: number = sortedDegrees.length;
+    const maxDegree: number = sortedDegrees[0][1];
     let sumDegree: number = 0;
     for (let i = nodeNum - 1; i >= 0; i--) {
       sumDegree += sortedDegrees[i][1];
     }
-    let meanDegree: number = sumDegree / nodeNum;
+    const meanDegree: number = sumDegree / nodeNum;
 
     // strength calculation
     let strength: string = '';
     if (maxDegree >= nodeNum - 1) {
-      strength = 'connected'
-    } else if (maxDegree > nodeNum * 2 / 3) {
+      strength = 'connected';
+    } else if (maxDegree > (nodeNum * 2) / 3) {
       strength = 'dense';
     } else if (maxDegree < 5 && nodeNum <= 36) {
       strength = 'grid';
@@ -1324,10 +1323,10 @@ export default class Graph extends EventEmitter implements IGraph {
       directivity = 'high';
     }
 
-    let layoutProb = layoutProbMap(sensitiveFields, strength, tense, directivity);
-    let sortedLayoutProb = [];
+    const layoutProb = layoutProbMap(sensitiveFields, strength, tense, directivity);
+    const sortedLayoutProb = [];
     let probSum = 0;
-    for (let l in layoutProb) {
+    for (const l in layoutProb) {
       probSum += layoutProb[l];
       sortedLayoutProb.push([l, layoutProb[l]]);
     }
@@ -1340,8 +1339,8 @@ export default class Graph extends EventEmitter implements IGraph {
       sortedLayoutProb[i][1] /= probSum;
     }
 
-    let chosedLayout: string = ''
-    let choice = Math.random();
+    let chosedLayout: string = '';
+    const choice = Math.random();
     let step = 0;
     for (let i = 0; i < sortedLayoutProb.length; i++) {
       step += sortedLayoutProb[i][1];
@@ -1352,12 +1351,12 @@ export default class Graph extends EventEmitter implements IGraph {
     }
 
     this.emit('afterautolayout');
-    // console.log(sensitiveFields, strength, tense, 
+    // console.log(sensitiveFields, strength, tense,
     //               sortedLayoutProb, choice, chosedLayout);
     this.updateLayout({
       type: chosedLayout,
     });
-    
+
     return sortedLayoutProb;
   }
 
@@ -1365,9 +1364,8 @@ export default class Graph extends EventEmitter implements IGraph {
    * Recommend configurations for the layout.
    */
   public autoLayoutCfg(): void {
-
-    let width = this.get('width');
-    let height = this.get('height');
+    const width = this.get('width');
+    const height = this.get('height');
 
     const layoutController = this.get('layoutController');
     const layoutType = layoutController.getLayoutType();
@@ -1375,35 +1373,36 @@ export default class Graph extends EventEmitter implements IGraph {
       throw new Error('must have a type of layout to configure');
     }
 
-    let sensitiveFields = this.getSensitiveFields();
+    const sensitiveFields = this.getSensitiveFields();
 
     // get pruned data
     this.pruneRedundantEdges();
     const nodes = this.getNodes();
     const edges = this.getEdges();
-    
+
     // update layout configurations
     switch (layoutType) {
-      case 'force':
-        let forceCfg = {
+      case 'force': {
+        const forceCfg = {
           preventOverlap: true,
           nodeStrength: null,
           edgeStrength: null,
-        }
+        };
         if ('value' in sensitiveFields.node) {
-          forceCfg['nodeStrength'] = d => {
+          forceCfg.nodeStrength = (d) => {
             return d.value;
-          }
+          };
         }
         if ('weight' in sensitiveFields.edge) {
-          forceCfg['edgeStrength'] = d => {
+          forceCfg.edgeStrength = (d) => {
             return d.weight;
-          }
+          };
         }
         this.updateLayout(forceCfg);
         break;
+      }
 
-      case 'radial':
+      case 'radial': {
         this.updateLayout({
           preventOverlap: true,
           strictRadial: true,
@@ -1411,8 +1410,9 @@ export default class Graph extends EventEmitter implements IGraph {
           linkDistance: Math.max(width, height) / 5,
         });
         break;
-      
-      case 'concentric':
+      }
+
+      case 'concentric': {
         this.updateLayout({
           preventOverlap: true,
           minNodeSpacing: 10,
@@ -1420,8 +1420,9 @@ export default class Graph extends EventEmitter implements IGraph {
           sortBy: 'degree',
         });
         break;
+      }
 
-      case 'grid':
+      case 'grid': {
         let rows = 0;
         if (width >= length) {
           rows = Math.floor(Math.sqrt(nodes.length)) + 1;
@@ -1430,22 +1431,24 @@ export default class Graph extends EventEmitter implements IGraph {
         }
         this.updateLayout({
           preventOverlap: true,
-          rows: rows,
-          sortBy: "degree",
+          rows,
+          sortBy: 'degree',
         });
         break;
+      }
 
-      case 'circular':
+      case 'circular': {
         this.updateLayout({
           radius: Math.min(width, height) / 2.5,
           sortBy: 'degree',
           preventOverlap: true,
-          ordering: "degree",
+          ordering: 'degree',
         });
         break;
+      }
 
-      case 'dagre':
-        let bbox = this.get('group').getCanvasBBox();
+      case 'dagre': {
+        const bbox = this.get('group').getCanvasBBox();
         let dir = '';
         if ((bbox.width - bbox.height) * (height - width) > 0) {
           dir = 'LR';
@@ -1458,31 +1461,38 @@ export default class Graph extends EventEmitter implements IGraph {
           ranksep: 5,
         });
         break;
+      }
 
-      case 'mds':
+      case 'mds': {
         this.updateLayout({
           linkDistance: Math.min(width, height) / 10,
         });
+        break;
+      }
 
-      case 'fruchterman': 
-        let fruchCfg = {
+      case 'fruchterman': {
+        const fruchCfg = {
           cluster: false,
           gravity: 10,
           clusterGravity: null,
         };
         if ('cluster' in sensitiveFields.node) {
-          fruchCfg['cluster'] = true;
-          fruchCfg['clusterGravity'] = fruchCfg.gravity;
+          fruchCfg.cluster = true;
+          fruchCfg.clusterGravity = fruchCfg.gravity;
         }
         this.updateLayout(fruchCfg);
+        break;
+      }
+
+      default:
+        break;
     }
   }
 
   /**
    * Recommend a layout with configurations.
    */
-  public autoLayout(): Array< Array<string | number> > {
-    
+  public autoLayout(): Array<Array<string | number>> {
     // pre-requisites
     const layoutController = this.get('layoutController');
     if (layoutController.getLayoutType()) {
@@ -1514,7 +1524,7 @@ export default class Graph extends EventEmitter implements IGraph {
     });
 
     this.emit('beforeautolayout');
-    let sortedLayoutProb = this.autoLayoutType();
+    const sortedLayoutProb = this.autoLayoutType();
     this.render();
     this.autoLayoutCfg();
     this.emit('afterautolayout');
