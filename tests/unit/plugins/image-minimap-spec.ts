@@ -1,5 +1,7 @@
 import G6 from '../../../src';
 import Simulate from 'event-simulate';
+import { numberEqual } from '../layout/util';
+
 
 const div = document.createElement('div');
 div.id = 'image-minimap-spec';
@@ -63,10 +65,14 @@ describe('image minimap', () => {
       expect(container).not.toBe(undefined);
       const viewport = minimap.getViewport();
       expect(viewport).not.toBe(undefined);
-      expect(viewport.style.left).toEqual('62.3249px');
-      expect(viewport.style.top).toEqual('90.1585px');
-      expect(viewport.style.width).toEqual('137.675px');
-      expect(viewport.style.height).toEqual('59.8415px');
+      let left = parseFloat(viewport.style.left.split('px')[0]);
+      let top = parseFloat(viewport.style.top.split('px')[0]);
+      let width = parseFloat(viewport.style.width.split('px')[0]);
+      let height = parseFloat(viewport.style.height.split('px')[0]);
+      expect(numberEqual(left, 63, 2)).toEqual(true);
+      expect(numberEqual(top, 90, 2)).toEqual(true);
+      expect(numberEqual(width, 137, 2)).toEqual(true);
+      expect(numberEqual(height, 59, 2)).toEqual(true);
 
       Simulate.simulate(viewport, 'mousedown', {
         clientX: 100,
@@ -83,12 +89,15 @@ describe('image minimap', () => {
         clientX: 50,
         clientY: 100,
       });
-      console.log(viewport.style.left, viewport.style.top, viewport.style.width, viewport.style.height)
 
-      expect(viewport.style.left).toEqual('29.6865px');
-      expect(viewport.style.top).toEqual('90.1585px');
-      expect(viewport.style.width).toEqual('158.52px');
-      expect(viewport.style.height).toEqual('59.8415px');
+      left = parseFloat(viewport.style.left.split('px')[0]);
+      top = parseFloat(viewport.style.top.split('px')[0]);
+      width = parseFloat(viewport.style.width.split('px')[0]);
+      height = parseFloat(viewport.style.height.split('px')[0]);
+      expect(numberEqual(left, 30, 2)).toEqual(true);
+      expect(numberEqual(top, 90, 2)).toEqual(true);
+      expect(numberEqual(width, 158, 2)).toEqual(true);
+      expect(numberEqual(height, 59, 2)).toEqual(true);
 
       minimap.updateGraphImg(
         'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ',
