@@ -495,7 +495,7 @@ const initEvent = () => {
         updateCollapseStatus(id, recordIndex, collapsed);
         graph.changeData(getPosition(backUpData));
         await sleep(500);
-        graph.setItemState(item, 'click', false);
+        graph.setItemState(item, 'click', true);
         isAnimating = false;
       } else {
         updateCollapseStatus(id, recordIndex, collapsed, 'collapsed');
@@ -514,7 +514,7 @@ const initEvent = () => {
             graph.remove(childrenItem);
           }
         });
-        graph.setItemState(item, 'click', false);
+        graph.setItemState(item, 'click', true);
         isAnimating = false;
       }
     } else {
