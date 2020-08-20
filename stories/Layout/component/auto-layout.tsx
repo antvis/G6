@@ -45,58 +45,58 @@ function generateData() {
   };
 }
 
+const layoutConfigs = [
+  {
+    type: 'force',
+    linkDistance: 10,
+    preventOverlap: true,
+    graph: null,
+  },
+  {
+    type: 'grid',
+    graph: null,
+  },
+  {
+    type: 'circular',
+    preventOverlap: true,
+    ordering: 'degree',
+    graph: null,
+  },
+  {
+    type: 'dagre',
+    ranksep: 1,
+    nodesepFunc: (d) => 1,
+    graph: null,
+  },
+  {
+    type: 'concentric',
+    preventOverlap: true,
+    graph: null,
+  },
+  {
+    type: 'radial',
+    unitRadius: 278,
+    preventOverlap: true,
+    strictRadial: true,
+    graph: null,
+  },
+  {
+    type: 'mds',
+    graph: null,
+  },
+  {
+    type: 'fruchterman',
+    graph: null,
+  },
+];
 let graph: IGraph = null;
+
 const AutoLayout = () => {
   const container = React.useRef();
   let [recommendedLayout, setRecommendedLayout] = useState('');
 
   let CANVAS_WIDTH = 1320;
   let CANVAS_HEIGHT = 696;
-
-  const layoutConfigs = [
-    {
-      type: 'force',
-      linkDistance: 10,
-      preventOverlap: true,
-      graph: null,
-    },
-    {
-      type: 'grid',
-      graph: null,
-    },
-    {
-      type: 'circular',
-      preventOverlap: true,
-      ordering: 'degree',
-      graph: null,
-    },
-    {
-      type: 'dagre',
-      ranksep: 1,
-      nodesepFunc: (d) => 1,
-      graph: null,
-    },
-    {
-      type: 'concentric',
-      preventOverlap: true,
-      graph: null,
-    },
-    {
-      type: 'radial',
-      unitRadius: 278,
-      preventOverlap: true,
-      strictRadial: true,
-      graph: null,
-    },
-    {
-      type: 'mds',
-      graph: null,
-    },
-    {
-      type: 'fruchterman',
-      graph: null,
-    },
-  ];
   const containers = [];
   const containerDivs = [];
   layoutConfigs.forEach((config) => {
