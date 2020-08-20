@@ -135,4 +135,85 @@ describe('xml node test', () => {
       expect(result.action).toBe('restructure')
     });
   })
+
+  describe.only('xml node state', () => {
+    G6.registerNode('xml-node', cfg => {
+      return `
+        <group>
+          <circle keyshape='true' style={{
+            x: 0,
+            y: 0,
+            r: ${cfg.size || 6},
+            stroke: ${cfg.style.stroke},
+            fill: ${cfg.style.fill}
+          }}>
+            <polygon style={{
+              points: [[10, 10], [15, 20], [20, 40], [30, 90]],
+              fill: '#F6BD16',
+              stroke: 'green'
+            }}></polygon>
+            <circle style={{
+              x: 10, 
+              y: 20,
+              r: 15,
+              stroke: 'yellow',
+              fill: '#000'
+            }} name='icon-circle' draggable='true'>
+            </circle>
+          </circle>
+          <text style={{ marginTop: -140, textAlign: 'center', fontWeight: 'bold', fill: 'green' }}>${cfg.label || cfg.id}</text>
+        </group>
+      `
+    })
+    const data = {
+      nodes: [
+        {
+          id: 'node1',
+          label: 'node1',
+          x: 100,
+          y: 100
+        }
+      ]
+    }
+    it('node state', () => {
+      const graph = new G6.Graph({
+        container: 'graph-spec',
+        width: 500,
+        height: 500,
+        modes: {
+          default: ['drag-node', 'zoom-canvas']
+        },
+        defaultNode: {
+          type: 'xml-node',
+          size: 50,
+          style: {
+            stroke: 'blue',
+            fill: '#ccc'
+          }
+        },
+        nodeStateStyles: {
+          hover: {
+            // fill: 'red',
+            // stroke: 'green',
+            // lineWidth: 3,
+            'icon-circle': {
+              fill: '#456dc5'
+            }
+          }
+        }
+      })
+  
+      graph.data(data)
+      graph.render()
+      console.log(graph.getNodes())
+  
+      graph.on('icon-circle:mouseenter', evt => {
+        graph.setItemState(evt.item, 'hover', true)
+      })
+  
+      graph.on('icon-circle:mouseleave', evt => {
+        graph.setItemState(evt.item, 'hover', false)
+      })
+    })
+  })
 });
