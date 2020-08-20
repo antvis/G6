@@ -165,6 +165,7 @@ describe('graph hull', () => {
       id: 'hull2',
       nonMembers: members,
       members: nonMembers,
+      type: 'bubble',
       padding: 10,
       style: {
         fill: 'pink',
@@ -174,12 +175,48 @@ describe('graph hull', () => {
     const hulls = Object.values(graph.getHulls());
     expect(hulls.length).toEqual(2);
   });
+  it('update a convex hull', () => {
+    const convexHull = graph.getHullById('hull1');
+    convexHull.updateCfg({
+      style: {
+        fill: 'lightgreen',
+        stroke: 'green'
+      },
+      padding: 15,
+    })
+    expect(convexHull.contain('4')).toEqual(false);
+    convexHull.addMember('4')
+    expect(convexHull.contain('4')).toEqual(true);
+    convexHull.updateCfg({
+      type: 'bubble'
+    })
+    expect(convexHull.contain('4')).toEqual(true);
+  });
+  it('update a bubble hull', () => {
+    const bubbleHull = graph.getHullById('hull2');
+    expect(bubbleHull.contain('6')).toEqual(false);
+    bubbleHull.removeNonMember('6')
+    expect(bubbleHull.nonMembers.indexOf(graph.findById('6')) === -1).toEqual(true);
+    expect(bubbleHull.contain('4')).toEqual(true);
+    bubbleHull.removeMember('4')
+    expect(bubbleHull.contain('4')).toEqual(false);
+    bubbleHull.updateStyle({
+      opacity: 0.4,
+      fill: 'white'
+    })
+    bubbleHull.updateData(members, nonMembers)
+    expect(bubbleHull.contain('5')).toEqual(true);
+    bubbleHull.addNonMember('5')
+    expect(bubbleHull.contain('5')).toEqual(false);
+  });
   it('remove hull', () => {
     let hullShapes = graph.get('hullGroup').get('children');
     expect(hullShapes.length).toEqual(2);
 
+    expect(graph.getHulls()['hull2']).toBeDefined()
     graph.removeHull('hull2');
     hullShapes = graph.get('hullGroup').get('children');
     expect(hullShapes.length).toEqual(1);
+    expect(graph.getHulls()['hull2']).not.toBeDefined()
   });
 });

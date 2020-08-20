@@ -181,8 +181,9 @@ const vecFrom = (p0: number[], p1: number[]) => {
 };
 
 /**
- * 生成有圆角的多边形
- *
+ * 传入的节点作为多边形顶点，生成有圆角的多边形
+ * @param polyPoints 多边形顶点
+ * @param padding 在原多边形基础上增加最终轮廓和原多边形的空白间隔
  */
 export function roundedHull(polyPoints: number[][], padding: number) {
   // The rounded hull path around a single point
@@ -244,7 +245,11 @@ export function roundedHull(polyPoints: number[][], padding: number) {
   return segments.join(' ');
 }
 
-// Returns the SVG path data string representing the polygon, expanded and smoothed.
+/**
+ * 传入的节点作为多边形顶点，生成平滑的闭合多边形
+ * @param polyPoints 
+ * @param padding 
+ */
 export function paddedHull(polyPoints: number[][], padding: number) {
   const pointCount = polyPoints.length;
 

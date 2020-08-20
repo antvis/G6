@@ -738,9 +738,34 @@ export const isPointsOverlap = (p1, p2, e = 1e-3) => {
   return (p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2 < e ** 2;
 };
 
-export const getRectDistSq = (item: Item, x: number, y: number) => {
-  const rect = item.getBBox();
-  const dx = Math.max(rect.minX - x, 0, x - rect.maxX);
-  const dy = Math.max(rect.minY - y, 0, y - rect.maxY);
-  return Math.sqrt(dx * dx + dy * dy);
+/**
+ * 点到矩形的距离的平方：矩形内部点视作距离为0，外部的点若投影落在矩形边上则为点到矩形边的最近的垂直距离，否则为点到矩形顶点的距离，
+ * @param point IPoint
+ * @param rect IRect
+ */
+export const pointRectSquareDist = (point: Point, rect: IRect) => {
+  const isLeft = point.x < rect.x
+  const isRight = point.x > rect.x + rect.width
+  const isTop = point.y > rect.y + rect.height
+  const isBottom = point.y < rect.y
+
+  const isPointOutside = isLeft || isRight || isTop || isBottom
+  if (!isPointOutside) {
+    return 0
+  }
+  if (isTop && !isLeft && !isRight) {
+    return (rect.y + rect.height - point.y) ** 2;
+  }
+  if (isBottom && !isLeft && !isRight) {
+    return (point.y - rect.y) ** 2;
+  }
+  if (isLeft && !isTop && !isBottom) {
+    return (rect.x - point.x) ** 2;
+  }
+  if (isRight && !isTop && !isBottom) {
+    return (rect.x + rect.width - point.x) ** 2;
+  }
+  const dx = Math.min(Math.abs(rect.x - point.x), Math.abs(rect.x + rect.width - point.x))
+  const dy = Math.min(Math.abs(rect.y - point.y), Math.abs(rect.y + rect.height - point.y))
+  return dx * dx + dy * dy;
 };
