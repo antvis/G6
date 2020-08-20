@@ -706,7 +706,7 @@ export const squareDist = (a: IPoint, b: IPoint): number => {
   return (a.x - b.x) ** 2 + (a.y - b.y) ** 2;
 };
 
-export const pointLineDist = (point: IPoint, line: Line) => {
+export const pointLineSquareDist = (point: IPoint, line: Line) => {
   const x1 = line.x1;
   const y1 = line.y1;
   const x2 = line.x2 - x1;

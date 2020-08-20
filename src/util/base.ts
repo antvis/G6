@@ -4,7 +4,6 @@ import isNumber from '@antv/util/lib/is-number';
 import isString from '@antv/util/lib/is-string';
 import { G6GraphEvent } from '../interface/behavior';
 import { IG6GraphEvent, Padding, Matrix, Item } from '../types';
-import { mat3 } from '@antv/matrix-util/lib';
 
 /**
  * turn padding into [top, right, bottom, right]
@@ -115,6 +114,8 @@ export const calculationItemsBBox = (items: Item[]) => {
     height,
     minX: minx,
     minY: miny,
+    maxX: maxx,
+    maxY: maxy
   };
 };
 
