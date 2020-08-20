@@ -13,6 +13,7 @@ import {
   IBBox,
   Item,
   IPoint,
+  IRect,
 } from '../types';
 import { each } from '@antv/util';
 
@@ -738,9 +739,13 @@ export const isPointsOverlap = (p1, p2, e = 1e-3) => {
   return (p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2 < e ** 2;
 };
 
-export const getRectDistSq = (item: Item, x: number, y: number) => {
-  const rect = item.getBBox();
-  const dx = Math.max(rect.minX - x, 0, x - rect.maxX);
-  const dy = Math.max(rect.minY - y, 0, y - rect.maxY);
-  return Math.sqrt(dx * dx + dy * dy);
+/**
+ * 获取点距矩形的各个顶点的最近距离
+ * @param point IPoint
+ * @param rect IRect
+ */
+export const pointRectSquareDist = (point: Point, rect: IRect) => {
+  const dx = Math.min(Math.abs(rect.x - point.x), Math.abs(rect.x + rect.width - point.x))
+  const dy = Math.min(Math.abs(rect.y - point.y), Math.abs(rect.y + rect.height - point.y))
+  return dx * dx + dy * dy;
 };

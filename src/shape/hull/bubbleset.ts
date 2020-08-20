@@ -6,12 +6,12 @@ import {
   getPointsCenter,
   fractionToLine,
   isPointsOverlap,
-  getRectDistSq,
+  pointRectSquareDist,
   Line,
   isPointInPolygon,
 } from '../../util/math';
 
-const defauleOps = {
+const defaultOps = {
   maxRoutingIterations: 100, // number of times to run the algorithm to refine the path finding in difficult areas
   maxMarchingIterations: 100, // number of times to refine the boundary
   pixelGroupSize: 2, // the resolution of the algorithm in square pixels
@@ -365,7 +365,7 @@ function getRoute(
  */
 export const genBubbleSet = (members: Item[], nonMembers: Item[], ops?: BubblesetCfg) => {
   // eslint-disable-next-line no-redeclare
-  const options = Object.assign(defauleOps, ops);
+  const options = Object.assign(defaultOps, ops);
   const centroid = getPointsCenter(
     members.map((item) => ({ x: item.getModel().x, y: item.getModel().y })),
   );
@@ -552,7 +552,7 @@ function fillPotentialArea(
         }
         const tempX = gridIx2Pos(x, activeRegion.minX);
         const tempY = gridIx2Pos(y, activeRegion.minY);
-        const distanceSq = getRectDistSq(item, tempX, tempY);
+        const distanceSq = pointRectSquareDist({ x: tempX, y: tempY }, item.getBBox());
         // only influence if less than r1
         if (distanceSq < options.nodeR1 ** 2) {
           const dr = Math.sqrt(distanceSq) - options.nodeR1;

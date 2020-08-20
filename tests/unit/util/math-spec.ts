@@ -24,7 +24,7 @@ import {
   squareDist,
   pointLineSquareDist,
   isPointsOverlap,
-  getRectDistSq
+  pointRectSquareDist
 } from '../../../src/util/math';
 import G6 from '../../../src';
 import Canvas from '@antv/g-canvas/lib/canvas';
@@ -467,5 +467,10 @@ describe('math util test', () => {
   it('isPointsOverlap', () => {
     expect(isPointsOverlap({ x: 0, y: 0 }, { x: 0.0001, y: 0 })).toBe(true);
     expect(isPointsOverlap({ x: 0, y: 0 }, { x: 10, y: 0 })).toBe(false);
+  })
+  it('pointRectSquareDist', () => {
+    const rect = { x: 0, y: 0, width: 10, height: 10 };
+    expect(pointRectSquareDist({ x: 0, y: 0 }, rect)).toBe(0);
+    expect(pointRectSquareDist({ x: 20, y: 20 }, rect)).toBe(200);
   })
 });

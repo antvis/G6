@@ -3116,6 +3116,10 @@ export default class Graph extends EventEmitter implements IGraph {
     this.undoStack = null;
   }
 
+  /**
+   * 创建凸包或凹包轮廓
+   * @param cfg HullCfg 轮廓配置项
+   */
   public createHull(cfg: HullCfg) {
     let parent = this.get('hullGroup');
     let hullMap = this.get('hullMap');
@@ -3146,11 +3150,19 @@ export default class Graph extends EventEmitter implements IGraph {
     return hull;
   }
 
+  /**
+   * 获取当前 graph 中存在的包裹轮廓
+   * @return {[key: string]: Hull} hullId 对应的 hull 实例
+   */
   public getHulls() {
     return this.get('hullMap');
   }
 
-  public getHullById(hullId: string) {
+  /**
+   * 根据 hullId 获取对应的 hull 
+   * @return Hull
+   */
+  public getHullById(hullId: string): Hull {
     return this.get('hullMap')[hullId];
   }
 
