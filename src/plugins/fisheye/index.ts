@@ -141,7 +141,7 @@ export default class Fisheye extends Base {
     const nodes = graph.getNodes();
     const nodeLength = nodes.length;
     let mCenter = mousePos ? { x: mousePos.x, y: mousePos.y } : { x: e.x, y: e.y };
-    if (self.get('dragging') && self.get('trigger') === 'mousemove') {
+    if (self.get('dragging') && (self.get('trigger') === 'mousemove' || self.get('trigger') === 'click')) {
       mCenter = self.get('cacheCenter');
     }
     const delegateCenterDiff = self.get('delegateCenterDiff');
@@ -272,37 +272,34 @@ export default class Fisheye extends Base {
         name: 'lens-shape',
         draggable: true
       });
-      // self.get('trigger') !== 'drag' && lensDelegate.set('capture', false);
-      if (self.get('trigger') === 'mousemove') {
-        lensDelegate.on('dragstart', e => {
-          self.set('dragging', true);
-          self.set('cacheCenter', { x: e.x, y: e.y });
-          self.set('dragPrePos', { x: e.x, y: e.y });
+      if (this.get('scaleRByWheel')) {
+        lensDelegate.on('mousewheel', evt => {
+          self.scaleRange(evt);
         });
-        lensDelegate.on('drag', e => {
-          const dragPrePos = self.get('dragPrePos');
-          const delta = e.x - dragPrePos.x > 0 ? 0.1 : -0.1;
-          const d = self.get('d');
-          const newD = d + delta;
-          const maxD = self.get('maxD');
-          const minD = self.get('minD');
-          if (newD < maxD && newD > minD) {
-            self.set('d', newD);
-            r = self.get('r');
-            self.set('molecularParam', (newD + 1) * r);
-            self.magnify(e);
-          }
-          self.set('dragPrePos', { x: e.x, y: e.y });
-        });
-        lensDelegate.on('dragend', e => {
-          self.set('dragging', false)
-        });
-        if (this.get('scaleRByWheel')) {
-          lensDelegate.on('mousewheel', evt => {
-            self.scaleRange(evt);
-          });
-        }
       }
+      lensDelegate.on('dragstart', e => {
+        self.set('dragging', true);
+        self.set('cacheCenter', { x: e.x, y: e.y });
+        self.set('dragPrePos', { x: e.x, y: e.y });
+      });
+      lensDelegate.on('drag', e => {
+        const dragPrePos = self.get('dragPrePos');
+        const delta = e.x - dragPrePos.x > 0 ? 0.1 : -0.1;
+        const d = self.get('d');
+        const newD = d + delta;
+        const maxD = self.get('maxD');
+        const minD = self.get('minD');
+        if (newD < maxD && newD > minD) {
+          self.set('d', newD);
+          r = self.get('r');
+          self.set('molecularParam', (newD + 1) * r);
+          self.magnify(e);
+        }
+        self.set('dragPrePos', { x: e.x, y: e.y });
+      });
+      lensDelegate.on('dragend', e => {
+        self.set('dragging', false)
+      });
     } else {
       lensDelegate.attr({
         x: mCenter.x,

@@ -1,4 +1,6 @@
 import G6 from '../../../src';
+import { G6GraphEvent } from '../../../src/interface/behavior';
+import { IG6GraphEvent } from '../../../src/types';
 const div = document.createElement('div');
 div.id = 'menu';
 document.body.appendChild(div);
@@ -34,7 +36,7 @@ describe('menu', () => {
 
     graph.data(data);
     graph.render();
-    // graph.destroy()
+    graph.destroy()
   });
   it('menu with dom', () => {
     const menu = new G6.Menu({
@@ -114,9 +116,21 @@ describe('menu', () => {
         },
       ],
     };
-
     graph.data(data);
     graph.render();
-    graph.destroy();
+
+    const event = new G6GraphEvent('contextmenu', {
+      item: graph.getNodes()[0],
+      canvasX: 100,
+      canvasY: 100,
+      bubbles: false,
+    } as IG6GraphEvent);
+    graph.emit('contextmenu', event)
+    const menuDOM = document.getElementsByClassName('g6-component-contextmenu')[0];
+    expect(menuDOM.style.visibility).toEqual('visible')
+    expect(menuDOM.style.top).toEqual('106px')
+    expect(menuDOM.style.left).toEqual('106px')
+
+    // graph.destroy();
   });
 });
