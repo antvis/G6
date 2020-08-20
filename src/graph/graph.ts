@@ -1379,7 +1379,6 @@ export default class Graph extends EventEmitter implements IGraph {
     this.pruneRedundantEdges();
     const nodes = this.getNodes();
     const edges = this.getEdges();
-
     // update layout configurations
     switch (layoutType) {
       case 'force': {

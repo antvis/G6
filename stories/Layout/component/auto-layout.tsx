@@ -4,7 +4,7 @@ import { clone } from '@antv/util/lib';
 import { IGraph } from '../../../src/interface/graph';
 
 function generateData() {
-  let nodeNum = Math.floor(20 + Math.random() * 30);
+  let nodeNum = Math.floor(10 + Math.random() * 20);
   let edgeNum = Math.floor(
     nodeNum + Math.floor(nodeNum + (nodeNum * (nodeNum - 3) * Math.random()) / 4),
   );
@@ -45,11 +45,13 @@ function generateData() {
   };
 }
 
+let graph: IGraph = null;
+const data = generateData();
 const layoutConfigs = [
   {
     type: 'force',
-    linkDistance: 10,
-    preventOverlap: true,
+    // linkDistance: 10,
+    // preventOverlap: true,
     graph: null,
   },
   {
@@ -58,26 +60,26 @@ const layoutConfigs = [
   },
   {
     type: 'circular',
-    preventOverlap: true,
-    ordering: 'degree',
+    // preventOverlap: true,
+    // ordering: 'degree',
     graph: null,
   },
   {
     type: 'dagre',
-    ranksep: 1,
-    nodesepFunc: (d) => 1,
+    // ranksep: 1,
+    // nodesepFunc: (d) => 1,
     graph: null,
   },
   {
     type: 'concentric',
-    preventOverlap: true,
+    // preventOverlap: true,
     graph: null,
   },
   {
     type: 'radial',
-    unitRadius: 278,
-    preventOverlap: true,
-    strictRadial: true,
+    // unitRadius: 278,
+    // preventOverlap: true,
+    // strictRadial: true,
     graph: null,
   },
   {
@@ -89,7 +91,6 @@ const layoutConfigs = [
     graph: null,
   },
 ];
-let graph: IGraph = null;
 
 const AutoLayout = () => {
   const container = React.useRef();
@@ -127,10 +128,8 @@ const AutoLayout = () => {
       });
     }
 
-    const data = generateData();
     graph.data(data);
-    let sortedLayoutProb = graph.autoLayout();
-    setRecommendedLayout((recommendedLayout = sortedLayoutProb[0][0].toString()));
+    graph.autoLayout();
     const aspectRatio = CANVAS_HEIGHT / CANVAS_WIDTH;
 
     layoutConfigs.map((config, i) => {
@@ -144,20 +143,28 @@ const AutoLayout = () => {
           height: aspectRatio * 260,
           minZoom: 0.0001,
           fitView: config.type !== 'force',
+          modes: {
+            default: ['drag-canvas', 'zoom-canvas'],
+          },
           layout: config,
         });
         config.type === 'force' &&
           layoutGraph.on('afterlayout', (e) => {
             graph.fitView();
+            layoutGraph.fitView();
           });
         layoutGraph.data(cData);
         layoutGraph.render();
         config.graph = layoutGraph;
       } else {
-        layoutGraph.changeData(cData);
+        layoutGraph.render();
       }
+      layoutGraph.autoLayoutCfg();
+      layoutGraph.fitView();
     });
-  });
+
+    setRecommendedLayout((recommendedLayout = graph.get('layoutController').getLayoutType()));
+  }, [false]);
 
   let describe = `Recommended Layout: ${recommendedLayout}.`;
   return (
