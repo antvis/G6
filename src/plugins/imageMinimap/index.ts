@@ -81,7 +81,6 @@ export default class ImageMiniMap extends Base {
     // cWidth and cHeight are the width and height of the minimap's container
     const { graph } = cfgs;
     if (this.destroyed) return;
-    // const canvas = this.get('canvas');
 
     const containerDOM = this.get('container');
     const viewport = createDOM(
@@ -431,14 +430,6 @@ export default class ImageMiniMap extends Base {
   }
 
   /**
-   * 获取minimap的画布
-   * @return {GCanvas} G的canvas实例
-   */
-  public getCanvas(): GCanvas {
-    return this.get('canvas');
-  }
-
-  /**
    * 获取minimap的窗口
    * @return {HTMLElement} 窗口的dom实例
    */
@@ -475,8 +466,6 @@ export default class ImageMiniMap extends Base {
   }
 
   public destroy() {
-    this.get('canvas').destroy();
-
     const container = this.get('container');
     container.parentNode.removeChild(container);
   }

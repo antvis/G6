@@ -1,4 +1,12 @@
-import { getControlPoint, getSpline, pointsToPolygon } from '../../../src/util/path';
+import {
+  getControlPoint,
+  getSpline,
+  pointsToPolygon,
+  pathToPoints,
+  getClosedSpline,
+  roundedHull,
+  paddedHull
+} from '../../../src/util/path';
 
 describe('Path Util Test', () => {
   it('getSpline', () => {
@@ -150,5 +158,51 @@ describe('Path Util Test', () => {
 
     const polygonPoint = pointsToPolygon(points, true);
     expect(polygonPoint).toEqual('M1 2L{x} {y}Z');
+  });
+
+  it('pathToPoints', () => {
+    const path = [['M', 0, 0], ['L', 10, 10], ['L', 100, 40]];
+    const points = pathToPoints(path);
+    expect(points[0][0]).toBe(0);
+    expect(points[1][0]).toBe(10);
+    expect(points[2][0]).toBe(100);
+  });
+
+  it('getClosedSpline', () => {
+    const points = [{ x: 0, y: 0 }, { x: 10, y: 10 }, { x: 100, y: 40 }];
+    const res = getClosedSpline(points);
+    expect(res[0][0]).toBe('M');
+    expect(res[0][1]).toBe(100);
+    expect(res[0][2]).toBe(40);
+    expect(res[1][0]).toBe('C');
+    expect(res[1][3]).toBe(15);
+    expect(res[1][4]).toBe(5);
+    expect(res[2][0]).toBe('C');
+    expect(res[2][1]).toBe(-15);
+    expect(res[2][2]).toBe(-5);
+    expect(res[4][0]).toBe('C');
+    expect(res[4][3]).toBe(15);
+    expect(res[4][4]).toBe(5);
+  });
+
+  it('roundedHull', () => {
+    const points = [[0, 0], [10, 10], [100, 40]];
+    const res = roundedHull(points, 10);
+    const splits = res.split(' ');
+    expect(splits[0]).toEqual('M');
+    expect(splits[1]).toEqual('96.83772233983161,49.48683298050514');
+    expect(splits[2]).toEqual('A');
+    expect(splits[3]).toEqual('10,10,0,0,0,103.71390676354103,30.715233091147407');
+  });
+
+  it('paddedHull', () => {
+    const points = [[0, 0], [10, 10], [100, 40]];
+    const res: any = paddedHull(points, 10);
+    expect(res[0].x).toEqual(-8.348410922382678);
+    expect(res[0].y).toEqual(-5.504910087462066);
+    expect(res[1].x).toEqual(4.742688878808661);
+    expect(res[1].y).toEqual(18.506508083520398);
+    expect(res[2].x).toEqual(109.38985166381534);
+    expect(res[2].y).toEqual(43.439576388386264);
   });
 });
