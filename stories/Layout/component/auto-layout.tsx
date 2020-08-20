@@ -146,13 +146,16 @@ const AutoLayout = () => {
           fitView: config.type !== 'force',
           layout: config,
         });
+        config.type === 'force' &&
+          layoutGraph.on('afterlayout', (e) => {
+            graph.fitView();
+          });
+        layoutGraph.data(cData);
+        layoutGraph.render();
+        config.graph = layoutGraph;
+      } else {
+        layoutGraph.changeData(cData);
       }
-      config.type === 'force' &&
-        layoutGraph.on('afterlayout', (e) => {
-          graph.fitView();
-        });
-      layoutGraph.data(cData);
-      layoutGraph.render();
     });
   });
 
