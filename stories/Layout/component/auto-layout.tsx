@@ -46,6 +46,7 @@ function generateData() {
 }
 
 let graph: IGraph = null;
+let layoutGraph: IGraph = null;
 const AutoLayout = () => {
   const container = React.useRef();
   let [recommendedLayout, setRecommendedLayout] = useState('');
@@ -58,35 +59,43 @@ const AutoLayout = () => {
       type: 'force',
       linkDistance: 10,
       preventOverlap: true,
+      graph: null,
     },
     {
       type: 'grid',
+      graph: null,
     },
     {
       type: 'circular',
       preventOverlap: true,
       ordering: 'degree',
+      graph: null,
     },
     {
       type: 'dagre',
       ranksep: 1,
       nodesepFunc: (d) => 1,
+      graph: null,
     },
     {
       type: 'concentric',
       preventOverlap: true,
+      graph: null,
     },
     {
       type: 'radial',
       unitRadius: 278,
       preventOverlap: true,
       strictRadial: true,
+      graph: null,
     },
     {
       type: 'mds',
+      graph: null,
     },
     {
       type: 'fruchterman',
+      graph: null,
     },
   ];
   const containers = [];
@@ -127,14 +136,16 @@ const AutoLayout = () => {
 
     layoutConfigs.map((config, i) => {
       const layoutContainer = containers[i];
-      const layoutGraph = new G6.Graph({
-        container: layoutContainer.current as string | HTMLElement,
-        width: 260,
-        height: aspectRatio * 260,
-        minZoom: 0.0001,
-        fitView: config.type !== 'force',
-        layout: config,
-      });
+      if (!layoutGraph) {
+        layoutGraph = new G6.Graph({
+          container: layoutContainer.current as string | HTMLElement,
+          width: 260,
+          height: aspectRatio * 260,
+          minZoom: 0.0001,
+          fitView: config.type !== 'force',
+          layout: config,
+        });
+      }
       config.type === 'force' &&
         layoutGraph.on('afterlayout', (e) => {
           graph.fitView();
