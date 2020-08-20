@@ -1,7 +1,7 @@
 import { IPoint, IBBox, Item, BubblesetCfg } from '../../types';
 import {
   squareDist,
-  pointLineDist,
+  pointLineSquareDist,
   itemIntersectByLine,
   getPointsCenter,
   fractionToLine,
@@ -573,7 +573,7 @@ function fillPotentialArea(
         }
         const tempX = gridIx2Pos(x, activeRegion.minX);
         const tempY = gridIx2Pos(y, activeRegion.minY);
-        const minDistanceSq = pointLineDist({ x: tempX, y: tempY }, line);
+        const minDistanceSq = pointLineSquareDist({ x: tempX, y: tempY }, line);
         // only influence if less than r1
         if (minDistanceSq < options.edgeR1 ** 2) {
           const mdr = Math.sqrt(minDistanceSq) - options.edgeR1;

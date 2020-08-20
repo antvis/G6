@@ -15,6 +15,7 @@ describe('force layout', () => {
       container: div,
       layout: {
         type: 'force',
+        alphaDecay: 0.2
       },
       width: 500,
       height: 500,
