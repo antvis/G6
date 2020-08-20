@@ -46,7 +46,6 @@ function generateData() {
 }
 
 let graph: IGraph = null;
-let layoutGraph: IGraph = null;
 const AutoLayout = () => {
   const container = React.useRef();
   let [recommendedLayout, setRecommendedLayout] = useState('');
@@ -136,6 +135,8 @@ const AutoLayout = () => {
 
     layoutConfigs.map((config, i) => {
       const layoutContainer = containers[i];
+      const cData = Object.assign({}, data);
+      let layoutGraph = config.graph;
       if (!layoutGraph) {
         layoutGraph = new G6.Graph({
           container: layoutContainer.current as string | HTMLElement,
@@ -150,7 +151,6 @@ const AutoLayout = () => {
         layoutGraph.on('afterlayout', (e) => {
           graph.fitView();
         });
-      const cData = Object.assign({}, data);
       layoutGraph.data(cData);
       layoutGraph.render();
     });
