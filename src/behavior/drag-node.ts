@@ -34,6 +34,7 @@ export default {
       'combo:dragenter': 'onDragEnter',
       'combo:dragleave': 'onDragLeave',
       'combo:drop': 'onDropCombo',
+      'node:drop': 'onDropNode'
     };
   },
   validationCombo(item: ICombo) {
@@ -216,6 +217,36 @@ export default {
     }
 
     this.targetCombo = item;
+  },
+
+  /**
+   * 拖动放置到某个 combo 中的子 node 上
+   * @param evt
+   */
+  onDropNode(evt: IG6GraphEvent) {
+    const self = this;
+    const item = evt.item as INode;
+    const id = item.getID();
+    const graph: IGraph = self.graph;
+
+    // TODO: 把 getComboId 和 setComboId 作为 Node Item 的 API，可以直接获取一个节点的直系 combo，不用再使用如下方式遍历查找
+    const combos = graph.getCombos();
+    const comboLength = combos.length;
+    for (let i = 0; i < comboLength; i++) {
+      const combo = combos[i];
+      const subNodes = combo.getNodes();
+      const snodeLength = subNodes.length;
+      for (let j = 0; j < snodeLength; j++) {
+        const snode = subNodes[j];
+        if (snode.getID() === id) {
+          if (self.comboActiveState) {
+            graph.setItemState(combo, self.comboActiveState, false);
+          }
+          self.targetCombo = combo;
+          return;
+        }
+      }
+    }
   },
   /**
    * 将节点拖入到 Combo 中
