@@ -197,7 +197,6 @@ export default class ItemBase implements IItemBase {
     const group: Group = this.get('group');
     const children = group.get('children');
     const keyShape: IShapeBase = this.getKeyShape();
-
     const self = this;
 
     each(children, (child) => {
@@ -315,32 +314,7 @@ export default class ItemBase implements IItemBase {
     }
 
     if (currentShape) {
-      const styles: ShapeStyle & Indexable<any> = {};
-      // 这里要排除掉所有 states 中样式
-      const states = this.get('states');
-      states.map((state) => {
-        const style = this.getStateStyle(state);
-        for (const key in style) {
-          if (!isPlainObject(style[key])) {
-            if (!RESERVED_STYLES.includes(key)) {
-              RESERVED_STYLES.push(key);
-            }
-          } else {
-            const subStyle = style[key];
-            for (const subKey in subStyle) {
-              if (!RESERVED_STYLES.includes(subKey)) {
-                RESERVED_STYLES.push(subKey);
-              }
-            }
-          }
-        }
-      });
-      each(currentShape.attr(), (val, key) => {
-        if (RESERVED_STYLES.indexOf(key) < 0) {
-          styles[key] = val;
-        }
-      });
-      return styles;
+      return currentShape.attr();
     }
     return {};
   }
