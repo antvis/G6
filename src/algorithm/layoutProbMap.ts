@@ -86,7 +86,7 @@ const layoutProbMap = (
         layoutProb.fruchterman += 0.6;
       } else {
         layoutProb.force += 0.4;
-        layoutProb.grid += 0.4;
+        layoutProb.grid += 0.9;
         layoutProb.fruchterman += 0.4;
       }
       break;
