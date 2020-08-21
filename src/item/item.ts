@@ -30,8 +30,6 @@ import { IGroup } from '@antv/g-base/lib/interfaces';
 const CACHE_BBOX = 'bboxCache';
 const CACHE_CANVAS_BBOX = 'bboxCanvasCache';
 
-const RESERVED_STYLES = ['fillStyle', 'strokeStyle', 'path', 'points', 'img', 'symbol'];
-
 export default class ItemBase implements IItemBase {
   public _cfg: IItemBaseConfig & {
     [key: string]: unknown;
