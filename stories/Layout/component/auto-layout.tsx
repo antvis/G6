@@ -5,9 +5,10 @@ import { IGraph } from '../../../src/interface/graph';
 
 function generateData() {
   let nodeNum = Math.floor(10 + Math.random() * 20);
-  let edgeNum = Math.floor(
-    nodeNum + Math.floor(nodeNum + (nodeNum * (nodeNum - 3) * Math.random()) / 4),
-  );
+  let edgeNum = 12;
+  // Math.floor(
+  //   nodeNum + Math.floor(nodeNum + (nodeNum * (nodeNum - 3) * Math.random()) / 4),
+  // );
 
   let nodes = [];
   for (let i = 0; i < nodeNum; i++) {
