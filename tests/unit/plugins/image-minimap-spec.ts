@@ -69,10 +69,10 @@ describe('image minimap', () => {
       let top = parseFloat(viewport.style.top.split('px')[0]);
       let width = parseFloat(viewport.style.width.split('px')[0]);
       let height = parseFloat(viewport.style.height.split('px')[0]);
-      expect(numberEqual(left, 63, 2)).toEqual(true);
-      expect(numberEqual(top, 90, 2)).toEqual(true);
-      expect(numberEqual(width, 137, 2)).toEqual(true);
-      expect(numberEqual(height, 59, 2)).toEqual(true);
+      expect(numberEqual(left, 63, 5)).toEqual(true);
+      expect(numberEqual(top, 90, 5)).toEqual(true);
+      expect(numberEqual(width, 137, 5)).toEqual(true);
+      expect(numberEqual(height, 59, 5)).toEqual(true);
 
       Simulate.simulate(viewport, 'mousedown', {
         clientX: 100,
