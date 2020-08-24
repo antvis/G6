@@ -21,6 +21,14 @@
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*b-g0RoOpI3sAAAAAAAAAAABkARQnAQ"
     },
     {
+      "filename": "xmlNode.js",
+      "title": {
+        "zh": "使用 XML 自定义节点",
+        "en": "Custom Node with XML"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NcHWTKo3sEoAAAAAAAAAAAAAARQnAQ"
+    },
+    {
       "filename": "lineChartNode.js",
       "title": {
         "zh": "节点中嵌入 G2 的折线图",
