@@ -189,6 +189,10 @@ export function parseXML(xml: HTMLElement, cfg) {
 
   rst.type = tagName;
 
+  if (tagName === 'img') {
+    rst.type = 'image'
+  }
+
   Array.from(keys).forEach(k => {
     const key = keyConvert(k)
     const val = xml.getAttribute(k);
