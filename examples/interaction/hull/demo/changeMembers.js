@@ -134,13 +134,19 @@ const data = {
   ],
 };
 
+const width = document.getElementById('container').scrollWidth;
+const height = document.getElementById('container').scrollHeight || 500;
 const graph = new G6.Graph({
   container: 'container',
-  width: 500,
-  height: 500,
+  width,
+  height,
   modes: {
     default: ['drag-canvas', 'zoom-canvas', 'drag-node'],
   },
+  fitView: true,
+  layout: {
+    type: 'grid'
+  }
 });
 
 graph.data(data);

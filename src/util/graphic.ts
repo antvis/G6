@@ -706,7 +706,7 @@ export const getComboBBox = (children: ComboTree[], graph: IGraph): BBox => {
 
 export const getChartRegion = (
   params: {
-    group: IGroup,
+    group: Group,
     width: number,
     height: number,
     x: number,
