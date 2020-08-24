@@ -42,6 +42,9 @@ storiesOf('Shape', module)
   .add('arc', () => <Arc />)
   .add('hide item', () => <HideItem />)
   .add('card-node', () => <CustomCardNode />)
+  .add('xml node', () => (
+    <XML />
+  ))
   .add('extend-node', () => <ExtendNode />)
   .add('lose state style', () => <LostStateStyle />)
   .add('hide by data', () => <HideInData />)
