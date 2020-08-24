@@ -156,9 +156,10 @@ export const xmlDataRenderer = (xml: string) => data => {
       tmp = '';
       i += 2
     } else if (xml[i] === '}' && xml[i + 1] === '}') {
-      tmp = get(data, tmp, `"{${tmp}}"`);
       if (arr.length) {
-        arr.push(arr.pop() + tmp);
+        const last = arr.pop();
+        tmp = get(data, tmp, last.endsWith('=') ? `"{${tmp}}"` : tmp);
+        arr.push(last + tmp)
       }
       i += 2;
       tmp = '';
@@ -169,7 +170,7 @@ export const xmlDataRenderer = (xml: string) => data => {
   }
 
   arr.push(tmp)
-  return arr.join('');
+  return arr.map((e, i) => (arr[i - 1] && arr[i - 1].endsWith('=')) ? `"{${e}}"` : e).join('');
 }
 
 /**
@@ -320,7 +321,7 @@ export function generateTarget(target: NodeInstructure, lastOffset = { x: 0, y: 
     }
 
     for (let index = 0; index < target.children.length; index++) {
-      target.children[index].attrs.key = `${(attrs.key || 'root')}-${index}`;
+      target.children[index].attrs.key = `${(attrs.key || 'root')} -${index} `;
       const node = generateTarget(target.children[index], offset);
       if (node.bbox) {
         const { bbox } = node;
@@ -432,6 +433,7 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
   const compileXML = cfg => {
     const rawStr = typeof gen === 'function' ? gen(cfg) : gen;
     const target = xmlDataRenderer(rawStr)(cfg);
+    console.log(target)
     const xmlParser = document.createElement('div');
     xmlParser.innerHTML = target;
     const xml = xmlParser.children[0] as HTMLElement;
@@ -449,6 +451,7 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
       const renderTarget = (target) => {
         const { attrs = {}, bbox, type, children, ...rest } = target;
         if (target.type !== 'group') {
+          console.log(target)
           const shape = group.addShape(target.type, {
             attrs,
             origin: {
