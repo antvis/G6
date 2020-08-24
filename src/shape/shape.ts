@@ -199,10 +199,10 @@ export default class Shape {
 
     if (typeof nodeDefinition === 'string' || typeof nodeDefinition === 'function') {
       const autoNodeDefinition = createNodeFromXML(nodeDefinition);
-      shapeObj = Object.assign({}, shapeFactory.getShape('single-node'), autoNodeDefinition);
+      shapeObj = {...shapeFactory.getShape('single-node'), ...autoNodeDefinition};
     } else {
       const extendShape = extendShapeType ? shapeFactory.getShape(extendShapeType) : ShapeFramework;
-      shapeObj = Object.assign({}, extendShape, nodeDefinition);
+      shapeObj = {...extendShape, ...nodeDefinition};
     }
 
     shapeObj.type = shapeType;
