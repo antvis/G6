@@ -173,7 +173,6 @@ describe('graph refactor states', () => {
     expect(item.hasState('select')).toBe(false);
     expect(item.getStates()).toEqual(['hover']);
     expect(keyShape.attr('lineWidth')).toBe(1);
-    console.log(keyShape.attr());
     expect(keyShape.attr('stroke')).toBe(undefined);
 
     // remove hover states
@@ -676,7 +675,6 @@ describe('graph refactor states', () => {
     expect(item.hasState('selfCircle:hover')).toBe(true);
 
     const keyShape = item.getKeyShape();
-    console.log('state style', graph.get('styles'), keyShape);
 
     expect(keyShape.attr('stroke')).toEqual('green');
     expect(keyShape.attr('fill')).toEqual('red');

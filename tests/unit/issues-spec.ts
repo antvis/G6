@@ -16,7 +16,6 @@ describe('edge click state', () => {
         };
       },
       onEdgeSelect(evt) {
-        console.log('mousedown');
         const item = evt.item;
         if (item.hasState('select')) {
           this.graph.setItemState(item, 'select', false);
@@ -25,7 +24,6 @@ describe('edge click state', () => {
         this.graph.setItemState(item, 'select', true);
       },
       onEdgeHover(evt) {
-        console.log('hover');
         const item = evt.item;
         if (item.hasState('select')) {
           return false;
@@ -33,12 +31,10 @@ describe('edge click state', () => {
         this.graph.setItemState(item, 'hover', true);
       },
       onEdgeLeave(evt) {
-        console.log('leave');
         const item = evt.item;
         this.graph.setItemState(item, 'hover', false);
       },
       clearSelectedEdge(evt) {
-        console.log('clear');
         const edges = this.graph.findAllByState('edge', 'select');
         edges.forEach((edge) => {
           this.graph.setItemState(edge, 'select', false);

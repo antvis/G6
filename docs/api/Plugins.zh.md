@@ -169,7 +169,7 @@ Menu 用于配置节点上的右键菜单。
 | 名称 | 类型 | 默认值 | 描述 |
 | --- | --- | --- | --- |
 | className | string | null | menu 容器的 class 类名 |
-| getContent | (graph?: IGraph) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OtOkS4g-vrkAAAAAAAAAAABkARQnAQ' width=60 alt='img'/> | 菜单项内容，支持 DOM 元素或字符串 |
+| getContent | (evt?: IG6GraphEvent) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OtOkS4g-vrkAAAAAAAAAAABkARQnAQ' width=60 alt='img'/> | 菜单项内容，支持 DOM 元素或字符串 |
 | handleMenuClick | (target: HTMLElement, item: Item) => void | undefined | 点击菜单项的回调函数 |
 | shouldBegin | (evt: G6Event) => boolean | undefined | 是否允许 menu 出现，可以根据 `evt.item`（当前鼠标事件中的元素） 或 `evt.target`（当前鼠标事件中的图形）的内容判断此时是否允许 menu 出现 |
 | offsetX | number | 6 | menu 的 x 方向偏移值，需要考虑父级容器的 padding |
@@ -223,7 +223,7 @@ const graph = new G6.Graph({
 
 ```
 const menu = new G6.Menu({
-  getContent(graph) {
+  getContent(evt) {
     return `<ul>
       <li title='1'>测试02</li>
       <li title='2'>测试02</li>
@@ -260,7 +260,7 @@ ToolBar 集成了以下常见的操作：
 | --- | --- | --- | --- |
 | container | HTMLDivElement | null | ToolBar 容器，如果不设置，则默认使用 canvas 的 DOM 容器 |
 | className | string | null | ToolBar 内容元素的 class 类名 |
-| getContent | (graph?: IGraph) => HTMLDivElement | string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ' width=80 alt='img'/> | ToolBar 内容，支持 DOM 元素或字符串 |
+| getContent | (evt?: IG6GraphEvent) => HTMLDivElement | string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ' width=80 alt='img'/> | ToolBar 内容，支持 DOM 元素或字符串 |
 | handleClick | (code: string, graph: IGraph) => void | undefined | 点击 ToolBar 中每个图标的回调函数 |
 | position | Point | null | ToolBar 的位置坐标 |
 
@@ -472,7 +472,7 @@ ToolTip 插件主要用于在节点和边上展示一些辅助信息，G6 4.0 �
 | --- | --- | --- | --- |
 | className | string | null | tooltip 容器的 class 类名 |
 | container | HTMLDivElement | null | Tooltip 容器，如果不设置，则默认使用 canvas 的 DOM 容器 |
-| getContent | (graph?: IGraph) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aPPuQquN5Q0AAAAAAAAAAABkARQnAQ' width=80 alt='img'/> | tooltip 内容，支持 DOM 元素或字符串 |
+| getContent | (evt?: IG6GraphEvent) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aPPuQquN5Q0AAAAAAAAAAABkARQnAQ' width=80 alt='img'/> | tooltip 内容，支持 DOM 元素或字符串 |
 | shouldBegin | (evt: G6Event) => boolean | undefined | 是否允许 tooltip 出现，可以根据 `evt.item`（当前鼠标事件中的元素） 或 `evt.target`（当前鼠标事件中的图形）的内容判断此时是否允许 tooltip 出现 |
 | offsetX | number | 6 | tooltip 的 x 方向偏移值，需要考虑父级容器的 padding |
 | offsetY | number | 6 | tooltip 的 y 方向偏移值，需要考虑父级容器的 padding |

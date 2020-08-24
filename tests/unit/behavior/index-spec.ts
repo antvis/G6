@@ -11,7 +11,7 @@ describe('Behavior', () => {
         };
       },
       onClick() {
-        console.log('trigger click');
+        // console.log('trigger click');
       },
       shouldBegin() {
         return false;

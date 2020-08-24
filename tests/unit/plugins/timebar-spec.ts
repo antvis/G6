@@ -82,7 +82,6 @@ describe('TimeBar', () => {
     expect(graph.get('plugins').length).toBe(1);
     const timebarPlugin = graph.get('plugins')[0];
     expect(timebarPlugin).not.toBe(null);
-    console.log(timebarPlugin);
     expect(timebarPlugin.get('trendData')).toEqual(timeBarData);
     expect(timebarPlugin.get('timebar').x).toBe(10);
     expect(timebarPlugin.get('timebar').y).toBe(10);
@@ -129,7 +128,7 @@ describe('TimeBar', () => {
       },
       rangeChange: (graph, min, max) => {
         // 拿到 Graph 实例和 timebar 上范围，自己可以控制图上的渲染逻辑
-        console.log(graph, min, max);
+        // console.log(graph, min, max);
       },
     });
 
@@ -154,7 +153,6 @@ describe('TimeBar', () => {
     expect(graph.get('plugins').length).toBe(1);
     const timebarPlugin = graph.get('plugins')[0];
     expect(timebarPlugin).not.toBe(null);
-    console.log(timebarPlugin);
     const timeBar = timebarPlugin.get('timebar');
     expect(timebarPlugin.get('trendData')).toEqual(timeBarData);
     expect(timeBar.x).toBe(10);

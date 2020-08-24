@@ -14,7 +14,7 @@ describe('stack unit test', () => {
     }
 
     const result = stack.pop();
-    console.log(stack.toArray());
+    // console.log(stack.toArray());
     expect(result).toEqual({
       nodes: [
         {
@@ -48,7 +48,7 @@ describe('stack unit test', () => {
         },
       ],
     });
-    console.log(stack.toArray());
+    // console.log(stack.toArray());
     expect(stack.isMaxStack()).toBe(false);
   });
 

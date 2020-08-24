@@ -162,7 +162,6 @@ describe('drag-combo', () => {
       // selected = !selected;
       graph.setItemState(e.item, 'selected', true);
       const combos = graph.findAllByState('combo', 'selected');
-      console.log(combos);
       // graph.setItemState(e.item, 'state2', selected);
       // graph.getNodes().forEach(node => {
       //   node.hide();
@@ -360,7 +359,7 @@ describe('drag-combo', () => {
     graph.render();
 
     graph.on('nodeselectchange', (evt) => {
-      console.log(evt);
+      // console.log(evt);
     });
 
     // 删错 combo
