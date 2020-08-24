@@ -13,10 +13,7 @@ import G6 from '@antv/g6';
 
 G6.registerNode('rect-xml', (cfg) => `
 <group>
-  <rect style={{
-    width: 200,
-    height: 75,
-  }}>
+  <rect>
     <rect style={{
       width: 150,
       height: 20,
@@ -59,15 +56,29 @@ const data = {
     nodes: [{
         x: 150,
         y: 150,
-        "description": "ant_type_name_...",
-        "label": "Type / ReferType",
-        "color": '#2196f3',
-        "meta": {
-            "creatorName": "a_creator"
+        description: "ant_type_name_...",
+        label: "Type / ReferType",
+        color: '#2196f3',
+        meta: {
+            creatorName: "a_creator"
         },
-        "id": "test",
+        id: "node1",
+        type: 'rect-xml'
+    }, {
+        x: 350,
+        y: 150,
+        description: "node2_name...",
+        label: "XML Node",
+        color: '#2196f3',
+        meta: {
+            creatorName: "a_creator"
+        },
+        id: 'node2',
         type: 'rect-xml'
     }],
+    edges: [
+        { source: 'node1', target: 'node2' }
+    ]
 };
 
 const width = document.getElementById('container').scrollWidth;
@@ -78,6 +89,9 @@ const graph = new G6.Graph({
     height,
     // translate the graph to align the canvas's center, support by v3.5.1
     fitCenter: true,
+    modes: {
+        default: ['drag-node', 'zoom-canvas']
+    }
 });
 
 graph.data(data);
