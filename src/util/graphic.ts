@@ -703,3 +703,38 @@ export const getComboBBox = (children: ComboTree[], graph: IGraph): BBox => {
 
   return comboBBox;
 };
+
+export const getChartRegion = (
+  params: {
+    group: IGroup,
+    width: number,
+    height: number,
+    x: number,
+    y: number
+  }) => {
+  const {
+    group,
+    height,
+    width,
+    x,
+    y
+  } = params;
+  const canvas = group.get('canvas');
+  const canvasWidth = canvas.get('width');
+  const canvasHeight = canvas.get('height');
+  const region = {
+    start: {
+      x: 0,
+      y: 0
+    },
+    end: {
+      x: 0,
+      y: 0
+    }
+  }
+  region.start.x = x / canvasWidth;
+  region.start.y = y / canvasHeight;
+  region.end.x = (x + width) / canvasWidth;
+  region.end.y = (y + height) / canvasHeight;
+  return region;
+}
