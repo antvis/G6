@@ -46,10 +46,13 @@ descriptionDiv.innerHTML = 'Wait for the layout to complete...';
 const graphDiv = document.getElementById('container');
 graphDiv.appendChild(descriptionDiv);
 
+const width = document.getElementById('container').scrollWidth;
+const height = document.getElementById('container').scrollHeight || 500;
+
 const graph = new G6.Graph({
   container: 'container',
-  width: 500,
-  height: 500,
+  width,
+  height,
   modes: {
     default: ['drag-canvas', 'zoom-canvas', 'drag-node', 'lasso-select'],
   },

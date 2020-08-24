@@ -1,5 +1,15 @@
 # ChangeLog
 
+#### 3.7.0
+
+- feat: chart node;
+- feat: bubble set;
+- feat: custom node with xml;
+- feat: minimum spanning tree algorithm;
+- feat: path finding algorithm;
+- feat: cycle finding algorithm;
+- chore: update antv/hierarchy to fix indented tree with dropCap problem.
+
 #### 3.6.2
 
 - feat: find all paths and the shortest path between two nodes;
