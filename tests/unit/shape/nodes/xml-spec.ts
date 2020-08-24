@@ -101,7 +101,6 @@ describe('xml node test', () => {
 
       expect(target.bbox.x).toBe(0);
       expect(target.bbox.y).toBe(0);
-      console.log(target.children[0].bbox)
       expect(target.children[0].bbox.width).toBe(100);
       expect(target.children[0].children[0].bbox.x).toBe(50)
 
@@ -205,7 +204,6 @@ describe('xml node test', () => {
 
       graph.data(data)
       graph.render()
-      console.log(graph.getNodes())
 
       graph.on('icon-circle:mouseenter', evt => {
         graph.setItemState(evt.item, 'hover', true)

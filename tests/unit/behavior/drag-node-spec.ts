@@ -695,8 +695,8 @@ describe('drag-node', () => {
     graph.render();
 
     graph.on('node:click', (e) => {
-      console.log(e);
-      console.log(graph.getNodes()[0].get('group').get('children')[1]);
+      // console.log(e);
+      // console.log(graph.getNodes()[0].get('group').get('children')[1]);
     });
     const node = graph.getNodes()[0];
     const anchorPoint = node.get('group').get('children')[1];

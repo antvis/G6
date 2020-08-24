@@ -57,6 +57,11 @@ describe('tooltip', () => {
       `<div class="g6-component-tooltip" style="position: absolute; visibility: hidden;"></div>`,
     );
 
+    graph.emit('node:mouseenter', { item: graph.getNodes()[0] });
+    expect(tooltipPlugin.get('tooltip').style.visibility).toEqual('visible');
+    graph.emit('node:mouseleave', { item: graph.getNodes()[0] });
+    expect(tooltipPlugin.get('tooltip').style.visibility).toEqual('hidden');
+
     // graph.destroy()
   });
   it('tooltip with dom', () => {

@@ -116,7 +116,6 @@ describe('detectDirectedCycle', () => {
     graph.changeData(data);
     graph.render();
     const result = detectAllCycles(graph, true);
-    // console.log('All cycles in the directed graph: ', result)
     expect(result.length).toEqual(3);
 
     const nodeA = graph.findById('A');
@@ -132,18 +131,12 @@ describe('detectDirectedCycle', () => {
       C: nodeD,
       D: nodeA,
     });
-    // console.log(`All cycles include 'B' in the directed graph: `, result2)
   });
   it('detect cycle in undirected graph', () => {
     const result = detectAllCycles(graph);
     expect(result.length).toEqual(3);
-    // console.log(`All elemenetary cycles in the undirected graph: `, result)
-    const nodeD = graph.findById('D');
-    const nodeF = graph.findById('F');
-    const nodeE = graph.findById('E');
     const result2 = detectAllCycles(graph, false, ['B'], false);
     expect(Object.keys(result2[0]).sort()).toEqual(['D', 'E', 'F']);
-    // console.log(`All elemenetary cycles include ${graph.getNodes()[1].getID()} in the undirected graph: `, result2)
   });
   it('test another graph', () => {
     const data = {

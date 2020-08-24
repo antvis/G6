@@ -134,6 +134,7 @@ export default {
           const node = fixNodes[fn];
           const group = node.getContainer();
           const nodeModel = node.getModel();
+          const originStyle = node.getOriginStyle();
           const itemStateStyle = node.getStateStyle(fixSelectedItems.fixState);
           const shapeStateStyle = node
             .get('shapeFactory')
@@ -171,7 +172,7 @@ export default {
               if (fixSelectedItems.fixLineWidth) {
                 if (shape.get('isKeyShape')) {
                   lineWidth = shape.attr('lineWidth') || 0;
-                  const oriLineWidth = itemStateStyle.lineWidth || shapeStateStyle.lineWidth || 0;
+                  const oriLineWidth = itemStateStyle.lineWidth || shapeStateStyle.lineWidth || originStyle.lineWidth || 0;
                   if (zoom <= 1) shape.attr('lineWidth', oriLineWidth / zoom); // * graphZoom / zoom
                   if (fontSize) break;
                 }

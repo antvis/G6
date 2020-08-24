@@ -89,7 +89,6 @@ describe('Shortest Path Matrix on graph', () => {
 
   it('get graph shortest path matrix', () => {
     const matrix = graph.getShortestPathMatrix();
-    console.log(matrix);
     expect(Object.keys(matrix).length).toBe(8);
     const node0 = matrix[0];
     expect(node0.length).toBe(8);
@@ -139,7 +138,6 @@ describe('Shortest Path Matrix on graph', () => {
     // do not use the cache
     const matrix = graph.getShortestPathMatrix(false);
     expect(Object.keys(matrix).length).toBe(9);
-    console.log(matrix);
     const node0 = matrix[0];
     expect(node0.length).toBe(9);
     expect(node0[0]).toBe(0);
@@ -157,7 +155,6 @@ describe('Shortest Path Matrix on graph', () => {
     // do not use the cache and directed
     const matrix = graph.getShortestPathMatrix(false, true);
     expect(Object.keys(matrix).length).toBe(9);
-    console.log(matrix);
     const node0 = matrix[0];
     expect(node0.length).toBe(9);
     expect(node0[0]).toBe(0);
@@ -225,7 +222,6 @@ describe('Adjacency Matrix by Algorithm', () => {
 
     const matrix = floydWarshall(graph);
     expect(Object.keys(matrix).length).toBe(9);
-    console.log(matrix);
     const node0 = matrix[0];
     expect(node0.length).toBe(9);
     expect(node0[0]).toBe(0);
