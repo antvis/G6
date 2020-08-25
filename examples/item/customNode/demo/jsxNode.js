@@ -1,17 +1,17 @@
 import G6 from '@antv/g6';
 
 /**
- *  Custom a xml node
+ *  Custom a JSX node
  *  by Dominic Ming
  *
  */
 
 
 /**
- * Register a XML Node
+ * Register a JSX Node
  */
 
-G6.registerNode('rect-xml', (cfg) => `
+G6.registerNode('rect-jsx', (cfg) => `
 <group>
   <rect>
     <rect style={{
@@ -53,45 +53,45 @@ G6.registerNode('rect-xml', (cfg) => `
 `)
 
 const data = {
-    nodes: [{
-        x: 150,
-        y: 150,
-        description: "ant_type_name_...",
-        label: "Type / ReferType",
-        color: '#2196f3',
-        meta: {
-            creatorName: "a_creator"
-        },
-        id: "node1",
-        type: 'rect-xml'
-    }, {
-        x: 350,
-        y: 150,
-        description: "node2_name...",
-        label: "XML Node",
-        color: '#2196f3',
-        meta: {
-            creatorName: "a_creator"
-        },
-        id: 'node2',
-        type: 'rect-xml'
-    }],
-    edges: [
-        { source: 'node1', target: 'node2' }
-    ]
+  nodes: [{
+    x: 150,
+    y: 150,
+    description: "ant_type_name_...",
+    label: "Type / ReferType",
+    color: '#2196f3',
+    meta: {
+      creatorName: "a_creator"
+    },
+    id: "node1",
+    type: 'rect-jsx'
+  }, {
+    x: 350,
+    y: 150,
+    description: "node2_name...",
+    label: "JSX Node",
+    color: '#2196f3',
+    meta: {
+      creatorName: "a_creator"
+    },
+    id: 'node2',
+    type: 'rect-jsx'
+  }],
+  edges: [
+    { source: 'node1', target: 'node2' }
+  ]
 };
 
 const width = document.getElementById('container').scrollWidth;
 const height = document.getElementById('container').scrollHeight || 500;
 const graph = new G6.Graph({
-    container: 'container',
-    width,
-    height,
-    // translate the graph to align the canvas's center, support by v3.5.1
-    fitCenter: true,
-    modes: {
-        default: ['drag-node', 'zoom-canvas']
-    }
+  container: 'container',
+  width,
+  height,
+  // translate the graph to align the canvas's center, support by v3.5.1
+  fitCenter: true,
+  modes: {
+    default: ['drag-node', 'zoom-canvas']
+  }
 });
 
 graph.data(data);

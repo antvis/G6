@@ -89,7 +89,7 @@
     "ml-matrix": "^6.5.0"
   },
   "devDependencies": {
-    "@antv/chart-node-g6": "^0.0.2",
+    "@antv/chart-node-g6": "^0.0.3",
     "@antv/gatsby-theme-antv": "^0.11.1",
     "@babel/core": "^7.7.7",
     "@babel/plugin-proposal-class-properties": "^7.1.0",

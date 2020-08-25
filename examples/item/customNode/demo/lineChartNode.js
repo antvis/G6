@@ -55,21 +55,15 @@ G6.registerNode(
         },
       });
 
-      // calculate the region for the chart
-      const region = G6.Util.getChartRegion({
-        group,
-        width: 360,
-        height: 70,
-        x: 20,
-        y: 100
-      });
-
       // 实际开发中把 (Chart || window.Chart) 换成 Chart
       // Replace (Chart || window.Chart) by Chart in your project
       const view = new (Chart || window.Chart)({
         group,
         padding: 5,
-        region
+        width: 360,
+        height: 70,
+        x: 20,
+        y: 100
       });
 
       view.data(cfg.trendData);
