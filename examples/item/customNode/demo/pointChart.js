@@ -1,9 +1,4 @@
 import G6 from '@antv/g6';
-/**
- * Custom a mark node
- * by Jingxi
- *
- */
 
 // Custom a mark node
 G6.registerNode('justPoints', {

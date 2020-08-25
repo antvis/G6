@@ -489,16 +489,10 @@ G6.registerNode(
 
       const chart = new Chart({
         group,
-        region: {
-          start: {
-            x: 0.01,
-            y: 0.2,
-          },
-          end: {
-            x: 0.8,
-            y: 0.39,
-          },
-        },
+        width: 360,
+        height: 40,
+        x: 10,
+        y: 130
       });
 
       chart.data(cfg.trendData as any);
