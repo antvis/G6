@@ -1,5 +1,5 @@
 {
-  "mainEntryPointFilePath": "<projectFolder>/lib/api.d.ts",
+  "mainEntryPointFilePath": "<projectFolder>/lib/index.d.ts",
   "apiReport": {
     "enabled": false
   },
