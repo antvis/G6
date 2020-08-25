@@ -1,5 +1,5 @@
 ---
-title: Interaction Mode
+title: Using multiple modes
 order: 7
 ---
 

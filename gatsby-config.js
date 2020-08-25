@@ -75,6 +75,7 @@ module.exports = {
         },
         order: 4,
       },
+
       {
         slug: 'manual/middle/shape',
         title: {
@@ -89,7 +90,6 @@ module.exports = {
         title: {
           zh: '图元素：节点/边/Combo',
           en: 'Graph Elements',
-          order: 2,
         },
       },
       {
@@ -97,22 +97,30 @@ module.exports = {
         title: {
           zh: '节点',
           en: 'Node',
+          order: 3,
         },
-        order: 3,
-      },
-      {
-        slug: 'manual/middle/elements/nodes/built-in',
-        title: {
-          zh: '内置节点类型',
-          en: 'Built-in Nodes',
-        },
-        order: 0,
       },
       {
         slug: 'manual/middle/elements/edges',
         title: {
           zh: '边',
           en: 'Edge',
+          order: 4,
+        },
+      },
+      {
+        slug: 'manual/middle/elements/combos',
+        title: {
+          zh: 'Combo',
+          en: 'Combo',
+          order: 5,
+        },
+      },
+      {
+        slug: 'manual/middle/elements/nodes/built-in',
+        title: {
+          zh: '内置节点类型',
+          en: 'Built-in Nodes',
         },
         order: 1,
       },
@@ -122,15 +130,7 @@ module.exports = {
           zh: '内置边类型',
           en: 'Built-in Edges',
         },
-        order: 0,
-      },
-      {
-        slug: 'manual/middle/elements/combos',
-        title: {
-          zh: 'Combo',
-          en: 'Combo',
-        },
-        order: 2,
+        order: 1,
       },
       {
         slug: 'manual/middle/elements/combos/built-in',
@@ -138,15 +138,23 @@ module.exports = {
           zh: '内置Combo',
           en: 'Built-in Combos',
         },
-        order: 0,
+        order: 1,
+      },
+      {
+        slug: 'manual/middle/elements/advanced-style',
+        title: {
+          zh: '高级样式',
+          en: 'Advanced Style',
+        },
+        order: 6,
       },
       {
         slug: 'manual/middle/elements/methods',
         title: {
-          zh: '通用元素操作方法',
-          en: 'Common methods',
+          zh: '高级操作',
+          en: 'Advanced operation',
         },
-        order: 4,
+        order: 7,
       },
 
       {
@@ -154,7 +162,7 @@ module.exports = {
         title: {
           zh: '图布局',
           en: 'Graph Layouts',
-          order: 5,
+          order: 8,
         },
       },
       {
@@ -163,7 +171,7 @@ module.exports = {
           zh: '交互与事件',
           en: 'Behavior & Event',
         },
-        order: 6,
+        order: 9,
       },
       // ==============================
       {
