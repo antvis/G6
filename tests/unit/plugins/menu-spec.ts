@@ -9,7 +9,7 @@ describe('menu', () => {
   it('menu with default', () => {
     const menu = new G6.Menu({
       handleMenuClick: (target, item) => {
-        // console.log(target, item);
+        console.log(target, item);
       },
     });
 

@@ -62,20 +62,14 @@ G6.registerNode(
         Oceania: '#223273',
       };
 
-      // calculate the region for the chart
-      const region = G6.Util.getChartRegion({
+      // 实际开发中把 (Chart || window.Chart) 换成 Chart
+      // Replace (Chart || window.Chart) by Chart in your project
+      const chart = new (Chart || window.Chart)({
         group,
         width: 360,
         height: 70,
         x: 20,
         y: 100
-      });
-
-      // 实际开发中把 (Chart || window.Chart) 换成 Chart
-      // Replace (Chart || window.Chart) by Chart in your project
-      const chart = new (Chart || window.Chart)({
-        group,
-        region
       });
 
       chart.data(cfg.trendData);

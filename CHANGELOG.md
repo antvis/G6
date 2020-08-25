@@ -4,7 +4,7 @@
 
 - feat: chart node;
 - feat: bubble set;
-- feat: custom node with xml;
+- feat: custom node with JSX;
 - feat: minimum spanning tree algorithm;
 - feat: path finding algorithm;
 - feat: cycle finding algorithm;

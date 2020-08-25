@@ -21,10 +21,10 @@
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*b-g0RoOpI3sAAAAAAAAAAABkARQnAQ"
     },
     {
-      "filename": "xmlNode.js",
+      "filename": "jsxNode.js",
       "title": {
-        "zh": "使用 XML 自定义节点",
-        "en": "Custom Node with XML"
+        "zh": "使用 JSX 自定义节点",
+        "en": "Custom Node with JSX"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NcHWTKo3sEoAAAAAAAAAAAAAARQnAQ"
     },
