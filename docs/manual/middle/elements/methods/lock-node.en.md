@@ -1,5 +1,5 @@
 ---
-title: Lock Node
+title: Lock / Unlock Node
 order: 11
 ---
 

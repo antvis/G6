@@ -380,7 +380,7 @@ graph.expandGroup('groupId');
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | type | string | true | 元素类型，可选值为 `'node'`、`'edge'` 和 `'group'` |
-| model | Object | true | 元素的数据模型，具体内容参见[元素配置项](/zh/docs/api/nodeEdge/itemProperties)。`type: 'group'` 时，参看 [手动创建节点分组文档](/zh/docs/manual/advanced/create-node-group) |
+| model | Object | true | 元素的数据模型，具体内容参见[元素配置项](/zh/docs/api/nodeEdge/itemProperties)。|
 | stack | boolean | false | 操作是否入 undo & redo 栈，当实例化 Graph 时设置 enableStack 为 true 时，默认情况下会自动入栈，入栈以后，就支持 undo & redo 操作，如果不需要，则设置该参数为 false 即可 |
 
 **用法**

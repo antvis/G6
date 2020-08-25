@@ -1,6 +1,6 @@
 ---
 title: Use JSX-like syntax to customize G6 nodes
-order: 12
+order: 4
 ---
 
 When using G6.registerNode to customize a node, if the second parameter is a string or a function that returns a string, we can use JSX-like syntax to customize the node.

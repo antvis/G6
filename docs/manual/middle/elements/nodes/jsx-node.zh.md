@@ -1,6 +1,6 @@
 ---
 title: 使用类 JSX 语法定义 G6 节点
-order: 12
+order: 4
 ---
 
 使用 G6.registerNode 自定义节点时，如果第二个参数为字符串或一个返回值为字符串的 function，我们就可以使用类似 JSX 的语法来定义节点。

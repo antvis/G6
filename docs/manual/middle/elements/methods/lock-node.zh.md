@@ -1,5 +1,5 @@
 ---
-title: Lock Node
+title: 锁定/解锁节点
 order: 11
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: 图 Graph
+title: Graph 图
 order: 1
 ---
 

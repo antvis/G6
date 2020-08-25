@@ -1,6 +1,6 @@
 ---
 title: Basic Animation
-order: 6
+order: 10
 ---
 
 There are two levels of animation in G6:

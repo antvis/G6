@@ -1,6 +1,6 @@
 ---
 title: AnchorPoint
-order: 7
+order: 3
 ---
 
 The anchorPoint of a node is the link point where the related edges link to. In other words, it is the intersection of a node and its related edges. anchorPoints is a 2d array, each element represents the position of one anchor point. The positions of the anchor points in a [Shape](/en/docs/manual/middle/elements/shape-keyshape) are shown below, the range of each x and y is [0, 1]:<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EJTyR4j9VN4AAAAAAAAAAABkARQnAQ' width='600' height='300' alt='img'/>
