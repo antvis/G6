@@ -1,5 +1,5 @@
 ---
-title: Gradient Color for Objects in G6
+title: Gradient Color for Objects
 order: 4
 ---
 

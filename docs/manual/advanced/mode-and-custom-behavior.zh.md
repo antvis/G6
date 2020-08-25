@@ -1,5 +1,5 @@
 ---
-title: 交互模式 Mode
+title: 使用多种交互模式
 order: 7
 ---
 

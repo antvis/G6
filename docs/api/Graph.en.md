@@ -381,7 +381,7 @@ Add item(node, edge, or group) to the graph.
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | type | string | true | The type of the item. Options: `'node'`, `'edge'`, and `'group'`. |
-| model | Object | true | The data model of the item, refer to [Item Model Properties](/en/docs/api/nodeEdge/itemProperties). When `type: 'group'`, refer to [Create Node Group](/en/docs/manual/advanced/create-node-group) |
+| model | Object | true | The data model of the item, refer to [Item Model Properties](/en/docs/api/nodeEdge/itemProperties). |
 | stack | boolean | false | Whether to push the operator into the undo & redo stack. If the `enableStack` is `true`, this operation will be automatically pushed into the stack by default. Set `stack` to be `false` if you do not want it. |
 
 **Usage**
