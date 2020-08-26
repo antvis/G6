@@ -246,6 +246,15 @@ export interface IGraph extends EventEmitter {
   getNeighbors(node: string | INode, type?: 'source' | 'target' | undefined): INode[];
 
   /**
+   * 获取 node 的度数
+   *
+   * @param {(string | INode)} node 节点 ID 或实例
+   * @param {('in' | 'out' | 'total' | 'all' | undefined)} 度数类型，in 入度，out 出度，total 总度数，all 返回三种类型度数的对象
+   * @returns {Number | Object} 该节点的度数
+   * @memberof IGraph
+   */
+  getNodeDegree(node: string | INode, type?: 'in' | 'out' | 'total' | 'all' | undefined): Number | Object;
+  /**
    * 获取指定 combo 中所有的节点
    * @param comboId Combo ID 或 combo 实例
    */

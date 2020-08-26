@@ -687,3 +687,23 @@ components2.forEach((component => {
 }))
 // Expected output: ['A'], ['B'], ['C'], ['D', 'E', 'F'], ['G', 'H']
 ```
+
+### pageRank
+
+The PageRank algorithm assumes that the importance of the current node is determined by the importance of other nodes pointing to it, and that the more inbound links a node receives from other nodes, the more important it is. PageRank is determined by  counting the number and quality of links to a node.
+
+Reference: 
+- [PageRank](https://en.wikipedia.org/wiki/PageRank)
+
+ **Parameters**
+
+| Name  | Type   | Required | Description |
+| ----- | ------ | -------- | ------------- |
+| graph | IGraph | true     | G6 Graph Instance |
+| epsilon | number | false | The precision level used to identify whether the calculation is converged. ｜
+| linkProb | number | false | The the probability that the outgoing links will be visited next, 0.85 by default.｜
+
+**Return**
+
+- Type of return value: Object, {[key: string]: number}
+- The PageRank value for each node.
