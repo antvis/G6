@@ -691,3 +691,24 @@ components2.forEach((component => {
 }))
 // 期望输出结果：['A'], ['B'], ['C'], ['D', 'E', 'F'], ['G', 'H']
 ```
+
+### pageRank
+
+PageRank 可以用来度量网络中节点的重要性，最初用于标识网页的重要性，对网页进行排序。PageRank 算法假设当前节点的重要性是由指向它的其他节点的重要性决定的，一个节点接收到的来自其他节点的入链 (inbound) 越多，则越重要，每个入链的权重由提供入链的节点的重要性决定。 因此 PageRank 除了考虑到入链数量，还参考了入链“质量”。PageRank 通过迭代递归计算来更新每个节点的得分，直到得分稳定为止。
+
+参考资料：
+- [PageRank](https://en.wikipedia.org/wiki/PageRank)
+
+ **参数**
+
+| 名称  | 类型   | 是否必选 | 描述          |
+| ----- | ------ | -------- | ------------- |
+| graph | IGraph | true     | G6 Graph 实例 |
+| epsilon | number | false | 判断 PageRank 得分是否稳定的精度值，默认 0.000001 ｜
+| linkProb | number | false | 阻尼系数（dumping factor），指任意时刻，用户访问到某节点后继续访问该节点指向的节点的概率，默认 0.85。 ｜
+
+**返回值**
+
+- 返回值类型：Object, {[key: string]: number}
+- 返回一个对象，表示节点 ID 对应的该节点的 PageRank 值。
+
