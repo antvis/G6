@@ -593,8 +593,8 @@ Reference:
 
 **Return**
 
-- Type of return value: string[][]
-- Return a list of connected components or strongly-connect components. Each component is a list of node IDs. 
+- Type of return value: INode[][]
+- Return a list of connected components or strongly-connect components. Each component is a list of node instances. 
 
 **Usage**
 
@@ -674,10 +674,16 @@ graph.data(data);
 graph.render();
 
 // Connected components
-const result = getConnectedComponents(graph, false);
-// Expected output: [['A', 'B', 'C', 'D', 'E', 'F'], ['G', 'H']]
+const components = getConnectedComponents(graph, false);
+components.forEach((component => {
+  console.log(component.map(node => node.get('id')))
+}))
+// Expected output: ['A', 'B', 'C', 'D', 'E', 'F'], ['G', 'H']
   
 // Strongly-connected components
-const result2 = getConnectedComponents(graph, true);
-// Expected output: [['A'], ['B'], ['C'], ['D', 'E', 'F'], ['G', 'H']]
+const components2 = getConnectedComponents(graph, true);
+components2.forEach((component => {
+  console.log(component.map(node => node.get('id')))
+}))
+// Expected output: ['A'], ['B'], ['C'], ['D', 'E', 'F'], ['G', 'H']
 ```
