@@ -3,9 +3,9 @@ title: Use JSX-like syntax to customize G6 nodes
 order: 12
 ---
 
-When using G6.registerNode to customize a node, if the second parameter is a string or a function that returns a string, we can use JSX-like syntax to customize the node.
+In G6 V3.7.0 and later version, user are allow to use JSX-like syntax to customize the node by assigning the second parameter of G6.registerNode a string or function that returns a string.
 
-#### Basic grammar
+#### Basic Grammar
 
 ```
 <[group|shape] [key]="value" style={{ [key]: value }}>
@@ -14,40 +14,40 @@ When using G6.registerNode to customize a node, if the second parameter is a str
 </[group|shape]>
 ```
 
-The basic syntax is basically the same as the familiar html markup language. Use shape or group by tag name. At the same time, when defining shape, you need to fill in the attributes of shape. Attrs that define the shape style are expressed by the style attribute. The structure in style is an Object, and the value of the object can be a string, number, and other data types supported by JSON (note that it cannot be a function here, and a function will only cause parsing errors).
+The basic syntax is almost the same as the familiar HTML markup language, where you can use shape or group by a tag. At the same time, you need to assign the attributes for defining a shape. Style attributes are grouped to an object, whose items' value can be `string`, `number`, and others supported by JSON (note that it cannot be a function here, which will cause parsing errors).
 
 Reference for the type and style of custom nodes: https://g6.antv.vision/zh/docs/api/nodeEdge/shapeProperties
 Among them, for relative positioning, we newly added **marginTop** and **marginLeft** to define the gap between the left and top.
 
-#### Recommended usage
+#### Recommended Usage
 
 - Wrap the group tag on the outermost layer
-- use single quotes
-- recommended to use the template syntax of ${}
-- recommended to use marginTop and marginLeft for relative positioning in graphics
+- Use single quotes
+- Use the template syntax of ${}
+- Use `marginTop` and `marginLeft` for relative position graphics
 
 #### Supported tags
 
 When using JSX-like syntax to customize G6 nodes, the following tags are supported:
 
-- group
-- rect
-- circle
-- text
-- path
-- line
-- points
-- polygon
-- polyline
-- image
+- `<group />`
+- `<rect />`
+- `<circle />`
+- `<text />`
+- `<path />`
+- `<line />`
+- `<points />`
+- `<polygon />`
+- `<polyline />`
+- `<image />`
 
 Use tags to customize nodes. All style attributes are written in style. Name, keyShape, etc. are at the same level as style, and the supported attributes are exactly the same as those in addShape.
 
-**Special Note**: When using JSX-like grammar to customize G6 node, the attribute in style does not support function, so when using JSX-like grammar to customize a node, the marker tag is currently not supported.
+**Special Note**: When using JSX-like grammar to customize a G6 node, the attributes in style do not support function. That is, the marker tag is currently not supported.
 
 #### Case
 
-using JSX-like syntax to customize a simple rectangle.
+Using JSX-like syntax to customize a simple rectangle.
 
 ```javascript
 G6.registerNode('rect-xml', (cfg) => `
@@ -73,7 +73,7 @@ G6.registerNode('rect-xml', (cfg) => `
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*E3UGRq1m-wYAAAAAAAAAAAAAARQnAQ' />
 
-using JSX-like syntax to customize a more complicated case.
+Using JSX-like syntax to customize a complicated node.
 
 ```javascript
 const percentageBar = ({ width, used, height = 12 }) => `

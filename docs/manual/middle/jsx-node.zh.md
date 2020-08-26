@@ -3,7 +3,7 @@ title: 使用类 JSX 语法定义 G6 节点
 order: 12
 ---
 
-使用 G6.registerNode 自定义节点时，如果第二个参数为字符串或一个返回值为字符串的 function，我们就可以使用类似 JSX 的语法来定义节点。
+在 G66 3.7.0 及以后的版本中，用户以使用类似 JSX 的语法来定义节点。只需要在使用 G6.registerNode 自定义节点时，将第二个参数设置为字符串或一个返回值为 `string` 的 `function`。
 
 #### 基础语法
 
@@ -14,7 +14,7 @@ order: 12
 </[group|shape]>
 ```
 
-基础语法和大家熟悉的 html 标记语言基本相同，通过标签名来使用 shape 或者 group，同时定义 shape 需要填写 shape 的各个 attributes，而定义形状样式的 attrs 则由 style 属性来进行表达。style 里面的结构是一个 Object，对象的值可以是字符串，数字等 JSON 支持的数据类型（注意，这里不能够是函数，函数只会导致解析错误）。
+基础语法和大家熟悉的 HTML 标记语言基本相同，通过标签名来使用 shape 或者 group，同时定义 shape 需要填写 shape 的各个 attributes，而定义形状样式的 attrs 则由 style 属性来进行表达。style 里面的结构是一个 Object，对象的值可以是字符串，数字等 JSON 支持的数据类型（注意，这里不能够是函数，函数只会导致解析错误）。
 
 
 自定义节点的类型和 style 参考：https://g6.antv.vision/zh/docs/api/nodeEdge/shapeProperties
@@ -22,25 +22,25 @@ order: 12
 
 #### 推荐用法
 
-- 在最外层包裹group标签，保证节点里面图形树结构完整
+- 在最外层包裹 `group` 标签，保证节点里面图形树结构完整
 - 字符串最好使用单引号包裹，以免遇到解析错误
-- style中随node变化的变量推荐使用${}的模板语法加入
-- 图形内的相对定位推荐使用marginTop和marginLeft进行，x,y会破坏层级关系定位
+- `style` 中随 node 变化的变量推荐使用 ${} 的模板语法加入
+- 图形内的相对定位推荐使用 `marginTop` 和 `marginLeft` 进行设置，`x` 与 `y` 会破坏层级关系定位
 
 #### 支持的标签
 
 使用类 JSX 语法来定义 G6 节点时，支持使用以下的标签：
 
-- group
-- rect
-- circle
-- text
-- path
-- line
-- points
-- polygon
-- polyline
-- image
+- `<group />`
+- `<rect />`
+- `<circle />`
+- `<text />`
+- `<path />`
+- `<line />`
+- `<points />`
+- `<polygon />`
+- `<polyline />`
+- `<image />`
 
 
 使用标签的形式来定义节点，所有的样式属性都写到 style 里面，name、keyShape 等和 style 同级，所支持的属性和 addShape 中完全一致。
