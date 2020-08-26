@@ -597,8 +597,8 @@ console.log(allPaths)
 
 **返回值**
 
-- 返回值类型：string[][]
-- 返回一个数组表示检测到的所有连通分量，每个连通分量为节点的 ID 的数组。
+- 返回值类型：INode[][]
+- 返回一个数组表示检测到的所有连通分量，每个连通分量为节点数组。
 
 **用法**
 
@@ -678,10 +678,16 @@ graph.data(data);
 graph.render();
 
 // 图中的连通分量
-const result = getConnectedComponents(graph, false);
-// 期望返回结果：[['A', 'B', 'C', 'D', 'E', 'F'], ['G', 'H']]
-  
+const components = getConnectedComponents(graph, false);
+components.forEach((component => {
+  console.log(component.map(node => node.get('id')))
+}))
+// 期望输出结果：['A', 'B', 'C', 'D', 'E', 'F'], ['G', 'H']
+
 // 有向图中的强连通分量
-const result2 = getConnectedComponents(graph, true);
-// 期望返回结果：[['A'], ['B'], ['C'], ['D', 'E', 'F'], ['G', 'H']]
+const components2 = getConnectedComponents(graph, true);
+components2.forEach((component => {
+  console.log(component.map(node => node.get('id')))
+}))
+// 期望输出结果：['A'], ['B'], ['C'], ['D', 'E', 'F'], ['G', 'H']
 ```
