@@ -3,6 +3,7 @@ import '../../../src/shape';
 
 import Simulate from 'event-simulate';
 import Graph from '../../../src/graph/graph';
+import G6 from '../../../src'
 import { INode } from '../../../src/interface/item';
 
 const div = document.createElement('div');
@@ -64,8 +65,8 @@ describe('create-edge', () => {
     expect(graph.getEdges().length).toEqual(2);
     const loop = graph.getEdges()[1];
     expect(loop.getModel().source).toEqual(loop.getModel().target);
-
-    graph.destroy();
+    console.log(graph)
+    // graph.destroy();
   });
   it('create edge with drag trigger', () => {
     const graph: Graph = new Graph({
@@ -212,6 +213,61 @@ describe('create-edge', () => {
     edge = graph.getEdges()[0];
     expect(edge.getModel().target).not.toBe(node1.getID());
 
+    graph.destroy();
+  });
+  it('create edge width stack', () => {
+    const toolbar = new G6.ToolBar()
+    const graph: Graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      enabledStack: true,
+      plugins: [toolbar],
+      modes: {
+        default: ['create-edge'],
+      },
+      defaultEdge: {
+        style: {
+          stroke: '#f00',
+          lineWidth: 2
+        }
+      },
+    });
+    graph.data(data);
+    graph.render();
+    const node0 = graph.getNodes()[0];
+    const node1 = graph.getNodes()[1];
+    graph.emit('node:click', { x: 100, y: 100, item: node0 });
+    graph.emit('mousemove', { x: 110, y: 110 });
+    expect(graph.getEdges().length).toEqual(1);
+    const edge = graph.getEdges()[0];
+
+    let stackData = graph.getStackData()
+    const { undoStack, redoStack } = stackData
+    expect(undoStack.length).toBe(1)
+    expect(redoStack.length).toBe(0)
+
+    // cancel
+    graph.emit('edge:click', { x: 100, y: 100, item: edge });
+    expect(graph.getEdges().length).toEqual(0);
+
+    // create
+    graph.emit('node:click', { x: 100, y: 100, item: node0 });
+    graph.emit('node:click', { x: 120, y: 120, item: node1 });
+    expect(graph.getEdges().length).toEqual(1);
+    stackData = graph.getStackData()
+    expect(stackData.undoStack.length).toBe(2)
+    expect(stackData.redoStack.length).toBe(0)
+
+    // loop
+    graph.emit('node:click', { x: 100, y: 100, item: node0 });
+    graph.emit('node:click', { x: 100, y: 100, item: node0 });
+    stackData = graph.getStackData()
+    expect(stackData.undoStack.length).toBe(3)
+    expect(stackData.redoStack.length).toBe(0)
+    expect(graph.getEdges().length).toEqual(2);
+    const loop = graph.getEdges()[1];
+    expect(loop.getModel().source).toEqual(loop.getModel().target);
     graph.destroy();
   });
 });

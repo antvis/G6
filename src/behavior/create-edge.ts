@@ -1,4 +1,5 @@
 import { G6Event, IG6GraphEvent, EdgeConfig } from '../types';
+import { IGraph } from '../interface/graph';
 
 const DEFAULT_TRIGGER = 'click';
 const ALLOW_EVENTS = ['click', 'drag'];
@@ -66,7 +67,7 @@ export default {
     const self = this;
     if (self.key && !self.keydown) return;
     const node = ev.item;
-    const graph = self.graph;
+    const graph: IGraph = self.graph;
     const model = node.getModel();
     // 如果起点已经指定而终点未指定，则指定终点
     if (self.addingEdge && self.edge) {
@@ -90,7 +91,7 @@ export default {
       self.edge = graph.addItem('edge', {
         source: model.id,
         target: model.id
-      });
+      }, false);
       self.source = model.id;
       self.addingEdge = true;
     }
@@ -104,14 +105,14 @@ export default {
       // 更新边的终点为鼠标位置
       self.graph.updateItem(self.edge, {
         target: point,
-      });
+      }, false);
     }
   },
   // 取消增加边，删除该边；或指定终点
   cancelCreating(ev: IG6GraphEvent) {
     const self = this;
     if (self.key && !self.keydown) return;
-    const graph = self.graph;
+    const graph: IGraph = self.graph;
     const currentEdge = ev.item;
     if (self.addingEdge && self.edge === currentEdge) {
       let cancelEdge = true;
@@ -147,7 +148,7 @@ export default {
           }
         }
       }
-      if (cancelEdge) graph.removeItem(self.edge);
+      if (cancelEdge) graph.removeItem(self.edge, false);
       self.edge = null;
       self.addingEdge = false;
     }
@@ -169,7 +170,7 @@ export default {
     const self = this;
     if (self.addingEdge && self.edge) {
       // 清除正在增加的边
-      self.graph.removeItem(self.edge);
+      self.graph.removeItem(self.edge, false);
       self.addingEdge = false;
       self.edge = null;
     }
