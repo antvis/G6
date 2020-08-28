@@ -1,6 +1,6 @@
 ---
 title: Custom Edge
-order: 2
+order: 3
 ---
 
 G6 provides abundant [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge). Besides, the custom machanism allows the users to design their own type of edges. An edge with complex graphics shapes, complex interactions, fantastic animations can be implemented easily.

@@ -1,6 +1,6 @@
 ---
 title: Plugins
-order: 11
+order: 6
 ---
 
 There are several plugins in G6 which can be used for G6's graph or other applications.

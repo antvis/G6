@@ -77,45 +77,47 @@ module.exports = {
       },
 
       {
-        slug: 'manual/middle/shape',
-        title: {
-          zh: '图形 Shape（选读）',
-          en: 'Shape',
-        },
-        order: 2,
-      },
-
-      {
         slug: 'manual/middle/elements',
         title: {
           zh: '图元素：节点/边/Combo',
           en: 'Graph Elements',
         },
+        order: 2,
+      },
+
+      {
+        slug: 'manual/middle/elements/shape',
+        title: {
+          zh: '图形 Shape（选读）',
+          en: 'Shape',
+        },
+        order: 1,
       },
       {
         slug: 'manual/middle/elements/nodes',
         title: {
           zh: '节点',
           en: 'Node',
-          order: 3,
         },
+        order: 2,
       },
       {
         slug: 'manual/middle/elements/edges',
         title: {
           zh: '边',
           en: 'Edge',
-          order: 4,
         },
+        order: 3,
       },
       {
         slug: 'manual/middle/elements/combos',
         title: {
           zh: 'Combo',
           en: 'Combo',
-          order: 5,
         },
+        order: 4,
       },
+
       {
         slug: 'manual/middle/elements/nodes/built-in',
         title: {
@@ -140,13 +142,14 @@ module.exports = {
         },
         order: 1,
       },
+
       {
         slug: 'manual/middle/elements/advanced-style',
         title: {
           zh: '高级样式',
           en: 'Advanced Style',
         },
-        order: 6,
+        order: 5,
       },
       {
         slug: 'manual/middle/elements/methods',
@@ -154,7 +157,7 @@ module.exports = {
           zh: '高级操作',
           en: 'Advanced operation',
         },
-        order: 7,
+        order: 6,
       },
 
       {
@@ -162,8 +165,8 @@ module.exports = {
         title: {
           zh: '图布局',
           en: 'Graph Layouts',
-          order: 8,
         },
+        order: 3,
       },
       {
         slug: 'manual/middle/states',
@@ -171,7 +174,7 @@ module.exports = {
           zh: '交互与事件',
           en: 'Behavior & Event',
         },
-        order: 9,
+        order: 4,
       },
       // ==============================
       {
