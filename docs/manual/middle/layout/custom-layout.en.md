@@ -1,6 +1,6 @@
 ---
 title: Custom Layout
-order: 8
+order: 5
 ---
 
 G6 provides abundant commonly used built-in layouts for Graph and TreeGraph respectively. The usage can be found in: [Utilizing Layout](/en/docs/manual/middle/layout), [Layout API](/en/docs/api/layout/Layout). Custom layout mechanism of G6 allows the users to design their own type of layout to meet their special requirements.

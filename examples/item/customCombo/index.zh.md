@@ -7,4 +7,4 @@ order: 6
 
 ## 使用指南
 
-下面示例展示了通过扩展内置的 Circle 和 Rect Combo，进行 Combo 的自定义。更多信息参见[自定义 Combo 文档](/zh/docs/manual/advanced/custom-combo)。
+下面示例展示了通过扩展内置的 Circle 和 Rect Combo，进行 Combo 的自定义。更多信息参见[自定义 Combo 文档](/zh/docs/manual/middle/elements/combos/custom-combo)。

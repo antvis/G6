@@ -7,7 +7,7 @@ Dagre Layout is an appropriate layout method for directed flow graph. It will ca
 
 ## Usage
 
-As the demo below, you can deploy it in `layout` while instantiating Graph. it can also be used for [Subgraph Layout](/en/docs/manual/middle/layout/#subgraph-layout). By tuning the parameters, you can adjust the layout direction, node alignment, node separation, level separation, and so on.
+As the demo below, you can deploy it in `layout` while instantiating Graph. it can also be used for [Subgraph Layout](/en/docs/manual/middle/layout/sub-layout). By tuning the parameters, you can adjust the layout direction, node alignment, node separation, level separation, and so on.
 
 - Example 1 : Simple dagre layout.
 - Example 2 : Dagre Layout with combos.

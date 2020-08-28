@@ -1,6 +1,6 @@
 ---
 title: 箭头
-order: 1
+order: 2
 ---
 
 无论是内置边还是[自定义边](/zh/docs/manual/advanced/custom-edge)，都可以为其配置起始端箭头与结束端箭头。G6 中的箭头分为默认箭头、内置箭头、自定义箭头。

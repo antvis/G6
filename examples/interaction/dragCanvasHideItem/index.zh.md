@@ -7,4 +7,4 @@ order: 13
 
 ## 使用指南
 
-配置内置交互 'drag-canvas' 的布尔型配置项 `enableOptimize`。详见[drag-canvas](/zh/docs/manual/middle/states/defaultBehavior#drag-canvas)。
+配置内置交互 'drag-canvas' 的布尔型配置项 `enableOptimize`。详见 [drag-canvas](/zh/docs/manual/middle/states/defaultBehavior#drag-canvas)。
