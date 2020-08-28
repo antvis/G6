@@ -48,6 +48,10 @@ const Tooltip = () => {
       const tooltip = new G6.Tooltip({
         offsetX: 0,
         offsetY: 100, // the height of the top div
+        shouldBegin: d => {
+          if (d.target.get('name') === 'text-shape') return true;
+          return false;
+        }
       });
       graph = new Graph({
         container: container.current as string | HTMLElement,
@@ -57,6 +61,9 @@ const Tooltip = () => {
         modes: {
           default: ['drag-canvas', 'zoom-canvas'],
         },
+        defaultNode: {
+          size: 50
+        }
       });
       graph.data(data);
       graph.render();
