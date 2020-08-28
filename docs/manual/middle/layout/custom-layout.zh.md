@@ -1,6 +1,6 @@
 ---
 title: 自定义布局 Layout
-order: 8
+order: 5
 ---
 
 G6 提供了一般图和树图的一些常用布局，使用方式参见：中级教程  [使用布局 Layout](/zh/docs/manual/middle/layout)，[Layout API](/zh/docs/api/layout/Layout)。当这些内置布局无法满足需求时，G6 还提供了一般图的自定义布局的机制，方便用户进行更定制化的扩展。

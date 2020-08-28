@@ -11,7 +11,7 @@ order: 0
   - 图形和属性
   - 关键图形（Key Shape）
   - 图形分组（Shape group) 
-  - 图形变换 （Transform ）
+  - 图形变换 （Transform）
 
 #### 图元素（节点、边、Combo)
   - 节点

@@ -1,6 +1,6 @@
 ---
 title: 自定义边
-order: 2
+order: 3
 ---
 
 G6 除了提供丰富的 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)  外，还提供了自定义边的机制，方便用户开发更加定制化的边，包括含有复杂图形的边、复杂交互的边、带有动画的边等。

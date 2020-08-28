@@ -16,4 +16,4 @@ Updating the control points of polyline while dragging the end nodes is an impor
 
 The third demo shows how to customize an edge with multiple labels.
 
-For more information, please refer to the document [Custom Edge](/en/docs/manual/advanced/custom-edge).
+For more information, please refer to the document [Custom Edge](/en/docs/manual/middle/elements/edges/custom-edge).

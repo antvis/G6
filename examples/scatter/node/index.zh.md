@@ -13,4 +13,4 @@ order: 0
 - 增加带有动画的背景图形；
 - 节点上部分图形的旋转动画。
 
-G6 中更多关于动画的内容，请参考[动画文档](/zh/docs/manual/advanced/animation)。
+G6 中更多关于动画的内容，请参考[动画文档](/zh/docs/manual/middle/animation)。

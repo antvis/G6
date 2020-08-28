@@ -13,4 +13,4 @@ order: 1
 - 虚线运动的效果；
 - 线从无到有的效果。
 
-G6 中更多关于动画的内容，请参考[动画文档](/zh/docs/manual/advanced/animation)。
+G6 中更多关于动画的内容，请参考[动画文档](/zh/docs/manual/middle/animation)。

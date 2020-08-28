@@ -7,4 +7,4 @@ order: 12
 
 ## 使用指南
 
-配置内置交互 'zoom-canvas' 的配置项 `fixSelectedItems`，`fixSelectedItems` 是一个对象，包括 `fixState`、`fixAll`、`fixLabel`、`fixLineWidth`，可达到在缩小画布时固定选定的元素的大小、文本大小、描边粗细。详见[zoom-canvas](/zh/docs/manual/middle/states/defaultBehavior#zoom-canvas)。
+配置内置交互 'zoom-canvas' 的配置项 `fixSelectedItems`，`fixSelectedItems` 是一个对象，包括 `fixState`、`fixAll`、`fixLabel`、`fixLineWidth`，可达到在缩小画布时固定选定的元素的大小、文本大小、描边粗细。详见 [zoom-canvas](/zh/docs/manual/middle/states/defaultBehavior#zoom-canvas)。

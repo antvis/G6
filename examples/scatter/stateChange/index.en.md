@@ -9,4 +9,4 @@ State of G6 includes interaction states and bussiness states.
 
 Animation is an important part of visualization. Users can realized complex animation by `onFrame`. The Demo below shows how to realized edge animation with interaction by states.
 
-For more information, please refer to document [Animation](/zh/docs/manual/advanced/animation)。
+For more information, please refer to document [Animation](/zh/docs/manual/middle/animation)。
