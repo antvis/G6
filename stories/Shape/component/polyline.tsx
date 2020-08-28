@@ -107,7 +107,7 @@ const Polyline = () => {
           align: 'UL',
           nodesep: 25,
           ranksep: 50,
-          controlPoints: true,
+          // controlPoints: true,
         },
         defaultEdge: {
           type: 'polyline',
@@ -142,7 +142,7 @@ const Polyline = () => {
           },
         },
         modes: {
-          default: ['drag-node'],
+          default: ['drag-node', 'drag-canvas', 'zoom-canvas'],
         },
       });
       graph.data(data);

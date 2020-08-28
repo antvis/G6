@@ -7,7 +7,7 @@ const data = {
     {
       id: '1',
       name: 'name1',
-      size: [10, 20]
+      size: [10, 20],
     },
     {
       id: '2',
@@ -140,8 +140,8 @@ const DagreLayout = () => {
             radius: 0,
             endArrow: {
               path: 'M 0,0 L 0,4 L 8,-4 Z',
-              fill: '#ddd'
-            }
+              fill: '#ddd',
+            },
           },
         },
         modes: {

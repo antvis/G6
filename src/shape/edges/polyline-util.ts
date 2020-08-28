@@ -2,13 +2,13 @@ import { each } from '@antv/util';
 import { INode, ICombo } from '../../interface/item';
 import { Point } from '@antv/g-base/lib/types';
 
-interface PolyPoint {
+export interface PolyPoint {
   x: number;
   y: number;
   id?: string;
 }
 
-type PBBox = Partial<{
+export type PBBox = Partial<{
   x: number;
   y: number;
   minX: number;
@@ -200,11 +200,15 @@ export const getBBoxYCrossPoints = (bbox: PBBox, y: number): PolyPoint[] => {
 export const getBBoxCrossPointsByPoint = (bbox: PBBox, point: PolyPoint): PolyPoint[] =>
   getBBoxXCrossPoints(bbox, point.x).concat(getBBoxYCrossPoints(bbox, point.y));
 
+/**
+ * 曼哈顿距离
+ */
 export const distance = (p1: PolyPoint, p2: PolyPoint): number =>
   Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y);
 
 /**
  * 如果 points 中的一个节点 x 与 p 相等，则消耗 -2。y 同
+ * 即优先选择和 points 在同一水平线 / 垂直线上的点
  */
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const _costByPoints = (p: PolyPoint, points: PolyPoint[]): number => {

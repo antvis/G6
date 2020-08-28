@@ -94,6 +94,7 @@ describe('polyline e test', () => {
       expect(keyShape.attr('lineWidth')).toEqual(1);
       expect(keyShape.attr('stroke')).toEqual('#e2e2e2');
     });
+
     it('polyline radius and no offset', () => {
       const data = {
         nodes: [
@@ -207,6 +208,61 @@ describe('polyline e test', () => {
       graph.destroy();
       expect(graph.destroyed).toBe(true);
     });
+
+    it('polyline using fallbackRoute', () => {
+      const graph = new Graph({
+        container: div,
+        width: 500,
+        height: 500,
+        defaultEdge: {
+          type: 'polyline',
+          routeCfg: {
+            maximumLoops: 0,
+          },
+        },
+        defaultNode: {
+          type: 'rect',
+          size: [100, 50],
+          style: {
+            opacity: 0.1,
+          },
+        },
+      });
+
+      const data = {
+        nodes: [
+          {
+            id: 'node1',
+            x: 200,
+            y: 200,
+          },
+          {
+            id: 'node2',
+            x: 150,
+            y: 100,
+          },
+        ],
+        edges: [
+          {
+            source: 'node1',
+            target: 'node2',
+            type: 'polyline',
+            style: {
+              radius: 10,
+            },
+          },
+        ],
+      };
+      graph.data(data);
+      graph.render();
+
+      const edges = graph.getEdges();
+      expect(edges.length).toEqual(1);
+      const edge = edges[0];
+      const keyShape = edge.getKeyShape();
+      expect(keyShape.attr('lineWidth')).toEqual(1);
+      expect(keyShape.attr('stroke')).toEqual('#e2e2e2');
+    });
   });
 
   describe('update', () => {
@@ -214,6 +270,9 @@ describe('polyline e test', () => {
       container: div,
       width: 500,
       height: 500,
+      modes: {
+        default: ['drag-node'],
+      },
     });
     it('styles', () => {
       const data = {
