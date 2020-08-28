@@ -1,6 +1,6 @@
 ---
 title: G6 3.3 Upgrade Guide
-order: 0
+order: 1
 ---
 
 ## The Built Outcomes of esm and commonjs

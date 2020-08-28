@@ -1,6 +1,6 @@
 ---
 title: Build 报错
-order: 10
+order: 9
 ---
 
 ## 问题

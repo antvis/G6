@@ -1,6 +1,6 @@
 ---
 title: Using G6 with IE
-order: 9
+order: 10
 ---
 
 ## Problem
