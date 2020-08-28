@@ -103,7 +103,7 @@ export default class Trend {
     const trendGroup = this.group.addGroup({
       name: 'trend-group'
     })
-    
+
     // 背景
     trendGroup.addShape('rect', {
       attrs: {
@@ -124,7 +124,7 @@ export default class Trend {
           ...lineStyle,
         },
       });
-  
+
       // 在 line 的基础上，绘制面积图
       if (isArea) {
         const areaPath = linePathToAreaPath(path, width, height, data);
