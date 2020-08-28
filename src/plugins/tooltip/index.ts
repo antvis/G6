@@ -185,6 +185,7 @@ export default class Tooltip extends Base {
   public hide() {
     this.onMouseLeave();
   }
+
   public destroy() {
     const tooltip = this.get('tooltip');
 
