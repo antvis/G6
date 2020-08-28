@@ -90,7 +90,7 @@ export function dataToRectPath(data: number[], width: number, height: number): a
   });
 
   const rectPoints = []
-  for(let i = 0; i < points.length; i++) {
+  for (let i = 0; i < points.length; i++) {
     const point = points[i]
     const param = {
       x: point[0],
@@ -190,7 +190,7 @@ export function getRectPoints(pointInfo): { x: number, y: number }[] {
  * @param isClosed path 是否需要闭合
  * @returns 返回矩形的 path
  */
-export function getRectPath(points: {x: number, y: number}[], isClosed: boolean = true) {
+export function getRectPath(points: { x: number, y: number }[], isClosed: boolean = true) {
   const path = [];
   const firstPoint = points[0];
   path.push(['M', firstPoint.x, firstPoint.y]);
