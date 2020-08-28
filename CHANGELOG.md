@@ -5,7 +5,8 @@
 - fix: hide the tooltip plugin when drag node and contextmenu, #1975;
 - fix: processParellelEdges without edge id problem;
 - fix: label background with left, right position problem, #1861;
-- fix: create-edge and redo undo problem, #1976；
+- fix: create-edge and redo undo problem, #1976;
+- fix: tooltip plugin with shouldBegin problem, closes #2006;
 - feat: improve the performance on the combos.
 
 #### 3.7.0
