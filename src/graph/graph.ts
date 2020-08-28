@@ -949,9 +949,12 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {ITEM_TYPE} type 元素类型(node | edge | group)
    * @param {ModelConfig} model 元素数据模型
    * @param {boolean} stack 本次操作是否入栈，默认为 true
+   * @param {boolean} sortCombo 本次操作是否需要更新 combo 层级顺序，内部参数，用户在外部使用 addItem 时始终时需要更新
    * @return {Item} 元素实例
    */
-  public addItem(type: ITEM_TYPE, model: ModelConfig, stack: boolean = true) {
+  public addItem(type: ITEM_TYPE, model: ModelConfig, stack: boolean = true, sortCombo: boolean = true) {
+    const currentComboSorted = this.get('comboSorted');
+    this.set('comboSorted', currentComboSorted && !sortCombo);
     const itemController: ItemController = this.get('itemController');
     if (type === 'group') {
       const { groupId, nodes, type: groupType, zIndex, title } = model;
@@ -1092,8 +1095,8 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {boolean} stack 本次操作是否入栈，默认为 true
    * @return {Item} 元素实例
    */
-  public add(type: ITEM_TYPE, model: ModelConfig, stack: boolean = true): Item {
-    return this.addItem(type, model, stack);
+  public add(type: ITEM_TYPE, model: ModelConfig, stack: boolean = true, sortCombo: boolean = true): Item {
+    return this.addItem(type, model, stack, sortCombo);
   }
 
   /**
@@ -1191,6 +1194,7 @@ export default class Graph extends EventEmitter implements IGraph {
    */
   public render(): void {
     const self = this;
+    this.set('comboSorted', false);
     const data: GraphData = this.get('data');
 
     if (this.get('enabledStack')) {
@@ -1209,7 +1213,7 @@ export default class Graph extends EventEmitter implements IGraph {
     this.emit('beforerender');
 
     each(nodes, (node: NodeConfig) => {
-      self.add('node', node, false);
+      self.add('node', node, false, false);
     });
 
     // process the data to tree structure
@@ -1221,7 +1225,7 @@ export default class Graph extends EventEmitter implements IGraph {
     }
 
     each(edges, (edge: EdgeConfig) => {
-      self.add('edge', edge, false);
+      self.add('edge', edge, false, false);
     });
 
     const animate = self.get('animate');
@@ -1342,6 +1346,7 @@ export default class Graph extends EventEmitter implements IGraph {
     if (!data) {
       return this;
     }
+    this.set('comboSorted', false);
 
     // 更改数据源后，取消所有状态
     this.getNodes().map((node) => self.clearItemStates(node));
@@ -1399,7 +1404,9 @@ export default class Graph extends EventEmitter implements IGraph {
     if (combosData) {
       // add combos
       self.addCombos(combosData);
-      if (!this.get('groupByTypes')) this.sortCombos();
+      if (!this.get('groupByTypes')) {
+        this.sortCombos();
+      }
     }
 
     this.set({ nodes: items.nodes, edges: items.edges });
@@ -1437,6 +1444,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param children 添加到 Combo 中的元素，包括节点和 combo
    */
   public createCombo(combo: string | ComboConfig, children: string[]): void {
+    this.set('comboSorted', false);
     // step 1: 创建新的 Combo
     let comboId = '';
     let comboConfig: ComboConfig;
@@ -1478,6 +1486,7 @@ export default class Graph extends EventEmitter implements IGraph {
 
     // step 2: 添加 Combo，addItem 时会将子将元素添加到 Combo 中
     this.addItem('combo', comboConfig, false);
+    this.set('comboSorted', false);
 
     // step3: 更新 comboTrees 结构
     const comboTrees = this.get('comboTrees');
@@ -1683,6 +1692,7 @@ export default class Graph extends EventEmitter implements IGraph {
    */
   public updateComboTree(item: string | INode | ICombo, parentId?: string | undefined) {
     const self = this;
+    this.set('comboSorted', false);
     let uItem: INode | ICombo;
     if (isString(item)) {
       uItem = self.findById(item) as INode | ICombo;
@@ -2888,6 +2898,9 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {GraphData} data 数据
    */
   private sortCombos() {
+    const comboSorted = this.get('comboSorted');
+    if (comboSorted) return;
+    this.set('comboSorted', true);
     const depthMap = [];
     const dataDepthMap = {};
     const comboTrees = this.get('comboTrees');
