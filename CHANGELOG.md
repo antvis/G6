@@ -1,5 +1,12 @@
 # ChangeLog
 
+#### 3.7.1
+
+- fix: hide the tooltip plugin when drag node and contextmenu, #1975;
+- fix: processParellelEdges without edge id problem;
+- fix: label background with left, right position problem, #1861;
+- fix: create-edge and redo undo problem, #1976.
+
 #### 3.7.0
 
 - feat: chart node;

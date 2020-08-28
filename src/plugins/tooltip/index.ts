@@ -6,6 +6,7 @@ import Graph from '../../graph/graph';
 import { IG6GraphEvent, Item } from '../../types';
 import Base, { IPluginBaseConfig } from '../base';
 import { IGraph } from '../../interface/graph';
+import edgeTooltip from '../../behavior/edge-tooltip';
 
 insertCss(`
   .g6-component-tooltip {
@@ -53,7 +54,7 @@ export default class Tooltip extends Base {
       shouldBegin: (e) => {
         return true;
       },
-      itemTypes: ['node', 'edge', 'combo'],
+      itemTypes: ['node', 'edge', 'combo']
     };
   }
 
@@ -67,6 +68,8 @@ export default class Tooltip extends Base {
       'edge:mouseleave': 'onMouseLeave',
       'edge:mousemove': 'onMouseMove',
       afterremoveitem: 'onMouseLeave',
+      'contextmenu': 'onMouseLeave',
+      'node:drag': 'onMouseLeave'
     };
   }
 
@@ -179,6 +182,9 @@ export default class Tooltip extends Base {
     });
   }
 
+  public hide() {
+    this.onMouseLeave();
+  }
   public destroy() {
     const tooltip = this.get('tooltip');
 

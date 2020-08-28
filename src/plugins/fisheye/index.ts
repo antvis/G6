@@ -203,9 +203,11 @@ export default class Fisheye extends Base {
       const ori = cachedOriginPositions[id];
       node.x = ori.x;
       node.y = ori.y;
-      ori.texts.forEach((text) => {
+      const textLength = ori.texts.length;
+      for (let j = 0; j < textLength; j++) {
+        const text = ori.texts[j];
         text.shape.set('visible', text.visible);
-      });
+      }
     }
     self.set('cachedMagnifiedModels', []);
     self.set('cachedOriginPositions', {});
