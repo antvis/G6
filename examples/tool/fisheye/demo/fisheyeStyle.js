@@ -98,7 +98,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
         .getContainer()
         .getChildren()
         .forEach((shape) => {
-          if (shape.get('type') === 'text') shape.set('visible', false);
+          if (shape.get('type') === 'text') shape.hide();
         });
     });
   });

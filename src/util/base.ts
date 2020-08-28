@@ -164,7 +164,7 @@ export const processParallelEdges = (edges, offsetDiff = 15) => {
         if (source === dst && target === src) {
           edgeMap[sourceTarget].push(sedge);
           tags[j] = true;
-          reverses[sedge.id] = true;
+          reverses[`${src}|${dst}|${edgeMap[sourceTarget].length - 1}`] = true;
         } else if (source === src && target === dst) {
           edgeMap[sourceTarget].push(sedge);
           tags[j] = true;
@@ -188,7 +188,7 @@ export const processParallelEdges = (edges, offsetDiff = 15) => {
         continue;
       }
       current.type = 'quadratic'
-      const sign = (k % 2 === 0 ? 1 : -1) * (reverses[current.id] ? -1 : 1);
+      const sign = (k % 2 === 0 ? 1 : -1) * (reverses[`${current.source}|${current.target}|${k}`] ? -1 : 1);
       if (length % 2 === 1) {
         current.curveOffset = sign * Math.ceil(k / 2) * cod;
       } else {

@@ -147,7 +147,7 @@ describe('zoom-canvas', () => {
     expect(matrix[7]).toEqual(10);
   });
 
-  it('zoom with optimize', () => {
+  it('zoom with optimize', done => {
     const graph = new Graph({
       container: div,
       width: 500,
@@ -161,14 +161,6 @@ describe('zoom-canvas', () => {
         ],
       },
     });
-
-    let e = createWheelEvent(graph.get('canvas').get('el'), 100, 100, 100);
-    graph.emit('wheel', e);
-    let matrix = graph.get('group').getMatrix();
-    expect(approximateEqual(matrix[0], 1.1)).toBe(true);
-    expect(approximateEqual(matrix[4], 1.1)).toBe(true);
-    expect(approximateEqual(matrix[6], -11.1)).toBe(true);
-    expect(approximateEqual(matrix[7], -11.1)).toBe(true);
 
     const data = {
       nodes: [
@@ -197,37 +189,49 @@ describe('zoom-canvas', () => {
     graph.data(data);
     graph.render();
 
+    let e = createWheelEvent(graph.get('canvas').get('el'), 100, 100, 100);
+    graph.emit('wheel', e);
+    let matrix = graph.get('group').getMatrix();
+    expect(approximateEqual(matrix[0], 1.1)).toBe(true);
+    expect(approximateEqual(matrix[4], 1.1)).toBe(true);
+    expect(approximateEqual(matrix[6], -11.1)).toBe(true);
+    expect(approximateEqual(matrix[7], -11.1)).toBe(true);
+
     // 默认 zoom=1，会显示所有元素
-    let node1 = graph.findById('node1');
-    let container = node1.getContainer();
-    container.get('children').map((child) => {
-      expect(child.get('visible')).toBe(true);
-    });
+    setTimeout(() => {
+      let node1 = graph.findById('node1');
+      let container = node1.getContainer();
+      container.get('children').map((child) => {
+        expect(child.get('visible')).toBe(true);
+      });
 
-    graph.zoom(0.5);
-    e = createWheelEvent(graph.get('canvas').get('el'), 100, 100, 100);
-    graph.emit('wheel', e);
+      graph.zoom(0.5);
+      e = createWheelEvent(graph.get('canvas').get('el'), 100, 100, 100);
+      graph.emit('wheel', e);
 
-    // 只显示 keyShape
-    node1 = graph.findById('node1');
-    container = node1.getContainer();
-    expect(node1.getKeyShape().get('visible')).toBe(true);
-    container.get('children').map((child) => {
-      if (!child.get('isKeyShape')) {
-        expect(child.get('visible')).toBe(false);
-      }
-    });
+      // 只显示 keyShape
+      node1 = graph.findById('node1');
+      container = node1.getContainer();
+      expect(node1.getKeyShape().get('visible')).toBe(true);
+      container.get('children').map((child) => {
+        if (!child.get('isKeyShape')) {
+          expect(child.get('visible')).toBe(false);
+        }
+      });
+      graph.zoomTo(1);
+      e = createWheelEvent(graph.get('canvas').get('el'), 100, 100, 100);
+      graph.emit('wheel', e);
+      setTimeout(() => {
+        node1 = graph.findById('node1');
+        container = node1.getContainer();
+        container.get('children').map((child) => {
+          expect(child.get('visible')).toBe(true);
+        });
+        graph.destroy();
+        done()
+      }, 550);
 
-    graph.zoomTo(1);
-    e = createWheelEvent(graph.get('canvas').get('el'), 100, 100, 100);
-    graph.emit('wheel', e);
-    node1 = graph.findById('node1');
-    container = node1.getContainer();
-    container.get('children').map((child) => {
-      expect(child.get('visible')).toBe(true);
-    });
-
-    graph.destroy();
+    }, 550);
   });
   it('zoom and fix items with fixAll', () => {
     const graph = new Graph({

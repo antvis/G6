@@ -50,6 +50,8 @@ const graph = new G6.Graph({
   height,
   // translate the graph to align the canvas's center, support by v3.5.1
   fitCenter: true,
+  // the edges are linked to the center of source and target ndoes
+  linkCenter: true,
   defaultNode: {
     type: 'circle',
     size: [40],
