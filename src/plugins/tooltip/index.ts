@@ -87,9 +87,8 @@ export default class Tooltip extends Base {
   }
 
   onMouseEnter(e: IG6GraphEvent) {
-    const shouldBegin = this.get('shouldBegin');
-    if (!shouldBegin(e)) return;
     const itemTypes = this.get('itemTypes');
+
     if (e.item && e.item.getType && itemTypes.indexOf(e.item.getType()) === -1) return;
     const { item } = e;
     const graph: IGraph = this.get('graph');
@@ -99,8 +98,6 @@ export default class Tooltip extends Base {
   }
 
   onMouseMove(e: IG6GraphEvent) {
-    const shouldBegin = this.get('shouldBegin');
-    if (!shouldBegin(e)) return;
     const itemTypes = this.get('itemTypes');
     if (e.item && e.item.getType && itemTypes.indexOf(e.item.getType()) === -1) return;
     if (!this.currentTarget || e.item !== this.currentTarget) {
@@ -117,12 +114,11 @@ export default class Tooltip extends Base {
   }
 
   showTooltip(e: IG6GraphEvent) {
-    const shouldBegin = this.get('shouldBegin');
-    if (!shouldBegin(e)) return;
     if (!e.item) {
       return;
     }
     const itemTypes = this.get('itemTypes');
+
     if (e.item.getType && itemTypes.indexOf(e.item.getType()) === -1) return;
 
     const container = this.get('tooltip');
@@ -146,11 +142,18 @@ export default class Tooltip extends Base {
   }
 
   updatePosition(e: IG6GraphEvent) {
+    const shouldBegin = this.get('shouldBegin');
+    const tooltip = this.get('tooltip');
+    if (!shouldBegin(e)) {
+      modifyCSS(tooltip, {
+        visibility: 'hidden',
+      });
+      return
+    };
     const graph: Graph = this.get('graph');
     const width: number = graph.get('width');
     const height: number = graph.get('height');
 
-    const tooltip = this.get('tooltip');
 
     const offsetX = this.get('offsetX') || 0;
     const offsetY = this.get('offsetY') || 0;
