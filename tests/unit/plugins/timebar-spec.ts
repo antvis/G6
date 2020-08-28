@@ -1,4 +1,5 @@
 import G6 from '../../../src';
+import TimeBar from '../../../src/plugins/timeBar/timeBar'
 const div = document.createElement('div');
 div.id = 'timebar-plugin';
 document.body.appendChild(div);
@@ -176,3 +177,146 @@ describe('TimeBar', () => {
     graph.destroy();
   });
 });
+
+describe.only('timeline play with timebar', () => {
+  it('timeline render', () => {
+    const data = {
+      nodes: [
+        {
+          id: 'node1',
+          x: 100,
+          y: 100
+        }
+      ]
+    }
+    const timeBarData = [];
+
+    for (let i = 0; i < 100; i++) {
+      timeBarData.push({
+        date: i,
+        value: Math.round(Math.random() * 300),
+      });
+    }
+
+    const TrendData = [
+      21,
+      13,
+      19,
+      25,
+      18,
+      4,
+      21,
+      19,
+      22,
+      26,
+      3,
+      13,
+      5,
+      23,
+      24,
+      9,
+      29,
+      2,
+      27,
+      26,
+      29,
+      7,
+      19,
+      29,
+      15,
+      3,
+      9,
+      11,
+      29,
+      30,
+      4,
+      24,
+      23,
+      16,
+      21,
+      7,
+      24,
+      19,
+      18,
+      16,
+      1,
+      15,
+      27,
+      13,
+      23,
+      16,
+      4,
+      1,
+      1,
+      20,
+    ];
+    
+    const timeLine = new TimeBar({
+      x: 0,
+      y: 0,
+      width: 500,
+      height: 200,
+      trend: {
+        data: timeBarData,
+        isArea: true,
+        areaStyle: {
+          fill: 'pink'
+        },
+        lineStyle: {
+          stroke: 'green',
+          lineWidth: 3
+        },
+        slider: {
+          backgroundStyle: {
+            fill: 'blue',
+            opacity: 0.2
+          },
+          foregroundStyle: {
+            fill: 'yellow'
+          },
+          textStyle: {
+            fill: 'red',
+            fontSize: 16,
+          },
+          handlerStyle: {
+            style: {
+              fill: 'green',
+              stroke: 'red'
+            }
+          }
+        }
+      },
+      timeline: {
+        ticks: TrendData,
+        
+      }
+      // loop: true
+    })
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      // renderer: 'svg',
+      plugins: [timeLine],
+      modes: {
+        default: ['drag-node', 'zoom-canvas', 'drag-canvas'],
+      },
+      defaultEdge: {
+        style: {
+          lineAppendWidth: 20,
+        },
+      },
+    });
+
+    graph.data(data);
+    graph.render();
+    console.log(graph)
+    // graph.on('sliderchange', evt => {
+    //   console.log('范围', evt)
+    // })
+
+    // graph.on('timelinechange', evt => {
+    //   console.log('timeline', evt)
+    // })
+  })
+})
