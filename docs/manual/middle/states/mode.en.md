@@ -53,7 +53,7 @@ Now, the graph supports clicking to select nodes. The `'drag-canvas'` and `'zoom
 
 ## Edit Mode
 
-If there are existing Behaviors ([Built-in Behavior](/en/docs/manual/middle/states/defaultBehavior) or [Custom Behavior](/en/docs/manual/advanced/custom-behavior)), You can add them to a mode by `graph.addBehaviors`, and also remove some Behaviors by `graph.removeBehaviors`:
+If there are existing Behaviors ([Built-in Behavior](/en/docs/manual/middle/states/defaultBehavior) or [Custom Behavior](/en/docs/manual/middle/states/custom-behavior)), You can add them to a mode by `graph.addBehaviors`, and also remove some Behaviors by `graph.removeBehaviors`:
 
 ```javascript
 // Add drag-canvas with configurations from default mode
@@ -84,4 +84,4 @@ graph.removeBehaviors(['drag-canvas', 'zoom-canvas'], 'default');
 ## Related Reading
 
 - [Built-in Behavior](/en/docs/manual/middle/states/defaultBehavior)
-- [Custom Behavior](/en/docs/manual/advanced/custom-behavior)
+- [Custom Behavior](/en/docs/manual/middle/states/custom-behavior)

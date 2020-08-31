@@ -184,7 +184,7 @@ graph.render(); // Render the graph
 
 We provide a demo about using G6 with React: <a href='https://github.com/baizn/g6-in-react' target='_blank'>Demo</a>.
 
-For more information about it, please refer to [Using G6 with React](/en/docs/manual/middle/g6InReact). Welcome the <a href='https://github.com/antvis/g6/issues' target='_blank'>Issues</a>.
+For more information about it, please refer to [Using G6 with React](/en/docs/manual/advanced/g6InReact). Welcome the <a href='https://github.com/antvis/g6/issues' target='_blank'>Issues</a>.
 
 ## More
 
@@ -197,4 +197,4 @@ In this chapter, we only briefly introduce the installation and usage. In G6 Tut
 - Configure the animation;
 - The usage of components.
 
-For more advanced functions, please refer to [Key Concepts](/en/docs/manual/middle/graph) and [Advanced Guides](/en/docs/manual/advanced/keyconcept/shape-and-properties).
+For more advanced functions, please refer to [Key Concepts](/en/docs/manual/middle/graph) and [Advanced Guides](/en/docs/manual/middle/elements/shape/shape-and-properties).

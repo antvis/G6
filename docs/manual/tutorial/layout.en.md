@@ -87,7 +87,7 @@ The result:
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AXrdQIm3oCIAAAAAAAAAAABkARQnAQ' width=350 alt='img' />
 <br />
 
-> Transformation between different layouts and configurations are described in: [Layout Transformation](/en/docs/manual/middle/layout/#layout-transformation-mechanism).
+> Transformation between different layouts and configurations are described in: [Layout Transformation](/en/docs/manual/middle/layout/layout-mechanism).
 
 **Tips:** <br />The layout algorithm will be executed in `graph.render()`.
 

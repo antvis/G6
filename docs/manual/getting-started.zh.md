@@ -184,7 +184,7 @@ graph.render(); // 渲染图
 
 如果你想在 React 中使用 G6 ，可以参考我们提供了的 React 中使用 G6 的 <a href='https://github.com/baizn/g6-in-react' target='_blank'>Demo</a>。
 
-更多关于 React 中如何使用 G6，请参考 [React 中使用 G6 的文档](/zh/docs/manual/middle/g6InReact)。有任何问题都可以通过页面底部的钉钉交流群和我们沟通，也非常欢迎给我们提 issues 或 PR： <a href='https://github.com/antvis/g6/tree/master' target='_blank'>https://github.com/antvis/g6/tree/master</a>。
+更多关于 React 中如何使用 G6，请参考 [React 中使用 G6 的文档](/zh/docs/manual/advanced/g6InReact)。有任何问题都可以通过页面底部的钉钉交流群和我们沟通，也非常欢迎给我们提 issues 或 PR： <a href='https://github.com/antvis/g6/tree/master' target='_blank'>https://github.com/antvis/g6/tree/master</a>。
 
 ## 更多
 
@@ -197,4 +197,4 @@ graph.render(); // 渲染图
 - 增加动画；
 - 使用辅助组件。
 
-想了解更高阶的功能，请参见 [G6 核心概念](/zh/docs/manual/middle/graph)，[G6 高级指引](/zh/docs/manual/advanced/keyconcept/shape-and-properties)。
+想了解更高阶的功能，请参见 [G6 核心概念](/zh/docs/manual/middle/graph)，[G6 高级指引](/zh/docs/manual/middle/elements/shape/shape-and-properties)。

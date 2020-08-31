@@ -52,7 +52,7 @@ const data = {
 
 #### update / updateItem
 
-This is a way for updating the [keyShape](/en/docs/manual/middle/elements/shape-keyshape) of a node or an edge.
+This is a way for updating the [keyShape](/en/docs/manual/middle/elements/shape/shape-keyshape) of a node or an edge.
 
 ```javascript
 graph.updateItem(node, {

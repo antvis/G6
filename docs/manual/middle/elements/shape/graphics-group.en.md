@@ -3,10 +3,10 @@ title: Graphics Group
 order: 2
 ---
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️Attention:</strong> </span> <br />Graphics Group and [Node Group](/en/docs/manual/middle/nodeGroup) are totally different concepts with the same name Group.
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️Attention:</strong> </span> <br />Graphics Group and [Node Group](/en/docs/manual/middle/discard/nodeGroup) are totally different concepts with the same name Group.
 
-- Graphics Group is the group for [Graphics Shape](/en/docs/manual/middle/elements/shape-keyshape);
-- [Node Group](/en/docs/manual/middle/nodeGroup) is the group for [Node](/en/docs/manual/middle/elements/nodes/defaultNode)s, which is related to the hierarchy and groups in the data.
+- Graphics Group is the group for [Graphics Shape](/en/docs/manual/middle/elements/shape/shape-keyshape);
+- [Node Group](/en/docs/manual/middle/discard/nodeGroup) is the group for [Node](/en/docs/manual/middle/elements/nodes/defaultNode)s, which is related to the hierarchy and groups in the data.
 
 <br />
 
@@ -24,7 +24,7 @@ In G6, all the nodes instances in a Graph is grouped by a Group named `nodeGroup
 
 ## When
 
-Graphics Group is refered by [Custom Node](/en/docs/manual/advanced/custom-node) and [Custom Edge](/en/docs/manual/advanced/custom-edge). It is a mechanism to combine and manage the graphis shapes.
+Graphics Group is refered by [Custom Node](/en/docs/manual/middle/elements/nodes/custom-node) and [Custom Edge](/en/docs/manual/middle/elements/edges/custom-edge). It is a mechanism to combine and manage the graphis shapes.
 
 <br />For example, there is a node A which has a group contains all the graphics shapes (a circle and a text shape) of A. Node B is a custom node which also has a group contains all the graphics shapes (a circle, a rect, and a text shape) of B.<br />
 
@@ -35,7 +35,7 @@ Graphics Group is refered by [Custom Node](/en/docs/manual/advanced/custom-node)
 
 ## How
 
-The functions below will be used in [Custom Node](/en/docs/manual/advanced/custom-node) and [Custom Edge](/en/docs/manual/advanced/custom-edge).
+The functions below will be used in [Custom Node](/en/docs/manual/middle/elements/nodes/custom-node) and [Custom Edge](/en/docs/manual/middle/elements/edges/custom-edge).
 
 ### Get group of item
 

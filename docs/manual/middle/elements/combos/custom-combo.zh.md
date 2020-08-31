@@ -9,7 +9,7 @@ G6 提供了一系列[内置 Combo](/zh/docs/manual/middle/elements/combos/defau
 
 ## Combo 接口
 
-通过 [图形 Shape](/zh/docs/manual/middle/elements/shape-keyshape) 章节的学习，我们应该已经知道了自定义 Combo 时需要满足以下两点：
+通过 [图形 Shape](/zh/docs/manual/middle/elements/shape/shape-keyshape) 章节的学习，我们应该已经知道了自定义 Combo 时需要满足以下两点：
 
 - 控制 Combo 的生命周期；
 - 解析用户输入的数据，在图形上展示。

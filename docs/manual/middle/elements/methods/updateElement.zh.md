@@ -52,7 +52,7 @@ const data = {
 
 #### 使用 update / updateItem
 
-使用 `update` / `updateItem` 更新节点或边。此方法用于动态更新节点或边的 [keyShape](/zh/docs/manual/middle/elements/shape-keyshape)。
+使用 `update` / `updateItem` 更新节点或边。此方法用于动态更新节点或边的 [keyShape](/zh/docs/manual/middle/elements/shape/shape-keyshape)。
 
 ```javascript
 graph.updateItem(node, {

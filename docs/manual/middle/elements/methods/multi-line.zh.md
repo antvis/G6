@@ -113,7 +113,7 @@ const data = {
 
 ## 解决方案
 
-这个时候，需要借助 G6 的 [自定义边](/zh/docs/manual/advanced/custom-edge) 功能。
+这个时候，需要借助 G6 的 [自定义边](/zh/docs/manual/middle/elements/edges/custom-edge) 功能。
 
 有了这个黑科技，什么样的需求，那还不是分分钟的事。
 

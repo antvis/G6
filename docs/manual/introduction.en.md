@@ -101,7 +101,7 @@ For more information about the usage, please refer to [Getting Started](/en/docs
 
 - [Tutorial](/en/docs/manual/tutorial/preface)
 - [Key Concepts](/en/docs/manual/middle/graph)
-- [Advanced Guides](/en/docs/manual/advanced/keyconcept/shape-and-properties)
+- [Advanced Guides](/en/docs/manual/middle/elements/shape/shape-and-properties)
 - [API Reference](/en/docs/api/Graph)
 
 ## Links
