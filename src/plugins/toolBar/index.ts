@@ -192,7 +192,7 @@ export default class ToolBar extends Base {
       let { action, data } = currentData;
       graph.pushStack(action, clone(data), 'redo');
 
-      if (undoStack.length > 0) {
+      if (undoStack.length > 0 && (action === 'render' || action === 'update')) {
         const current = undoStack.peek();
         action = current.action;
         data = current.data;
