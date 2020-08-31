@@ -22,8 +22,8 @@ G6 has these shapes:
 
 | Name | Type | Example | Description |
 | --- | --- | --- | --- |
-| fill | String | - 'rgb(18, 150, 231)' <br/> - '#c193af' <br/>- 'l(0) 0:#ffffff 0.5:#7ec2f3 1:#1890ff' <br/>- 'r(0.5, 0.5, 0.1) 0:#ffffff 1:#1890ff' | The color(RGB or Hex) or [gradient](/en/docs/manual/FAQ/gradient#gatsby-focus-wrapper) color for filling. The corresponding property in canvas is `fillStyle`. |
-| stroke | String | - 'rgb(18, 150, 231)' <br/> - '#c193af' <br/>- 'l(0) 0:#ffffff 0.5:#7ec2f3 1:#1890ff' <br/>- 'r(0.5, 0.5, 0.1) 0:#ffffff 1:#1890ff' | The color(RGB or Hex) or [gradient](/en/docs/manual/FAQ/gradient#gatsby-focus-wrapper) color for stroke. The corresponding property in canvas is `strokeStyle`. |
+| fill | String | - 'rgb(18, 150, 231)' <br/> - '#c193af' <br/>- 'l(0) 0:#ffffff 0.5:#7ec2f3 1:#1890ff' <br/>- 'r(0.5, 0.5, 0.1) 0:#ffffff 1:#1890ff' | The color(RGB or Hex) or [gradient](/en/docs/manual/middle/elements/advanced-style/gradient) color for filling. The corresponding property in canvas is `fillStyle`. |
+| stroke | String | - 'rgb(18, 150, 231)' <br/> - '#c193af' <br/>- 'l(0) 0:#ffffff 0.5:#7ec2f3 1:#1890ff' <br/>- 'r(0.5, 0.5, 0.1) 0:#ffffff 1:#1890ff' | The color(RGB or Hex) or [gradient](/en/docs/manual/middle/elements/advanced-style/gradient) color for stroke. The corresponding property in canvas is `strokeStyle`. |
 | lineWidth | Number | 2 | The width of the stroke. |
 | lineDash | Number/ Number[] | [5, 10] | The lineDash of the stroke | Number[] are the lengths of the lineDash. |
 | shadowColor | String | 'rgb(18, 150, 231)' / '#c193a1' | The color for shadow. |

@@ -106,7 +106,7 @@ There are some commonly used configurations. For complete configurations, please
 
 - `renderer`
 
-Type: String; Default: 'canvas', the value could be 'canvas' or 'svg'. Render the graph with Canvas or SVG. _It is supported expecting V3.3.x._ SVG rendering in G6 supports all the functions in Canvas rendering. We all known that the performance of SVG is not good as canvas. So use Canvas rendering in the case of large data instead. Expect for default nodes and edges and graphics shapes used in custom node and edge as Canvas version, SVG also supports `'dom'` shape when customing node or edge. Detials are in [Custom Node with Dom](/en/docs/manual/middle/elements/nodes/custom-node/#5-custom-node-with-dom).
+Type: String; Default: 'canvas', the value could be 'canvas' or 'svg'. Render the graph with Canvas or SVG. *It is supported expecting V3.3.x.* SVG rendering in G6 supports all the functions in Canvas rendering. We all known that the performance of SVG is not good as canvas. So use Canvas rendering in the case of large data instead. Expect for default nodes and edges and graphics shapes used in custom node and edge as Canvas version, SVG also supports `'dom'` shape when customing node or edge. Detials are in [Custom Node with Dom](/en/docs/manual/middle/elements/nodes/custom-node#5-custom-node-with-dom).
 
 #### Auto Fit
 

@@ -539,7 +539,7 @@ graph.removeItem(item, false);
 
 当源数据中**现有**节点/边/ Combo 的数据项发生配置的变更时，根据新数据刷新视图。
 
-注意：节点/边/ Combo 数据的增删需要使用 [graph.addItem](./Graph#additemtype-model) / [graph.removeItem](./Graph#removeitemitem) 或 [graph.changeData](./Graph#changedatadata)。
+注意：节点/边/ Combo 数据的增删需要使用 [graph.addItem](#additemtype-model) / [graph.removeItem](#removeitemitem) 或 [graph.changeData](#changedatadata)。
 
 该方法无参数。
 
@@ -796,7 +796,11 @@ graph.hideItem('nodeId');
 
 ### setItemState(item, state, value)
 
+<<<<<<< HEAD
 设置元素状态。支持单个状态多值的情况，详情参考 [G6 状态管理最佳实践](/zh/docs/manual/middle/advanced/state-new)。
+=======
+设置元素状态。支持单个状态多值的情况，详情参考 [G6 状态管理最佳实践](/zh/docs/manual/advanced/state-new)。
+>>>>>>> docs: update url in api and demos.
 
 该方法在执行过程中会触发 `beforitemstatechange`，`afteritemstatechange` 事件。
 

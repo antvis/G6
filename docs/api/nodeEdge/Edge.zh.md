@@ -3,7 +3,7 @@ title: Edge
 order: 2
 ---
 
-Edge 继承自 Item。所以 Item 的方法在 Edge 实例中都可以使用。本文仅介绍 Edge 类的通用方法，内置节点见 [内置节点文档](/zh/docs/manual/middle/elements/edges/defaultEdge) 和 [demo](/zh/examples/item/defaultEdges)，自定义节点见 [自定义节点文档](/zh/docs/manual/middle/elements/edges/custom-edge) 和 [demo](/zh/examples/item/customEdge)。
+Edge 继承自 Item。所以 Item 的方法在 Edge 实例中都可以使用。本文仅介绍 Edge 类的通用方法，内置边见 [内置边文档](/zh/docs/manual/middle/elements/edges/defaultEdge) 和 [demo](/zh/examples/item/defaultEdges)，自定义节点见 [自定义边文档](/zh/docs/manual/middle/elements/edges/custom-edge) 和 [demo](/zh/examples/item/customEdge)。
 
 ## setSource(source)
 
