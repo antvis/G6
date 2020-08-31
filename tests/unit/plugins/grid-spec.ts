@@ -26,8 +26,8 @@ describe('grid', () => {
 
     const style = container.style;
     expect(style.overflow).toEqual('hidden');
-    expect(style.top).toEqual('0px');
-    expect(style.left).toEqual('0px');
+    expect(style.left).toEqual('8px');
+    // expect(style.top).toEqual('60px'); // it changes with the specs ran before this one
 
     const gridContainer: HTMLDivElement = container.childNodes[0] as HTMLDivElement;
 
