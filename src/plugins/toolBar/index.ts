@@ -188,7 +188,6 @@ export default class ToolBar extends Base {
     }
 
     const currentData = undoStack.pop();
-    debugger
     if (currentData) {
       let { action, data } = currentData;
       graph.pushStack(action, clone(data), 'redo');
@@ -222,7 +221,6 @@ export default class ToolBar extends Base {
           break;
         }
         case 'add':
-          console.log('redo data', data)
           graph.removeItem(data.id, false);
           break;
         default:

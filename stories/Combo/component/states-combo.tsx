@@ -154,7 +154,6 @@ G6.registerBehavior("click_selected", {
 
   onComboClick(e) {
     const target = e.item;
-    debugger
     this.clearStatus(target);
     this.graph.setItemState(target, "selected", true);
   },
@@ -250,7 +249,7 @@ G6.registerBehavior("click-add-edge", {
         self.graph.updateItem(self.edge, {
           target: point
         });
-      } catch (err) {}
+      } catch (err) { }
     }
   },
 
@@ -280,7 +279,7 @@ G6.registerBehavior("click-add-edge", {
       }
     }
   },
-  onComboDrop(ev) {}
+  onComboDrop(ev) { }
 });
 
 const ComboState = () => {
@@ -295,10 +294,10 @@ const ComboState = () => {
         groupByTypes: false,
         modes: {
           default: ["click_selected",
-          "click-add-edge",
-          "drag-node",
-          "drag-canvas",
-          "drag-combo"]
+            "click-add-edge",
+            "drag-node",
+            "drag-canvas",
+            "drag-combo"]
         },
         defaultCombo: {
           type: 'cRect',
@@ -377,7 +376,7 @@ const ComboState = () => {
 
   const handleDeleteNode = () => {
     const node = graph.findAllByState("node", "selected");
-    
+
     if (node.length > 0) {
       const item = node[0]._cfg.id;
       graph.removeItem(item);
