@@ -7,6 +7,7 @@
 - fix: label background with left, right position problem, #1861;
 - fix: create-edge and redo undo problem, #1976;
 - fix: tooltip plugin with shouldBegin problem, closes #2006;
+- fix: the position of grid plugins when there is something on the top of the canvas, closes: #2012;
 - feat: improve the performance on the combos.
 
 #### 3.7.0

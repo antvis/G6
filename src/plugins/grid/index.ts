@@ -47,13 +47,15 @@ export default class Grid extends Base {
     modifyCSS(container, {
       width: `${width}px`,
       height: `${height}px`,
+      left: `${graphContainer.offsetLeft}px`,
+      top: `${graphContainer.offsetTop}px`,
     });
 
     modifyCSS(gridContainer, {
       width: `${width / minZoom}px`,
       height: `${height / minZoom}px`,
-      left: 0,
-      top: 0,
+      left: `0px`,
+      top: `0px`,
     });
 
     graphContainer.insertBefore(container, canvas);
