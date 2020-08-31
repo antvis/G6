@@ -32,7 +32,7 @@ const graph = new G6.Graph({
 
 ## 元素动画
 
-由于 G6 的内置节点和边是没有动画的，需要实现节点和边上的动画需要通过[自定义节点](/zh/docs/manual/advanced/custom-node)、[自定义边](/zh/docs/manual/advanced/custom-edge)时复写  `afterDraw`  实现。
+由于 G6 的内置节点和边是没有动画的，需要实现节点和边上的动画需要通过[自定义节点](/zh/docs/manual/middle/elements/nodes/custom-node)、[自定义边](/zh/docs/manual/middle/elements/edges/custom-edge)时复写  `afterDraw`  实现。
 
 ### 节点动画
 

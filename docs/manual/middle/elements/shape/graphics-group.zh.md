@@ -3,10 +3,10 @@ title: 图形分组 Group
 order: 2
 ---
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️ 注意:</strong></span> <br /> 图形分组 Group 与 [节点分组 Group](/zh/docs/manual/middle/nodeGroup) 虽然都名为 Group，但属于不同层次的概念。
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️ 注意:</strong></span> <br /> 图形分组 Group 与 [节点分组 Group](/zh/docs/manual/middle/discard/nodeGroup) 虽然都名为 Group，但属于不同层次的概念。
 
-- 图形分组针对 [图形 Shape](/zh/docs/manual/middle/elements/shape-keyshape) 层次的分组；
-- [节点分组 Group](/zh/docs/manual/middle/nodeGroup)  是针对 [节点](/zh/docs/manual/middle/elements/nodes/defaultNode) 的分组，与数据结构中的层次、分组对应。
+- 图形分组针对 [图形 Shape](/zh/docs/manual/middle/elements/shape/shape-keyshape) 层次的分组；
+- [节点分组 Group](/zh/docs/manual/middle/discard/nodeGroup)  是针对 [节点](/zh/docs/manual/middle/elements/nodes/defaultNode) 的分组，与数据结构中的层次、分组对应。
 
 <br />
 
@@ -22,7 +22,7 @@ order: 2
 
 ## 何时使用图形分组 Group
 
-[自定义节点](/zh/docs/manual/advanced/custom-node)、[自定义边](/zh/docs/manual/advanced/custom-edge)时将会涉及到图形分组 Group 的概念。图形分组 Group 方便了用户对节点或边上元素的组合和管理。<br />例如，如下图中的节点 A 有一个包含节点 A 中所有图形的 group，该 group 中包含了一个 circle 图形和一个文本图形。节点 B 是一个自定义节点，有一个包含节点 B 中所有图形的 group，该 group 包含了 circle 图形、rect 图形、文本图形。<br />
+[自定义节点](/zh/docs/manual/middle/elements/nodes/custom-node)、[自定义边](/zh/docs/manual/middle/elements/edges/custom-edge)时将会涉及到图形分组 Group 的概念。图形分组 Group 方便了用户对节点或边上元素的组合和管理。<br />例如，如下图中的节点 A 有一个包含节点 A 中所有图形的 group，该 group 中包含了一个 circle 图形和一个文本图形。节点 B 是一个自定义节点，有一个包含节点 B 中所有图形的 group，该 group 包含了 circle 图形、rect 图形、文本图形。<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GnVoSIGkXhsAAAAAAAAAAABkARQnAQ' alt='img' width='100'/>
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iQXZTZCX9LEAAAAAAAAAAABkARQnAQ' alt='img' width='100'/>
@@ -31,7 +31,7 @@ order: 2
 
 ## 如何使用图形分组 Group
 
-图形分组一般会在[自定义节点](/zh/docs/manual/advanced/custom-node)、[自定义边](/zh/docs/manual/advanced/custom-edge)时用到。Group 的完整实例方法请参考[Graphics Group API](/zh/docs/api/Group)。
+图形分组一般会在[自定义节点](/zh/docs/manual/middle/elements/nodes/custom-node)、[自定义边](/zh/docs/manual/middle/elements/edges/custom-edge)时用到。Group 的完整实例方法请参考[Graphics Group API](/zh/docs/api/Group)。
 
 ### 获取元素的 group
 

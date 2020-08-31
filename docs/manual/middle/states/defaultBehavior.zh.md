@@ -9,7 +9,7 @@ Behavior 是 G6 提供的定义图上交互事件的机制。它与[交互模式
 
 ## 内置 Behavior
 
-理论上， G6 上的所有基础图形、Item（节点/边）都能通过事件来进行操作。考虑到通用性，G6 目前共提供了以下 14 个内置的 Behavior。此外，用户可以注册 [自定义 Behavior](/zh/docs/manual/advanced/custom-behavior)。
+理论上， G6 上的所有基础图形、Item（节点/边）都能通过事件来进行操作。考虑到通用性，G6 目前共提供了以下 14 个内置的 Behavior。此外，用户可以注册 [自定义 Behavior](/zh/docs/manual/middle/states/custom-behavior)。
 
 ### drag-combo
 
@@ -669,7 +669,6 @@ const graph = new G6.Graph({
 - 相关时机事件：
   - `'aftercreateedge'`：当边创建完成时将会触发该时机事件。使用 `graph.on('aftercreateedge', e => {...})` 监听。其参数 `e` 中的 `edge` 字段即为刚刚创建的边。
 
-
 **使用默认配置**
 
 ```javascript
@@ -678,7 +677,7 @@ const graph = new G6.Graph({
     default: ['create-edge'],
   },
 });
-graph.on('aftercreateedge', e => {
+graph.on('aftercreateedge', (e) => {
   console.log(e.edge);
 });
 ```
@@ -689,12 +688,13 @@ graph.on('aftercreateedge', e => {
 const graph = new G6.Graph({
   modes: {
     default: [
-    // 只有当 'shift' 键被按下，才能够通过从一个节点拖拽到另一个节点来创建一条边
-    {
-      type: 'create-edge',
-      trigger: 'drag',
-      key: 'shift'
-    }],
+      // 只有当 'shift' 键被按下，才能够通过从一个节点拖拽到另一个节点来创建一条边
+      {
+        type: 'create-edge',
+        trigger: 'drag',
+        key: 'shift',
+      },
+    ],
   },
 });
 ```

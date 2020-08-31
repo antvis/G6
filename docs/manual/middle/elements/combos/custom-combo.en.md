@@ -15,7 +15,7 @@ In this document, we will introduce the custom combo mechanism by two examples:
 
 ## The API of Register Combo
 
-As stated in [Shape](/en/docs/manual/middle/elements/shape-keyshape), there are two points should be satisfied when customize a combo:
+As stated in [Shape](/en/docs/manual/middle/elements/shape/shape-keyshape), there are two points should be satisfied when customize a combo:
 
 - Controll the life cycle of the combo;
 - Analyze the input data and show it by graphics.

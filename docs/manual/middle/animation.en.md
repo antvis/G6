@@ -32,7 +32,7 @@ const graph = new G6.Graph({
 
 ## Item Animation
 
-All the built-in nodes and edges are static withou animation. To animate node or edge, please register your type of [Custom Node](/en/docs/manual/advanced/custom-node) or [Custom Edge](/en/docs/manual/advanced/custom-edge), and rewrite the `afterDraw` function.
+All the built-in nodes and edges are static withou animation. To animate node or edge, please register your type of [Custom Node](/en/docs/manual/middle/elements/nodes/custom-node) or [Custom Edge](/en/docs/manual/middle/elements/edges/custom-edge), and rewrite the `afterDraw` function.
 
 ### Node Animation
 

@@ -5,7 +5,7 @@ order: 7
 
 本章以添加节点及在两个节点之间连线为例进行介绍 G6 中的交互。在阅读本章之前，需要先熟悉以下内容：
 
-- [自定义交互行为 Behavior](/zh/docs/manual/advanced/custom-behavior)；
+- [自定义交互行为 Behavior](/zh/docs/manual/middle/states/custom-behavior)；
 - [交互模式 Mode](/zh/docs/manual/middle/states/mode)。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*y1qkTKqhQXkAAAAAAAAAAABkARQnAQ' alt='setmode' width=400 />

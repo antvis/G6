@@ -104,11 +104,11 @@ There are some commonly used configurations. For complete configurations, please
 
 #### Rendering
 
--  `renderer` 
+- `renderer`
 
-Type: String; Default: 'canvas', the value could be 'canvas' or 'svg'. Render the graph with Canvas or SVG. *It is supported expecting V3.3.x.* SVG rendering in G6 supports all the functions in Canvas rendering. We all known that the performance of SVG is not good as canvas. So use Canvas rendering in the case of large data instead. Expect for default nodes and edges and graphics shapes used in custom node and edge as Canvas version, SVG also supports `'dom'` shape when customing node or edge. Detials are in [Custom Node with Dom](/en/docs/manual/advanced/custom-node/#5-custom-node-with-dom).
+Type: String; Default: 'canvas', the value could be 'canvas' or 'svg'. Render the graph with Canvas or SVG. _It is supported expecting V3.3.x._ SVG rendering in G6 supports all the functions in Canvas rendering. We all known that the performance of SVG is not good as canvas. So use Canvas rendering in the case of large data instead. Expect for default nodes and edges and graphics shapes used in custom node and edge as Canvas version, SVG also supports `'dom'` shape when customing node or edge. Detials are in [Custom Node with Dom](/en/docs/manual/middle/elements/nodes/custom-node/#5-custom-node-with-dom).
 
-#### Auto Fit 
+#### Auto Fit
 
 - `fitView`
 
@@ -144,7 +144,7 @@ Type: Object. The style properties of edges in different states expect for defau
 
 - `layout`
 
-Type: Object. If there is no position information in data, Random Layout will take effect by default. The layout options and their configurations can be found in [Layout](/en/docs/manual/middle/layout)，[Layout API](/en/docs/api/layout/Layout).
+Type: Object. If there is no position information in data, Random Layout will take effect by default. The layout options and their configurations can be found in [Layout](/en/docs/manual/middle/layout/graph-layout)，[Layout API](/en/docs/api/layout/Layout).
 
 #### Interaction
 
@@ -160,7 +160,7 @@ Type: Boolean; Default: 'false'. Whether to activate the global animation. If it
 
 - `animateCfg`
 
-Type: Object. The configurations for global animation, includes easing functions, duration, and so on. Refer to [Animation](/en/docs/manual/advanced/animation).
+Type: Object. The configurations for global animation, includes easing functions, duration, and so on. Refer to [Animation](/en/docs/manual/middle/animation).
 
 #### Plugin
 

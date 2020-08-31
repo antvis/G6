@@ -56,7 +56,7 @@ circle 节点支持 [节点通用配置](/zh/docs/manual/middle/elements/nodes/d
 | label | 标签文本内容 | String |  |
 | labelCfg | 标签文本配置项 | Object |  |
 | stateStyles | 各状态下的样式 | Object | 详见[配置状态样式](/zh/docs/manual/middle/states/state#配置-state-样式) |
-| linkPoints | **视觉上的**四个锚点 | Object | 默认不显示，应与 [anchorPoints](/zh/docs/manual/middle/elements/anchorpoint) 配合使用。二者区别请看 [linkPoints](#linkpoints) |
+| linkPoints | **视觉上的**四个锚点 | Object | 默认不显示，应与 [anchorPoints](/zh/docs/manual/middle/elements/nodes/anchorpoint) 配合使用。二者区别请看 [linkPoints](#linkpoints) |
 | icon | 圆上 icon 配置 | Object | 默认不显示 icon |
 
 ### 样式属性 style

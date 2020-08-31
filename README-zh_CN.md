@@ -129,8 +129,8 @@ $ npm run demos
 ## 文档
 
 - <a href='https://g6.antv.vision/zh/docs/manual/tutorial/preface' target='_blank'>入门教程</a>
-- <a href='https://g6.antv.vision/zh/docs/manual/middle/graph' target='_blank'>核心概念</a>
-- <a href='https://g6.antv.vision/zh/docs/manual/advanced/keyconcept/shape-and-properties' target='_blank'>高级指引</a>
+- <a href='https://g6.antv.vision/zh/docs/manual/middle/overview' target='_blank'>核心概念</a>
+- <a href='https://g6.antv.vision/zh/docs/manual/middle/elements/shape/shape-and-properties' target='_blank'>高级指引</a>
 - <a href='https://g6.antv.vision/zh/docs/api/Graph/' target='_blank'>API</a>
 
 ## G6 图可视化交流群

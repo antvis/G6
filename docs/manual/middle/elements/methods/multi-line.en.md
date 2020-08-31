@@ -113,7 +113,7 @@ We found that the code above can not handle this situation any more. The result:
 
 ## Solution
 
-To solve this problem, we utlize the [Custom Edge](/en/docs/manual/advanced/custom-edge) of G6.
+To solve this problem, we utlize the [Custom Edge](/en/docs/manual/middle/elements/edges/custom-edge) of G6.
 
 There are two tips should be taken into consideration before customize an edge:
 

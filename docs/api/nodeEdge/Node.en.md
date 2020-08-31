@@ -3,13 +3,13 @@ title: Node
 order: 1
 ---
 
-Node inherits from item. The functions of Item are also available for Node. This document will only introduce the common functions for Node class. All the built-in nodes can be found in [Built-in Nodes Doc](/en/docs/manual/middle/elements/nodes/defaultNode) and [demo](/en/examples/item/defaultNodes), Custom Node can be found in [Custom Node Doc](/en/docs/manual/advanced/custom-node) and [demo](/en/examples/item/customNode).
+Node inherits from item. The functions of Item are also available for Node. This document will only introduce the common functions for Node class. All the built-in nodes can be found in [Built-in Nodes Doc](/en/docs/manual/middle/elements/nodes/defaultNode) and [demo](/en/examples/item/defaultNodes), Custom Node can be found in [Custom Node Doc](/en/docs/manual/middle/elements/nodes/custom-node) and [demo](/en/examples/item/customNode).
 
 ## lock()
 
 Lock the current node. The locked node will not response the drag event any more.
 
-Tips: the locked node still can be moved while dragging and zooming the canvas. If you want to fix the node in these two situations, please refer to [Fix the Locked Node While Dragging](/en/docs/manual/advanced/lock-node#fix-the-locked-node-while-dragging) and [Fix the Locked Node while Zooming](/en/docs/manual/advanced/lock-node#fix-the-locked-node-while-zooming) to register a custom Behavior.
+Tips: the locked node still can be moved while dragging and zooming the canvas. If you want to fix the node in these two situations, please refer to [Fix the Locked Node While Dragging](/en/docs/manual/middle/elements/methods/lock-node#fix-the-locked-node-while-dragging) and [Fix the Locked Node while Zooming](/en/docs/manual/middle/elements/methods/lock-node#fix-the-locked-node-while-zooming) to register a custom Behavior.
 
 **Usage**
 

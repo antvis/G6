@@ -53,7 +53,7 @@ graph.setMode('edit');
 
 ## 编辑已有的 Mode
 
-如果有已经定义好的 Behavior （[内置 Behavior](/zh/docs/manual/middle/states/defaultBehavior) 或 [自定义 Behavior](/zh/docs/manual/advanced/custom-behavior)），需要把它添加到某个模式下，可以通过  `graph.addBehaviors` 方法；需要从某个模式中移除一些 Behavior，可以使用  `graph.removeBehaviors` 方法。如下示例：
+如果有已经定义好的 Behavior （[内置 Behavior](/zh/docs/manual/middle/states/defaultBehavior) 或 [自定义 Behavior](/zh/docs/manual/middle/states/custom-behavior)），需要把它添加到某个模式下，可以通过  `graph.addBehaviors` 方法；需要从某个模式中移除一些 Behavior，可以使用  `graph.removeBehaviors` 方法。如下示例：
 
 ```javascript
 // 向 default 模式中添加名为 drag-canvas 的行为，并使用行为的默认配置
@@ -85,4 +85,4 @@ graph.removeBehaviors(['drag-canvas', 'zoom-canvas'], 'default');
 
 - [使用多种交互模式](/zh/docs/manual/advanced/mode-and-custom-behavior)
 - [内置交互行为 Behavior](/zh/docs/manual/middle/states/defaultBehavior)
-- [自定义交互行为 Behavior](/zh/docs/manual/advanced/custom-behavior)
+- [自定义交互行为 Behavior](/zh/docs/manual/middle/states/custom-behavior)

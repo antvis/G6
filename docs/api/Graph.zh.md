@@ -35,14 +35,14 @@ Graph 的生命周期为：初始化—>加载数据—>渲染—>更新—>销�
 | defaultCombo | Object | {} | 默认状态下 Combo 的配置，比如 `type`, `color`。会被写入的 data 覆盖。3.5 版本新增。 |
 | plugins | Array | [] | 向 graph 注册插件。插件机制请见：[插件](/zh/docs/manual/tutorial/plugins#插件) |
 | animate | Boolean | false | 是否启用全局动画。 |
-| animateCfg | Object |  | 动画配置项，仅在 `animate` 为 `true` 时有效。关于 `animateCfg` 的更多配置项参见[基础动画教程](/zh/docs/manual/advanced/animation#animatecfg)。 |
+| animateCfg | Object |  | 动画配置项，仅在 `animate` 为 `true` 时有效。关于 `animateCfg` 的更多配置项参见[基础动画教程](/zh/docs/manual/middle/animation#animatecfg)。 |
 | animateCfg.<br />onFrame | Function | null | 回调函数，用于自定义节点运动路径，为空时线性运动。 |
 | animateCfg.<br />duration | Number | 500 | 动画时长，单位为毫秒。 |
 | animateCfg.<br />easing | string | easeLinear | 动画动效，可参见 d3 ease。 |
 | minZoom | Number | 0.2 | 最小缩放比例 |
 | maxZoom | Number | 10 | 最大缩放比例 |
 | groupType | string | circle | 节点分组类型，支持 circle 和 rect |
-| groupStyle | Object |  | groupStyle 用于指定分组的样式，详情参看 [节点分组 Group](/zh/docs/manual/middle/nodeGroup) 教程 |
+| groupStyle | Object |  | groupStyle 用于指定分组的样式，详情参看 [节点分组 Group](/zh/docs/manual/middle/discard/nodeGroup) 教程 |
 | layout | Object |  | 布局配置项，使用 type 字段指定使用的布局方式，type 可取以下值：random, radial, mds, circular, fruchterman, force, dagre，各布局详细的配置请参考  [Layout API 文档](/zh/docs/api/layout/Layout) |
 | renderer | string | 'canvas' / 'svg' | 渲染方式，该配置项除 V3.3.x 外其他版本均支持。 |
 | enabledStack | boolean | false | 是否启用 stack，即是否开启 redo & undo 功能，该配置项 V3.6 及以上版本支持。 |
@@ -380,7 +380,7 @@ graph.expandGroup('groupId');
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | type | string | true | 元素类型，可选值为 `'node'`、`'edge'` 和 `'group'` |
-| model | Object | true | 元素的数据模型，具体内容参见[元素配置项](/zh/docs/api/nodeEdge/itemProperties)。|
+| model | Object | true | 元素的数据模型，具体内容参见[元素配置项](/zh/docs/api/nodeEdge/itemProperties)。 |
 | stack | boolean | false | 操作是否入 undo & redo 栈，当实例化 Graph 时设置 enableStack 为 true 时，默认情况下会自动入栈，入栈以后，就支持 undo & redo 操作，如果不需要，则设置该参数为 false 即可 |
 
 **用法**
@@ -796,7 +796,7 @@ graph.hideItem('nodeId');
 
 ### setItemState(item, state, value)
 
-设置元素状态。支持单个状态多值的情况，详情参考 [G6 状态管理最佳实践](/zh/docs/manual/middle/states/state-new)。
+设置元素状态。支持单个状态多值的情况，详情参考 [G6 状态管理最佳实践](/zh/docs/manual/middle/advanced/state-new)。
 
 该方法在执行过程中会触发 `beforitemstatechange`，`afteritemstatechange` 事件。
 
@@ -1046,7 +1046,7 @@ const mode = graph.getCurrentMode();
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | item | string | true | 被操作的 item |
-| target | Function | true | 被操作的具体[图形](/zh/docs/manual/middle/elements/shape-keyshape) |
+| target | Function | true | 被操作的具体[图形](/zh/docs/manual/middle/elements/shape/shape-keyshape) |
 
 **用法**
 
@@ -1215,7 +1215,7 @@ graph.zoomTo(0.5);
 | --- | --- | --- | --- |
 | item | string / Object | true | 元素 ID 或元素实例 |
 | animate | boolean | false | 是否带有动画。若未配置，则跟随 graph 的 `animate` 参数 |
-| animateCfg | Object | false | 若带有动画，可配置动画，参见[基础动画教程](/zh/docs/manual/advanced/animation#animatecfg)。若未配置，则跟随 graph 的 `animateCfg` 参数 |
+| animateCfg | Object | false | 若带有动画，可配置动画，参见[基础动画教程](/zh/docs/manual/middle/animation#animatecfg)。若未配置，则跟随 graph 的 `animateCfg` 参数 |
 
 **用法**
 
@@ -1973,7 +1973,7 @@ graph.getContainer();
 
 ### getGroup()
 
-获取 Graph 根[图形分组](/zh/docs/manual/advanced/keyconcept/graphics-group)。
+获取 Graph 根[图形分组](/zh/docs/manual/middle/elements/shape/graphics-group)。
 
 **参数**
 
@@ -2073,36 +2073,36 @@ graph.getWidth();
 graph.getHeight();
 ```
 
-### createHull(cfg: HullCfg) 
+### createHull(cfg: HullCfg)
 
 **参数**
 
-| 名称 | 类型   | 是否必选 | 描述     |
-| ---- | ------ | -------- | -------- |
+| 名称 | 类型    | 是否必选 | 描述       |
+| ---- | ------- | -------- | ---------- |
 | cfg  | HullCfg | true     | 轮廓配置项 |
 
 轮廓包裹的形状支持 `round-convex` / `smooth-convex` / `bubble` 三种类型，默认为 `round-convex` 类型。`round-convex` 为圆角凸包轮廓，smooth-convex 为平滑曲线凸包轮廓，这两种凸包轮廓不可绕开配置项中的 nonMembers；bubble 为自由凹包轮廓，可以绕开 nonMembers。配置项（ HullCfg）支持的配置参数详情如下：
 
-| 名称  | 类型   | 是否必选 | 描述           |
-| ----- | ------ | -------- | -------------- |
-| id | string | true     | 包裹的 id |
-| type | `round-convex` / `smooth-convex` / `bubble` | false     | 包裹的类型：`round-convex` 生成圆角凸包轮廓，`smooth-convex` 生成平滑凸包轮廓 / `bubble` 产生一种可以避开 nonMembers 的平滑凹包轮廓（[算法](http://vialab.science.uoit.ca/portfolio/bubblesets)）。 默认值是 `round-convex`。|
-| members | Item[] / string[] | true     | 在包裹内部的节点实例或节点 Id 数组 |
-| nonMembers | Item[] / string[] | false     | 不在轮廓内部的节点数组，只在 `bubble` 类型的包裹中生效 |
-| padding | number | false     | 轮廓边缘和内部成员的间距 |
-| style | object | false     | 轮廓的样式属性，属性包括 fill (填充颜色), stroke (描边颜色), opacity (透明度) |
+| 名称 | 类型 | 是否必选 | 描述 |
+| --- | --- | --- | --- |
+| id | string | true | 包裹的 id |
+| type | `round-convex` / `smooth-convex` / `bubble` | false | 包裹的类型：`round-convex` 生成圆角凸包轮廓，`smooth-convex` 生成平滑凸包轮廓 / `bubble` 产生一种可以避开 nonMembers 的平滑凹包轮廓（[算法](http://vialab.science.uoit.ca/portfolio/bubblesets)）。 默认值是 `round-convex`。 |
+| members | Item[] / string[] | true | 在包裹内部的节点实例或节点 Id 数组 |
+| nonMembers | Item[] / string[] | false | 不在轮廓内部的节点数组，只在 `bubble` 类型的包裹中生效 |
+| padding | number | false | 轮廓边缘和内部成员的间距 |
+| style | object | false | 轮廓的样式属性，属性包括 fill (填充颜色), stroke (描边颜色), opacity (透明度) |
 
 **用法**
 
 ```javascript
-let centerNodes = graph.getNodes().filter(node => !node.getModel().isLeaf);
+let centerNodes = graph.getNodes().filter((node) => !node.getModel().isLeaf);
 graph.on('afterlayout', () => {
   const hull1 = graph.createHull({
     id: 'centerNode-hull',
     type: 'bubble',
     members: centerNodes,
-    padding: 10
-  })
+    padding: 10,
+  });
 
   const hull2 = graph.createHull({
     id: 'leafNode-hull1',
@@ -2111,8 +2111,8 @@ graph.on('afterlayout', () => {
     style: {
       fill: 'lightgreen',
       stroke: 'green',
-    }
-  })
+    },
+  });
 
   const hull3 = graph.createHull({
     id: 'leafNode-hull2',
@@ -2121,18 +2121,18 @@ graph.on('afterlayout', () => {
     style: {
       fill: 'lightgreen',
       stroke: 'green',
-    }
-  })
+    },
+  });
 
-  graph.on('afterupdateitem', e => {
-    hull1.updateData(hull1.members)
-    hull2.updateData(hull2.members)
-    hull3.updateData(hull3.members)
-  })
-})
+  graph.on('afterupdateitem', (e) => {
+    hull1.updateData(hull1.members);
+    hull2.updateData(hull2.members);
+    hull3.updateData(hull3.members);
+  });
+});
 ```
 
-### getHulls() 
+### getHulls()
 
 获取图上所有的包裹轮廓。
 
@@ -2144,19 +2144,19 @@ graph.on('afterlayout', () => {
 **用法**
 
 ```javascript
-const hullMap = graph.getHulls()
+const hullMap = graph.getHulls();
 ```
 
 ### removeHull
 
 **参数**
 
-| 名称 | 类型  | 是否必选 | 描述     |
-| ---- | -----| -------- | -------- |
-| hull  | string ｜ Hull | true     | 轮廓 id 或轮廓实例 |
+| 名称 | 类型           | 是否必选 | 描述               |
+| ---- | -------------- | -------- | ------------------ |
+| hull | string ｜ Hull | true     | 轮廓 id 或轮廓实例 |
 
 **用法**
 
 ```javascript
-graph.removeHull('myHull')
+graph.removeHull('myHull');
 ```

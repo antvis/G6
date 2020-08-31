@@ -13,7 +13,7 @@ In the figure(Left) below, there is a node with a circle Shape; (Center) a node 
 
 G6 designs abundant built-in nodes / edges / combos by combing different Shapes. Built-in nodes includes 'circle', 'rect', 'ellipse', ...(Refer to [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode)); Built-in edges includes 'line', 'polyline', 'cubic', ... (Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge)); Built-in combos includes 'circle', 'rect' (Refer to [Built-in Combos](/en/docs/manual/middle/elements/combos/defaultCombo)).
 
-Besides, G6 allows users to define their own types of item by register a custom node / edge / combo. Refer to [Custom Node](/en/docs/manual/advanced/custom-node), [Custom Edge](/en/docs/manual/advanced/custom-edge), and [Custom Combo](/en/docs/manual/advanced/custom-combo).
+Besides, G6 allows users to define their own types of item by register a custom node / edge / combo. Refer to [Custom Node](/en/docs/manual/middle/elements/nodes/custom-node), [Custom Edge](/en/docs/manual/middle/elements/edges/custom-edge), and [Custom Combo](/en/docs/manual/middle/elements/combos/custom-combo).
 
 ## KeyShape
 
@@ -23,7 +23,7 @@ As stated above, there is only one keyShape for each type of item. keyShape is r
 
 The property `style` in built-in nodes / edges / combos of G6 is only reponsed by keyShape. And the way to define the styles for different states (`nodeStateStyles` / `edgeStateStyles` / `comboStateStyles` on graph or `stateStyles` of itself) on keyShape and other shapes are different, refer to [Configure Styles for State](/en/docs/manual/middle/states/state#configure-styles-for-state) .
 
-To break the rules above and achieve free definations, you can register a type of [Custom Node](/en/docs/manual/advanced/custom-node), [Custom Edge](/en/docs/manual/advanced/custom-edge), or [Custom Combo](/en/docs/manual/advanced/custom-combo).
+To break the rules above and achieve free definations, you can register a type of [Custom Node](/en/docs/manual/middle/elements/nodes/custom-node), [Custom Edge](/en/docs/manual/middle/elements/edges/custom-edge), or [Custom Combo](/en/docs/manual/middle/elements/combos/custom-combo).
 
 #### Example
 
@@ -103,7 +103,7 @@ There is a node with a rect Shape and a circle Shape in transparent filling and 
 
 ## The Life Cycle of Shape
 
-> You can skip this part if you are going to use the built-in items. For the users who have the requirements to [Custom Node](/en/docs/manual/advanced/custom-node), [Custom Edge](/en/docs/manual/advanced/custom-edge), you'd better know the life cycle of Shape, and [Custom Combo](/en/docs/manual/advanced/custom-combo), you'd better know the life cycle of Shape.
+> You can skip this part if you are going to use the built-in items. For the users who have the requirements to [Custom Node](/en/docs/manual/middle/elements/nodes/custom-node), [Custom Edge](/en/docs/manual/middle/elements/edges/custom-edge), you'd better know the life cycle of Shape, and [Custom Combo](/en/docs/manual/middle/elements/combos/custom-combo), you'd better know the life cycle of Shape.
 
 The life cycle of Shape:
 
