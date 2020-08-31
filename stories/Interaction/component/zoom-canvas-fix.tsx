@@ -79,12 +79,13 @@ const ZoomCanvasFix = () => {
             'drag-canvas',
             {
               type: 'zoom-canvas',
-              fixSelectedItems: {
-                fixState: 'selected',
-                fixAll: true,
-                // fixLabel: true,
-                // fixLineWidth: true
-              },
+              enableOptimize: true,
+              // fixSelectedItems: {
+              //   fixState: 'selected',
+              //   fixAll: true,
+              //   // fixLabel: true,
+              //   // fixLineWidth: true
+              // },
             },
           ],
         },

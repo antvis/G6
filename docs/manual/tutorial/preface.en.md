@@ -49,7 +49,7 @@ New an index.html file, and add the code below:
   </head>
   <body>
     <!-- import G6 by CDN -->
-    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.5.10/dist/g6.min.js"></script>
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.1/dist/g6.min.js"></script>
 
     <script>
       console.log(G6.Global.version);
