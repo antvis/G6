@@ -22,8 +22,8 @@ G6 支持以下图形：
 
 | 属性名 | 类型 | 示例 | 含义 |
 | --- | --- | --- | --- |
-| fill | String | - 'rgb(18, 150, 231)' <br/> - '#c193af' <br/>- 'l(0) 0:#ffffff 0.5:#7ec2f3 1:#1890ff' <br/>- 'r(0.5, 0.5, 0.1) 0:#ffffff 1:#1890ff' | 设置用于填充绘画的颜色(RGB 或 16 进制)、[渐变](/zh/docs/manual/FAQ/gradient#gatsby-focus-wrapper)或模式，对应 Canvas 属性 `fillStyle` |
-| stroke | String | - 'rgb(18, 150, 231)' <br/> - '#c193af' <br/>- 'l(0) 0:#ffffff 0.5:#7ec2f3 1:#1890ff' <br/>- 'r(0.5, 0.5, 0.1) 0:#ffffff 1:#1890ff' | 设置用于笔触的颜色(RGB 或 16 进制)、[渐变](/zh/docs/manual/FAQ/gradient#gatsby-focus-wrapper)或模式，对应 Canvas 属性 `strokeStyle` |
+| fill | String | - 'rgb(18, 150, 231)' <br/> - '#c193af' <br/>- 'l(0) 0:#ffffff 0.5:#7ec2f3 1:#1890ff' <br/>- 'r(0.5, 0.5, 0.1) 0:#ffffff 1:#1890ff' | 设置用于填充绘画的颜色(RGB 或 16 进制)、[渐变](/zh/docs/manual/middle/elements/advanced-style/gradient)或模式，对应 Canvas 属性 `fillStyle` |
+| stroke | String | - 'rgb(18, 150, 231)' <br/> - '#c193af' <br/>- 'l(0) 0:#ffffff 0.5:#7ec2f3 1:#1890ff' <br/>- 'r(0.5, 0.5, 0.1) 0:#ffffff 1:#1890ff' | 设置用于笔触的颜色(RGB 或 16 进制)、[渐变](/zh/docs/manual/middle/elements/advanced-style/gradient)或模式，对应 Canvas 属性 `strokeStyle` |
 | lineWidth | Number | 2 | 描边宽度 |
 | lineDash | Number/ Number[] | [5, 10] | 描边虚线，Number[] 类型代表实、虚长度 |
 | shadowColor | String | 'rgb(18, 150, 231)' / '#c193a1' | 设置用于阴影的颜色 |
@@ -301,9 +301,10 @@ group.addShape('rect', {
 | startArrow | Boolean / Object | 起始端的箭头，为 `true` 时为默认的箭头效果，也可以是一个自定义箭头 |
 | endArrow | Boolean / Object | 末尾端的箭头，为 `true` 时为默认的箭头效果，也可以是一个自定义箭头 |
 | lineAppendWidth | Number | 边的击中范围。提升边的击中范围，扩展响应范围，数值越大，响应范围越广 |
-| lineCap | String | 设置线条的结束端点样式。可选：<br/> - `'bevel'`: 斜角 |
-
-<br/> - `'round'`: 圆角 <br/> - `'miter'`: 尖角 (默认) | | lineJoin | String | 设置两条线相交时，所创建的拐角形状。可选：<br/> - `'bevel'`: 斜角 <br/> - `'round'`: 圆角 <br/> - `'miter'`: 尖角 (默认) | | lineWidth | Number | 设置当前的线条宽度 | | miterLimit | Number | 设置最大斜接长度 | | lineDash | Number[] | 设置线的虚线样式，可以指定一个数组。一组描述交替绘制线段和间距（坐标空间单位）长度的数字。 如果数组元素的数量是奇数， 数组的元素会被复制并重复。例如， [5, 15, 25] 会变成 [5, 15, 25, 5, 15, 25]。可参考[setLineDash](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setLineDash) |
+| lineCap | String | 设置线条的结束端点样式。可选：<br/> - `'bevel'`: 斜角 <br/> - `'round'`: 圆角 <br/> - `'miter'`: 尖角 (默认) | | lineJoin | String | 设置两条线相交时，所创建的拐角形状。可选：<br/> - `'bevel'`: 斜角 <br/> - `'round'`: 圆角 <br/> - `'miter'`: 尖角 (默认) |
+| lineWidth | Number | 设置当前的线条宽度 |
+| miterLimit | Number | 设置最大斜接长度 |
+| lineDash | Number[] | 设置线的虚线样式，可以指定一个数组。一组描述交替绘制线段和间距（坐标空间单位）长度的数字。 如果数组元素的数量是奇数， 数组的元素会被复制并重复。例如， [5, 15, 25] 会变成 [5, 15, 25, 5, 15, 25]。可参考[setLineDash](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setLineDash) |
 
 ### 用法
 

@@ -52,7 +52,7 @@ const graph = new G6.Graph({
 });
 ```
 
-The state style of [keyShape](https://g6.antv.vision/zh/docs/manual/middle/elements/shape/shape-keyshape/#keyshape) can be defined in `nodeStateStyles` or `edgeStateStyles` directly. You can also define the styles in the object with the key equals to the `name` of the keyShape.
+The state style of [keyShape](/en/docs/manual/middle/elements/shape/shape-keyshape/#keyshape) can be defined in `nodeStateStyles` or `edgeStateStyles` directly. You can also define the styles in the object with the key equals to the `name` of the keyShape.
 
 #### State for Single Node/Edge
 

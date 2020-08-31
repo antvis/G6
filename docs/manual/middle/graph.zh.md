@@ -104,7 +104,7 @@ const graph = new G6.Graph({
 
 - `renderer`
 
-类型：String；默认：'canvas'，可选项：'canvas' / 'svg' 。配置使用 canvas 或 svg 渲染，_除 V3.3.x 外其他版本均支持。_ G6 默认使用 Canvas 渲染图， SVG 渲染也支持 Canvas 的所有功能。需要注意的是，我们都知道 SVG 的性能较差，在大规模数据或图元的情况下请谨慎选择。SVG 除支持内置的所有节点/边类型以及自定义节点/边时使用与 Canvas 相同的图形外，还支持在自定义节点/边时使用 `'dom'` 图形，详见 [使用 DOM 自定义节点](/zh/docs/manual/middle/elements/nodes/custom-node/#5-使用-dom-自定义节点)。
+类型：String；默认：'canvas'，可选项：'canvas' / 'svg' 。配置使用 canvas 或 svg 渲染，_除 V3.3.x 外其他版本均支持。_ G6 默认使用 Canvas 渲染图， SVG 渲染也支持 Canvas 的所有功能。需要注意的是，我们都知道 SVG 的性能较差，在大规模数据或图元的情况下请谨慎选择。SVG 除支持内置的所有节点/边类型以及自定义节点/边时使用与 Canvas 相同的图形外，还支持在自定义节点/边时使用 `'dom'` 图形，详见 [使用 DOM 自定义节点](/zh/docs/manual/middle/elements/nodes/custom-node#5-使用-dom-自定义节点)。
 
 #### 自适应画布
 

@@ -53,7 +53,7 @@ const graph = new G6.Graph({
 });
 ```
 
-当设置 [keyShape](https://g6.antv.vision/zh/docs/manual/middle/elements/shape/shape-keyshape/#keyshape) 的状态时，可以直接在 `nodeStateStyles` 或 `edgeStateStyles` 中定义样式，或者将 keyShape 的 `name` 属性值作为 key 定义样式，我们建议使用后者。
+当设置 [keyShape](/zh/docs/manual/middle/elements/shape/shape-keyshape/#keyshape) 的状态时，可以直接在 `nodeStateStyles` 或 `edgeStateStyles` 中定义样式，或者将 keyShape 的 `name` 属性值作为 key 定义样式，我们建议使用后者。
 
 #### 节点/边状态
 

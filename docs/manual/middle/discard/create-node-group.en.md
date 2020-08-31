@@ -76,7 +76,7 @@ Create Group.
 | nodes | The nodes or the id of the ndoes in the Group | Array | The array of node objects or ids |
 | type | The type of the Group | String | Options: `'circle'`, `'rect'`. `'circle'` by default |
 | zIndex | The zIndex of the Group | Number | `0` by default |
-| title | The title text or the configurations | Object / String | When it is a string, the styles of it is uneditable. When it is an object, the configurations can be found in [Node Group](/en/docs/manual/middle/discard/nodeGroup/#data-structure) |
+| title | The title text or the configurations | Object / String | When it is a string, the styles of it is uneditable. When it is an object, the configurations can be found in [Node Group](/en/docs/manual/middle/discard/nodeGroup#data-structure) |
 
 ```javascript
 const nodes = ['node1', 'node2'];

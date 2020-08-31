@@ -137,7 +137,7 @@ G6.registerEdge(
 | --- | --- | --- | --- |
 | comboName | String | true | 自定义 combo 的名称，需保持唯一性。 |
 | options | Object | true | 自定义 combo 时的配置项，配置项中包括完整的生命周期方法，具体请参考：[Shape Doc](/zh/docs/manual/middle/elements/shape/shape-keyshape) 和 [自定义节点与边 API](/zh/docs/api/CustomItem)。 |
-| extendedComboName | String | false | 自定义节点时可基于内置 combo 进行定义，该字段表示内置 combo 名称，所有内置 Combo 请参考：[内置节点](/zh/docs/manual/middle/elements/combos/defaultCombo) 教程。 |
+| extendedComboName | String | false | 自定义节点时可基于内置 combo 进行定义，该字段表示内置 combo 名称，所有内置 Combo 请参考：[内置 Combo](/zh/docs/manual/middle/elements/combos/defaultCombo) 教程。 |
 
 ### 用法
 
