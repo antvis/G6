@@ -21,7 +21,7 @@ const ToolBar = () => {
         // 设置为true，启用 redo & undo 栈功能
         enabledStack: true,
         modes: {
-          default: ['drag-canvas', 'zoom-canvas'],
+          default: ['drag-canvas', 'zoom-canvas', 'drag-node'],
         },
         defaultNode: {
           size: 50
@@ -30,7 +30,7 @@ const ToolBar = () => {
       graph.data(data);
       graph.render();
       graph.on('stackchange', e => {
-        console.log(e)
+        // console.log(e)
       })
       graph.addItem('node', {
         id: '4',
