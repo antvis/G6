@@ -2,24 +2,25 @@
 title: Combo 总览
 order: 0
 ---
+
 > V3.5 后支持的全新节点分组 Combo 机制。[原节点分组](/zh/docs/manual/middle/discard/nodeGroup)即将废除。
 
-对于熟悉图可视化类库的用户来说，节点分组是非常实用的一个功能。此前，G6 已经存在一个节点分组 Node Group 功能，但它的机制无法支持一些较复杂的功能，例如：带有节点分组的图布局、自定义 Combo、嵌套节点分组的均匀 padding、节点与分组的边、分组与分组的边、空的节点分组等。V3.5 推出了全新的节点分组 Combo 机制，能够支持所有常用功能，参考 <a href='/zh/examples/item/defaultCombos' target='_blank'>Demo</a>。
-<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AngFRpOo4SAAAAAAAAAAAABkARQnAQ' width=600 alt='img'/>
+对于熟悉图可视化类库的用户来说，节点分组是非常实用的一个功能。此前，G6 已经存在一个节点分组 Node Group 功能，但它的机制无法支持一些较复杂的功能，例如：带有节点分组的图布局、自定义 Combo、嵌套节点分组的均匀 padding、节点与分组的边、分组与分组的边、空的节点分组等。V3.5 推出了全新的节点分组 Combo 机制，能够支持所有常用功能，参考 <a href='/zh/examples/item/defaultCombos' target='_blank'>Demo</a>。 <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AngFRpOo4SAAAAAAAAAAAABkARQnAQ' width=600 alt='img'/>
 
 G6 的内置 Combo 包括 circle 和 rect 两种类型，分别如下图所示。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*UwaHSKkwoVUAAAAAAAAAAABkARQnAQ' width='250' alt='img'/>
 
-本文将概述 G6 中的Combo的数据结构、各个内置 Combo 类型、内置 Combo 的通用属性、配置方法。各类型 Combo 详细配置项及配置方法见本目录下相应文档。
+本文将概述 G6 中的 Combo 的数据结构、各个内置 Combo 类型、内置 Combo 的通用属性、配置方法。各类型 Combo 详细配置项及配置方法见本目录下相应文档。
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 使用 Combo 时，必须在示例化图时配置 `groupByTypes` 设置为 `false`，图中元素的视觉层级才能合理。
 
 ## 数据结构
 
 为保持 G6 源数据数据结构的稳定性，我们在原来的数据结构上做了如下修改：
+
 1. 新增 `combos` 数组，用于定义图上所有的 Combo 及其配置。`combos` 数组中的一个数据项有如下属性：
 
 | 属性名 | 类型 | 是否必须 | 示例 | 解释 |
-| ----- | ---- | ---- | ---- | ---- |
+| --- | --- | --- | --- | --- |
 | id | string | true | 'comboA' | 一个 Combo 的唯一标识，**必须是 string 类型，必须唯一** |
 | parentId | string | false | 'comboB' | 该 Combo 的父 Combo 的 ID |
 | padding | Number / Number[] | false | 10 或 [ 10, 20, 10, 20 ] | 该 Combo 内边距 |
@@ -28,6 +29,7 @@ G6 的内置 Combo 包括 circle 和 rect 两种类型，分别如下图所示�
 | labelCfg | Object | false |  | 该 Combo 的文本标签样式配置项，详见[内置 Combo 配置文档](/zh/docs/manual/middle/elements/combos/defaultCombo#标签文本-label-及其配置-labelcfg)及各类型 Combo 的文档 |
 
 `combos` 数组中一个数据项的示例：
+
 ```javascript
 {
   id: 'comboA',
@@ -75,15 +77,14 @@ G6 的内置 Combo 包括 circle 和 rect 两种类型，分别如下图所示�
 }
 ```
 
-
 ## 内置 Combo 类型说明
 
 下面表格中显示了内置的各类 Combo，同时对一些特殊的字段进行了说明：
 
 | 名称 | 描述 | 默认示例 |
 | --- | --- | --- |
-| circle | 圆形：<br />- `size` 是单个数字，表示直径<br />- 圆心位置对应 Combo 的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在 Combo 正上方<br />- 更多字段见 [Circle](/zh/docs/manual/middle/elements/combos/circle) Combo 教程<br />- <a href='/zh/examples/item/defaultCombos#circle' target='_blank'>Demo</a> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ijeuQoiH0JUAAAAAAAAAAABkARQnAQ' width=150 alt='img'/> |
-| rect | 矩形：<br />- `size` 是数组，例如：[100, 50]<br />- 矩形的中心位置是 COmbo 的位置，而不是左上角<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在 Combo 左上角<br />- 更多字段见 [Rect](/zh/docs/manual/middle/elements/combos/rect) Combo 教程<br />- <a href='/zh/examples/item/defaultCombos#rect' target='_blank'>Demo</a> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Khp4QpxXVlQAAAAAAAAAAABkARQnAQ' width=150 alt='img'/> |
+| circle | 圆形：<br />- `size` 是单个数字，表示直径<br />- 圆心位置对应 Combo 的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在 Combo 正上方<br />- 更多字段见 [Circle](/zh/docs/manual/middle/elements/combos/built-in/circle) Combo 教程<br />- <a href='/zh/examples/item/defaultCombos#circle' target='_blank'>Demo</a> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ijeuQoiH0JUAAAAAAAAAAABkARQnAQ' width=150 alt='img'/> |
+| rect | 矩形：<br />- `size` 是数组，例如：[100, 50]<br />- 矩形的中心位置是 COmbo 的位置，而不是左上角<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在 Combo 左上角<br />- 更多字段见 [Rect](/zh/docs/manual/middle/elements/combos/built-in/rect) Combo 教程<br />- <a href='/zh/examples/item/defaultCombos#rect' target='_blank'>Demo</a> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Khp4QpxXVlQAAAAAAAAAAABkARQnAQ' width=150 alt='img'/> |
 
 ## Combo 的通用属性
 
@@ -284,17 +285,15 @@ graph.render();
 
 #### collapse-expand-combo
 
-`collapse-expand-combo` Behavior，支持双击 Combo 收起和展开 Combo ，收起 Combo 以后，隐藏 Combo 中的所有节点，外部节点和 Combo 中节点有连线的情况下，所有连接会连接到 Combo 上面。若图配置有布局且该 behavior 的 `relayout` 配置项为 `true`（默认为 `true`），则该 behavior 被触发后会触发图的重新布局。若希望避免重新布局，可以配置 `relayout` 为 `false` ，或通过监听 combo 点击事件和 [graph.collapseExpandCombo API](/zh/docs/api/Graph#collapseexpandcombocombo) 控制收缩展开逻辑。 
+`collapse-expand-combo` Behavior，支持双击 Combo 收起和展开 Combo ，收起 Combo 以后，隐藏 Combo 中的所有节点，外部节点和 Combo 中节点有连线的情况下，所有连接会连接到 Combo 上面。若图配置有布局且该 behavior 的 `relayout` 配置项为 `true`（默认为 `true`），则该 behavior 被触发后会触发图的重新布局。若希望避免重新布局，可以配置 `relayout` 为 `false` ，或通过监听 combo 点击事件和 [graph.collapseExpandCombo API](/zh/docs/api/Graph#collapseexpandcombocombo) 控制收缩展开逻辑。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*X0_PSYizJ4AAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
-
 
 #### drag-node
 
 拖拽节点过程中，动态改变节点与父 Combo 的从属关系。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*E8MCQr5OywgAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
-
 
 #### 配置交互
 
@@ -309,7 +308,7 @@ const graph = new G6.Graph({
   groupByTypes: false,
   modes: {
     default: ['drag-combo', 'collapse-expand-combo', 'drag-node'],
-  }
+  },
 });
 ```
 
@@ -381,7 +380,6 @@ graph.render();
 ```
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NF3eRLJP1DkAAAAAAAAAAABkARQnAQ' width='250' alt='img'/>
-
 
 ## 适用场景
 

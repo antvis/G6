@@ -3,7 +3,7 @@ title: 自定义 Combo
 order: 2
 ---
 
-G6 提供了一系列[内置 Combo](/zh/docs/manual/middle/elements/combos/defaultCombo)，包括 [circle](/zh/docs/manual/middle/elements/combos/circle)、[rect](/zh/docs/manual/middle/elements/combos/rect)。若内置 Combo 无法满足需求，用户还可以通过 `G6.registerCombo ('comboName', options, expendedComboName)` 进行**自定义扩展内置的 Combo**，方便用户开发更加定制化的 Combo，包括含有复杂图形的 Combo、复杂交互的 Combo、带有动画的 Combo 等。
+G6 提供了一系列[内置 Combo](/zh/docs/manual/middle/elements/combos/defaultCombo)，包括 [circle](/zh/docs/manual/middle/elements/combos/built-in/circle)、[rect](/zh/docs/manual/middle/elements/combos/built-in/rect)。若内置 Combo 无法满足需求，用户还可以通过 `G6.registerCombo ('comboName', options, expendedComboName)` 进行**自定义扩展内置的 Combo**，方便用户开发更加定制化的 Combo，包括含有复杂图形的 Combo、复杂交互的 Combo、带有动画的 Combo 等。
 
 在本章中，我们通过两个案例，讲解通过自定义扩展现有 Combo。
 
