@@ -3,7 +3,7 @@ title: 自定义节点
 order: 2
 ---
 
-G6 提供了一系列[内置节点](/zh/docs/manual/middle/elements/nodes/defaultNode)，包括 [circle](/zh/docs/manual/middle/elements/nodes/circle)、[rect](/zh/docs/manual/middle/elements/nodes/rect)、[diamond](/zh/docs/manual/middle/elements/nodes/diamond)、[triangle](/zh/docs/manual/middle/elements/nodes/triangle)、[star](/zh/docs/manual/middle/elements/nodes/star)、[image](/zh/docs/manual/middle/elements/nodes/image)、[modelRect](/zh/docs/manual/middle/elements/nodes/modelRect)。若内置节点无法满足需求，用户还可以通过 `G6.registerNode('nodeName', options)` 进行自定义节点，方便用户开发更加定制化的节点，包括含有复杂图形的节点、复杂交互的节点、带有动画的节点等。
+G6 提供了一系列[内置节点](/zh/docs/manual/middle/elements/nodes/defaultNode)，包括 [circle](/zh/docs/manual/middle/elements/nodes/built-in/circle)、[rect](/zh/docs/manual/middle/elements/nodes/built-in/rect)、[diamond](/zh/docs/manual/middle/elements/nodes/built-in/diamond)、[triangle](/zh/docs/manual/middle/elements/nodes/built-in/triangle)、[star](/zh/docs/manual/middle/elements/nodes/built-in/star)、[image](/zh/docs/manual/middle/elements/nodes/built-in/image)、[modelRect](/zh/docs/manual/middle/elements/nodes/built-in/modelRect)。若内置节点无法满足需求，用户还可以通过 `G6.registerNode('nodeName', options)` 进行自定义节点，方便用户开发更加定制化的节点，包括含有复杂图形的节点、复杂交互的节点、带有动画的节点等。
 
 在本章中我们会通过五个案例，从简单到复杂讲解节点的自定义。这五个案例是： <br /> <strong>1. 从无到有的定义节点：</strong>绘制图形；优化性能。 <br /> <strong>2. 扩展现有的节点：</strong>附加图形；增加动画。 <br /> <strong>3. 调整节点的锚点；</strong> <br /> <strong>4. 调整节点的鼠标选中/悬浮样式：</strong>样式变化响应；动画响应； <br /> <strong>5. 使用 DOM 自定义节点。</strong>
 
