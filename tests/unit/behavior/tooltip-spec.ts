@@ -162,8 +162,9 @@ describe('tooltip', () => {
     );
     graph.emit('node:mouseenter', { clientX: 52, clientY: 52, item: node });
     const tooltip = div.childNodes[1] as HTMLElement;
-    expect(tooltip).toEqual(undefined);
+    expect(tooltip.style.visibility).toEqual('hidden');
     graph.removeBehaviors('tooltip', 'default');
+    div.removeChild(tooltip);
   });
   it('prevent end', () => {
     const node = graph.findById('lb');
@@ -191,7 +192,7 @@ describe('tooltip', () => {
     graph.addBehaviors(['tooltip'], 'default');
     graph.emit('node:mouseenter', { clientX: 52, clientY: 52 }); // without target and item
     graph.emit('node:mousemove', { clientX: 55, clientY: 55 }); // without target and item
-    const tooltip = div.childNodes[1];
+    const tooltip = div.childNodes[1] as HTMLElement;
     expect(tooltip).toEqual(undefined);
     graph.removeBehaviors('tooltip', 'default');
     graph.destroy();

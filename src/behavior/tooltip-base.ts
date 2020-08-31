@@ -5,9 +5,6 @@ import { IG6GraphEvent } from '../types';
 export default {
   onMouseEnter(e: IG6GraphEvent) {
     const { item } = e;
-    if (!this.shouldBegin(e)) {
-      return;
-    }
     this.currentTarget = item;
     this.showTooltip(e);
     this.graph.emit('tooltipchange', { item: e.item, action: 'show' });
@@ -42,8 +39,8 @@ export default {
     }
     const text = this.formatText(e.item.get('model'), e);
     container.innerHTML = text;
-    this.updatePosition(e);
     modifyCSS(this.container, { visibility: 'visible' });
+    this.updatePosition(e);
   },
   hideTooltip() {
     modifyCSS(this.container, {
@@ -51,7 +48,14 @@ export default {
     });
   },
   updatePosition(e: IG6GraphEvent) {
+    const shouldBegin = this.get('shouldBegin');
     const { width, height, container, graph } = this;
+    if (!shouldBegin(e)) {
+      modifyCSS(container, {
+        visibility: 'hidden',
+      });
+      return;
+    };
     const point = graph.getPointByClient(e.clientX, e.clientY);
     let { x, y } = graph.getCanvasByPoint(point.x, point.y);
     const bbox = container.getBoundingClientRect();

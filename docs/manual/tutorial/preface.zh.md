@@ -50,7 +50,7 @@ G6 是一个图可视化引擎。它提供了图的绘制、布局、分析、�
   </head>
   <body>
     <!-- 引入 G6 -->
-    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.5.10/dist/g6.min.js"></script>
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.1/dist/g6.min.js"></script>
 
     <script>
       console.log(G6.Global.version);

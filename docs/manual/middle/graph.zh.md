@@ -28,7 +28,7 @@ order: 1
     /* 图的画布容器 */
     <div id="mountNode"></div>
     /* 引入 G6 */
-    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.0/build/g6.js"></script>
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.1/dist/g6.min.js"></script>
     <script>
       // 定义数据源
       const data = {

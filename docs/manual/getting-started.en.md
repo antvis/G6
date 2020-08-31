@@ -43,7 +43,7 @@ import G6 from '@antv/g6';
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span>
 
-- Replace `{$version}` by the version number. e.g. `3.5.10`;
+- Replace `{$version}` by the version number. e.g. `3.7.1`;
 - The last version and its number can be found on <a href='https://www.npmjs.com/package/@antv/g6' target='_blank'>NPM</a>;
 - Please refer to the branch in Github: <a href='https://github.com/antvis/g6/tree/master' target='_blank'>https://github.com/antvis/g6/tree/master</a> for more detail.
 
@@ -136,7 +136,7 @@ graph.render(); // Render the graph
     <div id="mountNode"></div>
 
     /* Import G6 by CDN */
-    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.0/build/g6.js"></script>
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.0/dist/g6.min.js"></script>
 
     <script>
       // Define the source data

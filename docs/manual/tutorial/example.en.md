@@ -187,7 +187,7 @@ The configurations below will be used in the following Tutorial:
   </head>
   <body>
     <div id="mountNode"></div>
-    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.0/build/g6.js"></script>
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.1/dist/g6.min.js"></script>
     <script>
       const graph = new G6.Graph({
         container: 'mountNode',
