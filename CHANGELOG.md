@@ -111,7 +111,7 @@
 
 #### 3.5.6
 
-- feat: dropCap for intended TreeGraph layout.
+- feat: dropCap for indented TreeGraph layout.
 
 #### 3.5.5
 

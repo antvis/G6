@@ -3,7 +3,7 @@ title: Indented
 order: 3
 ---
 
-In indented tree layout, each node takes a row or a column. <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NBUzRonaOYMAAAAAAAAAAABkARQnAQ' alt='intended' width='100'/>
+In indented tree layout, each node takes a row or a column. <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NBUzRonaOYMAAAAAAAAAAABkARQnAQ' alt='indented' width='100'/>
 
 ## Usage
 

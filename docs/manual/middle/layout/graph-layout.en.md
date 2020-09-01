@@ -5,7 +5,7 @@ order: 0
 
 ## Introduction
 
-Graph layouts are the algorithms arranging the node positions to obtain a understandable visualizaiton. According to the differences of data strucutre, the layouts can be categorized into: general graph layout and tree graph layout. There are several layout algorithms for them respectively. By utilizing the built-in layouts, [Translating the layouts and their configurations, translating the data](#layout-transformation-mechanism) can be achieved. Besides, G6 provides the [Web-Worker](#web-worker) for general graph layout in case layout calculation takes too long to block page interaction.
+Graph layouts are the algorithms arranging the node positions to obtain a understandable visualizaiton. According to the differences of data strucutre, the layouts can be categorized into: general graph layout and tree graph layout. There are several layout algorithms for them respectively. By utilizing the built-in layouts, [Translating the layouts and their configurations, translating the data](/en/docs/manual/middle/layout/layout-mechanism) can be achieved. Besides, G6 provides the [Web-Worker](/en/docs/manual/middle/layout/webworker) for general graph layout in case layout calculation takes too long to block page interaction.
 
 Besides, G6 supports [Custom Layout](/en/docs/manual/middle/layout/custom-layout) mechanism for users to design their own layout algorithm.
 

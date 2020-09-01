@@ -23,7 +23,7 @@ order: 3
 - Dendrogram Layout：树状布局（叶子节点布局对齐到同一层）；
 - CompactBox Layout：紧凑树布局；
 - Mindmap Layout：脑图布局；
-- Intended Layout：缩进布局。
+- Indented Layout：缩进布局。
 
 各种布局方法的具体介绍及其配置参见 [Layout API](/zh/docs/api/layout/Layout)。本教程中，我们使用的是力导向布局 (Force Layout)。
 

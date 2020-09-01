@@ -3,7 +3,7 @@ title: 缩进树
 order: 3
 ---
 
-缩进树布局。每个元素会占一行/一列。 <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NBUzRonaOYMAAAAAAAAAAABkARQnAQ' alt='intended' width='100'/>
+缩进树布局。每个元素会占一行/一列。 <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NBUzRonaOYMAAAAAAAAAAABkARQnAQ' alt='indented' width='100'/>
 
 ## 使用指南
 

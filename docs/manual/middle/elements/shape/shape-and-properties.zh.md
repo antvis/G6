@@ -3,7 +3,7 @@ title: 图形 Shape 及其属性
 order: 1
 ---
 
-G6 中的元素（节点/边）是**由一个或多个**[**图形 Shape**](/zh/docs/manual/middle/elements/shape/shape-keyshape)**组成**，主要通过自定义节点或自定义边时在 `draw` 方法中使用 `group.addShape` 添加，G6 中支持以下的图形 Shape：
+G6 中的元素（节点/边）是**由一个或多个**[**图形 Shape**](/zh/docs/manual/middle/elements/shape/shape-keyshape) **组成**，主要通过自定义节点或自定义边时在 `draw` 方法中使用 `group.addShape` 添加，G6 中支持以下的图形 Shape：
 
 - [circle](#圆图形-circle)：圆；
 - [rect](#矩形图形-rect)：矩形；

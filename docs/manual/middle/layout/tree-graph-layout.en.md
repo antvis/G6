@@ -5,7 +5,7 @@ order: 1
 
 ## Introduction
 
-Graph layouts are the algorithms arranging the node positions to obtain a understandable visualizaiton. According to the differences of data strucutre, the layouts can be categorized into: general graph layout and tree graph layout. There are several layout algorithms for them respectively. By utilizing the built-in layouts, [Translating the layouts and their configurations, translating the data](#layout-transformation-mechanism) can be achieved. Besides, G6 provides the [Web-Worker](#web-worker) for general graph layout in case layout calculation takes too long to block page interaction.
+Graph layouts are the algorithms arranging the node positions to obtain a understandable visualizaiton. According to the differences of data strucutre, the layouts can be categorized into: general graph layout and tree graph layout. There are several layout algorithms for them respectively. By utilizing the built-in layouts, [Translating the layouts and their configurations, translating the data](/en/docs/manual/middle/layout/layout-mechanism) can be achieved. Besides, G6 provides the [Web-Worker](/en/docs/manual/middle/layout/webworker) for general graph layout in case layout calculation takes too long to block page interaction.
 
 Besides, G6 supports [Custom Layout](/en/docs/manual/middle/layout/custom-layout) mechanism for users to design their own layout algorithm.
 
@@ -17,7 +17,7 @@ In order to handle the tree data structure, G6 extends Graph to TreeGraph. Refer
 
 - [CompactBox Layout](#compactbox);
 - [Dendrogram Layout](#dendrogram): Arrange the leaves on the same level;
-- [Intended Layout](#intended);
+- [Indented Layout](#indented);
 - [Mindmap Layout](#mindmap).
 
 ## Configure the TreeGraph
@@ -50,7 +50,7 @@ const graph = new G6.TreeGraph({
 
 ### compactBox
 
-**Description**: CompactBox is the default layout for TreeGraph. It will consider the bounding box of each node when layout.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**API**: [CompactBox API](/en/docs/api/layout/TreeGraph/#compactbox)<br />**Configuration**:
+**Description**: CompactBox is the default layout for TreeGraph. It will consider the bounding box of each node when layout.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**API**: [CompactBox API](/en/docs/api/layout/TreeGraph#compactbox)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -64,7 +64,7 @@ const graph = new G6.TreeGraph({
 
 ### dendrogram
 
-**Description**: Arranges all the leaves on the same level. It is appropriate for hierarchical clustering. It does not consider the node size, which will be regarded as 1 px.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XehWSKAWdrwAAAAAAAAAAABkARQnAQ' width=300 alt='img'/><br />**API**: [Dendrogram API](/en/docs/api/layout/TreeGraph/#dendrogram)<br />**Configuration**:
+**Description**: Arranges all the leaves on the same level. It is appropriate for hierarchical clustering. It does not consider the node size, which will be regarded as 1 px.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XehWSKAWdrwAAAAAAAAAAABkARQnAQ' width=300 alt='img'/><br />**API**: [Dendrogram API](/en/docs/api/layout/TreeGraph#dendrogram)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -77,7 +77,7 @@ const graph = new G6.TreeGraph({
 
 **Description**: Indented layout represents the hierarchy by indent between them. Each node will take a row/column. It is appropriate for file directory.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zuBlR4oBIE0AAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
-**API**: [Indented API](/en/docs/api/layout/TreeGraph/#indented)<br />**Configuration**:
+**API**: [Indented API](/en/docs/api/layout/TreeGraph#indented)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -89,7 +89,7 @@ const graph = new G6.TreeGraph({
 
 ### mindmap
 
-**Description**: Mindmap arranged the nodes with same depth on the same level. Different from compactBox, it does not consider the size of nodes while doing layout.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sRi6Q6Qrm-oAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**API**: [Mindmap API](/en/docs/api/layout/TreeGraph/#mindmap)<br />**Configuration**:
+**Description**: Mindmap arranged the nodes with same depth on the same level. Different from compactBox, it does not consider the size of nodes while doing layout.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sRi6Q6Qrm-oAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**API**: [Mindmap API](/en/docs/api/layout/TreeGraph#mindmap)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
