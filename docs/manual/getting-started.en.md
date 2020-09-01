@@ -197,4 +197,4 @@ In this chapter, we only briefly introduce the installation and usage. In G6 Tut
 - Configure the animation;
 - The usage of components.
 
-For more advanced functions, please refer to [Key Concepts](/en/docs/manual/middle/graph) and [Advanced Guides](/en/docs/manual/middle/elements/shape/shape-and-properties).
+For more advanced functions, please refer to [Key Concepts](/en/docs/manual/middle/graph) and [Further Reading](/en/docs/manual/advanced/coordinate-system).

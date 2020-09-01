@@ -25,7 +25,7 @@ When there is no node position information in the data, or the location informat
 - Dendrogram Layout;
 - CompactBox Layout;
 - Mindmap Layout;
-- Intended Layout.
+- Indented Layout.
 
 For more information about each layout algorithm, please refer to [Layout API](/en/docs/api/layout/Layout). We will utilize Force Layout in the tutorial.
 

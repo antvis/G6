@@ -31,7 +31,7 @@ order: 2
 
 ## 如何使用图形分组 Group
 
-图形分组一般会在[自定义节点](/zh/docs/manual/middle/elements/nodes/custom-node)、[自定义边](/zh/docs/manual/middle/elements/edges/custom-edge)时用到。Group 的完整实例方法请参考[Graphics Group API](/zh/docs/api/Group)。
+图形分组一般会在[自定义节点](/zh/docs/manual/middle/elements/nodes/custom-node)、[自定义边](/zh/docs/manual/middle/elements/edges/custom-edge)时用到。Group 的完整实例方法请参考 [Graphics Group API](/zh/docs/api/Group)。
 
 ### 获取元素的 group
 

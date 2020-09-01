@@ -796,11 +796,7 @@ graph.hideItem('nodeId');
 
 ### setItemState(item, state, value)
 
-<<<<<<< HEAD
-设置元素状态。支持单个状态多值的情况，详情参考 [G6 状态管理最佳实践](/zh/docs/manual/middle/advanced/state-new)。
-=======
-设置元素状态。支持单个状态多值的情况，详情参考 [G6 状态管理最佳实践](/zh/docs/manual/advanced/state-new)。
->>>>>>> docs: update url in api and demos.
+设置元素状态。支持单个状态多值的情况，详情参考 [G6 状态管理最佳实践](/zh/docs/manual/middle/states/state#设置-state)。
 
 该方法在执行过程中会触发 `beforitemstatechange`，`afteritemstatechange` 事件。
 

@@ -7,7 +7,7 @@ G6 内置了  quadratic  边，其默认样式如下。<br /> <img src='https:
 
 ## 使用方法
 
-如 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdgee)  一节所示，配置边的方式有两种：实例化图时全局配置，在数据中动态配置。
+如 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)  一节所示，配置边的方式有两种：实例化图时全局配置，在数据中动态配置。
 
 ### 1 实例化图时全局配置
 

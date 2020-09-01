@@ -185,7 +185,7 @@ G6.registerNode('background-animate', {
 
 #### 部分图形旋转动画
 
-这一例也是在 `afterDraw` 方法中为已有节点添加额外的 shape （本例中为 image），并为这些新增的图形设置旋转动画。旋转动画较为复杂，需要通过矩阵的操作实现。`animate` 函数的第一个参数是返回每一帧需要变化的参数集的函数，其参数 `ratio` 是当前正在进行的一次动画的进度，范围 [0, 1]；第二个参数是动画的参数，动画参数的具体配置参见 [animateCfg](#animateCfg)<br />
+这一例也是在 `afterDraw` 方法中为已有节点添加额外的 shape （本例中为 image），并为这些新增的图形设置旋转动画。旋转动画较为复杂，需要通过矩阵的操作实现。`animate` 函数的第一个参数是返回每一帧需要变化的参数集的函数，其参数 `ratio` 是当前正在进行的一次动画的进度，范围 [0, 1]；第二个参数是动画的参数，动画参数的具体配置参见 [animateCfg](#animateCfg)。<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*uFQsQqxIa_QAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 
@@ -251,7 +251,7 @@ G6.registerNode(
 
 #### 圆点运动
 
-本例通过在 `afterDraw` 方法中为边增加了一个 circle 图形，该图形沿着线运动。沿着线运动的原理：设定每一帧中，该 circle 在线上的相对位置。`animate` 函数的第一个参数是返回每一帧需要变化的参数集的函数，其参数 `ratio` 是当前正在进行的一次动画的进度，范围 [0, 1]；第二个参数是动画的参数，动画参数的具体配置参见 [animateCfg](#animateCfg)<br />
+本例通过在 `afterDraw` 方法中为边增加了一个 circle 图形，该图形沿着线运动。沿着线运动的原理：设定每一帧中，该 circle 在线上的相对位置。`animate` 函数的第一个参数是返回每一帧需要变化的参数集的函数，其参数 `ratio` 是当前正在进行的一次动画的进度，范围 [0, 1]；第二个参数是动画的参数，动画参数的具体配置参见 [animateCfg](#animateCfg)。<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OAGPRZbYpw4AAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 
@@ -302,7 +302,7 @@ G6.registerEdge(
 
 #### 虚线运动的效果
 
-虚线运动的效果是通过计算线的 `lineDash` ，并在每一帧中不断修改实现。`animate` 函数的第一个参数是返回每一帧需要变化的参数集的函数，其参数 `ratio` 是当前正在进行的一次动画的进度，范围 [0, 1]；第二个参数是动画的参数，动画参数的具体配置参见 [animateCfg](#animateCfg)<br />
+虚线运动的效果是通过计算线的 `lineDash` ，并在每一帧中不断修改实现。`animate` 函数的第一个参数是返回每一帧需要变化的参数集的函数，其参数 `ratio` 是当前正在进行的一次动画的进度，范围 [0, 1]；第二个参数是动画的参数，动画参数的具体配置参见 [animateCfg](#animateCfg)。<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VUgETK6aMzcAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 
@@ -343,7 +343,7 @@ G6.registerEdge(
 
 #### 线从无到有
 
-线从无到有的动画效果，同样可以通过计算 `lineDash` 来实现。`animate` 函数的第一个参数是返回每一帧需要变化的参数集的函数，其参数 `ratio` 是当前正在进行的一次动画的进度，范围 [0, 1]；第二个参数是动画的参数，动画参数的具体配置参见 [animateCfg](#animateCfg)<br />
+线从无到有的动画效果，同样可以通过计算 `lineDash` 来实现。`animate` 函数的第一个参数是返回每一帧需要变化的参数集的函数，其参数 `ratio` 是当前正在进行的一次动画的进度，范围 [0, 1]；第二个参数是动画的参数，动画参数的具体配置参见 [animateCfg](#animateCfg)。<br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-l9lQ7Ck1QcAAAAAAAAAAABkARQnAQ' alt='download' width='150'/>
 
@@ -383,7 +383,7 @@ G6.registerEdge(
 - 自定义边中复写 `setState` 方法监听该边的状态，以及某状态下的动画效果；
 - 监听中间的节点的 `mouseenter` 和 `mouseleave` 事件，触发相关边的状态变化。
 
-下面代码节选自 demo <a href='/zh/examples/scatter/stateChange' target='_blank'>状态切换动画</a>，请注意省略了部分代码，只展示了交互相关以及边动画相关的代码。`animate` 函数的第一个参数是返回每一帧需要变化的参数集的函数，其参数 `ratio` 是当前正在进行的一次动画的进度，范围 [0, 1]；第二个参数是动画的参数，动画参数的具体配置参见 [animateCfg](#animateCfg)
+下面代码节选自 demo <a href='/zh/examples/scatter/stateChange' target='_blank'>状态切换动画</a>，请注意省略了部分代码，只展示了交互相关以及边动画相关的代码。`animate` 函数的第一个参数是返回每一帧需要变化的参数集的函数，其参数 `ratio` 是当前正在进行的一次动画的进度，范围 [0, 1]；第二个参数是动画的参数，动画参数的具体配置参见 [animateCfg](#animateCfg)。
 
 ```javascript
 // const data = ...

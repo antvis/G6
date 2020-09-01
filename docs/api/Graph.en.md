@@ -788,7 +788,7 @@ graph.hideItem('nodeId');
 
 Set the item's state.
 
-v3.4 and futher versions support multiple values for a state, refer to [Take Use of State Mechanism](/en/docs/manual/middle/states/state/#using-state).
+v3.4 and futher versions support multiple values for a state, refer to [Take Use of State Mechanism](/en/docs/manual/middle/states/state#using-state).
 
 This function will emit events `beforitemstatechange` and `afteritemstatechange`.
 

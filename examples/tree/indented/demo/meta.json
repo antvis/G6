@@ -8,7 +8,7 @@
       "filename": "filesystem.js",
       "title": {
         "zh": "缩进树-文件系统",
-        "en": "FileSystem-Intended Layout"
+        "en": "FileSystem-Indented Layout"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*PJnfTKFRaCAAAAAAAAAAAABkARQnAQ"
     },
@@ -24,7 +24,7 @@
       "filename": "hIntended.js",
       "title": {
         "zh": "缩进树-子节点两侧分布",
-        "en": "Two Side Intended Layout"
+        "en": "Two Side Indented Layout"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*42EXSYyBcTYAAAAAAAAAAABkARQnAQ"
     }

@@ -197,4 +197,4 @@ graph.render(); // 渲染图
 - 增加动画；
 - 使用辅助组件。
 
-想了解更高阶的功能，请参见 [G6 核心概念](/zh/docs/manual/middle/graph)，[G6 高级指引](/zh/docs/manual/middle/elements/shape/shape-and-properties)。
+想了解更高阶的功能，请参见 [G6 核心概念](/zh/docs/manual/middle/graph)，[G6 扩展阅读](/zh/docs/manual/advanced/coordinate-system)。

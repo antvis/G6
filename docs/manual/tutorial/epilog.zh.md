@@ -14,6 +14,6 @@ order: 7
 
 完整代码见：[Tutorial 案例代码](https://codepen.io/Yanyan-Wang/pen/mdbYZvZ)。
 
-如果你希望继续学习深入的 G6 知识，请查看 [G6 核心概念](/zh/docs/manual/middle/graph)；关于 G6 的更高阶的功能原理介绍和深入探讨，请查看 [G6 高级指引](/zh/docs/manual/middle/elements/shape/shape-and-properties)。
+如果你希望继续学习深入的 G6 知识，请查看 [G6 核心概念](/zh/docs/manual/middle/graph)；关于 G6 的扩展内容，请查看 [G6 扩展阅读](/zh/docs/manual/advanced/coordinate-system)。
 
 开发过程中可通过 [G6 API](/zh/docs/api/Graph) 快速查询。
