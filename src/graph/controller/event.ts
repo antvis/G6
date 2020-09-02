@@ -156,6 +156,11 @@ export default class EventController {
     // 事件target是触发事件的Shape实例，item是触发事件的item实例
     evt.target = target;
     evt.item = item;
+    if (evt.canvasX === evt.x && evt.canvasY === evt.y) {
+      const canvasPoint = graph.getCanvasByPoint(evt.x, evt.y);
+      evt.canvasX = canvasPoint.x;
+      evt.canvasY = canvasPoint.y;
+    }
 
     // emit('click', evt);
     graph.emit(eventType, evt);
