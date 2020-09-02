@@ -1,17 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import G6 from '../../../src';
 import { IGraph } from '../../../src/interface/graph';
 
 let graph: IGraph = null;
 
+let fisheye = new G6.Fisheye({
+  r: 200,
+  showLabel: true,
+  // trigger: 'drag',
+  scaleRByWheel: true
+});
+
 const FishEye = () => {
   const container = React.useRef();
-  const fisheye = new G6.Fisheye({
-    r: 200,
-    showLabel: true,
-    // trigger: 'drag',
-    scaleRByWheel: true
-  });
   const colors = [
     '#8FE9FF',
     '#87EAEF',
@@ -66,9 +67,28 @@ const FishEye = () => {
   const handleClear = () => {
     fisheye.clear();
   };
+
+  const [state, setState] = useState('Disable')
+  const handleSwitch = () => {
+    if (state === 'Disable') {
+      setState('Enable');
+      console.log('goint to remove', fisheye)
+      graph.removePlugin(fisheye);
+    } else {
+      setState('Disable');
+      fisheye = new G6.Fisheye({
+        r: 100,
+        showLabel: true,
+      });
+      graph.addPlugin(fisheye);
+    }
+    console.log(graph.get('plugins'))
+  }
+
   return (
     <div ref={container}>
       <div onClick={handleClear}>click here to clear</div>
+      <div onClick={handleSwitch}>{state}</div>
     </div>
   );
 };
