@@ -107,6 +107,11 @@ export default {
     } else {
       this.targets.push(item);
     }
+    const beforeDragNodes = [];
+    this.targets.forEach(t => {
+      beforeDragNodes.push(clone(t.getModel()));
+    });
+    this.set('beforeDragNodes', beforeDragNodes);
 
     this.origin = {
       x: evt.x,
@@ -193,7 +198,15 @@ export default {
 
     // 拖动结束后，入栈
     if (graph.get('enabledStack')) {
-      graph.pushStack('update', clone(graph.save()));
+      const stackData = {
+        before: { nodes: this.get('beforeDragNodes'), edges: [], combos: [] },
+        after: { nodes: [], edges: [], combos: [] }
+      }
+
+      this.targets.forEach(target => {
+        stackData.after.nodes.push(target.getModel());
+      })
+      graph.pushStack('update', clone(stackData));
     }
 
     this.point = {};

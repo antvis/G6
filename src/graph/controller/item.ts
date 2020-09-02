@@ -395,7 +395,7 @@ export default class ItemController {
       }
       // 若移除的是节点，需要将与之相连的边一同删除
       const edges = (item as INode).getEdges();
-      for (let i = edges.length; i >= 0; i--) {
+      for (let i = edges.length - 1; i >= 0; i--) {
         graph.removeItem(edges[i], false);
       }
       if (comboId) graph.updateCombo(comboId);
@@ -560,7 +560,7 @@ export default class ItemController {
    * @param {boolean} visible 是否显示
    * @memberof ItemController
    */
-  public changeItemVisibility(item: Item | string, visible: boolean): void {
+  public changeItemVisibility(item: Item | string, visible: boolean): Item {
     const { graph } = this;
 
     if (isString(item)) {
@@ -620,6 +620,7 @@ export default class ItemController {
       });
     }
     graph.emit('afteritemvisibilitychange', { item, visible });
+    return item;
   }
 
   public destroy() {
