@@ -189,39 +189,61 @@ export default class ToolBar extends Base {
 
     const currentData = undoStack.pop();
     if (currentData) {
-      let { action, data } = currentData;
-      graph.pushStack(action, clone(data), 'redo');
+      let { action } = currentData;
+      graph.pushStack(action, clone(currentData.data), 'redo');
+      let data = currentData.data.before;
 
-      if (undoStack.length > 0 && (action === 'render' || action === 'update')) {
-        const current = undoStack.peek();
-        action = current.action;
-        data = current.data;
+      if (action === 'add') {
+        data = currentData.data.after;
       }
+
+      if (!data) return;
 
       switch (action) {
         case 'visible': {
-          let item = data;
-          if (isString(data)) {
-            item = graph.findById(data);
-          }
-          if (item.get('visible')) {
-            graph.hideItem(item, false);
-          } else {
-            graph.showItem(item, false);
-          }
+          Object.keys(data).forEach(key => {
+            const array = data[key];
+            array && array.forEach(model => {
+              const item = graph.findById(model.id);
+              if (model.visible) {
+                graph.showItem(item, false);
+              } else {
+                graph.hideItem(item, false);
+              }
+            });
+          });
           break;
         }
         case 'render':
         case 'update':
+          Object.keys(data).forEach(key => {
+            const array = data[key];
+            array && array.forEach(model => {
+              graph.updateItem(model.id, model, false);
+            });
+          });
+          break;
+        case 'changedata':
           graph.changeData(data, false);
           break;
         case 'delete': {
-          const { type, ...model } = data;
-          graph.addItem(type, model, false);
+          Object.keys(data).forEach(key => {
+            const array = data[key];
+            array && array.forEach(model => {
+              const type = model.type;
+              delete model.type;
+              graph.addItem(type, model, false);
+            });
+          });
           break;
         }
         case 'add':
-          graph.removeItem(data.id, false);
+          Object.keys(data).forEach(key => {
+            const array = data[key];
+            array && array.forEach(model => {
+              graph.removeItem(model.id, false);
+            });
+          });
           break;
         default:
       }
@@ -241,38 +263,62 @@ export default class ToolBar extends Base {
 
     let currentData = redoStack.pop();
     if (currentData) {
-      let { action, data } = currentData;
-      graph.pushStack(action, clone(data));
-      if (action === 'render') {
-        currentData = redoStack.pop();
-        action = currentData.action;
-        data = currentData.data;
-        graph.pushStack(action, clone(data));
+      let { action } = currentData;
+      let data = currentData.data.after;
+      graph.pushStack(action, clone(currentData.data));
+      if (action === 'delete') {
+        data = currentData.data.before;
       }
+
+      if (!data) return;
 
       switch (action) {
         case 'visible': {
-          let item = data;
-          if (isString(data)) {
-            item = graph.findById(data);
-          }
-          if (item.get('visible')) {
-            graph.hideItem(item, false);
-          } else {
-            graph.showItem(item, false);
-          }
+          Object.keys(data).forEach(key => {
+            const array = data[key];
+            array && array.forEach(model => {
+              const item = graph.findById(model.id);
+              if (model.visible) {
+                graph.showItem(item, false);
+              } else {
+                graph.hideItem(item, false);
+              }
+            });
+          });
           break;
         }
         case 'render':
         case 'update':
+          Object.keys(data).forEach(key => {
+            const array = data[key];
+            array && array.forEach(model => {
+              graph.updateItem(model.id, model, false);
+            });
+          });
+          break;
+        case 'changedata':
           graph.changeData(data, false);
           break;
         case 'delete':
-          graph.removeItem(data.id, false);
+          data.edges && data.edges.forEach(model => {
+            graph.removeItem(model.id, false);
+          });
+          data.nodes && data.nodes.forEach(model => {
+            graph.removeItem(model.id, false);
+          });
+          data.combos && data.combos.forEach(model => {
+            graph.removeItem(model.id, false);
+          });
           break;
         case 'add': {
-          const { type, ...model } = data;
-          graph.addItem(type, model, false);
+          Object.keys(data).forEach(key => {
+            const array = data[key];
+            array && array.forEach(model => {
+              const type = model.type;
+              delete model.type;
+              graph.addItem(type, model, false);
+            });
+          });
           break;
         }
         default:

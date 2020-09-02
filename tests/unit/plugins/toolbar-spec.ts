@@ -47,7 +47,7 @@ describe('toolbar', () => {
 
     expect(undoStack.length).toBe(1);
     expect(undoStack[0].action).toEqual('render');
-    expect(undoStack[0].data.nodes.length).toEqual(2);
+    expect(undoStack[0].data.after.nodes.length).toEqual(2);
     expect(redoStack.length).toBe(0);
 
     // update 后，undo stack 中有 2 条数据，一条 render，一条 update
@@ -62,9 +62,9 @@ describe('toolbar', () => {
 
     let firstStackData = undoStack[0];
     expect(firstStackData.action).toEqual('update');
-    expect(firstStackData.data.nodes[0].id).toEqual('node1');
-    expect(firstStackData.data.nodes[0].x).toEqual(120);
-    expect(firstStackData.data.nodes[0].y).toEqual(200);
+    expect(firstStackData.data.after.nodes[0].id).toEqual('node1');
+    expect(firstStackData.data.after.nodes[0].x).toEqual(120);
+    expect(firstStackData.data.after.nodes[0].y).toEqual(200);
 
     // 执行 update 后，undo stack 中有3条数据
     graph.update('node2', {
@@ -78,9 +78,9 @@ describe('toolbar', () => {
 
     firstStackData = undoStack[0];
     expect(firstStackData.action).toEqual('update');
-    expect(firstStackData.data.nodes[1].id).toEqual('node2');
-    expect(firstStackData.data.nodes[1].x).toEqual(120);
-    expect(firstStackData.data.nodes[1].y).toEqual(350);
+    expect(firstStackData.data.after.nodes[0].id).toEqual('node2');
+    expect(firstStackData.data.after.nodes[0].x).toEqual(120);
+    expect(firstStackData.data.after.nodes[0].y).toEqual(350);
 
     // addItem 后，undo 栈中有4条数据，1个render、2个update、1个add
     graph.addItem('node', {
@@ -96,9 +96,9 @@ describe('toolbar', () => {
 
     firstStackData = undoStack[0];
     expect(firstStackData.action).toEqual('add');
-    expect(firstStackData.data.id).toEqual('node3');
-    expect(firstStackData.data.x).toEqual(150);
-    expect(firstStackData.data.y).toEqual(150);
+    expect(firstStackData.data.after.nodes[0].id).toEqual('node3');
+    expect(firstStackData.data.after.nodes[0].x).toEqual(150);
+    expect(firstStackData.data.after.nodes[0].y).toEqual(150);
 
     // hideItem 后，undo 栈中有5条数据，1个render、2个update、1个add、1个visible
     graph.hideItem('node1');
@@ -109,7 +109,7 @@ describe('toolbar', () => {
 
     firstStackData = undoStack[0];
     expect(firstStackData.action).toEqual('visible');
-    expect(firstStackData.data).toEqual('node1');
+    expect(firstStackData.data.after.nodes[0].id).toEqual('node1');
 
     // remove 后，undo 栈中有6条数据，1个render、2个update、1个add、1个visible、1个delete
     graph.remove('node2');
@@ -120,8 +120,8 @@ describe('toolbar', () => {
 
     firstStackData = undoStack[0];
     expect(firstStackData.action).toEqual('delete');
-    expect(firstStackData.data.id).toEqual('node2');
-    expect(firstStackData.data.type).toEqual('node');
+    expect(firstStackData.data.before.nodes[0].id).toEqual('node2');
+    expect(firstStackData.data.before.nodes[0].type).toEqual('node');
 
     // 第一次 undo 后，撤销 remove node2 操作
     toolbar.undo();
@@ -134,13 +134,13 @@ describe('toolbar', () => {
 
     firstStackData = redoStack[0];
     expect(firstStackData.action).toEqual('delete');
-    expect(firstStackData.data.id).toEqual('node2');
-    expect(firstStackData.data.type).toEqual('node');
+    expect(firstStackData.data.before.nodes[0].id).toEqual('node2');
+    expect(firstStackData.data.before.nodes[0].type).toEqual('node');
 
     // 此时 undo stack 中第一个元素应该是 visible node1 的数据
     firstStackData = undoStack[0];
     expect(firstStackData.action).toEqual('visible');
-    expect(firstStackData.data).toEqual('node1');
+    expect(firstStackData.data.after.nodes[0].id).toEqual('node1');
 
     // 第二次 undo 后，撤销 hide node1 的操作
     toolbar.undo();
@@ -152,7 +152,7 @@ describe('toolbar', () => {
 
     firstStackData = redoStack[0];
     expect(firstStackData.action).toEqual('visible');
-    expect(firstStackData.data).toEqual('node1');
+    expect(firstStackData.data.after.nodes[0].id).toEqual('node1');
 
     graph.destroy();
   });

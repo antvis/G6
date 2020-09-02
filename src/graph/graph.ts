@@ -853,13 +853,29 @@ export default class Graph extends EventEmitter implements IGraph {
    */
   public showItem(item: Item | string, stack: boolean = true): void {
     const itemController: ItemController = this.get('itemController');
-    itemController.changeItemVisibility(item, true);
+    const object = itemController.changeItemVisibility(item, true);
     if (stack && this.get('enabledStack')) {
-      if (isString(item)) {
-        this.pushStack('visible', item);
-      } else {
-        this.pushStack('visible', (item as Item).getID());
+      let id = object.getID();
+      const type = object.getType();
+      const before: GraphData = {};
+      const after: GraphData = {};
+      switch (type) {
+        case 'node':
+          before.nodes = [{ id, visible: false }];
+          after.nodes = [{ id, visible: true }];
+          break;
+        case 'edge':
+          before.nodes = [{ id, visible: false }];
+          after.edges = [{ id, visible: true }];
+          break;
+        case 'combo':
+          before.nodes = [{ id, visible: false }];
+          after.combos = [{ id, visible: true }];
+          break;
+        default:
+          break;
       }
+      this.pushStack('visible', { before, after });
     }
   }
 
@@ -870,13 +886,29 @@ export default class Graph extends EventEmitter implements IGraph {
    */
   public hideItem(item: Item | string, stack: boolean = true): void {
     const itemController: ItemController = this.get('itemController');
-    itemController.changeItemVisibility(item, false);
+    const object = itemController.changeItemVisibility(item, false);
     if (stack && this.get('enabledStack')) {
-      if (isString(item)) {
-        this.pushStack('visible', item);
-      } else {
-        this.pushStack('visible', (item as Item).getID());
+      let id = object.getID();
+      const type = object.getType();
+      const before: GraphData = {};
+      const after: GraphData = {};
+      switch (type) {
+        case 'node':
+          before.nodes = [{ id, visible: true }];
+          after.nodes = [{ id, visible: false }];
+          break;
+        case 'edge':
+          before.nodes = [{ id, visible: true }];
+          after.edges = [{ id, visible: false }];
+          break;
+        case 'combo':
+          before.nodes = [{ id, visible: true }];
+          after.combos = [{ id, visible: false }];
+          break;
+        default:
+          break;
       }
+      this.pushStack('visible', { before, after });
     }
   }
 
@@ -929,9 +961,34 @@ export default class Graph extends EventEmitter implements IGraph {
 
       // 将删除的元素入栈
       if (stack && this.get('enabledStack')) {
-        this.pushStack('delete', {
+        const deletedModel = {
           ...(nodeItem as Item).getModel(),
           type,
+        }
+        const before: GraphData = {};
+        switch (type) {
+          case 'node':
+            before.nodes = [deletedModel as NodeConfig];
+            before.edges = [];
+            const edges = (nodeItem as INode).getEdges();
+            for (let i = edges.length - 1; i >= 0; i--) {
+              before.edges.push({
+                ...edges[i].getModel(),
+                type: 'edge'
+              });
+            }
+            break;
+          case 'edge':
+            before.edges = [deletedModel as EdgeConfig];
+            break;
+          case 'combo':
+            before.combos = [deletedModel as ComboConfig];
+            break;
+          default:
+            break;
+        }
+        this.pushStack('delete', {
+          before, after: {}
         });
       }
 
@@ -1079,9 +1136,26 @@ export default class Graph extends EventEmitter implements IGraph {
     this.autoPaint();
 
     if (stack && this.get('enabledStack')) {
-      this.pushStack('add', {
+      const addedModel = {
         ...item.getModel(),
-        type,
+        type
+      }
+      const after: GraphData = {};
+      switch (type) {
+        case 'node':
+          after.nodes = [addedModel];
+          break;
+        case 'edge':
+          after.edges = [addedModel];
+          break;
+        case 'combo':
+          after.combos = [addedModel];
+          break;
+        default:
+          break;
+      }
+      this.pushStack('add', {
+        before: {}, after
       });
     }
 
@@ -1117,6 +1191,8 @@ export default class Graph extends EventEmitter implements IGraph {
       currentItem = item;
     }
 
+    const UnupdateModel = clone(currentItem.getModel());
+
     let type = '';
     if (currentItem.getType) type = currentItem.getType();
     const states = [...currentItem.getStates()];
@@ -1130,7 +1206,32 @@ export default class Graph extends EventEmitter implements IGraph {
     }
 
     if (stack && this.get('enabledStack')) {
-      this.pushStack();
+      const before = { nodes: [], edges: [], combos: [] };
+      const after = { nodes: [], edges: [], combos: [] };
+      const afterModel = {
+        id: UnupdateModel.id,
+        ...cfg
+      };
+      switch (type) {
+        case 'node':
+          before.nodes.push(UnupdateModel);
+          after.nodes.push(afterModel);
+          break;
+        case 'edge':
+          before.edges.push(UnupdateModel);
+          after.edges.push(afterModel);
+          break;
+        case 'combo':
+          before.combos.push(UnupdateModel);
+          after.combos.push(afterModel);
+          break;
+        default:
+          break;
+      }
+      if (type === 'node') {
+        before.nodes.push(UnupdateModel);
+      }
+      this.pushStack('update', { before, after });
     }
   }
 
@@ -1339,12 +1440,15 @@ export default class Graph extends EventEmitter implements IGraph {
    * @return {object} this
    */
   public changeData(data?: GraphData | TreeGraphData, stack: boolean = true): Graph {
-    if (stack && this.get('enabledStack')) {
-      this.pushStack('update', data);
-    }
     const self = this;
     if (!data) {
       return this;
+    }
+    if (stack && this.get('enabledStack')) {
+      this.pushStack('changedata', {
+        before: self.save(),
+        after: data
+      });
     }
     this.set('comboSorted', false);
 
@@ -3029,7 +3133,10 @@ export default class Graph extends EventEmitter implements IGraph {
       return;
     }
 
-    const stackData = data ? clone(data) : clone(this.save());
+    const stackData = data ? clone(data) : {
+      before: {},
+      after: clone(this.save())
+    };
 
     if (stackType === 'redo') {
       this.redoStack.push({
