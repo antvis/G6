@@ -317,8 +317,10 @@ export default class Fisheye extends Base {
     this.restoreCache();
     graph.refreshPositions();
     const lensDelegate = this.get('delegate');
-    lensDelegate.remove();
-    lensDelegate.destroy();
+    if (lensDelegate && !lensDelegate.destroyed) {
+      lensDelegate.remove();
+      lensDelegate.destroy();
+    }
   }
 
   public destroy() {
