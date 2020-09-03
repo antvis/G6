@@ -217,10 +217,9 @@ export default {
         const nodeModel = node.getModel();
         if (nodeModel.comboId !== targetComboModel.id) {
           graph.updateComboTree(node, targetComboModel.id);
-        } else {
-          graph.updateCombo(item as ICombo);
         }
       });
+      graph.updateCombo(item as ICombo);
     }
   },
 
@@ -258,7 +257,6 @@ export default {
     if (comboId) {
       const combo = graph.findById(comboId);
       if (self.comboActiveState) {
-        const combo = graph.findById(comboId);
         graph.setItemState(combo, self.comboActiveState, false);
       }
       this.targets.map((node: INode) => {
@@ -266,8 +264,8 @@ export default {
         if (comboId !== nodeModel.comboId) {
           graph.updateComboTree(node, comboId);
         }
-        graph.updateCombo(combo as ICombo)
       });
+      graph.updateCombo(combo as ICombo)
     } else {
       this.targets.map((node: INode) => {
         const model = node.getModel();
