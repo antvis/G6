@@ -5,7 +5,7 @@ import GCanvas from '@antv/g-canvas/lib/canvas';
 import GSVGCanvas from '@antv/g-svg/lib/canvas';
 import { mat3 } from '@antv/matrix-util/lib';
 import { clone, deepMix, each, isPlainObject, isString, isNumber, groupBy } from '@antv/util';
-import { IGraph } from '../interface/graph';
+import { IGraph, DataUrlType } from '../interface/graph';
 import { IEdge, INode, ICombo } from '../interface/item';
 import {
   GraphAnimateConfig,
@@ -56,8 +56,6 @@ const SVG = 'svg';
 interface IGroupBBox {
   [key: string]: BBox;
 }
-
-type DataUrlType = 'image/png' | 'image/jpeg' | 'image/webp' | 'image/bmp';
 
 export interface PrivateGraphOption extends GraphOptions {
   data: GraphData;
@@ -452,7 +450,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * 获取 graph 的根图形分组
    * @return 根 group
    */
-  public getGroup() {
+  public getGroup(): IGroup {
     return this.get('group');
   }
 
@@ -460,7 +458,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * 获取 graph 的 DOM 容器
    * @return DOM 容器
    */
-  public getContainer() {
+  public getContainer(): HTMLElement {
     return this.get('container');
   }
 
@@ -468,7 +466,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * 获取 graph 的最小缩放比例
    * @return minZoom
    */
-  public getMinZoom() {
+  public getMinZoom(): number {
     return this.get('minZoom');
   }
 
@@ -484,7 +482,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * 获取 graph 的最大缩放比例
    * @param maxZoom
    */
-  public getMaxZoom() {
+  public getMaxZoom(): number {
     return this.get('maxZoom');
   }
 
@@ -500,7 +498,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * 获取 graph 的宽度
    * @return width
    */
-  public getWidth() {
+  public getWidth(): number {
     return this.get('width');
   }
 
@@ -508,7 +506,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * 获取 graph 的高度
    * @return width
    */
-  public getHeight() {
+  public getHeight(): number {
     return this.get('height');
   }
 
@@ -3306,7 +3304,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * 获取当前 graph 中存在的包裹轮廓
    * @return {[key: string]: Hull} hullId 对应的 hull 实例
    */
-  public getHulls() {
+  public getHulls(): Hull[] {
     return this.get('hullMap');
   }
 
