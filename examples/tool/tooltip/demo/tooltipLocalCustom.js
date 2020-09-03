@@ -141,20 +141,9 @@ const graph = new G6.Graph({
         offset: 30,
         shouldBegin: (e) => {
           if (e.item.getModel().id === '2') return false;
-          const div = document.getElementsByClassName('g6-tooltip')[0];
-          if (div) div.style.display = 'none';
-          return true;
-        },
-        shouldUpdate: (e) => {
-          if (
-            e.target.get('name') === 'tooltip-response-shape' ||
-            e.target.get('name') === 'tooltip-response-text-shape'
-          ) {
-            const div = document.getElementsByClassName('g6-tooltip')[0];
-            if (div) div.style.display = 'block';
-            return true;
-          }
-          return false;
+          const target = e.target;
+          if (target.get('name') === 'tooltip-response-text-shape') return true;
+          return false
         },
       },
     ],

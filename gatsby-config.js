@@ -23,14 +23,14 @@ module.exports = {
       {
         slug: 'docs/manual/introduction',
         title: {
-          zh: '使用文档',
+          zh: '教程',
           en: 'Manual',
         },
       },
       {
         slug: 'docs/api/Graph',
         title: {
-          zh: 'API 文档',
+          zh: 'API',
           en: 'API',
         },
       },
