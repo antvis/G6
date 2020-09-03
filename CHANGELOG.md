@@ -11,6 +11,7 @@
 - fix: the position of grid plugins when there is something on the top of the canvas, closes: #2012;
 - fix: fisheye destroy and new problem, closes: #2018;
 - fix: node event with wrong canvasX and canvasY problem, closes: #2027;
+- fix: drag combo and drag node to drop on canvas/combo/node problem;
 - feat: improve the performance on the combos;
 - fix: redo and undo problem when update item after additem, closes #2019;
 - feat: hide shapes beside keyShape while zooming;
