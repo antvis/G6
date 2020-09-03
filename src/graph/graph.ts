@@ -1808,6 +1808,37 @@ export default class Graph extends EventEmitter implements IGraph {
     const model = uItem.getModel();
     const oldParentId = (model.comboId as string) || (model.parentId as string);
 
+    // 若 item 是 Combo，且 parentId 是其子孙 combo 的 id，则警告并终止
+    if (parentId && uItem.getType && uItem.getType() === 'combo') {
+      const comboTrees = this.get('comboTrees');
+      let valid = true;
+      let itemSubTree;
+      (comboTrees || []).forEach((ctree) => {
+        if (itemSubTree) return;
+        traverseTree(ctree, (subTree) => {
+          if (itemSubTree) return;
+          // 找到从 item 开始的子树
+          if (subTree.id === uItem.getID()) {
+            itemSubTree = subTree;
+          }
+          return true;
+        });
+      });
+      // 在以 item 为根的子树中寻找与 parentId 相同的后继元素
+      traverseTree(itemSubTree, subTree => {
+        if (subTree.id === parentId) {
+          valid = false;
+          return false;
+        }
+        return true;
+      })
+      // parentId 是 item 的一个后继元素，不能进行更新
+      if (!valid) {
+        console.warn('Failed to update the combo tree! The parentId points to a descendant of the combo!');
+        return;
+      }
+    }
+
     // 当 combo 存在parentId 或 comboId 时，才将其移除
     if (model.parentId || model.comboId) {
       const combo = this.findById((model.parentId || model.comboId) as string) as ICombo;

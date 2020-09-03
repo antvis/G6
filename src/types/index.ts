@@ -598,6 +598,7 @@ export enum G6Event {
   CANVAS_DRAG = 'canvas:drag',
   CANVAS_DRAGEND = 'canvas:dragend',
   CANVAS_DRAGLEAVE = 'canvas:dragleave',
+  CANVAS_DROP = 'canvas:drop',
 
   // combo
   COMBO_CLICK = 'combo:click',
