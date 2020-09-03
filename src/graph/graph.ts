@@ -855,7 +855,7 @@ export default class Graph extends EventEmitter implements IGraph {
     const itemController: ItemController = this.get('itemController');
     const object = itemController.changeItemVisibility(item, true);
     if (stack && this.get('enabledStack')) {
-      let id = object.getID();
+      const id = object.getID();
       const type = object.getType();
       const before: GraphData = {};
       const after: GraphData = {};
@@ -888,7 +888,7 @@ export default class Graph extends EventEmitter implements IGraph {
     const itemController: ItemController = this.get('itemController');
     const object = itemController.changeItemVisibility(item, false);
     if (stack && this.get('enabledStack')) {
-      let id = object.getID();
+      const id = object.getID();
       const type = object.getType();
       const before: GraphData = {};
       const after: GraphData = {};
@@ -967,7 +967,7 @@ export default class Graph extends EventEmitter implements IGraph {
         }
         const before: GraphData = {};
         switch (type) {
-          case 'node':
+          case 'node': {
             before.nodes = [deletedModel as NodeConfig];
             before.edges = [];
             const edges = (nodeItem as INode).getEdges();
@@ -978,6 +978,7 @@ export default class Graph extends EventEmitter implements IGraph {
               });
             }
             break;
+          }
           case 'edge':
             before.edges = [deletedModel as EdgeConfig];
             break;
