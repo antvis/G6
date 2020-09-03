@@ -16,7 +16,7 @@ const data = {
   nodes: [
     {
       id: '0',
-      label: 'hover the label - node 0',
+      label: 'Has Tooltip - node 0',
       x: 230,
       y: 100,
       description: 'This is node-0.',
@@ -32,7 +32,7 @@ const data = {
     },
     {
       id: '2',
-      label: 'hover the label - node 2',
+      label: 'Has Tooltip - node 2',
       x: 320,
       y: 310,
       description: 'This is node-2.',
@@ -44,12 +44,14 @@ const data = {
       id: 'e1',
       source: '0',
       target: '1',
+      label: 'No Tooltip',
       description: 'This is edge from node 0 to node 1.',
     },
     {
       id: 'e2',
       source: '0',
       target: '2',
+      label: 'Has Tooltip',
       description: 'This is edge from node 0 to node 2.',
     },
   ],
@@ -78,6 +80,10 @@ const graph = new G6.Graph({
       stroke: '#b5b5b5',
       lineAppendWidth: 3,
     },
+    labelCfg: {
+      autoRotate: true,
+
+    }
   },
   modes: {
     default: [
@@ -91,17 +97,19 @@ const graph = new G6.Graph({
         offset: 20,
         shouldBegin: (e) => {
           if (e.item.getModel().id === '1') return false;
-          const div = document.getElementsByClassName('g6-tooltip')[0];
-          if (div) div.style.display = 'none';
           return true;
         },
-        shouldUpdate: (e) => {
-          if (e.target.get('name') === 'text-shape') {
-            const div = document.getElementsByClassName('g6-tooltip')[0];
-            if (div) div.style.display = 'block';
-            return true;
-          }
-          return false;
+      },
+      {
+        type: 'edge-tooltip',
+        formatText: function formatText(model) {
+          const text = 'description: ' + model.description;
+          return text;
+        },
+        offset: 20,
+        shouldBegin: (e) => {
+          if (e.item.getModel().target === '1') return false;
+          return true;
         },
       },
     ],
