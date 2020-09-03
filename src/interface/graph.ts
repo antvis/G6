@@ -1,5 +1,6 @@
 import EventEmitter from '@antv/event-emitter';
 import { Point } from '@antv/g-base/lib/types';
+import { IGroup } from '@antv/g-base/lib/interfaces';
 import Graph from '../graph/graph';
 import {
   EdgeConfig,
@@ -18,10 +19,14 @@ import {
   ComboConfig,
   GraphAnimateConfig,
   StackData,
+  HullCfg
 } from '../types';
 import { IEdge, INode, ICombo } from './item';
+import Hull from '../item/hull';
 import PluginBase from '../plugins/base';
 import Stack from '../algorithm/structs/stack';
+
+export type DataUrlType = 'image/png' | 'image/jpeg' | 'image/webp' | 'image/bmp';
 
 export interface IGraph extends EventEmitter {
   getDefaultCfg(): Partial<GraphOptions>;
@@ -30,6 +35,54 @@ export interface IGraph extends EventEmitter {
   findById(id: string): Item;
   translate(dx: number, dy: number): void;
   zoom(ratio: number, center?: Point): void;
+
+  /**
+   * 获取 graph 的根图形分组
+   * @return 根 group
+   */
+  getGroup(): IGroup;
+
+  /**
+   * 获取 graph 的 DOM 容器
+   * @return DOM 容器
+   */
+  getContainer(): HTMLElement;
+
+  /**
+   * 获取 graph 的最小缩放比例
+   * @return minZoom
+   */
+  getMinZoom(): number;
+
+  /**
+   * 设置 graph 的最小缩放比例
+   * @return minZoom
+   */
+  setMinZoom(ratio: number);
+
+  /**
+   * 获取 graph 的最大缩放比例
+   * @param maxZoom
+   */
+  getMaxZoom(): number;
+
+  /**
+   * 设置 graph 的最大缩放比例
+   * @param maxZoom
+   */
+  setMaxZoom(ratio: number);
+
+  /**
+   * 获取 graph 的宽度
+   * @return width
+   */
+  getWidth(): number;
+
+  /**
+   * 获取 graph 的高度
+   * @return height
+   */
+  getHeight(): number;
 
   /**
    * 将屏幕坐标转换为视口坐标
@@ -416,7 +469,31 @@ export interface IGraph extends EventEmitter {
    * 画布导出图片
    * @param {String} name 图片的名称
    */
-  downloadImage(name: string): void;
+  downloadImage(name?: string, type?: DataUrlType, backgroundColor?: string): void;
+
+  /**
+   * 导出包含全图的图片
+   * @param {String} name 图片的名称
+   * @param {String} type 图片类型，可选值："image/png" | "image/jpeg" | "image/webp" | "image/bmp"
+   * @param {Object} imageConfig 图片配置项，包括背景色和上下左右的 padding
+   */
+  downloadFullImage(
+    name?: string,
+    type?: DataUrlType,
+    imageConfig?: { backgroundColor?: string; padding?: number | number[] },
+  ): void;
+
+  /**
+   * 返回整个图（包括超出可见区域的部分）的 dataUrl，用于生成图片
+   * @param {Function} callback 异步生成 dataUrl 完成后的回调函数，在这里处理生成的 dataUrl 字符串
+   * @param {String} type 图片类型，可选值："image/png" | "image/jpeg" | "image/webp" | "image/bmp"
+   * @param {Object} imageConfig 图片配置项，包括背景色和上下左右的 padding
+   */
+  toFullDataURL(
+    callback: (res: string) => any,
+    type?: DataUrlType,
+    imageConfig?: { backgroundColor?: string; padding?: number | number[] },
+  ): void;
 
   // TODO 需要添加布局配置类型
   /**
@@ -516,6 +593,48 @@ export interface IGraph extends EventEmitter {
    */
   updateCombo(combo: string | ICombo): void;
 
+  /**
+   * 获取邻接矩阵
+   *
+   * @param {boolean} cache 是否使用缓存的
+   * @param {boolean} directed 是否是有向图，默认取 graph.directed
+   * @returns {Matrix} 邻接矩阵
+   * @memberof IGraph
+   */
+  getAdjMatrix(cache: boolean, directed?: boolean): Number | Object;
+
+  /**
+ * 获取最短路径矩阵
+ *
+ * @param {boolean} cache 是否使用缓存的
+ * @param {boolean} directed 是否是有向图，默认取 graph.directed
+ * @returns {Matrix} 最短路径矩阵
+ * @memberof IGraph
+ */
+  getShortestPathMatrix(cache: boolean, directed?: boolean): Number | Object
+
+  /**
+   * 创建凸包或凹包轮廓
+   * @param cfg HullCfg 轮廓配置项
+   */
+  createHull(cfg: HullCfg): void;
+
+  /**
+  * 获取当前 graph 中存在的包裹轮廓
+  * @return {[key: string]: Hull} hullId 对应的 hull 实例
+  */
+  getHulls(): Hull[];
+
+  /**
+   * 根据 hullId 获取对应的 hull 
+   * @return Hull
+   */
+  getHullById(hullId: string): Hull
+
+  /**
+   * 根据 hullId 删除 Hull
+   */
+  removeHull(hull: Hull | string)
   /**
    * 销毁画布
    */
