@@ -128,7 +128,7 @@ export default class Fisheye extends Base {
       x: lensDelegate.attr('x'),
       y: lensDelegate.attr('y')
     } : undefined;
-    const mousePos = lensCenter ? lensCenter : graph.getPointByClient(e.clientX, e.clientY);
+    const mousePos = lensCenter || graph.getPointByClient(e.clientX, e.clientY);
     if ((e.originalEvent as any).wheelDelta < 0) {
       ratio = 1 - DELTA;
     } else {
