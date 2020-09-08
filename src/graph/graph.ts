@@ -523,7 +523,7 @@ export default class Graph extends EventEmitter implements IGraph {
     const itemController: ItemController = this.get('itemController');
 
     if (!states) {
-      states = item.getStates();//item.get<string[]>('states');
+      states = item.get<string[]>('states');
     }
 
     itemController.clearItemStates(item, states);
