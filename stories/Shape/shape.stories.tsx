@@ -18,6 +18,7 @@ import LineChart from './component/line-chart'
 import PointChart from './component/point-chart'
 import PieChart from './component/pie-chart'
 import MultiChart from './component/multi-chart'
+import StateOpacity from './component/state-opacity'
 
 import XML from './component/xml'
 
@@ -53,3 +54,4 @@ storiesOf('Shape', module)
   .add('xml node', () => (
     <XML />
   ))
+  .add('state opacity', () => <StateOpacity />)

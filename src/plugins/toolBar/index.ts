@@ -233,9 +233,9 @@ export default class ToolBar extends Base {
             const array = data[key];
             if (!array) return;
             array.forEach(model => {
-              const type = model.type;
-              delete model.type;
-              graph.addItem(type, model, false);
+              const itemType = model.itemType;
+              delete model.itemType;
+              graph.addItem(itemType, model, false);
             });
           });
           break;
@@ -327,9 +327,9 @@ export default class ToolBar extends Base {
             const array = data[key];
             if (!array) return;
             array.forEach(model => {
-              const type = model.type;
-              delete model.type;
-              graph.addItem(type, model, false);
+              const itemType = model.itemType;
+              delete model.itemType;
+              graph.addItem(itemType, model, false);
             });
           });
           break;

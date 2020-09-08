@@ -52,7 +52,7 @@ export const shapeBase: ShapeOptions = {
    * @param group
    * @param keyShape
    */
-  afterDraw(cfg?: ModelConfig, group?: GGroup, keyShape?: IShape) {},
+  afterDraw(cfg?: ModelConfig, group?: GGroup, keyShape?: IShape) { },
   drawShape(cfg?: ModelConfig, group?: GGroup): IShape {
     return null as any;
   },
@@ -273,7 +273,7 @@ export const shapeBase: ShapeOptions = {
   },
 
   // update(cfg, item) // 默认不定义
-  afterUpdate(cfg?: ModelConfig, item?: Item) {},
+  afterUpdate(cfg?: ModelConfig, item?: Item) { },
   /**
    * 设置节点的状态，主要是交互状态，业务状态请在 draw 方法中实现
    * 单图形的节点仅考虑 selected、active 状态，有其他状态需求的用户自己复写这个方法
@@ -345,7 +345,7 @@ export const shapeBase: ShapeOptions = {
             const subShapeStyles = subShape.attr();
             // const current = subShapeStyles[p]
             each(style, (v, key) => {
-              if (subShapeStyles[key]) {
+              if (subShapeStyles[key] || subShapeStyles[key] === 0) {
                 delete subShapeStyles[key];
               }
             });

@@ -224,7 +224,6 @@ export default class LayoutController {
     workerData.currentTick = null;
     workerData.currentTickData = null;
 
-    graph.emit('beforelayout');
     // NOTE: postMessage的message参数里面不能包含函数，否则postMessage会报错，
     // 例如：'function could not be cloned'。
     // 详情参考：https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm
@@ -423,7 +422,7 @@ export default class LayoutController {
 
   // 控制布局动画
   // eslint-disable-next-line class-methods-use-this
-  public layoutAnimate() {}
+  public layoutAnimate() { }
 
   // // 根据 type 创建 Layout 实例
   // private _getLayout() {

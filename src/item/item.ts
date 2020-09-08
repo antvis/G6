@@ -313,7 +313,7 @@ export default class ItemBase implements IItemBase {
 
     if (currentShape) {
       const styles: ShapeStyle & Indexable<any> = {};
-      
+
       each(currentShape.attr(), (val, key) => {
         // 修改 img 通过 updateItem 实现
         if (key !== 'img') {

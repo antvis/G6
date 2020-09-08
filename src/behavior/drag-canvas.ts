@@ -86,7 +86,11 @@ export default {
       const graph: IGraph = this.graph;
       const edges = graph.getEdges();
       for (let i = 0, len = edges.length; i < len; i++) {
-        graph.hideItem(edges[i]);
+        const shapes = edges[i].get('group').get('children');
+        if (!shapes) continue;
+        shapes.forEach(shape => {
+          shape.hide();
+        });
       }
       const nodes = graph.getNodes();
       for (let j = 0, nodeLen = nodes.length; j < nodeLen; j++) {
@@ -141,7 +145,11 @@ export default {
       // 拖动结束后显示所有的边
       const edges = graph.getEdges();
       for (let i = 0, len = edges.length; i < len; i++) {
-        graph.showItem(edges[i]);
+        const shapes = edges[i].get('group').get('children');
+        if (!shapes) continue;
+        shapes.forEach(shape => {
+          shape.show();
+        });
       }
       const nodes = graph.getNodes();
       for (let j = 0, nodeLen = nodes.length; j < nodeLen; j++) {

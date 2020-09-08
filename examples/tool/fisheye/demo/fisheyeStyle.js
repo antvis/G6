@@ -54,13 +54,6 @@ const graph = new G6.Graph({
   width,
   height,
   plugins: [fisheye],
-  layout: {
-    type: 'force',
-    preventOverlap: true,
-  },
-  modes: {
-    default: ['drag-canvas', 'zoom-canvas'],
-  },
 });
 
 clearButton.addEventListener('click', (e) => {
@@ -80,7 +73,7 @@ swithButton.addEventListener('click', (e) => {
   }
 });
 
-fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
+fetch('https://gw.alipayobjects.com/os/bmw-prod/afe8b2a6-f691-4070-aa73-46fc07fd1171.json')
   .then((res) => res.json())
   .then((data) => {
     data.nodes.forEach((node) => {

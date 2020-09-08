@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import G6 from '../../../src';
+import G6, { Fisheye } from '../../../src';
 import { IGraph } from '../../../src/interface/graph';
 
 let graph: IGraph = null;
@@ -7,11 +7,10 @@ let graph: IGraph = null;
 let fisheye = new G6.Fisheye({
   r: 200,
   showLabel: true,
-  // trigger: 'drag',
-  scaleRByWheel: true
 });
 
 const FishEye = () => {
+
   const container = React.useRef();
   const colors = [
     '#8FE9FF',
@@ -51,6 +50,7 @@ const FishEye = () => {
               lineWidth: 0,
             };
           });
+          graph.get('canvas').set('localRefresh', false);
           graph.data(data);
           graph.render();
           graph.getNodes().forEach((node) => {
@@ -72,7 +72,6 @@ const FishEye = () => {
   const handleSwitch = () => {
     if (state === 'Disable') {
       setState('Enable');
-      console.log('goint to remove', fisheye)
       graph.removePlugin(fisheye);
     } else {
       setState('Disable');
@@ -82,14 +81,59 @@ const FishEye = () => {
       });
       graph.addPlugin(fisheye);
     }
-    console.log(graph.get('plugins'))
+  }
+
+  const handleChangeDTrigger = event => {
+    const value = event.target.value;
+    fisheye.updateParams({ scaleDBy: value })
+  }
+  const handleChangeRTrigger = event => {
+    const value = event.target.value;
+    fisheye.updateParams({ scaleRBy: value })
+  }
+  const handleChangeTrigger = event => {
+    const { r, d, scaleRBy, scaleDBy, showLabel } = fisheye._cfgs;
+    graph.removePlugin(fisheye);
+    fisheye = new Fisheye({
+      trigger: event.target.value,
+      r, d, scaleRBy, scaleDBy, showLabel
+    })
+    graph.addPlugin(fisheye)
   }
 
   return (
-    <div ref={container}>
-      <div onClick={handleClear}>click here to clear</div>
-      <div onClick={handleSwitch}>{state}</div>
-    </div>
+    <>
+      <div>
+        <div onClick={handleClear} style={{ marginLeft: '24px' }}>click here to clear</div>
+        <div onClick={handleSwitch} style={{ marginLeft: '24px' }}>{state}</div>
+        <div style={{ marginLeft: '24px' }}>
+          fisheye 模式
+          <select onChange={handleChangeTrigger}>
+            <option value="mousemove">mousemove</option>
+            <option value="drag">drag</option>
+            <option value="click">click</option>
+          </select>
+        </div>
+        <div style={{ marginLeft: '24px' }}>
+          调整范围：
+          <select onChange={handleChangeRTrigger}>
+            <option value="unset">unset</option>
+            <option value="drag">drag</option>
+            <option value="wheel">wheel</option>
+          </select>
+        </div>
+        <div style={{ marginLeft: '24px' }}>
+          调整缩放系数：
+          <select onChange={handleChangeDTrigger}>
+            <option value="unset">unset</option>
+            <option value="drag">drag</option>
+            <option value="wheel">wheel</option>
+          </select>
+        </div>
+      </div>
+      <div ref={container}>
+      </div>
+    </>
   );
 };
 

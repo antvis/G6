@@ -97,7 +97,7 @@ trasform(m, [
 
 #### Example
 
-The following code registers a custom node with a transfromed rect with: translation with vector `(100, 50)`, rotating with angle `Math.PI / 4`, maginifying 2 times on x-axis and 0.5 times on y-axis:
+The following code registers a custom node with a transfromed rect with: translation with vector `(100, 50)`, rotating with angle `Math.PI / 4`, magnifying 2 times on x-axis and 0.5 times on y-axis:
 
 ```javascript
 import { transform, mat3 } from '@antv/matrix-util';
