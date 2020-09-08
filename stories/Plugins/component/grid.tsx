@@ -70,7 +70,12 @@ const Grid = () => {
       });
     }
   });
-  return <div ref={container}></div>;
+  return (
+    <div>
+      <div style={{ backgroundColor: '#f00', height: '100px', width: '200px' }}></div>
+      <div ref={container}></div>
+    </div>
+  );
 };
 
 export default Grid;

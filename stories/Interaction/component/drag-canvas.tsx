@@ -35,10 +35,10 @@ const data = {
     {
       source: '1',
       target: '2',
-    },
-    {
-      source: '1',
-      target: '3',
+      style: {
+        lineWidth: 3,
+        stroke: '#f00'
+      }
     },
     {
       source: '2',
@@ -70,12 +70,23 @@ const DragCanvas = () => {
         height: 500,
         minZoom: 0.001,
         modes: {
-          default: ['drag-canvas', 'zoom-canvas'],
+          default: [{
+            type: 'drag-canvas',
+            enableOptimize: true
+          }, 'zoom-canvas'],
+        },
+        defaultEdge: {
+          style: {
+            lineWidth: 10,
+            stroke: '#F6BD16',
+          },
         },
         plugins: [grid],
       });
       graph.data(data);
       graph.render();
+
+      graph.hideItem(graph.getEdges()[0])
     }
   });
   return (

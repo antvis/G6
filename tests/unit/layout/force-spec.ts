@@ -15,16 +15,22 @@ describe('force layout', () => {
       container: div,
       layout: {
         type: 'force',
-        alphaDecay: 0.2
+        alphaDecay: 0.2,
       },
       width: 500,
       height: 500,
       defaultNode: { size: 10 },
     });
     graph.on('afterlayout', () => {
+      if (!graph || graph.destroyed) return;
       graph.destroy();
       done();
     });
+    setTimeout(() => {
+      if (!graph || graph.destroyed) return;
+      graph.destroy();
+      done();
+    }, 200);
     graph.data(data);
     graph.render();
     expect(node.x).not.toEqual(undefined);
@@ -64,11 +70,17 @@ describe('force layout', () => {
       defaultNode: { size: 10 },
     });
     graph.on('afterlayout', () => {
+      if (!graph || graph.destroyed) return;
       expect(count > 30).toEqual(true);
       expect(isEnd === true).toEqual(true);
       graph.destroy();
       done();
     });
+    setTimeout(() => {
+      if (!graph || graph.destroyed) return;
+      graph.destroy();
+      done();
+    }, 200);
     graph.data(data);
     graph.render();
   });
@@ -112,11 +124,17 @@ describe('force layout', () => {
     });
 
     graph.on('afterlayout', () => {
+      if (!graph || graph.destroyed) return;
       expect(count > 30).toEqual(true);
       expect(isEnd === true).toEqual(true);
       graph.destroy();
       done();
     });
+    setTimeout(() => {
+      if (!graph || graph.destroyed) return;
+      graph.destroy();
+      done();
+    }, 200);
     graph.data(data);
     graph.render();
   });
@@ -141,7 +159,14 @@ describe('force layout', () => {
       defaultNode: { size: nodeSize },
     });
 
+    setTimeout(() => {
+      if (!graph || graph.destroyed) return;
+      graph.destroy();
+      done();
+    }, 200);
+
     graph.on('afterlayout', () => {
+      if (!graph || graph.destroyed) return;
       expect(isEnd === true).toEqual(true);
       const node0 = data.nodes[0];
       const node1 = data.nodes[1];
@@ -182,6 +207,7 @@ describe('force layout', () => {
       node.type = 'rect';
     });
     graph.on('afterlayout', () => {
+      if (!graph || graph.destroyed) return;
       expect(isEnd === true).toEqual(true);
       const node0 = data.nodes[0];
       const node1 = data.nodes[1];
@@ -194,6 +220,11 @@ describe('force layout', () => {
       graph.destroy();
       done();
     });
+    setTimeout(() => {
+      if (!graph || graph.destroyed) return;
+      graph.destroy();
+      done();
+    }, 200);
     graph.data(data);
     graph.render();
   });
@@ -232,6 +263,7 @@ describe('force layout', () => {
     });
 
     graph.on('afterlayout', () => {
+      if (!graph || graph.destroyed) return;
       expect(isEnd === true).toEqual(true);
       const node0 = data.nodes[0];
       const node1 = data.nodes[1];
@@ -244,6 +276,11 @@ describe('force layout', () => {
       graph.destroy();
       done();
     });
+    setTimeout(() => {
+      if (!graph || graph.destroyed) return;
+      graph.destroy();
+      done();
+    }, 200);
     graph.data(data);
     graph.render();
   });
@@ -271,6 +308,7 @@ describe('force layout', () => {
     });
 
     graph.on('afterlayout', () => {
+      if (!graph || graph.destroyed) return;
       expect(isEnd === true).toEqual(true);
       const node0 = data.nodes[0];
       const node1 = data.nodes[1];
@@ -282,6 +320,11 @@ describe('force layout', () => {
       graph.destroy();
       done();
     });
+    setTimeout(() => {
+      if (!graph || graph.destroyed) return;
+      graph.destroy();
+      done();
+    }, 200);
     graph.data(data);
     graph.render();
   });
@@ -319,6 +362,11 @@ describe('force layout', () => {
       graph.destroy();
       done();
     });
+    setTimeout(() => {
+      if (!graph || graph.destroyed) return;
+      graph.destroy();
+      done();
+    }, 200);
     graph.data(data);
     graph.render();
   });

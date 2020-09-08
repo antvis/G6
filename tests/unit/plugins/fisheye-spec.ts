@@ -44,7 +44,8 @@ describe('fisheye', () => {
   it('fisheye with click and wheel/drag to adjust', () => {
     const fisheye = new G6.Fisheye({
       trigger: 'click',
-      scaleRByWheel: true
+      scaleRBy: 'wheel',
+      scaleDBy: 'drag'
     });
     graph.addPlugin(fisheye);
     graph.emit('click', { x: 100, y: 100 })
@@ -103,8 +104,8 @@ describe('fisheye', () => {
 
     lens.emit('dragstart', { x: 100, y: 100 })
     lens.emit('drag', { x: 200, y: 200 })
-    expect(node0.x).toEqual(51.78827985608831);
-    expect(node0.y).toEqual(51.78827985608831);
+    expect(node0.x).toEqual(53.55339059327375);
+    expect(node0.y).toEqual(53.55339059327375);
     expect(node1.x).toEqual(200);
     expect(node1.y).toEqual(200);
 

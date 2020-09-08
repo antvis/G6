@@ -11,14 +11,20 @@ describe('graph state controller', () => {
     width: 500,
     height: 500,
     nodeStateStyles: {
-      selected: {},
+      selected: {
+        fill: '#f00'
+      },
+      hover: {
+        stroke: '#000',
+        lineWidth: 3
+      }
     },
   });
   const data = {
     nodes: [
       { id: 'node1', x: 100, y: 100, label: 'node1' },
-      { id: 'node2', x: 120, y: 80 },
-      { id: 'node3', x: 150, y: 150 },
+      { id: 'node2', x: 120, y: 80, label: 'node2' },
+      { id: 'node3', x: 150, y: 150, label: 'node3' },
     ],
     edges: [
       { id: 'edge1', source: 'node1', target: 'node2' },
@@ -27,7 +33,7 @@ describe('graph state controller', () => {
   };
   graph.read(data);
 
-  it('set item state', () => {
+  it('set item state', done => {
     let graphCount = 0;
     let itemCount = 0;
 
@@ -42,12 +48,13 @@ describe('graph state controller', () => {
     graph.setItemState('node1', 'selected', true);
     graph.setItemState('node2', 'selected', true);
     expect(itemCount).toBe(2);
-    timerOut(() => {
+    setTimeout(() => {
       expect(graphCount).toBe(1);
+      done();
     }, 16);
   });
 
-  it('state with activate-relations', () => {
+  it('state with activate-relations', done => {
     graph.off();
 
     graph.addBehaviors('activate-relations', 'default');
@@ -60,22 +67,23 @@ describe('graph state controller', () => {
 
     expect(Object.keys(modes)).toEqual(['default']);
     expect(modes.default).toEqual([]);
+    done();
   });
 
-  it('updateGraphStates', () => {
+  it('updateGraphStates', done => {
+    graph.getNodes().forEach(node => {
+      graph.clearItemStates(node);
+    })
     const node1 = graph.findById('node1');
     graph.setItemState(node1, 'selected', true);
     graph.setItemState(node1, 'hover', true);
     graph.setItemState('node2', 'hover', true);
-    graph.on('node:mouseenter', () => {
-      const states = graph.get('states');
-      expect(states).not.toBe(undefined);
-      expect(states.selected.length).toBe(1);
-      expect(states.hover.length).toBe(2);
-    });
 
-    timerOut(() => {
-      graph.emit('node:mouseenter', { item: node1 });
-    }, 20);
+    setTimeout(() => {
+      const states2 = graph.get('states');
+      expect(states2.selected.length).toBe(1);
+      expect(states2.hover.length).toBe(2);
+      done();
+    }, 100)
   });
 });

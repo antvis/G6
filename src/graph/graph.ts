@@ -522,11 +522,12 @@ export default class Graph extends EventEmitter implements IGraph {
 
     const itemController: ItemController = this.get('itemController');
 
+    if (!states) {
+      states = item.getStates();//item.get<string[]>('states');
+    }
+
     itemController.clearItemStates(item, states);
 
-    if (!states) {
-      states = item.get<string[]>('states');
-    }
 
     const stateController: StateController = this.get('stateController');
     stateController.updateStates(item, states, false);
@@ -1137,7 +1138,7 @@ export default class Graph extends EventEmitter implements IGraph {
     if (stack && this.get('enabledStack')) {
       const addedModel = {
         ...item.getModel(),
-        type
+        itemType: type
       }
       const after: GraphData = {};
       switch (type) {

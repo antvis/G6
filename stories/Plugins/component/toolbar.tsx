@@ -66,6 +66,7 @@ const ToolBar = () => {
       const node5 = graph.addItem('node', {
         id: '5',
         label: 'node-5',
+        type: 'rect',
         x: 200,
         y: 100,
         description: 'This is node-5.',

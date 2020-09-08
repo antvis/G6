@@ -1,5 +1,14 @@
 # ChangeLog
 
+#### 3.7.2
+
+- fix: toolbar redo undo addItem with type problem, closes #2043;
+- fix: optimized drag-canvas with hidden items;
+- fix: state style with 0 value problem, closes: #2039;
+- fix: layout with webworker leads to twice beforelayout, closes: #2052;
+- feat: fisheye allows user to config the trigger of scaling range(r) and magnify factor(d) by scaleRBy and scaleDBy respectively;
+- feat: add the percent text of magnify factor(d) for fisheye and users are allowed to configure it by show showDPercent.
+
 #### 3.7.1
 
 - fix: hide the tooltip plugin when drag node and contextmenu, closes #1975;
