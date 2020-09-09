@@ -107,7 +107,7 @@ const FishEye = () => {
         <div onClick={handleClear} style={{ marginLeft: '24px' }}>click here to clear</div>
         <div onClick={handleSwitch} style={{ marginLeft: '24px' }}>{state}</div>
         <div style={{ marginLeft: '24px' }}>
-          fisheye 模式
+          <span>fisheye 模式</span>
           <select onChange={handleChangeTrigger}>
             <option value="mousemove">mousemove</option>
             <option value="drag">drag</option>
@@ -115,7 +115,7 @@ const FishEye = () => {
           </select>
         </div>
         <div style={{ marginLeft: '24px' }}>
-          调整范围：
+          <span>调整范围：</span>
           <select onChange={handleChangeRTrigger}>
             <option value="unset">unset</option>
             <option value="drag">drag</option>
@@ -123,7 +123,7 @@ const FishEye = () => {
           </select>
         </div>
         <div style={{ marginLeft: '24px' }}>
-          调整缩放系数：
+          <span>调整缩放系数：</span>
           <select onChange={handleChangeDTrigger}>
             <option value="unset">unset</option>
             <option value="drag">drag</option>
