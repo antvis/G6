@@ -131,15 +131,18 @@ export default class Menu extends Base {
     const offsetX = this.get('offsetX') || 0;
     const offsetY = this.get('offsetY') || 0;
 
-    let x = e.canvasX + offsetX;
-    let y = e.canvasY + offsetY;
+    const graphTop = graph.getContainer().offsetTop;
+    const graphLeft = graph.getContainer().offsetLeft;
 
+    let x = e.canvasX + graphLeft + offsetX;
+    let y = e.canvasY + graphTop + offsetY;
+
+    // when the menu is (part of) out of the canvas
     if (x + bbox.width > width) {
-      x = x - bbox.width - offsetX;
+      x = e.canvasX - bbox.width - offsetX + graphLeft;
     }
-
     if (y + bbox.height > height) {
-      y = y - bbox.height - offsetY;
+      y = e.canvasY - bbox.height - offsetY + graphTop;
     }
 
     modifyCSS(menuDom, {

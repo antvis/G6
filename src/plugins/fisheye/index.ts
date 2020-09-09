@@ -119,7 +119,7 @@ export default class Fisheye extends Base {
    */
   protected scaleRByWheel(e: IG6GraphEvent) {
     const self = this;
-    if (!e && !e.originalEvent) return;
+    if (!e || !e.originalEvent) return;
     if (e.preventDefault) e.preventDefault();
     const graph: Graph = self.get('graph');
     let ratio;
@@ -157,7 +157,7 @@ export default class Fisheye extends Base {
    */
   protected scaleRByDrag(e: IG6GraphEvent) {
     const self = this;
-    if (!e && !e.originalEvent) return;
+    if (!e) return;
     const dragPrePos = self.get('dragPrePos');
     const graph: Graph = self.get('graph');
     let ratio;
