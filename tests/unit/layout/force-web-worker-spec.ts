@@ -34,8 +34,6 @@ describe('force layout(web worker)', function () {
       height: 500,
       defaultNode: { size: 10 },
     });
-    graph.data(data);
-    graph.render();
     graph.on('afterlayout', () => {
       expect(node.x).not.toEqual(undefined);
       expect(node.y).not.toEqual(undefined);
@@ -44,5 +42,7 @@ describe('force layout(web worker)', function () {
       graph.destroy();
       done();
     });
+    graph.data(data);
+    graph.render();
   });
 });

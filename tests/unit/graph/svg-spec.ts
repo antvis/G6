@@ -9,6 +9,9 @@ import { EdgeConfig } from '../../../src/types';
 const div = document.createElement('div');
 div.id = 'global-spec';
 document.body.appendChild(div);
+const div2 = document.createElement('div');
+div2.id = 'graph-spec';
+document.body.appendChild(div2);
 
 describe('graph', () => {
   const globalGraph = new Graph({
@@ -303,7 +306,7 @@ describe('graph', () => {
 
   it('minZoom & maxZoom', () => {
     const graph = new Graph({
-      container: div,
+      container: div2,
       minZoom: 2,
       maxZoom: 5,
       width: 500,
@@ -311,7 +314,7 @@ describe('graph', () => {
       renderer: 'svg',
     });
 
-    const data = {
+    const data2 = {
       nodes: [
         {
           id: 'node',
@@ -319,7 +322,7 @@ describe('graph', () => {
       ],
     };
 
-    graph.data(data);
+    graph.data(data2);
     graph.render();
 
     let matrix = graph.get('group').getMatrix();
@@ -2050,16 +2053,16 @@ describe('plugins', () => {
     });
     graph2.data(data2);
     graph2.render();
-    graph2.zoom(2, { x: 250, y: 250 });
+    graph2.zoom(2, { x: 0, y: 0 });
     setTimeout(() => {
       const minimapGroup = minimap2.get('canvas').get('children')[0];
       expect(minimapGroup.get('children').length).toBe(10);
 
       const viewport = minimap2.get('viewport');
-      expect(viewport.style.width).toBe('99.3377px');
-      expect(viewport.style.height).toBe('99.3377px');
-      expect(viewport.style.left).toBe('162.583px');
-      expect(viewport.style.top).toBe('113.642px');
+      expect(viewport.style.width).toBe('41.3907px');
+      expect(viewport.style.height).toBe('37.351px');
+      expect(viewport.style.left).toBe('58.6093px');
+      expect(viewport.style.top).toBe('42.649px');
       graph2.destroy();
     }, 100);
   });
@@ -2083,17 +2086,17 @@ describe('plugins', () => {
     });
     graph.data(data2);
     graph.render();
-    graph.zoom(2, { x: 250, y: 250 });
+    graph.zoom(2, { x: 10, y: 50 });
     setTimeout(() => {
       const minimapGroup = minimap.get('canvas').get('children')[0];
       expect(minimapGroup.get('children').length).toBe(10);
 
       const viewport = minimap.get('viewport');
 
-      expect(viewport.style.width).toBe('99.6678px');
-      expect(viewport.style.height).toBe('99.6678px');
-      expect(viewport.style.left).toBe('162.791px');
-      expect(viewport.style.top).toBe('113.821px');
+      expect(viewport.style.width).toBe('40.0332px');
+      expect(viewport.style.height).toBe('30.6977px');
+      expect(viewport.style.left).toBe('59.9668px');
+      expect(viewport.style.top).toBe('49.3023px');
       graph.destroy();
     }, 100);
   });
