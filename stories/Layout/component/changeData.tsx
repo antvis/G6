@@ -2,455 +2,128 @@ import React, { useEffect } from 'react';
 import G6 from '../../../src';
 import { IGraph } from '../../../src/interface/graph';
 
-const data = {
+
+const topoData = {
   nodes: [
+    { id: "001", label: "user", imgType: "user" },
+    { id: "002", label: "Firewall", imgType: "firewall" },
+    { id: "003", label: "OrderCenter-server", imgType: "server" },
+    { id: "004", label: "OrderCenter-server", imgType: "server" },
+    { id: "005", label: "Tomcat01", imgType: "tomcat", comboId: "orderCenter" },
+    { id: "006", label: "DB", imgType: "db", comboId: "orderCenter" },
+    { id: "007", label: "Switch", imgType: "switch" },
+    { id: "008", label: "UserCenter-server", imgType: "server" },
+    { id: "009", label: "Tomcat02", imgType: "tomcat", comboId: "userCenter" },
+    { id: "010", label: "DB", imgType: "db", comboId: "userCenter" },
+    { id: "011", label: "UserCenter-server", imgType: "server" }
+  ],
+  combos: [
     {
-      id: '0',
-      label: '0',
+      id: "orderCenter",
+      label: "OrderCenter",
+      anchorPoints: [
+        [0, 0.5],
+        [0.5, 1]
+      ]
     },
     {
-      id: '1',
-      label: '1',
-    },
-    {
-      id: '2',
-      label: '2',
-    },
-    {
-      id: '3',
-      label: '3',
-    },
-    {
-      id: '4',
-      label: '4',
-    },
-    {
-      id: '5',
-      label: '5',
-    },
-    {
-      id: '6',
-      label: '6',
-    },
-    {
-      id: '7',
-      label: '7',
-    },
-    {
-      id: '8',
-      label: '8',
-    },
-    {
-      id: '9',
-      label: '9',
-    },
-    {
-      id: '10',
-      label: '10',
-    },
-    {
-      id: '11',
-      label: '11',
-    },
-    {
-      id: '12',
-      label: '12',
-    },
-    {
-      id: '13',
-      label: '13',
-    },
-    {
-      id: '14',
-      label: '14',
-    },
-    {
-      id: '15',
-      label: '15',
-    },
-    {
-      id: '16',
-      label: '16',
-    },
-    {
-      id: '17',
-      label: '17',
-    },
-    {
-      id: '18',
-      label: '18',
-    },
-    {
-      id: '19',
-      label: '19',
-    },
-    {
-      id: '20',
-      label: '20',
-    },
-    {
-      id: '21',
-      label: '21',
-    },
-    {
-      id: '22',
-      label: '22',
-    },
-    {
-      id: '23',
-      label: '23',
-    },
-    {
-      id: '24',
-      label: '24',
-    },
-    {
-      id: '25',
-      label: '25',
-    },
-    {
-      id: '26',
-      label: '26',
-    },
-    {
-      id: '27',
-      label: '27',
-    },
-    {
-      id: '28',
-      label: '28',
-    },
-    {
-      id: '29',
-      label: '29',
-    },
-    {
-      id: '30',
-      label: '30',
-    },
-    {
-      id: '31',
-      label: '31',
-    },
-    {
-      id: '32',
-      label: '32',
-    },
-    {
-      id: '33',
-      label: '33',
-    },
+      id: "userCenter",
+      label: "UserCenter"
+    }
   ],
   edges: [
+    // , style: {strokeOpacity: 0}
+    { id: "E001", source: "001", target: "002", label: "52ms" },
     {
-      source: '0',
-      target: '1',
+      id: "E002",
+      source: "002",
+      target: "005",
+      type: "line",
+      style: { strokeOpacity: 0 }
+    },
+    { id: "E003", source: "005", target: "003", label: "52ms" },
+    { id: "E004", source: "005", target: "006", label: "52ms" },
+    { id: "E005", source: "006", target: "004", label: "52ms" },
+    {
+      id: "E006",
+      source: "005",
+      target: "007",
+      type: "line",
+      style: { strokeOpacity: 0 }
     },
     {
-      source: '0',
-      target: '2',
+      id: "E007",
+      source: "007",
+      target: "009",
+      type: "line",
+      style: { strokeOpacity: 0 }
     },
-    {
-      source: '0',
-      target: '3',
-    },
-    {
-      source: '0',
-      target: '4',
-    },
-    {
-      source: '0',
-      target: '5',
-    },
-    {
-      source: '0',
-      target: '7',
-    },
-    {
-      source: '0',
-      target: '8',
-    },
-    {
-      source: '0',
-      target: '9',
-    },
-    {
-      source: '0',
-      target: '10',
-    },
-    {
-      source: '0',
-      target: '11',
-    },
-    {
-      source: '0',
-      target: '13',
-    },
-    {
-      source: '0',
-      target: '14',
-    },
-    {
-      source: '0',
-      target: '15',
-    },
-    {
-      source: '0',
-      target: '16',
-    },
-    {
-      source: '2',
-      target: '3',
-    },
-    {
-      source: '4',
-      target: '5',
-    },
-    {
-      source: '4',
-      target: '6',
-    },
-    {
-      source: '5',
-      target: '6',
-    },
-    {
-      source: '7',
-      target: '13',
-    },
-    {
-      source: '8',
-      target: '14',
-    },
-    {
-      source: '9',
-      target: '10',
-    },
-    {
-      source: '10',
-      target: '22',
-    },
-    {
-      source: '10',
-      target: '14',
-    },
-    {
-      source: '10',
-      target: '12',
-    },
-    {
-      source: '10',
-      target: '24',
-    },
-    {
-      source: '10',
-      target: '21',
-    },
-    {
-      source: '10',
-      target: '20',
-    },
-    {
-      source: '11',
-      target: '24',
-    },
-    {
-      source: '11',
-      target: '22',
-    },
-    {
-      source: '11',
-      target: '14',
-    },
-    {
-      source: '12',
-      target: '13',
-    },
-    {
-      source: '16',
-      target: '17',
-    },
-    {
-      source: '16',
-      target: '18',
-    },
-    {
-      source: '16',
-      target: '21',
-    },
-    {
-      source: '16',
-      target: '22',
-    },
-    {
-      source: '17',
-      target: '18',
-    },
-    {
-      source: '17',
-      target: '20',
-    },
-    {
-      source: '18',
-      target: '19',
-    },
-    {
-      source: '19',
-      target: '20',
-    },
-    {
-      source: '19',
-      target: '33',
-    },
-    {
-      source: '19',
-      target: '22',
-    },
-    {
-      source: '19',
-      target: '23',
-    },
-    {
-      source: '20',
-      target: '21',
-    },
-    {
-      source: '21',
-      target: '22',
-    },
-    {
-      source: '22',
-      target: '24',
-    },
-    {
-      source: '22',
-      target: '25',
-    },
-    {
-      source: '22',
-      target: '26',
-    },
-    {
-      source: '22',
-      target: '23',
-    },
-    {
-      source: '22',
-      target: '28',
-    },
-    {
-      source: '22',
-      target: '30',
-    },
-    {
-      source: '22',
-      target: '31',
-    },
-    {
-      source: '22',
-      target: '32',
-    },
-    {
-      source: '22',
-      target: '33',
-    },
-    {
-      source: '23',
-      target: '28',
-    },
-    {
-      source: '23',
-      target: '27',
-    },
-    {
-      source: '23',
-      target: '29',
-    },
-    {
-      source: '23',
-      target: '30',
-    },
-    {
-      source: '23',
-      target: '31',
-    },
-    {
-      source: '23',
-      target: '33',
-    },
-    {
-      source: '32',
-      target: '33',
-    },
-  ],
+    { id: "E008", source: "009", target: "011", label: "52ms" },
+    { id: "E009", source: "009", target: "010", label: "52ms" },
+    { id: "E010", source: "010", target: "008", label: "52ms" },
+
+    // 节点连接 combo
+    { id: "E011", source: "002", target: "orderCenter", label: "52ms" }, // firewoall --> orderCenter
+    { id: "E012", source: "orderCenter", target: "007", label: "52ms" }, // orderCenter --> switch
+    { id: "E013", source: "007", target: "userCenter", label: "52ms" } // switch --> userCenter
+  ]
 };
 
-const data2 = {
+const topoData2 = {
   nodes: [
-    {
-      id: 'b0',
-      label: '0',
-      x: 30,
-      y: 30,
-    },
-    {
-      id: 'b1',
-      label: '1',
-      x: 30,
-      y: 40,
-    },
-    {
-      id: 'b2',
-      label: '2',
-      x: 40,
-      y: 30,
-    },
-    {
-      id: 'b3',
-      label: '3',
-      x: 50,
-      y: 25,
-    },
-    {
-      id: 'b4',
-      label: '4',
-      x: 60,
-      y: 40,
-    },
-    {
-      id: 'b5',
-      label: '5',
-      x: 20,
-      y: 50,
-    },
+    { id: "B001", label: "Eservice", imgType: "server" },
+    { id: "B002", label: "OrderCenter", imgType: "firewall" },
+    { id: "B003", label: "TradingCenter", imgType: "server" },
+    { id: "B004", label: "UserCenter", imgType: "server" }
   ],
   edges: [
-    {
-      id: 'be1',
-      source: 'b0',
-      target: 'b1',
-    },
-    {
-      id: 'be2',
-      source: 'b0',
-      target: 'b2',
-    },
-    {
-      id: 'be3',
-      source: 'b0',
-      target: 'b3',
-    },
-    {
-      id: 'be4',
-      source: 'b0',
-      target: 'b4',
-    },
-    {
-      id: 'be5',
-      source: 'b0',
-      target: 'b5',
-    },
-  ],
+    { id: "BE001", source: "B001", target: "B002", label: "456" },
+    { id: "BE002", source: "B002", target: "B003", label: "123" },
+    { id: "BE003", source: "B002", target: "B004", label: "345" }
+  ]
+};
+
+// 默认节点设置
+const defaultNode = {
+  size: [60, 60],
+  color: "steelblue",
+  type: "circle",
+  style: {
+    lineWidth: 1,
+    fill: "#fff"
+  },
+  labelCfg: {
+    position: "bottom",
+    offset: 10
+  }
+};
+
+// 默认边设置
+const defaultEdge = {
+  type: "line",
+  size: 2,
+  color: "#e2e2e2",
+  style: {
+    lineDash: [4, 4],
+    stroke: "blue"
+  },
+  labelCfg: {
+    refY: 10
+  }
+};
+
+// 默认组 combo 设置
+const defaultCombo = {
+  type: "rect",
+  padding: 40,
+  style: {
+    lineWidth: 2,
+    fill: "#fff"
+  },
+  labelCfg: {
+    position: "top",
+    refY: -20
+  }
 };
 
 let graph: IGraph = null;
@@ -463,16 +136,42 @@ const ChangeData = () => {
         container: container.current as string | HTMLElement,
         width: 500,
         height: 500,
+        groupByTypes: false,
+        defaultNode: defaultNode,
+        defaultEdge: defaultEdge,
+        defaultCombo: defaultCombo,
         // layout: {
-        //   type: 'force',
+        //   type: "dagre",
+        //   nodeSize: [40, 40], // 节点间距
+        //   ranksep: 30, //
+        //   rankdir: "LR",
+        //   align: "DL"
         // },
-        animate: true,
+        nodeStateStyles: {
+          active: {
+            opacity: 1
+          },
+          inactive: {
+            opacity: 0.2
+          }
+        },
+        edgeStateStyles: {
+          active: {
+            opacity: 1
+          },
+          inactive: {
+            opacity: 0.2
+          }
+        }
       });
-      graph.data(data);
+      graph.data(topoData);
       graph.render();
 
+      graph.on('node:click', e => {
+        graph.changeData(topoData2);
+      })
       graph.on('canvas:click', (e) => {
-        graph.changeData(data2);
+        graph.changeData(topoData);
       });
     }
   });

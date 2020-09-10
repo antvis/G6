@@ -1482,14 +1482,14 @@ export default class Graph extends EventEmitter implements IGraph {
     }
 
     this.diffItems('node', items, (data as GraphData).nodes!);
-    this.diffItems('edge', items, (data as GraphData).edges!);
 
-    each(itemMap, (item: INode & IEdge, id: number) => {
+    each(itemMap, (item: INode & IEdge & ICombo, id: number) => {
       itemMap[id].getModel().depth = 0;
+      if (item.getType && item.getType() === 'edge') return;
       if (item.getType && item.getType() === 'combo') {
         delete itemMap[id];
         item.destroy();
-      } else if (items.nodes.indexOf(item) < 0 && items.edges.indexOf(item) < 0) {
+      } else if (items.nodes.indexOf(item) < 0) {
         delete itemMap[id];
         self.remove(item, false);
       }
@@ -1512,6 +1512,15 @@ export default class Graph extends EventEmitter implements IGraph {
         this.sortCombos();
       }
     }
+
+    this.diffItems('edge', items, (data as GraphData).edges!);
+    each(itemMap, (item: INode & IEdge & ICombo, id: number) => {
+      if (item.getType && (item.getType() === 'node' || item.getType() === 'combo')) return;
+      if (items.edges.indexOf(item) < 0) {
+        delete itemMap[id];
+        self.remove(item, false);
+      }
+    });
 
     this.set({ nodes: items.nodes, edges: items.edges });
 
