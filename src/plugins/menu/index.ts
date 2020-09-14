@@ -72,7 +72,7 @@ export default class Menu extends Base {
   public init() {
     const className = this.get('className');
     const menu = createDOM(`<div class=${className || 'g6-component-contextmenu'}></div>`);
-    modifyCSS(menu, { position: 'absolute', visibility: 'hidden' });
+    modifyCSS(menu, { top: '0px', position: 'absolute', visibility: 'hidden' });
     let container: HTMLDivElement | null = this.get('container');
     if (!container) {
       container = this.get('graph').get('container');
