@@ -259,32 +259,32 @@ describe.only('timeline play with timebar', () => {
       trend: {
         data: timeBarData,
         isArea: true,
-        // areaStyle: {
-        //   fill: 'pink'
-        // },
-        // lineStyle: {
-        //   stroke: 'green',
-        //   lineWidth: 3
-        // },
-        // slider: {
-        //   backgroundStyle: {
-        //     fill: 'blue',
-        //     opacity: 0.2
-        //   },
-        //   foregroundStyle: {
-        //     fill: 'yellow'
-        //   },
-        //   textStyle: {
-        //     fill: 'red',
-        //     fontSize: 16,
-        //   },
-        //   handlerStyle: {
-        //     style: {
-        //       fill: 'green',
-        //       stroke: 'red'
-        //     }
-        //   }
-        // }
+        areaStyle: {
+          fill: 'pink'
+        },
+        lineStyle: {
+          stroke: 'green',
+          lineWidth: 3
+        },
+        slider: {
+          backgroundStyle: {
+            fill: 'blue',
+            opacity: 0.2
+          },
+          foregroundStyle: {
+            fill: 'yellow'
+          },
+          textStyle: {
+            fill: 'red',
+            fontSize: 16,
+          },
+          handlerStyle: {
+            style: {
+              fill: 'green',
+              stroke: 'red'
+            }
+          }
+        }
       },
       timeline: {
         ticks: TrendData,
