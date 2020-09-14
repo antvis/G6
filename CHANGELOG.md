@@ -8,7 +8,7 @@
 - fix: layout with webworker leads to twice beforelayout, closes: #2052;
 - fix: context menu with sibling doms of graph container leads to position problem, closes: #2053;
 - fix: changeData with combos problem, closes: #2064;
-- fix: the position of the context menu before showing up;
+- fix: improve the position of the context menu before showing up;
 - feat: fisheye allows user to config the trigger of scaling range(r) and magnify factor(d) by scaleRBy and scaleDBy respectively;
 - feat: add the percent text of magnify factor(d) for fisheye and users are allowed to configure it by show showDPercent.
 
