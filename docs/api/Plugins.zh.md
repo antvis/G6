@@ -14,6 +14,7 @@ G6 中支持插件提供了一些可插拔的组件，包括：
 - [TimeBar](#timebar)
 - [Tooltip](#tooltip)
 - [Fisheye](#fisheye)
+- [EdgeFilterLens](#edge-filter-lens)
 
 ## 配置方法
 
@@ -586,5 +587,60 @@ const fisheye = new G6.Fisheye({
 const graph = new G6.Graph({
   //... 其他配置项
   plugins: [fisheye], // 配置 fisheye 插件
+});
+```
+
+
+## Edge Filter Lens
+
+EdgeFilterLens 边过滤镜可以将关注的边保留在过滤镜范围内，其他边将在该范围内不显示。
+
+### 配置项
+
+| 名称 | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| trigger | 'drag' / 'mousemove' / 'click' | 'drag' | 过滤镜的触发事件 |
+| type | 'one' / 'both' / 'only-source' / 'only-target' | 'both' | 根据边两端点作为边过滤的简单条件。`'one'`：边至少有一个端点在过滤镜区域内，则在该区域内显示该边；`'both'`：两个端点都在过滤区域内，则在该区域显示该边；`'only-source'`：只有起始端在过滤镜区域内，则在该区域显示该边；`'only-target'`：只有结束端在过滤区域内，则在该区域显示该边。更复杂的条件可以使用 `shouldShow` 指定 |
+| shouldShow | (d?: unknown) => boolean | undefined | 边过滤的自定义条件。参数 `d` 为边每条边的数据，用户可以根据边的参数返回布尔值。返回 `true` 代表该边需要在过滤镜区域内显示，`false` 反之。 |
+| r | Number | 60 | 过滤镜的范围半径 |
+| delegateStyle | Object | { stroke: '#000', strokeOpacity: 0.8, lineWidth: 2, fillOpacity: 0.1, fill: '#ccc' } | 过滤镜蒙层样式 |
+| showLabel | 'edge' / 'node' / 'both' | 'edge' | 若 label 默认被隐藏，是否在关注区域内展示对应元素类型的 label。'both' 代表节点和边的 label 都在过滤镜区域显示 |
+| maxR | Number | 图的高度 | 滚轮调整过滤镜的最大半径 |
+| minR | Number | 0.05 * 图的高度 | 滚轮调整过滤镜的最小半径 |
+| scaleRBy | 'wheel' / undefined | 'wheel' | 终端用户调整过滤镜大小的方式，undefined 代表不允许终端用户调整 |
+
+### 成员函数
+
+#### updateParams(cfg)
+
+用于更新该过滤镜的部分配置项，包括 `trigger`，`type`，`r`，`maxR`，`minR`，`scaleRBy`，`showLabel`，`shouldShow`。例如：
+
+```
+const filterLens = new G6.EdgeFilterLens({
+  trigger: 'drag'
+});
+
+... // 其他操作
+
+filterLens.updateParams({
+  r: 500,
+  // ...
+})
+```
+
+### 用法
+
+```
+const filterLens = new G6.EdgeFilterLens({
+  trigger: 'mousemove',
+  r: 300,
+  shouldShow: d => {
+    return d.size > 10;
+  }
+});
+
+const graph = new G6.Graph({
+  //... 其他配置项
+  plugins: [filterLens], // 配置 filterLens 插件
 });
 ```

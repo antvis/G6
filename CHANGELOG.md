@@ -1,5 +1,9 @@
 # ChangeLog
 
+#### 3.8
+
+- feat: edge filter lens plugin.
+
 #### 3.7.3
 
 - fix: update G to fix the shape disappear when it has been dragged out of the view port problem, closes: #2078, #2030, #2007;

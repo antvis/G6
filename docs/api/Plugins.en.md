@@ -13,6 +13,7 @@ There are several plugins in G6 which can be used for G6's graph or other applic
 - [TimeBar](#timebar)
 - [Tooltip](#tooltip)
 - [Fisheye](#fisheye-lens)
+- [EdgeFilterLens](#edge-filter-lens)
 
 ## Configure to Graph
 
@@ -576,5 +577,59 @@ const fisheye = new G6.Fisheye({
 const graph = new G6.Graph({
   //... Other graph configurations
   plugins: [fisheye], // configuring fisheye plugin
+});
+```
+
+## Edge Filter Lens
+
+Edge Filter Lens is designed for edge filtering, the desired edges will be kept inside the lens while the others will be hidden.
+
+### Configuration
+
+| Name | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| trigger | 'drag' / 'mousemove' / 'click' | false | 'drag' | The trigger for the lens |
+| type | 'one' / 'both' / 'only-source' / 'only-target' | false | 'both' | Simple filtering conditions related to the end nodes. `'one'`: show the edge whose one or more end nodes are inside the filter lens; `'both'`: show the edge whose both end nodes are inside the lens; `'only-source'`: show the edge whose source node is inside the lens and target node is not; `'only-target'`: show the edge whose target node is inside the lens and source node is not. More complicated conditions can be defined by the `shouldShow` |
+| shouldShow | (d?: unknown) => boolean | false | undefined | The custom conditions for filtering. The parameter `d` is the data of each edge, you can return boolean value according to the data, where `true` means show. |
+| r | Number | false | 60 | The radius of the filter area |
+| delegateStyle | Object | false | { stroke: '#000', strokeOpacity: 0.8, lineWidth: 2, fillOpacity: 0.1, fill: '#ccc' } | The style of the lens's delegate |
+| showLabel | 'edge' / 'node' / 'both' | false | 'edge' | If the label is hidden, whether to show the label of nodes inside the focus area |
+| maxR | Number | The height of the graph | The maximum radius scaled by the wheel |
+| minR | Number | 0.05 * The height of the graph | The minimum radius scaled by the wheel |
+| scaleRBy | 'wheel'/'drag'/'unset'/undefined | false | 'unset' | The trigger for end users to scale the range of the lens |
+
+### Member Function
+
+#### updateParams(cfg)
+
+Update partial of the configurations of the filter lens instance, including `trigger`, `type`, `r`, `maxR`, `minR`, `shouldShow`, `showLabel`, and `scaleRBy`. E.g.
+
+```
+const filterLens = new G6.EdgeFilterLens({
+  trigger: 'drag'
+});
+
+... // Other operations
+
+filterLens.updateParams({
+  r: 500,
+  // ...
+})
+```
+
+### Usage
+
+```
+const filterLens = new G6.EdgeFilterLens({
+  trigger: 'mousemove',
+  r: 300,
+  shouldShow: d => {
+    return d.size > 10;
+  }
+});
+
+const graph = new G6.Graph({
+  //... Other graph configurations
+  plugins: [filterLens], // configuring edge filter lens plugin
 });
 ```

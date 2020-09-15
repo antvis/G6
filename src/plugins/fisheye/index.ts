@@ -76,7 +76,7 @@ export default class Fisheye extends Base {
     self.set('molecularParam', (d + 1) * r);
   }
 
-  // trigger 为 drag 时的创建 delegate 函数
+  // Create the delegate when the trigger is drag
   protected createDelegate(e: IG6GraphEvent) {
     const self = this;
     let lensDelegate = self.get('delegate');
@@ -95,7 +95,7 @@ export default class Fisheye extends Base {
       });
 
       // 绑定调整范围（r）和缩放系数(d)的监听
-      // 由于 drag 用于改变 lens 位置，因此在此模式下，drag 不能用于调整 r 和 d
+      // 由于 drag 用于改变 lens 位置, 因此在此模式下, drag 不能用于调整 r 和 d
 
       // scaling d
       if (this.get('scaleDBy') === 'wheel') {
@@ -114,8 +114,8 @@ export default class Fisheye extends Base {
   }
 
   /**
-   * 滚轮调整放大镜范围
-   * @param e wheel 事件
+   * Scale the range by wheel
+   * @param e mouse wheel event
    */
   protected scaleRByWheel(e: IG6GraphEvent) {
     const self = this;
@@ -152,8 +152,8 @@ export default class Fisheye extends Base {
 
 
   /**
-   * 拖拽 lens 调整范围
-   * @param e wheel 事件
+   * Scale the range by dragging
+   * @param e mouse event
    */
   protected scaleRByDrag(e: IG6GraphEvent) {
     const self = this;
@@ -185,8 +185,8 @@ export default class Fisheye extends Base {
 
 
   /**
-   * 滚轮调整放大镜缩放系数 d
-   * @param e wheel 事件
+   * Scale the magnifying factor by wheel
+   * @param e mouse wheel event
    */
   protected scaleDByWheel(evt: IG6GraphEvent) {
     const self = this;
@@ -216,10 +216,9 @@ export default class Fisheye extends Base {
     }
   }
 
-
   /**
-   * 拖拽 lens 调整缩放系数 d
-   * @param e wheel 事件
+   * Scale the magnifying factor by dragging
+   * @param e mouse event
    */
   protected scaleDByDrag(e: IG6GraphEvent) {
     const self = this;
@@ -239,8 +238,8 @@ export default class Fisheye extends Base {
   }
 
   /**
-   * mousemove、click、drag 事件的响应函数
-   * @param e 鼠标事件
+   * Response function for mousemove, click, or drag to magnify
+   * @param e mouse event
    */
   protected magnify(e: IG6GraphEvent, mousePos?) {
     const self = this;
@@ -305,7 +304,7 @@ export default class Fisheye extends Base {
   }
 
   /**
-   * 恢复缓存的被缩放的节点
+   * Restore the cache nodes while magnifying
    */
   protected restoreCache() {
     const self = this;
@@ -330,9 +329,8 @@ export default class Fisheye extends Base {
 
 
   /**
-   * 提供给用户调整系数
-   * @param {Point} mCenter
-   * @param {number} r
+   * Adjust part of the parameters, including trigger, d, r, maxR, minR, maxD, minD, scaleRBy, and scaleDBy
+   * @param {FisheyeConfig} cfg
    */
   public updateParams(cfg: FisheyeConfig) {
     const self = this;
@@ -385,9 +383,9 @@ export default class Fisheye extends Base {
   }
 
   /**
-   * 放大镜的图形
-   * @param {Point} mCenter
-   * @param {number} r
+   * Update the delegate shape of the lens
+   * @param {Point} mCenter the center of the shape
+   * @param {number} r the radius of the shape
    */
   private updateDelegate(mCenter, r) {
     const self = this;
@@ -398,7 +396,7 @@ export default class Fisheye extends Base {
       const parent = graph.get('group');
       const attrs = self.get('delegateStyle') || lensDelegateStyle;
 
-      // model上的x, y是相对于图形中心的，delegateShape是g实例，x,y是绝对坐标
+      // model上的x, y是相对于图形中心的, delegateShape是g实例, x,y是绝对坐标
       lensDelegate = parent.addShape('circle', {
         attrs: {
           r: r / 1.5,
@@ -492,6 +490,9 @@ export default class Fisheye extends Base {
     self.set('delegate', lensDelegate);
   }
 
+  /**
+   * Clear the fisheye lens
+   */
   public clear() {
     const graph = this.get('graph');
     this.restoreCache();
@@ -508,6 +509,9 @@ export default class Fisheye extends Base {
     }
   }
 
+  /**
+   * Destroy the component
+   */
   public destroy() {
     this.clear();
   }

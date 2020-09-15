@@ -7,6 +7,7 @@ import ToolBar from './toolBar';
 import Tooltip from './tooltip';
 import TimeBar from './timeBar';
 import ImageMinimap from './imageMinimap';
+import EdgeFilterLens from './edgeFilterLens';
 
 export default {
   Menu,
@@ -18,4 +19,5 @@ export default {
   Fisheye,
   TimeBar,
   ImageMinimap,
+  EdgeFilterLens
 };
