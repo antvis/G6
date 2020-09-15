@@ -32,24 +32,24 @@ order: 0
     - Fill with Texture
     - Update Label
   - Advanced Operation
-    - 更新节点或边的样式
-    - 层级调整
-    - 显示隐藏
-    - 锁定/解锁
+    - Update node or edge style
+    - Level adjustment
+    - Show/hide
+    - Lock/unlock
 
-#### 图布局
-  - 内置布局
-  - 自定义布局
+#### Diagram layout
+  - Built-in layout
+  - Custom layout
 
-#### 交互与事件
-  - 监听与绑定事件
-  - 内置交互行为
-  - 自定义交互行为（选读）
-  - 交互模式 Mode
+#### Interactions and events
+  - Monitoring and binding events
+  - Built-in interactive behavior
+  - Custom interaction behavior (optional reading)
+  - Interactive Mode
 
-#### 动画
-  - 全局动画
-  - 元素动画
+#### Animation
+  - Global animation
+  - Element animation
 
-#### 图算法
-#### 插件
+#### Graph algorithm
+#### Plug-ins
