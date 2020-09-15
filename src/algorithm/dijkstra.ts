@@ -1,48 +1,78 @@
 import { IGraph } from '../interface/graph';
+import { INode } from '../interface/item';
 
-const dijkstra = (graph: IGraph, source: string, directed?: boolean, weightPropertyName?: string) => {
+const dijkstra = (
+  graph: IGraph,
+  source: string,
+  directed?: boolean,
+  weightPropertyName?: string,
+) => {
+  const nodes = graph.getNodes();
+  const nodeIds = [];
+  const marks = {};
+  const D = {};
+  const prevs = {}; // key: 顶点, value: 顶点的前驱点数组（可能有多条等长的最短路径）
+  nodes.forEach((node, i) => {
+    const id = node.getID();
+    nodeIds.push(id);
+    D[id] = Infinity;
+    if (id === source) D[id] = 0;
+  });
 
-    const nodes = graph.getNodes();
+  const nodeNum = nodes.length;
+  for (let i = 0; i < nodeNum; i++) {
+    // Process the vertices
+    const minNode = minVertex(D, nodes, marks);
+    const minNodId = minNode.get('id');
+    marks[minNodId] = true;
 
-    const nodeIdxMap = {};
-    let i, v;
-    const marks = [];
-    const D = [];
-    nodes.forEach((node, i) => {
-        const id = node.getID();
-        nodeIdxMap[id] = i;
-        D[i] = Infinity;
-        if (id === source) D[i] = 0;
+    if (D[minNodId] === Infinity) continue; // Unreachable vertices cannot be the intermediate point
+
+    let relatedEdges = [];
+    if (!directed) relatedEdges = minNode.getOutEdges();
+    else relatedEdges = minNode.getEdges();
+
+    relatedEdges.forEach((e) => {
+      const w = e.getTarget().getID();
+      const weight =
+        weightPropertyName && e.getModel()[weightPropertyName]
+          ? e.getModel()[weightPropertyName]
+          : 1;
+      if (D[w] > D[minNode.get('id')] + weight) {
+        D[w] = D[minNode.get('id')] + weight;
+        prevs[w] = minNode.get('id');
+      }
     });
-
-    const nodeNum = nodes.length;
-    for (i = 0; i < nodeNum; i++) { //Process the vertices
-        v = minVertex(D, nodeNum, marks);
-        if (D[v] === Infinity) return; //Unreachable vertices
-        marks[i] = true;
-
-        let relatedEdges = [];
-        if (!directed) relatedEdges = nodes[v].getOutEdges();
-        else relatedEdges = nodes[v].getEdges();
-
-        relatedEdges.forEach(e => {
-            const w = nodeIdxMap[e.getTarget().getID()];
-            const weight = (weightPropertyName && e.getModel()[weightPropertyName]) ? e.getModel()[weightPropertyName] : 1;
-            if (D[w] > (D[v] + weight)) D[w] = D[v] + weight;
-        });
+  }
+  const path = {};
+  for (const target in D) {
+    path[target] = [target];
+    let prev = prevs[target];
+    while (prev !== undefined) {
+      path[target].unshift(prev);
+      prev = prevs[prev];
     }
-    return D
-}
+  }
 
-function minVertex(D: number[], nodeNum: number, marks: boolean[]) {//找出最小的点
-    let i, v;
-    for (i = 0; i < nodeNum; i++) { //找没有被访问的点
-        if (marks[i] == false) v = i; break;
+  return { length: D, path };
+};
+
+function minVertex(
+  D: { [key: string]: number },
+  nodes: INode[],
+  marks: { [key: string]: boolean },
+) {
+  // 找出最小的点
+  let minDis = Infinity;
+  let minNode;
+  for (let i = 0; i < nodes.length; i++) {
+    const nodeId = nodes[i].get('id');
+    if (!marks[nodeId] && D[nodeId] <= minDis) {
+      minDis = D[nodeId];
+      minNode = nodes[i];
     }
-    for (i++; i < nodeNum; i++) { //找比上面还小的未被访问的点（注意此时的i++）
-        if (!marks[i] && D[i] < D[v]) v = i;
-        return v;
-    }
+  }
+  return minNode;
 }
 
 export default dijkstra;

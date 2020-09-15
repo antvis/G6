@@ -1,8 +1,8 @@
 import G6 from '@antv/g6';
 
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.json')
-  .then(res => res.json())
-  .then(data => {
+  .then((res) => res.json())
+  .then((data) => {
     const width = document.getElementById('container').scrollWidth;
     const height = document.getElementById('container').scrollHeight || 500;
     const graph = new G6.TreeGraph({
@@ -55,7 +55,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
         getHGap: () => {
           return 50;
         },
-        getSide: d => {
+        getSide: (d) => {
           if (d.id === 'Classification') {
             return 'left';
           }
@@ -65,7 +65,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
     });
 
     let centerX = 0;
-    graph.node(function(node) {
+    graph.node(function (node) {
       if (node.id === 'Modeling Methods') {
         centerX = node.x;
       }

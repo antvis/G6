@@ -40,12 +40,12 @@ const data2 = {
   edges: [
     {
       source: 'node1',
-      target: 'node2'
+      target: 'node2',
     },
     {
       source: 'node2',
-      target: 'node3'
-    }
+      target: 'node3',
+    },
   ],
 };
 
@@ -56,13 +56,14 @@ const ImgMinimap = () => {
       const minimap = new G6.ImageMinimap({
         width: 200,
         padding: 10,
-        graphImg: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*DcGMQ7AN3Z0AAAAAAAAAAABkARQnAQ'
+        graphImg:
+          'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*DcGMQ7AN3Z0AAAAAAAAAAABkARQnAQ',
         //https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ
         //https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*DcGMQ7AN3Z0AAAAAAAAAAABkARQnAQ
       });
       fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.json')
-        .then(res => res.json())
-        .then(data => {
+        .then((res) => res.json())
+        .then((data) => {
           graph = new TreeGraph({
             container: container.current as string | HTMLElement,
             width: 600,
@@ -122,7 +123,9 @@ const ImgMinimap = () => {
           // graph.fitView();
 
           graph.on('canvas:click', () => {
-            minimap.updateGraphImg('https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ');
+            minimap.updateGraphImg(
+              'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ',
+            );
           });
         });
     }

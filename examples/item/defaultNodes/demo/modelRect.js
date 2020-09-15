@@ -101,12 +101,12 @@ const graph = new G6.Graph({
 graph.data(data);
 graph.render();
 
-graph.on('node:mouseenter', evt => {
+graph.on('node:mouseenter', (evt) => {
   const { item } = evt;
   graph.setItemState(item, 'hover', true);
 });
 
-graph.on('node:mouseleave', evt => {
+graph.on('node:mouseleave', (evt) => {
   const { item } = evt;
   graph.setItemState(item, 'hover', false);
 });

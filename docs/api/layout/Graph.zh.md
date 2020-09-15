@@ -4,6 +4,7 @@ order: 1
 ---
 
 ## 导览
+
 - [Random Layout](#random)：随机布局；
 - **[Force Layout](#force)：经典力导向布局：**
 
@@ -17,7 +18,6 @@ order: 1
 - [Concentric Layout](#concentric)：同心圆布局，将重要（默认以度数为度量）的节点放置在布局中心；
 - [Grid Layout](#grid)：格子布局，将节点有序（默认是数据顺序）排列在格子上；
 - [Combo Force Layout](#combo-force)：*V3.5 新增。*适用于带有 combo 图的力导向布局，推荐有 combo 的图使用该布局。
-
 
 ## Random
 
@@ -143,7 +143,7 @@ Force 布局经典的力导向布局方法，与 d3 的力导向布局方法相�
 **类型**: Number / Function<br />**默认值**: 0<br />**是否必须**: false <br />**示例**: Example 1: 10 <br />Example 2:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   if (d.id === 'node1') {
     return 100;
@@ -393,7 +393,7 @@ Radial 布局是将图布局成辐射状的布局方法。以一个 focusNode �
 **类型**: Number / Function<br />**默认值**: 0<br />**是否必须**: false <br />**示例**: Example 1: 10 <br />Example 2:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   if (d.id === 'node1') {
     return 100;
@@ -501,7 +501,7 @@ Dagre 是一种层次布局。
 **类型**： Function<br />**默认值**：undefined<br />**示例**：
 
 ```javascript
-d => {
+(d) => {
   // d 是一个节点
   if (d.id === 'testId') return 100;
   return 10;
@@ -515,7 +515,7 @@ d => {
 **类型**： Function<br />**默认值**：undefined<br />**示例**：
 
 ```javascript
-d => {
+(d) => {
   // d 是一个节点
   if (d.id === 'testId') return 100;
   return 10;
@@ -532,11 +532,9 @@ d => {
 
 **类型**: Boolean<br />**默认值**: false<br />**是否必须**: false<br />**说明**: 是否启用 web-worker 以防布局计算时间过长阻塞页面交互
 
-
 #### sortByCombo
 
 **类型**: Boolean<br />**默认值**: false<br />**是否必须**: false<br />**说明**: 同一层节点是否根据每个节点数据中的 `comboId` 进行排序，以防止 combo 重叠
-
 
 ### 方法
 
@@ -716,14 +714,11 @@ const graph = new G6.Graph({
 });
 ```
 
-
-
 ## Combo Force
 
 *V3.5 新增功能。*Combo Force 是基于力导向的专用于带有 combo 的图的布局算法。通过自研改造经典力导向算法，将根据节点的 combo 信息，施加不同的力以达到同 combo 节点尽可能聚集，不同 combo 之间尽可能无重叠的布局。
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span>G6 3.1 版本中实例化 Graph 时，新增了 `nodeStateStyles` 及  `edgeStateStyles` 两个配置项，删除了 `nodeStyle` 和 `edgeStyle` ，使用 3.1 以下版本的同学，只需要将  `nodeStyle` 改成 `nodeStateStyles` ，将  `edgeStyle` 改成  `edgeStateStyles` ，配置内容保持不变。
-
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AngFRpOo4SAAAAAAAAAAAABkARQnAQ' width=650 alt='img'/>
 
@@ -732,7 +727,6 @@ const graph = new G6.Graph({
 #### center
 
 **类型**： Array<br />**示例**：[ 0, 0 ]<br />**默认值**：图的中心<br />**是否必须**：false<br />**说明**：布局的中心
-
 
 #### maxIteration
 
@@ -755,9 +749,11 @@ const graph = new G6.Graph({
 **类型**：Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否防止节点之间以及 combo 之间的重叠，若开启，则 `preventNodeOverlap` 与 `preventComboOverlap` 将均被开启。详见 `preventNodeOverlap` 与 `preventComboOverlap` 介绍
 
 #### preventNodeOverlap
+
 **类型**：Boolean<br />**默认值**：true<br />**是否必须**：false<br />**说明**：是否防止节点之间的重叠。必须配合下面属性 `nodeSize` 或节点数据中的 `size` 属性，只有在数据中设置了 `size` 或在该布局中配置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测
 
 #### preventComboOverlap
+
 **类型**：Boolean<br />**默认值**：true<br />**是否必须**：false<br />**说明**：是否防止 combo 之间的重叠
 
 #### collideStrength
@@ -781,7 +777,7 @@ const graph = new G6.Graph({
 **类型**: Number / Function<br />**默认值**: 0<br />**是否必须**: false <br />**示例**: Example 1: 10 <br />Example 2:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   if (d.id === 'node1') {
     return 100;
@@ -792,13 +788,12 @@ d => {
 
 <br />**描述**: `preventNodeOverlap` 或 `preventOverlap` 为 `true` 时生效, 防止重叠时节点边缘间距的最小值。可以是回调函数, 为不同节点设置不同的最小间距, 如示例 2 所示
 
-
 #### comboSpacing
 
 **类型**: Number / Function<br />**默认值**: 0<br />**是否必须**: false <br />**示例**: Example 1: 10 <br />Example 2:
 
 ```javascript
-d => {
+(d) => {
   // d is a combo
   if (d.id === 'combo1') {
     return 100;
@@ -809,13 +804,12 @@ d => {
 
 <br />**描述**: `preventComboOverlap` 或 `preventOverlap` 为 `true` 时生效, 防止重叠时 combo 边缘间距的最小值。可以是回调函数, 为不同节点设置不同的最小间距, 如示例 2 所示
 
-
 #### comboPadding
 
 **类型**: Number / Function<br />**默认值**: 10<br />**是否必须**: false <br />**示例**: Example 1: 10 <br />Example 2:
 
 ```javascript
-d => {
+(d) => {
   // d is a combo
   if (d.id === 'combo1') {
     return 100;
@@ -846,7 +840,6 @@ d => {
 
 **类型**：Function<br />**默认值**：{}<br />**是否必须**：false<br />**说明**：布局完成后的回调函数
 
-
 #### gravity
 
 **类型**： Number<br />**默认值**：10<br />**是否必须**：false<br />**说明**：重力的大小，影响布局的紧凑程度
@@ -855,16 +848,13 @@ d => {
 
 **类型**： Number<br />**默认值**：30<br />**是否必须**：false<br />**说明**：每个 combo 内部的重力大小，影响聚类的紧凑程度
 
-
 #### optimizeRangeFactor
 
 **类型**： Number<br />**默认值**：1<br />**是否必须**：false<br />**说明**：优化计算性能，两节点间距超过 `optimizeRangeFactor * width` 则不再计算斥力和重叠斥力。通过合理设置该参数可以较少计算量
 
-
 #### depthAttractiveForceScale
 
 **类型**： Number<br />**默认值**：0.5<br />**是否必须**：false<br />**说明**：根据边两端节点层级差距的调整引力的系数的因子，取值范围 [0, 1]。层级差距越大，引力越小
-
 
 #### depthRepulsiveForceScale
 

@@ -7,6 +7,7 @@ const data = {
     {
       id: '1',
       name: 'name1',
+      size: [10, 20]
     },
     {
       id: '2',
@@ -122,7 +123,7 @@ const DagreLayout = () => {
         layout: {
           type: 'dagre',
           controlPoints: true,
-          nodesepFunc: d => {
+          nodesepFunc: (d) => {
             if (d.id === '3') {
               return 500;
             }
@@ -131,16 +132,16 @@ const DagreLayout = () => {
           ranksep: 70,
         },
         defaultNode: {
-          type: 'sql',
+          type: 'rect',
         },
         defaultEdge: {
-          type: 'cubic',
+          type: 'polyline',
           style: {
-            radius: 20,
-            offset: 45,
-            endArrow: true,
-            lineWidth: 2,
-            stroke: '#C2C8D5',
+            radius: 0,
+            endArrow: {
+              path: 'M 0,0 L 0,4 L 8,-4 Z',
+              fill: '#ddd'
+            }
           },
         },
         modes: {
@@ -173,7 +174,7 @@ const DagreLayout = () => {
       graph.data(data);
       graph.render();
 
-      graph.on('canvas:click', e => {
+      graph.on('canvas:click', (e) => {
         console.log(graph.toDataURL('image/jpeg', '#fff'));
         graph.downloadImage('test', 'image/png');
       });

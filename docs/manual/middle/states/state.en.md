@@ -37,12 +37,12 @@ After defining the state, you can activate it by **`graph.setItemState`**, which
 Activate the hover state in the event listeners.
 
 ```javascript
-graph.on('node:mouseenter', evt => {
+graph.on('node:mouseenter', (evt) => {
   const { item } = evt;
   graph.setItemState(item, 'hover', true);
 });
 
-graph.on('node:mouseleave', evt => {
+graph.on('node:mouseleave', (evt) => {
   const { item } = evt;
   graph.setItemState(item, 'hover', false);
 });

@@ -50,13 +50,14 @@ const MoveTo = () => {
         width: 500,
         height: 500,
         modes: {
-          default: ['drag-canvas', 'zoom-canvas']
-        }
+          default: ['drag-canvas', 'zoom-canvas'],
+        },
       });
       graph.data(data);
       graph.render();
-      let width = 500, height = 500;
-      graph.on('canvas:click', evt => {
+      let width = 500,
+        height = 500;
+      graph.on('canvas:click', (evt) => {
         graph.moveTo(250, 250);
         // graph.translate(10, 10);
       });

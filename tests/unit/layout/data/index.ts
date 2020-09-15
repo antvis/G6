@@ -1,7 +1,6 @@
 import testData from './test-data-1';
 import comboTestData from './combo-test-data';
 
-
 export interface TestNode {
   id: string;
   comboId?: string;
@@ -30,8 +29,7 @@ interface TestData {
 const typeData: TestData = testData;
 const comboData: TestData = comboTestData;
 
-
 export default {
   data: typeData,
-  comboData
+  comboData,
 };

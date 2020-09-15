@@ -23,7 +23,7 @@ title: API
 **类型**：Number | Function<br />**示例**：
 
 ```javascript
-d => {
+(d) => {
   // d 是一个节点
   if (d.id === 'testId') return 50;
   return 100;
@@ -39,7 +39,7 @@ d => {
 **类型**：Number | Function<br />**示例**：
 
 ```javascript
-d => {
+(d) => {
   // d 是一个节点
   if (d.id === 'testId') return 50;
   return 100;
@@ -53,7 +53,7 @@ d => {
 **类型**：Function<br />**示例**：
 
 ```javascript
-d => {
+(d) => {
   // d 是一个节点
   if (d.id === 'testId') return 'left';
   return 'right';
@@ -62,14 +62,10 @@ d => {
 
 **是否必须**：false<br />**说明**：节点放置在根节点左侧或右侧的回调函数，仅对与根节点直接相连的节点有效，设置后将会影响被设置节点的所有子孙节点
 
-
-
 ## dropCap
 
-**类型**：Boolean 
+**类型**：Boolean
 
 <br />**是否必须**：false
 
 <br />**说明**：每个节点的第一个自节点是否位于下一行。默认为 `true`
-
-

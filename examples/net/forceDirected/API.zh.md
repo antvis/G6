@@ -35,7 +35,7 @@ title: API
 **类型**: Number / Function<br />**默认值**: 0<br />**是否必须**: false <br />**示例**: Example 1: 10 <br />Example 2:
 
 ```javascript
-d => {
+(d) => {
   // d is a node
   if (d.id === 'node1') {
     return 100;

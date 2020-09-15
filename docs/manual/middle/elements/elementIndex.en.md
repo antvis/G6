@@ -138,7 +138,7 @@ graph.render();
 // Get all the node instances of the graph
 const nodes = graph.getNodes();
 // Traverse the nodes, and shift them to the front
-nodes.forEach(node => {
+nodes.forEach((node) => {
   node.toFront();
 });
 // Repaint the graph after shifting
@@ -157,22 +157,22 @@ Listen the mouse entering and leaving by the following four functions:
 
 ```javascript
 // Mouse enters a node
-graph.on('node:mouseenter', ev => {
+graph.on('node:mouseenter', (ev) => {
   // ...
 });
 
 // Mouse leaves a node
-graph.on('node:mouseleave', ev => {
+graph.on('node:mouseleave', (ev) => {
   // ...
 });
 
 // Mouse enters an edge
-graph.on('edge:mouseenter', ev => {
+graph.on('edge:mouseenter', (ev) => {
   // ...
 });
 
 // Mouse leaves an edge
-graph.on('edge:mouseleave', ev => {
+graph.on('edge:mouseleave', (ev) => {
   // ...
 });
 ```
@@ -181,7 +181,7 @@ graph.on('edge:mouseleave', ev => {
 
 ```javascript
 // Mouse enters an edge
-graph.on('edge:mouseenter', ev => {
+graph.on('edge:mouseenter', (ev) => {
   // Get the target of the entering event
   const edge = ev.item;
   // The source node of the edge
@@ -196,24 +196,24 @@ graph.on('edge:mouseenter', ev => {
   graph.paint();
 });
 
-graph.on('edge:mouseleave', ev => {
+graph.on('edge:mouseleave', (ev) => {
   // Get all the edge instances of the graph
   const edges = graph.getEdges();
   // Travers the edges, shift them to the back to restore
-  edges.forEach(edge => {
+  edges.forEach((edge) => {
     edge.toBack();
   });
   // Attention: the following code must be called to repaint the graph
   graph.paint();
 });
 
-graph.on('node:mouseenter', ev => {
+graph.on('node:mouseenter', (ev) => {
   // Get the target of the entering event
   const node = ev.item;
   // Get the related edges of the node
   const edges = node.getEdges();
   // Travers the related edges, shift them to the front, and then shift the end nodes to the front
-  edges.forEach(edge => {
+  edges.forEach((edge) => {
     edge.toFront();
     edge.getSource().toFront();
     edge.getTarget().toFront();
@@ -222,11 +222,11 @@ graph.on('node:mouseenter', ev => {
   graph.paint();
 });
 
-graph.on('node:mouseleave', ev => {
+graph.on('node:mouseleave', (ev) => {
   // Get all the edge instances of the graph
   const edges = graph.getEdges();
   // Travers the edges, shift them to the back to restore
-  edges.forEach(edge => {
+  edges.forEach((edge) => {
     edge.toBack();
   });
   // Attention: the following code must be called to repaint the graph

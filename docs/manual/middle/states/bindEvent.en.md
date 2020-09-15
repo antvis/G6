@@ -17,7 +17,7 @@ For more information about the events in G6, please refer to [Event API](/en/doc
 All the events are mounted on the graph:
 
 ```javascript
-graph.on('click', ev => {
+graph.on('click', (ev) => {
   const shape = ev.target;
   const item = ev.item;
   if (item) {
@@ -25,7 +25,7 @@ graph.on('click', ev => {
   }
 });
 
-graph.on('node:click', ev => {
+graph.on('node:click', (ev) => {
   const shape = ev.target;
   const node = ev.item;
 });

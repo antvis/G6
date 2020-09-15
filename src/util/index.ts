@@ -13,5 +13,5 @@ const Base = {
   transform,
 };
 
-const Util = Object.assign({}, Base, BaseUtil, GraphicUtil, PathUtil, MathUtil);
+const Util = { ...Base, ...BaseUtil, ...GraphicUtil, ...PathUtil, ...MathUtil };
 export default Util;

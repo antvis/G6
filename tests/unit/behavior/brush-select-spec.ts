@@ -13,12 +13,12 @@ describe('brush-select', () => {
     modes: { default: ['zoom-canvas'] },
     nodeStateStyles: {
       selected: {},
-      customState: {}
+      customState: {},
     },
     edgeStateStyles: {
       selected: {},
-      customState: {}
-    }
+      customState: {},
+    },
   });
   const node1 = graph.addItem('node', { id: 'node1', x: 100, y: 100, label: 'node1' });
   const node2 = graph.addItem('node', { id: 'node2', x: 200, y: 200, label: 'node2' });

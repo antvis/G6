@@ -124,7 +124,7 @@ const data = {
 const tipDiv = document.createElement('div');
 tipDiv.innerHTML = 'Try to click or drag a bubble!';
 const graphDiv = document.getElementById('container');
-graphDiv.appendChild(tipDiv)
+graphDiv.appendChild(tipDiv);
 
 const width = document.getElementById('container').scrollWidth;
 const height = (document.getElementById('container').scrollHeight || 500) - 20;
@@ -153,7 +153,7 @@ const nodes = data.nodes;
 const nodeMap = new Map();
 const clusterMap = new Map();
 let clusterId = 0;
-nodes.forEach(node => {
+nodes.forEach((node) => {
   nodeMap.set(node.id, node);
   // cluster
   if (node.cluster && clusterMap.get(node.cluster) === undefined) {

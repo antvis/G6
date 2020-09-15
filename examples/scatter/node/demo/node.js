@@ -74,7 +74,7 @@ G6.registerNode(
     afterDraw(cfg, group) {
       const shape = group.get('children')[0];
       shape.animate(
-        ratio => {
+        (ratio) => {
           const diff = ratio <= 0.5 ? ratio * 10 : (1 - ratio) * 10;
           return {
             r: cfg.size / 2 + diff,
@@ -136,31 +136,34 @@ G6.registerNode(
           // Magnifying and disappearing
           r: r + 10,
           opacity: 0.1,
-        }, {
+        },
+        {
           duration: 3000,
           easing: 'easeCubic',
           delay: 0,
           repeat: true, // repeat
-        }
+        },
       ); // no delay
       back2.animate(
         {
           // Magnifying and disappearing
           r: r + 10,
           opacity: 0.1,
-        }, {
+        },
+        {
           duration: 3000,
           easing: 'easeCubic',
           delay: 1000,
           repeat: true, // repeat
-        }
+        },
       ); // 1s delay
       back3.animate(
         {
           // Magnifying and disappearing
           r: r + 10,
-          opacity: 0.1
-        }, {
+          opacity: 0.1,
+        },
+        {
           duration: 3000,
           easing: 'easeCubic',
           delay: 2000,
@@ -191,7 +194,7 @@ G6.registerNode(
         name: 'image-shape',
       });
       image.animate(
-        ratio => {
+        (ratio) => {
           const matrix = Util.mat3.create();
           const toMatrix = Util.transform(matrix, [['r', ratio * Math.PI * 2]]);
           return {

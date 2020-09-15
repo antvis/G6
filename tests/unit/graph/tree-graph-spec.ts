@@ -122,9 +122,16 @@ describe('tree graph without animate', () => {
       children: [{ x: 150, y: 150, id: 'SubTreeNode3.1.1' }],
     };
     graph.on('afteraddchild', function (e) {
-      expect(e.item.getModel().id === 'SubTreeNode3.1' || e.item.getModel().id === 'SubTreeNode3.1.1').toBe(true);
-      expect(e.item.get('parent').getModel().id === 'SubTreeNode3' || e.item.get('parent').getModel().id === 'SubTreeNode3.1').toBe(true);
-      expect(e.parent.getModel().id === 'SubTreeNode3' || e.parent.getModel().id === 'SubTreeNode3.1').toBe(true);
+      expect(
+        e.item.getModel().id === 'SubTreeNode3.1' || e.item.getModel().id === 'SubTreeNode3.1.1',
+      ).toBe(true);
+      expect(
+        e.item.get('parent').getModel().id === 'SubTreeNode3' ||
+          e.item.get('parent').getModel().id === 'SubTreeNode3.1',
+      ).toBe(true);
+      expect(
+        e.parent.getModel().id === 'SubTreeNode3' || e.parent.getModel().id === 'SubTreeNode3.1',
+      ).toBe(true);
     });
 
     graph.addChild(child, parent);
@@ -540,7 +547,7 @@ describe('tree graph with animate', () => {
 
     expect(graph3.save()).toEqual(data3);
   });
-  it('collapse & expand with parameter trigger=dblclick', done => {
+  it('collapse & expand with parameter trigger=dblclick', (done) => {
     graph3.off();
     graph3.moveTo(100, 150);
 
@@ -575,7 +582,6 @@ describe('tree graph with animate', () => {
       graph3.emit('node:dblclick', { item: parent });
       collapsed = true;
     }, 600);
-
 
     timerOut(() => {
       collapsed = false;

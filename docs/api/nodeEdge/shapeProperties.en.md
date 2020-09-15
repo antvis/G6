@@ -20,21 +20,20 @@ G6 has these shapes:
 
 ### Common Property
 
-| Name        | Type | Example                              | Description                           |
-| ------------- | -----------| ---------------------------------- | ------------------------------ |
-| fill          | String | - 'rgb(18, 150, 231)' <br/> - '#c193af' <br/>- 'l(0) 0:#ffffff 0.5:#7ec2f3 1:#1890ff' <br/>-  'r(0.5, 0.5, 0.1) 0:#ffffff 1:#1890ff' | The color(RGB or Hex) or [gradient](/en/docs/manual/FAQ/gradient#gatsby-focus-wrapper) color for filling. The corresponding property in canvas is `fillStyle`.  |
-| stroke        | String |  - 'rgb(18, 150, 231)' <br/> - '#c193af' <br/>- 'l(0) 0:#ffffff 0.5:#7ec2f3 1:#1890ff' <br/>-  'r(0.5, 0.5, 0.1) 0:#ffffff 1:#1890ff'     | The color(RGB or Hex) or [gradient](/en/docs/manual/FAQ/gradient#gatsby-focus-wrapper) color for stroke. The corresponding property in canvas is `strokeStyle`. |
-| lineWidth     | Number | 2                           | The width of the stroke.                               |
-| lineDash      | Number/ Number[] | [5, 10]  | The lineDash of the stroke  | Number[] are the lengths of the lineDash.   |
-| shadowColor   | String | 'rgb(18, 150, 231)' / '#c193a1'                 | The color for shadow.                             |
-| shadowBlur    | Number | 50            | The blur level for shadow. Larger the value, more blur.               |
-| shadowOffsetX | Number | 10           | The horizontal offset of the shadow.                               |
-| shadowOffsetY | Number | 10           | The vertical offset of the shadow.                               |
-| opacity       | Number | 0.8      | The opacity (alpha value) of the shape. The corresponding property in canvas is `globalAlpha`. |
-| fillOpacity   | Number | 0.8          | The filling opacity (alpha value) of the shape. The priority is higher than `opacity`. Range [0, 1]. |
-| strokeOpacity   | Number | 0.8          | The stroke opacity (alpha value) of the shape. The priority is higher than `opacity`. Range [0, 1]. |
-| cursor       | String | 'pointer'  | The type of the mouse when hovering the node. The options are the same as [cursor in CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) |
-
+| Name | Type | Example | Description |
+| --- | --- | --- | --- |
+| fill | String | - 'rgb(18, 150, 231)' <br/> - '#c193af' <br/>- 'l(0) 0:#ffffff 0.5:#7ec2f3 1:#1890ff' <br/>- 'r(0.5, 0.5, 0.1) 0:#ffffff 1:#1890ff' | The color(RGB or Hex) or [gradient](/en/docs/manual/FAQ/gradient#gatsby-focus-wrapper) color for filling. The corresponding property in canvas is `fillStyle`. |
+| stroke | String | - 'rgb(18, 150, 231)' <br/> - '#c193af' <br/>- 'l(0) 0:#ffffff 0.5:#7ec2f3 1:#1890ff' <br/>- 'r(0.5, 0.5, 0.1) 0:#ffffff 1:#1890ff' | The color(RGB or Hex) or [gradient](/en/docs/manual/FAQ/gradient#gatsby-focus-wrapper) color for stroke. The corresponding property in canvas is `strokeStyle`. |
+| lineWidth | Number | 2 | The width of the stroke. |
+| lineDash | Number/ Number[] | [5, 10] | The lineDash of the stroke | Number[] are the lengths of the lineDash. |
+| shadowColor | String | 'rgb(18, 150, 231)' / '#c193a1' | The color for shadow. |
+| shadowBlur | Number | 50 | The blur level for shadow. Larger the value, more blur. |
+| shadowOffsetX | Number | 10 | The horizontal offset of the shadow. |
+| shadowOffsetY | Number | 10 | The vertical offset of the shadow. |
+| opacity | Number | 0.8 | The opacity (alpha value) of the shape. The corresponding property in canvas is `globalAlpha`. |
+| fillOpacity | Number | 0.8 | The filling opacity (alpha value) of the shape. The priority is higher than `opacity`. Range [0, 1]. |
+| strokeOpacity | Number | 0.8 | The stroke opacity (alpha value) of the shape. The priority is higher than `opacity`. Range [0, 1]. |
+| cursor | String | 'pointer' | The type of the mouse when hovering the node. The options are the same as [cursor in CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) |
 
 ### Usage
 
@@ -53,7 +52,6 @@ group.addShape('rect', {
 });
 ```
 
-
 ## The Common Functions of Shapes
 
 ### attr()
@@ -64,7 +62,7 @@ Get or set the shape's attributes.
 
 Get the shape's attribute named `name`.
 
-``` javascript
+```javascript
 const width = shape.attr('width');
 ```
 
@@ -72,22 +70,22 @@ const width = shape.attr('width');
 
 Update the shape's attribute named `name` with `value`.
 
-
 ### attr({...})
 
 Update the shape's multiple attributes.
 
 ```javascript
 rect.attr({
-    fill: '#999',
-    stroke: '#666'
+  fill: '#999',
+  stroke: '#666',
 });
 ```
+
 ### setClip(clipCfg)
+
 Sets and returns the clip object.
 
-`clipCfg` 
-
+`clipCfg`
 
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |
@@ -101,7 +99,6 @@ Sets and returns the clip object.
 | rx | The major radius of the ellipse clipping | Number | Takes effect when the `type` is `'ellipse'` |
 | ry | The minor radius of the ellipse clipping | Number | Takes effect when the `type` is `'ellipse'` |
 
-
 ```javascript
 shape.setClip({
   type: 'circle', // circle, rect, ellipse, Polygon, path clip
@@ -113,16 +110,15 @@ shape.setClip({
 ```
 
 ### getClip()
+
 Get the clip object.
-
-
 
 ## Circle
 
 ### Special Property
 
-| Name | Type | Description                        |
-| ---- | ---- | ---------------------------------- |
+| Name | Type   | Description                        |
+| ---- | ------ | ---------------------------------- |
 | x    | Number | The x of the center of the circle. |
 | y    | Number | The y of the center of the circle. |
 | r    | Number | The radius of the circle.          |
@@ -146,12 +142,12 @@ group.addShape('circle', {
 
 ### Special Property
 
-| Name | Type | Description                           |
+| Name | Type   | Description                           |
 | ---- | ------ | ------------------------------------- |
-| x     | Number | The x of the center of the ellipse.   |
-| y     | Number | The y of the center of the ellipse.   |
-| rx    | Number | The horizontal raidus of the ellipse. |
-| ry    | Number | The vertical raidus of the ellipse.   |
+| x    | Number | The x of the center of the ellipse.   |
+| y    | Number | The y of the center of the ellipse.   |
+| rx   | Number | The horizontal raidus of the ellipse. |
+| ry   | Number | The vertical raidus of the ellipse.   |
 
 ### Usage
 
@@ -215,10 +211,10 @@ group.addShape('marker', {
     x: 10,
     y: 10,
     r: 10,
-    symbol: 'triangle-down'
+    symbol: 'triangle-down',
   },
   // must be assigned in G6 3.3 and later versions. it can be any value you want
-  name: 'marker-shape'
+  name: 'marker-shape',
 });
 
 // custom the symbol with path
@@ -227,17 +223,12 @@ group.addShape('marker', {
     x: 10,
     y: 10,
     r: 10,
-    symbol: function(x, y, r) {
-      return [
-        [ 'M', x, y ],
-        [ 'L', x + r, y + r ],
-        [ 'L', x + r * 2, y ],
-        [ 'Z' ]
-      ]
-    }
+    symbol: function (x, y, r) {
+      return [['M', x, y], ['L', x + r, y + r], ['L', x + r * 2, y], ['Z']];
+    },
   },
   // must be assigned in G6 3.3 and later versions. it can be any value you want
-  name: 'marker-shape'
+  name: 'marker-shape',
 });
 ```
 
@@ -245,8 +236,8 @@ group.addShape('marker', {
 
 ### Special Property
 
-| Name   | Type                                   | Description          |
-| ------ | --------------------------------------------- | --------------- |
+| Name   | Type  | Description                                   |
+| ------ | ----- | --------------------------------------------- |
 | points | Array | The coordinates of the points on the polygon. |
 
 ### Usage
@@ -308,15 +299,9 @@ group.addShape('rect', {
 | startArrow | Boolean / Object | The arrow on the start of the path. When `startArrow` is `true`, show a default arrow on the start of the path. User can custom an arrow by path. |
 | endArrow | Boolean / Object | The arrow on the end of the path. When `startArrow` is `true`, show a default arrow on the end of the path. User can custom an arrow by path. |
 | lineAppendWidth | Number | The hitting area of the path. Enlarge the hitting area by enlarging its value. |
-| lineCap | String | The style of two ends of the path. Options: <br/> - `'bevel'`
-<br/> - `'round'`
-<br/> - `'miter'`(default) |
-| lineJoin | String | The style of the intersection of two path. Options: <br/> - `'bevel'`
-<br/> - `'round'`
-<br/> - `'miter'`(default) |
-| lineWidth | Number | The line width of the current path. |
-| miterLimit | Number | The maximum miter length. |
-| lineDash | Number / Number[] | The style of the dash line. It is an array that describes the length of gaps and line segments. If the number of the elements in the array is odd, the elements will be dulplicated. Such as [5, 15, 25] will be regarded as [5, 15, 25, 5, 15, 25]. |
+| lineCap | String | The style of two ends of the path. Options: <br/> - `'bevel'` |
+
+<br/> - `'round'` <br/> - `'miter'`(default) | | lineJoin | String | The style of the intersection of two path. Options: <br/> - `'bevel'` <br/> - `'round'` <br/> - `'miter'`(default) | | lineWidth | Number | The line width of the current path. | | miterLimit | Number | The maximum miter length. | | lineDash | Number / Number[] | The style of the dash line. It is an array that describes the length of gaps and line segments. If the number of the elements in the array is odd, the elements will be dulplicated. Such as [5, 15, 25] will be regarded as [5, 15, 25, 5, 15, 25]. |
 
 ### Usage
 
@@ -370,7 +355,6 @@ group.addShape('path', {
 | fontFamily | String | The font family of the text. The corresponding property in CSS is `font-family` |
 | lineHeight | Number | Line height of the text. The corresponding property in CSS is `line-height` |
 
-
 ### Usage
 
 ```javascript
@@ -389,19 +373,19 @@ group.addShape('text', {
 });
 ```
 
-
 ## DOM (svg)
 
 > This shape is available only when the `renderer` is assgined to `'svg'` for graph instance.
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span> 
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span>
+
 - Only support native HTML DOM, but not react or other components;
 - If you custom a Node type or an Edge type with dom shape, please use the original DOM events instead of events of G6.
 
 ### Properties
 
-| Name | Type | Description |
-| --- | --- | --- |
+| Name | Type   | Description                  |
+| ---- | ------ | ---------------------------- |
 | html | String | The HTML value for DOM shape |
 
 ### Usage
@@ -413,13 +397,15 @@ group.addShape('dom', {
     height: cfg.size[1],
     // DOM's html
     html: `
-    <div style="background-color: #fff; border: 2px solid #5B8FF9; border-radius: 5px; width: ${cfg.size[0]-5}px; height: ${cfg.size[1]-5}px; display: flex;">
+    <div style="background-color: #fff; border: 2px solid #5B8FF9; border-radius: 5px; width: ${
+      cfg.size[0] - 5
+    }px; height: ${cfg.size[1] - 5}px; display: flex;">
       <div style="height: 100%; width: 33%; background-color: #CDDDFD">
         <img alt="img" style="line-height: 100%; padding-top: 6px; padding-left: 8px;" src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q_FQT6nwEC8AAAAAAAAAAABkARQnAQ" width="20" height="20" />  
       </div>
       <span style="margin:auto; padding:auto; color: #5B8FF9">${cfg.label}</span>
     </div>
-      `
+      `,
   },
   // must be assigned in G6 3.3 and later versions. it can be any value you want
   name: 'dom-shape',

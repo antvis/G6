@@ -7,7 +7,6 @@ order: 1
 
 <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GkXiSbN9JJsAAAAAAAAAAABkARQnAQ' width=500 alt='img'/>
 
-
 ## 默认箭头
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*fthFSoNbmeAAAAAAAAAAAABkARQnAQ' width=200 alt='img'/>
@@ -15,13 +14,13 @@ order: 1
 ### 使用方法
 
 在边的样式属性 `style` 中将 `endArrow` 或 `startArrow` 配置为 `true` 即可：
+
 ```javascript
 style: {
   endArrow: true,
   startArrow: true
 }
 ```
-
 
 ## 内置箭头
 
@@ -30,13 +29,13 @@ v3.5.8 后支持。
 ### 各箭头概览
 
 | 名称 | 参数 | 使用方法 | 效果 |
-| ---- | -- | ------ | ------------ |
-| triangle | <div style="width: 150pt">依次为箭头宽度（默认 10）、长度（默认 15）、偏移量（默认为 0，与 `d` 对应）</div> | endArrow: {<br />  path: G6.Arrow.triangle(10, 20, 25),<br />  d: 25<br />} | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*s8LxSZoxSEsAAAAAAAAAAABkARQnAQ' width=200 alt='img'/> |
-| vee | <div style="width: 150pt">依次为箭头宽度（默认 15）、长度（默认 20）、偏移量（默认为 0，与 `d` 对应）</div> | endArrow: {<br />  path: G6.Arrow.vee(10, 20, 25),<br />  d: 25<br />} | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2DBOTJfZZS0AAAAAAAAAAABkARQnAQ' width=200 alt='img'/> |
-| circle | <div style="width: 150pt">依次为箭头半径（默认 5）、偏移量（默认为 0，与 `d` 对应）</div> | endArrow: {<br />  path: G6.Arrow.circle(10, 25),<br/>  d: 25<br />} | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*h2XSSJrdUHkAAAAAAAAAAABkARQnAQ' width=200 alt='img'/> |
-| diamond | <div style="width: 150pt">依次为箭头宽度（默认 15）、长度（默认 15）、偏移量（默认为 0，与 `d` 对应）</div> | endArrow: {<br />  path: G6.Arrow.diamond(10, 20, 25),<br />  d: 25<br />} | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FIHORJpJov0AAAAAAAAAAABkARQnAQ' width=200 alt='img'/> |
-| rect | <div style="width: 150pt">依次为箭头宽度（默认 10）、长度（默认 10）、偏移量（默认为 0，与 `d` 对应）</div> | endArrow: {<br />  path: G6.Arrow.rect(10, 20, 25),<br />  d: 25<br />} | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AkBLSoxXptUAAAAAAAAAAABkARQnAQ' width=200 alt='img'/> |
-| triangleRect | <div style="width: 150pt">依次为箭头三角形宽度（默认 15）、三角形长度（默认 15）、矩形宽度（默认 15）、矩形长度（默认 3）、三角形与矩形间距（默认为 5）、偏移量（默认为 0，与 `d` 对应）</div> | endArrow: {<br />  path: G6.Arrow.triangleRect(15, 15, 15, 3, 5, 25),<br />  d: 25<br />} | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rPPeT4kFVdwAAAAAAAAAAABkARQnAQ' width=200 alt='img'/> |
+| --- | --- | --- | --- |
+| triangle | <div style="width: 150pt">依次为箭头宽度（默认 10）、长度（默认 15）、偏移量（默认为 0，与 `d` 对应）</div> | endArrow: {<br /> path: G6.Arrow.triangle(10, 20, 25),<br /> d: 25<br />} | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*s8LxSZoxSEsAAAAAAAAAAABkARQnAQ' width=200 alt='img'/> |
+| vee | <div style="width: 150pt">依次为箭头宽度（默认 15）、长度（默认 20）、偏移量（默认为 0，与 `d` 对应）</div> | endArrow: {<br /> path: G6.Arrow.vee(10, 20, 25),<br /> d: 25<br />} | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2DBOTJfZZS0AAAAAAAAAAABkARQnAQ' width=200 alt='img'/> |
+| circle | <div style="width: 150pt">依次为箭头半径（默认 5）、偏移量（默认为 0，与 `d` 对应）</div> | endArrow: {<br /> path: G6.Arrow.circle(10, 25),<br/> d: 25<br />} | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*h2XSSJrdUHkAAAAAAAAAAABkARQnAQ' width=200 alt='img'/> |
+| diamond | <div style="width: 150pt">依次为箭头宽度（默认 15）、长度（默认 15）、偏移量（默认为 0，与 `d` 对应）</div> | endArrow: {<br /> path: G6.Arrow.diamond(10, 20, 25),<br /> d: 25<br />} | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FIHORJpJov0AAAAAAAAAAABkARQnAQ' width=200 alt='img'/> |
+| rect | <div style="width: 150pt">依次为箭头宽度（默认 10）、长度（默认 10）、偏移量（默认为 0，与 `d` 对应）</div> | endArrow: {<br /> path: G6.Arrow.rect(10, 20, 25),<br /> d: 25<br />} | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AkBLSoxXptUAAAAAAAAAAABkARQnAQ' width=200 alt='img'/> |
+| triangleRect | <div style="width: 150pt">依次为箭头三角形宽度（默认 15）、三角形长度（默认 15）、矩形宽度（默认 15）、矩形长度（默认 3）、三角形与矩形间距（默认为 5）、偏移量（默认为 0，与 `d` 对应）</div> | endArrow: {<br /> path: G6.Arrow.triangleRect(15, 15, 15, 3, 5, 25),<br /> d: 25<br />} | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rPPeT4kFVdwAAAAAAAAAAABkARQnAQ' width=200 alt='img'/> |
 
 ### 使用方法
 
@@ -58,7 +57,6 @@ style: {
 ## 自定义箭头
 
 参见高级指引 [自定义箭头](/zh/docs/manual/advanced/custom-edge#4-自定义箭头)。
-
 
 ## 配置箭头样式
 

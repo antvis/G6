@@ -45,10 +45,6 @@ interface ToolBarConfig extends IPluginBaseConfig {
 }
 
 export default class ToolBar extends Base {
-  constructor(cfg?: ToolBarConfig) {
-    super(cfg);
-  }
-
   public getDefaultCfgs(): ToolBarConfig {
     return {
       handleClick: undefined,
@@ -87,140 +83,147 @@ export default class ToolBar extends Base {
               </svg>
             </li>
           </ul>
-        `
+        `;
       },
     };
   }
 
   public init() {
-    const graph: IGraph = this.get('graph')
-    const getContent = this.get('getContent')
-    const toolBar = getContent(graph)
-    let toolBarDOM = toolBar
+    const graph: IGraph = this.get('graph');
+    const getContent = this.get('getContent');
+    const toolBar = getContent(graph);
+    let toolBarDOM = toolBar;
     if (isString(toolBar)) {
-      toolBarDOM = createDOM(toolBar)
+      toolBarDOM = createDOM(toolBar);
     }
 
-    const className = this.get('className')
-    toolBarDOM.setAttribute('class', className || 'g6-component-toolbar')
-    
+    const className = this.get('className');
+    toolBarDOM.setAttribute('class', className || 'g6-component-toolbar');
+
     let container: HTMLDivElement | null = this.get('container');
     if (!container) {
       container = this.get('graph').get('container');
     }
 
     container!.appendChild(toolBarDOM);
-    this.set('toolBar', toolBarDOM)
+    this.set('toolBar', toolBarDOM);
 
-    const handleClick = this.get('handleClick')
+    const handleClick = this.get('handleClick');
 
-    toolBarDOM.addEventListener('click', evt => {
-      const current = evt.path.filter(p => p.nodeName === 'LI')
+    toolBarDOM.addEventListener('click', (evt) => {
+      const current = evt.path.filter((p) => p.nodeName === 'LI');
       if (current.length === 0) {
         return;
       }
 
-      let code = current[0].getAttribute('code')
+      const code = current[0].getAttribute('code');
 
       if (!code) {
         return;
       }
 
       if (handleClick) {
-        handleClick(code, graph)
+        handleClick(code, graph);
       } else {
-        this.handleDefaultOperator(code, graph)
+        this.handleDefaultOperator(code, graph);
       }
-    })
+    });
 
-    const pos = this.get('position')
+    const pos = this.get('position');
 
     if (pos) {
       modifyCSS(toolBarDOM, {
         top: `${pos.y}px`,
-        left: `${pos.x}px`
+        left: `${pos.x}px`,
       });
     }
 
-    this.bindUndoRedo()
+    this.bindUndoRedo();
   }
 
   private bindUndoRedo() {
-    const graph = this.get('graph')
-    const undoDom = document.querySelector('.g6-component-toolbar li[code="undo"]')
-    const undoDomIcon = document.querySelector('.g6-component-toolbar li[code="undo"] svg')
-    const redoDom = document.querySelector('.g6-component-toolbar li[code="redo"]')
-    const redoDomIcon = document.querySelector('.g6-component-toolbar li[code="redo"] svg')
+    const graph = this.get('graph');
+    const undoDom = document.querySelector('.g6-component-toolbar li[code="undo"]');
+    const undoDomIcon = document.querySelector('.g6-component-toolbar li[code="undo"] svg');
+    const redoDom = document.querySelector('.g6-component-toolbar li[code="redo"]');
+    const redoDomIcon = document.querySelector('.g6-component-toolbar li[code="redo"] svg');
 
     if (!undoDom || !undoDomIcon || !redoDom || !redoDomIcon) {
       return;
     }
 
-    graph.on('stackchange', evt => {
-      const { undoStack, redoStack } = evt
-      const undoStackLen = undoStack.length
-      const redoStackLen = redoStack.length
+    graph.on('stackchange', (evt) => {
+      const { undoStack, redoStack } = evt;
+      const undoStackLen = undoStack.length;
+      const redoStackLen = redoStack.length;
       // undo 不可用
       if (undoStackLen === 1) {
-        undoDom.setAttribute('style', 'cursor: not-allowed')
-        undoDomIcon.setAttribute('style', 'opacity: 0.4')
+        undoDom.setAttribute('style', 'cursor: not-allowed');
+        undoDomIcon.setAttribute('style', 'opacity: 0.4');
       } else {
-        undoDom.removeAttribute('style')
-        undoDomIcon.removeAttribute('style')
+        undoDom.removeAttribute('style');
+        undoDomIcon.removeAttribute('style');
       }
 
       // redo 不可用
       if (redoStackLen === 0) {
-        redoDom.setAttribute('style', 'cursor: not-allowed')
-        redoDomIcon.setAttribute('style', 'opacity: 0.4')
+        redoDom.setAttribute('style', 'cursor: not-allowed');
+        redoDomIcon.setAttribute('style', 'opacity: 0.4');
       } else {
-        redoDom.removeAttribute('style')
-        redoDomIcon.removeAttribute('style')
+        redoDom.removeAttribute('style');
+        redoDomIcon.removeAttribute('style');
       }
-    })
+    });
   }
 
   /**
    * undo 操作
    */
   public undo() {
-    const graph: IGraph = this.get('graph')
-    const undoStack = graph.getUndoStack()
+    const graph: IGraph = this.get('graph');
+    const undoStack = graph.getUndoStack();
 
     if (!undoStack || undoStack.length === 0) {
-      return
+      return;
     }
 
-    const currentData = undoStack.pop()
+    const currentData = undoStack.pop();
     if (currentData) {
-      let { action, data } = currentData
-      graph.pushStack(action, clone(data), 'redo')
+      let { action, data } = currentData;
+      graph.pushStack(action, clone(data), 'redo');
 
       if (undoStack.length > 0) {
-        const current = undoStack.peek()
-        action = current.action
-        data = current.data
+        const current = undoStack.peek();
+        action = current.action;
+        data = current.data;
       }
 
       switch (action) {
-        case 'visible':
-          let item = data
+        case 'visible': {
+          let item = data;
           if (isString(data)) {
-            item = graph.findById(data)
+            item = graph.findById(data);
           }
-          item.get('visible') ? graph.hideItem(item, false) : graph.showItem(item, false)
+          if (item.get('visible')) {
+            graph.hideItem(item, false);
+          } else {
+            graph.showItem(item, false);
+          }
           break;
+        }
         case 'render':
         case 'update':
-          graph.changeData(data, false)
+          graph.changeData(data, false);
           break;
-        case 'delete':
-          const { type, ...model } = data
-          graph.addItem(type, model, false)
+        case 'delete': {
+          const { type, ...model } = data;
+          graph.addItem(type, model, false);
           break;
+        }
         case 'add':
-          graph.removeItem(data.id, false)
+          graph.removeItem(data.id, false);
           break;
+        default:
       }
     }
   }
@@ -229,43 +232,50 @@ export default class ToolBar extends Base {
    * redo 操作
    */
   public redo() {
-    const graph: IGraph = this.get('graph')
-    const redoStack = graph.getRedoStack()
+    const graph: IGraph = this.get('graph');
+    const redoStack = graph.getRedoStack();
 
     if (!redoStack || redoStack.length === 0) {
-      return
+      return;
     }
 
-    let currentData = redoStack.pop()
+    let currentData = redoStack.pop();
     if (currentData) {
-      let { action, data } = currentData
-      graph.pushStack(action, clone(data))
+      let { action, data } = currentData;
+      graph.pushStack(action, clone(data));
       if (action === 'render') {
-        currentData = redoStack.pop()
-        action = currentData.action
-        data = currentData.data
-        graph.pushStack(action, clone(data))
+        currentData = redoStack.pop();
+        action = currentData.action;
+        data = currentData.data;
+        graph.pushStack(action, clone(data));
       }
 
       switch (action) {
-        case 'visible':
-          let item = data
+        case 'visible': {
+          let item = data;
           if (isString(data)) {
-            item = graph.findById(data)
+            item = graph.findById(data);
           }
-          item.get('visible') ? graph.hideItem(item, false) : graph.showItem(item, false)
+          if (item.get('visible')) {
+            graph.hideItem(item, false);
+          } else {
+            graph.showItem(item, false);
+          }
           break;
+        }
         case 'render':
         case 'update':
-          graph.changeData(data, false)
+          graph.changeData(data, false);
           break;
         case 'delete':
-          graph.removeItem(data.id, false)
+          graph.removeItem(data.id, false);
           break;
-        case 'add':
-          const { type, ...model } = data
-          graph.addItem(type, model, false)
+        case 'add': {
+          const { type, ...model } = data;
+          graph.addItem(type, model, false);
           break;
+        }
+        default:
       }
     }
   }
@@ -276,39 +286,42 @@ export default class ToolBar extends Base {
    * @param graph Graph 实例
    */
   private handleDefaultOperator(code: string, graph: IGraph) {
-    const currentZoom = graph.getZoom()
+    const currentZoom = graph.getZoom();
     switch (code) {
       case 'redo':
         this.redo();
         break;
       case 'undo':
-        this.undo()
+        this.undo();
         break;
-      case 'zoomOut':
+      case 'zoomOut': {
         const ratioOut = 1 + 0.05 * 5;
         if (ratioOut * currentZoom > 5) {
           return;
         }
-        graph.zoomTo(currentZoom * 1.1)
+        graph.zoomTo(currentZoom * 1.1);
         break;
-      case 'zoomIn':
+      }
+      case 'zoomIn': {
         const ratioIn = 1 - 0.05 * 5;
         if (ratioIn * currentZoom < 0.3) {
           return;
         }
-        graph.zoomTo(currentZoom * 0.9)
+        graph.zoomTo(currentZoom * 0.9);
         break;
+      }
       case 'realZoom':
-        graph.zoomTo(1)
+        graph.zoomTo(1);
         break;
       case 'autoZoom':
-        graph.fitView([20, 20])
+        graph.fitView([20, 20]);
         break;
+      default:
     }
   }
 
   public destroy() {
-    const toolBar = this.get('toolBar')
+    const toolBar = this.get('toolBar');
 
     if (toolBar) {
       let container: HTMLDivElement | null = this.get('container');
@@ -318,9 +331,9 @@ export default class ToolBar extends Base {
       container.removeChild(toolBar);
     }
 
-    const handleClick = this.get('handleClick')
+    const handleClick = this.get('handleClick');
     if (handleClick) {
-      toolBar.removeEventListener('click', handleClick)
+      toolBar.removeEventListener('click', handleClick);
     }
   }
 }

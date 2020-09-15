@@ -23,9 +23,9 @@ Add a new group to the group.
 
 **Parameters**
 
-| Name | Type | Description |
-| --- | --- | --- |
-| cfg | Object | Not required. It is the configurations of the group |
+| Name | Type   | Description                                         |
+| ---- | ------ | --------------------------------------------------- |
+| cfg  | Object | Not required. It is the configurations of the group |
 
 The `cfg` above is not required, and it contains:
 
@@ -123,7 +123,7 @@ Find **the first** element that matches the rule.
 **Usage**
 
 ```javascript
-const child = group.find(function(item) {
+const child = group.find(function (item) {
   return item.attr('fill') === 'red'; // Find the first graphics filled with red
 });
 ```
@@ -157,7 +157,7 @@ Find all the elements that match the rule.<br />The type of the return value: [ 
 **Usage**
 
 ```javascript
-const children = group.findAll(function(item) {
+const children = group.findAll(function (item) {
   return item.get('id') < 10; // get all the elements with the id smaller than 10
 });
 ```

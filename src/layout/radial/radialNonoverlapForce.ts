@@ -22,32 +22,45 @@ export type RadialNonoverlapForceParam = {
 export default class RadialNonoverlapForce {
   /** node positions */
   public positions: IPointTuple[];
+
   /** adjacency matrix */
   public adjMatrix: Matrix[];
+
   /** focus node */
   public focusID: number;
+
   /** radii */
   public radii: number[];
+
   /** the number of iterations */
   public iterations: number;
+
   /** the height of the canvas */
   public height: number;
+
   /** the width of the canvas */
   public width: number;
+
   /** the moving speed */
   public speed: number;
+
   /** the gravity */
   public gravity: number;
+
   /** the node size */
   public nodeSizeFunc: (node: any) => number;
+
   /** the strength of forces */
   public k: number;
+
   /** if each circle can be separated into subcircles to avoid overlappings */
   public strictRadial: boolean;
+
   /** the nodes data */
   public nodes: any[];
 
   private maxDisplace: number | undefined;
+
   private disp: Point[] = [];
 
   constructor(params: RadialNonoverlapForceParam) {

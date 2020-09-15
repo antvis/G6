@@ -48,7 +48,7 @@ graph.data(data);
 graph.render();
 
 setInterval(() => {
-  data.nodes.forEach(node => {
+  data.nodes.forEach((node) => {
     node.x += Math.random() * 50 - 25;
     node.y += Math.random() * 50 - 25;
   });

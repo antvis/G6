@@ -11,15 +11,14 @@ const CACHE_CANVAS_BBOX = 'bboxCanvasCache';
 const CACHE_SIZE = 'sizeCache';
 const CACHE_ANCHOR_POINTS = 'anchorPointsCache';
 
-
 export default class Combo extends Node implements ICombo {
   public getDefaultCfg() {
     return {
       type: 'combo',
       nodes: [],
       edges: [],
-      combos: []
-    }
+      combos: [],
+    };
   }
 
   public getShapeCfg(model: ComboConfig): ComboConfig {
@@ -31,25 +30,24 @@ export default class Combo extends Node implements ICombo {
       const size = {
         r: Math.hypot(bbox.height, bbox.width) / 2 || Global.defaultCombo.size[0] / 2,
         width: bbox.width || Global.defaultCombo.size[0],
-        height: bbox.height || Global.defaultCombo.size[1]
+        height: bbox.height || Global.defaultCombo.size[1],
       };
-      newModel.style = Object.assign({}, styles, model.style, size);
-      const padding = model.padding || Global.defaultCombo.padding
+      newModel.style = { ...styles, ...model.style, ...size };
+      const padding = model.padding || Global.defaultCombo.padding;
       if (isNumber(padding)) {
         size.r += padding;
         size.width += padding * 2;
         size.height += padding * 2;
       } else {
         size.r += padding[0];
-        size.width += (padding[1] + padding[3]) || padding[1] * 2;
-        size.height += (padding[0] + padding[2]) || padding[0] * 2;
+        size.width += padding[1] + padding[3] || padding[1] * 2;
+        size.height += padding[0] + padding[2] || padding[0] * 2;
       }
       this.set(CACHE_SIZE, size);
       return newModel;
     }
     return model;
   }
-
 
   /**
    * 根据 keyshape 计算包围盒
@@ -89,12 +87,12 @@ export default class Combo extends Node implements ICombo {
   /**
    * 获取 Combo 中所有的子元素，包括 Combo、Node 及 Edge
    */
-  public getChildren(): { nodes: INode[], combos: ICombo[] } {
+  public getChildren(): { nodes: INode[]; combos: ICombo[] } {
     const self = this;
     return {
       nodes: self.getNodes(),
-      combos: self.getCombos()
-    }
+      combos: self.getCombos(),
+    };
   }
 
   /**
@@ -134,7 +132,6 @@ export default class Combo extends Node implements ICombo {
     }
     return true;
   }
-
 
   /**
    * 向 Combo 中增加 combo
@@ -177,9 +174,8 @@ export default class Combo extends Node implements ICombo {
         console.warn('Only node or combo items are allowed to be added into a combo');
         return false;
     }
-    return true
+    return true;
   }
-
 
   /**
    * 从 Combo 中移除指定的 combo
@@ -198,10 +194,10 @@ export default class Combo extends Node implements ICombo {
   }
 
   /**
-  * 向 Combo 中移除指定的节点
-  * @param node 节点实例
-  * @return boolean 移除成功返回 true，否则返回 false
-  */
+   * 向 Combo 中移除指定的节点
+   * @param node 节点实例
+   * @return boolean 移除成功返回 true，否则返回 false
+   */
   removeNode(node: INode): boolean {
     if (!node) return;
     const nodes = this.getNodes();
@@ -217,7 +213,6 @@ export default class Combo extends Node implements ICombo {
     return false;
   }
 
-
   /**
    * 获取 item 的包围盒，这个包围盒是相对于 item 自己，不会将 matrix 计算在内
    * @return {Object} 包含 x,y,width,height, centerX, centerY
@@ -227,7 +222,6 @@ export default class Combo extends Node implements ICombo {
     const bbox: IBBox = this.calculateCanvasBBox();
     return bbox;
   }
-
 
   public clearCache() {
     this.set(CACHE_BBOX, null); // 清理缓存的 bbox
@@ -250,5 +244,4 @@ export default class Combo extends Node implements ICombo {
       this.destroyed = true;
     }
   }
-
 }

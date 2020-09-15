@@ -12,6 +12,7 @@ Behavior 是 G6 提供的定义图上交互事件的机制。它与[交互模式
 理论上， G6 上的所有基础图形、Item（节点/边）都能通过事件来进行操作。考虑到通用性，G6 目前共提供了以下 14 个内置的 Behavior。此外，用户可以注册 [自定义 Behavior](/zh/docs/manual/advanced/custom-behavior)。
 
 ### drag-combo
+
 V3.5 以上版本支持。
 
 - 含义：拖动 Combo；
@@ -24,8 +25,7 @@ V3.5 以上版本支持。
   - `selectedState`：选中 Combo 的状态，默认为 selected，需要在 `comboStateStyles` 里面配置；
   - `shouldUpdate(e)`：是否允许当前被操作的 combo 被拖拽，参见下面示例。
 
-
-**默认配置**
+**使用默认配置**
 
 ```javascript
 const graph = new G6.Graph({
@@ -40,27 +40,30 @@ const graph = new G6.Graph({
 ```javascript
 const graph = new G6.Graph({
   modes: {
-    default: [{
-      type: 'drag-combo',
-      enableDelegate: true,
-      activeState: 'actived',
-      shouldUpdate: e => {
-        // 不允许 id 为 'combo1' 的 combo 被拖拽
-        if (e.item && e.item.getModel().id === 'combo1') return false;
-        return true;
-      }
-    }],
+    default: [
+      {
+        type: 'drag-combo',
+        enableDelegate: true,
+        activeState: 'actived',
+        shouldUpdate: (e) => {
+          // 不允许 id 为 'combo1' 的 combo 被拖拽
+          if (e.item && e.item.getModel().id === 'combo1') return false;
+          return true;
+        },
+      },
+    ],
   },
   comboStateStyles: {
     actived: {
       stroke: 'red',
-      lineWidth: 3
-    }
-  }
+      lineWidth: 3,
+    },
+  },
 });
 ```
 
 ### collapse-expand-combo
+
 V3.5 以上版本支持。
 
 - 含义：收起和展开 Combo。若图配置有布局，则该 behavior 被触发后会触发图的重新布局。若希望避免重新布局，可以通过监听 combo 点击事件和 [graph.collapseExpandCombo API](/zh/docs/api/Graph#collapseexpandcombocombo) 控制收缩展开逻辑；
@@ -69,7 +72,7 @@ V3.5 以上版本支持。
   - `trigger`：触发方式，默认为双击收起或展示，可配置 `'click'` 和 `'dblclick'`；
   - `relayout`：收缩或展开后是否触发重新布局，默认为 `true`。
 
-**默认配置**
+**使用默认配置**
 
 ```javascript
 const graph = new G6.Graph({
@@ -84,15 +87,16 @@ const graph = new G6.Graph({
 ```javascript
 const graph = new G6.Graph({
   modes: {
-    default: [{
-      type: 'collapse-expand-combo',
-      trigger: 'click',
-      relayout: false // 收缩展开后，不重新布局
-    }],
+    default: [
+      {
+        type: 'collapse-expand-combo',
+        trigger: 'click',
+        relayout: false, // 收缩展开后，不重新布局
+      },
+    ],
   },
 });
 ```
-
 
 ### drag-canvas
 
@@ -107,7 +111,7 @@ const graph = new G6.Graph({
   - `canvas:drag`：画布拖拽中触发，使用 `graph.on('canvas:drag', e => {...})` 监听；
   - `canvas:dragend`：画布拖拽结束后触发，使用 `graph.on('canvas:drag', e => {...})` 监听。
 
-**默认配置**
+**使用默认配置**
 
 ```javascript
 const graph = new G6.Graph({
@@ -119,7 +123,7 @@ const graph = new G6.Graph({
 
 默认配置下，可以在 x 和 y 两个方向上拖动画布。
 
-**配置参数**
+**使用自定义参数**
 
 ```javascript
 const graph = new G6.Graph({
@@ -174,7 +178,7 @@ const graph = new G6.Graph({
   - `shouldUpdate(e)`：是否允许当前被操作的节点在拖动过程中更新自身/ delegate 位置；
   - `shouldEnd(e)`：是否允许当前被操作的节点在拖拽结束时更新位置。
 
-**默认配置**
+**使用默认配置**
 
 ```javascript
 const graph = new G6.Graph({
@@ -195,10 +199,10 @@ const graph = new G6.Graph({
       {
         type: 'drag-node',
         enableDelegate: true,
-        shouldBegin: e => {
+        shouldBegin: (e) => {
           // 不允许拖拽 id 为 'node1' 的节点
           if (e.item && e.item.getModel().id === 'node1') return false;
-        }
+        },
       },
     ],
   },
@@ -222,8 +226,7 @@ const graph = new G6.Graph({
     - `e.selectedItems`：当前操作后，所有被选中的 items 集合；
     - `e.select`：当前操作是选中(true)还是取消选中(false)。
 
-
-**默认配置**
+**使用默认配置**
 
 ```javascript
 const graph = new G6.Graph({
@@ -233,7 +236,7 @@ const graph = new G6.Graph({
 });
 
 // 当 click-select 选中的元素集合发生变化时将会触发下面时机事件，e 中包含相关信息
-graph.on('nodeselectchange', e => {
+graph.on('nodeselectchange', (e) => {
   // 当前操作的 item
   console.log(e.target);
   // 当前操作后，所有被选中的 items 集合
@@ -245,7 +248,7 @@ graph.on('nodeselectchange', e => {
 
 按住 **`Shift`** 键可多选。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mOiIQqBof8sAAAAAAAAAAABkARQnAQ' width=400/>
 
-**配置参数**
+**使用自定义参数**
 
 ```javascript
 const graph = new G6.Graph({
@@ -255,7 +258,7 @@ const graph = new G6.Graph({
         type: 'click-select',
         trigger: 'ctrl',
         // 是否允许该 behavior 发生。若返回 false，被操作的 item 不会被选中，也不会触发 'nodeselectchange' 时机事件
-        shouldBegin: e => {
+        shouldBegin: (e) => {
           // 当点击的图形名为 'text-shape' 时，不允许该 behavior 发生
           if (e.target.get('name') === 'text-shape') return false;
           // 当点击的节点/边/ combo 的 id 为 'id1' 时，不允许该 behavior 发生
@@ -263,18 +266,18 @@ const graph = new G6.Graph({
           return true;
         },
         // 是否允许对该 behavior 发生状态响应。若返回 false，被操作的对象的状态及相关状态样式不会被更新，但是仍然会触发 'nodeselectchange' 时机事件
-        shouldUpdate: e => {
+        shouldUpdate: (e) => {
           // 当点击的节点/边/ combo 的 id 为 'id2' 时，该 item 不会发生状态的改变
           if (e.item.getModel().id === 'id2') return false;
           return true;
-        }
+        },
       },
     ],
   },
 });
 
 // 当 click-select 选中的元素集合发生变化时将会触发下面时机事件，evt 中包含相关信息
-graph.on('nodeselectchange', e => {
+graph.on('nodeselectchange', (e) => {
   // 当前操作的 item
   console.log(e.target);
   // 当前操作后，所有被选中的 items 集合
@@ -310,7 +313,7 @@ const graph = new G6.Graph({
         formatText(model) {
           return model.xxx;
         },
-        offset: 10
+        offset: 10,
       },
     ],
   },
@@ -358,7 +361,7 @@ const graph = new G6.Graph({
     - `e.item`：当前操作的节点 item；
     - `e.action`：当前操作是选中(`'activate'`)还是取消选中(`'deactivate'`)。
 
-<br />**默认配置**<br />
+<br />**使用默认配置**<br />
 
 ```javascript
 const graph = new G6.Graph({
@@ -367,17 +370,17 @@ const graph = new G6.Graph({
   },
 });
 
-graph.on('afteractivaterelations', e => {
+graph.on('afteractivaterelations', (e) => {
   // 当前操作的节点 item
   console.log(e.item);
   // 当前操作是选中(`'activate'`)还是取消选中(`'deactivate'`)
   console.log(e.action);
-})
+});
 ```
 
 默认情况下，选中的节点状态，在操作完以后仍然会保持选中状态。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bG31RqbM4JMAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
-**配置参数**
+**使用自定义参数**
 
 ```javascript
 const graph = new G6.Graph({
@@ -391,12 +394,12 @@ const graph = new G6.Graph({
   },
 });
 
-graph.on('afteractivaterelations', e => {
+graph.on('afteractivaterelations', (e) => {
   // 当前操作的节点 item
   console.log(e.item);
   // 当前操作是选中(`'activate'`)还是取消选中(`'deactivate'`)
   console.log(e.action);
-})
+});
 ```
 
 配置 `resetSelected` 参数为 `true` 后，交互后会重置节点的选择状态。
@@ -424,7 +427,7 @@ graph.on('afteractivaterelations', e => {
     - `e.selectedItems`：当前操作后，所有被选中的 items 集合；
     - `e.select`：当前操作是选中(true)还是取消选中(false)。
 
-**默认配置**
+**使用默认配置**
 
 ```javascript
 const graph = new G6.Graph({
@@ -434,7 +437,7 @@ const graph = new G6.Graph({
 });
 
 // 当 click-select 选中的元素集合发生变化时将会触发下面时机事件，e 中包含相关信息
-graph.on('nodeselectchange', e => {
+graph.on('nodeselectchange', (e) => {
   // 当前操作后，所有被选中的 items 集合
   console.log(e.selectedItems);
   // 当前操作时选中(true)还是取消选中(false)
@@ -444,7 +447,7 @@ graph.on('nodeselectchange', e => {
 
 默认情况下，按住 Shift 键进行框选，选中节点的同时，也会选中边。 <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IJizQonX75wAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
-**配置参数**
+**使用自定义参数**
 
 ```javascript
 const graph = new G6.Graph({
@@ -455,18 +458,18 @@ const graph = new G6.Graph({
         trigger: 'ctrl',
         includeEdges: false,
         // 是否允许对该 behavior 发生。若返回 false，被操作的 item 不会被选中，不触发 'nodeselectchange' 时机事件
-        shouldUpdate: e => {
+        shouldUpdate: (e) => {
           // 当点击的节点/边/ combo 的 id 为 'id2' 时，该 item 不会被选中
           if (e.item.getModel().id === 'id2') return false;
           return true;
-        }
+        },
       },
     ],
   },
 });
 
 // 当 click-select 选中的元素集合发生变化时将会触发下面时机事件，e 中包含相关信息
-graph.on('nodeselectchange', e => {
+graph.on('nodeselectchange', (e) => {
   // 当前操作后，所有被选中的 items 集合
   console.log(e.selectedItems);
   // 当前操作时选中(true)还是取消选中(false)
@@ -518,8 +521,8 @@ const graph = new G6.Graph({
 - 配置项：
   - `type: 'lasso-select'`；
   - `delegateStyle`：拖动框选框的样式，包括 `fill`、`fillOpacity`、`stroke` 和 `lineWidth` 四个属性;
-  - `onSelect(nodes, edges)`：选中节点时的回调，参数 `nodes` 表示选中的节点，`edges`  表示选中的边；
-  - `onDeselect(nodes, edges)`：取消选中节点时的回调，参数 `nodes` 表示取消选中的节点，`edges`  表示取消选中的边；
+  - `onSelect(nodes, edges)`：选中节点时的回调，参数 `nodes` 表示选中的节点，`edges` 表示选中的边；
+  - `onDeselect(nodes, edges)`：取消选中节点时的回调，参数 `nodes` 表示取消选中的节点，`edges` 表示取消选中的边；
   - `selectedState`：选中的状态，默认值为 `'selected'`；
   - `includeEdges`：框选过程中是否选中边，默认为 `true`，用户配置为 `false` 时，则不选中边；
   - `trigger`：触发框选的动作，默认为 `'shift'`，即用户按住 Shift 键拖动就可以进行框选操作，可配置的的选项为: `'shift'`、`'ctrl' / 'control'`、`'alt'` 和 `'drag'` ，不区分大小写：
@@ -549,7 +552,6 @@ const graph = new G6.Graph({
     - `e.item`：当前被操作的节点 item；
     - `e.collapsed`：当前操作是收起（`true`）还是展开（`false`）。
 
-
 **用法**
 
 ```javascript
@@ -564,11 +566,11 @@ const graph = new G6.TreeGraph({
           data.collapsed = collapsed;
           return true;
         },
-        shouldBegin: e => {
+        shouldBegin: (e) => {
           // 若当前操作的节点 id 为 'node1'，则不发生 collapse-expand
           if (e.item && e.item.getModel().id === 'node1') return false;
           return true;
-        }
+        },
       },
       'drag-canvas',
       'zoom-canvas',
@@ -576,12 +578,12 @@ const graph = new G6.TreeGraph({
   },
 });
 
-graph.on('itemcollapsed', e => {
+graph.on('itemcollapsed', (e) => {
   // 当前被操作的节点 item
   console.log(e.item);
   // 当前操作是收起（`true`）还是展开（`false`）
   console.log(e.collapsed);
-})
+});
 ```
 
 ### collapse-expand-group
@@ -591,7 +593,7 @@ graph.on('itemcollapsed', e => {
   - `type：'collapse-expand-group'`
   - `trigger`：收起和展开节点分组的方式。支持 `'click'` 和 `'dblclick'` 两种方式。默认为 `'dblclick'`，即双击。
 
-**默认配置**
+**使用默认配置**
 
 ```javascript
 const graph = new G6.Graph({
@@ -601,7 +603,7 @@ const graph = new G6.Graph({
 });
 ```
 
-**配置参数**<br />配置 `trigger` 参数为 **`click`** 后，单击节点分组即可收起或展开分组。
+**使用自定义参数**<br />配置 `trigger` 参数为 **`click`** 后，单击节点分组即可收起或展开分组。
 
 ```javascript
 const graph = new G6.Graph({
@@ -625,7 +627,7 @@ const graph = new G6.Graph({
   - `type: 'drag-group'`；
   - `delegateStyle`：拖动节点分组时 `delegate` 的样式。
 
-**默认配置**
+**使用默认配置**
 
 ```javascript
 const graph = new G6.Graph({
@@ -645,12 +647,54 @@ const graph = new G6.Graph({
   - `minMultiple`；
   - `shouldBegin(e)`：是否允许当前被操作的节点被拖拽。
 
-**默认配置**
+**使用默认配置**
 
 ```javascript
 const graph = new G6.Graph({
   modes: {
     default: ['drag-node-with-group'],
+  },
+});
+```
+
+### create-edge
+
+- 含义：通过交互创建边；
+- 配置项：
+  - `type：'create-edge'`；
+  - `trigger`：该交互的触发条件，可选 `'click'`，`'drag'`。默认为 `'click'`，即分别点击两个节点为这两个节点创建边。`'drag'` 代表从一个节点“拖拽”出一条边，在另一个节点上松开鼠标完成创建。注意，`trigger: 'drag'` 不能创建一个自环边；
+  - `key`：键盘按键作为该交互的辅助触发，若不设置或设置为 undefined 则代表只根据 `trigger` 决定该交互的触发条件。可选值：`'shift'`，`'ctrl'`, 'control'，`'alt'`，`'meta'`，`undefined`；
+  - `shouldBegin(e)`：是否允许当前被操作的条件下开始创建边；
+  - `shouldEnd(e)`：是否允许当前被操作的条件下结束创建边；
+- 相关时机事件：
+  - `'aftercreateedge'`：当边创建完成时将会触发该时机事件。使用 `graph.on('aftercreateedge', e => {...})` 监听。其参数 `e` 中的 `edge` 字段即为刚刚创建的边。
+
+
+**使用默认配置**
+
+```javascript
+const graph = new G6.Graph({
+  modes: {
+    default: ['create-edge'],
+  },
+});
+graph.on('aftercreateedge', e => {
+  console.log(e.edge);
+});
+```
+
+**使用自定义参数**
+
+```javascript
+const graph = new G6.Graph({
+  modes: {
+    default: [
+    // 只有当 'shift' 键被按下，才能够通过从一个节点拖拽到另一个节点来创建一条边
+    {
+      type: 'create-edge',
+      trigger: 'drag',
+      key: 'shift'
+    }],
   },
 });
 ```

@@ -125,11 +125,11 @@ const graph = new G6.Graph({
   },
 });
 
-graph.on('beforelayout', function() {
+graph.on('beforelayout', function () {
   tipDiv.innerHTML =
     'Doing force-directed layout... the text will be changed after the layout being done.';
 });
-graph.on('afterlayout', function() {
+graph.on('afterlayout', function () {
   tipDiv.innerHTML = 'Done!';
 });
 

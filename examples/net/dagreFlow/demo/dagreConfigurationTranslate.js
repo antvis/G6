@@ -203,7 +203,7 @@ const graph = new G6.Graph({
     style: {
       endArrow: {
         path: 'M 0,0 L 8,4 L 8,-4 Z',
-        fill: '#e2e2e2'
+        fill: '#e2e2e2',
       },
     },
   },
@@ -214,7 +214,7 @@ graph.render();
 layoutConfigTranslation();
 
 function layoutConfigTranslation() {
-  setTimeout(function() {
+  setTimeout(function () {
     descriptionDiv.innerHTML =
       'Dagre layout, rank seperation: 10, node seperation in same level: 1, layout direction: Top->Bottom, alignment of nodes: DL';
     graph.updateLayout({
@@ -222,7 +222,7 @@ function layoutConfigTranslation() {
     });
   }, 1000);
 
-  setTimeout(function() {
+  setTimeout(function () {
     descriptionDiv.innerHTML =
       'Dagre layout, rank seperation: 10, node seperation in same level: 5, layout direction: Left->Right, alignment of nodes: DL';
     graph.updateLayout({
@@ -230,7 +230,7 @@ function layoutConfigTranslation() {
     });
   }, 2500);
 
-  setTimeout(function() {
+  setTimeout(function () {
     descriptionDiv.innerHTML =
       'Dagre layout, rank seperation: 10, node seperation in same level: 5, layout direction: Left->Right, alignment of nodes: UL';
     graph.updateLayout({
@@ -238,7 +238,7 @@ function layoutConfigTranslation() {
     });
   }, 4000);
 
-  setTimeout(function() {
+  setTimeout(function () {
     descriptionDiv.innerHTML =
       'Dagre layout, rank seperation: 10, node seperation in same level: 5, layout direction: Left->Right, alignment of nodes: UR';
     graph.updateLayout({
@@ -246,7 +246,7 @@ function layoutConfigTranslation() {
     });
   }, 5500);
 
-  setTimeout(function() {
+  setTimeout(function () {
     descriptionDiv.innerHTML =
       'Dagre layout, rank seperation: 10, node seperation in same level: 5, layout direction: Left->Right, alignment of nodes: Down Right, alignment of nodes: DL';
     graph.updateLayout({
@@ -255,7 +255,7 @@ function layoutConfigTranslation() {
     });
   }, 7000);
 
-  setTimeout(function() {
+  setTimeout(function () {
     descriptionDiv.innerHTML =
       'Dagre layout, rank seperation: 30, node seperation in same level: 5, layout direction: Left->Right, alignment of nodes: Down Right, alignment of nodes: DL';
     graph.updateLayout({

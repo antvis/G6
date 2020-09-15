@@ -70,27 +70,28 @@ export default class Node extends Item implements INode {
    * @memberof Node
    */
   public getNeighbors(type?: 'target' | 'source' | undefined): INode[] {
-    const edges = this.get('edges') as IEdge[]
+    const edges = this.get('edges') as IEdge[];
 
     if (type === 'target') {
       // 当前节点为 source，它所指向的目标节点
       const neighhborsConverter = (edge: IEdge) => {
         return edge.getSource() === this;
-      }
-      return edges.filter(neighhborsConverter).map(edge => edge.getTarget());
-    } else if (type === 'source') {
+      };
+      return edges.filter(neighhborsConverter).map((edge) => edge.getTarget());
+    }
+    if (type === 'source') {
       // 当前节点为 target，它所指向的源节点
       const neighhborsConverter = (edge: IEdge) => {
-        return edge.getTarget() === this
-      }
-      return edges.filter(neighhborsConverter).map(edge => edge.getSource())
+        return edge.getTarget() === this;
+      };
+      return edges.filter(neighhborsConverter).map((edge) => edge.getSource());
     }
 
     // 若未指定 type ，则返回所有邻居
     const neighhborsConverter = (edge: IEdge) => {
-      return edge.getSource() === this ? edge.getTarget() : edge.getSource()
-    }
-    return edges.map(neighhborsConverter)
+      return edge.getSource() === this ? edge.getTarget() : edge.getSource();
+    };
+    return edges.map(neighhborsConverter);
   }
 
   /**
@@ -110,8 +111,9 @@ export default class Node extends Item implements INode {
     const keyShape: IShapeBase = this.get('keyShape');
     const type: string = keyShape.get('type');
     const itemType: string = this.get('type');
-    let bbox, centerX, centerY;
-    bbox = this.getBBox();
+    let centerX;
+    let centerY;
+    const bbox = this.getBBox();
     if (itemType === 'combo') {
       centerX = (bbox.maxX + bbox.minX) / 2;
       centerY = (bbox.maxY + bbox.minY) / 2;

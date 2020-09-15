@@ -2,7 +2,17 @@ import Group from '@antv/g-canvas/lib/group';
 import Path from '@antv/g-canvas/lib/shape/path';
 import { vec2, mat3 } from '@antv/matrix-util';
 import Global from '../global';
-import { EdgeData, IBBox, IPoint, IShapeBase, LabelStyle, TreeGraphData, NodeConfig, ComboTree, ComboConfig } from '../types';
+import {
+  EdgeData,
+  IBBox,
+  IPoint,
+  IShapeBase,
+  LabelStyle,
+  TreeGraphData,
+  NodeConfig,
+  ComboTree,
+  ComboConfig,
+} from '../types';
 import { applyMatrix } from './math';
 import letterAspectRatio from './letterAspectRatio';
 import { isString, clone } from '@antv/util';
@@ -327,7 +337,10 @@ export const traverseTree = <T extends { children?: T[] }>(data: T, fn: (param: 
  * depth first traverse, from leaves to root, children in inverse order
  * if the fn returns false, terminate the traverse
  */
-export const traverseTreeUp = <T extends { children?: T[] }>(data: T, fn: (param: T) => boolean) => {
+export const traverseTreeUp = <T extends { children?: T[] }>(
+  data: T,
+  fn: (param: T) => boolean,
+) => {
   if (typeof fn !== 'function') {
     return;
   }
@@ -391,7 +404,7 @@ export const radialLayout = (
     return data;
   }
 
-  traverseTree(data, node => {
+  traverseTree(data, (node) => {
     const radial = ((node[radScale] - min[radScale]) / radDiff) * (PI * 2 - avgRad) + avgRad;
     const r = Math.abs(rScale === 'x' ? node.x - data.x : node.y - data.y);
     node.x = r * Math.cos(radial);
@@ -419,8 +432,8 @@ export const getLetterWidth = (letter, fontSize) => {
  */
 export const getTextSize = (text, fontSize) => {
   let width = 0;
-  const pattern = new RegExp("[\u{4E00}-\u{9FA5}]+");
-  text.split('').forEach(letter => {
+  const pattern = new RegExp('[\u{4E00}-\u{9FA5}]+');
+  text.split('').forEach((letter) => {
     if (pattern.test(letter)) {
       // 中文字符
       width += fontSize;
@@ -429,7 +442,7 @@ export const getTextSize = (text, fontSize) => {
     }
   });
   return [width, fontSize];
-}
+};
 
 /**
  * construct the trees from combos data
@@ -472,8 +485,8 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) =
       } else {
         const parent = {
           id: mappedObj.parentId,
-          children: [mappedObj]
-        }
+          children: [mappedObj],
+        };
         addedMap[mappedObj.parentId] = parent;
         addedMap[cd.id] = cd;
       }
@@ -488,8 +501,8 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) =
       } else {
         const pa = {
           id: d.parentId,
-          children: [cd]
-        }
+          children: [cd],
+        };
         addedMap[pa.id] = pa;
         addedMap[cd.id] = cd;
       }
@@ -501,13 +514,13 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) =
 
   // proccess the nodes
   const nodeMap = {};
-  nodes && nodes.forEach(node => {
+  (nodes || []).forEach((node) => {
     nodeMap[node.id] = node;
     const combo = addedMap[node.comboId as string];
     if (combo) {
       const cnode: NodeConfig = {
         id: node.id,
-        comboId: node.comboId as string
+        comboId: node.comboId as string,
       };
       if (combo.children) combo.children.push(cnode);
       else combo.children = [cnode];
@@ -519,11 +532,11 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) =
   // assign the depth for each element
   result.forEach((tree: ComboTree) => {
     tree.depth = 0;
-    traverse<ComboTree>(tree, child => {
+    traverse<ComboTree>(tree, (child) => {
       let parent;
-      const itemType = addedMap[child.id]['itemType'];
+      const itemType = addedMap[child.id].itemType;
       if (itemType === 'node') {
-        parent = addedMap[child['comboId'] as string];
+        parent = addedMap[child.comboId as string];
       } else {
         parent = addedMap[child.parentId];
       }
@@ -541,44 +554,48 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) =
     });
   });
   return result;
-}
+};
 
-export const reconstructTree = (trees: ComboTree[], subtreeId?: string, newParentId?: string | undefined): ComboTree[] => {
+export const reconstructTree = (
+  trees: ComboTree[],
+  subtreeId?: string,
+  newParentId?: string | undefined,
+): ComboTree[] => {
   let brothers = trees;
   let subtree;
   const comboChildsMap = {
-    'root': {
-      children: trees
-    }
-  }
+    root: {
+      children: trees,
+    },
+  };
   let foundSubTree = false;
   let oldParentId = 'root';
-  trees && trees.forEach(tree => {
+  (trees || []).forEach((tree) => {
     if (foundSubTree) return;
     if (tree.id === subtreeId) {
       subtree = tree;
       if (tree.itemType === 'combo') {
-        subtree.parentId = newParentId
+        subtree.parentId = newParentId;
       } else {
-        subtree.comboId = newParentId
+        subtree.comboId = newParentId;
       }
       foundSubTree = true;
       return;
     }
     traverseTree<ComboTree>(tree, (child: any) => {
       comboChildsMap[child.id] = {
-        children: child.children
-      }
+        children: child.children,
+      };
       // store the old parent id to delete the subtree from the old parent's children in next recursion
-      brothers = comboChildsMap[child.parentId || child.comboId || 'root'].children
+      brothers = comboChildsMap[child.parentId || child.comboId || 'root'].children;
       if (child && (child.removed || subtreeId === child.id) && brothers) {
         oldParentId = child.parentId || child.comboId || 'root';
         subtree = child;
         // re-assign the parentId or comboId for the moved subtree
         if (child.itemType === 'combo') {
-          subtree.parentId = newParentId
+          subtree.parentId = newParentId;
         } else {
-          subtree.comboId = newParentId
+          subtree.comboId = newParentId;
         }
         foundSubTree = true;
         return false;
@@ -596,12 +613,12 @@ export const reconstructTree = (trees: ComboTree[], subtreeId?: string, newParen
     subtree = {
       id: subtreeId,
       itemType: 'node',
-      comboId: newParentId
-    }
+      comboId: newParentId,
+    };
 
     comboChildsMap[subtreeId] = {
-      children: undefined
-    }
+      children: undefined,
+    };
   }
 
   // append to new parent
@@ -610,7 +627,7 @@ export const reconstructTree = (trees: ComboTree[], subtreeId?: string, newParen
     // newParentId is undefined means the subtree will have no parent
     if (newParentId) {
       let newParentDepth = 0;
-      trees && trees.forEach(tree => {
+      (trees || []).forEach((tree) => {
         if (found) return; // terminate
         traverseTree<ComboTree>(tree, (child: any) => {
           // append subtree to the new parent ans assign the depth to the subtree
@@ -640,7 +657,7 @@ export const reconstructTree = (trees: ComboTree[], subtreeId?: string, newParen
     });
   }
   return trees;
-}
+};
 
 export const getComboBBox = (children: ComboTree[], graph: IGraph): BBox => {
   const comboBBox = {
@@ -653,14 +670,14 @@ export const getComboBBox = (children: ComboTree[], graph: IGraph): BBox => {
     width: undefined,
     height: undefined,
     centerX: undefined,
-    centerY: undefined
+    centerY: undefined,
   };
 
   if (!children || children.length === 0) {
-    return comboBBox
+    return comboBBox;
   }
 
-  children.forEach(child => {
+  children.forEach((child) => {
     const childItem = graph.findById(child.id);
     if (!childItem || !childItem.isVisible()) return; // ignore hidden children
     childItem.set('bboxCanvasCache', undefined);
@@ -678,11 +695,11 @@ export const getComboBBox = (children: ComboTree[], graph: IGraph): BBox => {
   comboBBox.centerX = (comboBBox.minX + comboBBox.maxX) / 2;
   comboBBox.centerY = (comboBBox.minY + comboBBox.maxY) / 2;
 
-  Object.keys(comboBBox).forEach(key => {
+  Object.keys(comboBBox).forEach((key) => {
     if (comboBBox[key] === Infinity || comboBBox[key] === -Infinity) {
       comboBBox[key] = undefined;
     }
   });
 
   return comboBBox;
-}
+};

@@ -61,7 +61,7 @@ graphContainer.appendChild(selector);
 
 let fixSelectedItems = {
   fixAll: true,
-  fixState: 'yourStateName' // 'selected' by default
+  fixState: 'yourStateName', // 'selected' by default
 };
 
 const width = graphContainer.scrollWidth;
@@ -76,8 +76,8 @@ const graph = new G6.Graph({
       'drag-node',
       {
         type: 'zoom-canvas',
-        fixSelectedItems
-      }
+        fixSelectedItems,
+      },
     ],
   },
   defaultNode: {
@@ -98,43 +98,41 @@ const graph = new G6.Graph({
   nodeStateStyles: {
     yourStateName: {
       stroke: '#f00',
-      lineWidth: 3
+      lineWidth: 3,
     },
   },
   edgeStateStyles: {
     yourStateName: {
       stroke: '#f00',
-      lineWidth: 3
+      lineWidth: 3,
     },
   },
 });
 
-graph.on('node:click', e => {
+graph.on('node:click', (e) => {
   graph.setItemState(e.item, 'yourStateName', true);
 });
-graph.on('edge:click', e => {
+graph.on('edge:click', (e) => {
   graph.setItemState(e.item, 'yourStateName', true);
 });
 
-graph.on('canvas:click', e => {
-  graph.findAllByState('node', 'yourStateName').forEach(node => {
+graph.on('canvas:click', (e) => {
+  graph.findAllByState('node', 'yourStateName').forEach((node) => {
     graph.setItemState(node, 'yourStateName', false);
   });
-  graph.findAllByState('edge', 'yourStateName').forEach(edge => {
+  graph.findAllByState('edge', 'yourStateName').forEach((edge) => {
     graph.setItemState(edge, 'yourStateName', false);
   });
 });
 
-
 graph.data(data);
 graph.render();
 
-
 // Listen to the selector, change the mode when the selector is changed
-selector.addEventListener('change', e => {
+selector.addEventListener('change', (e) => {
   const value = e.target.value;
-  Object.keys(fixSelectedItems).forEach(key => {
+  Object.keys(fixSelectedItems).forEach((key) => {
     if (key !== 'fixState') fixSelectedItems[key] = false;
-  })
+  });
   fixSelectedItems[value] = true;
 });

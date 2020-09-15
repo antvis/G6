@@ -35,6 +35,7 @@ Shape.registerEdge(
     labelPosition: 'center',
     drawShape(cfg: EdgeConfig, group: Group) {
       const shapeStyle = (this as any).getShapeStyle(cfg);
+      if (shapeStyle.radius === 0) delete shapeStyle.radius;
       const keyShape = group.addShape('path', {
         className: 'edge-shape',
         name: 'edge-shape',
@@ -109,7 +110,8 @@ Shape.registerEdge(
         polylinePoints = simplifyPolyline(
           getPolylinePoints(points[0], points[points.length - 1], source, target, offset),
         );
-        return getPathWithBorderRadiusByPolyline(polylinePoints, radius);
+        const res = getPathWithBorderRadiusByPolyline(polylinePoints, radius)
+        return res;
       }
       polylinePoints = getPolylinePoints(
         points[0],

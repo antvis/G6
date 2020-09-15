@@ -1,94 +1,102 @@
 import G6 from '../../../src';
 import '../../../src/behavior';
-import isPlainObject from '@antv/util/lib/is-plain-object'
-import { GraphData } from '../../../src/types'
+import isPlainObject from '@antv/util/lib/is-plain-object';
+import { GraphData } from '../../../src/types';
 
 const div = document.createElement('div');
 div.id = 'global-spec';
 document.body.appendChild(div);
 
-G6.registerNode('self-node', {
-  draw(cfg, group) {
-    const styles = this.getShapeStyle(cfg)
-    const keyShapeStyle = {}
-    for(const key in styles) {
-      const style = styles[key]
-      if(!isPlainObject(style)) {
-        keyShapeStyle[key] = style
+G6.registerNode(
+  'self-node',
+  {
+    draw(cfg, group) {
+      const styles = this.getShapeStyle(cfg);
+      const keyShapeStyle = {};
+      for (const key in styles) {
+        const style = styles[key];
+        if (!isPlainObject(style)) {
+          keyShapeStyle[key] = style;
+        }
       }
-    }
 
-    const keyShape = group.addShape('circle', {
-      attrs: {
-        x: 0,
-        fill: 'red',
-        y: 0,
-        ...keyShapeStyle,
-        r: 20,
-      },
-      name: 'main-node'
-    })
+      const keyShape = group.addShape('circle', {
+        attrs: {
+          x: 0,
+          fill: 'red',
+          y: 0,
+          ...keyShapeStyle,
+          r: 20,
+        },
+        name: 'main-node',
+      });
 
-    group.addShape('circle', {
-      attrs: {
-        r: 5,
-        fill: 'blue',
-        x: 10,
-        y: 5
-      },
-      name: 'sub-node'
-    })
+      group.addShape('circle', {
+        attrs: {
+          r: 5,
+          fill: 'blue',
+          x: 10,
+          y: 5,
+        },
+        name: 'sub-node',
+      });
 
-    group.addShape('text', {
-      attrs: {
-        text: '文本',
-        x: -15,
-        y: 10,
-        stroke: 'green'
-      },
-      name: 'node-text'
-    })
+      group.addShape('text', {
+        attrs: {
+          text: '文本',
+          x: -15,
+          y: 10,
+          stroke: 'green',
+        },
+        name: 'node-text',
+      });
 
-    return keyShape
-  }
-}, 'single-node')
+      return keyShape;
+    },
+  },
+  'single-node',
+);
 
-G6.registerNode('keyshape-not-attribute', {
-  draw(cfg, group) {
-    const styles = this.getShapeStyle(cfg)
-    // debugger
-    const keyShapeStyle = {}
-    for(const key in styles) {
-      const style = styles[key]
-      if(!isPlainObject(style)) {
-        keyShapeStyle[key] = style
+G6.registerNode(
+  'keyshape-not-attribute',
+  {
+    draw(cfg, group) {
+      const styles = this.getShapeStyle(cfg);
+      // debugger
+      const keyShapeStyle = {};
+      for (const key in styles) {
+        const style = styles[key];
+        if (!isPlainObject(style)) {
+          keyShapeStyle[key] = style;
+        }
       }
-    }
 
-    const keyShape = group.addShape('circle', {
-      attrs: {
-        x: 0,
-        y: 0,
-        fill: 'red',
-        ...keyShapeStyle,
-        r: 20,
-      },
-      // name: 'main-node'
-    })
+      const keyShape = group.addShape('circle', {
+        attrs: {
+          x: 0,
+          y: 0,
+          fill: 'red',
+          ...keyShapeStyle,
+          r: 20,
+        },
+        // name: 'main-node'
+      });
 
-    group.addShape('circle', {
-      attrs: {
-        r: 5,
-        fill: 'blue',
-        x: 10,
-        y: 5
-      },
-      name: 'sub-node'
-    })
+      group.addShape('circle', {
+        attrs: {
+          r: 5,
+          fill: 'blue',
+          x: 10,
+          y: 5,
+        },
+        name: 'sub-node',
+      });
 
-    return keyShape
-  }
-}, 'single-node')
+      return keyShape;
+    },
+  },
+  'single-node',
+);
 
 describe('graph refactor states', () => {
   const data = {
@@ -114,10 +122,10 @@ describe('graph refactor states', () => {
       nodeStateStyles: {
         select: {
           stroke: 'red',
-          lineWidth: 5
+          lineWidth: 5,
         },
         hover: {
-          opacity: 0.3
+          opacity: 0.3,
         },
       },
       defaultNode: {
@@ -125,53 +133,53 @@ describe('graph refactor states', () => {
         shape: 'self-node',
         style: {
           fill: 'steelblue',
-          opacity: 0.8
-        }
+          opacity: 0.8,
+        },
       },
     });
     graph.data(data);
     graph.render();
 
-    graph.on('node:mouseenter', e => {
+    graph.on('node:mouseenter', (e) => {
       const item = e.item;
       graph.setItemState(item, 'hover', true);
       graph.setItemState(item, 'select', true);
     });
-    graph.on('node:click', e => {
+    graph.on('node:click', (e) => {
       const item = e.item;
-      
+
       graph.setItemState(item, 'hover', false);
       graph.setItemState(item, 'select', false);
     });
 
-    const item = graph.findById('node1')
+    const item = graph.findById('node1');
     graph.setItemState(item, 'select', true);
-    expect(item.hasState('select')).toBe(true)
-    expect(item.getStates()).toEqual(['select'])
+    expect(item.hasState('select')).toBe(true);
+    expect(item.getStates()).toEqual(['select']);
 
     const keyShape = item.getKeyShape();
     expect(keyShape.attr('opacity')).toEqual(0.8);
     expect(keyShape.attr('fill')).toEqual('steelblue');
-    expect(keyShape.attr('lineWidth')).toBe(5)
-    expect(keyShape.attr('stroke')).toEqual('red')
+    expect(keyShape.attr('lineWidth')).toBe(5);
+    expect(keyShape.attr('stroke')).toEqual('red');
 
-    graph.setItemState(item, 'hover', true)
-    expect(item.hasState('hover')).toBe(true)
-    expect(item.getStates()).toEqual(['select', 'hover'])
+    graph.setItemState(item, 'hover', true);
+    expect(item.hasState('hover')).toBe(true);
+    expect(item.getStates()).toEqual(['select', 'hover']);
     expect(keyShape.attr('opacity')).toEqual(0.3);
 
     // remove select states
-    graph.setItemState(item, 'select', false)
-    expect(item.hasState('select')).toBe(false)
-    expect(item.getStates()).toEqual(['hover'])
-    expect(keyShape.attr('lineWidth')).toBe(1)
-    console.log(keyShape.attr())
-    expect(keyShape.attr('stroke')).toBe(undefined)
+    graph.setItemState(item, 'select', false);
+    expect(item.hasState('select')).toBe(false);
+    expect(item.getStates()).toEqual(['hover']);
+    expect(keyShape.attr('lineWidth')).toBe(1);
+    console.log(keyShape.attr());
+    expect(keyShape.attr('stroke')).toBe(undefined);
 
     // remove hover states
-    graph.setItemState(item, 'hover', false)
-    expect(item.hasState('hover')).toBe(false)
-    expect(item.getStates()).toEqual([])
+    graph.setItemState(item, 'hover', false);
+    expect(item.hasState('hover')).toBe(false);
+    expect(item.getStates()).toEqual([]);
     expect(keyShape.attr('opacity')).toEqual(0.8);
     graph.destroy();
   });
@@ -183,58 +191,58 @@ describe('graph refactor states', () => {
       height: 500,
       nodeStateStyles: {
         'selfCircle:selected': {
-          'main-node':{
+          'main-node': {
             fill: '#000',
             stroke: 'yellow',
-            lineWidth: 3
+            lineWidth: 3,
           },
           'sub-node': {
             fill: 'green',
             stroke: 'yellow',
-            lineWidth: 3
-          }
+            lineWidth: 3,
+          },
         },
         'selfCircle:hover': {
-          'main-node':{
-            fill: 'green'
+          'main-node': {
+            fill: 'green',
           },
           // 两种都支持
           // fill: 'green',
           'sub-node': {
-            fill: '#fff'
-          }
-        }
+            fill: '#fff',
+          },
+        },
       },
       defaultNode: {
         size: 25,
         shape: 'self-node',
         style: {
-          opacity: 0.8
-        }
+          opacity: 0.8,
+        },
       },
     });
     graph.data(data);
     graph.render();
     graph.addItem('node', { id: 'node3', x: 100, y: 200 });
 
-    const item = graph.findById('node3')
-    graph.setItemState(item, 'selfCircle', 'selected')
-    graph.setItemState(item, 'selfCircle', 'hover')
+    const item = graph.findById('node3');
+    graph.setItemState(item, 'selfCircle', 'selected');
+    graph.setItemState(item, 'selfCircle', 'hover');
     // 多值且互斥，此时只有 selfCircle:hover 一个状态
-    expect(item.getStates().length).toBe(1)
-    expect(item.getStates()[0]).toEqual('selfCircle:hover')
+    expect(item.getStates().length).toBe(1);
+    expect(item.getStates()[0]).toEqual('selfCircle:hover');
 
-    const keyShape = item.getKeyShape()
-    expect(keyShape.attr('fill')).toEqual('green')
+    const keyShape = item.getKeyShape();
+    expect(keyShape.attr('fill')).toEqual('green');
     // default value
-    expect(keyShape.attr('lineWidth')).toEqual(1)
-    expect(keyShape.attr('opacity')).toEqual(0.8)
+    expect(keyShape.attr('lineWidth')).toEqual(1);
+    expect(keyShape.attr('opacity')).toEqual(0.8);
 
-    const group = item.getContainer()
-    const subShape = group.find(element => element.get('name') === 'sub-node')
-    expect(subShape.attr('fill')).toEqual('#fff')
+    const group = item.getContainer();
+    const subShape = group.find((element) => element.get('name') === 'sub-node');
+    expect(subShape.attr('fill')).toEqual('#fff');
     // default value
-    expect(subShape.attr('lineWidth')).toEqual(1)
+    expect(subShape.attr('lineWidth')).toEqual(1);
 
     graph.destroy();
   });
@@ -252,51 +260,51 @@ describe('graph refactor states', () => {
           'sub-node': {
             fill: 'green',
             stroke: 'yellow',
-            lineWidth: 3
-          }
+            lineWidth: 3,
+          },
         },
         'selfCircle:hover': {
-          'main-node':{
-            fill: 'green'
+          'main-node': {
+            fill: 'green',
           },
           // 两种都支持
           fill: 'green',
           'sub-node': {
-            fill: '#fff'
-          }
-        }
+            fill: '#fff',
+          },
+        },
       },
       defaultNode: {
         size: 25,
         shape: 'keyshape-not-attribute',
         style: {
-          opacity: 0.8
-        }
+          opacity: 0.8,
+        },
       },
     });
     graph.data(data);
     graph.render();
 
-    const item = graph.findById('node2')
-    graph.setItemState(item, 'selfCircle', 'hover')
-    graph.setItemState(item, 'selfCircle', 'selected')
+    const item = graph.findById('node2');
+    graph.setItemState(item, 'selfCircle', 'hover');
+    graph.setItemState(item, 'selfCircle', 'selected');
 
     // 多值且互斥，此时只有 selfCircle:hover 一个状态
-    expect(item.getStates().length).toBe(1)
-    expect(item.getStates()[0]).toEqual('selfCircle:selected')
+    expect(item.getStates().length).toBe(1);
+    expect(item.getStates()[0]).toEqual('selfCircle:selected');
 
-    const keyShape = item.getKeyShape()
-    expect(keyShape.attr('fill')).toEqual('#000')
-    expect(keyShape.attr('stroke')).toEqual('yellow')
-    expect(keyShape.attr('lineWidth')).toEqual(3)
+    const keyShape = item.getKeyShape();
+    expect(keyShape.attr('fill')).toEqual('#000');
+    expect(keyShape.attr('stroke')).toEqual('yellow');
+    expect(keyShape.attr('lineWidth')).toEqual(3);
     // default value
-    expect(keyShape.attr('opacity')).toEqual(0.8)
+    expect(keyShape.attr('opacity')).toEqual(0.8);
 
-    const group = item.getContainer()
-    const subShape = group.find(element => element.get('name') === 'sub-node')
-    expect(subShape.attr('fill')).toEqual('green')
-    expect(subShape.attr('stroke')).toEqual('yellow')
-    expect(subShape.attr('lineWidth')).toEqual(3)
+    const group = item.getContainer();
+    const subShape = group.find((element) => element.get('name') === 'sub-node');
+    expect(subShape.attr('fill')).toEqual('green');
+    expect(subShape.attr('stroke')).toEqual('yellow');
+    expect(subShape.attr('lineWidth')).toEqual(3);
 
     graph.destroy();
   });
@@ -308,35 +316,35 @@ describe('graph refactor states', () => {
       height: 500,
       nodeStateStyles: {
         'selfCircle:selected': {
-          'main-node':{
+          'main-node': {
             stroke: '#000',
-            lineWidth: 3
+            lineWidth: 3,
           },
           'sub-node': {
             stroke: 'green',
             lineWidth: 3,
-            fill: '#000'
-          }
+            fill: '#000',
+          },
         },
         'selfCircle:hover': {
-          'main-node':{
+          'main-node': {
             stroke: 'green',
-            fill: 'yellow'
+            fill: 'yellow',
           },
           'sub-node': {
-            stroke: '#fff'
-          }
+            stroke: '#fff',
+          },
         },
         select: {
           stroke: 'blue',
           lineWidth: 5,
-          strokeOpacity: 0.8
+          strokeOpacity: 0.8,
         },
         hover: {
           opacity: 0.3,
           'sub-node': {
-            fill: '#00d6b2'
-          }
+            fill: '#00d6b2',
+          },
         },
       },
       defaultNode: {
@@ -344,35 +352,35 @@ describe('graph refactor states', () => {
         shape: 'self-node',
         style: {
           // fill: 'steelblue',
-          opacity: 0.8
-        }
+          opacity: 0.8,
+        },
       },
     });
     graph.data(data);
     graph.render();
 
-    const item = graph.findById('node2')
+    const item = graph.findById('node2');
     graph.setItemState(item, 'hover', true);
-    graph.setItemState(item, 'select', true)
-    graph.setItemState(item, 'selfCircle', 'hover')
-    graph.setItemState(item, 'selfCircle', 'selected')
+    graph.setItemState(item, 'select', true);
+    graph.setItemState(item, 'selfCircle', 'hover');
+    graph.setItemState(item, 'selfCircle', 'selected');
 
-    expect(item.getStates().length).toBe(3)
-    expect(item.hasState('selfCircle:hover')).toBe(false)
+    expect(item.getStates().length).toBe(3);
+    expect(item.hasState('selfCircle:hover')).toBe(false);
 
     // 执行上面的状态设置以后，节点样式为 原始样式 & hover & select & selfCircle:selected 样式
-    const keyShape = item.getKeyShape()
-    expect(keyShape.attr('stroke')).toEqual('#000')
-    expect(keyShape.attr('lineWidth')).toEqual(3)
-    expect(keyShape.attr('strokeOpacity')).toEqual(0.8)
-    expect(keyShape.attr('opacity')).toEqual(0.3)
+    const keyShape = item.getKeyShape();
+    expect(keyShape.attr('stroke')).toEqual('#000');
+    expect(keyShape.attr('lineWidth')).toEqual(3);
+    expect(keyShape.attr('strokeOpacity')).toEqual(0.8);
+    expect(keyShape.attr('opacity')).toEqual(0.3);
 
-    const group = item.getContainer()
-    const subShape = group.find(element => element.get('name') === 'sub-node')
-    expect(subShape.attr('fill')).toEqual('#000')
-    expect(subShape.attr('stroke')).toEqual('green')
-    expect(subShape.attr('lineWidth')).toEqual(3)
-    
+    const group = item.getContainer();
+    const subShape = group.find((element) => element.get('name') === 'sub-node');
+    expect(subShape.attr('fill')).toEqual('#000');
+    expect(subShape.attr('stroke')).toEqual('green');
+    expect(subShape.attr('lineWidth')).toEqual(3);
+
     graph.destroy();
   });
 
@@ -383,111 +391,111 @@ describe('graph refactor states', () => {
       height: 500,
       nodeStateStyles: {
         'selfCircle:selected': {
-          'main-node':{
+          'main-node': {
             stroke: '#000',
-            lineWidth: 3
+            lineWidth: 3,
           },
           'sub-node': {
             stroke: 'green',
             lineWidth: 3,
-            fill: '#000'
-          }
+            fill: '#000',
+          },
         },
         'selfCircle:hover': {
-          'main-node':{
+          'main-node': {
             stroke: 'green',
-            fill: 'yellow'
+            fill: 'yellow',
           },
           'sub-node': {
-            stroke: '#fff'
-          }
+            stroke: '#fff',
+          },
         },
         select: {
           stroke: 'blue',
           lineWidth: 5,
-          strokeOpacity: 0.8
+          strokeOpacity: 0.8,
         },
         hover: {
           opacity: 0.3,
           'sub-node': {
-            fill: '#00d6b2'
-          }
+            fill: '#00d6b2',
+          },
         },
       },
       defaultNode: {
         size: 25,
         shape: 'self-node',
         style: {
-          opacity: 0.8
-        }
+          opacity: 0.8,
+        },
       },
     });
     graph.data(data);
     graph.render();
 
-    const item = graph.findById('node2')
-    graph.setItemState(item, 'hover', true)
-    graph.setItemState(item, 'select', true)
-    expect(item.getStates().length).toBe(2)
-    expect(item.hasState('select')).toBe(true)
+    const item = graph.findById('node2');
+    graph.setItemState(item, 'hover', true);
+    graph.setItemState(item, 'select', true);
+    expect(item.getStates().length).toBe(2);
+    expect(item.hasState('select')).toBe(true);
 
-    const keyShape = item.getKeyShape()
-    expect(keyShape.attr('stroke')).toEqual('blue')
-    expect(keyShape.attr('lineWidth')).toEqual(5)
-    expect(keyShape.attr('opacity')).toEqual(0.3)
+    const keyShape = item.getKeyShape();
+    expect(keyShape.attr('stroke')).toEqual('blue');
+    expect(keyShape.attr('lineWidth')).toEqual(5);
+    expect(keyShape.attr('opacity')).toEqual(0.3);
 
-    graph.clearItemStates(item, 'select')
-    expect(item.getStates().length).toBe(1)
-    expect(item.hasState('select')).toBe(false)
-    expect(keyShape.attr('stroke')).toEqual(undefined)
-    expect(keyShape.attr('lineWidth')).toEqual(1)
-    expect(keyShape.attr('opacity')).toEqual(0.3)
+    graph.clearItemStates(item, 'select');
+    expect(item.getStates().length).toBe(1);
+    expect(item.hasState('select')).toBe(false);
+    expect(keyShape.attr('stroke')).toEqual(undefined);
+    expect(keyShape.attr('lineWidth')).toEqual(1);
+    expect(keyShape.attr('opacity')).toEqual(0.3);
 
-    graph.setItemState(item, 'selfCircle', 'selected')
+    graph.setItemState(item, 'selfCircle', 'selected');
 
     // 现在只有 hover 和 selfCircle:selected 两个状态
-    expect(keyShape.attr('stroke')).toEqual('#000')
-    expect(keyShape.attr('lineWidth')).toEqual(3)
+    expect(keyShape.attr('stroke')).toEqual('#000');
+    expect(keyShape.attr('lineWidth')).toEqual(3);
 
-    const group = item.getContainer()
-    const subShape = group.find(element => element.get('name') === 'sub-node')
-    expect(subShape.attr('fill')).toEqual('#000')
-    expect(subShape.attr('stroke')).toEqual('green')
-    expect(subShape.attr('lineWidth')).toEqual(3)
+    const group = item.getContainer();
+    const subShape = group.find((element) => element.get('name') === 'sub-node');
+    expect(subShape.attr('fill')).toEqual('#000');
+    expect(subShape.attr('stroke')).toEqual('green');
+    expect(subShape.attr('lineWidth')).toEqual(3);
 
     // 清除现有的所有状态
-    graph.clearItemStates(item, ['hover', 'selfCircle:selected'])
-    expect(item.getStates().length).toBe(0)
-    expect(item.hasState('hover')).toBe(false)
-    expect(item.hasState('selfCircle:selected')).toBe(false)
-    expect(keyShape.attr('stroke')).toEqual(undefined)
-    expect(subShape.attr('fill')).toEqual('blue')
+    graph.clearItemStates(item, ['hover', 'selfCircle:selected']);
+    expect(item.getStates().length).toBe(0);
+    expect(item.hasState('hover')).toBe(false);
+    expect(item.hasState('selfCircle:selected')).toBe(false);
+    expect(keyShape.attr('stroke')).toEqual(undefined);
+    expect(subShape.attr('fill')).toEqual('blue');
 
     // 设置 selfCircle:hover，目前只有这一个状态
-    graph.setItemState(item, 'selfCircle', 'hover')
-    expect(item.getStates().length).toBe(1)
-    expect(item.hasState('selfCircle:hover')).toBe(true)
+    graph.setItemState(item, 'selfCircle', 'hover');
+    expect(item.getStates().length).toBe(1);
+    expect(item.hasState('selfCircle:hover')).toBe(true);
 
-    expect(keyShape.attr('stroke')).toEqual('green')
-    expect(keyShape.attr('fill')).toEqual('yellow')
-    expect(subShape.attr('stroke')).toEqual('#fff')
+    expect(keyShape.attr('stroke')).toEqual('green');
+    expect(keyShape.attr('fill')).toEqual('yellow');
+    expect(subShape.attr('stroke')).toEqual('#fff');
     // default lineWidth value
-    expect(keyShape.attr('lineWidth')).toEqual(1)
-    expect(subShape.attr('lineWidth')).toEqual(1)
+    expect(keyShape.attr('lineWidth')).toEqual(1);
+    expect(subShape.attr('lineWidth')).toEqual(1);
 
-    graph.clearItemStates(item, ['selfCircle:hover'])
-    expect(item.getStates().length).toBe(0)
-    expect(item.hasState('selfCircle:hover')).toBe(false)
-    expect(keyShape.attr('fill')).not.toEqual('yellow')
-    expect(subShape.attr('stroke')).not.toEqual('#fff')
+    graph.clearItemStates(item, ['selfCircle:hover']);
+    expect(item.getStates().length).toBe(0);
+    expect(item.hasState('selfCircle:hover')).toBe(false);
+    expect(keyShape.attr('fill')).not.toEqual('yellow');
+    expect(subShape.attr('stroke')).not.toEqual('#fff');
 
-    graph.setItemState(item, 'hover', true)
-    expect(item.hasState('hover')).toBe(true)
-    expect(subShape.attr('fill')).toEqual('#00d6b2')
+    graph.setItemState(item, 'hover', true);
+    expect(item.hasState('hover')).toBe(true);
+    expect(subShape.attr('fill')).toEqual('#00d6b2');
 
-    graph.clearItemStates(item, ['hover'])
-    expect(item.hasState('hover')).toBe(false)
-    
+    graph.clearItemStates(item, ['hover']);
+    expect(item.hasState('hover')).toBe(false);
+
     graph.destroy();
   });
 
@@ -498,30 +506,30 @@ describe('graph refactor states', () => {
       height: 500,
       nodeStateStyles: {
         'selfCircle:selected': {
-          'main-node':{
+          'main-node': {
             stroke: '#000',
-            lineWidth: 3
+            lineWidth: 3,
           },
           'sub-node': {
             stroke: 'green',
-            lineWidth: 3
-          }
+            lineWidth: 3,
+          },
         },
         'selfCircle:hover': {
-          'main-node':{
-            stroke: 'green'
+          'main-node': {
+            stroke: 'green',
           },
           'sub-node': {
-            stroke: '#fff'
-          }
-        }
+            stroke: '#fff',
+          },
+        },
       },
       defaultNode: {
         size: 25,
         shape: 'self-node',
         style: {
-          opacity: 0.8
-        }
+          opacity: 0.8,
+        },
       },
     });
 
@@ -535,13 +543,13 @@ describe('graph refactor states', () => {
             'selfCircle:selected': {
               'main-node': {
                 stroke: '#c00',
-                lineWidth: 2
+                lineWidth: 2,
               },
               'sub-node': {
-                stroke: '#f8ac30'
-              }
-            }
-          }
+                stroke: '#f8ac30',
+              },
+            },
+          },
         },
         {
           id: 'node2',
@@ -551,13 +559,13 @@ describe('graph refactor states', () => {
             'selfCircle:selected': {
               'main-node': {
                 stroke: '#55f830',
-                lineWidth: 5
+                lineWidth: 5,
               },
               'sub-node': {
-                stroke: '#1cd8a7'
-              }
-            }
-          }
+                stroke: '#1cd8a7',
+              },
+            },
+          },
         },
       ],
     };
@@ -567,44 +575,44 @@ describe('graph refactor states', () => {
 
     graph.paint();
 
-    const node1 = graph.findById('node1')
-    graph.setItemState(node1, 'selfCircle', 'selected')
-    expect(node1.hasState('selfCircle:selected')).toBe(true)
-    const keyshape1 = node1.getKeyShape()
-    expect(keyshape1.attr('stroke')).toEqual('#c00')
-    expect(keyshape1.attr('lineWidth')).toEqual(2)
+    const node1 = graph.findById('node1');
+    graph.setItemState(node1, 'selfCircle', 'selected');
+    expect(node1.hasState('selfCircle:selected')).toBe(true);
+    const keyshape1 = node1.getKeyShape();
+    expect(keyshape1.attr('stroke')).toEqual('#c00');
+    expect(keyshape1.attr('lineWidth')).toEqual(2);
 
-    const group1 = node1.getContainer()
-    const shape1 = group1.find(ele => ele.get('name') === 'sub-node')
-    expect(shape1.attr('stroke')).toEqual('#f8ac30')
+    const group1 = node1.getContainer();
+    const shape1 = group1.find((ele) => ele.get('name') === 'sub-node');
+    expect(shape1.attr('stroke')).toEqual('#f8ac30');
 
-    const node2 = graph.findById('node2')
-    graph.setItemState(node2, 'selfCircle', 'selected')
-    expect(node2.hasState('selfCircle:selected')).toBe(true)
-    const keyshape2 = node2.getKeyShape()
-    expect(keyshape2.attr('stroke')).toEqual('#55f830')
-    expect(keyshape2.attr('lineWidth')).toEqual(5)
+    const node2 = graph.findById('node2');
+    graph.setItemState(node2, 'selfCircle', 'selected');
+    expect(node2.hasState('selfCircle:selected')).toBe(true);
+    const keyshape2 = node2.getKeyShape();
+    expect(keyshape2.attr('stroke')).toEqual('#55f830');
+    expect(keyshape2.attr('lineWidth')).toEqual(5);
 
-    const group2 = node2.getContainer()
-    const shape2 = group2.find(ele => ele.get('name') === 'sub-node')
-    expect(shape2.attr('stroke')).toEqual('#1cd8a7')
+    const group2 = node2.getContainer();
+    const shape2 = group2.find((ele) => ele.get('name') === 'sub-node');
+    expect(shape2.attr('stroke')).toEqual('#1cd8a7');
 
-    const node3 = graph.findById('node3')
-    graph.setItemState(node3, 'selfCircle', 'selected')
-    expect(node3.hasState('selfCircle:selected')).toBe(true)
-    const keyshape3 = node3.getKeyShape()
-    expect(keyshape3.attr('stroke')).toEqual('#000')
-    expect(keyshape3.attr('lineWidth')).toEqual(3)
+    const node3 = graph.findById('node3');
+    graph.setItemState(node3, 'selfCircle', 'selected');
+    expect(node3.hasState('selfCircle:selected')).toBe(true);
+    const keyshape3 = node3.getKeyShape();
+    expect(keyshape3.attr('stroke')).toEqual('#000');
+    expect(keyshape3.attr('lineWidth')).toEqual(3);
 
-    const group3 = node3.getContainer()
-    const shape3 = group3.find(ele => ele.get('name') === 'sub-node')
-    expect(shape3.attr('stroke')).toEqual('green')
-    expect(shape3.attr('lineWidth')).toEqual(3)
+    const group3 = node3.getContainer();
+    const shape3 = group3.find((ele) => ele.get('name') === 'sub-node');
+    expect(shape3.attr('stroke')).toEqual('green');
+    expect(shape3.attr('lineWidth')).toEqual(3);
 
     // 清除 node1 的状态
-    graph.clearItemStates(node1, ['selfCircle:selected'])
-    expect(node1.getStates().length).toBe(0)
-    expect(keyshape1.attr('lineWidth')).toEqual(1)
+    graph.clearItemStates(node1, ['selfCircle:selected']);
+    expect(node1.getStates().length).toBe(0);
+    expect(keyshape1.attr('lineWidth')).toEqual(1);
 
     graph.destroy();
   });
@@ -616,37 +624,37 @@ describe('graph refactor states', () => {
       height: 500,
       nodeStateStyles: {
         'selfCircle:selected': {
-          'main-node':{
+          'main-node': {
             stroke: '#000',
-            lineWidth: 3
+            lineWidth: 3,
           },
           'sub-node': {
             stroke: 'green',
-            lineWidth: 3
-          }
+            lineWidth: 3,
+          },
         },
         'selfCircle:hover': {
-          'main-node':{
-            stroke: 'green'
+          'main-node': {
+            stroke: 'green',
           },
           'sub-node': {
-            stroke: '#fff'
-          }
+            stroke: '#fff',
+          },
         },
         select: {
           stroke: 'green',
-          lineWidth: 5
+          lineWidth: 5,
         },
         hover: {
-          opacity: 0.3
+          opacity: 0.3,
         },
       },
       defaultNode: {
         size: 25,
         shape: 'self-node',
         style: {
-          opacity: 0.8
-        }
+          opacity: 0.8,
+        },
       },
     });
 
@@ -655,65 +663,65 @@ describe('graph refactor states', () => {
         {
           id: 'node1',
           x: 100,
-          y: 100
-        }
-      ]
-    }
-    
+          y: 100,
+        },
+      ],
+    };
+
     graph.data(data2);
     graph.render();
 
-    const item = graph.findById('node1')
-    graph.setItemState(item, 'selfCircle', 'hover')
-    expect(item.hasState('selfCircle:hover')).toBe(true)
-    
-    const keyShape = item.getKeyShape()
-    console.log('state style', graph.get('styles'), keyShape)
+    const item = graph.findById('node1');
+    graph.setItemState(item, 'selfCircle', 'hover');
+    expect(item.hasState('selfCircle:hover')).toBe(true);
 
-    expect(keyShape.attr('stroke')).toEqual('green')
-    expect(keyShape.attr('fill')).toEqual('red')
+    const keyShape = item.getKeyShape();
+    console.log('state style', graph.get('styles'), keyShape);
 
-    const group = item.getContainer()
-    const subShape = group.find(ele => ele.get('name') === 'sub-node')
-    expect(subShape.attr('stroke')).toEqual('#fff')
+    expect(keyShape.attr('stroke')).toEqual('green');
+    expect(keyShape.attr('fill')).toEqual('red');
 
-    graph.clearItemStates(item, ['selfCircle:hover'])
-    expect(item.hasState('selfCircle:hover')).toBe(false)
-    expect(item.getStates().length).toBe(0)
-    expect(keyShape.attr('stroke')).toEqual(undefined)
-    expect(subShape.attr('stroke')).toEqual(undefined)
+    const group = item.getContainer();
+    const subShape = group.find((ele) => ele.get('name') === 'sub-node');
+    expect(subShape.attr('stroke')).toEqual('#fff');
+
+    graph.clearItemStates(item, ['selfCircle:hover']);
+    expect(item.hasState('selfCircle:hover')).toBe(false);
+    expect(item.getStates().length).toBe(0);
+    expect(keyShape.attr('stroke')).toEqual(undefined);
+    expect(subShape.attr('stroke')).toEqual(undefined);
 
     graph.updateItem(item, {
       style: {
         fill: 'yellow',
         'sub-node': {
-          fill: 'green'
-        }
+          fill: 'green',
+        },
       },
       stateStyles: {
         'selfCircle:hover': {
-          'main-node':{
-            stroke: 'green'
+          'main-node': {
+            stroke: 'green',
           },
           'sub-node': {
-            stroke: 'blue'
-          }
-        }
-      }
-    })
+            stroke: 'blue',
+          },
+        },
+      },
+    });
 
     // keyShape fill 为 yellow，子元素 sub-node fill 为 green，其他属性值保持不变
-    
-    expect(keyShape.attr('fill')).toEqual('yellow')
-    expect(keyShape.attr('opacity')).toEqual(0.8)
 
-    expect(subShape.attr('fill')).toEqual('green')
-    expect(subShape.attr('stroke')).toBe(undefined)
+    expect(keyShape.attr('fill')).toEqual('yellow');
+    expect(keyShape.attr('opacity')).toEqual(0.8);
 
-    graph.setItemState(item, 'selfCircle', 'hover')
-    expect(item.hasState('selfCircle:hover')).toBe(true)
-    expect(keyShape.attr('stroke')).toEqual('green')
-    expect(subShape.attr('stroke')).toBe('blue')
+    expect(subShape.attr('fill')).toEqual('green');
+    expect(subShape.attr('stroke')).toBe(undefined);
+
+    graph.setItemState(item, 'selfCircle', 'hover');
+    expect(item.hasState('selfCircle:hover')).toBe(true);
+    expect(keyShape.attr('stroke')).toEqual('green');
+    expect(subShape.attr('stroke')).toBe('blue');
 
     graph.destroy();
   });
@@ -804,7 +812,7 @@ describe('graph refactor states', () => {
     graph.data(data2);
     graph.render();
     graph.paint();
-    graph.on('node:mouseenter', e => {
+    graph.on('node:mouseenter', (e) => {
       const item = e.item;
       graph.setItemState(item, 'hover', true);
       const id = item.getModel().id;
@@ -846,11 +854,11 @@ describe('graph refactor states', () => {
           break;
       }
     });
-    graph.on('node:mouseleave', e => {
+    graph.on('node:mouseleave', (e) => {
       const item = e.item;
       graph.setItemState(item, 'hover', false);
     });
-    graph.getNodes().forEach(node => {
+    graph.getNodes().forEach((node) => {
       graph.emit('node:mouseenter', { item: node });
       graph.emit('node:mouseleave', { item: node });
     });
@@ -893,24 +901,24 @@ describe('graph refactor states', () => {
     graph.data(data2);
     graph.render();
     const node = graph.getNodes()[0];
-    graph.on('node:mouseenter', e => {
+    graph.on('node:mouseenter', (e) => {
       const item = e.item;
       graph.setItemState(item, 'hover', true);
       expect(item.hasState('hover')).toEqual(true);
     });
-    graph.on('node:mouseleave', e => {
+    graph.on('node:mouseleave', (e) => {
       const item = e.item;
       graph.setItemState(item, 'hover', false);
       expect(item.hasState('state1')).toEqual(true);
       expect(item.hasState('hover')).toEqual(false);
     });
-    graph.on('node:click', e => {
+    graph.on('node:click', (e) => {
       const item = e.item;
       graph.setItemState(item, 'state1', true);
       expect(item.hasState('state1')).toEqual(true);
     });
     graph.on('canvas:click', () => {
-      graph.getNodes().forEach(node => {
+      graph.getNodes().forEach((node) => {
         graph.setItemState(node, 'state1', false);
         expect(node.hasState('state1')).toEqual(false);
       });
@@ -964,12 +972,12 @@ describe('graph refactor states', () => {
     expect(node.getKeyShape().attr('fill')).toEqual('#0f0');
     expect(node.getKeyShape().attr('lineWidth')).toEqual(1);
 
-    graph.on('node:mouseenter', e => {
+    graph.on('node:mouseenter', (e) => {
       const item = e.item;
       graph.setItemState(item, 'state1', true);
       expect(item.hasState('state1')).toEqual(true);
     });
-    graph.on('node:mouseleave', e => {
+    graph.on('node:mouseleave', (e) => {
       const item = e.item;
       graph.setItemState(item, 'state1', false);
       expect(item.hasState('state1')).toEqual(false);
@@ -1013,7 +1021,7 @@ describe('graph refactor states', () => {
     });
     graph.data(data);
     graph.render();
-    graph.on('node:mouseenter', e => {
+    graph.on('node:mouseenter', (e) => {
       const item = e.item;
       graph.setItemState(item, 'state1', true);
       expect(item.hasState('state1')).toEqual(true);
@@ -1034,12 +1042,12 @@ describe('graph refactor states', () => {
           break;
       }
     });
-    graph.on('node:mouseleave', e => {
+    graph.on('node:mouseleave', (e) => {
       const item = e.item;
       graph.setItemState(item, 'state1', false);
       expect(item.hasState('state1')).toEqual(false);
     });
-    graph.getNodes().forEach(node => {
+    graph.getNodes().forEach((node) => {
       graph.emit('node:mouseenter', { item: node });
       graph.emit('node:mouseleave', { item: node });
     });

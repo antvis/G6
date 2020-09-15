@@ -6,19 +6,21 @@ const data = {
       id: 'node1',
       x: 250,
       y: 150,
-      comboId: 'combo'
+      comboId: 'combo',
     },
     {
       id: 'node2',
       x: 350,
       y: 150,
-      comboId: 'combo'
+      comboId: 'combo',
     },
   ],
-  combos: [{
-    id: 'combo',
-    label: 'Combo'
-  }]
+  combos: [
+    {
+      id: 'combo',
+      label: 'Combo',
+    },
+  ],
 };
 
 const width = document.getElementById('container').scrollWidth;
@@ -41,8 +43,8 @@ const graph = new G6.Graph({
       position: 'top',
       style: {
         fontSize: 18,
-      }
-    }
+      },
+    },
   },
   modes: {
     default: ['drag-canvas', 'drag-node', 'drag-combo', 'collapse-expand-combo'],
@@ -50,13 +52,13 @@ const graph = new G6.Graph({
   comboStateStyles: {
     // the style configurations for the hover state on the combo
     hover: {
-      lineWidth: 3
+      lineWidth: 3,
     },
   },
   nodeStateStyles: {
     // the hover configurations for the hover state on the node
     hover: {
-      lineWidth: 3
+      lineWidth: 3,
     },
   },
 });
@@ -64,12 +66,12 @@ const graph = new G6.Graph({
 graph.data(data);
 graph.render();
 
-graph.on('combo:mouseenter', evt => {
+graph.on('combo:mouseenter', (evt) => {
   const { item } = evt;
   graph.setItemState(item, 'hover', true);
 });
 
-graph.on('combo:mouseleave', evt => {
+graph.on('combo:mouseleave', (evt) => {
   const { item } = evt;
   graph.setItemState(item, 'hover', false);
 });

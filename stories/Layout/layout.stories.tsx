@@ -4,11 +4,12 @@ import React from 'react';
 import RegisterLayout from './component/register-layout';
 import DagreLayout from './component/dagre-layout';
 import FruchtermanWorker from './component/fruchterman-worker-layout';
-import AddNodeLayout from './component/addNodeLayout'
-import ChangeData from './component/changeData'
+import AddNodeLayout from './component/addNodeLayout';
+import ChangeData from './component/changeData';
 import ComboForceLayout from './component/combo-force-layout';
 import ForceLayout from './component/force-layout';
 import CompactBox from './component/compact-box';
+import AutoLayout from './component/auto-layout';
 
 export default { title: 'Layout' };
 
@@ -21,4 +22,5 @@ storiesOf('Layout', module)
   .add('combo force layout', () => <ComboForceLayout />)
   .add('Fruchterman worker layout', () => <FruchtermanWorker />)
   .add('force layout', () => <ForceLayout />)
-  .add('compactbox layout', () => <CompactBox />);
+  .add('compactbox layout', () => <CompactBox />)
+  .add('auto layout', () => <AutoLayout />)

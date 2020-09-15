@@ -120,7 +120,7 @@ export default class StateController {
     if (isString(states)) {
       this.updateState(item, states, enabled);
     } else {
-      states.forEach(state => {
+      states.forEach((state) => {
         this.updateState(item, state, enabled);
       });
     }
@@ -137,7 +137,7 @@ export default class StateController {
 
     each(cachedStates.disabled, (val, key) => {
       if (states[key]) {
-        states[key] = states[key].filter(item => val.indexOf(item) < 0 && !val.destroyed);
+        states[key] = states[key].filter((item) => val.indexOf(item) < 0 && !val.destroyed);
       }
     });
 
@@ -146,7 +146,7 @@ export default class StateController {
         states[key] = val;
       } else {
         const map: { [key: string]: boolean } = {};
-        states[key].forEach(item => {
+        states[key].forEach((item) => {
           if (!item.destroyed) {
             map[item.get('id')] = true;
           }

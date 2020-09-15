@@ -1,8 +1,8 @@
 import G6 from '@antv/g6';
 
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.json')
-  .then(res => res.json())
-  .then(data => {
+  .then((res) => res.json())
+  .then((data) => {
     const width = document.getElementById('container').scrollWidth;
     const height = document.getElementById('container').scrollHeight || 500;
     const graph = new G6.TreeGraph({
@@ -61,7 +61,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       },
     });
 
-    graph.node(function(node) {
+    graph.node(function (node) {
       return {
         label: node.id,
         labelCfg: {

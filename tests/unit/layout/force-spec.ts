@@ -9,12 +9,13 @@ div.id = 'force-layout';
 document.body.appendChild(div);
 
 describe('force layout', () => {
-  it('force layout with default configs, test emit afterlayout', done => {
+  it('force layout with default configs, test emit afterlayout', (done) => {
     const node = data.nodes[0];
     const graph = new G6.Graph({
       container: div,
       layout: {
         type: 'force',
+        alphaDecay: 0.2
       },
       width: 500,
       height: 500,
@@ -30,7 +31,7 @@ describe('force layout', () => {
     expect(node.y).not.toEqual(undefined);
   });
 
-  it('force layout with tick and onLayoutEnd', done => {
+  it('force layout with tick and onLayoutEnd', (done) => {
     const node = data.nodes[0];
     const edge = data.edges[0];
     let x: number;
@@ -72,7 +73,7 @@ describe('force layout', () => {
     graph.render();
   });
 
-  it('force with fixed edgeStrength, nodeStrength, preventOverlap', done => {
+  it('force with fixed edgeStrength, nodeStrength, preventOverlap', (done) => {
     const node = data.nodes[0];
     const edge = data.edges[0];
     let x: number;
@@ -120,7 +121,7 @@ describe('force layout', () => {
     graph.render();
   });
 
-  it('preventOverlap with number nodeSpacing', done => {
+  it('preventOverlap with number nodeSpacing', (done) => {
     let isEnd = false;
     const nodeSpacing = 10;
     const nodeSize = 10;
@@ -155,9 +156,9 @@ describe('force layout', () => {
     graph.render();
   });
 
-  it('preventOverlap with function nodeSpacing and array node size', done => {
+  it('preventOverlap with function nodeSpacing and array node size', (done) => {
     let isEnd = false;
-    const nodeSpacing = d => {
+    const nodeSpacing = (d) => {
       return d.size[0] / 2;
     };
 
@@ -174,7 +175,7 @@ describe('force layout', () => {
       width: 500,
       height: 500,
     });
-    data.nodes.forEach(node => {
+    data.nodes.forEach((node) => {
       const randomWidth = 10 + Math.random() * 20;
       const randomHeight = 5 + Math.random() * 5;
       node.size = [randomWidth, randomHeight];
@@ -197,13 +198,13 @@ describe('force layout', () => {
     graph.render();
   });
 
-  it('preventOverlap with function nodeSpacing and function nodeSize', done => {
+  it('preventOverlap with function nodeSpacing and function nodeSize', (done) => {
     //
     let isEnd = false;
-    const nodeSpacing = d => {
+    const nodeSpacing = (d) => {
       return d.dsize[0] / 3;
     };
-    const nodeSize = d => {
+    const nodeSize = (d) => {
       return d.dsize[0];
     };
 
@@ -225,7 +226,7 @@ describe('force layout', () => {
       width: 500,
       height: 500,
     });
-    data.nodes.forEach(node => {
+    data.nodes.forEach((node) => {
       node.dsize = [30, 15];
       node.type = 'rect';
     });
@@ -247,7 +248,7 @@ describe('force layout', () => {
     graph.render();
   });
 
-  it('preventOverlap with function nodeSpacing and array nodeSize', done => {
+  it('preventOverlap with function nodeSpacing and array nodeSize', (done) => {
     let isEnd = false;
     const nodeSize = [30, 18];
 
@@ -285,7 +286,7 @@ describe('force layout', () => {
     graph.render();
   });
 
-  it('preventOverlap with function nodeSpacing and number nodeSize', done => {
+  it('preventOverlap with function nodeSpacing and number nodeSize', (done) => {
     let isEnd = false;
     const nodeSize = 30;
 
@@ -322,7 +323,7 @@ describe('force layout', () => {
     graph.render();
   });
 
-  it('force re-execute, isTicking', done => {
+  it('force re-execute, isTicking', (done) => {
     const graph = new G6.Graph({
       container: div,
       layout: {
@@ -348,7 +349,7 @@ describe('force layout', () => {
 });
 
 describe('update and simulation', () => {
-  it('force update layout', done => {
+  it('force update layout', (done) => {
     const graph = new G6.Graph({
       container: div,
       layout: {
@@ -376,7 +377,7 @@ describe('update and simulation', () => {
       done();
     }, 300);
   });
-  it('assign simualtion', done => {
+  it('assign simualtion', (done) => {
     const center = [300, 300];
     const nodeForce = d3Force.forceManyBody();
     const forceSimulation = d3Force

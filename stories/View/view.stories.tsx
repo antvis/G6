@@ -6,9 +6,5 @@ import AnimateFitView from './component/animate-fitview';
 export default { title: 'View' };
 
 storiesOf('View', module)
-  .add('MoveTo', () => (
-    <MoveTo />
-  ))
-  .add('Animate and FitView', () => (
-    <AnimateFitView />
-  ))
+  .add('MoveTo', () => <MoveTo />)
+  .add('Animate and FitView', () => <AnimateFitView />);

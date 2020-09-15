@@ -4,11 +4,12 @@ order: 10
 ---
 
 If you want to render graph of G6 with SVG, assign `renderer` to `'svg'` for graph instance as below:
+
 ```javascript
 const graph = new G6.Graph({
   // ... other configurations
   // renderer for the graph
-  renderer: 'svg'
+  renderer: 'svg',
 });
 ```
 

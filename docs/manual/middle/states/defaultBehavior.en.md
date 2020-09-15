@@ -12,10 +12,11 @@ Behavior is the interaction mechanism in G6. It is used with [Interaction Mode](
 All the basic graphics Shapes, Items(nodes/edges) can be interacted by events. To achieve it with versatility, there are 14 built-in Behaviors in G6.
 
 ### drag-combo
+
 Supported by V3.5 or later versions.
 
 - Description: Allows users to drag combo;
-- Configurations: 
+- Configurations:
   - `type: 'drag-combo'`;
   - `enableDelegate`: Whether activate `delegate` when dragging combos, which means whether to use a virtual rect moved with the dragging mouse instead of the combo. The effect is shown in the figures below. `false` by default;
   - `delegateStyle`: The style of the `delegate` when dragging the combo with delegate;
@@ -24,8 +25,7 @@ Supported by V3.5 or later versions.
   - `selectedState`: The state's name(string) when combo is selected, `'selected'` by default;
   - `shouldUpdate(e)`: Whether allow the behavior happens on the current item (e.item), see the example below for detail.
 
-
-**Default Configuration**
+**Using Default Configuration**
 
 ```javascript
 const graph = new G6.Graph({
@@ -40,36 +40,39 @@ Configure the styles for enableDelegate or activeState:
 ```javascript
 const graph = new G6.Graph({
   modes: {
-    default: [{
-      type: 'drag-combo',
-      enableDelegate: true,
-      activeState: 'actived',
-      shouldUpdate: e => {
-        // Do not allow the combo with id 'combo1' be dragged
-        if (e.item && e.item.getModel().id === 'combo1') return false;
-        return true;
-      }
-    }],
+    default: [
+      {
+        type: 'drag-combo',
+        enableDelegate: true,
+        activeState: 'actived',
+        shouldUpdate: (e) => {
+          // Do not allow the combo with id 'combo1' be dragged
+          if (e.item && e.item.getModel().id === 'combo1') return false;
+          return true;
+        },
+      },
+    ],
   },
   comboStateStyles: {
     actived: {
       stroke: 'red',
-      lineWidth: 3
-    }
-  }
+      lineWidth: 3,
+    },
+  },
 });
 ```
 
 ### collapse-expand-combo
+
 Supported by V3.5 or later.
 
 - Description: collapse or expand Combo. If the graph has layout configuration, this behavior will trigger re-layout. If you do not want re-layout the graph after collapsing or expanding a combo, use combo's click listener and [graph.collapseExpandCombo API](/en/docs/api/Graph#collapseexpandcombocombo) instead;
-- Configurations: 
+- Configurations:
   - `type: 'collapse-expand-combo'`;
-  - `trigger`: Specify which key to hold for collapse and expand combo. `dblclick` by default. Options: `'click'`, `'dblclick'`;
+  - `trigger`: Specify the trigger for collapsing and expanding a combo. `dblclick` by default. Options: `'click'`, `'dblclick'`;
   - `relayout`: Whether relayout the graph after collapsing or expanding, `true` by default.
 
-**Default Configuration**
+**Using Default Configuration**
 
 ```javascript
 const graph = new G6.Graph({
@@ -84,20 +87,21 @@ Configure the trigger to be 'click':
 ```javascript
 const graph = new G6.Graph({
   modes: {
-    default: [{
-      type: 'collapse-expand-combo',
-      trigger: 'click',
-      relayout: false // do not relayout after collapsing or expanding
-    }],
+    default: [
+      {
+        type: 'collapse-expand-combo',
+        trigger: 'click',
+        relayout: false, // do not relayout after collapsing or expanding
+      },
+    ],
   },
 });
 ```
 
-
 ### drag-canvas
 
 - Description: Allows users drag canvas;
-- Configurations: 
+- Configurations:
   - `type: 'drag-canvas'`;
   - `direction`: The direction of dragging that is allowed. Options: `'x'`, `'y'`, `'both'`. `'both'` by default;
   - `enableOptimize`: whether enable optimization, `false` by default. `enableOptimize: true` means hiding all edges and the shapes beside keyShapes of nodes while dragging canvas;
@@ -107,7 +111,7 @@ const graph = new G6.Graph({
   - `canvas:drag`: Triggered when dragging. Listened by `graph.on('canvas:drag', e => {...})`;
   - `canvas:dragend`: Triggered when drag end. Listened by `graph.on('canvas:drag', e => {...})`.
 
-**Default Configuration**
+**Using Default Configuration**
 
 ```javascript
 const graph = new G6.Graph({
@@ -119,7 +123,7 @@ const graph = new G6.Graph({
 
 By default, the x and y directions are both allowed.
 
-**Configuration**
+**Using Customized Configuration**
 
 ```javascript
 const graph = new G6.Graph({
@@ -139,9 +143,9 @@ The canvas can be dragged along x direction only.<br /><img src='https://gw.alip
 ### zoom-canvas
 
 - Description: Zoom the canvas;
-- Configurations: 
+- Configurations:
   - `type: 'zoom-canvas'`;
-  - `sensitivity`: The sensitivity of the zooming, range from 1 to 10. `5` by default；
+  - `sensitivity`: The sensitivity of the zooming, range from 1 to 10. `5` by default;
   - `minZoom`: minimum zoom ratio;
   - `maxZoom`: maximum zoom ratio;
   - `enableOptimize`: whether enable the optimization, false by default. If it is assigned to true, the shapes except keyShape will be hide when the ratio is smaller thant `optimizeZoom`;
@@ -160,20 +164,19 @@ The canvas can be dragged along x direction only.<br /><img src='https://gw.alip
 ### drag-node
 
 - Description: Allows users drag nodes;
-- Configurations: 
+- Configurations:
   - `type: 'drag-node'`;
   - `delegateStyle`: The drawing properties when the nodes are dragged. `{ strokeOpacity: 0.6, fillOpacity: 0.6 }` by default;
   - `updateEdge`: Whether to update all connected edges when dragging nodes. `true` by default.
   - `enableDelegate`: Whether activate `delegate` when dragging nodes, which means whether to use a virtual rect moved with the dragging mouse instead of the node. The effect is shown in the figures below. `false` by default;
   - `onlyChangeComboSize`:Supported by V3.5 or later vertions. Only Change the size of the prarent combo whose child node to be dragged, which means do not change the hierarchy structures of combos and nodes. `false` by default;
   - `comboActiveState`: Supported by V3.5 or later vertions. The state's name(string) of the entered combo to be dragged over, coordinating with the configuration in `comboStateStyles` to define the state styles when instantiating a graph. It is empty by default;
-  - `selectedState`: Supported by V3.5 or later vertions.  The state's name(string) when combo is selected, `'selected'` by default;
+  - `selectedState`: Supported by V3.5 or later vertions. The state's name(string) when combo is selected, `'selected'` by default;
   - `shouldBegin(e)`: Whether allow the behavior happen;
   - `shouldUpdate(e)`: Whether allow update the node/ delegate's position while dragging;
   - `shouldEnd(e)`: Whether allow update the node/ delegate's position after drag end.
 
-
-**Default Configuration**
+**Using Default Configuration**
 
 ```javascript
 const graph = new G6.Graph({
@@ -194,10 +197,10 @@ const graph = new G6.Graph({
       {
         type: 'drag-node',
         enableDelegate: true,
-        shouldBegin: e => {
+        shouldBegin: (e) => {
           // Do not allow the node with id 'node1' to be dragged
           if (e.item && e.item.getModel().id === 'node1') return false;
-        }
+        },
       },
     ],
   },
@@ -212,7 +215,7 @@ const graph = new G6.Graph({
 - Configurations:
   - `type: 'click-select'`;
   - `multiple`: Whether to allow multiple selection. `true` by default. `false` means multiple selection is not allowed, and the `trigger` will not take effect.
-  - `trigger`: Specify which key to hold for multiple selection. `shift` by default, which means multiple selection is activated when the shift button is pressed. Options: `'shift'`, `'ctrl'`, `'alt'`, and so on;
+  - `trigger`: Specify which trigger for multiple selection. `shift` by default, which means multiple selection is activated when the shift button is pressed. Options: `'shift'`, `'ctrl'`, `'alt'`, and so on;
   - `shouldBegin(e)`: Whether allow the behavior happen on the current item (e.item), see the example below;
   - `shouldUpdate(e)`: Whether allow the behavior changes the state and state style of the on the current item (e.item), see the example below.
 - Related timing events:
@@ -221,7 +224,7 @@ const graph = new G6.Graph({
     - `e.selectedItems`: The set of selected items after this operation;
     - `e.select`: A boolean tag to distinguish if the current operation is select(`true`) or deselect (`false`).
 
-**Default Configuration**
+**Using Default Configuration**
 
 ```javascript
 const graph = new G6.Graph({
@@ -231,7 +234,7 @@ const graph = new G6.Graph({
 });
 
 // Triggered when the set of selected items changed
-graph.on('nodeselectchange', e => {
+graph.on('nodeselectchange', (e) => {
   // The current manipulated item
   console.log(e.target);
   // The set of selected items after this operation
@@ -243,7 +246,7 @@ graph.on('nodeselectchange', e => {
 
 Press **`Shift`** button to select more items.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mOiIQqBof8sAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
-**Configuration**
+**Using Customized Configuration**
 
 ```javascript
 const graph = new G6.Graph({
@@ -308,7 +311,7 @@ const graph = new G6.Graph({
         formatText(model) {
           return model.xxx;
         },
-        offset: 10
+        offset: 10,
       },
     ],
   },
@@ -356,8 +359,7 @@ The usage of edge-tooltip is similar to tooltip. It will be activated when the u
     - `e.item`: The current manipulated item;
     - `e.action`: A string tag to distinguish whether the current action is `'activate'` or `'deactivate'`.
 
-
-<br />**Default Configuration**<br />
+<br />**Using Default Configuration**<br />
 
 ```javascript
 const graph = new G6.Graph({
@@ -366,7 +368,7 @@ const graph = new G6.Graph({
   },
 });
 
-graph.on('afteractivaterelations', e => {
+graph.on('afteractivaterelations', (e) => {
   // The current manipulated item
   console.log(e.item);
   // A string tag to distinguish whether the current action is `'activate'` or `'deactivate'`
@@ -376,7 +378,7 @@ graph.on('afteractivaterelations', e => {
 
 The selected state of the selected node will be maintained after the `activate-relations` operation by default.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bG31RqbM4JMAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
-**Configuration**
+**Using Customized Configuration**
 
 ```javascript
 const graph = new G6.Graph({
@@ -390,7 +392,7 @@ const graph = new G6.Graph({
   },
 });
 
-graph.on('afteractivaterelations', e => {
+graph.on('afteractivaterelations', (e) => {
   // The current manipulated item
   console.log(e.item);
   // A string tag to distinguish whether the current action is `'activate'` or `'deactivate'`
@@ -418,12 +420,12 @@ Assign `true` to `resetSelected` to reset the selected states for nodes after th
     - `'alt'`: Select by brushing when Alt is pressed;
     - `'drag'`: Select by brushing without any pressed buttons. Note that it will conflict with the `drag-canvas`;
   - `shouldUpdate(e)`: Whether allow the behavior happen on the current manipulated item (e.item). See the example below.
-- Related timing events: 
+- Related timing events:
   - `'nodeselectchange'`: Triggered when the set of selected items changed. Listened by `graph.on('nodeselectchange', e => {...})`. The fields of the parameter `e`:
     - `e.selectedItems`: The set of selected items after the operation;
     - `e.select`: A boolean tag to distinguish whether the current operation is select(`true`) or deselect(`false`).
 
-**Default Configuration**
+**Using Default Configuration**
 
 ```javascript
 const graph = new G6.Graph({
@@ -433,7 +435,7 @@ const graph = new G6.Graph({
 });
 
 // Triggered when the set of selected items changed
-graph.on('nodeselectchange', e => {
+graph.on('nodeselectchange', (e) => {
   // The set of selected items after the operation
   console.log(e.selectedItems);
   // A boolean tag to distinguish whether the current operation is select(`true`) or deselect(`false`)
@@ -443,7 +445,7 @@ graph.on('nodeselectchange', e => {
 
 Select by brushing when the Shift button is pressed by default. And the edges are selectable as well.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IJizQonX75wAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
 
-**Configuration**
+**Using Customized Configuration**
 
 ```javascript
 const graph = new G6.Graph({
@@ -527,12 +529,12 @@ It is a solution to put these two conflicting events into two mdoes. They will b
     - `'alt'`: Select by brushing when Alt is pressed;
     - `'drag'`: Select by brushing without any pressed buttons. Note that it will conflict with the `drag-canvas`;
   - `shouldUpdate(e)`: Whether allow the behavior happen on the current manipulated item (e.item). See the example below.
-- Related timing events: 
+- Related timing events:
   - `'nodeselectchange'`: Triggered when the set of selected items changed. Listened by `graph.on('nodeselectchange', e => {...})`. The fields of the parameter `e`:
     - `e.selectedItems`: The set of selected items after the operation, include `nodes` and `edges`;
     - `e.select`: A boolean tag to distinguish whether the current operation is select(`true`) or deselect(`false`).
 
-The  configuration of `lasso-select` behavior is the same as that of `brush-select` behavior.  
+The configuration of `lasso-select` behavior is the same as that of `brush-select` behavior.
 
 ### collapse-expand
 
@@ -543,11 +545,10 @@ The  configuration of `lasso-select` behavior is the same as that of `brush-sele
   - `trigger`: The operation for collapsing and expanding. Options: `click` and `dblclick`. `click` by default;
   - `onChange`: The callback function after collapsing or expanding. **Warining**: it will be removed from V3.1.2;
   - `shouldBegin(e)`: Whether allow this behavior happen on the current item (e.item).
-- Related timing event: 
+- Related timing event:
   - `itemcollapsed`: Triggered when collapse-expand happens. Listened by `graph.on('itemcollapsed', e => {...})`. The fields of the parameter `e`:
     - `e.item`: The current manipulated item;
     - `e.collapsed`: A boolean flag to distinguish whether the current operaition is collapsing(`true`) or expanding(`false`).
-
 
 **Usage**
 
@@ -563,11 +564,11 @@ const graph = new G6.TreeGraph({
           data.collapsed = collapsed;
           return true;
         },
-        shouldBegin: e => {
+        shouldBegin: (e) => {
           // Nothing happens when the current item has id 'node1'
           if (e.item && e.item.getModel().id === 'node1') return false;
           return true;
-        }
+        },
       },
       'drag-canvas',
       'zoom-canvas',
@@ -575,7 +576,7 @@ const graph = new G6.TreeGraph({
   },
 });
 
-graph.on('itemcollapsed', e => {
+graph.on('itemcollapsed', (e) => {
   // The current manipulated item
   console.log(e.item);
   // A boolean flag to distinguish whether the current operaition is collapsing(`true`) or expanding(`false`)
@@ -590,7 +591,7 @@ graph.on('itemcollapsed', e => {
   - `type: 'collapse-expand-group'`
   - `trigger`: The operation for collapsing and expanding. Options: `click` and `dblclick`. `dblclick` by default, which means double click.
 
-**Default Configuration**
+**Using Default Configuration**
 
 ```javascript
 const graph = new G6.Graph({
@@ -600,7 +601,7 @@ const graph = new G6.Graph({
 });
 ```
 
-**Configuration**<br />Assign `trigger` to **`click`**, the collapsing or expanding a node group will be triggered by click.
+**Using Customized Configuration**<br />Assign `trigger` to **`click`**, the collapsing or expanding a node group will be triggered by click.
 
 ```javascript
 const graph = new G6.Graph({
@@ -624,7 +625,7 @@ const graph = new G6.Graph({
   - `type: 'drag-group'`;
   - `delegateStyle`: The style of the `delegate` when dragging the group.
 
-**Default Configuration**
+**Using Default Configuration**
 
 ```javascript
 const graph = new G6.Graph({
@@ -644,12 +645,54 @@ const graph = new G6.Graph({
   - `minMultiple`;
   - `shouldBegin(e)`: Whether allow the current node (e.item) to be dragged.
 
-**Default Configuration**
+**Using Default Configuration**
 
 ```javascript
 const graph = new G6.Graph({
   modes: {
     default: ['drag-node-with-group'],
+  },
+});
+```
+
+### create-edge
+
+- Description: create edge by interaction;
+- Configurations:
+  - `type: 'create-edge'`;
+  - `trigger`: Specify the trigger for creating an edge, options: `'click'`, `'drag'`. The default value is `'click'`, which means the user is allowed to creat an edge by clicking two end nodes as source and target node respectively. `'drag'` means the user is allowed to create an edge by 'dragging' from a source node to a target ndoe. Note that `trigger: 'drag'` cannot create a self-loop edge;
+  - `key`: The assistant trigger key from the keyboard. If it is undefined or unset, only `trigger` decides the triggering interaction from user. Otherwise, this behavior will be triggered by `trigger` only when `key` is pressed. Options: `'shift'`, `'ctrl'`, 'control', `'alt'`, `'meta'`, `undefined`;
+  - `shouldBegin(e)`: Whether allow the behavior begins with the condition `e`;
+  - `shouldEnd(e)`: Whether allow the behavior ends under the condition `e`;
+- Related timing event:
+  - `'aftercreateedge'`: Triggered after the creating process is finished. Listen to it by `graph.on('aftercreateedge', e => {...})`, where the parameter `e` has a property `edge` which is the created edge.
+
+
+**Using Default Configuration**
+
+```javascript
+const graph = new G6.Graph({
+  modes: {
+    default: ['create-edge'],
+  },
+});
+graph.on('aftercreateedge', e => {
+  console.log(e.edge);
+});
+```
+
+**Using Customized Configuration**
+
+```javascript
+const graph = new G6.Graph({
+  modes: {
+    default: [
+    // takes effect when the 'shift' is been pressing and drag from a node to another
+    {
+      type: 'create-edge',
+      trigger: 'drag',
+      key: 'shift'
+    }],
   },
 });
 ```

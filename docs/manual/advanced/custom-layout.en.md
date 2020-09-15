@@ -138,7 +138,7 @@ G6.registerLayout('bigraph-layout', {
     var part1NodeMap = new Map();
     var part2NodeMap = new Map();
     // Separate the nodes and init the positions
-    nodes.forEach(function(node, i) {
+    nodes.forEach(function (node, i) {
       if (node.cluster === 'part1') {
         part1Nodes.push(node);
         part1NodeMap.set(node.id, i);
@@ -149,10 +149,10 @@ G6.registerLayout('bigraph-layout', {
     });
 
     // Sort the nodes in part1
-    part1Nodes.forEach(function(p1n) {
+    part1Nodes.forEach(function (p1n) {
       var index = 0;
       var adjCount = 0;
-      edges.forEach(function(edge) {
+      edges.forEach(function (edge) {
         var sourceId = edge.source;
         var targetId = edge.target;
         if (sourceId === p1n.id) {
@@ -166,15 +166,15 @@ G6.registerLayout('bigraph-layout', {
       index /= adjCount;
       p1n.index = index;
     });
-    part1Nodes.sort(function(a, b) {
+    part1Nodes.sort(function (a, b) {
       return a.index - b.index;
     });
 
     // Sort the nodes in part2
-    part2Nodes.forEach(function(p2n) {
+    part2Nodes.forEach(function (p2n) {
       var index = 0;
       var adjCount = 0;
-      edges.forEach(function(edge) {
+      edges.forEach(function (edge) {
         var sourceId = edge.source;
         var targetId = edge.target;
         if (sourceId === p2n.id) {
@@ -188,7 +188,7 @@ G6.registerLayout('bigraph-layout', {
       index /= adjCount;
       p2n.index = index;
     });
-    part2Nodes.sort(function(a, b) {
+    part2Nodes.sort(function (a, b) {
       return a.index - b.index;
     });
 
@@ -199,7 +199,7 @@ G6.registerLayout('bigraph-layout', {
     if (self.direction === 'vertical') {
       begin = center[0] - height / 2;
     }
-    part1Nodes.forEach(function(p1n, i) {
+    part1Nodes.forEach(function (p1n, i) {
       if (self.direction === 'horizontal') {
         p1n.x = part1Pos;
         p1n.y = begin + i * (nodeSep + nodeSize);
@@ -208,7 +208,7 @@ G6.registerLayout('bigraph-layout', {
         p1n.y = part1Pos;
       }
     });
-    part2Nodes.forEach(function(p2n, i) {
+    part2Nodes.forEach(function (p2n, i) {
       if (self.direction === 'horizontal') {
         p2n.x = part2Pos;
         p2n.y = begin + i * (nodeSep + nodeSize);

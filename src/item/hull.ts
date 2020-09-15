@@ -18,28 +18,39 @@ import { genBubbleSet } from '../shape/hull/bubbleset';
  */
 export default class Hull {
   id: string;
+
   graph: IGraph;
+
   cfg: any;
+
   path: any[][];
+
   group: IGroup;
+
   members: Item[];
+
   nonMembers: Item[];
+
   padding: number;
+
   bubbleCfg: Partial<BubblesetCfg>;
+
   type: string;
 
   constructor(graph: IGraph, cfg: HullCfg) {
-    this.cfg = deepMix(this.getDefaultCfg(), cfg)
-    this.graph = graph
-    this.id = this.cfg.id
-    this.group = this.cfg.group
-    this.members = this.cfg.members.map(item => isString(item) ? graph.findById(item) : item)
-    this.nonMembers = this.cfg.nonMembers.map(item => isString(item) ? graph.findById(item) : item)
-    this.setPadding()
-    this.setType()
+    this.cfg = deepMix(this.getDefaultCfg(), cfg);
+    this.graph = graph;
+    this.id = this.cfg.id;
+    this.group = this.cfg.group;
+    this.members = this.cfg.members.map((item) => (isString(item) ? graph.findById(item) : item));
+    this.nonMembers = this.cfg.nonMembers.map((item) =>
+      isString(item) ? graph.findById(item) : item,
+    );
+    this.setPadding();
+    this.setType();
 
-    this.path = this.calcPath(this.members, this.nonMembers)
-    this.render()
+    this.path = this.calcPath(this.members, this.nonMembers);
+    this.render();
   }
 
   public getDefaultCfg(): HullCfg {
@@ -54,27 +65,29 @@ export default class Hull {
         opacity: 0.2,
       },
       padding: 10,
-    }
+    };
   }
 
   setPadding() {
-    const nodeSize = this.members.length && this.members[0].getKeyShape().getCanvasBBox().width / 2
+    const nodeSize = this.members.length && this.members[0].getKeyShape().getCanvasBBox().width / 2;
     this.padding = this.cfg.padding > 0 ? this.cfg.padding + nodeSize : 10 + nodeSize;
     this.cfg.bubbleCfg = {
       nodeR0: this.padding - nodeSize,
       nodeR1: this.padding - nodeSize,
-      morphBuffer: this.padding - nodeSize
-    }
+      morphBuffer: this.padding - nodeSize,
+    };
   }
 
   setType() {
-    this.type = this.cfg.type
+    this.type = this.cfg.type;
     if (this.members.length < 3) {
-      this.type = 'round-convex'
+      this.type = 'round-convex';
     }
     if (this.type !== 'round-convex' && this.type !== 'smooth-convex' && this.type !== 'bubble') {
-      console.warn('The hull type should be either round-convex, smooth-convex or bubble, round-convex is used by default.')
-      this.type = 'round-convex'
+      console.warn(
+        'The hull type should be either round-convex, smooth-convex or bubble, round-convex is used by default.',
+      );
+      this.type = 'round-convex';
     }
   }
 
@@ -82,33 +95,40 @@ export default class Hull {
     let contour, path, hull;
     switch (this.type) {
       case 'round-convex':
-        contour = genConvexHull(members)
-        hull = roundedHull(contour.map(p => [p.x, p.y]), this.padding)
-        path = parsePathString(hull)
+        contour = genConvexHull(members);
+        hull = roundedHull(
+          contour.map((p) => [p.x, p.y]),
+          this.padding,
+        );
+        path = parsePathString(hull);
         break;
       case 'smooth-convex':
-        contour = genConvexHull(members)
-        hull = paddedHull(contour.map(p => [p.x, p.y]), this.padding)
-        path = contour.length >= 2 && getClosedSpline(hull)
+        contour = genConvexHull(members);
+        hull = paddedHull(
+          contour.map((p) => [p.x, p.y]),
+          this.padding,
+        );
+        path = contour.length >= 2 && getClosedSpline(hull);
         break;
       case 'bubble':
-        contour = genBubbleSet(members, nonMembers, this.cfg.bubbleCfg)
-        path = contour.length >= 2 && getClosedSpline(contour)
+        contour = genBubbleSet(members, nonMembers, this.cfg.bubbleCfg);
+        path = contour.length >= 2 && getClosedSpline(contour);
         break;
+      default:
     }
-    return path
+    return path;
   }
 
   render() {
     this.group.addShape('path', {
       attrs: {
         path: this.path,
-        ...this.cfg.style
+        ...this.cfg.style,
       },
       id: this.id,
       name: this.cfg.id,
-    })
-    this.group.toBack()
+    });
+    this.group.toBack();
   }
 
   /**
@@ -118,13 +138,13 @@ export default class Hull {
    */
   public addMember(item: Item | string): boolean {
     if (!item) return;
-    if (isString(item)) item = this.graph.findById(item)
-    this.members.push(item)
+    if (isString(item)) item = this.graph.findById(item);
+    this.members.push(item);
     const index = this.nonMembers.indexOf(item);
     if (index > -1) {
       this.nonMembers.splice(index, 1);
     }
-    this.updateData(this.members, this.nonMembers)
+    this.updateData(this.members, this.nonMembers);
     return true;
   }
 
@@ -135,108 +155,123 @@ export default class Hull {
    */
   public addNonMember(item: Item | string): boolean {
     if (!item) return;
-    if (isString(item)) item = this.graph.findById(item)
-    this.nonMembers.push(item)
+    if (isString(item)) item = this.graph.findById(item);
+    this.nonMembers.push(item);
     const index = this.members.indexOf(item);
     if (index > -1) {
       this.members.splice(index, 1);
     }
-    this.updateData(this.members, this.nonMembers)
+    this.updateData(this.members, this.nonMembers);
     return true;
   }
 
   /**
-  * 移除hull中的成员
-  * @param node 节点实例
-  * @return boolean 移除成功返回 true，否则返回 false
-  */
+   * 移除hull中的成员
+   * @param node 节点实例
+   * @return boolean 移除成功返回 true，否则返回 false
+   */
   public removeMember(item: Item | string): boolean {
     if (!item) return;
-    if (isString(item)) item = this.graph.findById(item)
+    if (isString(item)) item = this.graph.findById(item);
     const index = this.members.indexOf(item);
     if (index > -1) {
       this.members.splice(index, 1);
-      this.updateData(this.members, this.nonMembers)
+      this.updateData(this.members, this.nonMembers);
       return true;
     }
     return false;
   }
 
   /**
-  * @param node 节点实例
-  * @return boolean 移除成功返回 true，否则返回 false
-  */
+   * @param node 节点实例
+   * @return boolean 移除成功返回 true，否则返回 false
+   */
   public removeNonMember(item: Item | string): boolean {
     if (!item) return;
-    if (isString(item)) item = this.graph.findById(item)
+    if (isString(item)) item = this.graph.findById(item);
     const index = this.nonMembers.indexOf(item);
     if (index > -1) {
       this.nonMembers.splice(index, 1);
-      this.updateData(this.members, this.nonMembers)
+      this.updateData(this.members, this.nonMembers);
       return true;
     }
     return false;
   }
 
   public updateData(members: Item[] | string[], nonMembers: string[] | Item[]) {
-    this.group.findById(this.id).remove()
-    if (members) this.members = (members as any[]).map(item => isString(item) ? this.graph.findById(item) : item)
-    if (nonMembers) this.nonMembers = (nonMembers as any[]).map(item => isString(item) ? this.graph.findById(item) : item)
-    this.path = this.calcPath(this.members, this.nonMembers)
-    this.render()
+    this.group.findById(this.id).remove();
+    if (members)
+      this.members = (members as any[]).map((item) =>
+        isString(item) ? this.graph.findById(item) : item,
+      );
+    if (nonMembers)
+      this.nonMembers = (nonMembers as any[]).map((item) =>
+        isString(item) ? this.graph.findById(item) : item,
+      );
+    this.path = this.calcPath(this.members, this.nonMembers);
+    this.render();
   }
 
-  public updateStyle(cfg: HullCfg["style"]) {
-    const path = this.group.findById(this.id)
+  public updateStyle(cfg: HullCfg['style']) {
+    const path = this.group.findById(this.id);
     path.attr({
-      ...cfg
+      ...cfg,
     });
   }
 
   public updateCfg(cfg: Partial<HullCfg>) {
-    this.cfg = deepMix(this.cfg, cfg)
-    this.id = this.cfg.id
-    this.group = this.cfg.group
+    this.cfg = deepMix(this.cfg, cfg);
+    this.id = this.cfg.id;
+    this.group = this.cfg.group;
     if (cfg.members) {
-      this.members = this.cfg.members.map(item => isString(item) ? this.graph.findById(item) : item)
+      this.members = this.cfg.members.map((item) =>
+        isString(item) ? this.graph.findById(item) : item,
+      );
     }
     if (cfg.nonMembers) {
-      this.nonMembers = this.cfg.nonMembers.map(item => isString(item) ? this.graph.findById(item) : item)
+      this.nonMembers = this.cfg.nonMembers.map((item) =>
+        isString(item) ? this.graph.findById(item) : item,
+      );
     }
-    this.setPadding()
-    this.setType()
-    this.path = this.calcPath(this.members, this.nonMembers)
-    this.render()
+    this.setPadding();
+    this.setType();
+    this.path = this.calcPath(this.members, this.nonMembers);
+    this.render();
   }
 
   /**
    * 判断是否在hull内部
-   * @param item 
+   * @param item
    */
   public contain(item: Item | string): boolean {
     let nodeItem: Item;
     if (isString(item)) {
-      nodeItem = this.graph.findById(item)
+      nodeItem = this.graph.findById(item);
     } else {
       nodeItem = item;
     }
     let shapePoints;
-    const shape = nodeItem.getKeyShape()
+    const shape = nodeItem.getKeyShape();
     if (nodeItem.get('type') === 'path') {
-      shapePoints = pathToPoints(shape.attr('path'))
+      shapePoints = pathToPoints(shape.attr('path'));
     } else {
       const shapeBBox = shape.getCanvasBBox();
-      shapePoints = [[shapeBBox.minX, shapeBBox.minY], [shapeBBox.maxX, shapeBBox.minY], [shapeBBox.maxX, shapeBBox.maxY], [shapeBBox.minX, shapeBBox.maxY]];
+      shapePoints = [
+        [shapeBBox.minX, shapeBBox.minY],
+        [shapeBBox.maxX, shapeBBox.minY],
+        [shapeBBox.maxX, shapeBBox.maxY],
+        [shapeBBox.minX, shapeBBox.maxY],
+      ];
     }
-    shapePoints = shapePoints.map(canvasPoint => {
-      const point = this.graph.getPointByCanvas(canvasPoint[0], canvasPoint[1])
-      return [point.x, point.y]
-    })
-    return isPolygonsIntersect(shapePoints, pathToPoints(this.path))
+    shapePoints = shapePoints.map((canvasPoint) => {
+      const point = this.graph.getPointByCanvas(canvasPoint[0], canvasPoint[1]);
+      return [point.x, point.y];
+    });
+    return isPolygonsIntersect(shapePoints, pathToPoints(this.path));
   }
 
   public destroy() {
-    this.group.remove()
+    this.group.remove();
     this.cfg = null;
   }
 }

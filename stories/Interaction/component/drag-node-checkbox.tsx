@@ -7,58 +7,57 @@ let graph: IGraph = null;
 const data = {
   nodes: [
     {
-      id: "1",
-      label: "node1"
+      id: '1',
+      label: 'node1',
     },
     {
-      id: "2",
-      label: "node2"
+      id: '2',
+      label: 'node2',
     },
     {
-      id: "3",
-      label: "node3"
+      id: '3',
+      label: 'node3',
     },
     {
-      id: "4",
-      label: "node4"
+      id: '4',
+      label: 'node4',
     },
     {
-      id: "5",
-      label: "node5"
+      id: '5',
+      label: 'node5',
     },
     {
-      id: "6",
-      label: "node6"
+      id: '6',
+      label: 'node6',
     },
   ],
   edges: [
     {
-      source: "1",
-      target: "2"
+      source: '1',
+      target: '2',
     },
     {
-      source: "1",
-      target: "3"
+      source: '1',
+      target: '3',
     },
     {
-      source: "2",
-      target: "3"
+      source: '2',
+      target: '3',
     },
     {
-      source: "3",
-      target: "4"
+      source: '3',
+      target: '4',
     },
     {
-      source: "5",
-      target: "6"
+      source: '5',
+      target: '6',
     },
     {
-      source: "1",
-      target: "5"
+      source: '1',
+      target: '5',
     },
-  ]
+  ],
 };
-
 
 const DragNodeCheckBox = () => {
   const container = React.useRef();
@@ -71,9 +70,9 @@ const DragNodeCheckBox = () => {
         height: 500,
         minZoom: 0.001,
         modes: {
-          default: ["drag-node", 'drag-canvas']
+          default: ['drag-node', 'drag-canvas'],
         },
-        plugins: [grid]
+        plugins: [grid],
       });
       graph.data(data);
       graph.render();
@@ -103,11 +102,10 @@ const DragNodeCheckBox = () => {
   });
   return (
     <div>
-      <input id='check' type="checkbox" />
-      <div ref={container}>
-
-      </div>
-    </div>);
+      <input id="check" type="checkbox" />
+      <div ref={container}></div>
+    </div>
+  );
 };
 
 export default DragNodeCheckBox;

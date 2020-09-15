@@ -1,6 +1,29 @@
 # ChangeLog
 
+#### 3.6.2
+
+- feat: find all paths and the shortest path between two nodes;
+- feat: fisheye with dragging;
+- feat: fisheye with scaling range and d;
+- feat: click and drag to create an edge by create-edge behavior;
+- feat: process multiple parallel edges to quadratic with proper curveOffset;
+- fix: polyline with rect and radius=0 problem;
+- fix: arrow state & linkpoint;
+- fix: the position of the tooltip plugin;
+- fix: drop a node onto a sub node of a combo;
+- chore: update hierarchy to solve the children ordering problem for indented tree layout;
+- chore: extract the public calculation to enhance the performance of fisheye.
+
+#### 3.6.1-beta
+
+- chore: update g-canvas to support quickHit and pruning the rendering of the graph outside the viewport;
+- feat: add statistical chart nodes;
+- feat: add hull for create smooth contour to include specific items;
+- fix: clear combos before render;
+- fix: menu plugin with clickHandler problem.
+
 #### 3.6.1
+
 - feat: image minimap;
 - feat: visible can be controlled in the data;
 - feat: item type for tooltip plugin;
@@ -12,18 +35,21 @@
 - fix: createCombo with double nodes problem.
 
 #### 3.6.0
+
 - feat: fisheye lens plugin;
 - feat: lasso-select behavior;
 - feat: TimeBar plugin;
 - feat: ToolBar plugin.
 
 #### 3.5.12
+
 - fix: node:click is triggered twice while clicking a node;
 - fix: update combo edge when drag node out of it problem;
 - feat: animate configuration for combo, true by default;
-- fix: calling canvas.on('*', ...) instead of origin way in event controller leads to malposition while dragging nodes with zoomed graph.
+- fix: calling canvas.on('\*', ...) instead of origin way in event controller leads to malposition while dragging nodes with zoomed graph.
 
 #### 3.5.11
+
 - feat: graph.priorityState api;
 - feat: graph.on support name:event mode.
 - fix: combo edge with uncorrect end points;
@@ -35,6 +61,7 @@
 - feat: fix the initial positions by equably distributing for layout to produce similar result.
 
 #### 3.5.10
+
 - fix: fitView and fitCenter with animate in the initial state;
 - fix: dulplicated edges in nodeselectchange event of brush-select;
 - fix: triple click and drag canvas problem;
@@ -46,10 +73,12 @@
 - feat: dijkstra shortest path lenght algorithm.
 
 #### 3.5.9
+
 - fix: multiple animate update shape for combo;
 - fix: removeItem from a combo.
 
 #### 3.5.8
+
 - fix: combo edge problem, issues #1722;
 - feat: adjacency matrix algorithm;
 - feat: Floyd Warshall shortest path algorithm;
@@ -61,6 +90,7 @@
 - chore: update G to resolve the blur canvas problem.
 
 #### 3.5.7
+
 - feat: shouldBegin for click-select behavior;
 - feat: graph.getGroup, graph.getContainer, graph.getMinZoom, graph.setMinZoom, graph.getMaxZoom, graph.setMaxZoom, graph.getWidth, graph.getHeight API;
 - fix: combo edge dashLine attribute;
@@ -70,13 +100,16 @@
 - fix: update the edges after first render with collapsed combos.
 
 #### 3.5.6
+
 - feat: dropCap for intended TreeGraph layout.
 
 #### 3.5.5
+
 - fix: custom node with setState problem;
 - fix: validationCombo in drag-combo and drag-node.
 
 #### 3.5.3
+
 - feat: focusItem with animation;
 - feat: generate the image url of the full graph by graph.toFullDataUrl;
 - fix: graph dispears after being dragged out of the canvas and back;
@@ -86,12 +119,14 @@
 - fix: preventDefault in drag-canvas behavior.
 
 #### 3.5.2
+
 - feat: degree algorithm;
 - feat: graph.getNodeDegree;
 - fix: downloadFullImage changes the matrix of the graph problem;
 - fix: circular layout modifies the origin data with infinite hierarchy problem.
 
 #### 3.5.1
+
 - feat: graph.fitCenter to align the graph center to canvas center;
 - fix: getType is not a function error occurs when addItem with point;
 - fix: checking comboTrees avaiability;
@@ -101,6 +136,7 @@
 - fix: combo state style bug.
 
 #### 3.5.0
+
 - feat: combo and combo layout;
 - feat: graph algorithms: DFS, BFS and circle detection;
 - feat: add `getNeighbors`, `getSourceNeighbors`, `getTargetNeighbors` methods on Graph and Node;
@@ -110,19 +146,23 @@
 - feat: Util.getLetterWidth and Util.getTextSize.
 
 #### 3.4.10
+
 - fix: TreeGraphData type with style and stateStyles;
 - fix: wrong controlpoint position for bezier curves with getControlPoint.
 
 #### 3.4.9
+
 - fix: transplie d3-force to support IE11.
 
 #### 3.4.8
+
 - feat: update the keyShape type minimap when the node or edge's style is updated;
 - fix: problem about switching to another applications or browser menu and then switch back, the drag-canvas does not take effect;
 - fix: fix the problem about fail to render the graph when the animate and fitView are true by turn off the animate for rendering temporary;
 - fix: curveOffset for arc, quadratic, cubic edge.
 
 #### 3.4.7
+
 - feat: downloadFullImage when the (part of) graph is out of the screen;
 - feat: With pre-graph has no layout configurations and no positions in data, calling changeData to change into a new data with positions, results in show the node with positions in data;
 - feat: allow user to assign curveOffset and curvePostion for Bezier curves;
@@ -130,6 +170,7 @@
 - fix: removeItem to update the minimap.
 
 #### 3.4.6
+
 - same as 3.4.5, published wrongly.
 
 #### 3.4.5

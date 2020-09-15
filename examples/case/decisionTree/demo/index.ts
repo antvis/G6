@@ -209,7 +209,7 @@ const toString = (id: number) => id + '';
  * @param {duration} number unit ms
  */
 const sleep = (duration = 500) => {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve('done');
     }, duration);
@@ -495,7 +495,7 @@ const initEvent = () => {
         updateCollapseStatus(id, recordIndex, collapsed);
         graph.changeData(getPosition(backUpData));
         await sleep(500);
-        graph.setItemState(item, 'click', false);
+        graph.setItemState(item, 'click', true);
         isAnimating = false;
       } else {
         updateCollapseStatus(id, recordIndex, collapsed, 'collapsed');
@@ -514,7 +514,7 @@ const initEvent = () => {
             graph.remove(childrenItem);
           }
         });
-        graph.setItemState(item, 'click', false);
+        graph.setItemState(item, 'click', true);
         isAnimating = false;
       }
     } else {
@@ -775,7 +775,7 @@ const initAnimateData = (data: any[], graphData: GraphData): void => {
   if (!data || !data.length) {
     return;
   }
-  data.forEach(item => {
+  data.forEach((item) => {
     const children = get(item, 'childList', []);
     const collapsed = get(item, 'collapsed');
     const { childList, ...model } = item;
@@ -871,7 +871,7 @@ const getKeys = (data: ListItem[], keys: string[]): void => {
   if (!data || !data.length) {
     return;
   }
-  data.forEach(item => {
+  data.forEach((item) => {
     const { id } = item;
     const children = get(item, 'childList', []);
     keys.push(id);

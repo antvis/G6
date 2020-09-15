@@ -96,7 +96,7 @@ describe('fruchterman', () => {
   });
   it('fruchterman layout with clustering and no clusterGravity', () => {
     const colors = ['#f00', '#0f0', '#00f', '#ff0'];
-    data.nodes.forEach(node => {
+    data.nodes.forEach((node) => {
       node.size = 10;
       node.cluster = Math.ceil((Math.random() / 3) * 10);
       node.style = {

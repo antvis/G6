@@ -4,11 +4,12 @@ order: 10
 ---
 
 使用 SVG 渲染 G6 的图，仅需要在实例化图是配置 `renderer` 为 `'svg'` 即可。如下示例：
+
 ```javascript
 const graph = new G6.Graph({
   // ... other configurations
   // renderer for the graph
-  renderer: 'svg'
+  renderer: 'svg',
 });
 ```
 

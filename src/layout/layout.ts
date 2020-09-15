@@ -18,9 +18,13 @@ type LayoutConstructor<Cfg = any> = new () => BaseLayout<Cfg>;
  */
 export class BaseLayout<Cfg = any> implements ILayout<Cfg> {
   public nodes: NodeConfig[] | null = [];
+
   public edges: EdgeConfig[] | null = [];
+
   public combos: ComboConfig[] | null = [];
+
   public positions: IPointTuple[] | null = [];
+
   public destroyed: boolean = false;
 
   public init(data: GraphData) {

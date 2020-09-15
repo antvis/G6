@@ -138,17 +138,14 @@ Shape.registerNode(
         width = defaultStyle.width || size[0];
         height = defaultStyle.height || size[1];
       }
-      const style = Object.assign(
-        {},
-        {
-          x: -width / 2, // 节点的位置在上层确定，所以这里仅使用相对位置即可
-          y: -height / 2,
-          width,
-          height,
-          img,
-        },
-        defaultStyle,
-      );
+      const style = {
+        x: -width / 2, // 节点的位置在上层确定，所以这里仅使用相对位置即可
+        y: -height / 2,
+        width,
+        height,
+        img,
+        ...defaultStyle,
+      };
       return style;
     },
     updateShapeStyle(cfg: NodeConfig, item: Item) {

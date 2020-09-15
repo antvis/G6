@@ -40,19 +40,19 @@ The table below shows the built-in nodes and their special properties:
 
 `style` is an object to configure the filling color, stroke color, shadow, and so on. Here is the commonly used properties in `style`:
 
-| Name          | Required | Type   | Remark                                        |
-| ------------- | -------- | ------ | --------------------------------------------- |
-| fill          | false    | String | The filling color                             |
-| stroke        | false    | String | The stroke color                              |
-| lineWidth     | false    | Number | The line width of the stroke                  |
-| lineDash      | false    | Number[] | The lineDash of the stroke                  |
-| shadowColor   | false    | String | The shadow color                              |
-| shadowBlur    | false    | Number | The blur of the shadow                        |
-| shadowOffsetX | false    | Number | The x offset of the shadow                    |
-| shadowOffsetY | false    | Number | The y offset of the shadow                    |
-| opacity       | false    | Number | The alpha or transparency of the node         |
-| fillOpacity   | false    | Number | The filling alpha or transparency of the node |
-| cursor        | false    | String | The type of the mouse when hovering the node. The options are the same as [cursor in CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) |
+| Name | Required | Type | Remark |
+| --- | --- | --- | --- |
+| fill | false | String | The filling color |
+| stroke | false | String | The stroke color |
+| lineWidth | false | Number | The line width of the stroke |
+| lineDash | false | Number[] | The lineDash of the stroke |
+| shadowColor | false | String | The shadow color |
+| shadowBlur | false | Number | The blur of the shadow |
+| shadowOffsetX | false | Number | The x offset of the shadow |
+| shadowOffsetY | false | Number | The y offset of the shadow |
+| opacity | false | Number | The alpha or transparency of the node |
+| fillOpacity | false | Number | The filling alpha or transparency of the node |
+| cursor | false | String | The type of the mouse when hovering the node. The options are the same as [cursor in CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) |
 
 Configure `style` globally when instantiating the Graph:
 
@@ -186,7 +186,7 @@ By this way, we can configure different nodes with different properties.
 ```javascript
 // const data = ...
 // const graph = ...
-graph.node(node => {
+graph.node((node) => {
   return {
     id: node.id,
     type: 'rect',

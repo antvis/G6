@@ -17,5 +17,5 @@ export default {
   Tooltip,
   Fisheye,
   TimeBar,
-  ImageMinimap
+  ImageMinimap,
 };

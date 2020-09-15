@@ -6,7 +6,6 @@ import Plugin from '../../../src/plugins';
 import { timerOut } from '../util/timeOut';
 import { EdgeConfig } from '../../../src/types';
 
-
 const div = document.createElement('div');
 div.id = 'global-spec';
 document.body.appendChild(div);
@@ -87,12 +86,7 @@ describe('graph', () => {
     expect(inst.get('group')).not.toBe(undefined);
 
     expect(inst.get('group').get('className')).toEqual('root-container');
-    expect(
-      inst
-        .get('group')
-        .get('id')
-        .endsWith('-root'),
-    ).toBe(true);
+    expect(inst.get('group').get('id').endsWith('-root')).toBe(true);
 
     const children = inst.get('group').get('children');
     expect(children.length).toBe(5);
@@ -122,8 +116,8 @@ describe('graph', () => {
       height: 500,
       renderer: 'svg',
       layout: {
-        type: 'dagre'
-      }
+        type: 'dagre',
+      },
     });
 
     const data = {
@@ -176,13 +170,12 @@ describe('graph', () => {
   });
 
   it('groupByTypes false', () => {
-
     const inst = new Graph({
       container: div,
       width: 500,
       height: 500,
       renderer: 'svg',
-      groupByTypes: false
+      groupByTypes: false,
     });
 
     const data = {
@@ -254,7 +247,7 @@ describe('graph', () => {
           id: 'node2',
           x: 200,
           y: 140,
-        }
+        },
       ],
       edges: [
         {
@@ -504,10 +497,7 @@ describe('graph', () => {
 
   it('client point & model point convert', () => {
     const group = globalGraph.get('group');
-    const bbox = globalGraph
-      .get('canvas')
-      .get('el')
-      .getBoundingClientRect();
+    const bbox = globalGraph.get('canvas').get('el').getBoundingClientRect();
 
     let point = globalGraph.getPointByClient(bbox.left + 100, bbox.top + 100);
 
@@ -562,12 +552,12 @@ describe('all node link center', () => {
     renderer: 'svg',
     nodeStateStyles: {
       a: {
-        fill: 'red'
+        fill: 'red',
       },
       b: {
-        stroke: 'red'
-      }
-    }
+        stroke: 'red',
+      },
+    },
   });
 
   it('init', () => {
@@ -797,7 +787,7 @@ describe('all node link center', () => {
           shadowColor: '#000',
           lineWidth: 5,
           shadowBlur: 10,
-          opacity: 0.1
+          opacity: 0.1,
         },
       },
     });
@@ -814,10 +804,9 @@ describe('all node link center', () => {
       },
     });
 
-    defaultGraph.on('node:click', e => {
+    defaultGraph.on('node:click', (e) => {
       e.item.setState('selected', true);
     });
-
 
     const keyShape = node.get('keyShape');
 
@@ -1018,7 +1007,7 @@ describe('plugins & layout', () => {
       container: div,
       height: 500,
       width: 500,
-      renderer: 'svg'
+      renderer: 'svg',
     });
 
     const data = {
@@ -1028,13 +1017,13 @@ describe('plugins & layout', () => {
           label: 'node',
           groupId: 'g1',
           x: 100,
-          y: 100
+          y: 100,
         },
         {
           id: 'node1',
           groupId: 'g2',
           x: 50,
-          y: 150
+          y: 150,
         },
       ],
       groups: [
@@ -1081,8 +1070,8 @@ describe('auto rotate label on edge', () => {
     renderer: 'svg',
     defaultNode: {
       style: {
-        opacity: 0.8
-      }
+        opacity: 0.8,
+      },
     },
     modes: {
       default: ['drag-node', 'zoom-canvas', 'drag-canvas'],
@@ -1126,7 +1115,7 @@ describe('auto rotate label on edge', () => {
         style: {
           startArrow: true,
           endArrow: true,
-          lineWidth: 8
+          lineWidth: 8,
         },
       },
     ],
@@ -1192,33 +1181,35 @@ describe('behaviors', () => {
     renderer: 'svg',
     edgeStateStyles: {
       inactive: {
-        opacity: 0.1
-      },
-      active: {
-        stroke: '#000'
-      }
-    },
-    nodeStateStyles: {
-      inactive: {
-        opacity: 0.1
+        opacity: 0.1,
       },
       active: {
         stroke: '#000',
-        lineWidth: 2
+      },
+    },
+    nodeStateStyles: {
+      inactive: {
+        opacity: 0.1,
+      },
+      active: {
+        stroke: '#000',
+        lineWidth: 2,
       },
       selected: {
-        fill: '#f00'
-      }
+        fill: '#f00',
+      },
     },
     modes: {
       default: ['activate-relations', 'brush-select', 'drag-node'],
-      select: [{
-        type: 'click-select',
-        multiple: false
-      }],
+      select: [
+        {
+          type: 'click-select',
+          multiple: false,
+        },
+      ],
       multiSelect: [],
-      tooltip: ['tooltip', 'edge-tooltip']
-    }
+      tooltip: ['tooltip', 'edge-tooltip'],
+    },
   });
   const data = {
     nodes: [
@@ -1226,19 +1217,19 @@ describe('behaviors', () => {
         id: 'node1',
         x: 50,
         y: 50,
-        label: 'node1-label'
+        label: 'node1-label',
       },
       {
         id: 'node2',
         x: 80,
         y: 150,
-        label: 'node2-label'
+        label: 'node2-label',
       },
       {
         id: 'node3',
         x: 180,
         y: 120,
-        label: 'node3-label'
+        label: 'node3-label',
       },
     ],
     edges: [
@@ -1261,10 +1252,10 @@ describe('behaviors', () => {
         style: {
           startArrow: {
             path: 'M 10,0 L -10,-10 L -10,10 Z',
-            d: 10
+            d: 10,
           },
           endArrow: true,
-          lineWidth: 3
+          lineWidth: 3,
         },
       },
     ],
@@ -1273,7 +1264,7 @@ describe('behaviors', () => {
   graph.render();
   const item = graph.getNodes()[0];
   it('active-relations', () => {
-    graph.emit('node:mouseenter', { item })
+    graph.emit('node:mouseenter', { item });
     const itemKeyShape = item.get('group').get('children')[0];
     expect(itemKeyShape.attr('stroke')).toBe('#000');
     expect(itemKeyShape.attr('lineWidth')).toBe(2);
@@ -1301,11 +1292,10 @@ describe('behaviors', () => {
     expect(unrelativeNodeKeyShape.attr('lineWidth')).toBe(1);
     expect(unrelativeNodeKeyShape.attr('stroke')).toBe('#5B8FF9');
     expect(unrelativeNodeKeyShape.attr('opacity')).toBe(1);
-
   });
   it('click-select', () => {
     graph.setMode('select');
-    graph.emit('node:click', { item })
+    graph.emit('node:click', { item });
     const itemKeyShape = item.get('group').get('children')[0];
     expect(itemKeyShape.attr('fill')).toBe('#f00');
 
@@ -1313,17 +1303,17 @@ describe('behaviors', () => {
     const item2KeyShape = item2.get('group').get('children')[0];
     expect(item2KeyShape.attr('fill')).toBe('#C6E5FF');
 
-    graph.emit('node:click', { item: item2 })
+    graph.emit('node:click', { item: item2 });
     expect(item2KeyShape.attr('fill')).toBe('#f00');
     expect(itemKeyShape.attr('fill')).toBe('#C6E5FF');
 
-    graph.emit('node:click', { item: item2 })
+    graph.emit('node:click', { item: item2 });
     expect(item2KeyShape.attr('fill')).toBe('#C6E5FF');
 
     // multiple select
     graph.addBehaviors(['click-select'], 'multiSelect');
     graph.setMode('multiSelect');
-    graph.emit('keydown', { key: 'shift' })
+    graph.emit('keydown', { key: 'shift' });
     graph.emit('node:click', { item });
     graph.emit('node:click', { item: item2 });
     expect(itemKeyShape.attr('fill')).toBe('#f00');
@@ -1332,7 +1322,6 @@ describe('behaviors', () => {
     graph.emit('canvas:click');
     expect(itemKeyShape.attr('fill')).toBe('#C6E5FF');
     expect(item2KeyShape.attr('fill')).toBe('#C6E5FF');
-
   });
   it('brush-select', () => {
     graph.setMode('default');
@@ -1360,13 +1349,13 @@ describe('behaviors', () => {
     const item2KeyShape = graph.getNodes()[1].get('group').get('children')[0];
     expect(item2KeyShape.attr('fill')).toBe('#f00');
 
-    graph.once('nodeselectchange', evt => {
+    graph.once('nodeselectchange', (evt) => {
       expect(evt.select).toBe(false);
       expect(evt.selectedItems.edges.length).toBe(0);
       expect(evt.selectedItems.nodes.length).toBe(0);
     });
 
-    graph.emit('canvas:click', {})
+    graph.emit('canvas:click', {});
     expect(itemKeyShape.attr('fill')).toBe('#C6E5FF');
     expect(item2KeyShape.attr('fill')).toBe('#C6E5FF');
   });
@@ -1416,46 +1405,45 @@ describe('behaviors', () => {
   });
 });
 
-
 describe('layouts', () => {
   const data = {
     nodes: [
       {
-        id: 'node1'
+        id: 'node1',
       },
       {
-        id: 'node2'
+        id: 'node2',
       },
       {
-        id: 'node3'
+        id: 'node3',
       },
       {
-        id: 'node4'
+        id: 'node4',
       },
       {
-        id: 'node5'
+        id: 'node5',
       },
     ],
     edges: [
       {
         source: 'node1',
-        target: 'node2'
+        target: 'node2',
       },
       {
         source: 'node2',
-        target: 'node3'
+        target: 'node3',
       },
       {
         source: 'node1',
-        target: 'node3'
+        target: 'node3',
       },
       {
         source: 'node1',
-        target: 'node4'
+        target: 'node4',
       },
       {
         source: 'node4',
-        target: 'node5'
+        target: 'node5',
       },
     ],
   };
@@ -1465,7 +1453,7 @@ describe('layouts', () => {
       container: div,
       width: 500,
       height: 500,
-      renderer: 'svg'
+      renderer: 'svg',
     });
     graph.data(data);
     graph.render();
@@ -1483,8 +1471,8 @@ describe('layouts', () => {
       height: 500,
       renderer: 'svg',
       layout: {
-        type: 'force'
-      }
+        type: 'force',
+      },
     });
     graph.data(data);
     graph.render();
@@ -1502,8 +1490,8 @@ describe('layouts', () => {
       height: 500,
       renderer: 'svg',
       layout: {
-        type: 'fruchterman'
-      }
+        type: 'fruchterman',
+      },
     });
     graph.data(data);
     graph.render();
@@ -1521,8 +1509,8 @@ describe('layouts', () => {
       height: 500,
       renderer: 'svg',
       layout: {
-        type: 'radial'
-      }
+        type: 'radial',
+      },
     });
     graph.data(data);
     graph.render();
@@ -1538,8 +1526,8 @@ describe('layouts', () => {
       height: 500,
       renderer: 'svg',
       layout: {
-        type: 'circular'
-      }
+        type: 'circular',
+      },
     });
     graph.data(data);
     graph.render();
@@ -1557,8 +1545,8 @@ describe('layouts', () => {
       height: 500,
       renderer: 'svg',
       layout: {
-        type: 'grid'
-      }
+        type: 'grid',
+      },
     });
     graph.data(data);
     graph.render();
@@ -1574,8 +1562,8 @@ describe('layouts', () => {
       height: 500,
       renderer: 'svg',
       layout: {
-        type: 'concentric'
-      }
+        type: 'concentric',
+      },
     });
     graph.data(data);
     graph.render();
@@ -1591,8 +1579,8 @@ describe('layouts', () => {
       height: 500,
       renderer: 'svg',
       layout: {
-        type: 'mds'
-      }
+        type: 'mds',
+      },
     });
     graph.data(data);
     graph.render();
@@ -1608,11 +1596,11 @@ describe('layouts', () => {
       height: 500,
       renderer: 'svg',
       layout: {
-        type: 'dagre'
+        type: 'dagre',
       },
       defaultEdge: {
-        type: 'polyline'
-      }
+        type: 'polyline',
+      },
     });
     graph.data(data);
     graph.render();
@@ -1630,8 +1618,8 @@ describe('layouts', () => {
       height: 500,
       renderer: 'svg',
       layout: {
-        type: 'circular'
-      }
+        type: 'circular',
+      },
     });
     data.edges.forEach((edge: any) => {
       edge.type = 'line';
@@ -1640,7 +1628,7 @@ describe('layouts', () => {
     graph.render();
 
     graph.updateLayout({
-      type: 'force'
+      type: 'force',
     });
     expect(graph.get('layoutController').layoutMethod.type).toBe('force');
     graph.destroy();
@@ -1652,8 +1640,8 @@ describe('layouts', () => {
       height: 500,
       renderer: 'svg',
       layout: {
-        type: 'grid'
-      }
+        type: 'grid',
+      },
     });
     graph.data(data);
     graph.render();
@@ -1663,10 +1651,10 @@ describe('layouts', () => {
     });
     const subdata = {
       nodes: [data.nodes[0], data.nodes[1], data.nodes[2]],
-      edges: [data.edges[0], data.edges[1]]
+      edges: [data.edges[0], data.edges[1]],
     };
     const gridLayout = new Layout['circular']({
-      center: [250, 250]
+      center: [250, 250],
     });
     gridLayout.init(subdata);
     gridLayout.execute();
@@ -1680,7 +1668,6 @@ describe('layouts', () => {
   });
 });
 
-
 describe('built-in items', () => {
   const data = {
     nodes: [
@@ -1688,97 +1675,97 @@ describe('built-in items', () => {
         id: 'node1',
         type: 'circle',
         x: 50,
-        y: 50
+        y: 50,
       },
       {
         id: 'node2',
         type: 'rect',
         x: 200,
-        y: 50
+        y: 50,
       },
       {
         id: 'node3',
         type: 'ellipse',
         x: 350,
-        y: 50
+        y: 50,
       },
       {
         id: 'node4',
         type: 'star',
         x: 50,
-        y: 150
+        y: 150,
       },
       {
         id: 'node5',
         type: 'diamond',
         x: 200,
-        y: 150
+        y: 150,
       },
       {
         id: 'node6',
         type: 'triangle',
         x: 350,
-        y: 150
+        y: 150,
       },
       {
         id: 'node7',
         type: 'modelRect',
         x: 150,
-        y: 300
+        y: 300,
       },
     ],
     edges: [
       {
         source: 'node1',
         target: 'node2',
-        type: 'line'
+        type: 'line',
       },
       {
         source: 'node2',
         target: 'node3',
-        type: 'quadratic'
+        type: 'quadratic',
       },
       {
         source: 'node3',
         target: 'node4',
-        type: 'cubic'
+        type: 'cubic',
       },
       {
         source: 'node4',
         target: 'node5',
-        type: 'cubic-horizontal'
+        type: 'cubic-horizontal',
       },
       {
         source: 'node4',
         target: 'node7',
-        type: 'cubic-vertical'
+        type: 'cubic-vertical',
       },
       {
         source: 'node6',
         target: 'node7',
-        type: 'arc'
+        type: 'arc',
       },
       {
         source: 'node1',
         target: 'node1',
-        type: 'loop'
+        type: 'loop',
       },
       {
         source: 'node6',
         target: 'node7',
-        type: 'polyline'
+        type: 'polyline',
       },
     ],
   };
   data.nodes.forEach((node: any, i) => {
-    node.label = `node-${i + 1}`
+    node.label = `node-${i + 1}`;
   });
 
   const graph = new Graph({
     container: div,
     width: 500,
     height: 500,
-    renderer: 'svg'
+    renderer: 'svg',
   });
 
   it('default style', () => {
@@ -1798,7 +1785,7 @@ describe('built-in items', () => {
       style: {
         stroke: '#f00',
         lineWidth: 3,
-        fill: '#0f0'
+        fill: '#0f0',
       },
       linkPoints: {
         top: true,
@@ -1806,8 +1793,8 @@ describe('built-in items', () => {
         fill: '#fff',
         stroke: '#333',
         lineWidth: 1,
-        size: 6
-      }
+        size: 6,
+      },
     });
     expect(item.get('group').get('children').length).toBe(4);
 
@@ -1817,7 +1804,7 @@ describe('built-in items', () => {
         fill: '#ccc',
         shadowColor: '#0f0',
         shadowBlur: 50,
-        shadowOffsetX: 50
+        shadowOffsetX: 50,
       },
       linkPoints: {
         right: true,
@@ -1825,16 +1812,16 @@ describe('built-in items', () => {
         fill: '#fff',
         stroke: '#f00',
         lineWidth: 1,
-        size: 6
+        size: 6,
       },
       description: 'description for it',
       descriptionCfg: {
         style: {
           // TODO: G svg fontSize 小于 12 不显示
           // fontSize: 10,
-          fill: '#000'
-        }
-      }
+          fill: '#000',
+        },
+      },
     });
     expect(modelRect.get('group').get('children').length).toBe(8);
   });
@@ -1844,13 +1831,13 @@ describe('built-in items', () => {
     const loop = graph.getEdges()[6];
     graph.updateItem(loop, {
       style: {
-        endArrow: true
+        endArrow: true,
       },
       loopCfg: {
         position: 'left',
         dist: 100,
         clockwise: false,
-      }
+      },
     });
     const loopShape = loop.get('group').get('children')[0];
     expect(loopShape.attr('endArrow')).toBe(true);
@@ -1859,12 +1846,12 @@ describe('built-in items', () => {
     graph.updateItem(cubic, {
       label: 'cubic label',
       labelCfg: {
-        autoRotate: true
+        autoRotate: true,
       },
       style: {
         stroke: '#f00',
-        lineWidth: 2
-      }
+        lineWidth: 2,
+      },
     });
     const cubicShape = cubic.get('group').get('children')[0];
     const cubicTextShape = cubic.get('group').get('children')[1];
@@ -1873,10 +1860,10 @@ describe('built-in items', () => {
 
     const polyline = graph.getEdges()[7];
     graph.updateItem(polyline.getSource(), {
-      anchorPoints: [[0, 1]]
+      anchorPoints: [[0, 1]],
     });
     graph.updateItem(polyline.getTarget(), {
-      anchorPoints: [[1, 0.5]]
+      anchorPoints: [[1, 0.5]],
     });
     graph.updateItem(polyline, {
       controlPoints: [{ x: 315, y: 300 }],
@@ -1884,8 +1871,8 @@ describe('built-in items', () => {
       targetAnchor: 0,
       style: {
         stroke: '#000',
-        lineWidth: 3
-      }
+        lineWidth: 3,
+      },
     });
     const polylineShape = polyline.get('group').get('children')[0];
     expect(polylineShape.attr('path')[0][1]).toBe(314.85898208618164);
@@ -1896,7 +1883,6 @@ describe('built-in items', () => {
     expect(polylineShape.attr('path')[2][2]).toBe(300);
   });
 });
-
 
 describe('tree graph', () => {
   const data = {
@@ -1954,71 +1940,69 @@ describe('tree graph', () => {
 
   it('collapse-expand', () => {
     const item = graph.findById('SubTreeNode1');
-    graph.emit('node:click', { item })
+    graph.emit('node:click', { item });
     expect(item.getModel().collapsed).toBe(true);
     setTimeout(() => {
-      graph.emit('node:click', { item })
+      graph.emit('node:click', { item });
       expect(item.getModel().collapsed).toBe(false);
     }, 500);
   });
 });
 
-
 describe('plugins', () => {
-
   const data2 = {
     nodes: [
       {
         id: 'node1',
         x: -100,
-        y: -100
+        y: -100,
       },
       {
         id: 'node2',
         x: -50,
-        y: -100
+        y: -100,
       },
       {
         id: 'node3',
         x: -10,
-        y: 10
+        y: 10,
       },
       {
         id: 'node4',
         x: 30,
-        y: 80
+        y: 80,
       },
       {
         id: 'node5',
         x: 35,
-        y: 40
+        y: 40,
       },
     ],
     edges: [
       {
         source: 'node1',
-        target: 'node2'
+        target: 'node2',
       },
       {
         source: 'node2',
-        target: 'node3'
+        target: 'node3',
       },
       {
         source: 'node1',
-        target: 'node3'
+        target: 'node3',
       },
       {
         source: 'node1',
-        target: 'node4'
+        target: 'node4',
       },
       {
         source: 'node4',
-        target: 'node5'
+        target: 'node5',
       },
     ],
   };
 
-  it('minimap default', done => {
+  it('minimap default', (done) => {
     const minimap = new G6.Minimap();
     const graph = new Graph({
       container: div,
@@ -2027,8 +2011,8 @@ describe('plugins', () => {
       renderer: 'svg',
       plugins: [minimap],
       modes: {
-        default: ['drag-node', 'drag-canvas', 'zoom-canvas']
-      }
+        default: ['drag-node', 'drag-canvas', 'zoom-canvas'],
+      },
     });
     graph.data(data2);
     graph.render();
@@ -2050,10 +2034,9 @@ describe('plugins', () => {
     }, 100);
   });
   it('minimap delegate', () => {
-
     const minimap2 = new G6.Minimap({
       size: [100, 80],
-      type: 'delegate'
+      type: 'delegate',
     });
     const graph2 = new Graph({
       container: div,
@@ -2062,8 +2045,8 @@ describe('plugins', () => {
       renderer: 'svg',
       plugins: [minimap2],
       modes: {
-        default: ['drag-node', 'drag-canvas', 'zoom-canvas']
-      }
+        default: ['drag-node', 'drag-canvas', 'zoom-canvas'],
+      },
     });
     graph2.data(data2);
     graph2.render();
@@ -2078,13 +2061,12 @@ describe('plugins', () => {
       expect(viewport.style.left).toBe('162.583px');
       expect(viewport.style.top).toBe('113.642px');
       graph2.destroy();
-
     }, 100);
   });
   it('minimap keyShape', () => {
     const minimap = new G6.Minimap({
       size: [100, 80],
-      type: 'keyShape'
+      type: 'keyShape',
     });
     const graph = new Graph({
       container: div,
@@ -2093,8 +2075,8 @@ describe('plugins', () => {
       renderer: 'svg',
       plugins: [minimap],
       modes: {
-        default: ['drag-node', 'drag-canvas', 'zoom-canvas']
-      }
+        default: ['drag-node', 'drag-canvas', 'zoom-canvas'],
+      },
     });
     data2.nodes.forEach((node: any, i) => {
       node.label = `node-${i}`;
@@ -2113,14 +2095,12 @@ describe('plugins', () => {
       expect(viewport.style.left).toBe('162.791px');
       expect(viewport.style.top).toBe('113.821px');
       graph.destroy();
-
     }, 100);
-
   });
 
   it('edge bundling', () => {
     const bundling = new G6.Bundling({
-      bundleThreshold: 0.1
+      bundleThreshold: 0.1,
     });
     const graph = new Graph({
       container: div,
@@ -2129,386 +2109,390 @@ describe('plugins', () => {
       renderer: 'svg',
       plugins: [bundling],
       layout: {
-        type: 'circular'
-      }
+        type: 'circular',
+      },
     });
     const bundlingData = {
-      "nodes": [{
-        "id": "0",
-        "label": "0"
-      },
-      {
-        "id": "1",
-        "label": "1"
-      },
-      {
-        "id": "2",
-        "label": "2"
-      },
-      {
-        "id": "3",
-        "label": "3"
-      },
-      {
-        "id": "4",
-        "label": "4"
-      },
-      {
-        "id": "5",
-        "label": "5"
-      },
-      {
-        "id": "6",
-        "label": "6"
-      },
-      {
-        "id": "7",
-        "label": "7"
-      },
-      {
-        "id": "8",
-        "label": "8"
-      },
-      {
-        "id": "9",
-        "label": "9"
-      },
-      {
-        "id": "10",
-        "label": "10"
-      },
-      {
-        "id": "11",
-        "label": "11"
-      },
-      {
-        "id": "12",
-        "label": "12"
-      },
-      {
-        "id": "13",
-        "label": "13"
-      },
-      {
-        "id": "14",
-        "label": "14"
-      },
-      {
-        "id": "15",
-        "label": "15"
-      },
-      {
-        "id": "16",
-        "label": "16"
-      },
-      {
-        "id": "17",
-        "label": "17"
-      },
-      {
-        "id": "18",
-        "label": "18"
-      },
-      {
-        "id": "19",
-        "label": "19"
-      },
-      {
-        "id": "20",
-        "label": "20"
-      },
-      {
-        "id": "21",
-        "label": "21"
-      },
-      {
-        "id": "22",
-        "label": "22"
-      },
-      {
-        "id": "23",
-        "label": "23"
-      },
-      {
-        "id": "24",
-        "label": "24"
-      },
-      {
-        "id": "25",
-        "label": "25"
-      },
-      {
-        "id": "26",
-        "label": "26"
-      },
-      {
-        "id": "27",
-        "label": "27"
-      },
-      {
-        "id": "28",
-        "label": "28"
-      },
-      {
-        "id": "29",
-        "label": "29"
-      },
-      {
-        "id": "30",
-        "label": "30"
-      },
-      {
-        "id": "31",
-        "label": "31"
-      },
-      {
-        "id": "32",
-        "label": "32"
-      },
-      {
-        "id": "33",
-        "label": "33"
-      }],
-      "edges": [{
-        "source": "0",
-        "target": "1"
-      },
-      {
-        "source": "0",
-        "target": "2"
-      },
-      {
-        "source": "0",
-        "target": "3"
-      },
-      {
-        "source": "0",
-        "target": "4"
-      },
-      {
-        "source": "0",
-        "target": "5"
-      },
-      {
-        "source": "0",
-        "target": "7"
-      },
-      {
-        "source": "0",
-        "target": "8"
-      },
-      {
-        "source": "0",
-        "target": "9"
-      },
-      {
-        "source": "0",
-        "target": "10"
-      },
-      {
-        "source": "0",
-        "target": "11"
-      },
-      {
-        "source": "0",
-        "target": "13"
-      },
-      {
-        "source": "0",
-        "target": "14"
-      },
-      {
-        "source": "0",
-        "target": "15"
-      },
-      {
-        "source": "0",
-        "target": "16"
-      },
-      {
-        "source": "2",
-        "target": "3"
-      },
-      {
-        "source": "4",
-        "target": "5"
-      },
-      {
-        "source": "4",
-        "target": "6"
-      },
-      {
-        "source": "5",
-        "target": "6"
-      },
-      {
-        "source": "7",
-        "target": "13"
-      },
-      {
-        "source": "8",
-        "target": "14"
-      },
-      {
-        "source": "9",
-        "target": "10"
-      },
-      {
-        "source": "10",
-        "target": "22"
-      },
-      {
-        "source": "10",
-        "target": "14"
-      },
-      {
-        "source": "10",
-        "target": "12"
-      },
-      {
-        "source": "10",
-        "target": "24"
-      },
-      {
-        "source": "10",
-        "target": "21"
-      },
-      {
-        "source": "10",
-        "target": "20"
-      },
-      {
-        "source": "11",
-        "target": "24"
-      },
-      {
-        "source": "11",
-        "target": "22"
-      },
-      {
-        "source": "11",
-        "target": "14"
-      },
-      {
-        "source": "12",
-        "target": "13"
-      },
-      {
-        "source": "16",
-        "target": "17"
-      },
-      {
-        "source": "16",
-        "target": "18"
-      },
-      {
-        "source": "16",
-        "target": "21"
-      },
-      {
-        "source": "16",
-        "target": "22"
-      },
-      {
-        "source": "17",
-        "target": "18"
-      },
-      {
-        "source": "17",
-        "target": "20"
-      },
-      {
-        "source": "18",
-        "target": "19"
-      },
-      {
-        "source": "19",
-        "target": "20"
-      },
-      {
-        "source": "19",
-        "target": "33"
-      },
-      {
-        "source": "19",
-        "target": "22"
-      },
-      {
-        "source": "19",
-        "target": "23"
-      },
-      {
-        "source": "20",
-        "target": "21"
-      },
-      {
-        "source": "21",
-        "target": "22"
-      },
-      {
-        "source": "22",
-        "target": "24"
-      },
-      {
-        "source": "22",
-        "target": "25"
-      },
-      {
-        "source": "22",
-        "target": "26"
-      },
-      {
-        "source": "22",
-        "target": "23"
-      },
-      {
-        "source": "22",
-        "target": "28"
-      },
-      {
-        "source": "22",
-        "target": "30"
-      },
-      {
-        "source": "22",
-        "target": "31"
-      },
-      {
-        "source": "22",
-        "target": "32"
-      },
-      {
-        "source": "22",
-        "target": "33"
-      },
-      {
-        "source": "23",
-        "target": "28"
-      },
-      {
-        "source": "23",
-        "target": "27"
-      },
-      {
-        "source": "23",
-        "target": "29"
-      },
-      {
-        "source": "23",
-        "target": "30"
-      },
-      {
-        "source": "23",
-        "target": "31"
-      },
-      {
-        "source": "23",
-        "target": "33"
-      },
-      {
-        "source": "32",
-        "target": "33"
-      }]
+      nodes: [
+        {
+          id: '0',
+          label: '0',
+        },
+        {
+          id: '1',
+          label: '1',
+        },
+        {
+          id: '2',
+          label: '2',
+        },
+        {
+          id: '3',
+          label: '3',
+        },
+        {
+          id: '4',
+          label: '4',
+        },
+        {
+          id: '5',
+          label: '5',
+        },
+        {
+          id: '6',
+          label: '6',
+        },
+        {
+          id: '7',
+          label: '7',
+        },
+        {
+          id: '8',
+          label: '8',
+        },
+        {
+          id: '9',
+          label: '9',
+        },
+        {
+          id: '10',
+          label: '10',
+        },
+        {
+          id: '11',
+          label: '11',
+        },
+        {
+          id: '12',
+          label: '12',
+        },
+        {
+          id: '13',
+          label: '13',
+        },
+        {
+          id: '14',
+          label: '14',
+        },
+        {
+          id: '15',
+          label: '15',
+        },
+        {
+          id: '16',
+          label: '16',
+        },
+        {
+          id: '17',
+          label: '17',
+        },
+        {
+          id: '18',
+          label: '18',
+        },
+        {
+          id: '19',
+          label: '19',
+        },
+        {
+          id: '20',
+          label: '20',
+        },
+        {
+          id: '21',
+          label: '21',
+        },
+        {
+          id: '22',
+          label: '22',
+        },
+        {
+          id: '23',
+          label: '23',
+        },
+        {
+          id: '24',
+          label: '24',
+        },
+        {
+          id: '25',
+          label: '25',
+        },
+        {
+          id: '26',
+          label: '26',
+        },
+        {
+          id: '27',
+          label: '27',
+        },
+        {
+          id: '28',
+          label: '28',
+        },
+        {
+          id: '29',
+          label: '29',
+        },
+        {
+          id: '30',
+          label: '30',
+        },
+        {
+          id: '31',
+          label: '31',
+        },
+        {
+          id: '32',
+          label: '32',
+        },
+        {
+          id: '33',
+          label: '33',
+        },
+      ],
+      edges: [
+        {
+          source: '0',
+          target: '1',
+        },
+        {
+          source: '0',
+          target: '2',
+        },
+        {
+          source: '0',
+          target: '3',
+        },
+        {
+          source: '0',
+          target: '4',
+        },
+        {
+          source: '0',
+          target: '5',
+        },
+        {
+          source: '0',
+          target: '7',
+        },
+        {
+          source: '0',
+          target: '8',
+        },
+        {
+          source: '0',
+          target: '9',
+        },
+        {
+          source: '0',
+          target: '10',
+        },
+        {
+          source: '0',
+          target: '11',
+        },
+        {
+          source: '0',
+          target: '13',
+        },
+        {
+          source: '0',
+          target: '14',
+        },
+        {
+          source: '0',
+          target: '15',
+        },
+        {
+          source: '0',
+          target: '16',
+        },
+        {
+          source: '2',
+          target: '3',
+        },
+        {
+          source: '4',
+          target: '5',
+        },
+        {
+          source: '4',
+          target: '6',
+        },
+        {
+          source: '5',
+          target: '6',
+        },
+        {
+          source: '7',
+          target: '13',
+        },
+        {
+          source: '8',
+          target: '14',
+        },
+        {
+          source: '9',
+          target: '10',
+        },
+        {
+          source: '10',
+          target: '22',
+        },
+        {
+          source: '10',
+          target: '14',
+        },
+        {
+          source: '10',
+          target: '12',
+        },
+        {
+          source: '10',
+          target: '24',
+        },
+        {
+          source: '10',
+          target: '21',
+        },
+        {
+          source: '10',
+          target: '20',
+        },
+        {
+          source: '11',
+          target: '24',
+        },
+        {
+          source: '11',
+          target: '22',
+        },
+        {
+          source: '11',
+          target: '14',
+        },
+        {
+          source: '12',
+          target: '13',
+        },
+        {
+          source: '16',
+          target: '17',
+        },
+        {
+          source: '16',
+          target: '18',
+        },
+        {
+          source: '16',
+          target: '21',
+        },
+        {
+          source: '16',
+          target: '22',
+        },
+        {
+          source: '17',
+          target: '18',
+        },
+        {
+          source: '17',
+          target: '20',
+        },
+        {
+          source: '18',
+          target: '19',
+        },
+        {
+          source: '19',
+          target: '20',
+        },
+        {
+          source: '19',
+          target: '33',
+        },
+        {
+          source: '19',
+          target: '22',
+        },
+        {
+          source: '19',
+          target: '23',
+        },
+        {
+          source: '20',
+          target: '21',
+        },
+        {
+          source: '21',
+          target: '22',
+        },
+        {
+          source: '22',
+          target: '24',
+        },
+        {
+          source: '22',
+          target: '25',
+        },
+        {
+          source: '22',
+          target: '26',
+        },
+        {
+          source: '22',
+          target: '23',
+        },
+        {
+          source: '22',
+          target: '28',
+        },
+        {
+          source: '22',
+          target: '30',
+        },
+        {
+          source: '22',
+          target: '31',
+        },
+        {
+          source: '22',
+          target: '32',
+        },
+        {
+          source: '22',
+          target: '33',
+        },
+        {
+          source: '23',
+          target: '28',
+        },
+        {
+          source: '23',
+          target: '27',
+        },
+        {
+          source: '23',
+          target: '29',
+        },
+        {
+          source: '23',
+          target: '30',
+        },
+        {
+          source: '23',
+          target: '31',
+        },
+        {
+          source: '23',
+          target: '33',
+        },
+        {
+          source: '32',
+          target: '33',
+        },
+      ],
     };
 
     graph.data(bundlingData);
@@ -2523,7 +2507,7 @@ describe('plugins', () => {
       container: div,
       width: 500,
       height: 500,
-      renderer: 'svg'
+      renderer: 'svg',
     });
 
     graph.data(data2);
@@ -2544,7 +2528,7 @@ describe('plugins', () => {
     conextMenuContainer.appendChild(lastLi);
     div.appendChild(conextMenuContainer);
 
-    graph.on('node:contextmenu', evt => {
+    graph.on('node:contextmenu', (evt) => {
       // evt.preventDefault();
       // evt.stopPropagation();
       conextMenuContainer.style.left = `${evt.x + 20}px`;
@@ -2558,7 +2542,7 @@ describe('plugins', () => {
     const item = graph.getNodes()[1];
     graph.emit('node:contextmenu', {
       x: item.getModel().x,
-      y: item.getModel().y
+      y: item.getModel().y,
     });
 
     graph.destroy();
@@ -2572,8 +2556,8 @@ describe('plugins', () => {
       renderer: 'svg',
       plugins: [grid],
       modes: {
-        default: ['drag-canvas', 'zoom-canvas']
-      }
+        default: ['drag-canvas', 'zoom-canvas'],
+      },
     });
     graph.data(data2);
     graph.render();
@@ -2590,7 +2574,6 @@ describe('plugins', () => {
     expect(parentDom).toBe(null);
   });
 });
-
 
 describe('custom group', () => {
   const data = {
@@ -2644,10 +2627,14 @@ describe('custom group', () => {
     height: 500,
     renderer: 'svg',
     modes: {
-      default: [{
-        type: 'collapse-expand-group',
-        trigger: 'click'
-      }, 'drag-node-with-group', 'drag-group'],
+      default: [
+        {
+          type: 'collapse-expand-group',
+          trigger: 'click',
+        },
+        'drag-node-with-group',
+        'drag-group',
+      ],
     },
   });
 
@@ -2661,8 +2648,8 @@ describe('custom group', () => {
     const hideNode1 = graph.getNodes()[0];
     const hideNode2 = graph.getNodes()[1];
     graph.emit('click', {
-      target: nodeGroup1
-    })
+      target: nodeGroup1,
+    });
     graph.once('click', () => {
       expect(hideNode1.isVisible()).toBe(false);
       expect(hideNode2.isVisible()).toBe(false);
@@ -2670,8 +2657,8 @@ describe('custom group', () => {
 
     setTimeout(() => {
       graph.emit('click', {
-        target: nodeGroup1
-      })
+        target: nodeGroup1,
+      });
     }, 500);
   });
 
@@ -2686,17 +2673,17 @@ describe('custom group', () => {
     graph.emit('dragstart', {
       target: nodeGroup1,
       x: 50,
-      y: 50
+      y: 50,
     });
     graph.emit('drag', {
       target: nodeGroup1,
       x: 250,
-      y: 150
+      y: 150,
     });
     graph.emit('drag', {
       target: nodeGroup1,
       x: 250,
-      y: 150
+      y: 150,
     });
     const delegateGroup = graph.get('delegateGroup');
     expect(delegateGroup.get('children').length).toBe(1);
@@ -2709,7 +2696,7 @@ describe('custom group', () => {
     graph.emit('dragend', {
       target: nodeGroup1,
       x: 150,
-      y: 150
+      y: 150,
     });
     expect(delegateGroup.get('children').length).toBe(0);
     expect(node1.getModel().x).not.toBe(node1OriX);
@@ -2727,19 +2714,19 @@ describe('custom group', () => {
       target: node3,
       item: node3,
       x: 50,
-      y: 50
+      y: 50,
     });
     graph.emit('node:drag', {
       target: node3,
       item: node3,
       x: 350,
-      y: 150
+      y: 150,
     });
     graph.emit('node:drag', {
       target: node3,
       item: node3,
       x: 350,
-      y: 150
+      y: 150,
     });
     const delegateGroup = graph.get('delegateGroup');
     expect(delegateGroup.get('children').length).toBe(1);
@@ -2750,7 +2737,7 @@ describe('custom group', () => {
       target: node3,
       item: node3,
       x: 350,
-      y: 150
+      y: 150,
     });
     expect(delegateGroup.get('children').length).toBe(0);
     expect(node3.getModel().x).not.toBe(node3OriX);

@@ -3,16 +3,13 @@ title: Rect
 order: 2
 ---
 
-Built-in Rect Combo has the default style as below, the label is drawed on the left top inside.
-<a href='/en/examples/item/defaultCombos#rect' target='_blank'>Demo</a>
-<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Khp4QpxXVlQAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
+Built-in Rect Combo has the default style as below, the label is drawed on the left top inside. <a href='/en/examples/item/defaultCombos#rect' target='_blank'>Demo</a> <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Khp4QpxXVlQAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ## Usage
 
 As stated in [Built-in Combos](/en/docs/manual/middle/elements/combos/defaultCombo) , there are two ways to configure the combo: Configure it when instantiating a Graph globally; Configure it in the data.
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span> Must set the `groupByTypes` to `false` when instantiating the graph, which will result in rendering result with reasonable visual zIndex for combos.
-
 
 ### 1 Global Configure When Instantiating a Graph
 
@@ -119,7 +116,7 @@ const graph = new G6.Graph({
       refX: -12,
       style: {
         fill: '#bae637',
-        fontSize: 15
+        fontSize: 15,
         // ... The style of the label
       },
     },

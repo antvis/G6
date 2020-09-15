@@ -3,7 +3,7 @@ title: 节点与边的层级
 order: 4
 ---
 
-节点与边在视觉上的层级涉及到了它们相对应的 [图形分组 Group](/zh/docs/manual/advanced/keyconcept/graphics-group)。本文提到的所有分组 Group 都为 G6 的图形分组 Group，而非 G6 的  [节点分组 Group](/zh/docs/manual/middle/nodeGroup)，请注意区分这两种 Group，其区别在 [图形分组 Group](/zh/docs/manual/advanced/keyconcept/graphics-group) 中说明。
+节点与边在视觉上的层级涉及到了它们相对应的 [图形分组 Group](/zh/docs/manual/advanced/keyconcept/graphics-group)。本文提到的所有分组 Group 都为 G6 的图形分组 Group，而非 G6 的  [节点分组 Group](/zh/docs/manual/middle/nodeGroup)，请注意区分这两种 Group，其区别在 [图形分组 Group](/zh/docs/manual/advanced/keyconcept/graphics-group)  中说明。
 
 在 [图形分组 Group](/zh/docs/manual/advanced/keyconcept/graphics-group) 中我们提到：在 G6 中，Graph 的一个实例中的所有节点属于同一个变量名为 `nodeGroup` 的 group，所有的边属于同一个变量名为 `edgeGroup` 的 group。节点 group 在视觉上的层级（zIndex）高于边 group，即所有节点会绘制在所有边的上层。
 
@@ -136,7 +136,7 @@ graph.render();
 // 获取图上的所有节点实例
 const nodes = graph.getNodes();
 // 遍历节点实例，将所有节点提前。
-nodes.forEach(node => {
+nodes.forEach((node) => {
   node.toFront();
 });
 // 更改层级后需要重新绘制图
@@ -155,22 +155,22 @@ graph.paint();
 
 ```javascript
 // 鼠标进入节点事件
-graph.on('node:mouseenter', ev => {
+graph.on('node:mouseenter', (ev) => {
   // ...
 });
 
 // 鼠标离开节点事件
-graph.on('node:mouseleave', ev => {
+graph.on('node:mouseleave', (ev) => {
   // ...
 });
 
 // 鼠标进入边事件
-graph.on('edge:mouseenter', ev => {
+graph.on('edge:mouseenter', (ev) => {
   // ...
 });
 
 // 鼠标离开边事件
-graph.on('edge:mouseleave', ev => {
+graph.on('edge:mouseleave', (ev) => {
   // ...
 });
 ```
@@ -179,7 +179,7 @@ graph.on('edge:mouseleave', ev => {
 
 ```javascript
 // 鼠标进入节点事件
-graph.on('edge:mouseenter', ev => {
+graph.on('edge:mouseenter', (ev) => {
   // 获得鼠标当前目标边
   const edge = ev.item;
   // 该边的起始点
@@ -194,24 +194,24 @@ graph.on('edge:mouseenter', ev => {
   graph.paint();
 });
 
-graph.on('edge:mouseleave', ev => {
+graph.on('edge:mouseleave', (ev) => {
   // 获得图上所有边实例
   const edges = graph.getEdges();
   // 遍历边，将所有边的层级放置在后方，以恢复原样
-  edges.forEach(edge => {
+  edges.forEach((edge) => {
     edge.toBack();
   });
   // 注意：必须调用以根据新的层级顺序重绘
   graph.paint();
 });
 
-graph.on('node:mouseenter', ev => {
+graph.on('node:mouseenter', (ev) => {
   // 获得鼠标当前目标节点
   const node = ev.item;
   // 获取该节点的所有相关边
   const edges = node.getEdges();
   // 遍历相关边，将所有相关边提前，再将相关边的两个端点提前，以保证相关边的端点在边的上方常规效果
-  edges.forEach(edge => {
+  edges.forEach((edge) => {
     edge.toFront();
     edge.getSource().toFront();
     edge.getTarget().toFront();
@@ -220,11 +220,11 @@ graph.on('node:mouseenter', ev => {
   graph.paint();
 });
 
-graph.on('node:mouseleave', ev => {
+graph.on('node:mouseleave', (ev) => {
   // 获得图上所有边实例
   const edges = graph.getEdges();
   // 遍历边，将所有边的层级放置在后方，以恢复原样
-  edges.forEach(edge => {
+  edges.forEach((edge) => {
     edge.toBack();
   });
   // 注意：必须调用以根据新的层级顺序重绘

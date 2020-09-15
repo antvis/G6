@@ -1,16 +1,17 @@
-import LinkedList from '../linked-list'
+import LinkedList from '../linked-list';
 
 export default class Queue {
-  public linkedList: LinkedList
+  public linkedList: LinkedList;
+
   constructor() {
-    this.linkedList = new LinkedList()
+    this.linkedList = new LinkedList();
   }
 
   /**
    * 队列是否为空
    */
   public isEmpty() {
-    return !this.linkedList.head
+    return !this.linkedList.head;
   }
 
   /**
@@ -18,28 +19,28 @@ export default class Queue {
    */
   public peek() {
     if (!this.linkedList.head) {
-      return null
+      return null;
     }
-    return this.linkedList.head.value
+    return this.linkedList.head.value;
   }
 
   /**
    * 在队列的尾部新增一个元素
-   * @param value 
+   * @param value
    */
   public enqueue(value) {
-    this.linkedList.append(value)
+    this.linkedList.append(value);
   }
 
   /**
    * 删除队列中的头部元素，如果队列为空，则返回 null
    */
   public dequeue() {
-    const removeHead = this.linkedList.deleteHead()
-    return removeHead ? removeHead.value : null
+    const removeHead = this.linkedList.deleteHead();
+    return removeHead ? removeHead.value : null;
   }
 
   public toString(callback) {
-    return this.linkedList.toString(callback)
+    return this.linkedList.toString(callback);
   }
 }

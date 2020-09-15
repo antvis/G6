@@ -2,12 +2,13 @@ import G6 from '@antv/g6';
 
 const container = document.getElementById('container');
 const descriptionDiv = document.createElement('div');
-descriptionDiv.innerHTML = 'Move a subtree to a new parent by dragging the root node of the subtree.';
+descriptionDiv.innerHTML =
+  'Move a subtree to a new parent by dragging the root node of the subtree.';
 container.appendChild(descriptionDiv);
 
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.json')
-  .then(res => res.json())
-  .then(data => {
+  .then((res) => res.json())
+  .then((data) => {
     const width = document.getElementById('container').scrollWidth;
     const height = document.getElementById('container').scrollHeight || 500;
     const graph = new G6.TreeGraph({
@@ -20,8 +21,8 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
           'zoom-canvas',
           {
             type: 'drag-node',
-            enableDelegate: true
-          }
+            enableDelegate: true,
+          },
         ],
       },
       defaultNode: {
@@ -43,8 +44,8 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       },
       nodeStateStyles: {
         closest: {
-          fill: '#f00'
-        }
+          fill: '#f00',
+        },
       },
       layout: {
         type: 'compactBox',
@@ -81,18 +82,17 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
     graph.render();
     graph.fitView();
 
-
     let minDisNode;
-    graph.on('node:dragstart', e => {
+    graph.on('node:dragstart', (e) => {
       minDisNode = undefined;
     });
-    graph.on('node:drag', e => {
+    graph.on('node:drag', (e) => {
       minDisNode = undefined;
       const item = e.item;
       const model = item.getModel();
       const nodes = graph.getNodes();
       let minDis = Infinity;
-      nodes.forEach(inode => {
+      nodes.forEach((inode) => {
         graph.setItemState(inode, 'closest', false);
         const node = inode.getModel();
         if (node.id === model.id) return;
@@ -106,9 +106,9 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       else minDisNode = undefined;
     });
 
-    graph.on('node:dragend', e => {
+    graph.on('node:dragend', (e) => {
       if (!minDisNode) {
-        descriptionDiv.innerHTML = 'Failed. No node close to the dragged node.'
+        descriptionDiv.innerHTML = 'Failed. No node close to the dragged node.';
         return;
       }
       const item = e.item;
@@ -117,22 +117,21 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       // if the minDisNode is a descent of the dragged node, return
       let isDescent = false;
       const minDisNodeId = minDisNode.getID();
-      G6.Util.traverseTree(data, d => {
+      G6.Util.traverseTree(data, (d) => {
         if (d.id === minDisNodeId) isDescent = true;
       });
       if (isDescent) {
-
-        descriptionDiv.innerHTML = 'Failed. The target node is a descendant of the dragged node.'
+        descriptionDiv.innerHTML = 'Failed. The target node is a descendant of the dragged node.';
         return;
       }
 
       const removed = graph.removeChild(id);
       setTimeout(() => {
         const newParentData = graph.findDataById(minDisNodeId);
-        if (newParentData.children) newParentData.children.push(data)
+        if (newParentData.children) newParentData.children.push(data);
         else newParentData.children = [data];
         graph.layout();
-        descriptionDiv.innerHTML = 'Success.'
+        descriptionDiv.innerHTML = 'Success.';
       }, 600);
     });
   });

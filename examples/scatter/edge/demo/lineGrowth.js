@@ -7,7 +7,7 @@ G6.registerEdge(
       const shape = group.get('children')[0];
       const length = shape.getTotalLength();
       shape.animate(
-        ratio => {
+        (ratio) => {
           // the operations in each frame. Ratio ranges from 0 to 1 indicating the prograss of the animation. Returns the modified configurations
           const startLen = ratio * length;
           // Calculate the lineDash

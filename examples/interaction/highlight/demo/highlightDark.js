@@ -31,7 +31,7 @@ const graph = new G6.Graph({
         formatText: function formatText(model) {
           return model.name;
         },
-        offset: 30
+        offset: 30,
       },
       {
         type: 'edge-tooltip',
@@ -44,7 +44,7 @@ const graph = new G6.Graph({
             edge.getTarget().getModel().name
           );
         },
-        offset: 30
+        offset: 30,
       },
     ],
   },
@@ -80,26 +80,26 @@ const graph = new G6.Graph({
 
 function clearAllStats() {
   graph.setAutoPaint(false);
-  graph.getNodes().forEach(function(node) {
+  graph.getNodes().forEach(function (node) {
     graph.clearItemStates(node);
   });
-  graph.getEdges().forEach(function(edge) {
+  graph.getEdges().forEach(function (edge) {
     graph.clearItemStates(edge);
   });
   graph.paint();
   graph.setAutoPaint(true);
 }
 
-graph.on('node:mouseenter', function(e) {
+graph.on('node:mouseenter', function (e) {
   const item = e.item;
   graph.setAutoPaint(false);
-  graph.getNodes().forEach(function(node) {
+  graph.getNodes().forEach(function (node) {
     graph.clearItemStates(node);
     graph.setItemState(node, 'dark', true);
   });
   graph.setItemState(item, 'dark', false);
   graph.setItemState(item, 'highlight', true);
-  graph.getEdges().forEach(function(edge) {
+  graph.getEdges().forEach(function (edge) {
     if (edge.getSource() === item) {
       graph.setItemState(edge.getTarget(), 'dark', false);
       graph.setItemState(edge.getTarget(), 'highlight', true);
@@ -121,11 +121,11 @@ graph.on('node:mouseleave', clearAllStats);
 graph.on('canvas:click', clearAllStats);
 
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/xiaomi.json')
-  .then(res => res.json())
-  .then(data => {
+  .then((res) => res.json())
+  .then((data) => {
     graph.data({
       nodes: data.nodes,
-      edges: data.edges.map(function(edge, i) {
+      edges: data.edges.map(function (edge, i) {
         edge.id = 'edge' + i;
         return Object.assign({}, edge);
       }),

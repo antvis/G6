@@ -62,7 +62,7 @@ const graph = new G6.TreeGraph({
         type: 'collapse-expand',
         onChange: function onChange(item, collapsed) {
           const data = item.get('model');
-          const icon = item.get('group').find(element => element.get('name') === 'collapse-icon');
+          const icon = item.get('group').find((element) => element.get('name') === 'collapse-icon');
           if (collapsed) {
             icon.attr('symbol', G6.Marker.expand);
           } else {
@@ -110,9 +110,9 @@ const graph = new G6.TreeGraph({
   },
 });
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/modeling-methods.json')
-  .then(res => res.json())
-  .then(data => {
-    G6.Util.traverseTree(data, function(item) {
+  .then((res) => res.json())
+  .then((data) => {
+    G6.Util.traverseTree(data, function (item) {
       item.id = item.name;
     });
     graph.data(data);

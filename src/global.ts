@@ -1,5 +1,5 @@
 export default {
-  version: '3.6.1',
+  version: '3.6.2',
   rootContainerClassName: 'root-container',
   nodeContainerClassName: 'node-container',
   edgeContainerClassName: 'edge-container',
@@ -60,11 +60,11 @@ export default {
       opacity: 0.8,
       r: 5,
       width: 20,
-      height: 10
+      height: 10,
     },
     size: [20, 5],
     color: '#A3B1BF',
-    padding: [25, 20, 15, 20]
+    padding: [25, 20, 15, 20],
   },
   // 节点应用状态后的样式，默认仅提供 active 和 selected 用户可以自己扩展
   nodeStateStyle: {},

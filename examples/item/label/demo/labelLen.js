@@ -26,7 +26,7 @@ const fittingString = (str, maxWidth, fontSize) => {
   const ellipsisLength = G6.Util.getTextSize(ellipsis, fontSize)[0];
   let currentWidth = 0;
   let res = str;
-  const pattern = new RegExp("[\u4E00-\u9FA5]+"); // distinguish the Chinese charactors and letters
+  const pattern = new RegExp('[\u4E00-\u9FA5]+'); // distinguish the Chinese charactors and letters
   str.split('').forEach((letter, i) => {
     if (currentWidth > maxWidth - ellipsisLength) return;
     if (pattern.test(letter)) {
@@ -78,8 +78,8 @@ const data = {
       labelCfg: {
         refY: 20,
         style: {
-          fontSize: globalFontSize
-        }
+          fontSize: globalFontSize,
+        },
       },
       style: {
         endArrow: true,
@@ -103,12 +103,12 @@ const graph = new G6.Graph({
     },
     labelCfg: {
       style: {
-        fontSize: globalFontSize
-      }
-    }
+        fontSize: globalFontSize,
+      },
+    },
   },
   defaultEdge: {
-    color: '#F6BD16'
+    color: '#F6BD16',
   },
 });
 

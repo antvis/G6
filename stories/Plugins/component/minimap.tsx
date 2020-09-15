@@ -40,12 +40,12 @@ const data2 = {
   edges: [
     {
       source: 'node1',
-      target: 'node2'
+      target: 'node2',
     },
     {
       source: 'node2',
-      target: 'node3'
-    }
+      target: 'node3',
+    },
   ],
 };
 
@@ -55,19 +55,19 @@ const Minimap = () => {
     if (!graph) {
       const minimap = new G6.Minimap({
         size: [300, 200],
-        type: "keyShape",
-        padding: 10
+        type: 'keyShape',
+        padding: 10,
       });
       fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.json')
-        .then(res => res.json())
-        .then(data => {
+        .then((res) => res.json())
+        .then((data) => {
           graph = new TreeGraph({
             container: container.current as string | HTMLElement,
             width: 300,
             height: 400,
             plugins: [minimap],
             modes: {
-              default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select']
+              default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'click-select'],
             },
             defaultNode: {
               type: 'circle',
@@ -89,8 +89,8 @@ const Minimap = () => {
             },
             nodeStateStyles: {
               selected: {
-                fill: 'red'
-              }
+                fill: 'red',
+              },
             },
             layout: {
               type: 'compactBox',
@@ -111,7 +111,7 @@ const Minimap = () => {
                 return 50;
               },
             },
-            animate: false
+            animate: false,
           });
           // graph.node(function(node) {
           //   return {

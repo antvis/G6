@@ -11,17 +11,17 @@ const Image2 = () => {
       {
         id: '0',
         label: '0',
-        shape:'image',
+        shape: 'image',
         size: [100, 100],
         clipCfg: {
           show: true,
-          type: 'path'
-        }
+          type: 'path',
+        },
       },
       {
         id: '5',
         label: '5',
-        shape:'image'
+        shape: 'image',
       },
     ],
     edges: [
@@ -72,7 +72,6 @@ const Image2 = () => {
 
     graph.data(data);
     graph.render();
-
   });
 
   return <div ref={container}></div>;

@@ -178,7 +178,7 @@ export default class Shape {
   public static registerFactory(factoryType: string, cfg: object): object {
     const className = ucfirst(factoryType);
     const factoryBase = ShapeFactoryBase;
-    const shapeFactory = Object.assign({}, factoryBase, cfg) as any;
+    const shapeFactory = { ...factoryBase, ...cfg } as any;
     (Shape as any)[className] = shapeFactory;
     shapeFactory.className = className;
     return shapeFactory;
@@ -227,7 +227,7 @@ export default class Shape {
   ) {
     const shapeFactory = Shape.Edge;
     const extendShape = extendShapeType ? shapeFactory.getShape(extendShapeType) : ShapeFramework;
-    const shapeObj = Object.assign({}, extendShape, edgeDefinition);
+    const shapeObj = { ...extendShape, ...edgeDefinition };
     shapeObj.type = shapeType;
     shapeObj.itemType = 'edge';
     shapeFactory[shapeType] = shapeObj;
@@ -242,7 +242,7 @@ export default class Shape {
     const shapeFactory = Shape.Combo;
     const extendShape = extendShapeType ? shapeFactory.getShape(extendShapeType) : ShapeFramework;
 
-    const shapeObj = Object.assign({}, extendShape, comboDefinition);
+    const shapeObj = { ...extendShape, ...comboDefinition };
     shapeObj.type = shapeType;
     shapeObj.itemType = 'combo';
     shapeFactory[shapeType] = shapeObj;

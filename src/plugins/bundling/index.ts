@@ -62,9 +62,6 @@ function projectPointToEdge(p: Point, e: VectorPosition): Point {
 }
 
 export default class Bundling extends Base {
-  constructor(cfg?: BundlingConfig) {
-    super(cfg);
-  }
   public getDefaultCfgs(): BundlingConfig {
     return {
       edgeBundles: [], // |edges| arrays, each one stores the related edges' id
@@ -109,7 +106,7 @@ export default class Bundling extends Base {
     const nodeIdMap: NodeConfigMap = {};
     let error = false;
 
-    nodes.forEach(node => {
+    nodes.forEach((node) => {
       if (node.x === null || !node.y === null || node.x === undefined || !node.y === undefined) {
         error = true;
       }
@@ -183,7 +180,7 @@ export default class Bundling extends Base {
       self.set('ticking', false);
     }
 
-    Object.keys(cfg).forEach(key => {
+    Object.keys(cfg).forEach((key) => {
       self.set(key, cfg[key]);
     });
 
@@ -389,6 +386,7 @@ export default class Bundling extends Base {
     const distance = getEucliDis(iMid, jMid);
     return aLength / (aLength + distance);
   }
+
   protected getVisibilityScore(ei: VectorPosition, ej: VectorPosition): number {
     const vij = this.getEdgeVisibility(ei, ej);
     const vji = this.getEdgeVisibility(ej, ei);
