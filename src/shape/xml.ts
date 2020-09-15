@@ -25,7 +25,7 @@ function looseJSONParse(text) {
     }
   };
   const firstAttempt = safeParse(text);
-  if (firstAttempt && typeof firstAttempt !== 'string') {
+  if (typeof firstAttempt !== 'string') {
     return firstAttempt;
   }
   const tail = (arr) => arr[arr.length - 1];
