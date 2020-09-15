@@ -2,6 +2,7 @@
 
 #### 3.8
 
+- fix: treeGraph render with addItem and stack problem, closes: #2084;
 - feat: edge filter lens plugin.
 
 #### 3.7.3

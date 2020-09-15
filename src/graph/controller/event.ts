@@ -28,7 +28,7 @@ type Fun = () => void;
 //   'dragenter',
 //   'dragleave',
 //   'dragover',
-//   'dragout',
+//   'dragout', // no this event
 //   'drop',
 //   'touchstart',
 //   'touchmove',
