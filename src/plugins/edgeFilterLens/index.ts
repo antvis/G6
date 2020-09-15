@@ -275,7 +275,7 @@ export default class EdgeFilterLens extends Base {
       // model上的x, y是相对于图形中心的，delegateShape是g实例，x,y是绝对坐标
       lensDelegate = parent.addShape('circle', {
         attrs: {
-          r: r,
+          r,
           x: mCenter.x,
           y: mCenter.y,
           ...attrs,

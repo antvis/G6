@@ -78,6 +78,9 @@ export default {
       if (self.source === model.id) {
         updateCfg.type = 'loop';
       }
+
+      graph.emit('beforecreateedge', {});
+
       graph.updateItem(self.edge, updateCfg);
 
       graph.emit('aftercreateedge', {
@@ -137,6 +140,9 @@ export default {
               })) {
               return;
             }
+
+            graph.emit('beforecreateedge', {});
+
             graph.updateItem(self.edge, {
               target: model.id
             });

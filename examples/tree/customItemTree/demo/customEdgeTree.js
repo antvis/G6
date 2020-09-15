@@ -111,11 +111,14 @@ G6.registerNode(
       const styles = this.getShapeStyle(cfg);
       const { labelCfg = {} } = cfg;
 
+      const w = styles.width;
+      const h = styles.height;
+
       const keyShape = group.addShape('rect', {
         attrs: {
           ...styles,
-          x: 0,
-          y: 0,
+          x: -w / 2,
+          y: -h / 2,
         },
       });
 
@@ -131,8 +134,8 @@ G6.registerNode(
         const { style, img } = cfg.leftIcon;
         group.addShape('rect', {
           attrs: {
-            x: 1,
-            y: 1,
+            x: 1 - w / 2,
+            y: 1 - h / 2,
             width: 38,
             height: styles.height - 2,
             fill: '#8c8c8c',
@@ -142,8 +145,8 @@ G6.registerNode(
 
         group.addShape('image', {
           attrs: {
-            x: 8,
-            y: 8,
+            x: 8 - w / 2,
+            y: 8 - h / 2,
             width: 24,
             height: 24,
             img:
@@ -157,8 +160,8 @@ G6.registerNode(
       // 如果不需要动态增加或删除元素，则不需要 add 这两个 marker
       group.addShape('marker', {
         attrs: {
-          x: 40,
-          y: 52,
+          x: 40 - w / 2,
+          y: 52 - h / 2,
           r: 6,
           stroke: '#73d13d',
           cursor: 'pointer',
@@ -169,8 +172,8 @@ G6.registerNode(
 
       group.addShape('marker', {
         attrs: {
-          x: 80,
-          y: 52,
+          x: 80 - w / 2,
+          y: 52 - h / 2,
           r: 6,
           stroke: '#ff4d4f',
           cursor: 'pointer',
@@ -184,14 +187,15 @@ G6.registerNode(
           attrs: {
             ...labelCfg.style,
             text: cfg.label,
-            x: 50,
-            y: 25,
+            x: 50 - w / 2,
+            y: 25 - h / 2,
           },
         });
       }
 
       return keyShape;
     },
+    update: undefined
   },
   'rect',
 );
