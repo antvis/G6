@@ -23,6 +23,7 @@ const ToolBar = Plugins.ToolBar;
 const Tooltip = Plugins.Tooltip;
 const TimeBar = Plugins.TimeBar;
 const ImageMinimap = Plugins.ImageMinimap;
+const EdgeFilterLens = Plugins.EdgeFilterLens;
 
 export {
   registerNode,
@@ -45,6 +46,7 @@ export {
   Tooltip,
   TimeBar,
   ImageMinimap,
+  EdgeFilterLens
 };
 
 export default {
@@ -68,6 +70,7 @@ export default {
   TimeBar,
   Fisheye,
   ImageMinimap,
+  EdgeFilterLens,
   Algorithm,
   Arrow,
   Marker,

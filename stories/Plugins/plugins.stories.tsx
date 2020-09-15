@@ -9,6 +9,7 @@ import ImgMinimap2 from './component/image-minimap2';
 import Tooltip from './component/tooltip';
 import ContextMenu from './component/comtextMenu';
 import ToolBar from './component/toolbar';
+import EdgeFilter from './component/edge-filter';
 
 export default { title: 'Plugins' };
 
@@ -22,4 +23,5 @@ storiesOf('Plugins', module)
   .add('image minimap small graph', () => <ImgMinimap2 />)
   .add('tooltip', () => <Tooltip />)
   .add('context menu', () => <ContextMenu />)
-  .add('tool bar', () => <ToolBar />);
+  .add('tool bar', () => <ToolBar />)
+  .add('edge filter', () => <EdgeFilter />);
