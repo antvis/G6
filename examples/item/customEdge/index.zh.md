@@ -16,4 +16,4 @@ order: 5
 
 第三个代码演示了自定义带有多个文本标签的边。
 
-更多信息参见[自定义边](/zh/docs/manual/advanced/custom-edge)。
+更多信息参见[自定义边](/zh/docs/manual/middle/elements/edges/custom-edge)。

@@ -18,6 +18,8 @@ import LineChart from './component/line-chart';
 import PointChart from './component/point-chart';
 import PieChart from './component/pie-chart';
 import MultiChart from './component/multi-chart';
+import StateOpacity from './component/state-opacity';
+
 import XML from './component/xml';
 
 export default { title: 'Shape' };
@@ -49,5 +51,6 @@ storiesOf('Shape', module)
   .add('LineChart', () => <LineChart />)
   .add('PointChart', () => <PointChart />)
   .add('PieChart', () => <PieChart />)
+  .add('MultiChart', () => <MultiChart />)
   .add('xml node', () => <XML />)
-  .add('MultiChart', () => <MultiChart />);
+  .add('state opacity', () => <StateOpacity />);

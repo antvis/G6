@@ -43,8 +43,6 @@ describe('node: hide by assigning visibile in data', () => {
     graph.data(data);
     graph.render();
 
-    console.log(data);
-
     const node = graph.getNodes()[0];
     expect(node.isVisible()).toEqual(false);
     graph.showItem(node);

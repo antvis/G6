@@ -38,12 +38,12 @@ import G6 from '@antv/g6';
 <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-{$version}/build/g6.js"></script>
 
 // version >= 3.3
-<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-{$version}/dist/g6.min.js"></script>
+<script src="https://gw.alipayobjects.com/os/lib/antv/g6/{$version}/dist/g6.min.js"></script>
 ```
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span>
 
-- Replace `{$version}` by the version number. e.g. `3.5.10`;
+- Replace `{$version}` by the version number. e.g. `3.7.1`;
 - The last version and its number can be found on <a href='https://www.npmjs.com/package/@antv/g6' target='_blank'>NPM</a>;
 - Please refer to the branch in Github: <a href='https://github.com/antvis/g6/tree/master' target='_blank'>https://github.com/antvis/g6/tree/master</a> for more detail.
 
@@ -136,7 +136,7 @@ graph.render(); // Render the graph
     <div id="mountNode"></div>
 
     /* Import G6 by CDN */
-    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.0/build/g6.js"></script>
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.0/dist/g6.min.js"></script>
 
     <script>
       // Define the source data
@@ -184,7 +184,7 @@ graph.render(); // Render the graph
 
 We provide a demo about using G6 with React: <a href='https://github.com/baizn/g6-in-react' target='_blank'>Demo</a>.
 
-For more information about it, please refer to [Using G6 with React](/en/docs/manual/middle/g6InReact). Welcome the <a href='https://github.com/antvis/g6/issues' target='_blank'>Issues</a>.
+For more information about it, please refer to [Using G6 with React](/en/docs/manual/advanced/g6InReact). Welcome the <a href='https://github.com/antvis/g6/issues' target='_blank'>Issues</a>.
 
 ## More
 
@@ -197,4 +197,4 @@ In this chapter, we only briefly introduce the installation and usage. In G6 Tut
 - Configure the animation;
 - The usage of components.
 
-For more advanced functions, please refer to [Key Concepts](/en/docs/manual/middle/graph) and [Advanced Guides](/en/docs/manual/advanced/keyconcept/shape-and-properties).
+For more advanced functions, please refer to [Key Concepts](/en/docs/manual/middle/graph) and [Further Reading](/en/docs/manual/advanced/coordinate-system).

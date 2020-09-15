@@ -23,14 +23,14 @@ module.exports = {
       {
         slug: 'docs/manual/introduction',
         title: {
-          zh: '使用文档',
+          zh: '教程',
           en: 'Manual',
         },
       },
       {
         slug: 'docs/api/Graph',
         title: {
-          zh: 'API 文档',
+          zh: 'API',
           en: 'API',
         },
       },
@@ -39,6 +39,13 @@ module.exports = {
         title: {
           zh: '图表示例',
           en: 'Examples',
+        },
+      },
+      {
+        slug: 'https://www.yuque.com/antv/g6-blog',
+        title: {
+          zh: '博客',
+          en: 'blog',
         },
       },
     ],
@@ -59,6 +66,7 @@ module.exports = {
         },
         order: 3,
       },
+      // ===========Concepts===================
       {
         slug: 'manual/middle',
         title: {
@@ -66,6 +74,99 @@ module.exports = {
           en: 'Middle',
         },
         order: 4,
+      },
+
+      {
+        slug: 'manual/middle/elements',
+        title: {
+          zh: '图元素：节点/边/Combo',
+          en: 'Graph Elements',
+        },
+        order: 2,
+      },
+
+      {
+        slug: 'manual/middle/elements/shape',
+        title: {
+          zh: '图形 Shape（选读）',
+          en: 'Shape',
+        },
+        order: 1,
+      },
+      {
+        slug: 'manual/middle/elements/nodes',
+        title: {
+          zh: '节点',
+          en: 'Node',
+        },
+        order: 2,
+      },
+      {
+        slug: 'manual/middle/elements/edges',
+        title: {
+          zh: '边',
+          en: 'Edge',
+        },
+        order: 3,
+      },
+      {
+        slug: 'manual/middle/elements/combos',
+        title: {
+          zh: 'Combo',
+          en: 'Combo',
+        },
+        order: 4,
+      },
+
+      {
+        slug: 'manual/middle/elements/nodes/built-in',
+        title: {
+          zh: '内置节点类型',
+          en: 'Built-in Nodes',
+        },
+        order: 1,
+      },
+      {
+        slug: 'manual/middle/elements/edges/built-in',
+        title: {
+          zh: '内置边类型',
+          en: 'Built-in Edges',
+        },
+        order: 1,
+      },
+      {
+        slug: 'manual/middle/elements/combos/built-in',
+        title: {
+          zh: '内置Combo',
+          en: 'Built-in Combos',
+        },
+        order: 1,
+      },
+
+      {
+        slug: 'manual/middle/elements/advanced-style',
+        title: {
+          zh: '高级样式',
+          en: 'Advanced Style',
+        },
+        order: 5,
+      },
+      {
+        slug: 'manual/middle/elements/methods',
+        title: {
+          zh: '高级操作',
+          en: 'Advanced operation',
+        },
+        order: 6,
+      },
+
+      {
+        slug: 'manual/middle/layout',
+        title: {
+          zh: '图布局',
+          en: 'Graph Layouts',
+        },
+        order: 3,
       },
       {
         slug: 'manual/middle/states',
@@ -75,61 +176,16 @@ module.exports = {
         },
         order: 4,
       },
-      {
-        slug: 'manual/middle/elements',
-        title: {
-          zh: '节点/边/Combo',
-          en: 'Graph Elements',
-        },
-      },
-      {
-        slug: 'manual/middle/elements/nodes',
-        title: {
-          zh: '内置节点',
-          en: 'Built-in Node',
-        },
-        order: 1,
-      },
-      {
-        slug: 'manual/middle/elements/edges',
-        title: {
-          zh: '内置边',
-          en: 'Built-in Edge',
-        },
-        order: 2,
-      },
-      {
-        slug: 'manual/middle/elements/combos',
-        title: {
-          zh: '内置 Combo',
-          en: 'Built-in Combo',
-        },
-        order: 3,
-      },
+      // ==============================
       {
         slug: 'manual/advanced',
         title: {
-          zh: '高级指引',
-          en: 'Advanced',
+          zh: '拓展阅读',
+          en: 'Further Reading',
         },
         order: 5,
       },
-      {
-        slug: 'manual/advanced/keyconcept',
-        title: {
-          zh: '概念解释',
-          en: 'Concepts',
-        },
-        order: 0,
-      },
-      {
-        slug: 'manual/advanced/theory',
-        title: {
-          zh: '深度原理解析',
-          en: 'Theory Blog',
-        },
-        order: 1,
-      },
+      // ==========API====================
       {
         slug: 'api/nodeEdge',
         title: {

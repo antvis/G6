@@ -7,4 +7,4 @@ The custom combo mechanism in G6 allows users to design their own node by extend
 
 ## Usage
 
-The following examples show how to custom a combo type by extending the built-in combo types. For more information, please refer to [Custom Comb o Doc](/en/docs/manual/advanced/custom-combo).
+The following examples show how to custom a combo type by extending the built-in combo types. For more information, please refer to [Custom Comb o Doc](/en/docs/manual/middle/elements/combos/custom-combo).

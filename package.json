@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "3.6.2",
+  "version": "3.7.2",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",
@@ -89,7 +89,7 @@
     "ml-matrix": "^6.5.0"
   },
   "devDependencies": {
-    "@antv/chart-node-g6": "^0.0.2",
+    "@antv/chart-node-g6": "^0.0.3",
     "@antv/gatsby-theme-antv": "^0.11.1",
     "@babel/core": "^7.7.7",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
@@ -115,6 +115,7 @@
     "jest-electron": "^0.1.7",
     "jest-extended": "^0.11.2",
     "lint-staged": "^10.2.11",
+    "pre-commit": "^1.2.2",
     "prettier": "^2.0.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

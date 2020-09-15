@@ -13,4 +13,4 @@ The three demos below show the node animation realized by customing node:
 - Example 2 : Animated background of a node;
 - Example 3 : Shape rotate animation on the node.
 
-For more information, please refer to document [Animation](/zh/docs/manual/advanced/animation)。
+For more information, please refer to document [Animation](/en/docs/manual/middle/animation).

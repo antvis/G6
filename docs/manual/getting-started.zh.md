@@ -38,12 +38,12 @@ import G6 from '@antv/g6';
 <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-{$version}/build/g6.js"></script>
 
 // version >= 3.3
-<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-{$version}/dist/g6.min.js"></script>
+<script src="https://gw.alipayobjects.com/os/lib/antv/g6/{$version}/dist/g6.min.js"></script>
 ```
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span>
 
-- 在  `{$version}` 中填写版本号，例如  `3.5.10`；
+- 在  `{$version}` 中填写版本号，例如  `3.7.1`；
 - 最新版可以在  <a href='https://www.npmjs.com/package/@antv/g6' target='_blank'>NPM</a>  查看最新版本及版本号；
 - 详情参考 Github 分支：<a href='https://github.com/antvis/g6/tree/master' target='_blank'>https://github.com/antvis/g6/tree/master</a>。
 
@@ -136,7 +136,7 @@ graph.render(); // 渲染图
     <div id="mountNode"></div>
 
     /* 引入 G6 */
-    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.0/build/g6.js"></script>
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.1/dist/g6.min.js"></script>
 
     <script>
       // 定义数据源
@@ -184,7 +184,7 @@ graph.render(); // 渲染图
 
 如果你想在 React 中使用 G6 ，可以参考我们提供了的 React 中使用 G6 的 <a href='https://github.com/baizn/g6-in-react' target='_blank'>Demo</a>。
 
-更多关于 React 中如何使用 G6，请参考 [React 中使用 G6 的文档](/zh/docs/manual/middle/g6InReact)。有任何问题都可以通过页面底部的钉钉交流群和我们沟通，也非常欢迎给我们提 issues 或 PR： <a href='https://github.com/antvis/g6/tree/master' target='_blank'>https://github.com/antvis/g6/tree/master</a>。
+更多关于 React 中如何使用 G6，请参考 [React 中使用 G6 的文档](/zh/docs/manual/advanced/g6InReact)。有任何问题都可以通过页面底部的钉钉交流群和我们沟通，也非常欢迎给我们提 issues 或 PR： <a href='https://github.com/antvis/g6/tree/master' target='_blank'>https://github.com/antvis/g6/tree/master</a>。
 
 ## 更多
 
@@ -197,4 +197,4 @@ graph.render(); // 渲染图
 - 增加动画；
 - 使用辅助组件。
 
-想了解更高阶的功能，请参见 [G6 核心概念](/zh/docs/manual/middle/graph)，[G6 高级指引](/zh/docs/manual/advanced/keyconcept/shape-and-properties)。
+想了解更高阶的功能，请参见 [G6 核心概念](/zh/docs/manual/middle/graph)，[G6 扩展阅读](/zh/docs/manual/advanced/coordinate-system)。

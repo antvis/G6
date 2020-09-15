@@ -1,7 +1,9 @@
 ---
-title: Built-in Combos
+title: Overview of Combos
 order: 0
 ---
+
+> Node Combo is a new feature for V3.5. The [node group](/en/docs/manual/middle/discard/nodeGroup) will be deprecated. We recommend to use Combo for node grouping. <a href='/en/examples/item/defaultCombos' target='_blank'>Demo</a>. <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AngFRpOo4SAAAAAAAAAAAABkARQnAQ' width=600 alt='img'/>
 
 The built-in Combos in G6 include circle and rect types. <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*UwaHSKkwoVUAAAAAAAAAAABkARQnAQ' width='250' alt='img'/>
 
@@ -9,14 +11,78 @@ In this document, we will briefly introduce the built-in Combos in G6, the commo
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span> Must set the `groupByTypes` to `false` when instantiating the graph, which will result in rendering result with reasonable visual zIndex for combos.
 
+## Data Structure
+
+To keep the stability of the structure of the source data, we do some compatible changes to introduce combos:
+
+1. `combos` array to contains all the combos data, and each of them has the properties:
+
+| Property | Type | Required | Example | Description |
+| --- | --- | --- | --- | --- |
+| id | string | true | 'comboA' | The uinique ID for the combo. **MUST** be a unique string |
+| parentId | string | false | 'comboB' | The ID of the parent combo |
+| padding | Number / Number[] | 10 or [ 10, 20, 10, 20 ] | The padding inside the combo |
+| label | string | false | 'combo A' | The label text of the combo |
+| style | Object | false |  | The style configuration of the combo, details are in [Built-in Combo Configuration](/en/docs/manual/middle/elements/combos/defaultCombo#style) and documents of each type of combo |
+| labelCfg | Object | false |  | The label configuration of the combo, details are in [Built-in Combo Configuration](/en/docs/manual/middle/elements/combos/defaultCombo#label-and-labelcfg) and documents of each type of combo |
+
+An example for the data item for a combo
+
+```javascript
+{
+  id: 'comboA',
+  label: 'A',
+  parentId: 'comboC'
+},
+```
+
+2. Introduce `comboId` in data items of nodes to indicate the affiliation.
+
+```javascript
+{
+  nodes: [
+    {
+      id: 'node1',
+      comboId: 'comboA' // node1 belongs to comboA
+    },
+    {
+      id: 'node2',
+      comboId: 'comboB' // node2 belongs to comboB
+    },
+    {
+      id: 'node3' // node3 belongs to no one
+    },
+    // ...
+  ],
+  edges: [
+    // ...
+  ],
+  combos: [
+    { // define comboA
+      id: 'comboA',
+      label: 'A',
+      parentId: 'comboC'
+    },
+    { // define comboB
+      id: 'comboB',
+      parentId: 'comboB'
+    },
+    { // define comboC, an empty combo
+      id: 'comboC'
+    },
+    // ...
+  ]
+}
+```
+
 ## Types of Default Combos
 
 The table below shows the built-in Combos and their special properties:
 
 | Name | Description | Default |
 | --- | --- | --- |
-| circle | Circle Combo: <br />- `size` is a number representing the diameter<br />- The circle is centered at the combo position<br />- `color` takes effect on the stroke<br />- The label is placed on the top of the circle by default<br />- More properties are described in [circle](/en/docs/manual/middle/elements/combos/circle)<br />- <a href='/en/examples/item/defaultCombos#circle' target='_blank'>Demo</a> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ijeuQoiH0JUAAAAAAAAAAABkARQnAQ' width=150 alt='img'/> |
-| rect | Rect Combo: <br />- `size` is an array, e.g. [100, 50]<br />- The rect in centered at the combo position<br />- `color` takes effect on the stroke<br />- The label is placed on the left top of the circle by default<br />- More properties are described in [rect](/zh/docs/manual/middle/elements/combos/rect)<br />- <a href='/en/examples/item/defaultCombos#rect' target='_blank'>Demo</a> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Khp4QpxXVlQAAAAAAAAAAABkARQnAQ' width=150 alt='img'/> |
+| circle | Circle Combo: <br />- `size` is a number representing the diameter<br />- The circle is centered at the combo position<br />- `color` takes effect on the stroke<br />- The label is placed on the top of the circle by default<br />- More properties are described in [circle](/en/docs/manual/middle/elements/combos/built-in/circle)<br />- <a href='/en/examples/item/defaultCombos#circle' target='_blank'>Demo</a> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ijeuQoiH0JUAAAAAAAAAAABkARQnAQ' width=150 alt='img'/> |
+| rect | Rect Combo: <br />- `size` is an array, e.g. [100, 50]<br />- The rect in centered at the combo position<br />- `color` takes effect on the stroke<br />- The label is placed on the left top of the circle by default<br />- More properties are described in [rect](/en/docs/manual/middle/elements/combos/built-in/rect)<br />- <a href='/en/examples/item/defaultCombos#rect' target='_blank'>Demo</a> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Khp4QpxXVlQAAAAAAAAAAABkARQnAQ' width=150 alt='img'/> |
 
 ## Common Property
 
@@ -199,6 +265,45 @@ graph.combo((combo) => {
 
 graph.data(data);
 graph.render();
+```
+
+## Combo Interaction
+
+To allow the users to interact with the combos, we implemented three built-in behaviors: `drag-combo`, `collapse-expand-combo`, and `drag-node` [Behavior](/en/docs/manual/middle/states/defaultBehavior)s.
+
+### drag-combo
+
+`'drag-combo'`behavior supports dragging a combo to re-arrange its position or its hierarchy.
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0Bj-Toa2B9YAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
+
+### collapse-expand-combo
+
+`'collapse-expand-combo'`behavior supports collapsing or expanding the combo by double clicking. The children will be hidden when the combo is collapsed, and the edges related to the children will link to the combo. If the graph has layout configuration and the `relayout` for this behavior is `true` (`true` by default), this behavior will trigger re-layout. If you do not want re-layout the graph after collapsing or expanding a combo, assign `relayout: false` for this behavior, or use combo's click listener and [graph.collapseExpandCombo API](/en/docs/api/Graph#collapseexpandcombocombo) instead.
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*X0_PSYizJ4AAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
+
+### drag-node
+
+`'drag-node'` behavior allows end users to drag the node to re-arrange the position and change the hierarchy of the node and its parent combo.
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*E8MCQr5OywgAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
+
+### Configure the Behaviors
+
+The code below shows how to configure the behaviors onto the graph:
+
+```javascript
+const graph = new G6.Graph({
+  container: 'mountNode',
+  width: 800,
+  height: 600,
+  // Set groupByTypes to false to get rendering result with reasonable visual zIndex for combos
+  groupByTypes: false,
+  modes: {
+    default: ['drag-combo', 'collapse-expand-combo', 'drag-node'],
+  },
+});
 ```
 
 ## Example

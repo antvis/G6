@@ -19,6 +19,7 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
+  linkCenter: true,
   modes: {
     default: [{
       type: 'create-edge',

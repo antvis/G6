@@ -1,11 +1,11 @@
 ---
 title: Built-in Behavior
-order: 4
+order: 1
 ---
 
 ## What is Behavior
 
-Behavior is the interaction mechanism in G6. It is used with [Interaction Mode](/en/docs/manual/middle/states/mode). This document introduces the Built-in behaviors in G6. Besides, you can register a type of [Custom Behavior](/zh/docs/manual/advanced/custom-behavior). The document [Interaction Mode](/en/docs/manual/middle/states/mode) introduces how to configure the Behaviors onto the graph.
+Behavior is the interaction mechanism in G6. It is used with [Interaction Mode](/en/docs/manual/middle/states/mode). This document introduces the Built-in behaviors in G6. Besides, you can register a type of [Custom Behavior](/zh/docs/manual/middle/states/custom-behavior). The document [Interaction Mode](/en/docs/manual/middle/states/mode) introduces how to configure the Behaviors onto the graph.
 
 ## Built-in Behavior
 
@@ -667,7 +667,6 @@ const graph = new G6.Graph({
 - Related timing event:
   - `'aftercreateedge'`: Triggered after the creating process is finished. Listen to it by `graph.on('aftercreateedge', e => {...})`, where the parameter `e` has a property `edge` which is the created edge.
 
-
 **Using Default Configuration**
 
 ```javascript
@@ -676,7 +675,7 @@ const graph = new G6.Graph({
     default: ['create-edge'],
   },
 });
-graph.on('aftercreateedge', e => {
+graph.on('aftercreateedge', (e) => {
   console.log(e.edge);
 });
 ```
@@ -687,12 +686,13 @@ graph.on('aftercreateedge', e => {
 const graph = new G6.Graph({
   modes: {
     default: [
-    // takes effect when the 'shift' is been pressing and drag from a node to another
-    {
-      type: 'create-edge',
-      trigger: 'drag',
-      key: 'shift'
-    }],
+      // takes effect when the 'shift' is been pressing and drag from a node to another
+      {
+        type: 'create-edge',
+        trigger: 'drag',
+        key: 'shift',
+      },
+    ],
   },
 });
 ```

@@ -7,4 +7,4 @@ Custom a behavior when the [built-in behaviors](/en/docs/manual/middle/states/de
 
 ## Usage
 
-Custom a behavior with `graph.registerBehavior`, refer to [Custom Behavior Doc](/en/docs/manual/advanced/custom-behavior). The following demo shows how to custom a behavior to allow drag and zoom canvas with two fingers on touchpad and wheel.
+Custom a behavior with `graph.registerBehavior`, refer to [Custom Behavior Doc](/en/docs/manual/middle/states/custom-behavior). The following demo shows how to custom a behavior to allow drag and zoom canvas with two fingers on touchpad and wheel.

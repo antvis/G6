@@ -35,14 +35,14 @@ The life cycle of an instance of Graph is: Initialize -> Load data -> Render -> 
 | defaultCombo | Object | {} | Default combo configurations in global, including type, size, color and so on. Its priority is lower than the configurations in data. It is a new feature of G6 3.5. |
 | plugins | Array | [] | Plugins for graph. Please refer to [Plugin](/en/docs/manual/tutorial/plugins##plugin) for detail. |
 | animate | Boolean | false | Wheter activate the global animation. Which will take effect while changing layouts, changing data, and other global operations. |
-| animateCfg | Object |  | The configurations for global animation. Takes effect only when `animate: true`. For more detail about animateCfg, see [Basic Animation Docs](/en/docs/manual/advanced/animation#animatecfg). |
+| animateCfg | Object |  | The configurations for global animation. Takes effect only when `animate: true`. For more detail about animateCfg, see [Basic Animation Docs](/en/docs/manual/middle/animation#animatecfg). |
 | animateCfg.<br />onFrame | Function | null | The callback function for every frame of animation. The path of custom animation for node can be defined here. The nodes will move linearly when `onFrame` is null. |
 | animateCfg.<br />duration | Number | 500 | Duration of animation with unit millisecond. |
 | animateCfg.<br />easing | string | easeLinear | The easing function name of animation. Please refer to ease in d3. |
 | minZoom | Number | 0.2 | The minimum zoom ratio. |
 | maxZoom | Number | 10 | The maximum zoom ratio. |
 | groupType | string | circle | Group type for nodes. Options: `'circle'` or `'rect'`. |
-| groupStyle | Object |  | Group style for nodes, please refer to [Node Group](/en/docs/manual/middle/nodeGroup) for detail. |
+| groupStyle | Object |  | Group style for nodes, please refer to [Node Group](/en/docs/manual/middle/discard/nodeGroup) for detail. |
 | layout | Object |  | Configurations for layout. The `type` in it is the name of layout method with the options: `'random'`, `'radial'`, `'mds'`, `'circular'`, `'fruchterman'`, `'force'`, `'dagre'`, `'concentric'`, `'grid'`. For more configurations for different layout methods, please refer to [Layout API](/en/docs/api/layout/Layout). |
 | renderer | string | 'canvas' / 'svg' | Render the graph with Canvas or SVG. It is supported expecting V3.3.x |
 | enabledStack | boolean | false | Whether to enable stack，that is, whether to support redo & undo operation. Support by V3.6 and latter versions. |
@@ -381,7 +381,7 @@ Add item(node, edge, or group) to the graph.
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | type | string | true | The type of the item. Options: `'node'`, `'edge'`, and `'group'`. |
-| model | Object | true | The data model of the item, refer to [Item Model Properties](/en/docs/api/nodeEdge/itemProperties). When `type: 'group'`, refer to [Create Node Group](/en/docs/manual/advanced/create-node-group) |
+| model | Object | true | The data model of the item, refer to [Item Model Properties](/en/docs/api/nodeEdge/itemProperties). |
 | stack | boolean | false | Whether to push the operator into the undo & redo stack. If the `enableStack` is `true`, this operation will be automatically pushed into the stack by default. Set `stack` to be `false` if you do not want it. |
 
 **Usage**
@@ -788,7 +788,7 @@ graph.hideItem('nodeId');
 
 Set the item's state.
 
-v3.4 and futher versions support multiple values for a state, refer to [Take Use of State Mechanism](/en/docs/manual/middle/states/state-new).
+v3.4 and futher versions support multiple values for a state, refer to [Take Use of State Mechanism](/en/docs/manual/middle/states/state#using-state).
 
 This function will emit events `beforitemstatechange` and `afteritemstatechange`.
 
@@ -1036,7 +1036,7 @@ Here is the description for the objects `item` and `target` of the `handler`'s p
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | item | string | true | The manipulated item |
-| target | Function | true | The manipulated [Graphics Shape](/en/docs/manual/middle/elements/shape-keyshape) |
+| target | Function | true | The manipulated [Graphics Shape](/en/docs/manual/middle/elements/shape/shape-keyshape) |
 
 **Usage**
 
@@ -1220,7 +1220,7 @@ Move the graph to center at the item. This operation can be used as easing anima
 | --- | --- | --- | --- |
 | item | string / Object | true | The id or the instance of the item. |
 | animate | boolean | false | Whether move the graph with animation. If it is not assigned, animates following the graph's `animate`. |
-| animateCfg | Object | false | The animation's configuraiton. Its configurations can be found in [Basic Animation Docs](/en/docs/manual/advanced/animation#animatecfg). If it is not assigned, animates following the graph's `animateCfg`. |
+| animateCfg | Object | false | The animation's configuraiton. Its configurations can be found in [Basic Animation Docs](/en/docs/manual/middle/animation#animatecfg). If it is not assigned, animates following the graph's `animateCfg`. |
 
 **Usage**
 
@@ -1826,6 +1826,45 @@ graph.toFullDataUrl(
 );
 ```
 
+## Stack operation
+### pushStack(action, data, stackType)
+Push operation。
+
+Implemented the undo function, refer to [here](https://github.com/antvis/G6/blob/timebar-0826/src/plugins/toolBar/index.ts#L182)
+
+Implemented the redo function, refer to[here](https://github.com/antvis/G6/blob/timebar-0826/src/plugins/toolBar/index.ts#L234)
+
+**参数**
+
+| Name | Type | Required | Description |
+| ------ | ------ | -------- | -------- |
+| action | string | false     | operation type，the value of 'update' by default |
+| data | unknown | false     | Stacked data |
+| stackType | 'redo' | 'undo' | false     | push operation type，the value of 'redo' by default |
+
+### getUndoStack()
+
+get undo stack。
+
+### getRedoStack()
+
+get redo stack。
+
+### getStackData()
+get the data in stack。
+
+The return value type：
+
+```
+{
+  undoStack: StackData[];
+  redoStack: StackData[];
+};
+```
+
+### clearStack()
+Clear the data in stack。
+
 ## Others
 
 ### addPlugin(plugin)
@@ -1930,7 +1969,7 @@ graph.getContainer();
 
 ### getGroup()
 
-Get the root [graphics group](/en/docs/manual/advanced/keyconcept/graphics-group) of the graph.
+Get the root [graphics group](/en/docs/manual/middle/elements/shape/graphics-group) of the graph.
 
 **Parameter**
 
@@ -2028,4 +2067,92 @@ No parameter.
 
 ```javascript
 graph.getHeight();
+```
+
+### createHull(cfg: HullCfg)
+
+**Parameter**
+
+| Name | Type    | Required | Description                 |
+| ---- | ------- | -------- | --------------------------- |
+| cfg  | HullCfg | true     | Configuration for the hull. |
+
+Details for HullCfg:
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| id | string | true | Hull id |
+| type | `round-convex` / `smooth-convex` / `bubble` | false | Configuration for hull type: `round-convex` generates a rounded-convex contour, `smooth-convex` generates a smooth-convex contour / `bubble` generates a smooth concave contour that could avoids nonMembers ([algorithm](http://vialab.science.uoit.ca/portfolio/bubblesets). The default value is `round-convex`. |
+| members | Item[] / string[] | true | Node Instances or Node Ids that should be included in the hull. |
+| nonMembers | Item[] / string[] | false | Node Instances or Node Ids that should be excluded from the hull, it only works when the hull type is set to be `bubble`. |
+| padding | number | false | The offset between the hull polygon and the inner members. |
+| style | object | false | The style properties for hull, including `fill` ( the fill color), `stroke` ( the stroke color) and `opacity` (transparency of the hull shape). |
+
+**Usage**
+
+```javascript
+let centerNodes = graph.getNodes().filter((node) => !node.getModel().isLeaf);
+graph.on('afterlayout', () => {
+  const hull1 = graph.createHull({
+    id: 'centerNode-hull',
+    type: 'bubble',
+    members: centerNodes,
+    padding: 10,
+  });
+
+  const hull2 = graph.createHull({
+    id: 'leafNode-hull1',
+    members: ['node6', 'node7'],
+    padding: 10,
+    style: {
+      fill: 'lightgreen',
+      stroke: 'green',
+    },
+  });
+
+  const hull3 = graph.createHull({
+    id: 'leafNode-hull2',
+    members: ['node8', 'node9', 'node10', 'node11', 'node12'],
+    padding: 10,
+    style: {
+      fill: 'lightgreen',
+      stroke: 'green',
+    },
+  });
+
+  graph.on('afterupdateitem', (e) => {
+    hull1.updateData(hull1.members);
+    hull2.updateData(hull2.members);
+    hull3.updateData(hull3.members);
+  });
+});
+```
+
+### getHulls()
+
+Get all of the hulls in the current graph.
+
+**Return**
+
+- Type of return value: {[key: string]: Hull;
+- The return object indicates the mapping of hull ID to the corresponding hull instance. Each key of the object is a string representing the ID of hull, and the value of the object is the corresponding hull instance.
+
+**Usage**
+
+```javascript
+const hullMap = graph.getHulls();
+```
+
+### removeHull
+
+**Parameter**
+
+| Name | Type           | Required | Description                            |
+| ---- | -------------- | -------- | -------------------------------------- |
+| hull | string ｜ Hull | true     | hull id or hull instance to be removed |
+
+**Usage**
+
+```javascript
+graph.removeHull('myHull');
 ```

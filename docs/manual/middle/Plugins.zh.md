@@ -1,6 +1,6 @@
 ---
 title: 插件 Plugins
-order: 11
+order: 6
 ---
 
 G6 中支持插件提供了一些可插拔的组件，包括：
@@ -76,7 +76,7 @@ Minimap 是用于快速预览和探索图的工具。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z9iXQq_kcrYAAAAAAAAAAABkARQnAQ' width=600 alt='img'/>
 
-> 美国航线图边绑定。<a href='/zh-cn/g6/3.x/demo/case/american-migration-bundling.html' target='_blank'>Demo 链接</a>。该 <a href='/zh/docs/manual/cases/edgeBundling' target='_blank'>Demo 教程</a>。
+> 美国航线图边绑定。<a href='/zh/examples/case/edgeBundling' target='_blank'>Demo 链接</a>。该 <a href='/zh/docs/manual/cases/edgeBundling' target='_blank'>Demo 教程</a>。
 
 实例化时可以通过配置项调整边绑定的功能。
 
@@ -102,7 +102,7 @@ Menu 用于配置节点上的右键菜单。
 | 名称 | 类型 | 默认值 | 描述 |
 | --- | --- | --- | --- |
 | className | string | null | menu 容器的 class 类名 |
-| getContent | (graph?: IGraph) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OtOkS4g-vrkAAAAAAAAAAABkARQnAQ' width=60 alt='img'/> | 菜单项内容，支持 DOM 元素或字符串 |
+| getContent | (evt?: IG6GraphEvent) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OtOkS4g-vrkAAAAAAAAAAABkARQnAQ' width=60 alt='img'/> | 菜单项内容，支持 DOM 元素或字符串 |
 | handleMenuClick | (target: HTMLElement, item: Item) => void | undefined | 点击菜单项的回调函数 |
 | shouldBegin | (evt: G6Event) => boolean | undefined | 是否允许 menu 出现，可以根据 `evt.item`（当前鼠标事件中的元素） 或 `evt.target`（当前鼠标事件中的图形）的内容判断此时是否允许 menu 出现 |
 | offsetX | number | 6 | menu 的 x 方向偏移值，需要考虑父级容器的 padding |
@@ -156,7 +156,7 @@ const graph = new G6.Graph({
 
 ```
 const menu = new G6.Menu({
-  getContent(graph) {
+  getContent(e) {
     return `<ul>
       <li title='1'>测试02</li>
       <li title='2'>测试02</li>
@@ -193,7 +193,7 @@ ToolBar 集成了以下常见的操作：
 | --- | --- | --- | --- |
 | container | HTMLDivElement | null | ToolBar 容器，如果不设置，则默认使用 canvas 的 DOM 容器 |
 | className | string | null | ToolBar 内容元素的 class 类名 |
-| getContent | (graph?: IGraph) => HTMLDivElement | string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ' width=80 alt='img'/> | ToolBar 内容，支持 DOM 元素或字符串 |
+| getContent | (evt?: IG6GraphEvent) => HTMLDivElement | string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ' width=80 alt='img'/> | ToolBar 内容，支持 DOM 元素或字符串 |
 | handleClick | (code: string, graph: IGraph) => void | undefined | 点击 ToolBar 中每个图标的回调函数 |
 | position | Point | null | ToolBar 的位置坐标 |
 
@@ -286,7 +286,7 @@ ToolTip 插件主要用于在节点和边上展示一些辅助信息，G6 4.0 �
 | --- | --- | --- | --- |
 | className | string | null | tooltip 容器的 class 类名 |
 | container | HTMLDivElement | null | Tooltip 容器，如果不设置，则默认使用 canvas 的 DOM 容器 |
-| getContent | (graph?: IGraph) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aPPuQquN5Q0AAAAAAAAAAABkARQnAQ' width=80 alt='img'/> | Tooltip 内容，支持 DOM 元素或字符串 |
+| getContent | (evt?: IG6GraphEvent) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aPPuQquN5Q0AAAAAAAAAAABkARQnAQ' width=80 alt='img'/> | Tooltip 内容，支持 DOM 元素或字符串 |
 | shouldBegin | (evt: G6Event) => boolean | undefined | 是否允许 tooltip 出现，可以根据 `evt.item`（当前鼠标事件中的元素） 或 `evt.target`（当前鼠标事件中的图形）的内容判断此时是否允许 tooltip 出现 |
 | offsetX | number | 6 | tooltip 的 x 方向偏移值，需要考虑父级容器的 padding |
 | offsetY | number | 6 | tooltip 的 y 方向偏移值，需要考虑父级容器的 padding |
@@ -477,17 +477,19 @@ Fisheye 鱼眼放大镜是为 focus+context 的探索场景设计的，它能够
 | r | Number | 300 | 放大区域的范围半径 |
 | delegateStyle | Object | { stroke: '#000', strokeOpacity: 0.8, lineWidth: 2, fillOpacity: 0.1, fill: '#ccc' } | 放大镜蒙层样式 |
 | showLabel | Boolean | false | 若 label 默认被隐藏，是否在关注区域内展示 label |
-| scaleRByWheel | Boolean | false | 是否在放大镜上使用滚轮调整缩放范围 |
 | maxR | Number | 图的高度 | 滚轮调整缩放范围的最大半径 |
 | minR | Number | 0.05 * 图的高度 | 滚轮调整缩放范围的最小半径 |
 | maxD | Number | 5 | `trigger` 为 `'mousemove'` / `'click'` 时，可以在放大镜上左右拖拽调整缩放系数。maxD 指定了这种调整方式的最大缩放系数，建议取值范围 [0, 5]。若使用 `minimap.updateParam` 更新参数不受该系数限制  |
 | minD | Number | 0 | `trigger` 为 `'mousemove'` / `'click'` 时，可以在放大镜上左右拖拽调整缩放系数。maxD 指定了这种调整方式的最小缩放系数，建议取值范围 [0, 5]。若使用 `minimap.updateParam` 更新参数不受该系数限制 |
+| scaleRBy | 'wheel'/'drag'/'unset'/undefined | false | 'unset' | 终端用户调整放大镜范围大小的方式 |
+| scaleDBy | 'wheel'/'drag'/'unset'/undefined | false | 'unset' | 终端用户调整放大镜缩放系数的方式 |
+| showDPercent | Boolean | false | true | 是否在放大镜下方显示当前缩放系数的比例值（与 minD、maxD 相较） |
 
 ### 成员函数
 
 #### updateParams(cfg)
 
-用于更新该 minimap 的部分配置项，包括 `trigger`，`d`，`r`，`maxR`，`minR`，`maxD`，`minD`。例如：
+用于更新该 minimap 的部分配置项，包括 `trigger`，`d`，`r`，`maxR`，`minR`，`maxD`，`minD`，`scaleRBy`，`scaleDBy`。例如：
 
 ```
 const fisheye = new G6.Fisheye({

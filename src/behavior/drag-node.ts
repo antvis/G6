@@ -34,7 +34,8 @@ export default {
       'combo:dragenter': 'onDragEnter',
       'combo:dragleave': 'onDragLeave',
       'combo:drop': 'onDropCombo',
-      'node:drop': 'onDropNode'
+      'node:drop': 'onDropNode',
+      'canvas:drop': 'onDropCanvas',
     };
   },
   validationCombo(item: ICombo) {
@@ -107,6 +108,11 @@ export default {
     } else {
       this.targets.push(item);
     }
+    const beforeDragNodes = [];
+    this.targets.forEach(t => {
+      beforeDragNodes.push(clone(t.getModel()));
+    });
+    this.set('beforeDragNodes', beforeDragNodes);
 
     this.origin = {
       x: evt.x,
@@ -159,41 +165,22 @@ export default {
       this.delegateRect = null;
     }
 
-    // 当开启 delegate 时，拖动结束后需要更新所有已选中节点的位置
-    if (this.get('enableDelegate')) {
-      this.targets.map((node) => this.update(node, evt));
-    }
+    this.updatePositions(evt);
+
 
     const graph: IGraph = this.graph;
 
-    // 拖动结束后是动态改变 Combo 大小还是将节点从 Combo 中删除
-    if (this.onlyChangeComboSize) {
-      // 拖动节点结束后，动态改变 Combo 的大小
-      graph.updateCombos();
-    } else {
-      // 拖放到了最外面，如果targets中有 combo，则删除掉
-      if (!this.targetCombo) {
-        this.targets.map((node: INode) => {
-          // 拖动的节点有 comboId，即是从其他 combo 中拖出时才处理
-          const model = node.getModel();
-          if (model.comboId) {
-            graph.updateComboTree(node);
-          }
-        });
-      } else {
-        const targetComboModel = this.targetCombo.getModel();
-        this.targets.map((node: INode) => {
-          const nodeModel = node.getModel();
-          if (nodeModel.comboId !== targetComboModel.id) {
-            graph.updateComboTree(node, targetComboModel.id);
-          }
-        });
-      }
-    }
-
     // 拖动结束后，入栈
     if (graph.get('enabledStack')) {
-      graph.pushStack('update', clone(graph.save()));
+      const stackData = {
+        before: { nodes: this.get('beforeDragNodes'), edges: [], combos: [] },
+        after: { nodes: [], edges: [], combos: [] }
+      }
+
+      this.targets.forEach(target => {
+        stackData.after.nodes.push(target.getModel());
+      })
+      graph.pushStack('update', clone(stackData));
     }
 
     this.point = {};
@@ -210,6 +197,8 @@ export default {
     const item = evt.item as ICombo;
     if (!this.validationCombo(item)) return;
 
+    this.updatePositions(evt);
+
     const graph: IGraph = this.graph;
 
     if (this.comboActiveState) {
@@ -217,6 +206,39 @@ export default {
     }
 
     this.targetCombo = item;
+
+    // 拖动结束后是动态改变 Combo 大小还是将节点从 Combo 中删除
+    if (this.onlyChangeComboSize) {
+      // 拖动节点结束后，动态改变 Combo 的大小
+      graph.updateCombos();
+    } else {
+      const targetComboModel = item.getModel();
+      this.targets.map((node: INode) => {
+        const nodeModel = node.getModel();
+        if (nodeModel.comboId !== targetComboModel.id) {
+          graph.updateComboTree(node, targetComboModel.id);
+        }
+      });
+      graph.updateCombo(item as ICombo);
+    }
+  },
+
+  onDropCanvas(evt: IG6GraphEvent) {
+    const graph: IGraph = this.graph;
+    if (!this.targets || this.targets.length === 0) return;
+    this.updatePositions(evt);
+    if (this.onlyChangeComboSize) {
+      // 拖动节点结束后，动态改变 Combo 的大小
+      graph.updateCombos();
+    } else {
+      this.targets.map((node: INode) => {
+        // 拖动的节点有 comboId，即是从其他 combo 中拖出时才处理
+        const model = node.getModel();
+        if (model.comboId) {
+          graph.updateComboTree(node);
+        }
+      });
+    }
   },
 
   /**
@@ -224,28 +246,33 @@ export default {
    * @param evt
    */
   onDropNode(evt: IG6GraphEvent) {
+    if (!this.targets || this.targets.length === 0) return;
     const self = this;
     const item = evt.item as INode;
-    const id = item.getID();
+    this.updatePositions(evt);
     const graph: IGraph = self.graph;
 
-    // TODO: 把 getComboId 和 setComboId 作为 Node Item 的 API，可以直接获取一个节点的直系 combo，不用再使用如下方式遍历查找
-    const combos = graph.getCombos();
-    const comboLength = combos.length;
-    for (let i = 0; i < comboLength; i++) {
-      const combo = combos[i];
-      const subNodes = combo.getNodes();
-      const snodeLength = subNodes.length;
-      for (let j = 0; j < snodeLength; j++) {
-        const snode = subNodes[j];
-        if (snode.getID() === id) {
-          if (self.comboActiveState) {
-            graph.setItemState(combo, self.comboActiveState, false);
-          }
-          self.targetCombo = combo;
-          return;
-        }
+    const comboId = item.getModel().comboId as string;
+
+    if (comboId) {
+      const combo = graph.findById(comboId);
+      if (self.comboActiveState) {
+        graph.setItemState(combo, self.comboActiveState, false);
       }
+      this.targets.map((node: INode) => {
+        const nodeModel = node.getModel();
+        if (comboId !== nodeModel.comboId) {
+          graph.updateComboTree(node, comboId);
+        }
+      });
+      graph.updateCombo(combo as ICombo)
+    } else {
+      this.targets.map((node: INode) => {
+        const model = node.getModel();
+        if (model.comboId) {
+          graph.updateComboTree(node);
+        }
+      });
     }
   },
   /**
@@ -272,6 +299,14 @@ export default {
     const graph: IGraph = this.graph;
     if (this.comboActiveState) {
       graph.setItemState(item, this.comboActiveState, false);
+    }
+  },
+
+  updatePositions(evt: IG6GraphEvent) {
+    if (!this.targets || this.targets.length === 0) return;
+    // 当开启 delegate 时，拖动结束后需要更新所有已选中节点的位置
+    if (this.get('enableDelegate')) {
+      this.targets.map((node) => this.update(node, evt));
     }
   },
   /**

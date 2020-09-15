@@ -282,17 +282,17 @@ export default class ItemBase implements IItemBase {
   /**
    * 渲染前的逻辑，提供给子类复写
    */
-  protected beforeDraw() {}
+  protected beforeDraw() { }
 
   /**
    * 渲染后的逻辑，提供给子类复写
    */
-  protected afterDraw() {}
+  protected afterDraw() { }
 
   /**
    * 更新后做一些工作
    */
-  protected afterUpdate() {}
+  protected afterUpdate() { }
 
   /**
    * draw shape
@@ -312,7 +312,15 @@ export default class ItemBase implements IItemBase {
     }
 
     if (currentShape) {
-      return currentShape.attr();
+      const styles: ShapeStyle & Indexable<any> = {};
+
+      each(currentShape.attr(), (val, key) => {
+        // 修改 img 通过 updateItem 实现
+        if (key !== 'img') {
+          styles[key] = val;
+        }
+      });
+      return styles;
     }
     return {};
   }

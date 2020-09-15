@@ -56,19 +56,14 @@ G6.registerNode(
       });
 
       // 实际开发中把 (Chart || window.Chart) 换成 Chart
+      // Replace (Chart || window.Chart) by Chart in your project
       const view = new (Chart || window.Chart)({
         group,
         padding: 5,
-        region: {
-          start: {
-            x: 0.01,
-            y: 0.2,
-          },
-          end: {
-            x: 0.62,
-            y: 0.33,
-          },
-        },
+        width: 360,
+        height: 70,
+        x: 20,
+        y: 100
       });
 
       view.data(cfg.trendData);
@@ -102,11 +97,19 @@ const trendData = [
 const data = {
   nodes: [
     {
-      id: 'nodeWithLine',
-      label: 'nodeWithLine',
+      id: 'node0',
       trendData,
+      x: 10,
+      y: 100
+    },
+    {
+      id: 'node1',
+      trendData,
+      x: 550,
+      y: 100
     },
   ],
+  edges: [{ source: 'node0', target: 'node1' }]
 };
 
 const graph = new G6.Graph({
@@ -114,8 +117,9 @@ const graph = new G6.Graph({
   width,
   height,
   fitView: true,
+  linkCenter: true,
   modes: {
-    default: ['drag-canvas', 'drag-node'],
+    default: ['zoom-canvas', 'drag-canvas', 'drag-node'],
   },
   defaultNode: {
     type: 'node-with-line',
@@ -127,6 +131,12 @@ const graph = new G6.Graph({
     hover: {
       stroke: '#b37feb',
     },
+  },
+  defaultEdge: {
+    style: {
+      lineWidth: 5,
+      stroke: '#666'
+    }
   },
 });
 

@@ -1,5 +1,10 @@
-import { generateTarget, parseXML, compareTwoTarget, xmlDataRenderer } from "../../../../src/shape/xml";
-import G6 from "../../../../src";
+import {
+  generateTarget,
+  parseXML,
+  compareTwoTarget,
+  xmlDataRenderer,
+} from '../../../../src/shape/xml';
+import G6 from '../../../../src';
 
 const testXML = `
 <group>
@@ -9,9 +14,9 @@ const testXML = `
     <text style={{ marginTop: 2, marginLeft: 50, textAlign: 'center', fontWeight: 'bold', fill: '#fff' }}>{{id}}</text>
   </rect>
 <group>
-`
+`;
 
-const testXMLNode = cfg => `
+const testXMLNode = (cfg) => `
 <group>
   <rect style={{
     width: 100, height: 20, fill: '#1890ff', stroke: '#1890ff', radius: [6, 6, 0, 0]
@@ -19,7 +24,7 @@ const testXMLNode = cfg => `
     <text style={{ marginTop: 2, marginLeft: 50, textAlign: 'center', fontWeight: 'bold', fill: '#fff' }} name="title">${cfg.id}</text>
   </rect>
 <group>
-`
+`;
 
 const div = document.createElement('div');
 div.id = 'graph-spec';
@@ -37,15 +42,15 @@ describe('xml node test', () => {
           type: 'test',
           style: {
             lineWidth: 4,
-          }
+          },
         },
         nodeStateStyles: {
-          'test': {
+          test: {
             title: {
-              fill: '#eee'
-            }
-          }
-        }
+              fill: '#eee',
+            },
+          },
+        },
       });
       const data = {
         nodes: [
@@ -78,7 +83,6 @@ describe('xml node test', () => {
     });
   });
 
-
   describe('parse test', () => {
     it('xml to object', () => {
       const xmlText = xmlDataRenderer(testXML)({ id: 'node' });
@@ -101,11 +105,9 @@ describe('xml node test', () => {
 
       expect(target.bbox.x).toBe(0);
       expect(target.bbox.y).toBe(0);
-      console.log(target.children[0].bbox)
       expect(target.children[0].bbox.width).toBe(100);
-      expect(target.children[0].children[0].bbox.x).toBe(50)
-
-    })
+      expect(target.children[0].children[0].bbox.x).toBe(50);
+    });
   });
 
   describe('compare test', () => {
@@ -117,27 +119,27 @@ describe('xml node test', () => {
 
     it('compare same', () => {
       const result = compareTwoTarget(target, target);
-      expect(result.action).toBe('same')
+      expect(result.action).toBe('same');
     });
 
     it('compare add', () => {
       const result = compareTwoTarget(target, null);
-      expect(result.action).toBe('add')
+      expect(result.action).toBe('add');
     });
 
     it('compare delete', () => {
       const result = compareTwoTarget(null, target);
-      expect(result.action).toBe('delete')
+      expect(result.action).toBe('delete');
     });
 
     it('compare restructure', () => {
       const result = compareTwoTarget(target.children[0], target);
-      expect(result.action).toBe('restructure')
+      expect(result.action).toBe('restructure');
     });
-  })
+  });
 
   describe.only('xml node state', () => {
-    G6.registerNode('xml-node', cfg => {
+    G6.registerNode('xml-node', (cfg) => {
       return `
         <group>
           <circle keyshape='true' style={{
@@ -161,35 +163,37 @@ describe('xml node test', () => {
             }} name='icon-circle' draggable='true'>
             </circle>
           </circle>
-          <text style={{ marginTop: -140, textAlign: 'center', fontWeight: 'bold', fill: 'green' }}>${cfg.label || cfg.id}</text>
+          <text style={{ marginTop: -140, textAlign: 'center', fontWeight: 'bold', fill: 'green' }}>${
+            cfg.label || cfg.id
+          }</text>
         </group>
-      `
-    })
+      `;
+    });
     const data = {
       nodes: [
         {
           id: 'node1',
           label: 'node1',
           x: 100,
-          y: 100
-        }
-      ]
-    }
+          y: 100,
+        },
+      ],
+    };
     it('node state', () => {
       const graph = new G6.Graph({
         container: 'graph-spec',
         width: 500,
         height: 500,
         modes: {
-          default: ['drag-node', 'zoom-canvas']
+          default: ['drag-node', 'zoom-canvas'],
         },
         defaultNode: {
           type: 'xml-node',
           size: 50,
           style: {
             stroke: 'blue',
-            fill: '#ccc'
-          }
+            fill: '#ccc',
+          },
         },
         nodeStateStyles: {
           hover: {
@@ -197,23 +201,22 @@ describe('xml node test', () => {
             // stroke: 'green',
             // lineWidth: 3,
             'icon-circle': {
-              fill: '#456dc5'
-            }
-          }
-        }
-      })
-  
-      graph.data(data)
-      graph.render()
-      console.log(graph.getNodes())
-  
-      graph.on('icon-circle:mouseenter', evt => {
-        graph.setItemState(evt.item, 'hover', true)
-      })
-  
-      graph.on('icon-circle:mouseleave', evt => {
-        graph.setItemState(evt.item, 'hover', false)
-      })
-    })
-  })
+              fill: '#456dc5',
+            },
+          },
+        },
+      });
+
+      graph.data(data);
+      graph.render();
+
+      graph.on('icon-circle:mouseenter', (evt) => {
+        graph.setItemState(evt.item, 'hover', true);
+      });
+
+      graph.on('icon-circle:mouseleave', (evt) => {
+        graph.setItemState(evt.item, 'hover', false);
+      });
+    });
+  });
 });

@@ -7,4 +7,4 @@ order: 13
 
 ## 何时使用
 
-`'create-edge'` 允许配置交互方式为点击两个节点、从一个节点拖拽到另一个节点。更多内容请参考 [create-edge](/zh/docs/manual/middle/states/defaultBehavior/create-edge)。
+`'create-edge'` 允许配置交互方式为点击两个节点、从一个节点拖拽到另一个节点。更多内容请参考 [create-edge](/zh/docs/manual/middle/states/defaultBehavior#create-edge)。

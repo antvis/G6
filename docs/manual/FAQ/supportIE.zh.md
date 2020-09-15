@@ -1,11 +1,9 @@
 ---
 title: 如何让 IE 支持 G6
-order: 9
+order: 10
 ---
 
-## 问题
-
-最近 [G6 图可视化交流群](/zh/docs/manual/introduction/#g6-图可视化交流群) 里有同学反馈 G6 不支持 IE。本文将介绍如何在 IE 中使用 G6。
+本文将介绍如何在 IE 中使用 G6。
 
 ## 解决方案
 

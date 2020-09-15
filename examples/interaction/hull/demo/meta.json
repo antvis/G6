@@ -1,0 +1,24 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "hull.js",
+      "title": {
+        "zh": "用轮廓包裹节点集合",
+        "en": "Use hulls to wrap the node sets."
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*krsJQb6tH-oAAAAAAAAAAAAAARQnAQ"
+    },
+    {
+      "filename": "changeMembers.js",
+      "title": {
+        "zh": "修改包裹内部成员",
+        "en": "Interactively change the members in the hull."
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*TNxDRL0t0GsAAAAAAAAAAAAAARQnAQ"
+    }
+  ]
+}

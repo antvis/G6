@@ -60,16 +60,10 @@ G6.registerNode(
       const view = new Chart({
         group,
         padding: 5,
-        region: {
-          start: {
-            x: 0.01,
-            y: 0.2,
-          },
-          end: {
-            x: 0.8,
-            y: 0.35,
-          },
-        },
+        width: 360,
+        height: 50,
+        x: 10,
+        y: 130
       });
 
       view.data(cfg.trendData as any);

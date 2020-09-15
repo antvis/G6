@@ -21,6 +21,14 @@
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*b-g0RoOpI3sAAAAAAAAAAABkARQnAQ"
     },
     {
+      "filename": "jsxNode.js",
+      "title": {
+        "zh": "使用 JSX 自定义节点",
+        "en": "Custom Node with JSX"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NcHWTKo3sEoAAAAAAAAAAAAAARQnAQ"
+    },
+    {
       "filename": "lineChartNode.js",
       "title": {
         "zh": "节点中嵌入 G2 的折线图",
@@ -43,6 +51,14 @@
         "en": "G2 Point Node"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*K7r7S7x-YhcAAAAAAAAAAAAAARQnAQ"
+    },
+    {
+      "filename": "pieChartNode.js",
+      "title": {
+        "zh": "节点中嵌入 G2 的饼图",
+        "en": "G2 Pie Node"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wCxXSK4eWPoAAAAAAAAAAAAAARQnAQ"
     },
     {
       "filename": "svgDom.js",

@@ -3,7 +3,7 @@ title: Edge
 order: 2
 ---
 
-Edge inherits from item. The functions of Item are also available for Edge. This document will only introduce the common functions for Edge class. All the built-in edges can be found in [Built-in Edges Doc](/en/docs/manual/middle/elements/edges/defaultEdge) and [demo](/en/examples/item/defaultEdges), Custom Edge can be found in [Custom Edge Doc](/en/docs/manual/advanced/custom-edge) and [demo](/en/examples/item/customEdge).
+Edge inherits from item. The functions of Item are also available for Edge. This document will only introduce the common functions for Edge class. All the built-in edges can be found in [Built-in Edges Doc](/en/docs/manual/middle/elements/edges/defaultEdge) and [demo](/en/examples/item/defaultEdges), Custom Edge can be found in [Custom Edge Doc](/en/docs/manual/middle/elements/edges/custom-edge) and [demo](/en/examples/item/customEdge).
 
 ## setSource(source)
 

@@ -277,7 +277,7 @@ describe('dagre layout', () => {
     expect(mathEqual(node.x, 185)).toEqual(true);
     expect(mathEqual(node.y, 25)).toEqual(true);
     expect(edge.controlPoints).toBe(undefined);
-    console.log(graph);
+    // console.log(graph);
     // graph.destroy();
   });
   it('dagre with array nodeSize', () => {

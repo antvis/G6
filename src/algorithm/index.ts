@@ -8,3 +8,4 @@ export { default as getConnectedComponents } from './connected-component';
 export { detectAllCycles, detectAllDirectedCycle, detectAllUndirectedCycle } from './detect-cycle';
 export { findShortestPath, findAllPath } from './find-path';
 export { default as minimumSpanningTree } from './mst';
+export { default as getPageRank } from './pagerank'

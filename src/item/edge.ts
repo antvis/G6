@@ -25,7 +25,7 @@ export default class Edge extends Item implements IEdge {
     const pointName = END_MAP[name] + POINT_NAME_SUFFIX;
     const itemName = name + ITEM_NAME_SUFFIX;
     const preItem = this.get(itemName);
-    if (preItem) {
+    if (preItem && !preItem.destroyed) {
       // 如果之前存在节点，则移除掉边
       preItem.removeEdge(this);
     }
@@ -201,7 +201,7 @@ export default class Edge extends Item implements IEdge {
     return this.get('target');
   }
 
-  public updatePosition() {}
+  public updatePosition() { }
 
   /**
    * 边不需要重计算容器位置，直接重新计算 path 位置

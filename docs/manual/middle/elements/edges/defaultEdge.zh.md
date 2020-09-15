@@ -1,5 +1,5 @@
 ---
-title: 内置边总览
+title: 边总览
 order: 0
 ---
 

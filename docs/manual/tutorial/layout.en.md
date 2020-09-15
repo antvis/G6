@@ -25,7 +25,7 @@ When there is no node position information in the data, or the location informat
 - Dendrogram Layout;
 - CompactBox Layout;
 - Mindmap Layout;
-- Intended Layout.
+- Indented Layout.
 
 For more information about each layout algorithm, please refer to [Layout API](/en/docs/api/layout/Layout). We will utilize Force Layout in the tutorial.
 
@@ -87,7 +87,7 @@ The result:
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AXrdQIm3oCIAAAAAAAAAAABkARQnAQ' width=350 alt='img' />
 <br />
 
-> Transformation between different layouts and configurations are described in: [Layout Transformation](/en/docs/manual/middle/layout/#layout-transformation-mechanism).
+> Transformation between different layouts and configurations are described in: [Layout Transformation](/en/docs/manual/middle/layout/layout-mechanism).
 
 **Tips:** <br />The layout algorithm will be executed in `graph.render()`.
 
@@ -102,7 +102,7 @@ The result:
   </head>
   <body>
     <div id="mountNode"></div>
-    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.0/build/g6.js"></script>
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.1/dist/g6.min.js"></script>
     <script>
       const graph = new G6.Graph({
         container: 'mountNode',

@@ -62,18 +62,14 @@ G6.registerNode(
         Oceania: '#223273',
       };
 
+      // 实际开发中把 (Chart || window.Chart) 换成 Chart
+      // Replace (Chart || window.Chart) by Chart in your project
       const chart = new (Chart || window.Chart)({
         group,
-        region: {
-          start: {
-            x: 0.01,
-            y: 0.2,
-          },
-          end: {
-            x: 0.62,
-            y: 0.37,
-          },
-        },
+        width: 360,
+        height: 70,
+        x: 20,
+        y: 100
       });
 
       chart.data(cfg.trendData);
@@ -538,11 +534,19 @@ const trendData = [
 const data = {
   nodes: [
     {
-      id: 'node1',
-      label: 'node',
+      id: 'node0',
       trendData,
+      x: 10,
+      y: 100
+    },
+    {
+      id: 'node1',
+      trendData,
+      x: 550,
+      y: 100
     },
   ],
+  edges: [{ source: 'node0', target: 'node1' }]
 };
 
 const graph = new G6.Graph({
@@ -550,6 +554,7 @@ const graph = new G6.Graph({
   width,
   height,
   fitView: true,
+  linkCenter: true,
   modes: {
     default: ['drag-canvas', 'drag-node'],
   },
@@ -558,6 +563,18 @@ const graph = new G6.Graph({
     style: {
       fill: '#e6f7ff',
     },
+  },
+  defaultEdge: {
+    style: {
+      stroke: '#666',
+      lineWidth: 5
+    }
+  },
+  defaultEdge: {
+    style: {
+      lineWidth: 5,
+      stroke: '#666'
+    }
   },
 });
 

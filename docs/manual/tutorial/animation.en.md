@@ -3,7 +3,7 @@ title: Animation*
 order: 6
 ---
 
-The animation mechanism is too complicated to understand by beginners and out of the scope of the tutorial. In this chapter, we only introduce the animation in G6 briefly. For more information, please refer to [Basic Animation](/en/docs/manual/advanced/animation/).
+The animation mechanism is too complicated to understand by beginners and out of the scope of the tutorial. In this chapter, we only introduce the animation in G6 briefly. For more information, please refer to [Basic Animation](/en/docs/manual/middle/animation).
 
 There are two levels of animation in G6:
 

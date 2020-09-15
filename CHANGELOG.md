@@ -1,5 +1,44 @@
 # ChangeLog
 
+#### 3.7.2
+
+- fix: toolbar redo undo addItem with type problem, closes #2043;
+- fix: optimized drag-canvas with hidden items;
+- fix: state style with 0 value problem, closes: #2039;
+- fix: layout with webworker leads to twice beforelayout, closes: #2052;
+- fix: context menu with sibling doms of graph container leads to position problem, closes: #2053;
+- fix: changeData with combos problem, closes: #2064;
+- fix: improve the position of the context menu before showing up;
+- feat: fisheye allows user to config the trigger of scaling range(r) and magnify factor(d) by scaleRBy and scaleDBy respectively;
+- feat: add the percent text of magnify factor(d) for fisheye and users are allowed to configure it by show showDPercent.
+
+#### 3.7.1
+
+- fix: hide the tooltip plugin when drag node and contextmenu, closes #1975;
+- fix: processParellelEdges without edge id problem;
+- fix: label background with left, right position problem, closes #1861;
+- fix: create-edge and redo undo problem, #1976;
+- fix: tooltip plugin with shouldBegin problem, closes #2006;
+- fix: tooltip behavior with shouldBegin problem, closes #2016;
+- fix: the position of grid plugins when there is something on the top of the canvas, closes: #2012;
+- fix: fisheye destroy and new problem, closes: #2018;
+- fix: node event with wrong canvasX and canvasY problem, closes: #2027;
+- fix: drag combo and drag node to drop on canvas/combo/node problem;
+- feat: improve the performance on the combos;
+- fix: redo and undo problem when update item after additem, closes #2019;
+- feat: hide shapes beside keyShape while zooming;
+- feat: improve the performance on the combos.
+
+#### 3.7.0
+
+- feat: chart node;
+- feat: bubble set;
+- feat: custom node with JSX;
+- feat: minimum spanning tree algorithm;
+- feat: path finding algorithm;
+- feat: cycle finding algorithm;
+- chore: update antv/hierarchy to fix indented tree with dropCap problem.
+
 #### 3.6.2
 
 - feat: find all paths and the shortest path between two nodes;
@@ -101,7 +140,7 @@
 
 #### 3.5.6
 
-- feat: dropCap for intended TreeGraph layout.
+- feat: dropCap for indented TreeGraph layout.
 
 #### 3.5.5
 

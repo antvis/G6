@@ -125,11 +125,11 @@ const data: GraphData = {
       // padding: [50, 10, 10, 50]
       // type: 'rect'
     },
-    // {
-    //   id: 'C',
-    //   label: 'gorup C',
-    //   // type: 'rect'
-    // },
+    {
+      id: 'C',
+      label: 'gorup C',
+      // type: 'rect'
+    },
     {
       id: 'D',
       label: 'gorup D',
@@ -237,7 +237,7 @@ const DefaultCombo = () => {
         height: 800,
         groupByTypes: false,
         modes: {
-          default: ['drag-canvas', 'drag-combo'],
+          default: ['drag-canvas', 'drag-combo',], // { type: 'drag-node', enableDelegate: true }
         },
         // layout: {
         //   type: 'comboForce'

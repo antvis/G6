@@ -1,6 +1,6 @@
 ---
 title: Plugins
-order: 11
+order: 6
 ---
 
 There are several plugins in G6 which can be used for G6's graph or other applications.
@@ -104,7 +104,7 @@ Menu is used to configure the right-click menu on the node.
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | className | string | null | the class name of the menu dom |
-| getContent | (graph?: IGraph) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OtOkS4g-vrkAAAAAAAAAAABkARQnAQ' width=60 alt='img'/> | the menu content，supports DOM or string |
+| getContent | (evt?: IG6GraphEvent) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OtOkS4g-vrkAAAAAAAAAAABkARQnAQ' width=60 alt='img'/> | the menu content，supports DOM or string |
 | handleMenuClick | (target: HTMLElement, item: Item) => void | undefined | the callback function when click the menu |
 | shouldBegin | (evt: G6Event) => boolean | undefined | Whether allow the tooltip show up. You can return true or false according to the content of the `evt.item` (current item of the event) or `evt.target` (current shape of the event) |
 | offsetX | number | 6 | the offset of tooltip along x axis, the padding of the parent container should be take into consider |
@@ -158,7 +158,7 @@ const graph = new G6.Graph({
 
 ```
 const menu = new G6.Menu({
-  getContent(graph) {
+  getContent(e) {
     return `<ul>
       <li title='1'>menu02</li>
       <li title='2'>menu02</li>
@@ -195,7 +195,7 @@ ToolBar has the following operations by default:
 | --- | --- | --- | --- |
 | container | HTMLDivElement | null | The container of the ToolBar. It will take use the DOM of the canvas by default |
 | className | string | null | The class name of the sub DOM nodes of the ToolBar |
-| getContent | (graph?: IGraph) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ' width=80 alt='img'/> | The content of the ToolBar |
+| getContent | (evt?: IG6GraphEvent) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ' width=80 alt='img'/> | The content of the ToolBar |
 | handleClick | (code: string, graph: IGraph) => void | undefined | The callback functions for the icons of the ToolBar |
 | position | Point | null | The position of the ToolBar |
 
@@ -405,7 +405,7 @@ ToolTip helps user to explore detail infomations on the node and edge. Do note t
 | --- | --- | --- | --- |
 | className | string | null | Tge class name of the tooltip's container |
 | container | HTMLDivElement | null | The container of the Tooltip. The canvas DOM will be used by default |
-| getContent | (graph?: IGraph) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aPPuQquN5Q0AAAAAAAAAAABkARQnAQ' width=80 alt='img'/> | The content of the Tooltip |
+| getContent | (evt?: IG6GraphEvent) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aPPuQquN5Q0AAAAAAAAAAABkARQnAQ' width=80 alt='img'/> | The content of the Tooltip |
 | shouldBegin | (evt: G6Event) => boolean | undefined | Whether allow the tooltip show up. You can return true or false according to the content of the `evt.item` (current item of the event) or `evt.target` (current shape of the event) |
 | offsetX | number | 6 | the offset of tooltip along x axis, the padding of the parent container should be take into consider |
 | offsetY | number | 6 | the offset of tooltip along y axis, the padding of the parent container should be take into consider |
@@ -477,17 +477,19 @@ Fisheye is designed for focus_context exploration, it keeps the context and the 
 | r | Number | false | 300 | The radius of the focus area |
 | delegateStyle | Object | false | { stroke: '#000', strokeOpacity: 0.8, lineWidth: 2, fillOpacity: 0.1, fill: '#ccc' } | The style of the lens's delegate |
 | showLabel | Boolean | false | false | If the label is hidden, whether to show the label of nodes inside the focus area |
-| scaleRByWheel | Boolean | false | Whether to enable scaling the magnifying radius by mouse wheeling |
 | maxR | Number | The height of the graph | The maximum radius scaled by the wheel |
 | minR | Number | 0.05 * The height of the graph | The minimum radius scaled by the wheel |
 | maxD | Number | 5 | when `trigger` is `'mousemove'` or `'click'`, minimap allow users to adjust the magnifying coefficient `d` by dragging left / right on the lens. `maxD` is the maximum magnifying coefficient that limits this interaction. The suggested range for `maxD` is [0, 5]. Note that updating the configurations by `minimap.updateParam` will not be limited by `maxD`  |
 | minD | Number | 0 | when `trigger` is `'mousemove'` or `'click'`, minimap allow users to adjust the magnifying coefficient `d` by dragging left / right on the lens. `minD` is the minimum magnifying coefficient that limits this interaction. The suggested range for `minD` is [0, 5]. Note that updating the configurations by `minimap.updateParam` will not be limited by `minD` |
+| scaleRBy | 'wheel'/'drag'/'unset'/undefined | false | 'unset' | The trigger for end users to scale the range of the lens |
+| scaleDBy | 'wheel'/'drag'/'unset'/undefined | false | 'unset' | The trigger for end users to scale the magnification factor of the lens |
+| showDPercent | Boolean | false | true | Whether show the percent of current magnification factor on the bottom of the lens, where the percent is about the D, minD, and maxD |
 
 ### Member Function
 
 #### updateParams(cfg)
 
-Update partial of the configurations of the minimap instance, including `trigger`, `d`, `r`, `maxR`, `minR`, `maxD`, and `minD`. E.g.
+Update partial of the configurations of the minimap instance, including `trigger`, `d`, `r`, `maxR`, `minR`, `maxD`, `minD`, `scaleDBy`, and `scaleRBy`. E.g.
 
 ```
 const fisheye = new G6.Fisheye({

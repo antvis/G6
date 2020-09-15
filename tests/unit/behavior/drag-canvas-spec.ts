@@ -387,4 +387,59 @@ describe('drag-canvas', () => {
     expect(movedMatrix[6]).toEqual(200);
     expect(movedMatrix[7]).toEqual(200);
   });
+
+  it('enable optimize to hide the shapes while dragging', () => {
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [
+          {
+            type: 'drag-canvas',
+            enableOptimize: true
+          },
+        ],
+      },
+    });
+    graph.data(data);
+    graph.render();
+    graph.emit('dragstart', { clientX: 150, clientY: 150 });
+    graph.emit('drag', { clientX: 350, clientY: 350 });
+
+    let nodes = graph.getNodes();
+    nodes.forEach(node => {
+      const children = node.getContainer().get('children');
+      children.forEach(child => {
+        if (!child.get('isKeyShape')) expect(child.get('visible')).toEqual(false);
+        else expect(child.get('visible')).toEqual(true);
+      });
+    })
+    let edges = graph.getEdges();
+    edges.forEach(edge => {
+      const children = edge.getContainer().get('children');
+      children.forEach(child => {
+        console.log(child)
+        expect(child.get('visible')).toEqual(false);
+      });
+    })
+
+    graph.emit('dragend', { clientX: 350, clientY: 350 });
+
+    nodes = graph.getNodes();
+    nodes.forEach(node => {
+      const children = node.getContainer().get('children');
+      children.forEach(child => {
+        if (!child.get('isKeyShape')) expect(child.get('visible')).toEqual(true);
+        else expect(child.get('visible')).toEqual(true);
+      });
+    })
+    edges = graph.getEdges();
+    edges.forEach(edge => {
+      const children = edge.getContainer().get('children');
+      children.forEach(child => {
+        expect(child.get('visible')).toEqual(true);
+      });
+    })
+  });
 });

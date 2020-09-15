@@ -1,5 +1,5 @@
 ---
-title: 图 Graph
+title: Graph 图
 order: 1
 ---
 
@@ -28,7 +28,7 @@ order: 1
     /* 图的画布容器 */
     <div id="mountNode"></div>
     /* 引入 G6 */
-    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.0/build/g6.js"></script>
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.1/dist/g6.min.js"></script>
     <script>
       // 定义数据源
       const data = {
@@ -100,7 +100,13 @@ const graph = new G6.Graph({
 
 下面列举实例化图时常见的配置项，完整的配置项参见 [Graph API](/zh/docs/api/Graph)。
 
-#### 整体渲染相关
+#### 使用 canvas 或 svg 渲染
+
+- `renderer`
+
+类型：String；默认：'canvas'，可选项：'canvas' / 'svg' 。配置使用 canvas 或 svg 渲染，_除 V3.3.x 外其他版本均支持。_ G6 默认使用 Canvas 渲染图， SVG 渲染也支持 Canvas 的所有功能。需要注意的是，我们都知道 SVG 的性能较差，在大规模数据或图元的情况下请谨慎选择。SVG 除支持内置的所有节点/边类型以及自定义节点/边时使用与 Canvas 相同的图形外，还支持在自定义节点/边时使用 `'dom'` 图形，详见 [使用 DOM 自定义节点](/zh/docs/manual/middle/elements/nodes/custom-node#5-使用-dom-自定义节点)。
+
+#### 自适应画布
 
 - `fitView`
 
@@ -136,7 +142,7 @@ const graph = new G6.Graph({
 
 - `layout`
 
-类型：Object。若数据中不存在节点位置，则默认为随机布局。配置布局类型及其参数。详见 [使用布局 Layout](/zh/docs/manual/middle/layout) 教程，[Layout API](/zh/docs/api/layout/Layout)。
+类型：Object。若数据中不存在节点位置，则默认为随机布局。配置布局类型及其参数。详见 [使用布局 Layout](/zh/docs/manual/middle/layout/graph-layout) 教程，[Layout API](/zh/docs/api/layout/Layout)。
 
 #### 交互行为相关
 
@@ -152,7 +158,7 @@ const graph = new G6.Graph({
 
 - `animateCfg`
 
-类型：Object。全局动画的配置项，包括动画效果、动画时长等。详见 [动画 Animation](/zh/docs/manual/advanced/animation)。
+类型：Object。全局动画的配置项，包括动画效果、动画时长等。详见 [动画 Animation](/zh/docs/manual/middle/animation)。
 
 #### 插件
 

@@ -1,11 +1,9 @@
 ---
 title: Using G6 with IE
-order: 9
+order: 10
 ---
 
-## Problem
-
-Recently, we received some feedbacks about usage of G6 in IE. Some users found there are some display problems when using G6 in IE. In this section, we will introduce the usage of G6 in IE.
+In this section, we will introduce the usage of G6 in IE.
 
 ## Solution
 

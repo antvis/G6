@@ -1,11 +1,11 @@
 ---
-title: Interaction Mode
+title: Using multiple modes
 order: 7
 ---
 
 In this chapter, we will introduce the interactions in G6 by adding nodes and edges. You nee to be familiar with the following before reading this chapter:
 
-- [Custom Behavior](/en/docs/manual/advanced/custom-behavior);
+- [Custom Behavior](/en/docs/manual/middle/states/custom-behavior);
 - [Mode](/en/docs/manual/middle/states/mode).
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*y1qkTKqhQXkAAAAAAAAAAABkARQnAQ' alt='setmode' width=400 />
@@ -42,7 +42,7 @@ Here goes the basic HTML code for this chapter. We will add new codes incrementa
       <option value="addEdge">Add Edge</option>
     </select>
     <div id="mountNode"></div>
-    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.3.5/dist/g6.min.js"></script>
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.1/dist/g6.min.js"></script>
     <script>
       // Source data
       const data = {

@@ -9,4 +9,4 @@ Configuration `animateCfg` of `Graph` is designed for global animation.
 
 The demo shows how to set a global uniform animation.
 
-For more information, please refer to document [Animation](/zh/docs/manual/advanced/animation)。
+For more information, please refer to document [Animation](/en/docs/manual/middle/animation).

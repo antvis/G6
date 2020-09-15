@@ -9,4 +9,4 @@ order: 4
 
 对于一些简单的动画场景，可以通过这种方式来实现。稍复杂的场景，不建议使用这种方式。
 
-G6 中更多关于动画的内容，请参考文档 [动画](/zh/docs/manual/advanced/animation)。
+G6 中更多关于动画的内容，请参考文档 [动画](/zh/docs/manual/middle/animation)。

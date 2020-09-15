@@ -143,7 +143,7 @@ In complex graph with large number of edges, edge bundling helps you to improve 
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z9iXQq_kcrYAAAAAAAAAAABkARQnAQ' width=600 alt='img'/>
 
-> Edge bundling on American airline graph. <a href='http://antv-2018.alipay.com/zh-cn/g6/3.x/demo/case/american-migration-bundling.html' target='_blank'>Demo Link</a>. <a href='https://g6.antv.vision/zh/docs/manual/cases/edgeBundling' target='_blank'>Demo Document</a>.
+> Edge bundling on American airline graph. <a href='http://g6.antv.vision/zh/examples/case/edgeBundling' target='_blank'>Demo Link</a>. <a href='https://g6.antv.vision/zh/docs/manual/cases/edgeBundling' target='_blank'>Demo Document</a>.
 
 The edge bundling plugin can be configured to adjust the styles and functions.
 
@@ -534,17 +534,19 @@ Fisheye is designed for focus_context exploration, it keeps the context and the 
 | r | Number | false | 300 | The radius of the focus area |
 | delegateStyle | Object | false | { stroke: '#000', strokeOpacity: 0.8, lineWidth: 2, fillOpacity: 0.1, fill: '#ccc' } | The style of the lens's delegate |
 | showLabel | Boolean | false | false | If the label is hidden, whether to show the label of nodes inside the focus area |
-| scaleRByWheel | Boolean | false | Whether to enable scaling the magnifying radius by mouse wheeling |
 | maxR | Number | The height of the graph | The maximum radius scaled by the wheel |
 | minR | Number | 0.05 * The height of the graph | The minimum radius scaled by the wheel |
 | maxD | Number | 5 | when `trigger` is `'mousemove'` or `'click'`, minimap allow users to adjust the magnifying coefficient `d` by dragging left / right on the lens. `maxD` is the maximum magnifying coefficient that limits this interaction. The suggested range for `maxD` is [0, 5]. Note that updating the configurations by `minimap.updateParam` will not be limited by `maxD`  |
 | minD | Number | 0 | when `trigger` is `'mousemove'` or `'click'`, minimap allow users to adjust the magnifying coefficient `d` by dragging left / right on the lens. `minD` is the minimum magnifying coefficient that limits this interaction. The suggested range for `minD` is [0, 5]. Note that updating the configurations by `minimap.updateParam` will not be limited by `minD` |
+| scaleRBy | 'wheel'/'drag'/'unset'/undefined | false | 'unset' | The trigger for end users to scale the range of the lens |
+| scaleDBy | 'wheel'/'drag'/'unset'/undefined | false | 'unset' | The trigger for end users to scale the magnification factor of the lens |
+| showDPercent | Boolean | false | true | Whether show the percent of current magnification factor on the bottom of the lens, where the percent is about the D, minD, and maxD |
 
 ### Member Function
 
 #### updateParams(cfg)
 
-Update partial of the configurations of the minimap instance, including `trigger`, `d`, `r`, `maxR`, `minR`, `maxD`, and `minD`. E.g.
+Update partial of the configurations of the minimap instance, including `trigger`, `d`, `r`, `maxR`, `minR`, `maxD`, `minD`, `scaleRBy`, and `scaleDBy`. E.g.
 
 ```
 const fisheye = new G6.Fisheye({

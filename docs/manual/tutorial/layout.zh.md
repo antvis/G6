@@ -23,7 +23,7 @@ order: 3
 - Dendrogram Layout：树状布局（叶子节点布局对齐到同一层）；
 - CompactBox Layout：紧凑树布局；
 - Mindmap Layout：脑图布局；
-- Intended Layout：缩进布局。
+- Indented Layout：缩进布局。
 
 各种布局方法的具体介绍及其配置参见 [Layout API](/zh/docs/api/layout/Layout)。本教程中，我们使用的是力导向布局 (Force Layout)。
 
@@ -86,7 +86,7 @@ const graph = new G6.Graph({
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AXrdQIm3oCIAAAAAAAAAAABkARQnAQ' width=350 alt='img' />
 <br />
 
-> 不同布局之间、相同布局不同参数允许动态切换和过渡，具体参见：[布局切换](/zh/docs/manual/middle/layout/#布局的切换机制)。
+> 不同布局之间、相同布局不同参数允许动态切换和过渡，具体参见：[布局切换](/zh/docs/manual/middle/layout/layout-mechanism)。
 
 提示：布局将在调用  `graph.render()` 时执行计算。
 
@@ -103,7 +103,7 @@ const graph = new G6.Graph({
   </head>
   <body>
     <div id="mountNode"></div>
-    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.0/build/g6.js"></script>
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.1/dist/g6.min.js"></script>
     <script>
       const graph = new G6.Graph({
         container: 'mountNode',

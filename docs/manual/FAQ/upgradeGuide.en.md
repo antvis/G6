@@ -1,6 +1,6 @@
 ---
 title: G6 3.3 Upgrade Guide
-order: 0
+order: 1
 ---
 
 ## The Built Outcomes of esm and commonjs
@@ -19,7 +19,7 @@ G6 3.3.0 supports three build outcomes:
 
 The built outcomes of esm and commonjs do not support layouts with Web-Worker.
 
-if you want to support layouts with Web-Worker, please use the file of [CDN](https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.5.10/dist/g6.min.js).
+if you want to support layouts with Web-Worker, please use the file of [CDN](https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.1/dist/g6.min.js).
 
 ## Util
 

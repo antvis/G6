@@ -19,6 +19,7 @@ import RemoveItem from './component/remove-item';
 import DragNodeOut from './component/drag-node-out';
 import TreeGraphCreateCombo from './component/treegraph-create-combo';
 import ComboState from './component/states-combo'
+import DragCombo from './component/drag-combo';
 
 export default { title: 'Combo' };
 
@@ -41,3 +42,4 @@ storiesOf('Combo', module)
   .add('drag node out', () => <DragNodeOut />)
   .add('treegraph create combo', () => <TreeGraphCreateCombo />)
   .add('combo state', () => <ComboState />)
+  .add('drag combo', () => <DragCombo />)
