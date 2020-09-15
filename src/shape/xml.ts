@@ -3,14 +3,15 @@
  * @author xuzhi.mxz@antfin.com
  */
 
-import get from '@antv/util/lib/get'
+import get from '@antv/util/lib/get';
+import { getTextSize } from '../util/graphic';
 
 /**
  * 一种更宽松的JSON 解析，如果遇到不符合规范的字段会直接转为字符串
  * @param text json 内容
  */
 function looseJSONParse(text) {
-  if (typeof text !== "string") {
+  if (typeof text !== 'string') {
     return text;
   }
   const safeParse = (str) => {
@@ -31,22 +32,22 @@ function looseJSONParse(text) {
   const str = text.trim();
   const objectStack = [];
   const syntaxStack = [];
-  const isLastPair = (...syntaxes) => syntaxes.some(syntax => tail(syntaxStack) === syntax);
+  const isLastPair = (...syntaxes) => syntaxes.some((syntax) => tail(syntaxStack) === syntax);
   const getValueStore = () => tail(objectStack);
   let rst = null;
   let i = 0;
-  let temp = "";
+  let temp = '';
 
   while (i < str.length) {
     const nowChar = str[i];
-    const isInString = isLastPair('"', '\'');
+    const isInString = isLastPair('"', "'");
 
     if (!isInString && !nowChar.trim()) {
       i += 1;
       continue;
     }
 
-    const isLastTranslate = str[i - 1] === "\\";
+    const isLastTranslate = str[i - 1] === '\\';
     const isInObject = isLastPair('}');
     const isInArray = isLastPair(']');
     const isWaitingValue = isLastPair(',');
@@ -58,31 +59,31 @@ function looseJSONParse(text) {
         const value = safeParse(temp);
         tempArr.push(value);
         rst = value;
-        temp = "";
+        temp = '';
       } else {
         temp += nowChar;
       }
-    } else if (isInArray && nowChar === ",") {
+    } else if (isInArray && nowChar === ',') {
       if (temp) {
         tempArr.push(safeParse(temp));
-        temp = "";
+        temp = '';
       }
-    } else if (isInObject && nowChar === ":") {
+    } else if (isInObject && nowChar === ':') {
       syntaxStack.push(',');
       if (temp) {
         tempArr.push(temp);
-        temp = "";
+        temp = '';
       }
-    } else if (isWaitingValue && nowChar === ",") {
+    } else if (isWaitingValue && nowChar === ',') {
       if (temp) {
         tempArr.push(safeParse(temp));
-        temp = "";
+        temp = '';
       }
       syntaxStack.pop();
-    } else if (nowChar === "}" && (isInObject || isWaitingValue)) {
+    } else if (nowChar === '}' && (isInObject || isWaitingValue)) {
       if (temp) {
         tempArr.push(safeParse(temp));
-        temp = "";
+        temp = '';
       }
       if (isWaitingValue) {
         syntaxStack.pop();
@@ -93,14 +94,14 @@ function looseJSONParse(text) {
       }
       objectStack.pop();
       if (objectStack.length) {
-        tail(objectStack).push(obj)
+        tail(objectStack).push(obj);
       }
       syntaxStack.pop();
       rst = obj;
-    } else if (nowChar === "]" && isInArray) {
+    } else if (nowChar === ']' && isInArray) {
       if (temp) {
         tempArr.push(safeParse(temp));
-        temp = "";
+        temp = '';
       }
       objectStack.pop();
       if (objectStack.length) {
@@ -108,12 +109,12 @@ function looseJSONParse(text) {
       }
       syntaxStack.pop();
       rst = tempArr;
-    } else if (nowChar === "{") {
+    } else if (nowChar === '{') {
       objectStack.push([]);
-      syntaxStack.push("}");
-    } else if (nowChar === "[") {
+      syntaxStack.push('}');
+    } else if (nowChar === '[') {
       objectStack.push([]);
-      syntaxStack.push("]");
+      syntaxStack.push(']');
     } else if (nowChar === '"') {
       syntaxStack.push('"');
     } else if (nowChar === "'") {
@@ -131,21 +132,25 @@ function looseJSONParse(text) {
  * 内部用于最终实际渲染的结构
  */
 interface NodeInstructure {
-  type: string,
-  attrs: { [key: string]: any },
-  children: NodeInstructure[],
+  type: string;
+  attrs: { [key: string]: any };
+  children: NodeInstructure[];
   bbox: {
-    x: number, y: number, width: number, height: number
-  }
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  };
 }
 
-const keyConvert = str => str.split('-').reduce((a, b) => a + b.charAt(0).toUpperCase() + b.slice(1));
+const keyConvert = (str) =>
+  str.split('-').reduce((a, b) => a + b.charAt(0).toUpperCase() + b.slice(1));
 
 /**
  * 简单的一个{{}}模板渲染，不包含任何复杂语法
- * @param xml 
+ * @param xml
  */
-export const xmlDataRenderer = (xml: string) => data => {
+export const xmlDataRenderer = (xml: string) => (data) => {
   const len = xml.length;
   const arr = [];
   let i = 0;
@@ -154,24 +159,24 @@ export const xmlDataRenderer = (xml: string) => data => {
     if (xml[i] === '{' && xml[i + 1] === '{') {
       arr.push(tmp);
       tmp = '';
-      i += 2
+      i += 2;
     } else if (xml[i] === '}' && xml[i + 1] === '}') {
       if (arr.length) {
         const last = arr.pop();
         tmp = get(data, tmp, last.endsWith('=') ? `"{${tmp}}"` : tmp);
-        arr.push(last + tmp)
+        arr.push(last + tmp);
       }
       i += 2;
       tmp = '';
     } else {
       tmp += xml[i];
-      i += 1
+      i += 1;
     }
   }
 
-  arr.push(tmp)
-  return arr.map((e, i) => (arr[i - 1] && arr[i - 1].endsWith('=')) ? `"{${e}}"` : e).join('');
-}
+  arr.push(tmp);
+  return arr.map((e, i) => (arr[i - 1] && arr[i - 1].endsWith('=') ? `"{${e}}"` : e)).join('');
+};
 
 /**
  * 解析XML，并转化为相应的JSON结构
@@ -179,8 +184,9 @@ export const xmlDataRenderer = (xml: string) => data => {
  */
 export function parseXML(xml: HTMLElement, cfg) {
   let attrs = {} as { [key: string]: any };
-  const keys = xml.getAttributeNames && xml.getAttributeNames() || [] as string[];
-  const children = xml.children && Array.from(xml.children).map(e => parseXML(e as HTMLElement, cfg));
+  const keys = (xml.getAttributeNames && xml.getAttributeNames()) || ([] as string[]);
+  const children =
+    xml.children && Array.from(xml.children).map((e) => parseXML(e as HTMLElement, cfg));
   const rst = {} as { [key: string]: any } & NodeInstructure;
   const tagName = xml.tagName ? xml.tagName.toLowerCase() : 'group';
 
@@ -191,11 +197,11 @@ export function parseXML(xml: HTMLElement, cfg) {
   rst.type = tagName;
 
   if (tagName === 'img') {
-    rst.type = 'image'
+    rst.type = 'image';
   }
 
-  Array.from(keys).forEach(k => {
-    const key = keyConvert(k)
+  Array.from(keys).forEach((k) => {
+    const key = keyConvert(k);
     const val = xml.getAttribute(k);
 
     try {
@@ -222,18 +228,18 @@ export function parseXML(xml: HTMLElement, cfg) {
     rst.attrs = {
       ...rst.attrs,
       ...cfg.style[rst.name],
-    }
+    };
   }
 
   if (cfg && cfg.style && rst.keyshape) {
     rst.attrs = {
       ...rst.attrs,
       ...cfg.style,
-    }
+    };
   }
 
   if (children.length) {
-    rst.children = children
+    rst.children = children;
   }
 
   return rst;
@@ -242,10 +248,17 @@ export function parseXML(xml: HTMLElement, cfg) {
 /**
  * 根据偏移量和内部节点最终的bounding box来得出该shape最终的bbox
  */
-export function getBBox(node: NodeInstructure, offset: { x: number, y: number }, chilrenBBox: { width: number, height: number }) {
+export function getBBox(
+  node: NodeInstructure,
+  offset: { x: number; y: number },
+  chilrenBBox: { width: number; height: number },
+) {
   const { attrs = {} } = node;
   const bbox = {
-    x: offset.x || 0, y: offset.y || 0, width: chilrenBBox.width || 0, height: chilrenBBox.height || 0,
+    x: offset.x || 0,
+    y: offset.y || 0,
+    width: chilrenBBox.width || 0,
+    height: chilrenBBox.height || 0,
   };
 
   let shapeHeight, shapeWidth;
@@ -265,22 +278,24 @@ export function getBBox(node: NodeInstructure, offset: { x: number, y: number },
       break;
     case 'text':
       if (attrs.text) {
-        shapeWidth = attrs.text.length * (attrs.length);
+        shapeWidth = getTextSize(attrs.text, attrs.fontSize || 12)[0];
         shapeHeight = 16;
         bbox.y += shapeHeight;
+        bbox.height = shapeHeight;
+        bbox.width = shapeWidth;
         node.attrs = {
           fontSize: 12,
           fill: '#000',
           ...attrs,
-        }
+        };
       }
       break;
     default:
       if (attrs.width) {
-        shapeWidth = attrs.width
+        shapeWidth = attrs.width;
       }
       if (attrs.height) {
-        shapeHeight = attrs.height
+        shapeHeight = attrs.height;
       }
   }
   if (shapeHeight >= 0) {
@@ -303,12 +318,16 @@ export function getBBox(node: NodeInstructure, offset: { x: number, y: number },
 
 /**
  * 把从xml计算出的结构填上位置信息，补全attrs
- * @param target 
- * @param lastOffset 
+ * @param target
+ * @param lastOffset
  */
 export function generateTarget(target: NodeInstructure, lastOffset = { x: 0, y: 0 }) {
   const defaultBbox = {
-    x: 0, y: 0, width: 0, height: 0, ...lastOffset
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
+    ...lastOffset,
   };
 
   if (target.children?.length) {
@@ -317,15 +336,19 @@ export function generateTarget(target: NodeInstructure, lastOffset = { x: 0, y: 
     const offset = { ...lastOffset };
 
     if (marginTop) {
-      offset.y += marginTop
+      offset.y += marginTop;
     }
 
     for (let index = 0; index < target.children.length; index++) {
-      target.children[index].attrs.key = `${(attrs.key || 'root')} -${index} `;
+      target.children[index].attrs.key = `${attrs.key || 'root'} -${index} `;
       const node = generateTarget(target.children[index], offset);
       if (node.bbox) {
         const { bbox } = node;
-        offset.y += node.bbox.height;
+        if (node.attrs.next === 'inline') {
+          offset.x += node.bbox.width;
+        } else {
+          offset.y += node.bbox.height;
+        }
         if (bbox.width + bbox.x > defaultBbox.width) {
           defaultBbox.width = bbox.width + bbox.x;
         }
@@ -341,7 +364,7 @@ export function generateTarget(target: NodeInstructure, lastOffset = { x: 0, y: 
   target.attrs = {
     ...target.attrs,
     ...target.bbox,
-  }
+  };
 
   return target;
 }
@@ -350,7 +373,7 @@ export function generateTarget(target: NodeInstructure, lastOffset = { x: 0, y: 
  * 对比前后两个最终计算出来的node，并对比出最小改动,
  * 动作： 'add' 添加节点 ｜ ’delete‘ 删除节点 ｜ ’change‘ 改变节点attrs ｜ 'restructure' 重构节点
  * @param nowTarget
- * @param formerTarget 
+ * @param formerTarget
  */
 export function compareTwoTarget(nowTarget: NodeInstructure, formerTarget: NodeInstructure) {
   const { type } = nowTarget || {};
@@ -365,21 +388,21 @@ export function compareTwoTarget(nowTarget: NodeInstructure, formerTarget: NodeI
       action: 'delete',
       val: formerTarget,
       type,
-      key
-    }
+      key,
+    };
   }
   if (nowTarget && !formerTarget) {
     return {
       action: 'add',
       val: nowTarget,
-      type
-    }
+      type,
+    };
   }
   if (!nowTarget && !formerTarget) {
     return {
       action: 'same',
-      type
-    }
+      type,
+    };
   }
   const children = [];
 
@@ -389,7 +412,7 @@ export function compareTwoTarget(nowTarget: NodeInstructure, formerTarget: NodeI
     const nowChilren = nowTarget.children || [];
 
     for (let index = 0; index < length; index += 1) {
-      children.push(compareTwoTarget(nowChilren[index], formerChilren[index]))
+      children.push(compareTwoTarget(nowChilren[index], formerChilren[index]));
     }
   }
 
@@ -402,38 +425,41 @@ export function compareTwoTarget(nowTarget: NodeInstructure, formerTarget: NodeI
       nowTarget,
       formerTarget,
       key,
-      children
-    }
+      children,
+    };
   }
 
-  if (formerKeys.filter(e => e !== 'children').some(e => nowTarget.attrs[e] !== formerTarget.attrs[e] || !nowKeys.includes(e))) {
+  if (
+    formerKeys
+      .filter((e) => e !== 'children')
+      .some((e) => nowTarget.attrs[e] !== formerTarget.attrs[e] || !nowKeys.includes(e))
+  ) {
     return {
       action: 'change',
       val: nowTarget,
       children,
       type,
-      key
-    }
+      key,
+    };
   }
 
   return {
     action: 'same',
     children,
     type,
-    key
-  }
+    key,
+  };
 }
 
 /**
  * 根据xml或者返回xml的函数构建自定义节点的结构
- * @param gen 
+ * @param gen
  */
 export function createNodeFromXML(gen: string | ((node: any) => string)) {
   const structures = {};
-  const compileXML = cfg => {
+  const compileXML = (cfg) => {
     const rawStr = typeof gen === 'function' ? gen(cfg) : gen;
     const target = xmlDataRenderer(rawStr)(cfg);
-    console.log(target)
     const xmlParser = document.createElement('div');
     xmlParser.innerHTML = target;
     const xml = xmlParser.children[0] as HTMLElement;
@@ -442,7 +468,7 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
     xmlParser.remove();
 
     return result;
-  }
+  };
 
   return {
     draw(cfg, group) {
@@ -451,15 +477,14 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
       const renderTarget = (target) => {
         const { attrs = {}, bbox, type, children, ...rest } = target;
         if (target.type !== 'group') {
-          console.log(target)
           const shape = group.addShape(target.type, {
             attrs,
             origin: {
               bbox,
               type,
-              children
+              children,
             },
-            ...rest
+            ...rest,
           });
           if (target.keyshape) {
             keyshape = shape;
@@ -467,9 +492,9 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
         }
 
         if (target.children) {
-          target.children.forEach(n => renderTarget(n))
+          target.children.forEach((n) => renderTarget(n));
         }
-      }
+      };
 
       renderTarget(resultTarget);
 
@@ -479,30 +504,34 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
     },
     update(cfg, node) {
       if (!structures[cfg.id]) {
-        structures[cfg.id] = []
+        structures[cfg.id] = [];
       }
       const container = node.getContainer();
       const children = container.get('children');
       const newTarget = compileXML(cfg);
       const lastTarget = structures[cfg.id].pop();
       const diffResult = compareTwoTarget(newTarget, lastTarget);
-      const addShape = shape => {
-        container.addShape(shape.type, { attrs: shape.attrs });
+      const addShape = (shape) => {
+        if (shape.type !== 'group') {
+          container.addShape(shape.type, { attrs: shape.attrs });
+        }
         if (shape.children?.length) {
-          shape.children.map(e => addShape(e))
+          shape.children.map((e) => addShape(e));
         }
       };
-      const delShape = shape => {
-        const targetShape = children.find(e => e.attrs.key === shape.attrs.key)
-        container.removeChild(targetShape);
+      const delShape = (shape) => {
+        const targetShape = children.find((e) => e.attrs.key === shape.attrs.key);
+        if (targetShape) {
+          container.removeChild(targetShape);
+        }
         if (shape.children?.length) {
-          shape.children.map(e => delShape(e))
+          shape.children.map((e) => delShape(e));
         }
       };
-      const updateTarget = target => {
+      const updateTarget = (target) => {
         const { key } = target;
         if (target.type !== 'group') {
-          const targetShape = children.find(e => e.attrs.key === key)
+          const targetShape = children.find((e) => e.attrs.key === key);
           switch (target.action) {
             case 'change':
               if (targetShape) {
@@ -511,14 +540,14 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
               }
               break;
             case 'add':
-              addShape(target.val)
+              addShape(target.val);
               break;
             case 'delete':
-              delShape(target.val)
+              delShape(target.val);
               break;
             case 'restructure':
-              delShape(target.formerTarget)
-              addShape(target.nowTarget)
+              delShape(target.formerTarget);
+              addShape(target.nowTarget);
               break;
             default:
               break;
@@ -526,9 +555,9 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
         }
 
         if (target.children) {
-          target.children.forEach(n => updateTarget(n))
+          target.children.forEach((n) => updateTarget(n));
         }
-      }
+      };
 
       updateTarget(diffResult);
 
@@ -541,6 +570,6 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
         [0.5, 1],
         [0.5, 0],
       ];
-    }
-  }
+    },
+  };
 }

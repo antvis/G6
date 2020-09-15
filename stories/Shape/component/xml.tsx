@@ -13,23 +13,25 @@ const percentageBar = ({ width, used, height = 12 }) => `
 }} name="body" >
   <rect style={{
     marginLeft: 10,
-    width: ${width / 100 * used},
+    width: ${(width / 100) * used},
     height: ${height},
     fill: '#1890ff',
     stroke: '#1890ff'
   }}/>
 </rect>
-`
+`;
 
-const textXML = cfg => `
+const textXML = (cfg) => `
 <group>
   <rect style={{
     width: 100, height: 20, fill: '#1890ff', stroke: '#1890ff', radius: [6, 6, 0, 0]
   }}>
-    <text style={{ marginTop: 2, marginLeft: 50, textAlign: 'center', fontWeight: 'bold', fill: '#fff' }}>${cfg.id}</text>
+    <text style={{ marginTop: 2, marginLeft: 50, textAlign: 'center', fontWeight: 'bold', fill: '#fff' }}>${
+      cfg.id
+    }</text>
   </rect>
   <rect style={{ width: 100, height: 80, fill: 'rgba(24,144,255,0.15)', radius: [0, 0, 6, 6] }} keyshape="true" cursor="move">
-    ${cfg.cpuUsage > 60 ? '<text style={{marginLeft: 3 ,fill: "red"}}>FULL</text>' : ''}
+    ${cfg.cpuUsage > 60 ? '<text style={{marginLeft: 3 ,fill: red }}>FULL</text>' : ''}
     <text style={{ marginTop: 5, marginLeft: 3, fill: '#333'}}>${cfg.metric}: </text>
     <text style={{
       marginTop: 3,
@@ -39,17 +41,22 @@ const textXML = cfg => `
     }}>${cfg.cpuUsage}%</text>
     ${percentageBar({ width: 80, used: cfg.cpuUsage })}
   </rect>
+  <text style={{ fill: red, next: inline }}>1111</text>
+  <text style={{ fill: yellow, marginLeft: 4, fontWeight: bold }}>2222</text>
 </group>
 `;
 
 G6.registerNode('test', textXML);
 
-
-G6.registerNode('rect-xml', (cfg) => `
+G6.registerNode(
+  'rect-xml',
+  (cfg) => `
   <rect style={{
     width: 100, height: 20, fill: '#1890ff', stroke: '#1890ff', radius: [6, 6, 0, 0]
   }} keyshape="true" name="test">
-    <text style={{ marginTop: 2, marginLeft: 50, textAlign: 'center', fontWeight: 'bold', fill: '#fff' }} name="title">${cfg.label || cfg.id}</text>
+    <text style={{ marginTop: 2, marginLeft: 50, textAlign: 'center', fontWeight: 'bold', fill: '#fff' }} name="title">${
+      cfg.label || cfg.id
+    }</text>
     <polygon style={{
       points:[[ 30, 30 ], [ 40, 20 ], [ 30, 50 ], [ 60, 100 ]],
           fill: 'red'
@@ -73,7 +80,8 @@ G6.registerNode('rect-xml', (cfg) => `
         <polyline style={{ points: [[ 30, 30 ], [ 40, 20 ], [ 60, 100 ]] }} />
         <image style={{ img: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png', width: 48, height: 48, marginTop: 100 }} />
   </rect>
-`)
+`,
+);
 
 let n = 0;
 
@@ -82,27 +90,27 @@ let graph: IGraph = null;
 const data = {
   nodes: [
     {
-      id: "node1",
-      metric: "CPU Usage",
+      id: 'node1',
+      metric: 'CPU Usage',
       x: 150,
       y: 150,
       cpuUsage: 80,
     },
     {
-      id: "node2",
-      metric: "CPU Usage",
+      id: 'node2',
+      metric: 'CPU Usage',
       x: 400,
       y: 150,
       cpuUsage: 30,
-      type: 'rect-xml'
-    }
+      type: 'rect-xml',
+    },
   ],
   edges: [
     {
-      source: "node1",
-      target: "node2"
-    }
-  ]
+      source: 'node1',
+      target: 'node2',
+    },
+  ],
 };
 
 const XML = () => {
@@ -115,75 +123,83 @@ const XML = () => {
         width: 1000,
         height: 800,
         defaultNode: {
-          type: "test"
+          type: 'test',
         },
         modes: {
-          default: ['drag-node', 'drag-canvas']
+          default: ['drag-node', 'drag-canvas'],
         },
         nodeStateStyles: {
           hover: {
             fill: 'blue',
             stroke: 'green',
-            lineWidth: 3
-          }
+            lineWidth: 3,
+          },
         },
         defaultEdge: {
           style: {
-            stroke: "#1890ff",
-            endArrow: true
-          }
-        }
+            stroke: '#1890ff',
+            endArrow: true,
+          },
+        },
       });
       graph.data(data);
       graph.render();
-      graph.on('node:mouseenter', evt => {
-        graph.setItemState(evt.item, 'hover', true)
-      })
+      graph.on('node:mouseenter', (evt) => {
+        graph.setItemState(evt.item, 'hover', true);
+      });
 
-      graph.on('node:mouseleave', evt => {
-        graph.setItemState(evt.item, 'hover', false)
-      })
+      graph.on('node:mouseleave', (evt) => {
+        graph.setItemState(evt.item, 'hover', false);
+      });
 
       graph.on('node:click', (evt) => {
         const { item } = evt;
         graph.updateItem(item, {
           cpuUsage: 65,
           style: {
-            stroke: 'red'
-          }
-        })
-      })
+            stroke: 'red',
+          },
+        });
+      });
     }
 
     return () => {
       graph = null;
-    }
+    };
   }, []);
 
-  return <div>
-    <button onClick={() => graph.changeData({
-      nodes: [
-        {
-          id: "node1",
-          metric: "CPU Usage " + n,
-          cpuUsage: Math.floor(Math.random() * 100),
-        },
-        {
-          id: "node2",
-          metric: "CPU Usage " + (n),
-          cpuUsage: Math.floor(Math.random() * 100),
+  return (
+    <div>
+      <button
+        onClick={() =>
+          graph.changeData({
+            nodes: [
+              {
+                id: 'node1',
+                metric: 'CPU Usage ' + n,
+                cpuUsage: Math.floor(Math.random() * 100),
+              },
+              {
+                id: 'node2',
+                metric: 'CPU Usage ' + n,
+                cpuUsage: Math.floor(Math.random() * 100),
+              },
+            ],
+            edges: [
+              {
+                source: 'node1',
+                target: 'node2',
+                n: n++,
+              },
+            ],
+          })
         }
-      ],
-      edges: [
-        {
-          source: "node1",
-          target: "node2",
-          n: n++
-        }
-      ]
-    })}>Change Data</button>
-    <div ref={container}></div>
-  </div>;
+      >
+        Change Data
+      </button>
+      <div ref={container}></div>
+    </div>
+  );
 };
 
 export default XML;
