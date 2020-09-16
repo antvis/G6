@@ -152,7 +152,7 @@ G6.registerNode('background-animate', {
       r: r + 10,
       opacity: 0.1
     }, {
-      repeat: true // 循环
+      repeat: true, // 循环
       duration: 3000,
       easing: 'easeCubic',
       delay: 0 // 无延迟
@@ -163,7 +163,7 @@ G6.registerNode('background-animate', {
       r: r + 10,
       opacity: 0.1
     }, {
-      repeat: true // 循环
+      repeat: true, // 循环
       duration: 3000,
       easing: 'easeCubic',
       delay: 1000 // 1 秒延迟
@@ -174,7 +174,7 @@ G6.registerNode('background-animate', {
       r: r + 10,
       opacity: 0.1
     }, {
-      repeat: true // 循环
+      repeat: true, // 循环
       duration: 3000,
       easing: 'easeCubic',
       delay: 2000 // 2 秒延迟
