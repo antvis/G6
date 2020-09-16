@@ -272,12 +272,6 @@ export function getBBox(
         shapeHeight = 2 * attrs.r;
       }
       break;
-    case 'ellipse':
-      if (attrs.rx && attrs.ry) {
-        shapeWidth = 2 * attrs.rx;
-        shapeHeight = 2 * attrs.ry;
-      }
-      break;
     case 'text':
       if (attrs.text) {
         shapeWidth = getTextSize(attrs.text, attrs.fontSize || 12)[0];
