@@ -7,7 +7,7 @@ import { IGroup, ICanvas } from '@antv/g-base';
 import createDOM from '@antv/dom-util/lib/create-dom'
 import { isString } from '@antv/util'
 import Base, { IPluginBaseConfig } from '../base';
-import Slider, { SliderOption, VALUE_CHANGE } from './slider'
+import Slider, { SliderOption, VALUE_CHANGE, ControllerCfg } from './trendTimeBar'
 import TimeLine, { TimeLineCfg, TIMELINE_CHANGE } from './timeLine'
 import { IGraph } from '../../interface/graph';
 import { GraphData } from '../../types';
@@ -19,8 +19,24 @@ interface Callback {
   target: IGroup;
 }
 
-interface TrendConfig extends TrendCfg{
+interface TrendConfig {
   readonly slider?: SliderOption;
+   // 数据
+  readonly data: {
+    date: string;
+    value: string;
+  }[];
+  // 位置大小
+  readonly x?: number;
+  readonly y?: number;
+  readonly width?: number;
+  readonly height?: number;
+  // 样式
+  readonly smooth?: boolean;
+  readonly isArea?: boolean;
+  readonly backgroundStyle?: object;
+  readonly lineStyle?: object;
+  readonly areaStyle?: object;
 }
 
 interface TimeBarConfig extends IPluginBaseConfig {
@@ -31,11 +47,13 @@ interface TimeBarConfig extends IPluginBaseConfig {
   readonly height?: number;
   readonly padding?: number;
 
-  // 趋势图配置项，包括滑块、及前后背景的配置
+  // 趋势图配置项
   readonly trend?: TrendConfig;
+  // 滑块、及前后背景的配置
+  readonly slider?: SliderOption;
 
-  // 时间线的配置项
-  readonly timeline?: TimeLineCfg;
+  // 控制按钮
+  readonly controllerCfg?: ControllerCfg;
 
   // readonly opti
   rangeChange?: (graph: IGraph, minValue: string, maxValue: string) => void;
@@ -50,21 +68,22 @@ export default class TimeBar extends Base {
       container: null,
       className: 'g6-component-timebar',
       padding: 10,
-      speed: 2,
-      loop: false,
       trend: {
         data: [],
-        group: null,
         isArea: false,
-        smooth: true,
-        slider: {
-          minLimit: 0,
-          maxLimit: 1,
-          start: 0.1,
-          end: 0.9,
-          minText: 'min',
-          maxText: 'max',
-        }
+        smooth: true
+      },
+      controllerCfg: {
+        speed: 2,
+        loop: false,
+      },
+      slider: {
+        minLimit: 0,
+        maxLimit: 1,
+        start: 0.1,
+        end: 0.9,
+        minText: 'min',
+        maxText: 'max',
       }
     };
   }
@@ -125,14 +144,14 @@ export default class TimeBar extends Base {
     this.set('timeBarGroup', timeBarGroup)
 
     this.renderTrend()
-    this.renderTimeLine()
+    // this.renderTimeLine()
     this.initEvent()
   }
 
   private renderTrend() {
     const ratio = 0.6
-    const { width, height, x, y, padding, trend } = this._cfgs
-    const { slider, ...other } = trend
+    const { width, height, x, y, padding, trend, slider, controllerCfg } = this._cfgs
+    const { data, ...other } = trend
 
     const realHeight = height - 2 * padding
     const realWidth = width - 2 * padding
@@ -140,54 +159,25 @@ export default class TimeBar extends Base {
       graph: this.get('graph'),
       canvas: this.get('canvas'),
       group: this.get('timeBarGroup'),
-      x,
-      y,
+      x: x + padding,
+      y: y + padding,
       width: realWidth,
       height: realHeight * ratio,
+      padding,
       trendCfg: {
         ...other,
-        data: other.data.map(d => d.value)
+        data: data.map(d => d.value)
       },
-      ...trend.slider,
+      ...slider,
+      ticks: data.map(d => d.date),
       handlerStyle: {
         ...slider.handlerStyle,
         height: realHeight * ratio
-      }
+      },
+      controllerCfg
     })
 
     this.set('slider', sliderComponent)
-  }
-
-  private renderTimeLine() {
-    const ratio = 0.2
-    const { width, height, x, y, padding, timeline } = this._cfgs
-    const { speed, defaultCurrentTick, loop, axisCfg = {}, controllerCfg = {}, ticks } = timeline
-    const realHeight = height - 2 * padding
-    const realWidth = width - 2 * padding
-
-    const timelineComponent = new TimeLine({
-      graph: this.get('graph'),
-      canvas: this.get('canvas'),
-      group: this.get('timeBarGroup'),
-      x,
-      y: realHeight * 0.6,
-      width: realWidth,
-      height: realHeight * ratio,
-      speed, 
-      defaultCurrentTick, 
-      loop,
-      ticks,
-      axisCfg,
-      controllerCfg: {
-        x,
-        y: realHeight * (1 - ratio),
-        width: realWidth,
-        height: realHeight * ratio,
-        ...controllerCfg
-      }
-    })
-
-    this.set('timeline', timelineComponent)
   }
 
   private filterData(evt) {
@@ -275,20 +265,20 @@ export default class TimeBar extends Base {
   }
 
   private initEvent() {
-    const { start, end } = this._cfgs.trend.slider;
+    const { start, end } = this._cfgs.slider;
     const graph: IGraph = this.get('graph');
     graph.on('afterrender', () => {
       this.filterData({ value: [start, end] });
     });
 
     graph.on(VALUE_CHANGE, (evt: Callback) => {
-      this.filterData(evt);
+      // this.filterData(evt);
     });
 
     // 时间轴的值发生改变的事件
-    graph.on(TIMELINE_CHANGE, (value: string) => {
-      this.renderCurrentData(value)
-    })
+    // graph.on(TIMELINE_CHANGE, (value: string) => {
+    //   this.renderCurrentData(value)
+    // })
   }
 
   public destroy() {

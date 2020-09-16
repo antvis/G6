@@ -1,12 +1,8 @@
-/**
- * @file 基于 G 的缩略轴组件（Slider 组件）
- * @author hustcc
- */
-
 import { Event, IGroup, ICanvas, IShape } from '@antv/g-base';
 import { get, size, assign, each } from '@antv/util';
 import Trend, { TrendCfg } from './trend';
 import Handler from './handler';
+import ControllerBtn from './controllerBtn'
 import { IGraph } from '../../interface/graph';
 import { ShapeStyle } from '../../types';
 
@@ -25,7 +21,7 @@ export const FOREGROUND_STYLE = {
   cursor: 'move',
 };
 
-export const DEFAULT_HANDLER_WIDTH = 10;
+export const DEFAULT_HANDLER_WIDTH = 2;
 
 export const HANDLER_STYLE = {
   width: DEFAULT_HANDLER_WIDTH,
@@ -38,7 +34,29 @@ export const TEXT_STYLE = {
   opacity: 0.45,
 };
 
+export const TIMELINE_START = 'timelinestart';
+export const TIMELINE_CHANGE = 'timelinechange';
+export const TIMELINE_END = 'timelineend';
+
 export const VALUE_CHANGE = 'valueChange';
+
+export type ControllerCfg = Partial<{
+  readonly x: number;
+  readonly y: number;
+  readonly width: number;
+  readonly height: number;
+  readonly padding: number;
+  /** 播放速度，1 个 tick 花费时间 */
+  readonly speed?: number;
+  /** 是否循环播放 */
+  readonly loop?: boolean;
+
+  readonly fill: string;
+  readonly stroke: string;
+  readonly preBtnStyle: ShapeStyle;
+  readonly nextBtnStyle: ShapeStyle;
+  readonly playBtnStyle: ShapeStyle;
+}>
 
 export type SliderOption = Partial<{
   readonly backgroundStyle?: ShapeStyle;
@@ -61,7 +79,7 @@ export type SliderOption = Partial<{
   readonly maxText: string;
 }>;
 
-interface SliderCfg extends SliderOption {
+interface TrendTimeBarConfig extends SliderOption {
   readonly graph: IGraph;
   readonly canvas: ICanvas;
   readonly group: IGroup;
@@ -70,12 +88,16 @@ interface SliderCfg extends SliderOption {
   readonly y: number;
   readonly width: number;
   readonly height: number;
-
+  readonly padding: number;
   // style
   readonly trendCfg?: TrendCfg;
+
+  readonly ticks?: string[];
+
+  readonly controllerCfg: ControllerCfg;
 }
 
-export default class Slider {
+export default class TrendTimeBar{
   private group: IGroup;
   private graph: IGraph;
   private canvas: ICanvas;
@@ -84,8 +106,11 @@ export default class Slider {
   public y: number;
   public width: number;
   public height: number;
+  private padding: number;
 
   private trendCfg: TrendCfg;
+
+  private controllerCfg: ControllerCfg;
   // 样式配置
   private backgroundStyle: any;
   private foregroundStyle: any;
@@ -102,6 +127,8 @@ export default class Slider {
   /* 右侧文本 */
   private maxTextShape: IShape;
 
+  private textList: IShape[];
+
   // 交互相关的数据信息
   private start: number;
   private end: number;
@@ -110,17 +137,32 @@ export default class Slider {
 
   private currentHandler: Handler | IShape;
   private prevX: number = 0;
-  private prevY: number = 0;
-  private sliderGroup: IGroup;
 
-  constructor(cfg: SliderCfg) {
+  /** 刻度位置预处理 */
+  private tickPosList: number[];
+
+  private ticks: string[];
+
+  /** 是否处于播放状态 */
+  private isPlay: boolean;
+
+  /** 动画 id */
+  private playHandler: number;
+
+  private controllerBtnGroup: ControllerBtn;
+
+  constructor(cfg: TrendTimeBarConfig) {
 
     const {
       x = 0,
       y = 0,
       width = 100,
       height = 16,
+      padding = 10,
       trendCfg,
+      controllerCfg = {
+        speed: 1
+      },
       backgroundStyle = {},
       foregroundStyle = {},
       handlerStyle = {},
@@ -132,7 +174,8 @@ export default class Slider {
       maxText = '',
       group,
       graph,
-      canvas
+      canvas,
+      ticks
     } = cfg;
 
     this.graph = graph
@@ -143,8 +186,10 @@ export default class Slider {
     this.y = y;
     this.width = width;
     this.height = height;
-
+    this.padding = padding
+    this.ticks = ticks
     this.trendCfg = trendCfg;
+    this.controllerCfg = controllerCfg;
     // style
     this.backgroundStyle = { ...BACKGROUND_STYLE, ...backgroundStyle };
     this.foregroundStyle = { ...FOREGROUND_STYLE, ...foregroundStyle };
@@ -165,7 +210,7 @@ export default class Slider {
    * 更新配置
    * @param cfg
    */
-  public update(cfg: Partial<SliderCfg>) {
+  public update(cfg: Partial<TrendTimeBarConfig>) {
     const { x, y, width, height, minText, maxText, start, end } = cfg;
 
     // start、end 只能是 0~1 范围
@@ -203,8 +248,8 @@ export default class Slider {
     // 趋势图数据
     if (size(get(this.trendCfg, 'data'))) {
       new Trend({
-        x: 0,
-        y: 0,
+        x: this.x,
+        y: this.y,
         width,
         height,
         ...this.trendCfg,
@@ -213,10 +258,11 @@ export default class Slider {
     }
 
     const sliderGroup = this.group.addGroup({
-      name: 'slider-group'
+      name: 'slider-group',
+      // x: this.x,
+      // y: this.y,
     })
 
-    this.sliderGroup = sliderGroup
     // 1. 背景
     sliderGroup.addShape('rect', {
       attrs: {
@@ -228,11 +274,12 @@ export default class Slider {
       },
     });
 
+    const textGroup = this.group.addGroup()
     // 2. 左右文字
-    this.minTextShape = sliderGroup.addShape('text', {
+    this.minTextShape = textGroup.addShape('text', {
       attrs: {
-        // x: 0,
-        y: height / 2,
+        x: 0,
+        y: height / 2 + this.y,
         textAlign: 'right',
         text: this.minText,
         silent: false,
@@ -241,10 +288,10 @@ export default class Slider {
       capture: false
     });
 
-    this.maxTextShape = sliderGroup.addShape('text', {
+    this.maxTextShape = textGroup.addShape('text', {
       attrs: {
         // x: 0,
-        y: height / 2,
+        y: height / 2 + this.y,
         textAlign: 'left',
         text: this.maxText,
         silent: false,
@@ -255,29 +302,31 @@ export default class Slider {
     });
 
     // 3. 前景 选中背景框
-    this.foregroundShape = sliderGroup.addShape('rect', {
+    this.foregroundShape = this.group.addGroup().addShape('rect', {
       attrs: {
-        // x: 0,
-        y: 0,
-        // width: 0,
+        x: 0,
+        y: this.y,
+        // width,
         height,
         ...this.foregroundStyle,
       },
     });
 
     // 滑块相关的大小信息
-    const handlerWidth = get(this.handlerStyle, 'width', 10);
+    const handlerWidth = get(this.handlerStyle, 'width', 2);
     const handlerHeight = get(this.handlerStyle, 'height', 24);
 
     const minHandleGroup = this.group.addGroup({
-      name: 'minHandlerShape'
+      name: 'minHandlerShape',
+      // x: this.x,
+      // y: this.y,
     })
     // 4. 左右滑块
     this.minHandlerShape = new Handler({
       name: 'minHandlerShape',
       group: minHandleGroup,
-      x: 0,
-      y: 0,//(height - handlerHeight) / 2,
+      x: this.x,
+      y: this.y,//(height - handlerHeight) / 2,
       width: handlerWidth,
       height: handlerHeight,
       cursor: 'ew-resize',
@@ -285,24 +334,73 @@ export default class Slider {
     });
 
     const maxHandleGroup = this.group.addGroup({
-      name: 'maxHandlerShape'
+      name: 'maxHandlerShape',
+      // x: this.x,
+      // y: this.y,
     })
     this.maxHandlerShape = new Handler({
       name: 'maxHandlerShape',
       group: maxHandleGroup,
-      x: 0,
-      y: 0,//(height - handlerHeight) / 2,
+      x: this.x,
+      y: this.y,
       width: handlerWidth,
       height: handlerHeight,
       cursor: 'ew-resize',
       ...this.handlerStyle,
     });
 
+    // 缩略图下面的时间刻度
+    const tickData = this.ticks
+    const interval = width / (tickData.length - 1);
+    this.tickPosList = [];
+    if (this.textList && this.textList.length) {
+      this.textList.forEach((text) => {
+        text.destroy();
+      });
+    }
+    let lastX = -Infinity;
+    this.textList = tickData.map((tick, index) => {
+      this.tickPosList.push(this.x + index * interval);
+
+      const text = this.group.addShape('text', {
+        attrs: {
+          x: this.x + index * interval,
+          y: this.y + height + 5,
+          text: tick,
+          textAlign: 'center',
+          textBaseline: 'top',
+          fill: '#607889',
+          opacity: 0.35,
+        },
+      });
+
+      const bbox = text.getBBox();
+
+      // 抽样，标签与标签间距不小于 10
+      if (bbox.minX > lastX) {
+        text.show();
+        lastX = bbox.minX + bbox.width + 10;
+      } else {
+        text.hide();
+      }
+
+      return text;
+    });
+
+    // 渲染播放、快进和后退的控制按钮
+    this.controllerBtnGroup = new ControllerBtn({
+      group: this.group,
+      x: this.x,
+      y: this.y + height + 25,
+      width,
+      height: 40
+    })
+
     // 根据 start end 更新 ui 的位置信息
     this.updateUI();
 
     // 移动到对应的位置
-    this.sliderGroup.move(this.x, this.y);
+    sliderGroup.move(this.x, this.y);
 
     // 绑定事件鼠标事件
     this.bindEvents();
@@ -334,6 +432,45 @@ export default class Slider {
     // 3. 前景选中区域
     this.foregroundShape.on('mousedown', this.onMouseDown(this.foregroundShape));
     this.foregroundShape.on('touchstart', this.onMouseDown(this.foregroundShape));
+
+    // 播放区按钮控制
+    /** 播放/暂停事件 */
+    this.group.on('playPauseBtn:click', () => {
+      this.isPlay = !this.isPlay;
+      this.currentHandler = this.maxHandlerShape
+      this.changePlayStatus();
+    })
+
+    // 处理前进一步的事件
+    this.group.on('nextStepBtn:click', () => {
+      this.currentHandler = this.maxHandlerShape
+      this.updateStartEnd(0.01);
+      this.updateUI()
+    })
+
+    // 处理后退一步的事件
+    this.group.on('preStepBtn:click', () => {
+      this.currentHandler = this.maxHandlerShape
+      this.updateStartEnd(-0.01);
+      this.updateUI()
+
+    })
+
+    this.group.on('timebarConfigChanged', ({ type, speed }) => {
+      console.log('timebarConfigChanged', type, speed)
+      if(type === 'signle') {
+        this.minHandlerShape.hide()
+        this.foregroundShape.hide()
+        this.minTextShape.hide()
+      } else if (type === 'range') {
+        this.minHandlerShape.show()
+        this.foregroundShape.show()
+        this.minTextShape.show()
+      }
+    })
+
+    /** 播放轴上圆点滑动事件 */
+    // this.timeSelect.on('mousedown', this.onTimeSelectMouseDown);
   }
 
   private onMouseDown = (handler: Handler | IShape) => (event: Event) => {
@@ -347,7 +484,6 @@ export default class Slider {
 
     // 兼容移动端获取数据
     this.prevX = get(event, 'touches.0.pageX', event.x);
-    this.prevY = get(event, 'touches.0.pageY', event.y);
 
     // 3. 开始滑动的时候，绑定 move 和 up 事件
     const containerDOM = this.canvas.get('container');
@@ -368,8 +504,6 @@ export default class Slider {
     e.preventDefault();
 
     const x = get(e, 'touches.0.pageX', e.pageX);
-    const y = get(e, 'touches.0.pageY', e.pageY);
-    console.log('slider move', e, x, y)
 
     // 横向的 slider 只处理 x
     const offsetX = x - this.prevX;
@@ -382,9 +516,6 @@ export default class Slider {
     this.updateUI();
 
     this.prevX = x;
-    this.prevY = y;
-
-    // this.get('canvas').draw();
 
     // 因为存储的 start、end 可能不一定是按大小存储的，所以排序一下，对外是 end >= start
     this.graph.emit(VALUE_CHANGE, {value: [this.start, this.end].sort()});
@@ -409,6 +540,17 @@ export default class Slider {
       containerDOM.removeEventListener('touchcancel', this.onMouseUp);
     }
   };
+
+  /** 输入当前圆点位置，输出离哪个 tick 的位置最近 */
+  private adjustTickIndex(timeSelectX: number) {
+    for (let i = 0; i < this.tickPosList.length - 1; i++) {
+      if (this.tickPosList[i] <= timeSelectX && timeSelectX <= this.tickPosList[i + 1]) {
+        return Math.abs(this.tickPosList[i] - timeSelectX) < Math.abs(timeSelectX - this.tickPosList[i + 1])
+          ? i
+          : i + 1;
+      }
+    }
+  }
 
   /**
    * 调整 offsetRange，因为一些范围的限制
@@ -445,13 +587,21 @@ export default class Slider {
     switch (this.currentHandler) {
       case this.minHandlerShape:
         this.start += offsetRange;
+        const minTick = this.adjustTickIndex(this.start * this.width)
+        this.minText = this.ticks[minTick]
         break;
       case this.maxHandlerShape:
         this.end += offsetRange;
+        const maxTick = this.adjustTickIndex(this.end * this.width)
+        this.maxText = this.ticks[maxTick]
         break;
       case this.foregroundShape:
         this.start += offsetRange;
         this.end += offsetRange;
+        const minRangeTick = this.adjustTickIndex(this.start * this.width)
+        const maxRangeTick = this.adjustTickIndex(this.end * this.width)
+        this.minText = this.ticks[minRangeTick]
+        this.maxText = this.ticks[maxRangeTick]
         break;
     }
   }
@@ -461,9 +611,16 @@ export default class Slider {
    * @private
    */
   private updateUI() {
+    if (this.start < 0) {
+      this.start = 0
+    }
+
+    if (this.end > 1) {
+      this.end = 1
+    }
+    
     const min = this.start * this.width;
     const max = this.end * this.width;
-
     // 1. foreground
     this.foregroundShape.attr('x', min);
     this.foregroundShape.attr('width', max - min);
@@ -472,8 +629,9 @@ export default class Slider {
     const handlerWidth = get(this.handlerStyle, 'width', DEFAULT_HANDLER_WIDTH);
 
     // 设置文本
-    this.minTextShape.attr('text', this.minText);
-    this.maxTextShape.attr('text', this.maxText);
+    this.setText(this.minText, this.maxText)
+    // this.minTextShape.attr('text', this.minText);
+    // this.maxTextShape.attr('text', this.maxText);
 
     const [minAttrs, maxAttrs] = this.dodgeText([min, max]);
     // 2. 左侧滑块和文字位置
@@ -523,5 +681,46 @@ export default class Slider {
         : { x: max + handlerWidth / 2 + PADDING, textAlign: 'left' };
 
     return !sorted ? [minAttrs, maxAttrs] : [maxAttrs, minAttrs];
+  }
+
+  private startPlay() {
+    return window.requestAnimationFrame(() => {
+      const { controllerCfg, ticks, width } = this
+      const { speed } = controllerCfg
+      
+
+      const tickInterval = width / ticks.length;
+      const offsetX = tickInterval / ((speed * 1000) / 60);
+
+      const offsetXRange = this.adjustOffsetRange(offsetX / this.width);
+
+      this.updateStartEnd(offsetXRange)
+      this.updateUI()
+      // this.setTimeSelectX(offsetX);
+
+      if (this.isPlay) {
+        this.playHandler = this.startPlay();
+      }
+    });
+  }
+
+  private changePlayStatus(isSync = true) {
+    this.controllerBtnGroup.playButton.update({
+      isPlay: this.isPlay,
+    });
+    if (this.isPlay) {
+      // 开始播放
+      this.playHandler = this.startPlay();
+      this.graph.emit(TIMELINE_START, null);
+    } else {
+      // 结束播放
+      if (this.playHandler) {
+        window.cancelAnimationFrame(this.playHandler);
+        if (isSync) {
+          // this.syncCurrnentTick();
+          this.graph.emit(TIMELINE_END, null);
+        }
+      }
+    }
   }
 }
