@@ -121,7 +121,7 @@ describe('toolbar', () => {
     firstStackData = undoStack[0];
     expect(firstStackData.action).toEqual('delete');
     expect(firstStackData.data.before.nodes[0].id).toEqual('node2');
-    expect(firstStackData.data.before.nodes[0].type).toEqual('node');
+    expect(firstStackData.data.before.nodes[0].itemType).toEqual('node');
 
     // 第一次 undo 后，撤销 remove node2 操作
     toolbar.undo();
@@ -135,7 +135,7 @@ describe('toolbar', () => {
     firstStackData = redoStack[0];
     expect(firstStackData.action).toEqual('delete');
     expect(firstStackData.data.before.nodes[0].id).toEqual('node2');
-    expect(firstStackData.data.before.nodes[0].type).toEqual('node');
+    expect(firstStackData.data.before.nodes[0].itemType).toEqual('node');
 
     // 此时 undo stack 中第一个元素应该是 visible node1 的数据
     firstStackData = undoStack[0];

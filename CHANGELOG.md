@@ -1,5 +1,11 @@
 # ChangeLog
 
+#### 3.7.3
+
+- fix: update G to fix the shape disappear when it has been dragged out of the view port problem, closes: #2078, #2030, #2007;
+- fix: redo undo with treeGraph problem;
+- fix: remove item with itemType problem, closes: #2096.
+
 #### 3.7.2
 
 - fix: toolbar redo undo addItem with type problem, closes #2043;

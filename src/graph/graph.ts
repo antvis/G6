@@ -962,7 +962,7 @@ export default class Graph extends EventEmitter implements IGraph {
       if (stack && this.get('enabledStack')) {
         const deletedModel = {
           ...(nodeItem as Item).getModel(),
-          type,
+          itemType: type,
         }
         const before: GraphData = {};
         switch (type) {
@@ -973,7 +973,7 @@ export default class Graph extends EventEmitter implements IGraph {
             for (let i = edges.length - 1; i >= 0; i--) {
               before.edges.push({
                 ...edges[i].getModel(),
-                type: 'edge'
+                itemType: 'edge'
               });
             }
             break;

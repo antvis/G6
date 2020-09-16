@@ -87,7 +87,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
       model.depth = treeData.depth;
     }
 
-    const node = self.addItem('node', model!);
+    const node = self.addItem('node', model!, false);
     if (parent) {
       node.set('parent', parent);
       if (animate) {
@@ -112,7 +112,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
         source: parent,
         target: node,
         id: `${parent.get('id')}:${node.get('id')}`,
-      });
+      }, false);
     }
     // 渲染到视图上应参考布局的children, 避免多绘制了收起的节点
     each(treeData.children || [], (child) => {
