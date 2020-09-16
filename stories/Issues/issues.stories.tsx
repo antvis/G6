@@ -7,6 +7,7 @@ import ChangeAttr from './attrs';
 import DomClick from './component/dom-click';
 import ForceLayout from './forceLayout';
 import GGEditorNode from './ggeditorNode';
+import MultiLayout from './forceLayout/multiLayout'
 
 export default { title: 'Issues' };
 
@@ -17,4 +18,5 @@ storiesOf('Issues', module)
   .add('change attr', () => <ChangeAttr />)
   .add('dom click', () => <DomClick />)
   .add('forcelayout', () => <ForceLayout />)
-  .add('ggeditor node issue', () => <GGEditorNode />);
+  .add('ggeditor node issue', () => <GGEditorNode />)
+  .add('multi layout', () => <MultiLayout />)
