@@ -87,12 +87,17 @@ const ToolBar = () => {
       })
 
       graph.on('node:click', e => {
-        graph.hideItem(e.item);
+        graph.removeItem(e.item, true);
       })
 
       graph.on('canvas:dragstart', e => {
         graph.changeData(data2);
       })
+
+      graph.on('stackchange', (e) => {
+        console.log('stackchange', e)
+      })
+
 
     }
   });

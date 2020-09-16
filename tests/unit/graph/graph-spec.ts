@@ -1679,7 +1679,7 @@ describe('redo stack & undo stack', () => {
     firstStackData = undoStack[0];
     expect(firstStackData.action).toEqual('delete');
     expect(firstStackData.data.before.nodes[0].id).toEqual('node2');
-    expect(firstStackData.data.before.nodes[0].type).toEqual('node');
+    expect(firstStackData.data.before.nodes[0].itemType).toEqual('node');
   });
 
   it('clear stack', () => {
