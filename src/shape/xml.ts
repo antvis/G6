@@ -175,7 +175,9 @@ export const xmlDataRenderer = (xml: string) => (data) => {
   }
 
   arr.push(tmp);
-  return arr.map((e, i) => (arr[i - 1] && arr[i - 1].endsWith('=') ? `"{${e}}"` : e)).join('');
+  return arr
+    .map((e, index) => (arr[index - 1] && arr[index - 1].endsWith('=') ? `"{${e}}"` : e))
+    .join('');
 };
 
 /**

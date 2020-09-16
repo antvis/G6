@@ -203,12 +203,11 @@ export default class Shape {
     } else if (nodeDefinition.jsx) {
       const { jsx } = nodeDefinition;
       const autoNodeDefinition = createNodeFromXML(jsx);
-      shapeObj = Object.assign(
-        {},
-        nodeDefinition,
-        shapeFactory.getShape('single-node'),
-        autoNodeDefinition,
-      );
+      shapeObj = {
+        ...autoNodeDefinition,
+        ...shapeFactory.getShape('single-node'),
+        ...nodeDefinition,
+      };
     } else {
       const extendShape = extendShapeType ? shapeFactory.getShape(extendShapeType) : ShapeFramework;
       shapeObj = { ...extendShape, ...nodeDefinition };
