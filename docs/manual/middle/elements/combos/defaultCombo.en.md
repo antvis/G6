@@ -154,7 +154,7 @@ The commonly used configurations for the `style` in the above table are:
 | stroke | false | String | The stroke color of the label |
 | lineWidth | false | Number | The line width of the label |
 | opacity | false | Number | The opacity of the label |
-| fontFamily | false | Number | 文本字体 |
+| fontFamily | false | String | 文本字体 |
 | fontSize | false | Number | The font size of the label |
 | ... The label styles of Combo, Node and Edge are the same, summarized in [Text Shape API](/en/docs/api/nodeEdge/shapeProperties/#text) |  |  |  |
 
