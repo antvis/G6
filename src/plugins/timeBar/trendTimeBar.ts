@@ -5,8 +5,10 @@ import Handler from './handler';
 import ControllerBtn from './controllerBtn'
 import { IGraph } from '../../interface/graph';
 import { ShapeStyle } from '../../types';
-import { VALUE_CHANGE, TIMELINE_START, TIMEBAR_CONFIG_CHANGE, 
-  PLAY_PAUSE_BTN, NEXT_STEP_BTN, PRE_STEP_BTN, TIMELINE_END } from './constant';
+import {
+  VALUE_CHANGE, TIMELINE_START, TIMEBAR_CONFIG_CHANGE,
+  PLAY_PAUSE_BTN, NEXT_STEP_BTN, PRE_STEP_BTN, TIMELINE_END
+} from './constant';
 
 /**
  * 一些默认的样式配置
