@@ -312,7 +312,6 @@ export default class TrendTimeBar {
           textAlign: 'left',
           text: this.maxText,
           silent: false,
-
           ...this.textStyle,
         },
         capture: false
@@ -329,14 +328,12 @@ export default class TrendTimeBar {
         },
         capture: false
       });
-
       this.maxTextShape = textGroup.addShape('text', {
         attrs: {
           y: this.y - 10,
           textAlign: 'center',
           text: this.maxText,
           silent: false,
-
           ...this.textStyle,
         },
         capture: false
@@ -517,6 +514,7 @@ export default class TrendTimeBar {
         this.foregroundShape.hide()
         this.minTextShape.hide()
       } else if (type === 'range') {
+        debugger
         this.minHandlerShape.show()
         this.foregroundShape.show()
         this.minTextShape.show()
@@ -675,7 +673,6 @@ export default class TrendTimeBar {
     if (this.end > 1) {
       this.end = 1
     }
-
     const min = this.start * this.width;
     const max = this.end * this.width;
 
