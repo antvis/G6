@@ -10,6 +10,8 @@ import Tooltip from './component/tooltip';
 import ContextMenu from './component/comtextMenu';
 import ToolBar from './component/toolbar';
 import EdgeFilter from './component/edge-filter';
+import TimeBar from './component/timebar';
+import TimeBarS from './component/timebar-slice';
 
 export default { title: 'Plugins' };
 
@@ -24,4 +26,6 @@ storiesOf('Plugins', module)
   .add('tooltip', () => <Tooltip />)
   .add('context menu', () => <ContextMenu />)
   .add('tool bar', () => <ToolBar />)
-  .add('edge filter', () => <EdgeFilter />);
+  .add('edge filter', () => <EdgeFilter />)
+  .add('time bar', () => <TimeBar />)
+  .add('time bar slice', () => <TimeBarS />);
