@@ -1,5 +1,6 @@
-import { IGroup, IShape } from '@antv/g-base';
-import { dataToPath, linePathToAreaPath } from './path';
+import { IGroup } from '@antv/g-base';
+import { dataToPath, linePathToAreaPath, dataToRectPath } from './path';
+import { ShapeStyle } from '../../types';
 
 export const BACKGROUND_STYLE = {
   opacity: 0.5,
@@ -15,6 +16,11 @@ export const AREA_STYLE = {
   opacity: 0.85,
 };
 
+export interface Interval {
+  data: number[];
+  style: ShapeStyle;
+}
+
 export interface TrendCfg {
   readonly group: IGroup;
   // 位置大小
@@ -27,9 +33,10 @@ export interface TrendCfg {
   // 样式
   readonly smooth?: boolean;
   readonly isArea?: boolean;
-  readonly backgroundStyle?: object;
-  readonly lineStyle?: object;
-  readonly areaStyle?: object;
+  readonly backgroundStyle?: ShapeStyle;
+  readonly lineStyle?: ShapeStyle;
+  readonly areaStyle?: ShapeStyle;
+  readonly interval?: Interval;
 }
 
 /**
@@ -37,10 +44,6 @@ export interface TrendCfg {
  */
 export default class Trend {
   private group: IGroup;
-  // 生成的 shape
-  public backgroundShape: IShape;
-  public lineShape: IShape;
-  public areaShape: IShape;
   // 位置大小配置
   private x: number;
   private y: number;
@@ -51,23 +54,25 @@ export default class Trend {
 
   private smooth: boolean;
   private isArea: boolean;
-  private backgroundStyle: object;
-  private lineStyle: object;
-  private areaStyle: object;
+  private backgroundStyle: ShapeStyle;
+  private lineStyle: ShapeStyle;
+  private areaStyle: ShapeStyle;
+  private intervalConfig: Interval;
 
   constructor(cfg: TrendCfg) {
     const {
       x = 0,
       y = 0,
       width = 200,
-      height = 16,
+      height = 26,
       smooth = true,
       isArea = false,
       data = [],
       backgroundStyle,
       lineStyle,
       areaStyle,
-      group
+      group,
+      interval = null
     } = cfg;
 
     this.group = group
@@ -84,6 +89,7 @@ export default class Trend {
     this.backgroundStyle = Object.assign({} as any, BACKGROUND_STYLE, backgroundStyle);
     this.lineStyle = Object.assign({} as any, LINE_STYLE, lineStyle);
     this.areaStyle = Object.assign({} as any, AREA_STYLE, areaStyle);
+    this.intervalConfig = interval
 
     this.renderLine();
   }
@@ -93,14 +99,13 @@ export default class Trend {
    * @private
    */
   private renderLine() {
-    debugger
     const { x, y, width, height, data, smooth, isArea, backgroundStyle, lineStyle, areaStyle } = this;
     const trendGroup = this.group.addGroup({
       name: 'trend-group'
     })
-    debugger
+    
     // 背景
-    this.backgroundShape = trendGroup.addShape('rect', {
+    trendGroup.addShape('rect', {
       attrs: {
         x,
         y,
@@ -110,25 +115,36 @@ export default class Trend {
       },
     });
 
-    const path = dataToPath(data, width, height, smooth);
-    // 线
-    this.lineShape = trendGroup.addShape('path', {
-      attrs: {
-        path,
-        ...lineStyle,
-      },
-    });
-
-    // area
-    // 在 path 的基础上，增加两个坐标点
-    const areaPath = linePathToAreaPath(path, width, height, data);
-    if (isArea) {
-      this.areaShape = trendGroup.addShape('path', {
+    if (data) {
+      const path = dataToPath(data, width, height, smooth);
+      // 线
+      trendGroup.addShape('path', {
         attrs: {
-          path: areaPath,
-          ...areaStyle,
+          path,
+          ...lineStyle,
         },
       });
+  
+      // 在 line 的基础上，绘制面积图
+      if (isArea) {
+        const areaPath = linePathToAreaPath(path, width, height, data);
+        trendGroup.addShape('path', {
+          attrs: {
+            path: areaPath,
+            ...areaStyle,
+          },
+        });
+      }
+    }
+
+    // 绘制柱状图📊
+    if (this.intervalConfig) {
+      trendGroup.addShape('path', {
+        attrs: {
+          path: dataToRectPath(this.intervalConfig.data, width, height),
+          ...this.intervalConfig.style
+        }
+      })
     }
 
     // 统一移动到对应的位置
