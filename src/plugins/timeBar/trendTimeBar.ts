@@ -59,6 +59,8 @@ export type ControllerCfg = Partial<{
 }>
 
 export type SliderOption = Partial<{
+  readonly width?: number;
+  readonly height?: number;
   readonly backgroundStyle?: ShapeStyle;
   readonly foregroundStyle?: ShapeStyle;
   // 滑块样式
@@ -89,6 +91,7 @@ interface TrendTimeBarConfig extends SliderOption {
   readonly width: number;
   readonly height: number;
   readonly padding: number;
+  readonly type: 'trend' | 'simple';
   // style
   readonly trendCfg?: TrendCfg;
 
@@ -109,6 +112,7 @@ export default class TrendTimeBar{
   private padding: number;
 
   private trendCfg: TrendCfg;
+  private timeBarType: 'trend' | 'simple';
 
   private controllerCfg: ControllerCfg;
   // 样式配置
@@ -157,7 +161,7 @@ export default class TrendTimeBar{
       x = 0,
       y = 0,
       width = 100,
-      height = 16,
+      height,
       padding = 10,
       trendCfg,
       controllerCfg = {
@@ -175,12 +179,14 @@ export default class TrendTimeBar{
       group,
       graph,
       canvas,
-      ticks
+      ticks,
+      type
     } = cfg;
 
     this.graph = graph
     this.canvas = canvas
     this.group = group
+    this.timeBarType = type
     // position size
     this.x = x;
     this.y = y;
@@ -242,11 +248,9 @@ export default class TrendTimeBar{
    * @private
    */
   private renderSlider() {
-    const width = this.width;
-    const height = this.height;
-
+    const { width, height, timeBarType } = this
     // 趋势图数据
-    if (size(get(this.trendCfg, 'data'))) {
+    if (timeBarType === 'trend' && size(get(this.trendCfg, 'data'))) {
       new Trend({
         x: this.x,
         y: this.y,
@@ -258,9 +262,7 @@ export default class TrendTimeBar{
     }
 
     const sliderGroup = this.group.addGroup({
-      name: 'slider-group',
-      // x: this.x,
-      // y: this.y,
+      name: 'slider-group'
     })
 
     // 1. 背景
@@ -275,38 +277,63 @@ export default class TrendTimeBar{
     });
 
     const textGroup = this.group.addGroup()
+
     // 2. 左右文字
-    this.minTextShape = textGroup.addShape('text', {
-      attrs: {
-        x: 0,
-        y: height / 2 + this.y,
-        textAlign: 'right',
-        text: this.minText,
-        silent: false,
-        ...this.textStyle,
-      },
-      capture: false
-    });
-
-    this.maxTextShape = textGroup.addShape('text', {
-      attrs: {
-        // x: 0,
-        y: height / 2 + this.y,
-        textAlign: 'left',
-        text: this.maxText,
-        silent: false,
-
-        ...this.textStyle,
-      },
-      capture: false
-    });
+    if (timeBarType === 'trend') {
+      this.minTextShape = textGroup.addShape('text', {
+        attrs: {
+          x: 0,
+          y: height / 2 + this.y,
+          textAlign: 'right',
+          text: this.minText,
+          silent: false,
+          ...this.textStyle,
+        },
+        capture: false
+      });
+  
+      this.maxTextShape = textGroup.addShape('text', {
+        attrs: {
+          y: height / 2 + this.y,
+          textAlign: 'left',
+          text: this.maxText,
+          silent: false,
+  
+          ...this.textStyle,
+        },
+        capture: false
+      });
+    } else {
+      this.minTextShape = textGroup.addShape('text', {
+        attrs: {
+          x: 0,
+          y: this.y - 10,
+          textAlign: 'center',
+          text: this.minText,
+          silent: false,
+          ...this.textStyle,
+        },
+        capture: false
+      });
+  
+      this.maxTextShape = textGroup.addShape('text', {
+        attrs: {
+          y: this.y - 10,
+          textAlign: 'center',
+          text: this.maxText,
+          silent: false,
+  
+          ...this.textStyle,
+        },
+        capture: false
+      });
+    }
 
     // 3. 前景 选中背景框
     this.foregroundShape = this.group.addGroup().addShape('rect', {
       attrs: {
         x: 0,
         y: this.y,
-        // width,
         height,
         ...this.foregroundStyle,
       },
@@ -317,16 +344,15 @@ export default class TrendTimeBar{
     const handlerHeight = get(this.handlerStyle, 'height', 24);
 
     const minHandleGroup = this.group.addGroup({
-      name: 'minHandlerShape',
-      // x: this.x,
-      // y: this.y,
+      name: 'minHandlerShape'
     })
     // 4. 左右滑块
     this.minHandlerShape = new Handler({
       name: 'minHandlerShape',
       group: minHandleGroup,
+      type: timeBarType,
       x: this.x,
-      y: this.y,//(height - handlerHeight) / 2,
+      y: this.y,
       width: handlerWidth,
       height: handlerHeight,
       cursor: 'ew-resize',
@@ -334,13 +360,12 @@ export default class TrendTimeBar{
     });
 
     const maxHandleGroup = this.group.addGroup({
-      name: 'maxHandlerShape',
-      // x: this.x,
-      // y: this.y,
+      name: 'maxHandlerShape'
     })
     this.maxHandlerShape = new Handler({
       name: 'maxHandlerShape',
       group: maxHandleGroup,
+      type: timeBarType,
       x: this.x,
       y: this.y,
       width: handlerWidth,
@@ -362,6 +387,7 @@ export default class TrendTimeBar{
     this.textList = tickData.map((tick, index) => {
       this.tickPosList.push(this.x + index * interval);
 
+      // 文本刻度
       const text = this.group.addShape('text', {
         attrs: {
           x: this.x + index * interval,
@@ -374,14 +400,28 @@ export default class TrendTimeBar{
         },
       });
 
+      // 文本刻度上面的竖线
+      const line = this.group.addShape('line', {
+        attrs: {
+          x1: this.x + index * interval,
+          y1: this.y + height + 2,
+          x2: this.x + index * interval,
+          y2: this.y + height + 6,
+          lineWidth: 1,
+          stroke: '#ccc'
+        }
+      })
+
       const bbox = text.getBBox();
 
       // 抽样，标签与标签间距不小于 10
       if (bbox.minX > lastX) {
         text.show();
+        line.show()
         lastX = bbox.minX + bbox.width + 10;
       } else {
         text.hide();
+        line.hide()
       }
 
       return text;
@@ -418,15 +458,15 @@ export default class TrendTimeBar{
     // 1. 左滑块的滑动
     const minHandleShapeGroup = this.group.find(group => group.get('name') === 'minHandlerShape')
     if (minHandleShapeGroup) {
-      minHandleShapeGroup.on('minHandlerShape-rect:mousedown', this.onMouseDown(this.minHandlerShape))
-      minHandleShapeGroup.on('minHandlerShape-rect:touchstart', this.onMouseDown(this.minHandlerShape));
+      minHandleShapeGroup.on('minHandlerShape-handler:mousedown', this.onMouseDown(this.minHandlerShape))
+      minHandleShapeGroup.on('minHandlerShape-handler:touchstart', this.onMouseDown(this.minHandlerShape));
     }
     
     const maxHandleShapeGroup = this.group.find(group => group.get('name') === 'maxHandlerShape')
     // 2. 右滑块的滑动
     if (maxHandleShapeGroup) {
-      maxHandleShapeGroup.on('maxHandlerShape-rect:mousedown', this.onMouseDown(this.maxHandlerShape));
-      maxHandleShapeGroup.on('maxHandlerShape-rect:touchstart', this.onMouseDown(this.maxHandlerShape));
+      maxHandleShapeGroup.on('maxHandlerShape-handler:mousedown', this.onMouseDown(this.maxHandlerShape));
+      maxHandleShapeGroup.on('maxHandlerShape-handler:touchstart', this.onMouseDown(this.maxHandlerShape));
     }
 
     // 3. 前景选中区域
@@ -463,6 +503,7 @@ export default class TrendTimeBar{
         this.foregroundShape.hide()
         this.minTextShape.hide()
       } else if (type === 'range') {
+        debugger
         this.minHandlerShape.show()
         this.foregroundShape.show()
         this.minTextShape.show()
@@ -618,7 +659,7 @@ export default class TrendTimeBar{
     if (this.end > 1) {
       this.end = 1
     }
-    
+    const timeBarType = this.timeBarType
     const min = this.start * this.width;
     const max = this.end * this.width;
     // 1. foreground
@@ -670,15 +711,29 @@ export default class TrendTimeBar{
     const minBBox = minTextShape.getBBox();
     const maxBBox = maxTextShape.getBBox();
 
-    const minAttrs =
-      minBBox.width > min - PADDING
-        ? { x: min + handlerWidth / 2 + PADDING, textAlign: 'left' }
-        : { x: min - handlerWidth / 2 - PADDING, textAlign: 'right' };
+    let minAttrs = null
+    let maxAttrs = null
+    if (this.timeBarType === 'trend') {
+      minAttrs =
+        minBBox.width > min - PADDING
+          ? { x: min + handlerWidth / 2 + PADDING, textAlign: 'left' }
+          : { x: min - handlerWidth / 2 - PADDING, textAlign: 'right' };
 
-    const maxAttrs =
-      maxBBox.width > this.width - max - PADDING
-        ? { x: max - handlerWidth / 2 - PADDING, textAlign: 'right' }
-        : { x: max + handlerWidth / 2 + PADDING, textAlign: 'left' };
+      maxAttrs =
+        maxBBox.width > this.width - max - PADDING
+          ? { x: max - handlerWidth / 2 - PADDING, textAlign: 'right' }
+          : { x: max + handlerWidth / 2 + PADDING, textAlign: 'left' };
+    } else if (this.timeBarType === 'simple') {
+      minAttrs =
+        minBBox.width > min - PADDING
+          ? { x: min + handlerWidth / 2 + PADDING, textAlign: 'center' }
+          : { x: min - handlerWidth / 2 - PADDING, textAlign: 'center' };
+
+      maxAttrs =
+        maxBBox.width > this.width - max - PADDING
+          ? { x: max - handlerWidth / 2 - PADDING, textAlign: 'center' }
+          : { x: max + handlerWidth / 2 + PADDING, textAlign: 'center' };
+    }
 
     return !sorted ? [minAttrs, maxAttrs] : [maxAttrs, minAttrs];
   }

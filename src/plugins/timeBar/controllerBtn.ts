@@ -1,11 +1,7 @@
-/**
- * @file 基于 G 的播放轴组件
- */
 import { IGroup, IShape } from '@antv/g-base';
 import { deepMix } from '@antv/util'
 import Button from './timeButton';
 import { ShapeStyle } from '../../types';
-import { Arrow } from '../../shape'
 
 export const TIMELINE_START = 'timelinestart';
 export const TIMELINE_CHANGE = 'timelinechange';
@@ -44,6 +40,9 @@ const DEFAULT_CONTROLLER_CONFIG = {
     stroke: '#ccc'
   }
 }
+
+const SPEED_CONTROLLER_OFFSET = 110
+const TOGGLE_MODEL_OFFSET = 50
 
 export type ControllerCfg = Partial<{
   readonly group: IGroup;
@@ -218,16 +217,17 @@ export default class ControllerBtn {
 
     this.speedGroup = speedGroup
 
-    let count = 2
+    let count = 1
     const speedNum = []
     let maxSpeed = 9
     // 增加speed刻度
     for (let i = 0; i < 5; i++) {
+      const axisY = y + 15 + i * (i + 1) + count
       // 灰色刻度
       speedGroup.addShape('rect', {
         attrs: {
-          x: width * 4 / 5,
-          y: y + 10 + i * (i + 1) + count,
+          x: width - 110,
+          y: axisY,
           width: 15,
           height: 2,
           fill: '#ccc'
@@ -235,7 +235,7 @@ export default class ControllerBtn {
         speed: maxSpeed,
         name: 'speed-rect'
       })
-      this.speedAxisY.push(y + 10 + i * (i + 1) + count)
+      this.speedAxisY.push(axisY)
       speedNum.push(maxSpeed)
       maxSpeed = maxSpeed - 2
       count++
@@ -245,7 +245,7 @@ export default class ControllerBtn {
       // 灰色刻度
       speedGroup.addShape('rect', {
         attrs: {
-          x: width * 4 / 5,
+          x: width - SPEED_CONTROLLER_OFFSET,
           y: this.speedAxisY[i] + 2,
           width: 15,
           height: 2 * i + 1,
@@ -260,7 +260,7 @@ export default class ControllerBtn {
     // 速度文本
     this.speedText = speedGroup.addShape('text', {
       attrs: {
-        x: width * 4 / 5 + 20,
+        x: width - SPEED_CONTROLLER_OFFSET + 20,
         y: this.speedAxisY[1] + 15,
         text: '3.0X',
         fill: '#ccc'
@@ -269,7 +269,7 @@ export default class ControllerBtn {
 
     this.speedPoint = speedGroup.addShape('path', {
       attrs: {
-        path: this.getPath(width * 4 / 5, this.speedAxisY[2]),
+        path: this.getPath(width - SPEED_CONTROLLER_OFFSET, this.speedAxisY[2]),
         fill: '#ccc'
       }
     })
@@ -285,7 +285,7 @@ export default class ControllerBtn {
   }
 
   private renderToggleTime() {
-    const { width, y } = this.controllerCfg
+    const { width } = this.controllerCfg
     this.toggleGroup = this.group.addGroup({
       name: 'toggle-group'
     })
@@ -295,7 +295,7 @@ export default class ControllerBtn {
       attrs: {
         width: 14,
         height: 14,
-        x: width - 45,
+        x: width - TOGGLE_MODEL_OFFSET,
         y: this.speedAxisY[1],
         fill: '#fff',
         stroke: '#ccc',
@@ -309,9 +309,9 @@ export default class ControllerBtn {
     this.checkedIcon = this.toggleGroup.addShape('path', {
       attrs: {
         path: [
-          ['M', width - 45 + 3, this.speedAxisY[1] + 6],
-          ['L', width - 45 + 7, this.speedAxisY[1] + 10],
-          ['L', width - 45 + 12, this.speedAxisY[1] + 4],
+          ['M', width - TOGGLE_MODEL_OFFSET + 3, this.speedAxisY[1] + 6],
+          ['L', width - TOGGLE_MODEL_OFFSET + 7, this.speedAxisY[1] + 10],
+          ['L', width - TOGGLE_MODEL_OFFSET + 12, this.speedAxisY[1] + 4],
         ],
         stroke: 'green',
         lineWidth: 3,
@@ -324,7 +324,7 @@ export default class ControllerBtn {
     this.checkedText = this.toggleGroup.addShape('text', {
       attrs: {
         text: '单一时间',
-        x: width - 30,
+        x: width - TOGGLE_MODEL_OFFSET + 20,
         y: this.speedAxisY[1] + 15,
         fill: '#ccc'
       }
@@ -334,7 +334,7 @@ export default class ControllerBtn {
   private bindEvent() {
     const { width } = this.controllerCfg
     this.speedGroup.on('speed-rect:click', evt => {
-      this.speedPoint.attr('path', this.getPath(width * 4 / 5, evt.y))
+      this.speedPoint.attr('path', this.getPath(width -SPEED_CONTROLLER_OFFSET, evt.y))
       this.currentSpeed = evt.target.get('speed')
       this.speedText.attr('text', `${this.currentSpeed}.0X`)
       this.group.emit('timebarConfigChanged', {

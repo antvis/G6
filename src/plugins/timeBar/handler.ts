@@ -13,6 +13,7 @@ interface IStyle {
 export interface HandlerCfg {
   group: IGroup;
   name: string;
+  type: 'trend' | 'simple';
   // position size
   readonly x: number;
   readonly y: number;
@@ -25,6 +26,7 @@ export interface HandlerCfg {
 const DEFAULT_STYLE = {
   fill: '#1890ff',
   stroke: '#1890ff',
+  type: 'trend',
   radius: 2,
   opacity: 1,
   cursor: 'ew-resize',
@@ -44,6 +46,7 @@ export default class Handler {
   private height: number;
 
   private style: IStyle;
+  private handleType: 'trend' | 'simple';
 
   // 组件
   private background: IShape;
@@ -51,10 +54,11 @@ export default class Handler {
 
   constructor(cfg: HandlerCfg) {
 
-    const { group, name, x = 0, y = 0, width = 2, height = 24, style = {} } = cfg;
+    const { group, name, type, x = 0, y = 0, width = 2, height = 24, style = {} } = cfg;
 
     this.group = group
     this.name = name
+    this.handleType = type
     this.x = x;
     this.y = y;
     this.width = width;
@@ -97,47 +101,83 @@ export default class Handler {
     const { fill, stroke, radius, opacity, cursor } = style;
 
     this.handleGroup = this.group.addGroup()
-    // 按钮框框
-    this.background = this.handleGroup.addShape('rect', {
-      attrs: {
-        x: 0,
-        y: 0,
-        width,
-        height,
-        fill,
-        stroke,
-        radius,
-        opacity,
-        cursor,
-      },
-      name: `${name}-rect`
-    });
 
-    this.handleGroup.addShape('circle', {
-      attrs: {
-        x: width / 2,
-        y: 0,
-        r: 2 * width,
-        fill,
-        stroke,
-        radius,
-        opacity,
-        cursor
-      }
-    })
+    // 趋势图时的 handle
+    if (this.handleType === 'trend') {
 
-    this.handleGroup.addShape('circle', {
-      attrs: {
-        x: width / 2,
-        y: height,
-        r: 2 * width,
-        fill,
-        stroke,
-        radius,
-        opacity,
-        cursor
-      }
-    })
+      // 垂直框
+      this.background = this.handleGroup.addShape('rect', {
+        attrs: {
+          x: 0,
+          y: 0,
+          width,
+          height,
+          fill,
+          stroke,
+          radius,
+          opacity,
+          cursor,
+        },
+        name: `${name}-handler`
+      });
+  
+      this.handleGroup.addShape('circle', {
+        attrs: {
+          x: width / 2,
+          y: 0,
+          r: 2 * width,
+          fill,
+          stroke,
+          radius,
+          opacity,
+          cursor
+        },
+        name: `${name}-handler`
+      })
+  
+      this.handleGroup.addShape('circle', {
+        attrs: {
+          x: width / 2,
+          y: height,
+          r: 2 * width,
+          fill,
+          stroke,
+          radius,
+          opacity,
+          cursor
+        },
+        name: `${name}-handler`
+      })
+    } else if (this.handleType === 'simple') {
+      this.handleGroup.addShape('circle', {
+        attrs: {
+          x: width / 2,
+          y: height / 2,
+          r: 2 * width,
+          fill,
+          stroke,
+          radius,
+          opacity,
+          cursor
+        },
+        name: `${name}-handler`
+      })
+  
+      this.handleGroup.addShape('circle', {
+        attrs: {
+          x: width / 2,
+          y: height / 2,
+          r: 2 * width,
+          fill,
+          stroke,
+          radius,
+          opacity,
+          cursor
+        },
+        name: `${name}-handler`
+      })
+    }
+
 
     // 移动到对应的位置
     this.updateXY();

@@ -191,8 +191,16 @@ describe.only('timeline play with timebar', () => {
     }
     const timeBarData = [];
 
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 50; i++) {
       timeBarData.push({
+        date: i,
+        value: Math.round(Math.random() * 300),
+      });
+    }
+
+    const intervalData = []
+    for (let i = 0; i < 50; i++) {
+      intervalData.push({
         date: i,
         value: Math.round(Math.random() * 300),
       });
@@ -202,8 +210,9 @@ describe.only('timeline play with timebar', () => {
       x: 0,
       y: 0,
       width: 500,
-      height: 200,
+      height: 150,
       padding: 10,
+      type: 'simple',
       trend: {
         data: timeBarData,
         isArea: true,
@@ -212,10 +221,18 @@ describe.only('timeline play with timebar', () => {
         // },
         lineStyle: {
           stroke: 'green',
-          lineWidth: 3
+          lineWidth: 1
+        },
+        interval: {
+          data: intervalData.map(d => d.value),
+          style: {
+            stroke: 'red'
+          }
         }
       },
       slider: {
+        // height: 50,
+
         // backgroundStyle: {
         //   fill: 'blue',
         //   opacity: 0.2
