@@ -132,7 +132,6 @@ export default class Handler {
         },
         name: `${name}-handler`
       });
-
       this.handleGroup.addShape('circle', {
         attrs: {
           x: width / 2,
@@ -146,7 +145,6 @@ export default class Handler {
         },
         name: `${name}-handler`
       })
-
       this.handleGroup.addShape('circle', {
         attrs: {
           x: width / 2,
@@ -174,7 +172,6 @@ export default class Handler {
         },
         name: `${name}-handler`
       })
-
       this.handleGroup.addShape('circle', {
         attrs: {
           x: width / 2,

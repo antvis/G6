@@ -168,7 +168,6 @@ describe('timeline play with timebar', () => {
         value: Math.round(Math.random() * 300),
       });
     }
-
     const timeLine = new TimeBar({
       x: 0,
       y: 0,
