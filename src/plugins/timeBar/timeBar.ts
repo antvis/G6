@@ -7,11 +7,16 @@ import { IGroup, ICanvas } from '@antv/g-base';
 import createDOM from '@antv/dom-util/lib/create-dom'
 import { isString } from '@antv/util'
 import Base, { IPluginBaseConfig } from '../base';
-import Slider, { SliderOption, VALUE_CHANGE, ControllerCfg } from './trendTimeBar'
-import TimeLine, { TimeLineCfg, TIMELINE_CHANGE } from './timeLine'
+import TrendTimeBar, { SliderOption, VALUE_CHANGE, ControllerCfg } from './trendTimeBar'
 import { IGraph } from '../../interface/graph';
-import { GraphData } from '../../types';
-import { TrendCfg } from './trend';
+import { GraphData, ShapeStyle } from '../../types';
+import { Interval } from './trend';
+
+// simple 版本默认高度
+const DEFAULT_SIMPLE_HEIGHT = 8
+
+// trend 版本默认高度
+const DEFAULT_TREND_HEIGHT = 26
 
 interface Callback {
   originValue: number[];
@@ -20,7 +25,6 @@ interface Callback {
 }
 
 interface TrendConfig {
-  readonly slider?: SliderOption;
    // 数据
   readonly data: {
     date: string;
@@ -34,9 +38,10 @@ interface TrendConfig {
   // 样式
   readonly smooth?: boolean;
   readonly isArea?: boolean;
-  readonly backgroundStyle?: object;
-  readonly lineStyle?: object;
-  readonly areaStyle?: object;
+  readonly backgroundStyle?: ShapeStyle;
+  readonly lineStyle?: ShapeStyle;
+  readonly areaStyle?: ShapeStyle;
+  readonly interval?: Interval;
 }
 
 interface TimeBarConfig extends IPluginBaseConfig {
@@ -47,6 +52,7 @@ interface TimeBarConfig extends IPluginBaseConfig {
   readonly height?: number;
   readonly padding?: number;
 
+  readonly type?: 'trend' | 'simple';
   // 趋势图配置项
   readonly trend?: TrendConfig;
   // 滑块、及前后背景的配置
@@ -55,7 +61,6 @@ interface TimeBarConfig extends IPluginBaseConfig {
   // 控制按钮
   readonly controllerCfg?: ControllerCfg;
 
-  // readonly opti
   rangeChange?: (graph: IGraph, minValue: string, maxValue: string) => void;
   valueChange?: (graph: IGraph, value: string) => void;
 }
@@ -68,6 +73,7 @@ export default class TimeBar extends Base {
       container: null,
       className: 'g6-component-timebar',
       padding: 10,
+      type: 'trend',
       trend: {
         data: [],
         isArea: false,
@@ -149,20 +155,20 @@ export default class TimeBar extends Base {
   }
 
   private renderTrend() {
-    const ratio = 0.6
-    const { width, height, x, y, padding, trend, slider, controllerCfg } = this._cfgs
+    const { width, x, y, padding, type, trend, slider, controllerCfg } = this._cfgs
     const { data, ...other } = trend
 
-    const realHeight = height - 2 * padding
     const realWidth = width - 2 * padding
-    const sliderComponent = new Slider({
+    const defaultHeight = type === 'trend' ? DEFAULT_TREND_HEIGHT : DEFAULT_SIMPLE_HEIGHT
+    const trendTimeBar = new TrendTimeBar({
       graph: this.get('graph'),
       canvas: this.get('canvas'),
       group: this.get('timeBarGroup'),
+      type,
       x: x + padding,
-      y: y + padding,
+      y: type === 'trend' ? y + padding : y + padding + 15,
       width: realWidth,
-      height: realHeight * ratio,
+      height: defaultHeight,
       padding,
       trendCfg: {
         ...other,
@@ -172,12 +178,12 @@ export default class TimeBar extends Base {
       ticks: data.map(d => d.date),
       handlerStyle: {
         ...slider.handlerStyle,
-        height: realHeight * ratio
+        height: slider.height || defaultHeight
       },
       controllerCfg
     })
 
-    this.set('slider', sliderComponent)
+    this.set('trendTimeBar', trendTimeBar)
   }
 
   private filterData(evt) {
@@ -185,7 +191,7 @@ export default class TimeBar extends Base {
     const { data: trendData } = this._cfgs.trend
     const rangeChange = this.get('rangeChange');
     const graph: IGraph = this.get('graph');
-    const slider = this.get('slider');
+    const trendTimeBar = this.get('trendTimeBar');
     
     const min = Math.round(trendData.length * value[0]);
     let max = Math.round(trendData.length * value[1]);
@@ -194,7 +200,7 @@ export default class TimeBar extends Base {
     const minText = trendData[min].date;
     const maxText = trendData[max].date;
 
-    slider.setText(minText, maxText)
+    trendTimeBar.setText(minText, maxText)
 
     if (rangeChange) {
       rangeChange(graph, minText, maxText);
