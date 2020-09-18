@@ -514,7 +514,6 @@ export default class TrendTimeBar {
         this.foregroundShape.hide()
         this.minTextShape.hide()
       } else if (type === 'range') {
-        debugger
         this.minHandlerShape.show()
         this.foregroundShape.show()
         this.minTextShape.show()
@@ -760,7 +759,6 @@ export default class TrendTimeBar {
     return window.requestAnimationFrame(() => {
       const { ticks, width } = this
       const speed = this.currentSpeed
-
 
       const tickInterval = width / ticks.length;
       const offsetX = tickInterval / (((10 - speed) * 1000) / 60);
