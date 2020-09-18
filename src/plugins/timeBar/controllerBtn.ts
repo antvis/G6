@@ -101,8 +101,6 @@ export default class ControllerBtn {
       cfg
     );
 
-    console.log('constructor', cfg)
-
     this.group = cfg.group
     this.speedAxisY = []
     this.currentSpeed = this.controllerCfg.speed
@@ -139,8 +137,6 @@ export default class ControllerBtn {
       playBtnStyle = DEFAULT_PLAYBTN_STYLE,
       preBtnStyle = DEFAULT_PREBTN_STYLE,
       nextBtnStyle = DEFAULT_NEXTBTN_STYLE } = controllerCfg
-
-    console.log('controllerCfg', controllerCfg)
 
     const r = height / 2 - 5;
     const realY = y + 10
@@ -301,7 +297,6 @@ export default class ControllerBtn {
       name: 'toggle-group'
     })
 
-    console.log(this.speedAxisY)
     this.toggleGroup.addShape('rect', {
       attrs: {
         width: 14,
