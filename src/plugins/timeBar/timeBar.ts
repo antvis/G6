@@ -8,6 +8,7 @@ import createDOM from '@antv/dom-util/lib/create-dom'
 import { isString } from '@antv/util'
 import Base, { IPluginBaseConfig } from '../base';
 import TrendTimeBar, { SliderOption, VALUE_CHANGE, ControllerCfg } from './trendTimeBar'
+import TimeBarSlice, { TimeBarSliceOption } from './timeBarSlice'
 import { IGraph } from '../../interface/graph';
 import { GraphData, ShapeStyle } from '../../types';
 import { Interval } from './trend';
@@ -52,11 +53,14 @@ interface TimeBarConfig extends IPluginBaseConfig {
   readonly height?: number;
   readonly padding?: number;
 
-  readonly type?: 'trend' | 'simple';
+  readonly type?: 'trend' | 'simple' | 'slice';
   // 趋势图配置项
   readonly trend?: TrendConfig;
   // 滑块、及前后背景的配置
   readonly slider?: SliderOption;
+
+  // 刻度时间轴配置项
+  readonly slice?: TimeBarSliceOption;
 
   // 控制按钮
   readonly controllerCfg?: ControllerCfg;
@@ -84,12 +88,15 @@ export default class TimeBar extends Base {
         loop: false,
       },
       slider: {
-        // minLimit: 0,
-        // maxLimit: 1,
         start: 0.1,
         end: 0.9,
         minText: 'min',
         maxText: 'max',
+      },
+      slice: {
+        start: 0.1,
+        end: 0.9,
+        data: []
       }
     };
   }
@@ -107,7 +114,7 @@ export default class TimeBar extends Base {
     const className: string = this.get('className') || 'g6-component-timebar';
     let parentNode: string | HTMLElement = this.get('container');
     const container: HTMLElement = createDOM(
-      `<div class='${className}' style='position: absolute; width: ${width}px; height: ${height}px; overflow: hidden'></div>`,
+      `<div class='${className}' style='position: absolute; width: ${width}px; height: ${height}px;'></div>`,
     );
 
     if (isString(parentNode)) {
@@ -150,7 +157,6 @@ export default class TimeBar extends Base {
     this.set('timeBarGroup', timeBarGroup)
 
     this.renderTrend()
-    // this.renderTimeLine()
     this.initEvent()
   }
 
@@ -160,47 +166,75 @@ export default class TimeBar extends Base {
 
     const realWidth = width - 2 * padding
     const defaultHeight = type === 'trend' ? DEFAULT_TREND_HEIGHT : DEFAULT_SIMPLE_HEIGHT
-    const trendTimeBar = new TrendTimeBar({
-      graph: this.get('graph'),
-      canvas: this.get('canvas'),
-      group: this.get('timeBarGroup'),
-      type,
-      x: x + padding,
-      y: type === 'trend' ? y + padding : y + padding + 15,
-      width: realWidth,
-      height: defaultHeight,
-      padding,
-      trendCfg: {
-        ...other,
-        data: data.map(d => d.value)
-      },
-      ...slider,
-      ticks: data.map(d => d.date),
-      handlerStyle: {
-        ...slider.handlerStyle,
-        height: slider.height || defaultHeight
-      },
-      controllerCfg
-    })
+    
+    const graph = this.get('graph')
+    const group = this.get('timeBarGroup')
+    const canvas = this.get('canvas')
 
-    this.set('trendTimeBar', trendTimeBar)
+    let timebar = null
+    if (type === 'trend' || type === 'simple') {
+      timebar = new TrendTimeBar({
+        graph,
+        canvas,
+        group,
+        type,
+        x: x + padding,
+        y: type === 'trend' ? y + padding : y + padding + 15,
+        width: realWidth,
+        height: defaultHeight,
+        padding,
+        trendCfg: {
+          ...other,
+          data: data.map(d => d.value)
+        },
+        ...slider,
+        ticks: data.map(d => d.date),
+        handlerStyle: {
+          ...slider.handlerStyle,
+          height: slider.height || defaultHeight
+        },
+        controllerCfg
+      })
+    } else if (type === 'slice') {
+      const { slice } = this._cfgs
+      // 刻度时间轴
+      timebar = new TimeBarSlice({
+        graph,
+        canvas,
+        group,
+        ...slice
+      })
+    }
+
+    this.set('timebar', timebar)
   }
 
   private filterData(evt) {
     const { value } = evt;
-    const { data: trendData } = this._cfgs.trend
+    debugger
+    // TODO 不同类型的 TimeBar 取不同地方的data
+    let trendData = null
+    const type = this._cfgs.type
+    if (type === 'trend' || type === 'simple') {
+      trendData = this._cfgs.trend.data
+    } else if (type === 'slice') {
+      trendData = this._cfgs.slice.data
+    }
+    // const { data: trendData } = this._cfgs.trend
     const rangeChange = this.get('rangeChange');
     const graph: IGraph = this.get('graph');
-    const trendTimeBar = this.get('trendTimeBar');
     
     const min = Math.round(trendData.length * value[0]);
     let max = Math.round(trendData.length * value[1]);
     max = max >= trendData.length ? trendData.length - 1 : max;
-
+    
     const minText = trendData[min].date;
     const maxText = trendData[max].date;
-
-    trendTimeBar.setText(minText, maxText)
+    
+    if (type !== 'slice') {
+      const timebar = this.get('timebar');
+      timebar.setText(minText, maxText)
+    }
 
     if (rangeChange) {
       rangeChange(graph, minText, maxText);
@@ -234,45 +268,18 @@ export default class TimeBar extends Base {
     }
   }
 
-  private renderCurrentData(value: string) {
-    const valueChange = this.get('valueChange');
-    const graph: IGraph = this.get('graph');
-
-    if (valueChange) {
-      valueChange(graph, value);
-    } else {
-      // 自动过滤数据，并渲染 graph
-      const graphData = graph.save() as GraphData;
-
-      if (
-        !this.cacheGraphData ||
-        (this.cacheGraphData.nodes && this.cacheGraphData.nodes.length === 0)
-      ) {
-        this.cacheGraphData = graphData;
-      }
-
-      // 过滤当前的节点
-      const filterData = this.cacheGraphData.nodes.filter(
-        (d: any) => d.date === value,
-      );
-
-      const nodeIds = filterData.map((node) => node.id);
-
-      // 过滤 source 或 target
-      const fileterEdges = this.cacheGraphData.edges.filter(
-        (edge) => nodeIds.includes(edge.source) && nodeIds.includes(edge.target),
-      );
-
-      graph.changeData({
-        nodes: filterData,
-        edges: fileterEdges,
-      });
-    }
-  }
-
   private initEvent() {
-    const { start, end } = this._cfgs.slider;
+    let start = 0
+    let end = 0
     const type = this._cfgs.type
+    if (!type || type === 'trend' || type === 'simple') {
+      start = this._cfgs.slider.start
+      end = this._cfgs.slider.end
+    } else if (type === 'slice') {
+      start = this._cfgs.slice.start
+      end = this._cfgs.slice.end
+    }
+
     const graph: IGraph = this.get('graph');
     graph.on('afterrender', () => {
       this.filterData({ value: [start, end] });

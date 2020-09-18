@@ -321,7 +321,6 @@ export default class TimeBarSlice {
       const id = parseInt(targetRect.get('name').split('-')[2]);
       const selectedTickStyle = this.selectedTickStyle
       tickRects[id].rect.attr(selectedTickStyle);
-
       this.startTickRectId = id
 
       const ticksLength = tickRects.length;
