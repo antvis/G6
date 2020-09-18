@@ -92,7 +92,7 @@ export default class ControllerBtn {
   // 当前播放速度
   private currentSpeed: number;
 
-  private currentType: 'signle' | 'range';
+  private currentType: 'single' | 'range';
 
   constructor(cfg: ControllerCfg) {
     this.controllerCfg = deepMix(
@@ -100,7 +100,9 @@ export default class ControllerBtn {
       DEFAULT_CONTROLLER_CONFIG,
       cfg
     );
-    
+
+    console.log('constructor', cfg)
+
     this.group = cfg.group
     this.speedAxisY = []
     this.currentSpeed = this.controllerCfg.speed
@@ -131,18 +133,20 @@ export default class ControllerBtn {
 
   private renderPlayButton() {
     const { controllerCfg } = this;
-    const { width, height, x, y, 
+    const { width, height, x, y,
       hiddleToggle,
-      fill = DEFAULT_RECT_FILL, stroke = DEFAULT_RECT_STROKE, 
-      playBtnStyle = DEFAULT_PLAYBTN_STYLE, 
-      preBtnStyle = DEFAULT_PREBTN_STYLE, 
+      fill = DEFAULT_RECT_FILL, stroke = DEFAULT_RECT_STROKE,
+      playBtnStyle = DEFAULT_PLAYBTN_STYLE,
+      preBtnStyle = DEFAULT_PREBTN_STYLE,
       nextBtnStyle = DEFAULT_NEXTBTN_STYLE } = controllerCfg
-    
+
+    console.log('controllerCfg', controllerCfg)
+
     const r = height / 2 - 5;
     const realY = y + 10
 
     // 绘制最外层的矩形包围框
-    this.group.addShape('rect', {
+    const container = this.group.addShape('rect', {
       attrs: {
         x,
         y: realY,
@@ -150,7 +154,8 @@ export default class ControllerBtn {
         height,
         stroke,
         fill
-      }
+      },
+      name: 'container-rect'
     })
 
     if (this.playButton) {
@@ -205,6 +210,7 @@ export default class ControllerBtn {
       capture: false,
       name: 'nextStepBtn'
     })
+    container.toBack();
 
     // 调节speed的按钮
     this.renderSpeedBtn()
@@ -267,20 +273,20 @@ export default class ControllerBtn {
       attrs: {
         x: width - (!hiddleToggle ? SPEED_CONTROLLER_OFFSET : TOGGLE_MODEL_OFFSET) + 20,
         y: this.speedAxisY[1] + 15,
-        text: '3.0X',
+        text: `1.0X`,
         fill: '#ccc'
       }
     })
 
     this.speedPoint = speedGroup.addShape('path', {
       attrs: {
-        path: this.getPath(width - (!hiddleToggle ? SPEED_CONTROLLER_OFFSET : TOGGLE_MODEL_OFFSET), this.speedAxisY[2]),
+        path: this.getPath(width - (!hiddleToggle ? SPEED_CONTROLLER_OFFSET : TOGGLE_MODEL_OFFSET), this.speedAxisY[4]),
         fill: '#ccc'
       }
     })
   }
 
-  private getPath (x, y) {
+  private getPath(x, y) {
     return [
       ['M', x, y],
       ['L', x - 12, y - 6],
@@ -339,7 +345,7 @@ export default class ControllerBtn {
   private bindEvent() {
     const { width, hiddleToggle } = this.controllerCfg
     this.speedGroup.on('speed-rect:click', evt => {
-      this.speedPoint.attr('path', 
+      this.speedPoint.attr('path',
         this.getPath(width - (!hiddleToggle ? SPEED_CONTROLLER_OFFSET : TOGGLE_MODEL_OFFSET), evt.y))
       this.currentSpeed = evt.target.get('speed')
       this.speedText.attr('text', `${this.currentSpeed}.0X`)
@@ -355,7 +361,7 @@ export default class ControllerBtn {
         if (!isChecked) {
           this.checkedIcon.show()
           this.checkedText.attr('text', '时间范围')
-          this.currentType = 'signle'
+          this.currentType = 'single'
         } else {
           this.checkedIcon.hide()
           this.checkedText.attr('text', '单一时间')

@@ -37,8 +37,8 @@ G6.registerNode(
   'circle',
 );
 
-describe('drag signle layer group', () => {
-  it('drag signle layer group', () => {
+describe('drag single layer group', () => {
+  it('drag single layer group', () => {
     const data = {
       nodes: [
         {

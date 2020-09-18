@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import G6, { Graph } from '../../../src';
 import { IGraph } from '../../../src/interface/graph';
-import TimeBarSlice from '../../../src/plugins/timeBar/timeBarSlice.bak';
+import TimeBar from '../../../src/plugins/timeBar/timeBar';
 
 let graph: IGraph = null;
 
@@ -50,38 +50,31 @@ const TimeBarS = () => {
   console.log('timeBarData', timeBarData)
 
   let count = 0;
-  const timebar = new TimeBarSlice({
+  const timebar = new TimeBar({
     x: 0,
     y: 0,
     width: 500,
-    height: 42,
-    padding: 2,
-    trend: {
+    height: 150,
+    padding: 10,
+    type: 'slice',
+    slice: {
       data: timeBarData,
-      isArea: true,
-      lineStyle: {
-        stroke: 'green',
-        lineWidth: 3
-      }
-    },
-    slider: {
-      textStyle: {
-        fill: 'red',
-        fontSize: 16,
+      width: 500,
+      height: 42,
+      padding: 2,
+      tickLabelFormatter: d => {
+        count++;
+        const dateStr = `${d.date}`
+        if ((count - 1) % 10 === 0) {
+          return `${dateStr.substr(0, 4)}-${dateStr.substr(4, 2)}-${dateStr.substr(6, 2)}`;
+        }
+        return false;
       },
-    },
-    tickLabelFormatter: d => {
-      count++;
-      const dateStr = `${d.date}`
-      if ((count - 1) % 10 === 0) {
+      tooltipFomatter: d => {
+        const dateStr = `${d}`
         return `${dateStr.substr(0, 4)}-${dateStr.substr(4, 2)}-${dateStr.substr(6, 2)}`;
       }
-      return false;
     },
-    tooltipFomatter: d => {
-      const dateStr = `${d}`
-      return `${dateStr.substr(0, 4)}-${dateStr.substr(4, 2)}-${dateStr.substr(6, 2)}`;
-    }
   });
 
   useEffect(() => {

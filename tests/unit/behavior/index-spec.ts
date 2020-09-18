@@ -3,7 +3,7 @@ import Behavior from '../../../src/behavior/behavior';
 import { IBehavior } from '../../../src/interface/behavior';
 
 describe('Behavior', () => {
-  it('register signle behavior', () => {
+  it('register single behavior', () => {
     Behavior.registerBehavior('first-behavior', {
       getEvents() {
         return {

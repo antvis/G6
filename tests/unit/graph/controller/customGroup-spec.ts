@@ -32,8 +32,8 @@ G6.registerNode(
   'circle',
 );
 
-describe('signle layer group', () => {
-  it('render signle group test', () => {
+describe('single layer group', () => {
+  it('render single group test', () => {
     const graph = new G6.Graph({
       container: div,
       width: 1500,
