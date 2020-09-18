@@ -27,6 +27,7 @@ const DEFAULT_CONTROLLER_CONFIG = {
   loop: false,
   fill: '#fff',
   stroke: '#fff',
+  hiddleToggle: false,
   preBtnStyle: {
     fill: '#ccc',
     stroke: '#ccc'
@@ -55,6 +56,7 @@ export type ControllerCfg = Partial<{
   readonly speed?: number;
   /** 是否循环播放 */
   readonly loop?: boolean;
+  readonly hiddleToggle: boolean;
   readonly fill?: string;
   readonly stroke?: string;
   readonly preBtnStyle?: ShapeStyle;
@@ -95,8 +97,8 @@ export default class ControllerBtn {
   constructor(cfg: ControllerCfg) {
     this.controllerCfg = deepMix(
       {},
-      cfg,
-      DEFAULT_CONTROLLER_CONFIG
+      DEFAULT_CONTROLLER_CONFIG,
+      cfg
     );
     
     this.group = cfg.group
@@ -130,6 +132,7 @@ export default class ControllerBtn {
   private renderPlayButton() {
     const { controllerCfg } = this;
     const { width, height, x, y, 
+      hiddleToggle,
       fill = DEFAULT_RECT_FILL, stroke = DEFAULT_RECT_STROKE, 
       playBtnStyle = DEFAULT_PLAYBTN_STYLE, 
       preBtnStyle = DEFAULT_PREBTN_STYLE, 
@@ -205,12 +208,14 @@ export default class ControllerBtn {
 
     // 调节speed的按钮
     this.renderSpeedBtn()
-    this.renderToggleTime()
+    if (!hiddleToggle) {
+      this.renderToggleTime()
+    }
     this.bindEvent()
   }
 
   private renderSpeedBtn() {
-    const { y, width } = this.controllerCfg
+    const { y, width, hiddleToggle } = this.controllerCfg
     const speedGroup = this.group.addGroup({
       name: 'speed-group'
     })
@@ -226,7 +231,7 @@ export default class ControllerBtn {
       // 灰色刻度
       speedGroup.addShape('rect', {
         attrs: {
-          x: width - 110,
+          x: width - (!hiddleToggle ? SPEED_CONTROLLER_OFFSET : TOGGLE_MODEL_OFFSET),
           y: axisY,
           width: 15,
           height: 2,
@@ -245,7 +250,7 @@ export default class ControllerBtn {
       // 灰色刻度
       speedGroup.addShape('rect', {
         attrs: {
-          x: width - SPEED_CONTROLLER_OFFSET,
+          x: width - (!hiddleToggle ? SPEED_CONTROLLER_OFFSET : TOGGLE_MODEL_OFFSET),
           y: this.speedAxisY[i] + 2,
           width: 15,
           height: 2 * i + 1,
@@ -260,7 +265,7 @@ export default class ControllerBtn {
     // 速度文本
     this.speedText = speedGroup.addShape('text', {
       attrs: {
-        x: width - SPEED_CONTROLLER_OFFSET + 20,
+        x: width - (!hiddleToggle ? SPEED_CONTROLLER_OFFSET : TOGGLE_MODEL_OFFSET) + 20,
         y: this.speedAxisY[1] + 15,
         text: '3.0X',
         fill: '#ccc'
@@ -269,7 +274,7 @@ export default class ControllerBtn {
 
     this.speedPoint = speedGroup.addShape('path', {
       attrs: {
-        path: this.getPath(width - SPEED_CONTROLLER_OFFSET, this.speedAxisY[2]),
+        path: this.getPath(width - (!hiddleToggle ? SPEED_CONTROLLER_OFFSET : TOGGLE_MODEL_OFFSET), this.speedAxisY[2]),
         fill: '#ccc'
       }
     })
@@ -332,9 +337,10 @@ export default class ControllerBtn {
   }
 
   private bindEvent() {
-    const { width } = this.controllerCfg
+    const { width, hiddleToggle } = this.controllerCfg
     this.speedGroup.on('speed-rect:click', evt => {
-      this.speedPoint.attr('path', this.getPath(width -SPEED_CONTROLLER_OFFSET, evt.y))
+      this.speedPoint.attr('path', 
+        this.getPath(width - (!hiddleToggle ? SPEED_CONTROLLER_OFFSET : TOGGLE_MODEL_OFFSET), evt.y))
       this.currentSpeed = evt.target.get('speed')
       this.speedText.attr('text', `${this.currentSpeed}.0X`)
       this.group.emit('timebarConfigChanged', {
@@ -343,23 +349,25 @@ export default class ControllerBtn {
       })
     })
 
-    this.toggleGroup.on('toggle-model:click', evt => {
-      const isChecked = evt.target.get('isChecked')
-      if (!isChecked) {
-        this.checkedIcon.show()
-        this.checkedText.attr('text', '时间范围')
-        this.currentType = 'signle'
-      } else {
-        this.checkedIcon.hide()
-        this.checkedText.attr('text', '单一时间')
-        this.currentType = 'range'
-      }
-      evt.target.set('isChecked', !isChecked)
-      this.group.emit('timebarConfigChanged', {
-        type: this.currentType,
-        speed: this.currentSpeed
+    if (this.toggleGroup) {
+      this.toggleGroup.on('toggle-model:click', evt => {
+        const isChecked = evt.target.get('isChecked')
+        if (!isChecked) {
+          this.checkedIcon.show()
+          this.checkedText.attr('text', '时间范围')
+          this.currentType = 'signle'
+        } else {
+          this.checkedIcon.hide()
+          this.checkedText.attr('text', '单一时间')
+          this.currentType = 'range'
+        }
+        evt.target.set('isChecked', !isChecked)
+        this.group.emit('timebarConfigChanged', {
+          type: this.currentType,
+          speed: this.currentSpeed
+        })
       })
-    })
+    }
   }
 
   public destroy() {

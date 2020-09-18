@@ -159,6 +159,8 @@ export default class TrendTimeBar{
   // 调整后的播放速度
   private currentSpeed: number;
 
+  private currentMode: 'signle' | 'range';
+
   /** 动画 id */
   private playHandler: number;
 
@@ -511,6 +513,7 @@ export default class TrendTimeBar{
 
     this.group.on('timebarConfigChanged', ({ type, speed }) => {
       this.currentSpeed = speed
+      this.currentMode = type
       if(type === 'signle') {
         this.minHandlerShape.hide()
         this.foregroundShape.hide()
@@ -566,8 +569,12 @@ export default class TrendTimeBar{
 
     this.prevX = x;
 
-    // 因为存储的 start、end 可能不一定是按大小存储的，所以排序一下，对外是 end >= start
-    this.graph.emit(VALUE_CHANGE, {value: [this.start, this.end].sort()});
+    if (this.currentMode === 'range') {
+      // 因为存储的 start、end 可能不一定是按大小存储的，所以排序一下，对外是 end >= start
+      this.graph.emit(VALUE_CHANGE, {value: [this.start, this.end].sort()});
+    } else if (this.currentMode === 'signle') {
+      this.graph.emit(VALUE_CHANGE, {value: [this.end, this.end]});
+    }
   };
 
   private onMouseUp = () => {
