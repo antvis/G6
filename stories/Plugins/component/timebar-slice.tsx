@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import G6, { Graph } from '../../../src';
 import { IGraph } from '../../../src/interface/graph';
-import TimeBarSlice from '../../../src/plugins/timeBar/timeBarSlice';
+import TimeBarSlice from '../../../src/plugins/timeBar/timeBarSlice.bak';
 
 let graph: IGraph = null;
 
