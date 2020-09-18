@@ -34,6 +34,14 @@ const DEFAULT_STYLE = {
   highLightFill: '#FFF',
 };
 
+const SIMPLE_DEFAULT_STYLE = {
+  fill: '#fff',
+  stroke: '#1890ff',
+  radius: 2,
+  opacity: 1,
+  cursor: 'ew-resize',
+}
+
 export default class Handler {
 
   // handle容器
@@ -63,7 +71,11 @@ export default class Handler {
     this.y = y;
     this.width = width;
     this.height = height;
-    this.style = { ...DEFAULT_STYLE, ...style };
+    if (type === 'trend') {
+      this.style = { ...DEFAULT_STYLE, ...style };
+    } else if (type === 'simple') {
+      this.style = { ...SIMPLE_DEFAULT_STYLE, ...style }
+    }
 
     this.renderHandle();
   }
@@ -187,12 +199,12 @@ export default class Handler {
 
   private bindEvents() {
     const { name } = this;
-    this.handleGroup.on(`${name}-rect:mouseenter`, () => {
+    this.handleGroup.on(`${name}-handler:mouseenter`, () => {
       const { highLightFill } = this.style;
       this.background.attr('fill', highLightFill);
     });
 
-    this.handleGroup.on(`${name}-rect:mouseleave`, () => {
+    this.handleGroup.on(`${name}-handler:mouseleave`, () => {
       const { fill } = this.style;
       this.background.attr('fill', fill);
     });

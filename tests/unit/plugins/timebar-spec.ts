@@ -226,7 +226,8 @@ describe.only('timeline play with timebar', () => {
         interval: {
           data: intervalData.map(d => d.value),
           style: {
-            stroke: 'red'
+            // stroke: '#ccc',
+            fill: '#ccc'
           }
         }
       },
