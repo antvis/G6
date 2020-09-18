@@ -371,6 +371,13 @@ export default class TimeBarSlice {
       this.graph.emit(VALUE_CHANGE, { value: [start, end] })
     });
 
+    // 时间轴的值发生改变的事件
+    // this.graph.on(VALUE_CHANGE, (evt: Callback) => {
+    //   // 范围变化
+    //   this.filterData(evt);
+    //   console.log(evt)
+    // });
+
     // tooltip
     const { tooltipBackgroundColor, tooltipFomatter, canvas } = this
     const tooltip = new TimeBarTooltip({

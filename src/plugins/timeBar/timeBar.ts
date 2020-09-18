@@ -19,14 +19,14 @@ const DEFAULT_SIMPLE_HEIGHT = 8
 // trend 版本默认高度
 const DEFAULT_TREND_HEIGHT = 26
 
-interface Callback {
+export interface Callback {
   originValue: number[];
   value: number[];
   target: IGroup;
 }
 
 interface TrendConfig {
-   // 数据
+  // 数据
   readonly data: {
     date: string;
     value: string;
@@ -131,7 +131,7 @@ export default class TimeBar extends Base {
 
     let canvas;
     const renderer = graph.get('renderer');
-    if (renderer !== 'SVG') {
+    if (renderer === 'SVG') {
       canvas = new GSVGCanvas({
         container: container,
         width,
@@ -166,7 +166,7 @@ export default class TimeBar extends Base {
 
     const realWidth = width - 2 * padding
     const defaultHeight = type === 'trend' ? DEFAULT_TREND_HEIGHT : DEFAULT_SIMPLE_HEIGHT
-    
+
     const graph = this.get('graph')
     const group = this.get('timeBarGroup')
     const canvas = this.get('canvas')
@@ -202,6 +202,8 @@ export default class TimeBar extends Base {
         graph,
         canvas,
         group,
+        x: x + padding,
+        y: y + padding,
         ...slice
       })
     }
@@ -211,7 +213,6 @@ export default class TimeBar extends Base {
 
   private filterData(evt) {
     const { value } = evt;
-    debugger
     // TODO 不同类型的 TimeBar 取不同地方的data
     let trendData = null
     const type = this._cfgs.type
@@ -223,14 +224,14 @@ export default class TimeBar extends Base {
     // const { data: trendData } = this._cfgs.trend
     const rangeChange = this.get('rangeChange');
     const graph: IGraph = this.get('graph');
-    
+
     const min = Math.round(trendData.length * value[0]);
     let max = Math.round(trendData.length * value[1]);
     max = max >= trendData.length ? trendData.length - 1 : max;
-    
+
     const minText = trendData[min].date;
     const maxText = trendData[max].date;
-    
+
     if (type !== 'slice') {
       const timebar = this.get('timebar');
       timebar.setText(minText, maxText)
@@ -288,13 +289,7 @@ export default class TimeBar extends Base {
     // 时间轴的值发生改变的事件
     graph.on(VALUE_CHANGE, (evt: Callback) => {
       // 范围变化
-      if (type === 'trend') {
-        // this.filterData(evt);
-      } else if (type === 'simple') {
-        // 单个值变化
-        // this.renderCurrentData('')
-      }
-      console.log(evt)
+      this.filterData(evt);
     });
   }
 
