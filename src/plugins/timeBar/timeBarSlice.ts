@@ -3,33 +3,22 @@
  */
 import GCanvas from '@antv/g-canvas/lib/canvas';
 import GSVGCanvas from '@antv/g-svg/lib/canvas';
-import { ICanvas } from '@antv/g-base';
+import { ICanvas, IGroup } from '@antv/g-base';
 import createDOM from '@antv/dom-util/lib/create-dom'
 import { isString } from '@antv/util'
-import Base, { IPluginBaseConfig } from '../base';
 import TimeBarTooltip from './timeBarTooltip';
-import { SliderOption, ControllerCfg } from './trendTimeBar'
+import ControllerBtn from './controllerBtn'
 import { IGraph } from '../../interface/graph';
-import { GraphData } from '../../types';
+import { GraphData, ShapeStyle } from '../../types';
 
-interface TrendConfig {
-  readonly slider?: SliderOption;
-  // 数据
-  readonly data: {
-    date: string;
-    value: string;
-  }[];
-  // 位置大小
-  readonly x?: number;
-  readonly y?: number;
-  readonly width?: number;
-  readonly height?: number;
-  // 样式
-  readonly smooth?: boolean;
-  readonly isArea?: boolean;
-  readonly backgroundStyle?: object;
-  readonly lineStyle?: object;
-  readonly areaStyle?: object;
+export const VALUE_CHANGE = 'valueChange';
+
+const DEFAULT_SELECTEDTICK_STYLE = {
+  fill: '#5B8FF9'
+}
+
+const DEFAULT_UNSELECTEDTICK_STYLE = {
+  fill: '#e6e8e9'
 }
 
 interface TickStyle {
@@ -41,7 +30,12 @@ interface TickStyle {
   strokeOpacity?: number
 }
 
-interface TimeBarConfig extends IPluginBaseConfig {
+export interface TimeBarSliceConfig extends TimeBarSliceOption {
+  readonly graph: IGraph;
+  readonly group: IGroup;
+  readonly canvas: ICanvas;
+}
+export interface TimeBarSliceOption {
   // position size
   readonly x?: number;
   readonly y?: number;
@@ -54,48 +48,59 @@ interface TimeBarConfig extends IPluginBaseConfig {
   readonly unselectedTickStyle?: TickStyle
   readonly tooltipBackgroundColor?: string;
 
-  // 趋势图配置项
-  readonly trend?: TrendConfig;
-  // 滑块、及前后背景的配置
-  readonly slider?: SliderOption;
+  readonly start?: number;
+  readonly end?: number;
+
+  // 数据
+  readonly data: {
+    date: string;
+    value: string;
+  }[];
+
   // 自定义标签格式化函数
   readonly tickLabelFormatter?: (d: any) => string | boolean;
   // 自定义 tooltip 内容格式化函数
   readonly tooltipFomatter?: (d: any) => string;
-
-  // 控制按钮
-  readonly controllerCfg?: ControllerCfg;
-
-  // readonly opti
-  rangeChange?: (graph: IGraph, minValue: string, maxValue: string) => void;
-  valueChange?: (graph: IGraph, value: string) => void;
 }
 
-export default class TimeBarSlice extends Base {
-  private cacheGraphData: GraphData;
+export default class TimeBarSlice {
+  private graph: IGraph;
+  private canvas: ICanvas;
+  private sliceGroup: IGroup;
+  private width: number;
+  private height: number;
+  private padding: number; 
+  private data: {
+    date: string;
+    value: string;
+  }[];
+  private start: number;
+  private end: number;
 
-  public getDefaultCfgs(): TimeBarConfig {
+  // style
+  private selectedTickStyle: ShapeStyle;
+  private unselectedTickStyle: ShapeStyle;
+  private tickLabelFormatter: (d: any) => string | boolean;
+
+  private tickRects: any[];
+  private tickWidth: number;
+  private startTickRectId: number;
+  private endickRectId: number;
+
+  private tooltipBackgroundColor: string;
+  private tooltipFomatter: (d: any) => string;
+
+  private dragging: boolean;
+
+  public getDefaultCfgs(): TimeBarSliceConfig {
     return {
-      container: null,
-      className: 'g6-component-timebar',
+      canvas: null,
+      graph: null,
+      group: null,
       padding: 2,
-      trend: {
-        data: [],
-        isArea: false,
-        smooth: true
-      },
-      controllerCfg: {
-        speed: 2,
-        loop: false,
-      },
-      slider: {
-        minLimit: 0,
-        maxLimit: 1,
-        start: 0.1,
-        end: 0.9,
-        minText: 'min',
-        maxText: 'max',
-      },
+      data: [],
+      start: 0.1,
+      end: 0.9,
       selectedTickStyle: {
         fill: '#5B8FF9'
       },
@@ -105,96 +110,72 @@ export default class TimeBarSlice extends Base {
     };
   }
 
-  constructor(cfgs?: TimeBarConfig) {
-    super(cfgs)
-  }
+  constructor(cfgs?: TimeBarSliceConfig) {
+    const { 
+      graph,
+      canvas,
+      group,
+      width, 
+      height, 
+      padding, 
+      data, 
+      start, 
+      end, 
+      tickLabelFormatter, 
+      selectedTickStyle = DEFAULT_SELECTEDTICK_STYLE, 
+      unselectedTickStyle = DEFAULT_UNSELECTEDTICK_STYLE,
+      tooltipBackgroundColor,
+      tooltipFomatter
+    } = cfgs
 
-  /**
-   * 初始化 TimeBar 的容器
-   */
-  public initContainer() {
-    const graph: IGraph = this.get('graph');
-    const { width, height } = this._cfgs
-    const className: string = this.get('className') || 'g6-component-timebar';
-    let parentNode: string | HTMLElement = this.get('container');
-    const container: HTMLElement = createDOM(
-      `<div class='${className}' style='position: absolute; width: ${width}px; height: ${height}px;'></div>`,
-    );
-
-    if (isString(parentNode)) {
-      parentNode = document.getElementById(parentNode) as HTMLElement;
-    }
-
-    if (parentNode) {
-      parentNode.appendChild(container);
-    } else {
-      graph.get('container').appendChild(container);
-    }
-
-    this.set('container', container);
-
-    let canvas;
-    const renderer = graph.get('renderer');
-    if (renderer === 'SVG') {
-      canvas = new GSVGCanvas({
-        container: container,
-        width,
-        height,
-      });
-    } else {
-      canvas = new GCanvas({
-        container: container,
-        width,
-        height,
-      });
-    }
-    this.set('canvas', canvas);
-  }
-
-  public init() {
-    this.initContainer()
-    const canvas: ICanvas = this.get('canvas')
-    const timeBarGroup = canvas.addGroup({
-      name: 'timebar-group'
+    this.graph = graph
+    this.sliceGroup = group.addGroup({
+      name: 'slice-group'
     })
+    this.canvas = canvas
+    this.width = width
+    this.height = height
+    this.padding = padding
+    this.data = data
+    this.start = start
+    this.end = end
+    this.tickLabelFormatter = tickLabelFormatter
+    this.selectedTickStyle = selectedTickStyle
+    this.unselectedTickStyle = unselectedTickStyle
 
-    this.set('timeBarGroup', timeBarGroup)
+    this.tooltipBackgroundColor = tooltipBackgroundColor
+    this.tooltipFomatter = tooltipFomatter
 
     this.renderSlices()
-    // this.renderTimeLine()
     this.initEvent()
   }
 
   private renderSlices() {
-    const self = this;
-    const ratio = 0.6
-    const { width, height, x, y, padding, trend, slider, tickLabelFormatter } = self._cfgs
-    const { data, ...other } = trend
-    const { start, end } = slider;
+    const { width, height, padding, data, start, end , 
+      tickLabelFormatter, selectedTickStyle, unselectedTickStyle } = this
 
-    // const realHeight = height - 2 * padding
     const realWidth = width - 2 * padding
     const fontSize = 10;
     const labelLineHeight = 4;
     const labelAreaHeight = 3 * padding + labelLineHeight + fontSize;
     const ticksAreaHeight = height - labelAreaHeight - 2 * padding;
 
-    // styles
-    const selectedTickStyle = self.get('selectedTickStyle');
-    const unselectedTickStyle = self.get('unselectedTickStyle');
-
     const gap = 2;
     const ticksLength = data.length;
     const tickWidth = (realWidth - gap * (ticksLength - 1)) / ticksLength;
-    self.set('tickWidth', tickWidth);
-    const group = self.get('timeBarGroup');
+    
+    this.tickWidth = tickWidth
+
+    const group = this.sliceGroup
+
     const tickRects = [];
     const labels = [];
 
     const startTickId = Math.round(ticksLength * start);
     const endTickId = Math.round(ticksLength * end);
-    self.set('startTickRectId', startTickId);
-    self.set('endickRectId', endTickId);
+
+    this.startTickRectId = startTickId
+    this.endickRectId = endTickId
 
     data.forEach((d, i) => {
       // draw the tick rects
@@ -283,180 +264,120 @@ export default class TimeBarSlice extends Base {
         // draw tick labels
       }
     });
-    self.set('tickRects', tickRects);
-  }
 
+    this.tickRects = tickRects
 
-  private filterData(evt) {
-    const { value } = evt;
-    const { data: trendData } = this._cfgs.trend
-    const rangeChange = this.get('rangeChange');
-    const graph: IGraph = this.get('graph');
-
-    const min = Math.round(trendData.length * value[0]);
-    let max = Math.round(trendData.length * value[1]);
-    max = max >= trendData.length ? trendData.length - 1 : max;
-
-    const minText = trendData[min].date;
-    const maxText = trendData[max].date;
-
-    if (rangeChange) {
-      rangeChange(graph, minText, maxText);
-    } else {
-      // 自动过滤数据，并渲染 graph
-      const graphData = graph.save() as GraphData;
-
-      if (
-        !this.cacheGraphData ||
-        (this.cacheGraphData.nodes && this.cacheGraphData.nodes.length === 0)
-      ) {
-        this.cacheGraphData = graphData;
-      }
-
-      // 过滤掉不在 min 和 max 范围内的节点
-      const filterData = this.cacheGraphData.nodes.filter(
-        (d: any) => (d.date >= minText && d.date <= maxText),
-      );
-
-      const nodeIds = filterData.map((node) => node.id);
-
-      // 过滤 source 或 target 不在 min 和 max 范围内的边
-      const fileterEdges = this.cacheGraphData.edges.filter(
-        (edge) => nodeIds.includes(edge.source) && nodeIds.includes(edge.target),
-      );
-
-      graph.changeData({
-        nodes: filterData,
-        edges: fileterEdges,
-      });
-    }
-  }
-
-  private renderCurrentData(value: string) {
-    const valueChange = this.get('valueChange');
-    const graph: IGraph = this.get('graph');
-
-    if (valueChange) {
-      valueChange(graph, value);
-    } else {
-      // 自动过滤数据，并渲染 graph
-      const graphData = graph.save() as GraphData;
-
-      if (
-        !this.cacheGraphData ||
-        (this.cacheGraphData.nodes && this.cacheGraphData.nodes.length === 0)
-      ) {
-        this.cacheGraphData = graphData;
-      }
-
-      // 过滤当前的节点
-      const filterData = this.cacheGraphData.nodes.filter(
-        (d: any) => d.date === value,
-      );
-
-      const nodeIds = filterData.map((node) => node.id);
-
-      // 过滤 source 或 target
-      const fileterEdges = this.cacheGraphData.edges.filter(
-        (edge) => nodeIds.includes(edge.source) && nodeIds.includes(edge.target),
-      );
-
-      graph.changeData({
-        nodes: filterData,
-        edges: fileterEdges,
-      });
-    }
+    // 渲染播放、快进和后退的控制按钮
+    new ControllerBtn({
+      group: this.sliceGroup,
+      x: 0,
+      y: height,
+      width,
+      height: 35,
+      hiddleToggle: true,
+    })
   }
 
   private initEvent() {
-    const self = this;
-    const { start, end } = self._cfgs.slider;
-    const graph: IGraph = self.get('graph');
-    graph.on('afterrender', () => {
-      self.filterData({ value: [start, end] });
-    });
 
-    const group = self.get('timeBarGroup');
+    const group = this.sliceGroup;
 
     group.on('click', e => {
-      const tickRects = self.get('tickRects');
-      // cancel the selected ticks
-      const unselectedTickStyle = self.get('unselectedTickStyle');
-      tickRects.forEach(tickRect => {
-        tickRect.rect.attr(unselectedTickStyle);
-      })
       const targetRect = e.target;
-      if (targetRect.get('type') !== 'rect') return;
+      if (targetRect.get('type') !== 'rect' || !targetRect.get('name')) return;
       const id = parseInt(targetRect.get('name').split('-')[2]);
-      const selectedTickStyle = self.get('selectedTickStyle');
-      tickRects[id].rect.attr(selectedTickStyle);
-      self.set('startTickRectId', id);
-      self.set('endTickRectId', id);
-      const ticksLength = tickRects.length;
-      const start = id / ticksLength;
-      this.filterData({ value: [start, start] });
+      
+      if (!isNaN(id)) {
+        const tickRects = this.tickRects
+        // cancel the selected ticks
+        const unselectedTickStyle = this.unselectedTickStyle
+        tickRects.forEach(tickRect => {
+          tickRect.rect.attr(unselectedTickStyle);
+        })
+
+        const selectedTickStyle = this.selectedTickStyle
+        tickRects[id].rect.attr(selectedTickStyle);
+        this.startTickRectId = id
+        this.endickRectId = id
+        
+        const ticksLength = tickRects.length;
+        const start = id / ticksLength;
+        // this.filterData({ value: [start, start] });
+        this.graph.emit(VALUE_CHANGE, { value: [start, start] })
+      }
     });
     group.on('dragstart', e => {
-      const tickRects = self.get('tickRects');
+      const tickRects = this.tickRects
       // cancel the selected ticks
-      const unselectedTickStyle = self.get('unselectedTickStyle');
+      const unselectedTickStyle = this.unselectedTickStyle
       tickRects.forEach(tickRect => {
         tickRect.rect.attr(unselectedTickStyle);
       })
       const targetRect = e.target;
       const id = parseInt(targetRect.get('name').split('-')[2]);
-      const selectedTickStyle = self.get('selectedTickStyle');
+      const selectedTickStyle = this.selectedTickStyle
       tickRects[id].rect.attr(selectedTickStyle);
-      self.set('startTickRectId', id);
+      
+      this.startTickRectId = id
+
       const ticksLength = tickRects.length;
       const start = id / ticksLength;
-      this.filterData({ value: [start, start] });
-      self.set('dragging', true);
+      // this.filterData({ value: [start, start] });
+      this.graph.emit(VALUE_CHANGE, { value: [start, start] })
+
+      this.dragging = true
     });
     group.on('dragover', e => {
-      if (!self.get('dragging')) return;
+      if (!this.dragging) return;
       if (e.target.get('type') !== 'rect') return;
+
       const id = parseInt(e.target.get('name').split('-')[2]);
-      const startTickRectId = self.get('startTickRectId');
-      const tickRects = self.get('tickRects');
-      const selectedTickStyle = self.get('selectedTickStyle');
-      const unselectedTickStyle = self.get('unselectedTickStyle');
+      const startTickRectId = this.startTickRectId
+      const tickRects = this.tickRects
+      const selectedTickStyle = this.selectedTickStyle
+      const unselectedTickStyle = this.unselectedTickStyle
       for (let i = 0; i < tickRects.length; i++) {
         const style = i >= startTickRectId && i <= id ? selectedTickStyle : unselectedTickStyle;
         tickRects[i].rect.attr(style);
       }
       const ticksLength = tickRects.length;
-      self.set('endTickRectId', id);
+      this.endickRectId = id
+      
       const start = startTickRectId / ticksLength;
       const end = id / ticksLength;
-      this.filterData({ value: [start, end] });
+      // this.filterData({ value: [start, end] });
+      this.graph.emit(VALUE_CHANGE, { value: [start, end] })
     });
 
     group.on('drop', e => {
-      if (!self.get('dragging')) return;
-      self.set('dragging', false);
+      if (!this.dragging) return;
+      
+      this.dragging = false
+
       if (e.target.get('type') !== 'rect') return;
-      const startTickRectId = self.get('startTickRectId');
+      const startTickRectId = this.startTickRectId
       const id = parseInt(e.target.get('name').split('-')[2]);
       if (id < startTickRectId) return;
-      const selectedTickStyle = self.get('selectedTickStyle');
-      const tickRects = self.get('tickRects');
+
+      const selectedTickStyle = this.selectedTickStyle
+      const tickRects = this.tickRects
       tickRects[id].rect.attr(selectedTickStyle);
-      self.set('endTickRectId', id);
+      
+      this.endickRectId = id
       const ticksLength = tickRects.length;
       const start = startTickRectId / ticksLength;
       const end = id / ticksLength;
-      this.filterData({ value: [start, end] });
+      // this.filterData({ value: [start, end] });
+      this.graph.emit(VALUE_CHANGE, { value: [start, end] })
     });
 
     // tooltip
-    const { tooltipBackgroundColor, tooltipFomatter } = self._cfgs;
+    const { tooltipBackgroundColor, tooltipFomatter, canvas } = this
     const tooltip = new TimeBarTooltip({
-      container: self.get('container') as HTMLElement,
+      container: canvas.get('container') as HTMLElement,
       backgroundColor: tooltipBackgroundColor
     });
-    const tickRects = self.get('tickRects');
-    const canvas = self.get('canvas');
+    const tickRects = this.tickRects
     tickRects.forEach(tickRect => {
       const pickRect = tickRect.pickRect;
       pickRect.on('mouseenter', e => {
@@ -476,11 +397,5 @@ export default class TimeBarSlice extends Base {
         tooltip.hide();
       })
     })
-  }
-
-  public destroy() {
-    super.destroy();
-    const group = this.get('timeBarGroup')
-    group.off('playPauseBtn:click')
   }
 }
