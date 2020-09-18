@@ -84,8 +84,8 @@ export default class TimeBar extends Base {
         loop: false,
       },
       slider: {
-        minLimit: 0,
-        maxLimit: 1,
+        // minLimit: 0,
+        // maxLimit: 1,
         start: 0.1,
         end: 0.9,
         minText: 'min',
@@ -272,19 +272,23 @@ export default class TimeBar extends Base {
 
   private initEvent() {
     const { start, end } = this._cfgs.slider;
+    const type = this._cfgs.type
     const graph: IGraph = this.get('graph');
     graph.on('afterrender', () => {
       this.filterData({ value: [start, end] });
     });
 
-    graph.on(VALUE_CHANGE, (evt: Callback) => {
-      // this.filterData(evt);
-    });
-
     // 时间轴的值发生改变的事件
-    // graph.on(TIMELINE_CHANGE, (value: string) => {
-    //   this.renderCurrentData(value)
-    // })
+    graph.on(VALUE_CHANGE, (evt: Callback) => {
+      // 范围变化
+      if (type === 'trend') {
+        // this.filterData(evt);
+      } else if (type === 'simple') {
+        // 单个值变化
+        // this.renderCurrentData('')
+      }
+      console.log(evt)
+    });
   }
 
   public destroy() {

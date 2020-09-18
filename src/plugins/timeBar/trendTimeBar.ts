@@ -15,9 +15,15 @@ export const BACKGROUND_STYLE = {
   opacity: 0.05,
 };
 
-export const FOREGROUND_STYLE = {
-  fill: 'red',
+const SIMPLE_BACKGROUND_STYLE = {
+  fill: '#416180',
   opacity: 0.15,
+  radius: 5
+};
+
+export const FOREGROUND_STYLE = {
+  fill: '#5B8FF9',
+  opacity: 0.3,
   cursor: 'move',
 };
 
@@ -150,6 +156,9 @@ export default class TrendTimeBar{
   /** 是否处于播放状态 */
   private isPlay: boolean;
 
+  // 调整后的播放速度
+  private currentSpeed: number;
+
   /** 动画 id */
   private playHandler: number;
 
@@ -196,8 +205,13 @@ export default class TrendTimeBar{
     this.ticks = ticks
     this.trendCfg = trendCfg;
     this.controllerCfg = controllerCfg;
+    this.currentSpeed = controllerCfg.speed
     // style
-    this.backgroundStyle = { ...BACKGROUND_STYLE, ...backgroundStyle };
+    if (type === 'trend') {
+      this.backgroundStyle = { ...BACKGROUND_STYLE, ...backgroundStyle };
+    } else if (type === 'simple') {
+      this.backgroundStyle = { ...SIMPLE_BACKGROUND_STYLE, ...backgroundStyle }
+    }
     this.foregroundStyle = { ...FOREGROUND_STYLE, ...foregroundStyle };
     this.handlerStyle = { ...HANDLER_STYLE, ...handlerStyle };
     this.textStyle = { ...TEXT_STYLE, ...textStyle };
@@ -205,7 +219,6 @@ export default class TrendTimeBar{
     // 初始信息
     this.start = start;
     this.end = end;
-
     this.minText = minText;
     this.maxText = maxText;
 
@@ -497,21 +510,17 @@ export default class TrendTimeBar{
     })
 
     this.group.on('timebarConfigChanged', ({ type, speed }) => {
-      console.log('timebarConfigChanged', type, speed)
+      this.currentSpeed = speed
       if(type === 'signle') {
         this.minHandlerShape.hide()
         this.foregroundShape.hide()
         this.minTextShape.hide()
       } else if (type === 'range') {
-        debugger
         this.minHandlerShape.show()
         this.foregroundShape.show()
         this.minTextShape.show()
       }
     })
-
-    /** 播放轴上圆点滑动事件 */
-    // this.timeSelect.on('mousedown', this.onTimeSelectMouseDown);
   }
 
   private onMouseDown = (handler: Handler | IShape) => (event: Event) => {
@@ -519,7 +528,6 @@ export default class TrendTimeBar{
     this.currentHandler = handler;
 
     // 2. 存储当前点击位置
-    // const { event } = e;
     event.stopPropagation();
     event.preventDefault();
 
@@ -627,11 +635,15 @@ export default class TrendTimeBar{
     // 操作不同的组件，反馈不一样
     switch (this.currentHandler) {
       case this.minHandlerShape:
+        // 拖动最小滑块时使用当前最大值设置最大值的文本，以便恢复到默认值
+        this.maxText = this.maxTextShape.attr('text')
         this.start += offsetRange;
         const minTick = this.adjustTickIndex(this.start * this.width)
         this.minText = this.ticks[minTick]
         break;
       case this.maxHandlerShape:
+        // 拖动最大滑块时使用当前最小值设置最小值的文本，以便恢复到默认值
+        this.minText = this.minTextShape.attr('text')
         this.end += offsetRange;
         const maxTick = this.adjustTickIndex(this.end * this.width)
         this.maxText = this.ticks[maxTick]
@@ -659,9 +671,10 @@ export default class TrendTimeBar{
     if (this.end > 1) {
       this.end = 1
     }
-    const timeBarType = this.timeBarType
+
     const min = this.start * this.width;
     const max = this.end * this.width;
+    
     // 1. foreground
     this.foregroundShape.attr('x', min);
     this.foregroundShape.attr('width', max - min);
@@ -671,18 +684,15 @@ export default class TrendTimeBar{
 
     // 设置文本
     this.setText(this.minText, this.maxText)
-    // this.minTextShape.attr('text', this.minText);
-    // this.maxTextShape.attr('text', this.maxText);
 
     const [minAttrs, maxAttrs] = this.dodgeText([min, max]);
+
     // 2. 左侧滑块和文字位置
     this.minHandlerShape.setX(min - handlerWidth / 2);
-    // this.minText.attr('x', min);
     each(minAttrs, (v, k) => this.minTextShape.attr(k, v));
 
     // 3. 右侧滑块和文字位置
     this.maxHandlerShape.setX(max - handlerWidth / 2);
-    // this.maxText.attr('x', max);
     each(maxAttrs, (v, k) => this.maxTextShape.attr(k, v));
   }
 
@@ -740,18 +750,17 @@ export default class TrendTimeBar{
 
   private startPlay() {
     return window.requestAnimationFrame(() => {
-      const { controllerCfg, ticks, width } = this
-      const { speed } = controllerCfg
+      const { ticks, width } = this
+      const speed = this.currentSpeed
       
 
       const tickInterval = width / ticks.length;
-      const offsetX = tickInterval / ((speed * 1000) / 60);
+      const offsetX = tickInterval / (((10 - speed) * 1000) / 60);
 
       const offsetXRange = this.adjustOffsetRange(offsetX / this.width);
 
       this.updateStartEnd(offsetXRange)
       this.updateUI()
-      // this.setTimeSelectX(offsetX);
 
       if (this.isPlay) {
         this.playHandler = this.startPlay();
@@ -772,7 +781,6 @@ export default class TrendTimeBar{
       if (this.playHandler) {
         window.cancelAnimationFrame(this.playHandler);
         if (isSync) {
-          // this.syncCurrnentTick();
           this.graph.emit(TIMELINE_END, null);
         }
       }
