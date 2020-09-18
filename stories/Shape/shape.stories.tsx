@@ -20,6 +20,7 @@ import PieChart from './component/pie-chart';
 import MultiChart from './component/multi-chart';
 import StateOpacity from './component/state-opacity';
 import PolylineCombo from './component/polyline-combo';
+
 import XML from './component/xml';
 
 export default { title: 'Shape' };
@@ -43,6 +44,7 @@ storiesOf('Shape', module)
   .add('arc', () => <Arc />)
   .add('hide item', () => <HideItem />)
   .add('card-node', () => <CustomCardNode />)
+  .add('xml node', () => <XML />)
   .add('extend-node', () => <ExtendNode />)
   .add('lose state style', () => <LostStateStyle />)
   .add('hide by data', () => <HideInData />)
