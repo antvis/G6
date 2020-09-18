@@ -156,6 +156,6 @@ export default class TimeBarTooltip {
   }
   public hide() {
     const self = this;
-    //modifyCSS(self.container as HTMLElement, { top: 0, left: 0, visibility: 'hidden', });
+    modifyCSS(self.container as HTMLElement, { top: 0, left: 0, visibility: 'hidden', });
   }
 }

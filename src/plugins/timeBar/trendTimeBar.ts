@@ -106,7 +106,7 @@ interface TrendTimeBarConfig extends SliderOption {
   readonly controllerCfg: ControllerCfg;
 }
 
-export default class TrendTimeBar{
+export default class TrendTimeBar {
   private group: IGroup;
   private graph: IGraph;
   private canvas: ICanvas;
@@ -159,7 +159,7 @@ export default class TrendTimeBar{
   // 调整后的播放速度
   private currentSpeed: number;
 
-  private currentMode: 'signle' | 'range';
+  private currentMode: 'single' | 'range';
 
   /** 动画 id */
   private playHandler: number;
@@ -306,14 +306,14 @@ export default class TrendTimeBar{
         },
         capture: false
       });
-  
+
       this.maxTextShape = textGroup.addShape('text', {
         attrs: {
           y: height / 2 + this.y,
           textAlign: 'left',
           text: this.maxText,
           silent: false,
-  
+
           ...this.textStyle,
         },
         capture: false
@@ -330,14 +330,14 @@ export default class TrendTimeBar{
         },
         capture: false
       });
-  
+
       this.maxTextShape = textGroup.addShape('text', {
         attrs: {
           y: this.y - 10,
           textAlign: 'center',
           text: this.maxText,
           silent: false,
-  
+
           ...this.textStyle,
         },
         capture: false
@@ -476,7 +476,7 @@ export default class TrendTimeBar{
       minHandleShapeGroup.on('minHandlerShape-handler:mousedown', this.onMouseDown(this.minHandlerShape))
       minHandleShapeGroup.on('minHandlerShape-handler:touchstart', this.onMouseDown(this.minHandlerShape));
     }
-    
+
     const maxHandleShapeGroup = this.group.find(group => group.get('name') === 'maxHandlerShape')
     // 2. 右滑块的滑动
     if (maxHandleShapeGroup) {
@@ -508,13 +508,12 @@ export default class TrendTimeBar{
       this.currentHandler = this.maxHandlerShape
       this.updateStartEnd(-0.01);
       this.updateUI()
-
     })
 
     this.group.on('timebarConfigChanged', ({ type, speed }) => {
       this.currentSpeed = speed
       this.currentMode = type
-      if(type === 'signle') {
+      if (type === 'single') {
         this.minHandlerShape.hide()
         this.foregroundShape.hide()
         this.minTextShape.hide()
@@ -571,9 +570,9 @@ export default class TrendTimeBar{
 
     if (this.currentMode === 'range') {
       // 因为存储的 start、end 可能不一定是按大小存储的，所以排序一下，对外是 end >= start
-      this.graph.emit(VALUE_CHANGE, {value: [this.start, this.end].sort()});
-    } else if (this.currentMode === 'signle') {
-      this.graph.emit(VALUE_CHANGE, {value: [this.end, this.end]});
+      this.graph.emit(VALUE_CHANGE, { value: [this.start, this.end].sort() });
+    } else if (this.currentMode === 'single') {
+      this.graph.emit(VALUE_CHANGE, { value: [this.end, this.end] });
     }
   };
 
@@ -638,6 +637,10 @@ export default class TrendTimeBar{
     }
   }
 
+  /**
+   * 更新起始、结束的控制块位置、文本、范围值（原始值）
+   * @param offsetRange 
+   */
   private updateStartEnd(offsetRange: number) {
     // 操作不同的组件，反馈不一样
     switch (this.currentHandler) {
@@ -667,7 +670,7 @@ export default class TrendTimeBar{
   }
 
   /**
-   * 根据移动的比例来更新 ui
+   * 根据移动的比例来更新 ui，更新范围（0-1 范围的比例值）
    * @private
    */
   private updateUI() {
@@ -681,7 +684,7 @@ export default class TrendTimeBar{
 
     const min = this.start * this.width;
     const max = this.end * this.width;
-    
+
     // 1. foreground
     this.foregroundShape.attr('x', min);
     this.foregroundShape.attr('width', max - min);
@@ -759,7 +762,7 @@ export default class TrendTimeBar{
     return window.requestAnimationFrame(() => {
       const { ticks, width } = this
       const speed = this.currentSpeed
-      
+
 
       const tickInterval = width / ticks.length;
       const offsetX = tickInterval / (((10 - speed) * 1000) / 60);
