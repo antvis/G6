@@ -106,7 +106,7 @@ export default class TimeBarTooltip {
 
     let parentNode: string | HTMLElement = self.container;
     const container: HTMLElement = createDOM(
-      `<div class='${className}' style="position: sticky; width: fit-content; height: fit-content; opacity: ${opacity}"></div>`,
+      `<div class='${className}' style="position: absolute; width: fit-content; height: fit-content; opacity: ${opacity}"></div>`,
     );
     if (isString(parentNode)) {
       parentNode = document.getElementById(parentNode) as HTMLElement;
@@ -117,7 +117,7 @@ export default class TimeBarTooltip {
     modifyCSS(container, { visibility: 'hidden', top: 0, left: 0 });
 
     const background: HTMLElement = createDOM(`
-      <div style='position: absolute;  white-space:nowrap; background-color: ${backgroundColor}; font-size: ${fontSize}px; border-radius: 4px; width: fit-content; height: fit-content; color: ${textColor}; padding: ${padding[0]}px ${padding[1]}px ${padding[2]}px ${padding[3]}px'></div>`);
+      <div style='position: absolute; white-space:nowrap; background-color: ${backgroundColor}; font-size: ${fontSize}px; border-radius: 4px; width: fit-content; height: fit-content; color: ${textColor}; padding: ${padding[0]}px ${padding[1]}px ${padding[2]}px ${padding[3]}px'></div>`);
     background.innerHTML = text;
     container.appendChild(background);
     self.backgroundDOM = background;
@@ -140,18 +140,18 @@ export default class TimeBarTooltip {
     const backgroundHeight = self.backgroundDOM.offsetHeight;
     const arrowWidth = self.arrowDOM.offsetWidth;
     const arrowHeight = self.arrowDOM.offsetHeight;
-    const containerHeight = backgroundHeight + arrowHeight;
-    modifyCSS(self.container as HTMLElement, { marginTop: `${-self.parentHeight - containerHeight - 8}px`, left: `${clientX}px`, visibility: 'visible', });
+    modifyCSS(self.container as HTMLElement,
+      { top: `${-backgroundHeight - arrowHeight}px`, left: `${x}px`, visibility: 'visible', });
 
     modifyCSS(self.backgroundDOM, { marginLeft: `${-backgroundWidth / 2}px` })
     modifyCSS(self.arrowDOM, { marginLeft: `${-arrowWidth / 2}px`, top: `${backgroundHeight}px` });
 
-
-    const bbox = (self.backgroundDOM as HTMLElement).getBoundingClientRect();
-    if (bbox.left < 0) {
-      modifyCSS(self.backgroundDOM, { marginLeft: `${-backgroundWidth / 2 - bbox.left}px` })
-    } else if (bbox.right > self.parentWidth) {
-      modifyCSS(self.backgroundDOM, { marginLeft: `${-backgroundWidth / 2 - bbox.right + self.parentWidth + 12}px` })
+    const left = x - backgroundWidth / 2;
+    const right = x + backgroundWidth / 2;
+    if (left < 0) {
+      modifyCSS(self.backgroundDOM, { marginLeft: `${-backgroundWidth / 2 - left}px` })
+    } else if (right > self.parentWidth) {
+      modifyCSS(self.backgroundDOM, { marginLeft: `${-backgroundWidth / 2 - right + self.parentWidth + 12}px` })
     }
   }
   public hide() {
