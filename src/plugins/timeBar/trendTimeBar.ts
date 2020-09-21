@@ -218,6 +218,7 @@ export default class TrendTimeBar {
     this.handlerStyle = { ...HANDLER_STYLE, ...handlerStyle };
     this.textStyle = { ...TEXT_STYLE, ...textStyle };
 
+    this.currentMode = 'range'
     // 初始信息
     this.start = start;
     this.end = end;
@@ -667,6 +668,7 @@ export default class TrendTimeBar {
         this.maxText = this.ticks[maxRangeTick]
         break;
     }
+    this.graph.emit(VALUE_CHANGE, { value: [this.start, this.end] })
   }
 
   /**
