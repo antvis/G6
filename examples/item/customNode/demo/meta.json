@@ -29,6 +29,14 @@
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NcHWTKo3sEoAAAAAAAAAAAAAARQnAQ"
     },
     {
+      "filename": "jsxNodeWithAnimate.js",
+      "title": {
+        "zh": "使用 JSX 自定义节点(带动画)",
+        "en": "Custom Node with JSX and animation"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NcHWTKo3sEoAAAAAAAAAAAAAARQnAQ"
+    },
+    {
       "filename": "lineChartNode.js",
       "title": {
         "zh": "节点中嵌入 G2 的折线图",

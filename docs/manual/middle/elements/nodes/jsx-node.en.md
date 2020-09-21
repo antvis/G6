@@ -16,15 +16,15 @@ In G6 V3.7.0 and later version, user are allow to use JSX-like syntax to customi
 
 The basic syntax is almost the same as the familiar HTML markup language, where you can use shape or group by a tag. At the same time, you need to assign the attributes for defining a shape. Style attributes are grouped to an object, whose items' value can be `string`, `number`, and others supported by JSON (note that it cannot be a function here, which will cause parsing errors).
 
-Reference for the type and style of custom nodes: https://g6.antv.vision/zh/docs/api/nodeEdge/shapeProperties
-Among them, for relative positioning, we newly added **marginTop** and **marginLeft** to define the gap between the left and top.
+Reference for the type and style of custom nodes: https://g6.antv.vision/zh/docs/api/nodeEdge/shapeProperties Among them, for relative positioning, we newly added **marginTop** and **marginLeft** to define the gap between the left and top.
 
 #### Recommended Usage
 
 - Wrap the group tag on the outermost layer
 - Use single quotes
-- Use the template syntax of ${}
+- Use the template syntax of \${}
 - Use `marginTop` and `marginLeft` for relative position graphics
+- Using `next: inline` on last shape let next shape follow on the right
 
 #### Supported tags
 
@@ -50,7 +50,9 @@ Use tags to customize nodes. All style attributes are written in style. Name, ke
 Using JSX-like syntax to customize a simple rectangle.
 
 ```javascript
-G6.registerNode('rect-xml', (cfg) => `
+G6.registerNode(
+  'rect-xml',
+  (cfg) => `
   <rect style={{
     width: 100, height: 20, fill: '#1890ff', stroke: '#1890ff', radius: [6, 6, 0, 0]
   }} keyshape="true" name="test">
@@ -68,7 +70,8 @@ G6.registerNode('rect-xml', (cfg) => `
         <polyline style={{ points: [[ 30, 30 ], [ 40, 20 ], [ 60, 100 ]] }} />
         <image style={{ img: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png', width: 48, height: 48, marginTop: 100 }} />
   </rect>
-`)
+`,
+);
 ```
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*E3UGRq1m-wYAAAAAAAAAAAAAARQnAQ' />
@@ -87,15 +90,15 @@ const percentageBar = ({ width, used, height = 12 }) => `
   }} name="body" >
     <rect style={{
       marginLeft: 10,
-      width: ${width / 100 * used},
+      width: ${(width / 100) * used},
       height: ${height},
       fill: '#1890ff',
       stroke: '#1890ff'
     }}/>
   </rect>
-`
+`;
 
-const textXML = cfg => `
+const textXML = (cfg) => `
 <group>
   <rect style={{
     width: 100, height: 20, fill: '#1890ff', stroke: '#1890ff', radius: [6, 6, 0, 0]
@@ -122,8 +125,9 @@ const textXML = cfg => `
 </group>
 `;
 
-G6.registerNode('test', textXML);
-
+G6.registerNode('test', {
+  jsx: textXML,
+});
 ```
 
 Results:
