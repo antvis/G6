@@ -5,9 +5,9 @@ import insertCss from 'insert-css';
 // 推荐将样式添加到自己的样式文件中
 // 若拷贝官方代码，别忘了 npm install insert-css
 insertCss(`
-  #g6-component-timebar {
-    top: 540px;
-    left: 10px;
+  .g6-component-timebar {
+    top: 450px;
+    left: 100px;
   }
 `);
 
@@ -44,49 +44,34 @@ for (let i = 0; i < 100; i++) {
 
 const nodeSize = 20;
 
-const timebar = new G6.TimeBar({
-  width: 600,
-  timebar: {
-    width: 580,
-    minLimit: 0,
-    maxLimit: 1,
-    start: 0,
-    end: 0.5,
-    backgroundStyle: {
-      fill: '#ddd',
-      opacity: 0.2,
-      lineWidth: 1,
-      stroke: '#aaa',
-    },
-    foregroundStyle: {
-      fill: '#f00',
-      opacity: 0.1,
-    },
-    trend: {
+let count = 0;
+  const timebar = new G6.TimeBar({
+    x: 0,
+    y: 0,
+    width: 500,
+    height: 150,
+    padding: 10,
+    type: 'slice',
+    slice: {
       data: timeBarData,
-      isArea: false,
-      smooth: true,
-      lineStyle: {
-        stroke: '#f00',
-        lineWidth: 2,
-        opacity: 0.5,
+      width: 500,
+      height: 42,
+      padding: 2,
+      tickLabelFormatter: d => {
+        count++;
+        const dateStr = `${d.date}`
+        if ((count - 1) % 10 === 0) {
+          return `${dateStr.substr(0, 4)}-${dateStr.substr(4, 2)}-${dateStr.substr(6, 2)}`;
+        }
+        return false;
       },
+      tooltipFomatter: d => {
+        const dateStr = `${d}`
+        return `${dateStr.substr(0, 4)}-${dateStr.substr(4, 2)}-${dateStr.substr(6, 2)}`;
+      }
     },
-    textStyle: {
-      fontWeight: 500,
-      fill: '#000',
-      fontSize: 14,
-    },
-    handlerStyle: {
-      width: 10,
-      height: 35,
-    },
-  },
-  rangeChange: (graph, min, max) => {
-    // 拿到 Graph 实例和 timebar 上范围，自己可以控制图上的渲染逻辑
-    console.log(graph, min, max);
-  },
-});
+  });
+
 // constrained the layout inside the area
 const constrainBox = { x: 10, y: 10, width: 580, height: 450 };
 
@@ -121,7 +106,7 @@ const onTick = () => {
 const graph = new G6.Graph({
   container: 'container',
   width,
-  height: height - 50,
+  height: height - 100,
   linkCenter: true,
   plugins: [timebar],
   layout: {

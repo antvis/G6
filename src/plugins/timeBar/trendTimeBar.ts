@@ -5,6 +5,8 @@ import Handler from './handler';
 import ControllerBtn from './controllerBtn'
 import { IGraph } from '../../interface/graph';
 import { ShapeStyle } from '../../types';
+import { VALUE_CHANGE, TIMELINE_START, TIMEBAR_CONFIG_CHANGE, 
+  PLAY_PAUSE_BTN, NEXT_STEP_BTN, PRE_STEP_BTN, TIMELINE_END } from './constant';
 
 /**
  * 一些默认的样式配置
@@ -39,12 +41,6 @@ export const TEXT_STYLE = {
   fill: '#000',
   opacity: 0.45,
 };
-
-export const TIMELINE_START = 'timelinestart';
-export const TIMELINE_CHANGE = 'timelinechange';
-export const TIMELINE_END = 'timelineend';
-
-export const VALUE_CHANGE = 'valueChange';
 
 export type ControllerCfg = Partial<{
   readonly x: number;
@@ -491,27 +487,27 @@ export default class TrendTimeBar {
 
     // 播放区按钮控制
     /** 播放/暂停事件 */
-    this.group.on('playPauseBtn:click', () => {
+    this.group.on(`${PLAY_PAUSE_BTN}:click`, () => {
       this.isPlay = !this.isPlay;
       this.currentHandler = this.maxHandlerShape
       this.changePlayStatus();
     })
 
     // 处理前进一步的事件
-    this.group.on('nextStepBtn:click', () => {
+    this.group.on(`${NEXT_STEP_BTN}:click`, () => {
       this.currentHandler = this.maxHandlerShape
       this.updateStartEnd(0.01);
       this.updateUI()
     })
 
     // 处理后退一步的事件
-    this.group.on('preStepBtn:click', () => {
+    this.group.on(`${PRE_STEP_BTN}:click`, () => {
       this.currentHandler = this.maxHandlerShape
       this.updateStartEnd(-0.01);
       this.updateUI()
     })
 
-    this.group.on('timebarConfigChanged', ({ type, speed }) => {
+    this.group.on(TIMEBAR_CONFIG_CHANGE, ({ type, speed }) => {
       this.currentSpeed = speed
       this.currentMode = type
       if (type === 'single') {
@@ -797,5 +793,37 @@ export default class TrendTimeBar {
         }
       }
     }
+  }
+
+  public destory() {
+    this.graph.off(VALUE_CHANGE)
+
+    const group = this.group
+
+    const minHandleShapeGroup = group.find(g => g.get('name') === 'minHandlerShape')
+    if (minHandleShapeGroup) {
+      minHandleShapeGroup.off('minHandlerShape-handler:mousedown')
+      minHandleShapeGroup.off('minHandlerShape-handler:touchstart');
+      minHandleShapeGroup.destroy()
+    }
+
+    const maxHandleShapeGroup = group.find(g => g.get('name') === 'maxHandlerShape')
+    // 2. 右滑块的滑动
+    if (maxHandleShapeGroup) {
+      maxHandleShapeGroup.off('maxHandlerShape-handler:mousedown');
+      maxHandleShapeGroup.off('maxHandlerShape-handler:touchstart');
+      maxHandleShapeGroup.destroy()
+    }
+
+    // 3. 前景选中区域
+    this.foregroundShape.off('mousedown');
+    this.foregroundShape.off('touchstart');
+    this.foregroundShape.destroy()
+
+    group.off(`${PLAY_PAUSE_BTN}:click`)
+    group.off(`${NEXT_STEP_BTN}:click`)
+    group.off(`${PRE_STEP_BTN}:click`)
+    group.off(TIMEBAR_CONFIG_CHANGE)
+    group.destroy()
   }
 }

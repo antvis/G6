@@ -1,18 +1,13 @@
 /**
- * 基于 G 的时间轴组件
+ * 基于 G 的刻度时间轴组件
  */
-import GCanvas from '@antv/g-canvas/lib/canvas';
-import GSVGCanvas from '@antv/g-svg/lib/canvas';
 import { ICanvas, IGroup } from '@antv/g-base';
-import createDOM from '@antv/dom-util/lib/create-dom'
 import { isString } from '@antv/util'
 import TimeBarTooltip from './timeBarTooltip';
 import ControllerBtn from './controllerBtn'
-import TrendTimeBar, { VALUE_CHANGE, TIMELINE_START, TIMELINE_CHANGE, TIMELINE_END } from './trendTimeBar'
+import { VALUE_CHANGE, TIMELINE_START, TIMELINE_END, PLAY_PAUSE_BTN, NEXT_STEP_BTN, PRE_STEP_BTN, TIMEBAR_CONFIG_CHANGE } from './constant'
 import { IGraph } from '../../interface/graph';
-import { GraphData, ShapeStyle } from '../../types';
-import { Callback } from './timeBar';
-
+import { ShapeStyle } from '../../types';
 
 const DEFAULT_SELECTEDTICK_STYLE = {
   fill: '#5B8FF9'
@@ -108,26 +103,6 @@ export default class TimeBarSlice {
   /** 动画 id */
   private playHandler: number;
   private frameCount: number = 0;
-
-  public getDefaultCfgs(): TimeBarSliceConfig {
-    return {
-      canvas: null,
-      graph: null,
-      group: null,
-      padding: 2,
-      data: [],
-      start: 0.1,
-      end: 0.9,
-      selectedTickStyle: {
-        fill: '#5B8FF9'
-      },
-      unselectedTickStyle: {
-        fill: '#e6e8e9'
-      },
-      x: 0,
-      y: 0
-    };
-  }
 
   constructor(cfgs?: TimeBarSliceConfig) {
     const {
@@ -332,7 +307,6 @@ export default class TimeBarSlice {
 
         const ticksLength = tickRects.length;
         const start = id / ticksLength;
-        // this.filterData({ value: [start, start] });
         this.graph.emit(VALUE_CHANGE, { value: [start, start] })
       }
     });
@@ -352,7 +326,6 @@ export default class TimeBarSlice {
 
       const ticksLength = tickRects.length;
       const start = id / ticksLength;
-      // this.filterData({ value: [start, start] });
       this.graph.emit(VALUE_CHANGE, { value: [start, start] })
 
       this.dragging = true
@@ -375,7 +348,6 @@ export default class TimeBarSlice {
 
       const start = startTickRectId / ticksLength;
       const end = id / ticksLength;
-      // this.filterData({ value: [start, end] });
       this.graph.emit(VALUE_CHANGE, { value: [start, end] })
     });
 
@@ -397,16 +369,8 @@ export default class TimeBarSlice {
       const ticksLength = tickRects.length;
       const start = startTickRectId / ticksLength;
       const end = id / ticksLength;
-      // this.filterData({ value: [start, end] });
       this.graph.emit(VALUE_CHANGE, { value: [start, end] })
     });
-
-    // 时间轴的值发生改变的事件
-    // this.graph.on(VALUE_CHANGE, (evt: Callback) => {
-    //   // 范围变化
-    //   this.filterData(evt);
-    //   console.log(evt)
-    // });
 
     // tooltip
     const { tooltipBackgroundColor, tooltipFomatter, canvas } = this
@@ -440,22 +404,22 @@ export default class TimeBarSlice {
     const group = this.group;
     // 播放区按钮控制
     /** 播放/暂停事件 */
-    group.on('playPauseBtn:click', () => {
+    group.on(`${PLAY_PAUSE_BTN}:click`, () => {
       this.isPlay = !this.isPlay;
       this.changePlayStatus();
     })
 
     // 处理前进一步的事件
-    group.on('nextStepBtn:click', () => {
+    group.on(`${NEXT_STEP_BTN}:click`, () => {
       this.updateStartEnd(1);
     })
 
     // 处理后退一步的事件
-    group.on('preStepBtn:click', () => {
+    group.on(`${PRE_STEP_BTN}:click`, () => {
       this.updateStartEnd(-1);
     })
 
-    group.on('timebarConfigChanged', ({ type, speed }) => {
+    group.on(TIMEBAR_CONFIG_CHANGE, ({ type, speed }) => {
       this.currentSpeed = speed
     })
   }
@@ -529,5 +493,31 @@ export default class TimeBarSlice {
     const start = self.startTickRectId / ticksLength;
     const end = self.endTickRectId / ticksLength;
     this.graph.emit(VALUE_CHANGE, { value: [start, end] })
+  }
+
+  public destory() {
+    this.graph.off(VALUE_CHANGE)
+
+    const group = this.sliceGroup
+
+    group.off('click')
+    group.off('dragstart')
+    group.off('dragover')
+    group.off('drop')
+
+    this.tickRects.forEach(tickRect => {
+      const pickRect = tickRect.pickRect;
+      pickRect.off('mouseenter')
+      pickRect.off('mouseleave')
+    })
+
+    this.tickRects.length = 0
+
+    group.off(`${PLAY_PAUSE_BTN}:click`)
+    group.off(`${NEXT_STEP_BTN}:click`)
+    group.off(`${PRE_STEP_BTN}:click`)
+    group.off(TIMEBAR_CONFIG_CHANGE)
+
+    this.sliceGroup.destroy()
   }
 }

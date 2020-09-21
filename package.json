@@ -71,7 +71,6 @@
   },
   "dependencies": {
     "@antv/color-util": "^2.0.5",
-    "@antv/component": "^0.6.1",
     "@antv/dom-util": "^2.0.1",
     "@antv/event-emitter": "~0.1.0",
     "@antv/g-base": "^0.5.1",
