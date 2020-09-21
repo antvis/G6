@@ -1,4 +1,15 @@
 import G6 from '@antv/g6';
+import insertCss from 'insert-css';
+
+// 我们用 insert-css 演示引入自定义样式
+// 推荐将样式添加到自己的样式文件中
+// 若拷贝官方代码，别忘了 npm install insert-css
+insertCss(`
+  .g6-component-timebar {
+    top: 450px;
+    left: 100px;
+  }
+`);
 
 const data = {
   nodes: [],
@@ -66,6 +77,18 @@ const timebar = new G6.TimeBar({
   },
 });
 
+const timebar = new G6.TimeBar({
+  x: 0,
+  y: 0,
+  width: 500,
+  height: 150,
+  padding: 10,
+  type: 'simple',
+  trend: {
+    data: timeBarData
+  }
+});
+
 // constrained the layout inside the area
 const constrainBox = { x: 10, y: 10, width: 580, height: 450 };
 
@@ -74,7 +97,6 @@ const onTick = () => {
   let maxx = -99999999;
   let miny = 99999999;
   let maxy = -99999999;
-  let maxsize = -9999999;
   data.nodes.forEach((node) => {
     if (minx > node.x) {
       minx = node.x;

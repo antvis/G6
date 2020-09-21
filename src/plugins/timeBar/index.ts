@@ -229,6 +229,11 @@ export default class TimeBar extends Base {
       return
     }
 
+    if (!trendData || trendData.length === 0) {
+      console.warn('请配置 TimeBar 组件的数据')
+      return
+    }
+
     const rangeChange = this.get('rangeChange');
     const graph: IGraph = this.get('graph');
 
