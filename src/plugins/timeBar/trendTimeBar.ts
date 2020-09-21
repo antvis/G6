@@ -658,6 +658,7 @@ export default class TrendTimeBar {
         this.maxText = this.ticks[maxRangeTick]
         break;
     }
+    this.graph.emit(VALUE_CHANGE, { value: [this.start, this.end] })
   }
 
   /**
