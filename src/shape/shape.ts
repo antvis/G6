@@ -204,8 +204,8 @@ export default class Shape {
       const { jsx } = nodeDefinition;
       const autoNodeDefinition = createNodeFromXML(jsx);
       shapeObj = {
-        ...autoNodeDefinition,
         ...shapeFactory.getShape('single-node'),
+        ...autoNodeDefinition,
         ...nodeDefinition,
       };
     } else {

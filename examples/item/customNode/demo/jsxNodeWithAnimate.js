@@ -11,7 +11,8 @@ import G6 from '@antv/g6';
  * Register a XML Node
  */
 
-G6.registerNode('rect-xml', (cfg) => `
+G6.registerNode('rect-xml', {
+  jsx: (cfg) => `
 <group>
   <rect style={{
     width: 200,
@@ -50,10 +51,25 @@ G6.registerNode('rect-xml', (cfg) => `
     marginLeft: 75,
     cursor: 'pointer'
   }} name="circle">
-    <image style={{ img: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png', width: 12, height: 12,  marginLeft: 70,  marginTop: -5 }} />
+    <image name="img" style={{ img: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png', width: 12, height: 12,  marginLeft: 69,  marginTop: -5 }} />
   </circle>
 </group>
-`)
+`,
+  afterDraw: (cfg, group) => {
+    console.log(group)
+    const img = group.findAllByName('img');
+    if (img[0]) {
+      img[0].animate((ratio) => {
+        return {
+          opacity: Math.abs(0.5 - ratio),
+        };
+      }, {
+        duration: 3000,
+        repeat: true,
+      }, );
+    }
+  }
+})
 
 const data = {
   nodes: [{
