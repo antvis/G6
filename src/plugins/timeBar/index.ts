@@ -114,7 +114,7 @@ export default class TimeBar extends Base {
     const graph: IGraph = this.get('graph');
     const { width, height } = this._cfgs
     const className: string = this.get('className') || 'g6-component-timebar';
-    
+
     const container: HTMLDivElement | null = this.get('container');
 
     const graphContainer = this.get('graph').get('container');
@@ -122,11 +122,11 @@ export default class TimeBar extends Base {
     let timeBarContainer;
     if (!container) {
       timeBarContainer = createDOM(`<div class='${className}'></div>`);
-      modifyCSS(timeBarContainer, { position: 'absolute' });
+      modifyCSS(timeBarContainer, { position: 'relative' });
     } else {
       timeBarContainer = container;
     }
-    
+
     graphContainer.appendChild(timeBarContainer);
 
     this.set('timeBarContainer', timeBarContainer);
@@ -215,7 +215,7 @@ export default class TimeBar extends Base {
 
   private filterData(evt) {
     const { value } = evt;
-    
+
     let trendData = null
     const type = this._cfgs.type
     if (type === 'trend' || type === 'simple') {
@@ -223,7 +223,7 @@ export default class TimeBar extends Base {
     } else if (type === 'slice') {
       trendData = this._cfgs.slice.data
     }
-    
+
     if (!trendData || trendData.length === 0) {
       console.warn('请配置 TimeBar 组件的数据')
       return
