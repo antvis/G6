@@ -31,7 +31,7 @@ const DEFAULT_STYLE = {
   opacity: 1,
   cursor: 'ew-resize',
   // 高亮的颜色
-  highLightFill: '#FFF',
+  highLightFill: '#0050b3',
 };
 
 const SIMPLE_DEFAULT_STYLE = {
@@ -194,7 +194,9 @@ export default class Handler {
     // 移动到对应的位置
     this.updateXY();
 
-    this.bindEvents();
+    if (this.handleType === 'trend') {
+      this.bindEvents();
+    }
   }
 
   private bindEvents() {

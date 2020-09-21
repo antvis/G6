@@ -3,10 +3,6 @@ import { deepMix } from '@antv/util'
 import Button from './timeButton';
 import { ShapeStyle } from '../../types';
 
-export const TIMELINE_START = 'timelinestart';
-export const TIMELINE_CHANGE = 'timelinechange';
-export const TIMELINE_END = 'timelineend';
-
 const DEFAULT_RECT_FILL = '#ccc'
 const DEFAULT_RECT_STROKE = 'green'
 const DEFAULT_PLAYBTN_STYLE = {
@@ -64,10 +60,6 @@ export type ControllerCfg = Partial<{
   readonly playBtnStyle?: ShapeStyle;
 }>
 
-/**
- * 参考示例
- * https://www.gapminder.org/tools/#$state$time$value=1870&delay:100;;&chart-type=bubbles
- */
 export default class ControllerBtn {
   /** 是否处于播放状态 */
   private isPlay: boolean;
@@ -372,6 +364,11 @@ export default class ControllerBtn {
   }
 
   public destroy() {
-    this.group.off('playPauseBtn:click')
+    this.speedGroup.off('speed-rect:click')
+    if (this.toggleGroup) {
+      this.toggleGroup.off('toggle-model:click')
+      this.toggleGroup.destroy()
+    }
+    this.speedGroup.destroy()
   }
 }

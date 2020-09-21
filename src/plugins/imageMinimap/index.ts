@@ -1,4 +1,3 @@
-import GCanvas from '@antv/g-canvas/lib/canvas';
 import Base, { IPluginBaseConfig } from '../base';
 import isString from '@antv/util/lib/is-string';
 import createDOM from '@antv/dom-util/lib/create-dom';

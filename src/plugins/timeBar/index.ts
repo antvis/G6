@@ -1,79 +1,74 @@
-import modifyCSS from '@antv/dom-util/lib/modify-css';
-import createDOM from '@antv/dom-util/lib/create-dom';
-import { IGroup } from '@antv/g-base';
-import { Canvas } from '@antv/g-canvas';
-import { Slider } from '@antv/component';
-import { ShapeStyle, GraphData } from '../../types';
+/**
+ * 基于 G 的时间轴组件
+ */
+import GCanvas from '@antv/g-canvas/lib/canvas';
+import GSVGCanvas from '@antv/g-svg/lib/canvas';
+import { IGroup, ICanvas } from '@antv/g-base';
+import createDOM from '@antv/dom-util/lib/create-dom'
+import modifyCSS from '@antv/dom-util/lib/modify-css'
+import { isString } from '@antv/util'
 import Base, { IPluginBaseConfig } from '../base';
+import TrendTimeBar, { SliderOption, ControllerCfg } from './trendTimeBar'
+import TimeBarSlice, { TimeBarSliceOption } from './timeBarSlice'
 import { IGraph } from '../../interface/graph';
+import { VALUE_CHANGE } from './constant'
+import { GraphData, ShapeStyle } from '../../types';
+import { Interval } from './trend';
 
-interface Data {
-  date: string;
-  value: number;
-}
+// simple 版本默认高度
+const DEFAULT_SIMPLE_HEIGHT = 8
 
-interface Callback {
+// trend 版本默认高度
+const DEFAULT_TREND_HEIGHT = 26
+
+export interface Callback {
   originValue: number[];
   value: number[];
   target: IGroup;
 }
 
 interface TrendConfig {
-  readonly data: Data[];
+  // 数据
+  readonly data: {
+    date: string;
+    value: string;
+  }[];
+  // 位置大小
+  readonly x?: number;
+  readonly y?: number;
+  readonly width?: number;
+  readonly height?: number;
   // 样式
   readonly smooth?: boolean;
   readonly isArea?: boolean;
   readonly backgroundStyle?: ShapeStyle;
   readonly lineStyle?: ShapeStyle;
   readonly areaStyle?: ShapeStyle;
+  readonly interval?: Interval;
 }
-
-interface ExtendedTrendConfig {
-  readonly data: number[];
-  // 样式
-  readonly smooth?: boolean;
-  readonly isArea?: boolean;
-  readonly backgroundStyle?: ShapeStyle;
-  readonly lineStyle?: ShapeStyle;
-  readonly areaStyle?: ShapeStyle;
-}
-
-type TimeBarOption = Partial<{
-  // position size
-  readonly x: number;
-  readonly y: number;
-  readonly width: number;
-  readonly height: number;
-
-  readonly backgroundStyle: ShapeStyle;
-  readonly foregroundStyle: ShapeStyle;
-  // 滑块样式
-  readonly handlerStyle: {
-    width: number;
-    height: number;
-    style: ShapeStyle;
-  };
-  readonly textStyle: ShapeStyle;
-  // 允许滑动位置
-  readonly minLimit: number;
-  readonly maxLimit: number;
-  // 初始位置
-  readonly start: number;
-  readonly end: number;
-  // 滑块文本
-  readonly minText: string;
-  readonly maxText: string;
-
-  readonly trend: TrendConfig;
-
-  readonly trendCfg: ExtendedTrendConfig;
-}>;
 
 interface TimeBarConfig extends IPluginBaseConfig {
-  width?: number;
-  height?: number;
-  timebar: TimeBarOption;
-  rangeChange?: (graph: IGraph, min: number, max: number) => void;
+  // position size
+  readonly x?: number;
+  readonly y?: number;
+  readonly width?: number;
+  readonly height?: number;
+  readonly padding?: number;
+
+  readonly type?: 'trend' | 'simple' | 'slice';
+  // 趋势图配置项
+  readonly trend?: TrendConfig;
+  // 滑块、及前后背景的配置
+  readonly slider?: SliderOption;
+
+  // 刻度时间轴配置项
+  readonly slice?: TimeBarSliceOption;
+
+  // 控制按钮
+  readonly controllerCfg?: ControllerCfg;
+
+  rangeChange?: (graph: IGraph, minValue: string, maxValue: string) => void;
+  valueChange?: (graph: IGraph, value: string) => void;
 }
 
 export default class TimeBar extends Base {
@@ -81,125 +76,162 @@ export default class TimeBar extends Base {
 
   public getDefaultCfgs(): TimeBarConfig {
     return {
-      width: 400,
-      height: 50,
-      rangeChange: null,
-      timebar: {
-        x: 10,
-        y: 10,
-        width: 380,
-        height: 26,
-        minLimit: 0,
-        maxLimit: 1,
+      container: null,
+      className: 'g6-component-timebar',
+      padding: 10,
+      type: 'trend',
+      trend: {
+        data: [],
+        isArea: false,
+        smooth: true
+      },
+      controllerCfg: {
+        speed: 2,
+        loop: false,
+      },
+      slider: {
         start: 0.1,
         end: 0.9,
+        minText: 'min',
+        maxText: 'max',
       },
+      slice: {
+        start: 0.1,
+        end: 0.9,
+        data: []
+      }
     };
   }
 
-  public init() {
-    const timeBarConfig: TimeBarOption = this.get('timebar');
-    const { trend = {} as TrendConfig } = timeBarConfig;
-    const { data = [] } = trend;
+  constructor(cfgs?: TimeBarConfig) {
+    super(cfgs)
+  }
 
-    if (!data || data.length === 0) {
-      console.warn('TimeBar 中没有传入数据');
-      return;
-    }
-
+  /**
+   * 初始化 TimeBar 的容器
+   */
+  public initContainer() {
+    const graph: IGraph = this.get('graph');
+    const { width, height } = this._cfgs
+    const className: string = this.get('className') || 'g6-component-timebar';
+    
     const container: HTMLDivElement | null = this.get('container');
 
     const graphContainer = this.get('graph').get('container');
 
-    let timebar;
+    let timeBarContainer;
     if (!container) {
-      timebar = createDOM(`<div class='g6-component-timebar'></div>`);
-      modifyCSS(timebar, { position: 'absolute' });
+      timeBarContainer = createDOM(`<div class='${className}'></div>`);
+      modifyCSS(timeBarContainer, { position: 'absolute' });
     } else {
-      timebar = container;
+      timeBarContainer = container;
     }
-    graphContainer.appendChild(timebar);
+    
+    graphContainer.appendChild(timeBarContainer);
 
-    this.set('timeBarContainer', timebar);
+    this.set('timeBarContainer', timeBarContainer);
 
-    this.initTimeBar(timebar);
+    let canvas;
+    const renderer = graph.get('renderer');
+    if (renderer === 'SVG') {
+      canvas = new GSVGCanvas({
+        container: timeBarContainer,
+        width,
+        height,
+      });
+    } else {
+      canvas = new GCanvas({
+        container: timeBarContainer,
+        width,
+        height,
+      });
+    }
+    this.set('canvas', canvas);
   }
 
-  private initTimeBar(container: HTMLDivElement) {
-    const width = this.get('width');
-    const height = this.get('height');
-    const canvas = new Canvas({
-      container,
-      width,
-      height,
-    });
+  public init() {
+    this.initContainer()
+    const canvas: ICanvas = this.get('canvas')
+    const timeBarGroup = canvas.addGroup({
+      name: 'timebar-group'
+    })
 
-    const group = canvas.addGroup({
-      id: 'timebar-plugin',
-    });
+    this.set('timeBarGroup', timeBarGroup)
 
-    const timeBarConfig: TimeBarOption = this.get('timebar');
-    const { trend = {} as TrendConfig, ...option } = timeBarConfig;
-
-    const config = {
-      container: group,
-      minText: option.start,
-      maxText: option.end,
-      ...option,
-    };
-
-    // 是否显示 TimeBar 根据是否传入了数据来确定
-    const { data = [], ...trendOption } = trend;
-
-    const trendData = data.map((d) => d.value);
-
-    config.trendCfg = {
-      ...trendOption,
-      data: trendData,
-    };
-
-    const min = Math.round(data.length * option.start);
-    let max = Math.round(data.length * option.end);
-    max = max >= data.length ? data.length - 1 : max;
-
-    config.minText = data[min].date;
-    config.maxText = data[max].date;
-
-    this.set('trendData', data);
-
-    const slider = new Slider(config);
-
-    slider.init();
-    slider.render();
-
-    this.set('slider', slider);
-
-    this.bindEvent();
+    this.renderTrend()
+    this.initEvent()
   }
 
-  /**
-   * 当滑动时，最小值和最大值会变化，变化以后触发相应事件
-   */
-  private bindEvent() {
-    const slider = this.get('slider');
-    const { start, end } = this.get('timebar');
-    const graph: IGraph = this.get('graph');
-    graph.on('afterrender', (e) => {
-      this.filterData({ value: [start, end] });
-    });
+  private renderTrend() {
+    const { width, x, y, padding, type, trend, slider, controllerCfg } = this._cfgs
+    const { data, ...other } = trend
 
-    slider.on('valuechanged', (evt: Callback) => {
-      this.filterData(evt);
-    });
+    const realWidth = width - 2 * padding
+    const defaultHeight = type === 'trend' ? DEFAULT_TREND_HEIGHT : DEFAULT_SIMPLE_HEIGHT
+
+    const graph = this.get('graph')
+    const group = this.get('timeBarGroup')
+    const canvas = this.get('canvas')
+
+    let timebar = null
+    if (type === 'trend' || type === 'simple') {
+      timebar = new TrendTimeBar({
+        graph,
+        canvas,
+        group,
+        type,
+        x: x + padding,
+        y: type === 'trend' ? y + padding : y + padding + 15,
+        width: realWidth,
+        height: defaultHeight,
+        padding,
+        trendCfg: {
+          ...other,
+          data: data.map(d => d.value)
+        },
+        ...slider,
+        ticks: data.map(d => d.date),
+        handlerStyle: {
+          ...slider.handlerStyle,
+          height: slider.height || defaultHeight
+        },
+        controllerCfg
+      })
+    } else if (type === 'slice') {
+      const { slice } = this._cfgs
+      // 刻度时间轴
+      timebar = new TimeBarSlice({
+        graph,
+        canvas,
+        group,
+        x: x + padding,
+        y: y + padding,
+        ...slice
+      })
+    }
+
+    this.set('timebar', timebar)
   }
 
   private filterData(evt) {
     const { value } = evt;
+    
+    let trendData = null
+    const type = this._cfgs.type
+    if (type === 'trend' || type === 'simple') {
+      trendData = this._cfgs.trend.data
+    } else if (type === 'slice') {
+      trendData = this._cfgs.slice.data
+    }
+    
+    if (!trendData || trendData.length === 0) {
+      console.warn('请配置 TimeBar 组件的数据')
+      return
+    }
 
-    const trendData: Data[] = this.get('trendData');
     const rangeChange = this.get('rangeChange');
     const graph: IGraph = this.get('graph');
-    const slider = this.get('slider');
+
     const min = Math.round(trendData.length * value[0]);
     let max = Math.round(trendData.length * value[1]);
     max = max >= trendData.length ? trendData.length - 1 : max;
@@ -207,8 +239,10 @@ export default class TimeBar extends Base {
     const minText = trendData[min].date;
     const maxText = trendData[max].date;
 
-    slider.set('minText', minText);
-    slider.set('maxText', maxText);
+    if (type !== 'slice') {
+      const timebar = this.get('timebar');
+      timebar.setText(minText, maxText)
+    }
 
     if (rangeChange) {
       rangeChange(graph, minText, maxText);
@@ -242,25 +276,37 @@ export default class TimeBar extends Base {
     }
   }
 
-  public show() {
-    const slider = this.get('slider');
-    slider.show();
-  }
+  private initEvent() {
+    let start = 0
+    let end = 0
+    const type = this._cfgs.type
+    if (!type || type === 'trend' || type === 'simple') {
+      start = this._cfgs.slider.start
+      end = this._cfgs.slider.end
+    } else if (type === 'slice') {
+      start = this._cfgs.slice.start
+      end = this._cfgs.slice.end
+    }
 
-  public hide() {
-    const slider = this.get('slider');
-    slider.hide();
+    const graph: IGraph = this.get('graph');
+    graph.on('afterrender', () => {
+      this.filterData({ value: [start, end] });
+    });
+
+    // 时间轴的值发生改变的事件
+    graph.on(VALUE_CHANGE, (evt: Callback) => {
+      // 范围变化
+      this.filterData(evt);
+    });
   }
 
   public destroy() {
-    this.cacheGraphData = null;
-
-    const slider = this.get('slider');
-
-    if (slider) {
-      slider.off('valuechanged');
-      slider.destroy();
+    const timebar = this.get('timebar')
+    if (timebar && timebar.destory) {
+      timebar.destory()
     }
+
+    super.destroy();
 
     const timeBarContainer = this.get('timeBarContainer');
     if (timeBarContainer) {

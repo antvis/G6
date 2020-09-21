@@ -1,5 +1,5 @@
 import G6 from '../../../src';
-import TimeBar from '../../../src/plugins/timeBar/timeBar'
+import TimeBar from '../../../src/plugins/timeBar'
 const div = document.createElement('div');
 div.id = 'timebar-plugin';
 document.body.appendChild(div);

@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import G6, { Graph } from '../../../src';
 import { IGraph } from '../../../src/interface/graph';
-import TimeBar from '../../../src/plugins/timeBar/timeBar';
 
 let graph: IGraph = null;
 
@@ -50,7 +49,7 @@ const TimeBarS = () => {
   console.log('timeBarData', timeBarData)
 
   let count = 0;
-  const timebar = new TimeBar({
+  const timebar = new G6.TimeBar({
     x: 0,
     y: 0,
     width: 500,

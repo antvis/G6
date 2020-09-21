@@ -7,18 +7,26 @@
     {
       "filename": "timebar.js",
       "title": {
-        "zh": "时间轴",
-        "en": "ToolBar"
+        "zh": "趋势时间轴",
+        "en": "TrendTimeBar"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*eq2kQ4N-pNcAAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lfvIQJYbs7oAAAAAAAAAAAAAARQnAQ"
     },
     {
-      "filename": "configTimebar.js",
+      "filename": "simple-timebar.js",
       "title": {
-        "zh": "定义时间轴样式",
-        "en": "ToolBar"
+        "zh": "简易时间轴",
+        "en": "SimperTimeBar"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*eq2kQ4N-pNcAAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*g2zhQqP6ruYAAAAAAAAAAAAAARQnAQ"
+    },
+    {
+      "filename": "slice-timebar.js",
+      "title": {
+        "zh": "刻度时间轴",
+        "en": "SliceTimeBar"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*n6ECQ7Jn5pQAAAAAAAAAAAAAARQnAQ"
     }
   ]
 }

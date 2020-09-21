@@ -51,10 +51,10 @@ const timebar = new G6.TimeBar({
   width: 500,
   height: 150,
   padding: 10,
-  type: 'trend',
+  type: 'simple',
   trend: {
     data: timeBarData
-  },
+  }
 });
 
 // constrained the layout inside the area
@@ -65,7 +65,6 @@ const onTick = () => {
   let maxx = -99999999;
   let miny = 99999999;
   let maxy = -99999999;
-  let maxsize = -9999999;
   data.nodes.forEach((node) => {
     if (minx > node.x) {
       minx = node.x;
