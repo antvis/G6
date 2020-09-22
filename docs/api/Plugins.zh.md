@@ -346,12 +346,14 @@ const graph = new G6.Graph({
 
 ## TimeBar
 
+**重要说明：**Timebar最新文档待更新，请先参考官网中组件 -> 时间轴 DEMO。
+
 目前 G6 内置的 TimeBar 主要有以下功能：
 
 - 改变时间范围，过滤图上的数据；
 - TimeBar 上展示指定字段随时间推移的变化趋势。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HJjmT7uQwjAAAAAAAAAAAABkARQnAQ' width=700 alt='img'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lfvIQJYbs7oAAAAAAAAAAAAAARQnAQ' width=700 alt='img'/>
 
 **说明：** 目前的 TimeBar 功能还比较简单，不能用于较为复杂的时序分析。
 
@@ -556,7 +558,7 @@ Fisheye 鱼眼放大镜是为 focus+context 的探索场景设计的，它能够
 
 #### updateParams(cfg)
 
-用于更新该 minimap 的部分配置项，包括 `trigger`，`d`，`r`，`maxR`，`minR`，`maxD`，`minD`，`scaleRBy`，`scaleDBy`。例如：
+用于更新该 FishEye 的部分配置项，包括 `trigger`，`d`，`r`，`maxR`，`minR`，`maxD`，`minD`，`scaleRBy`，`scaleDBy`。例如：
 
 ```
 const fisheye = new G6.Fisheye({

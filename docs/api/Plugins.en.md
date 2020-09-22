@@ -339,12 +339,14 @@ const graph = new G6.Graph({
 
 ## TimeBar
 
+**Important Note:** The latest Timebar document is to be updated, please refer to the components in the official website -> TimeBar DEMO.
+
 The built-in TimeBar plugin has the following abilities:
 
 - Filtering the data of the graph by changing the time range;
 - Demonstrating the trending of the data by an attribute on the TimeBar.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HJjmT7uQwjAAAAAAAAAAAABkARQnAQ' width=700 alt='img'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lfvIQJYbs7oAAAAAAAAAAAAAARQnAQ' width=700 alt='img'/>
 
 **Description:** It is a beta version of TimeBar, which will support complex time series graph and analysis in the future.
 
@@ -547,7 +549,7 @@ Fisheye is designed for focus_context exploration, it keeps the context and the 
 
 #### updateParams(cfg)
 
-Update partial of the configurations of the minimap instance, including `trigger`, `d`, `r`, `maxR`, `minR`, `maxD`, `minD`, `scaleRBy`, and `scaleDBy`. E.g.
+Update partial of the configurations of the FishEye instance, including `trigger`, `d`, `r`, `maxR`, `minR`, `maxD`, `minD`, `scaleRBy`, and `scaleDBy`. E.g.
 
 ```
 const fisheye = new G6.Fisheye({

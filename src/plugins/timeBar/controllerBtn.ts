@@ -163,13 +163,12 @@ export default class ControllerBtn {
       });
     }
 
-    // 前进按钮
+    // 后退按钮
     this.group.addShape('path', {
       attrs: {
         path: this.getPreMarkerPath(width / 2 - 5 * r, realY + r + 5, r * 0.5),
         ...preBtnStyle
       },
-      capture: false,
       name: 'preStepBtn'
     })
     this.group.addShape('path', {
@@ -177,17 +176,15 @@ export default class ControllerBtn {
         path: this.getPreMarkerPath(width / 2 - 4.5 * r, realY + r + 5, r * 0.5),
         ...preBtnStyle
       },
-      capture: false,
       name: 'preStepBtn'
     })
 
-    // 后退按钮
+    // 前进按钮
     this.group.addShape('path', {
       attrs: {
         path: this.getNextMarkerPath(width / 2 + 5 * r, realY + r + 5, r * 0.5),
         ...nextBtnStyle
       },
-      capture: false,
       name: 'nextStepBtn'
     })
     this.group.addShape('path', {
@@ -195,7 +192,6 @@ export default class ControllerBtn {
         path: this.getNextMarkerPath(width / 2 + 4.5 * r, realY + r + 5, r * 0.5),
         ...nextBtnStyle
       },
-      capture: false,
       name: 'nextStepBtn'
     })
     container.toBack();
