@@ -6,7 +6,6 @@ import GSVGCanvas from '@antv/g-svg/lib/canvas';
 import { IGroup, ICanvas } from '@antv/g-base';
 import createDOM from '@antv/dom-util/lib/create-dom'
 import modifyCSS from '@antv/dom-util/lib/modify-css'
-import { isString } from '@antv/util'
 import Base, { IPluginBaseConfig } from '../base';
 import TrendTimeBar, { SliderOption, ControllerCfg } from './trendTimeBar'
 import TimeBarSlice, { TimeBarSliceOption } from './timeBarSlice'
