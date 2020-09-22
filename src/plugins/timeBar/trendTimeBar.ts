@@ -522,16 +522,18 @@ export default class TrendTimeBar {
     })
   }
 
-  private onMouseDown = (handler: Handler | IShape) => (event: Event) => {
+  private onMouseDown = (handler: Handler | IShape) => (e: Event) => {
     // 1. 记录点击的滑块
     this.currentHandler = handler;
+
+    const event = e.originalEvent as MouseEvent
 
     // 2. 存储当前点击位置
     event.stopPropagation();
     event.preventDefault();
 
     // 兼容移动端获取数据
-    this.prevX = get(event, 'touches.0.pageX', event.x);
+    this.prevX = get(event, 'touches.0.pageX', event.pageX);
 
     // 3. 开始滑动的时候，绑定 move 和 up 事件
     const containerDOM = this.canvas.get('container');
@@ -564,13 +566,6 @@ export default class TrendTimeBar {
     this.updateUI();
 
     this.prevX = x;
-
-    if (this.currentMode === 'range') {
-      // 因为存储的 start、end 可能不一定是按大小存储的，所以排序一下，对外是 end >= start
-      this.graph.emit(VALUE_CHANGE, { value: [this.start, this.end].sort() });
-    } else if (this.currentMode === 'single') {
-      this.graph.emit(VALUE_CHANGE, { value: [this.end, this.end] });
-    }
   };
 
   private onMouseUp = () => {
@@ -664,7 +659,6 @@ export default class TrendTimeBar {
         this.maxText = this.ticks[maxRangeTick]
         break;
     }
-    this.graph.emit(VALUE_CHANGE, { value: [this.start, this.end] })
   }
 
   /**
@@ -702,6 +696,13 @@ export default class TrendTimeBar {
     // 3. 右侧滑块和文字位置
     this.maxHandlerShape.setX(max - handlerWidth / 2);
     each(maxAttrs, (v, k) => this.maxTextShape.attr(k, v));
+
+    if (this.currentMode === 'range') {
+      // 因为存储的 start、end 可能不一定是按大小存储的，所以排序一下，对外是 end >= start
+      this.graph.emit(VALUE_CHANGE, { value: [this.start, this.end].sort() });
+    } else if (this.currentMode === 'single') {
+      this.graph.emit(VALUE_CHANGE, { value: [this.end, this.end] });
+    }
   }
 
   /**
