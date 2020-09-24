@@ -102,10 +102,6 @@ export default class TimeBar extends Base {
     };
   }
 
-  constructor(cfgs?: TimeBarConfig) {
-    super(cfgs)
-  }
-
   /**
    * 初始化 TimeBar 的容器
    */

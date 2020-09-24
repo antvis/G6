@@ -65,9 +65,13 @@ export default class ControllerBtn {
   private isPlay: boolean;
 
   public playButton: Button;
+
   public preStepButton: IShape;
+
   public nextStepButton: IShape;
+
   private checkedIcon: IShape;
+  
   private checkedText: IShape;
 
   readonly controllerCfg?: ControllerCfg;
@@ -75,10 +79,13 @@ export default class ControllerBtn {
   private group: IGroup;
 
   private speedGroup: IGroup;
+
   private toggleGroup: IGroup;
 
   private speedText: IShape;
+
   private speedPoint: IShape;
+
   private speedAxisY: number[];
 
   // 当前播放速度

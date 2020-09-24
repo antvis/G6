@@ -20,18 +20,21 @@ interface ButtonCfg {
 export default class Button {
   /** button 配置 */
   private config: ButtonCfg;
+
   /** 圆点 */
   private circle: IShape;
+
   /** 开始 marker */
   private startMarker: IShape;
+
   /** 暂停 marker */
   private pauseGroupMarker: IGroup;
+
   private pauseLeftMarker: IShape;
+
   private pauseRightMarker: IShape;
 
   constructor(cfg: ButtonCfg) {
-    // super();
-
     this.config = deepMix({}, cfg);
 
     this.init();
@@ -84,8 +87,8 @@ export default class Button {
       attrs: {
         x: this.config.x - (1 / 4 + 1 / 8) * this.config.r,
         y: this.config.y - height / 2,
-        width: width,
-        height: height,
+        width,
+        height,
         fill: '#ccc',
       },
       name: 'playPauseBtn'

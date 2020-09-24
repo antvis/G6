@@ -43,21 +43,26 @@ const SIMPLE_DEFAULT_STYLE = {
 }
 
 export default class Handler {
-
   // handle容器
   private group: IGroup;
+
   private name: string;
 
   private x: number;
+
   private y: number;
+
   private width: number;
+
   private height: number;
 
   private style: IStyle;
+
   private handleType: 'trend' | 'simple';
 
   // 组件
   private background: IShape;
+
   private handleGroup: IGroup;
 
   constructor(cfg: HandlerCfg) {

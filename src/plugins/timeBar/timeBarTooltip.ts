@@ -1,7 +1,5 @@
-import { IGroup, IShape } from '@antv/g-base';
 import createDOM from '@antv/dom-util/lib/create-dom'
-import { dataToPath, linePathToAreaPath } from './path';
-import { isNumber, isString } from '@antv/util';
+import { isString } from '@antv/util';
 import modifyCSS from '@antv/dom-util/lib/modify-css';
 
 export const BACKGROUND_STYLE = {
@@ -16,13 +14,6 @@ export const ARROW_STYLE = {
 export const TEXT_STYLE = {
   fill: '#fff',
   fontSize: 12
-};
-
-interface ArrowStyle {
-  r?: number,
-  fill?: string,
-  stroke?: string,
-  lineWidth?: number
 };
 
 export interface TimeBarTooltipCfg {
@@ -48,20 +39,32 @@ export interface TimeBarTooltipCfg {
  */
 export default class TimeBarTooltip {
   private container: HTMLElement | string;
+
   private className: string;
+
   // 生成的 shape
   public backgroundDOM: HTMLElement;
+
   public arrowDOM: HTMLElement;
+
   // 位置大小配置
   private x: number;
+
   private y: number;
+
   // style
   private padding: number[];
+
   private backgroundColor: string;
+
   private textColor: string;
+
   private parentHeight: number;
+
   private parentWidth: number;
+
   private opacity: number;
+
   private fontSize: number;
 
   private text: string;
@@ -154,8 +157,8 @@ export default class TimeBarTooltip {
       modifyCSS(self.backgroundDOM, { marginLeft: `${-backgroundWidth / 2 - right + self.parentWidth + 12}px` })
     }
   }
+  
   public hide() {
-    const self = this;
-    modifyCSS(self.container as HTMLElement, { top: 0, left: 0, visibility: 'hidden', });
+    modifyCSS(this.container as HTMLElement, { top: 0, left: 0, visibility: 'hidden', });
   }
 }

@@ -64,44 +64,65 @@ export interface TimeBarSliceOption {
 
 export default class TimeBarSlice {
   private graph: IGraph;
+
   private canvas: ICanvas;
+
   private group: IGroup;
+
   private sliceGroup: IGroup;
+
   private width: number;
+
   private height: number;
+
   private padding: number;
+
   private data: {
     date: string;
     value: string;
   }[];
+
   private start: number;
+
   private end: number;
 
   // style
   public x: number;
+
   public y: number;
+
   private selectedTickStyle: ShapeStyle;
+
   private unselectedTickStyle: ShapeStyle;
+
   private tickLabelFormatter: (d: any) => string | boolean;
 
   private tickRects: any[];
+
   private tickWidth: number;
+
   private startTickRectId: number;
+
   private endTickRectId: number;
 
   private tooltipBackgroundColor: string;
+
   private tooltipFomatter: (d: any) => string;
 
   private dragging: boolean;
 
   // play controller
   private controllerBtnGroup: ControllerBtn;
+
   /** 是否处于播放状态 */
   private isPlay: boolean;
+
   // 调整后的播放速度
   private currentSpeed: number;
+
   /** 动画 id */
   private playHandler: number;
+  
   private frameCount: number = 0;
 
   constructor(cfgs?: TimeBarSliceConfig) {
@@ -217,7 +238,7 @@ export default class TimeBarSlice {
         y: rectBBox.minY
       });
 
-      let label = undefined;
+      let label;
       if (tickLabelFormatter) {
         label = tickLabelFormatter(d);
         if (!isString(label) && label) { // return true
@@ -290,7 +311,7 @@ export default class TimeBarSlice {
     sliceGroup.on('click', e => {
       const targetRect = e.target;
       if (targetRect.get('type') !== 'rect' || !targetRect.get('name')) return;
-      const id = parseInt(targetRect.get('name').split('-')[2]);
+      const id = parseInt(targetRect.get('name').split('-')[2], 10);
 
       if (!isNaN(id)) {
         const tickRects = this.tickRects
@@ -318,7 +339,7 @@ export default class TimeBarSlice {
         tickRect.rect.attr(unselectedTickStyle);
       })
       const targetRect = e.target;
-      const id = parseInt(targetRect.get('name').split('-')[2]);
+      const id = parseInt(targetRect.get('name').split('-')[2], 10);
       const selectedTickStyle = this.selectedTickStyle
       tickRects[id].rect.attr(selectedTickStyle);
       this.startTickRectId = id
@@ -333,7 +354,7 @@ export default class TimeBarSlice {
       if (!this.dragging) return;
       if (e.target.get('type') !== 'rect') return;
 
-      const id = parseInt(e.target.get('name').split('-')[2]);
+      const id = parseInt(e.target.get('name').split('-')[2], 10);
       const startTickRectId = this.startTickRectId
       const tickRects = this.tickRects
       const selectedTickStyle = this.selectedTickStyle
@@ -357,7 +378,7 @@ export default class TimeBarSlice {
 
       if (e.target.get('type') !== 'rect') return;
       const startTickRectId = this.startTickRectId
-      const id = parseInt(e.target.get('name').split('-')[2]);
+      const id = parseInt(e.target.get('name').split('-')[2], 10);
       if (id < startTickRectId) return;
 
       const selectedTickStyle = this.selectedTickStyle
@@ -383,7 +404,7 @@ export default class TimeBarSlice {
       pickRect.on('mouseenter', e => {
         const rect = e.target;
         if (rect.get('type') !== 'rect') return;
-        const id = parseInt(rect.get('name').split('-')[2]);
+        const id = parseInt(rect.get('name').split('-')[2], 10);
         const clientPoint = canvas.getClientByPoint(tickRects[id].x, tickRects[id].y)
         tooltip.show({
           x: tickRects[id].x,
