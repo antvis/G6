@@ -1,15 +1,18 @@
 import G6 from '@antv/g6';
 
 /**
- *  Custom a JSX node
+ *  Custom a xml node
  *  by Dominic Ming
  *
  */
 
-G6.registerNode('rect-jsx', 
-  (cfg) => `
+G6.registerNode('rect-xml', {
+  jsx: (cfg) => `
     <group>
-      <rect>
+      <rect style={{
+        width: 200,
+        height: 75,
+      }}>
         <rect style={{
           width: 150,
           height: 20,
@@ -43,38 +46,39 @@ G6.registerNode('rect-jsx',
         marginLeft: 75,
         cursor: 'pointer'
       }} name="circle">
-        <image style={{ img: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png', width: 12, height: 12,  marginLeft: 70,  marginTop: -5 }} />
+        <image name="img" style={{ img: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png', width: 12, height: 12,  marginLeft: 69,  marginTop: -5 }} />
       </circle>
-    </group>`
-  )
+    </group>
+  `,
+  afterDraw: (cfg, group) => {
+    console.log(group)
+    const img = group.findAllByName('img');
+    if (img[0]) {
+      img[0].animate((ratio) => {
+        return {
+          opacity: Math.abs(0.5 - ratio),
+        };
+      }, {
+        duration: 3000,
+        repeat: true,
+      }, );
+    }
+  }
+})
 
 const data = {
   nodes: [{
     x: 150,
     y: 150,
-    description: "ant_type_name_...",
-    label: "Type / ReferType",
-    color: '#2196f3',
-    meta: {
-      creatorName: "a_creator"
+    "description": "ant_type_name_...",
+    "label": "Type / ReferType",
+    "color": '#2196f3',
+    "meta": {
+      "creatorName": "a_creator"
     },
-    id: "node1",
-    type: 'rect-jsx'
-  }, {
-    x: 350,
-    y: 150,
-    description: "node2_name...",
-    label: "JSX Node",
-    color: '#2196f3',
-    meta: {
-      creatorName: "a_creator"
-    },
-    id: 'node2',
-    type: 'rect-jsx'
+    "id": "test",
+    type: 'rect-xml'
   }],
-  edges: [
-    { source: 'node1', target: 'node2' }
-  ]
 };
 
 const width = document.getElementById('container').scrollWidth;
@@ -85,9 +89,6 @@ const graph = new G6.Graph({
   height,
   // translate the graph to align the canvas's center, support by v3.5.1
   fitCenter: true,
-  modes: {
-    default: ['drag-node', 'zoom-canvas']
-  }
 });
 
 graph.data(data);

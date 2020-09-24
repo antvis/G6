@@ -188,7 +188,6 @@ Shape.registerNode(
       const size = (this as ShapeOptions).getSize!(cfg);
       const width = size[0];
       const height = size[1];
-
       if (left) {
         // left circle
         group.addShape('circle', {
@@ -250,7 +249,7 @@ Shape.registerNode(
       }
     },
     drawLabel(cfg: NodeConfig, group: GGroup): IShape {
-      const { labelCfg, logoIcon, descriptionCfg } = this.getOptions(cfg) as NodeConfig;
+      const { labelCfg = {}, logoIcon = {}, descriptionCfg = {} } = this.getOptions(cfg) as NodeConfig;
 
       const size = (this as ShapeOptions).getSize!(cfg);
       const width = size[0];
@@ -328,7 +327,7 @@ Shape.registerNode(
       return styles;
     },
     update(cfg: NodeConfig, item: Item) {
-      const { style, labelCfg, descriptionCfg } = this.getOptions(cfg) as NodeConfig;
+      const { style = {}, labelCfg = {}, descriptionCfg = {} } = this.getOptions(cfg) as NodeConfig;
       const size = (this as ShapeOptions).getSize!(cfg);
       const width = size[0];
       const height = size[1];

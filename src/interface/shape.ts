@@ -24,6 +24,8 @@ export type ShapeOptions = Partial<{
   shapeType: string;
   labelPosition: string;
   labelAutoRotate: boolean;
+
+  jsx: ShapeDefine;
   [key: string]: any;
 
   /**
