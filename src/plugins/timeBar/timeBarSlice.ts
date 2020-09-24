@@ -487,11 +487,12 @@ export default class TimeBarSlice {
       }
       self.startTickRectId = self.endTickRectId
     }
-    tickRects[self.endTickRectId].rect.attr(selectedTickStyle);
-
-    const start = self.startTickRectId / ticksLength;
-    const end = self.endTickRectId / ticksLength;
-    this.graph.emit(VALUE_CHANGE, { value: [start, end] })
+    if (tickRects[self.endTickRectId]) {
+      tickRects[self.endTickRectId].rect.attr(selectedTickStyle);
+      const start = self.startTickRectId / ticksLength;
+      const end = self.endTickRectId / ticksLength;
+      this.graph.emit(VALUE_CHANGE, { value: [start, end] })
+    }
   }
 
   public destory() {

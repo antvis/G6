@@ -66,18 +66,6 @@ const timebar = new G6.TimeBar({
   },
 });
 
-const timebar = new G6.TimeBar({
-  x: 0,
-  y: 0,
-  width: 500,
-  height: 150,
-  padding: 10,
-  type: 'simple',
-  trend: {
-    data: timeBarData
-  }
-});
-
 // constrained the layout inside the area
 const constrainBox = { x: 10, y: 10, width: 580, height: 450 };
 

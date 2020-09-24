@@ -130,7 +130,7 @@ Shape.registerNode(
      * @param {Group} group Group实例
      */
     drawLogoIcon(cfg: NodeConfig, group: GGroup) {
-      const { logoIcon } = this.getOptions(cfg) as NodeConfig;
+      const { logoIcon = {} } = this.getOptions(cfg) as NodeConfig;
       const size = (this as ShapeOptions).getSize!(cfg);
       const width = size[0];
 
@@ -156,13 +156,13 @@ Shape.registerNode(
      * @param {Group} group Group实例
      */
     drawStateIcon(cfg: NodeConfig, group: GGroup) {
-      const { stateIcon } = this.getOptions(cfg) as NodeConfig;
+      const { stateIcon = {} } = this.getOptions(cfg) as NodeConfig;
       const size = (this as ShapeOptions).getSize!(cfg);
       const width = size[0];
 
       if (stateIcon.show) {
         const { width: w, height: h, x, y, offset, ...iconStyle } = stateIcon;
-        const image = group.addShape('image', {
+        group.addShape('image', {
           attrs: {
             ...iconStyle,
             x: x || width / 2 - (w as number) + (offset as number),
