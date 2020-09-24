@@ -44,19 +44,28 @@ export interface TrendCfg {
  */
 export default class Trend {
   private group: IGroup;
+
   // 位置大小配置
   private x: number;
+
   private y: number;
+
   private width: number;
+
   private height: number;
 
   private data: number[];
 
   private smooth: boolean;
+
   private isArea: boolean;
+  
   private backgroundStyle: ShapeStyle;
+
   private lineStyle: ShapeStyle;
+
   private areaStyle: ShapeStyle;
+
   private intervalConfig: Interval;
 
   constructor(cfg: TrendCfg) {
@@ -147,5 +156,9 @@ export default class Trend {
 
     // 统一移动到对应的位置
     trendGroup.move(x, y);
+  }
+
+  public destory() {
+    this.group.destroy()
   }
 }

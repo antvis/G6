@@ -106,32 +106,49 @@ interface TrendTimeBarConfig extends SliderOption {
 
 export default class TrendTimeBar {
   private group: IGroup;
+
   private graph: IGraph;
+
   private canvas: ICanvas;
+
   // 位置大小配置
   public x: number;
+
   public y: number;
+
   public width: number;
+
   public height: number;
+
   private padding: number;
 
   private trendCfg: TrendCfg;
+
   private timeBarType: 'trend' | 'simple';
 
   private controllerCfg: ControllerCfg;
+
   // 样式配置
   private backgroundStyle: any;
+
   private foregroundStyle: any;
+
   private handlerStyle: any;
+
   private textStyle: any;
+
   /* 前景框，选中的区域 */
   private foregroundShape: IShape;
+
   /* 左侧(上侧)的按钮 */
   private minHandlerShape: Handler;
+
   /* 左侧文本 */
   private minTextShape: IShape;
+
   /* 由侧(下侧)的按钮 */
   private maxHandlerShape: Handler;
+
   /* 右侧文本 */
   private maxTextShape: IShape;
 
@@ -139,11 +156,15 @@ export default class TrendTimeBar {
 
   // 交互相关的数据信息
   private start: number;
+
   private end: number;
+
   private minText: string;
+
   private maxText: string;
 
   private currentHandler: Handler | IShape;
+  
   private prevX: number = 0;
 
   /** 刻度位置预处理 */
@@ -163,6 +184,8 @@ export default class TrendTimeBar {
   private playHandler: number;
 
   private controllerBtnGroup: ControllerBtn;
+
+  private trendComponent: Trend;
 
   constructor(cfg: TrendTimeBarConfig) {
 
@@ -265,7 +288,7 @@ export default class TrendTimeBar {
     const { width, height, timeBarType } = this
     // 趋势图数据
     if (timeBarType === 'trend' && size(get(this.trendCfg, 'data'))) {
-      new Trend({
+      const trendComponent = new Trend({
         x: this.x,
         y: this.y,
         width,
@@ -273,6 +296,8 @@ export default class TrendTimeBar {
         ...this.trendCfg,
         group: this.group
       });
+
+      this.trendComponent = trendComponent
     }
 
     const sliderGroup = this.group.addGroup({
@@ -639,23 +664,21 @@ export default class TrendTimeBar {
         // 拖动最小滑块时使用当前最大值设置最大值的文本，以便恢复到默认值
         this.maxText = this.maxTextShape.attr('text')
         this.start += offsetRange;
-        const minTick = this.adjustTickIndex(this.start * this.width)
-        this.minText = this.ticks[minTick]
+        this.minText = this.ticks[this.adjustTickIndex(this.start * this.width)]
         break;
       case this.maxHandlerShape:
         // 拖动最大滑块时使用当前最小值设置最小值的文本，以便恢复到默认值
         this.minText = this.minTextShape.attr('text')
         this.end += offsetRange;
-        const maxTick = this.adjustTickIndex(this.end * this.width)
-        this.maxText = this.ticks[maxTick]
+        this.maxText = this.ticks[this.adjustTickIndex(this.end * this.width)]
         break;
       case this.foregroundShape:
         this.start += offsetRange;
         this.end += offsetRange;
-        const minRangeTick = this.adjustTickIndex(this.start * this.width)
-        const maxRangeTick = this.adjustTickIndex(this.end * this.width)
-        this.minText = this.ticks[minRangeTick]
-        this.maxText = this.ticks[maxRangeTick]
+        this.minText = this.ticks[this.adjustTickIndex(this.start * this.width)]
+        this.maxText = this.ticks[this.adjustTickIndex(this.end * this.width)]
+        break;
+      default:
         break;
     }
   }
@@ -823,5 +846,9 @@ export default class TrendTimeBar {
     group.off(`${PRE_STEP_BTN}:click`)
     group.off(TIMEBAR_CONFIG_CHANGE)
     group.destroy()
+
+    if (this.trendComponent) {
+      this.trendComponent.destory()
+    }
   }
 }
