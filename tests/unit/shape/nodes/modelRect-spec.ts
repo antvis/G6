@@ -399,60 +399,53 @@ describe('model rect test', () => {
     expect(graph.destroyed).toBe(true);
   });
 
-  it.only('extends modelRect', () => {
+  it('extends modelRect', () => {
     const nodeConfig = {
       // 节点基本属性
       size: [150, 35],
       style: {
-      radius: 5,
-      stroke: '#1890FF',
-      fill: '#FFFFFF'
+        radius: 5,
+        stroke: '#1890FF',
+        fill: '#FFFFFF'
       },
       label: '审批节点',
       labelCfg: {
-      style: {
-      fill: '#595959',
-      fontSize: 14
-      },
-      offset: 30
-      },
-      descriptionCfg1: {
-      style: {
-      fontSize: 12,
-      fill: '#bfbfbf'
-      },
-      paddingTop: 0
+        style: {
+          fill: '#595959',
+          fontSize: 14
+        },
+        offset: 30
       },
       // 状态属性
       stateStyles: {
-      hover: {
-      stroke: '#BAE7FF',
-      lineWidth: 8,
-      strokeOpacity: 0.6
-      }
+        hover: {
+          stroke: '#BAE7FF',
+          lineWidth: 8,
+          strokeOpacity: 0.6
+        }
       },
       // 左侧矩形边属性
       preRect: {
-      show: true,
-      width: 4,
-      fill: '#1890FF',
-      radius: 2
+        show: true,
+        width: 4,
+        fill: '#1890FF',
+        radius: 2
       },
       // 图标属性
       logoIcon: {
-      show: true,
-      // img: require('@/assets/nodeimg/audit.svg'),
-      width: 16,
-      height: 16,
-      offset: -5
+        show: true,
+        // img: require('@/assets/nodeimg/audit.svg'),
+        width: 16,
+        height: 16,
+        offset: -5
       },
       // 状态属性
       stateIcon: {
-      show: true,
-      // img: require('@/assets/nodeimg/audit.svg'),
-      width: 16,
-      height: 16,
-      offset: -5
+        show: true,
+        // img: require('@/assets/nodeimg/audit.svg'),
+        width: 16,
+        height: 16,
+        offset: -5
       }
     }
           

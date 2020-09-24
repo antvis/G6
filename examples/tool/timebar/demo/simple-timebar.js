@@ -18,7 +18,6 @@ for (let i = 0; i < 100; i++) {
     target: `node-${Math.round(Math.random() * 90)}`,
   });
 }
-const graphDiv = document.getElementById('container');
 
 const width = document.getElementById('container').scrollWidth;
 const height = document.getElementById('container').scrollHeight || 500;

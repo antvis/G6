@@ -18,7 +18,7 @@ describe('edge filter lens', () => {
   graph.addItem('edge', { source: '0', target: '1', size: 1 });
   graph.addItem('edge', { source: '0', target: '2', size: 1 });
 
-  it.only('default edge filter lens', () => {
+  it('default edge filter lens', () => {
     const filter = new G6.EdgeFilterLens();
     graph.addPlugin(filter);
     graph.emit('click', { x: 100, y: 100 })
@@ -46,7 +46,7 @@ describe('edge filter lens', () => {
     graph.removePlugin(filter);
   });
 
-  it.only('filter lens with click and wheel to adjust r', () => {
+  it('filter lens with click and wheel to adjust r', () => {
     const filter = new G6.EdgeFilterLens({
       trigger: 'click',
       scaleRBy: 'wheel'
@@ -82,7 +82,7 @@ describe('edge filter lens', () => {
     graph.removePlugin(filter);
   });
 
-  it.only('filter lens with mousemove and shouldShow and show edge label, updateParams', () => {
+  it('filter lens with mousemove and shouldShow and show edge label, updateParams', () => {
 
     graph.addItem('node', { id: '3', x: 130, y: 60, label: '3' });
     graph.addItem('node', { id: '4', x: 130, y: 120, label: '4' });

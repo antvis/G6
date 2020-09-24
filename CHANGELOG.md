@@ -1,9 +1,12 @@
 # ChangeLog
 
-#### 3.8
+#### 3.8.0
 
 - fix: treeGraph render with addItem and stack problem, closes: #2084;
-- feat: edge filter lens plugin.
+- feat: G6 Interactive Document GraphMarker;
+- feat: registerNode with jsx support afterDraw and setState;
+- feat: edge filter lens plugin;
+- feat: timebar plugin;
 
 #### 3.7.3
 
