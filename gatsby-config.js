@@ -21,6 +21,13 @@ module.exports = {
     },
     navs: [
       {
+        slug: 'graphmarker',
+        title: {
+          zh: '交互式文档',
+          en: 'GraphMarker',
+        },
+      },
+      {
         slug: 'docs/manual/introduction',
         title: {
           zh: '教程',
