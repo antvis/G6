@@ -124,9 +124,9 @@ const IndexPage = () => {
   const insNotifications = [
     {
       type: t('推荐'),
-      title: t('欢迎进入 2020 可视化智能研发时代'),
-      date: '2020.01.08',
-      link: 'https://www.yuque.com/antv/blog/ygdubv',
+      title: t('乘风破浪的 G6 3.8.0'),
+      date: '2020.09.25',
+      link: 'https://www.yuque.com/antv/g6-blog/kckugv',
     },
     {
       type: t('推荐'),
