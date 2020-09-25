@@ -109,6 +109,7 @@ graph.render();
 - <a href='https://github.com/caoyu48/vue-g6-editor' target='_blank'>基于 G6 和 Vue 的可视化编辑器</a>[]()；
 - <a href='https://github.com/OXOYO/X-Flowchart-Vue' target='_blank'>基于 G6 和 Vue 的可视化图形编辑器 - A visual graph editor based on G6 and Vue</a>；
 - <a href='https://github.com/lusess123/web-pdm' target='_blank'>基于 G6 和 React 实现的 ER 图编辑器</a>；
+- <a href='https://github.com/dappsnation/ng-antv' target='_blank'>基于 G6 和 Angular 实现的编辑器</a>
 
 ## G6 图可视化交流群
 
