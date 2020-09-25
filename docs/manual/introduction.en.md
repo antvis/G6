@@ -110,7 +110,9 @@ Some implementations combined with front-end libraries from the third party:
 
 - <a href='https://github.com/guozhaolong/wfd' target='_blank'>Flow visualization editor powered by G6 and React - Workflow Designer</a>;
 - <a href='https://github.com/caoyu48/vue-g6-editor' target='_blank'>Visualization editor powered by G6 and Vue</a>;
-- <a href='https://github.com/OXOYO/X-Flowchart-Vue' target='_blank'>Visualization and graphics editor powered by G6 and Vue - A visual graph editor based on G6 and Vue</a>.
+- <a href='https://github.com/OXOYO/X-Flowchart-Vue' target='_blank'>Visualization and graphics editor powered by G6 and Vue - A visual graph editor based on G6 and Vue</a>
+- <a href='https://github.com/lusess123/web-pdm' target='_blank'>Visualization and graphics ER editor powered by G6 and React</a>；
+- <a href='https://github.com/dappsnation/ng-antv' target='_blank'>Visualization and graphics editor powered by G6 and Angular</a>
 
 ## G6 Communication Group
 
