@@ -21,7 +21,7 @@ module.exports = {
     },
     navs: [
       {
-        slug: 'https://render.alipay.com/p/c/17sf8ix6d7mk#/home',
+        slug: 'graphmarker',
         title: {
           zh: '交互式文档',
           en: 'GraphMarker',
