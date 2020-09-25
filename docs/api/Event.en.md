@@ -174,6 +174,7 @@ graph.on(timingEventName, evt => {
 | itemcollapsed | Activated while a node is clicked to collapse or expand by `'collapse-expand'` Behavior which is assigned to the instance of TreeGraph. |
 | tooltipchange | Activated after the show/hide state is changed by `'tooltip'` or `'edge-tooltip'` Behavior which is assigned to the instance of Graph. |
 | wheelzoom | Activated after the canvas being zoomed by `'zoom-canvas'` Behavior which is assigned to the instance of Graph. |
+| dragnodeend | Activated while drag node end by `'drag-node'` Behavior |
 
 ### Callback Parameters
 
@@ -301,3 +302,10 @@ No parameters.
 | deltaX | Number | The x-axis direction of the wheel scroll, value is `1`, `0`, or `-1`, where `0` means no scrolling on this direction. |
 | deltaY | Number | The y-axis direction of the wheel scroll, value is `1`, `0`, or `-1`, where `0` means no scrolling on this direction. |
 | ... Other parameters of wheel event. |  |  |
+
+#### dragnodeend
+
+| Name   | Type   | Description                                     |
+| ------ | ------ | ----------------------------------------------- |
+| items   | Item[]   | The manipulated items.                           |
+| targetItem | null/Node/Combo | The position where the node is placed after dragging, the default is null, that is, placed on the canvas. |

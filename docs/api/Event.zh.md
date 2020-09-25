@@ -177,6 +177,7 @@ graph.on(timingEventName, evt => {
 | itemcollapsed | 在 TreeGraph 上使用了 `'collapse-expand'` Behavior 并触发了该行为后，该事件被触发 |
 | tooltipchange | 使用了 `'tooltip'` 或 `'edge-tooltip'` Behavior 且 tooltip 的显示/隐藏被改变后，该事件被触发 |
 | wheelzoom | 使用了 `'zoom-canvas'` Behavior 并用滚轮对图进行缩放后，该事件被触发 |
+| dragnodeend | 使用了 `'drag-node'` Behavior，当拖动结束时，该事件被触发 |
 
 ### 回调参数
 
@@ -296,3 +297,10 @@ graph.on(timingEventName, evt => {
 | deltaX | Number | 滚动的 x 方向，取值 `1`，`0`，`-1`，`0` 代表没有该方向的滚动 |
 | deltaY | Number | 滚动的 y 方向，取值 `1`，`0`，`-1`，`0` 代表没有该方向的滚动 |
 | ... 其他滚轮事件的回调参数 |  |  |
+
+#### dragnodeend
+
+| 名称   | 类型   | 描述                                          |
+| ------ | ------ | --------------------------------------------- |
+| items   | Item[]   | 当前操作的 item 实例                          |
+| targetItem | null/Node/Combo | 拖动节点结束后，节点是放到canvas、Node 还是 Combo 上面 |

@@ -183,6 +183,12 @@ export default {
       graph.pushStack('update', clone(stackData));
     }
 
+    // 拖动结束后emit事件，将当前操作的节点抛出去，目标节点为null
+    graph.emit('dragnodeend', {
+      items: this.targets,
+      targetItem: null
+    })
+
     this.point = {};
     this.origin = null;
     this.originPoint = {};
@@ -221,6 +227,12 @@ export default {
       });
       graph.updateCombo(item as ICombo);
     }
+
+    // 将节点拖动到 combo 上面，emit事件抛出当前操作的节点及目标 combo
+    graph.emit('dragnodeend', {
+      items: this.targets,
+      targetItem: this.targetCombo
+    })
   },
 
   onDropCanvas(evt: IG6GraphEvent) {
@@ -274,6 +286,12 @@ export default {
         }
       });
     }
+
+    // 将节点拖动到另外个节点上面，emit 事件抛出当前操作的节点及目标节点
+    graph.emit('dragnodeend', {
+      items: this.targets,
+      targetItem: item
+    })
   },
   /**
    * 将节点拖入到 Combo 中
