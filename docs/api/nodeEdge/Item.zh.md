@@ -421,7 +421,7 @@ const style = item.getStateStyle('selected');
 **用法**
 
 ```javascript
-const style = item.getKeyShapeStyle();
+const style = item.getOriginStyle();
 ```
 
 ### getCurrentStatesStyle()
