@@ -24,6 +24,9 @@ export default {
       keyup: 'onKeyUp',
       focus: 'onKeyUp',
       keydown: 'onKeyDown',
+      touchstart: 'onMouseDown',
+      touchmove: 'onMouseMove',
+      touchend: 'onMouseUp',
     };
   },
   updateViewport(e: IG6GraphEvent) {
@@ -65,6 +68,7 @@ export default {
   onMouseDown(e: IG6GraphEvent) {
     const self = this as any;
     if (
+      e.name !== G6Event.TOUCHSTART &&
       window &&
       window.event &&
       typeof window !== 'undefined' &&
@@ -88,7 +92,7 @@ export default {
       for (let i = 0, len = edges.length; i < len; i++) {
         const shapes = edges[i].get('group').get('children');
         if (!shapes) continue;
-        shapes.forEach(shape => {
+        shapes.forEach((shape) => {
           shape.hide();
         });
       }
@@ -147,7 +151,7 @@ export default {
       for (let i = 0, len = edges.length; i < len; i++) {
         const shapes = edges[i].get('group').get('children');
         if (!shapes) continue;
-        shapes.forEach(shape => {
+        shapes.forEach((shape) => {
           shape.show();
         });
       }
