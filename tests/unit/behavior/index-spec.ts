@@ -103,6 +103,6 @@ describe('Default Behavior', () => {
 
     const events = dragCanvas.getEvents();
     const keys = Object.keys(events);
-    expect(keys.length).toBe(9);
+    expect(keys.length).toBe(12);
   });
 });
