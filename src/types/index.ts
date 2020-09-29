@@ -710,3 +710,5 @@ export interface BubblesetCfg {
   memberInfluenceFactor?: number; // member influence factor
   nonMemberInfluenceFactor?: number; // nonMember influence factor
 }
+
+export type TimeBarType = 'trend' | 'simple' | 'tick'

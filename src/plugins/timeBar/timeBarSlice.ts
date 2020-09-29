@@ -17,15 +17,6 @@ const DEFAULT_UNSELECTEDTICK_STYLE = {
   fill: '#e6e8e9'
 }
 
-interface TickStyle {
-  fill?: string,
-  stroke?: string,
-  lineWidth?: number,
-  opacity?: number,
-  fillOpacity?: number,
-  strokeOpacity?: number
-}
-
 export interface TimeBarSliceConfig extends TimeBarSliceOption {
   readonly graph: IGraph;
   readonly group: IGroup;
@@ -43,8 +34,8 @@ export interface TimeBarSliceOption {
   readonly padding?: number;
 
   // styles
-  readonly selectedTickStyle?: TickStyle;
-  readonly unselectedTickStyle?: TickStyle
+  readonly selectedTickStyle?: ShapeStyle;
+  readonly unselectedTickStyle?: ShapeStyle
   readonly tooltipBackgroundColor?: string;
 
   readonly start?: number;
@@ -136,8 +127,8 @@ export default class TimeBarSlice {
       data,
       start,
       end,
-      x,
-      y,
+      x = 0,
+      y = 0,
       tickLabelFormatter,
       selectedTickStyle = DEFAULT_SELECTEDTICK_STYLE,
       unselectedTickStyle = DEFAULT_UNSELECTEDTICK_STYLE,

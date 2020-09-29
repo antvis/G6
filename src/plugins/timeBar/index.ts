@@ -7,12 +7,13 @@ import { IGroup, ICanvas } from '@antv/g-base';
 import createDOM from '@antv/dom-util/lib/create-dom'
 import modifyCSS from '@antv/dom-util/lib/modify-css'
 import Base, { IPluginBaseConfig } from '../base';
-import TrendTimeBar, { SliderOption, ControllerCfg } from './trendTimeBar'
+import TrendTimeBar, { SliderOption } from './trendTimeBar'
 import TimeBarSlice, { TimeBarSliceOption } from './timeBarSlice'
 import { IGraph } from '../../interface/graph';
 import { VALUE_CHANGE } from './constant'
-import { GraphData, ShapeStyle } from '../../types';
+import { GraphData, ShapeStyle, TimeBarType } from '../../types';
 import { Interval } from './trend';
+import { ControllerCfg } from './controllerBtn';
 
 // simple 版本默认高度
 const DEFAULT_SIMPLE_HEIGHT = 8
@@ -40,7 +41,7 @@ interface TrendConfig {
   // 样式
   readonly smooth?: boolean;
   readonly isArea?: boolean;
-  readonly backgroundStyle?: ShapeStyle;
+  // readonly backgroundStyle?: ShapeStyle;
   readonly lineStyle?: ShapeStyle;
   readonly areaStyle?: ShapeStyle;
   readonly interval?: Interval;
@@ -54,20 +55,19 @@ interface TimeBarConfig extends IPluginBaseConfig {
   readonly height?: number;
   readonly padding?: number;
 
-  readonly type?: 'trend' | 'simple' | 'slice';
+  readonly type?: TimeBarType;
   // 趋势图配置项
   readonly trend?: TrendConfig;
   // 滑块、及前后背景的配置
   readonly slider?: SliderOption;
 
   // 刻度时间轴配置项
-  readonly slice?: TimeBarSliceOption;
+  readonly tick?: TimeBarSliceOption;
 
   // 控制按钮
   readonly controllerCfg?: ControllerCfg;
 
   rangeChange?: (graph: IGraph, minValue: string, maxValue: string) => void;
-  valueChange?: (graph: IGraph, value: string) => void;
 }
 
 export default class TimeBar extends Base {
@@ -94,7 +94,7 @@ export default class TimeBar extends Base {
         minText: 'min',
         maxText: 'max',
       },
-      slice: {
+      tick: {
         start: 0.1,
         end: 0.9,
         data: []
@@ -192,8 +192,8 @@ export default class TimeBar extends Base {
         },
         controllerCfg
       })
-    } else if (type === 'slice') {
-      const { slice } = this._cfgs
+    } else if (type === 'tick') {
+      const { tick } = this._cfgs
       // 刻度时间轴
       timebar = new TimeBarSlice({
         graph,
@@ -201,7 +201,7 @@ export default class TimeBar extends Base {
         group,
         x: x + padding,
         y: y + padding,
-        ...slice
+        ...tick
       })
     }
 
@@ -215,8 +215,8 @@ export default class TimeBar extends Base {
     const type = this._cfgs.type
     if (type === 'trend' || type === 'simple') {
       trendData = this._cfgs.trend.data
-    } else if (type === 'slice') {
-      trendData = this._cfgs.slice.data
+    } else if (type === 'tick') {
+      trendData = this._cfgs.tick.data
     }
 
     if (!trendData || trendData.length === 0) {
@@ -234,7 +234,7 @@ export default class TimeBar extends Base {
     const minText = trendData[min].date;
     const maxText = trendData[max].date;
 
-    if (type !== 'slice') {
+    if (type !== 'tick') {
       const timebar = this.get('timebar');
       timebar.setText(minText, maxText)
     }
@@ -278,9 +278,9 @@ export default class TimeBar extends Base {
     if (!type || type === 'trend' || type === 'simple') {
       start = this._cfgs.slider.start
       end = this._cfgs.slider.end
-    } else if (type === 'slice') {
-      start = this._cfgs.slice.start
-      end = this._cfgs.slice.end
+    } else if (type === 'tick') {
+      start = this._cfgs.tick.start
+      end = this._cfgs.tick.end
     }
 
     const graph: IGraph = this.get('graph');

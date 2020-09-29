@@ -21,7 +21,7 @@ const GraphMarker = () => {
 						title="GraphMarker"
 						style={{ width: '100%', height: '100%', border: 0, borderRadius: '4px', overflow: 'hidden' }}
 						allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
-						sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
+						sandbox="allow-downloads allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
 				/>
 			</div>
 		</>
