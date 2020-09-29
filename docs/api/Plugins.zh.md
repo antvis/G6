@@ -344,127 +344,6 @@ const graph = new G6.Graph({
 });
 ```
 
-## TimeBar
-
-**重要说明：**Timebar最新文档待更新，请先参考官网中组件 -> 时间轴 DEMO。
-
-目前 G6 内置的 TimeBar 主要有以下功能：
-
-- 改变时间范围，过滤图上的数据；
-- TimeBar 上展示指定字段随时间推移的变化趋势。
-
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lfvIQJYbs7oAAAAAAAAAAAAAARQnAQ' width=700 alt='img'/>
-
-**说明：** 目前的 TimeBar 功能还比较简单，不能用于较为复杂的时序分析。
-
-### 配置项
-
-| 名称 | 类型 | 默认值 | 描述 |
-| --- | --- | --- | --- |
-| container | HTMLDivElement | null | TimeBar 容器，如果不设置，则默认创建 className 为 g6-component-timebar 的 DOM 容器 |
-| width | number | 400 | TimeBar 容器宽度 |
-| height | number | 400 | TimeBar 容器高度 |
-| timebar | TimeBarOption | {} | TimeBar 样式配置项 |
-| rangeChange | (graph: IGraph, min: number, max: number) => void | null | 改变时间范围后的回调函数 |
-
-**TimeBarOption 配置项**
-
-```
-interface HandleStyle {
-  width: number;
-  height: number;
-  style: ShapeStyle;
-}
-```
-
-| 名称            | 类型        | 默认值 | 描述                                 |
-| --------------- | ----------- | ------ | ------------------------------------ |
-| x               | number      | 0      | TimeBar 起始 x 坐标                  |
-| y               | number      | 0      | TimeBar 起始 y 坐标                  |
-| width           | number      | 400    | TimeBar 宽度                         |
-| height          | number      | 400    | TimeBar 高度                         |
-| backgroundStyle | ShapeStyle  | {}     | TimeBar 背景样式配置项               |
-| foregroundStyle | ShapeStyle  | {}     | TimeBar 选中部分样式配置项           |
-| handlerStyle    | HandleStyle | null   | 滑块样式设置                         |
-| textStyle       | ShapeStyle  | null   | 文本样式                             |
-| minLimit        | number      | 0      | 允许滑块最左边（最小）位置，范围 0-1 |
-| maxLimit        | number      | 1      | 允许滑块最右边（最大）位置，范围 0-1 |
-| start           | number      | 0      | 滑块初始开始位置                     |
-| end             | number      | 1      | 滑块初始结束位置                     |
-| minText         | string      | null   | 滑块最小值时显示的文本               |
-| maxText         | string      | null   | 滑块最大值时显示的文本               |
-| trend           | TrendConfig | null   | 滑块上趋势图配置                     |
-
-**TrendConfig 配置项**
-
-```
-interface Data {
-  date: string;
-  value: number;
-}
-```
-
-| 名称      | 类型       | 默认值 | 描述                                     |
-| --------- | ---------- | ------ | ---------------------------------------- |
-| data      | Data[]     | []     | 滑块上的数据源                           |
-| smooth    | boolean    | false  | 是否是平滑的曲线                         |
-| isArea    | boolean    | false  | 是否显示面积图                           |
-| lineStyle | ShapeStyle | null   | 折线的样式                               |
-| areaStyle | ShapeStyle | null   | 面积的样式，只有当 isArea 为 true 时生效 |
-
-### 用法
-
-#### 默认用法
-
-G6 内置的默认的 TimeBar 有默认的样式及交互功能。
-
-```
-const timebar = new G6.TimeBar();
-
-const graph = new G6.Graph({
-  //... 其他配置项
-  plugins: [timebar], // 配置 timebar 插件
-});
-```
-
-##### 配置样式
-
-可以个性化定制 TimeBar 的样式，也可以自己定义时间范围改变后的处理方式。
-
-```
-const timebar = new G6.TimeBar({
-  width: 600,
-  timebar: {
-    width: 600,
-    backgroundStyle: {
-      fill: '#08979c',
-      opacity: 0.3
-    },
-    foregroundStyle: {
-      fill: '#40a9ff',
-      opacity: 0.4
-    },
-    trend: {
-      data: timeBarData,
-      isArea: false,
-      smooth: true,
-      lineStyle: {
-        stroke: '#9254de'
-      }
-    }
-  },
-  rangeChange: (graph, min, max) => {
-    // 拿到 Graph 实例和 timebar 上范围，自己可以控制图上的渲染逻辑
-    console.log(graph, min, max)
-  }
-});
-
-const graph = new G6.Graph({
-  //... 其他配置项
-  plugins: [timebar], // 配置 timebar 插件
-});
-```
-
 ## ToolTip
 
 ToolTip 插件主要用于在节点和边上展示一些辅助信息，G6 4.0 以后，Tooltip 插件将会替换 Behavior 中的 tooltip。
@@ -646,3 +525,315 @@ const graph = new G6.Graph({
   plugins: [filterLens], // 配置 filterLens 插件
 });
 ```
+
+## G6 TimeBar 文档
+
+[AntV G6](https://github.com/antvis/G6) 内置了三种形态的 TimeBar 组件：
+
+- 带有趋势图的 TimeBar 组件；
+- 简易版的 TimeBar 组件；
+- 刻度 TimeBar 组件。
+
+
+并且每种类型的 TimeBar 组件都可以配合播放、快进、后退等控制按钮组使用。
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*DOo6QpfFfMUAAAAAAAAAAAAAARQnAQ' width='500' />
+<br />趋势图 TimeBar 组件<br />
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bzGBQKkewZMAAAAAAAAAAAAAARQnAQ' width='500' />
+<br />简易版 TimeBar 组件<br />
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*kHRkQpnvBmwAAAAAAAAAAAAAARQnAQ' width='500' />
+<br />刻度 TimeBar 组件<br />
+
+<br />在趋势图 TimeBar 基础上，我们可以通过配置数据，实现更加复杂的趋势图 TimeBar 组件，如下图所示。
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*17VoSoTm9o8AAAAAAAAAAAAAARQnAQ' width='500' />
+
+<br />虽然 G6 提供了各种不同类型的 TimeBar 组件，但在使用的方式却非常简单，通过配置字段就可以进行区分。<br />
+<br />关于 TimeBar 的使用案例，请参考[这里](https://g6.antv.vision/zh/examples/tool/timebar#timebar)。<br />
+
+
+### 使用 TimeBar 组件
+使用 G6 内置的 TimeBar 组件，和使用其他组件的方式完全相同。
+
+```javascript
+import G6 from '@antv/g6'
+
+const timebar = new G6.TimeBar({
+  width: 500,
+  height: 150,
+  padding: 10,
+  type: 'trend',
+  trend: {
+    data: timeBarData
+  },
+});
+
+const graph = new G6.Graph({
+  container: 'container',
+  width,
+  height,
+  plugins: [timebar],
+});
+```
+
+<br />通过上面的方式，我们就可以在图中使用 TimeBar 组件了，当实例化 TimeBar 时，type 参数值为 trend，表示我们实例化的是趋势图组件，效果如下图所示。
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lfvIQJYbs7oAAAAAAAAAAAAAARQnAQ' width='600' />
+
+<br />当设置 type 为 simple 时，就可以使用简易版的 TimeBar。
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*g2zhQqP6ruYAAAAAAAAAAAAAARQnAQ' width='600' />
+
+<br />当设置 type 为 tick 时，表示我们要使用刻度 TimeBar 组件，但此时要注意的是，**刻度时间轴的配置项是通过 tick 对象配置而不是 trend 对象**，这也是刻度时间轴和趋势即简易时间轴不同的地方。
+
+```javascript
+const timebar = new G6.TimeBar({
+  width,
+  height: 150,
+  type: 'tick',
+  tick: {
+    data: timeBarData,
+    width,
+    height: 42,
+    tickLabelFormatter: d => {
+      const dateStr = `${d.date}`
+      if ((count - 1) % 10 === 0) {
+        return `${dateStr.substr(0, 4)}-${dateStr.substr(4, 2)}-${dateStr.substr(6, 2)}`;
+      }
+      return false;
+    },
+    tooltipFomatter: d => {
+      const dateStr = `${d}`
+      return `${dateStr.substr(0, 4)}-${dateStr.substr(4, 2)}-${dateStr.substr(6, 2)}`;
+    }
+  },
+});
+```
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*n6ECQ7Jn5pQAAAAAAAAAAAAAARQnAQ' width='600' />
+
+### 参数定义
+
+#### 接口定义
+完整的 TimeBar 的接口定义如下：
+
+```javascript
+interface TimeBarConfig extends IPluginBaseConfig {
+  // position size
+  readonly x?: number;
+  readonly y?: number;
+  readonly width?: number;
+  readonly height?: number;
+  readonly padding?: number;
+
+  readonly type?: 'trend' | 'simple' | 'tick';
+  // 趋势图配置项
+  readonly trend?: TrendConfig;
+  // 滑块、及前后背景的配置
+  readonly slider?: SliderOption;
+
+  // 刻度时间轴配置项
+  readonly tick?: TimeBarSliceOption;
+
+  // 控制按钮
+  readonly controllerCfg?: ControllerCfg;
+
+  rangeChange?: (graph: IGraph, minValue: string, maxValue: string) => void;
+  valueChange?: (graph: IGraph, value: string) => void;
+}
+```
+
+#### 接口参数说明
+
+| 名称 | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| container | HTMLDivElement | null | TimeBar 容器，如果不设置，则默认创建 className 为 g6-component-timebar 的 DOM 容器 |
+| x | number | 0 | TimeBar 开始 x 坐标 |
+| y | number | 0 | TimeBar 开始 y 坐标 |
+| width | number |  | 必选，TimeBar 容器宽度 |
+| height | number |  | 必选，TimeBar 高度 |
+| padding | number/number[] | 10 | TimeBar 距离容器的间距值 |
+| type | 'trend' / 'simple' / 'tick' | trend | 默认的 TimeBar 类型，默认为趋势图样式 |
+| trend | TrendConfig | null | Timebar 中趋势图的配置项，当 type 为 trend 或 simple 时，该字段必选 |
+| slider | SliderOption | null | TimeBar 组件背景及控制调节范围的滑块的配置项 |
+| tick | TimeBarSliceOption | null | 刻度 TimeBar 配置项，当 type 为 tick 时，该字段必选 |
+| controllerCfg | ControllerCfg | null | 控制按钮组配置项 |
+| rangeChange | Function | null | TimeBar 时间范围变化时的回调函数，当不定义该函数时，时间范围变化时默认过滤图上的数据 |
+
+
+#### TrendConfig 接口定义
+> 暂不支持刻度文本的样式配置
+
+```javascript
+interface TrendConfig {
+  // 数据
+  readonly data: {
+    date: string;
+    value: string;
+  }[];
+  // 位置大小
+  readonly x?: number;
+  readonly y?: number;
+  readonly width?: number;
+  readonly height?: number;
+  // 样式
+  readonly smooth?: boolean;
+  readonly isArea?: boolean;
+  readonly lineStyle?: ShapeStyle;
+  readonly areaStyle?: ShapeStyle;
+  readonly interval?: Interval;
+}
+```
+
+#### TrendConfig 参数说明
+
+| 名称 | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| x | number | 0 | 趋势图开始 x 坐标 |
+| y | number | 0 | 趋势图开始 y 坐标 |
+| width | number | TimeBar 容器宽度 | TimeBar 趋势图宽度，不建议自己设定，如果设定时需要同步设置 slider 中的 width 值 |
+| height | number | type=trend：默认为 28<br />type=simple：默认为 8 | TimeBar 趋势图高度，不建议自己设定，如果设定时需要同步设置 slider 中的 height 值 |
+| smooth | boolean | false | 是否是平滑的曲线 |
+| isArea | boolean | false | 是否显示面积图 |
+| lineStyle | ShapeStyle | null | 折线的样式配置 |
+| areaStyle | ShapeStyle | null | 面积的样式配置项，只有当 isArea 为 true 时生效 |
+| interval | Interval | null | 柱状图配置项，当配置了该项后，趋势图上会展现为混合图样式 |
+
+
+#### SliderOption 接口定义
+
+```javascript
+export type SliderOption = Partial<{
+  readonly width?: number;
+  readonly height?: number;
+  readonly backgroundStyle?: ShapeStyle;
+  readonly foregroundStyle?: ShapeStyle;
+  // 滑块样式
+  readonly handlerStyle?: {
+    width?: number;
+    height?: number;
+    style?: ShapeStyle;
+  };
+  readonly textStyle?: ShapeStyle;
+  // 初始位置
+  readonly start: number;
+  readonly end: number;
+  // 滑块文本
+  readonly minText: string;
+  readonly maxText: string;
+}>;
+```
+
+#### SliderOption 参数说明
+
+| 名称 | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| width | number | TimeBar 容器宽度 - 2 * padding | 趋势图背景框宽度，不建议自己设定，如果设定时要同步修改 trend 中 width 值 |
+| height | number | 趋势图默认为 28<br />简易版默认为 8 | TimeBar 趋势图高度，不建议自己设定，如果设定时需要同步设置 trend 中的 height 值 |
+| backgroundStyle | ShapeStyle | null | 背景样式配置项 |
+| foregroundStyle | ShapeStyle | null | 前景色样式配置，即选中范围的样式配置项 |
+| handlerStyle | ShapeStyle | null | 滑块的样式配置项 |
+| textStyle | ShapeStyle | null | 滑块上文本的样式配置项 |
+| start | number | 0.1 | 开始位置 |
+| end | number | 0.9 | 结束位置 |
+| minText | string | min | 最小值文本 |
+| maxText | string | max | 最大值文本 |
+
+
+#### TimeBarSliceOption
+
+```javascript
+export interface TimeBarSliceOption {
+  // position size
+  readonly x?: number;
+  readonly y?: number;
+  readonly width?: number;
+  readonly height?: number;
+  readonly padding?: number;
+
+  // styles
+  readonly selectedTickStyle?: TickStyle;
+  readonly unselectedTickStyle?: TickStyle
+  readonly tooltipBackgroundColor?: string;
+
+  readonly start?: number;
+  readonly end?: number;
+
+  // 数据
+  readonly data: {
+    date: string;
+    value: string;
+  }[];
+
+  // 自定义标签格式化函数
+  readonly tickLabelFormatter?: (d: any) => string | boolean;
+  // 自定义 tooltip 内容格式化函数
+  readonly tooltipFomatter?: (d: any) => string;
+}
+```
+
+
+#### TimeBarSliceOption 参数说明
+
+| 名称 | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| x | number | 0 | 刻度 TimeBar 开始 x 坐标 |
+| y | number | 0 | 刻度 TimeBar 开始 y 坐标 |
+| width | number |  | 必选，刻度 TimeBar 宽度 |
+| height | number |  | 必选，刻度 TimeBar 高度 |
+| padding | number / number[] | 0 | 刻度 TimeBar 距离边界的间距 |
+| selectedTickStyle | ShapeStyle | null | 选中刻度的样式配置项 |
+| unselectedTickStyle | ShapeStyle | null | 未选中刻度的样式配置项 |
+| tooltipBackgroundColor | ShapeStyle | null | tooltip 背景框配置项 |
+| start | number | 0.1 | 开始位置 |
+| end | number | 0.9 | 结束位置 |
+| data | any[] | [] | 必选，刻度时间轴的刻度数据 |
+| tickLabelFormatter | Function | null | 刻度的格式化回调函数 |
+| tooltipFomatter | Function | null | tooltip上内容格式化的回调函数 |
+
+
+#### ControllerCfg 接口定义
+
+> 暂不支持
+
+> 控制按钮暂不支持配置样式
+
+> 不支持循环播放
+
+
+```javascript
+type ControllerCfg = Partial<{
+  readonly x?: number;
+  readonly y?: number;
+  readonly width: number;
+  readonly height: number;
+  /** 播放速度，1 个 tick 花费时间 */
+  readonly speed?: number;
+  /** 是否循环播放 */
+  readonly loop?: boolean;
+  readonly hiddleToggle: boolean;
+  readonly fill?: string;
+  readonly stroke?: string;
+  readonly preBtnStyle?: ShapeStyle;
+  readonly nextBtnStyle?: ShapeStyle;
+  readonly playBtnStyle?: ShapeStyle;
+}>
+```
+
+#### ControllerCfg 参数说明
+
+| 名称 | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| x | number | 0 | 按钮控制组开始 x 坐标 |
+| y | number | 0 | 按钮控制组开始 y 坐标 |
+| width | number | TimeBar 宽度 | 控制按钮组宽度 |
+| height | number | 40 | 控制按钮组高度 |
+| speed | number | 1 | 播放速度 |
+| loop | boolean | false | 暂不支持，是否循环播放 |
+| hiddleToggle | boolean | true | 是否隐藏时间类型切换 |
+| fill | string |  | 按钮控制组外层框填充色 |
+| stroke | string |  | 按钮控制组外层框边框色 |
+| preBtnStyle | ShapeStyle | null | 后退按钮样式配置项 |
+| nextBtnStyle | ShapeStyle | null | 前进按钮样式配置项 |
+| playBtnStyle | ShapeStyle | null | 播放按钮样式配置项 |

@@ -2,7 +2,7 @@ import { Event, IGroup, ICanvas, IShape } from '@antv/g-base';
 import { get, size, assign, each } from '@antv/util';
 import Trend, { TrendCfg } from './trend';
 import Handler from './handler';
-import ControllerBtn from './controllerBtn'
+import ControllerBtn, { ControllerCfg } from './controllerBtn'
 import { IGraph } from '../../interface/graph';
 import { ShapeStyle } from '../../types';
 import {
@@ -44,24 +44,6 @@ export const TEXT_STYLE = {
   opacity: 0.45,
 };
 
-export type ControllerCfg = Partial<{
-  readonly x: number;
-  readonly y: number;
-  readonly width: number;
-  readonly height: number;
-  readonly padding: number;
-  /** 播放速度，1 个 tick 花费时间 */
-  readonly speed?: number;
-  /** 是否循环播放 */
-  readonly loop?: boolean;
-
-  readonly fill: string;
-  readonly stroke: string;
-  readonly preBtnStyle: ShapeStyle;
-  readonly nextBtnStyle: ShapeStyle;
-  readonly playBtnStyle: ShapeStyle;
-}>
-
 export type SliderOption = Partial<{
   readonly width?: number;
   readonly height?: number;
@@ -74,9 +56,6 @@ export type SliderOption = Partial<{
     style?: ShapeStyle;
   };
   readonly textStyle?: ShapeStyle;
-  // 允许滑动位置
-  readonly minLimit?: number;
-  readonly maxLimit?: number;
   // 初始位置
   readonly start: number;
   readonly end: number;

@@ -45,8 +45,8 @@ const timebar = new G6.TimeBar({
   width: width,
   height: 150,
   padding: 10,
-  type: 'slice',
-  slice: {
+  type: 'tick',
+  tick: {
     data: timeBarData,
     width: width,
     height: 42,
