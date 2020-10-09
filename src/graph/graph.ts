@@ -1034,7 +1034,7 @@ export default class Graph extends EventEmitter implements IGraph {
     }
 
     if (model.id && this.findById(model.id as string)) {
-      console.warn('This item exists already. Be sure the id is unique.');
+      console.warn(`This item exists already. Be sure the id %c${model.id}%c is unique.`, 'font-size: 20px; color: red;', '');
       return;
     }
 

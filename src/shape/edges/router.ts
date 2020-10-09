@@ -106,11 +106,14 @@ const pos2GridIx = (pos: number, gridSize: number) => {
 const getObstacleMap = (items: Item[], gridSize: number, offset: number) => {
   const map = {};
   items.forEach((item: Item) => {
-    const bbox = getExpandedBBox(item.getBBox(), offset);
-    for (let x = pos2GridIx(bbox.minX, gridSize); x <= pos2GridIx(bbox.maxX, gridSize); x += 1) {
-      for (let y = pos2GridIx(bbox.minY, gridSize); y <= pos2GridIx(bbox.maxY, gridSize); y += 1) {
-        const gridKey = `${x}-${y}`;
-        map[gridKey] = true;
+    // create-edge 时，当边类型为 polyline 时 endNode 为 null
+    if (item) {
+      const bbox = getExpandedBBox(item.getBBox(), offset);
+      for (let x = pos2GridIx(bbox.minX, gridSize); x <= pos2GridIx(bbox.maxX, gridSize); x += 1) {
+        for (let y = pos2GridIx(bbox.minY, gridSize); y <= pos2GridIx(bbox.maxY, gridSize); y += 1) {
+          const gridKey = `${x}-${y}`;
+          map[gridKey] = true;
+        }
       }
     }
   });
@@ -155,6 +158,11 @@ const estimateCost = (from: PolyPoint, endPoints: PolyPoint[], distFunc) => {
 // 计算考虑 offset 后的 BBox 上的连接点
 const getBoxPoints = (point: PolyPoint, node: INode, cfg: RouterCfg): PolyPoint[] => {
   const points = [];
+  // create-edge 生成边的过程中，endNode 为 null
+  if (!node) {
+    return points
+  }
+
   const { directions, offset } = cfg;
   const bbox = node.getBBox();
   const expandBBox = getExpandedBBox(node.getBBox(), offset);
