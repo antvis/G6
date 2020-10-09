@@ -63,8 +63,49 @@ describe('create-edge', () => {
     expect(graph.getEdges().length).toEqual(2);
     const loop = graph.getEdges()[1];
     expect(loop.getModel().source).toEqual(loop.getModel().target);
-    console.log(graph)
-    // graph.destroy();
+    graph.destroy();
+  });
+  it('create edge width polyline edge', () => {
+    const graph: Graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: ['create-edge'],
+      },
+      defaultEdge: {
+        type: 'polyline',
+        style: {
+          stroke: '#f00',
+          lineWidth: 2
+        }
+      },
+    });
+    graph.data(data);
+    graph.render();
+    const node0 = graph.getNodes()[0];
+    const node1 = graph.getNodes()[1];
+    graph.emit('node:click', { x: 100, y: 100, item: node0 });
+    graph.emit('mousemove', { x: 110, y: 110 });
+    expect(graph.getEdges().length).toEqual(1);
+    const edge = graph.getEdges()[0];
+
+    // cancel
+    graph.emit('edge:click', { x: 100, y: 100, item: edge });
+    expect(graph.getEdges().length).toEqual(0);
+
+    // create
+    graph.emit('node:click', { x: 100, y: 100, item: node0 });
+    graph.emit('node:click', { x: 120, y: 120, item: node1 });
+    expect(graph.getEdges().length).toEqual(1);
+
+    // loop
+    graph.emit('node:click', { x: 100, y: 100, item: node0 });
+    graph.emit('node:click', { x: 100, y: 100, item: node0 });
+    expect(graph.getEdges().length).toEqual(2);
+    const loop = graph.getEdges()[1];
+    expect(loop.getModel().source).toEqual(loop.getModel().target);
+    graph.destroy();
   });
   it('create edge with drag trigger', () => {
     const graph: Graph = new Graph({
