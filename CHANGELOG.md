@@ -1,5 +1,12 @@
 # ChangeLog
 
+#### 3.8.1
+- fix: update edge states with updateItem problem, closes: #2142;
+- fix: create-edge behavior with polyline problem, closes: #2165;
+- fix: console.warn show duplicate ID, closes: #2163;
+- feat: support the drag-canvas behavior on the mobile device, closes: #816;
+- chore: timeBar component docs;
+
 #### 3.8.0
 
 - fix: treeGraph render with addItem and stack problem, closes: #2084;
