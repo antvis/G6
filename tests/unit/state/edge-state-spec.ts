@@ -576,4 +576,133 @@ describe('graph edge states', () => {
     graph.emit('edge:mouseleave', { item: edge });
     graph.destroy();
   });
+
+  it('update edge states with updateItem', () => {
+    const data = {
+      // 点集
+      nodes: [
+        {
+          id: 'node1', // String，该节点存在则必须，节点的唯一标识
+          x: 100, // Number，可选，节点位置的 x 值
+          y: 200, // Number，可选，节点位置的 y 值
+        },
+        {
+          id: 'node2', // String，该节点存在则必须，节点的唯一标识
+          x: 300, // Number，可选，节点位置的 x 值
+          y: 200, // Number，可选，节点位置的 y 值
+        },
+      ],
+      // 边集
+      edges: [
+        {
+          id: 'node1-node2',
+          source: 'node1', // String，必须，起始点 id
+          target: 'node2', // String，必须，目标点 id
+        },
+      ],
+    };
+    
+    const graph = new G6.Graph({
+      container: div, // String | HTMLElement，必须，在 Step 1 中创建的容器 id 或容器本身
+      width: 800, // Number，必须，图的宽度
+      height: 500, // Number，必须，图的高度
+      modes: {
+        default: [
+          "drag-canvas",
+          "zoom-canvas",
+          "drag-node",
+          {
+            type: "brush-select",
+            trigger: "ctrl",
+            includeEdges: false,
+            selectedState: "click"
+          }
+        ]
+      },
+      defaultNode: {
+        size: 50, // 节点大小
+        style: {
+          opacity: 0.8,
+          lineWidth: 1,
+          stroke: "#999"
+        },
+        labelCfg: {
+          style: {
+            fill: "#fff"
+          }
+        }
+      },
+      defaultEdge: {
+        labelCfg: {
+          autoRotate: true,
+          style: {
+            fontSize: 14,
+            fill: "#333"
+          }
+        },
+        style: {
+          stroke: "#808080",
+          lineWidth: 1,
+          endArrow: true,
+          lineAppendWidth: 10,
+        }
+      },
+      // 边不同状态下的样式集合
+      edgeStateStyles: {
+        // 鼠标点击边，即 click 状态为 true 时的样式
+        click: {
+          stroke: "red",
+          lineWidth: 2
+        }
+      },
+    });
+
+    graph.data(data)
+    graph.render()
+
+    // 验证 edge 的初始样式
+    const currentEdge = graph.findById('node1-node2')
+    let states = currentEdge.getStates()
+    expect(states.length).toBe(0)
+
+    let keyShape = currentEdge.getKeyShape()
+    expect(keyShape.attr('stroke')).toEqual('#808080')
+
+    // 先设置 edge click states
+    graph.setItemState(currentEdge, 'click', true)
+    states = currentEdge.getStates()
+    expect(states.length).toBe(1)
+
+    let stateStyle = currentEdge.getStateStyle('click')
+    expect(stateStyle).toEqual({"lineWidth": 2, "stroke": "red"})
+
+    keyShape = currentEdge.getKeyShape()
+    expect(keyShape.attr('stroke')).toEqual('red')
+
+    // 验证此时 edge 的样式状态
+
+    // 再使用 updateItem 更新 click states
+    const model = {
+      style: {
+        stroke: "#808080",
+        lineWidth: 1,
+        endArrow: true,
+        lineAppendWidth: 10,
+      },
+      stateStyles: {
+        click: {
+          stroke: "#333",
+          lineWidth: 2
+        }
+      }
+    };
+    graph.updateItem('node1-node2', model);
+
+    // updateItem 以后，edge click states 的值以及变化了
+    stateStyle = currentEdge.getStateStyle('click')
+    expect(stateStyle).toEqual({"lineWidth": 2, "stroke": "#333"})
+
+    graph.destroy()
+    expect(graph.destroyed).toBe(true)
+  })
 });
