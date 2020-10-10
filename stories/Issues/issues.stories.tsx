@@ -8,6 +8,7 @@ import DomClick from './component/dom-click';
 import ForceLayout from './forceLayout';
 import GGEditorNode from './ggeditorNode';
 import MultiLayout from './forceLayout/multiLayout'
+import EdgeStatus from './edgeStatus'
 
 export default { title: 'Issues' };
 
@@ -20,3 +21,4 @@ storiesOf('Issues', module)
   .add('forcelayout', () => <ForceLayout />)
   .add('ggeditor node issue', () => <GGEditorNode />)
   .add('multi layout', () => <MultiLayout />)
+  .add('edge status', () => <EdgeStatus />)

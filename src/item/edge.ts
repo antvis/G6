@@ -1,4 +1,4 @@
-import { isString, isPlainObject, isNil } from '@antv/util';
+import { isString, isPlainObject, isNil, mix } from '@antv/util';
 import { IEdge, INode, ICombo } from '../interface/item';
 import { EdgeConfig, IPoint, NodeConfig, SourceTarget, Indexable } from '../types';
 import Item from './item';
@@ -212,6 +212,15 @@ export default class Edge extends Item implements IEdge {
     const oriVisible = model.visible;
     const cfgVisible = cfg.visible;
     if (oriVisible !== cfgVisible && cfgVisible !== undefined) this.changeVisibility(cfgVisible);
+
+    const styles = this.get('styles');
+    if (cfg.stateStyles) {
+      // 更新 item 时更新 this.get('styles') 中的值
+      const { stateStyles } = cfg;
+      mix(styles, stateStyles);
+      delete cfg.stateStyles;
+    }
+
     Object.assign(model, cfg);
     this.updateShape();
     this.afterUpdate();
