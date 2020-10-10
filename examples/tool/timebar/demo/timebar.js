@@ -36,7 +36,7 @@ for (let i = 0; i < 100; i++) {
 const timebar = new G6.TimeBar({
   x: 0,
   y: 0,
-  width: 500,
+  width,
   height: 150,
   padding: 10,
   type: 'trend',

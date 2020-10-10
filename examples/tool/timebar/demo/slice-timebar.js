@@ -42,7 +42,7 @@ let count = 0;
 const timebar = new G6.TimeBar({
   x: 0,
   y: 0,
-  width: width,
+  width,
   height: 150,
   padding: 10,
   type: 'tick',

@@ -526,7 +526,7 @@ const graph = new G6.Graph({
 });
 ```
 
-## G6 TimeBar 文档
+## TimeBar
 
 [AntV G6](https://github.com/antvis/G6) 内置了三种形态的 TimeBar 组件：
 
