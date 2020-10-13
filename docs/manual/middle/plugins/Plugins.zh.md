@@ -1,6 +1,6 @@
 ---
-title: 插件 Plugins
-order: 6
+title: 使用组件
+order: 0
 ---
 
 G6 中支持插件提供了一些可插拔的组件，包括：
