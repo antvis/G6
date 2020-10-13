@@ -1,5 +1,9 @@
 # ChangeLog
 
+#### 3.8.2
+- fix: drag-canvas behavior support scalable range, closes: #2136;
+- chore: auto zoom tooltip & contextMenu component when zoom-canvas;
+
 #### 3.8.1
 - fix: update edge states with updateItem problem, closes: #2142;
 - fix: create-edge behavior with polyline problem, closes: #2165;

@@ -99,7 +99,7 @@ describe('Default Behavior', () => {
 
     const dragCanvas: IBehavior = new DragCanvas();
     const config = dragCanvas.getDefaultCfg();
-    expect(config).toEqual({ direction: 'both', enableOptimize: false });
+    expect(config).toEqual({ direction: 'both', enableOptimize: false, scalableRange: 0 });
 
     const events = dragCanvas.getEvents();
     const keys = Object.keys(events);

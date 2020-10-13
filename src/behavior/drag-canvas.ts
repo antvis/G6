@@ -11,6 +11,11 @@ export default {
     return {
       direction: 'both',
       enableOptimize: false,
+      // drag-canvas 可拖动的扩展范围，默认为 0，即最多可以拖动一屏的位置
+      // 当设置的值大于 0 时，即拖动可以超过一屏
+      // 当设置的值小于 0 时，相当于缩小了可拖动范围
+      // 具体实例可参考：https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IFfoS67_HssAAAAAAAAAAAAAARQnAQ
+      scalableRange: 0
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -39,6 +44,7 @@ export default {
     }
     let dx = clientX - origin.x;
     let dy = clientY - origin.y;
+ 
     if (this.get('direction') === 'x') {
       dy = 0;
     } else if (this.get('direction') === 'y') {
@@ -51,15 +57,16 @@ export default {
     const width = this.graph.get('width');
     const height = this.graph.get('height');
     const graphCanvasBBox = this.graph.get('canvas').getCanvasBBox();
+
     if (
-      (graphCanvasBBox.minX <= width && graphCanvasBBox.minX + dx > width) ||
-      (graphCanvasBBox.maxX >= 0 && graphCanvasBBox.maxX + dx < 0)
+      (graphCanvasBBox.minX <= width + this.scalableRange && graphCanvasBBox.minX + dx > width + this.scalableRange) ||
+      (graphCanvasBBox.maxX + this.scalableRange >= 0 && graphCanvasBBox.maxX + this.scalableRange + dx < 0)
     ) {
       dx = 0;
     }
     if (
-      (graphCanvasBBox.minY <= height && graphCanvasBBox.minY + dy > height) ||
-      (graphCanvasBBox.maxY >= 0 && graphCanvasBBox.maxY + dy < 0)
+      (graphCanvasBBox.minY <= height + this.scalableRange && graphCanvasBBox.minY + dy > height + this.scalableRange) ||
+      (graphCanvasBBox.maxY + this.scalableRange >= 0 && graphCanvasBBox.maxY + this.scalableRange + dy < 0)
     ) {
       dy = 0;
     }

@@ -12,7 +12,7 @@ In G6, zooming the canvas is achieved through zoom-canvas Behavior. The wheelzoo
 ```javascript
 graph.on("wheelzoom", (e) => {
   e.stopPropagation();
-  // className default by g6-component-tooltip
+  // className g6-component-tooltip by default 
   const tooltips = Array.from(document.getElementsByClassName("g6-component-tooltip"));
   tooltips.forEach((tooltip) => {
     if (tooltip && tooltip.style) {
