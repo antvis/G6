@@ -183,6 +183,14 @@ module.exports = {
         },
         order: 4,
       },
+      {
+        slug: 'manual/middle/plugins',
+        title: {
+          zh: '分析组件',
+          en: 'Component',
+        },
+        order: 6,
+      },
       // ==============================
       {
         slug: 'manual/advanced',
