@@ -419,7 +419,6 @@ describe('drag-canvas', () => {
     edges.forEach(edge => {
       const children = edge.getContainer().get('children');
       children.forEach(child => {
-        console.log(child)
         expect(child.get('visible')).toEqual(false);
       });
     })
@@ -441,5 +440,54 @@ describe('drag-canvas', () => {
         expect(child.get('visible')).toEqual(true);
       });
     })
+  });
+
+  it('drag canvas with scalableRange', () => {
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [{
+          type: 'drag-canvas',
+          scalableRange: -150
+        }],
+      },
+    });
+    graph.data(data);
+    graph.render();
+    let start = false;
+    graph.on('canvas:dragstart', () => {
+      start = true;
+    });
+    graph.on('canvas:dragend', () => {
+      start = false;
+    });
+    graph.paint();
+    graph.emit('dragstart', { clientX: 150, clientY: 150 });
+    graph.emit('drag', { clientX: 200, clientY: 200 });
+    expect(start).toBe(true);
+    graph.emit('drag', { clientX: 250, clientY: 250 });
+    expect(start).toBe(true);
+    let matrix = graph.get('group').getMatrix();
+    expect(matrix[6]).toEqual(100);
+    expect(matrix[7]).toEqual(100);
+
+    graph.emit('drag', { clientX: 400, clientY: 350 });
+    matrix = graph.get('group').getMatrix();
+    expect(matrix[6]).toEqual(250);
+    expect(matrix[7]).toEqual(200);
+    expect(start).toBe(true);
+
+    // 超过了设置的范围，则不再移动
+    graph.emit('drag', { clientX: 550, clientY: 550 });
+    matrix = graph.get('group').getMatrix();
+    expect(matrix[6]).toEqual(250);
+    expect(matrix[7]).toEqual(200);
+    expect(start).toBe(true);
+
+    graph.emit('dragend', {});
+    expect(start).toBe(false);
+    graph.destroy();
   });
 });

@@ -128,6 +128,7 @@ export interface ModeOption {
   onlyChangeComboSize?: boolean;
   includeEdges?: boolean;
   direction?: 'x' | 'y';
+  scalableRange?: number;
   offset?: number;
   fixSelectedItems?: Partial<{
     fixAll: boolean;

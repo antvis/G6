@@ -105,7 +105,8 @@ const graph = new G6.Graph({
   - `type: 'drag-canvas'`;
   - `direction`: The direction of dragging that is allowed. Options: `'x'`, `'y'`, `'both'`. `'both'` by default;
   - `enableOptimize`: whether enable optimization, `false` by default. `enableOptimize: true` means hiding all edges and the shapes beside keyShapes of nodes while dragging canvas;
-  - `shouldBegin(e)`: Whether allow the behavior happen on the current item (e.item).
+  - `shouldBegin(e)`: Whether allow the behavior happen on the current item (e.item);
+  - `scalableRange`: scaleable range when drag canvas, `zero` by default.
 - Related timing events:
   - `canvas:dragstart`: Triggered when drag start. Listened by `graph.on('canvas:dragstart', e => {...})`;
   - `canvas:drag`: Triggered when dragging. Listened by `graph.on('canvas:drag', e => {...})`;
