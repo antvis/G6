@@ -1,6 +1,7 @@
 # ChangeLog
 
 #### 3.8.2
+- feat: graph.setImageWaterMarker, graph.setTextWaterMarker API;
 - fix: drag-canvas behavior support scalable range, closes: #2136;
 - chore: auto zoom tooltip & contextMenu component when zoom-canvas;
 

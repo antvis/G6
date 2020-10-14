@@ -75,4 +75,33 @@ export default {
     strokeOpacity: 0.9,
     lineDash: [5, 5],
   },
+  // 文本水印默认配置
+  textWaterMarkerConfig: {
+    width: 150,
+    height: 100,
+    compatible: false,
+    text: {
+      x: 0,
+      y: 60,
+      lineHeight: 20,
+      rotate: 20,
+      fontSize: 14,
+      fontFamily: 'Microsoft YaHei',
+      fill: 'rgba(0, 0, 0, 0.1)',
+      baseline: 'Middle'
+    },
+  },
+  imageWaterMarkerConfig: {
+    width: 150,
+    height: 130,
+    compatible: false,
+    image: {
+      x: 0,
+      y: 0,
+      width: 30,
+      height: 20,
+      rotate: 0
+    }
+  },
+  waterMarkerImage: 'https://gw.alipayobjects.com/os/s/prod/antv/assets/image/logo-with-text-73b8a.svg'
 };
