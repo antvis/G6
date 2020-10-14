@@ -19,7 +19,8 @@ import {
   ComboConfig,
   GraphAnimateConfig,
   StackData,
-  HullCfg
+  HullCfg,
+  WaterMarkerConfig
 } from '../types';
 import { IEdge, INode, ICombo } from './item';
 import Hull from '../item/hull';
@@ -695,4 +696,18 @@ export interface ITreeGraph extends IGraph {
    * @return {boolean} 是否有布局动画
    */
   isLayoutAnimating(): boolean;
+
+  /**
+   * 设置图片水印
+   * @param {string} imgURL 图片水印的url地址
+   * @param {WaterMarkerConfig} config 文本水印的配置项
+   */
+  setImageWaterMarker(imgURL: string , config: WaterMarkerConfig);
+
+  /**
+   * 设置文本水印
+   * @param {string[]} texts 水印的文本内容
+   * @param {WaterMarkerConfig} config 文本水印的配置项
+   */
+  setTextWaterMarker(texts: string[], config?: WaterMarkerConfig);
 }
