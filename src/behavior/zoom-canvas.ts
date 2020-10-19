@@ -31,7 +31,90 @@ export default {
 
     return {
       wheel: 'onWheel',
+      touchstart: 'onTouchStart',
+      touchmove: 'onTouchMove',
+      touchend: 'onTouchEnd'
     };
+  },
+  onTouchStart(evt) {
+    const touches = evt.originalEvent.touches
+    const event1 = touches[0]
+    const event2 = touches[1]
+    evt.preventDefault()
+
+    // 第一个触摸点位置
+    this.startPoint = {
+      pageX: event1.pageX,
+      pageY: event1.pageY
+    }
+
+    this.moveable = true
+
+    if (event2) {
+      this.endPoint = {
+        pageX: event2.pageX,
+        pageY: event2.pageY
+      }
+    }
+
+    this.originScale = this.currentScale || 1
+  },
+  onTouchMove(evt) {
+    if (!this.moveable) {
+      return
+    }
+
+    evt.preventDefault()
+
+    const touches = evt.originalEvent.touches
+    const event1 = touches[0]
+    const event2 = touches[1]
+    
+    if (!event2) {
+      return
+    }
+
+    if (!this.endPoint) {
+      this.endPoint = {
+        pageX: event2.pageX,
+        pageY: event2.pageY
+      }
+    }
+
+    // 获取坐标之间的距离
+    const getDistance = (start, end) => Math.hypot(end.x - start.x, end.y - start.y)
+
+    // 双指缩放比例
+    const scale = getDistance({ 
+      x: event1.pageX, y: event1.pageY 
+    }, { 
+      x: event2.pageX, y: event2.pageY 
+    }) / getDistance({ 
+      x: this.startPoint.pageX, y: this.startPoint.pageY 
+    }, { 
+      x: this.endPoint.pageX, y: this.endPoint.pageY 
+    })
+
+    // 应用到画布上的缩放比例
+    const zoom = this.originScale * scale
+
+    // 缓存当前的缩放比例
+    this.currentScale = zoom
+
+    const minZoom = this.get('minZoom') || this.graph.get('minZoom');
+    const maxZoom = this.get('maxZoom') || this.graph.get('maxZoom');
+    if (zoom > maxZoom || zoom < minZoom) {
+      return;
+    }
+
+    const canvas = this.graph.get('canvas');
+    const point = canvas.getPointByClient(evt.clientX, evt.clientY);
+    this.graph.zoomTo(zoom, { x: point.x, y: point.y });
+    this.graph.emit('wheelzoom', evt);
+  },
+  onTouchEnd() {
+    this.moveable = false
+    this.endPoint = null
   },
   onWheel(e: IG6GraphEvent) {
     const { graph, fixSelectedItems } = this;

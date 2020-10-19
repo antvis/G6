@@ -3355,16 +3355,16 @@ export default class Graph extends EventEmitter implements IGraph {
   public setImageWaterMarker(
     imgURL: string = Global.waterMarkerImage, 
     config?: WaterMarkerConfig) { 
-    let container: string | HTMLElement | null = this.get('container');
+    let container: string | HTMLElement | null = this.get('container')
     if (isString(container)) {
-      container = document.getElementById(container);
+      container = document.getElementById(container)
     }
     
     if (!container.style.position) {
       container.style.position = 'relative'
     }
 
-    let canvas = this.get('graphWaterMarker');
+    let canvas = this.get('graphWaterMarker')
 
     const waterMarkerConfig: WaterMarkerConfig = deepMix({}, Global.imageWaterMarkerConfig, config)
     const { width, height, compatible, image } = waterMarkerConfig
@@ -3376,42 +3376,42 @@ export default class Graph extends EventEmitter implements IGraph {
         height,
         capture: false,
       };
-      const pixelRatio = this.get('pixelRatio');
+      const pixelRatio = this.get('pixelRatio')
       if (pixelRatio) {
-        canvasCfg.pixelRatio = pixelRatio;
+        canvasCfg.pixelRatio = pixelRatio
       }
-      canvas = new GCanvas(canvasCfg);
+      canvas = new GCanvas(canvasCfg)
       this.set('graphWaterMarker', canvas)
     }
-    canvas.get('el').style.display = 'none';    
+    canvas.get('el').style.display = 'none'
     const ctx = canvas.get('context')
 
     const { rotate, x, y } = image
     //旋转20度
-    ctx.rotate((-rotate * Math.PI) / 180); 
+    ctx.rotate((-rotate * Math.PI) / 180)
 
-    const img = new Image();
-    img.src = imgURL;
+    const img = new Image()
+    img.src = imgURL
     img.onload  = function () {
-      ctx.drawImage(img, x, y, image.width, image.height);
+      ctx.drawImage(img, x, y, image.width, image.height)
       //恢复旋转角度
-      ctx.rotate((rotate * Math.PI) / 180);  
+      ctx.rotate((rotate * Math.PI) / 180)
   
       // 默认按照现代浏览器处理        
       if (!compatible) {
-        let box = document.querySelector('.g6-graph-watermarker') as HTMLElement;  
+        let box = document.querySelector('.g6-graph-watermarker') as HTMLElement
         if (!box) {
-          box = document.createElement('div');  
+          box = document.createElement('div')
           box.className = 'g6-graph-watermarker' 
         }
         box.className = 'g6-graph-watermarker'
         if (!canvas.destroyed) {
-          box.style.cssText = `background-image: url(${canvas.get('el').toDataURL('image/png')});background-repeat:repeat;position:absolute;top:0;bottom:0;left:0;right:0;pointer-events:none;z-index:-1;`;        
-          (container as HTMLElement).appendChild(box);    
+          box.style.cssText = `background-image: url(${canvas.get('el').toDataURL('image/png')});background-repeat:repeat;position:absolute;top:0;bottom:0;left:0;right:0;pointer-events:none;z-index:-1;`;      
+          (container as HTMLElement).appendChild(box)
         } 
       } else {
         // 当需要兼容不支持 pointer-events属性的浏览器时，将 compatible 设置为 true
-        (container as HTMLElement).style.cssText = `background-image: url(${canvas.get('el').toDataURL('image/png')});background-repeat:repeat;`;    
+        (container as HTMLElement).style.cssText = `background-image: url(${canvas.get('el').toDataURL('image/png')});background-repeat:repeat;`
       }
     }
 
@@ -3423,16 +3423,16 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {WaterMarkerConfig} config 文本水印的配置项
    */
   public setTextWaterMarker(texts: string[], config?: WaterMarkerConfig) { 
-    let container: string | HTMLElement | null = this.get('container');
+    let container: string | HTMLElement | null = this.get('container')
     if (isString(container)) {
-      container = document.getElementById(container);
+      container = document.getElementById(container)
     }
     
     if (!container.style.position) {
       container.style.position = 'relative'
     }
 
-    let canvas = this.get('graphWaterMarker');
+    let canvas = this.get('graphWaterMarker')
 
     const waterMarkerConfig: WaterMarkerConfig = deepMix({}, Global.textWaterMarkerConfig, config)
     const { width, height, compatible, text } = waterMarkerConfig
@@ -3444,45 +3444,45 @@ export default class Graph extends EventEmitter implements IGraph {
         height,
         capture: false,
       };
-      const pixelRatio = this.get('pixelRatio');
+      const pixelRatio = this.get('pixelRatio')
       if (pixelRatio) {
-        canvasCfg.pixelRatio = pixelRatio;
+        canvasCfg.pixelRatio = pixelRatio
       }
-      canvas = new GCanvas(canvasCfg);
+      canvas = new GCanvas(canvasCfg)
       this.set('graphWaterMarker', canvas)
     }
-    canvas.get('el').style.display = 'none';    
+    canvas.get('el').style.display = 'none'   
     const ctx = canvas.get('context')
 
     const { rotate, fill, fontFamily, fontSize, baseline, x, y, lineHeight } = text
     //旋转20度
-    ctx.rotate((-rotate * Math.PI) / 180);
+    ctx.rotate((-rotate * Math.PI) / 180)
 
     //设置文字样式   
-    ctx.font = `${fontSize}px ${fontFamily}`; 
+    ctx.font = `${fontSize}px ${fontFamily}`
 
     //设置文字颜色  
-    ctx.fillStyle = fill;  
+    ctx.fillStyle = fill
 
-    ctx.textBaseline = baseline;    
+    ctx.textBaseline = baseline 
 
     for (let i = texts.length - 1; i >= 0; i--) {        
       //将文字绘制到画布        
-      ctx.fillText(texts[i], x, y + i * lineHeight);    
+      ctx.fillText(texts[i], x, y + i * lineHeight) 
     }    
 
     //恢复旋转角度
-    ctx.rotate((rotate * Math.PI) / 180);  
+    ctx.rotate((rotate * Math.PI) / 180)
 
     // 默认按照现代浏览器处理        
     if (!compatible) {
-      let box = document.querySelector('.g6-graph-watermarker') as HTMLElement;  
+      let box = document.querySelector('.g6-graph-watermarker') as HTMLElement
       if (!box) {
-        box = document.createElement('div');  
+        box = document.createElement('div')
         box.className = 'g6-graph-watermarker' 
       }
       box.style.cssText = `background-image: url(${canvas.get('el').toDataURL('image/png')});background-repeat:repeat;position:absolute;top:0;bottom:0;left:0;right:0;pointer-events:none;z-index:99;`;        
-      container.appendChild(box);    
+      container.appendChild(box)
     } else {
       // 当需要兼容不支持 pointer-events属性的浏览器时，将 compatible 设置为 true
       container.style.cssText = `background-image: url(${canvas.get('el').toDataURL('image/png')});background-repeat:repeat;`;    
