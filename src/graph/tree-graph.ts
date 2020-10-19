@@ -222,6 +222,10 @@ export default class TreeGraph extends Graph implements ITreeGraph {
   public changeData(data?: GraphData | TreeGraphData): any {
     const self = this;
 
+    // 更改数据源后，取消所有状态
+    this.getNodes().map((node) => self.clearItemStates(node));
+    this.getEdges().map((edge) => self.clearItemStates(edge));
+    
     if (data) {
       self.data(data);
       self.render();

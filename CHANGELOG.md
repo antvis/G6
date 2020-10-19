@@ -2,7 +2,9 @@
 
 #### 3.8.2
 - feat: graph.setImageWaterMarker, graph.setTextWaterMarker API;
+- feat: zoom-canvas support mobile;
 - fix: drag-canvas behavior support scalable range, closes: #2136;
+- fix: TreeGraph changeData clear all states, closes: #2173;
 - chore: auto zoom tooltip & contextMenu component when zoom-canvas;
 
 #### 3.8.1
