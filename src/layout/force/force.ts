@@ -3,17 +3,18 @@
  * @author shiwu.wyy@antfin.com
  */
 
-import { GraphData, IPointTuple } from '../types';
+import { GraphData, IPointTuple } from '../../types';
 
 import * as d3Force from 'd3-force';
+import forceInABox from './force-in-a-box';
 
 import isArray from '@antv/util/lib/is-array';
 import isFunction from '@antv/util/lib/is-function';
 import isNumber from '@antv/util/lib/is-number';
 import mix from '@antv/util/lib/mix';
 
-import { BaseLayout } from './layout';
-import { LAYOUT_MESSAGE } from './worker/layoutConst';
+import { BaseLayout } from '../layout';
+import { LAYOUT_MESSAGE } from '../worker/layoutConst';
 import { clone } from '@antv/util';
 
 /**
@@ -37,6 +38,24 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
 
   /** 节点间距，防止节点重叠时节点之间的最小距离（两节点边缘最短距离） */
   public nodeSpacing: ((d?: unknown) => number) | undefined;
+
+  /** 是否支持按类聚合 */
+  public clustering: boolean;
+
+  /** 聚类节点作用力 */
+  public clusterNodeStrength: number | null = null;
+
+  /** 聚类边作用力 */
+  public clusterEdgeStrength: number | null = null;
+
+  /** 聚类边长度 */
+  public clusterEdgeDistance: number | null = null;
+
+  /** 聚类节点大小 / 直径，直径越大，越分散 */
+  public clusterNodeSize: number | null = null;
+
+  /** 用于foci的力 */
+  public clusterFociStrength: number | null = null;
 
   /** 默认边长度 */
   public linkDistance: number = 50;
@@ -71,6 +90,7 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
   private ticking: boolean | undefined = undefined;
 
   private edgeForce: any;
+  private clusterForce: any;
 
   public getDefaultCfg() {
     return {
@@ -86,6 +106,12 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
       alphaMin: 0.001,
       alpha: 0.3,
       collideStrength: 1,
+      clustering: false,
+      clusterNodeStrength: -1,
+      clusterEdgeStrength: 0.1,
+      clusterEdgeDistance: 100,
+      clusterFociStrength: 0.8,
+      clusterNodeSize: 10,
       tick() {},
       onLayoutEnd() {}, // 布局完成回调
       onTick() {}, // 每一迭代布局回调
@@ -137,14 +163,36 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
         if (self.nodeStrength) {
           nodeForce.strength(self.nodeStrength);
         }
-        simulation = d3Force
-          .forceSimulation()
-          .nodes(nodes)
+        simulation = d3Force.forceSimulation().nodes(nodes);
+        if (self.clustering) {
+          const clusterForce = forceInABox() as any;
+          clusterForce
+            .centerX(self.center[0])
+            .centerY(self.center[1])
+            .template('force')
+            .strength(self.clusterFociStrength);
+          if (edges) {
+            clusterForce.links(edges);
+          }
+          if (nodes) {
+            clusterForce.nodes(nodes);
+          }
+          clusterForce
+            .forceLinkDistance(self.clusterEdgeDistance)
+            .forceLinkStrength(self.clusterEdgeStrength)
+            .forceCharge(self.clusterNodeStrength)
+            .forceNodeSize(self.clusterNodeSize);
+
+          self.clusterForce = clusterForce;
+          simulation.force('group', clusterForce);
+        }
+        simulation
           .force('center', d3Force.forceCenter(self.center[0], self.center[1]))
           .force('charge', nodeForce)
           .alpha(alpha)
           .alphaDecay(alphaDecay)
           .alphaMin(alphaMin);
+
         if (self.preventOverlap) {
           self.overlapProcess(simulation);
         }
@@ -206,6 +254,10 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
       if (reloadData) {
         simulation.nodes(nodes);
         self.edgeForce.links(edges);
+        if (self.clustering && self.clusterForce) {
+          self.clusterForce.nodes(nodes);
+          self.clusterForce.links(edges);
+        }
       }
       if (self.preventOverlap) {
         self.overlapProcess(simulation);

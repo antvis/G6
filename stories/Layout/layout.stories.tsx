@@ -8,6 +8,7 @@ import AddNodeLayout from './component/addNodeLayout';
 import ChangeData from './component/changeData';
 import ComboForceLayout from './component/combo-force-layout';
 import ForceLayout from './component/force-layout';
+import ForceClusteringLayout from './component/force-clustering-layout';
 import CompactBox from './component/compact-box';
 import AutoLayout from './component/auto-layout';
 
@@ -22,5 +23,6 @@ storiesOf('Layout', module)
   .add('combo force layout', () => <ComboForceLayout />)
   .add('Fruchterman worker layout', () => <FruchtermanWorker />)
   .add('force layout', () => <ForceLayout />)
+  .add('force clustering layout', () => <ForceClusteringLayout />)
   .add('compactbox layout', () => <CompactBox />)
-  .add('auto layout', () => <AutoLayout />)
+  .add('auto layout', () => <AutoLayout />);
