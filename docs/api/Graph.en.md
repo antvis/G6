@@ -208,7 +208,7 @@ graph.read(data);
 
 ### changeData(data, stack)
 
-Change the data source, and render the graph according to the new data.
+Change the data source, and render the graph according to the new data. If there is `layout` configured on the graph, the new data will be placed according to the layout algorithm. If you do not want to layout the new data with origin layout algorithm, call `graph.destroyLayout`, ref to [destroyLayout](#destroyLayout).
 
 **Parameters**
 
@@ -714,6 +714,35 @@ graph.updateLayout({
   divisions: 5,
   ordering: 'degree',
 });
+```
+
+
+### destroyLayout()
+
+Destroy the layout algorithm. After that, the `changeData` will not place the new nodes with origin layout configurations.
+
+**Usage**
+
+```javascript
+const graph = new G6.Graph({
+  container: 'mountNode',
+  width: 1000,
+  height: 600,
+  modes: {
+    default: ['drag-canvas', 'drag-node'],
+  },
+  layout: {
+    type: 'circular',
+    center: [500, 300],
+  },
+  animate: true,
+});
+graph.data(data);
+graph.render();
+
+graph.destroyLayout();
+// If there is no position info in data2, the new nodes will be placed according to position initing problem. If the position info exists, the new node will be placed according to its position info
+graph.changeData(data2);
 ```
 
 ## Destroy

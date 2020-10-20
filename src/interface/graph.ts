@@ -496,7 +496,6 @@ export interface IGraph extends EventEmitter {
     imageConfig?: { backgroundColor?: string; padding?: number | number[] },
   ): void;
 
-  // TODO 需要添加布局配置类型
   /**
    * 更换布局配置项
    * @param {object} cfg 新布局配置项
@@ -509,6 +508,11 @@ export interface IGraph extends EventEmitter {
    * 重新以当前示例中配置的属性进行一次布局
    */
   layout(): void;
+
+  /**
+   * 销毁布局，changeData 时不会再使用原来的布局方法对新数据进行布局
+   */
+  destroyLayout(): void;
 
   /**
    * 添加插件

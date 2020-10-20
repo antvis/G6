@@ -62,7 +62,7 @@ describe('tooltip', () => {
     graph.emit('node:mouseleave', { item: graph.getNodes()[0] });
     expect(tooltipPlugin.get('tooltip').style.visibility).toEqual('hidden');
 
-    // graph.destroy()
+    graph.destroy()
   });
   it('tooltip with dom', () => {
     const tooltip = new G6.Tooltip({
