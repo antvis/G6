@@ -2573,6 +2573,16 @@ export default class Graph extends EventEmitter implements IGraph {
     }
   }
 
+
+  /**
+   * 销毁布局，changeData 时不会再使用原来的布局方法对新数据进行布局
+   */
+  public destroyLayout(): void {
+    const layoutController = this.get('layoutController');
+    layoutController.destroyLayout();
+  }
+
+
   /**
    * 重新以当前示例中配置的属性进行一次布局
    */

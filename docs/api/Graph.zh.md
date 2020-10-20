@@ -208,7 +208,7 @@ graph.read(data);
 
 ### changeData(data, stack)
 
-更新数据源，根据新的数据重新渲染视图。
+更新数据源，根据新的数据重新渲染视图。若图上配置有 `layout`，则新数据也将使用原有布局算法进行布局。若希望新数据按照原有算法布局，可以使用 `graph.destroyLayout()` 将原有布局销毁，详见 [destroyLayout](#destroyLayout)。
 
 **参数**
 
@@ -720,6 +720,34 @@ graph.updateLayout({
   divisions: 5,
   ordering: 'degree',
 });
+```
+
+### destroyLayout()
+
+销毁布局方法，在此之后调用 `changeData` 等方法将不会按照原有的布局算法进行布局。
+
+**用法**
+
+```javascript
+const graph = new G6.Graph({
+  container: 'mountNode',
+  width: 1000,
+  height: 600,
+  modes: {
+    default: ['drag-canvas', 'drag-node'],
+  },
+  layout: {
+    type: 'circular',
+    center: [500, 300],
+  },
+  animate: true,
+});
+graph.data(data);
+graph.render();
+
+graph.destroyLayout();
+// 此时 changeData，若 data2 中的节点没有位置信息，将按照初始化计算方法被放置；若有位置信息，则按照该信息被放置
+graph.changeData(data2);
 ```
 
 ## 销毁

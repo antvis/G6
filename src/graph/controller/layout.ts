@@ -2,9 +2,7 @@ import Layout from '../../layout';
 import LayoutWorker from '../../layout/worker/layout.worker';
 import { LAYOUT_MESSAGE } from '../../layout/worker/layoutConst';
 import { isNaN } from '../../util/base';
-
 import { IGraph } from '../../interface/graph';
-import { path2Absolute } from '@antv/path-util';
 
 // eslint-disable-next-line @typescript-eslint/no-implied-eval
 const mockRaf = (cb: TimerHandler) => setTimeout(cb, 16);
@@ -367,6 +365,18 @@ export default class LayoutController {
     this.layout();
   }
 
+  // 销毁布局，不能使用 this.destroy，因为 controller 还需要被使用，只是把布局算法销毁
+  public destroyLayout() {
+    const { layoutMethod, graph } = this;
+    if (layoutMethod) {
+      layoutMethod.destroy();
+    }
+    graph.set('layout', undefined);
+    this.layoutCfg = undefined;
+    this.layoutType = undefined;
+    this.layoutMethod = undefined;
+  }
+
   // 从 this.graph 获取数据
   public setDataFromGraph() {
     const nodes = [];
@@ -460,10 +470,12 @@ export default class LayoutController {
     const width = graph.get('width') * 0.85;
     const height = graph.get('height') * 0.85;
     const nodeNum = nodes.length;
-    const horiNum = Math.sqrt((width * nodeNum) / height);
-    const vertiNum = (horiNum * height) / width;
-    const horiGap = width / (horiNum - 1);
-    const vertiGap = height / (vertiNum - 1);
+    const horiNum = Math.ceil(Math.sqrt(nodeNum) * (width / height));
+    const vertiNum = Math.ceil(nodeNum / horiNum);
+    let horiGap = width / (horiNum - 1);
+    let vertiGap = height / (vertiNum - 1);
+    if (!isFinite(horiGap) || !horiGap) horiGap = 0;
+    if (!isFinite(vertiGap) || !horiGap) vertiGap = 0;
     const beginX = center[0] - width / 2;
     const beginY = center[1] - height / 2;
     nodes.forEach((node, i) => {
@@ -473,7 +485,7 @@ export default class LayoutController {
       }
       if (isNaN(node.y)) {
         allHavePos = false;
-        node.y = (i / horiNum) * vertiGap + beginY;
+        node.y = Math.floor(i / horiNum) * vertiGap + beginY;
       }
     });
     return allHavePos;

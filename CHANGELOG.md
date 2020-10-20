@@ -7,6 +7,8 @@
 - fix: TreeGraph changeData clear all states, closes: #2173;
 - chore: auto zoom tooltip & contextMenu component when zoom-canvas;
 - chore: upgrade @antv/g-canvas;
+- feat: destroyLayout API for graph, closes: #2140;
+- feat: clustering for force layout, closes: #2196;
 
 #### 3.8.1
 - fix: update edge states with updateItem problem, closes: #2142;
