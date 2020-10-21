@@ -27,7 +27,7 @@ insertCss(`
 
 interface MenuConfig extends IPluginBaseConfig {
   handleMenuClick?: (target: HTMLElement, item: Item) => void;
-  getContent?: (graph?: IGraph) => HTMLDivElement | string;
+  getContent?: (evt?: IG6GraphEvent) => HTMLDivElement | string;
   // offsetX 与 offsetY 需要加上父容器的 padding
   offsetX?: number;
   offsetY?: number;
@@ -43,7 +43,7 @@ export default class Menu extends Base {
       offsetY: 6,
       handleMenuClick: undefined,
       // 指定菜单内容，function(e) {...}
-      getContent: (graph) => {
+      getContent: (e) => {
         return `
           <ul class='g6-contextmenu-ul'>
             <li>菜单项1</li>

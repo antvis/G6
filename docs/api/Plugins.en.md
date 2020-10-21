@@ -170,7 +170,7 @@ Menu is used to configure the right-click menu on the node.
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | className | string | null | the class name of the menu dom |
-| getContent | (graph?: IGraph) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OtOkS4g-vrkAAAAAAAAAAABkARQnAQ' width=60 alt='img'/> | the menu content，supports DOM or string |
+| getContent | (evt?: IG6GraphEvent) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OtOkS4g-vrkAAAAAAAAAAABkARQnAQ' width=60 alt='img'/> | the menu content，supports DOM or string |
 | handleMenuClick | (target: HTMLElement, item: Item) => void | undefined | the callback function when click the menu |
 
 ### Usage
@@ -217,7 +217,7 @@ const graph = new G6.Graph({
 
 ```
 const menu = new G6.Menu({
-  getContent(graph) {
+  getContent(evt) {
     return `<ul>
       <li title='1'>menu02</li>
       <li title='2'>menu02</li>
@@ -466,7 +466,7 @@ ToolTip helps user to explore detail infomations on the node and edge. Do note t
 | --- | --- | --- | --- |
 | className | string | null | Tge class name of the tooltip's container |
 | container | HTMLDivElement | null | The container of the Tooltip. The canvas DOM will be used by default |
-| getContent | (graph?: IGraph) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aPPuQquN5Q0AAAAAAAAAAABkARQnAQ' width=80 alt='img'/> | The content of the Tooltip |
+| getContent | (evt?: IG6GraphEvent) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aPPuQquN5Q0AAAAAAAAAAABkARQnAQ' width=80 alt='img'/> | The content of the Tooltip |
 | shouldBegin | (evt: G6Event) => boolean | undefined | Whether allow the tooltip show up. You can return true or false according to the content of the `evt.item` (current item of the event) or `evt.target` (current shape of the event) |
 | offsetX | number | 6 | the offset of tooltip along x axis, the padding of the parent container should be take into consider |
 | offsetY | number | 6 | the offset of tooltip along y axis, the padding of the parent container should be take into consider |

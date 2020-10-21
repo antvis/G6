@@ -196,7 +196,7 @@ ToolBar has the following operations by default:
 | --- | --- | --- | --- |
 | container | HTMLDivElement | null | The container of the ToolBar. It will take use the DOM of the canvas by default |
 | className | string | null | The class name of the sub DOM nodes of the ToolBar |
-| getContent | (evt?: IG6GraphEvent) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ' width=80 alt='img'/> | The content of the ToolBar |
+| getContent | (graph?: IGraph) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ' width=80 alt='img'/> | The content of the ToolBar |
 | handleClick | (code: string, graph: IGraph) => void | undefined | The callback functions for the icons of the ToolBar |
 | position | Point | null | The position of the ToolBar |
 
