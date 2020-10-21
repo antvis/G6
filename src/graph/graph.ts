@@ -3387,14 +3387,14 @@ export default class Graph extends EventEmitter implements IGraph {
     const ctx = canvas.get('context')
 
     const { rotate, x, y } = image
-    //旋转20度
+    // 旋转20度
     ctx.rotate((-rotate * Math.PI) / 180)
 
     const img = new Image()
     img.src = imgURL
-    img.onload  = function () {
+    img.onload  = () => {
       ctx.drawImage(img, x, y, image.width, image.height)
-      //恢复旋转角度
+      // 恢复旋转角度
       ctx.rotate((rotate * Math.PI) / 180)
   
       // 默认按照现代浏览器处理        
@@ -3455,23 +3455,23 @@ export default class Graph extends EventEmitter implements IGraph {
     const ctx = canvas.get('context')
 
     const { rotate, fill, fontFamily, fontSize, baseline, x, y, lineHeight } = text
-    //旋转20度
+    // 旋转20度
     ctx.rotate((-rotate * Math.PI) / 180)
 
-    //设置文字样式   
+    // 设置文字样式   
     ctx.font = `${fontSize}px ${fontFamily}`
 
-    //设置文字颜色  
+    // 设置文字颜色  
     ctx.fillStyle = fill
 
     ctx.textBaseline = baseline 
 
     for (let i = texts.length - 1; i >= 0; i--) {        
-      //将文字绘制到画布        
+      // 将文字绘制到画布        
       ctx.fillText(texts[i], x, y + i * lineHeight) 
     }    
 
-    //恢复旋转角度
+    // 恢复旋转角度
     ctx.rotate((rotate * Math.PI) / 180)
 
     // 默认按照现代浏览器处理        
