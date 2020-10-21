@@ -261,10 +261,32 @@ export default class MiniMap extends Base {
     const graphGroup = graph!.get('group');
     if (graphGroup.destroyed) return;
     const clonedGroup = graphGroup.clone();
+
     clonedGroup.resetMatrix();
 
     canvas.clear();
     canvas.add(clonedGroup);
+
+    // 当 renderer 是 svg，由于渲染引擎的 bug，这里需要将 visible 为 false 的元素手动隐藏
+    const renderer = graph.get('renderer');
+    if (renderer === SVG) {
+      // 递归更新子元素
+      this.updateVisible(clonedGroup);
+    }
+  }
+
+  // svg 在 canvas.add(clonedGroup) 之后会出现 visible 为 false 的元素被展示出来，需要递归更新
+  private updateVisible(ele) {
+    if (!ele.isGroup() && !ele.get('visible')) {
+      ele.hide();
+    } else {
+      const children = ele.get('children');
+      if (!children || !children.length) return;
+      children.forEach(child => {
+        if (!child.get('visible')) child.hide();
+        this.updateVisible(child);
+      });
+    }
   }
 
   // 仅在 minimap 上绘制 keyShape

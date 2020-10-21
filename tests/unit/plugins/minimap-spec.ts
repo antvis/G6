@@ -385,3 +385,179 @@ describe('minimap', () => {
     graph.destroy();
   });
 });
+
+
+describe('minimap with hidden shape', () => {
+  G6.registerNode('my-node', {
+    drawShape: (cfg, group) => {
+      const mainGroup = group.addGroup({
+        id: 'main-group',
+      });
+      const rect = mainGroup.addShape('rect', {
+        attrs: {
+          fill: '#fff',
+        },
+        name: 'main-box',
+      });
+
+      const shape = mainGroup.addShape('rect', {
+        attrs: {
+          fill: '#fff',
+          stroke: '#FA8C16',
+          radius: 4,
+        },
+        name: 'main-shape',
+      });
+
+      if (cfg.open) {
+        mainGroup.addShape('rect', {
+          attrs: {
+            x: 0,
+            y: -4,
+            width: 266,
+            height: 4,
+            fill: '#FA8C16',
+            stroke: '#FA8C16',
+            radius: [6, 6, 0, 0],
+          },
+          name: 'css-rect',
+        });
+      } else {
+        mainGroup.addShape('rect', {
+          attrs: {
+            x: 0,
+            y: 0,
+            width: 4,
+            height: 40,
+            fill: '#FA8C16',
+            stroke: '#FA8C16',
+            radius: [6, 0, 0, 6],
+          },
+          name: 'css-rect',
+        });
+      }
+      const text = mainGroup.addShape('text', {
+        attrs: {
+          text: '文本0',
+          x: 14,
+          y: 20,
+          textAlign: 'left',
+          textBaseline: 'middle',
+          fill: '#666',
+          fontSize: 14
+        },
+
+        name: 'rect-shape',
+        zIndex: 0,
+      });
+
+      const detailGroup = group.addGroup({
+        id: 'detail-group',
+      });
+      detailGroup.addShape('text', {
+        attrs: {
+          text: '文本1',
+          x: 14,
+          y: 46,
+          textAlign: 'left',
+          textBaseline: 'middle',
+          fill: '#666',
+        },
+        name: 'desc',
+      });
+      detailGroup.addShape('text', {
+        attrs: {
+          text: '文本2',
+          x: 14,
+          y: 66,
+          textAlign: 'left',
+          textBaseline: 'middle',
+          fill: '#666',
+        },
+        name: 'dbName',
+      });
+      detailGroup.addShape('text', {
+        attrs: {
+          text: '文本3',
+          x: 134,
+          y: 66,
+          textAlign: 'left',
+          textBaseline: 'middle',
+          fill: '#666',
+        },
+        name: 'dbType',
+      });
+      detailGroup.addShape('image', {
+        attrs: {
+          x: 0,
+          y: 60,
+          width: 16,
+          height: 16,
+          img:
+            'https://g.alicdn.com/cm-design/arms-trace/1.0.155/styles/armsTrace/images/TAIR.png',
+        },
+        // must be assigned in G6 3.3 and later versions. it can be any value you want
+        name: 'btn',
+        data: cfg.detail,
+      });
+      if (cfg.open) {
+        detailGroup.show();
+        rect.attr({
+          x: 0,
+          y: 0,
+          width: 280,
+          height: 134,
+        });
+        shape.attr({
+          x: 0,
+          y: 0,
+          width: 266,
+          height: 134,
+        });
+      } else {
+        detailGroup.hide();
+        rect.attr({
+          x: 0,
+          y: 0,
+          width: 280,
+          height: 40,
+        });
+        shape.attr({
+          x: 0,
+          y: 0,
+          width: 266,
+          height: 40,
+        });
+      }
+
+      return rect;
+    },
+    update: undefined
+  }, 'single-node');
+
+  it('svg renderer, minimap with hidden shape in custom node', (done) => {
+    const minimap = new G6.Minimap({ size: [200, 200] });
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      plugins: [minimap],
+      renderer: 'svg',
+      defaultNode: {
+        type: 'my-node'
+      }
+    });
+
+    graph.addItem('node', { id: 'node1', label: 'text1', x: 50, y: 50, open: true });
+    graph.addItem('node', { id: 'node2', label: 'text2', x: 120, y: 150, open: true });
+    graph.addItem('node', { id: 'node3', label: 'text3', x: 150, y: 190 });
+    graph.addItem('node', { id: 'node4', label: 'text4', x: 220, y: 250 });
+
+    setTimeout(() => {
+      const minimapCanvas = minimap.getCanvas();
+      const minimapRootGroup = minimapCanvas.get('children')[0];
+      expect(minimapRootGroup.get('children')[3].get('children')[3].get('children')[1].get('visible')).toBe(false);
+      done();
+    }, 100);
+  });
+});
