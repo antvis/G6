@@ -9,6 +9,7 @@
 - chore: upgrade @antv/g-canvas;
 - feat: destroyLayout API for graph, closes: #2140;
 - feat: clustering for force layout, closes: #2196;
+- fix: svg renderer minimap hidden elements probem, closes: #2174;
 
 #### 3.8.1
 - fix: update edge states with updateItem problem, closes: #2142;
