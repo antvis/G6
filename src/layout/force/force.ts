@@ -90,6 +90,7 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
   private ticking: boolean | undefined = undefined;
 
   private edgeForce: any;
+
   private clusterForce: any;
 
   public getDefaultCfg() {
@@ -252,12 +253,12 @@ export default class ForceLayout<Cfg = any> extends BaseLayout {
       }
     } else {
       if (reloadData) {
-        simulation.nodes(nodes);
-        self.edgeForce.links(edges);
         if (self.clustering && self.clusterForce) {
           self.clusterForce.nodes(nodes);
           self.clusterForce.links(edges);
         }
+        simulation.nodes(nodes);
+        self.edgeForce.links(edges);
       }
       if (self.preventOverlap) {
         self.overlapProcess(simulation);
