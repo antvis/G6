@@ -6,25 +6,26 @@ export default function forceInABox() {
     return () => _;
   }
 
-  var nodes = [],
-    nodesMap = {},
-    links = [], //needed for the force version
-    centerX = 100,
-    centerY = 100,
-    forceNodeSize: (() => number) | ((d: any) => number) = constant(1), // The expected node size used for computing the cluster node
-    forceCharge: (() => number) | ((d: any) => number) = constant(-1),
-    forceLinkDistance: (() => number) | ((d: any) => number) = constant(100),
-    forceLinkStrength: (() => number) | ((d: any) => number) = constant(0.1),
-    foci = { none: { x: 0, y: 0 } },
-    templateNodes = [],
-    offset = [0, 0],
-    templateForce,
-    groupBy = function groupBy(d) {
-      return d.cluster;
-    },
-    template = 'force',
-    enableGrouping = true,
-    strength = 0.1;
+  let groupBy = (d) => {
+    return d.cluster;
+  };
+  let forceNodeSize: (() => number) | ((d: any) => number) = constant(1);
+  let forceCharge: (() => number) | ((d: any) => number) = constant(-1);
+  let forceLinkDistance: (() => number) | ((d: any) => number) = constant(100);
+  let forceLinkStrength: (() => number) | ((d: any) => number) = constant(0.1);
+  let offset = [0, 0];
+
+  let nodes = [];
+  let nodesMap = {};
+  let links = [];
+  let centerX = 100;
+  let centerY = 100;
+  let foci = { none: { x: 0, y: 0 } };
+  let templateNodes = [];
+  let templateForce;
+  let template = 'force';
+  let enableGrouping = true;
+  let strength = 0.1;
 
   function force(alpha) {
     if (!enableGrouping) {
@@ -33,7 +34,7 @@ export default function forceInABox() {
     templateForce.tick();
     getFocisFromTemplate();
 
-    for (var i = 0, n = nodes.length, node, k = alpha * strength; i < n; ++i) {
+    for (let i = 0, n = nodes.length, node, k = alpha * strength; i < n; ++i) {
       node = nodes[i];
       node.vx += (foci[groupBy(node)].x - node.x) * k;
       node.vy += (foci[groupBy(node)].y - node.y) * k;
@@ -46,8 +47,6 @@ export default function forceInABox() {
   }
 
   function initializeWithForce() {
-    var net;
-
     if (!nodes || !nodes.length) {
       return;
     }
@@ -62,19 +61,12 @@ export default function forceInABox() {
 
     // checkLinksAsObjects();
 
-    net = getGroupsGraph();
+    const net = getGroupsGraph();
     templateForce = d3Force
       .forceSimulation(net.nodes)
       .force('x', d3Force.forceX(centerX).strength(0.1))
       .force('y', d3Force.forceY(centerY).strength(0.1))
-      .force(
-        'collide',
-        d3Force
-          .forceCollide(function (d: { r: any }) {
-            return d.r;
-          })
-          .iterations(4),
-      )
+      .force('collide', d3Force.forceCollide((d: { r: any }) => d.r).iterations(4))
       .force('charge', d3Force.forceManyBody().strength(forceCharge))
       .force(
         'links',
@@ -89,36 +81,11 @@ export default function forceInABox() {
     getFocisFromTemplate();
   }
 
-  function checkLinksAsObjects() {
-    // Check if links come in the format of indexes instead of objects
-    var linkCount = 0;
-    if (nodes.length === 0) return;
-
-    links.forEach(function (link) {
-      var source, target;
-      if (!nodes) return;
-      source = link.source;
-      target = link.target;
-      if (typeof link.source !== 'object') source = nodes[link.source];
-      if (typeof link.target !== 'object') target = nodes[link.target];
-      if (source === undefined || target === undefined) {
-        // console.error(link);
-        throw Error('Error setting links, couldnt find nodes for a link (see it on the console)');
-      }
-      link.source = source;
-      link.target = target;
-      link.index = linkCount++;
-    });
-  }
-
   function getGroupsGraph() {
-    let gnodes = [],
-      glinks = [],
-      dNodes = {},
-      clustersList = [],
-      // c,
-      // i,
-      // cc,
+    const gnodes = [];
+    const glinks = [];
+    const dNodes = {};
+    let clustersList = [],
       clustersCounts = {},
       clustersLinks = [];
 
@@ -126,24 +93,25 @@ export default function forceInABox() {
     clustersLinks = computeClustersLinkCounts(links);
 
     clustersList = Object.keys(clustersCounts);
-    for (let i = 0; i < clustersList.length; i += 1) {
-      const key = clustersList[i];
+
+    clustersList.forEach((key, index) => {
       const val = clustersCounts[key];
+      // Uses approx meta-node size
       gnodes.push({
         id: key,
         size: val.count,
         r: Math.sqrt(val.sumforceNodeSize / Math.PI),
-      }); // Uses approx meta-node size
-      dNodes[key] = i;
-    }
+      });
+      dNodes[key] = index;
+    });
 
-    clustersLinks.forEach(function (l) {
-      var source = dNodes[l.source],
-        target = dNodes[l.target];
+    clustersLinks.forEach((l) => {
+      const source = dNodes[l.source];
+      const target = dNodes[l.target];
       if (source !== undefined && target !== undefined) {
         glinks.push({
-          source: source,
-          target: target,
+          source,
+          target,
           count: l.count,
         });
       }
@@ -155,13 +123,13 @@ export default function forceInABox() {
   function computeClustersNodeCounts(nodes) {
     const clustersCounts = {};
 
-    nodes.forEach(function (d) {
+    nodes.forEach((d) => {
       const key = groupBy(d);
       if (!clustersCounts[key]) {
         clustersCounts[key] = { count: 0, sumforceNodeSize: 0 };
       }
     });
-    nodes.forEach(function (d: any) {
+    nodes.forEach((d: any) => {
       const key = groupBy(d);
       const nodeSize = forceNodeSize(d);
       const tmpCount = clustersCounts[key];
@@ -173,11 +141,10 @@ export default function forceInABox() {
     return clustersCounts;
   }
 
-  //Returns
   function computeClustersLinkCounts(links) {
     const dClusterLinks = {};
     const clusterLinks = [];
-    links.forEach(function (l) {
+    links.forEach((l) => {
       const key = getLinkKey(l);
       let count = 0;
       if (dClusterLinks[key] !== undefined) {
@@ -194,9 +161,9 @@ export default function forceInABox() {
       const target = key.split('~')[1];
       if (source !== undefined && target !== undefined) {
         clusterLinks.push({
-          source: source,
-          target: target,
-          count: count,
+          source,
+          target,
+          count,
         });
       }
     });
@@ -205,9 +172,8 @@ export default function forceInABox() {
   }
 
   function getFocisFromTemplate() {
-    //compute foci
-    foci.none = { x: 0, y: 0 };
-    templateNodes.forEach(function (d) {
+    foci = { none: { x: 0, y: 0 } };
+    templateNodes.forEach((d) => {
       foci[d.id] = {
         x: d.x - offset[0],
         y: d.y - offset[1],
@@ -220,105 +186,181 @@ export default function forceInABox() {
     const sourceID = groupBy(nodesMap[l.source]);
     const targetID = groupBy(nodesMap[l.target]);
 
-    return sourceID <= targetID ? sourceID + '~' + targetID : targetID + '~' + sourceID;
+    return sourceID <= targetID ? `${sourceID}~${targetID}` : `${targetID}~${sourceID}`;
   }
 
   function genNodesMap(nodes) {
+    nodesMap = {};
     nodes.forEach((node) => {
       nodesMap[node.id] = node;
     });
   }
 
-  force.initialize = function (_) {
-    nodes = _;
-    initialize();
-  };
-
-  force.template = function (x) {
+  function setTemplate(x) {
     if (!arguments.length) return template;
     template = x;
     initialize();
     return force;
-  };
+  }
 
-  force.groupBy = function (x) {
+  function setGroupBy(x) {
     if (!arguments.length) return groupBy;
     if (typeof x === 'string') {
-      groupBy = function (d) {
+      groupBy = (d) => {
         return d[x];
       };
       return force;
     }
     groupBy = x;
     return force;
-  };
+  }
 
-  force.enableGrouping = function (x) {
+  function setEnableGrouping(x) {
     if (!arguments.length) return enableGrouping;
     enableGrouping = x;
-    // update();
     return force;
-  };
+  }
 
-  force.strength = function (x) {
+  function setStrength(x) {
     if (!arguments.length) return strength;
     strength = x;
     return force;
-  };
+  }
 
-  force.centerX = function (_) {
-    return arguments.length ? ((centerX = _), force) : centerX;
-  };
+  function setCenterX(_) {
+    if (arguments.length) {
+      centerX = _;
+      return force;
+    }
 
-  force.centerY = function (_) {
-    return arguments.length ? ((centerY = _), force) : centerY;
-  };
+    return centerX;
+  }
 
-  force.nodes = function (_) {
-    arguments.length && genNodesMap(_);
-    return arguments.length ? ((nodes = _), force) : nodes;
-  };
+  function setCenterY(_) {
+    if (arguments.length) {
+      centerY = _;
+      return force;
+    }
 
-  force.links = function (_) {
-    if (!arguments.length) return links;
-    if (_ === null) links = [];
-    else links = _;
+    return centerY;
+  }
+
+  function setNodes(_) {
+    if (arguments.length) {
+      genNodesMap(_ || []);
+      nodes = _ || [];
+      return force;
+    }
+    return nodes;
+  }
+
+  function setLinks(_) {
+    if (arguments.length) {
+      links = _ || [];
+      initialize();
+      return force;
+    }
+    return links;
+  }
+
+  function setForceNodeSize(_) {
+    if (arguments.length) {
+      if (typeof _ === 'function') {
+        forceNodeSize = _;
+      } else {
+        forceNodeSize = constant(+_);
+      }
+      initialize();
+      return force;
+    }
+
+    return forceNodeSize;
+  }
+
+  function setForceCharge(_) {
+    if (arguments.length) {
+      if (typeof _ === 'function') {
+        forceCharge = _;
+      } else {
+        forceCharge = constant(+_);
+      }
+      initialize();
+      return force;
+    }
+
+    return forceCharge;
+  }
+
+  function setForceLinkDistance(_) {
+    if (arguments.length) {
+      if (typeof _ === 'function') {
+        forceLinkDistance = _;
+      } else {
+        forceLinkDistance = constant(+_);
+      }
+      initialize();
+      return force;
+    }
+
+    return forceLinkDistance;
+  }
+
+  function setForceLinkStrength(_) {
+    if (arguments.length) {
+      if (typeof _ === 'function') {
+        forceLinkStrength = _;
+      } else {
+        forceLinkStrength = constant(+_);
+      }
+      initialize();
+      return force;
+    }
+
+    return forceLinkStrength;
+  }
+
+  function setOffset(_) {
+    if (arguments.length) {
+      offset = _;
+      return force;
+    }
+
+    return offset;
+  }
+
+  force.initialize = (_) => {
+    nodes = _;
     initialize();
-    return force;
   };
 
-  force.forceNodeSize = function (_) {
-    return arguments.length
-      ? ((forceNodeSize = typeof _ === 'function' ? _ : constant(+_)), initialize(), force)
-      : forceNodeSize;
-  };
+  force.template = setTemplate;
+
+  force.groupBy = setGroupBy;
+
+  force.enableGrouping = setEnableGrouping;
+
+  force.strength = setStrength;
+
+  force.centerX = setCenterX;
+
+  force.centerY = setCenterY;
+
+  force.nodes = setNodes;
+
+  force.links = setLinks;
+
+  force.forceNodeSize = setForceNodeSize;
 
   // Legacy support
   force.nodeSize = force.forceNodeSize;
 
-  force.forceCharge = function (_) {
-    return arguments.length
-      ? ((forceCharge = typeof _ === 'function' ? _ : constant(+_)), initialize(), force)
-      : forceCharge;
-  };
+  force.forceCharge = setForceCharge;
 
-  force.forceLinkDistance = function (_) {
-    return arguments.length
-      ? ((forceLinkDistance = typeof _ === 'function' ? _ : constant(+_)), initialize(), force)
-      : forceLinkDistance;
-  };
+  force.forceLinkDistance = setForceLinkDistance;
 
-  force.forceLinkStrength = function (_) {
-    return arguments.length
-      ? ((forceLinkStrength = typeof _ === 'function' ? _ : constant(+_)), initialize(), force)
-      : forceLinkStrength;
-  };
+  force.forceLinkStrength = setForceLinkStrength;
 
-  force.offset = function (_) {
-    return arguments.length
-      ? ((offset = typeof _ === 'function' ? _ : constant(+_)), force)
-      : offset;
-  };
+  force.offset = setOffset;
 
   force.getFocis = getFocisFromTemplate;
 
