@@ -49,7 +49,7 @@ export default class ToolBar extends Base {
     return {
       handleClick: undefined,
       // 指定菜单内容，function(e) {...}
-      getContent: (e) => {
+      getContent: (graph) => {
         return `
           <ul class='g6-component-toolbar'>
             <li code='redo'>

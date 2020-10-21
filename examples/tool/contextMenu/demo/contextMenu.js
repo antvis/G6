@@ -34,8 +34,8 @@ const width = document.getElementById('container').scrollWidth;
 const height = document.getElementById('container').scrollHeight || 500;
 
 const contextMenu = new G6.Menu({
-  getContent(graph) {
-    console.log('graph', graph);
+  getContent(evt) {
+    console.log('event', evt);
     return `<ul>
       <li title='1'>测试01</li>
       <li title='2'>测试02</li>
