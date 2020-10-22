@@ -103,7 +103,7 @@ export default class Tooltip extends Base {
     if (!this.currentTarget || e.item !== this.currentTarget) {
       return;
     }
-    this.updatePosition(e);
+    this.showTooltip(e);
   }
 
   onMouseLeave() {
