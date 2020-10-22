@@ -8,6 +8,19 @@ import { IEdge, INode, ICombo } from '../interface/item';
 import { ILabelConfig } from '../interface/shape';
 import { IGroup } from '@antv/g-base';
 
+// Node Edge Combo 实例
+export type Item = INode | IEdge | ICombo;
+
+export interface IG6GraphEvent extends GraphEvent {
+  item: Item | null;
+  canvasX: number;
+  canvasY: number;
+  wheelDelta: number;
+  detail: number;
+  key?: string;
+  target: Item & Canvas;
+}
+
 // Math types
 export interface IPoint {
   x: number;
@@ -103,6 +116,13 @@ export interface LayoutConfig {
   [key: string]: unknown;
 }
 
+export interface GraphData {
+  nodes?: NodeConfig[];
+  edges?: EdgeConfig[];
+  groups?: GroupConfig[];
+  combos?: ComboConfig[];
+}
+
 export interface GraphAnimateConfig extends AnimateCfg {
   /**
    * 回调函数，用于自定义节点运动路径。
@@ -157,6 +177,21 @@ export interface Modes {
 export interface States {
   [key: string]: INode[];
 }
+
+export interface StateStyles {
+  [key: string]:
+  | ShapeStyle
+  | {
+    [key: string]: ShapeStyle;
+  };
+}
+
+// model types (node edge group)
+export type ModelStyle = Partial<{
+  [key: string]: unknown;
+  style: ShapeStyle;
+  stateStyles: StateStyles;
+}>;
 
 export interface GraphOptions {
   /**
@@ -224,7 +259,7 @@ export interface GraphOptions {
     size: number | number[];
     color: string;
   }> &
-    ModelStyle;
+  ModelStyle;
 
   /**
    * 默认状态下边的配置，比如 type, size, color。会被写入的 data 覆盖。
@@ -235,7 +270,7 @@ export interface GraphOptions {
     size: number | number[];
     color: string;
   }> &
-    ModelStyle;
+  ModelStyle;
 
   /**
    * Combo 默认配置
@@ -245,7 +280,7 @@ export interface GraphOptions {
     size: number | number[];
     color: string;
   }> &
-    ModelStyle;
+  ModelStyle;
 
   nodeStateStyles?: StateStyles;
 
@@ -300,21 +335,6 @@ export interface GraphOptions {
    */
   tooltips?: [];
 }
-
-export interface StateStyles {
-  [key: string]:
-    | ShapeStyle
-    | {
-        [key: string]: ShapeStyle;
-      };
-}
-
-// model types (node edge group)
-export type ModelStyle = Partial<{
-  [key: string]: unknown;
-  style: ShapeStyle;
-  stateStyles: StateStyles;
-}>;
 
 export type LabelStyle = Partial<{
   rotate: number;
@@ -378,6 +398,24 @@ export interface ModelConfig extends ModelStyle {
     y: number;
   };
   visible?: boolean;
+}
+
+export interface TreeGraphData {
+  id: string;
+  label?: string;
+  x?: number;
+  y?: number;
+  children?: TreeGraphData[];
+  data?: ModelConfig;
+  side?: 'left' | 'right';
+  depth?: number;
+  collapsed?: boolean;
+  style?:
+  | ShapeStyle
+  | {
+    [key: string]: ShapeStyle;
+  };
+  stateStyles?: StateStyles;
 }
 
 export interface NodeConfig extends ModelConfig {
@@ -448,6 +486,17 @@ export interface NodeConfig extends ModelConfig {
   };
 }
 
+export interface ComboTree {
+  id: string;
+  label?: string | LabelStyle;
+  children?: ComboTree[];
+  depth?: number;
+  parentId?: string;
+  removed?: boolean;
+  itemType?: 'node' | 'combo';
+  [key: string]: unknown;
+}
+
 export interface ComboConfig extends ModelConfig {
   id: string;
   parentId?: string;
@@ -506,42 +555,6 @@ export interface GroupConfig {
 
 export interface GroupNodeIds {
   [key: string]: string[];
-}
-
-export interface GraphData {
-  nodes?: NodeConfig[];
-  edges?: EdgeConfig[];
-  groups?: GroupConfig[];
-  combos?: ComboConfig[];
-}
-
-export interface TreeGraphData {
-  id: string;
-  label?: string;
-  x?: number;
-  y?: number;
-  children?: TreeGraphData[];
-  data?: ModelConfig;
-  side?: 'left' | 'right';
-  depth?: number;
-  collapsed?: boolean;
-  style?:
-    | ShapeStyle
-    | {
-        [key: string]: ShapeStyle;
-      };
-  stateStyles?: StateStyles;
-}
-
-export interface ComboTree {
-  id: string;
-  label?: string | LabelStyle;
-  children?: ComboTree[];
-  depth?: number;
-  parentId?: string;
-  removed?: boolean;
-  itemType?: 'node' | 'combo';
-  [key: string]: unknown;
 }
 
 // Behavior type file
@@ -638,19 +651,6 @@ export interface BehaviorOption {
 
 export type IEvent = Record<G6Event, string>;
 
-export interface IG6GraphEvent extends GraphEvent {
-  item: Item | null;
-  canvasX: number;
-  canvasY: number;
-  wheelDelta: number;
-  detail: number;
-  key?: string;
-  target: Item & Canvas;
-}
-
-// Node Edge Combo 实例
-export type Item = INode | IEdge | ICombo;
-
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export type ITEM_TYPE = 'node' | 'edge' | 'combo' | 'group' | 'vedge';
 
@@ -679,21 +679,6 @@ export interface IAlgorithmCallbacks {
 export interface StackData {
   action: string;
   data: GraphData;
-}
-
-export interface HullCfg {
-  id: string;
-  members?: Item[] | string[]; // 节点实例或节点 Id 数组
-  nonMembers?: Item[] | string[];
-  group?: IGroup;
-  type?: string; // 'round-convex'(圆角凸包) /'smooth-convex'(平滑凸包) / 'bubble'(平滑凹包),
-  padding?: number; // 轮廓边缘和内部成员间距
-  style?: {
-    fill?: string;
-    stroke?: string;
-    opacity?: number;
-  };
-  bubbleCfg?: BubblesetCfg; // 用于更精细控制bubble的效果（点和边轮廓的松弛程度，轮廓粒度），一般不需要配置
 }
 
 export interface BubblesetCfg {
@@ -738,3 +723,17 @@ export type WaterMarkerConfig = Partial<{
     rotate?: number;
   }
 }>
+export interface HullCfg {
+  id: string;
+  members?: Item[] | string[]; // 节点实例或节点 Id 数组
+  nonMembers?: Item[] | string[];
+  group?: IGroup;
+  type?: string; // 'round-convex'(圆角凸包) /'smooth-convex'(平滑凸包) / 'bubble'(平滑凹包),
+  padding?: number; // 轮廓边缘和内部成员间距
+  style?: {
+    fill?: string;
+    stroke?: string;
+    opacity?: number;
+  };
+  bubbleCfg?: BubblesetCfg; // 用于更精细控制bubble的效果（点和边轮廓的松弛程度，轮廓粒度），一般不需要配置
+}

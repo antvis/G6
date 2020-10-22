@@ -17,14 +17,6 @@ const DEFAULT_UNSELECTEDTICK_STYLE = {
   fill: '#e6e8e9'
 }
 
-export interface TimeBarSliceConfig extends TimeBarSliceOption {
-  readonly graph: IGraph;
-  readonly group: IGroup;
-  readonly canvas: ICanvas;
-  // style
-  readonly x: number;
-  readonly y: number;
-}
 export interface TimeBarSliceOption {
   // position size
   readonly x?: number;
@@ -51,6 +43,15 @@ export interface TimeBarSliceOption {
   readonly tickLabelFormatter?: (d: any) => string | boolean;
   // 自定义 tooltip 内容格式化函数
   readonly tooltipFomatter?: (d: any) => string;
+}
+
+export interface TimeBarSliceConfig extends TimeBarSliceOption {
+  readonly graph: IGraph;
+  readonly group: IGroup;
+  readonly canvas: ICanvas;
+  // style
+  readonly x: number;
+  readonly y: number;
 }
 
 export default class TimeBarSlice {
@@ -113,7 +114,7 @@ export default class TimeBarSlice {
 
   /** 动画 id */
   private playHandler: number;
-  
+
   private frameCount: number = 0;
 
   constructor(cfgs?: TimeBarSliceConfig) {
