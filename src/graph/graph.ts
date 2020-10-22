@@ -3391,6 +3391,7 @@ export default class Graph extends EventEmitter implements IGraph {
     ctx.rotate((-rotate * Math.PI) / 180)
 
     const img = new Image()
+    img.crossOrigin = 'anonymous'
     img.src = imgURL
     img.onload  = () => {
       ctx.drawImage(img, x, y, image.width, image.height)
