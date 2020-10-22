@@ -46,26 +46,32 @@ const Tooltip = () => {
   useEffect(() => {
     if (!graph) {
       const tooltip = new G6.Tooltip({
-        offsetX: 0,
-        offsetY: 100, // the height of the top div
+        offsetX: 100,
+        offsetY: 120, // the height of the top div
         shouldBegin: d => {
           if (d.target.get('name') === 'text-shape') return true;
           return false;
-        }
+        },
+        getContent: e => {
+          return e.target.get('name') || e.target.get('className') || 'aaa';
+        },
+        itemTypes: ['node']
       });
       graph = new Graph({
         container: container.current as string | HTMLElement,
         width: 500,
         height: 500,
-        // plugins: [tooltip],
+        plugins: [tooltip],
         modes: {
-          default: ['drag-canvas', 'zoom-canvas', {
-            type: 'tooltip',
-            shouldBegin: d => {
-              if (d.target.get('name') === 'text-shape') return true;
-              return false;
-            }
-          }],
+          default: ['drag-canvas', 'zoom-canvas',
+            // {
+            //   type: 'tooltip',
+            //   shouldBegin: d => {
+            //     if (d.target.get('name') === 'text-shape') return true;
+            //     return false;
+            //   }
+            // }
+          ],
         },
         defaultNode: {
           size: 50

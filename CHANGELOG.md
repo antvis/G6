@@ -11,6 +11,7 @@
 - feat: clustering for force layout, closes: #2196;
 - fix: svg renderer minimap hidden elements probem, closes: #2174;
 - feat: add extra parameter graph for menu plugin, closes: #2204;
+- fix: tooltip plugin, crossing different shape cant execute the getContent function, closes: #2153;
 
 #### 3.8.1
 - fix: update edge states with updateItem problem, closes: #2142;
