@@ -10,9 +10,6 @@ import { ILayout } from '../interface/layout';
 import each from '@antv/util/lib/each';
 import mix from '@antv/util/lib/mix';
 
-type LayoutOption<Cfg = any> = Partial<ILayout<Cfg>>;
-type LayoutConstructor<Cfg = any> = new () => BaseLayout<Cfg>;
-
 /**
  * 基础布局，将被自定义布局所继承
  */
@@ -34,7 +31,7 @@ export class BaseLayout<Cfg = any> implements ILayout<Cfg> {
     self.combos = data.combos || [];
   }
 
-  public execute() {}
+  public execute() { }
 
   public layout(data: GraphData) {
     const self = this;
@@ -59,6 +56,9 @@ export class BaseLayout<Cfg = any> implements ILayout<Cfg> {
     self.destroyed = true;
   }
 }
+
+type LayoutOption<Cfg = any> = Partial<ILayout<Cfg>>;
+type LayoutConstructor<Cfg = any> = new () => BaseLayout<Cfg>;
 
 const Layout: {
   [layoutType: string]: any;

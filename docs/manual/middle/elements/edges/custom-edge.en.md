@@ -5,7 +5,16 @@ order: 3
 
 G6 provides abundant [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge). Besides, the custom machanism allows the users to design their own type of edges. An edge with complex graphics shapes, complex interactions, fantastic animations can be implemented easily.
 
-In this document, we will introduce the custom edge by four examples: <br />1. Register a brand new edge; <br />2. Register an edge by extending a built-in edge; <br />3. Register an edge with interactions and styles; <br />4. Register an edge with custom arrow.
+You are able to custom an edge type by `G6.registerEdge(typeName: string, edgeDefinition: object, extendedTypeName?: string)`, where:
+- `typeName`: the name of the new edge type;
+- `extendedTypeName`: The name of the existing type that will be extended, which can be a built-in edge type, or an existing custom edge type. When it is not assigned, the custom edge will not extend any existing edge type;
+- `edgeDefinition`: The definition of the new edge type. The required options can be found at [Custom Mechanism API](/en/docs/api/Custom). When the `extendedTypeName` is assigned, the functions which are not rewritten will extend from the type with name `extendedTypeName`.
+
+**Noted** that if the `extendedTypeName` is assigned, the required functions such as `draw`, `update`, and `setState` will extend from `extendedTypeName` unless they are rewritten in `edgeDefinition`. Due to this mechanism, a question is often fed back:
+- Q: when the custom edge/node is updated, the re-draw logic is not the same as `draw` or `drawShape` function defined in `edgeDefinition`. e.g., some shapes are not updated as expected, and some text shapes show up.
+- A: Since the `extendedTypeName` is assigned, and the `update` is not implemented in `extendedTypeName`, the `update` of the extended edge type will be called when updating the edge/node, whose logic might be different from the `draw` or `drawShape` defined by yourself. To avoid this problem, you can rewrite the `update` by `undefined` in `edgeDefinition`. When `update` is `undefined`, the `draw` or `drawShape` will be called when updating the edge/node.
+
+In this document, we will introduce the custom edge by four examples: <br />1. Register a brand new edge; <br />2. Register an edge by extending a built-in edge; <br />2. Register an edge with an extra shape; <br />4. Register an edge with interactions and styles; <br />5. Register an edge with custom arrow.
 
 ## 1. Register a Brand New Edge
 
@@ -132,7 +141,42 @@ G6.registerEdge(
 
 <br />
 
-## 3. Custom Edge with Interaction Styles
+## 3. Adding an Extra Shape
+
+Adding an extra shape on an arbitrary position on the path of the edge can be implemented by `afterDraw`. `shape.getPoint(ratio)` helps us to find the coordiante of an arbitrary point on the `path`.
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aOlcQbx2ux4AAAAAAAAAAAAAARQnAQ' alt='img' width='250'/>
+
+```javascript
+G6.registerEdge(
+  'mid-point-edge',
+  {
+    afterDraw(cfg, group) {
+      // get the first shape in the graphics group of this edge, it is the path of the edge here
+      const shape = group.get('children')[0];
+      // get the coordinate of the mid point on the path
+      const midPoint = shape.getPoint(0.5);
+      // add a rect on the mid point of the path. note that the origin of a rect shape is on its lefttop
+      group.addShape('rect', {
+        attrs: {
+          width: 10,
+          height: 10,
+          fill: '#f00',
+          // x and y should be minus width / 2 and height / 2 respectively to translate the center of the rect to the midPoint
+          x: midPoint.x - 5,
+          y: midPoint.y - 5
+        }
+      });
+    },
+    update: undefined
+  },
+  'cubic',
+);
+```
+
+<br />
+
+## 4. Custom Edge with Interaction Styles
 
 In this section, we implement a type of edge with the interaction styles below:
 
@@ -194,7 +238,7 @@ graph.on('edge:mouseleave', (ev) => {
 
 <br />
 
-## 4. Custom Arrow
+## 5. Custom Arrow
 
 G6 (v3.5.8 and later versions) provides [default arrow and built-in arrows](/en/docs/manual/middle/elements/edges/arrow) for edges. The default end arrows might not meet the requirements sometimes. You can register an edge with a custom arrow by the custom mechanism of G6.<br />
 

@@ -5,6 +5,14 @@
   },
   "demos": [
     {
+      "filename": "extraShape.js",
+      "title": {
+        "zh": "添加额外图形",
+        "en": "Custom Edge with Extra Shapes"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*L4rZQbqwaRYAAAAAAAAAAAAAARQnAQ"
+    },
+    {
       "filename": "customPolyline.js",
       "title": {
         "zh": "自定义折线",

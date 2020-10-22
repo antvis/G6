@@ -5,7 +5,16 @@ order: 3
 
 G6 除了提供丰富的 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)  外，还提供了自定义边的机制，方便用户开发更加定制化的边，包括含有复杂图形的边、复杂交互的边、带有动画的边等。
 
-在本章中我们会通过四个案例，从简单到复杂讲解边的自定义：<br />1. 从无到有的定义边；<br />2. 扩展现有边：<br />3. 边的交互样式；<br />4. 自定义带箭头的边。
+用户可以通过 `G6.registerEdge(typeName: string, edgeDefinition: object, extendedTypeName?: string)` 注册一个新的边类型，其中：
+- `typeName`：该新边类型名称；
+- `extendedTypeName`：被继承的边类型，可以是内置边类型名，也可以是其他自定义边的类型名。`extendedTypeName` 未指定时代表不继承其他类型的边；
+- `edgeDefinition`：该新边类型的定义，其中必要函数详见 [自定义机制 API](/zh/docs/api/Custom)。当有 `extendedTypeName` 时，没被复写的函数将会继承 `extendedTypeName` 的定义。
+
+**需要注意的是**，自定义边/节点时，若给定了 `extendedTypeName`，如 `draw`，`update`，`setState` 等必要的函数若不在 `edgeDefinition` 中进行复写，将会继承 `extendedTypeName` 中的相关定义。常见问题：
+- Q：边/节点更新时，没有按照在 `edgeDefinition` 中自定义实现的 `draw` 或 `drawShape` 逻辑更新。例如，有些图形没有被更新，增加了没有在 `draw` 或 `drawShape` 方法中定义的图形等。
+- A：由于继承了 `extendedTypeName`，且在 `edgeDefinition` 中没有复写 `update` 方法，导致边/节点更新时执行了 `extendedTypeName` 中的 `update` 方法，从而与自定义的 `draw` 或 `drawShape` 有出入。可以通过复写 `update` 方法为 `undefined` 解决。当 `update` 方法为 `undefined` 时，边/节点的更新将会执行 `draw` 或 `drawShape` 进行重绘。
+
+在本章中我们会通过四个案例，从简单到复杂讲解边的自定义：<br />1. 从无到有的定义边；<br />2. 扩展现有边；<br />3. 增加额外图形；<br />4. 边的交互样式；<br />5. 自定义带箭头的边。
 
 ## 1. 从无到有定义边
 
@@ -131,7 +140,42 @@ G6.registerEdge(
 
 <br />
 
-## 3. 边的交互样式
+## 3. 增加额外图形
+
+通过实现 `afterDraw` 增加额外图形，为找到边的主要图形 `path` 上的某个点，可以使用 `shape.getPoint(ratio)` 获得。
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aOlcQbx2ux4AAAAAAAAAAAAAARQnAQ' alt='img' width='250'/>
+
+```javascript
+G6.registerEdge(
+  'mid-point-edge',
+  {
+    afterDraw(cfg, group) {
+      // 获取图形组中的第一个图形，在这里就是边的路径图形
+      const shape = group.get('children')[0];
+      // 获取路径图形的中点坐标
+      const midPoint = shape.getPoint(0.5);
+      // 在中点增加一个矩形，注意矩形的原点在其左上角
+      group.addShape('rect', {
+        attrs: {
+          width: 10,
+          height: 10,
+          fill: '#f00',
+          // x 和 y 分别减去 width / 2 与 height / 2，使矩形中心在 midPoint 上
+          x: midPoint.x - 5,
+          y: midPoint.y - 5
+        }
+      });
+    },
+    update: undefined
+  },
+  'cubic',
+);
+```
+
+<br />
+
+## 4. 边的交互样式
 
 以点击选中、鼠标 hover 到边为示例，实现如下需求：
 
@@ -193,7 +237,7 @@ graph.on('edge:mouseleave', (ev) => {
 
 <br />
 
-## 4. 自定义箭头
+## 5. 自定义箭头
 
 G6（v3.5.8 及后续版本）为内置边、自定义边提供了[默认箭头和内置箭头](/zh/docs/manual/middle/elements/edges/arrow)。很多时候，G6 提供的箭头并不能满足业务上的需求，这个时候，就需要我们自定义箭头。<br />
 
