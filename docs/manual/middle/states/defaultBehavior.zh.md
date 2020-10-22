@@ -668,6 +668,7 @@ const graph = new G6.Graph({
   - `type：'create-edge'`；
   - `trigger`：该交互的触发条件，可选 `'click'`，`'drag'`。默认为 `'click'`，即分别点击两个节点为这两个节点创建边。`'drag'` 代表从一个节点“拖拽”出一条边，在另一个节点上松开鼠标完成创建。注意，`trigger: 'drag'` 不能创建一个自环边；
   - `key`：键盘按键作为该交互的辅助触发，若不设置或设置为 undefined 则代表只根据 `trigger` 决定该交互的触发条件。可选值：`'shift'`，`'ctrl'`, 'control'，`'alt'`，`'meta'`，`undefined`；
+  - `edgeConfig`: 有该交互创建出的边的配置项，可以配置边的类型、样式等，其类型参考[边的配置](/zh/docs/manual/middle/elements/edges/defaultEdge)。如果需要为不同的被添加边赋予不同样式，请监听 `'aftercreateedge'` 并更新相对应的边；
   - `shouldBegin(e)`：是否允许当前被操作的条件下开始创建边；
   - `shouldEnd(e)`：是否允许当前被操作的条件下结束创建边；
 - 相关时机事件：
@@ -697,6 +698,15 @@ const graph = new G6.Graph({
         type: 'create-edge',
         trigger: 'drag',
         key: 'shift',
+        edgeConfig: {
+          type: 'cubic',
+          style: {
+            stroke: '#f00',
+            lineWidth: 2,
+            // ... // 其它边样式配置
+          },
+          // ... // 其它边配置
+        }
       },
     ],
   },

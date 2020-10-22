@@ -663,6 +663,7 @@ const graph = new G6.Graph({
   - `type: 'create-edge'`;
   - `trigger`: Specify the trigger for creating an edge, options: `'click'`, `'drag'`. The default value is `'click'`, which means the user is allowed to creat an edge by clicking two end nodes as source and target node respectively. `'drag'` means the user is allowed to create an edge by 'dragging' from a source node to a target ndoe. Note that `trigger: 'drag'` cannot create a self-loop edge;
   - `key`: The assistant trigger key from the keyboard. If it is undefined or unset, only `trigger` decides the triggering interaction from user. Otherwise, this behavior will be triggered by `trigger` only when `key` is pressed. Options: `'shift'`, `'ctrl'`, 'control', `'alt'`, `'meta'`, `undefined`;
+  - `edgeConfig`: The edge configurations for the edges created by this behavior, the configurations are the same as the edge, ref to [Edge Configurations](/en/docs/manual/middle/elements/edges/defaultEdge). To modify the configurations for different added edges, listener to `'aftercreateedge'` and update the edge.
   - `shouldBegin(e)`: Whether allow the behavior begins with the condition `e`;
   - `shouldEnd(e)`: Whether allow the behavior ends under the condition `e`;
 - Related timing event:
@@ -692,6 +693,15 @@ const graph = new G6.Graph({
         type: 'create-edge',
         trigger: 'drag',
         key: 'shift',
+        edgeConfig: {
+          type: 'cubic',
+          style: {
+            stroke: '#f00',
+            lineWidth: 2,
+            // ... // other edge style configurations
+          },
+          // ... // other edge configurations
+        }
       },
     ],
   },

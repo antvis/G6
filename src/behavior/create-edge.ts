@@ -10,7 +10,8 @@ export default {
   getDefaultCfg(): object {
     return {
       trigger: DEFAULT_TRIGGER,
-      key: DEFAULT_KEY
+      key: DEFAULT_KEY,
+      edgeConfig: {}
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -34,15 +35,19 @@ export default {
     if (self.trigger === 'drag') {
       events = {
         'node:dragstart': 'onClick',
+        'combo:dragstart': 'onClick',
         drag: 'updateEndPoint',
         'node:drop': 'onClick',
+        'combo:drop': 'onClick',
         'dragend': 'onDragEnd'
       };
     } else if (self.trigger === 'click') {
       events = {
-        'node:click': 'onClick', // The event is canvas:click, the responsing function is onClick
+        'node:click': 'onClick', // The event is node:click, the responsing function is onClick
         mousemove: 'updateEndPoint', // The event is mousemove, the responsing function is onMousemove
         'edge:click': 'cancelCreating', // The event is edge:click, the responsing function is onEdgeClick
+        'canvas:click': 'cancelCreating',
+        'combo:click': 'onClick'
       };
     }
     if (self.key) {
@@ -65,6 +70,7 @@ export default {
   // 如果边的起点没有指定，则根据起点创建新边；如果起点已经指定而终点未指定，则指定终点
   onClick(ev: IG6GraphEvent) {
     const self = this;
+    console.log('onclick', self.key, self.keydown, ev.item)
     if (self.key && !self.keydown) return;
     const node = ev.item;
     const graph: IGraph = self.graph;
@@ -72,6 +78,7 @@ export default {
     // 如果起点已经指定而终点未指定，则指定终点
     if (self.addingEdge && self.edge) {
       if (!self.shouldEnd.call(self, ev)) return;
+      console.log('clicking target', model.id)
       const updateCfg: EdgeConfig = {
         target: model.id
       };
@@ -87,16 +94,22 @@ export default {
         edge: self.edge
       });
 
+      // 暂时将该边的 capture 恢复为 true
+      self.edge.getKeyShape().set('capture', true);
+
       self.edge = null;
       self.addingEdge = false;
     } else { // 如果边的起点没有指定，则根据起点创建新边
       if (!self.shouldBegin.call(self, ev)) return;
       self.edge = graph.addItem('edge', {
         source: model.id,
-        target: model.id
+        target: model.id,
+        ...self.edgeConfig
       }, false);
       self.source = model.id;
       self.addingEdge = true;
+      // 暂时将该边的 capture 设置为 false，这样可以拾取到后面的元素
+      self.edge.getKeyShape().set('capture', false);
     }
   },
   // 边的起点已经确定，边的末端跟随鼠标移动
@@ -104,6 +117,12 @@ export default {
     const self = this;
     if (self.key && !self.keydown) return;
     const point = { x: ev.x, y: ev.y };
+
+    // 若此时 source 节点已经被移除，结束添加边
+    if (!self.graph.findById(self.source)) {
+      self.addingEdge = false;
+      return;
+    }
     if (self.addingEdge && self.edge) {
       // 更新边的终点为鼠标位置
       self.graph.updateItem(self.edge, {
@@ -117,6 +136,12 @@ export default {
     if (self.key && !self.keydown) return;
     const graph: IGraph = self.graph;
     const currentEdge = ev.item;
+    if (self.addingEdge && ev.target && ev.target.isCanvas && ev.target.isCanvas()) {
+      graph.removeItem(self.edge, false);
+      self.edge = null;
+      self.addingEdge = false;
+      return;
+    }
     if (self.addingEdge && self.edge === currentEdge) {
       let cancelEdge = true;
       // !graph.get('groupByTypes') 将会导致选中终点时实际上边在最上层，节点无法响应 click 事件
