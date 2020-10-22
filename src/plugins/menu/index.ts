@@ -104,7 +104,7 @@ export default class Menu extends Base {
 
     const menuDom = this.get('menu');
     const getContent = this.get('getContent');
-    const menu = getContent(e);
+    const menu = getContent(e, this.get('graph'));
     if (isString(menu)) {
       menuDom.innerHTML = menu;
     } else {
@@ -116,7 +116,7 @@ export default class Menu extends Base {
     const handleMenuClick = this.get('handleMenuClick');
     if (handleMenuClick) {
       const handleMenuClickWrapper = (evt) => {
-        handleMenuClick(evt.target, e.item);
+        handleMenuClick(evt.target, e.item, graph);
       };
       this.set('handleMenuClickWrapper', handleMenuClickWrapper);
       menuDom.addEventListener('click', handleMenuClickWrapper);
