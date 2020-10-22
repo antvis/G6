@@ -51,12 +51,10 @@ export default function forceInABox() {
       return;
     }
 
-    if (nodes && nodes.length > 0) {
-      if (groupBy(nodes[0]) === undefined) {
-        throw Error(
-          "Couldnt find the grouping attribute for the nodes. Make sure to set it up with forceInABox.groupBy('clusterAttr') before calling .links()",
-        );
-      }
+    if (groupBy(nodes[0]) === undefined) {
+      throw Error(
+        "Couldnt find the grouping attribute for the nodes. Make sure to set it up with forceInABox.groupBy('clusterAttr') before calling .links()",
+      );
     }
 
     // checkLinksAsObjects();

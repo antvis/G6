@@ -3,7 +3,6 @@ import G6 from '../../../src';
 import { IGraph } from '../../../src/interface/graph';
 
 let graph: IGraph = null;
-let yearGroup: { [key: string]: number } = {};
 let colorMap = {
   2012: 'blue',
   2013: 'yellow',
