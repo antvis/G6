@@ -309,4 +309,165 @@ describe('create-edge', () => {
     expect(loop.getModel().source).toEqual(loop.getModel().target);
     graph.destroy();
   });
+  it('create edge width edge configures', () => {
+    const graph: Graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      enabledStack: true,
+      modes: {
+        default: [{
+          type: 'create-edge',
+          edgeConfig: {
+            type: 'cubic',
+            style: {
+              stroke: '#f00'
+            }
+          }
+        }],
+      },
+      defaultEdge: {
+        style: {
+          stroke: '#0f0',
+          lineWidth: 5
+        }
+      },
+    });
+    graph.data(data);
+    graph.render();
+    const node0 = graph.getNodes()[0];
+    const node1 = graph.getNodes()[1];
+
+    graph.addItem('edge', {
+      source: '0',
+      target: '1'
+    })
+
+    graph.emit('node:click', { x: 100, y: 100, item: node0 });
+    graph.emit('mousemove', { x: 110, y: 110 });
+    expect(graph.getEdges().length).toEqual(2);
+    let edge = graph.getEdges()[1];
+    expect(edge.getModel().type).toEqual('cubic');
+    let keyShape = edge.getKeyShape();
+    expect(keyShape.attr('stroke')).toEqual('#f00');
+    expect(keyShape.attr('lineWidth')).toEqual(1);
+
+    // cancel
+    graph.emit('edge:click', { x: 100, y: 100, item: edge });
+    expect(graph.getEdges().length).toEqual(1);
+
+    // create
+    graph.emit('node:click', { x: 100, y: 100, item: node0 });
+    graph.emit('node:click', { x: 120, y: 120, item: node1 });
+    expect(graph.getEdges().length).toEqual(2);
+    edge = graph.getEdges()[1];
+    keyShape = edge.getKeyShape();
+    expect(keyShape.attr('stroke')).toEqual('#f00');
+    expect(keyShape.attr('lineWidth')).toEqual(1);
+
+    graph.destroy();
+  });
+
+  it('click first node and remove the source node', () => {
+    const graph: Graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: ['create-edge'],
+      }
+    });
+    graph.data(data);
+    graph.render();
+    graph.on('node:click', e => {
+      graph.removeItem('0');
+    });
+    expect(graph.getEdges().length).toEqual(0);
+    graph.destroy();
+  });
+
+  it('create edge for combos ', () => {
+    const dataWithCombos = {
+      nodes: [
+        {
+          id: '0',
+          x: 50,
+          y: 50,
+          comboId: 'combo0'
+        },
+        {
+          id: '1',
+          x: 150,
+          y: 150,
+          comboId: 'combo1'
+        },
+      ],
+      combos: [
+        {
+          id: "combo0"
+        },
+        {
+          id: "combo1"
+        }
+      ]
+    }
+    const graph: Graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: ['drag-node', 'drag-combo', {
+          type: 'create-edge',
+          trigger: 'click'
+        }],
+      },
+      groupByTypes: false
+    });
+    graph.data(dataWithCombos);
+    graph.render();
+
+    const node0 = graph.getNodes()[0];
+    const node1 = graph.getNodes()[1];
+    const combo0 = graph.getCombos()[0];
+    const combo1 = graph.getCombos()[1];
+
+    // start from a combo, end on a node
+    graph.emit('node:click', { x: 100, y: 100, item: combo0 });
+    graph.emit('mousemove', { x: 110, y: 110 });
+    expect(graph.getEdges().length).toEqual(1);
+    // cancel
+    graph.emit('canvas:click', { x: 100, y: 100, target: graph.get('canvas') });
+    expect(graph.getEdges().length).toEqual(0);
+    // create
+    graph.emit('node:click', { x: 100, y: 100, item: combo0 });
+    graph.emit('node:click', { x: 120, y: 120, item: node1 });
+    expect(graph.getEdges().length).toEqual(1);
+
+    // start from a node, end on a combo
+    graph.emit('node:click', { x: 100, y: 100, item: node0 });
+    graph.emit('mousemove', { x: 110, y: 110 });
+    expect(graph.getEdges().length).toEqual(2);
+    // cancel
+    graph.emit('canvas:click', { x: 100, y: 100, target: graph.get('canvas') });
+    expect(graph.getEdges().length).toEqual(1);
+    // create
+    graph.emit('node:click', { x: 100, y: 100, item: node0 });
+    graph.emit('node:click', { x: 120, y: 120, item: combo0 });
+    expect(graph.getEdges().length).toEqual(2);
+
+
+    // start from a combo, end on a combo
+    graph.emit('node:click', { x: 100, y: 100, item: combo0 });
+    graph.emit('mousemove', { x: 110, y: 110 });
+    expect(graph.getEdges().length).toEqual(3);
+    // cancel
+    graph.emit('canvas:click', { x: 100, y: 100, target: graph.get('canvas') });
+    expect(graph.getEdges().length).toEqual(2);
+    // create
+    graph.emit('node:click', { x: 100, y: 100, item: combo0 });
+    graph.emit('node:click', { x: 120, y: 120, item: combo1 });
+    expect(graph.getEdges().length).toEqual(3);
+
+    graph.destroy();
+  });
 });

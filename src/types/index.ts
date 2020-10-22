@@ -157,6 +157,7 @@ export interface ModeOption {
     fixState: string;
   }>;
   key?: string | undefined;
+  edgeConfig?: EdgeConfig;
   shouldUpdate?: (e: IG6GraphEvent) => boolean;
   shouldBegin?: (e: IG6GraphEvent) => boolean;
   shouldEnd?: (e: IG6GraphEvent) => boolean;

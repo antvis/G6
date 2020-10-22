@@ -105,8 +105,8 @@ Menu is used to configure the right-click menu on the node.
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | className | string | null | the class name of the menu dom |
-| getContent | (evt?: IG6GraphEvent) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OtOkS4g-vrkAAAAAAAAAAABkARQnAQ' width=60 alt='img'/> | the menu content，supports DOM or string |
-| handleMenuClick | (target: HTMLElement, item: Item) => void | undefined | the callback function when click the menu |
+| getContent | (evt?: IG6GraphEvent, graph?: IGraph) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OtOkS4g-vrkAAAAAAAAAAABkARQnAQ' width=60 alt='img'/> | the menu content，supports DOM or string |
+| handleMenuClick | (target: HTMLElement, item: Item, graph?: IGraph) => void | undefined | the callback function when click the menu |
 | shouldBegin | (evt: G6Event) => boolean | undefined | Whether allow the tooltip show up. You can return true or false according to the content of the `evt.item` (current item of the event) or `evt.target` (current shape of the event) |
 | offsetX | number | 6 | the offset of tooltip along x axis, the padding of the parent container should be take into consider |
 | offsetY | number | 6 | the offset of tooltip along y axis, the padding of the parent container should be take into consider |
@@ -132,7 +132,7 @@ const menu = new G6.Menu({
   offsetX: 10,
   offsetY: 20,
   itemTypes: ['node'],
-  getContent(e) {
+  getContent(e, graph) {
     const outDiv = document.createElement('div');
     outDiv.style.width = '180px';
     outDiv.innerHTML = `<ul>
@@ -144,8 +144,8 @@ const menu = new G6.Menu({
       </ul>`
     return outDiv
   },
-  handleMenuClick(target, item) {
-    console.log(target, item)
+  handleMenuClick(target, item, graph) {
+    console.log(target, item, graph)
   },
 });
 
