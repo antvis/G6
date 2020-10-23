@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "3.8.2",
+  "version": "3.8.2-beta",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",
@@ -74,7 +74,7 @@
     "@antv/dom-util": "^2.0.1",
     "@antv/event-emitter": "~0.1.0",
     "@antv/g-base": "^0.5.1",
-    "@antv/g-canvas": "^0.5.1",
+    "@antv/g-canvas": "^0.5.2",
     "@antv/g-math": "^0.1.1",
     "@antv/g-svg": "^0.5.1",
     "@antv/hierarchy": "^0.6.2",
