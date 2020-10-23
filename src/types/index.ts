@@ -116,20 +116,6 @@ export interface LayoutConfig {
   [key: string]: unknown;
 }
 
-export interface GraphData {
-  nodes?: NodeConfig[];
-  edges?: EdgeConfig[];
-  groups?: GroupConfig[];
-  combos?: ComboConfig[];
-}
-
-export interface GraphAnimateConfig extends AnimateCfg {
-  /**
-   * 回调函数，用于自定义节点运动路径。
-   */
-  onFrame?: (item: Item, ratio: number, data?: GraphData, originAttrs?: ShapeStyle) => unknown;
-}
-
 export interface ModeOption {
   type: string;
   delegate?: boolean;
@@ -550,6 +536,21 @@ export interface GroupConfig {
   id: string;
   parentId?: string;
   [key: string]: string | ModelStyle | undefined;
+}
+
+
+export interface GraphData {
+  nodes?: NodeConfig[];
+  edges?: EdgeConfig[];
+  groups?: GroupConfig[];
+  combos?: ComboConfig[];
+}
+
+export interface GraphAnimateConfig extends AnimateCfg {
+  /**
+   * 回调函数，用于自定义节点运动路径。
+   */
+  onFrame?: (item: Item, ratio: number, data?: GraphData, originAttrs?: ShapeStyle) => unknown;
 }
 
 // export type ModelConfig = NodeConfig | EdgeConfig | GroupConfig
