@@ -5,13 +5,11 @@ order: 10
 
 ### graph.render()
 
-Render the graph with data onto the canvas.
-
-**Usage**
-
 ```javascript
 graph.render();
 ```
+
+Render the graph with data onto the canvas.
 
 ### graph.renderCustomGroup(data, groupType)
 
