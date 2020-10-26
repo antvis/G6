@@ -1,5 +1,5 @@
 export default {
-  version: '3.8.2-beta.0',
+  version: '3.8.2',
   rootContainerClassName: 'root-container',
   nodeContainerClassName: 'node-container',
   edgeContainerClassName: 'edge-container',
