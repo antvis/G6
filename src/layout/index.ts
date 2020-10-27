@@ -9,7 +9,7 @@ import Layout from './layout';
 import Circular from './circular';
 import Concentric from './concentric';
 import Dagre from './dagre';
-import Force from './force';
+import Force from './force/force';
 import G6Force from './g6force';
 import Fruchterman from './fruchterman';
 import Grid from './grid';

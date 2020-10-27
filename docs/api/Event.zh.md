@@ -151,6 +151,8 @@ graph.on(timingEventName, evt => {
 
 | 事件名称 | 描述 |
 | --- | --- |
+| beforerender | 调用 `graph.render` / `graph.read` 方法之前触发 |
+| afterrender | 调用 `graph.render` / `graph.read` 方法之后触发 |
 | beforeadditem | 调用 `graph.add` / `graph.addItem` 方法之前触发 |
 | afteradditem | 调用 `graph.add` / `graph.addItem` 方法之后触发 |
 | beforeremoveitem | 调用 `graph.remove` / `graph.removeItem` 方法之前触发 |
@@ -169,19 +171,31 @@ graph.on(timingEventName, evt => {
 | aftermodechange | 调用 `graph.setMode` / `graph.addBehaviors` / `graph.removeBehaviors` 方法之后触发 |
 | beforelayout | 布局前触发。调用 `graph.render` 时会进行布局，因此 `render` 时会触发。或用户主动调用图的 `graph.layout` 时触发。 |
 | afterlayout | 布局完成后触发。调用 `graph.render` 时会进行布局，因此 `render` 时布局完成后会触发。或用户主动调用图的 `lgraph.ayout` 时布局完成后触发。 |
+| beforegraphrefreshposition | `graph.refreshPositions` 被调用前触发 |
+| aftergraphrefreshposition | `graph.refreshPositions` 被调用后触发 |
+| beforegraphrefresh | `graph.refresh` 被调用前触发 |
+| aftergraphrefresh | `graph.refresh` 被调用后触发 |
+| beforeanimate | 全局动画发生前触发 |
+| afteranimate | 全局动画发生后触发 |
+| beforecreateedge | 使用内置交互 `create-edge`，创建边之前触发 |
+| aftercreateedge | 使用内置交互 `create-edge`，创建边之后触发 |
 | graphstatechange | 调用 `graph.updateItemState` 方法之后触发 |
 | afteractivaterelations | 使用了 `'activate-relations'` Behavior 并触发了该行为后，该事件被触发 |
 | nodeselectchange | 使用了 `'brush-select'` , `'click-select'` 或 `'lasso-select'` Behavior 且选中元素发生变化时，该事件被触发 |
-| beforecreateedge | 使用内置交互 `create-edge`，创建边之前触发 |
-| aftercreateedge | 使用内置交互 `create-edge`，创建边之后触发 |
 | itemcollapsed | 在 TreeGraph 上使用了 `'collapse-expand'` Behavior 并触发了该行为后，该事件被触发 |
 | tooltipchange | 使用了 `'tooltip'` 或 `'edge-tooltip'` Behavior 且 tooltip 的显示/隐藏被改变后，该事件被触发 |
 | wheelzoom | 使用了 `'zoom-canvas'` Behavior 并用滚轮对图进行缩放后，该事件被触发 |
+| viewportchange |调用 `graph.moveTo`，`graph.translate`，或 `graph.zoom` 均会触发该事件 |
 | dragnodeend | 使用了 `'drag-node'` Behavior，当拖动结束时，该事件被触发 |
+| stackchange | 撤销/重做栈发生变化时，该事件触发 |
 
 ### 回调参数
 
 不同时机监听事件的回调参数不同，下面针对各个自定义事件的回调参数进行说明。
+
+#### beforerender / afterrender
+
+无参数
 
 #### beforeadditem
 
@@ -298,9 +312,24 @@ graph.on(timingEventName, evt => {
 | deltaY | Number | 滚动的 y 方向，取值 `1`，`0`，`-1`，`0` 代表没有该方向的滚动 |
 | ... 其他滚轮事件的回调参数 |  |  |
 
+#### viewportchange
+
+| 名称   | 类型   | 描述                                          |
+| ------ | ------ | ----------------------------------------------- |
+| action   | 'translate' / 'move' / 'zoom'   | 视窗变换的类型，`'translate'`、`'move'`、`'zoom'` 分别标识该时机是由 `graph.translate`、`graph.move`、还是 `graph.zoom` 函数的调用而产生  |
+| matrix | Array | 视窗变换后的图的矩阵 |
+
 #### dragnodeend
 
 | 名称   | 类型   | 描述                                          |
 | ------ | ------ | --------------------------------------------- |
 | items   | Item[]   | 当前操作的 item 实例                          |
 | targetItem | null/Node/Combo | 拖动节点结束后，节点是放到canvas、Node 还是 Combo 上面 |
+
+#### stackchange
+
+| 名称   | 类型   | 描述                                          |
+| ------ | ------ | ----------------------------------------------- |
+| redoStack | Object[]   | 重做堆栈                           |
+| undoStack | Object[] | 撤销堆栈 |
+

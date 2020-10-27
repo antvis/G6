@@ -3281,7 +3281,7 @@ export default class Graph extends EventEmitter implements IGraph {
     this.get('layoutController').destroy();
     this.get('customGroupControll').destroy();
     this.get('canvas').destroy();
-    
+
     if (this.get('graphWaterMarker')) {
       this.get('graphWaterMarker').destroy();
     }
@@ -3363,13 +3363,13 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {WaterMarkerConfig} config 文本水印的配置项
    */
   public setImageWaterMarker(
-    imgURL: string = Global.waterMarkerImage, 
-    config?: WaterMarkerConfig) { 
+    imgURL: string = Global.waterMarkerImage,
+    config?: WaterMarkerConfig) {
     let container: string | HTMLElement | null = this.get('container')
     if (isString(container)) {
       container = document.getElementById(container)
     }
-    
+
     if (!container.style.position) {
       container.style.position = 'relative'
     }
@@ -3403,23 +3403,23 @@ export default class Graph extends EventEmitter implements IGraph {
     const img = new Image()
     img.crossOrigin = 'anonymous'
     img.src = imgURL
-    img.onload  = () => {
+    img.onload = () => {
       ctx.drawImage(img, x, y, image.width, image.height)
       // 恢复旋转角度
       ctx.rotate((rotate * Math.PI) / 180)
-  
+
       // 默认按照现代浏览器处理        
       if (!compatible) {
         let box = document.querySelector('.g6-graph-watermarker') as HTMLElement
         if (!box) {
           box = document.createElement('div')
-          box.className = 'g6-graph-watermarker' 
+          box.className = 'g6-graph-watermarker'
         }
         box.className = 'g6-graph-watermarker'
         if (!canvas.destroyed) {
-          box.style.cssText = `background-image: url(${canvas.get('el').toDataURL('image/png')});background-repeat:repeat;position:absolute;top:0;bottom:0;left:0;right:0;pointer-events:none;z-index:-1;`;      
+          box.style.cssText = `background-image: url(${canvas.get('el').toDataURL('image/png')});background-repeat:repeat;position:absolute;top:0;bottom:0;left:0;right:0;pointer-events:none;z-index:-1;`;
           (container as HTMLElement).appendChild(box)
-        } 
+        }
       } else {
         // 当需要兼容不支持 pointer-events属性的浏览器时，将 compatible 设置为 true
         (container as HTMLElement).style.cssText = `background-image: url(${canvas.get('el').toDataURL('image/png')});background-repeat:repeat;`
@@ -3433,12 +3433,12 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {string[]} texts 水印的文本内容
    * @param {WaterMarkerConfig} config 文本水印的配置项
    */
-  public setTextWaterMarker(texts: string[], config?: WaterMarkerConfig) { 
+  public setTextWaterMarker(texts: string[], config?: WaterMarkerConfig) {
     let container: string | HTMLElement | null = this.get('container')
     if (isString(container)) {
       container = document.getElementById(container)
     }
-    
+
     if (!container.style.position) {
       container.style.position = 'relative'
     }
@@ -3462,7 +3462,7 @@ export default class Graph extends EventEmitter implements IGraph {
       canvas = new GCanvas(canvasCfg)
       this.set('graphWaterMarker', canvas)
     }
-    canvas.get('el').style.display = 'none'   
+    canvas.get('el').style.display = 'none'
     const ctx = canvas.get('context')
 
     const { rotate, fill, fontFamily, fontSize, baseline, x, y, lineHeight } = text
@@ -3475,12 +3475,12 @@ export default class Graph extends EventEmitter implements IGraph {
     // 设置文字颜色  
     ctx.fillStyle = fill
 
-    ctx.textBaseline = baseline 
+    ctx.textBaseline = baseline
 
-    for (let i = texts.length - 1; i >= 0; i--) {        
+    for (let i = texts.length - 1; i >= 0; i--) {
       // 将文字绘制到画布        
-      ctx.fillText(texts[i], x, y + i * lineHeight) 
-    }    
+      ctx.fillText(texts[i], x, y + i * lineHeight)
+    }
 
     // 恢复旋转角度
     ctx.rotate((rotate * Math.PI) / 180)
@@ -3490,13 +3490,13 @@ export default class Graph extends EventEmitter implements IGraph {
       let box = document.querySelector('.g6-graph-watermarker') as HTMLElement
       if (!box) {
         box = document.createElement('div')
-        box.className = 'g6-graph-watermarker' 
+        box.className = 'g6-graph-watermarker'
       }
-      box.style.cssText = `background-image: url(${canvas.get('el').toDataURL('image/png')});background-repeat:repeat;position:absolute;top:0;bottom:0;left:0;right:0;pointer-events:none;z-index:99;`;        
+      box.style.cssText = `background-image: url(${canvas.get('el').toDataURL('image/png')});background-repeat:repeat;position:absolute;top:0;bottom:0;left:0;right:0;pointer-events:none;z-index:99;`;
       container.appendChild(box)
     } else {
       // 当需要兼容不支持 pointer-events属性的浏览器时，将 compatible 设置为 true
-      container.style.cssText = `background-image: url(${canvas.get('el').toDataURL('image/png')});background-repeat:repeat;`;    
+      container.style.cssText = `background-image: url(${canvas.get('el').toDataURL('image/png')});background-repeat:repeat;`;
     }
   }
 }

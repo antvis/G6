@@ -148,37 +148,51 @@ graph.on(timingEventName, evt => {
 
 | Event Name | Description |
 | --- | --- |
-| beforeadditem | Activated before `add` / `addItem` being called. |
-| afteradditem | Activated after `add` / `addItem` being called. |
-| beforeremoveitem | Activated before `remove` / `removeItem` being called. |
-| afterremoveitem | Activated after `remove` / `removeItem` being called. |
-| beforeupdateitem | Activated before `update` / `updateItem` being called. |
-| afterupdateitem | Activated after `update` / `updateItem` being called. |
-| beforeitemvisibilitychange | Activated before `showItem` / `hideItem` being called. |
-| afteritemvisibilitychange | Activated after `showItem` / `hideItem` being called. |
-| beforeitemstatechange | Activated before `setItemState` being called. |
-| afteritemstatechange | Activated after `setItemState` being called. |
-| beforeitemrefresh | Activated before `refreshItem` being called. |
-| afteritemrefresh | Activated after `refreshItem` being called. |
-| beforeitemstatesclear | Activated before `clearItemStates` being called. |
-| afteritemstatesclear | Activated after `clearItemStates` being called. |
-| beforemodechange | Activated before `setMode` / `addBehaviors` / `removeBehaviors` being called. |
-| aftermodechange | Activated after `setMode` / `addBehaviors` / `removeBehaviors` being called. |
-| beforelayout | Activated before graph layout. `render` will layout the graph, so `render` will activate this event as well. |
-| afterlayout | Activated after graph layout being done. `render` will layout the graph, so `render` will activate this event as well. |
+| beforerender | Activated before `graph.render` / `graph.read` being called. |
+| afterrender | Activated after `graph.render` / `graph.read` being called. |
+| beforeadditem | Activated before `graph.add` / `graph.addItem` being called. |
+| afteradditem | Activated after `graph.add` / `graph.addItem` being called. |
+| beforeremoveitem | Activated before `graph.remove` / `graph.removeItem` being called. |
+| afterremoveitem | Activated after `graph.remove` / `graph.removeItem` being called. |
+| beforeupdateitem | Activated before `graph.update` / `graph.updateItem` being called. |
+| afterupdateitem | Activated after `graph.update` / `graph.updateItem` being called. |
+| beforeitemvisibilitychange | Activated before `graph.showItem` / `graph.hideItem` being called. |
+| afteritemvisibilitychange | Activated after `graph.showItem` / `graph.hideItem` being called. |
+| beforeitemstatechange | Activated before `graph.setItemState` being called. |
+| afteritemstatechange | Activated after `graph.setItemState` being called. |
+| beforeitemrefresh | Activated before `graph.refreshItem` being called. |
+| afteritemrefresh | Activated after `graph.refreshItem` being called. |
+| beforeitemstatesclear | Activated before `graph.clearItemStates` being called. |
+| afteritemstatesclear | Activated after `graph.clearItemStates` being called. |
+| beforemodechange | Activated before `graph.setMode` / `graph.addBehaviors` / `graph.removeBehaviors` being called. |
+| aftermodechange | Activated after `graph.setMode` / `graph.addBehaviors` / `graph.removeBehaviors` being called. |
+| beforelayout | Activated before graph layout. `graph.render` will layout the graph, so `graph.render` will activate this event as well. |
+| afterlayout | Activated after graph layout being done. `graph.render` will layout the graph, so `graph.render` will activate this event as well. |
+| beforegraphrefreshposition | Activated before `graph.refreshPositions` beging called |
+| aftergraphrefreshposition | Activated after `graph.refreshPositions` beging called |
+| beforegraphrefresh | Activated before `graph.refresh` beging called |
+| aftergraphrefresh | Activated after `graph.refresh` beging called |
+| beforeanimate | Activated before global animation |
+| afteranimate | Activated after global animation |
+| beforecreateedge | Activated before an edge is created by the built-in behavior `create-edge` |
+| aftercreateedge | Activated after an edge is created by the built-in behavior `create-edge` |
 | graphstatechange | Activated after `graph.updateItemState` being called. |
 | afteractivaterelations | Activated while activating a node by `'activate-relations'` Behavior which is assigned to the the instance of Graph. |
 | nodeselectchange | Activated while the selected items are changed by `'brush-select'`, `'click-select'` or `'lasso-select'` Behavior which is assigned to the instance of Graph. |
-| beforecreateedge | Activated before an edge is created by the built-in behavior `create-edge` |
-| aftercreateedge | Activated after an edge is created by the built-in behavior `create-edge` |
 | itemcollapsed | Activated while a node is clicked to collapse or expand by `'collapse-expand'` Behavior which is assigned to the instance of TreeGraph. |
 | tooltipchange | Activated after the show/hide state is changed by `'tooltip'` or `'edge-tooltip'` Behavior which is assigned to the instance of Graph. |
-| wheelzoom | Activated after the canvas being zoomed by `'zoom-canvas'` Behavior which is assigned to the instance of Graph. |
-| dragnodeend | Activated while drag node end by `'drag-node'` Behavior |
+| wheelzoom | Activated after the canvas is zoomed by `'zoom-canvas'` Behavior which is assigned to the instance of Graph. |
+| viewportchange | Activated after the canvas is translated by `graph.moveTo`, `graph.translate`, and `graph.zoom`. |
+| dragnodeend | Activated while drag node end by `'drag-node'` Behavior. |
+| stackchange | Activated while the redo or undo stacks are changed. |
 
 ### Callback Parameters
 
 The callback paramters are different from custom events.
+
+#### beforerender / afterrender
+
+No parameters.
 
 #### beforeadditem
 
@@ -303,9 +317,24 @@ No parameters.
 | deltaY | Number | The y-axis direction of the wheel scroll, value is `1`, `0`, or `-1`, where `0` means no scrolling on this direction. |
 | ... Other parameters of wheel event. |  |  |
 
+#### viewportchange
+
+| Name   | Type   | Description                                     |
+| ------ | ------ | ----------------------------------------------- |
+| action   | 'translate' / 'move' / 'zoom'   | The action of view port changing.  |
+| matrix | Array | The matrix of the graph after the view port changed. |
+
+
 #### dragnodeend
 
 | Name   | Type   | Description                                     |
 | ------ | ------ | ----------------------------------------------- |
 | items   | Item[]   | The manipulated items.                           |
 | targetItem | null/Node/Combo | The position where the node is placed after dragging, the default is null, that is, placed on the canvas. |
+
+#### stackchange
+
+| Name   | Type   | Description                                     |
+| ------ | ------ | ----------------------------------------------- |
+| redoStack | Object[]   | The redo stack.                           |
+| undoStack | Object[] | The undo stack. |

@@ -10,6 +10,7 @@ import ComboForceLayout from './component/combo-force-layout';
 import ForceLayout from './component/force-layout';
 import CompactBox from './component/compact-box';
 import AutoLayout from './component/auto-layout';
+import ForceClusteringLayout from './component/force-clustering-layout';
 
 export default { title: 'Layout' };
 
@@ -24,3 +25,4 @@ storiesOf('Layout', module)
   .add('force layout', () => <ForceLayout />)
   .add('compactbox layout', () => <CompactBox />)
   .add('auto layout', () => <AutoLayout />)
+  .add('force clustering layout', () => <ForceClusteringLayout />)
