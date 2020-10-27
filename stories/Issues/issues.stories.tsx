@@ -9,6 +9,7 @@ import ForceLayout from './forceLayout';
 import GGEditorNode from './ggeditorNode';
 import MultiLayout from './forceLayout/multiLayout'
 import EdgeStatus from './edgeStatus'
+import AddGroup from './addGroup'
 
 export default { title: 'Issues' };
 
@@ -22,3 +23,4 @@ storiesOf('Issues', module)
   .add('ggeditor node issue', () => <GGEditorNode />)
   .add('multi layout', () => <MultiLayout />)
   .add('edge status', () => <EdgeStatus />)
+  .add('add group', () => <AddGroup />)

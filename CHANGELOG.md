@@ -15,6 +15,7 @@
 - feat: add edgeConfig for create-edge behavior, closes: #2195;
 - fix: remove the source node while creat-edge;
 - feat: create-edge for combo, closes: #2211;
+- fix: update the typings for G6Event;
 
 #### 3.8.1
 - fix: update edge states with updateItem problem, closes: #2142;

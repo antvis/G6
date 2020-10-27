@@ -20,7 +20,8 @@ import {
   GraphAnimateConfig,
   StackData,
   HullCfg,
-  WaterMarkerConfig
+  WaterMarkerConfig,
+  G6Event
 } from '../types';
 import { IEdge, INode, ICombo } from './item';
 import Hull from '../item/hull';
@@ -706,7 +707,7 @@ export interface ITreeGraph extends IGraph {
    * @param {string} imgURL 图片水印的url地址
    * @param {WaterMarkerConfig} config 文本水印的配置项
    */
-  setImageWaterMarker(imgURL: string , config: WaterMarkerConfig);
+  setImageWaterMarker(imgURL: string, config: WaterMarkerConfig);
 
   /**
    * 设置文本水印
