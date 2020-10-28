@@ -86,6 +86,12 @@ const graph = new G6.Graph({
 | alphaMin | Number | 0.03 | 0.001 | 停止迭代的阈值 |
 | alpha | Number | 0.1 | 0.3 | 当前阈值 |
 | collideStrength | Number | 0.8 | 1 | 防止重叠的力强度，范围 [0, 1]。 |
+| clustering | Boolean | false| false | 是否按照聚类信息布局 |
+| clusterNodeStrength | Number | -1| -0.8 | 聚类节点作用力。负数代表斥力 |
+| clusterEdgeStrength | Number | 0.1| 0.2 | 聚类边作用力 |
+| clusterEdgeDistance | Number | 100| 50 | 聚类边长度 |
+| clusterNodeSize | Number | 10| 15 | 聚类节点大小 / 直径，直径越大，越分散 |
+| clusterFociStrength | Number | 0.8| 0.5 | 用于 foci 的力 |
 | forceSimulation | Object |  | null | 自定义 force 方法，若不指定，则使用 d3 的方法。 |
 | onTick | Function |  | {} | 每一次迭代的回调函数 |
 | onLayoutEnd | Function |  | {} | 布局完成后的回调函数 |

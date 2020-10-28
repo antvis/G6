@@ -166,6 +166,30 @@ Force 布局经典的力导向布局方法，与 d3 的力导向布局方法相�
 
 **类型**：Number<br />**默认值**：0.001<br />**是否必须**：false<br />**说明**：停止迭代的阈值
 
+#### clustering
+
+**类型**：Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否按照聚类信息布局
+
+#### clusterNodeStrength
+
+**类型**：Number<br />**默认值**：-1<br />**是否必须**：false<br />**说明**：聚类节点作用力。负数代表斥力
+
+#### clusterEdgeStrength
+
+**类型**：Number<br />**默认值**：0.1<br />**是否必须**：false<br />**说明**：聚类边作用力
+
+#### clusterEdgeDistance
+
+**类型**：Number<br />**默认值**：100<br />**是否必须**：false<br />**说明**：聚类边长度
+
+#### clusterNodeSize
+
+**类型**：Number<br />**默认值**：10<br />**是否必须**：false<br />**说明**：聚类节点大小 / 直径，直径越大，越分散
+
+#### clusterFociStrength
+
+**类型**：Number<br />**默认值**：0.8<br />**是否必须**：false<br />**说明**：用于 foci 的力
+
 #### forceSimulation
 
 **类型**：Object<br />**默认值**：null<br />**是否必须**：false<br />**说明**：自定义 force 方法，若不指定，则使用 d3.js 的方法

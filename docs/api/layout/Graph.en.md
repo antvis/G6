@@ -163,6 +163,31 @@ Force is the classical force-dicrected layout algorithm, which corresponds to fo
 
 **Type**: Number<br />**Default**: 0.001<br />**Required**: false<br />**Description**: The threshold to stop the iteration
 
+#### clustering
+
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether run the force layout with clustering
+
+#### clusterNodeStrength
+
+**Type**: Number<br />**Default**: -1<br />**Required**: false<br />**Description**: The force between nodes. It will be repulsive force while it is negative
+
+#### clusterEdgeStrength
+
+**Type**: Number<br />**Default**: 0.1<br />**Required**: false<br />**Description**: The force along the edge
+
+#### clusterEdgeDistance
+
+**Type**: Number<br />**Default**: 100<br />**Required**: false<br />**Description**: The edge length between the clusters
+
+#### clusterNodeSize
+
+**Type**: Number<br />**Default**: 10<br />**Required**: false<br />**Description**: The node size(diameter) for clustering
+
+#### clusterFociStrength
+
+**Type**: Number<br />**Default**: 0.8<br />**Required**: false<br />**Description**: The force for the clustering foci
+
+
 #### forceSimulation
 
 **Type**: Object<br />**Default**: null<br />**Required**: false<br />**Description**: Customed force simulation. If it is not assigned, the force simulation of d3.js will take effect

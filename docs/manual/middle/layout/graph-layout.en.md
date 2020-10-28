@@ -86,6 +86,12 @@ General graph layout API: [General Graph Layout API](/en/docs/api/layout/Graph).
 | alphaMin | Number | 0.03 | 0.001 | The threshold to stop the iteration |
 | alpha | Number | 0.1 | 0.3 | The current alpha of convergence |
 | collideStrength | Number | 0.8 | 1 | The strength of force for preventing node overlappings. The range is [0, 1] |
+| clustering | Boolean | false| false | Whether run the force layout with clustering |
+| clusterNodeStrength | Number | -1| -0.8 | The force between nodes. It will be repulsive force while it is negative |
+| clusterEdgeStrength | Number | 0.1| 0.2 | The force along the edge |
+| clusterEdgeDistance | Number | 100| 50 | The edge length between the clusters |
+| clusterNodeSize | Number | 10| 15 | The node size(diameter) for clustering |
+| clusterFociStrength | Number | 0.8| 0.5 | The force for the clustering foci |
 | forceSimulation | Object |  | null | Customed force simulation. If it is not assigned, the force simulation of d3.js will take effect |
 | onTick | Function |  | {} | The callback function of each iteration |
 | onLayoutEnd | Function |  | {} | The callback function after layout |
