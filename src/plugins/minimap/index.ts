@@ -77,12 +77,17 @@ export default class MiniMap extends Base {
     const canvas = this.get('canvas');
 
     const containerDOM = canvas.get('container');
-    const viewport = createDOM(`<div class=${cfgs.viewportClassName}
-      style='position:absolute;
-        left:0;
-        top:0;
-        box-sizing:border-box;
-        border: 2px solid #1980ff'></div>`);
+    const viewport = createDOM(`
+      <div
+        class=${cfgs.viewportClassName}
+        style='position:absolute;
+          left:0;
+          top:0;
+          box-sizing:border-box;
+          border: 2px solid #1980ff'
+        draggable=true>
+      </div>`
+    );
 
     // 计算拖拽水平方向距离
     let x = 0;
@@ -101,9 +106,16 @@ export default class MiniMap extends Base {
     let ratio = 0;
     let zoom = 0;
 
-    containerDOM.addEventListener(
-      'mousedown',
+    viewport.addEventListener(
+      'dragstart',
       (e: GraphEvent) => {
+        if ((e as any).dataTransfer) {
+          const img = new Image();
+          img.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' %3E%3Cpath /%3E%3C/svg%3E";
+          (e as any).dataTransfer.setDragImage(img, 0, 0);
+          (e as any).dataTransfer.setData('text', 'view-port-minimap')
+        }
+
         cfgs.refresh = false;
         if (e.target !== viewport) {
           return;
@@ -130,8 +142,8 @@ export default class MiniMap extends Base {
       false,
     );
 
-    containerDOM.addEventListener(
-      'mousemove',
+    viewport.addEventListener(
+      'drag',
       (e: GraphEvent) => {
         if (!dragging || isNil(e.clientX) || isNil(e.clientY)) {
           return;
@@ -168,17 +180,8 @@ export default class MiniMap extends Base {
       false,
     );
 
-    containerDOM.addEventListener(
-      'mouseleave',
-      () => {
-        dragging = false;
-        cfgs.refresh = true;
-      },
-      false,
-    );
-
-    containerDOM.addEventListener(
-      'mouseup',
+    viewport.addEventListener(
+      'dragend',
       () => {
         dragging = false;
         cfgs.refresh = true;
