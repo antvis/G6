@@ -2,6 +2,7 @@
 
 #### 3.8.3
 - feat: drag the viewport of the minimap out of the the view;
+- fix: extend modelRect with description problem, closes: #2235;
 
 #### 3.8.2
 - feat: graph.setImageWaterMarker, graph.setTextWaterMarker API;

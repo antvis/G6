@@ -448,7 +448,7 @@ describe('model rect test', () => {
         offset: -5
       }
     }
-          
+
     G6.registerNode('extendsRect', {
       options: nodeConfig
     }, 'modelRect')
