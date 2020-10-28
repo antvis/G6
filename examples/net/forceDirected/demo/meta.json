@@ -23,7 +23,7 @@
     {
       "filename": "forceClustering.js",
       "title": {
-        "zh": "力导向布局巨雷",
+        "zh": "力导向布局聚类",
         "en": "Force Layout with Clustering"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xonLSopPjKUAAAAAAAAAAAAAARQnAQ"
