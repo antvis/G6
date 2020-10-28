@@ -104,7 +104,8 @@ export default class Menu extends Base {
 
     const menuDom = this.get('menu');
     const getContent = this.get('getContent');
-    const menu = getContent(e, this.get('graph'));
+    const graph: Graph = this.get('graph');
+    const menu = getContent(e, graph);
     if (isString(menu)) {
       menuDom.innerHTML = menu;
     } else {
@@ -122,7 +123,6 @@ export default class Menu extends Base {
       menuDom.addEventListener('click', handleMenuClickWrapper);
     }
 
-    const graph: Graph = this.get('graph');
     const width: number = graph.get('width');
     const height: number = graph.get('height');
 
