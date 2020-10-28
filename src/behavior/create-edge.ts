@@ -70,7 +70,6 @@ export default {
   // 如果边的起点没有指定，则根据起点创建新边；如果起点已经指定而终点未指定，则指定终点
   onClick(ev: IG6GraphEvent) {
     const self = this;
-    console.log('onclick', self.key, self.keydown, ev.item)
     if (self.key && !self.keydown) return;
     const node = ev.item;
     const graph: IGraph = self.graph;
@@ -78,7 +77,6 @@ export default {
     // 如果起点已经指定而终点未指定，则指定终点
     if (self.addingEdge && self.edge) {
       if (!self.shouldEnd.call(self, ev)) return;
-      console.log('clicking target', model.id)
       const updateCfg: EdgeConfig = {
         target: model.id
       };
