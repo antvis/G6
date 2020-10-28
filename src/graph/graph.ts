@@ -146,8 +146,8 @@ export default class Graph extends EventEmitter implements IGraph {
   }
 
   private initCanvas() {
-    let container: string | HTMLElement | null = this.get('container');
-    if (isString(container)) {
+    let container: string | HTMLElement | Element | null = this.get('container');
+    if (typeof container === 'string') {
       container = document.getElementById(container);
       this.set('container', container);
     }
@@ -3338,7 +3338,7 @@ export default class Graph extends EventEmitter implements IGraph {
   }
 
   /**
-   * 根据 hullId 获取对应的 hull 
+   * 根据 hullId 获取对应的 hull
    * @return Hull
    */
   public getHullById(hullId: string): Hull {
@@ -3408,7 +3408,7 @@ export default class Graph extends EventEmitter implements IGraph {
       // 恢复旋转角度
       ctx.rotate((rotate * Math.PI) / 180)
 
-      // 默认按照现代浏览器处理        
+      // 默认按照现代浏览器处理
       if (!compatible) {
         let box = document.querySelector('.g6-graph-watermarker') as HTMLElement
         if (!box) {
@@ -3469,23 +3469,23 @@ export default class Graph extends EventEmitter implements IGraph {
     // 旋转20度
     ctx.rotate((-rotate * Math.PI) / 180)
 
-    // 设置文字样式   
+    // 设置文字样式
     ctx.font = `${fontSize}px ${fontFamily}`
 
-    // 设置文字颜色  
+    // 设置文字颜色
     ctx.fillStyle = fill
 
     ctx.textBaseline = baseline
 
     for (let i = texts.length - 1; i >= 0; i--) {
-      // 将文字绘制到画布        
+      // 将文字绘制到画布
       ctx.fillText(texts[i], x, y + i * lineHeight)
     }
 
     // 恢复旋转角度
     ctx.rotate((rotate * Math.PI) / 180)
 
-    // 默认按照现代浏览器处理        
+    // 默认按照现代浏览器处理
     if (!compatible) {
       let box = document.querySelector('.g6-graph-watermarker') as HTMLElement
       if (!box) {
