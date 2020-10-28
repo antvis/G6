@@ -1,5 +1,8 @@
 # ChangeLog
 
+#### 3.8.3
+- feat: drag the viewport of the minimap out of the the view;
+
 #### 3.8.2
 - feat: graph.setImageWaterMarker, graph.setTextWaterMarker API;
 - feat: zoom-canvas support mobile;

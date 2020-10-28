@@ -138,7 +138,6 @@ describe('minimap', () => {
     graph.render();
 
     const viewport = minimap.getViewport();
-    const canvas = minimap.getCanvas();
 
     graph.zoom(2, { x: 250, y: 250 });
     graph.translate(50, 50);
@@ -149,20 +148,18 @@ describe('minimap', () => {
       expect(viewport.style.width).toEqual('131.153px');
       expect(viewport.style.height).toEqual('140.498px');
 
-      const container = canvas.get('container');
-
-      Simulate.simulate(viewport, 'mousedown', {
+      Simulate.simulate(viewport, 'dragstart', {
         clientX: 100,
         clientY: 100,
         target: viewport,
       });
 
-      Simulate.simulate(container, 'mousemove', {
+      Simulate.simulate(viewport, 'drag', {
         clientX: 98,
         clientY: 91,
       });
 
-      Simulate.simulate(container, 'mouseup', {
+      Simulate.simulate(viewport, 'dragend', {
         clientX: 98,
         clientY: 91,
       });
@@ -215,17 +212,14 @@ describe('minimap', () => {
     graph.render();
 
     const viewport = minimap.getContainer();
-    const canvas = minimap.getCanvas();
 
-    const container = canvas.get('container');
-
-    Simulate.simulate(container, 'mousemove', {
+    Simulate.simulate(viewport, 'drag', {
       clientX: 100,
       clientY: 100,
     });
 
     viewport.style.width = '300px';
-    Simulate.simulate(viewport, 'mousedown', {
+    Simulate.simulate(viewport, 'dragstart', {
       clientX: 100,
       clientY: 100,
       target: null,
