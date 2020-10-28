@@ -282,7 +282,7 @@ Shape.registerNode(
           attrs: {
             ...descriptionStyle,
             x: offsetX,
-            y: 17 + (descriptionPaddingTop as any),
+            y: 17 + (descriptionPaddingTop as any || 0),
             text: cfg.description,
           },
           className: 'rect-description',
@@ -398,7 +398,7 @@ Shape.registerNode(
             attrs: {
               ...descriptionCfg.style,
               x: offsetX,
-              y: 17 + (paddingTop as any),
+              y: 17 + (paddingTop as any || 0),
               text: cfg.description,
             },
             className: 'rect-description',
@@ -413,7 +413,7 @@ Shape.registerNode(
           description.resetMatrix();
           description.attr({
             ...descriptionStyle,
-            y: 17 + (paddingTop as any),
+            y: 17 + (paddingTop as any || 0),
           });
         }
       }
