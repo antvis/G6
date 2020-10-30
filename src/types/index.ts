@@ -122,6 +122,7 @@ export interface ModeOption {
   delegateStyle?: object;
   updateEdge?: boolean;
   trigger?: string;
+  relayout?: boolean;
   enableDelegate?: boolean;
   maxZoom?: number;
   minZoom?: number;
