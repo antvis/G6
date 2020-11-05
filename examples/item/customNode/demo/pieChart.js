@@ -14,12 +14,12 @@ G6.registerNode('pie-node', {
     const radius = cfg.size / 2; // node radius
     const inPercentage = cfg.inDegree / cfg.degree; // the ratio of indegree to outdegree
     const inAngle = inPercentage * Math.PI * 2; // the anble for the indegree fan
-    const inArcEnd = [radius * Math.cos(inAngle), radius * Math.sin(inAngle)]; // the end position for the in-degree fan
-    let isInBigArc = 1,
-      isOutBigArc = 0;
-    if (inAngle > Math.PI) {
-      isInBigArc = 0;
+    const inArcEnd = [radius * Math.cos(inAngle), -radius * Math.sin(inAngle)]; // the end position for the in-degree fan
+    let isInBigArc = 0,
       isOutBigArc = 1;
+    if (inAngle > Math.PI) {
+      isInBigArc = 1;
+      isOutBigArc = 0;
     }
     // fan shape for the in degree
     const fanIn = group.addShape('path', {
