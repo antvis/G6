@@ -201,7 +201,7 @@ export const attributesToTextureData = (attributeNames: string[], items): { arra
     const attributteStringMap = {};
     items.forEach(item => {
         attributeNames.forEach((name, i) => {
-            if (!attributteStringMap[item[name]]) {
+            if (attributteStringMap[item[name]] === undefined) {
                 attributteStringMap[item[name]] = Object.keys(attributteStringMap).length;
             }
             dataArray.push(attributteStringMap[item[name]]);

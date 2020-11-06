@@ -75,7 +75,7 @@
     "@antv/g-canvas": "^0.4.3",
     "@antv/g-math": "^0.1.1",
     "@antv/g-svg": "^0.4.1",
-    "@antv/g-webgpu": "^0.4.1",
+    "@antv/g-webgpu": "^0.5.0",
     "@antv/hierarchy": "^0.6.2",
     "@antv/matrix-util": "^2.0.4",
     "@antv/path-util": "^2.0.3",
@@ -88,6 +88,7 @@
   },
   "devDependencies": {
     "@antv/gatsby-theme-antv": "^0.10.66",
+    "@antv/g-webgpu-compiler": "^0.5.0",
     "@babel/core": "^7.7.7",
     "@babel/preset-react": "^7.7.4",
     "@storybook/addon-actions": "^5.2.8",
