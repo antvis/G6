@@ -24,6 +24,8 @@ export default {
     }
     return {
       [`node:${trigger}`]: 'onNodeClick',
+      // 支持移动端事件
+      'touchstart': 'onNodeClick'
     };
   },
   onNodeClick(e: IG6GraphEvent) {
