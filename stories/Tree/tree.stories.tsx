@@ -12,4 +12,4 @@ storiesOf('Tree', module)
   .add('flow-tree', () => <FlowTree />)
   .add('tree-data', () => <TreeData />)
   .add('register flow tree', () => <SlefTree />)
-  .add('FlowComponent', () => <FlowComponent />);
+  .add('FlowComponent', () => <FlowComponent />)

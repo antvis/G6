@@ -2,6 +2,7 @@ import deepMix from '@antv/util/lib/deep-mix';
 import each from '@antv/util/lib/each';
 import wrapBehavior from '@antv/util/lib/wrap-behavior';
 import Graph from '../graph/graph';
+import { IG6GraphEvent } from '../types';
 
 export interface IPluginBaseConfig {
   container?: HTMLDivElement | null;
@@ -51,7 +52,7 @@ export default abstract class PluginBase {
     const bindEvents: EventMapType = {};
 
     each(events, (v, k) => {
-      const event = wrapBehavior(self, v);
+      const event = wrapBehavior(self, v) as (e: IG6GraphEvent) => void;
       bindEvents[k] = event;
       graph.on(k, event);
     });
@@ -63,7 +64,7 @@ export default abstract class PluginBase {
   /**
    * 初始化方法，供子类实现
    */
-  public init() {}
+  public init() { }
 
   /**
    * 获取插件中的事件和事件处理方法，供子类实现
@@ -92,7 +93,7 @@ export default abstract class PluginBase {
   /**
    * 销毁方法，供子类复写
    */
-  public destroy() {}
+  public destroy() { }
 
   /**
    * 销毁插件

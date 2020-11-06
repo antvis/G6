@@ -47,12 +47,8 @@ export default class GraphinForceGPULayout extends BaseLayout {
   public linkDistance: number | ((d?: any) => number) | undefined = 1;
   /** 重力大小 */
   public gravity: number = 10;
-  /** 是否聚集离散点，即是否给所有离散点加一个重力 */
-  public gatherDiscrete: boolean = false;
-  /** 聚集离散点的位置，gatherDiscrete 为 true 时生效，默认为 [ w / 4, h / 4] */
-  public gatherDiscreteCenter: IPointTuple | undefined;
-  /** 聚集离散点的重力大小，gatherDiscrete 为 true 时生效 */
-  public gatherDiscreteGravity: number = 200;
+  /** 每个节点中心力的 x、y、强度的回调函数，若不指定，则没有额外中心力 */
+  public getCenter: ((d?: any, degree?: number) => number[]) | undefined;
   /** 是否启用web worker。前提是在web worker里执行布局，否则无效	*/
   public workerEnabled: boolean = false;
 
@@ -108,9 +104,6 @@ export default class GraphinForceGPULayout extends BaseLayout {
     self.nodeStrength = proccessToFunc(self.nodeStrength, 1);
     self.edgeStrength = proccessToFunc(self.edgeStrength, 1);
 
-    if (!self.gatherDiscreteCenter) {
-      self.gatherDiscreteCenter = [self.width / 4, self.height / 4];
-    }
     // layout
     self.run();
   }
@@ -142,9 +135,6 @@ export default class GraphinForceGPULayout extends BaseLayout {
     self.nodeStrength = proccessToFunc(self.nodeStrength, 1);
     self.edgeStrength = proccessToFunc(self.edgeStrength, 1);
 
-    if (!self.gatherDiscreteCenter) {
-      self.gatherDiscreteCenter = [self.width / 4, self.height / 4];
-    }
     // layout
     self.run(canvas, ctx);
   }
@@ -166,24 +156,46 @@ export default class GraphinForceGPULayout extends BaseLayout {
 
     self.linkDistance = proccessToFunc(self.linkDistance) as ((d?: any) => number);
     self.edgeStrength = proccessToFunc(self.edgeStrength) as ((d?: any) => number);
-    const { maxEdgePerVetex, array: nodesEdgesArray } = buildTextureDataWithTwoEdgeAttr(nodes, edges, self.linkDistance, self.edgeStrength);
+    const { maxEdgePerVetex, array: nodesEdgesArray }
+      = buildTextureDataWithTwoEdgeAttr(nodes, edges, self.linkDistance, self.edgeStrength);
 
     // init degree for mass
     self.degrees = getDegree(nodes.length, self.nodeIdxMap, edges);
     const masses = [];
     const nodeStrengths = [];
+    const centerXs = [];
+    const centerYs = [];
+    const centerGravities = [];
     if (!self.getMass) {
       self.getMass = (d) => {
         return self.degrees[self.nodeIdxMap[d.id]] || 1;
       }
     }
+    const gravity = self.gravity;
+    const center = self.center;
     nodes.forEach((node, i) => {
       masses.push(self.getMass(node));
       nodeStrengths.push((self.nodeStrength as Function)(node));
       if (!self.degrees[i]) self.degrees[i] = 0;
+      let nodeGravity = [center[0], center[1], gravity];
+      if (self.getCenter) {
+        const customCenter = self.getCenter(node, self.degrees[i]);
+        if (customCenter && isNumber(customCenter[0])
+          && isNumber(customCenter[1]) && isNumber(customCenter[2])) {
+          nodeGravity = customCenter;
+        }
+      }
+      centerXs.push(nodeGravity[0]);
+      centerYs.push(nodeGravity[1]);
+      centerGravities.push(nodeGravity[2]);
     })
 
-    const nodeAttributeArray = arrayToTextureData([masses, self.degrees, nodeStrengths]);
+    // 每个几点的额外属性占两格，分别是：mass, degree, nodeSterngth, centerX, centerY, gravity, 0, 0
+    const nodeAttributeArray = arrayToTextureData([
+      masses, self.degrees, nodeStrengths,
+      centerXs, centerYs, centerGravities
+    ]);
+    console.log('nodeAttributeArray', nodeAttributeArray, numParticles, maxEdgePerVetex)
 
     let workerEnabled = self.workerEnabled;
     let world;
@@ -203,13 +215,13 @@ export default class GraphinForceGPULayout extends BaseLayout {
       });
     }
 
-    // const compute = world.createComputePipeline({
-    //   shader: gCode,
-    //   onCompleted: (result) => {
-    //     // 获取 Shader 的编译结果，用户可以输出到 console 中并保存
-    //     console.log(world.getPrecompiledBundle(compute));
-    //   },
-    // });
+    const compute1 = world.createComputePipeline({
+      shader: gCode,
+      onCompleted: (result) => {
+        // 获取 Shader 的编译结果，用户可以输出到 console 中并保存
+        console.log(world.getPrecompiledBundle(compute));
+      },
+    });
 
     const onLayoutEnd = self.onLayoutEnd;
 
@@ -253,17 +265,17 @@ export default class GraphinForceGPULayout extends BaseLayout {
 
     // 节点边输入输出
     world.setBinding(compute, 'u_Data', nodesEdgesArray);
-    // 布局中心
-    world.setBinding(compute, 'u_CenterX', self.center[0]);
-    world.setBinding(compute, 'u_CenterY', self.center[1]);
+    // // 布局中心
+    // world.setBinding(compute, 'u_CenterX', self.center[0]);
+    // world.setBinding(compute, 'u_CenterY', self.center[1]);
 
-    // 中心力
-    world.setBinding(compute, 'u_gravity', self.gravity);
-    // 聚集离散点
-    world.setBinding(compute, 'u_gatherDiscrete', self.gatherDiscreteCenter ? 1 : 0);
-    world.setBinding(compute, 'u_GatherDiscreteCenterX', self.gatherDiscreteCenter[0]);
-    world.setBinding(compute, 'u_GatherDiscreteCenterY', self.gatherDiscreteCenter[1]);
-    world.setBinding(compute, 'u_GatherDiscreteGravity', self.gatherDiscreteGravity);
+    // // 中心力
+    // world.setBinding(compute, 'u_gravity', self.gravity);
+    // // 聚集离散点
+    // world.setBinding(compute, 'u_gatherDiscrete', self.gatherDiscreteCenter ? 1 : 0);
+    // world.setBinding(compute, 'u_GatherDiscreteCenterX', self.gatherDiscreteCenter[0]);
+    // world.setBinding(compute, 'u_GatherDiscreteCenterY', self.gatherDiscreteCenter[1]);
+    // world.setBinding(compute, 'u_GatherDiscreteGravity', self.gatherDiscreteGravity);
 
     // 常量
     // world.setBinding(compute, 'u_stiffness', self.stiffness);

@@ -11,7 +11,7 @@ import TrendTimeBar, { SliderOption } from './trendTimeBar'
 import TimeBarSlice, { TimeBarSliceOption } from './timeBarSlice'
 import { IGraph } from '../../interface/graph';
 import { VALUE_CHANGE } from './constant'
-import { GraphData, ShapeStyle, TimeBarType } from '../../types';
+import { GraphData, IG6GraphEvent, ShapeStyle, TimeBarType } from '../../types';
 import { Interval } from './trend';
 import { ControllerCfg } from './controllerBtn';
 
@@ -21,10 +21,9 @@ const DEFAULT_SIMPLE_HEIGHT = 8
 // trend 版本默认高度
 const DEFAULT_TREND_HEIGHT = 26
 
-export interface Callback {
+export interface Callback extends IG6GraphEvent {
   originValue: number[];
   value: number[];
-  target: IGroup;
 }
 
 interface TrendConfig {
