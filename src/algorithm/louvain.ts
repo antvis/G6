@@ -49,8 +49,8 @@ const louvain = (
   // the origin data
   const { nodes, edges } = data;
 
-  let clusters = {};
-  let nodeMap = {};
+  const clusters = {};
+  const nodeMap = {};
   // init the clusters and nodeMap
   nodes.forEach((node, i) => {
     const cid: string = uniqueId();
@@ -60,7 +60,7 @@ const louvain = (
       nodes: [node]
     };
     nodeMap[node.id] = {
-      node: node,
+      node,
       idx: i
     };
   });

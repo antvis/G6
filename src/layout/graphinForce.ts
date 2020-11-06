@@ -111,11 +111,11 @@ export default class GraphinForceLayout extends BaseLayout {
     let nodeSizeFunc;
     if (self.preventOverlap) {
       const nodeSpacing = self.nodeSpacing;
-      let nodeSpacingFunc: Function;
+      let nodeSpacingFunc: ((d?: any) => number);
       if (isNumber(nodeSpacing)) {
-        nodeSpacingFunc = () => nodeSpacing;
+        nodeSpacingFunc = () => nodeSpacing as number;
       } else if (isFunction(nodeSpacing)) {
-        nodeSpacingFunc = nodeSpacing;
+        nodeSpacingFunc = nodeSpacing as ((d?: any) => number);
       } else {
         nodeSpacingFunc = () => 0;
       }
@@ -126,7 +126,7 @@ export default class GraphinForceLayout extends BaseLayout {
               const res = d.size[0] > d.size[1] ? d.size[0] : d.size[1];
               return res + nodeSpacingFunc(d);
             }
-            return d.size + nodeSpacingFunc(d);
+            return (d.size as number) + nodeSpacingFunc(d);
           }
           return 10 + nodeSpacingFunc(d);
         };
@@ -136,7 +136,7 @@ export default class GraphinForceLayout extends BaseLayout {
           return res + nodeSpacingFunc(d);
         };
       } else {
-        nodeSizeFunc = (d: NodeConfig) => nodeSize + nodeSpacingFunc(d);
+        nodeSizeFunc = (d: NodeConfig) => (nodeSize as number) + nodeSpacingFunc(d);
       }
     }
     self.nodeSize = nodeSizeFunc;

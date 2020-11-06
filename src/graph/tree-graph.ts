@@ -346,7 +346,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
 
     // 如果没有父节点或找不到该节点，是全量的更新，直接重置data
     if (!parentId || !self.findById(parentId)) {
-      console.warn(`Update children failed! There is no node with id \'${parentId}\'`);
+      console.warn(`Update children failed! There is no node with id '${parentId}'`);
       return;
     }
 

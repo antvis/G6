@@ -239,11 +239,10 @@ export const gpuDetector = (): any => {
       return element;
     },
     addGetWebGLMessage: function (parameters) {
-      let parent, id, element;
       parameters = parameters || {};
-      parent = parameters.parent !== undefined ? parameters.parent : document.body;
-      id = parameters.id !== undefined ? parameters.id : 'oldie';
-      element = gpuDetector().getWebGLErrorMessage();
+      const parent = parameters.parent !== undefined ? parameters.parent : document.body;
+      const id = parameters.id !== undefined ? parameters.id : 'oldie';
+      const element = gpuDetector().getWebGLErrorMessage();
       element.id = id;
       parent.appendChild(element);
     }
