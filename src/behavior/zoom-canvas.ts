@@ -42,6 +42,11 @@ export default {
     const event2 = touches[1]
     evt.preventDefault()
 
+    // 如果不是缩放事件则禁止继续执行
+    if (!event2) {
+      return
+    }
+
     // 第一个触摸点位置
     this.startPoint = {
       pageX: event1.pageX,
