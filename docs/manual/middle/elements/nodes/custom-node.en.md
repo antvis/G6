@@ -11,7 +11,7 @@ G6 provides abundant [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defa
 
 **Noted** that if the `extendedTypeName` is assigned, the required functions such as `draw`, `update`, and `setState` will extend from `extendedTypeName` unless they are rewritten in `nodeDefinition`. Due to this mechanism, a question is often fed back:
 - Q: when the custom node/edge is updated, the re-draw logic is not the same as `draw` or `drawShape` function defined in `nodeDefinition`. e.g., some shapes are not updated as expected, and some text shapes show up.
-- A: Since the `extendedTypeName` is assigned, and the `update` is not implemented in `extendedTypeName`, the `update` of the extended node type will be called when updating the node/edge, whose logic might be different from the `draw` or `drawShape` defined by yourself. To avoid this problem, you can rewrite the `update` by `undefined` in `nodeDefinition`. When `update` is `undefined`, the `draw` or `drawShape` will be called when updating the node/edge.
+- A: Since the `extendedTypeName` is assigned, and the `update` is not implemented in `extendedTypeName`, the `update` of the extended node type will be called when updating the node/edge, whose logic might be different from the `draw` or `drawShape` defined by yourself. To avoid this problem, you can override the `update` by `undefined` in `nodeDefinition`. When `update` is `undefined`, the `draw` or `drawShape` will be called when updating the node/edge.
 
 
 In this document, we will introduce the custom node mechanism by five examples: <br /> <strong>1. Register a brand new node: </strong>Draw the graphics; Optimize the performance. <br /> <strong>2. Register a node by extending a built-in node: </strong>Add extra graphics shape; Add animation. <br /> <strong>3. Adjust the anchorPoints(link points);</strong> <br /> <strong>4. Register a node with state styles: </strong>Response the states change by styles and animations <strong>5. Custom Node with DOM </strong>
@@ -88,7 +88,7 @@ G6.registerNode(
   - When the `update` function is not undefined: If user has defined the third parameter `extendedNodeName` of `registerNode`, which means extending a built-in node type, the `update` function of the extended node type of the custom node will be executed once the node is updated; If the third parameter of `registerNode` is not assigned, the `draw` function of the custom node will be executed instead;
   - When the `update` function is defined, whether the third parameter of `registerNode` is defined, the `update` function will be executed when the node is updated.
 - `afterDraw` and `afterUpdate`: they are used for extending the exited nodes in general. e.g. adding extra image on rect node, adding animation on a circle node, ...;
-- `setState` should be rewrite when you want to response the state changes by animation. Responsing the state changes by simple styles can be achieved by [Configure Styles for State](/en/docs/manual/middle/states/state#configure-styles-for-state);
+- `setState` should be override when you want to response the state changes by animation. Responsing the state changes by simple styles can be achieved by [Configure Styles for State](/en/docs/manual/middle/states/state#configure-styles-for-state);
 - `getAnchorPoints`: it is only required when you want to contrain the link points for nodes and their related edges. The anchorPoints can be assigned in the node data as well.
 
 ## 1. Register a Brand New Node
@@ -97,7 +97,7 @@ G6.registerNode(
 
 Now, we are going to register a diamond node:
 
-> Although there is a built-in diamond node in G6, we implement it here to rewrite it for demonstration.
+> Although there is a built-in diamond node in G6, we implement it here to override it for demonstration.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LqFCRaKyr0gAAAAAAAAAAABkARQnAQ' alt='img' width='80'/>
 
@@ -187,7 +187,7 @@ graph.render();
 
 When the nodes or edges are updated by `graph.update(item, cfg)`, the `draw` will be called for repainting. But in the situation with large amount of data (especially the text), repainting all the graphics shapes by `draw` has bad performance.
 
-Therefore, rewrite the `update` function when registering a node for partial repainting is necessary. We can repaint some of the graphics shapes instead of all the graphis by `update`. The `update` is not required if you have no performance problem.
+Therefore, override the `update` function when registering a node for partial repainting is necessary. We can repaint some of the graphics shapes instead of all the graphis by `update`. The `update` is not required if you have no performance problem.
 
 To update a few graphics shapes of a node in `update`, you need find the graphics shapes to be updated frist:
 
@@ -222,7 +222,7 @@ G6.registerNode('diamond', {
 
 There are several [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) in G6. You can extend them to make some modification on them. It is similar to register the diamond node. single-node is the base class of all the node types, you can also extend it. (single-edge is the base class of all the edge types.)
 
-For example, we are going to extend the single-node. `draw`, `update`, and `setState` have been implemented in the single-node. Thus, we only rewrite the `getShapeStyle`, which returns the path and the styles of graphics shapes.
+For example, we are going to extend the single-node. `draw`, `update`, and `setState` have been implemented in the single-node. Thus, we only override the `getShapeStyle`, which returns the path and the styles of graphics shapes.
 
 ```javascript
 G6.registerNode(

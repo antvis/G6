@@ -75,7 +75,7 @@ G6.registerBehavior('activate-node', {
     graph.setItemState(item, 'active', true);
   },
   onCanvasClick(e) {
-    // shouldUpdate can be rewrited by users. Returning true means turning the 'active' to be false for all the nodes
+    // shouldUpdate can be overrode by users. Returning true means turning the 'active' to be false for all the nodes
     if (this.shouldUpdate(e)) {
       removeNodesState();
     }

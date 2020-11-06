@@ -1,5 +1,13 @@
 # ChangeLog
 
+#### 4.0.0
+- feat: fruchterman and graphin force layout with gpu;
+- feat: graphin force;
+- feat: updateChildren API for TreeGraph;
+- feat: louvain clustering algorithm;
+- fix: text redidual problem, closes: #2045 #2193;
+- fix: graph on callback parameter type problem, closes: #2250;
+
 #### 3.8.5
 - fix: get fontFamily of the window in global leads to DOM depending when using bigfish;
 

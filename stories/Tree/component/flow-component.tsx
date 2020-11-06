@@ -6,7 +6,7 @@ import { EdgeConfig, TreeGraphData, StateStyles, ShapeStyle } from '../../../src
 import { INode, IEdge } from '../../../src/interface/item';
 
 interface IFlowCharts {
-  data: TreeGraphData;
+  data?: TreeGraphData;
   width?: number;
   height?: number;
   nodeType?: string;
@@ -206,7 +206,7 @@ const defaultLabelCfg = {
   },
 };
 
-const FlowTree: React.SFC<IFlowCharts> = ({
+const FlowComponent: React.SFC<IFlowCharts> = ({
   data = data1,
   width = 500,
   height = 500,
@@ -444,4 +444,4 @@ const FlowTree: React.SFC<IFlowCharts> = ({
   return <div ref={container}></div>;
 };
 
-export default FlowTree;
+export default FlowComponent;

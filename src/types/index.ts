@@ -19,7 +19,7 @@ export interface IG6GraphEvent extends GraphEvent {
   wheelDelta: number;
   detail: number;
   key?: string;
-  target: Item & Canvas;
+  target: IShapeBase & Canvas;
 }
 
 // Math types

@@ -26,28 +26,10 @@ class GraphinForce {
   u_factor: float;
 
   @in
-  u_CenterX: float;
-
-  @in
-  u_CenterY: float;
-
-  @in
-  u_gravity: float;
-
-  @in
   u_NodeAttributeArray: vec4[];
 
   @in
   u_EdgeAttributeArray: vec4[];
-  
-  @in
-  u_GatherDiscreteCenterX: float;
-
-  @in
-  u_GatherDiscreteCenterY: float
-
-  @in
-  u_GatherDiscreteGravity: float
 
   @in
   u_gatherDiscrete: float
@@ -66,8 +48,8 @@ class GraphinForce {
         const n_dist = dist * this.u_coulombDisScale;
         const direx = vx / dist;
         const direy = vy / dist;
-        const attributesi = this.u_NodeAttributeArray[i];
-        const attributesj = this.u_NodeAttributeArray[j];
+        const attributesi = this.u_NodeAttributeArray[2 * i];
+        const attributesj = this.u_NodeAttributeArray[2 * j];
         const massi = attributesi[0];
         const nodeStrengthi = attributesi[2];
         const nodeStrengthj = attributesj[2];
@@ -81,23 +63,31 @@ class GraphinForce {
     return [ax, ay];
   }
 
-  calcGravity(i: int, currentNode: vec4): vec2 {
-    const vx = currentNode[0] - this.u_CenterX;
-    const vy = currentNode[1] - this.u_CenterY;
-    let ax = vx * this.u_gravity;
-    let ay = vy * this.u_gravity;
-    const attributes = this.u_NodeAttributeArray[i];
-    // 聚集离散点
-    if (this.u_gatherDiscrete == 1 && attributes[1] == 0) {
-      const vdx = currentNode[0] - this.u_GatherDiscreteCenterX;
-      const vdy = currentNode[1] - this.u_GatherDiscreteCenterY
-      ax += this.u_GatherDiscreteGravity * vdx;
-      ay += this.u_GatherDiscreteGravity * vdy;
-    }
+  calcGravity(i: int, currentNode: vec4, attributes: vec4): vec2 {
+    // note: attributes = [mass, degree, nodeSterngth, centerX, centerY, gravity, 0, 0]
+
+    const vx = currentNode[0] - attributes[3];
+    const vy = currentNode[1] - attributes[4];
+    
+    const ax = vx * attributes[5];
+    const ay = vy * attributes[5];
+    
+
+
+    // // 聚集离散点
+    // if (this.u_gatherDiscrete == 1 && attributes[1] == 0) {
+    //   const vdx = currentNode[0] - this.u_GatherDiscreteCenterX;
+    //   const vdy = currentNode[1] - this.u_GatherDiscreteCenterY
+    //   ax += this.u_GatherDiscreteGravity * vdx;
+    //   ay += this.u_GatherDiscreteGravity * vdy;
+    // }
+
     return [ax, ay];
   }
 
   calcAttractive(i: int, currentNode: vec4, attributes: vec4): vec2 {
+    // note: attributes = [mass, degree, nodeSterngth, centerX, centerY, gravity, 0, 0]
+
     const mass = attributes[0];
     let ax = 0, ay = 0;
     const arr_offset = int(floor(currentNode[2] + 0.5));
@@ -141,8 +131,8 @@ class GraphinForce {
       return;
     }
 
-
-    const nodeAttributes = this.u_NodeAttributeArray[i];
+    // 每个节点属性占两小格
+    const nodeAttributes = this.u_NodeAttributeArray[2 * i];
 
     // repulsive
     const repulsive = this.calcRepulsive(i, currentNode);
@@ -155,7 +145,7 @@ class GraphinForce {
     ay += attractive[1];
 
     // gravity
-    const gravity = this.calcGravity(i, currentNode);
+    const gravity = this.calcGravity(i, currentNode, nodeAttributes);
     ax -= gravity[0];
     ay -= gravity[1];
 

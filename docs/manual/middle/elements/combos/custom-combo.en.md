@@ -73,7 +73,7 @@ Since the updating logic of Combo is special (upate the size and position accord
 3. Different from registering a node or an edge, it is not recommended to rewritten `update` and `draw`, or the updating logic will be abnormal;
 4. The rewirtten `drawShape` should return the same type of keyShape as the keyShape of the extended Combo. Means that return a circle shape if you are extending the circle Combo, rect shape if you are extending the rect Combo;
 5. The updating logic of new shapes expect the keyShape and the label should be defined in `afterUpdate`;
-6. `setState` should be rewrite when you want to response the state changes by animation. Responsing the state changes by simple styles can be achieved by [Configure Styles for State](/en/docs/manual/middle/states/state#configure-styles-for-state).
+6. `setState` should be override when you want to response the state changes by animation. Responsing the state changes by simple styles can be achieved by [Configure Styles for State](/en/docs/manual/middle/states/state#configure-styles-for-state).
 
 ## 1. Extend the Rect Combo
 
