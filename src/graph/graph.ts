@@ -28,6 +28,7 @@ import {
   ComboTree,
   HullCfg,
   WaterMarkerConfig,
+  IG6GraphEvent,
 } from '../types';
 import { getAllNodeInGroups } from '../util/group';
 import { move } from '../util/math';
@@ -3248,6 +3249,13 @@ export default class Graph extends EventEmitter implements IGraph {
       this.set('shortestPathMatrix', currentShourtestPathMatrix);
     }
     return currentShourtestPathMatrix;
+  }
+
+  /**
+   * 重新定义监听函数，复写参数类型
+   */
+  public on(eventName: string, callback: (e: IG6GraphEvent) => void, once?: boolean): this {
+    return super.on(eventName, callback, once);
   }
 
   /**

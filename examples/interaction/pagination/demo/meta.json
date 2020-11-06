@@ -1,0 +1,16 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "treePagination.js",
+      "title": {
+        "zh": "子树节点分页",
+        "en": "Pagination for Subtree"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*A3iMQo8L_McAAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}

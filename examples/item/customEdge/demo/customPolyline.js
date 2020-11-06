@@ -1,7 +1,7 @@
 import G6 from '@antv/g6';
 
 /**
- * Extend the built-in line edge and rewrite getPath and getShapeStyle to custom a polyline edge
+ * Extend the built-in line edge and override getPath and getShapeStyle to custom a polyline edge
  * by siogo's issue（https://github.com/antvis/g6/issues/814）
  *
  * If you want to fit the dragging, you need to adjust the controlpoints while dragging

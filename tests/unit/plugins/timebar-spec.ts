@@ -401,7 +401,6 @@ describe('timeline play with timebar', () => {
 
     graph.data(data);
     graph.render();
-    console.log(graph)
     // graph.on('sliderchange', evt => {
     //   console.log('范围', evt)
     // })

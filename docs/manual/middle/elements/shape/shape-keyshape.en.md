@@ -118,7 +118,7 @@ The life cycle of Shape:
 - Update: Update the Shape when the data changed;
 - Manipulate: Add some states to the Shape, e.g. selected, active, and so on.
 
-There are three key functions of custom node and edge which should be rewrited according to your requirements:
+There are three key functions of custom node and edge which should be overrode according to your requirements:
 
 - `draw(cfg, group)`: Draw the Shape with configurations and its container. **MUST** return a proper shape as the keyShape;
 - `update(cfg, n)`: Update the item according to the configurations and the item;

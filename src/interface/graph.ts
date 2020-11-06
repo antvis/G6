@@ -21,7 +21,7 @@ import {
   StackData,
   HullCfg,
   WaterMarkerConfig,
-  G6Event
+  IG6GraphEvent
 } from '../types';
 import { IEdge, INode, ICombo } from './item';
 import Hull from '../item/hull';
@@ -641,6 +641,11 @@ export interface IGraph extends EventEmitter {
    * 根据 hullId 删除 Hull
    */
   removeHull(hull: Hull | string)
+
+  /**
+   * 重新定义监听函数，复写参数类型
+   */
+  on(eventName: string, callback: (e: IG6GraphEvent) => void, once?: boolean): this;
   /**
    * 销毁画布
    */

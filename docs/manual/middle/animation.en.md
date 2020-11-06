@@ -32,7 +32,7 @@ const graph = new G6.Graph({
 
 ## Item Animation
 
-All the built-in nodes and edges are static withou animation. To animate node or edge, please register your type of [Custom Node](/en/docs/manual/middle/elements/nodes/custom-node) or [Custom Edge](/en/docs/manual/middle/elements/edges/custom-edge), and rewrite the `afterDraw` function.
+All the built-in nodes and edges are static withou animation. To animate node or edge, please register your type of [Custom Node](/en/docs/manual/middle/elements/nodes/custom-node) or [Custom Edge](/en/docs/manual/middle/elements/edges/custom-edge), and override the `afterDraw` function.
 
 ### Node Animation
 
@@ -87,7 +87,7 @@ G6.registerNode(
     },
   },
   'circle',
-); // This custom node extend the built-in node 'circle'. Except for the rewrited afterDraw, other functions will extend from 'circle' node
+); // This custom node extend the built-in node 'circle'. Except for the overrode afterDraw, other functions will extend from 'circle' node
 ```
 
 #### Background Animation
@@ -376,9 +376,9 @@ G6.registerEdge(
 
 G6 allows user to add animation for the interaction. As showin in the figure beow, when the mouse enters the node, the related edges will show the dashed line animation.<br />![交互动画.gif](https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-90pSrm4hkUAAAAAAAAAAABkARQnAQ)<br />The code for the demo can be found in: <a href='/en/examples/scatter/stateChange' target='_blank'>Animation of State Changing</a>.
 
-This kind of animation is related to the [State](/en/docs/manual/middle/states/state) of edge. Rewrite the function `setState` to response the state changing. When the mouse enters a node, some state of the related edges are activated. The `setState` of the edges activate the animation once it receive the state changing. The steps are:
+This kind of animation is related to the [State](/en/docs/manual/middle/states/state) of edge. Override the function `setState` to response the state changing. When the mouse enters a node, some state of the related edges are activated. The `setState` of the edges activate the animation once it receive the state changing. The steps are:
 
-- Rewrite the `setState` in custom edge, and listen to the state changing in this function;
+- Override the `setState` in custom edge, and listen to the state changing in this function;
 - Listen the `mouseenter` and `mouseleave` of the nodes to activate the state of the related edges.
 
 The code below is a part of the code in <a href='/en/examples/scatter/stateChange' target='_blank'>Animation of State Changing</a>. Please note that we have omit some code to emphasize the code related to the animation.
@@ -395,7 +395,7 @@ const lineDash = [4, 2, 1, 2];
 G6.registerEdge(
   'can-running',
   {
-    // Rewrite setState
+    // Override setState
     setState(name, value, item) {
       const shape = item.get('keyShape');
       // Response the running state

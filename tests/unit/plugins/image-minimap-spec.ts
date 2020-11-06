@@ -59,7 +59,7 @@ describe('image minimap', () => {
       graph.render();
     });
 
-  it('default image minimap', done => {
+  it.only('default image minimap', done => {
     setTimeout(() => {
       const container = minimap.getContainer();
       expect(container).not.toBe(undefined);
@@ -94,7 +94,7 @@ describe('image minimap', () => {
       top = parseFloat(viewport.style.top.split('px')[0]);
       width = parseFloat(viewport.style.width.split('px')[0]);
       height = parseFloat(viewport.style.height.split('px')[0]);
-      expect(numberEqual(left, 30, 2)).toEqual(true);
+      expect(numberEqual(left, 33, 2)).toEqual(true);
       expect(numberEqual(top, 90, 2)).toEqual(true);
       expect(numberEqual(width, 158, 2)).toEqual(true);
       expect(numberEqual(height, 59, 2)).toEqual(true);

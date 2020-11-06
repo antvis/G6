@@ -227,14 +227,14 @@ treeGraph.addChild(data, 'root')
 
 ### updateChild(data, parent)
 
-更新数据，差量更新子树。
+更新数据，差量更新子树。若 data 已经是 parent 的一个子节点，则根据数据更新该节点。否则，增加这个节点。
 
 **参数**
 
 | 名称   | 类型   | 是否必选 | 描述       |
 | ------ | ------ | -------- | ---------- |
 | data   | Object | true     | 子树的数据 |
-| parent | Node   | String   | false      | 父节点或父节点 ID |
+| parent | String   | false      | 父节点 ID |
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 当 `parent` 参数为空时，则全量更新。
 
@@ -255,6 +255,45 @@ const data = {
   ]
 };
 
+// 将 sub1 更新到 id 为 root 的节点下
+treeGraph.updateChild(data, 'root')
+```
+
+### updateChildren(dataArray, parent)
+
+更新一个父节点下的所有子节点。data 是一个树数据数组。
+
+**参数**
+
+| 名称   | 类型   | 是否必选 | 描述       |
+| ------ | ------ | -------- | ---------- |
+| dataArray   | Array | true     | 子树的数据集合 |
+| parent | String   | false      | 父节点 ID |
+
+
+**用法**
+
+```javascript
+const data = [{
+    id: 'sub0'
+  }, {
+    id: 'sub1'
+  }, {
+    id: 'sub2',
+    children: [
+      {
+        id: 'sub2-1',
+        children: [...]
+      },
+      {
+        id: 'sub2-2',
+        children: [...]
+      }
+    ]
+  }
+];
+
+// 将 data 中三个子树更新到 id 为 root 的节点下
 treeGraph.updateChild(data, 'root')
 ```
 

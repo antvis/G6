@@ -225,7 +225,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
     // 更改数据源后，取消所有状态
     this.getNodes().map((node) => self.clearItemStates(node));
     this.getEdges().map((edge) => self.clearItemStates(edge));
-    
+
     if (data) {
       self.data(data);
       self.render();
@@ -335,21 +335,43 @@ export default class TreeGraph extends Graph implements ITreeGraph {
     }
   }
 
+
   /**
-   * 更新源数据，差量更新子树
-   * @param {TreeGraphData} data 子树数据模型
+   * 更新某个节点下的所有子节点
+   * @param {TreeGraphData[]} data 子树数据模型集合
    * @param {string} parent 子树的父节点id
    */
-  public updateChild(data: TreeGraphData, parent?: string): void {
+  public updateChildren(data: TreeGraphData[], parentId: string): void {
     const self = this;
 
     // 如果没有父节点或找不到该节点，是全量的更新，直接重置data
-    if (!parent || !self.findById(parent)) {
+    if (!parentId || !self.findById(parentId)) {
+      console.warn(`Update children failed! There is no node with id \'${parentId}\'`);
+      return;
+    }
+
+    const parentModel = self.findDataById(parentId) as NodeConfig;
+
+    parentModel.children = data;
+
+    self.changeData();
+  }
+
+  /**
+   * 更新源数据，差量更新子树
+   * @param {TreeGraphData} data 子树数据模型
+   * @param {string} parentId 子树的父节点id
+   */
+  public updateChild(data: TreeGraphData, parentId?: string): void {
+    const self = this;
+
+    // 如果没有父节点或找不到该节点，是全量的更新，直接重置data
+    if (!parentId || !self.findById(parentId)) {
       self.changeData(data);
       return;
     }
 
-    const parentModel = self.findById(parent).getModel() as NodeConfig;
+    const parentModel = self.findDataById(parentId) as NodeConfig;
 
     const current = self.findById(data.id);
 

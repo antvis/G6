@@ -113,7 +113,7 @@ G6.registerEdge(
 
 In G6 3.3:
 
-- We suggest not to use the calling way in 3.2 with the rewriten `onFrame` function, which will be discarded soon;
+- We suggest not to use the calling way in 3.2 with the overrode `onFrame` function, which will be discarded soon;
 - Call `animate` by two ways instead:
   - Way 1: `animate(toAttrs, animateCfg)`, where `toAttrs` is the target attributes of this animation, and `animateCfg` is the configuration of the animation. e.g.
 

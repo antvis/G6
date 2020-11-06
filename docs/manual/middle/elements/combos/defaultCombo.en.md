@@ -247,7 +247,7 @@ By this way, we can configure different combos with different properties.
 <br /><span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span>
 
 - `graph.combo(comboFn)` must be called **before calling render()**. It does not take effect otherwise;
-- It has the highest priority that will rewrite the same properties configured by other ways;
+- It has the highest priority that will override the same properties configured by other ways;
 - Each combo will be updated when adding or updating items. It will cost a lot when the amount of the data is large.
 
 ```javascript

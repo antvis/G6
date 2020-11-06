@@ -227,7 +227,7 @@ treeGraph.addChild(data, 'root')
 
 ### updateChild(data, parent)
 
-Incrementally update the children data of the parent.
+Incrementally update the children data of the `parent`. If the `data` is a child of the `parent` already, update this child with `data`. Add a new child to the `parent` with `data` otherwise.
 
 **Parameters**
 
@@ -255,6 +255,45 @@ const data = {
   ]
 };
 
+// Update the child of the parent with id 'root'
+treeGraph.updateChild(data, 'root')
+```
+
+### updateChildren(dataArray, parent)
+
+Update all the children of the `parent`. dataArray is an array of tree data.
+
+**Parameters**
+
+| Name   | Type   | Required | Description           |
+| ------ | ------ | -------- | ---------- |
+| dataArray   | Array | true     | The array of the children data子树的数据集合 |
+| parent | String   | false      | The id of the parent node |
+
+
+**Usage**
+
+```javascript
+const data = [{
+    id: 'sub0'
+  }, {
+    id: 'sub1'
+  }, {
+    id: 'sub2',
+    children: [
+      {
+        id: 'sub2-1',
+        children: [...]
+      },
+      {
+        id: 'sub2-2',
+        children: [...]
+      }
+    ]
+  }
+];
+
+// Update the three children in the data to the parent with id 'root'
 treeGraph.updateChild(data, 'root')
 ```
 

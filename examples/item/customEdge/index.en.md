@@ -9,8 +9,8 @@ The custom edge mechanism in G6 allows users to design their own edge when there
 
 The first two demos below show how to customize polyline edge. There are two ways to customize an edge:
 
-1. Extend the line edge, rewrite `getPath` and `getShapeStyle`;
-2. Rewrite `draw`.
+1. Extend the line edge, override `getPath` and `getShapeStyle`;
+2. Override `draw`.
 
 Updating the control points of polyline while dragging the end nodes is an important problem of polyline edge. For this situation, we recommend users to use built-in `polyline` edge.
 

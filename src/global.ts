@@ -14,6 +14,7 @@ export default {
       fill: '#595959',
       textAlign: 'center',
       textBaseline: 'middle',
+      fontFamily: typeof window !== 'undefined' ? window.getComputedStyle(document.body, null).getPropertyValue("font-family") || 'Arial, sans-serif' : 'Arial, sans-serif',
     },
     offset: 5, // 节点的默认文本不居中时的偏移量
   },
@@ -32,6 +33,7 @@ export default {
       fill: '#595959',
       textAlign: 'center',
       textBaseline: 'middle',
+      fontFamily: typeof window !== 'undefined' ? window.getComputedStyle(document.body, null).getPropertyValue("font-family") || 'Arial, sans-serif' : 'Arial, sans-serif',
     },
   },
   defaultEdge: {

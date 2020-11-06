@@ -40,16 +40,12 @@ export default class GraphinForceLayout extends BaseLayout {
   public factor: number = 1;
   /** 每个节点质量的回调函数，若不指定，则默认使用度数作为节点质量 */
   public getMass: ((d?: any) => number) | undefined;
+  /** 每个节点中心力的 x、y、强度的回调函数，若不指定，则没有额外中心力 */
+  public getCenter: ((d?: any, degree?: number) => number[]) | undefined;
   /** 理想边长 */
   public linkDistance: number | ((d?: any) => number) | undefined = 1;
   /** 重力大小 */
   public gravity: number = 10;
-  /** 是否聚集离散点，即是否给所有离散点加一个重力 */
-  public gatherDiscrete: boolean = false;
-  /** 聚集离散点的位置，gatherDiscrete 为 true 时生效，默认为 [ w / 4, h / 4] */
-  public gatherDiscreteCenter: IPointTuple | undefined;
-  /** 聚集离散点的重力大小，gatherDiscrete 为 true 时生效 */
-  public gatherDiscreteGravity: number = 200;
   /** 是否防止重叠 */
   public preventOverlap: boolean = true;
   /** 防止重叠时的节点大小，默认从节点数据中取 size */
@@ -153,10 +149,6 @@ export default class GraphinForceLayout extends BaseLayout {
       }
     }
 
-    if (!self.gatherDiscreteCenter) {
-      self.gatherDiscreteCenter = [self.width / 4, self.height / 4];
-    }
-
     // layout
     self.run();
   }
@@ -164,7 +156,6 @@ export default class GraphinForceLayout extends BaseLayout {
   public run() {
     const self = this;
     const nodes = self.nodes;
-    const edges = self.edges;
     const maxIteration = self.maxIteration;
     if (!self.width && typeof window !== 'undefined') {
       self.width = window.innerWidth;
@@ -200,7 +191,7 @@ export default class GraphinForceLayout extends BaseLayout {
     const preventOverlap = self.preventOverlap;
     const nodeSize = self.nodeSize as Function;
     nodes.forEach((ni, i) => {
-      const massi = getMass(ni);
+      const massi = getMass(ni) || 1;
       nodes.forEach((nj, j) => {
         if (i >= j) return;
         // if (!accArray[j]) accArray[j] = 0;
@@ -211,7 +202,7 @@ export default class GraphinForceLayout extends BaseLayout {
         const direX = vecX / vecLength;
         const direY = vecY / vecLength;
         const param = ((nodeStrength(ni) + nodeStrength(nj)) / 2) * factor / (nVecLength * nVecLength);
-        const massj = getMass(nj);
+        const massj = getMass(nj) || 1;
         accArray[2 * i] += direX * param / massi;
         accArray[2 * i + 1] += direY * param / massi;
         accArray[2 * j] -= direX * param / massj;
@@ -247,8 +238,8 @@ export default class GraphinForceLayout extends BaseLayout {
       const param = diff * edgeStrength(edge);
       const sourceIdx = nodeIdxMap[edge.source];
       const targetIdx = nodeIdxMap[edge.target]
-      const massSource = getMass(sourceNode);
-      const massTarget = getMass(targetNode);
+      const massSource = getMass(sourceNode) || 1;
+      const massTarget = getMass(targetNode) || 1;
       accArray[2 * sourceIdx] -= direX * param / massSource;
       accArray[2 * sourceIdx + 1] -= direY * param / massSource;
       accArray[2 * targetIdx] += direX * param / massTarget;
@@ -260,30 +251,29 @@ export default class GraphinForceLayout extends BaseLayout {
     const self = this;
     const nodes = self.nodes;
     const center = self.center;
-    const gravity = self.gravity;
-    const gatherDiscrete = self.gatherDiscrete;
+    const defaultGravity = self.gravity;
     const degrees = self.degrees;
-    const gatherDiscreteGravity = self.gatherDiscreteGravity;
-    let descreteCenter = self.gatherDiscreteCenter;
-    let isFirst = true;
-    if (gravity === 0) return;
-    nodes.forEach((node, i) => {
-      const vecX = node.x - center[0];
-      const vecY = node.y - center[1];
+    const nodeLength = nodes.length;
+    for (let i = 0; i < nodeLength; i++) {
+      const node = nodes[i];
+      let vecX = node.x - center[0];
+      let vecY = node.y - center[1];
+      let gravity = defaultGravity;
+
+      if (self.getCenter) {
+        const customCenterOpt = self.getCenter(node, degrees[i]);
+        if (customCenterOpt && isNumber(customCenterOpt[0])
+          && isNumber(customCenterOpt[1]) && isNumber(customCenterOpt[2])) {
+          vecX = node.x - customCenterOpt[0];
+          vecY = node.y - customCenterOpt[1];
+          gravity = customCenterOpt[2];
+        }
+      }
+      if (!gravity) continue;
+
       accArray[2 * i] -= gravity * vecX;
       accArray[2 * i + 1] -= gravity * vecY;
-
-      if (gatherDiscrete && degrees[i] === 0) {
-        if (isFirst && !descreteCenter) {
-          descreteCenter = [node.x, node.y];
-          isFirst = false;
-        }
-        const dVecX = node.x - descreteCenter[0];
-        const dVecY = node.y - descreteCenter[1];
-        accArray[2 * i] -= gatherDiscreteGravity * dVecX;
-        accArray[2 * i + 1] -= gatherDiscreteGravity * dVecY;
-      }
-    });
+    }
   }
 
   public updateVelocity(accArray, velArray, stepInterval) {
@@ -291,8 +281,8 @@ export default class GraphinForceLayout extends BaseLayout {
     const param = stepInterval * self.damping;
     const nodes = self.nodes;
     nodes.forEach((node, i) => {
-      let vx = accArray[2 * i] * param;
-      let vy = accArray[2 * i + 1] * param;
+      let vx = accArray[2 * i] * param || 0.01;
+      let vy = accArray[2 * i + 1] * param || 0.01;
       const vLength = Math.sqrt(vx * vx + vy * vy);
       if (vLength > self.maxSpeed) {
         const param2 = self.maxSpeed / vLength;
