@@ -9,9 +9,10 @@ import { isNumber } from '@antv/util';
 import { World } from '@antv/g-webgpu';
 import { proccessToFunc, buildTextureDataWithTwoEdgeAttr, arrayToTextureData } from '../../util/layout'
 import { getDegree } from '../../util/math'
-import { gCode, cCode } from './graphinForceShader';
+import { graphinForceCode } from './graphinForceShader';
+// import { graphinForceCode, graphinForceBundle } from './graphinForceShader';
 import { LAYOUT_MESSAGE } from '../worker/layoutConst';
-
+import { Compiler } from '@antv/g-webgpu-compiler';
 
 type NodeMap = {
   [key: string]: NodeConfig;
@@ -23,42 +24,59 @@ type NodeMap = {
 export default class GraphinForceGPULayout extends BaseLayout {
   /** 布局中心 */
   public center: IPointTuple = [0, 0];
+
   /** 停止迭代的最大迭代数 */
   public maxIteration: number = 1000;
+
   /** 弹簧引力系数 */
   public edgeStrength: number | ((d?: any) => number) | undefined = 200;
+
   /** 斥力系数 */
   public nodeStrength: number | ((d?: any) => number) | undefined = 1000;
+
   /** 库伦系数 */
   public coulombDisScale: number = 0.005;
+
   /** 阻尼系数 */
   public damping: number = 0.9;
+
   /** 最大速度 */
   public maxSpeed: number = 1000;
+
   /** 一次迭代的平均移动距离小于该值时停止迭代 */
   public minMovement: number = 0.5;
+
   /** 迭代中衰减 */
   public interval: number = 0.02;
+
   /** 斥力的一个系数 */
   public factor: number = 1;
+
   /** 每个节点质量的回调函数，若不指定，则默认使用度数作为节点质量 */
   public getMass: ((d?: any) => number) | undefined;
+
   /** 理想边长 */
   public linkDistance: number | ((d?: any) => number) | undefined = 1;
+
   /** 重力大小 */
   public gravity: number = 10;
+
   /** 每个节点中心力的 x、y、强度的回调函数，若不指定，则没有额外中心力 */
   public getCenter: ((d?: any, degree?: number) => number[]) | undefined;
+
   /** 是否启用web worker。前提是在web worker里执行布局，否则无效	*/
   public workerEnabled: boolean = false;
 
   public nodes: NodeConfig[] = [];
+
   public edges: EdgeConfig[] = [];
 
   public width: number = 300;
+
   public height: number = 300;
 
   public nodeMap: NodeMap = {};
+
   public nodeIdxMap: NodeIdxMap = {};
 
   public onLayoutEnd: () => void;
@@ -74,6 +92,7 @@ export default class GraphinForceGPULayout extends BaseLayout {
       clusterGravity: 10,
     };
   }
+
   /**
    * 执行布局
    */
@@ -195,101 +214,80 @@ export default class GraphinForceGPULayout extends BaseLayout {
       masses, self.degrees, nodeStrengths,
       centerXs, centerYs, centerGravities
     ]);
-    console.log('nodeAttributeArray', nodeAttributeArray, numParticles, maxEdgePerVetex)
 
     let workerEnabled = self.workerEnabled;
     let world;
 
     if (workerEnabled) {
-      world = new World({
+      world = World.create({
         canvas,
         engineOptions: {
           supportCompute: true,
         },
       });
     } else {
-      world = new World({
+      world = World.create({
         engineOptions: {
           supportCompute: true,
         }
       });
     }
 
-    const compute1 = world.createComputePipeline({
-      shader: gCode,
-      onCompleted: (result) => {
-        // 获取 Shader 的编译结果，用户可以输出到 console 中并保存
-        console.log(world.getPrecompiledBundle(compute));
-      },
-    });
+    // TODO: 最终的预编译代码放入到 graphinForceShader.ts 中直接引入，不再需要下面三行
+    const compiler = new Compiler();
+    const graphinForceBundle = compiler.compileBundle(graphinForceCode);
+    console.log(graphinForceBundle);
 
     const onLayoutEnd = self.onLayoutEnd;
 
-    const compute = world.createComputePipeline({
-      shader: gCode,
-      // precompiled: true,
-      // shader: cCode,
-      dispatch: [numParticles, 1, 1],
-      maxIteration,//maxIteration,
-      onIterationCompleted: async (iter) => {
-        const stepInterval = Math.max(0.02, self.interval - iter * 0.002);
-        world.setBinding(
-          compute,
-          'u_interval',
-          stepInterval,
-        );
-      },
-      onCompleted: (finalParticleData) => {
-        if (canvas) {
-          // 传递数据给主线程
-          ctx.postMessage({
-            type: LAYOUT_MESSAGE.GPUEND,
-            vertexEdgeData: finalParticleData,
-            // edgeIndexBufferData,
-          });
-        } else {
-          nodes.forEach((node, i) => {
-            const x = finalParticleData[4 * i];
-            const y = finalParticleData[4 * i + 1];
-            node.x = x;
-            node.y = y;
-          });
-        }
+    const kernelGraphinForce = world
+      .createKernel(graphinForceBundle)
+      .setDispatch([numParticles, 1, 1])
+      .setBinding({
+        u_Data: nodesEdgesArray, // 节点边输入输出
+        u_damping: self.damping,
+        u_maxSpeed: self.maxSpeed,
+        u_minMovement: self.minMovement,
+        u_coulombDisScale: self.coulombDisScale,
+        u_factor: self.factor,
+        u_NodeAttributeArray: nodeAttributeArray,
+        MAX_EDGE_PER_VERTEX: maxEdgePerVetex,
+        VERTEX_COUNT: numParticles,
+        u_interval: self.interval // 每次迭代更新，首次设置为 interval，在 onIterationCompleted 中更新
+      });
 
-        onLayoutEnd && onLayoutEnd();
+    // 执行迭代
+    const execute = async () => {
+      for (let i = 0; i < maxIteration; i++) {
+        await kernelGraphinForce.execute();
+        // 每次迭代完成后
+        const stepInterval = Math.max(0.02, self.interval - i * 0.002);
+        kernelGraphinForce.setBinding({
+          u_interval: stepInterval
+        });
+      }
+      const finalParticleData = await kernelGraphinForce.getOutput();
 
-        // 计算完成后销毁相关 GPU 资源
-        world.destroy();
-      },
-    });
+      // 所有迭代完成后
+      if (canvas) {
+        // 传递数据给主线程
+        ctx.postMessage({
+          type: LAYOUT_MESSAGE.GPUEND,
+          vertexEdgeData: finalParticleData,
+          // edgeIndexBufferData,
+        });
+      } else {
+        nodes.forEach((node, i) => {
+          const x = finalParticleData[4 * i];
+          const y = finalParticleData[4 * i + 1];
+          node.x = x;
+          node.y = y;
+        });
+      }
 
-    // 节点边输入输出
-    world.setBinding(compute, 'u_Data', nodesEdgesArray);
-    // // 布局中心
-    // world.setBinding(compute, 'u_CenterX', self.center[0]);
-    // world.setBinding(compute, 'u_CenterY', self.center[1]);
+      onLayoutEnd && onLayoutEnd();
+    }
 
-    // // 中心力
-    // world.setBinding(compute, 'u_gravity', self.gravity);
-    // // 聚集离散点
-    // world.setBinding(compute, 'u_gatherDiscrete', self.gatherDiscreteCenter ? 1 : 0);
-    // world.setBinding(compute, 'u_GatherDiscreteCenterX', self.gatherDiscreteCenter[0]);
-    // world.setBinding(compute, 'u_GatherDiscreteCenterY', self.gatherDiscreteCenter[1]);
-    // world.setBinding(compute, 'u_GatherDiscreteGravity', self.gatherDiscreteGravity);
-
-    // 常量
-    // world.setBinding(compute, 'u_stiffness', self.stiffness);
-    world.setBinding(compute, 'u_damping', self.damping);
-    world.setBinding(compute, 'u_maxSpeed', self.maxSpeed);
-    world.setBinding(compute, 'u_minMovement', self.minMovement);
-    world.setBinding(compute, 'u_coulombDisScale', self.coulombDisScale);
-    // world.setBinding(compute, 'u_repulsion', self.repulsion);
-    world.setBinding(compute, 'u_factor', self.factor);
-    world.setBinding(compute, 'u_NodeAttributeArray', nodeAttributeArray);
-    world.setBinding(compute, 'MAX_EDGE_PER_VERTEX', maxEdgePerVetex);
-    world.setBinding(compute, 'VERTEX_COUNT', numParticles);
-
-    // 每次迭代更新，首次设置为 interval，在 onIterationCompleted 中更新
-    world.setBinding(compute, 'u_interval', self.interval);
+    execute();
   }
 }

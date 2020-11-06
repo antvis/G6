@@ -31,31 +31,42 @@ type NodeMap = {
 export default class FruchtermanGPULayout extends BaseLayout {
   /** 布局中心 */
   public center: IPointTuple = [0, 0];
+
   /** 停止迭代的最大迭代数 */
   public maxIteration: number = 1000;
+
   /** 重力大小，影响图的紧凑程度 */
   public gravity: number = 10;
+
   /** 速度 */
   public speed: number = 1;
+
   /** 是否产生聚类力 */
   public clustering: boolean = false;
+
   /** 根据哪个字段聚类 */
   public clusterField: string = 'cluster';
+
   /** 聚类力大小 */
   public clusterGravity: number = 10;
+
   /** 是否启用web worker。前提是在web worker里执行布局，否则无效	*/
   public workerEnabled: boolean = false;
 
   public nodes: Node[] = [];
+
   public edges: Edge[] = [];
 
   public width: number = 300;
+
   public height: number = 300;
 
   public nodeMap: NodeMap = {};
+
   public nodeIdxMap: NodeIdxMap = {};
 
   public canvasEl: HTMLCanvasElement;
+
   public onLayoutEnd: () => void;
 
   public getDefaultCfg() {
@@ -68,6 +79,7 @@ export default class FruchtermanGPULayout extends BaseLayout {
       clusterGravity: 10,
     };
   }
+
   /**
    * 执行布局
    */
@@ -97,6 +109,7 @@ export default class FruchtermanGPULayout extends BaseLayout {
     // layout
     self.run();
   }
+
   public executeWithWorker(canvas?: HTMLCanvasElement, ctx?: any) {
     const self = this;
     const nodes = self.nodes;
@@ -148,7 +161,7 @@ export default class FruchtermanGPULayout extends BaseLayout {
     const numParticles = nodes.length;
     const { maxEdgePerVetex, array: nodesEdgesArray } = buildTextureData(nodes, edges);
 
-    let workerEnabled = self.workerEnabled;
+    const workerEnabled = self.workerEnabled;
 
     let world;
 
