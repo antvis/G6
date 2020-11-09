@@ -353,7 +353,7 @@ const legendGraph = new G6.Graph({
   height: 200,
   defaultNode: {
     size: 10,
-    shape: 'circle',
+    type: 'circle',
     labelCfg: {
       position: 'right',
       offset: 10,
@@ -430,7 +430,7 @@ const legendData = {
       label_en: 'Bar Height - # Fire Points',
       x: legendX,
       y: legendBeginY + legendYPadding * 5 + 10,
-      shape: 'rect',
+      type: 'rect',
       size: [2, 30],
       style: {
         fill: '#3A5A3C',

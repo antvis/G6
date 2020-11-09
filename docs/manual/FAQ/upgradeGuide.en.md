@@ -178,11 +178,11 @@ const data = {
   nodes: [
     {
       id: 'node0',
-      shape: 'circle', // the type of this node is circle
+      type: 'circle', // the type of this node is circle
     },
     {
       id: 'node1',
-      shape: 'rect', // the type of this node is rect
+      type: 'rect', // the type of this node is rect
     },
   ],
   edges: [
@@ -190,7 +190,7 @@ const data = {
       id: 'edge0',
       source: 'node0',
       target: 'node1',
-      shape: 'polyline', // the type of this edge is polyline
+      type: 'polyline', // the type of this edge is polyline
     },
   ],
 };
@@ -198,7 +198,7 @@ const data = {
 const graph = new Graph({
   // ... other configurations for graph
   defaultNode: {
-    shape: 'circle',
+    type: 'circle',
     // ... other configurations for default node
   },
 });

@@ -11,7 +11,7 @@ const Image = () => {
       {
         id: '0',
         label: '0',
-        shape: 'image',
+        type: 'image',
       },
       {
         id: '1',
@@ -32,7 +32,7 @@ const Image = () => {
       {
         id: '5',
         label: '5',
-        shape: 'image',
+        type: 'image',
       },
       {
         id: '6',

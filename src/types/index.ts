@@ -242,7 +242,6 @@ export interface GraphOptions {
    * 默认状态下节点的配置，比如 type, size, color。会被写入的 data 覆盖。
    */
   defaultNode?: Partial<{
-    shape: string;
     type: string;
     size: number | number[];
     color: string;
@@ -253,7 +252,6 @@ export interface GraphOptions {
    * 默认状态下边的配置，比如 type, size, color。会被写入的 data 覆盖。
    */
   defaultEdge?: Partial<{
-    shape: string;
     type: string;
     size: number | number[];
     color: string;

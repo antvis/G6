@@ -550,7 +550,7 @@ describe('minimap with hidden shape', () => {
     setTimeout(() => {
       const minimapCanvas = minimap.getCanvas();
       const minimapRootGroup = minimapCanvas.get('children')[0];
-      expect(minimapRootGroup.get('children')[3].get('children')[3].get('children')[1].get('visible')).toBe(false);
+      expect(minimapRootGroup.get('children')[2].get('children')[3].get('children')[1].get('visible')).toBe(false);
       done();
     }, 100);
   });

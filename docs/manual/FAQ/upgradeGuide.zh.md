@@ -174,11 +174,11 @@ const data = {
   nodes: [
     {
       id: 'node0',
-      shape: 'circle',
+      type: 'circle',
     },
     {
       id: 'node1',
-      shape: 'rect',
+      type: 'rect',
     },
   ],
   edges: [
@@ -186,7 +186,7 @@ const data = {
       id: 'edge0',
       source: 'node0',
       target: 'node1',
-      shape: 'polyline',
+      type: 'polyline',
     },
   ],
 };

@@ -11,7 +11,7 @@ const Image2 = () => {
       {
         id: '0',
         label: '0',
-        shape: 'image',
+        type: 'image',
         size: [100, 100],
         clipCfg: {
           show: true,
@@ -21,7 +21,7 @@ const Image2 = () => {
       {
         id: '5',
         label: '5',
-        shape: 'image',
+        type: 'image',
       },
     ],
     edges: [

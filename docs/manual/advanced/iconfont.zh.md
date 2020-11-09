@@ -326,7 +326,7 @@ const getIcon = (type: string) => {
 
 ```javascript
  {
-    shape: 'text',
+    type: 'text',
     attrs: {
         id: 'node-icon',
         x: 0,

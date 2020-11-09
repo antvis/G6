@@ -124,7 +124,7 @@ const graph = new G6.Graph({
     default: ['drag-canvas', 'drag-node'],
   },
   defaultNode: {
-    shape: 'card-node',
+    type: 'card-node',
   },
   fitView: true,
 });

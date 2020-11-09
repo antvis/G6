@@ -419,7 +419,7 @@ graph = new G6.Graph({
     default: ['drag-node'],
   },
   defaultNode: {
-    shape: 'card-node',
+    type: 'card-node',
   },
 });
 

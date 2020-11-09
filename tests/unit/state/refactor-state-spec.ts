@@ -130,7 +130,7 @@ describe('graph refactor states', () => {
       },
       defaultNode: {
         size: 25,
-        shape: 'self-node',
+        type: 'self-node',
         style: {
           fill: 'steelblue',
           opacity: 0.8,
@@ -213,7 +213,7 @@ describe('graph refactor states', () => {
       },
       defaultNode: {
         size: 25,
-        shape: 'self-node',
+        type: 'self-node',
         style: {
           opacity: 0.8,
         },
@@ -274,7 +274,7 @@ describe('graph refactor states', () => {
       },
       defaultNode: {
         size: 25,
-        shape: 'keyshape-not-attribute',
+        type: 'keyshape-not-attribute',
         style: {
           opacity: 0.8,
         },
@@ -347,7 +347,7 @@ describe('graph refactor states', () => {
       },
       defaultNode: {
         size: 25,
-        shape: 'self-node',
+        type: 'self-node',
         style: {
           // fill: 'steelblue',
           opacity: 0.8,
@@ -422,7 +422,7 @@ describe('graph refactor states', () => {
       },
       defaultNode: {
         size: 25,
-        shape: 'self-node',
+        type: 'self-node',
         style: {
           opacity: 0.8,
         },
@@ -524,7 +524,7 @@ describe('graph refactor states', () => {
       },
       defaultNode: {
         size: 25,
-        shape: 'self-node',
+        type: 'self-node',
         style: {
           opacity: 0.8,
         },
@@ -649,7 +649,7 @@ describe('graph refactor states', () => {
       },
       defaultNode: {
         size: 25,
-        shape: 'self-node',
+        type: 'self-node',
         style: {
           opacity: 0.8,
         },
