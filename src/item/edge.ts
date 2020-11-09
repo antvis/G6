@@ -106,7 +106,7 @@ export default class Edge extends Item implements IEdge {
     const sourcePoint = this.getEndPoint('source');
     const targetPoint = this.getEndPoint('target');
     const shapeFactory = this.get('shapeFactory');
-    const type = model.shape || model.type;
+    const type = model.type;
     return shapeFactory.getControlPoints(type, {
       startPoint: sourcePoint,
       endPoint: targetPoint,

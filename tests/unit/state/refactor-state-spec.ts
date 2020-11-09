@@ -114,7 +114,7 @@ describe('graph refactor states', () => {
     ],
   };
 
-  it('compatible true/false states', () => {
+  it.only('compatible true/false states', () => {
     const graph = new G6.Graph({
       container: div,
       width: 500,
@@ -145,9 +145,8 @@ describe('graph refactor states', () => {
       graph.setItemState(item, 'hover', true);
       graph.setItemState(item, 'select', true);
     });
-    graph.on('node:click', (e) => {
+    graph.on('node:mouseleave', (e) => {
       const item = e.item;
-
       graph.setItemState(item, 'hover', false);
       graph.setItemState(item, 'select', false);
     });
@@ -180,7 +179,7 @@ describe('graph refactor states', () => {
     expect(item.hasState('hover')).toBe(false);
     expect(item.getStates()).toEqual([]);
     expect(keyShape.attr('opacity')).toEqual(0.8);
-    graph.destroy();
+    // graph.destroy();
   });
 
   it('multivalued & muted', () => {

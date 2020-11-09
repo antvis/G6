@@ -183,7 +183,7 @@ export default class ItemBase implements IItemBase {
     }
     self.updatePosition(model);
     const cfg = self.getShapeCfg(model); // 可能会附加额外信息
-    const shapeType = (cfg.shape as string) || (cfg.type as string);
+    const shapeType = (cfg.type as string);
 
     const keyShape: IShapeBase = shapeFactory.draw(shapeType, cfg, group);
 
@@ -420,7 +420,7 @@ export default class ItemBase implements IItemBase {
 
     if (shapeFactory) {
       const model: ModelConfig = this.get('model');
-      const type = model.shape || model.type;
+      const type = model.type;
 
       // 调用 shape/shape.ts 中的 setState
       shapeFactory.setState(type, state, value, this);
@@ -436,7 +436,7 @@ export default class ItemBase implements IItemBase {
     const originStates = self.getStates();
     const shapeFactory = self.get('shapeFactory');
     const model: ModelConfig = self.get('model');
-    const shape = model.shape || model.type;
+    const shape = model.type;
     if (!states) {
       states = originStates;
     }
@@ -587,7 +587,7 @@ export default class ItemBase implements IItemBase {
   public updateShape() {
     const shapeFactory = this.get('shapeFactory');
     const model = this.get('model');
-    const shape = model.shape || model.type;
+    const shape = model.type;
     // 判定是否允许更新
     // 1. 注册的节点允许更新
     // 2. 更新后的 shape 等于原先的 shape

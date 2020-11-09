@@ -92,10 +92,9 @@ describe('graph', () => {
     expect(inst.get('group').get('id').endsWith('-root')).toBe(true);
 
     const children = inst.get('group').get('children');
-    expect(children.length).toBe(5);
-    expect(children[2].get('className')).toEqual('edge-container');
-    expect(children[1].get('className')).toEqual('custom-group-container');
-
+    expect(children.length).toBe(4);
+    expect(children[1].get('className')).toEqual('edge-container');
+    
     const nodes = inst.getNodes();
     expect(nodes).not.toBe(undefined);
     expect(nodes.length).toBe(0);
@@ -1006,66 +1005,6 @@ describe('plugins & layout', () => {
 
     graph.destroy();
     expect(graph.destroyed).toBe(true);
-  });
-
-  it('graph animate', () => {
-    const graph = new Graph({
-      container: div,
-      height: 500,
-      width: 500,
-      renderer: 'svg',
-    });
-
-    const data = {
-      nodes: [
-        {
-          id: 'node',
-          label: 'node',
-          groupId: 'g1',
-          x: 100,
-          y: 100,
-        },
-        {
-          id: 'node1',
-          groupId: 'g2',
-          x: 50,
-          y: 150,
-        },
-      ],
-      groups: [
-        {
-          id: 'g1',
-          title: 'cokkdl',
-        },
-        {
-          id: 'g2',
-        },
-      ],
-    };
-
-    graph.data(data);
-    graph.render();
-
-    graph.stopAnimate();
-    const isAnimating = graph.isAnimating();
-    expect(isAnimating).toBe(false);
-
-    graph.collapseGroup('g1');
-
-    let gnode = graph.findById('node');
-
-    expect(gnode.get('visible')).toBe(false);
-
-    const g2Node = graph.findById('node1');
-    expect(g2Node.get('visible')).toBe(true);
-
-    graph.expandGroup('g1');
-
-    timerOut(() => {
-      gnode = graph.findById('node');
-      expect(gnode.get('visible')).toBe(true);
-      graph.destroy();
-    }, 500);
   });
 });
 
@@ -2027,11 +1966,10 @@ describe('plugins', () => {
     graph.render();
     setTimeout(() => {
       const minimapGroup = minimap.get('canvas').get('children')[0];
-      expect(minimapGroup.get('children').length).toBe(5);
+      expect(minimapGroup.get('children').length).toBe(4);
       graph.zoom(2, { x: 250, y: 250 });
 
       expect(minimapGroup.get('children')[2].get('children').length).toBe(5);
-      expect(minimapGroup.get('children')[3].get('children').length).toBe(5);
       const viewport = minimap.get('viewport');
       expect(viewport.style.width).toBe('37.2093px');
       expect(viewport.style.height).toBe('6.1794px');
@@ -2581,176 +2519,5 @@ describe('plugins', () => {
     graph.destroy();
     const parentDom = gridDom.parentNode.parentNode;
     expect(parentDom).toBe(null);
-  });
-});
-
-describe('custom group', () => {
-  const data = {
-    nodes: [
-      {
-        id: 'node1',
-        label: 'node1',
-        groupId: 'group1',
-        x: 100,
-        y: 100,
-      },
-      {
-        id: 'node2',
-        label: 'node2',
-        groupId: 'group1',
-        x: 150,
-        y: 100,
-      },
-      {
-        id: 'node3',
-        label: 'node3',
-        groupId: 'group2',
-        x: 300,
-        y: 100,
-      },
-      {
-        id: 'node7',
-        groupId: 'p1',
-        x: 200,
-        y: 200,
-      },
-      {
-        id: 'node6',
-        groupId: 'bym',
-        label: 'rect',
-        x: 100,
-        y: 300,
-        type: 'rect',
-      },
-      {
-        id: 'node9',
-        label: 'noGroup',
-        x: 300,
-        y: 210,
-      },
-    ],
-  };
-  const graph = new Graph({
-    container: div,
-    width: 500,
-    height: 500,
-    renderer: 'svg',
-    modes: {
-      default: [
-        {
-          type: 'collapse-expand-group',
-          trigger: 'click',
-        },
-        'drag-node-with-group',
-        'drag-group',
-      ],
-    },
-  });
-
-  it('render', () => {
-    graph.data(data);
-    graph.render();
-  });
-
-  it('collapse-expand-group', () => {
-    const nodeGroup1 = graph.get('group').get('children')[1].get('children')[0].get('children')[0];
-    const hideNode1 = graph.getNodes()[0];
-    const hideNode2 = graph.getNodes()[1];
-    graph.emit('click', {
-      target: nodeGroup1,
-    });
-    graph.once('click', () => {
-      expect(hideNode1.isVisible()).toBe(false);
-      expect(hideNode2.isVisible()).toBe(false);
-    });
-
-    setTimeout(() => {
-      graph.emit('click', {
-        target: nodeGroup1,
-      });
-    }, 500);
-  });
-
-  it('drag-group', () => {
-    const nodeGroup1 = graph.get('group').get('children')[1].get('children')[0].get('children')[0];
-    const node1 = graph.getNodes()[0];
-    const node2 = graph.getNodes()[1];
-    const node1OriX = node1.getModel().x;
-    const node1OriY = node1.getModel().y;
-    const node2OriX = node2.getModel().x;
-    const node2OriY = node2.getModel().y;
-    graph.emit('dragstart', {
-      target: nodeGroup1,
-      x: 50,
-      y: 50,
-    });
-    graph.emit('drag', {
-      target: nodeGroup1,
-      x: 250,
-      y: 150,
-    });
-    graph.emit('drag', {
-      target: nodeGroup1,
-      x: 250,
-      y: 150,
-    });
-    const delegateGroup = graph.get('delegateGroup');
-    expect(delegateGroup.get('children').length).toBe(1);
-    expect(delegateGroup.get('children')[0].attr('x')).toBe(325);
-    expect(delegateGroup.get('children')[0].attr('y')).toBe(200);
-    expect(node1.getModel().x).toBe(node1OriX);
-    expect(node1.getModel().y).toBe(node1OriY);
-    expect(node2.getModel().x).toBe(node2OriX);
-    expect(node2.getModel().y).toBe(node2OriY);
-    graph.emit('dragend', {
-      target: nodeGroup1,
-      x: 150,
-      y: 150,
-    });
-    expect(delegateGroup.get('children').length).toBe(0);
-    expect(node1.getModel().x).not.toBe(node1OriX);
-    expect(node1.getModel().y).not.toBe(node1OriY);
-    expect(node2.getModel().x).not.toBe(node2OriX);
-    expect(node2.getModel().y).not.toBe(node2OriY);
-  });
-
-  it('drag-node-with-group', () => {
-    const node3 = graph.getNodes()[2];
-    const node3OriX = node3.getModel().x;
-    const node3OriY = node3.getModel().y;
-
-    graph.emit('node:dragstart', {
-      target: node3,
-      item: node3,
-      x: 50,
-      y: 50,
-    });
-    graph.emit('node:drag', {
-      target: node3,
-      item: node3,
-      x: 350,
-      y: 150,
-    });
-    graph.emit('node:drag', {
-      target: node3,
-      item: node3,
-      x: 350,
-      y: 150,
-    });
-    const delegateGroup = graph.get('delegateGroup');
-    expect(delegateGroup.get('children').length).toBe(1);
-    expect(node3.getModel().x).toBe(node3OriX);
-    expect(node3.getModel().y).toBe(node3OriY);
-
-    graph.emit('node:dragend', {
-      target: node3,
-      item: node3,
-      x: 350,
-      y: 150,
-    });
-    expect(delegateGroup.get('children').length).toBe(0);
-    expect(node3.getModel().x).not.toBe(node3OriX);
-    expect(node3.getModel().y).not.toBe(node3OriY);
-    graph.destroy();
   });
 });

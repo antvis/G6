@@ -366,8 +366,6 @@ export type Easeing =
   | string;
 
 export interface ModelConfig extends ModelStyle {
-  // ⚠️ 节点或边的类型，后续会废弃
-  shape?: string;
   // 节点或边的类型
   type?: string;
   label?: string | LabelStyle;
@@ -533,17 +531,9 @@ export interface NodeConfigMap {
   [key: string]: NodeConfig;
 }
 
-export interface GroupConfig {
-  id: string;
-  parentId?: string;
-  [key: string]: string | ModelStyle | undefined;
-}
-
-
 export interface GraphData {
   nodes?: NodeConfig[];
   edges?: EdgeConfig[];
-  groups?: GroupConfig[];
   combos?: ComboConfig[];
 }
 
@@ -553,8 +543,6 @@ export interface GraphAnimateConfig extends AnimateCfg {
    */
   onFrame?: (item: Item, ratio: number, data?: GraphData, originAttrs?: ShapeStyle) => unknown;
 }
-
-// export type ModelConfig = NodeConfig | EdgeConfig | GroupConfig
 
 export interface GroupNodeIds {
   [key: string]: string[];
@@ -724,7 +712,7 @@ export interface BehaviorOption {
 export type IEvent = Record<G6Event, string>;
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export type ITEM_TYPE = 'node' | 'edge' | 'combo' | 'group' | 'vedge';
+export type ITEM_TYPE = 'node' | 'edge' | 'combo' | 'vedge';
 
 export type NodeIdxMap = {
   [key: string]: number;

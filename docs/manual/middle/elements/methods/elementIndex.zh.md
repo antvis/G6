@@ -3,7 +3,7 @@ title: 节点与边的层级
 order: 4
 ---
 
-节点与边在视觉上的层级涉及到了它们相对应的 [图形分组 Group](/zh/docs/manual/middle/elements/shape/graphics-group)。本文提到的所有分组 Group 都为 G6 的图形分组 Group，而非 G6 的  [节点分组 Group](/zh/docs/manual/middle/discard/nodeGroup)，请注意区分这两种 Group，其区别在 [图形分组 Group](/zh/docs/manual/middle/elements/shape/graphics-group)  中说明。
+节点与边在视觉上的层级涉及到了它们相对应的 [图形分组 Group](/zh/docs/manual/middle/elements/shape/graphics-group)。本文提到的所有分组 Group 都为 G6 的图形分组 Group，而非 G6 的  [节点分组 Combo](/zh/docs/manual/middle/discard/nodeGroup)，其区别在 [图形分组 Group](/zh/docs/manual/middle/elements/shape/graphics-group)  中说明。
 
 在 [图形分组 Group](/zh/docs/manual/middle/elements/shape/graphics-group) 中我们提到：在 G6 中，Graph 的一个实例中的所有节点属于同一个变量名为 `nodeGroup` 的 group，所有的边属于同一个变量名为 `edgeGroup` 的 group。节点 group 在视觉上的层级（zIndex）高于边 group，即所有节点会绘制在所有边的上层。
 

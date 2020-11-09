@@ -3,7 +3,7 @@ title: The Visual Level of Node and Edge
 order: 4
 ---
 
-The visual levels (zIndex) of nodes and edges are refered to their [Graphics Group](/en/docs/manual/middle/elements/shape/graphics-group) (hereinafter referred to as Shape). (<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> The Graphics Group is different from the [Node Group](/en/docs/manual/middle/discard/nodeGroup), the differences are described in [Graphics Group](/en/docs/manual/middle/elements/shape/graphics-group)).
+The visual levels (zIndex) of nodes and edges are refered to their [Graphics Group](/en/docs/manual/middle/elements/shape/graphics-group) (hereinafter referred to as Shape). (<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> The Graphics Group is different from the [Node Combo](/en/docs/manual/middle/discard/nodeGroup), the differences are described in [Graphics Group](/en/docs/manual/middle/elements/shape/graphics-group)).
 
 In [Graphics Group](/en/docs/manual/middle/elements/shape/graphics-group), we stated: All the nodes instances in a Graph is grouped by a Group named `nodeGroup`, all the edges instances are grouped by `edgeGroup`. And the visual level (zIndex) of `nodeGroup` is higher than `edgeGroup`, which means all the nodes will be drawed on the top of all the edges.
 
