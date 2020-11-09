@@ -466,7 +466,7 @@ const loadData = (data) => {
   mapNodeSizeAndFontSize(showNodes, 'count', [40, 120]);
   showNodes.forEach((snode) => {
     if (snode.size < 80) {
-      snode.shape = 'circle';
+      snode.type = 'circle';
     }
   });
 
@@ -584,7 +584,7 @@ graph.on('node:click', (e) => {
         node.style.lineWidth = 0;
         node.style.opacity = 1;
         if (node.neighbor) {
-          node.shape = 'animate-circle';
+          node.type = 'animate-circle';
           node.label = node.text;
           const color = model.style.fill;
           node.color = color;

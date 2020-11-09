@@ -12,7 +12,6 @@ import {
   GraphOptions,
   EdgeConfig,
   GraphData,
-  GroupConfig,
   Item,
   ITEM_TYPE,
   Matrix,
@@ -29,11 +28,9 @@ import {
   HullCfg,
   WaterMarkerConfig,
 } from '../types';
-import { getAllNodeInGroups } from '../util/group';
 import { move } from '../util/math';
 import Global from '../global';
 import {
-  CustomGroup,
   EventController,
   ItemController,
   LayoutController,
@@ -70,17 +67,11 @@ export interface PrivateGraphOption extends GraphOptions {
 
   vedges: EdgeConfig[];
 
-  groups: GroupConfig[];
-
   combos: ComboConfig[];
 
   itemMap: NodeMap;
 
   callback: () => void;
-
-  groupBBoxs: IGroupBBox;
-
-  groupNodes: NodeMap;
 
   /**
    * 格式：
@@ -130,7 +121,6 @@ export default class Graph extends EventEmitter implements IGraph {
     const itemController = new ItemController(this);
     const layoutController = new LayoutController(this);
     const stateController = new StateController(this);
-    const customGroupControll = new CustomGroup(this);
 
     this.set({
       eventController,
@@ -139,7 +129,6 @@ export default class Graph extends EventEmitter implements IGraph {
       itemController,
       layoutController,
       stateController,
-      customGroupControll,
     });
 
     this.initPlugin();
@@ -223,15 +212,9 @@ export default class Graph extends EventEmitter implements IGraph {
       });
 
       // 用于存储自定义的群组
-      const customGroup: IGroup = group.addGroup({
-        id: `${id}-group`,
-        className: Global.customGroupContainerClassName,
-      });
-
-      customGroup.toBack();
       comboGroup.toBack();
 
-      this.set({ nodeGroup, edgeGroup, customGroup, comboGroup });
+      this.set({ nodeGroup, edgeGroup, comboGroup });
     }
     const delegateGroup: IGroup = group.addGroup({
       id: `${id}-delegate`,
@@ -391,28 +374,6 @@ export default class Graph extends EventEmitter implements IGraph {
         easing: 'easeLinear',
       },
       callback: undefined,
-      /**
-       * group类型
-       */
-      groupType: 'circle',
-      /**
-       * group bbox 对象
-       * @private
-       */
-      groupBBoxs: {},
-      /**
-       * 以groupid分组的节点数据
-       * @private
-       */
-      groupNodes: {},
-      /**
-       * group 数据
-       */
-      groups: [],
-      /**
-       * group样式
-       */
-      groupStyle: {},
 
       // 默认不启用 undo & redo 功能
       enabledStack: false,
@@ -947,14 +908,11 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {boolean} stack 本次操作是否入栈，默认为 true
    */
   public removeItem(item: Item | string, stack: boolean = true): void {
-    // 如果item是字符串，且查询的节点实例不存在，则认为是删除group
     let nodeItem = item;
     if (isString(item)) nodeItem = this.findById(item);
 
     if (!nodeItem && isString(item)) {
       console.warn('The item to be removed does not exist!');
-      const customGroupControll: CustomGroup = this.get('customGroupControll');
-      customGroupControll.remove(item);
     } else if (nodeItem) {
       let type = '';
       if ((nodeItem as Item).getType) type = (nodeItem as Item).getType();
@@ -1003,8 +961,8 @@ export default class Graph extends EventEmitter implements IGraph {
   }
 
   /**
-   * 新增元素 或 节点分组
-   * @param {ITEM_TYPE} type 元素类型(node | edge | group)
+   * 新增元素
+   * @param {ITEM_TYPE} type 元素类型(node | edge)
    * @param {ModelConfig} model 元素数据模型
    * @param {boolean} stack 本次操作是否入栈，默认为 true
    * @param {boolean} sortCombo 本次操作是否需要更新 combo 层级顺序，内部参数，用户在外部使用 addItem 时始终时需要更新
@@ -1014,25 +972,6 @@ export default class Graph extends EventEmitter implements IGraph {
     const currentComboSorted = this.get('comboSorted');
     this.set('comboSorted', currentComboSorted && !sortCombo);
     const itemController: ItemController = this.get('itemController');
-    if (type === 'group') {
-      const { groupId, nodes, type: groupType, zIndex, title } = model;
-      let groupTitle = title;
-
-      if (isString(title)) {
-        groupTitle = {
-          text: title,
-        };
-      }
-
-      return this.get('customGroupControll').create(
-        groupId,
-        nodes,
-        groupType,
-        zIndex,
-        true,
-        groupTitle,
-      );
-    }
 
     if (model.id && this.findById(model.id as string)) {
       console.warn(`This item exists already. Be sure the id %c${model.id}%c is unique.`, 'font-size: 20px; color: red;', '');
@@ -1164,8 +1103,8 @@ export default class Graph extends EventEmitter implements IGraph {
   }
 
   /**
-   * 新增元素 或 节点分组
-   * @param {ITEM_TYPE} type 元素类型(node | edge | group)
+   * 新增元素
+   * @param {ITEM_TYPE} type 元素类型(node | edge)
    * @param {ModelConfig} model 元素数据模型
    * @param {boolean} stack 本次操作是否入栈，默认为 true
    * @return {Item} 元素实例
@@ -1374,19 +1313,6 @@ export default class Graph extends EventEmitter implements IGraph {
             edge.toBack();
           });
         }
-      }
-    }
-
-    // 防止传入的数据不存在nodes
-    if (data.nodes) {
-      // 获取所有有groupID的node
-      const nodeInGroup = data.nodes.filter((node) => node.groupId);
-
-      // 所有node中存在groupID，则说明需要群组
-      if (nodeInGroup.length > 0) {
-        // 渲染群组
-        const groupType = self.get('groupType');
-        this.renderCustomGroup(data, groupType);
       }
     }
 
@@ -1889,58 +1815,6 @@ export default class Graph extends EventEmitter implements IGraph {
   }
 
   /**
-   * 根据数据渲染群组
-   * @param {GraphData} data 渲染图的数据
-   * @param {string} groupType group类型
-   */
-  public renderCustomGroup(data: GraphData, groupType: string) {
-    const { groups, nodes = [] } = data;
-
-    // 第一种情况，，不存在groups，则不存在嵌套群组
-    let groupIndex = 10;
-    if (!groups) {
-      // 存在单个群组
-      // 获取所有有groupID的node
-      const nodeInGroup = nodes.filter((node) => node.groupId);
-      const groupsArr: GroupConfig[] = [];
-      // 根据groupID分组
-      const groupIds = groupBy(nodeInGroup, 'groupId');
-      // tslint:disable-next-line:forin
-      Object.keys(groupIds).forEach((groupId) => {
-        const nodeIds = groupIds[groupId].map((node) => node.id);
-        this.get('customGroupControll').create(groupId, nodeIds, groupType, groupIndex);
-        groupIndex--;
-        // 获取所有不重复的 groupId
-        if (!groupsArr.find((d) => d.id === groupId)) {
-          groupsArr.push({
-            id: groupId,
-          });
-        }
-      });
-
-      this.set({
-        groups: groupsArr,
-      });
-    } else {
-      // 将groups的数据存到groups中
-      this.set({ groups });
-
-      // 第二种情况，存在嵌套的群组，数据中有groups字段
-      const groupNodes = getAllNodeInGroups(data);
-      // tslint:disable-next-line:forin
-      Object.keys(groupNodes).forEach((groupId) => {
-        const tmpNodes = groupNodes[groupId];
-        this.get('customGroupControll').create(groupId, tmpNodes, groupType, groupIndex);
-        groupIndex--;
-      });
-
-      // 对所有Group排序
-      const customGroup = this.get('customGroup');
-      customGroup.sort();
-    }
-  }
-
-  /**
    * 导出图数据
    * @return {object} data
    */
@@ -1960,7 +1834,7 @@ export default class Graph extends EventEmitter implements IGraph {
       combos.push(combo.getModel() as ComboConfig);
     });
 
-    return { nodes, edges, combos, groups: this.get('groups') };
+    return { nodes, edges, combos };
   }
 
   /**
@@ -3005,24 +2879,6 @@ export default class Graph extends EventEmitter implements IGraph {
   }
 
   /**
-   * 收起分组
-   * @param {string} groupId 分组ID
-   */
-  public collapseGroup(groupId: string): void {
-    const customGroupControll: CustomGroup = this.get('customGroupControll');
-    customGroupControll.collapseGroup(groupId);
-  }
-
-  /**
-   * 展开分组
-   * @param {string} groupId 分组ID
-   */
-  public expandGroup(groupId: string): void {
-    const customGroupControll: CustomGroup = this.get('customGroupControll');
-    customGroupControll.expandGroup(groupId);
-  }
-
-  /**
    * 添加插件
    * @param {object} plugin 插件实例
    */
@@ -3279,7 +3135,6 @@ export default class Graph extends EventEmitter implements IGraph {
     this.get('viewController').destroy();
     this.get('stateController').destroy();
     this.get('layoutController').destroy();
-    this.get('customGroupControll').destroy();
     this.get('canvas').destroy();
 
     if (this.get('graphWaterMarker')) {

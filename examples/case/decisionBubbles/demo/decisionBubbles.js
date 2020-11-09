@@ -760,7 +760,7 @@ graph.on('node:click', (e) => {
           node.style.lineWidth = 0;
           node.style.opacity = 1;
           if (node.isLeaf) {
-            node.shape = 'animate-circle';
+            node.type = 'animate-circle';
             let color = 'l(0)';
             const parentsNum = parents.length;
             parents.forEach((parent, i) => {
@@ -784,7 +784,7 @@ graph.on('node:click', (e) => {
               position: 'center',
             };
           } else if (node.level !== 0) {
-            node.shape = 'circle'; // 'bubble';
+            node.type = 'circle'; // 'bubble';
             node.size = 95;
             if (!node.style) node.style = {};
             node.color = model.color;

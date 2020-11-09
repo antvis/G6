@@ -113,7 +113,7 @@ export default class DagreLayout extends BaseLayout {
     g.edges().forEach((edge: any) => {
       coord = g.edge(edge);
       const i = edges.findIndex((it) => it.source === edge.v && it.target === edge.w);
-      if (self.controlPoints && edges[i].type !== 'loop' && edges[i].shape !== 'loop') {
+      if (self.controlPoints && edges[i].type !== 'loop') {
         edges[i].controlPoints = coord.points.slice(1, coord.points.length - 1);
       }
     });

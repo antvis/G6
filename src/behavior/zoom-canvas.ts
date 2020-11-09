@@ -247,7 +247,7 @@ export default {
           const itemStateStyle = node.getStateStyle(fixSelectedItems.fixState);
           const shapeStateStyle = node
             .get('shapeFactory')
-            .getShape(nodeModel.shape || nodeModel.type)
+            .getShape(nodeModel.type)
             .getStateStyle(fixSelectedItems.fixState, node)[fixSelectedItems.fixState];
           if (fixSelectedItems.fixAll) {
             if (zoom <= 1) {
@@ -299,7 +299,7 @@ export default {
           const itemStateStyle = edge.getStateStyle(fixSelectedItems.fixState);
           const shapeStateStyle = edge
             .get('shapeFactory')
-            .getShape(nodeModel.shape || nodeModel.type)
+            .getShape(nodeModel.type)
             .getStateStyle(fixSelectedItems.fixState, edge)[fixSelectedItems.fixState];
 
           const childrenLength = children.length;

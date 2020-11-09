@@ -195,8 +195,8 @@ export interface IGraph extends EventEmitter {
   remove(item: Item | string, stack?: boolean): void;
 
   /**
-   * 新增元素 或 节点分组
-   * @param {string} type 元素类型(node | edge | group)
+   * 新增元素
+   * @param {string} type 元素类型(node | edge)
    * @param {ModelConfig} model 元素数据模型
    * @param {boolean} stack 本次操作是否入栈，默认为 true
    * @return {Item} 元素实例
@@ -356,13 +356,6 @@ export interface IGraph extends EventEmitter {
    * 清除画布元素
    */
   clear(): Graph;
-
-  /**
-   * 根据数据渲染群组
-   * @param {GraphData} data 渲染图的数据
-   * @param {string} groupType group类型
-   */
-  renderCustomGroup(data: GraphData, groupType: string): void;
 
   /**
    * 接收数据进行渲染
@@ -544,18 +537,6 @@ export interface IGraph extends EventEmitter {
    * @param comboId combo ID 或 combo 实例
    */
   collapseExpandCombo(combo: string | ICombo): void;
-
-  /**
-   * 收起分组
-   * @param {string} groupId 分组ID
-   */
-  collapseGroup(groupId: string): void;
-
-  /**
-   * 展开分组
-   * @param {string} groupId 分组ID
-   */
-  expandGroup(groupId: string): void;
 
   /**
    * 根据节点的 bbox 更新所有 combos 的绘制，包括 combos 的位置和范围

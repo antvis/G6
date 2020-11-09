@@ -86,9 +86,8 @@ describe('graph', () => {
     expect(inst.get('group').get('id').endsWith('-root')).toBe(true);
 
     const children = inst.get('group').get('children');
-    expect(children.length).toBe(5);
-    expect(children[2].get('className')).toEqual('edge-container');
-    expect(children[1].get('className')).toEqual('custom-group-container');
+    expect(children.length).toBe(4);
+    expect(children[1].get('className')).toEqual('edge-container');
 
     const nodes = inst.getNodes();
     expect(nodes).not.toBe(undefined);
@@ -1256,60 +1255,6 @@ describe('plugins & layout', () => {
 
     graph.destroy();
     expect(graph.destroyed).toBe(true);
-  });
-
-  it('graph animate', () => {
-    const graph = new Graph({
-      container: div,
-      height: 500,
-      width: 500,
-    });
-
-    const data = {
-      nodes: [
-        {
-          id: 'node',
-          label: 'node',
-          groupId: 'g1',
-        },
-        {
-          id: 'node1',
-          groupId: 'g2',
-        },
-      ],
-      groups: [
-        {
-          id: 'g1',
-          title: 'cokkdl',
-        },
-        {
-          id: 'g2',
-        },
-      ],
-    };
-
-    graph.data(data);
-    graph.render();
-
-    graph.stopAnimate();
-    const isAnimating = graph.isAnimating();
-    expect(isAnimating).toBe(false);
-
-    graph.collapseGroup('g1');
-
-    let gnode = graph.findById('node');
-
-    expect(gnode.get('visible')).toBe(false);
-
-    const g2Node = graph.findById('node1');
-    expect(g2Node.get('visible')).toBe(true);
-
-    graph.expandGroup('g1');
-
-    timerOut(() => {
-      gnode = graph.findById('node');
-      expect(gnode.get('visible')).toBe(true);
-    }, 500);
   });
 });
 

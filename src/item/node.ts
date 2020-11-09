@@ -176,7 +176,7 @@ export default class Node extends Item implements INode {
       const bbox = this.getBBox();
       const model: NodeConfig = this.get('model');
       const shapeCfg = this.getShapeCfg(model);
-      const type = model.shape || model.type;
+      const type = model.type;
       const points = shapeFactory.getAnchorPoints(type, shapeCfg) || [];
 
       each(points, (pointArr, index) => {

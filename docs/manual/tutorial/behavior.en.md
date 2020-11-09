@@ -229,17 +229,17 @@ graph.on('edge:click', (e) => {
           node.style.fill = 'steelblue';
           switch (node.class) {
             case 'c0': {
-              node.shape = 'circle';
+              node.type = 'circle';
               node.size = 30;
               break;
             }
             case 'c1': {
-              node.shape = 'rect';
+              node.type = 'rect';
               node.size = [35, 20];
               break;
             }
             case 'c2': {
-              node.shape = 'ellipse';
+              node.type = 'ellipse';
               node.size = [35, 20];
               break;
             }

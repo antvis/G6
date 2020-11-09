@@ -1,4 +1,3 @@
-import { version } from '../package.json';
 import Behaviors from './behavior';
 import Graph from './graph/graph';
 import TreeGraph from './graph/tree-graph';
@@ -50,7 +49,7 @@ export {
 };
 
 export default {
-  version,
+  version: Global.version,
   Graph,
   TreeGraph,
   Util,
