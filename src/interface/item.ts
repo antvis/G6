@@ -15,6 +15,7 @@ import {
   Indexable,
   ComboConfig,
   ITEM_TYPE,
+  TreeGraphData
 } from '../types';
 
 // item 的配置项
@@ -133,7 +134,7 @@ export interface IItemBase {
    * 节点 / 边 / Combo 的数据模型
    * @return {Object} 数据模型
    */
-  getModel(): NodeConfig | EdgeConfig | ComboConfig;
+  getModel(): NodeConfig | EdgeConfig | ComboConfig | TreeGraphData;
 
   /**
    * 节点类型

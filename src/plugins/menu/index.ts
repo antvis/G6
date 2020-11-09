@@ -77,6 +77,9 @@ export default class Menu extends Base {
     if (!container) {
       container = this.get('graph').get('container');
     }
+    if (isString(container)) {
+      container = document.getElementById(container) as HTMLDivElement;
+    }
     container.appendChild(menu);
 
     this.set('menu', menu);
@@ -192,6 +195,9 @@ export default class Menu extends Base {
       let container: HTMLDivElement | null = this.get('container');
       if (!container) {
         container = this.get('graph').get('container');
+      }
+      if (isString(container)) {
+        container = document.getElementById(container) as HTMLDivElement;
       }
       container.removeChild(menu);
     }

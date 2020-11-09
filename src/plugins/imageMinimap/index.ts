@@ -81,7 +81,10 @@ export default class ImageMiniMap extends Base {
     const { graph } = cfgs;
     if (this.destroyed) return;
 
-    const containerDOM = this.get('container');
+    let containerDOM = this.get('container');
+    if (isString(containerDOM)) {
+      containerDOM = document.getElementById(containerDOM) as HTMLDivElement;
+    }
     const viewport = createDOM(
       `<div class=${cfgs.viewportClassName}
       style='position:absolute;

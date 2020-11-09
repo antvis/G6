@@ -1,4 +1,3 @@
-
 export const graphinForceCode = `
 import { globalInvocationID } from 'g-webgpu';
 
@@ -26,7 +25,10 @@ class GraphinForce {
   u_factor: float;
 
   @in
-  u_NodeAttributeArray: vec4[];
+  u_NodeAttributeArray1: vec4[];
+
+  @in
+  u_NodeAttributeArray2: vec4[];
 
   @in
   u_EdgeAttributeArray: vec4[];
@@ -48,8 +50,8 @@ class GraphinForce {
         const n_dist = dist * this.u_coulombDisScale;
         const direx = vx / dist;
         const direy = vy / dist;
-        const attributesi = this.u_NodeAttributeArray[2 * i];
-        const attributesj = this.u_NodeAttributeArray[2 * j];
+        const attributesi = this.u_NodeAttributeArray1[2 * i];
+        const attributesj = this.u_NodeAttributeArray1[(int)2 * j];
         const massi = attributesi[0];
         const nodeStrengthi = attributesi[2];
         const nodeStrengthj = attributesj[2];
@@ -63,14 +65,14 @@ class GraphinForce {
     return [ax, ay];
   }
 
-  calcGravity(i: int, currentNode: vec4, attributes: vec4): vec2 {
-    // note: attributes = [mass, degree, nodeSterngth, centerX, centerY, gravity, 0, 0]
+  calcGravity(i: int, currentNode: vec4, attributes2: vec4): vec2 {
+    // note: attributes2 = [centerX, centerY, gravity, 0]
 
-    const vx = currentNode[0] - attributes[3];
-    const vy = currentNode[1] - attributes[4];
+    const vx = currentNode[0] - attributes2[0];
+    const vy = currentNode[1] - attributes2[1];
     
-    const ax = vx * attributes[5];
-    const ay = vy * attributes[5];
+    const ax = vx * attributes[3];
+    const ay = vy * attributes[3];
     
 
 
@@ -85,10 +87,10 @@ class GraphinForce {
     return [ax, ay];
   }
 
-  calcAttractive(i: int, currentNode: vec4, attributes: vec4): vec2 {
-    // note: attributes = [mass, degree, nodeSterngth, centerX, centerY, gravity, 0, 0]
+  calcAttractive(i: int, currentNode: vec4, attributes1: vec4): vec2 {
+    // note: attributes = [mass, degree, nodeSterngth, 0]
 
-    const mass = attributes[0];
+    const mass = attributes1[0];
     let ax = 0, ay = 0;
     const arr_offset = int(floor(currentNode[2] + 0.5));
     const length = int(floor(currentNode[3] + 0.5));
@@ -131,8 +133,9 @@ class GraphinForce {
       return;
     }
 
-    // 每个节点属性占两小格
-    const nodeAttributes = this.u_NodeAttributeArray[2 * i];
+    // 每个节点属性占两个数组中各一格
+    const nodeAttributes1 = this.u_NodeAttributeArray1[2 * i];
+    const nodeAttributes2 = this.u_NodeAttributeArray2[2 * i];
 
     // repulsive
     const repulsive = this.calcRepulsive(i, currentNode);
@@ -140,17 +143,16 @@ class GraphinForce {
     ay += repulsive[1];
 
     // attractive
-    const attractive = this.calcAttractive(i, currentNode, nodeAttributes);
+    const attractive = this.calcAttractive(i, currentNode, nodeAttributes1);
     ax += attractive[0];
     ay += attractive[1];
 
     // gravity
-    const gravity = this.calcGravity(i, currentNode, nodeAttributes);
+    const gravity = this.calcGravity(i, currentNode, nodeAttributes2);
     ax -= gravity[0];
     ay -= gravity[1];
 
     // speed
-    const interval = 0.02; // max(0.02, 0.22 - 0.002 * this.u_iter);
     const param = this.u_interval * this.u_damping;
     let vx = ax * param;
     let vy = ay * param;

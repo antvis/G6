@@ -400,6 +400,7 @@ export interface TreeGraphData {
     [key: string]: ShapeStyle;
   };
   stateStyles?: StateStyles;
+  [key: string]: unknown;
 }
 
 export interface NodeConfig extends ModelConfig {

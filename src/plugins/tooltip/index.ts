@@ -79,6 +79,9 @@ export default class Tooltip extends Base {
     if (!container) {
       container = this.get('graph').get('container');
     }
+    if (isString(container)) {
+      container = document.getElementById(container) as HTMLDivElement;
+    }
 
     modifyCSS(tooltip, { position: 'absolute', visibility: 'hidden' });
     container.appendChild(tooltip);
@@ -195,6 +198,9 @@ export default class Tooltip extends Base {
       let container: HTMLDivElement | null = this.get('container');
       if (!container) {
         container = this.get('graph').get('container');
+      }
+      if (isString(container)) {
+        container = document.getElementById(container) as HTMLDivElement;
       }
       container.removeChild(tooltip);
     }
