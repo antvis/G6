@@ -17,6 +17,19 @@ import {
 import { each } from '@antv/util';
 
 /**
+ * 对比对象，用于对象数组排序
+ * @param   {string}       attributeName  排序依据的字段名称
+ * @param   {number}       min    最小值
+ * @param   {number}       max    最大值
+ * @return  {boolean}      bool   布尔
+ */
+export const compare = (attributeName: string) => {
+  return (m, n) => {
+    return m[attributeName] - n[attributeName];
+  }
+};
+
+/**
  * 是否在区间内
  * @param   {number}       value  值
  * @param   {number}       min    最小值

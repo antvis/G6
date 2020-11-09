@@ -7,37 +7,19 @@ let graph: IGraph = null;
 
 const data: GraphData = {
   nodes: [
-    {
-      id: 'node1',
-      label: 'node1',
-      x: 250,
-      y: 150,
-      comboId: 'combo',
-    },
-    {
-      id: 'node2',
-      label: 'node2',
-      x: 350,
-      y: 150,
-      comboId: 'combo',
-    },
-  ],
-  combos: [
-    {
-      id: 'combo',
-      label: 'Combo ',
-    },
-    {
-      id: 'combo1',
-      label: 'Combo',
-    },
+    { id: 'node1', x: 350, y: 200, comboId: 'combo1', label: 'node1' },
+    { id: 'node2', x: 350, y: 250, comboId: 'combo1', label: 'node2' },
+    { id: 'node3', x: 100, y: 200, comboId: 'combo3', label: 'node3' },
   ],
   edges: [
-    {
-      id: 'edge1',
-      source: 'combo',
-      target: 'combo1',
-    },
+    { source: 'node1', target: 'node2' },
+    { source: 'node1', target: 'node3' },
+    { source: 'combo1', target: 'node3' },
+  ],
+  combos: [
+    { id: 'combo1', label: 'Combo 1', parentId: 'combo2' },
+    { id: 'combo2', label: 'Combo 2' },
+    { id: 'combo3', label: 'Combo 3' },
   ],
 };
 

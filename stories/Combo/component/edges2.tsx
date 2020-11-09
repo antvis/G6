@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import G6 from '../../../src';
 import { IGraph } from '../../../src/interface/graph';
 import { GraphData } from '../../../src/types';
+import { ICombo } from '../../../src/interface/item';
 
 let graph: IGraph = null;
 
@@ -140,7 +141,7 @@ const Edges2 = () => {
       graph.data(data);
       graph.render();
       graph.on('combo:click', function (e) {
-        graph.collapseExpandCombo(e.item);
+        graph.collapseExpandCombo(e.item as ICombo);
         graph.refreshPositions();
       });
 

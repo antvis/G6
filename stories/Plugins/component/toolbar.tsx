@@ -6,7 +6,8 @@ let graph: IGraph = null;
 
 const data = {
   nodes: [{
-    id: '1'
+    id: '1',
+    comboId: 'c1'
   }, {
     id: '2'
   },],
@@ -14,6 +15,11 @@ const data = {
     source: '1',
     target: '2'
   }],
+  combos: [{
+    id: 'c1'
+  }, {
+    id: 'c2'
+  }]
 };
 const data2 = {
   nodes: [{
@@ -35,7 +41,14 @@ const ToolBar = () => {
   const container = React.useRef();
   useEffect(() => {
     if (!graph) {
-      const toolbar = new G6.ToolBar();
+      const toolbarDiv = document.createElement('div');
+      toolbarDiv.id = 'toolbarContainer';
+      const graphContainer = container.current as HTMLElement;
+      graphContainer.parentElement.appendChild(toolbarDiv);
+
+      const toolbar = new G6.ToolBar({
+        container: 'toolbarContainer'
+      });
       graph = new Graph({
         container: container.current as string | HTMLElement,
         width: 500,
@@ -44,7 +57,7 @@ const ToolBar = () => {
         // 设置为true，启用 redo & undo 栈功能
         enabledStack: true,
         modes: {
-          default: ['zoom-canvas', 'drag-node', { type: 'brush-select', }],
+          default: ['zoom-canvas', 'drag-node', { type: 'brush-select', }, 'drag-combo'],
         },
         defaultNode: {
           size: 50

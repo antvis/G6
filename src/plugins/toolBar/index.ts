@@ -104,6 +104,9 @@ export default class ToolBar extends Base {
     if (!container) {
       container = this.get('graph').get('container');
     }
+    if (isString(container)) {
+      container = document.getElementById(container) as HTMLDivElement;
+    }
 
     container!.appendChild(toolBarDOM);
     this.set('toolBar', toolBarDOM);
@@ -249,6 +252,15 @@ export default class ToolBar extends Base {
             });
           });
           break;
+        case 'updateComboTree':
+          Object.keys(data).forEach(key => {
+            const array = data[key];
+            if (!array) return;
+            array.forEach(model => {
+              graph.updateComboTree(model.id, model.parentId, false);
+            });
+          });
+          break;
         default:
       }
     }
@@ -334,6 +346,15 @@ export default class ToolBar extends Base {
           });
           break;
         }
+        case 'updateComboTree':
+          Object.keys(data).forEach(key => {
+            const array = data[key];
+            if (!array) return;
+            array.forEach(model => {
+              graph.updateComboTree(model.id, model.parentId, false);
+            });
+          });
+          break;
         default:
       }
     }
@@ -386,6 +407,9 @@ export default class ToolBar extends Base {
       let container: HTMLDivElement | null = this.get('container');
       if (!container) {
         container = this.get('graph').get('container');
+      }
+      if (isString(container)) {
+        container = document.getElementById(container) as HTMLDivElement;
       }
       container.removeChild(toolBar);
     }

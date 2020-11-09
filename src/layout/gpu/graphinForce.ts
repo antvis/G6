@@ -209,9 +209,12 @@ export default class GraphinForceGPULayout extends BaseLayout {
       centerGravities.push(nodeGravity[2]);
     })
 
-    // 每个几点的额外属性占两格，分别是：mass, degree, nodeSterngth, centerX, centerY, gravity, 0, 0
-    const nodeAttributeArray = arrayToTextureData([
-      masses, self.degrees, nodeStrengths,
+    // 每个节点的额外属性占两个数组各一格，nodeAttributeArray1 中是：mass, degree, nodeSterngth, 0
+    const nodeAttributeArray1 = arrayToTextureData([
+      masses, self.degrees, nodeStrengths
+    ]);
+    // nodeAttributeArray2 中是：centerX, centerY, gravity, 0, 
+    const nodeAttributeArray2 = arrayToTextureData([
       centerXs, centerYs, centerGravities
     ]);
 
@@ -236,7 +239,7 @@ export default class GraphinForceGPULayout extends BaseLayout {
     // TODO: 最终的预编译代码放入到 graphinForceShader.ts 中直接引入，不再需要下面三行
     const compiler = new Compiler();
     const graphinForceBundle = compiler.compileBundle(graphinForceCode);
-    console.log(graphinForceBundle);
+    console.log(graphinForceBundle.toString());
 
     const onLayoutEnd = self.onLayoutEnd;
 
@@ -250,7 +253,8 @@ export default class GraphinForceGPULayout extends BaseLayout {
         u_minMovement: self.minMovement,
         u_coulombDisScale: self.coulombDisScale,
         u_factor: self.factor,
-        u_NodeAttributeArray: nodeAttributeArray,
+        u_NodeAttributeArray1: nodeAttributeArray1,
+        u_NodeAttributeArray2: nodeAttributeArray2,
         MAX_EDGE_PER_VERTEX: maxEdgePerVetex,
         VERTEX_COUNT: numParticles,
         u_interval: self.interval // 每次迭代更新，首次设置为 interval，在 onIterationCompleted 中更新

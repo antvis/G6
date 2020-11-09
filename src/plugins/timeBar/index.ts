@@ -14,6 +14,7 @@ import { VALUE_CHANGE } from './constant'
 import { GraphData, IG6GraphEvent, ShapeStyle, TimeBarType } from '../../types';
 import { Interval } from './trend';
 import { ControllerCfg } from './controllerBtn';
+import { isString } from '@antv/util';
 
 // simple 版本默认高度
 const DEFAULT_SIMPLE_HEIGHT = 8
@@ -109,7 +110,7 @@ export default class TimeBar extends Base {
     const { width, height } = this._cfgs
     const className: string = this.get('className') || 'g6-component-timebar';
 
-    const container: HTMLDivElement | null = this.get('container');
+    let container: HTMLDivElement | null | string = this.get('container');
 
     const graphContainer = this.get('graph').get('container');
 
@@ -118,6 +119,9 @@ export default class TimeBar extends Base {
       timeBarContainer = createDOM(`<div class='${className}'></div>`);
       modifyCSS(timeBarContainer, { position: 'relative' });
     } else {
+      if (isString(container)) {
+        container = document.getElementById(container) as HTMLDivElement;
+      }
       timeBarContainer = container;
     }
 
@@ -307,6 +311,9 @@ export default class TimeBar extends Base {
       let container: HTMLDivElement | null = this.get('container');
       if (!container) {
         container = this.get('graph').get('container');
+      }
+      if (isString(container)) {
+        container = document.getElementById(container) as HTMLDivElement;
       }
       container.removeChild(timeBarContainer);
     }

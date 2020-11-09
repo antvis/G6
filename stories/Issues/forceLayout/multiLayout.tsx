@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import G6 from '../../../src';
+import { IEdge } from '../../../src/interface/item';
 // import "./styles.css";
 
 export default class ForceLayout extends Component {
@@ -823,7 +824,7 @@ export default class ForceLayout extends Component {
         const part1NodeMap = new Map();
         const part2NodeMap = new Map();
         // separate the nodes and init the positions
-        nodes.forEach(function(node, i) {
+        nodes.forEach(function (node, i) {
           if (node.name === "MySQL") {
             part1Nodes.push(node);
             part1NodeMap.set(node.id, i);
@@ -843,7 +844,7 @@ export default class ForceLayout extends Component {
         // if (direction === "vertical") {
         //   begin = center[0] - height / 2;
         // }
-        part1Nodes.forEach(function(p1n, i) {
+        part1Nodes.forEach(function (p1n, i) {
           if (direction === "horizontal") {
             p1n.x = part1Pos;
             p1n.y = begin + i * (nodeSep + nodeSize);
@@ -852,7 +853,7 @@ export default class ForceLayout extends Component {
             p1n.y = part1Pos;
           }
         });
-        part2Nodes.forEach(function(p2n, i) {
+        part2Nodes.forEach(function (p2n, i) {
           if (direction === "horizontal") {
             p2n.x = part2Pos;
             p2n.y = begin + i * (nodeSep + nodeSize);
@@ -902,7 +903,7 @@ export default class ForceLayout extends Component {
         const part3NodeMap = new Map();
         const part4NodeMap = new Map();
         // separate the nodes and init the positions
-        nodes.forEach(function(node, i) {
+        nodes.forEach(function (node, i) {
           if (node.name === "MySQL") {
             part1Nodes.push(node);
             part1NodeMap.set(node.id, i);
@@ -941,27 +942,27 @@ export default class ForceLayout extends Component {
         // if (direction === "vertical") {
         //   begin = center[0] - height / 2;
         // }
-        part1Nodes.forEach(function(p1n, i) {
+        part1Nodes.forEach(function (p1n, i) {
           if (direction === "rect") {
             p1n.x = xbegin - nodeSize;
             p1n.y = hbegin + i * (nodeSep + nodeSize);
             // console.log(p1n);
           }
         });
-        part2Nodes.forEach(function(p2n, i) {
+        part2Nodes.forEach(function (p2n, i) {
           if (direction === "rect") {
             p2n.x = xbegin + width;
             p2n.y = hbegin + i * (nodeSep + nodeSize);
             // console.log(p2n);
           }
         });
-        part3Nodes.forEach(function(p3n, i) {
+        part3Nodes.forEach(function (p3n, i) {
           if (direction === "rect") {
             p3n.x = xbegin + i * (nodeSep + nodeSize);
             p3n.y = part3Pos;
           }
         });
-        part4Nodes.forEach(function(p4n, i) {
+        part4Nodes.forEach(function (p4n, i) {
           if (direction === "rect") {
             p4n.x = xbegin + i * (nodeSep + nodeSize);
             p4n.y = part4Pos;
@@ -979,121 +980,121 @@ export default class ForceLayout extends Component {
     };
 
     G6.registerNode(
-        'icon-node',
-        {
-          options: {
-            size: [60, 20],
-            stroke: '#91d5ff',
-            fill: '#91d5ff',
-          },
-          draw(cfg, group) {
-            const styles = this.getShapeStyle(cfg);
-            const { labelCfg = {} } = cfg;
-
-            const keyShape = group.addShape('rect', {
-              attrs: {
-                ...styles,
-                x: 0,
-                y: 0,
-              },
-            });
-
-            /**
-             * leftIcon 格式如下：
-             *  {
-             *    style: ShapeStyle;
-             *    img: ''
-             *  }
-             */
-            // console.log('cfg.leftIcon', cfg.leftIcon);
-            // if (cfg.leftIcon) {
-            //   const { style, img } = cfg.leftIcon;
-              group.addShape('rect', {
-                attrs: {
-                  x: 1,
-                  y: 1,
-                  width: 38,
-                  height: styles.height - 2,
-                  fill: '#ffffff',
-                  // ...style,
-                },
-              });
-              // group.addShape('rect', {
-              //   attrs: {
-              //     x: 180,
-              //     y: 1,
-              //     width: 22,
-              //     height: styles.height - 2,
-              //     fill: '#ffffff',
-              //     // ...style,
-              //   },
-              // });
-
-              group.addShape('image', {
-                attrs: {
-                  x: 1,
-                  y: 1,
-                  width: 38,
-                  height: 30,
-                  // img:
-                  //   img ||
-                  //   'https://g.alicdn.com/cm-design/arms-trace/1.0.155/styles/armsTrace/images/TAIR.png',
-                },
-                name: 'image-shape',
-              });
-            // }
-
-            // 如果不需要动态增加或删除元素，则不需要 add 这两个 marker
-            group.addShape('marker', {
-              attrs: {
-                x: -6,
-                y: 15,
-                r: 6,
-                stroke: '#73d13d',
-                cursor: 'pointer',
-                symbol: EXPAND_ICON,
-              },
-              name: 'add-tableData',
-            });
-            group.addShape('marker', {
-              attrs: {
-                x: 46,
-                y: 15,
-                r: 6,
-                stroke: '#73d13d',
-                cursor: 'pointer',
-                symbol: EXPAND_ICON,
-              },
-              name: 'add-fieldData',
-            });
-            group.addShape('marker', {
-              attrs: {
-                x: 190,
-                y: 22,
-                r: 6,
-                stroke: '#ffffff',
-                cursor: 'pointer',
-                symbol: EXPAND_ICON,
-              },
-              name: 'show-tableData',
-            });
-
-            if (cfg.label) {
-              group.addShape('text', {
-                attrs: {
-                  ...labelCfg.style,
-                  text: cfg.label,
-                  x: 100,
-                  y: 20,
-                },
-              });
-            }
-
-            return keyShape;
-          },
+      'icon-node',
+      {
+        options: {
+          size: [60, 20],
+          stroke: '#91d5ff',
+          fill: '#91d5ff',
         },
-        'rect',
-      );
+        draw(cfg, group) {
+          const styles = this.getShapeStyle(cfg);
+          const { labelCfg = {} } = cfg;
+
+          const keyShape = group.addShape('rect', {
+            attrs: {
+              ...styles,
+              x: 0,
+              y: 0,
+            },
+          });
+
+          /**
+           * leftIcon 格式如下：
+           *  {
+           *    style: ShapeStyle;
+           *    img: ''
+           *  }
+           */
+          // console.log('cfg.leftIcon', cfg.leftIcon);
+          // if (cfg.leftIcon) {
+          //   const { style, img } = cfg.leftIcon;
+          group.addShape('rect', {
+            attrs: {
+              x: 1,
+              y: 1,
+              width: 38,
+              height: styles.height - 2,
+              fill: '#ffffff',
+              // ...style,
+            },
+          });
+          // group.addShape('rect', {
+          //   attrs: {
+          //     x: 180,
+          //     y: 1,
+          //     width: 22,
+          //     height: styles.height - 2,
+          //     fill: '#ffffff',
+          //     // ...style,
+          //   },
+          // });
+
+          group.addShape('image', {
+            attrs: {
+              x: 1,
+              y: 1,
+              width: 38,
+              height: 30,
+              // img:
+              //   img ||
+              //   'https://g.alicdn.com/cm-design/arms-trace/1.0.155/styles/armsTrace/images/TAIR.png',
+            },
+            name: 'image-shape',
+          });
+          // }
+
+          // 如果不需要动态增加或删除元素，则不需要 add 这两个 marker
+          group.addShape('marker', {
+            attrs: {
+              x: -6,
+              y: 15,
+              r: 6,
+              stroke: '#73d13d',
+              cursor: 'pointer',
+              symbol: EXPAND_ICON,
+            },
+            name: 'add-tableData',
+          });
+          group.addShape('marker', {
+            attrs: {
+              x: 46,
+              y: 15,
+              r: 6,
+              stroke: '#73d13d',
+              cursor: 'pointer',
+              symbol: EXPAND_ICON,
+            },
+            name: 'add-fieldData',
+          });
+          group.addShape('marker', {
+            attrs: {
+              x: 190,
+              y: 22,
+              r: 6,
+              stroke: '#ffffff',
+              cursor: 'pointer',
+              symbol: EXPAND_ICON,
+            },
+            name: 'show-tableData',
+          });
+
+          if (cfg.label) {
+            group.addShape('text', {
+              attrs: {
+                ...labelCfg.style,
+                text: cfg.label,
+                x: 100,
+                y: 20,
+              },
+            });
+          }
+
+          return keyShape;
+        },
+      },
+      'rect',
+    );
 
     G6.registerEdge(
       'circle-running',
@@ -1140,7 +1141,7 @@ export default class ForceLayout extends Component {
     // 3.图实例化
     const width = document.getElementById('container').scrollWidth;
     const height = document.getElementById('container').scrollHeight || 500;
-    
+
     const minimap = new G6.Minimap({
       size: [300, 300],
     });
@@ -1157,14 +1158,14 @@ export default class ForceLayout extends Component {
           // },
           offset: 30
         }, {
-          type: 'edge-tooltip',
-          // formatText: function formatText(model, e) {
-          //   const edge = e.item;
-          //   return ('来源：' + edge.getSource().getModel().name + 
-          //     '<br/>去向：' + edge.getTarget().getModel().name)
-          // },
-          offset: 30
-        }, 'activate-relations'],
+            type: 'edge-tooltip',
+            // formatText: function formatText(model, e) {
+            //   const edge = e.item;
+            //   return ('来源：' + edge.getSource().getModel().name + 
+            //     '<br/>去向：' + edge.getTarget().getModel().name)
+            // },
+            offset: 30
+          }, 'activate-relations'],
       },
       layout: {
         type: 'circular',
@@ -1292,15 +1293,15 @@ export default class ForceLayout extends Component {
         //     },
         //   },
         // });
-      } 
+      }
     })
     // 7.连线的交互事件
     graph.on('edge:mouseenter', (evt) => {
       const { item } = evt;
       graph.setItemState(item, 'hover', true);
       // 获取连线起点和终点坐标的对象后调用函数
-      const edge = evt.item;
-      getCubicController (edge.getSource().getModel(), edge.getTarget().getModel());
+      const edge: IEdge = evt.item as IEdge;
+      getCubicController(edge.getSource().getModel(), edge.getTarget().getModel());
     });
     graph.on('edge:mouseleave', (evt) => {
       const { item } = evt;
@@ -1312,17 +1313,17 @@ export default class ForceLayout extends Component {
       // console.log(item.get('model').style);
       // item.get('model').style = {fill: "black"};
       // 获取连线起点和终点坐标的对象后调用函数
-      const edge = evt.item;
+      const edge: IEdge = evt.item as IEdge;
       console.log(edge.getSource().getModel().name);
       console.log(edge.getSource().getModel());
       console.log(edge.getTarget().getModel().name);
       console.log(edge.getTarget().getModel());
-      var temp = getCubicController (edge.getSource().getModel(), edge.getTarget().getModel());
+      var temp = getCubicController(edge.getSource().getModel(), edge.getTarget().getModel());
       console.log(temp);
     })
 
-    function circleFun () {
-      graph.updateLayout({type: 'circular', preventOverlap: true, radius: 200});
+    function circleFun() {
+      graph.updateLayout({ type: 'circular', preventOverlap: true, radius: 200 });
       document.getElementById('radial').style.backgroundColor = '#e2e2e2';
       document.getElementById('bigraph').style.backgroundColor = '#e2e2e2';
       document.getElementById('grid').style.backgroundColor = '#e2e2e2';
@@ -1333,8 +1334,8 @@ export default class ForceLayout extends Component {
       document.getElementById('dagre').style.backgroundColor = '#e2e2e2 ';
       document.getElementById('rect').style.backgroundColor = '#e2e2e2';
     }
-    function radialFun () {
-      graph.updateLayout({type: 'radial', preventOverlap: true, nodeSize: 203, strictRadial: true, linkDistance: 50, nodeSpacing: 30});
+    function radialFun() {
+      graph.updateLayout({ type: 'radial', preventOverlap: true, nodeSize: 203, strictRadial: true, linkDistance: 50, nodeSpacing: 30 });
       document.getElementById('circular').style.backgroundColor = '#e2e2e2 ';
       document.getElementById('bigraph').style.backgroundColor = '#e2e2e2';
       document.getElementById('grid').style.backgroundColor = '#e2e2e2';
@@ -1345,8 +1346,8 @@ export default class ForceLayout extends Component {
       document.getElementById('dagre').style.backgroundColor = '#e2e2e2 ';
       document.getElementById('rect').style.backgroundColor = '#e2e2e2';
     }
-    function bigraphFun () {
-      graph.updateLayout({type: 'bigraph-layout'});
+    function bigraphFun() {
+      graph.updateLayout({ type: 'bigraph-layout' });
       document.getElementById('radial').style.backgroundColor = '#e2e2e2';
       document.getElementById('grid').style.backgroundColor = '#e2e2e2';
       document.getElementById('circular').style.backgroundColor = '#e2e2e2 ';
@@ -1357,7 +1358,7 @@ export default class ForceLayout extends Component {
       document.getElementById('dagre').style.backgroundColor = '#e2e2e2 ';
       document.getElementById('rect').style.backgroundColor = '#e2e2e2';
     }
-    function gridFun () {
+    function gridFun() {
       graph.updateLayout({
         type: 'grid',
         begin: [20, 20],
@@ -1378,7 +1379,7 @@ export default class ForceLayout extends Component {
       document.getElementById('dagre').style.backgroundColor = '#e2e2e2 ';
       document.getElementById('rect').style.backgroundColor = '#e2e2e2';
     }
-    function fruchtermanFun () {
+    function fruchtermanFun() {
       graph.updateLayout({
         type: 'fruchterman',
         gravity: 5,
@@ -1394,7 +1395,7 @@ export default class ForceLayout extends Component {
       document.getElementById('dagre').style.backgroundColor = '#e2e2e2 ';
       document.getElementById('rect').style.backgroundColor = '#e2e2e2';
     }
-    function concentricFun () {
+    function concentricFun() {
       graph.updateLayout({
         type: 'concentric',
         preventOverlap: true,
@@ -1411,7 +1412,7 @@ export default class ForceLayout extends Component {
       document.getElementById('dagre').style.backgroundColor = '#e2e2e2 ';
       document.getElementById('rect').style.backgroundColor = '#e2e2e2';
     }
-    function MDSFun () {
+    function MDSFun() {
       graph.updateLayout({
         type: 'mds',
         linkDistance: 200
@@ -1426,7 +1427,7 @@ export default class ForceLayout extends Component {
       document.getElementById('dagre').style.backgroundColor = '#e2e2e2 ';
       document.getElementById('rect').style.backgroundColor = '#e2e2e2';
     }
-    function DagreFun () {
+    function DagreFun() {
       graph.updateLayout({
         type: 'dagre',
         rankdir: 'LR',
@@ -1445,8 +1446,8 @@ export default class ForceLayout extends Component {
       document.getElementById('dagre').style.backgroundColor = '#99FFFF ';
       document.getElementById('rect').style.backgroundColor = '#e2e2e2';
     }
-    function rectFun () {
-      graph.updateLayout({type: 'rect-layout'});
+    function rectFun() {
+      graph.updateLayout({ type: 'rect-layout' });
       document.getElementById('radial').style.backgroundColor = '#e2e2e2';
       document.getElementById('grid').style.backgroundColor = '#e2e2e2';
       document.getElementById('circular').style.backgroundColor = '#e2e2e2 ';
@@ -1457,36 +1458,36 @@ export default class ForceLayout extends Component {
       document.getElementById('dagre').style.backgroundColor = '#e2e2e2 ';
       document.getElementById('rect').style.backgroundColor = '#99FFFF';
     }
-    function getCubicController (source, target) {
+    function getCubicController(source, target) {
       let c1, c2;
 
-      let distance = (target.y - source.y)/5;
-      if( distance > 0 ) distance = Math.max(distance, 80);
-      if( distance < 0 ) distance = Math.min(distance, -80);
+      let distance = (target.y - source.y) / 5;
+      if (distance > 0) distance = Math.max(distance, 80);
+      if (distance < 0) distance = Math.min(distance, -80);
 
       let p1 = [
         source.x,
-        source.y 
+        source.y
       ];
 
       let p4 = [
-      target.x,
-      target.y
+        target.x,
+        target.y
       ]
 
-      if( target.y > source.y ) {
-        c1 = [ source.x, source.y + distance ];
-        c2 = [ target.x, target.y - distance ];
+      if (target.y > source.y) {
+        c1 = [source.x, source.y + distance];
+        c2 = [target.x, target.y - distance];
       }
       else {
-        c1 = [ source.x, source.y - distance ];
-        c2 = [ target.x, target.y + distance ];
+        c1 = [source.x, source.y - distance];
+        c2 = [target.x, target.y + distance];
       }
       return {
         c1,
         c2
       }
-      
+
     }
   }
 
