@@ -243,7 +243,7 @@ const DefaultCombo = () => {
         //   type: 'comboForce'
         // },
         // defaultNode: {
-        //   shape: 'circle'
+        //   type: 'circle'
         // },
         // defaultCombo: {
         //   // size: [100, 100],

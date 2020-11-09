@@ -81,7 +81,7 @@ const graph = new G6.Graph({
   width: 500,
   height: 500,
   defaultNode: {
-    shape: 'circle',
+    type: 'circle',
     size: [100],
     color: '#5B8FF9',
     style: {

@@ -98,10 +98,10 @@ const DefaultShape = () => {
           default: ['collapse-expand', 'zoom-canvas', 'drag-canvas'],
         },
         defaultNode: {
-          shape: 'file-node',
+          type: 'file-node',
         },
         defaultEdge: {
-          shape: 'step-line',
+          type: 'step-line',
         },
         nodeStateStyles: {
           hover: {

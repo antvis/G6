@@ -41,7 +41,7 @@ var data = {
       labelCfg: {
         position: 'center',
       },
-      shape: 'nodeLabel',
+      type: 'nodeLabel',
     },
     {
       id: '1_1',
@@ -63,7 +63,7 @@ var data = {
       labelCfg: {
         position: 'center',
       },
-      shape: 'nodeLabel',
+      type: 'nodeLabel',
     },
     {
       id: '2',
@@ -85,7 +85,7 @@ var data = {
       labelCfg: {
         position: 'center',
       },
-      shape: 'nodeLabel',
+      type: 'nodeLabel',
     },
     {
       id: '2_1',
@@ -104,7 +104,7 @@ var data = {
       labelCfg: {
         position: 'center',
       },
-      shape: 'nodeLabel',
+      type: 'nodeLabel',
     },
     {
       id: '3',
@@ -126,7 +126,7 @@ var data = {
       labelCfg: {
         position: 'center',
       },
-      shape: 'nodeLabel',
+      type: 'nodeLabel',
     },
     {
       id: '3_1',
@@ -145,7 +145,7 @@ var data = {
       labelCfg: {
         position: 'center',
       },
-      shape: 'nodeLabel',
+      type: 'nodeLabel',
     },
   ],
   edges: [
@@ -160,7 +160,7 @@ var data = {
       id: '0-1_1',
       source: '0',
       target: '1_1',
-      shape: 'hvh',
+      type: 'hvh',
       sourceAnchor: 1,
       targetAnchor: 0,
     },
@@ -175,7 +175,7 @@ var data = {
       id: '1-2_1',
       source: '1',
       target: '2_1',
-      shape: 'hvh',
+      type: 'hvh',
       sourceAnchor: 1,
       targetAnchor: 0,
     },
@@ -190,7 +190,7 @@ var data = {
       id: '2-3_1',
       source: '2',
       target: '3_1',
-      shape: 'hvh',
+      type: 'hvh',
       sourceAnchor: 1,
       targetAnchor: 0,
     },
@@ -424,7 +424,7 @@ const FlowTree = () => {
           default: ['drag-canvas', 'drag-node'],
         },
         defaultNode: {
-          shape: 'operation',
+          type: 'operation',
           labelCfg: {
             position: 'right',
             style: {
@@ -436,7 +436,7 @@ const FlowTree = () => {
           },
         },
         defaultEdge: {
-          shape: 'hh',
+          type: 'hh',
           style: {
             lineWidth: 1,
             stroke: '#41A9FF',

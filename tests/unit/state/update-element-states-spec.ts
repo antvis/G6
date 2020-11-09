@@ -414,7 +414,7 @@ describe('update', () => {
       },
       defaultNode: {
         size: 25,
-        shape: 'self-node',
+        type: 'self-node',
         style: {
           opacity: 1,
         },
