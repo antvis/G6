@@ -28,8 +28,8 @@ interface IFlowCharts {
   handleEdgeClick?: (item: IEdge, graph: IGraph) => void;
   handleNodeHover?: (item: INode, graph: IGraph) => void;
   handleNodeUnHover?: (item: INode, graph: IGraph) => void;
-  handleEdgeHover?: (item: INode, graph: IGraph) => void;
-  handleEdgeUnHover?: (item: INode, graph: IGraph) => void;
+  handleEdgeHover?: (item: IEdge, graph: IGraph) => void;
+  handleEdgeUnHover?: (item: IEdge, graph: IGraph) => void;
   collapseExpand?: boolean;
 }
 
@@ -375,7 +375,7 @@ const FlowComponent: React.SFC<IFlowCharts> = ({
       }
 
       graph.on('node:mouseenter', (evt) => {
-        const { item } = evt;
+        const item: INode = evt.item as INode;
         graph.setItemState(item, 'hover', true);
         if (handleNodeHover) {
           handleNodeHover(item, graph);
@@ -383,7 +383,7 @@ const FlowComponent: React.SFC<IFlowCharts> = ({
       });
 
       graph.on('node:mouseleave', (evt) => {
-        const { item } = evt;
+        const item: INode = evt.item as INode;
         graph.setItemState(item, 'hover', false);
         if (handleNodeUnHover) {
           handleNodeUnHover(item, graph);
@@ -391,20 +391,21 @@ const FlowComponent: React.SFC<IFlowCharts> = ({
       });
 
       graph.on('node:click', (evt) => {
-        const { item, target } = evt;
+        const item: INode = evt.item as INode;
+        const { target } = evt;
         const targetType = target.get('type');
         const name = target.get('name');
 
         // 增加元素
         if (targetType === 'marker') {
-          const model = item.getModel();
+          const model: TreeGraphData = item.getModel() as TreeGraphData;
           if (name === 'add-item') {
             if (!model.children) {
               model.children = [];
             }
             model.children.push({
-              id: Math.random(),
-              label: Math.random(),
+              id: `${Math.random()}`,
+              label: `${Math.random()}`
             });
             graph.updateChild(model, model.id);
           } else if (name === 'remove-item') {
@@ -418,7 +419,7 @@ const FlowComponent: React.SFC<IFlowCharts> = ({
       });
 
       graph.on('edge:mouseenter', (evt) => {
-        const { item } = evt;
+        const item: IEdge = evt.item as IEdge;
         graph.setItemState(item, 'hover', true);
         if (handleEdgeHover) {
           handleEdgeHover(item, graph);
@@ -426,7 +427,7 @@ const FlowComponent: React.SFC<IFlowCharts> = ({
       });
 
       graph.on('edge:mouseleave', (evt) => {
-        const { item } = evt;
+        const item: IEdge = evt.item as IEdge;
         graph.setItemState(item, 'hover', false);
         if (handleEdgeUnHover) {
           handleEdgeUnHover(item, graph);
@@ -434,7 +435,7 @@ const FlowComponent: React.SFC<IFlowCharts> = ({
       });
 
       graph.on('edge:click', (evt) => {
-        const { item } = evt;
+        const item: IEdge = evt.item as IEdge;
         if (handleEdgeClick) {
           handleEdgeClick(item, graph);
         }

@@ -1805,7 +1805,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param {String | INode | ICombo} item 需要被更新的 Combo 或 节点 id
    * @param {string | undefined} parentId 新的父 combo id，undefined 代表没有父 combo
    */
-  public updateComboTree(item: string | INode | ICombo, parentId?: string | undefined) {
+  public updateComboTree(item: string | INode | ICombo, parentId?: string | undefined, stack: boolean = true) {
     const self = this;
     this.set('comboSorted', false);
     let uItem: INode | ICombo;
@@ -1818,8 +1818,11 @@ export default class Graph extends EventEmitter implements IGraph {
     const model = uItem.getModel();
     const oldParentId = (model.comboId as string) || (model.parentId as string);
 
+    let type = '';
+    if (uItem.getType) type = uItem.getType();
+
     // 若 item 是 Combo，且 parentId 是其子孙 combo 的 id，则警告并终止
-    if (parentId && uItem.getType && uItem.getType() === 'combo') {
+    if (parentId && type === 'combo') {
       const comboTrees = this.get('comboTrees');
       let valid = true;
       let itemSubTree;
@@ -1849,16 +1852,40 @@ export default class Graph extends EventEmitter implements IGraph {
       }
     }
 
-    // 当 combo 存在parentId 或 comboId 时，才将其移除
+    if (stack && this.get('enabledStack')) {
+      const beforeData: GraphData = {}, afterData: GraphData = {};
+      if (type === 'combo') {
+        beforeData.combos = [{
+          id: model.id,
+          parentId: (model as ComboConfig).parentId
+        }];
+        afterData.combos = [{
+          id: model.id,
+          parentId
+        }];
+      } else if (type === 'node') {
+        beforeData.nodes = [{
+          id: model.id,
+          parentId: (model as NodeConfig).comboId
+        }];
+        afterData.nodes = [{
+          id: model.id,
+          parentId
+        }];
+      }
+      this.pushStack('updateComboTree', {
+        before: beforeData,
+        after: afterData
+      });
+    }
+
+    // 当 combo 存在 parentId 或 comboId 时，才将其移除
     if (model.parentId || model.comboId) {
       const combo = this.findById((model.parentId || model.comboId) as string) as ICombo;
       if (combo) {
         combo.removeChild(uItem);
       }
     }
-
-    let type = '';
-    if (uItem.getType) type = uItem.getType();
 
     if (type === 'combo') {
       model.parentId = parentId;

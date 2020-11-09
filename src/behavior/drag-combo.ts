@@ -92,6 +92,7 @@ export default {
 
     if (dragCombos.length === 0) {
       this.targets.push(item);
+
     } else {
       this.targets = combos;
     }

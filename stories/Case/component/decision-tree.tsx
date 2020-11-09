@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import G6 from '../../../src';
 import { IGraph } from '../../../src/interface/graph';
+import { NodeConfig } from '../../../src/types';
 
 let graph: IGraph = null;
 let showNodes = [];
@@ -256,7 +257,7 @@ const DecisionTree = () => {
 
       graph.on('node:mouseenter', (e) => {
         const item = e.item;
-        const model = item.getModel();
+        const model = item.getModel() as NodeConfig;
         if (model.level === 0) {
           return;
         }
@@ -270,14 +271,14 @@ const DecisionTree = () => {
         });
         graph.setItemState(item, 'dark', false);
         model.light = true;
-        const tags = model.tags;
+        const tags: string[] = model.tags as string[];
         const findTagsMap = new Map();
         let mid = 0;
 
         let fTag = '';
         // if the model is F node, find the leaves of it
         if (!model.isLeaf && model.level !== 0) {
-          fTag = model.tag;
+          fTag = model.tag as string;
           nodeItems.forEach((item) => {
             const itemModel = item.getModel();
             if (!itemModel.isLeaf) return;
@@ -350,7 +351,7 @@ const DecisionTree = () => {
         curShowNodes = [];
         curShowEdges = [];
         const item = e.item;
-        const model = item.getModel();
+        const model = item.getModel() as NodeConfig;
         if (!model.isLeaf && model.level !== 0) {
           return;
         }
@@ -431,8 +432,8 @@ const DecisionTree = () => {
               }
               if (isChild) {
                 const randomAngle = Math.random() * 2 * Math.PI;
-                node.x = model.x + (Math.cos(randomAngle) * model.size) / 2 + 10;
-                node.y = model.y + (Math.sin(randomAngle) * model.size) / 2 + 10;
+                node.x = model.x + (Math.cos(randomAngle) * (model.size as number)) / 2 + 10;
+                node.y = model.y + (Math.sin(randomAngle) * (model.size as number)) / 2 + 10;
                 // const dist = (model.x - node.x) * (model.x - node.x) + (model.y - node.y) * (model.y - node.y);
 
                 if (!node.style) node.style = {};

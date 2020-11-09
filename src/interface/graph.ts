@@ -220,7 +220,7 @@ export interface IGraph extends EventEmitter {
    * @param {string | INode | ICombo} item 需要被更新的 Combo 或 节点 id
    * @param {string | undefined} parentId 新的父 combo id，undefined 代表没有父 combo
    */
-  updateComboTree(item: string | INode | ICombo, parentId?: string | undefined): void;
+  updateComboTree(item: string | INode | ICombo, parentId?: string | undefined, stack?: boolean): void;
 
   /**
    * 解散 combo

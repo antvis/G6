@@ -5,8 +5,12 @@
 - feat: graphin force;
 - feat: updateChildren API for TreeGraph;
 - feat: louvain clustering algorithm;
+- feat: container of plugins with dom id;
 - fix: text redidual problem, closes: #2045 #2193;
 - fix: graph on callback parameter type problem, closes: #2250;
+- fix: combo zIndex problem;
+- fix: webworker updateLayoutCfg problem;
+- fix: drag-canvas and click node on mobile;
 
 #### 3.8.3
 - feat: drag the viewport of the minimap out of the the view;

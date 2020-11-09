@@ -5,7 +5,7 @@ import Graph from '../graph/graph';
 import { IG6GraphEvent } from '../types';
 
 export interface IPluginBaseConfig {
-  container?: HTMLDivElement | null;
+  container?: HTMLDivElement | string | null;
   className?: string;
   graph?: Graph;
   [key: string]: any;

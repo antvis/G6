@@ -530,8 +530,9 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) =
   });
 
   // assign the depth for each element
+  let maxDepth = 0;
   result.forEach((tree: ComboTree) => {
-    tree.depth = 0;
+    tree.depth = maxDepth + 10;
     traverse<ComboTree>(tree, (child) => {
       let parent;
       const itemType = addedMap[child.id].itemType;
@@ -541,11 +542,12 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) =
         parent = addedMap[child.parentId];
       }
       if (parent) {
-        if (itemType === 'node') child.depth = parent.depth + 1;
-        else child.depth = parent.depth + 2;
+        if (itemType === 'node') child.depth = maxDepth + 1;
+        else child.depth = maxDepth + 10;
       } else {
-        child.depth = 0;
+        child.depth = maxDepth + 10;
       }
+      if (maxDepth < child.depth) maxDepth = child.depth;
       const oriNodeModel = nodeMap[child.id];
       if (oriNodeModel) {
         oriNodeModel.depth = child.depth;
