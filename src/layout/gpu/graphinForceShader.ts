@@ -3,6 +3,7 @@ import { globalInvocationID } from 'g-webgpu';
 
 const MAX_EDGE_PER_VERTEX;
 const VERTEX_COUNT;
+const SHIFT_20 = 1048576;
 
 @numthreads(1, 1, 1)
 class GraphinForce {
@@ -19,7 +20,7 @@ class GraphinForce {
   u_minMovement: float;
 
   @in
-  u_aveMovement: vec4[];
+  u_AveMovement: vec4[];
 
   @in
   u_coulombDisScale: float;
@@ -35,6 +36,12 @@ class GraphinForce {
 
   @in
   u_interval: float;
+
+  unpack_float(packedValue: float): ivec2 {
+    const packedIntValue = int(packedValue);
+    const v0 = packedIntValue / SHIFT_20;
+    return [v0, packedIntValue - v0 * SHIFT_20];
+  }
 
   calcRepulsive(i: int, currentNode: vec4): vec2 {
     let ax = 0, ay = 0;
@@ -79,8 +86,13 @@ class GraphinForce {
 
     const mass = attributes1[0];
     let ax = 0, ay = 0;
-    const arr_offset = int(floor(currentNode[2] + 0.5));
-    const length = int(floor(currentNode[3] + 0.5));
+    // const arr_offset = int(floor(currentNode[2] + 0.5));
+    // const length = int(floor(currentNode[3] + 0.5));
+
+    const compressed = this.unpack_float(currentNode[2]);
+    const length = compressed[0];
+    const arr_offset = compressed[1];
+
     const node_buffer: vec4;
     for (let p: int = 0; p < MAX_EDGE_PER_VERTEX; p++) {
       if (p >= length) break;
@@ -111,15 +123,12 @@ class GraphinForce {
 
   @main
   compute() {
-
-    // const movement = u_aveMovement[0];
-    // if (movement.x < u_minMovement) return;
-
     const i = globalInvocationID.x;
     const currentNode = this.u_Data[i];
+    const movement = u_AveMovement[0];
     let ax = 0, ay = 0;
 
-    if (i >= VERTEX_COUNT) {
+    if (i >= VERTEX_COUNT || movement.x < u_minMovement) {
       this.u_Data[i] = currentNode;
       return;
     }
@@ -157,13 +166,13 @@ class GraphinForce {
     // move
     const distx = vx * this.u_interval;
     const disty = vy * this.u_interval;
-    // const distLength = sqrt(distx * distx + disty * disty);
+    const distLength = sqrt(distx * distx + disty * disty);
 
     this.u_Data[i] = [
       currentNode[0] + distx,
       currentNode[1] + disty,
       currentNode[2],
-      currentNode[3]
+      distLength
     ];
     
     // the avarage move distance
@@ -180,8 +189,6 @@ export const aveMovementCode = `
 const VERTEX_COUNT;
 @numthreads(1, 1, 1)
 class CalcAveMovement {
-  // @in
-  // u_PreviousData: vec4[];
   @in
   u_Data: vec4[];
   @in
@@ -192,21 +199,11 @@ class CalcAveMovement {
   compute() {
     let movement = 0;
     for (let j: int = 0; j < VERTEX_COUNT; j++) {
-      const previousVertex = this.u_AveMovement[j];
       const vertex = this.u_Data[j];
-      const diffx = previousVertex.x - vertex.x;
-      const diffy = previousVertex.y - vertex.y;
-      const dist = sqrt(diffx * diffx + diffy * diffy);
-      movement = movement + dist;
-      
-      // this.u_AveMovement[j] = [previousVertex.x, previousVertex.y, diffx, diffy];
-      // this.u_AveMovement[j] = this.u_PreviousData[j];
-
-      u_AveMovement[j] = [vertex.x, vertex.y, diffx, diffy];
+      movement += vertex[3];
     }
     movement = movement / float(VERTEX_COUNT);
-
-    this.u_AveMovement[VERTEX_COUNT] = [movement, 0, 0, 0];
+    this.u_AveMovement[0] = [movement, 0, 0, 0];
   }
 }
 `;
