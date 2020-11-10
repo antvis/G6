@@ -171,8 +171,11 @@ export const buildTextureDataWithTwoEdgeAttr = (nodes, edges, attrs1: Function, 
         const offset = dataArray.length;
         const dests = nodeDict[i]; // dest 中节点 id 与边长间隔存储，即一位节点 id，一位边长……
         const len = dests.length;
-        dataArray[i * 4 + 2] = offset;
-        dataArray[i * 4 + 3] = len / 4; // 第四位存储与该节点相关的所有节点个数
+        // dataArray[i * 4 + 2] = offset;
+        // dataArray[i * 4 + 3] = len / 4; // 第四位存储与该节点相关的所有节点个数
+        // pack offset & length into float32: offset 20bit, length 12bit
+        dataArray[i * 4 + 2] = offset + 1048576 * len / 4;
+        dataArray[i * 4 + 3] = 0; // 第四位存储与上一次的距离差值
         maxEdgePerVetex = Math.max(maxEdgePerVetex, len / 4);
         for (let j = 0; j < len; ++j) {
             const dest = dests[j];

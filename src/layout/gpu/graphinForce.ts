@@ -44,7 +44,7 @@ export default class GraphinForceGPULayout extends BaseLayout {
   public maxSpeed: number = 1000;
 
   /** 一次迭代的平均移动距离小于该值时停止迭代 */
-  public minMovement: number = 0.5;
+  public minMovement: number = 0.8;
 
   /** 迭代中衰减 */
   public interval: number = 0.02;
@@ -275,7 +275,7 @@ export default class GraphinForceGPULayout extends BaseLayout {
       });
 
     const aveMovementBundle = compiler.compileBundle(aveMovementCode);
-    console.log(aveMovementBundle.toString());
+    // console.log(aveMovementBundle.toString());
 
     const kernelAveMovement = world
       .createKernel(aveMovementBundle)
@@ -283,7 +283,7 @@ export default class GraphinForceGPULayout extends BaseLayout {
       .setBinding({
         u_Data: nodesEdgesArray,
         VERTEX_COUNT: numParticles,
-        u_AveMovement: initPreviousData
+        u_AveMovement: [0, 0, 0, 0],
       });
 
     // 执行迭代
