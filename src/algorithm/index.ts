@@ -10,3 +10,4 @@ export { findShortestPath, findAllPath } from './find-path';
 export { default as minimumSpanningTree } from './mst';
 export { default as getPageRank } from './pagerank';
 export { default as louvain } from './louvain';
+export { default as labelPropagation } from './label-propagation';

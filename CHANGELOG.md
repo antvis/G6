@@ -1,11 +1,12 @@
 # ChangeLog
 
-#### 4.0.0
+#### 4.0.0-beta
 - feat: fruchterman and graphin force layout with gpu;
 - feat: graphin force;
 - feat: updateChildren API for TreeGraph;
 - feat: louvain clustering algorithm;
 - feat: container of plugins with dom id;
+- feat: label propagation clustering algorithm;
 - fix: text redidual problem, closes: #2045 #2193;
 - fix: graph on callback parameter type problem, closes: #2250;
 - fix: combo zIndex problem;
