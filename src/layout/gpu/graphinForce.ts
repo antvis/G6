@@ -9,7 +9,7 @@ import { isNumber } from '@antv/util';
 import { World } from '@antv/g-webgpu';
 import { proccessToFunc, buildTextureDataWithTwoEdgeAttr, arrayToTextureData } from '../../util/layout'
 import { getDegree } from '../../util/math'
-import { graphinForceCode } from './graphinForceShader';
+import { graphinForceCode, aveMovementCode } from './graphinForceShader';
 // import { graphinForceCode, graphinForceBundle } from './graphinForceShader';
 import { LAYOUT_MESSAGE } from '../worker/layoutConst';
 import { Compiler } from '@antv/g-webgpu-compiler';
@@ -218,6 +218,9 @@ export default class GraphinForceGPULayout extends BaseLayout {
       centerXs, centerYs, centerGravities
     ]);
 
+    console.log('nodeAttributeArray1', nodeAttributeArray1)
+    console.log('nodeAttributeArray2', nodeAttributeArray1)
+
     let workerEnabled = self.workerEnabled;
     let world;
 
@@ -243,6 +246,16 @@ export default class GraphinForceGPULayout extends BaseLayout {
 
     const onLayoutEnd = self.onLayoutEnd;
 
+    const initPreviousData = [];
+    nodesEdgesArray.forEach(value => {
+      initPreviousData.push(value);
+    });
+    for (let i = 0; i < 4; i++) {
+      initPreviousData.push(0);
+    }
+
+    console.log('initPreviousData', nodesEdgesArray, initPreviousData);
+
     const kernelGraphinForce = world
       .createKernel(graphinForceBundle)
       .setDispatch([numParticles, 1, 1])
@@ -257,17 +270,55 @@ export default class GraphinForceGPULayout extends BaseLayout {
         u_NodeAttributeArray2: nodeAttributeArray2,
         MAX_EDGE_PER_VERTEX: maxEdgePerVetex,
         VERTEX_COUNT: numParticles,
+        u_AveMovement: initPreviousData,
         u_interval: self.interval // 每次迭代更新，首次设置为 interval，在 onIterationCompleted 中更新
       });
 
+    const aveMovementBundle = compiler.compileBundle(aveMovementCode);
+    console.log(aveMovementBundle.toString());
+
+    const kernelAveMovement = world
+      .createKernel(aveMovementBundle)
+      .setDispatch([1, 1, 1])
+      .setBinding({
+        u_Data: nodesEdgesArray,
+        VERTEX_COUNT: numParticles,
+        u_AveMovement: initPreviousData
+      });
+
     // 执行迭代
+    // let midRes = nodesEdgesArray;
     const execute = async () => {
       for (let i = 0; i < maxIteration; i++) {
+
+        // TODO: 似乎都来自 kernelGraphinForce 是一个引用
+        // 当前坐标作为下一次迭代的 PreviousData
+        // if (i > 0) {
+        //   kernelAveMovement.setBinding({
+        //     u_PreviousData: kernelGraphinForce
+        //   });
+        // }
+
         await kernelGraphinForce.execute();
+
+        // midRes = await kernelGraphinForce.getOutput();
+
         // 每次迭代完成后
+        // 计算平均位移，用于提前终止迭代
+        kernelAveMovement.setBinding({
+          u_Data: kernelGraphinForce
+        });
+
+        await kernelAveMovement.execute();
+
+        const movement = await kernelAveMovement.getOutput();
+        console.log('iterating', i, movement);
+
+        // 更新衰减函数
         const stepInterval = Math.max(0.02, self.interval - i * 0.002);
         kernelGraphinForce.setBinding({
-          u_interval: stepInterval
+          u_interval: stepInterval,
+          u_AveMovement: kernelAveMovement
         });
       }
       const finalParticleData = await kernelGraphinForce.getOutput();
@@ -287,6 +338,7 @@ export default class GraphinForceGPULayout extends BaseLayout {
           node.x = x;
           node.y = y;
         });
+        console.log('result ', nodes)
       }
 
       onLayoutEnd && onLayoutEnd();
