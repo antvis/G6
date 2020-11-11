@@ -9,8 +9,8 @@ import { isNumber } from '@antv/util';
 import { World } from '@antv/g-webgpu';
 import { proccessToFunc, buildTextureDataWithTwoEdgeAttr, arrayToTextureData } from '../../util/layout'
 import { getDegree } from '../../util/math'
-import { graphinForceCode, aveMovementCode } from './graphinForceShader';
-// import { graphinForceCode, graphinForceBundle } from './graphinForceShader';
+// import { graphinForceCode, aveMovementCode } from './graphinForceShader';
+import { graphinForceBundle, aveMovementBundle } from './graphinForceShader';
 import { LAYOUT_MESSAGE } from '../worker/layoutConst';
 import { Compiler } from '@antv/g-webgpu-compiler';
 
@@ -44,7 +44,7 @@ export default class GraphinForceGPULayout extends BaseLayout {
   public maxSpeed: number = 1000;
 
   /** 一次迭代的平均移动距离小于该值时停止迭代 */
-  public minMovement: number = 0.8;
+  public minMovement: number = 1;
 
   /** 迭代中衰减 */
   public interval: number = 0.02;
@@ -218,9 +218,6 @@ export default class GraphinForceGPULayout extends BaseLayout {
       centerXs, centerYs, centerGravities
     ]);
 
-    console.log('nodeAttributeArray1', nodeAttributeArray1)
-    console.log('nodeAttributeArray2', nodeAttributeArray1)
-
     let workerEnabled = self.workerEnabled;
     let world;
 
@@ -240,9 +237,9 @@ export default class GraphinForceGPULayout extends BaseLayout {
     }
 
     // TODO: 最终的预编译代码放入到 graphinForceShader.ts 中直接引入，不再需要下面三行
-    const compiler = new Compiler();
-    const graphinForceBundle = compiler.compileBundle(graphinForceCode);
-    console.log(graphinForceBundle.toString());
+    // const compiler = new Compiler();
+    // const graphinForceBundle = compiler.compileBundle(graphinForceCode);
+    // console.log(graphinForceBundle.toString());
 
     const onLayoutEnd = self.onLayoutEnd;
 
@@ -254,7 +251,6 @@ export default class GraphinForceGPULayout extends BaseLayout {
       initPreviousData.push(0);
     }
 
-    console.log('initPreviousData', nodesEdgesArray, initPreviousData);
 
     const kernelGraphinForce = world
       .createKernel(graphinForceBundle)
@@ -274,7 +270,7 @@ export default class GraphinForceGPULayout extends BaseLayout {
         u_interval: self.interval // 每次迭代更新，首次设置为 interval，在 onIterationCompleted 中更新
       });
 
-    const aveMovementBundle = compiler.compileBundle(aveMovementCode);
+    // const aveMovementBundle = compiler.compileBundle(aveMovementCode);
     // console.log(aveMovementBundle.toString());
 
     const kernelAveMovement = world
@@ -311,9 +307,6 @@ export default class GraphinForceGPULayout extends BaseLayout {
 
         await kernelAveMovement.execute();
 
-        const movement = await kernelAveMovement.getOutput();
-        console.log('iterating', i, movement);
-
         // 更新衰减函数
         const stepInterval = Math.max(0.02, self.interval - i * 0.002);
         kernelGraphinForce.setBinding({
@@ -338,7 +331,6 @@ export default class GraphinForceGPULayout extends BaseLayout {
           node.x = x;
           node.y = y;
         });
-        console.log('result ', nodes)
       }
 
       onLayoutEnd && onLayoutEnd();
