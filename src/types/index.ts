@@ -1,3 +1,4 @@
+/* eslint @typescript-eslint/no-use-before-define: 0 */
 import GraphEvent from '@antv/g-base/lib/event/graph-event';
 import { BBox, AnimateCfg } from '@antv/g-base/lib/types';
 import Canvas from '@antv/g-canvas/lib/canvas';
