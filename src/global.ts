@@ -72,9 +72,6 @@ export default {
       fill: colorSet.inactiveFill,
       stroke: colorSet.inactiveStroke,
       lineWidth: 1,
-      'text-shape': {
-        fontWeight: 500
-      }
     },
     disable: {
       fill: colorSet.disableFill,
@@ -87,21 +84,55 @@ export default {
       fill: textColor,
       textAlign: 'center',
       textBaseline: 'middle',
+      fontSize: 12,
     },
   },
   defaultEdge: {
     type: 'line',
     style: {
-      stroke: disableColor,
+      stroke: colorSet.edgeMainStroke,
+      lineAppendWidth: 4,
     },
     size: 1,
-    color: disableColor,
+    color: colorSet.edgeMainStroke,
+  },
+  // 边应用状态后的样式，默认仅提供 active、selected、highlight、inactive、disable，用户可以自己扩展
+  edgeStateStyles: {
+    active: {
+      stroke: colorSet.edgeActiveStroke,
+      lineWidth: 1,
+    },
+    selected: {
+      stroke: colorSet.edgeSelectedStroke,
+      lineWidth: 2,
+      shadowColor: colorSet.edgeSelectedStroke,
+      shadowBlur: 10,
+      'text-shape': {
+        fontWeight: 500
+      },
+    },
+    highlight: {
+      stroke: colorSet.edgeHighlightStroke,
+      lineWidth: 2,
+      'text-shape': {
+        fontWeight: 500
+      }
+    },
+    inactive: {
+      stroke: colorSet.edgeInactiveStroke,
+      lineWidth: 1,
+    },
+    disable: {
+      stroke: colorSet.edgeDisableStroke,
+      lineWidth: 1,
+    },
   },
   comboLabel: {
     style: {
       fill: textColor,
       // textAlign: 'center',
       textBaseline: 'middle',
+      fontSize: 12,
     },
     refY: 10, // Combo 的默认文本不居中时的偏移量
     refX: 10, // Combo 的默认文本不居中时的偏移量
@@ -109,17 +140,52 @@ export default {
   defaultCombo: {
     type: 'circle',
     style: {
-      fill: '#F3F9FF',
+      fill: colorSet.comboMainFill,
       lineWidth: 1,
-      stroke: '#A3B1BF',
-      opacity: 0.8,
+      stroke: colorSet.comboMainStroke,
       r: 5,
       width: 20,
       height: 10,
     },
     size: [20, 5],
-    color: '#A3B1BF',
+    color: colorSet.comboMainStroke,
     padding: [25, 20, 15, 20],
+  },
+  // combo 应用状态后的样式，默认仅提供 active、selected、highlight、inactive、disable，用户可以自己扩展
+  comboStateStyles: {
+    active: {
+      stroke: colorSet.comboActiveStroke,
+      lineWidth: 1,
+      fill: colorSet.comboActiveFill,
+    },
+    selected: {
+      stroke: colorSet.comboSelectedStroke,
+      lineWidth: 2,
+      fill: colorSet.comboSelectedFill,
+      shadowColor: colorSet.comboSelectedStroke,
+      shadowBlur: 10,
+      'text-shape': {
+        fontWeight: 500
+      },
+    },
+    highlight: {
+      stroke: colorSet.comboHighlightStroke,
+      lineWidth: 2,
+      fill: colorSet.comboHighlightFill,
+      'text-shape': {
+        fontWeight: 500
+      }
+    },
+    inactive: {
+      stroke: colorSet.comboInactiveStroke,
+      fill: colorSet.comboInactiveFill,
+      lineWidth: 1,
+    },
+    disable: {
+      stroke: colorSet.comboDisableStroke,
+      fill: colorSet.comboDisableFill,
+      lineWidth: 1,
+    },
   },
   delegateStyle: {
     fill: '#F3F9FF',

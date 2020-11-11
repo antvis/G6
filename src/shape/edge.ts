@@ -55,6 +55,26 @@ const singleEdge: ShapeOptions = {
    * @type {Boolean}
    */
   labelAutoRotate: false,
+
+  // 自定义边时的配置
+  options: {
+    size: Global.defaultEdge.size,
+    style: {
+      x: 0,
+      y: 0,
+      stroke: Global.defaultEdge.style.stroke,
+      lineWidth: Global.defaultEdge.style.lineWidth
+    },
+    labelCfg: {
+      style: {
+        fill: Global.edgeLabel.style.fill,
+        fontSize: Global.edgeLabel.style.fontSize,
+      },
+    },
+    stateStyles: {
+      ...Global.edgeStateStyles
+    }
+  },
   /**
    * 获取边的 path
    * @internal 供扩展的边覆盖

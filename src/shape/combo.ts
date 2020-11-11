@@ -27,6 +27,23 @@ const singleCombo: ShapeOptions = {
    */
   refX: Global.comboLabel.refX,
   refY: Global.comboLabel.refY,
+
+  options: {
+    style: {
+      stroke: Global.defaultCombo.style.stroke,
+      fill: Global.defaultCombo.style.fill,
+      lineWidth: Global.defaultCombo.style.lineWidth
+    },
+    labelCfg: {
+      style: {
+        fill: Global.comboLabel.style.fill,
+        fontSize: Global.comboLabel.style.fontSize,
+      },
+    },
+    stateStyles: {
+      ...Global.comboStateStyles
+    }
+  },
   /**
    * 获取 Combo 宽高
    * @internal 返回 Combo 的大小，以 [width, height] 的方式维护

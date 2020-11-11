@@ -18,13 +18,13 @@ Shape.registerCombo(
         radius: 0,
         stroke: Global.defaultCombo.style.stroke,
         fill: Global.defaultCombo.style.fill,
-        lineWidth: Global.defaultCombo.style.lineWidth,
-        fillOpacity: 1,
+        lineWidth: Global.defaultCombo.style.lineWidth
       },
       // 文本样式配置
       labelCfg: {
         style: {
-          fill: '#595959',
+          fill: Global.comboLabel.style.fill,
+          fontSize: Global.comboLabel.style.fontSize,
         },
       },
       // 连接点，默认为左右
@@ -32,6 +32,9 @@ Shape.registerCombo(
         [0, 0.5],
         [1, 0.5],
       ],
+      stateStyles: {
+        ...Global.comboStateStyles
+      }
     },
     shapeType: 'rect',
     labelPosition: 'top',

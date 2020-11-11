@@ -523,12 +523,13 @@ describe('shape edge test', () => {
       const edge = graph.getEdges()[0];
       const path = edge.get('group').get('children')[0];
       let bbox = path.getBBox();
-      expect(bbox.minX).toEqual(91.60845891791658);
+      console.log(bbox);
+      expect(bbox.minX).toEqual(89.60845891791658);
       graph.emit('node:dragstart', { x: 100, y: 100, item: node });
       graph.emit('node:drag', { x: 200, y: 200, item: node });
       graph.emit('node:dragend', { x: 200, y: 200, item: node });
       bbox = path.getBBox();
-      expect(bbox.minX).toEqual(191.6084589179166);
+      expect(bbox.minX).toEqual(189.6084589179166);
     });
 
     it('clear', () => {
