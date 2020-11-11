@@ -15,16 +15,20 @@ Shape.registerEdge(
   {
     options: {
       color: Global.defaultEdge.color,
+      size: Global.defaultEdge.size,
       style: {
         radius: 0,
         offset: 15,
         x: 0,
         y: 0,
+        stroke: Global.defaultEdge.style.stroke,
+        lineWidth: Global.defaultEdge.style.lineWidth
       },
       // 文本样式配置
       labelCfg: {
         style: {
           fill: Global.edgeLabel.style.fill,
+          fontSize: Global.edgeLabel.style.fontSize,
         },
       },
       routeCfg: {
@@ -33,6 +37,9 @@ Shape.registerEdge(
         maximumLoops: 1000,
         gridSize: 10, // 指定精度
       },
+      stateStyles: {
+        ...Global.edgeStateStyles
+      }
     },
     shapeType: 'polyline',
     // 文本位置

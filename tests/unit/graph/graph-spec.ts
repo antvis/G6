@@ -1208,12 +1208,12 @@ describe('mapper fn', () => {
     expect(keyShape.attr('fillOpacity')).toEqual(1);
 
     graph.setItemState(edge, 'selected', true);
-    expect(keyShape.attr('stroke')).toEqual('rgb(150, 150, 150)');
+    expect(keyShape.attr('stroke')).toEqual('rgb(95, 149, 255)');
     expect(keyShape.attr('lineWidth')).toEqual(2);
     expect(keyShape.attr('fillOpacity')).toEqual(1);
 
     graph.setItemState(edge, 'custom', true);
-    expect(keyShape.attr('stroke')).toEqual('rgb(150, 150, 150)');
+    expect(keyShape.attr('stroke')).toEqual('rgb(95, 149, 255)');
     expect(keyShape.attr('lineWidth')).toEqual(2);
     expect(keyShape.attr('opacity')).toEqual(0.5);
   });

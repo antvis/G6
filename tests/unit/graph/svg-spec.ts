@@ -1290,7 +1290,7 @@ describe('behaviors', () => {
     expect(unrelativeNodeKeyShape.attr('opacity')).toBe(0.1);
     const unrelativeEdge = graph.getEdges()[1];
     const unrelativeEdgeKeyShape = unrelativeEdge.get('group').get('children')[0];
-    expect(unrelativeEdgeKeyShape.attr('stroke')).toBe('rgb(150, 150, 150)');
+    expect(unrelativeEdgeKeyShape.attr('stroke')).toBe('rgb(234, 234, 234)');
     expect(unrelativeEdgeKeyShape.attr('opacity')).toBe(0.1);
 
     graph.emit('node:mouseleave', { item });

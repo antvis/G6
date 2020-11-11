@@ -19,15 +19,18 @@ Shape.registerCombo(
         stroke: Global.defaultCombo.style.stroke,
         fill: Global.defaultCombo.style.fill,
         lineWidth: Global.defaultCombo.style.lineWidth,
-        opacity: 0.8,
       },
       labelCfg: {
         style: {
-          fill: '#595959',
+          fill: Global.comboLabel.style.fill,
+          fontSize: Global.comboLabel.style.fontSize,
         },
         refX: 0,
         refY: 0,
       },
+      stateStyles: {
+        ...Global.comboStateStyles
+      }
     },
     shapeType: 'circle',
     // 文本位置

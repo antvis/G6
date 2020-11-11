@@ -24,7 +24,7 @@ export default class Combo extends Node implements ICombo {
   public getShapeCfg(model: ComboConfig): ComboConfig {
     const styles = this.get('styles');
     const bbox = this.get('bbox');
-    if (styles) {
+    if (styles && bbox) {
       // merge graph的item样式与数据模型中的样式
       const newModel = model;
       const size = {

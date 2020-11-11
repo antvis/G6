@@ -33,35 +33,36 @@ const graph = new G6.Graph({
   fitCenter: true,
   // Set groupByTypes to false to get rendering result with reasonable visual zIndex for combos
   groupByTypes: false,
-  defaultCombo: {
-    type: 'rect',
-    size: [50, 50], // Combo 的最小大小
-    style: {
-      lineWidth: 1,
-    },
-    labelCfg: {
-      refY: 10,
-      position: 'top',
-      style: {
-        fontSize: 18,
-      },
-    },
-  },
   modes: {
     default: ['drag-canvas', 'drag-node', 'drag-combo', 'collapse-expand-combo'],
   },
-  comboStateStyles: {
-    // the style configurations for the hover state on the combo
-    hover: {
-      lineWidth: 3,
+  defaultCombo: {
+    type: 'rect',
+    /* The minimum size of the combo. combo 最小大小 */
+    size: [50, 50],
+    /* style for the keyShape */
+    // style: {
+    //   lineWidth: 1,
+    // },
+    labelCfg: {
+      /* label's offset to the keyShape */
+      // refY: 10,
+      /* label's position, options: center, top, bottom, left, right */
+      position: 'top',
+      /* label's style */
+      // style: {
+      //   fontSize: 18,
+      // },
     },
   },
-  nodeStateStyles: {
-    // the hover configurations for the hover state on the node
-    hover: {
-      lineWidth: 3,
-    },
-  },
+  /* styles for different states, there are built-in styles for states: active, inactive, selected, highlight, disable */
+  /* you can extend it or override it as you want */
+  // comboStateStyles: {
+  //   active: {
+  //     fill: '#f00',
+  //     opacity: 0.5
+  //   },
+  // },
 });
 
 graph.data(data);
@@ -69,10 +70,19 @@ graph.render();
 
 graph.on('combo:mouseenter', (evt) => {
   const { item } = evt;
-  graph.setItemState(item, 'hover', true);
+  graph.setItemState(item, 'active', true);
 });
 
 graph.on('combo:mouseleave', (evt) => {
   const { item } = evt;
-  graph.setItemState(item, 'hover', false);
+  graph.setItemState(item, 'active', false);
+});
+graph.on('combo:click', (evt) => {
+  const { item } = evt;
+  graph.setItemState(item, 'selected', true);
+});
+graph.on('canvas:click', (evt) => {
+  graph.getCombos().forEach(combo => {
+    graph.clearItemStates(combo);
+  });
 });

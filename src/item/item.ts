@@ -101,8 +101,10 @@ export default class ItemBase implements IItemBase {
     const model = this.get('model');
     let { id } = model;
 
+    const itemType = this.get('type');
+
     if (!id) {
-      id = uniqueId(this.get('type'));
+      id = uniqueId(itemType);
       this.get('model').id = id;
     }
 
@@ -117,7 +119,7 @@ export default class ItemBase implements IItemBase {
     this.init();
     this.draw();
 
-    const shapeType = (model.shape as string) || (model.type as string) || 'circle';
+    const shapeType = (model.shape as string) || (model.type as string) || (itemType === 'edge' ? 'line' : 'circle');
     const shapeFactory = this.get('shapeFactory');
     if (shapeFactory && shapeFactory[shapeType]) {
       const { options } = shapeFactory[shapeType];
@@ -384,7 +386,6 @@ export default class ItemBase implements IItemBase {
   public setState(state: string, value: string | boolean) {
     const states: string[] = this.get('states');
     const shapeFactory = this.get('shapeFactory');
-    // debugger
     let stateName = state;
     let filterStateName = state;
     if (isString(value)) {

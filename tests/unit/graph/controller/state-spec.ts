@@ -51,7 +51,7 @@ describe('graph state controller', () => {
     setTimeout(() => {
       expect(graphCount).toBe(1);
       done();
-    }, 16);
+    }, 100);
   });
 
   it('state with activate-relations', done => {

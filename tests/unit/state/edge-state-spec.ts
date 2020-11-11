@@ -141,6 +141,7 @@ describe('graph edge states', () => {
           shadowBlur: 10,
           shadowOffsetX: 10,
           shadowOffsetY: 20,
+          lineWidth: 10
         },
       },
       defaultEdge: {

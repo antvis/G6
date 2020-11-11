@@ -41,6 +41,34 @@ export const getColorsWithSubjectColor = (subjectColor, backColor = '#fff', disa
     highlightFill: mixColor(backColor, subjectColor, 0.2).rgb().toString(),
 
     disableStroke: mixColor(backColor, disableColor, 0.3).rgb().toString(),
-    disableFill: mixColor(backColor, disableColor, 0.05).rgb().toString()
+    disableFill: mixColor(backColor, disableColor, 0.05).rgb().toString(),
+
+
+    edgeMainStroke: disableColor,
+    edgeActiveStroke: subjectColor,
+    edgeInactiveStroke: mixColor(backColor, disableColor, 0.2).rgb().toString(),
+    edgeSelectedStroke: subjectColor,
+    edgeHighlightStroke: subjectColor,
+    edgeDisableStroke: mixColor(backColor, disableColor, 0.1).rgb().toString(),
+
+
+    comboMainStroke: mixColor(backColor, disableColor, 0.3).rgb().toString(),
+    comboMainFill: mixColor(backColor, disableColor, 0.02).rgb().toString(),
+
+    comboActiveStroke: subjectColor,
+    comboActiveFill: lightSubject,
+
+    comboInactiveStroke: mixColor(backColor, disableColor, 0.3).rgb().toString(),
+    comboInactiveFill: mixColor(backColor, disableColor, 0.02).rgb().toString(),
+
+    comboSelectedStroke: subjectColor,
+    comboSelectedFill: mixColor(backColor, disableColor, 0.02).rgb().toString(),
+
+    comboHighlightStroke: 'rgb(53, 119, 222)', // TODO: how to generate it ???
+    comboHighlightFill: mixColor(backColor, disableColor, 0.02).rgb().toString(),
+
+    comboDisableStroke: mixColor(backColor, disableColor, 0.2).rgb().toString(),
+    comboDisableFill: mixColor(backColor, disableColor, 0.05).rgb().toString(),
+
   }
 }
