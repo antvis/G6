@@ -70,7 +70,7 @@
     ]
   },
   "dependencies": {
-    "@antv/color-util": "^2.0.5",
+    "@ant-design/colors": "^4.0.5",
     "@antv/dom-util": "^2.0.1",
     "@antv/event-emitter": "~0.1.0",
     "@antv/g-base": "^0.5.1",
