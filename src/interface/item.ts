@@ -1,3 +1,4 @@
+/* eslint @typescript-eslint/no-use-before-define: 0 */
 import { IGroup } from '@antv/g-base/lib/interfaces';
 import { Point } from '@antv/g-base/lib/types';
 import Group from '@antv/g-canvas/lib/group';
