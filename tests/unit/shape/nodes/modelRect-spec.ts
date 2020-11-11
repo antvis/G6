@@ -411,7 +411,7 @@ describe('model rect test', () => {
       label: '审批节点',
       labelCfg: {
         style: {
-          fill: '#595959',
+          fill: '#000',
           fontSize: 14
         },
         offset: 30

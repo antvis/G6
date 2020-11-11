@@ -89,8 +89,8 @@ describe('register node with getCustomConfig function, extend rect', () => {
     const node = graph.getNodes()[0];
     const group = node.get('group');
     const keyShape = node.getKeyShape();
-    expect(keyShape.attr('stroke')).toEqual('#5B8FF9');
-    expect(keyShape.attr('fill')).toEqual('#C6E5FF');
+    expect(keyShape.attr('stroke')).toEqual('rgb(95, 149, 255)');
+    expect(keyShape.attr('fill')).toEqual('rgb(239, 244, 255)');
     expect(keyShape.attr('lineWidth')).toEqual(1);
 
     const label = group.find((g) => {
@@ -138,8 +138,8 @@ describe('register node with getCustomConfig function, extend rect', () => {
     expect(group.getCount()).toEqual(5);
 
     const keyShape = node.getKeyShape();
-    expect(keyShape.attr('fill')).toEqual('#C6E5FF');
-    expect(keyShape.attr('stroke')).toEqual('#5B8FF9');
+    expect(keyShape.attr('fill')).toEqual('rgb(239, 244, 255)');
+    expect(keyShape.attr('stroke')).toEqual('rgb(95, 149, 255)');
     expect(keyShape.attr('lineWidth')).toEqual(1);
 
     const markTop = group.find((g) => {

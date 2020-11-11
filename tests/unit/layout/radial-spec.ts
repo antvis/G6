@@ -1132,8 +1132,8 @@ describe('radial layout', () => {
         default: ['drag-node'],
       },
     });
-    const colors = ['#e5e5e5', 'green', '#5AD8A6', '#5B8FF9'];
-    const colorsObj = { a: '#e5e5e5', b: 'green', c: '#5AD8A6', d: '#5B8FF9' };
+    const colors = ['#e5e5e5', 'green', '#5AD8A6', 'rgb(95, 149, 255)'];
+    const colorsObj = { a: '#e5e5e5', b: 'green', c: '#5AD8A6', d: 'rgb(95, 149, 255)' };
     data2.nodes.forEach((node) => {
       node.size = 15;
       node.label = ' ';

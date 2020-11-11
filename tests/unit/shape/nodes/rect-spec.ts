@@ -35,8 +35,8 @@ describe('rect test', () => {
       const node = nodes[0];
       const keyShape = node.getKeyShape();
       expect(keyShape.attr('width')).toEqual(100);
-      expect(keyShape.attr('stroke')).toEqual('#5B8FF9');
-      expect(keyShape.attr('fill')).toEqual('#C6E5FF');
+      expect(keyShape.attr('stroke')).toEqual('rgb(95, 149, 255)');
+      expect(keyShape.attr('fill')).toEqual('rgb(239, 244, 255)');
     });
 
     it('rect with label', () => {
@@ -63,7 +63,7 @@ describe('rect test', () => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toBe(undefined);
-      expect(label.attr('fill')).toEqual('#595959');
+      expect(label.attr('fill')).toEqual('#000');
       const type = label.get('type');
       expect(type).toEqual('text');
       graph.destroy();
@@ -115,7 +115,7 @@ describe('rect test', () => {
 
       const keyShape = node.getKeyShape();
       expect(keyShape.attr('fill')).toEqual('blue');
-      expect(keyShape.attr('stroke')).toEqual('#5B8FF9');
+      expect(keyShape.attr('stroke')).toEqual('rgb(95, 149, 255)');
       expect(keyShape.attr('width')).toEqual(35);
       expect(keyShape.attr('lineWidth')).toEqual(1);
 

@@ -940,7 +940,7 @@ describe('all node link center', () => {
 
     expect(keyShape.get('type')).toEqual('rect');
     // addItem 时候 model 中的 style 会覆盖 defaultNode 中定义的
-    expect(keyShape.attr('fill')).toEqual('#C6E5FF');
+    expect(keyShape.attr('fill')).toEqual('rgb(239, 244, 255)');
     expect(keyShape.attr('stroke')).toEqual('#666');
 
     defaultGraph.setItemState(node, 'selected', true);
@@ -953,7 +953,7 @@ describe('all node link center', () => {
     defaultGraph.setItemState(node, 'selected', false);
 
     // fill 使用默认的，addItem 时如果有 style 会覆盖 defaultNode 中定义的
-    expect(keyShape.attr('fill')).toEqual('#C6E5FF');
+    expect(keyShape.attr('fill')).toEqual('rgb(239, 244, 255)');
     expect(keyShape.attr('fillStyle')).toBe(undefined);
     expect(keyShape.attr('stroke')).toEqual('#666');
     expect(keyShape.attr('strokeStyle')).toBe(undefined);
@@ -1203,17 +1203,17 @@ describe('mapper fn', () => {
     const edge = graph.addItem('edge', { id: 'edge2', source: 'node', target: 'node2Mapped' });
 
     keyShape = edge.getKeyShape();
-    expect(keyShape.attr('stroke')).toEqual('#e2e2e2');
+    expect(keyShape.attr('stroke')).toEqual('rgb(150, 150, 150)');
     expect(keyShape.attr('lineWidth')).toEqual(1);
     expect(keyShape.attr('fillOpacity')).toEqual(1);
 
     graph.setItemState(edge, 'selected', true);
-    expect(keyShape.attr('stroke')).toEqual('#e2e2e2');
+    expect(keyShape.attr('stroke')).toEqual('rgb(150, 150, 150)');
     expect(keyShape.attr('lineWidth')).toEqual(2);
     expect(keyShape.attr('fillOpacity')).toEqual(1);
 
     graph.setItemState(edge, 'custom', true);
-    expect(keyShape.attr('stroke')).toEqual('#e2e2e2');
+    expect(keyShape.attr('stroke')).toEqual('rgb(150, 150, 150)');
     expect(keyShape.attr('lineWidth')).toEqual(2);
     expect(keyShape.attr('opacity')).toEqual(0.5);
   });

@@ -36,13 +36,13 @@ describe('triangle test', () => {
       // modelRect + label + description + logoIcon + stateIcon + preRect
       expect(group.getCount()).toEqual(2);
       const keyShape = node.getKeyShape();
-      expect(keyShape.attr('fill')).toEqual('#C6E5FF');
+      expect(keyShape.attr('fill')).toEqual('rgb(239, 244, 255)');
 
       const label = group.find((g) => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toBe(null);
-      expect(label.attr('fill')).toEqual('#595959');
+      expect(label.attr('fill')).toEqual('#000');
       expect(label.attr('fontSize')).toEqual(12);
 
       graph.destroy();

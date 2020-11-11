@@ -235,7 +235,7 @@ describe('update', () => {
     expect(item.getStates().length).toBe(0);
 
     // 内置 circle 默认的 stroke
-    expect(keyShape.attr('stroke')).toEqual('#5B8FF9');
+    expect(keyShape.attr('stroke')).toEqual('rgb(95, 149, 255)');
     expect(keyShape.attr('fill')).toEqual('steelblue');
 
     graph.updateItem(item, {
