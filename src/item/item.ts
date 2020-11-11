@@ -98,7 +98,8 @@ export default class ItemBase implements IItemBase {
     };
     this._cfg = Object.assign(defaultCfg, this.getDefaultCfg(), cfg);
 
-    let { id } = this.get('model');
+    const model = this.get('model');
+    let { id } = model;
 
     if (!id) {
       id = uniqueId(this.get('type'));
@@ -115,6 +116,18 @@ export default class ItemBase implements IItemBase {
 
     this.init();
     this.draw();
+
+    const shapeType = (model.shape as string) || (model.type as string) || 'circle';
+    const shapeFactory = this.get('shapeFactory');
+    if (shapeFactory && shapeFactory[shapeType]) {
+      const { options } = shapeFactory[shapeType];
+      // merge the stateStyles from item and shape
+      if (options && options.stateStyles) {
+        let styles = this.get('styles') || model.stateStyles;
+        styles = deepMix({}, options.stateStyles, styles);
+        this.set('styles', styles);
+      }
+    }
   }
 
   /**
@@ -371,6 +384,7 @@ export default class ItemBase implements IItemBase {
   public setState(state: string, value: string | boolean) {
     const states: string[] = this.get('states');
     const shapeFactory = this.get('shapeFactory');
+    // debugger
     let stateName = state;
     let filterStateName = state;
     if (isString(value)) {

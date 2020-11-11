@@ -1,3 +1,12 @@
+import { getColorsWithSubjectColor } from './util/color';
+
+const subjectColor = 'rgb(95, 149, 255)';
+const backColor = 'rgb(255, 255, 255)';
+const disableColor = 'rgb(150, 150, 150)';
+const textColor = 'rgb(0, 0, 0)';
+
+const colorSet = getColorsWithSubjectColor(subjectColor, backColor);
+
 export default {
   version: '3.8.3',
   rootContainerClassName: 'root-container',
@@ -6,30 +15,76 @@ export default {
   comboContainerClassName: 'combo-container',
   customGroupContainerClassName: 'custom-group-container',
   delegateContainerClassName: 'delegate-container',
-  defaultShapeFillColor: '#C6E5FF',
-  defaultShapeStrokeColor: '#5B8FF9',
   defaultLoopPosition: 'top',
   nodeLabel: {
     style: {
-      fill: '#595959',
+      fill: '#000',
+      fontSize: 12,
       textAlign: 'center',
       textBaseline: 'middle',
     },
-    offset: 5, // 节点的默认文本不居中时的偏移量
+    offset: 4, // 节点的默认文本不居中时的偏移量
   },
   defaultNode: {
     type: 'circle',
     style: {
-      fill: '#C6E5FF',
       lineWidth: 1,
-      stroke: '#5B8FF9',
+      stroke: colorSet.mainStroke,
+      fill: colorSet.mainFill
     },
     size: 20,
-    color: '#5B8FF9',
+    color: colorSet.mainStroke,
+    linkPoints: {
+      size: 8,
+      lineWidth: 1,
+      fill: colorSet.activeFill,
+      stroke: colorSet.activeStroke,
+    }
+  },
+  // 节点应用状态后的样式，默认仅提供 active、selected、highlight、inactive、disable，用户可以自己扩展
+  nodeStateStyles: {
+    active: {
+      fill: colorSet.activeFill,
+      stroke: colorSet.activeStroke,
+      lineWidth: 2,
+      shadowColor: colorSet.mainStroke,
+      shadowBlur: 10,
+    },
+    selected: {
+      fill: colorSet.selectedFill,
+      stroke: colorSet.selectedStroke,
+      lineWidth: 4,
+      shadowColor: colorSet.selectedStroke,
+      shadowBlur: 10,
+      'text-shape': {
+        fontWeight: 500
+      },
+    },
+    highlight: {
+      fill: colorSet.highlightFill,
+      stroke: colorSet.highlightStroke,
+      lineWidth: 2,
+      'text-shape': {
+        fontWeight: 500
+      }
+    },
+    inactive: {
+      fill: colorSet.inactiveFill,
+      stroke: colorSet.inactiveStroke,
+      lineWidth: 1,
+      'text-shape': {
+        fontWeight: 500
+      }
+    },
+    disable: {
+      fill: colorSet.disableFill,
+      stroke: colorSet.disableStroke,
+      lineWidth: 1,
+    },
   },
   edgeLabel: {
     style: {
-      fill: '#595959',
+      fill: textColor,
       textAlign: 'center',
       textBaseline: 'middle',
     },
@@ -37,14 +92,14 @@ export default {
   defaultEdge: {
     type: 'line',
     style: {
-      stroke: '#e2e2e2',
+      stroke: disableColor,
     },
     size: 1,
-    color: '#e2e2e2',
+    color: disableColor,
   },
   comboLabel: {
     style: {
-      fill: '#595959',
+      fill: textColor,
       // textAlign: 'center',
       textBaseline: 'middle',
     },
@@ -66,8 +121,6 @@ export default {
     color: '#A3B1BF',
     padding: [25, 20, 15, 20],
   },
-  // 节点应用状态后的样式，默认仅提供 active 和 selected 用户可以自己扩展
-  nodeStateStyle: {},
   delegateStyle: {
     fill: '#F3F9FF',
     fillOpacity: 0.5,

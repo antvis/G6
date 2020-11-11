@@ -11,65 +11,74 @@ const data = {
   ],
 };
 
+const width = document.getElementById('container').scrollWidth;
+const height = document.getElementById('container').scrollHeight || 500;
 const graph = new G6.Graph({
   container: 'container',
-  width: 500,
-  height: 500,
+  width,
+  height,
   // translate the graph to align the canvas's center, support by v3.5.1
   fitCenter: true,
+  modes: {
+    default: ['drag-canvas', 'drag-node'],
+  },
   defaultNode: {
     type: 'triangle',
-    size: [60],
+    size: [40],
     // options: down, up
     direction: 'up',
-    style: {
-      fill: '#9EC9FF',
-      stroke: '#5B8FF9',
-      lineWidth: 3,
-    },
+    /* style for the keyShape */
+    // style: {
+    //   fill: '#9EC9FF',
+    //   stroke: '#5B8FF9',
+    //   lineWidth: 3,
+    // },
     labelCfg: {
-      style: {
-        fill: '#1890ff',
-        fontSize: 18,
-      },
+      /* label's position, options: center, top, bottom, left, right */
       position: 'bottom',
-      offset: 30,
+      /* label's offset to the keyShape, 4 by default */
+      offset: 20,
+      /* label's style */
+      //   style: {
+      //     fontSize: 20,
+      //     fill: '#ccc',
+      //     fontWeight: 500
+      //   }
     },
-    // configurations for the four linkpoints
+    /* configurations for four linkpoints */
     linkPoints: {
       top: true,
       right: true,
       bottom: true,
       left: true,
-      // the size of the linkpoints' circle
-      size: 10,
-      lineWidth: 1,
-      fill: '#fff',
-      stroke: '#1890FF',
+      /* linkPoints' size, 8 by default */
+      //   size: 5,
+      /* linkPoints' style */
+      //   fill: '#ccc',
+      //   stroke: '#333',
+      //   lineWidth: 2,
     },
-    // configurations for the icon
+    /* icon configuration */
     icon: {
-      // whether to show the icon
+      /* whether show the icon, false by default */
       show: true,
-      // the image url for the icon, string type
-      img:
-        'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
-      width: 40,
-      height: 40,
+      /* icon's img address, string type */
+      // img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+      /* icon's size, 20 * 20 by default: */
+      //   width: 40,
+      //   height: 40
     },
-  },
-  modes: {
-    default: ['drag-canvas', 'drag-node'],
-  },
-  nodeStateStyles: {
-    // style configurations for the hover state
-    hover: {
-      fillOpacity: 0.8,
-    },
-    // style configurations for the selected state
-    selected: {
-      lineWidth: 5,
-    },
+    /* styles for different states, there are built-in styles for states: active, inactive, selected, highlight, disable */
+    // nodeStateStyles: {
+    //   // node style of active state
+    //   active: {
+    //     fillOpacity: 0.8,
+    //   },
+    //   // node style of selected state
+    //   selected: {
+    //     lineWidth: 5,
+    //   },
+    // },
   },
 });
 
@@ -78,15 +87,20 @@ graph.render();
 
 graph.on('node:mouseenter', (evt) => {
   const { item } = evt;
-  graph.setItemState(item, 'hover', true);
+  graph.setItemState(item, 'active', true);
 });
 
 graph.on('node:mouseleave', (evt) => {
   const { item } = evt;
-  graph.setItemState(item, 'hover', false);
+  graph.setItemState(item, 'active', false);
 });
 
 graph.on('node:click', (evt) => {
   const { item } = evt;
   graph.setItemState(item, 'selected', true);
+});
+graph.on('canvas:click', (evt) => {
+  graph.getNodes().forEach(node => {
+    graph.clearItemStates(node);
+  });
 });

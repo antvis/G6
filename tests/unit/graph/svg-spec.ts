@@ -169,7 +169,7 @@ describe('graph', () => {
 
     // close to avoid alert
     // inst.downloadImage('graph-image');
-    // inst.destroy();
+    inst.destroy();
   });
 
   it('groupByTypes false', () => {
@@ -335,6 +335,7 @@ describe('graph', () => {
     graph.zoom(5.5);
     matrix = graph.get('group').getMatrix();
     expect(matrix).toBe(null);
+    graph.destroy();
   });
 
   it('zoomTo', () => {
@@ -749,6 +750,8 @@ describe('all node link center', () => {
 
     graph.clearItemStates(node, 'b');
     expect(graph.findAllByState('node', 'b').length).toBe(0);
+
+    graph.destroy();
   });
 
   // TODO:  svg edge shadow 相关没有恢复。
@@ -1061,6 +1064,7 @@ describe('plugins & layout', () => {
     timerOut(() => {
       gnode = graph.findById('node');
       expect(gnode.get('visible')).toBe(true);
+      graph.destroy();
     }, 500);
   });
 });
@@ -1282,18 +1286,18 @@ describe('behaviors', () => {
     const unrelativeNode = graph.getNodes()[2];
     const unrelativeNodeKeyShape = unrelativeNode.get('group').get('children')[0];
     expect(unrelativeNodeKeyShape.attr('lineWidth')).toBe(1);
-    expect(unrelativeNodeKeyShape.attr('stroke')).toBe('#5B8FF9');
+    expect(unrelativeNodeKeyShape.attr('stroke')).toBe('rgb(191, 213, 255)');
     expect(unrelativeNodeKeyShape.attr('opacity')).toBe(0.1);
     const unrelativeEdge = graph.getEdges()[1];
     const unrelativeEdgeKeyShape = unrelativeEdge.get('group').get('children')[0];
-    expect(unrelativeEdgeKeyShape.attr('stroke')).toBe('#e2e2e2');
+    expect(unrelativeEdgeKeyShape.attr('stroke')).toBe('rgb(150, 150, 150)');
     expect(unrelativeEdgeKeyShape.attr('opacity')).toBe(0.1);
 
     graph.emit('node:mouseleave', { item });
-    expect(itemKeyShape.attr('stroke')).toBe('#5B8FF9');
+    expect(itemKeyShape.attr('stroke')).toBe('rgb(95, 149, 255)');
     expect(itemKeyShape.attr('lineWidth')).toBe(1);
     expect(unrelativeNodeKeyShape.attr('lineWidth')).toBe(1);
-    expect(unrelativeNodeKeyShape.attr('stroke')).toBe('#5B8FF9');
+    expect(unrelativeNodeKeyShape.attr('stroke')).toBe('rgb(95, 149, 255)');
     expect(unrelativeNodeKeyShape.attr('opacity')).toBe(1);
   });
   it('click-select', () => {
@@ -1304,14 +1308,14 @@ describe('behaviors', () => {
 
     const item2 = graph.getNodes()[1];
     const item2KeyShape = item2.get('group').get('children')[0];
-    expect(item2KeyShape.attr('fill')).toBe('#C6E5FF');
+    expect(item2KeyShape.attr('fill')).toBe('rgb(239, 244, 255)');
 
     graph.emit('node:click', { item: item2 });
     expect(item2KeyShape.attr('fill')).toBe('#f00');
-    expect(itemKeyShape.attr('fill')).toBe('#C6E5FF');
+    expect(itemKeyShape.attr('fill')).toBe('rgb(239, 244, 255)');
 
     graph.emit('node:click', { item: item2 });
-    expect(item2KeyShape.attr('fill')).toBe('#C6E5FF');
+    expect(item2KeyShape.attr('fill')).toBe('rgb(239, 244, 255)');
 
     // multiple select
     graph.addBehaviors(['click-select'], 'multiSelect');
@@ -1323,8 +1327,8 @@ describe('behaviors', () => {
     expect(item2KeyShape.attr('fill')).toBe('#f00');
 
     graph.emit('canvas:click');
-    expect(itemKeyShape.attr('fill')).toBe('#C6E5FF');
-    expect(item2KeyShape.attr('fill')).toBe('#C6E5FF');
+    expect(itemKeyShape.attr('fill')).toBe('rgb(239, 244, 255)');
+    expect(item2KeyShape.attr('fill')).toBe('rgb(239, 244, 255)');
   });
   it('brush-select', () => {
     graph.setMode('default');
@@ -1341,7 +1345,7 @@ describe('behaviors', () => {
     graph.emit('dragend', { canvasX: 300, canvasY: 300, x: 300, y: 300 });
     graph.emit('keyup', { key: 'shift' });
     const itemKeyShape = item.get('group').get('children')[0];
-    expect(itemKeyShape.attr('fill')).toBe('#C6E5FF');
+    expect(itemKeyShape.attr('fill')).toBe('rgb(239, 244, 255)');
 
     graph.emit('keydown', { key: 'shift' });
     graph.emit('dragstart', { canvasX: 0, canvasY: 0, x: 0, y: 0 });
@@ -1359,8 +1363,8 @@ describe('behaviors', () => {
     });
 
     graph.emit('canvas:click', {});
-    expect(itemKeyShape.attr('fill')).toBe('#C6E5FF');
-    expect(item2KeyShape.attr('fill')).toBe('#C6E5FF');
+    expect(itemKeyShape.attr('fill')).toBe('rgb(239, 244, 255)');
+    expect(item2KeyShape.attr('fill')).toBe('rgb(239, 244, 255)');
   });
 
   it('drag-node', () => {
@@ -1884,6 +1888,7 @@ describe('built-in items', () => {
     expect(polylineShape.attr('path')[1][2]).toBe(300);
     expect(polylineShape.attr('path')[2][1]).toBe(243);
     expect(polylineShape.attr('path')[2][2]).toBe(300);
+    graph.destroy();
   });
 });
 
@@ -1948,6 +1953,7 @@ describe('tree graph', () => {
     setTimeout(() => {
       graph.emit('node:click', { item });
       expect(item.getModel().collapsed).toBe(false);
+      graph.destroy();
     }, 500);
   });
 });
@@ -2745,5 +2751,6 @@ describe('custom group', () => {
     expect(delegateGroup.get('children').length).toBe(0);
     expect(node3.getModel().x).not.toBe(node3OriX);
     expect(node3.getModel().y).not.toBe(node3OriY);
+    graph.destroy();
   });
 });

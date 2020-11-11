@@ -254,7 +254,6 @@ export const pathFinder = (
   const cfg: RouterCfg = deepMix(defaultCfg, routerCfg);
   cfg.obstacles = cfg.obstacles || [];
   const map = getObstacleMap(cfg.obstacles.concat([startNode, endNode]), cfg.gridSize, cfg.offset);
-  // console.log(map);
 
   const scaleStartPoint = {
     x: pos2GridIx(startPoint.x, cfg.gridSize),
@@ -269,7 +268,6 @@ export const pathFinder = (
   endPoint.id = `${scaleEndPoint.x}-${scaleEndPoint.y}`;
   const startPoints = getBoxPoints(scaleStartPoint, startNode, cfg);
   const endPoints = getBoxPoints(scaleEndPoint, endNode, cfg);
-  // console.log(startPoints, startNode.getBBox(), endNode.getBBox(), endPoints);
   startPoints.forEach((point) => {
     delete map[point.id];
   });
@@ -383,8 +381,6 @@ export const pathFinder = (
     }
     if (!current) break;
 
-    // console.log('cur: ', current.id, curCost, gScore[current.id]);
-
     // 如果 fScore 最小的点就是终点
     if (endPoints.findIndex((point) => point.x === current.x && point.y === current.y) > -1) {
       const controlPoints = getControlPoints(current.id);
@@ -404,7 +400,6 @@ export const pathFinder = (
         id: `${current.x + direction.stepX}-${current.y + direction.stepY}`,
       };
 
-      // console.log(neighbor.id, current.x, direction.stepX);
       if (closedSet[neighbor.id]) continue;
       const directionChange = getDirectionChange(current, neighbor);
       if (directionChange > cfg.maxAllowedDirectionChange) continue;
@@ -418,7 +413,6 @@ export const pathFinder = (
         cfg.distFunc(current, neighbor) +
         (isNaN(cfg.penalties[directionChange]) ? cfg.gridSize : cfg.penalties[directionChange]);
       const costFromStart = gScore[current.id] + neighborCost;
-      // console.log(current.id, neighbor.id, directionChange);
       if (gScore[neighbor.id] && costFromStart >= gScore[neighbor.id]) {
         continue;
       }

@@ -90,8 +90,8 @@ describe('register node with getCustomConfig function, extend ellipse', () => {
     const node = graph.getNodes()[0];
     const group = node.get('group');
     const keyShape = node.getKeyShape();
-    expect(keyShape.attr('stroke')).toEqual('#5B8FF9');
-    expect(keyShape.attr('fill')).toEqual('#C6E5FF');
+    expect(keyShape.attr('stroke')).toEqual('rgb(95, 149, 255)');
+    expect(keyShape.attr('fill')).toEqual('rgb(239, 244, 255)');
     expect(keyShape.attr('lineWidth')).toEqual(1);
 
     const icon = group.find((g) => {
@@ -132,8 +132,8 @@ describe('register node with getCustomConfig function, extend ellipse', () => {
     const node = graph.getNodes()[0];
     const group = node.get('group');
     const keyShape = node.getKeyShape();
-    expect(keyShape.attr('stroke')).toEqual('#5B8FF9');
-    expect(keyShape.attr('fill')).toEqual('#C6E5FF');
+    expect(keyShape.attr('stroke')).toEqual('rgb(95, 149, 255)');
+    expect(keyShape.attr('fill')).toEqual('rgb(239, 244, 255)');
     expect(keyShape.attr('lineWidth')).toEqual(1);
 
     const label = group.find((g) => {
@@ -181,8 +181,8 @@ describe('register node with getCustomConfig function, extend ellipse', () => {
     expect(group.getCount()).toEqual(5);
 
     const keyShape = node.getKeyShape();
-    expect(keyShape.attr('fill')).toEqual('#C6E5FF');
-    expect(keyShape.attr('stroke')).toEqual('#5B8FF9');
+    expect(keyShape.attr('fill')).toEqual('rgb(239, 244, 255)');
+    expect(keyShape.attr('stroke')).toEqual('rgb(95, 149, 255)');
     expect(keyShape.attr('lineWidth')).toEqual(1);
 
     const markTop = group.find((g) => {
@@ -299,7 +299,7 @@ describe('register node with getCustomConfig function, extend ellipse', () => {
       expect(icon.attr('x')).toEqual(-10);
       expect(icon.attr('y')).toEqual(-10);
       expect(icon.attr('img')).toEqual(
-        'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+        'https://gw.alipayobjects.com/zos/bmw-prod/5d015065-8505-4e7a-baec-976f81e3c41d.svg',
       );
 
       const newImg =

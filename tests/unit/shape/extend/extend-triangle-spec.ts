@@ -55,7 +55,7 @@ describe('register node with getCustomConfig function, extend triangle', () => {
       return g.get('className') === 'node-label';
     });
     expect(label).not.toBe(null);
-    expect(label.attr('fill')).toEqual('#595959');
+    expect(label.attr('fill')).toEqual('#000');
     expect(label.attr('fontSize')).toEqual(12);
 
     graph.destroy();
@@ -100,8 +100,8 @@ describe('register node with getCustomConfig function, extend triangle', () => {
     const node = graph.getNodes()[0];
     const group = node.get('group');
     const keyShape = node.getKeyShape();
-    expect(keyShape.attr('stroke')).toEqual('#5B8FF9');
-    expect(keyShape.attr('fill')).toEqual('#C6E5FF');
+    expect(keyShape.attr('stroke')).toEqual('rgb(95, 149, 255)');
+    expect(keyShape.attr('fill')).toEqual('rgb(239, 244, 255)');
     expect(keyShape.attr('lineWidth')).toEqual(1);
 
     const label = group.find((g) => {
@@ -153,8 +153,8 @@ describe('register node with getCustomConfig function, extend triangle', () => {
     const node = graph.getNodes()[0];
     const group = node.get('group');
     const keyShape = node.getKeyShape();
-    expect(keyShape.attr('stroke')).toEqual('#5B8FF9');
-    expect(keyShape.attr('fill')).toEqual('#C6E5FF');
+    expect(keyShape.attr('stroke')).toEqual('rgb(95, 149, 255)');
+    expect(keyShape.attr('fill')).toEqual('rgb(239, 244, 255)');
     expect(keyShape.attr('lineWidth')).toEqual(1);
 
     const icon = group.find((g) => {

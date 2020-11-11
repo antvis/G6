@@ -65,7 +65,7 @@ describe('image test', () => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toBe(undefined);
-      expect(label.attr('fill')).toEqual('#595959');
+      expect(label.attr('fill')).toEqual('#000');
       const type = label.get('type');
       expect(type).toEqual('text');
       graph.destroy();

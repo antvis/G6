@@ -29,8 +29,8 @@ describe('image minimap', () => {
             [1, 0.5],
           ],
           style: {
-            fill: '#C6E5FF',
-            stroke: '#5B8FF9',
+            fill: 'rgb(239, 244, 255)',
+            stroke: 'rgb(95, 149, 255)',
           },
         },
         defaultEdge: {

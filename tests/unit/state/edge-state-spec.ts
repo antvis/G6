@@ -375,7 +375,7 @@ describe('graph edge states', () => {
       expect(item.hasState('state1')).toEqual(true);
       const keyShape = edge.getKeyShape();
       expect(keyShape.attr('lineWidth')).toEqual(3);
-      expect(keyShape.attr('stroke')).toEqual('#e2e2e2');
+      expect(keyShape.attr('stroke')).toEqual('rgb(150, 150, 150)');
     });
     graph.on('edge:mouseleave', (e) => {
       const item = e.item;
@@ -400,7 +400,7 @@ describe('graph edge states', () => {
         expect(edge.hasState('state2')).toEqual(false);
         const keyShape = edge.getKeyShape();
         expect(keyShape.attr('lineWidth')).toEqual(1);
-        expect(keyShape.attr('stroke')).toEqual('#e2e2e2');
+        expect(keyShape.attr('stroke')).toEqual('rgb(150, 150, 150)');
       });
     });
     graph.emit('edge:mouseenter', { item: edge });
@@ -563,7 +563,7 @@ describe('graph edge states', () => {
           break;
         case 'edge2':
           expect(keyShape.attr('lineWidth')).toEqual(7);
-          expect(keyShape.attr('stroke')).toEqual('#e2e2e2');
+          expect(keyShape.attr('stroke')).toEqual('rgb(150, 150, 150)');
           break;
       }
     });
@@ -601,7 +601,7 @@ describe('graph edge states', () => {
         },
       ],
     };
-    
+
     const graph = new G6.Graph({
       container: div, // String | HTMLElement，必须，在 Step 1 中创建的容器 id 或容器本身
       width: 800, // Number，必须，图的宽度
@@ -674,7 +674,7 @@ describe('graph edge states', () => {
     expect(states.length).toBe(1)
 
     let stateStyle = currentEdge.getStateStyle('click')
-    expect(stateStyle).toEqual({"lineWidth": 2, "stroke": "red"})
+    expect(stateStyle).toEqual({ "lineWidth": 2, "stroke": "red" })
 
     keyShape = currentEdge.getKeyShape()
     expect(keyShape.attr('stroke')).toEqual('red')
@@ -700,7 +700,7 @@ describe('graph edge states', () => {
 
     // updateItem 以后，edge click states 的值以及变化了
     stateStyle = currentEdge.getStateStyle('click')
-    expect(stateStyle).toEqual({"lineWidth": 2, "stroke": "#333"})
+    expect(stateStyle).toEqual({ "lineWidth": 2, "stroke": "#333" })
 
     graph.destroy()
     expect(graph.destroyed).toBe(true)

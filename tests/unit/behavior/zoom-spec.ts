@@ -378,15 +378,15 @@ describe('zoom-canvas', () => {
     let pe = createWheelEvent(graph.get('canvas').get('el'), 100, 100, 100);
     graph.emit('wheel', pe);
     expect(textShape.attr('fontSize')).toEqual(12);
-    expect(keyShape.attr('lineWidth')).toBe(1);
+    expect(keyShape.attr('lineWidth')).toBe(4);
     let ne = createWheelEvent(graph.get('canvas').get('el'), -100, 100, 100);
     graph.emit('wheel', ne);
     graph.emit('wheel', ne);
     expect(numberEqual(textShape.attr('fontSize'), 13.33, 0.004)).toEqual(true);
-    expect(numberEqual(keyShape.attr('lineWidth'), 1.11, 0.002)).toBe(true);
+    expect(numberEqual(keyShape.attr('lineWidth'), 4.444, 0.002)).toBe(true);
     graph.emit('wheel', pe);
     expect(textShape.attr('fontSize')).toEqual(12);
-    expect(keyShape.attr('lineWidth')).toBe(1);
+    expect(keyShape.attr('lineWidth')).toBe(4);
 
     graph.destroy();
   });

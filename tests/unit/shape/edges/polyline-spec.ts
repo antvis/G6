@@ -56,7 +56,7 @@ describe('polyline e test', () => {
       const edge = edges[0];
       const keyShape = edge.getKeyShape();
       expect(keyShape.attr('lineWidth')).toEqual(1);
-      expect(keyShape.attr('stroke')).toEqual('#e2e2e2');
+      expect(keyShape.attr('stroke')).toEqual('rgb(150, 150, 150)');
     });
 
     it('polyline radius and default offset', () => {
@@ -92,7 +92,7 @@ describe('polyline e test', () => {
       const edge = edges[0];
       const keyShape = edge.getKeyShape();
       expect(keyShape.attr('lineWidth')).toEqual(1);
-      expect(keyShape.attr('stroke')).toEqual('#e2e2e2');
+      expect(keyShape.attr('stroke')).toEqual('rgb(150, 150, 150)');
     });
 
     it('polyline radius and no offset', () => {
@@ -129,7 +129,7 @@ describe('polyline e test', () => {
       const edge = edges[0];
       const keyShape = edge.getKeyShape();
       expect(keyShape.attr('lineWidth')).toEqual(1);
-      expect(keyShape.attr('stroke')).toEqual('#e2e2e2');
+      expect(keyShape.attr('stroke')).toEqual('rgb(150, 150, 150)');
     });
     it('polyline with label', () => {
       const data = {
@@ -167,7 +167,7 @@ describe('polyline e test', () => {
         return g.get('className') === 'edge-label';
       });
       expect(label).not.toBe(undefined);
-      expect(label.attr('fill')).toEqual('#595959');
+      expect(label.attr('fill')).toEqual('rgb(0, 0, 0)');
       const type = label.get('type');
       expect(type).toEqual('text');
     });
@@ -261,7 +261,7 @@ describe('polyline e test', () => {
       const edge = edges[0];
       const keyShape = edge.getKeyShape();
       expect(keyShape.attr('lineWidth')).toEqual(1);
-      expect(keyShape.attr('stroke')).toEqual('#e2e2e2');
+      expect(keyShape.attr('stroke')).toEqual('rgb(150, 150, 150)');
     });
   });
 

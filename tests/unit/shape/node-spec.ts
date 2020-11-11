@@ -275,7 +275,7 @@ describe('shape node test', () => {
         label: 'ellipse position',
         labelCfg: {
           position: 'top',
-          offset: 5,
+          offset: 4,
         },
       };
       factory.draw('ellipse', model, group);
@@ -285,7 +285,6 @@ describe('shape node test', () => {
         model,
         group,
       });
-
       let label = group.get('children')[1];
       expect(label.attr('x')).toBe(0);
       expect(label.attr('y')).toBe(-10 - Global.nodeLabel.offset);

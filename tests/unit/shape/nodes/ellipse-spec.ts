@@ -34,10 +34,10 @@ describe('ellipse test', () => {
       expect(nodes.length).toEqual(1);
       const node = nodes[0];
       const keyShape = node.getKeyShape();
-      expect(keyShape.attr('rx')).toEqual(60);
-      expect(keyShape.attr('ry')).toEqual(30);
-      expect(keyShape.attr('stroke')).toEqual('#5B8FF9');
-      expect(keyShape.attr('fill')).toEqual('#C6E5FF');
+      expect(keyShape.attr('rx')).toEqual(40);
+      expect(keyShape.attr('ry')).toEqual(20);
+      expect(keyShape.attr('stroke')).toEqual('rgb(95, 149, 255)');
+      expect(keyShape.attr('fill')).toEqual('rgb(239, 244, 255)');
     });
 
     it('ellipse with label', () => {
@@ -64,7 +64,7 @@ describe('ellipse test', () => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toBe(undefined);
-      expect(label.attr('fill')).toEqual('#595959');
+      expect(label.attr('fill')).toEqual('#000');
       const type = label.get('type');
       expect(type).toEqual('text');
       graph.destroy();
@@ -119,10 +119,10 @@ describe('ellipse test', () => {
       });
       expect(icon).not.toBe(undefined);
       expect(icon.attr('img')).toEqual(
-        'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+        'https://gw.alipayobjects.com/zos/bmw-prod/5d015065-8505-4e7a-baec-976f81e3c41d.svg',
       );
-      expect(icon.attr('width')).toEqual(36);
-      expect(icon.attr('height')).toEqual(36);
+      expect(icon.attr('width')).toEqual(20);
+      expect(icon.attr('height')).toEqual(20);
 
       graph.destroy();
       expect(graph.destroyed).toBe(true);
@@ -171,7 +171,7 @@ describe('ellipse test', () => {
 
       const keyShape = node.getKeyShape();
       expect(keyShape.attr('fill')).toEqual('blue');
-      expect(keyShape.attr('stroke')).toEqual('#5B8FF9');
+      expect(keyShape.attr('stroke')).toEqual('rgb(95, 149, 255)');
       expect(keyShape.attr('rx')).toEqual(17.5);
       expect(keyShape.attr('ry')).toEqual(5);
       expect(keyShape.attr('lineWidth')).toEqual(1);

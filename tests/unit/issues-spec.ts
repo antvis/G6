@@ -275,7 +275,7 @@ describe('cubic with layout', () => {
     defaultEdge: {
       size: 2,
       type: 'line-dash', //'line',//'line-dash',//
-      color: '#e2e2e2',
+      color: 'rgb(150, 150, 150)',
     },
     layout: {
       type: 'dagre',
@@ -709,17 +709,17 @@ describe('changdata states', () => {
         size: 20,
         style: {
           lineWidth: 2,
-          fill: '#C6E5FF',
-          stroke: '#5B8FF9',
+          fill: 'rgb(239, 244, 255)',
+          stroke: 'rgb(95, 149, 255)',
         },
       },
       defaultEdge: {
         size: 1,
-        color: '#e2e2e2',
+        color: 'rgb(150, 150, 150)',
         style: {
           endArrow: {
             path: 'M 0,0 L 8,4 L 8,-4 Z',
-            fill: '#e2e2e2',
+            fill: 'rgb(150, 150, 150)',
           },
         },
       },
@@ -761,13 +761,13 @@ describe('defaultStyle states', () => {
       width: 500,
       height: 500,
       defaultEdge: {
-        color: '#e2e2e2',
+        color: 'rgb(150, 150, 150)',
         lineAppendWidth: 3,
       },
       defaultNode: {
         style: {
           fill: '#DEE9FF',
-          stroke: '#5B8FF9',
+          stroke: 'rgb(95, 149, 255)',
         },
       },
       nodeStateStyles: {

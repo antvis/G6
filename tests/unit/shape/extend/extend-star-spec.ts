@@ -83,7 +83,7 @@ describe('register node with getCustomConfig function, extend star', () => {
     // star + label
     expect(group.getCount()).toEqual(5);
     const keyShape = node.getKeyShape();
-    expect(keyShape.attr('fill')).toEqual('#C6E5FF');
+    expect(keyShape.attr('fill')).toEqual('rgb(239, 244, 255)');
 
     const leftbottom = group.find((g) => {
       return g.get('className') === 'link-point-left-bottom';

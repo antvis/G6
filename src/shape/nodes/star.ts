@@ -14,28 +14,27 @@ Shape.registerNode(
     options: {
       size: 60,
       style: {
-        stroke: Global.defaultShapeStrokeColor,
-        fill: Global.defaultShapeFillColor,
-        lineWidth: Global.defaultNode.style.lineWidth,
+        stroke: Global.defaultNode.style.stroke,
+        fill: Global.defaultNode.style.fill,
+        lineWidth: Global.defaultNode.style.lineWidth
       },
-      // 文本样式配置
       labelCfg: {
         style: {
-          fill: '#595959',
+          fill: Global.nodeLabel.style.fill,
+          fontSize: Global.nodeLabel.style.fontSize,
         },
       },
       // 节点上左右上下四个方向上的链接circle配置
       linkPoints: {
         top: false,
         right: false,
+        bottom: false,
         left: false,
-        leftBottom: false,
-        rightBottom: false,
         // circle的大小
-        size: 10,
-        lineWidth: 1,
-        fill: '#fff',
-        stroke: '#72CC4A',
+        size: Global.defaultNode.linkPoints.size,
+        lineWidth: Global.defaultNode.linkPoints.lineWidth,
+        fill: Global.defaultNode.linkPoints.fill,
+        stroke: Global.defaultNode.linkPoints.stroke,
       },
       // 节点中icon配置
       icon: {
@@ -43,10 +42,13 @@ Shape.registerNode(
         show: false,
         // icon的地址，字符串类型
         img:
-          'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
-        width: 16,
-        height: 16,
+          'https://gw.alipayobjects.com/zos/bmw-prod/5d015065-8505-4e7a-baec-976f81e3c41d.svg',
+        width: 20,
+        height: 20,
       },
+      stateStyles: {
+        ...Global.nodeStateStyles
+      }
     },
     shapeType: 'star',
     // 文本位置
@@ -281,12 +283,12 @@ Shape.registerNode(
       const { left, right, top, leftBottom, rightBottom } = cfg.linkPoints
         ? cfg.linkPoints
         : {
-            left: undefined,
-            right: undefined,
-            top: undefined,
-            leftBottom: undefined,
-            rightBottom: undefined,
-          };
+          left: undefined,
+          right: undefined,
+          top: undefined,
+          leftBottom: undefined,
+          rightBottom: undefined,
+        };
 
       const size = (this as ShapeOptions).getSize!(cfg);
       const outerR = size[0];

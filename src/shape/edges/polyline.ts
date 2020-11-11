@@ -24,7 +24,7 @@ Shape.registerEdge(
       // 文本样式配置
       labelCfg: {
         style: {
-          fill: '#595959',
+          fill: Global.edgeLabel.style.fill,
         },
       },
       routeCfg: {
