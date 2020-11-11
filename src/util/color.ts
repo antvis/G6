@@ -1,4 +1,5 @@
 import color from 'color';
+import { generate } from '@ant-design/colors';
 
 /**
  * get the mix color of backColor and frontColor with alpah
@@ -22,9 +23,17 @@ export const mixColor = (backColor, frontColor, frontAlpha) => {
  * @param backColor background color
  * @param disableColor the color for disable state
  */
-export const getColorsWithSubjectColor = (subjectColor, backColor = '#fff', disableColor = 'rgb(150, 150, 150)') => {
+export const getColorsWithSubjectColor = (subjectColor, backColor = '#fff', theme: 'default' | 'dark' = 'default', disableColor = 'rgb(150, 150, 150)') => {
   const lightSubject = mixColor(backColor, subjectColor, 0.05).rgb().toString();
+  const paletteFromSubject = generate(subjectColor, { theme, backgroundColor: backColor });
+  const subjectHex = color(subjectColor).hex().toLowerCase();
+  const subjectIdx = paletteFromSubject.indexOf(subjectHex);
+  let deeperSubject = subjectColor;
+  if (subjectIdx !== -1) {
+    deeperSubject = paletteFromSubject[subjectIdx + 1];
+  }
   return {
+    // for nodes
     mainStroke: subjectColor,
     mainFill: mixColor(backColor, subjectColor, 0.1).rgb().toString(),
 
@@ -37,13 +46,13 @@ export const getColorsWithSubjectColor = (subjectColor, backColor = '#fff', disa
     selectedStroke: subjectColor,
     selectedFill: backColor,
 
-    highlightStroke: 'rgb(53, 119, 222)', // TODO: how to generate it ???
+    highlightStroke: deeperSubject,
     highlightFill: mixColor(backColor, subjectColor, 0.2).rgb().toString(),
 
     disableStroke: mixColor(backColor, disableColor, 0.3).rgb().toString(),
     disableFill: mixColor(backColor, disableColor, 0.05).rgb().toString(),
 
-
+    // for edges
     edgeMainStroke: disableColor,
     edgeActiveStroke: subjectColor,
     edgeInactiveStroke: mixColor(backColor, disableColor, 0.2).rgb().toString(),
@@ -51,7 +60,7 @@ export const getColorsWithSubjectColor = (subjectColor, backColor = '#fff', disa
     edgeHighlightStroke: subjectColor,
     edgeDisableStroke: mixColor(backColor, disableColor, 0.1).rgb().toString(),
 
-
+    // for combos
     comboMainStroke: mixColor(backColor, disableColor, 0.3).rgb().toString(),
     comboMainFill: mixColor(backColor, disableColor, 0.02).rgb().toString(),
 
@@ -64,7 +73,7 @@ export const getColorsWithSubjectColor = (subjectColor, backColor = '#fff', disa
     comboSelectedStroke: subjectColor,
     comboSelectedFill: mixColor(backColor, disableColor, 0.02).rgb().toString(),
 
-    comboHighlightStroke: 'rgb(53, 119, 222)', // TODO: how to generate it ???
+    comboHighlightStroke: deeperSubject, // 'rgb(53, 119, 222)', // TODO: how to generate it ???
     comboHighlightFill: mixColor(backColor, disableColor, 0.02).rgb().toString(),
 
     comboDisableStroke: mixColor(backColor, disableColor, 0.2).rgb().toString(),
