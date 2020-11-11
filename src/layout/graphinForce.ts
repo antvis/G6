@@ -33,7 +33,7 @@ export default class GraphinForceLayout extends BaseLayout {
   /** 最大速度 */
   public maxSpeed: number = 1000;
   /** 一次迭代的平均移动距离小于该值时停止迭代 */
-  public minMovement: number = 0.5;
+  public minMovement: number = 1;
   /** 迭代中衰减 */
   public interval: number = 0.02;
   /** 斥力的一个系数 */
@@ -177,7 +177,26 @@ export default class GraphinForceLayout extends BaseLayout {
       self.calGravity(accArray);
       const stepInterval = Math.max(0.02, self.interval - i * 0.002);
       self.updateVelocity(accArray, velArray, stepInterval);
+      const previousPos = [];
+      self.nodes.forEach(node => {
+        previousPos.push({
+          x: node.x,
+          y: node.y
+        });
+      })
       self.updatePosition(velArray, stepInterval);
+
+      // whether to stop the iteration
+      let movement = 0;
+      self.nodes.forEach((node, j) => {
+        const vx = node.x - previousPos[j].x;
+        const vy = node.y - previousPos[j].y;
+        movement += Math.sqrt(vx * vx + vy * vy);
+      });
+      movement /= self.nodes.length;
+      if (movement < self.minMovement) {
+        break;
+      }
     }
     self.onLayoutEnd && self.onLayoutEnd();
   }
