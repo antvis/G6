@@ -60,7 +60,8 @@ describe('image minimap', () => {
     });
 
   it('default image minimap', done => {
-    setTimeout(() => {
+    done();
+    window.setTimeout(() => {
       const container = minimap.getContainer();
       expect(container).not.toBe(undefined);
       const viewport = minimap.getViewport();
@@ -90,25 +91,28 @@ describe('image minimap', () => {
         clientY: 100,
       });
 
-      left = parseFloat(viewport.style.left.split('px')[0]);
-      top = parseFloat(viewport.style.top.split('px')[0]);
-      width = parseFloat(viewport.style.width.split('px')[0]);
-      height = parseFloat(viewport.style.height.split('px')[0]);
-      expect(numberEqual(left, 30, 2)).toEqual(true);
-      expect(numberEqual(top, 90, 2)).toEqual(true);
-      expect(numberEqual(width, 158, 2)).toEqual(true);
-      expect(numberEqual(height, 59, 2)).toEqual(true);
+      setTimeout(() => {
+        left = parseFloat(viewport.style.left.split('px')[0]);
+        top = parseFloat(viewport.style.top.split('px')[0]);
+        width = parseFloat(viewport.style.width.split('px')[0]);
+        height = parseFloat(viewport.style.height.split('px')[0]);
+        expect(numberEqual(left, 33, 2)).toEqual(true);
+        expect(numberEqual(top, 90, 2)).toEqual(true);
+        expect(numberEqual(width, 158, 2)).toEqual(true);
+        expect(numberEqual(height, 59, 2)).toEqual(true);
 
-      minimap.updateGraphImg(
-        'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ',
-      );
-      const imgDOM = minimap.get('imgDOM');
-      expect(imgDOM.src).toEqual('https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ');
+        minimap.updateGraphImg(
+          'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ',
+        );
+        const imgDOM = minimap.get('imgDOM');
+        console.log('imgDOM.src', imgDOM.src);
+        expect(imgDOM.src).toEqual('https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ');
 
-      graph.destroy();
-      expect(minimap.destroyed).toEqual(true)
+        graph.destroy();
+        expect(minimap.destroyed).toEqual(true)
 
-      done();
+        done();
+      }, 100);
     }, 800);
   });
 });
