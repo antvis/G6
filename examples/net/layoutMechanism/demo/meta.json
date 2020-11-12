@@ -5,6 +5,14 @@
   },
   "demos": [
     {
+      "filename": "layoutTranslate.js",
+      "title": {
+        "zh": "布局切换",
+        "en": "Layout Translate"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*eZRNQ4tpkecAAAAAAAAAAAAAARQnAQ"
+    },
+    {
       "filename": "subgraphLayout.js",
       "title": {
         "zh": "子图布局",

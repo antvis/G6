@@ -16,6 +16,7 @@ import DragCombo from './drag-combo';
 import CollapseExpandCombo from './collapse-expand-combo';
 import LassoSelect from './lasso-select';
 import CreateEdge from './create-edge';
+import ShortcutsCall from './shortcuts-call';
 
 const behaviors = {
   'drag-canvas': DragCanvas,
@@ -33,7 +34,8 @@ const behaviors = {
   'collapse-expand': CollapseExpand,
   'drag-combo': DragCombo,
   'collapse-expand-combo': CollapseExpandCombo,
-  'create-edge': CreateEdge
+  'create-edge': CreateEdge,
+  'shortcuts-call': ShortcutsCall
 };
 
 each(behaviors, (behavior, type: string) => {

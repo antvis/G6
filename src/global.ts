@@ -89,11 +89,11 @@ export default {
   },
   defaultEdge: {
     type: 'line',
+    size: 1,
     style: {
       stroke: colorSet.edgeMainStroke,
-      lineAppendWidth: 4,
+      lineAppendWidth: 2,
     },
-    size: 1,
     color: colorSet.edgeMainStroke,
   },
   // 边应用状态后的样式，默认仅提供 active、selected、highlight、inactive、disable，用户可以自己扩展

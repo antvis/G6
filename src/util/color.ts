@@ -25,6 +25,13 @@ export const mixColor = (backColor, frontColor, frontAlpha) => {
  */
 export const getColorsWithSubjectColor = (subjectColor, backColor = '#fff', theme: 'default' | 'dark' = 'default', disableColor = 'rgb(150, 150, 150)') => {
   const lightSubject = mixColor(backColor, subjectColor, 0.05).rgb().toString();
+
+  const lightestDisable = mixColor(backColor, disableColor, 0.02).rgb().toString();
+  const lightDisable = mixColor(backColor, disableColor, 0.05).rgb().toString();
+  const middleDisable = mixColor(backColor, disableColor, 0.1).rgb().toString();
+  const deepDisable = mixColor(backColor, disableColor, 0.2).rgb().toString();
+  const deepestDisable = mixColor(backColor, disableColor, 0.3).rgb().toString();
+
   const paletteFromSubject = generate(subjectColor, { theme, backgroundColor: backColor });
   const subjectHex = color(subjectColor).hex().toLowerCase();
   const subjectIdx = paletteFromSubject.indexOf(subjectHex);
@@ -49,35 +56,35 @@ export const getColorsWithSubjectColor = (subjectColor, backColor = '#fff', them
     highlightStroke: deeperSubject,
     highlightFill: mixColor(backColor, subjectColor, 0.2).rgb().toString(),
 
-    disableStroke: mixColor(backColor, disableColor, 0.3).rgb().toString(),
-    disableFill: mixColor(backColor, disableColor, 0.05).rgb().toString(),
+    disableStroke: deepestDisable,
+    disableFill: lightDisable,
 
     // for edges
-    edgeMainStroke: disableColor,
+    edgeMainStroke: deepestDisable,
     edgeActiveStroke: subjectColor,
-    edgeInactiveStroke: mixColor(backColor, disableColor, 0.2).rgb().toString(),
+    edgeInactiveStroke: deepDisable,
     edgeSelectedStroke: subjectColor,
     edgeHighlightStroke: subjectColor,
-    edgeDisableStroke: mixColor(backColor, disableColor, 0.1).rgb().toString(),
+    edgeDisableStroke: middleDisable,
 
     // for combos
-    comboMainStroke: mixColor(backColor, disableColor, 0.3).rgb().toString(),
-    comboMainFill: mixColor(backColor, disableColor, 0.02).rgb().toString(),
+    comboMainStroke: deepestDisable,
+    comboMainFill: lightestDisable,
 
     comboActiveStroke: subjectColor,
     comboActiveFill: lightSubject,
 
-    comboInactiveStroke: mixColor(backColor, disableColor, 0.3).rgb().toString(),
-    comboInactiveFill: mixColor(backColor, disableColor, 0.02).rgb().toString(),
+    comboInactiveStroke: deepestDisable,
+    comboInactiveFill: lightestDisable,
 
     comboSelectedStroke: subjectColor,
-    comboSelectedFill: mixColor(backColor, disableColor, 0.02).rgb().toString(),
+    comboSelectedFill: lightestDisable,
 
     comboHighlightStroke: deeperSubject, // 'rgb(53, 119, 222)', // TODO: how to generate it ???
-    comboHighlightFill: mixColor(backColor, disableColor, 0.02).rgb().toString(),
+    comboHighlightFill: lightestDisable,
 
-    comboDisableStroke: mixColor(backColor, disableColor, 0.2).rgb().toString(),
-    comboDisableFill: mixColor(backColor, disableColor, 0.05).rgb().toString(),
+    comboDisableStroke: deepDisable,
+    comboDisableFill: lightDisable,
 
   }
 }

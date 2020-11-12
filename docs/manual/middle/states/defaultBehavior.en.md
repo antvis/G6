@@ -707,3 +707,46 @@ const graph = new G6.Graph({
   },
 });
 ```
+
+### shortcuts-call
+
+- Description: allow the end-user to call a function of Graph with shortcuts keys. e.g. press down 'control' and '1' on keyboard to make the graph fit the canvas. Attention: make sure the focus is on the canvas when the end-user is pressing keys to call the function;
+- Configurations:
+  - `type: 'shortcuts-call'`;
+  - `trigger`: the subject key to trigger the behavior, options: `'shift'`, `'alt'`, `'ctrl'`, `'control'`;
+  - `combinedKey`: the vice key for combination with `trigger` to trigger the behavior. When the `trigger` is pressed down, press the `combinedKey` will call the graph function with name `functionName`. If `combinedKey` is not specified or assigned with `undefined`, pressing the `trigger` down will call the function;
+  - `functionName`: the name of the Graph function to be called. If the name is wrong or it is not a function of the Graph, the keydown events will not be triggered.
+  - `functionParams`: the parameters or the called function. Make sure the parameters are correct for the function to be called according to corresponding docs, errors might occur otherwise.
+
+**Using Default Configuration**
+
+```javascript
+const graph = new G6.Graph({
+  modes: {
+    default: ['shortcuts-call'],
+  },
+});
+
+```
+
+**Using Customized Configuration**
+
+```javascript
+const graph = new G6.Graph({
+  modes: {
+    default: [
+      // Press 'alt' and 'm' to call graph.moveTo(10, 10). Be sure that the fucos is on the canvas when press the keys
+      {
+        type: 'shortcuts-call',
+        // subject key
+        trigger: 'alt',
+        // vice key
+        combinedKey: 'm',
+        // move the graph to 10,10
+        functionName: 'moveTo',
+        functionParams: [10, 10]
+      },
+    ],
+  },
+});
+```

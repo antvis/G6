@@ -15,16 +15,9 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
           [0, 0.5],
           [1, 0.5],
         ],
-        style: {
-          fill: '#C6E5FF',
-          stroke: '#5B8FF9',
-        },
       },
       defaultEdge: {
         type: 'cubic-horizontal',
-        style: {
-          stroke: '#A3B1BF',
-        },
       },
       layout: {
         type: 'indented',
@@ -55,8 +48,8 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
             node.children && node.children.length > 0
               ? 'left'
               : node.x > centerX
-              ? 'right'
-              : 'left',
+                ? 'right'
+                : 'left',
           offset: 5,
         },
       };

@@ -14,8 +14,8 @@ export default {
         stroke: '#DDEEFE',
         lineWidth: 1,
       },
-      onSelect() {},
-      onDeselect() {},
+      onSelect() { },
+      onDeselect() { },
       selectedState: 'selected',
       trigger: DEFAULT_TRIGGER,
       includeEdges: true,
@@ -206,8 +206,12 @@ export default {
     if (!code) {
       return;
     }
-    // 按住control键时，允许用户设置trigger为ctrl
-    if (code.toLowerCase() === this.trigger.toLowerCase() || code.toLowerCase() === 'control') {
+    const triggerLowerCase = this.trigger.toLowerCase();
+    const codeLowerCase = code.toLowerCase();
+    // 按住 control 键时，允许用户设置 trigger 为 ctrl
+    if (codeLowerCase === triggerLowerCase
+      || (codeLowerCase === 'control' && triggerLowerCase === 'ctrl')
+      || (codeLowerCase === 'ctrl' && triggerLowerCase === 'control')) {
       this.keydown = true;
     } else {
       this.keydown = false;

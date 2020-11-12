@@ -102,15 +102,6 @@ const graph = new G6.TreeGraph({
   },
   defaultNode: {
     size: 30,
-    style: {
-      fill: '#C6E5FF',
-      stroke: '#5B8FF9',
-    },
-  },
-  defaultEdge: {
-    style: {
-      stroke: '#A3B1BF',
-    },
   },
   layout: {
     type: 'compactBox',

@@ -29,11 +29,13 @@ const dijkstra = (
     if (D[minNodId] === Infinity) continue; // Unreachable vertices cannot be the intermediate point
 
     let relatedEdges = [];
-    if (!directed) relatedEdges = minNode.getOutEdges();
+    if (directed) relatedEdges = minNode.getOutEdges();
     else relatedEdges = minNode.getEdges();
 
     relatedEdges.forEach((e) => {
-      const w = e.getTarget().getID();
+      const edgeTarget = e.getTarget().getID();
+      const edgeSource = e.getSource().getID();
+      const w = edgeTarget === minNodId ? edgeSource : edgeTarget;
       const weight =
         weightPropertyName && e.getModel()[weightPropertyName]
           ? e.getModel()[weightPropertyName]

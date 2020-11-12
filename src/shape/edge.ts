@@ -63,7 +63,7 @@ const singleEdge: ShapeOptions = {
       x: 0,
       y: 0,
       stroke: Global.defaultEdge.style.stroke,
-      lineWidth: Global.defaultEdge.style.lineWidth
+      lineAppendWidth: Global.defaultEdge.style.lineAppendWidth
     },
     labelCfg: {
       style: {

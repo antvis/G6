@@ -88,7 +88,7 @@ We provide the function for transformantion:
 ```javascript
 import { transform } from '@antv/matrix-util';
 // transform a 3*3 matrix
-trasform(m, [
+transform(m, [
   ['t', x, y], // translate with vector (x, y)
   ['r', Math.PI], // rotate
   ['s', 2, 2], // scale at x-axis and y-axis
@@ -122,7 +122,7 @@ G6.registerNode('example', {
     if (!matrix) matrix = mat3.create();
 
     // transform a 3*3 matrix
-    const newMatrix = trasform(matrix, [
+    const newMatrix = transform(matrix, [
       ['t', 100, 50], // translate
       ['r', Math.PI / 4], // rotate
       ['s', 2, 0.5], // scale

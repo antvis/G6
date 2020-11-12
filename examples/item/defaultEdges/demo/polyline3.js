@@ -57,23 +57,53 @@ const graph = new G6.Graph({
   height,
   // translate the graph to align the canvas's center, support by v3.5.1
   fitCenter: true,
-  defaultNode: {
-    style: {
-      fill: '#DEE9FF',
-      stroke: '#5B8FF9',
-    },
-  },
-  defaultEdge: {
-    type: 'polyline',
-    style: {
-      stroke: '#F6BD16',
-    },
-  },
+  // make the edge link to the centers of the end nodes
+  linkCenter: true,
   modes: {
     // behavior
     default: ['drag-node'],
   },
+  defaultEdge: {
+    type: 'polyline',
+    /* you can configure the global edge style as following lines */
+    // style: {
+    //   stroke: '#F6BD16',
+    // },
+  },
+  /* styles for different states, there are built-in styles for states: active, inactive, selected, highlight, disable */
+  // edgeStateStyles: {
+  //   // edge style of active state
+  //   active: {
+  //     opacity: 0.5,
+  //     stroke: '#f00'
+  //   },
+  //   // edge style of selected state
+  //   selected: {
+  //     stroke: '#ff0'
+  //     lineWidth: 3,
+  //   },
+  // },
 });
 
 graph.data(data);
 graph.render();
+
+graph.on('edge:mouseenter', (evt) => {
+  const { item } = evt;
+  graph.setItemState(item, 'active', true);
+});
+
+graph.on('edge:mouseleave', (evt) => {
+  const { item } = evt;
+  graph.setItemState(item, 'active', false);
+});
+
+graph.on('edge:click', (evt) => {
+  const { item } = evt;
+  graph.setItemState(item, 'selected', true);
+});
+graph.on('canvas:click', (evt) => {
+  graph.getEdges().forEach(edge => {
+    graph.clearItemStates(edge);
+  });
+});

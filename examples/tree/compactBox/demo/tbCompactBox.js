@@ -30,16 +30,6 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
           [0, 0.5],
           [1, 0.5],
         ],
-        style: {
-          fill: '#C6E5FF',
-          stroke: '#5B8FF9',
-        },
-      },
-      defaultEdge: {
-        type: 'cubic-vertical',
-        style: {
-          stroke: '#A3B1BF',
-        },
       },
       layout: {
         type: 'compactBox',

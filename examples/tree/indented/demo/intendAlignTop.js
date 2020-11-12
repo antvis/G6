@@ -113,15 +113,10 @@ const graph = new G6.TreeGraph({
   defaultNode: {
     type: 'card-node',
     size: [100, 40],
-    style: {
-      fill: '#C6E5FF',
-      stroke: '#5B8FF9',
-    },
   },
   defaultEdge: {
     type: 'cubic-horizontal',
     style: {
-      stroke: '#A3B1BF',
       endArrow: true,
     },
   },

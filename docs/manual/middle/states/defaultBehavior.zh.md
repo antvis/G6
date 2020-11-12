@@ -712,3 +712,46 @@ const graph = new G6.Graph({
   },
 });
 ```
+
+### shortcuts-call
+
+- 含义：允许终端用户使用键盘组合键调用 Graph 的函数，例如按下键盘上的 control 与 1，对图进行适应画布。注意：终端用户使用该功能时焦点必须在画布上才能够正确触发；
+- 配置项：
+  - `type：'shortcuts-call'`；
+  - `trigger`：触发该交互的主键，可选 `'shift'`，`'alt'`，`'ctrl'`，`'control'`。默认为 `'control'`。设置时需要注意可能与其他正在别使用的 Behavior 的 trigger 产生冲突；
+  - `combinedKey`：触发该交互的副按键，在按住主键 `trigger` 后，按下该副按键，将会调用 `functionName` 指定的函数。若不设置或设置为 undefined 则代表只根据 `trigger` 触发；
+  - `functionName`: 被调用的 Graph 的一个函数名，若传入一个错误的函数名，将会不产生任何效果；
+  - `functionParams`: 被调用的函数的参数，请根据各函数的文档传入正确的参数，错误的参数可能导致报错。
+
+**使用默认配置**
+
+```javascript
+const graph = new G6.Graph({
+  modes: {
+    default: ['shortcuts-call'],
+  },
+});
+
+```
+
+**使用自定义参数**
+
+```javascript
+const graph = new G6.Graph({
+  modes: {
+    default: [
+      // 当按住 'alt' 键，并按下 'm' 键，将调用 graph.moveTo(10, 10)
+      {
+        type: 'shortcuts-call',
+        // 主健
+        trigger: 'alt',
+        // 副键
+        combinedKey: 'm',
+        // 将图内容的左上角移动到 10,10 
+        functionName: 'moveTo',
+        functionParams: [10, 10]
+      },
+    ],
+  },
+});
+```
