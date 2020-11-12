@@ -22,6 +22,7 @@ export default {
       fontSize: 12,
       textAlign: 'center',
       textBaseline: 'middle',
+      fontFamily: typeof window !== 'undefined' ? window.getComputedStyle(document.body, null).getPropertyValue("font-family") || 'Arial, sans-serif' : 'Arial, sans-serif',
     },
     offset: 4, // 节点的默认文本不居中时的偏移量
   },
@@ -85,6 +86,7 @@ export default {
       textAlign: 'center',
       textBaseline: 'middle',
       fontSize: 12,
+      fontFamily: typeof window !== 'undefined' ? window.getComputedStyle(document.body, null).getPropertyValue("font-family") || 'Arial, sans-serif' : 'Arial, sans-serif',
     },
   },
   defaultEdge: {

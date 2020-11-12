@@ -35,7 +35,7 @@ module.exports = {
         },
       },
       {
-        slug: 'docs/api/G6/GraphOptions',
+        slug: 'docs/api/Graph',
         title: {
           zh: 'API',
           en: 'API',
