@@ -25,18 +25,9 @@ const graph = new G6.Graph({
   animate: true,
   defaultNode: {
     size: 10,
-    style: {
-      lineWidth: 2,
-      stroke: '#5B8FF9',
-      fill: '#C6E5FF',
-    },
   },
   defaultEdge: {
     size: 1,
-    color: '#666',
-    style: {
-      opacity: 0.1,
-    },
   },
 });
 

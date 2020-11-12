@@ -399,14 +399,6 @@ const graph = new G6.Graph({
   },
   defaultNode: {
     size: 20,
-    style: {
-      fill: '#C6E5FF',
-      stroke: '#5B8FF9',
-    },
-  },
-  defaultEdge: {
-    size: 1,
-    color: '#e2e2e2',
   },
 });
 graph.data(data);

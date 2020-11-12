@@ -1,5 +1,9 @@
 # ChangeLog
 
+#### 3.8.4
+- feat: new version of basic styles for light version;
+- feat: shortcuts-call behavior for calling a Graph function by shortcuts;
+
 #### 3.8.3
 - feat: drag the viewport of the minimap out of the the view;
 - fix: extend modelRect with description problem, closes: #2235;

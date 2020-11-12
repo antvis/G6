@@ -51,44 +51,40 @@ const graph = new G6.Graph({
   },
   defaultNode: {
     size: [10, 10],
-    style: {
-      lineWidth: 2,
-      fill: '#DEE9FF',
-      stroke: '#5B8FF9',
-    },
+    /* style for the keyShape */
+    // style: {
+    //   lineWidth: 2,
+    //   fill: '#DEE9FF',
+    //   stroke: '#5B8FF9',
+    // },
   },
   defaultEdge: {
-    size: 1,
+    /* style for the keyShape */
     style: {
-      stroke: '#e2e2e2',
+      stroke: '#aaa',
       lineAppendWidth: 2,
+      opacity: 0.3
     },
   },
-  nodeStateStyles: {
-    active: {
-      opacity: 1,
-    },
-    inactive: {
-      opacity: 0.2,
-    },
-  },
-  edgeStateStyles: {
-    active: {
-      stroke: '#999',
-    },
-  },
+  /* styles for different states, there are built-in styles for states: active, inactive, selected, highlight, disable */
+  // nodeStateStyles: {
+  //   active: {
+  //     opacity: 1,
+  //   },
+  //   inactive: {
+  //     opacity: 0.2,
+  //   },
+  // },
+  // edgeStateStyles: {
+  //   active: {
+  //     stroke: '#999',
+  //   },
+  // },
 });
 
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/xiaomi.json')
   .then((res) => res.json())
   .then((data) => {
-    graph.data({
-      nodes: data.nodes,
-      edges: data.edges.map(function (edge, i) {
-        edge.id = 'edge' + i;
-        return Object.assign({}, edge);
-      }),
-    });
-
+    graph.data(data);
     graph.render();
   });

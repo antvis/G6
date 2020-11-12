@@ -434,21 +434,6 @@ const graph = new G6.Graph({
   animate: true,
   defaultNode: {
     size: 30,
-    style: {
-      lineWidth: 2,
-      stroke: '#5B8FF9',
-      fill: '#C6E5FF',
-    },
-  },
-  defaultEdge: {
-    size: 1,
-    color: '#e2e2e2',
-    style: {
-      endArrow: {
-        path: 'M 0,0 L 8,4 L 8,-4 Z',
-        fill: '#e2e2e2',
-      },
-    },
   },
 });
 graph.data(data);

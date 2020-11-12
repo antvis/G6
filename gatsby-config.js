@@ -276,6 +276,14 @@ module.exports = {
         },
       },
       {
+        slug: 'algorithm',
+        icon: 'gallery',
+        title: {
+          zh: '算法',
+          en: 'Algorithm',
+        },
+      },
+      {
         slug: 'case',
         icon: 'case',
         title: {

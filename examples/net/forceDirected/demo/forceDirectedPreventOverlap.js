@@ -10,17 +10,6 @@ const graph = new G6.Graph({
     type: 'force',
     preventOverlap: true,
   },
-  defaultNode: {
-    color: '#5B8FF9',
-    style: {
-      lineWidth: 2,
-      fill: '#C6E5FF',
-    },
-  },
-  defaultEdge: {
-    size: 1,
-    color: '#e2e2e2',
-  },
 });
 
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')

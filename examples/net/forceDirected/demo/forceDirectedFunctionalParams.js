@@ -30,14 +30,6 @@ const graph = new G6.Graph({
   },
   defaultNode: {
     color: '#5B8FF9',
-    style: {
-      lineWidth: 2,
-      fill: '#C6E5FF',
-    },
-  },
-  defaultEdge: {
-    size: 1,
-    color: '#e2e2e2',
   },
 });
 

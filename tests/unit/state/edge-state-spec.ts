@@ -376,7 +376,7 @@ describe('graph edge states', () => {
       expect(item.hasState('state1')).toEqual(true);
       const keyShape = edge.getKeyShape();
       expect(keyShape.attr('lineWidth')).toEqual(3);
-      expect(keyShape.attr('stroke')).toEqual('rgb(150, 150, 150)');
+      expect(keyShape.attr('stroke')).toEqual('rgb(224, 224, 224)');
     });
     graph.on('edge:mouseleave', (e) => {
       const item = e.item;
@@ -401,7 +401,7 @@ describe('graph edge states', () => {
         expect(edge.hasState('state2')).toEqual(false);
         const keyShape = edge.getKeyShape();
         expect(keyShape.attr('lineWidth')).toEqual(1);
-        expect(keyShape.attr('stroke')).toEqual('rgb(150, 150, 150)');
+        expect(keyShape.attr('stroke')).toEqual('rgb(224, 224, 224)');
       });
     });
     graph.emit('edge:mouseenter', { item: edge });

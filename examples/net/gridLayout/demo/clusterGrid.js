@@ -477,10 +477,6 @@ const graph = new G6.Graph({
   defaultNode: {
     size: 20,
   },
-  defaultEdge: {
-    size: 1,
-    color: '#e2e2e2',
-  },
 });
 graph.data(data);
 graph.render();

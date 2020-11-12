@@ -26,15 +26,6 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       },
       defaultNode: {
         size: 26,
-        style: {
-          fill: '#C6E5FF',
-          stroke: '#5B8FF9',
-        },
-      },
-      defaultEdge: {
-        style: {
-          stroke: '#A3B1BF',
-        },
       },
       layout: {
         type: 'compactBox',

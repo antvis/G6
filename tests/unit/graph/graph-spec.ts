@@ -1203,7 +1203,7 @@ describe('mapper fn', () => {
     const edge = graph.addItem('edge', { id: 'edge2', source: 'node', target: 'node2Mapped' });
 
     keyShape = edge.getKeyShape();
-    expect(keyShape.attr('stroke')).toEqual('rgb(150, 150, 150)');
+    expect(keyShape.attr('stroke')).toEqual('rgb(224, 224, 224)');
     expect(keyShape.attr('lineWidth')).toEqual(1);
     expect(keyShape.attr('fillOpacity')).toEqual(1);
 

@@ -49,7 +49,7 @@ const graph = new G6.Graph({
     },
   },
   modes: {
-    default: ['drag-canvas', 'drag-node', 'drag-combo', 'collapse-expand-combo'],
+    default: ['drag-canvas', 'drag-node', 'drag-combo', 'collapse-expand-combo', 'click-select'],
   },
 });
 
@@ -71,4 +71,14 @@ graph.on('combo:dragenter', (e) => {
 });
 graph.on('combo:dragleave', (e) => {
   graph.setItemState(e.item, 'dragenter', false);
+});
+
+graph.on('combo:mouseenter', (evt) => {
+  const { item } = evt;
+  graph.setItemState(item, 'active', true);
+});
+
+graph.on('combo:mouseleave', (evt) => {
+  const { item } = evt;
+  graph.setItemState(item, 'active', false);
 });

@@ -88,7 +88,7 @@ rect.transform([
 ```javascript
 import { transform } from '@antv/matrix-util';
 // 3*3 矩阵变换，用于二维渲染
-trasform(m, [
+transform(m, [
   ['t', 100, 50], // translate (100, 50)
   ['r', Math.PI], // rotate Math.PI
   ['s', 2, 2], // scale 2 times at x-axis and y-axis
@@ -123,7 +123,7 @@ G6.registerNode('example', {
     if (!matrix) matrix = mat3.create();
 
     // 3*3 矩阵变换，用于二维渲染
-    const newMatrix = trasform(matrix, [
+    const newMatrix = transform(matrix, [
       ['t', 100, 50], // translate
       ['r', Math.PI / 4], // rotate
       ['s', 2, 0.5], // scale
