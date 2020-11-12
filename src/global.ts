@@ -92,6 +92,7 @@ export default {
     style: {
       stroke: colorSet.edgeMainStroke,
       lineAppendWidth: 4,
+      lineWidth: 1,
     },
     size: 1,
     color: colorSet.edgeMainStroke,
