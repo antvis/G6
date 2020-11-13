@@ -167,7 +167,7 @@ graph.on(timingEventName, evt => {
 | beforemodechange | 调用 `graph.setMode` / `graph.addBehaviors` / `graph.removeBehaviors` 方法之前触发 |
 | aftermodechange | 调用 `graph.setMode` / `graph.addBehaviors` / `graph.removeBehaviors` 方法之后触发 |
 | beforelayout | 布局前触发。调用 `graph.render` 时会进行布局，因此 `render` 时会触发。或用户主动调用图的 `graph.layout` 时触发。 |
-| afterlayout | 布局完成后触发。调用 `graph.render` 时会进行布局，因此 `render` 时布局完成后会触发。或用户主动调用图的 `lgraph.ayout` 时布局完成后触发。 |
+| afterlayout | 布局完成后触发。调用 `graph.render` 时会进行布局，因此 `render` 时布局完成后会触发。或用户主动调用图的 `graph.layout` 时布局完成后触发。 |
 | beforegraphrefreshposition | `graph.refreshPositions` 被调用前触发 |
 | aftergraphrefreshposition | `graph.refreshPositions` 被调用后触发 |
 | beforegraphrefresh | `graph.refresh` 被调用前触发 |
