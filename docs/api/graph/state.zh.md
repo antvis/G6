@@ -1,6 +1,6 @@
 ---
-title: 设置/清除元素状态
-order: 10
+title: 元素状态
+order: 7
 ---
 
 ### graph.setItemState(item, state, value)

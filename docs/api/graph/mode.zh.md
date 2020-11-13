@@ -1,6 +1,6 @@
 ---
-title: 设置/获取图行为模式
-order: 10
+title: 行为模式
+order: 8
 ---
 
 ### graph.setMode(mode)

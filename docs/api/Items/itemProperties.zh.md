@@ -3,7 +3,7 @@ title: 元素配置项
 order: 5
 ---
 
-G6 图上的元素包括节点、边、节点分组 Combo。每一个元素是一个 [item](/zh/docs/api/nodeEdge/Item) 实例，而实例中的数据模型 `model` 定义了该元素的样式、配置等。在 [入门教程-元素及其配置](/zh/docs/manual/tutorial/elements#配置属性) 中，我们知道配置元素属性有两种方式：实例化图时全局配置；在数据中配置。无论何种方式，都是在配置每个元素的数据模型 `model`。本文介绍节点、边、节点分组 Combo 的 `model` 配置项。
+G6 图上的元素包括节点、边、节点分组 Combo。每一个元素是一个 [item](/zh/docs/api/items/itemMethods) 实例，而实例中的数据模型 `model` 定义了该元素的样式、配置等。在 [入门教程-元素及其配置](/zh/docs/manual/tutorial/elements#配置属性) 中，我们知道配置元素属性有两种方式：实例化图时全局配置；在数据中配置。无论何种方式，都是在配置每个元素的数据模型 `model`。本文介绍节点、边、节点分组 Combo 的 `model` 配置项。
 
 ### id
 

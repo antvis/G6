@@ -10,9 +10,9 @@ There are three types of items in a graph in G6:  Nodes, Edges and Combos. Each 
 The properties of an item can be be divided into two categories:
 - Style Property: Corresponds to the style of the keyshape, e.g. `fill`, `stroke`.When the [State](/en/docs/manual/middle/states/state) of an item is changed, the style can be updated. 
 - Other Property: Such as `type`, `id`, they are a kind of properties that will not be changed when the State of the item is changed. They need to be updated manually with [graph.updateItem](/en/docs/api/Graph/#updateitemitem-model).
-A complete list of item properties can be found in [Item Properties](/en/docs/api/nodeEdge/itemProperties).
+A complete list of item properties can be found in [Item Properties](/en/docs/api/items/itemProperties).
 In addition to these common properties shared by all items, each kind of item (node/edge/combo) has its unique properties. 
 
-There are [common methods](/en/docs/api/nodeEdge/Item) on item instances for updating, destroying, getting attributes, modifying state, etc. And changes to instances can also be made by calling methods on [graph](/en/docs/api/Graph).
+There are [common methods](/en/docs/api/items/itemMethods) on item instances for updating, destroying, getting attributes, modifying state, etc. And changes to instances can also be made by calling methods on [graph](/en/docs/api/Graph).
 
 This chapter provides an overview of the common properties and methods of graph items in G6, different types of items, i.e. nodes, edges and combos, will be described in detail in later chapters.

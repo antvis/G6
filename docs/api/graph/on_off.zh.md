@@ -1,6 +1,6 @@
 ---
 title: 事件绑定/解绑
-order: 10
+order: 9
 ---
 
 ### graph.on(eventName, handler)

@@ -1,6 +1,6 @@
 ---
-title: G6.registerLayout
-order: 7
+title: 自定义布局 G6.registerLayout
+order: 11
 ---
 
 ## G6.registerLayout(layoutName, layout)

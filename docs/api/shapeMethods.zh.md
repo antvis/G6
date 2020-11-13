@@ -1,6 +1,6 @@
 ---
-title: 各图形 Shape 的通用方法
-order: 7
+title: 各图形的通用方法 Shape Func
+order: 9
 ---
 
 ### attr()

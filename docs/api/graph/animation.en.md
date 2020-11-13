@@ -1,6 +1,6 @@
 ---
-title: animation
-order: 10
+title: Animation
+order: 14
 ---
 
 ### graph.positionsAnimate()

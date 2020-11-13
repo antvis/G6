@@ -1,7 +1,109 @@
 ---
-title: 查找相关
-order: 10
+title: 查找元素
+order: 5
 ---
+
+
+### graph.getNodes()
+
+获取图中所有节点的实例。
+
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 这里返回的是节点的实例，而不是节点的数据项。
+
+**返回值**
+
+- 返回值类型：Array；
+- 返回值表示图中所有节点的实例。
+
+**用法**
+
+```javascript
+const nodes = graph.getNodes();
+```
+
+### graph.getEdges()
+
+获取图中所有边的实例。
+
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 这里返回的是边的实例，而不是边的数据项。
+
+**返回值**
+
+- 返回值类型：Array；
+- 返回值表示图中所有边的实例。
+
+**用法**
+
+```javascript
+const edges = graph.getEdges();
+```
+
+### graph.getCombos()
+
+获取当前图中所有 combo 的实例。
+
+**返回值**
+
+- 返回值类型：Array；
+- 返回值表示图中所有 combo 的实例。
+
+**用法**
+
+```javascript
+const combos = graph.getCombos();
+```
+
+### graph.getComboChildren(combo)
+
+获取指定 combo 中所有的子节点及子 combo。
+
+**参数**
+
+| 名称  | 类型            | 是否必选 | 描述                   |
+| ----- | --------------- | -------- | ---------------------- |
+| combo | string / ICombo | true     | Combo ID 或 combo 实例 |
+
+**返回值**
+
+- 返回值类型：Object，格式如下
+
+```javascript
+{
+    nodes: INode[],
+    edges: ICombo[]
+}
+```
+
+- 返回指定 combo 中的子元素（子节点及子 combo）。
+
+**用法**
+
+```
+const elements: {
+  nodes: INode[],
+  combos: ICombo[]
+} = graph.getComboChildren('combo1')
+```
+
+### graph.getNeighbors(node, type)
+
+**参数**
+
+| 名称 | 类型 | 是否必选 | 描述 |
+| --- | --- | --- | --- |
+| node | string / INode | true | 节点 ID 或节点实例 |
+| type | 'source' / 'target' / undefined | false | 邻居类型， 'source' 只获取当前节点的源节点，'target' 只获取当前节点指向的目标节点， 若不指定则返回所有类型的邻居 |
+
+**返回值**
+
+- 返回值类型：Array；
+- 返回值符合要求的节点数组。
+
+**用法**
+
+```javascript
+const neighbors = graph.getNeighbors('node1', 'source');
+```
 
 ### graph.find(type, fn)
 
@@ -94,3 +196,4 @@ const nodes = graph.findAll('node', (node) => {
 // 查询所有选中的元素
 const nodes = graph.findAllByState('node', 'selected');
 ```
+

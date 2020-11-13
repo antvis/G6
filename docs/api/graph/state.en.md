@@ -1,6 +1,6 @@
 ---
-title: set[clear]ItemState(item, stack)
-order: 10
+title: State of Item
+order: 7
 ---
 
 ### graph.setItemState(item, state, enabled)

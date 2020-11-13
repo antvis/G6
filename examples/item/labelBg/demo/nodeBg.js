@@ -50,12 +50,6 @@ const graph = new G6.Graph({
   fitCenter: true,
   defaultNode: {
     type: 'circle',
-    size: [40],
-    color: '#5B8FF9',
-    style: {
-      fill: '#9EC9FF',
-      lineWidth: 3,
-    },
     labelCfg: {
       style: {
         fill: '#1890ff',

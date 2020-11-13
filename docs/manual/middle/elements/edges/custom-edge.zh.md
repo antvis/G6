@@ -8,7 +8,7 @@ G6 除了提供丰富的 [内置边](/zh/docs/manual/middle/elements/edges/defau
 用户可以通过 `G6.registerEdge(typeName: string, edgeDefinition: object, extendedTypeName?: string)` 注册一个新的边类型，其中：
 - `typeName`：该新边类型名称；
 - `extendedTypeName`：被继承的边类型，可以是内置边类型名，也可以是其他自定义边的类型名。`extendedTypeName` 未指定时代表不继承其他类型的边；
-- `edgeDefinition`：该新边类型的定义，其中必要函数详见 [自定义机制 API](/zh/docs/api/Custom)。当有 `extendedTypeName` 时，没被复写的函数将会继承 `extendedTypeName` 的定义。
+- `edgeDefinition`：该新边类型的定义，其中必要函数详见 [自定义机制 API](/zh/docs/api/registerItem#g6registeredgeedgename-options-extendededgename)。当有 `extendedTypeName` 时，没被复写的函数将会继承 `extendedTypeName` 的定义。
 
 **需要注意的是**，自定义边/节点时，若给定了 `extendedTypeName`，如 `draw`，`update`，`setState` 等必要的函数若不在 `edgeDefinition` 中进行复写，将会继承 `extendedTypeName` 中的相关定义。常见问题：
 - Q：边/节点更新时，没有按照在 `edgeDefinition` 中自定义实现的 `draw` 或 `drawShape` 逻辑更新。例如，有些图形没有被更新，增加了没有在 `draw` 或 `drawShape` 方法中定义的图形等。

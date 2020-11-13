@@ -1,6 +1,6 @@
 ---
-title: Register Node and Edge
-order: 6
+title: G6.registerNode/Edge/Combo
+order: 7
 ---
 
 This document shows the functions that should be implemented or rewrited when custom nodes by `G6.registerNode` or custom edges by `G6.registerEdge`.
@@ -14,7 +14,7 @@ When the built-in nodes cannot satisfy your requirments, custom a type of node b
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | nodeName | String | true | The unique name of the custom node. |
-| options | Object | true | The configurations of custom node, include functions of complete life cycles. Please refer to [Shape Doc](/en/docs/manual/middle/elements/shape/shape-keyshape) and [Custom Item API](/en/docs/api/CustomItem). |
+| options | Object | true | The configurations of custom node, include functions of complete life cycles. Please refer to [Shape Doc](/en/docs/manual/middle/elements/shape/shape-keyshape) and [Custom Item API](/en/docs/api/registerItem). |
 | extendedNodeName | String | false | Specifies the inherited node type of the custom node. Declare this property if you want to extend a built-in node. [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) document. |
 
 ### Usage
@@ -77,7 +77,7 @@ When the built-in edges cannot satisfy your requirments, custom a type of edge b
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | edgeName | String | true | The unique name of the custom edge. |
-| options | Object | true | The configurations of custom edge, include functions of complete life cycles. Please refer to [Shape Doc](/en/docs/manual/middle/elements/shape/shape-keyshape) and [Custom Item API](/en/docs/api/CustomItem). |
+| options | Object | true | The configurations of custom edge, include functions of complete life cycles. Please refer to [Shape Doc](/en/docs/manual/middle/elements/shape/shape-keyshape) and [Custom Item API](/en/docs/api/registerItem). |
 | extendedEdgeName | String | false | Specifies the inherited node type of the custom node. Declare this property if you want to extend the a built-in edge. [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge) document. |
 
 ### Usage
@@ -134,7 +134,7 @@ When the built-in combos cannot satisfy your requirments, custom a type of combo
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | comboName | String | true | The unique name of the custom combo. |
-| options | Object | true | The configurations of custom combo, include functions of complete life cycles. Please refer to [Shape Doc](/en/docs/manual/middle/elements/shape/shape-keyshape) and [Custom Item API](/en/docs/api/CustomItem). |
+| options | Object | true | The configurations of custom combo, include functions of complete life cycles. Please refer to [Shape Doc](/en/docs/manual/middle/elements/shape/shape-keyshape) and [Custom Item API](/en/docs/api/registerItem). |
 | extendedComboName | String | false | Specifies the inherited combo type of the custom combo. Declare this property if you want to extend a built-in combo. [Built-in Combos](/en/docs/manual/middle/elements/combos/defaultCombo) document. |
 
 ### Usage

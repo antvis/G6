@@ -1,5 +1,5 @@
 ---
-title: G6.Graph(GraphOptions)
+title: 图配置 G6.Graph(cfg)
 order: 0
 ---
 
@@ -186,7 +186,7 @@ const graph = new G6.Graph({
 - 若数据中节点有位置信息（`x` 和 `y`），则按照数据的位置信息进行绘制；
 - 若数据中节点没有位置信息，则默认使用 Random Layout 进行布局。
 
-每种布局方法的配置项不尽相同，具体参见[Graph 内置布局](/zh/docs/api/G6/common/graphLayout)。
+每种布局方法的配置项不尽相同，具体参见 [Graph 内置布局](/zh/docs/api/G6/common/graphLayout)。
 
 ### GraphOptions.renderer
 

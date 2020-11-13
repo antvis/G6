@@ -1,5 +1,5 @@
 ---
-title: add[remove]Behaviors
+title: Add/Remove Behaviors
 order: 10
 ---
 

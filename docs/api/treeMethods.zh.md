@@ -1,6 +1,6 @@
 ---
-title: treeGraph 实例方法
-order: 4
+title: TreeGraph 实例方法
+order: 5
 ---
 
 ### data()

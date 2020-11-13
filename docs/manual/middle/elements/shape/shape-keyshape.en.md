@@ -124,4 +124,4 @@ There are three key functions of custom node and edge which should be rewrited a
 - `update(cfg, n)`: Update the item according to the configurations and the item;
 - `setState(name, value, item)`: Response the states change for items.
 
-For more information about custom node and edge, refer to [Custom Item API](/en/docs/api/CustomItem).
+For more information about custom node and edge, refer to [Custom Item API](/en/docs/api/registerItem).

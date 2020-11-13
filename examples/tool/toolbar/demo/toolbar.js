@@ -1,6 +1,9 @@
 import G6 from '@antv/g6';
 import insertCss from 'insert-css';
 
+// 我们用 insert-css 演示引入自定义样式
+// 推荐将样式添加到自己的样式文件中
+// 若拷贝官方代码，别忘了 npm install insert-css
 insertCss(`
   .g6-component-toolbar li {
     list-style-type: none !important;
@@ -66,7 +69,9 @@ const data = {
 const width = document.getElementById('container').scrollWidth;
 const height = document.getElementById('container').scrollHeight || 500;
 
-const toolbar = new G6.ToolBar();
+const toolbar = new G6.ToolBar({
+  position: { x: 130, y: 70 }
+});
 
 const graph = new G6.Graph({
   container: 'container',

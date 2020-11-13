@@ -26,13 +26,6 @@ export default {
       this.combinedKey = undefined;
     }
 
-    if (!this.graph[this.functionName]) {
-      console.warn(
-        `Behavior shortcuts-fit-view 的 functionName 参数 '${this.functionName}' 不合法，它不是 Graph 的一个函数名`,
-      );
-      return {};
-    }
-
     return {
       keyup: 'onKeyUp',
       keydown: 'onKeyDown'
@@ -58,6 +51,14 @@ export default {
     }
 
     const { graph } = this;
+
+    if (!graph[this.functionName]) {
+      console.warn(
+        `Behavior shortcuts-fit-view 的 functionName 参数 '${this.functionName}' 不合法，它不是 Graph 的一个函数名`,
+      );
+      return {};
+    }
+
     // 未配置 combinedKey，直接 fitView
     if (this.triggerKeydown && !this.combinedKey) {
       if (this.functionParams && this.functionParams.length) graph[this.functionName](...this.functionParams);

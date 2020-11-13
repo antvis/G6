@@ -1,6 +1,6 @@
 ---
 title: 动画相关方法
-order: 10
+order: 14
 ---
 
 ### graph.positionsAnimate()

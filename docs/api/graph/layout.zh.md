@@ -1,9 +1,9 @@
 ---
-title: 执行/更新布局
+title: 布局
 order: 10
 ---
 
-G6 3.1 内置了丰富的布局。关于如何使用 G6 中内置的布局，请参考  [Layout API](/zh/docs/api/layout/Layout)。
+G6 3.1 内置了丰富的布局。关于如何使用 G6 中内置的布局，请参考  [图布局 API](/zh/docs/api/graphLayout/guide) 或 [树图布局 API](/zh/docs/api/treeGraphLayout/guide)。
 
 ### graph.layout()
 
@@ -96,4 +96,31 @@ graph.updateLayout({
   divisions: 5,
   ordering: 'degree',
 });
+```
+
+### destroyLayout()
+
+销毁布局方法，在此之后调用 `changeData` 等方法将不会按照原有的布局算法进行布局。
+
+**用法**
+
+```javascript
+const graph = new G6.Graph({
+  container: 'mountNode',
+  width: 1000,
+  height: 600,
+  modes: {
+    default: ['drag-canvas', 'drag-node'],
+  },
+  layout: {
+    type: 'circular',
+    center: [500, 300],
+  },
+  animate: true,
+});
+graph.data(data);
+graph.render();
+graph.destroyLayout();
+// 此时 changeData，若 data2 中的节点没有位置信息，将按照初始化计算方法被放置；若有位置信息，则按照该信息被放置
+graph.changeData(data2);
 ```

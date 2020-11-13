@@ -1,6 +1,6 @@
 ---
 title: G6.registerLayout
-order: 7
+order: 11
 ---
 
 ## G6.registerLayout(layoutName, layout)

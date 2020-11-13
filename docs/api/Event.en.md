@@ -1,6 +1,6 @@
 ---
 title: Event
-order: 8
+order: 12
 ---
 
 The events in this chapter can be binded or unbinded to graph by [graph.on](/en/docs/api/Graph/#oneventname-handler) and [graph.off](/en/docs/api/Graph/#offeventname-handler).

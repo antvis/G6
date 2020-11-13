@@ -1,7 +1,9 @@
 ---
 title: Edge Model Properties
-order: 5
+order: 7
 ---
+
+## Common Property
 
 Except for the common properties, there are special configurations for each type of built-in Edges. The `style`s of them depend on their keyShape. The common properties for built-in Edges can be refered to:
 
@@ -68,3 +70,4 @@ labelCfg is an object to configure the label. The commonly used configurations o
 ## Properties for Specific Built-in Edges
 
 The special properties for each built-in Edges can be found in the subdocuments of [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge).
+

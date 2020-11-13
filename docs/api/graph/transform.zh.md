@@ -1,6 +1,6 @@
 ---
-title: 放缩、平移、变换画布
-order: 10
+title: 视口操作
+order: 3
 ---
 
 ### graph.getZoom()

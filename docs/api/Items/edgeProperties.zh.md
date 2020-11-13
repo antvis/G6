@@ -1,9 +1,9 @@
 ---
 title: 边配置项
-order: 5
+order: 7
 ---
 
-## 通用属性
+## 边通用属性
 
 ### id
 
@@ -64,3 +64,8 @@ order: 5
 | position | false | String | 文本相对于边的位置，目前支持的位置有：`'start'`，`'middle'`，`'end'`。默认为`'middle'`。 |
 | autoRotate | false | Boolean | 标签文字是否跟随边旋转，默认 `false` |
 | style | false | Object | 标签的样式属性，具体配置项参见统一整理在 [图形样式属性 - Text 图形](/zh/docs/api/shapeProperties/#文本-text) |
+
+
+## 内置边的特有属性
+
+各个内置节点的特有属性见 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge) 目录下各文档。
