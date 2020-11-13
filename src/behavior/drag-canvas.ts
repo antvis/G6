@@ -74,6 +74,12 @@ export default {
   },
   onMouseDown(e: IG6GraphEvent) {
     const self = this as any;
+    const event = e.originalEvent as MouseEvent;
+
+    if (event.button !== 0) {
+      return;
+    }
+    
     if (
       e.name !== G6Event.TOUCHSTART &&
       window &&
