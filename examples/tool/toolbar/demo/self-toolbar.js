@@ -1,10 +1,13 @@
 import G6 from '@antv/g6';
 import insertCss from 'insert-css';
 
+// 我们用 insert-css 演示引入自定义样式
+// 推荐将样式添加到自己的样式文件中
+// 若拷贝官方代码，别忘了 npm install insert-css
 insertCss(`
   .g6-toolbar-ul {
     position: absolute;
-    top: 20px;
+    top: 70px;
     border: 1px solid #e2e2e2;
     border-radius: 4px;
     font-size: 12px;

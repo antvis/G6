@@ -4,6 +4,9 @@ import insertCss from 'insert-css';
 // 我们用 insert-css 演示引入自定义样式
 // 推荐将样式添加到自己的样式文件中
 // 若拷贝官方代码，别忘了 npm install insert-css
+// 我们用 insert-css 演示引入自定义样式
+// 推荐将样式添加到自己的样式文件中
+// 若拷贝官方代码，别忘了 npm install insert-css
 insertCss(`
   .g6-component-tooltip {
     background-color: rgba(255, 255, 255, 0.8);
@@ -71,8 +74,8 @@ const data = {
 const tooltip = new G6.Tooltip({
   // offsetX and offsetY include the padding of the parent container
   // offsetX 与 offsetY 需要加上父容器的 padding
-  offsetX: 16 + 10,
-  offsetY: 24 + 10,
+  offsetX: 140 + 10,
+  offsetY: 100 + 10,
   // the types of items that allow the tooltip show up
   // 允许出现 tooltip 的 item 类型
   itemTypes: ['node', 'edge'],

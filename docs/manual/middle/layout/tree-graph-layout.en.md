@@ -11,7 +11,7 @@ Besides, G6 supports [Custom Layout](/en/docs/manual/middle/layout/custom-layout
 
 In fact, 'layout' is a free mechanism in G6. The built-in layouts only calculate and manipulate the `x` and `y` in node data. In other word, users can assign `x` and `y` to nodes by any other ways including the algorithms from the third-party libraries. Once G6 find the `x` and `y` information on data, it will render the graph according to it.
 
-In order to handle the tree data structure, G6 extends Graph to TreeGraph. Refer to: [TreeGraph API](/en/docs/api/layout/TreeGraph). TreeGraph is appropriate for visualizing hierarchy data. In this ducoment, we will introduce the TreeGraph layout algorithms in detail.
+In order to handle the tree data structure, G6 extends Graph to TreeGraph. Refer to: [TreeGraph API](/en/docs/api/treeGraphLayout/guide). TreeGraph is appropriate for visualizing hierarchy data. In this ducoment, we will introduce the TreeGraph layout algorithms in detail.
 
 ## TreeGraph Layouts Overview
 
@@ -50,7 +50,7 @@ const graph = new G6.TreeGraph({
 
 ### compactBox
 
-**Description**: CompactBox is the default layout for TreeGraph. It will consider the bounding box of each node when layout.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**API**: [CompactBox API](/en/docs/api/layout/TreeGraph#compactbox)<br />**Configuration**:
+**Description**: CompactBox is the default layout for TreeGraph. It will consider the bounding box of each node when layout.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**API**: [CompactBox API](/en/docs/api/treeGraphLayout/compactBox)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -64,7 +64,7 @@ const graph = new G6.TreeGraph({
 
 ### dendrogram
 
-**Description**: Arranges all the leaves on the same level. It is appropriate for hierarchical clustering. It does not consider the node size, which will be regarded as 1 px.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XehWSKAWdrwAAAAAAAAAAABkARQnAQ' width=300 alt='img'/><br />**API**: [Dendrogram API](/en/docs/api/layout/TreeGraph#dendrogram)<br />**Configuration**:
+**Description**: Arranges all the leaves on the same level. It is appropriate for hierarchical clustering. It does not consider the node size, which will be regarded as 1 px.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XehWSKAWdrwAAAAAAAAAAABkARQnAQ' width=300 alt='img'/><br />**API**: [Dendrogram API](/en/docs/api/treeGraphLayout/dendrogram)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -77,7 +77,7 @@ const graph = new G6.TreeGraph({
 
 **Description**: Indented layout represents the hierarchy by indent between them. Each node will take a row/column. It is appropriate for file directory.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zuBlR4oBIE0AAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
-**API**: [Indented API](/en/docs/api/layout/TreeGraph#indented)<br />**Configuration**:
+**API**: [Indented API](/en/docs/api/treeGraphLayout/indented)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -89,7 +89,7 @@ const graph = new G6.TreeGraph({
 
 ### mindmap
 
-**Description**: Mindmap arranged the nodes with same depth on the same level. Different from compactBox, it does not consider the size of nodes while doing layout.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sRi6Q6Qrm-oAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**API**: [Mindmap API](/en/docs/api/layout/TreeGraph#mindmap)<br />**Configuration**:
+**Description**: Mindmap arranged the nodes with same depth on the same level. Different from compactBox, it does not consider the size of nodes while doing layout.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sRi6Q6Qrm-oAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**API**: [Mindmap API](/en/docs/api/treeGraphLayout/mindmap)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |

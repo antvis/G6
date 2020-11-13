@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
 
-let trigger = 'drag';
+let trigger = 'mousemove';
 const filterConfigs = {
   trigger,
   showLabel: 'edge',
@@ -46,18 +46,18 @@ triggerTag.innerHTML = 'Trigger:';
 triggerTag.style.marginLeft = '16px';
 buttonContainer.appendChild(triggerTag);
 const configTrigger = document.createElement('select');
-configTrigger.value = 'drag';
+configTrigger.value = 'mousemove';
 configTrigger.style.height = '25px';
 configTrigger.style.width = '100px';
 configTrigger.style.marginLeft = '8px';
-const dragTrigger = document.createElement('option');
-dragTrigger.value = 'drag';
-dragTrigger.innerHTML = 'drag';
-configTrigger.appendChild(dragTrigger);
 const mousemoveTrigger = document.createElement('option');
 mousemoveTrigger.value = 'mousemove';
 mousemoveTrigger.innerHTML = 'mousemove';
 configTrigger.appendChild(mousemoveTrigger);
+const dragTrigger = document.createElement('option');
+dragTrigger.value = 'drag';
+dragTrigger.innerHTML = 'drag';
+configTrigger.appendChild(dragTrigger);
 const clickTrigger = document.createElement('option');
 clickTrigger.value = 'click';
 clickTrigger.innerHTML = 'click';

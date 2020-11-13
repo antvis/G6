@@ -1,5 +1,5 @@
 ---
-title: G6.Graph(GraphOptions)
+title: G6.Graph(cfg)
 order: 0
 redirect_from:
   - /en/docs/api
@@ -9,7 +9,7 @@ Graph is the carrier of G6. All the operations about events, behaviors, items ar
 
 ```ts
 // highlight-start
-new Graph(params: GraphOptions) => Graph
+new Graph(cfg: GraphOptions) => Graph
 // highlight-end
 
 const graph = new G6.Graph({
@@ -188,7 +188,7 @@ Configurations for layout. The `type` in it is the name of layout method with th
 - If there are `x` and `y` in node data, the graph will render with these information;
 - If there is no positions information in node data, the graph will arrange nodes with Random Layout by default.
 
-For more configurations for different layout methods, please refer to [Layout API](/en/docs/api/Layout/Layout).
+For more configurations for different layout methods, please refer to [Layout API](/en/docs/api/graphLayout/guide).
 
 ### GraphOptions.renderer
 

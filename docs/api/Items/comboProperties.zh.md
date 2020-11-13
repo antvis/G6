@@ -1,6 +1,6 @@
 ---
 title: Combo 配置项
-order: 5
+order: 8
 ---
 
 ### id

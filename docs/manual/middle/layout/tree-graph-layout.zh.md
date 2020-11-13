@@ -11,7 +11,7 @@ order: 1
 
 事实上，G6 的布局是自由的，内置布局算法仅仅是操作了数据中节点的 `x` 和 `y` 值。因此，除了使用内置布局以及自定义的一般图布局外，用户还可以使用外部图布局算法，计算节点位置后赋值到数据中节点的 `x` 和 `y` 字段上，G6 便可以根据该位置信息进行绘制。
 
-由于树图特殊性，G6 扩展出了  TreeGraph ，详细文档请见：[TreeGraph](/zh/docs/api/layout/TreeGraph) API。树布局是一种能很好展示有一定层次结构数据的布局方式。推荐使用 G6.TreeGraph 实现。本文将逐一介绍内置的树图布局算法，及其使用方式。
+由于树图特殊性，G6 扩展出了  TreeGraph ，详细文档请见：[TreeGraph](/zh/docs/api/treeGraphLayout/guide) API。树布局是一种能很好展示有一定层次结构数据的布局方式。推荐使用 G6.TreeGraph 实现。本文将逐一介绍内置的树图布局算法，及其使用方式。
 
 ## 树图 TreeGraph 布局方法总览
 
@@ -50,7 +50,7 @@ const graph = new G6.TreeGraph({
 
 ### compactBox
 
-**描述**：紧凑树布局。从根节点开始，同一深度的节点在同一层，并且布局时会将节点大小考虑进去。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**API**：[CompactBox API](/zh/docs/api/layout/TreeGraph#compactbox-紧凑树布局)<br />**参数**：
+**描述**：紧凑树布局。从根节点开始，同一深度的节点在同一层，并且布局时会将节点大小考虑进去。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**API**：[CompactBox API](/zh/docs/api/treeGraphLayout/compactBox)<br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -64,7 +64,7 @@ const graph = new G6.TreeGraph({
 
 ### dendrogram
 
-**描述**：生态树布局。不管数据的深度多少，总是叶节点对齐。不考虑节点大小，布局时将节点视为 1 个像素点。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XehWSKAWdrwAAAAAAAAAAABkARQnAQ' width=300 alt='img'/><br />**API**：[Dendrogram API](/zh/docs/api/layout/TreeGraph#dendrogram-生态树布局)<br />**参数**：
+**描述**：生态树布局。不管数据的深度多少，总是叶节点对齐。不考虑节点大小，布局时将节点视为 1 个像素点。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XehWSKAWdrwAAAAAAAAAAABkARQnAQ' width=300 alt='img'/><br />**API**：[Dendrogram API](/zh/docs/api/treeGraphLayout/dendrogram)<br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -77,7 +77,7 @@ const graph = new G6.TreeGraph({
 
 **描述**：缩进树布局。每个元素会占一行/一列。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zuBlR4oBIE0AAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
-**API**：[Indented API](/zh/docs/api/layout/TreeGraph#indented-缩进树布局)<br />**参数**：
+**API**：[Indented API](/zh/docs/api/treeGraphLayout/indented)<br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -89,7 +89,7 @@ const graph = new G6.TreeGraph({
 
 ### mindmap
 
-**描述**：脑图布局。深度相同的节点将会被放置在同一层，与 compactBox 不同的是，布局不会考虑节点的大小。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sRi6Q6Qrm-oAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**API**：[Mindmap API](/zh/docs/api/layout/TreeGraph#mindmap-脑图树布局)<br />**参数**：
+**描述**：脑图布局。深度相同的节点将会被放置在同一层，与 compactBox 不同的是，布局不会考虑节点的大小。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sRi6Q6Qrm-oAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**API**：[Mindmap API](/zh/docs/api/treeGraphLayout/mindmap)<br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |

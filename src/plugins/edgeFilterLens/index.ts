@@ -29,7 +29,7 @@ export default class EdgeFilterLens extends Base {
   public getDefaultCfgs(): EdgeFilterLensConfig {
     return {
       type: 'both',
-      trigger: 'drag',
+      trigger: 'mousemove',
       r: 60,
       delegateStyle: clone(lensDelegateStyle),
       showLabel: 'edge',

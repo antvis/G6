@@ -1,6 +1,6 @@
 ---
-title: treeGraph.*
-order: 4
+title: TreeGraph Functions
+order: 5
 ---
 
 ### data()

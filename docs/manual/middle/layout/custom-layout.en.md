@@ -3,7 +3,7 @@ title: Custom Layout
 order: 5
 ---
 
-G6 provides abundant commonly used built-in layouts for Graph and TreeGraph respectively. The usage can be found in: [Graph Layout](/en/docs/manual/middle/layout/graph-layout), [Tree Layout](/en/docs/manual/middle/layout/tree-graph-layout), [Layout API](/en/docs/api/layout/Layout). Custom layout mechanism of G6 allows the users to design their own type of layout to meet their special requirements.
+G6 provides abundant commonly used built-in layouts for Graph and TreeGraph respectively. The usage can be found in: [Graph Layout](/en/docs/manual/middle/layout/graph-layout), [Tree Layout](/en/docs/manual/middle/layout/tree-graph-layout), [Graph Layout API](/en/docs/api/graphLayout/guide) or [TreeGraph Layout API](/en/docs/api/treeGraphLayout/guide). Custom layout mechanism of G6 allows the users to design their own type of layout to meet their special requirements.
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️Attention:</strong> </span> The TreeGraph does not support custom layout temporarily.
 

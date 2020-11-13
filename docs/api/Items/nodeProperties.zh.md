@@ -1,6 +1,6 @@
 ---
-title: 节点属性
-order: 5
+title: 节点配置项
+order: 6
 ---
 
 节点继承自元素类。除了[元素通用属性](/zh/docs/api/items/itemProperties.zh.md)外，每种节点拥有一些特有的属性。

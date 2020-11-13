@@ -47,7 +47,7 @@ const graph = new G6.Graph({
 
 #### 通用属性
 
-default、hover 和 collapse 支持的所有通用的属性参考[图形属性](/zh/docs/api/nodeEdge/shapeProperties)。除过这些通用的属性，default 和 collapse 分别还支持以下特有属性。
+default、hover 和 collapse 支持的所有通用的属性参考[图形属性](/zh/docs/api/shapeProperties)。除过这些通用的属性，default 和 collapse 分别还支持以下特有属性。
 
 #### default
 

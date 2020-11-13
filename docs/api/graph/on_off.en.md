@@ -1,6 +1,6 @@
 ---
-title: graph.on/off()
-order: 10
+title: On/Off Event
+order: 9
 ---
 
 ### graph.on(eventName, handler)

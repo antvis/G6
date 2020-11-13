@@ -1,6 +1,6 @@
 ---
-title: read /save/ load Data
-order: 1
+title: Read/Save/Load Data
+order: 0
 ---
 
 Load the data for graph.

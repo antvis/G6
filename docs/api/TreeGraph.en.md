@@ -1,6 +1,6 @@
 ---
 title: G6.TreeGraph(cfg)
-order: 2
+order: 3
 ---
 
 Initialize a tree graph.

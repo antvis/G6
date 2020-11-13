@@ -1,5 +1,6 @@
 ---
 title: Set/Get Mode
+order: 8
 ---
 
 ### graph.setMode(mode)

@@ -531,7 +531,7 @@ Edge Filter Lens is designed for edge filtering, the desired edges will be kept 
 
 | Name | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
-| trigger | 'drag' / 'mousemove' / 'click' | false | 'drag' | The trigger for the lens |
+| trigger | 'drag' / 'mousemove' / 'click' | false | 'mousemove' | The trigger for the lens |
 | type | 'one' / 'both' / 'only-source' / 'only-target' | false | 'both' | Simple filtering conditions related to the end nodes. `'one'`: show the edge whose one or more end nodes are inside the filter lens; `'both'`: show the edge whose both end nodes are inside the lens; `'only-source'`: show the edge whose source node is inside the lens and target node is not; `'only-target'`: show the edge whose target node is inside the lens and source node is not. More complicated conditions can be defined by the `shouldShow` |
 | shouldShow | (d?: unknown) => boolean | false | undefined | The custom conditions for filtering. The parameter `d` is the data of each edge, you can return boolean value according to the data, where `true` means show. |
 | r | Number | false | 60 | The radius of the filter area |

@@ -15,6 +15,7 @@ module.exports = {
     description: 'A collection of charts made with the Grammar of Graphics',
     siteUrl: homepage,
     githubUrl: repository.url,
+    showAPIDoc: true,
     versions: {
       [version]: 'https://g6.antv.vision',
       '3.2.x': 'https://g6-v3-2.antv.vision',
@@ -202,37 +203,37 @@ module.exports = {
       },
       // ==========API====================
       {
-        slug: 'api/G6',
+        slug: 'api/graphLayout',
         title: {
-          zh: 'G6.',
-          en: 'G6.',
+          zh: '图布局 Graph Layout',
+          en: 'Graph Layout',
         },
-        order: 3,
-      },
-      {
-        slug: 'api/G6/Layout',
-        title: {
-          zh: 'Layout',
-          en: 'Layout',
-        },
-        order: 4,
+        order: 1,
       },
       {
         slug: 'api/graph',
         title: {
-          zh: 'graph实例方法',
-          en: 'graph methods',
+          zh: 'Graph 实例方法',
+          en: 'Graph Functions',
+        },
+        order: 2,
+      },
+      {
+        slug: 'api/treeGraphLayout',
+        title: {
+          zh: '树图布局 TreeGraph Layout',
+          en: 'TreeGraph Layout',
         },
         order: 4,
       },
       {
-        slug: 'api/Items',
+        slug: 'api/items',
         title: {
           zh: '元素方法和配置',
-          en: 'Item Methods & Options',
+          en: 'Item Functions & Options',
         },
-        order: 5,
-      },
+        order: 6,
+      }
     ],
     examples: [
       {

@@ -1,5 +1,5 @@
 ---
-title: Performance CASE
+title: Performance Case
 order: 0
 ---
 

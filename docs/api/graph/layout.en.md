@@ -1,9 +1,9 @@
 ---
-title: graph.layout() / updateLayout(cfg)
+title: Layout
 order: 10
 ---
 
-There are several basic layout algorithms in G6 3.1. For more information, please refer to [Layout API](/en/docs/api/layout/Layout)。
+There are several basic layout algorithms in G6 3.1. For more information, please refer to [Graph Layout API](/en/docs/api/graphLayout/guide) or [TreeGraph Layout API](/en/docs/api/treeGraphLayout/guide).
 
 ### graph.layout()
 
@@ -96,4 +96,31 @@ graph.updateLayout({
   divisions: 5,
   ordering: 'degree',
 });
+```
+
+### destroyLayout()
+
+Destroy the layout algorithm. After that, the `changeData` will not place the new nodes with origin layout configurations.
+
+**Usage**
+
+```javascript
+const graph = new G6.Graph({
+  container: 'mountNode',
+  width: 1000,
+  height: 600,
+  modes: {
+    default: ['drag-canvas', 'drag-node'],
+  },
+  layout: {
+    type: 'circular',
+    center: [500, 300],
+  },
+  animate: true,
+});
+graph.data(data);
+graph.render();
+graph.destroyLayout();
+// If there is no position info in data2, the new nodes will be placed according to position initing problem. If the position info exists, the new node will be placed according to its position info
+graph.changeData(data2);
 ```

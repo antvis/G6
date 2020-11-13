@@ -1,14 +1,16 @@
 import G6 from '@antv/g6';
 import insertCss from 'insert-css';
 
+// 我们用 insert-css 演示引入自定义样式
+// 推荐将样式添加到自己的样式文件中
+// 若拷贝官方代码，别忘了 npm install insert-css
+// 我们用 insert-css 演示引入自定义样式
+// 推荐将样式添加到自己的样式文件中
+// 若拷贝官方代码，别忘了 npm install insert-css
 insertCss(`
-  .g6-tooltip {
-    border: 1px solid #e2e2e2;
-    border-radius: 4px;
-    font-size: 12px;
-    color: #545454;
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 10px 8px;
+  .g6-component-tooltip {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 0px 10px 24px 10px;
     box-shadow: rgb(174, 174, 174) 0px 0px 10px;
   }
 `);
@@ -69,6 +71,31 @@ const data = {
     },
   ],
 };
+const tooltip = new G6.Tooltip({
+  // offsetX and offsetY include the padding of the parent container
+  // offsetX 与 offsetY 需要加上父容器的 padding
+  offsetX: 140 + 10,
+  offsetY: 100 + 10,
+  // the types of items that allow the tooltip show up
+  // 允许出现 tooltip 的 item 类型
+  itemTypes: ['node', 'edge'],
+  // custom the tooltip's content
+  // 自定义 tooltip 内容
+  getContent: (e) => {
+    const outDiv = document.createElement('div');
+    outDiv.style.width = 'fit-content';
+    //outDiv.style.padding = '0px 0px 20px 0px';
+    outDiv.innerHTML = `
+      <h4>Custom Content</h4>
+      <ul>
+        <li>Type: ${e.item.getType()}</li>
+      </ul>
+      <ul>
+        <li>Label: ${e.item.getModel().label || e.item.getModel().id}</li>
+      </ul>`;
+    return outDiv;
+  },
+});
 const width = document.getElementById('container').scrollWidth;
 const height = document.getElementById('container').scrollHeight || 500;
 const graph = new G6.Graph({
@@ -76,6 +103,10 @@ const graph = new G6.Graph({
   width,
   height,
   linkCenter: true,
+  plugins: [tooltip],
+  modes: {
+    default: ['drag-node'],
+  },
   defaultNode: {
     size: [80, 40],
     type: 'rect',
@@ -89,27 +120,6 @@ const graph = new G6.Graph({
       stroke: '#b5b5b5',
       lineAppendWidth: 3,
     },
-  },
-  modes: {
-    default: [
-      'drag-node',
-      {
-        type: 'tooltip',
-        formatText: function formatText(model) {
-          const text = 'description: ' + model.description;
-          return text;
-        },
-        offset: 30,
-      },
-      {
-        type: 'edge-tooltip',
-        formatText: function formatText(model) {
-          const text = 'description: ' + model.description;
-          return text;
-        },
-        offset: 30,
-      },
-    ],
   },
 });
 graph.data(data);

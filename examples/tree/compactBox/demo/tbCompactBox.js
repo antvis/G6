@@ -31,6 +31,9 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
           [1, 0.5],
         ],
       },
+      defaultEdge: {
+        type: 'cubic-vertical'
+      },
       layout: {
         type: 'compactBox',
         direction: 'TB',

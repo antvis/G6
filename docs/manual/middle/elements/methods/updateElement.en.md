@@ -1,5 +1,5 @@
 ---
-title: Update Item's Style
+title: Update Item Style
 order: 1
 ---
 

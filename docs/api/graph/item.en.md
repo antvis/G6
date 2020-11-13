@@ -1,7 +1,199 @@
 ---
-title: node/edge/combos
-order: 10
+title: Item Operation
+order: 4
 ---
+
+## Add/Remove
+### graph.addItem(type, model, stack)
+
+Add item(node, edge, or group) to the graph.
+
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span> G6 will use the `model` object as the model of the newly added item, and the `model` might be modified. If you do not want it to be modified, use the deep cloned `model` instead.
+
+**Parameters**
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| type | string | true | The type of the item. Options: `'node'`, `'edge'`, and `'group'`. |
+| model | Object | true | The data model of the item, refer to [Item Model Properties](/en/docs/api/items/itemProperties). When `type: 'group'`, refer to [Create Node Group](/en/docs/manual/advanced/create-node-group) |
+| stack | boolean | false | Whether to push the operator into the undo & redo stack. If the `enableStack` is `true`, this operation will be automatically pushed into the stack by default. Set `stack` to be `false` if you do not want it. |
+
+**Usage**
+
+```javascript
+const model = {
+  id: 'node',
+  label: 'node',
+  address: 'cq',
+  x: 200,
+  y: 150,
+  style: {
+    fill: 'blue',
+  },
+};
+
+graph.addItem('node', model);
+
+// Here is the model example for type = 'group'
+const model = {
+  groupId: 'xxx000999',
+  nodes: ['123', '23'],
+  type: 'rect',
+  zIndex: 0,
+  title: {
+    text: 'group name',
+  },
+};
+
+graph.addItem('group', model);
+```
+
+### graph.removeItem(item, stack)
+
+Remove the item. When the item is the id of a group, this operation will delete the corresponding group.
+
+**Parameters**
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| item | string / Object | true | The id or the instance of the item. |
+| stack | boolean | false | Whether to push the operator into the undo & redo stack. If the `enableStack` is `true`, this operation will be automatically pushed into the stack by default. Set `stack` to be `false` if you do not want it. |
+
+**Usage**
+
+```javascript
+// Find the item instance by id
+const item = graph.findById('node');
+graph.removeItem(item);
+```
+
+
+## Update
+
+### graph.updateItem(item, model, stack)
+
+Update the item with new data model. If there are combos in the graph, after calling updateItem to update the position of a node, call [updateCombo(combo)](/en/docs/api/Graph#updatecombocombo) to update the sizes and positions of the related combos.
+
+**Parameters**
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| item | string / Object | true | The ID or the instance of the item |
+| cfg | Object | false | New data model, refer to [Item Model Properties](/en/docs/api/items/itemProperties) |
+| stack | boolean | false | Whether to push the operator into the undo & redo stack. If the `enableStack` is `true`, this operation will be automatically pushed into the stack by default. Set `stack` to be `false` if you do not want it. |
+
+**Usage**
+
+```javascript
+const model = {
+  id: 'node',
+  label: 'node',
+  address: 'cq',
+  x: 200,
+  y: 150,
+  style: {
+    fill: 'blue',
+  },
+};
+
+// Find the item instance by id
+const item = graph.findById('node');
+graph.updateItem(item, model);
+```
+
+### graph.update(item, model, stack)
+
+The same as updateItem(item, model).
+
+### graph.updateCombos()
+
+Update the sizes and positions of all the combos according to the bboxes of its children.
+
+**Usage**
+
+```javascript
+// Update all the combos
+graph.updateCombos();
+```
+
+### graph.updateCombo(combo)
+
+Update the positions and sizes of the combo and all of its ancestors.
+
+**Parameters**
+
+| Name  | Type            | Required | Description                         |
+| ----- | --------------- | -------- | ----------------------------------- |
+| combo | string / ICombo | true     | The ID or the instance of the combo |
+
+**Usage**
+
+```javascript
+// Update a node's position
+const node1 = graph.findById('node1');
+graph.updateItem(node1, {
+  x: 100,
+  y: 100,
+});
+
+// the combo who contains the node
+const comboId = node1.getModel().comboId;
+
+// Update the combo and all its ancestors who contains node1
+graph.updateCombo(comboId);
+```
+
+### graph.updateComboTree(item, parentId)
+
+Update the hierarchy structure of the combo, such as move a combo into another one.
+
+**Parameters**
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| item | string / INode / ICombo | The ID or the item of the node/combo to be updated |
+| parentId | string | undefined | The ID of the new parent combo, undefined means updating the item with no parent |
+
+**Usage**
+
+```
+// move combo1 out of its parent combo. combo1 will be in the same hierarchy level as its old parent.
+graph.updateComboTree('combo1')
+
+// move combo1 into combo2. combo1 will be the child of combo2.
+graph.updateComboTree('combo1', 'combo2')
+```
+
+### graph.refreshItem(item)
+
+Refresh the item.
+
+**Parameters**
+
+| Name | Type            | Required | Description                         |
+| ---- | --------------- | -------- | ----------------------------------- |
+| item | string / Object | true     | The id or the instance of the item. |
+
+**Usage**
+
+```javascript
+// Find the item instance by id
+const item = graph.findById('node');
+graph.refreshItem(item);
+```
+
+### graph.refreshPositions()
+
+When the positions of nodes in their data models are changed, refresh the canvas to paint the nodes with new positions. It will update the edges in the same time.
+
+**Usage**
+
+```javascript
+graph.refreshPositions();
+```
+
+
+## Configure
 
 ### graph.node(nodeFn)
 
@@ -90,95 +282,54 @@ graph.data(data);
 graph.render();
 ```
 
-### graph.collapseCombo(combo)
 
-Collapse a Combo.
+## Show/Hide
 
-**Parameters**
+### graph.showItem(item, stack)
 
-| Name  | Type            | Required | Description                                           |
-| ----- | --------------- | -------- | ----------------------------------------------------- |
-| combo | string / ICombo | true     | The ID of the combo or the combo item to be collapsed |
-
-**Usage**
-
-```
-graph.collapseCombo('combo1')
-```
-
-### graph.expandCombo(combo)
-
-Expand a Combo.
-
-**Parameters**
-
-| Name  | Type            | Required | Description                                          |
-| ----- | --------------- | -------- | ---------------------------------------------------- |
-| combo | string / ICombo | true     | The ID of the combo or the combo item to be expanded |
-
-**Usage**
-
-```
-graph.expandCombo('combo1')
-```
-
-### graph.collapseExpandCombo(combo)
-
-Expand the `combo` if it is collapsed. Collapse the `combo` if it is expanded.
+Show the item. If the item is a node, the related edges will be shown in the same time. Different from that, [item.show()](/en/docs/api/items/itemMethods#itemshow) only show the node item itself.
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| combo | string / ICombo | true | The ID of the combo or the combo item to be collapsed or expanded |
+| item | string / Object | true | The id or the instance of the item. |
+| stack | boolean | false | Whether to push the operator into the undo & redo stack. If the `enableStack` is `true`, this operation will be automatically pushed into the stack by default. Set `stack` to be `false` if you do not want it. |
 
 **Usage**
 
-```
-graph.collapseExpandCombo('combo1')
+```javascript
+// Find the item instance by id
+const item = graph.findById('nodeId');
+graph.showItem(item);
+
+// equal to
+graph.showItem('nodeId');
 ```
 
-### graph.createCombo(combo, elements)
+### graph.hideItem(item, stack)
 
-Create a new combo with existing nodes or combos to be its children.
+Hide the item. If the item is a node, the related edges will be hidden in the same time. Different from that, [item.hide()](/en/docs/api/items/itemMethods#itemhide) only hide the node item itself.
 
 **Parameters**
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| combo | string / ICombo | true | The ID or the configuration of the combo to be created |
-| elements | string[] | The IDs of the existing nodes or combos to be the children of the newly created combo |
+| item | string / Object | true | The id or the instance of the item. |
+| stack | boolean | false | Whether to push the operator into the undo & redo stack. If the `enableStack` is `true`, this operation will be automatically pushed into the stack by default. Set `stack` to be `false` if you do not want it. |
 
 **Usage**
 
-```
-// The first parameter is the id of the combo to be created
-graph.createCombo('combo1', ['node1', 'node2', 'combo2'])
+```javascript
+// Find the item instance by id
+const item = graph.findById('nodeId');
+graph.hideItem(item);
 
-// The first parameter is the configuration of the combo to be created
-graph.createCombo({
-  id: 'combo1',
-  style: {
-    fill: '#f00'
-  }
-}, ['node1', 'node2', 'combo2'])
+// Equal to
+graph.hideItem('nodeId');
 ```
 
-### graph.uncombo(combo)
-
-Ungroup the combo, which deletes the combo itself, and appends the children of the combo to its parent(if it exists).
-
-**Parameters**
-
-| Name  | Type            | Required | Description                                        |
-| ----- | --------------- | -------- | -------------------------------------------------- |
-| combo | string / ICombo | true     | The ID of the item or the combo item to be updated |
-
-**Usage**
-
-```
-graph.uncombo('combo1')
-```
+## Group Operations (Will be Discard in v4.0, Use Combo Instead)
 
 ### graph.collapseGroup(groupId)
 

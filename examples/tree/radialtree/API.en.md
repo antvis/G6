@@ -2,4 +2,11 @@
 title: API
 ---
 
-Please refer to the corresponding API of Dendrogram or CompactBox.
+## Dendrogram
+
+`markdown:docs/api/treeGraphLayout/dendrogram.en.md`
+
+## CompactBox
+
+`markdown:docs/api/treeGraphLayout/compactBox.en.md`
+

@@ -1,6 +1,6 @@
 ---
 title: 图计算相关
-order: 10
+order: 12
 ---
 
 ### graph.getNodeDegree(node, degreeType)

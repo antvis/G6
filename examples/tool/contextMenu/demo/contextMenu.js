@@ -2,6 +2,9 @@ import G6 from '@antv/g6';
 import insertCss from 'insert-css';
 
 // define the CSS with the id of your menu
+// 我们用 insert-css 演示引入自定义样式
+// 推荐将样式添加到自己的样式文件中
+// 若拷贝官方代码，别忘了 npm install insert-css
 insertCss(`
   #contextMenu {
     position: absolute;
@@ -51,7 +54,7 @@ const contextMenu = new G6.Menu({
   // 需要加上父级容器的 padding-left 16 与自身偏移量 10
   offsetX: 16 + 10,
   // 需要加上父级容器的 padding-top 24 、画布兄弟元素高度、与自身偏移量 10
-  offsetY: 24 + 28 + 10,
+  offsetY: 0,
   // the types of items that allow the menu show up
   // 在哪些类型的元素上响应
   itemTypes: ['node', 'edge'],

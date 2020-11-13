@@ -93,7 +93,7 @@ The commonly used configurations for the `style` in the above table are:
 | opacity | false | Number | The opacity of the label |
 | fontFamily | false | String | The font family |
 | fontSize | false | Number | The font size of the label |
-| ... The label styles of node and edge are the same, summarized in [Text Shape API](/en/docs/api/nodeEdge/shapeProperties/#text) |  |  |  |
+| ... The label styles of node and edge are the same, summarized in [Text Shape API](/en/docs/api/shapeProperties/#text) |  |  |  |
 
 The following code shows how to configure `label` and `labelCfg` globally when instantiating a Graph:
 
