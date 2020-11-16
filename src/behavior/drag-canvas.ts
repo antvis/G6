@@ -76,7 +76,7 @@ export default {
     const self = this as any;
     const event = e.originalEvent as MouseEvent;
 
-    if (event.button !== 0) {
+    if (event && event.button !== 0) {
       return;
     }
     
