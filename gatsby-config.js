@@ -212,7 +212,7 @@ module.exports = {
         order: 1,
       },
       {
-        slug: 'api/graph',
+        slug: 'api/graphFunc',
         title: {
           zh: 'Graph 实例方法',
           en: 'Graph Functions',
