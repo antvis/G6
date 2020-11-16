@@ -16,6 +16,7 @@ module.exports = {
     siteUrl: homepage,
     githubUrl: repository.url,
     showAPIDoc: true,
+    isAntVSite: false,
     versions: {
       [version]: 'https://g6.antv.vision',
       '3.2.x': 'https://g6-v3-2.antv.vision',
