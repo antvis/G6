@@ -1,6 +1,6 @@
 ---
 title: Collapse/Expand Cluster
-order: 3
+order: 4
 ---
 
 This demo shows interactively collapse and expand clusters with Fruchterman layout.

@@ -1,6 +1,6 @@
 ---
 title: Custom Fow Graph
-order: 5
+order: 1
 ---
 
 Custom flow graph.

@@ -131,19 +131,20 @@ const graph = new G6.Graph({
   defaultNode: {
     size: [80, 40],
     type: 'rect',
-    style: {
-      fill: '#DEE9FF',
-      stroke: '#5B8FF9',
-    },
-  },
-  defaultEdge: {
-    style: {
-      stroke: '#b5b5b5',
-      lineAppendWidth: 3,
-    },
   },
 });
 graph.data(data);
 graph.render();
 
-console.log(graph.getNodes()[0])
+graph.on('node:mouseenter', e => {
+  graph.setItemState(e.item, 'active', true)
+});
+graph.on('node:mouseleave', e => {
+  graph.setItemState(e.item, 'active', false)
+});
+graph.on('edge:mouseenter', e => {
+  graph.setItemState(e.item, 'active', true)
+});
+graph.on('edge:mouseleave', e => {
+  graph.setItemState(e.item, 'active', false)
+});
