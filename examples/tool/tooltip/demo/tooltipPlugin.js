@@ -4,6 +4,9 @@ import insertCss from 'insert-css';
 // 我们用 insert-css 演示引入自定义样式
 // 推荐将样式添加到自己的样式文件中
 // 若拷贝官方代码，别忘了 npm install insert-css
+// 我们用 insert-css 演示引入自定义样式
+// 推荐将样式添加到自己的样式文件中
+// 若拷贝官方代码，别忘了 npm install insert-css
 insertCss(`
   .g6-component-tooltip {
     background-color: rgba(255, 255, 255, 0.8);
@@ -71,8 +74,8 @@ const data = {
 const tooltip = new G6.Tooltip({
   // offsetX and offsetY include the padding of the parent container
   // offsetX 与 offsetY 需要加上父容器的 padding
-  offsetX: 16 + 10,
-  offsetY: 24 + 10,
+  offsetX: 140 + 10,
+  offsetY: 100 + 10,
   // the types of items that allow the tooltip show up
   // 允许出现 tooltip 的 item 类型
   itemTypes: ['node', 'edge'],
@@ -107,10 +110,6 @@ const graph = new G6.Graph({
   defaultNode: {
     size: [80, 40],
     type: 'rect',
-    style: {
-      fill: '#DEE9FF',
-      stroke: '#5B8FF9',
-    },
   },
   defaultEdge: {
     style: {
@@ -121,3 +120,16 @@ const graph = new G6.Graph({
 });
 graph.data(data);
 graph.render();
+
+graph.on('node:mouseenter', e => {
+  graph.setItemState(e.item, 'active', true)
+});
+graph.on('node:mouseleave', e => {
+  graph.setItemState(e.item, 'active', false)
+});
+graph.on('edge:mouseenter', e => {
+  graph.setItemState(e.item, 'active', true)
+});
+graph.on('edge:mouseleave', e => {
+  graph.setItemState(e.item, 'active', false)
+});

@@ -1,6 +1,6 @@
 ---
 title: 澳大利亚大火
-order: 6
+order: 7
 ---
 
 本图展示了 2020 年 1 月 11 日到 18 日的火灾情况，数据来源于 NASA 公开数据，由卫星拍摄到的起火点。[数据链接](https://firms.modaps.eosdis.nasa.gov/active_fire/#firms-shapefile)。

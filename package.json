@@ -90,7 +90,7 @@
   },
   "devDependencies": {
     "@antv/chart-node-g6": "^0.0.3",
-    "@antv/gatsby-theme-antv": "^1.0.0-beta.11",
+    "@antv/gatsby-theme-antv": "^1.0.0-beta.15",
     "@babel/core": "^7.7.7",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/preset-react": "^7.7.4",

@@ -238,6 +238,22 @@ module.exports = {
     ],
     examples: [
       {
+        slug: 'case',
+        icon: 'gallery',
+        title: {
+          zh: '场景案例',
+          en: 'Case',
+        },
+      },
+      {
+        slug: 'gallery',
+        icon: 'gallery',
+        title: {
+          zh: '所有图表',
+          en: 'All Demos',
+        },
+      },
+      {
         slug: 'tree',
         icon: 'tree', // 图标名可以去 https://antv.alipay.com/zh-cn/g2/3.x/demo/index.html 打开控制台查看图标类名
         title: {
@@ -299,14 +315,6 @@ module.exports = {
         title: {
           zh: '算法',
           en: 'Algorithm',
-        },
-      },
-      {
-        slug: 'case',
-        icon: 'case',
-        title: {
-          zh: '复杂案例',
-          en: 'Case',
         },
       },
       {
