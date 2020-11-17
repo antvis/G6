@@ -8,4 +8,4 @@ title: API
 
 # 状态
 
-`markdown:docs/api/graph/state.zh.md`
+`markdown:docs/api/graphFunc/state.zh.md`

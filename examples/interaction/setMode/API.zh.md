@@ -2,4 +2,4 @@
 title: API
 ---
 
-`markdown:docs/api/graph/mode.zh.md`
+`markdown:docs/api/graphFunc/mode.zh.md`

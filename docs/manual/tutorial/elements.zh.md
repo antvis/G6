@@ -22,7 +22,7 @@ order: 2
 - **样式属性 `style`**：对应 Canvas 中的各种样式，在元素[状态 State](/zh/docs/manual/middle/states/state) 发生变化时，可以被改变；
 - **其他属性**：例如图形类型（ `type`）、id（`id` ）一类在元素[状态 State](/zh/docs/manual/middle/states/state) 发生变化时不能被改变的属性。
 
-例如，G6 设定 hover 或 click 节点，造成节点状态的改变，只能自动改变节点的**样式属性**（如 `fill`、`stroke` 等**）**，**其他属性**（如 `type`  等）不能被改变。如果需要改变其他属性，要通过  [graph.updateItem](/zh/docs/api/Graph/#updateitemitem-model) 手动配置。**样式属性**是一个名为  `style`  的对象， `style` 字段与其他属性并行。
+例如，G6 设定 hover 或 click 节点，造成节点状态的改变，只能自动改变节点的**样式属性**（如 `fill`、`stroke` 等**）**，**其他属性**（如 `type`  等）不能被改变。如果需要改变其他属性，要通过  [graph.updateItem](/zh/docs/api/graphFunc/item#graphupdateitemitem-model-stack) 手动配置。**样式属性**是一个名为  `style`  的对象， `style` 字段与其他属性并行。
 
 ### 数据结构
 

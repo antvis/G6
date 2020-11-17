@@ -297,7 +297,7 @@ G6.registerEdge(
 
 ### setState(name, value, item)
 
-用于响应外部对元素状态的改变。当外部调用 [`graph.setItemState(item, state, value)`](/zh/docs/api/Graph/#setitemstateitem-state-enabled) 时，该函数作出相关响应。主要是交互状态，业务状态请在 `draw()` 方法中实现。单图形的节点仅考虑 `'selected'` 、`'active'` 状态，有其他状态需求的用户可以复写该方法。
+用于响应外部对元素状态的改变。当外部调用 [`graph.setItemState(item, state, value)`](/zh/docs/api/graphFunc/state#graphsetitemstateitem-state-value) 时，该函数作出相关响应。主要是交互状态，业务状态请在 `draw()` 方法中实现。单图形的节点仅考虑 `'selected'` 、`'active'` 状态，有其他状态需求的用户可以复写该方法。
 
 **参数**
 

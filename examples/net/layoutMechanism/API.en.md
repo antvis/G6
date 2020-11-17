@@ -2,4 +2,4 @@
 title: API
 ---
 
-`markdown:docs/api/graph/layout.en.md`
+`markdown:docs/api/graphFunc/layout.en.md`

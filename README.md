@@ -131,7 +131,7 @@ $ npm run demos
 - <a href='https://g6.antv.vision/en/docs/manual/tutorial/preface' target='_blank'>Tutorial</a>
 - <a href='https://g6.antv.vision/en/docs/manual/middle/overview' target='_blank'>Middle Guides</a>
 - <a href='https://g6.antv.vision/en/docs/manual/advanced/coordinate-system' target='_blank'>Further Reading</a>
-- <a href='https://g6.antv.vision/en/docs/api/Graph/' target='_blank'>API Reference</a>
+- <a href='https://g6.antv.vision/en/docs/api/Graph' target='_blank'>API Reference</a>
 
 ## G6 Communication Group
 
