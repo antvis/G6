@@ -28,7 +28,7 @@ const getModularity = (
 
 interface Cluster {
   id: string;
-  nodes: NodeConfig;
+  nodes: NodeConfig[];
   sumTot?: number;
 }
 

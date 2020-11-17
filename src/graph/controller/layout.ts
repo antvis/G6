@@ -171,8 +171,7 @@ export default class LayoutController {
       return true;
     }
 
-
-    if (layoutType === 'force' || layoutType === 'g6force') {
+    if (layoutType === 'force' || layoutType === 'g6force' || layoutType === 'graphinForce') {
       const { onTick } = layoutCfg;
       const tick = () => {
         if (onTick) {
