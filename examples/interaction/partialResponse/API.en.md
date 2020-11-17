@@ -2,4 +2,4 @@
 title: API
 ---
 
-`markdown:docs/api/graph/on_off.en.md`
+`markdown:docs/api/graphFunc/on_off.en.md`

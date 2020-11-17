@@ -2,4 +2,4 @@
 title: API
 ---
 
-`markdown:docs/api/graph/item.zh.md`
+`markdown:docs/api/graphFunc/item.zh.md`

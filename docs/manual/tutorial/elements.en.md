@@ -22,7 +22,7 @@ The properties of an item can be be divided into two categories:
 - **Style Property `style`**: Corresponds to the style in Canvas. When the [State](/en/docs/manual/middle/states/state) of an item is changed, the style can be updated. It is an object named `style`;
 - **Other Property**: Such as graphics `type`, `id`, they are a kind of properties that will not be changed when the [State](/en/docs/manual/middle/states/state) of the item is changed.
 
-For example, When you change the state `'hover'` or `'click'` to `true` for a node A, only the **style properties** of A can be updated, e.g. `fill`, `stroke`, and so on. The **other properties** such as `type` can not be changed. To update the other properties, configure A by [graph.updateItem](/en/docs/api/Graph/#updateitemitem-model) manually.
+For example, When you change the state `'hover'` or `'click'` to `true` for a node A, only the **style properties** of A can be updated, e.g. `fill`, `stroke`, and so on. The **other properties** such as `type` can not be changed. To update the other properties, configure A by [graph.updateItem](/en/docs/api/graphFunc/item#graphupdateitemitem-model-stack) manually.
 
 ### Data Structure
 

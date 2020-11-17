@@ -2,4 +2,4 @@
 title: API
 ---
 
-`markdown:docs/api/graph/hull.en.md`
+`markdown:docs/api/graphFunc/hull.en.md`

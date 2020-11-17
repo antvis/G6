@@ -2,4 +2,4 @@
 title: API
 ---
 
-`markdown:docs/api/graph/data.en.md`
+`markdown:docs/api/graphFunc/data.en.md`
