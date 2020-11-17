@@ -1,5 +1,8 @@
 # ChangeLog
 
+#### 3.8.5
+- fix: get fontFamily of the window in global leads to DOM depending when using bigfish;
+
 #### 3.8.4
 - feat: new version of basic styles for light version;
 - feat: shortcuts-call behavior for calling a Graph function by shortcuts;

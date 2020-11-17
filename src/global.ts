@@ -2,13 +2,12 @@ import { getColorsWithSubjectColor } from './util/color';
 
 const subjectColor = 'rgb(95, 149, 255)';
 const backColor = 'rgb(255, 255, 255)';
-const disableColor = 'rgb(150, 150, 150)';
 const textColor = 'rgb(0, 0, 0)';
 
 const colorSet = getColorsWithSubjectColor(subjectColor, backColor);
 
 export default {
-  version: '3.8.4',
+  version: '3.8.5',
   rootContainerClassName: 'root-container',
   nodeContainerClassName: 'node-container',
   edgeContainerClassName: 'edge-container',
@@ -22,7 +21,6 @@ export default {
       fontSize: 12,
       textAlign: 'center',
       textBaseline: 'middle',
-      fontFamily: typeof window !== 'undefined' ? window.getComputedStyle(document.body, null).getPropertyValue("font-family") || 'Arial, sans-serif' : 'Arial, sans-serif',
     },
     offset: 4, // 节点的默认文本不居中时的偏移量
   },
@@ -86,7 +84,6 @@ export default {
       textAlign: 'center',
       textBaseline: 'middle',
       fontSize: 12,
-      fontFamily: typeof window !== 'undefined' ? window.getComputedStyle(document.body, null).getPropertyValue("font-family") || 'Arial, sans-serif' : 'Arial, sans-serif',
     },
   },
   defaultEdge: {

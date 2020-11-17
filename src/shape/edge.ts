@@ -341,7 +341,9 @@ const singleEdge: ShapeOptions = {
   },
   drawLabel(cfg: EdgeConfig, group: GGroup): IShape {
     const { labelCfg: defaultLabelCfg } = this.options as ModelConfig;
-    const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
+    const labelCfg = deepMix({
+      fontFamily: typeof window !== 'undefined' ? window.getComputedStyle(document.body, null).getPropertyValue("font-family") || 'Arial, sans-serif' : 'Arial, sans-serif',
+    }, defaultLabelCfg, cfg.labelCfg);
     const labelStyle = this.getLabelStyle!(cfg, labelCfg, group);
     const rotate = labelStyle.rotate;
     delete labelStyle.rotate;
