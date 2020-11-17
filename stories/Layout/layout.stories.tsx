@@ -11,6 +11,7 @@ import ForceLayout from './component/force-layout';
 import CompactBox from './component/compact-box';
 import AutoLayout from './component/auto-layout';
 import ForceClusteringLayout from './component/force-clustering-layout';
+import GraphinForceLayout from './component/graphin-force-layout';
 
 export default { title: 'Layout' };
 
@@ -26,3 +27,4 @@ storiesOf('Layout', module)
   .add('compactbox layout', () => <CompactBox />)
   .add('auto layout', () => <AutoLayout />)
   .add('force clustering layout', () => <ForceClusteringLayout />)
+  .add('graphin force layout', () => <GraphinForceLayout />)

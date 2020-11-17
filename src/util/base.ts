@@ -124,7 +124,12 @@ export const calculationItemsBBox = (items: Item[]) => {
  * @param edges 边数据集合
  * @param offsetDiff 相邻两边的 offset 之差
  */
-export const processParallelEdges = (edges, offsetDiff = 15) => {
+export const processParallelEdges = (
+  edges,
+  offsetDiff = 15,
+  multiEdgeType: string = 'quadratic',
+  singleEdgeType: string = 'line'
+) => {
   const len = edges.length;
   const cod = offsetDiff * 2;
   const loopPosition = [
@@ -187,7 +192,11 @@ export const processParallelEdges = (edges, offsetDiff = 15) => {
         };
         continue;
       }
-      current.type = 'quadratic'
+      if (length === 1) {
+        current.type = singleEdgeType;
+        continue;
+      }
+      current.type = multiEdgeType;
       const sign = (k % 2 === 0 ? 1 : -1) * (reverses[`${current.source}|${current.target}|${k}`] ? -1 : 1);
       if (length % 2 === 1) {
         current.curveOffset = sign * Math.ceil(k / 2) * cod;

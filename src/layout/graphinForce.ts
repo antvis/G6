@@ -52,6 +52,11 @@ export default class GraphinForceLayout extends BaseLayout {
   public nodeSize: number | number[] | ((d?: any) => number) | undefined;
   /** 防止重叠时的节点之间最小间距 */
   public nodeSpacing: number | number[] | ((d?: any) => number) | undefined;
+  /** 每次迭代结束的回调函数 */
+  public tick: () => void = () => { };
+  /** 是否允许每次迭代结束调用回调函数 */
+  public enableTick: boolean;
+
 
   public nodes: NodeConfig[] = [];
   public edges: EdgeConfig[] = [];
@@ -67,12 +72,15 @@ export default class GraphinForceLayout extends BaseLayout {
 
   /** 存储节点度数 */
   private degrees: number[];
+  /** 迭代中的标识 */
+  private timeInterval: number
 
   public getDefaultCfg() {
     return {
       maxIteration: 500,
       center: [0, 0],
       gravity: 10,
+      enableTick: true
     };
   }
   /**
@@ -82,6 +90,10 @@ export default class GraphinForceLayout extends BaseLayout {
     const self = this;
     const nodes = self.nodes;
     const center = self.center;
+
+    if (self.timeInterval !== undefined) {
+      window.clearInterval(self.timeInterval);
+    }
 
     if (!nodes || nodes.length === 0) {
       return;
@@ -164,7 +176,9 @@ export default class GraphinForceLayout extends BaseLayout {
       self.height = window.innerHeight;
     }
 
-    for (let i = 0; i < maxIteration; i++) {
+    let iter = 0;
+    // interval for render the result after each iteration
+    this.timeInterval = window.setInterval(() => {
       const accArray = [], velArray = [];
       nodes.forEach((_, i) => {
         accArray[2 * i] = 0;
@@ -175,7 +189,7 @@ export default class GraphinForceLayout extends BaseLayout {
       self.calRepulsive(accArray);
       self.calAttractive(accArray);
       self.calGravity(accArray);
-      const stepInterval = Math.max(0.02, self.interval - i * 0.002);
+      const stepInterval = Math.max(0.02, self.interval - iter * 0.002);
       self.updateVelocity(accArray, velArray, stepInterval);
       const previousPos = [];
       self.nodes.forEach(node => {
@@ -185,6 +199,7 @@ export default class GraphinForceLayout extends BaseLayout {
         });
       })
       self.updatePosition(velArray, stepInterval);
+      if (self.tick) self.tick();
 
       // whether to stop the iteration
       let movement = 0;
@@ -194,10 +209,10 @@ export default class GraphinForceLayout extends BaseLayout {
         movement += Math.sqrt(vx * vx + vy * vy);
       });
       movement /= self.nodes.length;
-      if (movement < self.minMovement) {
-        break;
-      }
-    }
+      if (movement < self.minMovement) window.clearInterval(self.timeInterval);
+      iter++;
+      if (iter > maxIteration) window.clearInterval(self.timeInterval);
+    }, 0);
     self.onLayoutEnd && self.onLayoutEnd();
   }
   public calRepulsive(accArray) {
