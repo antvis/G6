@@ -1279,7 +1279,6 @@ const LargeGraph = () => {
         .then((data) => {
           const nodeMap = {}, aggregatedNodeMap = {};
           const clusteredData = louvain(data, false, 'weight');
-          console.log(clusteredData);
           const aggregatedData = { nodes: [], edges: [] };
           clusteredData.clusters.forEach((cluster, i) => {
             cluster.nodes.forEach(node => {
@@ -1300,7 +1299,6 @@ const LargeGraph = () => {
             aggregatedData.nodes.push(cnode);
           });
           clusteredData.clusterEdges.forEach(clusterEdge => {
-            console.log('clusteredge', clusterEdge.source, clusterEdge.target)
             const cedge = {
               ...clusterEdge,
               size: Math.log(clusterEdge.count as number),
@@ -1322,7 +1320,6 @@ const LargeGraph = () => {
           });
 
           const { edges: processedEdges } = processNodesEdges(aggregatedData.nodes, aggregatedData.edges, CANVAS_WIDTH, CANVAS_HEIGHT, largeGraphMode, true, true);
-          console.log('processedEdges', processedEdges, aggregatedData.edges)
 
           const contextMenu = new G6.Menu({
             getContent(evt) {
@@ -1338,9 +1335,9 @@ const LargeGraph = () => {
                     </ul>`;
                   } else {
                     return `<ul>
-                      <li id='neighbor1'>扩展一度关系</li>
-                      <li id='neighbor2'>扩展二度关系</li>
-                      <li id='neighbor3'>扩展三度关系</li>
+                      <li id='neighbor-1'>扩展一度关系</li>
+                      <li id='neighbor-2'>扩展二度关系</li>
+                      <li id='neighbor-3'>扩展三度关系</li>
                       <li id='hide'>隐藏节点</li>
                     </ul>`;
                   }
@@ -1353,8 +1350,8 @@ const LargeGraph = () => {
             },
             handleMenuClick: (target, item) => {
               const model = item.getModel();
-              const id = model.id;
-              switch (target.id) {
+              const liIdStrs = target.id.split('-')
+              switch (liIdStrs[0]) {
                 case 'hide':
                   graph.hideItem(item);
                   break;
@@ -1367,6 +1364,7 @@ const LargeGraph = () => {
                   handleRefreshGraph(graph, { nodes: resNodes, edges: resEdges }, CANVAS_WIDTH, CANVAS_HEIGHT, largeGraphMode, true, true);
                   break;
                 case 'neighbor':
+                  const expandNeighborSteps = parseInt(liIdStrs[1]);
                   break;
                 default:
                   break;
