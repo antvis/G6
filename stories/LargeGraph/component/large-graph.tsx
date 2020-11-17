@@ -190,6 +190,25 @@ G6.registerNode('aggregated-node', {
         name: 'typeNode-tag-circle',
       });
     }
+    if (cfg.label) {
+      group.addShape('text', {
+        attrs: {
+          text: `${cfg.label}`,
+          x: 0,
+          y: 30,
+          textAlign: 'center',
+          textBaseline: 'middle',
+          cursor: 'pointer',
+          fontSize: 12,
+          fill: '#fff',
+          opacity: 0.85,
+          fontWeight: 400
+        },
+        name: 'label-shape',
+        className: 'label-shape',
+        draggable: true
+      });
+    }
     return keyShape;
   },
   setState: (name, value, item) => {
@@ -651,6 +670,7 @@ const clearFocusEdgeState = (graph) => {
 
 // 截断长文本。length 为文本截断后长度，elipsis 是后缀
 const formatText = (text, length = 5, elipsis = '...') => {
+  if (!text) return '';
   if (text.length > length) {
     return `${text.substr(0, length)}${elipsis}`;
   }
@@ -673,7 +693,7 @@ const processNodesEdges = (nodes, edges, width, height, largeGraphMode, edgeLabe
   const paddingTop = paddingRatio * height;
   nodes.forEach((node) => {
     node.type = (node.level === 0) ? 'real-node' : 'aggregated-node';
-    node.label = `${node.id}${node.id}${node.id}${node.id}`;
+    node.label = `${node.id}`;
     node.labelLineNum = undefined;
     node.oriLabel = node.label;
     node.label = formatText(node.label, labelMaxLength, '...');
@@ -713,7 +733,8 @@ const processNodesEdges = (nodes, edges, width, height, largeGraphMode, edgeLabe
   // let maxCount = 0;
   edges.forEach((edge) => {
     // to avoid the dulplicated id to nodes
-    if (edge.id.split('-'[0] !== 'edge')) edge.id = `edge-${edge.id}`;
+    if (!edge.id) edge.id = `edge-${edge.source}-${edge.target}`;
+    else if (edge.id.split('-')[0] !== 'edge') edge.id = `edge-${edge.id}`;
     // TODO: delete the following line after the queried data is correct
     if (!nodeMap[edge.source] || !nodeMap[edge.target]) {
       console.warn('edge source target does not exist', edge.source, edge.target, edge.id)
@@ -774,7 +795,7 @@ const processNodesEdges = (nodes, edges, width, height, largeGraphMode, edgeLabe
   edges.forEach((edge) => {
     // set edges' style
     const targetNode = nodeMap[edge.target];
-    console.log('targetNode.size', targetNode.size)
+    console.log('targetNode.size', targetNode, edge.target)
 
     const size = ((edge.count - minCount) / countRange * edgeSizeRange + minEdgeSize) || 1;
     edge.size = size;//edge.count ? Math.min(edge.count, 10) : 1;
@@ -790,6 +811,7 @@ const processNodesEdges = (nodes, edges, width, height, largeGraphMode, edgeLabe
       arrowPath = `M ${d},0 L ${d + 15},-${arrowWidth} L ${d + 15},${arrowWidth} Z`;
     }
     const sourceNode = nodeMap[edge.source];
+    console.log('sourceNode', sourceNode, edge.source)
     const isRealEdge = edge.level === 0 && targetNode.isReal && sourceNode.isReal;
     edge.isReal = isRealEdge;
     const stroke = isRealEdge ? global.edge.style.realEdgeStroke : global.edge.style.stroke;
@@ -956,6 +978,7 @@ const LargeGraph = () => {
       fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
         .then((res) => res.json())
         .then((data) => {
+          const nodeMap = {};
           const clusteredData = labelPropagation(data, false, 'weight');
           const aggregatedData = { nodes: [], edges: [] };
           clusteredData.clusters.forEach((cluster, i) => {
@@ -965,6 +988,8 @@ const LargeGraph = () => {
               }
               node.level = 0;
               node.label = node.id;
+              node.type = '';
+              nodeMap[node.id] = node;
             });
             const cnode = {
               id: cluster.id,
@@ -974,7 +999,8 @@ const LargeGraph = () => {
               style: {
                 fill: colorArray[i % colorArray.length]
               },
-              label: cluster.id
+              label: cluster.id,
+              idx: i
             };
             aggregatedData.nodes.push(cnode);
           });
@@ -1033,8 +1059,61 @@ const LargeGraph = () => {
               }
             },
             handleMenuClick: (target, item) => {
-              if (target.id === 'hide') graph.hideItem(item);
-              console.log(target, item);
+              const model = item.getModel();
+              const id = model.id;
+              console.log('right clicking', id);
+              switch (target.id) {
+                case 'hide':
+                  graph.hideItem(item);
+                  break;
+                case 'expand':
+                  let resEdges = [], resNodes = [];
+                  clusteredData.clusters.forEach((cluster, i) => {
+                    console.log('clusterid', cluster.id, id);
+                    if (cluster.id === id) {
+                      resNodes = resNodes.concat(cluster.nodes);
+                    } else {
+                      console.log('1pushing', aggregatedData.nodes[i].id)
+                      resNodes.push(aggregatedData.nodes[i])
+                    }
+                  });
+                  data.edges.forEach(edge => {
+                    if (nodeMap[edge.source].clusterId === id && nodeMap[edge.target].clusterId === id) {
+                      resEdges.push(edge);
+                    } else if (nodeMap[edge.source].clusterId === id) {
+                      const targetClusterId = nodeMap[edge.target].clusterId;
+                      const vedge = {
+                        source: edge.source,
+                        target: targetClusterId,
+                        id: `${edge.source} - ${targetClusterId}`,
+                        label: ''
+                      };
+                      resEdges.push(vedge);
+                    } else if (nodeMap[edge.target].clusterId === id) {
+                      const sourceClusterId = nodeMap[edge.source].clusterId;
+                      const vedge = {
+                        source: edge.source,
+                        target: sourceClusterId,
+                        id: `${edge.source} - ${sourceClusterId}`,
+                        label: ''
+                      };
+                      resEdges.push(vedge);
+                    }
+                  });
+                  clusteredData.clusterEdges.forEach(edge => {
+                    if (edge.source === id || edge.target === id) return;
+                    else resEdges.push(edge);
+                  });
+                  console.log('resEdges', resNodes, resEdges);
+                  const { edges: processedResEdges } = processNodesEdges(resNodes, resEdges, CANVAS_WIDTH, CANVAS_HEIGHT, false, true, true);
+                  console.log({ nodes: resNodes, edges: processedResEdges })
+                  graph.changeData({ nodes: resNodes, edges: processedResEdges });
+                  break;
+                case 'neighbor':
+                  break;
+                default:
+                  break;
+              }
             },
             // offsetX and offsetY include the padding of the parent container
             // 需要加上父级容器的 padding-left 16 与自身偏移量 10
@@ -1060,6 +1139,7 @@ const LargeGraph = () => {
               default: [
                 'drag-canvas',
                 'zoom-canvas',
+                'drag-node'
               ],
               lassoSelect: [
                 'zoom-canvas',
