@@ -4,7 +4,7 @@ import { getAdjMatrix } from '../util/math';
 
 interface Cluster {
   id: string;
-  nodes: NodeConfig;
+  nodes: NodeConfig[];
   sumTot?: number;
 }
 
