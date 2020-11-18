@@ -329,38 +329,3 @@ graph.hideItem(item);
 // 等价于
 graph.hideItem('nodeId');
 ```
-
-
-## Group 操作（4.0 将移除，建议使用 Combo）
-
-### graph.collapseGroup(groupId)
-
-收起分组，收起分组后，隐藏分组中的所有节点和边，分组外部与分组内节点有连线的则临时连接到分组上面。
-
-**参数**
-
-| 名称    | 类型   | 是否必选 | 描述    |
-| ------- | ------ | -------- | ------- |
-| groupId | string | true     | 分组 ID |
-
-**用法**
-
-```javascript
-graph.collapseGroup('groupId');
-```
-
-### graph.expandGroup(groupId)
-
-展开分组，显示分组中的所有节点和边，恢复收起前的连接情况。
-
-**参数**
-
-| 名称    | 类型   | 是否必选 | 描述    |
-| ------- | ------ | -------- | ------- |
-| groupId | string | true     | 分组 ID |
-
-**用法**
-
-```javascript
-graph.expandGroup('groupId');
-```

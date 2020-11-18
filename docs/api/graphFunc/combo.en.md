@@ -179,35 +179,3 @@ Ungroup the combo, which deletes the combo itself, and appends the children of t
 ```
 graph.uncombo('combo1')
 ```
-
-### graph.collapseGroup(groupId)
-
-Collapse the group with groupId. After collapsing, the nodes and edges inside the group will be hided, the edges linking inside nodes and outside nodes will be linked to the group.
-
-**Parameters**
-
-| Name    | Type   | Required | Description          |
-| ------- | ------ | -------- | -------------------- |
-| groupId | string | true     | The id of the group. |
-
-**Usage**
-
-```javascript
-graph.collapseGroup('groupId');
-```
-
-### graph.expandGroup(groupId)
-
-Expand the group to show the inside nodes and edges, and the edges linking inside nodes and outside nodes will be restored.
-
-**Parameters**
-
-| Name    | Type   | Required | Description          |
-| ------- | ------ | -------- | -------------------- |
-| groupId | string | true     | The id of the group. |
-
-**Usage**
-
-```javascript
-graph.expandGroup('groupId');
-```
