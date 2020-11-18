@@ -3,10 +3,10 @@ title: Graphics Group
 order: 2
 ---
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️Attention:</strong> </span> <br />Graphics Group and [Node Group](/en/docs/manual/middle/discard/nodeGroup) are totally different concepts with the same name Group.
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️Attention:</strong> </span> <br />Graphics Group and [Node Combo](/en/docs/manual/middle/elements/combos/defaultCombo) are totally different concepts with the same name Group.
 
 - Graphics Group is the group for [Graphics Shape](/en/docs/manual/middle/elements/shape/shape-keyshape);
-- [Node Group](/en/docs/manual/middle/discard/nodeGroup) is the group for [Node](/en/docs/manual/middle/elements/nodes/defaultNode)s, which is related to the hierarchy and groups in the data.
+- [Node Combo](/en/docs/manual/middle/elements/combos/defaultCombo) is the group for [Node](/en/docs/manual/middle/elements/nodes/defaultNode)s, which is related to the hierarchy and groups in the data.
 
 <br />
 
