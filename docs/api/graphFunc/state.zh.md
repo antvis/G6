@@ -51,3 +51,21 @@ graph.clearItemStates(node, ['a', 'b']);
 // 清除所有
 graph.clearItemStates(node);
 ```
+
+### graph.priorityState(item, state)
+
+将指定状态的优先级提升为最高优先级。
+
+**参数**
+
+| 名称   | 类型                  | 是否必选 | 描述                                     |
+| ------ | --------------------- | -------- | ---------------------------------------- |
+| item   | string / Object       | true     | 元素 ID 或元素实例                       |
+| states | string | true    | 状态名称 |
+
+**用法**
+
+```javascript
+// 将 node 的 a 状态调整为优先级最高
+graph.priorityState(node, 'a');
+```

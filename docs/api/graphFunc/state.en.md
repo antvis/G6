@@ -53,3 +53,21 @@ graph.clearItemStates(node, ['a', 'b']);
 // Clear all the states of the node
 graph.clearItemStates(node);
 ```
+
+### graph.priorityState(item, state)
+
+Raise the priority of the specified state to the highest priority.
+
+**Parameters**
+
+| Name | Type | Required | Description |
+| ------ | --------------------- | -------- | ---------------------------------------- |
+| item   | string / Object       | true     | The id or the instance of the item.         |
+| states | string | true    | state value |
+
+**Usage**
+
+```javascript
+// Adjust the a state of node to the highest priority
+graph.priorityState(node, 'a');
+```
