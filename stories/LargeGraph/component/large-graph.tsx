@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import G6 from '../../../src';
 import { IGraph } from '../../../src/interface/graph';
 import isArray from '@antv/util/lib/is-array';
 import isNumber from '@antv/util/lib/is-number';
 import { uniqueId } from '@antv/util';
 import insertCss from 'insert-css';
-import * as d3Force from 'd3-force';
+import CanvasMenu from './canvas-menu';
 
 
 insertCss(`
@@ -38,7 +38,25 @@ insertCss(`
   }
 `);
 
-const { labelPropagation, louvain } = G6.Algorithm;
+const { labelPropagation, louvain, findShortestPath } = G6.Algorithm;
+
+const darkBackColor = 'rgb(43, 47, 51)';
+const disableColor = '#777';
+const theme = 'dark';
+const subjectColors = [
+  '#5F95FF', // blue
+  '#61DDAA',
+  '#65789B',
+  '#F6BD16',
+  '#7262FD',
+  '#78D3F8',
+  '#9661BC',
+  '#F6903D',
+  '#008685',
+  '#F08BB4'
+];
+
+const colorSets = G6.Util.getColorSetsBySubjectColors(subjectColors, darkBackColor, theme, disableColor);
 
 const LARGEGRAPHNODENUM = 15;
 const NODESIZEMAPPING = 'degree';
@@ -50,27 +68,30 @@ const DEFAULTAGGREGATEDNODESIZE = 53;
 const NODE_LIMIT = 20; // TODO: find a proper number for maximum node number on the canvas 
 
 const duration = 2000;
-const animateOpacity = 0.25;
+const animateOpacity = 0.6;
 const animateBackOpacity = 0.1;
 const realEdgeOpacity = 0.2;
 const virtualEdgeOpacity = 0.1;
 
 let graph: IGraph = null;
+let originData;
+let currentUnproccessedData = { nodes: [], edges: [] };
+let nodeMap = {};
+let aggregatedNodeMap = {};
 let hiddenItemIds = []; // 隐藏的元素 id 数组
 let largeGraphMode = true;
 let cachePositions = {};
-let expandPosition = { x: 0, y: 0 };
+let manipulatePosition = undefined;
 let descreteNodeCenter;
-let layoutNodeMap;
 let layout = {
   type: '',
   instance: null,
   destroyed: true
 };
-let forceXFunc = undefined;
-let forceYFunc = undefined;
 let expandArray = [];
 let collapseArray = [];
+let shiftKeydown = false;
+let colorSetMap = {};
 
 const global = {
   node: {
@@ -113,7 +134,7 @@ const global = {
 };
 // Custom super node
 G6.registerNode('aggregated-node', {
-  draw(cfg, group) {
+  draw(cfg: any, group) {
     let width = 53, height = 27;
     const style = cfg.style || {};
 
@@ -124,7 +145,7 @@ G6.registerNode('aggregated-node', {
         y: -height * 0.6,
         width: width * 1.1,
         height: height * 1.2,
-        fill: style.fill || '#2B384E',
+        fill: colorSetMap[cfg.id].mainFill,
         opacity: 0.9,
         lineWidth: 0,
         radius: ((height / 2) || 13) * 1.2,
@@ -140,7 +161,7 @@ G6.registerNode('aggregated-node', {
         y: -height * 0.6,
         width: width * 1.1,
         height: height * 1.2,
-        fill: '#3B4043', // 聚合节点没有颜色含义，用灰色
+        fill: colorSetMap[cfg.id].mainFill, // '#3B4043',
         stroke: '#AAB7C4',
         lineWidth: 1,
         lineOpacty: 0.85,
@@ -157,7 +178,7 @@ G6.registerNode('aggregated-node', {
         y: -height / 2,
         width,
         height,
-        fill: '#3B4043', // 聚合节点没有颜色含义，用灰色
+        fill: colorSetMap[cfg.id].mainFill, // || '#3B4043',
         stroke: '#AAB7C4',
         lineWidth: 2,
         cursor: 'pointer',
@@ -203,25 +224,6 @@ G6.registerNode('aggregated-node', {
         name: 'typeNode-tag-circle',
       });
     }
-    if (cfg.label) {
-      group.addShape('text', {
-        attrs: {
-          text: `${cfg.label}`,
-          x: 0,
-          y: 30,
-          textAlign: 'center',
-          textBaseline: 'middle',
-          cursor: 'pointer',
-          fontSize: 12,
-          fill: '#fff',
-          opacity: 0.85,
-          fontWeight: 400
-        },
-        name: 'label-shape',
-        className: 'label-shape',
-        draggable: true
-      });
-    }
     return keyShape;
   },
   setState: (name, value, item) => {
@@ -236,28 +238,27 @@ G6.registerNode('aggregated-node', {
       }
       const halo = group.find(e => e.get('name') === 'halo-shape');
       const keyShape: any = item.getKeyShape();
+      const colorSet = colorSetMap[item.getID()] || colorSets[0];
       if (value) {
         halo && halo.show();
-        keyShape.attr('fill', '#676869');
+        keyShape.attr('fill', colorSet.activeFill);
       }
       else {
         halo && halo.hide();
-        keyShape.attr('fill', '#3B4043');
+        keyShape.attr('fill', colorSet.mainFill);
       }
     }
     else if (name === 'focus') {
       const stroke = group.find(e => e.get('name') === 'stroke-shape');
       const keyShape: any = item.getKeyShape();
-      const keyShapeStroke = keyShape.attr('stroke');
+      const colorSet = colorSetMap[item.getID()] || colorSets[0];
       if (value) {
         stroke && stroke.show();
-        keyShape.attr('fill', keyShapeStroke);
-        keyShape.attr('fillOpacity', 0.4);
+        keyShape.attr('fill', colorSet.selectedFill);
       }
       else {
         stroke && stroke.hide();
-        keyShape.attr('fill', '#3B4043');
-        keyShape.attr('fillOpacity', 1);
+        keyShape.attr('fill', colorSet.mainFill);
       }
     }
   },
@@ -266,7 +267,7 @@ G6.registerNode('aggregated-node', {
 
 // Custom real node
 G6.registerNode('real-node', {
-  draw(cfg, group) {
+  draw(cfg: any, group) {
     let r = 30;
     if (isNumber(cfg.size)) {
       r = (cfg.size as number) / 2;
@@ -274,6 +275,7 @@ G6.registerNode('real-node', {
       r = cfg.size[0] / 2;
     }
     const style = cfg.style || {};
+    const colorSet = colorSetMap[cfg.clusterId] || colorSets[0];
 
     // halo for hover
     group.addShape('circle', {
@@ -281,7 +283,7 @@ G6.registerNode('real-node', {
         x: 0,
         y: 0,
         r: r + 5,
-        fill: style.fill || '#2B384E',
+        fill: style.fill || colorSet.mainFill || '#2B384E',
         opacity: 0.9,
         lineWidth: 0
       },
@@ -295,7 +297,7 @@ G6.registerNode('real-node', {
         x: 0,
         y: 0,
         r: r + 5,
-        fill: style.fill || '#2B384E',
+        fill: style.fill || colorSet.mainFill || '#2B384E',
         stroke: '#fff',
         strokeOpacity: 0.85,
         lineWidth: 1
@@ -310,8 +312,8 @@ G6.registerNode('real-node', {
         x: 0,
         y: 0,
         r,
-        fill: style.fill || '#2B384E',
-        stroke: '#5B8FF9',
+        fill: colorSet.mainFill,
+        stroke: colorSet.mainStroke,
         lineWidth: 2,
         cursor: 'pointer',
       },
@@ -382,30 +384,29 @@ G6.registerNode('real-node', {
       }
       const halo = group.find(e => e.get('name') === 'halo-shape');
       const keyShape: any = item.getKeyShape();
+      const colorSet = colorSetMap[item.getModel().clusterId as string] || colorSets[0];
       if (value) {
         halo && halo.show();
-        keyShape.attr('fill', '#314264');
+        keyShape.attr('fill', colorSet.activeFill);
       }
       else {
         halo && halo.hide();
-        keyShape.attr('fill', '#2B384E');
+        keyShape.attr('fill', colorSet.mainFill);
       }
     }
     else if (name === 'focus') {
       const stroke = group.find(e => e.get('name') === 'stroke-shape');
       const label = group.find(e => e.get('name') === 'text-shape');
       const keyShape: any = item.getKeyShape();
-      const keyShapeStroke = keyShape.attr('stroke');
+      const colorSet = colorSetMap[item.getModel().clusterId as string] || colorSets[0];
       if (value) {
         stroke && stroke.show();
-        keyShape.attr('fill', keyShapeStroke);
-        keyShape.attr('fillOpacity', 0.4);
+        keyShape.attr('fill', colorSet.selectedFill);
         label && label.attr('fontWeight', 800);
       }
       else {
         stroke && stroke.hide();
-        keyShape.attr('fill', '#2B384E');
-        keyShape.attr('fillOpacity', 1);
+        keyShape.attr('fill', colorSet.mainFill); // '#2B384E'
         label && label.attr('fontWeight', 400);
       }
     }
@@ -616,88 +617,6 @@ const descendCompare = (p) => {
   };
 };
 
-const bindListener = (graph) => {
-  graph.on('node:mouseenter', (evt: any) => {
-    const { item } = evt;
-    const model = item.getModel();
-    const currentLabel = model.label;
-    model.oriFontSize = model.labelCfg.style.fontSize;
-    item.update({
-      label: model.oriLabel,
-    });
-    model.oriLabel = currentLabel;
-    graph.setItemState(item, 'hover', true);
-    item.toFront();
-  });
-
-  graph.on('node:mouseleave', (evt: any) => {
-    const { item } = evt;
-    const model = item.getModel();
-    const currentLabel = model.label;
-    item.update({
-      label: model.oriLabel,
-    });
-    model.oriLabel = currentLabel;
-    graph.setItemState(item, 'hover', false);
-  });
-
-  graph.on('edge:mouseenter', (evt: any) => {
-    const { item } = evt;
-    const model = item.getModel();
-    const currentLabel = model.label;
-    item.update({
-      label: model.oriLabel,
-    });
-    model.oriLabel = currentLabel;
-    item.toFront();
-    item.getSource().toFront();
-    item.getTarget().toFront();
-  });
-
-  graph.on('edge:mouseleave', (evt: any) => {
-    const { item } = evt;
-    const model = item.getModel();
-    const currentLabel = model.label;
-    if (largeGraphMode) {
-      item.update({
-        label: '',
-      });
-    } else {
-      item.update({
-        label: model.oriLabel,
-      });
-    }
-    model.oriLabel = currentLabel;
-  });
-  // click node to show the detail drawer
-  graph.on('node:click', (evt: any) => {
-    clearFocusItemState(graph);
-    const { item } = evt;
-
-    // highlight the clicked node
-    graph.setItemState(item, 'focus', true);
-    // 将相关边也高亮
-    const relatedEdges = item.getEdges();
-    relatedEdges.forEach(edge => {
-      graph.setItemState(edge, 'focus', true);
-    })
-
-  });
-
-  // click edge to show the detail of integrated edge drawer
-  graph.on('edge:click', (evt: any) => {
-    clearFocusItemState(graph);
-    const { item } = evt;
-    // highlight the clicked edge
-    graph.setItemState(item, 'focus', true);
-  });
-
-  // click canvas to cancel all the focus state
-  graph.on('canvas:click', (evt: any) => {
-    clearFocusItemState(graph);
-  });
-}
-
 const clearFocusItemState = (graph) => {
   if (!graph) return;
   clearFocusNodeState(graph);
@@ -734,9 +653,9 @@ const labelFormatter = (text: string, minLength: number = 10): string => {
   return text;
 };
 
-const processNodesEdges = (nodes, edges, width, height, largeGraphMode, edgeLabelVisible, tagNew = false) => {
+const processNodesEdges = (nodes, edges, width, height, largeGraphMode, edgeLabelVisible, isNewGraph = false) => {
   if (!nodes || nodes.length === 0) return {};
-  const nodeMap = {};
+  const currentNodeMap = {};
   let maxNodeCount = -Infinity;
   const paddingRatio = 0.3;
   let paddingWidth = (width || 1000) - 2 * paddingRatio * width;
@@ -753,30 +672,22 @@ const processNodesEdges = (nodes, edges, width, height, largeGraphMode, edgeLabe
     node.degree = 0;
     node.inDegree = 0;
     node.outDegree = 0;
-    if (nodeMap[node.id]) {
+    if (currentNodeMap[node.id]) {
       console.warn('node exists already!', node.id)
       node.id = `${node.id}${Math.random()}`;
-    } // TODO: delete this line if the nodes are all unique
-    nodeMap[node.id] = node;
+    }
+    currentNodeMap[node.id] = node;
     if (node.count > maxNodeCount) maxNodeCount = node.count;
     const cachePosition = cachePositions ? cachePositions[node.id] : undefined;
-    if (node.level) {
-      node.x = Math.random() * paddingWidth + paddingLeft * 0.2;
-      node.y = Math.random() * paddingHeight + paddingTop * 0.5;
-    }
-    if (cachePosition && cachePosition.level === node.level) {
+    if (cachePosition) {
       node.x = cachePosition.x;
       node.y = cachePosition.y;
       node.new = false;
     } else {
-      node.new = true;
-      if (cachePosition) {
-        cachePosition.new = true;
-        node.x = cachePosition.x;
-        node.y = cachePosition.y;
-      } else if (expandPosition && expandPosition.x !== 0 && expandPosition.y !== 0) {
-        node.x = expandPosition.x + 30 * Math.cos(Math.random() * Math.PI * 2);
-        node.y = expandPosition.y + 30 * Math.sin(Math.random() * Math.PI * 2);
+      node.new = isNewGraph ? false : true;
+      if (manipulatePosition) {
+        node.x = manipulatePosition.x + 30 * Math.cos(Math.random() * Math.PI * 2);
+        node.y = manipulatePosition.y + 30 * Math.sin(Math.random() * Math.PI * 2);
       }
     }
   });
@@ -789,12 +700,12 @@ const processNodesEdges = (nodes, edges, width, height, largeGraphMode, edgeLabe
     if (!edge.id) edge.id = `edge-${uniqueId()}`;
     else if (edge.id.split('-')[0] !== 'edge') edge.id = `edge-${edge.id}`;
     // TODO: delete the following line after the queried data is correct
-    if (!nodeMap[edge.source] || !nodeMap[edge.target]) {
+    if (!currentNodeMap[edge.source] || !currentNodeMap[edge.target]) {
       console.warn('edge source target does not exist', edge.source, edge.target, edge.id)
       return;
     }
-    const sourceNode = nodeMap[edge.source];
-    const targetNode = nodeMap[edge.target];
+    const sourceNode = currentNodeMap[edge.source];
+    const targetNode = currentNodeMap[edge.target];
 
     if (!sourceNode || !targetNode) console.warn('source or target is not defined!!!', edge, sourceNode, targetNode)
 
@@ -811,7 +722,6 @@ const processNodesEdges = (nodes, edges, width, height, largeGraphMode, edgeLabe
   nodes.sort(descendCompare(NODESIZEMAPPING));
   const maxDegree = nodes[0].degree || 1;
 
-  const topNum = Math.max(nodes.length / 10, 1);
   const descreteNodes = [];
   nodes.forEach((node, i) => {
     // assign the size mapping to the outDegree
@@ -847,7 +757,7 @@ const processNodesEdges = (nodes, edges, width, height, largeGraphMode, edgeLabe
   const edgeSizeRange = maxEdgeSize - minEdgeSize;
   edges.forEach((edge) => {
     // set edges' style
-    const targetNode = nodeMap[edge.target];
+    const targetNode = currentNodeMap[edge.target];
 
     const size = ((edge.count - minCount) / countRange * edgeSizeRange + minEdgeSize) || 1;
     edge.size = size;//edge.count ? Math.min(edge.count, 10) : 1;
@@ -858,11 +768,11 @@ const processNodesEdges = (nodes, edges, width, height, largeGraphMode, edgeLabe
     let arrowPath = `M ${arrowBeging},0 L ${arrowBeging + arrowLength},-${arrowWidth} L ${arrowBeging + arrowLength
       },${arrowWidth} Z`;
     let d = targetNode.size / 2 + arrowLength;
-    if (edge.type === 'loop') {
-      d = 15;
-      arrowPath = `M ${d},0 L ${d + 15},-${arrowWidth} L ${d + 15},${arrowWidth} Z`;
+    if (edge.source === edge.target) {
+      edge.type = 'loop';
+      arrowPath = undefined;
     }
-    const sourceNode = nodeMap[edge.source];
+    const sourceNode = currentNodeMap[edge.source];
     const isRealEdge = targetNode.isReal && sourceNode.isReal;
     edge.isReal = isRealEdge;
     const stroke = isRealEdge ? global.edge.style.realEdgeStroke : global.edge.style.stroke;
@@ -876,12 +786,12 @@ const processNodesEdges = (nodes, edges, width, height, largeGraphMode, edgeLabe
       lineAppendWidth: Math.max(edge.size || 5, 5),
       fillOpacity: 1,
       lineDash,
-      endArrow: {
+      endArrow: arrowPath ? {
         path: arrowPath,
         d,
         fill: stroke,
         strokeOpacity: 0,
-      },
+      } : false,
     };
     edge.labelCfg = {
       autoRotate: true,
@@ -916,13 +826,13 @@ const processNodesEdges = (nodes, edges, width, height, largeGraphMode, edgeLabe
       sourceNode.y = targetNode.y + targetDis * Math.sin(Math.random() * Math.PI * 2);
     }
 
-    if (!sourceNode.x && !sourceNode.y) {
-      sourceNode.x = expandPosition.x + 30 * Math.cos(Math.random() * Math.PI * 2);
-      sourceNode.y = expandPosition.y + 30 * Math.sin(Math.random() * Math.PI * 2);
+    if (!sourceNode.x && !sourceNode.y && manipulatePosition) {
+      sourceNode.x = manipulatePosition.x + 30 * Math.cos(Math.random() * Math.PI * 2);
+      sourceNode.y = manipulatePosition.y + 30 * Math.sin(Math.random() * Math.PI * 2);
     }
-    if (!targetNode.x && !targetNode.y) {
-      targetNode.x = expandPosition.x + 30 * Math.cos(Math.random() * Math.PI * 2);
-      targetNode.y = expandPosition.y + 30 * Math.sin(Math.random() * Math.PI * 2);
+    if (!targetNode.x && !targetNode.y && manipulatePosition) {
+      targetNode.x = manipulatePosition.x + 30 * Math.cos(Math.random() * Math.PI * 2);
+      targetNode.y = manipulatePosition.y + 30 * Math.sin(Math.random() * Math.PI * 2);
     }
   });
 
@@ -940,8 +850,7 @@ const processNodesEdges = (nodes, edges, width, height, largeGraphMode, edgeLabe
   G6.Util.processParallelEdges(edges, 12.5, 'quadratic', 'line');
   return {
     maxDegree,
-    edges,
-    nodeMap
+    edges
   };
 };
 
@@ -1023,6 +932,16 @@ const hideItems = (graph) => {
   });
 }
 
+const showItems = (graph) => {
+  graph.getNodes().forEach(node => {
+    if (!node.isVisible()) graph.showItem(node);
+  });
+  graph.getEdges().forEach(edge => {
+    if (!edge.isVisible()) edge.showItem(edge);
+  });
+  hiddenItemIds = [];
+}
+
 const handleRefreshGraph = (
   graph, graphData, width, height, largeGraphMode,
   edgeLabelVisible, isNewGraph
@@ -1039,49 +958,18 @@ const handleRefreshGraph = (
 
   let nodes = [], edges = [];
 
-  // 当不是新图时，将画布上已有数据和新查询到的合并
-  if (!isNewGraph) {
-    const graphSrcData = { nodes: graphData.nodes, edges: graphData.edges }
-    const hasedNodeIds = graphSrcData.nodes.map(node => node.id)
-    const hasedEdgeIds = graphSrcData.edges.map(edge => edge.id)
-    graph.getNodes().forEach(node => {
-      const model = node.getModel()
-      if (!hasedNodeIds.includes(model.id)) {
-        graphSrcData.nodes.push(model);
-      }
-    })
-    graph.getEdges().forEach(edge => {
-      const model = edge.getModel()
-      if (!hasedEdgeIds.includes(model.id)) {
-        graphSrcData.edges.push(edge.getModel());
-      }
-    })
-    const processRes = processNodesEdges(
-      graphSrcData.nodes,
-      graphSrcData.edges || [],
-      width,
-      height,
-      largeGraphMode,
-      edgeLabelVisible,
-      !isNewGraph
-    );
+  nodes = graphData?.nodes;
+  const processRes = processNodesEdges(
+    nodes,
+    graphData.edges || [],
+    width,
+    height,
+    largeGraphMode,
+    edgeLabelVisible,
+    isNewGraph
+  );
 
-    edges = processRes.edges;
-    nodes = graphSrcData.nodes;
-  } else {
-    nodes = graphData?.nodes;
-    const processRes = processNodesEdges(
-      nodes,
-      graphData.edges || [],
-      width,
-      height,
-      largeGraphMode,
-      edgeLabelVisible,
-      !isNewGraph
-    );
-
-    edges = processRes.edges;
-  }
+  edges = processRes.edges;
 
   graph.changeData({ nodes, edges });
 
@@ -1090,20 +978,7 @@ const handleRefreshGraph = (
     node.toFront();
   });
 
-  // 当为新图时候，即从模板或Gremlin查询时，视为新图
-  if (isNewGraph) {
-    nodes = [];
-    edges = [];
-    graph.getNodes().forEach(node => {
-      nodes.push(node.getModel());
-    })
-    graph.getEdges().forEach(edge => {
-      edges.push(edge.getModel());
-    })
-  }
-
   // force 需要使用不同 id 的对象才能进行全新的布局，否则会使用原来的引用。因此复制一份节点和边作为 force 的布局数据
-  layoutNodeMap = {};
   layout.instance.init({
     nodes: graphData.nodes,
     edges
@@ -1112,7 +987,8 @@ const handleRefreshGraph = (
   layout.instance.minMovement = 0.0001;
   layout.instance.getCenter = d => {
     const cachePosition = cachePositions[d.id];
-    if (!cachePosition) return [expandPosition.x, expandPosition.y, 10];
+    if (!cachePosition && manipulatePosition) return [manipulatePosition.x, manipulatePosition.y, 10];
+    else if (cachePosition) return [cachePosition.x, cachePosition.y, 10];
     return [width / 2, height / 2, 10];
   }
   layout.instance.execute();
@@ -1134,8 +1010,10 @@ const getMixedGraph = (aggregatedData, originData, nodeMap, aggregatedNodeMap, e
   aggregatedData.clusters.forEach((cluster, i) => {
     if (expandMap[cluster.id]) {
       nodes = nodes.concat(cluster.nodes);
+      aggregatedNodeMap[cluster.id].expanded = true;
     } else {
       nodes.push(aggregatedNodeMap[cluster.id]);
+      aggregatedNodeMap[cluster.id].expanded = false;
     }
   });
   originData.edges.forEach(edge => {
@@ -1170,6 +1048,107 @@ const getMixedGraph = (aggregatedData, originData, nodeMap, aggregatedNodeMap, e
   return { nodes, edges };
 }
 
+const getNeighborMixedGraph = (centerNodeModel, step, originData, clusteredData, currentData, nodeMap, aggregatedNodeMap, maxNeighborNumPerNode = 5) => {
+  // update the manipulate position for center gravity of the new nodes
+  manipulatePosition = { x: centerNodeModel.x, y: centerNodeModel.y };
+
+  // the neighborSubGraph does not include the centerNodeModel. the elements are all generated new nodes and edges
+  const neighborSubGraph = generateNeighbors(centerNodeModel, step, maxNeighborNumPerNode);
+  // update the origin data
+  originData.nodes = originData.nodes.concat(neighborSubGraph.nodes);
+  originData.edges = originData.edges.concat(neighborSubGraph.edges);
+  // update the origin nodeMap
+  neighborSubGraph.nodes.forEach(node => {
+    nodeMap[node.id] = node;
+  });
+  // update the clusteredData
+  const clusterId = centerNodeModel.clusterId;
+  clusteredData.clusters.forEach(cluster => {
+    if (cluster.id !== clusterId) return;
+    cluster.nodes = cluster.nodes.concat(neighborSubGraph.nodes);
+    cluster.sumTot += neighborSubGraph.edges.length;
+  });
+  // update the count
+  aggregatedNodeMap[clusterId].count += neighborSubGraph.nodes.length;
+
+  currentData.nodes = currentData.nodes.concat(neighborSubGraph.nodes);
+  currentData.edges = currentData.edges.concat(neighborSubGraph.edges);
+  return currentData;
+}
+
+const generateNeighbors = (centerNodeModel, step, maxNeighborNumPerNode = 5) => {
+  if (step <= 0) return undefined;
+  let nodes = [], edges = [];
+  const clusterId = centerNodeModel.clusterId;
+  const centerId = centerNodeModel.id;
+  const neighborNum = Math.ceil(Math.random() * maxNeighborNumPerNode);
+  for (let i = 0; i < neighborNum; i++) {
+    const neighborNode = {
+      id: uniqueId(),
+      clusterId,
+      level: 0
+    };
+    nodes.push(neighborNode);
+    const dire = Math.random() > 0.5;
+    const source = dire ? centerId : neighborNode.id;
+    const target = dire ? neighborNode.id : centerId;
+    const neighborEdge = {
+      id: uniqueId(),
+      source,
+      target,
+      label: `${source}-${target}`
+    };
+    edges.push(neighborEdge);
+    const subNeighbors = generateNeighbors(neighborNode, step - 1, maxNeighborNumPerNode);
+    if (subNeighbors) {
+      nodes = nodes.concat(subNeighbors.nodes);
+      edges = edges.concat(subNeighbors.edges);
+    }
+  }
+  return { nodes, edges };
+}
+
+const getExtractNodeMixedGraph = (extractNodeData, originData, nodeMap, aggregatedNodeMap, currentUnproccessedData) => {
+  const extractNodeId = extractNodeData.id;
+  // const extractNodeClusterId = extractNodeData.clusterId;
+  // push to the current rendering data
+  currentUnproccessedData.nodes.push(extractNodeData);
+  // update the count of aggregatedNodeMap, when to revert?
+  // aggregatedNodeMap[extractNodeClusterId].count --;
+
+  // extract the related edges
+  originData.edges.forEach(edge => {
+    if (edge.source === extractNodeId) {
+      const targetClusterId = nodeMap[edge.target].clusterId;
+      if (!aggregatedNodeMap[targetClusterId].expanded) {
+        // did not expand, create an virtual edge fromt he extract node to the cluster
+        currentUnproccessedData.edges.push({
+          id: uniqueId(),
+          source: extractNodeId,
+          target: targetClusterId
+        });
+      } else {
+        // if the cluster is already expanded, push the origin edge
+        currentUnproccessedData.edges.push(edge)
+      }
+    } else if (edge.target === extractNodeId) {
+      const sourceClusterId = nodeMap[edge.source].clusterId;
+      if (!aggregatedNodeMap[sourceClusterId].expanded) {
+        // did not expand, create an virtual edge fromt he extract node to the cluster
+        currentUnproccessedData.edges.push({
+          id: uniqueId(),
+          target: extractNodeId,
+          source: sourceClusterId
+        });
+      } else {
+        // if the cluster is already expanded, push the origin edge
+        currentUnproccessedData.edges.push(edge);
+      }
+    }
+  });
+  return currentUnproccessedData;
+}
+
 const examAncestors = (model, expandedArray, length, keepTags) => {
   for (let i = 0; i < length; i++) {
     const expandedNode = expandedArray[i];
@@ -1183,7 +1162,7 @@ const examAncestors = (model, expandedArray, length, keepTags) => {
 
 const manageExpandCollapseArray = (nodeNumber, model, collapseArray, expandArray) => {
   // cachePositions = cacheNodePositions(graph.getNodes()); // graphData.nodes
-  expandPosition = { x: model.x, y: model.y };
+  manipulatePosition = { x: model.x, y: model.y };
 
   // 维护 expandArray，若当前画布节点数高于上限，移出 expandedArray 中非 model 祖先的节点)
   if (nodeNumber > NODE_LIMIT) {
@@ -1272,12 +1251,186 @@ const LargeGraph = () => {
   const CANVAS_WIDTH = 800;
   const CANVAS_HEIGHT = 800;
 
+  const [fisheyeEnabled, setFisheyeEnabled] = useState(false);
+  const [lassoEnabled, setLassoEnabled] = useState(false);
+  const [edgeLabelVisible, setEdgeLabelVisible] = useState(false);
+  const [graphInstance, setGraphInstance] = useState(null);
+  const clickFisheyeIcon = (onlyDisable) => {
+    if (onlyDisable) {
+      setFisheyeEnabled(false);
+    } else {
+      setFisheyeEnabled(!fisheyeEnabled);
+    }
+  }
+  const clickLassoIcon = (onlyDisable) => {
+    if (onlyDisable) {
+      setLassoEnabled(false);
+    } else {
+      setLassoEnabled(!lassoEnabled);
+    }
+  }
+
+  const stopLayout = () => {
+    layout.instance.stop();
+  }
+
+  const bindListener = (graph) => {
+    graph.on('keydown', evt => {
+      const code = evt.key;
+      if (!code) {
+        return;
+      }
+      if (code.toLowerCase() === 'shift') {
+        shiftKeydown = true;
+      } else {
+        shiftKeydown = false;
+      }
+    });
+    graph.on('keyup', evt => {
+      const code = evt.key;
+      if (!code) {
+        return;
+      }
+      if (code.toLowerCase() === 'shift') {
+        shiftKeydown = false;
+      }
+    });
+    graph.on('node:mouseenter', (evt: any) => {
+      const { item } = evt;
+      const model = item.getModel();
+      const currentLabel = model.label;
+      model.oriFontSize = model.labelCfg.style.fontSize;
+      item.update({
+        label: model.oriLabel,
+      });
+      model.oriLabel = currentLabel;
+      graph.setItemState(item, 'hover', true);
+      item.toFront();
+    });
+
+    graph.on('node:mouseleave', (evt: any) => {
+      const { item } = evt;
+      const model = item.getModel();
+      const currentLabel = model.label;
+      item.update({
+        label: model.oriLabel,
+      });
+      model.oriLabel = currentLabel;
+      graph.setItemState(item, 'hover', false);
+    });
+
+    graph.on('edge:mouseenter', (evt: any) => {
+      const { item } = evt;
+      const model = item.getModel();
+      const currentLabel = model.label;
+      item.update({
+        label: model.oriLabel,
+      });
+      model.oriLabel = currentLabel;
+      item.toFront();
+      item.getSource().toFront();
+      item.getTarget().toFront();
+    });
+
+    graph.on('edge:mouseleave', (evt: any) => {
+      const { item } = evt;
+      const model = item.getModel();
+      const currentLabel = model.label;
+      item.update({
+        label: model.oriLabel,
+      });
+      model.oriLabel = currentLabel;
+    });
+    // click node to show the detail drawer
+    graph.on('node:click', (evt: any) => {
+      stopLayout();
+      if (!shiftKeydown) clearFocusItemState(graph);
+      else clearFocusEdgeState(graph);
+      const { item } = evt;
+
+      // highlight the clicked node, it is down by click-select
+      graph.setItemState(item, 'focus', true);
+
+      if (!shiftKeydown) {
+        // 将相关边也高亮
+        const relatedEdges = item.getEdges();
+        relatedEdges.forEach(edge => {
+          graph.setItemState(edge, 'focus', true);
+        })
+      }
+    });
+
+    // click edge to show the detail of integrated edge drawer
+    graph.on('edge:click', (evt: any) => {
+      stopLayout();
+      if (!shiftKeydown) clearFocusItemState(graph);
+      const { item } = evt;
+      // highlight the clicked edge
+      graph.setItemState(item, 'focus', true);
+    });
+
+    // click canvas to cancel all the focus state
+    graph.on('canvas:click', (evt: any) => {
+      clearFocusItemState(graph);
+    });
+  }
+
+  const searchNode = (id) => {
+    if (!graph || graph.get('destroyed')) return false;
+    const item = graph.findById(id);
+    const originNodeData = nodeMap[id];
+    if (!item && originNodeData) {
+      // does not exit the current mixed graph but in the origin data
+      cachePositions = cacheNodePositions(graph.getNodes());
+      currentUnproccessedData = getExtractNodeMixedGraph(originNodeData, originData, nodeMap, aggregatedNodeMap, currentUnproccessedData);
+      handleRefreshGraph(graph, currentUnproccessedData, CANVAS_WIDTH, CANVAS_HEIGHT, largeGraphMode, true, false);
+
+    }
+    if (!item) return false;
+    if (item && item.getType() !== 'node') return false;
+    graph.focusItem(item, true);
+    clearFocusItemState(graph);
+    graph.setItemState(item, 'focus', true);
+    return true;
+  }
+
+  const findPath = () => {
+    if (!graph || graph.get('destroyed')) return false;
+    const selectedNodes = graph.findAllByState('node', 'focus');
+    if (selectedNodes.length !== 2) {
+      alert('Please Select only Two Nodes two Find the Path!');
+      return;
+    }
+
+    // find the path and highlight the nodes and edges along the path
+    clearFocusItemState(graph);
+    const { path } = findShortestPath(graph, selectedNodes[0].getID(), selectedNodes[1].getID());
+    graph.getEdges().forEach(edge => {
+      const edgeModel = edge.getModel();
+      const source = edgeModel.source;
+      const target = edgeModel.target;
+      const sourceInPathIdx = path.indexOf(source);
+      const targetInPathIdx = path.indexOf(target);
+      if (sourceInPathIdx === -1 || targetInPathIdx === -1) return;
+      if (Math.abs(sourceInPathIdx - targetInPathIdx) === 1) {
+        edge.toFront();
+        graph.setItemState(edge, 'focus', true);
+      }
+    });
+    path.forEach(id => {
+      const pathNode = graph.findById(id);
+      pathNode.toFront();
+      graph.setItemState(pathNode, 'focus', true);
+    });
+  }
+
   useEffect(() => {
     if (!graph) {
       fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
         .then((res) => res.json())
         .then((data) => {
-          const nodeMap = {}, aggregatedNodeMap = {};
+          originData = data;
+          nodeMap = {};
           const clusteredData = louvain(data, false, 'weight');
           const aggregatedData = { nodes: [], edges: [] };
           clusteredData.clusters.forEach((cluster, i) => {
@@ -1297,6 +1450,7 @@ const LargeGraph = () => {
             };
             aggregatedNodeMap[cluster.id] = cnode;
             aggregatedData.nodes.push(cnode);
+            colorSetMap[cluster.id] = colorSets[i];
           });
           clusteredData.clusterEdges.forEach(clusterEdge => {
             const cedge = {
@@ -1319,11 +1473,19 @@ const LargeGraph = () => {
             edge.id = `edge-${uniqueId()}`;
           });
 
-          const { edges: processedEdges } = processNodesEdges(aggregatedData.nodes, aggregatedData.edges, CANVAS_WIDTH, CANVAS_HEIGHT, largeGraphMode, true, true);
+          currentUnproccessedData = aggregatedData;
+
+          const { edges: processedEdges } = processNodesEdges(currentUnproccessedData.nodes, currentUnproccessedData.edges, CANVAS_WIDTH, CANVAS_HEIGHT, largeGraphMode, true, true);
 
           const contextMenu = new G6.Menu({
             getContent(evt) {
               const { item } = evt;
+              if (evt.target && evt.target.isCanvas && evt.target.isCanvas()) {
+                return `<ul>
+                  <li id='show'>显示所有隐藏元素</li>
+                  <li id='collapseAll'>聚合全部节点</li>
+                </ul>`;
+              } else if (!item) return;
               const itemType = item?.getType();
               const model = item?.getModel();
               if (itemType && model) {
@@ -1335,6 +1497,7 @@ const LargeGraph = () => {
                     </ul>`;
                   } else {
                     return `<ul>
+                      <li id='collapse'>聚合所属类</li>
                       <li id='neighbor-1'>扩展一度关系</li>
                       <li id='neighbor-2'>扩展二度关系</li>
                       <li id='neighbor-3'>扩展三度关系</li>
@@ -1349,25 +1512,50 @@ const LargeGraph = () => {
               }
             },
             handleMenuClick: (target, item) => {
-              const model = item.getModel();
-              const liIdStrs = target.id.split('-')
+              const model = item?.getModel();
+              const liIdStrs = target.id.split('-');
+              let mixedGraphData;
               switch (liIdStrs[0]) {
                 case 'hide':
                   graph.hideItem(item);
+                  hiddenItemIds.push(model.id);
                   break;
                 case 'expand':
-                  cachePositions = cacheNodePositions(graph.getNodes());
                   const newArray = manageExpandCollapseArray(graph.getNodes().length, model, collapseArray, expandArray);
                   expandArray = newArray.expandArray;
                   collapseArray = newArray.collapseArray;
-                  const { nodes: resNodes, edges: resEdges } = getMixedGraph(clusteredData, data, nodeMap, aggregatedNodeMap, expandArray, collapseArray);
-                  handleRefreshGraph(graph, { nodes: resNodes, edges: resEdges }, CANVAS_WIDTH, CANVAS_HEIGHT, largeGraphMode, true, true);
+                  mixedGraphData = getMixedGraph(clusteredData, data, nodeMap, aggregatedNodeMap, expandArray, collapseArray);
+                  break;
+                case 'collapse':
+                  manipulatePosition = { x: model.x, y: model.y };
+                  collapseArray.push(aggregatedNodeMap[model.clusterId]);
+                  for (let i = 0; i < expandArray.length; i++) {
+                    if (expandArray[i].id === model.clusterId) {
+                      expandArray.splice(i, 1);
+                      break;
+                    }
+                  }
+                  mixedGraphData = getMixedGraph(clusteredData, data, nodeMap, aggregatedNodeMap, expandArray, collapseArray);
+                  break;
+                case 'collapseAll':
+                  expandArray = [];
+                  collapseArray = [];
+                  mixedGraphData = getMixedGraph(clusteredData, data, nodeMap, aggregatedNodeMap, expandArray, collapseArray);
                   break;
                 case 'neighbor':
                   const expandNeighborSteps = parseInt(liIdStrs[1]);
+                  mixedGraphData = getNeighborMixedGraph(model, expandNeighborSteps, data, clusteredData, currentUnproccessedData, nodeMap, aggregatedNodeMap, 10);
+                  break;
+                case 'show':
+                  showItems(graph);
                   break;
                 default:
                   break;
+              }
+              if (mixedGraphData) {
+                cachePositions = cacheNodePositions(graph.getNodes());
+                currentUnproccessedData = mixedGraphData;
+                handleRefreshGraph(graph, currentUnproccessedData, CANVAS_WIDTH, CANVAS_HEIGHT, largeGraphMode, true, false);
               }
             },
             // offsetX and offsetY include the padding of the parent container
@@ -1377,7 +1565,7 @@ const LargeGraph = () => {
             offsetY: 0,
             // the types of items that allow the menu show up
             // 在哪些类型的元素上响应
-            itemTypes: ['node', 'edge'],
+            itemTypes: ['node', 'edge', 'canvas'],
           });
 
           graph = new G6.Graph({
@@ -1386,11 +1574,12 @@ const LargeGraph = () => {
             height: CANVAS_HEIGHT,
             linkCenter: true,
             minZoom: 0.1,
+            groupByTypes: false,
             modes: {
               default: [
                 'drag-canvas',
                 'zoom-canvas',
-                'drag-node'
+                'drag-node',
               ],
               lassoSelect: [
                 'zoom-canvas',
@@ -1415,7 +1604,7 @@ const LargeGraph = () => {
           layoutConfig.center = [CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2];
           layout.instance = new G6.Layout['graphinForce'](layoutConfig);
           layout.instance.init({
-            nodes: aggregatedData.nodes,
+            nodes: currentUnproccessedData.nodes,
             edges: processedEdges,
           });
           layout.instance.execute();
@@ -1423,11 +1612,54 @@ const LargeGraph = () => {
           bindListener(graph);
           graph.data({ nodes: aggregatedData.nodes, edges: processedEdges });
           graph.render();
+          setGraphInstance(graph);
         });
     }
   });
 
-  return <div ref={container} style={{ backgroundColor: '#2b2f33' }} />;
+  // hide the edge label
+  useEffect(() => {
+    if (!graph || graph.get('destroyed')) return;
+    graph.getEdges().forEach(edge => {
+      const oriLabel: string = edge.getModel().oriLabel as string;
+      edge.update({
+        label: edgeLabelVisible ? labelFormatter(oriLabel, labelMaxLength) : ''
+      });
+    });
+  }, [edgeLabelVisible]);
+
+  return <>
+    <div ref={container} style={{ backgroundColor: '#2b2f33' }} />
+    {graphInstance &&
+      <>
+        <CanvasMenu
+          graph={graph}
+          // filter={graphFilter}
+          // typeList={itemTypeList}
+          // typePropertyList={itemTypePropertyList}
+          // configLabel={configGraphLabel}
+          // resetFilterMapping={resetFilterMapping}
+          // selectedItem={canvasMenuSelectedItem}
+          // clickFilterIcon={clickFilterIcon}
+          clickFisheyeIcon={clickFisheyeIcon}
+          // clickLabelMappingIcon={clickLabelMappingIcon}
+          clickLassoIcon={clickLassoIcon}
+          // filterPanelVisible={filterPanelVisible}
+          // labelMappingPanelVisible={labelMappingPanelVisible}
+          fisheyeEnabled={fisheyeEnabled}
+          lassoEnabled={lassoEnabled}
+          stopLayout={stopLayout}
+          // enableLayoutConfig={layoutConfigVisible}
+          // clickLayoutConfig={toggleLayoutConfig}
+          // updateLayout={updateLayout}
+          edgeLabelVisible={edgeLabelVisible}
+          setEdgeLabelVisible={setEdgeLabelVisible}
+          searchNode={searchNode}
+          handleFindPath={findPath}
+        />
+      </>
+    }
+  </>;
 };
 
 export default LargeGraph;

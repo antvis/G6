@@ -30,7 +30,7 @@ G6.registerNode('treeNode', {
     const height = 28;
     const x = 0;
     const y = -height / 2;
-    
+
     // 名称文本
     const text = group.addShape('text', {
       attrs: {
@@ -64,8 +64,8 @@ G6.registerNode('treeNode', {
       height,
       radius: 4,
     };
-    
-	 // keyShape根节点选中样式
+
+    // keyShape根节点选中样式
     if (rootNode && selected) {
       keyShapeAttrs.fill = '#e8f7ff';
       keyShapeAttrs.stroke = '#e8f7ff';
@@ -74,7 +74,7 @@ G6.registerNode('treeNode', {
       attrs: keyShapeAttrs,
       name: 'root-key-shape-rect-shape',
     });
-    
+
     if (!rootNode) {
       // 底部横线
       group.addShape('path', {
@@ -89,16 +89,16 @@ G6.registerNode('treeNode', {
         name: 'node-path-shape',
       });
     }
-    
+
     const mainX = x - 10;
     const mainY = -height + 15;
-    
-     if (rootNode) {
+
+    if (rootNode) {
       group.addShape('rect', {
         attrs: {
           x: mainX,
           y: mainY,
-          width: width + 12 ,
+          width: width + 12,
           height,
           radius: 14,
           fill: '#e8f7ff',
@@ -106,14 +106,14 @@ G6.registerNode('treeNode', {
         },
         name: 'main-shape',
       });
-     }
-    
-     let nameColor = 'rgba(0, 0, 0, .65)';
-      if (selected) {
-        nameColor = '#40A8FF';
-      }
-    
-     // 名称
+    }
+
+    let nameColor = 'rgba(0, 0, 0, .65)';
+    if (selected) {
+      nameColor = '#40A8FF';
+    }
+
+    // 名称
     if (rootNode) {
       group.addShape('text', {
         attrs: {
@@ -129,7 +129,7 @@ G6.registerNode('treeNode', {
         },
         name: 'root-text-shape',
       });
-      
+
     } else {
       group.addShape('text', {
         attrs: {
@@ -148,7 +148,7 @@ G6.registerNode('treeNode', {
         name: 'not-root-text-shape',
       });
     }
-    
+
     // 子类数量
     if (hasChildren && !rootNode) {
       const childCountHeight = 12;
@@ -182,8 +182,8 @@ G6.registerNode('treeNode', {
         name: 'child-count-text-shape',
       });
     }
-   
-     return keyShape;
+
+    return keyShape;
   },
 });
 
@@ -218,67 +218,183 @@ G6.registerEdge('smooth', {
 });
 
 const data = {
-  id: '10000',
-  label: '文艺作品',
-  depth: 0,
-  tootip: '文艺作品信息',
-  children: [
+  "id": 200000004,
+  "tooltip": "Thing",
+  "label": "事物",
+  "description": null,
+  "descriptionZh": null,
+  "depth": 3,
+  "subTypeCount": 9,
+  "status": 0,
+  "children": [
     {
-      id: '10001',
-      label: '电影',
-      depth: 1,
-      children: [
+      "id": 500000061,
+      "tooltip": "Person",
+      "label": "自然人",
+      "description": null,
+      "descriptionZh": null,
+      "depth": 1,
+      "subTypeCount": 1,
+      "status": 0,
+      "children": [
         {
-          id: '10003',
-          label: '喜剧',
-          depth: 2,
-          children: [
+
+          "id": 707000085,
+          "tooltip": "FilmPerson",
+          "label": "电影人",
+          "description": null,
+          "descriptionZh": null,
+          "depth": 5,
+          "subTypeCount": 3,
+          "status": 1,
+          "children": [
             {
-              id: '10007',
-              label: '西虹市首富',
-              depth: 3,
+              "id": 707000090,
+              "tooltip": "FilmDirector",
+              "label": "电影导演",
+              "description": null,
+              "descriptionZh": null,
+              "depth": 0,
+              "subTypeCount": 0,
+              "status": 1,
+              "children": []
             },
             {
-              id: '10008',
-              label: '功夫',
-              depth: 3,
+
+              "id": 707000091,
+              "tooltip": "FilmWriter",
+              "label": "电影编剧",
+              "description": null,
+              "descriptionZh": null,
+              "depth": 4,
+              "subTypeCount": 0,
+              "status": 1,
+              "children": []
             },
             {
-              id: '10009',
-              label: '一出好戏',
-              depth: 3,
+
+              "id": 707000092,
+              "tooltip": "FilmStar",
+              "label": "电影主演",
+              "description": null,
+              "descriptionZh": null,
+              "depth": 4,
+              "subTypeCount": 0,
+              "status": 1,
+              "children": []
             }
           ]
         },
         {
-          id: '10004',
-          label: '科幻',
-          depth: 2,
-          children: [
-          ]
+
+          "id": 707000086,
+          "tooltip": "MusicPerson",
+          "label": "音乐人",
+          "description": null,
+          "descriptionZh": null,
+          "depth": 17,
+          "subTypeCount": 2,
+          "status": 1,
+          "children": []
         }
       ]
     },
     {
-      id: '10002',
-      label: '音乐',
-      depth: 1,
-      tootip: '音乐信息',
-      children: [
+
+      "id": 200000005,
+      "tooltip": "Music",
+      "label": "音乐",
+      "description": null,
+      "descriptionZh": null,
+      "depth": 3,
+      "subTypeCount": 2,
+      "status": 1,
+      "children": []
+    },
+    {
+
+      "id": 707000128,
+      "tooltip": "Film",
+      "label": "电影",
+      "description": null,
+      "descriptionZh": null,
+      "depth": 4,
+      "subTypeCount": 0,
+      "status": 1,
+      "children": [
         {
-          id: '10005',
-          label: '乡村音乐',
-          depth: 2,
-          tootip: '乡村音乐信息',
-          children: [
-          ]
-        },
+
+          "id": 7070032328,
+          "tooltip": "Comedy",
+          "label": "喜剧",
+          "description": null,
+          "descriptionZh": null,
+          "depth": 4,
+          "operation": "C",
+          "subTypeCount": 0,
+          "status": 1,
+          "children": []
+        }
+      ]
+    },
+    {
+
+      "id": 707000095,
+      "tooltip": "FilmGenre",
+      "label": "电影类别",
+      "description": null,
+      "descriptionZh": null,
+      "depth": 4,
+      "subTypeCount": 0,
+      "status": 1,
+      "children": []
+    },
+    {
+
+      "id": 702000021,
+      "tooltip": "Organization",
+      "label": "机构",
+      "description": null,
+      "descriptionZh": null,
+      "depth": 47,
+      "subTypeCount": 1,
+      "status": 0,
+      "children": [
         {
-          id: '10006',
-          label: '爵士音乐',
-          depth: 2,
-          tootip: '爵士音乐信息',
-          children: [
+
+          "id": 500000063,
+          "tooltip": "Company",
+          "label": "公司",
+          "description": null,
+          "descriptionZh": null,
+          "depth": 4,
+          "subTypeCount": 2,
+          "status": 1,
+          "children": [
+            {
+
+              "id": 707000093,
+              "tooltip": "FilmCompany",
+              "label": "电影公司",
+              "description": null,
+              "descriptionZh": null,
+              "depth": 4,
+              "subTypeCount": 0,
+              "status": 1,
+              "children": []
+            },
+            {
+
+              "id": 707000094,
+              "tooltip": "MusicCompany",
+              "label": "音乐公司",
+              "description": null,
+              "descriptionZh": null,
+              "depth": 2,
+              "subTypeCount": 0,
+              "status": 1,
+              "children": []
+            }
           ]
         }
       ]

@@ -5,7 +5,6 @@ import insertCss from 'insert-css';
 import Graph from '../../graph/graph';
 import { IG6GraphEvent, Item } from '../../types';
 import Base, { IPluginBaseConfig } from '../base';
-import { IGraph } from '../../interface/graph';
 
 insertCss(`
   .g6-component-contextmenu {
@@ -90,20 +89,21 @@ export default class Menu extends Base {
     e.preventDefault();
     e.stopPropagation();
 
-    if (!e.item) return;
+    const itemTypes = this.get('itemTypes');
+    if (!e.item) {
+      if (itemTypes.indexOf('canvas') === -1) return;
+      else if (e.target && e.target.isCanvas && e.target.isCanvas()) {
+        // canvas context menu
+      }
+    } else {
+      if (e.item && e.item.getType && itemTypes.indexOf(e.item.getType()) === -1) {
+        self.onMenuHide();
+        return;
+      }
+    }
 
     const shouldBegin = this.get('shouldBegin');
     if (!shouldBegin(e)) return;
-
-    const itemTypes = this.get('itemTypes');
-    if (e.item && e.item.getType && itemTypes.indexOf(e.item.getType()) === -1) {
-      self.onMenuHide();
-      return;
-    }
-
-    if (!e.item) {
-      return;
-    }
 
     const menuDom = this.get('menu');
     const getContent = this.get('getContent');

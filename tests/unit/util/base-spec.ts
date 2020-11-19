@@ -47,12 +47,13 @@ describe('base util', () => {
     expect(edges[0].curveOffset).toEqual(15);
     expect(edges[1].curveOffset).toEqual(-15);
 
-    edges.push({ source: 1, targe: 0 });
+    edges.push({ source: 1, target: 0 });
     processParallelEdges(edges);
+    console.log(edges);
     expect(edges[2].type).toEqual('quadratic');
-    expect(edges[0].curveOffset).toEqual(15);
-    expect(edges[1].curveOffset).toEqual(-15);
-    expect(edges[2].curveOffset).toEqual(0);
+    expect(edges[0].curveOffset).toEqual(0);
+    expect(edges[1].curveOffset).toEqual(-30);
+    expect(edges[2].curveOffset).toEqual(-30);
 
     edges.push({ source: 0, target: 0 });
     edges.push({ source: 0, target: 0 });

@@ -337,4 +337,9 @@ export default class GraphinForceLayout extends BaseLayout {
       node.y += distY;
     });
   }
+  public stop() {
+    if (this.timeInterval) {
+      window.clearInterval(this.timeInterval);
+    }
+  }
 }
