@@ -1,15 +1,15 @@
 # ChangeLog
 
 #### 4.0.0-beta
-- feat: fruchterman and graphin force layout with gpu;
-- feat: graphin force;
+- feat: fruchterman and gforce layout with gpu;
+- feat: gforce;
 - feat: updateChildren API for TreeGraph;
 - feat: louvain clustering algorithm;
 - feat: container of plugins with dom id;
 - feat: label propagation clustering algorithm;
 - feat: get color sets by subject color array; 
 - feat: canvas context menu;
-- feat: stop graphin force; 
+- feat: stop gforce; 
 - feat: dark rules for colors;
 - fix: text redidual problem, closes: #2045 #2193;
 - fix: graph on callback parameter type problem, closes: #2250;

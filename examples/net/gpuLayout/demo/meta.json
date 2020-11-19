@@ -5,68 +5,68 @@
   },
   "demos": [
     {
-      "filename": "frComplexDataWorker.js",
-      "title": {
-        "zh": "Fruchterman 布局 GPU + WebWorker",
-        "en": "Fruchterman Layout with GPU and WebWorker"
-      },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0sl9RZ7Cp28AAAAAAAAAAABkARQnAQ"
-    },
-    {
       "filename": "basicFruchterman.js",
       "title": {
-        "zh": "基本 Fruchterman 布局",
-        "en": "Basic Fruchterman Layout"
+        "zh": "GPU Fruchterman 小数据",
+        "en": "GPU Fruchterman Small Data"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1KY7SLEXxqMAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "fruchtermanComplexData.js",
       "title": {
-        "zh": "Fruchterman 复杂数据",
-        "en": "Fruchterman with Complex Data"
+        "zh": "GPU Fruchterman 复杂数据",
+        "en": "GPU Fruchterman with Complex Data"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0sl9RZ7Cp28AAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "frComplexDataWorker.js",
+      "title": {
+        "zh": "GPU Fruchterman 复杂数据 + WebWorker",
+        "en": "Fruchterman Layout with GPU and WebWorker"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0sl9RZ7Cp28AAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "fruchtermanClustering.js",
       "title": {
-        "zh": "Fruchterman 聚类布局",
-        "en": "Fruchterman with Clustering"
+        "zh": "GPU Fruchterman 聚类布局",
+        "en": "GPU Fruchterman with Clustering"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*WO1OTbNE_ugAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "fruchtermanConfigurationTranslate.js",
       "title": {
-        "zh": "Fruchterman 布局参数动态变化",
-        "en": "Update the Configurations for Fruchterman"
+        "zh": "GPU Fruchterman 布局参数动态变化",
+        "en": "GPU Update the Configurations for Fruchterman"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*W9MoQoKaQbYAAAAAAAAAAABkARQnAQ"
     },
     {
-      "filename": "graphinForceCPU.js",
+      "filename": "basicGForce.js",
       "title": {
-        "zh": "CPU Graphin Force",
-        "en": "CPU Graphin Force"
+        "zh": "GPU gForce 小数据",
+        "en": "GPU gForce"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*W9MoQoKaQbYAAAAAAAAAAABkARQnAQ"
     },
     {
-      "filename": "basicGraphinForce.js",
+      "filename": "gForceComplexData.js",
       "title": {
-        "zh": "基础 Graphin Force",
-        "en": "Basic Graphin Force"
+        "zh": "GPU gForce 复杂数据",
+        "en": "GPU gForce with Complex Data"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*W9MoQoKaQbYAAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2lg0SYvEiusAAAAAAAAAAAAAARQnAQ"
     },
     {
-      "filename": "graphinForceComplexData.js",
+      "filename": "gForceCPU.js",
       "title": {
-        "zh": "Graphin Force 复杂数据",
-        "en": "Grapohin Force with Complex Data"
+        "zh": "CPU gForce 小数据",
+        "en": "CPU gForce Small Data"
       },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0sl9RZ7Cp28AAAAAAAAAAABkARQnAQ"
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lX-qSqDECrIAAAAAAAAAAAAAARQnAQ"
     }
   ]
 }

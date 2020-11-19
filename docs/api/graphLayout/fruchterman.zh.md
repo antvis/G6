@@ -20,7 +20,9 @@ const graph = new G6.Graph({
     clustering: true,         // 可选
     clusterGravity: 30,       // 可选
     maxIteration: 2000,       // 可选，迭代次数
-    workerEnabled: true       // 可选，开启 web-worker  }
+    workerEnabled: true,      // 可选，开启 web-worker
+    gpuEnabled: true          // 可选，开启 GPU 并行计算，G6 4.0 支持
+  }
 });
 ```
 
@@ -51,3 +53,8 @@ const graph = new G6.Graph({
 ## layoutCfg.workerEnabled
 
 **类型**: Boolean<br />**默认值**: false<br />**是否必须**: false<br />**说明**: 是否启用 web-worker 以防布局计算时间过长阻塞页面交互
+
+## layoutCfg.gpuEnabled
+
+**类型**: Boolean<br />**默认值**: false<br />**是否必须**: false<br />**说明**: 是否启用 GPU 并行计算，G6 4.0 支持，性能提升概览：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*fyMGTpfyb8IAAAAAAAAAAAAAARQnAQ' width='80%'/>

@@ -86,8 +86,9 @@ const data = {
   ],
 };
 
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
 const graph = new G6.Graph({
   container: 'container',
   width,
@@ -110,16 +111,9 @@ const graph = new G6.Graph({
   defaultNode: {
     type: 'circle',
     size: [50],
-    style: {
-      fill: '#DEE9FF',
-      stroke: '#5B8FF9',
-    },
     linkPoints: {
       left: true,
       right: true,
-      fill: '#fff',
-      stroke: '#1890FF',
-      size: 3,
     },
   },
   defaultEdge: {
@@ -131,3 +125,9 @@ const graph = new G6.Graph({
 });
 graph.data(data);
 graph.render();
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight);
+};

@@ -6,8 +6,10 @@ descriptionDiv.innerHTML =
   'Constrians the nodes to be layed in the gray area with force-directed layout';
 graphDiv.appendChild(descriptionDiv);
 
-const width = graphDiv.scrollWidth;
-const height = graphDiv.scrollHeight || 500;
+
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
 
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
   .then((res) => res.json())
@@ -79,4 +81,10 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       }),
     });
     graph.render();
+
+    window.onresize = () => {
+      if (!graph || graph.get('destroyed')) return;
+      if (!container || !container.scrollWidth || !container.scrollHeight) return;
+      graph.changeSize(container.scrollWidth, container.scrollHeight);
+    };
   });

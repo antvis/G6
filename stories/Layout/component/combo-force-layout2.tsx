@@ -1,179 +1,193 @@
-import G6 from '@antv/g6';
+import React, { useEffect } from 'react';
+import G6 from '../../../src';
+import { IGraph } from '../../../src/interface/graph';
+import { GraphData } from '../../../src/types';
 
-const data = {
+let graph: IGraph = null;
+
+const colors = {
+  a: '#BDD2FD',
+  b: '#BDEFDB',
+  c: '#C2C8D5',
+  d: '#FBE5A2',
+  e: '#F6C3B7',
+  f: '#B6E3F5',
+  g: '#D3C6EA',
+  h: '#FFD8B8',
+  i: '#AAD8D8',
+  j: '#FFD6E7',
+};
+
+
+const testData = {
   nodes: [
     {
       id: '0',
-      label: '0',
-      cluster: 'a',
+      comboId: 'a',
     },
     {
       id: '1',
-      label: '1',
-      cluster: 'a',
+      comboId: 'a',
     },
     {
       id: '2',
-      label: '2',
-      cluster: 'a',
+      comboId: 'a',
     },
     {
       id: '3',
-      label: '3',
-      cluster: 'a',
+      comboId: 'a',
     },
     {
       id: '4',
-      label: '4',
-      cluster: 'a',
+      comboId: 'a',
     },
     {
       id: '5',
-      label: '5',
-      cluster: 'a',
+      comboId: 'a',
     },
     {
       id: '6',
-      label: '6',
-      cluster: 'a',
+      comboId: 'a',
     },
     {
       id: '7',
-      label: '7',
-      cluster: 'a',
+      comboId: 'a',
     },
     {
       id: '8',
-      label: '8',
-      cluster: 'a',
+      comboId: 'a',
     },
     {
       id: '9',
-      label: '9',
-      cluster: 'a',
+      comboId: 'a',
     },
     {
       id: '10',
-      label: '10',
-      cluster: 'a',
+      comboId: 'a',
     },
     {
       id: '11',
-      label: '11',
-      cluster: 'a',
+      comboId: 'a',
     },
     {
       id: '12',
-      label: '12',
-      cluster: 'a',
+      comboId: 'a',
     },
     {
       id: '13',
-      label: '13',
-      cluster: 'b',
+      comboId: 'a',
     },
     {
       id: '14',
-      label: '14',
-      cluster: 'b',
+      comboId: 'a',
     },
     {
       id: '15',
-      label: '15',
-      cluster: 'b',
+      comboId: 'a',
     },
     {
       id: '16',
-      label: '16',
-      cluster: 'b',
+      comboId: 'b',
     },
     {
       id: '17',
-      label: '17',
-      cluster: 'b',
+      comboId: 'b',
     },
     {
       id: '18',
-      label: '18',
-      cluster: 'c',
+      comboId: 'b',
     },
     {
       id: '19',
-      label: '19',
-      cluster: 'c',
+      comboId: 'b',
     },
     {
       id: '20',
-      label: '20',
-      cluster: 'c',
     },
     {
       id: '21',
-      label: '21',
-      cluster: 'c',
     },
     {
       id: '22',
-      label: '22',
-      cluster: 'c',
     },
     {
       id: '23',
-      label: '23',
-      cluster: 'c',
+      comboId: 'c',
     },
     {
       id: '24',
-      label: '24',
-      cluster: 'c',
+      comboId: 'a',
     },
     {
       id: '25',
-      label: '25',
-      cluster: 'c',
     },
     {
       id: '26',
-      label: '26',
-      cluster: 'c',
     },
     {
       id: '27',
-      label: '27',
-      cluster: 'c',
+      comboId: 'c',
     },
     {
       id: '28',
-      label: '28',
-      cluster: 'c',
+      comboId: 'c',
     },
     {
       id: '29',
-      label: '29',
-      cluster: 'c',
+      comboId: 'c',
     },
     {
       id: '30',
-      label: '30',
-      cluster: 'c',
+      comboId: 'c',
     },
     {
       id: '31',
-      label: '31',
-      cluster: 'd',
+      comboId: 'c',
     },
     {
       id: '32',
-      label: '32',
-      cluster: 'd',
+      comboId: 'd',
     },
     {
       id: '33',
-      label: '33',
-      cluster: 'd',
+      comboId: 'd',
     },
   ],
   edges: [
+    {
+      source: 'a',
+      target: 'b',
+      label: 'Combo A - Combo B',
+      size: 3,
+      labelCfg: {
+        autoRotate: true,
+        style: {
+          stroke: '#fff',
+          lineWidth: 5,
+          fontSize: 20,
+        },
+      },
+      style: {
+        stroke: 'red',
+      },
+    },
+    {
+      source: 'a',
+      target: '33',
+      label: 'Combo-Node',
+      size: 3,
+      labelCfg: {
+        autoRotate: true,
+        style: {
+          stroke: '#fff',
+          lineWidth: 5,
+          fontSize: 20,
+        },
+      },
+      style: {
+        stroke: 'blue',
+      },
+    },
     {
       source: '0',
       target: '1',
@@ -415,84 +429,82 @@ const data = {
       target: '33',
     },
   ],
-};
-
-const colors = [
-  '#BDD2FD',
-  '#BDEFDB',
-  '#C2C8D5',
-  '#FBE5A2',
-  '#F6C3B7',
-  '#B6E3F5',
-  '#D3C6EA',
-  '#FFD8B8',
-  '#AAD8D8',
-  '#FFD6E7',
-];
-const strokes = [
-  '#5B8FF9',
-  '#5AD8A6',
-  '#5D7092',
-  '#F6BD16',
-  '#E8684A',
-  '#6DC8EC',
-  '#9270CA',
-  '#FF9D4D',
-  '#269A99',
-  '#FF99C3',
-];
-
-const nodes = data.nodes;
-const clusterMap = new Map();
-let clusterId = 0;
-nodes.forEach(function (node) {
-  // cluster
-  if (node.cluster && clusterMap.get(node.cluster) === undefined) {
-    clusterMap.set(node.cluster, clusterId);
-    clusterId++;
-  }
-  const cid = clusterMap.get(node.cluster);
-  if (!node.style) {
-    node.style = {};
-  }
-  node.style.fill = colors[cid % colors.length];
-  node.style.stroke = strokes[cid % strokes.length];
-});
-
-const container = document.getElementById('container');
-const width = container.scrollWidth;
-const height = container.scrollHeight || 500;
-const graph = new G6.Graph({
-  container: 'container',
-  width,
-  height,
-  modes: {
-    default: ['drag-canvas', 'drag-node'],
-  },
-  layout: {
-    type: 'fruchterman',
-    gravity: 10,
-    speed: 5,
-    clustering: true,
-  },
-  animate: true,
-  defaultNode: {
-    size: 20,
-  },
-  defaultEdge: {
-    style: {
-      endArrow: {
-        path: 'M 0,0 L 8,4 L 8,-4 Z',
-        fill: '#e2e2e2',
-      },
+  combos: [
+    {
+      id: 'a',
+      label: 'Combo A',
     },
-  },
-});
-graph.data(data);
-graph.render();
-
-window.onresize = () => {
-  if (!graph || graph.get('destroyed')) return;
-  if (!container || !container.scrollWidth || !container.scrollHeight) return;
-  graph.changeSize(container.scrollWidth, container.scrollHeight);
+    {
+      id: 'b',
+      label: 'Combo B',
+    },
+    {
+      id: 'c',
+      label: 'Combo D',
+    },
+    {
+      id: 'd',
+      label: 'Combo D',
+      parentId: 'b',
+    },
+  ],
 };
+const ComboForceLayout2 = () => {
+  const container = React.useRef();
+  useEffect(() => {
+    if (!graph) {
+      graph = new G6.Graph({
+        container: container.current as string | HTMLElement,
+        width: 800,
+        height: 500,
+        fitView: true,
+        modes: {
+          default: ['drag-canvas', 'drag-node', 'zoom-canvas'],
+        },
+        layout: {
+          type: 'comboForce',
+          nodeSpacing: (d) => 8,
+        },
+        defaultEdge: {
+          size: 3,
+          color: '#666',
+        },
+      });
+      graph.node((node) => {
+        const color = colors[node.comboId as string];
+        return {
+          size: 20,
+          style: {
+            lineWidth: 2,
+            stroke: '#ccc',
+            fill: color,
+          },
+        };
+      });
+      graph.combo((combo) => {
+        const color = colors[combo.id as string];
+        return {
+          size: 20,
+          padding: 5,
+          style: {
+            lineWidth: 2,
+            stroke: color,
+            fillOpacity: 0.8,
+          },
+        };
+      });
+
+      fetch(
+        'https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4b9bcbc25f.json',
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          graph.data(testData);
+          graph.render();
+        });
+    }
+  });
+  return <div ref={container}></div>;
+};
+
+export default ComboForceLayout2;

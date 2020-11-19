@@ -66,8 +66,9 @@ const data = {
   ],
 };
 
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
 const graph = new G6.Graph({
   container: GRAPH_CONTAINER,
   width,
@@ -115,7 +116,7 @@ graph.on('node:click', function (event) {
 graph.on('circle-shape:click', (evt) => {
   const { item } = evt;
   graph.updateItem(item, {
-    label: '点击了圆',
+    label: '点击了局部',
     labelCfg: {
       style: {
         fill: '#003a8c',
@@ -124,3 +125,9 @@ graph.on('circle-shape:click', (evt) => {
     },
   });
 });
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight);
+};

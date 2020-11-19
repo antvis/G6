@@ -9,8 +9,10 @@ container.appendChild(descriptionDiv);
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.json')
   .then((res) => res.json())
   .then((data) => {
-    const width = document.getElementById('container').scrollWidth;
-    const height = document.getElementById('container').scrollHeight || 500;
+
+    const container = document.getElementById('container');
+    const width = container.scrollWidth;
+    const height = (container.scrollHeight || 500) - 20;
     const graph = new G6.TreeGraph({
       container: 'container',
       width,
@@ -102,6 +104,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
           minDisNode = inode;
         }
       });
+      console.log('minDis', minDis, minDisNode)
       if (minDis < 2000) graph.setItemState(minDisNode, 'closest', true);
       else minDisNode = undefined;
     });
@@ -117,6 +120,8 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       // if the minDisNode is a descent of the dragged node, return
       let isDescent = false;
       const minDisNodeId = minDisNode.getID();
+      console.log('dragend', minDisNodeId, isDescent, data, id)
+
       G6.Util.traverseTree(data, (d) => {
         if (d.id === minDisNodeId) isDescent = true;
       });
@@ -124,14 +129,21 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
         descriptionDiv.innerHTML = 'Failed. The target node is a descendant of the dragged node.';
         return;
       }
+      graph.removeChild(id);
 
-      const removed = graph.removeChild(id);
       setTimeout(() => {
         const newParentData = graph.findDataById(minDisNodeId);
-        if (newParentData.children) newParentData.children.push(data);
-        else newParentData.children = [data];
-        graph.layout();
+        let newChildren = newParentData.children;
+        if (newChildren) newChildren.push(data);
+        else newChildren = [data];
+        graph.updateChildren(newChildren, minDisNodeId);
         descriptionDiv.innerHTML = 'Success.';
       }, 600);
     });
+
+    window.onresize = () => {
+      if (!graph || graph.get('destroyed')) return;
+      if (!container || !container.scrollWidth || !container.scrollHeight) return;
+      graph.changeSize(container.scrollWidth, container.scrollHeight - 20);
+    };
   });

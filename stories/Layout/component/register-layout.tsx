@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import G6 from '../../../src';
 import { IGraph } from '../../../src/interface/graph';
+import { debounce } from '@antv/util';
 
 const data = {
   nodes: [
@@ -114,7 +115,7 @@ const data = {
 let graph: IGraph = null;
 
 const RegisterLayout = () => {
-  const container = React.useRef();
+  const container = React.useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!graph) {
       G6.registerLayout('bigraph-layout', {
@@ -249,6 +250,19 @@ const RegisterLayout = () => {
       graph.render();
     }
   });
+
+
+  const changeSize = debounce(() => {
+    console.log('change size', container.current.offsetWidth, container.current.offsetHeight)
+    if (graph && !graph.get('destroyed')) {
+      if (!container || !container.current || !container.current.offsetWidth || !container.current.offsetHeight) return;
+      graph.changeSize(container.current.offsetWidth, container.current.offsetHeight);
+    }
+  },
+    100,
+    false);
+  window.onresize = changeSize;
+
   return <div ref={container}></div>;
 };
 

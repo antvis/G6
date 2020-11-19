@@ -272,8 +272,9 @@ const defaultLabelCfg = {
   },
 };
 
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
 
 const minimap = new G6.Minimap({
   size: [150, 100],
@@ -347,3 +348,10 @@ graph.on('node:click', (evt) => {
     }
   }
 });
+
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight);
+};

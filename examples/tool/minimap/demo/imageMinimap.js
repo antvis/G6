@@ -9,9 +9,10 @@ insertCss(`
     border: 2px solid rgb(25, 128, 255);
   }
 `);
-const width = document.getElementById('container').scrollWidth;
-let height = document.getElementById('container').scrollHeight || 500;
-height -= 110;
+
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = (container.scrollHeight || 500) - 110;
 const minimap = new G6.ImageMinimap({
   height: 100,
   padding: 10,
@@ -69,3 +70,9 @@ graph.on('canvas:click', () => {
     'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ',
   );
 });
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight - 110);
+};

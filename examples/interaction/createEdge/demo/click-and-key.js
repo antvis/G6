@@ -10,11 +10,11 @@ const data = {
 const descriptionDiv = document.createElement('div');
 descriptionDiv.innerHTML =
   'Press the shift key and click the source and target node to create a new edge.';
-const graphDiv = document.getElementById('container');
-graphDiv.appendChild(descriptionDiv);
+const container = document.getElementById('container');
+container.appendChild(descriptionDiv);
 
-const width = document.getElementById('container').scrollWidth;
-const height = (document.getElementById('container').scrollHeight || 500) - 20;
+const width = container.scrollWidth;
+const height = (container.scrollHeight || 500) - 20;
 const graph = new G6.Graph({
   container: 'container',
   width,
@@ -30,7 +30,8 @@ const graph = new G6.Graph({
       stroke: '#F6BD16',
       lineWidth: 2
     },
-  }
+  },
+  linkCenter: true
 });
 
 graph.data(data);
@@ -42,4 +43,10 @@ graph.on('aftercreateedge', e => {
   graph.getEdges().forEach((edge, i) => {
     graph.updateItem(edge, edges[i])
   })
-})
+});
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight - 20);
+};

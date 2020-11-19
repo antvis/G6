@@ -866,7 +866,7 @@ const getForceLayoutConfig = (graph, largeGraphMode, configSettings?) => {
   if (!nodeSpacing && nodeSpacing !== 0) nodeSpacing = 5;
 
   const config = {
-    type: 'graphinForce',
+    type: 'gForce',
     minMovement: 0.01,
     maxIteration: 5000,
     preventOverlap,
@@ -1602,7 +1602,7 @@ const LargeGraph = () => {
 
           const layoutConfig: any = getForceLayoutConfig(graph, largeGraphMode)
           layoutConfig.center = [CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2];
-          layout.instance = new G6.Layout['graphinForce'](layoutConfig);
+          layout.instance = new G6.Layout['gForce'](layoutConfig);
           layout.instance.init({
             nodes: currentUnproccessedData.nodes,
             edges: processedEdges,

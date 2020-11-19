@@ -47,10 +47,10 @@ describe('drag-canvas', () => {
       start = false;
     });
     graph.paint();
-    graph.emit('dragstart', { clientX: 150, clientY: 150 });
-    graph.emit('drag', { clientX: 200, clientY: 200 });
+    graph.emit('dragstart', { clientX: 150, clientY: 150, target: graph.get('canvas') });
+    graph.emit('drag', { clientX: 200, clientY: 200, target: graph.get('canvas') });
     expect(start).toBe(true);
-    graph.emit('drag', { clientX: 250, clientY: 250 });
+    graph.emit('drag', { clientX: 250, clientY: 250, target: graph.get('canvas') });
     expect(start).toBe(true);
     const matrix = graph.get('group').getMatrix();
     expect(matrix[6]).toEqual(100);
@@ -85,10 +85,10 @@ describe('drag-canvas', () => {
       start = false;
     });
     graph.paint();
-    graph.emit('dragstart', { clientX: 150, clientY: 150 });
-    graph.emit('drag', { clientX: 200, clientY: 200 });
+    graph.emit('dragstart', { clientX: 150, clientY: 150, target: graph.get('canvas') });
+    graph.emit('drag', { clientX: 200, clientY: 200, target: graph.get('canvas') });
     expect(start).toBe(true);
-    graph.emit('drag', { clientX: 250, clientY: 250 });
+    graph.emit('drag', { clientX: 250, clientY: 250, target: graph.get('canvas') });
     expect(start).toBe(true);
     const matrix = graph.get('group').getMatrix();
     expect(matrix).toEqual(null);
@@ -120,10 +120,10 @@ describe('drag-canvas', () => {
     graph.on('canvas:dragend', () => {
       triggered = true;
     });
-    graph.emit('dragstart', { clientX: 150, clientY: 150 });
-    graph.emit('drag', { clientX: 200, clientY: 200 });
+    graph.emit('dragstart', { clientX: 150, clientY: 150, target: graph.get('canvas') });
+    graph.emit('drag', { clientX: 200, clientY: 200, target: graph.get('canvas') });
     expect(triggered).toBe(false);
-    graph.emit('drag', { clientX: 250, clientY: 250 });
+    graph.emit('drag', { clientX: 250, clientY: 250, target: graph.get('canvas') });
     expect(triggered).toBe(false);
     graph.emit('dragend', { clientX: 250, clientY: 250 });
     expect(triggered).toBe(false);
@@ -154,10 +154,10 @@ describe('drag-canvas', () => {
       start = false;
     });
     graph.paint();
-    graph.emit('dragstart', { clientX: 150, clientY: 150 });
-    graph.emit('drag', { clientX: 200, clientY: 200 });
+    graph.emit('dragstart', { clientX: 150, clientY: 150, target: graph.get('canvas') });
+    graph.emit('drag', { clientX: 200, clientY: 200, target: graph.get('canvas') });
     expect(start).toBe(true);
-    graph.emit('drag', { clientX: 250, clientY: 250 });
+    graph.emit('drag', { clientX: 250, clientY: 250, target: graph.get('canvas') });
     expect(start).toBe(true);
     const matrix = graph.get('group').getMatrix();
     expect(matrix[6]).toEqual(100);
@@ -183,8 +183,8 @@ describe('drag-canvas', () => {
     let start = false;
     graph.addItem('node', { x: 100, y: 100, color: '#666', type: 'rect', id: 'test' });
     graph.paint();
-    graph.emit('dragstart', { clientX: 150, clientY: 150 });
-    graph.emit('drag', { clientX: 250, clientY: 250 });
+    graph.emit('dragstart', { clientX: 150, clientY: 150, target: graph.get('canvas') });
+    graph.emit('drag', { clientX: 250, clientY: 250, target: graph.get('canvas') });
     const matrix = graph.get('group').getMatrix();
     expect(matrix[6]).toEqual(0);
     expect(matrix[7]).toEqual(100);
@@ -212,17 +212,17 @@ describe('drag-canvas', () => {
     graph.on('canvas:drag', () => {
       dragging = true;
     });
-    graph.emit('dragstart', { clientX: 150, clientY: 150 });
-    graph.emit('drag', { clientX: 150, clientY: 150 });
+    graph.emit('dragstart', { clientX: 150, clientY: 150, target: graph.get('canvas') });
+    graph.emit('drag', { clientX: 150, clientY: 150, target: graph.get('canvas') });
     expect(triggered).toBe(false);
     expect(dragging).toBe(false);
-    graph.emit('drag', { clientX: 160, clientY: 160 });
+    graph.emit('drag', { clientX: 160, clientY: 160, target: graph.get('canvas') });
     expect(triggered).toBe(true);
-    graph.emit('drag', { clientX: 170, clientY: 180 });
+    graph.emit('drag', { clientX: 170, clientY: 180, target: graph.get('canvas') });
     expect(dragging).toBe(true);
     dragging = false;
-    graph.emit('canvas:click', { clientX: 170, clientY: 170 });
-    graph.emit('drag', { clientX: 170, clientY: 170 });
+    graph.emit('canvas:click', { clientX: 170, clientY: 170, target: graph.get('canvas') });
+    graph.emit('drag', { clientX: 170, clientY: 170, target: graph.get('canvas') });
     expect(dragging).toBe(false);
     graph.destroy();
   });
@@ -249,26 +249,26 @@ describe('drag-canvas', () => {
     });
 
     // mouse down and up without moving
-    graph.emit('dragstart', { clientX: 150, clientY: 150 });
-    graph.emit('dragend', { clientX: 150, clientY: 150 });
+    graph.emit('dragstart', { clientX: 150, clientY: 150, target: graph.get('canvas') });
+    graph.emit('dragend', { clientX: 150, clientY: 150, target: graph.get('canvas') });
     expect(triggered).toBe(false);
     expect(dragging).toBe(false);
 
     graph.emit('keydown', { key: 'shift' });
-    graph.emit('dragstart', { clientX: 150, clientY: 150 });
+    graph.emit('dragstart', { clientX: 150, clientY: 150, target: graph.get('canvas') });
     expect(triggered).toBe(false);
     expect(dragging).toBe(false);
-    graph.emit('drag', { clientX: 160, clientY: 160 });
+    graph.emit('drag', { clientX: 160, clientY: 160, target: graph.get('canvas') });
     expect(triggered).toBe(false);
     graph.emit('dragend', { clientX: 160, clientY: 160 });
     expect(triggered).toBe(false);
 
     graph.emit('keyup', { key: 'shift' });
-    graph.emit('dragstart', { clientX: 150, clientY: 150 });
-    graph.emit('drag', { clientX: 150, clientY: 150 });
+    graph.emit('dragstart', { clientX: 150, clientY: 150, target: graph.get('canvas') });
+    graph.emit('drag', { clientX: 150, clientY: 150, target: graph.get('canvas') });
     expect(triggered).toBe(false);
     expect(dragging).toBe(false);
-    graph.emit('drag', { clientX: 160, clientY: 160 });
+    graph.emit('drag', { clientX: 160, clientY: 160, target: graph.get('canvas') });
     expect(triggered).toBe(true);
     graph.destroy();
   });
@@ -290,13 +290,13 @@ describe('drag-canvas', () => {
       triggered = true;
     });
     graph.emit('keydown', {}); // key undefined
-    graph.emit('dragstart', { clientX: 150, clientY: 150 });
+    graph.emit('dragstart', { clientX: 150, clientY: 150, target: graph.get('canvas') });
     graph.emit('dragend', { clientX: 160, clientY: 160 });
     expect(triggered).toBe(false);
     graph.emit('keyup', {});
 
     graph.emit('keydown', { key: 'abc' }); // key invalid
-    graph.emit('dragstart', { clientX: 150, clientY: 150 });
+    graph.emit('dragstart', { clientX: 150, clientY: 150, target: graph.get('canvas') });
     graph.emit('dragend', { clientX: 160, clientY: 160 });
     expect(triggered).toBe(false);
     graph.emit('keyup', {});
@@ -316,8 +316,8 @@ describe('drag-canvas', () => {
         ],
       },
     });
-    graph.emit('dragstart', { clientX: 150, clientY: 150 });
-    graph.emit('drag', { clientX: 550, clientY: 550 });
+    graph.emit('dragstart', { clientX: 150, clientY: 150, target: graph.get('canvas') });
+    graph.emit('drag', { clientX: 550, clientY: 550, target: graph.get('canvas') });
     graph.emit('canvas:mouseleave', { target: graph.get('canvas').get('el') });
 
     // dragend out of the canvas
@@ -358,8 +358,8 @@ describe('drag-canvas', () => {
         ],
       },
     });
-    graph.emit('dragstart', { clientX: 150, clientY: 150 });
-    graph.emit('drag', { clientX: 350, clientY: 350 });
+    graph.emit('dragstart', { clientX: 150, clientY: 150, target: graph.get('canvas') });
+    graph.emit('drag', { clientX: 350, clientY: 350, target: graph.get('canvas') });
     graph.emit('dragend', { clientX: 350, clientY: 350 });
     graph.emit('canvas:mouseleave', { target: graph.get('canvas').get('el') });
 
@@ -404,8 +404,8 @@ describe('drag-canvas', () => {
     });
     graph.data(data);
     graph.render();
-    graph.emit('dragstart', { clientX: 150, clientY: 150 });
-    graph.emit('drag', { clientX: 350, clientY: 350 });
+    graph.emit('dragstart', { clientX: 150, clientY: 150, target: graph.get('canvas') });
+    graph.emit('drag', { clientX: 350, clientY: 350, target: graph.get('canvas') });
 
     let nodes = graph.getNodes();
     nodes.forEach(node => {
@@ -464,23 +464,23 @@ describe('drag-canvas', () => {
       start = false;
     });
     graph.paint();
-    graph.emit('dragstart', { clientX: 150, clientY: 150 });
-    graph.emit('drag', { clientX: 200, clientY: 200 });
+    graph.emit('dragstart', { clientX: 150, clientY: 150, target: graph.get('canvas') });
+    graph.emit('drag', { clientX: 200, clientY: 200, target: graph.get('canvas') });
     expect(start).toBe(true);
-    graph.emit('drag', { clientX: 250, clientY: 250 });
+    graph.emit('drag', { clientX: 250, clientY: 250, target: graph.get('canvas') });
     expect(start).toBe(true);
     let matrix = graph.get('group').getMatrix();
     expect(matrix[6]).toEqual(100);
     expect(matrix[7]).toEqual(100);
 
-    graph.emit('drag', { clientX: 400, clientY: 350 });
+    graph.emit('drag', { clientX: 400, clientY: 350, target: graph.get('canvas') });
     matrix = graph.get('group').getMatrix();
     expect(matrix[6]).toEqual(250);
     expect(matrix[7]).toEqual(200);
     expect(start).toBe(true);
 
     // 超过了设置的范围，则不再移动
-    graph.emit('drag', { clientX: 550, clientY: 550 });
+    graph.emit('drag', { clientX: 550, clientY: 550, target: graph.get('canvas') });
     matrix = graph.get('group').getMatrix();
     expect(matrix[6]).toEqual(250);
     expect(matrix[7]).toEqual(200);

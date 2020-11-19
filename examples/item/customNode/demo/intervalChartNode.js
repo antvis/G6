@@ -101,8 +101,10 @@ G6.registerNode(
   'single-node',
 );
 
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
+
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
 
 const trendData = [
   { genre: 'Sports', sold: 275 },
@@ -183,3 +185,9 @@ graph.on('node:mouseenter', (evt) => {
 graph.on('node:mouseleave', (evt) => {
   graph.setItemState(evt.item, 'hover', false);
 });
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight);
+};

@@ -16,7 +16,8 @@ In this ducoment, we will introduce the layout algorithms in detail.
 ## G6 Layouts Overview
 
 - [Random Layout](#random): Randomizes the node postions;
-- [Force Layout](#force): Classical force-directed layout;
+- [GForce Layout](#gforce): Classical force-directed layout supports GPU parallel computing, supported by G6 4.0;
+- [Force Layout](#force): Classical force-directed layout imported from d3;
 - [Fruchterman Layout](#fruchterman): A kind of force-directed layout;
 - [Circular Layout](#circular): Arranges the nodes on a circle;
 - [Radial Layout](#radial): Arranges the nodes around a focus node radially;
@@ -38,6 +39,8 @@ const graph = new G6.Graph({
     type: 'force',
     preventOverlap: true,
     nodeSize: 30,
+    // workerEnabled: true, // Whether enable webworker
+    // gpuEnabled: true // Whether enable GPU version. supported by G6 4.0, and only support gForce and fruchterman layout
     // ...                    // Other configurations for the layout
   },
 });
@@ -66,6 +69,34 @@ General graph layout API: [General Graph Layout API](/en/docs/api/graphLayout/gu
 | width | Number | 300 | The width of the graph |  |
 | height | Number | 300 | The height of the graph |  |
 | workerEnabled | Boolean | true / false | false | Whether to enable the web-worker in case layout calculation takes too long to block page interaction |
+
+### GForce
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lX-qSqDECrIAAAAAAAAAAAAAARQnAQ' width=500 alt='img'/> 
+
+<br /> **Description**: GForce implements the classical force-directed layout algorithm by G6 4.0. It supports assign different masses and center gravities for different nodes freedomly. More importantly, it supports GPU parallel acceleration. <br /> **API**: [GForce API](/en/docs/api/graphLayout/gforce) <br /> **Configuration**: 
+
+| Name | Type | Example | Default | Description |
+| --- | --- | --- | --- | --- |
+| center | Array | [ 0, 0 ] | The center of the graph | The center of the layout |
+| linkDistance | Number / Function | Example 1: `50` <br />Example 2:<br />d => {<br />  // d is an edge<br />  if (d.id === 'edge1') {<br />    return 100;<br />  }<br />  return 50;<br />} | 1 | The edge length. It can be a function to define the different edge lengths for different edges (Example 2) |
+| nodeStrength | Number / Function | Exmaple 1: -30 <br />Exmaple 2:<br />d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return -100;<br />  }<br />  return -30;<br />} / 1000 | 1000 | The strength of node force. Positive value means repulsive force, negative value means attractive force (it is different from 'force')(As example 2) |
+| edgeStrength | Number / Function | Example 1: 1 <br />Example 2:<br />d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 10;<br />  }<br />  return 1;<br />} | 200 | The strength of edge force. Calculated according to the degree of nodes by default (As Example 2) |
+| preventOverlap | Boolean | false | false | Whether to prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned |
+| nodeSize | Array / Number | 20 | undefined | The diameter of the node. It is used for preventing node overlappings. If `nodeSize` is not assigned, the size property in node data will take effect. If the size in node data does not exist either, `nodeSize` is assigned to 10 by default |
+| nodeSpacing<br /><br /> | Number / Function | Example 1 : 10<br />Example 2 : <br />d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />Takes effect when `preventOverlap` is `true`. It is the minimum distance between nodes to prevent node overlappings. It can be a function to define different distances for different nodes (example 2) |
+| minMovement | Number | 0.5 | 1 | When the average movement of nodes in one iteration is smaller than `minMovement`, terminate the layout |
+| maxIteration | Number | 500 | 1000 | The max number of iterations. If the average movement do not reach `minMovement` but the iteration number is over `maxIteration`, terminate the layout |
+| damping | Number | 0.99 | 0.9 | Range [0, 1], affect the speed of decreasing node moving speed. Large the number, slower the decreasing |
+| maxSpeed | Number | 10 | 1000 | The max speed in each iteration |
+| coulombDisScale | Number | 0.003| 0.005 | A parameter for repulsive force between nodes. Large the number, larger the repulsion |
+| getMass | Function | d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | It is a callback returns the mass of each node. If it is not assigned, the degree of each node will takes effect. The usage is similar to `nodeSpacing` |
+| getCenter | Function | (d, degree) => {<br />  // d is a node, degree is the degree of the node<br />  if (d.degree === 0') {<br />    return [100, 100, 10]; // x, y, strength<br />  }<br />  return [210, 150, 5]; // x, y, strength<br />} | undefined | It is a callback returns gravity center and the gravity strength for each node |
+| gravity | Number | 20| 10 | The gravity strength to the `center` for all the nodes. Larger the number, more compact the nodes |
+| onTick | Function |  | undefined | The callback function of each iteration |
+| onLayoutEnd | Function |  | undefined | The callback function after layout |
+| workerEnabled | Boolean | true / false | false | Whether to enable the web-worker in case layout calculation takes too long to block page interaction |
+| gpuEnabled | Boolean | true / false | false |  Whether to enable the GPU parallel computing, supported by G6 4.0 |
 
 ### Force
 
@@ -112,6 +143,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/graphLayout/gu
 | clustering | Boolean | false | false | Whether to layout by clustering |
 | clusterGravity | Number | 30 | 10 | The gravity of each clusterm which affects the compactness of each cluster |
 | workerEnabled | Boolean | true / false | false | Whether to enable the web-worker in case layout calculation takes too long to block page interaction |
+| gpuEnabled | Boolean | true / false | false | Whether to enable the GPU parallel computing, supported by G6 4.0 |
 
 ### Circular
 

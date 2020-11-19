@@ -14,26 +14,24 @@ insertCss(`
   }
   #legendContainer{
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 50px;
+    left: 200px;
     width: 100px;
     height: 100px;
   }
   .g6-tooltip {
-    /* border: 1px solid #e2e2e2; */
     border-radius: 6px;
     font-size: 12px;
     color: #fff;
     background-color: #000;
     padding: 2px 8px;
     text-align: center;
-    /* box-shadow: rgb(174, 174, 174) 0px 0px 10px; */
   }
   #time {
     position: absolute;
     color: #fff;
     font-size: 25px;
-    top: 30px;
+    top: 80px;
     width: 700px;
     text-align: center;
     height: auto;
@@ -206,6 +204,28 @@ G6.registerNode(
   'circle',
 );
 
+const tooltip = new G6.Tooltip({
+  // offsetX and offsetY include the padding of the parent container
+  // offsetX 与 offsetY 需要加上父容器的 padding
+  offsetX: 140 + 10,
+  offsetY: 100 + 10,
+  // the types of items that allow the tooltip show up
+  // 允许出现 tooltip 的 item 类型
+  itemTypes: ['node'],
+  // custom the tooltip's content
+  // 自定义 tooltip 内容
+  getContent: (e) => {
+    const outDiv = document.createElement('div');
+    const populationDes = LANG === 'en' ? 'Population' : '人口总数';
+    const model = e.item.getModel();
+    const name = `${model.xlabel}</br>${populationDes}: ${model.population}`;
+    outDiv.style.width = 'fit-content';
+    //outDiv.style.padding = '0px 0px 20px 0px';
+    outDiv.innerHTML = `<div>${name}</div>`;
+    return outDiv;
+  },
+});
+
 fetch('https://gw.alipayobjects.com/os/basement_prod/d676014a-0a11-4ea9-9af4-4038bae3c0a1.json')
   .then((res) => res.json())
   .then((data) => {
@@ -238,18 +258,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/d676014a-0a11-4ea9-9af4-403
         },
       },
       modes: {
-        default: [
-          'drag-canvas',
-          {
-            type: 'tooltip',
-            offset: 50,
-            formatText(model) {
-              const populationDes = LANG === 'en' ? 'Population' : '人口总数';
-              const name = `${model.xlabel}</br>${populationDes}: ${model.population}`;
-              return name;
-            },
-          },
-        ],
+        default: ['drag-canvas'],
       },
       layout: {
         type: 'dendrogram',
@@ -258,13 +267,14 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/d676014a-0a11-4ea9-9af4-403
         nodeSep: 10,
         rankSep: 100,
       },
+      plugins: [tooltip]
     });
 
     graph.node((node) => {
       const xlabel = node.label;
-      let shape = 'circle';
-      if (node.isLeaf) shape = 'circle-bar';
-      else if (node.img) shape = 'image';
+      let type = 'circle';
+      if (node.isLeaf) type = 'circle-bar';
+      else if (node.img) type = 'image';
       let label = node.isLeaf ? '' : node.label;
       switch (label) {
         case 'Australian Capital Territory':
@@ -283,7 +293,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/d676014a-0a11-4ea9-9af4-403
           break;
       }
       return {
-        shape,
+        type,
         xlabel,
         label,
         labelCfg: {

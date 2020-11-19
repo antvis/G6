@@ -70,13 +70,13 @@ G6.registerNode('crect', {
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.json')
   .then((res) => res.json())
   .then((data) => {
-    const graphDiv = document.getElementById('container');
+    const container = document.getElementById('container');
     const descriptionDiv = document.createElement('div');
     descriptionDiv.innerHTML = 'The nodes of a subtree is aligned to the left.';
-    graphDiv.appendChild(descriptionDiv);
+    container.appendChild(descriptionDiv);
 
-    const width = graphDiv.scrollWidth;
-    const height = (graphDiv.scrollHeight || 500) - 30;
+    const width = container.scrollWidth;
+    const height = container.scrollHeight || 500;
     const graph = new G6.TreeGraph({
       container: 'container',
       width,
@@ -116,4 +116,10 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
     });
     graph.data(data);
     graph.render();
+
+    window.onresize = () => {
+      if (!graph || graph.get('destroyed')) return;
+      if (!container || !container.scrollWidth || !container.scrollHeight) return;
+      graph.changeSize(container.scrollWidth, container.scrollHeight);
+    };
   });

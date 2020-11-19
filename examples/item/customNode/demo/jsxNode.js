@@ -6,7 +6,7 @@ import G6 from '@antv/g6';
  *
  */
 
-G6.registerNode('rect-jsx', 
+G6.registerNode('rect-jsx',
   (cfg) => `
     <group>
       <rect>
@@ -46,7 +46,7 @@ G6.registerNode('rect-jsx',
         <image style={{ img: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png', width: 12, height: 12,  marginLeft: 70,  marginTop: -5 }} />
       </circle>
     </group>`
-  )
+)
 
 const data = {
   nodes: [{
@@ -77,8 +77,9 @@ const data = {
   ]
 };
 
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
 const graph = new G6.Graph({
   container: 'container',
   width,
@@ -92,3 +93,9 @@ const graph = new G6.Graph({
 
 graph.data(data);
 graph.render();
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight);
+};

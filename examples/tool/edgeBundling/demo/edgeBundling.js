@@ -383,8 +383,9 @@ const data = {
   ],
 };
 
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
 
 const edgeBundling = new G6.Bundling({
   bundleThreshold: 0.1,
@@ -417,3 +418,9 @@ graph.render();
 setTimeout(() => {
   edgeBundling.bundling(data);
 }, 1000);
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight);
+};

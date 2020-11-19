@@ -386,11 +386,12 @@ const data = {
 const descriptionDiv = document.createElement('div');
 descriptionDiv.innerHTML =
   'Radial layout, focusNode =  = 0, unitRadius = 50, preventOverlap: false';
-const graphDiv = document.getElementById('container');
-graphDiv.appendChild(descriptionDiv);
+const container = document.getElementById('container');
+container.appendChild(descriptionDiv);
 
-const width = document.getElementById('container').scrollWidth;
-const height = (document.getElementById('container').scrollHeight || 500) - 20;
+
+const width = container.scrollWidth;
+const height = (container.scrollHeight || 500) - 20;
 
 const graph = new G6.Graph({
   container: 'container',
@@ -418,6 +419,13 @@ const graph = new G6.Graph({
 });
 graph.data(data);
 graph.render();
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight - 20);
+};
+
 
 layoutConfigTranslation();
 

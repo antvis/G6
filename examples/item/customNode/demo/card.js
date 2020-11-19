@@ -181,7 +181,7 @@ const nodeBasicMethod = {
       ipCPBox.on('mouseleave', () => {
         onMouseLeave();
       });
-      ipCPBox.on('click', () => {});
+      ipCPBox.on('click', () => { });
     }
   },
   setState: (name, value, item) => {
@@ -407,8 +407,10 @@ G6.registerNode('card-node', {
   setState: nodeBasicMethod.setState,
 });
 
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
+
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
 graph = new G6.Graph({
   container: 'container',
   width,
@@ -461,7 +463,11 @@ const data = {
   edges: [],
 };
 
-const canvas = graph.get('canvas');
-
 graph.data(data);
 graph.render();
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight);
+};

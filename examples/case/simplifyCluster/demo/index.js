@@ -19,10 +19,10 @@ insertCss(`
  */
 const descriptionDiv = document.createElement('div');
 descriptionDiv.innerHTML = 'Reading data & Doing layout......';
-const graphDiv = document.getElementById('container');
-graphDiv.appendChild(descriptionDiv);
-const width = graphDiv.scrollWidth;
-const height = graphDiv.scrollHeight - 30;
+const container = document.getElementById('container');
+container.appendChild(descriptionDiv);
+const width = container.scrollWidth;
+const height = container.scrollHeight - 30;
 
 const colors = ['#f5222d', '#faad14', '#a0d911', '#13c2c2', '#1890ff', '#b37feb', '#eb2f96'];
 const beginColor = '#5b8c00'; // green
@@ -325,6 +325,11 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4
         });
       }
     });
+    window.onresize = () => {
+      if (!graph || graph.get('destroyed')) return;
+      if (!container || !container.scrollWidth || !container.scrollHeight) return;
+      graph.changeSize(container.scrollWidth, container.scrollHeight);
+    };
   });
 
 function mapValueToProp(items, valueName, propName, range) {

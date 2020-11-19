@@ -64,7 +64,7 @@ const graph = new G6.Graph({
 
 ## layoutCfg.nodeSpacing
 
-**类型**: Number / Function<br />**默认值**: 0<br />**是否必须**: false <br />**示例**: Example 1: 10 <br />Example 2:
+**类型**: Number / Function<br />**默认值**: 0<br />**是否必须**: false <br /> <br />**示例**: Example 1: 10 <br />Example 2:
 
 ```javascript
 (d) => {
@@ -76,7 +76,8 @@ const graph = new G6.Graph({
 };
 ```
 
-<br />**描述**: `preventOverlap` 为 `true` 时生效, 防止重叠时节点边缘间距的最小值。可以是回调函数, 为不同节点设置不同的最小间距, 如示例 2 所示
+<br />
+**描述**: `preventOverlap` 为 `true` 时生效, 防止重叠时节点边缘间距的最小值。可以是回调函数, 为不同节点设置不同的最小间距, 如示例 2 所示
 
 ## layoutCfg.alpha
 

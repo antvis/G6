@@ -12,7 +12,7 @@ const Base = {
   mat3,
   mix,
   deepMix,
-  transform,
+  transform
 };
 
 const Util = { ...Base, ...BaseUtil, ...GraphicUtil, ...PathUtil, ...MathUtil, ...ColorUtil };

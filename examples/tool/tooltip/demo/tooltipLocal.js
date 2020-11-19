@@ -61,7 +61,7 @@ descriptionDiv.innerHTML = 'Hover the node label to show the tooltip';
 const container = document.getElementById('container');
 container.appendChild(descriptionDiv);
 const width = container.scrollWidth;
-const height = container.scrollHeight - 30;
+const height = (container.scrollHeight || 500) - 30;
 const graph = new G6.Graph({
   container: 'container',
   width,
@@ -122,3 +122,9 @@ graph.on('edge:mouseenter', e => {
 graph.on('edge:mouseleave', e => {
   graph.setItemState(e.item, 'active', false)
 });
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight - 30);
+};

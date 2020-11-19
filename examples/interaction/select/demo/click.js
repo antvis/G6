@@ -20,8 +20,8 @@ switchDiv.innerHTML =
   <br /> 按住 'shift' 可多选节点。点击「这里」将 trigger 切换为 'alt'`;
 graphDiv.appendChild(switchDiv);
 
-const width = document.getElementById('container').scrollWidth;
-const height = (document.getElementById('container').scrollHeight || 500) - 20;
+const width = container.scrollWidth;
+const height = (container.scrollHeight || 500) - 30;
 const graph = new G6.Graph({
   container: 'container',
   width,
@@ -79,3 +79,9 @@ switchDiv.addEventListener('click', e => {
 
 graph.data(data);
 graph.render();
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight - 30);
+};

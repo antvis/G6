@@ -16,6 +16,10 @@ export interface IG6GraphEvent extends GraphEvent {
   item: Item | null;
   canvasX: number;
   canvasY: number;
+  clientX: number;
+  clientY: number;
+  x: number;
+  y: number;
   wheelDelta: number;
   detail: number;
   key?: string;

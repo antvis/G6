@@ -64,7 +64,7 @@ const graph = new G6.Graph({
 
 ## layoutCfg.nodeSpacing
 
-**Type**: Number / Function <br />**Default**: 0 <br />**Required**: false <br />**Example**: Example 1: 10 <br />Example 2:
+**Type**: Number / Function <br />**Default**: 0 <br />**Required**: false <br />The minimum space between two nodes when `preventOverlap` is true <br/>**Example**: Example 1: 10 <br />Example 2:
 
 ```javascript
 (d) => {

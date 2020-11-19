@@ -111,7 +111,7 @@ const data = {
   ],
 };
 
-const graphContainer = document.getElementById('container');
+const container = document.getElementById('container');
 
 // Add a selector to DOM
 const selector = document.createElement('select');
@@ -128,10 +128,11 @@ selection3.innerHTML = 'Add Edge (By clicking two end nodes)';
 selector.appendChild(selection1);
 selector.appendChild(selection2);
 selector.appendChild(selection3);
-graphContainer.appendChild(selector);
+container.appendChild(selector);
 
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
+
+const width = container.scrollWidth;
+const height = (container.scrollHeight || 500) - 30;
 const graph = new G6.Graph({
   container: 'container',
   width,
@@ -164,3 +165,9 @@ selector.addEventListener('change', (e) => {
   // change the behavior mode
   graph.setMode(value);
 });
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight - 30);
+};

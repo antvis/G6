@@ -402,8 +402,9 @@ const data = {
   ]
 }
 
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 800;
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
 const graph = new G6.TreeGraph({
   container: 'container',
   width,
@@ -454,3 +455,8 @@ graph.data(data);
 graph.render();
 graph.fitView();
 
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight);
+};

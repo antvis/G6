@@ -4,8 +4,10 @@ import G6 from '@antv/g6';
  * 该案例演示，当点击叶子节点时，如何动态向树图中添加多条数据。
  * 主要演示changeData的用法。
  */
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
+
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
 const graph = new G6.TreeGraph({
   container: 'container',
   width,
@@ -174,3 +176,9 @@ graph.on('node:click', function (evt) {
     count++;
   }
 });
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight);
+};

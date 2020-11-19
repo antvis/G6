@@ -3,12 +3,12 @@ import G6 from '@antv/g6';
 // the max number of nodes for each subtree
 const MAX_NUM_EACH_SUBTREE = 3;
 
-const graphDiv = document.getElementById('container');
+const container = document.getElementById('container');
 const tipDiv = document.createElement('div');
 tipDiv.id = 'tip';
 tipDiv.innerHTML = `<div>Hover the nodes of a subtree, and click the triangle icons to switch the nodes patination.</div>
 <div>将鼠标移动到有多个子节点的子树上，点击左右小三角按钮以切换该层级的节点，达到分页效果</div>`;
-graphDiv.appendChild(tipDiv);
+container.appendChild(tipDiv);
 
 fetch('https://gw.alipayobjects.com/os/bmw-prod/a3ae9b40-ff40-434a-894f-b10c535f8b9f.json')
   .then((res) => res.json())
@@ -42,8 +42,8 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/a3ae9b40-ff40-434a-894f-b10c535f
       if (subtree.overflow) subtree.children = subtree.children.slice(0, MAX_NUM_EACH_SUBTREE);
     });
 
-    const width = graphDiv.scrollWidth;
-    const height = (graphDiv.scrollHeight || 500) - 50;
+    const width = container.scrollWidth;
+    const height = (container.scrollHeight || 500) - 50;
     const graph = new G6.TreeGraph({
       container: 'container',
       width,
@@ -103,6 +103,12 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/a3ae9b40-ff40-434a-894f-b10c535f
       },
       fitView: true
     });
+
+    window.onresize = () => {
+      if (!graph || graph.get('destroyed')) return;
+      if (!container || !container.scrollWidth || !container.scrollHeight) return;
+      graph.changeSize(container.scrollWidth, container.scrollHeight - 50);
+    };
 
     const iconMap = {};
 
