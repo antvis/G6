@@ -19,9 +19,10 @@ for (let i = 0; i < 100; i++) {
   });
 }
 
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
 
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = (container.scrollHeight || 500) - 100;
 const timeBarData = [];
 
 const nodeSize = 20;
@@ -79,7 +80,7 @@ const onTick = () => {
 const graph = new G6.Graph({
   container: 'container',
   width,
-  height: height - 100,
+  height,
   linkCenter: true,
   plugins: [timebar],
   layout: {
@@ -101,3 +102,9 @@ const graph = new G6.Graph({
 });
 graph.data(data);
 graph.render();
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight - 100);
+};

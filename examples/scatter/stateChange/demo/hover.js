@@ -137,8 +137,10 @@ G6.registerEdge(
   'cubic-horizontal',
 );
 
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
+
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
 const graph = new G6.Graph({
   container: 'container',
   width,
@@ -170,3 +172,9 @@ graph.on('node:mouseleave', (ev) => {
   const edges = node.getEdges();
   edges.forEach((edge) => graph.setItemState(edge, 'running', false));
 });
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight);
+};

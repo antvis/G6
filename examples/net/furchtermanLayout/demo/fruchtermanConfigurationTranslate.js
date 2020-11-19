@@ -458,12 +458,13 @@ nodes.forEach(function (node) {
   node.style.fill = colors[cid % colors.length];
   node.style.stroke = strokes[cid % strokes.length];
 });
-const graphDiv = document.getElementById('container');
+const container = document.getElementById('container');
 const descriptionDiv = document.createElement('div');
 descriptionDiv.innerHTML = 'Fruchterman layout, gravity = 1';
-graphDiv.appendChild(descriptionDiv);
-const width = graphDiv.scrollWidth;
-const height = graphDiv.scrollHeight - 30;
+container.appendChild(descriptionDiv);
+
+const width = container.scrollWidth;
+const height = (container.scrollHeight || 500) - 30;
 const graph = new G6.Graph({
   container: 'container',
   width,
@@ -492,6 +493,12 @@ const graph = new G6.Graph({
 });
 graph.data(data);
 graph.render();
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight - 30);
+};
 
 layoutConfigTranslation();
 

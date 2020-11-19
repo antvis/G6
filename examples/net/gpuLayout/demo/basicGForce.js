@@ -6,8 +6,9 @@ const data2 = {
   "nodes": [{ "x": 72.4593956315343, "y": 62.500580986434755, "id": "0", "label": "0", "cluster": "a" }, { "x": 175.1600873958553, "y": 86.05370537028077, "id": "1", "label": "1", "cluster": "a" }, { "x": 344.9769062055303, "y": 346.0034481446168, "id": "2", "label": "2", "cluster": "a" }, { "x": 81.6566555038367, "y": 449.54521190792946, "id": "3", "label": "3", "cluster": "a" }, { "x": 216.88282150662286, "y": 154.6366915677718, "id": "4", "label": "4", "cluster": "a" }, { "x": 607.4192016090308, "y": 29.68981871724924, "id": "5", "label": "5", "cluster": "a" }],
   "edges": [{ source: '0', target: '1' }, { source: '0', target: '2' }, { source: '0', target: '3' }, { source: '4', target: '3' }, { source: '4', target: '5' }]
 }
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
 const graph = new G6.Graph({
   container: 'container',
   width,
@@ -35,7 +36,7 @@ const graph = new G6.Graph({
     },
   },
   layout: {
-    type: 'graphinForce',
+    type: 'gForce',
     gpuEnabled: true,
     maxIteration: 500,
     linkDistance: e => {
@@ -56,4 +57,10 @@ graph.on('canvas:click', e => {
     // });
     graph.changeData(data2);
   }, 1000)
-})
+});
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight);
+};

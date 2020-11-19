@@ -96,10 +96,10 @@ const data = {
 };
 
 const tipDiv = document.createElement('div');
-const graphDiv = document.getElementById('container');
-graphDiv.appendChild(tipDiv);
-const width = graphDiv.scrollWidth;
-const height = graphDiv.scrollHeight;
+const container = document.getElementById('container');
+container.appendChild(tipDiv);
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
 const graph = new G6.Graph({
   container: 'container',
   width,
@@ -111,17 +111,6 @@ const graph = new G6.Graph({
   },
   modes: {
     default: ['drag-node'],
-  },
-  defaultNode: {
-    size: 20,
-    style: {
-      fill: '#C6E5FF',
-      stroke: '#5B8FF9',
-    },
-  },
-  defaultEdge: {
-    size: 1,
-    color: '#e2e2e2',
   },
 });
 
@@ -135,3 +124,9 @@ graph.on('afterlayout', function () {
 
 graph.data(data);
 graph.render();
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight);
+};

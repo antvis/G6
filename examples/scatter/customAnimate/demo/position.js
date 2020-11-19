@@ -3,8 +3,9 @@ import G6 from '@antv/g6';
 const r = 50;
 const radius = Math.PI;
 
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
 const graph = new G6.Graph({
   container: 'container',
   width,
@@ -57,3 +58,9 @@ setInterval(() => {
   count++;
   graph.refresh();
 }, 1000);
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight);
+};

@@ -16,11 +16,11 @@ const switchDiv = document.createElement('div');
 switchDiv.innerHTML =
   `Press down the 'shift' on keyboard and drag to begin select.  Click「HERE」to switch trigger to \'drag\', and custom lasso style, and disable drag-canvas
   <br /> 按住 'shift' 可开始拉索选择。点击「这里」切换 trigger 为 'drag'，同时修改拉索样式和关闭画布拖拽`;
-const graphDiv = document.getElementById('container');
-graphDiv.appendChild(switchDiv);
+const container = document.getElementById('container');
+container.appendChild(switchDiv);
 
-const width = document.getElementById('container').scrollWidth;
-const height = (document.getElementById('container').scrollHeight || 500) - 20;
+const width = container.scrollWidth;
+const height = (container.scrollHeight || 500) - 30;
 const graph = new G6.Graph({
   container: 'container',
   width,
@@ -77,3 +77,9 @@ switchDiv.addEventListener('click', e => {
     <br /> 拖拽画布即可进行拉索选择。点击「这里」切换 trigger 为 'drag'，同时开启画布拖拽`;
   }
 });
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight - 30);
+};

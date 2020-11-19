@@ -54,8 +54,9 @@ const data = {
 };
 // 避免拖动过程中闪烁：使用加载已经LOAD好的图片
 img.onload = function () {
-  const width = document.getElementById('container').scrollWidth;
-  const height = document.getElementById('container').scrollHeight || 500;
+  const container = document.getElementById('container');
+  const width = container.scrollWidth;
+  const height = container.scrollHeight || 500;
   const graph = new G6.Graph({
     container: 'container',
     width,
@@ -103,4 +104,11 @@ img.onload = function () {
       graph.paint();
     }
   });
+
+  window.onresize = () => {
+    if (!graph || graph.get('destroyed')) return;
+    if (!container || !container.scrollWidth || !container.scrollHeight) return;
+    graph.changeSize(container.scrollWidth, container.scrollHeight);
+  };
+
 };

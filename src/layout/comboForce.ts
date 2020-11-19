@@ -103,13 +103,13 @@ export default class ComboForce extends BaseLayout {
   public optimizeRangeFactor: number = 1;
 
   /** 每次迭代的回调函数 */
-  public onTick: () => void = () => {};
+  public onTick: () => void = () => { };
 
   /** 每次迭代的回调函数 */
-  public onLayoutEnd: () => void = () => {};
+  public onLayoutEnd: () => void = () => { };
 
   /** 根据边两端节点层级差距的调整引力系数的因子，取值范围 [0, 1]。层级差距越大，引力越小 */
-  public depthAttractiveForceScale: number = 0.5;
+  public depthAttractiveForceScale: number = 1;
 
   /** 根据边两端节点层级差距的调整斥力系数的因子，取值范围 [1, Infinity]。层级差距越大，斥力越大 */
   public depthRepulsiveForceScale: number = 2;
@@ -158,7 +158,7 @@ export default class ComboForce extends BaseLayout {
       comboCollideStrength: 0.5,
       comboSpacing: 20,
       comboPadding: 10,
-      edgeStrength: 0.2,
+      edgeStrength: 0.6,
       nodeStrength: 30,
       linkDistance: 10,
     };
@@ -541,7 +541,7 @@ export default class ComboForce extends BaseLayout {
         const c = comboMap[treeNode.id];
 
         // higher depth the combo, larger the gravity
-        const gravityScale = (c.depth + 1) * 0.5;
+        const gravityScale = (c.depth + 1) / 10 * 0.5;
         // apply combo center force for all the descend nodes in this combo
         // and update the center position and count for this combo
         const comboX = c.cx;
@@ -764,8 +764,9 @@ export default class ComboForce extends BaseLayout {
 
         const { vx, vy } = vecMap[`${v.id}-${u.id}`];
 
-        let depthDiff = Math.abs(u.depth - v.depth) + 1 || 1;
-        if (u.comboId !== v.comboId) depthDiff++;
+        let depthDiff = (Math.log(Math.abs(u.depth - v.depth) / 10) + 1 || 1);
+        depthDiff = depthDiff < 1 ? 1 : depthDiff;
+        if (u.comboId !== v.comboId) depthDiff += 1;
         const depthParam = depthDiff ? scale ** depthDiff : 1;
 
         const params = ((nodeStrength(u) * alpha) / vl2) * depthParam;
@@ -814,7 +815,7 @@ export default class ComboForce extends BaseLayout {
       const u = self.nodeMap[e.source];
       const v = self.nodeMap[e.target];
 
-      let depthDiff = Math.abs(u.depth - v.depth);
+      let depthDiff = Math.log(Math.abs(u.depth - v.depth) / 10);
       if (u.comboId === v.comboId) {
         depthDiff = depthDiff / 2;
       }

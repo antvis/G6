@@ -9,8 +9,8 @@ import { isNumber } from '@antv/util';
 import { World } from '@antv/g-webgpu';
 import { proccessToFunc, buildTextureDataWithTwoEdgeAttr, arrayToTextureData } from '../../util/layout'
 import { getDegree } from '../../util/math'
-// import { graphinForceCode, aveMovementCode } from './graphinForceShader';
-import { graphinForceBundle, aveMovementBundle } from './graphinForceShader';
+// import { gForceCode, aveMovementCode } from './gForceShader';
+import { gForceBundle, aveMovementBundle } from './gForceShader';
 import { LAYOUT_MESSAGE } from '../worker/layoutConst';
 import { Compiler } from '@antv/g-webgpu-compiler';
 
@@ -21,7 +21,7 @@ type NodeMap = {
 /**
  * graphin 中的 force 布局
  */
-export default class GraphinForceGPULayout extends BaseLayout {
+export default class GForceGPULayout extends BaseLayout {
   /** 布局中心 */
   public center: IPointTuple = [0, 0];
 
@@ -236,10 +236,10 @@ export default class GraphinForceGPULayout extends BaseLayout {
       });
     }
 
-    // TODO: 最终的预编译代码放入到 graphinForceShader.ts 中直接引入，不再需要下面三行
+    // TODO: 最终的预编译代码放入到 gForceShader.ts 中直接引入，不再需要下面三行
     // const compiler = new Compiler();
-    // const graphinForceBundle = compiler.compileBundle(graphinForceCode);
-    // console.log(graphinForceBundle.toString());
+    // const gForceBundle = compiler.compileBundle(gForceCode);
+    // console.log(gForceBundle.toString());
 
     const onLayoutEnd = self.onLayoutEnd;
 
@@ -252,8 +252,8 @@ export default class GraphinForceGPULayout extends BaseLayout {
     }
 
 
-    const kernelGraphinForce = world
-      .createKernel(graphinForceBundle)
+    const kernelGForce = world
+      .createKernel(gForceBundle)
       .setDispatch([numParticles, 1, 1])
       .setBinding({
         u_Data: nodesEdgesArray, // 节点边输入输出
@@ -287,34 +287,34 @@ export default class GraphinForceGPULayout extends BaseLayout {
     const execute = async () => {
       for (let i = 0; i < maxIteration; i++) {
 
-        // TODO: 似乎都来自 kernelGraphinForce 是一个引用
+        // TODO: 似乎都来自 kernelGForce 是一个引用
         // 当前坐标作为下一次迭代的 PreviousData
         // if (i > 0) {
         //   kernelAveMovement.setBinding({
-        //     u_PreviousData: kernelGraphinForce
+        //     u_PreviousData: kernelGForce
         //   });
         // }
 
-        await kernelGraphinForce.execute();
+        await kernelGForce.execute();
 
-        // midRes = await kernelGraphinForce.getOutput();
+        // midRes = await kernelGForce.getOutput();
 
         // 每次迭代完成后
         // 计算平均位移，用于提前终止迭代
         kernelAveMovement.setBinding({
-          u_Data: kernelGraphinForce
+          u_Data: kernelGForce
         });
 
         await kernelAveMovement.execute();
 
         // 更新衰减函数
         const stepInterval = Math.max(0.02, self.interval - i * 0.002);
-        kernelGraphinForce.setBinding({
+        kernelGForce.setBinding({
           u_interval: stepInterval,
           u_AveMovement: kernelAveMovement
         });
       }
-      const finalParticleData = await kernelGraphinForce.getOutput();
+      const finalParticleData = await kernelGForce.getOutput();
 
       // 所有迭代完成后
       if (canvas) {

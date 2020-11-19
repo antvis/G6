@@ -107,8 +107,9 @@ G6.registerNode('justPoints', {
   },
 });
 
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
 const graph = new G6.Graph({
   container: 'container',
   width,
@@ -168,3 +169,9 @@ const data = {
 
 graph.data(data);
 graph.render();
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight);
+};

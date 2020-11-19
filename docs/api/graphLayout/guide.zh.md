@@ -10,10 +10,10 @@ G6 提供了以下内置布局算法。可以在[实例化图时配置](#实例�
 注意，Graph 布局与 TreeGaph 布局相互不通用。
 
 - [Random Layout](./random)：随机布局；
-- **[Force Layout](./force)：经典力导向布局：**
-
+- **[GForce Layout](./gforce)：G6 4.0 支持的经典力导向布局，支持 GPU 并行计算：**
   > 力导向布局：一个布局网络中，粒子与粒子之间具有引力和斥力，从初始的随机无序的布局不断演变，逐渐趋于平衡稳定的布局方式称之为力导向布局。适用于描述事物间关系，比如人物关系、计算机网络关系等。
 
+- [Force Layout](./force)：引用 d3 的经典力导向布局；
 - [Circular Layout](./circular)：环形布局；
 - [Radial Layout](./radial)：辐射状布局；
 - [MDS Layout](./mds)：高维数据降维算法布局；
@@ -34,6 +34,8 @@ const graph = new G6.Graph({
     type: 'force',
     preventOverlap: true,
     nodeSize: 30,
+    // workerEnabled: true, // 是否启用 webworker
+    // gpuEnabled: true // 是否使用 gpu 版本的布局算法，G6 4.0 支持，目前仅支持 gForce 及 fruchterman
     ...                    // 其他配置
   }
 });

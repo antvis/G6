@@ -17,7 +17,7 @@ type NodeMap = {
 /**
  * graphin 中的 force 布局
  */
-export default class GraphinForceLayout extends BaseLayout {
+export default class GForceLayout extends BaseLayout {
   /** 布局中心 */
   public center: IPointTuple = [0, 0];
   /** 停止迭代的最大迭代数 */

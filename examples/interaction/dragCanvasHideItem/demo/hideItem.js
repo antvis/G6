@@ -40,9 +40,9 @@ const data = {
   ],
 };
 
-const graphContainer = document.getElementById('container');
-const width = graphContainer.scrollWidth;
-const height = graphContainer.scrollHeight || 500;
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
 
 const graph = new G6.Graph({
   container: 'container',
@@ -88,3 +88,9 @@ const graph = new G6.Graph({
 
 graph.data(data);
 graph.render();
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight);
+};

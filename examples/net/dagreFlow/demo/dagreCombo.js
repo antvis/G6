@@ -137,8 +137,8 @@ descriptionDiv.addEventListener('click', (e) => {
     sortByCombo,
   });
 });
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
+const width = container.scrollWidth;
+const height = (container.scrollHeight || 500) - 30;
 const graph = new G6.Graph({
   container: 'container',
   width,
@@ -151,6 +151,7 @@ const graph = new G6.Graph({
     default: [
       'drag-combo',
       'drag-node',
+      'drag-canvas',
       {
         type: 'collapse-expand-combo',
         relayout: false,
@@ -174,3 +175,9 @@ const graph = new G6.Graph({
 });
 graph.data(data);
 graph.render();
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight - 30);
+};

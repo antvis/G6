@@ -40,7 +40,7 @@ const data = {
   ],
 };
 
-const graphContainer = document.getElementById('container');
+const container = document.getElementById('container');
 
 // Add a selector to DOM
 const selector = document.createElement('select');
@@ -57,15 +57,15 @@ selection3.innerHTML = 'Fix lineWidth of keyShape';
 selector.appendChild(selection1);
 selector.appendChild(selection2);
 selector.appendChild(selection3);
-graphContainer.appendChild(selector);
+container.appendChild(selector);
 
 let fixSelectedItems = {
   fixAll: true,
   fixState: 'yourStateName', // 'selected' by default
 };
 
-const width = graphContainer.scrollWidth;
-const height = (graphContainer.scrollHeight || 500) - 20;
+const width = container.scrollWidth;
+const height = (container.scrollHeight || 500) - 30;
 const graph = new G6.Graph({
   container: 'container',
   width,
@@ -136,3 +136,9 @@ selector.addEventListener('change', (e) => {
   });
   fixSelectedItems[value] = true;
 });
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight - 30);
+};

@@ -3,13 +3,10 @@ title: GPU Layout
 order: 12
 ---
 
-Fruchterman Reingold Layout is a kind of force-directed layout in theory. The differences are the definitions of attracitve force and repulsive force.
+G6 4.0 provides two kinds of GPU layout:
+- gforce: a new built-in layout that support CPU and GPU calculation, it implements the classical force-directed algorithm;
+- fruchterman: anoher force-directed algorithm whose CPU version is supported in previous version, and G6 4.0 support GPU version fruchterman.
 
-## Usage
+Since the mechanism of the memory copy between GPU and CPU, the improvement is not obviouse in small graph, sometimes GPU version even performs worse than CPU. But in middle and large graph, the calculation speed of GPU might be hundreds times of CPU. The two table below shows the comparison on different scale datasets:
 
-As the demo below, you can deploy it in `layout` while instantiating Graph. it can also be used for [Subgraph Layout](/zh/docs/manual/middle/layout/#%E5%AD%90%E5%9B%BE%E5%B8%83%E5%B1%80). By tuning the parameters, you can adjust the iteration number, layout compactness, layout by clusters, and so on.
-
-- Example 1 : Basic Fruchterman layout.
-- Example 2 : Fruchterman clustering layout.
-- Example 3 : Translate the layout parameters in dynamic.
-- Example 4 : Fruchterman layout with web-worker in case layout calculation takes too long to block page interaction.
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*fyMGTpfyb8IAAAAAAAAAAAAAARQnAQ' width='80%'/>

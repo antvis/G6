@@ -638,13 +638,13 @@ const data2_m = {
   ],
 };
 
-const graphDiv = document.getElementById('container');
+const container = document.getElementById('container');
 const descriptionDiv = document.createElement('div');
 descriptionDiv.innerHTML = 'Try to click node 2!';
-graphDiv.appendChild(descriptionDiv);
+container.appendChild(descriptionDiv);
 
-const width = graphDiv.scrollWidth;
-const height = graphDiv.scrollHeight - 30;
+const width = container.scrollWidth;
+const height = (container.scrollHeight || 500) - 30;
 const mainUnitRadius = 80;
 const focusNode = data.nodes[22];
 focusNode.style = {
@@ -688,6 +688,12 @@ graph.data({
   }),
 });
 graph.render();
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight - 30);
+};
 
 graph.on('node:click', (ev) => {
   const itemModel = ev.item.getModel();

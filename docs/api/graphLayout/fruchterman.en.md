@@ -21,6 +21,7 @@ const graph = new G6.Graph({
     clusterGravity: 30,
     maxIteration: 2000,
     workerEnabled: true, // Whether to activate web-worker
+    gpuEnabled: true     // Whether to enable the GPU parallel computing, supported by G6 4.0
   },
 });
 ```
@@ -52,3 +53,8 @@ const graph = new G6.Graph({
 ## layoutCfg.workerEnabled
 
 **Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to enable the web-worker in case layout calculation takes too long to block page interaction
+
+## layoutCfg.gpuEnabled
+
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to enable the GPU parallel computing, supported by G6 4.0. The performance improvement:
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*fyMGTpfyb8IAAAAAAAAAAAAAARQnAQ' width='80%'/>

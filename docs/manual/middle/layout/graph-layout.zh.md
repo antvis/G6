@@ -16,7 +16,8 @@ order: 0
 ## 一般图 Graph 布局方法总览
 
 - [Random Layout](#random)：随机布局；
-- [Force Layout](#force)：经典力导向布局；
+- [Force Layout](#gforce)：G6 4.0 支持的经典力导向布局，支持 GPU 并行计算；
+- [Force Layout](#force)：引用 d3 的经典力导向布局；
 - [Fruchterman Layout](#fruchterman)：Fruchterman 布局，一种力导布局；
 - [Circular Layout](#circular)：环形布局；
 - [Radial Layout](#radial)：辐射状布局；
@@ -38,6 +39,8 @@ const graph = new G6.Graph({
     type: 'force',
     preventOverlap: true,
     nodeSize: 30,
+    // workerEnabled: true, // 是否启用 webworker
+    // gpuEnabled: true // 是否使用 gpu 版本的布局算法，G6 4.0 支持，目前仅支持 gForce 及 fruchterman
     // ...                    // 其他配置
   },
 });
@@ -67,6 +70,34 @@ const graph = new G6.Graph({
 | height | Number | 300 | 图的高 |  |
 | workerEnabled | Boolean | true / false | false | 是否启用 web-worker 以防布局计算时间过长阻塞页面交互 |
 
+### GForce
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lX-qSqDECrIAAAAAAAAAAAAAARQnAQ' width=500 alt='img'/>
+
+<br /> **描述**：G6 4.0 支持的经典力导向布局。能够更加自由地支持设置节点质量、群组中心力等。更重要的是，它支持 GPU 并行计算。 <br /> **API**：[Force API](/zh/docs/api/graphLayout/gforce) <br /> **参数**：
+
+| 参数名 | 类型 | 示例 | 默认值 | 说明 |
+| --- | --- | --- | --- | --- |
+| center | Array | [ 0, 0 ] | 图的中心 | 布局的中心 |
+| linkDistance | Number / Function | 示例 1: 50 <br />示例 2:<br />d => {<br />  // d 是一条边<br />  if (d.id === 'edge1') {<br />    return 100;<br />  }<br />  return 50;<br />} | 1 | 边长。可以使用回调函数的形式对不同对边定义不同边长（如示例 2） |
+| nodeStrength | Number / Function | 示例 1: -30 <br />示例 2:<br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return -100;<br />  }<br />  return -30;<br />} / 1000 | 1000 | 节点作用力，正数代表节点之间的斥力作用，负数代表节点之间的引力作用（注意与 'force' 相反）（如示例 2） |
+| edgeStrength | Number / Function | 示例 1: 1 <br />示例 2:<br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 10;<br />  }<br />  return 1;<br />} | 200 | 边的作用力，默认根据节点的出入度自适应。可以使用回调函数的形式对不同对节点定义不同边作用力（如示例 2） |
+| preventOverlap | Boolean | false | false | 是否防止重叠，必须配合属性 `nodeSize` ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测。若未设置 `nodeSize` ，则根据节点数据中的 `size` 进行碰撞检测。若二者都未设置，则默认以 10 为节点大小进行碰撞检测 |
+| nodeSize | Array / Number | 20 | undefined | 节点大小（直径）。用于碰撞检测。<br />若不指定，则根据传入的数据节点中的 `size`  字段计算。若即不指定，节点中也没有 `size`，则默认大小为 10 |
+| nodeSpacing<br /><br /> | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
+| minMovement | Number | 0.5 | 1 | 当一次迭代的平均移动长度小于该值时停止迭代。数字越小，布局越收敛，所用时间将越长 |
+| maxIteration | Number | 500 | 1000 | 最大迭代次数。当迭代次数超过该值，但平均移动长度仍然没有达到 minMovement，也将强制停止迭代 |
+| damping | Number | 0.99 | 0.9 | 阻尼系数，取值范围 [0, 1]。数字越大，速度降低得越慢 |
+| maxSpeed | Number | 10 | 1000 | 一次迭代的最大移动长度 |
+| coulombDisScale | Number | 0.003| 0.005 | 库伦系数，斥力的一个系数，数字越大，节点之间的斥力越大 |
+| getMass | Function | d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | 每个节点质量的回调函数，若不指定，则默认使用度数作为节点质量。使用方法与 `nodeSpacing` 类似，每个回调函数返回一个数值作为该节点的质量 |
+| getCenter | Function | (d, degree) => {<br />  // d 是一个节点, degree 为该节点度数<br />  if (d.degree === 0') {<br />    return [100, 100, 10]; // x, y, 强度<br />  }<br />  return [210, 150, 5]; // x, y, 强度<br />} | undefined | 每个节点中心力的 x、y、强度的回调函数，若不指定，则没有额外中心力 |
+| gravity | Number | 20| 10 | 中心力大小，指所有节点被吸引到 `center` 的力。数字越大，布局越紧凑 |
+| onTick | Function |  | {} | 每一次迭代的回调函数 |
+| onLayoutEnd | Function |  | {} | 布局完成后的回调函数 |
+| workerEnabled | Boolean | true / false | false | 是否启用 web-worker 以防布局计算时间过长阻塞页面交互 |
+| gpuEnabled | Boolean | true / false | false | 是否启用 GPU 并行计算，G6 4.0 支持 |
+
 ### Force
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*oDbHRJc5td8AAAAAAAAAAABkARQnAQ' width='500'  alt='img'/>
@@ -85,7 +116,7 @@ const graph = new G6.Graph({
 | alphaDecay | Number | 0.03 | 0.028 | 迭代阈值的衰减率。范围 [0, 1]，0.028 对应迭代数为 300 |
 | alphaMin | Number | 0.03 | 0.001 | 停止迭代的阈值 |
 | alpha | Number | 0.1 | 0.3 | 当前阈值 |
-| collideStrength | Number | 0.8 | 1 | 防止重叠的力强度，范围 [0, 1]。 |
+| collideStrength | Number | 0.8 | 1 | 防止重叠的力强度，范围 [0, 1] |
 | clustering | Boolean | false| false | 是否按照聚类信息布局 |
 | clusterNodeStrength | Number | -1| -0.8 | 聚类节点作用力。负数代表斥力 |
 | clusterEdgeStrength | Number | 0.1| 0.2 | 聚类边作用力 |
@@ -112,6 +143,7 @@ const graph = new G6.Graph({
 | clustering | Boolean | false | false | 是否按照聚类布局 |
 | clusterGravity | Number | 30 | 10 | 聚类内部的重力大小，影响聚类的紧凑程度 |
 | workerEnabled | Boolean | true / false | false | 是否启用 web-worker 以防布局计算时间过长阻塞页面交互 |
+| gouEnabled | Boolean | true / false | false | 是否启用 GPU 并行计算，G6 4.0 支持 |
 
 ### Circular
 

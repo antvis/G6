@@ -2,7 +2,7 @@ import G6 from '@antv/g6';
 import insertCss from 'insert-css';
 
 insertCss(`
-  .g6-tooltip {
+  .g6-component-tooltip {
     border: 1px solid #e2e2e2;
     border-radius: 4px;
     font-size: 12px;
@@ -13,8 +13,35 @@ insertCss(`
   }
 `);
 
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
+const tooltip = new G6.Tooltip({
+  // offsetX and offsetY include the padding of the parent container
+  // offsetX 与 offsetY 需要加上父容器的 padding
+  offsetX: 140 + 10,
+  offsetY: 100 + 10,
+  // the types of items that allow the tooltip show up
+  // 允许出现 tooltip 的 item 类型
+  itemTypes: ['node', 'edge'],
+  // custom the tooltip's content
+  // 自定义 tooltip 内容
+  getContent: (e) => {
+    const outDiv = document.createElement('div');
+    outDiv.style.width = 'fit-content';
+    outDiv.style.height = 'fit-content';
+    const model = e.item.getModel();
+    if (e.item.getType() === 'node') {
+      outDiv.innerHTML = `${model.name}`;
+    } else {
+      const source = e.item.getSource();
+      const target = e.item.getTarget();
+      outDiv.innerHTML = `来源：${source.getModel().name}<br/>去向：${target.getModel().name}`;
+    }
+    return outDiv;
+  },
+});
+
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
 const graph = new G6.Graph({
   container: 'container',
   width,
@@ -23,29 +50,10 @@ const graph = new G6.Graph({
     type: 'force',
     edgeStrength: 0.7,
   },
+  plugins: [tooltip],
   modes: {
     default: [
       'drag-canvas',
-      {
-        type: 'tooltip',
-        formatText: function formatText(model) {
-          return model.name;
-        },
-        offset: 30,
-      },
-      {
-        type: 'edge-tooltip',
-        formatText: function formatText(model, e) {
-          const edge = e.item;
-          return (
-            '来源：' +
-            edge.getSource().getModel().name +
-            '<br/>去向：' +
-            edge.getTarget().getModel().name
-          );
-        },
-        offset: 30,
-      },
       'activate-relations',
     ],
   },
@@ -88,3 +96,9 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/xiaomi.json')
     graph.data(data);
     graph.render();
   });
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight);
+};

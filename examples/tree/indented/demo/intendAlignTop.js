@@ -103,13 +103,17 @@ const data = {
   ],
 };
 
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
 
 const graph = new G6.TreeGraph({
   container: 'container',
   width,
   height,
+  modes: {
+    default: ['drag-canvas']
+  },
   defaultNode: {
     type: 'card-node',
     size: [100, 40],
@@ -141,3 +145,9 @@ graph.on('node:click', (e) => {
     graph.layout();
   }
 });
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight);
+};

@@ -12,8 +12,10 @@ const colors = [
   'rgb(38, 154, 153)',
   'rgb(227, 137, 163)',
 ];
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
+
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
 const graph = new G6.Graph({
   container: 'container',
   width,
@@ -54,6 +56,12 @@ graph.on('edge:mouseleave', function (e) {
   const edge = e.item;
   graph.setItemState(edge, 'hover', false);
 });
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight);
+};
 
 fetch('https://gw.alipayobjects.com/os/basement_prod/70cde3be-22e8-4291-98f1-4d5a5b75b62f.json')
   .then((res) => res.json())

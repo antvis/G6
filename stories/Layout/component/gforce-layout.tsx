@@ -4,7 +4,7 @@ import { IGraph } from '../../../src/interface/graph';
 
 let graph: IGraph = null;
 
-const GraphinForceLayout = () => {
+const GForceLayout = () => {
   const container = React.useRef();
   useEffect(() => {
     if (!graph) {
@@ -13,7 +13,7 @@ const GraphinForceLayout = () => {
         width: 500,
         height: 500,
         layout: {
-          type: 'graphinForce',
+          type: 'gForce',
         },
         defaultNode: {
           size: 15,
@@ -49,4 +49,4 @@ const GraphinForceLayout = () => {
   return <div ref={container}></div>;
 };
 
-export default GraphinForceLayout;
+export default GForceLayout;

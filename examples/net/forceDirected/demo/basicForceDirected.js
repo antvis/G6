@@ -1,7 +1,8 @@
 import G6 from '@antv/g6';
 
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
 const graph = new G6.Graph({
   container: 'container',
   width,
@@ -39,6 +40,12 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       e.item.get('model').fx = null;
       e.item.get('model').fy = null;
     });
+
+    window.onresize = () => {
+      if (!graph || graph.get('destroyed')) return;
+      if (!container || !container.scrollWidth || !container.scrollHeight) return;
+      graph.changeSize(container.scrollWidth, container.scrollHeight);
+    };
   });
 
 function refreshDragedNodePosition(e) {

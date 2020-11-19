@@ -445,7 +445,7 @@ const strokes = [
 const nodes = data.nodes;
 const clusterMap = new Map();
 let clusterId = 0;
-nodes.forEach(function(node) {
+nodes.forEach(function (node) {
   // cluster
   if (node.cluster && clusterMap.get(node.cluster) === undefined) {
     clusterMap.set(node.cluster, clusterId);
@@ -461,9 +461,10 @@ nodes.forEach(function(node) {
 const graphDiv = document.getElementById('container');
 const descriptionDiv = document.createElement('div');
 descriptionDiv.innerHTML = 'Fruchterman layout, gravity = 1';
-graphDiv.appendChild(descriptionDiv);
-const width = graphDiv.scrollWidth;
-const height = graphDiv.scrollHeight - 30;
+container.appendChild(descriptionDiv);
+
+const width = container.scrollWidth;
+const height = (container.scrollHeight || 500) - 30;
 const graph = new G6.Graph({
   container: 'container',
   width,
@@ -475,6 +476,7 @@ const graph = new G6.Graph({
     type: 'fruchterman',
     gravity: 1,
     speed: 5,
+    enableGPU: true
   },
   animate: true,
   defaultNode: {
@@ -497,17 +499,23 @@ const graph = new G6.Graph({
 graph.data(data);
 graph.render();
 
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight - 30);
+};
+
 layoutConfigTranslation();
 
 function layoutConfigTranslation() {
-  setTimeout(function() {
+  setTimeout(function () {
     descriptionDiv.innerHTML = 'Fructherman layout, gravity = 5';
     graph.updateLayout({
       gravity: 5,
     });
   }, 1000);
 
-  setTimeout(function() {
+  setTimeout(function () {
     descriptionDiv.innerHTML = 'Fructherman layout, gravity = 10, layout by cluster';
     graph.updateLayout({
       gravity: 10,
@@ -515,21 +523,21 @@ function layoutConfigTranslation() {
     });
   }, 2500);
 
-  setTimeout(function() {
+  setTimeout(function () {
     descriptionDiv.innerHTML = 'Fructherman layout, gravity = 20, layout by cluster';
     graph.updateLayout({
       gravity: 20,
     });
   }, 4000);
 
-  setTimeout(function() {
+  setTimeout(function () {
     descriptionDiv.innerHTML = 'Fructherman layout, gravity = 50, layout by cluster';
     graph.updateLayout({
       gravity: 50,
     });
   }, 5500);
 
-  setTimeout(function() {
+  setTimeout(function () {
     descriptionDiv.innerHTML = 'Fructherman layout, gravity = 80, layout by cluster';
     graph.updateLayout({
       gravity: 80,

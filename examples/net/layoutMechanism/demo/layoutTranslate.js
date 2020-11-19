@@ -2,10 +2,12 @@ import G6 from '@antv/g6';
 
 const tipDiv = document.createElement('div');
 tipDiv.innerHTML = 'Random Layout';
-const graphDiv = document.getElementById('container');
-graphDiv.appendChild(tipDiv);
-const width = graphDiv.scrollWidth;
-const height = (graphDiv.scrollHeight || 500) - 20;
+const container = document.getElementById('container');
+container.appendChild(tipDiv);
+
+
+const width = container.scrollWidth;
+const height = (container.scrollHeight || 500) - 20;
 const graph = new G6.Graph({
   container: 'container',
   width,
@@ -69,3 +71,10 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       });
     }, 18000);
   });
+
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight - 20);
+};

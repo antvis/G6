@@ -213,7 +213,7 @@ G6.registerEdge('polyline', {
     const controlPoint = {
       x:
         ((line1EndPoint.x - startPoint.x) * (endPoint.y - startPoint.y)) /
-          (line1EndPoint.y - startPoint.y) +
+        (line1EndPoint.y - startPoint.y) +
         startPoint.x,
       y: endPoint.y,
     };
@@ -336,3 +336,9 @@ edges.forEach(function (edge) {
   });
 });
 graph.paint();
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight);
+};

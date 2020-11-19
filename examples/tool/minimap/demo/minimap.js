@@ -175,9 +175,10 @@ const data = {
     },
   ],
 };
-const width = document.getElementById('container').scrollWidth;
-let height = document.getElementById('container').scrollHeight || 500;
-height -= 110;
+
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = (container.scrollHeight || 500) - 110;
 const minimap = new G6.Minimap({
   size: [150, 100],
 });
@@ -214,3 +215,10 @@ const graph = new G6.Graph({
 });
 graph.data(data);
 graph.render();
+
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight - 110);
+};

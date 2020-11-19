@@ -8,8 +8,10 @@ const button = document.createElement('button');
 button.innerHTML = `查看最短路径`;
 document.getElementById('container').appendChild(button);
 
-const width = document.getElementById('container').scrollWidth;
-const height = (document.getElementById('container').scrollHeight || 500) - 40;
+
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = (container.scrollHeight || 500) - 40;
 
 const graph = new G6.Graph({
   container: 'container',
@@ -78,3 +80,9 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/b0ca4b15-bd0c-43ec-ae41-c810374a
     });
 
   });
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight - 40);
+};

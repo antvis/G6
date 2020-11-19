@@ -1,6 +1,7 @@
 import G6 from '@antv/g6';
 import { TreeGraphData } from '../../../../src/types';
 import insertCss from 'insert-css';
+import debounce from '@antv/util';
 
 
 insertCss(`
@@ -591,3 +592,10 @@ const initGraph = (data?: TreeGraphData) => {
 };
 
 initGraph(data);
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight);
+};
+

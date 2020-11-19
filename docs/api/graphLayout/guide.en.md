@@ -10,6 +10,7 @@ G6 provides several built-in layout algorithms as listed below. They can be [con
 Notice that the layouts for Graph cannot be used on TreeGraph.
 
 - [Random Layout](./random): Randomizes the node postions;
+- [GForce Layout](./gforce): Classical force-directed layout supports GPU parallel computing, supported by G6 4.0;
 - [Force Layout](./force): Classical force-directed layout;
 - [Fruchterman Layout](./fruchterman): A kind of force-directed layout;
 - [Circular Layout](./circular): Arranges the nodes on a circle;
@@ -31,6 +32,8 @@ const graph = new G6.Graph({
     type: 'force',
     preventOverlap: true,
     nodeSize: 30,
+    // workerEnabled: true, // Whether enable webworker
+    // gpuEnabled: true // Whether enable GPU version. supported by G6 4.0, and only support gForce and fruchterman layout
     ...                    // Other layout configurations
   }
 });

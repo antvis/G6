@@ -62,7 +62,10 @@ const MoveViewPort = () => {
           },
         },
         modes: {
-          default: ['drag-canvas'],
+          default: [{
+            type: 'drag-canvas',
+            enableOptimize: true
+          }],
         },
       });
       graph.data(data);

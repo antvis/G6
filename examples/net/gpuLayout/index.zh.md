@@ -3,13 +3,10 @@ title: GPU 图布局
 order: 12
 ---
 
-Fruchterman Reingold 布局算法在原理上而言属于力导向布局算法。其引力与斥力的定义方式与经典的 Force Diected 力导向图布局有少许不同。
+G6 4.0 推出两种支持 GPU 布局：
+- gforce：全新内置布局，实现了经典的力导向算法； 
+- fruchterman：另一种力导向的变种算法，CPU 版本在之前的版本就已经存在，G6 4.0 支持使用 GPU 并行计算该算法。
 
-## 使用指南
+由于 GPU 与 CPU 通信的拷贝效率原因，在小规模图上 GPU 版本的布局提升不大，甚至可能更慢。但在较大、大规模图上，计算性能大大提升，升至超过 CPU 的百倍。下面两张表格对比了两个算法在不同数据规模、不同算法下 GPU 与 CPU 的计算时间：
 
-G6 内置的 Fruchterman 布局可在实例化 Graph 时使用该布局。除此之外，还可以如[子图布局](/zh/docs/manual/middle/layout/#%E5%AD%90%E5%9B%BE%E5%B8%83%E5%B1%80)所示单独使用布局。该布局可以通过配置调整迭代次数、紧凑程度、是否按照聚类布局等。
-
-- 代码演示 1 ：基本的 Fruchterman 布局。
-- 代码演示 2 ：Fruchterman 的聚类布局。
-- 代码演示 3 ：Fruchterman 布局参数动态变化。
-- 代码演示 4 ：Fruchterman 使用 web-worker 以避免阻塞页面。
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*fyMGTpfyb8IAAAAAAAAAAAAAARQnAQ' width='80%'/>

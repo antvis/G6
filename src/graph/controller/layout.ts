@@ -23,7 +23,7 @@ const helper = {
   },
 };
 
-const GPULayoutNames = ['fruchterman', 'graphinForce'];
+const GPULayoutNames = ['fruchterman', 'gForce'];
 export default class LayoutController {
   public graph: IGraph;
 
@@ -144,7 +144,7 @@ export default class LayoutController {
       layoutCfg.gpuEnabled = true;
     }
 
-    // 若用户指定开启 gpu，且当前浏览器支持 webgl，且该算法存在 GPU 版本（目前仅支持 fruchterman 和 graphinForce），使用 gpu 版本的布局
+    // 若用户指定开启 gpu，且当前浏览器支持 webgl，且该算法存在 GPU 版本（目前仅支持 fruchterman 和 gForce），使用 gpu 版本的布局
     if (layoutType && layoutCfg.gpuEnabled) {
       let enableGPU = true;
       // 打开下面语句将会导致 webworker 报找不到 window
@@ -171,7 +171,7 @@ export default class LayoutController {
       return true;
     }
 
-    if (layoutType === 'force' || layoutType === 'g6force' || layoutType === 'graphinForce') {
+    if (layoutType === 'force' || layoutType === 'g6force' || layoutType === 'gForce') {
       const { onTick } = layoutCfg;
       const tick = () => {
         if (onTick) {
@@ -187,7 +187,7 @@ export default class LayoutController {
         }
         graph.emit('afterlayout');
       };
-    } else if (layoutType === 'comboForce') {
+    } else if (this.layoutType === 'comboForce') {
       layoutCfg.comboTrees = graph.get('comboTrees');
     } else if (isGPU) {
       const { onLayoutEnd } = layoutCfg;

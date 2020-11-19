@@ -22,6 +22,10 @@ export class G6GraphEvent extends GraphEvent implements IG6GraphEvent {
 
   public canvasY: number;
 
+  public clientX: number;
+
+  public clientY: number;
+
   public wheelDelta: number;
 
   public detail: number;

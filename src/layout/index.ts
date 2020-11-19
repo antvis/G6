@@ -18,8 +18,8 @@ import Radial from './radial/radial';
 import Random from './random';
 import ComboForce from './comboForce';
 import FruchtermanGPU from './gpu/fruchterman';
-import GraphinForceGPU from './gpu/graphinForce';
-import GraphinForce from './graphinForce';
+import GForceGPU from './gpu/gForce';
+import GForce from './gForce';
 
 const layouts = {
   circular: Circular,
@@ -33,9 +33,9 @@ const layouts = {
   mds: MDS,
   radial: Radial,
   random: Random,
-  graphinForce: GraphinForce,
+  gForce: GForce,
   'fruchterman-gpu': FruchtermanGPU,
-  'graphinForce-gpu': GraphinForceGPU
+  'gForce-gpu': GForceGPU
 };
 
 // 注册布局

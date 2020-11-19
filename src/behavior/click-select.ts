@@ -50,8 +50,6 @@ export default {
       return;
     }
 
-    console.log('multiple', multiple, keydown, self)
-
     // allow to select multiple nodes but did not press a key || do not allow the select multiple nodes
     if (!keydown || !multiple) {
       const selected = graph.findAllByState(type, self.selectedState);
@@ -62,7 +60,6 @@ export default {
       });
     }
 
-    console.log('item.hasState(this.selectedState)', item.hasState(self.selectedState))
     if (item.hasState(self.selectedState)) {
       if (shouldUpdate.call(self, evt)) {
         graph.setItemState(item, self.selectedState, false);
@@ -83,7 +80,6 @@ export default {
       }
       const selectedNodes = graph.findAllByState('node', self.selectedState);
       const selectedCombos = graph.findAllByState('combo', self.selectedState);
-      console.log('selectedNodes', selectedNodes)
       graph.emit('nodeselectchange', {
         target: item,
         selectedItems: {

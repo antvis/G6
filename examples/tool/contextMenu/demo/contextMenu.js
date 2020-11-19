@@ -33,18 +33,28 @@ descriptionDiv.id = 'discription';
 descriptionDiv.innerHTML = 'Right click a node to activate a contextMenu.';
 document.getElementById('container').appendChild(descriptionDiv);
 
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
+
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
 
 const contextMenu = new G6.Menu({
   getContent(evt) {
-    console.log('event', evt);
-    return `<ul>
-      <li title='1'>测试01</li>
-      <li title='2'>测试02</li>
-      <li>测试03</li>
-      <li>测试04</li>
-      <li>测试05</li>
+    let header;
+    if (evt.target && evt.target.isCanvas && evt.target.isCanvas()) {
+      header = 'Canvas ContextMenu';
+    } else if (evt.item) {
+      const itemType = evt.item.getType();
+      header = `${itemType.toUpperCase()} ContextMenu`;
+    }
+    return `
+    <h3>${header}</h3>
+    <ul>
+      <li title='1'>li 1</li>
+      <li title='2'>li 2</li>
+      <li>li 3</li>
+      <li>li 4</li>
+      <li>li 5</li>
     </ul>`;
   },
   handleMenuClick: (target, item) => {
@@ -57,7 +67,7 @@ const contextMenu = new G6.Menu({
   offsetY: 0,
   // the types of items that allow the menu show up
   // 在哪些类型的元素上响应
-  itemTypes: ['node', 'edge'],
+  itemTypes: ['node', 'edge', 'canvas'],
 });
 
 const graph = new G6.Graph({
@@ -134,3 +144,9 @@ const data = {
 
 graph.data(data);
 graph.render();
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight);
+};

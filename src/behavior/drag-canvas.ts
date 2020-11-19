@@ -21,10 +21,8 @@ export default {
   getEvents(): { [key in G6Event]?: string } {
     return {
       dragstart: 'onMouseDown',
-      mousedown: 'onMouseDown',
       drag: 'onMouseMove',
       dragend: 'onMouseUp',
-      mouseup: 'onMouseUp',
       'canvas:click': 'onMouseUp',
       keyup: 'onKeyUp',
       focus: 'onKeyUp',
@@ -44,7 +42,7 @@ export default {
     }
     let dx = clientX - origin.x;
     let dy = clientY - origin.y;
- 
+
     if (this.get('direction') === 'x') {
       dy = 0;
     } else if (this.get('direction') === 'y') {
@@ -79,7 +77,7 @@ export default {
     if (event && event.button !== 0) {
       return;
     }
-    
+
     if (
       e.name !== G6Event.TOUCHSTART &&
       window &&
@@ -91,9 +89,8 @@ export default {
       return;
     }
 
-    if (self.keydown || e.type) {
-      return;
-    }
+    if (self.keydown) return;
+    if (!(e.target && e.target.isCanvas && e.target.isCanvas())) return;
 
     self.origin = { x: e.clientX, y: e.clientY };
     self.dragging = false;
@@ -123,11 +120,12 @@ export default {
     }
   },
   onMouseMove(e: IG6GraphEvent) {
+    console.log('mousemove1', this.keydown, e.target)
     const { graph } = this;
-    if (this.keydown || e.type) {
-      return;
-    }
+    if (this.keydown) return;
+    if (!(e.target && e.target.isCanvas && e.target.isCanvas())) return;
 
+    console.log('mouemove', this.dragging, this.origin)
     e = cloneEvent(e);
     if (!this.origin) {
       return;
@@ -154,9 +152,7 @@ export default {
   onMouseUp(e: IG6GraphEvent) {
     const { graph } = this;
 
-    if (this.keydown || e.type) {
-      return;
-    }
+    if (this.keydown) return;
 
     if (this.enableOptimize) {
       // 拖动结束后显示所有的边

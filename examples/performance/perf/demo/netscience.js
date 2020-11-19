@@ -15,8 +15,13 @@ const mapNodeSize = (nodes, propertyName, visualRange) => {
   });
 };
 
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
+const container = document.getElementById('container');
+const descriptionDiv = document.createElement('div');
+descriptionDiv.innerHTML = `正在渲染大规模数据，请稍等……`;
+container.appendChild(descriptionDiv);
+
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
 const graph = new G6.Graph({
   container: 'container',
   width,
@@ -83,12 +88,12 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/da5a1b47-37d6-44d7-8d10-f3e
     const graphData = graph.save();
     const nodeLen = graphData.nodes.length;
     const edgeLen = graphData.edges.length;
-    const container = document.getElementById('container');
-    const descriptionDiv = document.createElement('div');
-    descriptionDiv.style.position = 'absolute';
-    descriptionDiv.style.top = '0px';
-    descriptionDiv.innerHTML = `节点数量：${nodeLen}, 边数量：${edgeLen}, 图元数量：${
-      nodeLen * 2 + edgeLen
-    }`;
-    container.appendChild(descriptionDiv);
+    descriptionDiv.innerHTML = `节点数量：${nodeLen}, 边数量：${edgeLen}, 图元数量：${nodeLen * 2 + edgeLen
+      }`;
   });
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight);
+};

@@ -12,16 +12,17 @@ const data = {
 
 let shift = true;
 
-const graphDiv = document.getElementById('container');
+const container = document.getElementById('container');
 
 const switchDiv = document.createElement('div');
 switchDiv.innerHTML =
   `Press 'shift' and drag begin on empty space to brush select. Click 「HERE」 to switch trigger to \'drag\', and disable drag-canvas
   <br /> 按住 'shift' 并从画布空白处开始拖拽即可开始框选。点击「这里」将 trigger 切换为 'drag'，同时关闭画布拖拽`;
-graphDiv.appendChild(switchDiv);
+container.appendChild(switchDiv);
 
-const width = document.getElementById('container').scrollWidth;
-const height = (document.getElementById('container').scrollHeight || 500) - 30;
+
+const width = container.scrollWidth;
+const height = (container.scrollHeight || 500) - 30;
 const graph = new G6.Graph({
   container: 'container',
   width,
@@ -79,3 +80,9 @@ switchDiv.addEventListener('click', e => {
 
 graph.data(data);
 graph.render();
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight - 30);
+};

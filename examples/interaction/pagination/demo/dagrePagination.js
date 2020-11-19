@@ -209,15 +209,15 @@ const curNodesToNewData = (levels, initPos) => {
   return resData;
 }
 
-const graphDiv = document.getElementById('container');
+const container = document.getElementById('container');
 const tipDiv = document.createElement('div');
 tipDiv.id = 'tip';
 tipDiv.innerHTML = `<div>Hover the nodes of level 2 and leve 5, and click the triangle icons to switch the nodes patination.</div>
 <div>将鼠标移动到 level 2 和 level 5 的节点上后，点击左右小三角按钮以切换该层级的节点，达到分页效果</div>`;
-graphDiv.appendChild(tipDiv);
+container.appendChild(tipDiv);
 
-const width = graphDiv.scrollWidth;
-const height = (graphDiv.scrollHeight || 500) - 50;
+const width = container.scrollWidth;
+const height = (container.scrollHeight || 500) - 50;
 const graph = new G6.Graph({
   container: 'container',
   width,
@@ -307,6 +307,14 @@ levels.forEach((level, k) => {
 graph.changeData(curNodesToNewData(levels));
 graph.fitView();
 graph.set('animate', true)
+
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight - 50);
+};
+
 
 const iconMap = {};
 

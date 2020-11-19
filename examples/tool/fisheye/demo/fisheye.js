@@ -121,8 +121,9 @@ graphDiv.parentNode.appendChild(buttonContainer);
 
 // ========================================================= //
 
-const width = graphDiv.scrollWidth;
-const height = graphDiv.scrollHeight || 500;
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
 const graph = new G6.Graph({
   container: 'container',
   width,
@@ -184,3 +185,9 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/afe8b2a6-f691-4070-aa73-46fc07fd
         });
     });
   });
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight);
+};

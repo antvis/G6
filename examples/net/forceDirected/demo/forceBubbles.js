@@ -126,8 +126,9 @@ tipDiv.innerHTML = 'Try to click or drag a bubble!';
 const graphDiv = document.getElementById('container');
 graphDiv.appendChild(tipDiv);
 
-const width = document.getElementById('container').scrollWidth;
-const height = (document.getElementById('container').scrollHeight || 500) - 20;
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = (container.scrollHeight || 500) - 20;
 
 const graph = new G6.Graph({
   container: 'container',
@@ -164,6 +165,8 @@ nodes.forEach((node) => {
   if (!node.style) node.style = {};
   node.style.fill = colors[cid % colors.length];
   node.style.stroke = strokes[cid % strokes.length];
+  node.x = width / 2 + 200 * (Math.random() - 0.5);
+  node.y = height / 2 + 200 * (Math.random() - 0.5);
 });
 
 // map the value to node size
@@ -222,6 +225,13 @@ graph.on('node:click', function (e) {
 
 graph.data(data);
 graph.render();
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight - 20);
+};
+
 
 function scaleNodeProp(elements, propName, refPropName, dataRange, outRange) {
   const outLength = outRange[1] - outRange[0];

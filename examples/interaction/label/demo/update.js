@@ -33,8 +33,10 @@ const data = {
   ],
 };
 
-const width = document.getElementById('container').scrollWidth;
-const height = document.getElementById('container').scrollHeight || 500;
+
+const container = document.getElementById('container');
+const width = container.scrollWidth;
+const height = container.scrollHeight || 500;
 const graph = new G6.Graph({
   container: 'container',
   width,
@@ -42,12 +44,6 @@ const graph = new G6.Graph({
   defaultEdge: {
     color: '#e2e2e2',
     lineAppendWidth: 3,
-  },
-  defaultNode: {
-    style: {
-      fill: '#DEE9FF',
-      stroke: '#5B8FF9',
-    },
   },
 });
 graph.data(data);
@@ -106,3 +102,9 @@ graph.on('edge:mouseleave', function (evt) {
     },
   });
 });
+
+window.onresize = () => {
+  if (!graph || graph.get('destroyed')) return;
+  if (!container || !container.scrollWidth || !container.scrollHeight) return;
+  graph.changeSize(container.scrollWidth, container.scrollHeight);
+};
