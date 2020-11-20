@@ -74,7 +74,7 @@ const graph = new G6.Graph({
 
 ## layoutCfg.minMovement
 
-**类型**：Number<br />**默认值**：1<br />**是否必须**：false<br />**说明**：当一次迭代的平均移动长度小于该值时停止迭代。数字越小，布局越收敛，所用时间将越长
+**类型**：Number<br />**默认值**：0.5<br />**是否必须**：false<br />**说明**：当一次迭代的平均移动长度小于该值时停止迭代。数字越小，布局越收敛，所用时间将越长
 
 ## layoutCfg.maxIteration
 

@@ -85,7 +85,7 @@ const graph = new G6.Graph({
 | preventOverlap | Boolean | false | false | 是否防止重叠，必须配合属性 `nodeSize` ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测。若未设置 `nodeSize` ，则根据节点数据中的 `size` 进行碰撞检测。若二者都未设置，则默认以 10 为节点大小进行碰撞检测 |
 | nodeSize | Array / Number | 20 | undefined | 节点大小（直径）。用于碰撞检测。<br />若不指定，则根据传入的数据节点中的 `size`  字段计算。若即不指定，节点中也没有 `size`，则默认大小为 10 |
 | nodeSpacing<br /><br /> | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
-| minMovement | Number | 0.5 | 1 | 当一次迭代的平均移动长度小于该值时停止迭代。数字越小，布局越收敛，所用时间将越长 |
+| minMovement | Number | 0.1 | 0.5 | 当一次迭代的平均移动长度小于该值时停止迭代。数字越小，布局越收敛，所用时间将越长 |
 | maxIteration | Number | 500 | 1000 | 最大迭代次数。当迭代次数超过该值，但平均移动长度仍然没有达到 minMovement，也将强制停止迭代 |
 | damping | Number | 0.99 | 0.9 | 阻尼系数，取值范围 [0, 1]。数字越大，速度降低得越慢 |
 | maxSpeed | Number | 10 | 1000 | 一次迭代的最大移动长度 |
