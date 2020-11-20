@@ -544,3 +544,13 @@ G6.registerEdge('custom-line', {
     }
   },
 }, 'single-edge');
+
+
+
+const reacComponent = () => {
+  return (
+    <></>
+  );
+};
+
+export default reacComponent;

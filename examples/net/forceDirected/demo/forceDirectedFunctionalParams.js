@@ -98,11 +98,12 @@ graph.on('node:dragend', function (e) {
   e.item.get('model').fy = null;
 });
 
-window.onresize = () => {
-  if (!graph || graph.get('destroyed')) return;
-  if (!container || !container.scrollWidth || !container.scrollHeight) return;
-  graph.changeSize(container.scrollWidth, container.scrollHeight);
-};
+if (window && typeof window !== 'undefined')
+  window.onresize = () => {
+    if (!graph || graph.get('destroyed')) return;
+    if (!container || !container.scrollWidth || !container.scrollHeight) return;
+    graph.changeSize(container.scrollWidth, container.scrollHeight);
+  };
 
 function refreshDragedNodePosition(e) {
   const model = e.item.get('model');

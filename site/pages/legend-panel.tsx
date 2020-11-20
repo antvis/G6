@@ -42,10 +42,8 @@ let legendGraph = null;
 let CANVAS_WIDTH = 100;
 let CANVAS_HEIGHT = 800;
 
-interface IProps {
-}
 
-const LegendPanel: React.FC<IProps> = () => {
+const LegendPanel = () => {
   const { t, i18n } = useTranslation();
   const container = React.useRef<HTMLDivElement>(null);
   const data = {

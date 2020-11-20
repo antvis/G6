@@ -143,7 +143,7 @@ export default class TrendTimeBar {
   private maxText: string;
 
   private currentHandler: Handler | IShape;
-  
+
   private prevX: number = 0;
 
   /** 刻度位置预处理 */
@@ -787,7 +787,7 @@ export default class TrendTimeBar {
     } else {
       // 结束播放
       if (this.playHandler) {
-        window.cancelAnimationFrame(this.playHandler);
+        typeof window !== 'undefined' && window.cancelAnimationFrame(this.playHandler);
         if (isSync) {
           this.graph.emit(TIMELINE_END, null);
         }

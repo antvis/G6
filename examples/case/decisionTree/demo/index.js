@@ -14,14 +14,9 @@ insertCss(`
   }
 `);
 
-export interface IProps {
-  data?: TreeGraphData;
-  config?: any;
-  onInit?: (instance: any) => void;
-}
 
 // mocked data
-const mockData: TreeGraphData = {
+const mockData = {
   id: 'g1',
   name: 'Name1',
   count: 123456,
@@ -223,7 +218,7 @@ const colors = {
 }
 
 //  组件props
-const props: IProps = {
+const props = {
   data: mockData,
   config: {
     padding: [20, 50],
@@ -275,7 +270,7 @@ const registerFn = () => {
     'flow-rect',
     {
       shapeType: 'flow-rect',
-      draw(cfg: any, group: any) {
+      draw(cfg, group) {
         const { name = '', variableName, variableValue, variableUp, label, collapsed, currency, status, rate } = cfg;
         const grey = '#CED4D9';
         // 逻辑不应该在这里判断
@@ -451,11 +446,11 @@ const registerFn = () => {
         this.drawLinkPoints(cfg, group);
         return rect;
       },
-      update(cfg: any, item: any) {
+      update(cfg, item) {
         const group = item.getContainer();
         this.updateLinkPoints(cfg, group);
       },
-      setState(name: any, value: any, item: any) {
+      setState(name, value, item) {
         if (name === 'collapse') {
           const group = item.getContainer();
           const collapseText = group.find(e => e.get('name') === 'collapse-text');
@@ -485,7 +480,7 @@ const registerFn = () => {
   G6.registerEdge(
     'flow-cubic',
     {
-      getControlPoints(cfg: any) {
+      getControlPoints(cfg) {
         let controlPoints = cfg.controlPoints; // 指定controlPoints
         if (!controlPoints || !controlPoints.length) {
           const { startPoint, endPoint, sourceNode, targetNode } = cfg;
@@ -504,7 +499,7 @@ const registerFn = () => {
         }
         return controlPoints;
       },
-      getPath(points: any) {
+      getPath(points) {
         const path = [];
         path.push(['M', points[0].x, points[0].y]);
         path.push([
@@ -528,7 +523,7 @@ registerFn();
 const { data } = props;
 let graph = null;
 
-const initGraph = (data?: TreeGraphData) => {
+const initGraph = (data) => {
   if (!data) {
     return;
   }
@@ -592,9 +587,10 @@ const initGraph = (data?: TreeGraphData) => {
 
 initGraph(data);
 
-window.onresize = () => {
-  if (!graph || graph.get('destroyed')) return;
-  if (!container || !container.scrollWidth || !container.scrollHeight) return;
-  graph.changeSize(container.scrollWidth, container.scrollHeight);
-};
+if (window && typeof window !== 'undefined')
+  window.onresize = () => {
+    if (!graph || graph.get('destroyed')) return;
+    if (!container || !container.scrollWidth || !container.scrollHeight) return;
+    graph.changeSize(container.scrollWidth, container.scrollHeight);
+  };
 

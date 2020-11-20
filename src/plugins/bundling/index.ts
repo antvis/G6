@@ -1,6 +1,5 @@
 import Base, { IPluginBaseConfig } from '../base';
 import Edge from '../../item/edge';
-import Node from '../../item/node';
 import Graph from '../../graph/graph';
 import { GraphData, NodeConfig, NodeConfigMap, EdgeConfig } from '../../types';
 import { Point } from '@antv/g-base/lib/types';
@@ -19,12 +18,6 @@ interface BundlingConfig extends IPluginBaseConfig {
   eps?: number;
   onLayoutEnd?: () => void;
   onTick?: () => void;
-}
-
-interface IVxyLen extends EdgeConfig {
-  length: number;
-  vx: number;
-  vy: number;
 }
 
 interface VectorPosition {
@@ -75,8 +68,8 @@ export default class Bundling extends Base {
       iterRate: 0.6666667, // 迭代下降率
       bundleThreshold: 0.6,
       eps: 1e-6,
-      onLayoutEnd() {}, // 布局完成回调
-      onTick() {}, // 每一迭代布局回调
+      onLayoutEnd() { }, // 布局完成回调
+      onTick() { }, // 每一迭代布局回调
     };
   }
 

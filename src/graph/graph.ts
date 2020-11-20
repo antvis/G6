@@ -52,10 +52,6 @@ import Hull from '../item/hull';
 const NODE = 'node';
 const SVG = 'svg';
 
-interface IGroupBBox {
-  [key: string]: BBox;
-}
-
 export interface PrivateGraphOption extends GraphOptions {
   data: GraphData;
 
@@ -2167,7 +2163,7 @@ export default class Graph extends EventEmitter implements IGraph {
       const height = this.get('height');
       let compositeOperation;
       if (backgroundColor) {
-        const pixelRatio = window.devicePixelRatio;
+        const pixelRatio = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
         imageData = context.getImageData(0, 0, width * pixelRatio, height * pixelRatio);
         compositeOperation = context.globalCompositeOperation;
         context.globalCompositeOperation = 'destination-over';
@@ -2256,7 +2252,7 @@ export default class Graph extends EventEmitter implements IGraph {
         const context = vCanvasEl.getContext('2d');
         let compositeOperation;
         if (backgroundColor) {
-          const pixelRatio = window.devicePixelRatio;
+          const pixelRatio = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
           imageData = context.getImageData(0, 0, vWidth * pixelRatio, vHeight * pixelRatio);
           compositeOperation = context.globalCompositeOperation;
           context.globalCompositeOperation = 'destination-over';
@@ -2344,7 +2340,7 @@ export default class Graph extends EventEmitter implements IGraph {
         const context = vCanvasEl.getContext('2d');
         let compositeOperation;
         if (backgroundColor) {
-          const pixelRatio = window.devicePixelRatio;
+          const pixelRatio = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
           imageData = context.getImageData(0, 0, vWidth * pixelRatio, vHeight * pixelRatio);
           compositeOperation = context.globalCompositeOperation;
           context.globalCompositeOperation = 'destination-over';

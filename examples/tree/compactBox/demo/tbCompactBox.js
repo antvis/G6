@@ -80,9 +80,10 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
     graph.render();
     graph.fitView();
 
-    window.onresize = () => {
-      if (!graph || graph.get('destroyed')) return;
-      if (!container || !container.scrollWidth || !container.scrollHeight) return;
-      graph.changeSize(container.scrollWidth, container.scrollHeight);
-    };
+    if (window && typeof window !== 'undefined')
+      window.onresize = () => {
+        if (!graph || graph.get('destroyed')) return;
+        if (!container || !container.scrollWidth || !container.scrollHeight) return;
+        graph.changeSize(container.scrollWidth, container.scrollHeight);
+      };
   });

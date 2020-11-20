@@ -41,11 +41,12 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       e.item.get('model').fy = null;
     });
 
-    window.onresize = () => {
-      if (!graph || graph.get('destroyed')) return;
-      if (!container || !container.scrollWidth || !container.scrollHeight) return;
-      graph.changeSize(container.scrollWidth, container.scrollHeight);
-    };
+    if (window && typeof window !== 'undefined')
+      window.onresize = () => {
+        if (!graph || graph.get('destroyed')) return;
+        if (!container || !container.scrollWidth || !container.scrollHeight) return;
+        graph.changeSize(container.scrollWidth, container.scrollHeight);
+      };
   });
 
 function refreshDragedNodePosition(e) {

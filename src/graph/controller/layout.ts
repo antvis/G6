@@ -11,7 +11,7 @@ import { IGraph } from '../../interface/graph';
 const mockRaf = (cb: TimerHandler) => setTimeout(cb, 16);
 const mockCaf = (reqId: number) => clearTimeout(reqId);
 
-const helper = {
+const helper = typeof window !== 'undefined' ? {
   // pollyfill
   requestAnimationFrame(callback: FrameRequestCallback) {
     const fn = window.requestAnimationFrame || window.webkitRequestAnimationFrame || mockRaf;
@@ -21,7 +21,7 @@ const helper = {
     const fn = window.cancelAnimationFrame || window.webkitCancelAnimationFrame || mockCaf;
     return fn(requestId);
   },
-};
+} : {};
 
 const GPULayoutNames = ['fruchterman', 'gForce'];
 export default class LayoutController {
@@ -272,7 +272,8 @@ export default class LayoutController {
 
     const offScreenCanvas = document.createElement('canvas');
     const gpuWorkerAbility = isGPU && !navigator[`gpu`] && // WebGPU 还不支持 OffscreenCanvas
-      'OffscreenCanvas' in window && 'transferControlToOffscreen' in offScreenCanvas;
+      typeof window !== 'undefined' && 'OffscreenCanvas' in window
+      && 'transferControlToOffscreen' in offScreenCanvas;
 
 
     // NOTE: postMessage的message参数里面不能包含函数，否则postMessage会报错，
