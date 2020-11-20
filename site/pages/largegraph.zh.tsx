@@ -1109,17 +1109,17 @@ const LargeGraph = () => {
 		});
 	}, [edgeLabelVisible]);
 
-
-	window.onresize = () => {
-		if (container && container.current) {
-			CANVAS_WIDTH = container.current.offsetWidth;
-			CANVAS_HEIGHT = container.current.offsetHeight;
-		}
-		if (graph && layout.instance) {
-			layout.instance.center = [CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2];
-			graph.changeSize(CANVAS_WIDTH, CANVAS_HEIGHT);
-		}
-	};
+	if (window && typeof window !== 'undefined')
+		window.onresize = () => {
+			if (container && container.current) {
+				CANVAS_WIDTH = container.current.offsetWidth;
+				CANVAS_HEIGHT = container.current.offsetHeight;
+			}
+			if (graph && layout.instance) {
+				layout.instance.center = [CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2];
+				graph.changeSize(CANVAS_WIDTH, CANVAS_HEIGHT);
+			}
+		};
 	return <>
 		<div ref={container} style={{ backgroundColor: '#2b2f33', height: 'calc(100vh - 100px)', width: '70%' }} />
 		<LegendPanel />
