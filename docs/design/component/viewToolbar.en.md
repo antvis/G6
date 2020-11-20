@@ -3,4 +3,4 @@ title: View Toolbar
 order: 2
 ---
 
-`markdown:./viewToolbar.zh.md`
+`markdown:docs/design/component/viewToolbar.zh.md`

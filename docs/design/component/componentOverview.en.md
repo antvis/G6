@@ -3,4 +3,4 @@ title: Component Design Overview
 order: 0
 ---
 
-`markdown:./compoenentOverview.zh.md`
+`markdown:docs/design/component/compoenentOverview.zh.md`

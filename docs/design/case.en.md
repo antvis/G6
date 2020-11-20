@@ -3,4 +3,4 @@ title: Case
 order: 6
 ---
 
-`markdown:./case.zh.md`
+`markdown:docs/design/case.zh.md`
