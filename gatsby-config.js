@@ -66,6 +66,16 @@ module.exports = {
       },
     ],
     docs: [
+      // ===========Design===================
+      {
+        slug: 'design/component',
+        title: {
+          zh: '组件设计',
+          en: 'Component Design',
+        },
+        order: 4,
+      },
+
       {
         slug: 'manual/FAQ',
         title: {
@@ -241,7 +251,7 @@ module.exports = {
           en: 'Item Functions & Options',
         },
         order: 6,
-      }
+      },
     ],
     examples: [
       {
