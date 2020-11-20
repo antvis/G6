@@ -9,4 +9,4 @@ G6 4.0 provides two kinds of GPU layout:
 
 Since the mechanism of the memory copy between GPU and CPU, the improvement is not obviouse in small graph, sometimes GPU version even performs worse than CPU. But in middle and large graph, the calculation speed of GPU might be hundreds times of CPU. The two table below shows the comparison on different scale datasets:
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*fyMGTpfyb8IAAAAAAAAAAAAAARQnAQ' width='80%'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*3rScQqqfpAAAAAAAAAAAAAAAARQnAQ' width='80%'/>

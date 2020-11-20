@@ -23,6 +23,13 @@ module.exports = {
     },
     navs: [
       {
+        slug: 'docs/design/overview',
+        title: {
+          zh: '设计体系',
+          en: 'Design System',
+        },
+      },
+      {
         slug: 'graphmarker',
         title: {
           zh: '交互式文档',
