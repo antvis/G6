@@ -758,7 +758,7 @@ export default class TrendTimeBar {
   }
 
   private startPlay() {
-    return window.requestAnimationFrame(() => {
+    return typeof window !== 'undefined' ? window.requestAnimationFrame(() => {
       const { ticks, width } = this
       const speed = this.currentSpeed
 
@@ -773,7 +773,7 @@ export default class TrendTimeBar {
       if (this.isPlay) {
         this.playHandler = this.startPlay();
       }
-    });
+    }) : undefined;
   }
 
   private changePlayStatus(isSync = true) {

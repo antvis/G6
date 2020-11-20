@@ -456,7 +456,7 @@ export default class TimeBarSlice {
   }
 
   private startPlay() {
-    return window.requestAnimationFrame(() => {
+    return typeof window !== 'undefined' ? window.requestAnimationFrame(() => {
       const speed = this.currentSpeed
 
       // 一分钟刷新一次
@@ -469,7 +469,7 @@ export default class TimeBarSlice {
       if (this.isPlay) {
         this.playHandler = this.startPlay();
       }
-    });
+    }) : undefined;
   }
 
   private updateStartEnd(sign) {
