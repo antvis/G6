@@ -3,4 +3,4 @@ title: Template
 order: 5
 ---
 
-`markdown:./template.zh.md`
+`markdown:docs/design/template.zh.md`
