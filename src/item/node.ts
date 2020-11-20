@@ -10,7 +10,6 @@ import {
   getRectIntersectByPoint,
 } from '../util/math';
 import Item from './item';
-import { clone } from '@antv/util';
 
 const CACHE_ANCHOR_POINTS = 'anchorPointsCache';
 const CACHE_BBOX = 'bboxCache';

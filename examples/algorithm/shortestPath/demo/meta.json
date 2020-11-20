@@ -11,6 +11,30 @@
         "en": "Shortest Path"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*pBV2T6BU6g8AAAAAAAAAAAAAARQnAQ"
+    },
+    {
+      "filename": "labelPropagaton.js",
+      "title": {
+        "zh": "LP 自动聚类",
+        "en": "Label Propagation Clustering"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NXkTSbPhEA0AAAAAAAAAAAAAARQnAQ"
+    },
+    {
+      "filename": "louvain.js",
+      "title": {
+        "zh": "LOUVAIN 自动聚类",
+        "en": "LOUVAIN Clustering"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OVgcSa33xBYAAAAAAAAAAAAAARQnAQ"
+    },
+    {
+      "filename": "colorSes.js",
+      "title": {
+        "zh": "自动计算色板",
+        "en": "Color Sets Compoting"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hS7MTKlo6LsAAAAAAAAAAAAAARQnAQ"
     }
   ]
 }

@@ -27,7 +27,7 @@ G6 has added graph algorithms since V3.5. In future versions, we will continue t
 
 **Usage**
 
-```
+```javascript
 import G6, { Algorithm } from '@antv/g6'
 const graph = new G6.Graph({
   container: 'container',
@@ -37,61 +37,21 @@ const graph = new G6.Graph({
 
 const data = {
   nodes: [
-    {
-      id: 'A'
-    },
-    {
-      id: 'B'
-    },
-    {
-      id: 'C'
-    },
-    {
-      id: 'D'
-    },
-    {
-      id: 'E'
-    },
-    {
-      id: 'F'
-    },
-    {
-      id: 'G'
-    },
+    { id: 'A' },
+    { id: 'B' },
+    { id: 'C' },
+    { id: 'D' },
+    { id: 'E' },
+    { id: 'F' },
+    { id: 'G' },
   ],
   edges: [
-    {
-      source: 'A',
-      target: 'B'
-    },
-    {
-      source: 'B',
-      target: 'C'
-    },
-    {
-      source: 'C',
-      target: 'G'
-    },
-    {
-      source: 'A',
-      target: 'D'
-    },
-    {
-      source: 'A',
-      target: 'E'
-    },
-    {
-      source: 'E',
-      target: 'F'
-    },
-    {
-      source: 'F',
-      target: 'D'
-    },
-    {
-      source: 'D',
-      target: 'G'
-    },
+    { source: 'A', target: 'B' },
+    { source: 'B', target: 'C' },
+    { source: 'A', target: 'C' },
+    { source: 'D', arget: 'A' },
+    { source: 'D', target: 'E' },
+    { source: 'E', target: 'F' },
   ]
 }
 
@@ -127,7 +87,7 @@ depthFirstSearch(graph, 'A', {
 
 **Usage**
 
-```
+```javascript
 import G6, { Algorithm } from '@antv/g6'
 const graph = new G6.Graph({
   container: 'container',
@@ -137,61 +97,21 @@ const graph = new G6.Graph({
 
 const data = {
   nodes: [
-    {
-      id: 'A'
-    },
-    {
-      id: 'B'
-    },
-    {
-      id: 'C'
-    },
-    {
-      id: 'D'
-    },
-    {
-      id: 'E'
-    },
-    {
-      id: 'F'
-    },
-    {
-      id: 'G'
-    },
+    { id: 'A' },
+    { id: 'B' },
+    { id: 'C' },
+    { id: 'D' },
+    { id: 'E' },
+    { id: 'F' },
+    { id: 'G' },
   ],
   edges: [
-    {
-      source: 'A',
-      target: 'B'
-    },
-    {
-      source: 'B',
-      target: 'C'
-    },
-    {
-      source: 'C',
-      target: 'G'
-    },
-    {
-      source: 'A',
-      target: 'D'
-    },
-    {
-      source: 'A',
-      target: 'E'
-    },
-    {
-      source: 'E',
-      target: 'F'
-    },
-    {
-      source: 'F',
-      target: 'D'
-    },
-    {
-      source: 'D',
-      target: 'G'
-    },
+    { source: 'A', target: 'B' },
+    { source: 'B', target: 'C' },
+    { source: 'A', target: 'C' },
+    { source: 'D', arget: 'A' },
+    { source: 'D', target: 'E' },
+    { source: 'E', target: 'F' },
   ]
 }
 
@@ -207,6 +127,183 @@ breadthFirstSearch(graph, 'A', {
     // The callback function for the traversal's ending
   },
 })
+```
+
+
+### labelPropagation
+
+*Supported after G6 4.0* Label Propagation compute the clusters for graph data automatically. Compare to LOUVAIN, Label Propagation has lower time complexity.
+
+References: https://en.wikipedia.org/wiki/Label_propagation_algorithm
+
+**Parameters**
+
+| Name  | Type   | Required | Description       |
+| ----- | ------ | -------- | ----------------- |
+| data | GraphData | true     | Graph data |
+| directed | Boolean | false     | Whether it is a directed graph, false by default |
+| weightPropertyName | String | false     | The property name of the edge weight, `'weight' by default. If there is no weight in each edge, every edge has unit weight |
+| maxIteration | Number | false     | Max iteration number, 10000 by default |
+
+**Return**
+
+Returns the clustered data with `clusters` and `clusterEdges` arrays. And each node data in the input `data` will be assigned with corresponding `clusterId`. The type of the return value is:
+
+```typescript
+interface ClusterData {
+  clusters: { // Clusters array
+    id: string; // the ID of a cluster
+    nodes: NodeConfig[]; // the nodes in the cluster
+  }[];
+  clusterEdges: { // The edges between clusters
+    source: string, // source cluster ID
+    target: string, // target cluster ID
+    count: number  // the real edges number of this cluster edge
+  }[]; 
+}
+```
+
+Example of the return value: 
+
+```javascript
+{
+  clusters: [
+    {id: 'cluster1', nodes: [ {id: 'node1', clusterId: 'cluster1'}, {id: 'node2', clusterId: 'cluster1'} ]},
+    {id: 'cluster2', nodes: [ {id: 'node3', clusterId: 'cluster2'} ]},
+  ],
+  clusterEdges: [
+    {source: 'cluster1', target: 'cluster2', count: 10},
+    {source: 'cluster1', target: 'cluster1', count: 3},
+  ]
+}
+```
+
+**Usage**
+
+```javascript
+import G6, { Algorithm } from '@antv/g6'
+const graph = new G6.Graph({
+  container: 'container',
+  width: 500,
+  height: 500
+})
+
+const data = {
+  nodes: [
+    { id: 'A' },
+    { id: 'B' },
+    { id: 'C' },
+    { id: 'D' },
+    { id: 'E' },
+    { id: 'F' },
+    { id: 'G' },
+  ],
+  edges: [
+    { source: 'A', target: 'B' },
+    { source: 'B', target: 'C' },
+    { source: 'A', target: 'C' },
+    { source: 'D', arget: 'A' },
+    { source: 'D', target: 'E' },
+    { source: 'E', target: 'F' },
+  ]
+}
+
+graph.data(data)
+graph.render()
+
+const { labelPropagation } = Algorithm
+
+// result includes clusters array and clusterEdges array. Each node in the data will be assigned with corresponding clusterId
+let result = labelPropagation(data)
+```
+
+
+### louvain
+
+*Supported after G6 4.0* LOUVAIN auto clustering algorithm cluster the nodes according to the edge density between nodes. Compare to Label Propagation, LOUVAIN is more accurate.
+
+References: https://en.wikipedia.org/wiki/Louvain_method
+
+**Parameters**
+
+| Name  | Type   | Required | Description       |
+| ----- | ------ | -------- | ----------------- |
+| data | GraphData | true     | Graph data |
+| directed | Boolean | false     | Whether it is a directed graph, false by default |
+| weightPropertyName | String | false     | The property name of the edge weight, `'weight' by default. If there is no weight in each edge, every edge has unit weight |
+| threshold | Number | false     | The convergence threshold, 0.0001 by default |
+
+**Return**
+
+Returns the clustered data with `clusters` and `clusterEdges` arrays. And each node data in the input `data` will be assigned with corresponding `clusterId`. The type of the return value is:
+
+```typescript
+interface ClusterData {
+  clusters: { // Clusters array
+    id: string; // the ID of a cluster
+    nodes: NodeConfig[]; // the nodes in the cluster
+    sumTot?: number; // The number of edges in the cluster
+  }[];
+  clusterEdges: { // The edges between clusters
+    source: string, // source cluster ID
+    target: string, // target cluster ID
+    count: number  // the real edges number of this cluster edge
+  }[]; 
+}
+```
+
+Example of the return value: 
+
+```javascript
+{
+  clusters: [
+    {id: 'cluster1', sumTot: 8, nodes: [ {id: 'node1', clusterId: 'cluster1'}, {id: 'node2', clusterId: 'cluster1'} ]},
+    {id: 'cluster2', sumTot: 15, nodes: [ {id: 'node3', clusterId: 'cluster2'} ]},
+  ],
+  clusterEdges: [
+    {source: 'cluster1', target: 'cluster2', count: 10},
+    {source: 'cluster1', target: 'cluster1', count: 3},
+  ]
+}
+```
+
+**Usage**
+
+```javascript
+import G6, { Algorithm } from '@antv/g6'
+const graph = new G6.Graph({
+  container: 'container',
+  width: 500,
+  height: 500
+})
+
+const data = {
+  nodes: [
+    { id: 'A' },
+    { id: 'B' },
+    { id: 'C' },
+    { id: 'D' },
+    { id: 'E' },
+    { id: 'F' },
+    { id: 'G' },
+  ],
+  edges: [
+    { source: 'A', target: 'B' },
+    { source: 'B', target: 'C' },
+    { source: 'A', target: 'C' },
+    { source: 'D', arget: 'A' },
+    { source: 'D', target: 'E' },
+    { source: 'E', target: 'F' },
+  ]
+}
+
+graph.data(data)
+graph.render()
+
+const { louvain } = Algorithm
+
+// result includes clusters array and clusterEdges array. Each node in the data will be assigned with corresponding clusterId
+let result = louvain(data)
 ```
 
 ### detectDirectedCycle
@@ -232,64 +329,32 @@ Returns the detected cycle. Returns `null` if there is no cycle.
 **Usage**
 
 ```javascript
-import G6, { Algorithm } from '@antv/g6';
+import G6, { Algorithm } from '@antv/g6'
 const graph = new G6.Graph({
   container: 'container',
   width: 500,
-  height: 500,
-});
+  height: 500
+})
 
 const data = {
   nodes: [
-    {
-      id: 'A',
-    },
-    {
-      id: 'B',
-    },
-    {
-      id: 'C',
-    },
-    {
-      id: 'D',
-    },
-    {
-      id: 'E',
-    },
-    {
-      id: 'F',
-    },
-    {
-      id: 'G',
-    },
+    { id: 'A' },
+    { id: 'B' },
+    { id: 'C' },
+    { id: 'D' },
+    { id: 'E' },
+    { id: 'F' },
+    { id: 'G' },
   ],
   edges: [
-    {
-      source: 'A',
-      target: 'B',
-    },
-    {
-      source: 'B',
-      target: 'C',
-    },
-    {
-      source: 'A',
-      target: 'C',
-    },
-    {
-      source: 'D',
-      target: 'A',
-    },
-    {
-      source: 'D',
-      target: 'E',
-    },
-    {
-      source: 'E',
-      target: 'F',
-    },
-  ],
-};
+    { source: 'A', target: 'B' },
+    { source: 'B', target: 'C' },
+    { source: 'A', target: 'C' },
+    { source: 'D', arget: 'A' },
+    { source: 'D', target: 'E' },
+    { source: 'E', target: 'F' },
+  ]
+}
 
 graph.data(data);
 graph.render();
