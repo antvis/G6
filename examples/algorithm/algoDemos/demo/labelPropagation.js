@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
 
-const { louvain } = G6.Algorithm;
+const { labelPropagation } = G6.Algorithm;
 
 const button = document.createElement('button');
 button.innerHTML = `Click Here to Clustering 点此自动聚类`;
@@ -35,7 +35,8 @@ const graph = new G6.Graph({
     default: ['drag-canvas', 'drag-node', 'zoom-canvas'],
   },
   layout: {
-    type: 'gForce'
+    type: 'gForce',
+    minMovement: 0.1
   }
 });
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
@@ -46,7 +47,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
     graph.render();
 
     button.addEventListener('click', e => {
-      const clusteredData = louvain(data, false);
+      const clusteredData = labelPropagation(data, false);
       clusteredData.clusters.forEach((cluster, i) => {
         const colorSet = colorSets[i % colorSets.length];
         cluster.nodes.forEach(node => {

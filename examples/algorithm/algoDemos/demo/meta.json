@@ -13,7 +13,7 @@
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*pBV2T6BU6g8AAAAAAAAAAAAAARQnAQ"
     },
     {
-      "filename": "labelPropagaton.js",
+      "filename": "labelPropagation.js",
       "title": {
         "zh": "LP 自动聚类",
         "en": "Label Propagation Clustering"
@@ -29,7 +29,7 @@
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OVgcSa33xBYAAAAAAAAAAAAAARQnAQ"
     },
     {
-      "filename": "colorSes.js",
+      "filename": "colorSets.js",
       "title": {
         "zh": "自动计算色板",
         "en": "Color Sets Compoting"

@@ -74,7 +74,7 @@ const graph = new G6.Graph({
 
 ## layoutCfg.minMovement
 
-**Type**: Number<br />**Default**: 1<br />**Required**: false<br />**Description**: When the average movement of nodes in one iteration is smaller than `minMovement`, terminate the layout
+**Type**: Number<br />**Default**: 0.5<br />**Required**: false<br />**Description**: When the average movement of nodes in one iteration is smaller than `minMovement`, terminate the layout
 
 ## layoutCfg.maxIteration
 
