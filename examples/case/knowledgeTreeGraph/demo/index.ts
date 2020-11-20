@@ -218,7 +218,7 @@ G6.registerEdge('smooth', {
 });
 
 const data = {
-  "id": 200000004,
+  "id": '200000004',
   "tooltip": "Thing",
   "label": "事物",
   "description": null,
@@ -228,7 +228,7 @@ const data = {
   "status": 0,
   "children": [
     {
-      "id": 500000061,
+      "id": '500000061',
       "tooltip": "Person",
       "label": "自然人",
       "description": null,
@@ -239,7 +239,7 @@ const data = {
       "children": [
         {
 
-          "id": 707000085,
+          "id": '707000085',
           "tooltip": "FilmPerson",
           "label": "电影人",
           "description": null,
@@ -249,7 +249,7 @@ const data = {
           "status": 1,
           "children": [
             {
-              "id": 707000090,
+              "id": '707000090',
               "tooltip": "FilmDirector",
               "label": "电影导演",
               "description": null,
@@ -261,7 +261,7 @@ const data = {
             },
             {
 
-              "id": 707000091,
+              "id": '707000091',
               "tooltip": "FilmWriter",
               "label": "电影编剧",
               "description": null,
@@ -273,7 +273,7 @@ const data = {
             },
             {
 
-              "id": 707000092,
+              "id": '707000092',
               "tooltip": "FilmStar",
               "label": "电影主演",
               "description": null,
@@ -287,7 +287,7 @@ const data = {
         },
         {
 
-          "id": 707000086,
+          "id": '707000086',
           "tooltip": "MusicPerson",
           "label": "音乐人",
           "description": null,
@@ -301,7 +301,7 @@ const data = {
     },
     {
 
-      "id": 200000005,
+      "id": '200000005',
       "tooltip": "Music",
       "label": "音乐",
       "description": null,
@@ -313,7 +313,7 @@ const data = {
     },
     {
 
-      "id": 707000128,
+      "id": '707000128',
       "tooltip": "Film",
       "label": "电影",
       "description": null,
@@ -324,7 +324,7 @@ const data = {
       "children": [
         {
 
-          "id": 7070032328,
+          "id": '7070032328',
           "tooltip": "Comedy",
           "label": "喜剧",
           "description": null,
@@ -339,7 +339,7 @@ const data = {
     },
     {
 
-      "id": 707000095,
+      "id": '707000095',
       "tooltip": "FilmGenre",
       "label": "电影类别",
       "description": null,
@@ -351,7 +351,7 @@ const data = {
     },
     {
 
-      "id": 702000021,
+      "id": '702000021',
       "tooltip": "Organization",
       "label": "机构",
       "description": null,
@@ -362,7 +362,7 @@ const data = {
       "children": [
         {
 
-          "id": 500000063,
+          "id": '500000063',
           "tooltip": "Company",
           "label": "公司",
           "description": null,
@@ -373,7 +373,7 @@ const data = {
           "children": [
             {
 
-              "id": 707000093,
+              "id": '707000093',
               "tooltip": "FilmCompany",
               "label": "电影公司",
               "description": null,
@@ -385,7 +385,7 @@ const data = {
             },
             {
 
-              "id": 707000094,
+              "id": '707000094',
               "tooltip": "MusicCompany",
               "label": "音乐公司",
               "description": null,

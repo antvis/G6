@@ -115,7 +115,7 @@ G6.registerNode('aggregated-node', {
         width,
         height,
         fill: colorSet.mainFill, // || '#3B4043',
-        stroke: '#AAB7C4',
+        stroke: colorSet.mainStroke,
         lineWidth: 2,
         cursor: 'pointer',
         radius: (height / 2) || 13,
