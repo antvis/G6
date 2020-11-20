@@ -1,20 +1,20 @@
 ---
 title: 全局交互
 order: 1
-redirect_from:
-  - /zh/docs/design/interactive
 ---
 
 ### 引言
 在图可视化分析的实际场景中，往往会发现静态演示不足以满足我们的业务需求，这种情况在海量数据的情况下尤为显著。若将巨量的数据完整地排布到可视化空间中，会发现信息密度远远超过了人的可读范围（图1.1）。在只需传达给观者大致感知与情绪冲击的场景，这样的方式是适用的，但要解决更具体的问题或获取更深度的洞察时，就变得举步维艰。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mi1QTZ9LC7oAAAAAAAAAAAAAARQnAQ' width='100%' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mi1QTZ9LC7oAAAAAAAAAAAAAARQnAQ' width='90%' />
+
 > 图1.1  《人际关系星形图》（ Personal Friendster ） - Jeffrey  Heer 2004
-Personal Friendster 是 Vizster 在线社交网络可视化项目的一部分，加利福利亚大学伯克利分校的 Jeffrey 教授采集了自己在社交网络 Friendster 中的三度人际关系数据，通过力导向布局可视化了以自己为中心的 47471 人与 432430 段关系，该图颠覆了人的认知：仅仅三度关系，就能构建出如此庞大的社交网络。这是该项目希望达成的目标，但要在如此庞大的节点与边中去探索具体的人与关系，作为静态图无疑是不可能的。
+> Personal Friendster 是 Vizster 在线社交网络可视化项目的一部分，加利福利亚大学伯克利分校的 Jeffrey 教授采集了自己在社交网络 Friendster 中的三度人际关系数据，通过力导向布局可视化了以自己为中心的 47471 人与 432430 段关系，该图颠覆了人的认知：仅仅三度关系，就能构建出如此庞大的社交网络。这是该项目希望达成的目标，但要在如此庞大的节点与边中去探索具体的人与关系，作为静态图无疑是不可能的。
 
 为了使图能传达具体的信息，而不仅只是模糊的感知，需要将可视化空间中的图元数量限制在人肉眼可识别能力的范围内。并在下一步提供恰当的交互，来使用户渐进式地发现更丰富与多维的信息（图1.2）。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*scg7QY5DZkEAAAAAAAAAAAAAARQnAQ' width='100%' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*scg7QY5DZkEAAAAAAAAAAAAAARQnAQ' width='90%' />
+
 > 图2.2  GraphStudio - Alibaba Inc.
 > 通过条件筛选、搜索、双击展开关系等等交互方式探索数据，令用户能够依照自己的分析目标去发现各个颗粒度的数据与关系
 
@@ -35,23 +35,18 @@ Personal Friendster 是 Vizster 在线社交网络可视化项目的一部分，
 #### 通用交互
 | **通用交互** | **触发** | **演示** |
 | :--- | :--- | --- |
-|  缩放画布 | 🖱 鼠标：滚轮向上/向下
-⌨️ 键盘：「⌘(Ctrl)」+「+/-」
-💻 触控板：双指展开/合并
-🎚 专用控件 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_5oISaHHhcMAAAAAAAAAAAAAARQnAQ' width='100%' /> |
-|  移动画布 | 🖱鼠标：拖拽
-💻触控板：双指移动
-🖱键鼠：Space键+拖拽（当与框选操作冲突时） | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XqFMQZEHwHEAAAAAAAAAAAAAARQnAQ' width='100%' /> |
-| 回到概览 | ⌨️键盘：「Ctrl/⌘」+「1」 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GmJLSIMnw24AAAAAAAAAAAAAARQnAQ' width='100%' /> |
+|  缩放画布 | 🖱 鼠标：滚轮向上/向下 <br /> ⌨️ 键盘：「⌘(Ctrl)」+「+/-」 <br /> 💻 触控板：双指展开/合并 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_5oISaHHhcMAAAAAAAAAAAAAARQnAQ' width='200' /> |
+|  移动画布 | 🖱鼠标：拖拽 <br /> 💻触控板：双指移动 <br /> 🖱键鼠：Space键+拖拽（当与框选操作冲突时） | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XqFMQZEHwHEAAAAAAAAAAAAAARQnAQ' width='200' /> |
+| 回到概览 | ⌨️键盘：「Ctrl/⌘」+「1」 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GmJLSIMnw24AAAAAAAAAAAAAARQnAQ' width='200' /> |
 
 #### 扩展交互
 | **扩展交互** | **触发** | **演示** |
 | --- | --- | --- |
-|  鱼眼 |  🎚专用控件 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FSt4SYyvmZAAAAAAAAAAAAAAARQnAQ' width='100%' /> |
-|  布局切换 |  🎚专用控件 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*TzjdTbNDss4AAAAAAAAAAAAAARQnAQ' width='100%' /> |
-|  时序过滤 | 🎚 专用控件 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sHktSpkzVWkAAAAAAAAAAAAAARQnAQ' width='100%' /> |
-|  边过滤 | 🎚 专用控件 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*BrC_SYkxiK8AAAAAAAAAAAAAARQnAQ' width='100%' /> |
-|  缩略图 | 🎚 专用控件 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*y1NPRZkIFXQAAAAAAAAAAAAAARQnAQ' width='100%' /> |
+|  鱼眼 |  🎚专用控件 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FSt4SYyvmZAAAAAAAAAAAAAAARQnAQ' width='200' /> |
+|  布局切换 |  🎚专用控件 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*TzjdTbNDss4AAAAAAAAAAAAAARQnAQ' width='200' /> |
+|  时序过滤 | 🎚 专用控件 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sHktSpkzVWkAAAAAAAAAAAAAARQnAQ' width='200' /> |
+|  边过滤 | 🎚 专用控件 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*BrC_SYkxiK8AAAAAAAAAAAAAARQnAQ' width='200' /> |
+|  缩略图 | 🎚 专用控件 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*y1NPRZkIFXQAAAAAAAAAAAAAARQnAQ' width='200' /> |
 
 
 ### 节点 Node
@@ -59,29 +54,21 @@ Personal Friendster 是 Vizster 在线社交网络可视化项目的一部分，
 
 | **通用交互** | **触发** | **演示** |
 | :--- | :--- | --- |
-|  指向节点 | 🖱鼠标：悬停 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*49DDTpvSH24AAAAAAAAAAAAAARQnAQ' width='100%' /> |
-|  选中节点 | 🖱鼠标：单击 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*CiB9SY2GrgYAAAAAAAAAAAAAARQnAQ' width='100%' /> |
-|  探索节点 | 🖱鼠标：双击
-⌨️ 键盘：Enter | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ib3kTpoMtsgAAAAAAAAAAAAAARQnAQ' width='100%' /> |
-|  取消选中 | 🖱鼠标：单击空白区域
-⌨️ 键盘：Esc | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*QAD9S6YX3ScAAAAAAAAAAAAAARQnAQ' width='100%' /> |
+|  指向节点 | 🖱鼠标：悬停 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*49DDTpvSH24AAAAAAAAAAAAAARQnAQ' width='200' /> |
+|  选中节点 | 🖱鼠标：单击 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*CiB9SY2GrgYAAAAAAAAAAAAAARQnAQ' width='200' /> |
+|  探索节点 | 🖱鼠标：双击 <br /> ⌨️ 键盘：Enter | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ib3kTpoMtsgAAAAAAAAAAAAAARQnAQ' width='200' /> |
+|  取消选中 | 🖱鼠标：单击空白区域 <br /> ⌨️ 键盘：Esc | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*QAD9S6YX3ScAAAAAAAAAAAAAARQnAQ' width='200' /> |
 
 
 #### 扩展交互
 
 | **扩展交互** | **触发** | **演示** |
 | --- | --- | --- |
-|  多选节点 | ⌨️🖱键鼠：Shift + 长按移动
-⌨️🖱键鼠：Shift + 单击
-
-🖱鼠标：长按移动（当与拖拽画布操作不冲突时）
-🎚控件：套索 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*R_gRS7We1OsAAAAAAAAAAAAAARQnAQ' width='100%' />
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*U-3RTZYZGuoAAAAAAAAAAAAAARQnAQ' width='100%' />
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wRPnQYcQZeIAAAAAAAAAAAAAARQnAQ' width='100%' /> |
-|  移动节点 | 🖱鼠标：拖拽 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7vPdS6r6rOsAAAAAAAAAAAAAARQnAQ' width='100%' /> |
-|  改变节点层级 | 🖱鼠标：拖拽 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*nZFwQ5ZyRtcAAAAAAAAAAAAAARQnAQ' width='100%' /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*nYw8Rab5f9wAAAAAAAAAAAAAARQnAQ' width='100%' /> |
-|  高亮相邻节点 | 📃 事件：选中节点 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*UD-YTJdWc6oAAAAAAAAAAAAAARQnAQ' width='100%' /> |
-|  高亮最短路径 | 🎚专用控件 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*c18tRIO5DhAAAAAAAAAAAAAAARQnAQ' width='100%' /> |
+|  多选节点 | ⌨️🖱键鼠：Shift + 长按移动 <br /> ⌨️🖱键鼠：Shift + 单击 <br /> 🖱鼠标：长按移动（当与拖拽画布操作不冲突时） <br /> 🎚控件：套索 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*R_gRS7We1OsAAAAAAAAAAAAAARQnAQ' width='200' /> <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*U-3RTZYZGuoAAAAAAAAAAAAAARQnAQ' width='200' /> <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wRPnQYcQZeIAAAAAAAAAAAAAARQnAQ' width='200' /> |
+|  移动节点 | 🖱鼠标：拖拽 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7vPdS6r6rOsAAAAAAAAAAAAAARQnAQ' width='200' /> |
+|  改变节点层级 | 🖱鼠标：拖拽 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*nZFwQ5ZyRtcAAAAAAAAAAAAAARQnAQ' width='200' /> <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*nYw8Rab5f9wAAAAAAAAAAAAAARQnAQ' width='200' /> |
+|  高亮相邻节点 | 📃 事件：选中节点 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*UD-YTJdWc6oAAAAAAAAAAAAAARQnAQ' width='200' /> |
+|  高亮最短路径 | 🎚专用控件 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*c18tRIO5DhAAAAAAAAAAAAAAARQnAQ' width='200' /> |
 
 
 ### 边 Edge
@@ -89,18 +76,15 @@ Personal Friendster 是 Vizster 在线社交网络可视化项目的一部分，
 
 | **通用交互** | **触发** | **演示** |
 | :--- | :--- | --- |
-|  指向边 | 🖱鼠标：悬停 | <img src='' width='100%' /> |
-|  选中边 | 🖱鼠标：单击 | <img src='' width='100%' /> |
-|  取消选中 | 🖱鼠标：单击空白区域
- ️ 键盘：Esc | <img src='' width='100%' /> |
+|  指向边 | 🖱鼠标：悬停 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M_JRSpYs41UAAAAAAAAAAAAAARQnAQ' width='200' /> |
+|  选中边 | 🖱鼠标：单击 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XWf4QY3T1-UAAAAAAAAAAAAAARQnAQ' width='200' /> |
+|  取消选中 | 🖱鼠标：单击空白区域 <br /> 键盘：Esc | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZpPCTIEv_P0AAAAAAAAAAAAAARQnAQ' width='200' /> |
 
 #### 扩展交互
 
 | **扩展交互** | **触发** | **演示** |
 | :--- | :--- | --- |
-|  多选边 | ⌨️🖱键鼠：Shift + 单击
-⌨️🖱键鼠：Shift + 长按移动
-🖱鼠标：长按移动（当与拖拽画布操作不冲突时） | <img src='' width='100%' /> |
+|  多选边 | ⌨️🖱键鼠：Shift + 单击 <br /> ⌨️🖱键鼠：Shift + 长按移动 <br /> 🖱鼠标：长按移动（当与拖拽画布操作不冲突时） | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0sbEQ4MwGaEAAAAAAAAAAAAAARQnAQ' width='200' /> |
 
 
 ### 组 Combo
@@ -108,25 +92,19 @@ Personal Friendster 是 Vizster 在线社交网络可视化项目的一部分，
 
 | **通用交互** | **触发** | **演示** |
 | :--- | :--- | --- |
-|  指向 Combo | 🖱鼠标：悬停 | <img src='' width='100%' /> |
-|  选中 Combo | 🖱鼠标：单击
- | <img src='' width='100%' /> |
-|  展开/收起 Combo | 🖱鼠标：双击
- ️ 键盘：Enter
-🎚专用控件 | <img src='' width='100%' /> |
-|  取消选中 Combo | 🖱鼠标：单击空白区域
- ️ 键盘：Esc | 
-<img src='' width='100%' /> |
+|  指向 Combo | 🖱鼠标：悬停 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*38e4S7Es9HQAAAAAAAAAAAAAARQnAQ' width='200' /> |
+|  选中 Combo | 🖱鼠标：单击 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XYQNTa7-VP8AAAAAAAAAAAAAARQnAQ' width='200' /> |
+|  展开/收起 Combo | 🖱鼠标：双击 <br /> 键盘：Enter <br /> 🎚专用控件 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ONVySZjGT0wAAAAAAAAAAAAAARQnAQ' width='200' /> |
+|  取消选中 Combo | 🖱鼠标：单击空白区域 <br /> 键盘：Esc | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EjPSR7zXdwsAAAAAAAAAAAAAARQnAQ' width='200' /> |
 
 
 #### 扩展交互
 
 | **扩展交互** | **触发** | **演示** |
 | --- | --- | --- |
-|  多选 Combo | ⌨️🖱键鼠：Shift + 单击
- | <img src='' width='100%' /> |
-|  移动 Combo | 🖱鼠标：拖拽 | <img src='' width='100%' /> |
-|  改变 Combo 层级 | 🖱鼠标：拖拽 | <img src='' width='100%' /> |
+|  多选 Combo | ⌨️🖱键鼠：Shift + 单击 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*283LT65gBx8AAAAAAAAAAAAAARQnAQ' width='200' /> |
+|  移动 Combo | 🖱鼠标：拖拽 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KJ_1SIVlGQMAAAAAAAAAAAAAARQnAQ' width='200' /> |
+|  改变 Combo 层级 | 🖱鼠标：拖拽 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*DpQSQpHc8EUAAAAAAAAAAAAAARQnAQ' width='200' /> |
 
 
 ## 快捷操作
@@ -135,10 +113,9 @@ Personal Friendster 是 Vizster 在线社交网络可视化项目的一部分，
 
 | **通用交互** | **触发** | **演示** |
 | :--- | :--- | --- |
-|  撤销 | ⌨️ 键盘：「Ctrl/⌘」+「z」 | <img src='' width='100%' /> |
-|  重做 | ⌨️ 键盘：「Ctrl/⌘」+「Shift」+「z」 | 
-<img src='' width='100%' /> |
-|  右键菜单 | 🖱鼠标：右键单击 | <img src='' width='100%' /><img src='' width='100%' /> |
+|  撤销 | ⌨️ 键盘：「Ctrl/⌘」+「z」 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*QeZmS69JMAkAAAAAAAAAAAAAARQnAQ' width='200' /> |
+|  重做 | ⌨️ 键盘：「Ctrl/⌘」+「Shift」+「z」 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0EEjQaOylVIAAAAAAAAAAAAAARQnAQ' width='200' /> |
+|  右键菜单 | 🖱鼠标：右键单击 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9z8MTqE_xTEAAAAAAAAAAAAAARQnAQ' width='200' /> <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dhWPSLIBwhgAAAAAAAAAAAAAARQnAQ' width='200' /> |
 
 
 ## 交互模式
@@ -147,10 +124,10 @@ Personal Friendster 是 Vizster 在线社交网络可视化项目的一部分，
 ### 由表及里
 Ben Shneiderman 于 1996 年提出可视化信息检索的箴言 **Overview First, Zoom and Filter, Then Details-on-Demand**，它符合人类寻求信息的基本逻辑：先概览，然后局部，最后聚焦兴趣点进行探索，这是一个由表及里的过程。
 
-<img src='' width='100%' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xS7mS5I3AxgAAAAAAAAAAAAAARQnAQ' width='90%' />
 
 
 ### 以点及面
 得益于搜索等技术的成熟，可视分析系统已经能够快速定位到用户所关注的对象，特别是已经有明确的分析目标时，这类场景就不必要由整体顺着数据结构向下慢慢地探索，而更多的是基于所关注的对象去延伸与发现它周边的关系与详细信息。
 
-<img src='' width='100%' />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XZadQYEyu3UAAAAAAAAAAAAAARQnAQ' width='90%' />
