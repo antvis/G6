@@ -55,6 +55,10 @@ const graph = new G6.Graph({
         type: 'drag-canvas',
         enableOptimize: true, // enable the optimize to hide the shapes beside nodes' keyShape
       },
+      {
+        type: 'zoom-canvas',
+        enableOptimize: true, // enable the optimize to hide the shapes beside nodes' keyShape
+      },
     ],
   },
   defaultNode: {
