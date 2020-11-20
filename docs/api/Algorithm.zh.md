@@ -209,6 +209,182 @@ breadthFirstSearch(graph, 'A', {
 })
 ```
 
+### labelPropagation
+
+*G6 4.0 起支持* 标签传播算法，自动为数据聚类。优势：速度较 LOUVAIN 快。
+
+参考资料：https://en.wikipedia.org/wiki/Label_propagation_algorithm
+
+**参数**
+
+| 名称  | 类型   | 是否必选 | 描述          |
+| ----- | ------ | -------- | ------------- |
+| data | GraphData | true     | 图数据 |
+| directed | Boolean | false     | 是否是有向图，默认为 false |
+| weightPropertyName | String | false     | 边权重的属名称，默认为 `'weight'，若数据中没有权重，则默认每条边权重为 1 |
+| maxIteration | Number | false     | 最大迭代次数，默认为 1000 |
+
+**返回值**
+
+返回聚合数据，并为输入的 `data` 中的每个节点数据加上 `clusterId` 字段。聚合数据 `ClusterData` 类型如下：
+
+```typescript
+interface ClusterData {
+  clusters: { // 聚类数组
+    id: string; // 聚类 Id
+    nodes: NodeConfig[]; // 该聚类包含的节点
+  }[];
+  clusterEdges: { // 聚类与聚类之间的边数组
+    source: string, // 起点聚类 id
+    target: string, // 终点聚类 id
+    count: number  // 该边所包含的真实边个数
+  }[]; 
+}
+```
+
+返回值示例：
+
+```javascript
+{
+  clusters: [
+    {id: 'cluster1', nodes: [ {id: 'node1', clusterId: 'cluster1'}, {id: 'node2', clusterId: 'cluster1'} ]},
+    {id: 'cluster2', nodes: [ {id: 'node3', clusterId: 'cluster2'} ]},
+  ],
+  clusterEdges: [
+    {source: 'cluster1', target: 'cluster2', count: 10},
+    {source: 'cluster1', target: 'cluster1', count: 3},
+  ]
+}
+```
+
+**用法**
+
+```javascript
+import G6, { Algorithm } from '@antv/g6'
+const graph = new G6.Graph({
+  container: 'container',
+  width: 500,
+  height: 500
+})
+
+const data = {
+  nodes: [
+    { id: 'A' },
+    { id: 'B' },
+    { id: 'C' },
+    { id: 'D' },
+    { id: 'E' },
+    { id: 'F' },
+    { id: 'G' },
+  ],
+  edges: [
+    { source: 'A', target: 'B' },
+    { source: 'B', target: 'C' },
+    { source: 'A', target: 'C' },
+    { source: 'D', arget: 'A' },
+    { source: 'D', target: 'E' },
+    { source: 'E', target: 'F' },
+  ]
+}
+
+graph.data(data)
+graph.render()
+
+const { labelPropagation } = Algorithm
+
+// result 中包含 clusters 与 clusterEdges 数组。data 中的每个节点数据将带有 clusterId 字段
+let result = labelPropagation(data)
+```
+
+
+### louvain
+
+*G6 4.0 起支持* LOUVAIN 自动聚类算法。优势：根据节点间的紧密程度计算，较之于 Label Propagation 更准确。
+
+参考资料：https://en.wikipedia.org/wiki/Louvain_method
+
+**参数**
+
+| 名称  | 类型   | 是否必选 | 描述          |
+| ----- | ------ | -------- | ------------- |
+| data | GraphData | true     | 图数据 |
+| directed | Boolean | false     | 是否是有向图，默认为 false |
+| weightPropertyName | String | false     | 边权重的属名称，默认为 `'weight'，若数据中没有权重，则默认每条边权重为 1 |
+| threshold | Number | false     | 停止迭代的阈值，默认为 0.0001 |
+
+**返回值**
+
+返回聚合数据，并为输入的 `data` 中的每个节点数据加上 `clusterId` 字段。聚合数据 `ClusterData` 类型如下：
+
+```typescript
+interface ClusterData {
+  clusters: { // 聚类数组
+    id: string; // 聚类 Id
+    nodes: NodeConfig[]; // 该聚类包含的节点
+    sumTot?: number; // 该聚类内部边总数
+  }[];
+  clusterEdges: { // 聚类与聚类之间的边数组
+    source: string, // 起点聚类 id
+    target: string, // 终点聚类 id
+    count: number  // 该边所包含的真实边个数
+  }[]; 
+}
+```
+
+返回值示例：
+
+```javascript
+{
+  clusters: [
+    {id: 'cluster1', sumTot: 8, nodes: [ {id: 'node1', clusterId: 'cluster1'}, {id: 'node2', clusterId: 'cluster1'} ]},
+    {id: 'cluster2', sumTot: 15, nodes: [ {id: 'node3', clusterId: 'cluster2'} ]},
+  ],
+  clusterEdges: [
+    {source: 'cluster1', target: 'cluster2', count: 10},
+    {source: 'cluster1', target: 'cluster1', count: 3},
+  ]
+}
+```
+
+**用法**
+
+```javascript
+import G6, { Algorithm } from '@antv/g6'
+const graph = new G6.Graph({
+  container: 'container',
+  width: 500,
+  height: 500
+})
+
+const data = {
+  nodes: [
+    { id: 'A' },
+    { id: 'B' },
+    { id: 'C' },
+    { id: 'D' },
+    { id: 'E' },
+    { id: 'F' },
+    { id: 'G' },
+  ],
+  edges: [
+    { source: 'A', target: 'B' },
+    { source: 'B', target: 'C' },
+    { source: 'A', target: 'C' },
+    { source: 'D', arget: 'A' },
+    { source: 'D', target: 'E' },
+    { source: 'E', target: 'F' },
+  ]
+}
+
+graph.data(data)
+graph.render()
+
+const { louvain } = Algorithm
+
+// result 中包含 clusters 与 clusterEdges 数组。data 中的每个节点数据将带有 clusterId 字段
+let result = louvain(data)
+```
+
 ### detectDirectedCycle
 
 在给定的有向图中，检查是否包括圈。如果给定的图中至少包括一个圈，则返回包括的第一个圈，否则返回 null。
@@ -231,7 +407,7 @@ breadthFirstSearch(graph, 'A', {
 
 **用法**
 
-```
+```javascript
 import G6, { Algorithm } from '@antv/g6'
 const graph = new G6.Graph({
   container: 'container',
@@ -241,53 +417,21 @@ const graph = new G6.Graph({
 
 const data = {
   nodes: [
-    {
-      id: 'A'
-    },
-    {
-      id: 'B'
-    },
-    {
-      id: 'C'
-    },
-    {
-      id: 'D'
-    },
-    {
-      id: 'E'
-    },
-    {
-      id: 'F'
-    },
-    {
-      id: 'G'
-    },
+    { id: 'A' },
+    { id: 'B' },
+    { id: 'C' },
+    { id: 'D' },
+    { id: 'E' },
+    { id: 'F' },
+    { id: 'G' },
   ],
   edges: [
-    {
-      source: 'A',
-      target: 'B'
-    },
-    {
-      source: 'B',
-      target: 'C'
-    },
-    {
-      source: 'A',
-      target: 'C'
-    },
-    {
-      source: 'D',
-      target: 'A'
-    },
-    {
-      source: 'D',
-      target: 'E'
-    },
-    {
-      source: 'E',
-      target: 'F'
-    },
+    { source: 'A', target: 'B' },
+    { source: 'B', target: 'C' },
+    { source: 'A', target: 'C' },
+    { source: 'D', arget: 'A' },
+    { source: 'D', target: 'E' },
+    { source: 'E', target: 'F' },
   ]
 }
 
