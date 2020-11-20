@@ -78,8 +78,9 @@ switchDiv.addEventListener('click', e => {
   }
 });
 
-window.onresize = () => {
-  if (!graph || graph.get('destroyed')) return;
-  if (!container || !container.scrollWidth || !container.scrollHeight) return;
-  graph.changeSize(container.scrollWidth, container.scrollHeight - 30);
-};
+if (window && typeof window !== 'undefined')
+  window.onresize = () => {
+    if (!graph || graph.get('destroyed')) return;
+    if (!container || !container.scrollWidth || !container.scrollHeight) return;
+    graph.changeSize(container.scrollWidth, container.scrollHeight - 30);
+  };

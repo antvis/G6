@@ -127,9 +127,9 @@ graph.on('canvas:click', e => {
   });
 });
 
-console.log(graph.getNodes())
-window.onresize = () => {
-  if (!graph || graph.get('destroyed')) return;
-  if (!container || !container.scrollWidth || !container.scrollHeight) return;
-  graph.changeSize(container.scrollWidth, container.scrollHeight - 160);
-};
+if (window && typeof window !== 'undefined')
+  window.onresize = () => {
+    if (!graph || graph.get('destroyed')) return;
+    if (!container || !container.scrollWidth || !container.scrollHeight) return;
+    graph.changeSize(container.scrollWidth, container.scrollHeight - 160);
+  };

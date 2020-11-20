@@ -128,11 +128,12 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/70cde3be-22e8-4291-98f1-4d5
     graph.data(data);
     graph.render();
 
-    window.onresize = () => {
-      if (!graph || graph.get('destroyed')) return;
-      if (!container || !container.scrollWidth || !container.scrollHeight) return;
-      graph.changeSize(container.scrollWidth, container.scrollHeight);
-    };
+    if (window && typeof window !== 'undefined')
+      window.onresize = () => {
+        if (!graph || graph.get('destroyed')) return;
+        if (!container || !container.scrollWidth || !container.scrollHeight) return;
+        graph.changeSize(container.scrollWidth, container.scrollHeight);
+      };
 
     //   const tooltip = document.getElementsByClassName('g6-tooltip')[0];
     //   if (tooltip) {

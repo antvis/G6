@@ -81,8 +81,8 @@ export default {
     if (
       e.name !== G6Event.TOUCHSTART &&
       window &&
-      window.event &&
       typeof window !== 'undefined' &&
+      window.event &&
       !(window.event as any).buttons &&
       !(window.event as any).button
     ) {

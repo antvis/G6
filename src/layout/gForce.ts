@@ -91,7 +91,7 @@ export default class GForceLayout extends BaseLayout {
     const nodes = self.nodes;
     const center = self.center;
 
-    if (self.timeInterval !== undefined) {
+    if (self.timeInterval !== undefined && window && typeof window !== 'undefined') {
       window.clearInterval(self.timeInterval);
     }
 
@@ -175,6 +175,8 @@ export default class GForceLayout extends BaseLayout {
     if (!self.height && typeof window !== 'undefined') {
       self.height = window.innerHeight;
     }
+
+    if (!window || typeof window === 'undefined') return;
 
     let iter = 0;
     // interval for render the result after each iteration
@@ -338,7 +340,7 @@ export default class GForceLayout extends BaseLayout {
     });
   }
   public stop() {
-    if (this.timeInterval) {
+    if (this.timeInterval && typeof window !== 'undefined') {
       window.clearInterval(this.timeInterval);
     }
   }

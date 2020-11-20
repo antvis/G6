@@ -57,11 +57,12 @@ graph.on('edge:mouseleave', function (e) {
   graph.setItemState(edge, 'hover', false);
 });
 
-window.onresize = () => {
-  if (!graph || graph.get('destroyed')) return;
-  if (!container || !container.scrollWidth || !container.scrollHeight) return;
-  graph.changeSize(container.scrollWidth, container.scrollHeight);
-};
+if (window && typeof window !== 'undefined')
+  window.onresize = () => {
+    if (!graph || graph.get('destroyed')) return;
+    if (!container || !container.scrollWidth || !container.scrollHeight) return;
+    graph.changeSize(container.scrollWidth, container.scrollHeight);
+  };
 
 fetch('https://gw.alipayobjects.com/os/basement_prod/70cde3be-22e8-4291-98f1-4d5a5b75b62f.json')
   .then((res) => res.json())

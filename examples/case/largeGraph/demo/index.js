@@ -1571,10 +1571,11 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
   });
 
 
-window.onresize = () => {
-  if (!graph || graph.get('destroyed')) return;
-  const container = document.getElementById('container');
-  if (!container) return;
-  graph.changeSize(container.scrollWidth, container.scrollHeight - 30);
-};
+if (window && typeof window !== 'undefined')
+  window.onresize = () => {
+    if (!graph || graph.get('destroyed')) return;
+    const container = document.getElementById('container');
+    if (!container) return;
+    graph.changeSize(container.scrollWidth, container.scrollHeight - 30);
+  };
 
