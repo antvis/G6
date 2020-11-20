@@ -68,6 +68,14 @@ module.exports = {
     docs: [
       // ===========Design===================
       {
+        slug: 'design/global',
+        title: {
+          zh: '全局规范',
+          en: 'Global',
+        },
+        order: 3,
+      },
+      {
         slug: 'design/component',
         title: {
           zh: '组件设计',
@@ -75,7 +83,6 @@ module.exports = {
         },
         order: 4,
       },
-
       {
         slug: 'manual/FAQ',
         title: {

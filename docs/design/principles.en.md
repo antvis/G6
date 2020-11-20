@@ -5,4 +5,4 @@ redirect_from:
   - /zh/docs/design
 ---
 
-xxx
+`markdown:docs/design/principles.zh.md`

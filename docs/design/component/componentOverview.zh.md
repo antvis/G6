@@ -128,7 +128,7 @@ Toolbar 是提供 常见分析操作 的工具栏。内置了撤销重做（操�
 关系分析的分析过程是一个反复与后端系统进行交互的过程，一个设计完善、内容清晰的系统日志组件能够帮助用户迅速定位问题。
 
 <br/>
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*xdCBSKlhAhsAAAAAAAAAAAAAARQnAQ' width='90%' alt=‘img’>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*17B_SItSHMgAAAAAAAAAAAAAARQnAQ' width='90%' alt=‘img’>
 
 #### 表格模式 TableMode
 
