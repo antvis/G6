@@ -105,3 +105,7 @@ const graph = new G6.Graph({
 #### destroy()
 
 销毁布局。
+
+## AI 智能布局推荐
+
+`markdown:docs/manual/middle/layout/ai-layout.zh.md`

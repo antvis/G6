@@ -105,3 +105,7 @@ Update the configurations for layout.
 ### destroy()
 
 Destroy the layout.
+
+## AI Layout Prediction
+
+`markdown:docs/manual/middle/layout/ai-layout.en.md`
