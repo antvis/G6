@@ -180,7 +180,7 @@ G6.registerNode('aggregated-node', {
         width,
         height,
         fill: colorSet.mainFill, // || '#3B4043',
-        stroke: '#AAB7C4',
+        stroke: colorSet.mainStroke,
         lineWidth: 2,
         cursor: 'pointer',
         radius: (height / 2) || 13,
@@ -1365,11 +1365,14 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
     const container = document.getElementById('container');
     const descriptionDiv = document.createElement('div');
     descriptionDiv.innerHTML =
-      `<a href='/en/largegraph' target='_blanck'>Click【HERE】To Full Demo&nbsp;&nbsp;&nbsp;&nbsp; </a>
+      `<a href='/en/largegraph' target='_blanck'>Click【HERE】To Full Demo</a>
+      <br/>
       <a href='/zh/largegraph' target='_blanck'>点击【这里】进入完整 Demo</a>`;
-    descriptionDiv.style.width = '100%';
-    descriptionDiv.style.textAlign = 'center';
+    descriptionDiv.style.textAlign = 'right';
     descriptionDiv.style.color = '#fff';
+    descriptionDiv.style.position = 'absolute';
+    descriptionDiv.style.right = '32px';
+    descriptionDiv.style.marginTop = '8px';
     container.appendChild(descriptionDiv);
 
     CANVAS_WIDTH = container.scrollWidth;

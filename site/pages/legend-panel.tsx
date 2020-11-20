@@ -13,7 +13,7 @@ insertCss(`
     top: 64px;
     height: 100%;
     background-color: #34373A;
-    border-left: 2px #777 solid;
+    border-left: 2px #444 solid;
     color: rgba(255, 255, 255, 0.85);
     text-align: center;
     box-shadow: 18px 5px 0 0 rgba(0, 0, 0, 0.6);
@@ -256,7 +256,7 @@ const LegendPanel: React.FC<IProps> = () => {
     return (
       <div id='legend-panel'>
         <h1 className='legned-title'>图例与使用方式</h1>
-        <a className='description' href='https://github.com/antvis/g6' target='_blanck'>源代码</a>
+        <a className='description' href='https://github.com/antvis/G6/blob/master/site/pages/largegraph.zh.tsx' target='_blanck'>源代码</a>
         <div id='legend-graph-container' ref={container} />
         <div id='discription-container'>
           <span className='description'>一些科学研究表明，不超过 500 个节点的图可视化是适合终端用户阅读和交互式探索的。根据这个原则，在大规模图上，我们将元数据中的节点通过 LOUVAIN 聚类算法进行聚合。首先展示被聚合后的图，然后用户可以通过展开聚合节点进行下钻式探索。</span>
@@ -290,7 +290,7 @@ const LegendPanel: React.FC<IProps> = () => {
   return (
     <div id='legend-panel'>
       <h1 className='legned-title'>Legend and Usage</h1>
-      <a className='description' href='https://github.com/antvis/g6' target='_blanck'>Source Code</a>
+      <a className='description' href='https://github.com/antvis/G6/blob/master/site/pages/largegraph.zh.tsx' target='_blanck'>Source Code</a>
       <div id='legend-graph-container' ref={container} />
       <div id='discription-container'>
         <span className='description'>  Some research has found that the graph visulization is readable and interactable for end users under 500 nodes. To reach this principle for large graph, we clustering the source data by LOUVAIN algorithm, and visualize the aggregated graph first. Then, end users are able to do drilling down exploration.</span>
