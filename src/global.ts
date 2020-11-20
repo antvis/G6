@@ -7,7 +7,7 @@ const textColor = 'rgb(0, 0, 0)';
 const colorSet = getColorsWithSubjectColor(subjectColor, backColor);
 
 export default {
-  version: '3.8.5',
+  version: '4.0.0-beta.0',
   rootContainerClassName: 'root-container',
   nodeContainerClassName: 'node-container',
   edgeContainerClassName: 'edge-container',

@@ -1,6 +1,6 @@
 # ChangeLog
 
-#### 4.0.0-beta
+#### 4.0.0-beta.0
 - feat: fruchterman and gforce layout with gpu;
 - feat: gforce;
 - feat: updateChildren API for TreeGraph;
