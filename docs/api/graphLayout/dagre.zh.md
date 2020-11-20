@@ -1,6 +1,6 @@
 ---
 title: 层次 Dagre
-order: 6
+order: 7
 ---
 
 Dagre 是一种层次布局。

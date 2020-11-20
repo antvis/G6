@@ -1,6 +1,6 @@
 ---
 title: American Airlines with Bundling
-order: 6
+order: 7
 ---
 
 An American airlines graph with edge bundling powered by G6. Edge bundling helps developers to reduce the visual clutter.

@@ -1,6 +1,6 @@
 ---
 title: Combo 力导向 ComboForce
-order: 9
+order: 11
 ---
 
 *V3.5 新增功能。*ComboForce 是基于力导向的专用于带有 combo 的图的布局算法。通过自研改造经典力导向算法，将根据节点的 combo 信息，施加不同的力以达到同 combo 节点尽可能聚集，不同 combo 之间尽可能无重叠的布局。

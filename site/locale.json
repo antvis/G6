@@ -53,7 +53,7 @@
   "聚合边": "Aggregated Edge",
   "至少一个端点是聚合节点": "At least one end node is an aggregated node",
   "真实边": "Real Edge",
-  "两个端点都是聚合节点": "Both end nodes are aggregated nodes",
+  "两个端点都是真实节点": "Both end nodes are real nodes",
   "节点中间的数字代表该聚类所含的节点数量": "The number on the node indicates the real nodes number \nof this cluster",
   "绿点标记：新增节点": "Green Dot: Newly Added Node",
   "相较于上一次结果，右上方小绿点标记了\n本次更新结果中新增的聚合节点或真实节点": "The green dot on the right-top of the node indicates that \nthe node is newly added compared to last result"

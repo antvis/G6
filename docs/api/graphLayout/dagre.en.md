@@ -1,6 +1,6 @@
 ---
 title: Dagre
-order: 6
+order: 7
 ---
 
 Dagre is an hierarchical layout.

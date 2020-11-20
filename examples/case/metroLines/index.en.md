@@ -1,6 +1,6 @@
 ---
 title: Animated Metro Map
-order: 5
+order: 7
 ---
 
 Metro map with animated edges.

@@ -18,19 +18,19 @@ insertCss(`
     text-align: center;
     box-shadow: 18px 5px 0 0 rgba(0, 0, 0, 0.6);
   }
-  .legned-title {
+  #legend-panel .legned-title {
     width: 100%;
     color: rgba(255, 255, 255, 0.85);
     text-align: center;
     margin-bottom: 0px;
   }
-  #legend-graph-container {
+  #legend-panel #legend-graph-container {
     width: 100%;
     height: 250px;
     background-color: #2b2f33;
     margin-top: 8px;
   }
-  #discription-container {
+  #legend-panel #discription-container {
     margin-top: 16px;
     padding: 0px 16px;
     height: calc(100% - 430px);
@@ -223,7 +223,7 @@ const LegendPanel: React.FC<IProps> = () => {
       });
       group.addShape('text', {
         attrs: {
-          text: t('两个端点都是聚合节点'),
+          text: t('两个端点都是真实节点'),
           y: realEdgeText.getBBox().maxY + 8,
           ...textStyle,
           opacity: 0.6,
@@ -311,7 +311,15 @@ const LegendPanel: React.FC<IProps> = () => {
         <br />
         <span>There is a set of assistant tools on the canvas menu, which is on the left top of the canvas. From left to right, they are:</span>
         <br />
-        <span><strong>- Show/Hide Edge Labels;<br />- Fisheye Lens;<br />- Lasso Select Mode;<br />- Find the Shortest Path (by clicking select two end nodes);<br />- Zoom-out;<br />- Fit the Graph to the View Port;<br />- Zoom-in;<br />- Search a Node(by typing the id).</strong></span>
+        <span><strong>
+          - Show/Hide Edge Labels;<br />
+        - Fisheye Lens;<br />
+        - Lasso Select Mode;<br />
+        - Find the Shortest Path (by clicking select two end nodes);<br />
+        - Zoom-out;<br />
+        - Fit the Graph to the View Port;<br />
+        - Zoom-in;<br />
+        - Search a Node(by typing the id).</strong></span>
 
         <br /> <br />
         <h3 className='legned-title'>{`<Notice>`}</h3>

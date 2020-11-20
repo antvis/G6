@@ -1,6 +1,6 @@
 ---
 title: Fruchterman
-order: 7
+order: 8
 ---
 
 Fruchterman is a kind of force-directed layout. G6 implements it according to the paper <a href='http://www.mathe2.uni-bayreuth.de/axel/papers/reingold:graph_drawing_by_force_directed_placement.pdf' target='_blank'>Graph Drawing by Force-directed Placement</a>.

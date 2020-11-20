@@ -1,6 +1,6 @@
 ---
 title: 同心圆 Concentric
-order: 5
+order: 6
 ---
 
 Concentric 布局为同心圆布局，用户可以指定节点某个属性为排序依据（默认为节点度数 degree），该属性值越高，则该节点布局后的位置中心。

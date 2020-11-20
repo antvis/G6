@@ -440,7 +440,7 @@ const handleRefreshGraph = (
 		node.toFront();
 	});
 
-	// layout.instance.stop();
+	layout.instance.stop();
 	// force 需要使用不同 id 的对象才能进行全新的布局，否则会使用原来的引用。因此复制一份节点和边作为 force 的布局数据
 	layout.instance.init({
 		nodes: graphData.nodes,
@@ -738,7 +738,7 @@ const LargeGraph = () => {
 	}
 
 	const stopLayout = () => {
-		// layout.instance.stop();
+		layout.instance.stop();
 	}
 
 	const bindListener = (graph) => {

@@ -1,6 +1,6 @@
 ---
 title: Concentric
-order: 5
+order: 6
 ---
 
 Concentric arranges the nodes on several concentric circles. By tuning the parameters, users could order the nodes according to some property of node data, degree by default. Larger the value, more center the node will be placed.
