@@ -1,6 +1,6 @@
 ---
 title: MDS
-order: 8
+order: 9
 ---
 
 MDS (Multidimensional scaling) is used for project high dimensional data onto low dimensional space.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aUS7TJR2NHcAAAAAAAAAAABkARQnAQ' width=600 alt='img'/>

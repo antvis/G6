@@ -1,6 +1,6 @@
 ---
 title: Force
-order: 2
+order: 3
 ---
 
 Force is the classical force-dicrected layout algorithm, which corresponds to force-directed layout in d3.js.

@@ -1,6 +1,6 @@
 ---
 title: Grid
-order: 9
+order: 10
 ---
 
 Grid orders the nodes according to the configurations and arranged them onto grid.

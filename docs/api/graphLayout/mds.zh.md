@@ -1,6 +1,6 @@
 ---
 title: 高维数据降维 MDS
-order: 8
+order: 9
 ---
 
 MDS 布局是高维数据降维算法布局，该算法全称  Multidimensional Scaling 。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*aUS7TJR2NHcAAAAAAAAAAABkARQnAQ' width=600 alt='img'/>

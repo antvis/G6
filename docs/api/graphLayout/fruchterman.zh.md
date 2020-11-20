@@ -1,6 +1,6 @@
 ---
 title: Fruchterman
-order: 7
+order: 8
 ---
 
 Fruchterman 布局是一种力导布局。算法原文： <a href='http://www.mathe2.uni-bayreuth.de/axel/papers/reingold:graph_drawing_by_force_directed_placement.pdf' target='_blank'>Graph Drawing by Force-directed Placement</a>

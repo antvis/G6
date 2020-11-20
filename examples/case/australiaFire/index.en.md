@@ -1,6 +1,6 @@
 ---
 title: Australia Fire
-order: 7
+order: 9
 ---
 
 This graph demonstrates the fire affectness and population on different cities of Australia. The data comes from NASA, which includes the fire points of Australia detected by the satellites. [Link of the data](https://firms.modaps.eosdis.nasa.gov/active_fire/#firms-shapefile).

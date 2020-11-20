@@ -1,6 +1,6 @@
 ---
 title: GForce
-order: 7
+order: 2
 ---
 
 GForce implements the classical force-directed layout algorithm by G6 4.0. It supports assign different masses and center gravities for different nodes freedomly. More importantly, it supports GPU parallel acceleration.
