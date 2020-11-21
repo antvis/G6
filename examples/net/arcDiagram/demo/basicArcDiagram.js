@@ -128,7 +128,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/70cde3be-22e8-4291-98f1-4d5
     graph.data(data);
     graph.render();
 
-    if (window && typeof window !== 'undefined')
+    if (typeof window !== 'undefined')
       window.onresize = () => {
         if (!graph || graph.get('destroyed')) return;
         if (!container || !container.scrollWidth || !container.scrollHeight) return;

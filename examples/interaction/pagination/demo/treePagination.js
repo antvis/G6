@@ -104,7 +104,7 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/a3ae9b40-ff40-434a-894f-b10c535f
       fitView: true
     });
 
-    if (window && typeof window !== 'undefined')
+    if (typeof window !== 'undefined')
       window.onresize = () => {
         if (!graph || graph.get('destroyed')) return;
         if (!container || !container.scrollWidth || !container.scrollHeight) return;

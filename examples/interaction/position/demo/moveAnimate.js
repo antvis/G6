@@ -83,7 +83,7 @@ function handleNodeClick(event) {
 // listen to the node click event
 graph.on('node:click', handleNodeClick);
 
-if (window && typeof window !== 'undefined')
+if (typeof window !== 'undefined')
   window.onresize = () => {
     if (!graph || graph.get('destroyed')) return;
     if (!container || !container.scrollWidth || !container.scrollHeight) return;

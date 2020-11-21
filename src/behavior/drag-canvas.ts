@@ -80,7 +80,6 @@ export default {
 
     if (
       e.name !== G6Event.TOUCHSTART &&
-      window &&
       typeof window !== 'undefined' &&
       window.event &&
       !(window.event as any).buttons &&

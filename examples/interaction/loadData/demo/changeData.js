@@ -177,7 +177,7 @@ graph.on('node:click', function (evt) {
   }
 });
 
-if (window && typeof window !== 'undefined')
+if (typeof window !== 'undefined')
   window.onresize = () => {
     if (!graph || graph.get('destroyed')) return;
     if (!container || !container.scrollWidth || !container.scrollHeight) return;

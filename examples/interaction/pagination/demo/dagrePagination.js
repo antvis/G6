@@ -309,7 +309,7 @@ graph.fitView();
 graph.set('animate', true)
 
 
-if (window && typeof window !== 'undefined')
+if (typeof window !== 'undefined')
   window.onresize = () => {
     if (!graph || graph.get('destroyed')) return;
     if (!container || !container.scrollWidth || !container.scrollHeight) return;
@@ -443,7 +443,7 @@ const destroyIcons = (levelIdx) => {
 
 // destroy the icons with delay
 const delayDestroyIcons = (levelIdx, delay = 2000) => {
-  if (!iconMap[levelIdx] || !window || typeof window === 'undefined') return;
+  if (!iconMap[levelIdx] || typeof window === 'undefined') return;
   if (iconMap[levelIdx].timeouter) {
     window.clearTimeout(iconMap[levelIdx].timeouter);
   }

@@ -1571,7 +1571,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
   });
 
 
-if (window && typeof window !== 'undefined')
+if (typeof window !== 'undefined')
   window.onresize = () => {
     if (!graph || graph.get('destroyed')) return;
     const container = document.getElementById('container');

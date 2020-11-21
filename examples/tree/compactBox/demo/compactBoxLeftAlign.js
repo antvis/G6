@@ -117,7 +117,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
     graph.data(data);
     graph.render();
 
-    if (window && typeof window !== 'undefined')
+    if (typeof window !== 'undefined')
       window.onresize = () => {
         if (!graph || graph.get('destroyed')) return;
         if (!container || !container.scrollWidth || !container.scrollHeight) return;
