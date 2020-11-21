@@ -212,7 +212,7 @@ export const processParallelEdges = (
  * 调用 gpuDetector.webgl 判断当前浏览器是否支持 webgl。（支持 gpgpu 的浏览器一定也支持 webgl）
  */
 export const gpuDetector = (): any => {
-  if (typeof window === 'undefined') return {};
+  if (typeof window === 'undefined' || typeof document === 'undefined') return {};
   return {
     canvas: !!window.CanvasRenderingContext2D,
     webgl: (function () {

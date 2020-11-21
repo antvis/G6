@@ -1,42 +1,45 @@
 import React, { useEffect } from 'react';
-import G6 from '../../dist/g6.min.js';
 import { useTranslation } from 'react-i18next';
-// import G6 from '../../src';
 import { global } from './large-graph-register';
-import insertCss from 'insert-css';
 
-insertCss(`
-  #legend-panel {
-    width: 30%;
-    position: absolute;
-    right: 0px;
-    top: 64px;
-    height: 100%;
-    background-color: #34373A;
-    border-left: 2px #444 solid;
-    color: rgba(255, 255, 255, 0.85);
-    text-align: center;
-    box-shadow: 18px 5px 0 0 rgba(0, 0, 0, 0.6);
-  }
-  #legend-panel .legned-title {
-    width: 100%;
-    color: rgba(255, 255, 255, 0.85);
-    text-align: center;
-    margin-bottom: 0px;
-  }
-  #legend-panel #legend-graph-container {
-    width: 100%;
-    height: 250px;
-    background-color: #2b2f33;
-    margin-top: 8px;
-  }
-  #legend-panel #discription-container {
-    margin-top: 16px;
-    padding: 0px 16px;
-    height: calc(100% - 430px);
-    overflow-y: scroll;
-  }
-`);
+const isBrowser = typeof window !== 'undefined';
+const G6 = isBrowser ? require('../../dist/g6.min.js') : null;
+const insertCss = isBrowser ? require('insert-css') : null;
+
+if (isBrowser) {
+  insertCss(`
+    #legend-panel {
+      width: 30%;
+      position: absolute;
+      right: 0px;
+      top: 64px;
+      height: 100%;
+      background-color: #34373A;
+      border-left: 2px #444 solid;
+      color: rgba(255, 255, 255, 0.85);
+      text-align: center;
+      box-shadow: 18px 5px 0 0 rgba(0, 0, 0, 0.6);
+    }
+    #legend-panel .legned-title {
+      width: 100%;
+      color: rgba(255, 255, 255, 0.85);
+      text-align: center;
+      margin-bottom: 0px;
+    }
+    #legend-panel #legend-graph-container {
+      width: 100%;
+      height: 250px;
+      background-color: #2b2f33;
+      margin-top: 8px;
+    }
+    #legend-panel #discription-container {
+      margin-top: 16px;
+      padding: 0px 16px;
+      height: calc(100% - 430px);
+      overflow-y: scroll;
+    }
+  `);
+}
 
 let legendGraph = null;
 let CANVAS_WIDTH = 100;

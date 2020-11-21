@@ -271,8 +271,9 @@ export default class LayoutController {
     graph.emit('beforelayout');
 
     const offScreenCanvas = document.createElement('canvas');
-    const gpuWorkerAbility = isGPU && !navigator[`gpu`] && // WebGPU 还不支持 OffscreenCanvas
-      typeof window !== 'undefined' && 'OffscreenCanvas' in window
+    const gpuWorkerAbility = isGPU && typeof window !== 'undefined'
+      && window.navigator && !navigator[`gpu`] // WebGPU 还不支持 OffscreenCanvas
+      && 'OffscreenCanvas' in window
       && 'transferControlToOffscreen' in offScreenCanvas;
 
 

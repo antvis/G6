@@ -1,7 +1,6 @@
 const path = require('path');
-const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 
-exports.onCreateWebpackConfig = ({ getConfig, actions }) => {
+exports.onCreateWebpackConfig = ({ getConfig }) => {
     const config = getConfig();
 
     config.module.rules.push({
@@ -28,14 +27,4 @@ exports.onCreateWebpackConfig = ({ getConfig, actions }) => {
         ...config.resolve.alias,
         'https://cdn.jsdelivr.net/npm/@webgpu/glslang@0.0.15/dist/web-devel/glslang.js': path.resolve(__dirname, 'stub')
     };
-
-    actions.setWebpackConfig({
-        plugins: [
-            new StaticSiteGeneratorPlugin({
-                globals: {
-                    window: {}
-                }
-            }),
-        ],
-    });
 };
