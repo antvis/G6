@@ -5,7 +5,7 @@
   },
   "demos": [
     {
-      "filename": "index.ts",
+      "filename": "index.js",
       "title": {
         "zh": "决策树",
         "en": "Decision Tree"

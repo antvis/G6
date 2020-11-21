@@ -5,7 +5,7 @@
   },
   "demos": [
     {
-      "filename": "index.ts",
+      "filename": "index.js",
       "title": {
         "zh": "知识图谱树",
         "en": "Knowledge Tree Graph"
