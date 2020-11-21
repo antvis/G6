@@ -447,7 +447,7 @@ export default class TimeBarSlice {
     } else {
       // 结束播放
       if (this.playHandler) {
-        typeof window !== 'undefined' && window.cancelAnimationFrame(this.playHandler);
+        if (typeof window !== 'undefined') window.cancelAnimationFrame(this.playHandler);
         if (isSync) {
           this.graph.emit(TIMELINE_END, null);
         }
@@ -457,7 +457,7 @@ export default class TimeBarSlice {
 
   private startPlay() {
     return typeof window !== 'undefined' ? window.requestAnimationFrame(() => {
-      const speed = this.currentSpeed
+      const speed = this.currentSpeed;
 
       // 一分钟刷新一次
       if (this.frameCount % (60 / speed) === 0) {

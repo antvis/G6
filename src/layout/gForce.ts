@@ -18,60 +18,83 @@ type NodeMap = {
  * graphin 中的 force 布局
  */
 export default class GForceLayout extends BaseLayout {
+
   /** 布局中心 */
   public center: IPointTuple = [0, 0];
+
   /** 停止迭代的最大迭代数 */
   public maxIteration: number = 1000;
+
   /** 弹簧引力系数 */
   public edgeStrength: number | ((d?: any) => number) | undefined = 200;
+
   /** 斥力系数 */
   public nodeStrength: number | ((d?: any) => number) | undefined = 1000;
+
   /** 库伦系数 */
   public coulombDisScale: number = 0.005;
+
   /** 阻尼系数 */
   public damping: number = 0.9;
+
   /** 最大速度 */
   public maxSpeed: number = 1000;
+
   /** 一次迭代的平均移动距离小于该值时停止迭代 */
   public minMovement: number = 0.5;
+
   /** 迭代中衰减 */
   public interval: number = 0.02;
+
   /** 斥力的一个系数 */
   public factor: number = 1;
+
   /** 每个节点质量的回调函数，若不指定，则默认使用度数作为节点质量 */
   public getMass: ((d?: any) => number) | undefined;
+
   /** 每个节点中心力的 x、y、强度的回调函数，若不指定，则没有额外中心力 */
   public getCenter: ((d?: any, degree?: number) => number[]) | undefined;
+
   /** 理想边长 */
   public linkDistance: number | ((d?: any) => number) | undefined = 1;
+
   /** 重力大小 */
   public gravity: number = 10;
+
   /** 是否防止重叠 */
   public preventOverlap: boolean = true;
+
   /** 防止重叠时的节点大小，默认从节点数据中取 size */
   public nodeSize: number | number[] | ((d?: any) => number) | undefined;
+
   /** 防止重叠时的节点之间最小间距 */
   public nodeSpacing: number | number[] | ((d?: any) => number) | undefined;
+
   /** 每次迭代结束的回调函数 */
   public tick: () => void = () => { };
+
   /** 是否允许每次迭代结束调用回调函数 */
   public enableTick: boolean;
 
-
   public nodes: NodeConfig[] = [];
+
   public edges: EdgeConfig[] = [];
 
   public width: number = 300;
+
   public height: number = 300;
 
   public nodeMap: NodeMap = {};
+
   public nodeIdxMap: NodeIdxMap = {};
 
   public canvasEl: HTMLCanvasElement;
+
   public onLayoutEnd: () => void;
 
   /** 存储节点度数 */
   private degrees: number[];
+
   /** 迭代中的标识 */
   private timeInterval: number
 

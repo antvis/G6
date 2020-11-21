@@ -163,8 +163,8 @@ const getColorsWithDarkTheme = (subjectColor, backColor = '#fff', disableColor =
  * @param disableColor the color for disable state
  */
 export const getColorsWithSubjectColor = (subjectColor, backColor = '#fff', theme: 'default' | 'dark' = 'default', disableColor = 'rgb(150, 150, 150)') => {
-  if (theme === 'default') return getColorsWithDefaultTheme(subjectColor, backColor, disableColor = 'rgb(150, 150, 150)');
-  return getColorsWithDarkTheme(subjectColor, backColor, disableColor = '#777');
+  if (theme === 'default') return getColorsWithDefaultTheme(subjectColor, backColor, 'rgb(150, 150, 150)');
+  return getColorsWithDarkTheme(subjectColor, backColor, '#777');
 }
 
 export const getColorSetsBySubjectColors = (subjectColors, backColor = '#fff', theme: 'default' | 'dark' = 'default', disableColor = 'rgb(150, 150, 150)') => {
