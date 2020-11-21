@@ -3,11 +3,20 @@ title: Large Graph Exploration
 order: 1
 ---
 
-## Usage
+## Large Graph Exploration
 
 <a className='description' href='https://github.com/antvis/G6/blob/master/site/pages/largegraph.zh.tsx' target='_blanck'>Source Code</a>
 
 Some research has found that the graph visulization is readable and interactable for end users under 500 nodes. To reach this principle for large graph, we clustering the source data by LOUVAIN algorithm, and visualize the aggregated graph first. Then, end users are able to do drilling down exploration. If the number of nodes still large on aggregated graph, we can do multi-level aggregation. To control the number of rendering nodes, the earliest expanded cluster will be collapsed automatically. These rules also help us to avoid overloaded computation and rendering on front-end.
+
+### Definition
+
+This Demo shows the main stream of a large graph visualization solution, including demonstration, interaction, analysis. And it has a user interface, data processing set, analysis process recall, and algorithm algorithm analysis.
+
+### When to Use
+
+In the senario of large graph visualization, the rendering and computing abilities of front-end are limit. It is hard to ensure smooth real-time interaction and analysis in large data. This solution will be a good way to handle these problem.
+
 
 ### Legend
 - Aggregated Node: <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1y4AS7ucVXMAAAAAAAAAAAAAARQnAQ' width=50  style='min-width: 10px' />A aggregated node indicates a cluster calculated by LOUVAIN, it contains several real nodes. The number on the node indicates the real nodes number of this cluster
