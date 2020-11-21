@@ -12,6 +12,7 @@ module.exports = {
     libraryTarget: 'umd',
     libraryExport: 'default',
     path: resolve(process.cwd(), 'dist/'),
+    globalObject: 'this'
   },
   resolve: {
     // Add `.ts` as a resolvable extension.

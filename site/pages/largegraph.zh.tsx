@@ -1,48 +1,55 @@
 import React, { useEffect, useState } from 'react';
-import G6 from '../../dist/g6.min.js';
 import { colorSets, global } from './large-graph-register';
-// import G6 from '../../src';
 import { uniqueId } from '@antv/util';
 import { useTranslation } from 'react-i18next';
-import insertCss from 'insert-css';
 import CanvasMenu from './canvas-menu';
 import LegendPanel from './legend-panel';
 
+const isBrowser = typeof window !== 'undefined';
+const G6 = isBrowser ? require('../../dist/g6.min.js') : null;
+const insertCss = isBrowser ? require('insert-css') : null;
 
-insertCss(`
-  .g6-component-contextmenu {
-    position: absolute;
-    z-index: 2;
-    list-style-type: none;
-    background-color: #363b40;
-    border-radius: 6px;
-    font-size: 14px;
-    color: hsla(0,0%,100%,.85);
-    width: fit-content;
-    transition: opacity .2s;
-    text-align: center;
-    padding: 0px 20px 0px 20px;
-		box-shadow: 0 5px 18px 0 rgba(0, 0, 0, 0.6);
-		border: 0px;
-  }
-  .g6-component-contextmenu ul {
-		padding-left: 0px;
-		margin: 0;
-  }
-  .g6-component-contextmenu li {
-    cursor: pointer;
-    list-style-type: none;
-    list-style: none;
-    margin-left: 0;
-    line-height: 38px;
-}
-  }
-  .g6-component-contextmenu li:hover {
-    color: #aaa;
+let labelPropagation = null;
+let louvain = null;
+let findShortestPath = null;
+
+if (isBrowser) {
+	labelPropagation = G6.Algorithm.labelPropagation;
+	louvain = G6.Algorithm.louvain;
+	findShortestPath = G6.Algorithm.findShortestPath;
+	insertCss(`
+		.g6-component-contextmenu {
+			position: absolute;
+			z-index: 2;
+			list-style-type: none;
+			background-color: #363b40;
+			border-radius: 6px;
+			font-size: 14px;
+			color: hsla(0,0%,100%,.85);
+			width: fit-content;
+			transition: opacity .2s;
+			text-align: center;
+			padding: 0px 20px 0px 20px;
+			box-shadow: 0 5px 18px 0 rgba(0, 0, 0, 0.6);
+			border: 0px;
+		}
+		.g6-component-contextmenu ul {
+			padding-left: 0px;
+			margin: 0;
+		}
+		.g6-component-contextmenu li {
+			cursor: pointer;
+			list-style-type: none;
+			list-style: none;
+			margin-left: 0;
+			line-height: 38px;
 	}
-`);
-
-const { labelPropagation, louvain, findShortestPath } = G6.Algorithm;
+		}
+		.g6-component-contextmenu li:hover {
+			color: #aaa;
+		}
+	`);
+}
 
 
 const NODESIZEMAPPING = 'degree';

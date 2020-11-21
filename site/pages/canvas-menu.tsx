@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import G6 from '../../dist/g6.min.js';
-// import G6 from '../../src';
 import {
   EyeOutlined,
   EyeInvisibleOutlined,
@@ -11,13 +9,14 @@ import {
   SearchOutlined,
   HighlightOutlined
 } from '@ant-design/icons';
-import insertCss from 'insert-css';
-import modifyCSS from '@antv/dom-util/lib/modify-css';
 
-const selectedColor = 'rgba(85, 115, 224, 1)';
-const defaultColor = 'rgba(255, 255, 255, 0.45)';
+const isBrowser = typeof window !== 'undefined';
+const G6 = isBrowser ? require('../../dist/g6.min.js') : null;
+const insertCss = isBrowser ? require('insert-css') : null;
+const modifyCSS = isBrowser ? require('@antv/dom-util/lib/modify-css') : null;
 
-insertCss(`
+if (isBrowser) {
+  insertCss(`
   #canvas-menu {
     position: absolute;
     z-index: 2;
@@ -85,6 +84,7 @@ insertCss(`
     transition: all 0.2s linear;
   }
 `);
+}
 
 let fishEye = null;
 
