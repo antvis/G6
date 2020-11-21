@@ -98,7 +98,7 @@ graph.on('node:dragend', function (e) {
   e.item.get('model').fy = null;
 });
 
-if (window && typeof window !== 'undefined')
+if (typeof window !== 'undefined')
   window.onresize = () => {
     if (!graph || graph.get('destroyed')) return;
     if (!container || !container.scrollWidth || !container.scrollHeight) return;

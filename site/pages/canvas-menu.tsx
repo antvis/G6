@@ -396,7 +396,7 @@ const CanvasMenu: React.FC<{
     }
 
     useEffect(() => {
-      if (window && typeof window !== 'undefined') {
+      if (typeof window !== 'undefined') {
         window.addEventListener("keydown", escListener.bind(this));
         return window.removeEventListener("keydown", escListener.bind(this));
       }

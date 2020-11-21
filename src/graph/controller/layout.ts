@@ -11,17 +11,17 @@ import { IGraph } from '../../interface/graph';
 const mockRaf = (cb: TimerHandler) => setTimeout(cb, 16);
 const mockCaf = (reqId: number) => clearTimeout(reqId);
 
-const helper = typeof window !== 'undefined' ? {
+const helper = {
   // pollyfill
   requestAnimationFrame(callback: FrameRequestCallback) {
-    const fn = window.requestAnimationFrame || window.webkitRequestAnimationFrame || mockRaf;
+    const fn = typeof window !== 'undefined' ? window.requestAnimationFrame || window.webkitRequestAnimationFrame || mockRaf : mockRaf;
     return fn(callback);
   },
   cancelAnimationFrame(requestId: number) {
-    const fn = window.cancelAnimationFrame || window.webkitCancelAnimationFrame || mockCaf;
+    const fn = typeof window !== 'undefined' ? window.cancelAnimationFrame || window.webkitCancelAnimationFrame || mockCaf : mockCaf;
     return fn(requestId);
   },
-} : {};
+};
 
 const GPULayoutNames = ['fruchterman', 'gForce'];
 export default class LayoutController {

@@ -91,7 +91,7 @@ export default class GForceLayout extends BaseLayout {
     const nodes = self.nodes;
     const center = self.center;
 
-    if (self.timeInterval !== undefined && window && typeof window !== 'undefined') {
+    if (self.timeInterval !== undefined && typeof window !== 'undefined') {
       window.clearInterval(self.timeInterval);
     }
 
@@ -176,7 +176,7 @@ export default class GForceLayout extends BaseLayout {
       self.height = window.innerHeight;
     }
 
-    if (!window || typeof window === 'undefined') return;
+    if (typeof window === 'undefined') return;
 
     let iter = 0;
     // interval for render the result after each iteration

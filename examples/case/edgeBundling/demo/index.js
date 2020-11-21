@@ -160,7 +160,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7ba82250-8367-4351-82b2-d48
     edgeBundling.bundling(data);
     graph.data(data);
     graph.render();
-    if (window && typeof window !== 'undefined')
+    if (typeof window !== 'undefined')
       window.onresize = () => {
         if (!graph || graph.get('destroyed')) return;
         if (!container || !container.scrollWidth || !container.scrollHeight) return;

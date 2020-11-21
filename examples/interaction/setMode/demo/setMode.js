@@ -166,7 +166,7 @@ selector.addEventListener('change', (e) => {
   graph.setMode(value);
 });
 
-if (window && typeof window !== 'undefined')
+if (typeof window !== 'undefined')
   window.onresize = () => {
     if (!graph || graph.get('destroyed')) return;
     if (!container || !container.scrollWidth || !container.scrollHeight) return;

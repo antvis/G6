@@ -1109,7 +1109,7 @@ const LargeGraph = () => {
 		});
 	}, [edgeLabelVisible]);
 
-	if (window && typeof window !== 'undefined')
+	if (typeof window !== 'undefined')
 		window.onresize = () => {
 			if (container && container.current) {
 				CANVAS_WIDTH = container.current.offsetWidth;
