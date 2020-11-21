@@ -92,9 +92,6 @@ export default class Menu extends Base {
     const itemTypes = this.get('itemTypes');
     if (!e.item) {
       if (itemTypes.indexOf('canvas') === -1) return;
-      else if (e.target && e.target.isCanvas && e.target.isCanvas()) {
-        // canvas context menu
-      }
     } else {
       if (e.item && e.item.getType && itemTypes.indexOf(e.item.getType()) === -1) {
         self.onMenuHide();

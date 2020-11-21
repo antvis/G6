@@ -80,6 +80,7 @@ export default class GForceGPULayout extends BaseLayout {
   public nodeIdxMap: NodeIdxMap = {};
 
   public onLayoutEnd: () => void;
+
   /** 存储节点度数 */
   private degrees: number[];
 
@@ -218,7 +219,7 @@ export default class GForceGPULayout extends BaseLayout {
       centerXs, centerYs, centerGravities
     ]);
 
-    let workerEnabled = self.workerEnabled;
+    const workerEnabled = self.workerEnabled;
     let world;
 
     if (workerEnabled) {
@@ -333,7 +334,7 @@ export default class GForceGPULayout extends BaseLayout {
         });
       }
 
-      onLayoutEnd && onLayoutEnd();
+      if (onLayoutEnd) onLayoutEnd();
     }
 
     execute();

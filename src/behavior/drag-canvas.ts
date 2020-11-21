@@ -119,12 +119,10 @@ export default {
     }
   },
   onMouseMove(e: IG6GraphEvent) {
-    console.log('mousemove1', this.keydown, e.target)
     const { graph } = this;
     if (this.keydown) return;
     if (!(e.target && e.target.isCanvas && e.target.isCanvas())) return;
 
-    console.log('mouemove', this.dragging, this.origin)
     e = cloneEvent(e);
     if (!this.origin) {
       return;

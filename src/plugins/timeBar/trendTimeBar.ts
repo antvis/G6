@@ -787,7 +787,7 @@ export default class TrendTimeBar {
     } else {
       // 结束播放
       if (this.playHandler) {
-        typeof window !== 'undefined' && window.cancelAnimationFrame(this.playHandler);
+        if (typeof window !== 'undefined') window.cancelAnimationFrame(this.playHandler);
         if (isSync) {
           this.graph.emit(TIMELINE_END, null);
         }
