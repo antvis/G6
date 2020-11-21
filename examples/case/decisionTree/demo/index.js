@@ -1,5 +1,4 @@
 import G6 from '@antv/g6';
-import { TreeGraphData } from '../../../../src/types';
 import insertCss from 'insert-css';
 
 
