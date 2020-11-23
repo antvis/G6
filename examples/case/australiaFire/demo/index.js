@@ -5,13 +5,6 @@ import insertCss from 'insert-css';
 // 推荐将样式添加到自己的样式文件中
 // 若拷贝官方代码，别忘了 npm install insert-css
 insertCss(`
-  #container{
-    width: 700px;
-    height: 700px;
-  }
-  #container canvas{
-    background: rgb(0, 0, 0);
-  }
   #legendContainer{
     position: absolute;
     top: 50px;
@@ -229,10 +222,14 @@ const tooltip = new G6.Tooltip({
 fetch('https://gw.alipayobjects.com/os/basement_prod/d676014a-0a11-4ea9-9af4-4038bae3c0a1.json')
   .then((res) => res.json())
   .then((data) => {
+    const container = document.getElementById('container');
+    const width = document.getElementById('container').scrollWidth;
+    const height = document.getElementById('container').scrollHeight || 500;
+    container.style.backgroundColor = '#000';
     const graph = new G6.TreeGraph({
       container: 'container',
-      width,
-      height,
+      width: height < width ? height : width,
+      height: height < width ? height : width,
       fitView: true,
       fitViewPadding: 80,
       linkCenter: true,
@@ -349,6 +346,14 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/d676014a-0a11-4ea9-9af4-403
         graph.setItemState(node, 'hover', false);
       });
     });
+
+    if (typeof window !== 'undefined')
+      window.onresize = () => {
+        if (!graph || graph.get('destroyed')) return;
+        if (!container || !container.scrollWidth || !container.scrollHeight) return;
+        graph.changeSize(container.scrollWidth, container.scrollHeight);
+      };
+
   });
 
 const legendContainer = document.createElement('div');

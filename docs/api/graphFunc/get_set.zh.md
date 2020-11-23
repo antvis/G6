@@ -66,7 +66,7 @@ graph.getContainer();
 
 ### graph.getGroup()
 
-获取 Graph 根[图形分组](/zh/docs/manual/advanced/keyconcept/graphics-group)。
+获取 Graph 根[图形分组](/zh/docs/manual/middle/elements/shape/graphics-group)。
 
 **参数**
 

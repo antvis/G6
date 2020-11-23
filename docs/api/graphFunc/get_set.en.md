@@ -66,7 +66,7 @@ graph.getContainer();
 
 ### graph.getGroup()
 
-Get the root [graphics group](/en/docs/manual/advanced/keyconcept/graphics-group) of the graph.
+Get the root [graphics group](/en/docs/manual/middle/elements/shape/graphics-group) of the graph.
 
 **Parameter**
 
