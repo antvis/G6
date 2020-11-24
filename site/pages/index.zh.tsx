@@ -124,15 +124,15 @@ const IndexPage = () => {
   const insNotifications = [
     {
       type: t('推荐'),
-      title: t('乘风破浪的 G6 3.8.0'),
-      date: '2020.09.25',
-      link: 'https://www.yuque.com/antv/g6-blog/kckugv',
+      title: t('图可视分析如此简单'),
+      date: '2020.11.22',
+      link: 'https://www.yuque.com/antv/g6-blog/zgb5d7',
     },
     {
       type: t('推荐'),
-      title: t('G6·图可视化知多少'),
-      date: '2020.03.23',
-      link: 'https://www.yuque.com/antv/g6-blog',
+      title: t('G6 4.0: 不仅成长了一点'),
+      date: '2020.11.22',
+      link: 'https://www.yuque.com/antv/g6-blog/nnmqbk',
     },
   ];
 
