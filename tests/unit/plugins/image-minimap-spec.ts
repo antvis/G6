@@ -105,7 +105,6 @@ describe('image minimap', () => {
           'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ',
         );
         const imgDOM = minimap.get('imgDOM');
-        console.log('imgDOM.src', imgDOM.src);
         expect(imgDOM.src).toEqual('https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ');
 
         graph.destroy();

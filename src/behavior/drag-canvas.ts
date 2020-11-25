@@ -102,6 +102,7 @@ export default {
         const shapes = edges[i].get('group').get('children');
         if (!shapes) continue;
         shapes.forEach((shape) => {
+          shape.set('ori-visibility', shape.get('visible'));
           shape.hide();
         });
       }
@@ -112,6 +113,7 @@ export default {
         for (const child of children) {
           const isKeyShape = child.get('isKeyShape');
           if (!isKeyShape) {
+            child.set('ori-visibility', child.get('visible'));
             child.hide();
           }
         }
@@ -158,7 +160,8 @@ export default {
         const shapes = edges[i].get('group').get('children');
         if (!shapes) continue;
         shapes.forEach((shape) => {
-          shape.show();
+          const oriVis = shape.get('ori-visibility');
+          if (oriVis) shape.show();
         });
       }
       const nodes = graph.getNodes();
@@ -168,7 +171,8 @@ export default {
         for (const child of children) {
           const isKeyShape = child.get('isKeyShape');
           if (!isKeyShape) {
-            child.show();
+            const oriVis = child.get('ori-visibility');
+            if (oriVis) child.show();
           }
         }
       }

@@ -523,7 +523,7 @@ describe('shape edge test', () => {
       const edge = graph.getEdges()[0];
       const path = edge.get('group').get('children')[0];
       let bbox = path.getBBox();
-      console.log(bbox);
+      // console.log(bbox);
       expect(bbox.minX).toEqual(90.60845891791658);
       graph.emit('node:dragstart', { x: 100, y: 100, item: node });
       graph.emit('node:drag', { x: 200, y: 200, item: node });

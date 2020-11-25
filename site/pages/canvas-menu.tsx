@@ -13,7 +13,7 @@ import {
 const isBrowser = typeof window !== 'undefined';
 const G6 = isBrowser ? require('../../dist/g6.min.js') : null;
 const insertCss = isBrowser ? require('insert-css') : null;
-const modifyCSS = isBrowser ? require('@antv/dom-util/lib/modify-css') : null;
+const modifyCSS = isBrowser ? require('@antv/dom-util/lib/modify-css').default : null;
 
 if (isBrowser) {
   insertCss(`
@@ -169,7 +169,6 @@ const CanvasMenu: React.FC<{
     }
     // 放大
     const handleZoomOut = () => {
-      debugger
       if (!graph || graph.destroyed) return;
       const current = graph.getZoom();
       const canvas = graph.get('canvas');

@@ -79,7 +79,7 @@ let currentUnproccessedData = { nodes: [], edges: [] };
 let nodeMap = {};
 let aggregatedNodeMap = {};
 let hiddenItemIds = []; // 隐藏的元素 id 数组
-let largeGraphMode = true;
+let largeGraphMode = false;
 let cachePositions = {};
 let manipulatePosition = undefined;
 let descreteNodeCenter;
@@ -870,6 +870,7 @@ const getForceLayoutConfig = (graph, largeGraphMode, configSettings?) => {
     minMovement: 0.01,
     maxIteration: 5000,
     preventOverlap,
+    gpuEnabled: largeGraphMode,
     linkDistance: (d) => {
       let dist = linkDistance;
       // 两端都是聚合点
@@ -900,16 +901,6 @@ const getForceLayoutConfig = (graph, largeGraphMode, configSettings?) => {
       if (d.degree === 0) return nodeSpacing * 2;
       if (d.level) return nodeSpacing;
       return nodeSpacing;
-    },
-    onLayoutEnd: () => {
-      if (largeGraphMode) {
-        graph.getEdges().forEach((edge) => {
-          if (!edge.oriLabel) return;
-          edge.update({
-            label: labelFormatter(edge.oriLabel, labelMaxLength),
-          });
-        });
-      }
     },
     tick: () => {
       graph.refreshPositions();
@@ -971,6 +962,7 @@ const handleRefreshGraph = (
 
   edges = processRes.edges;
 
+  graph.destroyLayout();
   graph.changeData({ nodes, edges });
 
   hideItems(graph);
@@ -978,20 +970,37 @@ const handleRefreshGraph = (
     node.toFront();
   });
 
-  // force 需要使用不同 id 的对象才能进行全新的布局，否则会使用原来的引用。因此复制一份节点和边作为 force 的布局数据
-  layout.instance.init({
-    nodes: graphData.nodes,
-    edges
-  })
-
-  layout.instance.minMovement = 0.0001;
-  layout.instance.getCenter = d => {
-    const cachePosition = cachePositions[d.id];
-    if (!cachePosition && manipulatePosition) return [manipulatePosition.x, manipulatePosition.y, 10];
-    else if (cachePosition) return [cachePosition.x, cachePosition.y, 10];
-    return [width / 2, height / 2, 10];
+  let layoutConfig: any;
+  console.log('length', nodes.length)
+  // 在大数据量时，使用 GPU 布局
+  if (nodes.length > 100) {
+    layoutConfig = getForceLayoutConfig(graph, true);
+    layoutConfig.minMovement = 0.3;
+    // graph.updateLayout(layoutConfig);
+  } else {
+    layoutConfig = getForceLayoutConfig(graph, false);
   }
-  layout.instance.execute();
+  layoutConfig.getMass = d => {
+    const cachePosition = cachePositions[d.id];
+    if (cachePosition) return 5;
+    return 1;
+  };
+  graph.updateLayout(layoutConfig);
+
+  // // force 需要使用不同 id 的对象才能进行全新的布局，否则会使用原来的引用。因此复制一份节点和边作为 force 的布局数据
+  // layout.instance.init({
+  //   nodes: graphData.nodes,
+  //   edges
+  // })
+
+  // layout.instance.minMovement = 0.0001;
+  // layout.instance.getCenter = d => {
+  //   const cachePosition = cachePositions[d.id];
+  //   if (!cachePosition && manipulatePosition) return [manipulatePosition.x, manipulatePosition.y, 10];
+  //   else if (cachePosition) return [cachePosition.x, cachePosition.y, 10];
+  //   return [width / 2, height / 2, 10];
+  // }
+  // layout.instance.execute();
   return { nodes, edges };
 };
 
@@ -1568,6 +1577,7 @@ const LargeGraph = () => {
             itemTypes: ['node', 'edge', 'canvas'],
           });
 
+          const layoutConfig: any = getForceLayoutConfig(graph, largeGraphMode)
           graph = new G6.Graph({
             container: container.current as HTMLElement,
             width: CANVAS_WIDTH,
@@ -1577,7 +1587,10 @@ const LargeGraph = () => {
             groupByTypes: false,
             modes: {
               default: [
-                'drag-canvas',
+                {
+                  type: 'drag-canvas',
+                  enableOptimize: true
+                },
                 'zoom-canvas',
                 'drag-node',
               ],
@@ -1595,19 +1608,19 @@ const LargeGraph = () => {
               type: 'aggregated-node',
               size: DEFAULTNODESIZE,
             },
-            plugins: [contextMenu]
+            plugins: [contextMenu],
+            layout: layoutConfig
           });
 
           graph.get('canvas').set('localRefresh', false);
 
-          const layoutConfig: any = getForceLayoutConfig(graph, largeGraphMode)
-          layoutConfig.center = [CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2];
-          layout.instance = new G6.Layout['gForce'](layoutConfig);
-          layout.instance.init({
-            nodes: currentUnproccessedData.nodes,
-            edges: processedEdges,
-          });
-          layout.instance.execute();
+          // layoutConfig.center = [CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2];
+          // layout.instance = new G6.Layout['gForce'](layoutConfig);
+          // layout.instance.init({
+          //   nodes: currentUnproccessedData.nodes,
+          //   edges: processedEdges,
+          // });
+          // layout.instance.execute();
 
           bindListener(graph);
           graph.data({ nodes: aggregatedData.nodes, edges: processedEdges });
