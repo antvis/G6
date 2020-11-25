@@ -956,7 +956,7 @@ const handleRefreshGraph = (
 
   let nodes = [], edges = [];
 
-  nodes = graphData?.nodes;
+  nodes = graphData.nodes;
   const processRes = processNodesEdges(
     nodes,
     graphData.edges || [],
@@ -1439,8 +1439,8 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
           <li id='collapseAll'>Collapse all Clusters</li>
         </ul>`;
         } else if (!item) return;
-        const itemType = item?.getType();
-        const model = item?.getModel();
+        const itemType = item.getType();
+        const model = item.getModel();
         if (itemType && model) {
           if (itemType === 'node') {
             if (model.level !== 0) {
@@ -1465,7 +1465,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
         }
       },
       handleMenuClick: (target, item) => {
-        const model = item?.getModel();
+        const model = item.getModel();
         const liIdStrs = target.id.split('-');
         let mixedGraphData;
         switch (liIdStrs[0]) {
