@@ -334,6 +334,7 @@ const getForceLayoutConfig = (graph, largeGraphMode, configSettings?) => {
 		maxIteration: 5000,
 		preventOverlap,
 		damping: 0.99,
+		gpuEnabled: largeGraphMode,
 		linkDistance: (d) => {
 			let dist = linkDistance;
 			const sourceNode = nodeMap[d.source] || aggregatedNodeMap[d.source];
@@ -447,7 +448,17 @@ const handleRefreshGraph = (
 		node.toFront();
 	});
 
+
 	layout.instance.stop();
+
+	// 在大数据量时，使用 GPU 布局
+	if (nodes.length > 100) {
+		layout.instance.destroy();
+		const layoutConfig: any = getForceLayoutConfig(graph, true);
+		layoutConfig.center = [width / 2, height / 2];
+		layout.instance = new G6.Layout['gForce'](layoutConfig);
+	}
+
 	// force 需要使用不同 id 的对象才能进行全新的布局，否则会使用原来的引用。因此复制一份节点和边作为 force 的布局数据
 	layout.instance.init({
 		nodes: graphData.nodes,
@@ -455,17 +466,12 @@ const handleRefreshGraph = (
 	})
 
 	layout.instance.minMovement = 0.0001;
-	// layout.instance.getCenter = d => {
-	// 	const cachePosition = cachePositions[d.id];
-	// 	if (!cachePosition && (d.x || d.y)) return [d.x, d.y, 10];
-	// 	else if (cachePosition) return [cachePosition.x, cachePosition.y, 10];
-	// 	return [width / 2, height / 2, 10];
-	// }
 	layout.instance.getMass = d => {
 		const cachePosition = cachePositions[d.id];
 		if (cachePosition) return 5;
 		return 1;
 	};
+
 	layout.instance.execute();
 	return { nodes, edges };
 };
@@ -846,7 +852,6 @@ const LargeGraph = () => {
 		// click canvas to cancel all the focus state
 		graph.on('canvas:click', (evt: any) => {
 			clearFocusItemState(graph);
-			console.log(graph.getGroup(), graph.getGroup().getBBox(), graph.getGroup().getCanvasBBox());
 		});
 	}
 
@@ -1064,13 +1069,23 @@ const LargeGraph = () => {
 						groupByTypes: false,
 						modes: {
 							default: [
-								'drag-canvas',
-								'zoom-canvas',
+								{
+									type: 'drag-canvas',
+									enableOptimize: true
+								},
+								{
+									type: 'zoom-canvas',
+									enableOptimize: true,
+									optimizeZoom: 0.01
+								},
 								'drag-node',
 								'shortcuts-call'
 							],
 							lassoSelect: [
-								'zoom-canvas',
+								{
+									type: 'zoom-canvas',
+									enableOptimize: true
+								},
 								{
 									type: 'lasso-select',
 									selectedState: 'focus',

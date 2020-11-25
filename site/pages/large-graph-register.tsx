@@ -16,16 +16,16 @@ const darkBackColor = 'rgb(43, 47, 51)';
 const disableColor = '#777';
 const theme = 'dark';
 const subjectColors = [
-  '#5F95FF', // blue
-  '#61DDAA',
+  '#3D76DD',
+  '#19A576',
   '#65789B',
-  '#F6BD16',
-  '#7262FD',
-  '#78D3F8',
-  '#9661BC',
-  '#F6903D',
+  '#B98700',
+  '#5349E0',
+  '#5AB8DB',
+  '#7B48A1',
+  '#D77622',
   '#008685',
-  '#F08BB4'
+  '#D37099',
 ];
 
 export const colorSets = G6 ? G6.Util.getColorSetsBySubjectColors(subjectColors, darkBackColor, theme, disableColor) : [];

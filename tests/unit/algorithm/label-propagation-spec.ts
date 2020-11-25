@@ -140,7 +140,6 @@ describe('label propagation', () => {
       ]
     }
     const clusteredData = labelPropagation(data, false, 'weight');
-    console.log(clusteredData);
     expect(clusteredData.clusters.length).not.toBe(0);
     expect(clusteredData.clusterEdges.length).not.toBe(0);
 
@@ -180,7 +179,7 @@ describe('label propagation', () => {
         const t0 = performance.now();
         const clusteredData = labelPropagation(data, false, 'weight');
         const t1 = performance.now();
-        console.log(`Call to doSomething took ${t1 - t0} milliseconds.`);
+        // console.log(`Call to doSomething took ${t1 - t0} milliseconds.`);
 
         // 9037.91999999521 ms
 

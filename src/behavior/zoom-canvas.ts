@@ -74,7 +74,7 @@ export default {
     const touches = evt.originalEvent.touches
     const event1 = touches[0]
     const event2 = touches[1]
-    
+
     if (!event2) {
       return
     }
@@ -90,14 +90,14 @@ export default {
     const getDistance = (start, end) => Math.hypot(end.x - start.x, end.y - start.y)
 
     // 双指缩放比例
-    const scale = getDistance({ 
-      x: event1.pageX, y: event1.pageY 
-    }, { 
-      x: event2.pageX, y: event2.pageY 
-    }) / getDistance({ 
-      x: this.startPoint.pageX, y: this.startPoint.pageY 
-    }, { 
-      x: this.endPoint.pageX, y: this.endPoint.pageY 
+    const scale = getDistance({
+      x: event1.pageX, y: event1.pageY
+    }, {
+      x: event2.pageX, y: event2.pageY
+    }) / getDistance({
+      x: this.startPoint.pageX, y: this.startPoint.pageY
+    }, {
+      x: this.endPoint.pageX, y: this.endPoint.pageY
     })
 
     // 应用到画布上的缩放比例
@@ -168,6 +168,7 @@ export default {
             for (let c = 0; c < childrenLength; c++) {
               const shape = children[c];
               if (!shape.destoryed && !shape.get('isKeyShape')) {
+                shape.set('ori-visibility', shape.get('visible'));
                 shape.hide();
               }
             }
@@ -180,6 +181,7 @@ export default {
           const childrenLength = children.length;
           for (let c = 0; c < childrenLength; c++) {
             const shape = children[c];
+            shape.set('ori-visibility', shape.get('visible'));
             shape.hide();
           }
         }
@@ -199,12 +201,15 @@ export default {
             const children = node.get('group').get('children');
             const childrenLength = children.length;
             if (currentZoom < optimizeZoom) {
-              node.getKeyShape().show();
+              const keyShape = node.getKeyShape();
+              const oriVis = keyShape.get('ori-visibility');
+              if (oriVis) keyShape.show();
             } else {
               for (let c = 0; c < childrenLength; c++) {
                 const shape = children[c];
-                if (!shape.get('visible')) {
-                  shape.show();
+                const oriVis = shape.get('ori-visibility');
+                if (!shape.get('visible') && oriVis) {
+                  if (oriVis) shape.show();
                 }
               }
             }
@@ -215,12 +220,15 @@ export default {
             const children = edge.get('group').get('children');
             const childrenLength = children.length;
             if (currentZoom < optimizeZoom) {
-              edge.getKeyShape().show();
+              const keyShape = edge.getKeyShape();
+              const oriVis = keyShape.get('ori-visibility');
+              if (oriVis) keyShape.show();
             } else {
               for (let c = 0; c < childrenLength; c++) {
                 const shape = children[c];
                 if (!shape.get('visible')) {
-                  shape.show();
+                  const oriVis = shape.get('ori-visibility');
+                  if (oriVis) shape.show();
                 }
               }
             }

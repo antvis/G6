@@ -49,7 +49,7 @@ describe('base util', () => {
 
     edges.push({ source: 1, target: 0 });
     processParallelEdges(edges);
-    console.log(edges);
+    // console.log(edges);
     expect(edges[2].type).toEqual('quadratic');
     expect(edges[0].curveOffset).toEqual(0);
     expect(edges[1].curveOffset).toEqual(-30);

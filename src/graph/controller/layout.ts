@@ -399,7 +399,7 @@ export default class LayoutController {
     const { graph, layoutMethod, layoutType, layoutCfg } = this;
 
     this.layoutType = cfg.type;
-    if (!layoutMethod) {
+    if (!layoutMethod || layoutMethod.destroyed) {
       this.layoutCfg = mix({}, layoutCfg, cfg);
       this.layout();
       return;
@@ -602,6 +602,7 @@ export default class LayoutController {
 
     if (layoutMethod) {
       layoutMethod.destroy();
+      layoutMethod.destroyed = true;
     }
     const { worker } = this;
     if (worker) {

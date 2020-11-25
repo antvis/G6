@@ -183,7 +183,7 @@ describe('louvain', () => {
         const t0 = performance.now();
         const clusteredData = louvain(data, false, 'weight');
         const t1 = performance.now();
-        console.log(`Call to doSomething took ${t1 - t0} milliseconds.`);
+        // console.log(`Call to doSomething took ${t1 - t0} milliseconds.`);
 
         expect(clusteredData.clusters.length).toBe(495);
         expect(clusteredData.clusterEdges.length).toBe(505);

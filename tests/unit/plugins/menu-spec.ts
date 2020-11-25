@@ -9,7 +9,6 @@ describe('menu', () => {
   it('menu with default', () => {
     const menu = new G6.Menu({
       handleMenuClick: (target, item) => {
-        console.log(target, item);
       },
     });
 
@@ -147,7 +146,7 @@ describe('menu', () => {
       </ul>`;
       },
       shouldBegin(e) {
-        console.log('shouldBegin', e.item, e.item.getID() === 'node1')
+        // console.log('shouldBegin', e.item, e.item.getID() === 'node1')
         if (e.item.getID() === 'node1') return false;
         return true;
       },

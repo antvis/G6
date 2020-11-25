@@ -191,6 +191,7 @@ export default class GForceLayout extends BaseLayout {
   public run() {
     const self = this;
     const nodes = self.nodes;
+    const edges = self.edges;
     const maxIteration = self.maxIteration;
     if (!self.width && typeof window !== 'undefined') {
       self.width = window.innerWidth;
@@ -211,38 +212,38 @@ export default class GForceLayout extends BaseLayout {
         velArray[2 * i] = 0;
         velArray[2 * i + 1] = 0;
       });
-      self.calRepulsive(accArray);
-      self.calAttractive(accArray);
-      self.calGravity(accArray);
+      self.calRepulsive(accArray, nodes);
+      self.calAttractive(accArray, edges);
+      self.calGravity(accArray, nodes);
       const stepInterval = Math.max(0.02, self.interval - iter * 0.002);
-      self.updateVelocity(accArray, velArray, stepInterval);
+      self.updateVelocity(accArray, velArray, stepInterval, nodes);
       const previousPos = [];
-      self.nodes.forEach(node => {
+      nodes.forEach(node => {
         previousPos.push({
           x: node.x,
           y: node.y
         });
       })
-      self.updatePosition(velArray, stepInterval);
+      self.updatePosition(velArray, stepInterval, nodes);
       if (self.tick) self.tick();
 
       // whether to stop the iteration
       let movement = 0;
-      self.nodes.forEach((node, j) => {
+      nodes.forEach((node, j) => {
         const vx = node.x - previousPos[j].x;
         const vy = node.y - previousPos[j].y;
         movement += Math.sqrt(vx * vx + vy * vy);
       });
-      movement /= self.nodes.length;
+      movement /= nodes.length;
       if (movement < self.minMovement) window.clearInterval(self.timeInterval);
       iter++;
       if (iter > maxIteration) window.clearInterval(self.timeInterval);
     }, 0);
     self.onLayoutEnd && self.onLayoutEnd();
   }
-  public calRepulsive(accArray) {
+  public calRepulsive(accArray, nodes) {
     const self = this;
-    const nodes = self.nodes;
+    // const nodes = self.nodes;
     const getMass = self.getMass;
     const nodeStrength = self.nodeStrength as Function;
     const factor = self.factor;
@@ -276,9 +277,9 @@ export default class GForceLayout extends BaseLayout {
       });
     });
   }
-  public calAttractive(accArray) {
+  public calAttractive(accArray, edges) {
     const self = this;
-    const edges = self.edges;
+    // const edges = self.edges;
     const nodeMap = self.nodeMap;
     const nodeIdxMap = self.nodeIdxMap;
     const linkDistance = self.linkDistance as Function;
@@ -306,9 +307,9 @@ export default class GForceLayout extends BaseLayout {
     });
   }
 
-  public calGravity(accArray) {
+  public calGravity(accArray, nodes) {
     const self = this;
-    const nodes = self.nodes;
+    // const nodes = self.nodes;
     const center = self.center;
     const defaultGravity = self.gravity;
     const degrees = self.degrees;
@@ -335,10 +336,10 @@ export default class GForceLayout extends BaseLayout {
     }
   }
 
-  public updateVelocity(accArray, velArray, stepInterval) {
+  public updateVelocity(accArray, velArray, stepInterval, nodes) {
     const self = this;
     const param = stepInterval * self.damping;
-    const nodes = self.nodes;
+    // const nodes = self.nodes;
     nodes.forEach((node, i) => {
       let vx = accArray[2 * i] * param || 0.01;
       let vy = accArray[2 * i + 1] * param || 0.01;
@@ -352,9 +353,9 @@ export default class GForceLayout extends BaseLayout {
       velArray[2 * i + 1] = vy;
     });
   }
-  public updatePosition(velArray, stepInterval) {
+  public updatePosition(velArray, stepInterval, nodes) {
     const self = this;
-    const nodes = self.nodes;
+    // const nodes = self.nodes;
     nodes.forEach((node, i) => {
       const distX = velArray[2 * i] * stepInterval;
       const distY = velArray[2 * i + 1] * stepInterval;
