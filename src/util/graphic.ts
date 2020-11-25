@@ -1,6 +1,6 @@
 import Group from '@antv/g-canvas/lib/group';
 import Path from '@antv/g-canvas/lib/shape/path';
-import { vec2, mat3 } from '@antv/matrix-util';
+import { vec2 } from '@antv/matrix-util';
 import Global from '../global';
 import {
   EdgeData,
