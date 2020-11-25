@@ -1466,7 +1466,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
         }
       },
       handleMenuClick: (target, item) => {
-        const model = item.getModel();
+        const model = item && item.getModel();
         const liIdStrs = target.id.split('-');
         let mixedGraphData;
         switch (liIdStrs[0]) {
