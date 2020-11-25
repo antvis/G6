@@ -11,7 +11,7 @@ export default {
       minZoom: undefined,
       maxZoom: undefined,
       enableOptimize: false,
-      optimizeZoom: 0.7,
+      optimizeZoom: 0.1,
       fixSelectedItems: {
         fixAll: false,
         fixLineWidth: false,
