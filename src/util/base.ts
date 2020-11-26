@@ -222,7 +222,7 @@ export const gpuDetector = (): any => {
     })(),
     workers: !!window.Worker,
     fileapi: window.File && window.FileReader && window.FileList && window.Blob,
-    getWebGLErrorMessage: () => {
+    getWebGLErrorMessage() {
       const element = document.createElement('div');
       element.id = 'webgl-error-message';
       element.style.fontFamily = 'monospace';
