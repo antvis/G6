@@ -1,7 +1,7 @@
 import { Point } from '@antv/g-base/lib/types';
 import { IGroup } from '@antv/g-canvas/lib/interfaces';
 import { mat3, transform, vec3 } from '@antv/matrix-util';
-import { isArray } from '@antv/util';
+import { isArray, each } from '@antv/util';
 import {
   GraphData,
   ICircle,
@@ -14,7 +14,6 @@ import {
   Item,
   IPoint,
 } from '../types';
-import { each } from '@antv/util';
 
 /**
  * 对比对象，用于对象数组排序
