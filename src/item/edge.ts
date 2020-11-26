@@ -207,7 +207,7 @@ export default class Edge extends Item implements IEdge {
    * 边不需要重计算容器位置，直接重新计算 path 位置
    * @param {object} cfg 待更新数据
    */
-  public update(cfg: EdgeConfig) {
+  public update(cfg: EdgeConfig, onlyMove: boolean = false) {
     const model: EdgeConfig = this.get('model');
     const oriVisible = model.visible;
     const cfgVisible = cfg.visible;

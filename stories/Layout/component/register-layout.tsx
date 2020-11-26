@@ -241,13 +241,24 @@ const RegisterLayout = () => {
         defaultEdge: {
           size: 1,
           color: '#e2e2e2',
+          type: 'line'
         },
         modes: {
           default: ['drag-canvas', 'drag-node'],
-        },
+        }
       });
       graph.data(data);
       graph.render();
+
+      graph.on('edge:mouseenter', (e) => {
+        console.log('enter')
+        debugger
+        graph.setItemState(e.item, 'active', true);
+      });
+
+      graph.on('edge:mouseout', (e) => {
+        graph.setItemState(e.item, 'active', false);
+      });
     }
   });
 

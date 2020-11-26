@@ -1,13 +1,12 @@
 import Canvas from '@antv/g-base/lib/abstract/canvas';
 import { Point } from '@antv/g-base/lib/types';
-import Group from '@antv/g-canvas/lib/group';
-import isNumber from '@antv/util/lib/is-number';
-import isString from '@antv/util/lib/is-string';
+import { Group } from '@antv/g-canvas';
+import { isNumber, isString } from '@antv/util';
 import { Item, Matrix, Padding, GraphAnimateConfig } from '../../types';
 import { formatPadding } from '../../util/base';
 import { applyMatrix, invertMatrix } from '../../util/math';
 import Graph from '../graph';
-import modifyCSS from '@antv/dom-util/lib/modify-css';
+import { modifyCSS } from '@antv/dom-util';
 
 export default class ViewController {
   private graph: Graph;

@@ -2,7 +2,7 @@
  * @fileOverview common node shape
  * @author huangtonger@aliyun.com
  */
-import GGroup from '@antv/g-canvas/lib/group';
+import { Group as GGroup } from '@antv/g-canvas';
 import { IShape, IElement } from '@antv/g-canvas/lib/interfaces';
 import { isArray, isNil, mix } from '@antv/util';
 import { ILabelConfig, ShapeOptions } from '../interface/shape';

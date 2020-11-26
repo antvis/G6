@@ -1,5 +1,5 @@
 import { Point } from '@antv/g-base/lib/types';
-import Group from '@antv/g-canvas/lib/group';
+import { Group } from '@antv/g-canvas';
 import { mix, each, isArray, isString } from '@antv/util';
 import { ShapeStyle, EdgeConfig, Item } from '../../types';
 import { pointsToPolygon } from '../../util/path';
@@ -118,7 +118,8 @@ Shape.registerEdge(
       // 添加结束点
       points.push(endPoint);
 
-      const previousStyle = mix({}, strokeStyle, shape.attr(), cfg.style);
+      const currentAttr = shape.attr();
+      const previousStyle = mix({}, strokeStyle, currentAttr, cfg.style);
       const source = cfg.sourceNode;
       const target = cfg.targetNode;
       const radius = previousStyle.radius;
@@ -131,12 +132,22 @@ Shape.registerEdge(
       if (isNaN(startPoint.x) || isNaN(startPoint.y) || isNaN(endPoint.x) || isNaN(endPoint.y)) {
         path = 'M0 0, L0 0';
       }
+      if (currentAttr.endArrow && previousStyle.endArrow === false) {
+        cfg.style.endArrow = {
+          path: ''
+        };
+      }
+      if (currentAttr.startArrow && previousStyle.startArrow === false) {
+        cfg.style.startArrow = {
+          path: ''
+        };
+      }
       const style = mix(
         strokeStyle,
         shape.attr(),
         {
           lineWidth: size,
-          path,
+          path
         },
         cfg.style,
       );

@@ -1,4 +1,4 @@
-import each from '@antv/util/lib/each';
+import { each } from '@antv/util';
 import Behavior from './behavior';
 import DragCanvas from './drag-canvas';
 import DragNode from './drag-node';

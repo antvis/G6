@@ -1,11 +1,5 @@
-import Group from '@antv/g-canvas/lib/group';
-import clone from '@antv/util/lib/clone';
-import deepMix from '@antv/util/lib/deep-mix';
-import each from '@antv/util/lib/each';
-import isArray from '@antv/util/lib/is-array';
-import isObject from '@antv/util/lib/is-object';
-import isString from '@antv/util/lib/is-string';
-import upperFirst from '@antv/util/lib/upper-first';
+import { Group } from '@antv/g-canvas';
+import { clone, deepMix, each, isArray, isObject, isString, upperFirst } from '@antv/util';
 import Edge from '../../item/edge';
 import Node from '../../item/node';
 import Combo from '../../item/combo';
@@ -204,6 +198,8 @@ export default class ItemController {
     const mapper = graph.get(type + MAPPER_SUFFIX);
     const model = item.getModel();
 
+    const isOnlyMove = item.isOnlyMove(cfg);
+
     if (mapper) {
       const result: ModelConfig = deepMix({}, model, cfg);
       const mappedModel: ModelConfig = mapper(result);
@@ -248,11 +244,13 @@ export default class ItemController {
         }
         (item as IEdge).setTarget(target);
       }
+      item.update(cfg);
     }
 
-    item.update(cfg);
+    // item.update(cfg);
 
     if (type === NODE || type === COMBO) {
+      item.update(cfg, isOnlyMove);
       const edges: IEdge[] = (item as INode).getEdges();
       each(edges, (edge: IEdge) => {
         edge.refresh();

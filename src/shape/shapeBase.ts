@@ -2,7 +2,7 @@
  * @fileOverview 自定义节点和边的过程中，发现大量重复代码
  * @author dxq613@gmail.com
  */
-import GGroup from '@antv/g-canvas/lib/group';
+import { Group as GGroup } from '@antv/g-canvas';
 import { IShape, IElement } from '@antv/g-canvas/lib/interfaces';
 import { ShapeOptions, ILabelConfig } from '../interface/shape';
 import { IPoint, Item, LabelStyle, ShapeStyle, ModelConfig, EdgeConfig } from '../types';
@@ -339,23 +339,21 @@ export const shapeBase: ShapeOptions = {
 
       const model = item.getModel();
       // 原始样式
-      // const originStyle = clone(item.getOriginStyle());
       const originStyle = mix({}, model.style, clone(item.getOriginStyle()));
 
       const keyShapeName = shape.get('name');
-      const keyShapeStyles = shape.attr();
+      const keyShapeStyles = clone(shape.attr());
 
       // 已有样式 - 要取消的状态的样式
       const filtetDisableStatesStyle = {};
 
-      // style 为要取消的状态的样式
+      // styles 为要取消的状态的样式
       for (const p in styles) {
         const style = styles[p];
         if (isPlainObject(style) && !ARROWS.includes(p)) {
           const subShape = group.find((element) => element.get('name') === p);
           if (subShape) {
             const subShapeStyles = subShape.attr();
-            // const current = subShapeStyles[p]
             each(style, (v, key) => {
               if (subShapeStyles[key] || subShapeStyles[key] === 0) {
                 delete subShapeStyles[key];
@@ -368,6 +366,7 @@ export const shapeBase: ShapeOptions = {
           const keptAttrs = { x: 1, y: 1, cx: 1, cy: 1 };
           if (keyShapeStyles[p] && !keptAttrs[p]) {
             delete keyShapeStyles[p];
+            shape.attr(p, originStyle[p]);
           }
         }
       }

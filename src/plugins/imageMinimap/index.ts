@@ -1,12 +1,10 @@
 import Base, { IPluginBaseConfig } from '../base';
-import isString from '@antv/util/lib/is-string';
-import createDOM from '@antv/dom-util/lib/create-dom';
-import modifyCSS from '@antv/dom-util/lib/modify-css';
-import isNil from '@antv/util/lib/is-nil';
+import { isString, isNil } from '@antv/util';
+import { modifyCSS, createDom } from '@antv/dom-util';
 import Graph from '../../graph/graph';
 import { ShapeStyle } from '../../types';
 import { Point } from '@antv/g-math/lib/types';
-import GraphEvent from '@antv/g-base/lib/event/graph-event';
+import { Event as GraphEvent } from '@antv/g-base';
 import { mat3 } from '@antv/matrix-util';
 import { applyMatrix } from '../../util/math';
 
@@ -85,7 +83,7 @@ export default class ImageMiniMap extends Base {
     if (isString(containerDOM)) {
       containerDOM = document.getElementById(containerDOM) as HTMLDivElement;
     }
-    const viewport = createDOM(
+    const viewport = createDom(
       `<div class=${cfgs.viewportClassName}
       style='position:absolute;
         left:0;
@@ -347,7 +345,7 @@ export default class ImageMiniMap extends Base {
       self.set('width', cWidth);
     }
 
-    const container: HTMLElement = createDOM(
+    const container: HTMLElement = createDom(
       `<div class='${className}' style='width: ${cWidth}px; height: ${cHeight}px; overflow: hidden; position: relative;'></div>`, //
     );
 
@@ -363,17 +361,17 @@ export default class ImageMiniMap extends Base {
 
     self.set('container', container);
 
-    const containerDOM = createDOM(
+    const containerDOM = createDom(
       `<div class="g6-minimap-container" style="position: relative; width: 100%; height: 100%; text-align: center; display: table;"></div>`,
     );
     container.appendChild(containerDOM);
-    const span = createDOM(`<span style="display: table-cell; vertical-align: middle; "></span>`);
+    const span = createDom(`<span style="display: table-cell; vertical-align: middle; "></span>`);
     containerDOM.appendChild(span);
 
     self.set('containerDOM', containerDOM);
     self.set('containerSpan', span);
 
-    const img = createDOM(
+    const img = createDom(
       `<img alt="" src="${this.get(
         'graphImg',
       )}" style="display: inline-block;" ondragstart="return false;" onselectstart="return false;"/>`,
@@ -454,7 +452,7 @@ export default class ImageMiniMap extends Base {
     oriImgDOM.remove();
 
     self.set('graphImg', img);
-    const imgDOM = createDOM(
+    const imgDOM = createDom(
       `<img alt="" src="${img}" style="display: inline-block;" ondragstart="return false;" onselectstart="return false;"/>`,
     );
     self.set('imgDOM', imgDOM);

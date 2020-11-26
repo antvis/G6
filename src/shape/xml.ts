@@ -3,7 +3,7 @@
  * @author xuzhi.mxz@antfin.com
  */
 
-import get from '@antv/util/lib/get';
+import { get } from '@antv/util';
 import { getTextSize } from '../util/graphic';
 
 /**

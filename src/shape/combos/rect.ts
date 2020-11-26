@@ -1,4 +1,4 @@
-import GGroup from '@antv/g-canvas/lib/group';
+import { Group as GGroup } from '@antv/g-canvas';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
 import { mix, isNumber, clone, isNil } from '@antv/util';
 import { LabelStyle, Item, ComboConfig, ShapeStyle } from '../../types';

@@ -1,4 +1,4 @@
-import { clone, each, wrapBehavior } from '@antv/util/lib';
+import { clone, each, wrapBehavior } from '@antv/util';
 import { BehaviorOption } from '../types';
 import behaviorOption from './behaviorOption';
 

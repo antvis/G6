@@ -1,4 +1,4 @@
-import each from '@antv/util/lib/each';
+import { each } from '@antv/util';
 import { IGraph } from '../interface/graph';
 import { G6Event } from '../types';
 

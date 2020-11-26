@@ -1,6 +1,4 @@
-import each from '@antv/util/lib/each';
-import isArray from '@antv/util/lib/is-array';
-import isString from '@antv/util/lib/is-string';
+import { each, isArray, isString } from '@antv/util';
 import Behavior from '../../behavior/behavior';
 import { IBehavior } from '../../interface/behavior';
 import { IGraph } from '../../interface/graph';

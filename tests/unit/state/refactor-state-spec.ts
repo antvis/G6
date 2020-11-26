@@ -172,7 +172,7 @@ describe('graph refactor states', () => {
     expect(item.hasState('select')).toBe(false);
     expect(item.getStates()).toEqual(['hover']);
     expect(keyShape.attr('lineWidth')).toBe(1);
-    expect(keyShape.attr('stroke')).toBe(undefined);
+    expect(keyShape.attr('stroke')).toBe('rgb(95, 149, 255)');
 
     // remove hover states
     graph.setItemState(item, 'hover', false);

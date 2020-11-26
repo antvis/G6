@@ -1,6 +1,4 @@
-import deepMix from '@antv/util/lib/deep-mix';
-import each from '@antv/util/lib/each';
-import wrapBehavior from '@antv/util/lib/wrap-behavior';
+import { wrapBehavior, each, deepMix } from '@antv/util';
 import Graph from '../graph/graph';
 import { IG6GraphEvent } from '../types';
 

@@ -1,6 +1,7 @@
 import LinkedList from '../linked-list';
 
 export default class Stack {
+
   private linkedList: LinkedList;
 
   private maxStep: number;

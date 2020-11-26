@@ -1,16 +1,13 @@
-import GCanvas from '@antv/g-canvas/lib/canvas';
-import GSVGCanvas from '@antv/g-svg/lib/canvas';
+import { Canvas as GCanvas } from '@antv/g-canvas';
+import { Canvas as GSVGCanvas } from '@antv/g-svg';
 import Base, { IPluginBaseConfig } from '../base';
-import isString from '@antv/util/lib/is-string';
-import createDOM from '@antv/dom-util/lib/create-dom';
-import modifyCSS from '@antv/dom-util/lib/modify-css';
-import isNil from '@antv/util/lib/is-nil';
-import each from '@antv/util/lib/each';
+import { isString, isNil, each } from '@antv/util';
+import { createDom, modifyCSS } from '@antv/dom-util';
 import Graph from '../../graph/graph';
 import { Matrix, ShapeStyle } from '../../types';
 import { transform } from '@antv/matrix-util';
 import { Point } from '@antv/g-math/lib/types';
-import GraphEvent from '@antv/g-base/lib/event/graph-event';
+import { Event as GraphEvent } from '@antv/g-base';
 import { debounce } from '@antv/util';
 
 const { max } = Math;
@@ -77,7 +74,7 @@ export default class MiniMap extends Base {
     const canvas = this.get('canvas');
 
     const containerDOM = canvas.get('container');
-    const viewport = createDOM(`
+    const viewport = createDom(`
       <div
         class=${cfgs.viewportClassName}
         style='position:absolute;
@@ -477,7 +474,7 @@ export default class MiniMap extends Base {
     const size: number[] = self.get('size');
     const className: string = self.get('className');
     let parentNode: string | HTMLElement = self.get('container');
-    const container: HTMLElement = createDOM(
+    const container: HTMLElement = createDom(
       `<div class='${className}' style='width: ${size[0]}px; height: ${size[1]}px; overflow: hidden'></div>`,
     );
 
@@ -493,7 +490,7 @@ export default class MiniMap extends Base {
 
     self.set('container', container);
 
-    const containerDOM = createDOM(
+    const containerDOM = createDom(
       '<div class="g6-minimap-container" style="position: relative;"></div>',
     );
     container.appendChild(containerDOM);

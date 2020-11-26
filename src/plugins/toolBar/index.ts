@@ -1,6 +1,5 @@
-import modifyCSS from '@antv/dom-util/lib/modify-css';
-import createDOM from '@antv/dom-util/lib/create-dom';
-import { clone, isString } from '@antv/util/lib';
+import { modifyCSS, createDom } from '@antv/dom-util';
+import { clone, isString } from '@antv/util';
 import Base, { IPluginBaseConfig } from '../base';
 import { IGraph } from '../../interface/graph';
 import { Point } from '@antv/g-base';
@@ -94,7 +93,7 @@ export default class ToolBar extends Base {
     const toolBar = getContent(graph);
     let toolBarDOM = toolBar;
     if (isString(toolBar)) {
-      toolBarDOM = createDOM(toolBar);
+      toolBarDOM = createDom(toolBar);
     }
 
     const className = this.get('className');

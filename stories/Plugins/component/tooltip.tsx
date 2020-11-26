@@ -11,18 +11,20 @@ const data = {
       x: 150,
       y: 50,
       label: 'node1',
+      comboId: 'a'
     },
     {
       id: 'node2',
-      x: 200,
+      x: 500,
       y: 150,
-      label: 'node2',
+      label: 'node2'
     },
     {
       id: 'node3',
       x: 100,
       y: 150,
       label: 'node3',
+      comboId: 'a'
     },
   ],
   edges: [
@@ -39,6 +41,11 @@ const data = {
       target: 'node1',
     },
   ],
+  combos: [
+    {
+      id: 'a'
+    }
+  ]
 };
 
 const Tooltip = () => {
@@ -48,14 +55,14 @@ const Tooltip = () => {
       const tooltip = new G6.Tooltip({
         offsetX: 100,
         offsetY: 120, // the height of the top div
-        shouldBegin: d => {
-          if (d.target.get('name') === 'text-shape') return true;
-          return false;
-        },
+        // shouldBegin: d => {
+        //   if (d.target.get('name') === 'text-shape') return true;
+        //   return false;
+        // },
         getContent: e => {
           return e.target.get('name') || e.target.get('className') || 'aaa';
         },
-        itemTypes: ['node']
+        itemTypes: ['node', 'combo']
       });
       graph = new Graph({
         container: container.current as string | HTMLElement,

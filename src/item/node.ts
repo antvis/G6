@@ -1,6 +1,4 @@
-import each from '@antv/util/lib/each';
-import isNil from '@antv/util/lib/is-nil';
-import mix from '@antv/util/lib/mix';
+import { each, isNil, mix } from '@antv/util';
 import { IEdge, INode } from '../interface/item';
 import { IPoint, IShapeBase, NodeConfig } from '../types';
 import {

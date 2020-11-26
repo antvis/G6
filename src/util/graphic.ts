@@ -1,4 +1,4 @@
-import Group from '@antv/g-canvas/lib/group';
+import { Group } from '@antv/g-canvas';
 import Path from '@antv/g-canvas/lib/shape/path';
 import { vec2 } from '@antv/matrix-util';
 import Global from '../global';

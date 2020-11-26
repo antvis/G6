@@ -1,7 +1,4 @@
-import isArray from '@antv/util/lib/is-array';
-import isNil from '@antv/util/lib/is-nil';
-import isNumber from '@antv/util/lib/is-number';
-import isString from '@antv/util/lib/is-string';
+import { isString, isNumber, isNil, isArray } from '@antv/util';
 import { G6GraphEvent } from '../interface/behavior';
 import { IG6GraphEvent, Padding, Matrix, Item } from '../types';
 
@@ -215,7 +212,7 @@ export const gpuDetector = (): any => {
   if (typeof window === 'undefined' || typeof document === 'undefined') return {};
   return {
     canvas: !!window.CanvasRenderingContext2D,
-    webgl: (function () {
+    webgl: (() => {
       try {
         const canvas = document.createElement('canvas');
         return !!(window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
@@ -225,7 +222,7 @@ export const gpuDetector = (): any => {
     })(),
     workers: !!window.Worker,
     fileapi: window.File && window.FileReader && window.FileList && window.Blob,
-    getWebGLErrorMessage: function () {
+    getWebGLErrorMessage: () => {
       const element = document.createElement('div');
       element.id = 'webgl-error-message';
       element.style.fontFamily = 'monospace';
@@ -248,7 +245,7 @@ export const gpuDetector = (): any => {
       }
       return element;
     },
-    addGetWebGLMessage: function (parameters) {
+    addGetWebGLMessage(parameters) {
       parameters = parameters || {};
       const parent = parameters.parent !== undefined ? parameters.parent : document.body;
       const id = parameters.id !== undefined ? parameters.id : 'oldie';

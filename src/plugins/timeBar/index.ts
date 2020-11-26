@@ -1,11 +1,10 @@
 /**
  * 基于 G 的时间轴组件
  */
-import GCanvas from '@antv/g-canvas/lib/canvas';
-import GSVGCanvas from '@antv/g-svg/lib/canvas';
-import { IGroup, ICanvas } from '@antv/g-base';
-import createDOM from '@antv/dom-util/lib/create-dom'
-import modifyCSS from '@antv/dom-util/lib/modify-css'
+import { Canvas as GCanvas } from '@antv/g-canvas';
+import { Canvas as GSVGCanvas } from '@antv/g-svg';
+import { ICanvas } from '@antv/g-base';
+import { createDom, modifyCSS } from '@antv/dom-util';
 import Base, { IPluginBaseConfig } from '../base';
 import TrendTimeBar, { SliderOption } from './trendTimeBar'
 import TimeBarSlice, { TimeBarSliceOption } from './timeBarSlice'
@@ -116,7 +115,7 @@ export default class TimeBar extends Base {
 
     let timeBarContainer;
     if (!container) {
-      timeBarContainer = createDOM(`<div class='${className}'></div>`);
+      timeBarContainer = createDom(`<div class='${className}'></div>`);
       modifyCSS(timeBarContainer, { position: 'relative' });
     } else {
       if (isString(container)) {

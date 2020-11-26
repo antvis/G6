@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",
@@ -47,7 +47,8 @@
     "site:build": "npm run site:clean && GATSBY=true gatsby build --prefix-paths",
     "site:clean": "gatsby clean",
     "site:develop": "GATSBY=true gatsby develop --open",
-    "site:deploy": "npm run site:build && gh-pages -d public",
+    "site:deploy": "npm run site:build && npm run site:copy-mirror-action && gh-pages -d public",
+    "site:copy-mirror-action": "mkdir -p public/.github/workflows && cp .github/workflows/mirror.yml public/.github/workflows",
     "start": "npm run site:develop",
     "test": "jest",
     "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/graph/graph-watermarker-spec.ts",

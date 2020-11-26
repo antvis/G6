@@ -1,10 +1,10 @@
 import { ICombo, INode, IItemBaseConfig } from '../interface/item';
-import Group from '@antv/g-canvas/lib/group';
+import { Group } from '@antv/g-canvas';
 import Node from './node';
 import { ComboConfig, IBBox, IShapeBase } from '../types';
 import Global from '../global';
 import { getBBox } from '../util/graphic';
-import isNumber from '@antv/util/lib/is-number';
+import { isNumber } from '@antv/util';
 
 const CACHE_BBOX = 'bboxCache';
 const CACHE_CANVAS_BBOX = 'bboxCanvasCache';

@@ -7,7 +7,7 @@ import { G6Event, IG6GraphEvent, Item, ComboConfig } from '../types';
 import { calculationItemsBBox } from '../util/base';
 import Global from '../global';
 import { IGraph } from '../interface/graph';
-import { each } from '@antv/util/lib';
+import { each } from '@antv/util';
 import { IGroup } from '@antv/g-base/lib/interfaces';
 import { ICombo, INode } from '../interface/item';
 

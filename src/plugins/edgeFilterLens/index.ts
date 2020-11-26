@@ -1,4 +1,4 @@
-import { clone } from '@antv/util/lib';
+import { clone } from '@antv/util';
 import { IG6GraphEvent, ShapeStyle } from '../../types';
 import Graph from '../../graph/graph';
 import Base from '../base';

@@ -32,10 +32,20 @@ const data = {
       type: 'polyline',
       curveOffset: -150,
       curvePosition: 0.5,
+      style: {
+        endArrow: {
+          path: G6.Arrow.triangle(5, 15, 0)
+        }
+      }
     },
     {
       source: '1',
       target: '3',
+      style: {
+        endArrow: {
+          path: G6.Arrow.triangle(5, 15, 0)
+        }
+      }
     },
   ],
 };
@@ -69,6 +79,32 @@ const Quadratic = () => {
       });
       graph.data(data);
       graph.render();
+
+      graph.on('canvas:click', e => {
+        const edge = graph.getEdges()[0];
+        const keyShape = edge.getKeyShape();
+        // keyShape.attr('endArrow', { path: '' });
+        // keyShape.attr('stroke', '#f00');
+        graph.updateItem(graph.getEdges()[1], {
+          style: {
+            endArrow: false,
+            stroke: '#f00'
+          },
+        });
+        // console.log(graph.getEdges()[0])
+      });
+
+      graph.on('edge:click', e => {
+
+        graph.updateItem(graph.getEdges()[1], {
+          style: {
+            endArrow: {
+              path: G6.Arrow.triangle(15, 15, 0)
+            },
+            stroke: '#0f0'
+          },
+        });
+      });
     }
   });
 

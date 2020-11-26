@@ -1,7 +1,7 @@
 /* eslint @typescript-eslint/no-use-before-define: 0 */
 import { IGroup } from '@antv/g-base/lib/interfaces';
 import { Point } from '@antv/g-base/lib/types';
-import Group from '@antv/g-canvas/lib/group';
+import { Group } from '@antv/g-canvas';
 import {
   IBBox,
   IPoint,
@@ -162,8 +162,9 @@ export interface IItemBase {
    * 将更新应用到 model 上，刷新属性
    * @internal 仅提供给 Graph 使用，外部直接调用 graph.update 接口
    * @param  {Object} cfg       配置项，可以是增量信息
+   * @param  {boolean} onlyMove 是否仅移动，只有 node 和 combo 可能是 true
    */
-  update(cfg: ModelConfig): void;
+  update(cfg: ModelConfig, onlyMove?: boolean): void;
 
   /**
    * 更新元素内容，样式

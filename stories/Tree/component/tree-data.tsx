@@ -30,38 +30,24 @@ const TreeData = () => {
             height: 800,
             modes: {
               default: [
-                {
-                  type: 'collapse-expand',
-                  onChange: function onChange(item, collapsed) {
-                    const data = item.get('model').data;
-                    data.collapsed = collapsed;
-                    return true;
-                  },
-                },
                 'drag-canvas',
                 'zoom-canvas',
+                'drag-node'
               ],
             },
-            defaultNode: {
-              size: 26,
-              anchorPoints: [
-                [0, 0.5],
-                [1, 0.5],
-              ],
-              style: {
-                fill: '#C6E5FF',
-                stroke: '#5B8FF9',
-              },
-            },
+            // defaultNode: {
+            //   type: 'circle'
+            // },
             defaultEdge: {
-              type: 'cubic-horizontal',
+              type: 'line',
               style: {
-                stroke: '#A3B1BF',
-              },
+                lineAppendWidth: 5
+              }
             },
             nodeStateStyles: {
-              selected: {
-                fill: 'red'
+              active: {
+                fillOpacity: 0.1,
+                shadowBlur: 0
               }
             },
             layout: {
@@ -85,42 +71,64 @@ const TreeData = () => {
             },
           });
 
-          graph.node(function (node) {
-            return {
-              label: node.id,
-              labelCfg: {
-                offset: 10,
-                position: node.children && node.children.length > 0 ? 'left' : 'right',
-              },
-            };
-          });
+          // graph.node(function (node) {
+          //   return {
+          //     label: node.id,
+          //     labelCfg: {
+          //       offset: 10,
+          //       position: node.children && node.children.length > 0 ? 'left' : 'right',
+          //     },
+          //   };
+          // });
 
           graph.data(data);
           graph.render();
           graph.fitView();
 
           graph.on('node:mouseenter', (e) => {
-            graph.setItemState(e.item, 'hover', true);
-            console.log(e.item);
+            graph.setItemState(e.item, 'active', true);
           });
 
+          graph.on('node:mouseout', (e) => {
+            graph.setItemState(e.item, 'active', false);
+          });
+
+          graph.setItemState(graph.getNodes()[10], 'selected', true);
           graph.on("node:click", (evt) => {
+            console.log('clicking')
             const { item } = evt;
-            const nodes = graph.findAllByState("node", "selected");
-            debugger
-            nodes.forEach((node) => graph.setItemState(node, "selected", false));
-            graph.setItemState(item, "selected", true);
-            const nodeData = graph.findDataById(item.getID());
-            const node = {
-              id: `${Math.floor(Math.random() * 1000)}`,
-              label: "test" + Math.random() * 1000
-            };
-            if (!nodeData.children) {
-              nodeData.children = [node];
-            } else {
-              nodeData.children.push(node);
-            }
-            graph.changeData();
+            // graph.clearItemStates(graph.getNodes()[10]);
+            graph.getNodes().forEach(node => {
+              graph.clearItemStates(node);
+            });
+            graph.setItemState(item, 'selected', true);
+          });
+
+
+          graph.on('edge:mouseenter', (e) => {
+            console.log('enter')
+            graph.setItemState(e.item, 'active', true);
+          });
+
+          graph.on('edge:mouseout', (e) => {
+            graph.setItemState(e.item, 'active', false);
+            console.log(e.item)
+          });
+          graph.on("edge:click", (evt) => {
+            console.log('clicking')
+            const { item } = evt;
+            // graph.clearItemStates(graph.getNodes()[10]);
+            graph.getEdges().forEach(edge => {
+              graph.clearItemStates(edge);
+            });
+            graph.setItemState(item, 'selected', true);
+          });
+
+          graph.on('canvas:click', e => {
+            graph.getEdges().forEach(edge => {
+              // graph.clearItemStates(edge);
+              graph.setItemState(edge, 'selected', false);
+            });
           });
         });
     }
