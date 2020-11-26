@@ -1,6 +1,6 @@
 import Shape from '../shape';
 import { NodeConfig, Item } from '../../types';
-import GGroup from '@antv/g-canvas/lib/group';
+import { Group as GGroup } from '@antv/g-canvas';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
 
 /**

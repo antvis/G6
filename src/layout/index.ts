@@ -3,7 +3,7 @@
  * @author shiwu.wyy@antfin.com
  */
 
-import each from '@antv/util/lib/each';
+import { each } from '@antv/util';
 import Layout from './layout';
 
 import Circular from './circular';

@@ -2,7 +2,7 @@
  * @fileOverview common combo shape
  * @author shiwu.wyy@antfin.com
  */
-import GGroup from '@antv/g-canvas/lib/group';
+import { Group as GGroup } from '@antv/g-canvas';
 import { IShape } from '@antv/g-canvas/lib/interfaces';
 import { isArray, isNil, clone } from '@antv/util';
 import { ILabelConfig, ShapeOptions } from '../interface/shape';

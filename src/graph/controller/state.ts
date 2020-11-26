@@ -1,5 +1,4 @@
-import each from '@antv/util/lib/each';
-import isString from '@antv/util/lib/is-string';
+import { each, isString } from '@antv/util';
 import { Item, States } from '../../types';
 import Graph from '../graph';
 import { INode } from '../../interface/item';

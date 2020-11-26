@@ -1,6 +1,5 @@
-import createDOM from '@antv/dom-util/lib/create-dom'
 import { isString } from '@antv/util';
-import modifyCSS from '@antv/dom-util/lib/modify-css';
+import { createDom, modifyCSS } from '@antv/dom-util';
 
 export const BACKGROUND_STYLE = {
   opacity: 0.5,
@@ -108,7 +107,7 @@ export default class TimeBarTooltip {
       textColor, text, padding, opacity, fontSize } = self;
 
     let parentNode: string | HTMLElement = self.container;
-    const container: HTMLElement = createDOM(
+    const container: HTMLElement = createDom(
       `<div class='${className}' style="position: absolute; width: fit-content; height: fit-content; opacity: ${opacity}"></div>`,
     );
     if (isString(parentNode)) {
@@ -119,13 +118,13 @@ export default class TimeBarTooltip {
     self.parentWidth = parentNode.offsetWidth;
     modifyCSS(container, { visibility: 'hidden', top: 0, left: 0 });
 
-    const background: HTMLElement = createDOM(`
+    const background: HTMLElement = createDom(`
       <div style='position: absolute; white-space:nowrap; background-color: ${backgroundColor}; font-size: ${fontSize}px; border-radius: 4px; width: fit-content; height: fit-content; color: ${textColor}; padding: ${padding[0]}px ${padding[1]}px ${padding[2]}px ${padding[3]}px'></div>`);
     background.innerHTML = text;
     container.appendChild(background);
     self.backgroundDOM = background;
 
-    const arrow: HTMLElement = createDOM(
+    const arrow: HTMLElement = createDom(
       `<div style='position: absolute; width: 0px; height: 0px; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 10px solid ${backgroundColor}'></div>`
     )
     container.appendChild(arrow);
@@ -157,7 +156,7 @@ export default class TimeBarTooltip {
       modifyCSS(self.backgroundDOM, { marginLeft: `${-backgroundWidth / 2 - right + self.parentWidth + 12}px` })
     }
   }
-  
+
   public hide() {
     modifyCSS(this.container as HTMLElement, { top: 0, left: 0, visibility: 'hidden', });
   }

@@ -5,10 +5,7 @@
 
 import { IPointTuple, NodeConfig, Matrix } from '../../types';
 
-import isArray from '@antv/util/lib/is-array';
-import isNumber from '@antv/util/lib/is-number';
-import isString from '@antv/util/lib/is-string';
-import isFunction from '@antv/util/lib/is-function';
+import { isArray, isFunction, isNumber, isString } from '@antv/util';
 import { floydWarshall, getAdjMatrix } from '../../util/math';
 import { isNaN } from '../../util/base';
 

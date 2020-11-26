@@ -5,9 +5,8 @@
 
 import dagre from 'dagre';
 
-import isArray from '@antv/util/lib/is-array';
+import { isArray, isNumber } from '@antv/util';
 import { BaseLayout } from './layout';
-import { isNumber } from '@antv/util';
 
 /**
  * 层次布局

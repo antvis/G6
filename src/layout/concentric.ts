@@ -5,12 +5,9 @@
  */
 
 import { EdgeConfig, IPointTuple, NodeConfig, NodeIdxMap } from '../types';
-
-import isArray from '@antv/util/lib/is-array';
-import isString from '@antv/util/lib/is-string';
+import { isArray, isString, isNumber } from '@antv/util';
 import { BaseLayout } from './layout';
 import { getDegree } from '../util/math';
-import { isNumber } from '@antv/util';
 
 type Node = NodeConfig & {
   [key: string]: number;

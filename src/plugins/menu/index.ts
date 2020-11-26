@@ -1,6 +1,5 @@
-import modifyCSS from '@antv/dom-util/lib/modify-css';
-import createDOM from '@antv/dom-util/lib/create-dom';
-import isString from '@antv/util/lib/is-string';
+import { modifyCSS, createDom } from '@antv/dom-util';
+import { isString } from '@antv/util';
 import insertCss from 'insert-css';
 import Graph from '../../graph/graph';
 import { IG6GraphEvent, Item } from '../../types';
@@ -70,7 +69,7 @@ export default class Menu extends Base {
 
   public init() {
     const className = this.get('className');
-    const menu = createDOM(`<div class=${className || 'g6-component-contextmenu'}></div>`);
+    const menu = createDom(`<div class=${className || 'g6-component-contextmenu'}></div>`);
     modifyCSS(menu, { top: '0px', position: 'absolute', visibility: 'hidden' });
     let container: HTMLDivElement | null = this.get('container');
     if (!container) {

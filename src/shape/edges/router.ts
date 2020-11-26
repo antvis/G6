@@ -6,7 +6,7 @@
  */
 import { INode } from '../../interface/item';
 import { Item } from '../../types';
-import deepMix from '@antv/util/lib/deep-mix';
+import { deepMix } from '@antv/util';
 import { getLineIntersect } from '../../util/math';
 import {
   getExpandedBBox,

@@ -1,13 +1,13 @@
 /* eslint @typescript-eslint/no-use-before-define: 0 */
-import GraphEvent from '@antv/g-base/lib/event/graph-event';
+import { IGroup, Event as GraphEvent } from '@antv/g-base';
 import { BBox, AnimateCfg } from '@antv/g-base/lib/types';
-import Canvas from '@antv/g-canvas/lib/canvas';
-import ShapeBase from '@antv/g-canvas/lib/shape/base';
+import { Canvas, Shape } from '@antv/g-canvas';
 import Node from '../item/node';
 import { IGraph } from '../interface/graph';
 import { IEdge, INode, ICombo } from '../interface/item';
 import { ILabelConfig } from '../interface/shape';
-import { IGroup } from '@antv/g-base';
+
+type ShapeBase = Shape.Base;
 
 // Node Edge Combo 实例
 export type Item = INode | IEdge | ICombo;

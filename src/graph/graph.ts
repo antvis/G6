@@ -1,10 +1,10 @@
 import EventEmitter from '@antv/event-emitter';
 import { IGroup } from '@antv/g-base/lib/interfaces';
-import { BBox, Point } from '@antv/g-base/lib/types';
-import GCanvas from '@antv/g-canvas/lib/canvas';
-import GSVGCanvas from '@antv/g-svg/lib/canvas';
-import { mat3 } from '@antv/matrix-util/lib';
-import { clone, deepMix, each, isPlainObject, isString, isNumber, groupBy } from '@antv/util';
+import { Point } from '@antv/g-base/lib/types';
+import { Canvas as GCanvas } from '@antv/g-canvas';
+import { Canvas as GSVGCanvas } from '@antv/g-svg';
+import { mat3 } from '@antv/matrix-util';
+import { clone, deepMix, each, isPlainObject, isString, isNumber } from '@antv/util';
 import { IGraph, DataUrlType } from '../interface/graph';
 import { IEdge, INode, ICombo } from '../interface/item';
 import {
@@ -40,7 +40,7 @@ import {
   ViewController,
 } from './controller';
 import PluginBase from '../plugins/base';
-import createDom from '@antv/dom-util/lib/create-dom';
+import { createDom } from '@antv/dom-util';
 import { plainCombosToTrees, traverseTree, reconstructTree, traverseTreeUp } from '../util/graphic';
 import degree from '../algorithm/degree';
 import Stack from '../algorithm/structs/stack';

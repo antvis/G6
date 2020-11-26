@@ -1,9 +1,8 @@
-import createDOM from '@antv/dom-util/lib/create-dom';
-import modifyCSS from '@antv/dom-util/lib/modify-css';
+import { modifyCSS, createDom } from '@antv/dom-util';
 import Canvas from '@antv/g-base/lib/abstract/canvas';
 import { IGraph } from '../../interface/graph';
 import { ViewPortEventParam } from '../../types';
-import Base, { IPluginBaseConfig } from '../base';
+import Base from '../base';
 
 interface GridConfig {
   img?: string;
@@ -29,11 +28,11 @@ export default class Grid extends Base {
     const height: number = graph.get<number>('height');
     const img = this.get('img') || GRID_PNG;
 
-    const container: HTMLDivElement = createDOM(
+    const container: HTMLDivElement = createDom(
       `<div class='g6-grid-container' style="position: absolute; left:0;top:0;right:0;bottom:0;overflow: hidden;z-index: -1;"></div>`,
     );
 
-    const gridContainer: HTMLDivElement = createDOM(
+    const gridContainer: HTMLDivElement = createDom(
       `<div 
         class='g6-grid' 
         style='position:absolute;

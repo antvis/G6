@@ -272,6 +272,7 @@ export default class LayoutController {
 
     const offScreenCanvas = document.createElement('canvas');
     const gpuWorkerAbility = isGPU && typeof window !== 'undefined'
+      // eslint-disable-next-line @typescript-eslint/dot-notation
       && window.navigator && !navigator[`gpu`] // WebGPU 还不支持 OffscreenCanvas
       && 'OffscreenCanvas' in window
       && 'transferControlToOffscreen' in offScreenCanvas;

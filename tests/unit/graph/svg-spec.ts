@@ -94,7 +94,7 @@ describe('graph', () => {
     const children = inst.get('group').get('children');
     expect(children.length).toBe(4);
     expect(children[1].get('className')).toEqual('edge-container');
-    
+
     const nodes = inst.getNodes();
     expect(nodes).not.toBe(undefined);
     expect(nodes.length).toBe(0);
@@ -1237,7 +1237,7 @@ describe('behaviors', () => {
     expect(itemKeyShape.attr('lineWidth')).toBe(1);
     expect(unrelativeNodeKeyShape.attr('lineWidth')).toBe(1);
     expect(unrelativeNodeKeyShape.attr('stroke')).toBe('rgb(95, 149, 255)');
-    expect(unrelativeNodeKeyShape.attr('opacity')).toBe(1);
+    expect(unrelativeNodeKeyShape.attr('opacity')).toBe(undefined);
   });
   it('click-select', () => {
     graph.setMode('select');

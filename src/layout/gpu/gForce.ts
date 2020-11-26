@@ -296,6 +296,7 @@ export default class GForceGPULayout extends BaseLayout {
         //   });
         // }
 
+        // eslint-disable-next-line no-await-in-loop
         await kernelGForce.execute();
 
         // midRes = await kernelGForce.getOutput();
@@ -306,6 +307,7 @@ export default class GForceGPULayout extends BaseLayout {
           u_Data: kernelGForce
         });
 
+        // eslint-disable-next-line no-await-in-loop
         await kernelAveMovement.execute();
 
         // 更新衰减函数

@@ -415,7 +415,7 @@ G6.registerNode('real-node', {
 }, 'aggregated-node'); // 这样可以继承 aggregated-node 的 setState
 
 // Custom the quadratic edge for multiple edges between one node pair
-G6.registerEdge('quadratic', {
+G6.registerEdge('custom-quadratic', {
   setState: (name, value, item) => {
     const group = item.get('group');
     const model = item.getModel();
@@ -511,7 +511,7 @@ G6.registerEdge('quadratic', {
 }, 'quadratic');
 
 // Custom the line edge for single edge between one node pair
-G6.registerEdge('line', {
+G6.registerEdge('custom-line', {
   setState: (name, value, item) => {
     const group = item.get('group');
     const model = item.getModel();
@@ -847,7 +847,7 @@ const processNodesEdges = (nodes, edges, width, height, largeGraphMode, edgeLabe
     }
   });
 
-  G6.Util.processParallelEdges(edges, 12.5, 'quadratic', 'line');
+  G6.Util.processParallelEdges(edges, 12.5, 'custom-quadratic', 'custom-line');
   return {
     maxDegree,
     edges
@@ -1473,7 +1473,7 @@ const LargeGraph = () => {
               cedge.loopCfg = {
                 dist: 20,
               }
-            } else cedge.type = 'line';
+            } else cedge.type = 'custom-line';
             aggregatedData.edges.push(cedge);
           });
 
@@ -1609,7 +1609,7 @@ const LargeGraph = () => {
               size: DEFAULTNODESIZE,
             },
             plugins: [contextMenu],
-            layout: layoutConfig
+            layout: layoutConfig,
           });
 
           graph.get('canvas').set('localRefresh', false);

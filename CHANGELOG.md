@@ -1,5 +1,16 @@
 # ChangeLog
 
+#### 4.0.2
+- fix: node and edge state style with update problem;
+- fix: import lib problem;
+- fix: import node module problem;
+- fix: hidden shapes show up after zoom-canvas or drag-canvas with enableOptimize;
+- fix: tooltip for combo;
+- fix: update edge with false endArrow and startArrow;
+
+#### 4.0.1
+- fix: glslang problem;
+
 #### 4.0.0-beta.0
 - feat: fruchterman and gforce layout with gpu;
 - feat: gforce;

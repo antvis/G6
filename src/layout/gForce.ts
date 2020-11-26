@@ -106,6 +106,7 @@ export default class GForceLayout extends BaseLayout {
       enableTick: true
     };
   }
+
   /**
    * 执行布局
    */
@@ -239,8 +240,9 @@ export default class GForceLayout extends BaseLayout {
       iter++;
       if (iter > maxIteration) window.clearInterval(self.timeInterval);
     }, 0);
-    self.onLayoutEnd && self.onLayoutEnd();
+    if (self.onLayoutEnd) self.onLayoutEnd();
   }
+
   public calRepulsive(accArray, nodes) {
     const self = this;
     // const nodes = self.nodes;
@@ -277,6 +279,7 @@ export default class GForceLayout extends BaseLayout {
       });
     });
   }
+
   public calAttractive(accArray, edges) {
     const self = this;
     // const edges = self.edges;
@@ -353,6 +356,7 @@ export default class GForceLayout extends BaseLayout {
       velArray[2 * i + 1] = vy;
     });
   }
+
   public updatePosition(velArray, stepInterval, nodes) {
     const self = this;
     // const nodes = self.nodes;
@@ -363,6 +367,7 @@ export default class GForceLayout extends BaseLayout {
       node.y += distY;
     });
   }
+
   public stop() {
     if (this.timeInterval && typeof window !== 'undefined') {
       window.clearInterval(this.timeInterval);

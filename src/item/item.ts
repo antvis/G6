@@ -1,4 +1,4 @@
-import Group from '@antv/g-canvas/lib/group';
+import { Group } from '@antv/g-canvas';
 import {
   each,
   isNil,
@@ -8,6 +8,7 @@ import {
   uniqueId,
   mix,
   deepMix,
+  isArray,
 } from '@antv/util';
 import { IItemBase, IItemBaseConfig } from '../interface/item';
 import Shape from '../shape/shape';
@@ -26,6 +27,7 @@ import {
 import { getBBox } from '../util/graphic';
 import { translate } from '../util/math';
 import { IGroup } from '@antv/g-base/lib/interfaces';
+import Global from '../global';
 
 const CACHE_BBOX = 'bboxCache';
 const CACHE_CANVAS_BBOX = 'bboxCanvasCache';
@@ -211,21 +213,33 @@ export default class ItemBase implements IItemBase {
     const children = group.get('children');
     const keyShape: IShapeBase = this.getKeyShape();
     const self = this;
+    const keyShapeName = keyShape.get('name');
 
     each(children, (child) => {
       const name = child.get('name');
-      if (name) {
+      if (name && name !== keyShapeName) {
         originStyles[name] = self.getShapeStyleByName(name);
-      } else {
-        const keyShapeName = keyShape.get('name');
-        const keyShapeStyle = self.getShapeStyleByName();
-        if (!keyShapeName) {
-          Object.assign(originStyles, keyShapeStyle);
-        } else {
-          originStyles[keyShapeName] = keyShapeStyle;
-        }
       }
     });
+
+    const model = this.getModel();
+    const shapeFactory = Shape.getFactory(this.get('type'));
+    const shapeOptions = shapeFactory.getShape().getOptions(model);
+    const defaultStyle = shapeOptions.style;
+    const size = shapeOptions.size;
+    const itemType = this.get('type');
+    if (itemType === 'edge') {
+      if (!defaultStyle.lineWidth) defaultStyle.lineWidth = size || Global.defaultEdge.size;
+    } else if (itemType === 'node') {
+      if (!defaultStyle.r) defaultStyle.r = size / 2 || Global.defaultNode.size / 2;
+      if (!defaultStyle.width) defaultStyle.r = (isArray(size) ? size[0] : size) || Global.defaultNode.size / 2;
+      if (!defaultStyle.height) defaultStyle.r = (isArray(size) ? size[1] : size) || Global.defaultNode.size / 2;
+    }
+    if (!keyShapeName) {
+      Object.assign(originStyles, defaultStyle);
+    } else {
+      originStyles[keyShapeName] = defaultStyle;
+    }
 
     const drawOriginStyle = this.getOriginStyle();
     let styles = {};
@@ -371,6 +385,10 @@ export default class ItemBase implements IItemBase {
   public getCurrentStatesStyle(): ShapeStyle {
     const self = this;
     let styles = {};
+    const states = self.getStates();
+    if (!states || !states.length) {
+      return this.getOriginStyle();
+    }
     each(self.getStates(), (state) => {
       styles = Object.assign(styles, self.getStateStyle(state));
     });
@@ -545,7 +563,7 @@ export default class ItemBase implements IItemBase {
    * @internal 仅提供给 Graph 使用，外部直接调用 graph.update 接口
    * @param  {Object} cfg       配置项，可以是增量信息
    */
-  public update(cfg: ModelConfig) {
+  public update(cfg: ModelConfig, onlyMove: boolean = false) {
     const model: ModelConfig = this.get('model');
     const oriVisible = model.visible;
     const cfgVisible = cfg.visible;
@@ -566,7 +584,8 @@ export default class ItemBase implements IItemBase {
     Object.assign(model, cfg);
 
     // isOnlyMove 仅用于node
-    const onlyMove = this.isOnlyMove(cfg);
+    // const onlyMove = this.isOnlyMove(cfg);
+
     // 仅仅移动位置时，既不更新，也不重绘
     if (onlyMove) {
       this.updatePosition(cfg);

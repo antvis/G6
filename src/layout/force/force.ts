@@ -8,10 +8,7 @@ import { GraphData, IPointTuple } from '../../types';
 import * as d3Force from 'd3-force';
 import forceInABox from './force-in-a-box';
 
-import isArray from '@antv/util/lib/is-array';
-import isFunction from '@antv/util/lib/is-function';
-import isNumber from '@antv/util/lib/is-number';
-import mix from '@antv/util/lib/mix';
+import { isArray, isFunction, isNumber, mix } from '@antv/util';
 
 import { BaseLayout } from '../layout';
 import { LAYOUT_MESSAGE } from '../worker/layoutConst';

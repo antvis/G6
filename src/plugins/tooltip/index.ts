@@ -1,6 +1,5 @@
-import modifyCSS from '@antv/dom-util/lib/modify-css';
-import createDOM from '@antv/dom-util/lib/create-dom';
-import isString from '@antv/util/lib/is-string';
+import { modifyCSS, createDom } from '@antv/dom-util';
+import { isString } from '@antv/util';
 import insertCss from 'insert-css';
 import Graph from '../../graph/graph';
 import { IG6GraphEvent, Item } from '../../types';
@@ -66,6 +65,9 @@ export default class Tooltip extends Base {
       'edge:mouseenter': 'onMouseEnter',
       'edge:mouseleave': 'onMouseLeave',
       'edge:mousemove': 'onMouseMove',
+      'combo:mouseenter': 'onMouseEnter',
+      'combo:mouseleave': 'onMouseLeave',
+      'combo:mousemove': 'onMouseMove',
       afterremoveitem: 'onMouseLeave',
       'contextmenu': 'onMouseLeave',
       'node:drag': 'onMouseLeave'
@@ -74,7 +76,7 @@ export default class Tooltip extends Base {
 
   public init() {
     const className = this.get('className') || 'g6-component-tooltip';
-    const tooltip = createDOM(`<div class=${className}></div>`);
+    const tooltip = createDom(`<div class=${className}></div>`);
     let container: HTMLDivElement | null = this.get('container');
     if (!container) {
       container = this.get('graph').get('container');

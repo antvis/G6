@@ -1,4 +1,4 @@
-import each from '@antv/util/lib/each';
+import { each } from '@antv/util';
 import { G6Event, IG6GraphEvent } from '../types';
 
 const DEFAULT_TRIGGER = 'shift';

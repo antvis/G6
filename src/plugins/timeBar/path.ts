@@ -1,7 +1,7 @@
 import * as pathUtil from '@antv/path-util';
 import { Category, Linear } from '@antv/scale';
-import { map, each, isEqual, head } from '@antv/util';
-import isArray from '@antv/util/lib/is-array';
+import { map, each, isEqual, head, isArray } from '@antv/util';
+
 
 type Point = [number, number];
 

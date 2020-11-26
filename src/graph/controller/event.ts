@@ -1,14 +1,12 @@
-import addEventListener from '@antv/dom-util/lib/add-event-listener';
+import { addEventListener } from '@antv/dom-util';
 import Canvas from '@antv/g-base/lib/abstract/canvas';
-import Group from '@antv/g-canvas/lib/group';
-import ShapeBase from '@antv/g-canvas/lib/shape/base';
-import each from '@antv/util/lib/each';
-import isNil from '@antv/util/lib/is-nil';
-import wrapBehavior from '@antv/util/lib/wrap-behavior';
+import { Group, Shape } from '@antv/g-canvas';
+import { each, isNil, wrapBehavior } from '@antv/util';
 import Graph from '../graph';
 import { IG6GraphEvent, Matrix, Item } from '../../types';
 import { cloneEvent, isViewportChanged } from '../../util/base';
 
+type ShapeBase = Shape.Base;
 type Fun = () => void;
 
 // const EVENTS = [

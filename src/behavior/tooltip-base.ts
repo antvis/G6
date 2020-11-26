@@ -1,5 +1,4 @@
-import modifyCSS from '@antv/dom-util/lib/modify-css';
-import createDom from '@antv/dom-util/lib/create-dom';
+import { modifyCSS, createDom } from '@antv/dom-util';
 import { IG6GraphEvent } from '../types';
 
 export default {

@@ -231,12 +231,14 @@ export default class FruchtermanGPULayout extends BaseLayout {
 
     const execute = async () => {
       for (let i = 0; i < maxIteration; i++) {
+        // eslint-disable-next-line no-await-in-loop
         await kernelFruchterman.execute();
 
         if (clustering) {
           kernelCluster.setBinding({
             u_Data: kernelFruchterman,
           });
+          // eslint-disable-next-line no-await-in-loop
           await kernelCluster.execute();
           kernelFruchterman.setBinding({
             u_ClusterCenters: kernelCluster,
@@ -265,7 +267,7 @@ export default class FruchtermanGPULayout extends BaseLayout {
           node.y = y;
         });
       }
-      onLayoutEnd && onLayoutEnd();
+      if (onLayoutEnd) onLayoutEnd();
     }
 
     execute();

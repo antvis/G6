@@ -6,9 +6,7 @@
 import { EdgeConfig, GraphData, IPointTuple, NodeConfig, ComboConfig } from '../types';
 import { ILayout } from '../interface/layout';
 
-// import augment from '@antv/util/lib/augment';
-import each from '@antv/util/lib/each';
-import mix from '@antv/util/lib/mix';
+import { each, mix } from '@antv/util';
 
 /**
  * 基础布局，将被自定义布局所继承

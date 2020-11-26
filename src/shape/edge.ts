@@ -5,9 +5,9 @@
  */
 
 import { Point } from '@antv/g-base/lib/types';
-import GGroup from '@antv/g-canvas/lib/group';
+import { Group as GGroup } from '@antv/g-canvas';
 import { IShape, IElement } from '@antv/g-canvas/lib/interfaces';
-import { deepMix, mix, each, isNil } from '@antv/util';
+import { deepMix, mix, each, isNil, isNumber, isArray } from '@antv/util';
 import { ILabelConfig, ShapeOptions } from '../interface/shape';
 import { EdgeConfig, EdgeData, IPoint, LabelStyle, ShapeStyle, Item, ModelConfig } from '../types';
 import { getLabelPosition, getLoopCfgs } from '../util/graphic';
@@ -17,8 +17,6 @@ import Global from '../global';
 import Shape from './shape';
 import { shapeBase, CLS_LABEL_BG_SUFFIX } from './shapeBase';
 import { Path } from '@antv/g-canvas/lib/shape';
-import isArray from '@antv/util/lib/is-array';
-import isNumber from '@antv/util/lib/is-number';
 
 const CLS_SHAPE = 'edge-shape';
 
@@ -147,12 +145,23 @@ const singleEdge: ShapeOptions = {
     // 添加结束点
     points.push(endPoint);
 
-    const previousStyle = mix({}, strokeStyle, shape.attr(), cfg.style);
+    const currentAttr = shape.attr();
+    const previousStyle = mix({}, strokeStyle, currentAttr, cfg.style);
     const source = cfg.sourceNode;
     const target = cfg.targetNode;
     let routeCfg: { [key: string]: unknown } = { radius: previousStyle.radius };
     if (!controlPoints) {
       routeCfg = { source, target, offset: previousStyle.offset, radius: previousStyle.radius };
+    }
+    if (currentAttr.endArrow && previousStyle.endArrow === false) {
+      cfg.style.endArrow = {
+        path: ''
+      };
+    }
+    if (currentAttr.startArrow && previousStyle.startArrow === false) {
+      cfg.style.startArrow = {
+        path: ''
+      };
     }
     const path = (this as any).getPath(points, routeCfg);
     const style = mix(
@@ -160,9 +169,9 @@ const singleEdge: ShapeOptions = {
       shape.attr(),
       {
         lineWidth: size,
-        path,
+        path
       },
-      cfg.style,
+      cfg.style
     );
 
     if (shape) {

@@ -6,7 +6,7 @@
  * @Description: 拖动节点的Behavior
  */
 import { Point } from '@antv/g-base/lib/types';
-import { deepMix, clone } from '@antv/util/lib';
+import { deepMix, clone } from '@antv/util';
 import { INode, ICombo } from '../interface/item';
 import { G6Event, IG6GraphEvent, Item, NodeConfig } from '../types';
 import Global from '../global';
