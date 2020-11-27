@@ -46,7 +46,7 @@ describe('shortcuts-call', () => {
         }],
       },
     });
-    const node = graph.addItem('node', {
+    graph.addItem('node', {
       color: '#666',
       x: 50,
       y: 50,
