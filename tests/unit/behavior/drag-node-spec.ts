@@ -433,11 +433,12 @@ describe('drag-node', () => {
     graph.destroy();
   });
 
-  it('prevent default', () => {
+  it('prevent default, enabledStack', () => {
     const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
+      enabledStack: true,
       modes: {
         default: [
           {
@@ -465,6 +466,9 @@ describe('drag-node', () => {
     expect(matrix[0]).toEqual(1);
     expect(matrix[6]).toEqual(50);
     expect(matrix[7]).toEqual(50);
+    graph.emit('node:dragend', { x: 120, y: 120, item: node });
+    const stack = graph.getUndoStack();
+    expect(stack.linkedList.head).not.toBe(null);
     graph.destroy();
   });
   it('prevent begin', () => {
@@ -707,6 +711,66 @@ describe('drag-node', () => {
     const dragMatrix = node.get('group').getMatrix();
     expect(dragMatrix[6]).toEqual(50);
     expect(dragMatrix[7]).toEqual(50);
+    graph.destroy();
+  });
+
+  it('drop on combo, drop on canvas', () => {
+    const graph: Graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [
+          {
+            type: 'drag-node',
+            enableDelegate: false,
+          },
+        ],
+      },
+    });
+    const data = {
+      nodes: [
+        {
+          id: 'node',
+          x: 50,
+          y: 50,
+          linkPoints: {
+            right: true,
+          },
+          style: {
+            fill: '#f00',
+          },
+        },
+        {
+          id: 'node2',
+          x: 50,
+          y: 150,
+          linkPoints: {
+            right: true,
+          },
+        },
+      ],
+      combos: [
+        { id: 'combo1' }
+      ]
+    };
+    graph.data(data);
+    graph.render();
+
+    const node = graph.getNodes()[0];
+    const combo = graph.getCombos()[0];
+
+    graph.emit('node:dragstart', { x: 100, y: 100, item: node });
+    graph.emit('node:drag', { x: 120, y: 120, item: node });
+    graph.emit('combo:drop', { x: 120, y: 120, item: combo });
+    graph.emit('node:dragend', { x: 120, y: 120, item: node });
+    expect(combo.getChildren().nodes.length).toBe(1);
+
+    graph.emit('node:dragstart', { x: 100, y: 100, item: node });
+    graph.emit('node:drag', { x: 120, y: 120, item: node });
+    graph.emit('canvas:drop', { x: 120, y: 120 });
+    graph.emit('node:dragend', { x: 120, y: 120, item: node });
+    expect(combo.getChildren().nodes.length).toBe(0);
     graph.destroy();
   });
 
