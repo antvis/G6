@@ -1,5 +1,8 @@
 # ChangeLog
 
+#### 4.0.3
+- fix: state style restore for non-circle shapes;
+
 #### 4.0.2
 - fix: node and edge state style with update problem;
 - fix: import lib problem;

@@ -26,7 +26,7 @@ G6.registerNode(
           fill: 'red',
           y: 0,
           ...keyShapeStyle,
-          r: 20,
+          r: cfg.size / 2,
         },
         name: 'main-node',
       });
@@ -114,7 +114,7 @@ describe('graph refactor states', () => {
     ],
   };
 
-  it.only('compatible true/false states', () => {
+  it('compatible true/false states', () => {
     const graph = new G6.Graph({
       container: div,
       width: 500,
@@ -172,14 +172,14 @@ describe('graph refactor states', () => {
     expect(item.hasState('select')).toBe(false);
     expect(item.getStates()).toEqual(['hover']);
     expect(keyShape.attr('lineWidth')).toBe(1);
-    expect(keyShape.attr('stroke')).toBe('rgb(95, 149, 255)');
+    expect(keyShape.attr('stroke')).toBe(undefined);
 
     // remove hover states
     graph.setItemState(item, 'hover', false);
     expect(item.hasState('hover')).toBe(false);
     expect(item.getStates()).toEqual([]);
     expect(keyShape.attr('opacity')).toEqual(0.8);
-    // graph.destroy();
+    graph.destroy();
   });
 
   it('multivalued & muted', () => {
@@ -191,12 +191,12 @@ describe('graph refactor states', () => {
         'selfCircle:selected': {
           'main-node': {
             fill: '#000',
-            stroke: 'yellow',
+            stroke: 'red',
             lineWidth: 3,
           },
           'sub-node': {
             fill: 'green',
-            stroke: 'yellow',
+            stroke: 'red',
             lineWidth: 3,
           },
         },
@@ -469,8 +469,9 @@ describe('graph refactor states', () => {
     expect(keyShape.attr('stroke')).toEqual(undefined);
     expect(subShape.attr('fill')).toEqual('blue');
 
-    // 设置 selfCircle:hover，目前只有这一个状态
+    // // 设置 selfCircle:hover，目前只有这一个状态
     graph.setItemState(item, 'selfCircle', 'hover');
+    console.log(item)
     expect(item.getStates().length).toBe(1);
     expect(item.hasState('selfCircle:hover')).toBe(true);
 
@@ -595,17 +596,13 @@ describe('graph refactor states', () => {
     const shape2 = group2.find((ele) => ele.get('name') === 'sub-node');
     expect(shape2.attr('stroke')).toEqual('#1cd8a7');
 
+    // node3 是 rect 且没有配置对应的 stateStyle，所以不受影响
     const node3 = graph.findById('node3');
     graph.setItemState(node3, 'selfCircle', 'selected');
     expect(node3.hasState('selfCircle:selected')).toBe(true);
     const keyshape3 = node3.getKeyShape();
-    expect(keyshape3.attr('stroke')).toEqual('#000');
-    expect(keyshape3.attr('lineWidth')).toEqual(3);
-
-    const group3 = node3.getContainer();
-    const shape3 = group3.find((ele) => ele.get('name') === 'sub-node');
-    expect(shape3.attr('stroke')).toEqual('green');
-    expect(shape3.attr('lineWidth')).toEqual(3);
+    expect(keyshape3.attr('stroke')).toEqual('rgb(95, 149, 255)');
+    expect(keyshape3.attr('lineWidth')).toEqual(1);
 
     // 清除 node1 的状态
     graph.clearItemStates(node1, ['selfCircle:selected']);

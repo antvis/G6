@@ -6,9 +6,9 @@ order: 13
 ## pushStack(action, data, stackType)
 入栈操作。
 
-实现 undo 功能，可参考[这里](https://github.com/antvis/G6/blob/timebar-0826/src/plugins/toolBar/index.ts#L182)
+实现 undo 功能，可参考[这里](https://github.com/antvis/G6/blob/master/src/plugins/toolBar/index.ts#L184)
 
-实现 redo 功能，可参考[这里](https://github.com/antvis/G6/blob/timebar-0826/src/plugins/toolBar/index.ts#L234)
+实现 redo 功能，可参考[这里](https://github.com/antvis/G6/blob/master/src/plugins/toolBar/index.ts#L271)
 
 **参数**
 

@@ -87,7 +87,7 @@ export interface IItemBase {
 
   isItem(): boolean;
 
-  getShapeStyleByName(name?: string): ShapeStyle | void;
+  getShapeStyleByName(name?: string): ShapeStyle;
 
   /**
    * 获取当前元素的所有状态

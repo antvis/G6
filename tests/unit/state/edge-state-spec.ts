@@ -75,7 +75,7 @@ describe('graph edge states', () => {
       graph.setItemState(item, 'hover', false);
       expect(item.hasState('hover')).toEqual(false);
       const keyShape = item.getKeyShape();
-      expect(keyShape.attr('opacity')).toEqual(undefined);
+      expect(keyShape.attr('opacity')).toEqual(1);
       expect(keyShape.attr('lineWidth')).toEqual(3);
       expect(keyShape.attr('stroke')).toEqual('steelblue');
     });
@@ -165,9 +165,9 @@ describe('graph edge states', () => {
       graph.setItemState(item, 'hover', false);
       const keyShape = item.getKeyShape();
       expect(keyShape.attr('shadowColor')).toEqual(undefined);
-      expect(keyShape.attr('shadowBlur')).toEqual(undefined);
-      expect(keyShape.attr('shadowOffsetX')).toEqual(undefined);
-      expect(keyShape.attr('shadowOffsetY')).toEqual(undefined);
+      expect(keyShape.attr('shadowBlur')).toEqual(0);
+      expect(keyShape.attr('shadowOffsetX')).toEqual(0);
+      expect(keyShape.attr('shadowOffsetY')).toEqual(0);
       expect(keyShape.attr('lineWidth')).toEqual(10);
     });
 
@@ -303,9 +303,9 @@ describe('graph edge states', () => {
       const curShadowOffsetX = keyShape.attr('shadowBlur');
       const curShadowOffsetY = keyShape.attr('shadowBlur');
       expect(curOpacity === undefined || curOpacity === null).toEqual(true);
-      expect(curShadowBlur === undefined || curShadowBlur === null).toEqual(true);
-      expect(curShadowOffsetX === undefined || curShadowOffsetX === null).toEqual(true);
-      expect(curShadowOffsetY === undefined || curShadowOffsetY === null).toEqual(true);
+      expect(curShadowBlur === 0 || curShadowBlur === undefined || curShadowBlur === null).toEqual(true);
+      expect(curShadowOffsetX === 0 || curShadowOffsetX === undefined || curShadowOffsetX === null).toEqual(true);
+      expect(curShadowOffsetY === 0 || curShadowOffsetY === undefined || curShadowOffsetY === null).toEqual(true);
       expect(keyShape.attr('lineWidth')).toEqual(1);
       expect(keyShape.attr('stroke')).toEqual('#aaa');
     });

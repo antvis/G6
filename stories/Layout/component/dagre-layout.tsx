@@ -6,36 +6,155 @@ const data = {
   nodes: [
     {
       id: '1',
-      name: 'name1',
-      size: [10, 20],
+      dataType: 'alps',
+      name: 'alps_file1',
+      conf: [
+        {
+          label: 'conf',
+          value: 'pai_graph.conf',
+        },
+        {
+          label: 'dot',
+          value: 'pai_graph.dot',
+        },
+        {
+          label: 'init',
+          value: 'init.rc',
+        },
+      ],
     },
     {
       id: '2',
-      name: 'name2',
+      dataType: 'alps',
+      name: 'alps_file2',
+      conf: [
+        {
+          label: 'conf',
+          value: 'pai_graph.conf',
+        },
+        {
+          label: 'dot',
+          value: 'pai_graph.dot',
+        },
+        {
+          label: 'init',
+          value: 'init.rc',
+        },
+      ],
     },
     {
       id: '3',
-      name: 'name3',
+      dataType: 'alps',
+      name: 'alps_file3',
+      conf: [
+        {
+          label: 'conf',
+          value: 'pai_graph.conf',
+        },
+        {
+          label: 'dot',
+          value: 'pai_graph.dot',
+        },
+        {
+          label: 'init',
+          value: 'init.rc',
+        },
+      ],
     },
     {
       id: '4',
-      name: 'name4',
+      dataType: 'sql',
+      name: 'sql_file1',
+      conf: [
+        {
+          label: 'conf',
+          value: 'pai_graph.conf',
+        },
+        {
+          label: 'dot',
+          value: 'pai_graph.dot',
+        },
+        {
+          label: 'init',
+          value: 'init.rc',
+        },
+      ],
     },
     {
       id: '5',
-      name: 'name5',
+      dataType: 'sql',
+      name: 'sql_file2',
+      conf: [
+        {
+          label: 'conf',
+          value: 'pai_graph.conf',
+        },
+        {
+          label: 'dot',
+          value: 'pai_graph.dot',
+        },
+        {
+          label: 'init',
+          value: 'init.rc',
+        },
+      ],
     },
     {
       id: '6',
-      name: 'name6',
+      dataType: 'feature_etl',
+      name: 'feature_etl_1',
+      conf: [
+        {
+          label: 'conf',
+          value: 'pai_graph.conf',
+        },
+        {
+          label: 'dot',
+          value: 'pai_graph.dot',
+        },
+        {
+          label: 'init',
+          value: 'init.rc',
+        },
+      ],
     },
     {
       id: '7',
-      name: 'name7',
+      dataType: 'feature_etl',
+      name: 'feature_etl_1',
+      conf: [
+        {
+          label: 'conf',
+          value: 'pai_graph.conf',
+        },
+        {
+          label: 'dot',
+          value: 'pai_graph.dot',
+        },
+        {
+          label: 'init',
+          value: 'init.rc',
+        },
+      ],
     },
     {
       id: '8',
-      name: 'name8',
+      dataType: 'feature_extractor',
+      name: 'feature_extractor',
+      conf: [
+        {
+          label: 'conf',
+          value: 'pai_graph.conf',
+        },
+        {
+          label: 'dot',
+          value: 'pai_graph.dot',
+        },
+        {
+          label: 'init',
+          value: 'init.rc',
+        },
+      ],
     },
   ],
   edges: [
@@ -74,43 +193,50 @@ const data = {
   ],
 };
 
+G6.registerNode(
+  'sql',
+  {
+    drawShape(cfg, group) {
+      const rect = group.addShape('rect', {
+        attrs: {
+          x: -75,
+          y: -25,
+          width: 150,
+          height: 50,
+          radius: 10,
+          stroke: '#5B8FF9',
+          fill: '#C6E5FF',
+          lineWidth: 3,
+        },
+        name: 'rect-shape',
+      });
+      if (cfg.name) {
+        group.addShape('text', {
+          attrs: {
+            text: cfg.name,
+            x: 0,
+            y: 0,
+            fill: '#00287E',
+            fontSize: 14,
+            textAlign: 'center',
+            textBaseline: 'middle',
+            fontWeight: 'bold',
+          },
+          name: 'text-shape',
+        });
+      }
+      return rect;
+    },
+  },
+  'single-node',
+);
+
 let graph: IGraph = null;
 
 const DagreLayout = () => {
   const container = React.useRef();
   useEffect(() => {
     if (!graph) {
-      G6.registerNode('sql', {
-        drawShape(cfg, group) {
-          const rect = group.addShape('rect', {
-            attrs: {
-              x: -75,
-              y: -25,
-              width: 150,
-              height: 50,
-              radius: 10,
-              stroke: '#5B8FF9',
-              fill: '#C6E5FF',
-              lineWidth: 3,
-            },
-          });
-          if (cfg.name) {
-            // group.addShape('text', {
-            //   attrs: {
-            //     text: cfg.name,
-            //     x: 0,
-            //     y: 0,
-            //     fill: '#00287E',
-            //     fontSize: 14,
-            //     textAlign: 'center',
-            //     textBaseline: 'middle',
-            //     fontWeight: 'bold'
-            //   }
-            // });
-          }
-          return rect;
-        },
-      });
       // G6.Global.nodeStateStyle.selected = {
       //   stroke: '#d9d9d9',
       //   fill: '#5394ef'
@@ -122,7 +248,6 @@ const DagreLayout = () => {
         height: 500,
         layout: {
           type: 'dagre',
-          controlPoints: true,
           nodesepFunc: (d) => {
             if (d.id === '3') {
               return 500;
@@ -130,43 +255,44 @@ const DagreLayout = () => {
             return 50;
           },
           ranksep: 70,
+          controlPoints: true,
         },
         defaultNode: {
-          type: 'rect',
+          type: 'sql',
         },
         defaultEdge: {
           type: 'polyline',
           style: {
-            radius: 0,
-            endArrow: {
-              path: 'M 0,0 L 0,4 L 8,-4 Z',
-              fill: '#ddd',
-            },
+            radius: 20,
+            offset: 45,
+            endArrow: true,
+            lineWidth: 2,
+            stroke: '#C2C8D5',
+          },
+        },
+        nodeStateStyles: {
+          selected: {
+            stroke: '#d9d9d9',
+            fill: '#5394ef',
           },
         },
         modes: {
           default: [
             'drag-canvas',
             'zoom-canvas',
-            'click-select',
+            // 'click-select',
             // {
             //   type: 'tooltip',
             //   formatText(model) {
-            //     const cfg: any = model.conf;
+            //     const cfg = model.conf;
             //     const text = [];
-            //     cfg.forEach(row => {
+            //     cfg.forEach((row) => {
             //       text.push(row.label + ':' + row.value + '<br>');
             //     });
             //     return text.join('\n');
             //   },
-            //   shouldUpdate: e => {
-            //     // 如果移动到节点文本上显示，不是文本上不显示
-            //     if (e.target.type !== 'text') {
-            //       return false;
-            //     }
-            //     return true;
-            //   }
-            // }
+            //   offset: 30,
+            // },
           ],
         },
         fitView: true,
@@ -174,10 +300,15 @@ const DagreLayout = () => {
       graph.data(data);
       graph.render();
 
-      graph.on('canvas:click', (e) => {
-        console.log(graph.toDataURL('image/jpeg', '#fff'));
-        graph.downloadImage('test', 'image/png');
+      let item;
+      graph.on('node:click', e => {
+        graph.setItemState(e.item, 'selected', true);
+        item = e.item;
       });
+      graph.on('canvas:click', e => {
+        if (!item) return;
+        graph.setItemState(item, 'selected', false);
+      })
     }
   });
   return <div ref={container}></div>;

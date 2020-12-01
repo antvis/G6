@@ -20,6 +20,7 @@ import PieChart from './component/pie-chart';
 import MultiChart from './component/multi-chart';
 import StateOpacity from './component/state-opacity';
 import PolylineCombo from './component/polyline-combo';
+import Rect from './component/rect';
 
 import XML from './component/xml';
 
@@ -55,4 +56,5 @@ storiesOf('Shape', module)
   .add('MultiChart', () => <MultiChart />)
   .add('xml node', () => <XML />)
   .add('state opacity', () => <StateOpacity />)
-  .add('polyline with combo', () => <PolylineCombo />);
+  .add('polyline with combo', () => <PolylineCombo />)
+  .add('rect', () => <Rect />);

@@ -181,7 +181,7 @@ describe('combo node test', () => {
       factory.setState('rectnode', 'active', true, item);
       expect(shape.attr('fillOpacity')).not.toBe(1);
       factory.setState('rectnode', 'active', false, item);
-      expect(shape.attr('fillOpacity')).toBe(undefined);
+      expect(shape.attr('fillOpacity')).toBe(1);
     });
 
     it('label position', () => {

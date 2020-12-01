@@ -6,9 +6,9 @@ order: 13
 ## pushStack(action, data, stackType)
 Push operation。
 
-Implemented the undo function, refer to [here](https://github.com/antvis/G6/blob/timebar-0826/src/plugins/toolBar/index.ts#L182)
+Implemented the undo function, refer to [here](https://github.com/antvis/G6/blob/master/src/plugins/toolBar/index.ts#L184)
 
-Implemented the redo function, refer to[here](https://github.com/antvis/G6/blob/timebar-0826/src/plugins/toolBar/index.ts#L234)
+Implemented the redo function, refer to[here](https://github.com/antvis/G6/blob/master/src/plugins/toolBar/index.ts#L271)
 
 **参数**
 

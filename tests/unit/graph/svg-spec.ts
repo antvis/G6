@@ -1237,7 +1237,7 @@ describe('behaviors', () => {
     expect(itemKeyShape.attr('lineWidth')).toBe(1);
     expect(unrelativeNodeKeyShape.attr('lineWidth')).toBe(1);
     expect(unrelativeNodeKeyShape.attr('stroke')).toBe('rgb(95, 149, 255)');
-    expect(unrelativeNodeKeyShape.attr('opacity')).toBe(undefined);
+    expect(unrelativeNodeKeyShape.attr('opacity')).toBe(1);
   });
   it('click-select', () => {
     graph.setMode('select');
@@ -1314,8 +1314,8 @@ describe('behaviors', () => {
     expect(item.getModel().x).toBe(100);
     expect(item.getModel().y).toBe(300);
     const edge = graph.getEdges()[0];
-    expect((edge.getModel() as EdgeConfig).startPoint.x).toBe(98.61228093904431);
-    expect((edge.getModel() as EdgeConfig).startPoint.y).toBe(289.5921070428323);
+    expect((edge.getModel() as EdgeConfig).startPoint.x).toBe(98.5461990789988);
+    expect((edge.getModel() as EdgeConfig).startPoint.y).toBe(289.096493092491);
 
     // multiple selected nodes to drag
     const item2 = graph.getNodes()[1];

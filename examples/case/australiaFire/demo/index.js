@@ -7,8 +7,8 @@ import insertCss from 'insert-css';
 insertCss(`
   #legendContainer{
     position: absolute;
-    top: 50px;
-    left: 200px;
+    top: 92px;
+    left: 8px;
     width: 100px;
     height: 100px;
   }
@@ -223,9 +223,8 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/d676014a-0a11-4ea9-9af4-403
   .then((res) => res.json())
   .then((data) => {
     const container = document.getElementById('container');
-    const width = document.getElementById('container').scrollWidth;
-    const height = document.getElementById('container').scrollHeight || 500;
     container.style.backgroundColor = '#000';
+    container.style.textAlign = 'center';
     const graph = new G6.TreeGraph({
       container: 'container',
       width: height < width ? height : width,

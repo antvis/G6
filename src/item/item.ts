@@ -31,6 +31,7 @@ import Global from '../global';
 
 const CACHE_BBOX = 'bboxCache';
 const CACHE_CANVAS_BBOX = 'bboxCanvasCache';
+const ARROWS = ['startArrow', 'endArrow'];
 
 export default class ItemBase implements IItemBase {
   public _cfg: IItemBaseConfig & {
@@ -215,34 +216,66 @@ export default class ItemBase implements IItemBase {
     const self = this;
     const keyShapeName = keyShape.get('name');
 
-    each(children, (child) => {
-      const name = child.get('name');
-      if (name && name !== keyShapeName) {
-        originStyles[name] = self.getShapeStyleByName(name);
-      }
-    });
+    if (!this.get('originStyle')) {
+      each(children, (child) => {
+        const name = child.get('name');
+        if (name && name !== keyShapeName) {
+          originStyles[name] = self.getShapeStyleByName(name);
+        } else {
+          const keyShapeStyle: ShapeStyle = self.getShapeStyleByName();
+          if (keyShapeStyle.path) delete keyShapeStyle.path;
+          if (keyShapeStyle.matrix) delete keyShapeStyle.matrix;
+          if (!keyShapeName) {
+            Object.assign(originStyles, keyShapeStyle);
+          } else {
+            originStyles[keyShapeName] = keyShapeStyle;
+          }
+        }
+      });
+    }
 
-    const model = this.getModel();
-    const shapeFactory = Shape.getFactory(this.get('type'));
-    const shapeOptions = shapeFactory.getShape().getOptions(model);
-    const defaultStyle = shapeOptions.style;
-    const size = shapeOptions.size;
     const itemType = this.get('type');
+    const model = this.getModel();
+    let shapeType = model.type;
+    if (!shapeType) {
+      switch (itemType) {
+        case 'edge':
+          shapeType = 'line';
+          break;
+        default:
+          shapeType = 'circle';
+          break;
+      }
+    }
+
+    let shapeFactory = Shape.getFactory(itemType)[shapeType];
+    if (!shapeFactory) shapeFactory = Shape.getFactory(itemType).getShape();
+    const shapeOptions = shapeFactory.getOptions ? shapeFactory.getOptions(model) : {};
+    const defaultStyle = shapeOptions.style || {};
+    const size = shapeOptions.size;
     if (itemType === 'edge') {
       if (!defaultStyle.lineWidth) defaultStyle.lineWidth = size || Global.defaultEdge.size;
-    } else if (itemType === 'node') {
+    } else {
       if (!defaultStyle.r) defaultStyle.r = size / 2 || Global.defaultNode.size / 2;
-      if (!defaultStyle.width) defaultStyle.r = (isArray(size) ? size[0] : size) || Global.defaultNode.size / 2;
-      if (!defaultStyle.height) defaultStyle.r = (isArray(size) ? size[1] : size) || Global.defaultNode.size / 2;
+      if (!defaultStyle.width) defaultStyle.width = (isArray(size) ? size[0] : size) || Global.defaultNode.size / 2;
+      if (!defaultStyle.height) defaultStyle.height = (isArray(size) ? size[1] : size) || Global.defaultNode.size / 2;
     }
     if (!keyShapeName) {
       Object.assign(originStyles, defaultStyle);
     } else {
-      originStyles[keyShapeName] = defaultStyle;
+      const styles: ShapeStyle = {};
+      for (const key in defaultStyle) {
+        const style = defaultStyle[key];
+        if (!isPlainObject(style) || ARROWS.includes(key)) styles[key] = style;
+      }
+      if (styles.path) delete styles.path;
+      if (styles.matrix) delete styles.matrix;
+      if (!originStyles[keyShapeName]) originStyles[keyShapeName] = styles;
+      else originStyles[keyShapeName] = Object.assign(styles, originStyles[keyShapeName]);
     }
 
     const drawOriginStyle = this.getOriginStyle();
-    let styles = {};
+    let styles: ShapeStyle = {};
     if (cfg) {
       styles = deepMix({}, drawOriginStyle, originStyles, cfg.style, {
         labelCfg: cfg.labelCfg,
@@ -251,6 +284,8 @@ export default class ItemBase implements IItemBase {
       styles = deepMix({}, drawOriginStyle, originStyles);
     }
 
+    if (styles.path) delete styles.path;
+    if (styles.matrix) delete styles.matrix;
     self.set('originStyle', styles);
   }
 
@@ -332,7 +367,7 @@ export default class ItemBase implements IItemBase {
     this.afterDraw();
   }
 
-  public getShapeStyleByName(name?: string): ShapeStyle | void {
+  public getShapeStyleByName(name?: string): ShapeStyle {
     const group: Group = this.get('group');
     let currentShape: IShapeBase = this.getKeyShape();
 

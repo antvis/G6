@@ -5,9 +5,6 @@ import insertCss from 'insert-css';
 // 推荐将样式添加到自己的样式文件中
 // 若拷贝官方代码，别忘了 npm install insert-css
 insertCss(`
-  #container {
-    background-color: #2b2f33;
-  }
   .g6-component-contextmenu {
     position: absolute;
     z-index: 2;
@@ -1375,6 +1372,8 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
     descriptionDiv.style.marginTop = '8px';
     container.appendChild(descriptionDiv);
 
+    container.style.backgroundColor = '#2b2f33';
+
     CANVAS_WIDTH = container.scrollWidth;
     CANVAS_HEIGHT = (container.scrollHeight || 500) - 30;
 
@@ -1532,13 +1531,24 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       groupByTypes: false,
       modes: {
         default: [
-          'drag-canvas',
-          'zoom-canvas',
+          {
+            type: 'drag-canvas',
+            enableOptimize: true
+          },
+          {
+            type: 'zoom-canvas',
+            enableOptimize: true,
+            optimizeZoom: 0.01
+          },
           'drag-node',
           'shortcuts-call'
         ],
         lassoSelect: [
-          'zoom-canvas',
+          {
+            type: 'zoom-canvas',
+            enableOptimize: true,
+            optimizeZoom: 0.01
+          },
           {
             type: 'lasso-select',
             selectedState: 'focus',
