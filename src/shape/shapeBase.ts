@@ -8,11 +8,49 @@ import { ShapeOptions, ILabelConfig } from '../interface/shape';
 import { IPoint, Item, LabelStyle, ShapeStyle, ModelConfig, EdgeConfig } from '../types';
 import Global from '../global';
 import { transform } from '@antv/matrix-util';
-import { deepMix, each, mix, isBoolean, isPlainObject, clone } from '@antv/util';
+import { deepMix, each, mix, isBoolean, isPlainObject, clone, isString } from '@antv/util';
 
 const CLS_SHAPE_SUFFIX = '-shape';
 const CLS_LABEL_SUFFIX = '-label';
 const ARROWS = ['startArrow', 'endArrow'];
+const SHAPE_DEFAULT_ATTRS = {
+  lineWidth: 1,
+  stroke: undefined,
+  fill: undefined,
+  lineAppendWidth: 1,
+  opacity: undefined,
+  strokeOpacity: undefined,
+  fillOpacity: undefined,
+  x: 0,
+  y: 0,
+  r: 10,
+  width: 20,
+  height: 20,
+  shadowColor: undefined,
+  shadowBlur: 0,
+  shadowOffsetX: 0,
+  shadowOffsetY: 0
+}
+const PATH_SHAPE_DEFAULT_ATTRS = {
+  lineWidth: 1,
+  stroke: '#000',
+  lineDash: undefined,
+  startArrow: false,
+  endArrow: false,
+  opacity: undefined,
+  strokeOpacity: undefined,
+  fillOpacity: undefined,
+  shadowColor: undefined,
+  shadowBlur: 0,
+  shadowOffsetX: 0,
+  shadowOffsetY: 0
+}
+const SHAPES_DEFAULT_ATTRS = {
+  edge: PATH_SHAPE_DEFAULT_ATTRS,
+  node: SHAPE_DEFAULT_ATTRS,
+  combo: SHAPE_DEFAULT_ATTRS
+}
+
 export const CLS_LABEL_BG_SUFFIX = '-label-bg';
 
 // 单个 shape 带有一个 label，共用这段代码
@@ -317,6 +355,9 @@ export const shapeBase: ShapeOptions = {
 
     const group = item.getContainer();
 
+    // 从图元素现有的样式中删除本次要取消的 states 中存在的属性值。使用对象检索更快
+    const keptAttrs = { x: 1, y: 1, cx: 1, cy: 1 };
+
     if (value) {
       // style 为要设置的状态的样式
       for (const key in styles) {
@@ -339,6 +380,7 @@ export const shapeBase: ShapeOptions = {
 
       const model = item.getModel();
       // 原始样式
+      const tmp = item.getOriginStyle();
       const originStyle = mix({}, model.style, clone(item.getOriginStyle()));
 
       const keyShapeName = shape.get('name');
@@ -353,20 +395,25 @@ export const shapeBase: ShapeOptions = {
         if (isPlainObject(style) && !ARROWS.includes(p)) {
           const subShape = group.find((element) => element.get('name') === p);
           if (subShape) {
-            const subShapeStyles = subShape.attr();
+            const subShapeStyles = clone(subShape.attr());
             each(style, (v, key) => {
-              if (subShapeStyles[key] || subShapeStyles[key] === 0) {
+              if (p === keyShapeName && keyShapeStyles[key] && !keptAttrs[key]) {
+                delete keyShapeStyles[key];
+                const value = originStyle[p][key] || SHAPES_DEFAULT_ATTRS[type][key];
+                shape.attr(key, value);
+              } else if (subShapeStyles[key] || subShapeStyles[key] === 0) {
                 delete subShapeStyles[key];
+                const value = originStyle[p][key] || SHAPES_DEFAULT_ATTRS[type][key];
+                subShape.attr(key, value);
               }
             });
             filtetDisableStatesStyle[p] = subShapeStyles;
           }
         } else {
-          // 从图元素现有的样式中删除本次要取消的 states 中存在的属性值。使用对象检索更快
-          const keptAttrs = { x: 1, y: 1, cx: 1, cy: 1 };
           if (keyShapeStyles[p] && !keptAttrs[p]) {
             delete keyShapeStyles[p];
-            shape.attr(p, originStyle[p]);
+            const value = originStyle[p] || (originStyle[keyShapeName] ? originStyle[keyShapeName][p] : undefined) || SHAPES_DEFAULT_ATTRS[type][p];
+            shape.attr(p, value);
           }
         }
       }
@@ -381,6 +428,7 @@ export const shapeBase: ShapeOptions = {
       }
 
       for (const key in enableStatesStyle) {
+        if (keptAttrs[key]) continue;
         const enableStyle = enableStatesStyle[key];
         if (!isPlainObject(enableStyle) || ARROWS.includes(key)) {
           // 把样式属性merge到keyShape中
@@ -400,6 +448,7 @@ export const shapeBase: ShapeOptions = {
 
       const originstyles = {};
       deepMix(originstyles, originStyle, filtetDisableStatesStyle, enableStatesStyle);
+      let keyShapeSetted = false;
 
       for (const originKey in originstyles) {
         const style = originstyles[originKey];
@@ -407,18 +456,20 @@ export const shapeBase: ShapeOptions = {
           const subShape = group.find((element) => element.get('name') === originKey);
           if (subShape) {
             subShape.attr(style);
+            if (originKey === keyShapeName) keyShapeSetted = true;
           }
-        } else {
+        } else if (!keyShapeSetted) {
+          const value = style || SHAPES_DEFAULT_ATTRS[type][originKey];
           // 当更新 combo 状态时，当不存在 keyShapeName 时候，则认为是设置到 keyShape 上面的
           if (type === 'combo') {
             if (!keyShapeName) {
               shape.attr({
-                [originKey]: style,
+                [originKey]: value,
               });
             }
           } else {
             shape.attr({
-              [originKey]: style,
+              [originKey]: value,
             });
           }
         }
