@@ -8,7 +8,7 @@ redirect_from:
 ## 引言
 在「科学与复杂性」一文中，科学家 Warren Weaver 按学界面临问题的复杂性，将现代科学史划分为「简单问题、无序复杂问题、有序复杂问题」3 个阶段。20 世纪中叶之后，学界开始面临更多不稳定性、非线性和多元性的有序复杂问题，业界急需一种基于网络模型的分析探索工具，和思考方式。后来，以 柯尼斯堡七桥问题 基于图的拓扑结构被解决为起始点，图可视分析在越来越多的领域发挥作用，在互联网行业，随着大数据与 AI 技术发展，越来越多的业务场景用上了图可视分析，如社区结构分析、聚类、消息传播、节点分类、链接预测、图表示学习、图神经网络、网络演化等。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*W7bRT7fewBkAAAAAAAAAAAAAARQnAQ' width='90%'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*W7bRT7fewBkAAAAAAAAAAAAAARQnAQ' width='90%' alt='img' />
 
 > 《Science of Complexity》 - Warren Weaver  1948
 
@@ -22,12 +22,12 @@ redirect_from:
 - 对现状的记录、阐明、揭示：如对机房安全，流量监控等现状的监控；
 - 对现状的扩展、抽象（对未来的预测）：如基于人工智能的各类技术，对于图的预测和实时防控。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NkEwRYehsh4AAAAAAAAAAAAAARQnAQ' width='90%'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NkEwRYehsh4AAAAAAAAAAAAAARQnAQ' width='90%' alt='img' />
 
 ### 图的种类
 关系图种类划分，无论业界还是学界目前都没有一个统一的定论。基于 AntV 自身的业务，我们总结归纳出几种常见图的类型：关系图、流程图、DAG 图、血缘图、ER 图、树状图。每种图都有其自身的使用场景以及设计时需要考量的点。我们从图的基本介绍、特点、适用业务场景、设计指引几个方面提供了详细的介绍。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*8_PvSI5pMKgAAAAAAAAAAAAAARQnAQ' width='90%'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*8_PvSI5pMKgAAAAAAAAAAAAAARQnAQ' width='90%' alt='img' />
 
 [查看图的种类详细介绍和设计指引  >](/zh/docs/design/global/style)
 
@@ -45,7 +45,7 @@ redirect_from:
 ### 通用流程
 从图分析的角度来看一个图分析产品通常会历经如下几个阶段，以将数据源转化为对用户有价值的信息。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*pu-0QIeE2rYAAAAAAAAAAAAAARQnAQ' width='90%'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*pu-0QIeE2rYAAAAAAAAAAAAAARQnAQ' width='90%' alt='img' />
 
 > 引用自《图分析与可视化》
 
@@ -58,12 +58,12 @@ redirect_from:
 #### 有明确目的
 这类分析模式是有明确的分析或查询条件，这个条件的呈现形式可能是一个规则表达式，一段 Gremlin 或 GQL 的查询语句，或明确的起点和终点，甚至是直接查看某个节点或某条边的具体信息。常见的模式有：规则查询、Gremlin 查询、关联分析、筛选/搜索画布、查看详情等。这类模式下，通常需要通过搜索或在各种类型的输入面板中，输入查询语句、规则等明确的条件信息，来进行探查和分析。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Pnt6R6i3SeQAAAAAAAAAAAAAARQnAQ' width='90%'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Pnt6R6i3SeQAAAAAAAAAAAAAARQnAQ' width='90%' alt='img' />
 
 #### 无明确目的
 无明确目的地探索是指基于已有数据内容，进行关系的 N 度扩展、下钻分析、子图探索、撤销回退等操作，来挖掘数据中的特性，发现价值或机会点的分析过程。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cnNpSJmXD7sAAAAAAAAAAAAAARQnAQ' width='90%'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cnNpSJmXD7sAAAAAAAAAAAAAARQnAQ' width='90%' alt='img' />
 
 #### 特殊场景
 
@@ -71,13 +71,13 @@ redirect_from:
 
 这类分析场景通常需要借助内置的算法或规则推理能力来实现，从海量数据中快捷的挖掘出符合特定规则的目标节点和关系，常见的有：担保圈、实控人、最短路径等。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cnNpSJmXD7sAAAAAAAAAAAAAARQnAQ' width='90%'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cnNpSJmXD7sAAAAAAAAAAAAAARQnAQ' width='90%' alt='img' />
 
 **结合时间或地理信息的场景**
 
 在源数据中含有时间和地理维度的内容时，会出现结合时间或地理信息的分析场景。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*WCYRT4rG8IYAAAAAAAAAAAAAARQnAQ' width='90%'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*WCYRT4rG8IYAAAAAAAAAAAAAARQnAQ' width='90%' alt='img' />
 
 ### 常见组件
 > 对应「五要素」中的框架层
@@ -113,7 +113,7 @@ redirect_from:
 #### 操作对象
 「交互」能使用户从被动的「看客」成为主动的「探索分析者」，更好地参与对数据的理解和分析的过程。可视分析产品的目的也不仅是向用户传递定制好的知识，而是提供一个工具来帮助用户在海量数据中进行探索分析，并最终得到想要的结论。 一个完整地图分析产品必定是由诸多的基础交互事件按照不同的目的和使用场景组合在一起的，为了将各类复杂的交互事件抽丝剥茧，交互事件的操作对象通常有：画布、节点、Combo、边和其他。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sgEhQJZK1VsAAAAAAAAAAAAAARQnAQ' width='90%'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sgEhQJZK1VsAAAAAAAAAAAAAARQnAQ' width='90%' alt='img' />
 
 ### 视觉设计
 > 对应「五要素」中的表现层
@@ -125,33 +125,33 @@ redirect_from:
 #### 形状
 关系图的节点可根据业务实际场景需要，为表达特定的某类信息，可将节点定制为特殊样式，或将节点与常见的二维图表（如：环形图，玫瑰图等）结合，以展示更多信息，甚至在需要突出强调表达某种业务独有的属性和特点时，可尝试用 3D 图形来表达。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6qBAS7RGhqYAAAAAAAAAAAAAARQnAQ' width='90%'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6qBAS7RGhqYAAAAAAAAAAAAAARQnAQ' width='90%' alt='img' />
 
 无论节点还是边，在设计时，都需要考虑在不同鼠标事件的情况下的视觉表现：
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*QyikQKVGtTgAAAAAAAAAAAAAARQnAQ' width='90%'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*QyikQKVGtTgAAAAAAAAAAAAAARQnAQ' width='90%' alt='img' />
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*fIYATIKMK24AAAAAAAAAAAAAARQnAQ' width='90%'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*fIYATIKMK24AAAAAAAAAAAAAARQnAQ' width='90%' alt='img' />
 
 #### 颜色
 G6 在 AntV 的基础色彩体系的基础上，结合关系图表达的特点，精细化调整了颜色在数据维度上的衡量和线性感知。内置了一系列优美、和谐且满足无障碍设计原则的色板。包括：分类色板、邻近色板、发散色板、语义色板。默认情况下以蓝色为基础样式的案例色，也是 G6 的默认主色。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*kcDySZJrRiEAAAAAAAAAAAAAARQnAQ' width='90%'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*kcDySZJrRiEAAAAAAAAAAAAAARQnAQ' width='90%' alt='img' />
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SMVEQIxHhLAAAAAAAAAAAAAAARQnAQ' width='90%'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*SMVEQIxHhLAAAAAAAAAAAAAAARQnAQ' width='90%' alt='img' />
 
 同时，我们还提供深、浅色两套主题样式，以满足不同的应用场景：
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*epAwRJqUBf0AAAAAAAAAAAAAARQnAQ' width='90%'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*epAwRJqUBf0AAAAAAAAAAAAAARQnAQ' width='90%' alt='img' />
 
 #### 其他
 完整的关系图可视化视觉设计，不是单纯的将不同的视觉属性机械地叠加在一起。通常情况下，一个图分析产品中的视觉设计需要考虑的信息维度有：鼠标事件、数据特性、业务语义。最复杂的情况下，3 个维度的信息都需要综合考虑，比如：下图案例中的「类型 B」在「满足条件 A」的情况下，也需要考虑各种鼠标事件情况下的视觉展示情况。诚然不是所有业务都会遇到如此复杂的情况，在具体的业务场景中可结合用户场景以及交互事件的三要素「触发器+规则+反馈」，来综合判断和决策最适当的视觉表达形式。
 
 | 信息维度 | 释义 | 样式示例 |
 |  ----  | ----  | ---- |
-| 鼠标事件 | 常见的鼠标事件： Default、Active、Selected、Disable 等 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GDOeTabF9aIAAAAAAAAAAAAAARQnAQ' width='100'> |
-| 数据特性 | 图数据本身固有的特性，如节点或边的数据类型 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AbSmSIgAvogAAAAAAAAAAAAAARQnAQ' width='100'> |
-| 业务语义 | 符合某些规则的节点需要特殊样式强调高亮 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IbJaRqRNCVQAAAAAAAAAAAAAARQnAQ' width='100'> |
+| 鼠标事件 | 常见的鼠标事件： Default、Active、Selected、Disable 等 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*GDOeTabF9aIAAAAAAAAAAAAAARQnAQ' width='100' /> |
+| 数据特性 | 图数据本身固有的特性，如节点或边的数据类型 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AbSmSIgAvogAAAAAAAAAAAAAARQnAQ' width='100' /> |
+| 业务语义 | 符合某些规则的节点需要特殊样式强调高亮 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IbJaRqRNCVQAAAAAAAAAAAAAARQnAQ' width='100' /> |
 
 ## 设计指引
 ### 始于发问
@@ -160,9 +160,9 @@ G6 在 AntV 的基础色彩体系的基础上，结合关系图表达的特点�
 ### 切换视角
 在不同的视角和布局下，关系图会表现出不一样的模式和行为，呈现出的内容重点也不尽相同。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hCnlSaLPlZUAAAAAAAAAAAAAARQnAQ' width='90%'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hCnlSaLPlZUAAAAAAAAAAAAAARQnAQ' width='90%' alt='img' />
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NsmQRppMa9MAAAAAAAAAAAAAARQnAQ' width='90%'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NsmQRppMa9MAAAAAAAAAAAAAARQnAQ' width='90%' alt='img' />
 
 ### 管理细节
 人一次性能接受到的信息量有限，考虑人对信息认知极限，克制地表达关系图中的细节信息，在合适的场景下表达适度的内容。建议遵循「渐进呈现」的原则，先概览，再放大过滤，最后看细节。常见的管理细节的方法有：
@@ -174,12 +174,12 @@ G6 在 AntV 的基础色彩体系的基础上，结合关系图表达的特点�
 ### 考虑时间
 数据很少是静态的，某件事在某个时间点爆发或者持续间发生，关联的因子有多个，时间轴工具可以有效展示动态时序数据、分析图数据关联因子。G6 图可视化中已经提供了完整的「时间轴」组件。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*PZ__RZQfaicAAAAAAAAAAAAAARQnAQ' width='90%'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*PZ__RZQfaicAAAAAAAAAAAAAARQnAQ' width='90%' alt='img' />
 
 ### 操作可逆
 图分析产品往往是非常重交互的场景，通常用户会在画布执行连续分析的动作或通过一连串的分析行为才拿到有效的结果信息，为了确保用户不错过有效的信息以及防止错误的操作，如误删了某些节点或边或扩展了太多节点，产品中需要提供操作可逆的机制，能够允许用户回退或重复上一步操作。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9QsvSZM9M8AAAAAAAAAAAAAAARQnAQ' width='90%'>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9QsvSZM9M8AAAAAAAAAAAAAAARQnAQ' width='90%' alt='img' />
 
 ### 终于行动
 图分析产品的最终目的是让用户得到想要的「答案」，获取到有价值的信息，并以这些信息为基础去执行下一步动作，常见的有：下载/分享分析结果、将分析规则发布为在线服务或沉淀为探索分析模板、或直接将分析结果作为完整生产链路中的一环输入给下游环节。一言以蔽之，一个体验良好的图分析产品，必定能从「发问」到「行动」形成完整的产品体验闭环。
