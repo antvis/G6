@@ -81,3 +81,7 @@ public
 esm
 
 es
+
+.github
+.storybook
+.vscode
