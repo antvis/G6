@@ -4,9 +4,10 @@ import { uniqueId } from '@antv/util';
 import { useTranslation } from 'react-i18next';
 import CanvasMenu from './canvas-menu';
 import LegendPanel from './legend-panel';
+import G6 from '@antv/g6'
 
 const isBrowser = typeof window !== 'undefined';
-const G6 = isBrowser ? require('../../dist/g6.min.js') : null;
+const G6 = isBrowser ? require('@antv/g6') : null;
 const insertCss = isBrowser ? require('insert-css') : null;
 
 let labelPropagation = null;

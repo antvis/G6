@@ -1,0 +1,45 @@
+{
+  "name": "g6-site",
+  "version": "4.0.3",
+  "description": "G6 sites deployed on gh-pages",
+  "keywords": [
+    "antv",
+    "g6",
+    "graph",
+    "graph analysis",
+    "graph editor",
+    "graph visualization",
+    "relational data",
+    "site"
+  ],
+  "homepage": "https://g6.antv.vision",
+  "bugs": {
+    "url": "https://github.com/antvis/g6/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/antvis/g6"
+  },
+  "license": "MIT",
+  "author": "https://github.com/orgs/antvis/people",
+  "scripts": {
+    "site:build": "npm run site:clean && GATSBY=true gatsby build --prefix-paths",
+    "site:clean": "gatsby clean",
+    "site:develop": "GATSBY=true gatsby develop --open",
+    "site:deploy": "npm run site:build && npm run site:copy-mirror-action && gh-pages -d public",
+    "site:copy-mirror-action": "mkdir -p public/.github/workflows && cp .github/workflows/mirror.yml public/.github/workflows",
+    "start": "npm run site:develop"
+  },
+  "dependencies": {
+    "@antv/chart-node-g6": "^0.0.3",
+    "@antv/g6": "*",
+    "@antv/gatsby-theme-antv": "^1.0.2",
+    "gatsby": "^2.24.40",
+    "gh-pages": "^2.1.1",
+    "typedoc": "^0.17.6",
+    "typedoc-plugin-markdown": "^2.2.11",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-i18next": "^11.1.0"
+  }
+}
