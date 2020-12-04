@@ -1,0 +1,2 @@
+import './circle';
+import './rect';
