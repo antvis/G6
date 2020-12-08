@@ -4,8 +4,7 @@
  * orthogonal: 线必须沿着竖直或水平方向（4个方向）
  * octolinearRouter: 线沿着竖直、水平、对角线方向（8个方向）
  */
-import { INode } from '../../interface/item';
-import { Item } from '../../types';
+import { INode, Item } from '@antv/g6-core';
 import { deepMix } from '@antv/util';
 import { getLineIntersect } from '../../util/math';
 import {
@@ -110,7 +109,11 @@ const getObstacleMap = (items: Item[], gridSize: number, offset: number) => {
     if (item) {
       const bbox = getExpandedBBox(item.getBBox(), offset);
       for (let x = pos2GridIx(bbox.minX, gridSize); x <= pos2GridIx(bbox.maxX, gridSize); x += 1) {
-        for (let y = pos2GridIx(bbox.minY, gridSize); y <= pos2GridIx(bbox.maxY, gridSize); y += 1) {
+        for (
+          let y = pos2GridIx(bbox.minY, gridSize);
+          y <= pos2GridIx(bbox.maxY, gridSize);
+          y += 1
+        ) {
           const gridKey = `${x}-${y}`;
           map[gridKey] = true;
         }
@@ -160,7 +163,7 @@ const getBoxPoints = (point: PolyPoint, node: INode, cfg: RouterCfg): PolyPoint[
   const points = [];
   // create-edge 生成边的过程中，endNode 为 null
   if (!node) {
-    return points
+    return points;
   }
 
   const { directions, offset } = cfg;
@@ -268,10 +271,10 @@ export const pathFinder = (
   endPoint.id = `${scaleEndPoint.x}-${scaleEndPoint.y}`;
   const startPoints = getBoxPoints(scaleStartPoint, startNode, cfg);
   const endPoints = getBoxPoints(scaleEndPoint, endNode, cfg);
-  startPoints.forEach((point) => {
+  startPoints.forEach(point => {
     delete map[point.id];
   });
-  endPoints.forEach((point) => {
+  endPoints.forEach(point => {
     delete map[point.id];
   });
 
@@ -382,7 +385,7 @@ export const pathFinder = (
     if (!current) break;
 
     // 如果 fScore 最小的点就是终点
-    if (endPoints.findIndex((point) => point.x === current.x && point.y === current.y) > -1) {
+    if (endPoints.findIndex(point => point.x === current.x && point.y === current.y) > -1) {
       const controlPoints = getControlPoints(current.id);
       return controlPoints;
     }

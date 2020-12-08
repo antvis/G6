@@ -1,11 +1,11 @@
+import { AbstractLayout } from '@antv/g6-core';
 import Layout from '../../layout';
 import LayoutWorker from '../../layout/worker/layout.worker';
 import { LAYOUT_MESSAGE } from '../../layout/worker/layoutConst';
-import { isNaN, gpuDetector } from '../../util/base';
+import { gpuDetector } from '../../util/base';
 import { mix } from '@antv/util';
-import { GraphData } from '../../types';
 
-import { IGraph } from '../../interface/graph';
+import { ICustomGraph } from '../../interface/graph';
 
 // eslint-disable-next-line @typescript-eslint/no-implied-eval
 const mockRaf = (cb: TimerHandler) => setTimeout(cb, 16);
@@ -14,36 +14,37 @@ const mockCaf = (reqId: number) => clearTimeout(reqId);
 const helper = {
   // pollyfill
   requestAnimationFrame(callback: FrameRequestCallback) {
-    const fn = typeof window !== 'undefined' ? window.requestAnimationFrame || window.webkitRequestAnimationFrame || mockRaf : mockRaf;
+    const fn =
+      typeof window !== 'undefined'
+        ? window.requestAnimationFrame || window.webkitRequestAnimationFrame || mockRaf
+        : mockRaf;
     return fn(callback);
   },
   cancelAnimationFrame(requestId: number) {
-    const fn = typeof window !== 'undefined' ? window.cancelAnimationFrame || window.webkitCancelAnimationFrame || mockCaf : mockCaf;
+    const fn =
+      typeof window !== 'undefined'
+        ? window.cancelAnimationFrame || window.webkitCancelAnimationFrame || mockCaf
+        : mockCaf;
     return fn(requestId);
   },
 };
 
 const GPULayoutNames = ['fruchterman', 'gForce'];
-export default class LayoutController {
-  public graph: IGraph;
+export default class LayoutController extends AbstractLayout {
+  public graph: ICustomGraph;
 
   public destroyed: boolean;
-
-  private layoutCfg;
-
-  private layoutType: string;
-
-  private layoutMethod;
 
   private worker;
 
   private workerData;
 
-  private data;
+  // private data;
 
   private isGPU: boolean;
 
-  constructor(graph: IGraph) {
+  constructor(graph: ICustomGraph) {
+    super(graph);
     this.graph = graph;
     this.layoutCfg = graph.get('layout') || {};
     this.layoutType = this.layoutCfg.type;
@@ -53,7 +54,7 @@ export default class LayoutController {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  private initLayout() {
+  protected initLayout() {
     // no data before rendering
   }
 
@@ -92,10 +93,6 @@ export default class LayoutController {
       helper.cancelAnimationFrame(workerData.requestId2);
       workerData.requestId2 = null;
     }
-  }
-
-  public getLayoutType(): string {
-    return this.layoutCfg.type;
   }
 
   /**
@@ -153,7 +150,9 @@ export default class LayoutController {
         enableGPU = false;
       }
       if (!this.hasGPUVersion(layoutType)) {
-        console.warn(`The '${layoutType}' layout does not support GPU calculation for now, it will run in CPU.`);
+        console.warn(
+          `The '${layoutType}' layout does not support GPU calculation for now, it will run in CPU.`,
+        );
         enableGPU = false;
       }
       if (enableGPU) {
@@ -163,7 +162,6 @@ export default class LayoutController {
       }
     }
     this.isGPU = isGPU;
-
 
     this.stopWorker();
     if (layoutCfg.workerEnabled && this.layoutWithWorker(this.data, success)) {
@@ -205,9 +203,7 @@ export default class LayoutController {
       try {
         layoutMethod = new Layout[layoutType](layoutCfg);
       } catch (e) {
-        console.warn(
-          `The layout method: '${layoutType}' does not exist! Please specify it first.`,
-        );
+        console.warn(`The layout method: '${layoutType}' does not exist! Please specify it first.`);
         return false;
       }
 
@@ -271,12 +267,14 @@ export default class LayoutController {
     graph.emit('beforelayout');
 
     const offScreenCanvas = document.createElement('canvas');
-    const gpuWorkerAbility = isGPU && typeof window !== 'undefined'
+    const gpuWorkerAbility =
+      isGPU &&
+      typeof window !== 'undefined' &&
       // eslint-disable-next-line @typescript-eslint/dot-notation
-      && window.navigator && !navigator[`gpu`] // WebGPU 还不支持 OffscreenCanvas
-      && 'OffscreenCanvas' in window
-      && 'transferControlToOffscreen' in offScreenCanvas;
-
+      window.navigator &&
+      !navigator[`gpu`] && // WebGPU 还不支持 OffscreenCanvas
+      'OffscreenCanvas' in window &&
+      'transferControlToOffscreen' in offScreenCanvas;
 
     // NOTE: postMessage的message参数里面不能包含函数，否则postMessage会报错，
     // 例如：'function could not be cloned'。
@@ -286,15 +284,19 @@ export default class LayoutController {
     if (!gpuWorkerAbility) {
       worker.postMessage({ type: LAYOUT_MESSAGE.RUN, nodes, edges, layoutCfg: filteredLayoutCfg });
     } else {
-      const offscreen: any = offScreenCanvas.transferControlToOffscreen();
+      const offscreen: any = (offScreenCanvas as any).transferControlToOffscreen();
       // filteredLayoutCfg.canvas = offscreen;
       filteredLayoutCfg.type = `${filteredLayoutCfg.type}-gpu`;
-      worker.postMessage({
-        type: LAYOUT_MESSAGE.GPURUN,
-        nodes, edges,
-        layoutCfg: filteredLayoutCfg,
-        canvas: offscreen
-      }, [offscreen]);
+      worker.postMessage(
+        {
+          type: LAYOUT_MESSAGE.GPURUN,
+          nodes,
+          edges,
+          layoutCfg: filteredLayoutCfg,
+          canvas: offscreen,
+        },
+        [offscreen],
+      );
     }
     worker.onmessage = event => {
       this.handleWorkerMessage(event, data, success);
@@ -366,7 +368,6 @@ export default class LayoutController {
       case LAYOUT_MESSAGE.GPUEND:
         // 如果没有tick消息（非力导布局）
         if (workerData.currentTick == null) {
-
           updateGPUWorkerLayoutPosition(data, eventData);
           this.refreshLayout();
           // 非力导布局，没有tick消息，只有end消息，所以需要执行一次回调。
@@ -381,17 +382,6 @@ export default class LayoutController {
         break;
       default:
         break;
-    }
-  }
-
-
-  // 绘制
-  public refreshLayout() {
-    const { graph } = this;
-    if (graph.get('animate')) {
-      graph.positionsAnimate();
-    } else {
-      graph.refreshPositions();
     }
   }
 
@@ -423,171 +413,6 @@ export default class LayoutController {
     this.refreshLayout();
   }
 
-  // 更换布局
-  public changeLayout(layoutType: string) {
-    const { graph, layoutMethod } = this;
-
-    this.layoutType = layoutType;
-
-    this.layoutCfg = graph.get('layout') || {};
-    this.layoutCfg.type = layoutType;
-
-    if (layoutMethod) {
-      layoutMethod.destroy();
-    }
-    this.layout();
-  }
-
-  // 更换数据
-  public changeData() {
-    const { layoutMethod } = this;
-
-    if (layoutMethod) {
-      layoutMethod.destroy();
-    }
-    this.layout();
-  }
-
-  // 销毁布局，不能使用 this.destroy，因为 controller 还需要被使用，只是把布局算法销毁
-  public destroyLayout() {
-    const { layoutMethod, graph } = this;
-    if (layoutMethod) {
-      layoutMethod.destroy();
-    }
-    graph.set('layout', undefined);
-    this.layoutCfg = undefined;
-    this.layoutType = undefined;
-    this.layoutMethod = undefined;
-  }
-
-  // 从 this.graph 获取数据
-  public setDataFromGraph(): GraphData {
-    const nodes = [];
-    const edges = [];
-    const combos = [];
-    const nodeItems = this.graph.getNodes();
-    const edgeItems = this.graph.getEdges();
-    const comboItems = this.graph.getCombos();
-    const nodeLength = nodeItems.length;
-    for (let i = 0; i < nodeLength; i++) {
-      const nodeItem = nodeItems[i];
-      if (!nodeItem.isVisible()) continue;
-      const model = nodeItem.getModel();
-      nodes.push(model);
-    }
-
-    const edgeLength = edgeItems.length;
-    for (let i = 0; i < edgeLength; i++) {
-      const edgeItem = edgeItems[i];
-      if (edgeItem.destroyed || !edgeItem.isVisible()) continue;
-      const model = edgeItem.getModel();
-      if (!model.isComboEdge) edges.push(model);
-    }
-
-    const comboLength = comboItems.length;
-    for (let i = 0; i < comboLength; i++) {
-      const comboItem = comboItems[i];
-      if (comboItem.destroyed || !comboItem.isVisible()) continue;
-      const model = comboItem.getModel();
-      combos.push(model);
-    }
-    return { nodes, edges, combos } as GraphData;
-  }
-
-  // 重新布局
-  public relayout(reloadData?: boolean) {
-    const { graph, layoutMethod, layoutCfg } = this;
-
-    if (reloadData) {
-      this.data = this.setDataFromGraph();
-      const { nodes } = this.data;
-      if (!nodes) {
-        return false;
-      }
-      this.initPositions(layoutCfg.center, nodes);
-      layoutMethod.init(this.data);
-    }
-
-    if (this.layoutType === 'force') {
-      layoutMethod.ticking = false;
-      layoutMethod.forceSimulation.stop();
-    }
-    graph.emit('beforelayout');
-    layoutMethod.execute(reloadData);
-    if (this.layoutType !== 'force' && !layoutMethod.enableTick) {
-      graph.emit('afterlayout');
-    }
-    this.refreshLayout();
-  }
-
-  // 控制布局动画
-  // eslint-disable-next-line class-methods-use-this
-  public layoutAnimate() { }
-
-  // // 根据 type 创建 Layout 实例
-  // private _getLayout() {
-  // }
-
-  // 将当前节点的平均中心移动到原点
-  public moveToZero() {
-    const { graph } = this;
-
-    const data = graph.get('data');
-    const { nodes } = data;
-    if (nodes[0].x === undefined || nodes[0].x === null || isNaN(nodes[0].x)) {
-      return;
-    }
-    const meanCenter = [0, 0];
-    const nodeLength = nodes.length;
-    for (let i = 0; i < nodeLength; i++) {
-      const node = nodes[i];
-      meanCenter[0] += node.x;
-      meanCenter[1] += node.y;
-    }
-
-    meanCenter[0] /= nodes.length;
-    meanCenter[1] /= nodes.length;
-
-    for (let i = 0; i < nodeLength; i++) {
-      const node = nodes[i];
-      node.x -= meanCenter[0];
-      node.y -= meanCenter[1];
-    }
-  }
-
-  // 初始化节点到 center 附近
-  public initPositions(center, nodes): boolean {
-    const { graph } = this;
-    if (!nodes) {
-      return false;
-    }
-    let allHavePos = true;
-    const width = graph.get('width') * 0.85;
-    const height = graph.get('height') * 0.85;
-    const nodeNum = nodes.length;
-    const horiNum = Math.ceil(Math.sqrt(nodeNum) * (width / height));
-    const vertiNum = Math.ceil(nodeNum / horiNum);
-    let horiGap = width / (horiNum - 1);
-    let vertiGap = height / (vertiNum - 1);
-    if (!isFinite(horiGap) || !horiGap) horiGap = 0;
-    if (!isFinite(vertiGap) || !horiGap) vertiGap = 0;
-    const beginX = center[0] - width / 2;
-    const beginY = center[1] - height / 2;
-    const nodeLength = nodes.length;
-    for (let i = 0; i < nodeLength; i++) {
-      const node = nodes[i];
-      if (isNaN(node.x)) {
-        allHavePos = false;
-        node.x = (i % horiNum) * horiGap + beginX;
-      }
-      if (isNaN(node.y)) {
-        allHavePos = false;
-        node.y = Math.floor(i / horiNum) * vertiGap + beginY;
-      }
-    }
-    return allHavePos;
-  }
-
   public hasGPUVersion(layoutName: string): boolean {
     const length = GPULayoutNames.length;
     for (let i = 0; i < length; i++) {
@@ -599,8 +424,6 @@ export default class LayoutController {
   public destroy() {
     const { layoutMethod } = this;
 
-    this.graph = null;
-
     if (layoutMethod) {
       layoutMethod.destroy();
       layoutMethod.destroyed = true;
@@ -611,6 +434,12 @@ export default class LayoutController {
       this.worker = null;
     }
     this.destroyed = true;
+
+    this.graph.set('layout', undefined);
+    this.layoutCfg = undefined;
+    this.layoutType = undefined;
+    this.layoutMethod = undefined;
+    this.graph = null;
   }
 }
 
@@ -628,7 +457,7 @@ function updateLayoutPosition(data, layoutData) {
 function filterObject(collection, callback) {
   const result = {};
   if (collection && typeof collection === 'object') {
-    Object.keys(collection).forEach((key) => {
+    Object.keys(collection).forEach(key => {
       if (collection.hasOwnProperty(key) && callback(collection[key])) {
         result[key] = collection[key];
       }
@@ -638,7 +467,6 @@ function filterObject(collection, callback) {
   }
   return collection;
 }
-
 
 function updateGPUWorkerLayoutPosition(data, layoutData) {
   const { nodes } = data;

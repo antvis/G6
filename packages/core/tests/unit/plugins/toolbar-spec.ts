@@ -1,5 +1,5 @@
 import G6 from '../../../src';
-import { IGraph } from '../../../src/interface/graph';
+import { IGraph } from '@antv/g6-core';
 const div = document.createElement('div');
 div.id = 'toolbar';
 document.body.appendChild(div);

@@ -3,10 +3,48 @@
  * @author shiwu.wyy@antfin.com
  */
 
-import { EdgeConfig, GraphData, IPointTuple, NodeConfig, ComboConfig } from '../types';
-import { ILayout } from '../interface/layout';
-
+import { EdgeConfig, GraphData, IPointTuple, NodeConfig, ComboConfig } from '@antv/g6-core';
 import { each, mix } from '@antv/util';
+
+// TODO 使用 @antv/layout 包中的类型替换
+interface ILayout<Cfg = any> {
+  /** 节点 */
+  nodes: NodeConfig[] | null;
+  /** 边 */
+  edges: EdgeConfig[] | null;
+  /** 布局获得的位置 */
+  positions: IPointTuple[] | null;
+  /** 是否已销毁 */
+  destroyed: boolean;
+
+  /**
+   * 定义自定义行为的默认参数，会与用户传入的参数进行合并
+   */
+  getDefaultCfg(): void;
+  /**
+   * 初始化
+   * @param {object} data 数据
+   */
+  init(data: GraphData): void;
+  /**
+   * 执行布局
+   */
+  execute(): void;
+  /**
+   * 根据传入的数据进行布局
+   * @param {object} data 数据
+   */
+  layout(data: GraphData): void;
+  /**
+   * 更新布局配置，但不执行布局
+   * @param {object} cfg 需要更新的配置项
+   */
+  updateCfg(cfg: Partial<Cfg>): void;
+  /**
+   * 销毁
+   */
+  destroy(): void;
+}
 
 /**
  * 基础布局，将被自定义布局所继承
@@ -29,9 +67,9 @@ export class BaseLayout<Cfg = any> implements ILayout<Cfg> {
     self.combos = data.combos || [];
   }
 
-  public execute() { }
+  public execute() {}
 
-  public executeWithWorker() { }
+  public executeWithWorker() {}
 
   public layout(data: GraphData) {
     const self = this;

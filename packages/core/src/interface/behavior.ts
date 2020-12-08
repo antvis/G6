@@ -1,5 +1,4 @@
-import { Event as GraphEvent } from '@antv/g-base';
-import { Canvas } from '@antv/g-canvas';
+import { Event as GraphEvent, ICanvas } from '@antv/g-base';
 import { G6Event, IG6GraphEvent, IShapeBase, Item } from '../types';
 import { IGraph } from './graph';
 
@@ -30,7 +29,7 @@ export class G6GraphEvent extends GraphEvent implements IG6GraphEvent {
 
   public detail: number;
 
-  public target!: IShapeBase & Canvas;
+  public target!: IShapeBase & ICanvas;
 
   constructor(type: string, event: IG6GraphEvent) {
     super(type, event);

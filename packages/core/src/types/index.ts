@@ -1,13 +1,9 @@
 /* eslint @typescript-eslint/no-use-before-define: 0 */
-import { IGroup, Event as GraphEvent } from '@antv/g-base';
-import { BBox, AnimateCfg } from '@antv/g-base/lib/types';
-import { Canvas, Shape } from '@antv/g-canvas';
+import { IGroup, Event as GraphEvent, BBox, AnimateCfg, ICanvas, IShape } from '@antv/g-base';
 import Node from '../item/node';
 import { IGraph } from '../interface/graph';
 import { IEdge, INode, ICombo } from '../interface/item';
 import { ILabelConfig } from '../interface/shape';
-
-type ShapeBase = Shape.Base;
 
 // Node Edge Combo 实例
 export type Item = INode | IEdge | ICombo;
@@ -23,7 +19,7 @@ export interface IG6GraphEvent extends GraphEvent {
   wheelDelta: number;
   detail: number;
   key?: string;
-  target: IShapeBase & Canvas;
+  target: IShapeBase & ICanvas;
 }
 
 // Math types
@@ -88,7 +84,7 @@ export type ShapeStyle = Partial<{
   keepVisualSize: boolean;
 }>;
 
-export interface IShapeBase extends ShapeBase {
+export interface IShapeBase extends IShape {
   isKeyShape: boolean;
 }
 
@@ -174,10 +170,10 @@ export interface States {
 
 export interface StateStyles {
   [key: string]:
-  | ShapeStyle
-  | {
-    [key: string]: ShapeStyle;
-  };
+    | ShapeStyle
+    | {
+        [key: string]: ShapeStyle;
+      };
 }
 
 // model types (node edge group)
@@ -252,7 +248,7 @@ export interface GraphOptions {
     size: number | number[];
     color: string;
   }> &
-  ModelStyle;
+    ModelStyle;
 
   /**
    * 默认状态下边的配置，比如 type, size, color。会被写入的 data 覆盖。
@@ -262,7 +258,7 @@ export interface GraphOptions {
     size: number | number[];
     color: string;
   }> &
-  ModelStyle;
+    ModelStyle;
 
   /**
    * Combo 默认配置
@@ -272,7 +268,7 @@ export interface GraphOptions {
     size: number | number[];
     color: string;
   }> &
-  ModelStyle;
+    ModelStyle;
 
   nodeStateStyles?: StateStyles;
 
@@ -330,7 +326,7 @@ export interface GraphOptions {
 
 export type LabelStyle = Partial<{
   rotate: number;
-  textAlign: string;
+  textAlign: 'center' | 'start' | 'end' | 'left' | 'right';
   angle: number;
   x: number;
   y: number;
@@ -401,10 +397,10 @@ export interface TreeGraphData {
   depth?: number;
   collapsed?: boolean;
   style?:
-  | ShapeStyle
-  | {
-    [key: string]: ShapeStyle;
-  };
+    | ShapeStyle
+    | {
+        [key: string]: ShapeStyle;
+      };
   stateStyles?: StateStyles;
   [key: string]: unknown;
 }
@@ -417,22 +413,22 @@ export interface NodeConfig extends ModelConfig {
   description?: string;
   descriptionCfg?: {
     style?: object;
-    [key: string]: unknown;
+    [key: string]: any;
   };
   img?: string;
   innerR?: number;
   direction?: string;
   preRect?: {
     show?: boolean;
-    [key: string]: unknown;
+    [key: string]: any;
   };
   logoIcon?: {
     show?: boolean;
-    [key: string]: unknown;
+    [key: string]: any;
   };
   stateIcon?: {
     show?: boolean;
-    [key: string]: unknown;
+    [key: string]: any;
   };
   linkPoints?: {
     top?: boolean;
@@ -444,7 +440,7 @@ export interface NodeConfig extends ModelConfig {
     fill?: string;
     stroke?: string;
     r?: number;
-    [key: string]: unknown;
+    [key: string]: any;
   };
   icon?: {
     show?: boolean;
@@ -695,9 +691,8 @@ export enum G6Event {
   WHEELZOOM = 'wheelzoom',
   VIEWPORTCHANGE = 'viewportchange',
   DRAGNODEEND = 'dragnodeend',
-  STACKCHANGE = 'stackchange'
+  STACKCHANGE = 'stackchange',
 }
-
 
 export type DefaultBehaviorType = IG6GraphEvent | string | number | object;
 
@@ -762,7 +757,7 @@ export interface BubblesetCfg {
   nonMemberInfluenceFactor?: number; // nonMember influence factor
 }
 
-export type TimeBarType = 'trend' | 'simple' | 'tick'
+export type TimeBarType = 'trend' | 'simple' | 'tick';
 
 export type WaterMarkerConfig = Partial<{
   // 水印 canvas 容器的宽高
@@ -778,7 +773,7 @@ export type WaterMarkerConfig = Partial<{
     fontFamily?: string;
     fill?: string;
     baseline?: string;
-  },
+  };
   image: {
     x?: number;
     y?: number;
@@ -786,8 +781,8 @@ export type WaterMarkerConfig = Partial<{
     width?: number;
     height: number;
     rotate?: number;
-  }
-}>
+  };
+}>;
 export interface HullCfg {
   id: string;
   members?: Item[] | string[]; // 节点实例或节点 Id 数组

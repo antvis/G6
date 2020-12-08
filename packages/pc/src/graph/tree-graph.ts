@@ -1,11 +1,17 @@
 import { Point } from '@antv/g-base/lib/types';
 import Hierarchy from '@antv/hierarchy';
 import { each, isString } from '@antv/util';
-import { ITreeGraph } from '../interface/graph';
-import { GraphData, Item, NodeConfig, ShapeStyle, TreeGraphData, GraphOptions } from '../types';
+import {
+  GraphData,
+  Item,
+  NodeConfig,
+  ShapeStyle,
+  TreeGraphData,
+  GraphOptions,
+  ITreeGraph,
+} from '@antv/g6-core';
 import { radialLayout, traverseTree } from '../util/graphic';
-import { ViewController } from './controller';
-import Graph, { PrivateGraphOption } from './graph';
+import Graph from './graph';
 
 export default class TreeGraph extends Graph implements ITreeGraph {
   private layoutAnimating: boolean;
@@ -63,7 +69,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
     return index;
   }
 
-  public getDefaultCfg(): Partial<PrivateGraphOption> {
+  public getDefaultCfg() {
     const cfg = super.getDefaultCfg();
     // 树图默认打开动画
     cfg.animate = true;
@@ -108,14 +114,18 @@ export default class TreeGraph extends Graph implements ITreeGraph {
       } else {
         childrenList.push(node);
       }
-      self.addItem('edge', {
-        source: parent,
-        target: node,
-        id: `${parent.get('id')}:${node.get('id')}`,
-      }, false);
+      self.addItem(
+        'edge',
+        {
+          source: parent,
+          target: node,
+          id: `${parent.get('id')}:${node.get('id')}`,
+        },
+        false,
+      );
     }
     // 渲染到视图上应参考布局的children, 避免多绘制了收起的节点
-    each(treeData.children || [], (child) => {
+    each(treeData.children || [], child => {
       self.innerAddChild(child, node, animate);
     });
     self.emit('afteraddchild', { item: node, parent });
@@ -201,7 +211,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
       return;
     }
 
-    each(node.get('children'), (child) => {
+    each(node.get('children'), child => {
       self.innerRemoveChild(child.getModel().id, to, animate);
     });
 
@@ -223,8 +233,8 @@ export default class TreeGraph extends Graph implements ITreeGraph {
     const self = this;
 
     // 更改数据源后，取消所有状态
-    this.getNodes().map((node) => self.clearItemStates(node));
-    this.getEdges().map((edge) => self.clearItemStates(edge));
+    this.getNodes().map(node => self.clearItemStates(node));
+    this.getEdges().map(edge => self.clearItemStates(edge));
 
     if (data) {
       self.data(data);
@@ -296,7 +306,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
     self.innerUpdateChild(layoutData, undefined, animate);
 
     if (fitView) {
-      const viewController: ViewController = self.get('viewController');
+      const viewController = self.get('viewController');
       viewController.fitView();
     }
 
@@ -334,7 +344,6 @@ export default class TreeGraph extends Graph implements ITreeGraph {
       self.changeData();
     }
   }
-
 
   /**
    * 更新某个节点下的所有子节点
@@ -433,7 +442,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
 
     let result: TreeGraphData | null = null;
     // eslint-disable-next-line consistent-return
-    each(parent.children || [], (child) => {
+    each(parent.children || [], child => {
       if (child.id === id) {
         result = child;
         return false;
@@ -465,7 +474,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
     const animateCfg = this.get('animateCfg');
     self.emit('beforeanimate', { data });
     // 如果边中没有指定锚点，但是本身有锚点控制，在动画过程中保持锚点不变
-    self.getEdges().forEach((edge) => {
+    self.getEdges().forEach(edge => {
       const model = edge.get('model');
       if (!model.sourceAnchor) {
         model.sourceAnchor = edge.get('sourceAnchorIndex');
@@ -474,7 +483,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
 
     this.get('canvas').animate(
       (ratio: number) => {
-        traverseTree<TreeGraphData>(data, (child) => {
+        traverseTree<TreeGraphData>(data, child => {
           const node = self.findById(child.id);
 
           // 只有当存在node的时候才执行
@@ -501,7 +510,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
           return true;
         });
 
-        each(self.get('removeList'), (node) => {
+        each(self.get('removeList'), node => {
           const model = node.getModel();
           const from = node.get('originAttrs');
           const to = node.get('to');
@@ -515,11 +524,11 @@ export default class TreeGraph extends Graph implements ITreeGraph {
         duration: animateCfg.duration,
         easing: animateCfg.ease,
         callback: () => {
-          each(self.getNodes(), (node) => {
+          each(self.getNodes(), node => {
             node.set('originAttrs', null);
           });
 
-          each(self.get('removeList'), (node) => {
+          each(self.get('removeList'), node => {
             self.removeItem(node);
           });
 

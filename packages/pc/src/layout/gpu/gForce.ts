@@ -3,12 +3,16 @@
  * @author shiwu.wyy@antfin.com
  */
 
-import { EdgeConfig, IPointTuple, NodeConfig, NodeIdxMap } from '../../types';
+import { EdgeConfig, IPointTuple, NodeConfig, NodeIdxMap } from '@antv/g6-core';
 import { BaseLayout } from '../layout';
 import { isNumber } from '@antv/util';
 import { World } from '@antv/g-webgpu';
-import { proccessToFunc, buildTextureDataWithTwoEdgeAttr, arrayToTextureData } from '../../util/layout'
-import { getDegree } from '../../util/math'
+import {
+  proccessToFunc,
+  buildTextureDataWithTwoEdgeAttr,
+  arrayToTextureData,
+} from '../../util/layout';
+import { getDegree } from '../../util/math';
 // import { gForceCode, aveMovementCode } from './gForceShader';
 import { gForceBundle, aveMovementBundle } from './gForceShader';
 import { LAYOUT_MESSAGE } from '../worker/layoutConst';
@@ -173,11 +177,14 @@ export default class GForceGPULayout extends BaseLayout {
 
     const numParticles = nodes.length;
 
-
     self.linkDistance = proccessToFunc(self.linkDistance) as ((d?: any) => number);
     self.edgeStrength = proccessToFunc(self.edgeStrength) as ((d?: any) => number);
-    const { maxEdgePerVetex, array: nodesEdgesArray }
-      = buildTextureDataWithTwoEdgeAttr(nodes, edges, self.linkDistance, self.edgeStrength);
+    const { maxEdgePerVetex, array: nodesEdgesArray } = buildTextureDataWithTwoEdgeAttr(
+      nodes,
+      edges,
+      self.linkDistance,
+      self.edgeStrength,
+    );
 
     // init degree for mass
     self.degrees = getDegree(nodes.length, self.nodeIdxMap, edges);
@@ -187,9 +194,9 @@ export default class GForceGPULayout extends BaseLayout {
     const centerYs = [];
     const centerGravities = [];
     if (!self.getMass) {
-      self.getMass = (d) => {
+      self.getMass = d => {
         return self.degrees[self.nodeIdxMap[d.id]] || 1;
-      }
+      };
     }
     const gravity = self.gravity;
     const center = self.center;
@@ -200,24 +207,24 @@ export default class GForceGPULayout extends BaseLayout {
       let nodeGravity = [center[0], center[1], gravity];
       if (self.getCenter) {
         const customCenter = self.getCenter(node, self.degrees[i]);
-        if (customCenter && isNumber(customCenter[0])
-          && isNumber(customCenter[1]) && isNumber(customCenter[2])) {
+        if (
+          customCenter &&
+          isNumber(customCenter[0]) &&
+          isNumber(customCenter[1]) &&
+          isNumber(customCenter[2])
+        ) {
           nodeGravity = customCenter;
         }
       }
       centerXs.push(nodeGravity[0]);
       centerYs.push(nodeGravity[1]);
       centerGravities.push(nodeGravity[2]);
-    })
+    });
 
     // 每个节点的额外属性占两个数组各一格，nodeAttributeArray1 中是：mass, degree, nodeSterngth, 0
-    const nodeAttributeArray1 = arrayToTextureData([
-      masses, self.degrees, nodeStrengths
-    ]);
-    // nodeAttributeArray2 中是：centerX, centerY, gravity, 0, 
-    const nodeAttributeArray2 = arrayToTextureData([
-      centerXs, centerYs, centerGravities
-    ]);
+    const nodeAttributeArray1 = arrayToTextureData([masses, self.degrees, nodeStrengths]);
+    // nodeAttributeArray2 中是：centerX, centerY, gravity, 0,
+    const nodeAttributeArray2 = arrayToTextureData([centerXs, centerYs, centerGravities]);
 
     const workerEnabled = self.workerEnabled;
     let world;
@@ -233,7 +240,7 @@ export default class GForceGPULayout extends BaseLayout {
       world = World.create({
         engineOptions: {
           supportCompute: true,
-        }
+        },
       });
     }
 
@@ -252,7 +259,6 @@ export default class GForceGPULayout extends BaseLayout {
       initPreviousData.push(0);
     }
 
-
     const kernelGForce = world
       .createKernel(gForceBundle)
       .setDispatch([numParticles, 1, 1])
@@ -268,7 +274,7 @@ export default class GForceGPULayout extends BaseLayout {
         MAX_EDGE_PER_VERTEX: maxEdgePerVetex,
         VERTEX_COUNT: numParticles,
         u_AveMovement: initPreviousData,
-        u_interval: self.interval // 每次迭代更新，首次设置为 interval，在 onIterationCompleted 中更新
+        u_interval: self.interval, // 每次迭代更新，首次设置为 interval，在 onIterationCompleted 中更新
       });
 
     // const aveMovementBundle = compiler.compileBundle(aveMovementCode);
@@ -287,7 +293,6 @@ export default class GForceGPULayout extends BaseLayout {
     // let midRes = nodesEdgesArray;
     const execute = async () => {
       for (let i = 0; i < maxIteration; i++) {
-
         // TODO: 似乎都来自 kernelGForce 是一个引用
         // 当前坐标作为下一次迭代的 PreviousData
         // if (i > 0) {
@@ -304,7 +309,7 @@ export default class GForceGPULayout extends BaseLayout {
         // 每次迭代完成后
         // 计算平均位移，用于提前终止迭代
         kernelAveMovement.setBinding({
-          u_Data: kernelGForce
+          u_Data: kernelGForce,
         });
 
         // eslint-disable-next-line no-await-in-loop
@@ -314,7 +319,7 @@ export default class GForceGPULayout extends BaseLayout {
         const stepInterval = Math.max(0.02, self.interval - i * 0.002);
         kernelGForce.setBinding({
           u_interval: stepInterval,
-          u_AveMovement: kernelAveMovement
+          u_AveMovement: kernelAveMovement,
         });
       }
       const finalParticleData = await kernelGForce.getOutput();
@@ -337,7 +342,7 @@ export default class GForceGPULayout extends BaseLayout {
       }
 
       if (onLayoutEnd) onLayoutEnd();
-    }
+    };
 
     execute();
   }

@@ -7,10 +7,8 @@
  */
 import { Point } from '@antv/g-base/lib/types';
 import { deepMix, clone } from '@antv/util';
-import { INode, ICombo } from '../interface/item';
-import { G6Event, IG6GraphEvent, Item, NodeConfig } from '../types';
+import { G6Event, IG6GraphEvent, Item, NodeConfig, INode, ICombo, IGraph } from '@antv/g6-core';
 import Global from '../global';
-import { IGraph } from '../interface/graph';
 
 export default {
   getDefaultCfg(): object {
@@ -54,6 +52,7 @@ export default {
    * @param evt
    */
   onDragStart(evt: IG6GraphEvent) {
+    debugger;
     if (!this.shouldBegin.call(this, evt)) {
       return;
     }
@@ -89,7 +88,7 @@ export default {
     const currentNodeId = item.get('id');
 
     // 当前拖动的节点是否是选中的节点
-    const dragNodes = nodes.filter((node) => {
+    const dragNodes = nodes.filter(node => {
       const nodeId = node.get('id');
       return currentNodeId === nodeId;
     });
@@ -99,7 +98,7 @@ export default {
       this.targets.push(item);
     } else if (nodes.length > 1) {
       // 拖动多个节点
-      nodes.forEach((node) => {
+      nodes.forEach(node => {
         const locked = node.hasLocked();
         if (!locked) {
           this.targets.push(node);
@@ -139,7 +138,7 @@ export default {
     if (this.get('enableDelegate')) {
       this.updateDelegate(evt);
     } else {
-      this.targets.map((target) => {
+      this.targets.map(target => {
         this.update(target, evt);
       });
     }
@@ -167,27 +166,26 @@ export default {
 
     this.updatePositions(evt);
 
-
     const graph: IGraph = this.graph;
 
     // 拖动结束后，入栈
     if (graph.get('enabledStack')) {
       const stackData = {
         before: { nodes: this.get('beforeDragNodes'), edges: [], combos: [] },
-        after: { nodes: [], edges: [], combos: [] }
-      }
+        after: { nodes: [], edges: [], combos: [] },
+      };
 
       this.targets.forEach(target => {
         stackData.after.nodes.push(target.getModel());
-      })
+      });
       graph.pushStack('update', clone(stackData));
     }
 
     // 拖动结束后emit事件，将当前操作的节点抛出去，目标节点为null
     graph.emit('dragnodeend', {
       items: this.targets,
-      targetItem: null
-    })
+      targetItem: null,
+    });
 
     this.point = {};
     this.origin = null;
@@ -231,8 +229,8 @@ export default {
     // 将节点拖动到 combo 上面，emit事件抛出当前操作的节点及目标 combo
     graph.emit('dragnodeend', {
       items: this.targets,
-      targetItem: this.targetCombo
-    })
+      targetItem: this.targetCombo,
+    });
   },
 
   onDropCanvas(evt: IG6GraphEvent) {
@@ -277,7 +275,7 @@ export default {
           graph.updateComboTree(node, comboId);
         }
       });
-      graph.updateCombo(combo as ICombo)
+      graph.updateCombo(combo as ICombo);
     } else {
       this.targets.map((node: INode) => {
         const model = node.getModel();
@@ -290,8 +288,8 @@ export default {
     // 将节点拖动到另外个节点上面，emit 事件抛出当前操作的节点及目标节点
     graph.emit('dragnodeend', {
       items: this.targets,
-      targetItem: item
-    })
+      targetItem: item,
+    });
   },
   /**
    * 将节点拖入到 Combo 中
@@ -324,7 +322,7 @@ export default {
     if (!this.targets || this.targets.length === 0) return;
     // 当开启 delegate 时，拖动结束后需要更新所有已选中节点的位置
     if (this.get('enableDelegate')) {
-      this.targets.map((node) => this.update(node, evt));
+      this.targets.map(node => this.update(node, evt));
     }
   },
   /**

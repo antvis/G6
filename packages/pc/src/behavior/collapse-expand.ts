@@ -1,4 +1,4 @@
-import { G6Event, IG6GraphEvent } from '../types';
+import { G6Event, IG6GraphEvent } from '@antv/g6-core';
 
 const DEFAULT_TRIGGER = 'click';
 const ALLOW_EVENTS = ['click', 'dblclick'];
@@ -25,7 +25,7 @@ export default {
     return {
       [`node:${trigger}`]: 'onNodeClick',
       // 支持移动端事件
-      'touchstart': 'onNodeClick'
+      touchstart: 'onNodeClick',
     };
   },
   onNodeClick(e: IG6GraphEvent) {

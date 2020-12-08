@@ -1,6 +1,6 @@
 import { vec2 } from '@antv/matrix-util';
 import { catmullRom2Bezier } from '@antv/path-util';
-import { IPoint } from '../types';
+import { IPoint } from '@antv/g6-core';
 
 /**
  * 替换字符串中的字段
@@ -107,7 +107,7 @@ export const pointsToPolygon = (points: IPoint[], z?: boolean): string => {
 
 export const pathToPoints = (path: any[]) => {
   const points = [];
-  path.forEach((seg) => {
+  path.forEach(seg => {
     const command = seg[0];
     if (command !== 'A') {
       for (let i = 1; i < seg.length; i = i + 2) {
@@ -247,13 +247,13 @@ export function roundedHull(polyPoints: number[][], padding: number) {
 
 /**
  * 传入的节点作为多边形顶点，生成平滑的闭合多边形
- * @param polyPoints 
- * @param padding 
+ * @param polyPoints
+ * @param padding
  */
 export function paddedHull(polyPoints: number[][], padding: number) {
   const pointCount = polyPoints.length;
 
-  const smoothHull1 = (points) => {
+  const smoothHull1 = points => {
     // Returns the path for a circular hull around a single point.
 
     const p1 = [points[0][0], points[0][1] - padding];
@@ -268,7 +268,7 @@ export function paddedHull(polyPoints: number[][], padding: number) {
   };
 
   // Returns the path for a rounded hull around two points.
-  const smoothHull2 = (points) => {
+  const smoothHull2 = points => {
     const v = vecFrom(points[0], points[1]);
     const extensionVec = vecScaleTo(v, padding);
 
@@ -312,7 +312,7 @@ export function paddedHull(polyPoints: number[][], padding: number) {
     hullPoints[i].p = vec2.add([], hullPoints[i].p, vec2.scale([], extensionVec, padding));
   }
 
-  return hullPoints.map((obj) => {
+  return hullPoints.map(obj => {
     const point = obj.p;
     return { x: point[0], y: point[1] };
   });

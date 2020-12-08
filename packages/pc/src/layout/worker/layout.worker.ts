@@ -4,11 +4,8 @@
  */
 import Layout from '../index';
 import { LAYOUT_MESSAGE } from './layoutConst';
-import { World } from '@antv/g-webgpu';
-
 
 // test
-
 
 const gCode2 = `
 import { globalInvocationID, debug } from 'g-webgpu';
@@ -65,7 +62,6 @@ class CalcCenter {
 }
 `;
 
-
 const gpuVariableMapping = {
   k: 'u_K',
   k2: 'u_K2',
@@ -78,8 +74,8 @@ const gpuVariableMapping = {
   centerX: 'u_CenterX',
   centerY: 'u_CenterY',
   maxEdgePerVetex: 'MAX_EDGE_PER_VERTEX',
-  nodeNum: 'VERTEX_COUNT'
-}
+  nodeNum: 'VERTEX_COUNT',
+};
 
 interface Event {
   type: string;
@@ -125,10 +121,12 @@ function handleLayoutMessage(event: Event) {
         break;
       }
       if (layoutType.split('-')[1] !== 'gpu') {
-        ctx.postMessage({ type: LAYOUT_MESSAGE.ERROR, message: `layout ${layoutType} does not support GPU` });
+        ctx.postMessage({
+          type: LAYOUT_MESSAGE.ERROR,
+          message: `layout ${layoutType} does not support GPU`,
+        });
         break;
       }
-
 
       const layoutMethod = new LayoutClass(layoutCfg);
       layoutMethod.init({ nodes, edges });

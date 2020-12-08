@@ -1,4 +1,4 @@
-import { G6Event, IG6GraphEvent } from '../types';
+import { G6Event, IG6GraphEvent } from '@antv/g6-core';
 import { mat3 } from '@antv/matrix-util';
 import { clone } from '@antv/util';
 
@@ -33,78 +33,90 @@ export default {
       wheel: 'onWheel',
       touchstart: 'onTouchStart',
       touchmove: 'onTouchMove',
-      touchend: 'onTouchEnd'
+      touchend: 'onTouchEnd',
     };
   },
   onTouchStart(evt) {
-    const touches = evt.originalEvent.touches
-    const event1 = touches[0]
-    const event2 = touches[1]
-    evt.preventDefault()
+    const touches = evt.originalEvent.touches;
+    const event1 = touches[0];
+    const event2 = touches[1];
+    evt.preventDefault();
 
     // 如果不是缩放事件则禁止继续执行
     if (!event2) {
-      return
+      return;
     }
 
     // 第一个触摸点位置
     this.startPoint = {
       pageX: event1.pageX,
-      pageY: event1.pageY
-    }
+      pageY: event1.pageY,
+    };
 
-    this.moveable = true
+    this.moveable = true;
 
     if (event2) {
       this.endPoint = {
         pageX: event2.pageX,
-        pageY: event2.pageY
-      }
+        pageY: event2.pageY,
+      };
     }
 
-    this.originScale = this.currentScale || 1
+    this.originScale = this.currentScale || 1;
   },
   onTouchMove(evt) {
     if (!this.moveable) {
-      return
+      return;
     }
 
-    evt.preventDefault()
+    evt.preventDefault();
 
-    const touches = evt.originalEvent.touches
-    const event1 = touches[0]
-    const event2 = touches[1]
+    const touches = evt.originalEvent.touches;
+    const event1 = touches[0];
+    const event2 = touches[1];
 
     if (!event2) {
-      return
+      return;
     }
 
     if (!this.endPoint) {
       this.endPoint = {
         pageX: event2.pageX,
-        pageY: event2.pageY
-      }
+        pageY: event2.pageY,
+      };
     }
 
     // 获取坐标之间的距离
-    const getDistance = (start, end) => Math.hypot(end.x - start.x, end.y - start.y)
+    const getDistance = (start, end) => Math.hypot(end.x - start.x, end.y - start.y);
 
     // 双指缩放比例
-    const scale = getDistance({
-      x: event1.pageX, y: event1.pageY
-    }, {
-      x: event2.pageX, y: event2.pageY
-    }) / getDistance({
-      x: this.startPoint.pageX, y: this.startPoint.pageY
-    }, {
-      x: this.endPoint.pageX, y: this.endPoint.pageY
-    })
+    const scale =
+      getDistance(
+        {
+          x: event1.pageX,
+          y: event1.pageY,
+        },
+        {
+          x: event2.pageX,
+          y: event2.pageY,
+        },
+      ) /
+      getDistance(
+        {
+          x: this.startPoint.pageX,
+          y: this.startPoint.pageY,
+        },
+        {
+          x: this.endPoint.pageX,
+          y: this.endPoint.pageY,
+        },
+      );
 
     // 应用到画布上的缩放比例
-    const zoom = this.originScale * scale
+    const zoom = this.originScale * scale;
 
     // 缓存当前的缩放比例
-    this.currentScale = zoom
+    this.currentScale = zoom;
 
     const minZoom = this.get('minZoom') || this.graph.get('minZoom');
     const maxZoom = this.get('maxZoom') || this.graph.get('maxZoom');
@@ -118,8 +130,8 @@ export default {
     this.graph.emit('wheelzoom', evt);
   },
   onTouchEnd() {
-    this.moveable = false
-    this.endPoint = null
+    this.moveable = false;
+    this.endPoint = null;
   },
   onWheel(e: IG6GraphEvent) {
     const { graph, fixSelectedItems } = this;
@@ -187,7 +199,6 @@ export default {
         }
         this.set('optimized', true);
       }
-
 
       // showing after 100ms
       clearTimeout(this.get('timeout'));
@@ -289,7 +300,11 @@ export default {
               if (fixSelectedItems.fixLineWidth) {
                 if (shape.get('isKeyShape')) {
                   lineWidth = shape.attr('lineWidth') || 0;
-                  const oriLineWidth = itemStateStyle.lineWidth || shapeStateStyle.lineWidth || originStyle.lineWidth || 0;
+                  const oriLineWidth =
+                    itemStateStyle.lineWidth ||
+                    shapeStateStyle.lineWidth ||
+                    originStyle.lineWidth ||
+                    0;
                   if (zoom <= 1) shape.attr('lineWidth', oriLineWidth / zoom); // * graphZoom / zoom
                   if (fontSize) break;
                 }

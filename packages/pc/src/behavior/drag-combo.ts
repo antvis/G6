@@ -3,13 +3,11 @@
  * @LastEditors: moyee
  * @Description: 拖动 Combo
  */
-import { G6Event, IG6GraphEvent, Item, ComboConfig } from '../types';
+import { each } from '@antv/util';
+import { IGroup } from '@antv/g-base';
+import { G6Event, IG6GraphEvent, Item, ComboConfig, IGraph, ICombo, INode } from '@antv/g6-core';
 import { calculationItemsBBox } from '../util/base';
 import Global from '../global';
-import { IGraph } from '../interface/graph';
-import { each } from '@antv/util';
-import { IGroup } from '@antv/g-base/lib/interfaces';
-import { ICombo, INode } from '../interface/item';
 
 /**
  * 遍历拖动的 Combo 下的所有 Combo
@@ -26,7 +24,7 @@ const traverseCombo = (data, fn: (param: any) => boolean) => {
     if (combos.length === 0) {
       return false;
     }
-    each(combos, (child) => {
+    each(combos, child => {
       traverseCombo(child, fn);
     });
   }
@@ -85,14 +83,13 @@ export default {
 
     const currentCombo = item.get('id');
 
-    const dragCombos = combos.filter((combo) => {
+    const dragCombos = combos.filter(combo => {
       const comboId = combo.get('id');
       return currentCombo === comboId;
     });
 
     if (dragCombos.length === 0) {
       this.targets.push(item);
-
     } else {
       this.targets = combos;
     }
@@ -119,7 +116,7 @@ export default {
 
     this.currentItemChildCombos = [];
 
-    traverseCombo(item, (param) => {
+    traverseCombo(item, param => {
       if (param.destroyed) {
         return false;
       }
@@ -153,7 +150,7 @@ export default {
         // 2、拖动 combo 的 parent
         // 3、拖动 Combo 的 children
 
-        const calcCombos = combos.filter((combo) => {
+        const calcCombos = combos.filter(combo => {
           const cmodel = combo.getModel() as ComboConfig;
           // 被拖动的是最外层的 Combo，无 parent，排除自身和子元素
           if (!model.parentId) {
@@ -162,7 +159,7 @@ export default {
           return cmodel.id !== model.id && !this.currentItemChildCombos.includes(cmodel.id);
         });
 
-        calcCombos.map((combo) => {
+        calcCombos.map(combo => {
           const { centerX: cx, centerY: cy, width: w } = combo.getBBox();
 
           // 拖动的 combo 和要进入的 combo 之间的距离
@@ -179,7 +176,7 @@ export default {
         });
       }
 
-      each(this.targets, (item) => {
+      each(this.targets, item => {
         this.updateCombo(item, evt);
       });
     }
@@ -188,7 +185,7 @@ export default {
   updatePositions(evt: IG6GraphEvent) {
     // 当启用 delegate 时，拖动结束时需要更新 combo
     if (this.enableDelegate) {
-      each(this.targets, (item) => {
+      each(this.targets, item => {
         this.updateCombo(item, evt);
       });
     }
@@ -265,7 +262,6 @@ export default {
         }
       });
     }
-
 
     // 如果已经拖放下了，则不需要再通过距离判断了
     this.endComparison = true;
@@ -353,19 +349,19 @@ export default {
 
     if (data) {
       const combos = data.get('combos');
-      each(combos, (child) => {
+      each(combos, child => {
         this.traverse(child, fn);
       });
 
       const nodes = data.get('nodes');
-      each(nodes, (child) => {
+      each(nodes, child => {
         this.traverse(child, fn);
       });
     }
   },
 
   updateCombo(item: ICombo, evt: IG6GraphEvent) {
-    this.traverse(item, (param) => {
+    this.traverse(item, param => {
       if (param.destroyed) {
         return false;
       }

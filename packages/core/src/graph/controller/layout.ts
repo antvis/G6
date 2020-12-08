@@ -8,13 +8,13 @@ export default abstract class LayoutController {
 
   public destroyed: boolean;
 
-  private layoutCfg;
+  protected layoutCfg;
 
-  private layoutType: string;
+  protected layoutType: string;
 
-  private layoutMethod;
+  protected layoutMethod;
 
-  private data;
+  protected data;
 
   constructor(graph: IGraph) {
     this.graph = graph;
@@ -24,7 +24,7 @@ export default abstract class LayoutController {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  private initLayout() {
+  protected initLayout() {
     // no data before rendering
   }
 

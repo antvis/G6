@@ -1,64 +1,35 @@
 import { addEventListener } from '@antv/dom-util';
-import Canvas from '@antv/g-base/lib/abstract/canvas';
-import { Group, Shape } from '@antv/g-canvas';
+import { ICanvas, IGroup, IShape } from '@antv/g-base';
 import { each, isNil, wrapBehavior } from '@antv/util';
+import { AbstractEvent, IG6GraphEvent, Matrix, Item } from '@antv/g6-core';
 import Graph from '../graph';
-import { IG6GraphEvent, Matrix, Item } from '../../types';
 import { cloneEvent, isViewportChanged } from '../../util/base';
 
-type ShapeBase = Shape.Base;
 type Fun = () => void;
 
-// const EVENTS = [
-//   'click',
-//   'mousedown',
-//   'mouseup',
-//   'dblclick',
-//   'contextmenu',
-//   'mouseenter',
-//   'mouseout',
-//   'mouseover',
-//   'mousemove',
-//   'mouseleave',
-//   'dragstart',
-//   'dragend',
-//   'drag',
-//   'dragenter',
-//   'dragleave',
-//   'dragover',
-//   'dragout', // no this event
-//   'drop',
-//   'touchstart',
-//   'touchmove',
-//   'touchend',
-// ];
+export default class EventController extends AbstractEvent {
+  protected extendEvents: any[] = [];
 
-export default class EventController {
-  private graph: Graph;
+  protected canvasHandler!: Fun;
 
-  private extendEvents: any[];
+  protected dragging: boolean = false;
 
-  private canvasHandler!: Fun;
-
-  private dragging: boolean;
-
-  private preItem: Item | null = null;
+  protected preItem: Item | null = null;
 
   public destroyed: boolean;
 
   constructor(graph: Graph) {
+    super(graph);
     this.graph = graph;
-    this.extendEvents = [];
-    this.dragging = false;
     this.destroyed = false;
     this.initEvents();
   }
 
   // 初始化 G6 中的事件
-  private initEvents() {
-    const { graph, extendEvents } = this;
+  protected initEvents() {
+    const { graph, extendEvents = [] } = this;
 
-    const canvas: Canvas = graph.get('canvas');
+    const canvas: ICanvas = graph.get('canvas');
     // canvas.set('draggable', true);
     const el = canvas.get('el');
 
@@ -67,10 +38,10 @@ export default class EventController {
     const wheelHandler = wrapBehavior(this, 'onWheelEvent');
 
     // each(EVENTS, event => {
-    //   canvas.on(event, canvasHandler);
+    //   canvas.off(event).on(event, canvasHandler);
     // });
 
-    canvas.on('*', canvasHandler);
+    canvas.off('*').on('*', canvasHandler);
 
     this.canvasHandler = canvasHandler;
     extendEvents.push(addEventListener(el, 'DOMMouseScroll', wheelHandler));
@@ -84,7 +55,7 @@ export default class EventController {
   }
 
   // 获取 shape 的 item 对象
-  private static getItemRoot<T extends ShapeBase>(shape: any): T {
+  private static getItemRoot<T extends IShape>(shape: any): T {
     while (shape && !shape.get('item')) {
       shape = shape.get('parent');
     }
@@ -110,7 +81,7 @@ export default class EventController {
     evt.canvasY = evt.y;
     let point = { x: evt.canvasX, y: evt.canvasY };
 
-    const group: Group = graph.get('group');
+    const group: IGroup = graph.get('group');
     let matrix: Matrix = group.getMatrix();
 
     if (!matrix) {
@@ -138,7 +109,7 @@ export default class EventController {
       return;
     }
 
-    const itemShape: ShapeBase = EventController.getItemRoot(target);
+    const itemShape: IShape = EventController.getItemRoot(target);
     if (!itemShape) {
       graph.emit(eventType, evt);
       return;
@@ -204,7 +175,7 @@ export default class EventController {
    */
   private handleMouseMove(evt: IG6GraphEvent, type: string) {
     const { graph, preItem } = this;
-    const canvas: Canvas = graph.get('canvas');
+    const canvas: ICanvas = graph.get('canvas');
     const item = (evt.target as any) === canvas ? null : evt.item;
 
     evt = cloneEvent(evt) as IG6GraphEvent;
@@ -243,7 +214,7 @@ export default class EventController {
 
   public destroy() {
     const { graph, canvasHandler, extendEvents } = this;
-    const canvas: Canvas = graph.get('canvas');
+    const canvas: ICanvas = graph.get('canvas');
 
     // each(EVENTS, event => {
     //   canvas.off(event, canvasHandler);
@@ -251,7 +222,7 @@ export default class EventController {
 
     canvas.off('*', canvasHandler);
 
-    each(extendEvents, (event) => {
+    each(extendEvents, event => {
       event.remove();
     });
 

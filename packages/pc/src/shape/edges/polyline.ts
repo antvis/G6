@@ -1,16 +1,13 @@
-import { Point } from '@antv/g-base/lib/types';
-import { Group } from '@antv/g-canvas';
+import { Point, IGroup } from '@antv/g-base';
 import { mix, each, isArray, isString } from '@antv/util';
-import { ShapeStyle, EdgeConfig, Item } from '../../types';
+import { registerEdge, ShapeStyle, EdgeConfig, Item, INode } from '@antv/g6-core';
 import { pointsToPolygon } from '../../util/path';
 import Global from '../../global';
-import Shape from '../shape';
 import { getPathWithBorderRadiusByPolyline } from './polyline-util';
 import { RouterCfg, pathFinder } from './router';
-import { INode } from '../../interface/item';
 
 // 折线
-Shape.registerEdge(
+registerEdge(
   'polyline',
   {
     options: {
@@ -22,7 +19,7 @@ Shape.registerEdge(
         x: 0,
         y: 0,
         stroke: Global.defaultEdge.style.stroke,
-        lineAppendWidth: Global.defaultEdge.style.lineAppendWidth
+        lineAppendWidth: Global.defaultEdge.style.lineAppendWidth,
       },
       // 文本样式配置
       labelCfg: {
@@ -38,13 +35,13 @@ Shape.registerEdge(
         gridSize: 10, // 指定精度
       },
       stateStyles: {
-        ...Global.edgeStateStyles
-      }
+        ...Global.edgeStateStyles,
+      },
     },
     shapeType: 'polyline',
     // 文本位置
     labelPosition: 'center',
-    drawShape(cfg: EdgeConfig, group: Group) {
+    drawShape(cfg: EdgeConfig, group: IGroup) {
       const shapeStyle = (this as any).getShapeStyle(cfg);
       if (shapeStyle.radius === 0) delete shapeStyle.radius;
       const keyShape = group.addShape('path', {
@@ -102,7 +99,7 @@ Shape.registerEdge(
         stroke: cfg.color,
       };
       const shape =
-        group.find((element) => element.get('className') === 'edge-shape') || item.getKeyShape();
+        group.find(element => element.get('className') === 'edge-shape') || item.getKeyShape();
 
       const { size } = cfg;
       cfg = this.getPathPoints!(cfg);
@@ -134,12 +131,12 @@ Shape.registerEdge(
       }
       if (currentAttr.endArrow && previousStyle.endArrow === false) {
         cfg.style.endArrow = {
-          path: ''
+          path: '',
         };
       }
       if (currentAttr.startArrow && previousStyle.startArrow === false) {
         cfg.style.startArrow = {
-          path: ''
+          path: '',
         };
       }
       const style = mix(
@@ -147,7 +144,7 @@ Shape.registerEdge(
         shape.attr(),
         {
           lineWidth: size,
-          path
+          path,
         },
         cfg.style,
       );

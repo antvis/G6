@@ -1,6 +1,5 @@
-import { G6Event, IG6GraphEvent } from '../types';
+import { G6Event, IG6GraphEvent, IGraph } from '@antv/g6-core';
 import { cloneEvent, isNaN } from '../util/base';
-import { IGraph } from '../interface/graph';
 
 const { abs } = Math;
 const DRAG_OFFSET = 10;
@@ -15,7 +14,7 @@ export default {
       // 当设置的值大于 0 时，即拖动可以超过一屏
       // 当设置的值小于 0 时，相当于缩小了可拖动范围
       // 具体实例可参考：https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IFfoS67_HssAAAAAAAAAAAAAARQnAQ
-      scalableRange: 0
+      scalableRange: 0,
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -57,14 +56,18 @@ export default {
     const graphCanvasBBox = this.graph.get('canvas').getCanvasBBox();
 
     if (
-      (graphCanvasBBox.minX <= width + this.scalableRange && graphCanvasBBox.minX + dx > width + this.scalableRange) ||
-      (graphCanvasBBox.maxX + this.scalableRange >= 0 && graphCanvasBBox.maxX + this.scalableRange + dx < 0)
+      (graphCanvasBBox.minX <= width + this.scalableRange &&
+        graphCanvasBBox.minX + dx > width + this.scalableRange) ||
+      (graphCanvasBBox.maxX + this.scalableRange >= 0 &&
+        graphCanvasBBox.maxX + this.scalableRange + dx < 0)
     ) {
       dx = 0;
     }
     if (
-      (graphCanvasBBox.minY <= height + this.scalableRange && graphCanvasBBox.minY + dy > height + this.scalableRange) ||
-      (graphCanvasBBox.maxY + this.scalableRange >= 0 && graphCanvasBBox.maxY + this.scalableRange + dy < 0)
+      (graphCanvasBBox.minY <= height + this.scalableRange &&
+        graphCanvasBBox.minY + dy > height + this.scalableRange) ||
+      (graphCanvasBBox.maxY + this.scalableRange >= 0 &&
+        graphCanvasBBox.maxY + this.scalableRange + dy < 0)
     ) {
       dy = 0;
     }
@@ -79,7 +82,7 @@ export default {
     }
 
     if (
-      e.name !== G6Event.TOUCHSTART &&
+      e.name !== 'touchstart' &&
       typeof window !== 'undefined' &&
       window.event &&
       !(window.event as any).buttons &&
@@ -101,7 +104,7 @@ export default {
       for (let i = 0, len = edges.length; i < len; i++) {
         const shapes = edges[i].get('group').get('children');
         if (!shapes) continue;
-        shapes.forEach((shape) => {
+        shapes.forEach(shape => {
           shape.set('ori-visibility', shape.get('visible'));
           shape.hide();
         });
@@ -159,7 +162,7 @@ export default {
       for (let i = 0, len = edges.length; i < len; i++) {
         const shapes = edges[i].get('group').get('children');
         if (!shapes) continue;
-        shapes.forEach((shape) => {
+        shapes.forEach(shape => {
           const oriVis = shape.get('ori-visibility');
           if (oriVis) shape.show();
         });

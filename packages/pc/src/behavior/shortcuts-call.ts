@@ -1,4 +1,4 @@
-import { G6Event, IG6GraphEvent } from '../types';
+import { G6Event, IG6GraphEvent } from '@antv/g6-core';
 
 const DEFAULT_TRIGGER = 'ctrl';
 const ALLOW_EVENTS = ['shift', 'ctrl', 'alt', 'control'];
@@ -11,7 +11,7 @@ export default {
       trigger: DEFAULT_TRIGGER,
       combinedKey: DEFAULT_COMBINED_KEY,
       functionName: 'fitView',
-      functionParams: []
+      functionParams: [],
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -28,7 +28,7 @@ export default {
 
     return {
       keyup: 'onKeyUp',
-      keydown: 'onKeyDown'
+      keydown: 'onKeyDown',
     };
   },
   onKeyDown(e: IG6GraphEvent) {
@@ -41,9 +41,11 @@ export default {
     const codeLowerCase = code.toLowerCase();
     // 按住 control 键时，允许用户设置 trigger 为 ctrl
     if (!this.triggerKeydown) {
-      if (codeLowerCase === triggerLowerCase
-        || (codeLowerCase === 'control' && triggerLowerCase === 'ctrl')
-        || (codeLowerCase === 'ctrl' && triggerLowerCase === 'control')) {
+      if (
+        codeLowerCase === triggerLowerCase ||
+        (codeLowerCase === 'control' && triggerLowerCase === 'ctrl') ||
+        (codeLowerCase === 'ctrl' && triggerLowerCase === 'control')
+      ) {
         this.triggerKeydown = true;
       } else {
         this.triggerKeydown = false;
@@ -61,17 +63,21 @@ export default {
 
     // 未配置 combinedKey，直接 fitView
     if (this.triggerKeydown && !this.combinedKey) {
-      if (this.functionParams && this.functionParams.length) graph[this.functionName](...this.functionParams);
+      if (this.functionParams && this.functionParams.length)
+        graph[this.functionName](...this.functionParams);
       else graph[this.functionName]();
       return;
     }
 
     const combinedKeyLowerCase = this.combinedKey.toLowerCase();
     if (this.triggerKeydown) {
-      if (codeLowerCase === combinedKeyLowerCase
-        || (codeLowerCase === 'control' && combinedKeyLowerCase === 'ctrl')
-        || (codeLowerCase === 'ctrl' && combinedKeyLowerCase === 'control')) {
-        if (this.functionParams && this.functionParams.length) graph[this.functionName](...this.functionParams);
+      if (
+        codeLowerCase === combinedKeyLowerCase ||
+        (codeLowerCase === 'control' && combinedKeyLowerCase === 'ctrl') ||
+        (codeLowerCase === 'ctrl' && combinedKeyLowerCase === 'control')
+      ) {
+        if (this.functionParams && this.functionParams.length)
+          graph[this.functionName](...this.functionParams);
         else graph[this.functionName]();
       }
     }

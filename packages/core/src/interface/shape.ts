@@ -1,6 +1,5 @@
-import { Group as GGroup } from '@antv/g-canvas';
-import { IShape } from '@antv/g-canvas/lib/interfaces';
-import { IPoint, Item, LabelStyle, ModelConfig, ShapeStyle } from '../types';
+import { IGroup, IShape } from '@antv/g-base';
+import { IPoint, Item, LabelStyle, ModelConfig } from '../types';
 
 export type ILabelConfig = Partial<{
   position: string;
@@ -31,18 +30,18 @@ export type ShapeOptions = Partial<{
   /**
    * 绘制
    */
-  draw(cfg?: ModelConfig, group?: GGroup): IShape;
+  draw(cfg?: ModelConfig, group?: IGroup): IShape;
 
   getCustomConfig(cfg: ModelConfig): ModelConfig;
-  drawShape(cfg?: ModelConfig, group?: GGroup): IShape;
-  drawLabel(cfg: ModelConfig, group: GGroup): IShape;
-  getLabelStyleByPosition(cfg: ModelConfig, labelCfg: ILabelConfig, group?: GGroup): LabelStyle;
-  getLabelStyle(cfg: ModelConfig, labelCfg: ILabelConfig, group: GGroup): LabelStyle;
+  drawShape(cfg?: ModelConfig, group?: IGroup): IShape;
+  drawLabel(cfg: ModelConfig, group: IGroup): IShape;
+  getLabelStyleByPosition(cfg: ModelConfig, labelCfg: ILabelConfig, group?: IGroup): LabelStyle;
+  getLabelStyle(cfg: ModelConfig, labelCfg: ILabelConfig, group: IGroup): LabelStyle;
 
   /**
    * 绘制完成后的操作，便于用户继承现有的节点、边
    */
-  afterDraw(cfg?: ModelConfig, group?: GGroup, rst?: IShape): void;
+  afterDraw(cfg?: ModelConfig, group?: IGroup, rst?: IShape): void;
 
   afterUpdate(cfg?: ModelConfig, item?: Item): void;
 

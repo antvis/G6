@@ -1,5 +1,4 @@
-import { G6Event, IG6GraphEvent, EdgeConfig } from '../types';
-import { IGraph } from '../interface/graph';
+import { G6Event, IG6GraphEvent, EdgeConfig, IGraph } from '@antv/g6-core';
 
 const DEFAULT_TRIGGER = 'click';
 const ALLOW_EVENTS = ['click', 'drag'];
@@ -11,7 +10,7 @@ export default {
     return {
       trigger: DEFAULT_TRIGGER,
       key: DEFAULT_KEY,
-      edgeConfig: {}
+      edgeConfig: {},
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -20,9 +19,7 @@ export default {
     if (!(ALLOW_EVENTS.indexOf(self.trigger.toLowerCase()) > -1)) {
       self.trigger = DEFAULT_TRIGGER;
       // eslint-disable-next-line no-console
-      console.warn(
-        "Behavior create-edge 的 trigger 参数不合法，请输入 'click'，'drag'",
-      );
+      console.warn("Behavior create-edge 的 trigger 参数不合法，请输入 'click'，'drag'");
     }
     if (self.key && ALLOW_KEYS.indexOf(self.key.toLowerCase()) === -1) {
       self.trigger = DEFAULT_KEY;
@@ -39,7 +36,7 @@ export default {
         drag: 'updateEndPoint',
         'node:drop': 'onClick',
         'combo:drop': 'onClick',
-        'dragend': 'onDragEnd'
+        dragend: 'onDragEnd',
       };
     } else if (self.trigger === 'click') {
       events = {
@@ -47,7 +44,7 @@ export default {
         mousemove: 'updateEndPoint', // The event is mousemove, the responsing function is onMousemove
         'edge:click': 'cancelCreating', // The event is edge:click, the responsing function is onEdgeClick
         'canvas:click': 'cancelCreating',
-        'combo:click': 'onClick'
+        'combo:click': 'onClick',
       };
     }
     if (self.key) {
@@ -64,7 +61,7 @@ export default {
       self.cancelCreating({
         item: self.edge,
         x: ev.x,
-        y: ev.y
+        y: ev.y,
       });
   },
   // 如果边的起点没有指定，则根据起点创建新边；如果起点已经指定而终点未指定，则指定终点
@@ -78,7 +75,7 @@ export default {
     if (self.addingEdge && self.edge) {
       if (!self.shouldEnd.call(self, ev)) return;
       const updateCfg: EdgeConfig = {
-        target: model.id
+        target: model.id,
       };
       if (self.source === model.id) {
         updateCfg.type = 'loop';
@@ -89,7 +86,7 @@ export default {
       graph.updateItem(self.edge, updateCfg);
 
       graph.emit('aftercreateedge', {
-        edge: self.edge
+        edge: self.edge,
       });
 
       // 暂时将该边的 capture 恢复为 true
@@ -97,13 +94,18 @@ export default {
 
       self.edge = null;
       self.addingEdge = false;
-    } else { // 如果边的起点没有指定，则根据起点创建新边
+    } else {
+      // 如果边的起点没有指定，则根据起点创建新边
       if (!self.shouldBegin.call(self, ev)) return;
-      self.edge = graph.addItem('edge', {
-        source: model.id,
-        target: model.id,
-        ...self.edgeConfig
-      }, false);
+      self.edge = graph.addItem(
+        'edge',
+        {
+          source: model.id,
+          target: model.id,
+          ...self.edgeConfig,
+        },
+        false,
+      );
       self.source = model.id;
       self.addingEdge = true;
       // 暂时将该边的 capture 设置为 false，这样可以拾取到后面的元素
@@ -123,9 +125,13 @@ export default {
     }
     if (self.addingEdge && self.edge) {
       // 更新边的终点为鼠标位置
-      self.graph.updateItem(self.edge, {
-        target: point,
-      }, false);
+      self.graph.updateItem(
+        self.edge,
+        {
+          target: point,
+        },
+        false,
+      );
     }
   },
   // 取消增加边，删除该边；或指定终点
@@ -152,25 +158,33 @@ export default {
           const node = nodes[i];
           const model = node.getModel();
           const nodeBBox = node.getBBox();
-          if (x <= nodeBBox.maxX && x >= nodeBBox.minX
-            && y <= nodeBBox.maxY && y >= nodeBBox.minY) {
-            if (!self.shouldEnd.call(self,
-              {
-                x: ev.x, y: ev.y,
-                canvasX: ev.canvasX, canvasY: ev.canvasY,
-                clientX: ev.clientX, clientY: ev.clientY,
-                item: node
-              })) {
+          if (
+            x <= nodeBBox.maxX &&
+            x >= nodeBBox.minX &&
+            y <= nodeBBox.maxY &&
+            y >= nodeBBox.minY
+          ) {
+            if (
+              !self.shouldEnd.call(self, {
+                x: ev.x,
+                y: ev.y,
+                canvasX: ev.canvasX,
+                canvasY: ev.canvasY,
+                clientX: ev.clientX,
+                clientY: ev.clientY,
+                item: node,
+              })
+            ) {
               return;
             }
 
             graph.emit('beforecreateedge', {});
 
             graph.updateItem(self.edge, {
-              target: model.id
+              target: model.id,
             });
             graph.emit('aftercreateedge', {
-              edge: self.edge
+              edge: self.edge,
             });
             cancelEdge = false;
             break;

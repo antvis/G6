@@ -1,5 +1,5 @@
 import { each } from '@antv/util';
-import { G6Event, IG6GraphEvent } from '../types';
+import { G6Event, IG6GraphEvent } from '@antv/g6-core';
 
 const DEFAULT_TRIGGER = 'shift';
 const ALLOW_EVENTS = ['shift', 'ctrl', 'alt', 'control'];
@@ -38,6 +38,7 @@ export default {
     };
   },
   onClick(evt: IG6GraphEvent) {
+    debugger;
     const self = this;
     const { item } = evt;
     if (!item || item.destroyed) {
@@ -53,7 +54,7 @@ export default {
     // allow to select multiple nodes but did not press a key || do not allow the select multiple nodes
     if (!keydown || !multiple) {
       const selected = graph.findAllByState(type, self.selectedState);
-      each(selected, (combo) => {
+      each(selected, combo => {
         if (combo !== item) {
           graph.setItemState(combo, self.selectedState, false);
         }
@@ -93,12 +94,12 @@ export default {
   onCanvasClick() {
     const { graph } = this;
     const selected = graph.findAllByState('node', this.selectedState);
-    each(selected, (node) => {
+    each(selected, node => {
       graph.setItemState(node, this.selectedState, false);
     });
 
     const selectedCombos = graph.findAllByState('combo', this.selectedState);
-    each(selectedCombos, (combo) => {
+    each(selectedCombos, combo => {
       graph.setItemState(combo, this.selectedState, false);
     });
     graph.emit('nodeselectchange', {

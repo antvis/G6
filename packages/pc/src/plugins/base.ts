@@ -1,6 +1,6 @@
 import { wrapBehavior, each, deepMix } from '@antv/util';
 import Graph from '../graph/graph';
-import { IG6GraphEvent } from '../types';
+import { IG6GraphEvent } from '@antv/g6-core';
 
 export interface IPluginBaseConfig {
   container?: HTMLDivElement | string | null;
@@ -62,7 +62,7 @@ export default abstract class PluginBase {
   /**
    * 初始化方法，供子类实现
    */
-  public init() { }
+  public init() {}
 
   /**
    * 获取插件中的事件和事件处理方法，供子类实现
@@ -91,7 +91,7 @@ export default abstract class PluginBase {
   /**
    * 销毁方法，供子类复写
    */
-  public destroy() { }
+  public destroy() {}
 
   /**
    * 销毁插件

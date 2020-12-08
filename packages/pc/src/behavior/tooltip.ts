@@ -1,4 +1,4 @@
-import { G6Event } from '../types';
+import { G6Event } from '@antv/g6-core';
 import base from './tooltip-base';
 
 export default {

@@ -1,5 +1,5 @@
 import { modifyCSS, createDom } from '@antv/dom-util';
-import { IG6GraphEvent } from '../types';
+import { IG6GraphEvent } from '@antv/g6-core';
 
 export default {
   onMouseEnter(e: IG6GraphEvent) {
@@ -54,7 +54,7 @@ export default {
         visibility: 'hidden',
       });
       return;
-    };
+    }
     const point = graph.getPointByClient(e.clientX, e.clientY);
     let { x, y } = graph.getCanvasByPoint(point.x, point.y);
     const bbox = container.getBoundingClientRect();

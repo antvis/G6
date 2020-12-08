@@ -1,5 +1,5 @@
 import base from './tooltip-base';
-import { G6Event, EdgeConfig } from '../types';
+import { G6Event, EdgeConfig } from '@antv/g6-core';
 
 export default {
   getDefaultCfg(): object {

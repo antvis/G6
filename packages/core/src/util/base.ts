@@ -32,6 +32,7 @@ export const formatPadding = (padding: Padding): number[] => {
  * @param e
  */
 export const cloneEvent = (e: IG6GraphEvent): IG6GraphEvent => {
+  debugger;
   const event = new G6GraphEvent(e.type, e);
   event.clientX = e.clientX;
   event.clientY = e.clientY;

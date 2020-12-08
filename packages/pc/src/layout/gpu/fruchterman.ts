@@ -3,14 +3,14 @@
  * @author shiwu.wyy@antfin.com
  */
 
-import { EdgeConfig, IPointTuple, NodeConfig, NodeIdxMap } from '../../types';
+import { EdgeConfig, IPointTuple, NodeConfig, NodeIdxMap } from '@antv/g6-core';
 import { BaseLayout } from '../layout';
 import { isNumber } from '@antv/util';
 import { World } from '@antv/g-webgpu';
 // compile at runtime in dev mode
 // import { Compiler } from '@antv/g-webgpu-compiler';
 // import { fruchtermanCode, clusterCode } from './fruchtermanShader';
-import { buildTextureData, attributesToTextureData } from '../../util/layout'
+import { buildTextureData, attributesToTextureData } from '../../util/layout';
 // use compiled bundle in prod mode
 import { fruchtermanBundle, clusterBundle } from './fruchtermanShader';
 import { LAYOUT_MESSAGE } from '../worker/layoutConst';
@@ -156,7 +156,10 @@ export default class FruchtermanGPULayout extends BaseLayout {
     const speed = self.speed;
     const clustering = self.clustering;
 
-    const { array: attributeArray, count: clusterCount } = attributesToTextureData([self.clusterField], nodes);
+    const { array: attributeArray, count: clusterCount } = attributesToTextureData(
+      [self.clusterField],
+      nodes,
+    );
 
     const numParticles = nodes.length;
     const { maxEdgePerVetex, array: nodesEdgesArray } = buildTextureData(nodes, edges);
@@ -176,7 +179,7 @@ export default class FruchtermanGPULayout extends BaseLayout {
       world = World.create({
         engineOptions: {
           supportCompute: true,
-        }
+        },
       });
     }
 
@@ -268,7 +271,7 @@ export default class FruchtermanGPULayout extends BaseLayout {
         });
       }
       if (onLayoutEnd) onLayoutEnd();
-    }
+    };
 
     execute();
   }

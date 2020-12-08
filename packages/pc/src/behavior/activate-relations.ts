@@ -1,5 +1,4 @@
-import { G6Event, IG6GraphEvent } from '../types';
-import { INode } from '../interface/item';
+import { G6Event, IG6GraphEvent, INode } from '@antv/g6-core';
 
 export default {
   getDefaultCfg(): object {

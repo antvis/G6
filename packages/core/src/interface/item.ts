@@ -1,7 +1,5 @@
 /* eslint @typescript-eslint/no-use-before-define: 0 */
-import { IGroup } from '@antv/g-base/lib/interfaces';
-import { Point } from '@antv/g-base/lib/types';
-import { Group } from '@antv/g-canvas';
+import { IGroup, Point } from '@antv/g-base';
 import {
   IBBox,
   IPoint,
@@ -15,7 +13,7 @@ import {
   Indexable,
   ComboConfig,
   ITEM_TYPE,
-  TreeGraphData
+  TreeGraphData,
 } from '../types';
 
 // item 的配置项
@@ -122,7 +120,7 @@ export interface IItemBase {
    * 节点的图形容器
    * @return {G.Group} 图形容器
    */
-  getContainer(): Group;
+  getContainer(): IGroup;
 
   /**
    * 节点的关键形状，用于计算节点大小，连线截距等

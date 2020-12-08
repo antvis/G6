@@ -13,7 +13,7 @@ import {
   IBBox,
   Item,
   IPoint,
-} from '../types';
+} from '@antv/g6-core';
 
 /**
  * 对比对象，用于对象数组排序
@@ -25,7 +25,7 @@ import {
 export const compare = (attributeName: string) => {
   return (m, n) => {
     return m[attributeName] - n[attributeName];
-  }
+  };
 };
 
 /**
@@ -259,9 +259,9 @@ export const distance = (p1: Point, p2: Point): number => {
  */
 export const scaleMatrix = (matrix: Matrix[], ratio: number) => {
   const result: Matrix[] = [];
-  matrix.forEach((row) => {
+  matrix.forEach(row => {
     const newRow: number[] = [];
-    row.forEach((v) => {
+    row.forEach(v => {
       newRow.push(v * ratio);
     });
     result.push(newRow);
@@ -328,7 +328,7 @@ export const getAdjMatrix = (data: GraphData, directed: boolean): Matrix[] => {
   }
 
   if (edges) {
-    edges.forEach((e) => {
+    edges.forEach(e => {
       const { source, target } = e;
       const sIndex = nodeMap[source as string];
       const tIndex = nodeMap[target as string];
@@ -414,7 +414,7 @@ export const getDegree = (n: number, nodeIdxMap: NodeIdxMap, edges: EdgeConfig[]
   for (let i = 0; i < n; i++) {
     degrees[i] = 0;
   }
-  edges.forEach((e) => {
+  edges.forEach(e => {
     if (e.source) {
       degrees[nodeIdxMap[e.source]] += 1;
     }
@@ -491,7 +491,7 @@ export const intersectBBox = (box1: Partial<IBBox>, box2: Partial<IBBox>) => {
 
 const lineIntersectPolygon = (lines, line) => {
   let isIntersect = false;
-  each(lines, (l) => {
+  each(lines, l => {
     if (getLineIntersect(l.from, l.to, line.from, line.to)) {
       isIntersect = true;
       return false;
@@ -509,8 +509,8 @@ const lineIntersectPolygon = (lines, line) => {
 export const isPolygonsIntersect = (points1: number[][], points2: number[][]): boolean => {
   type BBox = Partial<IBBox>;
   const getBBox = (points): BBox => {
-    const xArr = points.map((p) => p[0]);
-    const yArr = points.map((p) => p[1]);
+    const xArr = points.map(p => p[0]);
+    const yArr = points.map(p => p[1]);
     return {
       minX: Math.min.apply(null, xArr),
       maxX: Math.max.apply(null, xArr),
@@ -567,7 +567,7 @@ export const isPolygonsIntersect = (points1: number[][], points2: number[][]): b
 
   let isIn = false;
   // 判定点是否在多边形内部，一旦有一个点在另一个多边形内，则返回
-  each(points2, (point) => {
+  each(points2, point => {
     if (isPointInPolygon(points1, point[0], point[1])) {
       isIn = true;
       return false;
@@ -576,7 +576,7 @@ export const isPolygonsIntersect = (points1: number[][], points2: number[][]): b
   if (isIn) {
     return true;
   }
-  each(points1, (point) => {
+  each(points1, point => {
     if (isPointInPolygon(points2, point[0], point[1])) {
       isIn = true;
       return false;
@@ -589,7 +589,7 @@ export const isPolygonsIntersect = (points1: number[][], points2: number[][]): b
   const lines1 = parseToLines(points1);
   const lines2 = parseToLines(points2);
   let isIntersect = false;
-  each(lines2, (line) => {
+  each(lines2, line => {
     if (lineIntersectPolygon(lines1, line)) {
       isIntersect = true;
       return false;
@@ -756,14 +756,14 @@ export const isPointsOverlap = (p1, p2, e = 1e-3) => {
  * @param rect IRect
  */
 export const pointRectSquareDist = (point: Point, rect: IRect) => {
-  const isLeft = point.x < rect.x
-  const isRight = point.x > rect.x + rect.width
-  const isTop = point.y > rect.y + rect.height
-  const isBottom = point.y < rect.y
+  const isLeft = point.x < rect.x;
+  const isRight = point.x > rect.x + rect.width;
+  const isTop = point.y > rect.y + rect.height;
+  const isBottom = point.y < rect.y;
 
-  const isPointOutside = isLeft || isRight || isTop || isBottom
+  const isPointOutside = isLeft || isRight || isTop || isBottom;
   if (!isPointOutside) {
-    return 0
+    return 0;
   }
   if (isTop && !isLeft && !isRight) {
     return (rect.y + rect.height - point.y) ** 2;
@@ -777,7 +777,7 @@ export const pointRectSquareDist = (point: Point, rect: IRect) => {
   if (isRight && !isTop && !isBottom) {
     return (rect.x + rect.width - point.x) ** 2;
   }
-  const dx = Math.min(Math.abs(rect.x - point.x), Math.abs(rect.x + rect.width - point.x))
-  const dy = Math.min(Math.abs(rect.y - point.y), Math.abs(rect.y + rect.height - point.y))
+  const dx = Math.min(Math.abs(rect.x - point.x), Math.abs(rect.x + rect.width - point.x));
+  const dy = Math.min(Math.abs(rect.y - point.y), Math.abs(rect.y + rect.height - point.y));
   return dx * dx + dy * dy;
 };

@@ -1,20 +1,20 @@
 import React, { useEffect } from 'react';
 import G6 from '../../../src';
-import { IGraph } from '../../../src/interface/graph';
+import { IGraph } from '@antv/g6-core';
 
 let graph: IGraph = null;
 
 const mapNodeSize = (nodes, propertyName, visualRange) => {
   let minp = 9999999999;
   let maxp = -9999999999;
-  nodes.forEach((node) => {
+  nodes.forEach(node => {
     node[propertyName] = Math.pow(node[propertyName], 1 / 3);
     minp = node[propertyName] < minp ? node[propertyName] : minp;
     maxp = node[propertyName] > maxp ? node[propertyName] : maxp;
   });
   const rangepLength = maxp - minp;
   const rangevLength = visualRange[1] - visualRange[0];
-  nodes.forEach((node) => {
+  nodes.forEach(node => {
     node.size = ((node[propertyName] - minp) / rangepLength) * rangevLength + visualRange[0];
   });
 };
@@ -59,19 +59,19 @@ const NetScience = () => {
           },
         },
         modes: {
-          default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'brush-select'], //'zoom-canvas', 'drag-canvas', 'drag-node',
+          default: ['zoom-canvas', 'drag-canvas', 'drag-node', 'brush-select', 'click-select'], //'zoom-canvas', 'drag-canvas', 'drag-node',
         },
       });
 
       fetch(
         'https://gw.alipayobjects.com/os/basement_prod/da5a1b47-37d6-44d7-8d10-f3e046dabf82.json',
       )
-        .then((res) => res.json())
-        .then((data) => {
-          data.nodes.forEach((node) => {
+        .then(res => res.json())
+        .then(data => {
+          data.nodes.forEach(node => {
             node.label = node.olabel;
             node.degree = 0;
-            data.edges.forEach((edge) => {
+            data.edges.forEach(edge => {
               if (edge.source === node.id || edge.target === node.id) {
                 node.degree++;
               }
@@ -88,7 +88,7 @@ const NetScience = () => {
             maxX = -Infinity,
             minY = Infinity,
             maxY = -Infinity;
-          data.nodes.forEach((node) => {
+          data.nodes.forEach(node => {
             cx += node.x;
             cy += node.y;
             if (minX > node.x) minX = node.x;
@@ -99,17 +99,17 @@ const NetScience = () => {
           const scale = maxX - minX > maxY - minY ? maxX - minX : maxY - minY;
           cx /= data.nodes.length;
           cy /= data.nodes.length;
-          data.nodes.forEach((node) => {
+          data.nodes.forEach(node => {
             node.x -= cx;
             node.y -= cy;
             node.x = (graphSize * node.x) / scale + graphSize / 2;
             node.y = (graphSize * node.y) / scale + graphSize / 2;
           });
           graph.positionsAnimate();
-          graph.on('node:dragstart', (e) => {
-            graph.setItemState(e.item, 'selected', true);
-            e.item.toFront();
-          });
+          // graph.on('node:dragstart', e => {
+          //   graph.setItemState(e.item, 'selected', true);
+          //   e.item.toFront();
+          // });
         });
     }
 

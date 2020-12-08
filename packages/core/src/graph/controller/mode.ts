@@ -46,13 +46,13 @@ export default class ModeController {
 
     this.mode = graph.get('defaultMode') || 'default';
     this.currentBehaves = [];
-
+    debugger;
     this.setMode(this.mode);
   }
 
   private formatModes() {
     const { modes } = this;
-    each(modes, (mode) => {
+    each(modes, mode => {
       each(mode, (behavior, i) => {
         if (isString(behavior)) {
           mode[i] = { type: behavior };
@@ -66,7 +66,7 @@ export default class ModeController {
     const behaviors = this.modes[mode];
     const behaves: IBehavior[] = [];
     let behave: IBehavior;
-    each(behaviors || [], (behavior) => {
+    each(behaviors || [], behavior => {
       const BehaviorInstance = Behavior.getBehavior(behavior.type);
       if (!BehaviorInstance) {
         return;
@@ -82,7 +82,7 @@ export default class ModeController {
   }
 
   private static mergeBehaviors(modeBehaviors: ModeType[], behaviors: ModeType[]): ModeType[] {
-    each(behaviors, (behavior) => {
+    each(behaviors, behavior => {
       if (modeBehaviors.indexOf(behavior) < 0) {
         if (isString(behavior)) {
           behavior = { type: behavior };
@@ -95,7 +95,7 @@ export default class ModeController {
 
   private static filterBehaviors(modeBehaviors: ModeType[], behaviors: ModeType[]): ModeType[] {
     const result: ModeType[] = [];
-    modeBehaviors.forEach((behavior) => {
+    modeBehaviors.forEach(behavior => {
       let type: string = '';
       if (isString(behavior)) {
         type = behavior;
@@ -121,7 +121,7 @@ export default class ModeController {
     }
     graph.emit('beforemodechange', { mode });
 
-    each(this.currentBehaves, (behave) => {
+    each(this.currentBehaves, behave => {
       behave.unbind(graph);
     });
 
@@ -157,7 +157,7 @@ export default class ModeController {
     }
 
     if (isArray(modes)) {
-      each(modes, (mode) => {
+      each(modes, mode => {
         if (!this.modes[mode]) {
           if (isAdd) {
             this.modes[mode] = behaves;

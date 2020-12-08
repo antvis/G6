@@ -3,7 +3,7 @@
  * @Description: 收起和展开 Combo
  */
 
-import { G6Event, IG6GraphEvent } from '../types';
+import { G6Event, IG6GraphEvent } from '@antv/g6-core';
 
 const DEFAULT_TRIGGER = 'dblclick';
 const ALLOW_EVENTS = ['click', 'dblclick'];

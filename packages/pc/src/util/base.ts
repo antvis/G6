@@ -1,6 +1,6 @@
 import { isString, isNumber, isNil, isArray } from '@antv/util';
-import { G6GraphEvent } from '../interface/behavior';
-import { IG6GraphEvent, Padding, Matrix, Item } from '../types';
+import { IG6GraphEvent, Padding, Matrix, Item } from '@antv/g6-core';
+import { G6GraphEvent } from '../interface/graph';
 
 /**
  * turn padding into [top, right, bottom, right]
@@ -112,7 +112,7 @@ export const calculationItemsBBox = (items: Item[]) => {
     minX: minx,
     minY: miny,
     maxX: maxx,
-    maxY: maxy
+    maxY: maxy,
   };
 };
 
@@ -125,7 +125,7 @@ export const processParallelEdges = (
   edges,
   offsetDiff = 15,
   multiEdgeType: string = 'quadratic',
-  singleEdgeType: string = 'line'
+  singleEdgeType: string = 'line',
 ) => {
   const len = edges.length;
   const cod = offsetDiff * 2;
@@ -194,7 +194,8 @@ export const processParallelEdges = (
         continue;
       }
       current.type = multiEdgeType;
-      const sign = (k % 2 === 0 ? 1 : -1) * (reverses[`${current.source}|${current.target}|${k}`] ? -1 : 1);
+      const sign =
+        (k % 2 === 0 ? 1 : -1) * (reverses[`${current.source}|${current.target}|${k}`] ? -1 : 1);
       if (length % 2 === 1) {
         current.curveOffset = sign * Math.ceil(k / 2) * cod;
       } else {
@@ -215,7 +216,10 @@ export const gpuDetector = (): any => {
     webgl: (() => {
       try {
         const canvas = document.createElement('canvas');
-        return !!(window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
+        return !!(
+          window.WebGLRenderingContext &&
+          (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
+        );
       } catch (e) {
         return false;
       }
@@ -235,13 +239,15 @@ export const gpuDetector = (): any => {
       element.style.width = '400px';
       element.style.margin = '5em auto 0';
       if (!this.webgl) {
-        element.innerHTML = window.WebGLRenderingContext ? [
-          'Your graphics card does not seem to support <a href="http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation" rel="external nofollow" rel="external nofollow" style="color:#000">WebGL</a>.<br />',
-          'Find out how to get it <a href="http://get.webgl.org/" rel="external nofollow" rel="external nofollow" style="color:#000">here</a>.'
-        ].join('\n') : [
-          'Your browser does not seem to support <a href="http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation" rel="external nofollow" rel="external nofollow" style="color:#000">WebGL</a>.<br/>',
-          'Find out how to get it <a href="http://get.webgl.org/" rel="external nofollow" rel="external nofollow" style="color:#000">here</a>.'
-        ].join('\n');
+        element.innerHTML = window.WebGLRenderingContext
+          ? [
+              'Your graphics card does not seem to support <a href="http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation" rel="external nofollow" rel="external nofollow" style="color:#000">WebGL</a>.<br />',
+              'Find out how to get it <a href="http://get.webgl.org/" rel="external nofollow" rel="external nofollow" style="color:#000">here</a>.',
+            ].join('\n')
+          : [
+              'Your browser does not seem to support <a href="http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation" rel="external nofollow" rel="external nofollow" style="color:#000">WebGL</a>.<br/>',
+              'Find out how to get it <a href="http://get.webgl.org/" rel="external nofollow" rel="external nofollow" style="color:#000">here</a>.',
+            ].join('\n');
       }
       return element;
     },
@@ -252,6 +258,6 @@ export const gpuDetector = (): any => {
       const element = gpuDetector().getWebGLErrorMessage();
       element.id = id;
       parent.appendChild(element);
-    }
-  }
+    },
+  };
 };

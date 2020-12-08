@@ -1,5 +1,6 @@
 import { each } from '@antv/util';
-import Behavior from './behavior';
+import { registerBehavior } from '@antv/g6-core';
+// import Behavior from './behavior';
 import DragCanvas from './drag-canvas';
 import DragNode from './drag-node';
 import ActivateRelations from './activate-relations';
@@ -29,11 +30,11 @@ const behaviors = {
   'drag-combo': DragCombo,
   'collapse-expand-combo': CollapseExpandCombo,
   'create-edge': CreateEdge,
-  'shortcuts-call': ShortcutsCall
+  'shortcuts-call': ShortcutsCall,
 };
 
 each(behaviors, (behavior, type: string) => {
-  Behavior.registerBehavior(type, behavior);
+  registerBehavior(type, behavior);
 });
 
-export default Behavior;
+// export default Behavior;

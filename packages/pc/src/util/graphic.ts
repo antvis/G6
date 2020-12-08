@@ -12,12 +12,12 @@ import {
   NodeConfig,
   ComboTree,
   ComboConfig,
-} from '../types';
+} from '@antv/g6-core';
 import { applyMatrix } from './math';
 import letterAspectRatio from './letterAspectRatio';
 import { isString, clone } from '@antv/util';
 import { BBox } from '@antv/g-math/lib/types';
-import { IGraph } from '../interface/graph';
+import { ICustomGraph } from '../interface/graph';
 
 const { PI, sin, cos } = Math;
 
@@ -404,7 +404,7 @@ export const radialLayout = (
     return data;
   }
 
-  traverseTree(data, (node) => {
+  traverseTree(data, node => {
     const radial = ((node[radScale] - min[radScale]) / radDiff) * (PI * 2 - avgRad) + avgRad;
     const r = Math.abs(rScale === 'x' ? node.x - data.x : node.y - data.y);
     node.x = r * Math.cos(radial);
@@ -433,7 +433,7 @@ export const getLetterWidth = (letter, fontSize) => {
 export const getTextSize = (text, fontSize) => {
   let width = 0;
   const pattern = new RegExp('[\u{4E00}-\u{9FA5}]+');
-  text.split('').forEach((letter) => {
+  text.split('').forEach(letter => {
     if (pattern.test(letter)) {
       // 中文字符
       width += fontSize;
@@ -454,7 +454,7 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) =
   const result: ComboTree[] = [];
   const addedMap = {};
   const modelMap = {};
-  array.forEach((d) => {
+  array.forEach(d => {
     modelMap[d.id] = d;
   });
 
@@ -514,7 +514,7 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) =
 
   // proccess the nodes
   const nodeMap = {};
-  (nodes || []).forEach((node) => {
+  (nodes || []).forEach(node => {
     nodeMap[node.id] = node;
     const combo = addedMap[node.comboId as string];
     if (combo) {
@@ -533,7 +533,7 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) =
   let maxDepth = 0;
   result.forEach((tree: ComboTree) => {
     tree.depth = maxDepth + 10;
-    traverse<ComboTree>(tree, (child) => {
+    traverse<ComboTree>(tree, child => {
       let parent;
       const itemType = addedMap[child.id].itemType;
       if (itemType === 'node') {
@@ -572,7 +572,7 @@ export const reconstructTree = (
   };
   let foundSubTree = false;
   let oldParentId = 'root';
-  (trees || []).forEach((tree) => {
+  (trees || []).forEach(tree => {
     if (foundSubTree) return;
     if (tree.id === subtreeId) {
       subtree = tree;
@@ -629,7 +629,7 @@ export const reconstructTree = (
     // newParentId is undefined means the subtree will have no parent
     if (newParentId) {
       let newParentDepth = 0;
-      (trees || []).forEach((tree) => {
+      (trees || []).forEach(tree => {
         if (found) return; // terminate
         traverseTree<ComboTree>(tree, (child: any) => {
           // append subtree to the new parent ans assign the depth to the subtree
@@ -661,7 +661,7 @@ export const reconstructTree = (
   return trees;
 };
 
-export const getComboBBox = (children: ComboTree[], graph: IGraph): BBox => {
+export const getComboBBox = (children: ComboTree[], graph: ICustomGraph): BBox => {
   const comboBBox = {
     minX: Infinity,
     minY: Infinity,
@@ -679,7 +679,7 @@ export const getComboBBox = (children: ComboTree[], graph: IGraph): BBox => {
     return comboBBox;
   }
 
-  children.forEach((child) => {
+  children.forEach(child => {
     const childItem = graph.findById(child.id);
     if (!childItem || !childItem.isVisible()) return; // ignore hidden children
     childItem.set('bboxCanvasCache', undefined);
@@ -697,7 +697,7 @@ export const getComboBBox = (children: ComboTree[], graph: IGraph): BBox => {
   comboBBox.centerX = (comboBBox.minX + comboBBox.maxX) / 2;
   comboBBox.centerY = (comboBBox.minY + comboBBox.maxY) / 2;
 
-  Object.keys(comboBBox).forEach((key) => {
+  Object.keys(comboBBox).forEach(key => {
     if (comboBBox[key] === Infinity || comboBBox[key] === -Infinity) {
       comboBBox[key] = undefined;
     }
@@ -706,37 +706,30 @@ export const getComboBBox = (children: ComboTree[], graph: IGraph): BBox => {
   return comboBBox;
 };
 
-export const getChartRegion = (
-  params: {
-    group: Group,
-    width: number,
-    height: number,
-    x: number,
-    y: number
-  }) => {
-  const {
-    group,
-    height,
-    width,
-    x,
-    y
-  } = params;
+export const getChartRegion = (params: {
+  group: Group;
+  width: number;
+  height: number;
+  x: number;
+  y: number;
+}) => {
+  const { group, height, width, x, y } = params;
   const canvas = group.get('canvas');
   const canvasWidth = canvas.get('width');
   const canvasHeight = canvas.get('height');
   const region = {
     start: {
       x: 0,
-      y: 0
+      y: 0,
     },
     end: {
       x: 0,
-      y: 0
-    }
-  }
+      y: 0,
+    },
+  };
   region.start.x = x / canvasWidth;
   region.start.y = y / canvasHeight;
   region.end.x = (x + width) / canvasWidth;
   region.end.y = (y + height) / canvasHeight;
   return region;
-}
+};

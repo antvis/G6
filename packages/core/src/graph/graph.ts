@@ -1,6 +1,5 @@
 import EventEmitter from '@antv/event-emitter';
-import { IGroup } from '@antv/g-base/lib/interfaces';
-import { Point } from '@antv/g-base/lib/types';
+import { ICanvas, IGroup, Point } from '@antv/g-base';
 import { mat3 } from '@antv/matrix-util';
 import { clone, deepMix, each, isPlainObject, isString } from '@antv/util';
 import { IGraph } from '../interface/graph';
@@ -28,14 +27,7 @@ import {
 } from '../types';
 import { move } from '../util/math';
 import Global from '../global';
-import {
-  EventController,
-  ItemController,
-  LayoutController,
-  ModeController,
-  StateController,
-  ViewController,
-} from './controller';
+import { ItemController, ModeController, StateController, ViewController } from './controller';
 import { plainCombosToTrees, traverseTree, reconstructTree, traverseTreeUp } from '../util/graphic';
 import degree from '../algorithm/degree';
 import Stack from '../algorithm/structs/stack';
@@ -46,7 +38,7 @@ import Hull from '../item/hull';
 
 const NODE = 'node';
 
-export interface PrivateGraphOption extends GraphOptions {
+interface PrivateGraphOption extends GraphOptions {
   data: GraphData;
 
   // capture event
@@ -75,17 +67,17 @@ export interface PrivateGraphOption extends GraphOptions {
 }
 
 export default abstract class Graph extends EventEmitter implements IGraph {
-  private animating: boolean;
+  protected animating: boolean;
 
-  private cfg: GraphOptions & { [key: string]: any };
+  protected cfg: GraphOptions & { [key: string]: any };
 
   public destroyed: boolean;
 
   // undo 栈
-  private undoStack: Stack;
+  protected undoStack: Stack;
 
   // redo 栈
-  private redoStack: Stack;
+  protected redoStack: Stack;
 
   constructor(cfg: GraphOptions) {
     super();
@@ -102,37 +94,44 @@ export default abstract class Graph extends EventEmitter implements IGraph {
     }
   }
 
-  private init() {
+  protected init() {
+    debugger;
     this.initCanvas();
 
     // instance controller
-    const eventController = new EventController(this);
     const viewController = new ViewController(this);
     const modeController = new ModeController(this);
     const itemController = new ItemController(this);
-    // const layoutController = new LayoutController(this);
     const stateController = new StateController(this);
 
     this.set({
-      eventController,
       viewController,
       modeController,
       itemController,
-      // layoutController,
       stateController,
     });
+
+    // 初始化布局机制
+    this.initLayoutController();
+
+    // 初始化事件机制
+    this.initEventController();
 
     this.initGroups();
   }
 
+  protected abstract initLayoutController(): void;
+
+  protected abstract initEventController(): void;
+
   /**
    * initCanvas 需要在 PC 和 Mobile 分别实现
    */
-  public abstract initCanvas(): void;
+  protected abstract initCanvas(): void;
 
   // 初始化所有 Group
-  private initGroups(): void {
-    const canvas = this.get('canvas');
+  protected initGroups(): void {
+    const canvas: ICanvas = this.get('canvas');
     const el: HTMLElement = this.get('canvas').get('el');
     const { id } = el;
 
@@ -436,7 +435,6 @@ export default abstract class Graph extends EventEmitter implements IGraph {
 
     itemController.clearItemStates(item, states);
 
-
     const stateController: StateController = this.get('stateController');
     stateController.updateStates(item, states, false);
   }
@@ -540,7 +538,7 @@ export default abstract class Graph extends EventEmitter implements IGraph {
    * @return {object} 元素实例
    */
   public findAllByState<T extends Item>(type: ITEM_TYPE, state: string): T[] {
-    return this.findAll(type, (item) => item.hasState(state));
+    return this.findAll(type, item => item.hasState(state));
   }
 
   /**
@@ -835,7 +833,7 @@ export default abstract class Graph extends EventEmitter implements IGraph {
   public setAutoPaint(auto: boolean): void {
     const self = this;
     self.set('autoPaint', auto);
-    const canvas = self.get('canvas');
+    const canvas: ICanvas = self.get('canvas');
     canvas.set('autoDraw', auto);
   }
 
@@ -868,7 +866,7 @@ export default abstract class Graph extends EventEmitter implements IGraph {
         const deletedModel = {
           ...(nodeItem as Item).getModel(),
           itemType: type,
-        }
+        };
         const before: GraphData = {};
         switch (type) {
           case 'node': {
@@ -878,7 +876,7 @@ export default abstract class Graph extends EventEmitter implements IGraph {
             for (let i = edges.length - 1; i >= 0; i--) {
               before.edges.push({
                 ...edges[i].getModel(),
-                itemType: 'edge'
+                itemType: 'edge',
               });
             }
             break;
@@ -893,7 +891,8 @@ export default abstract class Graph extends EventEmitter implements IGraph {
             break;
         }
         this.pushStack('delete', {
-          before, after: {}
+          before,
+          after: {},
         });
       }
 
@@ -914,13 +913,22 @@ export default abstract class Graph extends EventEmitter implements IGraph {
    * @param {boolean} sortCombo 本次操作是否需要更新 combo 层级顺序，内部参数，用户在外部使用 addItem 时始终时需要更新
    * @return {Item} 元素实例
    */
-  public addItem(type: ITEM_TYPE, model: ModelConfig, stack: boolean = true, sortCombo: boolean = true) {
+  public addItem(
+    type: ITEM_TYPE,
+    model: ModelConfig,
+    stack: boolean = true,
+    sortCombo: boolean = true,
+  ) {
     const currentComboSorted = this.get('comboSorted');
     this.set('comboSorted', currentComboSorted && !sortCombo);
     const itemController: ItemController = this.get('itemController');
 
     if (model.id && this.findById(model.id as string)) {
-      console.warn(`This item exists already. Be sure the id %c${model.id}%c is unique.`, 'font-size: 20px; color: red;', '');
+      console.warn(
+        `This item exists already. Be sure the id %c${model.id}%c is unique.`,
+        'font-size: 20px; color: red;',
+        '',
+      );
       return;
     }
 
@@ -932,7 +940,7 @@ export default abstract class Graph extends EventEmitter implements IGraph {
       let foundParent = false;
       comboTrees.forEach((ctree: ComboTree) => {
         if (foundParent) return; // terminate the forEach after the tree containing the item is done
-        traverseTreeUp<ComboTree>(ctree, (child) => {
+        traverseTreeUp<ComboTree>(ctree, child => {
           // find the parent
           if (model.parentId === child.id) {
             foundParent = true;
@@ -981,7 +989,7 @@ export default abstract class Graph extends EventEmitter implements IGraph {
         foundNode = false;
       (comboTrees || []).forEach((ctree: ComboTree) => {
         if (foundNode || foundParent) return; // terminate the forEach
-        traverseTreeUp<ComboTree>(ctree, (child) => {
+        traverseTreeUp<ComboTree>(ctree, child => {
           if (child.id === model.id) {
             // if the item exists in the tree already, terminate
             foundNode = true;
@@ -1024,8 +1032,8 @@ export default abstract class Graph extends EventEmitter implements IGraph {
     if (stack && this.get('enabledStack')) {
       const addedModel = {
         ...item.getModel(),
-        itemType: type
-      }
+        itemType: type,
+      };
       const after: GraphData = {};
       switch (type) {
         case 'node':
@@ -1041,7 +1049,8 @@ export default abstract class Graph extends EventEmitter implements IGraph {
           break;
       }
       this.pushStack('add', {
-        before: {}, after
+        before: {},
+        after,
       });
     }
 
@@ -1055,7 +1064,12 @@ export default abstract class Graph extends EventEmitter implements IGraph {
    * @param {boolean} stack 本次操作是否入栈，默认为 true
    * @return {Item} 元素实例
    */
-  public add(type: ITEM_TYPE, model: ModelConfig, stack: boolean = true, sortCombo: boolean = true): Item {
+  public add(
+    type: ITEM_TYPE,
+    model: ModelConfig,
+    stack: boolean = true,
+    sortCombo: boolean = true,
+  ): Item {
     return this.addItem(type, model, stack, sortCombo);
   }
 
@@ -1083,12 +1097,12 @@ export default abstract class Graph extends EventEmitter implements IGraph {
     if (currentItem.getType) type = currentItem.getType();
     const states = [...currentItem.getStates()];
     if (type === 'combo') {
-      each(states, (state) => this.setItemState(currentItem, state, false));
+      each(states, state => this.setItemState(currentItem, state, false));
     }
     itemController.updateItem(currentItem, cfg);
 
     if (type === 'combo') {
-      each(states, (state) => this.setItemState(currentItem, state, true));
+      each(states, state => this.setItemState(currentItem, state, true));
     }
 
     if (stack && this.get('enabledStack')) {
@@ -1096,7 +1110,7 @@ export default abstract class Graph extends EventEmitter implements IGraph {
       const after = { nodes: [], edges: [], combos: [] };
       const afterModel = {
         id: UnupdateModel.id,
-        ...cfg
+        ...cfg,
       };
       switch (type) {
         case 'node':
@@ -1248,14 +1262,14 @@ export default abstract class Graph extends EventEmitter implements IGraph {
           const nodesArr = this.getNodes();
 
           // 遍历节点实例，将所有节点提前。
-          nodesArr.forEach((node) => {
+          nodesArr.forEach(node => {
             node.toFront();
           });
         } else {
           const edgesArr = this.getEdges();
 
           // 遍历节点实例，将所有节点提前。
-          edgesArr.forEach((edge) => {
+          edgesArr.forEach(edge => {
             edge.toBack();
           });
         }
@@ -1277,7 +1291,7 @@ export default abstract class Graph extends EventEmitter implements IGraph {
   }
 
   // 比较item
-  private diffItems(
+  protected diffItems(
     type: ITEM_TYPE,
     items: { nodes: INode[]; edges: IEdge[] },
     models: NodeConfig[] | EdgeConfig[],
@@ -1286,7 +1300,7 @@ export default abstract class Graph extends EventEmitter implements IGraph {
     let item: INode;
     const itemMap: NodeMap = this.get('itemMap');
 
-    each(models, (model) => {
+    each(models, model => {
       item = itemMap[model.id];
       if (item) {
         if (self.get('animate') && type === NODE) {
@@ -1320,16 +1334,16 @@ export default abstract class Graph extends EventEmitter implements IGraph {
     if (stack && this.get('enabledStack')) {
       this.pushStack('changedata', {
         before: self.save(),
-        after: data
+        after: data,
       });
     }
     this.set('comboSorted', false);
 
     // 更改数据源后，取消所有状态
-    this.getNodes().map((node) => self.clearItemStates(node));
-    this.getEdges().map((edge) => self.clearItemStates(edge));
+    this.getNodes().map(node => self.clearItemStates(node));
+    this.getEdges().map(edge => self.clearItemStates(edge));
 
-    const canvas = this.get('canvas');
+    const canvas: ICanvas = this.get('canvas');
     const localRefresh: boolean = canvas.get('localRefresh');
     canvas.set('localRefresh', false);
 
@@ -1417,7 +1431,7 @@ export default abstract class Graph extends EventEmitter implements IGraph {
    * 私有方法，在 render 和 changeData 的时候批量添加数据中所有平铺的 combos
    * @param {ComboConfig[]} combos 平铺的 combos 数据
    */
-  private addCombos(combos: ComboConfig[]) {
+  protected addCombos(combos: ComboConfig[]) {
     const self = this;
     const comboTrees = self.get('comboTrees');
     const itemController: ItemController = this.get('itemController');
@@ -1449,7 +1463,7 @@ export default abstract class Graph extends EventEmitter implements IGraph {
       comboConfig = combo;
     }
 
-    const trees: ComboTree[] = children.map((elementId) => {
+    const trees: ComboTree[] = children.map(elementId => {
       const item = this.findById(elementId);
 
       let type = '';
@@ -1476,8 +1490,8 @@ export default abstract class Graph extends EventEmitter implements IGraph {
 
     // step3: 更新 comboTrees 结构
     const comboTrees = this.get('comboTrees');
-    (comboTrees || []).forEach((ctree) => {
-      traverseTreeUp<ComboTree>(ctree, (child) => {
+    (comboTrees || []).forEach(ctree => {
+      traverseTreeUp<ComboTree>(ctree, child => {
         if (child.id === comboId) {
           child.itemType = 'combo';
           child.children = trees as ComboTree[];
@@ -1517,15 +1531,15 @@ export default abstract class Graph extends EventEmitter implements IGraph {
     const comboItems = this.get('combos');
     const parentItem = this.findById(parentId as string) as ICombo;
 
-    comboTrees.forEach((ctree) => {
+    comboTrees.forEach(ctree => {
       if (treeToBeUncombo) return; // terminate the forEach
-      traverseTreeUp<ComboTree>(ctree, (subtree) => {
+      traverseTreeUp<ComboTree>(ctree, subtree => {
         // find the combo to be uncomboed, delete the combo from map and cache
         if (subtree.id === comboId) {
           treeToBeUncombo = subtree;
           // delete the related edges
           const edges = comboItem.getEdges();
-          edges.forEach((edge) => {
+          edges.forEach(edge => {
             this.removeItem(edge, false);
           });
           const index = comboItems.indexOf(combo);
@@ -1544,7 +1558,7 @@ export default abstract class Graph extends EventEmitter implements IGraph {
           }
 
           // append the combo's children to the combo's brothers array
-          treeToBeUncombo.children?.forEach((child) => {
+          treeToBeUncombo.children.forEach(child => {
             const item = this.findById(child.id) as ICombo | INode;
             const childModel = item.getModel();
             if (item.getType && item.getType() === 'combo') {
@@ -1570,7 +1584,7 @@ export default abstract class Graph extends EventEmitter implements IGraph {
       const index = comboTrees.indexOf(treeToBeUncombo);
       comboTrees.splice(index, 1);
       // modify the parentId of the children
-      treeToBeUncombo.children?.forEach((child) => {
+      treeToBeUncombo.children.forEach(child => {
         child.parentId = undefined;
         const childModel = this.findById(child.id).getModel();
         childModel.parentId = undefined; // update the parentId of the model
@@ -1589,7 +1603,7 @@ export default abstract class Graph extends EventEmitter implements IGraph {
 
     const itemMap = self.get('itemMap');
     (comboTrees || []).forEach((ctree: ComboTree) => {
-      traverseTreeUp<ComboTree>(ctree, (child) => {
+      traverseTreeUp<ComboTree>(ctree, child => {
         if (!child) {
           return true;
         }
@@ -1597,13 +1611,13 @@ export default abstract class Graph extends EventEmitter implements IGraph {
         if (childItem && childItem.getType && childItem.getType() === 'combo') {
           // 更新具体的 Combo 之前先清除所有的已有状态，以免将 state 中的样式更新为 Combo 的样式
           const states = [...childItem.getStates()];
-          each(states, (state) => this.setItemState(childItem, state, false));
+          each(states, state => this.setItemState(childItem, state, false));
 
           // 更新具体的 Combo
           itemController.updateCombo(childItem, child.children);
 
           // 更新 Combo 后，还原已有的状态
-          each(states, (state) => this.setItemState(childItem, state, true));
+          each(states, state => this.setItemState(childItem, state, true));
         }
         return true;
       });
@@ -1634,7 +1648,7 @@ export default abstract class Graph extends EventEmitter implements IGraph {
 
     const itemMap = self.get('itemMap');
     (comboTrees || []).forEach((ctree: ComboTree) => {
-      traverseTreeUp<ComboTree>(ctree, (child) => {
+      traverseTreeUp<ComboTree>(ctree, child => {
         if (!child) {
           return true;
         }
@@ -1648,7 +1662,7 @@ export default abstract class Graph extends EventEmitter implements IGraph {
           // 更新具体的 Combo 之前先清除所有的已有状态，以免将 state 中的样式更新为 Combo 的样式
           const states = [...childItem.getStates()];
           // || !item.getStateStyle(stateName)
-          each(states, (state) => {
+          each(states, state => {
             if (childItem.getStateStyle(state)) {
               this.setItemState(childItem, state, false);
             }
@@ -1658,7 +1672,7 @@ export default abstract class Graph extends EventEmitter implements IGraph {
           itemController.updateCombo(childItem, child.children);
 
           // 更新 Combo 后，还原已有的状态
-          each(states, (state) => {
+          each(states, state => {
             if (childItem.getStateStyle(state)) {
               this.setItemState(childItem, state, true);
             }
@@ -1676,7 +1690,11 @@ export default abstract class Graph extends EventEmitter implements IGraph {
    * @param {String | INode | ICombo} item 需要被更新的 Combo 或 节点 id
    * @param {string | undefined} parentId 新的父 combo id，undefined 代表没有父 combo
    */
-  public updateComboTree(item: string | INode | ICombo, parentId?: string | undefined, stack: boolean = true) {
+  public updateComboTree(
+    item: string | INode | ICombo,
+    parentId?: string | undefined,
+    stack: boolean = true,
+  ) {
     const self = this;
     this.set('comboSorted', false);
     let uItem: INode | ICombo;
@@ -1697,9 +1715,9 @@ export default abstract class Graph extends EventEmitter implements IGraph {
       const comboTrees = this.get('comboTrees');
       let valid = true;
       let itemSubTree;
-      (comboTrees || []).forEach((ctree) => {
+      (comboTrees || []).forEach(ctree => {
         if (itemSubTree) return;
-        traverseTree(ctree, (subTree) => {
+        traverseTree(ctree, subTree => {
           if (itemSubTree) return;
           // 找到从 item 开始的子树
           if (subTree.id === uItem.getID()) {
@@ -1715,38 +1733,49 @@ export default abstract class Graph extends EventEmitter implements IGraph {
           return false;
         }
         return true;
-      })
+      });
       // parentId 是 item 的一个后继元素，不能进行更新
       if (!valid) {
-        console.warn('Failed to update the combo tree! The parentId points to a descendant of the combo!');
+        console.warn(
+          'Failed to update the combo tree! The parentId points to a descendant of the combo!',
+        );
         return;
       }
     }
 
     if (stack && this.get('enabledStack')) {
-      const beforeData: GraphData = {}, afterData: GraphData = {};
+      const beforeData: GraphData = {},
+        afterData: GraphData = {};
       if (type === 'combo') {
-        beforeData.combos = [{
-          id: model.id,
-          parentId: (model as ComboConfig).parentId
-        }];
-        afterData.combos = [{
-          id: model.id,
-          parentId
-        }];
+        beforeData.combos = [
+          {
+            id: model.id,
+            parentId: (model as ComboConfig).parentId,
+          },
+        ];
+        afterData.combos = [
+          {
+            id: model.id,
+            parentId,
+          },
+        ];
       } else if (type === 'node') {
-        beforeData.nodes = [{
-          id: model.id,
-          parentId: (model as NodeConfig).comboId
-        }];
-        afterData.nodes = [{
-          id: model.id,
-          parentId
-        }];
+        beforeData.nodes = [
+          {
+            id: model.id,
+            parentId: (model as NodeConfig).comboId,
+          },
+        ];
+        afterData.nodes = [
+          {
+            id: model.id,
+            parentId,
+          },
+        ];
       }
       this.pushStack('updateComboTree', {
         before: beforeData,
-        after: afterData
+        after: afterData,
       });
     }
 
@@ -1906,7 +1935,7 @@ export default abstract class Graph extends EventEmitter implements IGraph {
 
     const nodes = self.getNodes();
 
-    const toNodes = nodes.map((node) => {
+    const toNodes = nodes.map(node => {
       const model = node.getModel();
       return {
         id: model.id,
@@ -1919,11 +1948,11 @@ export default abstract class Graph extends EventEmitter implements IGraph {
       self.stopAnimate();
     }
 
-    const canvas = self.get('canvas');
+    const canvas: ICanvas = self.get('canvas');
 
     canvas.animate(
       (ratio: number) => {
-        each(toNodes, (data) => {
+        each(toNodes, data => {
           const node: Item = self.findById(data.id);
 
           if (!node || node.destroyed) {
@@ -2065,7 +2094,7 @@ export default abstract class Graph extends EventEmitter implements IGraph {
    * @return {object} this
    */
   public clear(): Graph {
-    const canvas = this.get('canvas');
+    const canvas: ICanvas = this.get('canvas');
     canvas.clear();
 
     this.initGroups();
@@ -2098,8 +2127,10 @@ export default abstract class Graph extends EventEmitter implements IGraph {
     const oriLayoutCfg = this.get('layout');
     const oriLayoutType = oriLayoutCfg ? oriLayoutCfg.type : undefined;
 
-    if ((!newLayoutType || oriLayoutType === newLayoutType)
-      && (cfg.gpuEnabled === undefined || cfg.gpuEnabled === oriLayoutCfg.gpuEnabled)) {
+    if (
+      (!newLayoutType || oriLayoutType === newLayoutType) &&
+      (cfg.gpuEnabled === undefined || cfg.gpuEnabled === oriLayoutCfg.gpuEnabled)
+    ) {
       // no type or same type, or switch the gpu and cpu, update layout
       const layoutCfg: any = {};
       Object.assign(layoutCfg, oriLayoutCfg, cfg);
@@ -2115,7 +2146,6 @@ export default abstract class Graph extends EventEmitter implements IGraph {
       layoutController.changeLayout(newLayoutType);
     }
   }
-
 
   /**
    * 重新以当前示例中配置的属性进行一次布局
@@ -2165,18 +2195,18 @@ export default abstract class Graph extends EventEmitter implements IGraph {
     const comboTrees = this.get('comboTrees');
     let found = false;
     let brothers = {};
-    (comboTrees || []).forEach((ctree) => {
+    (comboTrees || []).forEach(ctree => {
       brothers[ctree.id] = ctree;
     });
-    (comboTrees || []).forEach((ctree) => {
+    (comboTrees || []).forEach(ctree => {
       if (found) return; // if the combo is found, terminate the forEach
-      traverseTree(ctree, (subTree) => {
+      traverseTree(ctree, subTree => {
         // if the combo is found and the it is traversing the other brothers, terminate
         if (found && brothers[subTree.id]) return false;
         if (comboModel.parentId === subTree.id) {
           // if the parent is found, store the brothers
           brothers = {};
-          subTree.children.forEach((child) => {
+          subTree.children.forEach(child => {
             brothers[child.id] = child;
           });
         } else if (comboModel.id === subTree.id) {
@@ -2197,7 +2227,7 @@ export default abstract class Graph extends EventEmitter implements IGraph {
 
     const edgeWeightMap = {};
     const addedVEdges = [];
-    edges.forEach((edge) => {
+    edges.forEach(edge => {
       if (edge.isVisible() && !edge.getModel().isVEdge) return;
       let source = edge.getSource();
       let target = edge.getTarget();
@@ -2281,7 +2311,7 @@ export default abstract class Graph extends EventEmitter implements IGraph {
 
     // update the width of the virtual edges, which is the sum of merged actual edges
     // be attention that the actual edges with same endpoints but different directions will be represented by two different virtual edges
-    addedVEdges.forEach((vedge) => {
+    addedVEdges.forEach(vedge => {
       const vedgeModel = vedge.getModel();
       this.updateItem(
         vedge,
@@ -2320,18 +2350,18 @@ export default abstract class Graph extends EventEmitter implements IGraph {
     const comboTrees = this.get('comboTrees');
     let found = false;
     let brothers = {};
-    (comboTrees || []).forEach((ctree) => {
+    (comboTrees || []).forEach(ctree => {
       brothers[ctree.id] = ctree;
     });
-    (comboTrees || []).forEach((ctree) => {
+    (comboTrees || []).forEach(ctree => {
       if (found) return; // if the combo is found, terminate
-      traverseTree(ctree, (subTree) => {
+      traverseTree(ctree, subTree => {
         if (found && brothers[subTree.id]) {
           return false;
         }
         if (comboModel.parentId === subTree.id) {
           brothers = {};
-          subTree.children.forEach((child) => {
+          subTree.children.forEach(child => {
             brothers[child.id] = child;
           });
         } else if (comboModel.id === subTree.id) {
@@ -2350,7 +2380,7 @@ export default abstract class Graph extends EventEmitter implements IGraph {
 
     const edgeWeightMap = {};
     const addedVEdges = {};
-    edges.forEach((edge) => {
+    edges.forEach(edge => {
       if (edge.isVisible() && !edge.getModel().isVEdge) return;
       let source = edge.getSource();
       let target = edge.getTarget();
@@ -2542,15 +2572,15 @@ export default abstract class Graph extends EventEmitter implements IGraph {
    * 根据 comboTree 结构整理 Combo 相关的图形绘制层级，包括 Combo 本身、节点、边
    * @param {GraphData} data 数据
    */
-  private sortCombos() {
+  protected sortCombos() {
     const comboSorted = this.get('comboSorted');
     if (comboSorted) return;
     this.set('comboSorted', true);
     const depthMap = [];
     const dataDepthMap = {};
     const comboTrees = this.get('comboTrees');
-    (comboTrees || []).forEach((cTree) => {
-      traverseTree(cTree, (child) => {
+    (comboTrees || []).forEach(cTree => {
+      traverseTree(cTree, child => {
         if (depthMap[child.depth]) depthMap[child.depth].push(child.id);
         else depthMap[child.depth] = [child.id];
         dataDepthMap[child.id] = child.depth;
@@ -2558,7 +2588,7 @@ export default abstract class Graph extends EventEmitter implements IGraph {
       });
     });
     const edges = this.getEdges().concat(this.get('vedges'));
-    (edges || []).forEach((edgeItem) => {
+    (edges || []).forEach(edgeItem => {
       const edge = edgeItem.getModel();
       const sourceDepth: number = dataDepthMap[edge.source as string] || 0;
       const targetDepth: number = dataDepthMap[edge.target as string] || 0;
@@ -2566,11 +2596,11 @@ export default abstract class Graph extends EventEmitter implements IGraph {
       if (depthMap[depth]) depthMap[depth].push(edge.id);
       else depthMap[depth] = [edge.id];
     });
-    depthMap.forEach((array) => {
+    depthMap.forEach(array => {
       if (!array || !array.length) return;
       for (let i = array.length - 1; i >= 0; i--) {
         const item = this.findById(array[i]);
-        item?.toFront();
+        item && item.toFront();
       }
     });
   }
@@ -2674,10 +2704,12 @@ export default abstract class Graph extends EventEmitter implements IGraph {
       return;
     }
 
-    const stackData = data ? clone(data) : {
-      before: {},
-      after: clone(this.save())
-    };
+    const stackData = data
+      ? clone(data)
+      : {
+          before: {},
+          after: clone(this.save()),
+        };
 
     if (stackType === 'redo') {
       this.redoStack.push({
@@ -2754,36 +2786,11 @@ export default abstract class Graph extends EventEmitter implements IGraph {
     // 清空栈数据
     this.clearStack();
 
-    each(this.get('plugins'), (plugin) => {
-      plugin.destroyPlugin();
-    });
-
-    // destroy tooltip doms, removed when upgrade G6 4.0
-    const tooltipDOMs = this.get('tooltips');
-    if (tooltipDOMs) {
-      for (let i = 0; i < tooltipDOMs.length; i++) {
-        const container = tooltipDOMs[i];
-        if (!container) continue;
-        const parent = container.parentElement;
-        if (!parent) continue;
-        parent.removeChild(container);
-      }
-    }
-
-    this.get('eventController').destroy();
     this.get('itemController').destroy();
     this.get('modeController').destroy();
     this.get('viewController').destroy();
     this.get('stateController').destroy();
-    this.get('layoutController').destroy();
     this.get('canvas').destroy();
-
-    if (this.get('graphWaterMarker')) {
-      this.get('graphWaterMarker').destroy();
-    }
-    if (document.querySelector('.g6-graph-watermarker')) {
-      document.querySelector('.g6-graph-watermarker').remove()
-    }
 
     (this.cfg as any) = null;
     this.destroyed = true;

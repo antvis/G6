@@ -20,7 +20,6 @@ import {
   GraphAnimateConfig,
   StackData,
   HullCfg,
-  WaterMarkerConfig,
   IG6GraphEvent,
 } from '../types';
 import { IEdge, INode, ICombo } from './item';
