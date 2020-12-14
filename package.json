@@ -24,7 +24,7 @@
     }
   },
   "lint-staged": {
-    "**/*.{js,jsx,tsx,ts,less,md,json}": [
+    "*.{js,jsx,tsx,ts,less,md,json}": [
       "pretty-quick —-staged"
     ]
   },
@@ -46,6 +46,7 @@
     "typescript": "^4.0.3"
   },
   "devDependencies": {
-    "@umijs/fabric": "^2.3.1"
+    "@umijs/fabric": "^2.3.1",
+    "pre-commit": "^1.2.2"
   }
 }
