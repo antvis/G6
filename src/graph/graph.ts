@@ -948,8 +948,16 @@ export default class Graph extends EventEmitter implements IGraph {
         });
       }
 
+      if (type === 'node') {
+        const model = (nodeItem as INode).getModel()
+        // 如果删除的是节点，且该节点存在于某个 Combo 中，则需要先将 node 从 combo 中移除，否则删除节点后，操作 combo 会出错
+        if (model.comboId) {
+          this.updateComboTree(nodeItem as INode)
+        }
+      }
+
       const itemController: ItemController = this.get('itemController');
-      itemController.removeItem(item);
+      itemController.removeItem(nodeItem);
       if (type === 'combo') {
         const newComboTrees = reconstructTree(this.get('comboTrees'));
         this.set('comboTrees', newComboTrees);
