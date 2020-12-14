@@ -6,7 +6,8 @@
   "scripts": {
     "start": "father build --watch",
     "build": "father build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test-live": "DEBUG_MODE=1 jest --watch "
   },
   "dependencies": {
     "@antv/dom-util": "^2.0.2",
@@ -27,6 +28,10 @@
     "access": "public"
   },
   "devDependencies": {
-    "father": "^2.30.0"
+    "@types/jest": "^26.0.18",
+    "father": "^2.30.0",
+    "jest": "^26.6.3",
+    "jest-electron": "^0.1.11",
+    "ts-jest": "^26.4.4"
   }
 }
