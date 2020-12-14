@@ -40,7 +40,7 @@ export default class Queue {
     return removeHead ? removeHead.value : null;
   }
 
-  public toString(callback) {
+  public toString(callback?: any) {
     return this.linkedList.toString(callback);
   }
 }
