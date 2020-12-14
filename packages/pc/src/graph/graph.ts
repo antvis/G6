@@ -22,7 +22,6 @@ export default class Graph extends AbstractGraph implements IGraph {
     super(cfg);
     // this.cfg = deepMix(this.getDefaultCfg(), cfg);
     this.destroyed = false;
-    // this.init();
   }
 
   protected initLayoutController() {
@@ -77,8 +76,8 @@ export default class Graph extends AbstractGraph implements IGraph {
     }
 
     this.set('canvas', canvas);
-
-    this.initGroups();
+    /** PC端加载插件 */
+    this.initPlugin();
   }
 
   protected initPlugin(): void {
