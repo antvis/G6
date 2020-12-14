@@ -1,6 +1,7 @@
 import G6 from '@antv/g6';
 import { G6GraphEvent, IG6GraphEvent } from '@antv/g6-core';
 import Menu from '../../src/menu';
+
 const div = document.createElement('div');
 div.id = 'menu';
 document.body.appendChild(div);

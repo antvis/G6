@@ -9,7 +9,7 @@ import TimeBar from './timeBar';
 import ImageMinimap from './imageMinimap';
 import EdgeFilterLens from './edgeFilterLens';
 
-export default {
+export {
   Menu,
   Grid,
   Minimap,

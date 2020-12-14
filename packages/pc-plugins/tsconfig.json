@@ -12,6 +12,6 @@
     "module": "esnext",
     "esModuleInterop": true
   },
-  "include": ["src"],
-  "exclude": ["node_modules"]
+  "include": ["src", "tests"],
+  "exclude": ["./node_modules"]
 }
