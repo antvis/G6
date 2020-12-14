@@ -31,10 +31,8 @@ describe('menu', () => {
         },
       ],
     };
-
     graph.data(data);
     graph.render();
-    graph.destroy();
   });
   it('menu with dom', () => {
     const menu = new Menu({
@@ -50,6 +48,7 @@ describe('menu', () => {
         </ul>`;
         return outDiv;
       },
+      className: 'g6-custom-menu',
     });
 
     const graph = new G6.Graph({
@@ -75,8 +74,8 @@ describe('menu', () => {
 
     graph.data(data);
     graph.render();
-    graph.destroy();
   });
+
   it('menu with string', () => {
     const menu = new Menu({
       getContent(evt) {
@@ -88,6 +87,7 @@ describe('menu', () => {
         <li>测试02</li>
       </ul>`;
       },
+      className: 'menu-string-test',
       handleMenuClick(target, item) {
         // console.log(target, item);
       },
@@ -123,13 +123,8 @@ describe('menu', () => {
       bubbles: false,
     } as IG6GraphEvent);
     graph.emit('contextmenu', event);
-    const menuDOM = document.getElementsByClassName('g6-component-contextmenu')[0];
+    const menuDOM = document.getElementsByClassName('menu-string-test')[0];
     expect(menuDOM.style.visibility).toEqual('visible');
-    // 将被自动加上 graph contianer 的 offsetTop offsetLeft
-    // expect(menuDOM.style.top).toEqual('165px') // 在全量跑测试时不能确定
-    // expect(menuDOM.style.left).toEqual('115px')
-
-    graph.destroy();
   });
   it('menu with false shouldBegin', () => {
     let menuDOM = document.getElementsByClassName('g6-component-contextmenu')[0];
@@ -149,6 +144,7 @@ describe('menu', () => {
         if (e.item.getID() === 'node1') return false;
         return true;
       },
+      className: 'menu-should-begin-false',
     });
 
     const graph = new G6.Graph({
@@ -187,7 +183,7 @@ describe('menu', () => {
       bubbles: false,
     } as IG6GraphEvent);
     graph.emit('contextmenu', event);
-    menuDOM = document.getElementsByClassName('g6-component-contextmenu')[0];
+    menuDOM = document.getElementsByClassName('menu-should-begin-false')[0];
     expect(menuDOM.style.visibility).toEqual('hidden');
 
     const event2 = new G6GraphEvent('contextmenu', {
@@ -197,9 +193,7 @@ describe('menu', () => {
       bubbles: false,
     } as IG6GraphEvent);
     graph.emit('contextmenu', event2);
-    menuDOM = document.getElementsByClassName('g6-component-contextmenu')[0];
+    menuDOM = document.getElementsByClassName('menu-should-begin-false')[0];
     expect(menuDOM.style.visibility).toEqual('visible');
-
-    graph.destroy();
   });
 });

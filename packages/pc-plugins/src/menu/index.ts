@@ -78,6 +78,7 @@ export default class Menu extends Base {
     if (isString(container)) {
       container = document.getElementById(container) as HTMLDivElement;
     }
+
     container.appendChild(menu);
 
     this.set('menu', menu);
