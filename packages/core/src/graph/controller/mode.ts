@@ -45,7 +45,6 @@ export default class ModeController {
 
     this.mode = graph.get('defaultMode') || 'default';
     this.currentBehaves = [];
-    debugger;
     this.setMode(this.mode);
   }
 

@@ -53,7 +53,6 @@ export default {
    * @param evt
    */
   onDragStart(evt: IG6GraphEvent) {
-    debugger;
     if (!this.shouldBegin.call(this, evt)) {
       return;
     }

@@ -118,6 +118,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     this.initEventController();
 
     this.initGroups();
+    
+
+  
   }
 
   protected abstract initLayoutController(): void;
