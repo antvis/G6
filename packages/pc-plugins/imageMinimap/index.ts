@@ -2,7 +2,7 @@ import Base, { IPluginBaseConfig } from '../base';
 import { isString, isNil } from '@antv/util';
 import { modifyCSS, createDom } from '@antv/dom-util';
 import { Graph } from '@antv/g6';
-import { ShapeStyle } from '../../types';
+import { ShapeStyle } from '@antv/g6-core/es/types';
 import { Point } from '@antv/g-math/lib/types';
 import { Event as GraphEvent } from '@antv/g-base';
 import { mat3 } from '@antv/matrix-util';

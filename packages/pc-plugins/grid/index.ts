@@ -1,7 +1,7 @@
 import { modifyCSS, createDom } from '@antv/dom-util';
 import Canvas from '@antv/g-base/lib/abstract/canvas';
 import { IGraph } from '../../interface/graph';
-import { ViewPortEventParam } from '../../types';
+import { ViewPortEventParam } from '@antv/g6-core/es/types';
 import Base from '../base';
 
 interface GridConfig {

@@ -1,6 +1,6 @@
 import { IGroup } from '@antv/g-base';
 import { dataToPath, linePathToAreaPath, dataToRectPath } from './path';
-import { ShapeStyle } from '../../types';
+import { ShapeStyle } from '@antv/g6-core/es/types';
 
 export const BACKGROUND_STYLE = {
   opacity: 0.5,

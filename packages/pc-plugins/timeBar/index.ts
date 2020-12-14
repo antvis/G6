@@ -10,7 +10,7 @@ import TrendTimeBar, { SliderOption } from './trendTimeBar';
 import TimeBarSlice, { TimeBarSliceOption } from './timeBarSlice';
 import { IGraph } from '../../interface/graph';
 import { VALUE_CHANGE } from './constant';
-import { GraphData, IG6GraphEvent, ShapeStyle, TimeBarType } from '../../types';
+import { GraphData, IG6GraphEvent, ShapeStyle, TimeBarType } from '@antv/g6-core/es/types';
 import { Interval } from './trend';
 import { ControllerCfg } from './controllerBtn';
 import { isString } from '@antv/util';
