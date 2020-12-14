@@ -2,11 +2,11 @@ import Base, { IPluginBaseConfig } from '../base';
 import { isString, isNil } from '@antv/util';
 import { modifyCSS, createDom } from '@antv/dom-util';
 import { Graph } from '@antv/g6';
-import { ShapeStyle } from '@antv/g6-core/es/types';
+import { ShapeStyle } from '@antv/g6-core';
 import { Point } from '@antv/g-math/lib/types';
 import { Event as GraphEvent } from '@antv/g-base';
 import { mat3 } from '@antv/matrix-util';
-import { applyMatrix } from '../../util/math';
+import { applyMatrix } from '@antv/g6-core/es/util/math';
 
 function getImgNaturalDimension(img, callback?) {
   let nWidth, nHeight;

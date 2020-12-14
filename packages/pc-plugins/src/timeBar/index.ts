@@ -8,7 +8,7 @@ import { createDom, modifyCSS } from '@antv/dom-util';
 import Base, { IPluginBaseConfig } from '../base';
 import TrendTimeBar, { SliderOption } from './trendTimeBar';
 import TimeBarSlice, { TimeBarSliceOption } from './timeBarSlice';
-import { IGraph } from '../../interface/graph';
+import { IGraph } from '@antv/g6/es/interface/graph';
 import { VALUE_CHANGE } from './constant';
 import { GraphData, IG6GraphEvent, ShapeStyle, TimeBarType } from '@antv/g6-core/es/types';
 import { Interval } from './trend';

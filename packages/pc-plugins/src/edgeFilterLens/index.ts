@@ -2,7 +2,7 @@ import { clone } from '@antv/util';
 import { IG6GraphEvent, ShapeStyle } from '@antv/g6-core/es/types';
 import { Graph } from '@antv/g6';
 import Base from '../base';
-import { distance } from '../../util/math';
+import { distance } from '@antv/g6-core/es/util/math';
 
 const DELTA = 0.05;
 

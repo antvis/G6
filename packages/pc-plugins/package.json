@@ -9,12 +9,13 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@antv/g6": "*",
-    "@antv/g6-core":"*",
     "@antv/dom-util": "^2.0.2",
     "@antv/g-base": "^0.5.1",
     "@antv/g-canvas": "^0.4.15",
     "@antv/g-svg": "^0.5.2",
+    "@antv/g6": "*",
+    "@antv/g6-core": "*",
+    "@antv/matrix-util": "^3.0.3",
     "@antv/util": "^2.0.9",
     "insert-css": "^2.0.0"
   },

@@ -1,7 +1,7 @@
 import Base, { IPluginBaseConfig } from '../base';
-import Edge from '../../item/edge';
+import Edge from '@antv/g6-core/es/item/edge';
 import { Graph } from '@antv/g6';
-import { GraphData, NodeConfig, NodeConfigMap, EdgeConfig } from '../../types';
+import { GraphData, NodeConfig, NodeConfigMap, EdgeConfig } from '@antv/g6-core/es/types';
 import { Point } from '@antv/g-base/lib/types';
 
 interface BundlingConfig extends IPluginBaseConfig {

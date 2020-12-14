@@ -4,7 +4,7 @@ import insertCss from 'insert-css';
 import { Graph } from '@antv/g6';
 import { IG6GraphEvent, Item } from '@antv/g6-core/es/types';
 import Base, { IPluginBaseConfig } from '../base';
-import { IGraph } from '../../interface/graph';
+import { IGraph } from '@antv/g6/es/interface/graph';
 
 insertCss(`
   .g6-component-tooltip {
