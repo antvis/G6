@@ -1,0 +1,26 @@
+{
+  "name": "@antv/g6-plugins",
+  "version": "4.0.0",
+  "description": "G6 Plugin",
+  "main": "index.js",
+  "scripts": {
+    "start": "father build --watch",
+    "build": "father build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@antv/dom-util": "^2.0.2",
+    "@antv/g-base": "^0.5.1",
+    "@antv/g-canvas": "^0.4.15",
+    "@antv/g-svg": "^0.5.2",
+    "@antv/g6": "*",
+    "@antv/util": "^2.0.9",
+    "insert-css": "^2.0.0"
+  },
+  "sideEffects": false,
+  "author": "",
+  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  }
+}
