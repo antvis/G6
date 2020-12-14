@@ -59,7 +59,7 @@ export default class Trend {
   private smooth: boolean;
 
   private isArea: boolean;
-  
+
   private backgroundStyle: ShapeStyle;
 
   private lineStyle: ShapeStyle;
@@ -81,10 +81,10 @@ export default class Trend {
       lineStyle,
       areaStyle,
       group,
-      interval = null
+      interval = null,
     } = cfg;
 
-    this.group = group
+    this.group = group;
 
     this.x = x;
     this.y = y;
@@ -98,7 +98,7 @@ export default class Trend {
     // this.backgroundStyle = Object.assign({} as any, BACKGROUND_STYLE, backgroundStyle);
     this.lineStyle = Object.assign({} as any, LINE_STYLE, lineStyle);
     this.areaStyle = Object.assign({} as any, AREA_STYLE, areaStyle);
-    this.intervalConfig = interval
+    this.intervalConfig = interval;
 
     this.renderLine();
   }
@@ -108,10 +108,21 @@ export default class Trend {
    * @private
    */
   private renderLine() {
-    const { x, y, width, height, data, smooth, isArea, backgroundStyle, lineStyle, areaStyle } = this;
+    const {
+      x,
+      y,
+      width,
+      height,
+      data,
+      smooth,
+      isArea,
+      backgroundStyle,
+      lineStyle,
+      areaStyle,
+    } = this;
     const trendGroup = this.group.addGroup({
-      name: 'trend-group'
-    })
+      name: 'trend-group',
+    });
     // 背景
     // trendGroup.addShape('rect', {
     //   attrs: {
@@ -149,9 +160,9 @@ export default class Trend {
       trendGroup.addShape('path', {
         attrs: {
           path: dataToRectPath(this.intervalConfig.data, width, height),
-          ...this.intervalConfig.style
-        }
-      })
+          ...this.intervalConfig.style,
+        },
+      });
     }
 
     // 统一移动到对应的位置
@@ -159,6 +170,6 @@ export default class Trend {
   }
 
   public destory() {
-    this.group.destroy()
+    this.group.destroy();
   }
 }

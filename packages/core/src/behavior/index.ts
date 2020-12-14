@@ -1,3 +1,3 @@
-import Behavior from "./behavior";
+import Behavior from './behavior';
 
 export default Behavior;

@@ -68,8 +68,8 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
             node.children && node.children.length > 0
               ? 'right'
               : node.x > centerX
-                ? 'right'
-                : 'left',
+              ? 'right'
+              : 'left',
           offset: 5,
         },
       };

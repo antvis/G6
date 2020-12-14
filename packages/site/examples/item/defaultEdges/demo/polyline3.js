@@ -103,7 +103,7 @@ graph.on('edge:click', (evt) => {
   graph.setItemState(item, 'selected', true);
 });
 graph.on('canvas:click', (evt) => {
-  graph.getEdges().forEach(edge => {
+  graph.getEdges().forEach((edge) => {
     graph.clearItemStates(edge);
   });
 });

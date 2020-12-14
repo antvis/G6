@@ -38,7 +38,7 @@ G6 提供了 9 种内置边：
 所有内置的边支持的通用属性：
 
 | 名称 | 是否必须 | 类型 | 备注 |
-| --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | id | false | String | 边唯一 ID，**必须**是唯一的 string |
 | source | true | String | Number | 起始点 id |
 | target | true | String | 结束点 id |

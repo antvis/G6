@@ -1,6 +1,5 @@
 import G6 from '@antv/g6';
 
-
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;

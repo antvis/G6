@@ -3,7 +3,7 @@
  */
 
 import { IGroup, IShape } from '@antv/g-base';
-import { deepMix } from '@antv/util'
+import { deepMix } from '@antv/util';
 import { ShapeStyle } from '../../types';
 
 /** 播放按钮配置 */
@@ -52,14 +52,14 @@ export default class Button {
   }
 
   private initElement() {
-    const { group, style } = this.config
+    const { group, style } = this.config;
     this.circle = group.addShape('circle', {
       attrs: {
         x: this.config.x,
         y: this.config.y,
         r: this.config.r,
-        ...style
-      }
+        ...style,
+      },
     });
 
     this.startMarker = group.addShape('path', {
@@ -67,7 +67,7 @@ export default class Button {
         path: this.getStartMarkerPath(),
         fill: '#ccc',
       },
-      name: 'playPauseBtn'
+      name: 'playPauseBtn',
     });
 
     this.pauseGroupMarker = group.addGroup();
@@ -79,10 +79,10 @@ export default class Button {
         y: this.config.y - height / 2,
         width: width * 2.5,
         height,
-        fill: '#fff'
+        fill: '#fff',
       },
-      name: 'playPauseBtn'
-    })
+      name: 'playPauseBtn',
+    });
     this.pauseLeftMarker = this.pauseGroupMarker.addShape('rect', {
       attrs: {
         x: this.config.x - (1 / 4 + 1 / 8) * this.config.r,
@@ -91,7 +91,7 @@ export default class Button {
         height,
         fill: '#ccc',
       },
-      name: 'playPauseBtn'
+      name: 'playPauseBtn',
     });
 
     this.pauseRightMarker = this.pauseGroupMarker.addShape('rect', {
@@ -102,7 +102,7 @@ export default class Button {
         height,
         fill: '#ccc',
       },
-      name: 'playPauseBtn'
+      name: 'playPauseBtn',
     });
   }
 

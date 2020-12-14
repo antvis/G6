@@ -51,7 +51,7 @@ const data = {
 triangle 节点支持 [节点通用配置](/zh/docs/manual/middle/elements/nodes/defaultNode#节点的通用属性)，下表对部分属性进行解释：
 
 | 名称 | 含义 | 类型 | 备注 |
-| --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | size | 三角形的边长 | Number | Array | size 为数组时取第一个值 |
 | **direction** | **三角形的方向** | **String** | **可取值：`'up'`，`'down'`，`'left'`，`'right'`。默认为 `'up'`** |
 | style | 三角形默认样式 | Object | Canvas 支持的属性 |

@@ -39,11 +39,13 @@ describe('shortcuts-call', () => {
       width: 500,
       height: 500,
       modes: {
-        default: [{
-          type: 'shortcuts-call',
-          functionName: 'zoom',
-          functionParams: [2]
-        }],
+        default: [
+          {
+            type: 'shortcuts-call',
+            functionName: 'zoom',
+            functionParams: [2],
+          },
+        ],
       },
     });
     graph.addItem('node', {

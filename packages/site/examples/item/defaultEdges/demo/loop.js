@@ -75,7 +75,6 @@ canvas.set('localRefresh', false);
 graph.data(data);
 graph.render();
 
-
 graph.on('edge:mouseenter', (evt) => {
   const { item } = evt;
   graph.setItemState(item, 'active', true);
@@ -91,7 +90,7 @@ graph.on('edge:click', (evt) => {
   graph.setItemState(item, 'selected', true);
 });
 graph.on('canvas:click', (evt) => {
-  graph.getEdges().forEach(edge => {
+  graph.getEdges().forEach((edge) => {
     graph.clearItemStates(edge);
   });
 });

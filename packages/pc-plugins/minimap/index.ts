@@ -82,8 +82,7 @@ export default class MiniMap extends Base {
           box-sizing:border-box;
           border: 2px solid #1980ff'
         draggable=true>
-      </div>`
-    );
+      </div>`);
 
     // 计算拖拽水平方向距离
     let x = 0;
@@ -107,9 +106,10 @@ export default class MiniMap extends Base {
       (e: GraphEvent) => {
         if ((e as any).dataTransfer) {
           const img = new Image();
-          img.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' %3E%3Cpath /%3E%3C/svg%3E";
+          img.src =
+            "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' %3E%3Cpath /%3E%3C/svg%3E";
           (e as any).dataTransfer.setDragImage(img, 0, 0);
-          (e as any).dataTransfer.setData('text', 'view-port-minimap')
+          (e as any).dataTransfer.setData('text', 'view-port-minimap');
         }
 
         cfgs.refresh = false;
@@ -281,7 +281,7 @@ export default class MiniMap extends Base {
     } else {
       const children = ele.get('children');
       if (!children || !children.length) return;
-      children.forEach(child => {
+      children.forEach((child) => {
         if (!child.get('visible')) child.hide();
         this.updateVisible(child);
       });

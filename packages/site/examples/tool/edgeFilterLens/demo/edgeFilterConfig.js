@@ -1,12 +1,11 @@
 import G6 from '@antv/g6';
 
-
 let trigger = 'drag';
 const filterConfigs = {
   trigger,
   showLabel: 'edge',
   r: 100,
-  shouldShow: e => {
+  shouldShow: (e) => {
     return e.size > 3;
   },
   delegateStyle: {
@@ -29,14 +28,16 @@ buttonContainer.style.textAlign = 'center';
 
 // tip
 const tip = document.createElement('span');
-tip.innerHTML = '点击画布任意位置开始探索。过滤镜中显示两端节点均在过滤镜中，且满足 shouldShow 所定义的条件的边。';
+tip.innerHTML =
+  '点击画布任意位置开始探索。过滤镜中显示两端节点均在过滤镜中，且满足 shouldShow 所定义的条件的边。';
 buttonContainer.appendChild(tip);
 
 buttonContainer.appendChild(document.createElement('br'));
 
 // tip english
 const tipEn = document.createElement('span');
-tipEn.innerHTML = 'Click the canvas to begin. Show the edge whose both end nodes are inside the lens, meanwhile the edge should meet the requirements defined by shouldShow in.';
+tipEn.innerHTML =
+  'Click the canvas to begin. Show the edge whose both end nodes are inside the lens, meanwhile the edge should meet the requirements defined by shouldShow in.';
 buttonContainer.appendChild(tipEn);
 
 buttonContainer.appendChild(document.createElement('br'));
@@ -112,8 +113,8 @@ const graph = new G6.Graph({
       autoRotate: true,
       style: {
         stroke: '#fff',
-        lineWidth: 2
-      }
+        lineWidth: 2,
+      },
     },
   },
   defaultNode: {
@@ -125,8 +126,8 @@ const graph = new G6.Graph({
     },
   },
   modes: {
-    default: ['drag-canvas']
-  }
+    default: ['drag-canvas'],
+  },
 });
 
 swithButton.addEventListener('click', (e) => {
@@ -137,36 +138,36 @@ swithButton.addEventListener('click', (e) => {
     swithButton.value = 'Disable';
     filterLens = new G6.EdgeFilterLens({
       ...filterConfigs,
-      trigger
+      trigger,
     });
     graph.addPlugin(filterLens);
   }
 });
-configScaleRBy.addEventListener('change', e => {
+configScaleRBy.addEventListener('change', (e) => {
   filterLens.updateParams({ scaleRBy: e.target.value });
 });
-configTrigger.addEventListener('change', e => {
+configTrigger.addEventListener('change', (e) => {
   const filterLensConfigs = filterLens._cfgs;
   graph.removePlugin(filterLens);
   trigger = e.target.value;
   filterLens = new G6.EdgeFilterLens({
     ...filterLensConfigs,
-    trigger
-  })
+    trigger,
+  });
   graph.addPlugin(filterLens);
 });
 
 fetch('https://gw.alipayobjects.com/os/bmw-prod/afe8b2a6-f691-4070-aa73-46fc07fd1171.json')
   .then((res) => res.json())
   .then((data) => {
-    data.edges.forEach(edge => {
+    data.edges.forEach((edge) => {
       edge.size = 1 + Math.random() * 3;
-      edge.color = edge.size > 3 ? '#FB4B4B' : '#aaa'
+      edge.color = edge.size > 3 ? '#FB4B4B' : '#aaa';
       edge.style = {
-        opacity: 0.7
-      }
+        opacity: 0.7,
+      };
       edge.label = 'a';
-    })
+    });
     graph.data(data);
     graph.render();
     graph.getEdges().forEach((edge) => {

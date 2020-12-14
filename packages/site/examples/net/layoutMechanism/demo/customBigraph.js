@@ -235,8 +235,8 @@ const graph = new G6.Graph({
     color: '#e2e2e2',
   },
   modes: {
-    default: ['drag-canvas']
-  }
+    default: ['drag-canvas'],
+  },
 });
 graph.data(data);
 graph.render();

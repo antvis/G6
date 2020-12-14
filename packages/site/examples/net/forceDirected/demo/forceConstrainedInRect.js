@@ -6,7 +6,6 @@ descriptionDiv.innerHTML =
   'Constrians the nodes to be layed in the gray area with force-directed layout';
 graphDiv.appendChild(descriptionDiv);
 
-
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;

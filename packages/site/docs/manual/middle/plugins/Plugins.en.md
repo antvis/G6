@@ -479,8 +479,8 @@ Fisheye is designed for focus_context exploration, it keeps the context and the 
 | delegateStyle | Object | false | { stroke: '#000', strokeOpacity: 0.8, lineWidth: 2, fillOpacity: 0.1, fill: '#ccc' } | The style of the lens's delegate |
 | showLabel | Boolean | false | false | If the label is hidden, whether to show the label of nodes inside the focus area |
 | maxR | Number | The height of the graph | The maximum radius scaled by the wheel |
-| minR | Number | 0.05 * The height of the graph | The minimum radius scaled by the wheel |
-| maxD | Number | 5 | when `trigger` is `'mousemove'` or `'click'`, minimap allow users to adjust the magnifying coefficient `d` by dragging left / right on the lens. `maxD` is the maximum magnifying coefficient that limits this interaction. The suggested range for `maxD` is [0, 5]. Note that updating the configurations by `minimap.updateParam` will not be limited by `maxD`  |
+| minR | Number | 0.05 \* The height of the graph | The minimum radius scaled by the wheel |
+| maxD | Number | 5 | when `trigger` is `'mousemove'` or `'click'`, minimap allow users to adjust the magnifying coefficient `d` by dragging left / right on the lens. `maxD` is the maximum magnifying coefficient that limits this interaction. The suggested range for `maxD` is [0, 5]. Note that updating the configurations by `minimap.updateParam` will not be limited by `maxD` |
 | minD | Number | 0 | when `trigger` is `'mousemove'` or `'click'`, minimap allow users to adjust the magnifying coefficient `d` by dragging left / right on the lens. `minD` is the minimum magnifying coefficient that limits this interaction. The suggested range for `minD` is [0, 5]. Note that updating the configurations by `fisheye.updateParams` will not be limited by `minD` |
 | scaleRBy | 'wheel'/'drag'/'unset'/undefined | false | 'unset' | The trigger for end users to scale the range of the lens |
 | scaleDBy | 'wheel'/'drag'/'unset'/undefined | false | 'unset' | The trigger for end users to scale the magnification factor of the lens |
@@ -538,7 +538,7 @@ Edge Filter Lens is designed for edge filtering, the desired edges will be kept 
 | delegateStyle | Object | false | { stroke: '#000', strokeOpacity: 0.8, lineWidth: 2, fillOpacity: 0.1, fill: '#ccc' } | The style of the lens's delegate |
 | showLabel | 'edge' / 'node' / 'both' | false | 'edge' | If the label is hidden, whether to show the label of nodes inside the focus area |
 | maxR | Number | The height of the graph | The maximum radius scaled by the wheel |
-| minR | Number | 0.05 * The height of the graph | The minimum radius scaled by the wheel |
+| minR | Number | 0.05 \* The height of the graph | The minimum radius scaled by the wheel |
 | scaleRBy | 'wheel'/'drag'/'unset'/undefined | false | 'unset' | The trigger for end users to scale the range of the lens |
 
 ### Member Function

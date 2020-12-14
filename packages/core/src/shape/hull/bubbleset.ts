@@ -554,7 +554,7 @@ function fillPotentialArea(
         const tempY = gridIx2Pos(y, activeRegion.minY);
         const distanceSq = pointRectSquareDist(
           { x: tempX, y: tempY },
-          { x: bbox.minX, y: bbox.minY, width: bbox.width, height: bbox.height }
+          { x: bbox.minX, y: bbox.minY, width: bbox.width, height: bbox.height },
         );
         if (distanceSq < options.nodeR1 ** 2) {
           const dr = Math.sqrt(distanceSq) - options.nodeR1;

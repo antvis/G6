@@ -2,20 +2,28 @@
  * 基于 G 的刻度时间轴组件
  */
 import { ICanvas, IGroup } from '@antv/g-base';
-import { isString } from '@antv/util'
+import { isString } from '@antv/util';
 import TimeBarTooltip from './timeBarTooltip';
-import ControllerBtn from './controllerBtn'
-import { VALUE_CHANGE, TIMELINE_START, TIMELINE_END, PLAY_PAUSE_BTN, NEXT_STEP_BTN, PRE_STEP_BTN, TIMEBAR_CONFIG_CHANGE } from './constant'
+import ControllerBtn from './controllerBtn';
+import {
+  VALUE_CHANGE,
+  TIMELINE_START,
+  TIMELINE_END,
+  PLAY_PAUSE_BTN,
+  NEXT_STEP_BTN,
+  PRE_STEP_BTN,
+  TIMEBAR_CONFIG_CHANGE,
+} from './constant';
 import { IGraph } from '../../interface/graph';
 import { ShapeStyle } from '../../types';
 
 const DEFAULT_SELECTEDTICK_STYLE = {
-  fill: '#5B8FF9'
-}
+  fill: '#5B8FF9',
+};
 
 const DEFAULT_UNSELECTEDTICK_STYLE = {
-  fill: '#e6e8e9'
-}
+  fill: '#e6e8e9',
+};
 
 export interface TimeBarSliceOption {
   // position size
@@ -27,7 +35,7 @@ export interface TimeBarSliceOption {
 
   // styles
   readonly selectedTickStyle?: ShapeStyle;
-  readonly unselectedTickStyle?: ShapeStyle
+  readonly unselectedTickStyle?: ShapeStyle;
   readonly tooltipBackgroundColor?: string;
 
   readonly start?: number;
@@ -134,40 +142,49 @@ export default class TimeBarSlice {
       selectedTickStyle = DEFAULT_SELECTEDTICK_STYLE,
       unselectedTickStyle = DEFAULT_UNSELECTEDTICK_STYLE,
       tooltipBackgroundColor,
-      tooltipFomatter
-    } = cfgs
+      tooltipFomatter,
+    } = cfgs;
 
-    this.graph = graph
+    this.graph = graph;
     this.group = group;
     this.sliceGroup = group.addGroup({
-      name: 'slice-group'
-    })
-    this.canvas = canvas
-    this.width = width
-    this.height = height
-    this.padding = padding
-    this.data = data
-    this.start = start
-    this.end = end
-    this.tickLabelFormatter = tickLabelFormatter
-    this.selectedTickStyle = selectedTickStyle
-    this.unselectedTickStyle = unselectedTickStyle
+      name: 'slice-group',
+    });
+    this.canvas = canvas;
+    this.width = width;
+    this.height = height;
+    this.padding = padding;
+    this.data = data;
+    this.start = start;
+    this.end = end;
+    this.tickLabelFormatter = tickLabelFormatter;
+    this.selectedTickStyle = selectedTickStyle;
+    this.unselectedTickStyle = unselectedTickStyle;
 
     this.x = x;
     this.y = y;
 
-    this.tooltipBackgroundColor = tooltipBackgroundColor
-    this.tooltipFomatter = tooltipFomatter
+    this.tooltipBackgroundColor = tooltipBackgroundColor;
+    this.tooltipFomatter = tooltipFomatter;
 
-    this.renderSlices()
-    this.initEvent()
+    this.renderSlices();
+    this.initEvent();
   }
 
   private renderSlices() {
-    const { width, height, padding, data, start, end,
-      tickLabelFormatter, selectedTickStyle, unselectedTickStyle } = this
+    const {
+      width,
+      height,
+      padding,
+      data,
+      start,
+      end,
+      tickLabelFormatter,
+      selectedTickStyle,
+      unselectedTickStyle,
+    } = this;
 
-    const realWidth = width - 2 * padding
+    const realWidth = width - 2 * padding;
     const fontSize = 10;
     const labelLineHeight = 4;
     const labelAreaHeight = 3 * padding + labelLineHeight + fontSize;
@@ -177,9 +194,9 @@ export default class TimeBarSlice {
     const ticksLength = data.length;
     const tickWidth = (realWidth - gap * (ticksLength - 1)) / ticksLength;
 
-    this.tickWidth = tickWidth
+    this.tickWidth = tickWidth;
 
-    const sliceGroup = this.sliceGroup
+    const sliceGroup = this.sliceGroup;
 
     const tickRects = [];
     const labels = [];
@@ -187,38 +204,38 @@ export default class TimeBarSlice {
     const startTickId = Math.round(ticksLength * start);
     const endTickId = Math.round(ticksLength * end);
 
-    this.startTickRectId = startTickId
-    this.endTickRectId = endTickId
+    this.startTickRectId = startTickId;
+    this.endTickRectId = endTickId;
 
     data.forEach((d, i) => {
       // draw the tick rects
       const selected = i >= startTickId && i <= endTickId;
-      const tickStyle = selected ? selectedTickStyle : unselectedTickStyle
+      const tickStyle = selected ? selectedTickStyle : unselectedTickStyle;
       const rect = sliceGroup.addShape('rect', {
         attrs: {
           x: padding + i * (tickWidth + gap),
           y: padding,
           width: tickWidth,
           height: ticksAreaHeight,
-          ...tickStyle
+          ...tickStyle,
         },
         draggable: true,
-        name: `tick-rect-${i}`
+        name: `tick-rect-${i}`,
       });
       // draw the pick tick rects
       const pickRect = sliceGroup.addShape('rect', {
         attrs: {
-          x: padding + i * tickWidth + gap * (2 * i - 1) / 2,
+          x: padding + i * tickWidth + (gap * (2 * i - 1)) / 2,
           y: padding,
-          width: (i === 0 || i === ticksLength - 1) ? (tickWidth + gap / 2) : (tickWidth + gap),
+          width: i === 0 || i === ticksLength - 1 ? tickWidth + gap / 2 : tickWidth + gap,
           height: ticksAreaHeight,
           fill: '#fff',
-          opacity: 0
+          opacity: 0,
         },
         draggable: true,
-        name: `pick-rect-${i}`
+        name: `pick-rect-${i}`,
       });
-      pickRect.toFront()
+      pickRect.toFront();
 
       const rectBBox = rect.getBBox();
       const centerX = (rectBBox.minX + rectBBox.maxX) / 2;
@@ -227,13 +244,14 @@ export default class TimeBarSlice {
         pickRect,
         value: d.date,
         x: centerX,
-        y: rectBBox.minY
+        y: rectBBox.minY,
       });
 
       let label;
       if (tickLabelFormatter) {
         label = tickLabelFormatter(d);
-        if (!isString(label) && label) { // return true
+        if (!isString(label) && label) {
+          // return true
           label = d.date;
         }
       } else if (i % Math.round(ticksLength / 10) === 0) {
@@ -250,8 +268,8 @@ export default class TimeBarSlice {
             x1: centerX,
             y1: lineStartY,
             x2: centerX,
-            y2: lineStartY + labelLineHeight
-          }
+            y2: lineStartY + labelLineHeight,
+          },
         });
 
         const labelStartY = lineStartY + labelLineHeight + padding;
@@ -265,9 +283,9 @@ export default class TimeBarSlice {
             textAlign: 'center',
             text: label,
             textBaseline: 'top',
-            fontSize: 10
+            fontSize: 10,
           },
-          capture: false
+          capture: false,
         });
         const textBBox = text.getBBox();
         if (textBBox.maxX > width) {
@@ -279,7 +297,7 @@ export default class TimeBarSlice {
       }
     });
 
-    this.tickRects = tickRects
+    this.tickRects = tickRects;
 
     // 渲染播放、快进和后退的控制按钮
     const group = this.group;
@@ -291,126 +309,123 @@ export default class TimeBarSlice {
       width,
       height: 40,
       hiddleToggle: true,
-      speed: this.currentSpeed
-    })
-
+      speed: this.currentSpeed,
+    });
   }
 
   private initEvent() {
-
     const sliceGroup = this.sliceGroup;
 
-    sliceGroup.on('click', e => {
+    sliceGroup.on('click', (e) => {
       const targetRect = e.target;
       if (targetRect.get('type') !== 'rect' || !targetRect.get('name')) return;
       const id = parseInt(targetRect.get('name').split('-')[2], 10);
 
       if (!isNaN(id)) {
-        const tickRects = this.tickRects
+        const tickRects = this.tickRects;
         // cancel the selected ticks
-        const unselectedTickStyle = this.unselectedTickStyle
-        tickRects.forEach(tickRect => {
+        const unselectedTickStyle = this.unselectedTickStyle;
+        tickRects.forEach((tickRect) => {
           tickRect.rect.attr(unselectedTickStyle);
-        })
+        });
 
-        const selectedTickStyle = this.selectedTickStyle
+        const selectedTickStyle = this.selectedTickStyle;
         tickRects[id].rect.attr(selectedTickStyle);
-        this.startTickRectId = id
-        this.endTickRectId = id
+        this.startTickRectId = id;
+        this.endTickRectId = id;
 
         const ticksLength = tickRects.length;
         const start = id / ticksLength;
-        this.graph.emit(VALUE_CHANGE, { value: [start, start] })
+        this.graph.emit(VALUE_CHANGE, { value: [start, start] });
       }
     });
-    sliceGroup.on('dragstart', e => {
-      const tickRects = this.tickRects
+    sliceGroup.on('dragstart', (e) => {
+      const tickRects = this.tickRects;
       // cancel the selected ticks
-      const unselectedTickStyle = this.unselectedTickStyle
-      tickRects.forEach(tickRect => {
+      const unselectedTickStyle = this.unselectedTickStyle;
+      tickRects.forEach((tickRect) => {
         tickRect.rect.attr(unselectedTickStyle);
-      })
+      });
       const targetRect = e.target;
       const id = parseInt(targetRect.get('name').split('-')[2], 10);
-      const selectedTickStyle = this.selectedTickStyle
+      const selectedTickStyle = this.selectedTickStyle;
       tickRects[id].rect.attr(selectedTickStyle);
-      this.startTickRectId = id
+      this.startTickRectId = id;
 
       const ticksLength = tickRects.length;
       const start = id / ticksLength;
-      this.graph.emit(VALUE_CHANGE, { value: [start, start] })
+      this.graph.emit(VALUE_CHANGE, { value: [start, start] });
 
-      this.dragging = true
+      this.dragging = true;
     });
-    sliceGroup.on('dragover', e => {
+    sliceGroup.on('dragover', (e) => {
       if (!this.dragging) return;
       if (e.target.get('type') !== 'rect') return;
 
       const id = parseInt(e.target.get('name').split('-')[2], 10);
-      const startTickRectId = this.startTickRectId
-      const tickRects = this.tickRects
-      const selectedTickStyle = this.selectedTickStyle
-      const unselectedTickStyle = this.unselectedTickStyle
+      const startTickRectId = this.startTickRectId;
+      const tickRects = this.tickRects;
+      const selectedTickStyle = this.selectedTickStyle;
+      const unselectedTickStyle = this.unselectedTickStyle;
       for (let i = 0; i < tickRects.length; i++) {
         const style = i >= startTickRectId && i <= id ? selectedTickStyle : unselectedTickStyle;
         tickRects[i].rect.attr(style);
       }
       const ticksLength = tickRects.length;
-      this.endTickRectId = id
+      this.endTickRectId = id;
 
       const start = startTickRectId / ticksLength;
       const end = id / ticksLength;
-      this.graph.emit(VALUE_CHANGE, { value: [start, end] })
+      this.graph.emit(VALUE_CHANGE, { value: [start, end] });
     });
 
-    sliceGroup.on('drop', e => {
+    sliceGroup.on('drop', (e) => {
       if (!this.dragging) return;
 
-      this.dragging = false
+      this.dragging = false;
 
       if (e.target.get('type') !== 'rect') return;
-      const startTickRectId = this.startTickRectId
+      const startTickRectId = this.startTickRectId;
       const id = parseInt(e.target.get('name').split('-')[2], 10);
       if (id < startTickRectId) return;
 
-      const selectedTickStyle = this.selectedTickStyle
-      const tickRects = this.tickRects
+      const selectedTickStyle = this.selectedTickStyle;
+      const tickRects = this.tickRects;
       tickRects[id].rect.attr(selectedTickStyle);
 
-      this.endTickRectId = id
+      this.endTickRectId = id;
       const ticksLength = tickRects.length;
       const start = startTickRectId / ticksLength;
       const end = id / ticksLength;
-      this.graph.emit(VALUE_CHANGE, { value: [start, end] })
+      this.graph.emit(VALUE_CHANGE, { value: [start, end] });
     });
 
     // tooltip
-    const { tooltipBackgroundColor, tooltipFomatter, canvas } = this
+    const { tooltipBackgroundColor, tooltipFomatter, canvas } = this;
     const tooltip = new TimeBarTooltip({
       container: canvas.get('container') as HTMLElement,
-      backgroundColor: tooltipBackgroundColor
+      backgroundColor: tooltipBackgroundColor,
     });
-    const tickRects = this.tickRects
-    tickRects.forEach(tickRect => {
+    const tickRects = this.tickRects;
+    tickRects.forEach((tickRect) => {
       const pickRect = tickRect.pickRect;
-      pickRect.on('mouseenter', e => {
+      pickRect.on('mouseenter', (e) => {
         const rect = e.target;
         if (rect.get('type') !== 'rect') return;
         const id = parseInt(rect.get('name').split('-')[2], 10);
-        const clientPoint = canvas.getClientByPoint(tickRects[id].x, tickRects[id].y)
+        const clientPoint = canvas.getClientByPoint(tickRects[id].x, tickRects[id].y);
         tooltip.show({
           x: tickRects[id].x,
           y: tickRects[id].y,
           clientX: clientPoint.x,
           clientY: clientPoint.y,
-          text: tooltipFomatter ? tooltipFomatter(tickRects[id].value) : tickRects[id].value
-        })
+          text: tooltipFomatter ? tooltipFomatter(tickRects[id].value) : tickRects[id].value,
+        });
       });
-      pickRect.on('mouseleave', e => {
+      pickRect.on('mouseleave', (e) => {
         tooltip.hide();
-      })
+      });
     });
-
 
     // play controller events
     const group = this.group;
@@ -419,21 +434,21 @@ export default class TimeBarSlice {
     group.on(`${PLAY_PAUSE_BTN}:click`, () => {
       this.isPlay = !this.isPlay;
       this.changePlayStatus();
-    })
+    });
 
     // 处理前进一步的事件
     group.on(`${NEXT_STEP_BTN}:click`, () => {
       this.updateStartEnd(1);
-    })
+    });
 
     // 处理后退一步的事件
     group.on(`${PRE_STEP_BTN}:click`, () => {
       this.updateStartEnd(-1);
-    })
+    });
 
     group.on(TIMEBAR_CONFIG_CHANGE, ({ type, speed }) => {
-      this.currentSpeed = speed
-    })
+      this.currentSpeed = speed;
+    });
   }
 
   private changePlayStatus(isSync = true) {
@@ -456,20 +471,22 @@ export default class TimeBarSlice {
   }
 
   private startPlay() {
-    return typeof window !== 'undefined' ? window.requestAnimationFrame(() => {
-      const speed = this.currentSpeed;
+    return typeof window !== 'undefined'
+      ? window.requestAnimationFrame(() => {
+          const speed = this.currentSpeed;
 
-      // 一分钟刷新一次
-      if (this.frameCount % (60 / speed) === 0) {
-        this.frameCount = 0
-        this.updateStartEnd(1)
-      }
-      this.frameCount++;
+          // 一分钟刷新一次
+          if (this.frameCount % (60 / speed) === 0) {
+            this.frameCount = 0;
+            this.updateStartEnd(1);
+          }
+          this.frameCount++;
 
-      if (this.isPlay) {
-        this.playHandler = this.startPlay();
-      }
-    }) : undefined;
+          if (this.isPlay) {
+            this.playHandler = this.startPlay();
+          }
+        })
+      : undefined;
   }
 
   private updateStartEnd(sign) {
@@ -496,41 +513,41 @@ export default class TimeBarSlice {
     } else {
       // 否则是单帧的前进/后退/播放
       for (let i = self.startTickRectId; i <= self.endTickRectId - 1; i++) {
-        tickRects[i].rect.attr(unselectedTickStyle)
+        tickRects[i].rect.attr(unselectedTickStyle);
       }
-      self.startTickRectId = self.endTickRectId
+      self.startTickRectId = self.endTickRectId;
     }
     if (tickRects[self.endTickRectId]) {
       tickRects[self.endTickRectId].rect.attr(selectedTickStyle);
       const start = self.startTickRectId / ticksLength;
       const end = self.endTickRectId / ticksLength;
-      this.graph.emit(VALUE_CHANGE, { value: [start, end] })
+      this.graph.emit(VALUE_CHANGE, { value: [start, end] });
     }
   }
 
   public destory() {
-    this.graph.off(VALUE_CHANGE)
+    this.graph.off(VALUE_CHANGE);
 
-    const group = this.sliceGroup
+    const group = this.sliceGroup;
 
-    group.off('click')
-    group.off('dragstart')
-    group.off('dragover')
-    group.off('drop')
+    group.off('click');
+    group.off('dragstart');
+    group.off('dragover');
+    group.off('drop');
 
-    this.tickRects.forEach(tickRect => {
+    this.tickRects.forEach((tickRect) => {
       const pickRect = tickRect.pickRect;
-      pickRect.off('mouseenter')
-      pickRect.off('mouseleave')
-    })
+      pickRect.off('mouseenter');
+      pickRect.off('mouseleave');
+    });
 
-    this.tickRects.length = 0
+    this.tickRects.length = 0;
 
-    group.off(`${PLAY_PAUSE_BTN}:click`)
-    group.off(`${NEXT_STEP_BTN}:click`)
-    group.off(`${PRE_STEP_BTN}:click`)
-    group.off(TIMEBAR_CONFIG_CHANGE)
+    group.off(`${PLAY_PAUSE_BTN}:click`);
+    group.off(`${NEXT_STEP_BTN}:click`);
+    group.off(`${PRE_STEP_BTN}:click`);
+    group.off(TIMEBAR_CONFIG_CHANGE);
 
-    this.sliceGroup.destroy()
+    this.sliceGroup.destroy();
   }
 }

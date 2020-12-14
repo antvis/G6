@@ -42,8 +42,8 @@ const timebar = new G6.TimeBar({
   padding: 10,
   type: 'simple',
   trend: {
-    data: timeBarData
-  }
+    data: timeBarData,
+  },
 });
 
 // constrained the layout inside the area

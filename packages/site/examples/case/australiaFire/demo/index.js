@@ -263,7 +263,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/d676014a-0a11-4ea9-9af4-403
         nodeSep: 10,
         rankSep: 100,
       },
-      plugins: [tooltip]
+      plugins: [tooltip],
     });
 
     graph.node((node) => {
@@ -352,7 +352,6 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/d676014a-0a11-4ea9-9af4-403
         if (!container || !container.scrollWidth || !container.scrollHeight) return;
         graph.changeSize(container.scrollWidth, container.scrollHeight);
       };
-
   });
 
 const legendContainer = document.createElement('div');

@@ -12,7 +12,7 @@ module.exports = {
     libraryTarget: 'umd',
     libraryExport: 'default',
     path: resolve(process.cwd(), 'dist/'),
-    globalObject: 'this'
+    globalObject: 'this',
   },
   resolve: {
     // Add `.ts` as a resolvable extension.
@@ -55,9 +55,6 @@ module.exports = {
       },
     ],
   },
-  plugins: [
-    new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.optimize.AggressiveMergingPlugin()
-  ],
+  plugins: [new webpack.NoEmitOnErrorsPlugin(), new webpack.optimize.AggressiveMergingPlugin()],
   devtool: 'source-map',
 };

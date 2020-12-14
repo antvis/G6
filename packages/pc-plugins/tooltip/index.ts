@@ -52,7 +52,7 @@ export default class Tooltip extends Base {
       shouldBegin: (e) => {
         return true;
       },
-      itemTypes: ['node', 'edge', 'combo']
+      itemTypes: ['node', 'edge', 'combo'],
     };
   }
 
@@ -69,8 +69,8 @@ export default class Tooltip extends Base {
       'combo:mouseleave': 'onMouseLeave',
       'combo:mousemove': 'onMouseMove',
       afterremoveitem: 'onMouseLeave',
-      'contextmenu': 'onMouseLeave',
-      'node:drag': 'onMouseLeave'
+      contextmenu: 'onMouseLeave',
+      'node:drag': 'onMouseLeave',
     };
   }
 
@@ -152,12 +152,11 @@ export default class Tooltip extends Base {
       modifyCSS(tooltip, {
         visibility: 'hidden',
       });
-      return
-    };
+      return;
+    }
     const graph: Graph = this.get('graph');
     const width: number = graph.get('width');
     const height: number = graph.get('height');
-
 
     const offsetX = this.get('offsetX') || 0;
     const offsetY = this.get('offsetY') || 0;

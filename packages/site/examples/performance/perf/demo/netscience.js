@@ -88,8 +88,9 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/da5a1b47-37d6-44d7-8d10-f3e
     const graphData = graph.save();
     const nodeLen = graphData.nodes.length;
     const edgeLen = graphData.edges.length;
-    descriptionDiv.innerHTML = `节点数量：${nodeLen}, 边数量：${edgeLen}, 图元数量：${nodeLen * 2 + edgeLen
-      }`;
+    descriptionDiv.innerHTML = `节点数量：${nodeLen}, 边数量：${edgeLen}, 图元数量：${
+      nodeLen * 2 + edgeLen
+    }`;
   });
 
 if (typeof window !== 'undefined')

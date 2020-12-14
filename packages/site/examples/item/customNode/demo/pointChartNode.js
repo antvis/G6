@@ -69,7 +69,7 @@ G6.registerNode(
         width: 360,
         height: 70,
         x: 20,
-        y: 100
+        y: 100,
       });
 
       chart.data(cfg.trendData);
@@ -538,16 +538,16 @@ const data = {
       id: 'node0',
       trendData,
       x: 10,
-      y: 100
+      y: 100,
     },
     {
       id: 'node1',
       trendData,
       x: 550,
-      y: 100
+      y: 100,
     },
   ],
-  edges: [{ source: 'node0', target: 'node1' }]
+  edges: [{ source: 'node0', target: 'node1' }],
 };
 
 const graph = new G6.Graph({
@@ -568,14 +568,14 @@ const graph = new G6.Graph({
   defaultEdge: {
     style: {
       stroke: '#666',
-      lineWidth: 5
-    }
+      lineWidth: 5,
+    },
   },
   defaultEdge: {
     style: {
       lineWidth: 5,
-      stroke: '#666'
-    }
+      stroke: '#666',
+    },
   },
 });
 

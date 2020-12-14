@@ -1,5 +1,5 @@
 import { IGroup, IShape } from '@antv/g-base';
-import { isNumber } from '@antv/util'
+import { isNumber } from '@antv/util';
 
 interface IStyle {
   fill?: string;
@@ -40,7 +40,7 @@ const SIMPLE_DEFAULT_STYLE = {
   radius: 2,
   opacity: 1,
   cursor: 'ew-resize',
-}
+};
 
 export default class Handler {
   // handle容器
@@ -66,12 +66,11 @@ export default class Handler {
   private handleGroup: IGroup;
 
   constructor(cfg: HandlerCfg) {
-
     const { group, name, type, x = 0, y = 0, width = 2, height = 24, style = {} } = cfg;
 
-    this.group = group
-    this.name = name
-    this.handleType = type
+    this.group = group;
+    this.name = name;
+    this.handleType = type;
     this.x = x;
     this.y = y;
     this.width = width;
@@ -79,7 +78,7 @@ export default class Handler {
     if (type === 'trend') {
       this.style = { ...DEFAULT_STYLE, ...style };
     } else if (type === 'simple') {
-      this.style = { ...SIMPLE_DEFAULT_STYLE, ...style }
+      this.style = { ...SIMPLE_DEFAULT_STYLE, ...style };
     }
 
     this.renderHandle();
@@ -102,8 +101,12 @@ export default class Handler {
   }
 
   public setXY(x: number, y: number) {
-    if (isNumber(x)) { this.x = x; }
-    if (isNumber(y)) { this.y = y; }
+    if (isNumber(x)) {
+      this.x = x;
+    }
+    if (isNumber(y)) {
+      this.y = y;
+    }
 
     this.updateXY();
   }
@@ -113,15 +116,13 @@ export default class Handler {
    * @private
    */
   private renderHandle() {
-
     const { width, height, style, name } = this;
     const { fill, stroke, radius, opacity, cursor } = style;
 
-    this.handleGroup = this.group.addGroup()
+    this.handleGroup = this.group.addGroup();
 
     // 趋势图时的 handle
     if (this.handleType === 'trend') {
-
       // 垂直框
       this.background = this.handleGroup.addShape('rect', {
         attrs: {
@@ -135,7 +136,7 @@ export default class Handler {
           opacity,
           cursor,
         },
-        name: `${name}-handler`
+        name: `${name}-handler`,
       });
       this.handleGroup.addShape('circle', {
         attrs: {
@@ -146,10 +147,10 @@ export default class Handler {
           stroke,
           radius,
           opacity,
-          cursor
+          cursor,
         },
-        name: `${name}-handler`
-      })
+        name: `${name}-handler`,
+      });
       this.handleGroup.addShape('circle', {
         attrs: {
           x: width / 2,
@@ -159,10 +160,10 @@ export default class Handler {
           stroke,
           radius,
           opacity,
-          cursor
+          cursor,
         },
-        name: `${name}-handler`
-      })
+        name: `${name}-handler`,
+      });
     } else if (this.handleType === 'simple') {
       this.handleGroup.addShape('circle', {
         attrs: {
@@ -173,10 +174,10 @@ export default class Handler {
           stroke,
           radius,
           opacity,
-          cursor
+          cursor,
         },
-        name: `${name}-handler`
-      })
+        name: `${name}-handler`,
+      });
       this.handleGroup.addShape('circle', {
         attrs: {
           x: width / 2,
@@ -186,12 +187,11 @@ export default class Handler {
           stroke,
           radius,
           opacity,
-          cursor
+          cursor,
         },
-        name: `${name}-handler`
-      })
+        name: `${name}-handler`,
+      });
     }
-
 
     // 移动到对应的位置
     this.updateXY();
@@ -215,14 +215,14 @@ export default class Handler {
   }
 
   public show() {
-    this.handleGroup.show()
+    this.handleGroup.show();
   }
 
   public hide() {
-    this.handleGroup.hide()
+    this.handleGroup.hide();
   }
 
   private updateXY() {
-    this.handleGroup.setMatrix([1, 0, 0, 0, 1, 0, this.x, this.y, 1])
+    this.handleGroup.setMatrix([1, 0, 0, 0, 1, 0, this.x, this.y, 1]);
   }
 }

@@ -146,8 +146,8 @@ const graph = new G6.Graph({
   },
   fitView: true,
   layout: {
-    type: 'grid'
-  }
+    type: 'grid',
+  },
 });
 
 graph.data(data);

@@ -23,7 +23,7 @@ const data2: { nodes: NodeConfig[]; edges: EdgeConfig[] } = {
     {
       id: 'new0',
       x: 100,
-      y: 100
+      y: 100,
     },
     {
       id: 'new1',
@@ -34,7 +34,7 @@ const data2: { nodes: NodeConfig[]; edges: EdgeConfig[] } = {
     {
       id: 'new3',
       x: 150,
-      y: 250
+      y: 250,
     },
   ],
   edges: [
@@ -56,14 +56,13 @@ describe('destroy circular layout', () => {
     graph.data(data);
     graph.render();
 
-
     expect(mathEqual(graph.getNodes()[0].getModel().x, 500)).toEqual(true);
     expect(mathEqual(graph.getNodes()[0].getModel().y, 250)).toEqual(true);
     expect(mathEqual(graph.getNodes()[1].getModel().x, 0)).toEqual(true);
     expect(mathEqual(graph.getNodes()[1].getModel().y, 250)).toEqual(true);
 
     graph.destroyLayout();
-    graph.changeData(data2)
+    graph.changeData(data2);
 
     // destroy circular layout 之后，将会使用初始化布局，若节点无坐标信息则自动计算网格状分布
     expect(mathEqual(graph.getNodes()[0].getModel().x, 100)).toEqual(true);
@@ -77,7 +76,7 @@ describe('destroy circular layout', () => {
 
     // update layout 后，根据新的布局计算
     graph.updateLayout({
-      type: 'dagre'
+      type: 'dagre',
     });
     graph.fitView();
     expect(mathEqual(graph.getNodes()[0].getModel().x, 165)).toEqual(true);

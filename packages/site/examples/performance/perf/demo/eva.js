@@ -15,7 +15,6 @@ const mapNodeSize = (nodes, propertyName, visualRange) => {
   });
 };
 
-
 const container = document.getElementById('container');
 const descriptionDiv = document.createElement('div');
 descriptionDiv.innerHTML = `正在渲染大规模数据，请稍等……`;
@@ -108,8 +107,9 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/0b9730ff-0850-46ff-84d0-1d4
     const graphData = graph.save();
     const nodeLen = graphData.nodes.length;
     const edgeLen = graphData.edges.length;
-    descriptionDiv.innerHTML = `节点数量：${nodeLen}, 边数量：${edgeLen}, 图元数量：${nodeLen * 2 + edgeLen
-      }`;
+    descriptionDiv.innerHTML = `节点数量：${nodeLen}, 边数量：${edgeLen}, 图元数量：${
+      nodeLen * 2 + edgeLen
+    }`;
   });
 
 if (typeof window !== 'undefined')

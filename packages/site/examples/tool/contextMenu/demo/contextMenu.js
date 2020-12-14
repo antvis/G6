@@ -33,7 +33,6 @@ descriptionDiv.id = 'discription';
 descriptionDiv.innerHTML = 'Right click a node to activate a contextMenu.';
 document.getElementById('container').appendChild(descriptionDiv);
 
-
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;

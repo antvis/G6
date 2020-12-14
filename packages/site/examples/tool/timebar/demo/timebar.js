@@ -19,7 +19,6 @@ for (let i = 0; i < 100; i++) {
   });
 }
 
-
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = (container.scrollHeight || 500) - 100;
@@ -42,7 +41,7 @@ const timebar = new G6.TimeBar({
   padding: 10,
   type: 'trend',
   trend: {
-    data: timeBarData
+    data: timeBarData,
   },
 });
 

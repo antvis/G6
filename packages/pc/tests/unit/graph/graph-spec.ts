@@ -175,7 +175,7 @@ describe('graph', () => {
 
     const url = inst.toDataURL();
     expect(url).not.toBe(null);
-    inst.destroy()
+    inst.destroy();
   });
 
   it('translate', () => {

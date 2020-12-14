@@ -22,16 +22,18 @@ describe('edge filter lens', () => {
     const filter = new G6.EdgeFilterLens({
       type: 'only-source',
       r: 20,
-      shouldShow: e => {
+      shouldShow: (e) => {
         return e.size === 3;
-      }
+      },
     });
     graph.addPlugin(filter);
     graph.emit('mousemove', { x: 100, y: 100 });
     let vShapes = filter.get('vShapes');
     expect(vShapes.length).toEqual(5);
-    let textCount = 0, pathCount = 0, groupCount = 0;
-    vShapes.forEach(shape => {
+    let textCount = 0,
+      pathCount = 0,
+      groupCount = 0;
+    vShapes.forEach((shape) => {
       const shapeType = shape.get('type');
       if (shapeType === 'text') textCount++;
       else if (shapeType === 'path') pathCount++;
@@ -48,7 +50,7 @@ describe('edge filter lens', () => {
     textCount = 0;
     pathCount = 0;
     groupCount = 0;
-    vShapes.forEach(shape => {
+    vShapes.forEach((shape) => {
       const shapeType = shape.get('type');
       if (shapeType === 'text') textCount++;
       else if (shapeType === 'path') pathCount++;
@@ -68,7 +70,7 @@ describe('edge filter lens', () => {
   it('filter lens with click and wheel to adjust r', () => {
     const filter = new G6.EdgeFilterLens({
       trigger: 'click',
-      scaleRBy: 'wheel'
+      scaleRBy: 'wheel',
     });
     graph.addPlugin(filter);
     graph.emit('click', { x: 300, y: 300 });
@@ -88,12 +90,20 @@ describe('edge filter lens', () => {
     const lens = filter.get('delegate');
     const clientPos = graph.getClientByPoint(200, 200);
     lens.emit('mousewheel', { clientX: clientPos.x, clientY: clientPos.y });
-    lens.emit('mousewheel', { originalEvent: { wheelDelta: 120 }, clientX: clientPos.x, clientY: clientPos.y });
+    lens.emit('mousewheel', {
+      originalEvent: { wheelDelta: 120 },
+      clientX: clientPos.x,
+      clientY: clientPos.y,
+    });
     expect(mathEqual(filter.get('r'), 63)).toEqual(true);
-    lens.emit('mousewheel', { originalEvent: { wheelDelta: -120 }, clientX: clientPos.x, clientY: clientPos.y });
+    lens.emit('mousewheel', {
+      originalEvent: { wheelDelta: -120 },
+      clientX: clientPos.x,
+      clientY: clientPos.y,
+    });
     expect(mathEqual(filter.get('r'), 60)).toEqual(true);
 
-    filter.clear()
+    filter.clear();
     vShapes = filter.get('vShapes');
     expect(vShapes.length).toEqual(0);
     expect(lens.destroyed).toEqual(true);
@@ -102,7 +112,6 @@ describe('edge filter lens', () => {
   });
 
   it.only('filter lens with drag', () => {
-
     graph.addItem('node', { id: '3', x: 130, y: 60, label: '3' });
     graph.addItem('node', { id: '4', x: 130, y: 120, label: '4' });
     graph.addItem('edge', { source: '0', target: '3', size: 3, label: 'a' });
@@ -112,9 +121,9 @@ describe('edge filter lens', () => {
       trigger: 'drag',
     });
     graph.addPlugin(filter);
-    graph.emit('click', { x: 100, y: 100 })
+    graph.emit('click', { x: 100, y: 100 });
     const lens = filter.get('delegate');
-    lens.emit('dragstart', { x: 110, y: 100 })
+    lens.emit('dragstart', { x: 110, y: 100 });
 
     lens.emit('drag', { x: 300, y: 300 });
     let vShapes = filter.get('vShapes');
@@ -127,7 +136,6 @@ describe('edge filter lens', () => {
     lens.emit('drag', { x: 200, y: 200 });
     vShapes = filter.get('vShapes');
     expect(vShapes.length).toEqual(1);
-
 
     filter.clear();
     vShapes = filter.get('vShapes');

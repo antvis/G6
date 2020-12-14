@@ -31,7 +31,7 @@ order: 5
 使用 G6 内置的 TimeBar 组件，和使用其他组件的方式完全相同。
 
 ```javascript
-import G6 from '@antv/g6'
+import G6 from '@antv/g6';
 
 const timebar = new G6.TimeBar({
   width: 500,
@@ -39,7 +39,7 @@ const timebar = new G6.TimeBar({
   padding: 10,
   type: 'trend',
   trend: {
-    data: timeBarData
+    data: timeBarData,
   },
 });
 

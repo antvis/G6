@@ -24,13 +24,12 @@ import {
   squareDist,
   pointLineSquareDist,
   isPointsOverlap,
-  pointRectSquareDist
+  pointRectSquareDist,
 } from '../../../src/util/math';
 import G6 from '../../../src';
 import Canvas from '@antv/g-canvas/lib/canvas';
 
 const equal = (a: number, b: number): boolean => Math.abs(a - b) < 0.0001;
-
 
 const div = document.createElement('div');
 div.id = 'base-spec';
@@ -369,7 +368,12 @@ describe('math util test', () => {
   });
 
   it('getLineIntersect', () => {
-    const intersect = getLineIntersect({ x: 0, y: 0 }, { x: 100, y: 100 }, { x: 0, y: 100 }, { x: 100, y: 0 });
+    const intersect = getLineIntersect(
+      { x: 0, y: 0 },
+      { x: 100, y: 100 },
+      { x: 0, y: 100 },
+      { x: 100, y: 0 },
+    );
     expect(intersect.x).toBe(50);
     expect(intersect.y).toBe(50);
   });
@@ -394,9 +398,40 @@ describe('math util test', () => {
   });
 
   it('isPointInPolygon', () => {
-    expect(isPointInPolygon([[0, 0], [100, 0]], 50, 50)).toEqual(false);
-    expect(isPointInPolygon([[0, 0], [100, 0], [100, 100], [0, 100]], 50, 50)).toEqual(true);
-    expect(isPointInPolygon([[0, 0], [100, 0], [100, 100], [0, 100]], 150, 50)).toEqual(false);
+    expect(
+      isPointInPolygon(
+        [
+          [0, 0],
+          [100, 0],
+        ],
+        50,
+        50,
+      ),
+    ).toEqual(false);
+    expect(
+      isPointInPolygon(
+        [
+          [0, 0],
+          [100, 0],
+          [100, 100],
+          [0, 100],
+        ],
+        50,
+        50,
+      ),
+    ).toEqual(true);
+    expect(
+      isPointInPolygon(
+        [
+          [0, 0],
+          [100, 0],
+          [100, 100],
+          [0, 100],
+        ],
+        150,
+        50,
+      ),
+    ).toEqual(false);
   });
 
   it('intersectBBox', () => {
@@ -406,10 +441,38 @@ describe('math util test', () => {
   });
 
   it('isPolygonsIntersect', () => {
-    expect(isPolygonsIntersect([[0, 0], [100, 0], [100, 100], [0, 100]],
-      [[10, 10], [110, 10], [110, 110], [10, 110]])).toEqual(true);
-    expect(isPolygonsIntersect([[0, 0], [100, 0], [100, 100], [0, 100]],
-      [[110, 110], [210, 110], [210, 210], [110, 210]])).toEqual(false);
+    expect(
+      isPolygonsIntersect(
+        [
+          [0, 0],
+          [100, 0],
+          [100, 100],
+          [0, 100],
+        ],
+        [
+          [10, 10],
+          [110, 10],
+          [110, 110],
+          [10, 110],
+        ],
+      ),
+    ).toEqual(true);
+    expect(
+      isPolygonsIntersect(
+        [
+          [0, 0],
+          [100, 0],
+          [100, 100],
+          [0, 100],
+        ],
+        [
+          [110, 110],
+          [210, 110],
+          [210, 210],
+          [110, 210],
+        ],
+      ),
+    ).toEqual(false);
   });
 
   it('getBBoxBoundLine', () => {
@@ -451,8 +514,20 @@ describe('math util test', () => {
   });
 
   it('getPointsCenter', () => {
-    [[0, 0], [100, 0], [100, 100], [0, 100]]
-    expect(getPointsCenter([{ x: 0, y: 0 }, { x: 100, y: 0 }, { x: 100, y: 100 }, { x: 0, y: 100 }])).toEqual({ x: 50, y: 50 });
+    [
+      [0, 0],
+      [100, 0],
+      [100, 100],
+      [0, 100],
+    ];
+    expect(
+      getPointsCenter([
+        { x: 0, y: 0 },
+        { x: 100, y: 0 },
+        { x: 100, y: 100 },
+        { x: 0, y: 100 },
+      ]),
+    ).toEqual({ x: 50, y: 50 });
   });
 
   it('squareDist', () => {
@@ -460,18 +535,18 @@ describe('math util test', () => {
   });
 
   it('pointLineSquareDist', () => {
-    const dist = pointLineSquareDist({ x: 0, y: 0 }, { x1: 100, y1: 0, x2: 100, y2: 100 } as any)
+    const dist = pointLineSquareDist({ x: 0, y: 0 }, { x1: 100, y1: 0, x2: 100, y2: 100 } as any);
     expect(dist).toBe(10000);
   });
 
   it('isPointsOverlap', () => {
     expect(isPointsOverlap({ x: 0, y: 0 }, { x: 0.0001, y: 0 })).toBe(true);
     expect(isPointsOverlap({ x: 0, y: 0 }, { x: 10, y: 0 })).toBe(false);
-  })
+  });
   it('pointRectSquareDist', () => {
     const rect = { x: 0, y: 0, width: 10, height: 10 };
     expect(pointRectSquareDist({ x: 0, y: 0 }, rect)).toBe(0);
     expect(pointRectSquareDist({ x: 5, y: 15 }, rect)).toBe(25);
     expect(pointRectSquareDist({ x: 20, y: 20 }, rect)).toBe(200);
-  })
+  });
 });

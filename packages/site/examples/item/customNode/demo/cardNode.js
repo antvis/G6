@@ -112,7 +112,6 @@ G6.registerNode(
   'single-node',
 );
 
-
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
@@ -188,4 +187,3 @@ if (typeof window !== 'undefined')
     if (!container || !container.scrollWidth || !container.scrollHeight) return;
     graph.changeSize(container.scrollWidth, container.scrollHeight);
   };
-

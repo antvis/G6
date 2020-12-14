@@ -6,11 +6,13 @@ order: 3
 G6 provides abundant [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge). Besides, the custom machanism allows the users to design their own type of edges. An edge with complex graphics shapes, complex interactions, fantastic animations can be implemented easily.
 
 You are able to custom an edge type by `G6.registerEdge(typeName: string, edgeDefinition: object, extendedTypeName?: string)`, where:
+
 - `typeName`: the name of the new edge type;
 - `extendedTypeName`: The name of the existing type that will be extended, which can be a built-in edge type, or an existing custom edge type. When it is not assigned, the custom edge will not extend any existing edge type;
 - `edgeDefinition`: The definition of the new edge type. The required options can be found at [Custom Mechanism API](/en/docs/api/registerItem#g6registeredgeedgename-options-extendededgename). When the `extendedTypeName` is assigned, the functions which are not rewritten will extend from the type with name `extendedTypeName`.
 
 **Noted** that if the `extendedTypeName` is assigned, the required functions such as `draw`, `update`, and `setState` will extend from `extendedTypeName` unless they are rewritten in `edgeDefinition`. Due to this mechanism, a question is often fed back:
+
 - Q: when the custom edge/node is updated, the re-draw logic is not the same as `draw` or `drawShape` function defined in `edgeDefinition`. e.g., some shapes are not updated as expected, and some text shapes show up.
 - A: Since the `extendedTypeName` is assigned, and the `update` is not implemented in `extendedTypeName`, the `update` of the extended edge type will be called when updating the edge/node, whose logic might be different from the `draw` or `drawShape` defined by yourself. To avoid this problem, you can override the `update` by `undefined` in `edgeDefinition`. When `update` is `undefined`, the `draw` or `drawShape` will be called when updating the edge/node.
 
@@ -164,11 +166,11 @@ G6.registerEdge(
           fill: '#f00',
           // x and y should be minus width / 2 and height / 2 respectively to translate the center of the rect to the midPoint
           x: midPoint.x - 5,
-          y: midPoint.y - 5
-        }
+          y: midPoint.y - 5,
+        },
       });
     },
-    update: undefined
+    update: undefined,
   },
   'cubic',
 );

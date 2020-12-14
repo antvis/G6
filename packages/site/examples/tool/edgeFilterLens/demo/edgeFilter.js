@@ -4,7 +4,7 @@ let trigger = 'mousemove';
 const filterConfigs = {
   trigger,
   showLabel: 'edge',
-  r: 60
+  r: 60,
 };
 let filterLens = new G6.EdgeFilterLens(filterConfigs);
 
@@ -26,7 +26,8 @@ buttonContainer.appendChild(document.createElement('br'));
 
 // tip english
 const tipEn = document.createElement('span');
-tipEn.innerHTML = 'Click the canvas to begin. Show the edge whose both end nodes are inside the lens.';
+tipEn.innerHTML =
+  'Click the canvas to begin. Show the edge whose both end nodes are inside the lens.';
 buttonContainer.appendChild(tipEn);
 
 buttonContainer.appendChild(document.createElement('br'));
@@ -88,7 +89,6 @@ graphDiv.appendChild(buttonContainer);
 
 // ========================================================= //
 
-
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = (container.scrollHeight || 500) - 60;
@@ -103,9 +103,9 @@ const graph = new G6.Graph({
       autoRotate: true,
       style: {
         stroke: '#fff',
-        lineWidth: 2
-      }
-    }
+        lineWidth: 2,
+      },
+    },
   },
   defaultNode: {
     size: 15,
@@ -116,8 +116,8 @@ const graph = new G6.Graph({
     },
   },
   modes: {
-    default: ['drag-canvas']
-  }
+    default: ['drag-canvas'],
+  },
 });
 
 swithButton.addEventListener('click', (e) => {
@@ -128,36 +128,36 @@ swithButton.addEventListener('click', (e) => {
     swithButton.value = 'Disable';
     filterLens = new G6.EdgeFilterLens({
       ...filterConfigs,
-      trigger
+      trigger,
     });
     graph.addPlugin(filterLens);
   }
 });
-configScaleRBy.addEventListener('change', e => {
+configScaleRBy.addEventListener('change', (e) => {
   filterLens.updateParams({ scaleRBy: e.target.value });
 });
-configTrigger.addEventListener('change', e => {
+configTrigger.addEventListener('change', (e) => {
   const filterLensConfigs = filterLens._cfgs;
   graph.removePlugin(filterLens);
   trigger = e.target.value;
   filterLens = new G6.EdgeFilterLens({
     ...filterLensConfigs,
-    trigger
-  })
+    trigger,
+  });
   graph.addPlugin(filterLens);
 });
 
 fetch('https://gw.alipayobjects.com/os/bmw-prod/afe8b2a6-f691-4070-aa73-46fc07fd1171.json')
   .then((res) => res.json())
   .then((data) => {
-    data.edges.forEach(edge => {
+    data.edges.forEach((edge) => {
       edge.color = '#aaa';
       edge.size = 2;
       edge.style = {
-        opacity: 0.7
-      }
+        opacity: 0.7,
+      };
       edge.label = 'a';
-    })
+    });
     graph.data(data);
     graph.render();
     graph.getEdges().forEach((edge) => {

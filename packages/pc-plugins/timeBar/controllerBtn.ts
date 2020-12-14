@@ -1,22 +1,22 @@
 import { IGroup, IShape } from '@antv/g-base';
-import { deepMix } from '@antv/util'
+import { deepMix } from '@antv/util';
 import Button from './timeButton';
 import { ShapeStyle } from '../../types';
 
-const DEFAULT_RECT_FILL = '#ccc'
-const DEFAULT_RECT_STROKE = 'green'
+const DEFAULT_RECT_FILL = '#ccc';
+const DEFAULT_RECT_STROKE = 'green';
 const DEFAULT_PLAYBTN_STYLE = {
   fill: '#607889',
-  stroke: '#607889'
-}
+  stroke: '#607889',
+};
 
 const DEFAULT_PREBTN_STYLE = {
-  fill: '#fff'
-}
+  fill: '#fff',
+};
 
 const DEFAULT_NEXTBTN_STYLE = {
-  fill: 'green'
-}
+  fill: 'green',
+};
 
 const DEFAULT_CONTROLLER_CONFIG = {
   speed: 2,
@@ -26,20 +26,20 @@ const DEFAULT_CONTROLLER_CONFIG = {
   hiddleToggle: false,
   preBtnStyle: {
     fill: '#ccc',
-    stroke: '#ccc'
+    stroke: '#ccc',
   },
   nextBtnStyle: {
     fill: '#ccc',
-    stroke: '#ccc'
+    stroke: '#ccc',
   },
   playBtnStyle: {
     fill: '#fff',
-    stroke: '#ccc'
-  }
-}
+    stroke: '#ccc',
+  },
+};
 
-const SPEED_CONTROLLER_OFFSET = 110
-const TOGGLE_MODEL_OFFSET = 50
+const SPEED_CONTROLLER_OFFSET = 110;
+const TOGGLE_MODEL_OFFSET = 50;
 
 export type ControllerCfg = Partial<{
   readonly group: IGroup;
@@ -58,7 +58,7 @@ export type ControllerCfg = Partial<{
   readonly preBtnStyle?: ShapeStyle;
   readonly nextBtnStyle?: ShapeStyle;
   readonly playBtnStyle?: ShapeStyle;
-}>
+}>;
 
 export default class ControllerBtn {
   /** 是否处于播放状态 */
@@ -71,7 +71,7 @@ export default class ControllerBtn {
   public nextStepButton: IShape;
 
   private checkedIcon: IShape;
-  
+
   private checkedText: IShape;
 
   readonly controllerCfg?: ControllerCfg;
@@ -94,17 +94,13 @@ export default class ControllerBtn {
   private currentType: 'single' | 'range';
 
   constructor(cfg: ControllerCfg) {
-    this.controllerCfg = deepMix(
-      {},
-      DEFAULT_CONTROLLER_CONFIG,
-      cfg
-    );
+    this.controllerCfg = deepMix({}, DEFAULT_CONTROLLER_CONFIG, cfg);
 
-    this.group = cfg.group
-    this.speedAxisY = []
-    this.currentSpeed = this.controllerCfg.speed
-    this.currentType = 'range'
-    this.init()
+    this.group = cfg.group;
+    this.speedAxisY = [];
+    this.currentSpeed = this.controllerCfg.speed;
+    this.currentType = 'range';
+    this.init();
   }
 
   public init() {
@@ -130,15 +126,21 @@ export default class ControllerBtn {
 
   private renderPlayButton() {
     const { controllerCfg } = this;
-    const { width, height, x, y,
+    const {
+      width,
+      height,
+      x,
+      y,
       hiddleToggle,
-      fill = DEFAULT_RECT_FILL, stroke = DEFAULT_RECT_STROKE,
+      fill = DEFAULT_RECT_FILL,
+      stroke = DEFAULT_RECT_STROKE,
       playBtnStyle = DEFAULT_PLAYBTN_STYLE,
       preBtnStyle = DEFAULT_PREBTN_STYLE,
-      nextBtnStyle = DEFAULT_NEXTBTN_STYLE } = controllerCfg
+      nextBtnStyle = DEFAULT_NEXTBTN_STYLE,
+    } = controllerCfg;
 
     const r = height / 2 - 5;
-    const realY = y + 10
+    const realY = y + 10;
 
     // 绘制最外层的矩形包围框
     const container = this.group.addShape('rect', {
@@ -148,10 +150,10 @@ export default class ControllerBtn {
         width,
         height,
         stroke,
-        fill
+        fill,
       },
-      name: 'container-rect'
-    })
+      name: 'container-rect',
+    });
 
     if (this.playButton) {
       this.playButton.update({
@@ -166,7 +168,7 @@ export default class ControllerBtn {
         y: realY + r + 5,
         r,
         isPlay: this.isPlay,
-        style: playBtnStyle
+        style: playBtnStyle,
       });
     }
 
@@ -174,57 +176,57 @@ export default class ControllerBtn {
     this.group.addShape('path', {
       attrs: {
         path: this.getPreMarkerPath(width / 2 - 5 * r, realY + r + 5, r * 0.5),
-        ...preBtnStyle
+        ...preBtnStyle,
       },
-      name: 'preStepBtn'
-    })
+      name: 'preStepBtn',
+    });
     this.group.addShape('path', {
       attrs: {
         path: this.getPreMarkerPath(width / 2 - 4.5 * r, realY + r + 5, r * 0.5),
-        ...preBtnStyle
+        ...preBtnStyle,
       },
-      name: 'preStepBtn'
-    })
+      name: 'preStepBtn',
+    });
 
     // 前进按钮
     this.group.addShape('path', {
       attrs: {
         path: this.getNextMarkerPath(width / 2 + 5 * r, realY + r + 5, r * 0.5),
-        ...nextBtnStyle
+        ...nextBtnStyle,
       },
-      name: 'nextStepBtn'
-    })
+      name: 'nextStepBtn',
+    });
     this.group.addShape('path', {
       attrs: {
         path: this.getNextMarkerPath(width / 2 + 4.5 * r, realY + r + 5, r * 0.5),
-        ...nextBtnStyle
+        ...nextBtnStyle,
       },
-      name: 'nextStepBtn'
-    })
+      name: 'nextStepBtn',
+    });
     container.toBack();
 
     // 调节speed的按钮
-    this.renderSpeedBtn()
+    this.renderSpeedBtn();
     if (!hiddleToggle) {
-      this.renderToggleTime()
+      this.renderToggleTime();
     }
-    this.bindEvent()
+    this.bindEvent();
   }
 
   private renderSpeedBtn() {
-    const { y, width, hiddleToggle } = this.controllerCfg
+    const { y, width, hiddleToggle } = this.controllerCfg;
     const speedGroup = this.group.addGroup({
-      name: 'speed-group'
-    })
+      name: 'speed-group',
+    });
 
-    this.speedGroup = speedGroup
+    this.speedGroup = speedGroup;
 
-    let count = 1
-    const speedNum = []
-    let maxSpeed = 9
+    let count = 1;
+    const speedNum = [];
+    let maxSpeed = 9;
     // 增加speed刻度
     for (let i = 0; i < 5; i++) {
-      const axisY = y + 15 + i * (i + 1) + count
+      const axisY = y + 15 + i * (i + 1) + count;
       // 灰色刻度
       speedGroup.addShape('rect', {
         attrs: {
@@ -232,15 +234,15 @@ export default class ControllerBtn {
           y: axisY,
           width: 15,
           height: 2,
-          fill: '#ccc'
+          fill: '#ccc',
         },
         speed: maxSpeed,
-        name: 'speed-rect'
-      })
-      this.speedAxisY.push(axisY)
-      speedNum.push(maxSpeed)
-      maxSpeed = maxSpeed - 2
-      count++
+        name: 'speed-rect',
+      });
+      this.speedAxisY.push(axisY);
+      speedNum.push(maxSpeed);
+      maxSpeed = maxSpeed - 2;
+      count++;
     }
 
     for (let i = 0; i < 4; i++) {
@@ -252,11 +254,11 @@ export default class ControllerBtn {
           width: 15,
           height: 2 * i + 1,
           fill: '#fff',
-          opacity: 0.3
+          opacity: 0.3,
         },
         speed: speedNum[i] - 1,
-        name: 'speed-rect'
-      })
+        name: 'speed-rect',
+      });
     }
 
     // 速度文本
@@ -265,32 +267,30 @@ export default class ControllerBtn {
         x: width - (!hiddleToggle ? SPEED_CONTROLLER_OFFSET : TOGGLE_MODEL_OFFSET) + 20,
         y: this.speedAxisY[1] + 15,
         text: `1.0X`,
-        fill: '#ccc'
-      }
-    })
+        fill: '#ccc',
+      },
+    });
 
     this.speedPoint = speedGroup.addShape('path', {
       attrs: {
-        path: this.getPath(width - (!hiddleToggle ? SPEED_CONTROLLER_OFFSET : TOGGLE_MODEL_OFFSET), this.speedAxisY[4]),
-        fill: '#ccc'
-      }
-    })
+        path: this.getPath(
+          width - (!hiddleToggle ? SPEED_CONTROLLER_OFFSET : TOGGLE_MODEL_OFFSET),
+          this.speedAxisY[4],
+        ),
+        fill: '#ccc',
+      },
+    });
   }
 
   private getPath(x, y) {
-    return [
-      ['M', x, y],
-      ['L', x - 12, y - 6],
-      ['L', x - 12, y + 6],
-      ['Z']
-    ]
+    return [['M', x, y], ['L', x - 12, y - 6], ['L', x - 12, y + 6], ['Z']];
   }
 
   private renderToggleTime() {
-    const { width } = this.controllerCfg
+    const { width } = this.controllerCfg;
     this.toggleGroup = this.group.addGroup({
-      name: 'toggle-group'
-    })
+      name: 'toggle-group',
+    });
 
     this.toggleGroup.addShape('rect', {
       attrs: {
@@ -301,11 +301,11 @@ export default class ControllerBtn {
         fill: '#fff',
         stroke: '#ccc',
         lineWidth: 2,
-        radius: 3
+        radius: 3,
       },
       isChecked: false,
-      name: 'toggle-model'
-    })
+      name: 'toggle-model',
+    });
 
     this.checkedIcon = this.toggleGroup.addShape('path', {
       attrs: {
@@ -317,61 +317,66 @@ export default class ControllerBtn {
         stroke: 'green',
         lineWidth: 3,
       },
-      capture: false
-    })
+      capture: false,
+    });
 
-    this.checkedIcon.hide()
+    this.checkedIcon.hide();
 
     this.checkedText = this.toggleGroup.addShape('text', {
       attrs: {
         text: '单一时间',
         x: width - TOGGLE_MODEL_OFFSET + 20,
         y: this.speedAxisY[1] + 15,
-        fill: '#ccc'
-      }
-    })
+        fill: '#ccc',
+      },
+    });
   }
 
   private bindEvent() {
-    const { width, hiddleToggle } = this.controllerCfg
-    this.speedGroup.on('speed-rect:click', evt => {
-      this.speedPoint.attr('path',
-        this.getPath(width - (!hiddleToggle ? SPEED_CONTROLLER_OFFSET : TOGGLE_MODEL_OFFSET), evt.y))
-      this.currentSpeed = evt.target.get('speed')
-      this.speedText.attr('text', `${this.currentSpeed}.0X`)
+    const { width, hiddleToggle } = this.controllerCfg;
+    this.speedGroup.on('speed-rect:click', (evt) => {
+      this.speedPoint.attr(
+        'path',
+        this.getPath(
+          width - (!hiddleToggle ? SPEED_CONTROLLER_OFFSET : TOGGLE_MODEL_OFFSET),
+          evt.y,
+        ),
+      );
+      this.currentSpeed = evt.target.get('speed');
+      this.speedText.attr('text', `${this.currentSpeed}.0X`);
       this.group.emit('timebarConfigChanged', {
         speed: this.currentSpeed,
         type: this.currentType,
-      })
-    })
+      });
+    });
 
     if (this.toggleGroup) {
-      this.toggleGroup.on('toggle-model:click', evt => {
-        const isChecked = evt.target.get('isChecked')
+      this.toggleGroup.on('toggle-model:click', (evt) => {
+        const isChecked = evt.target.get('isChecked');
         if (!isChecked) {
-          this.checkedIcon.show()
-          this.checkedText.attr('text', '时间范围')
-          this.currentType = 'single'
+          this.checkedIcon.show();
+          this.checkedText.attr('text', '时间范围');
+          this.currentType = 'single';
         } else {
-          this.checkedIcon.hide()
-          this.checkedText.attr('text', '单一时间')
-          this.currentType = 'range'
+          this.checkedIcon.hide();
+          this.checkedText.attr('text', '单一时间');
+          this.currentType = 'range';
         }
-        evt.target.set('isChecked', !isChecked)
+        evt.target.set('isChecked', !isChecked);
         this.group.emit('timebarConfigChanged', {
           type: this.currentType,
-          speed: this.currentSpeed
-        })
-      })
+          speed: this.currentSpeed,
+        });
+      });
     }
   }
 
   public destroy() {
-    this.speedGroup.off('speed-rect:click')
+    this.speedGroup.off('speed-rect:click');
     if (this.toggleGroup) {
-      this.toggleGroup.off('toggle-model:click')
-      this.toggleGroup.destroy()
+      this.toggleGroup.off('toggle-model:click');
+      this.toggleGroup.destroy();
     }
-    this.speedGroup.destroy()
+    this.speedGroup.destroy();
   }
 }

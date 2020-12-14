@@ -14,5 +14,5 @@ export const LAYOUT_MESSAGE = {
   // layout tick, used in force directed layout
   TICK: 'LAYOUT_TICK',
   GPURUN: 'GPU_LAYOUT_RUN',
-  GPUEND: 'GPU_LAYOUT_END'
+  GPUEND: 'GPU_LAYOUT_END',
 };

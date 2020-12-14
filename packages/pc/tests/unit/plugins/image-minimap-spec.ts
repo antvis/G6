@@ -2,7 +2,6 @@ import G6 from '../../../src';
 import Simulate from 'event-simulate';
 import { numberEqual } from '../layout/util';
 
-
 const div = document.createElement('div');
 div.id = 'image-minimap-spec';
 document.body.appendChild(div);
@@ -12,7 +11,8 @@ describe('image minimap', () => {
   const minimap = new G6.ImageMinimap({
     width: 200,
     padding: 10,
-    graphImg: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*DcGMQ7AN3Z0AAAAAAAAAAABkARQnAQ',
+    graphImg:
+      'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*DcGMQ7AN3Z0AAAAAAAAAAABkARQnAQ',
   });
   fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.json')
     .then((res) => res.json())
@@ -59,7 +59,7 @@ describe('image minimap', () => {
       graph.render();
     });
 
-  it('default image minimap', done => {
+  it('default image minimap', (done) => {
     done();
     window.setTimeout(() => {
       const container = minimap.getContainer();
@@ -105,10 +105,12 @@ describe('image minimap', () => {
           'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ',
         );
         const imgDOM = minimap.get('imgDOM');
-        expect(imgDOM.src).toEqual('https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ');
+        expect(imgDOM.src).toEqual(
+          'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ',
+        );
 
         graph.destroy();
-        expect(minimap.destroyed).toEqual(true)
+        expect(minimap.destroyed).toEqual(true);
 
         done();
       }, 100);

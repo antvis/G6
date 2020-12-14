@@ -141,7 +141,7 @@ describe('graph edge states', () => {
           shadowBlur: 10,
           shadowOffsetX: 10,
           shadowOffsetY: 20,
-          lineWidth: 10
+          lineWidth: 10,
         },
       },
       defaultEdge: {
@@ -303,9 +303,15 @@ describe('graph edge states', () => {
       const curShadowOffsetX = keyShape.attr('shadowBlur');
       const curShadowOffsetY = keyShape.attr('shadowBlur');
       expect(curOpacity === undefined || curOpacity === null).toEqual(true);
-      expect(curShadowBlur === 0 || curShadowBlur === undefined || curShadowBlur === null).toEqual(true);
-      expect(curShadowOffsetX === 0 || curShadowOffsetX === undefined || curShadowOffsetX === null).toEqual(true);
-      expect(curShadowOffsetY === 0 || curShadowOffsetY === undefined || curShadowOffsetY === null).toEqual(true);
+      expect(curShadowBlur === 0 || curShadowBlur === undefined || curShadowBlur === null).toEqual(
+        true,
+      );
+      expect(
+        curShadowOffsetX === 0 || curShadowOffsetX === undefined || curShadowOffsetX === null,
+      ).toEqual(true);
+      expect(
+        curShadowOffsetY === 0 || curShadowOffsetY === undefined || curShadowOffsetY === null,
+      ).toEqual(true);
       expect(keyShape.attr('lineWidth')).toEqual(1);
       expect(keyShape.attr('stroke')).toEqual('#aaa');
     });
@@ -609,101 +615,101 @@ describe('graph edge states', () => {
       height: 500, // Number，必须，图的高度
       modes: {
         default: [
-          "drag-canvas",
-          "zoom-canvas",
-          "drag-node",
+          'drag-canvas',
+          'zoom-canvas',
+          'drag-node',
           {
-            type: "brush-select",
-            trigger: "ctrl",
+            type: 'brush-select',
+            trigger: 'ctrl',
             includeEdges: false,
-            selectedState: "click"
-          }
-        ]
+            selectedState: 'click',
+          },
+        ],
       },
       defaultNode: {
         size: 50, // 节点大小
         style: {
           opacity: 0.8,
           lineWidth: 1,
-          stroke: "#999"
+          stroke: '#999',
         },
         labelCfg: {
           style: {
-            fill: "#fff"
-          }
-        }
+            fill: '#fff',
+          },
+        },
       },
       defaultEdge: {
         labelCfg: {
           autoRotate: true,
           style: {
             fontSize: 14,
-            fill: "#333"
-          }
+            fill: '#333',
+          },
         },
         style: {
-          stroke: "#808080",
+          stroke: '#808080',
           lineWidth: 1,
           endArrow: true,
           lineAppendWidth: 10,
-        }
+        },
       },
       // 边不同状态下的样式集合
       edgeStateStyles: {
         // 鼠标点击边，即 click 状态为 true 时的样式
         click: {
-          stroke: "red",
-          lineWidth: 2
-        }
+          stroke: 'red',
+          lineWidth: 2,
+        },
       },
     });
 
-    graph.data(data)
-    graph.render()
+    graph.data(data);
+    graph.render();
 
     // 验证 edge 的初始样式
-    const currentEdge = graph.findById('node1-node2')
-    let states = currentEdge.getStates()
-    expect(states.length).toBe(0)
+    const currentEdge = graph.findById('node1-node2');
+    let states = currentEdge.getStates();
+    expect(states.length).toBe(0);
 
-    let keyShape = currentEdge.getKeyShape()
-    expect(keyShape.attr('stroke')).toEqual('#808080')
+    let keyShape = currentEdge.getKeyShape();
+    expect(keyShape.attr('stroke')).toEqual('#808080');
 
     // 先设置 edge click states
-    graph.setItemState(currentEdge, 'click', true)
-    states = currentEdge.getStates()
-    expect(states.length).toBe(1)
+    graph.setItemState(currentEdge, 'click', true);
+    states = currentEdge.getStates();
+    expect(states.length).toBe(1);
 
-    let stateStyle = currentEdge.getStateStyle('click')
-    expect(stateStyle).toEqual({ "lineWidth": 2, "stroke": "red" })
+    let stateStyle = currentEdge.getStateStyle('click');
+    expect(stateStyle).toEqual({ lineWidth: 2, stroke: 'red' });
 
-    keyShape = currentEdge.getKeyShape()
-    expect(keyShape.attr('stroke')).toEqual('red')
+    keyShape = currentEdge.getKeyShape();
+    expect(keyShape.attr('stroke')).toEqual('red');
 
     // 验证此时 edge 的样式状态
 
     // 再使用 updateItem 更新 click states
     const model = {
       style: {
-        stroke: "#808080",
+        stroke: '#808080',
         lineWidth: 1,
         endArrow: true,
         lineAppendWidth: 10,
       },
       stateStyles: {
         click: {
-          stroke: "#333",
-          lineWidth: 2
-        }
-      }
+          stroke: '#333',
+          lineWidth: 2,
+        },
+      },
     };
     graph.updateItem('node1-node2', model);
 
     // updateItem 以后，edge click states 的值以及变化了
-    stateStyle = currentEdge.getStateStyle('click')
-    expect(stateStyle).toEqual({ "lineWidth": 2, "stroke": "#333" })
+    stateStyle = currentEdge.getStateStyle('click');
+    expect(stateStyle).toEqual({ lineWidth: 2, stroke: '#333' });
 
-    graph.destroy()
-    expect(graph.destroyed).toBe(true)
-  })
+    graph.destroy();
+    expect(graph.destroyed).toBe(true);
+  });
 });

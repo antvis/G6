@@ -44,5 +44,8 @@
     "tslint-config-prettier": "^1.18.0",
     "tslint-eslint-rules": "^5.4.0",
     "typescript": "^4.0.3"
+  },
+  "devDependencies": {
+    "@umijs/fabric": "^2.3.1"
   }
 }

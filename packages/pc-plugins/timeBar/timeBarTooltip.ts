@@ -8,11 +8,11 @@ export const BACKGROUND_STYLE = {
 export const ARROW_STYLE = {
   opacity: 0.5,
   fill: '#000',
-  r: 5
+  r: 5,
 };
 export const TEXT_STYLE = {
   fill: '#fff',
-  fontSize: 12
+  fontSize: 12,
 };
 
 export interface TimeBarTooltipCfg {
@@ -79,7 +79,7 @@ export default class TimeBarTooltip {
       backgroundColor = '#000',
       textColor = '#fff',
       opacity = 0.8,
-      fontSize = 12
+      fontSize = 12,
     } = cfg;
 
     this.container = container;
@@ -103,8 +103,7 @@ export default class TimeBarTooltip {
    */
   private render() {
     const self = this;
-    const { className, x, y, backgroundColor,
-      textColor, text, padding, opacity, fontSize } = self;
+    const { className, x, y, backgroundColor, textColor, text, padding, opacity, fontSize } = self;
 
     let parentNode: string | HTMLElement = self.container;
     const container: HTMLElement = createDom(
@@ -125,11 +124,10 @@ export default class TimeBarTooltip {
     self.backgroundDOM = background;
 
     const arrow: HTMLElement = createDom(
-      `<div style='position: absolute; width: 0px; height: 0px; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 10px solid ${backgroundColor}'></div>`
-    )
+      `<div style='position: absolute; width: 0px; height: 0px; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 10px solid ${backgroundColor}'></div>`,
+    );
     container.appendChild(arrow);
     self.arrowDOM = arrow;
-
 
     self.container = container;
   }
@@ -142,22 +140,27 @@ export default class TimeBarTooltip {
     const backgroundHeight = self.backgroundDOM.offsetHeight;
     const arrowWidth = self.arrowDOM.offsetWidth;
     const arrowHeight = self.arrowDOM.offsetHeight;
-    modifyCSS(self.container as HTMLElement,
-      { top: `${-backgroundHeight - arrowHeight}px`, left: `${x}px`, visibility: 'visible', });
+    modifyCSS(self.container as HTMLElement, {
+      top: `${-backgroundHeight - arrowHeight}px`,
+      left: `${x}px`,
+      visibility: 'visible',
+    });
 
-    modifyCSS(self.backgroundDOM, { marginLeft: `${-backgroundWidth / 2}px` })
+    modifyCSS(self.backgroundDOM, { marginLeft: `${-backgroundWidth / 2}px` });
     modifyCSS(self.arrowDOM, { marginLeft: `${-arrowWidth / 2}px`, top: `${backgroundHeight}px` });
 
     const left = x - backgroundWidth / 2;
     const right = x + backgroundWidth / 2;
     if (left < 0) {
-      modifyCSS(self.backgroundDOM, { marginLeft: `${-backgroundWidth / 2 - left}px` })
+      modifyCSS(self.backgroundDOM, { marginLeft: `${-backgroundWidth / 2 - left}px` });
     } else if (right > self.parentWidth) {
-      modifyCSS(self.backgroundDOM, { marginLeft: `${-backgroundWidth / 2 - right + self.parentWidth + 12}px` })
+      modifyCSS(self.backgroundDOM, {
+        marginLeft: `${-backgroundWidth / 2 - right + self.parentWidth + 12}px`,
+      });
     }
   }
 
   public hide() {
-    modifyCSS(this.container as HTMLElement, { top: 0, left: 0, visibility: 'hidden', });
+    modifyCSS(this.container as HTMLElement, { top: 0, left: 0, visibility: 'hidden' });
   }
 }

@@ -4,15 +4,15 @@ order: 2
 ---
 
 G6 提供了一系列[内置节点](/zh/docs/manual/middle/elements/nodes/defaultNode)，包括 [circle](/zh/docs/manual/middle/elements/nodes/built-in/circle)、[rect](/zh/docs/manual/middle/elements/nodes/built-in/rect)、[diamond](/zh/docs/manual/middle/elements/nodes/built-in/diamond)、[triangle](/zh/docs/manual/middle/elements/nodes/built-in/triangle)、[star](/zh/docs/manual/middle/elements/nodes/built-in/star)、[image](/zh/docs/manual/middle/elements/nodes/built-in/image)、[modelRect](/zh/docs/manual/middle/elements/nodes/built-in/modelRect)。若内置节点无法满足需求，用户还可以通过 `G6.registerNode(typeName: string, nodeDefinition: object, extendedTypeName?: string)` 进行自定义节点，方便用户开发更加定制化的节点，包括含有复杂图形的节点、复杂交互的节点、带有动画的节点等。其参数：
+
 - `typeName`：该新节点类型名称；
 - `extendedTypeName`：被继承的节点类型，可以是内置节点类型名，也可以是其他自定义节点的类型名。`extendedTypeName` 未指定时代表不继承其他类型的节点；
 - `nodeDefinition`：该新节点类型的定义，其中必要函数详见 [自定义机制 API](/zh/docs/api/registerItem#g6registernodenodename-options-extendednodename)。当有 `extendedTypeName` 时，没被复写的函数将会继承 `extendedTypeName` 的定义。
 
-
 **需要注意的是**，自定义节点/边时，若给定了 `extendedTypeName`，如 `draw`，`update`，`setState` 等必要的函数若不在 `nodeDefinition` 中进行复写，将会继承 `extendedTypeName` 中的相关定义。常见问题：
+
 - Q：节点/边更新时，没有按照在 `nodeDefinition` 中自定义实现的 `draw` 或 `drawShape` 逻辑更新。例如，有些图形没有被更新，增加了没有在 `draw` 或 `drawShape` 方法中定义的图形等。
 - A：由于继承了 `extendedTypeName`，且在 `nodeDefinition` 中没有复写 `update` 方法，导致节点/边更新时执行了 `extendedTypeName` 中的 `update` 方法，从而与自定义的 `draw` 或 `drawShape` 有出入。可以通过复写 `update` 方法为 `undefined` 解决。当 `update` 方法为 `undefined` 时，节点/边的更新将会执行 `draw` 或 `drawShape` 进行重绘。
-
 
 在本章中我们会通过五个案例，从简单到复杂讲解节点的自定义。这五个案例是： <br /> <strong>1. 从无到有的定义节点：</strong>绘制图形；优化性能。 <br /> <strong>2. 扩展现有的节点：</strong>附加图形；增加动画。 <br /> <strong>3. 调整节点的锚点；</strong> <br /> <strong>4. 调整节点的鼠标选中/悬浮样式：</strong>样式变化响应；动画响应； <br /> <strong>5. 使用 DOM 自定义节点。</strong>
 

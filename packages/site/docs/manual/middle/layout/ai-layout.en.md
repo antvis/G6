@@ -42,6 +42,7 @@ const graph = new G6.Graph({
 ```
 
 ### Result
+
 As shown in the figure below, in a medical and health map, the layout effect of "force" obtained by the intelligent layout prediction engine is the best, and the comparison experiment also meets expectations.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9W-4S6WyouMAAAAAAAAAAAAAARQnAQ' width='90%'>

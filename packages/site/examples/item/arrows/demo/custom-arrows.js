@@ -54,7 +54,6 @@ const data = {
   ],
 };
 
-
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;

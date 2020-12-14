@@ -21,8 +21,8 @@ const graph = new G6.Graph({
     size: 15,
   },
   modes: {
-    default: ['zoom-canvas', 'drag-canvas', 'drag-node']
-  }
+    default: ['zoom-canvas', 'drag-canvas', 'drag-node'],
+  },
 });
 
 let colorMap = {

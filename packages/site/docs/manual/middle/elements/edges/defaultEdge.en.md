@@ -35,7 +35,7 @@ The table below shows the built-in edges and their special properties:
 ## The Common Property
 
 | Name | Required | Type | Remark |
-| --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | id | false | String | The id of the edge, **MUST** be a unique string |
 | source | true | String | Number | The id of the source node |
 | target | true | String | The id of the target node |

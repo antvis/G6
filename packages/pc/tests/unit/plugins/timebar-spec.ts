@@ -1,5 +1,5 @@
 import G6 from '../../../src';
-import TimeBar from '../../../src/plugins/timeBar'
+import TimeBar from '../../../src/plugins/timeBar';
 const div = document.createElement('div');
 div.id = 'timebar-plugin';
 document.body.appendChild(div);
@@ -44,7 +44,6 @@ for (let i = 0; i < 100; i++) {
 
 describe('timeline play with timebar', () => {
   it('trend timebar', () => {
-
     const timeBarData = [];
 
     for (let i = 1; i < 60; i++) {
@@ -56,7 +55,7 @@ describe('timeline play with timebar', () => {
       });
     }
 
-    const intervalData = []
+    const intervalData = [];
     for (let i = 0; i < 50; i++) {
       intervalData.push({
         date: i,
@@ -79,15 +78,15 @@ describe('timeline play with timebar', () => {
         // },
         lineStyle: {
           stroke: 'green',
-          lineWidth: 1
+          lineWidth: 1,
         },
         interval: {
-          data: intervalData.map(d => d.value),
+          data: intervalData.map((d) => d.value),
           style: {
             // stroke: '#ccc',
-            fill: '#ccc'
-          }
-        }
+            fill: '#ccc',
+          },
+        },
       },
       slider: {
         // height: 50,
@@ -109,9 +108,9 @@ describe('timeline play with timebar', () => {
         //     stroke: '#1890ff'
         //   }
         // }
-      }
+      },
       // loop: true
-    })
+    });
     const graph = new G6.Graph({
       container: div,
       width: 500,
@@ -137,7 +136,7 @@ describe('timeline play with timebar', () => {
     // graph.on('timelinechange', evt => {
     //   console.log('timeline', evt)
     // })
-  })
+  });
 
   it('simple timebar', () => {
     const data = {
@@ -145,10 +144,10 @@ describe('timeline play with timebar', () => {
         {
           id: 'node1',
           x: 100,
-          y: 100
-        }
-      ]
-    }
+          y: 100,
+        },
+      ],
+    };
     const timeBarData = [];
 
     for (let i = 1; i < 60; i++) {
@@ -159,7 +158,7 @@ describe('timeline play with timebar', () => {
         value: Math.round(Math.random() * 300),
       });
     }
-    const intervalData = []
+    const intervalData = [];
     for (let i = 0; i < 50; i++) {
       intervalData.push({
         date: i,
@@ -182,15 +181,15 @@ describe('timeline play with timebar', () => {
         // },
         lineStyle: {
           stroke: 'green',
-          lineWidth: 1
+          lineWidth: 1,
         },
         interval: {
-          data: intervalData.map(d => d.value),
+          data: intervalData.map((d) => d.value),
           style: {
             // stroke: '#ccc',
-            fill: '#ccc'
-          }
-        }
+            fill: '#ccc',
+          },
+        },
       },
       slider: {
         // height: 50,
@@ -212,9 +211,9 @@ describe('timeline play with timebar', () => {
         //     stroke: '#1890ff'
         //   }
         // }
-      }
+      },
       // loop: true
-    })
+    });
     const graph = new G6.Graph({
       container: div,
       width: 500,
@@ -240,7 +239,7 @@ describe('timeline play with timebar', () => {
     // graph.on('timelinechange', evt => {
     //   console.log('timeline', evt)
     // })
-  })
+  });
 
   it('simple timebar', () => {
     const data = {
@@ -248,10 +247,10 @@ describe('timeline play with timebar', () => {
         {
           id: 'node1',
           x: 100,
-          y: 100
-        }
-      ]
-    }
+          y: 100,
+        },
+      ],
+    };
     const timeBarData = [];
 
     for (let i = 1; i < 60; i++) {
@@ -263,7 +262,7 @@ describe('timeline play with timebar', () => {
       });
     }
 
-    const intervalData = []
+    const intervalData = [];
     for (let i = 0; i < 50; i++) {
       intervalData.push({
         date: i,
@@ -285,15 +284,15 @@ describe('timeline play with timebar', () => {
         // },
         lineStyle: {
           stroke: 'green',
-          lineWidth: 1
+          lineWidth: 1,
         },
         interval: {
-          data: intervalData.map(d => d.value),
+          data: intervalData.map((d) => d.value),
           style: {
             // stroke: '#ccc',
-            fill: '#ccc'
-          }
-        }
+            fill: '#ccc',
+          },
+        },
       },
       slider: {
         // height: 50,
@@ -315,9 +314,9 @@ describe('timeline play with timebar', () => {
         //     stroke: '#1890ff'
         //   }
         // }
-      }
+      },
       // loop: true
-    })
+    });
     const graph = new G6.Graph({
       container: div,
       width: 500,
@@ -343,7 +342,7 @@ describe('timeline play with timebar', () => {
     // graph.on('timelinechange', evt => {
     //   console.log('timeline', evt)
     // })
-  })
+  });
 
   it('slice timebar', () => {
     const data = {
@@ -351,10 +350,10 @@ describe('timeline play with timebar', () => {
         {
           id: 'node1',
           x: 100,
-          y: 100
-        }
-      ]
-    }
+          y: 100,
+        },
+      ],
+    };
     const timeBarData = [];
 
     for (let i = 1; i < 60; i++) {
@@ -378,8 +377,8 @@ describe('timeline play with timebar', () => {
         width: 500,
         height: 42,
         padding: 2,
-      }
-    })
+      },
+    });
     const graph = new G6.Graph({
       container: div,
       width: 500,
@@ -405,5 +404,5 @@ describe('timeline play with timebar', () => {
     // graph.on('timelinechange', evt => {
     //   console.log('timeline', evt)
     // })
-  })
-})
+  });
+});

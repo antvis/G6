@@ -12,8 +12,8 @@ const graph = new G6.Graph({
     preventOverlap: true,
   },
   modes: {
-    default: ['drag-canvas']
-  }
+    default: ['drag-canvas'],
+  },
 });
 
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')

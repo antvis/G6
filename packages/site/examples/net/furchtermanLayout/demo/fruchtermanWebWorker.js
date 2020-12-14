@@ -1,6 +1,5 @@
 import G6 from '@antv/g6';
 
-
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = (container.scrollHeight || 500) - 20;
@@ -42,7 +41,6 @@ if (typeof window !== 'undefined')
     if (!container || !container.scrollWidth || !container.scrollHeight) return;
     graph.changeSize(container.scrollWidth, container.scrollHeight - 20);
   };
-
 
 fetch('https://gw.alipayobjects.com/os/basement_prod/7bacd7d1-4119-4ac1-8be3-4c4b9bcbc25f.json')
   .then((res) => res.json())

@@ -33,8 +33,8 @@ const graph = new G6.Graph({
     color: '#5B8FF9',
   },
   modes: {
-    default: ['drag-canvas']
-  }
+    default: ['drag-canvas'],
+  },
 });
 
 const data = {

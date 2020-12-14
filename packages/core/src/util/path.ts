@@ -247,8 +247,8 @@ export function roundedHull(polyPoints: number[][], padding: number) {
 
 /**
  * 传入的节点作为多边形顶点，生成平滑的闭合多边形
- * @param polyPoints 
- * @param padding 
+ * @param polyPoints
+ * @param padding
  */
 export function paddedHull(polyPoints: number[][], padding: number) {
   const pointCount = polyPoints.length;

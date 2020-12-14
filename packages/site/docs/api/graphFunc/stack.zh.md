@@ -4,6 +4,7 @@ order: 13
 ---
 
 ## pushStack(action, data, stackType)
+
 入栈操作。
 
 实现 undo 功能，可参考[这里](https://github.com/antvis/G6/blob/master/src/plugins/toolBar/index.ts#L184)
@@ -12,11 +13,11 @@ order: 13
 
 **参数**
 
-| 名称   | 类型   | 是否必选 | 描述     |
-| ------ | ------ | -------- | -------- |
-| action | string | false     | 操作类型，默认值为 update |
-| data | unknown | false     | 入栈的数据 |
-| stackType | 'redo' | 'undo' | false     | 入栈类型，默认为 redo |
+| 名称      | 类型    | 是否必选 | 描述                      |
+| --------- | ------- | -------- | ------------------------- | --------------------- |
+| action    | string  | false    | 操作类型，默认值为 update |
+| data      | unknown | false    | 入栈的数据                |
+| stackType | 'redo'  | 'undo'   | false                     | 入栈类型，默认为 redo |
 
 ## getUndoStack()
 
@@ -27,6 +28,7 @@ order: 13
 获取 redo 栈。
 
 ## getStackData()
+
 获取栈中的数据。
 
 返回值类型为：
@@ -39,4 +41,5 @@ order: 13
 ```
 
 ## clearStack()
+
 清空栈中的数据。

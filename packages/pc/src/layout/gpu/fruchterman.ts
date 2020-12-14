@@ -249,7 +249,7 @@ export default class FruchtermanGPULayout extends BaseLayout {
         }
 
         kernelFruchterman.setBinding({
-          u_MaxDisplace: maxDisplace *= 0.99,
+          u_MaxDisplace: (maxDisplace *= 0.99),
         });
       }
 

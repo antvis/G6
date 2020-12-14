@@ -39,7 +39,7 @@ export default class Fisheye extends Base {
       minD: 0,
       scaleRBy: 'unset',
       scaleDBy: 'unset',
-      showDPercent: true
+      showDPercent: true,
     };
   }
 
@@ -85,12 +85,13 @@ export default class Fisheye extends Base {
       lensDelegate = self.get('delegate');
 
       // drag to move the lens
-      lensDelegate.on('dragstart', evt => {
-        self.set('delegateCenterDiff',
-          { x: lensDelegate.attr('x') - evt.x, y: lensDelegate.attr('y') - evt.y }
-        );
+      lensDelegate.on('dragstart', (evt) => {
+        self.set('delegateCenterDiff', {
+          x: lensDelegate.attr('x') - evt.x,
+          y: lensDelegate.attr('y') - evt.y,
+        });
       });
-      lensDelegate.on('drag', evt => {
+      lensDelegate.on('drag', (evt) => {
         self.magnify(evt);
       });
 
@@ -99,14 +100,14 @@ export default class Fisheye extends Base {
 
       // scaling d
       if (this.get('scaleDBy') === 'wheel') {
-        lensDelegate.on('mousewheel', evt => {
+        lensDelegate.on('mousewheel', (evt) => {
           this.scaleDByWheel(evt);
         });
       }
 
       // scaling r
       if (this.get('scaleRBy') === 'wheel') {
-        lensDelegate.on('mousewheel', evt => {
+        lensDelegate.on('mousewheel', (evt) => {
           self.scaleRByWheel(evt);
         });
       }
@@ -124,10 +125,12 @@ export default class Fisheye extends Base {
     const graph: Graph = self.get('graph');
     let ratio;
     const lensDelegate = self.get('delegate');
-    const lensCenter = lensDelegate ? {
-      x: lensDelegate.attr('x'),
-      y: lensDelegate.attr('y')
-    } : undefined;
+    const lensCenter = lensDelegate
+      ? {
+          x: lensDelegate.attr('x'),
+          y: lensDelegate.attr('y'),
+        }
+      : undefined;
     const mousePos = lensCenter || graph.getPointByClient(e.clientX, e.clientY);
     if ((e.originalEvent as any).wheelDelta < 0) {
       ratio = 1 - DELTA;
@@ -137,8 +140,10 @@ export default class Fisheye extends Base {
     const maxR = self.get('maxR');
     const minR = self.get('minR');
     let r = self.get('r');
-    if ((r > (maxR || graph.get('height')) && ratio > 1)
-      || (r < (minR || (graph.get('height') * 0.05)) && ratio < 1)) {
+    if (
+      (r > (maxR || graph.get('height')) && ratio > 1) ||
+      (r < (minR || graph.get('height') * 0.05) && ratio < 1)
+    ) {
       ratio = 1;
     }
     r *= ratio;
@@ -149,7 +154,6 @@ export default class Fisheye extends Base {
     self.set('delegateCenterDiff', undefined);
     self.magnify(e, mousePos);
   }
-
 
   /**
    * Scale the range by dragging
@@ -170,8 +174,10 @@ export default class Fisheye extends Base {
     const maxR = self.get('maxR');
     const minR = self.get('minR');
     let r = self.get('r');
-    if ((r > (maxR || graph.get('height')) && ratio > 1)
-      || (r < (minR || (graph.get('height') * 0.05)) && ratio < 1)) {
+    if (
+      (r > (maxR || graph.get('height')) && ratio > 1) ||
+      (r < (minR || graph.get('height') * 0.05) && ratio < 1)
+    ) {
       ratio = 1;
     }
     r *= ratio;
@@ -182,7 +188,6 @@ export default class Fisheye extends Base {
     self.magnify(e, mousePos);
     self.set('dragPrePos', { x: e.x, y: e.y });
   }
-
 
   /**
    * Scale the magnifying factor by wheel
@@ -207,10 +212,12 @@ export default class Fisheye extends Base {
       const r = self.get('r');
       self.set('molecularParam', (newD + 1) * r);
       const lensDelegate = self.get('delegate');
-      const lensCenter = lensDelegate ? {
-        x: lensDelegate.attr('x'),
-        y: lensDelegate.attr('y')
-      } : undefined;
+      const lensCenter = lensDelegate
+        ? {
+            x: lensDelegate.attr('x'),
+            y: lensDelegate.attr('y'),
+          }
+        : undefined;
       self.set('delegateCenterDiff', undefined);
       self.magnify(evt, lensCenter);
     }
@@ -255,7 +262,10 @@ export default class Fisheye extends Base {
     const nodes = graph.getNodes();
     const nodeLength = nodes.length;
     let mCenter = mousePos ? { x: mousePos.x, y: mousePos.y } : { x: e.x, y: e.y };
-    if (self.get('dragging') && (self.get('trigger') === 'mousemove' || self.get('trigger') === 'click')) {
+    if (
+      self.get('dragging') &&
+      (self.get('trigger') === 'mousemove' || self.get('trigger') === 'click')
+    ) {
       mCenter = self.get('cacheCenter');
     }
     const delegateCenterDiff = self.get('delegateCenterDiff');
@@ -273,7 +283,7 @@ export default class Fisheye extends Base {
       if (!isNaN(dist2) && dist2 < r2 && dist2 !== 0) {
         const dist = Math.sqrt(dist2);
         // (r * (d + 1) * (dist / r)) / (d * (dist / r) + 1);
-        const magnifiedDist = molecularParam * dist / (d * dist + r);
+        const magnifiedDist = (molecularParam * dist) / (d * dist + r);
         const cos = (x - mCenter.x) / dist;
         const sin = (y - mCenter.y) / dist;
         model.x = cos * magnifiedDist + mCenter.x;
@@ -326,7 +336,6 @@ export default class Fisheye extends Base {
     self.set('cachedMagnifiedModels', []);
     self.set('cachedOriginPositions', {});
   }
-
 
   /**
    * Adjust part of the parameters, including trigger, d, r, maxR, minR, maxD, minD, scaleRBy, and scaleDBy
@@ -405,49 +414,49 @@ export default class Fisheye extends Base {
           ...attrs,
         },
         name: 'lens-shape',
-        draggable: true
+        draggable: true,
       });
 
       if (this.get('trigger') !== 'drag') {
         // 调整范围 r 的监听
         if (this.get('scaleRBy') === 'wheel') {
           // 使用滚轮调整 r
-          lensDelegate.on('mousewheel', evt => {
+          lensDelegate.on('mousewheel', (evt) => {
             self.scaleRByWheel(evt);
           });
         } else if (this.get('scaleRBy') === 'drag') {
           // 使用拖拽调整 r
-          lensDelegate.on('dragstart', e => {
+          lensDelegate.on('dragstart', (e) => {
             self.set('dragging', true);
             self.set('cacheCenter', { x: e.x, y: e.y });
             self.set('dragPrePos', { x: e.x, y: e.y });
           });
-          lensDelegate.on('drag', evt => {
+          lensDelegate.on('drag', (evt) => {
             self.scaleRByDrag(evt);
           });
-          lensDelegate.on('dragend', e => {
-            self.set('dragging', false)
+          lensDelegate.on('dragend', (e) => {
+            self.set('dragging', false);
           });
         }
 
         // 调整缩放系数 d 的监听
         if (this.get('scaleDBy') === 'wheel') {
           // 使用滚轮调整 d
-          lensDelegate.on('mousewheel', evt => {
+          lensDelegate.on('mousewheel', (evt) => {
             this.scaleDByWheel(evt);
           });
         } else if (this.get('scaleDBy') === 'drag') {
           // 使用拖拽调整 d
-          lensDelegate.on('dragstart', evt => {
+          lensDelegate.on('dragstart', (evt) => {
             self.set('dragging', true);
             self.set('cacheCenter', { x: evt.x, y: evt.y });
             self.set('dragPrePos', { x: evt.x, y: evt.y });
           });
-          lensDelegate.on('drag', evt => {
+          lensDelegate.on('drag', (evt) => {
             this.scaleDByDrag(evt);
           });
-          lensDelegate.on('dragend', evt => {
-            self.set('dragging', false)
+          lensDelegate.on('dragend', (evt) => {
+            self.set('dragging', false);
           });
         }
       }
@@ -455,14 +464,15 @@ export default class Fisheye extends Base {
       lensDelegate.attr({
         x: mCenter.x,
         y: mCenter.y,
-        r: r / 1.5
+        r: r / 1.5,
       });
     }
 
-
     // 绘制缩放系数百分比文本
     if (self.get('showDPercent')) {
-      const percent = Math.round((self.get('d') - self.get('minD')) / (self.get('maxD') - self.get('minD')) * 100);
+      const percent = Math.round(
+        ((self.get('d') - self.get('minD')) / (self.get('maxD') - self.get('minD'))) * 100,
+      );
       let dPercentText = self.get('dPercentText');
       const textY = mCenter.y + r / 1.5 + 16;
       if (!dPercentText || dPercentText.destroyed) {
@@ -475,8 +485,8 @@ export default class Fisheye extends Base {
             fill: '#aaa',
             stroke: '#fff',
             lineWidth: 1,
-            fontSize: 12
-          }
+            fontSize: 12,
+          },
         });
         self.set('dPercentText', dPercentText);
       } else {

@@ -27,8 +27,8 @@ G6.registerEdge(
           // x and y should be minus width / 2 and height / 2 respectively to translate the center of the rect to the midPoint
           // x 和 y 分别减去 width / 2 与 height / 2，使矩形中心在 midPoint 上
           x: midPoint.x - 5,
-          y: midPoint.y - 5
-        }
+          y: midPoint.y - 5,
+        },
       });
 
       // get the coordinate of the quatile on the path
@@ -42,11 +42,11 @@ G6.registerEdge(
           r: 5,
           fill: quatileColor || '#333',
           x: quatile.x,
-          y: quatile.y
-        }
+          y: quatile.y,
+        },
       });
     },
-    update: undefined
+    update: undefined,
   },
   'cubic',
 );
@@ -95,10 +95,7 @@ const graph = new G6.Graph({
   // translate the graph to align the canvas's center, support by v3.5.1
   fitCenter: true,
   modes: {
-    default: [
-      'drag-node',
-      'drag-canvas',
-    ],
+    default: ['drag-node', 'drag-canvas'],
   },
   defaultEdge: {
     type: 'extra-shape-edge',

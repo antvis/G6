@@ -136,4 +136,3 @@ graph.changeData(data);
 // 若不指定该参数，则使用当前图上的数据重新渲染
 graph.changeData();
 ```
-

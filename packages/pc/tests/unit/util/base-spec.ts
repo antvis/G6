@@ -1,7 +1,10 @@
 import {
-  formatPadding, isViewportChanged,
-  processParallelEdges, cloneEvent,
-  isNaN, calculationItemsBBox
+  formatPadding,
+  isViewportChanged,
+  processParallelEdges,
+  cloneEvent,
+  isNaN,
+  calculationItemsBBox,
 } from '../../../src/util/base';
 import { IG6GraphEvent } from '../../../src/types';
 import { G6GraphEvent } from '../../../src/interface/behavior';
@@ -40,7 +43,10 @@ describe('base util', () => {
   });
 
   it('processParallelEdges', () => {
-    const edges: any = [{ source: 0, target: 1 }, { source: 0, target: 1 }]
+    const edges: any = [
+      { source: 0, target: 1 },
+      { source: 0, target: 1 },
+    ];
     processParallelEdges(edges);
     expect(edges[0].type).toEqual('quadratic');
     expect(edges[1].type).toEqual('quadratic');
@@ -66,8 +72,10 @@ describe('base util', () => {
 
   it('cloneEvent', () => {
     const event = new G6GraphEvent('click', {
-      clientX: Math.random(), clientY: Math.random(),
-      x: Math.random(), y: Math.random(),
+      clientX: Math.random(),
+      clientY: Math.random(),
+      x: Math.random(),
+      y: Math.random(),
       bubbles: false,
     } as IG6GraphEvent);
     const cEvent = cloneEvent(event);

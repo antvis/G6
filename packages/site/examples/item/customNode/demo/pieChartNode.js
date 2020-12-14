@@ -12,7 +12,7 @@ G6.registerNode(
           r: 100,
           fill: cfg.style.fill,
           stroke: cfg.style.stroke,
-          fillOpacity: 0
+          fillOpacity: 0,
         },
       });
 
@@ -23,7 +23,7 @@ G6.registerNode(
         width: 400,
         height: 200,
         x: -200,
-        y: -100
+        y: -100,
       });
 
       view.data(cfg.trendData);
@@ -103,16 +103,16 @@ const data = {
       id: 'node0',
       trendData: trendData1,
       x: 10,
-      y: 100
+      y: 100,
     },
     {
       id: 'node1',
       trendData: trendData2,
       x: 550,
-      y: 100
+      y: 100,
     },
   ],
-  edges: [{ source: 'node0', target: 'node1' }]
+  edges: [{ source: 'node0', target: 'node1' }],
 };
 
 const graph = new G6.Graph({
@@ -138,8 +138,8 @@ const graph = new G6.Graph({
   defaultEdge: {
     style: {
       lineWidth: 5,
-      stroke: '#666'
-    }
+      stroke: '#666',
+    },
   },
 });
 

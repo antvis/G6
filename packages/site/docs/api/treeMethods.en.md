@@ -14,7 +14,7 @@ Add sub tree to the parent node.
 **Parameters**
 
 | Name   | Type   | Required | Description          |
-| ------ | ------ | -------- | -------------------- |
+| ------ | ------ | -------- | -------------------- | ---------------------------------- |
 | data   | Object | true     | The data of subtree. |
 | parent | Node   | String   | true                 | The id or instance of parent node. |
 
@@ -45,7 +45,7 @@ Incrementally update the children data of the parent.
 **Parameters**
 
 | Name   | Type   | Required | Description           |
-| ------ | ------ | -------- | --------------------- |
+| ------ | ------ | -------- | --------------------- | ---------------------------------- |
 | data   | Object | true     | The data of subtreee. |
 | parent | Node   | String   | false                 | The id or instance of parent node. |
 

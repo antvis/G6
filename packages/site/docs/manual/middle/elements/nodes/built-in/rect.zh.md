@@ -49,7 +49,7 @@ const data = {
 rect 节点支持 [节点通用配置](/zh/docs/manual/middle/elements/nodes/defaultNode#节点的通用属性)，下表对部分属性进行解释。对于 Object 类型的配置项将在后面有详细讲解：
 
 | 名称 | 含义 | 类型 | 备注 |
-| --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | size | rect 的宽高 | Number | Array | `size` 为数组时：第一个值表示宽度，第二个表示高度；<br />`size` 为一个数值时：表示宽高相等 |
 | style | rect 默认样式 | Object | Canvas 支持的属性 |
 | label | 标签文本内容 | String |  |

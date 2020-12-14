@@ -15,9 +15,13 @@ export const mixColor = (backColor, frontColor, frontAlpha) => {
     (1 - frontAlpha) * bc.color[1] + frontAlpha * fc.color[1],
     (1 - frontAlpha) * bc.color[2] + frontAlpha * fc.color[2],
   ]).rgb();
-}
+};
 
-const getColorsWithDefaultTheme = (subjectColor, backColor = '#fff', disableColor = 'rgb(150, 150, 150)') => {
+const getColorsWithDefaultTheme = (
+  subjectColor,
+  backColor = '#fff',
+  disableColor = 'rgb(150, 150, 150)',
+) => {
   const subjectColor005 = mixColor(backColor, subjectColor, 0.05).rgb().toString();
   const subjectColor01 = mixColor(backColor, subjectColor, 0.1).rgb().toString();
   const subjectColor02 = mixColor(backColor, subjectColor, 0.2).rgb().toString();
@@ -29,7 +33,10 @@ const getColorsWithDefaultTheme = (subjectColor, backColor = '#fff', disableColo
   const disableColor02 = mixColor(backColor, disableColor, 0.2).rgb().toString();
   const disableColor03 = mixColor(backColor, disableColor, 0.3).rgb().toString();
 
-  const paletteFromSubject = generate(subjectColor, { theme: 'default', backgroundColor: backColor });
+  const paletteFromSubject = generate(subjectColor, {
+    theme: 'default',
+    backgroundColor: backColor,
+  });
   const subjectHex = color(subjectColor).hex().toLowerCase();
   const subjectIdx = paletteFromSubject.indexOf(subjectHex);
   let deeperSubject = subjectColor;
@@ -82,12 +89,10 @@ const getColorsWithDefaultTheme = (subjectColor, backColor = '#fff', disableColo
 
     comboDisableStroke: disableColor02,
     comboDisableFill: disableColor005,
-
-  }
-}
+  };
+};
 
 const getColorsWithDarkTheme = (subjectColor, backColor = '#fff', disableColor = '#777') => {
-
   const subjectColor02 = mixColor(backColor, subjectColor, 0.2).rgb().toString();
   const subjectColor03 = mixColor(backColor, subjectColor, 0.3).rgb().toString();
   const subjectColor06 = mixColor(backColor, subjectColor, 0.6).rgb().toString();
@@ -152,9 +157,8 @@ const getColorsWithDarkTheme = (subjectColor, backColor = '#fff', disableColor =
 
     comboDisableStroke: disableColor04,
     comboDisableFill: disableColor02,
-
-  }
-}
+  };
+};
 
 /**
  * get the set of colors according to the subject color and background color
@@ -162,15 +166,26 @@ const getColorsWithDarkTheme = (subjectColor, backColor = '#fff', disableColor =
  * @param backColor background color
  * @param disableColor the color for disable state
  */
-export const getColorsWithSubjectColor = (subjectColor, backColor = '#fff', theme: 'default' | 'dark' = 'default', disableColor = 'rgb(150, 150, 150)') => {
-  if (theme === 'default') return getColorsWithDefaultTheme(subjectColor, backColor, 'rgb(150, 150, 150)');
+export const getColorsWithSubjectColor = (
+  subjectColor,
+  backColor = '#fff',
+  theme: 'default' | 'dark' = 'default',
+  disableColor = 'rgb(150, 150, 150)',
+) => {
+  if (theme === 'default')
+    return getColorsWithDefaultTheme(subjectColor, backColor, 'rgb(150, 150, 150)');
   return getColorsWithDarkTheme(subjectColor, backColor, '#777');
-}
+};
 
-export const getColorSetsBySubjectColors = (subjectColors, backColor = '#fff', theme: 'default' | 'dark' = 'default', disableColor = 'rgb(150, 150, 150)') => {
+export const getColorSetsBySubjectColors = (
+  subjectColors,
+  backColor = '#fff',
+  theme: 'default' | 'dark' = 'default',
+  disableColor = 'rgb(150, 150, 150)',
+) => {
   const sets = [];
-  subjectColors.forEach(sColor => {
+  subjectColors.forEach((sColor) => {
     sets.push(getColorsWithSubjectColor(sColor, backColor, theme, disableColor));
   });
   return sets;
-}
+};

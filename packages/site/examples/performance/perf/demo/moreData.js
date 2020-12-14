@@ -63,8 +63,9 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/f1565312-d537-4231-adf5-81cb1cd3
     const graphData = graph.save();
     const nodeLen = graphData.nodes.length;
     const edgeLen = graphData.edges.length;
-    descriptionDiv.innerHTML = `节点数量：${nodeLen}, 边数量：${edgeLen}, 图元数量：${nodeLen + edgeLen
-      }`;
+    descriptionDiv.innerHTML = `节点数量：${nodeLen}, 边数量：${edgeLen}, 图元数量：${
+      nodeLen + edgeLen
+    }`;
   });
 
 if (typeof window !== 'undefined')

@@ -181,7 +181,7 @@ const nodeBasicMethod = {
       ipCPBox.on('mouseleave', () => {
         onMouseLeave();
       });
-      ipCPBox.on('click', () => { });
+      ipCPBox.on('click', () => {});
     }
   },
   setState: (name, value, item) => {
@@ -406,7 +406,6 @@ G6.registerNode('card-node', {
   afterDraw: nodeBasicMethod.afterDraw,
   setState: nodeBasicMethod.setState,
 });
-
 
 const container = document.getElementById('container');
 const width = container.scrollWidth;

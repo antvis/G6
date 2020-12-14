@@ -99,7 +99,7 @@ graph.on('node:click', (evt) => {
 });
 
 graph.on('canvas:click', (evt) => {
-  graph.getNodes().forEach(node => {
+  graph.getNodes().forEach((node) => {
     graph.clearItemStates(node);
   });
 });

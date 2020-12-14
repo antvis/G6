@@ -213,7 +213,7 @@ G6.registerEdge('polyline', {
     const controlPoint = {
       x:
         ((line1EndPoint.x - startPoint.x) * (endPoint.y - startPoint.y)) /
-        (line1EndPoint.y - startPoint.y) +
+          (line1EndPoint.y - startPoint.y) +
         startPoint.x,
       y: endPoint.y,
     };

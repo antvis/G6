@@ -195,7 +195,7 @@ G6.registerNode(
 
       return keyShape;
     },
-    update: undefined
+    update: undefined,
   },
   'rect',
 );
@@ -348,7 +348,6 @@ graph.on('node:click', (evt) => {
     }
   }
 });
-
 
 if (typeof window !== 'undefined')
   window.onresize = () => {

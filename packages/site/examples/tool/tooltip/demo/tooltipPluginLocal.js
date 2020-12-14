@@ -96,7 +96,7 @@ const tooltip = new G6.Tooltip({
     return outDiv;
   },
   shouldBegin: (e) => {
-    console.log(e.target)
+    console.log(e.target);
     let res = true;
     switch (e.item.getModel().id) {
       case '1':
@@ -115,7 +115,7 @@ const tooltip = new G6.Tooltip({
         break;
     }
     return res;
-  }
+  },
 });
 
 const container = document.getElementById('container');
@@ -138,17 +138,17 @@ const graph = new G6.Graph({
 graph.data(data);
 graph.render();
 
-graph.on('node:mouseenter', e => {
-  graph.setItemState(e.item, 'active', true)
+graph.on('node:mouseenter', (e) => {
+  graph.setItemState(e.item, 'active', true);
 });
-graph.on('node:mouseleave', e => {
-  graph.setItemState(e.item, 'active', false)
+graph.on('node:mouseleave', (e) => {
+  graph.setItemState(e.item, 'active', false);
 });
-graph.on('edge:mouseenter', e => {
-  graph.setItemState(e.item, 'active', true)
+graph.on('edge:mouseenter', (e) => {
+  graph.setItemState(e.item, 'active', true);
 });
-graph.on('edge:mouseleave', e => {
-  graph.setItemState(e.item, 'active', false)
+graph.on('edge:mouseleave', (e) => {
+  graph.setItemState(e.item, 'active', false);
 });
 
 if (typeof window !== 'undefined')

@@ -3,7 +3,6 @@ title: 查找元素
 order: 5
 ---
 
-
 ### graph.getNodes()
 
 获取图中所有节点的实例。
@@ -196,4 +195,3 @@ const nodes = graph.findAll('node', (node) => {
 // 查询所有选中的元素
 const nodes = graph.findAllByState('node', 'selected');
 ```
-

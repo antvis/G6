@@ -28,7 +28,7 @@ export default {
     style: {
       lineWidth: 1,
       stroke: colorSet.mainStroke,
-      fill: colorSet.mainFill
+      fill: colorSet.mainFill,
     },
     size: 20,
     color: colorSet.mainStroke,
@@ -37,7 +37,7 @@ export default {
       lineWidth: 1,
       fill: colorSet.activeFill,
       stroke: colorSet.activeStroke,
-    }
+    },
   },
   // 节点应用状态后的样式，默认仅提供 active、selected、highlight、inactive、disable，用户可以自己扩展
   nodeStateStyles: {
@@ -55,7 +55,7 @@ export default {
       shadowColor: colorSet.selectedStroke,
       shadowBlur: 10,
       'text-shape': {
-        fontWeight: 500
+        fontWeight: 500,
       },
     },
     highlight: {
@@ -63,8 +63,8 @@ export default {
       stroke: colorSet.highlightStroke,
       lineWidth: 2,
       'text-shape': {
-        fontWeight: 500
-      }
+        fontWeight: 500,
+      },
     },
     inactive: {
       fill: colorSet.inactiveFill,
@@ -106,15 +106,15 @@ export default {
       shadowColor: colorSet.edgeSelectedStroke,
       shadowBlur: 10,
       'text-shape': {
-        fontWeight: 500
+        fontWeight: 500,
       },
     },
     highlight: {
       stroke: colorSet.edgeHighlightStroke,
       lineWidth: 2,
       'text-shape': {
-        fontWeight: 500
-      }
+        fontWeight: 500,
+      },
     },
     inactive: {
       stroke: colorSet.edgeInactiveStroke,
@@ -163,7 +163,7 @@ export default {
       shadowColor: colorSet.comboSelectedStroke,
       shadowBlur: 10,
       'text-shape': {
-        fontWeight: 500
+        fontWeight: 500,
       },
     },
     highlight: {
@@ -171,8 +171,8 @@ export default {
       lineWidth: 2,
       fill: colorSet.comboHighlightFill,
       'text-shape': {
-        fontWeight: 500
-      }
+        fontWeight: 500,
+      },
     },
     inactive: {
       stroke: colorSet.comboInactiveStroke,
@@ -205,7 +205,7 @@ export default {
       fontSize: 14,
       fontFamily: 'Microsoft YaHei',
       fill: 'rgba(0, 0, 0, 0.1)',
-      baseline: 'Middle'
+      baseline: 'Middle',
     },
   },
   imageWaterMarkerConfig: {
@@ -217,8 +217,9 @@ export default {
       y: 0,
       width: 30,
       height: 20,
-      rotate: 0
-    }
+      rotate: 0,
+    },
   },
-  waterMarkerImage: 'https://gw.alipayobjects.com/os/s/prod/antv/assets/image/logo-with-text-73b8a.svg'
+  waterMarkerImage:
+    'https://gw.alipayobjects.com/os/s/prod/antv/assets/image/logo-with-text-73b8a.svg',
 };

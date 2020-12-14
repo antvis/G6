@@ -6,20 +6,20 @@ import { Canvas as GSVGCanvas } from '@antv/g-svg';
 import { ICanvas } from '@antv/g-base';
 import { createDom, modifyCSS } from '@antv/dom-util';
 import Base, { IPluginBaseConfig } from '../base';
-import TrendTimeBar, { SliderOption } from './trendTimeBar'
-import TimeBarSlice, { TimeBarSliceOption } from './timeBarSlice'
+import TrendTimeBar, { SliderOption } from './trendTimeBar';
+import TimeBarSlice, { TimeBarSliceOption } from './timeBarSlice';
 import { IGraph } from '../../interface/graph';
-import { VALUE_CHANGE } from './constant'
+import { VALUE_CHANGE } from './constant';
 import { GraphData, IG6GraphEvent, ShapeStyle, TimeBarType } from '../../types';
 import { Interval } from './trend';
 import { ControllerCfg } from './controllerBtn';
 import { isString } from '@antv/util';
 
 // simple 版本默认高度
-const DEFAULT_SIMPLE_HEIGHT = 8
+const DEFAULT_SIMPLE_HEIGHT = 8;
 
 // trend 版本默认高度
-const DEFAULT_TREND_HEIGHT = 26
+const DEFAULT_TREND_HEIGHT = 26;
 
 export interface Callback extends IG6GraphEvent {
   originValue: number[];
@@ -81,7 +81,7 @@ export default class TimeBar extends Base {
       trend: {
         data: [],
         isArea: false,
-        smooth: true
+        smooth: true,
       },
       controllerCfg: {
         speed: 2,
@@ -96,8 +96,8 @@ export default class TimeBar extends Base {
       tick: {
         start: 0.1,
         end: 0.9,
-        data: []
-      }
+        data: [],
+      },
     };
   }
 
@@ -106,7 +106,7 @@ export default class TimeBar extends Base {
    */
   public initContainer() {
     const graph: IGraph = this.get('graph');
-    const { width, height } = this._cfgs
+    const { width, height } = this._cfgs;
     const className: string = this.get('className') || 'g6-component-timebar';
 
     let container: HTMLDivElement | null | string = this.get('container');
@@ -147,30 +147,30 @@ export default class TimeBar extends Base {
   }
 
   public init() {
-    this.initContainer()
-    const canvas: ICanvas = this.get('canvas')
+    this.initContainer();
+    const canvas: ICanvas = this.get('canvas');
     const timeBarGroup = canvas.addGroup({
-      name: 'timebar-group'
-    })
+      name: 'timebar-group',
+    });
 
-    this.set('timeBarGroup', timeBarGroup)
+    this.set('timeBarGroup', timeBarGroup);
 
-    this.renderTrend()
-    this.initEvent()
+    this.renderTrend();
+    this.initEvent();
   }
 
   private renderTrend() {
-    const { width, x, y, padding, type, trend, slider, controllerCfg } = this._cfgs
-    const { data, ...other } = trend
+    const { width, x, y, padding, type, trend, slider, controllerCfg } = this._cfgs;
+    const { data, ...other } = trend;
 
-    const realWidth = width - 2 * padding
-    const defaultHeight = type === 'trend' ? DEFAULT_TREND_HEIGHT : DEFAULT_SIMPLE_HEIGHT
+    const realWidth = width - 2 * padding;
+    const defaultHeight = type === 'trend' ? DEFAULT_TREND_HEIGHT : DEFAULT_SIMPLE_HEIGHT;
 
-    const graph = this.get('graph')
-    const group = this.get('timeBarGroup')
-    const canvas = this.get('canvas')
+    const graph = this.get('graph');
+    const group = this.get('timeBarGroup');
+    const canvas = this.get('canvas');
 
-    let timebar = null
+    let timebar = null;
     if (type === 'trend' || type === 'simple') {
       timebar = new TrendTimeBar({
         graph,
@@ -184,18 +184,18 @@ export default class TimeBar extends Base {
         padding,
         trendCfg: {
           ...other,
-          data: data.map(d => d.value)
+          data: data.map((d) => d.value),
         },
         ...slider,
-        ticks: data.map(d => d.date),
+        ticks: data.map((d) => d.date),
         handlerStyle: {
           ...slider.handlerStyle,
-          height: slider.height || defaultHeight
+          height: slider.height || defaultHeight,
         },
-        controllerCfg
-      })
+        controllerCfg,
+      });
     } else if (type === 'tick') {
-      const { tick } = this._cfgs
+      const { tick } = this._cfgs;
       // 刻度时间轴
       timebar = new TimeBarSlice({
         graph,
@@ -203,27 +203,27 @@ export default class TimeBar extends Base {
         group,
         x: x + padding,
         y: y + padding,
-        ...tick
-      })
+        ...tick,
+      });
     }
 
-    this.set('timebar', timebar)
+    this.set('timebar', timebar);
   }
 
   private filterData(evt) {
     const { value } = evt;
 
-    let trendData = null
-    const type = this._cfgs.type
+    let trendData = null;
+    const type = this._cfgs.type;
     if (type === 'trend' || type === 'simple') {
-      trendData = this._cfgs.trend.data
+      trendData = this._cfgs.trend.data;
     } else if (type === 'tick') {
-      trendData = this._cfgs.tick.data
+      trendData = this._cfgs.tick.data;
     }
 
     if (!trendData || trendData.length === 0) {
-      console.warn('请配置 TimeBar 组件的数据')
-      return
+      console.warn('请配置 TimeBar 组件的数据');
+      return;
     }
 
     const rangeChange = this.get('rangeChange');
@@ -238,7 +238,7 @@ export default class TimeBar extends Base {
 
     if (type !== 'tick') {
       const timebar = this.get('timebar');
-      timebar.setText(minText, maxText)
+      timebar.setText(minText, maxText);
     }
 
     if (rangeChange) {
@@ -274,15 +274,15 @@ export default class TimeBar extends Base {
   }
 
   private initEvent() {
-    let start = 0
-    let end = 0
-    const type = this._cfgs.type
+    let start = 0;
+    let end = 0;
+    const type = this._cfgs.type;
     if (!type || type === 'trend' || type === 'simple') {
-      start = this._cfgs.slider.start
-      end = this._cfgs.slider.end
+      start = this._cfgs.slider.start;
+      end = this._cfgs.slider.end;
     } else if (type === 'tick') {
-      start = this._cfgs.tick.start
-      end = this._cfgs.tick.end
+      start = this._cfgs.tick.start;
+      end = this._cfgs.tick.end;
     }
 
     const graph: IGraph = this.get('graph');
@@ -298,9 +298,9 @@ export default class TimeBar extends Base {
   }
 
   public destroy() {
-    const timebar = this.get('timebar')
+    const timebar = this.get('timebar');
     if (timebar && timebar.destory) {
-      timebar.destory()
+      timebar.destory();
     }
 
     super.destroy();

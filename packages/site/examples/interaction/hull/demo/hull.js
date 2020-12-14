@@ -91,7 +91,7 @@ graph.render();
 let centerNodes = graph.getNodes().filter((node) => !node.getModel().isLeaf);
 
 graph.on('afterlayout', () => {
-  descriptionDiv.innerHTML = ''
+  descriptionDiv.innerHTML = '';
   const hull1 = graph.createHull({
     id: 'centerNode-hull',
     type: 'bubble',

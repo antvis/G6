@@ -5,7 +5,6 @@ tipDiv.innerHTML = 'Random Layout';
 const container = document.getElementById('container');
 container.appendChild(tipDiv);
 
-
 const width = container.scrollWidth;
 const height = (container.scrollHeight || 500) - 20;
 const graph = new G6.Graph({
@@ -18,26 +17,25 @@ const graph = new G6.Graph({
   modes: {
     default: ['drag-node'],
   },
-  animate: true
+  animate: true,
 });
 
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
   .then((res) => res.json())
   .then((data) => {
-
     graph.data(data);
     graph.render();
     setTimeout(() => {
       tipDiv.innerHTML = 'Circular Layout';
       graph.updateLayout({
         type: 'circular',
-        radius: 200
+        radius: 200,
       });
     }, 3000);
     setTimeout(() => {
       tipDiv.innerHTML = 'Grid Layout';
       graph.updateLayout({
-        type: 'grid'
+        type: 'grid',
       });
     }, 6000);
     setTimeout(() => {
@@ -53,14 +51,14 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       graph.updateLayout({
         type: 'radial',
         preventOverlap: true,
-        nodeSize: 15
+        nodeSize: 15,
       });
     }, 12000);
     setTimeout(() => {
       tipDiv.innerHTML = 'Concentric Layout';
       graph.updateLayout({
         type: 'concentric',
-        minNodeSpacing: 30
+        minNodeSpacing: 30,
       });
     }, 15000);
     setTimeout(() => {
@@ -71,7 +69,6 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
       });
     }, 18000);
   });
-
 
 if (typeof window !== 'undefined')
   window.onresize = () => {

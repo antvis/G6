@@ -9,7 +9,6 @@ container.appendChild(descriptionDiv);
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.json')
   .then((res) => res.json())
   .then((data) => {
-
     const container = document.getElementById('container');
     const width = container.scrollWidth;
     const height = (container.scrollHeight || 500) - 20;
@@ -104,7 +103,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
           minDisNode = inode;
         }
       });
-      console.log('minDis', minDis, minDisNode)
+      console.log('minDis', minDis, minDisNode);
       if (minDis < 2000) graph.setItemState(minDisNode, 'closest', true);
       else minDisNode = undefined;
     });
@@ -120,7 +119,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       // if the minDisNode is a descent of the dragged node, return
       let isDescent = false;
       const minDisNodeId = minDisNode.getID();
-      console.log('dragend', minDisNodeId, isDescent, data, id)
+      console.log('dragend', minDisNodeId, isDescent, data, id);
 
       G6.Util.traverseTree(data, (d) => {
         if (d.id === minDisNodeId) isDescent = true;

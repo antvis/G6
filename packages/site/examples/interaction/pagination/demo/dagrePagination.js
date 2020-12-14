@@ -167,14 +167,14 @@ const data = {
 const compare = (property) => {
   return (obj1, obj2) => {
     return obj1[property] - obj2[property];
-  }
-}
+  };
+};
 
 const curNodesToNewData = (levels, initPos) => {
   const resData = { nodes: [], edges: [] };
   curNewNodeIds = [];
   let newNodeMap = {};
-  levels.forEach(level => {
+  levels.forEach((level) => {
     if (level.curNodes) {
       for (let i = 0; i < level.nodes.length; i++) {
         const node = level.nodes[i];
@@ -193,21 +193,21 @@ const curNodesToNewData = (levels, initPos) => {
       resData.nodes = resData.nodes.concat(level.nodes);
     }
   });
-  resData.nodes.forEach(node => {
+  resData.nodes.forEach((node) => {
     newNodeMap[node.id] = node;
     if (Object.keys(nodeMap).length !== 0 && !nodeMap[node.id]) {
       curNewNodeIds.push(node.id);
     }
   });
 
-  data.edges.forEach(edge => {
+  data.edges.forEach((edge) => {
     if (newNodeMap[edge.source] && newNodeMap[edge.target]) {
       resData.edges.push(edge);
     }
   });
   nodeMap = newNodeMap;
   return resData;
-}
+};
 
 const container = document.getElementById('container');
 const tipDiv = document.createElement('div');
@@ -235,8 +235,8 @@ const graph = new G6.Graph({
     type: 'rect',
     size: [70, 30],
     style: {
-      radius: 10
-    }
+      radius: 10,
+    },
   },
   defaultEdge: {
     type: 'cubic-vertical',
@@ -255,31 +255,26 @@ const graph = new G6.Graph({
     },
   },
   modes: {
-    default: [
-      'drag-canvas',
-      'zoom-canvas',
-      'click-select',
-    ],
-  }
+    default: ['drag-canvas', 'zoom-canvas', 'click-select'],
+  },
 });
 graph.data(data);
 graph.render();
 
-
 // stash origin data
 const levelsMap = {};
 // group the nodes according to their y, which indicates the level
-data.nodes.forEach(node => {
+data.nodes.forEach((node) => {
   if (!levelsMap[node.y]) {
     levelsMap[node.y] = {
       y: node.y,
-      nodes: []
+      nodes: [],
     };
   }
   levelsMap[node.y].nodes.push(node);
 });
 const unsortedlevels = [];
-Object.keys(levelsMap).forEach(key => {
+Object.keys(levelsMap).forEach((key) => {
   unsortedlevels.push(levelsMap[key]);
 });
 // sort the levels according to the y.
@@ -298,16 +293,15 @@ levels.forEach((level, k) => {
       }
     });
   } else {
-    level.nodes.forEach(levelNode => {
+    level.nodes.forEach((levelNode) => {
       levelNode.levelIdx = k;
-    })
+    });
   }
 });
 
 graph.changeData(curNodesToNewData(levels));
 graph.fitView();
-graph.set('animate', true)
-
+graph.set('animate', true);
 
 if (typeof window !== 'undefined')
   window.onresize = () => {
@@ -315,7 +309,6 @@ if (typeof window !== 'undefined')
     if (!container || !container.scrollWidth || !container.scrollHeight) return;
     graph.changeSize(container.scrollWidth, container.scrollHeight - 50);
   };
-
 
 const iconMap = {};
 
@@ -340,10 +333,10 @@ const drawIcons = (nodeId) => {
         r: 5,
         fill: '#333',
         opacity: 0,
-        cursor: 'pointer'
+        cursor: 'pointer',
       },
       name: `pre-icon`,
-      levelIdx
+      levelIdx,
     });
     const nextIcon = graphicsGroup.addShape('marker', {
       attrs: {
@@ -353,38 +346,44 @@ const drawIcons = (nodeId) => {
         r: 5,
         fill: '#333',
         opacity: 0,
-        cursor: 'pointer'
+        cursor: 'pointer',
       },
       name: `next-icon`,
-      levelIdx
+      levelIdx,
     });
 
     if (level.curBeginIdx > 0) {
-      preIcon.animate({
-        opacity: 1
-      }, {
-        duration: 150,
-        repeat: false
-      })
+      preIcon.animate(
+        {
+          opacity: 1,
+        },
+        {
+          duration: 150,
+          repeat: false,
+        },
+      );
     }
     if (level.curEndIdx < level.nodes.length) {
-      nextIcon.animate({
-        opacity: 1
-      }, {
-        duration: 150,
-        repeat: false
-      })
+      nextIcon.animate(
+        {
+          opacity: 1,
+        },
+        {
+          duration: 150,
+          repeat: false,
+        },
+      );
     }
 
     iconMap[levelIdx] = {
       preIcon,
       nextIcon,
-      destroyed: false
+      destroyed: false,
     };
     return true;
   }
   return false;
-}
+};
 
 // update the icons
 const updateIcons = (levelIdx) => {
@@ -400,14 +399,14 @@ const updateIcons = (levelIdx) => {
   preIcon.attr({
     opacity: level.curBeginIdx <= 0 ? 0 : 1,
     x: prePos[0],
-    y: prePos[1]
+    y: prePos[1],
   });
   nextIcon.attr({
     opacity: level.curEndIdx >= level.nodes.length ? 0 : 1,
     x: nextPos[0],
-    y: nextPos[1]
+    y: nextPos[1],
   });
-}
+};
 
 // destroy the icons
 const destroyIcons = (levelIdx) => {
@@ -415,31 +414,37 @@ const destroyIcons = (levelIdx) => {
   const preIcon = iconMap[levelIdx].preIcon;
   const nextIcon = iconMap[levelIdx].nextIcon;
   if (preIcon && !preIcon.destroyed) {
-    preIcon.animate({
-      opacity: 0
-    }, {
-      duration: 150,
-      repeat: false
-    })
+    preIcon.animate(
+      {
+        opacity: 0,
+      },
+      {
+        duration: 150,
+        repeat: false,
+      },
+    );
     setTimeout(() => {
       preIcon.remove();
       preIcon.destroy();
     }, 150);
   }
   if (nextIcon && !nextIcon.destroyed) {
-    nextIcon.animate({
-      opacity: 0
-    }, {
-      duration: 150,
-      repeat: false
-    })
+    nextIcon.animate(
+      {
+        opacity: 0,
+      },
+      {
+        duration: 150,
+        repeat: false,
+      },
+    );
     setTimeout(() => {
       nextIcon.remove();
       nextIcon.destroy();
     }, 150);
   }
   iconMap[levelIdx].destroyed = true;
-}
+};
 
 // destroy the icons with delay
 const delayDestroyIcons = (levelIdx, delay = 2000) => {
@@ -450,23 +455,21 @@ const delayDestroyIcons = (levelIdx, delay = 2000) => {
   iconMap[levelIdx].timeouter = window.setTimeout(() => {
     destroyIcons(levelIdx);
   }, delay);
-}
-
+};
 
 // mouseenter the node to show the previous/next icons
-graph.on('node:mouseenter', e => {
+graph.on('node:mouseenter', (e) => {
   drawIcons(e.item.getID());
 });
 
 // mouseleave the node to destroy the icons
-graph.on('node:mouseleave', e => {
+graph.on('node:mouseleave', (e) => {
   const levelIdx = e.item.getModel().levelIdx;
   delayDestroyIcons(levelIdx, 2000);
 });
 
-
 // click the icon to changeData
-graph.on('click', e => {
+graph.on('click', (e) => {
   if (e.name === 'click') return;
   const marker = e.target;
   const targetName = marker.get('name');
@@ -488,19 +491,22 @@ graph.on('click', e => {
   const initPos = [marker.attr('x'), level.y];
 
   graph.changeData(curNodesToNewData(levels, initPos));
-  curNewNodeIds.forEach(newId => {
+  curNewNodeIds.forEach((newId) => {
     const newNode = graph.findById(newId);
     const nodeGroup = newNode.getContainer();
     nodeGroup.attr('opacity', 0);
-    nodeGroup.animate({
-      opacity: 1
-    }, 150);
-  })
+    nodeGroup.animate(
+      {
+        opacity: 1,
+      },
+      150,
+    );
+  });
 });
 
 // update the icon after changeData
-graph.on('afterlayout', e => {
-  Object.keys(iconMap).forEach(levelIdx => {
+graph.on('afterlayout', (e) => {
+  Object.keys(iconMap).forEach((levelIdx) => {
     if (!iconMap[levelIdx] || iconMap[levelIdx].destroyed) return;
     updateIcons(levelIdx);
   });

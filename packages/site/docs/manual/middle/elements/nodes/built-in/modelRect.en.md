@@ -55,7 +55,7 @@ const data = {
 The [Node Common Properties](/en/docs/manual/middle/elements/nodes/defaultNode/#common-property) are available for ModelRect node, some special properties are shown below. The property with Object type will be described after the table:
 
 | Name | Description | Type | Remark |
-| --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | size | The size of the modelRect node | Number | Array |  |
 | style | The default style of modelRect node | Object | Correspond to the styles in Canvas |
 | label | The text of the label | String |  |

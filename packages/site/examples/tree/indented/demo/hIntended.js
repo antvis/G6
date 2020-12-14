@@ -11,7 +11,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
       width,
       height,
       modes: {
-        default: ['drag-canvas']
+        default: ['drag-canvas'],
       },
       defaultNode: {
         size: 26,
@@ -52,8 +52,8 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
             node.children && node.children.length > 0
               ? 'left'
               : node.x > centerX
-                ? 'right'
-                : 'left',
+              ? 'right'
+              : 'left',
           offset: 5,
         },
       };

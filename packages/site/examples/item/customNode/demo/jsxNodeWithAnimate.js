@@ -51,34 +51,39 @@ G6.registerNode('rect-xml', {
     </group>
   `,
   afterDraw: (cfg, group) => {
-    console.log(group)
+    console.log(group);
     const img = group.findAllByName('img');
     if (img[0]) {
-      img[0].animate((ratio) => {
-        return {
-          opacity: Math.abs(0.5 - ratio),
-        };
-      }, {
-        duration: 3000,
-        repeat: true,
-      });
+      img[0].animate(
+        (ratio) => {
+          return {
+            opacity: Math.abs(0.5 - ratio),
+          };
+        },
+        {
+          duration: 3000,
+          repeat: true,
+        },
+      );
     }
-  }
-})
+  },
+});
 
 const data = {
-  nodes: [{
-    x: 150,
-    y: 150,
-    "description": "ant_type_name_...",
-    "label": "Type / ReferType",
-    "color": '#2196f3',
-    "meta": {
-      "creatorName": "a_creator"
+  nodes: [
+    {
+      x: 150,
+      y: 150,
+      description: 'ant_type_name_...',
+      label: 'Type / ReferType',
+      color: '#2196f3',
+      meta: {
+        creatorName: 'a_creator',
+      },
+      id: 'test',
+      type: 'rect-xml',
     },
-    "id": "test",
-    type: 'rect-xml'
-  }],
+  ],
 };
 
 const container = document.getElementById('container');

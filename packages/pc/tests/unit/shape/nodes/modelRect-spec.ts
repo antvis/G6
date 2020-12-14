@@ -406,30 +406,30 @@ describe('model rect test', () => {
       style: {
         radius: 5,
         stroke: '#1890FF',
-        fill: '#FFFFFF'
+        fill: '#FFFFFF',
       },
       label: '审批节点',
       labelCfg: {
         style: {
           fill: '#000',
-          fontSize: 14
+          fontSize: 14,
         },
-        offset: 30
+        offset: 30,
       },
       // 状态属性
       stateStyles: {
         hover: {
           stroke: '#BAE7FF',
           lineWidth: 8,
-          strokeOpacity: 0.6
-        }
+          strokeOpacity: 0.6,
+        },
       },
       // 左侧矩形边属性
       preRect: {
         show: true,
         width: 4,
         fill: '#1890FF',
-        radius: 2
+        radius: 2,
       },
       // 图标属性
       logoIcon: {
@@ -437,7 +437,7 @@ describe('model rect test', () => {
         // img: require('@/assets/nodeimg/audit.svg'),
         width: 16,
         height: 16,
-        offset: -5
+        offset: -5,
       },
       // 状态属性
       stateIcon: {
@@ -445,13 +445,17 @@ describe('model rect test', () => {
         // img: require('@/assets/nodeimg/audit.svg'),
         width: 16,
         height: 16,
-        offset: -5
-      }
-    }
+        offset: -5,
+      },
+    };
 
-    G6.registerNode('extendsRect', {
-      options: nodeConfig
-    }, 'modelRect')
+    G6.registerNode(
+      'extendsRect',
+      {
+        options: nodeConfig,
+      },
+      'modelRect',
+    );
     const data = {
       nodes: [
         {
@@ -459,20 +463,20 @@ describe('model rect test', () => {
           label: 'node',
           type: 'extendsRect',
           x: 100,
-          y: 100
-        }
-      ]
-    }
+          y: 100,
+        },
+      ],
+    };
 
-    graph.data(data)
-    graph.render()
-  })
+    graph.data(data);
+    graph.render();
+  });
 
   const graph = new Graph({
     container: div,
     width: 500,
-    height: 500
-  })
+    height: 500,
+  });
 
   describe('icon and linkPoint test', () => {
     it('icon and linkPoints(top bottom)', () => {

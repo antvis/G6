@@ -112,7 +112,7 @@ const graph = new G6.TreeGraph({
   width,
   height,
   modes: {
-    default: ['drag-canvas']
+    default: ['drag-canvas'],
   },
   defaultNode: {
     type: 'card-node',

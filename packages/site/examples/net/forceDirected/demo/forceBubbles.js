@@ -233,7 +233,6 @@ if (typeof window !== 'undefined')
     graph.changeSize(container.scrollWidth, container.scrollHeight - 20);
   };
 
-
 function scaleNodeProp(elements, propName, refPropName, dataRange, outRange) {
   const outLength = outRange[1] - outRange[0];
   const dataLength = dataRange[1] - dataRange[0];

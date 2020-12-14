@@ -14,15 +14,15 @@ const graph = new G6.Graph({
   height: 600,
   layout: {
     type: 'fruchterman',
-    center: [ 200, 200 ],     // 可选，默认为图的中心
-    gravity: 20,              // 可选
-    speed: 2,                 // 可选
-    clustering: true,         // 可选
-    clusterGravity: 30,       // 可选
-    maxIteration: 2000,       // 可选，迭代次数
-    workerEnabled: true,      // 可选，开启 web-worker
-    gpuEnabled: true          // 可选，开启 GPU 并行计算，G6 4.0 支持
-  }
+    center: [200, 200], // 可选，默认为图的中心
+    gravity: 20, // 可选
+    speed: 2, // 可选
+    clustering: true, // 可选
+    clusterGravity: 30, // 可选
+    maxIteration: 2000, // 可选，迭代次数
+    workerEnabled: true, // 可选，开启 web-worker
+    gpuEnabled: true, // 可选，开启 GPU 并行计算，G6 4.0 支持
+  },
 });
 ```
 
@@ -56,5 +56,4 @@ const graph = new G6.Graph({
 
 ## layoutCfg.gpuEnabled
 
-**类型**: Boolean<br />**默认值**: false<br />**是否必须**: false<br />**说明**: 是否启用 GPU 并行计算，G6 4.0 支持，性能提升概览：
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*4ogTQKrWhIkAAAAAAAAAAAAAARQnAQ' width='80%'/>
+**类型**: Boolean<br />**默认值**: false<br />**是否必须**: false<br />**说明**: 是否启用 GPU 并行计算，G6 4.0 支持，性能提升概览： <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*4ogTQKrWhIkAAAAAAAAAAAAAARQnAQ' width='80%'/>

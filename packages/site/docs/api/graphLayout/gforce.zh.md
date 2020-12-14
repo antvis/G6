@@ -58,7 +58,7 @@ const graph = new G6.Graph({
 
 ## layoutCfg.nodeSpacing
 
-**类型**: Number / Function<br />**默认值**: 0<br />**是否必须**: false  <br />**示例**: Example 1: 10 <br />Example 2:
+**类型**: Number / Function<br />**默认值**: 0<br />**是否必须**: false <br />**示例**: Example 1: 10 <br />Example 2:
 
 ```javascript
 (d) => {
@@ -98,14 +98,14 @@ const graph = new G6.Graph({
 
 ## layoutCfg.getCenter
 
-**类型**：Function<br />**默认值**：undefined<br />**是否必须**：false<br />**说明**：每个节点中心力的 x、y、强度的回调函数，若不指定，则没有额外中心力<br />**示例**: 
+**类型**：Function<br />**默认值**：undefined<br />**是否必须**：false<br />**说明**：每个节点中心力的 x、y、强度的回调函数，若不指定，则没有额外中心力<br />**示例**:
 
 ```javascript
 (d, degree) => {
   // d is a node, degree is the degree of the node
   if (d.clusterId === 'c1') return [100, 100, 10]; // x, y, strength
   if (degree === 0) return [250, 250, 15];
-  return [180, 180, 5];// x, y, strength
+  return [180, 180, 5]; // x, y, strength
 };
 ```
 
@@ -127,5 +127,4 @@ const graph = new G6.Graph({
 
 ## layoutCfg.gpuEnabled
 
-**类型**: Boolean<br />**默认值**: false<br />**是否必须**: false<br />**说明**: 是否启用 GPU 并行计算，G6 4.0 支持，性能提升概览：
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*4ogTQKrWhIkAAAAAAAAAAAAAARQnAQ' width='80%'/>
+**类型**: Boolean<br />**默认值**: false<br />**是否必须**: false<br />**说明**: 是否启用 GPU 并行计算，G6 4.0 支持，性能提升概览： <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*4ogTQKrWhIkAAAAAAAAAAAAAARQnAQ' width='80%'/>

@@ -750,9 +750,7 @@ describe('drag-node', () => {
           },
         },
       ],
-      combos: [
-        { id: 'combo1' }
-      ]
+      combos: [{ id: 'combo1' }],
     };
     graph.data(data);
     graph.render();

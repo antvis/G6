@@ -442,15 +442,15 @@ const graph = new G6.Graph({
     style: {
       endArrow: {
         path: 'M 0,0 L 8,4 L 8,-4 Z',
-        fill: '#e2e2e2'
+        fill: '#e2e2e2',
       },
     },
   },
   layout: {
     type: 'fruchterman',
     gpuEnabled: true,
-    maxIteration: 300
-  }
+    maxIteration: 300,
+  },
 });
 
 graph.data(data);

@@ -114,7 +114,6 @@ const graph = new G6.Graph({
 
 **Type**: Number<br />**Default**: 0.8<br />**Required**: false<br />**Description**: The force for the clustering foci
 
-
 ## layoutCfg.forceSimulation
 
 **Type**: Object<br />**Default**: null<br />**Required**: false<br />**Description**: Customed force simulation. If it is not assigned, the force simulation of d3.js will take effect

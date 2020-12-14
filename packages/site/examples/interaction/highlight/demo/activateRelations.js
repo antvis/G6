@@ -52,10 +52,7 @@ const graph = new G6.Graph({
   },
   plugins: [tooltip],
   modes: {
-    default: [
-      'drag-canvas',
-      'activate-relations',
-    ],
+    default: ['drag-canvas', 'activate-relations'],
   },
   defaultNode: {
     size: [10, 10],
@@ -71,7 +68,7 @@ const graph = new G6.Graph({
     style: {
       stroke: '#aaa',
       lineAppendWidth: 2,
-      opacity: 0.3
+      opacity: 0.3,
     },
   },
   /* styles for different states, there are built-in styles for states: active, inactive, selected, highlight, disable */

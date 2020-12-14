@@ -1,9 +1,11 @@
 # ChangeLog
 
 #### 4.0.3
+
 - fix: state style restore for non-circle shapes;
 
 #### 4.0.2
+
 - fix: node and edge state style with update problem;
 - fix: import lib problem;
 - fix: import node module problem;
@@ -12,18 +14,20 @@
 - fix: update edge with false endArrow and startArrow;
 
 #### 4.0.1
+
 - fix: glslang problem;
 
 #### 4.0.0-beta.0
+
 - feat: fruchterman and gforce layout with gpu;
 - feat: gforce;
 - feat: updateChildren API for TreeGraph;
 - feat: louvain clustering algorithm;
 - feat: container of plugins with dom id;
 - feat: label propagation clustering algorithm;
-- feat: get color sets by subject color array; 
+- feat: get color sets by subject color array;
 - feat: canvas context menu;
-- feat: stop gforce; 
+- feat: stop gforce;
 - feat: dark rules for colors;
 - fix: text redidual problem, closes: #2045 #2193;
 - fix: graph on callback parameter type problem, closes: #2250;
@@ -32,9 +36,11 @@
 - fix: drag-canvas and click node on mobile;
 
 #### 3.8.5
+
 - fix: get fontFamily of the window in global leads to DOM depending when using bigfish;
 
 #### 3.8.4
+
 - feat: new version of basic styles for light version;
 - feat: shortcuts-call behavior for calling a Graph function by shortcuts;
 - feat: color generate util function getColorsWithSubjectColor;
@@ -42,10 +48,12 @@
 - fix: style update problem with stateStyles in the options of registerNode;
 
 #### 3.8.3
+
 - feat: drag the viewport of the minimap out of the the view;
 - fix: extend modelRect with description problem, closes: #2235;
 
 #### 3.8.2
+
 - feat: graph.setImageWaterMarker, graph.setTextWaterMarker API;
 - feat: zoom-canvas support mobile;
 - fix: drag-canvas behavior support scalable range, closes: #2136;
@@ -63,6 +71,7 @@
 - fix: update the typings for G6Event;
 
 #### 3.8.1
+
 - fix: update edge states with updateItem problem, closes: #2142;
 - fix: create-edge behavior with polyline problem, closes: #2165;
 - fix: console.warn show duplicate ID, closes: #2163;

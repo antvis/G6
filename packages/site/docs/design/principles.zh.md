@@ -12,6 +12,7 @@ G6 作为 AntV 图可视化技术栈，在设计上依然遵循 AntV 的四条�
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0i8-Q7EBF7AAAAAAAAAAAAAAARQnAQ' width='90%'>
 
 ### 准确
+
 可视表达时不歪曲，不误导，不遗漏，精准如实反应数据的特征信息。
 
 例如：关系图的箭头指向必须清晰、明确，否则在大数据展示时容易辨识不清。在图形上，我们对三角形进行一定的裁剪，让其像指南针一样有明确的指向性，比较下面两图，左侧的箭头能清晰辨别指向性，而右侧的箭头在识别时会有些困惑。
@@ -19,6 +20,7 @@ G6 作为 AntV 图可视化技术栈，在设计上依然遵循 AntV 的四条�
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*fzlWS788IIgAAAAAAAAAAAAAARQnAQ' width='90%'>
 
 ### 清晰
+
 清晰包括两个层面，结构清晰 与 内容清晰。
 
 结构清晰：数据可视化呈现的是一幅作品，它是制作者分析思路的呈现，其布局决定阅读者的浏览顺序。清晰的平面布局能很好的帮助阅读者获取信息。下图展现的是同一组数据下不同布局的关系图，例如环状布局可用于突出数据结构中的环；辐射状布局是辐射状树布局的扩展，可突出关注点与其他节点的最短路径关系；格子布局可以让图看起来十分规整，利于探索。
@@ -32,11 +34,13 @@ G6 作为 AntV 图可视化技术栈，在设计上依然遵循 AntV 的四条�
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9YtyR6mMM_4AAAAAAAAAAAAAARQnAQ' width='90%'>
 
 ### 有效
+
 信息传达有重点，克制不冗余，避免信息过载，用最适量的数据-油墨比（Data-ink Ratio）表达对用户最有用的信息。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wwBqR4StRboAAAAAAAAAAAAAARQnAQ' width='90%'>
 
 ### 美
+
 美是一种克制，合理利用视觉元素进行映射，运用格式塔原理对数据进行分组，既能帮助用户更快的获取信息，也能在一定程度上建立一种秩序美、规律美。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ATzJQZzP8vYAAAAAAAAAAAAAARQnAQ' width='90%'>

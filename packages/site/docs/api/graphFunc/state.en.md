@@ -60,10 +60,10 @@ Raise the priority of the specified state to the highest priority.
 
 **Parameters**
 
-| Name | Type | Required | Description |
-| ------ | --------------------- | -------- | ---------------------------------------- |
-| item   | string / Object       | true     | The id or the instance of the item.         |
-| states | string | true    | state value |
+| Name   | Type            | Required | Description                         |
+| ------ | --------------- | -------- | ----------------------------------- |
+| item   | string / Object | true     | The id or the instance of the item. |
+| states | string          | true     | state value                         |
 
 **Usage**
 

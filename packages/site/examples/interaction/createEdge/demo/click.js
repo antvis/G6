@@ -8,8 +8,7 @@ const data = {
   ],
 };
 const descriptionDiv = document.createElement('div');
-descriptionDiv.innerHTML =
-  'Click the source and target node to create a new edge.';
+descriptionDiv.innerHTML = 'Click the source and target node to create a new edge.';
 const container = document.getElementById('container');
 container.appendChild(descriptionDiv);
 
@@ -27,21 +26,21 @@ const graph = new G6.Graph({
     type: 'quadratic',
     style: {
       stroke: '#F6BD16',
-      lineWidth: 2
+      lineWidth: 2,
     },
-  }
+  },
 });
 
 graph.data(data);
 graph.render();
 
-graph.on('aftercreateedge', e => {
+graph.on('aftercreateedge', (e) => {
   const edges = graph.save().edges;
   G6.Util.processParallelEdges(edges);
   graph.getEdges().forEach((edge, i) => {
-    graph.updateItem(edge, edges[i])
-  })
-})
+    graph.updateItem(edge, edges[i]);
+  });
+});
 
 if (typeof window !== 'undefined')
   window.onresize = () => {

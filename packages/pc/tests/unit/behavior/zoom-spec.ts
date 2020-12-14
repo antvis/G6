@@ -147,7 +147,7 @@ describe('zoom-canvas', () => {
     expect(matrix[7]).toEqual(10);
   });
 
-  it('zoom with optimize', done => {
+  it('zoom with optimize', (done) => {
     const graph = new Graph({
       container: div,
       width: 500,
@@ -228,9 +228,8 @@ describe('zoom-canvas', () => {
           expect(child.get('visible')).toBe(true);
         });
         graph.destroy();
-        done()
+        done();
       }, 550);
-
     }, 550);
   });
   it('zoom and fix items with fixAll', () => {
@@ -243,22 +242,23 @@ describe('zoom-canvas', () => {
           {
             type: 'zoom-canvas',
             fixSelectedItems: {
-              fixAll: true
+              fixAll: true,
             },
-          }, 'drag-node'
+          },
+          'drag-node',
         ],
       },
       defaultNode: { size: 100, style: { lineWidth: 0 } },
       nodeStateStyles: {
         selected: {
-          fill: '#f00'
-        }
+          fill: '#f00',
+        },
       },
       edgeStateStyles: {
         selected: {
-          stroke: '#f00'
-        }
-      }
+          stroke: '#f00',
+        },
+      },
     });
 
     const data = {
@@ -323,21 +323,22 @@ describe('zoom-canvas', () => {
             type: 'zoom-canvas',
             fixSelectedItems: {
               fixLabel: true,
-              fixLineWidth: true
+              fixLineWidth: true,
             },
-          }, 'drag-node'
+          },
+          'drag-node',
         ],
       },
       nodeStateStyles: {
         selected: {
-          fill: '#f00'
-        }
+          fill: '#f00',
+        },
       },
       edgeStateStyles: {
         selected: {
-          stroke: '#f00'
-        }
-      }
+          stroke: '#f00',
+        },
+      },
     });
 
     const data = {
@@ -369,7 +370,7 @@ describe('zoom-canvas', () => {
 
     const node = graph.getNodes()[1];
     const shapeGroup = node.getContainer();
-    let textShape = shapeGroup.find(e => e.get('name') === 'text-shape');
+    let textShape = shapeGroup.find((e) => e.get('name') === 'text-shape');
     let keyShape = node.getKeyShape();
     graph.setItemState(node, 'selected', true);
     const edge = graph.getEdges()[0];

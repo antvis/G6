@@ -2,7 +2,7 @@ import '../../../src/behavior';
 import '../../../src/shape';
 
 import Graph from '../../../src/graph/graph';
-import G6 from '../../../src'
+import G6 from '../../../src';
 
 const div = document.createElement('div');
 div.id = 'drag-spec';
@@ -35,8 +35,8 @@ describe('create-edge', () => {
       defaultEdge: {
         style: {
           stroke: '#f00',
-          lineWidth: 2
-        }
+          lineWidth: 2,
+        },
       },
     });
     graph.data(data);
@@ -77,8 +77,8 @@ describe('create-edge', () => {
         type: 'polyline',
         style: {
           stroke: '#f00',
-          lineWidth: 2
-        }
+          lineWidth: 2,
+        },
       },
     });
     graph.data(data);
@@ -113,10 +113,12 @@ describe('create-edge', () => {
       width: 500,
       height: 500,
       modes: {
-        default: [{
-          type: 'create-edge',
-          trigger: 'drag'
-        }],
+        default: [
+          {
+            type: 'create-edge',
+            trigger: 'drag',
+          },
+        ],
       },
     });
     graph.data(data);
@@ -145,10 +147,12 @@ describe('create-edge', () => {
       width: 500,
       height: 500,
       modes: {
-        default: [{
-          type: 'create-edge',
-          key: 'shift'
-        }],
+        default: [
+          {
+            type: 'create-edge',
+            key: 'shift',
+          },
+        ],
       },
     });
     graph.data(data);
@@ -191,43 +195,45 @@ describe('create-edge', () => {
       width: 500,
       height: 500,
       modes: {
-        default: [{
-          type: 'create-edge',
-          shouldBegin: e => {
-            if (e.target && e.target.get('name') === 'text-shape') {
-              return false;
-            }
-            return true;
+        default: [
+          {
+            type: 'create-edge',
+            shouldBegin: (e) => {
+              if (e.target && e.target.get('name') === 'text-shape') {
+                return false;
+              }
+              return true;
+            },
+            shouldEnd: (e) => {
+              if (e.target && e.target.get('name') === 'text-shape') {
+                return false;
+              }
+              return true;
+            },
           },
-          shouldEnd: e => {
-            if (e.target && e.target.get('name') === 'text-shape') {
-              return false;
-            }
-            return true;
-          }
-        }],
+        ],
       },
       defaultEdge: {
         style: {
           stroke: '#f00',
-          lineWidth: 2
-        }
+          lineWidth: 2,
+        },
       },
     });
-    graph.node(node => {
+    graph.node((node) => {
       return {
         label: node.id,
         labelCfg: {
-          position: 'bottom'
-        }
-      }
-    })
+          position: 'bottom',
+        },
+      };
+    });
     graph.data(data);
     graph.render();
     const node0 = graph.getNodes()[0];
-    const node0text = node0.getContainer().find(e => e.get('name') === 'text-shape')
+    const node0text = node0.getContainer().find((e) => e.get('name') === 'text-shape');
     const node1 = graph.getNodes()[1];
-    const node1text = node0.getContainer().find(e => e.get('name') === 'text-shape')
+    const node1text = node0.getContainer().find((e) => e.get('name') === 'text-shape');
 
     // shouldBegin returns true
     graph.emit('node:click', { x: 100, y: 100, item: node0, target: node0.getKeyShape() });
@@ -255,7 +261,7 @@ describe('create-edge', () => {
     graph.destroy();
   });
   it('create edge width stack', () => {
-    const toolbar = new G6.ToolBar()
+    const toolbar = new G6.ToolBar();
     const graph: Graph = new Graph({
       container: div,
       width: 500,
@@ -268,8 +274,8 @@ describe('create-edge', () => {
       defaultEdge: {
         style: {
           stroke: '#f00',
-          lineWidth: 2
-        }
+          lineWidth: 2,
+        },
       },
     });
     graph.data(data);
@@ -281,10 +287,10 @@ describe('create-edge', () => {
     expect(graph.getEdges().length).toEqual(1);
     const edge = graph.getEdges()[0];
 
-    let stackData = graph.getStackData()
-    const { undoStack, redoStack } = stackData
-    expect(undoStack.length).toBe(1)
-    expect(redoStack.length).toBe(0)
+    let stackData = graph.getStackData();
+    const { undoStack, redoStack } = stackData;
+    expect(undoStack.length).toBe(1);
+    expect(redoStack.length).toBe(0);
 
     // cancel
     graph.emit('edge:click', { x: 100, y: 100, item: edge });
@@ -294,16 +300,16 @@ describe('create-edge', () => {
     graph.emit('node:click', { x: 100, y: 100, item: node0 });
     graph.emit('node:click', { x: 120, y: 120, item: node1 });
     expect(graph.getEdges().length).toEqual(1);
-    stackData = graph.getStackData()
-    expect(stackData.undoStack.length).toBe(2)
-    expect(stackData.redoStack.length).toBe(0)
+    stackData = graph.getStackData();
+    expect(stackData.undoStack.length).toBe(2);
+    expect(stackData.redoStack.length).toBe(0);
 
     // loop
     graph.emit('node:click', { x: 100, y: 100, item: node0 });
     graph.emit('node:click', { x: 100, y: 100, item: node0 });
-    stackData = graph.getStackData()
-    expect(stackData.undoStack.length).toBe(3)
-    expect(stackData.redoStack.length).toBe(0)
+    stackData = graph.getStackData();
+    expect(stackData.undoStack.length).toBe(3);
+    expect(stackData.redoStack.length).toBe(0);
     expect(graph.getEdges().length).toEqual(2);
     const loop = graph.getEdges()[1];
     expect(loop.getModel().source).toEqual(loop.getModel().target);
@@ -316,21 +322,23 @@ describe('create-edge', () => {
       height: 500,
       enabledStack: true,
       modes: {
-        default: [{
-          type: 'create-edge',
-          edgeConfig: {
-            type: 'cubic',
-            style: {
-              stroke: '#f00'
-            }
-          }
-        }],
+        default: [
+          {
+            type: 'create-edge',
+            edgeConfig: {
+              type: 'cubic',
+              style: {
+                stroke: '#f00',
+              },
+            },
+          },
+        ],
       },
       defaultEdge: {
         style: {
           stroke: '#0f0',
-          lineWidth: 5
-        }
+          lineWidth: 5,
+        },
       },
     });
     graph.data(data);
@@ -340,8 +348,8 @@ describe('create-edge', () => {
 
     graph.addItem('edge', {
       source: '0',
-      target: '1'
-    })
+      target: '1',
+    });
 
     graph.emit('node:click', { x: 100, y: 100, item: node0 });
     graph.emit('mousemove', { x: 110, y: 110 });
@@ -375,11 +383,11 @@ describe('create-edge', () => {
       height: 500,
       modes: {
         default: ['create-edge'],
-      }
+      },
     });
     graph.data(data);
     graph.render();
-    graph.on('node:click', e => {
+    graph.on('node:click', (e) => {
       graph.removeItem('0');
     });
     expect(graph.getEdges().length).toEqual(0);
@@ -393,35 +401,39 @@ describe('create-edge', () => {
           id: '0',
           x: 50,
           y: 50,
-          comboId: 'combo0'
+          comboId: 'combo0',
         },
         {
           id: '1',
           x: 150,
           y: 150,
-          comboId: 'combo1'
+          comboId: 'combo1',
         },
       ],
       combos: [
         {
-          id: "combo0"
+          id: 'combo0',
         },
         {
-          id: "combo1"
-        }
-      ]
-    }
+          id: 'combo1',
+        },
+      ],
+    };
     const graph: Graph = new Graph({
       container: div,
       width: 500,
       height: 500,
       modes: {
-        default: ['drag-node', 'drag-combo', {
-          type: 'create-edge',
-          trigger: 'click'
-        }],
+        default: [
+          'drag-node',
+          'drag-combo',
+          {
+            type: 'create-edge',
+            trigger: 'click',
+          },
+        ],
       },
-      groupByTypes: false
+      groupByTypes: false,
     });
     graph.data(dataWithCombos);
     graph.render();
@@ -454,7 +466,6 @@ describe('create-edge', () => {
     graph.emit('node:click', { x: 100, y: 100, item: node0 });
     graph.emit('node:click', { x: 120, y: 120, item: combo0 });
     expect(graph.getEdges().length).toEqual(2);
-
 
     // start from a combo, end on a combo
     graph.emit('node:click', { x: 100, y: 100, item: combo0 });

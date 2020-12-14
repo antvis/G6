@@ -1,7 +1,6 @@
 import G6 from '@antv/g6';
 import insertCss from 'insert-css';
 
-
 insertCss(`
   .g6-component-tooltip {
     background-color: rgba(0,0,0, 0.65);
@@ -13,7 +12,6 @@ insertCss(`
   }
 `);
 
-
 // mocked data
 const mockData = {
   id: 'g1',
@@ -21,7 +19,7 @@ const mockData = {
   count: 123456,
   label: '538.90',
   currency: 'Yuan',
-  rate: 1.00,
+  rate: 1.0,
   status: 'B',
   variableName: 'V1',
   variableValue: 0.341,
@@ -57,7 +55,7 @@ const mockData = {
               name: 'Name4',
               count: 123456,
               label: '138.00',
-              rate: 1.000,
+              rate: 1.0,
               status: 'B',
               currency: 'Yuan',
               variableName: 'V1',
@@ -85,7 +83,7 @@ const mockData = {
               name: 'Name6',
               count: 123456,
               label: '40.00',
-              rate: 0.400,
+              rate: 0.4,
               status: 'G',
               currency: 'Yuan',
               variableName: 'V1',
@@ -97,7 +95,7 @@ const mockData = {
                   name: 'Name6-1',
                   count: 123456,
                   label: '40.00',
-                  rate: 1.000,
+                  rate: 1.0,
                   status: 'R',
                   currency: 'Yuan',
                   variableName: 'V1',
@@ -112,7 +110,7 @@ const mockData = {
               name: 'Name7',
               count: 123456,
               label: '60.00',
-              rate: 0.600,
+              rate: 0.6,
               status: 'G',
               currency: 'Yuan',
               variableName: 'V1',
@@ -140,7 +138,7 @@ const mockData = {
               name: 'Name8-1',
               count: 123456,
               label: '100.00',
-              rate: 1.000,
+              rate: 1.0,
               status: 'DI',
               currency: 'Yuan',
               variableName: 'V2',
@@ -173,7 +171,7 @@ const mockData = {
           status: 'R',
           currency: 'Yuan',
           variableName: 'V1',
-          variableValue: 0.120,
+          variableValue: 0.12,
           variableUp: true,
           children: [],
         },
@@ -213,8 +211,8 @@ const colors = {
   R: '#F46649',
   Y: '#EEBC20',
   G: '#5BD8A6',
-  DI: '#A7A7A7'
-}
+  DI: '#A7A7A7',
+};
 
 //  组件props
 const props = {
@@ -241,7 +239,7 @@ const defaultConfig = {
   fitView: true,
   animate: true,
   defaultNode: {
-    type: 'flow-rect'
+    type: 'flow-rect',
   },
   defaultEdge: {
     type: 'cubic-horizontal',
@@ -257,7 +255,7 @@ const defaultConfig = {
     getHeight: () => {
       return 60;
     },
-  }
+  },
 };
 
 // 自定义节点、边
@@ -270,7 +268,17 @@ const registerFn = () => {
     {
       shapeType: 'flow-rect',
       draw(cfg, group) {
-        const { name = '', variableName, variableValue, variableUp, label, collapsed, currency, status, rate } = cfg;
+        const {
+          name = '',
+          variableName,
+          variableValue,
+          variableUp,
+          label,
+          collapsed,
+          currency,
+          status,
+          rate,
+        } = cfg;
         const grey = '#CED4D9';
         // 逻辑不应该在这里判断
         const rectConfig = {
@@ -287,7 +295,7 @@ const registerFn = () => {
         const nodeOrigin = {
           x: -rectConfig.width / 2,
           y: -rectConfig.height / 2,
-        }
+        };
 
         const textConfig = {
           textAlign: 'left',
@@ -314,9 +322,9 @@ const registerFn = () => {
             fontSize: 12,
             opacity: 0.85,
             fill: '#000',
-            cursor: 'pointer'
+            cursor: 'pointer',
           },
-          name: 'name-shape'
+          name: 'name-shape',
         });
 
         // price
@@ -419,10 +427,10 @@ const registerFn = () => {
               height: 16,
               stroke: 'rgba(0, 0, 0, 0.25)',
               cursor: 'pointer',
-              fill: '#fff'
+              fill: '#fff',
             },
             name: 'collapse-back',
-            modelId: cfg.id
+            modelId: cfg.id,
           });
 
           // collpase text
@@ -438,7 +446,7 @@ const registerFn = () => {
               fill: 'rgba(0, 0, 0, 0.25)',
             },
             name: 'collapse-text',
-            modelId: cfg.id
+            modelId: cfg.id,
           });
         }
 
@@ -452,7 +460,7 @@ const registerFn = () => {
       setState(name, value, item) {
         if (name === 'collapse') {
           const group = item.getContainer();
-          const collapseText = group.find(e => e.get('name') === 'collapse-text');
+          const collapseText = group.find((e) => e.get('name') === 'collapse-text');
           if (collapseText) {
             if (!value) {
               collapseText.attr({
@@ -552,13 +560,13 @@ const initGraph = (data) => {
     shouldBegin: (e) => {
       if (e.target.get('name') === 'name-shape') return true;
       return false;
-    }
+    },
   });
   graph = new G6.TreeGraph({
     container: 'container',
     ...defaultConfig,
     ...config,
-    plugins: [tooltip]
+    plugins: [tooltip],
   });
   if (typeof onInit === 'function') {
     onInit(graph);
@@ -573,15 +581,15 @@ const initGraph = (data) => {
     const item = graph.findById(id);
     const nodeModel = item.getModel();
     nodeModel.collapsed = !nodeModel.collapsed;
-    graph.layout()
-    graph.setItemState(item, 'collapse', nodeModel.collapsed)
+    graph.layout();
+    graph.setItemState(item, 'collapse', nodeModel.collapsed);
   };
-  graph.on('collapse-text:click', e => {
-    handleCollapse(e)
-  })
-  graph.on('collapse-back:click', e => {
-    handleCollapse(e)
-  })
+  graph.on('collapse-text:click', (e) => {
+    handleCollapse(e);
+  });
+  graph.on('collapse-back:click', (e) => {
+    handleCollapse(e);
+  });
 };
 
 initGraph(data);
@@ -592,4 +600,3 @@ if (typeof window !== 'undefined')
     if (!container || !container.scrollWidth || !container.scrollHeight) return;
     graph.changeSize(container.scrollWidth, container.scrollHeight);
   };
-

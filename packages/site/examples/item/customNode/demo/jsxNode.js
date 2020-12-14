@@ -6,7 +6,8 @@ import G6 from '@antv/g6';
  *
  */
 
-G6.registerNode('rect-jsx',
+G6.registerNode(
+  'rect-jsx',
   (cfg) => `
     <group>
       <rect>
@@ -45,36 +46,37 @@ G6.registerNode('rect-jsx',
       }} name="circle">
         <image style={{ img: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png', width: 12, height: 12,  marginLeft: 70,  marginTop: -5 }} />
       </circle>
-    </group>`
-)
+    </group>`,
+);
 
 const data = {
-  nodes: [{
-    x: 150,
-    y: 150,
-    description: "ant_type_name_...",
-    label: "Type / ReferType",
-    color: '#2196f3',
-    meta: {
-      creatorName: "a_creator"
+  nodes: [
+    {
+      x: 150,
+      y: 150,
+      description: 'ant_type_name_...',
+      label: 'Type / ReferType',
+      color: '#2196f3',
+      meta: {
+        creatorName: 'a_creator',
+      },
+      id: 'node1',
+      type: 'rect-jsx',
     },
-    id: "node1",
-    type: 'rect-jsx'
-  }, {
-    x: 350,
-    y: 150,
-    description: "node2_name...",
-    label: "JSX Node",
-    color: '#2196f3',
-    meta: {
-      creatorName: "a_creator"
+    {
+      x: 350,
+      y: 150,
+      description: 'node2_name...',
+      label: 'JSX Node',
+      color: '#2196f3',
+      meta: {
+        creatorName: 'a_creator',
+      },
+      id: 'node2',
+      type: 'rect-jsx',
     },
-    id: 'node2',
-    type: 'rect-jsx'
-  }],
-  edges: [
-    { source: 'node1', target: 'node2' }
-  ]
+  ],
+  edges: [{ source: 'node1', target: 'node2' }],
 };
 
 const container = document.getElementById('container');
@@ -87,8 +89,8 @@ const graph = new G6.Graph({
   // translate the graph to align the canvas's center, support by v3.5.1
   fitCenter: true,
   modes: {
-    default: ['drag-node', 'zoom-canvas']
-  }
+    default: ['drag-node', 'zoom-canvas'],
+  },
 });
 
 graph.data(data);

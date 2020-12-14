@@ -20,29 +20,31 @@ const graph = new G6.Graph({
   width,
   height,
   modes: {
-    default: [{
-      type: 'create-edge',
-      key: 'shift' // undefined by default, options: 'shift', 'control', 'ctrl', 'meta', 'alt'
-    }],
+    default: [
+      {
+        type: 'create-edge',
+        key: 'shift', // undefined by default, options: 'shift', 'control', 'ctrl', 'meta', 'alt'
+      },
+    ],
   },
   defaultEdge: {
     style: {
       stroke: '#F6BD16',
-      lineWidth: 2
+      lineWidth: 2,
     },
   },
-  linkCenter: true
+  linkCenter: true,
 });
 
 graph.data(data);
 graph.render();
 
-graph.on('aftercreateedge', e => {
+graph.on('aftercreateedge', (e) => {
   const edges = graph.save().edges;
   G6.Util.processParallelEdges(edges);
   graph.getEdges().forEach((edge, i) => {
-    graph.updateItem(edge, edges[i])
-  })
+    graph.updateItem(edge, edges[i]);
+  });
 });
 
 if (typeof window !== 'undefined')

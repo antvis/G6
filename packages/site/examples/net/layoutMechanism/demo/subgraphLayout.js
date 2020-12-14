@@ -425,14 +425,12 @@ const graph = new G6.Graph({
 graph.data(data);
 graph.render();
 
-
 if (typeof window !== 'undefined')
   window.onresize = () => {
     if (!graph || graph.get('destroyed')) return;
     if (!container || !container.scrollWidth || !container.scrollHeight) return;
     graph.changeSize(container.scrollWidth, container.scrollHeight - 20);
   };
-
 
 setTimeout(function () {
   const nodes = data.nodes;

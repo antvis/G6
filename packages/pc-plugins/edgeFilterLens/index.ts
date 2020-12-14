@@ -33,7 +33,7 @@ export default class EdgeFilterLens extends Base {
       r: 60,
       delegateStyle: clone(lensDelegateStyle),
       showLabel: 'edge',
-      scaleRBy: 'wheel'
+      scaleRBy: 'wheel',
     };
   }
 
@@ -80,10 +80,8 @@ export default class EdgeFilterLens extends Base {
       lensDelegate = self.get('delegate');
 
       // drag to move the lens
-      lensDelegate.on('dragstart', evt => {
-
-      });
-      lensDelegate.on('drag', evt => {
+      lensDelegate.on('dragstart', (evt) => {});
+      lensDelegate.on('drag', (evt) => {
         self.filter(evt);
       });
 
@@ -92,7 +90,7 @@ export default class EdgeFilterLens extends Base {
 
       // scaling r
       if (this.get('scaleRBy') === 'wheel') {
-        lensDelegate.on('mousewheel', evt => {
+        lensDelegate.on('mousewheel', (evt) => {
           self.scaleRByWheel(evt);
         });
       }
@@ -110,10 +108,12 @@ export default class EdgeFilterLens extends Base {
     const graph: Graph = self.get('graph');
     let ratio;
     const lensDelegate = self.get('delegate');
-    const lensCenter = lensDelegate ? {
-      x: lensDelegate.attr('x'),
-      y: lensDelegate.attr('y')
-    } : undefined;
+    const lensCenter = lensDelegate
+      ? {
+          x: lensDelegate.attr('x'),
+          y: lensDelegate.attr('y'),
+        }
+      : undefined;
     const mousePos = lensCenter || graph.getPointByClient(e.clientX, e.clientY);
     if ((e.originalEvent as any).wheelDelta < 0) {
       ratio = 1 - DELTA;
@@ -123,8 +123,10 @@ export default class EdgeFilterLens extends Base {
     const maxR = self.get('maxR');
     const minR = self.get('minR');
     let r = self.get('r');
-    if ((r > (maxR || graph.get('height')) && ratio > 1)
-      || (r < (minR || (graph.get('height') * 0.05)) && ratio < 1)) {
+    if (
+      (r > (maxR || graph.get('height')) && ratio > 1) ||
+      (r < (minR || graph.get('height') * 0.05) && ratio < 1)
+    ) {
       ratio = 1;
     }
     r *= ratio;
@@ -149,14 +151,14 @@ export default class EdgeFilterLens extends Base {
 
     let vShapes = self.get('vShapes');
     if (vShapes) {
-      vShapes.forEach(shape => {
+      vShapes.forEach((shape) => {
         shape.remove();
         shape.destroy();
       });
     }
     vShapes = [];
 
-    nodes.forEach(node => {
+    nodes.forEach((node) => {
       const model = node.getModel();
       const { x, y } = model;
       if (distance({ x, y }, fCenter) < r) {
@@ -165,14 +167,14 @@ export default class EdgeFilterLens extends Base {
     });
     const edges = graph.getEdges();
     const hitEdges = [];
-    edges.forEach(edge => {
+    edges.forEach((edge) => {
       const model = edge.getModel();
       const sourceId = model.source;
       const targetId = model.target;
       if (shouldShow(model)) {
-        if ((type === 'only-source' || type === 'one')) {
+        if (type === 'only-source' || type === 'one') {
           if (hitNodesMap[sourceId] && !hitNodesMap[targetId]) hitEdges.push(edge);
-        } else if ((type === 'only-target' || type === 'one')) {
+        } else if (type === 'only-target' || type === 'one') {
           if (hitNodesMap[targetId] && !hitNodesMap[sourceId]) hitEdges.push(edge);
         } else if (type === 'both' && hitNodesMap[sourceId] && hitNodesMap[targetId]) {
           hitEdges.push(edge);
@@ -185,21 +187,21 @@ export default class EdgeFilterLens extends Base {
 
     // copy the shapes in hitEdges
     const group = graph.get('group');
-    hitEdges.forEach(edge => {
+    hitEdges.forEach((edge) => {
       const shapes = edge.get('group').get('children');
-      shapes.forEach(shape => {
+      shapes.forEach((shape) => {
         const shapeType = shape.get('type');
         const vShape = group.addShape(shapeType, {
-          attrs: shape.attr()
+          attrs: shape.attr(),
         });
         vShapes.push(vShape);
         if (showNodeLabel && shapeType === 'text') {
           vShape.set('visible', true);
         }
-      })
-    })
+      });
+    });
     // copy the shape sof hitNodes
-    Object.keys(hitNodesMap).forEach(key => {
+    Object.keys(hitNodesMap).forEach((key) => {
       const node = hitNodesMap[key];
       const clonedGroup = node.get('group').clone();
       group.add(clonedGroup);
@@ -281,14 +283,14 @@ export default class EdgeFilterLens extends Base {
           ...attrs,
         },
         name: 'lens-shape',
-        draggable: true
+        draggable: true,
       });
 
       if (this.get('trigger') !== 'drag') {
         // 调整范围 r 的监听
         if (this.get('scaleRBy') === 'wheel') {
           // 使用滚轮调整 r
-          lensDelegate.on('mousewheel', evt => {
+          lensDelegate.on('mousewheel', (evt) => {
             self.scaleRByWheel(evt);
           });
         }
@@ -297,7 +299,7 @@ export default class EdgeFilterLens extends Base {
       lensDelegate.attr({
         x: mCenter.x,
         y: mCenter.y,
-        r
+        r,
       });
     }
 
@@ -311,7 +313,7 @@ export default class EdgeFilterLens extends Base {
     const self = this;
     let vShapes = self.get('vShapes');
     if (vShapes) {
-      vShapes.forEach(shape => {
+      vShapes.forEach((shape) => {
         shape.remove();
         shape.destroy();
       });

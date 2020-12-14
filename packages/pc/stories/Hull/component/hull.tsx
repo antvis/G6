@@ -58,19 +58,19 @@ const HullDemo = () => {
         layout: {
           type: 'force',
           preventOverlap: true,
-          linkDistance: d => {
+          linkDistance: (d) => {
             if (d.source.id === 'node0') {
               return 300;
             }
             return 60;
           },
-          nodeStrength: d => {
+          nodeStrength: (d) => {
             if (d.isLeaf) {
               return -50;
             }
             return -10;
           },
-          edgeStrength: d => {
+          edgeStrength: (d) => {
             if (d.source.id === 'node1' || d.source.id === 'node2' || d.source.id === 'node3') {
               return 0.7;
             }
@@ -80,7 +80,7 @@ const HullDemo = () => {
       });
       graph.data({
         nodes,
-        edges: data.edges.map(function(edge, i) {
+        edges: data.edges.map(function (edge, i) {
           edge['id'] = 'edge' + i;
           return Object.assign({}, edge);
         }),
@@ -88,7 +88,7 @@ const HullDemo = () => {
       debugger;
       graph.render();
 
-      let centerNodes = graph.getNodes().filter(node => !node.getModel().isLeaf);
+      let centerNodes = graph.getNodes().filter((node) => !node.getModel().isLeaf);
 
       graph.on('afterlayout', () => {
         const hull1 = graph.createHull({
@@ -118,7 +118,7 @@ const HullDemo = () => {
           },
         });
 
-        graph.on('afterupdateitem', e => {
+        graph.on('afterupdateitem', (e) => {
           hull1.updateData(hull1.members);
           hull2.updateData(hull2.members);
           hull3.updateData(hull3.members);

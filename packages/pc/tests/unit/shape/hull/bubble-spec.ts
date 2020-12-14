@@ -107,10 +107,10 @@ describe('test bubble hull', () => {
         negativeNodeInfluenceFactor: 5,
         edgeInfluenceFactor: 5,
         memberInfluenceFactor: 5,
-        nonMemberInfluenceFactor: 1
-      }
+        nonMemberInfluenceFactor: 1,
+      },
     });
-    expect(hull.members.length).toEqual(4)
-    expect(hull.nonMembers.length).toEqual(13)
+    expect(hull.members.length).toEqual(4);
+    expect(hull.nonMembers.length).toEqual(13);
   });
 });

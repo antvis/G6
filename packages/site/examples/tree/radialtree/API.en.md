@@ -9,4 +9,3 @@ title: API
 ## CompactBox
 
 `markdown:docs/api/treeGraphLayout/compactBox.en.md`
-

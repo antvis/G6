@@ -9,7 +9,7 @@ const data = {
 };
 const descriptionDiv = document.createElement('div');
 descriptionDiv.innerHTML =
-  'Drag from a source node to a target node to create a new edge. Note that in trigger: \'drag\' mode cannot create a self-loop edge';
+  "Drag from a source node to a target node to create a new edge. Note that in trigger: 'drag' mode cannot create a self-loop edge";
 const container = document.getElementById('container');
 container.appendChild(descriptionDiv);
 
@@ -21,29 +21,31 @@ const graph = new G6.Graph({
   height,
   linkCenter: true,
   modes: {
-    default: [{
-      type: 'create-edge',
-      trigger: 'drag' // 'click' by default. options: 'drag', 'click'
-    }],
+    default: [
+      {
+        type: 'create-edge',
+        trigger: 'drag', // 'click' by default. options: 'drag', 'click'
+      },
+    ],
   },
   defaultEdge: {
     style: {
       stroke: '#F6BD16',
-      lineWidth: 2
+      lineWidth: 2,
     },
-  }
+  },
 });
 
 graph.data(data);
 graph.render();
 
-graph.on('aftercreateedge', e => {
+graph.on('aftercreateedge', (e) => {
   const edges = graph.save().edges;
   G6.Util.processParallelEdges(edges);
   graph.getEdges().forEach((edge, i) => {
-    graph.updateItem(edge, edges[i])
-  })
-})
+    graph.updateItem(edge, edges[i]);
+  });
+});
 
 if (typeof window !== 'undefined')
   window.onresize = () => {

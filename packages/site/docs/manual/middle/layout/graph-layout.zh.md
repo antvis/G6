@@ -89,10 +89,10 @@ const graph = new G6.Graph({
 | maxIteration | Number | 500 | 1000 | 最大迭代次数。当迭代次数超过该值，但平均移动长度仍然没有达到 minMovement，也将强制停止迭代 |
 | damping | Number | 0.99 | 0.9 | 阻尼系数，取值范围 [0, 1]。数字越大，速度降低得越慢 |
 | maxSpeed | Number | 10 | 1000 | 一次迭代的最大移动长度 |
-| coulombDisScale | Number | 0.003| 0.005 | 库伦系数，斥力的一个系数，数字越大，节点之间的斥力越大 |
+| coulombDisScale | Number | 0.003 | 0.005 | 库伦系数，斥力的一个系数，数字越大，节点之间的斥力越大 |
 | getMass | Function | d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | 每个节点质量的回调函数，若不指定，则默认使用度数作为节点质量。使用方法与 `nodeSpacing` 类似，每个回调函数返回一个数值作为该节点的质量 |
 | getCenter | Function | (d, degree) => {<br />  // d 是一个节点, degree 为该节点度数<br />  if (d.degree === 0') {<br />    return [100, 100, 10]; // x, y, 强度<br />  }<br />  return [210, 150, 5]; // x, y, 强度<br />} | undefined | 每个节点中心力的 x、y、强度的回调函数，若不指定，则没有额外中心力 |
-| gravity | Number | 20| 10 | 中心力大小，指所有节点被吸引到 `center` 的力。数字越大，布局越紧凑 |
+| gravity | Number | 20 | 10 | 中心力大小，指所有节点被吸引到 `center` 的力。数字越大，布局越紧凑 |
 | onTick | Function |  | {} | 每一次迭代的回调函数 |
 | onLayoutEnd | Function |  | {} | 布局完成后的回调函数 |
 | workerEnabled | Boolean | true / false | false | 是否启用 web-worker 以防布局计算时间过长阻塞页面交互 |
@@ -117,12 +117,12 @@ const graph = new G6.Graph({
 | alphaMin | Number | 0.03 | 0.001 | 停止迭代的阈值 |
 | alpha | Number | 0.1 | 0.3 | 当前阈值 |
 | collideStrength | Number | 0.8 | 1 | 防止重叠的力强度，范围 [0, 1] |
-| clustering | Boolean | false| false | 是否按照聚类信息布局 |
-| clusterNodeStrength | Number | -1| -0.8 | 聚类节点作用力。负数代表斥力 |
-| clusterEdgeStrength | Number | 0.1| 0.2 | 聚类边作用力 |
-| clusterEdgeDistance | Number | 100| 50 | 聚类边长度 |
-| clusterNodeSize | Number | 10| 15 | 聚类节点大小 / 直径，直径越大，越分散 |
-| clusterFociStrength | Number | 0.8| 0.5 | 用于 foci 的力 |
+| clustering | Boolean | false | false | 是否按照聚类信息布局 |
+| clusterNodeStrength | Number | -1 | -0.8 | 聚类节点作用力。负数代表斥力 |
+| clusterEdgeStrength | Number | 0.1 | 0.2 | 聚类边作用力 |
+| clusterEdgeDistance | Number | 100 | 50 | 聚类边长度 |
+| clusterNodeSize | Number | 10 | 15 | 聚类节点大小 / 直径，直径越大，越分散 |
+| clusterFociStrength | Number | 0.8 | 0.5 | 用于 foci 的力 |
 | forceSimulation | Object |  | null | 自定义 force 方法，若不指定，则使用 d3 的方法。 |
 | onTick | Function |  | {} | 每一次迭代的回调函数 |
 | onLayoutEnd | Function |  | {} | 布局完成后的回调函数 |
@@ -154,7 +154,7 @@ const graph = new G6.Graph({
 <br />**描述**：环形布局。 <br />**API**：[Circular API](/zh/docs/api/graphLayout/circular) <br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
-| --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- | --- | --- |
 | center | Array | [ 0, 0 ] | 图的中心 | 布局的中心 |
 | radius | Number | 50 | null | 圆的半径。若设置了 `radius`，则 `startRadius` 与 `endRadius` 不生效 |
 | startRadius | Number | 10 | null | 螺旋状布局的起始半径 |

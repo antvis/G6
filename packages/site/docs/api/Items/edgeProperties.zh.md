@@ -65,7 +65,6 @@ order: 7
 | autoRotate | false | Boolean | 标签文字是否跟随边旋转，默认 `false` |
 | style | false | Object | 标签的样式属性，具体配置项参见统一整理在 [图形样式属性 - Text 图形](/zh/docs/api/shapeProperties/#文本-text) |
 
-
 ## 内置边的特有属性
 
 各个内置节点的特有属性见 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge) 目录下各文档。

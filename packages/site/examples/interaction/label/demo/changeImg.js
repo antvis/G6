@@ -111,5 +111,4 @@ img.onload = function () {
       if (!container || !container.scrollWidth || !container.scrollHeight) return;
       graph.changeSize(container.scrollWidth, container.scrollHeight);
     };
-
 };

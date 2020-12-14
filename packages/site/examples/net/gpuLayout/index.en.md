@@ -4,6 +4,7 @@ order: 12
 ---
 
 G6 4.0 provides two kinds of GPU layout:
+
 - gforce: a new built-in layout that support CPU and GPU calculation, it implements the classical force-directed algorithm;
 - fruchterman: anoher force-directed algorithm whose CPU version is supported in previous version, and G6 4.0 support GPU version fruchterman.
 

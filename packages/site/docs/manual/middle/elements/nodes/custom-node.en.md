@@ -4,15 +4,15 @@ order: 2
 ---
 
 G6 provides abundant [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode), including [circle](/en/docs/manual/middle/elements/nodes/built-in/circle), [rect](/en/docs/manual/middle/elements/nodes/built-in/rect, [ellipse](/en/docs/manual/middle/elements/nodes/built-in/ellipse), [diamond](/en/docs/manual/middle/elements/nodes/built-in/diamond), [triangle](/en/docs/manual/middle/elements/nodes/built-in/triangle), [star](/en/docs/manual/middle/elements/nodes/built-in/star), [image](/en/docs/manual/middle/elements/nodes/built-in/image), [modelRect](/en/docs/manual/middle/elements/nodes/built-in/modelRect). Besides, the custom machanism allows the users to design their own type of nodes by `G6.registerNode(typeName: string, nodeDefinition: object, extendedTypeName?: string)`. A node with complex graphics shapes, complex interactions, fantastic animations can be implemented easily. For the parameters:
+
 - `typeName`: the name of the new node type;
 - `extendedTypeName`: The name of the existing type that will be extended, which can be a built-in node type, or an existing custom node type. When it is not assigned, the custom node will not extend any existing node type;
 - `nodeDefinition`: The definition of the new node type. The required options can be found at [Custom Mechanism API](/en/docs/api/registerItem#g6registernodenodename-options-extendednodename). When the `extendedTypeName` is assigned, the functions which are not rewritten will extend from the type with name `extendedTypeName`.
 
-
 **Noted** that if the `extendedTypeName` is assigned, the required functions such as `draw`, `update`, and `setState` will extend from `extendedTypeName` unless they are rewritten in `nodeDefinition`. Due to this mechanism, a question is often fed back:
+
 - Q: when the custom node/edge is updated, the re-draw logic is not the same as `draw` or `drawShape` function defined in `nodeDefinition`. e.g., some shapes are not updated as expected, and some text shapes show up.
 - A: Since the `extendedTypeName` is assigned, and the `update` is not implemented in `extendedTypeName`, the `update` of the extended node type will be called when updating the node/edge, whose logic might be different from the `draw` or `drawShape` defined by yourself. To avoid this problem, you can override the `update` by `undefined` in `nodeDefinition`. When `update` is `undefined`, the `draw` or `drawShape` will be called when updating the node/edge.
-
 
 In this document, we will introduce the custom node mechanism by five examples: <br /> <strong>1. Register a brand new node: </strong>Draw the graphics; Optimize the performance. <br /> <strong>2. Register a node by extending a built-in node: </strong>Add extra graphics shape; Add animation. <br /> <strong>3. Adjust the anchorPoints(link points);</strong> <br /> <strong>4. Register a node with state styles: </strong>Response the states change by styles and animations <strong>5. Custom Node with DOM </strong>
 

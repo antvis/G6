@@ -14,31 +14,31 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/a3ae9b40-ff40-434a-894f-b10c535f
   .then((res) => res.json())
   .then((data) => {
     const stashSubtrees = {};
-    G6.Util.traverseTreeUp(data, subtree => {
+    G6.Util.traverseTreeUp(data, (subtree) => {
       // process the label
-      subtree.label = subtree.id,
-        subtree.labelCfg = {
+      (subtree.label = subtree.id),
+        (subtree.labelCfg = {
           offset: 10,
           position: subtree.children && subtree.children.length > 0 ? 'left' : 'right',
-        };
+        });
 
       // stash the origin children for the subtree to be pruned
       if (subtree.children && subtree.children.length > MAX_NUM_EACH_SUBTREE) {
         subtree.overflow = true;
         const stashChildren = [];
-        subtree.children.forEach(child => {
+        subtree.children.forEach((child) => {
           stashChildren.push(Object.assign({}, child));
-        })
+        });
         stashSubtrees[subtree.id] = {
           oriChildren: stashChildren,
           curBeginIdx: 0,
-          curEndIdx: MAX_NUM_EACH_SUBTREE
+          curEndIdx: MAX_NUM_EACH_SUBTREE,
         };
       }
     });
 
     // pruning the tree
-    G6.Util.traverseTree(data, subtree => {
+    G6.Util.traverseTree(data, (subtree) => {
       if (subtree.overflow) subtree.children = subtree.children.slice(0, MAX_NUM_EACH_SUBTREE);
     });
 
@@ -54,7 +54,7 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/a3ae9b40-ff40-434a-894f-b10c535f
             type: 'collapse-expand',
             onChange: function onChange(item, collapsed) {
               item.getModel().collapsed = collapsed;
-              Object.keys(iconMap).forEach(parentId => {
+              Object.keys(iconMap).forEach((parentId) => {
                 if (!iconMap[parentId] || iconMap[parentId].destroyed) return;
                 destroyIcons(parentId);
               });
@@ -101,7 +101,7 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/a3ae9b40-ff40-434a-894f-b10c535f
           return 100;
         },
       },
-      fitView: true
+      fitView: true,
     });
 
     if (typeof window !== 'undefined')
@@ -133,10 +133,10 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/a3ae9b40-ff40-434a-894f-b10c535f
             r: 6,
             fill: '#333',
             opacity: 0,
-            cursor: 'pointer'
+            cursor: 'pointer',
           },
           name: `pre-icon`,
-          subtreeID: model.id
+          subtreeID: model.id,
         });
         const nextIcon = graphicsGroup.addShape('marker', {
           attrs: {
@@ -146,38 +146,44 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/a3ae9b40-ff40-434a-894f-b10c535f
             r: 6,
             fill: '#333',
             opacity: 0,
-            cursor: 'pointer'
+            cursor: 'pointer',
           },
           name: `next-icon`,
-          subtreeID: model.id
+          subtreeID: model.id,
         });
 
         if (stashSubtree.curBeginIdx > 0) {
-          preIcon.animate({
-            opacity: 0.5
-          }, {
-            duration: 150,
-            repeat: false
-          })
+          preIcon.animate(
+            {
+              opacity: 0.5,
+            },
+            {
+              duration: 150,
+              repeat: false,
+            },
+          );
         }
         if (stashSubtree.curEndIdx < stashSubtree.oriChildren.length) {
-          nextIcon.animate({
-            opacity: 0.5
-          }, {
-            duration: 150,
-            repeat: false
-          })
+          nextIcon.animate(
+            {
+              opacity: 0.5,
+            },
+            {
+              duration: 150,
+              repeat: false,
+            },
+          );
         }
 
         iconMap[parentId] = {
           preIcon,
           nextIcon,
-          destroyed: false
+          destroyed: false,
         };
         return true;
       }
       return false;
-    }
+    };
 
     // update the icons
     const updateIcons = (parentId) => {
@@ -194,14 +200,17 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/a3ae9b40-ff40-434a-894f-b10c535f
       preIcon.attr({
         opacity: stashSubtree.curBeginIdx <= 0 || parentModel.collapsed ? 0 : 0.5,
         x: prePos[0],
-        y: prePos[1]
+        y: prePos[1],
       });
       nextIcon.attr({
-        opacity: stashSubtree.curEndIdx >= stashSubtree.oriChildren.length || parentModel.collapsed ? 0 : 0.5,
+        opacity:
+          stashSubtree.curEndIdx >= stashSubtree.oriChildren.length || parentModel.collapsed
+            ? 0
+            : 0.5,
         x: nextPos[0],
-        y: nextPos[1]
+        y: nextPos[1],
       });
-    }
+    };
 
     // destroy the icons
     const destroyIcons = (parentId) => {
@@ -209,31 +218,37 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/a3ae9b40-ff40-434a-894f-b10c535f
       const preIcon = iconMap[parentId].preIcon;
       const nextIcon = iconMap[parentId].nextIcon;
       if (preIcon && !preIcon.destroyed) {
-        preIcon.animate({
-          opacity: 0
-        }, {
-          duration: 150,
-          repeat: false
-        })
+        preIcon.animate(
+          {
+            opacity: 0,
+          },
+          {
+            duration: 150,
+            repeat: false,
+          },
+        );
         setTimeout(() => {
           preIcon.remove();
           preIcon.destroy();
         }, 150);
       }
       if (nextIcon && !nextIcon.destroyed) {
-        nextIcon.animate({
-          opacity: 0
-        }, {
-          duration: 150,
-          repeat: false
-        })
+        nextIcon.animate(
+          {
+            opacity: 0,
+          },
+          {
+            duration: 150,
+            repeat: false,
+          },
+        );
         setTimeout(() => {
           nextIcon.remove();
           nextIcon.destroy();
         }, 150);
       }
       iconMap[parentId].destroyed = true;
-    }
+    };
 
     // destroy the icons with delay
     const delayDestroyIcons = (parentId, delay = 2000) => {
@@ -244,10 +259,10 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/a3ae9b40-ff40-434a-894f-b10c535f
       iconMap[parentId].timeouter = window.setTimeout(() => {
         destroyIcons(parentId);
       }, delay);
-    }
+    };
 
     // mouseenter the node to show the previous/next icons
-    graph.on('node:mouseenter', e => {
+    graph.on('node:mouseenter', (e) => {
       const parentNode = e.item.get('parent');
       if (!parentNode) return;
       const parentId = parentNode.getID();
@@ -255,7 +270,7 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/a3ae9b40-ff40-434a-894f-b10c535f
     });
 
     // mouseleave the node to destroy the icons
-    graph.on('node:mouseleave', e => {
+    graph.on('node:mouseleave', (e) => {
       const parentNode = e.item.get('parent');
       if (!parentNode) return;
       const parentId = parentNode.getID();
@@ -263,7 +278,7 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/a3ae9b40-ff40-434a-894f-b10c535f
     });
 
     // click the icon to changeData
-    graph.on('click', e => {
+    graph.on('click', (e) => {
       if (e.name === 'click') return;
       const target = e.target;
       const targetName = target.get('name');
@@ -281,8 +296,8 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/a3ae9b40-ff40-434a-894f-b10c535f
         stashSubtree.curEndIdx++;
       }
       const newChildren = oriChildren.slice(stashSubtree.curBeginIdx, stashSubtree.curEndIdx);
-      newChildren.forEach(childTree => {
-        G6.Util.traverseTreeUp(childTree, subChildTree => {
+      newChildren.forEach((childTree) => {
+        G6.Util.traverseTreeUp(childTree, (subChildTree) => {
           if (subChildTree.children && subChildTree.children.length > MAX_NUM_EACH_SUBTREE) {
             subChildTree.children = subChildTree.children.slice(0, MAX_NUM_EACH_SUBTREE);
           }
@@ -291,8 +306,8 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/a3ae9b40-ff40-434a-894f-b10c535f
       graph.updateChildren(newChildren, parentId);
     });
 
-    graph.on('afterlayout', e => {
-      Object.keys(iconMap).forEach(parentId => {
+    graph.on('afterlayout', (e) => {
+      Object.keys(iconMap).forEach((parentId) => {
         if (!iconMap[parentId] || iconMap[parentId].destroyed) return;
         updateIcons(parentId);
       });
@@ -300,5 +315,4 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/a3ae9b40-ff40-434a-894f-b10c535f
 
     graph.data(data);
     graph.render();
-
   });

@@ -12,12 +12,12 @@ describe('graph state controller', () => {
     height: 500,
     nodeStateStyles: {
       selected: {
-        fill: '#f00'
+        fill: '#f00',
       },
       hover: {
         stroke: '#000',
-        lineWidth: 3
-      }
+        lineWidth: 3,
+      },
     },
   });
   const data = {
@@ -33,7 +33,7 @@ describe('graph state controller', () => {
   };
   graph.read(data);
 
-  it('set item state', done => {
+  it('set item state', (done) => {
     let graphCount = 0;
     let itemCount = 0;
 
@@ -54,7 +54,7 @@ describe('graph state controller', () => {
     }, 100);
   });
 
-  it('state with activate-relations', done => {
+  it('state with activate-relations', (done) => {
     graph.off();
 
     graph.addBehaviors('activate-relations', 'default');
@@ -70,10 +70,10 @@ describe('graph state controller', () => {
     done();
   });
 
-  it('updateGraphStates', done => {
-    graph.getNodes().forEach(node => {
+  it('updateGraphStates', (done) => {
+    graph.getNodes().forEach((node) => {
       graph.clearItemStates(node);
-    })
+    });
     const node1 = graph.findById('node1');
     graph.setItemState(node1, 'selected', true);
     graph.setItemState(node1, 'hover', true);
@@ -84,6 +84,6 @@ describe('graph state controller', () => {
       expect(states2.selected.length).toBe(1);
       expect(states2.hover.length).toBe(2);
       done();
-    }, 100)
+    }, 100);
   });
 });

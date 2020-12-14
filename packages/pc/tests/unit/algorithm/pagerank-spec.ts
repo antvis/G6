@@ -50,7 +50,7 @@ const data = {
     {
       id: 'K',
       label: 'K',
-    }
+    },
   ],
   edges: [
     {
@@ -149,9 +149,9 @@ describe('Calculate pagerank of graph nodes', () => {
       const val = result[nodeId];
       if (val >= maxVal) {
         maxNodeId = nodeId;
-        maxVal = val
+        maxVal = val;
       }
     }
-    expect(maxNodeId).toBe('B')
+    expect(maxNodeId).toBe('B');
   });
 });

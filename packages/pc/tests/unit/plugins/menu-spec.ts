@@ -8,8 +8,7 @@ document.body.appendChild(div);
 describe('menu', () => {
   it('menu with default', () => {
     const menu = new G6.Menu({
-      handleMenuClick: (target, item) => {
-      },
+      handleMenuClick: (target, item) => {},
     });
 
     const graph = new G6.Graph({
@@ -35,7 +34,7 @@ describe('menu', () => {
 
     graph.data(data);
     graph.render();
-    graph.destroy()
+    graph.destroy();
   });
   it('menu with dom', () => {
     const menu = new G6.Menu({
@@ -123,9 +122,9 @@ describe('menu', () => {
       canvasY: 100,
       bubbles: false,
     } as IG6GraphEvent);
-    graph.emit('contextmenu', event)
+    graph.emit('contextmenu', event);
     const menuDOM = document.getElementsByClassName('g6-component-contextmenu')[0];
-    expect(menuDOM.style.visibility).toEqual('visible')
+    expect(menuDOM.style.visibility).toEqual('visible');
     // 将被自动加上 graph contianer 的 offsetTop offsetLeft
     // expect(menuDOM.style.top).toEqual('165px') // 在全量跑测试时不能确定
     // expect(menuDOM.style.left).toEqual('115px')
@@ -187,9 +186,9 @@ describe('menu', () => {
       canvasY: 100,
       bubbles: false,
     } as IG6GraphEvent);
-    graph.emit('contextmenu', event)
+    graph.emit('contextmenu', event);
     menuDOM = document.getElementsByClassName('g6-component-contextmenu')[0];
-    expect(menuDOM.style.visibility).toEqual('hidden')
+    expect(menuDOM.style.visibility).toEqual('hidden');
 
     const event2 = new G6GraphEvent('contextmenu', {
       item: graph.getNodes()[0],
@@ -197,9 +196,9 @@ describe('menu', () => {
       canvasY: 100,
       bubbles: false,
     } as IG6GraphEvent);
-    graph.emit('contextmenu', event2)
+    graph.emit('contextmenu', event2);
     menuDOM = document.getElementsByClassName('g6-component-contextmenu')[0];
-    expect(menuDOM.style.visibility).toEqual('visible')
+    expect(menuDOM.style.visibility).toEqual('visible');
 
     graph.destroy();
   });

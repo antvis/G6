@@ -2,7 +2,6 @@ import * as pathUtil from '@antv/path-util';
 import { Category, Linear } from '@antv/scale';
 import { map, each, isEqual, head, isArray } from '@antv/util';
 
-
 type Point = [number, number];
 
 /**
@@ -58,7 +57,12 @@ export function getSmoothLinePath(points: Point[]): any[][] {
  * @param height
  * @param smooth
  */
-export function dataToPath(data: number[], width: number, height: number, smooth: boolean = true): any[][] {
+export function dataToPath(
+  data: number[],
+  width: number,
+  height: number,
+  smooth: boolean = true,
+): any[][] {
   // 利用 scale 来获取 y 上的映射
   const y = new Linear({
     values: data,
@@ -89,27 +93,27 @@ export function dataToRectPath(data: number[], width: number, height: number): a
     return [x.scale(idx) * width, height - y.scale(v) * height] as [number, number];
   });
 
-  const rectPoints = []
+  const rectPoints = [];
   for (let i = 0; i < points.length; i++) {
-    const point = points[i]
+    const point = points[i];
     const param = {
       x: point[0],
       y: point[1],
       y0: height,
-      size: 5
-    }
-    const rectPoint = getRectPoints(param)
-    rectPoints.push(...rectPoint)
+      size: 5,
+    };
+    const rectPoint = getRectPoints(param);
+    rectPoints.push(...rectPoint);
   }
 
-  return getRectPath(rectPoints)
+  return getRectPath(rectPoints);
 }
 
 /**
  * 获得 area 面积的横向连接线的 px 位置
- * @param data 
- * @param width 
- * @param height 
+ * @param data
+ * @param width
+ * @param height
  */
 export function getAreaLineY(data: number[], height: number): number {
   const y = new Linear({
@@ -126,7 +130,12 @@ export function getAreaLineY(data: number[], height: number): number {
  * @param width
  * @param height
  */
-export function linePathToAreaPath(path: any[][], width: number, height: number, data: number[]): any[][] {
+export function linePathToAreaPath(
+  path: any[][],
+  width: number,
+  height: number,
+  data: number[],
+): any[][] {
   const areaPath = [...path];
 
   const lineYPx = getAreaLineY(data, height);
@@ -144,7 +153,7 @@ export function linePathToAreaPath(path: any[][], width: number, height: number,
  * @param pointInfo 数据点信息
  * @returns rect points 返回矩形四个顶点信息
  */
-export function getRectPoints(pointInfo): { x: number, y: number }[] {
+export function getRectPoints(pointInfo): { x: number; y: number }[] {
   const { x, y, y0, size } = pointInfo;
   // 有 4 种情况，
   // 1. x, y 都不是数组
@@ -190,7 +199,7 @@ export function getRectPoints(pointInfo): { x: number, y: number }[] {
  * @param isClosed path 是否需要闭合
  * @returns 返回矩形的 path
  */
-export function getRectPath(points: { x: number, y: number }[], isClosed: boolean = true) {
+export function getRectPath(points: { x: number; y: number }[], isClosed: boolean = true) {
   const path = [];
   const firstPoint = points[0];
   path.push(['M', firstPoint.x, firstPoint.y]);

@@ -258,7 +258,7 @@ ToolBar 集成了以下常见的操作：
 ### 配置项
 
 | 名称 | 类型 | 默认值 | 描述 |
-| --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | container | HTMLDivElement | null | ToolBar 容器，如果不设置，则默认使用 canvas 的 DOM 容器 |
 | className | string | null | ToolBar 内容元素的 class 类名 |
 | getContent | (graph?: IGraph) => HTMLDivElement | string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ' width=80 alt='img'/> | ToolBar 内容，支持 DOM 元素或字符串 |
@@ -419,7 +419,7 @@ Fisheye 鱼眼放大镜是为 focus+context 的探索场景设计的，它能够
 ### 配置项
 
 | 名称 | 类型 | 默认值 | 描述 |
-| --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | trigger | 'mousemove' / 'click' / 'drag' | 'mousemove' | 放大镜的触发事件 |
 | d | Number | 1.5 | 放大系数，数值越大，放大程度越大 |
 | r | Number | 300 | 放大区域的范围半径 |

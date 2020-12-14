@@ -140,7 +140,6 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/xiaomi.json')
     graph.render();
   });
 
-
 if (typeof window !== 'undefined')
   window.onresize = () => {
     if (!graph || graph.get('destroyed')) return;

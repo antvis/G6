@@ -389,7 +389,6 @@ descriptionDiv.innerHTML =
 const container = document.getElementById('container');
 container.appendChild(descriptionDiv);
 
-
 const width = container.scrollWidth;
 const height = (container.scrollHeight || 500) - 20;
 
@@ -426,7 +425,6 @@ if (typeof window !== 'undefined')
     if (!container || !container.scrollWidth || !container.scrollHeight) return;
     graph.changeSize(container.scrollWidth, container.scrollHeight - 20);
   };
-
 
 layoutConfigTranslation();
 

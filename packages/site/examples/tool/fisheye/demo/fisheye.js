@@ -92,7 +92,6 @@ scaleRByDrag.innerHTML = 'drag';
 configScaleRBy.appendChild(scaleRByDrag);
 buttonContainer.appendChild(configScaleRBy);
 
-
 // list for changing scaleDBy
 const scaleD = document.createElement('span');
 scaleD.innerHTML = 'Scale d by:';
@@ -147,19 +146,19 @@ swithButton.addEventListener('click', (e) => {
     graph.addPlugin(fisheye);
   }
 });
-configScaleRBy.addEventListener('change', e => {
+configScaleRBy.addEventListener('change', (e) => {
   fisheye.updateParams({ scaleRBy: e.target.value });
 });
-configScaleDBy.addEventListener('change', e => {
+configScaleDBy.addEventListener('change', (e) => {
   fisheye.updateParams({ scaleDBy: e.target.value });
 });
-configTrigger.addEventListener('change', e => {
+configTrigger.addEventListener('change', (e) => {
   const fisheyConfigs = fisheye._cfgs;
   graph.removePlugin(fisheye);
   fisheye = new G6.Fisheye({
     ...fisheyConfigs,
-    trigger: e.target.value
-  })
+    trigger: e.target.value,
+  });
   graph.addPlugin(fisheye);
 });
 

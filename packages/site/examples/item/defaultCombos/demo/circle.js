@@ -80,7 +80,7 @@ graph.on('combo:click', (evt) => {
   graph.setItemState(item, 'selected', true);
 });
 graph.on('canvas:click', (evt) => {
-  graph.getCombos().forEach(combo => {
+  graph.getCombos().forEach((combo) => {
     graph.clearItemStates(combo);
   });
 });

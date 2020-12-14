@@ -72,7 +72,7 @@ const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
 
 const toolbar = new G6.ToolBar({
-  position: { x: 130, y: 70 }
+  position: { x: 130, y: 70 },
 });
 
 const graph = new G6.Graph({

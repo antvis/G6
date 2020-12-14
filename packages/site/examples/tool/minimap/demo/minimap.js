@@ -216,7 +216,6 @@ const graph = new G6.Graph({
 graph.data(data);
 graph.render();
 
-
 if (typeof window !== 'undefined')
   window.onresize = () => {
     if (!graph || graph.get('destroyed')) return;

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   EyeOutlined,
   EyeInvisibleOutlined,
@@ -7,15 +7,13 @@ import {
   DisconnectOutlined,
   TagOutlined,
   SearchOutlined,
-  HighlightOutlined
-} from "@ant-design/icons";
+  HighlightOutlined,
+} from '@ant-design/icons';
 
-const isBrowser = typeof window !== "undefined";
-const G6 = isBrowser ? require("@antv/g6") : null;
-const insertCss = isBrowser ? require("insert-css") : null;
-const modifyCSS = isBrowser
-  ? require("@antv/dom-util/lib/modify-css").default
-  : null;
+const isBrowser = typeof window !== 'undefined';
+const G6 = isBrowser ? require('@antv/g6') : null;
+const insertCss = isBrowser ? require('insert-css') : null;
+const modifyCSS = isBrowser ? require('@antv/dom-util/lib/modify-css').default : null;
 
 if (isBrowser) {
   insertCss(`
@@ -111,22 +109,22 @@ const CanvasMenu: React.FC<{
   edgeLabelVisible,
   setEdgeLabelVisible,
   searchNode,
-  handleFindPath
+  handleFindPath,
 }) => {
   const { t } = useTranslation();
 
   // menu tip, 例如 “按下 ESC 退出鱼眼”
   const [menuTip, setMenuTip] = useState({
-    text: "",
-    display: "none",
-    opacity: 0
+    text: '',
+    display: 'none',
+    opacity: 0,
   });
 
   // menu item tip
   const [menuItemTip, setMenuItemTip] = useState({
-    text: "",
-    display: "none",
-    opacity: 0
+    text: '',
+    display: 'none',
+    opacity: 0,
   });
 
   const [enableSearch, setEnableSearch] = useState(false);
@@ -149,22 +147,22 @@ const CanvasMenu: React.FC<{
       graph.removePlugin(fishEye);
       clickFisheyeIcon(true);
     }
-    setEnableSearch(old => {
+    setEnableSearch((old) => {
       if (old) {
         // 设置 menuTip
         setMenuTip({
-          text: "",
-          display: "none",
-          opacity: 0
+          text: '',
+          display: 'none',
+          opacity: 0,
         });
         return false;
       }
 
       // 设置 menuTip
       setMenuTip({
-        text: t("输入需要搜索的节点 ID，并点击 Submit 按钮"),
-        display: "block",
-        opacity: 1
+        text: t('输入需要搜索的节点 ID，并点击 Submit 按钮'),
+        display: 'block',
+        opacity: 1,
       });
       return true;
     });
@@ -173,12 +171,9 @@ const CanvasMenu: React.FC<{
   const handleZoomOut = () => {
     if (!graph || graph.destroyed) return;
     const current = graph.getZoom();
-    const canvas = graph.get("canvas");
-    const point = canvas.getPointByClient(
-      canvas.get("width") / 2,
-      canvas.get("height") / 2
-    );
-    const pixelRatio = canvas.get("pixelRatio") || 1;
+    const canvas = graph.get('canvas');
+    const point = canvas.getPointByClient(canvas.get('width') / 2, canvas.get('height') / 2);
+    const pixelRatio = canvas.get('pixelRatio') || 1;
     const ratio = 1 + 0.05 * 5;
     if (ratio * current > 5) {
       return;
@@ -191,12 +186,9 @@ const CanvasMenu: React.FC<{
     if (!graph || graph.destroyed) return;
 
     const current = graph.getZoom();
-    const canvas = graph.get("canvas");
-    const point = canvas.getPointByClient(
-      canvas.get("width") / 2,
-      canvas.get("height") / 2
-    );
-    const pixelRatio = canvas.get("pixelRatio") || 1;
+    const canvas = graph.get('canvas');
+    const point = canvas.getPointByClient(canvas.get('width') / 2, canvas.get('height') / 2);
+    const pixelRatio = canvas.get('pixelRatio') || 1;
     const ratio = 1 - 0.05 * 5;
     if (ratio * current < 0.3) {
       return;
@@ -210,15 +202,13 @@ const CanvasMenu: React.FC<{
   };
 
   const handleSearchNode = () => {
-    const value = (document.getElementById(
-      "search-node-input"
-    ) as HTMLInputElement).value;
+    const value = (document.getElementById('search-node-input') as HTMLInputElement).value;
     const found = searchNode(value);
     if (!found)
       setMenuTip({
-        text: t("没有找到该节点"),
-        display: "block",
-        opacity: 1
+        text: t('没有找到该节点'),
+        display: 'block',
+        opacity: 1,
       });
   };
 
@@ -226,26 +216,26 @@ const CanvasMenu: React.FC<{
     const { clientX: x, clientY: y } = e;
     setMenuItemTip({
       text,
-      display: "block",
-      opacity: 1
+      display: 'block',
+      opacity: 1,
     });
-    const tipDom = document.getElementById("g6-canavs-menu-item-tip");
+    const tipDom = document.getElementById('g6-canavs-menu-item-tip');
     modifyCSS(tipDom, {
       top: `${124}px`,
       left: `${x - 20}px`,
-      zIndex: 100
+      zIndex: 100,
     });
   };
 
   const hideItemTip = () => {
     setMenuItemTip({
-      text: "",
-      display: "none",
-      opacity: 0
+      text: '',
+      display: 'none',
+      opacity: 0,
     });
-    const tipDom = document.getElementById("g6-canavs-menu-item-tip");
+    const tipDom = document.getElementById('g6-canavs-menu-item-tip');
     modifyCSS(tipDom, {
-      zIndex: -100
+      zIndex: -100,
     });
   };
   /**
@@ -255,18 +245,18 @@ const CanvasMenu: React.FC<{
     if (!graph || graph.destroyed) return;
 
     // 设置鼠标样式为默认
-    graph.get("canvas").setCursor("default");
+    graph.get('canvas').setCursor('default');
 
     // 关闭 FishEye
     if (fisheyeEnabled && fishEye) {
       graph.removePlugin(fishEye);
-      graph.setMode("default");
+      graph.setMode('default');
 
       // 设置 menuTip
       setMenuTip({
-        text: t("按下 Esc 键退出鱼眼放大镜"),
-        display: "none",
-        opacity: 0
+        text: t('按下 Esc 键退出鱼眼放大镜'),
+        display: 'none',
+        opacity: 0,
       });
     } else {
       // 停止布局
@@ -281,19 +271,19 @@ const CanvasMenu: React.FC<{
 
       // 设置 menuTip
       setMenuTip({
-        text: t("按下 Esc 键退出鱼眼放大镜"),
-        display: "block",
-        opacity: 1
+        text: t('按下 Esc 键退出鱼眼放大镜'),
+        display: 'block',
+        opacity: 1,
       });
 
       // 将交互模式切换到鱼眼只读模式，即不能缩放画布、框选节点、拉索选择节点等可能和鱼眼有冲突的操作
-      graph.setMode("fisheyeMode");
+      graph.setMode('fisheyeMode');
       // 开启 FishEye
       fishEye = new G6.Fisheye({
         r: 249,
         scaleRByWheel: true,
         minR: 100,
-        maxR: 500
+        maxR: 500,
         // showLabel: true,
       });
 
@@ -307,10 +297,10 @@ const CanvasMenu: React.FC<{
     if (!graph || graph.destroyed) return;
     clickLassoIcon();
     if (!lassoEnabled) {
-      graph.setMode("lassoSelect");
+      graph.setMode('lassoSelect');
 
       // 设置鼠标样式为十字形
-      graph.get("canvas").setCursor("crosshair");
+      graph.get('canvas').setCursor('crosshair');
 
       // 关闭 fisheye
       if (fisheyeEnabled && fishEye) {
@@ -324,30 +314,30 @@ const CanvasMenu: React.FC<{
 
       // 设置 menuTip
       setMenuTip({
-        text: t("按下 Esc 键退出拉索选择模式"),
-        display: "block",
-        opacity: 1
+        text: t('按下 Esc 键退出拉索选择模式'),
+        display: 'block',
+        opacity: 1,
       });
     } else {
-      graph.setMode("default");
+      graph.setMode('default');
 
       // 设置鼠标样式为默认
-      graph.get("canvas").setCursor("default");
+      graph.get('canvas').setCursor('default');
 
       // 设置 menuTip
       setMenuTip({
-        text: t("按下 Esc 键退出拉索选择模式"),
-        display: "none",
-        opacity: 0
+        text: t('按下 Esc 键退出拉索选择模式'),
+        display: 'none',
+        opacity: 0,
       });
     }
   };
 
   // 开启选择两个节点显示最短路径
   const handleEnableSelectPathEnd = () => {
-    setEnableSelectPathEnd(old => {
+    setEnableSelectPathEnd((old) => {
       if (!old) {
-        graph.setMode("default");
+        graph.setMode('default');
         // 关闭 fisheye
         if (fishEye) {
           graph.removePlugin(fishEye);
@@ -361,58 +351,58 @@ const CanvasMenu: React.FC<{
 
         // 设置 menuTip
         setMenuTip({
-          text: t("按住 SHIFT 键并点选两个节点作为路径起终点"),
-          display: "block",
-          opacity: 1
+          text: t('按住 SHIFT 键并点选两个节点作为路径起终点'),
+          display: 'block',
+          opacity: 1,
         });
         return true;
       }
       // 设置 menuTip
       setMenuTip({
-        text: "",
-        display: "none",
-        opacity: 0
+        text: '',
+        display: 'none',
+        opacity: 0,
       });
       return false;
     });
   };
 
-  const escListener = e => {
+  const escListener = (e) => {
     if (!graph || graph.destroyed) return;
-    if (e.key !== "Escape") return;
+    if (e.key !== 'Escape') return;
     if (fishEye) {
       graph.removePlugin(fishEye);
       clickFisheyeIcon(true);
     }
     // 关闭 lasso 框选
-    graph.setMode("default");
+    graph.setMode('default');
     // 关闭搜索节点框
     setEnableSearch(false);
     // 关闭选择路径端点
     setEnableSelectPathEnd(false);
 
     // 设置鼠标样式为默认
-    graph.get("canvas").setCursor("default");
+    graph.get('canvas').setCursor('default');
     clickLassoIcon(true);
 
     // 设置 menuTip
     setMenuTip({
-      text: t("按下 Esc 键退出当前模式"),
-      display: "none",
-      opacity: 0
+      text: t('按下 Esc 键退出当前模式'),
+      display: 'none',
+      opacity: 0,
     });
   };
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      window.addEventListener("keydown", escListener.bind(this));
-      return window.removeEventListener("keydown", escListener.bind(this));
+    if (typeof window !== 'undefined') {
+      window.addEventListener('keydown', escListener.bind(this));
+      return window.removeEventListener('keydown', escListener.bind(this));
     }
   }, []);
 
   const iconStyle = {
-    disable: { color: "rgba(255, 255, 255, 0.85)" },
-    enable: { color: "rgba(82, 115, 224, 1)" }
+    disable: { color: 'rgba(255, 255, 255, 0.85)' },
+    enable: { color: 'rgba(82, 115, 224, 1)' },
   };
 
   return (
@@ -421,13 +411,10 @@ const CanvasMenu: React.FC<{
         <div className="icon-container">
           <span
             className="icon-span"
-            style={{ backgroundColor: "rgba(0, 0, 0, 0)" }}
+            style={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}
             onClick={clickEdgeLabelController}
-            onMouseEnter={e =>
-              showItemTip(
-                e,
-                edgeLabelVisible ? t("隐藏边标签") : t("显示边标签")
-              )
+            onMouseEnter={(e) =>
+              showItemTip(e, edgeLabelVisible ? t('隐藏边标签') : t('显示边标签'))
             }
             onMouseLeave={hideItemTip}
           >
@@ -440,11 +427,8 @@ const CanvasMenu: React.FC<{
           <span
             className="icon-span"
             onClick={toggleFishEye}
-            onMouseEnter={e =>
-              showItemTip(
-                e,
-                fisheyeEnabled ? t("关闭鱼眼放大镜") : t("打开鱼眼放大镜")
-              )
+            onMouseEnter={(e) =>
+              showItemTip(e, fisheyeEnabled ? t('关闭鱼眼放大镜') : t('打开鱼眼放大镜'))
             }
             onMouseLeave={hideItemTip}
           >
@@ -457,36 +441,26 @@ const CanvasMenu: React.FC<{
           <span
             className="icon-span"
             onClick={enabledLassoSelect}
-            onMouseEnter={e =>
-              showItemTip(
-                e,
-                lassoEnabled ? t("关闭拉索选择模式") : t("打开拉索选择模式")
-              )
+            onMouseEnter={(e) =>
+              showItemTip(e, lassoEnabled ? t('关闭拉索选择模式') : t('打开拉索选择模式'))
             }
             onMouseLeave={hideItemTip}
           >
-            <HighlightOutlined
-              style={lassoEnabled ? iconStyle.enable : iconStyle.disable}
-            />
+            <HighlightOutlined style={lassoEnabled ? iconStyle.enable : iconStyle.disable} />
           </span>
           <span
             className="icon-span"
             onClick={handleEnableSelectPathEnd}
-            onMouseEnter={e => showItemTip(e, t("搜索最短路径"))}
+            onMouseEnter={(e) => showItemTip(e, t('搜索最短路径'))}
             onMouseLeave={hideItemTip}
           >
-            <NodeIndexOutlined
-              style={enableSelectPathEnd ? iconStyle.enable : iconStyle.disable}
-            />
+            <NodeIndexOutlined style={enableSelectPathEnd ? iconStyle.enable : iconStyle.disable} />
           </span>
-          <span
-            className="icon-span"
-            style={{ width: "fit-content", ...iconStyle.disable }}
-          >
+          <span className="icon-span" style={{ width: 'fit-content', ...iconStyle.disable }}>
             <span
               className="zoom-icon"
               onClick={handleZoomIn}
-              onMouseEnter={e => showItemTip(e, t("缩小"))}
+              onMouseEnter={(e) => showItemTip(e, t('缩小'))}
               onMouseLeave={hideItemTip}
             >
               -
@@ -494,18 +468,16 @@ const CanvasMenu: React.FC<{
             <span
               className="zoom-icon"
               onClick={handleFitViw}
-              onMouseEnter={e =>
-                showItemTip(e, t("图内容适配容器，快捷键：ctrl + 1"))
-              }
+              onMouseEnter={(e) => showItemTip(e, t('图内容适配容器，快捷键：ctrl + 1'))}
               onMouseLeave={hideItemTip}
-              style={{ paddingLeft: "8px", paddingRight: "8px" }}
+              style={{ paddingLeft: '8px', paddingRight: '8px' }}
             >
               FIT
             </span>
             <span
               className="zoom-icon"
               onClick={handleZoomOut}
-              onMouseEnter={e => showItemTip(e, t("放大"))}
+              onMouseEnter={(e) => showItemTip(e, t('放大'))}
               onMouseLeave={hideItemTip}
             >
               +
@@ -514,18 +486,14 @@ const CanvasMenu: React.FC<{
           <span
             className="icon-span"
             onClick={handleEnableSearch}
-            onMouseEnter={e => showItemTip(e, t("输入 ID 搜索节点"))}
+            onMouseEnter={(e) => showItemTip(e, t('输入 ID 搜索节点'))}
             onMouseLeave={hideItemTip}
           >
-            <SearchOutlined
-              style={enableSearch ? iconStyle.enable : iconStyle.disable}
-            />
+            <SearchOutlined style={enableSearch ? iconStyle.enable : iconStyle.disable} />
           </span>
           {enableSearch && (
             <span
-              onMouseEnter={e =>
-                showItemTip(e, t("输入需要搜索的节点 ID，并点击 Submit 按钮"))
-              }
+              onMouseEnter={(e) => showItemTip(e, t('输入需要搜索的节点 ID，并点击 Submit 按钮'))}
               onMouseLeave={hideItemTip}
             >
               <input type="text" id="search-node-input" />
@@ -536,11 +504,8 @@ const CanvasMenu: React.FC<{
           )}
           {enableSelectPathEnd && (
             <span
-              onMouseEnter={e =>
-                showItemTip(
-                  e,
-                  t("选择有且仅有两个节点作为端点，并点击 Find Path 按钮")
-                )
+              onMouseEnter={(e) =>
+                showItemTip(e, t('选择有且仅有两个节点作为端点，并点击 Find Path 按钮'))
               }
               onMouseLeave={hideItemTip}
             >
@@ -554,10 +519,7 @@ const CanvasMenu: React.FC<{
       <div className="menu-tip" style={{ opacity: menuTip.opacity }}>
         {menuTip.text}
       </div>
-      <div
-        id="g6-canavs-menu-item-tip"
-        style={{ opacity: menuItemTip.opacity }}
-      >
+      <div id="g6-canavs-menu-item-tip" style={{ opacity: menuItemTip.opacity }}>
         {menuItemTip.text}
       </div>
     </>

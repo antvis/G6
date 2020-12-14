@@ -1,5 +1,4 @@
-export
-  const fruchtermanCode = `
+export const fruchtermanCode = `
 import { globalInvocationID } from 'g-webgpu';
 const MAX_EDGE_PER_VERTEX;
 const VERTEX_COUNT;

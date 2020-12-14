@@ -12,8 +12,7 @@ describe('tree graph without updateChild', () => {
     height: 500,
     animate: false,
     modes: {
-      default:
-        ['drag-canvas', 'drag-node'],
+      default: ['drag-canvas', 'drag-node'],
     },
     layout: {
       type: 'dendrogram',
@@ -40,20 +39,30 @@ describe('tree graph without updateChild', () => {
         graph.render();
         graph.fitView();
 
-        graph.updateChildren([{
-          id: 'subTree1',
-          children: []
-        }, {
-          id: 'subTree2',
-          children: []
-        }, {
-          id: 'subTree3',
-          children: [{
-            id: 'aaa'
-          }, {
-            id: 'bbb'
-          }]
-        }], 'Methods');
+        graph.updateChildren(
+          [
+            {
+              id: 'subTree1',
+              children: [],
+            },
+            {
+              id: 'subTree2',
+              children: [],
+            },
+            {
+              id: 'subTree3',
+              children: [
+                {
+                  id: 'aaa',
+                },
+                {
+                  id: 'bbb',
+                },
+              ],
+            },
+          ],
+          'Methods',
+        );
         const newParentData = graph.findDataById('Methods');
         expect(newParentData.children.length).toBe(3);
         const subTree3 = graph.findById('subTree3');

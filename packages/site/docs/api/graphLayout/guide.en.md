@@ -47,6 +47,7 @@ The configurations of each layout algorithms are different. Please refer to corr
 ## Instantiate Independently
 
 The functions in this section should be concerned in these two situation:
+
 - When you want to applay a layout algorithm to your data but not for Graph, you can instantiate the layout independently by calling `const layout = new G6.Layout['layoutName']`.
 - When you want to custom a new type of layout by `G6.registerLayout`, some functions you should override.
 

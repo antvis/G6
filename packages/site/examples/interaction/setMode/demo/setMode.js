@@ -130,7 +130,6 @@ selector.appendChild(selection2);
 selector.appendChild(selection3);
 container.appendChild(selector);
 
-
 const width = container.scrollWidth;
 const height = (container.scrollHeight || 500) - 30;
 const graph = new G6.Graph({

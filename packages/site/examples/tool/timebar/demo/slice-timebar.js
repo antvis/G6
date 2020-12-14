@@ -52,18 +52,18 @@ const timebar = new G6.TimeBar({
     width: width,
     height: 42,
     padding: 2,
-    tickLabelFormatter: d => {
+    tickLabelFormatter: (d) => {
       count++;
-      const dateStr = `${d.date}`
+      const dateStr = `${d.date}`;
       if ((count - 1) % 10 === 0) {
         return `${dateStr.substr(0, 4)}-${dateStr.substr(4, 2)}-${dateStr.substr(6, 2)}`;
       }
       return false;
     },
-    tooltipFomatter: d => {
-      const dateStr = `${d}`
+    tooltipFomatter: (d) => {
+      const dateStr = `${d}`;
       return `${dateStr.substr(0, 4)}-${dateStr.substr(4, 2)}-${dateStr.substr(6, 2)}`;
-    }
+    },
   },
 });
 

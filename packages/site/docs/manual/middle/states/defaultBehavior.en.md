@@ -701,7 +701,7 @@ const graph = new G6.Graph({
             // ... // other edge style configurations
           },
           // ... // other edge configurations
-        }
+        },
       },
     ],
   },
@@ -726,7 +726,6 @@ const graph = new G6.Graph({
     default: ['shortcuts-call'],
   },
 });
-
 ```
 
 **Using Customized Configuration**
@@ -744,7 +743,7 @@ const graph = new G6.Graph({
         combinedKey: 'm',
         // move the graph to 10,10
         functionName: 'moveTo',
-        functionParams: [10, 10]
+        functionParams: [10, 10],
       },
     ],
   },

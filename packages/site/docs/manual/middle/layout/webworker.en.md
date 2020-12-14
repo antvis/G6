@@ -15,6 +15,8 @@ const graph = new G6.Graph({
   }
 });
 ```
+
 Note:
+
 - TreeGraph layouts do not support Web-Worker;
 - Sub-Graph layout mechanism do not support Web-Worker.

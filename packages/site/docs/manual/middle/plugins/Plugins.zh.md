@@ -258,7 +258,7 @@ ToolBar 集成了以下常见的操作：
 ### 配置项
 
 | 名称 | 类型 | 默认值 | 描述 |
-| --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | container | HTMLDivElement | null | ToolBar 容器，如果不设置，则默认使用 canvas 的 DOM 容器 |
 | className | string | null | ToolBar 内容元素的 class 类名 |
 | getContent | (graph?: IGraph) => HTMLDivElement | string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ' width=80 alt='img'/> | ToolBar 内容，支持 DOM 元素或字符串 |
@@ -419,15 +419,15 @@ Fisheye 鱼眼放大镜是为 focus+context 的探索场景设计的，它能够
 ### 配置项
 
 | 名称 | 类型 | 默认值 | 描述 |
-| --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | trigger | 'mousemove' / 'click' / 'drag' | 'mousemove' | 放大镜的触发事件 |
 | d | Number | 1.5 | 放大系数，数值越大，放大程度越大 |
 | r | Number | 300 | 放大区域的范围半径 |
 | delegateStyle | Object | { stroke: '#000', strokeOpacity: 0.8, lineWidth: 2, fillOpacity: 0.1, fill: '#ccc' } | 放大镜蒙层样式 |
 | showLabel | Boolean | false | 若 label 默认被隐藏，是否在关注区域内展示 label |
 | maxR | Number | 图的高度 | 滚轮调整缩放范围的最大半径 |
-| minR | Number | 0.05 * 图的高度 | 滚轮调整缩放范围的最小半径 |
-| maxD | Number | 5 | `trigger` 为 `'mousemove'` / `'click'` 时，可以在放大镜上左右拖拽调整缩放系数。maxD 指定了这种调整方式的最大缩放系数，建议取值范围 [0, 5]。若使用 `minimap.updateParam` 更新参数不受该系数限制  |
+| minR | Number | 0.05 \* 图的高度 | 滚轮调整缩放范围的最小半径 |
+| maxD | Number | 5 | `trigger` 为 `'mousemove'` / `'click'` 时，可以在放大镜上左右拖拽调整缩放系数。maxD 指定了这种调整方式的最大缩放系数，建议取值范围 [0, 5]。若使用 `minimap.updateParam` 更新参数不受该系数限制 |
 | minD | Number | 0 | `trigger` 为 `'mousemove'` / `'click'` 时，可以在放大镜上左右拖拽调整缩放系数。maxD 指定了这种调整方式的最小缩放系数，建议取值范围 [0, 5]。若使用 `minimap.updateParam` 更新参数不受该系数限制 |
 | scaleRBy | 'wheel'/'drag'/'unset'/undefined | false | 'unset' | 终端用户调整放大镜范围大小的方式 |
 | scaleDBy | 'wheel'/'drag'/'unset'/undefined | false | 'unset' | 终端用户调整放大镜缩放系数的方式 |
@@ -453,7 +453,6 @@ fisheye.updateParams({
 })
 ```
 
-
 ### 用法
 
 ```
@@ -471,7 +470,6 @@ const graph = new G6.Graph({
 });
 ```
 
-
 ## Edge Filter Lens
 
 EdgeFilterLens 边过滤镜可以将关注的边保留在过滤镜范围内，其他边将在该范围内不显示。
@@ -487,7 +485,7 @@ EdgeFilterLens 边过滤镜可以将关注的边保留在过滤镜范围内，�
 | delegateStyle | Object | { stroke: '#000', strokeOpacity: 0.8, lineWidth: 2, fillOpacity: 0.1, fill: '#ccc' } | 过滤镜蒙层样式 |
 | showLabel | 'edge' / 'node' / 'both' | 'edge' | 若 label 默认被隐藏，是否在关注区域内展示对应元素类型的 label。'both' 代表节点和边的 label 都在过滤镜区域显示 |
 | maxR | Number | 图的高度 | 滚轮调整过滤镜的最大半径 |
-| minR | Number | 0.05 * 图的高度 | 滚轮调整过滤镜的最小半径 |
+| minR | Number | 0.05 \* 图的高度 | 滚轮调整过滤镜的最小半径 |
 | scaleRBy | 'wheel' / undefined | 'wheel' | 终端用户调整过滤镜大小的方式，undefined 代表不允许终端用户调整 |
 
 ### 成员函数
@@ -534,7 +532,6 @@ const graph = new G6.Graph({
 - 简易版的 TimeBar 组件；
 - 刻度 TimeBar 组件。
 
-
 并且每种类型的 TimeBar 组件都可以配合播放、快进、后退等控制按钮组使用。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*DOo6QpfFfMUAAAAAAAAAAAAAARQnAQ' width='500' />
@@ -550,15 +547,14 @@ const graph = new G6.Graph({
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*17VoSoTm9o8AAAAAAAAAAAAAARQnAQ' width='500' />
 
-<br />虽然 G6 提供了各种不同类型的 TimeBar 组件，但在使用的方式却非常简单，通过配置字段就可以进行区分。<br />
-<br />关于 TimeBar 的使用案例，请参考[这里](https://g6.antv.vision/zh/examples/tool/timebar#timebar)。<br />
-
+<br />虽然 G6 提供了各种不同类型的 TimeBar 组件，但在使用的方式却非常简单，通过配置字段就可以进行区分。<br /> <br />关于 TimeBar 的使用案例，请参考[这里](https://g6.antv.vision/zh/examples/tool/timebar#timebar)。<br />
 
 ### 使用 TimeBar 组件
+
 使用 G6 内置的 TimeBar 组件，和使用其他组件的方式完全相同。
 
 ```javascript
-import G6 from '@antv/g6'
+import G6 from '@antv/g6';
 
 const timebar = new G6.TimeBar({
   width: 500,
@@ -566,7 +562,7 @@ const timebar = new G6.TimeBar({
   padding: 10,
   type: 'trend',
   trend: {
-    data: timeBarData
+    data: timeBarData,
   },
 });
 
@@ -597,25 +593,27 @@ const timebar = new G6.TimeBar({
     data: timeBarData,
     width,
     height: 42,
-    tickLabelFormatter: d => {
-      const dateStr = `${d.date}`
+    tickLabelFormatter: (d) => {
+      const dateStr = `${d.date}`;
       if ((count - 1) % 10 === 0) {
         return `${dateStr.substr(0, 4)}-${dateStr.substr(4, 2)}-${dateStr.substr(6, 2)}`;
       }
       return false;
     },
-    tooltipFomatter: d => {
-      const dateStr = `${d}`
+    tooltipFomatter: (d) => {
+      const dateStr = `${d}`;
       return `${dateStr.substr(0, 4)}-${dateStr.substr(4, 2)}-${dateStr.substr(6, 2)}`;
-    }
+    },
   },
 });
 ```
+
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*n6ECQ7Jn5pQAAAAAAAAAAAAAARQnAQ' width='600' />
 
 ### 参数定义
 
 #### 接口定义
+
 完整的 TimeBar 的接口定义如下：
 
 ```javascript
@@ -661,8 +659,8 @@ interface TimeBarConfig extends IPluginBaseConfig {
 | controllerCfg | ControllerCfg | null | 控制按钮组配置项 |
 | rangeChange | Function | null | TimeBar 时间范围变化时的回调函数，当不定义该函数时，时间范围变化时默认过滤图上的数据 |
 
-
 #### TrendConfig 接口定义
+
 > 暂不支持刻度文本的样式配置
 
 ```javascript
@@ -700,7 +698,6 @@ interface TrendConfig {
 | areaStyle | ShapeStyle | null | 面积的样式配置项，只有当 isArea 为 true 时生效 |
 | interval | Interval | null | 柱状图配置项，当配置了该项后，趋势图上会展现为混合图样式 |
 
-
 #### SliderOption 接口定义
 
 ```javascript
@@ -729,7 +726,7 @@ export type SliderOption = Partial<{
 
 | 名称 | 类型 | 默认值 | 描述 |
 | --- | --- | --- | --- |
-| width | number | TimeBar 容器宽度 - 2 * padding | 趋势图背景框宽度，不建议自己设定，如果设定时要同步修改 trend 中 width 值 |
+| width | number | TimeBar 容器宽度 - 2 \* padding | 趋势图背景框宽度，不建议自己设定，如果设定时要同步修改 trend 中 width 值 |
 | height | number | 趋势图默认为 28<br />简易版默认为 8 | TimeBar 趋势图高度，不建议自己设定，如果设定时需要同步设置 trend 中的 height 值 |
 | backgroundStyle | ShapeStyle | null | 背景样式配置项 |
 | foregroundStyle | ShapeStyle | null | 前景色样式配置，即选中范围的样式配置项 |
@@ -739,7 +736,6 @@ export type SliderOption = Partial<{
 | end | number | 0.9 | 结束位置 |
 | minText | string | min | 最小值文本 |
 | maxText | string | max | 最大值文本 |
-
 
 #### TimeBarSliceOption
 
@@ -773,25 +769,23 @@ export interface TimeBarSliceOption {
 }
 ```
 
-
 #### TimeBarSliceOption 参数说明
 
-| 名称 | 类型 | 默认值 | 描述 |
-| --- | --- | --- | --- |
-| x | number | 0 | 刻度 TimeBar 开始 x 坐标 |
-| y | number | 0 | 刻度 TimeBar 开始 y 坐标 |
-| width | number |  | 必选，刻度 TimeBar 宽度 |
-| height | number |  | 必选，刻度 TimeBar 高度 |
-| padding | number / number[] | 0 | 刻度 TimeBar 距离边界的间距 |
-| selectedTickStyle | ShapeStyle | null | 选中刻度的样式配置项 |
-| unselectedTickStyle | ShapeStyle | null | 未选中刻度的样式配置项 |
-| tooltipBackgroundColor | ShapeStyle | null | tooltip 背景框配置项 |
-| start | number | 0.1 | 开始位置 |
-| end | number | 0.9 | 结束位置 |
-| data | any[] | [] | 必选，刻度时间轴的刻度数据 |
-| tickLabelFormatter | Function | null | 刻度的格式化回调函数 |
-| tooltipFomatter | Function | null | tooltip上内容格式化的回调函数 |
-
+| 名称                   | 类型              | 默认值 | 描述                           |
+| ---------------------- | ----------------- | ------ | ------------------------------ |
+| x                      | number            | 0      | 刻度 TimeBar 开始 x 坐标       |
+| y                      | number            | 0      | 刻度 TimeBar 开始 y 坐标       |
+| width                  | number            |        | 必选，刻度 TimeBar 宽度        |
+| height                 | number            |        | 必选，刻度 TimeBar 高度        |
+| padding                | number / number[] | 0      | 刻度 TimeBar 距离边界的间距    |
+| selectedTickStyle      | ShapeStyle        | null   | 选中刻度的样式配置项           |
+| unselectedTickStyle    | ShapeStyle        | null   | 未选中刻度的样式配置项         |
+| tooltipBackgroundColor | ShapeStyle        | null   | tooltip 背景框配置项           |
+| start                  | number            | 0.1    | 开始位置                       |
+| end                    | number            | 0.9    | 结束位置                       |
+| data                   | any[]             | []     | 必选，刻度时间轴的刻度数据     |
+| tickLabelFormatter     | Function          | null   | 刻度的格式化回调函数           |
+| tooltipFomatter        | Function          | null   | tooltip 上内容格式化的回调函数 |
 
 #### ControllerCfg 接口定义
 
@@ -800,7 +794,6 @@ export interface TimeBarSliceOption {
 > 控制按钮暂不支持配置样式
 
 > 不支持循环播放
-
 
 ```javascript
 type ControllerCfg = Partial<{
@@ -823,17 +816,17 @@ type ControllerCfg = Partial<{
 
 #### ControllerCfg 参数说明
 
-| 名称 | 类型 | 默认值 | 描述 |
-| --- | --- | --- | --- |
-| x | number | 0 | 按钮控制组开始 x 坐标 |
-| y | number | 0 | 按钮控制组开始 y 坐标 |
-| width | number | TimeBar 宽度 | 控制按钮组宽度 |
-| height | number | 40 | 控制按钮组高度 |
-| speed | number | 1 | 播放速度 |
-| loop | boolean | false | 暂不支持，是否循环播放 |
-| hiddleToggle | boolean | true | 是否隐藏时间类型切换 |
-| fill | string |  | 按钮控制组外层框填充色 |
-| stroke | string |  | 按钮控制组外层框边框色 |
-| preBtnStyle | ShapeStyle | null | 后退按钮样式配置项 |
-| nextBtnStyle | ShapeStyle | null | 前进按钮样式配置项 |
-| playBtnStyle | ShapeStyle | null | 播放按钮样式配置项 |
+| 名称         | 类型       | 默认值       | 描述                   |
+| ------------ | ---------- | ------------ | ---------------------- |
+| x            | number     | 0            | 按钮控制组开始 x 坐标  |
+| y            | number     | 0            | 按钮控制组开始 y 坐标  |
+| width        | number     | TimeBar 宽度 | 控制按钮组宽度         |
+| height       | number     | 40           | 控制按钮组高度         |
+| speed        | number     | 1            | 播放速度               |
+| loop         | boolean    | false        | 暂不支持，是否循环播放 |
+| hiddleToggle | boolean    | true         | 是否隐藏时间类型切换   |
+| fill         | string     |              | 按钮控制组外层框填充色 |
+| stroke       | string     |              | 按钮控制组外层框边框色 |
+| preBtnStyle  | ShapeStyle | null         | 后退按钮样式配置项     |
+| nextBtnStyle | ShapeStyle | null         | 前进按钮样式配置项     |
+| playBtnStyle | ShapeStyle | null         | 播放按钮样式配置项     |

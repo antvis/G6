@@ -318,11 +318,10 @@ No parameters.
 
 #### viewportchange
 
-| Name   | Type   | Description                                     |
-| ------ | ------ | ----------------------------------------------- |
-| action   | 'translate' / 'move' / 'zoom'   | The action of view port changing.  |
-| matrix | Array | The matrix of the graph after the view port changed. |
-
+| Name   | Type                          | Description                                          |
+| ------ | ----------------------------- | ---------------------------------------------------- |
+| action | 'translate' / 'move' / 'zoom' | The action of view port changing.                    |
+| matrix | Array                         | The matrix of the graph after the view port changed. |
 
 #### dragnodeend
 
@@ -333,7 +332,7 @@ No parameters.
 
 #### stackchange
 
-| Name   | Type   | Description                                     |
-| ------ | ------ | ----------------------------------------------- |
-| redoStack | Object[]   | The redo stack.                           |
+| Name      | Type     | Description     |
+| --------- | -------- | --------------- |
+| redoStack | Object[] | The redo stack. |
 | undoStack | Object[] | The undo stack. |

@@ -33,7 +33,6 @@ order: 1
 <br/>
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*yTC2RKh3-U8AAAAAAAAAAAAAARQnAQ' width='95%' alt=‘img’>
 
-
 ### 时间刻度时间轴
 
 指表示时间刻度的时间轴组件，[查看演示 Demo](https://g6.antv.vision/zh/examples/tool/timebar#slice-timebar)。
@@ -48,10 +47,10 @@ order: 1
 <br/>
 
 时间轴组件主体分为三部分，2、3 部分需同时出现或隐藏。
+
 1. 缩略轴：可配置成趋势图时间轴、简版时间轴、时间刻度时间轴；
 2. 播放器：播放时间动画，可配置是否显示；
 3. 时间配置：可配置播放速度、是否只看单一时间点；
-
 
 ## 出现位置
 
@@ -95,10 +94,6 @@ order: 1
 ### 时间配置
 
 时间配置主要包括两部分，单一时间开关、播放速度设置。
-- 单一时间开关，默认不开启。
-<br/>
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7EHHSqJOsbkAAAAAAAAAAAAAARQnAQ' width='95%' alt=‘img’>
-<br/>
-- 播放速度设置，默认配速为最慢速 1，最大速为 5。支持滚轮（触控板）滑动切换配速，每次增减值为 1。
-<br/>
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*eo3pTbknf98AAAAAAAAAAAAAARQnAQ' width='95%' alt=‘img’>
+
+- 单一时间开关，默认不开启。 <br/> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7EHHSqJOsbkAAAAAAAAAAAAAARQnAQ' width='95%' alt=‘img’> <br/>
+- 播放速度设置，默认配速为最慢速 1，最大速为 5。支持滚轮（触控板）滑动切换配速，每次增减值为 1。 <br/> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*eo3pTbknf98AAAAAAAAAAAAAARQnAQ' width='95%' alt=‘img’>

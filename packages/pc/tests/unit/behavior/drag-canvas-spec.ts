@@ -397,7 +397,7 @@ describe('drag-canvas', () => {
         default: [
           {
             type: 'drag-canvas',
-            enableOptimize: true
+            enableOptimize: true,
           },
         ],
       },
@@ -408,38 +408,38 @@ describe('drag-canvas', () => {
     graph.emit('drag', { clientX: 350, clientY: 350, target: graph.get('canvas') });
 
     let nodes = graph.getNodes();
-    nodes.forEach(node => {
+    nodes.forEach((node) => {
       const children = node.getContainer().get('children');
-      children.forEach(child => {
+      children.forEach((child) => {
         if (!child.get('isKeyShape')) expect(child.get('visible')).toEqual(false);
         else expect(child.get('visible')).toEqual(true);
       });
-    })
+    });
     let edges = graph.getEdges();
-    edges.forEach(edge => {
+    edges.forEach((edge) => {
       const children = edge.getContainer().get('children');
-      children.forEach(child => {
+      children.forEach((child) => {
         expect(child.get('visible')).toEqual(false);
       });
-    })
+    });
 
     graph.emit('dragend', { clientX: 350, clientY: 350 });
 
     nodes = graph.getNodes();
-    nodes.forEach(node => {
+    nodes.forEach((node) => {
       const children = node.getContainer().get('children');
-      children.forEach(child => {
+      children.forEach((child) => {
         if (!child.get('isKeyShape')) expect(child.get('visible')).toEqual(true);
         else expect(child.get('visible')).toEqual(true);
       });
-    })
+    });
     edges = graph.getEdges();
-    edges.forEach(edge => {
+    edges.forEach((edge) => {
       const children = edge.getContainer().get('children');
-      children.forEach(child => {
+      children.forEach((child) => {
         expect(child.get('visible')).toEqual(true);
       });
-    })
+    });
   });
 
   it('drag canvas with scalableRange', () => {
@@ -448,10 +448,12 @@ describe('drag-canvas', () => {
       width: 500,
       height: 500,
       modes: {
-        default: [{
-          type: 'drag-canvas',
-          scalableRange: -150
-        }],
+        default: [
+          {
+            type: 'drag-canvas',
+            scalableRange: -150,
+          },
+        ],
       },
     });
     graph.data(data);

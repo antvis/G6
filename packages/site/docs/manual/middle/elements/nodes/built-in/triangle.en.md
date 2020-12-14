@@ -52,7 +52,7 @@ const data = {
 The [Node Common Properties](/en/docs/manual/middle/elements/nodes/defaultNode/#common-property) are available for Triangle node, some special properties are shown below. The spetial property type will be described after the table:
 
 | Name | Description | Type | Remark |
-| --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | size | The length of side of the equilateral triangle | Number | Array | When it is an array, the first value will take effect |
 | **direction** | **The direction of the triangle** | **String** | **Options: `'up'`, `'down'`, `'left'`, `'right'`. `'up'` by default** |
 | style | The default style of triangle node | Object | Correspond to the styles in Canvas |

@@ -10,10 +10,10 @@ When zooming the canvas, sometimes we hope that the Tooltip, ContextMenu and oth
 In G6, zooming the canvas is achieved through zoom-canvas Behavior. The wheelzoom event will be triggered during zooming. Therefore, we only need to listen to this event to allow Tooltip to zoom automatically.
 
 ```javascript
-graph.on("wheelzoom", (e) => {
+graph.on('wheelzoom', (e) => {
   e.stopPropagation();
-  // className g6-component-tooltip by default 
-  const tooltips = Array.from(document.getElementsByClassName("g6-component-tooltip"));
+  // className g6-component-tooltip by default
+  const tooltips = Array.from(document.getElementsByClassName('g6-component-tooltip'));
   tooltips.forEach((tooltip) => {
     if (tooltip && tooltip.style) {
       tooltip.style.transform = `scale(${graph.getZoom()})`;

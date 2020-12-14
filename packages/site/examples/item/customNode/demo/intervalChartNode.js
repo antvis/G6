@@ -63,7 +63,7 @@ G6.registerNode(
         width: 360,
         height: 70,
         x: 20,
-        y: 100
+        y: 100,
       });
 
       view.data(cfg.trendData);
@@ -101,7 +101,6 @@ G6.registerNode(
   'single-node',
 );
 
-
 const container = document.getElementById('container');
 const width = container.scrollWidth;
 const height = container.scrollHeight || 500;
@@ -120,16 +119,16 @@ const data = {
       id: 'node0',
       trendData,
       x: 10,
-      y: 100
+      y: 100,
     },
     {
       id: 'node1',
       trendData,
       x: 550,
-      y: 100
+      y: 100,
     },
   ],
-  edges: [{ source: 'node0', target: 'node1' }]
+  edges: [{ source: 'node0', target: 'node1' }],
 };
 
 const graph = new G6.Graph({
@@ -155,8 +154,8 @@ const graph = new G6.Graph({
   defaultEdge: {
     style: {
       lineWidth: 5,
-      stroke: '#666'
-    }
+      stroke: '#666',
+    },
   },
 });
 

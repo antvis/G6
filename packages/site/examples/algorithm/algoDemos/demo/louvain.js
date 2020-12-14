@@ -17,10 +17,9 @@ const subjectColors = [
   '#9661BC',
   '#F6903D',
   '#008685',
-  '#F08BB4'
+  '#F08BB4',
 ];
 const colorSets = G6.Util.getColorSetsBySubjectColors(subjectColors, '#fff', 'default', '#777');
-
 
 const container = document.getElementById('container');
 const width = container.scrollWidth;
@@ -36,30 +35,28 @@ const graph = new G6.Graph({
   },
   layout: {
     type: 'gForce',
-    minMovement: 0.1
-  }
+    minMovement: 0.1,
+  },
 });
 fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
   .then((res) => res.json())
   .then((data) => {
-
     graph.data(data);
     graph.render();
 
-    button.addEventListener('click', e => {
+    button.addEventListener('click', (e) => {
       const clusteredData = louvain(data, false);
       clusteredData.clusters.forEach((cluster, i) => {
         const colorSet = colorSets[i % colorSets.length];
-        cluster.nodes.forEach(node => {
+        cluster.nodes.forEach((node) => {
           node.style = {
             fill: colorSet.mainFill,
-            stroke: colorSet.mainStroke
-          }
-        })
+            stroke: colorSet.mainStroke,
+          };
+        });
       });
       graph.refresh();
     });
-
   });
 
 if (typeof window !== 'undefined')

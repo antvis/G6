@@ -58,7 +58,6 @@ graph.removeItem(item);
 graph.removeItem(item, false);
 ```
 
-
 ## 更新
 
 ### graph.updateItem(item, model, stack)
@@ -91,7 +90,6 @@ const model = {
 const item = graph.findById('node');
 graph.updateItem(item, model);
 ```
-
 
 ### graph.refreshItem(item)
 
@@ -179,8 +177,6 @@ graph.updateComboTree('combo1')
 // 将 combo1 移动到 Combo2 下面，作为 Combo2 的子元素
 graph.updateComboTree('combo1', 'combo2')
 ```
-
-
 
 ## 配置
 

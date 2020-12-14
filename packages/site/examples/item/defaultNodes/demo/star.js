@@ -79,7 +79,7 @@ const graph = new G6.Graph({
     //     lineWidth: 5,
     //   },
     // },
-  }
+  },
 });
 
 graph.data(data);
@@ -100,7 +100,7 @@ graph.on('node:click', (evt) => {
   graph.setItemState(item, 'selected', true);
 });
 graph.on('canvas:click', (evt) => {
-  graph.getNodes().forEach(node => {
+  graph.getNodes().forEach((node) => {
     graph.clearItemStates(node);
   });
 });

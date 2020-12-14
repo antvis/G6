@@ -134,7 +134,6 @@ graph.on('combo:click', (e) => {
   }
 });
 
-
 if (typeof window !== 'undefined')
   window.onresize = () => {
     if (!graph || graph.get('destroyed')) return;

@@ -10,10 +10,10 @@ order: 1
 G6 里面缩放画布是通过 zoom-canvas Behavior 实现的，缩放过程中会触发 wheelzoom 事件，因此，我们只需要监听该事件，就可以让 Tooltip 自动缩放。
 
 ```javascript
-graph.on("wheelzoom", (e) => {
+graph.on('wheelzoom', (e) => {
   e.stopPropagation();
   // 这里的 className 根据实际情况而定，默认是 g6-component-tooltip
-  const tooltips = Array.from(document.getElementsByClassName("g6-component-tooltip"));
+  const tooltips = Array.from(document.getElementsByClassName('g6-component-tooltip'));
   tooltips.forEach((tooltip) => {
     if (tooltip && tooltip.style) {
       tooltip.style.transform = `scale(${graph.getZoom()})`;
@@ -22,9 +22,7 @@ graph.on("wheelzoom", (e) => {
 });
 ```
 
-也可以根据我们的实际需要，控制 Tooltip 缩放的最大和最小比例。<br />
-<br />完整的示例请参考[这里](https://codesandbox.io/s/test-tootip-zoom-zc5yn?file=/index.js)。<br />
-
+也可以根据我们的实际需要，控制 Tooltip 缩放的最大和最小比例。<br /> <br />完整的示例请参考[这里](https://codesandbox.io/s/test-tootip-zoom-zc5yn?file=/index.js)。<br />
 
 ### ContextMenu 自动缩放
 

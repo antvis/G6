@@ -4,6 +4,7 @@ order: 4
 ---
 
 ## Add/Remove
+
 ### graph.addItem(type, model, stack)
 
 Add item(node, edge) to the graph.
@@ -53,7 +54,6 @@ Remove the item. When the item is the id of a group, this operation will delete 
 const item = graph.findById('node');
 graph.removeItem(item);
 ```
-
 
 ## Update
 
@@ -179,7 +179,6 @@ When the positions of nodes in their data models are changed, refresh the canvas
 graph.refreshPositions();
 ```
 
-
 ## Configure
 
 ### graph.node(nodeFn)
@@ -268,7 +267,6 @@ graph.combo((combo) => {
 graph.data(data);
 graph.render();
 ```
-
 
 ## Show/Hide
 

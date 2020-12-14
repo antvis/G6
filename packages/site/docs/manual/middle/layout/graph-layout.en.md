@@ -72,9 +72,9 @@ General graph layout API: [General Graph Layout API](/en/docs/api/graphLayout/gu
 
 ### GForce
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lX-qSqDECrIAAAAAAAAAAAAAARQnAQ' width=500 alt='img'/> 
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lX-qSqDECrIAAAAAAAAAAAAAARQnAQ' width=500 alt='img'/>
 
-<br /> **Description**: GForce implements the classical force-directed layout algorithm by G6 4.0. It supports assign different masses and center gravities for different nodes freedomly. More importantly, it supports GPU parallel acceleration. <br /> **API**: [GForce API](/en/docs/api/graphLayout/gforce) <br /> **Configuration**: 
+<br /> **Description**: GForce implements the classical force-directed layout algorithm by G6 4.0. It supports assign different masses and center gravities for different nodes freedomly. More importantly, it supports GPU parallel acceleration. <br /> **API**: [GForce API](/en/docs/api/graphLayout/gforce) <br /> **Configuration**:
 
 | Name | Type | Example | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -89,14 +89,14 @@ General graph layout API: [General Graph Layout API](/en/docs/api/graphLayout/gu
 | maxIteration | Number | 500 | 1000 | The max number of iterations. If the average movement do not reach `minMovement` but the iteration number is over `maxIteration`, terminate the layout |
 | damping | Number | 0.99 | 0.9 | Range [0, 1], affect the speed of decreasing node moving speed. Large the number, slower the decreasing |
 | maxSpeed | Number | 10 | 1000 | The max speed in each iteration |
-| coulombDisScale | Number | 0.003| 0.005 | A parameter for repulsive force between nodes. Large the number, larger the repulsion |
+| coulombDisScale | Number | 0.003 | 0.005 | A parameter for repulsive force between nodes. Large the number, larger the repulsion |
 | getMass | Function | d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | It is a callback returns the mass of each node. If it is not assigned, the degree of each node will takes effect. The usage is similar to `nodeSpacing` |
 | getCenter | Function | (d, degree) => {<br />  // d is a node, degree is the degree of the node<br />  if (d.degree === 0') {<br />    return [100, 100, 10]; // x, y, strength<br />  }<br />  return [210, 150, 5]; // x, y, strength<br />} | undefined | It is a callback returns gravity center and the gravity strength for each node |
-| gravity | Number | 20| 10 | The gravity strength to the `center` for all the nodes. Larger the number, more compact the nodes |
+| gravity | Number | 20 | 10 | The gravity strength to the `center` for all the nodes. Larger the number, more compact the nodes |
 | onTick | Function |  | undefined | The callback function of each iteration |
 | onLayoutEnd | Function |  | undefined | The callback function after layout |
 | workerEnabled | Boolean | true / false | false | Whether to enable the web-worker in case layout calculation takes too long to block page interaction |
-| gpuEnabled | Boolean | true / false | false |  Whether to enable the GPU parallel computing, supported by G6 4.0 |
+| gpuEnabled | Boolean | true / false | false | Whether to enable the GPU parallel computing, supported by G6 4.0 |
 
 ### Force
 
@@ -117,12 +117,12 @@ General graph layout API: [General Graph Layout API](/en/docs/api/graphLayout/gu
 | alphaMin | Number | 0.03 | 0.001 | The threshold to stop the iteration |
 | alpha | Number | 0.1 | 0.3 | The current alpha of convergence |
 | collideStrength | Number | 0.8 | 1 | The strength of force for preventing node overlappings. The range is [0, 1] |
-| clustering | Boolean | false| false | Whether run the force layout with clustering |
-| clusterNodeStrength | Number | -1| -0.8 | The force between nodes. It will be repulsive force while it is negative |
-| clusterEdgeStrength | Number | 0.1| 0.2 | The force along the edge |
-| clusterEdgeDistance | Number | 100| 50 | The edge length between the clusters |
-| clusterNodeSize | Number | 10| 15 | The node size(diameter) for clustering |
-| clusterFociStrength | Number | 0.8| 0.5 | The force for the clustering foci |
+| clustering | Boolean | false | false | Whether run the force layout with clustering |
+| clusterNodeStrength | Number | -1 | -0.8 | The force between nodes. It will be repulsive force while it is negative |
+| clusterEdgeStrength | Number | 0.1 | 0.2 | The force along the edge |
+| clusterEdgeDistance | Number | 100 | 50 | The edge length between the clusters |
+| clusterNodeSize | Number | 10 | 15 | The node size(diameter) for clustering |
+| clusterFociStrength | Number | 0.8 | 0.5 | The force for the clustering foci |
 | forceSimulation | Object |  | null | Customed force simulation. If it is not assigned, the force simulation of d3.js will take effect |
 | onTick | Function |  | {} | The callback function of each iteration |
 | onLayoutEnd | Function |  | {} | The callback function after layout |
@@ -154,7 +154,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/graphLayout/gu
 <br />**Description**: Arranges the nodes on a circle. <br />**API**: [Circular API](/en/docs/api/graphLayout/circular) <br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
-| --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- | --- | --- |
 | center | Array | [ 0, 0 ] | The center of the graph | The center of the layout |
 | radius | Number | 50 | null | The radius of the circle. If the `raidus` exists, `startRadius` and `endRadius` do not take effect. |
 | startRadius | Number | 10 | null | The start radius of spiral layout |
@@ -218,7 +218,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/graphLayout/gu
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ux0-SYBy6Y8AAAAAAAAAAABkARQnAQ' width=300 alt='img'/><br />Tips: Concentric layout in G6 refers to <a href='https://github.com/cytoscape/cytoscape.js' target='_blank'>cytoscape.js</a>, we obey the MIT license <br />**Description**: Arranges the nodes on several concentric circles.<br />**API**: [Concentric API](/en/docs/api/graphLayout/concentric)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
-| --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | center | Array | [ 0, 0 ] | The center of the graph | The center of the layout |
 | nodeSize | Number | 30 | 30 | The diameter of the node. It is used for preventing node overlappings |
 | minNodeSpacing | Number | 10 | 10 | The minimum separation between adjacent circles |

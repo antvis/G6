@@ -182,7 +182,7 @@ graph.on(timingEventName, evt => {
 | itemcollapsed | 在 TreeGraph 上使用了 `'collapse-expand'` Behavior 并触发了该行为后，该事件被触发 |
 | tooltipchange | 使用了 `'tooltip'` 或 `'edge-tooltip'` Behavior 且 tooltip 的显示/隐藏被改变后，该事件被触发 |
 | wheelzoom | 使用了 `'zoom-canvas'` Behavior 并用滚轮对图进行缩放后，该事件被触发 |
-| viewportchange |调用 `graph.moveTo`，`graph.translate`，或 `graph.zoom` 均会触发该事件 |
+| viewportchange | 调用 `graph.moveTo`，`graph.translate`，或 `graph.zoom` 均会触发该事件 |
 | dragnodeend | 使用了 `'drag-node'` Behavior，当拖动结束时，该事件被触发 |
 | stackchange | 撤销/重做栈发生变化时，该事件触发 |
 
@@ -311,22 +311,21 @@ graph.on(timingEventName, evt => {
 
 #### viewportchange
 
-| 名称   | 类型   | 描述                                          |
-| ------ | ------ | ----------------------------------------------- |
-| action   | 'translate' / 'move' / 'zoom'   | 视窗变换的类型，`'translate'`、`'move'`、`'zoom'` 分别标识该时机是由 `graph.translate`、`graph.move`、还是 `graph.zoom` 函数的调用而产生  |
+| 名称 | 类型 | 描述 |
+| --- | --- | --- |
+| action | 'translate' / 'move' / 'zoom' | 视窗变换的类型，`'translate'`、`'move'`、`'zoom'` 分别标识该时机是由 `graph.translate`、`graph.move`、还是 `graph.zoom` 函数的调用而产生 |
 | matrix | Array | 视窗变换后的图的矩阵 |
 
 #### dragnodeend
 
-| 名称   | 类型   | 描述                                          |
-| ------ | ------ | --------------------------------------------- |
-| items   | Item[]   | 当前操作的 item 实例                          |
+| 名称       | 类型            | 描述                                                    |
+| ---------- | --------------- | ------------------------------------------------------- |
+| items      | Item[]          | 当前操作的 item 实例                                    |
 | targetItem | null/Node/Combo | 拖动节点结束后，节点是放到 canvas、Node 还是 Combo 上面 |
 
 #### stackchange
 
-| 名称   | 类型   | 描述                                          |
-| ------ | ------ | ----------------------------------------------- |
-| redoStack | Object[]   | 重做堆栈                           |
+| 名称      | 类型     | 描述     |
+| --------- | -------- | -------- |
+| redoStack | Object[] | 重做堆栈 |
 | undoStack | Object[] | 撤销堆栈 |
-

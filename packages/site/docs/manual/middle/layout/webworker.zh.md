@@ -18,5 +18,6 @@ const graph = new G6.Graph({
 ```
 
 注意：
+
 - 树图不支持 Web-Worker 机制；
 - 子图布局机制暂不支持 Web-Worker 机制。
