@@ -1,7 +1,7 @@
 import Base, { IPluginBaseConfig } from '../base';
 import { isString, isNil } from '@antv/util';
 import { modifyCSS, createDom } from '@antv/dom-util';
-import Graph from '../../graph/graph';
+import { Graph } from '@antv/g6';
 import { ShapeStyle } from '../../types';
 import { Point } from '@antv/g-math/lib/types';
 import { Event as GraphEvent } from '@antv/g-base';

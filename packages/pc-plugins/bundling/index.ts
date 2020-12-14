@@ -1,6 +1,6 @@
 import Base, { IPluginBaseConfig } from '../base';
 import Edge from '../../item/edge';
-import Graph from '../../graph/graph';
+import { Graph } from '@antv/g6';
 import { GraphData, NodeConfig, NodeConfigMap, EdgeConfig } from '../../types';
 import { Point } from '@antv/g-base/lib/types';
 

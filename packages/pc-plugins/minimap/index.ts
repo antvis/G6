@@ -3,7 +3,7 @@ import { Canvas as GSVGCanvas } from '@antv/g-svg';
 import Base, { IPluginBaseConfig } from '../base';
 import { isString, isNil, each, debounce } from '@antv/util';
 import { createDom, modifyCSS } from '@antv/dom-util';
-import Graph from '../../graph/graph';
+import { Graph } from '@antv/g6';
 import { Matrix, ShapeStyle } from '../../types';
 import { transform } from '@antv/matrix-util';
 import { Point } from '@antv/g-math/lib/types';
