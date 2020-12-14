@@ -1,5 +1,7 @@
-import { G6Event, IG6GraphEvent, IGraph } from '@antv/g6-core';
-import { cloneEvent, isNaN } from '../util/base';
+import { G6Event, IG6GraphEvent } from '@antv/g6-core';
+import { IGraph } from '../interface/graph';
+import Util from '../util';
+const { cloneEvent, isNaN } = Util;
 
 const { abs } = Math;
 const DRAG_OFFSET = 10;
@@ -104,7 +106,7 @@ export default {
       for (let i = 0, len = edges.length; i < len; i++) {
         const shapes = edges[i].get('group').get('children');
         if (!shapes) continue;
-        shapes.forEach(shape => {
+        shapes.forEach((shape) => {
           shape.set('ori-visibility', shape.get('visible'));
           shape.hide();
         });
@@ -162,7 +164,7 @@ export default {
       for (let i = 0, len = edges.length; i < len; i++) {
         const shapes = edges[i].get('group').get('children');
         if (!shapes) continue;
-        shapes.forEach(shape => {
+        shapes.forEach((shape) => {
           const oriVis = shape.get('ori-visibility');
           if (oriVis) shape.show();
         });

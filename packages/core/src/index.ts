@@ -1,5 +1,5 @@
 import Behaviors from './behavior';
-import Graph from './graph/graph';
+import AbstractGraph from './graph/graph';
 import Shape, { Arrow, Marker } from './shape';
 import Global from './global';
 import Util from './util';
@@ -15,7 +15,7 @@ const registerBehavior = Behaviors.registerBehavior;
 export {
   registerNode,
   registerCombo,
-  Graph,
+  AbstractGraph,
   Util,
   registerEdge,
   registerBehavior,
@@ -31,7 +31,7 @@ export * from './interface/behavior';
 
 export default {
   version: Global.version,
-  Graph,
+  AbstractGraph,
   Util,
   registerNode: Shape.registerNode,
   registerEdge: Shape.registerEdge,

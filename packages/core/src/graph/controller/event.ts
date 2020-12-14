@@ -1,11 +1,11 @@
-import { IGraph } from '../../interface/graph';
+import { IAbstractGraph } from '../../interface/graph';
 
 export default abstract class EventController {
-  protected graph: IGraph;
+  protected graph: IAbstractGraph;
 
   public destroyed: boolean;
 
-  constructor(graph: IGraph) {
+  constructor(graph: IAbstractGraph) {
     this.graph = graph;
     this.destroyed = false;
     this.initEvents();

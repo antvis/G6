@@ -1,10 +1,10 @@
 import { Point, IGroup } from '@antv/g-base';
 import { mix, each, isArray, isString } from '@antv/util';
 import { registerEdge, ShapeStyle, EdgeConfig, Item, INode } from '@antv/g6-core';
-import { pointsToPolygon } from '../../util/path';
 import Global from '../../global';
 import { getPathWithBorderRadiusByPolyline } from './polyline-util';
 import { RouterCfg, pathFinder } from './router';
+import Util from '../../util';
 
 // 折线
 registerEdge(
@@ -99,7 +99,7 @@ registerEdge(
         stroke: cfg.color,
       };
       const shape =
-        group.find(element => element.get('className') === 'edge-shape') || item.getKeyShape();
+        group.find((element) => element.get('className') === 'edge-shape') || item.getKeyShape();
 
       const { size } = cfg;
       cfg = this.getPathPoints!(cfg);
@@ -187,7 +187,7 @@ registerEdge(
       }
 
       polylinePoints = pathFinder(points[0], points[points.length - 1], source, target, routeCfg);
-      const res = pointsToPolygon(polylinePoints);
+      const res = Util.pointsToPolygon(polylinePoints);
       return res;
     },
   },

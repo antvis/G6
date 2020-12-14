@@ -1,5 +1,4 @@
-import { Group } from '@antv/g-canvas';
-import Path from '@antv/g-canvas/lib/shape/path';
+import { IGroup } from '@antv/g-base';
 import { vec2 } from '@antv/matrix-util';
 import Global from '../global';
 import {
@@ -17,7 +16,7 @@ import { applyMatrix } from './math';
 import letterAspectRatio from './letterAspectRatio';
 import { isString, clone } from '@antv/util';
 import { BBox } from '@antv/g-math/lib/types';
-import { IGraph } from '../interface/graph';
+import { IAbstractGraph } from '../interface/graph';
 
 const { PI, sin, cos } = Math;
 
@@ -25,7 +24,7 @@ const { PI, sin, cos } = Math;
 const SELF_LINK_SIN: number = sin(PI / 8);
 const SELF_LINK_COS: number = cos(PI / 8);
 
-export const getBBox = (element: IShapeBase, group: Group): IBBox => {
+export const getBBox = (element: IShapeBase, group: IGroup): IBBox => {
   const bbox = element.getBBox();
   let leftTop: IPoint = {
     x: bbox.minX,
@@ -66,7 +65,7 @@ export const getBBox = (element: IShapeBase, group: Group): IBBox => {
  */
 export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
   const item = cfg.sourceNode || cfg.targetNode;
-  const container: Group = item.get('group');
+  const container: IGroup = item.get('group');
   let containerMatrix = container.getMatrix();
   if (!containerMatrix) containerMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
 
@@ -220,7 +219,7 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
  * @return {object} 文本的 x, y, 文本的旋转角度
  */
 export const getLabelPosition = (
-  pathShape: Path,
+  pathShape,
   percent: number,
   refX: number,
   refY: number,
@@ -661,7 +660,7 @@ export const reconstructTree = (
   return trees;
 };
 
-export const getComboBBox = (children: ComboTree[], graph: IGraph): BBox => {
+export const getComboBBox = (children: ComboTree[], graph: IAbstractGraph): BBox => {
   const comboBBox = {
     minX: Infinity,
     minY: Infinity,
@@ -706,37 +705,30 @@ export const getComboBBox = (children: ComboTree[], graph: IGraph): BBox => {
   return comboBBox;
 };
 
-export const getChartRegion = (
-  params: {
-    group: Group,
-    width: number,
-    height: number,
-    x: number,
-    y: number
-  }) => {
-  const {
-    group,
-    height,
-    width,
-    x,
-    y
-  } = params;
+export const getChartRegion = (params: {
+  group: IGroup;
+  width: number;
+  height: number;
+  x: number;
+  y: number;
+}) => {
+  const { group, height, width, x, y } = params;
   const canvas = group.get('canvas');
   const canvasWidth = canvas.get('width');
   const canvasHeight = canvas.get('height');
   const region = {
     start: {
       x: 0,
-      y: 0
+      y: 0,
     },
     end: {
       x: 0,
-      y: 0
-    }
-  }
+      y: 0,
+    },
+  };
   region.start.x = x / canvasWidth;
   region.start.y = y / canvasHeight;
   region.end.x = (x + width) / canvasWidth;
   region.end.y = (y + height) / canvasHeight;
   return region;
-}
+};

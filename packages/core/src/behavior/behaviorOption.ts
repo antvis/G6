@@ -1,5 +1,5 @@
 import { each } from '@antv/util';
-import { IGraph } from '../interface/graph';
+import { IAbstractGraph } from '../interface/graph';
 import { G6Event } from '../types';
 
 // 自定义 Behavior 时候共有的方法
@@ -35,7 +35,7 @@ export default {
    * auto bind events when register behavior
    * @param graph Graph instance
    */
-  bind(graph: IGraph) {
+  bind(graph: IAbstractGraph) {
     const { events } = this;
     this.graph = graph;
     if (
@@ -54,7 +54,7 @@ export default {
     });
   },
 
-  unbind(graph: IGraph) {
+  unbind(graph: IAbstractGraph) {
     const { events } = this;
     if (
       this.type === 'drag-canvas' ||

@@ -1,10 +1,9 @@
 import { isNaN } from '../../util/base';
 import { GraphData } from '../../types';
-
-import { IGraph } from '../../interface/graph';
+import { IAbstractGraph } from '../../interface/graph';
 
 export default abstract class LayoutController {
-  public graph: IGraph;
+  public graph: IAbstractGraph;
 
   public destroyed: boolean;
 
@@ -16,7 +15,7 @@ export default abstract class LayoutController {
 
   protected data;
 
-  constructor(graph: IGraph) {
+  constructor(graph: IAbstractGraph) {
     this.graph = graph;
     this.layoutCfg = graph.get('layout') || {};
     this.layoutType = this.layoutCfg.type;

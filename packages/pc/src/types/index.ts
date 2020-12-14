@@ -1,3 +1,5 @@
+import { ShapeStyle, ModelConfig, StateStyles } from '../../../core/lib';
+
 /* eslint @typescript-eslint/no-use-before-define: 0 */
 
 export type TimeBarType = 'trend' | 'simple' | 'tick';
@@ -26,3 +28,22 @@ export type WaterMarkerConfig = Partial<{
     rotate?: number;
   };
 }>;
+
+export interface TreeGraphData {
+  id: string;
+  label?: string;
+  x?: number;
+  y?: number;
+  children?: TreeGraphData[];
+  data?: ModelConfig;
+  side?: 'left' | 'right';
+  depth?: number;
+  collapsed?: boolean;
+  style?:
+    | ShapeStyle
+    | {
+        [key: string]: ShapeStyle;
+      };
+  stateStyles?: StateStyles;
+  [key: string]: unknown;
+}

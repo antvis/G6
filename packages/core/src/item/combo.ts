@@ -1,5 +1,5 @@
+import { IGroup } from '@antv/g-base';
 import { ICombo, INode, IItemBaseConfig } from '../interface/item';
-import { Group } from '@antv/g-canvas';
 import Node from './node';
 import { ComboConfig, IBBox, IShapeBase } from '../types';
 import Global from '../global';
@@ -54,7 +54,7 @@ export default class Combo extends Node implements ICombo {
    */
   public calculateCanvasBBox(): IBBox {
     const keyShape: IShapeBase = this.get('keyShape');
-    const group: Group = this.get('group');
+    const group: IGroup = this.get('group');
     // 因为 group 可能会移动，所以必须通过父元素计算才能计算出正确的包围盒
     const bbox = getBBox(keyShape, group);
     bbox.x = bbox.minX;
@@ -232,7 +232,7 @@ export default class Combo extends Node implements ICombo {
   public destroy() {
     if (!this.destroyed) {
       const animate = this.get('animate');
-      const group: Group = this.get('group');
+      const group: IGroup = this.get('group');
       if (animate) {
         group.stopAnimate();
       }

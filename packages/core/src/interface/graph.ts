@@ -24,9 +24,9 @@ import {
 } from '../types';
 import { IEdge, INode, ICombo } from './item';
 import Hull from '../item/hull';
-import Stack from '../algorithm/structs/stack';
+import { Stack } from '@antv/algorithm';
 
-export interface IGraph extends EventEmitter {
+export interface IAbstractGraph extends EventEmitter {
   getDefaultCfg(): Partial<GraphOptions>;
   get<T = any>(key: string): T;
   set<T = any>(key: string | object, value?: T): Graph;
@@ -296,7 +296,7 @@ export interface IGraph extends EventEmitter {
    *
    * @param {(string | INode)} node 节点 ID 或实例
    * @returns {INode[]}
-   * @memberof IGraph
+   * @memberof IAbstractGraph
    */
   getNeighbors(node: string | INode, type?: 'source' | 'target' | undefined): INode[];
 
@@ -306,7 +306,7 @@ export interface IGraph extends EventEmitter {
    * @param {(string | INode)} node 节点 ID 或实例
    * @param {('in' | 'out' | 'total' | 'all' | undefined)} 度数类型，in 入度，out 出度，total 总度数，all 返回三种类型度数的对象
    * @returns {Number | Object} 该节点的度数
-   * @memberof IGraph
+   * @memberof IAbstractGraph
    */
   getNodeDegree(
     node: string | INode,
@@ -537,7 +537,7 @@ export interface IGraph extends EventEmitter {
    * @param {boolean} cache 是否使用缓存的
    * @param {boolean} directed 是否是有向图，默认取 graph.directed
    * @returns {Matrix} 邻接矩阵
-   * @memberof IGraph
+   * @memberof IAbstractGraph
    */
   getAdjMatrix(cache: boolean, directed?: boolean): Number | Object;
 
@@ -547,7 +547,7 @@ export interface IGraph extends EventEmitter {
    * @param {boolean} cache 是否使用缓存的
    * @param {boolean} directed 是否是有向图，默认取 graph.directed
    * @returns {Matrix} 最短路径矩阵
-   * @memberof IGraph
+   * @memberof IAbstractGraph
    */
   getShortestPathMatrix(cache: boolean, directed?: boolean): Number | Object;
 
@@ -582,60 +582,4 @@ export interface IGraph extends EventEmitter {
    * 销毁画布
    */
   destroy(): void;
-}
-
-export interface ITreeGraph extends IGraph {
-  /**
-   * 添加子树到对应 id 的节点
-   * @param {TreeGraphData} data 子树数据模型
-   * @param {string | Item} parent 子树的父节点id
-   */
-  addChild(data: TreeGraphData, parent: string | Item): void;
-
-  /**
-   * 更新源数据，差量更新子树
-   * @param {TreeGraphData} data 子树数据模型
-   * @param {string} parent 子树的父节点id
-   */
-  updateChild(data: TreeGraphData, parent?: string): void;
-
-  /**
-   * 删除子树
-   * @param {string} id 子树根节点id
-   */
-  removeChild(id: string): void;
-
-  /**
-   * 根据id获取对应的源数据
-   * @param {string} id 元素id
-   * @param {TreeGraphData | undefined} parent 从哪个节点开始寻找，为空时从根节点开始查找
-   * @return {TreeGraphData} 对应源数据
-   */
-  findDataById(id: string, parent?: TreeGraphData | undefined): TreeGraphData | null;
-
-  /**
-   * 布局动画接口，用于数据更新时做节点位置更新的动画
-   * @param {TreeGraphData} data 更新的数据
-   * @param {function} onFrame 定义节点位置更新时如何移动
-   */
-  layoutAnimate(
-    data: TreeGraphData,
-    onFrame?: (
-      item: Item,
-      ratio: number,
-      originAttrs?: ShapeStyle,
-      data?: TreeGraphData,
-    ) => unknown,
-  ): void;
-
-  /**
-   * 立即停止布局动画
-   */
-  stopLayoutAnimate(): void;
-
-  /**
-   * 是否在布局动画
-   * @return {boolean} 是否有布局动画
-   */
-  isLayoutAnimating(): boolean;
 }

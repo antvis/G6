@@ -2,8 +2,7 @@
  * @fileOverview common combo shape
  * @author shiwu.wyy@antfin.com
  */
-import { Group as GGroup } from '@antv/g-canvas';
-import { IShape } from '@antv/g-canvas/lib/interfaces';
+import { IGroup, IShape } from '@antv/g-base';
 import { isArray, isNil, clone } from '@antv/util';
 import { ILabelConfig, ShapeOptions } from '../interface/shape';
 import { Item, LabelStyle, NodeConfig, ModelConfig, ShapeStyle } from '../types';
@@ -32,7 +31,7 @@ const singleCombo: ShapeOptions = {
     style: {
       stroke: Global.defaultCombo.style.stroke,
       fill: Global.defaultCombo.style.fill,
-      lineWidth: Global.defaultCombo.style.lineWidth
+      lineWidth: Global.defaultCombo.style.lineWidth,
     },
     labelCfg: {
       style: {
@@ -41,8 +40,8 @@ const singleCombo: ShapeOptions = {
       },
     },
     stateStyles: {
-      ...Global.comboStateStyles
-    }
+      ...Global.comboStateStyles,
+    },
   },
   /**
    * 获取 Combo 宽高
@@ -130,7 +129,7 @@ const singleCombo: ShapeOptions = {
     style.text = cfg.label;
     return style;
   },
-  drawShape(cfg: NodeConfig, group: GGroup): IShape {
+  drawShape(cfg: NodeConfig, group: IGroup): IShape {
     const { shapeType } = this; // || this.type，都已经加了 shapeType
     const style = this.getShapeStyle!(cfg);
     const shape = group.addShape(shapeType, {

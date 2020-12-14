@@ -1,5 +1,4 @@
-import { Group as GGroup } from '@antv/g-canvas';
-import { IShape } from '@antv/g-canvas/lib/interfaces';
+import { IGroup, IShape } from '@antv/g-base';
 import { mix, isNumber, clone, isNil } from '@antv/util';
 import { LabelStyle, Item, ComboConfig, ShapeStyle } from '../../types';
 import Global from '../../global';
@@ -18,7 +17,7 @@ Shape.registerCombo(
         radius: 0,
         stroke: Global.defaultCombo.style.stroke,
         fill: Global.defaultCombo.style.fill,
-        lineWidth: Global.defaultCombo.style.lineWidth
+        lineWidth: Global.defaultCombo.style.lineWidth,
       },
       // 文本样式配置
       labelCfg: {
@@ -33,12 +32,12 @@ Shape.registerCombo(
         [1, 0.5],
       ],
       stateStyles: {
-        ...Global.comboStateStyles
-      }
+        ...Global.comboStateStyles,
+      },
     },
     shapeType: 'rect',
     labelPosition: 'top',
-    drawShape(cfg: ComboConfig, group: GGroup): IShape {
+    drawShape(cfg: ComboConfig, group: IGroup): IShape {
       const style = this.getShapeStyle!(cfg);
       const keyShape = group.addShape('rect', {
         attrs: style,

@@ -3,10 +3,10 @@
  * @author shiwu.wyy@antfin.com
  */
 
+import { clone } from '@antv/util';
 import { EdgeConfig, IPointTuple, NodeConfig, NodeIdxMap } from '@antv/g6-core';
 import { BaseLayout } from './layout';
-import { getDegree } from '../util/math';
-import { clone } from '@antv/util';
+import Util from '../util';
 
 type Node = NodeConfig & {
   degree: number;
@@ -21,7 +21,7 @@ function initHierarchy(nodes: Node[], edges: Edge[], nodeMap: NodeIdxMap, direct
     nodes[i].parent = [];
   });
   if (directed) {
-    edges.forEach(e => {
+    edges.forEach((e) => {
       let sourceIdx = 0;
       if (e.source) {
         sourceIdx = nodeMap[e.source];
@@ -34,7 +34,7 @@ function initHierarchy(nodes: Node[], edges: Edge[], nodeMap: NodeIdxMap, direct
       nodes[targetIdx].parent.push(nodes[sourceIdx].id);
     });
   } else {
-    edges.forEach(e => {
+    edges.forEach((e) => {
       let sourceIdx = 0;
       if (e.source) {
         sourceIdx = nodeMap[e.source];
@@ -166,7 +166,7 @@ export default class CircularLayout extends BaseLayout {
       nodeMap[node.id] = i;
     });
     self.nodeMap = nodeMap;
-    const degrees = getDegree(nodes.length, nodeMap, edges);
+    const degrees = Util.getDegree(nodes.length, nodeMap, edges);
     self.degrees = degrees;
 
     if (!self.width && typeof window !== 'undefined') {
@@ -246,11 +246,7 @@ export default class CircularLayout extends BaseLayout {
         if (
           (i === n - 1 ||
             degrees[i] !== degrees[i + 1] ||
-            connect(
-              orderedCNodes[k],
-              cnode,
-              edges,
-            )) &&
+            connect(orderedCNodes[k], cnode, edges)) &&
           pickFlags[i] !== true
         ) {
           orderedCNodes.push(cnode);

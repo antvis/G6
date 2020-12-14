@@ -1,13 +1,23 @@
-import { Graph } from '../../../src';
+import { AbstractGraph } from '../../../src';
 import '../../../src/behavior';
 import { scale, translate } from '../../../src/util/math';
 import { GraphData, Item } from '../../../src/types';
-import Plugin from '../../../src/plugins';
-import { timerOut } from '../util/timeOut';
 
 const div = document.createElement('div');
 div.id = 'global-spec';
 document.body.appendChild(div);
+
+class Graph extends AbstractGraph {
+  constructor(cfg) {
+    super(cfg);
+  }
+
+  initEventController() {}
+
+  initLayoutController() {}
+
+  initCanvas() {}
+}
 
 describe('graph', () => {
   const globalGraph = new Graph({
@@ -117,65 +127,6 @@ describe('graph', () => {
     expect(() => {
       inst.render();
     }).toThrowError('data must be defined first');
-  });
-
-  it('groupByTypes is false & toDataURL', () => {
-    const inst = new Graph({
-      container: div,
-      width: 500,
-      height: 500,
-      groupByTypes: false,
-    });
-
-    const data = {
-      nodes: [
-        {
-          id: 'node1',
-          label: 'node1',
-        },
-        {
-          id: 'node2',
-        },
-      ],
-      edges: [
-        {
-          id: 'edge1',
-          source: 'node1',
-          target: 'node2',
-        },
-        {
-          id: 'edge2',
-          source: 'node1',
-          target: 'node1',
-        },
-        {
-          id: 'edge3',
-          source: 'node2',
-          target: 'node2',
-        },
-      ],
-    };
-
-    inst.data(data);
-    inst.render();
-
-    const nodeGroup = inst.get('nodeGroup');
-    const edgeGroup = inst.get('edgeGroup');
-
-    expect(nodeGroup).toBe(undefined);
-    expect(edgeGroup).toBe(undefined);
-
-    const node = inst.findById('node1');
-    const edge = inst.findById('edge1');
-
-    const group1 = node.get('group').getParent();
-    const group2 = edge.get('group').getParent();
-
-    expect(group1).toEqual(group2);
-
-    const url = inst.toDataURL();
-    expect(url).not.toBe(null);
-    inst.destroy()
   });
 
   it('translate', () => {
@@ -929,7 +880,7 @@ describe('all node link center', () => {
     });
 
     defaultGraph.on('node:click', (e) => {
-      e.item.setState(e.item, 'selected', true);
+      e.item.setState('selected', true);
       e.item.refresh();
     });
 
@@ -1218,46 +1169,6 @@ describe('mapper fn', () => {
   });
 });
 
-describe('plugins & layout', () => {
-  it('add & remove plugins', () => {
-    const graph = new Graph({
-      container: div,
-      height: 500,
-      width: 500,
-    });
-
-    const data = {
-      nodes: [
-        {
-          id: 'node',
-          label: 'node',
-        },
-      ],
-    };
-
-    graph.data(data);
-    graph.render();
-
-    let plugins = graph.get('plugins');
-    expect(plugins.length).toBe(0);
-
-    const minimap = new Plugin.Minimap({
-      size: [200, 200],
-    });
-
-    graph.addPlugin(minimap);
-    plugins = graph.get('plugins');
-    expect(plugins.length).toBe(1);
-
-    graph.removePlugin(minimap);
-    plugins = graph.get('plugins');
-    expect(plugins.length).toBe(0);
-
-    graph.destroy();
-    expect(graph.destroyed).toBe(true);
-  });
-});
-
 describe('auto rotate label on edge', () => {
   const graph = new Graph({
     container: div,
@@ -1391,17 +1302,6 @@ describe('auto rotate label on edge', () => {
       },
     ],
   };
-
-  it('downloadFullImage', () => {
-    graph.data(data);
-    graph.render();
-    graph.on('canvas:click', (evt) => {
-      graph.downloadFullImage('graph', {
-        backgroundColor: '#fff',
-        padding: [40, 10, 10, 10],
-      });
-    });
-  });
 });
 
 describe('node Neighbors', () => {

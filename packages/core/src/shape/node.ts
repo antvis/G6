@@ -2,8 +2,7 @@
  * @fileOverview common node shape
  * @author huangtonger@aliyun.com
  */
-import { Group as GGroup } from '@antv/g-canvas';
-import { IShape, IElement } from '@antv/g-canvas/lib/interfaces';
+import { IGroup, IShape, IElement } from '@antv/g-base';
 import { isArray, isNil, mix } from '@antv/util';
 import { ILabelConfig, ShapeOptions } from '../interface/shape';
 import { Item, LabelStyle, NodeConfig, ModelConfig } from '../types';
@@ -105,7 +104,7 @@ const singleNode: ShapeOptions = {
     label: IElement,
     cfg: ModelConfig,
     labelCfg?: ILabelConfig,
-    group?: GGroup,
+    group?: IGroup,
   ) {
     if (!label) {
       return {};
@@ -129,8 +128,8 @@ const singleNode: ShapeOptions = {
     let style: any;
     style = {
       x: bbox.minX - padding[3],
-      y: bbox.minY - padding[0]
-    }
+      y: bbox.minY - padding[0],
+    };
 
     style = {
       ...style,
@@ -141,7 +140,7 @@ const singleNode: ShapeOptions = {
 
     return style;
   },
-  drawShape(cfg: NodeConfig, group: GGroup): IShape {
+  drawShape(cfg: NodeConfig, group: IGroup): IShape {
     const { shapeType } = this; // || this.type，都已经加了 shapeType
     const style = this.getShapeStyle!(cfg);
     const shape = group.addShape(shapeType, {
@@ -157,7 +156,7 @@ const singleNode: ShapeOptions = {
    * @param {Object} cfg 节点数据配置项
    * @param {Group} group Item所在的group
    */
-  updateLinkPoints(cfg: NodeConfig, group: GGroup) {
+  updateLinkPoints(cfg: NodeConfig, group: IGroup) {
     const { linkPoints: defaultLinkPoints } = this.getOptions(cfg) as ModelConfig;
 
     const markLeft = group.find((element) => element.get('className') === 'link-point-left');

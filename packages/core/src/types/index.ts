@@ -1,7 +1,7 @@
 /* eslint @typescript-eslint/no-use-before-define: 0 */
 import { IGroup, Event as GraphEvent, BBox, AnimateCfg, ICanvas, IShape } from '@antv/g-base';
 import Node from '../item/node';
-import { IGraph } from '../interface/graph';
+import { IAbstractGraph } from '../interface/graph';
 import { IEdge, INode, ICombo } from '../interface/item';
 import { ILabelConfig } from '../interface/shape';
 
@@ -704,8 +704,8 @@ export interface BehaviorOption {
   shouldBegin?(e?: IG6GraphEvent): boolean;
   shouldUpdate?(e?: IG6GraphEvent): boolean;
   shouldEnd?(e?: IG6GraphEvent): boolean;
-  bind?(e: IGraph): void;
-  unbind?(e: IGraph): void;
+  bind?(e: IAbstractGraph): void;
+  unbind?(e: IAbstractGraph): void;
   [key: string]: unknown;
 }
 

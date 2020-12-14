@@ -1,7 +1,6 @@
+import { IGroup, IShape } from '@antv/g-base';
 import Shape from '../shape';
 import { NodeConfig, Item } from '../../types';
-import { Group as GGroup } from '@antv/g-canvas';
-import { IShape } from '@antv/g-canvas/lib/interfaces';
 
 /**
  * 基本的图片，可以添加文本，默认文本在图片的下面
@@ -50,7 +49,7 @@ Shape.registerNode(
     },
     shapeType: 'image',
     labelPosition: 'bottom',
-    drawShape(cfg: NodeConfig, group: GGroup): IShape {
+    drawShape(cfg: NodeConfig, group: IGroup): IShape {
       const { shapeType } = this; // || this.type，都已经加了 shapeType
       const style = this.getShapeStyle!(cfg);
       delete style.fill;

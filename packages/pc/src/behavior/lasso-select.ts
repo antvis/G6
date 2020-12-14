@@ -1,6 +1,6 @@
 import { G6Event, IG6GraphEvent, IPoint, Item } from '@antv/g6-core';
-import { isPolygonsIntersect } from '../util/math';
-import { pathToPoints } from '../util/path';
+import Util from '../util';
+const { isPolygonsIntersect, pathToPoints } = Util;
 
 const DEFAULT_TRIGGER = 'shift';
 const ALLOW_EVENTS = ['drag', 'shift', 'ctrl', 'alt', 'control'];
@@ -134,8 +134,8 @@ export default {
     const { graph, selectedState } = this;
     const nodes = graph.findAllByState('node', selectedState);
     const edges = graph.findAllByState('edge', selectedState);
-    nodes.forEach(node => graph.setItemState(node, selectedState, false));
-    edges.forEach(edge => graph.setItemState(edge, selectedState, false));
+    nodes.forEach((node) => graph.setItemState(node, selectedState, false));
+    edges.forEach((edge) => graph.setItemState(edge, selectedState, false));
 
     if (this.onDeselect) {
       this.onDeselect(this.selectedNodes, this.selectedEdges);
@@ -154,14 +154,14 @@ export default {
   },
   getSelectedItems() {
     const { graph, shouldUpdate } = this;
-    const lassoContour = this.points.map(point => [
+    const lassoContour = this.points.map((point) => [
       graph.getCanvasByPoint(point.x, point.y).x,
       graph.getCanvasByPoint(point.x, point.y).y,
     ]);
     const state = this.selectedState;
     const selectedNodes = [];
     const selectedIds = [];
-    graph.getNodes().forEach(node => {
+    graph.getNodes().forEach((node) => {
       if (isItemIntersecPolygon(node, lassoContour)) {
         if (shouldUpdate(node, 'select')) {
           selectedNodes.push(node);
@@ -174,9 +174,9 @@ export default {
     const selectedEdges = [];
     if (this.includeEdges) {
       // 选中边，边的source和target都在选中的节点中时才选中
-      selectedNodes.forEach(node => {
+      selectedNodes.forEach((node) => {
         const edges = node.getOutEdges();
-        edges.forEach(edge => {
+        edges.forEach((edge) => {
           const model = edge.getModel();
           const { source, target } = model;
           if (

@@ -7,7 +7,8 @@
  */
 import { Point } from '@antv/g-base/lib/types';
 import { deepMix, clone } from '@antv/util';
-import { G6Event, IG6GraphEvent, Item, NodeConfig, INode, ICombo, IGraph } from '@antv/g6-core';
+import { G6Event, IG6GraphEvent, Item, NodeConfig, INode, ICombo } from '@antv/g6-core';
+import { IGraph } from '../interface/graph';
 import Global from '../global';
 
 export default {
@@ -88,7 +89,7 @@ export default {
     const currentNodeId = item.get('id');
 
     // 当前拖动的节点是否是选中的节点
-    const dragNodes = nodes.filter(node => {
+    const dragNodes = nodes.filter((node) => {
       const nodeId = node.get('id');
       return currentNodeId === nodeId;
     });
@@ -98,7 +99,7 @@ export default {
       this.targets.push(item);
     } else if (nodes.length > 1) {
       // 拖动多个节点
-      nodes.forEach(node => {
+      nodes.forEach((node) => {
         const locked = node.hasLocked();
         if (!locked) {
           this.targets.push(node);
@@ -108,7 +109,7 @@ export default {
       this.targets.push(item);
     }
     const beforeDragNodes = [];
-    this.targets.forEach(t => {
+    this.targets.forEach((t) => {
       beforeDragNodes.push(clone(t.getModel()));
     });
     this.set('beforeDragNodes', beforeDragNodes);
@@ -138,7 +139,7 @@ export default {
     if (this.get('enableDelegate')) {
       this.updateDelegate(evt);
     } else {
-      this.targets.map(target => {
+      this.targets.map((target) => {
         this.update(target, evt);
       });
     }
@@ -175,7 +176,7 @@ export default {
         after: { nodes: [], edges: [], combos: [] },
       };
 
-      this.targets.forEach(target => {
+      this.targets.forEach((target) => {
         stackData.after.nodes.push(target.getModel());
       });
       graph.pushStack('update', clone(stackData));
@@ -322,7 +323,7 @@ export default {
     if (!this.targets || this.targets.length === 0) return;
     // 当开启 delegate 时，拖动结束后需要更新所有已选中节点的位置
     if (this.get('enableDelegate')) {
-      this.targets.map(node => this.update(node, evt));
+      this.targets.map((node) => this.update(node, evt));
     }
   },
   /**

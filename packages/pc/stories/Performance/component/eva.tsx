@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import G6 from '../../../src';
-import { IGraph } from '@antv/g6-core';
+import { IGraph } from '../../../src/interface/graph';
 
 let graph: IGraph = null;
 

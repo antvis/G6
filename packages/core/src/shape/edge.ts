@@ -5,8 +5,7 @@
  */
 
 import { Point } from '@antv/g-base/lib/types';
-import { Group as GGroup } from '@antv/g-canvas';
-import { IShape, IElement } from '@antv/g-canvas/lib/interfaces';
+import { IGroup, IShape, IElement } from '@antv/g-base';
 import { deepMix, mix, each, isNil, isNumber, isArray } from '@antv/util';
 import { ILabelConfig, ShapeOptions } from '../interface/shape';
 import { EdgeConfig, EdgeData, IPoint, LabelStyle, ShapeStyle, Item, ModelConfig } from '../types';
@@ -16,7 +15,6 @@ import { getControlPoint, getSpline } from '../util/path';
 import Global from '../global';
 import Shape from './shape';
 import { shapeBase, CLS_LABEL_BG_SUFFIX } from './shapeBase';
-import { Path } from '@antv/g-canvas/lib/shape';
 
 const CLS_SHAPE = 'edge-shape';
 
@@ -61,7 +59,7 @@ const singleEdge: ShapeOptions = {
       x: 0,
       y: 0,
       stroke: Global.defaultEdge.style.stroke,
-      lineAppendWidth: Global.defaultEdge.style.lineAppendWidth
+      lineAppendWidth: Global.defaultEdge.style.lineAppendWidth,
     },
     labelCfg: {
       style: {
@@ -70,8 +68,8 @@ const singleEdge: ShapeOptions = {
       },
     },
     stateStyles: {
-      ...Global.edgeStateStyles
-    }
+      ...Global.edgeStateStyles,
+    },
   },
   /**
    * 获取边的 path
@@ -155,12 +153,12 @@ const singleEdge: ShapeOptions = {
     }
     if (currentAttr.endArrow && previousStyle.endArrow === false) {
       cfg.style.endArrow = {
-        path: ''
+        path: '',
       };
     }
     if (currentAttr.startArrow && previousStyle.startArrow === false) {
       cfg.style.startArrow = {
-        path: ''
+        path: '',
       };
     }
     const path = (this as any).getPath(points, routeCfg);
@@ -169,21 +167,20 @@ const singleEdge: ShapeOptions = {
       shape.attr(),
       {
         lineWidth: size,
-        path
+        path,
       },
-      cfg.style
+      cfg.style,
     );
 
     if (shape) {
       shape.attr(style);
     }
   },
-  getLabelStyleByPosition(cfg: EdgeConfig, labelCfg: ILabelConfig, group?: GGroup): LabelStyle {
+  getLabelStyleByPosition(cfg: EdgeConfig, labelCfg: ILabelConfig, group?: IGroup): LabelStyle {
     const labelPosition = labelCfg.position || this.labelPosition; // 文本的位置用户可以传入
     const style: LabelStyle = {};
 
-    const pathShape =
-      group && (group.find((element) => element.get('className') === CLS_SHAPE) as Path);
+    const pathShape = group && group.find((element) => element.get('className') === CLS_SHAPE);
 
     // 不对 pathShape 进行判空，如果线不存在，说明有问题了
     let pointPercent;
@@ -207,7 +204,7 @@ const singleEdge: ShapeOptions = {
 
     const autoRotate = isNil(labelCfg.autoRotate) ? this.labelAutoRotate : labelCfg.autoRotate;
     const offsetStyle = getLabelPosition(
-      pathShape as Path,
+      pathShape,
       pointPercent,
       offsetX,
       offsetY,
@@ -224,7 +221,7 @@ const singleEdge: ShapeOptions = {
     label: IElement,
     cfg: EdgeConfig,
     labelCfg?: ILabelConfig,
-    group?: GGroup,
+    group?: IGroup,
   ) {
     if (!label) {
       return {};
@@ -248,8 +245,7 @@ const singleEdge: ShapeOptions = {
     };
     const autoRotate = isNil(labelCfg.autoRotate) ? this.labelAutoRotate : labelCfg.autoRotate;
 
-    const pathShape =
-      group && (group.find((element) => element.get('className') === CLS_SHAPE) as Path);
+    const pathShape = group && group.find((element) => element.get('className') === CLS_SHAPE);
 
     // 不对 pathShape 进行判空，如果线不存在，说明有问题了
     let pointPercent;
@@ -339,7 +335,7 @@ const singleEdge: ShapeOptions = {
    * @param  {G.Group} group 边的容器
    * @return {IShape} 图形
    */
-  drawShape(cfg: EdgeConfig, group: GGroup): IShape {
+  drawShape(cfg: EdgeConfig, group: IGroup): IShape {
     const shapeStyle = this.getShapeStyle!(cfg);
     const shape = group.addShape('path', {
       className: CLS_SHAPE,
@@ -348,11 +344,19 @@ const singleEdge: ShapeOptions = {
     });
     return shape;
   },
-  drawLabel(cfg: EdgeConfig, group: GGroup): IShape {
+  drawLabel(cfg: EdgeConfig, group: IGroup): IShape {
     const { labelCfg: defaultLabelCfg } = this.options as ModelConfig;
-    const labelCfg = deepMix({
-      fontFamily: typeof window !== 'undefined' ? window.getComputedStyle(document.body, null).getPropertyValue("font-family") || 'Arial, sans-serif' : 'Arial, sans-serif',
-    }, defaultLabelCfg, cfg.labelCfg);
+    const labelCfg = deepMix(
+      {
+        fontFamily:
+          typeof window !== 'undefined'
+            ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
+              'Arial, sans-serif'
+            : 'Arial, sans-serif',
+      },
+      defaultLabelCfg,
+      cfg.labelCfg,
+    );
     const labelStyle = this.getLabelStyle!(cfg, labelCfg, group);
     const rotate = labelStyle.rotate;
     delete labelStyle.rotate;
@@ -372,7 +376,7 @@ const singleEdge: ShapeOptions = {
     }
     return label;
   },
-  drawLabelBg(cfg: ModelConfig, group: GGroup, label: IElement) {
+  drawLabelBg(cfg: ModelConfig, group: IGroup, label: IElement) {
     const { labelCfg: defaultLabelCfg } = this.options as ModelConfig;
     const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
     const labelStyle = this.getLabelStyle!(cfg, labelCfg, group);

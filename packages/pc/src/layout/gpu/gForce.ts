@@ -12,11 +12,10 @@ import {
   buildTextureDataWithTwoEdgeAttr,
   arrayToTextureData,
 } from '../../util/layout';
-import { getDegree } from '../../util/math';
 // import { gForceCode, aveMovementCode } from './gForceShader';
 import { gForceBundle, aveMovementBundle } from './gForceShader';
 import { LAYOUT_MESSAGE } from '../worker/layoutConst';
-import { Compiler } from '@antv/g-webgpu-compiler';
+import Util from '../../util';
 
 type NodeMap = {
   [key: string]: NodeConfig;
@@ -177,8 +176,8 @@ export default class GForceGPULayout extends BaseLayout {
 
     const numParticles = nodes.length;
 
-    self.linkDistance = proccessToFunc(self.linkDistance) as ((d?: any) => number);
-    self.edgeStrength = proccessToFunc(self.edgeStrength) as ((d?: any) => number);
+    self.linkDistance = proccessToFunc(self.linkDistance) as (d?: any) => number;
+    self.edgeStrength = proccessToFunc(self.edgeStrength) as (d?: any) => number;
     const { maxEdgePerVetex, array: nodesEdgesArray } = buildTextureDataWithTwoEdgeAttr(
       nodes,
       edges,
@@ -187,14 +186,14 @@ export default class GForceGPULayout extends BaseLayout {
     );
 
     // init degree for mass
-    self.degrees = getDegree(nodes.length, self.nodeIdxMap, edges);
+    self.degrees = Util.getDegree(nodes.length, self.nodeIdxMap, edges);
     const masses = [];
     const nodeStrengths = [];
     const centerXs = [];
     const centerYs = [];
     const centerGravities = [];
     if (!self.getMass) {
-      self.getMass = d => {
+      self.getMass = (d) => {
         return self.degrees[self.nodeIdxMap[d.id]] || 1;
       };
     }
@@ -252,7 +251,7 @@ export default class GForceGPULayout extends BaseLayout {
     const onLayoutEnd = self.onLayoutEnd;
 
     const initPreviousData = [];
-    nodesEdgesArray.forEach(value => {
+    nodesEdgesArray.forEach((value) => {
       initPreviousData.push(value);
     });
     for (let i = 0; i < 4; i++) {

@@ -2,13 +2,12 @@
  * @fileOverview 自定义节点和边的过程中，发现大量重复代码
  * @author dxq613@gmail.com
  */
-import { Group as GGroup } from '@antv/g-canvas';
-import { IShape, IElement } from '@antv/g-canvas/lib/interfaces';
+import { IGroup, IShape, IElement } from '@antv/g-base';
 import { ShapeOptions, ILabelConfig } from '../interface/shape';
 import { IPoint, Item, LabelStyle, ShapeStyle, ModelConfig, EdgeConfig } from '../types';
 import Global from '../global';
 import { transform } from '@antv/matrix-util';
-import { deepMix, each, mix, isBoolean, isPlainObject, clone, isString } from '@antv/util';
+import { deepMix, each, mix, isBoolean, isPlainObject, clone } from '@antv/util';
 
 const CLS_SHAPE_SUFFIX = '-shape';
 const CLS_LABEL_SUFFIX = '-label';
@@ -29,8 +28,8 @@ const SHAPE_DEFAULT_ATTRS = {
   shadowColor: undefined,
   shadowBlur: 0,
   shadowOffsetX: 0,
-  shadowOffsetY: 0
-}
+  shadowOffsetY: 0,
+};
 const PATH_SHAPE_DEFAULT_ATTRS = {
   lineWidth: 1,
   stroke: '#000',
@@ -43,13 +42,13 @@ const PATH_SHAPE_DEFAULT_ATTRS = {
   shadowColor: undefined,
   shadowBlur: 0,
   shadowOffsetX: 0,
-  shadowOffsetY: 0
-}
+  shadowOffsetY: 0,
+};
 const SHAPES_DEFAULT_ATTRS = {
   edge: PATH_SHAPE_DEFAULT_ATTRS,
   node: SHAPE_DEFAULT_ATTRS,
-  combo: SHAPE_DEFAULT_ATTRS
-}
+  combo: SHAPE_DEFAULT_ATTRS,
+};
 
 export const CLS_LABEL_BG_SUFFIX = '-label-bg';
 
@@ -66,19 +65,32 @@ export const shapeBase: ShapeOptions = {
     return {};
   },
   getOptions(cfg: ModelConfig): ModelConfig {
-    return deepMix({
-      // 解决局部渲染导致的文字移动残影问题
-      labelCfg: {
-        style: {
-          fontFamily: typeof window !== 'undefined' ? window.getComputedStyle(document.body, null).getPropertyValue("font-family") || 'Arial, sans-serif' : 'Arial, sans-serif',
-        }
+    return deepMix(
+      {
+        // 解决局部渲染导致的文字移动残影问题
+        labelCfg: {
+          style: {
+            fontFamily:
+              typeof window !== 'undefined'
+                ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
+                  'Arial, sans-serif'
+                : 'Arial, sans-serif',
+          },
+        },
+        descriptionCfg: {
+          style: {
+            fontFamily:
+              typeof window !== 'undefined'
+                ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
+                  'Arial, sans-serif'
+                : 'Arial, sans-serif',
+          },
+        },
       },
-      descriptionCfg: {
-        style: {
-          fontFamily: typeof window !== 'undefined' ? window.getComputedStyle(document.body, null).getPropertyValue("font-family") || 'Arial, sans-serif' : 'Arial, sans-serif',
-        }
-      }
-    }, this.options, this.getCustomConfig(cfg) || {}, cfg);
+      this.options,
+      this.getCustomConfig(cfg) || {},
+      cfg,
+    );
   },
   /**
    * 绘制节点/边，包含文本
@@ -87,7 +99,7 @@ export const shapeBase: ShapeOptions = {
    * @param  {G.Group} group 节点的容器
    * @return {IShape} 绘制的图形
    */
-  draw(cfg: ModelConfig, group: GGroup): IShape {
+  draw(cfg: ModelConfig, group: IGroup): IShape {
     const shape: IShape = this.drawShape!(cfg, group);
     shape.set('className', this.itemType + CLS_SHAPE_SUFFIX);
     if (cfg.label) {
@@ -102,11 +114,11 @@ export const shapeBase: ShapeOptions = {
    * @param group
    * @param keyShape
    */
-  afterDraw(cfg?: ModelConfig, group?: GGroup, keyShape?: IShape) { },
-  drawShape(cfg?: ModelConfig, group?: GGroup): IShape {
+  afterDraw(cfg?: ModelConfig, group?: IGroup, keyShape?: IShape) {},
+  drawShape(cfg?: ModelConfig, group?: IGroup): IShape {
     return null as any;
   },
-  drawLabel(cfg: ModelConfig, group: GGroup): IShape {
+  drawLabel(cfg: ModelConfig, group: IGroup): IShape {
     const { labelCfg: defaultLabelCfg } = this.getOptions(cfg) as ModelConfig;
     // image的情况下有可能为null
     const labelCfg = (defaultLabelCfg || {}) as ILabelConfig;
@@ -173,21 +185,21 @@ export const shapeBase: ShapeOptions = {
     }
     return label;
   },
-  drawLabelBg(cfg: ModelConfig, group: GGroup, label: IElement) {
+  drawLabelBg(cfg: ModelConfig, group: IGroup, label: IElement) {
     const { labelCfg: defaultLabelCfg } = this.options as ModelConfig;
     const labelCfg = mix({}, defaultLabelCfg, cfg.labelCfg) as ILabelConfig;
     const style = this.getLabelBgStyleByPosition(label, cfg, labelCfg, group);
     const rect = group.addShape('rect', { name: 'text-bg-shape', attrs: style });
     return rect;
   },
-  getLabelStyleByPosition(cfg: ModelConfig, labelCfg?: ILabelConfig, group?: GGroup): LabelStyle {
+  getLabelStyleByPosition(cfg: ModelConfig, labelCfg?: ILabelConfig, group?: IGroup): LabelStyle {
     return { text: cfg.label as string };
   },
   getLabelBgStyleByPosition(
     label: IElement,
     cfg: ModelConfig,
     labelCfg?: ILabelConfig,
-    group?: GGroup,
+    group?: IGroup,
   ): LabelStyle {
     return {};
   },
@@ -198,7 +210,7 @@ export const shapeBase: ShapeOptions = {
    * @param labelCfg 文本的配置项
    * @param group 父容器，label 的定位可能与图形相关
    */
-  getLabelStyle(cfg: ModelConfig, labelCfg: ILabelConfig, group: GGroup): LabelStyle {
+  getLabelStyle(cfg: ModelConfig, labelCfg: ILabelConfig, group: IGroup): LabelStyle {
     const calculateStyle = this.getLabelStyleByPosition!(cfg, labelCfg, group);
     const attrName = `${this.itemType}Label`; // 取 nodeLabel，edgeLabel 的配置项
     const defaultStyle = (Global as any)[attrName] ? (Global as any)[attrName].style : null;
@@ -323,7 +335,7 @@ export const shapeBase: ShapeOptions = {
   },
 
   // update(cfg, item) // 默认不定义
-  afterUpdate(cfg?: ModelConfig, item?: Item) { },
+  afterUpdate(cfg?: ModelConfig, item?: Item) {},
   /**
    * 设置节点的状态，主要是交互状态，业务状态请在 draw 方法中实现
    * 单图形的节点仅考虑 selected、active 状态，有其他状态需求的用户自己复写这个方法
@@ -412,7 +424,10 @@ export const shapeBase: ShapeOptions = {
         } else {
           if (keyShapeStyles[p] && !keptAttrs[p]) {
             delete keyShapeStyles[p];
-            const value = originStyle[p] || (originStyle[keyShapeName] ? originStyle[keyShapeName][p] : undefined) || SHAPES_DEFAULT_ATTRS[type][p];
+            const value =
+              originStyle[p] ||
+              (originStyle[keyShapeName] ? originStyle[keyShapeName][p] : undefined) ||
+              SHAPES_DEFAULT_ATTRS[type][p];
             shape.attr(p, value);
           }
         }

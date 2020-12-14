@@ -1,6 +1,6 @@
 import { each, isString } from '@antv/util';
 import { Item, States } from '../../types';
-import Graph from '../graph';
+import { IAbstractGraph } from '../../interface/graph';
 import { INode } from '../../interface/item';
 
 interface CachedStates {
@@ -11,13 +11,13 @@ interface CachedStates {
 let timer: any = null;
 
 export default class StateController {
-  private graph: Graph;
+  private graph: IAbstractGraph;
 
   private cachedStates: CachedStates;
 
   public destroyed: boolean;
 
-  constructor(graph: Graph) {
+  constructor(graph: IAbstractGraph) {
     this.graph = graph;
     /**
      * this.cachedStates = {
@@ -170,7 +170,7 @@ export default class StateController {
   }
 
   public destroy() {
-    (this.graph as Graph | null) = null;
+    (this.graph as IAbstractGraph | null) = null;
     (this.cachedStates as CachedStates | null) = null;
     if (timer) {
       clearTimeout(timer);

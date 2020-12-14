@@ -84,3 +84,5 @@ es
 .github
 .storybook
 .vscode/
+
+stats.json

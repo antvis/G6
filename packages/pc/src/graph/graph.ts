@@ -2,17 +2,8 @@ import { Canvas as GCanvas } from '@antv/g-canvas';
 import { Canvas as GSVGCanvas } from '@antv/g-svg';
 import { mat3 } from '@antv/matrix-util';
 import { clone, deepMix, each, isString, isNumber } from '@antv/util';
-import { ICustomGraph, DataUrlType } from '../interface/graph';
-import {
-  Graph as CoreGraph,
-  GraphOptions,
-  EdgeConfig,
-  GraphData,
-  NodeConfig,
-  NodeMap,
-  ComboConfig,
-  States,
-} from '@antv/g6-core';
+import { IGraph, DataUrlType } from '../interface/graph';
+import { AbstractGraph, GraphOptions } from '@antv/g6-core';
 
 import { WaterMarkerConfig } from '../types';
 import Global from '../global';
@@ -22,7 +13,7 @@ import { createDom } from '@antv/dom-util';
 
 const SVG = 'svg';
 
-export default class Graph extends CoreGraph implements ICustomGraph {
+export default class Graph extends AbstractGraph implements IGraph {
   // private cfg: GraphOptions & { [key: string]: any };
 
   public destroyed: boolean;
@@ -92,7 +83,7 @@ export default class Graph extends CoreGraph implements ICustomGraph {
 
   protected initPlugin(): void {
     const self = this;
-    each(self.get('plugins'), plugin => {
+    each(self.get('plugins'), (plugin) => {
       if (!plugin.destroyed && plugin.initPlugin) {
         plugin.initPlugin(self);
       }
@@ -590,7 +581,7 @@ export default class Graph extends CoreGraph implements ICustomGraph {
   public destroy() {
     super.destroy();
 
-    each(this.get('plugins'), plugin => {
+    each(this.get('plugins'), (plugin) => {
       plugin.destroyPlugin();
     });
 

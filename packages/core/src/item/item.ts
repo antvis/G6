@@ -1,4 +1,4 @@
-import { Group } from '@antv/g-canvas';
+import { IGroup } from '@antv/g-base';
 import {
   each,
   isNil,
@@ -26,7 +26,6 @@ import {
 } from '../types';
 import { getBBox } from '../util/graphic';
 import { translate } from '../util/math';
-import { IGroup } from '@antv/g-base/lib/interfaces';
 import Global from '../global';
 
 const CACHE_BBOX = 'bboxCache';
@@ -122,7 +121,10 @@ export default class ItemBase implements IItemBase {
     this.init();
     this.draw();
 
-    const shapeType = (model.shape as string) || (model.type as string) || (itemType === 'edge' ? 'line' : 'circle');
+    const shapeType =
+      (model.shape as string) ||
+      (model.type as string) ||
+      (itemType === 'edge' ? 'line' : 'circle');
     const shapeFactory = this.get('shapeFactory');
     if (shapeFactory && shapeFactory[shapeType]) {
       const { options } = shapeFactory[shapeType];
@@ -140,7 +142,7 @@ export default class ItemBase implements IItemBase {
    */
   private calculateBBox(): IBBox {
     const keyShape: IShapeBase = this.get('keyShape');
-    const group: Group = this.get('group');
+    const group: IGroup = this.get('group');
     // 因为 group 可能会移动，所以必须通过父元素计算才能计算出正确的包围盒
     const bbox = getBBox(keyShape, group);
     bbox.x = bbox.minX;
@@ -157,7 +159,7 @@ export default class ItemBase implements IItemBase {
    */
   public calculateCanvasBBox(): IBBox {
     const keyShape: IShapeBase = this.get('keyShape');
-    const group: Group = this.get('group');
+    const group: IGroup = this.get('group');
     // 因为 group 可能会移动，所以必须通过父元素计算才能计算出正确的包围盒
     const bbox = getBBox(keyShape, group);
     bbox.x = bbox.minX;
@@ -175,7 +177,7 @@ export default class ItemBase implements IItemBase {
   private drawInner() {
     const self = this;
     const shapeFactory = self.get('shapeFactory');
-    const group: Group = self.get('group');
+    const group: IGroup = self.get('group');
     const model: ModelConfig = self.get('model');
     group.clear();
     const visible = model.visible;
@@ -186,7 +188,7 @@ export default class ItemBase implements IItemBase {
     }
     self.updatePosition(model);
     const cfg = self.getShapeCfg(model); // 可能会附加额外信息
-    const shapeType = (cfg.type as string);
+    const shapeType = cfg.type as string;
 
     const keyShape: IShapeBase = shapeFactory.draw(shapeType, cfg, group);
 
@@ -210,7 +212,7 @@ export default class ItemBase implements IItemBase {
    */
   private setOriginStyle(cfg?: ModelConfig) {
     const originStyles = {};
-    const group: Group = this.get('group');
+    const group: IGroup = this.get('group');
     const children = group.get('children');
     const keyShape: IShapeBase = this.getKeyShape();
     const self = this;
@@ -257,8 +259,10 @@ export default class ItemBase implements IItemBase {
       if (!defaultStyle.lineWidth) defaultStyle.lineWidth = size || Global.defaultEdge.size;
     } else {
       if (!defaultStyle.r) defaultStyle.r = size / 2 || Global.defaultNode.size / 2;
-      if (!defaultStyle.width) defaultStyle.width = (isArray(size) ? size[0] : size) || Global.defaultNode.size / 2;
-      if (!defaultStyle.height) defaultStyle.height = (isArray(size) ? size[1] : size) || Global.defaultNode.size / 2;
+      if (!defaultStyle.width)
+        defaultStyle.width = (isArray(size) ? size[0] : size) || Global.defaultNode.size / 2;
+      if (!defaultStyle.height)
+        defaultStyle.height = (isArray(size) ? size[1] : size) || Global.defaultNode.size / 2;
     }
     if (!keyShapeName) {
       Object.assign(originStyles, defaultStyle);
@@ -346,17 +350,17 @@ export default class ItemBase implements IItemBase {
   /**
    * 渲染前的逻辑，提供给子类复写
    */
-  protected beforeDraw() { }
+  protected beforeDraw() {}
 
   /**
    * 渲染后的逻辑，提供给子类复写
    */
-  protected afterDraw() { }
+  protected afterDraw() {}
 
   /**
    * 更新后做一些工作
    */
-  protected afterUpdate() { }
+  protected afterUpdate() {}
 
   /**
    * draw shape
@@ -368,7 +372,7 @@ export default class ItemBase implements IItemBase {
   }
 
   public getShapeStyleByName(name?: string): ShapeStyle {
-    const group: Group = this.get('group');
+    const group: IGroup = this.get('group');
     let currentShape: IShapeBase = this.getKeyShape();
 
     if (name) {
@@ -510,7 +514,7 @@ export default class ItemBase implements IItemBase {
    * 节点的图形容器
    * @return {G.Group} 图形容器
    */
-  public getContainer(): Group {
+  public getContainer(): IGroup {
     return this.get('group');
   }
 
@@ -670,7 +674,7 @@ export default class ItemBase implements IItemBase {
     const x = isNil(cfg.x) ? model.x : cfg.x;
     const y = isNil(cfg.y) ? model.y : cfg.y;
 
-    const group: Group = this.get('group');
+    const group: IGroup = this.get('group');
 
     if (isNil(x) || isNil(y)) {
       return;
@@ -746,7 +750,7 @@ export default class ItemBase implements IItemBase {
    * @param  {Boolean} visible 是否显示
    */
   public changeVisibility(visible: boolean) {
-    const group: Group = this.get('group');
+    const group: IGroup = this.get('group');
     if (visible) {
       group.show();
     } else {
@@ -768,7 +772,7 @@ export default class ItemBase implements IItemBase {
    * @param {Boolean} enable 标识位
    */
   public enableCapture(enable: boolean) {
-    const group: Group = this.get('group');
+    const group: IGroup = this.get('group');
     if (group) {
       group.set('capture', enable);
     }
@@ -777,7 +781,7 @@ export default class ItemBase implements IItemBase {
   public destroy() {
     if (!this.destroyed) {
       const animate = this.get('animate');
-      const group: Group = this.get('group');
+      const group: IGroup = this.get('group');
       if (animate) {
         group.stopAnimate();
       }

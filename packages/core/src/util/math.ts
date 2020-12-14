@@ -1,5 +1,4 @@
-import { Point } from '@antv/g-base/lib/types';
-import { IGroup } from '@antv/g-canvas/lib/interfaces';
+import { Point, IGroup } from '@antv/g-base';
 import { mat3, transform, vec3 } from '@antv/matrix-util';
 import { isArray, each } from '@antv/util';
 import {
@@ -25,7 +24,7 @@ import {
 export const compare = (attributeName: string) => {
   return (m, n) => {
     return m[attributeName] - n[attributeName];
-  }
+  };
 };
 
 /**
@@ -756,14 +755,14 @@ export const isPointsOverlap = (p1, p2, e = 1e-3) => {
  * @param rect IRect
  */
 export const pointRectSquareDist = (point: Point, rect: IRect) => {
-  const isLeft = point.x < rect.x
-  const isRight = point.x > rect.x + rect.width
-  const isTop = point.y > rect.y + rect.height
-  const isBottom = point.y < rect.y
+  const isLeft = point.x < rect.x;
+  const isRight = point.x > rect.x + rect.width;
+  const isTop = point.y > rect.y + rect.height;
+  const isBottom = point.y < rect.y;
 
-  const isPointOutside = isLeft || isRight || isTop || isBottom
+  const isPointOutside = isLeft || isRight || isTop || isBottom;
   if (!isPointOutside) {
-    return 0
+    return 0;
   }
   if (isTop && !isLeft && !isRight) {
     return (rect.y + rect.height - point.y) ** 2;
@@ -777,7 +776,7 @@ export const pointRectSquareDist = (point: Point, rect: IRect) => {
   if (isRight && !isTop && !isBottom) {
     return (rect.x + rect.width - point.x) ** 2;
   }
-  const dx = Math.min(Math.abs(rect.x - point.x), Math.abs(rect.x + rect.width - point.x))
-  const dy = Math.min(Math.abs(rect.y - point.y), Math.abs(rect.y + rect.height - point.y))
+  const dx = Math.min(Math.abs(rect.x - point.x), Math.abs(rect.x + rect.width - point.x));
+  const dy = Math.min(Math.abs(rect.y - point.y), Math.abs(rect.y + rect.height - point.y));
   return dx * dx + dy * dy;
 };

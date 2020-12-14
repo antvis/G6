@@ -1,9 +1,9 @@
 import { addEventListener } from '@antv/dom-util';
 import { ICanvas, IGroup, IShape } from '@antv/g-base';
 import { each, isNil, wrapBehavior } from '@antv/util';
-import { AbstractEvent, IG6GraphEvent, Matrix, Item } from '@antv/g6-core';
+import { AbstractEvent, IG6GraphEvent, Matrix, Item, Util } from '@antv/g6-core';
 import Graph from '../graph';
-import { cloneEvent, isViewportChanged } from '../../util/base';
+const { cloneEvent, isViewportChanged } = Util;
 
 type Fun = () => void;
 
@@ -222,7 +222,7 @@ export default class EventController extends AbstractEvent {
 
     canvas.off('*', canvasHandler);
 
-    each(extendEvents, event => {
+    each(extendEvents, (event) => {
       event.remove();
     });
 

@@ -1,19 +1,18 @@
-import Canvas from '@antv/g-base/lib/abstract/canvas';
-import { Point } from '@antv/g-base/lib/types';
-import { Group } from '@antv/g-canvas';
+import { AbstractCanvas } from '@antv/g-base';
+import { Point, IGroup } from '@antv/g-base';
 import { isNumber, isString } from '@antv/util';
+import { modifyCSS } from '@antv/dom-util';
 import { Item, Matrix, Padding, GraphAnimateConfig } from '../../types';
 import { formatPadding } from '../../util/base';
 import { applyMatrix, invertMatrix } from '../../util/math';
-import Graph from '../graph';
-import { modifyCSS } from '@antv/dom-util';
+import { IAbstractGraph } from '../../interface/graph';
 
 export default class ViewController {
-  private graph: Graph;
+  private graph: IAbstractGraph;
 
   public destroyed: boolean = false;
 
-  constructor(graph: Graph) {
+  constructor(graph: IAbstractGraph) {
     this.graph = graph;
     this.destroyed = false;
   }
@@ -32,7 +31,7 @@ export default class ViewController {
 
   public fitCenter() {
     const { graph } = this;
-    const group: Group = graph.get('group');
+    const group: IGroup = graph.get('group');
     group.resetMatrix();
     const bbox = group.getCanvasBBox();
     if (bbox.width === 0 || bbox.height === 0) return;
@@ -51,7 +50,7 @@ export default class ViewController {
     const padding = this.getFormatPadding();
     const width: number = graph.get('width');
     const height: number = graph.get('height');
-    const group: Group = graph.get('group');
+    const group: IGroup = graph.get('group');
     group.resetMatrix();
     const bbox = group.getCanvasBBox();
 
@@ -131,7 +130,7 @@ export default class ViewController {
    * @param clientY 页面 y 坐标
    */
   public getPointByClient(clientX: number, clientY: number): Point {
-    const canvas: Canvas = this.graph.get('canvas');
+    const canvas: AbstractCanvas = this.graph.get('canvas');
     const canvasPoint: Point = canvas.getPointByClient(clientX, clientY);
     return this.getPointByCanvas(canvasPoint.x, canvasPoint.y);
   }
@@ -142,7 +141,7 @@ export default class ViewController {
    * @param y 视口 y 坐标
    */
   public getClientByPoint(x: number, y: number): Point {
-    const canvas: Canvas = this.graph.get('canvas');
+    const canvas: AbstractCanvas = this.graph.get('canvas');
     const canvasPoint = this.getCanvasByPoint(x, y);
     const point = canvas.getClientByPoint(canvasPoint.x, canvasPoint.y);
     // return { x: point.clientX, y: point.clientY };
@@ -172,7 +171,7 @@ export default class ViewController {
     if (isString(item)) {
       item = this.graph.findById(item);
     }
-    const group: Group = item.get('group');
+    const group: IGroup = item.get('group');
     let matrix: Matrix = group.getMatrix();
     if (!matrix) matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
 
@@ -201,7 +200,7 @@ export default class ViewController {
     }
 
     graph.set({ width, height });
-    const canvas: Canvas = graph.get('canvas');
+    const canvas: AbstractCanvas = graph.get('canvas');
     canvas.changeSize(width, height);
 
     // change the size of grid plugin if it exists on graph
@@ -224,7 +223,7 @@ export default class ViewController {
   }
 
   public destroy() {
-    (this.graph as Graph | null) = null;
+    (this.graph as IAbstractGraph | null) = null;
     this.destroyed = false;
   }
 }

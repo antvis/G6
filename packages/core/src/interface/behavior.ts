@@ -1,6 +1,6 @@
 import { Event as GraphEvent, ICanvas } from '@antv/g-base';
 import { G6Event, IG6GraphEvent, IShapeBase, Item } from '../types';
-import { IGraph } from './graph';
+import { IAbstractGraph } from './graph';
 
 export interface IBehavior {
   getEvents(): {
@@ -10,8 +10,8 @@ export interface IBehavior {
   shouldBegin?(e?: IG6GraphEvent): boolean;
   shouldUpdate?(e?: IG6GraphEvent): boolean;
   shouldEnd?(e?: IG6GraphEvent): boolean;
-  bind?(e: IGraph): void;
-  unbind?(e: IGraph): void;
+  bind?(e: IAbstractGraph): void;
+  unbind?(e: IAbstractGraph): void;
 }
 
 export class G6GraphEvent extends GraphEvent implements IG6GraphEvent {

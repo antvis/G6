@@ -1,4 +1,4 @@
-import { Group } from '@antv/g-canvas';
+import { IGroup } from '@antv/g-base';
 import { clone, deepMix, each, isArray, isObject, isString, upperFirst } from '@antv/util';
 import Edge from '../../item/edge';
 import Node from '../../item/node';
@@ -13,8 +13,7 @@ import {
   ComboTree,
   ComboConfig,
 } from '../../types';
-import Graph from '../graph';
-
+import { IAbstractGraph } from '../../interface/graph';
 import { IEdge, INode, ICombo } from '../../interface/item';
 import { traverseTreeUp, traverseTree, getComboBBox } from '../../util/graphic';
 
@@ -30,11 +29,11 @@ const { hasOwnProperty } = Object;
 type Id = string | Item | undefined;
 
 export default class ItemController {
-  private graph: Graph;
+  private graph: IAbstractGraph;
 
   public destroyed: boolean;
 
-  constructor(graph: Graph) {
+  constructor(graph: IAbstractGraph) {
     this.graph = graph;
     this.destroyed = false;
   }
@@ -50,7 +49,7 @@ export default class ItemController {
   public addItem<T extends Item>(type: ITEM_TYPE, model: ModelConfig) {
     const { graph } = this;
     const vType = type === VEDGE ? EDGE : type;
-    const parent: Group = graph.get(`${vType}Group`) || graph.get('group');
+    const parent: IGroup = graph.get(`${vType}Group`) || graph.get('group');
     const upperType = upperFirst(vType);
 
     let item: Item | null = null;
@@ -287,7 +286,7 @@ export default class ItemController {
     const length = combEdges.length;
     for (let i = 0; i < length; i++) {
       const edge = combEdges[i];
-      edge?.refresh();
+      edge.refresh();
     }
   }
 
@@ -618,7 +617,7 @@ export default class ItemController {
   }
 
   public destroy() {
-    (this.graph as Graph | null) = null;
+    (this.graph as IAbstractGraph | null) = null;
     this.destroyed = true;
   }
 }

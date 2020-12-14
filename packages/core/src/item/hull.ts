@@ -5,7 +5,7 @@ import { Item, BubblesetCfg, HullCfg } from '../types';
 import { pathToPoints, getClosedSpline, roundedHull, paddedHull } from '../util/path';
 
 import { isPolygonsIntersect } from '../util/math';
-import { IGraph } from '../interface/graph';
+import { IAbstractGraph } from '../interface/graph';
 
 import { genConvexHull } from '../shape/hull/convexHull';
 import { genBubbleSet } from '../shape/hull/bubbleset';
@@ -19,7 +19,7 @@ import { genBubbleSet } from '../shape/hull/bubbleset';
 export default class Hull {
   id: string;
 
-  graph: IGraph;
+  graph: IAbstractGraph;
 
   cfg: any;
 
@@ -37,7 +37,7 @@ export default class Hull {
 
   type: string;
 
-  constructor(graph: IGraph, cfg: HullCfg) {
+  constructor(graph: IAbstractGraph, cfg: HullCfg) {
     this.cfg = deepMix(this.getDefaultCfg(), cfg);
     this.graph = graph;
     this.id = this.cfg.id;

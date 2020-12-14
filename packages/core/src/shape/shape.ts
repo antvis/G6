@@ -1,10 +1,4 @@
-/**
- * @fileOverview 自定义 Shape 的基类
- * @author dxq613@gmail.com
- */
-
-import { Group as GGroup } from '@antv/g-canvas';
-import { IShape } from '@antv/g-canvas/lib/interfaces';
+import { IGroup, IShape } from '@antv/g-base';
 import { upperFirst } from '@antv/util';
 import { ShapeOptions, ShapeDefine } from '../interface/shape';
 import { IPoint, Item, ModelConfig, NodeConfig, EdgeConfig } from '../types';
@@ -54,7 +48,7 @@ const ShapeFactoryBase = {
    * @param  {G.Group} group 图形的分组
    * @return {IShape} 图形对象
    */
-  draw(type: string, cfg: ModelConfig, group: GGroup): IShape {
+  draw(type: string, cfg: ModelConfig, group: IGroup): IShape {
     const shape = this.getShape(type);
     const rst = shape.draw!(cfg, group);
     if (shape.afterDraw) {
@@ -132,17 +126,17 @@ const ShapeFramework = {
   /**
    * 绘制
    */
-  drawShape(/* cfg, group */) { },
+  drawShape(/* cfg, group */) {},
   /**
    * 绘制完成后的操作，便于用户继承现有的节点、边
    */
-  afterDraw(/* cfg, group */) { },
+  afterDraw(/* cfg, group */) {},
   // update(cfg, item) // 默认不定义
-  afterUpdate(/* cfg, item */) { },
+  afterUpdate(/* cfg, item */) {},
   /**
    * 设置节点、边状态
    */
-  setState(/* name, value, item */) { },
+  setState(/* name, value, item */) {},
   /**
    * 获取控制点
    * @param  {Object} cfg 节点、边的配置项

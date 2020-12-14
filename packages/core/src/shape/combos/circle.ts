@@ -1,5 +1,4 @@
-import { Group as GGroup } from '@antv/g-canvas';
-import { IShape } from '@antv/g-canvas/lib/interfaces';
+import { IGroup, IShape } from '@antv/g-base';
 import { Item, ComboConfig, ShapeStyle } from '../../types';
 import Global from '../../global';
 import Shape from '../shape';
@@ -29,13 +28,13 @@ Shape.registerCombo(
         refY: 0,
       },
       stateStyles: {
-        ...Global.comboStateStyles
-      }
+        ...Global.comboStateStyles,
+      },
     },
     shapeType: 'circle',
     // 文本位置
     labelPosition: 'top',
-    drawShape(cfg: ComboConfig, group: GGroup): IShape {
+    drawShape(cfg: ComboConfig, group: IGroup): IShape {
       const style = this.getShapeStyle!(cfg);
       delete style.height;
       delete style.width;

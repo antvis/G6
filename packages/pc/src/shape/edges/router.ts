@@ -6,7 +6,6 @@
  */
 import { INode, Item } from '@antv/g6-core';
 import { deepMix } from '@antv/util';
-import { getLineIntersect } from '../../util/math';
 import {
   getExpandedBBox,
   getExpandedBBoxPoint,
@@ -15,6 +14,7 @@ import {
   simplifyPolyline,
   isSegmentCrossingBBox,
 } from './polyline-util';
+import Util from '../../util';
 
 export interface RouterCfg {
   offset?: number; // 连线和点的间距
@@ -225,7 +225,7 @@ const getBoxPoints = (point: PolyPoint, node: INode, cfg: RouterCfg): PolyPoint[
       ];
       for (let i = 0; i < 4; i++) {
         const boundLine = bounds[i];
-        const insterctP = getLineIntersect(
+        const insterctP = Util.getLineIntersect(
           point,
           { x: point.x + dir.stepX * expandBBox.width, y: point.y + dir.stepY * expandBBox.height },
           boundLine[0],
@@ -271,10 +271,10 @@ export const pathFinder = (
   endPoint.id = `${scaleEndPoint.x}-${scaleEndPoint.y}`;
   const startPoints = getBoxPoints(scaleStartPoint, startNode, cfg);
   const endPoints = getBoxPoints(scaleEndPoint, endNode, cfg);
-  startPoints.forEach(point => {
+  startPoints.forEach((point) => {
     delete map[point.id];
   });
-  endPoints.forEach(point => {
+  endPoints.forEach((point) => {
     delete map[point.id];
   });
 
@@ -385,7 +385,7 @@ export const pathFinder = (
     if (!current) break;
 
     // 如果 fScore 最小的点就是终点
-    if (endPoints.findIndex(point => point.x === current.x && point.y === current.y) > -1) {
+    if (endPoints.findIndex((point) => point.x === current.x && point.y === current.y) > -1) {
       const controlPoints = getControlPoints(current.id);
       return controlPoints;
     }

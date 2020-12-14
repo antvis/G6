@@ -1,5 +1,4 @@
-import { Group as GGroup } from '@antv/g-canvas';
-import { IShape } from '@antv/g-canvas/lib/interfaces';
+import { IGroup, IShape } from '@antv/g-base';
 import { deepMix } from '@antv/util';
 import { Item, NodeConfig, ShapeStyle } from '../../types';
 import Global from '../../global';
@@ -18,7 +17,7 @@ Shape.registerNode(
         y: 0,
         stroke: Global.defaultNode.style.stroke,
         fill: Global.defaultNode.style.fill,
-        lineWidth: Global.defaultNode.style.lineWidth
+        lineWidth: Global.defaultNode.style.lineWidth,
       },
       labelCfg: {
         style: {
@@ -43,19 +42,18 @@ Shape.registerNode(
         // 是否显示icon，值为 false 则不渲染icon
         show: false,
         // icon的地址，字符串类型
-        img:
-          'https://gw.alipayobjects.com/zos/bmw-prod/5d015065-8505-4e7a-baec-976f81e3c41d.svg',
+        img: 'https://gw.alipayobjects.com/zos/bmw-prod/5d015065-8505-4e7a-baec-976f81e3c41d.svg',
         width: 20,
         height: 20,
       },
       stateStyles: {
-        ...Global.nodeStateStyles
-      }
+        ...Global.nodeStateStyles,
+      },
     },
     shapeType: 'circle',
     // 文本位置
     labelPosition: 'center',
-    drawShape(cfg: NodeConfig, group: GGroup): IShape {
+    drawShape(cfg: NodeConfig, group: IGroup): IShape {
       const { icon: defaultIcon = {} } = this.getOptions(cfg) as NodeConfig;
       const style = this.getShapeStyle!(cfg);
       const icon = deepMix({}, defaultIcon, cfg.icon);
@@ -88,7 +86,7 @@ Shape.registerNode(
      * @param {Object} cfg data数据配置项
      * @param {Group} group Group实例
      */
-    drawLinkPoints(cfg: NodeConfig, group: GGroup) {
+    drawLinkPoints(cfg: NodeConfig, group: IGroup) {
       const { linkPoints = {} } = this.getOptions(cfg) as NodeConfig;
 
       const { top, left, right, bottom, size: markSize, r: markR, ...markStyle } = linkPoints;
