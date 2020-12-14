@@ -1,10 +1,10 @@
 import { Canvas as GCanvas } from '@antv/g-canvas';
 import { Canvas as GSVGCanvas } from '@antv/g-svg';
-import Base, { IPluginBaseConfig } from '../../base';
+import Base, { IPluginBaseConfig } from '../base';
 import { isString, isNil, each, debounce } from '@antv/util';
 import { createDom, modifyCSS } from '@antv/dom-util';
 import { Graph } from '@antv/g6';
-import { Matrix, ShapeStyle } from '@antv/g6-core/es/types';
+import { Matrix, ShapeStyle } from '@antv/g6-core';
 import { transform } from '@antv/matrix-util';
 import { Point } from '@antv/g-math/lib/types';
 import { Event as GraphEvent } from '@antv/g-base';
@@ -26,6 +26,7 @@ interface MiniMapConfig extends IPluginBaseConfig {
 }
 
 export default class MiniMap extends Base {
+  this: Graph;
   public getDefaultCfgs(): MiniMapConfig {
     return {
       container: null,

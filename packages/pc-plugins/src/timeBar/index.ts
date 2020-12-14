@@ -10,7 +10,7 @@ import TrendTimeBar, { SliderOption } from './trendTimeBar';
 import TimeBarSlice, { TimeBarSliceOption } from './timeBarSlice';
 import { IGraph } from '@antv/g6/es/interface/graph';
 import { VALUE_CHANGE } from './constant';
-import { GraphData, IG6GraphEvent, ShapeStyle, TimeBarType } from '@antv/g6-core/es/types';
+import { GraphData, IG6GraphEvent, ShapeStyle, TimeBarType } from '@antv/g6-core';
 import { Interval } from './trend';
 import { ControllerCfg } from './controllerBtn';
 import { isString } from '@antv/util';
@@ -291,9 +291,9 @@ export default class TimeBar extends Base {
     });
 
     // 时间轴的值发生改变的事件
-    graph.on(VALUE_CHANGE, (evt: Callback) => {
+    graph.on(VALUE_CHANGE, (e: Partial<Callback>) => {
       // 范围变化
-      this.filterData(evt);
+      this.filterData(e);
     });
   }
 
