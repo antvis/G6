@@ -1,4 +1,4 @@
-import Graph from '../../../../src/graph/graph';
+import Graph from '../../implement-graph';
 import '../../../../src/shape/node';
 import '../../../../src/shape/nodes';
 
@@ -134,7 +134,7 @@ describe('rect test', () => {
       let hasTrigger = false;
       expect(hasTrigger).toBe(false);
       graph.on('node:mouseenter', (evt) => {
-        hasTrigger = evt.hasTrigger;
+        hasTrigger = (evt as any).hasTrigger;
         graph.setItemState(evt.item, 'hover', true);
       });
       graph.emit('node:mouseenter', { hasTrigger: true, item: node });

@@ -4,7 +4,7 @@
  */
 
 import Shape from '../../../src/shape/shape';
-import Canvas from '@antv/g-canvas/lib/canvas';
+import { Canvas } from '@antv/g-canvas';
 import { translate } from '../../../src/util/math';
 import '../../../src/shape/combo';
 import '../../../src/shape/combos';

@@ -1,11 +1,10 @@
-import Canvas from '@antv/g-canvas/lib/canvas';
+import { Canvas } from '@antv/g-canvas';
 import '../../../src/shape/node';
 import '../../../src/shape/nodes';
 import '../../../src/shape/edge';
-import '../../../src/shape/edges';
 import '../../../src/behavior';
 import Shape from '../../../src/shape/shape';
-import Graph from '../../../src/graph/graph';
+import Graph from '../implement-graph';
 
 const div = document.createElement('div');
 div.id = 'edge-shape';
@@ -503,9 +502,6 @@ describe('shape edge test', () => {
         container: div,
         width: 500,
         height: 500,
-        modes: {
-          default: ['drag-node'],
-        },
       });
       const data = {
         nodes: [{ id: 'node0', x: 100, y: 100 }],
@@ -525,11 +521,6 @@ describe('shape edge test', () => {
       let bbox = path.getBBox();
       // console.log(bbox);
       expect(bbox.minX).toEqual(90.60845891791658);
-      graph.emit('node:dragstart', { x: 100, y: 100, item: node });
-      graph.emit('node:drag', { x: 200, y: 200, item: node });
-      graph.emit('node:dragend', { x: 200, y: 200, item: node });
-      bbox = path.getBBox();
-      expect(bbox.minX).toEqual(190.6084589179166);
     });
 
     it('clear', () => {

@@ -4,6 +4,7 @@
  */
 
 import G6 from '../../../src';
+import Graph from '../implement-graph';
 
 const div = document.createElement('div');
 div.id = 'graph-spec';
@@ -49,7 +50,7 @@ describe('register node', () => {
         return keyShape;
       },
     });
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -88,7 +89,7 @@ describe('register node', () => {
       },
       'circle',
     );
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -127,7 +128,7 @@ describe('register node', () => {
       },
       'quadratic',
     );
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,

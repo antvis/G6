@@ -1,4 +1,4 @@
-import { Graph } from '../../../../src';
+import Graph from '../../implement-graph';
 
 const div = document.createElement('div');
 div.id = 'hull-spec';
@@ -6,23 +6,23 @@ document.body.appendChild(div);
 
 const data = {
   nodes: [
-    { id: 'node0', size: 50 },
-    { id: 'node1', size: 30 },
-    { id: 'node2', size: 30 },
-    { id: 'node3', size: 30 },
-    { id: 'node4', size: 30, isLeaf: true },
-    { id: 'node5', size: 30, isLeaf: true },
-    { id: 'node6', size: 15, isLeaf: true },
-    { id: 'node7', size: 15, isLeaf: true },
-    { id: 'node8', size: 15, isLeaf: true },
-    { id: 'node9', size: 15, isLeaf: true },
-    { id: 'node10', size: 15, isLeaf: true },
-    { id: 'node11', size: 15, isLeaf: true },
-    { id: 'node12', size: 15, isLeaf: true },
-    { id: 'node13', size: 15, isLeaf: true },
-    { id: 'node14', size: 15, isLeaf: true },
-    { id: 'node15', size: 15, isLeaf: true },
-    { id: 'node16', size: 15, isLeaf: true },
+    { id: 'node0', size: 50, x: 50, y: 50 },
+    { id: 'node1', size: 30, x: 80, y: 50 },
+    { id: 'node2', size: 30, x: 150, y: 50 },
+    { id: 'node3', size: 30, x: 50, y: 100 },
+    { id: 'node4', size: 30, isLeaf: true, x: 50, y: 150 },
+    { id: 'node5', size: 30, isLeaf: true, x: 50, y: 250 },
+    { id: 'node6', size: 15, isLeaf: true, x: 250, y: 50 },
+    { id: 'node7', size: 15, isLeaf: true, x: 50, y: 350 },
+    { id: 'node8', size: 15, isLeaf: true, x: 350, y: 50 },
+    { id: 'node9', size: 15, isLeaf: true, x: 50, y: 450 },
+    { id: 'node10', size: 15, isLeaf: true, x: 550, y: 50 },
+    { id: 'node11', size: 15, isLeaf: true, x: 80, y: 50 },
+    { id: 'node12', size: 15, isLeaf: true, x: 231, y: 50 },
+    { id: 'node13', size: 15, isLeaf: true, x: 201, y: 50 },
+    { id: 'node14', size: 15, isLeaf: true, x: 50, y: 201 },
+    { id: 'node15', size: 15, isLeaf: true, x: 50, y: 190 },
+    { id: 'node16', size: 15, isLeaf: true, x: 50, y: 209 },
   ],
   edges: [
     { source: 'node0', target: 'node1' },
@@ -50,9 +50,6 @@ describe('test bubble hull', () => {
     container: div,
     width: 500,
     height: 500,
-    modes: {
-      default: ['drag-canvas', 'zoom-canvas', 'drag-node', 'lasso-select'],
-    },
     layout: {
       type: 'force',
       preventOverlap: true,
