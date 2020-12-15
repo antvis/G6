@@ -77,8 +77,8 @@ describe('grid layout', () => {
     });
     graph.render();
     const nodeModel = graph.getNodes()[0].getModel();
-    expect(nodeModel.x).toEqual(250);
-    expect(nodeModel.y).toEqual(250);
+    expect(nodeModel.x).toEqual(0);
+    expect(nodeModel.y).toEqual(0);
     graph.destroy();
   });
 

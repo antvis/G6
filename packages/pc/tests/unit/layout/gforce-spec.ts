@@ -5,16 +5,16 @@ import * as d3Force from 'd3-force';
 const data = dataset.data;
 
 const div = document.createElement('div');
-div.id = 'gforce-layout';
+div.id = 'gForce-layout';
 document.body.appendChild(div);
 
-describe('gforce layout', () => {
-  it('gforce layout with default configs, test emit afterlayout', (done) => {
+describe('gForce layout', () => {
+  it('gForce layout with default configs, test emit afterlayout', (done) => {
     const node = data.nodes[0];
     const graph = new G6.Graph({
       container: div,
       layout: {
-        type: 'gforce',
+        type: 'gForce',
         minMovement: 0.2,
       },
       width: 500,
@@ -30,7 +30,7 @@ describe('gforce layout', () => {
       if (!graph || graph.destroyed) return;
       graph.destroy();
       done();
-    }, 200);
+    }, 300);
     graph.data(data);
     graph.render();
     expect(node.x).not.toEqual(undefined);
@@ -48,7 +48,7 @@ describe('gforce layout', () => {
     const graph = new G6.Graph({
       container: div,
       layout: {
-        type: 'gforce',
+        type: 'gForce',
         linkDistance: 140,
         edgeStrength: 0.5,
         nodeStrength: -30,
@@ -99,7 +99,7 @@ describe('gforce layout', () => {
     const graph = new G6.Graph({
       container: div,
       layout: {
-        type: 'gforce',
+        type: 'gForce',
         preventOverlap: true,
         nodeSpacing,
         minMovement: 0.1,
@@ -143,7 +143,7 @@ describe('gforce layout', () => {
     const graph = new G6.Graph({
       container: div,
       layout: {
-        type: 'gforce',
+        type: 'gForce',
         preventOverlap: true,
         minMovement: 0.1,
         nodeSpacing,
@@ -196,7 +196,7 @@ describe('gforce layout', () => {
     const graph = new G6.Graph({
       container: div,
       layout: {
-        type: 'gforce',
+        type: 'gForce',
         preventOverlap: true,
         nodeSpacing,
         nodeSize,
@@ -246,7 +246,7 @@ describe('gforce layout', () => {
     const graph = new G6.Graph({
       container: div,
       layout: {
-        type: 'gforce',
+        type: 'gForce',
         preventOverlap: true,
         nodeSize,
         minMovement: 0.1,
@@ -290,7 +290,7 @@ describe('gforce layout', () => {
     const graph = new G6.Graph({
       container: div,
       layout: {
-        type: 'gforce',
+        type: 'gForce',
         preventOverlap: true,
         nodeSize,
         minMovement: 0.1,
@@ -324,29 +324,5 @@ describe('gforce layout', () => {
     }, 200);
     graph.data(data);
     graph.render();
-  });
-
-  xit('force re-execute, isTicking', (done) => {
-    const graph = new G6.Graph({
-      container: div,
-      layout: {
-        type: 'gforce',
-      },
-      width: 500,
-      height: 500,
-    });
-    graph.data(data);
-    graph.render();
-    const forceLayout = graph.get('layoutController').layoutMethod;
-    forceLayout.execute(); // re execute when it is ticking
-
-    setTimeout(() => {
-      const node0 = data.nodes[0];
-      expect(node0.x).not.toEqual(NaN);
-      expect(node0.y).not.toEqual(NaN);
-      forceLayout.forceSimulation.stop();
-      graph.destroy();
-      done();
-    }, 300);
   });
 });

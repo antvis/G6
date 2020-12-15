@@ -1,4 +1,4 @@
-import { ShapeStyle, ModelConfig, StateStyles } from '../../../core/lib';
+import { ShapeStyle, ModelConfig, StateStyles } from '@antv/g6-core';
 
 /* eslint @typescript-eslint/no-use-before-define: 0 */
 
@@ -40,10 +40,10 @@ export interface TreeGraphData {
   depth?: number;
   collapsed?: boolean;
   style?:
-    | ShapeStyle
-    | {
-        [key: string]: ShapeStyle;
-      };
+  | ShapeStyle
+  | {
+    [key: string]: ShapeStyle;
+  };
   stateStyles?: StateStyles;
   [key: string]: unknown;
 }

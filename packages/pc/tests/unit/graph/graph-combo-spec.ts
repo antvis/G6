@@ -1,7 +1,6 @@
 import { Graph } from '../../../src';
 import '../../../src/behavior';
-import { ICombo } from '../../../src/interface/item';
-import { GraphData } from '../../../src/types';
+import { GraphData, ICombo } from '@antv/g6-core';
 import { clone } from '@antv/util';
 
 const div = document.createElement('div');

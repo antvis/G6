@@ -245,7 +245,7 @@ export default class LayoutController extends AbstractLayout {
       }
       this.layoutMethod = layoutMethod;
     }
-    if ((hasLayoutType || !allHavePos) && this.layoutType !== 'force' && !enableTick && !isGPU) {
+    if ((hasLayoutType || !allHavePos) && this.layoutType !== 'force' && this.layoutType !== 'gForce' && !enableTick && !isGPU) {
       graph.emit('afterlayout');
       this.refreshLayout();
     }
@@ -433,7 +433,6 @@ export default class LayoutController extends AbstractLayout {
 
   public destroy() {
     const { layoutMethod } = this;
-
     if (layoutMethod) {
       layoutMethod.destroy();
       layoutMethod.destroyed = true;

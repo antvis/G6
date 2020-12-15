@@ -579,7 +579,6 @@ export default class Graph extends AbstractGraph implements IGraph {
    * 销毁画布
    */
   public destroy() {
-    super.destroy();
 
     each(this.get('plugins'), (plugin) => {
       plugin.destroyPlugin();
@@ -598,12 +597,7 @@ export default class Graph extends AbstractGraph implements IGraph {
     }
 
     this.get('eventController').destroy();
-    this.get('itemController').destroy();
-    this.get('modeController').destroy();
-    this.get('viewController').destroy();
-    this.get('stateController').destroy();
     this.get('layoutController').destroy();
-    this.get('canvas').destroy();
 
     if (this.get('graphWaterMarker')) {
       this.get('graphWaterMarker').destroy();
@@ -612,7 +606,6 @@ export default class Graph extends AbstractGraph implements IGraph {
       document.querySelector('.g6-graph-watermarker').remove();
     }
 
-    (this.cfg as any) = null;
-    this.destroyed = true;
+    super.destroy();
   }
 }
