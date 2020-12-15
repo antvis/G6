@@ -1,4 +1,4 @@
-import { Graph } from '../../../../src';
+import Graph from '../implement-graph';
 
 const div = document.createElement('div');
 div.id = 'item-controller';
@@ -144,7 +144,7 @@ describe('item controller', () => {
     const shape = node.get('keyShape');
     expect(shape.attr('fill')).toEqual('#ccc');
   });
-  it('fresh graph', (done) => {
+  it('fresh graph', done => {
     graph.clear();
     const node = graph.addItem('node', { id: 'node6', x: 100, y: 100, size: 50 });
     const node2 = graph.addItem('node', { id: 'node7', x: 100, y: 200, size: 50 });

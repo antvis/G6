@@ -45,7 +45,7 @@
     "lint:src": "eslint --ext .ts --format=pretty \"./src\"",
     "prettier": "prettier -c --write \"**/*\"",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/graph/graph-watermarker-spec.ts",
+    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/graph/controller/item-spec.ts",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx"
   },
   "husky": {
@@ -75,6 +75,8 @@
     "ml-matrix": "^6.5.0"
   },
   "devDependencies": {
+    "@antv/g-canvas": "^0.4.15",
+    "@antv/g-svg": "^0.5.2",
     "@babel/core": "^7.7.7",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/preset-react": "^7.7.4",
