@@ -2,56 +2,65 @@ const subjectColor = 'rgb(95, 149, 255)';
 const backColor = 'rgb(255, 255, 255)';
 const textColor = 'rgb(0, 0, 0)';
 
+const activeFill = 'rgb(247, 250, 255)';
 const nodeMainFill = 'rgb(239, 244, 255)';
+const comboFill = 'rgb(253, 253, 253)';
+const disabledFill = 'rgb(250, 250, 250)';
+
 const edgeMainStroke = 'rgb(224, 224, 224)';
-const edgeSelectedStroke = 'rgb(95, 149, 255)';
+const edgeInactiveStroke = 'rgb(234, 234, 234)';
+const edgeDisablesStroke = 'rgb(245, 245, 245)';
+const inactiveStroke = 'rgb(191, 213, 255)';
+
+const highlightStroke = '#4572d9';
+const highlightFill = 'rgb(223, 234, 255)';
 
 const colorSet = {
   // for nodes
   mainStroke: subjectColor,
-  mainFill: backColor,
+  mainFill: nodeMainFill,
 
   activeStroke: subjectColor,
-  activeFill: backColor,
+  activeFill: activeFill,
 
-  inactiveStroke: backColor,
-  inactiveFill: backColor,
+  inactiveStroke: inactiveStroke,
+  inactiveFill: activeFill,
 
   selectedStroke: subjectColor,
   selectedFill: backColor,
 
-  highlightStroke: backColor,
-  highlightFill: backColor,
+  highlightStroke: highlightStroke,
+  highlightFill: highlightFill,
 
-  disableStroke: backColor,
-  disableFill: backColor,
+  disableStroke: edgeMainStroke,
+  disableFill: disabledFill,
 
   // for edges
-  edgeMainStroke: backColor,
+  edgeMainStroke: edgeMainStroke,
   edgeActiveStroke: subjectColor,
-  edgeInactiveStroke: backColor,
+  edgeInactiveStroke: edgeInactiveStroke,
   edgeSelectedStroke: subjectColor,
   edgeHighlightStroke: subjectColor,
-  edgeDisableStroke: backColor,
+  edgeDisableStroke: edgeDisablesStroke,
 
   // for combos
-  comboMainStroke: backColor,
-  comboMainFill: backColor,
+  comboMainStroke: edgeMainStroke,
+  comboMainFill: comboFill,
 
   comboActiveStroke: subjectColor,
-  comboActiveFill: backColor,
+  comboActiveFill: activeFill,
 
-  comboInactiveStroke: backColor,
-  comboInactiveFill: backColor,
+  comboInactiveStroke: edgeMainStroke,
+  comboInactiveFill: comboFill,
 
   comboSelectedStroke: subjectColor,
-  comboSelectedFill: backColor,
+  comboSelectedFill: comboFill,
 
-  comboHighlightStroke: backColor, // 'rgb(53, 119, 222)', // TODO: how to generate it ???
-  comboHighlightFill: backColor,
+  comboHighlightStroke: highlightStroke, // 'rgb(53, 119, 222)', // TODO: how to generate it ???
+  comboHighlightFill: comboFill,
 
-  comboDisableStroke: backColor,
-  comboDisableFill: backColor,
+  comboDisableStroke: edgeInactiveStroke,
+  comboDisableFill: disabledFill,
 };
 
 export default {
@@ -137,10 +146,10 @@ export default {
     type: 'line',
     size: 1,
     style: {
-      stroke: edgeMainStroke,
+      stroke: colorSet.edgeMainStroke,
       lineAppendWidth: 2,
     },
-    color: edgeMainStroke,
+    color: colorSet.edgeMainStroke,
   },
   // 边应用状态后的样式，默认仅提供 active、selected、highlight、inactive、disable，用户可以自己扩展
   edgeStateStyles: {
@@ -149,9 +158,9 @@ export default {
       lineWidth: 1,
     },
     selected: {
-      stroke: edgeSelectedStroke,
+      stroke: colorSet.edgeSelectedStroke,
       lineWidth: 2,
-      shadowColor: edgeSelectedStroke,
+      shadowColor: colorSet.edgeSelectedStroke,
       shadowBlur: 10,
       'text-shape': {
         fontWeight: 500,

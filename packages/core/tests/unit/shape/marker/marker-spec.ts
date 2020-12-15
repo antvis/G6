@@ -1,4 +1,4 @@
-import Graph from '../../../../src/graph/graph';
+import Graph from '../../implement-graph';
 import G6 from '../../../../src';
 import { GraphData } from '../../../../src/types';
 
