@@ -1,12 +1,11 @@
-import G6 from '../../../../src';
-import { timerOut } from '../../util/timeOut';
+import Graph from '../../implement-graph';
 
 const div = document.createElement('div');
 div.id = 'state-controller';
 document.body.appendChild(div);
 
 describe('graph state controller', () => {
-  const graph = new G6.Graph({
+  const graph = new Graph({
     container: div,
     width: 500,
     height: 500,
@@ -33,7 +32,7 @@ describe('graph state controller', () => {
   };
   graph.read(data);
 
-  it('set item state', (done) => {
+  it('set item state', done => {
     let graphCount = 0;
     let itemCount = 0;
 
@@ -54,7 +53,7 @@ describe('graph state controller', () => {
     }, 100);
   });
 
-  it('state with activate-relations', (done) => {
+  it('state with activate-relations', done => {
     graph.off();
 
     graph.addBehaviors('activate-relations', 'default');
@@ -70,8 +69,8 @@ describe('graph state controller', () => {
     done();
   });
 
-  it('updateGraphStates', (done) => {
-    graph.getNodes().forEach((node) => {
+  it('updateGraphStates', done => {
+    graph.getNodes().forEach(node => {
       graph.clearItemStates(node);
     });
     const node1 = graph.findById('node1');

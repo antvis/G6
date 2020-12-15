@@ -1,5 +1,4 @@
-import G6 from '../../../src';
-import '../../../src/behavior';
+import Graph from '../implement-graph';
 
 const div = document.createElement('div');
 div.id = 'global-spec';
@@ -42,7 +41,7 @@ describe('graph edge states', () => {
         },
       ],
     };
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -61,7 +60,7 @@ describe('graph edge states', () => {
     });
     graph.data(data);
     graph.render();
-    graph.on('edge:mouseenter', (e) => {
+    graph.on('edge:mouseenter', e => {
       const item = e.item;
       graph.setItemState(item, 'hover', true);
       expect(item.hasState('hover')).toEqual(true);
@@ -70,7 +69,7 @@ describe('graph edge states', () => {
       expect(keyShape.attr('lineWidth')).toEqual(5);
       expect(keyShape.attr('stroke')).toEqual('steelblue');
     });
-    graph.on('edge:mouseleave', (e) => {
+    graph.on('edge:mouseleave', e => {
       const item = e.item;
       graph.setItemState(item, 'hover', false);
       expect(item.hasState('hover')).toEqual(false);
@@ -131,7 +130,7 @@ describe('graph edge states', () => {
         },
       ],
     };
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -150,7 +149,7 @@ describe('graph edge states', () => {
     });
     graph.data(data);
     graph.render();
-    graph.on('edge:mouseenter', (e) => {
+    graph.on('edge:mouseenter', e => {
       const item = e.item;
       graph.setItemState(item, 'hover', true);
       const keyShape = item.getKeyShape();
@@ -160,7 +159,7 @@ describe('graph edge states', () => {
       expect(keyShape.attr('shadowOffsetY')).toEqual(20);
       expect(keyShape.attr('lineWidth')).toEqual(10);
     });
-    graph.on('edge:mouseleave', (e) => {
+    graph.on('edge:mouseleave', e => {
       const item = e.item;
       graph.setItemState(item, 'hover', false);
       const keyShape = item.getKeyShape();
@@ -251,7 +250,7 @@ describe('graph edge states', () => {
         },
       ],
     };
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -265,7 +264,7 @@ describe('graph edge states', () => {
     });
     graph.data(data);
     graph.render();
-    graph.on('edge:mouseenter', (e) => {
+    graph.on('edge:mouseenter', e => {
       const item = e.item;
       graph.setItemState(item, 'hover', true);
       expect(item.hasState('hover')).toEqual(true);
@@ -293,7 +292,7 @@ describe('graph edge states', () => {
           break;
       }
     });
-    graph.on('edge:mouseleave', (e) => {
+    graph.on('edge:mouseleave', e => {
       const item = e.item;
       graph.setItemState(item, 'hover', false);
       expect(item.hasState('hover')).toEqual(false);
@@ -362,7 +361,7 @@ describe('graph edge states', () => {
         },
       ],
     };
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -376,7 +375,7 @@ describe('graph edge states', () => {
     graph.data(data);
     graph.render();
     const edge = graph.getEdges()[0];
-    graph.on('edge:mouseenter', (e) => {
+    graph.on('edge:mouseenter', e => {
       const item = e.item;
       graph.setItemState(item, 'state1', true);
       expect(item.hasState('state1')).toEqual(true);
@@ -384,7 +383,7 @@ describe('graph edge states', () => {
       expect(keyShape.attr('lineWidth')).toEqual(3);
       expect(keyShape.attr('stroke')).toEqual('rgb(224, 224, 224)');
     });
-    graph.on('edge:mouseleave', (e) => {
+    graph.on('edge:mouseleave', e => {
       const item = e.item;
       graph.setItemState(item, 'state1', false);
       expect(item.hasState('state2')).toEqual(true);
@@ -393,7 +392,7 @@ describe('graph edge states', () => {
       expect(keyShape.attr('lineWidth')).toEqual(5);
       expect(keyShape.attr('stroke')).toEqual('#f00');
     });
-    graph.on('edge:click', (e) => {
+    graph.on('edge:click', e => {
       const item = e.item;
       graph.setItemState(item, 'state2', !item.hasState('state2'));
       expect(item.hasState('state2')).toEqual(true);
@@ -402,7 +401,7 @@ describe('graph edge states', () => {
       expect(keyShape.attr('stroke')).toEqual('#f00');
     });
     graph.on('canvas:click', () => {
-      graph.getEdges().forEach((edge) => {
+      graph.getEdges().forEach(edge => {
         graph.setItemState(edge, 'state2', false);
         expect(edge.hasState('state2')).toEqual(false);
         const keyShape = edge.getKeyShape();
@@ -449,7 +448,7 @@ describe('graph edge states', () => {
         },
       ],
     };
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -471,25 +470,25 @@ describe('graph edge states', () => {
     expect(edge.getKeyShape().attr('stroke')).toEqual('#0f0');
     expect(edge.getKeyShape().attr('lineWidth')).toEqual(1);
 
-    graph.on('edge:mouseenter', (e) => {
+    graph.on('edge:mouseenter', e => {
       const item = e.item;
       graph.setItemState(item, 'state1', true);
       expect(item.hasState('state1')).toEqual(true);
     });
-    graph.on('edge:mouseleave', (e) => {
+    graph.on('edge:mouseleave', e => {
       const item = e.item;
       graph.setItemState(item, 'state1', false);
       expect(item.hasState('state1')).toEqual(false);
       expect(item.hasState('state2')).toEqual(true);
     });
-    graph.on('edge:click', (e) => {
+    graph.on('edge:click', e => {
       const item = e.item;
       graph.setItemState(item, 'state2', true);
       expect(item.hasState('state1')).toEqual(true);
       expect(item.hasState('state2')).toEqual(true);
     });
     graph.on('canvas:click', () => {
-      graph.getEdges().forEach((edge) => {
+      graph.getEdges().forEach(edge => {
         graph.setItemState(edge, 'state2', false);
         expect(edge.hasState('state1')).toEqual(false);
         expect(edge.hasState('state2')).toEqual(false);
@@ -542,7 +541,7 @@ describe('graph edge states', () => {
         },
       ],
     };
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -555,7 +554,7 @@ describe('graph edge states', () => {
     graph.data(data);
     graph.render();
     const edge = graph.getEdges()[0];
-    graph.on('edge:mouseenter', (e) => {
+    graph.on('edge:mouseenter', e => {
       const item = e.item;
       graph.setItemState(item, 'state1', true);
       expect(item.hasState('state1')).toEqual(true);
@@ -574,7 +573,7 @@ describe('graph edge states', () => {
           break;
       }
     });
-    graph.on('edge:mouseleave', (e) => {
+    graph.on('edge:mouseleave', e => {
       const item = e.item;
       graph.setItemState(item, 'state1', false);
       expect(item.hasState('state1')).toEqual(false);
@@ -609,7 +608,7 @@ describe('graph edge states', () => {
       ],
     };
 
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div, // String | HTMLElement，必须，在 Step 1 中创建的容器 id 或容器本身
       width: 800, // Number，必须，图的宽度
       height: 500, // Number，必须，图的高度

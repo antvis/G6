@@ -1,5 +1,4 @@
-import G6 from '../../../src';
-import '../../../src/behavior';
+import Graph from '../implement-graph';
 
 const div = document.createElement('div');
 div.id = 'global-spec';
@@ -22,7 +21,7 @@ describe('graph node states', () => {
   };
 
   it('global nodeStateStyles and defaultNode, state change with opacity changed', () => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -53,7 +52,7 @@ describe('graph node states', () => {
     graph.data(data);
     graph.render();
     graph.addItem('node', { id: 'node3', x: 100, y: 200 });
-    graph.on('node:mouseenter', (e) => {
+    graph.on('node:mouseenter', e => {
       const item = e.item;
       graph.setItemState(item, 'hover', true);
       // graph.setItemState(item, 'comCircle', 'selected')
@@ -61,7 +60,7 @@ describe('graph node states', () => {
       expect(keyShape.attr('opacity')).toEqual(0.8);
       expect(keyShape.attr('fill')).toEqual('steelblue');
     });
-    graph.on('node:click', (e) => {
+    graph.on('node:click', e => {
       const item = e.item;
       // graph.setItemState(item, 'hover', false);
       graph.clearItemStates(item, 'hover');
@@ -75,7 +74,7 @@ describe('graph node states', () => {
   // setState to change the height, when the state is restored, the height can not be restored though the attrs are correct.
   // wait for G to repair this problem
   it('global nodeStateStyles and defaultNode, state change with fill/r/width/height/stroke changed', () => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -105,11 +104,11 @@ describe('graph node states', () => {
     graph.render();
     const node3 = graph.addItem('node', { id: 'node3', x: 100, y: 150, type: 'rect' });
     graph.paint();
-    graph.on('node:mouseenter', (e) => {
+    graph.on('node:mouseenter', e => {
       const item = e.item;
       graph.setItemState(item, 'hover', true);
     });
-    graph.on('node:mouseleave', (e) => {
+    graph.on('node:mouseleave', e => {
       const item = e.item;
       graph.setItemState(item, 'hover', false);
     });
@@ -188,7 +187,7 @@ describe('graph node states', () => {
         },
       ],
     };
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -202,7 +201,7 @@ describe('graph node states', () => {
     graph.data(data2);
     graph.render();
     graph.paint();
-    graph.on('node:mouseenter', (e) => {
+    graph.on('node:mouseenter', e => {
       const item = e.item;
       graph.setItemState(item, 'hover', true);
       const id = item.getModel().id;
@@ -244,11 +243,11 @@ describe('graph node states', () => {
           break;
       }
     });
-    graph.on('node:mouseleave', (e) => {
+    graph.on('node:mouseleave', e => {
       const item = e.item;
       graph.setItemState(item, 'hover', false);
     });
-    graph.getNodes().forEach((node) => {
+    graph.getNodes().forEach(node => {
       graph.emit('node:mouseenter', { item: node });
       graph.emit('node:mouseleave', { item: node });
     });
@@ -277,7 +276,7 @@ describe('graph node states', () => {
         },
       ],
     };
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -291,24 +290,24 @@ describe('graph node states', () => {
     graph.data(data2);
     graph.render();
     const node = graph.getNodes()[0];
-    graph.on('node:mouseenter', (e) => {
+    graph.on('node:mouseenter', e => {
       const item = e.item;
       graph.setItemState(item, 'hover', true);
       expect(item.hasState('hover')).toEqual(true);
     });
-    graph.on('node:mouseleave', (e) => {
+    graph.on('node:mouseleave', e => {
       const item = e.item;
       graph.setItemState(item, 'hover', false);
       expect(item.hasState('state1')).toEqual(true);
       expect(item.hasState('hover')).toEqual(false);
     });
-    graph.on('node:click', (e) => {
+    graph.on('node:click', e => {
       const item = e.item;
       graph.setItemState(item, 'state1', true);
       expect(item.hasState('state1')).toEqual(true);
     });
     graph.on('canvas:click', () => {
-      graph.getNodes().forEach((node) => {
+      graph.getNodes().forEach(node => {
         graph.setItemState(node, 'state1', false);
         expect(node.hasState('state1')).toEqual(false);
       });
@@ -338,7 +337,7 @@ describe('graph node states', () => {
         },
       ],
     };
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -362,12 +361,12 @@ describe('graph node states', () => {
     expect(node.getKeyShape().attr('fill')).toEqual('#0f0');
     expect(node.getKeyShape().attr('lineWidth')).toEqual(1);
 
-    graph.on('node:mouseenter', (e) => {
+    graph.on('node:mouseenter', e => {
       const item = e.item;
       graph.setItemState(item, 'state1', true);
       expect(item.hasState('state1')).toEqual(true);
     });
-    graph.on('node:mouseleave', (e) => {
+    graph.on('node:mouseleave', e => {
       const item = e.item;
       graph.setItemState(item, 'state1', false);
       expect(item.hasState('state1')).toEqual(false);
@@ -399,7 +398,7 @@ describe('graph node states', () => {
         },
       ],
     };
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -411,7 +410,7 @@ describe('graph node states', () => {
     });
     graph.data(data);
     graph.render();
-    graph.on('node:mouseenter', (e) => {
+    graph.on('node:mouseenter', e => {
       const item = e.item;
       graph.setItemState(item, 'state1', true);
       expect(item.hasState('state1')).toEqual(true);
@@ -432,12 +431,12 @@ describe('graph node states', () => {
           break;
       }
     });
-    graph.on('node:mouseleave', (e) => {
+    graph.on('node:mouseleave', e => {
       const item = e.item;
       graph.setItemState(item, 'state1', false);
       expect(item.hasState('state1')).toEqual(false);
     });
-    graph.getNodes().forEach((node) => {
+    graph.getNodes().forEach(node => {
       graph.emit('node:mouseenter', { item: node });
       graph.emit('node:mouseleave', { item: node });
     });

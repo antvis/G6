@@ -1,7 +1,7 @@
 import '../../../src/behavior';
 import { scale, translate } from '../../../src/util/math';
 import { GraphData, Item } from '../../../src/types';
-import Graph from './implement-graph';
+import Graph from '../implement-graph';
 
 const div = document.createElement('div');
 div.id = 'global-spec';
