@@ -42,7 +42,10 @@ describe('base util', () => {
   });
 
   it('processParallelEdges', () => {
-    const edges: any = [{ source: 0, target: 1 }, { source: 0, target: 1 }];
+    const edges: any = [
+      { source: 0, target: 1 },
+      { source: 0, target: 1 },
+    ];
     processParallelEdges(edges);
     expect(edges[0].type).toEqual('quadratic');
     expect(edges[1].type).toEqual('quadratic');

@@ -165,8 +165,8 @@ describe('graph hull', () => {
 
   graph.data(data);
   graph.render();
-  const members = graph.getNodes().filter(node => node.getModel().group === 2);
-  const nonMembers = graph.getNodes().filter(node => node.getModel().group === 1);
+  const members = graph.getNodes().filter((node) => node.getModel().group === 2);
+  const nonMembers = graph.getNodes().filter((node) => node.getModel().group === 1);
   it('add a convex hull', () => {
     graph.createHull({
       id: 'hull1',

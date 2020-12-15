@@ -42,8 +42,8 @@ export default class Hull {
     this.graph = graph;
     this.id = this.cfg.id;
     this.group = this.cfg.group;
-    this.members = this.cfg.members.map(item => (isString(item) ? graph.findById(item) : item));
-    this.nonMembers = this.cfg.nonMembers.map(item =>
+    this.members = this.cfg.members.map((item) => (isString(item) ? graph.findById(item) : item));
+    this.nonMembers = this.cfg.nonMembers.map((item) =>
       isString(item) ? graph.findById(item) : item,
     );
     this.setPadding();
@@ -96,12 +96,18 @@ export default class Hull {
     switch (this.type) {
       case 'round-convex':
         contour = genConvexHull(members);
-        hull = roundedHull(contour.map(p => [p.x, p.y]), this.padding);
+        hull = roundedHull(
+          contour.map((p) => [p.x, p.y]),
+          this.padding,
+        );
         path = parsePathString(hull);
         break;
       case 'smooth-convex':
         contour = genConvexHull(members);
-        hull = paddedHull(contour.map(p => [p.x, p.y]), this.padding);
+        hull = paddedHull(
+          contour.map((p) => [p.x, p.y]),
+          this.padding,
+        );
         path = contour.length >= 2 && getClosedSpline(hull);
         break;
       case 'bubble':
@@ -195,11 +201,11 @@ export default class Hull {
   public updateData(members: Item[] | string[], nonMembers: string[] | Item[]) {
     this.group.findById(this.id).remove();
     if (members)
-      this.members = (members as any[]).map(item =>
+      this.members = (members as any[]).map((item) =>
         isString(item) ? this.graph.findById(item) : item,
       );
     if (nonMembers)
-      this.nonMembers = (nonMembers as any[]).map(item =>
+      this.nonMembers = (nonMembers as any[]).map((item) =>
         isString(item) ? this.graph.findById(item) : item,
       );
     this.path = this.calcPath(this.members, this.nonMembers);
@@ -222,12 +228,12 @@ export default class Hull {
     this.id = this.cfg.id;
     this.group = this.cfg.group;
     if (cfg.members) {
-      this.members = this.cfg.members.map(item =>
+      this.members = this.cfg.members.map((item) =>
         isString(item) ? this.graph.findById(item) : item,
       );
     }
     if (cfg.nonMembers) {
-      this.nonMembers = this.cfg.nonMembers.map(item =>
+      this.nonMembers = this.cfg.nonMembers.map((item) =>
         isString(item) ? this.graph.findById(item) : item,
       );
     }
@@ -262,7 +268,7 @@ export default class Hull {
         [shapeBBox.minX, shapeBBox.maxY],
       ];
     }
-    shapePoints = shapePoints.map(canvasPoint => {
+    shapePoints = shapePoints.map((canvasPoint) => {
       const point = this.graph.getPointByCanvas(canvasPoint[0], canvasPoint[1]);
       return [point.x, point.y];
     });

@@ -94,7 +94,7 @@ describe('register node with getCustomConfig function, extend rect', () => {
     expect(keyShape.attr('fill')).toEqual('rgb(239, 244, 255)');
     expect(keyShape.attr('lineWidth')).toEqual(1);
 
-    const label = group.find(g => {
+    const label = group.find((g) => {
       return g.get('className') === 'node-label';
     });
     expect(label).not.toBe(undefined);
@@ -143,20 +143,20 @@ describe('register node with getCustomConfig function, extend rect', () => {
     expect(keyShape.attr('stroke')).toEqual('rgb(95, 149, 255)');
     expect(keyShape.attr('lineWidth')).toEqual(1);
 
-    const markTop = group.find(g => {
+    const markTop = group.find((g) => {
       return g.get('className') === 'link-point-top';
     });
     expect(markTop).not.toBe(null);
     expect(markTop.attr('fill')).toEqual('red');
 
-    const markBottom = group.find(g => {
+    const markBottom = group.find((g) => {
       return g.get('className') === 'link-point-bottom';
     });
     expect(markBottom).not.toBe(null);
 
     let hasTrigger = false;
     expect(hasTrigger).toBe(false);
-    graph.on('node:mouseenter', evt => {
+    graph.on('node:mouseenter', (evt) => {
       hasTrigger = (evt as any).hasTrigger;
       graph.setItemState(evt.item, 'hover', true);
     });
@@ -244,7 +244,7 @@ describe('register node with getCustomConfig function, extend rect', () => {
       const nodes = graph.getNodes();
       const node = nodes[0];
       const group = node.get('group');
-      const label = group.find(g => {
+      const label = group.find((g) => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toEqual(null);
@@ -324,7 +324,7 @@ describe('register node with getCustomConfig function, extend rect', () => {
       const nodes = graph.getNodes();
       const node = nodes[0];
       const group = node.get('group');
-      let label = group.find(g => {
+      let label = group.find((g) => {
         return g.get('className') === 'node-label';
       });
       expect(label).toEqual(null);
@@ -332,7 +332,7 @@ describe('register node with getCustomConfig function, extend rect', () => {
       node.update({
         label: 'new rect label',
       });
-      label = group.find(g => {
+      label = group.find((g) => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toEqual(null);
@@ -346,7 +346,7 @@ describe('register node with getCustomConfig function, extend rect', () => {
           },
         },
       });
-      label = group.find(g => {
+      label = group.find((g) => {
         return g.get('className') === 'node-label';
       });
       expect(label.attr('text')).toEqual('new rect label');

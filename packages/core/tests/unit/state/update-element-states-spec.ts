@@ -443,10 +443,10 @@ describe('update', () => {
     expect(keyShape.attr('opacity')).toBe(1);
 
     const group = item.getContainer();
-    const subNode = group.find(ele => ele.get('name') === 'sub-node');
+    const subNode = group.find((ele) => ele.get('name') === 'sub-node');
     expect(subNode.attr('fill')).toEqual('blue');
 
-    const text = group.find(ele => ele.get('name') === 'node-text');
+    const text = group.find((ele) => ele.get('name') === 'node-text');
     expect(text.attr('stroke')).toEqual('green');
 
     graph.setItemState(item, 'hover', true);

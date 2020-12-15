@@ -59,7 +59,7 @@ registerBehavior('select-node', {
     // allow to select multiple nodes but did not press a key || do not allow the select multiple nodes
     if (!keydown || !multiple) {
       const selected = graph.findAllByState(type, self.selectedState);
-      each(selected, combo => {
+      each(selected, (combo) => {
         if (combo !== item) {
           graph.setItemState(combo, self.selectedState, false);
         }
@@ -99,12 +99,12 @@ registerBehavior('select-node', {
   onCanvasClick() {
     const { graph } = this;
     const selected = graph.findAllByState('node', this.selectedState);
-    each(selected, node => {
+    each(selected, (node) => {
       graph.setItemState(node, this.selectedState, false);
     });
 
     const selectedCombos = graph.findAllByState('combo', this.selectedState);
-    each(selectedCombos, combo => {
+    each(selectedCombos, (combo) => {
       graph.setItemState(combo, this.selectedState, false);
     });
     graph.emit('nodeselectchange', {
@@ -152,7 +152,7 @@ describe('select-node', () => {
     });
     graph.paint();
 
-    graph.once('nodeselectchange', e => {
+    graph.once('nodeselectchange', (e) => {
       expect(e.selectedItems.nodes.length).toEqual(1);
     });
 

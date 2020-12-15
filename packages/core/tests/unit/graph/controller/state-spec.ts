@@ -32,7 +32,7 @@ describe('graph state controller', () => {
   };
   graph.read(data);
 
-  it('set item state', done => {
+  it('set item state', (done) => {
     let graphCount = 0;
     let itemCount = 0;
 
@@ -53,7 +53,7 @@ describe('graph state controller', () => {
     }, 100);
   });
 
-  it('state with activate-relations', done => {
+  it('state with activate-relations', (done) => {
     graph.off();
 
     graph.addBehaviors('activate-relations', 'default');
@@ -69,8 +69,8 @@ describe('graph state controller', () => {
     done();
   });
 
-  it('updateGraphStates', done => {
-    graph.getNodes().forEach(node => {
+  it('updateGraphStates', (done) => {
+    graph.getNodes().forEach((node) => {
       graph.clearItemStates(node);
     });
     const node1 = graph.findById('node1');
