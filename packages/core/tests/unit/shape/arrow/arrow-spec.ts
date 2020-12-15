@@ -1,6 +1,6 @@
-import Graph from '../../../../src/graph/graph';
 import G6 from '../../../../src';
-import { GraphData } from '../../../../src/types';
+import Graph from '../../implement-graph';
+import { GraphData } from '../../../../src';
 
 const div = document.createElement('div');
 div.id = 'graph-spec';
@@ -55,6 +55,8 @@ describe('arrow test', () => {
         },
       },
     });
+    const arrow = G6.Arrow.triangle(10, 20, 25);
+    expect(arrow).toEqual(`M 50,0 L 70,-5 L 70,5 Z`);
   });
   it('vee arrow ', () => {
     graph.updateItem(edge, {

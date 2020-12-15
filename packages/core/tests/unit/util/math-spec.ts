@@ -26,15 +26,15 @@ import {
   isPointsOverlap,
   pointRectSquareDist,
 } from '../../../src/util/math';
-import G6 from '../../../src';
-import Canvas from '@antv/g-canvas/lib/canvas';
+import Graph from '../implement-graph';
+import { Canvas } from '@antv/g-canvas';
 
 const equal = (a: number, b: number): boolean => Math.abs(a - b) < 0.0001;
 
 const div = document.createElement('div');
 div.id = 'base-spec';
 document.body.appendChild(div);
-const graph = new G6.Graph({
+const graph = new Graph({
   container: div,
   width: 800,
   height: 600,
@@ -80,7 +80,7 @@ describe('math util test', () => {
     ];
     let ellipse = { x: 0, y: 0, rx: 5, ry: 4 };
     // rx > ry
-    arr.forEach((point) => {
+    arr.forEach(point => {
       const p = getEllipseIntersectByPoint(ellipse, point);
       // x*x/a*a + y*y/b*b = 1
       const v = (p.x * p.x) / 25 + (p.y * p.y) / 16;
@@ -89,14 +89,14 @@ describe('math util test', () => {
 
     ellipse = { x: 0, y: 0, rx: 4, ry: 5 };
     // rx < ry
-    arr.forEach((point) => {
+    arr.forEach(point => {
       const p = getEllipseIntersectByPoint(ellipse, point);
       // x*x/a*a + y*y/b*b = 1
       const v = (p.x * p.x) / 16 + (p.y * p.y) / 25;
       expect(equal(v, 1)).toEqual(true);
     });
     ellipse = { x: 2, y: 2, rx: 4, ry: 5 };
-    arr.forEach((point) => {
+    arr.forEach(point => {
       const p = getEllipseIntersectByPoint(ellipse, point);
       // x*x/a*a + y*y/b*b = 1
       const v = ((p.x - 2) * (p.x - 2)) / 16 + ((p.y - 2) * (p.y - 2)) / 25;
@@ -239,11 +239,7 @@ describe('math util test', () => {
   });
 
   it('scaleMatrix', () => {
-    const matrix = [
-      [1, 2, 3],
-      [2, 3, 4],
-      [1, 0, 1],
-    ];
+    const matrix = [[1, 2, 3], [2, 3, 4], [1, 0, 1]];
     const scales = scaleMatrix(matrix, 0.5);
     expect(scales[0][1]).toEqual(1);
     expect(scales[1][2]).toEqual(2);
@@ -322,11 +318,7 @@ describe('math util test', () => {
   });
 
   it('floydWarshall', () => {
-    const matrix = [
-      [1, 1, 2],
-      [1, 0, 1],
-      [1, 2, 1],
-    ];
+    const matrix = [[1, 1, 2], [1, 0, 1], [1, 2, 1]];
 
     const result = floydWarshall(matrix);
     expect(result[0]).toEqual([0, 1, 2]);
@@ -398,40 +390,9 @@ describe('math util test', () => {
   });
 
   it('isPointInPolygon', () => {
-    expect(
-      isPointInPolygon(
-        [
-          [0, 0],
-          [100, 0],
-        ],
-        50,
-        50,
-      ),
-    ).toEqual(false);
-    expect(
-      isPointInPolygon(
-        [
-          [0, 0],
-          [100, 0],
-          [100, 100],
-          [0, 100],
-        ],
-        50,
-        50,
-      ),
-    ).toEqual(true);
-    expect(
-      isPointInPolygon(
-        [
-          [0, 0],
-          [100, 0],
-          [100, 100],
-          [0, 100],
-        ],
-        150,
-        50,
-      ),
-    ).toEqual(false);
+    expect(isPointInPolygon([[0, 0], [100, 0]], 50, 50)).toEqual(false);
+    expect(isPointInPolygon([[0, 0], [100, 0], [100, 100], [0, 100]], 50, 50)).toEqual(true);
+    expect(isPointInPolygon([[0, 0], [100, 0], [100, 100], [0, 100]], 150, 50)).toEqual(false);
   });
 
   it('intersectBBox', () => {
@@ -443,34 +404,14 @@ describe('math util test', () => {
   it('isPolygonsIntersect', () => {
     expect(
       isPolygonsIntersect(
-        [
-          [0, 0],
-          [100, 0],
-          [100, 100],
-          [0, 100],
-        ],
-        [
-          [10, 10],
-          [110, 10],
-          [110, 110],
-          [10, 110],
-        ],
+        [[0, 0], [100, 0], [100, 100], [0, 100]],
+        [[10, 10], [110, 10], [110, 110], [10, 110]],
       ),
     ).toEqual(true);
     expect(
       isPolygonsIntersect(
-        [
-          [0, 0],
-          [100, 0],
-          [100, 100],
-          [0, 100],
-        ],
-        [
-          [110, 110],
-          [210, 110],
-          [210, 210],
-          [110, 210],
-        ],
+        [[0, 0], [100, 0], [100, 100], [0, 100]],
+        [[110, 110], [210, 110], [210, 210], [110, 210]],
       ),
     ).toEqual(false);
   });
@@ -514,19 +455,9 @@ describe('math util test', () => {
   });
 
   it('getPointsCenter', () => {
-    [
-      [0, 0],
-      [100, 0],
-      [100, 100],
-      [0, 100],
-    ];
+    [[0, 0], [100, 0], [100, 100], [0, 100]];
     expect(
-      getPointsCenter([
-        { x: 0, y: 0 },
-        { x: 100, y: 0 },
-        { x: 100, y: 100 },
-        { x: 0, y: 100 },
-      ]),
+      getPointsCenter([{ x: 0, y: 0 }, { x: 100, y: 0 }, { x: 100, y: 100 }, { x: 0, y: 100 }]),
     ).toEqual({ x: 50, y: 50 });
   });
 

@@ -1,4 +1,4 @@
-import { IGroup } from '@antv/g-base';
+import { IGroup, BBox } from '@antv/g-base';
 import { vec2 } from '@antv/matrix-util';
 import Global from '../global';
 import {
@@ -7,7 +7,6 @@ import {
   IPoint,
   IShapeBase,
   LabelStyle,
-  TreeGraphData,
   NodeConfig,
   ComboTree,
   ComboConfig,
@@ -15,7 +14,6 @@ import {
 import { applyMatrix } from './math';
 import letterAspectRatio from './letterAspectRatio';
 import { isString, clone } from '@antv/util';
-import { BBox } from '@antv/g-math/lib/types';
 import { IAbstractGraph } from '../interface/graph';
 
 const { PI, sin, cos } = Math;
@@ -346,73 +344,6 @@ export const traverseTreeUp = <T extends { children?: T[] }>(
   traverseUp(data, fn);
 };
 
-export type TreeGraphDataWithPosition = TreeGraphData & {
-  x: number;
-  y: number;
-  children?: TreeGraphDataWithPosition[];
-};
-
-/**
- *
- * @param data Tree graph data
- * @param layout
- */
-export const radialLayout = (
-  data: TreeGraphDataWithPosition,
-  layout?: string,
-): TreeGraphDataWithPosition => {
-  // 布局方式有 H / V / LR / RL / TB / BT
-  const VERTICAL_LAYOUTS: string[] = ['V', 'TB', 'BT'];
-  const min: IPoint = {
-    x: Infinity,
-    y: Infinity,
-  };
-
-  const max: IPoint = {
-    x: -Infinity,
-    y: -Infinity,
-  };
-  // 默认布局是垂直布局TB，此时x对应rad，y对应r
-  let rScale: 'x' | 'y' = 'x';
-  let radScale: 'x' | 'y' = 'y';
-  if (layout && VERTICAL_LAYOUTS.indexOf(layout) >= 0) {
-    // 若是水平布局，y对应rad，x对应r
-    radScale = 'x';
-    rScale = 'y';
-  }
-  let count = 0;
-  traverseTree(data, (node: TreeGraphDataWithPosition) => {
-    count++;
-    if (node.x > max.x) {
-      max.x = node.x;
-    }
-    if (node.x < min.x) {
-      min.x = node.x;
-    }
-    if (node.y > max.y) {
-      max.y = node.y;
-    }
-    if (node.y < min.y) {
-      min.y = node.y;
-    }
-    return true;
-  });
-  const avgRad = (PI * 2) / count;
-  const radDiff = max[radScale] - min[radScale];
-  if (radDiff === 0) {
-    return data;
-  }
-
-  traverseTree(data, (node) => {
-    const radial = ((node[radScale] - min[radScale]) / radDiff) * (PI * 2 - avgRad) + avgRad;
-    const r = Math.abs(rScale === 'x' ? node.x - data.x : node.y - data.y);
-    node.x = r * Math.cos(radial);
-    node.y = r * Math.sin(radial);
-    return true;
-  });
-  return data;
-};
-
 /**
  *
  * @param letter the letter
@@ -429,10 +360,10 @@ export const getLetterWidth = (letter, fontSize) => {
  * @param fontSize
  * @return the text's size
  */
-export const getTextSize = (text, fontSize) => {
+export const getTextSize = (text: string, fontSize: number) => {
   let width = 0;
   const pattern = new RegExp('[\u{4E00}-\u{9FA5}]+');
-  text.split('').forEach((letter) => {
+  text.split('').forEach(letter => {
     if (pattern.test(letter)) {
       // 中文字符
       width += fontSize;
@@ -453,7 +384,7 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) =
   const result: ComboTree[] = [];
   const addedMap = {};
   const modelMap = {};
-  array.forEach((d) => {
+  array.forEach(d => {
     modelMap[d.id] = d;
   });
 
@@ -513,7 +444,7 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) =
 
   // proccess the nodes
   const nodeMap = {};
-  (nodes || []).forEach((node) => {
+  (nodes || []).forEach(node => {
     nodeMap[node.id] = node;
     const combo = addedMap[node.comboId as string];
     if (combo) {
@@ -532,7 +463,7 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) =
   let maxDepth = 0;
   result.forEach((tree: ComboTree) => {
     tree.depth = maxDepth + 10;
-    traverse<ComboTree>(tree, (child) => {
+    traverse<ComboTree>(tree, child => {
       let parent;
       const itemType = addedMap[child.id].itemType;
       if (itemType === 'node') {
@@ -571,7 +502,7 @@ export const reconstructTree = (
   };
   let foundSubTree = false;
   let oldParentId = 'root';
-  (trees || []).forEach((tree) => {
+  (trees || []).forEach(tree => {
     if (foundSubTree) return;
     if (tree.id === subtreeId) {
       subtree = tree;
@@ -628,7 +559,7 @@ export const reconstructTree = (
     // newParentId is undefined means the subtree will have no parent
     if (newParentId) {
       let newParentDepth = 0;
-      (trees || []).forEach((tree) => {
+      (trees || []).forEach(tree => {
         if (found) return; // terminate
         traverseTree<ComboTree>(tree, (child: any) => {
           // append subtree to the new parent ans assign the depth to the subtree
@@ -678,7 +609,7 @@ export const getComboBBox = (children: ComboTree[], graph: IAbstractGraph): BBox
     return comboBBox;
   }
 
-  children.forEach((child) => {
+  children.forEach(child => {
     const childItem = graph.findById(child.id);
     if (!childItem || !childItem.isVisible()) return; // ignore hidden children
     childItem.set('bboxCanvasCache', undefined);
@@ -696,39 +627,11 @@ export const getComboBBox = (children: ComboTree[], graph: IAbstractGraph): BBox
   comboBBox.centerX = (comboBBox.minX + comboBBox.maxX) / 2;
   comboBBox.centerY = (comboBBox.minY + comboBBox.maxY) / 2;
 
-  Object.keys(comboBBox).forEach((key) => {
+  Object.keys(comboBBox).forEach(key => {
     if (comboBBox[key] === Infinity || comboBBox[key] === -Infinity) {
       comboBBox[key] = undefined;
     }
   });
 
   return comboBBox;
-};
-
-export const getChartRegion = (params: {
-  group: IGroup;
-  width: number;
-  height: number;
-  x: number;
-  y: number;
-}) => {
-  const { group, height, width, x, y } = params;
-  const canvas = group.get('canvas');
-  const canvasWidth = canvas.get('width');
-  const canvasHeight = canvas.get('height');
-  const region = {
-    start: {
-      x: 0,
-      y: 0,
-    },
-    end: {
-      x: 0,
-      y: 0,
-    },
-  };
-  region.start.x = x / canvasWidth;
-  region.start.y = y / canvasHeight;
-  region.end.x = (x + width) / canvasWidth;
-  region.end.y = (y + height) / canvasHeight;
-  return region;
 };

@@ -80,7 +80,10 @@ export const getControlPoint = (
  * @param {Boolen} z 是否封闭
  * @return {Array} Path
  */
-export const pointsToPolygon = (points: IPoint[], z?: boolean): string => {
+export const pointsToPolygon = (
+  points: IPoint[] | ({ x: number; y: number } | string)[],
+  z?: boolean,
+): string => {
   const { length } = points;
   if (!length) {
     return '';
@@ -107,7 +110,7 @@ export const pointsToPolygon = (points: IPoint[], z?: boolean): string => {
 
 export const pathToPoints = (path: any[]) => {
   const points = [];
-  path.forEach((seg) => {
+  path.forEach(seg => {
     const command = seg[0];
     if (command !== 'A') {
       for (let i = 1; i < seg.length; i = i + 2) {
@@ -253,7 +256,7 @@ export function roundedHull(polyPoints: number[][], padding: number) {
 export function paddedHull(polyPoints: number[][], padding: number) {
   const pointCount = polyPoints.length;
 
-  const smoothHull1 = (points) => {
+  const smoothHull1 = points => {
     // Returns the path for a circular hull around a single point.
 
     const p1 = [points[0][0], points[0][1] - padding];
@@ -268,7 +271,7 @@ export function paddedHull(polyPoints: number[][], padding: number) {
   };
 
   // Returns the path for a rounded hull around two points.
-  const smoothHull2 = (points) => {
+  const smoothHull2 = points => {
     const v = vecFrom(points[0], points[1]);
     const extensionVec = vecScaleTo(v, padding);
 
@@ -312,7 +315,7 @@ export function paddedHull(polyPoints: number[][], padding: number) {
     hullPoints[i].p = vec2.add([], hullPoints[i].p, vec2.scale([], extensionVec, padding));
   }
 
-  return hullPoints.map((obj) => {
+  return hullPoints.map(obj => {
     const point = obj.p;
     return { x: point[0], y: point[1] };
   });

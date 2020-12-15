@@ -6,9 +6,8 @@ import {
   isNaN,
   calculationItemsBBox,
 } from '../../../src/util/base';
-import { IG6GraphEvent } from '../../../src/types';
-import { G6GraphEvent } from '../../../src/interface/behavior';
-import G6 from '../../../src';
+import { IG6GraphEvent, G6GraphEvent } from '../../../src';
+import Graph from '../implement-graph';
 
 describe('base util', () => {
   it('formatPadding', () => {
@@ -43,10 +42,7 @@ describe('base util', () => {
   });
 
   it('processParallelEdges', () => {
-    const edges: any = [
-      { source: 0, target: 1 },
-      { source: 0, target: 1 },
-    ];
+    const edges: any = [{ source: 0, target: 1 }, { source: 0, target: 1 }];
     processParallelEdges(edges);
     expect(edges[0].type).toEqual('quadratic');
     expect(edges[1].type).toEqual('quadratic');
@@ -99,7 +95,7 @@ describe('base util', () => {
     const div = document.createElement('div');
     div.id = 'base-spec';
     document.body.appendChild(div);
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 800,
       height: 600,
