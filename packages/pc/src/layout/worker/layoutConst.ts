@@ -15,4 +15,4 @@ export const LAYOUT_MESSAGE = {
   TICK: 'LAYOUT_TICK',
   GPURUN: 'GPU_LAYOUT_RUN',
   GPUEND: 'GPU_LAYOUT_END',
-};
+}

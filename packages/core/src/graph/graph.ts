@@ -350,6 +350,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * @param key 键
    */
   public get(key: string) {
+    console.log('abstract graph get', this, this.cfg)
     return this.cfg[key];
   }
 
@@ -2719,9 +2720,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const stackData = data
       ? clone(data)
       : {
-          before: {},
-          after: clone(this.save()),
-        };
+        before: {},
+        after: clone(this.save()),
+      };
 
     if (stackType === 'redo') {
       this.redoStack.push({

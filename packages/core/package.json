@@ -45,7 +45,8 @@
     "lint:src": "eslint --ext .ts --format=pretty \"./src\"",
     "prettier": "prettier -c --write \"**/*\"",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/shape/nodes/image-spec.ts",
+    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/graph/graph-watermarker-spec.ts",
+    "watch": "father build -w",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx"
   },
   "husky": {

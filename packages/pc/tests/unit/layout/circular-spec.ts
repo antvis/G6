@@ -9,23 +9,25 @@ div.id = 'circular-layout';
 document.body.appendChild(div);
 
 describe('circular layout', () => {
-  it('circular layout with default configs', () => {
+  it.only('circular layout with default configs', () => {
     const graph = new G6.Graph({
       container: div,
-      layout: { type: 'circular' },
+      // layout: { type: 'circular' },
       width: 500,
       height: 500,
       defaultNode: { size: 10 },
     });
     graph.data(data);
     graph.render();
-    const width = graph.get('width');
-    const height = graph.get('height');
-    const radius = height > width ? width / 2 : height / 2;
-    expect(mathEqual(data.nodes[0].x, 250 + radius)).toEqual(true);
-    expect(mathEqual(data.nodes[0].y, 250)).toEqual(true);
-    expect(data.nodes[0].y === 250);
-    graph.destroy();
+    // const width = graph.get('width');
+    // const height = graph.get('height');
+    // const radius = height > width ? width / 2 : height / 2;
+    // expect(mathEqual(data.nodes[0].x, 250 + radius)).toEqual(true);
+    // expect(mathEqual(data.nodes[0].y, 250)).toEqual(true);
+    // expect(data.nodes[0].y === 250);
+
+    console.log(graph.getEdges())
+    // graph.destroy();
   });
 
   it('fixed radius, start angle, end angle', () => {
