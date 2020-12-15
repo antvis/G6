@@ -40,6 +40,7 @@ export default abstract class LayoutController {
   // 绘制
   public refreshLayout() {
     const { graph } = this;
+    if (!graph) return;
     if (graph.get('animate')) {
       graph.positionsAnimate();
     } else {
@@ -149,7 +150,7 @@ export default abstract class LayoutController {
 
   // 控制布局动画
   // eslint-disable-next-line class-methods-use-this
-  public layoutAnimate() {}
+  public layoutAnimate() { }
 
   // 将当前节点的平均中心移动到原点
   public moveToZero() {

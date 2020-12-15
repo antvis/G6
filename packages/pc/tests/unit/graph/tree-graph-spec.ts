@@ -127,7 +127,7 @@ describe('tree graph without animate', () => {
       ).toBe(true);
       expect(
         e.item.get('parent').getModel().id === 'SubTreeNode3' ||
-          e.item.get('parent').getModel().id === 'SubTreeNode3.1',
+        e.item.get('parent').getModel().id === 'SubTreeNode3.1',
       ).toBe(true);
       expect(
         e.parent.getModel().id === 'SubTreeNode3' || e.parent.getModel().id === 'SubTreeNode3.1',

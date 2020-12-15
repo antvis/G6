@@ -350,7 +350,6 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * @param key 键
    */
   public get(key: string) {
-    console.log('abstract graph get', this, this.cfg)
     return this.cfg[key];
   }
 
@@ -1246,19 +1245,24 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     // layout
     const layoutController = self.get('layoutController');
     if (layoutController) {
-      if (!layoutController.layout(success)) {
+      const layoutWithWorker = layoutController.layout(success);
+      if (this.destroyed) return;
+      if (!layoutWithWorker) {
         success();
       }
     }
     function success() {
       if (self.get('fitView')) {
-        self.fitView();
+        self.on('afterlayout', () => {
+          self.fitView();
+        });
       } else if (self.get('fitCenter')) {
-        self.fitCenter();
+        self.on('afterlayout', () => {
+          self.fitCenter();
+        });
       }
       self.autoPaint();
       self.emit('afterrender');
-
       if (self.get('fitView') || self.get('fitCenter')) {
         self.set('animate', animate);
       }
@@ -2158,6 +2162,14 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       this.set('layout', cfg);
       layoutController.changeLayout(newLayoutType);
     }
+  }
+
+  /**
+   * 销毁布局，changeData 时不会再使用原来的布局方法对新数据进行布局
+   */
+  public destroyLayout(): void {
+    const layoutController = this.get('layoutController');
+    layoutController.destroyLayout();
   }
 
   /**

@@ -1,6 +1,5 @@
 import G6 from '../../../src';
 import { numberEqual } from './util';
-import MDS from '../../../src/layout/radial/mds';
 
 const div = document.createElement('div');
 div.id = 'graph-spec';
@@ -656,13 +655,6 @@ describe('radial layout', () => {
     expect(data.nodes[0].x).not.toEqual(NaN);
     expect(data.nodes[0].y).not.toEqual(NaN);
     graph.destroy();
-  });
-
-  it('mds try catch', () => {
-    const mds = new MDS({ distances: [[0, 0]], linkDistance: 10 });
-    const positions = mds.layout();
-    expect(positions[0][0]).not.toEqual(NaN);
-    expect(positions[0][1]).not.toEqual(NaN);
   });
 
   it('radial with data sort', () => {
