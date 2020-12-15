@@ -1,5 +1,5 @@
-import { AbstractLayout } from '@antv/g6-core';
-import Layout from '../../layout';
+import { AbstractLayout, GraphData } from '@antv/g6-core';
+import { Layout } from '../../layout';
 import LayoutWorker from '../../layout/worker/layout.worker';
 import { LAYOUT_MESSAGE } from '../../layout/worker/layoutConst';
 import { gpuDetector } from '../../util/gpu';
@@ -42,6 +42,16 @@ export default class LayoutController extends AbstractLayout {
   // private data;
 
   private isGPU: boolean;
+
+  // the configurations of the layout
+  private layoutCfg: any; // LayoutOptions
+
+  // the type name of the layout
+  private layoutType: string;
+
+  private data: GraphData;
+
+  private layoutMethod: typeof Layout;
 
   constructor(graph: IGraph) {
     super(graph);

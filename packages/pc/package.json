@@ -75,6 +75,7 @@
     "@antv/g-webgpu": "^0.5.1",
     "@antv/g6-core": "*",
     "@antv/hierarchy": "^0.6.2",
+    "@antv/layout": "^0.0.7",
     "@antv/matrix-util": "^2.0.4",
     "@antv/path-util": "^2.0.3",
     "@antv/scale": "^0.3.1",

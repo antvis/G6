@@ -3,7 +3,7 @@ import './behavior';
 import Graph from './graph/graph';
 import TreeGraph from './graph/tree-graph';
 // import Shape, { Arrow, Marker } from './shape';
-import Layout from './layout';
+import { Layout, registerLayout } from './layout';
 import Global from './global';
 import Util from './util';
 // import Plugins from './plugins';
@@ -30,7 +30,7 @@ export {
   registerEdge,
   Layout,
   Global,
-  // registerLayout,
+  registerLayout,
   // Minimap,
   // Grid,
   // Bundling,
@@ -50,8 +50,8 @@ export default {
   Graph,
   TreeGraph,
   Util,
-  // Layout,
-  // registerLayout: Layout.registerLayout,
+  Layout,
+  registerLayout,
   Global,
   registerBehavior,
   registerCombo,
