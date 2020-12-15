@@ -126,12 +126,7 @@ describe('graph', () => {
     expect(inst.get('group')).not.toBe(undefined);
 
     expect(inst.get('group').get('className')).toEqual('root-container');
-    expect(
-      inst
-        .get('group')
-        .get('id')
-        .endsWith('-root'),
-    ).toBe(true);
+    expect(inst.get('group').get('id').endsWith('-root')).toBe(true);
 
     const children = inst.get('group').get('children');
     expect(children.length).toBe(4);
@@ -536,10 +531,7 @@ describe('graph', () => {
 
   it('client point & model point convert', () => {
     const group = globalGraph.get('group');
-    const bbox = globalGraph
-      .get('canvas')
-      .get('el')
-      .getBoundingClientRect();
+    const bbox = globalGraph.get('canvas').get('el').getBoundingClientRect();
 
     let point = globalGraph.getPointByClient(bbox.left + 100, bbox.top + 100);
 
@@ -623,7 +615,10 @@ describe('all node link center', () => {
     graph.render();
 
     const edge = graph.findById('e1');
-    expect(edge.get('keyShape').attr('path')).toEqual([['M', 10, 10], ['L', 100, 100]]);
+    expect(edge.get('keyShape').attr('path')).toEqual([
+      ['M', 10, 10],
+      ['L', 100, 100],
+    ]);
   });
 
   it('loop', () => {
@@ -634,7 +629,10 @@ describe('all node link center', () => {
       x: 150,
       y: 150,
       style: { fill: 'yellow' },
-      anchorPoints: [[0, 0], [0, 1]],
+      anchorPoints: [
+        [0, 0],
+        [0, 1],
+      ],
     });
 
     const edge1 = graph.addItem('edge', {
@@ -842,7 +840,7 @@ describe('all node link center', () => {
       },
     });
 
-    defaultGraph.on('node:click', e => {
+    defaultGraph.on('node:click', (e) => {
       e.item.setState('selected', true);
     });
 

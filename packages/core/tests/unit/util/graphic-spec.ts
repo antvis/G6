@@ -26,7 +26,7 @@ describe('graphic unit test', () => {
       ],
     };
     const trees = [];
-    traverseTree(data, node => {
+    traverseTree(data, (node) => {
       trees.push(node);
       return true;
     });
@@ -66,7 +66,7 @@ describe('graphic unit test', () => {
       ],
     };
     let trees = [];
-    traverseTree(data, node => {
+    traverseTree(data, (node) => {
       trees.push(node);
       if (node.id === 'A') return false;
       return true;
@@ -74,7 +74,7 @@ describe('graphic unit test', () => {
     expect(trees.length).toBe(5);
 
     trees = [];
-    traverseTreeUp(data, node => {
+    traverseTreeUp(data, (node) => {
       trees.push(node);
       if (node.id === 'B') return false;
       return true;

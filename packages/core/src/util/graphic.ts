@@ -363,7 +363,7 @@ export const getLetterWidth = (letter, fontSize) => {
 export const getTextSize = (text: string, fontSize: number) => {
   let width = 0;
   const pattern = new RegExp('[\u{4E00}-\u{9FA5}]+');
-  text.split('').forEach(letter => {
+  text.split('').forEach((letter) => {
     if (pattern.test(letter)) {
       // 中文字符
       width += fontSize;
@@ -384,7 +384,7 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) =
   const result: ComboTree[] = [];
   const addedMap = {};
   const modelMap = {};
-  array.forEach(d => {
+  array.forEach((d) => {
     modelMap[d.id] = d;
   });
 
@@ -444,7 +444,7 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) =
 
   // proccess the nodes
   const nodeMap = {};
-  (nodes || []).forEach(node => {
+  (nodes || []).forEach((node) => {
     nodeMap[node.id] = node;
     const combo = addedMap[node.comboId as string];
     if (combo) {
@@ -463,7 +463,7 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) =
   let maxDepth = 0;
   result.forEach((tree: ComboTree) => {
     tree.depth = maxDepth + 10;
-    traverse<ComboTree>(tree, child => {
+    traverse<ComboTree>(tree, (child) => {
       let parent;
       const itemType = addedMap[child.id].itemType;
       if (itemType === 'node') {
@@ -502,7 +502,7 @@ export const reconstructTree = (
   };
   let foundSubTree = false;
   let oldParentId = 'root';
-  (trees || []).forEach(tree => {
+  (trees || []).forEach((tree) => {
     if (foundSubTree) return;
     if (tree.id === subtreeId) {
       subtree = tree;
@@ -559,7 +559,7 @@ export const reconstructTree = (
     // newParentId is undefined means the subtree will have no parent
     if (newParentId) {
       let newParentDepth = 0;
-      (trees || []).forEach(tree => {
+      (trees || []).forEach((tree) => {
         if (found) return; // terminate
         traverseTree<ComboTree>(tree, (child: any) => {
           // append subtree to the new parent ans assign the depth to the subtree
@@ -609,7 +609,7 @@ export const getComboBBox = (children: ComboTree[], graph: IAbstractGraph): BBox
     return comboBBox;
   }
 
-  children.forEach(child => {
+  children.forEach((child) => {
     const childItem = graph.findById(child.id);
     if (!childItem || !childItem.isVisible()) return; // ignore hidden children
     childItem.set('bboxCanvasCache', undefined);
@@ -627,7 +627,7 @@ export const getComboBBox = (children: ComboTree[], graph: IAbstractGraph): BBox
   comboBBox.centerX = (comboBBox.minX + comboBBox.maxX) / 2;
   comboBBox.centerY = (comboBBox.minY + comboBBox.maxY) / 2;
 
-  Object.keys(comboBBox).forEach(key => {
+  Object.keys(comboBBox).forEach((key) => {
     if (comboBBox[key] === Infinity || comboBBox[key] === -Infinity) {
       comboBBox[key] = undefined;
     }

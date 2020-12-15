@@ -89,7 +89,7 @@ describe('register node with getCustomConfig function, extend image', () => {
     const group = node.get('group');
     expect(group.getCount()).toEqual(2);
 
-    const label = group.find(g => {
+    const label = group.find((g) => {
       return g.get('className') === 'node-label';
     });
     expect(label).not.toBe(undefined);
@@ -317,7 +317,13 @@ describe('register node with getCustomConfig function, extend image', () => {
               clipCfg: {
                 show: true,
                 type: 'polygon',
-                points: [[10, 20], [15, 15], [30, 12], [40, 50], [10, 20]],
+                points: [
+                  [10, 20],
+                  [15, 15],
+                  [30, 12],
+                  [40, 50],
+                  [10, 20],
+                ],
               },
             };
           },
@@ -506,7 +512,7 @@ describe('register node with getCustomConfig function, extend image', () => {
       const nodes = graph.getNodes();
       const node = nodes[0];
       const group = node.get('group');
-      const label = group.find(g => {
+      const label = group.find((g) => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toEqual(null);
@@ -591,7 +597,7 @@ describe('register node with getCustomConfig function, extend image', () => {
         },
       });
 
-      const label = group.find(g => {
+      const label = group.find((g) => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toEqual(null);
