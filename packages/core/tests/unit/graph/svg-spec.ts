@@ -1,9 +1,7 @@
-import { Graph, Layout, TreeGraph } from '../../../src';
-import G6 from '../../../src';
+import { Canvas as SVGCanvas } from '@antv/g-svg';
+import { AbstractGraph } from '../../../src';
 import '../../../src/behavior';
 import { scale, translate } from '../../../src/util/math';
-import Plugin from '../../../src/plugins';
-import { timerOut } from '../util/timeOut';
 import { EdgeConfig } from '../../../src/types';
 
 const div = document.createElement('div');
@@ -12,6 +10,45 @@ document.body.appendChild(div);
 const div2 = document.createElement('div');
 div2.id = 'graph-spec';
 document.body.appendChild(div2);
+
+class Graph extends AbstractGraph {
+  constructor(cfg) {
+    super(cfg);
+  }
+
+  initEventController() {}
+
+  initLayoutController() {}
+
+  initCanvas() {
+    let container: string | HTMLElement | Element | null = this.get('container');
+    if (typeof container === 'string') {
+      container = document.getElementById(container);
+      this.set('container', container);
+    }
+
+    if (!container) {
+      throw new Error('invalid container');
+    }
+
+    const width: number = this.get('width');
+    const height: number = this.get('height');
+
+    const canvasCfg: any = {
+      container,
+      width,
+      height,
+    };
+    const pixelRatio = this.get('pixelRatio');
+    if (pixelRatio) {
+      canvasCfg.pixelRatio = pixelRatio;
+    }
+
+    const canvas = new SVGCanvas(canvasCfg);
+
+    this.set('canvas', canvas);
+  }
+}
 
 describe('graph', () => {
   const globalGraph = new Graph({
@@ -89,7 +126,12 @@ describe('graph', () => {
     expect(inst.get('group')).not.toBe(undefined);
 
     expect(inst.get('group').get('className')).toEqual('root-container');
-    expect(inst.get('group').get('id').endsWith('-root')).toBe(true);
+    expect(
+      inst
+        .get('group')
+        .get('id')
+        .endsWith('-root'),
+    ).toBe(true);
 
     const children = inst.get('group').get('children');
     expect(children.length).toBe(4);
@@ -111,7 +153,7 @@ describe('graph', () => {
     expect(length - div.childNodes.length).toBe(1);
   });
 
-  it('render with data & toDataURL & downloadImage', () => {
+  it('render with data', () => {
     const inst = new Graph({
       container: div,
       width: 500,
@@ -162,12 +204,6 @@ describe('graph', () => {
 
     inst.data(data);
     inst.render();
-
-    const url = inst.toDataURL();
-    expect(url).not.toBe(null);
-
-    // close to avoid alert
-    // inst.downloadImage('graph-image');
     inst.destroy();
   });
 
@@ -500,7 +536,10 @@ describe('graph', () => {
 
   it('client point & model point convert', () => {
     const group = globalGraph.get('group');
-    const bbox = globalGraph.get('canvas').get('el').getBoundingClientRect();
+    const bbox = globalGraph
+      .get('canvas')
+      .get('el')
+      .getBoundingClientRect();
 
     let point = globalGraph.getPointByClient(bbox.left + 100, bbox.top + 100);
 
@@ -584,10 +623,7 @@ describe('all node link center', () => {
     graph.render();
 
     const edge = graph.findById('e1');
-    expect(edge.get('keyShape').attr('path')).toEqual([
-      ['M', 10, 10],
-      ['L', 100, 100],
-    ]);
+    expect(edge.get('keyShape').attr('path')).toEqual([['M', 10, 10], ['L', 100, 100]]);
   });
 
   it('loop', () => {
@@ -598,10 +634,7 @@ describe('all node link center', () => {
       x: 150,
       y: 150,
       style: { fill: 'yellow' },
-      anchorPoints: [
-        [0, 0],
-        [0, 1],
-      ],
+      anchorPoints: [[0, 0], [0, 1]],
     });
 
     const edge1 = graph.addItem('edge', {
@@ -809,7 +842,7 @@ describe('all node link center', () => {
       },
     });
 
-    defaultGraph.on('node:click', (e) => {
+    defaultGraph.on('node:click', e => {
       e.item.setState('selected', true);
     });
 
@@ -967,47 +1000,6 @@ describe('all node link center', () => {
   });
 });
 
-describe('plugins & layout', () => {
-  it('add & remove plugins', () => {
-    const graph = new Graph({
-      container: div,
-      height: 500,
-      width: 500,
-      renderer: 'svg',
-    });
-
-    const data = {
-      nodes: [
-        {
-          id: 'node',
-          label: 'node',
-        },
-      ],
-    };
-
-    graph.data(data);
-    graph.render();
-
-    let plugins = graph.get('plugins');
-    expect(plugins.length).toBe(0);
-
-    const minimap = new Plugin.Minimap({
-      size: [200, 200],
-    });
-
-    graph.addPlugin(minimap);
-    plugins = graph.get('plugins');
-    expect(plugins.length).toBe(1);
-
-    graph.removePlugin(minimap);
-    plugins = graph.get('plugins');
-    expect(plugins.length).toBe(0);
-
-    graph.destroy();
-    expect(graph.destroyed).toBe(true);
-  });
-});
-
 describe('auto rotate label on edge', () => {
   const graph = new Graph({
     container: div,
@@ -1085,25 +1077,25 @@ describe('auto rotate label on edge', () => {
     expect(label2Matrix).toBe(null);
   });
 
-  it('drag node', () => {
-    const node = graph.getNodes()[1];
-    graph.emit('node:dragstart', { x: 80, y: 150, item: node });
-    graph.emit('node:drag', { x: 200, y: 200, item: node });
-    graph.emit('node:dragend', { x: 200, y: 200, item: node });
-    const edge1 = graph.getEdges()[0];
-    const label1 = edge1.get('group').get('children')[1];
-    const label1Matrix = label1.attr('matrix');
-    expect(label1Matrix[0]).toBe(0.7071067811865476);
-    expect(label1Matrix[1]).toBe(0.7071067811865475);
-    expect(label1Matrix[3]).toBe(-0.7071067811865475);
-    expect(label1Matrix[4]).toBe(0.7071067811865476);
-    expect(label1Matrix[6]).toBe(124.99999999999999);
-    expect(label1Matrix[7]).toBe(-51.77669529663689);
-    const edge2 = graph.getEdges()[1];
-    const label2 = edge2.get('group').get('children')[1];
-    const label2Matrix = label2.attr('matrix');
-    expect(label2Matrix).toBe(null);
-  });
+  // it('drag node', () => {
+  //   const node = graph.getNodes()[1];
+  //   graph.emit('node:dragstart', { x: 80, y: 150, item: node });
+  //   graph.emit('node:drag', { x: 200, y: 200, item: node });
+  //   graph.emit('node:dragend', { x: 200, y: 200, item: node });
+  //   const edge1 = graph.getEdges()[0];
+  //   const label1 = edge1.get('group').get('children')[1];
+  //   const label1Matrix = label1.attr('matrix');
+  //   expect(label1Matrix[0]).toBe(0.7071067811865476);
+  //   expect(label1Matrix[1]).toBe(0.7071067811865475);
+  //   expect(label1Matrix[3]).toBe(-0.7071067811865475);
+  //   expect(label1Matrix[4]).toBe(0.7071067811865476);
+  //   expect(label1Matrix[6]).toBe(124.99999999999999);
+  //   expect(label1Matrix[7]).toBe(-51.77669529663689);
+  //   const edge2 = graph.getEdges()[1];
+  //   const label2 = edge2.get('group').get('children')[1];
+  //   const label2Matrix = label2.attr('matrix');
+  //   expect(label2Matrix).toBe(null);
+  // });
 
   it('zoom and pan', () => {
     graph.zoom(0.5);
@@ -1115,501 +1107,6 @@ describe('auto rotate label on edge', () => {
     expect(groupMatrix[4]).toBe(0.5);
     expect(bbox.minX).toBe(100);
     expect(bbox.minY).toBe(120);
-    graph.destroy();
-  });
-});
-
-describe('behaviors', () => {
-  const graph = new Graph({
-    container: div,
-    width: 500,
-    height: 500,
-    renderer: 'svg',
-    edgeStateStyles: {
-      inactive: {
-        opacity: 0.1,
-      },
-      active: {
-        stroke: '#000',
-      },
-    },
-    nodeStateStyles: {
-      inactive: {
-        opacity: 0.1,
-      },
-      active: {
-        stroke: '#000',
-        lineWidth: 2,
-      },
-      selected: {
-        fill: '#f00',
-      },
-    },
-    modes: {
-      default: ['activate-relations', 'brush-select', 'drag-node'],
-      select: [
-        {
-          type: 'click-select',
-          multiple: false,
-        },
-      ],
-      multiSelect: [],
-      tooltip: ['tooltip', 'edge-tooltip'],
-    },
-  });
-  const data = {
-    nodes: [
-      {
-        id: 'node1',
-        x: 50,
-        y: 50,
-        label: 'node1-label',
-      },
-      {
-        id: 'node2',
-        x: 80,
-        y: 150,
-        label: 'node2-label',
-      },
-      {
-        id: 'node3',
-        x: 180,
-        y: 120,
-        label: 'node3-label',
-      },
-    ],
-    edges: [
-      {
-        source: 'node1',
-        target: 'node2',
-        label: 'node1-node2',
-        style: {
-          startArrow: true,
-          endArrow: true,
-        },
-        labelCfg: {
-          autoRotate: true,
-        },
-      },
-      {
-        source: 'node2',
-        target: 'node3',
-        label: 'node2-node3',
-        style: {
-          startArrow: {
-            path: 'M 10,0 L -10,-10 L -10,10 Z',
-            d: 10,
-          },
-          endArrow: true,
-          lineWidth: 3,
-        },
-      },
-    ],
-  };
-  graph.data(data);
-  graph.render();
-  const item = graph.getNodes()[0];
-  it('active-relations', () => {
-    graph.emit('node:mouseenter', { item });
-    const itemKeyShape = item.get('group').get('children')[0];
-    expect(itemKeyShape.attr('stroke')).toBe('#000');
-    expect(itemKeyShape.attr('lineWidth')).toBe(2);
-    const relativeNode = graph.getNodes()[1];
-    const relativeNodeKeyShape = relativeNode.get('group').get('children')[0];
-    expect(relativeNodeKeyShape.attr('stroke')).toBe('#000');
-    expect(relativeNodeKeyShape.attr('lineWidth')).toBe(2);
-    const relativeEdge = graph.getEdges()[0];
-    const relativeEdgeKeyShape = relativeEdge.get('group').get('children')[0];
-    expect(relativeEdgeKeyShape.attr('stroke')).toBe('#000');
-
-    const unrelativeNode = graph.getNodes()[2];
-    const unrelativeNodeKeyShape = unrelativeNode.get('group').get('children')[0];
-    expect(unrelativeNodeKeyShape.attr('lineWidth')).toBe(1);
-    expect(unrelativeNodeKeyShape.attr('stroke')).toBe('rgb(191, 213, 255)');
-    expect(unrelativeNodeKeyShape.attr('opacity')).toBe(0.1);
-    const unrelativeEdge = graph.getEdges()[1];
-    const unrelativeEdgeKeyShape = unrelativeEdge.get('group').get('children')[0];
-    expect(unrelativeEdgeKeyShape.attr('stroke')).toBe('rgb(234, 234, 234)');
-    expect(unrelativeEdgeKeyShape.attr('opacity')).toBe(0.1);
-
-    graph.emit('node:mouseleave', { item });
-    expect(itemKeyShape.attr('stroke')).toBe('rgb(95, 149, 255)');
-    expect(itemKeyShape.attr('lineWidth')).toBe(1);
-    expect(unrelativeNodeKeyShape.attr('lineWidth')).toBe(1);
-    expect(unrelativeNodeKeyShape.attr('stroke')).toBe('rgb(95, 149, 255)');
-    expect(unrelativeNodeKeyShape.attr('opacity')).toBe(1);
-  });
-  it('click-select', () => {
-    graph.setMode('select');
-    graph.emit('node:click', { item });
-    const itemKeyShape = item.get('group').get('children')[0];
-    expect(itemKeyShape.attr('fill')).toBe('#f00');
-
-    const item2 = graph.getNodes()[1];
-    const item2KeyShape = item2.get('group').get('children')[0];
-    expect(item2KeyShape.attr('fill')).toBe('rgb(239, 244, 255)');
-
-    graph.emit('node:click', { item: item2 });
-    expect(item2KeyShape.attr('fill')).toBe('#f00');
-    expect(itemKeyShape.attr('fill')).toBe('rgb(239, 244, 255)');
-
-    graph.emit('node:click', { item: item2 });
-    expect(item2KeyShape.attr('fill')).toBe('rgb(239, 244, 255)');
-
-    // multiple select
-    graph.addBehaviors(['click-select'], 'multiSelect');
-    graph.setMode('multiSelect');
-    graph.emit('keydown', { key: 'shift' });
-    graph.emit('node:click', { item });
-    graph.emit('node:click', { item: item2 });
-    expect(itemKeyShape.attr('fill')).toBe('#f00');
-    expect(item2KeyShape.attr('fill')).toBe('#f00');
-
-    graph.emit('canvas:click');
-    expect(itemKeyShape.attr('fill')).toBe('rgb(239, 244, 255)');
-    expect(item2KeyShape.attr('fill')).toBe('rgb(239, 244, 255)');
-  });
-  it('brush-select', () => {
-    graph.setMode('default');
-
-    graph.once('nodeselectchange', (evt) => {
-      expect(evt.selectedItems.edges.length).toBe(2);
-      expect(evt.selectedItems.nodes.length).toBe(3);
-    });
-
-    graph.emit('keydown', { key: 'shift' });
-    // should not start when it start at an item
-    graph.emit('dragstart', { item, canvasX: 0, canvasY: 0, x: 0, y: 0 });
-    graph.emit('drag', { canvasX: 300, canvasY: 300, x: 300, y: 300 });
-    graph.emit('dragend', { canvasX: 300, canvasY: 300, x: 300, y: 300 });
-    graph.emit('keyup', { key: 'shift' });
-    const itemKeyShape = item.get('group').get('children')[0];
-    expect(itemKeyShape.attr('fill')).toBe('rgb(239, 244, 255)');
-
-    graph.emit('keydown', { key: 'shift' });
-    graph.emit('dragstart', { canvasX: 0, canvasY: 0, x: 0, y: 0 });
-    graph.emit('drag', { canvasX: 300, canvasY: 300, x: 300, y: 300 });
-    graph.emit('dragend', { canvasX: 300, canvasY: 300, x: 300, y: 300 });
-    graph.emit('keyup', { key: 'shift' });
-    expect(itemKeyShape.attr('fill')).toBe('#f00');
-    const item2KeyShape = graph.getNodes()[1].get('group').get('children')[0];
-    expect(item2KeyShape.attr('fill')).toBe('#f00');
-
-    graph.once('nodeselectchange', (evt) => {
-      expect(evt.select).toBe(false);
-      expect(evt.selectedItems.edges.length).toBe(0);
-      expect(evt.selectedItems.nodes.length).toBe(0);
-    });
-
-    graph.emit('canvas:click', {});
-    expect(itemKeyShape.attr('fill')).toBe('rgb(239, 244, 255)');
-    expect(item2KeyShape.attr('fill')).toBe('rgb(239, 244, 255)');
-  });
-
-  it('drag-node', () => {
-    graph.emit('node:dragstart', { item, target: item, x: 0, y: 0 });
-    graph.emit('node:drag', { item, target: item, x: 50, y: 150 });
-    graph.emit('node:drag', { item, target: item, x: 50, y: 250 });
-    graph.emit('node:dragend', { item, target: item, x: 50, y: 250 });
-    expect(item.getModel().x).toBe(100);
-    expect(item.getModel().y).toBe(300);
-    const edge = graph.getEdges()[0];
-    expect((edge.getModel() as EdgeConfig).startPoint.x).toBe(98.5461990789988);
-    expect((edge.getModel() as EdgeConfig).startPoint.y).toBe(289.096493092491);
-
-    // multiple selected nodes to drag
-    const item2 = graph.getNodes()[1];
-    graph.setItemState(item, 'selected', true);
-    graph.setItemState(item2, 'selected', true);
-    graph.emit('node:dragstart', { item, target: item, x: 0, y: 0 });
-    graph.emit('node:drag', { item, target: item, x: 50, y: 50 });
-    graph.emit('node:dragend', { item, target: item, x: 50, y: 50 });
-    expect(item.getModel().x).toBe(150);
-    expect(item.getModel().y).toBe(350);
-    expect(item2.getModel().x).toBe(130);
-    expect(item2.getModel().y).toBe(200);
-  });
-
-  it('tooltip edge-tooltip', () => {
-    graph.setMode('tooltip');
-    graph.emit('node:mouseenter', { item, canvasX: 150, canvasY: 350 });
-    const tooltipCon = document.getElementsByClassName('g6-node-tooltip')[0] as HTMLElement;
-    expect(tooltipCon.style.left).not.toBe(undefined);
-    expect(tooltipCon.style.top).not.toBe(undefined);
-    graph.emit('node:mouseleave', { item, canvasX: 150, canvasY: 350 });
-    expect(tooltipCon.style.visibility).toBe('hidden');
-
-    // edge-tooltip
-    const edge = graph.getEdges()[0];
-    graph.emit('edge:mouseenter', { item: edge, canvasX: 100, canvasY: 300 });
-    const edgeTooltipCon = document.getElementsByClassName('g6-edge-tooltip')[0] as HTMLElement;
-    expect(edgeTooltipCon.style.left).not.toBe(undefined);
-    expect(edgeTooltipCon.style.top).not.toBe(undefined);
-    graph.emit('node:mouseleave', { item: edge, canvasX: 150, canvasY: 350 });
-    expect(tooltipCon.style.visibility).toBe('hidden');
-    graph.destroy();
-  });
-});
-
-describe('layouts', () => {
-  const data = {
-    nodes: [
-      {
-        id: 'node1',
-      },
-      {
-        id: 'node2',
-      },
-      {
-        id: 'node3',
-      },
-      {
-        id: 'node4',
-      },
-      {
-        id: 'node5',
-      },
-    ],
-    edges: [
-      {
-        source: 'node1',
-        target: 'node2',
-      },
-      {
-        source: 'node2',
-        target: 'node3',
-      },
-      {
-        source: 'node1',
-        target: 'node3',
-      },
-      {
-        source: 'node1',
-        target: 'node4',
-      },
-      {
-        source: 'node4',
-        target: 'node5',
-      },
-    ],
-  };
-
-  it('without layout', () => {
-    const graph = new Graph({
-      container: div,
-      width: 500,
-      height: 500,
-      renderer: 'svg',
-    });
-    graph.data(data);
-    graph.render();
-    const item = graph.getNodes()[0];
-    expect(item.getModel().x).not.toBe(null);
-    expect(item.getModel().x).not.toBe(undefined);
-    expect(item.getModel().y).not.toBe(null);
-    expect(item.getModel().y).not.toBe(undefined);
-    graph.destroy();
-  });
-  it('with force layout', () => {
-    const graph = new Graph({
-      container: div,
-      width: 500,
-      height: 500,
-      renderer: 'svg',
-      layout: {
-        type: 'force',
-      },
-    });
-    graph.data(data);
-    graph.render();
-    const item = graph.getNodes()[0];
-    expect(item.getModel().x).not.toBe(null);
-    expect(item.getModel().x).not.toBe(undefined);
-    expect(item.getModel().y).not.toBe(null);
-    expect(item.getModel().y).not.toBe(undefined);
-    graph.destroy();
-  });
-  it('with fruchterman layout', () => {
-    const graph = new Graph({
-      container: div,
-      width: 500,
-      height: 500,
-      renderer: 'svg',
-      layout: {
-        type: 'fruchterman',
-      },
-    });
-    graph.data(data);
-    graph.render();
-    const item = graph.getNodes()[0];
-    expect(item.getModel().x).not.toBe(null);
-    expect(item.getModel().x).not.toBe(undefined);
-    expect(item.getModel().y).not.toBe(null);
-    expect(item.getModel().y).not.toBe(undefined);
-    graph.destroy();
-  });
-  it('with radial layout', () => {
-    const graph = new Graph({
-      container: div,
-      width: 500,
-      height: 500,
-      renderer: 'svg',
-      layout: {
-        type: 'radial',
-      },
-    });
-    graph.data(data);
-    graph.render();
-    const item = graph.getNodes()[0];
-    expect(item.getModel().x).toBe(250);
-    expect(item.getModel().y).toBe(250);
-    graph.destroy();
-  });
-  it('with circular layout', () => {
-    const graph = new Graph({
-      container: div,
-      width: 500,
-      height: 500,
-      renderer: 'svg',
-      layout: {
-        type: 'circular',
-      },
-    });
-    graph.data(data);
-    graph.render();
-    const item = graph.getNodes()[0];
-    expect(item.getModel().x).not.toBe(null);
-    expect(item.getModel().x).not.toBe(undefined);
-    expect(item.getModel().y).not.toBe(null);
-    expect(item.getModel().y).not.toBe(undefined);
-    graph.destroy();
-  });
-  it('with grid layout', () => {
-    const graph = new Graph({
-      container: div,
-      width: 500,
-      height: 500,
-      renderer: 'svg',
-      layout: {
-        type: 'grid',
-      },
-    });
-    graph.data(data);
-    graph.render();
-    const item = graph.getNodes()[0];
-    expect(item.getModel().x).toBe(125);
-    expect(item.getModel().y).toBe(83.33333333333333);
-    graph.destroy();
-  });
-  it('with concentric layout', () => {
-    const graph = new Graph({
-      container: div,
-      width: 500,
-      height: 500,
-      renderer: 'svg',
-      layout: {
-        type: 'concentric',
-      },
-    });
-    graph.data(data);
-    graph.render();
-    const item = graph.getNodes()[0];
-    expect(item.getModel().x).toBe(250);
-    expect(item.getModel().y).toBe(250);
-    graph.destroy();
-  });
-  it('with mds layout', () => {
-    const graph = new Graph({
-      container: div,
-      width: 500,
-      height: 500,
-      renderer: 'svg',
-      layout: {
-        type: 'mds',
-      },
-    });
-    graph.data(data);
-    graph.render();
-    const item = graph.getNodes()[0];
-    expect(item.getModel().x).toBe(261.9235736012207);
-    expect(item.getModel().y).toBe(249.99999999999997);
-    graph.destroy();
-  });
-  it('with dagre layout', () => {
-    const graph = new Graph({
-      container: div,
-      width: 500,
-      height: 500,
-      renderer: 'svg',
-      layout: {
-        type: 'dagre',
-      },
-      defaultEdge: {
-        type: 'polyline',
-      },
-    });
-    graph.data(data);
-    graph.render();
-    const item = graph.getNodes()[0];
-    expect(item.getModel().x).not.toBe(null);
-    expect(item.getModel().x).not.toBe(undefined);
-    expect(item.getModel().y).not.toBe(null);
-    expect(item.getModel().y).not.toBe(undefined);
-    graph.destroy();
-  });
-  it('change layout', () => {
-    const graph = new Graph({
-      container: div,
-      width: 500,
-      height: 500,
-      renderer: 'svg',
-      layout: {
-        type: 'circular',
-      },
-    });
-    data.edges.forEach((edge: any) => {
-      edge.type = 'line';
-    });
-    graph.data(data);
-    graph.render();
-
-    graph.updateLayout({
-      type: 'force',
-    });
-    expect(graph.get('layoutController').layoutMethod.type).toBe('force');
-    graph.destroy();
-  });
-  it('subgraph layout', () => {
-    const graph = new Graph({
-      container: div,
-      width: 500,
-      height: 500,
-      renderer: 'svg',
-      layout: {
-        type: 'grid',
-      },
-    });
-    graph.data(data);
-    graph.render();
-
-    data.nodes.forEach((node: any) => {
-      node.label = node.id;
-    });
-    const subdata = {
-      nodes: [data.nodes[0], data.nodes[1], data.nodes[2]],
-      edges: [data.edges[0], data.edges[1]],
-    };
-    const gridLayout = new Layout['circular']({
-      center: [250, 250],
-    });
-    gridLayout.init(subdata);
-    gridLayout.execute();
-    graph.positionsAnimate();
-    const item = graph.getNodes()[0];
-    expect(item.getModel().x).not.toBe(null);
-    expect(item.getModel().x).not.toBe(undefined);
-    expect(item.getModel().y).not.toBe(null);
-    expect(item.getModel().y).not.toBe(undefined);
     graph.destroy();
   });
 });
@@ -1631,31 +1128,26 @@ describe('built-in items', () => {
       },
       {
         id: 'node3',
-        type: 'ellipse',
         x: 350,
         y: 50,
       },
       {
         id: 'node4',
-        type: 'star',
         x: 50,
         y: 150,
       },
       {
         id: 'node5',
-        type: 'diamond',
         x: 200,
         y: 150,
       },
       {
         id: 'node6',
-        type: 'triangle',
         x: 350,
         y: 150,
       },
       {
         id: 'node7',
-        type: 'modelRect',
         x: 150,
         y: 300,
       },
@@ -1699,7 +1191,6 @@ describe('built-in items', () => {
       {
         source: 'node6',
         target: 'node7',
-        type: 'polyline',
       },
     ],
   };
@@ -1742,34 +1233,8 @@ describe('built-in items', () => {
         size: 6,
       },
     });
-    expect(item.get('group').get('children').length).toBe(4);
 
-    const modelRect = graph.getNodes()[6];
-    graph.updateItem(modelRect, {
-      style: {
-        fill: '#ccc',
-        shadowColor: '#0f0',
-        shadowBlur: 50,
-        shadowOffsetX: 50,
-      },
-      linkPoints: {
-        right: true,
-        left: true,
-        fill: '#fff',
-        stroke: '#f00',
-        lineWidth: 1,
-        size: 6,
-      },
-      description: 'description for it',
-      descriptionCfg: {
-        style: {
-          // TODO: G svg fontSize 小于 12 不显示
-          // fontSize: 10,
-          fill: '#000',
-        },
-      },
-    });
-    expect(modelRect.get('group').get('children').length).toBe(8);
+    expect(item.get('group').get('children').length).toBe(4);
   });
 
   it('update edge style', () => {
@@ -1803,721 +1268,6 @@ describe('built-in items', () => {
     const cubicTextShape = cubic.get('group').get('children')[1];
     expect(cubicShape.attr('stroke')).toBe('#f00');
     expect(cubicTextShape.attr('text')).toBe('cubic label');
-
-    const polyline = graph.getEdges()[7];
-    graph.updateItem(polyline.getSource(), {
-      anchorPoints: [[0, 1]],
-    });
-    graph.updateItem(polyline.getTarget(), {
-      anchorPoints: [[1, 0.5]],
-    });
-    graph.updateItem(polyline, {
-      controlPoints: [{ x: 315, y: 300 }],
-      sourceAnchor: 0,
-      targetAnchor: 0,
-      style: {
-        stroke: '#000',
-        lineWidth: 3,
-      },
-    });
-    const polylineShape = polyline.get('group').get('children')[0];
-    expect(polylineShape.attr('path')[0][1]).toBe(314.85898208618164);
-    expect(polylineShape.attr('path')[0][2]).toBe(185.14101791381836);
-    expect(polylineShape.attr('path')[1][1]).toBe(315);
-    expect(polylineShape.attr('path')[1][2]).toBe(300);
-    expect(polylineShape.attr('path')[2][1]).toBe(243);
-    expect(polylineShape.attr('path')[2][2]).toBe(300);
     graph.destroy();
-  });
-});
-
-describe('tree graph', () => {
-  const data = {
-    isRoot: true,
-    id: 'Root',
-    label: 'root',
-    children: [
-      {
-        id: 'SubTreeNode1',
-        label: 'SubTreeNode1',
-        children: [
-          {
-            id: 'SubTreeNode1.1',
-            label: 'SubTreeNode1.1',
-          },
-          {
-            id: 'SubTreeNode1.2',
-            label: 'SubTreeNode1.2',
-          },
-        ],
-      },
-      {
-        id: 'SubTreeNode2',
-        label: 'SubTreeNode2',
-      },
-    ],
-  };
-
-  const graph = new TreeGraph({
-    container: div,
-    width: 500,
-    height: 500,
-    renderer: 'svg',
-    layout: {
-      type: 'dendrogram',
-      direction: 'LR', // H / V / LR / RL / TB / BT
-      nodeSep: 50,
-      rankSep: 100,
-    },
-    modes: {
-      default: ['drag-canvas', 'drag-node', 'collapse-expand'],
-    },
-  });
-
-  it('render', () => {
-    graph.data(data);
-    graph.render();
-    graph.fitView(50);
-    const item = graph.findById('SubTreeNode1');
-    expect(item.getModel().x).not.toBe(null);
-    expect(item.getModel().x).not.toBe(undefined);
-    expect(item.getModel().y).not.toBe(null);
-    expect(item.getModel().y).not.toBe(undefined);
-  });
-
-  it('collapse-expand', () => {
-    const item = graph.findById('SubTreeNode1');
-    graph.emit('node:click', { item });
-    expect(item.getModel().collapsed).toBe(true);
-    setTimeout(() => {
-      graph.emit('node:click', { item });
-      expect(item.getModel().collapsed).toBe(false);
-      graph.destroy();
-    }, 500);
-  });
-});
-
-describe('plugins', () => {
-  const data2 = {
-    nodes: [
-      {
-        id: 'node1',
-        x: -100,
-        y: -100,
-      },
-      {
-        id: 'node2',
-        x: -50,
-        y: -100,
-      },
-      {
-        id: 'node3',
-        x: -10,
-        y: 10,
-      },
-      {
-        id: 'node4',
-        x: 30,
-        y: 80,
-      },
-      {
-        id: 'node5',
-        x: 35,
-        y: 40,
-      },
-    ],
-    edges: [
-      {
-        source: 'node1',
-        target: 'node2',
-      },
-      {
-        source: 'node2',
-        target: 'node3',
-      },
-      {
-        source: 'node1',
-        target: 'node3',
-      },
-      {
-        source: 'node1',
-        target: 'node4',
-      },
-      {
-        source: 'node4',
-        target: 'node5',
-      },
-    ],
-  };
-
-  it('minimap default', (done) => {
-    const minimap = new G6.Minimap();
-    const graph = new Graph({
-      container: div,
-      width: 500,
-      height: 500,
-      renderer: 'svg',
-      plugins: [minimap],
-      modes: {
-        default: ['drag-node', 'drag-canvas', 'zoom-canvas'],
-      },
-    });
-    graph.data(data2);
-    graph.render();
-    setTimeout(() => {
-      const minimapGroup = minimap.get('canvas').get('children')[0];
-      expect(minimapGroup.get('children').length).toBe(4);
-      graph.zoom(2, { x: 250, y: 250 });
-
-      expect(minimapGroup.get('children')[2].get('children').length).toBe(5);
-      const viewport = minimap.get('viewport');
-      expect(viewport.style.width).toBe('37.2093px');
-      expect(viewport.style.height).toBe('6.1794px');
-      expect(viewport.style.left).toBe('162.791px');
-      expect(viewport.style.top).toBe('113.821px');
-      graph.destroy();
-
-      done();
-    }, 100);
-  });
-  it('minimap delegate', () => {
-    const minimap2 = new G6.Minimap({
-      size: [100, 80],
-      type: 'delegate',
-    });
-    const graph2 = new Graph({
-      container: div,
-      width: 500,
-      height: 500,
-      renderer: 'svg',
-      plugins: [minimap2],
-      modes: {
-        default: ['drag-node', 'drag-canvas', 'zoom-canvas'],
-      },
-    });
-    graph2.data(data2);
-    graph2.render();
-    graph2.zoom(2, { x: 0, y: 0 });
-    setTimeout(() => {
-      const minimapGroup = minimap2.get('canvas').get('children')[0];
-      expect(minimapGroup.get('children').length).toBe(10);
-
-      const viewport = minimap2.get('viewport');
-      expect(viewport.style.width).toBe('41.3907px');
-      expect(viewport.style.height).toBe('37.351px');
-      expect(viewport.style.left).toBe('58.6093px');
-      expect(viewport.style.top).toBe('42.649px');
-      graph2.destroy();
-    }, 100);
-  });
-  it('minimap keyShape', () => {
-    const minimap = new G6.Minimap({
-      size: [100, 80],
-      type: 'keyShape',
-    });
-    const graph = new Graph({
-      container: div,
-      width: 500,
-      height: 500,
-      renderer: 'svg',
-      plugins: [minimap],
-      modes: {
-        default: ['drag-node', 'drag-canvas', 'zoom-canvas'],
-      },
-    });
-    data2.nodes.forEach((node: any, i) => {
-      node.label = `node-${i}`;
-    });
-    graph.data(data2);
-    graph.render();
-    graph.zoom(2, { x: 10, y: 50 });
-    setTimeout(() => {
-      const minimapGroup = minimap.get('canvas').get('children')[0];
-      expect(minimapGroup.get('children').length).toBe(10);
-
-      const viewport = minimap.get('viewport');
-
-      expect(viewport.style.width).toBe('40.0332px');
-      expect(viewport.style.height).toBe('30.6977px');
-      expect(viewport.style.left).toBe('59.9668px');
-      expect(viewport.style.top).toBe('49.3023px');
-      graph.destroy();
-    }, 100);
-  });
-
-  it('edge bundling', () => {
-    const bundling = new G6.Bundling({
-      bundleThreshold: 0.1,
-    });
-    const graph = new Graph({
-      container: div,
-      width: 500,
-      height: 500,
-      renderer: 'svg',
-      plugins: [bundling],
-      layout: {
-        type: 'circular',
-      },
-    });
-    const bundlingData = {
-      nodes: [
-        {
-          id: '0',
-          label: '0',
-        },
-        {
-          id: '1',
-          label: '1',
-        },
-        {
-          id: '2',
-          label: '2',
-        },
-        {
-          id: '3',
-          label: '3',
-        },
-        {
-          id: '4',
-          label: '4',
-        },
-        {
-          id: '5',
-          label: '5',
-        },
-        {
-          id: '6',
-          label: '6',
-        },
-        {
-          id: '7',
-          label: '7',
-        },
-        {
-          id: '8',
-          label: '8',
-        },
-        {
-          id: '9',
-          label: '9',
-        },
-        {
-          id: '10',
-          label: '10',
-        },
-        {
-          id: '11',
-          label: '11',
-        },
-        {
-          id: '12',
-          label: '12',
-        },
-        {
-          id: '13',
-          label: '13',
-        },
-        {
-          id: '14',
-          label: '14',
-        },
-        {
-          id: '15',
-          label: '15',
-        },
-        {
-          id: '16',
-          label: '16',
-        },
-        {
-          id: '17',
-          label: '17',
-        },
-        {
-          id: '18',
-          label: '18',
-        },
-        {
-          id: '19',
-          label: '19',
-        },
-        {
-          id: '20',
-          label: '20',
-        },
-        {
-          id: '21',
-          label: '21',
-        },
-        {
-          id: '22',
-          label: '22',
-        },
-        {
-          id: '23',
-          label: '23',
-        },
-        {
-          id: '24',
-          label: '24',
-        },
-        {
-          id: '25',
-          label: '25',
-        },
-        {
-          id: '26',
-          label: '26',
-        },
-        {
-          id: '27',
-          label: '27',
-        },
-        {
-          id: '28',
-          label: '28',
-        },
-        {
-          id: '29',
-          label: '29',
-        },
-        {
-          id: '30',
-          label: '30',
-        },
-        {
-          id: '31',
-          label: '31',
-        },
-        {
-          id: '32',
-          label: '32',
-        },
-        {
-          id: '33',
-          label: '33',
-        },
-      ],
-      edges: [
-        {
-          source: '0',
-          target: '1',
-        },
-        {
-          source: '0',
-          target: '2',
-        },
-        {
-          source: '0',
-          target: '3',
-        },
-        {
-          source: '0',
-          target: '4',
-        },
-        {
-          source: '0',
-          target: '5',
-        },
-        {
-          source: '0',
-          target: '7',
-        },
-        {
-          source: '0',
-          target: '8',
-        },
-        {
-          source: '0',
-          target: '9',
-        },
-        {
-          source: '0',
-          target: '10',
-        },
-        {
-          source: '0',
-          target: '11',
-        },
-        {
-          source: '0',
-          target: '13',
-        },
-        {
-          source: '0',
-          target: '14',
-        },
-        {
-          source: '0',
-          target: '15',
-        },
-        {
-          source: '0',
-          target: '16',
-        },
-        {
-          source: '2',
-          target: '3',
-        },
-        {
-          source: '4',
-          target: '5',
-        },
-        {
-          source: '4',
-          target: '6',
-        },
-        {
-          source: '5',
-          target: '6',
-        },
-        {
-          source: '7',
-          target: '13',
-        },
-        {
-          source: '8',
-          target: '14',
-        },
-        {
-          source: '9',
-          target: '10',
-        },
-        {
-          source: '10',
-          target: '22',
-        },
-        {
-          source: '10',
-          target: '14',
-        },
-        {
-          source: '10',
-          target: '12',
-        },
-        {
-          source: '10',
-          target: '24',
-        },
-        {
-          source: '10',
-          target: '21',
-        },
-        {
-          source: '10',
-          target: '20',
-        },
-        {
-          source: '11',
-          target: '24',
-        },
-        {
-          source: '11',
-          target: '22',
-        },
-        {
-          source: '11',
-          target: '14',
-        },
-        {
-          source: '12',
-          target: '13',
-        },
-        {
-          source: '16',
-          target: '17',
-        },
-        {
-          source: '16',
-          target: '18',
-        },
-        {
-          source: '16',
-          target: '21',
-        },
-        {
-          source: '16',
-          target: '22',
-        },
-        {
-          source: '17',
-          target: '18',
-        },
-        {
-          source: '17',
-          target: '20',
-        },
-        {
-          source: '18',
-          target: '19',
-        },
-        {
-          source: '19',
-          target: '20',
-        },
-        {
-          source: '19',
-          target: '33',
-        },
-        {
-          source: '19',
-          target: '22',
-        },
-        {
-          source: '19',
-          target: '23',
-        },
-        {
-          source: '20',
-          target: '21',
-        },
-        {
-          source: '21',
-          target: '22',
-        },
-        {
-          source: '22',
-          target: '24',
-        },
-        {
-          source: '22',
-          target: '25',
-        },
-        {
-          source: '22',
-          target: '26',
-        },
-        {
-          source: '22',
-          target: '23',
-        },
-        {
-          source: '22',
-          target: '28',
-        },
-        {
-          source: '22',
-          target: '30',
-        },
-        {
-          source: '22',
-          target: '31',
-        },
-        {
-          source: '22',
-          target: '32',
-        },
-        {
-          source: '22',
-          target: '33',
-        },
-        {
-          source: '23',
-          target: '28',
-        },
-        {
-          source: '23',
-          target: '27',
-        },
-        {
-          source: '23',
-          target: '29',
-        },
-        {
-          source: '23',
-          target: '30',
-        },
-        {
-          source: '23',
-          target: '31',
-        },
-        {
-          source: '23',
-          target: '33',
-        },
-        {
-          source: '32',
-          target: '33',
-        },
-      ],
-    };
-
-    graph.data(bundlingData);
-    graph.render();
-    bundling.bundling(bundlingData);
-
-    graph.destroy();
-  });
-
-  it('context menu', () => {
-    const graph = new Graph({
-      container: div,
-      width: 500,
-      height: 500,
-      renderer: 'svg',
-    });
-
-    graph.data(data2);
-    graph.render();
-
-    // create ul
-    const conextMenuContainer = document.createElement('ul');
-    conextMenuContainer.id = 'contextMenu';
-    conextMenuContainer.style.position = 'absolute';
-
-    // create li
-    const firstLi = document.createElement('li');
-    firstLi.innerText = 'Option 1';
-    conextMenuContainer.appendChild(firstLi);
-
-    const lastLi = document.createElement('li');
-    lastLi.innerText = 'Option 2';
-    conextMenuContainer.appendChild(lastLi);
-    div.appendChild(conextMenuContainer);
-
-    graph.on('node:contextmenu', (evt) => {
-      // evt.preventDefault();
-      // evt.stopPropagation();
-      conextMenuContainer.style.left = `${evt.x + 20}px`;
-      conextMenuContainer.style.top = `${evt.y}px`;
-    });
-
-    graph.on('node:mouseleave', () => {
-      conextMenuContainer.style.left = '-150px';
-    });
-
-    const item = graph.getNodes()[1];
-    graph.emit('node:contextmenu', {
-      x: item.getModel().x,
-      y: item.getModel().y,
-    });
-
-    graph.destroy();
-  });
-  it('grid', () => {
-    const grid = new G6.Grid();
-    const graph = new Graph({
-      container: div,
-      width: 500,
-      height: 500,
-      renderer: 'svg',
-      plugins: [grid],
-      modes: {
-        default: ['drag-canvas', 'zoom-canvas'],
-      },
-    });
-    graph.data(data2);
-    graph.render();
-
-    const gridDom = document.getElementsByClassName('g6-grid')[0] as HTMLElement;
-    expect(gridDom).not.toBe(undefined);
-    const minZoom = graph.get('minZoom');
-    const width = 500 / minZoom;
-    const height = 500 / minZoom;
-    expect(gridDom.style.width).toBe(`${width}px`);
-    expect(gridDom.style.height).toBe(`${height}px`);
-    graph.destroy();
-    const parentDom = gridDom.parentNode.parentNode;
-    expect(parentDom).toBe(null);
   });
 });

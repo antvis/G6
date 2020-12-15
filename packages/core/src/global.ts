@@ -2,54 +2,9 @@ const subjectColor = 'rgb(95, 149, 255)';
 const backColor = 'rgb(255, 255, 255)';
 const textColor = 'rgb(0, 0, 0)';
 
-// const colorSet = {
-
-//     // for nodes
-//     mainStroke: subjectColor,
-//     mainFill: subjectColor01,
-
-//     activeStroke: subjectColor,
-//     activeFill: subjectColor005,
-
-//     inactiveStroke: subjectColor04,
-//     inactiveFill: subjectColor005,
-
-//     selectedStroke: subjectColor,
-//     selectedFill: backColor,
-
-//     highlightStroke: deeperSubject,
-//     highlightFill: subjectColor02,
-
-//     disableStroke: disableColor03,
-//     disableFill: disableColor005,
-
-//     // for edges
-//     edgeMainStroke: disableColor03,
-//     edgeActiveStroke: subjectColor,
-//     edgeInactiveStroke: disableColor02,
-//     edgeSelectedStroke: subjectColor,
-//     edgeHighlightStroke: subjectColor,
-//     edgeDisableStroke: disableColor01,
-
-//     // for combos
-//     comboMainStroke: disableColor03,
-//     comboMainFill: disableColor002,
-
-//     comboActiveStroke: subjectColor,
-//     comboActiveFill: subjectColor005,
-
-//     comboInactiveStroke: disableColor03,
-//     comboInactiveFill: disableColor002,
-
-//     comboSelectedStroke: subjectColor,
-//     comboSelectedFill: disableColor002,
-
-//     comboHighlightStroke: deeperSubject, // 'rgb(53, 119, 222)', // TODO: how to generate it ???
-//     comboHighlightFill: disableColor002,
-
-//     comboDisableStroke: disableColor02,
-//     comboDisableFill: disableColor005,
-// }
+const nodeMainFill = 'rgb(239, 244, 255)';
+const edgeMainStroke = 'rgb(224, 224, 224)';
+const edgeSelectedStroke = 'rgb(95, 149, 255)';
 
 const colorSet = {
   // for nodes
@@ -121,7 +76,7 @@ export default {
     style: {
       lineWidth: 1,
       stroke: colorSet.mainStroke,
-      fill: colorSet.mainFill,
+      fill: nodeMainFill,
     },
     size: 20,
     color: colorSet.mainStroke,
@@ -182,10 +137,10 @@ export default {
     type: 'line',
     size: 1,
     style: {
-      stroke: colorSet.edgeMainStroke,
+      stroke: edgeMainStroke,
       lineAppendWidth: 2,
     },
-    color: colorSet.edgeMainStroke,
+    color: edgeMainStroke,
   },
   // 边应用状态后的样式，默认仅提供 active、selected、highlight、inactive、disable，用户可以自己扩展
   edgeStateStyles: {
@@ -194,9 +149,9 @@ export default {
       lineWidth: 1,
     },
     selected: {
-      stroke: colorSet.edgeSelectedStroke,
+      stroke: edgeSelectedStroke,
       lineWidth: 2,
-      shadowColor: colorSet.edgeSelectedStroke,
+      shadowColor: edgeSelectedStroke,
       shadowBlur: 10,
       'text-shape': {
         fontWeight: 500,

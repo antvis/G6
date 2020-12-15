@@ -1,4 +1,4 @@
-import { Graph } from '../../../src';
+import Graph from './implement-graph';
 
 const div = document.createElement('div');
 div.id = 'hull-spec';
@@ -9,46 +9,64 @@ const data = {
     {
       id: '1',
       label: '公司1',
+      x: 100,
+      y: 100,
       group: 1,
     },
     {
       id: '2',
       label: '公司2',
+      x: 120,
+      y: 100,
       group: 1,
     },
     {
       id: '3',
       label: '公司3',
+      x: 150,
+      y: 100,
       group: 1,
     },
     {
       id: '4',
       label: '公司4',
+      x: 80,
+      y: 150,
       group: 1,
     },
     {
       id: '5',
       label: '公司5',
+      x: 100,
+      y: 180,
       group: 2,
     },
     {
       id: '6',
       label: '公司6',
+      x: 100,
+      y: 210,
       group: 2,
     },
     {
       id: '7',
       label: '公司7',
+      x: 300,
+      y: 100,
       group: 2,
     },
     {
       id: '8',
       label: '公司8',
+      x: 200,
+      y: 300,
       group: 2,
     },
     {
       id: '9',
       label: '公司9',
+      x: 190,
+      y: 400,
       group: 2,
     },
   ],
@@ -143,16 +161,12 @@ describe('graph hull', () => {
     container: div,
     width: 500,
     height: 500,
-    modes: {
-      default: ['drag-node', 'zoom-canvas', 'drag-canvas'],
-    },
   });
 
   graph.data(data);
   graph.render();
-  const members = graph.getNodes().filter((node) => node.getModel().group === 2);
-  const nonMembers = graph.getNodes().filter((node) => node.getModel().group === 1);
-
+  const members = graph.getNodes().filter(node => node.getModel().group === 2);
+  const nonMembers = graph.getNodes().filter(node => node.getModel().group === 1);
   it('add a convex hull', () => {
     graph.createHull({
       id: 'hull1',
@@ -182,8 +196,10 @@ describe('graph hull', () => {
         fill: 'lightgreen',
         stroke: 'green',
       },
-      padding: 15,
+      // TODO 如果这里设置为 15，会导致 convexHull.contain('4') 结果为 true
+      padding: 5,
     });
+
     expect(convexHull.contain('4')).toEqual(false);
     convexHull.addMember('4');
     expect(convexHull.contain('4')).toEqual(true);

@@ -1,5 +1,4 @@
-import { Graph } from '../../../src';
-import '../../../src/behavior';
+import Graph from './implement-graph';
 import { ICombo } from '../../../src/interface/item';
 import { GraphData } from '../../../src/types';
 import { clone } from '@antv/util';
@@ -182,7 +181,7 @@ describe('graph with combo', () => {
     const comboA: ICombo = graph.findById('a') as ICombo;
     comboA.hide();
     const aChildren = comboA.getNodes();
-    aChildren.forEach((child) => {
+    aChildren.forEach(child => {
       expect(child.isVisible()).toBe(true);
     });
 
@@ -191,10 +190,10 @@ describe('graph with combo', () => {
     graph.hideItem('b');
     const bChildren = comboB.getChildren();
     graph.uncombo(graph.findById('a') as ICombo);
-    bChildren.nodes.forEach((node) => {
+    bChildren.nodes.forEach(node => {
       expect(node.isVisible()).toBe(false);
     });
-    bChildren.combos.forEach((combo) => {
+    bChildren.combos.forEach(combo => {
       expect(combo.isVisible()).toBe(false);
     });
     expect(graph.findById('5-6').isVisible()).toBe(false);
@@ -232,26 +231,26 @@ describe('graph with combo', () => {
     // collapse a sub combo
     const comboE = graph.findById('e') as ICombo;
     graph.collapseCombo(comboE);
-    comboE.getChildren().nodes.forEach((node) => {
+    comboE.getChildren().nodes.forEach(node => {
       expect(node.isVisible()).toBe(false);
     });
 
     // collapse a combo
     const comboB = graph.findById('b') as ICombo;
     graph.collapseCombo(comboB);
-    comboB.getChildren().nodes.forEach((node) => {
+    comboB.getChildren().nodes.forEach(node => {
       expect(node.isVisible()).toBe(false);
     });
-    comboB.getChildren().combos.forEach((combo) => {
+    comboB.getChildren().combos.forEach(combo => {
       expect(combo.isVisible()).toBe(false);
     });
 
     // expand a combo
     graph.expandCombo(comboB);
-    comboB.getChildren().nodes.forEach((node) => {
+    comboB.getChildren().nodes.forEach(node => {
       expect(node.isVisible()).toBe(true);
     });
-    comboB.getChildren().combos.forEach((combo) => {
+    comboB.getChildren().combos.forEach(combo => {
       expect(combo.isVisible()).toBe(true);
     });
 
@@ -259,12 +258,12 @@ describe('graph with combo', () => {
     // collapseExpand function
     graph.collapseExpandCombo('a');
     const comboA = graph.findById('a') as ICombo;
-    comboA.getChildren().nodes.forEach((node) => {
+    comboA.getChildren().nodes.forEach(node => {
       expect(node.isVisible()).toBe(false);
     });
 
     graph.collapseExpandCombo(comboA);
-    comboA.getChildren().nodes.forEach((node) => {
+    comboA.getChildren().nodes.forEach(node => {
       expect(node.isVisible()).toBe(true);
     });
 
@@ -288,9 +287,24 @@ describe('graph with combo', () => {
       };
     });
     graph.read(clone(data));
-    expect(graph.getCombos()[0].getKeyShape().attr('fill')).toBe('red');
-    expect(graph.getCombos()[0].getKeyShape().attr('stroke')).toBe('blue');
-    expect(graph.getCombos()[0].getKeyShape().attr('lineWidth')).toBe(3);
+    expect(
+      graph
+        .getCombos()[0]
+        .getKeyShape()
+        .attr('fill'),
+    ).toBe('red');
+    expect(
+      graph
+        .getCombos()[0]
+        .getKeyShape()
+        .attr('stroke'),
+    ).toBe('blue');
+    expect(
+      graph
+        .getCombos()[0]
+        .getKeyShape()
+        .attr('lineWidth'),
+    ).toBe(3);
     graph.destroy();
   });
 
@@ -550,7 +564,7 @@ describe('empty combo', () => {
         default: ['drag-canvas', 'drag-node', 'drag-combo', 'collapse-expand-combo'],
       },
     });
-    graph.on('canvas:click', (e) => {
+    graph.on('canvas:click', e => {
       graph.createCombo('combo1', ['node1', 'node2']);
     });
     graph.data(data);
