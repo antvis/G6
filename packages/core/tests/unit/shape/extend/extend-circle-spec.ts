@@ -1,4 +1,5 @@
-import G6 from '../../../../src';
+import Graph from '../../implement-graph';
+import { registerNode } from '../../../../src';
 
 const div = document.createElement('div');
 div.id = 'graph-spec';
@@ -28,7 +29,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
     ],
   };
   it('getCustomConfig return new style', () => {
-    G6.registerNode(
+    registerNode(
       'custom-node',
       {
         getCustomConfig() {
@@ -43,7 +44,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
       },
       'circle',
     );
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -62,7 +63,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
     graph.destroy();
   });
   it('getCustomConfig return new icon', () => {
-    G6.registerNode(
+    registerNode(
       'custom-node',
       {
         getCustomConfig() {
@@ -78,7 +79,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
       },
       'circle',
     );
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -96,7 +97,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
     expect(keyShape.attr('fill')).toEqual('rgb(239, 244, 255)');
     expect(keyShape.attr('lineWidth')).toEqual(1);
 
-    const icon = group.find((g) => {
+    const icon = group.find(g => {
       return g.get('className') === 'custom-node-icon';
     });
     expect(icon).not.toBe(undefined);
@@ -106,7 +107,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
     graph.destroy();
   });
   it('getCustomConfig return new labelCfg style', () => {
-    G6.registerNode(
+    registerNode(
       'custom-node',
       {
         getCustomConfig() {
@@ -121,7 +122,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
       },
       'circle',
     );
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -139,7 +140,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
     expect(keyShape.attr('fill')).toEqual('rgb(239, 244, 255)');
     expect(keyShape.attr('lineWidth')).toEqual(1);
 
-    const label = group.find((g) => {
+    const label = group.find(g => {
       return g.get('className') === 'node-label';
     });
     expect(label).not.toBe(undefined);
@@ -149,7 +150,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
     graph.destroy();
   });
   it('getCustomConfig return new linkPoints', () => {
-    G6.registerNode(
+    registerNode(
       'custom-node',
       {
         getCustomConfig() {
@@ -166,7 +167,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
       },
       'circle',
     );
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -189,22 +190,22 @@ describe('register node with getCustomConfig function, extend circle', () => {
     expect(keyShape.attr('r')).toEqual(10);
     expect(keyShape.attr('lineWidth')).toEqual(1);
 
-    const markTop = group.find((g) => {
+    const markTop = group.find(g => {
       return g.get('className') === 'link-point-top';
     });
     expect(markTop).not.toBe(null);
     expect(markTop.attr('r')).toEqual(10);
     expect(markTop.attr('fill')).toEqual('red');
 
-    const markBottom = group.find((g) => {
+    const markBottom = group.find(g => {
       return g.get('className') === 'link-point-bottom';
     });
     expect(markBottom).not.toBe(null);
 
     let hasTrigger = false;
     expect(hasTrigger).toBe(false);
-    graph.on('node:mouseenter', (evt) => {
-      hasTrigger = evt.hasTrigger;
+    graph.on('node:mouseenter', evt => {
+      hasTrigger = (evt as any).hasTrigger;
       graph.setItemState(evt.item, 'hover', true);
     });
     graph.emit('node:mouseenter', { hasTrigger: true, item: node });
@@ -216,7 +217,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
   });
   describe('update', () => {
     it('update styles', () => {
-      G6.registerNode(
+      registerNode(
         'custom-node',
         {
           getCustomConfig() {
@@ -235,7 +236,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
         },
         'circle',
       );
-      const graph = new G6.Graph({
+      const graph = new Graph({
         container: div,
         width: 500,
         height: 500,
@@ -266,7 +267,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
       expect(graph.destroyed).toBe(true);
     });
     it('update icon', () => {
-      G6.registerNode(
+      registerNode(
         'custom-node',
         {
           getCustomConfig() {
@@ -281,7 +282,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
         },
         'circle',
       );
-      const graph = new G6.Graph({
+      const graph = new Graph({
         container: div,
         width: 500,
         height: 500,
@@ -297,7 +298,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
       let group = node.get('group');
 
       expect(group.getCount()).toEqual(3);
-      let icon = group.find((g) => {
+      let icon = group.find(g => {
         return g.get('className') === 'custom-node-icon';
       });
       expect(icon.attr('width')).toEqual(20);
@@ -318,7 +319,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
         },
       });
       // 更新之后的名字变成了 custom-node-icon
-      icon = group.find((g) => {
+      icon = group.find(g => {
         return g.get('className') === 'custom-node-icon';
       });
       expect(group.getCount()).toEqual(3);
@@ -348,7 +349,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
       expect(graph.destroyed).toBe(true);
     });
     it('update label', () => {
-      G6.registerNode(
+      registerNode(
         'custom-node',
         {
           getCustomConfig() {
@@ -363,7 +364,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
         },
         'circle',
       );
-      const graph = new G6.Graph({
+      const graph = new Graph({
         container: div,
         width: 500,
         height: 500,
@@ -377,7 +378,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
       const nodes = graph.getNodes();
       const node = nodes[0];
       const group = node.get('group');
-      const label = group.find((g) => {
+      const label = group.find(g => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toEqual(null);
@@ -419,7 +420,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
       expect(graph.destroyed).toBe(true);
     });
     it('update label from none', () => {
-      G6.registerNode(
+      registerNode(
         'custom-node',
         {
           getCustomConfig() {
@@ -434,7 +435,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
         },
         'circle',
       );
-      const graph = new G6.Graph({
+      const graph = new Graph({
         container: div,
         width: 500,
         height: 500,
@@ -457,7 +458,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
       const nodes = graph.getNodes();
       const node = nodes[0];
       const group = node.get('group');
-      let label = group.find((g) => {
+      let label = group.find(g => {
         return g.get('className') === 'node-label';
       });
       expect(label).toEqual(null);
@@ -465,7 +466,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
       node.update({
         label: 'new circle label',
       });
-      label = group.find((g) => {
+      label = group.find(g => {
         return g.get('className') === 'node-label';
       });
       expect(label).not.toEqual(null);
@@ -479,7 +480,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
           },
         },
       });
-      label = group.find((g) => {
+      label = group.find(g => {
         return g.get('className') === 'node-label';
       });
       expect(label.attr('text')).toEqual('new circle label');
@@ -488,7 +489,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
       expect(graph.destroyed).toBe(true);
     });
     it('update label, linkPoints, icon from none', () => {
-      G6.registerNode(
+      registerNode(
         'custom-node',
         {
           getCustomConfig() {
@@ -502,7 +503,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
         },
         'circle',
       );
-      const graph = new G6.Graph({
+      const graph = new Graph({
         container: div,
         width: 500,
         height: 500,
@@ -523,7 +524,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
       graph.data(data);
       graph.render();
 
-      graph.on('node:mouseenter', (e) => {
+      graph.on('node:mouseenter', e => {
         const item = e.item;
         item.update({
           label: 'Circle',
@@ -548,7 +549,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
         });
       });
 
-      graph.on('node:mouseleave', (e) => {
+      graph.on('node:mouseleave', e => {
         const item = e.item;
         item.update({
           label: ' ',
@@ -572,7 +573,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
       });
     });
     it('update label, linkPoints, icon from none', () => {
-      const graph = new G6.Graph({
+      const graph = new Graph({
         container: div,
         width: 500,
         height: 500,
@@ -595,7 +596,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
       graph.data(data);
       graph.render();
 
-      graph.on('node:mouseenter', (e) => {
+      graph.on('node:mouseenter', e => {
         const item = e.item;
         item.update({
           descriptionCfg: {
@@ -609,7 +610,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
         });
       });
 
-      graph.on('node:mouseleave', (e) => {
+      graph.on('node:mouseleave', e => {
         const item = e.item;
         item.update({
           descriptionCfg: {

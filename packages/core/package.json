@@ -45,7 +45,7 @@
     "lint:src": "eslint --ext .ts --format=pretty \"./src\"",
     "prettier": "prettier -c --write \"**/*\"",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/state/refactor-state-spec.ts",
+    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/shape/extend/extend-rect-spec.ts",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx"
   },
   "husky": {

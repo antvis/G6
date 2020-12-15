@@ -161,11 +161,7 @@ describe('Path Util Test', () => {
   });
 
   it('pathToPoints', () => {
-    const path = [
-      ['M', 0, 0],
-      ['L', 10, 10],
-      ['L', 100, 40],
-    ];
+    const path = [['M', 0, 0], ['L', 10, 10], ['L', 100, 40]];
     const points = pathToPoints(path);
     expect(points[0][0]).toBe(0);
     expect(points[1][0]).toBe(10);
@@ -173,11 +169,7 @@ describe('Path Util Test', () => {
   });
 
   it('getClosedSpline', () => {
-    const points = [
-      { x: 0, y: 0 },
-      { x: 10, y: 10 },
-      { x: 100, y: 40 },
-    ];
+    const points = [{ x: 0, y: 0 }, { x: 10, y: 10 }, { x: 100, y: 40 }];
     const res = getClosedSpline(points);
     expect(res[0][0]).toBe('M');
     expect(res[0][1]).toBe(100);
@@ -194,11 +186,7 @@ describe('Path Util Test', () => {
   });
 
   it('roundedHull', () => {
-    const points = [
-      [0, 0],
-      [10, 10],
-      [100, 40],
-    ];
+    const points = [[0, 0], [10, 10], [100, 40]];
     const res = roundedHull(points, 10);
     const splits = res.split(' ');
     expect(splits[0]).toEqual('M');
@@ -208,11 +196,7 @@ describe('Path Util Test', () => {
   });
 
   it('paddedHull', () => {
-    const points = [
-      [0, 0],
-      [10, 10],
-      [100, 40],
-    ];
+    const points = [[0, 0], [10, 10], [100, 40]];
     const res: any = paddedHull(points, 10);
     expect(res[0].x).toEqual(-8.348410922382678);
     expect(res[0].y).toEqual(-5.504910087462066);
