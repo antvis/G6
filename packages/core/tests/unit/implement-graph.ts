@@ -1,5 +1,5 @@
 import { Canvas as GCanvas } from '@antv/g-canvas';
-import { AbstractGraph } from '../../../src';
+import { AbstractGraph } from '../../src';
 
 export default class Graph extends AbstractGraph {
   constructor(cfg) {

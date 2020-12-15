@@ -1,13 +1,12 @@
-import G6 from '../../../src';
-import '../../../src/behavior';
-import isPlainObject from '@antv/util/lib/is-plain-object';
-import { GraphData } from '../../../src/types';
+import { isPlainObject } from '@antv/util';
+import Graph from '../implement-graph';
+import { registerNode, GraphData } from '../../../src';
 
 const div = document.createElement('div');
 div.id = 'global-spec';
 document.body.appendChild(div);
 
-G6.registerNode(
+registerNode(
   'self-node',
   {
     draw(cfg, group) {
@@ -26,7 +25,7 @@ G6.registerNode(
           fill: 'red',
           y: 0,
           ...keyShapeStyle,
-          r: cfg.size / 2,
+          r: (cfg.size as any) / 2,
         },
         name: 'main-node',
       });
@@ -57,7 +56,7 @@ G6.registerNode(
   'single-node',
 );
 
-G6.registerNode(
+registerNode(
   'keyshape-not-attribute',
   {
     draw(cfg, group) {
@@ -115,7 +114,7 @@ describe('graph refactor states', () => {
   };
 
   it('compatible true/false states', () => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -140,12 +139,12 @@ describe('graph refactor states', () => {
     graph.data(data);
     graph.render();
 
-    graph.on('node:mouseenter', (e) => {
+    graph.on('node:mouseenter', e => {
       const item = e.item;
       graph.setItemState(item, 'hover', true);
       graph.setItemState(item, 'select', true);
     });
-    graph.on('node:mouseleave', (e) => {
+    graph.on('node:mouseleave', e => {
       const item = e.item;
       graph.setItemState(item, 'hover', false);
       graph.setItemState(item, 'select', false);
@@ -183,7 +182,7 @@ describe('graph refactor states', () => {
   });
 
   it('multivalued & muted', () => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -237,7 +236,7 @@ describe('graph refactor states', () => {
     expect(keyShape.attr('opacity')).toEqual(0.8);
 
     const group = item.getContainer();
-    const subShape = group.find((element) => element.get('name') === 'sub-node');
+    const subShape = group.find(element => element.get('name') === 'sub-node');
     expect(subShape.attr('fill')).toEqual('#fff');
     // default value
     expect(subShape.attr('lineWidth')).toEqual(1);
@@ -246,7 +245,7 @@ describe('graph refactor states', () => {
   });
 
   it('multivalued & muted, keyshape not name attribute', () => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -299,7 +298,7 @@ describe('graph refactor states', () => {
     expect(keyShape.attr('opacity')).toEqual(0.8);
 
     const group = item.getContainer();
-    const subShape = group.find((element) => element.get('name') === 'sub-node');
+    const subShape = group.find(element => element.get('name') === 'sub-node');
     expect(subShape.attr('fill')).toEqual('green');
     expect(subShape.attr('stroke')).toEqual('yellow');
     expect(subShape.attr('lineWidth')).toEqual(3);
@@ -308,7 +307,7 @@ describe('graph refactor states', () => {
   });
 
   it('mixed use mulituvalued & Tow value states', () => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -374,7 +373,7 @@ describe('graph refactor states', () => {
     expect(keyShape.attr('opacity')).toEqual(0.3);
 
     const group = item.getContainer();
-    const subShape = group.find((element) => element.get('name') === 'sub-node');
+    const subShape = group.find(element => element.get('name') === 'sub-node');
     expect(subShape.attr('fill')).toEqual('#000');
     expect(subShape.attr('stroke')).toEqual('green');
     expect(subShape.attr('lineWidth')).toEqual(3);
@@ -383,7 +382,7 @@ describe('graph refactor states', () => {
   });
 
   it('clear mulituvalued & Tow value states', () => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -456,7 +455,7 @@ describe('graph refactor states', () => {
     expect(keyShape.attr('lineWidth')).toEqual(3);
 
     const group = item.getContainer();
-    const subShape = group.find((element) => element.get('name') === 'sub-node');
+    const subShape = group.find(element => element.get('name') === 'sub-node');
     expect(subShape.attr('fill')).toEqual('#000');
     expect(subShape.attr('stroke')).toEqual('green');
     expect(subShape.attr('lineWidth')).toEqual(3);
@@ -499,7 +498,7 @@ describe('graph refactor states', () => {
   });
 
   it('different nodes support different states', () => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -582,7 +581,7 @@ describe('graph refactor states', () => {
     expect(keyshape1.attr('lineWidth')).toEqual(2);
 
     const group1 = node1.getContainer();
-    const shape1 = group1.find((ele) => ele.get('name') === 'sub-node');
+    const shape1 = group1.find(ele => ele.get('name') === 'sub-node');
     expect(shape1.attr('stroke')).toEqual('#f8ac30');
 
     const node2 = graph.findById('node2');
@@ -593,7 +592,7 @@ describe('graph refactor states', () => {
     expect(keyshape2.attr('lineWidth')).toEqual(5);
 
     const group2 = node2.getContainer();
-    const shape2 = group2.find((ele) => ele.get('name') === 'sub-node');
+    const shape2 = group2.find(ele => ele.get('name') === 'sub-node');
     expect(shape2.attr('stroke')).toEqual('#1cd8a7');
 
     // node3 是 rect 且没有配置对应的 stateStyle，所以不受影响
@@ -613,7 +612,7 @@ describe('graph refactor states', () => {
   });
 
   it('update item style & sub element style, also support update states style', () => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -676,7 +675,7 @@ describe('graph refactor states', () => {
     expect(keyShape.attr('fill')).toEqual('red');
 
     const group = item.getContainer();
-    const subShape = group.find((ele) => ele.get('name') === 'sub-node');
+    const subShape = group.find(ele => ele.get('name') === 'sub-node');
     expect(subShape.attr('stroke')).toEqual('#fff');
 
     graph.clearItemStates(item, ['selfCircle:hover']);
@@ -792,7 +791,7 @@ describe('graph refactor states', () => {
         },
       ],
     };
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -806,7 +805,7 @@ describe('graph refactor states', () => {
     graph.data(data2);
     graph.render();
     graph.paint();
-    graph.on('node:mouseenter', (e) => {
+    graph.on('node:mouseenter', e => {
       const item = e.item;
       graph.setItemState(item, 'hover', true);
       const id = item.getModel().id;
@@ -848,11 +847,11 @@ describe('graph refactor states', () => {
           break;
       }
     });
-    graph.on('node:mouseleave', (e) => {
+    graph.on('node:mouseleave', e => {
       const item = e.item;
       graph.setItemState(item, 'hover', false);
     });
-    graph.getNodes().forEach((node) => {
+    graph.getNodes().forEach(node => {
       graph.emit('node:mouseenter', { item: node });
       graph.emit('node:mouseleave', { item: node });
     });
@@ -881,7 +880,7 @@ describe('graph refactor states', () => {
         },
       ],
     };
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -895,24 +894,24 @@ describe('graph refactor states', () => {
     graph.data(data2);
     graph.render();
     const node = graph.getNodes()[0];
-    graph.on('node:mouseenter', (e) => {
+    graph.on('node:mouseenter', e => {
       const item = e.item;
       graph.setItemState(item, 'hover', true);
       expect(item.hasState('hover')).toEqual(true);
     });
-    graph.on('node:mouseleave', (e) => {
+    graph.on('node:mouseleave', e => {
       const item = e.item;
       graph.setItemState(item, 'hover', false);
       expect(item.hasState('state1')).toEqual(true);
       expect(item.hasState('hover')).toEqual(false);
     });
-    graph.on('node:click', (e) => {
+    graph.on('node:click', e => {
       const item = e.item;
       graph.setItemState(item, 'state1', true);
       expect(item.hasState('state1')).toEqual(true);
     });
     graph.on('canvas:click', () => {
-      graph.getNodes().forEach((node) => {
+      graph.getNodes().forEach(node => {
         graph.setItemState(node, 'state1', false);
         expect(node.hasState('state1')).toEqual(false);
       });
@@ -942,7 +941,7 @@ describe('graph refactor states', () => {
         },
       ],
     };
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -966,12 +965,12 @@ describe('graph refactor states', () => {
     expect(node.getKeyShape().attr('fill')).toEqual('#0f0');
     expect(node.getKeyShape().attr('lineWidth')).toEqual(1);
 
-    graph.on('node:mouseenter', (e) => {
+    graph.on('node:mouseenter', e => {
       const item = e.item;
       graph.setItemState(item, 'state1', true);
       expect(item.hasState('state1')).toEqual(true);
     });
-    graph.on('node:mouseleave', (e) => {
+    graph.on('node:mouseleave', e => {
       const item = e.item;
       graph.setItemState(item, 'state1', false);
       expect(item.hasState('state1')).toEqual(false);
@@ -1003,7 +1002,7 @@ describe('graph refactor states', () => {
         },
       ],
     };
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -1015,7 +1014,7 @@ describe('graph refactor states', () => {
     });
     graph.data(data);
     graph.render();
-    graph.on('node:mouseenter', (e) => {
+    graph.on('node:mouseenter', e => {
       const item = e.item;
       graph.setItemState(item, 'state1', true);
       expect(item.hasState('state1')).toEqual(true);
@@ -1036,12 +1035,12 @@ describe('graph refactor states', () => {
           break;
       }
     });
-    graph.on('node:mouseleave', (e) => {
+    graph.on('node:mouseleave', e => {
       const item = e.item;
       graph.setItemState(item, 'state1', false);
       expect(item.hasState('state1')).toEqual(false);
     });
-    graph.getNodes().forEach((node) => {
+    graph.getNodes().forEach(node => {
       graph.emit('node:mouseenter', { item: node });
       graph.emit('node:mouseleave', { item: node });
     });

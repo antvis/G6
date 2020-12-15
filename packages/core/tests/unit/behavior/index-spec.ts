@@ -1,6 +1,4 @@
-import '../../../src/behavior';
 import Behavior from '../../../src/behavior/behavior';
-import { IBehavior } from '../../../src/interface/behavior';
 
 describe('Behavior', () => {
   it('register single behavior', () => {
@@ -93,16 +91,8 @@ describe('Behavior', () => {
   });
 });
 describe('Default Behavior', () => {
-  it('drag-canvas', () => {
+  it('not default behavior', () => {
     const DragCanvas = Behavior.getBehavior('drag-canvas');
-    expect(DragCanvas).not.toBe(undefined);
-
-    const dragCanvas: IBehavior = new DragCanvas();
-    const config = dragCanvas.getDefaultCfg();
-    expect(config).toEqual({ direction: 'both', enableOptimize: false, scalableRange: 0 });
-
-    const events = dragCanvas.getEvents();
-    const keys = Object.keys(events);
-    expect(keys.length).toBe(10);
+    expect(DragCanvas).toBe(undefined);
   });
 });
