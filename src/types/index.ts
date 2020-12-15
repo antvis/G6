@@ -134,6 +134,7 @@ export interface ModeOption {
   optimizeZoom?: number;
   multiple?: boolean;
   activeState?: string;
+  inactiveState?: string;
   comboActiveState?: string;
   selectedState?: string;
   onlyChangeComboSize?: boolean;
