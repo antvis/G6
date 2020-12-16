@@ -5,6 +5,8 @@ import { IAbstractGraph } from '../interface/graph';
 import { IEdge, INode, ICombo } from '../interface/item';
 import { ILabelConfig } from '../interface/shape';
 
+export * from '../interface';
+
 // Node Edge Combo 实例
 export type Item = INode | IEdge | ICombo;
 
