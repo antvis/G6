@@ -38,7 +38,6 @@ export default {
     };
   },
   onClick(evt: IG6GraphEvent) {
-    debugger;
     const self = this;
     const { item } = evt;
     if (!item || item.destroyed) {

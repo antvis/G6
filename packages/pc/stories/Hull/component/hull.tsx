@@ -47,7 +47,6 @@ const HullDemo = () => {
   const container = React.useRef();
   useEffect(() => {
     if (!graph) {
-      debugger;
       graph = new Graph({
         container: container.current as string | HTMLElement,
         width: 500,
@@ -85,7 +84,6 @@ const HullDemo = () => {
           return Object.assign({}, edge);
         }),
       });
-      debugger;
       graph.render();
 
       let centerNodes = graph.getNodes().filter((node) => !node.getModel().isLeaf);

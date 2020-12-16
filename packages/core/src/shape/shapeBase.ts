@@ -73,7 +73,7 @@ export const shapeBase: ShapeOptions = {
             fontFamily:
               typeof window !== 'undefined'
                 ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
-                  'Arial, sans-serif'
+                'Arial, sans-serif'
                 : 'Arial, sans-serif',
           },
         },
@@ -82,7 +82,7 @@ export const shapeBase: ShapeOptions = {
             fontFamily:
               typeof window !== 'undefined'
                 ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
-                  'Arial, sans-serif'
+                'Arial, sans-serif'
                 : 'Arial, sans-serif',
           },
         },
@@ -114,7 +114,7 @@ export const shapeBase: ShapeOptions = {
    * @param group
    * @param keyShape
    */
-  afterDraw(cfg?: ModelConfig, group?: IGroup, keyShape?: IShape) {},
+  afterDraw(cfg?: ModelConfig, group?: IGroup, keyShape?: IShape) { },
   drawShape(cfg?: ModelConfig, group?: IGroup): IShape {
     return null as any;
   },
@@ -335,7 +335,7 @@ export const shapeBase: ShapeOptions = {
   },
 
   // update(cfg, item) // 默认不定义
-  afterUpdate(cfg?: ModelConfig, item?: Item) {},
+  afterUpdate(cfg?: ModelConfig, item?: Item) { },
   /**
    * 设置节点的状态，主要是交互状态，业务状态请在 draw 方法中实现
    * 单图形的节点仅考虑 selected、active 状态，有其他状态需求的用户自己复写这个方法
@@ -368,7 +368,12 @@ export const shapeBase: ShapeOptions = {
     const group = item.getContainer();
 
     // 从图元素现有的样式中删除本次要取消的 states 中存在的属性值。使用对象检索更快
-    const keptAttrs = { x: 1, y: 1, cx: 1, cy: 1 };
+    const keptAttrs: any = { x: 1, y: 1, cx: 1, cy: 1 };
+    if (type === 'combo') {
+      keptAttrs.r = 1;
+      keptAttrs.width = 1;
+      keptAttrs.height = 1;
+    }
 
     if (value) {
       // style 为要设置的状态的样式
@@ -392,7 +397,6 @@ export const shapeBase: ShapeOptions = {
 
       const model = item.getModel();
       // 原始样式
-      const tmp = item.getOriginStyle();
       const originStyle = mix({}, model.style, clone(item.getOriginStyle()));
 
       const keyShapeName = shape.get('name');
@@ -470,8 +474,15 @@ export const shapeBase: ShapeOptions = {
         if (isPlainObject(style) && !ARROWS.includes(originKey)) {
           const subShape = group.find((element) => element.get('name') === originKey);
           if (subShape) {
+            if (originKey === keyShapeName) {
+              if (type === 'combo') {
+                delete (style as any).r;
+                delete (style as any).width;
+                delete (style as any).height;
+              }
+              keyShapeSetted = true;
+            }
             subShape.attr(style);
-            if (originKey === keyShapeName) keyShapeSetted = true;
           }
         } else if (!keyShapeSetted) {
           const value = style || SHAPES_DEFAULT_ATTRS[type][originKey];
