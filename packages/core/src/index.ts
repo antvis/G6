@@ -24,10 +24,6 @@ export {
 };
 
 export * from './types';
-export * from './interface/graph';
-export * from './interface/item';
-export * from './interface/shape';
-export * from './interface/behavior';
 
 export default {
   version: Global.version,
