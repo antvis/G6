@@ -107,4 +107,24 @@ describe('Mode Controller', () => {
     expect(customd1.type).toBe('bb');
     expect(customd2.type).toBe('bb');
   });
+
+  it('add sensitivity to zoom', () => {
+    const cfg: GraphOptions = {
+      container: 'graph-spec',
+      width: 200,
+      height: 100,
+      modes: {
+        default: [{
+          type: 'zoom-canvas',
+          sensitivity: 2,
+        }],
+      },
+    };
+    const graph: Graph = new Graph(cfg);
+    const modeController = new ModeController(graph);
+    expect(Object.keys(modeController.modes).length).toBe(1);
+    expect(modeController.modes.default[0]).toEqual({ type: 'zoom-canvas', sensitivity: 2});
+    expect(modeController.modes.default.length).toBe(1);
+    expect(modeController.mode).toBe('default');
+  });
 });
