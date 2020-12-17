@@ -22,7 +22,12 @@ registerNode(
         width: 50,
         height: 35,
         // polygon
-        points: [[30, 12], [12, 30], [30, 48], [48, 30]],
+        points: [
+          [30, 12],
+          [12, 30],
+          [30, 48],
+          [48, 30],
+        ],
         // path
         path: [
           ['M', 25, 25],
@@ -145,7 +150,7 @@ registerNode(
       const group = item.getContainer();
       const shapeClassName = `${this.itemType}-shape`;
       const shape =
-        group.find(element => element.get('className') === shapeClassName) || item.getKeyShape();
+        group.find((element) => element.get('className') === shapeClassName) || item.getKeyShape();
       const shapeStyle = this.getShapeStyle!(cfg);
       if (shape) {
         shape.attr(shapeStyle);

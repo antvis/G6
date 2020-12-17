@@ -12,18 +12,10 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "lib": [
-      "esnext",
-      "dom"
-    ],
-    "types": [
-      "jest"
-    ]
+    "lib": ["esnext", "dom"],
+    "types": ["jest"]
   },
-  "include": [
-    "src",
-    "tests"
-  ],
+  "include": ["src", "tests"],
   "typedocOptions": {
     "mode": "modules",
     "out": "docs/api-ts",

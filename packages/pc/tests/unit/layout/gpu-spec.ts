@@ -13,7 +13,7 @@ describe('gpu layout', () => {
       container: div,
       layout: {
         type: 'fruchterman',
-        gpuEnabled: true
+        gpuEnabled: true,
       },
       width: 500,
       height: 500,
@@ -36,7 +36,7 @@ describe('gpu layout', () => {
       container: div,
       layout: {
         type: 'gForce',
-        gpuEnabled: true
+        gpuEnabled: true,
       },
       fitView: true,
       width: 500,

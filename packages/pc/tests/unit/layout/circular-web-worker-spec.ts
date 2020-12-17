@@ -10,7 +10,8 @@ div.id = 'circular-layout-web-worker';
 document.body.appendChild(div);
 
 describe('circular layout(web worker)', () => {
-  it('circular layout(web worker) with default configs', () => {//done
+  it('circular layout(web worker) with default configs', () => {
+    //done
     //   const graph = new G6.Graph({
     //     container: div,
     //     layout: {

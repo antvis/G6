@@ -40,10 +40,10 @@ export interface TreeGraphData {
   depth?: number;
   collapsed?: boolean;
   style?:
-  | ShapeStyle
-  | {
-    [key: string]: ShapeStyle;
-  };
+    | ShapeStyle
+    | {
+        [key: string]: ShapeStyle;
+      };
   stateStyles?: StateStyles;
   [key: string]: unknown;
 }

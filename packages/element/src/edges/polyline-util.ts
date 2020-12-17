@@ -39,7 +39,7 @@ export const getBBoxFromPoint = (point: PolyPoint): PBBox => {
 export const getBBoxFromPoints = (points: PolyPoint[] = []): PBBox => {
   const xs: number[] = [];
   const ys: number[] = [];
-  points.forEach(p => {
+  points.forEach((p) => {
     xs.push(p.x);
     ys.push(p.y);
   });
@@ -66,12 +66,12 @@ export const filterConnectPoints = (points: PolyPoint[]): PolyPoint[] => {
   // pre-process: remove duplicated points
   const result: any[] = [];
   const pointsMap: any = {};
-  points.forEach(p => {
+  points.forEach((p) => {
     const id = `${p.x}-${p.y}`;
     p.id = id;
     pointsMap[id] = p;
   });
-  each(pointsMap, p => {
+  each(pointsMap, (p) => {
     result.push(p);
   });
   return result;
@@ -214,7 +214,7 @@ export const distance = (p1: PolyPoint, p2: PolyPoint): number =>
 export const _costByPoints = (p: PolyPoint, points: PolyPoint[]): number => {
   const offset = -2;
   let result = 0;
-  points.forEach(point => {
+  points.forEach((point) => {
     if (point) {
       if (p.x === point.x) {
         result += offset;
@@ -298,7 +298,7 @@ export const getNeighborPoints = (
   bbox2: PBBox,
 ): PolyPoint[] => {
   const neighbors: Point[] = [];
-  points.forEach(p => {
+  points.forEach((p) => {
     if (p !== point) {
       if (p.x === point.x || p.y === point.y) {
         if (!isSegmentCrossingBBox(p, point, bbox1) && !isSegmentCrossingBBox(p, point, bbox2)) {
@@ -340,7 +340,7 @@ export const pathFinder = (
     [key: string]: PolyPoint;
   } = {};
 
-  points.forEach(p => {
+  points.forEach((p) => {
     pointById[p.id] = p;
   });
 
@@ -366,7 +366,7 @@ export const pathFinder = (
     removeFrom(openSet, current);
     closedSet.push(current);
 
-    getNeighborPoints(points, current, sBBox, tBBox).forEach(neighbor => {
+    getNeighborPoints(points, current, sBBox, tBBox).forEach((neighbor) => {
       if (closedSet.indexOf(neighbor) !== -1) {
         return;
       }
@@ -503,7 +503,7 @@ export const getPolylinePoints = (
   [lineBBox, sMixBBox, tMixBBox].forEach((bbox: PBBox) => {
     connectPoints = connectPoints.concat(
       getBBoxCrossPointsByPoint(bbox, centerPoint).filter(
-        p => isPointOutsideBBox(p, sxBBox) && isPointOutsideBBox(p, txBBox),
+        (p) => isPointOutsideBBox(p, sxBBox) && isPointOutsideBBox(p, txBBox),
       ),
     );
   });
@@ -516,7 +516,7 @@ export const getPolylinePoints = (
       x: tPoint.x,
       y: sPoint.y,
     },
-  ].forEach(p => {
+  ].forEach((p) => {
     // impossible!!
     if (
       isPointOutsideBBox(p, sxBBox) &&

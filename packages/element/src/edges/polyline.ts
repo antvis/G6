@@ -97,7 +97,7 @@ registerEdge(
         stroke: cfg.color,
       };
       const shape =
-        group.find(element => element.get('className') === 'edge-shape') || item.getKeyShape();
+        group.find((element) => element.get('className') === 'edge-shape') || item.getKeyShape();
 
       const { size } = cfg;
       cfg = this.getPathPoints!(cfg);

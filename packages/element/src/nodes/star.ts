@@ -255,14 +255,14 @@ registerNode(
      */
     updateLinkPoints(cfg: NodeConfig, group: IGroup) {
       const { linkPoints: defaultLinkPoints } = this.getOptions({}) as NodeConfig;
-      const markLeft = group.find(element => element.get('className') === 'link-point-left');
-      const markRight = group.find(element => element.get('className') === 'link-point-right');
-      const markTop = group.find(element => element.get('className') === 'link-point-top');
+      const markLeft = group.find((element) => element.get('className') === 'link-point-left');
+      const markRight = group.find((element) => element.get('className') === 'link-point-right');
+      const markTop = group.find((element) => element.get('className') === 'link-point-top');
       const markLeftBottom = group.find(
-        element => element.get('className') === 'link-point-left-bottom',
+        (element) => element.get('className') === 'link-point-left-bottom',
       );
       const markRightBottom = group.find(
-        element => element.get('className') === 'link-point-right-bottom',
+        (element) => element.get('className') === 'link-point-right-bottom',
       );
 
       let currentLinkPoints = defaultLinkPoints;

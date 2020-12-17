@@ -164,7 +164,6 @@ describe('drag-combo', () => {
       });
     });
 
-
     const combo = graph.findById('A');
     const comboC = graph.findById('C');
     let comboCBBox = comboC.getKeyShape().getCanvasBBox();
@@ -184,8 +183,7 @@ describe('drag-combo', () => {
       expect(Math.abs(comboCBBox.width - 163) < 2).toBe(true);
       graph.destroy();
       done();
-    }, 550)
-
+    }, 550);
   });
   it('drag combo onlyChangeComboSize', (done) => {
     const data = {
@@ -268,10 +266,13 @@ describe('drag-combo', () => {
       width: 1000,
       height: 800,
       modes: {
-        default: ['drag-canvas', {
-          type: 'drag-combo',
-          onlyChangeComboSize: true
-        }],
+        default: [
+          'drag-canvas',
+          {
+            type: 'drag-combo',
+            onlyChangeComboSize: true,
+          },
+        ],
       },
       defaultCombo: {
         // size: [100, 100],
@@ -318,8 +319,8 @@ describe('drag-combo', () => {
       console.log(comboCBBox);
       expect(Math.abs(comboCBBox.width - 635) < 2).toBe(true);
       graph.destroy();
-      done()
-    }, 550)
+      done();
+    }, 550);
   });
 
   it('combo example', () => {

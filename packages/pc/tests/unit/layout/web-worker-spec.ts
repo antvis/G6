@@ -12,7 +12,8 @@ document.body.appendChild(div);
 // jest.setTimeout(10000)
 
 describe('layout using web worker', function () {
-  it('change layout', function () {//done
+  it('change layout', function () {
+    //done
     //   const node = data.nodes[0];
     //   const graph = new G6.Graph({
     //     container: div,
@@ -25,7 +26,6 @@ describe('layout using web worker', function () {
     //     height: 500,
     //     defaultNode: { size: 10 },
     //   });
-
     //   graph.data(data);
     //   // 下面的 graph.updateLayout又会触发一次afterLayout，为了避免这里的 event handler重复执行，用了 graph.once
     //   graph.once('afterlayout', () => {
@@ -37,11 +37,9 @@ describe('layout using web worker', function () {
     //   setTimeout(() => {
     //     callback();
     //   }, 1000);
-
     //   function callback() {
     //     let count = 0;
     //     let ended = false;
-
     //     // 只执行一次
     //     graph.once('afterlayout', () => {
     //       expect(node.x).not.toEqual(undefined);
