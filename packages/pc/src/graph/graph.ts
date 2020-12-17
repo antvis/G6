@@ -76,11 +76,9 @@ export default class Graph extends AbstractGraph implements IGraph {
     }
 
     this.set('canvas', canvas);
-    /** PC端加载插件 */
-    this.initPlugin();
   }
 
-  protected initPlugin(): void {
+  protected initPlugins(): void {
     const self = this;
     each(self.get('plugins'), (plugin) => {
       if (!plugin.destroyed && plugin.initPlugin) {

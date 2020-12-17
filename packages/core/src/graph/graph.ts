@@ -118,9 +118,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     this.initEventController();
 
     this.initGroups();
-    
 
-  
+    /** 初始化插件 */
+    this.initPlugins();
   }
 
   protected abstract initLayoutController(): void;
@@ -131,6 +131,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * initCanvas 需要在 PC 和 Mobile 分别实现
    */
   protected abstract initCanvas(): void;
+
+  /**
+   * initPlugins 需要在 PC 和 Mobile 分别实现
+   */
+  protected abstract initPlugins(): void;
 
   // 初始化所有 Group
   protected initGroups(): void {
