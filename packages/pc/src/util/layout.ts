@@ -1,5 +1,6 @@
 import { IPoint, TreeGraphData, Util } from '@antv/g6-core';
 import { isNumber } from '@antv/util';
+import { TreeGraphData, IPoint, Util } from '@antv/g6-core';
 
 const { traverseTree } = Util;
 
@@ -15,11 +16,11 @@ export const proccessToFunc = (
 ): ((d?: any) => number) => {
   let func;
   if (!value) {
-    func = (d) => {
+    func = d => {
       return defaultV || 1;
     };
   } else if (isNumber(value)) {
-    func = (d) => {
+    func = d => {
       return value;
     };
   } else {
@@ -223,7 +224,7 @@ export const attributesToTextureData = (
   const dataArray = [];
   const attributeNum = attributeNames.length;
   const attributteStringMap = {};
-  items.forEach((item) => {
+  items.forEach(item => {
     attributeNames.forEach((name, i) => {
       if (attributteStringMap[item[name]] === undefined) {
         attributteStringMap[item[name]] = Object.keys(attributteStringMap).length;

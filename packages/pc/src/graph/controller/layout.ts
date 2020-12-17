@@ -44,14 +44,14 @@ export default class LayoutController extends AbstractLayout {
   private isGPU: boolean;
 
   // the configurations of the layout
-  private layoutCfg: any; // LayoutOptions
+  // private layoutCfg: any; // LayoutOptions
 
   // the type name of the layout
-  private layoutType: string;
+  // private layoutType: string;
 
-  private data: GraphData;
+  // private data: GraphData;
 
-  private layoutMethod: typeof Layout;
+  // private layoutMethod: typeof Layout;
 
   constructor(graph: IGraph) {
     super(graph);
@@ -245,7 +245,13 @@ export default class LayoutController extends AbstractLayout {
       }
       this.layoutMethod = layoutMethod;
     }
-    if ((hasLayoutType || !allHavePos) && this.layoutType !== 'force' && this.layoutType !== 'gForce' && !enableTick && !isGPU) {
+    if (
+      (hasLayoutType || !allHavePos) &&
+      this.layoutType !== 'force' &&
+      this.layoutType !== 'gForce' &&
+      !enableTick &&
+      !isGPU
+    ) {
       graph.emit('afterlayout');
       this.refreshLayout();
     }
@@ -290,7 +296,7 @@ export default class LayoutController extends AbstractLayout {
     // 例如：'function could not be cloned'。
     // 详情参考：https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm
     // 所以这里需要把过滤layoutCfg里的函数字段过滤掉。
-    const filteredLayoutCfg = filterObject(layoutCfg, (value) => typeof value !== 'function');
+    const filteredLayoutCfg = filterObject(layoutCfg, value => typeof value !== 'function');
     if (!gpuWorkerAbility) {
       worker.postMessage({ type: LAYOUT_MESSAGE.RUN, nodes, edges, layoutCfg: filteredLayoutCfg });
     } else {
@@ -308,7 +314,7 @@ export default class LayoutController extends AbstractLayout {
         [offscreen],
       );
     }
-    worker.onmessage = (event) => {
+    worker.onmessage = event => {
       this.handleWorkerMessage(event, data, success);
     };
     return true;
@@ -466,7 +472,7 @@ function updateLayoutPosition(data, layoutData) {
 function filterObject(collection, callback) {
   const result = {};
   if (collection && typeof collection === 'object') {
-    Object.keys(collection).forEach((key) => {
+    Object.keys(collection).forEach(key => {
       if (collection.hasOwnProperty(key) && callback(collection[key])) {
         result[key] = collection[key];
       }
