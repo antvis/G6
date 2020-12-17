@@ -1,5 +1,5 @@
 import G6 from '@antv/g6';
-import { GraphData } from '@antv/g6-core';
+import { GraphData } from '@antv/g6';
 import { TimeBar } from '../../src';
 
 const div = document.createElement('div');

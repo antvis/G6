@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
 import { data } from './data';
-import { GraphData } from '@antv/g6-core';
+import { GraphData } from '@antv/g6';
 import { Bundling } from '../../src';
 
 const div = document.createElement('div');
