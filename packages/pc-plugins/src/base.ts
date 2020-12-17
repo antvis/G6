@@ -1,10 +1,10 @@
 import { wrapBehavior, each, deepMix } from '@antv/util';
-import { Graph, IG6GraphEvent } from '@antv/g6';
+import { IGraph, IG6GraphEvent } from '@antv/g6';
 
 export interface IPluginBaseConfig {
   container?: HTMLDivElement | string | null;
   className?: string;
-  graph?: Graph;
+  graph?: IGraph;
   [key: string]: any;
 }
 
@@ -38,9 +38,9 @@ export default abstract class PluginBase {
 
   /**
    * 初始化插件
-   * @param graph Graph 实例
+   * @param graph IGraph 实例
    */
-  public initPlugin(graph: Graph) {
+  public initPlugin(graph: IGraph) {
     const self = this;
     self.set('graph', graph);
 

@@ -1,6 +1,6 @@
 import { modifyCSS, createDom } from '@antv/dom-util';
 import { IGraph, ViewPortEventParam } from '@antv/g6';
-import { Canvas } from '@antv/g-canvas';
+import { ICanvas } from '@antv/g-base';
 import Base from '../base';
 
 interface GridConfig {
@@ -22,7 +22,7 @@ export default class Grid extends Base {
     const graph: IGraph = this.get('graph');
     const minZoom = graph.get<number>('minZoom');
     const graphContainer = graph.get<HTMLDivElement>('container');
-    const canvas: HTMLDivElement = graph.get<Canvas>('canvas').get('el');
+    const canvas: HTMLDivElement = graph.get<ICanvas>('canvas').get('el');
     const width = graph.get<number>('width');
     const height: number = graph.get<number>('height');
     const img = this.get('img') || GRID_PNG;
