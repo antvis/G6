@@ -7,7 +7,7 @@ import { Layout, registerLayout } from './layout';
 import Global from './global';
 import Util from './util';
 // import Plugins from './plugins';
-// import * as Algorithm from './algorithm';
+import * as Algorithm from '@antv/algorithm';
 
 // const registerLayout = Layout.registerLayout;
 // const Minimap = Plugins.Minimap;
@@ -37,7 +37,7 @@ export {
   // Menu,
   // Fisheye,
   registerBehavior,
-  // Algorithm,
+  Algorithm,
   // ToolBar,
   // Tooltip,
   // TimeBar,
@@ -67,7 +67,7 @@ export default {
   // Fisheye,
   // ImageMinimap,
   // EdgeFilterLens,
-  // // Algorithm,
+  Algorithm,
   // Arrow,
   // Marker,
 };
