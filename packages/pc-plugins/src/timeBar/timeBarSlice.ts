@@ -14,8 +14,8 @@ import {
   PRE_STEP_BTN,
   TIMEBAR_CONFIG_CHANGE,
 } from './constant';
-import { IGraph } from '@antv/g6/es/interface/graph';
-import { ShapeStyle } from '@antv/g6-core/es/types';
+
+import { ShapeStyle, IGraph } from '@antv/g6';
 
 const DEFAULT_SELECTEDTICK_STYLE = {
   fill: '#5B8FF9',

@@ -1,8 +1,9 @@
 import { clone } from '@antv/util';
-import { IG6GraphEvent, ShapeStyle } from '@antv/g6-core/es/types';
-import { Graph } from '@antv/g6';
+import { IG6GraphEvent, ShapeStyle, IGraph, Util } from '@antv/g6';
+
 import Base from '../base';
-import { distance } from '@antv/g6-core/es/util/math';
+
+const { distance } = Util;
 
 const DELTA = 0.05;
 
@@ -105,7 +106,7 @@ export default class EdgeFilterLens extends Base {
     const self = this;
     if (!e || !e.originalEvent) return;
     if (e.preventDefault) e.preventDefault();
-    const graph: Graph = self.get('graph');
+    const graph: IGraph = self.get('graph');
     let ratio;
     const lensDelegate = self.get('delegate');
     const lensCenter = lensDelegate

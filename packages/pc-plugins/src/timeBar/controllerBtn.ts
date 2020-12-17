@@ -1,7 +1,7 @@
 import { IGroup, IShape } from '@antv/g-base';
 import { deepMix } from '@antv/util';
 import Button from './timeButton';
-import { ShapeStyle } from '@antv/g6-core/es/types';
+import { ShapeStyle } from '@antv/g6';
 
 const DEFAULT_RECT_FILL = '#ccc';
 const DEFAULT_RECT_STROKE = 'green';

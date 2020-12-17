@@ -7,7 +7,7 @@
     "start": "father build --watch",
     "build": "father build",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch ./tests/unit/image-minimap-spec.ts "
+    "test-live": "DEBUG_MODE=1 jest --watch ./tests/unit/fisheye-spec.ts "
   },
   "dependencies": {
     "@antv/dom-util": "^2.0.2",
@@ -33,6 +33,7 @@
     "father": "^2.30.0",
     "jest": "^26.6.3",
     "jest-electron": "^0.1.11",
+    "jquery": "^3.5.1",
     "ts-jest": "^26.4.4"
   }
 }

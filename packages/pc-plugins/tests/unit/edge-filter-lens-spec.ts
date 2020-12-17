@@ -1,5 +1,5 @@
 import G6 from '@antv/g6';
-import { mathEqual } from '@antv/g6/es/util/layout';
+import { mathEqual } from './util';
 import { EdgeFilterLens } from '../../src';
 
 const div = document.createElement('div');

@@ -1,7 +1,7 @@
 import G6 from '@antv/g6';
 import Simulate from 'event-simulate';
+import Minimap from '../../src/minimap';
 
-import { Minimap } from '../../src';
 export function mathEqual(a: number, b: number) {
   return Math.abs(a - b) < 1;
 }
@@ -101,6 +101,7 @@ describe('minimap', () => {
   });
   it('move viewport', (done) => {
     const minimap = new Minimap({ size: [200, 200] });
+    debugger;
     const graph = new G6.Graph({
       container: div,
       width: 500,

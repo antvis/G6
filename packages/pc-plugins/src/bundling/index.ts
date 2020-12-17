@@ -1,11 +1,9 @@
 import Base, { IPluginBaseConfig } from '../base';
-import Edge from '@antv/g6-core/es/item/edge';
-import { Graph } from '@antv/g6';
-import { GraphData, NodeConfig, NodeConfigMap, EdgeConfig } from '@antv/g6-core/es/types';
-import { Point } from '@antv/g-base/lib/types';
+import { IEdge, IGraph, GraphData, NodeConfig, NodeConfigMap, EdgeConfig } from '@antv/g6';
+import { Point } from '@antv/g-base';
 
 interface BundlingConfig extends IPluginBaseConfig {
-  edgeBundles?: Edge[];
+  edgeBundles?: IEdge[];
   edgePoints?: NodeConfig[];
   K?: number;
   lambda?: number;
@@ -74,7 +72,7 @@ export default class Bundling extends Base {
   }
 
   public init() {
-    const graph: Graph = this.get('graph');
+    const graph: IGraph = this.get('graph');
     const onTick = this.get('onTick');
     const tick = () => {
       if (onTick) {

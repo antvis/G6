@@ -1,13 +1,12 @@
 import { Canvas as GCanvas } from '@antv/g-canvas';
 import { Canvas as GSVGCanvas } from '@antv/g-svg';
-import Base, { IPluginBaseConfig } from '../base';
+import { Event as GraphEvent, Point } from '@antv/g-base';
+
 import { isString, isNil, each, debounce } from '@antv/util';
 import { createDom, modifyCSS } from '@antv/dom-util';
-import { Graph } from '@antv/g6';
-import { Matrix, ShapeStyle } from '@antv/g6-core';
+import { Matrix, ShapeStyle, IGraph } from '@antv/g6';
 import { transform } from '@antv/matrix-util';
-import { Point } from '@antv/g-math/lib/types';
-import { Event as GraphEvent } from '@antv/g-base';
+import Base, { IPluginBaseConfig } from '../base';
 
 const { max } = Math;
 
@@ -26,7 +25,7 @@ interface MiniMapConfig extends IPluginBaseConfig {
 }
 
 export default class MiniMap extends Base {
-  this: Graph;
+  this: IGraph;
   public getDefaultCfgs(): MiniMapConfig {
     return {
       container: null,
@@ -200,7 +199,7 @@ export default class MiniMap extends Base {
     const dy: number = this.get('dy');
     const totaldx: number = this.get('totaldx');
     const totaldy: number = this.get('totaldy');
-    const graph: Graph = this.get('graph');
+    const graph: IGraph = this.get('graph');
     const size: number[] = this.get('size');
     const graphWidth = graph.get('width');
     const graphHeight = graph.get('height');
@@ -470,7 +469,7 @@ export default class MiniMap extends Base {
    */
   public initContainer() {
     const self = this;
-    const graph: Graph = self.get('graph');
+    const graph: IGraph = self.get('graph');
     const size: number[] = self.get('size');
     const className: string = self.get('className');
     let parentNode: string | HTMLElement = self.get('container');
@@ -520,7 +519,7 @@ export default class MiniMap extends Base {
     if (!isRefresh) {
       return;
     }
-    const graph: Graph = this.get('graph');
+    const graph: IGraph = this.get('graph');
     if (graph.get('destroyed')) {
       return;
     }

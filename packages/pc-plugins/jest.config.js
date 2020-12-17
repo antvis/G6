@@ -11,7 +11,7 @@ module.exports = {
     '@g6/types': '<rootDir>/types',
     '@g6/(.*)': '<rootDir>/src/$1',
   },
-  transformIgnorePatterns: ['<rootDir>/node_modules/'],
+  transformIgnorePatterns: ['./node_modules/'],
 
   globals: {
     'ts-jest': {
