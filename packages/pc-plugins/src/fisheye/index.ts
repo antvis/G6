@@ -1,5 +1,5 @@
 import { clone } from '@antv/util';
-import { IG6GraphEvent, ShapeStyle, Graph } from '@antv/g6';
+import { IG6GraphEvent, ShapeStyle, IGraph } from '@antv/g6';
 import Base from '../base';
 
 const DELTA = 0.05;
@@ -121,7 +121,7 @@ export default class Fisheye extends Base {
     const self = this;
     if (!e || !e.originalEvent) return;
     if (e.preventDefault) e.preventDefault();
-    const graph: Graph = self.get('graph');
+    const graph: IGraph = self.get('graph');
     let ratio;
     const lensDelegate = self.get('delegate');
     const lensCenter = lensDelegate
@@ -162,7 +162,7 @@ export default class Fisheye extends Base {
     const self = this;
     if (!e) return;
     const dragPrePos = self.get('dragPrePos');
-    const graph: Graph = self.get('graph');
+    const graph: IGraph = self.get('graph');
     let ratio;
     const mousePos = graph.getPointByClient(e.clientX, e.clientY);
     if (e.x - dragPrePos.x < 0) {
@@ -250,7 +250,7 @@ export default class Fisheye extends Base {
   protected magnify(e: IG6GraphEvent, mousePos?) {
     const self = this;
     self.restoreCache();
-    const graph: Graph = self.get('graph');
+    const graph: IGraph = self.get('graph');
     const cachedMagnifiedModels = self.get('cachedMagnifiedModels');
     const cachedOriginPositions = self.get('cachedOriginPositions');
     const showLabel = self.get('showLabel');

@@ -324,7 +324,7 @@ export default class ImageMiniMap extends Base {
    */
   public initContainer() {
     const self = this;
-    const graph: Graph = self.get('graph');
+    const graph: IGraph = self.get('graph');
     const graphWidth = graph.get('width');
     const graphHeight = graph.get('height');
     const aspectRatio = graphHeight / graphWidth;
@@ -405,7 +405,7 @@ export default class ImageMiniMap extends Base {
     if (!isRefresh) {
       return;
     }
-    const graph: Graph = this.get('graph');
+    const graph: IGraph = this.get('graph');
     if (graph.get('destroyed')) {
       return;
     }
