@@ -49,10 +49,12 @@ function handleLayoutMessage(event: Event) {
         break;
       }
       if (layoutType.split('-')[1] !== 'gpu') {
-        ctx.postMessage({ type: LAYOUT_MESSAGE.ERROR, message: `layout ${layoutType} does not support GPU` });
+        ctx.postMessage({
+          type: LAYOUT_MESSAGE.ERROR,
+          message: `layout ${layoutType} does not support GPU`,
+        });
         break;
       }
-
 
       const layoutMethod = new LayoutClass(layoutCfg);
       layoutMethod.init({ nodes, edges });

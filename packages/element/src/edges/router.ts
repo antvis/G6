@@ -270,10 +270,10 @@ export const pathFinder = (
   endPoint.id = `${scaleEndPoint.x}-${scaleEndPoint.y}`;
   const startPoints = getBoxPoints(scaleStartPoint, startNode, cfg);
   const endPoints = getBoxPoints(scaleEndPoint, endNode, cfg);
-  startPoints.forEach(point => {
+  startPoints.forEach((point) => {
     delete map[point.id];
   });
-  endPoints.forEach(point => {
+  endPoints.forEach((point) => {
     delete map[point.id];
   });
 
@@ -384,7 +384,7 @@ export const pathFinder = (
     if (!current) break;
 
     // 如果 fScore 最小的点就是终点
-    if (endPoints.findIndex(point => point.x === current.x && point.y === current.y) > -1) {
+    if (endPoints.findIndex((point) => point.x === current.x && point.y === current.y) > -1) {
       const controlPoints = getControlPoints(current.id);
       return controlPoints;
     }

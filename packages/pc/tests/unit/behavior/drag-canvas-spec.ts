@@ -35,9 +35,11 @@ describe('drag-canvas', () => {
       width: 500,
       height: 500,
       modes: {
-        default: [{
-          type: 'drag-canvas'
-        }],
+        default: [
+          {
+            type: 'drag-canvas',
+          },
+        ],
       },
     });
     graph.data(data);

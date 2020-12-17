@@ -18,8 +18,8 @@ const data = {
     { source: 'node1', target: 'node4' },
     { source: 'node4', target: 'node2' },
     { source: 'node5', target: 'node2' },
-  ]
-}
+  ],
+};
 
 const div = document.createElement('div');
 div.id = 'zoom-spec';
@@ -48,10 +48,12 @@ describe('zoom-canvas', () => {
       width: 500,
       height: 500,
       modes: {
-        default: [{
-          type: 'zoom-canvas',
-          // enableOptimize: true
-        }],
+        default: [
+          {
+            type: 'zoom-canvas',
+            // enableOptimize: true
+          },
+        ],
       },
     });
     graph.data(data);

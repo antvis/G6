@@ -78,7 +78,10 @@ registerNode(
       },
       // 连接点，默认为左右
       // anchorPoints: [{ x: 0, y: 0.5 }, { x: 1, y: 0.5 }]
-      anchorPoints: [[0, 0.5], [1, 0.5]],
+      anchorPoints: [
+        [0, 0.5],
+        [1, 0.5],
+      ],
     },
     shapeType: 'modelRect',
     drawShape(cfg: NodeConfig, group: IGroup): IShape {
@@ -337,7 +340,7 @@ registerNode(
 
       const group = item.getContainer();
 
-      const logoIconShape = group.find(element => element.get('className') === 'rect-logo-icon');
+      const logoIconShape = group.find((element) => element.get('className') === 'rect-logo-icon');
       const currentLogoIconAttr = logoIconShape ? logoIconShape.attr() : {};
 
       const logoIcon = mix({}, currentLogoIconAttr, cfg.logoIcon);
@@ -355,8 +358,8 @@ registerNode(
         offsetX = -width / 2 + offset;
       }
 
-      const label = group.find(element => element.get('className') === 'node-label');
-      const description = group.find(element => element.get('className') === 'rect-description');
+      const label = group.find((element) => element.get('className') === 'node-label');
+      const description = group.find((element) => element.get('className') === 'rect-description');
       if (cfg.label) {
         if (!label) {
           group.addShape('text', {
@@ -413,7 +416,7 @@ registerNode(
         }
       }
 
-      const preRectShape = group.find(element => element.get('className') === 'pre-rect');
+      const preRectShape = group.find((element) => element.get('className') === 'pre-rect');
       if (preRectShape) {
         const preRect = mix({}, preRectShape.attr(), cfg.preRect);
         preRectShape.attr({
@@ -441,7 +444,9 @@ registerNode(
         (this as any).drawLogoIcon(cfg, group);
       }
 
-      const stateIconShape = group.find(element => element.get('className') === 'rect-state-icon');
+      const stateIconShape = group.find(
+        (element) => element.get('className') === 'rect-state-icon',
+      );
       const currentStateIconAttr = stateIconShape ? stateIconShape.attr() : {};
       const stateIcon = mix({}, currentStateIconAttr, cfg.stateIcon);
       if (stateIconShape) {

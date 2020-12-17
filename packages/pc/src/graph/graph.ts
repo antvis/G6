@@ -579,7 +579,6 @@ export default class Graph extends AbstractGraph implements IGraph {
    * 销毁画布
    */
   public destroy() {
-
     each(this.get('plugins'), (plugin) => {
       plugin.destroyPlugin();
     });

@@ -34,15 +34,15 @@ describe('layout mechanism', () => {
           attr1: 'a',
           attr2: 'b',
           attr3: 'c',
-        }
+        };
       },
       execute() {
         const { nodes } = this;
         nodes.forEach((node, i) => {
           node.x = i * 10;
-          node.y = i * 5
-        })
-      }
+          node.y = i * 5;
+        });
+      },
     });
     const graph = new G6.Graph({
       container: div,
@@ -56,7 +56,7 @@ describe('layout mechanism', () => {
     expect(graph.getNodes()[0].getModel().y).toEqual(0);
     expect(graph.getNodes()[1].getModel().x).toEqual(10);
     expect(graph.getNodes()[1].getModel().y).toEqual(5);
-    graph.destroy()
+    graph.destroy();
   });
   it('register layout and use it independently', () => {
     G6.registerLayout('custom2', {
@@ -65,15 +65,15 @@ describe('layout mechanism', () => {
           attr1: 'a',
           attr2: 'b',
           attr3: 'c',
-        }
+        };
       },
       execute() {
         const { nodes } = this;
         nodes.forEach((node, i) => {
           node.x = (i + 1) * 10;
-          node.y = (i + 1) * 5
-        })
-      }
+          node.y = (i + 1) * 5;
+        });
+      },
     });
     const custom2 = new G6.Layout['custom2']();
     custom2.layout(data);
