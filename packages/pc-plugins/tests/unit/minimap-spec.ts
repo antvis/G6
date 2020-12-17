@@ -101,7 +101,6 @@ describe('minimap', () => {
   });
   it('move viewport', (done) => {
     const minimap = new Minimap({ size: [200, 200] });
-    debugger;
     const graph = new G6.Graph({
       container: div,
       width: 500,
