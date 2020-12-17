@@ -21,23 +21,25 @@ import * as Algorithm from '@antv/algorithm';
 // const ImageMinimap = Plugins.ImageMinimap;
 // const EdgeFilterLens = Plugins.EdgeFilterLens;
 
+export * from '@antv/g6-core';
+
 export {
-  registerNode,
-  registerCombo,
+  // registerNode,
+  // registerCombo,
   Graph,
   TreeGraph,
   Util,
-  registerEdge,
+  // registerEdge,
   Layout,
   Global,
-  registerLayout,
+  // registerLayout,
   // Minimap,
   // Grid,
   // Bundling,
   // Menu,
   // Fisheye,
-  registerBehavior,
-  Algorithm,
+  // registerBehavior,
+  // Algorithm,
   // ToolBar,
   // Tooltip,
   // TimeBar,

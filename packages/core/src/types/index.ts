@@ -338,16 +338,17 @@ export type LabelStyle = Partial<{
   stroke: string | null;
   opacity: number;
   fontSize: number;
-  fontStyle: string;
+  fontStyle: 'normal' | 'italic' | 'oblique';
+  fontWeight?: 'normal' | 'bold' | 'bolder' | 'lighter' | number;
   fill: string | null;
   rotateCenter: string;
-  lineWidth?: number;
-  shadowColor?: string;
-  shadowBlur?: number;
+  lineWidth: number;
+  shadowColor: string;
+  shadowBlur: number;
   shadowOffsetX?: number;
   shadowOffsetY?: number;
   position: string;
-  textBaseline: string;
+  textBaseline: 'top' | 'middle' | 'bottom' | 'hanging' | 'alphabetic' | 'ideographic';
   offset: number;
   background?: {
     fill?: string;
@@ -519,6 +520,7 @@ export interface EdgeConfig extends ModelConfig {
   // loop edge config
   loopCfg?: LoopConfig;
   labelCfg?: ILabelConfig;
+  curvePosition?: number | number[];
 }
 
 export type EdgeData = EdgeConfig & {

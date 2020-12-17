@@ -1,12 +1,9 @@
 import { IGroup, IShape } from '@antv/g-base';
+import { registerNode, Item, NodeConfig, ShapeStyle, ShapeOptions, Global } from '@antv/g6';
 import { deepMix } from '@antv/util';
-import { Item, NodeConfig, ShapeStyle } from '../../types';
-import Global from '../../global';
-import Shape from '../shape';
-import { ShapeOptions } from '../../interface/shape';
 
 // 带有图标的圆，可用于拓扑图中
-Shape.registerNode(
+registerNode(
   'circle',
   {
     // 自定义节点时的配置

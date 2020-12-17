@@ -127,7 +127,7 @@ const singleEdge: ShapeOptions = {
       stroke: cfg.color,
     };
     const shape =
-      group.find((element) => element.get('className') === 'edge-shape') || item.getKeyShape();
+      group.find(element => element.get('className') === 'edge-shape') || item.getKeyShape();
 
     const { size } = cfg;
     cfg = this.getPathPoints!(cfg);
@@ -180,7 +180,7 @@ const singleEdge: ShapeOptions = {
     const labelPosition = labelCfg.position || this.labelPosition; // 文本的位置用户可以传入
     const style: LabelStyle = {};
 
-    const pathShape = group && group.find((element) => element.get('className') === CLS_SHAPE);
+    const pathShape = group && group.find(element => element.get('className') === CLS_SHAPE);
 
     // 不对 pathShape 进行判空，如果线不存在，说明有问题了
     let pointPercent;
@@ -245,7 +245,7 @@ const singleEdge: ShapeOptions = {
     };
     const autoRotate = isNil(labelCfg.autoRotate) ? this.labelAutoRotate : labelCfg.autoRotate;
 
-    const pathShape = group && group.find((element) => element.get('className') === CLS_SHAPE);
+    const pathShape = group && group.find(element => element.get('className') === CLS_SHAPE);
 
     // 不对 pathShape 进行判空，如果线不存在，说明有问题了
     let pointPercent;
