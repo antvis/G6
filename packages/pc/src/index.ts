@@ -22,6 +22,7 @@ import * as Algorithm from '@antv/algorithm';
 // const EdgeFilterLens = Plugins.EdgeFilterLens;
 
 export * from '@antv/g6-core';
+export { IGraph } from './interface/graph';
 
 export {
   // registerNode,

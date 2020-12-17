@@ -34,6 +34,7 @@
   "browser": "dist/g6-core.min.js",
   "types": "lib/index.d.ts",
   "scripts": {
+    "start": "father build --watch",
     "build": "npm run clean && father build && npm run build:umd",
     "build:umd": "webpack --config webpack.config.js --mode production --profile --json > stats.json",
     "build:dev": "webpack --config webpack.dev.config.js --mode development",

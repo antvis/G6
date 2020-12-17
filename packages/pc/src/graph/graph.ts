@@ -22,7 +22,6 @@ export default class Graph extends AbstractGraph implements IGraph {
     super(cfg);
     // this.cfg = deepMix(this.getDefaultCfg(), cfg);
     this.destroyed = false;
-    // this.init();
   }
 
   protected initLayoutController() {
@@ -77,11 +76,9 @@ export default class Graph extends AbstractGraph implements IGraph {
     }
 
     this.set('canvas', canvas);
-
-    this.initGroups();
   }
 
-  protected initPlugin(): void {
+  protected initPlugins(): void {
     const self = this;
     each(self.get('plugins'), (plugin) => {
       if (!plugin.destroyed && plugin.initPlugin) {
@@ -597,6 +594,13 @@ export default class Graph extends AbstractGraph implements IGraph {
 
     this.get('eventController').destroy();
     this.get('layoutController').destroy();
+
+    // this.get('eventController').destroy();
+    // this.get('itemController').destroy();
+    // this.get('modeController').destroy();
+    // this.get('viewController').destroy();
+    // this.get('stateController').destroy();
+    // this.get('canvas').destroy();
 
     if (this.get('graphWaterMarker')) {
       this.get('graphWaterMarker').destroy();

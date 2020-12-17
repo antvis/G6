@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    "declaration": true,
+    "target": "es2015",
+    "moduleResolution": "node",
+    "jsx": "react",
+    "resolveJsonModule": true,
+    "noImplicitAny": false,
+    "lib": ["dom", "esnext"],
+    "module": "esnext",
+    "esModuleInterop": true
+  },
+  "include": ["src", "tests"],
+  "exclude": ["./node_modules"]
+}
