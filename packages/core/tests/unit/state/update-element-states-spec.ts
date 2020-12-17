@@ -1,12 +1,12 @@
-import G6 from '../../../src';
-import '../../../src/behavior';
-import isPlainObject from '@antv/util/lib/is-plain-object';
+import { registerNode } from '../../../src';
+import Graph from '../implement-graph';
+import { isPlainObject } from '@antv/util';
 
 const div = document.createElement('div');
 div.id = 'global-spec';
 document.body.appendChild(div);
 
-G6.registerNode(
+registerNode(
   'self-node',
   {
     draw(cfg, group) {
@@ -58,7 +58,7 @@ G6.registerNode(
 
 describe('update', () => {
   it('without second params, clear all states', () => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -116,7 +116,7 @@ describe('update', () => {
     graph.destroy();
   });
   it('setItemState, then updateItem', () => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -179,7 +179,7 @@ describe('update', () => {
   });
 
   it('updateItem, then setItemState', () => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -281,7 +281,7 @@ describe('update', () => {
   });
 
   it('many times setItemState & updateItem width default node', () => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -388,7 +388,7 @@ describe('update', () => {
   });
 
   it('many times setItemState & updateItem width register node', () => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,

@@ -1,13 +1,12 @@
-import G6 from '../../../src';
-import '../../../src/behavior';
-import isPlainObject from '@antv/util/lib/is-plain-object';
-import { GraphData } from '../../../src/types';
+import { isPlainObject } from '@antv/util';
+import Graph from '../implement-graph';
+import { registerNode, GraphData } from '../../../src';
 
 const div = document.createElement('div');
 div.id = 'global-spec';
 document.body.appendChild(div);
 
-G6.registerNode(
+registerNode(
   'self-node',
   {
     draw(cfg, group) {
@@ -26,7 +25,7 @@ G6.registerNode(
           fill: 'red',
           y: 0,
           ...keyShapeStyle,
-          r: cfg.size / 2,
+          r: (cfg.size as any) / 2,
         },
         name: 'main-node',
       });
@@ -57,7 +56,7 @@ G6.registerNode(
   'single-node',
 );
 
-G6.registerNode(
+registerNode(
   'keyshape-not-attribute',
   {
     draw(cfg, group) {
@@ -115,7 +114,7 @@ describe('graph refactor states', () => {
   };
 
   it('compatible true/false states', () => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -183,7 +182,7 @@ describe('graph refactor states', () => {
   });
 
   it('multivalued & muted', () => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -246,7 +245,7 @@ describe('graph refactor states', () => {
   });
 
   it('multivalued & muted, keyshape not name attribute', () => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -308,7 +307,7 @@ describe('graph refactor states', () => {
   });
 
   it('mixed use mulituvalued & Tow value states', () => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -383,7 +382,7 @@ describe('graph refactor states', () => {
   });
 
   it('clear mulituvalued & Tow value states', () => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -499,7 +498,7 @@ describe('graph refactor states', () => {
   });
 
   it('different nodes support different states', () => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -613,7 +612,7 @@ describe('graph refactor states', () => {
   });
 
   it('update item style & sub element style, also support update states style', () => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -792,7 +791,7 @@ describe('graph refactor states', () => {
         },
       ],
     };
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -881,7 +880,7 @@ describe('graph refactor states', () => {
         },
       ],
     };
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -942,7 +941,7 @@ describe('graph refactor states', () => {
         },
       ],
     };
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -1003,7 +1002,7 @@ describe('graph refactor states', () => {
         },
       ],
     };
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,

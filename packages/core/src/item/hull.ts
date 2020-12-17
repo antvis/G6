@@ -219,6 +219,10 @@ export default class Hull {
     });
   }
 
+  /**
+   * 更新 hull
+   * @param cfg hull 配置项
+   */
   public updateCfg(cfg: Partial<HullCfg>) {
     this.cfg = deepMix(this.cfg, cfg);
     this.id = this.cfg.id;
@@ -233,6 +237,7 @@ export default class Hull {
         isString(item) ? this.graph.findById(item) : item,
       );
     }
+    // TODO padding 设置太大，会影响到 contain 结果
     this.setPadding();
     this.setType();
     this.path = this.calcPath(this.members, this.nonMembers);

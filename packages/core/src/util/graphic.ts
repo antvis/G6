@@ -1,4 +1,4 @@
-import { IGroup } from '@antv/g-base';
+import { IGroup, BBox } from '@antv/g-base';
 import { vec2 } from '@antv/matrix-util';
 import Global from '../global';
 import {
@@ -7,7 +7,6 @@ import {
   IPoint,
   IShapeBase,
   LabelStyle,
-  TreeGraphData,
   NodeConfig,
   ComboTree,
   ComboConfig,
@@ -15,7 +14,6 @@ import {
 import { applyMatrix } from './math';
 import letterAspectRatio from './letterAspectRatio';
 import { isString, clone } from '@antv/util';
-import { BBox } from '@antv/g-math/lib/types';
 import { IAbstractGraph } from '../interface/graph';
 
 const { PI, sin, cos } = Math;
@@ -346,73 +344,6 @@ export const traverseTreeUp = <T extends { children?: T[] }>(
   traverseUp(data, fn);
 };
 
-export type TreeGraphDataWithPosition = TreeGraphData & {
-  x: number;
-  y: number;
-  children?: TreeGraphDataWithPosition[];
-};
-
-/**
- *
- * @param data Tree graph data
- * @param layout
- */
-export const radialLayout = (
-  data: TreeGraphDataWithPosition,
-  layout?: string,
-): TreeGraphDataWithPosition => {
-  // 布局方式有 H / V / LR / RL / TB / BT
-  const VERTICAL_LAYOUTS: string[] = ['V', 'TB', 'BT'];
-  const min: IPoint = {
-    x: Infinity,
-    y: Infinity,
-  };
-
-  const max: IPoint = {
-    x: -Infinity,
-    y: -Infinity,
-  };
-  // 默认布局是垂直布局TB，此时x对应rad，y对应r
-  let rScale: 'x' | 'y' = 'x';
-  let radScale: 'x' | 'y' = 'y';
-  if (layout && VERTICAL_LAYOUTS.indexOf(layout) >= 0) {
-    // 若是水平布局，y对应rad，x对应r
-    radScale = 'x';
-    rScale = 'y';
-  }
-  let count = 0;
-  traverseTree(data, (node: TreeGraphDataWithPosition) => {
-    count++;
-    if (node.x > max.x) {
-      max.x = node.x;
-    }
-    if (node.x < min.x) {
-      min.x = node.x;
-    }
-    if (node.y > max.y) {
-      max.y = node.y;
-    }
-    if (node.y < min.y) {
-      min.y = node.y;
-    }
-    return true;
-  });
-  const avgRad = (PI * 2) / count;
-  const radDiff = max[radScale] - min[radScale];
-  if (radDiff === 0) {
-    return data;
-  }
-
-  traverseTree(data, (node) => {
-    const radial = ((node[radScale] - min[radScale]) / radDiff) * (PI * 2 - avgRad) + avgRad;
-    const r = Math.abs(rScale === 'x' ? node.x - data.x : node.y - data.y);
-    node.x = r * Math.cos(radial);
-    node.y = r * Math.sin(radial);
-    return true;
-  });
-  return data;
-};
-
 /**
  *
  * @param letter the letter
@@ -429,7 +360,7 @@ export const getLetterWidth = (letter, fontSize) => {
  * @param fontSize
  * @return the text's size
  */
-export const getTextSize = (text, fontSize) => {
+export const getTextSize = (text: string, fontSize: number) => {
   let width = 0;
   const pattern = new RegExp('[\u{4E00}-\u{9FA5}]+');
   text.split('').forEach((letter) => {
@@ -703,32 +634,4 @@ export const getComboBBox = (children: ComboTree[], graph: IAbstractGraph): BBox
   });
 
   return comboBBox;
-};
-
-export const getChartRegion = (params: {
-  group: IGroup;
-  width: number;
-  height: number;
-  x: number;
-  y: number;
-}) => {
-  const { group, height, width, x, y } = params;
-  const canvas = group.get('canvas');
-  const canvasWidth = canvas.get('width');
-  const canvasHeight = canvas.get('height');
-  const region = {
-    start: {
-      x: 0,
-      y: 0,
-    },
-    end: {
-      x: 0,
-      y: 0,
-    },
-  };
-  region.start.x = x / canvasWidth;
-  region.start.y = y / canvasHeight;
-  region.end.x = (x + width) / canvasWidth;
-  region.end.y = (y + height) / canvasHeight;
-  return region;
 };

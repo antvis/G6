@@ -1,6 +1,5 @@
 import '../../../src/behavior';
-import '../../../src/shape';
-import Graph from '../../../src/graph/graph';
+// import '../../../src/shape';
 import G6 from '../../../src';
 
 const div = document.createElement('div');
@@ -44,7 +43,7 @@ G6.registerCombo(
 );
 
 describe('drag-combo', () => {
-  it('drag combo', () => {
+  it('drag combo', (done) => {
     const data = {
       nodes: [
         {
@@ -93,27 +92,27 @@ describe('drag-combo', () => {
         {
           id: 'A',
           parentId: 'C',
-          label: 'gorup A',
+          label: 'group A',
           type: 'circle',
         },
         {
           id: 'B',
           parentId: 'C',
-          label: 'gorup B',
+          label: 'group B',
         },
         {
           id: 'C',
-          label: 'gorup C',
+          label: 'group C',
           // type: 'rect'
         },
         {
           id: 'F',
-          label: 'gorup F',
+          label: 'group F',
           // type: 'rect'
         },
         {
           id: 'G',
-          label: 'gorup G',
+          label: 'group G',
           // parentId: 'F'
           type: 'custom-combo',
         },
@@ -154,30 +153,8 @@ describe('drag-combo', () => {
     graph.data(data);
     graph.render();
 
-    graph.on('node:click', (e) => {
-      // graph.hideItem(e.item);
-      // graph.render()
-    });
     graph.on('combo:click', (e) => {
-      // selected = !selected;
       graph.setItemState(e.item, 'selected', true);
-      const combos = graph.findAllByState('combo', 'selected');
-      // graph.setItemState(e.item, 'state2', selected);
-      // graph.getNodes().forEach(node => {
-      //   node.hide();
-      // });
-      // graph.hideItem(e.item);
-      // graph.updateItem(e.item, {
-      //   // type: 'rect',
-      //   style: {
-      //     fill: '#f00'
-      //   },
-      //   label: 'new Label',
-      //   labelCfg: {
-      //     position: 'bottom'
-      //   }
-      // });
-      // graph.uncombo(e.item);
     });
 
     graph.on('canvas:click', (evt) => {
@@ -186,6 +163,164 @@ describe('drag-combo', () => {
         graph.clearItemStates(combo);
       });
     });
+
+    const combo = graph.findById('A');
+    const comboC = graph.findById('C');
+    let comboCBBox = comboC.getKeyShape().getCanvasBBox();
+
+    expect(Math.abs(comboCBBox.width - 392) < 2).toBe(true);
+
+    graph.emit('combo:dragstart', { item: combo, x: 100, y: 100 });
+    graph.emit('combo:drag', { item: combo, x: 500, y: 100 });
+
+    comboCBBox = comboC.getKeyShape().getCanvasBBox();
+    expect(Math.abs(comboCBBox.width - 392) < 2).toBe(true);
+
+    graph.emit('combo:dragend', { item: combo, x: 500, y: 100 });
+    setTimeout(() => {
+      comboCBBox = comboC.getKeyShape().getCanvasBBox();
+      console.log(comboCBBox);
+      expect(Math.abs(comboCBBox.width - 163) < 2).toBe(true);
+      graph.destroy();
+      done();
+    }, 550);
+  });
+  it('drag combo onlyChangeComboSize', (done) => {
+    const data = {
+      nodes: [
+        {
+          id: 'node1',
+          x: 150,
+          y: 150,
+          label: 'node1',
+          comboId: 'A',
+        },
+        {
+          id: 'node2',
+          x: 200,
+          y: 250,
+          label: 'node2',
+          comboId: 'A',
+        },
+        {
+          id: 'node3',
+          x: 100,
+          y: 250,
+          label: 'node3',
+        },
+        {
+          id: 'node4',
+          x: 200,
+          y: 350,
+          label: 'node4',
+          comboId: 'B',
+        },
+      ],
+      edges: [
+        {
+          source: 'node1',
+          target: 'node4',
+        },
+        {
+          source: 'node1',
+          target: 'node2',
+        },
+        {
+          source: 'node2',
+          target: 'node3',
+        },
+      ],
+      combos: [
+        {
+          id: 'A',
+          parentId: 'C',
+          label: 'group A',
+          type: 'circle',
+        },
+        {
+          id: 'B',
+          parentId: 'C',
+          label: 'group B',
+        },
+        {
+          id: 'C',
+          label: 'group C',
+          // type: 'rect'
+        },
+        {
+          id: 'F',
+          label: 'group F',
+          // type: 'rect'
+        },
+        {
+          id: 'G',
+          label: 'group G',
+          // parentId: 'F'
+          type: 'custom-combo',
+        },
+      ],
+    };
+
+    const graph = new G6.Graph({
+      container: 'drag-combo-spec',
+      width: 1000,
+      height: 800,
+      modes: {
+        default: [
+          'drag-canvas',
+          {
+            type: 'drag-combo',
+            onlyChangeComboSize: true,
+          },
+        ],
+      },
+      defaultCombo: {
+        // size: [100, 100],
+        // type: 'custom-combo',
+        style: {
+          fill: '#b5f5ec',
+        },
+      },
+      comboStateStyles: {
+        active: {
+          stroke: 'red',
+        },
+        selected: {
+          'text-shape': {
+            fill: '#f00',
+            fontSize: 20,
+          },
+          fill: '#36cfc9',
+        },
+        state2: {
+          stroke: '#0f0',
+        },
+      },
+    });
+
+    graph.data(data);
+    graph.render();
+
+    const combo = graph.findById('A');
+    const comboC = graph.findById('C');
+    let comboCBBox = comboC.getKeyShape().getCanvasBBox();
+
+    expect(Math.abs(comboCBBox.width - 392) < 2).toBe(true);
+
+    graph.emit('combo:dragstart', { item: combo, x: 100, y: 100 });
+    graph.emit('combo:drag', { item: combo, x: 500, y: 100 });
+
+    comboCBBox = comboC.getKeyShape().getCanvasBBox();
+    expect(Math.abs(comboCBBox.width - 392) < 2).toBe(true);
+
+    graph.emit('combo:dragend', { item: combo, x: 500, y: 100 });
+    setTimeout(() => {
+      comboCBBox = comboC.getKeyShape().getCanvasBBox();
+      console.log(comboCBBox);
+      expect(Math.abs(comboCBBox.width - 635) < 2).toBe(true);
+      graph.destroy();
+      done();
+    }, 550);
   });
 
   it('combo example', () => {
@@ -260,7 +395,7 @@ describe('drag-combo', () => {
         {
           id: 'A',
           parentId: 'B',
-          label: 'gorup A',
+          label: 'group A',
           padding: [50, 30, 10, 10],
           type: 'rect',
           // style: {
@@ -271,13 +406,13 @@ describe('drag-combo', () => {
         },
         {
           id: 'B',
-          label: 'gorup B',
+          label: 'group B',
           padding: [50, 10, 10, 50],
           // type: 'custom-combo'
         },
         {
           id: 'D',
-          label: 'gorup D',
+          label: 'group D',
           parentId: 'E',
         },
         {

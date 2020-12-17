@@ -1,5 +1,4 @@
 import '../../../src/behavior';
-import '../../../src/shape';
 import Graph from '../../../src/graph/graph';
 
 describe('brush-select', () => {

@@ -40,6 +40,7 @@ export default abstract class LayoutController {
   // 绘制
   public refreshLayout() {
     const { graph } = this;
+    if (!graph) return;
     if (graph.get('animate')) {
       graph.positionsAnimate();
     } else {

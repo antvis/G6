@@ -1,8 +1,7 @@
 import '../../../src/behavior';
 import '../../../src/shape';
 import G6 from '../../../src';
-import { ICombo, INode } from '../../../src/interface/item';
-import { ComboConfig, NodeConfig } from '../../../src/types';
+import { ComboConfig, ICombo, INode } from '@antv/g6-core';
 
 const div = document.createElement('div');
 div.id = 'container';

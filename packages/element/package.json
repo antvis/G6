@@ -1,0 +1,94 @@
+{
+  "name": "@antv/g6-element",
+  "version": "0.0.1",
+  "description": "A Graph Visualization Framework in JavaScript",
+  "keywords": [
+    "antv",
+    "g6",
+    "graph",
+    "graph analysis",
+    "graph editor",
+    "graph visualization",
+    "relational data"
+  ],
+  "homepage": "https://g6.antv.vision",
+  "bugs": {
+    "url": "https://github.com/antvis/g6/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/antvis/g6"
+  },
+  "license": "MIT",
+  "author": "https://github.com/orgs/antvis/people",
+  "files": [
+    "package.json",
+    "es",
+    "lib",
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "npm run clean && father build",
+    "ci": "npm run build && npm run coverage",
+    "clean": "rimraf es esm lib dist",
+    "coverage": "jest --coverage",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx --format=pretty \"./\"",
+    "lint:src": "eslint --ext .ts --format=pretty \"./src\"",
+    "prettier": "prettier -c --write \"**/*\"",
+    "test": "jest",
+    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/graph/graph-watermarker-spec.ts",
+    "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
+    "watch": "father build -w"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "npm run lint-staged:js",
+      "prettier --write"
+    ],
+    "**/*.{less,md,json}": [
+      "prettier --write"
+    ]
+  },
+  "dependencies": {
+    "@antv/g-base": "^0.5.1",
+    "@antv/g6": "*",
+    "@antv/util": "~2.0.5"
+  },
+  "devDependencies": {
+    "@antv/chart-node-g6": "^0.0.3",
+    "@babel/core": "^7.7.7",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/preset-react": "^7.7.4",
+    "@turf/turf": "^5.1.6",
+    "@types/jest": "^25.2.1",
+    "@types/node": "13.11.1",
+    "@typescript-eslint/eslint-plugin": "^3.9.0",
+    "@umijs/fabric": "^2.0.0",
+    "awesome-typescript-loader": "^5.2.1",
+    "babel-loader": "^8.0.6",
+    "eslint": "^7.7.0",
+    "event-simulate": "~1.0.0",
+    "father": "^2.29.1",
+    "husky": "^4.2.5",
+    "jest": "^26.0.1",
+    "jest-electron": "^0.1.7",
+    "jest-extended": "^0.11.2",
+    "lint-staged": "^10.2.11",
+    "pre-commit": "^1.2.2",
+    "prettier": "^2.0.5",
+    "rimraf": "^3.0.0",
+    "ts-jest": "^24.1.0",
+    "ts-loader": "^7.0.3",
+    "typescript": "^3.5.3"
+  }
+}

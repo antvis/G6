@@ -368,7 +368,12 @@ export const shapeBase: ShapeOptions = {
     const group = item.getContainer();
 
     // 从图元素现有的样式中删除本次要取消的 states 中存在的属性值。使用对象检索更快
-    const keptAttrs = { x: 1, y: 1, cx: 1, cy: 1 };
+    const keptAttrs: any = { x: 1, y: 1, cx: 1, cy: 1 };
+    if (type === 'combo') {
+      keptAttrs.r = 1;
+      keptAttrs.width = 1;
+      keptAttrs.height = 1;
+    }
 
     if (value) {
       // style 为要设置的状态的样式
@@ -392,7 +397,6 @@ export const shapeBase: ShapeOptions = {
 
       const model = item.getModel();
       // 原始样式
-      const tmp = item.getOriginStyle();
       const originStyle = mix({}, model.style, clone(item.getOriginStyle()));
 
       const keyShapeName = shape.get('name');
@@ -470,8 +474,15 @@ export const shapeBase: ShapeOptions = {
         if (isPlainObject(style) && !ARROWS.includes(originKey)) {
           const subShape = group.find((element) => element.get('name') === originKey);
           if (subShape) {
+            if (originKey === keyShapeName) {
+              if (type === 'combo') {
+                delete (style as any).r;
+                delete (style as any).width;
+                delete (style as any).height;
+              }
+              keyShapeSetted = true;
+            }
             subShape.attr(style);
-            if (originKey === keyShapeName) keyShapeSetted = true;
           }
         } else if (!keyShapeSetted) {
           const value = style || SHAPES_DEFAULT_ATTRS[type][originKey];

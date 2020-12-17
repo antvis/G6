@@ -1,5 +1,4 @@
-import G6 from '../../../src';
-import '../../../src/behavior';
+import Graph from '../implement-graph';
 
 const div = document.createElement('div');
 div.id = 'global-spec';
@@ -42,7 +41,7 @@ describe('graph edge states', () => {
         },
       ],
     };
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -131,7 +130,7 @@ describe('graph edge states', () => {
         },
       ],
     };
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -251,7 +250,7 @@ describe('graph edge states', () => {
         },
       ],
     };
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -362,7 +361,7 @@ describe('graph edge states', () => {
         },
       ],
     };
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -449,7 +448,7 @@ describe('graph edge states', () => {
         },
       ],
     };
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -542,7 +541,7 @@ describe('graph edge states', () => {
         },
       ],
     };
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -609,7 +608,7 @@ describe('graph edge states', () => {
       ],
     };
 
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div, // String | HTMLElement，必须，在 Step 1 中创建的容器 id 或容器本身
       width: 800, // Number，必须，图的宽度
       height: 500, // Number，必须，图的高度

@@ -6,6 +6,7 @@ import {
   createNodeFromXML,
 } from '../../../../src/shape/xml';
 import G6 from '../../../../src';
+import Graph from '../../implement-graph';
 
 const testXML = `
 <group>
@@ -49,7 +50,7 @@ describe('xml node test', () => {
   describe('registerTest', () => {
     it('register test', () => {
       G6.registerNode('test', testXMLNode);
-      const graph = new G6.Graph({
+      const graph = new Graph({
         container: div,
         width: 500,
         height: 500,
@@ -260,7 +261,7 @@ describe('xml node test', () => {
       ],
     };
     it('node state', () => {
-      const graph = new G6.Graph({
+      const graph = new Graph({
         container: 'graph-spec',
         width: 500,
         height: 500,

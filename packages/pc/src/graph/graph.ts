@@ -593,6 +593,8 @@ export default class Graph extends AbstractGraph implements IGraph {
         parent.removeChild(container);
       }
     }
+
+    this.get('eventController').destroy();
     this.get('layoutController').destroy();
 
     // this.get('eventController').destroy();
@@ -610,8 +612,5 @@ export default class Graph extends AbstractGraph implements IGraph {
     }
 
     super.destroy();
-
-    (this.cfg as any) = null;
-    this.destroyed = true;
   }
 }

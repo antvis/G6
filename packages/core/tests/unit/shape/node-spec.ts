@@ -5,13 +5,13 @@
 
 import Shape from '../../../src/shape/shape';
 import Global from '../../../src/global';
-import Canvas from '@antv/g-canvas/lib/canvas';
+import { IGroup } from '@antv/g-base';
+import { Canvas } from '@antv/g-canvas';
 import Node from '../../../src/item/node';
 import { translate } from '../../../src/util/math';
-import Graph from '../../../src/graph/graph';
+import Graph from '../implement-graph';
 import '../../../src/shape/node';
 import '../../../src/shape/nodes';
-import { IGroup } from '@antv/g-canvas/lib/interfaces';
 
 const div = document.createElement('div');
 div.id = 'node-shape';
@@ -70,24 +70,6 @@ describe('shape node test', () => {
         group,
       );
       canvas.draw();
-      expect(group.getCount()).toBe(2);
-    });
-
-    it('ellipse', () => {
-      const group = canvas.addGroup();
-      translate(group, { x: 100, y: 50 });
-      const shape = factory.draw(
-        'ellipse',
-        {
-          size: [40, 20],
-          color: 'yellow',
-          label: 'ellipse',
-        },
-        group,
-      );
-      canvas.draw();
-      expect(shape.attr('rx')).toBe(20);
-      expect(shape.attr('ry')).toBe(10);
       expect(group.getCount()).toBe(2);
     });
 

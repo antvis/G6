@@ -4,6 +4,23 @@ import Graph from '../../../src/graph/graph';
 import { Event } from '@antv/g-canvas';
 import { numberEqual } from '../layout/util';
 
+const data = {
+  nodes: [
+    { id: 'node1', label: 'node1' },
+    { id: 'node2', label: 'node2' },
+    { id: 'node3', label: 'node3' },
+    { id: 'node4', label: 'node4' },
+    { id: 'node5', label: 'node5' },
+  ],
+  edges: [
+    { source: 'node1', target: 'node2' },
+    { source: 'node1', target: 'node3' },
+    { source: 'node1', target: 'node4' },
+    { source: 'node4', target: 'node2' },
+    { source: 'node5', target: 'node2' },
+  ],
+};
+
 const div = document.createElement('div');
 div.id = 'zoom-spec';
 document.body.appendChild(div);
@@ -31,9 +48,16 @@ describe('zoom-canvas', () => {
       width: 500,
       height: 500,
       modes: {
-        default: ['zoom-canvas'],
+        default: [
+          {
+            type: 'zoom-canvas',
+            // enableOptimize: true
+          },
+        ],
       },
     });
+    graph.data(data);
+    graph.render();
     const e = createWheelEvent(graph.get('canvas').get('el'), 100, 100, 100);
     graph.emit('wheel', e);
     let matrix = graph.get('group').getMatrix();
@@ -47,7 +71,7 @@ describe('zoom-canvas', () => {
     expect(approximateEqual(matrix[4], 1.23)).toBe(true);
     expect(approximateEqual(matrix[6], -23.45)).toBe(true);
     expect(approximateEqual(matrix[7], -23.45)).toBe(true);
-    graph.destroy();
+    // graph.destroy();
   });
   it('event not prevented', () => {
     const graph = new Graph({

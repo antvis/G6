@@ -1,8 +1,7 @@
-import Graph from '../../../src/graph/graph';
+import Graph from '../implement-graph';
 import '../../../src/shape/node';
 import '../../../src/shape/nodes';
 import '../../../src/shape/edge';
-import '../../../src/shape/edges';
 import '../../../src/shape/combo';
 import '../../../src/shape/combos';
 

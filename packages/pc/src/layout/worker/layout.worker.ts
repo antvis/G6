@@ -2,80 +2,8 @@
  * @fileoverview web worker for layout
  * @author changzhe.zb@antfin.com
  */
-import Layout from '../index';
 import { LAYOUT_MESSAGE } from './layoutConst';
-
-// test
-
-const gCode2 = `
-import { globalInvocationID, debug } from 'g-webgpu';
-
-const VERTEX_COUNT;
-const CLUSTER_COUNT;
-
-@numthreads(1, 1, 1)
-class CalcCenter {
-  @in
-  u_Data: vec4[];
-
-  @in
-  u_NodeAttributes: vec4[]; // [[clusterIdx, 0, 0, 0], ...]
-
-  @out
-  u_ClusterCenters: vec4[]; // [[cx, cy, nodeCount, clusterIdx], ...]
-
-  @main
-  compute() {
-    // init the cluster centers
-    for (let i = 0; i < CLUSTER_COUNT; i++) {
-      this.u_ClusterCenters[i] = [ 0, 0, 0, 0 ]
-    }
-
-    for (let j = 0; j < VERTEX_COUNT; j++) {
-      const attributes = this.u_NodeAttributes[j];
-      const clusterIdx: float = attributes[0];
-      const center = this.u_ClusterCenters[int(clusterIdx)];
-      const sumx: float = center.x + this.u_Data[j].x;
-      const sumy: float = center.y + this.u_Data[j].y;
-      const count = center.z + 1;
-      this.u_ClusterCenters[int(clusterIdx)] =
-      [
-        sumx, // cx
-        sumy, // cy
-        count, // nodeCount
-        clusterIdx,
-      ]
-      // !!! sumx sumy count 有值，但 this.u_ClusterCenters[int(clusterIdx)] 未被赋值成功
-      // debug(this.u_ClusterCenters[int(clusterIdx)].x);
-    }
-
-    for (let k = 0; k < CLUSTER_COUNT; k++) {
-      const center = this.u_ClusterCenters[k];
-      this.u_ClusterCenters[k] = [
-        center.x / center.z,
-        center.y / center.z,
-        center.z,
-        center.w
-      ];
-    }
-  }
-}
-`;
-
-const gpuVariableMapping = {
-  k: 'u_K',
-  k2: 'u_K2',
-  gravity: 'u_Gravity',
-  clusterGravity: 'u_ClusterGravity',
-  speed: 'u_Speed',
-  maxDisplace: 'u_MaxDisplace',
-  clustering: 'u_Clustering',
-  attributeArray: 'u_AttributeArray',
-  centerX: 'u_CenterX',
-  centerY: 'u_CenterY',
-  maxEdgePerVetex: 'MAX_EDGE_PER_VERTEX',
-  nodeNum: 'VERTEX_COUNT',
-};
+import { getLayoutByName } from '@antv/layout';
 
 interface Event {
   type: string;
@@ -96,7 +24,7 @@ function handleLayoutMessage(event: Event) {
     case LAYOUT_MESSAGE.RUN: {
       const { nodes, edges, layoutCfg = {} } = event.data;
       const { type: layoutType } = layoutCfg;
-      const LayoutClass = Layout[layoutType];
+      const LayoutClass = getLayoutByName(layoutType);
       if (!LayoutClass) {
         ctx.postMessage({ type: LAYOUT_MESSAGE.ERROR, message: `layout ${layoutType} not found` });
         break;
@@ -115,7 +43,7 @@ function handleLayoutMessage(event: Event) {
 
       const { type: layoutType } = layoutCfg;
 
-      const LayoutClass = Layout[layoutType];
+      const LayoutClass = getLayoutByName(layoutType);
       if (!LayoutClass) {
         ctx.postMessage({ type: LAYOUT_MESSAGE.ERROR, message: `layout ${layoutType} not found` });
         break;

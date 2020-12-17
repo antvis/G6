@@ -1,4 +1,5 @@
-import G6 from '../../../../src';
+import Graph from '../../implement-graph';
+import { registerNode } from '../../../../src';
 
 const div = document.createElement('div');
 div.id = 'graph-spec';
@@ -15,7 +16,7 @@ describe('register node with getCustomConfig function, extend image', () => {
         },
       ],
     };
-    G6.registerNode(
+    registerNode(
       'custom-node',
       {
         getCustomConfig() {
@@ -26,7 +27,7 @@ describe('register node with getCustomConfig function, extend image', () => {
       },
       'image',
     );
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -57,7 +58,7 @@ describe('register node with getCustomConfig function, extend image', () => {
         },
       ],
     };
-    G6.registerNode(
+    registerNode(
       'custom-node',
       {
         getCustomConfig() {
@@ -72,7 +73,7 @@ describe('register node with getCustomConfig function, extend image', () => {
       },
       'image',
     );
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -111,7 +112,7 @@ describe('register node with getCustomConfig function, extend image', () => {
           },
         ],
       };
-      G6.registerNode(
+      registerNode(
         'custom-node',
         {
           getCustomConfig() {
@@ -129,7 +130,7 @@ describe('register node with getCustomConfig function, extend image', () => {
         },
         'image',
       );
-      const graph = new G6.Graph({
+      const graph = new Graph({
         container: div,
         width: 500,
         height: 500,
@@ -159,7 +160,7 @@ describe('register node with getCustomConfig function, extend image', () => {
           },
         ],
       };
-      G6.registerNode(
+      registerNode(
         'custom-node',
         {
           getCustomConfig() {
@@ -174,7 +175,7 @@ describe('register node with getCustomConfig function, extend image', () => {
         },
         'image',
       );
-      const graph = new G6.Graph({
+      const graph = new Graph({
         container: div,
         width: 500,
         height: 500,
@@ -206,7 +207,7 @@ describe('register node with getCustomConfig function, extend image', () => {
           },
         ],
       };
-      G6.registerNode(
+      registerNode(
         'custom-node',
         {
           getCustomConfig() {
@@ -223,7 +224,7 @@ describe('register node with getCustomConfig function, extend image', () => {
         },
         'image',
       );
-      const graph = new G6.Graph({
+      const graph = new Graph({
         container: div,
         width: 500,
         height: 500,
@@ -257,7 +258,7 @@ describe('register node with getCustomConfig function, extend image', () => {
           },
         ],
       };
-      G6.registerNode(
+      registerNode(
         'custom-node',
         {
           getCustomConfig() {
@@ -274,7 +275,7 @@ describe('register node with getCustomConfig function, extend image', () => {
         },
         'image',
       );
-      const graph = new G6.Graph({
+      const graph = new Graph({
         container: div,
         width: 500,
         height: 500,
@@ -308,7 +309,7 @@ describe('register node with getCustomConfig function, extend image', () => {
           },
         ],
       };
-      G6.registerNode(
+      registerNode(
         'custom-node',
         {
           getCustomConfig() {
@@ -329,7 +330,7 @@ describe('register node with getCustomConfig function, extend image', () => {
         },
         'image',
       );
-      const graph = new G6.Graph({
+      const graph = new Graph({
         container: div,
         width: 500,
         height: 500,
@@ -368,7 +369,7 @@ describe('register node with getCustomConfig function, extend image', () => {
         ],
       };
       const clipPath = [['M', 0, 0], ['L', -75, 200], ['L', 75, 200], ['Z']];
-      G6.registerNode(
+      registerNode(
         'custom-node',
         {
           getCustomConfig() {
@@ -383,7 +384,7 @@ describe('register node with getCustomConfig function, extend image', () => {
         },
         'image',
       );
-      const graph = new G6.Graph({
+      const graph = new Graph({
         container: div,
         width: 500,
         height: 500,
@@ -417,7 +418,7 @@ describe('register node with getCustomConfig function, extend image', () => {
           },
         ],
       };
-      G6.registerNode(
+      registerNode(
         'custom-node',
         {
           getCustomConfig() {
@@ -432,7 +433,7 @@ describe('register node with getCustomConfig function, extend image', () => {
         },
         'image',
       );
-      const graph = new G6.Graph({
+      const graph = new Graph({
         container: div,
         width: 500,
         height: 500,
@@ -482,7 +483,7 @@ describe('register node with getCustomConfig function, extend image', () => {
           },
         ],
       };
-      G6.registerNode(
+      registerNode(
         'custom-node',
         {
           getCustomConfig() {
@@ -497,7 +498,7 @@ describe('register node with getCustomConfig function, extend image', () => {
         },
         'image',
       );
-      const graph = new G6.Graph({
+      const graph = new Graph({
         container: div,
         width: 500,
         height: 500,
@@ -558,7 +559,7 @@ describe('register node with getCustomConfig function, extend image', () => {
           },
         ],
       };
-      G6.registerNode(
+      registerNode(
         'custom-node',
         {
           getCustomConfig() {
@@ -573,7 +574,7 @@ describe('register node with getCustomConfig function, extend image', () => {
         },
         'image',
       );
-      const graph = new G6.Graph({
+      const graph = new Graph({
         container: div,
         width: 500,
         height: 500,

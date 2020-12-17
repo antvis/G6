@@ -12,6 +12,7 @@ const data = {
       id: 'node1',
       x: 50,
       y: 50,
+      // label: 'node1'
     },
     {
       id: 'node2',
@@ -34,7 +35,11 @@ describe('drag-canvas', () => {
       width: 500,
       height: 500,
       modes: {
-        default: ['drag-canvas'],
+        default: [
+          {
+            type: 'drag-canvas',
+          },
+        ],
       },
     });
     graph.data(data);
@@ -340,7 +345,7 @@ describe('drag-canvas', () => {
       null,
     );
     document.body.dispatchEvent(event);
-    const movedMatrix = graph.get('canvas').get('children')[0].getMatrix();
+    const movedMatrix = graph.get('group').getMatrix();
     expect(movedMatrix[6]).toEqual(400);
     expect(movedMatrix[7]).toEqual(400);
   });
@@ -383,7 +388,7 @@ describe('drag-canvas', () => {
       null,
     );
     document.body.dispatchEvent(event);
-    const movedMatrix = graph.get('canvas').get('children')[0].getMatrix();
+    const movedMatrix = graph.get('group').getMatrix();
     expect(movedMatrix[6]).toEqual(200);
     expect(movedMatrix[7]).toEqual(200);
   });

@@ -42,7 +42,6 @@ describe('drag-node', () => {
       r: 20,
       style: { lineWidth: 2, fill: '#666' },
     });
-    graph.paint();
     graph.emit('node:dragstart', { x: 100, y: 100, item: node });
     graph.emit('node:drag', { x: 120, y: 120, item: node });
     const dragMatrix = node.get('group').getMatrix();

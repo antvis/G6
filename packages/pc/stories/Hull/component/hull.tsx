@@ -84,7 +84,6 @@ const HullDemo = () => {
           return Object.assign({}, edge);
         }),
       });
-
       graph.render();
 
       let centerNodes = graph.getNodes().filter((node) => !node.getModel().isLeaf);

@@ -1,4 +1,7 @@
+import { IPoint, TreeGraphData, Util } from '@antv/g6-core';
 import { isNumber } from '@antv/util';
+
+const { traverseTree } = Util;
 
 /**
  * 将 number | Function 类型的参数转换为 return number 的 Function
@@ -262,4 +265,71 @@ export const arrayToTextureData = (valueArrays: number[][]): Float32Array => {
   }
 
   return new Float32Array(dataArray);
+};
+
+export type TreeGraphDataWithPosition = TreeGraphData & {
+  x: number;
+  y: number;
+  children?: TreeGraphDataWithPosition[];
+};
+
+/**
+ *
+ * @param data Tree graph data
+ * @param layout
+ */
+export const radialLayout = (
+  data: TreeGraphDataWithPosition,
+  layout?: string,
+): TreeGraphDataWithPosition => {
+  // 布局方式有 H / V / LR / RL / TB / BT
+  const VERTICAL_LAYOUTS: string[] = ['V', 'TB', 'BT'];
+  const min: IPoint = {
+    x: Infinity,
+    y: Infinity,
+  };
+
+  const max: IPoint = {
+    x: -Infinity,
+    y: -Infinity,
+  };
+  // 默认布局是垂直布局TB，此时x对应rad，y对应r
+  let rScale: 'x' | 'y' = 'x';
+  let radScale: 'x' | 'y' = 'y';
+  if (layout && VERTICAL_LAYOUTS.indexOf(layout) >= 0) {
+    // 若是水平布局，y对应rad，x对应r
+    radScale = 'x';
+    rScale = 'y';
+  }
+  let count = 0;
+  traverseTree(data, (node: TreeGraphDataWithPosition) => {
+    count++;
+    if (node.x > max.x) {
+      max.x = node.x;
+    }
+    if (node.x < min.x) {
+      min.x = node.x;
+    }
+    if (node.y > max.y) {
+      max.y = node.y;
+    }
+    if (node.y < min.y) {
+      min.y = node.y;
+    }
+    return true;
+  });
+  const avgRad = (Math.PI * 2) / count;
+  const radDiff = max[radScale] - min[radScale];
+  if (radDiff === 0) {
+    return data;
+  }
+
+  traverseTree(data, (node) => {
+    const radial = ((node[radScale] - min[radScale]) / radDiff) * (Math.PI * 2 - avgRad) + avgRad;
+    const r = Math.abs(rScale === 'x' ? node.x - data.x : node.y - data.y);
+    node.x = r * Math.cos(radial);
+    node.y = r * Math.sin(radial);
+    return true;
+  });
+  return data;
 };

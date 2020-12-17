@@ -1,14 +1,9 @@
 import '../../../src/behavior';
-import '../../../src/shape';
 import TreeGraph from '../../../src/graph/tree-graph';
 
 const div = document.createElement('div');
 div.id = 'collapse-expand-spec';
 document.body.appendChild(div);
-
-function approximateEqual(a, b) {
-  return Math.abs(a - b) < 0.0001;
-}
 
 describe('collapse expand tree graph', () => {
   const data = {

@@ -1,5 +1,5 @@
-import G6, { Algorithm } from '../../../src';
-const { getConnectedComponents } = Algorithm;
+import G6 from '../../../src';
+import { connectedComponent } from '@antv/algorithm';
 
 const div = document.createElement('div');
 div.id = 'container';
@@ -105,16 +105,17 @@ describe('find connected components', () => {
   graph.render();
 
   it('detect strongly connected components in undirected graph', () => {
-    let result = getConnectedComponents(graph, false);
+    let result = G6.Algorithm.connectedComponent(data, false);
+    console.log('result', result);
     expect(result.length).toEqual(2);
-    expect(result[0].map((node) => node.get('id')).sort()).toEqual(['A', 'B', 'C', 'D', 'E', 'F']);
-    expect(result[1].map((node) => node.get('id')).sort()).toEqual(['G', 'H']);
+    expect(result[0].map((node) => node.id).sort()).toEqual(['A', 'B', 'C', 'D', 'E', 'F']);
+    expect(result[1].map((node) => node.id).sort()).toEqual(['G', 'H']);
   });
   it('detect strongly connected components in directed graph', () => {
-    let result = getConnectedComponents(graph, true);
+    let result = connectedComponent(data, true);
     expect(result.length).toEqual(5);
-    expect(result[3].map((node) => node.get('id')).sort()).toEqual(['D', 'E', 'F']);
-    expect(result[4].map((node) => node.get('id')).sort()).toEqual(['G', 'H']);
+    expect(result[3].map((node) => node.id).sort()).toEqual(['D', 'E', 'F']);
+    expect(result[4].map((node) => node.id).sort()).toEqual(['G', 'H']);
   });
   it('test connected components detection performance using large graph', () => {
     fetch('https://gw.alipayobjects.com/os/basement_prod/da5a1b47-37d6-44d7-8d10-f3e046dabf82.json')
@@ -130,8 +131,8 @@ describe('find connected components', () => {
           });
         });
         graph.changeData(data);
-        let directedComps = getConnectedComponents(graph, true);
-        let undirectedComps = getConnectedComponents(graph, false);
+        let directedComps = G6.Algorithm.connectedComponent(data, true);
+        let undirectedComps = connectedComponent(data, false);
         expect(directedComps.length).toEqual(1589);
         expect(undirectedComps.length).toEqual(396);
         graph.destroy();

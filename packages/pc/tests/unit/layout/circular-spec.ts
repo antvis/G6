@@ -25,6 +25,7 @@ describe('circular layout', () => {
     expect(mathEqual(data.nodes[0].x, 250 + radius)).toEqual(true);
     expect(mathEqual(data.nodes[0].y, 250)).toEqual(true);
     expect(data.nodes[0].y === 250);
+
     graph.destroy();
   });
 

@@ -1,4 +1,4 @@
-import { Graph } from '../../../../src';
+import Graph from '../../implement-graph';
 
 const div = document.createElement('div');
 div.id = 'item-controller';

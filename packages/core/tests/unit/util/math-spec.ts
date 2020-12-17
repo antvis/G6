@@ -26,15 +26,15 @@ import {
   isPointsOverlap,
   pointRectSquareDist,
 } from '../../../src/util/math';
-import G6 from '../../../src';
-import Canvas from '@antv/g-canvas/lib/canvas';
+import Graph from '../implement-graph';
+import { Canvas } from '@antv/g-canvas';
 
 const equal = (a: number, b: number): boolean => Math.abs(a - b) < 0.0001;
 
 const div = document.createElement('div');
 div.id = 'base-spec';
 document.body.appendChild(div);
-const graph = new G6.Graph({
+const graph = new Graph({
   container: div,
   width: 800,
   height: 600,

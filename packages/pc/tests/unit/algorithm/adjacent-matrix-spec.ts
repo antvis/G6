@@ -1,5 +1,5 @@
-import G6, { Algorithm } from '../../../src';
-const { adjMatrix } = Algorithm;
+import G6 from '../../../src';
+import { getAdjMatrix } from '@antv/algorithm';
 
 const div = document.createElement('div');
 div.id = 'container';
@@ -173,7 +173,7 @@ describe('Adjacency Matrix by Algorithm', () => {
   graph.render();
 
   it('get graph adjacency matrix', () => {
-    const matrix = adjMatrix(graph);
+    const matrix = G6.Algorithm.getAdjMatrix(data);
     expect(Object.keys(matrix).length).toBe(8);
     const node0Adj = matrix[0];
     expect(node0Adj.length).toBe(5);
@@ -184,39 +184,10 @@ describe('Adjacency Matrix by Algorithm', () => {
     expect(node0Adj[4]).toBe(1);
   });
 
-  it('add items and cache', () => {
-    graph.addItem('node', {
-      id: 'I',
-      label: '8',
-    });
-    graph.addItem('edge', {
-      source: 'I',
-      target: 'A',
-    });
-    graph.addItem('edge', {
-      source: 'C',
-      target: 'A',
-    });
-
-    const matrix = adjMatrix(graph);
-    expect(Object.keys(matrix).length).toBe(9);
-    const node0Adj = matrix[0];
-    expect(node0Adj.length).toBe(9);
-    expect(node0Adj[0]).toBe(undefined);
-    expect(node0Adj[1]).toBe(1);
-    expect(node0Adj[2]).toBe(1);
-    expect(node0Adj[3]).toBe(1);
-    expect(node0Adj[4]).toBe(1);
-    expect(node0Adj[5]).toBe(undefined);
-    expect(node0Adj[6]).toBe(undefined);
-    expect(node0Adj[7]).toBe(undefined);
-    expect(node0Adj[8]).toBe(1);
-  });
-
   it('directed', () => {
     // directed
-    const matrix = adjMatrix(graph, true);
-    expect(Object.keys(matrix).length).toBe(9);
+    const matrix = G6.Algorithm.getAdjMatrix(data, true);
+    expect(Object.keys(matrix).length).toBe(8);
     const node0Adj = matrix[0];
     expect(node0Adj.length).toBe(5);
     expect(node0Adj[0]).toBe(undefined);
@@ -224,9 +195,6 @@ describe('Adjacency Matrix by Algorithm', () => {
     expect(node0Adj[2]).toBe(undefined);
     expect(node0Adj[3]).toBe(1);
     expect(node0Adj[4]).toBe(1);
-    const node8Adj = matrix[8];
-    expect(node8Adj.length).toBe(1);
-    expect(node8Adj[0]).toBe(1);
     graph.destroy();
   });
 });

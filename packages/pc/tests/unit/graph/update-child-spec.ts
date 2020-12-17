@@ -1,5 +1,4 @@
 import { TreeGraph } from '../../../src';
-import { timerOut } from '../util/timeOut';
 
 const div = document.createElement('div');
 div.id = 'tree-spec';

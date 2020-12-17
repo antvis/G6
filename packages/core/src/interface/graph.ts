@@ -10,7 +10,6 @@ import {
   ModelConfig,
   NodeConfig,
   Padding,
-  ShapeStyle,
   TreeGraphData,
   LayoutConfig,
   GraphOptions,

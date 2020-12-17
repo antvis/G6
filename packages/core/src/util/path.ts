@@ -80,7 +80,10 @@ export const getControlPoint = (
  * @param {Boolen} z 是否封闭
  * @return {Array} Path
  */
-export const pointsToPolygon = (points: IPoint[], z?: boolean): string => {
+export const pointsToPolygon = (
+  points: IPoint[] | ({ x: number; y: number } | string)[],
+  z?: boolean,
+): string => {
   const { length } = points;
   if (!length) {
     return '';

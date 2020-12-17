@@ -3,11 +3,11 @@ import './behavior';
 import Graph from './graph/graph';
 import TreeGraph from './graph/tree-graph';
 // import Shape, { Arrow, Marker } from './shape';
-import Layout from './layout';
+import { Layout, registerLayout } from './layout';
 import Global from './global';
 import Util from './util';
 // import Plugins from './plugins';
-// import * as Algorithm from './algorithm';
+import * as Algorithm from '@antv/algorithm';
 
 // const registerLayout = Layout.registerLayout;
 // const Minimap = Plugins.Minimap;
@@ -21,13 +21,15 @@ import Util from './util';
 // const ImageMinimap = Plugins.ImageMinimap;
 // const EdgeFilterLens = Plugins.EdgeFilterLens;
 
+export * from '@antv/g6-core';
+
 export {
-  registerNode,
-  registerCombo,
+  // registerNode,
+  // registerCombo,
   Graph,
   TreeGraph,
   Util,
-  registerEdge,
+  // registerEdge,
   Layout,
   Global,
   // registerLayout,
@@ -36,7 +38,7 @@ export {
   // Bundling,
   // Menu,
   // Fisheye,
-  registerBehavior,
+  // registerBehavior,
   // Algorithm,
   // ToolBar,
   // Tooltip,
@@ -50,8 +52,8 @@ export default {
   Graph,
   TreeGraph,
   Util,
-  // Layout,
-  // registerLayout: Layout.registerLayout,
+  Layout,
+  registerLayout,
   Global,
   registerBehavior,
   registerCombo,
@@ -67,7 +69,7 @@ export default {
   // Fisheye,
   // ImageMinimap,
   // EdgeFilterLens,
-  // // Algorithm,
+  Algorithm,
   // Arrow,
   // Marker,
 };

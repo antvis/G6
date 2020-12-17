@@ -1,5 +1,4 @@
-import { Graph } from '../../../src';
-import '../../../src/behavior';
+import Graph from '../implement-graph';
 import { ICombo } from '../../../src/interface/item';
 import { GraphData } from '../../../src/types';
 import { clone } from '@antv/util';

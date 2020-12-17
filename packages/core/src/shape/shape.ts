@@ -245,7 +245,7 @@ export default class Shape {
 
 // 注册 Node 的工厂方法
 Shape.registerFactory('node', {
-  defaultShapeType: 'circle',
+  defaultShapeType: 'simple-circle',
 });
 
 // 注册 Edge 的工厂方法

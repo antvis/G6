@@ -1,4 +1,4 @@
-import { ShapeStyle, ModelConfig, StateStyles } from '../../../core/lib';
+import { ShapeStyle, ModelConfig, StateStyles } from '@antv/g6-core';
 
 /* eslint @typescript-eslint/no-use-before-define: 0 */
 

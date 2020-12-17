@@ -1,5 +1,4 @@
-import G6 from '../../../src';
-import '../../../src/behavior';
+import Graph from '../implement-graph';
 
 const div = document.createElement('div');
 div.id = 'global-spec';
@@ -22,7 +21,7 @@ describe('graph node states', () => {
   };
 
   it('global nodeStateStyles and defaultNode, state change with opacity changed', () => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -75,7 +74,7 @@ describe('graph node states', () => {
   // setState to change the height, when the state is restored, the height can not be restored though the attrs are correct.
   // wait for G to repair this problem
   it('global nodeStateStyles and defaultNode, state change with fill/r/width/height/stroke changed', () => {
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -188,7 +187,7 @@ describe('graph node states', () => {
         },
       ],
     };
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -277,7 +276,7 @@ describe('graph node states', () => {
         },
       ],
     };
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -338,7 +337,7 @@ describe('graph node states', () => {
         },
       ],
     };
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -399,7 +398,7 @@ describe('graph node states', () => {
         },
       ],
     };
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,

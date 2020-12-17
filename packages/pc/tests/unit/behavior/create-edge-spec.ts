@@ -260,7 +260,7 @@ describe('create-edge', () => {
 
     graph.destroy();
   });
-  it('create edge width stack', () => {
+  xit('create edge width stack', () => {
     const toolbar = new G6.ToolBar();
     const graph: Graph = new Graph({
       container: div,

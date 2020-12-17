@@ -1,4 +1,5 @@
-import G6 from '../../../../src';
+import Graph from '../../implement-graph';
+import { registerNode } from '../../../../src';
 
 const div = document.createElement('div');
 div.id = 'graph-spec';
@@ -28,7 +29,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
     ],
   };
   it('getCustomConfig return new style', () => {
-    G6.registerNode(
+    registerNode(
       'custom-node',
       {
         getCustomConfig() {
@@ -43,7 +44,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
       },
       'circle',
     );
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -62,7 +63,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
     graph.destroy();
   });
   it('getCustomConfig return new icon', () => {
-    G6.registerNode(
+    registerNode(
       'custom-node',
       {
         getCustomConfig() {
@@ -78,7 +79,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
       },
       'circle',
     );
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -106,7 +107,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
     graph.destroy();
   });
   it('getCustomConfig return new labelCfg style', () => {
-    G6.registerNode(
+    registerNode(
       'custom-node',
       {
         getCustomConfig() {
@@ -121,7 +122,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
       },
       'circle',
     );
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -149,7 +150,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
     graph.destroy();
   });
   it('getCustomConfig return new linkPoints', () => {
-    G6.registerNode(
+    registerNode(
       'custom-node',
       {
         getCustomConfig() {
@@ -166,7 +167,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
       },
       'circle',
     );
-    const graph = new G6.Graph({
+    const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
@@ -204,7 +205,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
     let hasTrigger = false;
     expect(hasTrigger).toBe(false);
     graph.on('node:mouseenter', (evt) => {
-      hasTrigger = evt.hasTrigger;
+      hasTrigger = (evt as any).hasTrigger;
       graph.setItemState(evt.item, 'hover', true);
     });
     graph.emit('node:mouseenter', { hasTrigger: true, item: node });
@@ -216,7 +217,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
   });
   describe('update', () => {
     it('update styles', () => {
-      G6.registerNode(
+      registerNode(
         'custom-node',
         {
           getCustomConfig() {
@@ -235,7 +236,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
         },
         'circle',
       );
-      const graph = new G6.Graph({
+      const graph = new Graph({
         container: div,
         width: 500,
         height: 500,
@@ -266,7 +267,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
       expect(graph.destroyed).toBe(true);
     });
     it('update icon', () => {
-      G6.registerNode(
+      registerNode(
         'custom-node',
         {
           getCustomConfig() {
@@ -281,7 +282,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
         },
         'circle',
       );
-      const graph = new G6.Graph({
+      const graph = new Graph({
         container: div,
         width: 500,
         height: 500,
@@ -348,7 +349,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
       expect(graph.destroyed).toBe(true);
     });
     it('update label', () => {
-      G6.registerNode(
+      registerNode(
         'custom-node',
         {
           getCustomConfig() {
@@ -363,7 +364,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
         },
         'circle',
       );
-      const graph = new G6.Graph({
+      const graph = new Graph({
         container: div,
         width: 500,
         height: 500,
@@ -419,7 +420,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
       expect(graph.destroyed).toBe(true);
     });
     it('update label from none', () => {
-      G6.registerNode(
+      registerNode(
         'custom-node',
         {
           getCustomConfig() {
@@ -434,7 +435,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
         },
         'circle',
       );
-      const graph = new G6.Graph({
+      const graph = new Graph({
         container: div,
         width: 500,
         height: 500,
@@ -488,7 +489,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
       expect(graph.destroyed).toBe(true);
     });
     it('update label, linkPoints, icon from none', () => {
-      G6.registerNode(
+      registerNode(
         'custom-node',
         {
           getCustomConfig() {
@@ -502,7 +503,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
         },
         'circle',
       );
-      const graph = new G6.Graph({
+      const graph = new Graph({
         container: div,
         width: 500,
         height: 500,
@@ -572,7 +573,7 @@ describe('register node with getCustomConfig function, extend circle', () => {
       });
     });
     it('update label, linkPoints, icon from none', () => {
-      const graph = new G6.Graph({
+      const graph = new Graph({
         container: div,
         width: 500,
         height: 500,

@@ -900,15 +900,15 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       }
 
       if (type === 'node') {
-        const model = (item as INode).getModel();
+        const model = (nodeItem as INode).getModel();
         // 如果删除的是节点，且该节点存在于某个 Combo 中，则需要先将 node 从 combo 中移除，否则删除节点后，操作 combo 会出错
         if (model.comboId) {
-          this.updateComboTree(item as INode);
+          this.updateComboTree(nodeItem as INode);
         }
       }
 
       const itemController: ItemController = this.get('itemController');
-      itemController.removeItem(item);
+      itemController.removeItem(nodeItem);
       if (type === 'combo') {
         const newComboTrees = reconstructTree(this.get('comboTrees'));
         this.set('comboTrees', newComboTrees);
@@ -1247,18 +1247,25 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
     // layout
     const layoutController = self.get('layoutController');
-    if (!layoutController.layout(success)) {
-      success();
+    if (layoutController) {
+      const layoutWithWorker = layoutController.layout(success);
+      if (this.destroyed) return;
+      if (!layoutWithWorker) {
+        success();
+      }
     }
     function success() {
       if (self.get('fitView')) {
-        self.fitView();
+        self.on('afterlayout', () => {
+          self.fitView();
+        });
       } else if (self.get('fitCenter')) {
-        self.fitCenter();
+        self.on('afterlayout', () => {
+          self.fitCenter();
+        });
       }
       self.autoPaint();
       self.emit('afterrender');
-
       if (self.get('fitView') || self.get('fitCenter')) {
         self.set('animate', animate);
       }
@@ -1423,13 +1430,15 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     this.set({ nodes: items.nodes, edges: items.edges });
 
     const layoutController = this.get('layoutController');
-    layoutController.changeData();
+    if (layoutController) {
+      layoutController.changeData();
 
-    if (self.get('animate') && !layoutController.getLayoutType()) {
-      // 如果没有指定布局
-      self.positionsAnimate();
-    } else {
-      self.autoPaint();
+      if (self.get('animate') && !layoutController.getLayoutType()) {
+        // 如果没有指定布局
+        self.positionsAnimate();
+      } else {
+        self.autoPaint();
+      }
     }
 
     setTimeout(() => {
@@ -2159,12 +2168,20 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   }
 
   /**
+   * 销毁布局，changeData 时不会再使用原来的布局方法对新数据进行布局
+   */
+  public destroyLayout(): void {
+    const layoutController = this.get('layoutController');
+    layoutController.destroyLayout();
+  }
+
+  /**
    * 重新以当前示例中配置的属性进行一次布局
    */
   public layout(): void {
     const layoutController = this.get('layoutController');
     const layoutCfg = this.get('layout');
-    if (!layoutCfg) return;
+    if (!layoutCfg || !layoutController) return;
 
     if (layoutCfg.workerEnabled) {
       // 如果使用web worker布局

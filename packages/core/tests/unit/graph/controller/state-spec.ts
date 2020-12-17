@@ -1,12 +1,11 @@
-import G6 from '../../../../src';
-import { timerOut } from '../../util/timeOut';
+import Graph from '../../implement-graph';
 
 const div = document.createElement('div');
 div.id = 'state-controller';
 document.body.appendChild(div);
 
 describe('graph state controller', () => {
-  const graph = new G6.Graph({
+  const graph = new Graph({
     container: div,
     width: 500,
     height: 500,
