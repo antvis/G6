@@ -298,7 +298,7 @@ const D2 = () => {
             light:
               'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Wg52SJjnK48AAAAAAAAAAAAAARQnAQ',
             dark:
-              'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Jn5-TY29mpUAAAAAAAAAAAAAARQnAQ',
+              'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*4d_AS6XOHQgAAAAAAAAAAAAAARQnAQ',
           },
           gift: {
             light:
@@ -356,7 +356,7 @@ const D2 = () => {
             light:
               'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*UjZLTIeRkoEAAAAAAAAAAAAAARQnAQ',
             dark:
-              'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7OJQSLpc5K0AAAAAAAAAAAAAARQnAQ',
+              'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NsCaSbQJnJgAAAAAAAAAAAAAARQnAQ',
           },
           gift: {
             light:
@@ -414,7 +414,7 @@ const D2 = () => {
             light:
               'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*iR50QL0uvVwAAAAAAAAAAAAAARQnAQ',
             dark:
-              'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Tf3aRaUXpEcAAAAAAAAAAAAAARQnAQ',
+              'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LfEpSoF_4NMAAAAAAAAAAAAAARQnAQ',
           },
           gift: {
             light:
@@ -472,7 +472,7 @@ const D2 = () => {
             light:
               'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XDT-QoHNGj8AAAAAAAAAAAAAARQnAQ',
             dark:
-              'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*gGCeRrkUum8AAAAAAAAAAAAAARQnAQ',
+              'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*MQWtSp7hT2YAAAAAAAAAAAAAARQnAQ',
           },
           gift: {
             light:
