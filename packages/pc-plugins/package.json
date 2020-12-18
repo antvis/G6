@@ -2,10 +2,14 @@
   "name": "@antv/g6-plugins",
   "version": "4.0.0",
   "description": "G6 Plugin",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "module": "es/index.ts",
+  "browser": "dist/g6-plugins.min.js",
   "scripts": {
     "start": "father build --watch",
-    "build": "father build",
+    "build": "npm run clean && father build && npm run build:umd",
+    "build:umd": "webpack --config webpack.config.js --mode production --profile --json > stats.json",
+    "clean": "rimraf es esm lib dist",
     "test": "jest",
     "test-live": "DEBUG_MODE=1 jest --watch ./tests/unit/fisheye-spec.ts "
   },
@@ -34,6 +38,9 @@
     "jest": "^26.6.3",
     "jest-electron": "^0.1.11",
     "jquery": "^3.5.1",
-    "ts-jest": "^26.4.4"
+    "rimraf": "^3.0.2",
+    "ts-jest": "^26.4.4",
+    "webpack": "^5.11.0",
+    "webpack-cli": "^4.2.0"
   }
 }
