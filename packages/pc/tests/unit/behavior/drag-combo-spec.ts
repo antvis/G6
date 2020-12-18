@@ -1,5 +1,4 @@
-import '../../../src/behavior';
-// import '../../../src/shape';
+import '../../../src';
 import G6 from '../../../src';
 
 const div = document.createElement('div');

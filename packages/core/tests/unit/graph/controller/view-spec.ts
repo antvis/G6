@@ -24,7 +24,7 @@ describe('view', () => {
           x: 100,
           y: 100,
           size: [150, 100],
-          type: 'rect',
+          type: 'simple-rect',
           color: '#333',
           style: {
             fill: '#666',
@@ -39,32 +39,24 @@ describe('view', () => {
 
     let bbox = canvas.getCanvasBBox();
 
-    expect(numberEqual(bbox.x, 25, 1)).toBe(true);
-    expect(numberEqual(bbox.maxX, 175, 1)).toBe(true);
-    expect(numberEqual(bbox.y, 50, 1)).toBe(true);
-    expect(numberEqual(bbox.width, 151, 1)).toBe(true);
-    expect(numberEqual(bbox.height, 101, 1)).toBe(true);
-    // expect(numberEqual(bbox.maxX, 490, 1)).toBe(true);
-    // expect(numberEqual(bbox.y, 90, 1)).toBe(true);
-    // expect(numberEqual(bbox.width, 480, 1)).toBe(true);
-    // expect(numberEqual(bbox.height, 321, 1)).toBe(true);
+    expect(numberEqual(bbox.x, 10, 1)).toBe(true);
+    expect(numberEqual(bbox.y, 89, 1)).toBe(true);
+    expect(numberEqual(bbox.maxX, 490, 1)).toBe(true);
+    expect(numberEqual(bbox.width, 480, 1)).toBe(true);
+    expect(numberEqual(bbox.height, 321, 1)).toBe(true);
 
     data.nodes[0].size = [200, 300];
     graph.changeData(data);
     graph.render();
 
     bbox = graph.get('canvas').getCanvasBBox();
+    console.log(bbox)
 
-    // expect(numberEqual(bbox.x, 90, 1)).toBe(true);
-    // expect(numberEqual(bbox.maxX, 410, 1)).toBe(true);
-    // expect(numberEqual(bbox.y, 10, 1)).toBe(true);
-    // expect(numberEqual(bbox.width, 320, 1)).toBe(true);
-    // expect(numberEqual(bbox.height, 480, 1)).toBe(true);
-    expect(numberEqual(bbox.x, 0.5, 1)).toBe(true);
-    expect(numberEqual(bbox.maxX, 200, 1)).toBe(true);
-    expect(numberEqual(bbox.y, -50, 1)).toBe(true);
-    expect(numberEqual(bbox.width, 200, 1)).toBe(true);
-    expect(numberEqual(bbox.height, 300, 1)).toBe(true);
+    expect(numberEqual(bbox.x, 90, 1)).toBe(true);
+    expect(numberEqual(bbox.maxX, 410, 1)).toBe(true);
+    expect(numberEqual(bbox.y, 10, 1)).toBe(true);
+    expect(numberEqual(bbox.width, 320, 1)).toBe(true);
+    expect(numberEqual(bbox.height, 480, 1)).toBe(true);
   });
   it('modify padding', () => {
     const data = {
@@ -74,7 +66,7 @@ describe('view', () => {
           x: 100,
           y: 100,
           size: [1000, 1500],
-          type: 'rect',
+          type: 'simple-rect',
           color: '#333',
           style: {
             fill: '#666',
@@ -86,9 +78,10 @@ describe('view', () => {
     graph.render();
     graph.fitView([50, 50]);
     const bbox = graph.get('canvas').getCanvasBBox();
+    console.log(bbox)
     expect(numberEqual(bbox.x, 116, 1)).toBe(true);
-    expect(numberEqual(bbox.width, 266, 1)).toBe(true);
     expect(numberEqual(bbox.y, 50)).toBe(true);
+    expect(numberEqual(bbox.width, 266, 1)).toBe(true);
     expect(numberEqual(bbox.height, 400, 1)).toBe(true);
   });
   it('focus item', () => {

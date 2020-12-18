@@ -1,6 +1,4 @@
-import Graph from '../../implement-graph';
-import '../../../../src/shape/node';
-import '../../../../src/shape/nodes';
+import { Graph } from '../../../../src';
 
 const div = document.createElement('div');
 div.id = 'graph-spec';
@@ -13,7 +11,7 @@ describe('rect test', () => {
       width: 500,
       height: 500,
       defaultNode: {
-        type: 'simple-rect',
+        type: 'rect',
       },
     };
     const graph = new Graph(cfg);
@@ -44,7 +42,7 @@ describe('rect test', () => {
         nodes: [
           {
             id: 'node',
-            label: 'simple-rect',
+            label: 'rect',
             x: 200,
             y: 100,
           },
@@ -71,6 +69,82 @@ describe('rect test', () => {
     });
   });
 
+  describe('rect with linkPoints', () => {
+    it('rect with linkPoints', () => {
+      const cfg = {
+        container: div,
+        width: 500,
+        height: 500,
+        defaultNode: {
+          type: 'rect',
+          size: 35,
+          style: {
+            fill: 'blue',
+          },
+          linkPoints: {
+            top: true,
+            bottom: true,
+            left: true,
+            right: true,
+            fill: '#fff',
+            size: 10,
+          },
+        },
+      };
+      const graph = new Graph(cfg);
+      const data = {
+        nodes: [
+          {
+            id: 'node',
+            label: 'rect',
+            x: 200,
+            y: 100,
+          },
+        ],
+      };
+      graph.data(data);
+      graph.render();
+
+      const nodes = graph.getNodes();
+      const node = nodes[0];
+      const group = node.get('group');
+
+      expect(group.getCount()).toEqual(6);
+
+      const keyShape = node.getKeyShape();
+      expect(keyShape.attr('fill')).toEqual('blue');
+      expect(keyShape.attr('stroke')).toEqual('rgb(95, 149, 255)');
+      expect(keyShape.attr('width')).toEqual(35);
+      expect(keyShape.attr('lineWidth')).toEqual(1);
+
+      const markTop = group.find((g) => {
+        return g.get('className') === 'link-point-top';
+      });
+      expect(markTop).not.toBe(null);
+      expect(markTop.attr('r')).toEqual(5);
+      expect(markTop.attr('fill')).toEqual('#fff');
+
+      const markBottom = group.find((g) => {
+        return g.get('className') === 'link-point-bottom';
+      });
+      expect(markBottom).not.toBe(null);
+
+      let hasTrigger = false;
+      expect(hasTrigger).toBe(false);
+      graph.on('node:mouseenter', (evt) => {
+        hasTrigger = (evt as any).hasTrigger;
+        graph.setItemState(evt.item, 'hover', true);
+      });
+      graph.emit('node:mouseenter', { hasTrigger: true, item: node });
+
+      expect(hasTrigger).toBe(true);
+      expect(keyShape.attr('lineWidth')).toEqual(1);
+
+      graph.destroy();
+      expect(graph.destroyed).toBe(true);
+    });
+  });
+
   describe('update', () => {
     it('update styles', () => {
       const graph = new Graph({
@@ -78,7 +152,7 @@ describe('rect test', () => {
         width: 500,
         height: 500,
         defaultNode: {
-          type: 'simple-rect',
+          type: 'rect',
           size: 50,
           style: {
             fill: 'red',
@@ -91,7 +165,7 @@ describe('rect test', () => {
         nodes: [
           {
             id: 'node',
-            label: 'simple-rect',
+            label: 'rect',
             x: 200,
             y: 100,
           },
@@ -110,7 +184,6 @@ describe('rect test', () => {
         },
       });
       const group = node.get('group');
-      console.log(group)
       expect(group.getCount()).toEqual(2);
       const keyShape = node.getKeyShape();
       expect(keyShape.attr('width')).toBe(30);
@@ -132,7 +205,7 @@ describe('rect test', () => {
           {
             id: 'node',
             label: 'old rect label',
-            type: 'simple-rect',
+            type: 'rect',
             x: 200,
             y: 100,
           },
@@ -188,7 +261,7 @@ describe('rect test', () => {
         nodes: [
           {
             id: 'node',
-            type: 'simple-rect',
+            type: 'rect',
             x: 200,
             y: 100,
           },

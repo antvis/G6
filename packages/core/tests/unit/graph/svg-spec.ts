@@ -16,9 +16,9 @@ class Graph extends AbstractGraph {
     super(cfg);
   }
 
-  initEventController() {}
+  initEventController() { }
 
-  initLayoutController() {}
+  initLayoutController() { }
 
   initCanvas() {
     let container: string | HTMLElement | Element | null = this.get('container');
@@ -48,6 +48,7 @@ class Graph extends AbstractGraph {
 
     this.set('canvas', canvas);
   }
+  initPlugins() { }
 }
 
 describe('graph', () => {
@@ -833,7 +834,7 @@ describe('all node link center', () => {
       id: 'node9',
       x: 100,
       y: 100,
-      type: 'rect',
+      type: 'simple-rect',
       label: 'test label',
       style: {
         stroke: '#666',
@@ -921,7 +922,7 @@ describe('all node link center', () => {
       height: 500,
       renderer: 'svg',
       defaultNode: {
-        type: 'rect',
+        type: 'simple-rect',
         size: [60, 40],
         color: '#ccc',
         labelCfg: {
@@ -944,7 +945,7 @@ describe('all node link center', () => {
     expect(model.id).toEqual('node1');
     expect(model.x).toEqual(100);
     expect(model.y).toEqual(150);
-    expect(model.type).toEqual('rect');
+    expect(model.type).toEqual('simple-rect');
     expect(model.size[0]).toEqual(60);
     expect(model.size[1]).toEqual(40);
     expect(model.color).toEqual('#ccc');
@@ -957,11 +958,11 @@ describe('all node link center', () => {
       y: 100,
       label: '222',
       color: '#666',
-      type: 'circle',
+      type: 'simple-circle',
     });
 
     model = node2.get('model');
-    expect(model.type).toEqual('circle');
+    expect(model.type).toEqual('simple-circle');
     expect(model.size[0]).toEqual(60);
     expect(model.size[1]).toEqual(40);
     expect(model.color).toEqual('#666');
@@ -1114,13 +1115,13 @@ describe('built-in items', () => {
     nodes: [
       {
         id: 'node1',
-        type: 'circle',
+        type: 'simple-circle',
         x: 50,
         y: 50,
       },
       {
         id: 'node2',
-        type: 'rect',
+        type: 'simple-rect',
         x: 200,
         y: 50,
       },
@@ -1222,17 +1223,9 @@ describe('built-in items', () => {
         lineWidth: 3,
         fill: '#0f0',
       },
-      linkPoints: {
-        top: true,
-        left: true,
-        fill: '#fff',
-        stroke: '#333',
-        lineWidth: 1,
-        size: 6,
-      },
     });
 
-    expect(item.get('group').get('children').length).toBe(4);
+    expect(item.get('group').get('children').length).toBe(2);
   });
 
   it('update edge style', () => {

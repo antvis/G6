@@ -20,7 +20,7 @@ describe('graph node states', () => {
     ],
   };
 
-  it.only('set state to false at first time', () => {
+  it('set state to false at first time', () => {
 
     const graph = new G6.Graph({
       container: div,
@@ -35,13 +35,9 @@ describe('graph node states', () => {
     graph.data(data);
     graph.render();
     const node3 = graph.addItem('node', { id: 'node3', x: 100, y: 150, type: 'rect' });
-    graph.on('node:mouseenter', (e) => {
-      console.log('node enter')
-      const item = e.item;
-      debugger
-      graph.setItemState(item, 'hover', false);
-    });
-    // graph.destroy();
+    graph.setItemState(node3, 'hover', false);
+    expect(node3.getStates().length).toBe(0)
+    graph.destroy();
   });
 
   it('global nodeStateStyles and defaultNode, state change with opacity changed', () => {

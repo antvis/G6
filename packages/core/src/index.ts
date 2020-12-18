@@ -7,12 +7,22 @@ import Util from './util';
 import AbstractLayout from './graph/controller/layout';
 import AbstractEvent from './graph/controller/event';
 
+import Node from './item/node';
+import Edge from './item/edge';
+import Hull from './item/hull';
+import Combo from './item/combo';
+
 const registerNode = Shape.registerNode;
 const registerEdge = Shape.registerEdge;
 const registerCombo = Shape.registerCombo;
 const registerBehavior = Behavior.registerBehavior;
 
 export {
+  Shape,
+  Node,
+  Edge,
+  Combo,
+  Hull,
   registerNode,
   registerCombo,
   AbstractGraph,
@@ -20,7 +30,7 @@ export {
   registerEdge,
   registerBehavior,
   AbstractLayout,
-  AbstractEvent,
+  AbstractEvent
 };
 
 export * from './types';
@@ -29,6 +39,11 @@ export default {
   version: Global.version,
   AbstractGraph,
   Util,
+  Shape,
+  Node,
+  Edge,
+  Combo,
+  Hull,
   registerNode: Shape.registerNode,
   registerEdge: Shape.registerEdge,
   registerCombo: Shape.registerCombo,

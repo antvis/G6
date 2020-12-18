@@ -1,5 +1,5 @@
-import '../../../src/behavior';
-import TreeGraph from '../../../src/graph/tree-graph';
+import '../../../src';
+import { TreeGraph } from '../../../src';
 
 const div = document.createElement('div');
 div.id = 'collapse-expand-spec';

@@ -32,7 +32,7 @@ describe('shape node test', () => {
     it('get default', () => {
       const factory = Shape.getFactory('node');
       const shape = factory.getShape();
-      expect(shape.type).toBe('circle');
+      expect(shape.type).toBe('simple-circle');
     });
   });
 
@@ -58,7 +58,7 @@ describe('shape node test', () => {
       const group = canvas.addGroup();
       translate(group, { x: 50, y: 100 });
       factory.draw(
-        'circle',
+        'simple-circle',
         {
           size: 20,
           color: 'blue',
@@ -79,7 +79,7 @@ describe('shape node test', () => {
       });
       translate(group, { x: 100, y: 100 });
       const shape = factory.draw(
-        'rect',
+        'simple-rect',
         {
           size: [40, 20],
           color: 'yellow',
@@ -135,7 +135,7 @@ describe('shape node test', () => {
         model: {
           size: [40, 20],
           color: 'yellow',
-          type: 'rect',
+          type: 'simple-rect',
           labelCfg: {
             style: {
               fill: 'white',
@@ -148,7 +148,7 @@ describe('shape node test', () => {
         group,
       });
       factory.baseUpdate(
-        'rect',
+        'simple-rect',
         {
           size: [100, 50],
           style: {
@@ -205,7 +205,7 @@ describe('shape node test', () => {
         model: {
           id: 'rectnode',
           size: [40, 20],
-          type: 'rect',
+          type: 'simple-rect',
           stateStyles: {
             active: {
               fillOpacity: 0.8,
@@ -248,516 +248,9 @@ describe('shape node test', () => {
       expect(shape.attr('lineWidth')).toBe(1);
     });
 
-    it('label position', () => {
-      const group = canvas.addGroup();
-      translate(group, { x: 200, y: 200 });
-      const model = {
-        size: [60, 20],
-        color: 'green',
-        label: 'ellipse position',
-        labelCfg: {
-          position: 'top',
-          offset: 4,
-        },
-      };
-      factory.draw('ellipse', model, group);
-
-      // 伪造 item
-      const item = new Node({
-        model,
-        group,
-      });
-      let label = group.get('children')[1];
-      expect(label.attr('x')).toBe(0);
-      expect(label.attr('y')).toBe(-10 - Global.nodeLabel.offset);
-
-      factory.baseUpdate(
-        'ellipse',
-        {
-          size: [60, 20],
-          color: 'red',
-          label: 'ellipse position',
-          labelCfg: {
-            position: 'left',
-          },
-        },
-        item,
-      );
-      label = group.get('children')[1];
-
-      expect(label.attr('y')).toBe(0);
-      expect(label.attr('x')).toBe(-30 - Global.nodeLabel.offset);
-
-      factory.baseUpdate(
-        'ellipse',
-        {
-          size: [60, 20],
-          color: 'green',
-          label: 'ellipse position',
-          labelCfg: {
-            position: 'right',
-          },
-        },
-        item,
-      );
-      expect(label.attr('y')).toBe(0);
-      expect(label.attr('x')).toBe(30 + Global.nodeLabel.offset);
-
-      factory.baseUpdate(
-        'ellipse',
-        {
-          size: [60, 20],
-          color: 'green',
-          label: 'ellipse position',
-          labelCfg: {
-            position: 'right',
-            offset: 20,
-          },
-        },
-        item,
-      );
-      expect(label.attr('y')).toBe(0);
-      expect(label.attr('x')).toBe(30 + 20);
-
-      factory.baseUpdate(
-        'ellipse',
-        {
-          size: [60, 20],
-          color: 'green',
-          label: 'ellipse position',
-          labelCfg: {
-            position: 'right',
-            offset: 0,
-          },
-        },
-        item,
-      );
-      expect(label.attr('y')).toBe(0);
-      expect(label.attr('x')).toBe(30);
-      canvas.draw();
-    });
     it('clear', () => {
       canvas.destroy();
     });
 
-    it('rect linkPoints update from show to hide', () => {
-      const graph = new Graph({
-        container: div,
-        width: 500,
-        height: 500,
-      });
-      const data = {
-        nodes: [
-          {
-            id: 'node',
-            label: 'rect',
-            linkPoints: {
-              top: true,
-              bottom: true,
-            },
-            type: 'rect',
-            x: 100,
-            y: 200,
-          },
-        ],
-      };
-      graph.data(data);
-      graph.render();
-
-      const node = graph.getNodes()[0];
-      const group = node.get('group');
-      // rect + label + linkPoints * 2
-      expect(group.getCount()).toEqual(4);
-
-      node.update({
-        linkPoints: {
-          top: false,
-        },
-      });
-      const topPoint = group.find((g) => {
-        return g.get('className') === 'link-point-top';
-      });
-      expect(topPoint).toBe(null);
-      const bottomPoint = group.find((g) => {
-        return g.get('className') === 'link-point-bottom';
-      });
-      expect(bottomPoint).not.toBe(null);
-
-      node.update({
-        linkPoints: {
-          left: true,
-          right: true,
-          size: 10,
-          fill: '#f00',
-          stroke: '#0f0',
-          lineWidth: 2,
-        },
-      });
-      const leftPoint = group.find((g) => {
-        return g.get('className') === 'link-point-left';
-      });
-      expect(leftPoint).not.toBe(null);
-      expect(leftPoint.attr('r')).toBe(5);
-      expect(leftPoint.attr('fill')).toBe('#f00');
-      expect(leftPoint.attr('stroke')).toBe('#0f0');
-      expect(leftPoint.attr('lineWidth')).toBe(2);
-      const rightPoint = group.find((g) => {
-        return g.get('className') === 'link-point-right';
-      });
-      expect(rightPoint).not.toBe(null);
-
-      node.update({
-        linkPoints: {
-          left: false,
-          top: true,
-          size: 10,
-          fill: '#f00',
-          stroke: '#0f0',
-          lineWidth: 2,
-        },
-      });
-      const leftPoint2 = group.find((g) => {
-        return g.get('className') === 'link-point-left';
-      });
-      expect(leftPoint2).toBe(null);
-      const topPoint2 = group.find((g) => {
-        return g.get('className') === 'link-point-top';
-      });
-      expect(topPoint2).not.toBe(null);
-      const rightPoint2 = group.find((g) => {
-        return g.get('className') === 'link-point-right';
-      });
-      expect(rightPoint2).not.toBe(null);
-
-      node.update({
-        linkPoints: {
-          stroke: '#000',
-        },
-      });
-      const bottomPoint2 = group.find((g) => {
-        return g.get('className') === 'link-point-bottom';
-      });
-      expect(bottomPoint2.attr('r')).toBe(5);
-      expect(bottomPoint2.attr('fill')).toBe('#f00');
-      expect(bottomPoint2.attr('stroke')).toBe('#000');
-
-      graph.destroy();
-      expect(graph.destroyed).toBe(true);
-    });
-
-    it('ellipse linkPoints update from show to hide', () => {
-      const graph = new Graph({
-        container: div,
-        width: 500,
-        height: 500,
-      });
-      const data = {
-        nodes: [
-          {
-            id: 'node',
-            label: 'ellipse',
-            linkPoints: {
-              top: true,
-              bottom: true,
-            },
-            type: 'ellipse',
-            x: 100,
-            y: 200,
-          },
-        ],
-      };
-      graph.data(data);
-      graph.render();
-
-      const node = graph.getNodes()[0];
-      const group = node.get('group');
-      // rect + label + linkPoints * 2
-      expect(group.getCount()).toEqual(4);
-
-      node.update({
-        linkPoints: {
-          top: false,
-        },
-      });
-      const topPoint = group.find((g) => {
-        return g.get('className') === 'link-point-top';
-      });
-      expect(topPoint).toBe(null);
-      const bottomPoint = group.find((g) => {
-        return g.get('className') === 'link-point-bottom';
-      });
-      expect(bottomPoint).not.toBe(null);
-
-      node.update({
-        linkPoints: {
-          left: true,
-          right: true,
-          size: 10,
-          fill: '#f00',
-          stroke: '#0f0',
-          lineWidth: 2,
-        },
-      });
-      const leftPoint = group.find((g) => {
-        return g.get('className') === 'link-point-left';
-      });
-      expect(leftPoint).not.toBe(null);
-      expect(leftPoint.attr('r')).toBe(5);
-      expect(leftPoint.attr('fill')).toBe('#f00');
-      expect(leftPoint.attr('stroke')).toBe('#0f0');
-      expect(leftPoint.attr('lineWidth')).toBe(2);
-      const rightPoint = group.find((g) => {
-        return g.get('className') === 'link-point-right';
-      });
-      expect(rightPoint).not.toBe(null);
-
-      node.update({
-        linkPoints: {
-          left: false,
-          top: true,
-          size: 10,
-          fill: '#f00',
-          stroke: '#0f0',
-          lineWidth: 2,
-        },
-      });
-      const leftPoint2 = group.find((g) => {
-        return g.get('className') === 'link-point-left';
-      });
-      expect(leftPoint2).toBe(null);
-      const topPoint2 = group.find((g) => {
-        return g.get('className') === 'link-point-top';
-      });
-      expect(topPoint2).not.toBe(null);
-      const rightPoint2 = group.find((g) => {
-        return g.get('className') === 'link-point-right';
-      });
-      expect(rightPoint2).not.toBe(null);
-
-      node.update({
-        linkPoints: {
-          stroke: '#000',
-        },
-      });
-      const bottomPoint2 = group.find((g) => {
-        return g.get('className') === 'link-point-bottom';
-      });
-      expect(bottomPoint2.attr('r')).toBe(5);
-      expect(bottomPoint2.attr('fill')).toBe('#f00');
-      expect(bottomPoint2.attr('stroke')).toBe('#000');
-
-      graph.destroy();
-      expect(graph.destroyed).toBe(true);
-    });
-
-    it('diamond linkPoints update from show to hide', () => {
-      const graph = new Graph({
-        container: div,
-        width: 500,
-        height: 500,
-      });
-      const data = {
-        nodes: [
-          {
-            id: 'node',
-            label: 'diamond',
-            linkPoints: {
-              top: true,
-              bottom: true,
-            },
-            type: 'diamond',
-            x: 100,
-            y: 200,
-          },
-        ],
-      };
-      graph.data(data);
-      graph.render();
-
-      const node = graph.getNodes()[0];
-      const group = node.get('group');
-      // rect + label + linkPoints * 2
-      expect(group.getCount()).toEqual(4);
-
-      node.update({
-        linkPoints: {
-          top: false,
-        },
-      });
-      const topPoint = group.find((g) => {
-        return g.get('className') === 'link-point-top';
-      });
-      expect(topPoint).toBe(null);
-      const bottomPoint = group.find((g) => {
-        return g.get('className') === 'link-point-bottom';
-      });
-      expect(bottomPoint).not.toBe(null);
-
-      node.update({
-        linkPoints: {
-          left: true,
-          right: true,
-          size: 10,
-          fill: '#f00',
-          stroke: '#0f0',
-          lineWidth: 2,
-        },
-      });
-      const leftPoint = group.find((g) => {
-        return g.get('className') === 'link-point-left';
-      });
-      expect(leftPoint).not.toBe(null);
-      expect(leftPoint.attr('r')).toBe(5);
-      expect(leftPoint.attr('fill')).toBe('#f00');
-      expect(leftPoint.attr('stroke')).toBe('#0f0');
-      expect(leftPoint.attr('lineWidth')).toBe(2);
-      const rightPoint = group.find((g) => {
-        return g.get('className') === 'link-point-right';
-      });
-      expect(rightPoint).not.toBe(null);
-
-      node.update({
-        linkPoints: {
-          left: false,
-          top: true,
-          size: 10,
-          fill: '#f00',
-          stroke: '#0f0',
-          lineWidth: 2,
-        },
-      });
-      const leftPoint2 = group.find((g) => {
-        return g.get('className') === 'link-point-left';
-      });
-      expect(leftPoint2).toBe(null);
-      const topPoint2 = group.find((g) => {
-        return g.get('className') === 'link-point-top';
-      });
-      expect(topPoint2).not.toBe(null);
-      const rightPoint2 = group.find((g) => {
-        return g.get('className') === 'link-point-right';
-      });
-      expect(rightPoint2).not.toBe(null);
-
-      node.update({
-        linkPoints: {
-          stroke: '#000',
-        },
-      });
-      const bottomPoint2 = group.find((g) => {
-        return g.get('className') === 'link-point-bottom';
-      });
-      expect(bottomPoint2.attr('r')).toBe(5);
-      expect(bottomPoint2.attr('fill')).toBe('#f00');
-      expect(bottomPoint2.attr('stroke')).toBe('#000');
-
-      graph.destroy();
-      expect(graph.destroyed).toBe(true);
-    });
-
-    it('circle linkPoints update from show to hide', () => {
-      const graph = new Graph({
-        container: div,
-        width: 500,
-        height: 500,
-      });
-      const data = {
-        nodes: [
-          {
-            id: 'node',
-            label: 'circle',
-            linkPoints: {
-              top: true,
-              bottom: true,
-            },
-            type: 'circle',
-            x: 100,
-            y: 200,
-          },
-        ],
-      };
-      graph.data(data);
-      graph.render();
-
-      const node = graph.getNodes()[0];
-      const group = node.get('group');
-      // rect + label + linkPoints * 2
-      expect(group.getCount()).toEqual(4);
-
-      node.update({
-        linkPoints: {
-          top: false,
-        },
-      });
-      const topPoint = group.find((g) => {
-        return g.get('className') === 'link-point-top';
-      });
-      expect(topPoint).toBe(null);
-      const bottomPoint = group.find((g) => {
-        return g.get('className') === 'link-point-bottom';
-      });
-      expect(bottomPoint).not.toBe(null);
-
-      node.update({
-        linkPoints: {
-          left: true,
-          right: true,
-          size: 10,
-          fill: '#f00',
-          stroke: '#0f0',
-          lineWidth: 2,
-        },
-      });
-      const leftPoint = group.find((g) => {
-        return g.get('className') === 'link-point-left';
-      });
-      expect(leftPoint).not.toBe(null);
-      expect(leftPoint.attr('r')).toBe(5);
-      expect(leftPoint.attr('fill')).toBe('#f00');
-      expect(leftPoint.attr('stroke')).toBe('#0f0');
-      expect(leftPoint.attr('lineWidth')).toBe(2);
-      const rightPoint = group.find((g) => {
-        return g.get('className') === 'link-point-right';
-      });
-      expect(rightPoint).not.toBe(null);
-
-      node.update({
-        linkPoints: {
-          left: false,
-          top: true,
-          size: 10,
-          fill: '#f00',
-          stroke: '#0f0',
-          lineWidth: 2,
-        },
-      });
-      const leftPoint2 = group.find((g) => {
-        return g.get('className') === 'link-point-left';
-      });
-      expect(leftPoint2).toBe(null);
-      const topPoint2 = group.find((g) => {
-        return g.get('className') === 'link-point-top';
-      });
-      expect(topPoint2).not.toBe(null);
-      const rightPoint2 = group.find((g) => {
-        return g.get('className') === 'link-point-right';
-      });
-      expect(rightPoint2).not.toBe(null);
-
-      node.update({
-        linkPoints: {
-          stroke: '#000',
-        },
-      });
-      const bottomPoint2 = group.find((g) => {
-        return g.get('className') === 'link-point-bottom';
-      });
-      expect(bottomPoint2.attr('r')).toBe(5);
-      expect(bottomPoint2.attr('fill')).toBe('#f00');
-      expect(bottomPoint2.attr('stroke')).toBe('#000');
-
-      graph.destroy();
-      expect(graph.destroyed).toBe(true);
-    });
   });
 });
