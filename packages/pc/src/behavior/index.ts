@@ -24,7 +24,7 @@ const behaviors = {
   'brush-select': BrushSelect,
   'click-select': ClickSelect,
   'lasso-select': LassoSelect,
-  tooltip: Tooltip,
+  'tooltip': Tooltip,
   'edge-tooltip': EdgeTooltip,
   'collapse-expand': CollapseExpand,
   'drag-combo': DragCombo,

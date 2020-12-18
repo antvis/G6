@@ -1,5 +1,4 @@
 import { registerBehavior, registerCombo, registerEdge, registerNode } from '@antv/g6-core';
-import './behavior';
 import Graph from './graph/graph';
 import TreeGraph from './graph/tree-graph';
 // import Shape, { Arrow, Marker } from './element';
@@ -9,6 +8,7 @@ import Util from './util';
 import Plugin from './plugin';
 import * as Algorithm from '@antv/algorithm';
 import './element';
+import './behavior';
 
 // const registerLayout = Layout.registerLayout;
 const Minimap = Plugin.Minimap;

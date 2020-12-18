@@ -225,14 +225,23 @@ describe('graph hull', () => {
     bubbleHull.addNonMember('5');
     expect(bubbleHull.contain('5')).toEqual(false);
   });
+  it('hull with one member node', () => {
+    graph.createHull({
+      id: 'hull3',
+      members: [graph.getNodes()[0]],
+      type: 'round-convex',
+    });
+    const hulls = Object.values(graph.getHulls());
+    expect(hulls.length).toEqual(3);
+  });
   it('remove hull', () => {
     let hullShapes = graph.get('hullGroup').get('children');
-    expect(hullShapes.length).toEqual(2);
+    expect(hullShapes.length).toEqual(3);
 
     expect(graph.getHulls()['hull2']).toBeDefined();
     graph.removeHull('hull2');
     hullShapes = graph.get('hullGroup').get('children');
-    expect(hullShapes.length).toEqual(1);
+    expect(hullShapes.length).toEqual(2);
     expect(graph.getHulls()['hull2']).not.toBeDefined();
   });
 });
