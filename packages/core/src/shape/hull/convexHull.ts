@@ -20,6 +20,10 @@ export const genConvexHull = (items: Item[]) => {
     return a.x === b.x ? a.y - b.y : a.x - b.x;
   });
 
+  if (points.length === 1) {
+    return points;
+  }
+
   // build the lower hull
   const lower = [];
   for (let i = 0; i < points.length; i++) {
