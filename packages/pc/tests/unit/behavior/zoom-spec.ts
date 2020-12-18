@@ -1,6 +1,5 @@
-import '../../../src/behavior';
-import '../../../src/shape';
-import Graph from '../../../src/graph/graph';
+import '../../../src';
+import { Graph } from '../../../src';
 import { Event } from '@antv/g-canvas';
 import { numberEqual } from '../layout/util';
 

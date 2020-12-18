@@ -350,17 +350,17 @@ export default class ItemBase implements IItemBase {
   /**
    * 渲染前的逻辑，提供给子类复写
    */
-  protected beforeDraw() {}
+  protected beforeDraw() { }
 
   /**
    * 渲染后的逻辑，提供给子类复写
    */
-  protected afterDraw() {}
+  protected afterDraw() { }
 
   /**
    * 更新后做一些工作
    */
-  protected afterUpdate() {}
+  protected afterUpdate() { }
 
   /**
    * draw shape

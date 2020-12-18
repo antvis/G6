@@ -1,5 +1,4 @@
-import Graph from '../../implement-graph';
-import { registerNode } from '../../../../src';
+import { Graph, registerNode } from '../../../../../src';
 
 const div = document.createElement('div');
 div.id = 'graph-spec';

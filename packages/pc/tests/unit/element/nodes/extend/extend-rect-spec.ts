@@ -1,5 +1,5 @@
-import Graph from '../../implement-graph';
-import { registerNode } from '../../../../src';
+import { Graph, registerNode } from '../../../../../src';
+
 
 const div = document.createElement('div');
 div.id = 'graph-spec';
@@ -28,7 +28,7 @@ describe('register node with getCustomConfig function, extend rect', () => {
       },
     ],
   };
-  it('getCustomConfig return new style', () => {
+  it.only('getCustomConfig return new style', () => {
     registerNode(
       'custom-node',
       {
@@ -119,7 +119,7 @@ describe('register node with getCustomConfig function, extend rect', () => {
           };
         },
       },
-      'rect',
+      'simplerect',
     );
     const graph = new Graph({
       container: div,

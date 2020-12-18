@@ -345,7 +345,6 @@ export const shapeBase: ShapeOptions = {
    * @param  {G6.Item} item 节点
    */
   setState(name: string, value: string | boolean, item: Item) {
-    console.log('setstate', name, value)
     const shape: IShape = item.get('keyShape');
     if (!shape) {
       return;

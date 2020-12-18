@@ -34,7 +34,7 @@ Shape.registerNode(
         ...Global.nodeStateStyles,
       },
     },
-    shapeType: 'rect',
+    shapeType: 'simple-rect',
     labelPosition: 'center',
     drawShape(cfg: NodeConfig, group: IGroup): IShape {
       const style = this.getShapeStyle!(cfg);

@@ -1,8 +1,6 @@
-import '../../../src/behavior';
-import '../../../src/shape';
+import '../../../src';
+import G6, { Graph } from '../../../src';
 
-import Graph from '../../../src/graph/graph';
-import G6 from '../../../src';
 
 const div = document.createElement('div');
 div.id = 'drag-spec';

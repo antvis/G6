@@ -1,5 +1,4 @@
-import '../../../src/behavior';
-import '../../../src/shape';
+import '../../../src';
 import G6 from '../../../src';
 import { ComboConfig, ICombo, INode } from '@antv/g6-core';
 

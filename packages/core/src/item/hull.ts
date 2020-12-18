@@ -92,7 +92,6 @@ export default class Hull {
   }
 
   calcPath(members: Item[], nonMembers: Item[]) {
-    console.log('calc path', this.type)
     let contour, path, hull;
     switch (this.type) {
       case 'round-convex':
@@ -102,7 +101,6 @@ export default class Hull {
           this.padding,
         );
         path = parsePathString(hull);
-        console.log('counter', contour, hull, path)
         break;
       case 'smooth-convex':
         contour = genConvexHull(members);
@@ -122,7 +120,6 @@ export default class Hull {
   }
 
   render() {
-    console.log('rendering', this.path)
     this.group.addShape('path', {
       attrs: {
         path: this.path,
