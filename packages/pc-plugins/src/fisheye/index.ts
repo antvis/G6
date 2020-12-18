@@ -1,5 +1,5 @@
 import { clone } from '@antv/util';
-import { IG6GraphEvent, ShapeStyle, IGraph } from '@antv/g6';
+import { IG6GraphEvent, ShapeStyle, IAbstractGraph as IGraph } from '@antv/g6-core';
 import Base from '../base';
 
 const DELTA = 0.05;

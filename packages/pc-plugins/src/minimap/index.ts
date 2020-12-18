@@ -4,7 +4,7 @@ import { Event as GraphEvent, Point } from '@antv/g-base';
 
 import { isString, isNil, each, debounce } from '@antv/util';
 import { createDom, modifyCSS } from '@antv/dom-util';
-import { Matrix, ShapeStyle, IGraph } from '@antv/g6';
+import { Matrix, ShapeStyle, IAbstractGraph as IGraph } from '@antv/g6-core';
 import { transform } from '@antv/matrix-util';
 import Base, { IPluginBaseConfig } from '../base';
 

@@ -1,7 +1,7 @@
 import Base, { IPluginBaseConfig } from '../base';
 import { isString, isNil } from '@antv/util';
 import { modifyCSS, createDom } from '@antv/dom-util';
-import { IGraph, ShapeStyle, Util } from '@antv/g6';
+import { IAbstractGraph as IGraph, ShapeStyle, Util } from '@antv/g6-core';
 
 import { Event as GraphEvent, Point } from '@antv/g-base';
 import { mat3 } from '@antv/matrix-util';
@@ -19,7 +19,7 @@ function getImgNaturalDimension(img, callback?) {
     const image = new Image();
     image.src = img.src;
     image.onload = () => {
-      callback?.(image.width, image.height);
+      callback && callback(image.width, image.height);
     };
   }
   return [nWidth, nHeight];

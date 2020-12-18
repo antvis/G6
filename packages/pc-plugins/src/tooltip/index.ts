@@ -1,7 +1,7 @@
 import { modifyCSS, createDom } from '@antv/dom-util';
 import { isString } from '@antv/util';
 import insertCss from 'insert-css';
-import { Graph, IG6GraphEvent, Item, IGraph } from '@antv/g6';
+import { IG6GraphEvent, Item, IAbstractGraph as IGraph } from '@antv/g6-core';
 import Base, { IPluginBaseConfig } from '../base';
 
 insertCss(`
@@ -152,7 +152,7 @@ export default class Tooltip extends Base {
       });
       return;
     }
-    const graph: Graph = this.get('graph');
+    const graph: IGraph = this.get('graph');
     const width: number = graph.get('width');
     const height: number = graph.get('height');
 
