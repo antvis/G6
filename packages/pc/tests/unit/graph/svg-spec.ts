@@ -2,7 +2,7 @@ import { Graph, Layout, TreeGraph } from '../../../src';
 import G6 from '../../../src';
 import '../../../src/behavior';
 import Core, { EdgeConfig } from '@antv/g6-core';
-// import Plugin from '../../../src/plugins';
+import Plugin from '../../../src/plugin';
 
 const { scale, translate } = Core.Util;
 
@@ -13,7 +13,7 @@ const div2 = document.createElement('div');
 div2.id = 'graph-spec';
 document.body.appendChild(div2);
 
-xdescribe('graph', () => {
+describe('graph', () => {
   const globalGraph = new Graph({
     container: div,
     width: 500,
@@ -546,7 +546,7 @@ xdescribe('graph', () => {
   });
 });
 
-xdescribe('all node link center', () => {
+describe('all node link center', () => {
   const graph = new Graph({
     container: div,
     width: 500,
@@ -1351,7 +1351,7 @@ describe('behaviors', () => {
   });
 });
 
-xdescribe('layouts', () => {
+describe('layouts', () => {
   const data = {
     nodes: [
       {
@@ -1614,7 +1614,7 @@ xdescribe('layouts', () => {
   });
 });
 
-xdescribe('built-in items', () => {
+describe('built-in items', () => {
   const data = {
     nodes: [
       {
@@ -1723,7 +1723,7 @@ xdescribe('built-in items', () => {
     expect(item.getModel().y).not.toBe(null);
     expect(item.getModel().y).not.toBe(undefined);
   });
-  it('update node style', () => {
+  xit('update node style', () => {
     graph.data(data);
     graph.render();
     const item = graph.getNodes()[0];
@@ -1772,7 +1772,7 @@ xdescribe('built-in items', () => {
     expect(modelRect.get('group').get('children').length).toBe(8);
   });
 
-  it('update edge style', () => {
+  xit('update edge style', () => {
     // loop
     const loop = graph.getEdges()[6];
     graph.updateItem(loop, {
@@ -1831,7 +1831,7 @@ xdescribe('built-in items', () => {
   });
 });
 
-xdescribe('tree graph', () => {
+describe('tree graph', () => {
   const data = {
     isRoot: true,
     id: 'Root',

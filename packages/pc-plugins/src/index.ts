@@ -21,3 +21,18 @@ export {
   ImageMinimap,
   EdgeFilterLens,
 };
+
+const Plugin = {
+  Menu,
+  Grid,
+  Minimap,
+  Bundling,
+  ToolBar,
+  Tooltip,
+  Fisheye,
+  TimeBar,
+  ImageMinimap,
+  EdgeFilterLens,
+};
+
+export default Plugin;

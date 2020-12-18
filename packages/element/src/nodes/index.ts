@@ -3,6 +3,6 @@ import './rect';
 import './ellipse';
 import './diamond';
 import './triangle';
-import './modelRect';
+// import './modelRect';
 import './star';
 // import './image';
