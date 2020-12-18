@@ -40,17 +40,14 @@ treeGraph.addChild(data, 'root')
 
 ### updateChild(data, parentId)
 
-Incrementally update or add one child data of a parent node. If you want to update all the children of the parent, try [updateChildren]() instead. The following image illustrate the differences between `updateChild` and `updateChildren`:
-<br />
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2_78TIFt7OoAAAAAAAAAAAAAARQnAQ' alt='img' width=400 />
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*h2PkRKunMokAAAAAAAAAAAAAARQnAQ' alt='img' width=400 />
+Incrementally update or add one child data of a parent node. If you want to update all the children of the parent, try [updateChildren]() instead. The following image illustrate the differences between `updateChild` and `updateChildren`: <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2_78TIFt7OoAAAAAAAAAAAAAARQnAQ' alt='img' width=400 /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*h2PkRKunMokAAAAAAAAAAAAAARQnAQ' alt='img' width=400 />
 
 **Parameters**
 
-| Name   | Type   | Required | Description           |
-| ------ | ------ | -------- | --------------------- | ---------------------------------- |
-| data   | TreeData | true     | The data of subtreee. |
-| parent | String | false    | The id of the parent node. |
+| Name   | Type     | Required | Description                |
+| ------ | -------- | -------- | -------------------------- |
+| data   | TreeData | true     | The data of subtreee.      |
+| parent | String   | false    | The id of the parent node. |
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️Attention:</strong></span> When the `parent` is null, this operation will update the graph fully.
 
@@ -74,21 +71,19 @@ const data = {
 treeGraph.updateChild(data, 'root')
 ```
 
-
 ### updateChildren(data, parentId)
 
-Update all the children of the parent. If you want to update or add one child of the parent, try [updateChild]() instead. The following image illustrate the differences between `updateChild` and `updateChildren`:
-<br />
+Update all the children of the parent. If you want to update or add one child of the parent, try [updateChild]() instead. The following image illustrate the differences between `updateChild` and `updateChildren`: <br />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2_78TIFt7OoAAAAAAAAAAAAAARQnAQ' alt='img' width=400 />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*h2PkRKunMokAAAAAAAAAAAAAARQnAQ' alt='img' width=400 />
 
 **Parameters**
 
-| Name   | Type   | Required | Description           |
-| ------ | ------ | -------- | --------------------- | ---------------------------------- |
-| data   | TreeData[] | true     | The data of subtreee. |
-| parent | String | true    | The id of the parent node. |
+| Name   | Type       | Required | Description                |
+| ------ | ---------- | -------- | -------------------------- |
+| data   | TreeData[] | true     | The data of subtreee.      |
+| parent | String     | true     | The id of the parent node. |
 
 **Usage**
 
