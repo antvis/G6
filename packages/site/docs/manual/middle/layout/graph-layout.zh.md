@@ -262,8 +262,8 @@ const graph = new G6.Graph({
 | preventNodeOverlap | Boolean | false | true | 是否防止节点之间的重叠。必须配合下面属性 `nodeSize` 或节点数据中的 `size` 属性，只有在数据中设置了 `size` 或在该布局中配置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测 |
 | preventComboOverlap | Boolean | false | true | 是否防止 combo 之间的重叠 |
 | collideStrength | Number | 0.1 | undefined | 统一设置防止节点之间以及 combo 之间重叠的力强度，范围 [0, 1]。若 `collideStrength` 不为 `undefined`，则 `nodeCollideStrength` 与 `comboCollideStrength` 将均被设置为统一的值 |
-| collideNodeStrength | Number | 0.4 | 0.5 | 设置防止节点之间重叠的力强度，范围 [0, 1] |
-| collideComboStrength | Number | 0.4 | 0.5 | 防止 combo 之间重叠的力强度，范围 [0, 1] |
+| nodeCollideStrength | Number | 0.4 | 0.5 | 设置防止节点之间重叠的力强度，范围 [0, 1] |
+| comboCollideStrength | Number | 0.4 | 0.5 | 防止 combo 之间重叠的力强度，范围 [0, 1] |
 | nodeSize | Array / Number | 10 | 10 | 节点大小（直径）。用于碰撞检测。若不指定，则根据传入的节点的 size 属性计算。若即不指定，节点中也没有 `size`，则默认大小为 `10` |
 | nodeSpacing<br /><br /> | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />`preventNodeOverlap` 或 `preventOverlap` 为 `true` 时生效, 防止重叠时节点边缘间距的最小值。可以是回调函数, 为不同节点设置不同的最小间距, 如示例 2 所示<br /> |
 | comboSpacing<br /><br /> | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | `preventComboOverlap` 或 `preventOverlap` 为 `true` 时生效, 防止重叠时 combo 边缘间距的最小值。可以是回调函数, 为不同节点设置不同的最小间距, 如示例 2 所示<br /> |
