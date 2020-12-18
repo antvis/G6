@@ -1,4 +1,4 @@
-import G6 from '@antv/g6'
+import G6 from '@antv/g6';
 
 const div = document.createElement('div');
 div.id = 'container';
