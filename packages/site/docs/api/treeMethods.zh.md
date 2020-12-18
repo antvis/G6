@@ -38,18 +38,20 @@ const data = {
 treeGraph.addChild(data, 'root')
 ```
 
-### updateChild(data, parent)
+### updateChild(data, parentId)
 
-更新数据，差量更新子树。
+更新数据，差量更新子树。data 是一个子树数据。若该子树的根节点不存在与当前树数据中，将该子树添加到 parentId 节点的子节点中。若该子树的根节点已经存在，则更新该子树数据。若希望更新或增加 parentId 节点下所有子节点，请使用 [updateChildren]()。二者区别图示如下：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2_78TIFt7OoAAAAAAAAAAAAAARQnAQ' alt='img' width=400 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*h2PkRKunMokAAAAAAAAAAAAAARQnAQ' alt='img' width=400 />
 
 **参数**
 
 | 名称   | 类型   | 是否必选 | 描述       |
 | ------ | ------ | -------- | ---------- | ----------------- |
-| data   | Object | true     | 子树的数据 |
-| parent | Node   | String   | false      | 父节点或父节点 ID |
+| data   | TreeData | true     | 子树的数据 |
+| parentId | String | false  | 父节点 ID |
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 当 `parent` 参数为空时，则全量更新。
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 当 `parentId` 参数为空时，则全量更新。
 
 **用法**
 
@@ -69,6 +71,38 @@ const data = {
 };
 
 treeGraph.updateChild(data, 'root')
+```
+
+
+### updateChildren(data, parentId)
+
+更新数据，差量更新子树中的所有子节点。data 是一个子树数据数组。若希望更新或增加一个 parentId 节点的子节点，请使用 [updateChild]()。二者区别图示如下：
+<br />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2_78TIFt7OoAAAAAAAAAAAAAARQnAQ' alt='img' width=400 />
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*h2PkRKunMokAAAAAAAAAAAAAARQnAQ' alt='img' width=400 />
+
+**参数**
+
+| 名称   | 类型   | 是否必选 | 描述       |
+| ------ | ------ | -------- | ---------- | ----------------- |
+| data   | TreeData[] | true  | 子树的数据数组 |
+| parentId | String | true  | 父节点 ID |
+
+**用法**
+
+```javascript
+const data = [
+  {
+    id: 'subTree1',
+    children: [...]
+  },
+  {
+    id: 'subTree2',
+    children: [...]
+  }
+];
+
+treeGraph.updateChildren(data, 'root')
 ```
 
 ### removeChild(id)

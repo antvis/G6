@@ -65,11 +65,11 @@ const graph = new G6.Graph({
 
 **Type**: Number<br />**Default**: undefined<br />**Required**: false<br />**Description**: The unified strength of force for preventing node overlappings and combo overlappings. The range is [0, 1]. If it is not undefined, the `nodeCollideStrength` and `comboCollideStrength` will be set to the same value
 
-### layoutCfg.collideNodeStrength
+### layoutCfg.nodeCollideStrength
 
 **Type**: Number<br />**Default**: 0.5<br />**Required**: false<br />**Description**: The strength of force for preventing node overlappings. The range is [0, 1]
 
-### layoutCfg.collideComboStrength
+### layoutCfg.comboCollideStrength
 
 **Type**: Number<br />**Default**: 0.5<br />**Required**: false<br />**Description**: The strength of force for preventing combo overlappings. The range is [0, 1]
 

@@ -67,11 +67,11 @@ const graph = new G6.Graph({
 
 **类型**：Number<br />**默认值**：undefined<br />**是否必须**：false<br />**说明**：统一设置防止节点之间以及 combo 之间重叠的力强度，范围 [0, 1]。若 `collideStrength` 不为 `undefined`，则 `nodeCollideStrength` 与 `comboCollideStrength` 将均被设置为统一的值
 
-### layoutCfg.collideNodeStrength
+### layoutCfg.nodeCollideStrength
 
 **类型**：Number<br />**默认值**：0.5<br />**是否必须**：false<br />**说明**：设置防止节点之间重叠的力强度，范围 [0, 1]
 
-### layoutCfg.collideComboStrength
+### layoutCfg.comboCollideStrength
 
 **类型**：Number<br />**默认值**：0.5<br />**是否必须**：false<br />**说明**：防止 combo 之间重叠的力强度，范围 [0, 1]
 
