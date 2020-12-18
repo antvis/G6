@@ -1,4 +1,4 @@
-import Behaviors from './behavior';
+import Behavior from './behavior';
 import AbstractGraph from './graph/graph';
 import Shape, { Arrow, Marker } from './shape';
 import Global from './global';
@@ -10,7 +10,7 @@ import AbstractEvent from './graph/controller/event';
 const registerNode = Shape.registerNode;
 const registerEdge = Shape.registerEdge;
 const registerCombo = Shape.registerCombo;
-const registerBehavior = Behaviors.registerBehavior;
+const registerBehavior = Behavior.registerBehavior;
 
 export {
   registerNode,
@@ -32,7 +32,7 @@ export default {
   registerNode: Shape.registerNode,
   registerEdge: Shape.registerEdge,
   registerCombo: Shape.registerCombo,
-  registerBehavior: Behaviors.registerBehavior,
+  registerBehavior: Behavior.registerBehavior,
   Arrow,
   Marker,
   AbstractLayout,
