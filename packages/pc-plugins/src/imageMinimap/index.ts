@@ -1,7 +1,7 @@
 import Base, { IPluginBaseConfig } from '../base';
 import { isString, isNil } from '@antv/util';
 import { modifyCSS, createDom } from '@antv/dom-util';
-import { Graph, ShapeStyle, Util } from '@antv/g6';
+import { IGraph, ShapeStyle, Util } from '@antv/g6';
 
 import { Event as GraphEvent, Point } from '@antv/g-base';
 import { mat3 } from '@antv/matrix-util';
@@ -221,7 +221,7 @@ export default class ImageMiniMap extends Base {
     const ratio: number = this.get('ratio');
     const cWidth: number = this.get('width');
     const cHeight: number = this.get('height');
-    const graph: Graph = this.get('graph');
+    const graph: IGraph = this.get('graph');
     const graphWidth = graph.get('width');
     const graphHeight = graph.get('height');
     const aspectRatio = graphWidth / graphHeight;
