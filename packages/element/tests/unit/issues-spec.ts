@@ -1,4 +1,4 @@
-import G6, { Graph, TreeGraph } from '../../src';
+import G6 from '@antv/g6'
 
 const div = document.createElement('div');
 div.id = 'container';
@@ -106,7 +106,7 @@ describe('dragenter dragleave', () => {
     ],
     edges: [],
   };
-  const graph = new Graph({
+  const graph = new G6.Graph({
     container: 'container',
     width: 500,
     height: 500,
@@ -142,7 +142,7 @@ describe('empty data array + fitview', () => {
     nodes: [],
     edges: [],
   };
-  const graph = new Graph({
+  const graph = new G6.Graph({
     container: 'container',
     width: 500,
     height: 500,
@@ -175,7 +175,7 @@ describe('change data with rect node', () => {
     ],
     edges: [],
   };
-  const graph = new Graph({
+  const graph = new G6.Graph({
     container: 'container',
     width: 500,
     height: 500,
@@ -267,7 +267,7 @@ describe('cubic with layout', () => {
     },
     'cubic',
   ); // 该自定义边继承了内置三阶贝塞尔曲线边 cubic
-  const graph = new Graph({
+  const graph = new G6.Graph({
     container: 'container',
     width: 500,
     height: 500,
