@@ -3,7 +3,7 @@ import { Event as GraphEvent, ICanvas } from '@antv/g-base';
 
 import { WaterMarkerConfig, TreeGraphData } from '../types';
 
-import PluginBase from '../plugins/base';
+import PluginBase from '../plugin/base';
 
 export type DataUrlType = 'image/png' | 'image/jpeg' | 'image/webp' | 'image/bmp';
 
