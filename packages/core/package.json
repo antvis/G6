@@ -47,7 +47,8 @@
     "prettier": "prettier -c --write \"**/*\"",
     "test": "jest",
     "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/graph/graph-spec.ts",
-    "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx"
+    "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
+    "watch": "father build -w"
   },
   "husky": {
     "hooks": {

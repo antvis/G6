@@ -2,24 +2,25 @@ import { registerBehavior, registerCombo, registerEdge, registerNode } from '@an
 import './behavior';
 import Graph from './graph/graph';
 import TreeGraph from './graph/tree-graph';
-// import Shape, { Arrow, Marker } from './shape';
+// import Shape, { Arrow, Marker } from './element';
 import { Layout, registerLayout } from './layout';
 import Global from './global';
 import Util from './util';
-import Plugins from './plugins';
+import Plugin from './plugin';
 import * as Algorithm from '@antv/algorithm';
+import './element';
 
 // const registerLayout = Layout.registerLayout;
-const Minimap = Plugins.Minimap;
-const Grid = Plugins.Grid;
-const Bundling = Plugins.Bundling;
-const Menu = Plugins.Menu;
-const Fisheye = Plugins.Fisheye;
-const ToolBar = Plugins.ToolBar;
-const Tooltip = Plugins.Tooltip;
-const TimeBar = Plugins.TimeBar;
-const ImageMinimap = Plugins.ImageMinimap;
-const EdgeFilterLens = Plugins.EdgeFilterLens;
+const Minimap = Plugin.Minimap;
+const Grid = Plugin.Grid;
+const Bundling = Plugin.Bundling;
+const Menu = Plugin.Menu;
+const Fisheye = Plugin.Fisheye;
+const ToolBar = Plugin.ToolBar;
+const Tooltip = Plugin.Tooltip;
+const TimeBar = Plugin.TimeBar;
+const ImageMinimap = Plugin.ImageMinimap;
+const EdgeFilterLens = Plugin.EdgeFilterLens;
 
 export * from '@antv/g6-core';
 export { IGraph } from './interface/graph';
@@ -60,12 +61,12 @@ export default {
   registerCombo,
   registerEdge,
   registerNode,
-  Minimap: Plugins.Minimap,
-  Grid: Plugins.Grid,
-  Bundling: Plugins.Bundling,
-  Menu: Plugins.Menu,
-  ToolBar: Plugins.ToolBar,
-  Tooltip: Plugins.Tooltip,
+  Minimap: Plugin.Minimap,
+  Grid: Plugin.Grid,
+  Bundling: Plugin.Bundling,
+  Menu: Plugin.Menu,
+  ToolBar: Plugin.ToolBar,
+  Tooltip: Plugin.Tooltip,
   TimeBar,
   Fisheye,
   ImageMinimap,

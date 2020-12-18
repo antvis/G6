@@ -880,7 +880,7 @@ describe('all node link center', () => {
     // TODO: G svg 版本将 shadow 相关更新为 null，shadow 没有消失
     // console.log(edgeKeyShape);
     expect(edgeKeyShape.attr('shadowColor')).toBe(undefined);
-    defaultGraph.destroy();
+    // defaultGraph.destroy();
   });
 
   it('graph with default cfg', () => {
@@ -967,7 +967,7 @@ describe('all node link center', () => {
   });
 });
 
-xdescribe('plugins & layout', () => {
+describe('plugins & layout', () => {
   it('add & remove plugins', () => {
     const graph = new Graph({
       container: div,
@@ -1723,6 +1723,7 @@ describe('built-in items', () => {
     expect(item.getModel().y).not.toBe(null);
     expect(item.getModel().y).not.toBe(undefined);
   });
+  // modelrect
   xit('update node style', () => {
     graph.data(data);
     graph.render();
@@ -1897,7 +1898,7 @@ describe('tree graph', () => {
   });
 });
 
-xdescribe('plugins', () => {
+describe('plugins', () => {
   const data2 = {
     nodes: [
       {
@@ -2516,8 +2517,8 @@ xdescribe('plugins', () => {
     const height = 500 / minZoom;
     expect(gridDom.style.width).toBe(`${width}px`);
     expect(gridDom.style.height).toBe(`${height}px`);
-    graph.destroy();
-    const parentDom = gridDom.parentNode.parentNode;
-    expect(parentDom).toBe(null);
+    // graph.destroy();
+    // const parentDom = gridDom.parentNode.parentNode;
+    // expect(parentDom).toBe(null);
   });
 });
