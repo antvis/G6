@@ -279,12 +279,12 @@ registerNode(
       const { left, right, top, leftBottom, rightBottom } = cfg.linkPoints
         ? cfg.linkPoints
         : {
-            left: undefined,
-            right: undefined,
-            top: undefined,
-            leftBottom: undefined,
-            rightBottom: undefined,
-          };
+          left: undefined,
+          right: undefined,
+          top: undefined,
+          leftBottom: undefined,
+          rightBottom: undefined,
+        };
 
       const size = (this as ShapeOptions).getSize!(cfg);
       const outerR = size[0];

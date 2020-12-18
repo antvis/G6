@@ -1,9 +1,6 @@
-import '../../../src/behavior';
-import '../../../src/shape';
-
+import '../../../src';
+import { Graph, INode } from '../../../src';
 import Simulate from 'event-simulate';
-import Graph from '../../../src/graph/graph';
-import { INode } from '../../../src/interface/item';
 
 const div = document.createElement('div');
 div.id = 'drag-spec';

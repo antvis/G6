@@ -1,5 +1,5 @@
-import '../../../src/behavior';
-import Graph from '../../../src/graph/graph';
+import '../../../src';
+import { Graph } from '../../../src';
 
 const div = document.createElement('div');
 div.id = 'select-spec';

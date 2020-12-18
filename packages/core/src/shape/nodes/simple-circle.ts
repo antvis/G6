@@ -29,7 +29,7 @@ Shape.registerNode(
         ...Global.nodeStateStyles,
       },
     },
-    shapeType: 'circle',
+    shapeType: 'simple-circle',
     // 文本位置
     labelPosition: 'center',
     drawShape(cfg: NodeConfig, group: IGroup): IShape {

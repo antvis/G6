@@ -20,7 +20,14 @@ export default class Graph extends AbstractGraph implements IGraph {
 
   constructor(cfg: GraphOptions) {
     super(cfg);
-    // this.cfg = deepMix(this.getDefaultCfg(), cfg);
+    const defaultNode = this.get('defaultNode');
+    if (!defaultNode) {
+      this.set('defaultNode', { type: 'circle' });
+    }
+    if (!defaultNode.type) {
+      defaultNode.type = 'circle';
+      this.set('defaultNode', defaultNode);
+    }
     this.destroyed = false;
   }
 

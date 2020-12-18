@@ -1,5 +1,5 @@
-import Graph from '../../../../src/graph/graph';
-import '../../../../src/element';
+import { Graph } from '../../../../src';
+import '../../../../src';
 
 const div = document.createElement('div');
 div.id = 'graph-spec';

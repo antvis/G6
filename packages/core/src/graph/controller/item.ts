@@ -444,7 +444,9 @@ export default class ItemController {
     }
 
     // 已经存在要设置的 state，或不存在 state 的样式为 undefined
-    if (item.hasState(stateName) === value || (isString(value) && item.hasState(stateName))) {
+    if (
+      (item.hasState(stateName) === value && value) // 当该状态已经存在且现在需要设置为 true 时，不需要继续。当该状态不存在，且设置为 false 时，需要继续
+      || (isString(value) && item.hasState(stateName))) { // 当该状态 value 是字符串，且已经存在该状态，不需要继续
       return;
     }
 
