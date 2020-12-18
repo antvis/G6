@@ -4,7 +4,7 @@
 
 import { IGroup, IShape } from '@antv/g-base';
 import { deepMix } from '@antv/util';
-import { ShapeStyle } from '@antv/g6';
+import { ShapeStyle } from '@antv/g6-core';
 
 /** 播放按钮配置 */
 interface ButtonCfg {

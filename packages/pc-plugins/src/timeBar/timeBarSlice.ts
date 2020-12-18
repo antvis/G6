@@ -15,7 +15,7 @@ import {
   TIMEBAR_CONFIG_CHANGE,
 } from './constant';
 
-import { ShapeStyle, IGraph } from '@antv/g6';
+import { ShapeStyle, IAbstractGraph as IGraph } from '@antv/g6-core';
 
 const DEFAULT_SELECTEDTICK_STYLE = {
   fill: '#5B8FF9',

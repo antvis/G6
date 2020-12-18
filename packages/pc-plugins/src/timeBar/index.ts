@@ -9,7 +9,13 @@ import Base, { IPluginBaseConfig } from '../base';
 import TrendTimeBar, { SliderOption } from './trendTimeBar';
 import TimeBarSlice, { TimeBarSliceOption } from './timeBarSlice';
 import { VALUE_CHANGE } from './constant';
-import { GraphData, IG6GraphEvent, ShapeStyle, TimeBarType, IGraph } from '@antv/g6';
+import {
+  GraphData,
+  IG6GraphEvent,
+  ShapeStyle,
+  TimeBarType,
+  IAbstractGraph as IGraph,
+} from '@antv/g6-core';
 import { Interval } from './trend';
 import { ControllerCfg } from './controllerBtn';
 import { isString } from '@antv/util';

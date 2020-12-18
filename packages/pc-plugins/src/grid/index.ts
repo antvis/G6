@@ -1,5 +1,5 @@
 import { modifyCSS, createDom } from '@antv/dom-util';
-import { IGraph, ViewPortEventParam } from '@antv/g6';
+import { IAbstractGraph as IGraph, ViewPortEventParam } from '@antv/g6-core';
 import { ICanvas } from '@antv/g-base';
 import Base from '../base';
 

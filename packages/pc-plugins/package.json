@@ -7,8 +7,7 @@
   "browser": "dist/g6-plugins.min.js",
   "scripts": {
     "start": "father build --watch",
-    "build": "npm run clean && father build && npm run build:umd",
-    "build:umd": "webpack --config webpack.config.js --mode production --profile --json > stats.json",
+    "build": "npm run clean && father build",
     "clean": "rimraf es esm lib dist",
     "test": "jest",
     "test-live": "DEBUG_MODE=1 jest --watch ./tests/unit/fisheye-spec.ts "
@@ -18,7 +17,6 @@
     "@antv/g-base": "^0.5.1",
     "@antv/g-canvas": "^0.4.15",
     "@antv/g-svg": "^0.5.2",
-    "@antv/g6": "*",
     "@antv/g6-core": "*",
     "@antv/matrix-util": "^2.0.7",
     "@antv/scale": "^0.3.4",
@@ -39,8 +37,6 @@
     "jest-electron": "^0.1.11",
     "jquery": "^3.5.1",
     "rimraf": "^3.0.2",
-    "ts-jest": "^26.4.4",
-    "webpack": "^5.11.0",
-    "webpack-cli": "^4.2.0"
+    "ts-jest": "^26.4.4"
   }
 }

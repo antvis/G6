@@ -1,7 +1,7 @@
 import { modifyCSS, createDom } from '@antv/dom-util';
 import { isString } from '@antv/util';
 import insertCss from 'insert-css';
-import { IGraph, IG6GraphEvent, Item } from '@antv/g6';
+import { IAbstractGraph as IGraph, IG6GraphEvent, Item } from '@antv/g6-core';
 import Base, { IPluginBaseConfig } from '../base';
 
 insertCss(`

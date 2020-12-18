@@ -4,7 +4,7 @@ import Trend, { TrendCfg } from './trend';
 import Handler from './handler';
 import ControllerBtn, { ControllerCfg } from './controllerBtn';
 
-import { ShapeStyle, IGraph } from '@antv/g6';
+import { ShapeStyle, IAbstractGraph as IGraph } from '@antv/g6-core';
 import {
   VALUE_CHANGE,
   TIMELINE_START,
