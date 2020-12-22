@@ -110,7 +110,7 @@ describe('rect test', () => {
         },
       });
       const group = node.get('group');
-      console.log(group)
+      console.log(group);
       expect(group.getCount()).toEqual(2);
       const keyShape = node.getKeyShape();
       expect(keyShape.attr('width')).toBe(30);

@@ -251,6 +251,5 @@ describe('shape node test', () => {
     it('clear', () => {
       canvas.destroy();
     });
-
   });
 });

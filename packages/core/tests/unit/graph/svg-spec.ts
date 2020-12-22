@@ -16,9 +16,9 @@ class Graph extends AbstractGraph {
     super(cfg);
   }
 
-  initEventController() { }
+  initEventController() {}
 
-  initLayoutController() { }
+  initLayoutController() {}
 
   initCanvas() {
     let container: string | HTMLElement | Element | null = this.get('container');
@@ -48,7 +48,7 @@ class Graph extends AbstractGraph {
 
     this.set('canvas', canvas);
   }
-  initPlugins() { }
+  initPlugins() {}
 }
 
 describe('graph', () => {

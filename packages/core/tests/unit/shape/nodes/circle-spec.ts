@@ -222,6 +222,5 @@ describe('circle test', () => {
       graph.destroy();
       expect(graph.destroyed).toBe(true);
     });
-
   });
 });

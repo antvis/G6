@@ -585,7 +585,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * @param {object} padding 四周围边距
    */
   public fitView(padding?: Padding): void {
-    console.log('fiut veiuw')
+    console.log('fiut veiuw');
     if (padding) {
       this.set('fitViewPadding', padding);
     }
@@ -1212,7 +1212,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    */
   public render(): void {
     const self = this;
-    console.log('render', self.get('fitView'))
+    console.log('render', self.get('fitView'));
     this.set('comboSorted', false);
     const data: GraphData = this.get('data');
 
@@ -2751,9 +2751,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const stackData = data
       ? clone(data)
       : {
-        before: {},
-        after: clone(this.save()),
-      };
+          before: {},
+          after: clone(this.save()),
+        };
 
     if (stackType === 'redo') {
       this.redoStack.push({
