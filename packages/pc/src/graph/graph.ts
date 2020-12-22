@@ -8,7 +8,7 @@ import { AbstractGraph, GraphOptions } from '@antv/g6-core';
 import { WaterMarkerConfig } from '../types';
 import Global from '../global';
 import { LayoutController, EventController } from './controller';
-import PluginBase from '../plugin/base';
+import { PluginBase } from '@antv/g6-plugins';
 import { createDom } from '@antv/dom-util';
 
 const SVG = 'svg';
