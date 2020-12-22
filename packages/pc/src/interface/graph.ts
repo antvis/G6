@@ -1,9 +1,8 @@
 import { IAbstractGraph, IG6GraphEvent, IShapeBase, Item, ShapeStyle } from '@antv/g6-core';
 import { Event as GraphEvent, ICanvas } from '@antv/g-base';
+import { PluginBase } from '@antv/g6-plugins';
 
 import { WaterMarkerConfig, TreeGraphData } from '../types';
-
-import PluginBase from '../plugin/base';
 
 export type DataUrlType = 'image/png' | 'image/jpeg' | 'image/webp' | 'image/bmp';
 
