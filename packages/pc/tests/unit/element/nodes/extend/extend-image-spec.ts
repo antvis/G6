@@ -1,6 +1,5 @@
 import { Graph, registerNode } from '../../../../../src';
 
-
 const div = document.createElement('div');
 div.id = 'graph-spec';
 document.body.appendChild(div);

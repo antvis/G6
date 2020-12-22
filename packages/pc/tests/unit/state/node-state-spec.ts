@@ -21,7 +21,6 @@ describe('graph node states', () => {
   };
 
   it('set state to false at first time', () => {
-
     const graph = new G6.Graph({
       container: div,
       width: 500,
@@ -36,7 +35,7 @@ describe('graph node states', () => {
     graph.render();
     const node3 = graph.addItem('node', { id: 'node3', x: 100, y: 150, type: 'rect' });
     graph.setItemState(node3, 'hover', false);
-    expect(node3.getStates().length).toBe(0)
+    expect(node3.getStates().length).toBe(0);
     graph.destroy();
   });
 
