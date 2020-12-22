@@ -30,7 +30,7 @@ export {
   registerEdge,
   registerBehavior,
   AbstractLayout,
-  AbstractEvent
+  AbstractEvent,
 };
 
 export * from './types';
