@@ -67,7 +67,7 @@ export default class ModeController {
     const behaves: IBehavior[] = [];
     let behave: IBehavior;
     each(behaviors || [], (behavior) => {
-      const BehaviorInstance = Behavior.getBehavior(behavior.type);
+      const BehaviorInstance = Behavior.getBehavior(behavior.type || behavior);
       if (!BehaviorInstance) {
         return;
       }
