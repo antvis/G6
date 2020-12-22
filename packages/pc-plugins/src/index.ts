@@ -8,8 +8,10 @@ import Tooltip from './tooltip';
 import TimeBar from './timeBar';
 import ImageMinimap from './imageMinimap';
 import EdgeFilterLens from './edgeFilterLens';
+import PluginBase from './base';
 
 export {
+  PluginBase,
   Menu,
   Grid,
   Minimap,

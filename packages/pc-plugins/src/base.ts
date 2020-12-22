@@ -61,7 +61,7 @@ export default abstract class PluginBase {
   /**
    * 初始化方法，供子类实现
    */
-  public init() {}
+  public abstract init();
 
   /**
    * 获取插件中的事件和事件处理方法，供子类实现
