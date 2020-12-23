@@ -765,30 +765,6 @@ export interface BubblesetCfg {
 
 export type TimeBarType = 'trend' | 'simple' | 'tick';
 
-export type WaterMarkerConfig = Partial<{
-  // 水印 canvas 容器的宽高
-  width: number;
-  height: number;
-  compatible: boolean;
-  text: {
-    x?: number;
-    y?: number;
-    lineHeight?: number;
-    rotate?: number;
-    fontSize?: number;
-    fontFamily?: string;
-    fill?: string;
-    baseline?: string;
-  };
-  image: {
-    x?: number;
-    y?: number;
-    // 图片的宽高
-    width?: number;
-    height: number;
-    rotate?: number;
-  };
-}>;
 export interface HullCfg {
   id: string;
   members?: Item[] | string[]; // 节点实例或节点 Id 数组

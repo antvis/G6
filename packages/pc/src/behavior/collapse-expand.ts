@@ -52,15 +52,7 @@ export default {
     if (!this.shouldUpdate(e, collapsed)) {
       return;
     }
-    try {
-      this.onChange(item, collapsed);
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        'G6 自 3.0.4 版本支持直接从 item.getModel() 获取源数据(临时通知，将在3.2.0版本中清除)',
-        err,
-      );
-    }
+    this.onChange(item, collapsed);
     this.graph.layout();
   },
 };
