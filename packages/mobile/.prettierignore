@@ -1,0 +1,10 @@
+.cache
+package.json
+package-lock.json
+public
+dist
+es
+lib
+.*
+*.png
+**/assets/**
