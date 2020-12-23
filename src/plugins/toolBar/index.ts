@@ -43,6 +43,30 @@ interface ToolBarConfig extends IPluginBaseConfig {
   position?: Point | null;
 }
 
+function getEventPath(evt: MouseEvent) {
+  if (!evt) {
+    return [];
+  }
+
+  if (evt.composedPath) {
+    return evt.composedPath();
+  }
+
+  const path = [];
+  let el = evt.target as HTMLElement;
+
+  while (el) {
+    path.push(el);
+    if (el.tagName === 'HTML') {
+      path.push(document, window);
+      return path;
+    }
+
+    el = el.parentElement;
+  }
+  return path;
+}
+
 export default class ToolBar extends Base {
   public getDefaultCfgs(): ToolBarConfig {
     return {
@@ -113,7 +137,7 @@ export default class ToolBar extends Base {
     const handleClick = this.get('handleClick');
 
     toolBarDOM.addEventListener('click', (evt) => {
-      const current = evt.path.filter((p) => p.nodeName === 'LI');
+      const current = getEventPath(evt).filter((p) => p.nodeName === 'LI');
       if (current.length === 0) {
         return;
       }
