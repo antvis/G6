@@ -45,7 +45,6 @@ export default class EventController extends AbstractEvent {
    * @param evt 事件句柄
    */
   protected onCanvasEvents(evt: IG6GraphEvent) {
-    console.log('--=====', evt.item, evt.shape, evt.type, evt.originalEvent.type);
     const { graph } = this;
     const canvas = graph.get('canvas');
     const { target } = evt;

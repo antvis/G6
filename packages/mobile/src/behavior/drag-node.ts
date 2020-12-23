@@ -124,7 +124,6 @@ export default {
    * @param evt
    */
   onDrag(evt: IG6GraphEvent) {
-    console.log('onDrag');
     if (!this.origin) {
       return;
     }
@@ -146,7 +145,6 @@ export default {
    * @param evt
    */
   onDragEnd(evt: IG6GraphEvent) {
-    console.log('onDragEnd');
     if (!this.origin || !this.shouldEnd.call(this, evt)) {
       return;
     }
@@ -295,7 +293,6 @@ export default {
    * @param evt
    */
   onDragEnter(evt: IG6GraphEvent) {
-    console.log('onDragEnter');
     const item = evt.item as ICombo;
     if (!this.validationCombo(item)) return;
 
@@ -309,7 +306,6 @@ export default {
    * @param evt
    */
   onDragLeave(evt: IG6GraphEvent) {
-    console.log('onDragLeave');
     const item = evt.item as ICombo;
     if (!this.validationCombo(item)) return;
 
