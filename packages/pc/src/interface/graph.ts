@@ -1,8 +1,15 @@
-import { IAbstractGraph, IG6GraphEvent, IShapeBase, Item, ShapeStyle } from '@antv/g6-core';
+import {
+  IAbstractGraph,
+  IG6GraphEvent,
+  IShapeBase,
+  Item,
+  ShapeStyle,
+  TreeGraphData,
+} from '@antv/g6-core';
 import { Event as GraphEvent, ICanvas } from '@antv/g-base';
 import { PluginBase } from '@antv/g6-plugins';
 
-import { WaterMarkerConfig, TreeGraphData } from '../types';
+import { WaterMarkerConfig } from '../types';
 
 export type DataUrlType = 'image/png' | 'image/jpeg' | 'image/webp' | 'image/bmp';
 
@@ -123,31 +130,4 @@ export interface ITreeGraph extends IGraph {
    * @return {boolean} 是否有布局动画
    */
   isLayoutAnimating(): boolean;
-}
-
-export class G6GraphEvent extends GraphEvent implements IG6GraphEvent {
-  public item: Item;
-
-  public canvasX: number;
-
-  public canvasY: number;
-
-  public clientX: number;
-
-  public clientY: number;
-
-  public wheelDelta: number;
-
-  public detail: number;
-
-  public target!: IShapeBase & ICanvas;
-
-  constructor(type: string, event: IG6GraphEvent) {
-    super(type, event);
-    this.item = event.item;
-    this.canvasX = event.canvasX;
-    this.canvasY = event.canvasY;
-    this.wheelDelta = event.wheelDelta;
-    this.detail = event.detail;
-  }
 }

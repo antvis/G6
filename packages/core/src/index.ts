@@ -18,11 +18,13 @@ const registerCombo = Shape.registerCombo;
 const registerBehavior = Behavior.registerBehavior;
 
 export {
+  Arrow,
   Shape,
   Node,
   Edge,
   Combo,
   Hull,
+  Marker,
   registerNode,
   registerCombo,
   AbstractGraph,
