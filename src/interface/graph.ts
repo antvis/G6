@@ -60,7 +60,7 @@ export interface IGraph extends EventEmitter {
    * 设置 graph 的最小缩放比例
    * @return minZoom
    */
-  setMinZoom(ratio: number);
+  setMinZoom(ratio: number): void;
 
   /**
    * 获取 graph 的最大缩放比例
@@ -72,7 +72,7 @@ export interface IGraph extends EventEmitter {
    * 设置 graph 的最大缩放比例
    * @param maxZoom
    */
-  setMaxZoom(ratio: number);
+  setMaxZoom(ratio: number): void;
 
   /**
    * 获取 graph 的宽度
