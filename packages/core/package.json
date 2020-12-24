@@ -30,7 +30,7 @@
     "README.md"
   ],
   "main": "lib/index.js",
-  "module": "es/index.ts",
+  "module": "es/index.js",
   "browser": "dist/g6-core.min.js",
   "types": "lib/index.d.ts",
   "scripts": {
