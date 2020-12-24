@@ -125,7 +125,8 @@ export const processParallelEdges = (
   edges,
   offsetDiff = 15,
   multiEdgeType: string = 'quadratic',
-  singleEdgeType: string = 'line',
+  singleEdgeType: string,
+  loopEdgeType: string,
 ) => {
   const len = edges.length;
   const cod = offsetDiff * 2;
@@ -181,7 +182,7 @@ export const processParallelEdges = (
     for (let k = 0; k < length; k++) {
       const current = arcEdges[k];
       if (current.source === current.target) {
-        current.type = 'loop';
+        if (loopEdgeType) current.type = loopEdgeType;
         // 超过8条自环边，则需要重新处理
         current.loopCfg = {
           position: loopPosition[k % 8],
@@ -189,7 +190,7 @@ export const processParallelEdges = (
         };
         continue;
       }
-      if (length === 1) {
+      if (length === 1 && singleEdgeType && current.source !== current.target) {
         current.type = singleEdgeType;
         continue;
       }
