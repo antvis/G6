@@ -3,7 +3,7 @@ title: 插件 Plugins
 order: 14
 ---
 
-G6 中支持插件提供了一些可插拔的组件，包括：
+G6 提供了一些可插拔的组件，包括：
 
 - [Grid](#grid)
 - [Minimap](#minimap)

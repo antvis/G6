@@ -62,6 +62,8 @@ describe('base util', () => {
 
     edges.push({ source: 0, target: 0 });
     edges.push({ source: 0, target: 0 });
+    edges[3].type = 'loop';
+    edges[4].type = 'loop';
     processParallelEdges(edges);
     expect(edges[3].type).toEqual('loop');
     expect(edges[4].type).toEqual('loop');
