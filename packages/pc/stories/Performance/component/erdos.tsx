@@ -87,7 +87,6 @@ const Erdos = () => {
             node.y = (graphSize * node.y) / scale + graphSize / 2;
           });
           graph.positionsAnimate();
-          console.log(data.nodes.length, data.edges.length);
         });
       graph.on('node:click', (evt) => {
         const { item } = evt;

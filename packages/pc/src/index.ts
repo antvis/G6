@@ -5,7 +5,10 @@ import {
   registerNode,
   Arrow,
   Marker,
+  Shape
 } from '@antv/g6-core';
+import './element';
+import './behavior';
 import Graph from './graph/graph';
 import TreeGraph from './graph/tree-graph';
 import { Layout, registerLayout } from './layout';
@@ -13,8 +16,6 @@ import Global from './global';
 import Util from './util';
 import Plugin from './plugin';
 import * as Algorithm from '@antv/algorithm';
-import './element';
-import './behavior';
 
 // const registerLayout = Layout.registerLayout;
 const Minimap = Plugin.Minimap;
@@ -51,6 +52,7 @@ export {
   EdgeFilterLens,
   Arrow,
   Marker,
+  Shape
 };
 
 export default {
@@ -78,4 +80,5 @@ export default {
   Algorithm,
   Arrow,
   Marker,
+  Shape
 };
