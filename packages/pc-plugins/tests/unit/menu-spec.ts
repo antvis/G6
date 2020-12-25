@@ -1,5 +1,4 @@
-import G6 from '@antv/g6';
-import { G6GraphEvent, IG6GraphEvent } from '@antv/g6';
+import G6, { G6GraphEvent, IG6GraphEvent } from '@antv/g6';
 import Menu from '../../src/menu';
 
 const div = document.createElement('div');
@@ -9,7 +8,7 @@ document.body.appendChild(div);
 describe('menu', () => {
   it('menu with default', () => {
     const menu = new Menu({
-      handleMenuClick: (target, item) => {},
+      handleMenuClick: (target, item) => { },
     });
 
     const graph = new G6.Graph({

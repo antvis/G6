@@ -178,7 +178,6 @@ describe('drag-combo', () => {
     graph.emit('combo:dragend', { item: combo, x: 500, y: 100 });
     setTimeout(() => {
       comboCBBox = comboC.getKeyShape().getCanvasBBox();
-      console.log(comboCBBox);
       expect(Math.abs(comboCBBox.width - 163) < 2).toBe(true);
       graph.destroy();
       done();
@@ -315,7 +314,6 @@ describe('drag-combo', () => {
     graph.emit('combo:dragend', { item: combo, x: 500, y: 100 });
     setTimeout(() => {
       comboCBBox = comboC.getKeyShape().getCanvasBBox();
-      console.log(comboCBBox);
       expect(Math.abs(comboCBBox.width - 635) < 2).toBe(true);
       graph.destroy();
       done();

@@ -15,7 +15,7 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/algorithm-category.j
           {
             type: 'collapse-expand',
             onChange: function onChange(item, collapsed) {
-              const data = item.get('model').data;
+              const data = item.getModel();
               data.collapsed = collapsed;
               return true;
             },

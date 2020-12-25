@@ -20,7 +20,7 @@ function ucfirst(str: string) {
  * 工厂方法的基类
  * @type Shape.FactoryBase
  */
-const ShapeFactoryBase = {
+export const ShapeFactoryBase = {
   /**
    * 默认的形状，当没有指定/匹配 shapeType 时，使用默认的
    * @type {String}
@@ -38,7 +38,7 @@ const ShapeFactoryBase = {
    */
   getShape(type?: string): ShapeOptions {
     const self = this as any;
-    const shape = self[type!] || self[self.defaultShapeType];
+    const shape = self[type!] || self[self.defaultShapeType] || self['simple-circle'];
     return shape;
   },
   /**
@@ -126,17 +126,17 @@ const ShapeFramework = {
   /**
    * 绘制
    */
-  drawShape(/* cfg, group */) {},
+  drawShape(/* cfg, group */) { },
   /**
    * 绘制完成后的操作，便于用户继承现有的节点、边
    */
-  afterDraw(/* cfg, group */) {},
+  afterDraw(/* cfg, group */) { },
   // update(cfg, item) // 默认不定义
-  afterUpdate(/* cfg, item */) {},
+  afterUpdate(/* cfg, item */) { },
   /**
    * 设置节点、边状态
    */
-  setState(/* name, value, item */) {},
+  setState(/* name, value, item */) { },
   /**
    * 获取控制点
    * @param  {Object} cfg 节点、边的配置项
@@ -203,6 +203,7 @@ export default class Shape {
         ...nodeDefinition,
       };
     } else {
+      shapeFactory.getShape(extendShapeType)
       const extendShape = extendShapeType ? shapeFactory.getShape(extendShapeType) : ShapeFramework;
       shapeObj = { ...extendShape, ...nodeDefinition };
     }
@@ -245,7 +246,7 @@ export default class Shape {
 
 // 注册 Node 的工厂方法
 Shape.registerFactory('node', {
-  defaultShapeType: 'simple-circle',
+  defaultShapeType: 'circle',
 });
 
 // 注册 Edge 的工厂方法

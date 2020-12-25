@@ -470,7 +470,6 @@ describe('graph refactor states', () => {
 
     // // 设置 selfCircle:hover，目前只有这一个状态
     graph.setItemState(item, 'selfCircle', 'hover');
-    console.log(item);
     expect(item.getStates().length).toBe(1);
     expect(item.hasState('selfCircle:hover')).toBe(true);
 

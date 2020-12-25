@@ -50,7 +50,6 @@ describe('view', () => {
     graph.render();
 
     bbox = graph.get('canvas').getCanvasBBox();
-    console.log(bbox);
 
     expect(numberEqual(bbox.x, 90, 1)).toBe(true);
     expect(numberEqual(bbox.maxX, 410, 1)).toBe(true);
@@ -78,7 +77,6 @@ describe('view', () => {
     graph.render();
     graph.fitView([50, 50]);
     const bbox = graph.get('canvas').getCanvasBBox();
-    console.log(bbox);
     expect(numberEqual(bbox.x, 116, 1)).toBe(true);
     expect(numberEqual(bbox.y, 50)).toBe(true);
     expect(numberEqual(bbox.width, 266, 1)).toBe(true);

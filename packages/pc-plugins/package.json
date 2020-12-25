@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@antv/dom-util": "^2.0.2",
-    "@antv/g-base": "^0.5.1",
+    "@antv/g-base": "0.5.1",
     "@antv/g-canvas": "^0.4.15",
     "@antv/g-svg": "^0.5.2",
     "@antv/g6-core": "*",
@@ -37,6 +37,7 @@
     "jest-electron": "^0.1.11",
     "jquery": "^3.5.1",
     "rimraf": "^3.0.2",
-    "ts-jest": "^26.4.4"
+    "ts-jest": "^26.4.4",
+    "@antv/g6": "*"
   }
 }
