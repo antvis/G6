@@ -616,12 +616,12 @@ export interface IGraph extends EventEmitter {
    * 根据 hullId 获取对应的 hull 
    * @return Hull
    */
-  getHullById(hullId: string): Hull
+  getHullById(hullId: string): Hull;
 
   /**
    * 根据 hullId 删除 Hull
    */
-  removeHull(hull: Hull | string)
+  removeHull(hull: Hull | string): void;
 
   /**
    * 重新定义监听函数，复写参数类型
@@ -693,12 +693,12 @@ export interface ITreeGraph extends IGraph {
    * @param {string} imgURL 图片水印的url地址
    * @param {WaterMarkerConfig} config 文本水印的配置项
    */
-  setImageWaterMarker(imgURL: string, config: WaterMarkerConfig);
+  setImageWaterMarker(imgURL: string, config: WaterMarkerConfig): void;
 
   /**
    * 设置文本水印
    * @param {string[]} texts 水印的文本内容
    * @param {WaterMarkerConfig} config 文本水印的配置项
    */
-  setTextWaterMarker(texts: string[], config?: WaterMarkerConfig);
+  setTextWaterMarker(texts: string[], config?: WaterMarkerConfig): void;
 }
