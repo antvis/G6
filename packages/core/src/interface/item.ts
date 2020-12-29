@@ -85,6 +85,8 @@ export interface IItemBase {
 
   isItem(): boolean;
 
+  setOriginStyle(cfg?: ModelConfig);
+
   getShapeStyleByName(name?: string): ShapeStyle;
 
   /**

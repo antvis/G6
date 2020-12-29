@@ -38,6 +38,7 @@ export {
   TreeGraph,
   Util,
   Layout,
+  registerLayout,
   Global,
   Minimap,
   Grid,

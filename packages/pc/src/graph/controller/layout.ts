@@ -179,6 +179,22 @@ export default class LayoutController extends AbstractLayout {
       return true;
     }
 
+    // 所有布局挂载 onLayoutEnd, 在布局结束后依次执行：
+    // 执行用户自定义 onLayoutEnd，触发 afterlayout、更新节点位置、fitView/fitCenter、触发 afterrender
+    const { onLayoutEnd } = layoutCfg;
+    layoutCfg.onLayoutEnd = () => {
+      // 执行用户自定义 onLayoutEnd
+      if (onLayoutEnd) {
+        onLayoutEnd();
+      }
+      // 触发 afterlayout
+      graph.emit('afterlayout');
+      // 更新节点位置
+      this.refreshLayout();
+      // 由 graph 传入的，控制 fitView、fitCenter，并触发 afterrender
+      success && success();
+    };
+
     if (layoutType === 'force' || layoutType === 'g6force' || layoutType === 'gForce') {
       const { onTick } = layoutCfg;
       const tick = () => {
@@ -188,24 +204,8 @@ export default class LayoutController extends AbstractLayout {
         graph.refreshPositions();
       };
       layoutCfg.tick = tick;
-      const { onLayoutEnd } = layoutCfg;
-      layoutCfg.onLayoutEnd = () => {
-        if (onLayoutEnd) {
-          onLayoutEnd();
-        }
-        graph.emit('afterlayout');
-      };
     } else if (this.layoutType === 'comboForce') {
       layoutCfg.comboTrees = graph.get('comboTrees');
-    } else if (isGPU) {
-      const { onLayoutEnd } = layoutCfg;
-      layoutCfg.onLayoutEnd = () => {
-        this.refreshLayout();
-        if (onLayoutEnd) {
-          onLayoutEnd();
-        }
-        graph.emit('afterlayout');
-      };
     }
 
     let enableTick = false;
@@ -220,7 +220,7 @@ export default class LayoutController extends AbstractLayout {
       // 是否需要迭代的方式完成布局。这里是来自布局对象的实例属性，是由布局的定义者在布局类定义的。
       enableTick = layoutMethod.enableTick;
       if (enableTick) {
-        const { onTick, onLayoutEnd } = layoutCfg;
+        const { onTick } = layoutCfg;
         const tick = () => {
           if (onTick) {
             onTick();
@@ -228,13 +228,6 @@ export default class LayoutController extends AbstractLayout {
           graph.refreshPositions();
         };
         layoutMethod.tick = tick;
-        const onLayoutEndNew = () => {
-          if (onLayoutEnd) {
-            onLayoutEnd();
-          }
-          graph.emit('afterlayout');
-        };
-        layoutMethod.onLayoutEnd = onLayoutEndNew;
       }
       layoutMethod.init(this.data);
       // 若存在节点没有位置信息，且没有设置 layout，在 initPositions 中 random 给出了所有节点的位置，不需要再次执行 random 布局
@@ -242,18 +235,12 @@ export default class LayoutController extends AbstractLayout {
       if (hasLayoutType) {
         graph.emit('beginlayout');
         layoutMethod.execute();
+        if (layoutMethod.isCustomLayout && layoutCfg.onLayoutEnd) layoutCfg.onLayoutEnd();
       }
       this.layoutMethod = layoutMethod;
-    }
-    if (
-      (hasLayoutType || !allHavePos) &&
-      this.layoutType !== 'force' &&
-      this.layoutType !== 'gForce' &&
-      !enableTick &&
-      !isGPU
-    ) {
-      graph.emit('afterlayout');
-      this.refreshLayout();
+    } else if (layoutCfg.onLayoutEnd) {
+      // 若没有配置 layout，也需要更新画布
+      layoutCfg.onLayoutEnd();
     }
     return false;
   }
@@ -423,10 +410,8 @@ export default class LayoutController extends AbstractLayout {
     layoutMethod.updateCfg(cfg);
     graph.emit('beforelayout');
     layoutMethod.execute();
-    if (this.layoutType !== 'force' && !layoutMethod.enableTick) {
-      graph.emit('afterlayout');
-    }
-    this.refreshLayout();
+
+    if (layoutMethod.isCustomLayout && layoutCfg.onLayoutEnd) layoutCfg.onLayoutEnd();
   }
 
   public hasGPUVersion(layoutName: string): boolean {
