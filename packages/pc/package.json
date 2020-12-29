@@ -1,5 +1,5 @@
 {
-  "name": "@antv/g6",
+  "name": "@antv/g6-pc",
   "version": "4.0.3",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
@@ -35,7 +35,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "start": "father build --watch",
-    "build": "npm run clean && father build && npm run build:umd",
+    "build": "npm run clean && father build",
     "build:umd": "webpack --config webpack.config.js --mode production",
     "ci": "npm run build && npm run coverage",
     "clean": "rimraf es esm lib dist",
