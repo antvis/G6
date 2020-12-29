@@ -9,12 +9,12 @@
     "build": "npm run clean && father build",
     "clean": "rimraf es esm lib dist",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch ./tests/unit/fisheye-spec.ts "
+    "test-live": "DEBUG_MODE=1 jest --watch ./tests/unit/minimap-spec.ts "
   },
   "dependencies": {
     "@antv/dom-util": "^2.0.2",
-    "@antv/g-base": "0.5.1",
-    "@antv/g-canvas": "^0.4.15",
+    "@antv/g-base": "^0.5.1",
+    "@antv/g-canvas": "^0.5.2",
     "@antv/g-svg": "^0.5.2",
     "@antv/g6-core": "^0.0.1",
     "@antv/matrix-util": "^2.0.7",
