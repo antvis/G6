@@ -639,7 +639,12 @@ export const getComboBBox = (children: ComboTree[], graph: IAbstractGraph): BBox
 export const shouldRefreshEdge = (cfg) => {
   let refreshEdge = isNumber(cfg.x) || isNumber(cfg.y) || cfg.type || cfg.anchorPoints || cfg.size;
   if (cfg.style)
-    refreshEdge = refreshEdge || isNumber(cfg.style.r) || isNumber(cfg.style.width)
-      || isNumber(cfg.style.height) || isNumber(cfg.style.rx) || isNumber(cfg.style.ry);
+    refreshEdge =
+      refreshEdge ||
+      isNumber(cfg.style.r) ||
+      isNumber(cfg.style.width) ||
+      isNumber(cfg.style.height) ||
+      isNumber(cfg.style.rx) ||
+      isNumber(cfg.style.ry);
   return refreshEdge;
-}
+};

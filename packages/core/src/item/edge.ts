@@ -5,7 +5,11 @@ import {
   IShapeBase,
   ModelConfig,
   ShapeStyle,
-  EdgeConfig, IPoint, NodeConfig, SourceTarget, Indexable
+  EdgeConfig,
+  IPoint,
+  NodeConfig,
+  SourceTarget,
+  Indexable,
 } from '../types';
 import Shape from '../shape/shape';
 import Item from './item';
@@ -210,7 +214,7 @@ export default class Edge extends Item implements IEdge {
     return this.get('target');
   }
 
-  public updatePosition() { }
+  public updatePosition() {}
 
   /**
    * 边不需要重计算容器位置，直接重新计算 path 位置
@@ -248,13 +252,15 @@ export default class Edge extends Item implements IEdge {
     const self = this;
     const keyShapeName = keyShape.get('name');
 
-    if (!this.get('originStyle')) { // 第一次 set originStyle，直接拿首次渲染所有图形的 attrs
+    if (!this.get('originStyle')) {
+      // 第一次 set originStyle，直接拿首次渲染所有图形的 attrs
       const originStyles = {};
       each(children, (child) => {
         const shapeType = child.get('type');
         const name = child.get('name');
         if (name && name !== keyShapeName) {
-          originStyles[name] = shapeType !== 'image' ? child.attr() : self.getShapeStyleByName(name);
+          originStyles[name] =
+            shapeType !== 'image' ? child.attr() : self.getShapeStyleByName(name);
         } else {
           const keyShapeStyle: ShapeStyle = self.getShapeStyleByName(); // 可优化，需要去除 child.attr 中其他 shape 名的对象
           if (keyShapeStyle.path) delete keyShapeStyle.path;
@@ -267,7 +273,8 @@ export default class Edge extends Item implements IEdge {
         }
       });
       self.set('originStyle', originStyles);
-    } else { // 第二次 set originStyles，需要找到不是 stateStyles 的样式，更新到 originStyles 中
+    } else {
+      // 第二次 set originStyles，需要找到不是 stateStyles 的样式，更新到 originStyles 中
 
       // 上一次设置的 originStyle，是初始的 shape attrs
       let styles: ShapeStyle = this.getOriginStyle();
@@ -281,25 +288,31 @@ export default class Edge extends Item implements IEdge {
       each(children, (child) => {
         const name = child.get('name');
         const shapeAttrs = child.attr();
-        if (name && name !== keyShapeName) { // 有 name 的非 keyShape 图形
+        if (name && name !== keyShapeName) {
+          // 有 name 的非 keyShape 图形
           const shapeStateStyle = currentStatesStyle[name];
           if (!styles[name]) styles[name] = {};
-          shapeStateStyle && Object.keys(shapeAttrs).forEach(key => {
-            const value = shapeAttrs[key];
-            if (value !== shapeStateStyle[key]) styles[name][key] = value
-          })
+          shapeStateStyle &&
+            Object.keys(shapeAttrs).forEach((key) => {
+              const value = shapeAttrs[key];
+              if (value !== shapeStateStyle[key]) styles[name][key] = value;
+            });
         } else {
           const shapeAttrs = child.attr();
-          const keyShapeStateStyles = Object.assign({}, currentStatesStyle, currentStatesStyle[keyShapeName])
-          Object.keys(shapeAttrs).forEach(key => {
+          const keyShapeStateStyles = Object.assign(
+            {},
+            currentStatesStyle,
+            currentStatesStyle[keyShapeName],
+          );
+          Object.keys(shapeAttrs).forEach((key) => {
             const value = shapeAttrs[key];
             // 如果是对象且不是 arrow，则是其他 shape 的样式
             if (isPlainObject(value) && ARROWS.indexOf(name) === -1) return;
             if (keyShapeStateStyles[key] !== value) {
-              if (keyShapeName) styles[keyShapeName][key] = value
+              if (keyShapeName) styles[keyShapeName][key] = value;
               else styles[key] = value;
             }
-          })
+          });
         }
       });
 
@@ -308,7 +321,6 @@ export default class Edge extends Item implements IEdge {
       self.set('originStyle', styles);
     }
   }
-
 
   public destroy() {
     const sourceItem: Node = this.get(`source${ITEM_NAME_SUFFIX}`);

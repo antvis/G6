@@ -43,7 +43,7 @@ describe('no node and one node', () => {
       height: 500,
     });
     graph.on('afterlayout', () => {
-      console.log('after lkayout')
+      console.log('after lkayout');
       expect(testData.nodes[0].x).toBe(250);
       expect(testData.nodes[0].y).toBe(250);
       done();

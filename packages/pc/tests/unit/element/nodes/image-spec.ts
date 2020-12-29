@@ -13,8 +13,8 @@ describe('default image test', () => {
       type: 'image',
     },
     modes: {
-      default: ['brush-select']
-    }
+      default: ['brush-select'],
+    },
   };
   const graph = new Graph(cfg);
   it('default image config', () => {
@@ -37,6 +37,6 @@ describe('default image test', () => {
     expect(keyShape.attr('height')).toEqual(200);
     expect(keyShape.attr('x')).toEqual(-100);
     expect(keyShape.attr('y')).toEqual(-100);
-    graph.destroy()
+    graph.destroy();
   });
 });
