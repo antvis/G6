@@ -91,7 +91,6 @@
     "ml-matrix": "^6.5.0"
   },
   "devDependencies": {
-    "@antv/chart-node-g6": "^0.0.3",
     "@antv/g-webgpu-compiler": "^0.5.1",
     "@babel/core": "^7.7.7",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
