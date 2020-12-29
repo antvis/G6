@@ -1253,11 +1253,8 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     // layout
     const layoutController = self.get('layoutController');
     if (layoutController) {
-      const layoutWithWorker = layoutController.layout(success);
+      layoutController.layout(success);
       if (this.destroyed) return;
-      if (!layoutWithWorker) {
-        success();
-      }
     } else {
       if (self.get('fitView')) {
         self.fitView();
@@ -1268,15 +1265,13 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       self.emit('afterrender');
       self.set('animate', animate);
     }
+    // 将在 onLayoutEnd 中被调用
     function success() {
+      // fitView 与 fitCenter 共存时，fitView 优先，fitCenter 不再执行
       if (self.get('fitView')) {
-        self.on('afterlayout', () => {
-          self.fitView();
-        });
+        self.fitView();
       } else if (self.get('fitCenter')) {
-        self.on('afterlayout', () => {
-          self.fitCenter();
-        });
+        self.fitCenter();
       }
       self.autoPaint();
       self.emit('afterrender');

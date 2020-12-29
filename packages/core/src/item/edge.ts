@@ -1,13 +1,22 @@
-import { isString, isPlainObject, isNil, mix } from '@antv/util';
+import { isString, isPlainObject, isNil, mix, each, isArray, deepMix, indexOf } from '@antv/util';
 import { IEdge, INode, ICombo } from '../interface/item';
-import { EdgeConfig, IPoint, NodeConfig, SourceTarget, Indexable } from '../types';
+import { IGroup } from '@antv/g-base';
+import {
+  IShapeBase,
+  ModelConfig,
+  ShapeStyle,
+  EdgeConfig, IPoint, NodeConfig, SourceTarget, Indexable
+} from '../types';
+import Shape from '../shape/shape';
 import Item from './item';
 import Node from './node';
+import Global from '../global';
 
 const END_MAP: Indexable<string> = { source: 'start', target: 'end' };
 const ITEM_NAME_SUFFIX = 'Node'; // 端点的后缀，如 sourceNode, targetNode
 const POINT_NAME_SUFFIX = 'Point'; // 起点或者结束点的后缀，如 startPoint, endPoint
 const ANCHOR_NAME_SUFFIX = 'Anchor';
+const ARROWS = ['startArrow', 'endArrow'];
 
 export default class Edge extends Item implements IEdge {
   protected getDefaultCfg() {
@@ -201,7 +210,7 @@ export default class Edge extends Item implements IEdge {
     return this.get('target');
   }
 
-  public updatePosition() {}
+  public updatePosition() { }
 
   /**
    * 边不需要重计算容器位置，直接重新计算 path 位置
@@ -226,6 +235,80 @@ export default class Edge extends Item implements IEdge {
     this.afterUpdate();
     this.clearCache();
   }
+
+  /**
+   * 设置图元素原始样式
+   * @param keyShape 图元素 keyShape
+   * @param group Group 容器
+   */
+  public setOriginStyle(cfg?: ModelConfig) {
+    const group: IGroup = this.get('group');
+    const children = group.get('children');
+    const keyShape: IShapeBase = this.getKeyShape();
+    const self = this;
+    const keyShapeName = keyShape.get('name');
+
+    if (!this.get('originStyle')) { // 第一次 set originStyle，直接拿首次渲染所有图形的 attrs
+      const originStyles = {};
+      each(children, (child) => {
+        const shapeType = child.get('type');
+        const name = child.get('name');
+        if (name && name !== keyShapeName) {
+          originStyles[name] = shapeType !== 'image' ? child.attr() : self.getShapeStyleByName(name);
+        } else {
+          const keyShapeStyle: ShapeStyle = self.getShapeStyleByName(); // 可优化，需要去除 child.attr 中其他 shape 名的对象
+          if (keyShapeStyle.path) delete keyShapeStyle.path;
+          if (keyShapeStyle.matrix) delete keyShapeStyle.matrix;
+          if (!keyShapeName) {
+            Object.assign(originStyles, keyShapeStyle);
+          } else {
+            originStyles[keyShapeName] = keyShapeStyle;
+          }
+        }
+      });
+      self.set('originStyle', originStyles);
+    } else { // 第二次 set originStyles，需要找到不是 stateStyles 的样式，更新到 originStyles 中
+
+      // 上一次设置的 originStyle，是初始的 shape attrs
+      let styles: ShapeStyle = this.getOriginStyle();
+      // let styles: ShapeStyle = {};
+      if (keyShapeName && !styles[keyShapeName]) styles[keyShapeName] = {};
+
+      // 获取当前状态样式
+      const currentStatesStyle = this.getCurrentStatesStyle();
+
+      // 遍历当前所有图形的 attrs，找到不是 stateStyles 的样式更新到 originStyles 中
+      each(children, (child) => {
+        const name = child.get('name');
+        const shapeAttrs = child.attr();
+        if (name && name !== keyShapeName) { // 有 name 的非 keyShape 图形
+          const shapeStateStyle = currentStatesStyle[name];
+          if (!styles[name]) styles[name] = {};
+          shapeStateStyle && Object.keys(shapeAttrs).forEach(key => {
+            const value = shapeAttrs[key];
+            if (value !== shapeStateStyle[key]) styles[name][key] = value
+          })
+        } else {
+          const shapeAttrs = child.attr();
+          const keyShapeStateStyles = Object.assign({}, currentStatesStyle, currentStatesStyle[keyShapeName])
+          Object.keys(shapeAttrs).forEach(key => {
+            const value = shapeAttrs[key];
+            // 如果是对象且不是 arrow，则是其他 shape 的样式
+            if (isPlainObject(value) && ARROWS.indexOf(name) === -1) return;
+            if (keyShapeStateStyles[key] !== value) {
+              if (keyShapeName) styles[keyShapeName][key] = value
+              else styles[key] = value;
+            }
+          })
+        }
+      });
+
+      if (styles.path) delete styles.path;
+      if (styles.matrix) delete styles.matrix;
+      self.set('originStyle', styles);
+    }
+  }
+
 
   public destroy() {
     const sourceItem: Node = this.get(`source${ITEM_NAME_SUFFIX}`);

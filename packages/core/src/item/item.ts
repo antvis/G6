@@ -210,7 +210,7 @@ export default class ItemBase implements IItemBase {
    * @param keyShape 图元素 keyShape
    * @param group Group 容器
    */
-  private setOriginStyle(cfg?: ModelConfig) {
+  public setOriginStyle(cfg?: ModelConfig) {
     const originStyles = {};
     const group: IGroup = this.get('group');
     const children = group.get('children');
@@ -272,8 +272,6 @@ export default class ItemBase implements IItemBase {
         const style = defaultStyle[key];
         if (!isPlainObject(style) || ARROWS.includes(key)) styles[key] = style;
       }
-      if (styles.path) delete styles.path;
-      if (styles.matrix) delete styles.matrix;
       if (!originStyles[keyShapeName]) originStyles[keyShapeName] = styles;
       else originStyles[keyShapeName] = Object.assign(styles, originStyles[keyShapeName]);
     }
@@ -350,17 +348,17 @@ export default class ItemBase implements IItemBase {
   /**
    * 渲染前的逻辑，提供给子类复写
    */
-  protected beforeDraw() {}
+  protected beforeDraw() { }
 
   /**
    * 渲染后的逻辑，提供给子类复写
    */
-  protected afterDraw() {}
+  protected afterDraw() { }
 
   /**
    * 更新后做一些工作
    */
-  protected afterUpdate() {}
+  protected afterUpdate() { }
 
   /**
    * draw shape
@@ -373,10 +371,12 @@ export default class ItemBase implements IItemBase {
 
   public getShapeStyleByName(name?: string): ShapeStyle {
     const group: IGroup = this.get('group');
-    let currentShape: IShapeBase = this.getKeyShape();
+    let currentShape: IShapeBase;
 
     if (name) {
       currentShape = group.find((element) => element.get('name') === name) as IShapeBase;
+    } else {
+      currentShape = this.getKeyShape();
     }
 
     if (currentShape) {
