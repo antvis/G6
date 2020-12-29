@@ -1,13 +1,5 @@
-import {
-  IAbstractGraph,
-  IG6GraphEvent,
-  IShapeBase,
-  Item,
-  ShapeStyle,
-  TreeGraphData,
-} from '@antv/g6-core';
-import { Event as GraphEvent, ICanvas } from '@antv/g-base';
-import { PluginBase } from '@antv/g6-plugins';
+import { IAbstractGraph, Item, ShapeStyle, TreeGraphData } from '@antv/g6-core';
+import { PluginBase } from '@antv/g6-plugin';
 
 import { WaterMarkerConfig } from '../types';
 
