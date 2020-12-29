@@ -173,7 +173,7 @@ describe('minimap', () => {
         const matrix = graph.get('group').getMatrix();
         expect(matrix[0]).toEqual(2);
         expect(matrix[4]).toEqual(2);
-        // graph.destroy();
+        graph.destroy();
         done();
       }, 100);
     }, 100);
