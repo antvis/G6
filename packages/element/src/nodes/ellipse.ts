@@ -1,5 +1,5 @@
 import { IGroup, IShape } from '@antv/g-base';
-import { registerNode, Item, NodeConfig, ShapeStyle, Global } from '@antv/g6';
+import { registerNode, Item, NodeConfig, ShapeStyle, BaseGlobal as Global } from '@antv/g6-core';
 import { mix } from '@antv/util';
 
 /**

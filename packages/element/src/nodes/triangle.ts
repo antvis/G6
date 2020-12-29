@@ -5,9 +5,9 @@ import {
   NodeConfig,
   ShapeStyle,
   ShapeOptions,
-  Global,
+  BaseGlobal as Global,
   ModelConfig,
-} from '@antv/g6';
+} from '@antv/g6-core';
 
 import { mix } from '@antv/util';
 

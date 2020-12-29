@@ -1,6 +1,13 @@
 import { mix } from '@antv/util';
 import { IGroup, IShape } from '@antv/g-base';
-import { registerNode, Item, NodeConfig, ShapeStyle, ShapeOptions, Global } from '@antv/g6';
+import {
+  registerNode,
+  Item,
+  NodeConfig,
+  ShapeStyle,
+  ShapeOptions,
+  BaseGlobal as Global,
+} from '@antv/g6-core';
 
 registerNode(
   'rect',
