@@ -1,6 +1,14 @@
 import { Point, IGroup } from '@antv/g-base';
 import { mix, each, isArray, isString } from '@antv/util';
-import { registerEdge, ShapeStyle, EdgeConfig, Item, INode, Util, Global } from '@antv/g6';
+import {
+  registerEdge,
+  ShapeStyle,
+  EdgeConfig,
+  Item,
+  INode,
+  Util,
+  BaseGlobal as Global,
+} from '@antv/g6-core';
 import { getPathWithBorderRadiusByPolyline } from './polyline-util';
 import { RouterCfg, pathFinder } from './router';
 
