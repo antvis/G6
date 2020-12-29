@@ -1,10 +1,9 @@
 {
-  "name": "@antv/g6-plugins",
+  "name": "@antv/g6-plugin",
   "version": "0.0.1",
   "description": "G6 Plugin",
   "main": "lib/index.js",
   "module": "es/index.ts",
-  "browser": "dist/g6-plugins.min.js",
   "scripts": {
     "start": "father build --watch",
     "build": "npm run clean && father build",
