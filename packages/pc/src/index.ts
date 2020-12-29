@@ -7,7 +7,7 @@ import {
   Marker,
   Shape,
 } from '@antv/g6-core';
-import { IGroup, ShapeBase as IShape, ICanvas } from '@antv/g-base';
+import { ICanvas, IGroup, IShape } from '@antv/g-base';
 import * as Algorithm from '@antv/algorithm';
 import Graph from './graph/graph';
 import TreeGraph from './graph/tree-graph';
