@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6-plugins",
-  "version": "4.0.0",
+  "version": "0.0.1",
   "description": "G6 Plugin",
   "main": "lib/index.js",
   "module": "es/index.ts",
@@ -38,6 +38,6 @@
     "jquery": "^3.5.1",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.4.4",
-    "@antv/g6": "*"
+    "@antv/g6": "^4.0.4-beta.0"
   }
 }
