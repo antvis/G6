@@ -1,11 +1,9 @@
 /**
  * @fileOverview 自定义边
  * @description 自定义边中有大量逻辑同自定义节点重复，虽然可以提取成为 mixin ，但是考虑到代码的可读性，还是单独实现。
- * @author dxq613@gmail.com
  */
 
-import { Point } from '@antv/g-base/lib/types';
-import { IGroup, IShape, IElement } from '@antv/g-base';
+import { IGroup, IShape, IElement, Point } from '@antv/g-base';
 import { deepMix, mix, each, isNil, isNumber, isArray } from '@antv/util';
 import { ILabelConfig, ShapeOptions } from '../interface/shape';
 import { EdgeConfig, EdgeData, IPoint, LabelStyle, ShapeStyle, Item, ModelConfig } from '../types';
