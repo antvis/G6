@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@antv/chart-node-g6": "^0.0.3",
-    "@antv/g6": "*",
+    "@antv/g6": "^4.0.4-beta.0",
     "@antv/gatsby-theme-antv": "^1.0.2",
     "gatsby": "^2.24.40",
     "gh-pages": "^2.1.1",
