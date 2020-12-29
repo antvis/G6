@@ -1,6 +1,6 @@
 import { each } from '@antv/util';
 import { INode, ICombo } from '@antv/g6-core';
-import { Point } from '@antv/g-base/lib/types';
+import { Point } from '@antv/g-base';
 
 export interface PolyPoint {
   x: number;

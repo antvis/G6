@@ -53,7 +53,7 @@ export {
   Arrow,
   Marker,
   Shape,
-  // 对外包括 G-Base 的几个类型定义
+  // 对外暴露 G-Base 的几个类型定义
   ICanvas,
   IGroup,
   IShape,
