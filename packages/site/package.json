@@ -1,5 +1,6 @@
 {
-  "name": "g6-site",
+  "private": true,
+  "name": "@antv/g6-site",
   "version": "4.0.3",
   "description": "G6 sites deployed on gh-pages",
   "keywords": [
