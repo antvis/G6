@@ -66,11 +66,10 @@ describe('graph', () => {
     });
     const length = div.childNodes.length;
 
-    data.nodes.forEach(node => {
+    data.nodes.forEach((node) => {
       node.x = Math.random() * 100;
       node.y = Math.random() * 100;
-    })
+    });
     inst.positionsAnimate();
-
   });
 });

@@ -237,8 +237,9 @@ const processNodesEdges = (
     const arrowWidth = Math.max(size / 2 + 2, 3);
     const arrowLength = 10;
     const arrowBeging = targetNode.size + arrowLength;
-    let arrowPath = `M ${arrowBeging},0 L ${arrowBeging + arrowLength},-${arrowWidth} L ${arrowBeging + arrowLength
-      },${arrowWidth} Z`;
+    let arrowPath = `M ${arrowBeging},0 L ${arrowBeging + arrowLength},-${arrowWidth} L ${
+      arrowBeging + arrowLength
+    },${arrowWidth} Z`;
     let d = targetNode.size / 2 + arrowLength;
     if (edge.source === edge.target) {
       edge.type = 'loop';
@@ -262,11 +263,11 @@ const processNodesEdges = (
       lineDash,
       endArrow: arrowPath
         ? {
-          path: arrowPath,
-          d,
-          fill: stroke,
-          strokeOpacity: 0,
-        }
+            path: arrowPath,
+            d,
+            fill: stroke,
+            strokeOpacity: 0,
+          }
         : false,
     };
     edge.labelCfg = {
@@ -979,8 +980,8 @@ const LargeGraph = () => {
           originData = data;
           nodeMap = {};
           const clusteredData = louvain(data, false, 'weight');
-          console.log(data, clusteredData)
-          debugger
+          console.log(data, clusteredData);
+          debugger;
           const aggregatedData = { nodes: [], edges: [] };
           clusteredData.clusters.forEach((cluster, i) => {
             cluster.nodes.forEach((node) => {

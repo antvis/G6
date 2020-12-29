@@ -32,7 +32,7 @@ export {
   registerEdge,
   registerBehavior,
   AbstractLayout,
-  AbstractEvent
+  AbstractEvent,
 };
 
 export * from './types';
@@ -53,5 +53,5 @@ export default {
   Arrow,
   Marker,
   AbstractLayout,
-  AbstractEvent
+  AbstractEvent,
 };

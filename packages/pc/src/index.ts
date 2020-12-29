@@ -5,7 +5,7 @@ import {
   registerNode,
   Arrow,
   Marker,
-  Shape
+  Shape,
 } from '@antv/g6-core';
 import './element';
 import './behavior';
@@ -52,7 +52,7 @@ export {
   EdgeFilterLens,
   Arrow,
   Marker,
-  Shape
+  Shape,
 };
 
 export default {
@@ -80,5 +80,5 @@ export default {
   Algorithm,
   Arrow,
   Marker,
-  Shape
+  Shape,
 };
