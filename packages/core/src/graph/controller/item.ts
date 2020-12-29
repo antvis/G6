@@ -251,10 +251,11 @@ export default class ItemController {
     if (type === NODE || type === COMBO) {
       item.update(cfg, isOnlyMove);
       const edges: IEdge[] = (item as INode).getEdges();
-      let refreshEdge = shouldRefreshEdge(cfg)!
-      refreshEdge && each(edges, (edge: IEdge) => {
-        edge.refresh();
-      });
+      let refreshEdge = shouldRefreshEdge(cfg)!;
+      refreshEdge &&
+        each(edges, (edge: IEdge) => {
+          edge.refresh();
+        });
     }
     graph.emit('afterupdateitem', { item, cfg });
   }

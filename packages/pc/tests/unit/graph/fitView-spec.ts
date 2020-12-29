@@ -5,7 +5,6 @@ const div = document.createElement('div');
 div.id = 'global-spec';
 document.body.appendChild(div);
 
-
 registerLayout('bigraph-layout', {
   execute() {
     const self = this;
@@ -112,9 +111,9 @@ describe('graph', () => {
     width: 500,
     height: 500,
     layout: {
-      type: 'bigraph-layout'
+      type: 'bigraph-layout',
     },
-    fitView: true
+    fitView: true,
   });
 
   const data = {
@@ -226,66 +225,63 @@ describe('graph', () => {
     ],
   };
 
-
   it('invalid container', () => {
     let layoutEndCount = 0;
     globalGraph.on('afterlayout', () => {
       layoutEndCount++;
-    })
+    });
 
     globalGraph.on('canvas:click', () => {
       globalGraph.updateLayout({
-        a: 'ccc'
-      })
-    })
+        a: 'ccc',
+      });
+    });
 
     globalGraph.on('node:click', () => {
-      globalGraph.layout()
-    })
+      globalGraph.layout();
+    });
 
     globalGraph.data(data);
     globalGraph.render();
 
-    expect(layoutEndCount).toBe(1)
+    expect(layoutEndCount).toBe(1);
     globalGraph.emit('canvas:click', {});
-    expect(layoutEndCount).toBe(2)
+    expect(layoutEndCount).toBe(2);
     globalGraph.emit('node:click', {});
-    expect(layoutEndCount).toBe(3)
+    expect(layoutEndCount).toBe(3);
 
     globalGraph.updateLayout({
-      type: 'concentric'
-    })
-    expect(layoutEndCount).toBe(4)
-    const node = globalGraph.getNodes()[0].getModel()
-    expect(node.x).toBe(250)
-    expect(node.y).toBe(210)
+      type: 'concentric',
+    });
+    expect(layoutEndCount).toBe(4);
+    const node = globalGraph.getNodes()[0].getModel();
+    expect(node.x).toBe(250);
+    expect(node.y).toBe(210);
 
     globalGraph.updateLayout({
-      type: 'comboForce'
-    })
-    expect(layoutEndCount).toBe(5)
+      type: 'comboForce',
+    });
+    expect(layoutEndCount).toBe(5);
     globalGraph.destroy();
-  })
+  });
   it('comboForce with afterlayout', () => {
-
     const graph = new Graph({
       container: div,
       width: 500,
       height: 500,
       layout: {
-        type: 'comboForce'
+        type: 'comboForce',
       },
-      fitView: true
+      fitView: true,
     });
-    let layouted = false
+    let layouted = false;
     graph.on('afterlayout', () => {
       layouted = true;
-    })
-    graph.data(data)
-    graph.render()
+    });
+    graph.data(data);
+    graph.render();
 
-    expect(layouted).toBe(true)
-    graph.destroy()
-
-  })
+    expect(layouted).toBe(true);
+    graph.destroy();
+  });
 });
