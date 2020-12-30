@@ -103,7 +103,7 @@ export default class TimeBar extends Base {
         end: 0.9,
         data: [],
       },
-      textStyle: {}
+      textStyle: {},
     };
   }
 
@@ -164,10 +164,11 @@ export default class TimeBar extends Base {
     this.renderTrend();
     this.initEvent();
 
-    const fontFamily = typeof window !== 'undefined'
-      ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
-      'Arial, sans-serif'
-      : 'Arial, sans-serif'
+    const fontFamily =
+      typeof window !== 'undefined'
+        ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
+          'Arial, sans-serif'
+        : 'Arial, sans-serif';
     this.set('fontFamily', fontFamily);
   }
 
@@ -205,7 +206,7 @@ export default class TimeBar extends Base {
           height: slider.height || defaultHeight,
         },
         controllerCfg,
-        textStyle
+        textStyle,
       });
     } else if (type === 'tick') {
       const { tick } = this._cfgs;
