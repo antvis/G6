@@ -73,7 +73,7 @@ export const shapeBase: ShapeOptions = {
             fontFamily:
               typeof window !== 'undefined'
                 ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
-                  'Arial, sans-serif'
+                'Arial, sans-serif'
                 : 'Arial, sans-serif',
           },
         },
@@ -82,7 +82,7 @@ export const shapeBase: ShapeOptions = {
             fontFamily:
               typeof window !== 'undefined'
                 ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
-                  'Arial, sans-serif'
+                'Arial, sans-serif'
                 : 'Arial, sans-serif',
           },
         },
@@ -114,7 +114,7 @@ export const shapeBase: ShapeOptions = {
    * @param group
    * @param keyShape
    */
-  afterDraw(cfg?: ModelConfig, group?: IGroup, keyShape?: IShape) {},
+  afterDraw(cfg?: ModelConfig, group?: IGroup, keyShape?: IShape) { },
   drawShape(cfg?: ModelConfig, group?: IGroup): IShape {
     return null as any;
   },
@@ -335,7 +335,7 @@ export const shapeBase: ShapeOptions = {
   },
 
   // update(cfg, item) // 默认不定义
-  afterUpdate(cfg?: ModelConfig, item?: Item) {},
+  afterUpdate(cfg?: ModelConfig, item?: Item) { },
   /**
    * 设置节点的状态，主要是交互状态，业务状态请在 draw 方法中实现
    * 单图形的节点仅考虑 selected、active 状态，有其他状态需求的用户自己复写这个方法
@@ -355,6 +355,8 @@ export const shapeBase: ShapeOptions = {
     const stateName = isBoolean(value) ? name : `${name}:${value}`;
     const shapeStateStyle = this.getStateStyle(stateName, item);
     const itemStateStyle = item.getStateStyle(stateName);
+    // const originStyle = item.getOriginStyle();
+
 
     // 不允许设置一个不存在的状态
     if (!itemStateStyle && !shapeStateStyle) {

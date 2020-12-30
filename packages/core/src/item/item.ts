@@ -9,6 +9,7 @@ import {
   mix,
   deepMix,
   isArray,
+  clone,
 } from '@antv/util';
 import { IItemBase, IItemBaseConfig } from '../interface/item';
 import Shape from '../shape/shape';
@@ -205,13 +206,13 @@ export default class ItemBase implements IItemBase {
     this.restoreStates(shapeFactory, shapeType!);
   }
 
+
   /**
    * 设置图元素原始样式
    * @param keyShape 图元素 keyShape
    * @param group Group 容器
    */
   public setOriginStyle(cfg?: ModelConfig) {
-    const originStyles = {};
     const group: IGroup = this.get('group');
     const children = group.get('children');
     const keyShape: IShapeBase = this.getKeyShape();
@@ -219,12 +220,16 @@ export default class ItemBase implements IItemBase {
     const keyShapeName = keyShape.get('name');
 
     if (!this.get('originStyle')) {
+      // 第一次 set originStyle，直接拿首次渲染所有图形的 attrs
+      const originStyles = {};
       each(children, (child) => {
+        const shapeType = child.get('type');
         const name = child.get('name');
         if (name && name !== keyShapeName) {
-          originStyles[name] = self.getShapeStyleByName(name);
+          originStyles[name] =
+            shapeType !== 'image' ? clone(child.attr()) : self.getShapeStyleByName(name);
         } else {
-          const keyShapeStyle: ShapeStyle = self.getShapeStyleByName();
+          const keyShapeStyle: ShapeStyle = self.getShapeStyleByName(); // 可优化，需要去除 child.attr 中其他 shape 名的对象
           if (keyShapeStyle.path) delete keyShapeStyle.path;
           if (keyShapeStyle.matrix) delete keyShapeStyle.matrix;
           if (!keyShapeName) {
@@ -234,61 +239,54 @@ export default class ItemBase implements IItemBase {
           }
         }
       });
-    }
-
-    const itemType = this.get('type');
-    const model = this.getModel();
-    let shapeType = model.type;
-    if (!shapeType) {
-      switch (itemType) {
-        case 'edge':
-          shapeType = 'line';
-          break;
-        default:
-          shapeType = 'circle';
-          break;
-      }
-    }
-
-    let shapeFactory = Shape.getFactory(itemType)[shapeType];
-    if (!shapeFactory) shapeFactory = Shape.getFactory(itemType).getShape();
-    const shapeOptions = shapeFactory.getOptions ? shapeFactory.getOptions(model) : {};
-    const defaultStyle = shapeOptions.style || {};
-    const size = shapeOptions.size;
-    if (itemType === 'edge') {
-      if (!defaultStyle.lineWidth) defaultStyle.lineWidth = size || Global.defaultEdge.size;
+      self.set('originStyle', originStyles);
     } else {
-      if (!defaultStyle.r) defaultStyle.r = size / 2 || Global.defaultNode.size / 2;
-      if (!defaultStyle.width)
-        defaultStyle.width = (isArray(size) ? size[0] : size) || Global.defaultNode.size / 2;
-      if (!defaultStyle.height)
-        defaultStyle.height = (isArray(size) ? size[1] : size) || Global.defaultNode.size / 2;
-    }
-    if (!keyShapeName) {
-      Object.assign(originStyles, defaultStyle);
-    } else {
-      const styles: ShapeStyle = {};
-      for (const key in defaultStyle) {
-        const style = defaultStyle[key];
-        if (!isPlainObject(style) || ARROWS.includes(key)) styles[key] = style;
-      }
-      if (!originStyles[keyShapeName]) originStyles[keyShapeName] = styles;
-      else originStyles[keyShapeName] = Object.assign(styles, originStyles[keyShapeName]);
-    }
+      // 第二次 set originStyles，需要找到不是 stateStyles 的样式，更新到 originStyles 中
 
-    const drawOriginStyle = this.getOriginStyle();
-    let styles: ShapeStyle = {};
-    if (cfg) {
-      styles = deepMix({}, drawOriginStyle, originStyles, cfg.style, {
-        labelCfg: cfg.labelCfg,
+      // 上一次设置的 originStyle，是初始的 shape attrs
+      let styles: ShapeStyle = this.getOriginStyle();
+      // let styles: ShapeStyle = {};
+      if (keyShapeName && !styles[keyShapeName]) styles[keyShapeName] = {};
+
+      // 获取当前状态样式
+      const currentStatesStyle = this.getCurrentStatesStyle();
+
+      // 遍历当前所有图形的 attrs，找到不是 stateStyles 的样式更新到 originStyles 中
+      each(children, (child) => {
+        const name = child.get('name');
+        const shapeAttrs = child.attr();
+        if (name && name !== keyShapeName) {
+          // 有 name 的非 keyShape 图形
+          const shapeStateStyle = currentStatesStyle[name];
+          if (!styles[name]) styles[name] = {};
+          shapeStateStyle &&
+            Object.keys(shapeAttrs).forEach((key) => {
+              const value = shapeAttrs[key];
+              if (value !== shapeStateStyle[key]) styles[name][key] = value;
+            });
+        } else {
+          const shapeAttrs = child.attr();
+          const keyShapeStateStyles = Object.assign(
+            {},
+            currentStatesStyle,
+            currentStatesStyle[keyShapeName],
+          );
+          Object.keys(shapeAttrs).forEach((key) => {
+            const value = shapeAttrs[key];
+            // 如果是对象且不是 arrow，则是其他 shape 的样式
+            if (isPlainObject(value) && ARROWS.indexOf(name) === -1) return;
+            if (keyShapeStateStyles[key] !== value) {
+              if (keyShapeName) styles[keyShapeName][key] = value;
+              else styles[key] = value;
+            }
+          });
+        }
       });
-    } else {
-      styles = deepMix({}, drawOriginStyle, originStyles);
-    }
 
-    if (styles.path) delete styles.path;
-    if (styles.matrix) delete styles.matrix;
-    self.set('originStyle', styles);
+      if (styles.path) delete styles.path;
+      if (styles.matrix) delete styles.matrix;
+      self.set('originStyle', styles);
+    }
   }
 
   /**
@@ -348,17 +346,17 @@ export default class ItemBase implements IItemBase {
   /**
    * 渲染前的逻辑，提供给子类复写
    */
-  protected beforeDraw() {}
+  protected beforeDraw() { }
 
   /**
    * 渲染后的逻辑，提供给子类复写
    */
-  protected afterDraw() {}
+  protected afterDraw() { }
 
   /**
    * 更新后做一些工作
    */
-  protected afterUpdate() {}
+  protected afterUpdate() { }
 
   /**
    * draw shape

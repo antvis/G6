@@ -176,6 +176,8 @@ graph.on(timingEventName, evt => {
 | afteranimate | Activated after global animation |
 | beforecreateedge | Activated before an edge is created by the built-in behavior `create-edge` |
 | aftercreateedge | Activated after an edge is created by the built-in behavior `create-edge` |
+| beforecollapseexpandcombo | Activated before an combo is collapsed or expanded, the parameter `action` indicates collapse or expand |
+| aftercollapseexpandcombo | Activated after an combo is collapsed or expanded, the parameter `action` indicates collapse or expand |
 | graphstatechange | Activated after `graph.updateItemState` being called. |
 | afteractivaterelations | Activated while activating a node by `'activate-relations'` Behavior which is assigned to the the instance of Graph. |
 | nodeselectchange | Activated while the selected items are changed by `'brush-select'`, `'click-select'` or `'lasso-select'` Behavior which is assigned to the instance of Graph. |
@@ -293,6 +295,13 @@ No parameters.
 | Name | Type | Description      |
 | ---- | ---- | ---------------- |
 | edge | Item | The created edge |
+
+#### beforecollapseexpandcombo / aftercollapseexpandcombo
+
+| Name | Type | Description      |
+| ---- | ---- | ---------------- |
+| action | string | The action, `'collapse'` or `'expand'` |
+| combo | Item | The manipulated combo |
 
 #### itemcollapsed
 
