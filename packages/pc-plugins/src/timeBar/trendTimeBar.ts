@@ -171,6 +171,8 @@ export default class TrendTimeBar {
 
   private trendComponent: Trend;
 
+  private fontFamily: string;
+
   constructor(cfg: TrendTimeBarConfig) {
     const {
       x = 0,
@@ -229,6 +231,12 @@ export default class TrendTimeBar {
     this.minText = minText;
     this.maxText = maxText;
 
+    // 初始化 fontFamily，如果有浏览器，取 body 上的字体，防止文字更新时局部渲染造成的重影
+    this.fontFamily = typeof window !== 'undefined'
+      ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
+      'Arial, sans-serif'
+      : 'Arial, sans-serif';
+
     this.renderSlider();
   }
 
@@ -268,6 +276,7 @@ export default class TrendTimeBar {
    * @private
    */
   private renderSlider() {
+    console.log('render slider')
     const { width, height, timeBarType } = this;
     // 趋势图数据
     if (timeBarType === 'trend' && size(get(this.trendCfg, 'data'))) {
@@ -309,10 +318,13 @@ export default class TrendTimeBar {
           textAlign: 'right',
           text: this.minText,
           silent: false,
+          fontFamily: this.fontFamily || 'Arial, sans-serif',
           ...this.textStyle,
         },
         capture: false,
       });
+
+      console.log('this.fontFamily', this.fontFamily, this.textStyle)
 
       this.maxTextShape = textGroup.addShape('text', {
         attrs: {
@@ -320,6 +332,7 @@ export default class TrendTimeBar {
           textAlign: 'left',
           text: this.maxText,
           silent: false,
+          fontFamily: this.fontFamily || 'Arial, sans-serif',
           ...this.textStyle,
         },
         capture: false,
@@ -332,6 +345,7 @@ export default class TrendTimeBar {
           textAlign: 'center',
           text: this.minText,
           silent: false,
+          fontFamily: this.fontFamily || 'Arial, sans-serif',
           ...this.textStyle,
         },
         capture: false,
@@ -342,6 +356,7 @@ export default class TrendTimeBar {
           textAlign: 'center',
           text: this.maxText,
           silent: false,
+          fontFamily: this.fontFamily || 'Arial, sans-serif',
           ...this.textStyle,
         },
         capture: false,
@@ -416,6 +431,7 @@ export default class TrendTimeBar {
           textBaseline: 'top',
           fill: '#607889',
           opacity: 0.35,
+          fontFamily: this.fontFamily || 'Arial, sans-serif',
         },
       });
 
@@ -777,21 +793,21 @@ export default class TrendTimeBar {
   private startPlay() {
     return typeof window !== 'undefined'
       ? window.requestAnimationFrame(() => {
-          const { ticks, width } = this;
-          const speed = this.currentSpeed;
+        const { ticks, width } = this;
+        const speed = this.currentSpeed;
 
-          const tickInterval = width / ticks.length;
-          const offsetX = tickInterval / (((10 - speed) * 1000) / 60);
+        const tickInterval = width / ticks.length;
+        const offsetX = tickInterval / (((10 - speed) * 1000) / 60);
 
-          const offsetXRange = this.adjustOffsetRange(offsetX / this.width);
+        const offsetXRange = this.adjustOffsetRange(offsetX / this.width);
 
-          this.updateStartEnd(offsetXRange);
-          this.updateUI();
+        this.updateStartEnd(offsetXRange);
+        this.updateUI();
 
-          if (this.isPlay) {
-            this.playHandler = this.startPlay();
-          }
-        })
+        if (this.isPlay) {
+          this.playHandler = this.startPlay();
+        }
+      })
       : undefined;
   }
 
