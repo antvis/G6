@@ -198,6 +198,58 @@ export default class ModeController {
     return this;
   }
 
+  /**
+   * 更新行为参数
+   * @param {string | ModeOption | ModeType} behavior 需要更新的行为
+   * @param {string | string[]} modes 指定的模式中的行为，不指定则为 default
+   * @return {Graph} Graph
+   */
+  public updateBehavior(
+    behavior: string | ModeType,
+    newCfg: object,
+    mode?: string,
+  ): ModeController {
+    if (isString(behavior)) {
+      behavior = { type: behavior };
+    }
+    let behaviorSet = [];
+    if (!mode || mode === this.mode || mode === 'default') {
+      behaviorSet = this.currentBehaves;
+      if (!behaviorSet || !behaviorSet.length) {
+        console.warn('Update behavior failed! There is no behaviors in this mode on the graph.')
+        return this;
+      }
+      const length = behaviorSet.length;
+      for (let i = 0; i < length; i++) {
+        const behave = behaviorSet[i];
+        if (behave.type === behavior.type) {
+          behave.updateCfg(newCfg);
+          return this;
+        }
+        if (i === length - 1) console.warn('Update behavior failed! There is no such behavior in the mode');
+      }
+    } else {
+      behaviorSet = this.modes[mode];
+      if (!behaviorSet || !behaviorSet.length) {
+        console.warn('Update behavior failed! There is no behaviors in this mode on the graph.')
+        return this;
+      }
+      const length = behaviorSet.length;
+      for (let i = 0; i < length; i++) {
+        let behave = behaviorSet[i];
+        if (behave.type === behavior.type || behave === behavior.type) {
+          if (behave === behavior.type) behave = { type: behave };
+          Object.assign(behave, newCfg);
+          behaviorSet[i] = behave
+          return this;
+        }
+        if (i === length - 1) console.warn('Update behavior failed! There is no such behavior in the mode');
+      }
+    }
+
+    return this;
+  }
+
   public destroy() {
     (this.graph as IAbstractGraph | null) = null;
     (this.modes as Modes | null) = null;

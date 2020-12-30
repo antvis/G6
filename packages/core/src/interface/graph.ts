@@ -354,6 +354,15 @@ export interface IAbstractGraph extends EventEmitter {
   removeBehaviors(behaviors: string | ModeOption | ModeType[], modes: string | string[]): Graph;
 
   /**
+  * 更新行为参数
+  * @param {string} behavior 需要更新的行为
+  * @param {object} newCfg 需要更新的参数
+  * @param {string} mode 指定的模式中的行为，不指定则为 default
+  * @return {Graph} Graph
+  */
+  updateBehavior(behavior: string, newCfg: object, modes: string | string[]): Graph;
+
+  /**
    * 清除画布元素
    */
   clear(): Graph;

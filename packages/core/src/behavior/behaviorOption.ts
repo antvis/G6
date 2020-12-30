@@ -19,6 +19,11 @@ export default {
     return {};
   },
 
+  updateCfg(cfg: object) {
+    Object.assign(this, cfg)
+    return true;
+  },
+
   shouldBegin() {
     return true;
   },

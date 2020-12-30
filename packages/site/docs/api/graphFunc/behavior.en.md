@@ -56,3 +56,37 @@ graph.removeBehaviors('brush-select', ['default', 'select']);
 // remove multiple behaviors from multiple modes
 graph.removeBehaviors(['brush-select', 'click-select'], ['default', 'select']);
 ```
+
+### graph.updateBehavior(behavior, mode)
+
+Update the configurations for a behavior from mode.
+
+**Parameters**
+
+| Name      | Type           | Required | Description                               |
+| --------- | -------------- | -------- | ----------------------------------------- |
+| behavior | string | true     | The type name of the behavior need to be updated |
+| newCfg   | object | true     | The new configurations                   |
+| mode     | string | false    | The mode name of the mode where the behavior need to be updated. 'default' by default     |
+
+**Usage**
+
+```javascript
+const graph = new Graph({
+  ... // Other graph configurations
+  modes: {
+    default: ['zoom-canvas', 'drag-canvas'],
+    select: ['click-select']
+  }
+});
+
+graph.data(data);
+graph.render();
+
+// update the behavior 'zoom-canvas' from mode 'default'
+graph.updateBehavior('zoom-canvas', { sensitivity: 1.5, enableOptimize: true}, 'default');
+
+// update the behavior 'click-select' from mode 'select'
+graph.updateBehavior('click-select', { trigger: 'ctrl' }, 'select');
+```
+

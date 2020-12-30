@@ -79,6 +79,14 @@ graph.addBehaviors(['drag-canvas', 'zoom-canvas'], 'default');
 
 // 一次从 default 模式中移除多个行为
 graph.removeBehaviors(['drag-canvas', 'zoom-canvas'], 'default');
+
+// --------
+
+// 更新 'default' 模式下的 behavior 'zoom-canvas'
+graph.updateBehavior('zoom-canvas', { sensitivity: 1.5, enableOptimize: true}, 'default');
+
+// 更新 'select' 模式下的 behavior 'click-select'
+graph.updateBehavior('click-select', { trigger: 'ctrl' }, 'select');
 ```
 
 ## 相关阅读

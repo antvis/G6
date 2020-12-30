@@ -635,6 +635,22 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   }
 
   /**
+   * 更新行为参数
+   * @param {string | ModeOption | ModeType} behavior 需要更新的行为
+   * @param {string | string[]} modes 指定的模式中的行为，不指定则为 default
+   * @return {Graph} Graph
+   */
+  public updateBehavior(
+    behavior: string,
+    newCfg: object,
+    mode?: string,
+  ): AbstractGraph {
+    const modeController: ModeController = this.get('modeController');
+    modeController.updateBehavior(behavior, newCfg, mode);
+    return this;
+  }
+
+  /**
    * 伸缩窗口
    * @param ratio 伸缩比例
    * @param center 以center的x, y坐标为中心缩放
