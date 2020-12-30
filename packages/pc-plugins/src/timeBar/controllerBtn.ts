@@ -58,6 +58,7 @@ export type ControllerCfg = Partial<{
   readonly preBtnStyle?: ShapeStyle;
   readonly nextBtnStyle?: ShapeStyle;
   readonly playBtnStyle?: ShapeStyle;
+  readonly fontFamily?: string;
 }>;
 
 export default class ControllerBtn {
@@ -77,6 +78,8 @@ export default class ControllerBtn {
   readonly controllerCfg?: ControllerCfg;
 
   private group: IGroup;
+
+  private fontFamily: string;
 
   private speedGroup: IGroup;
 
@@ -100,6 +103,7 @@ export default class ControllerBtn {
     this.speedAxisY = [];
     this.currentSpeed = this.controllerCfg.speed;
     this.currentType = 'range';
+    this.fontFamily = cfg.fontFamily || 'Arial, sans-serif';
     this.init();
   }
 
@@ -268,6 +272,7 @@ export default class ControllerBtn {
         y: this.speedAxisY[1] + 15,
         text: `1.0X`,
         fill: '#ccc',
+        fontFamily: this.fontFamily || 'Arial, sans-serif'
       },
     });
 
@@ -328,6 +333,11 @@ export default class ControllerBtn {
         x: width - TOGGLE_MODEL_OFFSET + 20,
         y: this.speedAxisY[1] + 15,
         fill: '#ccc',
+        fontFamily:
+          typeof window !== 'undefined'
+            ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
+            'Arial, sans-serif'
+            : 'Arial, sans-serif'
       },
     });
   }

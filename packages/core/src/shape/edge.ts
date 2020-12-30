@@ -259,8 +259,8 @@ const singleEdge: ShapeOptions = {
     const offsetY = labelCfg.refY || (this.refY as number);
     // // 如果两个节点重叠，线就变成了一个点，这时候label的位置，就是这个点 + 绝对偏移
     if (cfg.startPoint!.x === cfg.endPoint!.x && cfg.startPoint!.y === cfg.endPoint!.y) {
-      style.x = cfg.startPoint!.x + offsetX;
-      style.y = cfg.startPoint!.y + offsetY;
+      style.x = cfg.startPoint!.x + offsetX - backgroundWidth / 2;
+      style.y = cfg.startPoint!.y + offsetY - backgroundHeight / 2;
       return style;
     }
 
@@ -349,7 +349,7 @@ const singleEdge: ShapeOptions = {
         fontFamily:
           typeof window !== 'undefined'
             ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
-              'Arial, sans-serif'
+            'Arial, sans-serif'
             : 'Arial, sans-serif',
       },
       defaultLabelCfg,
