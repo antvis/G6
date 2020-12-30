@@ -3,15 +3,14 @@
  * @author dxq613@gmai.com
  */
 
-import Shape from '../../../src/shape/shape';
+import Shape from '../../../src/element/shape';
 import Global from '../../../src/global';
 import { IGroup } from '@antv/g-base';
 import { Canvas } from '@antv/g-canvas';
 import Node from '../../../src/item/node';
 import { translate } from '../../../src/util/math';
-import Graph from '../implement-graph';
-import '../../../src/shape/node';
-import '../../../src/shape/nodes';
+import '../../../src/element/node';
+import '../../../src/element/nodes';
 
 const div = document.createElement('div');
 div.id = 'node-shape';

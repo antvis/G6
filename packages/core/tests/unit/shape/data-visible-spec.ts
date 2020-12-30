@@ -1,9 +1,9 @@
 import Graph from '../implement-graph';
-import '../../../src/shape/node';
-import '../../../src/shape/nodes';
-import '../../../src/shape/edge';
-import '../../../src/shape/combo';
-import '../../../src/shape/combos';
+import '../../../src/element/node';
+import '../../../src/element/nodes';
+import '../../../src/element/edge';
+import '../../../src/element/combo';
+import '../../../src/element/combos';
 
 const div = document.createElement('div');
 div.id = 'graph-spec';

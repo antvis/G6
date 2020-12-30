@@ -1,6 +1,6 @@
 import Behavior from './behavior';
 import AbstractGraph from './graph/graph';
-import Shape, { Arrow, Marker } from './shape';
+import Shape, { Arrow, Marker } from './element';
 import Global from './global';
 import Util from './util';
 // 用于 PC 和 Mobile 端分别实现 layout 和 updateLayoutCfg 方法

@@ -3,8 +3,8 @@
  * @author dxq613@gmai.com
  */
 
-import '../../../src/shape';
-import Shape from '../../../src/shape/shape';
+import '../../../src/element';
+import Shape from '../../../src/element/shape';
 
 describe('shape test', () => {
   it('register factory', () => {

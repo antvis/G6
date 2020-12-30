@@ -4,7 +4,7 @@ import {
   compareTwoTarget,
   xmlDataRenderer,
   createNodeFromXML,
-} from '../../../../src/shape/xml';
+} from '../../../../src/element/xml';
 import G6 from '../../../../src';
 import Graph from '../../implement-graph';
 

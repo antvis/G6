@@ -1,9 +1,9 @@
 import { Canvas } from '@antv/g-canvas';
-import '../../../src/shape/node';
-import '../../../src/shape/nodes';
-import '../../../src/shape/edge';
+import '../../../src/element/node';
+import '../../../src/element/nodes';
+import '../../../src/element/edge';
 import '../../../src/behavior';
-import Shape from '../../../src/shape/shape';
+import Shape from '../../../src/element/shape';
 import Graph from '../implement-graph';
 
 const div = document.createElement('div');

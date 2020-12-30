@@ -349,7 +349,7 @@ const singleEdge: ShapeOptions = {
         fontFamily:
           typeof window !== 'undefined'
             ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
-            'Arial, sans-serif'
+              'Arial, sans-serif'
             : 'Arial, sans-serif',
       },
       defaultLabelCfg,

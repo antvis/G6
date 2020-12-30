@@ -12,7 +12,7 @@ import {
   clone,
 } from '@antv/util';
 import { IItemBase, IItemBaseConfig } from '../interface/item';
-import Shape from '../shape/shape';
+import Shape from '../element/shape';
 import {
   IBBox,
   IPoint,
@@ -206,7 +206,6 @@ export default class ItemBase implements IItemBase {
     this.restoreStates(shapeFactory, shapeType!);
   }
 
-
   /**
    * 设置图元素原始样式
    * @param keyShape 图元素 keyShape
@@ -346,17 +345,17 @@ export default class ItemBase implements IItemBase {
   /**
    * 渲染前的逻辑，提供给子类复写
    */
-  protected beforeDraw() { }
+  protected beforeDraw() {}
 
   /**
    * 渲染后的逻辑，提供给子类复写
    */
-  protected afterDraw() { }
+  protected afterDraw() {}
 
   /**
    * 更新后做一些工作
    */
-  protected afterUpdate() { }
+  protected afterUpdate() {}
 
   /**
    * draw shape
