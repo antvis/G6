@@ -3,11 +3,11 @@
  * @author dxq613@gmai.com
  */
 
-import Shape from '../../../src/shape/shape';
+import Shape from '../../../src/element/shape';
 import { Canvas } from '@antv/g-canvas';
 import { translate } from '../../../src/util/math';
-import '../../../src/shape/combo';
-import '../../../src/shape/combos';
+import '../../../src/element/combo';
+import '../../../src/element/combos';
 import Combo from '../../../src/item/combo';
 
 const div = document.createElement('div');

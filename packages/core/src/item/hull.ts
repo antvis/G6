@@ -7,8 +7,8 @@ import { pathToPoints, getClosedSpline, roundedHull, paddedHull } from '../util/
 import { isPolygonsIntersect } from '../util/math';
 import { IAbstractGraph } from '../interface/graph';
 
-import { genConvexHull } from '../shape/hull/convexHull';
-import { genBubbleSet } from '../shape/hull/bubbleset';
+import { genConvexHull } from '../element/hull/convexHull';
+import { genBubbleSet } from '../element/hull/bubbleset';
 
 /**
  * 用于包裹内部的成员的轮廓。
