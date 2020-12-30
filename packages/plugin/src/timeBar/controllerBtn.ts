@@ -272,7 +272,7 @@ export default class ControllerBtn {
         y: this.speedAxisY[1] + 15,
         text: `1.0X`,
         fill: '#ccc',
-        fontFamily: this.fontFamily || 'Arial, sans-serif'
+        fontFamily: this.fontFamily || 'Arial, sans-serif',
       },
     });
 
@@ -336,8 +336,8 @@ export default class ControllerBtn {
         fontFamily:
           typeof window !== 'undefined'
             ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
-            'Arial, sans-serif'
-            : 'Arial, sans-serif'
+              'Arial, sans-serif'
+            : 'Arial, sans-serif',
       },
     });
   }
