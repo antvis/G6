@@ -176,6 +176,8 @@ graph.on(timingEventName, evt => {
 | afteranimate | 全局动画发生后触发 |
 | beforecreateedge | 使用内置交互 `create-edge`，创建边之前触发 |
 | aftercreateedge | 使用内置交互 `create-edge`，创建边之后触发 |
+| beforecollapseexpandcombo | 当一个 combo 被收起或展开之前被触发，参数 `action` 指明了是收起还是展开 |
+| aftercollapseexpandcombo | 当一个 combo 被收起或展开之后被触发，参数 `action` 指明了是收起还是展开 |
 | graphstatechange | 调用 `graph.updateItemState` 方法之后触发 |
 | afteractivaterelations | 使用了 `'activate-relations'` Behavior 并触发了该行为后，该事件被触发 |
 | nodeselectchange | 使用了 `'brush-select'` , `'click-select'` 或 `'lasso-select'` Behavior 且选中元素发生变化时，该事件被触发 |
@@ -286,6 +288,13 @@ graph.on(timingEventName, evt => {
 | 名称 | 类型 | 描述               |
 | ---- | ---- | ------------------ |
 | edge | Item | 当前被创建的边实例 |
+
+#### beforecollapseexpandcombo / aftercollapseexpandcombo
+
+| 名称 | 类型 | 描述               |
+| ---- | ---- | ---------------- |
+| action | string | 具体的操作， `'collapse'` 或 `'expand'` |
+| combo | Item | 被操作的 combo item |
 
 #### itemcollapsed
 

@@ -238,7 +238,7 @@ describe('graph refactor states', () => {
     const group = item.getContainer();
     const subShape = group.find((element) => element.get('name') === 'sub-node');
     expect(subShape.attr('fill')).toEqual('#fff');
-    // default value
+    // // default value
     expect(subShape.attr('lineWidth')).toEqual(1);
 
     graph.destroy();

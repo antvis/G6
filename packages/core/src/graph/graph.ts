@@ -2216,6 +2216,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       console.warn('The combo to be collapsed does not exist!');
       return;
     }
+    this.emit('beforecollapseexpandcombo', { action: 'expand', item: combo })
 
     const comboModel = combo.getModel();
 
@@ -2358,6 +2359,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         false,
       );
     });
+    this.emit('aftercollapseexpandcombo', { action: 'collapse', item: combo })
   }
 
   /**
@@ -2372,6 +2374,8 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       console.warn('The combo to be collapsed does not exist!');
       return;
     }
+    this.emit('beforecollapseexpandcombo', { action: 'expand', item: combo })
+
     const comboModel = combo.getModel();
 
     const itemController: ItemController = this.get('itemController');
@@ -2574,6 +2578,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         }
       }
     });
+    this.emit('aftercollapseexpandcombo', { action: 'expand', item: combo })
   }
 
   public collapseExpandCombo(combo: string | ICombo) {
@@ -2744,9 +2749,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const stackData = data
       ? clone(data)
       : {
-          before: {},
-          after: clone(this.save()),
-        };
+        before: {},
+        after: clone(this.save()),
+      };
 
     if (stackType === 'redo') {
       this.redoStack.push({
