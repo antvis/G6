@@ -38,8 +38,8 @@ describe('edge label with background', () => {
 
     const edge = graph.getEdges()[0];
     const group = edge.getContainer();
-    const bgRect = group.find((e) => e.get('name') === 'text-bg-shape');
-    expect(bgRect.attr('x')).toBe(86.15601348876953);
+    const bgRect = group.find(e => e.get('name') === 'text-bg-shape');
+    expect(Math.abs(bgRect.attr('x') - 86) < 1).toBe(true);
     expect(bgRect.attr('y')).toBe(91);
     expect(bgRect.attr('width')).toBe(26.572265625);
     expect(bgRect.attr('height')).toBe(18);

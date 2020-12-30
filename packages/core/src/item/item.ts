@@ -240,6 +240,7 @@ export default class ItemBase implements IItemBase {
       });
       self.set('originStyle', originStyles);
     } else {
+      debugger
       // 第二次 set originStyles，需要找到不是 stateStyles 的样式，更新到 originStyles 中
 
       // 上一次设置的 originStyle，是初始的 shape attrs
@@ -258,11 +259,14 @@ export default class ItemBase implements IItemBase {
           // 有 name 的非 keyShape 图形
           const shapeStateStyle = currentStatesStyle[name];
           if (!styles[name]) styles[name] = {};
-          shapeStateStyle &&
+          if (shapeStateStyle) {
             Object.keys(shapeAttrs).forEach((key) => {
               const value = shapeAttrs[key];
               if (value !== shapeStateStyle[key]) styles[name][key] = value;
             });
+          } else {
+            styles[name] = clone(shapeAttrs);
+          }
         } else {
           const shapeAttrs = child.attr();
           const keyShapeStateStyles = Object.assign(
@@ -286,6 +290,7 @@ export default class ItemBase implements IItemBase {
       if (styles.matrix) delete styles.matrix;
       self.set('originStyle', styles);
     }
+    console.log('originstyle', self.get('originStyle'))
   }
 
   /**

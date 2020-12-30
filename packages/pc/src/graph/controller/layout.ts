@@ -181,19 +181,22 @@ export default class LayoutController extends AbstractLayout {
 
     // 所有布局挂载 onLayoutEnd, 在布局结束后依次执行：
     // 执行用户自定义 onLayoutEnd，触发 afterlayout、更新节点位置、fitView/fitCenter、触发 afterrender
-    const { onLayoutEnd } = layoutCfg;
-    layoutCfg.onLayoutEnd = () => {
-      // 执行用户自定义 onLayoutEnd
-      if (onLayoutEnd) {
-        onLayoutEnd();
-      }
-      // 触发 afterlayout
-      graph.emit('afterlayout');
-      // 更新节点位置
-      this.refreshLayout();
-      // 由 graph 传入的，控制 fitView、fitCenter，并触发 afterrender
-      success && success();
-    };
+    const { onLayoutEnd, layoutEndFormatted } = layoutCfg;
+    if (!layoutEndFormatted) {
+      layoutCfg.layoutEndFormatted = true;
+      layoutCfg.onLayoutEnd = () => {
+        // 执行用户自定义 onLayoutEnd
+        if (onLayoutEnd) {
+          onLayoutEnd();
+        }
+        // 触发 afterlayout
+        graph.emit('afterlayout');
+        // 更新节点位置
+        this.refreshLayout();
+        // 由 graph 传入的，控制 fitView、fitCenter，并触发 afterrender
+        success && success();
+      };
+    }
 
     if (layoutType === 'force' || layoutType === 'g6force' || layoutType === 'gForce') {
       const { onTick } = layoutCfg;
