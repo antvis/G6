@@ -45,7 +45,7 @@
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --format=pretty \"./\"",
     "lint:src": "eslint --ext .ts --format=pretty \"./src\"",
     "prettier": "prettier -c --write \"**/*\"",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/graph/graph-watermarker-spec.ts",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
     "watch": "father build -w",

@@ -44,7 +44,7 @@ for (let i = 0; i < 100; i++) {
 }
 
 describe('timeline play with timebar', () => {
-  it('trend timebar', () => {
+  it.only('trend timebar', () => {
     const timeBarData = [];
 
     for (let i = 1; i < 60; i++) {

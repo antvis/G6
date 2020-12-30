@@ -403,7 +403,7 @@ describe('update', () => {
             opacity: 0.2,
           },
           'node-text': {
-            stroke: 'green',
+            stroke: 'black', // green
             fontSize: 20,
           },
         },
@@ -488,8 +488,10 @@ describe('update', () => {
     expect(hoverState.opacity).toBe(0.6);
     expect(hoverState.stroke).toEqual('#ccc');
 
+    expect(item.getStates().length).toBe(1);
     expect(keyShape.attr('stroke')).toEqual('#ccc');
     expect(keyShape.attr('opacity')).toEqual(0.6);
+
     // update item 时的 fill 生效
     expect(keyShape.attr('fill')).toEqual('green');
 
@@ -512,10 +514,12 @@ describe('update', () => {
     expect(subNode.attr('fill')).toEqual('#000');
     expect(subNode.attr('opacity')).toEqual(0.2);
     expect(text.attr('fontSize')).toBe(20);
-    expect(text.attr('stroke')).toEqual('green');
+    expect(text.attr('stroke')).toEqual('black');
 
     // 清除 hover 和 register:selected，则 update 后的属性生效
     graph.clearItemStates(item, ['register:selected', 'hover']);
+    // graph.setItemState(item, 'register:selected', false);
+    // graph.setItemState(item, 'hover', false);
     expect(item.hasState('register:selected')).toBe(false);
     expect(item.getStates().length).toBe(0);
 
