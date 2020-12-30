@@ -1,6 +1,6 @@
 {
   "version": "*",
-  "npmClient": "tnpm",
+  "npmClient": "yarn",
   "packages": ["packages/*"],
   "command": {
     "version": {
