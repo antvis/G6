@@ -3,9 +3,11 @@ import { G6Event, IG6GraphEvent, IShapeBase, Item } from '../types';
 import { IAbstractGraph } from './graph';
 
 export interface IBehavior {
+  type: string;
   getEvents(): {
     [key in G6Event]?: string;
   };
+  updateCfg(cfg: object): {};
   getDefaultCfg?(): object;
   shouldBegin?(e?: IG6GraphEvent): boolean;
   shouldUpdate?(e?: IG6GraphEvent): boolean;
