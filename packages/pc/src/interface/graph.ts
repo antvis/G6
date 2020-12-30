@@ -58,14 +58,14 @@ export interface IGraph extends IAbstractGraph {
    * @param {string} imgURL 图片水印的url地址
    * @param {WaterMarkerConfig} config 文本水印的配置项
    */
-  setImageWaterMarker(imgURL: string, config: WaterMarkerConfig);
+  setImageWaterMarker(imgURL: string, config: WaterMarkerConfig): void;
 
   /**
    * 设置文本水印
    * @param {string[]} texts 水印的文本内容
    * @param {WaterMarkerConfig} config 文本水印的配置项
    */
-  setTextWaterMarker(texts: string[], config?: WaterMarkerConfig);
+  setTextWaterMarker(texts: string[], config?: WaterMarkerConfig): void;
 }
 
 export interface ITreeGraph extends IGraph {

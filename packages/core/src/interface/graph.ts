@@ -54,7 +54,7 @@ export interface IAbstractGraph extends EventEmitter {
    * 设置 graph 的最小缩放比例
    * @return minZoom
    */
-  setMinZoom(ratio: number);
+  setMinZoom(ratio: number): void;
 
   /**
    * 获取 graph 的最大缩放比例
@@ -66,7 +66,7 @@ export interface IAbstractGraph extends EventEmitter {
    * 设置 graph 的最大缩放比例
    * @param maxZoom
    */
-  setMaxZoom(ratio: number);
+  setMaxZoom(ratio: number): void;
 
   /**
    * 获取 graph 的宽度
@@ -354,12 +354,12 @@ export interface IAbstractGraph extends EventEmitter {
   removeBehaviors(behaviors: string | ModeOption | ModeType[], modes: string | string[]): Graph;
 
   /**
-  * 更新行为参数
-  * @param {string} behavior 需要更新的行为
-  * @param {object} newCfg 需要更新的参数
-  * @param {string} mode 指定的模式中的行为，不指定则为 default
-  * @return {Graph} Graph
-  */
+   * 更新行为参数
+   * @param {string} behavior 需要更新的行为
+   * @param {object} newCfg 需要更新的参数
+   * @param {string} mode 指定的模式中的行为，不指定则为 default
+   * @return {Graph} Graph
+   */
   updateBehavior(behavior: string, newCfg: object, modes: string | string[]): Graph;
 
   /**
@@ -579,7 +579,7 @@ export interface IAbstractGraph extends EventEmitter {
   /**
    * 根据 hullId 删除 Hull
    */
-  removeHull(hull: Hull | string);
+  removeHull(hull: Hull | string): void;
 
   /**
    * 重新定义监听函数，复写参数类型
