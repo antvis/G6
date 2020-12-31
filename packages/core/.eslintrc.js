@@ -22,6 +22,7 @@ module.exports = {
     'guard-for-in': 0,
     'no-restricted-globals': 0,
     'max-classes-per-file': 0,
+    '@typescript-eslint/no-this-alias': 0,
     // 后面需要去掉
     'no-restricted-syntax': 0,
     'prefer-spread': 0,
@@ -37,6 +38,6 @@ module.exports = {
     'dot-notation': 0,
     'array-callback-return': 0,
     'one-var': 0,
-    'no-lonely-if': 0
+    'no-lonely-if': 0,
   },
 };

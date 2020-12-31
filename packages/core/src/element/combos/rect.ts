@@ -193,7 +193,7 @@ Shape.registerCombo(
 
       (this as any).updateShape(cfg, item, style, false);
     },
-    updateShape(cfg: ComboConfig, item: Item, keyShapeStyle: object) {
+    updateShape(cfg: ComboConfig, item: Item, keyShapeStyle: ShapeStyle) {
       const keyShape = item.get('keyShape');
       const animate = cfg.animate === undefined ? this.options.animate : cfg.animate;
       if (animate && keyShape.animate) {

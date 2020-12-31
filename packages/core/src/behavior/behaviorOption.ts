@@ -1,6 +1,6 @@
 import { each } from '@antv/util';
 import { IAbstractGraph } from '../interface/graph';
-import { G6Event } from '../types';
+import { G6Event, ModeType } from '../types';
 
 // 自定义 Behavior 时候共有的方法
 export default {
@@ -19,8 +19,8 @@ export default {
     return {};
   },
 
-  updateCfg(cfg: object) {
-    Object.assign(this, cfg)
+  updateCfg(cfg: ModeType) {
+    Object.assign(this, cfg);
     return true;
   },
 
