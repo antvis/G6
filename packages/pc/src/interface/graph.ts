@@ -43,13 +43,13 @@ export interface IGraph extends IAbstractGraph {
 
   /**
    * 添加插件
-   * @param {object} plugin 插件实例
+   * @param {PluginBase} plugin 插件实例
    */
   addPlugin(plugin: PluginBase): void;
 
   /**
    * 添加插件
-   * @param {object} plugin 插件实例
+   * @param {PluginBase} plugin 插件实例
    */
   removePlugin(plugin: PluginBase): void;
 

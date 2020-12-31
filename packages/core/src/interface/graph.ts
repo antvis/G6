@@ -19,6 +19,7 @@ import {
   StackData,
   HullCfg,
   IG6GraphEvent,
+  Matrix,
 } from '../types';
 import { IEdge, INode, ICombo } from './item';
 import Hull from '../item/hull';
@@ -27,7 +28,7 @@ import { Stack } from '@antv/algorithm';
 export interface IAbstractGraph extends EventEmitter {
   getDefaultCfg(): Partial<GraphOptions>;
   get<T = any>(key: string): T;
-  set<T = any>(key: string | object, value?: T): Graph;
+  set<T = any>(key: string, value?: T): Graph;
   findById(id: string): Item;
   translate(dx: number, dy: number): void;
   zoom(ratio: number, center?: Point): void;
@@ -92,7 +93,7 @@ export interface IAbstractGraph extends EventEmitter {
    * 将视口坐标转换为屏幕坐标
    * @param {number} x 视口x坐标
    * @param {number} y 视口y坐标
-   * @return {object} 视口坐标
+   * @return {Point} 视口坐标
    */
   getClientByPoint(x: number, y: number): Point;
 
@@ -303,13 +304,10 @@ export interface IAbstractGraph extends EventEmitter {
    *
    * @param {(string | INode)} node 节点 ID 或实例
    * @param {('in' | 'out' | 'total' | 'all' | undefined)} 度数类型，in 入度，out 出度，total 总度数，all 返回三种类型度数的对象
-   * @returns {Number | Object} 该节点的度数
+   * @returns {number} 该节点的度数
    * @memberof IAbstractGraph
    */
-  getNodeDegree(
-    node: string | INode,
-    type?: 'in' | 'out' | 'total' | 'all' | undefined,
-  ): Number | Object;
+  getNodeDegree(node: string | INode, type?: 'in' | 'out' | 'total' | 'all' | undefined): number;
   /**
    * 获取指定 combo 中所有的节点
    * @param comboId Combo ID 或 combo 实例
@@ -356,11 +354,11 @@ export interface IAbstractGraph extends EventEmitter {
   /**
    * 更新行为参数
    * @param {string} behavior 需要更新的行为
-   * @param {object} newCfg 需要更新的参数
+   * @param {ModeOption} newCfg 需要更新的参数
    * @param {string} mode 指定的模式中的行为，不指定则为 default
    * @return {Graph} Graph
    */
-  updateBehavior(behavior: string, newCfg: object, modes: string | string[]): Graph;
+  updateBehavior(behavior: string, newCfg: ModeOption, modes: string | string[]): Graph;
 
   /**
    * 清除画布元素
@@ -377,7 +375,7 @@ export interface IAbstractGraph extends EventEmitter {
    * 更改源数据，根据新数据重新渲染视图
    * @param {GraphData | TreeGraphData} data 源数据
    * @param {boolean} 是否入栈，默认为true
-   * @return {object} this
+   * @return {Graph} this
    */
   changeData(data?: GraphData | TreeGraphData, stack?: boolean): Graph;
 
@@ -461,13 +459,13 @@ export interface IAbstractGraph extends EventEmitter {
    * 查找所有处于指定状态的元素
    * @param {string} type 元素类型(node|edge)
    * @param {string} state z状态
-   * @return {object} 元素实例
+   * @return {Item} 元素实例
    */
   findAllByState<T extends Item>(type: ITEM_TYPE, state: string): T[];
 
   /**
    * 更换布局配置项
-   * @param {object} cfg 新布局配置项
+   * @param {LayoutConfig} cfg 新布局配置项
    * 若 cfg 含有 type 字段或为 String 类型，且与现有布局方法不同，则更换布局
    * 若 cfg 不包括 type ，则保持原有布局方法，仅更新布局配置项
    */
@@ -543,10 +541,10 @@ export interface IAbstractGraph extends EventEmitter {
    *
    * @param {boolean} cache 是否使用缓存的
    * @param {boolean} directed 是否是有向图，默认取 graph.directed
-   * @returns {Matrix} 邻接矩阵
+   * @returns {Matrix[]} 邻接矩阵
    * @memberof IAbstractGraph
    */
-  getAdjMatrix(cache: boolean, directed?: boolean): Number | Object;
+  getAdjMatrix(cache: boolean, directed?: boolean): number | Matrix[];
 
   /**
    * 获取最短路径矩阵
@@ -556,7 +554,7 @@ export interface IAbstractGraph extends EventEmitter {
    * @returns {Matrix} 最短路径矩阵
    * @memberof IAbstractGraph
    */
-  getShortestPathMatrix(cache: boolean, directed?: boolean): Number | Object;
+  getShortestPathMatrix(cache: boolean, directed?: boolean): number | Matrix[];
 
   /**
    * 创建凸包或凹包轮廓

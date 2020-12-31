@@ -118,19 +118,19 @@ describe('dragenter dragleave', () => {
   graph.render();
   it('dragenter', () => {
     graph.on('node:dragenter', (e) => {
-      console.log('dragenter');
+      // console.log('dragenter');
     });
     graph.on('node:dragleave', (e) => {
-      console.log('dragleave');
+      // console.log('dragleave');
     });
     graph.on('node:mouseenter', (e) => {
-      console.log('mouseenter');
+      // console.log('mouseenter');
     });
     graph.on('node:mouseleave', (e) => {
-      console.log('mouseleave');
+      // console.log('mouseleave');
     });
     graph.on('node:dragover', (e) => {
-      console.log('dragover');
+      // console.log('dragover');
     });
   });
   graph.destroy();

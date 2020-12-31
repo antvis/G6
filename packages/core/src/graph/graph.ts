@@ -30,6 +30,7 @@ import {
   ComboTree,
   HullCfg,
   IG6GraphEvent,
+  LayoutConfig,
 } from '../types';
 import { move } from '../util/math';
 import Global from '../global';
@@ -543,7 +544,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * 查找所有处于指定状态的元素
    * @param {string} type 元素类型(node|edge)
    * @param {string} state 状态
-   * @return {object} 元素实例
+   * @return {Item} 元素实例
    */
   public findAllByState<T extends Item>(type: ITEM_TYPE, state: string): T[] {
     return this.findAll(type, (item) => item.hasState(state));
@@ -582,7 +583,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
   /**
    * 调整视口适应视图
-   * @param {object} padding 四周围边距
+   * @param {Padding} padding 四周围边距
    */
   public fitView(padding?: Padding): void {
     if (padding) {
@@ -640,11 +641,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * @param {string | string[]} modes 指定的模式中的行为，不指定则为 default
    * @return {Graph} Graph
    */
-  public updateBehavior(
-    behavior: string,
-    newCfg: object,
-    mode?: string,
-  ): AbstractGraph {
+  public updateBehavior(behavior: string, newCfg: ModeOption, mode?: string): AbstractGraph {
     const modeController: ModeController = this.get('modeController');
     modeController.updateBehavior(behavior, newCfg, mode);
     return this;
@@ -757,7 +754,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * 将画布坐标转换为视口坐标
    * @param {number} canvasX 画布 x 坐标
    * @param {number} canvasY 画布 y 坐标
-   * @return {object} 视口坐标
+   * @return {Point} 视口坐标
    */
   public getPointByCanvas(canvasX: number, canvasY: number): Point {
     const viewController: ViewController = this.get('viewController');
@@ -768,7 +765,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * 将视口坐标转换为画布坐标
    * @param {number} x 视口 x 坐标
    * @param {number} y 视口 y 坐标
-   * @return {object} 画布坐标
+   * @return {Point} 画布坐标
    */
   public getCanvasByPoint(x: number, y: number): Point {
     const viewController: ViewController = this.get('viewController');
@@ -843,7 +840,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
   /**
    * 刷新元素
-   * @param {string|object} item 元素id或元素实例
+   * @param {string | Item} item 元素id或元素实例
    */
   public refreshItem(item: Item | string) {
     const itemController: ItemController = this.get('itemController');
@@ -1367,7 +1364,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * 更改源数据，根据新数据重新渲染视图
    * @param {GraphData | TreeGraphData} data 源数据
    * @param {boolean} 是否入栈，默认为true
-   * @return {object} this
+   * @return {Graph} this
    */
   public changeData(data?: GraphData | TreeGraphData, stack: boolean = true): AbstractGraph {
     const self = this;
@@ -1863,7 +1860,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
   /**
    * 导出图数据
-   * @return {object} data
+   * @return {TreeGraphData | GraphData} data
    */
   public save(): TreeGraphData | GraphData {
     const nodes: NodeConfig[] = [];
@@ -1888,7 +1885,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * 改变画布大小
    * @param  {number} width  画布宽度
    * @param  {number} height 画布高度
-   * @return {object} this
+   * @return {Graph} this
    */
   public changeSize(width: number, height: number): AbstractGraph {
     const viewController: ViewController = this.get('viewController');
@@ -2126,7 +2123,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   /**
    * 切换行为模式
    * @param {string} mode 指定模式
-   * @return {object} this
+   * @return {Graph} this
    */
   public setMode(mode: string): AbstractGraph {
     const modeController: ModeController = this.get('modeController');
@@ -2136,7 +2133,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
   /**
    * 清除画布元素
-   * @return {object} this
+   * @return {Graph} this
    */
   public clear(): AbstractGraph {
     const canvas: ICanvas = this.get('canvas');
@@ -2152,11 +2149,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
   /**
    * 更换布局配置项
-   * @param {object} cfg 新布局配置项
+   * @param {LayoutConfig} cfg 新布局配置项
    * 若 cfg 含有 type 字段或为 String 类型，且与现有布局方法不同，则更换布局
    * 若 cfg 不包括 type ，则保持原有布局方法，仅更新布局配置项
    */
-  public updateLayout(cfg: any): void {
+  public updateLayout(cfg: LayoutConfig): void {
     const layoutController = this.get('layoutController');
     let newLayoutType;
 
@@ -2232,7 +2229,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       console.warn('The combo to be collapsed does not exist!');
       return;
     }
-    this.emit('beforecollapseexpandcombo', { action: 'expand', item: combo })
+    this.emit('beforecollapseexpandcombo', { action: 'expand', item: combo });
 
     const comboModel = combo.getModel();
 
@@ -2375,7 +2372,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         false,
       );
     });
-    this.emit('aftercollapseexpandcombo', { action: 'collapse', item: combo })
+    this.emit('aftercollapseexpandcombo', { action: 'collapse', item: combo });
   }
 
   /**
@@ -2390,7 +2387,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       console.warn('The combo to be collapsed does not exist!');
       return;
     }
-    this.emit('beforecollapseexpandcombo', { action: 'expand', item: combo })
+    this.emit('beforecollapseexpandcombo', { action: 'expand', item: combo });
 
     const comboModel = combo.getModel();
 
@@ -2594,7 +2591,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         }
       }
     });
-    this.emit('aftercollapseexpandcombo', { action: 'expand', item: combo })
+    this.emit('aftercollapseexpandcombo', { action: 'expand', item: combo });
   }
 
   public collapseExpandCombo(combo: string | ICombo) {
@@ -2683,13 +2680,13 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    *
    * @param {(string | INode)} node 节点 ID 或实例
    * @param {('in' | 'out' | 'total' | 'all' | undefined)} 度数类型，in 入度，out 出度，total 总度数，all 返回三种类型度数的对象
-   * @returns {Number | Object} 该节点的度数
+   * @returns {number} 该节点的度数
    * @memberof IAbstractGraph
    */
   public getNodeDegree(
     node: string | INode,
     type: 'in' | 'out' | 'total' | 'all' | undefined = undefined,
-  ): Number | Object {
+  ): number {
     let item = node as INode;
     if (isString(node)) {
       item = this.findById(node) as INode;
@@ -2765,9 +2762,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const stackData = data
       ? clone(data)
       : {
-        before: {},
-        after: clone(this.save()),
-      };
+          before: {},
+          after: clone(this.save()),
+        };
 
     if (stackType === 'redo') {
       this.redoStack.push({
@@ -2792,10 +2789,10 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    *
    * @param {boolean} cache 是否使用缓存的
    * @param {boolean} directed 是否是有向图，默认取 graph.directed
-   * @returns {Matrix} 邻接矩阵
+   * @returns {Matrix[]} 邻接矩阵
    * @memberof IAbstractGraph
    */
-  public getAdjMatrix(cache: boolean = true, directed?: boolean): Number | Object {
+  public getAdjMatrix(cache: boolean = true, directed?: boolean): number | Matrix[] {
     if (directed === undefined) directed = this.get('directed');
     let currentAdjMatrix = this.get('adjMatrix');
     if (!currentAdjMatrix || !cache) {
@@ -2810,10 +2807,10 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    *
    * @param {boolean} cache 是否使用缓存的
    * @param {boolean} directed 是否是有向图，默认取 graph.directed
-   * @returns {Matrix} 最短路径矩阵
+   * @returns {Matrix[]} 最短路径矩阵
    * @memberof IAbstractGraph
    */
-  public getShortestPathMatrix(cache: boolean = true, directed?: boolean): Number | Object {
+  public getShortestPathMatrix(cache: boolean = true, directed?: boolean): number | Matrix[] {
     if (directed === undefined) directed = this.get('directed');
     let currentAdjMatrix = this.get('adjMatrix');
     let currentShourtestPathMatrix = this.get('shortestPathMatrix');

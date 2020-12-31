@@ -68,8 +68,11 @@ export type ShapeStyle = Partial<{
   lineWidth: number;
   lineAppendWidth: number;
   lineDash: number[];
-  path: string | object[];
-  points: object[];
+  lineCap: string;
+  lineJoin: 'bevel' | 'round' | 'miter' | undefined;
+  miterLimit: number;
+  path: string | any[];
+  points: IPointTuple[];
   matrix: number[];
   opacity: number;
   size: number | number[];
@@ -82,7 +85,16 @@ export type ShapeStyle = Partial<{
   cursor: string;
   position: string;
   fontSize: number;
-
+  fontFamily: string;
+  fontWeight: number;
+  fontStyle: string;
+  fontVariant: string;
+  textAlign: 'center' | 'end' | 'left' | 'right' | 'start' | undefined;
+  textBaseline: 'top' | 'middle' | 'bottom' | undefined;
+  rx: number;
+  ry: number;
+  cx: number;
+  cy: number;
   keepVisualSize: boolean;
 }>;
 
@@ -122,7 +134,7 @@ export interface LayoutConfig {
 export interface ModeOption {
   type: string;
   delegate?: boolean;
-  delegateStyle?: object;
+  delegateStyle?: ShapeStyle;
   updateEdge?: boolean;
   trigger?: string;
   enableDelegate?: boolean;
@@ -174,10 +186,10 @@ export interface States {
 
 export interface StateStyles {
   [key: string]:
-  | ShapeStyle
-  | {
-    [key: string]: ShapeStyle;
-  };
+    | ShapeStyle
+    | {
+        [key: string]: ShapeStyle;
+      };
 }
 
 // model types (node edge group)
@@ -252,7 +264,7 @@ export interface GraphOptions {
     size: number | number[];
     color: string;
   }> &
-  ModelStyle;
+    ModelStyle;
 
   /**
    * 默认状态下边的配置，比如 type, size, color。会被写入的 data 覆盖。
@@ -262,7 +274,7 @@ export interface GraphOptions {
     size: number | number[];
     color: string;
   }> &
-  ModelStyle;
+    ModelStyle;
 
   /**
    * Combo 默认配置
@@ -272,7 +284,7 @@ export interface GraphOptions {
     size: number | number[];
     color: string;
   }> &
-  ModelStyle;
+    ModelStyle;
 
   nodeStateStyles?: StateStyles;
 
@@ -402,10 +414,10 @@ export interface TreeGraphData {
   depth?: number;
   collapsed?: boolean;
   style?:
-  | ShapeStyle
-  | {
-    [key: string]: ShapeStyle;
-  };
+    | ShapeStyle
+    | {
+        [key: string]: ShapeStyle;
+      };
   stateStyles?: StateStyles;
   [key: string]: unknown;
 }
@@ -417,7 +429,7 @@ export interface NodeConfig extends ModelConfig {
   children?: TreeGraphData[];
   description?: string;
   descriptionCfg?: {
-    style?: object;
+    style?: ShapeStyle;
     [key: string]: any;
   };
   img?: string;
@@ -702,13 +714,11 @@ export enum G6Event {
   STACKCHANGE = 'stackchange',
 }
 
-export type DefaultBehaviorType = IG6GraphEvent | string | number | object;
-
 export interface BehaviorOption {
   getEvents(): {
     [key in G6Event]?: string;
   };
-  getDefaultCfg?(): object;
+  getDefaultCfg?(): any;
   shouldBegin?(e?: IG6GraphEvent): boolean;
   shouldUpdate?(e?: IG6GraphEvent): boolean;
   shouldEnd?(e?: IG6GraphEvent): boolean;

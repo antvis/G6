@@ -240,7 +240,7 @@ export default class ItemBase implements IItemBase {
       });
       self.set('originStyle', originStyles);
     } else {
-      debugger
+      debugger;
       // 第二次 set originStyles，需要找到不是 stateStyles 的样式，更新到 originStyles 中
 
       // 上一次设置的 originStyle，是初始的 shape attrs
@@ -290,7 +290,6 @@ export default class ItemBase implements IItemBase {
       if (styles.matrix) delete styles.matrix;
       self.set('originStyle', styles);
     }
-    console.log('originstyle', self.get('originStyle'))
   }
 
   /**
