@@ -8,6 +8,7 @@ import {
   IRect,
   Matrix,
   EdgeConfig,
+  NodeConfig,
   NodeIdxMap,
   IBBox,
   Item,
@@ -22,7 +23,7 @@ import {
  * @return  {boolean}      bool   布尔
  */
 export const compare = (attributeName: string) => {
-  return (m, n) => {
+  return (m: any, n: any) => {
     return m[attributeName] - n[attributeName];
   };
 };
@@ -258,9 +259,9 @@ export const distance = (p1: Point, p2: Point): number => {
  */
 export const scaleMatrix = (matrix: Matrix[], ratio: number) => {
   const result: Matrix[] = [];
-  matrix.forEach((row) => {
+  matrix.forEach((row: number[]) => {
     const newRow: number[] = [];
-    row.forEach((v) => {
+    row.forEach((v: number) => {
       newRow.push(v * ratio);
     });
     result.push(newRow);
@@ -319,7 +320,7 @@ export const getAdjMatrix = (data: GraphData, directed: boolean): Matrix[] => {
     throw new Error('invalid nodes data!');
   }
   if (nodes) {
-    nodes.forEach((node, i) => {
+    nodes.forEach((node: NodeConfig, i: number) => {
       nodeMap[node.id] = i;
       const row: number[] = [];
       matrix.push(row);
@@ -327,7 +328,7 @@ export const getAdjMatrix = (data: GraphData, directed: boolean): Matrix[] => {
   }
 
   if (edges) {
-    edges.forEach((e) => {
+    edges.forEach((e: EdgeConfig) => {
       const { source, target } = e;
       const sIndex = nodeMap[source as string];
       const tIndex = nodeMap[target as string];
@@ -413,7 +414,7 @@ export const getDegree = (n: number, nodeIdxMap: NodeIdxMap, edges: EdgeConfig[]
   for (let i = 0; i < n; i++) {
     degrees[i] = 0;
   }
-  edges.forEach((e) => {
+  edges.forEach((e: EdgeConfig) => {
     if (e.source) {
       degrees[nodeIdxMap[e.source]] += 1;
     }
@@ -425,7 +426,7 @@ export const getDegree = (n: number, nodeIdxMap: NodeIdxMap, edges: EdgeConfig[]
 };
 
 // 判断点Q是否在p1和p2的线段上
-function onSegment(p1, p2, q) {
+function onSegment(p1: number[], p2: number[], q: number[]) {
   if (
     (q[0] - p1[0]) * (p2[1] - p1[1]) === (p2[0] - p1[0]) * (q[1] - p1[1]) &&
     Math.min(p1[0], p2[0]) <= q[0] &&
@@ -449,7 +450,7 @@ export const isPointInPolygon = (points: number[][], x: number, y: number) => {
   const n = points.length;
   // 判断两个double在eps精度下的大小关系
   const tolerance = 1e-6;
-  function dcmp(xValue) {
+  function dcmp(xValue: number) {
     if (Math.abs(xValue) < tolerance) {
       return 0;
     }
@@ -488,9 +489,9 @@ export const intersectBBox = (box1: Partial<IBBox>, box2: Partial<IBBox>) => {
   );
 };
 
-const lineIntersectPolygon = (lines, line) => {
+const lineIntersectPolygon = (lines: any[], line: any) => {
   let isIntersect = false;
-  each(lines, (l) => {
+  each(lines, (l: any) => {
     if (getLineIntersect(l.from, l.to, line.from, line.to)) {
       isIntersect = true;
       return false;
@@ -507,9 +508,9 @@ const lineIntersectPolygon = (lines, line) => {
  */
 export const isPolygonsIntersect = (points1: number[][], points2: number[][]): boolean => {
   type BBox = Partial<IBBox>;
-  const getBBox = (points): BBox => {
-    const xArr = points.map((p) => p[0]);
-    const yArr = points.map((p) => p[1]);
+  const getBBox = (points: number[][]): BBox => {
+    const xArr = points.map((p: number[]) => p[0]);
+    const yArr = points.map((p: number[]) => p[1]);
     return {
       minX: Math.min.apply(null, xArr),
       maxX: Math.max.apply(null, xArr),
@@ -518,7 +519,7 @@ export const isPolygonsIntersect = (points1: number[][], points2: number[][]): b
     };
   };
 
-  const parseToLines = (points: number[][]) => {
+  const parseToLines = (points: number[][]): any[] => {
     const lines = [];
     const count = points.length;
     for (let i = 0; i < count - 1; i++) {
@@ -566,7 +567,7 @@ export const isPolygonsIntersect = (points1: number[][], points2: number[][]): b
 
   let isIn = false;
   // 判定点是否在多边形内部，一旦有一个点在另一个多边形内，则返回
-  each(points2, (point) => {
+  each(points2, (point: number[]) => {
     if (isPointInPolygon(points1, point[0], point[1])) {
       isIn = true;
       return false;
@@ -575,7 +576,7 @@ export const isPolygonsIntersect = (points1: number[][], points2: number[][]): b
   if (isIn) {
     return true;
   }
-  each(points1, (point) => {
+  each(points1, (point: number[]) => {
     if (isPointInPolygon(points2, point[0], point[1])) {
       isIn = true;
       return false;
@@ -588,7 +589,7 @@ export const isPolygonsIntersect = (points1: number[][], points2: number[][]): b
   const lines1 = parseToLines(points1);
   const lines2 = parseToLines(points2);
   let isIntersect = false;
-  each(lines2, (line) => {
+  each(lines2, (line: any) => {
     if (lineIntersectPolygon(lines1, line)) {
       isIntersect = true;
       return false;
@@ -745,7 +746,7 @@ export const pointLineSquareDist = (point: IPoint, line: Line) => {
   return lenSq;
 };
 
-export const isPointsOverlap = (p1, p2, e = 1e-3) => {
+export const isPointsOverlap = (p1: IPoint, p2: IPoint, e: number = 1e-3) => {
   return (p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2 < e ** 2;
 };
 

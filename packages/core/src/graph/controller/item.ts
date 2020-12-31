@@ -75,7 +75,7 @@ export default class ItemController {
       model = deepMix({}, defaultModel, model, mappedModel);
     } else if (defaultModel) {
       // 很多布局会直接修改原数据模型，所以不能用 merge 的形式，逐个写入原 model 中
-      each(defaultModel, (val, cfg) => {
+      each(defaultModel, (val: any, cfg: any) => {
         if (!hasOwnProperty.call(model, cfg)) {
           if (isObject(val)) {
             model[cfg] = clone(val);
@@ -147,7 +147,7 @@ export default class ItemController {
 
       const comboModel = item.getModel();
 
-      (children || []).forEach((child) => {
+      (children || []).forEach((child: ComboTree) => {
         const childItem = graph.findById(child.id) as ICombo | INode;
         (item as ICombo).addChild(childItem);
         child.depth = (comboModel.depth as number) + 2;
@@ -210,15 +210,15 @@ export default class ItemController {
         delete newModel[STATE_SUFFIX];
       }
 
-      each(newModel, (val, key) => {
+      each(newModel, (val: any, key: any) => {
         cfg[key] = val;
       });
     } else {
       // merge update传进来的对象参数，model中没有的数据不做处理，对象和字符串值也不做处理，直接替换原来的
-      each(cfg, (val, key) => {
+      each(cfg, (val: any, key: any) => {
         if (model[key]) {
           if (isObject(val) && !isArray(val)) {
-            cfg[key] = { ...(model[key] as Object), ...(cfg[key] as Object) };
+            cfg[key] = { ...(model[key] as any), ...(cfg[key] as any) };
           }
         }
       });
@@ -251,11 +251,12 @@ export default class ItemController {
     if (type === NODE || type === COMBO) {
       item.update(cfg, isOnlyMove);
       const edges: IEdge[] = (item as INode).getEdges();
-      let refreshEdge = shouldRefreshEdge(cfg)!;
-      refreshEdge &&
+      const refreshEdge = shouldRefreshEdge(cfg)!;
+      if (refreshEdge) {
         each(edges, (edge: IEdge) => {
           edge.refresh();
         });
+      }
     }
     graph.emit('afterupdateitem', { item, cfg });
   }
@@ -301,10 +302,10 @@ export default class ItemController {
       combo = graph.findById(combo) as ICombo;
     }
     const children = (combo as ICombo).getChildren();
-    children.nodes.forEach((node) => {
+    children.nodes.forEach((node: INode) => {
       graph.hideItem(node);
     });
-    children.combos.forEach((c) => {
+    children.combos.forEach((c: ICombo) => {
       graph.hideItem(c);
     });
   }
@@ -319,10 +320,10 @@ export default class ItemController {
       combo = graph.findById(combo) as ICombo;
     }
     const children = (combo as ICombo).getChildren();
-    children.nodes.forEach((node) => {
+    children.nodes.forEach((node: INode) => {
       graph.showItem(node);
     });
-    children.combos.forEach((c) => {
+    children.combos.forEach((c: ICombo) => {
       if (c.getModel().collapsed) {
         c.show();
       } else {
@@ -374,9 +375,9 @@ export default class ItemController {
         let brothers = comboTrees;
         let found = false; // the flag to terminate the forEach circulation
         // remove the node from the children array of its parent fromt he tree
-        comboTrees.forEach((ctree) => {
+        comboTrees.forEach((ctree: any) => {
           if (found) return;
-          traverseTree<ComboTree>(ctree, (combo) => {
+          traverseTree<ComboTree>(ctree, (combo: ComboTree) => {
             if (combo.id === id && brothers) {
               const bidx = brothers.indexOf(combo);
               brothers.splice(bidx, 1);
@@ -399,9 +400,9 @@ export default class ItemController {
       let comboInTree;
       // find the subtree rooted at the item to be removed
       let found = false; // the flag to terminate the forEach circulation
-      (comboTrees || []).forEach((ctree) => {
+      (comboTrees || []).forEach((ctree: any) => {
         if (found) return;
-        traverseTree<ComboTree>(ctree, (combo) => {
+        traverseTree<ComboTree>(ctree, (combo: ComboTree) => {
           if (combo.id === id) {
             comboInTree = combo;
             found = true;
@@ -412,7 +413,7 @@ export default class ItemController {
       });
       comboInTree.removed = true;
       if (comboInTree && comboInTree.children) {
-        comboInTree.children.forEach((child) => {
+        comboInTree.children.forEach((child: any) => {
           this.removeItem(child.id);
         });
       }
@@ -533,9 +534,9 @@ export default class ItemController {
   public addCombos(comboTrees: ComboTree[], comboModels: ComboConfig[]) {
     const { graph } = this;
     (comboTrees || []).forEach((ctree: ComboTree) => {
-      traverseTreeUp<ComboTree>(ctree, (child) => {
+      traverseTreeUp<ComboTree>(ctree, (child: ComboTree) => {
         let comboModel;
-        comboModels.forEach((model) => {
+        comboModels.forEach((model: ComboConfig) => {
           if (model.id === child.id) {
             model.children = child.children;
             model.depth = child.depth;
@@ -591,10 +592,10 @@ export default class ItemController {
       const id = item.get('id');
       let children = [];
       let found = false; // flag the terminate the forEach
-      (comboTrees || []).forEach((ctree) => {
+      (comboTrees || []).forEach((ctree: any) => {
         if (found) return;
         if (!ctree.children || ctree.children.length === 0) return;
-        traverseTree<ComboTree>(ctree, (combo) => {
+        traverseTree<ComboTree>(ctree, (combo: ComboTree) => {
           if (combo.id === id) {
             children = combo.children;
             found = true;
@@ -603,7 +604,7 @@ export default class ItemController {
           return true;
         });
       });
-      children.forEach((child) => {
+      children.forEach((child: any) => {
         const childItem = graph.findById(child.id);
         this.changeItemVisibility(childItem, visible);
       });
