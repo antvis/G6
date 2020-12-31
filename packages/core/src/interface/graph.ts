@@ -28,7 +28,7 @@ import { Stack } from '@antv/algorithm';
 export interface IAbstractGraph extends EventEmitter {
   getDefaultCfg(): Partial<GraphOptions>;
   get<T = any>(key: string): T;
-  set<T = any>(key: string, value?: T): Graph;
+  set<T = any>(key: string | object, value?: T): Graph;
   findById(id: string): Item;
   translate(dx: number, dy: number): void;
   zoom(ratio: number, center?: Point): void;
