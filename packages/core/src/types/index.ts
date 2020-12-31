@@ -68,8 +68,8 @@ export type ShapeStyle = Partial<{
   lineWidth: number;
   lineAppendWidth: number;
   lineDash: number[];
-  lineCap: string;
-  lineJoin: 'bevel' | 'round' | 'miter' | undefined;
+  lineCap: 'butt' | 'round' | 'square';
+  lineJoin: 'bevel' | 'round' | 'miter';
   miterLimit: number;
   path: string | any[];
   points: IPointTuple[];
@@ -87,10 +87,10 @@ export type ShapeStyle = Partial<{
   fontSize: number;
   fontFamily: string;
   fontWeight: number;
-  fontStyle: string;
-  fontVariant: string;
-  textAlign: 'center' | 'end' | 'left' | 'right' | 'start' | undefined;
-  textBaseline: 'top' | 'middle' | 'bottom' | undefined;
+  fontStyle: 'normal' | 'italic' | 'oblique';
+  fontVariant: 'normal' | 'small-caps' | string;
+  textAlign: 'start' | 'center' | 'end' | 'left' | 'right';
+  textBaseline: 'top' | 'hanging' | 'middle' | 'alphabetic' | 'ideographic' | 'bottom';
   rx: number;
   ry: number;
   cx: number;
