@@ -277,7 +277,6 @@ export default class TrendTimeBar {
    * @private
    */
   private renderSlider() {
-    console.log('render slider');
     const { width, height, timeBarType } = this;
     // 趋势图数据
     if (timeBarType === 'trend' && size(get(this.trendCfg, 'data'))) {
@@ -324,8 +323,6 @@ export default class TrendTimeBar {
         },
         capture: false,
       });
-
-      console.log('this.fontFamily', this.fontFamily, this.textStyle);
 
       this.maxTextShape = textGroup.addShape('text', {
         attrs: {
