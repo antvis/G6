@@ -82,7 +82,7 @@ esm
 es
 
 .github
-.storybook
+# .storybook
 .vscode/
 
 stats.json
