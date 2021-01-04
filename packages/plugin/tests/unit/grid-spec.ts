@@ -1,5 +1,6 @@
 import G6 from '@antv/g6';
 import Grid from '../../src/grid';
+
 const div = document.createElement('div');
 div.id = 'grid-spec';
 document.body.appendChild(div);

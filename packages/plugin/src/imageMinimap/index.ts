@@ -19,7 +19,7 @@ function getImgNaturalDimension(img, callback?) {
     const image = new Image();
     image.src = img.src;
     image.onload = () => {
-      callback && callback(image.width, image.height);
+      if (callback) callback(image.width, image.height);
     };
   }
   return [nWidth, nHeight];
