@@ -54,7 +54,7 @@
     }
   },
   "lint-staged": {
-    "tests/unit/graph/*.{js,jsx,ts,tsx}": [
+    "tests/unit/graph/graph-spec.ts": [
       "npm run test"
     ]
   },
