@@ -56,7 +56,10 @@
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
       "npm run lint-staged:js",
-      "npm run test"
+      "prettier --write"
+    ],
+    "**/*.{less,md,json}": [
+      "prettier --write"
     ]
   },
   "dependencies": {
