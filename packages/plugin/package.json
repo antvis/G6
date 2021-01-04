@@ -5,11 +5,17 @@
   "main": "lib/index.js",
   "module": "es/index.ts",
   "scripts": {
-    "start": "father build --watch",
     "build": "npm run clean && father build",
+    "ci": "npm run build && npm run coverage",
     "clean": "rimraf es esm lib dist",
+    "coverage": "jest --coverage",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx --format=pretty \"./\"",
+    "lint:src": "eslint --ext .ts --format=pretty \"./src\"",
+    "prettier": "prettier -c --write \"**/*\"",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch ./tests/unit/minimap-spec.ts "
+    "test-live": "DEBUG_MODE=1 jest --watch ./tests/unit/minimap-spec.ts",
+    "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
+    "watch": "father build -w"
   },
   "dependencies": {
     "@antv/dom-util": "^2.0.2",
@@ -24,7 +30,21 @@
   },
   "sideEffects": false,
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "npm run lint-staged:js",
+      "prettier --write"
+    ],
+    "**/*.{less,md,json}": [
+      "prettier --write"
+    ]
+  },
   "publishConfig": {
     "access": "public"
   },
