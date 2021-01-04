@@ -183,7 +183,7 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
     }
   }
 
-  const startVec = [startPoint[0] - center[0], startPoint[1] - center[1]];
+  const startVec: vec2 = [startPoint[0] - center[0], startPoint[1] - center[1]];
   let scaleRateStart = (rstart + dist) / rstart;
   let scaleRateEnd = (rend + dist) / rend;
   if (loopCfg.clockwise === false) {
@@ -191,11 +191,11 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
     scaleRateEnd = (rstart + dist) / rstart;
   }
 
-  const startExtendVec = vec2.scale([], startVec, scaleRateStart);
+  const startExtendVec = vec2.scale([0, 0], startVec, scaleRateStart);
   const controlPoint1 = [center[0] + startExtendVec[0], center[1] + startExtendVec[1]];
-  const endVec = [endPoint[0] - center[0], endPoint[1] - center[1]];
+  const endVec: vec2 = [endPoint[0] - center[0], endPoint[1] - center[1]];
 
-  const endExtendVec = vec2.scale([], endVec, scaleRateEnd);
+  const endExtendVec = vec2.scale([0, 0], endVec, scaleRateEnd);
   const controlPoint2 = [center[0] + endExtendVec[0], center[1] + endExtendVec[1]];
 
   cfg.startPoint = { x: startPoint[0], y: startPoint[1] };

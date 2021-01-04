@@ -1,19 +1,19 @@
 import { Event as GraphEvent, ICanvas } from '@antv/g-base';
-import { G6Event, IG6GraphEvent, IShapeBase, Item } from '../types';
-import { IAbstractGraph } from './graph';
+import type { G6Event, IG6GraphEvent, IShapeBase, Item } from '../types';
+import type { IAbstractGraph } from './graph';
 
 export interface IBehavior {
   type: string;
-  getEvents(): {
+  getEvents: () => {
     [key in G6Event]?: string;
   };
-  updateCfg(cfg: object): {};
-  getDefaultCfg?(): object;
-  shouldBegin?(e?: IG6GraphEvent): boolean;
-  shouldUpdate?(e?: IG6GraphEvent): boolean;
-  shouldEnd?(e?: IG6GraphEvent): boolean;
-  bind?(e: IAbstractGraph): void;
-  unbind?(e: IAbstractGraph): void;
+  updateCfg: (cfg: object) => {};
+  getDefaultCfg?: () => object;
+  shouldBegin?: (e?: IG6GraphEvent) => boolean;
+  shouldUpdate?: (e?: IG6GraphEvent) => boolean;
+  shouldEnd?: (e?: IG6GraphEvent) => boolean;
+  bind?: (e: IAbstractGraph) => void;
+  unbind?: (e: IAbstractGraph) => void;
 }
 
 export class G6GraphEvent extends GraphEvent implements IG6GraphEvent {

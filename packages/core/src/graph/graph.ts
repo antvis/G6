@@ -1,6 +1,6 @@
 import EventEmitter from '@antv/event-emitter';
 import { ICanvas, IGroup, Point } from '@antv/g-base';
-import { mat3 } from '@antv/matrix-util';
+import { ext } from '@antv/matrix-util';
 import { clone, deepMix, each, isPlainObject, isString } from '@antv/util';
 import {
   getDegree,
@@ -17,7 +17,6 @@ import {
   GraphData,
   Item,
   ITEM_TYPE,
-  Matrix,
   ModelConfig,
   NodeConfig,
   NodeMap,
@@ -37,6 +36,7 @@ import { ItemController, ModeController, StateController, ViewController } from 
 import { plainCombosToTrees, traverseTree, reconstructTree, traverseTreeUp } from '../util/graphic';
 import Hull from '../item/hull';
 
+const { transform } = ext;
 const NODE = 'node';
 
 export interface PrivateGraphOption extends GraphOptions {
@@ -557,11 +557,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   public translate(dx: number, dy: number): void {
     const group: IGroup = this.get('group');
 
-    let matrix: Matrix = clone(group.getMatrix());
+    let matrix = clone(group.getMatrix());
     if (!matrix) {
       matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
     }
-    mat3.translate(matrix, matrix, [dx, dy]);
+    matrix = transform(matrix, [['t', dx, dy]]);
 
     group.setMatrix(matrix);
 
@@ -640,11 +640,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * @param {string | string[]} modes 指定的模式中的行为，不指定则为 default
    * @return {Graph} Graph
    */
-  public updateBehavior(
-    behavior: string,
-    newCfg: object,
-    mode?: string,
-  ): AbstractGraph {
+  public updateBehavior(behavior: string, newCfg: object, mode?: string): AbstractGraph {
     const modeController: ModeController = this.get('modeController');
     modeController.updateBehavior(behavior, newCfg, mode);
     return this;
@@ -657,7 +653,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    */
   public zoom(ratio: number, center?: Point): void {
     const group: IGroup = this.get('group');
-    let matrix: Matrix = clone(group.getMatrix());
+    let matrix = clone(group.getMatrix());
     const minZoom: number = this.get('minZoom');
     const maxZoom: number = this.get('maxZoom');
 
@@ -666,16 +662,19 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     }
 
     if (center) {
-      mat3.translate(matrix, matrix, [-center.x, -center.y]);
-      mat3.scale(matrix, matrix, [ratio, ratio]);
-      mat3.translate(matrix, matrix, [center.x, center.y]);
+      matrix = transform(matrix, [
+        ['t', -center.x, -center.y],
+        ['s', ratio, ratio],
+        ['t', center.x, center.y],
+      ]);
     } else {
-      mat3.scale(matrix, matrix, [ratio, ratio]);
+      matrix = transform(matrix, [['s', ratio, ratio]]);
     }
 
     if ((minZoom && matrix[0] < minZoom) || (maxZoom && matrix[0] > maxZoom)) {
       return;
     }
+    // matrix = [2, 0, 0, 0, 2, 0, -125, -125, 1];
 
     group.setMatrix(matrix);
     this.emit('viewportchange', { action: 'zoom', matrix });
@@ -2027,7 +2026,6 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         });
 
         self.refreshPositions();
-        return;
       },
       {
         duration: animateCfg.duration,
@@ -2232,7 +2230,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       console.warn('The combo to be collapsed does not exist!');
       return;
     }
-    this.emit('beforecollapseexpandcombo', { action: 'expand', item: combo })
+    this.emit('beforecollapseexpandcombo', { action: 'expand', item: combo });
 
     const comboModel = combo.getModel();
 
@@ -2375,7 +2373,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         false,
       );
     });
-    this.emit('aftercollapseexpandcombo', { action: 'collapse', item: combo })
+    this.emit('aftercollapseexpandcombo', { action: 'collapse', item: combo });
   }
 
   /**
@@ -2390,7 +2388,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       console.warn('The combo to be collapsed does not exist!');
       return;
     }
-    this.emit('beforecollapseexpandcombo', { action: 'expand', item: combo })
+    this.emit('beforecollapseexpandcombo', { action: 'expand', item: combo });
 
     const comboModel = combo.getModel();
 
@@ -2594,7 +2592,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         }
       }
     });
-    this.emit('aftercollapseexpandcombo', { action: 'expand', item: combo })
+    this.emit('aftercollapseexpandcombo', { action: 'expand', item: combo });
   }
 
   public collapseExpandCombo(combo: string | ICombo) {
@@ -2658,7 +2656,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       if (!array || !array.length) return;
       for (let i = array.length - 1; i >= 0; i--) {
         const item = this.findById(array[i]);
-        item && item.toFront();
+        if (item) item.toFront();
       }
     });
   }
@@ -2765,9 +2763,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const stackData = data
       ? clone(data)
       : {
-        before: {},
-        after: clone(this.save()),
-      };
+          before: {},
+          after: clone(this.save()),
+        };
 
     if (stackType === 'redo') {
       this.redoStack.push({

@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6-element",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",
@@ -61,7 +61,7 @@
   },
   "dependencies": {
     "@antv/g-base": "^0.5.1",
-    "@antv/g6-core": "^0.0.1",
+    "@antv/g6-core": "^0.0.3",
     "@antv/util": "~2.0.5"
   },
   "devDependencies": {
@@ -71,7 +71,7 @@
     "@turf/turf": "^5.1.6",
     "@types/jest": "^25.2.1",
     "@types/node": "13.11.1",
-    "@typescript-eslint/eslint-plugin": "^3.9.0",
+    "@typescript-eslint/eslint-plugin": "^4.11.1",
     "@umijs/fabric": "^2.0.0",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",

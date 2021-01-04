@@ -22,6 +22,10 @@ module.exports = {
     'guard-for-in': 0,
     'no-restricted-globals': 0,
     'max-classes-per-file': 0,
+    '@typescript-eslint/no-invalid-this': 0,
+    '@typescript-eslint/no-this-alias': 0,
+    '@typescript-eslint/array-type': 0,
+    'import/export': 0,
     // 后面需要去掉
     'no-restricted-syntax': 0,
     'prefer-spread': 0,

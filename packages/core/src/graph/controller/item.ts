@@ -1,9 +1,9 @@
-import { IGroup } from '@antv/g-base';
+import type { IGroup } from '@antv/g-base';
 import { clone, deepMix, each, isArray, isObject, isString, upperFirst } from '@antv/util';
 import Edge from '../../item/edge';
 import Node from '../../item/node';
 import Combo from '../../item/combo';
-import {
+import type {
   EdgeConfig,
   Item,
   ITEM_TYPE,
@@ -14,7 +14,7 @@ import {
   ComboConfig,
 } from '../../types';
 import { IAbstractGraph } from '../../interface/graph';
-import { IEdge, INode, ICombo } from '../../interface/item';
+import type { IEdge, INode, ICombo } from '../../interface/item';
 import { traverseTreeUp, traverseTree, getComboBBox, shouldRefreshEdge } from '../../util/graphic';
 
 const NODE = 'node';
@@ -251,8 +251,8 @@ export default class ItemController {
     if (type === NODE || type === COMBO) {
       item.update(cfg, isOnlyMove);
       const edges: IEdge[] = (item as INode).getEdges();
-      let refreshEdge = shouldRefreshEdge(cfg)!;
-      refreshEdge &&
+      const refreshEdge = shouldRefreshEdge(cfg)!;
+      if (refreshEdge)
         each(edges, (edge: IEdge) => {
           edge.refresh();
         });

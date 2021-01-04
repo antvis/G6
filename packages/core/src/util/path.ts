@@ -62,10 +62,10 @@ export const getControlPoint = (
     y: (1 - percent) * startPoint.y + percent * endPoint.y,
   };
 
-  let tangent: number[] = [];
+  let tangent: vec2 = [0, 0];
   vec2.normalize(tangent, [endPoint.x - startPoint.x, endPoint.y - startPoint.y]);
 
-  if (tangent.length === 0) {
+  if (!tangent || (!tangent[0] && !tangent[1])) {
     tangent = [0, 0];
   }
   const perpendicular = [-tangent[1] * offset, tangent[0] * offset]; // 垂直向量
@@ -163,12 +163,12 @@ export const getClosedSpline = (points: IPoint[]) => {
   return closedPath;
 };
 
-const vecScaleTo = (v: number[], length: number) => {
+const vecScaleTo = (v: vec2, length: number) => {
   // Vector with direction of v with specified length
-  return vec2.scale([], vec2.normalize([], v), length);
+  return vec2.scale([0, 0], vec2.normalize([0, 0], v), length);
 };
 
-const unitNormal = (p0: number[], p1: number[]) => {
+const unitNormal = (p0: vec2, p1: vec2): vec2 => {
   // Returns the unit normal to the line segment from p0 to p1.
   const n = [p0[1] - p1[1], p1[0] - p0[0]];
   const nLength = Math.sqrt(n[0] * n[0] + n[1] * n[1]);
@@ -178,9 +178,9 @@ const unitNormal = (p0: number[], p1: number[]) => {
   return [n[0] / nLength, n[1] / nLength];
 };
 
-const vecFrom = (p0: number[], p1: number[]) => {
+const vecFrom = (p0: vec2, p1: vec2): vec2 => {
   // Vector from p0 to p1
-  return [p1[0] - p0[0], p1[1] - p0[1]];
+  return [p1[0] - p0[0], p1[1] - p0[1]] as vec2;
 };
 
 /**
@@ -188,9 +188,9 @@ const vecFrom = (p0: number[], p1: number[]) => {
  * @param polyPoints 多边形顶点
  * @param padding 在原多边形基础上增加最终轮廓和原多边形的空白间隔
  */
-export function roundedHull(polyPoints: number[][], padding: number) {
+export function roundedHull(polyPoints: vec2[], padding: number) {
   // The rounded hull path around a single point
-  const roundedHull1 = (points: number[][]) => {
+  const roundedHull1 = (points: vec2[]) => {
     const p1 = [points[0][0], points[0][1] - padding];
     const p2 = [points[0][0], points[0][1] + padding];
 
@@ -198,14 +198,14 @@ export function roundedHull(polyPoints: number[][], padding: number) {
   };
 
   // The rounded hull path around two points
-  const roundedHull2 = (points: number[][]) => {
-    const offsetVector = vec2.scale([], unitNormal(points[0], points[1]), padding);
-    const invOffsetVector = vec2.scale([], offsetVector, -1);
+  const roundedHull2 = (points: vec2[]) => {
+    const offsetVector = vec2.scale([0, 0], unitNormal(points[0], points[1]), padding);
+    const invOffsetVector = vec2.scale([0, 0], offsetVector, -1);
 
-    const p0 = vec2.add([], points[0], offsetVector);
-    const p1 = vec2.add([], points[1], offsetVector);
-    const p2 = vec2.add([], points[1], invOffsetVector);
-    const p3 = vec2.add([], points[0], invOffsetVector);
+    const p0 = vec2.add([0, 0], points[0], offsetVector);
+    const p1 = vec2.add([0, 0], points[1], offsetVector);
+    const p2 = vec2.add([0, 0], points[1], invOffsetVector);
+    const p3 = vec2.add([0, 0], points[0], invOffsetVector);
 
     return `M ${p0} L ${p1} A ${[padding, padding, '0,0,0', p2].join(',')} L ${p3} A ${[
       padding,
@@ -229,9 +229,9 @@ export function roundedHull(polyPoints: number[][], padding: number) {
     const p1 = polyPoints[segmentIndex];
 
     // Compute the offset vector for the line segment, with length = padding.
-    const offset = vec2.scale([], unitNormal(p0, p1), padding);
+    const offset = vec2.scale([0, 0], unitNormal(p0, p1), padding);
 
-    segments[segmentIndex] = [vec2.add([], p0, offset), vec2.add([], p1, offset)];
+    segments[segmentIndex] = [vec2.add([0, 0], p0, offset), vec2.add([0, 0], p1, offset)];
   }
 
   const arcData = `A ${[padding, padding, '0,0,0,'].join(',')}`;
@@ -253,7 +253,7 @@ export function roundedHull(polyPoints: number[][], padding: number) {
  * @param polyPoints
  * @param padding
  */
-export function paddedHull(polyPoints: number[][], padding: number) {
+export function paddedHull(polyPoints: vec2[], padding: number) {
   const pointCount = polyPoints.length;
 
   const smoothHull1 = (points) => {
@@ -275,16 +275,16 @@ export function paddedHull(polyPoints: number[][], padding: number) {
     const v = vecFrom(points[0], points[1]);
     const extensionVec = vecScaleTo(v, padding);
 
-    const extension0 = vec2.add([], points[0], vec2.scale([], extensionVec, -1));
-    const extension1 = vec2.add([], points[1], extensionVec);
+    const extension0 = vec2.add([0, 0], points[0], vec2.scale([0, 0], extensionVec, -1));
+    const extension1 = vec2.add([0, 0], points[1], extensionVec);
 
     const tangentHalfLength = 1.2 * padding;
-    const controlDelta = vecScaleTo(vec2.normalize([], v), tangentHalfLength);
-    const invControlDelta = vec2.scale([], controlDelta, -1);
+    const controlDelta = vecScaleTo(vec2.normalize([0, 0], v), tangentHalfLength);
+    const invControlDelta = vec2.scale([0, 0], controlDelta, -1);
 
-    const control0 = vec2.add([], extension0, invControlDelta);
-    const control1 = vec2.add([], extension1, invControlDelta);
-    const control3 = vec2.add([], extension0, controlDelta);
+    const control0 = vec2.add([0, 0], extension0, invControlDelta);
+    const control1 = vec2.add([0, 0], extension1, invControlDelta);
+    const control3 = vec2.add([0, 0], extension0, controlDelta);
 
     return `M ${extension0} C ${[control0, control1, extension1].join(',')} S ${[
       control3,
@@ -301,7 +301,7 @@ export function paddedHull(polyPoints: number[][], padding: number) {
     const pNext = polyPoints[(index + 1) % pointCount];
     return {
       p: point,
-      v: vec2.normalize([], vecFrom(point, pNext)),
+      v: vec2.normalize([0, 0], vecFrom(point, pNext)),
     };
   });
 
@@ -309,10 +309,14 @@ export function paddedHull(polyPoints: number[][], padding: number) {
   for (let i = 0; i < hullPoints.length; ++i) {
     const priorIndex = i > 0 ? i - 1 : pointCount - 1;
     const extensionVec = vec2.normalize(
-      [],
-      vec2.add([], hullPoints[priorIndex].v, vec2.scale([], hullPoints[i].v, -1)),
+      [0, 0],
+      vec2.add([0, 0], hullPoints[priorIndex].v, vec2.scale([0, 0], hullPoints[i].v, -1)),
     );
-    hullPoints[i].p = vec2.add([], hullPoints[i].p, vec2.scale([], extensionVec, padding));
+    hullPoints[i].p = vec2.add(
+      [0, 0],
+      hullPoints[i].p as vec2,
+      vec2.scale([0, 0], extensionVec, padding),
+    );
   }
 
   return hullPoints.map((obj) => {

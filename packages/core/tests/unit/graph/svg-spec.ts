@@ -3,9 +3,12 @@ import { AbstractGraph } from '../../../src';
 import '../../../src/behavior';
 import { scale, translate } from '../../../src/util/math';
 import { EdgeConfig } from '../../../src/types';
+import { mat3 } from '@antv/matrix-util';
+import { clone } from '@antv/util';
 
 const div = document.createElement('div');
 div.id = 'global-spec';
+div.style.backgroundColor = '#ccc';
 document.body.appendChild(div);
 const div2 = document.createElement('div');
 div2.id = 'graph-spec';
@@ -56,7 +59,7 @@ describe('graph', () => {
     container: div,
     width: 500,
     height: 500,
-    renderer: 'svg',
+    // renderer: 'svg',
     modes: {
       default: ['drag-node'],
     },
@@ -323,15 +326,12 @@ describe('graph', () => {
 
   it('zoom', () => {
     globalGraph.zoom(3, { x: 100, y: 100 });
-
     const matrix = globalGraph.get('group').getMatrix();
-
     expect(matrix[0]).toBe(3);
     expect(matrix[4]).toBe(3);
     expect(matrix[6]).toBe(-200);
     expect(matrix[7]).toBe(-200);
     expect(globalGraph.getZoom()).toBe(3);
-
     globalGraph.get('group').resetMatrix();
   });
 

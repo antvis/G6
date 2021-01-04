@@ -980,8 +980,6 @@ const LargeGraph = () => {
           originData = data;
           nodeMap = {};
           const clusteredData = louvain(data, false, 'weight');
-          console.log(data, clusteredData);
-          debugger;
           const aggregatedData = { nodes: [], edges: [] };
           clusteredData.clusters.forEach((cluster, i) => {
             cluster.nodes.forEach((node) => {

@@ -38,7 +38,7 @@
   "dependencies": {
     "eslint": "^7.11.0",
     "eslint-config-prettier": "^6.7.0",
-    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-import": "^2.22.1",
     "husky": "^4.2.5",
     "lerna": "^3.19.0",
     "lint-staged": "^10.2.2",
@@ -54,6 +54,12 @@
   },
   "devDependencies": {
     "@umijs/fabric": "^2.3.1",
-    "pre-commit": "^1.2.2"
+    "pre-commit": "^1.2.2",
+    "@types/react": "^16.9.35",
+    "@types/react-dom": "^16.9.8",
+    "react-scripts": "3.1.2"
+  },
+  "resolutions": {
+    "@types/react": "^16.9.35"
   }
 }
