@@ -50,12 +50,12 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged & npm run test"
     }
   },
   "lint-staged": {
-    "tests/unit/graph/graph-spec.ts": [
-      "npm run test"
+    "**/*.{js,jsx,ts,tsx}": [
+      "npm run lint-staged:js"
     ]
   },
   "dependencies": {
