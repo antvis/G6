@@ -54,11 +54,9 @@
     }
   },
   "lint-staged": {
- 
-    "**/tests/unit/graph/*.{js,jsx,ts,tsx}": [
+    "tests/unit/graph/*.{js,jsx,ts,tsx}": [
       "npm run test"
     ]
-   
   },
   "dependencies": {
     "@antv/algorithm": "^0.0.6",
