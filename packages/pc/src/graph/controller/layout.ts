@@ -194,7 +194,7 @@ export default class LayoutController extends AbstractLayout {
         // 更新节点位置
         this.refreshLayout();
         // 由 graph 传入的，控制 fitView、fitCenter，并触发 afterrender
-        success && success();
+        if (success) success();
       };
     }
 

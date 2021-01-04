@@ -2,6 +2,10 @@ import { isString, isNumber, isNil, isArray } from '@antv/util';
 import { G6GraphEvent } from '../interface/behavior';
 import { IG6GraphEvent, Padding, Matrix, Item } from '../types';
 
+export const uniqueId = (type: string): string => {
+  return `${type}-${Math.random()}${Date.now()}`;
+};
+
 /**
  * turn padding into [top, right, bottom, right]
  * @param  {Number|Array} padding input padding

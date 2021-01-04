@@ -5,10 +5,11 @@ import { Event as GraphEvent, Point } from '@antv/g-base';
 import { isString, isNil, each, debounce } from '@antv/util';
 import { createDom, modifyCSS } from '@antv/dom-util';
 import { Matrix, ShapeStyle, IAbstractGraph as IGraph } from '@antv/g6-core';
-import { transform } from '@antv/matrix-util';
+import { Util } from '@antv/g6-core';
 import Base, { IPluginBaseConfig } from '../base';
 
 const { max } = Math;
+const { transform } = Util;
 
 const DEFAULT_MODE = 'default';
 const KEYSHAPE_MODE = 'keyShape';

@@ -6,8 +6,10 @@ import { IGroup, IShape, IElement } from '@antv/g-base';
 import { ShapeOptions, ILabelConfig } from '../interface/shape';
 import { IPoint, Item, LabelStyle, ShapeStyle, ModelConfig, EdgeConfig } from '../types';
 import Global from '../global';
-import { transform } from '@antv/matrix-util';
+import { ext } from '@antv/matrix-util';
 import { deepMix, each, mix, isBoolean, isPlainObject, clone } from '@antv/util';
+
+const transform = ext.transform;
 
 const CLS_SHAPE_SUFFIX = '-shape';
 const CLS_LABEL_SUFFIX = '-label';

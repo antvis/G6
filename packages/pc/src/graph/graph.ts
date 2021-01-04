@@ -1,6 +1,6 @@
 import { Canvas as GCanvas } from '@antv/g-canvas';
 import { Canvas as GSVGCanvas } from '@antv/g-svg';
-import { mat3 } from '@antv/matrix-util';
+import { ext } from '@antv/matrix-util';
 import { clone, deepMix, each, isString, isNumber } from '@antv/util';
 import { IGraph, DataUrlType } from '../interface/graph';
 import { AbstractGraph, GraphOptions } from '@antv/g6-core';
@@ -11,6 +11,7 @@ import { LayoutController, EventController } from './controller';
 import { PluginBase } from '@antv/g6-plugin';
 import { createDom } from '@antv/dom-util';
 
+const { transform } = ext;
 const SVG = 'svg';
 
 export default class Graph extends AbstractGraph implements IGraph {
@@ -187,8 +188,11 @@ export default class Graph extends AbstractGraph implements IGraph {
     if (!matrix) matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
     const centerX = (bbox.maxX + bbox.minX) / 2;
     const centerY = (bbox.maxY + bbox.minY) / 2;
-    mat3.translate(matrix, matrix, [-centerX, -centerY]);
-    mat3.translate(matrix, matrix, [width / 2 + padding[3], height / 2 + padding[0]]);
+
+    matrix = transform(matrix, [
+      ['t', -centerX, -centerY],
+      ['t', width / 2 + padding[3], height / 2 + padding[0]],
+    ]);
 
     vGroup.resetMatrix();
     vGroup.setMatrix(matrix);
@@ -234,7 +238,7 @@ export default class Graph extends AbstractGraph implements IGraph {
           context.globalCompositeOperation = compositeOperation;
         }
       }
-      callback && callback(dataURL);
+      if (callback) callback(dataURL);
     }, 16);
   }
 
@@ -276,8 +280,10 @@ export default class Graph extends AbstractGraph implements IGraph {
     if (!matrix) matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
     const centerX = (bbox.maxX + bbox.minX) / 2;
     const centerY = (bbox.maxY + bbox.minY) / 2;
-    mat3.translate(matrix, matrix, [-centerX, -centerY]);
-    mat3.translate(matrix, matrix, [width / 2 + padding[3], height / 2 + padding[0]]);
+    matrix = transform(matrix, [
+      ['t', -centerX, -centerY],
+      ['t', width / 2 + padding[3], height / 2 + padding[0]],
+    ]);
 
     vGroup.resetMatrix();
     vGroup.setMatrix(matrix);

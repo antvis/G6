@@ -1,5 +1,5 @@
 import { Point, IGroup } from '@antv/g-base';
-import { mat3, transform, vec3 } from '@antv/matrix-util';
+import { mat3, vec3, ext } from '@antv/matrix-util';
 import { isArray, each } from '@antv/util';
 import {
   GraphData,
@@ -13,6 +13,8 @@ import {
   Item,
   IPoint,
 } from '../types';
+
+const transform = ext.transform;
 
 /**
  * 对比对象，用于对象数组排序
@@ -182,12 +184,12 @@ export const getEllipseIntersectByPoint = (ellipse: IEllipse, point: Point): Poi
  * @return {Point} transformed point
  */
 export const applyMatrix = (point: Point, matrix: Matrix, tag: 0 | 1 = 1): Point => {
-  const vector = [point.x, point.y, tag];
+  const vector: vec3 = [point.x, point.y, tag];
   if (!matrix || isNaN(matrix[0])) {
     matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
   }
 
-  vec3.transformMat3(vector, vector, matrix);
+  vec3.transformMat3(vector, vector, matrix as mat3);
 
   return {
     x: vector[0],
@@ -207,11 +209,11 @@ export const invertMatrix = (point: Point, matrix: Matrix, tag: 0 | 1 = 1): Poin
     matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
   }
 
-  let inversedMatrix = mat3.invert([], matrix);
+  let inversedMatrix = mat3.invert([1, 0, 0, 0, 1, 0, 0, 0, 1], matrix as mat3);
   if (!inversedMatrix) {
     inversedMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
   }
-  const vector = [point.x, point.y, tag];
+  const vector: vec3 = [point.x, point.y, tag];
   vec3.transformMat3(vector, vector, inversedMatrix);
 
   return {

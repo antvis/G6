@@ -1,6 +1,13 @@
 # ChangeLog
 
-#### 4.0.4-beta
+#### 4.1.0
+
+- chore: ts lint;
+- feat: getEdgeConfig for create-edge behavior;
+- fix: uniqueId with timestamp and random;
+
+#### 4.1.0-beta.1
+
 - chore: unpack the g6 into core, pc, element, plugin, mobile, and exported by g6;
 - feat: layout with onLayoutEnd and custom layout with tag;
 - feat: emit beforecollapseexpandcombo and aftercollapseexpandcombo;
@@ -14,11 +21,12 @@
 - fix: text rasidual of timebar;
 - fix: maximum stack size problem for image node type, fix: #2383;
 
-
 #### 4.0.3
+
 - fix: state style restore for non-circle shapes;
 
 #### 4.0.2
+
 - fix: node and edge state style with update problem;
 - fix: import lib problem;
 - fix: import node module problem;
@@ -27,18 +35,20 @@
 - fix: update edge with false endArrow and startArrow;
 
 #### 4.0.1
+
 - fix: glslang problem;
 
 #### 4.0.0-beta.0
+
 - feat: fruchterman and gforce layout with gpu;
 - feat: gforce;
 - feat: updateChildren API for TreeGraph;
 - feat: louvain clustering algorithm;
 - feat: container of plugins with dom id;
 - feat: label propagation clustering algorithm;
-- feat: get color sets by subject color array; 
+- feat: get color sets by subject color array;
 - feat: canvas context menu;
-- feat: stop gforce; 
+- feat: stop gforce;
 - feat: dark rules for colors;
 - fix: text redidual problem, closes: #2045 #2193;
 - fix: graph on callback parameter type problem, closes: #2250;
@@ -47,9 +57,11 @@
 - fix: drag-canvas and click node on mobile;
 
 #### 3.8.5
+
 - fix: get fontFamily of the window in global leads to DOM depending when using bigfish;
 
 #### 3.8.4
+
 - feat: new version of basic styles for light version;
 - feat: shortcuts-call behavior for calling a Graph function by shortcuts;
 - feat: color generate util function getColorsWithSubjectColor;
@@ -57,10 +69,12 @@
 - fix: style update problem with stateStyles in the options of registerNode;
 
 #### 3.8.3
+
 - feat: drag the viewport of the minimap out of the the view;
 - fix: extend modelRect with description problem, closes: #2235;
 
 #### 3.8.2
+
 - feat: graph.setImageWaterMarker, graph.setTextWaterMarker API;
 - feat: zoom-canvas support mobile;
 - fix: drag-canvas behavior support scalable range, closes: #2136;
@@ -78,6 +92,7 @@
 - fix: update the typings for G6Event;
 
 #### 3.8.1
+
 - fix: update edge states with updateItem problem, closes: #2142;
 - fix: create-edge behavior with polyline problem, closes: #2165;
 - fix: console.warn show duplicate ID, closes: #2163;
@@ -683,7 +698,7 @@
 
 `2018-03-15`
 
-- feat:    layout interface
+- feat: layout interface
 
 #### 1.2.0
 
@@ -753,9 +768,9 @@
 - feat: HTML node
 - feat: mapper support callback function
 - feat: Graph interfaces -- updateMatrix、changeSize、showAnchor、hideAnchor、updataNodesPosition
-- feat:  tool functions -- Util.isNode()、Util.isEdge()
+- feat: tool functions -- Util.isNode()、Util.isEdge()
 - feat: Shape polyLineFlow
-- feat:  dragEdgeEndHideAnchor、dragNodeEndHideAnchor、hoverAnchorSetActived、hoverNodeShowAnchor
+- feat: dragEdgeEndHideAnchor、dragNodeEndHideAnchor、hoverAnchorSetActived、hoverNodeShowAnchor
 
 #### 1.0.7
 
@@ -780,14 +795,14 @@
 
 - feat: downloadImage support saving with name
 - feat: automatically detect tooltip padding
-- improve:  stop the action while mouse dragging out of the canvas
+- improve: stop the action while mouse dragging out of the canvas
 
 #### 1.0.4
 
 `2017-05-20`
 
 - fix: tree changeData Bug
-- fix:  when getAnchorPoints returns auto, anchor is the intersection of edge and the bounding box
+- fix: when getAnchorPoints returns auto, anchor is the intersection of edge and the bounding box
 - fix: generate node label according to isNull
 - feat: viewport parameters -- tl、tc、tr、rc、br、bc、bl、lc、cc
 - improve: reduce tolerance to improve the accuracy of interception
@@ -804,9 +819,9 @@
 `2017-05-10`
 
 - fix: Object.values => Util.getObjectValues
-- fix:  when anchorPoints is auto, there is only anchorpoint on edge, it will also return the intersection
+- fix: when anchorPoints is auto, there is only anchorpoint on edge, it will also return the intersection
 - fix: tree update interface Bug
-- improve:  represent positions information by group.transfrom()
+- improve: represent positions information by group.transfrom()
 
 #### 1.0.1
 
@@ -824,16 +839,16 @@
 `2017-03-31`
 
 - feat: fitView configurations
-- feat:  graph.zoom()
+- feat: graph.zoom()
 - feat: wheelZoomHideEdges hide the edges while zooming by wheel
 - feat: dragHideEdges hide the edge while dragging edge
 - feat: graph.filterBehaviour()
 - feat: graph.addBehaviour()
-- feat:   graph.changeLayout()
-- feat:  read interface, re-define save interface
-- feat:  graph.snapshot, graph.downloadImage
-- feat:  graph.autoSize()
-- feat:  graph.focusPoint()
+- feat: graph.changeLayout()
+- feat: read interface, re-define save interface
+- feat: graph.snapshot, graph.downloadImage
+- feat: graph.autoSize()
+- feat: graph.focusPoint()
 - feat: tree graph、net graph
 - feat: interaction mechanism -- event => action => mode
 - feat: animation mechanism
@@ -867,7 +882,7 @@
 - fix: accurate intersection
 - fix: zoom error on double accuracy screen
 - fix: buonding box extended from keyShape
-- feat:   afterAdd
+- feat: afterAdd
 - feat: dblclick
 - improve: width、height default null
 - improve: remove hovershape on node
@@ -883,7 +898,7 @@
 - feat: tooltip tip information
 - feat: mouseover
 - feat: multiSelectable, default false
-- feat:  set forceFit to true while width is undefined
+- feat: set forceFit to true while width is undefined
 - improve: zoomable、dragable、resizeable、selectable default true
 
 #### 0.2.0
@@ -892,7 +907,7 @@
 
 - feat: accurate anchor mechanism
 - feat: GraphUtil.getEllipsePath
-- feat:  GraphUtil.pointsToPolygon
+- feat: GraphUtil.pointsToPolygon
 - feat: GraphUtil.pointsToBezier
 - feat: GraphUtil.snapPreciseAnchor
 - feat: GraphUtil.arrowTo
@@ -901,13 +916,13 @@
 - feat: node.show
 - feat: node.hide
 - feat: node.getLinkNodes
-- feat:  node.getUnLinkNodes
+- feat: node.getUnLinkNodes
 - feat: node.getRelativeItems
 - feat: node.getUnRelativeItems
 - feat: edge.show
 - feat: edge.hide
 - feat: Shape afterDraw
-- improve:  the controlling point positions of Bezier Curve 改进贝塞尔曲线控制点位置
+- improve: the controlling point positions of Bezier Curve 改进贝塞尔曲线控制点位置
 - improve: grpah.delete => graph.del
 - improve: error when adding id
 
@@ -919,7 +934,7 @@
 - fix: use cardinality sort for all the sorting algorithm
 - fix: random id on edges
 - feat: level sort on edges, edge labels on the top level
-- feat:  while extending shape is undefined when register an edge, find the extending shaoe automatically
+- feat: while extending shape is undefined when register an edge, find the extending shaoe automatically
 
 #### 0.1.3
 
@@ -927,9 +942,9 @@
 
 - fix: judge the existance of the object while operating assistGrid
 - feat: rollback judgement, default unactivate
-- feat:  style mapping channel
+- feat: style mapping channel
 - feat: return the intersections while getAnchorPoints is null or returns false
-- feat:  bezierHorizontal、bezierVertical
+- feat: bezierHorizontal、bezierVertical
 - improve: 'eventEnd'
 
 #### 0.1.2
@@ -940,7 +955,7 @@
 - fix: the size of graphContainer in unsetable, setted by inner canvas
 - fix: will not add an edge if the target or source is undefined
 - fix: changeSize() maximum tolerance for error
-- feat: graph.get('el')  to get canvas DOM
+- feat: graph.get('el') to get canvas DOM
 - feat: event exposures shape
 
 #### 0.1.1
@@ -963,7 +978,7 @@
 - feat: timing diagram package
 - feat: single selection, frame selection
 - feat: node deformation
-- feat:  edge deformation
+- feat: edge deformation
 - feat: drag node and edge
 - feat: link edge and node
 - feat: drag canvas

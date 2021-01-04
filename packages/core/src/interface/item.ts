@@ -83,30 +83,30 @@ export interface IItemBase {
 
   destroyed: boolean;
 
-  isItem(): boolean;
+  isItem: () => boolean;
 
-  setOriginStyle(cfg?: ModelConfig): void;
+  setOriginStyle: (cfg?: ModelConfig) => void;
 
-  getShapeStyleByName(name?: string): ShapeStyle;
+  getShapeStyleByName: (name?: string) => ShapeStyle;
 
   /**
    * 获取当前元素的所有状态
    * @return {Array} 元素的所有状态
    */
-  getStates(): string[];
+  getStates: () => string[];
 
   /**
    * 当前元素是否处于某状态
    * @param {String} state 状态名
    * @return {Boolean} 是否处于某状态
    */
-  hasState(state: string): boolean;
+  hasState: (state: string) => boolean;
 
-  getStateStyle(state: string): ShapeStyle;
+  getStateStyle: (state: string) => ShapeStyle;
 
-  getOriginStyle(): ShapeStyle;
+  getOriginStyle: () => ShapeStyle;
 
-  getCurrentStatesStyle(): ShapeStyle;
+  getCurrentStatesStyle: () => ShapeStyle;
 
   /**
    * 更改元素状态， visible 不属于这个范畴
@@ -114,40 +114,40 @@ export interface IItemBase {
    * @param {String} state 状态名
    * @param {Boolean} value 节点状态值
    */
-  setState(state: string, value: string | boolean): void;
+  setState: (state: string, value: string | boolean) => void;
 
-  clearStates(states?: string | string[]): void;
+  clearStates: (states?: string | string[]) => void;
 
   /**
    * 节点的图形容器
    * @return {G.Group} 图形容器
    */
-  getContainer(): IGroup;
+  getContainer: () => IGroup;
 
   /**
    * 节点的关键形状，用于计算节点大小，连线截距等
    * @return {IShapeBase} 关键形状
    */
-  getKeyShape(): IShapeBase;
+  getKeyShape: () => IShapeBase;
 
   /**
    * 节点 / 边 / Combo 的数据模型
    * @return {Object} 数据模型
    */
-  getModel(): NodeConfig | EdgeConfig | ComboConfig | TreeGraphData;
+  getModel: () => NodeConfig | EdgeConfig | ComboConfig | TreeGraphData;
 
   /**
    * 节点类型
    * @return {string} 节点的类型
    */
-  getType(): ITEM_TYPE;
+  getType: () => ITEM_TYPE;
 
   /**
    * 获取 Item 的ID
    */
-  getID(): string;
+  getID: () => string;
 
-  getShapeCfg(model: ModelConfig): ModelConfig;
+  getShapeCfg: (model: ModelConfig) => ModelConfig;
 
   /**
    * 刷新一般用于处理几种情况
@@ -156,7 +156,7 @@ export interface IItemBase {
    *
    * 因为数据从外部被修改无法判断一些属性是否被修改，直接走位置和 shape 的更新
    */
-  refresh(): void;
+  refresh: () => void;
 
   /**
    * 将更新应用到 model 上，刷新属性
@@ -164,81 +164,81 @@ export interface IItemBase {
    * @param  {Object} cfg       配置项，可以是增量信息
    * @param  {boolean} onlyMove 是否仅移动，只有 node 和 combo 可能是 true
    */
-  update(cfg: ModelConfig, onlyMove?: boolean): void;
+  update: (cfg: ModelConfig, onlyMove?: boolean) => void;
 
   /**
    * 更新元素内容，样式
    */
-  updateShape(): void;
+  updateShape: () => void;
 
   /**
    * 更新位置，避免整体重绘
    * @param {object} cfg 待更新数据
    */
-  updatePosition(cfg: Point): void;
+  updatePosition: (cfg: Point) => void;
 
   /**
    * 绘制元素
    */
-  draw(): void;
+  draw: () => void;
 
   /**
    * 获取 item 的包围盒，这个包围盒是相对于 item 自己，不会将 matrix 计算在内
    */
-  getBBox(): IBBox;
+  getBBox: () => IBBox;
 
   /**
    * 获取 item 相对于画布的包围盒，会将从顶层到当前元素的 matrix 都计算在内
    */
-  getCanvasBBox(): IBBox;
+  getCanvasBBox: () => IBBox;
 
   /**
    * 将元素放到最前面
    */
-  toFront(): void;
+  toFront: () => void;
 
   /**
    * 将元素放到最后面
    */
-  toBack(): void;
+  toBack: () => void;
 
   /**
    * 显示元素
    */
-  show(): void;
+  show: () => void;
 
   /**
    * 隐藏元素
    */
-  hide(): void;
+  hide: () => void;
 
   /**
    * 更改是否显示
    * @param  {Boolean} visible 是否显示
    */
-  changeVisibility(visible: boolean): void;
+  changeVisibility: (visible: boolean) => void;
 
   /**
    * 是否捕获及触发该元素的交互事件
    * @param {Boolean} enable 标识位
    */
-  enableCapture(enable: boolean): void;
+  enableCapture: (enable: boolean) => void;
 
-  isVisible(): boolean;
+  isVisible: () => boolean;
 
-  isOnlyMove(cfg: ModelConfig): boolean;
+  isOnlyMove: (cfg: ModelConfig) => boolean;
 
-  get<T = any>(key: string): T;
-  set<T = any>(key: string, value: T): void;
+  get: <T = any>(key: string) => T;
+  set: <T = any>(key: string, value: T) => void;
 
-  destroy(): void;
+  destroy: () => void;
 }
 
 export interface IEdge extends IItemBase {
-  setSource(source: INode | ICombo): void;
-  setTarget(target: INode | ICombo): void;
-  getSource(): INode | ICombo;
-  getTarget(): INode | ICombo;
+  setSource: (source: INode | ICombo) => void;
+  setTarget: (target: INode | ICombo) => void;
+  getSource: () => INode | ICombo;
+  getTarget: () => INode | ICombo;
 }
 
 export interface INode extends IItemBase {
@@ -246,57 +246,57 @@ export interface INode extends IItemBase {
    * 获取从节点关联的所有边
    * @return {Array} 边的集合
    */
-  getEdges(): IEdge[];
+  getEdges: () => IEdge[];
 
   /**
    * 获取引入节点的边 target == this
    * @return {Array} 边的集合
    */
-  getInEdges(): IEdge[];
+  getInEdges: () => IEdge[];
 
   /**
    * 获取从节点引出的边 source == this
    * @return {Array} 边的集合
    */
-  getOutEdges(): IEdge[];
+  getOutEdges: () => IEdge[];
 
   /**
    * 根据锚点的索引获取连接点
    * @param  {Number} index 索引
    * @return {Object} 连接点 {x,y}
    */
-  getLinkPointByAnchor(index: number): IPoint;
+  getLinkPointByAnchor: (index: number) => IPoint;
 
   /**
    * 获取连接点
    * @param {Object} point 节点外面的一个点，用于计算交点、最近的锚点
    * @return {Object} 连接点 {x,y}
    */
-  getLinkPoint(point: IPoint): IPoint | null;
+  getLinkPoint: (point: IPoint) => IPoint | null;
 
   /**
    * 添加边
    * @param {Edge} edge 边
    */
-  addEdge(edge: IEdge): void;
+  addEdge: (edge: IEdge) => void;
 
   /**
    * 移除边
    * @param {Edge} edge 边
    */
-  removeEdge(edge: IEdge): void;
+  removeEdge: (edge: IEdge) => void;
 
   /**
    * 获取锚点的定义
    * @return {array} anchorPoints， {x,y,...cfg}
    */
-  getAnchorPoints(): IPoint[] | number[][];
+  getAnchorPoints: () => IPoint[] | number[][];
 
-  hasLocked(): boolean;
+  hasLocked: () => boolean;
 
-  lock(): void;
+  lock: () => void;
 
-  unlock(): void;
+  unlock: () => void;
 
   /**
    * 获取节点所有的邻居节点
@@ -304,7 +304,7 @@ export interface INode extends IItemBase {
    * @returns {INode[]}
    * @memberof INode
    */
-  getNeighbors(type?: 'source' | 'target' | undefined): INode[];
+  getNeighbors: (type?: 'source' | 'target' | undefined) => INode[];
 }
 
 export interface ICombo extends INode {

@@ -1,5 +1,5 @@
 import { clone, each, wrapBehavior } from '@antv/util';
-import { BehaviorOption } from '../types';
+import type { BehaviorOption } from '../types';
 import behaviorOption from './behaviorOption';
 
 export default class Behavior {
@@ -21,7 +21,7 @@ export default class Behavior {
     Object.assign(prototype, behavior);
 
     // eslint-disable-next-line func-names
-    const base = function (cfg: object) {
+    const base = function (cfg: any) {
       Object.assign(this, this.getDefaultCfg(), cfg);
 
       const events = this.getEvents();

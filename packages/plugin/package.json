@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6-plugin",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "G6 Plugin",
   "main": "lib/index.js",
   "module": "es/index.ts",
@@ -16,8 +16,8 @@
     "@antv/g-base": "^0.5.1",
     "@antv/g-canvas": "^0.5.2",
     "@antv/g-svg": "^0.5.2",
-    "@antv/g6-core": "^0.0.1",
-    "@antv/matrix-util": "^2.0.7",
+    "@antv/g6-core": "^0.0.3",
+    "@antv/matrix-util": "^3.0.4",
     "@antv/scale": "^0.3.4",
     "@antv/util": "^2.0.9",
     "insert-css": "^2.0.0"
@@ -37,6 +37,6 @@
     "jquery": "^3.5.1",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.4.4",
-    "@antv/g6": "^4.1.0-beta.0"
+    "@antv/g6": "^4.1.0-beta.2"
   }
 }

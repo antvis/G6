@@ -1,7 +1,7 @@
 import Base, { IPluginBaseConfig } from '../base';
 import { isString, isNil } from '@antv/util';
 import { modifyCSS, createDom } from '@antv/dom-util';
-import { IAbstractGraph as IGraph, ShapeStyle, Util } from '@antv/g6-core';
+import { IAbstractGraph as IGraph, ShapeStyle, Util, Matrix } from '@antv/g6-core';
 
 import { Event as GraphEvent, Point } from '@antv/g-base';
 import { mat3 } from '@antv/matrix-util';
@@ -257,9 +257,9 @@ export default class ImageMiniMap extends Base {
     expandedGraphCanvasBBox.minX = graphCanvasBBoxMean[0] - expandedGraphCanvasBBox.width / 2;
     expandedGraphCanvasBBox.minY = graphCanvasBBoxMean[1] - expandedGraphCanvasBBox.height / 2;
 
-    let graphMatrix = graphGroup.getMatrix();
-    if (!graphMatrix) graphMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
-    const invertGraphMatrix = mat3.invert([], graphMatrix);
+    let graphMatrix = graphGroup.getMatrix() as mat3;
+    if (!graphMatrix) graphMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1] as mat3;
+    const invertGraphMatrix = mat3.invert([1, 0, 0, 0, 1, 0, 0, 0, 1], graphMatrix) as Matrix;
     const minXY = applyMatrix(
       { x: expandedGraphCanvasBBox.minX, y: expandedGraphCanvasBBox.minY },
       invertGraphMatrix,

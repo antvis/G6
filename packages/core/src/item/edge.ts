@@ -1,12 +1,6 @@
 import { isString, isPlainObject, isNil, mix } from '@antv/util';
-import { IEdge, INode, ICombo } from '../interface/item';
-import {
-  EdgeConfig,
-  IPoint,
-  NodeConfig,
-  SourceTarget,
-  Indexable,
-} from '../types';
+import type { IEdge, INode, ICombo } from '../interface/item';
+import type { EdgeConfig, IPoint, NodeConfig, SourceTarget, Indexable } from '../types';
 import Item from './item';
 import Node from './node';
 
@@ -207,7 +201,7 @@ export default class Edge extends Item implements IEdge {
     return this.get('target');
   }
 
-  public updatePosition() { }
+  public updatePosition() {}
 
   /**
    * 边不需要重计算容器位置，直接重新计算 path 位置

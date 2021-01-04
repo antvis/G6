@@ -1,6 +1,6 @@
 import { each, isNil, mix } from '@antv/util';
-import { IEdge, INode } from '../interface/item';
-import { IPoint, IShapeBase, NodeConfig } from '../types';
+import type { IEdge, INode } from '../interface/item';
+import type { IPoint, IShapeBase, NodeConfig } from '../types';
 import {
   distance,
   getCircleIntersectByPoint,

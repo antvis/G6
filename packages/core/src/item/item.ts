@@ -1,19 +1,8 @@
-import { IGroup } from '@antv/g-base';
-import {
-  each,
-  isNil,
-  isPlainObject,
-  isString,
-  isBoolean,
-  uniqueId,
-  mix,
-  deepMix,
-  isArray,
-  clone,
-} from '@antv/util';
-import { IItemBase, IItemBaseConfig } from '../interface/item';
+import type { IGroup } from '@antv/g-base';
+import { each, isNil, isPlainObject, isString, isBoolean, mix, deepMix, clone } from '@antv/util';
+import type { IItemBase, IItemBaseConfig } from '../interface/item';
 import Shape from '../element/shape';
-import {
+import type {
   IBBox,
   IPoint,
   IShapeBase,
@@ -27,7 +16,7 @@ import {
 } from '../types';
 import { getBBox } from '../util/graphic';
 import { translate } from '../util/math';
-import Global from '../global';
+import { uniqueId } from '../util/base';
 
 const CACHE_BBOX = 'bboxCache';
 const CACHE_CANVAS_BBOX = 'bboxCanvasCache';
@@ -240,11 +229,10 @@ export default class ItemBase implements IItemBase {
       });
       self.set('originStyle', originStyles);
     } else {
-      debugger
       // 第二次 set originStyles，需要找到不是 stateStyles 的样式，更新到 originStyles 中
 
       // 上一次设置的 originStyle，是初始的 shape attrs
-      let styles: ShapeStyle = this.getOriginStyle();
+      const styles: ShapeStyle = this.getOriginStyle();
       // let styles: ShapeStyle = {};
       if (keyShapeName && !styles[keyShapeName]) styles[keyShapeName] = {};
 
@@ -269,11 +257,10 @@ export default class ItemBase implements IItemBase {
           }
         } else {
           const shapeAttrs = child.attr();
-          const keyShapeStateStyles = Object.assign(
-            {},
-            currentStatesStyle,
-            currentStatesStyle[keyShapeName],
-          );
+          const keyShapeStateStyles = {
+            ...currentStatesStyle,
+            ...currentStatesStyle[keyShapeName],
+          };
           Object.keys(shapeAttrs).forEach((key) => {
             const value = shapeAttrs[key];
             // 如果是对象且不是 arrow，则是其他 shape 的样式
@@ -290,7 +277,6 @@ export default class ItemBase implements IItemBase {
       if (styles.matrix) delete styles.matrix;
       self.set('originStyle', styles);
     }
-    console.log('originstyle', self.get('originStyle'))
   }
 
   /**
