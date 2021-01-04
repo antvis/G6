@@ -54,7 +54,8 @@
     }
   },
   "lint-staged": {
-    "tests/**/**/*.{js,jsx,ts,tsx}": [
+    "**/*.{js,jsx,ts,tsx}": [
+      "npm run lint-staged:js",
       "npm run test"
     ]
   },
