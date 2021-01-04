@@ -54,16 +54,11 @@
     }
   },
   "lint-staged": {
-    "**/src/*.{js,jsx,ts,tsx}": [
-      "npm run lint-staged:js",
-      "prettier --write"
-    ],
-    "**/tests/unit/*/*.{js,jsx,ts,tsx}": [
+ 
+    "**/tests/unit/graph/*.{js,jsx,ts,tsx}": [
       "npm run test"
-    ],
-    "**/*.{less,md,json}": [
-      "prettier --write"
     ]
+   
   },
   "dependencies": {
     "@antv/algorithm": "^0.0.6",
