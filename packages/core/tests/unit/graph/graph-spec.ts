@@ -62,7 +62,7 @@ describe('graph', () => {
     }).toThrowError('invalid container');
   });
 
-  it.only('new & destroy graph', () => {
+  it('new & destroy graph', () => {
     const inst = new Graph({
       container: div,
       width: 500,
@@ -81,7 +81,12 @@ describe('graph', () => {
     expect(inst.get('group')).not.toBe(undefined);
 
     expect(inst.get('group').get('className')).toEqual('root-container');
-    expect(inst.get('group').get('id').endsWith('-root')).toBe(true);
+    expect(
+      inst
+        .get('group')
+        .get('id')
+        .endsWith('-root'),
+    ).toBe(true);
 
     const children = inst.get('group').get('children');
     expect(children.length).toBe(4);
@@ -563,7 +568,10 @@ describe('graph', () => {
 
   it('client point & model point convert', () => {
     const group = globalGraph.get('group');
-    const bbox = globalGraph.get('canvas').get('el').getBoundingClientRect();
+    const bbox = globalGraph
+      .get('canvas')
+      .get('el')
+      .getBoundingClientRect();
 
     let point = globalGraph.getPointByClient(bbox.left + 100, bbox.top + 100);
 
@@ -646,10 +654,7 @@ describe('all node link center', () => {
     graph.render();
 
     const edge = graph.findById('e1');
-    expect(edge.get('keyShape').attr('path')).toEqual([
-      ['M', 10, 10],
-      ['L', 100, 100],
-    ]);
+    expect(edge.get('keyShape').attr('path')).toEqual([['M', 10, 10], ['L', 100, 100]]);
   });
 
   it('loop', () => {
@@ -660,10 +665,7 @@ describe('all node link center', () => {
       x: 150,
       y: 150,
       style: { fill: 'yellow' },
-      anchorPoints: [
-        [0, 0],
-        [0, 1],
-      ],
+      anchorPoints: [[0, 0], [0, 1]],
     });
 
     const edge1 = graph.addItem('edge', {
@@ -860,14 +862,14 @@ describe('all node link center', () => {
       id: 'node1',
       x: 100,
       y: 100,
-      type: 'rect',
+      type: 'simple-rect',
       label: 'test label',
       style: {
         stroke: '#666',
       },
     });
 
-    defaultGraph.on('node:click', (e) => {
+    defaultGraph.on('node:click', e => {
       e.item.setState('selected', true);
       e.item.refresh();
     });
@@ -877,8 +879,8 @@ describe('all node link center', () => {
     const keyShape = node.get('keyShape');
 
     expect(keyShape.get('type')).toEqual('rect');
-    // addItem 时候 model 中的 style 会覆盖 defaultNode 中定义的
-    expect(keyShape.attr('fill')).toEqual('rgb(239, 244, 255)');
+    // addItem 时候 model 中的 style 会和 defaultNode 中定义的做 merge
+    expect(keyShape.attr('fill')).toEqual('red');
     expect(keyShape.attr('stroke')).toEqual('#666');
 
     defaultGraph.setItemState(node, 'selected', true);
@@ -890,8 +892,8 @@ describe('all node link center', () => {
 
     defaultGraph.setItemState(node, 'selected', false);
 
-    // fill 使用默认的，addItem 时如果有 style 会覆盖 defaultNode 中定义的
-    expect(keyShape.attr('fill')).toEqual('rgb(239, 244, 255)');
+    // addItem 时候 model 中的 style 会和 defaultNode 中定义的做 merge
+    expect(keyShape.attr('fill')).toEqual('red');
     expect(keyShape.attr('fillStyle')).toBe(undefined);
     expect(keyShape.attr('stroke')).toEqual('#666');
     expect(keyShape.attr('strokeStyle')).toBe(undefined);
@@ -998,7 +1000,7 @@ describe('all node link center', () => {
     model.size[1] = 50;
 
     expect(model.size[1]).toEqual(50);
-    expect(node.get('model').size[1]).toEqual(40);
+    expect(node.get('model').size[1]).toEqual(50);
     expect(model.labelCfg.position).toEqual('right');
     expect(model.labelCfg.style.fill).toEqual('blue');
 
@@ -1042,18 +1044,18 @@ describe('mapper fn', () => {
   });
 
   it('node & edge mapper', () => {
-    graph.node((node) => ({
+    graph.node(node => ({
       id: `${node.id}Mapped`,
       size: [30, 30],
       label: node.id,
-      type: 'rect',
+      type: 'simple-rect',
       style: { fill: node.value === 100 ? '#666' : '#ccc' },
       labelCfg: {
         style: { fill: '#666' },
       },
     }));
 
-    graph.edge((edge) => ({
+    graph.edge(edge => ({
       id: `edge${edge.id}`,
       label: edge.id,
       labelCfg: {
@@ -1075,7 +1077,7 @@ describe('mapper fn', () => {
     expect(keyShape.attr('fill')).toEqual('#666');
 
     const container = node.getContainer();
-    let label = container.find((element) => element.get('className') === 'node-label');
+    let label = container.find(element => element.get('className') === 'node-label');
     expect(label).not.toBe(undefined);
     expect(label.attr('text')).toEqual('node');
     expect(label.attr('fill')).toEqual('#666');
@@ -1089,7 +1091,7 @@ describe('mapper fn', () => {
     expect(keyShape.attr('opacity')).toEqual(0.5);
     expect(keyShape.get('type')).toEqual('path');
 
-    label = edge.getContainer().find((element) => element.get('className') === 'edge-label');
+    label = edge.getContainer().find(element => element.get('className') === 'edge-label');
     expect(label).not.toBe(undefined);
     expect(label.attr('text')).toEqual('edge');
     expect(label.attr('x')).toEqual(115.5);
@@ -1100,7 +1102,7 @@ describe('mapper fn', () => {
   });
 
   it('node & edge mapper with states', () => {
-    graph.node((node) => ({
+    graph.node(node => ({
       type: 'rect',
       label: node.id,
       style: {
@@ -1124,9 +1126,9 @@ describe('mapper fn', () => {
 
     let keyShape = node.getKeyShape();
     expect(keyShape.attr('fill')).toEqual('#666');
-    expect(
-      node.getContainer().find((element) => element.get('className') === 'node-label'),
-    ).not.toBe(undefined);
+    expect(node.getContainer().find(element => element.get('className') === 'node-label')).not.toBe(
+      undefined,
+    );
 
     graph.setItemState(node, 'selected', true);
     expect(keyShape.attr('blue'));

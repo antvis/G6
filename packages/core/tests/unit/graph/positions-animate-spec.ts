@@ -1,6 +1,4 @@
 import '../../../src/behavior';
-import { scale, translate } from '../../../src/util/math';
-import { GraphData, Item } from '../../../src/types';
 import Graph from '../implement-graph';
 
 const div = document.createElement('div');
@@ -55,7 +53,7 @@ describe('graph', () => {
   globalGraph.data(data);
   globalGraph.render();
 
-  it.only('new & destroy graph', () => {
+  it('new & destroy graph', () => {
     const inst = new Graph({
       container: div,
       width: 500,
@@ -66,7 +64,7 @@ describe('graph', () => {
     });
     const length = div.childNodes.length;
 
-    data.nodes.forEach((node) => {
+    data.nodes.forEach(node => {
       node.x = Math.random() * 100;
       node.y = Math.random() * 100;
     });

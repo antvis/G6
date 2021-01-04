@@ -130,7 +130,12 @@ describe('graph', () => {
     expect(inst.get('group')).not.toBe(undefined);
 
     expect(inst.get('group').get('className')).toEqual('root-container');
-    expect(inst.get('group').get('id').endsWith('-root')).toBe(true);
+    expect(
+      inst
+        .get('group')
+        .get('id')
+        .endsWith('-root'),
+    ).toBe(true);
 
     const children = inst.get('group').get('children');
     expect(children.length).toBe(4);
@@ -464,15 +469,15 @@ describe('graph', () => {
   it('refresh positions', () => {
     const data = { id: 'node8', x: 100, y: 50, size: 50, className: 'test test2' };
     const node = globalGraph.addItem('node', data);
-    const group = node.get('group');
+    let group = node.get('group');
 
     expect(group.getMatrix()[6]).toBe(100);
     expect(group.getMatrix()[7]).toBe(50);
 
     data.x = 50;
     data.y = 100;
-
     globalGraph.refreshPositions();
+    group = node.get('group');
     expect(group.getMatrix()[6]).toBe(50);
     expect(group.getMatrix()[7]).toBe(100);
   });
@@ -532,7 +537,10 @@ describe('graph', () => {
 
   it('client point & model point convert', () => {
     const group = globalGraph.get('group');
-    const bbox = globalGraph.get('canvas').get('el').getBoundingClientRect();
+    const bbox = globalGraph
+      .get('canvas')
+      .get('el')
+      .getBoundingClientRect();
 
     let point = globalGraph.getPointByClient(bbox.left + 100, bbox.top + 100);
 
@@ -616,10 +624,7 @@ describe('all node link center', () => {
     graph.render();
 
     const edge = graph.findById('e1');
-    expect(edge.get('keyShape').attr('path')).toEqual([
-      ['M', 10, 10],
-      ['L', 100, 100],
-    ]);
+    expect(edge.get('keyShape').attr('path')).toEqual([['M', 10, 10], ['L', 100, 100]]);
   });
 
   it('loop', () => {
@@ -630,10 +635,7 @@ describe('all node link center', () => {
       x: 150,
       y: 150,
       style: { fill: 'yellow' },
-      anchorPoints: [
-        [0, 0],
-        [0, 1],
-      ],
+      anchorPoints: [[0, 0], [0, 1]],
     });
 
     const edge1 = graph.addItem('edge', {
@@ -829,7 +831,7 @@ describe('all node link center', () => {
       },
     });
 
-    // TODO addItem有style会直接覆盖defaultNode中定义的
+    //  addItem有style会直接和defaultNode中定义的merge
     const node = defaultGraph.addItem('node', {
       id: 'node9',
       x: 100,
@@ -841,14 +843,14 @@ describe('all node link center', () => {
       },
     });
 
-    defaultGraph.on('node:click', (e) => {
+    defaultGraph.on('node:click', e => {
       e.item.setState('selected', true);
     });
 
     const keyShape = node.get('keyShape');
 
     expect(keyShape.get('type')).toEqual('rect');
-    // expect(keyShape.attr('fill')).toEqual('red');
+    expect(keyShape.attr('fill')).toEqual('red');
     expect(keyShape.attr('stroke')).toEqual('#666');
 
     defaultGraph.setItemState(node, 'selected', true);
@@ -970,7 +972,7 @@ describe('all node link center', () => {
     model.size[1] = 50;
 
     expect(model.size[1]).toEqual(50);
-    expect(node.get('model').size[1]).toEqual(40);
+    expect(node.get('model').size[1]).toEqual(50);
     expect(model.labelCfg.position).toEqual('right');
     expect(model.labelCfg.style.fill).toEqual('blue');
 
