@@ -58,6 +58,9 @@
       "npm run lint-staged:js",
       "prettier --write"
     ],
+    "**/tests/unit/*/*.{js,jsx,ts,tsx}": [
+      "npm run test"
+    ],
     "**/*.{less,md,json}": [
       "prettier --write"
     ]
