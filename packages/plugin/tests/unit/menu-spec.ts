@@ -1,4 +1,4 @@
-import G6, { G6GraphEvent, IG6GraphEvent } from '@antv/g6';
+import G6 from '@antv/g6'; // , { G6GraphEvent, IG6GraphEvent }
 import Menu from '../../src/menu';
 
 const div = document.createElement('div');
@@ -116,12 +116,21 @@ describe('menu', () => {
     graph.data(data);
     graph.render();
 
-    const event = new G6GraphEvent('contextmenu', {
+    // const event = new G6GraphEvent('contextmenu', {
+    //   item: graph.getNodes()[0],
+    //   canvasX: 100,
+    //   canvasY: 100,
+    //   bubbles: false,
+    // } as IG6GraphEvent);
+    const event = {
+      type: 'contextmenu',
       item: graph.getNodes()[0],
       canvasX: 100,
       canvasY: 100,
       bubbles: false,
-    } as IG6GraphEvent);
+      preventDefault: () => {},
+      stopPropagation: () => {},
+    };
     graph.emit('contextmenu', event);
     const menuDOM = document.getElementsByClassName('menu-string-test')[0];
     expect(menuDOM.style.visibility).toEqual('visible');
@@ -176,22 +185,41 @@ describe('menu', () => {
     graph.data(data);
     graph.render();
 
-    const event = new G6GraphEvent('contextmenu', {
+    // const event = new G6GraphEvent('contextmenu', {
+    //   item: graph.getNodes()[1],
+    //   canvasX: 100,
+    //   canvasY: 100,
+    //   bubbles: false,
+    // } as IG6GraphEvent);
+    const event = {
+      type: 'contextmenu',
       item: graph.getNodes()[1],
       canvasX: 100,
       canvasY: 100,
       bubbles: false,
-    } as IG6GraphEvent);
+      preventDefault: () => {},
+      stopPropagation: () => {},
+    };
     graph.emit('contextmenu', event);
     menuDOM = document.getElementsByClassName('menu-should-begin-false')[0];
     expect(menuDOM.style.visibility).toEqual('hidden');
 
-    const event2 = new G6GraphEvent('contextmenu', {
+    // const event2 = new G6GraphEvent('contextmenu', {
+    //   item: graph.getNodes()[0],
+    //   canvasX: 100,
+    //   canvasY: 100,
+    //   bubbles: false,
+    // } as IG6GraphEvent);
+
+    const event2 = {
+      type: 'contextmenu',
       item: graph.getNodes()[0],
       canvasX: 100,
       canvasY: 100,
       bubbles: false,
-    } as IG6GraphEvent);
+      preventDefault: () => {},
+      stopPropagation: () => {},
+    };
     graph.emit('contextmenu', event2);
     menuDOM = document.getElementsByClassName('menu-should-begin-false')[0];
     expect(menuDOM.style.visibility).toEqual('visible');
