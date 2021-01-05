@@ -51,7 +51,7 @@ describe('timeline play with timebar', () => {
       const month = i < 30 ? '01' : '02';
       const day = i % 30 < 10 ? `0${i % 30}` : `${i % 30}`;
       timeBarData.push({
-        date: parseInt(`2020${month}${day}`),
+        date: parseInt(`2020${month}${day}`, 10),
         value: Math.round(Math.random() * 300),
       });
     }
@@ -155,7 +155,7 @@ describe('timeline play with timebar', () => {
       const month = i < 30 ? '01' : '02';
       const day = i % 30 < 10 ? `0${i % 30}` : `${i % 30}`;
       timeBarData.push({
-        date: parseInt(`2020${month}${day}`),
+        date: parseInt(`2020${month}${day}`, 10),
         value: Math.round(Math.random() * 300),
       });
     }
@@ -258,7 +258,7 @@ describe('timeline play with timebar', () => {
       const month = i < 30 ? '01' : '02';
       const day = i % 30 < 10 ? `0${i % 30}` : `${i % 30}`;
       timeBarData.push({
-        date: parseInt(`2020${month}${day}`),
+        date: parseInt(`2020${month}${day}`, 10),
         value: Math.round(Math.random() * 300),
       });
     }
@@ -361,7 +361,7 @@ describe('timeline play with timebar', () => {
       const month = i < 30 ? '01' : '02';
       const day = i % 30 < 10 ? `0${i % 30}` : `${i % 30}`;
       timeBarData.push({
-        date: parseInt(`2020${month}${day}`),
+        date: parseInt(`2020${month}${day}`, 10),
         value: Math.round(Math.random() * 300),
       });
     }
