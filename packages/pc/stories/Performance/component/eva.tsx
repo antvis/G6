@@ -98,7 +98,7 @@ const Eva = () => {
               }
             });
           });
-          console.log('原始数据', data.nodes.length, data.edges.length);
+          // console.log('原始数据', data.nodes.length, data.edges.length);
           mapNodeSize(data.nodes, 'degree', [1, 15]);
           // console.log(data.nodes);
           graph.data(data);
@@ -112,7 +112,7 @@ const Eva = () => {
             graph.setItemState(item, 'hover', false);
           });
 
-          console.log('图上数据大小', graph);
+          // console.log('图上数据大小', graph);
 
           /* normalize */
           // let cx = 0, cy = 0;
