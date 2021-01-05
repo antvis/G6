@@ -3,6 +3,7 @@
   "npmClient": "yarn",
   "packages": ["packages/*"],
   "useWorkspaces": true,
+  "maxBuffer": 100000000,
   "command": {
     "version": {
       "ignoreChanges": ["*.md", "**/*.test.ts", "**/*.spec.ts"],
