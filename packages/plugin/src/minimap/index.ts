@@ -1,15 +1,14 @@
 import { Canvas as GCanvas } from '@antv/g-canvas';
 import { Canvas as GSVGCanvas } from '@antv/g-svg';
 import { Event as GraphEvent, Point } from '@antv/g-base';
-
 import { isString, isNil, each, debounce } from '@antv/util';
 import { createDom, modifyCSS } from '@antv/dom-util';
 import { Matrix, ShapeStyle, IAbstractGraph as IGraph } from '@antv/g6-core';
-import { Util } from '@antv/g6-core';
+import { ext } from '@antv/matrix-util';
 import Base, { IPluginBaseConfig } from '../base';
 
 const { max } = Math;
-const { transform } = Util;
+const { transform } = ext;
 
 const DEFAULT_MODE = 'default';
 const KEYSHAPE_MODE = 'keyShape';
