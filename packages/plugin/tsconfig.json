@@ -4,15 +4,15 @@
     "module": "esnext",
     "declaration": true,
     "target": "es5",
+    "jsx": "react",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
-    "allowJs": true,
-    "jsx": "react",
     "resolveJsonModule": true,
-    "noImplicitAny": false,
     "esModuleInterop": true,
+    "lib": ["dom", "esnext"],
     "types": ["jest"],
-    "lib": ["dom", "esnext"]
+    "allowJs": true,
+    "noImplicitAny": false
   },
   "include": ["src", "tests"],
   "exclude": ["./node_modules"]
