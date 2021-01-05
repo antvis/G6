@@ -6,6 +6,7 @@
   ],
   "scripts": {
     "build:demos": "cd ./packages/pc && npm run demos",
+    "build:demos-mobile": "cd ./packages/mobile && npm run demos",
     "build:site": "cd ./packages/site && npm run start",
     "build:core": "cd ./packages/core && npm run build",
     "build:element": "cd ./packages/element && npm run build",
