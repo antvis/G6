@@ -12,7 +12,7 @@
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --format=pretty \"./\"",
     "lint:src": "eslint --ext .ts --format=pretty \"./src\"",
     "prettier": "prettier -c --write \"**/*\"",
-    "test": "jest --max-buffer 100000000",
+    "test": "jest",
     "test-live": "DEBUG_MODE=1 jest --watch ./tests/unit/minimap-spec.ts",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
     "watch": "father build -w"
