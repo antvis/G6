@@ -22,7 +22,7 @@
     "clear": "lerna clean && lerna clean -y",
     "clean:modules": "rimraf node_modules",
     "bootstrap": "lerna bootstrap",
-    "ci": "yarn run lint && yarn run test",
+    "ci": "yarn run lint && yarn run test --max-buffer 100000000",
     "ls": "lerna list"
   },
   "husky": {
