@@ -44,7 +44,7 @@ for (let i = 0; i < 100; i++) {
 }
 
 describe('timeline play with timebar', () => {
-  it.only('trend timebar', () => {
+  it('trend timebar', () => {
     const timeBarData = [];
 
     for (let i = 1; i < 60; i++) {
@@ -82,7 +82,7 @@ describe('timeline play with timebar', () => {
           lineWidth: 1,
         },
         interval: {
-          data: intervalData.map((d) => d.value),
+          data: intervalData.map(d => d.value),
           style: {
             // stroke: '#ccc',
             fill: '#ccc',
@@ -185,7 +185,7 @@ describe('timeline play with timebar', () => {
           lineWidth: 1,
         },
         interval: {
-          data: intervalData.map((d) => d.value),
+          data: intervalData.map(d => d.value),
           style: {
             // stroke: '#ccc',
             fill: '#ccc',
@@ -288,7 +288,7 @@ describe('timeline play with timebar', () => {
           lineWidth: 1,
         },
         interval: {
-          data: intervalData.map((d) => d.value),
+          data: intervalData.map(d => d.value),
           style: {
             // stroke: '#ccc',
             fill: '#ccc',

@@ -27,7 +27,7 @@ describe('register node with getCustomConfig function, extend rect', () => {
       },
     ],
   };
-  it.only('getCustomConfig return new style', () => {
+  it('getCustomConfig return new style', () => {
     registerNode(
       'custom-node',
       {

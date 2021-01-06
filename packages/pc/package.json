@@ -75,7 +75,7 @@
     "@antv/g-math": "^0.1.1",
     "@antv/g-svg": "^0.5.1",
     "@antv/g-webgpu": "^0.5.1",
-    "@antv/g6-core": "*",
+    "@antv/g6-core": "^0.0.2",
     "@antv/g6-plugin": "^0.0.2",
     "@antv/g6-element": "^0.0.2",
     "@antv/algorithm": "^0.0.6",
