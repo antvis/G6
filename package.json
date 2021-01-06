@@ -54,7 +54,7 @@
     "tslint-config-airbnb": "^5.11.2",
     "tslint-config-prettier": "^1.18.0",
     "tslint-eslint-rules": "^5.4.0",
-    "typescript": "^4.0.3"
+    "typescript": "^3.5.3"
   },
   "devDependencies": {
     "@umijs/fabric": "^2.3.1",
