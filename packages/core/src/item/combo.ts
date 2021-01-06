@@ -1,7 +1,7 @@
 import { IGroup } from '@antv/g-base';
-import type { ICombo, INode, IItemBaseConfig } from '../interface/item';
+import { ICombo, INode, IItemBaseConfig } from '../interface/item';
 import Node from './node';
-import type { ComboConfig, IBBox, IShapeBase } from '../types';
+import { ComboConfig, IBBox, IShapeBase } from '../types';
 import Global from '../global';
 import { getBBox } from '../util/graphic';
 import { isNumber } from '@antv/util';

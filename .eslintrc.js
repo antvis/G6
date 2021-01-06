@@ -38,5 +38,6 @@ module.exports = {
     'array-callback-return': 0,
     'one-var': 0,
     'no-lonely-if': 0,
+    '@typescript-eslint/consistent-type-imports': 0
   },
 };

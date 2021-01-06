@@ -1,6 +1,6 @@
 import { isString, isPlainObject, isNil, mix } from '@antv/util';
-import type { IEdge, INode, ICombo } from '../interface/item';
-import type { EdgeConfig, IPoint, NodeConfig, SourceTarget, Indexable } from '../types';
+import { IEdge, INode, ICombo } from '../interface/item';
+import { EdgeConfig, IPoint, NodeConfig, SourceTarget, Indexable } from '../types';
 import Item from './item';
 import Node from './node';
 

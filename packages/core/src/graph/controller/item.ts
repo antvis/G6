@@ -1,9 +1,9 @@
-import type { IGroup } from '@antv/g-base';
+import { IGroup } from '@antv/g-base';
 import { clone, deepMix, each, isArray, isObject, isString, upperFirst } from '@antv/util';
 import Edge from '../../item/edge';
 import Node from '../../item/node';
 import Combo from '../../item/combo';
-import type {
+import {
   EdgeConfig,
   Item,
   ITEM_TYPE,
@@ -14,7 +14,7 @@ import type {
   ComboConfig,
 } from '../../types';
 import { IAbstractGraph } from '../../interface/graph';
-import type { IEdge, INode, ICombo } from '../../interface/item';
+import { IEdge, INode, ICombo } from '../../interface/item';
 import { traverseTreeUp, traverseTree, getComboBBox, shouldRefreshEdge } from '../../util/graphic';
 
 const NODE = 'node';
