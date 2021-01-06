@@ -2,6 +2,7 @@
   "version": "*",
   "npmClient": "yarn",
   "packages": ["packages/*"],
+  "useWorkspaces": true,
   "command": {
     "version": {
       "ignoreChanges": ["*.md", "**/*.test.ts", "**/*.spec.ts"],

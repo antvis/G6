@@ -417,7 +417,7 @@ export default class Graph extends AbstractGraph implements IGraph {
       return;
     }
     self.get('plugins').push(plugin);
-    plugin.initPlugin(self);
+    plugin.initPlugin(self as any);
   }
 
   /**

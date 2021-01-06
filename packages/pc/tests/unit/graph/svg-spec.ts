@@ -936,6 +936,7 @@ describe('all node link center', () => {
     expect(model.color).toEqual('#666');
 
     model.size[1] = 50;
+    console.log(model, node);
 
     expect(model.size[1]).toEqual(50);
     expect(node.get('model').size[1]).toEqual(40);
@@ -1724,7 +1725,7 @@ describe('built-in items', () => {
     expect(item.getModel().y).not.toBe(undefined);
   });
   // modelrect
-  xit('update node style', () => {
+  it('update node style', () => {
     graph.data(data);
     graph.render();
     const item = graph.getNodes()[0];
@@ -1773,7 +1774,7 @@ describe('built-in items', () => {
     expect(modelRect.get('group').get('children').length).toBe(8);
   });
 
-  xit('update edge style', () => {
+  it('update edge style', () => {
     // loop
     const loop = graph.getEdges()[6];
     graph.updateItem(loop, {
