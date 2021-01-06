@@ -1,9 +1,9 @@
 /* eslint @typescript-eslint/no-use-before-define: 0 */
-import type { IGroup, Event as GraphEvent, BBox, AnimateCfg, ICanvas, IShape } from '@antv/g-base';
-import type Node from '../item/node';
-import type { IAbstractGraph } from '../interface/graph';
-import type { IEdge, INode, ICombo } from '../interface/item';
-import type { ILabelConfig } from '../interface/shape';
+import { IGroup, Event as GraphEvent, BBox, AnimateCfg, ICanvas, IShape } from '@antv/g-base';
+import Node from '../item/node';
+import { IAbstractGraph } from '../interface/graph';
+import { IEdge, INode, ICombo } from '../interface/item';
+import { ILabelConfig } from '../interface/shape';
 
 export * from '../interface';
 

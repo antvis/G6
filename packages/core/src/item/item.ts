@@ -1,8 +1,8 @@
-import type { IGroup } from '@antv/g-base';
+import { IGroup } from '@antv/g-base';
 import { each, isNil, isPlainObject, isString, isBoolean, mix, deepMix, clone } from '@antv/util';
-import type { IItemBase, IItemBaseConfig } from '../interface/item';
+import { IItemBase, IItemBaseConfig } from '../interface/item';
 import Shape from '../element/shape';
-import type {
+import {
   IBBox,
   IPoint,
   IShapeBase,
