@@ -1,5 +1,5 @@
 import G6 from '@antv/g6';
-import { Tooltip } from '../../src';
+import Tooltip from '../../src/tooltip';
 
 const div = document.createElement('div');
 div.id = 'tooltip-plugin';

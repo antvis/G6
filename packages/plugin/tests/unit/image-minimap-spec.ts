@@ -1,7 +1,7 @@
 import G6 from '@antv/g6';
 import Simulate from 'event-simulate';
 import { numberEqual } from './util';
-import { ImageMinimap } from '../../src';
+import ImageMinimap from '../../src/imageMinimap';
 
 const div = document.createElement('div');
 div.id = 'image-minimap-spec';

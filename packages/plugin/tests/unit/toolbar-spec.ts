@@ -1,5 +1,5 @@
 import G6 from '@antv/g6';
-import { ToolBar } from '../../src';
+import ToolBar from '../../src/toolBar';
 
 const div = document.createElement('div');
 div.id = 'toolbar';
