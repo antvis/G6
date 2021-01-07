@@ -1358,7 +1358,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       } else {
         item = self.addItem(type, model, false);
       }
-      (items as { [key: string]: any[] })[`${type}s`].push(item);
+      if (item) (items as { [key: string]: any[] })[`${type}s`].push(item);
     });
   }
 
@@ -1380,6 +1380,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       });
     }
     this.set('comboSorted', false);
+
+    // 删除 hulls
+    this.removeHulls();
 
     // 更改数据源后，取消所有状态
     this.getNodes().map((node) => self.clearItemStates(node));
@@ -2859,6 +2862,10 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * @param cfg HullCfg 轮廓配置项
    */
   public createHull(cfg: HullCfg) {
+    if (!cfg.members || cfg.members.length < 1) {
+      console.warn('Create hull failed! The members is empty.');
+      return;
+    }
     let parent = this.get('hullGroup');
     let hullMap = this.get('hullMap');
     if (!hullMap) {
@@ -2914,5 +2921,14 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const hullMap = this.get('hullMap');
     delete hullMap[hullInstance.id];
     hullInstance.destroy();
+  }
+
+  public removeHulls() {
+    const hulls = this.getHulls();
+    if (!hulls || !Object.keys(hulls).length) return;
+    hulls.forEach((hull) => {
+      hull.destroy();
+    });
+    this.set('hullMap', {});
   }
 }

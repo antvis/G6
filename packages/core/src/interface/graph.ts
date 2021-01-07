@@ -585,6 +585,11 @@ export interface IAbstractGraph extends EventEmitter {
   removeHull: (hull: Hull | string) => void;
 
   /**
+   * 删除所有 Hulls
+   */
+  removeHulls: () => void;
+
+  /**
    * 重新定义监听函数，复写参数类型
    */
   on: (eventName: string, callback: (e: IG6GraphEvent) => void, once?: boolean) => this;

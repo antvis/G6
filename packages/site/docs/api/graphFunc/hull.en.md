@@ -77,16 +77,32 @@ Get all of the hulls in the current graph.
 const hullMap = graph.getHulls();
 ```
 
-## removeHull
+## removeHull(id: string)
+
+Remove a hull with id.
 
 **Parameter**
 
-| Name | Type           | Required | Description                            |
-| ---- | -------------- | -------- | -------------------------------------- |
-| hull | string ｜ Hull | true     | hull id or hull instance to be removed |
+| Name | Type          | Required | Description                            |
+| ---- | ------------- | -------- | -------------------------------------- |
+| hull | string / Hull | true     | hull id or hull instance to be removed |
 
 **Usage**
 
 ```javascript
 graph.removeHull('myHull');
+```
+
+## removeHulls()
+
+Remove all the hulls on the graph.
+
+**Parameter**
+
+No parameters.
+
+**Usage**
+
+```javascript
+graph.removeHulls();
 ```
