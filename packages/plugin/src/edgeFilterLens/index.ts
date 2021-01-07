@@ -1,6 +1,5 @@
 import { clone } from '@antv/util';
 import { IG6GraphEvent, ShapeStyle, IAbstractGraph as IGraph, Util } from '@antv/g6-core';
-
 import Base from '../base';
 
 const { distance } = Util;
