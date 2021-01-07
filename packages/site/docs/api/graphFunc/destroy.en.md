@@ -1,6 +1,6 @@
 ---
 title: Clear/Destroy Canvas
-order: 17
+order: 18
 ---
 
 ### graph.clear()

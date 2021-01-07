@@ -1,6 +1,6 @@
 ---
 title: Export Image
-order: 16
+order: 17
 ---
 
 ### graph.downloadFullImage(name, type, imageConfig)

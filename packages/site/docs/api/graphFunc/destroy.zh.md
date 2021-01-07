@@ -1,6 +1,6 @@
 ---
 title: 清除/销毁画布
-order: 17
+order: 18
 ---
 
 ### graph.clear()

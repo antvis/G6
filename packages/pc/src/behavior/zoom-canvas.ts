@@ -246,7 +246,7 @@ export default {
             }
           }
         }
-      }, 500);
+      }, 100);
       this.set('timeout', timeout);
     }
 

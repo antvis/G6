@@ -5,6 +5,7 @@
 - chore: ts lint;
 - feat: getEdgeConfig for create-edge behavior;
 - fix: uniqueId with timestamp and random;
+- fix: fix zoom-canvas and drag-canvas with enableOptimize conflict problem shrink the settimeout;
 
 #### 4.1.0-beta.1
 
