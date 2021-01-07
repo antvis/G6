@@ -1,6 +1,9 @@
 import G6 from '@antv/g6';
-import { mathEqual } from './util';
 import EdgeFilterLens from '../../src/edgeFilterLens';
+
+const mathEqual = (a: number, b: number) => {
+  return Math.abs(a - b) < 1;
+};
 
 const div = document.createElement('div');
 div.id = 'filter-spec';

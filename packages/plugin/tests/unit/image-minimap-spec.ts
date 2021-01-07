@@ -1,7 +1,10 @@
 import G6 from '@antv/g6';
 import Simulate from 'event-simulate';
-import { numberEqual } from './util';
 import ImageMinimap from '../../src/imageMinimap';
+
+const numberEqual = (a: number, b: number, gap?: number) => {
+  return Math.abs(a - b) <= (gap || 0.001);
+};
 
 const div = document.createElement('div');
 div.id = 'image-minimap-spec';
