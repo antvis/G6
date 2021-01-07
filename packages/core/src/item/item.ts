@@ -210,7 +210,7 @@ export default class ItemBase implements IItemBase {
     if (!this.get('originStyle')) {
       // 第一次 set originStyle，直接拿首次渲染所有图形的 attrs
       const originStyles = {};
-      each(children, child => {
+      each(children, (child) => {
         const shapeType = child.get('type');
         const name = child.get('name');
         if (name && name !== keyShapeName) {
@@ -240,7 +240,7 @@ export default class ItemBase implements IItemBase {
       const currentStatesStyle = this.getCurrentStatesStyle();
 
       // 遍历当前所有图形的 attrs，找到不是 stateStyles 的样式更新到 originStyles 中
-      each(children, child => {
+      each(children, (child) => {
         const name = child.get('name');
         const shapeAttrs = child.attr();
         if (name && name !== keyShapeName) {
@@ -248,7 +248,7 @@ export default class ItemBase implements IItemBase {
           const shapeStateStyle = currentStatesStyle[name];
           if (!styles[name]) styles[name] = {};
           if (shapeStateStyle) {
-            Object.keys(shapeAttrs).forEach(key => {
+            Object.keys(shapeAttrs).forEach((key) => {
               const value = shapeAttrs[key];
               if (value !== shapeStateStyle[key]) styles[name][key] = value;
             });
@@ -287,7 +287,7 @@ export default class ItemBase implements IItemBase {
   private restoreStates(shapeFactory: any, shapeType: string) {
     const self = this;
     const states: string[] = self.get('states');
-    each(states, state => {
+    each(states, (state) => {
       shapeFactory.setState(shapeType, state, true, self);
     });
   }
@@ -362,7 +362,7 @@ export default class ItemBase implements IItemBase {
     let currentShape: IShapeBase;
 
     if (name) {
-      currentShape = group.find(element => element.get('name') === name) as IShapeBase;
+      currentShape = group.find((element) => element.get('name') === name) as IShapeBase;
     } else {
       currentShape = this.getKeyShape();
     }
@@ -416,7 +416,7 @@ export default class ItemBase implements IItemBase {
     if (!states || !states.length) {
       return this.getOriginStyle();
     }
-    each(self.getStates(), state => {
+    each(self.getStates(), (state) => {
       styles = Object.assign(styles, self.getStateStyle(state));
     });
     return styles;
@@ -452,12 +452,12 @@ export default class ItemBase implements IItemBase {
       }
     } else if (isString(value)) {
       // 过滤掉 states 中 filterStateName 相关的状态
-      const filterStates = states.filter(name => name.includes(filterStateName));
+      const filterStates = states.filter((name) => name.includes(filterStateName));
 
       if (filterStates.length > 0) {
         this.clearStates(filterStates);
       }
-      newStates = newStates.filter(name => !name.includes(filterStateName));
+      newStates = newStates.filter((name) => !name.includes(filterStateName));
 
       newStates.push(stateName);
       this.set('states', newStates);
@@ -490,10 +490,10 @@ export default class ItemBase implements IItemBase {
       states = [states];
     }
 
-    const newStates = originStates.filter(state => states.indexOf(state) === -1);
+    const newStates = originStates.filter((state) => states.indexOf(state) === -1);
     self.set('states', newStates);
 
-    states.forEach(state => {
+    states.forEach((state) => {
       shapeFactory.setState(shape, state, false, self);
     });
   }

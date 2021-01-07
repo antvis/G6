@@ -107,7 +107,7 @@ export default abstract class LayoutController {
     const edgeLength = edgeItems.length;
     for (let i = 0; i < edgeLength; i++) {
       const edgeItem = edgeItems[i];
-      if (edgeItem.destroyed || !edgeItem.isVisible()) continue;
+      if (!edgeItem || edgeItem.destroyed || !edgeItem.isVisible()) continue;
       const model = edgeItem.getModel();
       if (!model.isComboEdge) edges.push(model);
     }

@@ -221,5 +221,6 @@ describe('graph hull', () => {
     hullShapes = graph.get('hullGroup').get('children');
     expect(hullShapes.length).toEqual(1);
     expect(graph.getHulls()['hull2']).not.toBeDefined();
+    graph.destroy();
   });
 });

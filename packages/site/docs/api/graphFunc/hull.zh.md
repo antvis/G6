@@ -77,16 +77,32 @@ graph.on('afterlayout', () => {
 const hullMap = graph.getHulls();
 ```
 
-## removeHull
+## removeHull(hull: string ｜ Hull)
+
+移除指定 id 或指定实例的轮廓。
 
 **参数**
 
-| 名称 | 类型           | 是否必选 | 描述               |
-| ---- | -------------- | -------- | ------------------ |
-| hull | string ｜ Hull | true     | 轮廓 id 或轮廓实例 |
+| 名称 | 类型          | 是否必选 | 描述               |
+| ---- | ------------- | -------- | ------------------ |
+| hull | string / Hull | true     | 轮廓 id 或轮廓实例 |
 
 **用法**
 
 ```javascript
 graph.removeHull('myHull');
+```
+
+## removeHulls()
+
+移除当前图上所有轮廓实例。
+
+**参数**
+
+无参数。
+
+**用法**
+
+```javascript
+graph.removeHulls();
 ```
