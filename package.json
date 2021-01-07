@@ -22,7 +22,7 @@
     "test": "npm run test:core && npm run test:element && npm run test:plugin && npm run test:pc",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
     "pretty-quick": "pretty-quick",
-    "clean": "lerna clean",
+    "clean": "lerna clean -y",
     "clear": "lerna clean && lerna clean -y",
     "clean:modules": "rimraf node_modules",
     "bootstrap": "lerna bootstrap",
