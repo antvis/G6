@@ -25,6 +25,7 @@ export {
 };
 
 const Plugin = {
+  PluginBase,
   Menu,
   Grid,
   Minimap,

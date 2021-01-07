@@ -1,5 +1,5 @@
 import G6, { GraphData } from '@antv/g6';
-import { TimeBar } from '../../src';
+import TimeBar from '../../src/timeBar';
 
 const div = document.createElement('div');
 div.id = 'timebar-plugin';
@@ -82,7 +82,7 @@ describe('timeline play with timebar', () => {
           lineWidth: 1,
         },
         interval: {
-          data: intervalData.map(d => d.value),
+          data: intervalData.map((d) => d.value),
           style: {
             // stroke: '#ccc',
             fill: '#ccc',
@@ -185,7 +185,7 @@ describe('timeline play with timebar', () => {
           lineWidth: 1,
         },
         interval: {
-          data: intervalData.map(d => d.value),
+          data: intervalData.map((d) => d.value),
           style: {
             // stroke: '#ccc',
             fill: '#ccc',
@@ -288,7 +288,7 @@ describe('timeline play with timebar', () => {
           lineWidth: 1,
         },
         interval: {
-          data: intervalData.map(d => d.value),
+          data: intervalData.map((d) => d.value),
           style: {
             // stroke: '#ccc',
             fill: '#ccc',

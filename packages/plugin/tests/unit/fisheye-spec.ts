@@ -1,5 +1,5 @@
 import G6 from '@antv/g6';
-import { Fisheye } from '../../src';
+import Fisheye from '../../src/fisheye';
 
 const div = document.createElement('div');
 div.id = 'fisheye-spec';

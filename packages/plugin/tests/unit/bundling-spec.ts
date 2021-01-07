@@ -1,6 +1,6 @@
 import G6, { GraphData } from '@antv/g6';
 import { data } from './data';
-import { Bundling } from '../../src';
+import Bundling from '../../src/bundling';
 
 const div = document.createElement('div');
 div.id = 'force-layout';

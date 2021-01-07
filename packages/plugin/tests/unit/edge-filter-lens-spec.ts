@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
 import { mathEqual } from './util';
-import { EdgeFilterLens } from '../../src';
+import EdgeFilterLens from '../../src/edgeFilterLens';
 
 const div = document.createElement('div');
 div.id = 'filter-spec';
