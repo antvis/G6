@@ -61,7 +61,7 @@
   },
   "dependencies": {
     "@antv/g-base": "^0.5.1",
-    "@antv/g6-core": "*",
+    "@antv/g6-core": "^0.0.5",
     "@antv/util": "~2.0.5"
   },
   "devDependencies": {
@@ -87,6 +87,6 @@
     "ts-jest": "^24.1.0",
     "ts-loader": "^7.0.3",
     "typescript": "^3.5.3",
-    "@antv/g6": "*"
+    "@antv/g6": "4.1.0-beta.1"
   }
 }
