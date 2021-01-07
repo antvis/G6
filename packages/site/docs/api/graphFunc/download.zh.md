@@ -1,6 +1,6 @@
 ---
 title: 导出图片
-order: 16
+order: 17
 ---
 
 ### graph.downloadFullImage(name, type, imageConfig)

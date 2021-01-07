@@ -18,4 +18,8 @@ module.exports = {
       diagnostics: false,
     },
   },
+  testPathIgnorePatterns: [
+    '/tests/unit/image-minimap-spec.ts',
+    '/tests/unit/edge-filter-lens-spec.ts',
+  ],
 };

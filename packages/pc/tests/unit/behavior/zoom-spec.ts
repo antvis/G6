@@ -50,7 +50,7 @@ describe('zoom-canvas', () => {
         default: [
           {
             type: 'zoom-canvas',
-            // enableOptimize: true
+            // enableOptimize: true,
           },
         ],
       },
