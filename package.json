@@ -26,7 +26,7 @@
     "clear": "lerna clean && lerna clean -y",
     "clean:modules": "rimraf node_modules",
     "bootstrap": "lerna bootstrap",
-    "ci": "npm run clean && npm run clean:modules && npm install && npm run bootstrap && npm run lint && npm run test",
+    "ci": "npm run clean && npm run clean:modules && npm install && npm run bootstrap && npm run build:all && npm run lint && npm run test",
     "ls": "lerna list"
   },
   "husky": {
