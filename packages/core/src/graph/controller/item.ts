@@ -24,7 +24,6 @@ const COMBO = 'combo';
 const CFG_PREFIX = 'default';
 const MAPPER_SUFFIX = 'Mapper';
 const STATE_SUFFIX = 'stateStyles';
-const { hasOwnProperty } = Object;
 
 type Id = string | Item | undefined;
 

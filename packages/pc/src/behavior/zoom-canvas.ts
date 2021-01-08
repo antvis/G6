@@ -181,7 +181,7 @@ export default {
             for (let c = 0; c < childrenLength; c++) {
               const shape = children[c];
               if (!shape.destoryed && !shape.get('isKeyShape')) {
-                shape.set('ori-visibility', shape.get('visible'));
+                shape.set('ori-visibility', shape.get('ori-visibility') || shape.get('visible'));
                 shape.hide();
               }
             }
@@ -194,7 +194,7 @@ export default {
           const childrenLength = children.length;
           for (let c = 0; c < childrenLength; c++) {
             const shape = children[c];
-            shape.set('ori-visibility', shape.get('visible'));
+            shape.set('ori-visibility', shape.get('ori-visibility') || shape.get('visible'));
             shape.hide();
           }
         }

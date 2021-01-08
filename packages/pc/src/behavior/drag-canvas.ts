@@ -108,7 +108,7 @@ export default {
         const shapes = edges[i].get('group').get('children');
         if (!shapes) continue;
         shapes.forEach((shape) => {
-          shape.set('ori-visibility', shape.get('visible'));
+          shape.set('ori-visibility', shape.get('ori-visibility') || shape.get('visible'));
           shape.hide();
         });
       }
@@ -119,7 +119,7 @@ export default {
         for (const child of children) {
           const isKeyShape = child.get('isKeyShape');
           if (!isKeyShape) {
-            child.set('ori-visibility', child.get('visible'));
+            child.set('ori-visibility', child.get('ori-visibility') || child.get('visible'));
             child.hide();
           }
         }

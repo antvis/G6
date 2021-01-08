@@ -33,6 +33,8 @@ export class G6GraphEvent extends GraphEvent implements IG6GraphEvent {
 
   public target!: IShapeBase & ICanvas;
 
+  [key: string]: unknown;
+
   constructor(type: string, event: IG6GraphEvent) {
     super(type, event);
     this.item = event.item;
