@@ -20,7 +20,7 @@
     "lint:g6": "cd ./packages/g6 && npm run lint",
     "lint:all": "npm run lint:core && npm run lint:element && npm run lint:plugin && npm run lint:pc && npm run lint:g6",
     "build": "lerna run build --include-dependencies --stream",
-    "lint": "lerna run lint",
+    "lint": "npm run lint:all",
     "test:core": "cd ./packages/core && npm run test",
     "test:element": "cd ./packages/element && npm run test",
     "test:plugin": "cd ./packages/plugin && npm run test",
@@ -32,7 +32,7 @@
     "clear": "lerna clean && lerna clean -y",
     "clean:modules": "rimraf node_modules",
     "bootstrap": "lerna bootstrap",
-    "ci": "npm run clean && npm run clean:modules && npm install && npm run bootstrap && npm run build:all && npm run bootstrap && npm run lint:all && npm run test",
+    "ci": "npm run clean && npm run clean:modules && npm install && npm run bootstrap && npm run build:all && npm run lint:all && npm run test",
     "ls": "lerna list"
   },
   "husky": {
