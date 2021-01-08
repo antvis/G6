@@ -104,11 +104,19 @@ export default class Hull {
         break;
       case 'smooth-convex':
         contour = genConvexHull(members);
-        hull = paddedHull(
-          contour.map((p) => [p.x, p.y]),
-          this.padding,
-        );
-        path = contour.length >= 2 && getClosedSpline(hull);
+        if (contour.length === 2) {
+          hull = roundedHull(
+            contour.map((p) => [p.x, p.y]),
+            this.padding,
+          );
+          path = parsePathString(hull);
+        } else if (contour.length > 2) {
+          hull = paddedHull(
+            contour.map((p) => [p.x, p.y]),
+            this.padding,
+          );
+          path = getClosedSpline(hull);
+        }
         break;
       case 'bubble':
         contour = genBubbleSet(members, nonMembers, this.cfg.bubbleCfg);

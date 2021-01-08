@@ -60,6 +60,7 @@ describe('create-edge', () => {
     expect(graph.getEdges().length).toEqual(2);
     const loop = graph.getEdges()[1];
     expect(loop.getModel().source).toEqual(loop.getModel().target);
+
     graph.destroy();
   });
   it('create edge width polyline edge', () => {

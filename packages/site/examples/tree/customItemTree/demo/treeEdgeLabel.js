@@ -92,7 +92,7 @@ const graph = new G6.TreeGraph({
       {
         type: 'collapse-expand',
         onChange: function onChange(item, collapsed) {
-          const data = item.get('model').data;
+          const data = item.get('model');
           data.collapsed = collapsed;
           return true;
         },

@@ -1,5 +1,11 @@
 # ChangeLog
 
+#### 4.1.1
+
+- fix: soomth-convex hull with one line nodes leads to unshift problem;
+- fix: zoom-canvas to optimizeZoom and hide the label, the label will not show up any more problem;
+- fix: the ts type for parameter of timing event listener, closes: #2499;
+
 #### 4.1.0
 
 - chore: ts lint;

@@ -22,6 +22,7 @@ export interface IG6GraphEvent extends GraphEvent {
   detail: number;
   key?: string;
   target: IShapeBase & ICanvas;
+  [key: string]: unknown;
 }
 
 // Math types
@@ -780,4 +781,5 @@ export interface HullCfg {
     opacity?: number;
   };
   bubbleCfg?: BubblesetCfg; // 用于更精细控制bubble的效果（点和边轮廓的松弛程度，轮廓粒度），一般不需要配置
+  update?: string;
 }

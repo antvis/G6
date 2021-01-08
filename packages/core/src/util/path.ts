@@ -1,5 +1,6 @@
 import { vec2 } from '@antv/matrix-util';
 import { catmullRom2Bezier } from '@antv/path-util';
+import { isString } from '@antv/util';
 import { IPoint } from '../types';
 
 /**
@@ -286,6 +287,12 @@ export function paddedHull(polyPoints: vec2[], padding: number) {
     const control1 = vec2.add([0, 0], extension1, invControlDelta);
     const control3 = vec2.add([0, 0], extension0, controlDelta);
 
+    // return [
+    //   ['M', extension0[0], extension0[1]],
+    //   ['C', control0, control1, extension1],
+    //   ['S', control3, extension0],
+    //   'Z',
+    // ];
     return `M ${extension0} C ${[control0, control1, extension1].join(',')} S ${[
       control3,
       extension0,

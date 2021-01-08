@@ -44,6 +44,11 @@ G6.registerNode('file-node', {
         fill: '#666',
         fontSize: 16,
         textAlign: 'left',
+        fontFamily:
+          typeof window !== 'undefined'
+            ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
+              'Arial, sans-serif'
+            : 'Arial, sans-serif',
       },
       name: 'text-shape',
     });
