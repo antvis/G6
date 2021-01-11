@@ -40,6 +40,7 @@ export default class LayoutController extends AbstractLayout {
         start = start.then(() => this.updateLayoutMethod(layoutMethod, currentCfg));
       });
     }
+    this.data = this.setDataFromGraph();
 
     start
       .then(() => {
