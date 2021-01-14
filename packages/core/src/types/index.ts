@@ -127,7 +127,6 @@ export interface ModeOption {
   updateEdge?: boolean;
   trigger?: string;
   enableDelegate?: boolean;
-  sensitivity?: number;
   maxZoom?: number;
   minZoom?: number;
   enableOptimize?: boolean;

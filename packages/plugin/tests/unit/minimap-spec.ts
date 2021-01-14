@@ -13,6 +13,9 @@ const container = document.createElement('div');
 container.id = 'minimap-container';
 div.appendChild(container);
 
+const isFireFox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+const dragEvent = isFireFox ? 'dragover' : 'drag';
+
 describe('minimap', () => {
   it('minimap with default settings & destroy', (done) => {
     const minimap = new Minimap({ size: [200, 200] });
@@ -155,7 +158,7 @@ describe('minimap', () => {
         target: viewport,
       });
 
-      Simulate.simulate(viewport, 'drag', {
+      Simulate.simulate(viewport, dragEvent, {
         clientX: 98,
         clientY: 91,
       });
@@ -214,7 +217,7 @@ describe('minimap', () => {
 
     const viewport = minimap.getContainer();
 
-    Simulate.simulate(viewport, 'drag', {
+    Simulate.simulate(viewport, dragEvent, {
       clientX: 100,
       clientY: 100,
     });

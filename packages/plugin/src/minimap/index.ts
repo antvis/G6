@@ -84,6 +84,8 @@ export default class MiniMap extends Base {
         draggable=true>
       </div>`);
 
+    const isFireFox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+
     // 计算拖拽水平方向距离
     let x = 0;
     // 计算拖拽垂直方向距离
@@ -108,8 +110,13 @@ export default class MiniMap extends Base {
           const img = new Image();
           img.src =
             "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' %3E%3Cpath /%3E%3C/svg%3E";
-          (e as any).dataTransfer.setDragImage(img, 0, 0);
-          (e as any).dataTransfer.setData('text', 'view-port-minimap');
+          (e as any).dataTransfer.setDragImage?.(img, 0, 0);
+          try {
+            (e as any).dataTransfer.setData('text/html', 'view-port-minimap');
+          } catch {
+            // support IE
+            (e as any).dataTransfer.setData('text', 'view-port-minimap');
+          }
         }
 
         cfgs.refresh = false;
@@ -139,7 +146,7 @@ export default class MiniMap extends Base {
     );
 
     viewport.addEventListener(
-      'drag',
+      isFireFox ? 'dragover' : 'drag',
       (e: GraphEvent) => {
         if (!dragging || isNil(e.clientX) || isNil(e.clientY)) {
           return;

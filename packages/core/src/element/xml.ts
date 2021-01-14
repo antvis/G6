@@ -275,7 +275,7 @@ export function getBBox(
     case 'text':
       if (attrs.text) {
         shapeWidth = getTextSize(attrs.text, attrs.fontSize || 12)[0];
-        shapeHeight = attrs.fontSize ? (attrs.fontSize + 4) : 16;
+        shapeHeight = 16;
         bbox.y += shapeHeight;
         bbox.height = shapeHeight;
         bbox.width = shapeWidth;
@@ -328,34 +328,22 @@ export function generateTarget(target: NodeInstructure, lastOffset = { x: 0, y: 
 
   if (target.children?.length) {
     const { attrs = {} } = target;
-    const { marginTop, marginLeft } = attrs;
+    const { marginTop } = attrs;
     const offset = { ...lastOffset };
 
     if (marginTop) {
       offset.y += marginTop;
     }
 
-    const parentTrueOffsetX = lastOffset.x + (marginLeft || 0)
-    offset.x = parentTrueOffsetX
-    let inlineMaxHeight = -1
     for (let index = 0; index < target.children.length; index++) {
       target.children[index].attrs.key = `${attrs.key || 'root'} -${index} `;
       const node = generateTarget(target.children[index], offset);
       if (node.bbox) {
         const { bbox } = node;
         if (node.attrs.next === 'inline') {
-          if (bbox.height > inlineMaxHeight) {
-            inlineMaxHeight = bbox.height
-          }
           offset.x += node.bbox.width;
         } else {
-          offset.x = parentTrueOffsetX;
-          if (inlineMaxHeight === -1) {
-            offset.y += node.bbox.height;
-          } else {
-            offset.y += inlineMaxHeight > node.bbox.height ? inlineMaxHeight : node.bbox.height;
-          }
-          inlineMaxHeight = -1
+          offset.y += node.bbox.height;
         }
         if (bbox.width + bbox.x > defaultBbox.width) {
           defaultBbox.width = bbox.width + bbox.x;
