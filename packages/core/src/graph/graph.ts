@@ -2766,9 +2766,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const stackData = data
       ? clone(data)
       : {
-        before: {},
-        after: clone(this.save()),
-      };
+          before: {},
+          after: clone(this.save()),
+        };
 
     if (stackType === 'redo') {
       this.redoStack.push({

@@ -18,7 +18,7 @@ G6.registerNode('rect-xml', {
           height: 20,
           fill: ${cfg.color},
           radius: [6, 6, 0, 0],
-          cursor: 'move',
+          cursor: 'move'，
           stroke: ${cfg.color}
         }} draggable="true">
           <text style={{
@@ -32,11 +32,11 @@ G6.registerNode('rect-xml', {
           width: 150,
           height: 55,
           stroke: ${cfg.color},
-          fill: '#ffffff',
+          fill: #ffffff,
           radius: [0, 0, 6, 6],
         }}>
-          <text style={{ marginTop: 5, fill: '#333', marginLeft: 4 }}>描述: {{description}}</text>
-          <text style={{ marginTop: 10, fill: '#333', marginLeft: 4 }}>创建者: {{meta.creatorName}}</text>
+          <text style={{ marginTop: 5, marginLeft: 3, fill: '#333', marginLeft: 4 }}>描述: {{description}}</text>
+          <text style={{ marginTop: 10, marginLeft: 3, fill: '#333', marginLeft: 4 }}>创建者: {{meta.creatorName}}</text>
         </rect>
       </rect>
       <circle style={{
