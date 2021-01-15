@@ -1,5 +1,4 @@
-import { Canvas as GCanvas } from '@antv/g-canvas';
-import { Canvas as GSVGCanvas } from '@antv/g-svg';
+import { Canvas as GMobileCanvas } from '@antv/g-mobile';
 import { mat3 } from '@antv/matrix-util';
 import { clone, deepMix, each, isString, isNumber } from '@antv/util';
 import { IGraph, DataUrlType } from '../interface/graph';
@@ -10,8 +9,6 @@ import Global from '../global';
 import { LayoutController, EventController } from './controller';
 import PluginBase from '../plugin/base';
 import { createDom } from '@antv/dom-util';
-
-const SVG = 'svg';
 
 export default class Graph extends AbstractGraph implements IGraph {
   // private cfg: GraphOptions & { [key: string]: any };
@@ -43,6 +40,12 @@ export default class Graph extends AbstractGraph implements IGraph {
     this.set({
       eventController,
     });
+
+    const canvas: GCanvas = this.get('canvas');
+    const canvasDom = canvas.get('el');
+    'touchstart touchmove touchend touchcancel'.split(' ').forEach((key) => {
+      canvasDom.addEventListener(key, canvas.registerEventCallback.bind(canvas), false);
+    });
   }
 
   protected initCanvas() {
@@ -60,27 +63,17 @@ export default class Graph extends AbstractGraph implements IGraph {
     const height: number = this.get('height');
     const renderer: string = this.get('renderer');
 
-    let canvas;
-
-    if (renderer === SVG) {
-      canvas = new GSVGCanvas({
-        container,
-        width,
-        height,
-      });
-    } else {
-      const canvasCfg: any = {
-        container,
-        width,
-        height,
-      };
-      const pixelRatio = this.get('pixelRatio');
-      if (pixelRatio) {
-        canvasCfg.pixelRatio = pixelRatio;
-      }
-
-      canvas = new GCanvas(canvasCfg);
+    const canvasCfg: any = {
+      container,
+      width,
+      height,
+    };
+    const pixelRatio = this.get('pixelRatio');
+    if (pixelRatio) {
+      canvasCfg.pixelRatio = pixelRatio;
     }
+
+    const canvas = new GMobileCanvas(canvasCfg);
 
     this.set('canvas', canvas);
   }
@@ -101,7 +94,7 @@ export default class Graph extends AbstractGraph implements IGraph {
    * @return {string} 图片 dataURL
    */
   public toDataURL(type?: DataUrlType, backgroundColor?: string): string {
-    const canvas: GCanvas = this.get('canvas');
+    const canvas: GMobileCanvas = this.get('canvas');
     const renderer = canvas.getRenderer();
     const canvasDom = canvas.get('el');
 
@@ -178,7 +171,7 @@ export default class Graph extends AbstractGraph implements IGraph {
       quickHit: true,
     };
 
-    const vCanvas = renderer === 'svg' ? new GSVGCanvas(canvasOptions) : new GCanvas(canvasOptions);
+    const vCanvas = new GMobileCanvas(canvasOptions);
 
     const group = this.get('group');
     const vGroup = group.clone();
@@ -267,7 +260,7 @@ export default class Graph extends AbstractGraph implements IGraph {
       height: vHeight,
       width: vWidth,
     };
-    const vCanvas = renderer === 'svg' ? new GSVGCanvas(canvasOptions) : new GCanvas(canvasOptions);
+    const vCanvas = new GMobileCanvas(canvasOptions);
 
     const group = this.get('group');
     const vGroup = group.clone();
@@ -458,7 +451,7 @@ export default class Graph extends AbstractGraph implements IGraph {
       if (pixelRatio) {
         canvasCfg.pixelRatio = pixelRatio;
       }
-      canvas = new GCanvas(canvasCfg);
+      canvas = new GMobileCanvas(canvasCfg);
       this.set('graphWaterMarker', canvas);
     }
     canvas.get('el').style.display = 'none';
@@ -532,7 +525,7 @@ export default class Graph extends AbstractGraph implements IGraph {
       if (pixelRatio) {
         canvasCfg.pixelRatio = pixelRatio;
       }
-      canvas = new GCanvas(canvasCfg);
+      canvas = new GMobileCanvas(canvasCfg);
       this.set('graphWaterMarker', canvas);
     }
     canvas.get('el').style.display = 'none';

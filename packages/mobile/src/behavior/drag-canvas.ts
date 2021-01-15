@@ -76,6 +76,7 @@ export default {
     this.graph.translate(dx, dy);
   },
   onMouseDown(e: IG6GraphEvent) {
+    console.log('------');
     const self = this as any;
     const event = e.originalEvent as MouseEvent;
 
