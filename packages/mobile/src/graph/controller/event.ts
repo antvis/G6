@@ -45,6 +45,7 @@ export default class EventController extends AbstractEvent {
    * @param evt 事件句柄
    */
   protected onCanvasEvents(evt: IG6GraphEvent) {
+    console.log('--=====', evt.item, evt.shape, evt.type, evt.originalEvent.type);
     const { graph } = this;
     const canvas = graph.get('canvas');
     const { target } = evt;
@@ -74,6 +75,22 @@ export default class EventController extends AbstractEvent {
     evt.y = point.y;
 
     evt.currentTarget = graph;
+
+    //if (evt.type === 'touchstart') {
+    //  //graph.emit('node:dragenter', evt);
+    //  graph.emit('node:dragstart', evt);
+    //}
+
+    //if (evt.type === 'touchend') {
+    //  //graph.emit('node:drop', evt);
+    //  //graph.emit('canvas:drop', evt);
+    //  graph.emit('node:dragend', evt);
+    //  //graph.emit('node:dragleave', evt);
+    //}
+
+    //if (evt.type === 'touchmove') {
+    //  graph.emit('node:drag', evt);
+    //}
 
     if (target === canvas) {
       if (eventType === 'panmove') {
