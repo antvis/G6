@@ -27,9 +27,9 @@ export default {
   },
   getEvents(): { [key in G6Event]?: string } {
     return {
-      'node:dragstart': 'onDragStart',
-      'node:drag': 'onDrag',
-      'node:dragend': 'onDragEnd',
+      'node:panstart': 'onDragStart',
+      'node:panmove': 'onDrag',
+      'node:panend': 'onDragEnd',
       'combo:dragenter': 'onDragEnter',
       'combo:dragleave': 'onDragLeave',
       'combo:drop': 'onDropCombo',
@@ -53,6 +53,7 @@ export default {
    * @param evt
    */
   onDragStart(evt: IG6GraphEvent) {
+    console.log('onDragStart');
     if (!this.shouldBegin.call(this, evt)) {
       return;
     }
@@ -61,10 +62,6 @@ export default {
     if (!item || item.destroyed || item.hasLocked()) {
       return;
     }
-
-    // 拖动时，设置拖动元素的 capture 为false，则不拾取拖动的元素
-    const group = item.getContainer();
-    group.set('capture', false);
 
     // 如果拖动的target 是linkPoints / anchorPoints 则不允许拖动
     const { target } = evt;
@@ -127,6 +124,7 @@ export default {
    * @param evt
    */
   onDrag(evt: IG6GraphEvent) {
+    console.log('onDrag');
     if (!this.origin) {
       return;
     }
@@ -148,6 +146,7 @@ export default {
    * @param evt
    */
   onDragEnd(evt: IG6GraphEvent) {
+    console.log('onDragEnd');
     if (!this.origin || !this.shouldEnd.call(this, evt)) {
       return;
     }
@@ -296,6 +295,7 @@ export default {
    * @param evt
    */
   onDragEnter(evt: IG6GraphEvent) {
+    console.log('onDragEnter');
     const item = evt.item as ICombo;
     if (!this.validationCombo(item)) return;
 
@@ -309,6 +309,7 @@ export default {
    * @param evt
    */
   onDragLeave(evt: IG6GraphEvent) {
+    console.log('onDragLeave');
     const item = evt.item as ICombo;
     if (!this.validationCombo(item)) return;
 
@@ -378,7 +379,7 @@ export default {
         },
         name: 'rect-delegate-shape',
       });
-      this.delegateRect.set('capture', false);
+      // this.delegateRect.set('capture', false);
     } else {
       const clientX = e.x - this.origin.x + this.originPoint.minX;
       const clientY = e.y - this.origin.y + this.originPoint.minY;

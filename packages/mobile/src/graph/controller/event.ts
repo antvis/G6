@@ -22,7 +22,6 @@ export default class EventController extends AbstractEvent {
     super(graph);
     this.graph = graph;
     this.destroyed = false;
-    this.initEvents();
   }
 
   // 初始化 G6 中的事件
@@ -30,22 +29,12 @@ export default class EventController extends AbstractEvent {
     const { graph, extendEvents = [] } = this;
 
     const canvas: ICanvas = graph.get('canvas');
-    // canvas.set('draggable', true);
-    const el = canvas.get('el');
+    canvas.get('el');
 
-    const canvasHandler: Fun = wrapBehavior(this, 'onCanvasEvents') as Fun;
+    this.canvasHandler = wrapBehavior(this, 'onCanvasEvents') as Fun;
     const originHandler = wrapBehavior(this, 'onExtendEvents');
-    const wheelHandler = wrapBehavior(this, 'onWheelEvent');
 
-    // each(EVENTS, event => {
-    //   canvas.off(event).on(event, canvasHandler);
-    // });
-
-    canvas.off('*').on('*', canvasHandler);
-
-    this.canvasHandler = canvasHandler;
-    extendEvents.push(addEventListener(el, 'DOMMouseScroll', wheelHandler));
-    extendEvents.push(addEventListener(el, 'mousewheel', wheelHandler));
+    canvas.off('*').on('*', this.canvasHandler);
 
     if (typeof window !== 'undefined') {
       extendEvents.push(addEventListener(window as any, 'keydown', originHandler));
@@ -67,11 +56,12 @@ export default class EventController extends AbstractEvent {
    * @param evt 事件句柄
    */
   protected onCanvasEvents(evt: IG6GraphEvent) {
+    console.log('--=====', evt.item, evt.shape, evt.type, evt.originalEvent.type);
     const { graph } = this;
-
     const canvas = graph.get('canvas');
     const { target } = evt;
     const eventType = evt.type;
+
     /**
      * (clientX, clientY): 相对于页面的坐标；
      * (canvasX, canvasY): 相对于 <canvas> 左上角的坐标；
@@ -96,6 +86,22 @@ export default class EventController extends AbstractEvent {
     evt.y = point.y;
 
     evt.currentTarget = graph;
+
+    //if (evt.type === 'touchstart') {
+    //  //graph.emit('node:dragenter', evt);
+    //  graph.emit('node:dragstart', evt);
+    //}
+
+    //if (evt.type === 'touchend') {
+    //  //graph.emit('node:drop', evt);
+    //  //graph.emit('canvas:drop', evt);
+    //  graph.emit('node:dragend', evt);
+    //  //graph.emit('node:dragleave', evt);
+    //}
+
+    //if (evt.type === 'touchmove') {
+    //  graph.emit('node:drag', evt);
+    //}
 
     if (target === canvas) {
       if (eventType === 'mousemove') {
@@ -131,10 +137,13 @@ export default class EventController extends AbstractEvent {
       evt.canvasY = canvasPoint.y;
     }
 
+    graph.emit('node:' + evt.type, evt);
     // emit('click', evt);
     graph.emit(eventType, evt);
 
-    if (evt.name && !evt.name.includes(':')) graph.emit(`${type}:${eventType}`, evt);
+    if (evt.name && !evt.name.includes(':')) {
+      graph.emit(`${type}:${eventType}`, evt);
+    }
     // emit('node:click', evt)
     else graph.emit(evt.name, evt); // emit('text-shape:click', evt)
 
@@ -155,17 +164,6 @@ export default class EventController extends AbstractEvent {
    */
   protected onExtendEvents(evt: IG6GraphEvent) {
     this.graph.emit(evt.type, evt);
-  }
-
-  /**
-   * 处理滚轮事件
-   * @param evt 事件句柄
-   */
-  protected onWheelEvent(evt: IG6GraphEvent) {
-    if (isNil(evt.wheelDelta)) {
-      evt.wheelDelta = -evt.detail;
-    }
-    this.graph.emit('wheel', evt);
   }
 
   /**

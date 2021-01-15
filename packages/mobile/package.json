@@ -21,14 +21,7 @@
   },
   "license": "MIT",
   "author": "https://github.com/orgs/antvis/people",
-  "files": [
-    "package.json",
-    "es",
-    "lib",
-    "dist",
-    "LICENSE",
-    "README.md"
-  ],
+  "files": ["package.json", "es", "lib", "dist", "LICENSE", "README.md"],
   "main": "lib/index.js",
   "module": "es/index.js",
   "browser": "dist/g6.min.js",
@@ -57,13 +50,8 @@
     }
   },
   "lint-staged": {
-    "**/*.{js,jsx,ts,tsx}": [
-      "npm run lint-staged:js",
-      "prettier --write"
-    ],
-    "**/*.{less,md,json}": [
-      "prettier --write"
-    ]
+    "**/*.{js,jsx,ts,tsx}": ["npm run lint-staged:js", "prettier --write"],
+    "**/*.{less,md,json}": ["prettier --write"]
   },
   "dependencies": {
     "@ant-design/colors": "^4.0.5",
@@ -72,8 +60,6 @@
     "@antv/g-base": "^0.5.1",
     "@antv/g-canvas": "^0.5.2",
     "@antv/g-math": "^0.1.1",
-    "@antv/g-svg": "^0.5.1",
-    "@antv/g-webgpu": "^0.5.1",
     "@antv/g6-core": "*",
     "@antv/algorithm": "^0.0.4",
     "@antv/hierarchy": "^0.6.2",
@@ -90,7 +76,6 @@
   },
   "devDependencies": {
     "@antv/chart-node-g6": "^0.0.3",
-    "@antv/g-webgpu-compiler": "^0.5.1",
     "@babel/core": "^7.7.7",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/preset-react": "^7.7.4",

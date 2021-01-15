@@ -3,7 +3,6 @@ import { G6Event, IG6GraphEvent, INode } from '@antv/g6-core';
 export default {
   getDefaultCfg(): object {
     return {
-      trigger: 'mouseenter', // 可选 mouseenter || click
       activeState: 'active',
       inactiveState: 'inactive',
       resetSelected: false,
@@ -13,15 +12,9 @@ export default {
     };
   },
   getEvents(): { [key in G6Event]?: string } {
-    if ((this as any).get('trigger') === 'mouseenter') {
-      return {
-        'node:mouseenter': 'setAllItemStates',
-        'node:mouseleave': 'clearActiveState',
-      };
-    }
     return {
-      'node:click': 'setAllItemStates',
-      'canvas:click': 'clearAllItemStates',
+      'node:tap': 'setAllItemStates',
+      'canvas:tap': 'clearAllItemStates',
     };
   },
   setAllItemStates(e: IG6GraphEvent) {

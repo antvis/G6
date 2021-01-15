@@ -5,27 +5,21 @@ import G6 from '../../src';
 import './basic.css';
 
 const data = {
-  nodes: [
-    {
-      id: 'node1',
-      label: 'Circle1',
-      x: 150,
-      y: 150,
-    },
-    {
-      id: 'node2',
-      label: 'Circle2',
-      x: 400,
-      y: 150,
-    },
-  ],
-  edges: [
-    {
-      source: 'node1',
-      target: 'node2',
-    },
-  ],
+  nodes: [],
+  edges: [],
 };
+
+for (let i = 0; i < 10; i++) {
+  data.nodes.push({
+    id: `node${i}`,
+    label: `Circle${i}`,
+  });
+
+  data.edges.push({
+    source: `node${i}`,
+    target: `node${i + 1}`,
+  });
+}
 
 export interface BasicProps {}
 
@@ -39,6 +33,51 @@ export const BasicDemo = () => {
         container: ReactDOM.findDOMNode(ref.current),
         width: 500,
         height: 500,
+        layout: {
+          type: 'grid',
+          begin: [0, 0], // ???
+          preventOverlap: true, // ??????? nodeSize
+          preventOverlapPdding: 20, // ??
+          nodeSize: 30, // ??
+          condense: false, // ??
+          rows: 5, // ??
+          cols: 5, // ??
+          sortBy: 'degree', // ??
+        },
+
+        modes: {
+          default: [
+            'zoom-canvas',
+            'drag-node',
+            'click-select',
+            'activate-relations',
+            {
+              type: 'brush-select',
+              trigger: 'ctrl',
+              includeEdges: false,
+              // 是否允许对该 behavior 发生。若返回 false，被操作的 item 不会被选中，不触发 'nodeselectchange' 时机事件
+              shouldUpdate: (e) => {
+                // 当点击的节点/边/ combo 的 id 为 'id2' 时，该 item 不会被选中
+                if (e.item.getModel().id === 'id2') return false;
+                return true;
+              },
+            },
+            {
+              type: 'create-edge',
+              trigger: 'drag',
+              key: 'shift',
+              edgeConfig: {
+                type: 'cubic',
+                style: {
+                  stroke: '#f00',
+                  lineWidth: 2,
+                  // ... // 其它边样式配置
+                },
+                // ... // 其它边配置
+              },
+            },
+          ],
+        },
         defaultNode: {
           shape: 'simple-circle',
           size: [100],
