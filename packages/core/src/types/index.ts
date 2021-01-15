@@ -174,10 +174,10 @@ export interface States {
 
 export interface StateStyles {
   [key: string]:
-    | ShapeStyle
-    | {
-        [key: string]: ShapeStyle;
-      };
+  | ShapeStyle
+  | {
+    [key: string]: ShapeStyle;
+  };
 }
 
 // model types (node edge group)
@@ -252,7 +252,7 @@ export interface GraphOptions {
     size: number | number[];
     color: string;
   }> &
-    ModelStyle;
+  ModelStyle;
 
   /**
    * 默认状态下边的配置，比如 type, size, color。会被写入的 data 覆盖。
@@ -262,7 +262,7 @@ export interface GraphOptions {
     size: number | number[];
     color: string;
   }> &
-    ModelStyle;
+  ModelStyle;
 
   /**
    * Combo 默认配置
@@ -272,7 +272,7 @@ export interface GraphOptions {
     size: number | number[];
     color: string;
   }> &
-    ModelStyle;
+  ModelStyle;
 
   nodeStateStyles?: StateStyles;
 
@@ -402,10 +402,10 @@ export interface TreeGraphData {
   depth?: number;
   collapsed?: boolean;
   style?:
-    | ShapeStyle
-    | {
-        [key: string]: ShapeStyle;
-      };
+  | ShapeStyle
+  | {
+    [key: string]: ShapeStyle;
+  };
   stateStyles?: StateStyles;
   [key: string]: unknown;
 }
@@ -689,6 +689,8 @@ export enum G6Event {
   AFTERANIMATE = 'afteranimate',
   BEFOREPAINT = 'beforepaint',
   AFTERPAINT = 'afterpaint',
+  BEFORECOLLAPSEEXPANDCOMBO = 'beforecollapseexpandcombo',
+  AFTERCOLLAPSEEXPANDCOMBO = 'aftercollapseexpandcombo',
 
   GRAPHSTATECHANGE = 'graphstatechange',
   AFTERACTIVATERELATIONS = 'afteractivaterelations',

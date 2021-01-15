@@ -13,7 +13,7 @@ import {
 } from '../types';
 import { applyMatrix } from './math';
 import letterAspectRatio from './letterAspectRatio';
-import { isString, clone } from '@antv/util';
+import { isString, clone, isNumber } from '@antv/util';
 import { IAbstractGraph } from '../interface/graph';
 
 const { PI, sin, cos } = Math;
@@ -634,4 +634,17 @@ export const getComboBBox = (children: ComboTree[], graph: IAbstractGraph): BBox
   });
 
   return comboBBox;
+};
+
+export const shouldRefreshEdge = (cfg) => {
+  let refreshEdge = isNumber(cfg.x) || isNumber(cfg.y) || cfg.type || cfg.anchorPoints || cfg.size;
+  if (cfg.style)
+    refreshEdge =
+      refreshEdge ||
+      isNumber(cfg.style.r) ||
+      isNumber(cfg.style.width) ||
+      isNumber(cfg.style.height) ||
+      isNumber(cfg.style.rx) ||
+      isNumber(cfg.style.ry);
+  return refreshEdge;
 };

@@ -7,8 +7,8 @@ import { transform } from '@antv/matrix-util';
 import { uniqueId } from '@antv/util';
 
 const mat3 = {
-  ...MatUtil
-}
+  ...MatUtil,
+};
 
 const Util = { ...BaseUtil, ...GraphicUtil, ...PathUtil, ...MathUtil, uniqueId, transform, mat3 };
 export default Util;

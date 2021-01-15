@@ -598,7 +598,6 @@ export default class MiniMap extends Base {
       ['s', ratio, ratio], // 缩放到正好撑着 minimap
       ['t', dx, dy], // 移动到画布中心
     ]);
-
     group.setMatrix(matrix);
 
     // 更新minimap视口

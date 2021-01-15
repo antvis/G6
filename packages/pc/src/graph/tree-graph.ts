@@ -1,4 +1,5 @@
-import { Point } from '@antv/g-base/lib/types';
+// @ts-nocheck
+import { Point } from '@antv/g-base';
 import Hierarchy from '@antv/hierarchy';
 import { each, isString } from '@antv/util';
 import {

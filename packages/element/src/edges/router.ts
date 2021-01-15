@@ -4,7 +4,7 @@
  * orthogonal: 线必须沿着竖直或水平方向（4个方向）
  * octolinearRouter: 线沿着竖直、水平、对角线方向（8个方向）
  */
-import { INode, Item, Util } from '@antv/g6';
+import { INode, Item, Util } from '@antv/g6-core';
 import { deepMix } from '@antv/util';
 import {
   getExpandedBBox,

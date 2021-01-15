@@ -1,23 +1,22 @@
 {
-  "name": "@antv/g6-plugins",
-  "version": "4.0.0",
+  "name": "@antv/g6-plugin",
+  "version": "0.0.1",
   "description": "G6 Plugin",
   "main": "lib/index.js",
   "module": "es/index.ts",
-  "browser": "dist/g6-plugins.min.js",
   "scripts": {
     "start": "father build --watch",
     "build": "npm run clean && father build",
     "clean": "rimraf es esm lib dist",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch ./tests/unit/fisheye-spec.ts "
+    "test-live": "DEBUG_MODE=1 jest --watch ./tests/unit/minimap-spec.ts "
   },
   "dependencies": {
     "@antv/dom-util": "^2.0.2",
-    "@antv/g-base": "0.5.1",
-    "@antv/g-canvas": "^0.4.15",
+    "@antv/g-base": "^0.5.1",
+    "@antv/g-canvas": "^0.5.2",
     "@antv/g-svg": "^0.5.2",
-    "@antv/g6-core": "*",
+    "@antv/g6-core": "^0.0.1",
     "@antv/matrix-util": "^2.0.7",
     "@antv/scale": "^0.3.4",
     "@antv/util": "^2.0.9",
@@ -38,6 +37,6 @@
     "jquery": "^3.5.1",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.4.4",
-    "@antv/g6": "*"
+    "@antv/g6": "^4.0.4-beta.0"
   }
 }

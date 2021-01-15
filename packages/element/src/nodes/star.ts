@@ -1,5 +1,12 @@
 import { IGroup, IShape } from '@antv/g-base';
-import { registerNode, Item, NodeConfig, ShapeStyle, ShapeOptions, Global } from '@antv/g6';
+import {
+  registerNode,
+  Item,
+  NodeConfig,
+  ShapeStyle,
+  ShapeOptions,
+  BaseGlobal as Global,
+} from '@antv/g6-core';
 
 import { mix } from '@antv/util';
 
@@ -279,12 +286,12 @@ registerNode(
       const { left, right, top, leftBottom, rightBottom } = cfg.linkPoints
         ? cfg.linkPoints
         : {
-          left: undefined,
-          right: undefined,
-          top: undefined,
-          leftBottom: undefined,
-          rightBottom: undefined,
-        };
+            left: undefined,
+            right: undefined,
+            top: undefined,
+            leftBottom: undefined,
+            rightBottom: undefined,
+          };
 
       const size = (this as ShapeOptions).getSize!(cfg);
       const outerR = size[0];

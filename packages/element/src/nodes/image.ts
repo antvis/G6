@@ -1,5 +1,5 @@
 import { IGroup, IShape } from '@antv/g-base';
-import { registerNode, Item, NodeConfig } from '@antv/g6';
+import { registerNode, Item, NodeConfig } from '@antv/g6-core';
 
 /**
  * 基本的图片，可以添加文本，默认文本在图片的下面

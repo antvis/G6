@@ -125,6 +125,8 @@ export default class TimeBarSlice {
 
   private frameCount: number = 0;
 
+  private fontFamily: string = 'Arial, sans-serif';
+
   constructor(cfgs?: TimeBarSliceConfig) {
     const {
       graph,
@@ -166,6 +168,12 @@ export default class TimeBarSlice {
 
     this.tooltipBackgroundColor = tooltipBackgroundColor;
     this.tooltipFomatter = tooltipFomatter;
+
+    // 初始化 fontFamily，如果有浏览器，取 body 上的字体，防止文字更新时局部渲染造成的重影
+    this.fontFamily = typeof window !== 'undefined'
+      ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
+      'Arial, sans-serif'
+      : 'Arial, sans-serif';
 
     this.renderSlices();
     this.initEvent();
@@ -284,6 +292,7 @@ export default class TimeBarSlice {
             text: label,
             textBaseline: 'top',
             fontSize: 10,
+            fontFamily: this.fontFamily || 'Arial, sans-serif'
           },
           capture: false,
         });
@@ -310,6 +319,7 @@ export default class TimeBarSlice {
       height: 40,
       hiddleToggle: true,
       speed: this.currentSpeed,
+      fontFamily: this.fontFamily || 'Arial, sans-serif'
     });
   }
 
@@ -473,19 +483,19 @@ export default class TimeBarSlice {
   private startPlay() {
     return typeof window !== 'undefined'
       ? window.requestAnimationFrame(() => {
-          const speed = this.currentSpeed;
+        const speed = this.currentSpeed;
 
-          // 一分钟刷新一次
-          if (this.frameCount % (60 / speed) === 0) {
-            this.frameCount = 0;
-            this.updateStartEnd(1);
-          }
-          this.frameCount++;
+        // 一分钟刷新一次
+        if (this.frameCount % (60 / speed) === 0) {
+          this.frameCount = 0;
+          this.updateStartEnd(1);
+        }
+        this.frameCount++;
 
-          if (this.isPlay) {
-            this.playHandler = this.startPlay();
-          }
-        })
+        if (this.isPlay) {
+          this.playHandler = this.startPlay();
+        }
+      })
       : undefined;
   }
 

@@ -5,19 +5,19 @@ import {
   registerNode,
   Arrow,
   Marker,
-  Shape
+  Shape,
 } from '@antv/g6-core';
-import './element';
-import './behavior';
+import { ICanvas, IGroup, IShape } from '@antv/g-base';
+import * as Algorithm from '@antv/algorithm';
 import Graph from './graph/graph';
 import TreeGraph from './graph/tree-graph';
 import { Layout, registerLayout } from './layout';
 import Global from './global';
 import Util from './util';
 import Plugin from './plugin';
-import * as Algorithm from '@antv/algorithm';
+import './element';
+import './behavior';
 
-// const registerLayout = Layout.registerLayout;
 const Minimap = Plugin.Minimap;
 const Grid = Plugin.Grid;
 const Bundling = Plugin.Bundling;
@@ -38,6 +38,7 @@ export {
   TreeGraph,
   Util,
   Layout,
+  registerLayout,
   Global,
   Minimap,
   Grid,
@@ -52,7 +53,11 @@ export {
   EdgeFilterLens,
   Arrow,
   Marker,
-  Shape
+  Shape,
+  // 对外暴露 G-Base 的几个类型定义
+  ICanvas,
+  IGroup,
+  IShape,
 };
 
 export default {
@@ -80,5 +85,5 @@ export default {
   Algorithm,
   Arrow,
   Marker,
-  Shape
+  Shape,
 };

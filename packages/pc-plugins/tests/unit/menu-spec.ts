@@ -8,7 +8,7 @@ document.body.appendChild(div);
 describe('menu', () => {
   it('menu with default', () => {
     const menu = new Menu({
-      handleMenuClick: (target, item) => { },
+      handleMenuClick: (target, item) => {},
     });
 
     const graph = new G6.Graph({

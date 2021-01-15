@@ -60,12 +60,11 @@
     ]
   },
   "dependencies": {
-    "@antv/g-base": "0.5.1",
-    "@antv/g6": "*",
+    "@antv/g-base": "^0.5.1",
+    "@antv/g6-core": "^0.0.1",
     "@antv/util": "~2.0.5"
   },
   "devDependencies": {
-    "@antv/chart-node-g6": "^0.0.3",
     "@babel/core": "^7.7.7",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/preset-react": "^7.7.4",

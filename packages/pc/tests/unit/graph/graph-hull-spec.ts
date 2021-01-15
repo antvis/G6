@@ -197,6 +197,9 @@ describe('graph hull', () => {
     expect(bubbleHull.contain('6')).toEqual(false);
     bubbleHull.removeNonMember('6');
     expect(bubbleHull.nonMembers.indexOf(graph.findById('6')) === -1).toEqual(true);
+    // debugger
+    bubbleHull.contain('4');
+
     expect(bubbleHull.contain('4')).toEqual(true);
     bubbleHull.removeMember('4');
     expect(bubbleHull.contain('4')).toEqual(false);

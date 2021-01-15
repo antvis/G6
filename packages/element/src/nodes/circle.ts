@@ -1,5 +1,12 @@
 import { IGroup, IShape } from '@antv/g-base';
-import { registerNode, Item, NodeConfig, ShapeStyle, ShapeOptions, Global } from '@antv/g6';
+import {
+  registerNode,
+  Item,
+  NodeConfig,
+  ShapeStyle,
+  ShapeOptions,
+  BaseGlobal as Global,
+} from '@antv/g6-core';
 import { deepMix } from '@antv/util';
 
 // 带有图标的圆，可用于拓扑图中

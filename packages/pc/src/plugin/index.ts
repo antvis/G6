@@ -1,4 +1,4 @@
-import Plugin from '@antv/g6-plugins';
+import Plugin from '@antv/g6-plugin';
 
 export default Plugin;
 

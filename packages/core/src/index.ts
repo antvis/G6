@@ -16,6 +16,7 @@ const registerNode = Shape.registerNode;
 const registerEdge = Shape.registerEdge;
 const registerCombo = Shape.registerCombo;
 const registerBehavior = Behavior.registerBehavior;
+const BaseGlobal = Global;
 
 export {
   Arrow,
@@ -32,7 +33,8 @@ export {
   registerEdge,
   registerBehavior,
   AbstractLayout,
-  AbstractEvent
+  AbstractEvent,
+  BaseGlobal,
 };
 
 export * from './types';
@@ -40,6 +42,7 @@ export * from './types';
 export default {
   version: Global.version,
   AbstractGraph,
+  BaseGlobal,
   Util,
   Shape,
   Node,
@@ -53,5 +56,5 @@ export default {
   Arrow,
   Marker,
   AbstractLayout,
-  AbstractEvent
+  AbstractEvent,
 };

@@ -29,7 +29,7 @@ describe('shape node test', () => {
     it('get default', () => {
       const factory = Shape.getFactory('node');
       const shape = factory.getShape();
-      expect(shape.type).toBe('simple-circle');
+      expect(shape.type).toBe('circle');
     });
   });
 

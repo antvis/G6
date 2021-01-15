@@ -15,7 +15,7 @@ import {
 } from '../../types';
 import { IAbstractGraph } from '../../interface/graph';
 import { IEdge, INode, ICombo } from '../../interface/item';
-import { traverseTreeUp, traverseTree, getComboBBox } from '../../util/graphic';
+import { traverseTreeUp, traverseTree, getComboBBox, shouldRefreshEdge } from '../../util/graphic';
 
 const NODE = 'node';
 const EDGE = 'edge';
@@ -251,9 +251,11 @@ export default class ItemController {
     if (type === NODE || type === COMBO) {
       item.update(cfg, isOnlyMove);
       const edges: IEdge[] = (item as INode).getEdges();
-      each(edges, (edge: IEdge) => {
-        edge.refresh();
-      });
+      let refreshEdge = shouldRefreshEdge(cfg)!;
+      refreshEdge &&
+        each(edges, (edge: IEdge) => {
+          edge.refresh();
+        });
     }
     graph.emit('afterupdateitem', { item, cfg });
   }

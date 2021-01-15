@@ -142,10 +142,7 @@ export default abstract class LayoutController {
     }
     graph.emit('beforelayout');
     layoutMethod.execute(reloadData);
-    if (this.layoutType !== 'force' && !layoutMethod.enableTick) {
-      graph.emit('afterlayout');
-    }
-    this.refreshLayout();
+    if (layoutMethod.isCustomLayout && layoutCfg.onLayoutEnd) layoutCfg.onLayoutEnd();
   }
 
   // 控制布局动画

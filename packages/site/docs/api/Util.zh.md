@@ -39,13 +39,13 @@ G6.Uitl.processParallelEdges(data.edges, offsetDiff, multiEdgeType, singleEdgeTy
 
 #### 配置项
 
-| 名称 | 类型    | 是否必须   | 描述              |
-| ---- | ------ | ------ | ---------------------------- |
-| edges  | EdgeConfig[] | true | 需要处理的边数据数组 |
-| offsetDiff  | number | false | 两条平行边的之间的距离，默认为 15 |
-| multiEdgeType  | string | false | 两节点之间若存在多条边时，这些边的类型，默认为 'quadratic' |
-| singleEdgeType  | string | false | 两节点之间仅有一条边时，该边的类型，默认为 undefined，即不改变这种边的类型 |
-| loopEdgeType  | string | false | 若一条边的起点和终点是同一个节点（自环边），该边的类型，默认为 undefined，即不改变这种边的类型 |
+| 名称 | 类型 | 是否必须 | 描述 |
+| --- | --- | --- | --- |
+| edges | EdgeConfig[] | true | 需要处理的边数据数组 |
+| offsetDiff | number | false | 两条平行边的之间的距离，默认为 15 |
+| multiEdgeType | string | false | 两节点之间若存在多条边时，这些边的类型，默认为 'quadratic' |
+| singleEdgeType | string | false | 两节点之间仅有一条边时，该边的类型，默认为 undefined，即不改变这种边的类型 |
+| loopEdgeType | string | false | 若一条边的起点和终点是同一个节点（自环边），该边的类型，默认为 undefined，即不改变这种边的类型 |
 
 #### 使用示例
 
@@ -57,44 +57,43 @@ G6.Uitl.processParallelEdges(data.edges, offsetDiff, multiEdgeType, singleEdgeTy
 
 #### 配置项
 
-| 名称 | 类型    | 是否必须   | 描述              |
-| ---- | ------ | ------ | ---------------------------- |
-| data  | TreeData| true | 需要遍历的树数据 |
-| fn  | function | true | 遍历到每个节点时的回调函数 |
+| 名称 | 类型     | 是否必须 | 描述                       |
+| ---- | -------- | -------- | -------------------------- |
+| data | TreeData | true     | 需要遍历的树数据           |
+| fn   | function | true     | 遍历到每个节点时的回调函数 |
 
 #### 使用示例
 
 ```javascript
 const treeData = {
-  "id": "1",
-  "children": [
+  id: '1',
+  children: [
     {
-      "id": "2",
-      "children": [ { "id": "3" }, { "id": "4" } ]
+      id: '2',
+      children: [{ id: '3' }, { id: '4' }],
     },
     {
-      "id": "5",
-      "children": [
-        { "id": "6" },
+      id: '5',
+      children: [
+        { id: '6' },
         {
-          "id": "7",
-          "children": [ { "id": "8" }, { "id": "9" } ]
+          id: '7',
+          children: [{ id: '8' }, { id: '9' }],
         },
-      ]
+      ],
     },
     {
-      "id": "10",
-      "children": [ { "id": "11" } ]
-    }
-  ]
-}
+      id: '10',
+      children: [{ id: '11' }],
+    },
+  ],
+};
 
 traverseTree(treeData, (subTree) => {
-  subTree.color = '#f00'
+  subTree.color = '#f00';
   return true;
 });
 ```
-
 
 ### traverseTreeUp 深度优先遍历树数据
 
@@ -102,49 +101,48 @@ traverseTree(treeData, (subTree) => {
 
 #### 配置项
 
-| 名称 | 类型    | 是否必须   | 描述              |
-| ---- | ------ | ------ | ---------------------------- |
-| data  | TreeData| true | 需要遍历的树数据 |
-| fn  | function | true | 遍历到每个节点时的回调函数 |
+| 名称 | 类型     | 是否必须 | 描述                       |
+| ---- | -------- | -------- | -------------------------- |
+| data | TreeData | true     | 需要遍历的树数据           |
+| fn   | function | true     | 遍历到每个节点时的回调函数 |
 
 #### 使用示例
 
 ```javascript
 const treeData = {
-  "id": "1",
-  "children": [
+  id: '1',
+  children: [
     {
-      "id": "2",
-      "children": [ { "id": "3" }, { "id": "4" } ]
+      id: '2',
+      children: [{ id: '3' }, { id: '4' }],
     },
     {
-      "id": "5",
-      "children": [
-        { "id": "6" },
+      id: '5',
+      children: [
+        { id: '6' },
         {
-          "id": "7",
-          "children": [ { "id": "8" }, { "id": "9" } ]
+          id: '7',
+          children: [{ id: '8' }, { id: '9' }],
         },
-      ]
+      ],
     },
     {
-      "id": "10",
-      "children": [ { "id": "11" } ]
-    }
-  ]
-}
+      id: '10',
+      children: [{ id: '11' }],
+    },
+  ],
+};
 
 traverseTreeUp(treeData, (subTree) => {
-  subTree.color = '#f00'
+  subTree.color = '#f00';
   return true;
 });
 ```
-
 
 ## 包围盒计算
 
 ### calculationItemsBBox 一组节点的总包围盒
 
-| 名称 | 类型    | 是否必须   | 描述              |
-| --- | --- | --- |
-| items  | Item[] | true | 节点数组 |
+| 名称  | 类型   | 是否必须 | 描述     |
+| ----- | ------ | -------- | -------- |
+| items | Item[] | true     | 节点数组 |
