@@ -6,7 +6,7 @@
 - fix: shouldEnd of create-edge with groupByTypes as false;
 - fix: collapse and expand a combo with an empty sub combo error;
 - fix: update padding of rect combo;
-- fix: the graph in the minimap with circular layout is not centered;
+- fix: the graph in the minimap with circular layout is not centered, closes: #2555;
 
 #### 4.1.1
 
