@@ -7,7 +7,11 @@ G6 内置了  cubic  边，其默认样式如下。<br /> <img src='https://gw
 
 ## 使用方法
 
-如 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)  一节所示，配置边的方式有两种：实例化图时全局配置，在数据中动态配置。
+如 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)  一节所示，配置边的方式有三种：实例化图时全局配置，在数据中动态配置，使用 `graph.edge(edgeFn)` 函数配置。这几种配置方法可以同时使用，优先级：
+
+使用 graph.edge(edgeFn) 配置 > 数据中动态配置 > 实例化图时全局配置
+
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 除 `id`、`source`、`target`、`label` 应当配置到每条边数据中外，其余的 [边的通用属性](/zh/docs/manual/middle/elements/edges/defaultEdge#边的通用属性) 以及各个边类型的特有属性（见内置边类型）均支持三种配置方式。
 
 ### 1 实例化图时全局配置
 

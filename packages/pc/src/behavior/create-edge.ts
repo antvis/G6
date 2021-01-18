@@ -175,49 +175,6 @@ export default {
     }
     if (self.addingEdge && self.edge === currentEdge) {
       let cancelEdge = true;
-      // !graph.get('groupByTypes') 将会导致选中终点时实际上边在最上层，节点无法响应 click 事件
-      if (!graph.get('groupByTypes')) {
-        // 此时需要判断点击的位置是否在节点范围内，若在，则指定终点。否则取消增加边
-        const { x, y } = ev;
-        const nodes = graph.getNodes();
-        const length = nodes.length;
-        for (let i = 0; i < length; i++) {
-          const node = nodes[i];
-          const model = node.getModel();
-          const nodeBBox = node.getBBox();
-          if (
-            x <= nodeBBox.maxX &&
-            x >= nodeBBox.minX &&
-            y <= nodeBBox.maxY &&
-            y >= nodeBBox.minY
-          ) {
-            if (
-              !self.shouldEnd.call(self, {
-                x: ev.x,
-                y: ev.y,
-                canvasX: ev.canvasX,
-                canvasY: ev.canvasY,
-                clientX: ev.clientX,
-                clientY: ev.clientY,
-                item: node,
-              })
-            ) {
-              return;
-            }
-
-            graph.emit('beforecreateedge', {});
-
-            graph.updateItem(self.edge, {
-              target: model.id,
-            });
-            graph.emit('aftercreateedge', {
-              edge: self.edge,
-            });
-            cancelEdge = false;
-            break;
-          }
-        }
-      }
       if (cancelEdge) graph.removeItem(self.edge, false);
       self.edge = null;
       self.addingEdge = false;

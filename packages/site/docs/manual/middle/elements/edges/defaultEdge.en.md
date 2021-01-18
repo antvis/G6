@@ -133,6 +133,8 @@ There are three methods to configure edges: Configure edges globally when instan
 
 That means, if there are same configurations in different ways, the way with higher priority will take effect.
 
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span> Expect for `id`, `source`, `target`, `label` which should be assigned to every single edge data, the other configurations in [The Common Property](#the-common-property) and in each edge type (refer to doc of each edge type) support to be assigned by the three ways.
+
 ### Configure Globally When Instantiating Graph
 
 Assign `defaultEdge` to configure all the nodes globally:

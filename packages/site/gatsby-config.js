@@ -170,7 +170,7 @@ module.exports = {
       {
         slug: 'manual/middle/elements/combos/built-in',
         title: {
-          zh: '内置Combo',
+          zh: '内置 Combo',
           en: 'Built-in Combos',
         },
         order: 1,

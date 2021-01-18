@@ -6,6 +6,388 @@ export function mathEqual(a: number, b: number) {
   return Math.abs(a - b) < 1;
 }
 
+const cdata = {
+  nodes: [
+    {
+      id: '0',
+      label: '0',
+    },
+    {
+      id: '1',
+      label: '1',
+    },
+    {
+      id: '2',
+      label: '2',
+    },
+    {
+      id: '3',
+      label: '3',
+    },
+    {
+      id: '4',
+      label: '4',
+    },
+    {
+      id: '5',
+      label: '5',
+    },
+    {
+      id: '6',
+      label: '6',
+    },
+    {
+      id: '7',
+      label: '7',
+    },
+    {
+      id: '8',
+      label: '8',
+    },
+    {
+      id: '9',
+      label: '9',
+    },
+    {
+      id: '10',
+      label: '10',
+    },
+    {
+      id: '11',
+      label: '11',
+    },
+    {
+      id: '12',
+      label: '12',
+    },
+    {
+      id: '13',
+      label: '13',
+    },
+    {
+      id: '14',
+      label: '14',
+    },
+    {
+      id: '15',
+      label: '15',
+    },
+    {
+      id: '16',
+      label: '16',
+    },
+    {
+      id: '17',
+      label: '17',
+    },
+    {
+      id: '18',
+      label: '18',
+    },
+    {
+      id: '19',
+      label: '19',
+    },
+    {
+      id: '20',
+      label: '20',
+    },
+    {
+      id: '21',
+      label: '21',
+    },
+    {
+      id: '22',
+      label: '22',
+    },
+    {
+      id: '23',
+      label: '23',
+    },
+    {
+      id: '24',
+      label: '24',
+    },
+    {
+      id: '25',
+      label: '25',
+    },
+    {
+      id: '26',
+      label: '26',
+    },
+    {
+      id: '27',
+      label: '27',
+    },
+    {
+      id: '28',
+      label: '28',
+    },
+    {
+      id: '29',
+      label: '29',
+    },
+    {
+      id: '30',
+      label: '30',
+    },
+    {
+      id: '31',
+      label: '31',
+    },
+    {
+      id: '32',
+      label: '32',
+    },
+    {
+      id: '33',
+      label: '33',
+    },
+  ],
+  edges: [
+    {
+      source: '0',
+      target: '1',
+    },
+    {
+      source: '0',
+      target: '2',
+    },
+    {
+      source: '0',
+      target: '3',
+    },
+    {
+      source: '0',
+      target: '4',
+    },
+    {
+      source: '0',
+      target: '5',
+    },
+    {
+      source: '0',
+      target: '7',
+    },
+    {
+      source: '0',
+      target: '8',
+    },
+    {
+      source: '0',
+      target: '9',
+    },
+    {
+      source: '0',
+      target: '10',
+    },
+    {
+      source: '0',
+      target: '11',
+    },
+    {
+      source: '0',
+      target: '13',
+    },
+    {
+      source: '0',
+      target: '14',
+    },
+    {
+      source: '0',
+      target: '15',
+    },
+    {
+      source: '0',
+      target: '16',
+    },
+    {
+      source: '2',
+      target: '3',
+    },
+    {
+      source: '4',
+      target: '5',
+    },
+    {
+      source: '4',
+      target: '6',
+    },
+    {
+      source: '5',
+      target: '6',
+    },
+    {
+      source: '7',
+      target: '13',
+    },
+    {
+      source: '8',
+      target: '14',
+    },
+    {
+      source: '9',
+      target: '10',
+    },
+    {
+      source: '10',
+      target: '22',
+    },
+    {
+      source: '10',
+      target: '14',
+    },
+    {
+      source: '10',
+      target: '12',
+    },
+    {
+      source: '10',
+      target: '24',
+    },
+    {
+      source: '10',
+      target: '21',
+    },
+    {
+      source: '10',
+      target: '20',
+    },
+    {
+      source: '11',
+      target: '24',
+    },
+    {
+      source: '11',
+      target: '22',
+    },
+    {
+      source: '11',
+      target: '14',
+    },
+    {
+      source: '12',
+      target: '13',
+    },
+    {
+      source: '16',
+      target: '17',
+    },
+    {
+      source: '16',
+      target: '18',
+    },
+    {
+      source: '16',
+      target: '21',
+    },
+    {
+      source: '16',
+      target: '22',
+    },
+    {
+      source: '17',
+      target: '18',
+    },
+    {
+      source: '17',
+      target: '20',
+    },
+    {
+      source: '18',
+      target: '19',
+    },
+    {
+      source: '19',
+      target: '20',
+    },
+    {
+      source: '19',
+      target: '33',
+    },
+    {
+      source: '19',
+      target: '22',
+    },
+    {
+      source: '19',
+      target: '23',
+    },
+    {
+      source: '20',
+      target: '21',
+    },
+    {
+      source: '21',
+      target: '22',
+    },
+    {
+      source: '22',
+      target: '24',
+    },
+    {
+      source: '22',
+      target: '25',
+    },
+    {
+      source: '22',
+      target: '26',
+    },
+    {
+      source: '22',
+      target: '23',
+    },
+    {
+      source: '22',
+      target: '28',
+    },
+    {
+      source: '22',
+      target: '30',
+    },
+    {
+      source: '22',
+      target: '31',
+    },
+    {
+      source: '22',
+      target: '32',
+    },
+    {
+      source: '22',
+      target: '33',
+    },
+    {
+      source: '23',
+      target: '28',
+    },
+    {
+      source: '23',
+      target: '27',
+    },
+    {
+      source: '23',
+      target: '29',
+    },
+    {
+      source: '23',
+      target: '30',
+    },
+    {
+      source: '23',
+      target: '31',
+    },
+    {
+      source: '23',
+      target: '33',
+    },
+    {
+      source: '32',
+      target: '33',
+    },
+  ],
+};
 const div = document.createElement('div');
 div.id = 'minimap';
 document.body.appendChild(div);
@@ -74,10 +456,10 @@ describe('minimap', () => {
       const top = parseFloat(viewport.style.top.substr(0, viewport.style.top.length - 2));
       const width = parseFloat(viewport.style.width.substr(0, viewport.style.width.length - 2));
       const height = parseFloat(viewport.style.height.substr(0, viewport.style.height.length - 2));
-      expect(mathEqual(left, 47)).toBe(true);
-      expect(mathEqual(top, 38)).toBe(true);
-      expect(mathEqual(width, 153)).toBe(true);
-      expect(mathEqual(height, 162)).toBe(true);
+      expect(mathEqual(left, 42)).toBe(true);
+      expect(mathEqual(top, 32)).toBe(true);
+      expect(mathEqual(width, 158)).toBe(true);
+      expect(mathEqual(height, 167)).toBe(true);
 
       graph.zoom(2.5, { x: 250, y: 250 });
       setTimeout(() => {
@@ -88,10 +470,10 @@ describe('minimap', () => {
           viewport.style.height.substr(0, viewport.style.height.length - 2),
         );
 
-        expect(mathEqual(left, 121)).toBe(true);
-        expect(mathEqual(top, 112)).toBe(true);
-        expect(mathEqual(width, 78)).toBe(true);
-        expect(mathEqual(height, 87)).toBe(true);
+        expect(mathEqual(left, 105)).toBe(true);
+        expect(mathEqual(top, 95)).toBe(true);
+        expect(mathEqual(width, 85)).toBe(true);
+        expect(mathEqual(height, 85)).toBe(true);
 
         minimap.destroyPlugin();
 
@@ -147,10 +529,10 @@ describe('minimap', () => {
     graph.translate(50, 50);
 
     setTimeout(() => {
-      expect(viewport.style.left).toEqual('68.8474px');
-      expect(viewport.style.top).toEqual('59.5016px');
-      expect(viewport.style.width).toEqual('131.153px');
-      expect(viewport.style.height).toEqual('140.498px');
+      expect(viewport.style.left).toEqual('40.7749px');
+      expect(viewport.style.top).toEqual('40.7749px');
+      expect(viewport.style.width).toEqual('92.2509px');
+      expect(viewport.style.height).toEqual('92.2509px');
 
       Simulate.simulate(viewport, 'dragstart', {
         clientX: 100,
@@ -169,10 +551,10 @@ describe('minimap', () => {
       });
 
       setTimeout(() => {
-        expect(viewport.style.left).toEqual('66.8474px');
-        expect(viewport.style.top).toEqual('50.5016px');
-        expect(viewport.style.width).toEqual('133.153px');
-        expect(viewport.style.height).toEqual('149.498px');
+        expect(viewport.style.left).toEqual('38.7749px');
+        expect(viewport.style.top).toEqual('31.7749px');
+        expect(viewport.style.width).toEqual('92.2509px');
+        expect(viewport.style.height).toEqual('92.2509px');
         const matrix = graph.get('group').getMatrix();
         expect(matrix[0]).toEqual(2);
         expect(matrix[4]).toEqual(2);

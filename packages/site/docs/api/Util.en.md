@@ -26,7 +26,7 @@ const offsetDiff = 10;
 const multiEdgeType = 'quadratic';
 const singleEdgeType = 'line';
 const loopEdgeType = 'loop';
-G6.Uitl.processParallelEdges(data.edges, offsetDiff, multiEdgeType, singleEdgeType, loopEdgeType);
+G6.Util.processParallelEdges(data.edges, offsetDiff, multiEdgeType, singleEdgeType, loopEdgeType);
 ```
 
 ## Data Pre-processing
