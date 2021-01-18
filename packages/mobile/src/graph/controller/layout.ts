@@ -1,6 +1,5 @@
 import { AbstractLayout, GraphData } from '@antv/g6-core';
 import { Layout } from '../../layout';
-import { gpuDetector } from '../../util/gpu';
 import { mix } from '@antv/util';
 
 import { IGraph } from '../../interface/graph';
