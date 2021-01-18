@@ -592,7 +592,7 @@ export interface IAbstractGraph extends EventEmitter {
   /**
    * 重新定义监听函数，复写参数类型
    */
-  on: (eventName: string, callback: (e: IG6GraphEvent) => void, once?: boolean) => this;
+  on: <T = IG6GraphEvent>(eventName: string, callback: (e: T) => void, once?: boolean) => this;
   /**
    * 销毁画布
    */
