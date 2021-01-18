@@ -9,8 +9,10 @@ module.exports = {
   output: {
     filename: '[name].min.js',
     library: 'G6',
-    libraryTarget: 'commonjs2',
+    libraryTarget: 'umd',
+    libraryExport: 'default',
     path: resolve(process.cwd(), 'dist/'),
+    globalObject: 'this',
   },
   resolve: {
     // Add `.ts` as a resolvable extension.
@@ -19,21 +21,26 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.worker\.ts$/,
+        exclude: /(node_modules)/,
+        use: [
+          {
+            loader: 'worker-loader',
+            options: {
+              inline: 'fallback',
+              filename: 'g6Layout.worker.js',
+            },
+          },
+        ],
+      },
+      {
         test: /\.js$/,
         include: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
-            presets: [
-              [
-                '@babel/preset-env',
-                {
-                  targets: {
-                    esmodules: true,
-                  },
-                },
-              ],
-            ],
+            // babelrc: true,
+            presets: ['@babel/preset-env'],
           },
         },
       },
@@ -48,6 +55,6 @@ module.exports = {
       },
     ],
   },
-  //plugins: [new webpack.NoEmitOnErrorsPlugin(), new webpack.optimize.AggressiveMergingPlugin()],
+  plugins: [new webpack.NoEmitOnErrorsPlugin(), new webpack.optimize.AggressiveMergingPlugin()],
   devtool: 'source-map',
 };
