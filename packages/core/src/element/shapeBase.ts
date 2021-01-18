@@ -322,11 +322,16 @@ export const shapeBase: ShapeOptions = {
             labelCfg,
             group,
           );
-          // const labelBgStyle = Object.assign({}, labelBg.attr(), calculateBgStyle, cfgBgStyle);
           const labelBgStyle = { ...calculateBgStyle, ...cfgBgStyle };
           labelBg.resetMatrix();
           if (rotate) {
-            labelBg.rotateAtStart(rotate);
+            let bgRotateMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
+            bgRotateMatrix = transform(bgRotateMatrix, [
+              ['t', -labelBgStyle.x, -labelBgStyle.y],
+              ['r', rotate],
+              ['t', labelBgStyle.x, labelBgStyle.y],
+            ]);
+            labelBgStyle.matrix = bgRotateMatrix;
           }
           labelBg.attr(labelBgStyle);
         } else {
