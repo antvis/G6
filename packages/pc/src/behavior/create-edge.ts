@@ -174,8 +174,7 @@ export default {
       return;
     }
     if (self.addingEdge && self.edge === currentEdge) {
-      let cancelEdge = true;
-      if (cancelEdge) graph.removeItem(self.edge, false);
+      graph.removeItem(self.edge, false);
       self.edge = null;
       self.addingEdge = false;
     }
