@@ -1,4 +1,5 @@
 import { Canvas as GMobileCanvas } from '@antv/g-mobile';
+import { ICanvas, IGroup, Point } from '@antv/g-base';
 import { mat3 } from '@antv/matrix-util';
 import { clone, deepMix, each, isString, isNumber } from '@antv/util';
 import { IGraph, DataUrlType } from '../interface/graph';
@@ -28,6 +29,11 @@ export default class Graph extends AbstractGraph implements IGraph {
     this.destroyed = false;
   }
 
+  public eventHandler(event) {
+    const canvas: GMobileCanvas = this.get('canvas');
+    canvas.registerEventCallback.bind(canvas)(event);
+  }
+
   protected initLayoutController() {
     const layoutController = new LayoutController(this);
     this.set({
@@ -41,6 +47,9 @@ export default class Graph extends AbstractGraph implements IGraph {
       eventController,
     });
 
+    if (this.get('context')) {
+      return;
+    }
     const canvas: GMobileCanvas = this.get('canvas');
     const canvasDom = canvas.get('el');
     'touchstart touchmove touchend touchcancel'.split(' ').forEach((key) => {
@@ -608,5 +617,17 @@ export default class Graph extends AbstractGraph implements IGraph {
     }
 
     super.destroy();
+  }
+
+  // 初始化所有 Group
+  protected initGroups(): void {
+    const canvas: GMobileCanvas = this.get('canvas');
+
+    const group: IGroup = canvas.addGroup({
+      id: `root`,
+      className: Global.rootContainerClassName,
+    });
+
+    this.set('group', group);
   }
 }
