@@ -515,7 +515,6 @@ export default class MiniMap extends Base {
         width: size[0],
         height: size[1],
       });
-      canvas.get('el').style.backgroundColor = '#aaa'; // todo: for test
     }
     self.set('canvas', canvas);
     self.updateCanvas();
