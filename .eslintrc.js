@@ -42,6 +42,9 @@ module.exports = {
     "@typescript-eslint/no-this-alias": 0,
     "@typescript-eslint/consistent-indexed-object-style": 0,
     "@typescript-eslint/no-invalid-this": 0,
-    "@typescript-eslint/array-type": 0
+    "@typescript-eslint/array-type": 0,
+    "@typescript-eslint/consistent-type-definitions": 0,
+    // using Record<string, unknown> instead
+    "@typescript-eslint/ban-types": 0
   },
 };
