@@ -124,6 +124,8 @@ There are three methods to configure nodes: Configure nodes globally when instan
 
 That means, if there are same configurations in different ways, the way with higher priority will take effect.
 
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span> Expect for `id`, and `label` which should be assigned to every single node data, the other configurations in [The Common Property](#common-property) and in each node type (refer to doc of each node type) support to be assigned by the three ways.
+
 ### Configure Globally When Instantiating Graph
 
 Assign `defaultNode` to configure all the nodes globally:

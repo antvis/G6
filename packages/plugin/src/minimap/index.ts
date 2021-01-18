@@ -80,7 +80,7 @@ export default class MiniMap extends Base {
           left:0;
           top:0;
           box-sizing:border-box;
-          border: 2px solid #1980ff'
+          outline: 2px solid #1980ff'
         draggable=true>
       </div>`);
 
@@ -515,6 +515,7 @@ export default class MiniMap extends Base {
         width: size[0],
         height: size[1],
       });
+      canvas.get('el').style.backgroundColor = '#aaa'; // todo: for test
     }
     self.set('canvas', canvas);
     self.updateCanvas();
@@ -537,10 +538,10 @@ export default class MiniMap extends Base {
       this.updateViewport();
     }
 
-    const size: number[] = this.get('size');
-    const canvas: GCanvas = this.get('canvas');
-    const type: string = this.get('type');
-    const padding: number = this.get('padding');
+    const size: number[] = this.get('size'); // 用户定义的 minimap size
+    const canvas: GCanvas = this.get('canvas'); // minimap 的 canvas
+    const type: string = this.get('type'); // minimap 的类型
+    const padding: number = this.get('padding'); // 用户额定义的 minimap 的 padding
 
     if (canvas.destroyed) {
       return;
@@ -568,7 +569,8 @@ export default class MiniMap extends Base {
     // 该 bbox 是准确的，不计算 matrix 的包围盒
     const bbox = group.getCanvasBBox();
 
-    const graphBBox = graph.get('canvas').getBBox();
+    // 主图的 bbox
+    const graphBBox = graph.get('canvas').getCanvasBBox();
 
     let width = graphBBox.width;
     let height = graphBBox.height;

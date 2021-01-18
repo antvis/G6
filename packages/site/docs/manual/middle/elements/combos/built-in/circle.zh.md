@@ -7,7 +7,11 @@ G6 内置了圆  Circle Combo，其默认样式如下。标签文本位于圆�
 
 ## 使用方法
 
-如 [内置 Combo](/zh/docs/manual/middle/elements/combos/defaultCombo) 一节所示，配置 Combo 的方式有两种：实例化图时全局配置，在数据中动态配置。
+如 [内置 Combo](/zh/docs/manual/middle/elements/combos/defaultCombo) 一节所示，配置 Combo 的方式有三种：实例化图时全局配置，在数据中动态配置，使用 `graph.combo(comboFn)` 函数配置。这几种配置方法可以同时使用，优先级：
+
+使用 `graph.combo(comboFn)` 配置 > 数据中动态配置 > 实例化图时全局配置
+
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 除 `id`、`parentId`、`label` 应当配置到每个 Combo 数据中外，其余的 [Combo 的通用属性](#/zh/docs/manual/middle/elements/combos/defaultCombo#combo-的通用属性) 以及各个 Combo 类型的特有属性（见内置 Combo 类型）均支持三种配置方式。
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 使用 Combo 时，必须在示例化图时配置 `groupByTypes` 设置为 `false`，图中元素的视觉层级才能合理。
 

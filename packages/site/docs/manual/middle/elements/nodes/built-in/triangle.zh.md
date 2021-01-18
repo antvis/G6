@@ -9,7 +9,11 @@ G6 内置了三角形  Triangle 节点，其默认样式如下。标签文本�
 
 ## 使用方法
 
-如 [内置节点](/zh/docs/manual/middle/elements/nodes/defaultNode) 一节所示，配置节点的方式有两种：实例化图时全局配置，在数据中动态配置。
+如 [内置节点](/zh/docs/manual/middle/elements/nodes/defaultNode) 一节所示，配置节点的方式有三种：实例化图时全局配置，在数据中动态配置，使用 `graph.node(nodeFn)` 函数配置。这几种配置方法可以同时使用，优先级：
+
+使用 `graph.node(nodeFn)` 配置 > 数据中动态配置 > 实例化图时全局配置
+
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 除 `id`、`label` 应当配置到每个节点数据中外，其余的 [节点的通用属性](/zh/docs/manual/middle/elements/nodes/defaultNode#节点的通用属性) 以及各个节点类型的特有属性（见内置节点类型）均支持这三种配置方式。
 
 ### 1 实例化图时全局配置
 

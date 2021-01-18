@@ -5,6 +5,8 @@ import { IAbstractGraph as IGraph } from '@antv/g6-core';
 import { Point } from '@antv/g-base';
 import insertCss from 'insert-css';
 
+const DELTA = 0.05;
+
 insertCss(`
   .g6-component-toolbar {
     position: absolute;
@@ -41,6 +43,9 @@ interface ToolBarConfig extends IPluginBaseConfig {
   handleClick?: (code: string, graph: IGraph) => void;
   getContent?: (graph?: IGraph) => HTMLDivElement | string;
   position?: Point | null;
+  zoomSensitivity?: number;
+  minZoom?: number;
+  maxZoom?: number;
 }
 
 const getEventPath = (evt: MouseEvent) => {
@@ -108,6 +113,7 @@ export default class ToolBar extends Base {
           </ul>
         `;
       },
+      zoomSensitivity: 2,
     };
   }
 
@@ -398,19 +404,21 @@ export default class ToolBar extends Base {
         this.undo();
         break;
       case 'zoomOut': {
-        const ratioOut = 1 + 0.05 * 5;
-        if (ratioOut * currentZoom > 5) {
+        const ratioOut = 1 / (1 - DELTA * this.get('zoomSensitivity'));
+        const maxZoom = this.get('maxZoom') || graph.get('maxZoom');
+        if (ratioOut * currentZoom > maxZoom) {
           return;
         }
-        graph.zoomTo(currentZoom * 1.1);
+        graph.zoomTo(currentZoom * ratioOut);
         break;
       }
       case 'zoomIn': {
-        const ratioIn = 1 - 0.05 * 5;
-        if (ratioIn * currentZoom < 0.3) {
+        const ratioIn = 1 - DELTA * this.get('zoomSensitivity');
+        const minZoom = this.get('minZoom') || graph.get('minZoom');
+        if (ratioIn * currentZoom < minZoom) {
           return;
         }
-        graph.zoomTo(currentZoom * 0.9);
+        graph.zoomTo(currentZoom * ratioIn);
         break;
       }
       case 'realZoom':

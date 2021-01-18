@@ -152,6 +152,7 @@ export interface ModeOption {
   edgeConfig?: EdgeConfig;
   functionName?: string;
   functionParams?: any[];
+  relayout?: boolean;
   shouldUpdate?: (e: IG6GraphEvent) => boolean;
   shouldBegin?: (e: IG6GraphEvent) => boolean;
   shouldEnd?: (e: IG6GraphEvent) => boolean;

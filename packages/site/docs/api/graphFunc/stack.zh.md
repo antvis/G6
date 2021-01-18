@@ -7,9 +7,9 @@ order: 13
 
 入栈操作。
 
-实现 undo 功能，可参考[这里](https://github.com/antvis/G6/blob/master/src/plugins/toolBar/index.ts#L184)
+实现 undo 功能，可参考[这里](https://github.com/antvis/G6/blob/master/packages/plugin/src/toolBar/index.ts#L208)
 
-实现 redo 功能，可参考[这里](https://github.com/antvis/G6/blob/master/src/plugins/toolBar/index.ts#L271)
+实现 redo 功能，可参考[这里](https://github.com/antvis/G6/blob/master/packages/plugin/src/toolBar/index.ts#L295)
 
 **参数**
 
