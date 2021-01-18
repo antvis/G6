@@ -41,7 +41,7 @@ export default class Graph extends AbstractGraph implements IGraph {
       eventController,
     });
 
-    const canvas: GCanvas = this.get('canvas');
+    const canvas: GMobileCanvas = this.get('canvas');
     const canvasDom = canvas.get('el');
     'touchstart touchmove touchend touchcancel'.split(' ').forEach((key) => {
       canvasDom.addEventListener(key, canvas.registerEventCallback.bind(canvas), false);
@@ -50,21 +50,19 @@ export default class Graph extends AbstractGraph implements IGraph {
 
   protected initCanvas() {
     let container: string | HTMLElement | Element | null = this.get('container');
-    if (typeof container === 'string') {
+    if (container !== null && typeof container === 'string') {
       container = document.getElementById(container);
       this.set('container', container);
-    }
-
-    if (!container) {
-      throw new Error('invalid container');
     }
 
     const width: number = this.get('width');
     const height: number = this.get('height');
     const renderer: string = this.get('renderer');
+    const context: string = this.get('context');
 
     const canvasCfg: any = {
       container,
+      context,
       width,
       height,
     };

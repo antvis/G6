@@ -484,7 +484,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
 
     this.get('canvas').animate(
       (ratio: number) => {
-        traverseTree<TreeGraphData>(data, (child) => {
+        traverseTree(data, (child: any) => {
           const node = self.findById(child.id);
 
           // 只有当存在node的时候才执行
