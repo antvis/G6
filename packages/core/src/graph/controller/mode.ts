@@ -1,6 +1,6 @@
 import { each, isArray, isString } from '@antv/util';
 import Behavior from '../../behavior/behavior';
-import { IBehavior } from '../../interface/behavior';
+import { IBehaviorOption } from '../../interface/behavior';
 import { IAbstractGraph } from '../../interface/graph';
 import { ModeType, Modes } from '../../types';
 
@@ -33,7 +33,7 @@ export default class ModeController {
    */
   public mode: string;
 
-  private currentBehaves: IBehavior[];
+  private currentBehaves: IBehaviorOption[];
 
   constructor(graph: IAbstractGraph) {
     this.graph = graph;
@@ -50,7 +50,7 @@ export default class ModeController {
 
   private formatModes() {
     const { modes } = this;
-    each(modes, (mode) => {
+    each(modes, mode => {
       each(mode, (behavior, i) => {
         if (isString(behavior)) {
           mode[i] = { type: behavior };
@@ -62,9 +62,9 @@ export default class ModeController {
   private setBehaviors(mode: string) {
     const { graph } = this;
     const behaviors = this.modes[mode];
-    const behaves: IBehavior[] = [];
-    let behave: IBehavior;
-    each(behaviors || [], (behavior) => {
+    const behaves: IBehaviorOption[] = [];
+    let behave: IBehaviorOption;
+    each(behaviors || [], behavior => {
       const BehaviorInstance = Behavior.getBehavior(behavior.type || behavior);
       if (!BehaviorInstance) {
         return;
@@ -80,7 +80,7 @@ export default class ModeController {
   }
 
   private static mergeBehaviors(modeBehaviors: ModeType[], behaviors: ModeType[]): ModeType[] {
-    each(behaviors, (behavior) => {
+    each(behaviors, behavior => {
       if (modeBehaviors.indexOf(behavior) < 0) {
         if (isString(behavior)) {
           behavior = { type: behavior };
@@ -93,7 +93,7 @@ export default class ModeController {
 
   private static filterBehaviors(modeBehaviors: ModeType[], behaviors: ModeType[]): ModeType[] {
     const result: ModeType[] = [];
-    modeBehaviors.forEach((behavior) => {
+    modeBehaviors.forEach(behavior => {
       let type: string = '';
       if (isString(behavior)) {
         type = behavior;
@@ -119,7 +119,7 @@ export default class ModeController {
     }
     graph.emit('beforemodechange', { mode });
 
-    each(this.currentBehaves, (behave) => {
+    each(this.currentBehaves, behave => {
       behave.unbind(graph);
     });
 
@@ -155,7 +155,7 @@ export default class ModeController {
     }
 
     if (isArray(modes)) {
-      each(modes, (mode) => {
+      each(modes, mode => {
         if (!this.modes[mode]) {
           if (isAdd) {
             this.modes[mode] = behaves;
@@ -216,7 +216,7 @@ export default class ModeController {
     if (!mode || mode === this.mode || mode === 'default') {
       behaviorSet = this.currentBehaves;
       if (!behaviorSet || !behaviorSet.length) {
-        console.warn('Update behavior failed! There is no behaviors in this mode on the graph.')
+        console.warn('Update behavior failed! There is no behaviors in this mode on the graph.');
         return this;
       }
       const length = behaviorSet.length;
@@ -226,12 +226,13 @@ export default class ModeController {
           behave.updateCfg(newCfg);
           return this;
         }
-        if (i === length - 1) console.warn('Update behavior failed! There is no such behavior in the mode');
+        if (i === length - 1)
+          console.warn('Update behavior failed! There is no such behavior in the mode');
       }
     } else {
       behaviorSet = this.modes[mode];
       if (!behaviorSet || !behaviorSet.length) {
-        console.warn('Update behavior failed! There is no behaviors in this mode on the graph.')
+        console.warn('Update behavior failed! There is no behaviors in this mode on the graph.');
         return this;
       }
       const length = behaviorSet.length;
@@ -240,10 +241,11 @@ export default class ModeController {
         if (behave.type === behavior.type || behave === behavior.type) {
           if (behave === behavior.type) behave = { type: behave };
           Object.assign(behave, newCfg);
-          behaviorSet[i] = behave
+          behaviorSet[i] = behave;
           return this;
         }
-        if (i === length - 1) console.warn('Update behavior failed! There is no such behavior in the mode');
+        if (i === length - 1)
+          console.warn('Update behavior failed! There is no such behavior in the mode');
       }
     }
 
@@ -253,7 +255,7 @@ export default class ModeController {
   public destroy() {
     (this.graph as IAbstractGraph | null) = null;
     (this.modes as Modes | null) = null;
-    (this.currentBehaves as IBehavior[] | null) = null;
+    (this.currentBehaves as IBehaviorOption[] | null) = null;
     this.destroyed = true;
   }
 }

@@ -1,6 +1,7 @@
 import Behavior from './behavior';
 import AbstractGraph from './graph/graph';
 import Shape, { Arrow, Marker } from './element';
+import { IBehavior } from './types';
 import Global from './global';
 import Util from './util';
 // 用于 PC 和 Mobile 端分别实现 layout 和 updateLayoutCfg 方法
@@ -15,7 +16,7 @@ import Combo from './item/combo';
 const registerNode = Shape.registerNode;
 const registerEdge = Shape.registerEdge;
 const registerCombo = Shape.registerCombo;
-const registerBehavior = Behavior.registerBehavior;
+const registerBehavior = (Behavior as IBehavior).registerBehavior;
 const BaseGlobal = Global;
 
 export {
@@ -52,7 +53,7 @@ export default {
   registerNode: Shape.registerNode,
   registerEdge: Shape.registerEdge,
   registerCombo: Shape.registerCombo,
-  registerBehavior: Behavior.registerBehavior,
+  registerBehavior: (Behavior as IBehavior).registerBehavior,
   Arrow,
   Marker,
   AbstractLayout,
