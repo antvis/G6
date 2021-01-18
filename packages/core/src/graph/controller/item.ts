@@ -116,11 +116,11 @@ export default class ItemController {
 
       if ((source as Item).getType && (source as Item).getType() === 'combo') {
         model.isComboEdge = true;
-        graph.updateCombo(source as ICombo);
+        // graph.updateCombo(source as ICombo);
       }
       if ((target as Item).getType && (target as Item).getType() === 'combo') {
         model.isComboEdge = true;
-        graph.updateCombo(target as ICombo);
+        // graph.updateCombo(target as ICombo);
       }
 
       item = new Edge({
@@ -260,10 +260,32 @@ export default class ItemController {
       item.update(cfg, isOnlyMove);
       const edges: IEdge[] = (item as INode).getEdges();
       const refreshEdge = shouldRefreshEdge(cfg)!;
-      if (refreshEdge)
+      if (refreshEdge && type === NODE)
         each(edges, (edge: IEdge) => {
           edge.refresh();
         });
+      else if (refreshEdge && type === COMBO) {
+        const shapeFactory = item.get('shapeFactory');
+        const shapeType = (model.type as string) || 'circle';
+        const comboAnimate =
+          model.animate === undefined || cfg.animate === undefined
+            ? shapeFactory[shapeType]?.options?.animate
+            : model.animate || cfg.animate;
+        if (comboAnimate) {
+          setTimeout(() => {
+            if (!item || (item as ICombo).destroyed) return;
+            const keyShape = (item as ICombo).getKeyShape();
+            if (!keyShape || keyShape.destroyed) return;
+            each(edges, (edge: IEdge) => {
+              if (edge && !edge.destroyed) edge.refresh();
+            });
+          }, 201);
+        } else {
+          each(edges, (edge: IEdge) => {
+            edge.refresh();
+          });
+        }
+      }
     }
     graph.emit('afterupdateitem', { item, cfg });
   }
@@ -294,9 +316,27 @@ export default class ItemController {
     });
     const combEdges = combo.getEdges() || [];
     const length = combEdges.length;
-    for (let i = 0; i < length; i++) {
-      const edge = combEdges[i];
-      edge.refresh();
+
+    const model = combo.getModel();
+    const shapeFactory = combo.get('shapeFactory');
+    const shapeType = (model.type as string) || 'circle';
+    const comboAnimate =
+      model.animate === undefined ? shapeFactory[shapeType]?.options?.animate : model.animate;
+    if (comboAnimate) {
+      setTimeout(() => {
+        if (!combo || (combo as ICombo).destroyed) return;
+        const keyShape = (combo as ICombo).getKeyShape();
+        if (!keyShape || keyShape.destroyed) return;
+        for (let i = 0; i < length; i++) {
+          const edge = combEdges[i];
+          if (edge && !edge.destroyed) edge.refresh();
+        }
+      }, 201);
+    } else {
+      for (let i = 0; i < length; i++) {
+        const edge = combEdges[i];
+        if (edge && !edge.destroyed) edge.refresh();
+      }
     }
   }
 
@@ -611,10 +651,12 @@ export default class ItemController {
           return true;
         });
       });
-      children.forEach((child) => {
-        const childItem = graph.findById(child.id);
-        this.changeItemVisibility(childItem, visible);
-      });
+      if (children) {
+        children.forEach((child) => {
+          const childItem = graph.findById(child.id);
+          this.changeItemVisibility(childItem, visible);
+        });
+      }
 
       const edges = (item as INode).getEdges();
       each(edges, (edge: IEdge) => {
