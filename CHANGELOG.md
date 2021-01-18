@@ -7,6 +7,7 @@
 - fix: collapse and expand a combo with an empty sub combo error;
 - fix: update padding of rect combo;
 - fix: the graph in the minimap with circular layout is not centered, closes: #2555;
+- fix: edge background displays on a wrong place when autoRotate is true;
 
 #### 4.1.1
 
