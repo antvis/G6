@@ -2832,7 +2832,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   /**
    * 重新定义监听函数，复写参数类型
    */
-  public on(eventName: string, callback: (e: IG6GraphEvent) => void, once?: boolean): this {
+  public on<T = IG6GraphEvent>(eventName: string, callback: (e: T) => void, once?: boolean): this {
     return super.on(eventName, callback, once);
   }
 
