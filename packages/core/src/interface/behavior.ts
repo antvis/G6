@@ -3,9 +3,9 @@ import { G6Event, IG6GraphEvent, IShapeBase, Item, BehaviorOption } from '../typ
 import { IAbstractGraph } from './graph';
 
 export interface IBehavior {
-  registerBehavior(type: string, behavior: BehaviorOption): void;
-  hasBehavior(type: string): boolean;
-  getBehavior(type: string);
+  registerBehavior: (type: string, behavior: BehaviorOption) => void;
+  hasBehavior: (type: string) => boolean;
+  getBehavior: (type: string) => any;
 }
 
 export interface IBehaviorOption {

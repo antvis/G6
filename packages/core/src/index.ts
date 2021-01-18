@@ -19,6 +19,8 @@ const registerCombo = Shape.registerCombo;
 const registerBehavior = (Behavior as IBehavior).registerBehavior;
 const BaseGlobal = Global;
 
+export * from './types';
+
 export {
   Arrow,
   Shape,
@@ -37,8 +39,6 @@ export {
   AbstractEvent,
   BaseGlobal,
 };
-
-export * from './types';
 
 export default {
   version: Global.version,
