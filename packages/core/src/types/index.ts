@@ -174,10 +174,10 @@ export interface States {
 
 export interface StateStyles {
   [key: string]:
-  | ShapeStyle
-  | {
-    [key: string]: ShapeStyle;
-  };
+    | ShapeStyle
+    | {
+        [key: string]: ShapeStyle;
+      };
 }
 
 // model types (node edge group)
@@ -252,7 +252,7 @@ export interface GraphOptions {
     size: number | number[];
     color: string;
   }> &
-  ModelStyle;
+    ModelStyle;
 
   /**
    * 默认状态下边的配置，比如 type, size, color。会被写入的 data 覆盖。
@@ -262,7 +262,7 @@ export interface GraphOptions {
     size: number | number[];
     color: string;
   }> &
-  ModelStyle;
+    ModelStyle;
 
   /**
    * Combo 默认配置
@@ -272,7 +272,7 @@ export interface GraphOptions {
     size: number | number[];
     color: string;
   }> &
-  ModelStyle;
+    ModelStyle;
 
   nodeStateStyles?: StateStyles;
 
@@ -402,10 +402,10 @@ export interface TreeGraphData {
   depth?: number;
   collapsed?: boolean;
   style?:
-  | ShapeStyle
-  | {
-    [key: string]: ShapeStyle;
-  };
+    | ShapeStyle
+    | {
+        [key: string]: ShapeStyle;
+      };
   stateStyles?: StateStyles;
   [key: string]: unknown;
 }
@@ -605,6 +605,11 @@ export enum G6Event {
   NODE_DRAGSTART = 'node:dragstart',
   NODE_DRAG = 'node:drag',
   NODE_DRAGEND = 'node:dragend',
+  NODE_TAP = 'node:tap',
+  NODE_PANSTART = 'node:panstart',
+  NODE_PANMOVE = 'node:panmove',
+  NODE_PANEND = 'node:panend',
+
   // combo, extends from nodes
   COMBO_CONTEXTMENU = 'combo:contextmenu',
   COMBO_CLICK = 'combo:click',
@@ -657,6 +662,7 @@ export enum G6Event {
   CANVAS_DRAGSTART = 'canvas:dragstart',
   CANVAS_DRAG = 'canvas:drag',
   CANVAS_DRAGEND = 'canvas:dragend',
+  CANVAS_TAP = 'canvas:tap',
 
   // timing events
   BEFORERENDER = 'beforerender',
@@ -700,6 +706,14 @@ export enum G6Event {
   VIEWPORTCHANGE = 'viewportchange',
   DRAGNODEEND = 'dragnodeend',
   STACKCHANGE = 'stackchange',
+
+  // Mobile event support
+  TAP = 'tap',
+  PINCHSTART = 'pinchstart',
+  PINCHMOVE = 'pinchmove',
+  PANSTART = 'panstart',
+  PANMOVE = 'panmove',
+  PANEND = 'panend',
 }
 
 export type DefaultBehaviorType = IG6GraphEvent | string | number | object;
