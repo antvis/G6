@@ -80,12 +80,12 @@ export default {
     const self = this as any;
     const event = e.originalEvent as MouseEvent;
 
-    if (event && event.button !== 0) {
+    if (event && e.name !== G6Event.TOUCHSTART && event.button !== 0) {
       return;
     }
 
     if (
-      e.name !== 'touchstart' &&
+      e.name !== G6Event.TOUCHSTART &&
       typeof window !== 'undefined' &&
       window.event &&
       !(window.event as any).buttons &&
