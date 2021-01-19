@@ -68,12 +68,14 @@ export default class Graph extends AbstractGraph implements IGraph {
     const height: number = this.get('height');
     const renderer: string = this.get('renderer');
     const context: string = this.get('context');
+    const isMini: boolean = this.get('isMini');
 
     const canvasCfg: any = {
       container,
       context,
       width,
       height,
+      isMini,
     };
     const pixelRatio = this.get('pixelRatio');
     if (pixelRatio) {
