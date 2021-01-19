@@ -1,5 +1,9 @@
 # ChangeLog
 
+#### 4.1.4
+
+- fix: drag-canvas with touch on mobile;
+
 #### 4.1.2
 
 - fix: registerBehavior export problem;
