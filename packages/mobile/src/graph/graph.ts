@@ -47,9 +47,10 @@ export default class Graph extends AbstractGraph implements IGraph {
       eventController,
     });
 
-    if (this.get('context')) {
+    if (this.get('renderer') === 'mini') {
       return;
     }
+
     const canvas: GMobileCanvas = this.get('canvas');
     const canvasDom = canvas.get('el');
     'touchstart touchmove touchend touchcancel'.split(' ').forEach((key) => {
@@ -68,16 +69,16 @@ export default class Graph extends AbstractGraph implements IGraph {
     const height: number = this.get('height');
     const renderer: string = this.get('renderer');
     const context: string = this.get('context');
-    const isMini: boolean = this.get('isMini');
 
     const canvasCfg: any = {
       container,
       context,
       width,
       height,
-      isMini,
+      renderer,
     };
     const pixelRatio = this.get('pixelRatio');
+
     if (pixelRatio) {
       canvasCfg.pixelRatio = pixelRatio;
     }
