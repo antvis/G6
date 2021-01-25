@@ -60,6 +60,7 @@ describe('create-edge', () => {
     expect(graph.getEdges().length).toEqual(2);
     const loop = graph.getEdges()[1];
     expect(loop.getModel().source).toEqual(loop.getModel().target);
+
     graph.destroy();
   });
   it('create edge width polyline edge', () => {
@@ -355,7 +356,8 @@ describe('create-edge', () => {
     expect(edge.getModel().type).toEqual('cubic');
     let keyShape = edge.getKeyShape();
     expect(keyShape.attr('stroke')).toEqual('#f00');
-    expect(keyShape.attr('lineWidth')).toEqual(1);
+    // merge 了 defaultEdge 的 lineWidth
+    expect(keyShape.attr('lineWidth')).toEqual(5);
 
     // cancel
     graph.emit('edge:click', { x: 100, y: 100, item: edge });
@@ -368,7 +370,8 @@ describe('create-edge', () => {
     edge = graph.getEdges()[1];
     keyShape = edge.getKeyShape();
     expect(keyShape.attr('stroke')).toEqual('#f00');
-    expect(keyShape.attr('lineWidth')).toEqual(1);
+    // merge 了 defaultEdge 的 lineWidth
+    expect(keyShape.attr('lineWidth')).toEqual(5);
 
     graph.destroy();
   });

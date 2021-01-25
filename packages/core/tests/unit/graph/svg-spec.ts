@@ -3,9 +3,12 @@ import { AbstractGraph } from '../../../src';
 import '../../../src/behavior';
 import { scale, translate } from '../../../src/util/math';
 import { EdgeConfig } from '../../../src/types';
+import { mat3 } from '@antv/matrix-util';
+import { clone } from '@antv/util';
 
 const div = document.createElement('div');
 div.id = 'global-spec';
+div.style.backgroundColor = '#ccc';
 document.body.appendChild(div);
 const div2 = document.createElement('div');
 div2.id = 'graph-spec';
@@ -56,7 +59,7 @@ describe('graph', () => {
     container: div,
     width: 500,
     height: 500,
-    renderer: 'svg',
+    // renderer: 'svg',
     modes: {
       default: ['drag-node'],
     },
@@ -323,15 +326,12 @@ describe('graph', () => {
 
   it('zoom', () => {
     globalGraph.zoom(3, { x: 100, y: 100 });
-
     const matrix = globalGraph.get('group').getMatrix();
-
     expect(matrix[0]).toBe(3);
     expect(matrix[4]).toBe(3);
     expect(matrix[6]).toBe(-200);
     expect(matrix[7]).toBe(-200);
     expect(globalGraph.getZoom()).toBe(3);
-
     globalGraph.get('group').resetMatrix();
   });
 
@@ -464,15 +464,15 @@ describe('graph', () => {
   it('refresh positions', () => {
     const data = { id: 'node8', x: 100, y: 50, size: 50, className: 'test test2' };
     const node = globalGraph.addItem('node', data);
-    const group = node.get('group');
+    let group = node.get('group');
 
     expect(group.getMatrix()[6]).toBe(100);
     expect(group.getMatrix()[7]).toBe(50);
 
     data.x = 50;
     data.y = 100;
-
     globalGraph.refreshPositions();
+    group = node.get('group');
     expect(group.getMatrix()[6]).toBe(50);
     expect(group.getMatrix()[7]).toBe(100);
   });
@@ -829,7 +829,7 @@ describe('all node link center', () => {
       },
     });
 
-    // TODO addItem有style会直接覆盖defaultNode中定义的
+    //  addItem有style会直接和defaultNode中定义的merge
     const node = defaultGraph.addItem('node', {
       id: 'node9',
       x: 100,
@@ -848,7 +848,7 @@ describe('all node link center', () => {
     const keyShape = node.get('keyShape');
 
     expect(keyShape.get('type')).toEqual('rect');
-    // expect(keyShape.attr('fill')).toEqual('red');
+    expect(keyShape.attr('fill')).toEqual('red');
     expect(keyShape.attr('stroke')).toEqual('#666');
 
     defaultGraph.setItemState(node, 'selected', true);

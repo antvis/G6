@@ -13,6 +13,7 @@ import {
 import { ITreeGraph } from '../interface/graph';
 import Util from '../util';
 import Graph from './graph';
+
 const { radialLayout, traverseTree } = Util;
 
 export default class TreeGraph extends Graph implements ITreeGraph {

@@ -1,6 +1,7 @@
 import { G6Event, IG6GraphEvent } from '@antv/g6-core';
 import { IGraph } from '../interface/graph';
 import Util from '../util';
+
 const { cloneEvent, isNaN } = Util;
 
 const { abs } = Math;
@@ -79,12 +80,12 @@ export default {
     const self = this as any;
     const event = e.originalEvent as MouseEvent;
 
-    if (event && event.button !== 0) {
+    if (event && e.name !== G6Event.TOUCHSTART && event.button !== 0) {
       return;
     }
 
     if (
-      e.name !== 'touchstart' &&
+      e.name !== G6Event.TOUCHSTART &&
       typeof window !== 'undefined' &&
       window.event &&
       !(window.event as any).buttons &&
@@ -107,7 +108,7 @@ export default {
         const shapes = edges[i].get('group').get('children');
         if (!shapes) continue;
         shapes.forEach((shape) => {
-          shape.set('ori-visibility', shape.get('visible'));
+          shape.set('ori-visibility', shape.get('ori-visibility') || shape.get('visible'));
           shape.hide();
         });
       }
@@ -118,7 +119,7 @@ export default {
         for (const child of children) {
           const isKeyShape = child.get('isKeyShape');
           if (!isKeyShape) {
-            child.set('ori-visibility', child.get('visible'));
+            child.set('ori-visibility', child.get('ori-visibility') || child.get('visible'));
             child.hide();
           }
         }

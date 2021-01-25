@@ -56,3 +56,37 @@ graph.removeBehaviors('brush-select', ['default', 'select']);
 // 从多个模式中移除多个 Behavior
 graph.removeBehaviors(['brush-select', 'click-select'], ['default', 'select']);
 ```
+
+### graph.updateBehavior(behavior, mode)
+
+更新某个模式下的 behavior 的参数。
+
+**参数**
+
+| 名称      | 类型           | 是否必选 | 描述             |
+| --------- | -------------- | -------- | ----------------------------------------- |
+| behavior | string | true     | 需要更新的 behavior 类型名 |
+| newCfg   | object | true     | 新的配置项                   |
+| mode     | string | false    | 需要修改的 behavior 所在的模式名称，默认为 'default'     |
+
+**用法**
+
+```javascript
+const graph = new Graph({
+  ... // 其他配置项
+  modes: {
+    default: ['zoom-canvas', 'drag-canvas'],
+    select: ['click-select']
+  }
+})
+
+graph.data(data);
+graph.render();
+
+// 更新 'default' 模式下的 behavior 'zoom-canvas'
+graph.updateBehavior('zoom-canvas', { sensitivity: 1.5, enableOptimize: true}, 'default');
+
+// 更新 'select' 模式下的 behavior 'click-select'
+graph.updateBehavior('click-select', { trigger: 'ctrl' }, 'select');
+```
+

@@ -29,20 +29,17 @@ describe('edge label with background', () => {
     });
 
     graph.read({
-      nodes: [
-        { id: '1', x: 100, y: 100 },
-        { id: '2', x: 100, y: 100 },
-      ],
+      nodes: [{ id: '1', x: 100, y: 100 }, { id: '2', x: 100, y: 100 }],
       edges: [{ source: '1', target: '2', label: 'abc' }],
     });
 
     const edge = graph.getEdges()[0];
     const group = edge.getContainer();
     const bgRect = group.find(e => e.get('name') === 'text-bg-shape');
-    expect(bgRect.attr('x')).toBe(86.7138671875);
+    expect(Math.abs(bgRect.attr('x') - 86) < 1).toBe(true);
     expect(bgRect.attr('y')).toBe(91);
-    expect(bgRect.attr('width')).toBe(26.572265625);
+    expect(bgRect.attr('width') - 27 < 1).toBe(true);
     expect(bgRect.attr('height')).toBe(18);
-    graph.destroy()
+    graph.destroy();
   });
 });

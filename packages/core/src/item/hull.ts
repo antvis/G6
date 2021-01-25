@@ -7,8 +7,8 @@ import { pathToPoints, getClosedSpline, roundedHull, paddedHull } from '../util/
 import { isPolygonsIntersect } from '../util/math';
 import { IAbstractGraph } from '../interface/graph';
 
-import { genConvexHull } from '../shape/hull/convexHull';
-import { genBubbleSet } from '../shape/hull/bubbleset';
+import { genConvexHull } from '../element/hull/convexHull';
+import { genBubbleSet } from '../element/hull/bubbleset';
 
 /**
  * 用于包裹内部的成员的轮廓。
@@ -104,11 +104,19 @@ export default class Hull {
         break;
       case 'smooth-convex':
         contour = genConvexHull(members);
-        hull = paddedHull(
-          contour.map((p) => [p.x, p.y]),
-          this.padding,
-        );
-        path = contour.length >= 2 && getClosedSpline(hull);
+        if (contour.length === 2) {
+          hull = roundedHull(
+            contour.map((p) => [p.x, p.y]),
+            this.padding,
+          );
+          path = parsePathString(hull);
+        } else if (contour.length > 2) {
+          hull = paddedHull(
+            contour.map((p) => [p.x, p.y]),
+            this.padding,
+          );
+          path = getClosedSpline(hull);
+        }
         break;
       case 'bubble':
         contour = genBubbleSet(members, nonMembers, this.cfg.bubbleCfg);

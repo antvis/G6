@@ -1,5 +1,6 @@
 import { G6Event, IG6GraphEvent, IPoint, Item } from '@antv/g6-core';
 import Util from '../util';
+
 const { isPolygonsIntersect, pathToPoints } = Util;
 
 const DEFAULT_TRIGGER = 'shift';

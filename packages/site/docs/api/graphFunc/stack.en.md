@@ -7,9 +7,9 @@ order: 13
 
 Push operation。
 
-Implemented the undo function, refer to [here](https://github.com/antvis/G6/blob/master/src/plugins/toolBar/index.ts#L184)
+Implemented the undo function, refer to [here](https://github.com/antvis/G6/blob/master/packages/plugin/src/toolBar/index.ts#L208)
 
-Implemented the redo function, refer to[here](https://github.com/antvis/G6/blob/master/src/plugins/toolBar/index.ts#L271)
+Implemented the redo function, refer to[here](https://github.com/antvis/G6/blob/master/packages/plugin/src/toolBar/index.ts#L295)
 
 **参数**
 

@@ -7,7 +7,11 @@ Built-in Rect Combo has the default style as below, the label is drawed on the l
 
 ## Usage
 
-As stated in [Built-in Combos](/en/docs/manual/middle/elements/combos/defaultCombo) , there are two ways to configure the combo: Configure it when instantiating a Graph globally; Configure it in the data.
+As stated in [Built-in Combos](/en/docs/manual/middle/elements/combos/defaultCombo) , there are three methods to configure combos: Configure combos globally when instantiating a Graph; Configure combos in their data; Configure combos by `graph.combo(comboFn)`. Their priorities are:
+
+`graph.combo(comboFn` > Configure in data > Configure globally
+
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span> Expect for `id`, `parentId`, and `label` which should be assigned to every single combo data, the other configurations in [The Common Property](/en/docs/manual/middle/elements/combos/defaultCombo#common-property) and in each combo type (refer to doc of each combo type) support to be assigned by the three ways.
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span> Must set the `groupByTypes` to `false` when instantiating the graph, which will result in rendering result with reasonable visual zIndex for combos.
 

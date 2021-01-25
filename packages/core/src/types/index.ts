@@ -22,6 +22,7 @@ export interface IG6GraphEvent extends GraphEvent {
   detail: number;
   key?: string;
   target: IShapeBase & ICanvas;
+  [key: string]: unknown;
 }
 
 // Math types
@@ -151,6 +152,7 @@ export interface ModeOption {
   edgeConfig?: EdgeConfig;
   functionName?: string;
   functionParams?: any[];
+  relayout?: boolean;
   shouldUpdate?: (e: IG6GraphEvent) => boolean;
   shouldBegin?: (e: IG6GraphEvent) => boolean;
   shouldEnd?: (e: IG6GraphEvent) => boolean;
@@ -719,15 +721,15 @@ export enum G6Event {
 export type DefaultBehaviorType = IG6GraphEvent | string | number | object;
 
 export interface BehaviorOption {
-  getEvents(): {
+  getEvents: () => {
     [key in G6Event]?: string;
   };
-  getDefaultCfg?(): object;
-  shouldBegin?(e?: IG6GraphEvent): boolean;
-  shouldUpdate?(e?: IG6GraphEvent): boolean;
-  shouldEnd?(e?: IG6GraphEvent): boolean;
-  bind?(e: IAbstractGraph): void;
-  unbind?(e: IAbstractGraph): void;
+  getDefaultCfg?: () => object;
+  shouldBegin?: (e?: IG6GraphEvent) => boolean;
+  shouldUpdate?: (e?: IG6GraphEvent) => boolean;
+  shouldEnd?: (e?: IG6GraphEvent) => boolean;
+  bind?: (e: IAbstractGraph) => void;
+  unbind?: (e: IAbstractGraph) => void;
   [key: string]: unknown;
 }
 
@@ -794,4 +796,5 @@ export interface HullCfg {
     opacity?: number;
   };
   bubbleCfg?: BubblesetCfg; // 用于更精细控制bubble的效果（点和边轮廓的松弛程度，轮廓粒度），一般不需要配置
+  update?: string;
 }

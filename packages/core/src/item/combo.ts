@@ -53,15 +53,19 @@ export default class Combo extends Node implements ICombo {
    * 根据 keyshape 计算包围盒
    */
   public calculateCanvasBBox(): IBBox {
+    if (this.destroyed) return;
     const keyShape: IShapeBase = this.get('keyShape');
     const group: IGroup = this.get('group');
     // 因为 group 可能会移动，所以必须通过父元素计算才能计算出正确的包围盒
     const bbox = getBBox(keyShape, group);
-    bbox.x = bbox.minX;
-    bbox.y = bbox.minY;
     bbox.centerX = (bbox.minX + bbox.maxX) / 2;
     bbox.centerY = (bbox.minY + bbox.maxY) / 2;
     const cacheSize = this.get(CACHE_SIZE);
+
+    const cacheBBox = this.get(CACHE_BBOX) || {};
+    const oriX = cacheBBox.x;
+    const oriY = cacheBBox.x;
+
     if (cacheSize) {
       const type: string = keyShape.get('type');
       if (type === 'circle') {
@@ -81,6 +85,9 @@ export default class Combo extends Node implements ICombo {
       bbox.centerX = (bbox.minX + bbox.maxX) / 2;
       bbox.centerY = (bbox.minY + bbox.maxY) / 2;
     }
+    bbox.x = bbox.minX;
+    bbox.y = bbox.minY;
+    if (bbox.x !== oriX || bbox.y !== oriY) this.set(CACHE_ANCHOR_POINTS, null);
     return bbox;
   }
 

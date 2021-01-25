@@ -1,6 +1,7 @@
 import { each, isNil, mix } from '@antv/util';
 import { IEdge, INode } from '../interface/item';
 import { IPoint, IShapeBase, NodeConfig } from '../types';
+import { getBBox } from '../util/graphic';
 import {
   distance,
   getCircleIntersectByPoint,
@@ -112,8 +113,8 @@ export default class Node extends Item implements INode {
     let centerY;
     const bbox = this.getBBox();
     if (itemType === 'combo') {
-      centerX = (bbox.maxX + bbox.minX) / 2;
-      centerY = (bbox.maxY + bbox.minY) / 2;
+      centerX = bbox.centerX || (bbox.maxX + bbox.minX) / 2;
+      centerY = bbox.centerY || (bbox.maxY + bbox.minY) / 2;
     } else {
       centerX = bbox.centerX;
       centerY = bbox.centerY;
@@ -177,16 +178,11 @@ export default class Node extends Item implements INode {
       const points = shapeFactory.getAnchorPoints(type, shapeCfg) || [];
 
       each(points, (pointArr, index) => {
-        const point = mix(
-          {
-            x: bbox.minX + pointArr[0] * bbox.width,
-            y: bbox.minY + pointArr[1] * bbox.height,
-          },
-          pointArr[2],
-          {
-            index,
-          },
-        );
+        const point = {
+          x: bbox.minX + pointArr[0] * bbox.width,
+          y: bbox.minY + pointArr[1] * bbox.height,
+          anchorIndex: index,
+        };
         anchorPoints.push(point);
       });
       this.set(CACHE_ANCHOR_POINTS, anchorPoints);

@@ -29,7 +29,7 @@ const graph = new G6.Graph({
 
 <description> _string | HTMLElement_ **required** </description>
 
-图的  DOM 容器，可以传入该 DOM 的 id 或者直接传入容器的 HTML 节点对象。
+图的 DOM 容器，可以传入该 DOM 的 id 或者直接传入容器的 HTML 节点对象。
 
 ### GraphOptions.width
 
@@ -83,7 +83,7 @@ const graph = new G6.Graph({
 
 <description> _Object_ **optional** _default:_ `{}`</description>
 
-设置画布的交互模式。详情可见  [交互模式 Mode](/zh/docs/manual/middle/states/mode)  文档。
+设置画布的交互模式。详情可见 [交互模式 Mode](/zh/docs/manual/middle/states/mode) 文档。
 
 #### GraphOptions.modes.default
 
@@ -97,7 +97,7 @@ const graph = new G6.Graph({
 
 各个状态下节点的样式，例如 `hover`、`selected`，3.1 版本新增。
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> G6 3.1 版本中实例化 Graph 时，新增了 `nodeStateStyles` 及  `edgeStateStyles` 两个配置项，删除了 `nodeStyle` 和 `edgeStyle` ，使用 3.1 以下版本的同学，只需要将  `nodeStyle` 改成 `nodeStateStyles` ，将  `edgeStyle` 改成  `edgeStateStyles` ，配置内容保持不变。
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> G6 3.1 版本中实例化 Graph 时，新增了 `nodeStateStyles` 及 `edgeStateStyles` 两个配置项，删除了 `nodeStyle` 和 `edgeStyle` ，使用 3.1 以下版本的同学，只需要将 `nodeStyle` 改成 `nodeStateStyles` ，将 `edgeStyle` 改成 `edgeStateStyles` ，配置内容保持不变。
 
 ### GraphOptions.edgeStateStyles
 

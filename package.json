@@ -10,20 +10,31 @@
     "build:site": "cd ./packages/site && npm run start",
     "build:core": "cd ./packages/core && npm run build",
     "build:element": "cd ./packages/element && npm run build",
-    "build:plugin": "cd ./packages/pc-plugins && npm run build",
-    "build:g6-pc": "cd ./packages/pc && npm run build",
-    "build:g6-mobile": "cd ./packages/mobile && npm run build",
+    "build:plugin": "cd ./packages/plugin && npm run build",
+    "build:pc": "cd ./packages/pc && npm run build",
     "build:g6": "cd ./packages/g6 && npm run build",
-    "build:all": "npm run build:core && npm run build:element && npm run build:plugin && npm run build:g6-pc && npm run build:g6 build:g6-mobile",
-    "build": "lerna build",
-    "lint": "lerna run lint",
-    "test": "lerna run test --no-private",
+    "build:mobile": "cd ./packages/mobile && npm run build",
+    "build:all": "npm run build:core && npm run build:element && npm run build:plugin && npm run build:pc && npm run build:g6 && npm run build:mobile",
+    "lint:core": "cd ./packages/core && npm run lint",
+    "lint:element": "cd ./packages/element && npm run lint",
+    "lint:plugin": "cd ./packages/plugin && npm run lint",
+    "lint:pc": "cd ./packages/pc && npm run lint",
+    "lint:g6": "cd ./packages/g6 && npm run lint",
+    "lint:all": "npm run lint:core && npm run lint:element && npm run lint:plugin && npm run lint:pc && npm run lint:g6",
+    "build": "lerna run build --include-dependencies --stream",
+    "lint": "npm run lint:all",
+    "test:core": "cd ./packages/core && npm run test",
+    "test:element": "cd ./packages/element && npm run test",
+    "test:plugin": "cd ./packages/plugin && npm run test",
+    "test:pc": "cd ./packages/pc && npm run test",
+    "test": "npm run test:core && npm run test:element && npm run test:plugin && npm run test:pc",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
     "pretty-quick": "pretty-quick",
-    "clean": "lerna clean",
+    "clean": "lerna clean -y",
     "clear": "lerna clean && lerna clean -y",
     "clean:modules": "rimraf node_modules",
     "bootstrap": "lerna bootstrap",
+    "ci": "npm run clean && npm run clean:modules && npm install && npm run bootstrap && npm run build:all && npm run lint:all && npm run test",
     "ls": "lerna list"
   },
   "husky": {
@@ -39,7 +50,7 @@
   "dependencies": {
     "eslint": "^7.11.0",
     "eslint-config-prettier": "^6.7.0",
-    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-import": "^2.22.1",
     "husky": "^4.2.5",
     "lerna": "^3.19.0",
     "lint-staged": "^10.2.2",
@@ -51,10 +62,16 @@
     "tslint-config-airbnb": "^5.11.2",
     "tslint-config-prettier": "^1.18.0",
     "tslint-eslint-rules": "^5.4.0",
-    "typescript": "^4.0.3"
+    "typescript": "^3.5.3"
   },
   "devDependencies": {
     "@umijs/fabric": "^2.3.1",
-    "pre-commit": "^1.2.2"
+    "pre-commit": "^1.2.2",
+    "@types/react": "^16.9.35",
+    "@types/react-dom": "^16.9.8",
+    "react-scripts": "3.1.2"
+  },
+  "resolutions": {
+    "@types/react": "^16.9.35"
   }
 }

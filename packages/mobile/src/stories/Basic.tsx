@@ -21,7 +21,7 @@ for (let i = 0; i < 10; i++) {
   });
 }
 
-export interface BasicProps {}
+export interface BasicProps { }
 
 export const BasicDemo = () => {
   const ref = React.useRef(null);
@@ -30,7 +30,7 @@ export const BasicDemo = () => {
   useEffect(() => {
     if (!graph) {
       graph = new G6.Graph({
-        container: ReactDOM.findDOMNode(ref.current),
+        container: 'root',
         width: 500,
         height: 500,
         layout: {
@@ -104,5 +104,5 @@ export const BasicDemo = () => {
     graph.render();
   }, []);
 
-  return <div ref={ref}></div>;
+  return <div id="root" ref={ref}></div>;
 };

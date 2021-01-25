@@ -136,6 +136,8 @@ const graph = new G6.Graph({
 
 即有相同的配置项时，优先级高的方式将会覆盖优先级低的。
 
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 除 `id`、`source`、`target`、`label` 应当配置到每条边数据中外，其余的 [边的通用属性](#边的通用属性) 以及各个边类型的特有属性（见内置边类型）均支持三种配置方式。
+
 ### 实例化图时全局配置
 
 用户在实例化 Graph 时候可以通过 `defaultEdge`  配置边，这里的配置是全局的配置，将会在所有边上生效。

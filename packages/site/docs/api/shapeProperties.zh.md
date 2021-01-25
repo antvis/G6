@@ -26,7 +26,6 @@ G6 支持以下图形：
 - [rect](#矩形图形-rect)：矩形；
 - [ellipse](#椭圆图形-ellipse)：椭圆；
 - [polygon](#多边形图形-polygon)：多边形；
-- [fan](#扇形图形-fan)：扇形；
 - [image](#图片图形-image)：图片；
 - [marker](#标记图形-marker)：标记；
 - [path](#路径-path)：路径；

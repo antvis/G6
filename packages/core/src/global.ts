@@ -21,24 +21,24 @@ const colorSet = {
   mainFill: nodeMainFill,
 
   activeStroke: subjectColor,
-  activeFill: activeFill,
+  activeFill,
 
-  inactiveStroke: inactiveStroke,
+  inactiveStroke,
   inactiveFill: activeFill,
 
   selectedStroke: subjectColor,
   selectedFill: backColor,
 
-  highlightStroke: highlightStroke,
-  highlightFill: highlightFill,
+  highlightStroke,
+  highlightFill,
 
   disableStroke: edgeMainStroke,
   disableFill: disabledFill,
 
   // for edges
-  edgeMainStroke: edgeMainStroke,
+  edgeMainStroke,
   edgeActiveStroke: subjectColor,
-  edgeInactiveStroke: edgeInactiveStroke,
+  edgeInactiveStroke,
   edgeSelectedStroke: subjectColor,
   edgeHighlightStroke: subjectColor,
   edgeDisableStroke: edgeDisablesStroke,
@@ -64,7 +64,7 @@ const colorSet = {
 };
 
 export default {
-  version: '0.0.1',
+  version: '0.0.7',
   rootContainerClassName: 'root-container',
   nodeContainerClassName: 'node-container',
   edgeContainerClassName: 'edge-container',

@@ -1,4 +1,5 @@
 import { G6Event, IG6GraphEvent, EdgeConfig } from '@antv/g6-core';
+import { isFunction } from '@antv/util';
 import { IGraph } from '../interface/graph';
 
 const DEFAULT_TRIGGER = 'click';
@@ -12,6 +13,7 @@ export default {
       trigger: DEFAULT_TRIGGER,
       key: DEFAULT_KEY,
       edgeConfig: {},
+      getEdgeConfig: undefined,
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -72,11 +74,24 @@ export default {
     const node = ev.item;
     const graph: IGraph = self.graph;
     const model = node.getModel();
+    const getEdgeConfig = self.getEdgeConfig;
     // 如果起点已经指定而终点未指定，则指定终点
     if (self.addingEdge && self.edge) {
       if (!self.shouldEnd.call(self, ev)) return;
+
+      let edgeConfig;
+      if (getEdgeConfig && isFunction(getEdgeConfig)) {
+        edgeConfig = getEdgeConfig({
+          source: self.source,
+          target: model.id,
+        });
+      } else {
+        edgeConfig = self.edgeConfig;
+      }
+
       const updateCfg: EdgeConfig = {
         target: model.id,
+        ...edgeConfig,
       };
       if (self.source === model.id) {
         updateCfg.type = 'loop';
@@ -98,12 +113,23 @@ export default {
     } else {
       // 如果边的起点没有指定，则根据起点创建新边
       if (!self.shouldBegin.call(self, ev)) return;
+      // 获取自定义 edge 配置
+      let edgeConfig;
+      if (getEdgeConfig && isFunction(getEdgeConfig)) {
+        edgeConfig = getEdgeConfig({
+          source: model.id,
+          target: model.id,
+        });
+      } else {
+        edgeConfig = self.edgeConfig;
+      }
+
       self.edge = graph.addItem(
         'edge',
         {
           source: model.id,
           target: model.id,
-          ...self.edgeConfig,
+          ...edgeConfig,
         },
         false,
       );
@@ -148,51 +174,7 @@ export default {
       return;
     }
     if (self.addingEdge && self.edge === currentEdge) {
-      let cancelEdge = true;
-      // !graph.get('groupByTypes') 将会导致选中终点时实际上边在最上层，节点无法响应 click 事件
-      if (!graph.get('groupByTypes')) {
-        // 此时需要判断点击的位置是否在节点范围内，若在，则指定终点。否则取消增加边
-        const { x, y } = ev;
-        const nodes = graph.getNodes();
-        const length = nodes.length;
-        for (let i = 0; i < length; i++) {
-          const node = nodes[i];
-          const model = node.getModel();
-          const nodeBBox = node.getBBox();
-          if (
-            x <= nodeBBox.maxX &&
-            x >= nodeBBox.minX &&
-            y <= nodeBBox.maxY &&
-            y >= nodeBBox.minY
-          ) {
-            if (
-              !self.shouldEnd.call(self, {
-                x: ev.x,
-                y: ev.y,
-                canvasX: ev.canvasX,
-                canvasY: ev.canvasY,
-                clientX: ev.clientX,
-                clientY: ev.clientY,
-                item: node,
-              })
-            ) {
-              return;
-            }
-
-            graph.emit('beforecreateedge', {});
-
-            graph.updateItem(self.edge, {
-              target: model.id,
-            });
-            graph.emit('aftercreateedge', {
-              edge: self.edge,
-            });
-            cancelEdge = false;
-            break;
-          }
-        }
-      }
-      if (cancelEdge) graph.removeItem(self.edge, false);
+      graph.removeItem(self.edge, false);
       self.edge = null;
       self.addingEdge = false;
     }

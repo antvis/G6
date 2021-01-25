@@ -19,11 +19,11 @@ G6.registerNode(
           cursor: 'move'，
           stroke: ${cfg.color}
         }} draggable="true">
-          <text style={{ 
-            marginTop: 2, 
-            marginLeft: 75, 
-            textAlign: 'center', 
-            fontWeight: 'bold', 
+          <text style={{
+            marginTop: 2,
+            marginLeft: 75,
+            textAlign: 'center',
+            fontWeight: 'bold',
             fill: '#fff' }}>{{label}}</text>
         </rect>
         <rect style={{

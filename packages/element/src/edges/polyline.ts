@@ -82,7 +82,8 @@ registerEdge(
       const source = cfg.sourceNode;
       const target = cfg.targetNode;
       const radius = style.radius;
-      const { routeCfg } = this.options;
+      let { routeCfg } = this.options;
+      if (!routeCfg) routeCfg = {};
       routeCfg.offset = style.offset;
 
       let path = (this as any).getPath(points, source, target, radius, routeCfg);
@@ -126,7 +127,8 @@ registerEdge(
       const source = cfg.sourceNode;
       const target = cfg.targetNode;
       const radius = previousStyle.radius;
-      const { routeCfg } = this.options;
+      let { routeCfg } = this.options;
+      if (!routeCfg) routeCfg = {};
       routeCfg.offset = previousStyle.offset;
       let path = (this as any).getPath(points, source, target, radius, routeCfg);
       if ((isArray(path) && path.length <= 1) || (isString(path) && path.indexOf('L') === -1)) {

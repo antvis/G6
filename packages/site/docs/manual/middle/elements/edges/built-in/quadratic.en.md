@@ -7,7 +7,11 @@ A built-in edge Quadratic has the default style as below.<br /> <img src='https:
 
 ## Usage
 
-As stated in [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge) , there are two ways to configure the edge: Configure it when instantiating a Graph globally; Configure it in the data.
+As stated in [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge) , there are three methods to configure edges: Configure edges globally when instantiating a Graph; Configure edges in their data; Configure edges by `graph.edge(edgeFn)`. Their priorities are:
+
+`graph.edge(edgeFn)` > Configure in data > Configure globally
+
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span> Expect for `id`, `source`, `target`, `label` which should be assigned to every single edge data, the other configurations in [The Common Property](/en/docs/manual/middle/elements/edges/defaultEdge#the-common-property) and in each edge type (refer to doc of each edge type) support to be assigned by the three ways.
 
 ### 1 Global Configure When Instantiating a Graph
 

@@ -62,7 +62,7 @@ describe('graph', () => {
     }).toThrowError('invalid container');
   });
 
-  it.only('new & destroy graph', () => {
+  it('new & destroy graph', () => {
     const inst = new Graph({
       container: div,
       width: 500,
@@ -860,7 +860,7 @@ describe('all node link center', () => {
       id: 'node1',
       x: 100,
       y: 100,
-      type: 'rect',
+      type: 'simple-rect',
       label: 'test label',
       style: {
         stroke: '#666',
@@ -877,8 +877,8 @@ describe('all node link center', () => {
     const keyShape = node.get('keyShape');
 
     expect(keyShape.get('type')).toEqual('rect');
-    // addItem 时候 model 中的 style 会覆盖 defaultNode 中定义的
-    expect(keyShape.attr('fill')).toEqual('rgb(239, 244, 255)');
+    // addItem 时候 model 中的 style 会和 defaultNode 中定义的做 merge
+    expect(keyShape.attr('fill')).toEqual('red');
     expect(keyShape.attr('stroke')).toEqual('#666');
 
     defaultGraph.setItemState(node, 'selected', true);
@@ -890,8 +890,8 @@ describe('all node link center', () => {
 
     defaultGraph.setItemState(node, 'selected', false);
 
-    // fill 使用默认的，addItem 时如果有 style 会覆盖 defaultNode 中定义的
-    expect(keyShape.attr('fill')).toEqual('rgb(239, 244, 255)');
+    // addItem 时候 model 中的 style 会和 defaultNode 中定义的做 merge
+    expect(keyShape.attr('fill')).toEqual('red');
     expect(keyShape.attr('fillStyle')).toBe(undefined);
     expect(keyShape.attr('stroke')).toEqual('#666');
     expect(keyShape.attr('strokeStyle')).toBe(undefined);
@@ -1046,7 +1046,7 @@ describe('mapper fn', () => {
       id: `${node.id}Mapped`,
       size: [30, 30],
       label: node.id,
-      type: 'rect',
+      type: 'simple-rect',
       style: { fill: node.value === 100 ? '#666' : '#ccc' },
       labelCfg: {
         style: { fill: '#666' },

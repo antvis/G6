@@ -26,7 +26,6 @@ G6 has these shapes:
 - [rect](#rect);
 - [ellipse](#ellipse);
 - [polygon](#polygon);
-- [fan](#fan);
 - [image](#image);
 - [marker](#marker);
 - [path](#path);

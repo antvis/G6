@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "4.0.4-beta.0",
+  "version": "4.1.4",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",
@@ -45,7 +45,7 @@
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --format=pretty \"./\"",
     "lint:src": "eslint --ext .ts --format=pretty \"./src\"",
     "prettier": "prettier -c --write \"**/*\"",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/graph/graph-watermarker-spec.ts",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
     "watch": "father build -w",
@@ -66,7 +66,7 @@
     ]
   },
   "dependencies": {
-    "@antv/g6-pc": "^0.0.1"
+    "@antv/g6-pc": "^0.0.8"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
@@ -74,7 +74,7 @@
     "@turf/turf": "^5.1.6",
     "@types/jest": "^25.2.1",
     "@types/node": "13.11.1",
-    "@typescript-eslint/eslint-plugin": "^3.9.0",
+    "@typescript-eslint/eslint-plugin": "^4.11.1",
     "@umijs/fabric": "^2.0.0",
     "babel-loader": "^8.0.6",
     "eslint": "^7.7.0",

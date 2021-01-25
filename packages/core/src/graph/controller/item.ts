@@ -24,7 +24,6 @@ const COMBO = 'combo';
 const CFG_PREFIX = 'default';
 const MAPPER_SUFFIX = 'Mapper';
 const STATE_SUFFIX = 'stateStyles';
-const { hasOwnProperty } = Object;
 
 type Id = string | Item | undefined;
 
@@ -62,6 +61,19 @@ export default class ItemController {
       styles = model[STATE_SUFFIX];
     }
 
+    if (defaultModel) {
+      // 很多布局会直接修改原数据模型，所以不能用 merge 的形式，逐个写入原 model 中
+      each(defaultModel, (val, cfg) => {
+        if (isObject(val) && !isArray(val)) {
+          model[cfg] = deepMix({}, val, model[cfg]);
+        } else if (isArray(val)) {
+          model[cfg] = model[cfg] || clone(defaultModel[cfg]);
+        } else {
+          model[cfg] = model[cfg] || defaultModel[cfg];
+        }
+      });
+    }
+
     const mapper = graph.get(vType + MAPPER_SUFFIX);
     if (mapper) {
       const mappedModel = mapper(model);
@@ -72,16 +84,12 @@ export default class ItemController {
       }
 
       // 如果配置了 defaultEdge 或 defaultNode，则将默认配置的数据也合并进去
-      model = deepMix({}, defaultModel, model, mappedModel);
-    } else if (defaultModel) {
-      // 很多布局会直接修改原数据模型，所以不能用 merge 的形式，逐个写入原 model 中
-      each(defaultModel, (val, cfg) => {
-        if (!hasOwnProperty.call(model, cfg)) {
-          if (isObject(val)) {
-            model[cfg] = clone(val);
-          } else {
-            model[cfg] = defaultModel[cfg];
-          }
+
+      each(mappedModel, (val, cfg) => {
+        if (isObject(val) && !isArray(val)) {
+          model[cfg] = deepMix({}, model[cfg], val);
+        } else {
+          model[cfg] = mappedModel[cfg] || model[cfg];
         }
       });
     }
@@ -108,11 +116,11 @@ export default class ItemController {
 
       if ((source as Item).getType && (source as Item).getType() === 'combo') {
         model.isComboEdge = true;
-        graph.updateCombo(source as ICombo);
+        // graph.updateCombo(source as ICombo);
       }
       if ((target as Item).getType && (target as Item).getType() === 'combo') {
         model.isComboEdge = true;
-        graph.updateCombo(target as ICombo);
+        // graph.updateCombo(target as ICombo);
       }
 
       item = new Edge({
@@ -251,11 +259,33 @@ export default class ItemController {
     if (type === NODE || type === COMBO) {
       item.update(cfg, isOnlyMove);
       const edges: IEdge[] = (item as INode).getEdges();
-      let refreshEdge = shouldRefreshEdge(cfg)!;
-      refreshEdge &&
+      const refreshEdge = shouldRefreshEdge(cfg)!;
+      if (refreshEdge && type === NODE)
         each(edges, (edge: IEdge) => {
           edge.refresh();
         });
+      else if (refreshEdge && type === COMBO) {
+        const shapeFactory = item.get('shapeFactory');
+        const shapeType = (model.type as string) || 'circle';
+        const comboAnimate =
+          model.animate === undefined || cfg.animate === undefined
+            ? shapeFactory[shapeType]?.options?.animate
+            : model.animate || cfg.animate;
+        if (comboAnimate) {
+          setTimeout(() => {
+            if (!item || (item as ICombo).destroyed) return;
+            const keyShape = (item as ICombo).getKeyShape();
+            if (!keyShape || keyShape.destroyed) return;
+            each(edges, (edge: IEdge) => {
+              if (edge && !edge.destroyed) edge.refresh();
+            });
+          }, 201);
+        } else {
+          each(edges, (edge: IEdge) => {
+            edge.refresh();
+          });
+        }
+      }
     }
     graph.emit('afterupdateitem', { item, cfg });
   }
@@ -286,9 +316,27 @@ export default class ItemController {
     });
     const combEdges = combo.getEdges() || [];
     const length = combEdges.length;
-    for (let i = 0; i < length; i++) {
-      const edge = combEdges[i];
-      edge.refresh();
+
+    const model = combo.getModel();
+    const shapeFactory = combo.get('shapeFactory');
+    const shapeType = (model.type as string) || 'circle';
+    const comboAnimate =
+      model.animate === undefined ? shapeFactory[shapeType]?.options?.animate : model.animate;
+    if (comboAnimate) {
+      setTimeout(() => {
+        if (!combo || (combo as ICombo).destroyed) return;
+        const keyShape = (combo as ICombo).getKeyShape();
+        if (!keyShape || keyShape.destroyed) return;
+        for (let i = 0; i < length; i++) {
+          const edge = combEdges[i];
+          if (edge && !edge.destroyed) edge.refresh();
+        }
+      }, 201);
+    } else {
+      for (let i = 0; i < length; i++) {
+        const edge = combEdges[i];
+        if (edge && !edge.destroyed) edge.refresh();
+      }
     }
   }
 
@@ -603,10 +651,12 @@ export default class ItemController {
           return true;
         });
       });
-      children.forEach((child) => {
-        const childItem = graph.findById(child.id);
-        this.changeItemVisibility(childItem, visible);
-      });
+      if (children) {
+        children.forEach((child) => {
+          const childItem = graph.findById(child.id);
+          this.changeItemVisibility(childItem, visible);
+        });
+      }
 
       const edges = (item as INode).getEdges();
       each(edges, (edge: IEdge) => {

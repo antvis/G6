@@ -201,9 +201,11 @@ G6.registerBehavior('zoom-canvas-exclude-lockedNode', {
     lockedNodes.forEach((node) => {
       const matrix = Util.clone(node.get('group').getMatrix());
       const center = node.getModel();
-      Util.mat3.translate(matrix, matrix, [-center.x, -center.y]);
-      Util.mat3.scale(matrix, matrix, [ratio, ratio]);
-      Util.mat3.translate(matrix, matrix, [center.x, center.y]);
+      matrix = Util.transform(matrix, [
+        ['t', -center.x, -center.y],
+        ['s', ratio, ratio],
+        ['t', center.x, center.y],
+      ]);
       node.get('group').setMatrix(matrix);
     });
     graph.paint();

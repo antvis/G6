@@ -125,30 +125,3 @@ export interface ITreeGraph extends IGraph {
    */
   isLayoutAnimating(): boolean;
 }
-
-export class G6GraphEvent extends GraphEvent implements IG6GraphEvent {
-  public item: Item;
-
-  public canvasX: number;
-
-  public canvasY: number;
-
-  public clientX: number;
-
-  public clientY: number;
-
-  public wheelDelta: number;
-
-  public detail: number;
-
-  public target!: IShapeBase & ICanvas;
-
-  constructor(type: string, event: IG6GraphEvent) {
-    super(type, event);
-    this.item = event.item;
-    this.canvasX = event.canvasX;
-    this.canvasY = event.canvasY;
-    this.wheelDelta = event.wheelDelta;
-    this.detail = event.detail;
-  }
-}

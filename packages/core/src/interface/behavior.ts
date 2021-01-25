@@ -1,17 +1,25 @@
 import { Event as GraphEvent, ICanvas } from '@antv/g-base';
-import { G6Event, IG6GraphEvent, IShapeBase, Item } from '../types';
+import { G6Event, IG6GraphEvent, IShapeBase, Item, BehaviorOption } from '../types';
 import { IAbstractGraph } from './graph';
 
 export interface IBehavior {
-  getEvents(): {
+  registerBehavior: (type: string, behavior: BehaviorOption) => void;
+  hasBehavior: (type: string) => boolean;
+  getBehavior: (type: string) => any;
+}
+
+export interface IBehaviorOption {
+  type: string;
+  getEvents: () => {
     [key in G6Event]?: string;
   };
-  getDefaultCfg?(): object;
-  shouldBegin?(e?: IG6GraphEvent): boolean;
-  shouldUpdate?(e?: IG6GraphEvent): boolean;
-  shouldEnd?(e?: IG6GraphEvent): boolean;
-  bind?(e: IAbstractGraph): void;
-  unbind?(e: IAbstractGraph): void;
+  updateCfg: (cfg: object) => {};
+  getDefaultCfg?: () => object;
+  shouldBegin?: (e?: IG6GraphEvent) => boolean;
+  shouldUpdate?: (e?: IG6GraphEvent) => boolean;
+  shouldEnd?: (e?: IG6GraphEvent) => boolean;
+  bind?: (e: IAbstractGraph) => void;
+  unbind?: (e: IAbstractGraph) => void;
 }
 
 export class G6GraphEvent extends GraphEvent implements IG6GraphEvent {
@@ -30,6 +38,8 @@ export class G6GraphEvent extends GraphEvent implements IG6GraphEvent {
   public detail: number;
 
   public target!: IShapeBase & ICanvas;
+
+  [key: string]: unknown;
 
   constructor(type: string, event: IG6GraphEvent) {
     super(type, event);

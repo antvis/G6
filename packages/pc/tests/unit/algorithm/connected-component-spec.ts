@@ -106,7 +106,7 @@ describe('find connected components', () => {
 
   it('detect strongly connected components in undirected graph', () => {
     let result = G6.Algorithm.connectedComponent(data, false);
-    console.log('result', result);
+    // console.log('result', result);
     expect(result.length).toEqual(2);
     expect(result[0].map((node) => node.id).sort()).toEqual(['A', 'B', 'C', 'D', 'E', 'F']);
     expect(result[1].map((node) => node.id).sort()).toEqual(['G', 'H']);

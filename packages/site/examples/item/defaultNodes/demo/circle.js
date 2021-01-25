@@ -68,18 +68,18 @@ const graph = new G6.Graph({
       //   width: 40,
       //   height: 40
     },
-    /* styles for different states, there are built-in styles for states: active, inactive, selected, highlight, disable */
-    // nodeStateStyles: {
-    //   // node style of active state
-    //   active: {
-    //     fillOpacity: 0.8,
-    //   },
-    //   // node style of selected state
-    //   selected: {
-    //     lineWidth: 5,
-    //   },
-    // },
   },
+  /* styles for different states, there are built-in styles for states: active, inactive, selected, highlight, disable */
+  // nodeStateStyles: {
+  //   // node style of active state
+  //   active: {
+  //     fillOpacity: 0.8,
+  //   },
+  //   // node style of selected state
+  //   selected: {
+  //     lineWidth: 5,
+  //   },
+  // },
 });
 
 graph.data(data);

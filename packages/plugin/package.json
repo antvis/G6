@@ -1,0 +1,62 @@
+{
+  "name": "@antv/g6-plugin",
+  "version": "0.0.6",
+  "description": "G6 Plugin",
+  "main": "lib/index.js",
+  "module": "es/index.ts",
+  "scripts": {
+    "build": "npm run clean && father build",
+    "ci": "npm run build && npm run coverage",
+    "clean": "rimraf es esm lib dist",
+    "coverage": "jest --coverage",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx --format=pretty \"./\"",
+    "lint:src": "eslint --ext .ts --format=pretty \"./src\"",
+    "prettier": "prettier -c --write \"**/*\"",
+    "test": "jest",
+    "test-live": "DEBUG_MODE=1 jest --watch ./tests/unit/minimap-spec.ts",
+    "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
+    "watch": "father build -w"
+  },
+  "dependencies": {
+    "@antv/dom-util": "^2.0.2",
+    "@antv/g-base": "^0.5.1",
+    "@antv/g-canvas": "^0.5.2",
+    "@antv/g-svg": "^0.5.2",
+    "@antv/g6-core": "^0.0.7",
+    "@antv/matrix-util": "^3.0.4",
+    "@antv/scale": "^0.3.4",
+    "@antv/util": "^2.0.9",
+    "insert-css": "^2.0.0"
+  },
+  "sideEffects": false,
+  "author": "",
+  "license": "MIT",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "npm run lint-staged:js",
+      "prettier --write"
+    ],
+    "**/*.{less,md,json}": [
+      "prettier --write"
+    ]
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.18",
+    "event-simulate": "^1.0.1",
+    "father": "^2.30.0",
+    "jest": "^26.6.3",
+    "jest-electron": "^0.1.11",
+    "jquery": "^3.5.1",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^26.4.4",
+    "@antv/g6": "^4.1.3"
+  }
+}

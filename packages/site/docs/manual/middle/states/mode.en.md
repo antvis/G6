@@ -79,6 +79,15 @@ graph.addBehaviors(['drag-canvas', 'zoom-canvas'], 'default');
 
 // Remove multiple behaviors from default mode
 graph.removeBehaviors(['drag-canvas', 'zoom-canvas'], 'default');
+
+// --------
+
+// Update the behavior 'zoom-canvas' from mode 'default'
+graph.updateBehavior('zoom-canvas', { sensitivity: 1.5, enableOptimize: true}, 'default');
+
+// update the behavior 'click-select' from mode 'select'
+graph.updateBehavior('click-select', { trigger: 'ctrl' }, 'select');
+
 ```
 
 ## Related Reading

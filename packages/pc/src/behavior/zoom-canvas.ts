@@ -1,7 +1,8 @@
 import { G6Event, IG6GraphEvent } from '@antv/g6-core';
-import { mat3 } from '@antv/matrix-util';
+import { ext } from '@antv/matrix-util';
 import { clone } from '@antv/util';
 
+const { transform } = ext;
 const DELTA = 0.05;
 
 export default {
@@ -180,7 +181,7 @@ export default {
             for (let c = 0; c < childrenLength; c++) {
               const shape = children[c];
               if (!shape.destoryed && !shape.get('isKeyShape')) {
-                shape.set('ori-visibility', shape.get('visible'));
+                shape.set('ori-visibility', shape.get('ori-visibility') || shape.get('visible'));
                 shape.hide();
               }
             }
@@ -193,7 +194,7 @@ export default {
           const childrenLength = children.length;
           for (let c = 0; c < childrenLength; c++) {
             const shape = children[c];
-            shape.set('ori-visibility', shape.get('visible'));
+            shape.set('ori-visibility', shape.get('ori-visibility') || shape.get('visible'));
             shape.hide();
           }
         }
@@ -245,7 +246,7 @@ export default {
             }
           }
         }
-      }, 500);
+      }, 100);
       this.set('timeout', timeout);
     }
 
@@ -273,9 +274,11 @@ export default {
               let groupMatrix = clone(group.getMatrix());
               if (!groupMatrix) groupMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
               const { x, y } = node.getModel();
-              mat3.translate(groupMatrix, groupMatrix, [-x, -y]);
-              mat3.scale(groupMatrix, groupMatrix, [scale, scale]);
-              mat3.translate(groupMatrix, groupMatrix, [x, y]);
+              groupMatrix = transform(groupMatrix, [
+                ['t', -x, -y],
+                ['s', scale, scale],
+                ['t', x, y],
+              ]);
               group.setMatrix(groupMatrix);
             }
           } else {

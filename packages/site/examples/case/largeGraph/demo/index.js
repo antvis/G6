@@ -1,9 +1,7 @@
 import G6 from '@antv/g6';
 import insertCss from 'insert-css';
+import AntVUtil from '@antv/util';
 
-// 我们用 insert-css 演示引入自定义样式
-// 推荐将样式添加到自己的样式文件中
-// 若拷贝官方代码，别忘了 npm install insert-css
 insertCss(`
   .g6-component-contextmenu {
     position: absolute;
@@ -37,7 +35,10 @@ insertCss(`
 `);
 
 const { labelPropagation, louvain, findShortestPath } = G6.Algorithm;
-const { isNumber, isArray, uniqueId } = G6.Util;
+const { uniqueId } = G6.Util;
+// 实际开发中把 AntVUtil || window.AntVUtil 换成从 @antv/util 引入的模块
+// Replace AntVUtil || window.AntVUtil by the module imported from @antv/util in your project
+const { isNumber, isArray } = AntVUtil || window.AntVUtil;
 
 const NODESIZEMAPPING = 'degree';
 const SMALLGRAPHLABELMAXLENGTH = 5;

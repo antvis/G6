@@ -37,6 +37,14 @@ module.exports = {
     'dot-notation': 0,
     'array-callback-return': 0,
     'one-var': 0,
-    'no-lonely-if': 0
+    'no-lonely-if': 0,
+    '@typescript-eslint/consistent-type-imports': 0,
+    "@typescript-eslint/no-this-alias": 0,
+    "@typescript-eslint/consistent-indexed-object-style": 0,
+    "@typescript-eslint/no-invalid-this": 0,
+    "@typescript-eslint/array-type": 0,
+    "@typescript-eslint/consistent-type-definitions": 0,
+    // using Record<string, unknown> instead
+    "@typescript-eslint/ban-types": 0
   },
 };
