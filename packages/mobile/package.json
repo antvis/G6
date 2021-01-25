@@ -35,6 +35,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "start": "father build --watch",
+    "analysis": "npm run clean && father build && ANALYZE=1 npm run build:umd",
     "build": "npm run clean && father build && npm run build:umd",
     "build:umd": "webpack --config webpack.config.js --mode production",
     "ci": "npm run build && npm run coverage",
@@ -67,7 +68,7 @@
   },
   "dependencies": {
     "@ant-design/colors": "^5.0.1",
-    "@antv/algorithm": "^0.0.4",
+    "@antv/algorithm": "^0.0.6",
     "@antv/dom-util": "^2.0.1",
     "@antv/event-emitter": "~0.1.0",
     "@antv/g-base": "^0.5.1",
@@ -76,7 +77,7 @@
     "@antv/g6-core": "*",
     "@antv/hierarchy": "^0.6.2",
     "@antv/layout": "^0.0.10",
-    "@antv/matrix-util": "^2.0.4",
+    "@antv/matrix-util": "^3.0.4",
     "@antv/path-util": "^2.0.3",
     "@antv/scale": "^0.3.1",
     "@antv/util": "~2.0.5",
@@ -115,6 +116,8 @@
     "ts-loader": "^7.0.3",
     "typescript": "^3.5.3",
     "webpack": "^4.41.4",
-    "webpack-cli": "^3.3.10"
+    "webpack-bundle-analyzer": "^4.4.0",
+    "webpack-cli": "^3.3.10",
+    "webpack-visualizer-plugin": "^0.1.11"
   }
 }

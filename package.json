@@ -5,6 +5,7 @@
     "packages/*"
   ],
   "scripts": {
+    "analysis:mobile": "cd ./packages/mobile && npm run analysis",
     "build:demos": "cd ./packages/pc && npm run demos",
     "build:demos-mobile": "cd ./packages/mobile && npm run demos",
     "build:site": "cd ./packages/site && npm run start",

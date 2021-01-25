@@ -1,4 +1,6 @@
 const webpack = require('webpack');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const Visualizer = require('webpack-visualizer-plugin');
 // eslint-disable-next-line prefer-destructuring
 const resolve = require('path').resolve;
 
@@ -55,6 +57,8 @@ module.exports = {
       },
     ],
   },
-  plugins: [new webpack.NoEmitOnErrorsPlugin(), new webpack.optimize.AggressiveMergingPlugin()],
+  plugins: process.env.ANALYZE ?
+    [new Visualizer(), new BundleAnalyzerPlugin(), new webpack.optimize.AggressiveMergingPlugin()] :
+    [new webpack.optimize.AggressiveMergingPlugin()],
   devtool: 'source-map',
 };
