@@ -3,7 +3,7 @@
   "version": "0.0.6",
   "description": "G6 Plugin",
   "main": "lib/index.js",
-  "module": "es/index.ts",
+  "module": "es/index.js",
   "scripts": {
     "build": "npm run clean && father build",
     "ci": "npm run build && npm run coverage",
