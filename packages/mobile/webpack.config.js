@@ -1,15 +1,27 @@
 const webpack = require('webpack');
+const fs = require('fs');
+const path = require('path');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const Visualizer = require('webpack-visualizer-plugin');
 // eslint-disable-next-line prefer-destructuring
 const resolve = require('path').resolve;
+// eslint-disable-next-line prefer-destructuring
+
+let entry = {
+  g6: './src/index.ts',
+};
+
+const extenders = fs.readdirSync(path.join(__dirname, './src/extends'));
+extenders.forEach((name) => {
+  entry[name] = `./src/extends/${name}/index.ts`;
+})
 
 module.exports = {
-  entry: {
-    g6: './src/index.ts',
-  },
+  entry,
   output: {
-    filename: '[name].min.js',
+    filename: (pathData) => {
+      return pathData.chunk.name === 'g6' ? '[name].min.js' : 'extends/[name].min.js';
+    },
     library: 'G6',
     libraryTarget: 'umd',
     libraryExport: 'default',
