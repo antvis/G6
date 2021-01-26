@@ -38,6 +38,7 @@ const G6 = {
   registerCombo,
   registerEdge,
   registerNode,
+  extend,
   Algorithm,
   Arrow,
   Marker,
