@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
+import AntVUtil from '@antv/util';
 
-const Util = G6.Util;
 let showNodes = [];
 let showEdges = [];
 let curShowNodes = [];
@@ -308,7 +308,7 @@ G6.registerEdge(
     drawShape(cfg, group) {
       const self = this;
       let shapeStyle = self.getShapeStyle(cfg);
-      shapeStyle = Util.mix(shapeStyle, {
+      shapeStyle = AntVUtil.mix(shapeStyle, {
         opacity: 0,
         strokeOpacity: 0,
       });

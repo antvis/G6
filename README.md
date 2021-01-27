@@ -115,6 +115,16 @@ For more information of the usage, please refer to [Getting Started](https://ant
 ```bash
 $ npm install
 
+# lerna bootstrap for multiple packages
+$ npm run bootstrap
+
+# build the packages
+$ npm run build:all
+
+# if you wanna watch one of the packages, e.g. packages/core
+$ cd ./packages/core
+$ npm run watch
+
 # run test case
 $ npm test
 
