@@ -649,8 +649,8 @@ interface TimeBarConfig extends IPluginBaseConfig {
 | container | HTMLDivElement | null | TimeBar 容器，如果不设置，则默认创建 className 为 g6-component-timebar 的 DOM 容器 |
 | x | number | 0 | TimeBar 开始 x 坐标 |
 | y | number | 0 | TimeBar 开始 y 坐标 |
-| width | number |  | 必选，TimeBar 容器宽度 |
-| height | number |  | 必选，TimeBar 高度 |
+| width | number |  | **必选**，TimeBar 容器宽度 |
+| height | number |  | **必选**，TimeBar 高度 |
 | padding | number/number[] | 10 | TimeBar 距离容器的间距值 |
 | type | 'trend' / 'simple' / 'tick' | trend | 默认的 TimeBar 类型，默认为趋势图样式 |
 | trend | TrendConfig | null | Timebar 中趋势图的配置项，当 type 为 trend 或 simple 时，该字段必选 |

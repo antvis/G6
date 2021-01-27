@@ -94,6 +94,10 @@ export default {
       return;
     }
 
+    if (!this.shouldBegin.call(this, e)) {
+      return;
+    }
+
     if (self.keydown) return;
     if (!(e.target && e.target.isCanvas && e.target.isCanvas())) return;
 
