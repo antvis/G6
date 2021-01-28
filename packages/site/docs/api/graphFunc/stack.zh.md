@@ -17,7 +17,7 @@ order: 13
 | --------- | ------- | -------- | ------------------------- | --------------------- |
 | action    | string  | false    | 操作类型，默认值为 update |
 | data      | unknown | false    | 入栈的数据                |
-| stackType | 'redo'  | 'undo'   | false                     | 入栈类型，默认为 redo |
+| stackType | 'redo'  / 'undo'   | false                     | 入栈类型，默认为 undo |
 
 ## getUndoStack()
 
