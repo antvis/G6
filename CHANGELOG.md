@@ -1,5 +1,15 @@
 # ChangeLog
 
+#### 4.1.5
+
+- fix: wrong style for modelRect after updating and state changing, closes: #2613;
+- fix: drag-canvas with shouldBegin false, closes: #2571;
+- fix: pack plugin with es module, closes: #2577;
+- feat: dijkstra with multiple shortest paths, closes: #2297;
+- fix: setMode while the delegates of brush-select and drag-node is on the canvas, closes: #2607;
+- docs: update the english TimeBar docs, closes: #2597;
+- fix: TimeBar time point switch text configurable, closes: #2597;
+
 #### 4.1.4
 
 - fix: drag-canvas with touch on mobile;

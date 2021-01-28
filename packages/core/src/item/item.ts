@@ -222,8 +222,10 @@ export default class ItemBase implements IItemBase {
           if (keyShapeStyle.matrix) delete keyShapeStyle.matrix;
           if (!keyShapeName) {
             Object.assign(originStyles, keyShapeStyle);
-          } else {
-            originStyles[keyShapeName] = keyShapeStyle;
+          } else { // 若 keyShape 有 name 且 !name，这个图形不是 keyShape，给这个图形一个 name
+            const shapeName = uniqueId('shape');
+            child.set('name', shapeName);
+            originStyles[shapeName] = shapeType !== 'image' ? clone(child.attr()) : self.getShapeStyleByName(name);
           }
         }
       });

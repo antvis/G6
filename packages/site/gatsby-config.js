@@ -233,7 +233,7 @@ module.exports = {
           zh: '图布局 Graph Layout',
           en: 'Graph Layout',
         },
-        order: 1,
+        order: 2,
       },
       {
         slug: 'api/graphFunc',
@@ -241,7 +241,7 @@ module.exports = {
           zh: 'Graph 实例方法',
           en: 'Graph Functions',
         },
-        order: 2,
+        order: 1,
       },
       {
         slug: 'api/treeGraphLayout',
@@ -249,10 +249,10 @@ module.exports = {
           zh: '树图布局 TreeGraph Layout',
           en: 'TreeGraph Layout',
         },
-        order: 4,
+        order: 5,
       },
       {
-        slug: 'api/items',
+        slug: 'api/Items',
         title: {
           zh: '元素方法和配置',
           en: 'Item Functions & Options',

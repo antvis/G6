@@ -808,9 +808,14 @@ type ControllerCfg = Partial<{
   readonly hiddleToggle: boolean;
   readonly fill?: string;
   readonly stroke?: string;
+  /** 快退按钮样式 */
   readonly preBtnStyle?: ShapeStyle;
+  /** 快进按钮样式 */
   readonly nextBtnStyle?: ShapeStyle;
+  /** 播放按钮样式 */
   readonly playBtnStyle?: ShapeStyle;
+  /** 右下角“单一时间”文本 */
+  readonly timePointControllerText?: string;
 }>
 ```
 
@@ -830,3 +835,4 @@ type ControllerCfg = Partial<{
 | preBtnStyle  | ShapeStyle | null         | 后退按钮样式配置项     |
 | nextBtnStyle | ShapeStyle | null         | 前进按钮样式配置项     |
 | playBtnStyle | ShapeStyle | null         | 播放按钮样式配置项     |
+| timePointControllerText | string | "单一时间"         | 右下角“单一时间”文本，默认为”单一时间“     |
