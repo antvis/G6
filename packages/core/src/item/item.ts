@@ -216,16 +216,18 @@ export default class ItemBase implements IItemBase {
         if (name && name !== keyShapeName) {
           originStyles[name] =
             shapeType !== 'image' ? clone(child.attr()) : self.getShapeStyleByName(name);
-        } else {
+        } else { //!name || name === keyShape
           const keyShapeStyle: ShapeStyle = self.getShapeStyleByName(); // 可优化，需要去除 child.attr 中其他 shape 名的对象
           if (keyShapeStyle.path) delete keyShapeStyle.path;
           if (keyShapeStyle.matrix) delete keyShapeStyle.matrix;
           if (!keyShapeName) {
             Object.assign(originStyles, keyShapeStyle);
           } else { // 若 keyShape 有 name 且 !name，这个图形不是 keyShape，给这个图形一个 name
-            const shapeName = uniqueId('shape');
-            child.set('name', shapeName);
-            originStyles[shapeName] = shapeType !== 'image' ? clone(child.attr()) : self.getShapeStyleByName(name);
+            if (!name) {
+              const shapeName = uniqueId('shape');
+              child.set('name', shapeName);
+              originStyles[shapeName] = shapeType !== 'image' ? clone(child.attr()) : self.getShapeStyleByName(name);
+            } else originStyles[keyShapeName] = keyShapeStyle
           }
         }
       });
