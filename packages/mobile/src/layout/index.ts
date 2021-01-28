@@ -1,3 +1,3 @@
-import { Layouts as Layout, registerLayout, Layout as oLayout } from '@antv/layout';
+import { Layouts as Layout, registerLayout } from '@antv/layout';
 
 export { Layout, registerLayout };
