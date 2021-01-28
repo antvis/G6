@@ -1,6 +1,8 @@
 ---
 title: 图配置 G6.Graph(cfg)
 order: 0
+redirect_from:
+  - /en/docs/api
 ---
 
 Graph 是 G6 图表的载体，所有的 G6 节点实例操作以及事件，行为监听都在 Graph 实例上进行。Graph 的初始化通过 new 进行实例化，实例化时需要传入需要的参数。

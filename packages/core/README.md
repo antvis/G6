@@ -115,8 +115,17 @@ For more information of the usage, please refer to [Getting Started](https://ant
 ```bash
 $ npm install
 
+# run bootstrap to link the packages
+$ npm run bootstrap
+
+# build all the packages
+$ npm run build:all
+
 # run test case
-$ npm test
+$ npm run test
+
+# run lint
+$ npm run lint
 
 # run test case in watch mode
 npm test -- --watch ./tests/unit/algorithm/find-path-spec
@@ -145,7 +154,7 @@ Users are welcome to join the **G6 Communication Group** or **G6 Communication G
 
 Please let us know what you are you going to help. Do check out [issues](https://github.com/antvis/g6/issues) for bug reports or suggestions first.
 
-To become a contributor, please follow our [contributing guide](https://github.com/antvis/g6/blob/master/CONTRIBUTING.md).
+To become a contributor, please follow our [contributing guide](https://github.com/antvis/G6/blob/master/packages/g6/CONTRIBUTING.md).
 
 ## License
 

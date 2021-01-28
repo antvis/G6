@@ -155,7 +155,7 @@ Users are welcome to join the **G6 Communication Group** or **G6 Communication G
 
 Please let us know what you are you going to help. Do check out [issues](https://github.com/antvis/g6/issues) for bug reports or suggestions first.
 
-To become a contributor, please follow our [contributing guide](https://github.com/antvis/g6/blob/master/CONTRIBUTING.md).
+To become a contributor, please follow our [contributing guide](https://github.com/antvis/G6/blob/master/packages/g6/CONTRIBUTING.md).
 
 ## License
 

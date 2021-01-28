@@ -190,6 +190,7 @@ export default {
       name: 'brush-shape',
     });
     this.brush = brush;
+    this.delegate = brush;
     return brush;
   },
   updateBrush(e: IG6GraphEvent) {

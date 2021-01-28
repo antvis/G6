@@ -1,8 +1,7 @@
-import { Graph } from '../../../src';
+import G6, { Graph } from '../../../src';
 import '../../../src/behavior';
 import { GraphData, Item } from '@antv/g6-core';
 import Core from '@antv/g6-core';
-// import Plugin from '../../../src/plugins';
 
 const { scale, translate } = Core.Util;
 
@@ -71,7 +70,7 @@ describe('graph', () => {
       width: 500,
       height: 500,
       modes: {
-        default: ['drag-node'],
+        default: ['drag-node', 'drag-canvas', 'zoom-canvas'],
       },
     });
     const length = div.childNodes.length;

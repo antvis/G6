@@ -120,6 +120,7 @@ export default class ModeController {
     graph.emit('beforemodechange', { mode });
 
     each(this.currentBehaves, behave => {
+      if (behave.delegate) behave.delegate.remove();
       behave.unbind(graph);
     });
 

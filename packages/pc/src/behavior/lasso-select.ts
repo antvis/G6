@@ -216,6 +216,7 @@ export default {
       name: 'lasso-shape',
     });
     this.lasso = lasso;
+    this.delegate = lasso;
     this.points = [];
     return lasso;
   },
