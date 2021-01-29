@@ -77,6 +77,25 @@ export default class LayoutController extends AbstractLayout {
 
     let layoutType = this.layoutType;
 
+    // 所有布局挂载 onLayoutEnd, 在布局结束后依次执行：
+    // 执行用户自定义 onLayoutEnd，触发 afterlayout、更新节点位置、fitView/fitCenter、触发 afterrender
+    const { onLayoutEnd, layoutEndFormatted } = layoutCfg;
+    if (!layoutEndFormatted) {
+      layoutCfg.layoutEndFormatted = true;
+      layoutCfg.onLayoutEnd = () => {
+        // 执行用户自定义 onLayoutEnd
+        if (onLayoutEnd) {
+          onLayoutEnd();
+        }
+        // 触发 afterlayout
+        graph.emit('afterlayout');
+        // 更新节点位置
+        this.refreshLayout();
+        // 由 graph 传入的，控制 fitView、fitCenter，并触发 afterrender
+        if (success) success();
+      };
+    }
+
     if (layoutType === 'force' || layoutType === 'g6force' || layoutType === 'gForce') {
       const { onTick } = layoutCfg;
       const tick = () => {
@@ -86,13 +105,6 @@ export default class LayoutController extends AbstractLayout {
         graph.refreshPositions();
       };
       layoutCfg.tick = tick;
-      const { onLayoutEnd } = layoutCfg;
-      layoutCfg.onLayoutEnd = () => {
-        if (onLayoutEnd) {
-          onLayoutEnd();
-        }
-        graph.emit('afterlayout');
-      };
     } else if (this.layoutType === 'comboForce') {
       layoutCfg.comboTrees = graph.get('comboTrees');
     }
@@ -133,15 +145,9 @@ export default class LayoutController extends AbstractLayout {
         layoutMethod.execute();
       }
       this.layoutMethod = layoutMethod;
-    }
-    if (
-      (hasLayoutType || !allHavePos) &&
-      this.layoutType !== 'force' &&
-      this.layoutType !== 'gForce' &&
-      !enableTick
-    ) {
-      graph.emit('afterlayout');
-      this.refreshLayout();
+    } else if (layoutCfg.onLayoutEnd) {
+      // 若没有配置 layout，也需要更新画布
+      layoutCfg.onLayoutEnd();
     }
     return false;
   }
