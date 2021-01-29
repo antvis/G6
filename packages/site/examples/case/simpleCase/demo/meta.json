@@ -1,0 +1,32 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "sankey.js",
+      "title": {
+        "zh": "桑基图",
+        "en": "Sankey Diagram"
+      },
+      "screenshot": "https://gw.alipayobjects.com/zos/antfincdn/4bsADvWhSB/xiazai%252520%2811%29.png"
+    },
+    {
+      "filename": "mindmap.js",
+      "title": {
+        "zh": "思维导图",
+        "en": "Mindmap"
+      },
+      "screenshot": "https://gw.alipayobjects.com/zos/antfincdn/N5tGvsqQR9/xiazai%252520%2812%29.png"
+    },
+    {
+      "filename": "ER.js",
+      "title": {
+        "zh": "ER图",
+        "en": "ER Graph"
+      },
+      "screenshot": "https://gw.alipayobjects.com/zos/antfincdn/H9Bs25IFet/xiazai%252520%2813%29.png"
+    }
+  ]
+}
