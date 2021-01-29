@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6-pc",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",
@@ -31,7 +31,7 @@
   ],
   "main": "lib/index.js",
   "module": "es/index.js",
-  "unpkg": "dist/g6.min.js",
+  "browser": "dist/g6.min.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "start": "father build --watch",
