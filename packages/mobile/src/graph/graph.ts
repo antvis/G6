@@ -69,6 +69,7 @@ export default class Graph extends AbstractGraph implements IGraph {
     const height: number = this.get('height');
     const renderer: string = this.get('renderer');
     const context: string = this.get('context');
+    const fitView: boolean = this.get('fitView');
 
     const canvasCfg: any = {
       container,
@@ -76,6 +77,7 @@ export default class Graph extends AbstractGraph implements IGraph {
       width,
       height,
       renderer,
+      fitView,
     };
     const pixelRatio = this.get('pixelRatio');
 
