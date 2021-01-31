@@ -47,7 +47,7 @@ const isBetween = (value: number, min: number, max: number) => value >= min && v
  * @return {Point}  交点
  */
 export const getLineIntersect = (p0: Point, p1: Point, p2: Point, p3: Point): Point | null => {
-  const tolerance = 0.001;
+  const tolerance = 0.0001;
 
   const E: Point = {
     x: p2.x - p0.x,
@@ -63,12 +63,13 @@ export const getLineIntersect = (p0: Point, p1: Point, p2: Point, p3: Point): Po
   };
   const kross: number = D0.x * D1.y - D0.y * D1.x;
   const sqrKross: number = kross * kross;
+  const invertKross: number = 1 / kross;
   const sqrLen0: number = D0.x * D0.x + D0.y * D0.y;
   const sqrLen1: number = D1.x * D1.x + D1.y * D1.y;
   let point: Point | null = null;
   if (sqrKross > tolerance * sqrLen0 * sqrLen1) {
-    const s = (E.x * D1.y - E.y * D1.x) / kross;
-    const t = (E.x * D0.y - E.y * D0.x) / kross;
+    const s = (E.x * D1.y - E.y * D1.x) * invertKross;
+    const t = (E.x * D0.y - E.y * D0.x) * invertKross;
     if (isBetween(s, 0, 1) && isBetween(t, 0, 1)) {
       point = {
         x: p0.x + s * D0.x,

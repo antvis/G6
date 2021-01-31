@@ -814,8 +814,9 @@ type ControllerCfg = Partial<{
   readonly nextBtnStyle?: ShapeStyle;
   /** 播放按钮样式 */
   readonly playBtnStyle?: ShapeStyle;
-  /** 右下角“单一时间”文本 */
+  /** 右下角“单一时间”和“时间范围”文本 */
   readonly timePointControllerText?: string;
+  readonly timeRangeControllerText?: string
 }>
 ```
 
@@ -836,3 +837,4 @@ type ControllerCfg = Partial<{
 | nextBtnStyle | ShapeStyle | null         | 前进按钮样式配置项     |
 | playBtnStyle | ShapeStyle | null         | 播放按钮样式配置项     |
 | timePointControllerText | string | "单一时间"         | 右下角“单一时间”文本，默认为”单一时间“     |
+| timePointControllerText | string | "时间范围"         | 右下角“单一时间”文本，默认为”时间范围时间“     |

@@ -60,6 +60,7 @@ export type ControllerCfg = Partial<{
   readonly playBtnStyle?: ShapeStyle;
   readonly fontFamily?: string;
   readonly timePointControllerText?: string;
+  readonly timeRangeControllerText?: string;
 }>;
 
 export default class ControllerBtn {
@@ -366,11 +367,11 @@ export default class ControllerBtn {
         const isChecked = evt.target.get('isChecked');
         if (!isChecked) {
           this.checkedIcon.show();
-          this.checkedText.attr('text', '时间范围');
+          this.checkedText.attr('text', this.controllerCfg?.timeRangeControllerText || '时间范围');
           this.currentType = 'single';
         } else {
           this.checkedIcon.hide();
-          this.checkedText.attr('text', '单一时间');
+          this.checkedText.attr('text', this.controllerCfg?.timePointControllerText || '单一时间');
           this.currentType = 'range';
         }
         evt.target.set('isChecked', !isChecked);

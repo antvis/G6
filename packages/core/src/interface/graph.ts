@@ -360,7 +360,7 @@ export interface IAbstractGraph extends EventEmitter {
    * @param {string} mode 指定的模式中的行为，不指定则为 default
    * @return {Graph} Graph
    */
-  updateBehavior: (behavior: string, newCfg: object, modes: string | string[]) => Graph;
+  updateBehavior: (behavior: string, newCfg: object, mode?: string) => Graph;
 
   /**
    * 清除画布元素

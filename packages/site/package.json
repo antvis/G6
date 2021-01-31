@@ -35,7 +35,7 @@
     "@antv/chart-node-g6": "^0.0.3",
     "@antv/util": "^2.0.9",
     "@antv/g6": "^4.1.6",
-    "@antv/gatsby-theme-antv": "^1.0.5",
+    "@antv/gatsby-theme-antv": "1.0.6",
     "gatsby": "^2.24.40",
     "gh-pages": "^2.1.1",
     "typedoc": "^0.17.6",
@@ -43,7 +43,8 @@
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
     "react-i18next": "^11.1.0",
-    "@ant-design/icons": "^4.0.6"
+    "@ant-design/icons": "^4.0.6",
+    "typescript": "^3.6.5"
   },
   "resolutions": {
     "@types/react": "^16.9.35"
