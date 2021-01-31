@@ -626,6 +626,7 @@ type ControllerCfg = Partial<{
   readonly playBtnStyle?: ShapeStyle;
   /** the text for the right-botton switch controlling play with single time point or time range */
   readonly timePointControllerText?: string;
+  readonly timeRangeControllerText?: string
 }>
 ```
 
@@ -646,6 +647,7 @@ type ControllerCfg = Partial<{
 | nextBtnStyle | ShapeStyle | null | The style configuration for the forward button |
 | playBtnStyle | ShapeStyle | null | The style configuration for the play button |
 | timePointControllerText | string | "单一时间"         | The text for the right-botton switch controlling play with single time point or time range     |
+| timeRangeControllerText | string | "时间范围"         | The text for the right-botton switch controlling play with single time point or time range     |
 ## ToolTip
 
 ToolTip helps user to explore detail infomations on the node and edge. Do note that, This Tooltip Plugins will replace the tooltip in the built-in behavior after G6 4.0.

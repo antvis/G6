@@ -37,7 +37,7 @@ registerEdge(
       routeCfg: {
         obstacles: [], // 希望边绕过的障碍节点
         maxAllowedDirectionChange: 90, // 允许的最大转角
-        maximumLoops: 1000,
+        maximumLoops: 500,
         gridSize: 10, // 指定精度
       },
       stateStyles: {

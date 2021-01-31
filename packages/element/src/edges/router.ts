@@ -97,8 +97,9 @@ export const octolinearCfg: RouterCfg = {
 };
 
 const pos2GridIx = (pos: number, gridSize: number) => {
-  const gridIx = Math.floor(pos / gridSize);
-  return gridIx < 0 ? 0 : gridIx;
+  const gridIx = Math.floor(Math.abs(pos / gridSize));
+  const sign = pos < 0 ? -1 : 1;
+  return gridIx < 0 ? 0 : sign * gridIx;
 };
 
 const getObstacleMap = (items: Item[], gridSize: number, offset: number) => {
@@ -113,7 +114,7 @@ const getObstacleMap = (items: Item[], gridSize: number, offset: number) => {
           y <= pos2GridIx(bbox.maxY, gridSize);
           y += 1
         ) {
-          const gridKey = `${x}-${y}`;
+          const gridKey = `${x}|||${y}`;
           map[gridKey] = true;
         }
       }
@@ -158,7 +159,13 @@ const estimateCost = (from: PolyPoint, endPoints: PolyPoint[], distFunc) => {
 };
 
 // 计算考虑 offset 后的 BBox 上的连接点
-const getBoxPoints = (point: PolyPoint, node: INode, cfg: RouterCfg): PolyPoint[] => {
+const getBoxPoints = (
+  point: PolyPoint,
+  oriPoint: PolyPoint,
+  node: INode,
+  anotherPoint: PolyPoint,
+  cfg: RouterCfg,
+): PolyPoint[] => {
   const points = [];
   // create-edge 生成边的过程中，endNode 为 null
   if (!node) {
@@ -167,15 +174,16 @@ const getBoxPoints = (point: PolyPoint, node: INode, cfg: RouterCfg): PolyPoint[
 
   const { directions, offset } = cfg;
   const bbox = node.getBBox();
-  const expandBBox = getExpandedBBox(node.getBBox(), offset);
+  const isInside =
+    oriPoint.x > bbox.minX &&
+    oriPoint.x < bbox.maxX &&
+    oriPoint.y > bbox.minY &&
+    oriPoint.y < bbox.maxY;
+
+  const expandBBox = getExpandedBBox(bbox, offset);
   for (const i in expandBBox) {
     expandBBox[i] = pos2GridIx(expandBBox[i], cfg.gridSize);
   }
-  const isInside =
-    point.x > pos2GridIx(bbox.minX, cfg.gridSize) &&
-    point.x < pos2GridIx(bbox.maxX, cfg.gridSize) &&
-    point.y > pos2GridIx(bbox.minY, cfg.gridSize) &&
-    point.y < pos2GridIx(bbox.maxY, cfg.gridSize);
 
   if (isInside) {
     // 如果 anchorPoint 在节点内部，允许第一段线穿过节点
@@ -230,16 +238,16 @@ const getBoxPoints = (point: PolyPoint, node: INode, cfg: RouterCfg): PolyPoint[
           boundLine[0],
           boundLine[1],
         ) as PolyPoint;
-        if (insterctP && !isSegmentCrossingBBox(point, insterctP, node.getBBox())) {
-          insterctP.id = `${insterctP.x}-${insterctP.y}`;
+        if (insterctP && !isSegmentCrossingBBox(point, insterctP, bbox)) {
+          insterctP.id = `${insterctP.x}|||${insterctP.y}`;
           points.push(insterctP);
         }
       }
     }
   } else {
     // 如果 anchorPoint 在节点上，只有一个可选方向
-    const insterctP = getExpandedBBoxPoint(expandBBox, point);
-    insterctP.id = `${insterctP.x}-${insterctP.y}`;
+    const insterctP = getExpandedBBoxPoint(expandBBox, point, anotherPoint);
+    insterctP.id = `${insterctP.x}|||${insterctP.y}`;
     points.push(insterctP);
   }
 
@@ -266,10 +274,10 @@ export const pathFinder = (
     y: pos2GridIx(endPoint.y, cfg.gridSize),
   };
 
-  startPoint.id = `${scaleStartPoint.x}-${scaleStartPoint.y}`;
-  endPoint.id = `${scaleEndPoint.x}-${scaleEndPoint.y}`;
-  const startPoints = getBoxPoints(scaleStartPoint, startNode, cfg);
-  const endPoints = getBoxPoints(scaleEndPoint, endNode, cfg);
+  startPoint.id = `${scaleStartPoint.x}|||${scaleStartPoint.y}`;
+  endPoint.id = `${scaleEndPoint.x}|||${scaleEndPoint.y}`;
+  const startPoints = getBoxPoints(scaleStartPoint, startPoint, startNode, scaleEndPoint, cfg);
+  const endPoints = getBoxPoints(scaleEndPoint, endPoint, endNode, scaleStartPoint, cfg);
   startPoints.forEach((point) => {
     delete map[point.id];
   });
@@ -311,8 +319,8 @@ export const pathFinder = (
     } else {
       const prevDirectionAngle = getDirectionAngle(
         {
-          x: parseFloat(cameFrom[current.id].split('-')[0]),
-          y: parseFloat(cameFrom[current.id].split('-')[1]),
+          x: parseFloat(cameFrom[current.id].split('|||')[0]),
+          y: parseFloat(cameFrom[current.id].split('|||')[1]),
         },
         current,
       );
@@ -324,8 +332,8 @@ export const pathFinder = (
   const getControlPoints = (currentId: string) => {
     const controlPoints = [endPoint];
     const lastPoint = {
-      x: parseFloat(currentId.split('-')[0]),
-      y: parseFloat(currentId.split('-')[1]),
+      x: parseFloat(currentId.split('|||')[0]),
+      y: parseFloat(currentId.split('|||')[1]),
       id: currentId,
     };
     if (getDirectionChange(lastPoint, scaleEndPoint)) {
@@ -336,14 +344,14 @@ export const pathFinder = (
     }
     while (cameFrom[currentId] && cameFrom[currentId] !== currentId) {
       const point = {
-        x: parseFloat(currentId.split('-')[0]),
-        y: parseFloat(currentId.split('-')[1]),
+        x: parseFloat(currentId.split('|||')[0]),
+        y: parseFloat(currentId.split('|||')[1]),
         id: currentId,
       };
       const preId = cameFrom[currentId];
       const prePoint = {
-        x: parseFloat(preId.split('-')[0]),
-        y: parseFloat(preId.split('-')[1]),
+        x: parseFloat(preId.split('|||')[0]),
+        y: parseFloat(preId.split('|||')[1]),
         id: preId,
       };
       const directionChange = getDirectionChange(prePoint, point);
@@ -359,8 +367,8 @@ export const pathFinder = (
 
     // 和startNode对齐
     const firstPoint = {
-      x: parseFloat(currentId.split('-')[0]),
-      y: parseFloat(currentId.split('-')[1]),
+      x: parseFloat(currentId.split('|||')[0]),
+      y: parseFloat(currentId.split('|||')[1]),
       id: currentId,
     };
     controlPoints[0].x = firstPoint.x === scaleStartPoint.x ? startPoint.x : controlPoints[0].x;
@@ -399,7 +407,7 @@ export const pathFinder = (
       const neighbor = {
         x: current.x + direction.stepX,
         y: current.y + direction.stepY,
-        id: `${current.x + direction.stepX}-${current.y + direction.stepY}`,
+        id: `${current.x + direction.stepX}|||${current.y + direction.stepY}`,
       };
 
       if (closedSet[neighbor.id]) continue;
