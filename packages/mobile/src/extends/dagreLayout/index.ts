@@ -1,6 +1,9 @@
 import { DagreLayout } from '@antv/layout/es/layout/dagre';
+import { getExtender } from '../../util/extend';
 
-export default (option, G6) => {
+function layoutExtender(option: any, G6: { registerLayout: Function; }) {
   const { registerLayout } = G6;
   registerLayout('dagre', DagreLayout);
 }
+
+export default getExtender(layoutExtender);
