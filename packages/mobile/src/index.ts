@@ -12,13 +12,13 @@ import { ICanvas, IGroup, IShape } from '@antv/g-base';
 import * as Algorithm from '@antv/algorithm';
 import Graph from './graph/graph';
 import { Layout, registerLayout } from './layout';
+import { IExtender } from './interface/extend';
 import Global from './global';
 import Util from './util';
 import './element';
 import './behavior';
 
-
-const extend = (extender, option) => {
+const extend = (extender: IExtender, option: any): any => {
   if (!extender.installed) {
     extender(option, G6)
     extender.installed = true;
