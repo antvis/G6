@@ -1,6 +1,9 @@
 import { GridLayout } from '@antv/layout/es/layout/grid';
+import { getExtender } from '../../util/extend';
 
-export default (option, G6) => {
+function layoutExtender(option: any, G6: { registerLayout: Function; }) {
   const { registerLayout } = G6;
   registerLayout('grid', GridLayout);
 }
+
+export default getExtender(layoutExtender);

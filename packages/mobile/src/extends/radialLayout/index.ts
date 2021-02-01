@@ -1,6 +1,9 @@
 import { RadialLayout } from '@antv/layout/es/layout/radial';
+import { getExtender } from '../../util/extend';
 
-export default (option, G6) => {
+function layoutExtender(option: any, G6: { registerLayout: Function; }) {
   const { registerLayout } = G6;
   registerLayout('radial', RadialLayout);
 }
+
+export default getExtender(layoutExtender);

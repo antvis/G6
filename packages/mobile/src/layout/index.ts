@@ -1,3 +1,3 @@
-import { Layouts as Layout, registerLayout } from '@antv/layout';
-
+import { Layouts as Layout } from '@antv/layout/es/layout/layout';
+import { registerLayout } from '@antv/layout/es/registy';
 export { Layout, registerLayout };
