@@ -1,4 +1,5 @@
 {
+  "private": true,
   "name": "@antv/g6-react-node",
   "description": "Using React Component to Define Your G6 Graph Node",
   "version": "1.3.0",

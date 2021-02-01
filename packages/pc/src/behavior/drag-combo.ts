@@ -444,6 +444,7 @@ export default {
         },
         name: 'combo-delegate-shape',
       });
+      this.delegate = this.delegateShape;
     } else {
       const clientX = evt.x - this.origin.x + this.originPoint.minX;
       const clientY = evt.y - this.origin.y + this.originPoint.minY;

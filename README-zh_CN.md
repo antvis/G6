@@ -115,6 +115,16 @@ graph.render();
 ```bash
 $ npm install
 
+# lerna bootstrap for multiple packages
+$ npm run bootstrap
+
+# build the packages
+$ npm run build:all
+
+# if you wanna watch one of the packages, e.g. packages/core
+$ cd ./packages/core
+$ npm run watch
+
 # run test case
 $ npm test
 
@@ -149,7 +159,7 @@ $ npm run demos
 
 请让我们知道您要解决或贡献什么，所以在贡献之前请先提交 [issues](https://github.com/antvis/g6/issues) 描述 bug 或建议。
 
-成为一个贡献者前请阅读 [代码贡献规范](https://github.com/antvis/g6/blob/master/CONTRIBUTING.zh-CN.md).
+成为一个贡献者前请阅读 [代码贡献规范](https://github.com/antvis/G6/blob/master/packages/g6/CONTRIBUTING.zh-CN.md).
 
 ## License
 

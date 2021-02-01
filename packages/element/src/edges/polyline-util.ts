@@ -66,14 +66,13 @@ export const filterConnectPoints = (points: PolyPoint[]): PolyPoint[] => {
   // pre-process: remove duplicated points
   const result: any[] = [];
   const pointsMap: any = {};
-  points.forEach((p) => {
-    const id = `${p.x}-${p.y}`;
-    p.id = id;
-    pointsMap[id] = p;
-  });
-  each(pointsMap, (p) => {
+  const pointsLength = points.length;
+  for (let i = 0; i < pointsLength; i++) {
+    const p = points[i];
+    p.id = `${p.x}|||${p.y}`;
+    pointsMap[p.id] = p;
     result.push(p);
-  });
+  }
   return result;
 };
 export const simplifyPolyline = (points: PolyPoint[]): PolyPoint[] => {
@@ -102,13 +101,37 @@ export const getExpandedBBox = (bbox: any, offset: number): PBBox => {
     width: bbox.width + 2 * offset,
   };
 };
-export const isHorizontalPort = (port: PolyPoint, bbox: PBBox): boolean => {
+export const isHorizontalPort = (port: PolyPoint, bbox: PBBox): boolean | number => {
   const dx = Math.abs(port.x - bbox.centerX);
   const dy = Math.abs(port.y - bbox.centerY);
+  if (dx === 0 && dy === 0) return 0;
   return dx / bbox.width > dy / bbox.height;
 };
-export const getExpandedBBoxPoint = (bbox: any, point: PolyPoint): PolyPoint => {
+export const getExpandedBBoxPoint = (
+  bbox: any,
+  point: PolyPoint,
+  anotherPoint: PolyPoint,
+): PolyPoint => {
   const isHorizontal = isHorizontalPort(point, bbox);
+  if (isHorizontal === 0) {
+    // 说明锚点是节点中心，linkCenter: true。需要根据两个节点的相对关系决定方向
+    let x = bbox.centerX;
+    let y = bbox.centerY;
+    if (anotherPoint.y < point.y) {
+      // 另一端在左上/右上方时，总是从上方走
+      y = bbox.minY;
+    } else if (anotherPoint.x > point.x) {
+      // 另一端在右下方，往右边走
+      x = bbox.maxX;
+    } else if (anotherPoint.x < point.x) {
+      // 另一端在左下方，往左边走
+      x = bbox.minX;
+    } else if (anotherPoint.x === point.x) {
+      // 另一段在正下方，往下走
+      y = bbox.maxY;
+    }
+    return { x, y };
+  }
   if (isHorizontal) {
     return {
       x: point.x > bbox.centerX ? bbox.maxX : bbox.minX,
@@ -266,15 +289,21 @@ export const isSegmentsIntersected = (
   p2: PolyPoint,
   p3: PolyPoint,
 ): boolean => {
-  const s1X = p1.x - p0.x;
-  const s1Y = p1.y - p0.y;
-  const s2X = p3.x - p2.x;
-  const s2Y = p3.y - p2.y;
+  const v1x = p2.x - p0.x;
+  const v1y = p2.y - p0.y;
+  const v2x = p3.x - p0.x;
+  const v2y = p3.y - p0.y;
+  const v3x = p2.x - p1.x;
+  const v3y = p2.y - p1.y;
+  const v4x = p3.x - p1.x;
+  const v4y = p3.y - p1.y;
 
-  const s = (-s1Y * (p0.x - p2.x) + s1X * (p0.y - p2.y)) / (-s2X * s1Y + s1X * s2Y);
-  const t = (s2X * (p0.y - p2.y) - s2Y * (p0.x - p2.x)) / (-s2X * s1Y + s1X * s2Y);
+  const pd1 = v1x * v2y - v1y * v2x;
+  const pd2 = v3x * v4y - v3y * v4x;
+  const pd3 = v1x * v3y - v1y * v3x;
+  const pd4 = v2x * v4y - v2y * v4x;
 
-  return s >= 0 && s <= 1 && t >= 0 && t <= 1;
+  return pd1 * pd2 <= 0 && pd3 * pd4 <= 0;
 };
 export const isSegmentCrossingBBox = (p1: PolyPoint, p2: PolyPoint, bbox: PBBox): boolean => {
   if (bbox.width === 0 && bbox.height === 0) {
@@ -483,10 +512,9 @@ export const getPolylinePoints = (
     // the expanded bounding boxes of source and target nodes are overlapping
     return simplifyPolyline(getSimplePolyline(start, end));
   }
-  const sPoint = getExpandedBBoxPoint(sxBBox, start);
-  const tPoint = getExpandedBBoxPoint(txBBox, end);
+  const sPoint = getExpandedBBoxPoint(sxBBox, start, end);
+  const tPoint = getExpandedBBoxPoint(txBBox, end, start);
   const lineBBox = getBBoxFromPoints([sPoint, tPoint]);
-  const outerBBox = mergeBBox(sxBBox, txBBox);
   const sMixBBox = mergeBBox(sxBBox, lineBBox);
   const tMixBBox = mergeBBox(txBBox, lineBBox);
   let connectPoints: any = [];

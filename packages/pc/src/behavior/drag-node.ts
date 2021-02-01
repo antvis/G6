@@ -378,6 +378,7 @@ export default {
         },
         name: 'rect-delegate-shape',
       });
+      this.delegate = this.delegateRect;
       this.delegateRect.set('capture', false);
     } else {
       const clientX = e.x - this.origin.x + this.originPoint.minX;

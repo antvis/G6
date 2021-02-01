@@ -8,6 +8,7 @@ import { IPoint, Item, LabelStyle, ShapeStyle, ModelConfig, EdgeConfig } from '.
 import Global from '../global';
 import { ext } from '@antv/matrix-util';
 import { deepMix, each, mix, isBoolean, isPlainObject, clone } from '@antv/util';
+import { cloneBesidesImg } from '../util/graphic';
 
 const transform = ext.transform;
 
@@ -401,11 +402,11 @@ export const shapeBase: ShapeOptions = {
       }
     } else {
       // 所有生效的 state 的样式
-      const enableStatesStyle = clone(item.getCurrentStatesStyle());
+      const enableStatesStyle = cloneBesidesImg(item.getCurrentStatesStyle());
 
       const model = item.getModel();
       // 原始样式
-      const originStyle = mix({}, model.style, clone(item.getOriginStyle()));
+      const originStyle = mix({}, model.style, cloneBesidesImg(item.getOriginStyle()));
 
       const keyShapeName = shape.get('name');
 
@@ -416,7 +417,7 @@ export const shapeBase: ShapeOptions = {
       Object.keys(shapeAttrs).forEach((key) => {
         if (key === 'img') return;
         const attr = shapeAttrs[key];
-        if (typeof attr === 'object') {
+        if (attr && typeof attr === 'object') {
           keyShapeStyles[key] = clone(attr);
         } else {
           keyShapeStyles[key] = attr;
@@ -466,7 +467,6 @@ export const shapeBase: ShapeOptions = {
       } else {
         filtetDisableStatesStyle[keyShapeName] = keyShapeStyles;
       }
-
       for (const key in enableStatesStyle) {
         if (keptAttrs[key]) continue;
         const enableStyle = enableStatesStyle[key];

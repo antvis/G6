@@ -213,7 +213,7 @@ export default class TrendTimeBar {
     this.ticks = ticks;
     this.trendCfg = trendCfg;
     this.controllerCfg = controllerCfg;
-    this.currentSpeed = controllerCfg.speed;
+    this.currentSpeed = controllerCfg.speed || 1;
     // style
     if (type === 'trend') {
       this.backgroundStyle = { ...BACKGROUND_STYLE, ...backgroundStyle };
@@ -467,6 +467,7 @@ export default class TrendTimeBar {
       y: this.y + height + 25,
       width,
       height: 40,
+      ...this.controllerCfg
     });
 
     // 根据 start end 更新 ui 的位置信息

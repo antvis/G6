@@ -109,7 +109,7 @@ describe('timeline play with timebar', () => {
         //     stroke: '#1890ff'
         //   }
         // }
-      },
+      }
       // loop: true
     });
     const graph = new G6.Graph({
