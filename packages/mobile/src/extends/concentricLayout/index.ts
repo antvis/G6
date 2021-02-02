@@ -1,4 +1,4 @@
-import { ConcentricLayout } from '@antv/layout/es/layout/concentric';
+import { ConcentricLayout } from '@antv/layout/lib/layout/concentric';
 import { getExtender } from '../../util/extend';
 
 function layoutExtender(option: any, G6: { registerLayout: Function; }) {
