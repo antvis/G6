@@ -21,18 +21,22 @@ for (let i = 0; i < 10; i++) {
   });
 }
 
-export interface BasicProps { }
+export interface BasicProps {}
 
 export const BasicDemo = () => {
   const ref = React.useRef(null);
+  const height = window.innerHeight - 32; // demos padding
+  const width = window.innerWidth - 32;
+
   let graph = null;
 
   useEffect(() => {
     if (!graph) {
       graph = new G6.Graph({
-        container: 'root',
-        width: 500,
-        height: 500,
+        container: ref.current,
+        width,
+        height,
+        fitView: true,
         layout: {
           type: 'grid',
           begin: [0, 0], // ???
@@ -104,5 +108,5 @@ export const BasicDemo = () => {
     graph.render();
   }, []);
 
-  return <div id="root" ref={ref}></div>;
+  return <div style={{ width, height }} ref={ref}></div>;
 };
