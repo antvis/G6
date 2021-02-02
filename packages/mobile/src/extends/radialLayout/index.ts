@@ -1,4 +1,4 @@
-import { RadialLayout } from '@antv/layout/es/layout/radial';
+import { RadialLayout } from '@antv/layout/lib/layout/radial';
 import { getExtender } from '../../util/extend';
 
 function layoutExtender(option: any, G6: { registerLayout: Function; }) {

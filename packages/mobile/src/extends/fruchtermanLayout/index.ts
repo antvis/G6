@@ -1,4 +1,4 @@
-import { FruchtermanLayout } from '@antv/layout/es/layout/fruchterman';
+import { FruchtermanLayout } from '@antv/layout/lib/layout/fruchterman';
 import { getExtender } from '../../util/extend';
 
 function layoutExtender(option: any, G6: { registerLayout: Function; }) {
