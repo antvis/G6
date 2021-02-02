@@ -76,10 +76,76 @@
 // // https://stackoverflow.com/questions/50210416/webpack-worker-loader-fails-to-compile-typescript-worker
 // export default null as any;
 
-// 简单示例
-export const work = () => {
-  // 类似 ctx.onmessage
-  onmessage = (e) => {
-    console.log(e.data);
+import { LAYOUT_MESSAGE } from './layoutConst';
+import { getLayoutByName } from '@antv/layout';
+
+interface Event {
+  type: string;
+  data: any;
+}
+
+function isLayoutMessage(event: Event) {
+  const { type } = event.data;
+  return type === LAYOUT_MESSAGE.RUN || type === LAYOUT_MESSAGE.GPURUN;
+}
+
+function handleLayoutMessage(event: Event, postMessage) {
+  const { type } = event.data;
+
+  switch (type) {
+    case LAYOUT_MESSAGE.RUN: {
+      const { nodes, edges, layoutCfg = {} } = event.data;
+      const { type: layoutType } = layoutCfg;
+      const LayoutClass = getLayoutByName(layoutType);
+      if (!LayoutClass) {
+        postMessage({ type: LAYOUT_MESSAGE.ERROR, message: `layout ${layoutType} not found` });
+        break;
+      }
+
+      const layoutMethod = new LayoutClass(layoutCfg);
+      layoutMethod.init({ nodes, edges });
+      layoutMethod.execute();
+      postMessage({ type: LAYOUT_MESSAGE.END, nodes });
+      layoutMethod.destroy();
+      break;
+    }
+
+    case LAYOUT_MESSAGE.GPURUN: {
+      const { nodes, edges, layoutCfg = {}, canvas } = event.data;
+
+      const { type: layoutType } = layoutCfg;
+
+      const LayoutClass = getLayoutByName(layoutType);
+      if (!LayoutClass) {
+        postMessage({ type: LAYOUT_MESSAGE.ERROR, message: `layout ${layoutType} not found` });
+        break;
+      }
+      if (layoutType.split('-')[1] !== 'gpu') {
+        postMessage({
+          type: LAYOUT_MESSAGE.ERROR,
+          message: `layout ${layoutType} does not support GPU`,
+        });
+        break;
+      }
+
+      const layoutMethod = new LayoutClass(layoutCfg);
+      layoutMethod.init({ nodes, edges });
+      // layoutMethod.executeWithWorker(canvas, work);
+      layoutMethod.executeWithWorker(canvas, new work());
+      break;
+    }
+    default:
+      break;
+  }
+}
+
+const work = () => {
+  // listen to message posted to web worker
+  onmessage = (event) => {
+    if (isLayoutMessage(event)) {
+      handleLayoutMessage(event, postMessage);
+    }
   };
 };
+
+export default work;
