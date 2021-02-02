@@ -1,4 +1,4 @@
-import { Group, Rect, Text, Circle } from 'g6-react-node';
+import { Group, Rect, Text, Circle } from '@antv/g6-react-node';
 
 const Node = () => {
   return (

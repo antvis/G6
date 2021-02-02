@@ -10,7 +10,7 @@ export default defineConfig({
     ['zh-CN', '中文'],
     ['en-US', 'English'],
   ],
-  resolve: { includes: ['doc', 'src'] },
+  resolve: { includes: ['docs', 'src'] },
   dynamicImport: {
     loading: '@/Loading',
   },
