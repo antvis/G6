@@ -1,6 +1,7 @@
 import { AbstractLayout, GraphData } from '@antv/g6-core';
 import { Layout } from '../../layout';
 import LayoutWorker from '../../layout/worker/layout.worker';
+import WebWorker from '../../layout/worker/worker';
 import { LAYOUT_MESSAGE } from '../../layout/worker/layoutConst';
 import { gpuDetector } from '../../util/gpu';
 import { mix } from '@antv/util';
@@ -79,7 +80,7 @@ export default class LayoutController extends AbstractLayout {
       console.warn('Web worker is not supported in current browser.');
       this.worker = null;
     } else {
-      this.worker = new LayoutWorker();
+      this.worker = new WebWorker(LayoutWorker);
     }
     return this.worker;
   }
