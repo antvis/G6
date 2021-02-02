@@ -302,6 +302,8 @@ registerNode(
             y: 7,
             text: cfg.label,
           },
+          className: 'text-shape',
+          name: 'text-shape',
           draggable: true,
         });
       }

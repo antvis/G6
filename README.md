@@ -115,6 +115,16 @@ For more information of the usage, please refer to [Getting Started](https://ant
 ```bash
 $ npm install
 
+# lerna bootstrap for multiple packages
+$ npm run bootstrap
+
+# build the packages
+$ npm run build:all
+
+# if you wanna watch one of the packages, e.g. packages/core
+$ cd ./packages/core
+$ npm run watch
+
 # run test case
 $ npm test
 
@@ -145,7 +155,7 @@ Users are welcome to join the **G6 Communication Group** or **G6 Communication G
 
 Please let us know what you are you going to help. Do check out [issues](https://github.com/antvis/g6/issues) for bug reports or suggestions first.
 
-To become a contributor, please follow our [contributing guide](https://github.com/antvis/g6/blob/master/CONTRIBUTING.md).
+To become a contributor, please follow our [contributing guide](https://github.com/antvis/G6/blob/master/packages/g6/CONTRIBUTING.md).
 
 ## License
 

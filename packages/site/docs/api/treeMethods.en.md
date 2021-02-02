@@ -1,6 +1,6 @@
 ---
 title: TreeGraph Functions
-order: 5
+order: 4
 ---
 
 ### data()

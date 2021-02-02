@@ -128,7 +128,7 @@ graph.render();
 
 请让我们知道您要解决或贡献什么，所以在贡献之前请先提交 <a href='https://github.com/antvis/g6/issues' target='_blank'>issues</a> 描述 bug 或建议。
 
-成为一个贡献者前请阅读 <a href='https://github.com/antvis/g6/blob/master/CONTRIBUTING.zh-CN.md' target='_blank'>代码贡献规范</a>。
+成为一个贡献者前请阅读 <a href='https://github.com/antvis/G6/blob/master/packages/g6/CONTRIBUTING.zh-CN.md' target='_blank'>代码贡献规范</a>。
 
 ## License
 

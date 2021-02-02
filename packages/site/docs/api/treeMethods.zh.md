@@ -1,6 +1,6 @@
 ---
 title: TreeGraph 实例方法
-order: 5
+order: 4
 ---
 
 ### data()

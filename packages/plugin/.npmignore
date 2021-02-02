@@ -13,8 +13,6 @@ coverage
 # Dependency directories
 node_modules
 **/node_modules
-**/lib
-**/es
 jspm_packages/
 
 # Optional npm cache directory
@@ -32,10 +30,6 @@ jspm_packages/
 
 # IDE
 .idea
-
-# build
-lib
-build
 
 # lock
 package-lock.json

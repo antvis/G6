@@ -1,5 +1,27 @@
 # ChangeLog
 
+#### 4.1.7
+
+- fix: polyline with negative endpoints;
+- fix: polyline direction when linkCenter;
+- fix: remove g6-core browser since it has no umd output;
+- feat: custom texts for the time range and time point text in timeBar plugin;
+- chore: types for strict mode;
+
+#### 4.1.6
+
+- fix: webworker problem after removing broswer in pc and g6;
+
+#### 4.1.5
+
+- fix: wrong style for modelRect after updating and state changing, closes: #2613;
+- fix: drag-canvas with shouldBegin false, closes: #2571;
+- fix: pack plugin with es module, closes: #2577;
+- feat: dijkstra with multiple shortest paths, closes: #2297;
+- fix: setMode while the delegates of brush-select and drag-node is on the canvas, closes: #2607;
+- docs: update the english TimeBar docs, closes: #2597;
+- fix: TimeBar time point switch text configurable, closes: #2597;
+
 #### 4.1.4
 
 - fix: drag-canvas with touch on mobile;

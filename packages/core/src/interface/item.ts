@@ -363,5 +363,5 @@ export interface ICombo extends INode {
    * @param node 节点实例
    * @return boolean 移除成功返回 true，否则返回 false
    */
-  removeNode: (node: string | INode) => boolean;
+  removeNode: (node: INode) => boolean;
 }
