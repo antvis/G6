@@ -32,10 +32,8 @@ export default class LayoutController extends AbstractLayout {
     layoutMethod.updateCfg(cfg);
     graph.emit('beforelayout');
     layoutMethod.execute();
-    if (this.layoutType !== 'force' && !layoutMethod.enableTick) {
-      graph.emit('afterlayout');
-    }
-    this.refreshLayout();
+
+    if (layoutCfg.onLayoutEnd) layoutCfg.onLayoutEnd();
   }
 
   /**
@@ -143,6 +141,7 @@ export default class LayoutController extends AbstractLayout {
       if (hasLayoutType) {
         graph.emit('beginlayout');
         layoutMethod.execute();
+        if (layoutCfg.onLayoutEnd) layoutCfg.onLayoutEnd();
       }
       this.layoutMethod = layoutMethod;
     } else if (layoutCfg.onLayoutEnd) {
