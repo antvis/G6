@@ -1,4 +1,4 @@
-import { ComboForceLayout } from '@antv/layout/es/layout/comboForce';
+import { ComboForceLayout } from '@antv/layout/lib/layout/comboForce';
 import { getExtender } from '../../util/extend';
 
 function layoutExtender(option: any, G6: { registerLayout: Function; }) {

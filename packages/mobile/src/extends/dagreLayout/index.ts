@@ -1,4 +1,4 @@
-import { DagreLayout } from '@antv/layout/es/layout/dagre';
+import { DagreLayout } from '@antv/layout/lib/layout/dagre';
 import { getExtender } from '../../util/extend';
 
 function layoutExtender(option: any, G6: { registerLayout: Function; }) {
