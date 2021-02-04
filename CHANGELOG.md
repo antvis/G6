@@ -1,5 +1,9 @@
 # ChangeLog
 
+#### 4.1.8
+
+- fix: shouldBegin false for zoom-canvas behavior;
+
 #### 4.1.7
 
 - fix: polyline with negative endpoints;
