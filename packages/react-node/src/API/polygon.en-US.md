@@ -3,7 +3,7 @@
 ```jsx
 import React from 'react';
 import G6 from '@antv/g6';
-import { Group, Polygon, createNodeFromReact } from 'g6-react-node';
+import { Group, Polygon, createNodeFromReact } from '@antv/g6-react-node';
 import { G6MiniDemo } from '../ReactNode/demo';
 
 const ReactNode = ({ cfg = {} }) => (

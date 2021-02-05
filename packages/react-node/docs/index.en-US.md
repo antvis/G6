@@ -12,7 +12,7 @@ import {
   Circle,
   Image,
   createNodeFromReact,
-} from 'g6-react-node';
+} from '@antv/g6-react-node';
 import { G6MiniDemo } from '../src/ReactNode/demo';
 
 const ReactNode = ({ cfg = {} }) => {
@@ -98,7 +98,7 @@ import {
   Circle,
   Image,
   createNodeFromReact,
-} from 'g6-react-node';
+} from '@antv/g6-react-node';
 
 const ReactNode = ({ cfg = {} }) => {
   const { description, meta = {}, label = 'label' } = cfg;

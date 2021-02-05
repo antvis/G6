@@ -1,4 +1,4 @@
-import Yoga, { Node, YogaNode } from 'yoga-layout';
+import Yoga, { Node, YogaNode } from 'yoga-layout-prebuilt';
 import { RawNode } from '../Register/getDataFromReactNode';
 import getSizeOfShape from './getShapeSize';
 import {
@@ -106,25 +106,25 @@ const constructYogaNode = (node: RawNode) => {
     if (marginArray[0] === 'auto') {
       yogaNode.setMarginAuto(Yoga.EDGE_TOP);
     } else {
-      yogaNode.setMargin(Yoga.EDGE_TOP, marginArray[0]);
+      yogaNode.setMargin(Yoga.EDGE_TOP, Number(marginArray[0]));
     }
 
     if (marginArray[1] === 'auto') {
       yogaNode.setMarginAuto(Yoga.EDGE_RIGHT);
     } else {
-      yogaNode.setMargin(Yoga.EDGE_RIGHT, marginArray[1]);
+      yogaNode.setMargin(Yoga.EDGE_RIGHT, Number(marginArray[1]));
     }
 
     if (marginArray[2] === 'auto') {
       yogaNode.setMarginAuto(Yoga.EDGE_BOTTOM);
     } else {
-      yogaNode.setMargin(Yoga.EDGE_BOTTOM, marginArray[2]);
+      yogaNode.setMargin(Yoga.EDGE_BOTTOM, Number(marginArray[2]));
     }
 
     if (marginArray[3] === 'auto') {
       yogaNode.setMarginAuto(Yoga.EDGE_LEFT);
     } else {
-      yogaNode.setMargin(Yoga.EDGE_LEFT, marginArray[3]);
+      yogaNode.setMargin(Yoga.EDGE_LEFT, Number(marginArray[3]));
     }
   }
 

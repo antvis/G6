@@ -12,7 +12,7 @@ import {
   Image,
   Group,
   createNodeFromReact,
-} from 'g6-react-node';
+} from '@antv/g6-react-node';
 import { G6MiniDemo } from '../ReactNode/demo';
 
 const Tag = ({ text, color }) => (
