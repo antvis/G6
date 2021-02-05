@@ -3,7 +3,7 @@
 ```jsx
 import React from 'react';
 import G6 from '@antv/g6';
-import { Group, Marker, createNodeFromReact } from 'g6-react-node';
+import { Group, Marker, createNodeFromReact } from '@antv/g6-react-node';
 import { G6MiniDemo } from '../ReactNode/demo';
 
 const ReactNode = ({ cfg = {} }) => (
@@ -11,7 +11,7 @@ const ReactNode = ({ cfg = {} }) => (
     <Marker
       style={{
         r: 40,
-        symbol: function (x, y, r) {
+        symbol: function(x, y, r) {
           return [['M', x, y], ['L', x + r, y + r], ['L', x + r * 2, y], ['Z']];
         },
         fill: cfg.color,
