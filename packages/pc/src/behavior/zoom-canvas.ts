@@ -67,7 +67,7 @@ export default {
       };
     }
 
-    this.originScale = this.currentScale || 1;
+    this.originScale = this.graph.getZoom() || this.currentScale || 1;
   },
   onTouchMove(evt) {
     if (!this.moveable) {
