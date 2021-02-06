@@ -30,6 +30,7 @@ export default {
   },
   onNodeClick(e: IG6GraphEvent) {
     const { item } = e;
+    if (!item) return;
 
     // 如果节点进行过更新，model 会进行 merge，直接改 model 就不能改布局，所以需要去改源数据
     const sourceData = this.graph.findDataById(item.get('id'));

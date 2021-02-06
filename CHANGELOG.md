@@ -3,6 +3,8 @@
 #### 4.1.8
 
 - fix: shouldBegin false for zoom-canvas behavior;
+- fix: shouldBegin originScale from graph zoom;
+- fix: error in collapse-expand with touch on canvas;
 
 #### 4.1.7
 
