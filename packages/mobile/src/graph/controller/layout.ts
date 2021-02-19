@@ -110,7 +110,7 @@ export default class LayoutController extends AbstractLayout {
     let enableTick = false;
     if (layoutType !== undefined) {
       try {
-        layoutMethod = new Layout[layoutType](layoutCfg);
+        layoutMethod = new Layout(layoutCfg);
       } catch (e) {
         console.warn(`The layout method: '${layoutType}' does not exist! Please specify it first.`);
         return false;
