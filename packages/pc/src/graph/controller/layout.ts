@@ -1,6 +1,6 @@
 import { AbstractLayout, GraphData } from '@antv/g6-core';
 import { Layout } from '../../layout';
-import LayoutWorker from '../../layout/worker/layout.worker';
+import { LayoutWorker } from '../../layout/worker/layout.worker';
 import { LAYOUT_MESSAGE } from '../../layout/worker/layoutConst';
 import { gpuDetector } from '../../util/gpu';
 import { mix } from '@antv/util';
@@ -79,7 +79,7 @@ export default class LayoutController extends AbstractLayout {
       console.warn('Web worker is not supported in current browser.');
       this.worker = null;
     } else {
-      this.worker = new LayoutWorker();
+      this.worker = LayoutWorker;
     }
     return this.worker;
   }
@@ -288,7 +288,12 @@ export default class LayoutController extends AbstractLayout {
     // 所以这里需要把过滤layoutCfg里的函数字段过滤掉。
     const filteredLayoutCfg = filterObject(layoutCfg, (value) => typeof value !== 'function');
     if (!gpuWorkerAbility) {
-      worker.postMessage({ type: LAYOUT_MESSAGE.RUN, nodes, edges, layoutCfg: filteredLayoutCfg });
+      worker.postMessage({
+        type: LAYOUT_MESSAGE.RUN,
+        nodes,
+        edges,
+        layoutCfg: filteredLayoutCfg,
+      });
     } else {
       const offscreen: any = (offScreenCanvas as any).transferControlToOffscreen();
       // filteredLayoutCfg.canvas = offscreen;

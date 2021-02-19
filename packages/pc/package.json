@@ -31,7 +31,7 @@
   ],
   "main": "lib/index.js",
   "module": "es/index.js",
-  "browser": "dist/g6.min.js",
+  "unpkg": "dist/g6.min.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "start": "father build --watch",
