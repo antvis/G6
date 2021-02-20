@@ -1,5 +1,9 @@
 # ChangeLog
 
+#### 4.1.10
+
+- chore: update algorithm;
+
 #### 4.1.9
 
 - feat: allowDragOnItem for drag-canvas behavior;

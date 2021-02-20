@@ -109,7 +109,7 @@ const graph = new G6.Graph({
 | center | Array | [ 0, 0 ] | 图的中心 | 布局的中心 |
 | linkDistance | Number / Function | 示例 1: 50 <br />示例 2:<br />d => {<br />  // d 是一条边<br />  if (d.id === 'edge1') {<br />    return 100;<br />  }<br />  return 50;<br />} | 50 | 边长。可以使用回调函数的形式对不同对边定义不同边长（如示例 2） |
 | nodeStrength | Number / Function | 示例 1: -30 <br />示例 2:<br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return -100;<br />  }<br />  return -30;<br />} / null | -30 | 节点作用力，正数代表节点之间的引力作用，负数代表节点之间的斥力作用。可以使用回调函数的形式对不同对节点定义不同节点作用力（如示例 2） |
-| edgeStrength | Number / Function | 示例 1: 1 <br />示例 2:<br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 10;<br />  }<br />  return 1;<br />} | null | 边的作用力，默认根据节点的出入度自适应。可以使用回调函数的形式对不同对节点定义不同边作用力（如示例 2） |
+| edgeStrength | Number / Function | 示例 1: 1 <br />示例 2:<br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 10;<br />  }<br />  return 1;<br />} | null | 边的作用力，范围是 0 到 1，默认根据节点的出入度自适应。可以使用回调函数的形式对不同对节点定义不同边作用力（如示例 2） |
 | preventOverlap | Boolean | false | false | 是否防止重叠，必须配合属性 `nodeSize` ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测。若未设置 `nodeSize` ，则根据节点数据中的 `size` 进行碰撞检测。若二者都未设置，则默认以 10 为节点大小进行碰撞检测 |
 | nodeSize | Array / Number | 20 | undefined | 节点大小（直径）。用于碰撞检测。<br />若不指定，则根据传入的数据节点中的 `size`  字段计算。若即不指定，节点中也没有 `size`，则默认大小为 10 |
 | nodeSpacing<br /><br /> | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |

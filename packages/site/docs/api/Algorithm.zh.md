@@ -524,8 +524,9 @@ const allCycleExcludeB = detectAllCycles(graph, false, ['B'], false);
 
 ```
  {
-  length: number,
-  path: string[]
+  length: number, // 最短路径长度
+  path: string[],
+  allPath: string[][] // start 到 end 的所有的最短路径
 }
 ```
 
@@ -615,7 +616,7 @@ graph.render();
 
 const { findShortestPath } = Algorithm;
 // 不考虑边的方向性，查找节点 A 和 节点 C 之间的最短路径
-const { length, path } = findShortestPath(graph, 'A', 'C');
+const { length, path, allPath } = findShortestPath(graph, 'A', 'C');
 console.log(length, path);
 // 期望输出：2, ['A', 'B', 'C']
 ```
