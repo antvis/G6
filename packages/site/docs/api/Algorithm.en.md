@@ -444,7 +444,8 @@ Compute the shortest path between two nodes in the graph.
 ```
  {
   length: number, // the length of the path
-  path: string[] // the node IDs that form the path
+  path: string[], // the node IDs that form the path
+  allPath: string[][] // all the shortest path from the start to the end
 }
 ```
 
@@ -532,7 +533,7 @@ graph.render();
 
 const { findShortestPath } = Algorithm;
 // Find the shortest path between node A and node C in this undirected graph
-const { length, path } = findShortestPath(graph, 'A', 'C');
+const { length, path, allPath } = findShortestPath(graph, 'A', 'C');
 console.log(length, path);
 // Expected output: 2, ['A', 'B', 'C']
 ```

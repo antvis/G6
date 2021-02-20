@@ -107,6 +107,7 @@ const graph = new G6.Graph({
   - `direction`：允许拖拽方向，支持`'x'`，`'y'`，`'both'`，默认方向为 `'both'`；
   - `enableOptimize`：是否开启优化，开启后拖动画布过程中隐藏所有的边及节点上非 keyShape 部分，默认关闭；
   - `shouldBegin(e)`：是否允许触发该操作；
+  - `allowDragOnItem`：是否允许用户在节点/边/ combo 上拖拽时响应，默认为 false；
   - `scalableRange`：拖动 canvas 可扩展的范围，默认为 0，取值为正和负数时的效果如下图所示。
 
   <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IFfoS67_HssAAAAAAAAAAAAAARQnAQ' width='650' />
