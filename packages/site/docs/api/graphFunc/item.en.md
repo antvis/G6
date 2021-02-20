@@ -66,7 +66,7 @@ Update the item with new data model. If there are combos in the graph, after cal
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | item | string / Object | true | The ID or the instance of the item |
-| cfg | Object | false | New data model, refer to [Item Model Properties](/en/docs/api/items/itemProperties) |
+| model | Object | true | New data model, refer to [Item Model Properties](/en/docs/api/items/itemProperties) |
 | stack | boolean | false | Whether to push the operator into the undo & redo stack. If the `enableStack` is `true`, this operation will be automatically pushed into the stack by default. Set `stack` to be `false` if you do not want it. |
 
 **Usage**
