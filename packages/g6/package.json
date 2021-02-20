@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "4.1.8",
+  "version": "4.1.9",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",
@@ -66,7 +66,7 @@
     ]
   },
   "dependencies": {
-    "@antv/g6-pc": "^0.0.14"
+    "@antv/g6-pc": "*"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
@@ -86,7 +86,7 @@
     "prettier": "^2.0.5",
     "rimraf": "^3.0.0",
     "ts-loader": "^7.0.3",
-    "typescript": "^3.5.3",
+    "typescript": "^3.9.5",
     "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10"
   }

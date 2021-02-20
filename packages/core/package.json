@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6-core",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",
@@ -93,6 +93,6 @@
     "rimraf": "^3.0.0",
     "ts-jest": "^24.1.0",
     "ts-loader": "^7.0.3",
-    "typescript": "^3.5.3"
+    "typescript": "^3.9.5"
   }
 }

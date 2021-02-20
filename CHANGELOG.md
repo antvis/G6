@@ -1,5 +1,10 @@
 # ChangeLog
 
+#### 4.1.9
+
+- feat: allowDragOnItem for drag-canvas behavior;
+- fix: drag-canvas with two fingers on mobile affects zoom-canvas;
+
 #### 4.1.8
 
 - fix: shouldBegin false for zoom-canvas behavior;

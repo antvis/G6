@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6-pc",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",
@@ -75,9 +75,9 @@
     "@antv/g-math": "^0.1.1",
     "@antv/g-svg": "^0.5.1",
     "@antv/g-webgpu": "^0.5.1",
-    "@antv/g6-core": "^0.0.9",
-    "@antv/g6-plugin": "^0.0.8",
-    "@antv/g6-element": "^0.0.8",
+    "@antv/g6-core": "*",
+    "@antv/g6-plugin": "*",
+    "@antv/g6-element": "*",
     "@antv/algorithm": "^0.0.7",
     "@antv/hierarchy": "^0.6.2",
     "@antv/layout": "^0.0.16",
@@ -121,7 +121,7 @@
     "rimraf": "^3.0.0",
     "ts-jest": "^24.1.0",
     "ts-loader": "^7.0.3",
-    "typescript": "^3.5.3",
+    "typescript": "^3.9.5",
     "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10",
     "worker-loader": "^3.0.0"
