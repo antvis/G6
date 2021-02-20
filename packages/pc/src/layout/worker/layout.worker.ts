@@ -1,4 +1,5 @@
 import WebWorker from './work';
+
 interface Event {
   type: string;
   data: any;
