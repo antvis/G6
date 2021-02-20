@@ -1,5 +1,9 @@
 # ChangeLog
 
+#### 4.1.11
+
+- chore: link correct core;
+
 #### 4.1.10
 
 - chore: update algorithm;
