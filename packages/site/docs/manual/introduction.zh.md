@@ -103,6 +103,13 @@ graph.render();
 
 ## 友情链接
 
+官方独立产品：Graphin
+
+Graphin 取名意为 Graph Insight（图的分析洞察），是一个基于 G6 封装的 React 组件库，专注在关系可视分析领域，简单高效，开箱即用。
+
+- github： https://github.com/antvis/Graphin
+- 官网：https://graphin.antv.vision
+
 结合前端库的第三方实现：
 
 - <a href='https://github.com/guozhaolong/wfd' target='_blank'>基于 G6 和 React 的可视化流程编辑器 - Workflow Designer</a>；

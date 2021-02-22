@@ -106,6 +106,13 @@ For more information about the usage, please refer to [Getting Started](/en/docs
 
 ## Links
 
+Official independent product: Graphin
+
+Graphin stands for Graph Insight. It's a toolkit based on G6 and React, that focuses on relational visual analysis. It's simple, efficient, out of the box.
+
+- github: https://github.com/antvis/Graphin
+- website: https://graphin.antv.vision
+
 Some implementations combined with front-end libraries from the third party:
 
 - <a href='https://github.com/guozhaolong/wfd' target='_blank'>Flow visualization editor powered by G6 and React - Workflow Designer</a>;
