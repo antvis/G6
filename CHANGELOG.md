@@ -1,5 +1,10 @@
 # ChangeLog
 
+#### 4.1.12
+
+- chore: update layout with alpha gwebgpu;
+- chore: update algorithm with fixed publicPath problem;
+
 #### 4.1.11
 
 - chore: link correct core;
