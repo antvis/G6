@@ -43,7 +43,10 @@ graph.on('aftercreateedge', (e) => {
   const edges = graph.save().edges;
   G6.Util.processParallelEdges(edges);
   graph.getEdges().forEach((edge, i) => {
-    graph.updateItem(edge, edges[i]);
+    graph.updateItem(edge, {
+      curveOffset: edges[i].curveOffset,
+      curvePosition: edges[i].curvePosition,
+    });
   });
 });
 

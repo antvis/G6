@@ -6,7 +6,7 @@
  * @Description: 拖动节点的Behavior
  */
 import { Point } from '@antv/g-base';
-import { deepMix, clone } from '@antv/util';
+import { deepMix, clone, throttle, debounce } from '@antv/util';
 import { G6Event, IG6GraphEvent, Item, NodeConfig, INode, ICombo } from '@antv/g6-core';
 import { IGraph } from '../interface/graph';
 import Global from '../global';
@@ -23,6 +23,7 @@ export default {
       // 拖动过程中目标 combo 状态样式
       comboActiveState: '',
       selectedState: 'selected',
+      enableOptimize: false,
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -113,6 +114,18 @@ export default {
     });
     this.set('beforeDragNodes', beforeDragNodes);
 
+    if (this.get('updateEdge') && this.enableOptimize && !this.enableDelegate) {
+      this.hidenEdge = {};
+      this.targets.forEach((node) => {
+        const edges = node.getEdges();
+        edges.forEach((edge) => {
+          if (!edge.isVisible()) return;
+          this.hidenEdge[edge] = true;
+          edge.hide();
+        });
+      });
+    }
+
     this.origin = {
       x: evt.x,
       y: evt.y,
@@ -165,6 +178,15 @@ export default {
     }
 
     this.updatePositions(evt);
+    if (this.get('updateEdge') && this.enableOptimize && !this.enableDelegate) {
+      this.targets.forEach((node) => {
+        const edges = node.getEdges();
+        edges.forEach((edge) => {
+          if (this.hidenEdge[edge]) edge.show();
+          edge.refresh();
+        });
+      });
+    }
 
     const graph: IGraph = this.graph;
 
@@ -347,11 +369,23 @@ export default {
     const pos: Point = { x, y };
 
     if (this.get('updateEdge')) {
-      this.graph.updateItem(item, pos, false);
+      // debounce
+      this.handleUpdateItem({ item, pos, graph: this.graph });
+      // this.graph.updateItem(item, pos, false);
     } else {
       item.updatePosition(pos);
     }
   },
+
+  handleUpdateItem: throttle(
+    (event) => {
+      const { item, pos, graph } = event;
+      graph.updateItem(item, pos, false);
+    },
+    50,
+    {},
+  ),
+
   /**
    * 更新拖动元素时的delegate
    * @param {Event} e 事件句柄

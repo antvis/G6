@@ -66,18 +66,16 @@ export const getLineIntersect = (p0: Point, p1: Point, p2: Point, p3: Point): Po
   const invertKross: number = 1 / kross;
   const sqrLen0: number = D0.x * D0.x + D0.y * D0.y;
   const sqrLen1: number = D1.x * D1.x + D1.y * D1.y;
-  let point: Point | null = null;
   if (sqrKross > tolerance * sqrLen0 * sqrLen1) {
     const s = (E.x * D1.y - E.y * D1.x) * invertKross;
     const t = (E.x * D0.y - E.y * D0.x) * invertKross;
-    if (isBetween(s, 0, 1) && isBetween(t, 0, 1)) {
-      point = {
-        x: p0.x + s * D0.x,
-        y: p0.y + s * D0.y,
-      };
-    }
+    if (!isBetween(s, 0, 1) || !isBetween(t, 0, t)) return null;
+    return {
+      x: p0.x + s * D0.x,
+      y: p0.y + s * D0.y,
+    };
   }
-  return point;
+  return null;
 };
 
 /**

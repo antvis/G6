@@ -102,6 +102,7 @@ registerEdge(
     },
     updateShapeStyle(cfg: EdgeConfig, item: Item) {
       const group = item.getContainer();
+      if (!item.isVisible()) return;
       const strokeStyle: ShapeStyle = {
         stroke: cfg.color,
       };
@@ -195,6 +196,7 @@ registerEdge(
       }
 
       polylinePoints = pathFinder(points[0], points[points.length - 1], source, target, routeCfg);
+      if (!polylinePoints || !polylinePoints.length) return 'M0 0, L0 0';
       const res = Util.pointsToPolygon(polylinePoints);
       return res;
     },
