@@ -106,17 +106,11 @@ const getObstacleMap = (items: Item[], gridSize: number, offset: number) => {
   const map = {};
   items.forEach((item: Item) => {
     // create-edge 时，当边类型为 polyline 时 endNode 为 null
-    if (item) {
-      const bbox = getExpandedBBox(item.getBBox(), offset);
-      for (let x = pos2GridIx(bbox.minX, gridSize); x <= pos2GridIx(bbox.maxX, gridSize); x += 1) {
-        for (
-          let y = pos2GridIx(bbox.minY, gridSize);
-          y <= pos2GridIx(bbox.maxY, gridSize);
-          y += 1
-        ) {
-          const gridKey = `${x}|||${y}`;
-          map[gridKey] = true;
-        }
+    if (!item) return;
+    const bbox = getExpandedBBox(item.getBBox(), offset);
+    for (let x = pos2GridIx(bbox.minX, gridSize); x <= pos2GridIx(bbox.maxX, gridSize); x += 1) {
+      for (let y = pos2GridIx(bbox.minY, gridSize); y <= pos2GridIx(bbox.maxY, gridSize); y += 1) {
+        map[`${x}|||${y}`] = true;
       }
     }
   });
@@ -131,10 +125,10 @@ const getObstacleMap = (items: Item[], gridSize: number, offset: number) => {
 const getDirectionAngle = (p1: PolyPoint, p2: PolyPoint) => {
   const deltaX = p2.x - p1.x;
   const deltaY = p2.y - p1.y;
-  if (!deltaX && !deltaY) return 0;
-  const angle = Math.atan2(deltaY, deltaX);
-  // const angle = (360 + (Math.atan2(deltaY, deltaX) * 180) / Math.PI) % 360;
-  return angle;
+  if (deltaX || deltaY) {
+    return Math.atan2(deltaY, deltaX);
+  }
+  return 0;
 };
 
 /**
@@ -144,7 +138,7 @@ const getDirectionAngle = (p1: PolyPoint, p2: PolyPoint) => {
  */
 const getAngleDiff = (angle1: number, angle2: number) => {
   const directionChange = Math.abs(angle1 - angle2);
-  return directionChange > Math.PI ? (2 % Math.PI) - directionChange : directionChange;
+  return directionChange > Math.PI ? 2 * Math.PI - directionChange : directionChange;
   // return directionChange > 180 ? 360 - directionChange : directionChange;
 };
 
@@ -246,14 +240,104 @@ const getBoxPoints = (
         }
       }
     }
+    return points;
   } else {
     // 如果 anchorPoint 在节点上，只有一个可选方向
     const insterctP = getExpandedBBoxPoint(expandBBox, point, anotherPoint);
     insterctP.id = `${insterctP.x}|||${insterctP.y}`;
-    points.push(insterctP);
+    return [insterctP];
+  }
+};
+
+const getDirectionChange = (
+  current: PolyPoint,
+  neighbor: PolyPoint,
+  cameFrom: {
+    [key: string]: {
+      id: string;
+      x: number;
+      y: number;
+    };
+  },
+  scaleStartPoint: PolyPoint,
+): number => {
+  const directionAngle = getDirectionAngle(current, neighbor);
+  if (!cameFrom[current.id]) {
+    const startAngle = getDirectionAngle(scaleStartPoint, current);
+    return getAngleDiff(startAngle, directionAngle);
+  } else {
+    const prevDirectionAngle = getDirectionAngle(
+      {
+        x: cameFrom[current.id].x,
+        y: cameFrom[current.id].y,
+      },
+      current,
+    );
+    return getAngleDiff(prevDirectionAngle, directionAngle);
+  }
+};
+
+const getControlPoints = (
+  current,
+  cameFrom,
+  scaleStartPoint,
+  endPoint,
+  startPoint,
+  scaleEndPoint,
+  gridSize,
+) => {
+  const controlPoints = [endPoint];
+  let currentId = current.id;
+  let currentX = current.x;
+  let currentY = current.y;
+  const lastPoint = {
+    x: currentX,
+    y: currentY,
+    id: currentId,
+  };
+  if (getDirectionChange(lastPoint, scaleEndPoint, cameFrom, scaleStartPoint)) {
+    controlPoints.unshift({
+      x: lastPoint.x === scaleEndPoint.x ? endPoint.x : lastPoint.x * gridSize,
+      y: lastPoint.y === scaleEndPoint.y ? endPoint.y : lastPoint.y * gridSize,
+    });
+  }
+  while (cameFrom[currentId] && cameFrom[currentId].id !== currentId) {
+    const point = {
+      x: currentX,
+      y: currentY,
+      id: currentId,
+    };
+    const preId = cameFrom[currentId].id;
+    const preX = cameFrom[currentId].x;
+    const preY = cameFrom[currentId].y;
+    const prePoint = {
+      x: preX,
+      y: preY,
+      id: preId,
+    };
+    const directionChange = getDirectionChange(prePoint, point, cameFrom, scaleStartPoint);
+    if (directionChange) {
+      controlPoints.unshift({
+        x: prePoint.x === point.x ? controlPoints[0].x : prePoint.x * gridSize,
+        y: prePoint.y === point.y ? controlPoints[0].y : prePoint.y * gridSize,
+      });
+    }
+
+    currentId = preId;
+    currentX = preX;
+    currentY = preY;
   }
 
-  return points;
+  // 和startNode对齐
+  const firstPoint = {
+    x: currentX,
+    y: currentY,
+    id: currentId,
+  };
+  controlPoints[0].x = firstPoint.x === scaleStartPoint.x ? startPoint.x : controlPoints[0].x;
+  controlPoints[0].y = firstPoint.y === scaleStartPoint.y ? startPoint.y : controlPoints[0].y;
+  controlPoints.unshift(startPoint);
+  return controlPoints;
 };
 
 export const pathFinder = (
@@ -263,17 +347,19 @@ export const pathFinder = (
   endNode: INode,
   routerCfg?: RouterCfg,
 ): PolyPoint[] => {
+  if (isNaN(startPoint.x) || isNaN(endPoint.x)) return [];
   const cfg: RouterCfg = deepMix(defaultCfg, routerCfg);
   cfg.obstacles = cfg.obstacles || [];
-  const map = getObstacleMap(cfg.obstacles.concat([startNode, endNode]), cfg.gridSize, cfg.offset);
+  const gridSize = cfg.gridSize;
+  const map = getObstacleMap(cfg.obstacles.concat([startNode, endNode]), gridSize, cfg.offset);
 
   const scaleStartPoint = {
-    x: pos2GridIx(startPoint.x, cfg.gridSize),
-    y: pos2GridIx(startPoint.y, cfg.gridSize),
+    x: pos2GridIx(startPoint.x, gridSize),
+    y: pos2GridIx(startPoint.y, gridSize),
   };
   const scaleEndPoint = {
-    x: pos2GridIx(endPoint.x, cfg.gridSize),
-    y: pos2GridIx(endPoint.y, cfg.gridSize),
+    x: pos2GridIx(endPoint.x, gridSize),
+    y: pos2GridIx(endPoint.y, gridSize),
   };
 
   startPoint.id = `${scaleStartPoint.x}|||${scaleStartPoint.y}`;
@@ -290,7 +376,11 @@ export const pathFinder = (
   const openSet = {};
   const closedSet = {};
   const cameFrom: {
-    [key: string]: string;
+    [key: string]: {
+      id: string;
+      x: number;
+      y: number;
+    };
   } = {};
 
   // 从起点到当前点已产生的 cost, default: Infinity
@@ -312,91 +402,34 @@ export const pathFinder = (
     fScore[firstStep.id] = estimateCost(firstStep, endPoints, cfg.distFunc);
   }
 
-  const getDirectionChange = (current: PolyPoint, neighbor: PolyPoint): number => {
-    const directionAngle = getDirectionAngle(current, neighbor);
-    let directionChange: number;
-    if (!cameFrom[current.id]) {
-      const startAngle = getDirectionAngle(scaleStartPoint, current);
-      directionChange = getAngleDiff(startAngle, directionAngle);
-    } else {
-      const prevDirectionAngle = getDirectionAngle(
-        {
-          x: parseFloat(cameFrom[current.id].split('|||')[0]),
-          y: parseFloat(cameFrom[current.id].split('|||')[1]),
-        },
-        current,
-      );
-      directionChange = getAngleDiff(prevDirectionAngle, directionAngle);
-    }
-    return directionChange;
-  };
-
-  const getControlPoints = (currentId: string) => {
-    const controlPoints = [endPoint];
-    const lastPoint = {
-      x: parseFloat(currentId.split('|||')[0]),
-      y: parseFloat(currentId.split('|||')[1]),
-      id: currentId,
-    };
-    if (getDirectionChange(lastPoint, scaleEndPoint)) {
-      controlPoints.unshift({
-        x: lastPoint.x === scaleEndPoint.x ? endPoint.x : lastPoint.x * cfg.gridSize,
-        y: lastPoint.y === scaleEndPoint.y ? endPoint.y : lastPoint.y * cfg.gridSize,
-      });
-    }
-    while (cameFrom[currentId] && cameFrom[currentId] !== currentId) {
-      const point = {
-        x: parseFloat(currentId.split('|||')[0]),
-        y: parseFloat(currentId.split('|||')[1]),
-        id: currentId,
-      };
-      const preId = cameFrom[currentId];
-      const prePoint = {
-        x: parseFloat(preId.split('|||')[0]),
-        y: parseFloat(preId.split('|||')[1]),
-        id: preId,
-      };
-      const directionChange = getDirectionChange(prePoint, point);
-      if (directionChange) {
-        controlPoints.unshift({
-          x: prePoint.x === point.x ? controlPoints[0].x : prePoint.x * cfg.gridSize,
-          y: prePoint.y === point.y ? controlPoints[0].y : prePoint.y * cfg.gridSize,
-        });
-      }
-
-      currentId = preId;
-    }
-
-    // 和startNode对齐
-    const firstPoint = {
-      x: parseFloat(currentId.split('|||')[0]),
-      y: parseFloat(currentId.split('|||')[1]),
-      id: currentId,
-    };
-    controlPoints[0].x = firstPoint.x === scaleStartPoint.x ? startPoint.x : controlPoints[0].x;
-    controlPoints[0].y = firstPoint.y === scaleStartPoint.y ? startPoint.y : controlPoints[0].y;
-    controlPoints.unshift(startPoint);
-    return controlPoints;
-  };
-
   let remainLoops = cfg.maximumLoops;
+  const penalties = cfg.penalties;
+  let current, curCost, direction, neighbor, neighborCost, costFromStart, directionChange;
   while (Object.keys(openSet).length > 0 && remainLoops > 0) {
-    let current;
-    let curCost = Infinity;
+    current = undefined;
+    curCost = Infinity;
 
     // 找到 openSet 中 fScore 最小的点
-    for (const id in openSet) {
+    Object.keys(openSet).forEach((key) => {
+      const id = openSet[key].id;
       if (fScore[id] <= curCost) {
         curCost = fScore[id];
         current = openSet[id];
       }
-    }
+    });
     if (!current) break;
 
     // 如果 fScore 最小的点就是终点
     if (endPoints.findIndex((point) => point.x === current.x && point.y === current.y) > -1) {
-      const controlPoints = getControlPoints(current.id);
-      return controlPoints;
+      return getControlPoints(
+        current,
+        cameFrom,
+        scaleStartPoint,
+        endPoint,
+        startPoint,
+        scaleEndPoint,
+        gridSize,
+      );
     }
 
     delete openSet[current.id];
@@ -405,15 +438,15 @@ export const pathFinder = (
     // 获取符合条件的下一步的候选连接点
     // 沿候选方向走一步
     for (let i = 0; i < cfg.directions.length; i++) {
-      const direction = cfg.directions[i];
-      const neighbor = {
+      direction = cfg.directions[i];
+      neighbor = {
         x: current.x + direction.stepX,
         y: current.y + direction.stepY,
         id: `${current.x + direction.stepX}|||${current.y + direction.stepY}`,
       };
 
       if (closedSet[neighbor.id]) continue;
-      const directionChange = getDirectionChange(current, neighbor);
+      directionChange = getDirectionChange(current, neighbor, cameFrom, scaleStartPoint);
       if (directionChange > cfg.maxAllowedDirectionChange) continue;
       if (map[neighbor.id]) continue; // 如果交叉则跳过
 
@@ -421,15 +454,15 @@ export const pathFinder = (
       if (!openSet[neighbor.id]) {
         openSet[neighbor.id] = neighbor;
       }
-      const neighborCost =
+      neighborCost =
         cfg.distFunc(current, neighbor) +
-        (isNaN(cfg.penalties[directionChange]) ? cfg.gridSize : cfg.penalties[directionChange]);
-      const costFromStart = gScore[current.id] + neighborCost;
+        (isNaN(penalties[directionChange]) ? gridSize : penalties[directionChange]);
+      costFromStart = gScore[current.id] + neighborCost;
       if (gScore[neighbor.id] && costFromStart >= gScore[neighbor.id]) {
         continue;
       }
 
-      cameFrom[neighbor.id] = current.id;
+      cameFrom[neighbor.id] = current;
       gScore[neighbor.id] = costFromStart;
       fScore[neighbor.id] = costFromStart + estimateCost(neighbor, endPoints, cfg.distFunc);
     }
