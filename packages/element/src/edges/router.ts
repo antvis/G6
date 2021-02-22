@@ -19,7 +19,7 @@ export interface RouterCfg {
   offset?: number; // 连线和点的间距
   gridSize?: number;
   obstacles?: Item[];
-  maxAllowedDirectionChange?: number; // 允许的最大转角
+  maxAllowedDirectionChange?: number; // 允许的最大转角，弧度制
   directions?: any[]; // 允许的边的方向
   startDirections?: string[]; // 边从点出发的方向（e.g. 从上拐 / 从下拐）
   penalties?: {}; // 附加的分数
@@ -59,7 +59,7 @@ const simplePolyline = (
 
 const defaultCfg: RouterCfg = {
   offset: 20,
-  maxAllowedDirectionChange: 90,
+  maxAllowedDirectionChange: Math.PI / 2,
   maximumLoops: 2000,
   gridSize: 10,
   directions: [
@@ -80,7 +80,7 @@ const defaultCfg: RouterCfg = {
 };
 
 export const octolinearCfg: RouterCfg = {
-  maxAllowedDirectionChange: 45,
+  maxAllowedDirectionChange: Math.PI / 4,
   // 8 个方向: 上下左右 + 45度斜线方向
   directions: [
     { stepX: 1, stepY: 0 },
@@ -132,7 +132,8 @@ const getDirectionAngle = (p1: PolyPoint, p2: PolyPoint) => {
   const deltaX = p2.x - p1.x;
   const deltaY = p2.y - p1.y;
   if (!deltaX && !deltaY) return 0;
-  const angle = (360 + (Math.atan2(deltaY, deltaX) * 180) / Math.PI) % 360;
+  const angle = Math.atan2(deltaY, deltaX);
+  // const angle = (360 + (Math.atan2(deltaY, deltaX) * 180) / Math.PI) % 360;
   return angle;
 };
 
@@ -143,7 +144,8 @@ const getDirectionAngle = (p1: PolyPoint, p2: PolyPoint) => {
  */
 const getAngleDiff = (angle1: number, angle2: number) => {
   const directionChange = Math.abs(angle1 - angle2);
-  return directionChange > 180 ? 360 - directionChange : directionChange;
+  return directionChange > Math.PI ? (2 % Math.PI) - directionChange : directionChange;
+  // return directionChange > 180 ? 360 - directionChange : directionChange;
 };
 
 // Path finder //
@@ -169,7 +171,7 @@ const getBoxPoints = (
   const points = [];
   // create-edge 生成边的过程中，endNode 为 null
   if (!node) {
-    return points;
+    return [point];
   }
 
   const { directions, offset } = cfg;
