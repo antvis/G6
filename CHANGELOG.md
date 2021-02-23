@@ -7,6 +7,7 @@
 - fix: performance for polyline;
 - fix: debounce updating the polyline edges in drag-node behavior;
 - fix: toolbar redo undo max clone in drag-node behavior;
+- feat: dagre layout with combo;
 
 #### 4.1.12
 

@@ -203,6 +203,138 @@ const data: any = {
     },
   ],
 };
+describe('dagre layout with combo', () => {
+  const data2 = {
+    nodes: [
+      {
+        id: '1',
+        comboId: 'c1',
+      },
+      {
+        id: '2',
+      },
+      {
+        id: '3',
+      },
+      {
+        id: '4',
+      },
+      {
+        id: '1-1',
+      },
+      {
+        id: '1-2',
+        comboId: 'c1',
+      },
+      {
+        id: '1-3',
+        comboId: 'c1',
+      },
+      {
+        id: '1-4',
+      },
+      {
+        id: '1-5',
+      },
+      {
+        id: '1-6',
+      },
+      {
+        id: '1-1-1',
+      },
+      {
+        id: '1-1-2',
+      },
+      {
+        id: '1-1-3',
+      },
+      {
+        id: '1-1-4',
+      },
+      {
+        id: '1-1-5',
+      },
+      {
+        id: '1-1-6',
+      },
+    ],
+    edges: [
+      { source: '2', target: '3' },
+      { source: '3', target: '4' },
+      { source: '1', target: '1-1' },
+      { source: '1', target: '1-2' },
+      { source: '1-2', target: '2' },
+      { source: '1', target: '1-3' },
+      { source: '1-3', target: '2' },
+      { source: '1', target: '1-4' },
+      { source: '1-4', target: '2' },
+      { source: '1', target: '1-5' },
+      { source: '1-5', target: '2' },
+      { source: '1', target: '1-6' },
+      { source: '1-6', target: '2' },
+      { source: '1-1', target: '1-1-1' },
+      { source: '1-1-1', target: '2' },
+      { source: '1-1', target: '1-1-2' },
+      { source: '1-1-2', target: '2' },
+      { source: '1-1', target: '1-1-3' },
+      { source: '1-1-3', target: '2' },
+      { source: '1-1', target: '1-1-4' },
+      { source: '1-1-4', target: '2' },
+      { source: '1-1', target: '1-1-5' },
+      { source: '1-1-5', target: '2' },
+      { source: '1-1', target: '1-1-6' },
+      { source: '1-1-6', target: '2' },
+    ],
+    combos: [
+      {
+        id: 'c1',
+        type: 'rect',
+        label: 'c1',
+      },
+    ],
+  };
+  data2.nodes.forEach((node) => {
+    node.label = node.id;
+  });
+  it('layout with combo', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      layout: {
+        type: 'dagre',
+        controlPoints: true,
+        sortByCombo: true,
+        ranksep: 1,
+        nodesep: 10,
+      },
+      defaultEdge: {
+        type: 'polyline',
+        style: {
+          endArrow: true,
+        },
+      },
+      modes: {
+        default: ['drag-combo'],
+      },
+    });
+    graph.data(data2);
+    graph.render();
+
+    console.log(graph.findById('1').getModel());
+    console.log(graph.findById('1-2').getModel());
+    console.log(graph.findById('1-1-1').getModel());
+
+    expect(graph.findById('1').getModel().x).toBe(195);
+    expect(graph.findById('1').getModel().y).toBe(21.5);
+    expect(graph.findById('1-2').getModel().x).toBe(45);
+    expect(graph.findById('1-2').getModel().y).toBe(64.5);
+    expect(graph.findById('1-1-1').getModel().x).toBe(370);
+    expect(graph.findById('1-1-1').getModel().y).toBe(108);
+
+    graph.destroy();
+  });
+});
 
 describe('dagre layout', () => {
   it('layout with default configs', () => {
