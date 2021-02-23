@@ -193,12 +193,25 @@ export default {
     // 拖动结束后，入栈
     if (graph.get('enabledStack')) {
       const stackData = {
-        before: { nodes: this.get('beforeDragNodes'), edges: [], combos: [] },
+        before: { nodes: [], edges: [], combos: [] },
         after: { nodes: [], edges: [], combos: [] },
       };
 
+      this.get('beforeDragNodes').forEach((model) => {
+        stackData.before.nodes.push({
+          id: model.id,
+          x: model.x,
+          y: model.y,
+        });
+      });
+
       this.targets.forEach((target) => {
-        stackData.after.nodes.push(target.getModel());
+        const targetModel = target.getModel();
+        stackData.after.nodes.push({
+          id: targetModel.id,
+          x: targetModel.x,
+          y: targetModel.y,
+        });
       });
       graph.pushStack('update', clone(stackData));
     }

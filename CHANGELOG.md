@@ -1,5 +1,13 @@
 # ChangeLog
 
+#### 4.1.13.beta
+
+- chore: update layout and register in G6;
+- fix: performance problem in create-edge with polyline;
+- fix: performance for polyline;
+- fix: throttle updating the polyline edges in drag-node behavior;
+- fix: toolbar redo undo max clone in drag-node behavior;
+
 #### 4.1.12
 
 - chore: update layout with alpha gwebgpu;
