@@ -1,6 +1,6 @@
 # ChangeLog
 
-#### 4.1.13.beta
+#### 4.1.13-beta
 
 - chore: update layout and register in G6;
 - fix: performance problem in create-edge with polyline;
