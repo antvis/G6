@@ -6,7 +6,7 @@
  * @Description: 拖动节点的Behavior
  */
 import { Point } from '@antv/g-base';
-import { deepMix, clone, throttle, debounce } from '@antv/util';
+import { deepMix, clone, debounce } from '@antv/util';
 import { G6Event, IG6GraphEvent, Item, NodeConfig, INode, ICombo } from '@antv/g6-core';
 import { IGraph } from '../interface/graph';
 import Global from '../global';
@@ -24,6 +24,7 @@ export default {
       comboActiveState: '',
       selectedState: 'selected',
       enableOptimize: false,
+      enableDebounce: false,
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -114,8 +115,8 @@ export default {
     });
     this.set('beforeDragNodes', beforeDragNodes);
 
+    this.hidenEdge = {};
     if (this.get('updateEdge') && this.enableOptimize && !this.enableDelegate) {
-      this.hidenEdge = {};
       this.targets.forEach((node) => {
         const edges = node.getEdges();
         edges.forEach((edge) => {
@@ -151,9 +152,19 @@ export default {
     if (this.get('enableDelegate')) {
       this.updateDelegate(evt);
     } else {
-      this.targets.map((target) => {
-        this.update(target, evt);
-      });
+      if (this.enableDebounce)
+        this.debounceUpdate({
+          targets: this.targets,
+          graph: this.graph,
+          point: this.point,
+          origin: this.origin,
+          evt,
+          updateEdge: this.get('updateEdge'),
+        });
+      else
+        this.targets.map((target) => {
+          this.update(target, evt);
+        });
     }
   },
   /**
@@ -187,6 +198,7 @@ export default {
         });
       });
     }
+    this.hidenEdge = {};
 
     const graph: IGraph = this.graph;
 
@@ -357,7 +369,17 @@ export default {
     if (!this.targets || this.targets.length === 0) return;
     // 当开启 delegate 时，拖动结束后需要更新所有已选中节点的位置
     if (this.get('enableDelegate')) {
-      this.targets.map((node) => this.update(node, evt));
+      if (this.enableDebounce)
+        this.debounceUpdate({
+          targets: this.targets,
+          graph: this.graph,
+          point: this.point,
+          origin: this.origin,
+          evt,
+          updateEdge: this.get('updateEdge'),
+          updateFunc: this.update,
+        });
+      else this.targets.map((node) => this.update(node, evt));
     }
   },
   /**
@@ -382,21 +404,44 @@ export default {
     const pos: Point = { x, y };
 
     if (this.get('updateEdge')) {
-      // debounce
-      this.handleUpdateItem({ item, pos, graph: this.graph });
-      // this.graph.updateItem(item, pos, false);
+      this.graph.updateItem(item, pos, false);
     } else {
       item.updatePosition(pos);
     }
   },
 
-  handleUpdateItem: throttle(
+  /**
+   * 限流更新节点
+   * @param item 拖动的节点实例
+   * @param evt
+   */
+  debounceUpdate: debounce(
     (event) => {
-      const { item, pos, graph } = event;
-      graph.updateItem(item, pos, false);
+      const { targets, graph, point, origin, evt, updateEdge, updateFunc } = event;
+      targets.map((item) => {
+        const model: NodeConfig = item.get('model');
+        const nodeId: string = item.get('id');
+        if (!point[nodeId]) {
+          point[nodeId] = {
+            x: model.x || 0,
+            y: model.y || 0,
+          };
+        }
+
+        const x: number = evt.x - origin.x + point[nodeId].x;
+        const y: number = evt.y - origin.y + point[nodeId].y;
+
+        const pos: Point = { x, y };
+
+        if (updateEdge) {
+          graph.updateItem(item, pos, false);
+        } else {
+          item.updatePosition(pos);
+        }
+      });
     },
     50,
-    {},
+    true,
   ),
 
   /**
@@ -409,7 +454,7 @@ export default {
     const { graph } = this;
     if (!this.delegateRect) {
       // 拖动多个
-      const parent = this.graph.get('group');
+      const parent = graph.get('group');
       const attrs = deepMix({}, Global.delegateStyle, this.delegateStyle);
 
       const { x: cx, y: cy, width, height, minX, minY } = this.calculationGroupPosition(e);
@@ -442,9 +487,7 @@ export default {
    * @return {object} 计算出来的delegate坐标信息及宽高
    */
   calculationGroupPosition(evt: IG6GraphEvent) {
-    const { graph } = this;
-
-    const nodes = graph.findAllByState('node', this.selectedState);
+    const nodes = this.targets;
     if (nodes.length === 0) {
       nodes.push(evt.item);
     }

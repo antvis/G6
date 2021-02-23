@@ -69,7 +69,7 @@ export const getLineIntersect = (p0: Point, p1: Point, p2: Point, p3: Point): Po
   if (sqrKross > tolerance * sqrLen0 * sqrLen1) {
     const s = (E.x * D1.y - E.y * D1.x) * invertKross;
     const t = (E.x * D0.y - E.y * D0.x) * invertKross;
-    if (!isBetween(s, 0, 1) || !isBetween(t, 0, t)) return null;
+    if (!isBetween(s, 0, 1) || !isBetween(t, 0, 1)) return null;
     return {
       x: p0.x + s * D0.x,
       y: p0.y + s * D0.y,
