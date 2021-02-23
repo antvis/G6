@@ -936,7 +936,6 @@ describe('all node link center', () => {
     expect(model.color).toEqual('#666');
 
     model.size[1] = 50;
-    console.log(model, node);
 
     expect(model.size[1]).toEqual(50);
     expect(node.get('model').size[1]).toEqual(40);
@@ -2005,10 +2004,10 @@ describe('plugins', () => {
       expect(minimapGroup.get('children').length).toBe(10);
 
       const viewport = minimap2.get('viewport');
-      expect(viewport.style.width).toBe('41.3907px');
-      expect(viewport.style.height).toBe('37.351px');
-      expect(viewport.style.left).toBe('58.6093px');
-      expect(viewport.style.top).toBe('42.649px');
+      expect(viewport.style.width).toBe('39.8406px');
+      expect(viewport.style.height).toBe('39.8406px');
+      expect(viewport.style.left).toBe('42.8287px');
+      expect(viewport.style.top).toBe('25.6574px');
       graph2.destroy();
     }, 100);
   });
@@ -2039,10 +2038,10 @@ describe('plugins', () => {
 
       const viewport = minimap.get('viewport');
 
-      expect(viewport.style.width).toBe('40.0332px');
-      expect(viewport.style.height).toBe('30.6977px');
-      expect(viewport.style.left).toBe('59.9668px');
-      expect(viewport.style.top).toBe('49.3023px');
+      expect(viewport.style.width).toBe('39.8406px');
+      expect(viewport.style.height).toBe('39.8406px');
+      expect(viewport.style.left).toBe('41.5787px');
+      expect(viewport.style.top).toBe('29.5618px');
       graph.destroy();
     }, 100);
   });

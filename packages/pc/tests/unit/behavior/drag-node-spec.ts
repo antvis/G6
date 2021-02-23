@@ -153,11 +153,6 @@ describe('drag-node', () => {
     expect(dragMatrix[7]).toEqual(50);
 
     graph.emit('node:dragend', { x: 200, y: 200, item: node });
-    const matrix = node.get('group').getMatrix();
-    expect(matrix[0]).toEqual(1);
-    expect(matrix[6]).toEqual(200);
-    expect(matrix[7]).toEqual(200);
-    graph.destroy();
   });
   it('drag selected nodes', () => {
     const graph: Graph = new Graph({
@@ -275,7 +270,6 @@ describe('drag-node', () => {
     const dragMatrix = node0.get('group').getMatrix();
     expect(dragMatrix[6]).toEqual(150);
     expect(dragMatrix[7]).toEqual(150);
-
     // if the enableDelegate is false, dragend will not change the node position
     graph.emit('node:dragend', { x: 200, y: 200, item: node0 });
     const matrix = node0.get('group').getMatrix();
@@ -283,6 +277,7 @@ describe('drag-node', () => {
     expect(matrix[6]).toEqual(150);
     expect(matrix[7]).toEqual(150);
     graph.destroy();
+    }, 50);
   });
   it('delegate drag node with edge', () => {
     const graph = new Graph({
