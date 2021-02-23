@@ -130,6 +130,7 @@ export interface ModeOption {
   maxZoom?: number;
   minZoom?: number;
   enableOptimize?: boolean;
+  enableDebounce?: boolean;
   allowDragOnItem?: boolean;
   optimizeZoom?: number;
   multiple?: boolean;
