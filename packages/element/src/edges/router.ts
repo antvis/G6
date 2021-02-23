@@ -241,12 +241,11 @@ const getBoxPoints = (
       }
     }
     return points;
-  } else {
-    // 如果 anchorPoint 在节点上，只有一个可选方向
-    const insterctP = getExpandedBBoxPoint(expandBBox, point, anotherPoint);
-    insterctP.id = `${insterctP.x}|||${insterctP.y}`;
-    return [insterctP];
   }
+  // 如果 anchorPoint 在节点上，只有一个可选方向
+  const insterctP = getExpandedBBoxPoint(expandBBox, point, anotherPoint);
+  insterctP.id = `${insterctP.x}|||${insterctP.y}`;
+  return [insterctP];
 };
 
 const getDirectionChange = (
@@ -265,16 +264,15 @@ const getDirectionChange = (
   if (!cameFrom[current.id]) {
     const startAngle = getDirectionAngle(scaleStartPoint, current);
     return getAngleDiff(startAngle, directionAngle);
-  } else {
-    const prevDirectionAngle = getDirectionAngle(
-      {
-        x: cameFrom[current.id].x,
-        y: cameFrom[current.id].y,
-      },
-      current,
-    );
-    return getAngleDiff(prevDirectionAngle, directionAngle);
   }
+  const prevDirectionAngle = getDirectionAngle(
+    {
+      x: cameFrom[current.id].x,
+      y: cameFrom[current.id].y,
+    },
+    current,
+  );
+  return getAngleDiff(prevDirectionAngle, directionAngle);
 };
 
 const getControlPoints = (
