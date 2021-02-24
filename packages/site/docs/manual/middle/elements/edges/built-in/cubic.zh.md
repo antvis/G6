@@ -63,8 +63,9 @@ cubic 边支持 [边通用配置项](/zh/docs/manual/middle/elements/edges/defau
 | label | 标签文本文字 | String |  |
 | labelCfg | 标签文本配置项 | Object |  |
 | controlPoints | 控制点数组 | Array | 不指定时将会使用默认的控制点：曲线 1/3 和 2/3 处。示例：`[{ x: 10, y: 20 }, { x: 15, y: 30 }]` |
-| curveOffset | 两个控制点距离两端点连线的距离，可理解为控制边的弯曲程度。为 Number 类型时两个控制点分别在连线两侧且与连线距离相等 | Number / Number[] | cubic、horizontal、cubic-vertical、cubic-horizontal 等贝塞尔曲线特有 |
-| curvePosition | 两个控制点在两端点连线上的相对位置，范围 0 ～ 1 | Number / Number[] | cubic、horizontal、cubic-vertical、cubic-horizontal 等贝塞尔曲线特有 |
+| curveOffset | 两个控制点距离两端点连线的距离，可理解为控制边的弯曲程度。为 Number 类型时两个控制点分别在连线两侧且与连线距离相等 | Number / Number[] | cubic、quadratic、cubic-vertical、cubic-horizontal 等贝塞尔曲线特有 |
+| minCurveOffset | 两个控制点距离两端点连线的最小距离距离，可理解为控制边的弯曲程度，用于防止过于“平缓”的曲线，当 `curveOffset` 未指定时生效。为 Number 类型时两个控制点分别在连线两侧且与连线距离相等 | Number / Number[] | cubic-vertical、cubic-horizontal 边特有 |
+| curvePosition | 两个控制点在两端点连线上的相对位置，范围 0 ～ 1 | Number / Number[] | cubic、quadratic、cubic-vertical、cubic-horizontal 等贝塞尔曲线特有 |
 | stateStyles | 各状态下的样式 | Object | 详见[配置状态样式](/zh/docs/manual/middle/states/state#配置-state-样式) |
 
 ### 样式属性 style
