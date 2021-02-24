@@ -384,7 +384,6 @@ export default class ControllerBtn {
       else currentYIdx = Math.min(this.speedAxisY.length - 1, currentYIdx + 1);
 
       const yDiff = this.speedAxisY[currentYIdx] - currentPointerY;
-      const step = yDiff === 0 ? 0 : yDiff > 0 ? -1 : 1;
       pointerMatrix = transform(pointerMatrix, [
         ['t', 0, yDiff]]);
       
