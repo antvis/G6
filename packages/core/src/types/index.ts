@@ -521,6 +521,7 @@ export interface EdgeConfig extends ModelConfig {
   endPoint?: IPoint;
   controlPoints?: IPoint[];
   curveOffset?: number | number[];
+  minCurveOffset?: number | number[];
   // loop edge config
   loopCfg?: LoopConfig;
   labelCfg?: ILabelConfig;

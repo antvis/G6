@@ -24,6 +24,9 @@ G6 的内置 Combo 包括 circle 和 rect 两种类型，分别如下图所示�
 | id | string | true | 'comboA' | 一个 Combo 的唯一标识，**必须是 string 类型，必须唯一** |
 | parentId | string | false | 'comboB' | 该 Combo 的父 Combo 的 ID |
 | padding | Number / Number[] | false | 10 或 [ 10, 20, 10, 20 ] | 该 Combo 内边距 |
+| size | number / number[] | false | 10 或 [ 10, 20 ] | 该 Combo 的最小尺寸（非固定尺寸），默认 'circle' 类型 Combo 的 size 为 20，'rect' 类型的为 [20, 5] |
+| fixSize | number / number[] | false | 10 或 [ 10, 20 ] | 固定该 Combo 的尺寸，不指定时 Combo 大小由内部元素的分布和大小来决定。若指定了 fixSize 而没有指定 fixCollapseSize，则即使该 Combo 在收起状态下仍然保持 fixSize 指定的尺寸 |
+| fixCollapseSize | number / number[] | false | 10 或 [ 10, 20 ] | 固定该 Combo 收起时的尺寸，不指定时，若未指定 fixSize 则由 size 决定收起时的尺寸，否则统一为 fixSize 尺寸 |
 | label | string | false | 'combo A' | 该 Combo 的文本标签 |
 | style | Object | false |  | 该 Combo 的样式配置项，详见[内置 Combo 配置文档](/zh/docs/manual/middle/elements/combos/defaultCombo#样式属性-style)及各类型 Combo 的文档 |
 | labelCfg | Object | false |  | 该 Combo 的文本标签样式配置项，详见[内置 Combo 配置文档](/zh/docs/manual/middle/elements/combos/defaultCombo#标签文本-label-及其配置-labelcfg)及各类型 Combo 的文档 |
@@ -95,7 +98,9 @@ G6 的内置 Combo 包括 circle 和 rect 两种类型，分别如下图所示�
 | id | string | true | 'comboA' | 一个 Combo 的唯一标识，**必须是 string 类型，必须唯一** |
 | type | string | false | 'rect' | 指定该 Combo 的类型，可以是内置 Combo 的类型名，也可以是自定义 Combo 的类型名。默认是 `'circle'` |
 | parentId | string | false | 'comboB' | 该 Combo 的父 Combo 的 ID |
-| size | false | Number / Array | 30 或 [30, 20] | Combo 的最小大小，默认 'circle' 类型 Combo 的 size 为 20，'rect' 类型的为 [20, 5] |
+| size | false | Number / Array | 30 或 [30, 20] | Combo 的最小尺寸（非固定尺寸），默认 'circle' 类型 Combo 的 size 为 20，'rect' 类型的为 [20, 5] |
+| fixSize | number / number[] | false | 10 或 [ 10, 20 ] | 固定该 Combo 的尺寸，不指定时 Combo 大小由内部元素的分布和大小来决定。若指定了 fixSize 而没有指定 fixCollapseSize，则即使该 Combo 在收起状态下仍然保持 fixSize 指定的尺寸 |
+| fixCollapseSize | number / number[] | false | 10 或 [ 10, 20 ] | 固定该 Combo 收起时的尺寸，不指定时，若未指定 fixSize 则由 size 决定收起时的尺寸，否则统一为 fixSize 尺寸 ｜
 | padding | Number / Number[] | false | 10 或 [ 10, 20, 10, 20 ] | 该 Combo 内边距，默认 'circle' 类型 Combo 的 padding 为 25，'rect' 类型的为 [25, 20, 15, 20] |
 | style | Object | false |  | 该 Combo 的样式配置项 |
 | label | string | false | 'Combo A' | 该 Combo 的文本标签 |
