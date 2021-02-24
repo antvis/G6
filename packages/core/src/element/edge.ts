@@ -203,7 +203,6 @@ const singleEdge: ShapeOptions = {
     let autoRotate;
     if (isNil(labelCfg.autoRotate)) autoRotate = this.labelAutoRotate;
     else autoRotate = labelCfg.autoRotate;
-
     const offsetStyle = getLabelPosition(
       pathShape,
       pointPercent,
@@ -244,7 +243,11 @@ const singleEdge: ShapeOptions = {
       y: bbox.minY - padding[0],
       rotate: 0,
     };
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 2316afbbab... fix: lint
     let autoRotate;
     if (isNil(labelCfg.autoRotate)) autoRotate = this.labelAutoRotate;
     else autoRotate = labelCfg.autoRotate;
