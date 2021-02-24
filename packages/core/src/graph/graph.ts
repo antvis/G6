@@ -2699,7 +2699,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     if (!degrees) {
       degrees = getDegree(this.get('data'));
     }
-    this.set('degees', degrees);
+    this.set('degrees', degrees);
     const nodeDegrees = degrees[item.getID()];
     let res;
     switch (type) {
