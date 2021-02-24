@@ -1,13 +1,20 @@
 import { IGroup, IShape } from '@antv/g-base';
 import { deepMix } from '@antv/util';
+import { ext } from '@antv/matrix-util';
 import Button from './timeButton';
 import { ShapeStyle } from '@antv/g6-core';
+import {
+  TIMEBAR_CONFIG_CHANGE
+} from './constant';
 
-const DEFAULT_RECT_FILL = '#ccc';
+const transform = ext.transform;
+
+const DEFAULT_RECT_FILL = '#aaa';
 const DEFAULT_RECT_STROKE = 'green';
 const DEFAULT_PLAYBTN_STYLE = {
-  fill: '#607889',
-  stroke: '#607889',
+  fill: '#aaa',
+  fillOpacity: 0.35,
+  stroke: '#aaa',
 };
 
 const DEFAULT_PREBTN_STYLE = {
@@ -19,22 +26,23 @@ const DEFAULT_NEXTBTN_STYLE = {
 };
 
 const DEFAULT_CONTROLLER_CONFIG = {
-  speed: 2,
+  speed: 1,
   loop: false,
   fill: '#fff',
   stroke: '#fff',
   hiddleToggle: false,
   preBtnStyle: {
-    fill: '#ccc',
-    stroke: '#ccc',
+    fill: '#aaa',
+    stroke: '#aaa',
   },
   nextBtnStyle: {
-    fill: '#ccc',
-    stroke: '#ccc',
+    fill: '#aaa',
+    stroke: '#aaa',
   },
   playBtnStyle: {
-    fill: '#fff',
-    stroke: '#ccc',
+    fill: '#aaa',
+    stroke: '#aaa',
+    fillOpacity: 0.05,
   },
 };
 
@@ -229,52 +237,42 @@ export default class ControllerBtn {
 
     let count = 1;
     const speedNum = [];
-    let maxSpeed = 9;
+    let maxSpeed = 5;
+    this.speedAxisY = [19, 22, 26, 32, 39]
     // 增加speed刻度
     for (let i = 0; i < 5; i++) {
-      const axisY = y + 15 + i * (i + 1) + count;
+      const axisY = y + this.speedAxisY[i];
       // 灰色刻度
-      speedGroup.addShape('rect', {
+      const startX =  width - (!hiddleToggle ? SPEED_CONTROLLER_OFFSET : TOGGLE_MODEL_OFFSET);
+      speedGroup.addShape('line', {
         attrs: {
-          x: width - (!hiddleToggle ? SPEED_CONTROLLER_OFFSET : TOGGLE_MODEL_OFFSET),
-          y: axisY,
-          width: 15,
-          height: 2,
-          fill: '#ccc',
+          x1: startX,
+          x2: startX + 15,
+          y1: axisY,
+          y2: axisY,
+          lineWidth: 1,
+          stroke: '#aaa',
+          cursor: 'pointer',
+          lineAppendWidth: 5
         },
         speed: maxSpeed,
         name: 'speed-rect',
       });
-      this.speedAxisY.push(axisY);
+      this.speedAxisY[i] = axisY;
       speedNum.push(maxSpeed);
-      maxSpeed = maxSpeed - 2;
+      maxSpeed = maxSpeed - 1;
       count++;
-    }
-
-    for (let i = 0; i < 4; i++) {
-      // 灰色刻度
-      speedGroup.addShape('rect', {
-        attrs: {
-          x: width - (!hiddleToggle ? SPEED_CONTROLLER_OFFSET : TOGGLE_MODEL_OFFSET),
-          y: this.speedAxisY[i] + 2,
-          width: 15,
-          height: 2 * i + 1,
-          fill: '#fff',
-          opacity: 0.3,
-        },
-        speed: speedNum[i] - 1,
-        name: 'speed-rect',
-      });
     }
 
     // 速度文本
     this.speedText = speedGroup.addShape('text', {
       attrs: {
         x: width - (!hiddleToggle ? SPEED_CONTROLLER_OFFSET : TOGGLE_MODEL_OFFSET) + 20,
-        y: this.speedAxisY[1] + 15,
+        y: this.speedAxisY[0] + 4,
         text: `1.0X`,
-        fill: '#ccc',
+        fill: '#aaa',
         fontFamily: this.fontFamily || 'Arial, sans-serif',
+        textBaseline: 'top'
       },
     });
 
@@ -282,15 +280,16 @@ export default class ControllerBtn {
       attrs: {
         path: this.getPath(
           width - (!hiddleToggle ? SPEED_CONTROLLER_OFFSET : TOGGLE_MODEL_OFFSET),
-          this.speedAxisY[4],
+          0,
         ),
-        fill: '#ccc',
+        fill: '#aaa',
+        matrix: [ 1, 0, 0, 0, 1, 0,0, this.speedAxisY[4], 1]
       },
     });
   }
 
   private getPath(x, y) {
-    return [['M', x, y], ['L', x - 12, y - 6], ['L', x - 12, y + 6], ['Z']];
+    return [['M', x, y], ['L', x - 10, y - 4], ['L', x - 10, y + 4], ['Z']];
   }
 
   private renderToggleTime() {
@@ -301,12 +300,12 @@ export default class ControllerBtn {
 
     this.toggleGroup.addShape('rect', {
       attrs: {
-        width: 14,
-        height: 14,
+        width: 12,
+        height: 12,
         x: width - TOGGLE_MODEL_OFFSET,
-        y: this.speedAxisY[1],
+        y: this.speedAxisY[0] + 4,
         fill: '#fff',
-        stroke: '#ccc',
+        stroke: '#aaa',
         lineWidth: 2,
         radius: 3,
       },
@@ -332,9 +331,10 @@ export default class ControllerBtn {
     this.checkedText = this.toggleGroup.addShape('text', {
       attrs: {
         text: this.controllerCfg?.timePointControllerText || '单一时间',
-        x: width - TOGGLE_MODEL_OFFSET + 20,
-        y: this.speedAxisY[1] + 15,
-        fill: '#ccc',
+        x: width - TOGGLE_MODEL_OFFSET + 15,
+        y: this.speedAxisY[0] + 4,
+        textBaseline: 'top',
+        fill: '#aaa',
         fontFamily:
           typeof window !== 'undefined'
             ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
@@ -345,22 +345,57 @@ export default class ControllerBtn {
   }
 
   private bindEvent() {
-    const { width, hiddleToggle } = this.controllerCfg;
     this.speedGroup.on('speed-rect:click', (evt) => {
-      this.speedPoint.attr(
-        'path',
-        this.getPath(
-          width - (!hiddleToggle ? SPEED_CONTROLLER_OFFSET : TOGGLE_MODEL_OFFSET),
-          evt.y,
-        ),
-      );
-      this.currentSpeed = evt.target.get('speed');
+      const currentPointerY = evt.target.attr('y1');
+      let pointerMatrix = this.speedPoint.attr('matrix')
+      const currentYIdx = this.speedAxisY.indexOf(pointerMatrix[7] || 0);
+      const targetYIdx = this.speedAxisY.indexOf(currentPointerY);
+      const yDiff = this.speedAxisY[targetYIdx] - this.speedAxisY[currentYIdx];
+
+      pointerMatrix = transform(pointerMatrix, [
+        ['t', 0, yDiff]]);
+      
+      this.speedPoint.setMatrix(pointerMatrix)
+      this.currentSpeed = this.speedAxisY.length - targetYIdx;
       this.speedText.attr('text', `${this.currentSpeed}.0X`);
-      this.group.emit('timebarConfigChanged', {
+      this.group.emit(TIMEBAR_CONFIG_CHANGE, {
         speed: this.currentSpeed,
         type: this.currentType,
       });
     });
+
+    this.speedGroup.on('mousewheel', evt => {
+      evt.preventDefault()
+      let pointerMatrix = this.speedPoint.attr('matrix') || [1, 0, 0, 0, 1, 0, 0, 0, 1];
+      const currentPointerY = pointerMatrix[7];
+      let currentYIdx = this.speedAxisY.indexOf(currentPointerY);
+      if (currentYIdx === -1) {
+        // 找到最近的一个 y
+        let minDist = Infinity;
+        this.speedAxisY.forEach((y, idx) => {
+          const dist = Math.abs(y - currentPointerY);
+          if (minDist > dist) {
+            minDist = dist;
+            currentYIdx = idx;
+          }
+        })
+      }
+      if (evt.originalEvent.deltaY > 0) currentYIdx = Math.max(0, currentYIdx - 1);
+      else currentYIdx = Math.min(this.speedAxisY.length - 1, currentYIdx + 1);
+
+      const yDiff = this.speedAxisY[currentYIdx] - currentPointerY;
+      const step = yDiff === 0 ? 0 : yDiff > 0 ? -1 : 1;
+      pointerMatrix = transform(pointerMatrix, [
+        ['t', 0, yDiff]]);
+      
+      this.speedPoint.setMatrix(pointerMatrix)
+      this.currentSpeed = this.speedAxisY.length - currentYIdx;
+      this.speedText.attr('text', `${this.currentSpeed}.0X`);
+      this.group.emit(TIMEBAR_CONFIG_CHANGE, {
+        speed: this.currentSpeed,
+        type: this.currentType,
+      });
+    })
 
     if (this.toggleGroup) {
       this.toggleGroup.on('toggle-model:click', (evt) => {
@@ -375,7 +410,7 @@ export default class ControllerBtn {
           this.currentType = 'range';
         }
         evt.target.set('isChecked', !isChecked);
-        this.group.emit('timebarConfigChanged', {
+        this.group.emit(TIMEBAR_CONFIG_CHANGE, {
           type: this.currentType,
           speed: this.currentSpeed,
         });

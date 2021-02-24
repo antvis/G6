@@ -21,7 +21,7 @@ import { ControllerCfg } from './controllerBtn';
 import { isString } from '@antv/util';
 
 // simple 版本默认高度
-const DEFAULT_SIMPLE_HEIGHT = 8;
+const DEFAULT_SIMPLE_HEIGHT = 4;
 
 // trend 版本默认高度
 const DEFAULT_TREND_HEIGHT = 26;
@@ -89,7 +89,7 @@ export default class TimeBar extends Base {
         smooth: true,
       },
       controllerCfg: {
-        speed: 2,
+        speed: 1,
         loop: false,
       },
       slider: {
@@ -173,7 +173,7 @@ export default class TimeBar extends Base {
   }
 
   private renderTrend() {
-    const { width, x, y, padding, type, trend, slider, controllerCfg, textStyle } = this._cfgs;
+    const { width, x, y, padding, type, trend, slider, controllerCfg, textStyle, tick } = this._cfgs;
     const { data, ...other } = trend;
 
     const realWidth = width - 2 * padding;
@@ -200,7 +200,10 @@ export default class TimeBar extends Base {
           data: data.map((d) => d.value),
         },
         ...slider,
-        ticks: data.map((d) => d.date),
+        tick: {
+          ticks: data,
+          tickLabelFormatter: tick.tickLabelFormatter
+        },
         handlerStyle: {
           ...slider.handlerStyle,
           height: slider.height || defaultHeight,
@@ -209,7 +212,6 @@ export default class TimeBar extends Base {
         textStyle,
       });
     } else if (type === 'tick') {
-      const { tick } = this._cfgs;
       // 刻度时间轴
       timebar = new TimeBarSlice({
         graph,
@@ -247,8 +249,9 @@ export default class TimeBar extends Base {
     let max = Math.round(trendData.length * value[1]);
     max = max >= trendData.length ? trendData.length - 1 : max;
 
-    const minText = trendData[min].date;
-    const maxText = trendData[max].date;
+    const tickLabelFormatter = this._cfgs.tick?.tickLabelFormatter;
+    const minText = tickLabelFormatter ? tickLabelFormatter(trendData[min]) : trendData[min].date;
+    const maxText = tickLabelFormatter ? tickLabelFormatter(trendData[max]) : trendData[max].date;
 
     if (type !== 'tick') {
       const timebar = this.get('timebar');
@@ -259,18 +262,16 @@ export default class TimeBar extends Base {
       rangeChange(graph, minText, maxText);
     } else {
       // 自动过滤数据，并渲染 graph
-      const graphData = graph.save() as GraphData;
-
       if (
         !this.cacheGraphData ||
         (this.cacheGraphData.nodes && this.cacheGraphData.nodes.length === 0)
       ) {
-        this.cacheGraphData = graphData;
+        this.cacheGraphData = graph.save() as GraphData;
       }
 
       // 过滤不在 min 和 max 范围内的节点
       const filterData = this.cacheGraphData.nodes.filter(
-        (d: any) => d.date >= minText && d.date <= maxText,
+        (d: any) => d.date >= trendData[min].date && d.date <= trendData[max].date,
       );
 
       const nodeIds = filterData.map((node) => node.id);

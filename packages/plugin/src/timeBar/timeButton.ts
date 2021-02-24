@@ -65,7 +65,7 @@ export default class Button {
     this.startMarker = group.addShape('path', {
       attrs: {
         path: this.getStartMarkerPath(),
-        fill: '#ccc',
+        fill: '#aaa',
       },
       name: 'playPauseBtn',
     });
@@ -89,7 +89,7 @@ export default class Button {
         y: this.config.y - height / 2,
         width,
         height,
-        fill: '#ccc',
+        fill: '#aaa',
       },
       name: 'playPauseBtn',
     });
@@ -100,7 +100,7 @@ export default class Button {
         y: this.config.y - height / 2,
         width,
         height,
-        fill: '#ccc',
+        fill: '#aaa',
       },
       name: 'playPauseBtn',
     });
