@@ -21,10 +21,13 @@ To keep the stability of the structure of the source data, we do some compatible
 | --- | --- | --- | --- | --- |
 | id | string | true | 'comboA' | The uinique ID for the combo. **MUST** be a unique string |
 | parentId | string | false | 'comboB' | The ID of the parent combo |
+| size | false | Number / Array | 30 or [30, 20] | The MINIMUM size of the combo (not for fixing the size of combo). The default value for 'circle' type Combo is 20, [20, 5] for 'rect' type |
+| fixSize | number / number[] | false | 10 or [ 10, 20 ] | Fix the size of the Combo. If it is not assigned, the rendering size of the combo depends on the sizes and distribution of its children items. If the `fixSize` is assigned but the `fixCollapseSize` is not, the size of the collapsed combo will still be `fixSize` |
+| fixCollapseSize | number / number[] | false | 10 or [ 10, 20 ] | Fix the size of the collapsed Combo. If it is not assigned and the `fixSize` is assigned, the size of the collapsed Combo is `fixSize`; and if `fixCollapseSize` and `fixSize` are both not assigned, the size of the collapsed Combo is `size` ｜
 | padding | Number / Number[] | 10 or [ 10, 20, 10, 20 ] | The padding inside the combo |
 | label | string | false | 'combo A' | The label text of the combo |
-| style | Object | false |  | The style configuration of the combo, details are in [Built-in Combo Configuration](/en/docs/manual/middle/elements/combos/defaultCombo#style) and documents of each type of combo |
-| labelCfg | Object | false |  | The label configuration of the combo, details are in [Built-in Combo Configuration](/en/docs/manual/middle/elements/combos/defaultCombo#label-and-labelcfg) and documents of each type of combo |
+| style | Object | false | | The style configuration of the combo, details are in [Built-in Combo Configuration](/en/docs/manual/middle/elements/combos/defaultCombo#style) and documents of each type of combo |
+| labelCfg | Object | false | | The label configuration of the combo, details are in [Built-in Combo Configuration](/en/docs/manual/middle/elements/combos/defaultCombo#label-and-labelcfg) and documents of each type of combo |
 
 An example for the data item for a combo
 
@@ -91,8 +94,10 @@ The table below shows the built-in Combos and their special properties:
 | id | true | String | 'comboA' | The id of the Combo, **Must** be a unique string |
 | type | false | String | 'rect' | The shape type of the Combo. It can be the type of built-in Combo, or the custom Combo. `'circle'` by default |
 | parentId | string | false | 'comboB' | The ID of the parent Combo |
-| size | false | Number / Array | 30 or [30, 20] | The minimum size of the combo. The default value for 'circle' type Combo is 20, [20, 5] for 'rect' type |
-| padding | Number / Number[] | false | 10 或 [ 10, 20, 10, 20 ] | The padding of the Combo. The default value for 'circle' type Combo is 25, [25, 20, 15, 20] for 'rect' |
+| size | false | Number / Array | 30 or [30, 20] | The MINIMUM size of the combo (not for fixing the size of combo). The default value for 'circle' type Combo is 20, [20, 5] for 'rect' type |
+| fixSize | number / number[] | false | 10 or [ 10, 20 ] | Fix the size of the Combo. If it is not assigned, the rendering size of the combo depends on the sizes and distribution of its children items. If the `fixSize` is assigned but the `fixCollapseSize` is not, the size of the collapsed combo will still be `fixSize` |
+| fixCollapseSize | number / number[] | false | 10 or [ 10, 20 ] | Fix the size of the collapsed Combo. If it is not assigned and the `fixSize` is assigned, the size of the collapsed Combo is `fixSize`; and if `fixCollapseSize` and `fixSize` are both not assigned, the size of the collapsed Combo is `size` ｜
+| padding | Number / Number[] | false | 10 or [ 10, 20, 10, 20 ] | The padding of the Combo. The default value for 'circle' type Combo is 25, [25, 20, 15, 20] for 'rect' |
 | style | false | Object |  | The Combo style |
 | label | false | String | 'Combo A' | The label text of the combo |
 | labelCfg | false | Object |  | The configurations of the combo |

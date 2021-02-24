@@ -8,6 +8,7 @@
 - fix: debounce updating the polyline edges in drag-node behavior;
 - fix: toolbar redo undo max clone in drag-node behavior;
 - feat: dagre layout with combo;
+- feat: cubic-vertical and cubic-horizontal with curveOffset and minCurveOffset
 
 #### 4.1.12
 

@@ -178,6 +178,8 @@ const graph = new G6.Graph({
   - `updateEdge`：是否在拖拽节点时更新所有与之相连的边，默认为 `true` 。
   - `enableDelegate`：拖动节点过程中是否启用 `delegate`，即在拖动过程中是否使用方框代替元素的直接移动，效果区别见下面两个动图。默认值为  `false`；
   - `onlyChangeComboSize`：V3.5 及以上版本支持，拖动节点过程中只改变 Combo 大小，不改变 Combo 结构，即不将节点从 Combo 中拖出或将节点拖入到 Combo 中，默认为 false；
+  - `enableDebounce`：是否在拖动节点时使用 debounce 来避免频繁的更新计算。这个 boolean 类型的配置项可以为折线边的更新提高性能，减少折线边的频繁重新寻径。默认值为 `false`；
+  - `enableOptimize`：是否在拖拽节点时隐藏相关边，拖拽结束后再显示。这个 boolean 类型的配置项可以完全避免拖拽过程中相关折线边的重新寻径，默认值为 `false`；
   - `comboActiveState`：V3.5 及以上版本支持，拖动节点过程中，如果存在 Combo，节点所在 Combo 或节点进入的 Combo 的状态，需要在实例化 Graph 时候通过 `comboStateStyles` 进行配置，默认为空；
   - `selectedState`：V3.5 及以上版本支持，选中 Combo 的样式，需要在实例化 Graph 时候通过 `comboStateStyles` 进行配置,默认为 selected；
   - `shouldBegin(e)`：是否允许当前被操作的节点被拖动；
