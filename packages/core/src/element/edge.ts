@@ -244,7 +244,7 @@ const singleEdge: ShapeOptions = {
       y: bbox.minY - padding[0],
       rotate: 0,
     };
-    
+
     let autoRotate;
     if (isNil(labelCfg.autoRotate)) autoRotate = this.labelAutoRotate;
     else autoRotate = labelCfg.autoRotate;
@@ -351,13 +351,14 @@ const singleEdge: ShapeOptions = {
   },
   drawLabel(cfg: EdgeConfig, group: IGroup): IShape {
     const { labelCfg: defaultLabelCfg } = this.options as ModelConfig;
+    let defaultFontFamily;
+    if (typeof window !== 'undefined') defaultFontFamily = window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
+    'Arial, sans-serif';
+    else defaultFontFamily = 'Arial, sans-serif'
+
     const labelCfg = deepMix(
       {
-        fontFamily:
-          typeof window !== 'undefined'
-            ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
-              'Arial, sans-serif'
-            : 'Arial, sans-serif',
+        fontFamily: defaultFontFamily
       },
       defaultLabelCfg,
       cfg.labelCfg,
