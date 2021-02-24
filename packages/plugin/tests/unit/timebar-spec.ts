@@ -407,3 +407,111 @@ describe('timeline play with timebar', () => {
     // })
   });
 });
+
+
+xdescribe('timebar filter edges', () => {
+  it('trend timebar', () => {
+    const timeBarData = [];
+
+    for (let i = 1; i < 60; i++) {
+      const month = i < 30 ? '01' : '02';
+      const day = i % 30 < 10 ? `0${i % 30}` : `${i % 30}`;
+      timeBarData.push({
+        date: i,//parseInt(`2020${month}${day}`, 10),
+        value: Math.round(Math.random() * 300),
+      });
+    }
+
+    const intervalData = [];
+    for (let i = 0; i < 50; i++) {
+      intervalData.push({
+        date: i,
+        value: Math.round(Math.random() * 300),
+      });
+    }
+
+    const timeLine = new TimeBar({
+      x: 20,
+      y: 0,
+      width: 450,
+      height: 150,
+      padding: 10,
+      type: 'simple',
+      tick: {
+        tickLabelFormatter: d => {
+          const i = d.date;
+          const month = i < 30 ? '01' : '02';
+          const day = i % 30 < 10 ? `0${i % 30}` : `${i % 30}`;
+          return `2020${month}${day}`;
+        }
+      }, 
+      trend: {
+        data: timeBarData,
+        // isArea: true,
+        // // areaStyle: {
+        // //   fill: 'pink'
+        // // },
+        // lineStyle: {
+        //   stroke: 'green',
+        //   lineWidth: 1,
+        // },
+        // interval: {
+        //   data: intervalData.map((d) => d.value),
+        //   style: {
+        //     // stroke: '#ccc',
+        //     fill: '#ccc',
+        //   },
+        // },
+      },
+      slider: {
+        // height: 50,
+
+        // backgroundStyle: {
+        //   fill: 'blue',
+        //   opacity: 0.2
+        // },
+        // foregroundStyle: {
+        //   fill: 'yellow'
+        // },
+        textStyle: {
+          fill: 'red',
+          fontSize: 16,
+        },
+        // handlerStyle: {
+        //   style: {
+        //     fill: '#1890ff',
+        //     stroke: '#1890ff'
+        //   }
+        // }
+      }
+      // loop: true
+    });
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 300,
+      // renderer: 'svg',
+      plugins: [timeLine],
+      modes: {
+        default: ['drag-node', 'zoom-canvas', 'drag-canvas'],
+      },
+      defaultEdge: {
+        style: {
+          lineAppendWidth: 20,
+        },
+      },
+    });
+    console.log('data', data)
+
+    graph.data(data);
+    graph.render();
+    // graph.on('sliderchange', evt => {
+    //   console.log('范围', evt)
+    // })
+
+    // graph.on('timelinechange', evt => {
+    //   console.log('timeline', evt)
+    // })
+  });
+
+});
