@@ -2701,7 +2701,13 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     }
     this.set('degees', degrees);
     const nodeDegrees = degrees[item.getID()];
-    let res;
+
+    let res = 0;
+    // 如果是通过 addItem 后面新增加的节点，此时它的所有度数都为 0
+    if (!nodeDegrees) {
+      return res
+    }
+
     switch (type) {
       case 'in':
         res = nodeDegrees.inDegree;
