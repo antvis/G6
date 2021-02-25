@@ -1359,7 +1359,7 @@ describe('node Neighbors', () => {
     expect(neighbors[1].getID()).toEqual('C');
   });
 
-  it.only('getNodeDegree', () => {
+  it('getNodeDegree', () => {
     let degree = graph.getNodeDegree('A');
     expect(degree).toEqual(3);
     graph.addItem('node', {
