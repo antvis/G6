@@ -117,6 +117,9 @@ export type LoopConfig = Partial<{
 
 export interface LayoutConfig {
   type?: string;
+  workerEnabled?: boolean;
+  // 只有当 workerEnabled 为 true 时才生效
+  workerScriptURL?: string;
   [key: string]: unknown;
 }
 
