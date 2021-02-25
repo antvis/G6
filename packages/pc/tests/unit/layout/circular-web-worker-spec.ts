@@ -37,7 +37,7 @@ describe('circular layout(web worker)', () => {
     graph.render();
   });
 
-  it.only('circular(web worker) counterclockwise, and fixed radius, start angle, end angle', done => {
+  it('circular(web worker) counterclockwise, and fixed radius, start angle, end angle', done => {
     const graph = new G6.Graph({
       container: div,
       layout: {
