@@ -37,7 +37,7 @@ for (let i = 0; i < 100; i++) {
     value: Math.round(Math.random() * 300),
   });
 
-  const edgeDate = Math.round(Math.random() * 100)
+  const edgeDate = Math.round(Math.random() * 100);
   data.edges.push({
     date: edgeDate,
     label: edgeDate,
@@ -68,12 +68,12 @@ describe('timeline filter edges', () => {
       trend: {
         data: timeBarData,
         isArea: true,
-        tickLabelFormatter: d => {
+        tickLabelFormatter: (d) => {
           const i = d.date;
           const month = i < 30 ? '01' : '02';
           const day = i % 30 < 10 ? `0${i % 30}` : `${i % 30}`;
-          return `2020${month}${day}`
-        }
+          return `2020${month}${day}`;
+        },
       },
       controllerCfg: {
         // scale: 0.7,
@@ -82,10 +82,9 @@ describe('timeline filter edges', () => {
         x: 200,
         width: 100,
         preBtnStyle: {
-          fill: '#f00'
+          fill: '#f00',
         },
-        nextBtnStyle: {
-        },
+        nextBtnStyle: {},
         playBtnStyle: {
           fill: '#0f0',
           stroke: '#00f',
@@ -94,7 +93,7 @@ describe('timeline filter edges', () => {
           pointer: {
             stroke: '#f00',
             fill: '#0f0',
-            lineWidth: 2
+            lineWidth: 2,
           },
           scroller: {
             stroke: '#0f0',
@@ -102,23 +101,22 @@ describe('timeline filter edges', () => {
           text: {
             fill: '#00f',
           },
-          
         },
         timeTypeControllerStyle: {
           box: {
             fill: '#f00',
             fillOpacity: 0.1,
-            stroke: '#f00'
+            stroke: '#f00',
           },
           check: {
             lineWidth: 1,
-            stroke: '#000'
+            stroke: '#000',
           },
           text: {
-            fill: '#00f'
-          }
-        }
-      }
+            fill: '#00f',
+          },
+        },
+      },
     });
     const graph = new G6.Graph({
       container: div,
@@ -139,7 +137,6 @@ describe('timeline filter edges', () => {
     graph.data(data);
     graph.render();
   });
-
 });
 
 describe('timeline play with timebar', () => {
@@ -208,7 +205,7 @@ describe('timeline play with timebar', () => {
         //     stroke: '#1890ff'
         //   }
         // }
-      }
+      },
       // loop: true
     });
     const graph = new G6.Graph({
@@ -507,7 +504,6 @@ describe('timeline play with timebar', () => {
   });
 });
 
-
 xdescribe('timebar filter edges', () => {
   it('trend timebar', () => {
     const timeBarData = [];
@@ -516,7 +512,7 @@ xdescribe('timebar filter edges', () => {
       const month = i < 30 ? '01' : '02';
       const day = i % 30 < 10 ? `0${i % 30}` : `${i % 30}`;
       timeBarData.push({
-        date: i,//parseInt(`2020${month}${day}`, 10),
+        date: i, //parseInt(`2020${month}${day}`, 10),
         value: Math.round(Math.random() * 300),
       });
     }
@@ -537,13 +533,13 @@ xdescribe('timebar filter edges', () => {
       padding: 10,
       type: 'simple',
       tick: {
-        tickLabelFormatter: d => {
+        tickLabelFormatter: (d) => {
           const i = d.date;
           const month = i < 30 ? '01' : '02';
           const day = i % 30 < 10 ? `0${i % 30}` : `${i % 30}`;
           return `2020${month}${day}`;
-        }
-      }, 
+        },
+      },
       trend: {
         data: timeBarData,
         // isArea: true,
@@ -582,7 +578,7 @@ xdescribe('timebar filter edges', () => {
         //     stroke: '#1890ff'
         //   }
         // }
-      }
+      },
       // loop: true
     });
     const graph = new G6.Graph({
@@ -600,7 +596,7 @@ xdescribe('timebar filter edges', () => {
         },
       },
     });
-    console.log('data', data)
+    console.log('data', data);
 
     graph.data(data);
     graph.render();
@@ -612,5 +608,4 @@ xdescribe('timebar filter edges', () => {
     //   console.log('timeline', evt)
     // })
   });
-
 });

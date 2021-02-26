@@ -90,12 +90,11 @@ interface TrendTimeBarConfig extends SliderOption {
       value: string;
     }[];
     readonly tickLabelFormatter?: (d: any) => string | undefined;
-  }
+  };
 
   readonly controllerCfg: ControllerCfg;
 
   // 自定义标签格式化函数
-  
 }
 
 export default class TrendTimeBar {
@@ -386,12 +385,12 @@ export default class TrendTimeBar {
         ...this.foregroundStyle,
       },
     });
-    this.foregroundShape.on('mousedown', e => {
-      e.target.attr('cursor', 'grabbing')
-    })
-    this.foregroundShape.on('mouseup', e => {
-      e.target.attr('cursor', this.foregroundStyle.cursor || 'grab')
-    })
+    this.foregroundShape.on('mousedown', (e) => {
+      e.target.attr('cursor', 'grabbing');
+    });
+    this.foregroundShape.on('mouseup', (e) => {
+      e.target.attr('cursor', this.foregroundStyle.cursor || 'grab');
+    });
 
     // 滑块相关的大小信息
     const handlerWidth = get(this.handlerStyle, 'width', 2);
@@ -440,7 +439,6 @@ export default class TrendTimeBar {
     let lastX = -Infinity;
     this.textList = tickData.map((data, index) => {
       this.tickPosList.push(this.x + index * interval);
-
 
       let label;
       if (this.tickLabelFormatter) {
@@ -502,7 +500,7 @@ export default class TrendTimeBar {
       y: this.y + height + 25,
       width,
       height: 35,
-      ...this.controllerCfg
+      ...this.controllerCfg,
     });
 
     // 初始化 minText 和 maxText，方便计算它们的 bbox

@@ -14,7 +14,7 @@ import {
   IG6GraphEvent,
   TimeBarType,
   IAbstractGraph as IGraph,
-  ShapeStyle
+  ShapeStyle,
 } from '@antv/g6-core';
 import { Interval } from './trend';
 import { ControllerCfg } from './controllerBtn';
@@ -108,7 +108,7 @@ export default class TimeBar extends Base {
         data: [],
       },
       textStyle: {},
-      filterEdge: false
+      filterEdge: false,
     };
   }
 
@@ -178,7 +178,18 @@ export default class TimeBar extends Base {
   }
 
   private renderTrend() {
-    const { width, x, y, padding, type, trend, slider, controllerCfg, textStyle, tick } = this._cfgs;
+    const {
+      width,
+      x,
+      y,
+      padding,
+      type,
+      trend,
+      slider,
+      controllerCfg,
+      textStyle,
+      tick,
+    } = this._cfgs;
     const { data, ...other } = trend;
 
     const realWidth = width - 2 * padding;
@@ -207,7 +218,7 @@ export default class TimeBar extends Base {
         ...slider,
         tick: {
           ticks: data,
-          tickLabelFormatter: tick.tickLabelFormatter
+          tickLabelFormatter: tick.tickLabelFormatter,
         },
         handlerStyle: {
           ...slider.handlerStyle,
@@ -282,7 +293,7 @@ export default class TimeBar extends Base {
 
       const nodeIds = filterData.map((node) => node.id);
 
-      let fileterEdges = []
+      let fileterEdges = [];
       if (this.cacheGraphData.edges) {
         // 过滤 source 或 target 不在 min 和 max 范围内的边
         fileterEdges = this.cacheGraphData.edges.filter(
@@ -291,8 +302,8 @@ export default class TimeBar extends Base {
 
         if (this.get('filterEdge')) {
           fileterEdges = fileterEdges.filter(
-            edge => edge.date >= trendData[min].date && edge.date <= trendData[max].date,
-          )
+            (edge) => edge.date >= trendData[min].date && edge.date <= trendData[max].date,
+          );
         }
       }
 
@@ -316,21 +327,24 @@ export default class TimeBar extends Base {
     }
 
     const graph: IGraph = this.get('graph');
-    graph.on('afterrender', e => {
+    graph.on('afterrender', (e) => {
       this.filterData({ value: [start, end] });
     });
 
     // 时间轴的值发生改变的事件
-    graph.on(VALUE_CHANGE, throttle(
-      (e) => {
-        this.filterData(e);
-      },
-      200,
-      {
-        trailing: true,
-        leading: true
-      },
-    ) as any);
+    graph.on(
+      VALUE_CHANGE,
+      throttle(
+        (e) => {
+          this.filterData(e);
+        },
+        200,
+        {
+          trailing: true,
+          leading: true,
+        },
+      ) as any,
+    );
   }
 
   public destroy() {

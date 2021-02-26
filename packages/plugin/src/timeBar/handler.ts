@@ -175,7 +175,7 @@ export default class Handler {
           radius,
           opacity,
           cursor,
-          lineWidth: 2
+          lineWidth: 2,
         },
         name: `${name}-handler`,
       });
@@ -189,7 +189,7 @@ export default class Handler {
           radius,
           opacity,
           cursor,
-          lineWidth: 2
+          lineWidth: 2,
         },
         name: `${name}-handler`,
       });
