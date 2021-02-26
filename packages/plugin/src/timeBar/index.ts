@@ -12,13 +12,13 @@ import { VALUE_CHANGE } from './constant';
 import {
   GraphData,
   IG6GraphEvent,
-  ShapeStyle,
   TimeBarType,
   IAbstractGraph as IGraph,
+  ShapeStyle
 } from '@antv/g6-core';
 import { Interval } from './trend';
 import { ControllerCfg } from './controllerBtn';
-import { isString, debounce, throttle } from '@antv/util';
+import { isString, throttle } from '@antv/util';
 
 // simple 版本默认高度
 const DEFAULT_SIMPLE_HEIGHT = 4;
@@ -330,7 +330,7 @@ export default class TimeBar extends Base {
         trailing: true,
         leading: true
       },
-    ));
+    ) as any);
   }
 
   public destroy() {
