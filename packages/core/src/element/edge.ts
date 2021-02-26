@@ -203,7 +203,7 @@ const singleEdge: ShapeOptions = {
     let autoRotate;
     if (isNil(labelCfg.autoRotate)) autoRotate = this.labelAutoRotate;
     else autoRotate = labelCfg.autoRotate;
-    
+
     const offsetStyle = getLabelPosition(
       pathShape,
       pointPercent,
@@ -248,7 +248,6 @@ const singleEdge: ShapeOptions = {
     let autoRotate;
     if (isNil(labelCfg.autoRotate)) autoRotate = this.labelAutoRotate;
     else autoRotate = labelCfg.autoRotate;
-    
 
     const pathShape = group && group.find((element) => element.get('className') === CLS_SHAPE);
 
@@ -352,13 +351,15 @@ const singleEdge: ShapeOptions = {
   drawLabel(cfg: EdgeConfig, group: IGroup): IShape {
     const { labelCfg: defaultLabelCfg } = this.options as ModelConfig;
     let defaultFontFamily;
-    if (typeof window !== 'undefined') defaultFontFamily = window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
-    'Arial, sans-serif';
-    else defaultFontFamily = 'Arial, sans-serif'
+    if (typeof window !== 'undefined')
+      defaultFontFamily =
+        window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
+        'Arial, sans-serif';
+    else defaultFontFamily = 'Arial, sans-serif';
 
     const labelCfg = deepMix(
       {
-        fontFamily: defaultFontFamily
+        fontFamily: defaultFontFamily,
       },
       defaultLabelCfg,
       cfg.labelCfg,
@@ -598,18 +599,33 @@ Shape.registerEdge(
   'cubic-vertical',
   {
     curvePosition: [1 / 2, 1 / 2],
+    minCurveOffset: [0, 0],
+    curveOffset: undefined,
     getControlPoints(cfg: EdgeConfig): IPoint[] {
       const { startPoint, endPoint } = cfg;
-      if (cfg.curvePosition !== undefined) this.curvePosition = cfg.curvePosition;
-      if (isNumber(this.curvePosition))
-        this.curvePosition = [this.curvePosition, 1 - this.curvePosition];
+      if (cfg.curvePosition === undefined) cfg.curvePosition = this.curvePosition;
+      if (cfg.curveOffset === undefined) cfg.curveOffset = this.curveOffset;
+      if (cfg.minCurveOffset === undefined) cfg.minCurveOffset = this.minCurveOffset;
+      if (isNumber(cfg.curveOffset)) cfg.curveOffset = [cfg.curveOffset, -cfg.curveOffset];
+      if (isNumber(cfg.minCurveOffset))
+        cfg.minCurveOffset = [cfg.minCurveOffset, -cfg.minCurveOffset];
+      if (isNumber(cfg.curvePosition))
+        cfg.curvePosition = [cfg.curvePosition, 1 - cfg.curvePosition];
+
+      const yDist = Math.abs(endPoint!.y - startPoint!.y);
+      const curveOffset: number[] = cfg.curveOffset
+        ? cfg.curveOffset
+        : Math.abs(yDist) < Math.abs(cfg.minCurveOffset[0])
+        ? cfg.minCurveOffset
+        : [0, 0];
+
       const innerPoint1 = {
         x: startPoint!.x,
-        y: (endPoint!.y - startPoint!.y) * (this as any).curvePosition[0] + startPoint!.y,
+        y: startPoint!.y + yDist * (this as any).curvePosition[0] + curveOffset[0],
       };
       const innerPoint2 = {
         x: endPoint!.x,
-        y: (endPoint!.y - startPoint!.y) * (this as any).curvePosition[1] + startPoint!.y,
+        y: endPoint!.y - yDist * (this as any).curvePosition[1] + curveOffset[1],
       };
       return [innerPoint1, innerPoint2];
     },
@@ -622,17 +638,32 @@ Shape.registerEdge(
   'cubic-horizontal',
   {
     curvePosition: [1 / 2, 1 / 2],
+    minCurveOffset: [0, 0],
+    curveOffset: undefined,
     getControlPoints(cfg: EdgeConfig): IPoint[] {
       const { startPoint, endPoint } = cfg;
-      if (cfg.curvePosition !== undefined) this.curvePosition = cfg.curvePosition;
-      if (isNumber(this.curvePosition))
-        this.curvePosition = [this.curvePosition, 1 - this.curvePosition];
+      if (cfg.curvePosition === undefined) cfg.curvePosition = this.curvePosition;
+      if (cfg.curveOffset === undefined) cfg.curveOffset = this.curveOffset;
+      if (cfg.minCurveOffset === undefined) cfg.minCurveOffset = this.minCurveOffset;
+      if (isNumber(cfg.curveOffset)) cfg.curveOffset = [cfg.curveOffset, -cfg.curveOffset];
+      if (isNumber(cfg.minCurveOffset))
+        cfg.minCurveOffset = [cfg.minCurveOffset, -cfg.minCurveOffset];
+      if (isNumber(cfg.curvePosition))
+        cfg.curvePosition = [cfg.curvePosition, 1 - cfg.curvePosition];
+
+      const xDist = Math.abs(endPoint!.x - startPoint!.x);
+      const curveOffset: number[] = cfg.curveOffset
+        ? cfg.curveOffset
+        : Math.abs(xDist) < Math.abs(cfg.minCurveOffset[0])
+        ? cfg.minCurveOffset
+        : [0, 0];
+
       const innerPoint1 = {
-        x: (endPoint!.x - startPoint!.x) * (this as any).curvePosition[0] + startPoint!.x,
+        x: startPoint!.x + xDist * (this as any).curvePosition[0] + curveOffset[0],
         y: startPoint!.y,
       };
       const innerPoint2 = {
-        x: (endPoint!.x - startPoint!.x) * (this as any).curvePosition[1] + startPoint!.x,
+        x: endPoint!.x - xDist * (this as any).curvePosition[1] + curveOffset[1],
         y: endPoint!.y,
       };
       const controlPoints = [innerPoint1, innerPoint2];

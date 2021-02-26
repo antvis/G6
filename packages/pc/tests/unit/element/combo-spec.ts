@@ -5,8 +5,8 @@ const div = document.createElement('div');
 div.id = 'edge-shape';
 document.body.appendChild(div);
 
-describe('vertical horizontal cubic edge', () => {
-  it('vertical horizontal cubic edge with curveOffset', () => {
+describe('Combo with fixSize and fixCollapseSize', () => {
+  it('Combo with fixSize and fixCollapseSize', () => {
     const graph = new Graph({
       container: div,
       width: 500,
@@ -18,7 +18,7 @@ describe('vertical horizontal cubic edge', () => {
       defaultCombo: {
         type: 'rect',
       },
-      groupByTypes: false
+      groupByTypes: false,
     });
     const data = {
       nodes: [
@@ -64,9 +64,9 @@ describe('vertical horizontal cubic edge', () => {
     graph.data(data);
     graph.render();
 
-    graph.on('canvas:click' e => {
-      graph.updateCombos()
-    })
+    graph.on('canvas:click', (e) => {
+      graph.updateCombos();
+    });
 
     // graph.destroy();
   });

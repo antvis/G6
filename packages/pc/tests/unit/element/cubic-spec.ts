@@ -100,7 +100,7 @@ describe('vertical horizontal cubic edge', () => {
 
     graph.destroy();
   });
-  it('vertical horizontal cubic edge with minCurveOffset', () => {
+  it.only('vertical horizontal cubic edge with minCurveOffset', () => {
     const graph = new Graph({
       container: div,
       width: 500,
