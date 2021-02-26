@@ -83,7 +83,7 @@ export default class Tooltip extends Base {
       container = document.getElementById(container) as HTMLDivElement;
     }
 
-    modifyCSS(tooltip, { position: 'absolute', visibility: 'hidden' });
+    modifyCSS(tooltip, { position: 'absolute', visibility: 'hidden', display: 'none' });
     container.appendChild(tooltip);
     this.set('tooltip', tooltip);
   }
@@ -139,7 +139,7 @@ export default class Tooltip extends Base {
   hideTooltip() {
     const tooltip = this.get('tooltip');
     if (tooltip) {
-      modifyCSS(tooltip, { visibility: 'hidden' });
+      modifyCSS(tooltip, { visibility: 'hidden', display: 'none' });
     }
   }
 
@@ -149,6 +149,7 @@ export default class Tooltip extends Base {
     if (!shouldBegin(e)) {
       modifyCSS(tooltip, {
         visibility: 'hidden',
+        display: 'none'
       });
       return;
     }
@@ -183,6 +184,7 @@ export default class Tooltip extends Base {
       left: `${x}px`,
       top: `${y}px`,
       visibility: 'visible',
+      display: 'unset'
     });
   }
 

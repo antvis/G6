@@ -112,17 +112,59 @@ const data = {
     {
       id: 'A',
       label: 'combo A',
+      style: {
+        fill: '#C4E3B2',
+        stroke: '#C4E3B2'
+      }
     },
     {
       id: 'B',
       label: 'combo B',
+      style: {
+        stroke: '#99C0ED',
+        fill: '#99C0ED',
+      }
     },
     {
       id: 'C',
       label: 'combo C',
+      style: {
+        stroke: '#eee',
+        fill: '#eee'
+      }
     },
   ],
 };
+
+data.nodes.forEach(node => {
+  switch (node.ComboId) {
+    case 'A':
+      node.style = {
+        fill: '#C4E3B2',
+        stroke: '#aaa'
+      };
+      break;
+    case 'B':
+      node.style = {
+        fill: '#99C0ED',
+        stroke: '#aaa',
+      };
+      break;
+    case 'C':
+      node.style = {
+        fill: '#eee',
+        stroke: '#aaa',
+      };
+      break;
+    default:
+      node.style = {
+        fill: '#FDE1CE',
+        stroke: '#aaa'
+      };
+      break;
+  }
+});
+
 
 let sortByCombo = false;
 const descriptionDiv = document.createElement('button');
@@ -147,6 +189,7 @@ const graph = new G6.Graph({
   fitView: true,
   fitViewPadding: 30,
   animate: true,
+  groupByTypes: false,
   modes: {
     default: [
       'drag-combo',
@@ -161,9 +204,11 @@ const graph = new G6.Graph({
   layout: {
     type: 'dagre',
     sortByCombo: false,
+    ranksep: 10,
+    nodesep: 10
   },
   defaultNode: {
-    size: [30, 20],
+    size: [60, 30],
     type: 'rect',
   },
   defaultEdge: {
@@ -171,6 +216,9 @@ const graph = new G6.Graph({
   },
   defaultCombo: {
     type: 'rect',
+    style: {
+      fillOpacity: 0.1
+    }
   },
 });
 graph.data(data);
