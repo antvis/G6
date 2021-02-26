@@ -303,7 +303,6 @@ export default {
    * @param evt
    */
   onDropNode(evt: IG6GraphEvent) {
-    debugger;
     if (!this.targets || this.targets.length === 0) return;
     const self = this;
     const item = evt.item as INode;
