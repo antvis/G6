@@ -682,10 +682,10 @@ type ControllerCfg = Partial<{
 | preBtnStyle | ShapeStyle | null | The style of the backward button. `scale`, `offsetX`, `offsetY` are also can be assigned to it to controll the size and position of the backward button |
 | nextBtnStyle | ShapeStyle | null | The style of the forward button. `scale`, `offsetX`, `offsetY` are also can be assigned to it to controll the size and position of the forward button |
 | playBtnStyle | ShapeStyle | null | The style of the play button. `scale`, `offsetX`, `offsetY` are also can be assigned to it to controll the size and position of the paly button |
-| speedControllerStyle | { offsetX?: number, offsetY?: number, scale?: number, pointer?: ShapeStyle, text?: ShapeStyle, scroller?: ShapeStyle} | null         | The style of the 'speed controller'. `scale`, `offsetX`, `offsetY` are also can be assigned to it and each sub-styles to controll the size and position of the speed controller and sub-shapes  |
-| timeTypeControllerStyle | { offsetX?: number, offsetY?: number, scale?: number, box?: ShapeStyle, check?: ShapeStyle, text?: ShapeStyle } | null         | The style of the 'time type controller'. `scale`, `offsetX`, `offsetY` are also can be assigned to it and each sub-styles to controll the size and position of the speed controller and sub-shapes |
-| timePointControllerText | string | "单一时间"         | The text for the right-botton switch controlling play with single time point or time range     |
-| timeRangeControllerText | string | "时间范围"         | The text for the right-botton switch controlling play with single time point or time range     |
+| speedControllerStyle | { offsetX?: number, offsetY?: number, scale?: number, pointer?: ShapeStyle, text?: ShapeStyle, scroller?: ShapeStyle} | null | The style of the 'speed controller'. `scale`, `offsetX`, `offsetY` are also can be assigned to it and each sub-styles to controll the size and position of the speed controller and sub-shapes |
+| timeTypeControllerStyle | { offsetX?: number, offsetY?: number, scale?: number, box?: ShapeStyle, check?: ShapeStyle, text?: ShapeStyle } | null | The style of the 'time type controller'. `scale`, `offsetX`, `offsetY` are also can be assigned to it and each sub-styles to controll the size and position of the speed controller and sub-shapes |
+| timePointControllerText | string | "单一时间" | The text for the right-botton switch controlling play with single time point or time range |
+| timeRangeControllerText | string | "时间范围" | The text for the right-botton switch controlling play with single time point or time range |
 
 ## ToolTip
 

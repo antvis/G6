@@ -859,23 +859,23 @@ type ControllerCfg = Partial<{
 
 #### ControllerCfg 参数说明
 
-| 名称         | 类型       | 默认值       | 描述                   |
-| ------------ | ---------- | ------------ | ---------------------- |
-| x            | number     | 0            | 控制栏开始 x 坐标  |
-| y            | number     | 0            | 控制栏开始 y 坐标  |
-| width        | number     | TimeBar 宽度 | 控制栏宽度，将不缩放内部子控制器，仅影响它们的位置分布         |
-| height       | number     | 40           | 控制栏高度，将不缩放内部子控制器，仅影响它们的位置分布         |
-| scale       | number     | 1           | 控制栏缩放比例         |
-| speed        | number     | 1            | 播放速度               |
-| loop         | boolean    | false        | 暂不支持，是否循环播放 |
-| hideTimeTypeController | boolean    | true         | 是否隐藏时间类型切换   |
-| fill         | string     |              | 控制栏背景框填充色 |
-| stroke       | string     |              | 整个控制栏的字体样式，优先级低于各个子控制器的 text 内的 fontFamily |
-| preBtnStyle       | string     | null        | 控制栏背景框边框色 |
-| preBtnStyle  | ShapeStyle | null         | ‘上一帧’按钮的样式，同时可以为其配置 `scale`、`offsetX`、`offsetY` 单独控制该控制器的缩放以及平移     |
-| nextBtnStyle | ShapeStyle | null         | ‘下一帧’按钮的样式，同时可以为其配置 `scale`、`offsetX`、`offsetY` 单独控制该控制器的缩放以及平移     |
-| playBtnStyle | ShapeStyle | null         | ‘播放’ 与 ‘暂停’ 按钮的样式，同时可以为其配置 `scale`、`offsetX`、`offsetY` 单独控制该控制器的缩放以及平移     |
-| speedControllerStyle | { offsetX?: number, offsetY?: number, scale?: number, pointer?: ShapeStyle, text?: ShapeStyle, scroller?: ShapeStyle} | null         | ‘速度控制器’ 的样式，包括速度的指针、速度指示滚轮（横线）、文本的样式，同时可以为 `speedControllerStyle` 及其子图形样式配置 `scale`、`offsetX`、`offsetY` 单独控制该控制器及其子图形的缩放以及平移  |
-| timeTypeControllerStyle | { offsetX?: number, offsetY?: number, scale?: number, box?: ShapeStyle, check?: ShapeStyle, text?: ShapeStyle } | null         | ‘播放时间类型切换器’ 的样式，包括 checkbox 的框、checkbox 的选中勾、文本的样式，同时可以为 `timeTypeControllerStyle` 及其子图形样式配置 `scale`、`offsetX`、`offsetY` 单独控制该控制器及其子图形的缩放以及平移  |
-| timePointControllerText | string | "单一时间"         | 右下角“单一时间”文本，默认为”单一时间“     |
-| timePointControllerText | string | "时间范围"         | 右下角“单一时间”文本，默认为”时间范围时间“     |
+| 名称 | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| x | number | 0 | 控制栏开始 x 坐标 |
+| y | number | 0 | 控制栏开始 y 坐标 |
+| width | number | TimeBar 宽度 | 控制栏宽度，将不缩放内部子控制器，仅影响它们的位置分布 |
+| height | number | 40 | 控制栏高度，将不缩放内部子控制器，仅影响它们的位置分布 |
+| scale | number | 1 | 控制栏缩放比例 |
+| speed | number | 1 | 播放速度 |
+| loop | boolean | false | 暂不支持，是否循环播放 |
+| hideTimeTypeController | boolean | true | 是否隐藏时间类型切换 |
+| fill | string |  | 控制栏背景框填充色 |
+| stroke | string |  | 整个控制栏的字体样式，优先级低于各个子控制器的 text 内的 fontFamily |
+| preBtnStyle | string | null | 控制栏背景框边框色 |
+| preBtnStyle | ShapeStyle | null | ‘上一帧’按钮的样式，同时可以为其配置 `scale`、`offsetX`、`offsetY` 单独控制该控制器的缩放以及平移 |
+| nextBtnStyle | ShapeStyle | null | ‘下一帧’按钮的样式，同时可以为其配置 `scale`、`offsetX`、`offsetY` 单独控制该控制器的缩放以及平移 |
+| playBtnStyle | ShapeStyle | null | ‘播放’ 与 ‘暂停’ 按钮的样式，同时可以为其配置 `scale`、`offsetX`、`offsetY` 单独控制该控制器的缩放以及平移 |
+| speedControllerStyle | { offsetX?: number, offsetY?: number, scale?: number, pointer?: ShapeStyle, text?: ShapeStyle, scroller?: ShapeStyle} | null | ‘速度控制器’ 的样式，包括速度的指针、速度指示滚轮（横线）、文本的样式，同时可以为 `speedControllerStyle` 及其子图形样式配置 `scale`、`offsetX`、`offsetY` 单独控制该控制器及其子图形的缩放以及平移 |
+| timeTypeControllerStyle | { offsetX?: number, offsetY?: number, scale?: number, box?: ShapeStyle, check?: ShapeStyle, text?: ShapeStyle } | null | ‘播放时间类型切换器’ 的样式，包括 checkbox 的框、checkbox 的选中勾、文本的样式，同时可以为 `timeTypeControllerStyle` 及其子图形样式配置 `scale`、`offsetX`、`offsetY` 单独控制该控制器及其子图形的缩放以及平移 |
+| timePointControllerText | string | "单一时间" | 右下角“单一时间”文本，默认为”单一时间“ |
+| timePointControllerText | string | "时间范围" | 右下角“单一时间”文本，默认为”时间范围时间“ |

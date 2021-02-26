@@ -242,11 +242,11 @@ export default class LayoutController extends AbstractLayout {
       }
       this.layoutMethod = layoutMethod;
     }
-    
+
     // 若没有配置 layout，也需要更新画布
     if (!this.layoutMethod && success) {
       graph.refreshPositions();
-      success()
+      success();
     }
     return false;
   }

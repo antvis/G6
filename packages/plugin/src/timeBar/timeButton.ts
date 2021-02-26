@@ -4,7 +4,7 @@
 
 import { IGroup, IShape } from '@antv/g-base';
 import { deepMix } from '@antv/util';
-import { PLAY_PAUSE_BTN, ExtendedShapeStyle } from './constant'
+import { PLAY_PAUSE_BTN, ExtendedShapeStyle } from './constant';
 
 /** 播放按钮配置 */
 interface ButtonCfg {
@@ -54,14 +54,14 @@ export default class Button {
 
   private initElement() {
     const { group, style } = this.config;
-    const {scale = 1, offsetX = 0, offsetY = 0 } = style;
+    const { scale = 1, offsetX = 0, offsetY = 0 } = style;
     const x = this.config.x + offsetX;
     const y = this.config.y + offsetY;
     const buttonGroup = group.addGroup({
-      name: PLAY_PAUSE_BTN
+      name: PLAY_PAUSE_BTN,
     });
     this.startMarkerGroup = buttonGroup.addGroup({
-      name: PLAY_PAUSE_BTN
+      name: PLAY_PAUSE_BTN,
     });
     this.circle = group.addShape('circle', {
       attrs: {
@@ -70,18 +70,18 @@ export default class Button {
         r: this.config.r * scale,
         ...style,
       },
-      name: PLAY_PAUSE_BTN
+      name: PLAY_PAUSE_BTN,
     });
 
     this.startMarker = this.startMarkerGroup.addShape('path', {
       attrs: {
         path: this.getStartMarkerPath(x, y, scale),
         fill: style.stroke || '#aaa',
-      }
+      },
     });
 
     this.pauseMarkerGroup = buttonGroup.addGroup({
-      name: PLAY_PAUSE_BTN
+      name: PLAY_PAUSE_BTN,
     });
     const width = 0.25 * this.config.r * scale;
     const height = 0.5 * this.config.r * Math.sqrt(3) * scale;
@@ -92,8 +92,8 @@ export default class Button {
         width,
         height,
         fill: style.stroke || '#aaa',
-        lineWidth: 0
-      }
+        lineWidth: 0,
+      },
     });
 
     this.pauseRightMarker = this.pauseMarkerGroup.addShape('rect', {
@@ -103,8 +103,8 @@ export default class Button {
         width,
         height,
         fill: style.stroke || '#aaa',
-        lineWidth: 0
-      }
+        lineWidth: 0,
+      },
     });
   }
 

@@ -114,8 +114,8 @@ const data = {
       label: 'combo A',
       style: {
         fill: '#C4E3B2',
-        stroke: '#C4E3B2'
-      }
+        stroke: '#C4E3B2',
+      },
     },
     {
       id: 'B',
@@ -123,25 +123,25 @@ const data = {
       style: {
         stroke: '#99C0ED',
         fill: '#99C0ED',
-      }
+      },
     },
     {
       id: 'C',
       label: 'combo C',
       style: {
         stroke: '#eee',
-        fill: '#eee'
-      }
+        fill: '#eee',
+      },
     },
   ],
 };
 
-data.nodes.forEach(node => {
+data.nodes.forEach((node) => {
   switch (node.ComboId) {
     case 'A':
       node.style = {
         fill: '#C4E3B2',
-        stroke: '#aaa'
+        stroke: '#aaa',
       };
       break;
     case 'B':
@@ -159,12 +159,11 @@ data.nodes.forEach(node => {
     default:
       node.style = {
         fill: '#FDE1CE',
-        stroke: '#aaa'
+        stroke: '#aaa',
       };
       break;
   }
 });
-
 
 let sortByCombo = false;
 const descriptionDiv = document.createElement('button');
@@ -205,7 +204,7 @@ const graph = new G6.Graph({
     type: 'dagre',
     sortByCombo: false,
     ranksep: 10,
-    nodesep: 10
+    nodesep: 10,
   },
   defaultNode: {
     size: [60, 30],
@@ -217,8 +216,8 @@ const graph = new G6.Graph({
   defaultCombo: {
     type: 'rect',
     style: {
-      fillOpacity: 0.1
-    }
+      fillOpacity: 0.1,
+    },
   },
 });
 graph.data(data);

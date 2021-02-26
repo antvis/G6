@@ -15,4 +15,4 @@ export interface ExtendedShapeStyle extends ShapeStyle {
   scale?: number;
   offsetX?: number;
   offsetY?: number;
-};
+}

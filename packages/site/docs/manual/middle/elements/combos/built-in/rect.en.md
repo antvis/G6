@@ -64,7 +64,7 @@ The [Combo Common Properties](/en/docs/manual/middle/elements/combos/defaultComb
 | --- | --- | --- | --- |
 | size | The MINIMUM diameter of the combo (not for fixing the size) | Number / Array | When it is an array, the first element will take effect |
 | fixSize | Fix the size of the Combo | number / number[] | If it is not assigned, the rendering size of the combo depends on the sizes and distribution of its children items. If the `fixSize` is assigned but the `fixCollapseSize` is not, the size of the collapsed combo will still be `fixSize` |
-| fixCollapseSize | Fix the size of the collapsed Combo | number / number[] | If it is not assigned and the `fixSize` is assigned, the size of the collapsed Combo is `fixSize`; and if `fixCollapseSize` and `fixSize` are both not assigned, the size of the collapsed Combo is `size` ｜
+| fixCollapseSize | Fix the size of the collapsed Combo | number / number[] | If it is not assigned and the `fixSize` is assigned, the size of the collapsed Combo is `fixSize`; and if `fixCollapseSize` and `fixSize` are both not assigned, the size of the collapsed Combo is `size` ｜ |
 | style | The default style of rect combo | Object | Refer to the [style](./rect#style) |
 | label | The text of the label | String |  |
 | labelCfg | The configurations of the label | Object | Refer to the [labelCfg](/rect#labelcfg) |

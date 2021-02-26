@@ -149,7 +149,7 @@ export default class Tooltip extends Base {
     if (!shouldBegin(e)) {
       modifyCSS(tooltip, {
         visibility: 'hidden',
-        display: 'none'
+        display: 'none',
       });
       return;
     }
@@ -184,7 +184,7 @@ export default class Tooltip extends Base {
       left: `${x}px`,
       top: `${y}px`,
       visibility: 'visible',
-      display: 'unset'
+      display: 'unset',
     });
   }
 

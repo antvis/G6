@@ -1277,7 +1277,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       if (self.get('fitCenter')) {
         self.fitCenter();
       }
-      self.emit('afterrender', {message: 'layout controller do not exist'});
+      self.emit('afterrender');
       self.set('animate', animate);
     }
     // 将在 onLayoutEnd 中被调用
@@ -1289,7 +1289,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         self.fitCenter();
       }
       self.autoPaint();
-      self.emit('afterrender', {message: 'layout success'});
+      self.emit('afterrender');
       if (self.get('fitView') || self.get('fitCenter')) {
         self.set('animate', animate);
       }
@@ -1341,7 +1341,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const self = this;
     let item: INode;
     const itemMap: NodeMap = this.get('itemMap');
-    
+
     each(models, (model) => {
       item = itemMap[model.id];
       if (item) {
@@ -2899,7 +2899,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * 获取当前 graph 中存在的包裹轮廓
    * @return {[key: string]: Hull} Hull 的 map，hullId 对应的 hull 实例
    */
-  public getHulls(): {[key: string]: Hull} {
+  public getHulls(): { [key: string]: Hull } {
     return this.get('hullMap');
   }
 
@@ -2926,10 +2926,10 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   public removeHulls() {
     const hulls = this.getHulls();
     if (!hulls || !Object.keys(hulls).length) return;
-    Object.keys(hulls).forEach(key => {
+    Object.keys(hulls).forEach((key) => {
       const hull = hulls[key];
       hull.destroy();
-    })
+    });
     this.set('hullMap', {});
   }
 }
