@@ -1,5 +1,14 @@
 # ChangeLog
 
+#### 4.2.0
+
+- fix: getHulls with error type;
+- fix: createHull with destroyed hullMap problem;
+- fix: refining TimeBar minor problems;
+- fix: tooltip with display none to avoid enlarging graph container;
+- feat: TimeBar supports controller style configuration;
+- feat: TimeBar supports filtering edges;
+
 #### 4.1.13-beta
 
 - chore: update layout and register in G6;

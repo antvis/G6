@@ -241,9 +241,12 @@ export default class LayoutController extends AbstractLayout {
         if (layoutMethod.isCustomLayout && layoutCfg.onLayoutEnd) layoutCfg.onLayoutEnd();
       }
       this.layoutMethod = layoutMethod;
-    } else if (layoutCfg.onLayoutEnd) {
-      // 若没有配置 layout，也需要更新画布
-      layoutCfg.onLayoutEnd();
+    }
+    
+    // 若没有配置 layout，也需要更新画布
+    if (!this.layoutMethod && success) {
+      graph.refreshPositions();
+      success()
     }
     return false;
   }

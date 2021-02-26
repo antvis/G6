@@ -37,11 +37,110 @@ for (let i = 0; i < 100; i++) {
     value: Math.round(Math.random() * 300),
   });
 
+  const edgeDate = Math.round(Math.random() * 100)
   data.edges.push({
+    date: edgeDate,
+    label: edgeDate,
     source: `node-${Math.round(Math.random() * 90)}`,
     target: `node-${Math.round(Math.random() * 90)}`,
   });
 }
+
+describe('timeline filter edges', () => {
+  it('timeline filter edges', () => {
+    const timeBarData = [];
+
+    for (let i = 1; i < 60; i++) {
+      timeBarData.push({
+        date: i,
+        value: Math.round(Math.random() * 300),
+      });
+    }
+
+    const timeLine = new TimeBar({
+      x: 0,
+      y: 0,
+      width: 500,
+      height: 150,
+      padding: 10,
+      type: 'trend',
+      filterEdge: true,
+      trend: {
+        data: timeBarData,
+        isArea: true,
+        tickLabelFormatter: d => {
+          const i = d.date;
+          const month = i < 30 ? '01' : '02';
+          const day = i % 30 < 10 ? `0${i % 30}` : `${i % 30}`;
+          return `2020${month}${day}`
+        }
+      },
+      controllerCfg: {
+        // scale: 0.7,
+        // offsetY: 20,
+        // offsetX: -250,
+        x: 200,
+        width: 100,
+        preBtnStyle: {
+          fill: '#f00'
+        },
+        nextBtnStyle: {
+        },
+        playBtnStyle: {
+          fill: '#0f0',
+          stroke: '#00f',
+        },
+        speedControllerStyle: {
+          pointer: {
+            stroke: '#f00',
+            fill: '#0f0',
+            lineWidth: 2
+          },
+          scroller: {
+            stroke: '#0f0',
+          },
+          text: {
+            fill: '#00f',
+          },
+          
+        },
+        timeTypeControllerStyle: {
+          box: {
+            fill: '#f00',
+            fillOpacity: 0.1,
+            stroke: '#f00'
+          },
+          check: {
+            lineWidth: 1,
+            stroke: '#000'
+          },
+          text: {
+            fill: '#00f'
+          }
+        }
+      }
+    });
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 250,
+      // renderer: 'svg',
+      plugins: [timeLine],
+      modes: {
+        default: ['drag-node', 'zoom-canvas', 'drag-canvas'],
+      },
+      defaultEdge: {
+        style: {
+          lineAppendWidth: 20,
+        },
+      },
+    });
+
+    graph.data(data);
+    graph.render();
+  });
+
+});
 
 describe('timeline play with timebar', () => {
   it('trend timebar', () => {

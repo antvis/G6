@@ -18,7 +18,7 @@ import {
 } from '@antv/g6-core';
 import { Interval } from './trend';
 import { ControllerCfg } from './controllerBtn';
-import { isString } from '@antv/util';
+import { isString, debounce, throttle } from '@antv/util';
 
 // simple 版本默认高度
 const DEFAULT_SIMPLE_HEIGHT = 4;
@@ -71,6 +71,10 @@ interface TimeBarConfig extends IPluginBaseConfig {
   // 控制按钮
   readonly controllerCfg?: ControllerCfg;
 
+  // 是否过滤边，若为 true，则需要配合边数据上有 date 字段，过滤节点同时将不满足 date 在选中范围内的边也过滤出去
+  // 若为 false，则仅过滤节点以及两端节点都被过滤出去的边
+  readonly filterEdge?: boolean;
+
   rangeChange?: (graph: IGraph, minValue: string, maxValue: string) => void;
 }
 
@@ -104,6 +108,7 @@ export default class TimeBar extends Base {
         data: [],
       },
       textStyle: {},
+      filterEdge: false
     };
   }
 
@@ -245,9 +250,10 @@ export default class TimeBar extends Base {
     const rangeChange = this.get('rangeChange');
     const graph: IGraph = this.get('graph');
 
-    const min = Math.round(trendData.length * value[0]);
+    let min = Math.round(trendData.length * value[0]);
     let max = Math.round(trendData.length * value[1]);
     max = max >= trendData.length ? trendData.length - 1 : max;
+    min = min >= trendData.length ? trendData.length - 1 : min;
 
     const tickLabelFormatter = this._cfgs.tick?.tickLabelFormatter;
     const minText = tickLabelFormatter ? tickLabelFormatter(trendData[min]) : trendData[min].date;
@@ -266,7 +272,7 @@ export default class TimeBar extends Base {
         !this.cacheGraphData ||
         (this.cacheGraphData.nodes && this.cacheGraphData.nodes.length === 0)
       ) {
-        this.cacheGraphData = graph.save() as GraphData;
+        this.cacheGraphData = graph.get('data'); // graph.save() as GraphData;
       }
 
       // 过滤不在 min 和 max 范围内的节点
@@ -276,10 +282,19 @@ export default class TimeBar extends Base {
 
       const nodeIds = filterData.map((node) => node.id);
 
-      // 过滤 source 或 target 不在 min 和 max 范围内的边
-      const fileterEdges = this.cacheGraphData.edges.filter(
-        (edge) => nodeIds.includes(edge.source) && nodeIds.includes(edge.target),
-      );
+      let fileterEdges = []
+      if (this.cacheGraphData.edges) {
+        // 过滤 source 或 target 不在 min 和 max 范围内的边
+        fileterEdges = this.cacheGraphData.edges.filter(
+          (edge) => nodeIds.includes(edge.source) && nodeIds.includes(edge.target),
+        );
+
+        if (this.get('filterEdge')) {
+          fileterEdges = fileterEdges.filter(
+            edge => edge.date >= trendData[min].date && edge.date <= trendData[max].date,
+          )
+        }
+      }
 
       graph.changeData({
         nodes: filterData,
@@ -301,15 +316,21 @@ export default class TimeBar extends Base {
     }
 
     const graph: IGraph = this.get('graph');
-    graph.on('afterrender', () => {
+    graph.on('afterrender', e => {
       this.filterData({ value: [start, end] });
     });
 
     // 时间轴的值发生改变的事件
-    graph.on(VALUE_CHANGE, (e: Partial<Callback>) => {
-      // 范围变化
-      this.filterData(e);
-    });
+    graph.on(VALUE_CHANGE, throttle(
+      (e) => {
+        this.filterData(e);
+      },
+      200,
+      {
+        trailing: true,
+        leading: true
+      },
+    ));
   }
 
   public destroy() {

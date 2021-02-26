@@ -637,6 +637,9 @@ interface TimeBarConfig extends IPluginBaseConfig {
   // 控制按钮
   readonly controllerCfg?: ControllerCfg;
 
+  // 是否过滤边，若为 true，则需要配合边数据上有 date 字段，过滤节点同时将不满足 date 在选中范围内的边也过滤出去；若为 false，则仅过滤节点以及两端节点都被过滤出去的边
+  readonly filterEdge?: boolean;
+
   rangeChange?: (graph: IGraph, minValue: string, maxValue: string) => void;
   valueChange?: (graph: IGraph, value: string) => void;
 }
@@ -657,6 +660,7 @@ interface TimeBarConfig extends IPluginBaseConfig {
 | slider | SliderOption | null | TimeBar 组件背景及控制调节范围的滑块的配置项 |
 | tick | TimeBarSliceOption | null | 刻度 TimeBar 配置项，当 type 为 tick 时，该字段必选 |
 | controllerCfg | ControllerCfg | null | 控制按钮组配置项 |
+| filterEdge | boolean | false | 是否过滤边，若为 true，则需要配合边数据上有 date 字段，过滤节点同时将不满足 date 在选中范围内的边也过滤出去；若为 false，则仅过滤节点以及两端节点都被过滤出去的边 |
 | rangeChange | Function | null | TimeBar 时间范围变化时的回调函数，当不定义该函数时，时间范围变化时默认过滤图上的数据 |
 
 #### TrendConfig 接口定义
@@ -797,26 +801,59 @@ export interface TimeBarSliceOption {
 
 ```javascript
 type ControllerCfg = Partial<{
+
+  /** 控制栏的起始位置以及宽高，width height 将不缩放内部子控制器，仅影响它们的位置分布。需要缩放请使用 scale */
   readonly x?: number;
   readonly y?: number;
   readonly width: number;
   readonly height: number;
+  /** 控制栏缩放比例 */
+  readonly scale?: number;
+  /** 控制器背景的颜色和描边色 */
+  readonly fill?: string;
+  readonly stroke?: string;
+  /** 整个控制栏的字体样式，优先级低于各个子控制器的 text 内的 fontFamily */
+  readonly fontFamily?: string;
+
   /** 播放速度，1 个 tick 花费时间 */
   readonly speed?: number;
   /** 是否循环播放 */
   readonly loop?: boolean;
-  readonly hiddleToggle: boolean;
-  readonly fill?: string;
-  readonly stroke?: string;
-  /** 快退按钮样式 */
+  /** 是否隐藏右下角的 ’播放时间类型切换器‘ */
+  readonly hideTimeTypeController: boolean;
+
+  /** ‘上一帧’按钮的样式，同时可以为其配置 scale、offsetX、offsetY 单独控制该控制器的缩放以及平移 */
   readonly preBtnStyle?: ShapeStyle;
-  /** 快进按钮样式 */
+
+  /** ‘下一帧’按钮的样式，同时可以为其配置 scale、offsetX、offsetY 单独控制该控制器的缩放以及平移 */
   readonly nextBtnStyle?: ShapeStyle;
-  /** 播放按钮样式 */
+
+  /** ‘播放’ 与 ‘暂停’ 按钮的样式，同时可以为其配置 scale、offsetX、offsetY 单独控制该控制器的缩放以及平移 */
   readonly playBtnStyle?: ShapeStyle;
-  /** 右下角“单一时间”和“时间范围”文本 */
+
+  /** ‘速度控制器’ 的样式，包括速度的指针、速度指示滚轮（横线）、文本的样式，同时可以为 speedControllerStyle 及其子图形样式配置 scale、offsetX、offsetY 单独控制该控制器及其子图形的缩放以及平移） */
+  readonly speedControllerStyle?: {
+    offsetX?: number,
+    offsetY?: number;
+    scale?: number
+    pointer?: ShapeStyle,
+    scroller?: ShapeStyle,
+    text?: ShapeStyle
+  };
+
+  /** ‘播放时间类型切换器’ 的样式，包括 checkbox 的框、checkbox 的选中勾、文本的样式，同时可以为 timeTypeControllerStyle 及其子图形样式配置 scale、offsetX、offsetY 单独控制该控制器及其子图形的缩放以及平移  */
+  readonly timeTypeControllerStyle?: {
+    offsetX?: number,
+    offsetY?: number;
+    scale?: number
+    check?: ShapeStyle,
+    box?: ShapeStyle,
+    text?: ShapeStyle
+  };
+  /** ‘播放时间类型切换器’单一文本时的文本，默认为‘单一时间’ */
   readonly timePointControllerText?: string;
-  readonly timeRangeControllerText?: string
+  /** ‘播放时间类型切换器’单一文本时的文本，默认为‘时间范围’ */
+  readonly timeRangeControllerText?: string;
 }>
 ```
 
@@ -824,17 +861,21 @@ type ControllerCfg = Partial<{
 
 | 名称         | 类型       | 默认值       | 描述                   |
 | ------------ | ---------- | ------------ | ---------------------- |
-| x            | number     | 0            | 按钮控制组开始 x 坐标  |
-| y            | number     | 0            | 按钮控制组开始 y 坐标  |
-| width        | number     | TimeBar 宽度 | 控制按钮组宽度         |
-| height       | number     | 40           | 控制按钮组高度         |
+| x            | number     | 0            | 控制栏开始 x 坐标  |
+| y            | number     | 0            | 控制栏开始 y 坐标  |
+| width        | number     | TimeBar 宽度 | 控制栏宽度，将不缩放内部子控制器，仅影响它们的位置分布         |
+| height       | number     | 40           | 控制栏高度，将不缩放内部子控制器，仅影响它们的位置分布         |
+| scale       | number     | 1           | 控制栏缩放比例         |
 | speed        | number     | 1            | 播放速度               |
 | loop         | boolean    | false        | 暂不支持，是否循环播放 |
-| hiddleToggle | boolean    | true         | 是否隐藏时间类型切换   |
-| fill         | string     |              | 按钮控制组外层框填充色 |
-| stroke       | string     |              | 按钮控制组外层框边框色 |
-| preBtnStyle  | ShapeStyle | null         | 后退按钮样式配置项     |
-| nextBtnStyle | ShapeStyle | null         | 前进按钮样式配置项     |
-| playBtnStyle | ShapeStyle | null         | 播放按钮样式配置项     |
+| hideTimeTypeController | boolean    | true         | 是否隐藏时间类型切换   |
+| fill         | string     |              | 控制栏背景框填充色 |
+| stroke       | string     |              | 整个控制栏的字体样式，优先级低于各个子控制器的 text 内的 fontFamily |
+| preBtnStyle       | string     | null        | 控制栏背景框边框色 |
+| preBtnStyle  | ShapeStyle | null         | ‘上一帧’按钮的样式，同时可以为其配置 `scale`、`offsetX`、`offsetY` 单独控制该控制器的缩放以及平移     |
+| nextBtnStyle | ShapeStyle | null         | ‘下一帧’按钮的样式，同时可以为其配置 `scale`、`offsetX`、`offsetY` 单独控制该控制器的缩放以及平移     |
+| playBtnStyle | ShapeStyle | null         | ‘播放’ 与 ‘暂停’ 按钮的样式，同时可以为其配置 `scale`、`offsetX`、`offsetY` 单独控制该控制器的缩放以及平移     |
+| speedControllerStyle | { offsetX?: number, offsetY?: number, scale?: number, pointer?: ShapeStyle, text?: ShapeStyle, scroller?: ShapeStyle} | null         | ‘速度控制器’ 的样式，包括速度的指针、速度指示滚轮（横线）、文本的样式，同时可以为 `speedControllerStyle` 及其子图形样式配置 `scale`、`offsetX`、`offsetY` 单独控制该控制器及其子图形的缩放以及平移  |
+| timeTypeControllerStyle | { offsetX?: number, offsetY?: number, scale?: number, box?: ShapeStyle, check?: ShapeStyle, text?: ShapeStyle } | null         | ‘播放时间类型切换器’ 的样式，包括 checkbox 的框、checkbox 的选中勾、文本的样式，同时可以为 `timeTypeControllerStyle` 及其子图形样式配置 `scale`、`offsetX`、`offsetY` 单独控制该控制器及其子图形的缩放以及平移  |
 | timePointControllerText | string | "单一时间"         | 右下角“单一时间”文本，默认为”单一时间“     |
 | timePointControllerText | string | "时间范围"         | 右下角“单一时间”文本，默认为”时间范围时间“     |
