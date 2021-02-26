@@ -4,8 +4,7 @@
 
 import { IGroup, IShape } from '@antv/g-base';
 import { deepMix } from '@antv/util';
-import { ShapeStyle } from '@antv/g6-core';
-import { PLAY_PAUSE_BTN } from './constant'
+import { PLAY_PAUSE_BTN, ExtendedShapeStyle } from './constant'
 
 /** 播放按钮配置 */
 interface ButtonCfg {
@@ -15,7 +14,7 @@ interface ButtonCfg {
   readonly y: number;
   readonly r: number;
   readonly isPlay: boolean;
-  readonly style: ShapeStyle;
+  readonly style: ExtendedShapeStyle;
 }
 
 export default class Button {

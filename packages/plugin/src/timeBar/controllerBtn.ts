@@ -2,9 +2,8 @@ import { IGroup, IShape } from '@antv/g-base';
 import { deepMix } from '@antv/util';
 import { ext } from '@antv/matrix-util';
 import Button from './timeButton';
-import { ShapeStyle } from '@antv/g6-core';
 import {
-  TIMEBAR_CONFIG_CHANGE, PRE_STEP_BTN, NEXT_STEP_BTN
+  TIMEBAR_CONFIG_CHANGE, PRE_STEP_BTN, NEXT_STEP_BTN, ExtendedShapeStyle
 } from './constant';
 
 const transform = ext.transform;
@@ -113,20 +112,20 @@ export type ControllerCfg = Partial<{
   readonly hideTimeTypeController: boolean;
   
   /** ‘上一帧’按钮的样式，同时可以为其配置 scale、offsetX、offsetY 单独控制该控制器的缩放以及平移 */
-  readonly preBtnStyle?: ShapeStyle;
+  readonly preBtnStyle?: ExtendedShapeStyle;
   /** ‘下一帧’按钮的样式，同时可以为其配置 scale、offsetX、offsetY 单独控制该控制器的缩放以及平移 */
-  readonly nextBtnStyle?: ShapeStyle;
+  readonly nextBtnStyle?: ExtendedShapeStyle;
   /** ‘播放’ 与 ‘暂停’ 按钮的样式，同时可以为其配置 scale、offsetX、offsetY 单独控制该控制器的缩放以及平移 */
-  readonly playBtnStyle?: ShapeStyle;
+  readonly playBtnStyle?: ExtendedShapeStyle;
 
   /** ‘速度控制器’ 的样式，包括速度的指针、速度指示滚轮（横线）、文本的样式，以及整个速度控制器的缩放（scale）与左右偏移（offsetX，offsetY） */
   readonly speedControllerStyle?: {
     offsetX?: number,
     offsetY?: number;
     scale?: number
-    pointer?: ShapeStyle,
-    scroller?: ShapeStyle,
-    text?: ShapeStyle
+    pointer?: ExtendedShapeStyle,
+    scroller?: ExtendedShapeStyle,
+    text?: ExtendedShapeStyle
   };
   
   /** ‘播放时间类型切换器’ 的样式，包括 checkbox 的框、checkbox 的选中勾、文本的样式，以及整个播放时间类型控制器的缩放（scale）与左右偏移（offsetX，offsetY） */
@@ -134,9 +133,9 @@ export type ControllerCfg = Partial<{
     offsetX?: number,
     offsetY?: number;
     scale?: number
-    check?: ShapeStyle,
-    box?: ShapeStyle,
-    text?: ShapeStyle
+    check?: ExtendedShapeStyle,
+    box?: ExtendedShapeStyle,
+    text?: ExtendedShapeStyle
   };
   /** 播放时间类型切换器单一文本时的文本，默认为‘单一时间’ */
   readonly timePointControllerText?: string;
@@ -238,9 +237,18 @@ export default class ControllerBtn {
       stroke = DEFAULT_RECT_STROKE,
     } = controllerCfg;
 
-    const playBtnStyle = Object.assign({}, DEFAULT_PLAYBTN_STYLE, controllerCfg.playBtnStyle || {})
-    const preBtnStyle = Object.assign({}, DEFAULT_PREBTN_STYLE, controllerCfg.preBtnStyle || {})
-    const nextBtnStyle = Object.assign({}, DEFAULT_NEXTBTN_STYLE, controllerCfg.nextBtnStyle || {})
+    const playBtnStyle = {
+      ...DEFAULT_PLAYBTN_STYLE,
+      ...(controllerCfg.playBtnStyle || {})
+    };
+    const preBtnStyle = {
+      ...DEFAULT_PREBTN_STYLE,
+      ...(controllerCfg.preBtnStyle || {})
+    };
+    const nextBtnStyle = {
+      ...DEFAULT_NEXTBTN_STYLE,
+      ...(controllerCfg.nextBtnStyle || {})
+    };
 
     const r = height / 2 - 5;
     const realY = y + 10;
@@ -323,7 +331,10 @@ export default class ControllerBtn {
 
   private renderSpeedBtn() {
     const { y, width, hideTimeTypeController } = this.controllerCfg;
-    const speedControllerStyle = Object.assign({}, DEFAULT_SPEED_CONTROLLER_STYLE, this.controllerCfg.speedControllerStyle || {})
+    const speedControllerStyle = {
+      ...DEFAULT_SPEED_CONTROLLER_STYLE,
+      ...(this.controllerCfg.speedControllerStyle || {})
+    };
     const { scroller = {}, text = {}, pointer = {}, scale = 1, offsetX = 0, offsetY = 0} = speedControllerStyle;
     const speedGroup = this.controllerGroup.addGroup({
       name: 'speed-group',
@@ -363,7 +374,7 @@ export default class ControllerBtn {
         text: `1.0X`,
         fontFamily: this.fontFamily || 'Arial, sans-serif',
         ...text
-      },
+      } as any,
     });
 
     this.speedPoint = speedGroup.addShape('path', {
@@ -398,7 +409,11 @@ export default class ControllerBtn {
     const {
       width,
     } = this.controllerCfg;
-    const timeTypeControllerStyle = Object.assign({}, DEFAULT_TIMETYPE_CONTROLLER_STYLE, this.controllerCfg.timeTypeControllerStyle || {})
+
+    const timeTypeControllerStyle = {
+      ...DEFAULT_TIMETYPE_CONTROLLER_STYLE,
+      ...(this.controllerCfg.timeTypeControllerStyle || {})
+    };
 
     const {
       scale = 1,
@@ -448,7 +463,7 @@ export default class ControllerBtn {
               'Arial, sans-serif'
             : 'Arial, sans-serif',
         ...text
-      },
+      } as any,
     });
 
     // 根据配置在 timeTypeControllerStyle 中的 scale offsetX offsetY 缩放和移动速度控制器
