@@ -8,6 +8,7 @@
 - fix: tooltip with display none to avoid enlarging graph container;
 - feat: TimeBar supports controller style configuration;
 - feat: TimeBar supports filtering edges;
+- feat: dagre with nested combo;
 
 #### 4.1.13-beta
 
