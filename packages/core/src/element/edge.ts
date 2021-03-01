@@ -613,11 +613,12 @@ Shape.registerEdge(
         cfg.curvePosition = [cfg.curvePosition, 1 - cfg.curvePosition];
 
       const yDist = Math.abs(endPoint!.y - startPoint!.y);
-      const curveOffset: number[] = cfg.curveOffset
-        ? cfg.curveOffset
-        : Math.abs(yDist) < Math.abs(cfg.minCurveOffset[0])
-        ? cfg.minCurveOffset
-        : [0, 0];
+      let curveOffset: number[] = [0, 0];
+      if (cfg.curveOffset) {
+        curveOffset = cfg.curveOffset
+      } else if (Math.abs(yDist) < Math.abs(cfg.minCurveOffset[0])) {
+        curveOffset = cfg.minCurveOffset;
+      }
 
       const innerPoint1 = {
         x: startPoint!.x,
@@ -652,11 +653,12 @@ Shape.registerEdge(
         cfg.curvePosition = [cfg.curvePosition, 1 - cfg.curvePosition];
 
       const xDist = Math.abs(endPoint!.x - startPoint!.x);
-      const curveOffset: number[] = cfg.curveOffset
-        ? cfg.curveOffset
-        : Math.abs(xDist) < Math.abs(cfg.minCurveOffset[0])
-        ? cfg.minCurveOffset
-        : [0, 0];
+      let curveOffset: number[] = [0, 0];
+      if (cfg.curveOffset) {
+        curveOffset = cfg.curveOffset
+      } else if (Math.abs(xDist) < Math.abs(cfg.minCurveOffset[0])) {
+        curveOffset = cfg.minCurveOffset;
+      }
 
       const innerPoint1 = {
         x: startPoint!.x + xDist * (this as any).curvePosition[0] + curveOffset[0],
