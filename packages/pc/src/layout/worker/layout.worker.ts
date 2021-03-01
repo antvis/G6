@@ -1,4 +1,19 @@
 import WebWorker from './work';
+import {
+  GridLayout,
+  RandomLayout,
+  ForceLayout,
+  CircularLayout,
+  DagreLayout,
+  RadialLayout,
+  ConcentricLayout,
+  MDSLayout,
+  FruchtermanGPULayout,
+  FruchtermanLayout,
+  GForceLayout,
+  GForceGPULayout,
+  ComboForceLayout } from '@antv/layout';
+// import { registerLayout as oRegisterLayout, } from '@antv/layout'; 
 
 interface Event {
   type: string;
@@ -6,7 +21,7 @@ interface Event {
 }
 
 export const LayoutWorker = (
-  workerScirptURL: string = 'https://unpkg.com/@antv/layout@latest/dist/layout.min.js',
+  workerScirptURL: string = 'https://unpkg.com/@antv/layout@0.1.9/dist/layout.min.js',
 ) => {
   function workerCode() {
     // @ts-ignore
@@ -23,6 +38,33 @@ export const LayoutWorker = (
       GPURUN: 'GPU_LAYOUT_RUN',
       GPUEND: 'GPU_LAYOUT_END',
     };
+
+    // @ts-ignore
+    layout.registerLayout('grid', layout.GridLayout);
+    // @ts-ignore
+    layout.registerLayout('random', layout.RandomLayout);
+    // @ts-ignore
+    layout.registerLayout('force', layout.ForceLayout);
+    // @ts-ignore
+    layout.registerLayout('circular', layout.CircularLayout);
+    // @ts-ignore
+    layout.registerLayout('dagre', layout.DagreLayout);
+    // @ts-ignore
+    layout.registerLayout('radial', layout.RadialLayout);
+    // @ts-ignore
+    layout.registerLayout('concentric', layout.ConcentricLayout);
+    // @ts-ignore
+    layout.registerLayout('mds', layout.MDSLayout);
+    // @ts-ignore
+    layout.registerLayout('fruchterman', layout.FruchtermanLayout);
+    // @ts-ignore
+    layout.registerLayout('fruchterman-gpu', layout.FruchtermanGPULayout);
+    // @ts-ignore
+    layout.registerLayout('gForce', layout.GForceLayout);
+    // @ts-ignore
+    layout.registerLayout('gForce-gpu', layout.GForceGPULayout);
+    // @ts-ignore
+    layout.registerLayout('comboForce', layout.ComboForceLayout);
 
     function isLayoutMessage(event: Event) {
       const { type } = event.data;
