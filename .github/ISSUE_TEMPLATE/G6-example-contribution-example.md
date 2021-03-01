@@ -3,7 +3,7 @@ name: Example Contribution
 about: To Contribute to G6 Graph Example
 title: '[Example] New Example'
 labels: 'example'
-assignees: '@mxz96102'
+assignees: 'mxz96102'
 ---
 
 ### Description
