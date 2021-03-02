@@ -82,6 +82,9 @@
 - fix: tslib spreadArray problem;
 - fix: rect combo position with state problem;
 - feat: simple polyline for better performance;
+- fix: gridSize for polyline;
+- fix: cubic-x problem, closes: #2698;
+- fix: create-edge undo problem;
 
 #### 4.1.13
 
