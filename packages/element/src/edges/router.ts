@@ -294,9 +294,20 @@ const getControlPoints = (
     id: currentId,
   };
   if (getDirectionChange(lastPoint, scaleEndPoint, cameFrom, scaleStartPoint)) {
+    // if (scaleEndPoint.x === endPoint.x && scaleEndPoint.y === endPoint.y) 
+    //   controlPoints.unshift({
+    //     x: endPoint.x,
+    //     y: endPoint.y
+    //   })
+    // else
+    //   controlPoints.unshift({
+    //     x: lastPoint.x * gridSize,
+    //     y: lastPoint.y * gridSize,
+    //   });
+    
     controlPoints.unshift({
-      x: lastPoint.x === scaleEndPoint.x ? endPoint.x : lastPoint.x * gridSize,
-      y: lastPoint.y === scaleEndPoint.y ? endPoint.y : lastPoint.y * gridSize,
+      x: scaleEndPoint.x === endPoint.x ? endPoint.x : lastPoint.x * gridSize,
+      y: scaleEndPoint.y === endPoint.y ? endPoint.y : lastPoint.y * gridSize,
     });
   }
   while (cameFrom[currentId] && cameFrom[currentId].id !== currentId) {
@@ -315,6 +326,18 @@ const getControlPoints = (
     };
     const directionChange = getDirectionChange(prePoint, point, cameFrom, scaleStartPoint);
     if (directionChange) {
+
+      // if (prePoint.x === point.x && prePoint.y === point.y) 
+      //   controlPoints.unshift({
+      //     x: controlPoints[0].x,
+      //     y: controlPoints[0].y
+      //   })
+      // else
+      //   controlPoints.unshift({
+      //     x: prePoint.x * gridSize,
+      //     y: prePoint.y * gridSize,
+      //   });
+      
       controlPoints.unshift({
         x: prePoint.x === point.x ? controlPoints[0].x : prePoint.x * gridSize,
         y: prePoint.y === point.y ? controlPoints[0].y : prePoint.y * gridSize,
@@ -332,6 +355,12 @@ const getControlPoints = (
     y: currentY,
     id: currentId,
   };
+
+  // if (firstPoint.x === scaleStartPoint.x && firstPoint.y === scaleStartPoint.y) {
+  //   controlPoints[0].x = startPoint.x;
+  //   controlPoints[0].y = startPoint.y;
+  // }
+
   controlPoints[0].x = firstPoint.x === scaleStartPoint.x ? startPoint.x : controlPoints[0].x;
   controlPoints[0].y = firstPoint.y === scaleStartPoint.y ? startPoint.y : controlPoints[0].y;
   controlPoints.unshift(startPoint);
@@ -399,7 +428,6 @@ export const pathFinder = (
     gScore[firstStep.id] = 0;
     fScore[firstStep.id] = estimateCost(firstStep, endPoints, cfg.distFunc);
   }
-
   let remainLoops = cfg.maximumLoops;
   const penalties = cfg.penalties;
   let current, curCost, direction, neighbor, neighborCost, costFromStart, directionChange;
@@ -440,7 +468,7 @@ export const pathFinder = (
       neighbor = {
         x: current.x + direction.stepX,
         y: current.y + direction.stepY,
-        id: `${current.x + direction.stepX}|||${current.y + direction.stepY}`,
+        id: `${Math.round(current.x) + direction.stepX}|||${Math.round(current.y) + direction.stepY}`,
       };
 
       if (closedSet[neighbor.id]) continue;

@@ -36,9 +36,9 @@ registerEdge(
       },
       routeCfg: {
         obstacles: [], // 希望边绕过的障碍节点
-        maxAllowedDirectionChange: Math.PI / 2, // 允许的最大转角，弧度制
+        maxAllowedDirectionChange: Math.PI, // 允许的最大转角，弧度制
         maximumLoops: 500,
-        gridSize: 10, // 指定精度
+        gridSize: 1, // 指定精度
       },
       stateStyles: {
         ...Global.edgeStateStyles,
@@ -82,8 +82,8 @@ registerEdge(
       const source = cfg.sourceNode;
       const target = cfg.targetNode;
       const radius = style.radius;
-      let { routeCfg } = this.options;
-      if (!routeCfg) routeCfg = {};
+      const { routeCfg: defaultRouteCfg } = this.options;
+      const routeCfg = mix({}, defaultRouteCfg, cfg.routeCfg);
       routeCfg.offset = style.offset;
 
       let path = (this as any).getPath(points, source, target, radius, routeCfg);
@@ -128,8 +128,8 @@ registerEdge(
       const source = cfg.sourceNode;
       const target = cfg.targetNode;
       const radius = previousStyle.radius;
-      let { routeCfg } = this.options;
-      if (!routeCfg) routeCfg = {};
+      const { routeCfg: defaultRouteCfg } = this.options;
+      const routeCfg = mix({}, defaultRouteCfg, cfg.routeCfg);
       routeCfg.offset = previousStyle.offset;
       let path = (this as any).getPath(points, source, target, radius, routeCfg);
       if ((isArray(path) && path.length <= 1) || (isString(path) && path.indexOf('L') === -1)) {

@@ -320,6 +320,7 @@ describe('update child', () => {
     // 第二种情况，parent存在，添加的数据存在
     const treeGraphData = {
       id: 'SubTreeNode3.1',
+      label: 'SubTreeNode3.1',
       x: 120,
       y: 156,
       type: 'circle',
