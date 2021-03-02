@@ -2,6 +2,12 @@
 
 #### 4.2.0
 
+- fix: gridSize for polyline;
+- fix: cubic-x problem, closes: #2698;
+- fix: create-edge undo problem;
+
+#### 4.1.13
+
 - fix: getHulls with error type;
 - fix: createHull with destroyed hullMap problem;
 - fix: refining TimeBar minor problems;
