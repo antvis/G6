@@ -38,7 +38,7 @@ registerEdge(
         obstacles: [], // 希望边绕过的障碍节点
         maxAllowedDirectionChange: Math.PI, // 允许的最大转角，弧度制
         maximumLoops: 500,
-        gridSize: 1, // 指定精度
+        gridSize: 10, // 指定精度
       },
       stateStyles: {
         ...Global.edgeStateStyles,
