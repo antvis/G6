@@ -56,7 +56,7 @@ describe('polyline edge', () => {
     graph.data(data);
     graph.render();
   });
-  it('polyline edge', () => {
+  it.only('polyline edge', () => {
     const graph = new Graph({
       container: div,
       width: 500,
@@ -67,30 +67,42 @@ describe('polyline edge', () => {
       },
       defaultEdge: {
         type: 'polyline',
+        style: {
+          offset: 5
+        }
       },
       defaultNode: {
         type: 'rect',
         size: [10, 10],
+        style: {
+          opacity: 0.1
+        }
       },
-      fitCenter: true,
+      // fitCenter: true,
     });
     const data = {
       nodes: [
         {
           id: '1',
-          x: -100,
-          y: -300,
+          x: 100,
+          y: 300,
+          anchorPoints: [[0.5, 1], [1, 0.5]],
+          label: '1'
         },
         {
           id: '2',
-          x: -200,
-          y: -200,
+          x: 122,
+          y: 300,
+          anchorPoints: [[0.5, 1], [0.5, 0]],
+          label: '2'
         },
       ],
       edges: [
         {
           source: '1',
           target: '2',
+          sourceAnchor: 1,
+          targetAnchor: 1
         },
       ],
     };
@@ -99,13 +111,13 @@ describe('polyline edge', () => {
     const edge = graph.getEdges()[0];
     const keyShape = edge.getKeyShape();
     const path = keyShape.attr('path');
-    // expect(path[0][1]).toBe(100);
-    // expect(path[0][2]).toBe(300);
-    // expect(path[2][1]).toBe(100);
-    // expect(path[2][2]).toBe(200);
-    // expect(path[4][1]).toBe(200);
-    // expect(path[4][2]).toBe(200);
+    expect(path[0][1]).toBe(105.5);
+    expect(path[0][2]).toBe(300);
+    expect(path[2][1]).toBe(110.5);
+    expect(path[2][2]).toBe(289.5);
+    expect(path[4][1]).toBe(122);
+    expect(path[4][2]).toBe(294.5);
 
-    // graph.destroy();
+    graph.destroy();
   });
 });

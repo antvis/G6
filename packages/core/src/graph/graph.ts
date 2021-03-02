@@ -2063,15 +2063,16 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     let model: NodeConfig;
 
     const updatedNodes: { [key: string]: boolean } = {};
+    const nodeChangeMap = {};
     each(nodes, (node: INode) => {
       model = node.getModel() as NodeConfig;
       const originAttrs = node.get('originAttrs');
       if (originAttrs && model.x === originAttrs.x && model.y === originAttrs.y) {
         return;
       }
-      node.updatePosition({ x: model.x!, y: model.y! });
-      updatedNodes[model.id] = true;
-      if (model.comboId) updatedNodes[model.comboId] = true;
+      const changed = node.updatePosition({ x: model.x!, y: model.y! });
+      updatedNodes[model.id] = changed;
+      if (model.comboId) updatedNodes[model.comboId] = updatedNodes[model.comboId] || changed;
     });
 
     if (combos && combos.length !== 0) {

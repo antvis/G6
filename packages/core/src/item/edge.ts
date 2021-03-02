@@ -201,7 +201,9 @@ export default class Edge extends Item implements IEdge {
     return this.get('target');
   }
 
-  public updatePosition() {}
+  public updatePosition() {
+    return false;
+  }
 
   /**
    * 边不需要重计算容器位置，直接重新计算 path 位置
