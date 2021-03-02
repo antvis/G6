@@ -218,6 +218,7 @@ export default class ToolBar extends Base {
       return;
     }
 
+
     const currentData = undoStack.pop();
     if (currentData) {
       const { action } = currentData;
