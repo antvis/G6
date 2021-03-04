@@ -534,16 +534,18 @@ describe('dagre layout', () => {
     graph.data(data);
     graph.render();
 
-    const endNode = data.nodes[0];
-    const startNode = data.nodes[1];
-    const edge = data.edges[0];
-    expect(mathEqual(startNode.x, 165)).toEqual(true);
-    expect(mathEqual(startNode.y, 70)).toEqual(true);
-    expect(mathEqual(endNode.x, 70)).toEqual(true);
-    expect(mathEqual(endNode.y, 260)).toEqual(true);
-    expect(mathEqual(edge.controlPoints[0].x, 70)).toEqual(true);
-    expect(mathEqual(edge.controlPoints[0].y, 165)).toEqual(true);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      const endNode = data.nodes[0];
+      const startNode = data.nodes[1];
+      const edge = data.edges[0];
+      expect(mathEqual(startNode.x, 165)).toEqual(true);
+      expect(mathEqual(startNode.y, 70)).toEqual(true);
+      expect(mathEqual(endNode.x, 70)).toEqual(true);
+      expect(mathEqual(endNode.y, 260)).toEqual(true);
+      expect(mathEqual(edge.controlPoints[0].x, 70)).toEqual(true);
+      expect(mathEqual(edge.controlPoints[0].y, 165)).toEqual(true);
+      graph.destroy();
+    });
   });
   it('dagre with number nodeSize and sepFunc', () => {
     data.edges.forEach((edgeItem) => {
@@ -576,14 +578,16 @@ describe('dagre layout', () => {
     graph.data(data);
     graph.render();
 
-    const node = data.nodes[0];
-    const edge = data.edges[0];
+    graph.on('afterlayout', () => {
+      const node = data.nodes[0];
+      const edge = data.edges[0];
 
-    expect(mathEqual(node.x, 185)).toEqual(true);
-    expect(mathEqual(node.y, 25)).toEqual(true);
-    expect(edge.controlPoints).toBe(undefined);
-    // console.log(graph);
-    // graph.destroy();
+      expect(mathEqual(node.x, 185)).toEqual(true);
+      expect(mathEqual(node.y, 25)).toEqual(true);
+      expect(edge.controlPoints).toBe(undefined);
+      // console.log(graph);
+      // graph.destroy();
+    });
   });
   it('dagre with array nodeSize', () => {
     data.edges.forEach((edgeItem) => {
@@ -616,13 +620,15 @@ describe('dagre layout', () => {
     graph.data(data);
     graph.render();
 
-    const node = data.nodes[0];
-    const edge = data.edges[0];
+    graph.on('afterlayout', () => {
+      const node = data.nodes[0];
+      const edge = data.edges[0];
 
-    expect(mathEqual(node.x, 60)).toEqual(true);
-    expect(mathEqual(node.y, 215)).toEqual(true);
-    expect(edge.controlPoints).toEqual(undefined);
-    graph.destroy();
+      expect(mathEqual(node.x, 60)).toEqual(true);
+      expect(mathEqual(node.y, 215)).toEqual(true);
+      expect(edge.controlPoints).toEqual(undefined);
+      graph.destroy();
+    });
   });
 
   it('dagre with number size in node data, controlpoints', () => {
@@ -658,15 +664,17 @@ describe('dagre layout', () => {
     graph.data(data);
     graph.render();
 
-    const node = data.nodes[0];
-    const edge = data.edges[0];
+    graph.on('afterlayout', () => {
+      const node = data.nodes[0];
+      const edge = data.edges[0];
 
-    expect(mathEqual(node.x, 197.5)).toEqual(true);
-    expect(mathEqual(node.y, 60)).toEqual(true);
-    expect(edge.controlPoints).not.toEqual(undefined);
-    expect(mathEqual(edge.controlPoints[0].x, 125)).toEqual(true);
-    expect(mathEqual(edge.controlPoints[0].y, 60)).toEqual(true);
-    graph.destroy();
+      expect(mathEqual(node.x, 197.5)).toEqual(true);
+      expect(mathEqual(node.y, 60)).toEqual(true);
+      expect(edge.controlPoints).not.toEqual(undefined);
+      expect(mathEqual(edge.controlPoints[0].x, 125)).toEqual(true);
+      expect(mathEqual(edge.controlPoints[0].y, 60)).toEqual(true);
+      graph.destroy();
+    });
   });
   it('dagre with array size in node data', () => {
     data.edges.forEach((edgeItem) => {
@@ -693,13 +701,15 @@ describe('dagre layout', () => {
     graph.data(data);
     graph.render();
 
-    const node = data.nodes[0];
-    const edge = data.edges[0];
+    graph.on('afterlayout', () => {
+      const node = data.nodes[0];
+      const edge = data.edges[0];
 
-    expect(mathEqual(node.x, 350)).toEqual(true);
-    expect(mathEqual(node.y, 85)).toEqual(true);
-    expect(edge.controlPoints).toEqual(undefined);
+      expect(mathEqual(node.x, 350)).toEqual(true);
+      expect(mathEqual(node.y, 85)).toEqual(true);
+      expect(edge.controlPoints).toEqual(undefined);
 
-    graph.destroy();
+      graph.destroy();
+    });
   });
 });
