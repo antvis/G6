@@ -1,5 +1,5 @@
-import { isFunction } from '@antv/util';
-import { isNaN } from '../../util/base';
+import { isFunction, groupBy } from '@antv/util';
+import { isNaN, calculationItemsBBox } from '../../util/base';
 import { GraphData } from '../../types';
 import { IAbstractGraph } from '../../interface/graph';
 
@@ -225,6 +225,22 @@ export default abstract class LayoutController {
     return {
       nodes: nodes.filter(nodesFilter),
       edges: edges.filter(edegsFilter)
+    }
+  }
+
+  protected getLayoutBBox(nodes) {
+    const { graph } = this;
+    const graphGroupNodes = groupBy(graph.getNodes(), (n: any) => {
+      return n.getModel().layoutOrder;
+    });
+    const layoutNodes = Object.values(graphGroupNodes).map((value) => {
+      return calculationItemsBBox(value as any);
+    });
+
+    const groupNodes = Object.values(groupBy(nodes, 'layoutOrder'));
+    return {
+      groupNodes,
+      layoutNodes
     }
   }
 

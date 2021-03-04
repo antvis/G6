@@ -3,7 +3,7 @@ import { Layout } from '../../layout';
 import { LayoutWorker } from '../../layout/worker/layout.worker';
 import { LAYOUT_MESSAGE } from '../../layout/worker/layoutConst';
 import { gpuDetector } from '../../util/gpu';
-import { mix } from '@antv/util';
+import { mix, clone } from '@antv/util';
 
 import { IGraph } from '../../interface/graph';
 
@@ -30,6 +30,7 @@ const helper = {
 };
 
 const GPULayoutNames = ['fruchterman', 'gForce'];
+const LayoutPipesAdjustNames = ['force'];
 export default class LayoutController extends AbstractLayout {
   public graph: IGraph;
 
@@ -105,7 +106,7 @@ export default class LayoutController extends AbstractLayout {
     }
   }
 
-  private execLayoutMethod(layoutCfg): Promise<void> {
+  private execLayoutMethod(layoutCfg, order): Promise<void> {
     return new Promise((reslove, reject) => {
       const { graph } = this;
       let layoutType = layoutCfg.type;
@@ -163,6 +164,7 @@ export default class LayoutController extends AbstractLayout {
         layoutMethod.tick = tick;
       }
       const layoutData = this.filterLayoutData(this.data, layoutCfg);
+      addLayoutOrder(layoutData, order);
       layoutMethod.init(layoutData);
       // 若存在节点没有位置信息，且没有设置 layout，在 initPositions 中 random 给出了所有节点的位置，不需要再次执行 random 布局
       // 所有节点都有位置信息，且指定了 layout，则执行布局（代表不是第一次进行布局）
@@ -245,12 +247,12 @@ export default class LayoutController extends AbstractLayout {
     this.isGPU = enableGPU;
 
     // 在 onAllLayoutEnd 中执行用户自定义 onLayoutEnd，触发 afterlayout、更新节点位置、fitView/fitCenter、触发 afterrender
-    const { onLayoutEnd, layoutEndFormatted } = layoutCfg;
+    const { onLayoutEnd, layoutEndFormatted, adjust } = layoutCfg;
 
     if (!layoutEndFormatted) {
       layoutCfg.layoutEndFormatted = true;
 
-      layoutCfg.onAllLayoutEnd = () => {
+      layoutCfg.onAllLayoutEnd = async () => {
         // 执行用户自定义 onLayoutEnd
         if (onLayoutEnd) {
           onLayoutEnd();
@@ -261,8 +263,15 @@ export default class LayoutController extends AbstractLayout {
         // 由 graph 传入的，控制 fitView、fitCenter，并触发 afterrender
         if (success) success();
 
+        // 最后再次调整
+        if (adjust && layoutCfg.pipes) {
+          await this.adjustPipesBox(this.data, adjust);
+          this.refreshLayout();
+        }
+
         // 触发 afterlayout
         graph.emit('afterlayout');
+
       };
     }
 
@@ -274,11 +283,11 @@ export default class LayoutController extends AbstractLayout {
 
     let start = Promise.resolve();
     if (layoutCfg.type) {
-      start = start.then(() => this.execLayoutMethod(layoutCfg));
+      start = start.then(() => this.execLayoutMethod(layoutCfg, 0));
     } else if (layoutCfg.pipes) {
-      for (const cfg of layoutCfg.pipes) {
-        start = start.then(() => this.execLayoutMethod(cfg));
-      }
+      layoutCfg.pipes.forEach((cfg, index) => {
+        start = start.then(() => this.execLayoutMethod(cfg, index));
+      });
     }
 
     // 最后统一在外部调用onAllLayoutEnd
@@ -483,6 +492,47 @@ export default class LayoutController extends AbstractLayout {
     });
   }
 
+  protected adjustPipesBox(data, adjust: string): Promise<void> {
+    return new Promise((resolve) => {
+      const { nodes } = data;
+      if (!nodes?.length) {
+        resolve();
+      }
+
+      if (!LayoutPipesAdjustNames.includes(adjust)) {
+        resolve();
+      }
+
+      const layoutType = adjust;
+      const layoutCfg = {
+        center: this.layoutCfg.center,
+        nodeSize: (d) => Math.max(d.height, d.width),
+        preventOverlap: true,
+        onLayoutEnd: () => { },
+      };
+
+      // 计算出大单元
+      const { groupNodes, layoutNodes } = this.getLayoutBBox(nodes);
+      const preNodes = clone(layoutNodes);
+
+      // 根据大单元坐标的变化，调整这里面每个小单元nodes
+      layoutCfg.onLayoutEnd = () => {
+        layoutNodes?.forEach((ele, index) => {
+          const dx = ele.x - preNodes[index]?.x;
+          const dy = ele.y = preNodes[index]?.y;
+          groupNodes[index]?.forEach((n: any) => {
+            n.x = n.x + dx;
+            n.y = n.y + dy;
+          });
+        });
+        resolve();
+      }
+
+      const layoutMethod = new Layout[layoutType](layoutCfg);
+      layoutMethod.layout({ nodes: layoutNodes });
+    });
+  }
+
   public hasGPUVersion(layoutName: string): boolean {
     const length = GPULayoutNames.length;
     for (let i = 0; i < length; i++) {
@@ -544,4 +594,14 @@ function updateGPUWorkerLayoutPosition(data, layoutData) {
     node.x = x;
     node.y = y;
   }
+}
+
+function addLayoutOrder(data, order) {
+  if (!data?.nodes?.length) {
+    return;
+  }
+  const { nodes } = data;
+  nodes.forEach(node => {
+    node.layoutOrder = order;
+  });
 }
