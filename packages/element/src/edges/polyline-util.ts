@@ -107,9 +107,9 @@ export const isHorizontalPort = (port: PolyPoint, bbox: PBBox): boolean | number
   return dx / bbox.width > dy / bbox.height;
 };
 export const getExpandedBBoxPoint = (
-  bbox: any,
-  point: PolyPoint,
-  anotherPoint: PolyPoint,
+  bbox: any, // 将原来节点 bbox 扩展了 offset 后的 bbox，且被 gridSize 格式化
+  point: PolyPoint, // 被 gridSize 格式化后的位置（anchorPoint）
+  anotherPoint: PolyPoint, // 另一端被 gridSize 格式化后的位置
 ): PolyPoint => {
   const isHorizontal = isHorizontalPort(point, bbox);
   if (isHorizontal === 0) {
@@ -376,7 +376,7 @@ export const pathFinder = (
     lowestFScore = Infinity;
     // 找到 openSet 中 fScore 最小的点
     openSet.forEach((p: any) => {
-      if (fScore[p.id] < lowestFScore) {
+      if (fScore[p.id] <= lowestFScore) {
         lowestFScore = fScore[p.id];
         current = p;
       }
@@ -500,16 +500,16 @@ export const getPolylinePoints = (
     tBBox = tNode && tNode.getBBox();
   }
 
-  if (isBBoxesOverlapping(sBBox, tBBox)) {
-    // source and target nodes are overlapping
-    return simplifyPolyline(getSimplePolyline(start, end));
-  }
+  // if (isBBoxesOverlapping(sBBox, tBBox)) {
+  //   // source and target nodes are overlapping
+  //   return simplifyPolyline(getSimplePolyline(start, end));
+  // }
   const sxBBox = getExpandedBBox(sBBox, offset);
   const txBBox = getExpandedBBox(tBBox, offset);
-  if (isBBoxesOverlapping(sxBBox, txBBox)) {
-    // the expanded bounding boxes of source and target nodes are overlapping
-    return simplifyPolyline(getSimplePolyline(start, end));
-  }
+  // if (isBBoxesOverlapping(sxBBox, txBBox)) {
+  //   // the expanded bounding boxes of source and target nodes are overlapping
+  //   return simplifyPolyline(getSimplePolyline(start, end));
+  // }
   const sPoint = getExpandedBBoxPoint(sxBBox, start, end);
   const tPoint = getExpandedBBoxPoint(txBBox, end, start);
   const lineBBox = getBBoxFromPoints([sPoint, tPoint]);

@@ -280,6 +280,10 @@ export default class ItemBase implements IItemBase {
 
       if (styles.path) delete styles.path;
       if (styles.matrix) delete styles.matrix;
+      if (styles.x) delete styles.x;
+      if (styles.y) delete styles.y;
+      if (styles[keyShapeName].x) delete styles[keyShapeName].x;
+      if (styles[keyShapeName].y) delete styles[keyShapeName].y;
       self.set('originStyle', styles);
     }
   }
@@ -649,7 +653,7 @@ export default class ItemBase implements IItemBase {
       // 如果不满足上面两种状态，重新绘制
       this.draw();
     }
-
+    
     // 更新完以后重新设置原始样式
     this.setOriginStyle(model);
 

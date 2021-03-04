@@ -1,10 +1,13 @@
 # ChangeLog
 
-#### 4.2.0
+#### 4.1.14
 
 - fix: gridSize for polyline;
 - fix: cubic-x problem, closes: #2698;
 - fix: create-edge undo problem;
+- fix: tslib spreadArray problem;
+- fix: rect combo position with state problem;
+- feat: simple polyline for better performance;
 
 #### 4.1.13
 
