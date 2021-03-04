@@ -199,7 +199,7 @@ export default abstract class LayoutController {
   protected filterLayoutData(data, cfg) {
     const { nodes, edges } = data;
     if (!nodes) {
-      return false;
+      return data;
     }
 
     let nodesFilter;

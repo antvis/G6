@@ -1,19 +1,4 @@
 import WebWorker from './work';
-import {
-  GridLayout,
-  RandomLayout,
-  ForceLayout,
-  CircularLayout,
-  DagreLayout,
-  RadialLayout,
-  ConcentricLayout,
-  MDSLayout,
-  FruchtermanGPULayout,
-  FruchtermanLayout,
-  GForceLayout,
-  GForceGPULayout,
-  ComboForceLayout } from '@antv/layout';
-// import { registerLayout as oRegisterLayout, } from '@antv/layout'; 
 
 interface Event {
   type: string;
@@ -87,11 +72,13 @@ export const LayoutWorker = (
             break;
           }
 
+          layoutCfg.onLayoutEnd = () => {
+            this.postMessage({ type: LAYOUT_MESSAGE.END, nodes });
+            layoutMethod.destroy();
+          };
           const layoutMethod = new LayoutClass(layoutCfg);
           layoutMethod.init({ nodes, edges });
           layoutMethod.execute();
-          this.postMessage({ type: LAYOUT_MESSAGE.END, nodes });
-          layoutMethod.destroy();
           break;
         }
 

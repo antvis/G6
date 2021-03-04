@@ -109,7 +109,6 @@ export default class LayoutController extends AbstractLayout {
     return new Promise((reslove, reject) => {
       const { graph } = this;
       let layoutType = layoutCfg.type;
-      let isGPU = false;
 
       // 每个布局方法都需要注册
       layoutCfg.onLayoutEnd = () => {
@@ -117,33 +116,16 @@ export default class LayoutController extends AbstractLayout {
         reslove();
       }
 
-      // 防止用户直接用 -gpu 结尾指定布局
-      if (layoutType && layoutType.split('-')[1] === 'gpu') {
-        layoutType = layoutType.split('-')[0];
-        layoutCfg.gpuEnabled = true;
-      }
-
       // 若用户指定开启 gpu，且当前浏览器支持 webgl，且该算法存在 GPU 版本（目前仅支持 fruchterman 和 gForce），使用 gpu 版本的布局
-      if (layoutType && layoutCfg.gpuEnabled) {
-        let enableGPU = true;
-        // 打开下面语句将会导致 webworker 报找不到 window
-        if (!gpuDetector().webgl) {
-          console.warn(`Your browser does not support webGL or GPGPU. The layout will run in CPU.`);
-          enableGPU = false;
-        }
+      if (layoutType && this.isGPU) {
         if (!this.hasGPUVersion(layoutType)) {
           console.warn(
             `The '${layoutType}' layout does not support GPU calculation for now, it will run in CPU.`,
           );
-          enableGPU = false;
-        }
-        if (enableGPU) {
+        } else {
           layoutType = `${layoutType}-gpu`;
-          // layoutCfg.canvasEl = this.graph.get('canvas').get('el');
-          isGPU = true;
         }
       }
-      this.isGPU = isGPU;
 
       if (layoutType === 'force' || layoutType === 'g6force' || layoutType === 'gForce') {
         const { onTick } = layoutCfg;
@@ -243,31 +225,51 @@ export default class LayoutController extends AbstractLayout {
     graph.emit('beforelayout');
     this.initPositions(layoutCfg.center, nodes);
 
-    this.stopWorker();
-    if (layoutCfg.workerEnabled && this.layoutWithWorker(this.data, success)) {
-      // 如果启用布局web worker并且浏览器支持web worker，用web worker布局。否则回退到不用web worker布局。
-      return true;
+    // 防止用户直接用 -gpu 结尾指定布局
+    let layoutType = layoutCfg.type;
+    if (layoutType && layoutType.split('-')[1] === 'gpu') {
+      layoutType = layoutType.split('-')[0];
+      layoutCfg.gpuEnabled = true;
     }
+
+    // 若用户指定开启 gpu，且当前浏览器支持 webgl，且该算法存在 GPU 版本（目前仅支持 fruchterman 和 gForce），使用 gpu 版本的布局
+    let enableGPU = false;
+    if (layoutCfg.gpuEnabled) {
+      enableGPU = true;
+      // 打开下面语句将会导致 webworker 报找不到 window
+      if (!gpuDetector().webgl) {
+        console.warn(`Your browser does not support webGL or GPGPU. The layout will run in CPU.`);
+        enableGPU = false;
+      }
+    }
+    this.isGPU = enableGPU;
 
     // 在 onAllLayoutEnd 中执行用户自定义 onLayoutEnd，触发 afterlayout、更新节点位置、fitView/fitCenter、触发 afterrender
     const { onLayoutEnd, layoutEndFormatted } = layoutCfg;
 
     if (!layoutEndFormatted) {
       layoutCfg.layoutEndFormatted = true;
-      layoutCfg.onLayoutEnd = undefined;
 
       layoutCfg.onAllLayoutEnd = () => {
         // 执行用户自定义 onLayoutEnd
         if (onLayoutEnd) {
           onLayoutEnd();
         }
-        // 触发 afterlayout
-        graph.emit('afterlayout');
+
         // 更新节点位置
         this.refreshLayout();
         // 由 graph 传入的，控制 fitView、fitCenter，并触发 afterrender
         if (success) success();
+
+        // 触发 afterlayout
+        graph.emit('afterlayout');
       };
+    }
+
+    this.stopWorker();
+    if (layoutCfg.workerEnabled && this.layoutWithWorker(this.data)) {
+      // 如果启用布局web worker并且浏览器支持web worker，用web worker布局。否则回退到不用web worker布局。
+      return true;
     }
 
     let start = Promise.resolve();
@@ -283,7 +285,7 @@ export default class LayoutController extends AbstractLayout {
     start.then(() => {
       if (layoutCfg.onAllLayoutEnd) layoutCfg.onAllLayoutEnd();
     }).catch((error) => {
-      console.error('layout failed', error);
+      console.error('graph layout failed,', error);
     });
 
     return false;
@@ -292,12 +294,10 @@ export default class LayoutController extends AbstractLayout {
   /**
    * layout with web worker
    * @param {object} data graph data
-   * @param {function} success callback function
    * @return {boolean} 是否支持web worker
    */
-  private layoutWithWorker(data, success?: () => void): boolean {
-    const { nodes, edges } = data;
-    const { layoutCfg, graph, isGPU } = this;
+  private layoutWithWorker(data): boolean {
+    const { layoutCfg, graph } = this;
     const worker = this.getWorker();
     // 每次worker message event handler调用之间的共享数据，会被修改。
     const { workerData } = this;
@@ -312,6 +312,30 @@ export default class LayoutController extends AbstractLayout {
     workerData.currentTickData = null;
 
     graph.emit('beforelayout');
+
+    let start = Promise.resolve();
+    if (layoutCfg.type) {
+      start = start.then(() => this.runWebworker(worker, data, layoutCfg));
+    } else if (layoutCfg.pipes) {
+      for (const cfg of layoutCfg.pipes) {
+        start = start.then(() => this.runWebworker(worker, data, cfg));
+      }
+    }
+
+    // 最后统一在外部调用onAllLayoutEnd
+    start.then(() => {
+      if (layoutCfg.onAllLayoutEnd) layoutCfg.onAllLayoutEnd();
+    }).catch((error) => {
+      console.error('layout failed', error);
+    });
+
+    return true;
+  }
+
+  private runWebworker(worker, allData, layoutCfg): Promise<void> {
+    const { isGPU } = this;
+    const data = this.filterLayoutData(allData, layoutCfg);
+    const { nodes, edges } = data;
 
     const offScreenCanvas = document.createElement('canvas');
     const gpuWorkerAbility =
@@ -350,27 +374,23 @@ export default class LayoutController extends AbstractLayout {
         [offscreen],
       );
     }
-    worker.onmessage = event => {
-      this.handleWorkerMessage(event, data, success);
-    };
-    return true;
+
+    return new Promise((reslove, reject) => {
+      worker.onmessage = (event) => {
+        this.handleWorkerMessage(reslove, reject, event, data, layoutCfg);
+      };
+    });
   }
 
   // success callback will be called when updating graph positions for the first time.
-  private handleWorkerMessage(event, data, success?: () => void) {
-    const { graph, workerData, layoutCfg } = this;
+  private handleWorkerMessage(reslove, reject, event, data, layoutCfg) {
+    const { graph, workerData } = this;
     const eventData = event.data;
     const { type } = eventData;
     const onTick = () => {
       if (layoutCfg.onTick) {
         layoutCfg.onTick();
       }
-    };
-    const onLayoutEnd = () => {
-      if (layoutCfg.onLayoutEnd) {
-        layoutCfg.onLayoutEnd();
-      }
-      graph.emit('afterlayout');
     };
 
     switch (type) {
@@ -382,13 +402,10 @@ export default class LayoutController extends AbstractLayout {
             updateLayoutPosition(data, eventData);
             graph.refreshPositions();
             onTick();
-            if (eventData.currentTick === 1 && success) {
-              success();
-            }
 
             if (eventData.currentTick === eventData.totalTicks) {
               // 如果是最后一次tick
-              onLayoutEnd();
+              reslove();
             } else if (workerData.currentTick === eventData.totalTicks) {
               // 注意这里workerData.currentTick可能已经不再是前面赋值时候的值了，
               // 因为在requestAnimationFrame等待时间里，可能产生新的tick。
@@ -398,7 +415,7 @@ export default class LayoutController extends AbstractLayout {
                 graph.refreshPositions();
                 workerData.requestId2 = null;
                 onTick();
-                onLayoutEnd();
+                reslove();
               });
             }
             workerData.requestId = null;
@@ -409,42 +426,24 @@ export default class LayoutController extends AbstractLayout {
         // 如果没有tick消息（非力导布局）
         if (workerData.currentTick == null) {
           updateLayoutPosition(data, eventData);
-          this.refreshLayout();
-          // 非力导布局，没有tick消息，只有end消息，所以需要执行一次回调。
-          if (success) {
-            success();
-          }
-          graph.emit('afterlayout');
+          reslove();
         }
         break;
       case LAYOUT_MESSAGE.GPUEND:
         // 如果没有tick消息（非力导布局）
         if (workerData.currentTick == null) {
           updateGPUWorkerLayoutPosition(data, eventData);
-          this.refreshLayout();
-          // 非力导布局，没有tick消息，只有end消息，所以需要执行一次回调。
-          if (success) {
-            success();
-          }
-          graph.emit('afterlayout');
+          reslove();
         }
         break;
       case LAYOUT_MESSAGE.ERROR:
         console.warn('Web-Worker layout error!', eventData.message);
+        reject();
         break;
       default:
+        reject();
         break;
     }
-  }
-
-  // added in core
-  public hasLayoutPipesChanged(pipes: any[]) {
-    const { layoutType } = this;
-    if (!Array.isArray(layoutType)) {
-      return true;
-    }
-
-    return !pipes?.every((cfg, index) => cfg?.type === layoutType[index]);
   }
 
   // 更新布局参数
@@ -460,7 +459,7 @@ export default class LayoutController extends AbstractLayout {
     this.data = this.setDataFromGraph();
 
     this.stopWorker();
-    if (cfg.workerEnabled && this.layoutWithWorker(this.data, null)) {
+    if (cfg.workerEnabled && this.layoutWithWorker(this.data)) {
       // 如果启用布局web worker并且浏览器支持web worker，用web worker布局。否则回退到不用web worker布局。
       return;
     }
