@@ -48,7 +48,7 @@ const graph = new G6.Graph({
 
 ## layoutCfg.edgeStrength
 
-**Type**: Number / Function<br />**Default**: null<br />**Required**: false<br />**Description**: The strength of edge force. Calculated according to the degree of nodes by default
+**Type**: Number / Function<br />**Default**: null<br />**Required**: false<br />**Description**: The strength of edge force, ranges from 0 to 1. Calculated according to the degree of nodes by default
 
 ## layoutCfg.preventOverlap
 

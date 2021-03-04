@@ -175,7 +175,7 @@ export interface IItemBase {
    * 更新位置，避免整体重绘
    * @param {object} cfg 待更新数据
    */
-  updatePosition: (cfg: Point) => void;
+  updatePosition: (cfg: Point) => boolean;
 
   /**
    * 绘制元素

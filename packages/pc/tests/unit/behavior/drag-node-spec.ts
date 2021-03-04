@@ -153,11 +153,6 @@ describe('drag-node', () => {
     expect(dragMatrix[7]).toEqual(50);
 
     graph.emit('node:dragend', { x: 200, y: 200, item: node });
-    const matrix = node.get('group').getMatrix();
-    expect(matrix[0]).toEqual(1);
-    expect(matrix[6]).toEqual(200);
-    expect(matrix[7]).toEqual(200);
-    graph.destroy();
   });
   it('drag selected nodes', () => {
     const graph: Graph = new Graph({
@@ -275,7 +270,6 @@ describe('drag-node', () => {
     const dragMatrix = node0.get('group').getMatrix();
     expect(dragMatrix[6]).toEqual(150);
     expect(dragMatrix[7]).toEqual(150);
-
     // if the enableDelegate is false, dragend will not change the node position
     graph.emit('node:dragend', { x: 200, y: 200, item: node0 });
     const matrix = node0.get('group').getMatrix();
@@ -283,6 +277,7 @@ describe('drag-node', () => {
     expect(matrix[6]).toEqual(150);
     expect(matrix[7]).toEqual(150);
     graph.destroy();
+    }, 50);
   });
   it('delegate drag node with edge', () => {
     const graph = new Graph({
@@ -826,4 +821,47 @@ describe('drag-node', () => {
     graph.paint();
     canvas.draw();
   });
+
+  it('drop on node, drop on combo', () => {
+    const mockData = {
+      nodes: [
+        { id: "4988e9a7", label: "分支节点1", comboId: "c8578297", x: 300, y: 100 },
+        { id: "915e9146", label: "分支节点2", comboId: "c8578297", x: 100, y: 300 },
+        { id: "915e9147", label: "分支节点3", comboId: "c8578298", x: 500, y: 200 }
+      ],
+      edges: [{ id: "1a29578f", source: "4988e9a7", target: "915e9146" }],
+      combos: [
+        { id: "c8578297", label: "测试分组a" },
+        { id: "c8578298", label: "测试分组b" }
+      ]
+    };
+    
+    const g6 = new Graph({
+      width: 600,
+      height: 700,
+      container: div,
+      modes: {
+        default: [
+          {
+            type: "drag-combo",
+            onlyChangeComboSize: true,
+            enableDelegate: true
+          },
+          {
+            type: "drag-node",
+            onlyChangeComboSize: true,
+            enableDelegate: true
+          },
+          "drag-canvas",
+          "zoom-canvas"
+        ]
+      },
+      defaultNode: { type: "rect" },
+      layout: {
+        type: "dagre"
+      }
+    });
+    g6.data(mockData);
+    g6.render();
+  })
 });

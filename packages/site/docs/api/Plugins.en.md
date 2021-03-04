@@ -447,6 +447,9 @@ interface TimeBarConfig extends IPluginBaseConfig {
   // the buttons for play, fast forward, and back forward
   readonly controllerCfg?: ControllerCfg;
 
+  // whether to consider the edge filtering. If it is false, only filter the nodes and the edges whose end nodes are filtered out while the selected range of the timeBar is changed. If it is true, there should be `date` properties on the edges data, and the timeBar will filter the edges which is not in the selected range in the same time
+  readonly filterEdge?: boolean;
+
   rangeChange?: (graph: IGraph, minValue: string, maxValue: string) => void;
   valueChange?: (graph: IGraph, value: string) => void;
 }
@@ -467,6 +470,7 @@ interface TimeBarConfig extends IPluginBaseConfig {
 | slider | SliderOption | null | The configurations for the two sliders |
 | tick | TimeBarSliceOption | null | The configuration for the TimeBar with descrete ticks, takes effect whtn the type is 'tick' |
 | controllerCfg | ControllerCfg | null | The buttons for play, fast forward, and back forward |
+| filterEdge | boolean | false | Whether to consider the edge filtering. If it is false, only filter the nodes and the edges whose end nodes are filtered out while the selected range of the timeBar is changed. If it is true, there should be `date` properties on the edges data, and the timeBar will filter the edges which is not in the selected range in the same time |
 | rangeChange | Function | null | The callback function after the time range is changed. When it is not assigned, the graph elements will be filtered after the time range is changed |
 
 #### Interface for TrendConfig
@@ -607,23 +611,54 @@ export interface TimeBarSliceOption {
 
 ```javascript
 type ControllerCfg = Partial<{
+  /** the begining position and the size of the controller, the width and height will not scale the sub-controllers but only affects the positions of them. To change the size of the sub-controllers, try ControllerCfg.scale or the scale in the style of sub-controller */
   readonly x?: number;
   readonly y?: number;
   readonly width: number;
   readonly height: number;
+  /** the scale of the whole controller */
+  readonly scale?: number;
+  /** the fill and stroke color of the background */
+  readonly fill?: string;
+  readonly stroke?: string;
+  /** the font family for the whole controller, whose priority is lower than the fontFamily in the text style of each sub-controller */
+  readonly fontFamily?: string;
+
   /** the play spped, means the playing time for 1 tick */
   readonly speed?: number;
   /** whether play in loop */
   readonly loop?: boolean;
-  readonly hiddleToggle: boolean;
-  readonly fill?: string;
-  readonly stroke?: string;
-  /** style of the back forward button */
+  /** whether hide the 'time type controller' on the right-bottom */
+  readonly hideTimeTypeController: boolean;
+
+  /** style of the backward button. scale, offsetX, offsetY are also can be assigned to it to controll the size and position of the backward button */
   readonly preBtnStyle?: ShapeStyle;
-  /** style of the fast forward button */
+
+  /** style of the forward button. scale, offsetX, offsetY are also can be assigned to it to controll the size and position of the forward button */
   readonly nextBtnStyle?: ShapeStyle;
-  /** style of the play button */
+
+  /** style of the play button. scale, offsetX, offsetY are also can be assigned to it to controll the size and position of the paly button */
   readonly playBtnStyle?: ShapeStyle;
+
+  /** style of the 'speed controller'. scale, offsetX, offsetY are also can be assigned to it and each sub-styles to controll the size and position of the speed controller and sub-shapes*/
+  readonly speedControllerStyle?: {
+    offsetX?: number,
+    offsetY?: number;
+    scale?: number
+    pointer?: ShapeStyle,
+    scroller?: ShapeStyle,
+    text?: ShapeStyle
+  };
+
+  /** style of the 'time type controller'. scale, offsetX, offsetY  are also can be assigned to it and each sub-styles to controll the size and position of the speed controller and sub-shapes */
+  readonly timeTypeControllerStyle?: {
+    offsetX?: number,
+    offsetY?: number;
+    scale?: number
+    check?: ShapeStyle,
+    box?: ShapeStyle,
+    text?: ShapeStyle
+  };
   /** the text for the right-botton switch controlling play with single time point or time range */
   readonly timePointControllerText?: string;
   readonly timeRangeControllerText?: string
@@ -636,18 +671,22 @@ type ControllerCfg = Partial<{
 | --- | --- | --- | --- |
 | x | number | 0 | The beginning x position for the buttons group of the TimeBar |
 | y | number | 0 | The beginning y position for the buttons group of the TimeBar |
-| width | number | The width of the TimeBar | The width of the buttons group of the TimeBar |
-| height | number | 40 | The width of the buttons group of the TimeBar |
+| width | number | The width of the TimeBar | The width of the buttons group of the TimeBar, do not scale the sub-controllers but only affects the positions of them |
+| height | number | 40 | The width of the buttons group of the TimeBar, do not scale the sub-controllers but only affects the positions of them |
+| scale | number | 1 | The scale of the whole controller |
 | speed | number | 1 | The play speed |
 | loop | boolean | false | _Does not support for now_, whether play in loop |
-| hiddleToggle | boolean | true | Whther hide the switch of the time range type |
-| fill | string |  | The fillling color for the buttons group |
-| stroke | string |  | The stroke color for the buttons group |
-| preBtnStyle | ShapeStyle | null | The style configuration for the backward button |
-| nextBtnStyle | ShapeStyle | null | The style configuration for the forward button |
-| playBtnStyle | ShapeStyle | null | The style configuration for the play button |
-| timePointControllerText | string | "单一时间"         | The text for the right-botton switch controlling play with single time point or time range     |
-| timeRangeControllerText | string | "时间范围"         | The text for the right-botton switch controlling play with single time point or time range     |
+| hideTimeTypeController | boolean | true | Whther hide the time type controller on the right bottom |
+| fill | string |  | The fillling color for the background of the controller |
+| stroke | string |  | The stroke color for the background of the buttons group |
+| preBtnStyle | ShapeStyle | null | The style of the backward button. `scale`, `offsetX`, `offsetY` are also can be assigned to it to controll the size and position of the backward button |
+| nextBtnStyle | ShapeStyle | null | The style of the forward button. `scale`, `offsetX`, `offsetY` are also can be assigned to it to controll the size and position of the forward button |
+| playBtnStyle | ShapeStyle | null | The style of the play button. `scale`, `offsetX`, `offsetY` are also can be assigned to it to controll the size and position of the paly button |
+| speedControllerStyle | { offsetX?: number, offsetY?: number, scale?: number, pointer?: ShapeStyle, text?: ShapeStyle, scroller?: ShapeStyle} | null | The style of the 'speed controller'. `scale`, `offsetX`, `offsetY` are also can be assigned to it and each sub-styles to controll the size and position of the speed controller and sub-shapes |
+| timeTypeControllerStyle | { offsetX?: number, offsetY?: number, scale?: number, box?: ShapeStyle, check?: ShapeStyle, text?: ShapeStyle } | null | The style of the 'time type controller'. `scale`, `offsetX`, `offsetY` are also can be assigned to it and each sub-styles to controll the size and position of the speed controller and sub-shapes |
+| timePointControllerText | string | "单一时间" | The text for the right-botton switch controlling play with single time point or time range |
+| timeRangeControllerText | string | "时间范围" | The text for the right-botton switch controlling play with single time point or time range |
+
 ## ToolTip
 
 ToolTip helps user to explore detail infomations on the node and edge. Do note that, This Tooltip Plugins will replace the tooltip in the built-in behavior after G6 4.0.

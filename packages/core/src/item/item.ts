@@ -258,7 +258,7 @@ export default class ItemBase implements IItemBase {
               if (value !== shapeStateStyle[key]) styles[name][key] = value;
             });
           } else {
-            styles[name] = clone(shapeAttrs);
+            styles[name] = child.get('type') !== 'image' ? clone(shapeAttrs) : self.getShapeStyleByName(name);
           }
         } else {
           const shapeAttrs = child.attr();
@@ -661,7 +661,7 @@ export default class ItemBase implements IItemBase {
    * 更新位置，避免整体重绘
    * @param {object} cfg 待更新数据
    */
-  public updatePosition(cfg: ModelConfig) {
+  public updatePosition(cfg: ModelConfig): boolean {
     const model: ModelConfig = this.get('model');
 
     const x = isNil(cfg.x) ? model.x : cfg.x;
@@ -670,14 +670,19 @@ export default class ItemBase implements IItemBase {
     const group: IGroup = this.get('group');
 
     if (isNil(x) || isNil(y)) {
-      return;
+      return false;
     }
+    model.x = x;
+    model.y = y;
+
+    const matrix = group.getMatrix();
+    if (matrix && matrix[6] === x && matrix[7] === y) return false;
+    
     group.resetMatrix();
     // G 4.0 element 中移除了矩阵相关方法，详见https://www.yuque.com/antv/blog/kxzk9g#4rMMV
     translate(group, { x: x!, y: y! });
-    model.x = x;
-    model.y = y;
     this.clearCache(); // 位置更新后需要清除缓存
+    return true;
   }
 
   /**

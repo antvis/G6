@@ -18,6 +18,7 @@ export default {
       // 当设置的值小于 0 时，相当于缩小了可拖动范围
       // 具体实例可参考：https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IFfoS67_HssAAAAAAAAAAAAAARQnAQ
       scalableRange: 0,
+      allowDragOnItem: false,
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -29,8 +30,8 @@ export default {
       keyup: 'onKeyUp',
       focus: 'onKeyUp',
       keydown: 'onKeyDown',
-      touchstart: 'onMouseDown',
-      touchmove: 'onMouseMove',
+      touchstart: 'onTouchStart',
+      touchmove: 'onTouchMove',
       touchend: 'onMouseUp',
     };
   },
@@ -76,6 +77,19 @@ export default {
     }
     this.graph.translate(dx, dy);
   },
+  onTouchStart(e: IG6GraphEvent) {
+    const self = this as any;
+    const touches = (e.originalEvent as any).touches;
+    const event1 = touches[0];
+    const event2 = touches[1];
+
+    // 如果是双指操作，不允许拖拽画布
+    if (event1 && event2) {
+      return;
+    }
+    e.preventDefault();
+    self.onMouseDown(e);
+  },
   onMouseDown(e: IG6GraphEvent) {
     const self = this as any;
     const event = e.originalEvent as MouseEvent;
@@ -99,7 +113,9 @@ export default {
     }
 
     if (self.keydown) return;
-    if (!(e.target && e.target.isCanvas && e.target.isCanvas())) return;
+    const target = e.target;
+    const targetIsCanvas = target && target.isCanvas && target.isCanvas();
+    if (!this.allowDragOnItem && !targetIsCanvas) return;
 
     self.origin = { x: e.clientX, y: e.clientY };
     self.dragging = false;
@@ -130,10 +146,26 @@ export default {
       }
     }
   },
+  onTouchMove(e: IG6GraphEvent) {
+    const self = this as any;
+    const touches = (e.originalEvent as any).touches;
+    const event1 = touches[0];
+    const event2 = touches[1];
+
+    // 如果是双指操作，不允许拖拽画布，结束拖拽
+    if (event1 && event2) {
+      this.onMouseUp(e);
+      return;
+    }
+    e.preventDefault();
+    self.onMouseMove(e);
+  },
   onMouseMove(e: IG6GraphEvent) {
     const { graph } = this;
     if (this.keydown) return;
-    if (!(e.target && e.target.isCanvas && e.target.isCanvas())) return;
+    const target = e.target;
+    const targetIsCanvas = target && target.isCanvas && target.isCanvas();
+    if (!this.allowDragOnItem && !targetIsCanvas) return;
 
     e = cloneEvent(e);
     if (!this.origin) {

@@ -62,7 +62,9 @@ Circle Combo 支持 [Combo 通用配置](/zh/docs/manual/middle/elements/combos/
 
 | 名称 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
-| size | 圆的直径 | Number / Array | `size` 为数组时，取第一个值 |
+| size | 圆的最小直径（非固定直径），渲染大小由子元素的大小与分布决定 | number / number[] | `size` 为数组时，取第一个值 |
+| fixSize | 固定该 Combo 的直径 | number | 不指定时 Combo 大小由内部元素的分布和大小来决定。若指定了 `fixSize` 而没有指定 `fixCollapseSize`，则即使该 Combo 在收起状态下仍然保持 `fixSize` 指定的尺寸 |
+| fixCollapseSize | 固定该 Combo 收起时的直径 | number | 不指定时，若未指定 `fixSize` 则由 `size` 决定收起时的直径，否则统一为 `fixSize` 直径 ｜ |
 | style | circle 默认样式 | Object | 参见下文 [样式属性  style](./circle#样式属性-style) 内容 |
 | label | 标签文本内容 | String |  |
 | labelCfg | 标签文本配置项 | Object | 参见下文 [标签文本配置 labelCfg](./circle#标签文本配置-labelcfg) |

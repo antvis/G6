@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6-core",
-  "version": "0.0.9",
+  "version": "0.0.14",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",
@@ -43,7 +43,7 @@
     "lint:src": "eslint --ext .ts --format=pretty \"./src\"",
     "prettier": "prettier -c --write \"**/*\"",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/graph/svg-spec.ts",
+    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/graph/graph-spec.ts",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
     "watch": "father build -w"
   },
@@ -58,7 +58,7 @@
     ]
   },
   "dependencies": {
-    "@antv/algorithm": "^0.0.7",
+    "@antv/algorithm": "^0.1.3",
     "@antv/dom-util": "^2.0.1",
     "@antv/event-emitter": "~0.1.0",
     "@antv/g-base": "^0.5.1",
@@ -93,6 +93,6 @@
     "rimraf": "^3.0.0",
     "ts-jest": "^24.1.0",
     "ts-loader": "^7.0.3",
-    "typescript": "^3.5.3"
+    "typescript": "^3.9.5"
   }
 }

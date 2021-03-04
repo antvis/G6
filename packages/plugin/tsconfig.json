@@ -10,7 +10,8 @@
     "noImplicitAny": false,
     "lib": ["dom", "esnext"],
     "module": "esnext",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "skipLibCheck": true
   },
   "include": ["src", "tests"],
   "exclude": ["./node_modules"]

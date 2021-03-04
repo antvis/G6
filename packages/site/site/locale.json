@@ -56,5 +56,7 @@
   "两个端点都是真实节点": "Both end nodes are real nodes",
   "节点中间的数字代表该聚类所含的节点数量": "The number on the node indicates the real nodes number \nof this cluster",
   "绿点标记：新增节点": "Green Dot: Newly Added Node",
-  "相较于上一次结果，右上方小绿点标记了\n本次更新结果中新增的聚合节点或真实节点": "The green dot on the right-top of the node indicates that \nthe node is newly added compared to last result"
+  "相较于上一次结果，右上方小绿点标记了\n本次更新结果中新增的聚合节点或真实节点": "The green dot on the right-top of the node indicates that \nthe node is newly added compared to last result",
+  "Graphin 是一款基于 G6 封装的 React 分析组件库，专注在关系可视分析领域，简单高效，开箱即用。": "Graphin stands for Graph Insight. It's a toolkit based on G6 and React, that focuses on relational visual analysis. It's simple, efficient, out of the box.",
+  "Graphin 图可视分析组件": "Graphin: Graph Insight"
 }
