@@ -91,16 +91,16 @@ describe('vertical horizontal cubic edge', () => {
     console.log(path2);
     expect(path2[0][1]).toBe(105.5);
     expect(path2[0][2]).toBe(300);
-    expect(path2[1][1]).toBe(241);
+    expect(path2[1][1]).toBe(130);
     expect(path2[1][2]).toBe(300);
-    expect(path2[1][3]).toBe(-141);
+    expect(path2[1][3]).toBe(-30);
     expect(path2[1][4]).toBe(200);
     expect(path2[1][5]).toBe(-5.5);
     expect(path2[1][6]).toBe(200);
 
     graph.destroy();
   });
-  it.only('vertical horizontal cubic edge with minCurveOffset', () => {
+  it('vertical horizontal cubic edge with minCurveOffset', () => {
     const graph = new Graph({
       container: div,
       width: 500,
@@ -171,9 +171,9 @@ describe('vertical horizontal cubic edge', () => {
     const path = keyShape.attr('path');
     expect(path[0][1]).toBe(105.5);
     expect(path[0][2]).toBe(300);
-    expect(path[1][1]).toBe(151);
+    expect(path[1][1]).toBe(140);
     expect(path[1][2]).toBe(300);
-    expect(path[1][3]).toBe(49);
+    expect(path[1][3]).toBe(60);
     expect(path[1][4]).toBe(200);
     expect(path[1][5]).toBe(94.5);
     expect(path[1][6]).toBe(200);
@@ -184,9 +184,9 @@ describe('vertical horizontal cubic edge', () => {
     console.log(path2);
     expect(path2[0][1]).toBe(105.5);
     expect(path2[0][2]).toBe(300);
-    expect(path2[1][1]).toBe(201);
+    expect(path2[1][1]).toBe(170);
     expect(path2[1][2]).toBe(300);
-    expect(path2[1][3]).toBe(-21);
+    expect(path2[1][3]).toBe(10);
     expect(path2[1][4]).toBe(200);
     expect(path2[1][5]).toBe(74.5);
     expect(path2[1][6]).toBe(200);
