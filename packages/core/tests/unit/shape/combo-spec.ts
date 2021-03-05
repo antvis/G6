@@ -88,7 +88,7 @@ describe('combo node test', () => {
       // expect(group.getCount()).toBe(2);
     });
 
-    it('update', () => {
+    it('update', (done) => {
       const group = canvas.addGroup({
         id: 'rect',
       });
@@ -155,6 +155,7 @@ describe('combo node test', () => {
       // since the update is animated, check it after 300ms
       setTimeout(() => {
         expect(shape.attr('fill')).toBe('steelblue');
+        done();
       }, 300);
     });
 
