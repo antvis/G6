@@ -223,12 +223,14 @@ export default class ItemBase implements IItemBase {
           if (keyShapeStyle.matrix) delete keyShapeStyle.matrix;
           if (!keyShapeName) {
             Object.assign(originStyles, keyShapeStyle);
-          } else { // 若 keyShape 有 name 且 !name，这个图形不是 keyShape，给这个图形一个 name
+          } else {
+            // 若 keyShape 有 name 且 !name，这个图形不是 keyShape，给这个图形一个 name
             if (!name) {
               const shapeName = uniqueId('shape');
               child.set('name', shapeName);
-              originStyles[shapeName] = shapeType !== 'image' ? clone(child.attr()) : self.getShapeStyleByName(name);
-            } else originStyles[keyShapeName] = keyShapeStyle
+              originStyles[shapeName] =
+                shapeType !== 'image' ? clone(child.attr()) : self.getShapeStyleByName(name);
+            } else originStyles[keyShapeName] = keyShapeStyle;
           }
         }
       });
@@ -258,7 +260,8 @@ export default class ItemBase implements IItemBase {
               if (value !== shapeStateStyle[key]) styles[name][key] = value;
             });
           } else {
-            styles[name] = child.get('type') !== 'image' ? clone(shapeAttrs) : self.getShapeStyleByName(name);
+            styles[name] =
+              child.get('type') !== 'image' ? clone(shapeAttrs) : self.getShapeStyleByName(name);
           }
         } else {
           const shapeAttrs = child.attr();
@@ -282,8 +285,8 @@ export default class ItemBase implements IItemBase {
       if (styles.matrix) delete styles.matrix;
       if (styles.x) delete styles.x;
       if (styles.y) delete styles.y;
-      if (styles[keyShapeName].x) delete styles[keyShapeName].x;
-      if (styles[keyShapeName].y) delete styles[keyShapeName].y;
+      if (styles[keyShapeName] && styles[keyShapeName].x) delete styles[keyShapeName].x;
+      if (styles[keyShapeName] && styles[keyShapeName].y) delete styles[keyShapeName].y;
       self.set('originStyle', styles);
     }
   }
@@ -653,7 +656,7 @@ export default class ItemBase implements IItemBase {
       // 如果不满足上面两种状态，重新绘制
       this.draw();
     }
-    
+
     // 更新完以后重新设置原始样式
     this.setOriginStyle(model);
 
@@ -681,7 +684,7 @@ export default class ItemBase implements IItemBase {
 
     const matrix = group.getMatrix();
     if (matrix && matrix[6] === x && matrix[7] === y) return false;
-    
+
     group.resetMatrix();
     // G 4.0 element 中移除了矩阵相关方法，详见https://www.yuque.com/antv/blog/kxzk9g#4rMMV
     translate(group, { x: x!, y: y! });

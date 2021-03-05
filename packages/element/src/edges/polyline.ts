@@ -188,7 +188,8 @@ registerEdge(
       }
 
       // 未指定控制点
-      let polylinePoints = simple ? getPolylinePoints(points[points.length - 1], points[0], target, source, offset)
+      const polylinePoints = simple
+        ? getPolylinePoints(points[points.length - 1], points[0], target, source, offset)
         : pathFinder(points[0], points[points.length - 1], source, target, routeCfg);
       if (radius) {
         const res = getPathWithBorderRadiusByPolyline(polylinePoints, radius);
