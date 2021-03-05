@@ -1,5 +1,8 @@
 # ChangeLog
 
+#### 4.1.16
+- fix: webworker in dist;
+
 #### 4.1.15
 - fix: cubic-x problem, closes: #2698;
 

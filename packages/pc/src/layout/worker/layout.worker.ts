@@ -1,19 +1,4 @@
 import WebWorker from './work';
-import {
-  GridLayout,
-  RandomLayout,
-  ForceLayout,
-  CircularLayout,
-  DagreLayout,
-  RadialLayout,
-  ConcentricLayout,
-  MDSLayout,
-  FruchtermanGPULayout,
-  FruchtermanLayout,
-  GForceLayout,
-  GForceGPULayout,
-  ComboForceLayout } from '@antv/layout';
-// import { registerLayout as oRegisterLayout, } from '@antv/layout'; 
 
 interface Event {
   type: string;
@@ -21,11 +6,10 @@ interface Event {
 }
 
 export const LayoutWorker = (
-  workerScirptURL: string = 'https://unpkg.com/@antv/layout@0.1.9/dist/layout.min.js',
+  workerScriptURL: string = 'https://unpkg.com/@antv/layout@latest/dist/layout.min.js',
 ) => {
   function workerCode() {
-    // @ts-ignore
-    importScripts(workerScirptURL);
+
     const LAYOUT_MESSAGE = {
       // run layout
       RUN: 'LAYOUT_RUN',
@@ -132,7 +116,7 @@ export const LayoutWorker = (
     };
   }
 
-  const layoutWorker = new WebWorker(workerCode, workerScirptURL);
+  const layoutWorker = new WebWorker(workerCode, workerScriptURL);
 
   return layoutWorker;
 };
