@@ -243,11 +243,6 @@ const singleEdge: ShapeOptions = {
       y: bbox.minY - padding[0],
       rotate: 0,
     };
-<<<<<<< HEAD
-
-=======
-    
->>>>>>> 2316afbbab... fix: lint
     let autoRotate;
     if (isNil(labelCfg.autoRotate)) autoRotate = this.labelAutoRotate;
     else autoRotate = labelCfg.autoRotate;
@@ -618,7 +613,7 @@ Shape.registerEdge(
       const yDist = Math.abs(endPoint!.y - startPoint!.y);
       let curveOffset: number[] = [0, 0];
       if (cfg.curveOffset) {
-        curveOffset = cfg.curveOffset
+        curveOffset = cfg.curveOffset;
       } else if (Math.abs(yDist) < Math.abs(cfg.minCurveOffset[0])) {
         curveOffset = cfg.minCurveOffset;
       }
@@ -658,7 +653,7 @@ Shape.registerEdge(
       const xDist = Math.abs(endPoint!.x - startPoint!.x);
       let curveOffset: number[] = [0, 0];
       if (cfg.curveOffset) {
-        curveOffset = cfg.curveOffset
+        curveOffset = cfg.curveOffset;
       } else if (Math.abs(xDist) < Math.abs(cfg.minCurveOffset[0])) {
         curveOffset = cfg.minCurveOffset;
       }
