@@ -101,7 +101,6 @@ export default {
 
       graph.updateItem(self.edge, updateCfg, false);
 
-
       if (graph.get('enabledStack')) {
         const addedModel = {
           ...self.edge.getModel(),
