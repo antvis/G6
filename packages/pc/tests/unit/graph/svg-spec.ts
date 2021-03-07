@@ -1998,7 +1998,7 @@ describe('plugins', () => {
       graph.destroy();
 
       done();
-    }, 100);
+    }, 200);
   });
   it('minimap delegate', () => {
     const minimap2 = new G6.Minimap({

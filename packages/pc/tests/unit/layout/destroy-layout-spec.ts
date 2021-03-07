@@ -56,45 +56,50 @@ describe('destroy circular layout', () => {
     graph.data(data);
     graph.render();
 
-    expect(mathEqual(graph.getNodes()[0].getModel().x, 500)).toEqual(true);
-    expect(mathEqual(graph.getNodes()[0].getModel().y, 250)).toEqual(true);
-    expect(mathEqual(graph.getNodes()[1].getModel().x, 0)).toEqual(true);
-    expect(mathEqual(graph.getNodes()[1].getModel().y, 250)).toEqual(true);
+    graph.on('afterlayout', () => {
+      expect(mathEqual(graph.getNodes()[0].getModel().x, 500)).toEqual(true);
+      expect(mathEqual(graph.getNodes()[0].getModel().y, 250)).toEqual(true);
+      expect(mathEqual(graph.getNodes()[1].getModel().x, 0)).toEqual(true);
+      expect(mathEqual(graph.getNodes()[1].getModel().y, 250)).toEqual(true);
 
-    graph.destroyLayout();
-    graph.changeData(data2);
+      graph.destroyLayout();
+      graph.changeData(data2);
 
-    // destroy circular layout 之后，将会使用初始化布局，若节点无坐标信息则自动计算网格状分布
-    expect(mathEqual(graph.getNodes()[0].getModel().x, 100)).toEqual(true);
-    expect(mathEqual(graph.getNodes()[0].getModel().y, 100)).toEqual(true);
-    expect(mathEqual(graph.getNodes()[1].getModel().x, 462.5)).toEqual(true);
-    expect(mathEqual(graph.getNodes()[1].getModel().y, 37.5)).toEqual(true);
-    expect(mathEqual(graph.getNodes()[2].getModel().x, 37.5)).toEqual(true);
-    expect(mathEqual(graph.getNodes()[2].getModel().y, 462.5)).toEqual(true);
-    expect(mathEqual(graph.getNodes()[3].getModel().x, 150)).toEqual(true);
-    expect(mathEqual(graph.getNodes()[3].getModel().y, 250)).toEqual(true);
+      // destroy circular layout 之后，将会使用初始化布局，若节点无坐标信息则自动计算网格状分布
+      expect(mathEqual(graph.getNodes()[0].getModel().x, 100)).toEqual(true);
+      expect(mathEqual(graph.getNodes()[0].getModel().y, 100)).toEqual(true);
+      expect(mathEqual(graph.getNodes()[1].getModel().x, 462.5)).toEqual(true);
+      expect(mathEqual(graph.getNodes()[1].getModel().y, 37.5)).toEqual(true);
+      expect(mathEqual(graph.getNodes()[2].getModel().x, 37.5)).toEqual(true);
+      expect(mathEqual(graph.getNodes()[2].getModel().y, 462.5)).toEqual(true);
+      expect(mathEqual(graph.getNodes()[3].getModel().x, 150)).toEqual(true);
+      expect(mathEqual(graph.getNodes()[3].getModel().y, 250)).toEqual(true);
 
-    // update layout 后，根据新的布局计算
-    graph.updateLayout({
-      type: 'dagre',
+      // update layout 后，根据新的布局计算
+      graph.updateLayout({
+        type: 'dagre',
+      });
+      graph.fitView();
+
+      graph.on('afterlayout', () => {
+        expect(mathEqual(graph.getNodes()[0].getModel().x, 165)).toEqual(true);
+        expect(mathEqual(graph.getNodes()[0].getModel().y, 70)).toEqual(true);
+        expect(mathEqual(graph.getNodes()[1].getModel().x, 70)).toEqual(true);
+        expect(mathEqual(graph.getNodes()[1].getModel().y, 260)).toEqual(true);
+        expect(mathEqual(graph.getNodes()[2].getModel().x, 70)).toEqual(true);
+        expect(mathEqual(graph.getNodes()[2].getModel().y, 450)).toEqual(true);
+        expect(mathEqual(graph.getNodes()[3].getModel().x, 260)).toEqual(true);
+        expect(mathEqual(graph.getNodes()[3].getModel().y, 260)).toEqual(true);
+
+        // 不销毁布局 changeData，使用现有布局计算
+        graph.changeData(data);
+        expect(mathEqual(graph.getNodes()[0].getModel().x, 70)).toEqual(true);
+        expect(mathEqual(graph.getNodes()[0].getModel().y, 70)).toEqual(true);
+        expect(mathEqual(graph.getNodes()[1].getModel().x, 70)).toEqual(true);
+        expect(mathEqual(graph.getNodes()[1].getModel().y, 260)).toEqual(true);
+
+        graph.destroy();
+      })
     });
-    graph.fitView();
-    expect(mathEqual(graph.getNodes()[0].getModel().x, 165)).toEqual(true);
-    expect(mathEqual(graph.getNodes()[0].getModel().y, 70)).toEqual(true);
-    expect(mathEqual(graph.getNodes()[1].getModel().x, 70)).toEqual(true);
-    expect(mathEqual(graph.getNodes()[1].getModel().y, 260)).toEqual(true);
-    expect(mathEqual(graph.getNodes()[2].getModel().x, 70)).toEqual(true);
-    expect(mathEqual(graph.getNodes()[2].getModel().y, 450)).toEqual(true);
-    expect(mathEqual(graph.getNodes()[3].getModel().x, 260)).toEqual(true);
-    expect(mathEqual(graph.getNodes()[3].getModel().y, 260)).toEqual(true);
-
-    // 不销毁布局 changeData，使用现有布局计算
-    graph.changeData(data);
-    expect(mathEqual(graph.getNodes()[0].getModel().x, 70)).toEqual(true);
-    expect(mathEqual(graph.getNodes()[0].getModel().y, 70)).toEqual(true);
-    expect(mathEqual(graph.getNodes()[1].getModel().x, 70)).toEqual(true);
-    expect(mathEqual(graph.getNodes()[1].getModel().y, 260)).toEqual(true);
-
-    graph.destroy();
   });
 });

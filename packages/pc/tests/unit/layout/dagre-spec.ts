@@ -321,18 +321,20 @@ describe('dagre layout with combo', () => {
     graph.data(data2);
     graph.render();
 
-    console.log(graph.findById('1').getModel());
-    console.log(graph.findById('1-2').getModel());
-    console.log(graph.findById('1-1-1').getModel());
+    graph.on('afterlayout', () => {
+      console.log(graph.findById('1').getModel());
+      console.log(graph.findById('1-2').getModel());
+      console.log(graph.findById('1-1-1').getModel());
 
-    expect(graph.findById('1').getModel().x).toBe(195);
-    expect(graph.findById('1').getModel().y).toBe(21.5);
-    expect(graph.findById('1-2').getModel().x).toBe(45);
-    expect(graph.findById('1-2').getModel().y).toBe(64.5);
-    expect(graph.findById('1-1-1').getModel().x).toBe(370);
-    expect(graph.findById('1-1-1').getModel().y).toBe(108);
+      expect(graph.findById('1').getModel().x).toBe(195);
+      expect(graph.findById('1').getModel().y).toBe(21.5);
+      expect(graph.findById('1-2').getModel().x).toBe(45);
+      expect(graph.findById('1-2').getModel().y).toBe(64.5);
+      expect(graph.findById('1-1-1').getModel().x).toBe(370);
+      expect(graph.findById('1-1-1').getModel().y).toBe(108);
 
-    graph.destroy();
+      graph.destroy();
+    })
   });
 
   it('layout with nested combos', () => {
@@ -491,21 +493,23 @@ describe('dagre layout with combo', () => {
     graph.data(data3);
     graph.render();
 
-    console.log(graph.findById('5').getModel());
-    console.log(graph.findById('7').getModel());
-    console.log(graph.findById('8').getModel());
-    console.log(graph.findById('9').getModel());
+    graph.on('afterlayout', () => {
+      console.log(graph.findById('5').getModel());
+      console.log(graph.findById('7').getModel());
+      console.log(graph.findById('8').getModel());
+      console.log(graph.findById('9').getModel());
 
-    expect(graph.findById('5').getModel().x).toBe(527.5);
-    expect(graph.findById('5').getModel().y).toBe(260);
-    expect(graph.findById('7').getModel().x).toBe(282.5);
-    expect(graph.findById('7').getModel().y).toBe(260);
-    expect(graph.findById('8').getModel().x).toBe(352.5);
-    expect(graph.findById('8').getModel().y).toBe(260);
-    expect(graph.findById('9').getModel().x).toBe(192.5);
-    expect(graph.findById('9').getModel().y).toBe(260);
+      expect(graph.findById('5').getModel().x).toBe(527.5);
+      expect(graph.findById('5').getModel().y).toBe(260);
+      expect(graph.findById('7').getModel().x).toBe(282.5);
+      expect(graph.findById('7').getModel().y).toBe(260);
+      expect(graph.findById('8').getModel().x).toBe(352.5);
+      expect(graph.findById('8').getModel().y).toBe(260);
+      expect(graph.findById('9').getModel().x).toBe(192.5);
+      expect(graph.findById('9').getModel().y).toBe(260);
 
-    graph.destroy();
+      graph.destroy();
+    })
   });
 });
 

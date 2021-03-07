@@ -137,7 +137,7 @@ export default class LayoutController extends AbstractLayout {
           graph.refreshPositions();
         };
         layoutCfg.tick = tick;
-      } else if (layoutType === 'comboForce') {
+      } else if (layoutCfg.type === 'comboForce') {
         layoutCfg.comboTrees = graph.get('comboTrees');
       }
 
