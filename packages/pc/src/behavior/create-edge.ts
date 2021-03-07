@@ -1,4 +1,4 @@
-import { G6Event, IG6GraphEvent, EdgeConfig } from '@antv/g6-core';
+import { G6Event, IG6GraphEvent, EdgeConfig, GraphData } from '@antv/g6-core';
 import { isFunction } from '@antv/util';
 import { IGraph } from '../interface/graph';
 
@@ -99,7 +99,20 @@ export default {
 
       graph.emit('beforecreateedge', {});
 
-      graph.updateItem(self.edge, updateCfg);
+      graph.updateItem(self.edge, updateCfg, false);
+
+      if (graph.get('enabledStack')) {
+        const addedModel = {
+          ...self.edge.getModel(),
+          itemType: 'edge',
+        };
+        const after: GraphData = {};
+        after.edges = [addedModel];
+        graph.pushStack('add', {
+          before: {},
+          after,
+        });
+      }
 
       graph.emit('aftercreateedge', {
         edge: self.edge,

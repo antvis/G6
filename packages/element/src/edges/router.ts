@@ -23,6 +23,7 @@ export interface RouterCfg {
   directions?: any[]; // 允许的边的方向
   startDirections?: string[]; // 边从点出发的方向（e.g. 从上拐 / 从下拐）
   penalties?: {}; // 附加的分数
+  simple?: boolean;
   distFunc?: (p1: PolyPoint, p2: PolyPoint) => number;
   fallbackRoute?: (
     p1: PolyPoint,
@@ -97,7 +98,7 @@ export const octolinearCfg: RouterCfg = {
 };
 
 const pos2GridIx = (pos: number, gridSize: number) => {
-  const gridIx = Math.floor(Math.abs(pos / gridSize));
+  const gridIx = Math.round(Math.abs(pos / gridSize));
   const sign = pos < 0 ? -1 : 1;
   return gridIx < 0 ? 0 : sign * gridIx;
 };
@@ -156,10 +157,10 @@ const estimateCost = (from: PolyPoint, endPoints: PolyPoint[], distFunc) => {
 
 // 计算考虑 offset 后的 BBox 上的连接点
 const getBoxPoints = (
-  point: PolyPoint,
-  oriPoint: PolyPoint,
-  node: INode,
-  anotherPoint: PolyPoint,
+  point: PolyPoint, // 被 gridSize 格式化后的位置（anchorPoint）
+  oriPoint: PolyPoint, // 未被 gridSize 格式化的位置（anchorPoint）
+  node: INode, // 原始节点，用于获取 bbox
+  anotherPoint: PolyPoint, // 另一端被 gridSize 格式化后的位置
   cfg: RouterCfg,
 ): PolyPoint[] => {
   const points = [];
@@ -294,7 +295,7 @@ const getControlPoints = (
     id: currentId,
   };
   if (getDirectionChange(lastPoint, scaleEndPoint, cameFrom, scaleStartPoint)) {
-    // if (scaleEndPoint.x === endPoint.x && scaleEndPoint.y === endPoint.y) 
+    // if (scaleEndPoint.x === endPoint.x && scaleEndPoint.y === endPoint.y)
     //   controlPoints.unshift({
     //     x: endPoint.x,
     //     y: endPoint.y
@@ -304,7 +305,7 @@ const getControlPoints = (
     //     x: lastPoint.x * gridSize,
     //     y: lastPoint.y * gridSize,
     //   });
-    
+
     controlPoints.unshift({
       x: scaleEndPoint.x === endPoint.x ? endPoint.x : lastPoint.x * gridSize,
       y: scaleEndPoint.y === endPoint.y ? endPoint.y : lastPoint.y * gridSize,
@@ -326,8 +327,7 @@ const getControlPoints = (
     };
     const directionChange = getDirectionChange(prePoint, point, cameFrom, scaleStartPoint);
     if (directionChange) {
-
-      // if (prePoint.x === point.x && prePoint.y === point.y) 
+      // if (prePoint.x === point.x && prePoint.y === point.y)
       //   controlPoints.unshift({
       //     x: controlPoints[0].x,
       //     y: controlPoints[0].y
@@ -337,7 +337,7 @@ const getControlPoints = (
       //     x: prePoint.x * gridSize,
       //     y: prePoint.y * gridSize,
       //   });
-      
+
       controlPoints.unshift({
         x: prePoint.x === point.x ? controlPoints[0].x : prePoint.x * gridSize,
         y: prePoint.y === point.y ? controlPoints[0].y : prePoint.y * gridSize,
@@ -468,7 +468,9 @@ export const pathFinder = (
       neighbor = {
         x: current.x + direction.stepX,
         y: current.y + direction.stepY,
-        id: `${Math.round(current.x) + direction.stepX}|||${Math.round(current.y) + direction.stepY}`,
+        id: `${Math.round(current.x) + direction.stepX}|||${
+          Math.round(current.y) + direction.stepY
+        }`,
       };
 
       if (closedSet[neighbor.id]) continue;

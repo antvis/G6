@@ -1,6 +1,17 @@
 # ChangeLog
 
-#### 4.2.0
+#### 4.1.15
+- fix: cubic-x problem, closes: #2698;
+
+#### 4.1.14
+
+- fix: gridSize for polyline;
+- fix: create-edge undo problem;
+- fix: tslib spreadArray problem;
+- fix: rect combo position with state problem;
+- feat: simple polyline for better performance;
+
+#### 4.1.13
 
 - fix: getHulls with error type;
 - fix: createHull with destroyed hullMap problem;

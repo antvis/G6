@@ -203,7 +203,6 @@ const singleEdge: ShapeOptions = {
     let autoRotate;
     if (isNil(labelCfg.autoRotate)) autoRotate = this.labelAutoRotate;
     else autoRotate = labelCfg.autoRotate;
-
     const offsetStyle = getLabelPosition(
       pathShape,
       pointPercent,
@@ -244,7 +243,6 @@ const singleEdge: ShapeOptions = {
       y: bbox.minY - padding[0],
       rotate: 0,
     };
-
     let autoRotate;
     if (isNil(labelCfg.autoRotate)) autoRotate = this.labelAutoRotate;
     else autoRotate = labelCfg.autoRotate;
@@ -612,10 +610,10 @@ Shape.registerEdge(
       if (isNumber(cfg.curvePosition))
         cfg.curvePosition = [cfg.curvePosition, 1 - cfg.curvePosition];
 
-      const yDist = Math.abs(endPoint!.y - startPoint!.y);
+      const yDist = endPoint!.y - startPoint!.y;
       let curveOffset: number[] = [0, 0];
       if (cfg.curveOffset) {
-        curveOffset = cfg.curveOffset
+        curveOffset = cfg.curveOffset;
       } else if (Math.abs(yDist) < Math.abs(cfg.minCurveOffset[0])) {
         curveOffset = cfg.minCurveOffset;
       }
@@ -652,10 +650,10 @@ Shape.registerEdge(
       if (isNumber(cfg.curvePosition))
         cfg.curvePosition = [cfg.curvePosition, 1 - cfg.curvePosition];
 
-      const xDist = Math.abs(endPoint!.x - startPoint!.x);
+      const xDist = endPoint!.x - startPoint!.x;
       let curveOffset: number[] = [0, 0];
       if (cfg.curveOffset) {
-        curveOffset = cfg.curveOffset
+        curveOffset = cfg.curveOffset;
       } else if (Math.abs(xDist) < Math.abs(cfg.minCurveOffset[0])) {
         curveOffset = cfg.minCurveOffset;
       }

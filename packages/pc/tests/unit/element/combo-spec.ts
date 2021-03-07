@@ -5,6 +5,48 @@ const div = document.createElement('div');
 div.id = 'edge-shape';
 document.body.appendChild(div);
 
+const data = {
+  nodes: [
+    {
+      id: '1',
+      label: '1',
+      x: 100,
+      y: 300,
+    },
+    {
+      id: '2',
+      label: '2',
+      x: 150,
+      y: 0,
+      comboId: 'c1',
+    },
+    {
+      id: '3',
+      label: '3',
+      x: 100,
+      y: 0,
+      comboId: 'c1',
+    },
+  ],
+  edges: [
+    {
+      source: '1',
+      target: '2',
+    },
+    {
+      source: '1',
+      target: '3',
+    },
+  ],
+  combos: [
+    {
+      id: 'c1',
+      fixSize: 100,
+      fixCollapseSize: 50,
+    },
+  ],
+};
+
 describe('Combo with fixSize and fixCollapseSize', () => {
   it('Combo with fixSize and fixCollapseSize', () => {
     const graph = new Graph({
@@ -20,47 +62,6 @@ describe('Combo with fixSize and fixCollapseSize', () => {
       },
       groupByTypes: false,
     });
-    const data = {
-      nodes: [
-        {
-          id: '1',
-          label: '1',
-          x: 100,
-          y: 300,
-        },
-        {
-          id: '2',
-          label: '2',
-          x: 150,
-          y: 0,
-          comboId: 'c1',
-        },
-        {
-          id: '3',
-          label: '3',
-          x: 100,
-          y: 0,
-          comboId: 'c1',
-        },
-      ],
-      edges: [
-        {
-          source: '1',
-          target: '2',
-        },
-        {
-          source: '1',
-          target: '3',
-        },
-      ],
-      combos: [
-        {
-          id: 'c1',
-          fixSize: 100,
-          fixCollapseSize: 50,
-        },
-      ],
-    };
     graph.data(data);
     graph.render();
 
@@ -68,6 +69,6 @@ describe('Combo with fixSize and fixCollapseSize', () => {
       graph.updateCombos();
     });
 
-    // graph.destroy();
+    graph.destroy();
   });
 });
