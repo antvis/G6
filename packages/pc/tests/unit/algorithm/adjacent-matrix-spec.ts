@@ -1,5 +1,4 @@
 import G6 from '../../../src';
-import { getAdjMatrix } from '@antv/algorithm';
 
 const div = document.createElement('div');
 div.id = 'container';

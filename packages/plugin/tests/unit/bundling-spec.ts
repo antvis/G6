@@ -24,7 +24,7 @@ describe('edge bundling', () => {
     const bundle = new Bundling();
     bundle.initPlugin(graph);
 
-    const graphData = graph.save();
+    const graphData = graph.save() as GraphData;
     bundle.bundling(graphData);
 
     expect(graphData.edges[0].type).toEqual('polyline');
@@ -39,7 +39,7 @@ describe('edge bundling', () => {
     });
     bundle.initPlugin(graph);
 
-    const graphData = graph.save();
+    const graphData = graph.save() as GraphData;
     bundle.bundling(graphData);
 
     expect(graphData.edges[0].type).toEqual('polyline');

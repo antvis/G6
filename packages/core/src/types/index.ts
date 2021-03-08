@@ -85,6 +85,8 @@ export type ShapeStyle = Partial<{
   fontSize: number;
 
   keepVisualSize: boolean;
+  // support more properties
+  [key: string]: any;
 }>;
 
 export interface IShapeBase extends IShape {

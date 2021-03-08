@@ -1,4 +1,4 @@
-import G6, { AbstractEvent } from '../../../src';
+import G6 from '../../../src';
 
 const div = document.createElement('div');
 div.id = 'global-spec';
@@ -36,7 +36,7 @@ describe('graph node states', () => {
             name: `a-keyShape`,
             draggable: true
           });
-    
+
           group.addShape("image", {
             attrs: {
               x: -width / 2 + 1,

@@ -130,9 +130,6 @@ $ npm run lint
 # run test case in watch mode
 npm test -- --watch ./tests/unit/algorithm/find-path-spec
 DEBUG_MODE=1 npm test -- --watch ./tests/unit/algorithm/find-path-spec
-
-# build watching file changes and run demos
-$ npm run demos
 ```
 
 ## 文档
