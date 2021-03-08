@@ -1,5 +1,5 @@
 import G6 from '../../../src';
-import { NodeConfig, EdgeConfig } from '../../../src/types';
+import { NodeConfig, EdgeConfig } from '@antv/g6-core';
 
 const div = document.createElement('div');
 div.id = 'graph-spec';

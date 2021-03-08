@@ -2,9 +2,6 @@ import { Canvas as SVGCanvas } from '@antv/g-svg';
 import { AbstractGraph } from '../../../src';
 import '../../../src/behavior';
 import { scale, translate } from '../../../src/util/math';
-import { EdgeConfig } from '../../../src/types';
-import { mat3 } from '@antv/matrix-util';
-import { clone } from '@antv/util';
 
 const div = document.createElement('div');
 div.id = 'global-spec';

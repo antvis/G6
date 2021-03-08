@@ -278,7 +278,7 @@ describe('drag-node', () => {
     expect(matrix[7]).toEqual(150);
     graph.destroy();
     }, 50);
-  });
+
   it('delegate drag node with edge', () => {
     const graph = new Graph({
       container: div,
@@ -835,7 +835,7 @@ describe('drag-node', () => {
         { id: "c8578298", label: "测试分组b" }
       ]
     };
-    
+
     const g6 = new Graph({
       width: 600,
       height: 700,

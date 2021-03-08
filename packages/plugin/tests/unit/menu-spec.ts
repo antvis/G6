@@ -132,11 +132,16 @@ describe('menu', () => {
       stopPropagation: () => {},
     };
     graph.emit('contextmenu', event);
-    const menuDOM = document.getElementsByClassName('menu-string-test')[0];
+    // getElementsByClassName only returns HTMLCollection<Element>
+    const menuDOM = (document.getElementsByClassName(
+      'menu-string-test',
+    ) as HTMLCollectionOf<HTMLElement>)[0];
     expect(menuDOM.style.visibility).toEqual('visible');
   });
   it('menu with false shouldBegin', () => {
-    let menuDOM = document.getElementsByClassName('g6-component-contextmenu')[0];
+    let menuDOM = (document.getElementsByClassName(
+      'g6-component-contextmenu',
+    ) as HTMLCollectionOf<HTMLElement>)[0];
     if (menuDOM) menuDOM.remove();
     const menu = new Menu({
       getContent(evt) {
@@ -201,7 +206,10 @@ describe('menu', () => {
       stopPropagation: () => {},
     };
     graph.emit('contextmenu', event);
-    menuDOM = document.getElementsByClassName('menu-should-begin-false')[0];
+    menuDOM = (document.getElementsByClassName(
+      'menu-should-begin-false',
+    ) as HTMLCollectionOf<HTMLElement>)[0];
+
     expect(menuDOM.style.visibility).toEqual('hidden');
 
     // const event2 = new G6GraphEvent('contextmenu', {
@@ -221,7 +229,9 @@ describe('menu', () => {
       stopPropagation: () => {},
     };
     graph.emit('contextmenu', event2);
-    menuDOM = document.getElementsByClassName('menu-should-begin-false')[0];
+    menuDOM = (document.getElementsByClassName(
+      'menu-should-begin-false',
+    ) as HTMLCollectionOf<HTMLElement>)[0];
     expect(menuDOM.style.visibility).toEqual('visible');
   });
 });

@@ -40,7 +40,7 @@ for (let i = 0; i < 100; i++) {
   const edgeDate = Math.round(Math.random() * 100);
   data.edges.push({
     date: edgeDate,
-    label: edgeDate,
+    label: `${edgeDate}`,
     source: `node-${Math.round(Math.random() * 90)}`,
     target: `node-${Math.round(Math.random() * 90)}`,
   });
