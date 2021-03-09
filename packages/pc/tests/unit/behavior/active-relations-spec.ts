@@ -1,10 +1,11 @@
 import '../../../src';
 import { Graph } from '../../../src';
 
+const div = document.createElement('div');
+div.id = 'activate-relations-spec';
+document.body.appendChild(div);
+
 describe('activate-relations', () => {
-  const div = document.createElement('div');
-  div.id = 'activate-relations-spec';
-  document.body.appendChild(div);
   const graph = new Graph({
     container: div,
     width: 500,
@@ -291,3 +292,200 @@ describe('activate-relations', () => {
     graph.destroy();
   });
 });
+
+describe('active-relations with combos', () => {
+
+  const data = {
+    nodes: [
+      {
+        id: '0',
+        label: '0',
+      },
+      {
+        id: '1',
+        label: '1',
+      },
+      {
+        id: '2',
+        label: '2',
+      },
+      {
+        id: '3',
+        label: '3',
+      },
+      {
+        id: '4',
+        label: '4',
+        comboId: 'A',
+      },
+      {
+        id: '5',
+        label: '5',
+        comboId: 'B',
+      },
+      {
+        id: '6',
+        label: '6',
+        comboId: 'A',
+      },
+      {
+        id: '7',
+        label: '7',
+        comboId: 'C',
+      },
+      {
+        id: '8',
+        label: '8',
+        comboId: 'C',
+      },
+      {
+        id: '9',
+        label: '9',
+        comboId: 'A',
+      },
+      {
+        id: '10',
+        label: '10',
+        comboId: 'B',
+      },
+      {
+        id: '11',
+        label: '11',
+        comboId: 'B',
+      },
+    ],
+    edges: [
+      {
+        source: '0',
+        target: '1',
+        id: '0-1'
+      },
+      {
+        source: '0',
+        target: '2',
+        id: '0-2'
+      },
+      {
+        source: '1',
+        target: '4',
+        id: '1-4'
+      },
+      {
+        source: '0',
+        target: '3',
+        id: '0-3'
+      },
+      {
+        source: '3',
+        target: '4',
+        id: '3-4'
+      },
+      {
+        source: '2',
+        target: '5',
+        id: '2-5'
+      },
+      {
+        source: '1',
+        target: '6',
+        id: '1-6'
+      },
+      {
+        source: '1',
+        target: '7',
+        id: '1-7'
+      },
+      {
+        source: '3',
+        target: '8',
+        id: '3-8'
+      },
+      {
+        source: '3',
+        target: '9',
+        id: '3-9'
+      },
+      {
+        source: '5',
+        target: '10',
+        id: '5-10'
+      },
+      {
+        source: '5',
+        target: '11',
+        id: '5-11'
+      },
+    ],
+    combos: [
+      {
+        id: 'A',
+        label: 'combo A',
+      },
+      {
+        id: 'B',
+        label: 'combo B',
+        collapsed: true
+      },
+      {
+        id: 'C',
+        label: 'combo C',
+        collapsed: true
+      },
+    ],
+  };
+  const graph = new Graph({
+    container: div,
+    width: 500,
+    height: 500,
+    fitView: true,
+    modes: { default: ['activate-relations', 'collapse-expand-combo'] },
+    defaultNode: {
+      size: [30, 20],
+      type: 'rect',
+    },
+    layout: {
+      type: 'dagre',
+      sortByCombo: false,
+      controlPoints: true
+    },
+    defaultEdge: {
+      type: 'line',
+      size: 1,
+      color: "#000000",
+    },
+    defaultCombo: {
+      type: 'rect',
+      style: {
+        fillOpacity: 0.1,
+      },
+    },
+  });
+
+  graph.read(data);
+
+  it('with combo', (done) => {
+    setTimeout(() => {
+      const node = graph.findById('2')
+      graph.emit('node:mouseenter', { item: node });
+      let nodes = graph.findAllByState('node', 'active');
+      expect(nodes.length).toEqual(3);
+      let combos = graph.findAllByState('combo', 'active');
+      expect(combos.length).toEqual(1);
+      let edges = graph.findAllByState('edge', 'active');
+      expect(edges.length).toEqual(2);
+      let vEdges = graph.findAllByState('vedge', 'active');
+      expect(vEdges.length).toEqual(1);
+
+      graph.emit('node:mouseleave', { item: node });
+      nodes = graph.findAllByState('node', 'active');
+      expect(nodes.length).toEqual(0);
+      combos = graph.findAllByState('combo', 'active');
+      expect(combos.length).toEqual(0);
+      edges = graph.findAllByState('edge', 'active');
+      expect(edges.length).toEqual(0);
+      vEdges = graph.findAllByState('vedge', 'active');
+      expect(vEdges.length).toEqual(0);
+      done()
+    }, 500)
+  })
+})
