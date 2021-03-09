@@ -128,12 +128,23 @@ Shape.registerCombo(
       const size = (this as ShapeOptions).getSize!(cfg);
       let width: number;
       let height: number;
-      if (!isNumber(style.width) || isNaN(style.width))
-        width = size[0] || Global.defaultCombo.style.width;
-      else width = Math.max(style.width, size[0]) || size[0];
-      if (!isNumber(style.height) || isNaN(style.height))
-        height = size[1] || Global.defaultCombo.style.height;
-      else height = Math.max(style.height, size[1]) || size[1];
+      const fixSize = cfg.collapsed && cfg.fixCollapseSize ? cfg.fixCollapseSize : cfg.fixSize;
+      if (fixSize) {
+        if (isNumber(fixSize)) {
+          width = fixSize;
+          height = fixSize;
+        } else {
+          width = fixSize[0];
+          height = fixSize[1];
+        }
+      } else {
+        if (!isNumber(style.width) || isNaN(style.width))
+          width = size[0] || Global.defaultCombo.style.width;
+        else width = Math.max(style.width, size[0]) || size[0];
+        if (!isNumber(style.height) || isNaN(style.height))
+          height = size[1] || Global.defaultCombo.style.height;
+        else height = Math.max(style.height, size[1]) || size[1];
+      }
 
       const x = -width / 2 - padding[3];
       const y = -height / 2 - padding[0];
@@ -162,8 +173,20 @@ Shape.registerCombo(
       let padding: number | number[] = cfg.padding || this.options.padding;
       if (isNumber(padding)) padding = [padding, padding, padding, padding];
       const cfgStyle = clone(cfg.style);
-      const width = Math.max(cfgStyle.width, size[0]) || size[0];
-      const height = Math.max(cfgStyle.height, size[1]) || size[1];
+      let width, height;
+      const fixSize = cfg.collapsed && cfg.fixCollapseSize ? cfg.fixCollapseSize : cfg.fixSize;
+      if (fixSize) {
+        if (isNumber(fixSize)) {
+          width = fixSize;
+          height = fixSize;
+        } else {
+          width = fixSize[0];
+          height = fixSize[1];
+        }
+      } else {
+        width = Math.max(cfgStyle.width, size[0]) || size[0];
+        height = Math.max(cfgStyle.height, size[1]) || size[1];
+      }
 
       cfgStyle.width = width + padding[1] + padding[3];
       cfgStyle.height = height + padding[0] + padding[2];

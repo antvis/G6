@@ -222,7 +222,8 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/8c2353b0-99a9-4a93-a5e1-3e7
 graph.get('container').style.background = '#000';
 graph.get('container').style.backgroundImage =
   'url("https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*G23iRqkiibIAAAAAAAAAAABkARQnAQ")';
-graph.get('container').style.backgroundSize = 'auto 100%';
+graph.get('container').style.backgroundSize = '500px 500px';
+graph.get('container').style.backgroundRepeat = 'no-repeat';
 
 function scaleNodesPoints(nodes, edges, graphSize) {
   const size = graphSize[0] < graphSize[1] ? graphSize[0] : graphSize[1];

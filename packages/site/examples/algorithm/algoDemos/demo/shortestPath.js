@@ -49,7 +49,13 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/b0ca4b15-bd0c-43ec-ae41-c810374a
       }
       clearStates();
       const { findShortestPath } = G6.Algorithm;
-      const { path } = findShortestPath(data, selectedNodes[0].getID(), selectedNodes[1].getID());
+      // path 为其中一条最短路径，allPath 为所有的最短路径
+      const { path, allPath } = findShortestPath(
+        data,
+        selectedNodes[0].getID(),
+        selectedNodes[1].getID(),
+      );
+
       const pathNodeMap = {};
       path.forEach((id) => {
         const pathNode = graph.findById(id);

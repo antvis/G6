@@ -1,5 +1,80 @@
 # ChangeLog
 
+#### 4.1.14
+
+- fix: gridSize for polyline;
+- fix: cubic-x problem, closes: #2698;
+- fix: create-edge undo problem;
+- fix: tslib spreadArray problem;
+- fix: rect combo position with state problem;
+- feat: simple polyline for better performance;
+
+#### 4.1.13
+
+- fix: getHulls with error type;
+- fix: createHull with destroyed hullMap problem;
+- fix: refining TimeBar minor problems;
+- fix: tooltip with display none to avoid enlarging graph container;
+- feat: TimeBar supports controller style configuration;
+- feat: TimeBar supports filtering edges;
+- feat: dagre with nested combo;
+
+#### 4.1.13-beta
+
+- chore: update layout and register in G6;
+- fix: performance problem in create-edge with polyline;
+- fix: performance for polyline;
+- fix: debounce updating the polyline edges in drag-node behavior;
+- fix: toolbar redo undo max clone in drag-node behavior;
+- feat: dagre layout with combo;
+- feat: cubic-vertical and cubic-horizontal with curveOffset and minCurveOffset
+
+#### 4.1.12
+
+- chore: update layout with alpha gwebgpu;
+- chore: update algorithm with fixed publicPath problem;
+
+#### 4.1.11
+
+- chore: link correct core;
+
+#### 4.1.10
+
+- chore: update algorithm;
+
+#### 4.1.9
+
+- feat: allowDragOnItem for drag-canvas behavior;
+- fix: drag-canvas with two fingers on mobile affects zoom-canvas;
+
+#### 4.1.8
+
+- fix: shouldBegin false for zoom-canvas behavior;
+- fix: shouldBegin originScale from graph zoom;
+- fix: error in collapse-expand with touch on canvas;
+
+#### 4.1.7
+
+- fix: polyline with negative endpoints;
+- fix: polyline direction when linkCenter;
+- fix: remove g6-core browser since it has no umd output;
+- feat: custom texts for the time range and time point text in timeBar plugin;
+- chore: types for strict mode;
+
+#### 4.1.6
+
+- fix: webworker problem after removing broswer in pc and g6;
+
+#### 4.1.5
+
+- fix: wrong style for modelRect after updating and state changing, closes: #2613;
+- fix: drag-canvas with shouldBegin false, closes: #2571;
+- fix: pack plugin with es module, closes: #2577;
+- feat: dijkstra with multiple shortest paths, closes: #2297;
+- fix: setMode while the delegates of brush-select and drag-node is on the canvas, closes: #2607;
+- docs: update the english TimeBar docs, closes: #2597;
+- fix: TimeBar time point switch text configurable, closes: #2597;
+
 #### 4.1.4
 
 - fix: drag-canvas with touch on mobile;

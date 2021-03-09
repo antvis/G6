@@ -115,6 +115,16 @@ For more information of the usage, please refer to [Getting Started](https://ant
 ```bash
 $ npm install
 
+# lerna bootstrap for multiple packages
+$ npm run bootstrap
+
+# build the packages
+$ npm run build:all
+
+# if you wanna watch one of the packages, e.g. packages/core
+$ cd ./packages/core
+$ npm run watch
+
 # run test case
 $ npm test
 
@@ -133,19 +143,32 @@ $ npm run demos
 - <a href='https://g6.antv.vision/en/docs/manual/advanced/coordinate-system' target='_blank'>Further Reading</a>
 - <a href='https://g6.antv.vision/en/docs/api/Graph' target='_blank'>API Reference</a>
 
+## React project integration
+
+For React project integration, we have an independent product recommendation: [Graphin](https://graphin.antv.vision), which is a toolkit based on G6 and React, that focuses on relational visual analysis. It's simple, efficient, out of the box.
+
+At present, Graphin has good practices in business graph analysis projects. For details, see [《Who uses Graphin》](https://github.com/antvis/Graphin/issues/212)
+
 ## G6 Communication Group
 
-Users are welcome to join the **G6 Communication Group** or **G6 Communication Group-2** (They are DingTalk groups). We also welcome the github issues. The Group is full, join Group-2 instead.
+Users are welcome to join the **G6 Communication Group** or **G6 Communication Group-2** (They are DingTalk groups),Graphin users please join **Graphin's Group Chat**. We also welcome the github issues. The Group is full, join Group-2 instead.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LFppR6_BfdYAAAAAAAAAAABkARQnAQ' width=400 alt="">
-
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hzfaSrAj0jkAAAAAAAAAAABkARQnAQ' width=400 alt="">
-
+<p>
+  <a href="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LFppR6_BfdYAAAAAAAAAAABkARQnAQ" >
+    <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LFppR6_BfdYAAAAAAAAAAABkARQnAQ' style='width:250px;display:inline-block;vertical-align:top;' />
+  </a>
+  <a href="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hzfaSrAj0jkAAAAAAAAAAABkARQnAQ" >
+    <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hzfaSrAj0jkAAAAAAAAAAABkARQnAQ' style='width:250px;display:inline-block;vertical-align:top;' />
+  </a>
+  <a href="https://graphin.antv.vision/" >
+   <img src='https://camo.githubusercontent.com/5e6624abcdde991f9fd89fce4933ad133a48d8fb603d1852c670da329df73ef7/68747470733a2f2f67772e616c697061796f626a656374732e636f6d2f6d646e2f726d735f3430326331612f616674732f696d672f412a2d717a6f54704c672d3163414141414141414141414141414152516e4151' style='width:250px;display:inline-block;vertical-align: top;' />
+  </a>
+</p>
 ## How to Contribute
 
 Please let us know what you are you going to help. Do check out [issues](https://github.com/antvis/g6/issues) for bug reports or suggestions first.
 
-To become a contributor, please follow our [contributing guide](https://github.com/antvis/g6/blob/master/CONTRIBUTING.md).
+To become a contributor, please follow our [contributing guide](https://github.com/antvis/G6/blob/master/packages/g6/CONTRIBUTING.md).
 
 ## License
 

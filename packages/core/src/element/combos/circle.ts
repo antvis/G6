@@ -62,10 +62,15 @@ Shape.registerCombo(
 
       // 如果设置了color，则覆盖默认的stroke属性
       const style = mix({}, defaultStyle, strokeStyle, cfg.style);
-      const size = (this as ShapeOptions).getSize!(cfg);
       let r: number;
-      if (!isNumber(style.r) || isNaN(style.r)) r = size[0] / 2 || Global.defaultCombo.style.r;
-      else r = Math.max(style.r, size[0] / 2) || size[0] / 2;
+      if (cfg.fixSize) {
+        r = isNumber(cfg.fixSize) ? cfg.fixSize : cfg.fixSize[0];
+      } else {
+        const size = (this as ShapeOptions).getSize!(cfg);
+        if (!isNumber(style.r) || isNaN(style.r)) r = size[0] / 2 || Global.defaultCombo.style.r;
+        else r = Math.max(style.r, size[0] / 2) || size[0] / 2;
+      }
+
       style.r = r + padding;
       const styles = {
         x: 0,
@@ -83,7 +88,12 @@ Shape.registerCombo(
       let padding: number | number[] = cfg.padding || this.options.padding;
       if (isArray(padding)) padding = padding[0];
       const cfgStyle = clone(cfg.style);
-      const r = Math.max(cfgStyle.r, size[0] / 2) || size[0] / 2;
+      let r;
+      if (cfg.fixSize) {
+        r = isNumber(cfg.fixSize) ? cfg.fixSize : cfg.fixSize[0];
+      } else {
+        r = Math.max(cfgStyle.r, size[0] / 2) || size[0] / 2;
+      }
       cfgStyle.r = r + padding;
 
       const itemCacheSize = item.get('sizeCache');

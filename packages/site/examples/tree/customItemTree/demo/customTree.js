@@ -21,7 +21,7 @@ G6.registerNode(
           textBaseline: 'middle',
           fill: '#666',
         },
-        name: 'rect-shape',
+        name: 'text-shape',
       });
       const bbox = text.getBBox();
       const hasChildren = cfg.children && cfg.children.length > 0;
@@ -46,6 +46,11 @@ G6.registerNode(
       });
       return rect;
     },
+    update: (cfg, item) => {
+      const group = item.getContainer();
+      const icon = group.find((e) => e.get('name') === 'collapse-icon');
+      icon.attr('symbol', cfg.collapsed ? G6.Marker.expand : G6.Marker.collapse);
+    },
   },
   'single-node',
 );
@@ -63,12 +68,9 @@ const graph = new G6.TreeGraph({
         type: 'collapse-expand',
         onChange: function onChange(item, collapsed) {
           const data = item.get('model');
-          const icon = item.get('group').find((element) => element.get('name') === 'collapse-icon');
-          if (collapsed) {
-            icon.attr('symbol', G6.Marker.expand);
-          } else {
-            icon.attr('symbol', G6.Marker.collapse);
-          }
+          graph.updateItem(item, {
+            collapsed,
+          });
           data.collapsed = collapsed;
           return true;
         },

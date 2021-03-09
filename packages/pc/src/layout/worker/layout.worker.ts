@@ -1,77 +1,138 @@
-/**
- * @fileoverview web worker for layout
- * @author changzhe.zb@antfin.com
- */
-import { LAYOUT_MESSAGE } from './layoutConst';
-import { getLayoutByName } from '@antv/layout';
+import WebWorker from './work';
+import {
+  GridLayout,
+  RandomLayout,
+  ForceLayout,
+  CircularLayout,
+  DagreLayout,
+  RadialLayout,
+  ConcentricLayout,
+  MDSLayout,
+  FruchtermanGPULayout,
+  FruchtermanLayout,
+  GForceLayout,
+  GForceGPULayout,
+  ComboForceLayout } from '@antv/layout';
+// import { registerLayout as oRegisterLayout, } from '@antv/layout'; 
 
 interface Event {
   type: string;
   data: any;
 }
 
-const ctx: Worker = self as any;
+export const LayoutWorker = (
+  workerScirptURL: string = 'https://unpkg.com/@antv/layout@0.1.9/dist/layout.min.js',
+) => {
+  function workerCode() {
+    // @ts-ignore
+    importScripts(workerScirptURL);
+    const LAYOUT_MESSAGE = {
+      // run layout
+      RUN: 'LAYOUT_RUN',
+      // layout ended with success
+      END: 'LAYOUT_END',
+      // layout error
+      ERROR: 'LAYOUT_ERROR',
+      // layout tick, used in force directed layout
+      TICK: 'LAYOUT_TICK',
+      GPURUN: 'GPU_LAYOUT_RUN',
+      GPUEND: 'GPU_LAYOUT_END',
+    };
 
-function isLayoutMessage(event: Event) {
-  const { type } = event.data;
-  return type === LAYOUT_MESSAGE.RUN || type === LAYOUT_MESSAGE.GPURUN;
-}
+    // @ts-ignore
+    layout.registerLayout('grid', layout.GridLayout);
+    // @ts-ignore
+    layout.registerLayout('random', layout.RandomLayout);
+    // @ts-ignore
+    layout.registerLayout('force', layout.ForceLayout);
+    // @ts-ignore
+    layout.registerLayout('circular', layout.CircularLayout);
+    // @ts-ignore
+    layout.registerLayout('dagre', layout.DagreLayout);
+    // @ts-ignore
+    layout.registerLayout('radial', layout.RadialLayout);
+    // @ts-ignore
+    layout.registerLayout('concentric', layout.ConcentricLayout);
+    // @ts-ignore
+    layout.registerLayout('mds', layout.MDSLayout);
+    // @ts-ignore
+    layout.registerLayout('fruchterman', layout.FruchtermanLayout);
+    // @ts-ignore
+    layout.registerLayout('fruchterman-gpu', layout.FruchtermanGPULayout);
+    // @ts-ignore
+    layout.registerLayout('gForce', layout.GForceLayout);
+    // @ts-ignore
+    layout.registerLayout('gForce-gpu', layout.GForceGPULayout);
+    // @ts-ignore
+    layout.registerLayout('comboForce', layout.ComboForceLayout);
 
-function handleLayoutMessage(event: Event) {
-  const { type } = event.data;
-
-  switch (type) {
-    case LAYOUT_MESSAGE.RUN: {
-      const { nodes, edges, layoutCfg = {} } = event.data;
-      const { type: layoutType } = layoutCfg;
-      const LayoutClass = getLayoutByName(layoutType);
-      if (!LayoutClass) {
-        ctx.postMessage({ type: LAYOUT_MESSAGE.ERROR, message: `layout ${layoutType} not found` });
-        break;
-      }
-
-      const layoutMethod = new LayoutClass(layoutCfg);
-      layoutMethod.init({ nodes, edges });
-      layoutMethod.execute();
-      ctx.postMessage({ type: LAYOUT_MESSAGE.END, nodes });
-      layoutMethod.destroy();
-      break;
+    function isLayoutMessage(event: Event) {
+      const { type } = event.data;
+      return type === LAYOUT_MESSAGE.RUN || type === LAYOUT_MESSAGE.GPURUN;
     }
 
-    case LAYOUT_MESSAGE.GPURUN: {
-      const { nodes, edges, layoutCfg = {}, canvas } = event.data;
+    function handleLayoutMessage(event: Event) {
+      const { type } = event.data;
+      switch (type) {
+        case LAYOUT_MESSAGE.RUN: {
+          const { nodes, edges, layoutCfg = {} } = event.data;
+          const { type: layoutType } = layoutCfg;
+          // @ts-ignore
+          const LayoutClass = layout.getLayoutByName(layoutType);
+          if (!LayoutClass) {
+            this.postMessage({
+              type: LAYOUT_MESSAGE.ERROR,
+              message: `layout ${layoutType} not found`,
+            });
+            break;
+          }
 
-      const { type: layoutType } = layoutCfg;
+          const layoutMethod = new LayoutClass(layoutCfg);
+          layoutMethod.init({ nodes, edges });
+          layoutMethod.execute();
+          this.postMessage({ type: LAYOUT_MESSAGE.END, nodes });
+          layoutMethod.destroy();
+          break;
+        }
 
-      const LayoutClass = getLayoutByName(layoutType);
-      if (!LayoutClass) {
-        ctx.postMessage({ type: LAYOUT_MESSAGE.ERROR, message: `layout ${layoutType} not found` });
-        break;
+        case LAYOUT_MESSAGE.GPURUN: {
+          const { nodes, edges, layoutCfg = {}, canvas } = event.data;
+
+          const { type: layoutType } = layoutCfg;
+          // @ts-ignore
+          const LayoutClass = layout.getLayoutByName(layoutType);
+          if (!LayoutClass) {
+            this.postMessage({
+              type: LAYOUT_MESSAGE.ERROR,
+              message: `layout ${layoutType} not found`,
+            });
+            break;
+          }
+          if (layoutType.split('-')[1] !== 'gpu') {
+            this.postMessage({
+              type: LAYOUT_MESSAGE.ERROR,
+              message: `layout ${layoutType} does not support GPU`,
+            });
+            break;
+          }
+
+          const layoutMethod = new LayoutClass(layoutCfg);
+          layoutMethod.init({ nodes, edges });
+          layoutMethod.executeWithWorker(canvas, this);
+          break;
+        }
+        default:
+          break;
       }
-      if (layoutType.split('-')[1] !== 'gpu') {
-        ctx.postMessage({
-          type: LAYOUT_MESSAGE.ERROR,
-          message: `layout ${layoutType} does not support GPU`,
-        });
-        break;
-      }
-
-      const layoutMethod = new LayoutClass(layoutCfg);
-      layoutMethod.init({ nodes, edges });
-      layoutMethod.executeWithWorker(canvas, ctx);
-      break;
     }
-    default:
-      break;
+    onmessage = event => {
+      if (isLayoutMessage(event)) {
+        handleLayoutMessage(event);
+      }
+    };
   }
-}
 
-// listen to message posted to web worker
-ctx.onmessage = (event: Event) => {
-  if (isLayoutMessage(event)) {
-    handleLayoutMessage(event);
-  }
+  const layoutWorker = new WebWorker(workerCode, workerScirptURL);
+
+  return layoutWorker;
 };
-
-// https://stackoverflow.com/questions/50210416/webpack-worker-loader-fails-to-compile-typescript-worker
-export default null as any;

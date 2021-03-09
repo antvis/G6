@@ -6,7 +6,7 @@
  * @Description: 拖动节点的Behavior
  */
 import { Point } from '@antv/g-base';
-import { deepMix, clone } from '@antv/util';
+import { deepMix, clone, debounce } from '@antv/util';
 import { G6Event, IG6GraphEvent, Item, NodeConfig, INode, ICombo } from '@antv/g6-core';
 import { IGraph } from '../interface/graph';
 import Global from '../global';
@@ -23,6 +23,8 @@ export default {
       // 拖动过程中目标 combo 状态样式
       comboActiveState: '',
       selectedState: 'selected',
+      enableOptimize: false,
+      enableDebounce: false,
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -88,7 +90,7 @@ export default {
     const currentNodeId = item.get('id');
 
     // 当前拖动的节点是否是选中的节点
-    const dragNodes = nodes.filter((node) => {
+    const dragNodes = nodes.filter(node => {
       const nodeId = node.get('id');
       return currentNodeId === nodeId;
     });
@@ -98,7 +100,7 @@ export default {
       this.targets.push(item);
     } else if (nodes.length > 1) {
       // 拖动多个节点
-      nodes.forEach((node) => {
+      nodes.forEach(node => {
         const locked = node.hasLocked();
         if (!locked) {
           this.targets.push(node);
@@ -108,10 +110,22 @@ export default {
       this.targets.push(item);
     }
     const beforeDragNodes = [];
-    this.targets.forEach((t) => {
+    this.targets.forEach(t => {
       beforeDragNodes.push(clone(t.getModel()));
     });
     this.set('beforeDragNodes', beforeDragNodes);
+
+    this.hidenEdge = {};
+    if (this.get('updateEdge') && this.enableOptimize && !this.enableDelegate) {
+      this.targets.forEach(node => {
+        const edges = node.getEdges();
+        edges.forEach(edge => {
+          if (!edge.isVisible()) return;
+          this.hidenEdge[edge] = true;
+          edge.hide();
+        });
+      });
+    }
 
     this.origin = {
       x: evt.x,
@@ -138,9 +152,19 @@ export default {
     if (this.get('enableDelegate')) {
       this.updateDelegate(evt);
     } else {
-      this.targets.map((target) => {
-        this.update(target, evt);
-      });
+      if (this.enableDebounce)
+        this.debounceUpdate({
+          targets: this.targets,
+          graph: this.graph,
+          point: this.point,
+          origin: this.origin,
+          evt,
+          updateEdge: this.get('updateEdge'),
+        });
+      else
+        this.targets.map(target => {
+          this.update(target, evt);
+        });
     }
   },
   /**
@@ -165,18 +189,41 @@ export default {
     }
 
     this.updatePositions(evt);
+    if (this.get('updateEdge') && this.enableOptimize && !this.enableDelegate) {
+      this.targets.forEach(node => {
+        const edges = node.getEdges();
+        edges.forEach(edge => {
+          if (this.hidenEdge[edge]) edge.show();
+          edge.refresh();
+        });
+      });
+    }
+    this.hidenEdge = {};
 
     const graph: IGraph = this.graph;
 
     // 拖动结束后，入栈
     if (graph.get('enabledStack')) {
       const stackData = {
-        before: { nodes: this.get('beforeDragNodes'), edges: [], combos: [] },
+        before: { nodes: [], edges: [], combos: [] },
         after: { nodes: [], edges: [], combos: [] },
       };
 
-      this.targets.forEach((target) => {
-        stackData.after.nodes.push(target.getModel());
+      this.get('beforeDragNodes').forEach(model => {
+        stackData.before.nodes.push({
+          id: model.id,
+          x: model.x,
+          y: model.y,
+        });
+      });
+
+      this.targets.forEach(target => {
+        const targetModel = target.getModel();
+        stackData.after.nodes.push({
+          id: targetModel.id,
+          x: targetModel.x,
+          y: targetModel.y,
+        });
       });
       graph.pushStack('update', clone(stackData));
     }
@@ -265,17 +312,21 @@ export default {
     const comboId = item.getModel().comboId as string;
 
     if (comboId) {
-      const combo = graph.findById(comboId);
-      if (self.comboActiveState) {
-        graph.setItemState(combo, self.comboActiveState, false);
-      }
-      this.targets.map((node: INode) => {
-        const nodeModel = node.getModel();
-        if (comboId !== nodeModel.comboId) {
-          graph.updateComboTree(node, comboId);
+      if (this.onlyChangeComboSize) {
+        graph.updateCombos();
+      } else {
+        const combo = graph.findById(comboId);
+        if (self.comboActiveState) {
+          graph.setItemState(combo, self.comboActiveState, false);
         }
-      });
-      graph.updateCombo(combo as ICombo);
+        this.targets.map((node: INode) => {
+          const nodeModel = node.getModel();
+          if (comboId !== nodeModel.comboId) {
+            graph.updateComboTree(node, comboId);
+          }
+        });
+        graph.updateCombo(combo as ICombo);
+      }
     } else {
       this.targets.map((node: INode) => {
         const model = node.getModel();
@@ -322,7 +373,17 @@ export default {
     if (!this.targets || this.targets.length === 0) return;
     // 当开启 delegate 时，拖动结束后需要更新所有已选中节点的位置
     if (this.get('enableDelegate')) {
-      this.targets.map((node) => this.update(node, evt));
+      if (this.enableDebounce)
+        this.debounceUpdate({
+          targets: this.targets,
+          graph: this.graph,
+          point: this.point,
+          origin: this.origin,
+          evt,
+          updateEdge: this.get('updateEdge'),
+          updateFunc: this.update,
+        });
+      else this.targets.map(node => this.update(node, evt));
     }
   },
   /**
@@ -352,6 +413,41 @@ export default {
       item.updatePosition(pos);
     }
   },
+
+  /**
+   * 限流更新节点
+   * @param item 拖动的节点实例
+   * @param evt
+   */
+  debounceUpdate: debounce(
+    event => {
+      const { targets, graph, point, origin, evt, updateEdge, updateFunc } = event;
+      targets.map(item => {
+        const model: NodeConfig = item.get('model');
+        const nodeId: string = item.get('id');
+        if (!point[nodeId]) {
+          point[nodeId] = {
+            x: model.x || 0,
+            y: model.y || 0,
+          };
+        }
+
+        const x: number = evt.x - origin.x + point[nodeId].x;
+        const y: number = evt.y - origin.y + point[nodeId].y;
+
+        const pos: Point = { x, y };
+
+        if (updateEdge) {
+          graph.updateItem(item, pos, false);
+        } else {
+          item.updatePosition(pos);
+        }
+      });
+    },
+    50,
+    true,
+  ),
+
   /**
    * 更新拖动元素时的delegate
    * @param {Event} e 事件句柄
@@ -362,7 +458,7 @@ export default {
     const { graph } = this;
     if (!this.delegateRect) {
       // 拖动多个
-      const parent = this.graph.get('group');
+      const parent = graph.get('group');
       const attrs = deepMix({}, Global.delegateStyle, this.delegateStyle);
 
       const { x: cx, y: cy, width, height, minX, minY } = this.calculationGroupPosition(e);
@@ -378,6 +474,7 @@ export default {
         },
         name: 'rect-delegate-shape',
       });
+      this.delegate = this.delegateRect;
       this.delegateRect.set('capture', false);
     } else {
       const clientX = e.x - this.origin.x + this.originPoint.minX;
@@ -394,9 +491,7 @@ export default {
    * @return {object} 计算出来的delegate坐标信息及宽高
    */
   calculationGroupPosition(evt: IG6GraphEvent) {
-    const { graph } = this;
-
-    const nodes = graph.findAllByState('node', this.selectedState);
+    const nodes = this.targets;
     if (nodes.length === 0) {
       nodes.push(evt.item);
     }

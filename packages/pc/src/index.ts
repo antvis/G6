@@ -85,5 +85,5 @@ export default {
   Algorithm,
   Arrow,
   Marker,
-  Shape,
+  Shape
 };

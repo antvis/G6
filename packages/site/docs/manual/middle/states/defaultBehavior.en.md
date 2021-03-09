@@ -106,7 +106,8 @@ const graph = new G6.Graph({
   - `direction`: The direction of dragging that is allowed. Options: `'x'`, `'y'`, `'both'`. `'both'` by default;
   - `enableOptimize`: whether enable optimization, `false` by default. `enableOptimize: true` means hiding all edges and the shapes beside keyShapes of nodes while dragging canvas;
   - `shouldBegin(e)`: Whether allow the behavior happen on the current item (e.item);
-  - `scalableRange`: scaleable range when drag canvas, `zero` by default.
+  - `scalableRange`: scaleable range when drag canvas, `zero` by default;
+  - `allowDragOnItem`: whether response when the users drag on items(node/edge/combo), `false` by default;
 - Related timing events:
   - `canvas:dragstart`: Triggered when drag start. Listened by `graph.on('canvas:dragstart', e => {...})`;
   - `canvas:drag`: Triggered when dragging. Listened by `graph.on('canvas:drag', e => {...})`;
@@ -170,6 +171,8 @@ The canvas can be dragged along x direction only.<br /><img src='https://gw.alip
   - `delegateStyle`: The drawing properties when the nodes are dragged. `{ strokeOpacity: 0.6, fillOpacity: 0.6 }` by default;
   - `updateEdge`: Whether to update all connected edges when dragging nodes. `true` by default.
   - `enableDelegate`: Whether activate `delegate` when dragging nodes, which means whether to use a virtual rect moved with the dragging mouse instead of the node. The effect is shown in the figures below. `false` by default;
+  - `enableDebounce`: Whether enable updating with debounce while dragging to avoid the frequent calculation. It is a boolean and will be useful for graph with polyline edges. `false` by default;
+  - `enableOptimize`: Whether to hide the related edges to avoid calculation while dragging nodes. It is a boolean and will be useful for graph with polyline edges. `false` by default;
   - `onlyChangeComboSize`:Supported by V3.5 or later vertions. Only Change the size of the prarent combo whose child node to be dragged, which means do not change the hierarchy structures of combos and nodes. `false` by default;
   - `comboActiveState`: Supported by V3.5 or later vertions. The state's name(string) of the entered combo to be dragged over, coordinating with the configuration in `comboStateStyles` to define the state styles when instantiating a graph. It is empty by default;
   - `selectedState`: Supported by V3.5 or later vertions. The state's name(string) when combo is selected, `'selected'` by default;

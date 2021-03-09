@@ -2,6 +2,7 @@ import { Event, IGroup, ICanvas, IShape } from '@antv/g-base';
 import { get, size, assign, each } from '@antv/util';
 import Trend, { TrendCfg } from './trend';
 import Handler from './handler';
+import { isString } from '@antv/util';
 import ControllerBtn, { ControllerCfg } from './controllerBtn';
 
 import { ShapeStyle, IAbstractGraph as IGraph } from '@antv/g6-core';
@@ -33,7 +34,7 @@ const SIMPLE_BACKGROUND_STYLE = {
 export const FOREGROUND_STYLE = {
   fill: '#5B8FF9',
   opacity: 0.3,
-  cursor: 'move',
+  cursor: 'grab',
 };
 
 export const DEFAULT_HANDLER_WIDTH = 2;
@@ -83,9 +84,17 @@ interface TrendTimeBarConfig extends SliderOption {
   // style
   readonly trendCfg?: TrendCfg;
 
-  readonly ticks?: string[];
+  readonly tick?: {
+    readonly ticks: {
+      date: string;
+      value: string;
+    }[];
+    readonly tickLabelFormatter?: (d: any) => string | undefined;
+  };
 
   readonly controllerCfg: ControllerCfg;
+
+  // 自定义标签格式化函数
 }
 
 export default class TrendTimeBar {
@@ -154,7 +163,10 @@ export default class TrendTimeBar {
   /** 刻度位置预处理 */
   private tickPosList: number[];
 
-  private ticks: string[];
+  private ticks: {
+    date: string;
+    value: string;
+  }[];
 
   /** 是否处于播放状态 */
   private isPlay: boolean;
@@ -172,6 +184,8 @@ export default class TrendTimeBar {
   private trendComponent: Trend;
 
   private fontFamily: string;
+
+  private tickLabelFormatter: (d: any) => string | undefined;
 
   constructor(cfg: TrendTimeBarConfig) {
     const {
@@ -196,7 +210,7 @@ export default class TrendTimeBar {
       group,
       graph,
       canvas,
-      ticks,
+      tick,
       type,
     } = cfg;
 
@@ -210,10 +224,11 @@ export default class TrendTimeBar {
     this.width = width;
     this.height = height;
     this.padding = padding;
-    this.ticks = ticks;
+    this.ticks = tick.ticks;
     this.trendCfg = trendCfg;
     this.controllerCfg = controllerCfg;
-    this.currentSpeed = controllerCfg.speed;
+    this.currentSpeed = controllerCfg.speed || 1;
+    this.tickLabelFormatter = tick.tickLabelFormatter;
     // style
     if (type === 'trend') {
       this.backgroundStyle = { ...BACKGROUND_STYLE, ...backgroundStyle };
@@ -370,6 +385,12 @@ export default class TrendTimeBar {
         ...this.foregroundStyle,
       },
     });
+    this.foregroundShape.on('mousedown', (e) => {
+      e.target.attr('cursor', 'grabbing');
+    });
+    this.foregroundShape.on('mouseup', (e) => {
+      e.target.attr('cursor', this.foregroundStyle.cursor || 'grab');
+    });
 
     // 滑块相关的大小信息
     const handlerWidth = get(this.handlerStyle, 'width', 2);
@@ -416,15 +437,26 @@ export default class TrendTimeBar {
       });
     }
     let lastX = -Infinity;
-    this.textList = tickData.map((tick, index) => {
+    this.textList = tickData.map((data, index) => {
       this.tickPosList.push(this.x + index * interval);
+
+      let label;
+      if (this.tickLabelFormatter) {
+        label = this.tickLabelFormatter(data);
+        if (!isString(label) && label) {
+          // return true
+          label = data.date;
+        }
+      } else {
+        label = data.date;
+      }
 
       // 文本刻度
       const text = this.group.addShape('text', {
         attrs: {
           x: this.x + index * interval,
           y: this.y + height + 5,
-          text: tick,
+          text: label,
           textAlign: 'center',
           textBaseline: 'top',
           fill: '#607889',
@@ -444,6 +476,7 @@ export default class TrendTimeBar {
           stroke: '#ccc',
         },
       });
+      line.toBack();
 
       const bbox = text.getBBox();
 
@@ -466,8 +499,12 @@ export default class TrendTimeBar {
       x: this.x,
       y: this.y + height + 25,
       width,
-      height: 40,
+      height: 35,
+      ...this.controllerCfg,
     });
+
+    // 初始化 minText 和 maxText，方便计算它们的 bbox
+    this.updateStartEnd(0);
 
     // 根据 start end 更新 ui 的位置信息
     this.updateUI();
@@ -631,6 +668,7 @@ export default class TrendTimeBar {
           : i + 1;
       }
     }
+    return 0;
   }
 
   /**
@@ -668,25 +706,32 @@ export default class TrendTimeBar {
    * @param offsetRange
    */
   private updateStartEnd(offsetRange: number) {
+    const minData = this.ticks[this.adjustTickIndex(this.start * this.width)];
+    const maxData = this.ticks[this.adjustTickIndex(this.end * this.width)];
+    if (!this.currentHandler) {
+      this.minText = this.tickLabelFormatter ? this.tickLabelFormatter(minData) : minData.date;
+      this.maxText = this.tickLabelFormatter ? this.tickLabelFormatter(maxData) : maxData.date;
+      return;
+    }
     // 操作不同的组件，反馈不一样
     switch (this.currentHandler) {
       case this.minHandlerShape:
         // 拖动最小滑块时使用当前最大值设置最大值的文本，以便恢复到默认值
         this.maxText = this.maxTextShape.attr('text');
         this.start += offsetRange;
-        this.minText = this.ticks[this.adjustTickIndex(this.start * this.width)];
+        this.minText = this.tickLabelFormatter ? this.tickLabelFormatter(minData) : minData.date;
         break;
       case this.maxHandlerShape:
         // 拖动最大滑块时使用当前最小值设置最小值的文本，以便恢复到默认值
         this.minText = this.minTextShape.attr('text');
         this.end += offsetRange;
-        this.maxText = this.ticks[this.adjustTickIndex(this.end * this.width)];
+        this.maxText = this.tickLabelFormatter ? this.tickLabelFormatter(maxData) : maxData.date;
         break;
       case this.foregroundShape:
         this.start += offsetRange;
         this.end += offsetRange;
-        this.minText = this.ticks[this.adjustTickIndex(this.start * this.width)];
-        this.maxText = this.ticks[this.adjustTickIndex(this.end * this.width)];
+        this.minText = this.tickLabelFormatter ? this.tickLabelFormatter(minData) : minData.date;
+        this.maxText = this.tickLabelFormatter ? this.tickLabelFormatter(maxData) : maxData.date;
         break;
       default:
         break;
@@ -705,8 +750,8 @@ export default class TrendTimeBar {
     if (this.end > 1) {
       this.end = 1;
     }
-    const min = this.start * this.width;
-    const max = this.end * this.width;
+    const min = this.x + this.start * this.width;
+    const max = this.x + this.end * this.width;
 
     // 1. foreground
     this.foregroundShape.attr('x', min);
@@ -742,7 +787,7 @@ export default class TrendTimeBar {
    * @param range
    */
   private dodgeText(range: [number, number]): [object, object] {
-    const PADDING = 2;
+    const TEXTPADDING = 2;
     const handlerWidth = get(this.handlerStyle, 'width', DEFAULT_HANDLER_WIDTH);
     let minTextShape = this.minTextShape;
     let maxTextShape = this.maxTextShape;
@@ -750,7 +795,7 @@ export default class TrendTimeBar {
     let [min, max] = range;
     let sorted = false;
 
-    // 如果交换了位置，则对应的 min max 也交互
+    // 如果交换了位置，则对应的 min max 也交换
     if (min > max) {
       [min, max] = [max, min];
       [minTextShape, maxTextShape] = [maxTextShape, minTextShape];
@@ -760,29 +805,27 @@ export default class TrendTimeBar {
     // 避让规则，优先显示在两侧，只有显示不下的时候，才显示在中间
     const minBBox = minTextShape.getBBox();
     const maxBBox = maxTextShape.getBBox();
-
     let minAttrs = null;
     let maxAttrs = null;
     if (this.timeBarType === 'trend') {
       minAttrs =
-        minBBox.width > min - PADDING
-          ? { x: min + handlerWidth / 2 + PADDING, textAlign: 'left' }
-          : { x: min - handlerWidth / 2 - PADDING, textAlign: 'right' };
-
+        min - minBBox.width < this.x + TEXTPADDING
+          ? { x: min + handlerWidth / 2 + TEXTPADDING, textAlign: 'left' }
+          : { x: min - handlerWidth / 2 - TEXTPADDING, textAlign: 'right' };
       maxAttrs =
-        maxBBox.width > this.width - max - PADDING
-          ? { x: max - handlerWidth / 2 - PADDING, textAlign: 'right' }
-          : { x: max + handlerWidth / 2 + PADDING, textAlign: 'left' };
+        max + maxBBox.width > this.x + this.width
+          ? { x: max - handlerWidth / 2 - TEXTPADDING, textAlign: 'right' }
+          : { x: max + handlerWidth / 2 + TEXTPADDING, textAlign: 'left' };
     } else if (this.timeBarType === 'simple') {
       minAttrs =
-        minBBox.width > min - PADDING
-          ? { x: min + handlerWidth / 2 + PADDING, textAlign: 'center' }
-          : { x: min - handlerWidth / 2 - PADDING, textAlign: 'center' };
+        minBBox.width > min - TEXTPADDING
+          ? { x: min + handlerWidth / 2 + TEXTPADDING, textAlign: 'center' }
+          : { x: min - handlerWidth / 2 - TEXTPADDING, textAlign: 'center' };
 
       maxAttrs =
-        maxBBox.width > this.width - max - PADDING
-          ? { x: max - handlerWidth / 2 - PADDING, textAlign: 'center' }
-          : { x: max + handlerWidth / 2 + PADDING, textAlign: 'center' };
+        maxBBox.width > this.width - max - TEXTPADDING
+          ? { x: max - handlerWidth / 2 - TEXTPADDING, textAlign: 'center' }
+          : { x: max + handlerWidth / 2 + TEXTPADDING, textAlign: 'center' };
     }
 
     return !sorted ? [minAttrs, maxAttrs] : [maxAttrs, minAttrs];

@@ -1,6 +1,6 @@
 import { each, isNil, mix } from '@antv/util';
 import { IEdge, INode } from '../interface/item';
-import { IPoint, IShapeBase, NodeConfig } from '../types';
+import { IPoint, IShapeBase, ModelConfig, NodeConfig } from '../types';
 import { getBBox } from '../util/graphic';
 import {
   distance,
@@ -237,7 +237,7 @@ export default class Node extends Item implements INode {
    * 是否仅仅移动节点，其他属性没变化
    * @param cfg 节点数据模型
    */
-  public isOnlyMove(cfg: NodeConfig): boolean {
+  public isOnlyMove(cfg: ModelConfig): boolean {
     if (!cfg) {
       return false;
     }

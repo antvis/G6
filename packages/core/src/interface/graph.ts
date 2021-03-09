@@ -360,12 +360,12 @@ export interface IAbstractGraph extends EventEmitter {
    * @param {string} mode 指定的模式中的行为，不指定则为 default
    * @return {Graph} Graph
    */
-  updateBehavior: (behavior: string, newCfg: object, modes: string | string[]) => Graph;
+  updateBehavior: (behavior: string, newCfg: object, mode?: string) => Graph;
 
   /**
    * 清除画布元素
    */
-  clear: () => Graph;
+  clear: (avoidEmit?: boolean) => Graph;
 
   /**
    * 接收数据进行渲染
@@ -569,9 +569,9 @@ export interface IAbstractGraph extends EventEmitter {
 
   /**
    * 获取当前 graph 中存在的包裹轮廓
-   * @return {[key: string]: Hull} hullId 对应的 hull 实例
+   * @return {[key: string]: Hull} Hull 的 map，hullId 对应的 hull 实例
    */
-  getHulls: () => Hull[];
+  getHulls: () => { [key: string]: Hull };
 
   /**
    * 根据 hullId 获取对应的 hull

@@ -4,7 +4,7 @@
 
 import { IGroup, IShape } from '@antv/g-base';
 import { deepMix } from '@antv/util';
-import { ShapeStyle } from '@antv/g6-core';
+import { PLAY_PAUSE_BTN, ExtendedShapeStyle } from './constant';
 
 /** 播放按钮配置 */
 interface ButtonCfg {
@@ -14,7 +14,7 @@ interface ButtonCfg {
   readonly y: number;
   readonly r: number;
   readonly isPlay: boolean;
-  readonly style: ShapeStyle;
+  readonly style: ExtendedShapeStyle;
 }
 
 export default class Button {
@@ -28,7 +28,8 @@ export default class Button {
   private startMarker: IShape;
 
   /** 暂停 marker */
-  private pauseGroupMarker: IGroup;
+  private pauseMarkerGroup: IGroup;
+  private startMarkerGroup: IGroup;
 
   private pauseLeftMarker: IShape;
 
@@ -53,97 +54,101 @@ export default class Button {
 
   private initElement() {
     const { group, style } = this.config;
+    const { scale = 1, offsetX = 0, offsetY = 0 } = style;
+    const x = this.config.x + offsetX;
+    const y = this.config.y + offsetY;
+    const buttonGroup = group.addGroup({
+      name: PLAY_PAUSE_BTN,
+    });
+    this.startMarkerGroup = buttonGroup.addGroup({
+      name: PLAY_PAUSE_BTN,
+    });
     this.circle = group.addShape('circle', {
       attrs: {
-        x: this.config.x,
-        y: this.config.y,
-        r: this.config.r,
+        x,
+        y,
+        r: this.config.r * scale,
         ...style,
       },
+      name: PLAY_PAUSE_BTN,
     });
 
-    this.startMarker = group.addShape('path', {
+    this.startMarker = this.startMarkerGroup.addShape('path', {
       attrs: {
-        path: this.getStartMarkerPath(),
-        fill: '#ccc',
+        path: this.getStartMarkerPath(x, y, scale),
+        fill: style.stroke || '#aaa',
       },
-      name: 'playPauseBtn',
     });
 
-    this.pauseGroupMarker = group.addGroup();
-    const width = (1 / 4) * this.config.r;
-    const height = 0.5 * this.config.r * Math.sqrt(3);
-    this.pauseGroupMarker.addShape('rect', {
-      attrs: {
-        x: this.config.x - (1 / 4 + 1 / 8) * this.config.r,
-        y: this.config.y - height / 2,
-        width: width * 2.5,
-        height,
-        fill: '#fff',
-      },
-      name: 'playPauseBtn',
+    this.pauseMarkerGroup = buttonGroup.addGroup({
+      name: PLAY_PAUSE_BTN,
     });
-    this.pauseLeftMarker = this.pauseGroupMarker.addShape('rect', {
+    const width = 0.25 * this.config.r * scale;
+    const height = 0.5 * this.config.r * Math.sqrt(3) * scale;
+    this.pauseLeftMarker = this.pauseMarkerGroup.addShape('rect', {
       attrs: {
-        x: this.config.x - (1 / 4 + 1 / 8) * this.config.r,
-        y: this.config.y - height / 2,
+        x: x - 0.375 * this.config.r * scale,
+        y: y - height / 2,
         width,
         height,
-        fill: '#ccc',
+        fill: style.stroke || '#aaa',
+        lineWidth: 0,
       },
-      name: 'playPauseBtn',
     });
 
-    this.pauseRightMarker = this.pauseGroupMarker.addShape('rect', {
+    this.pauseRightMarker = this.pauseMarkerGroup.addShape('rect', {
       attrs: {
-        x: this.config.x + (1 / 8) * this.config.r,
-        y: this.config.y - height / 2,
+        x: x + (1 / 8) * this.config.r * scale,
+        y: y - height / 2,
         width,
         height,
-        fill: '#ccc',
+        fill: style.stroke || '#aaa',
+        lineWidth: 0,
       },
-      name: 'playPauseBtn',
     });
   }
 
   private updateElement() {
-    this.circle.attr('x', this.config.x);
-    this.circle.attr('y', this.config.y);
-    this.circle.attr('r', this.config.r);
+    const { scale = 1, offsetX = 0, offsetY = 0 } = this.config.style;
+    const x = this.config.x + offsetX;
+    const y = this.config.y + offsetY;
+    this.circle.attr('x', x);
+    this.circle.attr('y', y);
+    this.circle.attr('r', this.config.r * scale);
 
-    this.startMarker.attr('path', this.getStartMarkerPath());
+    this.startMarker.attr('path', this.getStartMarkerPath(x, y, scale));
 
-    const width = (1 / 4) * this.config.r;
-    const height = 0.5 * this.config.r * Math.sqrt(3);
+    const width = 0.25 * this.config.r * scale;
+    const height = 0.5 * this.config.r * Math.sqrt(3) * scale;
 
-    this.pauseLeftMarker.attr('x', this.config.x - (1 / 4 + 1 / 8) * this.config.r);
-    this.pauseLeftMarker.attr('y', this.config.y - height / 2);
+    this.pauseLeftMarker.attr('x', x - (1 / 4 + 1 / 8) * this.config.r * scale);
+    this.pauseLeftMarker.attr('y', y - height / 2);
     this.pauseLeftMarker.attr('width', width);
     this.pauseLeftMarker.attr('height', height);
 
-    this.pauseRightMarker.attr('x', this.config.x + (1 / 8) * this.config.r);
-    this.pauseRightMarker.attr('y', this.config.y - height / 2);
+    this.pauseRightMarker.attr('x', x + (1 / 8) * this.config.r * scale);
+    this.pauseRightMarker.attr('y', y - height / 2);
     this.pauseRightMarker.attr('width', width);
     this.pauseRightMarker.attr('height', height);
   }
 
   private renderMarker() {
     if (this.config.isPlay) {
-      this.startMarker.hide();
-      this.pauseGroupMarker.show();
+      this.startMarkerGroup.hide();
+      this.pauseMarkerGroup.show();
     } else {
-      this.startMarker.show();
-      this.pauseGroupMarker.hide();
+      this.startMarkerGroup.show();
+      this.pauseMarkerGroup.hide();
     }
   }
 
   /** 获取播放键 marker path */
-  private getStartMarkerPath() {
-    const sideLength = 0.5 * this.config.r * Math.sqrt(3);
+  private getStartMarkerPath(x, y, scale) {
+    const sideLength = 0.5 * this.config.r * Math.sqrt(3) * scale;
     return [
-      ['M', this.config.x - sideLength / Math.sqrt(3) / 2, this.config.y - sideLength / 2],
-      ['L', this.config.x + sideLength / Math.sqrt(3), this.config.y],
-      ['L', this.config.x - sideLength / Math.sqrt(3) / 2, this.config.y + sideLength / 2],
+      ['M', x - sideLength / Math.sqrt(3) / 2, y - sideLength / 2],
+      ['L', x + sideLength / Math.sqrt(3), y],
+      ['L', x - sideLength / Math.sqrt(3) / 2, y + sideLength / 2],
     ];
   }
 }

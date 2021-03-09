@@ -48,7 +48,7 @@ const graph = new G6.Graph({
 
 ## layoutCfg.edgeStrength
 
-**类型**：Number / Function<br />**默认值**：null<br />**是否必须**：false<br />**说明**：边的作用力，默认根据节点的出入度自适应
+**类型**：Number / Function<br />**默认值**：null<br />**是否必须**：false<br />**说明**：边的作用力，范围是 0 到 1，默认根据节点的出入度自适应
 
 ## layoutCfg.preventOverlap
 

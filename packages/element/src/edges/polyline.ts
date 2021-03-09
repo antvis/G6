@@ -9,7 +9,7 @@ import {
   Util,
   BaseGlobal as Global,
 } from '@antv/g6-core';
-import { getPathWithBorderRadiusByPolyline } from './polyline-util';
+import { getPathWithBorderRadiusByPolyline, getPolylinePoints } from './polyline-util';
 import { RouterCfg, pathFinder } from './router';
 
 // 折线
@@ -36,8 +36,8 @@ registerEdge(
       },
       routeCfg: {
         obstacles: [], // 希望边绕过的障碍节点
-        maxAllowedDirectionChange: 90, // 允许的最大转角
-        maximumLoops: 1000,
+        maxAllowedDirectionChange: Math.PI, // 允许的最大转角，弧度制
+        maximumLoops: 500,
         gridSize: 10, // 指定精度
       },
       stateStyles: {
@@ -82,8 +82,8 @@ registerEdge(
       const source = cfg.sourceNode;
       const target = cfg.targetNode;
       const radius = style.radius;
-      let { routeCfg } = this.options;
-      if (!routeCfg) routeCfg = {};
+      const { routeCfg: defaultRouteCfg } = this.options;
+      const routeCfg = mix({}, defaultRouteCfg, cfg.routeCfg);
       routeCfg.offset = style.offset;
 
       let path = (this as any).getPath(points, source, target, radius, routeCfg);
@@ -102,6 +102,7 @@ registerEdge(
     },
     updateShapeStyle(cfg: EdgeConfig, item: Item) {
       const group = item.getContainer();
+      if (!item.isVisible()) return;
       const strokeStyle: ShapeStyle = {
         stroke: cfg.color,
       };
@@ -127,8 +128,8 @@ registerEdge(
       const source = cfg.sourceNode;
       const target = cfg.targetNode;
       const radius = previousStyle.radius;
-      let { routeCfg } = this.options;
-      if (!routeCfg) routeCfg = {};
+      const { routeCfg: defaultRouteCfg } = this.options;
+      const routeCfg = mix({}, defaultRouteCfg, cfg.routeCfg);
       routeCfg.offset = previousStyle.offset;
       let path = (this as any).getPath(points, source, target, radius, routeCfg);
       if ((isArray(path) && path.length <= 1) || (isString(path) && path.indexOf('L') === -1)) {
@@ -168,7 +169,7 @@ registerEdge(
       radius: number,
       routeCfg?: RouterCfg,
     ): Array<Array<string | number>> | string {
-      const { offset } = routeCfg;
+      const { offset, simple } = routeCfg;
       // 指定了控制点
       if (!offset || points.length > 2) {
         if (radius) {
@@ -187,14 +188,15 @@ registerEdge(
       }
 
       // 未指定控制点
-      let polylinePoints: any;
+      const polylinePoints = simple
+        ? getPolylinePoints(points[points.length - 1], points[0], target, source, offset)
+        : pathFinder(points[0], points[points.length - 1], source, target, routeCfg);
       if (radius) {
-        polylinePoints = pathFinder(points[0], points[points.length - 1], source, target, routeCfg);
         const res = getPathWithBorderRadiusByPolyline(polylinePoints, radius);
         return res;
       }
 
-      polylinePoints = pathFinder(points[0], points[points.length - 1], source, target, routeCfg);
+      if (!polylinePoints || !polylinePoints.length) return 'M0 0, L0 0';
       const res = Util.pointsToPolygon(polylinePoints);
       return res;
     },

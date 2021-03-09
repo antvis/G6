@@ -63,6 +63,42 @@ describe('drag-canvas', () => {
     expect(start).toBe(false);
     graph.destroy();
   });
+  it('drag canvas with allowDragOnItem', () => {
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [
+          {
+            type: 'drag-canvas',
+            allowDragOnItem: true,
+          },
+        ],
+      },
+    });
+    graph.data(data);
+    graph.render();
+    let start = false;
+    graph.on('canvas:dragstart', () => {
+      start = true;
+    });
+    graph.on('canvas:dragend', () => {
+      start = false;
+    });
+    graph.paint();
+    graph.emit('dragstart', { clientX: 150, clientY: 150, target: graph.getNodes()[0] });
+    graph.emit('drag', { clientX: 200, clientY: 200, target: graph.getNodes()[0] });
+    expect(start).toBe(true);
+    graph.emit('drag', { clientX: 250, clientY: 250, target: graph.getNodes()[0] });
+    expect(start).toBe(true);
+    const matrix = graph.get('group').getMatrix();
+    expect(matrix[6]).toEqual(100);
+    expect(matrix[7]).toEqual(100);
+    graph.emit('dragend', {});
+    expect(start).toBe(false);
+    graph.destroy();
+  });
   it('prevent default drag behavior', () => {
     const graph = new Graph({
       container: div,

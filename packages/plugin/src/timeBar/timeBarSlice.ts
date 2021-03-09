@@ -318,7 +318,7 @@ export default class TimeBarSlice {
       y: this.y + height + 5,
       width,
       height: 40,
-      hiddleToggle: true,
+      hideTimeTypeController: true,
       speed: this.currentSpeed,
       fontFamily: this.fontFamily || 'Arial, sans-serif',
     });

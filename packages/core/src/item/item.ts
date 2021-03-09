@@ -217,13 +217,20 @@ export default class ItemBase implements IItemBase {
           originStyles[name] =
             shapeType !== 'image' ? clone(child.attr()) : self.getShapeStyleByName(name);
         } else {
+          // !name || name === keyShape
           const keyShapeStyle: ShapeStyle = self.getShapeStyleByName(); // 可优化，需要去除 child.attr 中其他 shape 名的对象
           if (keyShapeStyle.path) delete keyShapeStyle.path;
           if (keyShapeStyle.matrix) delete keyShapeStyle.matrix;
           if (!keyShapeName) {
             Object.assign(originStyles, keyShapeStyle);
           } else {
-            originStyles[keyShapeName] = keyShapeStyle;
+            // 若 keyShape 有 name 且 !name，这个图形不是 keyShape，给这个图形一个 name
+            if (!name) {
+              const shapeName = uniqueId('shape');
+              child.set('name', shapeName);
+              originStyles[shapeName] =
+                shapeType !== 'image' ? clone(child.attr()) : self.getShapeStyleByName(name);
+            } else originStyles[keyShapeName] = keyShapeStyle;
           }
         }
       });
@@ -253,7 +260,8 @@ export default class ItemBase implements IItemBase {
               if (value !== shapeStateStyle[key]) styles[name][key] = value;
             });
           } else {
-            styles[name] = clone(shapeAttrs);
+            styles[name] =
+              child.get('type') !== 'image' ? clone(shapeAttrs) : self.getShapeStyleByName(name);
           }
         } else {
           const shapeAttrs = child.attr();
@@ -275,6 +283,10 @@ export default class ItemBase implements IItemBase {
 
       if (styles.path) delete styles.path;
       if (styles.matrix) delete styles.matrix;
+      if (styles.x) delete styles.x;
+      if (styles.y) delete styles.y;
+      if (styles[keyShapeName] && styles[keyShapeName].x) delete styles[keyShapeName].x;
+      if (styles[keyShapeName] && styles[keyShapeName].y) delete styles[keyShapeName].y;
       self.set('originStyle', styles);
     }
   }
@@ -656,7 +668,7 @@ export default class ItemBase implements IItemBase {
    * 更新位置，避免整体重绘
    * @param {object} cfg 待更新数据
    */
-  public updatePosition(cfg: ModelConfig) {
+  public updatePosition(cfg: ModelConfig): boolean {
     const model: ModelConfig = this.get('model');
 
     const x = isNil(cfg.x) ? model.x : cfg.x;
@@ -665,14 +677,19 @@ export default class ItemBase implements IItemBase {
     const group: IGroup = this.get('group');
 
     if (isNil(x) || isNil(y)) {
-      return;
+      return false;
     }
+    model.x = x;
+    model.y = y;
+
+    const matrix = group.getMatrix();
+    if (matrix && matrix[6] === x && matrix[7] === y) return false;
+
     group.resetMatrix();
     // G 4.0 element 中移除了矩阵相关方法，详见https://www.yuque.com/antv/blog/kxzk9g#4rMMV
     translate(group, { x: x!, y: y! });
-    model.x = x;
-    model.y = y;
     this.clearCache(); // 位置更新后需要清除缓存
+    return true;
   }
 
   /**

@@ -1240,7 +1240,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
     const { nodes = [], edges = [], combos = [] } = data;
 
-    this.clear();
+    this.clear(true);
 
     this.emit('beforerender');
 
@@ -2063,15 +2063,16 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     let model: NodeConfig;
 
     const updatedNodes: { [key: string]: boolean } = {};
+    const nodeChangeMap = {};
     each(nodes, (node: INode) => {
       model = node.getModel() as NodeConfig;
       const originAttrs = node.get('originAttrs');
       if (originAttrs && model.x === originAttrs.x && model.y === originAttrs.y) {
         return;
       }
-      node.updatePosition({ x: model.x!, y: model.y! });
-      updatedNodes[model.id] = true;
-      if (model.comboId) updatedNodes[model.comboId] = true;
+      const changed = node.updatePosition({ x: model.x!, y: model.y! });
+      updatedNodes[model.id] = changed;
+      if (model.comboId) updatedNodes[model.comboId] = updatedNodes[model.comboId] || changed;
     });
 
     if (combos && combos.length !== 0) {
@@ -2139,7 +2140,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * 清除画布元素
    * @return {object} this
    */
-  public clear(): AbstractGraph {
+  public clear(avoidEmit: boolean = false): AbstractGraph {
     const canvas: ICanvas = this.get('canvas');
     canvas.clear();
 
@@ -2147,7 +2148,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
     // 清空画布时同时清除数据
     this.set({ itemMap: {}, nodes: [], edges: [], groups: [], combos: [], comboTrees: [] });
-    this.emit('afterrender');
+    if (!avoidEmit) this.emit('afterrender');
     return this;
   }
 
@@ -2699,9 +2700,15 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     if (!degrees) {
       degrees = getDegree(this.get('data'));
     }
-    this.set('degees', degrees);
+    this.set('degrees', degrees);
     const nodeDegrees = degrees[item.getID()];
-    let res;
+
+    let res = 0;
+    // 如果是通过 addItem 后面新增加的节点，此时它的所有度数都为 0
+    if (!nodeDegrees) {
+      return res
+    }
+
     switch (type) {
       case 'in':
         res = nodeDegrees.inDegree;
@@ -2872,7 +2879,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       hullMap = {};
       this.set('hullMap', hullMap);
     }
-    if (!parent) {
+    if (!parent || parent.get('destroyed')) {
       parent = this.get('group').addGroup({
         id: 'hullGroup',
       });
@@ -2897,9 +2904,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
   /**
    * 获取当前 graph 中存在的包裹轮廓
-   * @return {[key: string]: Hull} hullId 对应的 hull 实例
+   * @return {[key: string]: Hull} Hull 的 map，hullId 对应的 hull 实例
    */
-  public getHulls(): Hull[] {
+  public getHulls(): { [key: string]: Hull } {
     return this.get('hullMap');
   }
 
@@ -2926,7 +2933,8 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   public removeHulls() {
     const hulls = this.getHulls();
     if (!hulls || !Object.keys(hulls).length) return;
-    hulls.forEach((hull) => {
+    Object.keys(hulls).forEach((key) => {
+      const hull = hulls[key];
       hull.destroy();
     });
     this.set('hullMap', {});

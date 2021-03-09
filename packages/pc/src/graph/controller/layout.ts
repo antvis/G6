@@ -1,6 +1,6 @@
 import { AbstractLayout, GraphData } from '@antv/g6-core';
 import { Layout } from '../../layout';
-import LayoutWorker from '../../layout/worker/layout.worker';
+import { LayoutWorker } from '../../layout/worker/layout.worker';
 import { LAYOUT_MESSAGE } from '../../layout/worker/layoutConst';
 import { gpuDetector } from '../../util/gpu';
 import { mix } from '@antv/util';
@@ -79,7 +79,7 @@ export default class LayoutController extends AbstractLayout {
       console.warn('Web worker is not supported in current browser.');
       this.worker = null;
     } else {
-      this.worker = new LayoutWorker();
+      this.worker = LayoutWorker(this.layoutCfg.workerScriptURL);
     }
     return this.worker;
   }
@@ -241,9 +241,12 @@ export default class LayoutController extends AbstractLayout {
         if (layoutMethod.isCustomLayout && layoutCfg.onLayoutEnd) layoutCfg.onLayoutEnd();
       }
       this.layoutMethod = layoutMethod;
-    } else if (layoutCfg.onLayoutEnd) {
-      // 若没有配置 layout，也需要更新画布
-      layoutCfg.onLayoutEnd();
+    }
+
+    // 若没有配置 layout，也需要更新画布
+    if (!this.layoutMethod && success) {
+      graph.refreshPositions();
+      success();
     }
     return false;
   }
@@ -286,9 +289,14 @@ export default class LayoutController extends AbstractLayout {
     // 例如：'function could not be cloned'。
     // 详情参考：https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm
     // 所以这里需要把过滤layoutCfg里的函数字段过滤掉。
-    const filteredLayoutCfg = filterObject(layoutCfg, (value) => typeof value !== 'function');
+    const filteredLayoutCfg = filterObject(layoutCfg, value => typeof value !== 'function');
     if (!gpuWorkerAbility) {
-      worker.postMessage({ type: LAYOUT_MESSAGE.RUN, nodes, edges, layoutCfg: filteredLayoutCfg });
+      worker.postMessage({
+        type: LAYOUT_MESSAGE.RUN,
+        nodes,
+        edges,
+        layoutCfg: filteredLayoutCfg,
+      });
     } else {
       const offscreen: any = (offScreenCanvas as any).transferControlToOffscreen();
       // filteredLayoutCfg.canvas = offscreen;
@@ -304,7 +312,7 @@ export default class LayoutController extends AbstractLayout {
         [offscreen],
       );
     }
-    worker.onmessage = (event) => {
+    worker.onmessage = event => {
       this.handleWorkerMessage(event, data, success);
     };
     return true;
@@ -460,7 +468,7 @@ function updateLayoutPosition(data, layoutData) {
 function filterObject(collection, callback) {
   const result = {};
   if (collection && typeof collection === 'object') {
-    Object.keys(collection).forEach((key) => {
+    Object.keys(collection).forEach(key => {
       if (collection.hasOwnProperty(key) && callback(collection[key])) {
         result[key] = collection[key];
       }

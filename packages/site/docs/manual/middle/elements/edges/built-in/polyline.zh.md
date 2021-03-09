@@ -80,7 +80,7 @@ labelCfg: {
 | style | 边的样式 | Object | Canvas 支持的属性 |
 | **style.radius** | **拐弯处的圆角弧度** | **Number** | **若不设置则为直角，polyline 特有** |
 | **style.offset** | **拐弯处距离节点最小距离** | **Number** | **默认为 5，polyline 特有** |
-| controlPoints | 控制点数组 | Array | 不指定时根据 <a href='https://yuque.alibaba-inc.com/antv/blog/polyline-edges-with-border-radius' target='_blank'>A\* 算法</a>自动生成折线。若指定了，则按照 `controlPoints` 指定的位置进行弯折。示例：`[{ x: 10, y: 20 }, { x: 20, y: 25 }, ...]` |
+| controlPoints | 控制点数组 | Array | 不指定时根据 <a href='https://www.yuque.com/antv/blog/eyi70n' target='_blank'>A\* 算法</a>自动生成折线。若指定了，则按照 `controlPoints` 指定的位置进行弯折。示例：`[{ x: 10, y: 20 }, { x: 20, y: 25 }, ...]` |
 | label | 标签文本文字 | String |  |
 | labelCfg | 标签文本配置项 | Object |  |
 | stateStyles | 各状态下的样式 | Object | 详见[配置状态样式](/zh/docs/manual/middle/states/state#配置-state-样式) |

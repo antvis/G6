@@ -48,6 +48,10 @@ export default {
       return;
     }
 
+    if (this.shouldBegin && !this.shouldBegin.call(this, evt)) {
+      return;
+    }
+
     // 第一个触摸点位置
     this.startPoint = {
       pageX: event1.pageX,
@@ -63,7 +67,7 @@ export default {
       };
     }
 
-    this.originScale = this.currentScale || 1;
+    this.originScale = this.graph.getZoom() || this.currentScale || 1;
   },
   onTouchMove(evt) {
     if (!this.moveable) {
@@ -136,6 +140,11 @@ export default {
   },
   onWheel(e: IG6GraphEvent) {
     const { graph, fixSelectedItems } = this;
+
+    if (this.shouldBegin && !this.shouldBegin.call(this, e)) {
+      return;
+    }
+
     if (!this.shouldUpdate.call(this, e)) {
       return;
     }

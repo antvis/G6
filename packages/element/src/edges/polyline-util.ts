@@ -66,19 +66,17 @@ export const filterConnectPoints = (points: PolyPoint[]): PolyPoint[] => {
   // pre-process: remove duplicated points
   const result: any[] = [];
   const pointsMap: any = {};
-  points.forEach((p) => {
-    const id = `${p.x}-${p.y}`;
-    p.id = id;
-    pointsMap[id] = p;
-  });
-  each(pointsMap, (p) => {
+  const pointsLength = points.length;
+  for (let i = pointsLength - 1; i >= 0; i--) {
+    const p = points[i];
+    p.id = `${p.x}|||${p.y}`;
+    pointsMap[p.id] = p;
     result.push(p);
-  });
+  }
   return result;
 };
 export const simplifyPolyline = (points: PolyPoint[]): PolyPoint[] => {
-  points = filterConnectPoints(points);
-  return points;
+  return filterConnectPoints(points);
 };
 export const getSimplePolyline = (sPoint: PolyPoint, tPoint: PolyPoint): PolyPoint[] => [
   sPoint,
@@ -87,28 +85,52 @@ export const getSimplePolyline = (sPoint: PolyPoint, tPoint: PolyPoint): PolyPoi
 ];
 
 export const getExpandedBBox = (bbox: any, offset: number): PBBox => {
-  if (bbox.width === 0 && bbox.height === 0) {
-    // when it is a point
-    return bbox;
+  if (bbox.width || bbox.height) {
+    return {
+      centerX: bbox.centerX,
+      centerY: bbox.centerY,
+      minX: bbox.minX - offset,
+      minY: bbox.minY - offset,
+      maxX: bbox.maxX + offset,
+      maxY: bbox.maxY + offset,
+      height: bbox.height + 2 * offset,
+      width: bbox.width + 2 * offset,
+    };
   }
-  return {
-    centerX: bbox.centerX,
-    centerY: bbox.centerY,
-    minX: bbox.minX - offset,
-    minY: bbox.minY - offset,
-    maxX: bbox.maxX + offset,
-    maxY: bbox.maxY + offset,
-    height: bbox.height + 2 * offset,
-    width: bbox.width + 2 * offset,
-  };
+  // when it is a point
+  return bbox;
 };
-export const isHorizontalPort = (port: PolyPoint, bbox: PBBox): boolean => {
+export const isHorizontalPort = (port: PolyPoint, bbox: PBBox): boolean | number => {
   const dx = Math.abs(port.x - bbox.centerX);
   const dy = Math.abs(port.y - bbox.centerY);
+  if (dx === 0 && dy === 0) return 0;
   return dx / bbox.width > dy / bbox.height;
 };
-export const getExpandedBBoxPoint = (bbox: any, point: PolyPoint): PolyPoint => {
+export const getExpandedBBoxPoint = (
+  bbox: any, // 将原来节点 bbox 扩展了 offset 后的 bbox，且被 gridSize 格式化
+  point: PolyPoint, // 被 gridSize 格式化后的位置（anchorPoint）
+  anotherPoint: PolyPoint, // 另一端被 gridSize 格式化后的位置
+): PolyPoint => {
   const isHorizontal = isHorizontalPort(point, bbox);
+  if (isHorizontal === 0) {
+    // 说明锚点是节点中心，linkCenter: true。需要根据两个节点的相对关系决定方向
+    let x = bbox.centerX;
+    let y = bbox.centerY;
+    if (anotherPoint.y < point.y) {
+      // 另一端在左上/右上方时，总是从上方走
+      y = bbox.minY;
+    } else if (anotherPoint.x > point.x) {
+      // 另一端在右下方，往右边走
+      x = bbox.maxX;
+    } else if (anotherPoint.x < point.x) {
+      // 另一端在左下方，往左边走
+      x = bbox.minX;
+    } else if (anotherPoint.x === point.x) {
+      // 另一段在正下方，往下走
+      y = bbox.maxY;
+    }
+    return { x, y };
+  }
   if (isHorizontal) {
     return {
       x: point.x > bbox.centerX ? bbox.maxX : bbox.minX,
@@ -143,23 +165,23 @@ export const mergeBBox = (b1: PBBox, b2: PBBox): PBBox => {
 };
 export const getPointsFromBBox = (bbox: PBBox): PolyPoint[] => {
   // anticlockwise
-  const { minX, minY, maxX, maxY } = bbox;
+  // const { minX, minY, maxX, maxY } = bbox;
   return [
     {
-      x: minX,
-      y: minY,
+      x: bbox.minX,
+      y: bbox.minY,
     },
     {
-      x: maxX,
-      y: minY,
+      x: bbox.maxX,
+      y: bbox.minY,
     },
     {
-      x: maxX,
-      y: maxY,
+      x: bbox.maxX,
+      y: bbox.maxY,
     },
     {
-      x: minX,
-      y: maxY,
+      x: bbox.minX,
+      y: bbox.maxY,
     },
   ];
 };
@@ -266,27 +288,33 @@ export const isSegmentsIntersected = (
   p2: PolyPoint,
   p3: PolyPoint,
 ): boolean => {
-  const s1X = p1.x - p0.x;
-  const s1Y = p1.y - p0.y;
-  const s2X = p3.x - p2.x;
-  const s2Y = p3.y - p2.y;
+  const v1x = p2.x - p0.x;
+  const v1y = p2.y - p0.y;
+  const v2x = p3.x - p0.x;
+  const v2y = p3.y - p0.y;
+  const v3x = p2.x - p1.x;
+  const v3y = p2.y - p1.y;
+  const v4x = p3.x - p1.x;
+  const v4y = p3.y - p1.y;
 
-  const s = (-s1Y * (p0.x - p2.x) + s1X * (p0.y - p2.y)) / (-s2X * s1Y + s1X * s2Y);
-  const t = (s2X * (p0.y - p2.y) - s2Y * (p0.x - p2.x)) / (-s2X * s1Y + s1X * s2Y);
+  const pd1 = v1x * v2y - v1y * v2x;
+  const pd2 = v3x * v4y - v3y * v4x;
+  const pd3 = v1x * v3y - v1y * v3x;
+  const pd4 = v2x * v4y - v2y * v4x;
 
-  return s >= 0 && s <= 1 && t >= 0 && t <= 1;
+  return pd1 * pd2 <= 0 && pd3 * pd4 <= 0;
 };
 export const isSegmentCrossingBBox = (p1: PolyPoint, p2: PolyPoint, bbox: PBBox): boolean => {
-  if (bbox.width === 0 && bbox.height === 0) {
-    return false;
+  if (bbox.width || bbox.height) {
+    const [pa, pb, pc, pd] = getPointsFromBBox(bbox);
+    return (
+      isSegmentsIntersected(p1, p2, pa, pb) ||
+      isSegmentsIntersected(p1, p2, pa, pd) ||
+      isSegmentsIntersected(p1, p2, pb, pc) ||
+      isSegmentsIntersected(p1, p2, pc, pd)
+    );
   }
-  const [pa, pb, pc, pd] = getPointsFromBBox(bbox);
-  return (
-    isSegmentsIntersected(p1, p2, pa, pb) ||
-    isSegmentsIntersected(p1, p2, pa, pd) ||
-    isSegmentsIntersected(p1, p2, pb, pc) ||
-    isSegmentsIntersected(p1, p2, pc, pd)
-  );
+  return false;
 };
 /**
  * 在 points 中找到满足 x 或 y 和 point 的 x 或 y 相等，且与 point 连线不经过 bbox1 与 bbox2 的点
@@ -299,12 +327,10 @@ export const getNeighborPoints = (
 ): PolyPoint[] => {
   const neighbors: Point[] = [];
   points.forEach((p) => {
-    if (p !== point) {
-      if (p.x === point.x || p.y === point.y) {
-        if (!isSegmentCrossingBBox(p, point, bbox1) && !isSegmentCrossingBBox(p, point, bbox2)) {
-          neighbors.push(p);
-        }
-      }
+    if (p === point) return;
+    if (p.x === point.x || p.y === point.y) {
+      if (isSegmentCrossingBBox(p, point, bbox1) || isSegmentCrossingBBox(p, point, bbox2)) return;
+      neighbors.push(p);
     }
   });
   return filterConnectPoints(neighbors);
@@ -344,12 +370,13 @@ export const pathFinder = (
     pointById[p.id] = p;
   });
 
+  let current, lowestFScore;
   while (openSet.length) {
-    let current: any;
-    let lowestFScore = Infinity;
+    current = undefined;
+    lowestFScore = Infinity;
     // 找到 openSet 中 fScore 最小的点
     openSet.forEach((p: any) => {
-      if (fScore[p.id] < lowestFScore) {
+      if (fScore[p.id] <= lowestFScore) {
         lowestFScore = fScore[p.id];
         current = p;
       }
@@ -473,29 +500,29 @@ export const getPolylinePoints = (
     tBBox = tNode && tNode.getBBox();
   }
 
-  if (isBBoxesOverlapping(sBBox, tBBox)) {
-    // source and target nodes are overlapping
-    return simplifyPolyline(getSimplePolyline(start, end));
-  }
+  // if (isBBoxesOverlapping(sBBox, tBBox)) {
+  //   // source and target nodes are overlapping
+  //   return simplifyPolyline(getSimplePolyline(start, end));
+  // }
   const sxBBox = getExpandedBBox(sBBox, offset);
   const txBBox = getExpandedBBox(tBBox, offset);
-  if (isBBoxesOverlapping(sxBBox, txBBox)) {
-    // the expanded bounding boxes of source and target nodes are overlapping
-    return simplifyPolyline(getSimplePolyline(start, end));
-  }
-  const sPoint = getExpandedBBoxPoint(sxBBox, start);
-  const tPoint = getExpandedBBoxPoint(txBBox, end);
+  // if (isBBoxesOverlapping(sxBBox, txBBox)) {
+  //   // the expanded bounding boxes of source and target nodes are overlapping
+  //   return simplifyPolyline(getSimplePolyline(start, end));
+  // }
+  const sPoint = getExpandedBBoxPoint(sxBBox, start, end);
+  const tPoint = getExpandedBBoxPoint(txBBox, end, start);
   const lineBBox = getBBoxFromPoints([sPoint, tPoint]);
-  const outerBBox = mergeBBox(sxBBox, txBBox);
   const sMixBBox = mergeBBox(sxBBox, lineBBox);
   const tMixBBox = mergeBBox(txBBox, lineBBox);
   let connectPoints: any = [];
-  connectPoints = connectPoints.concat(
-    getPointsFromBBox(sMixBBox), // .filter(p => !isPointIntersectBBox(p, txBBox))
-  );
-  connectPoints = connectPoints.concat(
-    getPointsFromBBox(tMixBBox), // .filter(p => !isPointIntersectBBox(p, sxBBox))
-  );
+  connectPoints = connectPoints
+    .concat(
+      getPointsFromBBox(sMixBBox), // .filter(p => !isPointIntersectBBox(p, txBBox))
+    )
+    .concat(
+      getPointsFromBBox(tMixBBox), // .filter(p => !isPointIntersectBBox(p, sxBBox))
+    );
   const centerPoint = {
     x: (start.x + end.x) / 2,
     y: (start.y + end.y) / 2,

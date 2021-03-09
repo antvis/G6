@@ -175,7 +175,7 @@ export interface IItemBase {
    * 更新位置，避免整体重绘
    * @param {object} cfg 待更新数据
    */
-  updatePosition: (cfg: Point) => void;
+  updatePosition: (cfg: Point) => boolean;
 
   /**
    * 绘制元素
@@ -363,5 +363,5 @@ export interface ICombo extends INode {
    * @param node 节点实例
    * @return boolean 移除成功返回 true，否则返回 false
    */
-  removeNode: (node: string | INode) => boolean;
+  removeNode: (node: INode) => boolean;
 }

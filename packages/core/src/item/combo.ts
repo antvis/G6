@@ -1,7 +1,7 @@
 import { IGroup } from '@antv/g-base';
 import { ICombo, INode, IItemBaseConfig } from '../interface/item';
 import Node from './node';
-import { ComboConfig, IBBox, IShapeBase } from '../types';
+import { ComboConfig, IBBox, IShapeBase, ModelConfig } from '../types';
 import Global from '../global';
 import { getBBox } from '../util/graphic';
 import { isNumber } from '@antv/util';
@@ -21,7 +21,7 @@ export default class Combo extends Node implements ICombo {
     };
   }
 
-  public getShapeCfg(model: ComboConfig): ComboConfig {
+  public getShapeCfg(model: ModelConfig): ModelConfig {
     const styles = this.get('styles');
     const bbox = this.get('bbox');
     if (styles && bbox) {

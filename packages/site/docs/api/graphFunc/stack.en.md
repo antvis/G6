@@ -17,7 +17,7 @@ Implemented the redo function, refer to[here](https://github.com/antvis/G6/blob/
 | --------- | ------- | -------- | ------------------------------------------------ | --------------------------------------------------- |
 | action    | string  | false    | operation type，the value of 'update' by default |
 | data      | unknown | false    | Stacked data                                     |
-| stackType | 'redo'  | 'undo'   | false                                            | push operation type，the value of 'redo' by default |
+| stackType | 'redo'  / 'undo'   | false                                            | push operation type，the value of 'undo' by default |
 
 ## getUndoStack()
 

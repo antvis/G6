@@ -75,6 +75,18 @@ const IndexPage = () => {
 
   const cases = [
     {
+      logo:
+        'https://camo.githubusercontent.com/53886f0e306c9f01c96dee2edca3992830b7cbb769118029a7e5d677deb7e67e/68747470733a2f2f67772e616c697061796f626a656374732e636f6d2f7a6f732f616e7466696e63646e2f306234487a4f63454a592f4772617068696e2e737667',
+      title: t('Graphin 图可视分析组件'),
+      isAppLogo: true,
+      description: t(
+        'Graphin 是一款基于 G6 封装的 React 分析组件库，专注在关系可视分析领域，简单高效，开箱即用。',
+      ),
+      link: `https://graphin.antv.vision/${i18n.language}`,
+      image:
+        'https://gw.alipayobjects.com/mdn/rms_00edcb/afts/img/A*LKq7Q5wPA0AAAAAAAAAAAAAAARQnAQ',
+    },
+    {
       logo: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ch6rTrCxb6YAAAAAAAAAAABkARQnAQ',
       title: t('基于 G6 的动态决策树'),
       isAppLogo: true,

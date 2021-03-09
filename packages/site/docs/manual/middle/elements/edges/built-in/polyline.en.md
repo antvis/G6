@@ -82,7 +82,7 @@ labelCfg: {
 | **style.offset** | **The minimum distance between the bend and the source/target node** | **Number** | **`5` by default. It is a special property for polyline edge** |
 | label | The text of the label | String |  |
 | labelCfg | The configurations of the label | Object |  |
-| controlPoints | The array of the control points for the polyline | Array | If it is not assigned, G6 will calculate it by <a href='https://yuque.alibaba-inc.com/antv/blog/polyline-edges-with-border-radius' target='_blank'>A\* algorithm</a> If it is assgned, the path of the polyline will be generated according to it. e.g. `[{ x: 10, y: 20 }, { x: 20, y: 25 }, ...]` |
+| controlPoints | The array of the control points for the polyline | Array | If it is not assigned, G6 will calculate it by <a href='https://www.yuque.com/antv/blog/eyi70n' target='_blank'>A\* algorithm</a> If it is assgned, the path of the polyline will be generated according to it. e.g. `[{ x: 10, y: 20 }, { x: 20, y: 25 }, ...]` |
 | stateStyles | The styles in different states | Object | Refer to [Configure Styles for State](/en/docs/manual/middle/states/state#configure-styles-for-state) |
 
 ### style
