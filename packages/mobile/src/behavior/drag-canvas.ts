@@ -5,7 +5,6 @@ const { cloneEvent, isNaN } = Util;
 
 const { abs } = Math;
 const DRAG_OFFSET = 10;
-const ALLOW_EVENTS = ['shift', 'ctrl', 'alt', 'control'];
 
 export default {
   getDefaultCfg(): object {
@@ -21,16 +20,10 @@ export default {
   },
   getEvents(): { [key in G6Event]?: string } {
     return {
-      dragstart: 'onMouseDown',
-      drag: 'onMouseMove',
-      dragend: 'onMouseUp',
-      'canvas:click': 'onMouseUp',
-      keyup: 'onKeyUp',
-      focus: 'onKeyUp',
-      keydown: 'onKeyDown',
-      touchstart: 'onMouseDown',
-      touchmove: 'onMouseMove',
-      touchend: 'onMouseUp',
+      'canvas:panstart': 'onPanStart',
+      'canvas:panmove': 'onPanMove',
+      'canvas:panend': 'onPanEnd',
+      'canvas:tap': 'onPanEnd',
     };
   },
   updateViewport(e: IG6GraphEvent) {
@@ -75,26 +68,9 @@ export default {
     }
     this.graph.translate(dx, dy);
   },
-  onMouseDown(e: IG6GraphEvent) {
-    console.log('------');
+  onPanStart(e: IG6GraphEvent) {
     const self = this as any;
-    const event = e.originalEvent as MouseEvent;
 
-    if (event && event.button !== 0) {
-      return;
-    }
-
-    if (
-      e.name !== 'touchstart' &&
-      typeof window !== 'undefined' &&
-      window.event &&
-      !(window.event as any).buttons &&
-      !(window.event as any).button
-    ) {
-      return;
-    }
-
-    if (self.keydown) return;
     if (!(e.target && e.target.isCanvas && e.target.isCanvas())) return;
 
     self.origin = { x: e.clientX, y: e.clientY };
@@ -126,9 +102,8 @@ export default {
       }
     }
   },
-  onMouseMove(e: IG6GraphEvent) {
+  onPanMove(e: IG6GraphEvent) {
     const { graph } = this;
-    if (this.keydown) return;
     if (!(e.target && e.target.isCanvas && e.target.isCanvas())) return;
 
     e = cloneEvent(e);
@@ -154,10 +129,8 @@ export default {
       this.updateViewport(e);
     }
   },
-  onMouseUp(e: IG6GraphEvent) {
+  onPanEnd(e: IG6GraphEvent) {
     const { graph } = this;
-
-    if (this.keydown) return;
 
     if (this.enableOptimize) {
       // 拖动结束后显示所有的边
@@ -199,24 +172,6 @@ export default {
     this.endDrag();
   },
   endDrag() {
-    this.origin = null;
-    this.dragging = false;
-    this.dragbegin = false;
-  },
-  onKeyDown(e: KeyboardEvent) {
-    const self = this as any;
-    const code = e.key;
-    if (!code) {
-      return;
-    }
-    if (ALLOW_EVENTS.indexOf(code.toLowerCase()) > -1) {
-      self.keydown = true;
-    } else {
-      self.keydown = false;
-    }
-  },
-  onKeyUp() {
-    (this as any).keydown = false;
     this.origin = null;
     this.dragging = false;
     this.dragbegin = false;
