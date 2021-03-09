@@ -11,9 +11,9 @@ export const mixColor = (backColor, frontColor, frontAlpha) => {
   const bc = color(backColor);
   const fc = color(frontColor);
   return color([
-    (1 - frontAlpha) * bc.color[0] + frontAlpha * fc.color[0],
-    (1 - frontAlpha) * bc.color[1] + frontAlpha * fc.color[1],
-    (1 - frontAlpha) * bc.color[2] + frontAlpha * fc.color[2],
+    (1 - frontAlpha) * bc.red() + frontAlpha * fc.red(),
+    (1 - frontAlpha) * bc.green() + frontAlpha * fc.green(),
+    (1 - frontAlpha) * bc.blue() + frontAlpha * fc.blue(),
   ]).rgb();
 };
 
