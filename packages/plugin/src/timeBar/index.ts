@@ -6,7 +6,7 @@ import { Canvas as GSVGCanvas } from '@antv/g-svg';
 import { ICanvas } from '@antv/g-base';
 import { createDom, modifyCSS } from '@antv/dom-util';
 import Base, { IPluginBaseConfig } from '../base';
-import TrendTimeBar, { MarkCfg, SliderOption } from './trendTimeBar';
+import TrendTimeBar, { TickCfg, SliderOption } from './trendTimeBar';
 import TimeBarSlice, { TimeBarSliceOption } from './timeBarSlice';
 import { VALUE_CHANGE } from './constant';
 import {
@@ -66,7 +66,7 @@ interface TimeBarConfig extends IPluginBaseConfig {
   readonly slider?: SliderOption;
 
   // tick 类型配置项，或 trend 和 simple 类型的时间刻度配置项
-  readonly tick?: TimeBarSliceOption | MarkCfg;
+  readonly tick?: TimeBarSliceOption | TickCfg;
 
   // 控制按钮
   readonly controllerCfg?: ControllerCfg;
