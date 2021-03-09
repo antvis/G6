@@ -197,7 +197,7 @@ export default abstract class LayoutController {
 
   // 筛选参与布局的nodes和edges
   protected filterLayoutData(data, cfg) {
-    const { nodes, edges } = data;
+    const { nodes, edges, ...rest } = data;
     if (!nodes) {
       return data;
     }
@@ -224,7 +224,8 @@ export default abstract class LayoutController {
 
     return {
       nodes: nodes.filter(nodesFilter),
-      edges: edges.filter(edegsFilter)
+      edges: edges.filter(edegsFilter),
+      ...rest
     }
   }
 

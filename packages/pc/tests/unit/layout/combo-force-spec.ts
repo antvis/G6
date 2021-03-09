@@ -127,8 +127,7 @@ describe('combo force layout', () => {
       const dist = Math.sqrt(
         (node0.x - node1.x) * (node0.x - node1.x) + (node0.y - node1.y) * (node0.y - node1.y),
       );
-      // TODO: need check again
-      // expect(dist >= nodeSize / 2 + nodeSpacing).toEqual(true);
+      expect(dist >= nodeSize / 2 + nodeSpacing).toEqual(true);
       done();
     });
     graph.data(data);
