@@ -122,15 +122,11 @@ export default class EventController extends AbstractEvent {
       evt.canvasY = canvasPoint.y;
     }
 
-    graph.emit('node:' + evt.type, evt);
-    // emit('click', evt);
-    graph.emit(eventType, evt);
-
     if (evt.name && !evt.name.includes(':')) {
       graph.emit(`${type}:${eventType}`, evt);
+    } else {
+      graph.emit(evt.name, evt);
     }
-    // emit('node:click', evt)
-    else graph.emit(evt.name, evt); // emit('text-shape:click', evt)
 
     if (eventType === 'dragstart') {
       this.dragging = true;
