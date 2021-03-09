@@ -1,3 +1,5 @@
+## This doc is only for Angular 9 and above and the solution is only tested on Angular 9 and above.
+
 There's no special settings or changings to use G6 in Angular if you just start a new Angular project from latest Angular CLI. Do it like you normal do when adding new dependency
 
 However, if your application is upgraded from older angular version (for example, mine project is from angular 6), you may run into trouble.
