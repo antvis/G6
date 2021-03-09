@@ -53,7 +53,6 @@ export default {
    * @param evt
    */
   onDragStart(evt: IG6GraphEvent) {
-    console.log('onDragStart');
     if (!this.shouldBegin.call(this, evt)) {
       return;
     }
@@ -124,7 +123,6 @@ export default {
    * @param evt
    */
   onDrag(evt: IG6GraphEvent) {
-    console.log('onDrag');
     if (!this.origin) {
       return;
     }
@@ -146,7 +144,6 @@ export default {
    * @param evt
    */
   onDragEnd(evt: IG6GraphEvent) {
-    console.log('onDragEnd');
     if (!this.origin || !this.shouldEnd.call(this, evt)) {
       return;
     }
