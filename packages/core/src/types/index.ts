@@ -658,6 +658,10 @@ export enum G6Event {
   COMBO_DRAGSTART = 'combo:dragstart',
   COMBO_DRAG = 'combo:drag',
   COMBO_DRAGEND = 'combo:dragend',
+  COMBO_TAP = 'combo:tap',
+  COMBO_PANSTART = 'combo:panstart',
+  COMBO_PANMOVE = 'combo:panmove',
+  COMBO_PANEND = 'combo:panend',
 
   // edge events
   EDGE_CONTEXTMENU = 'edge:contextmenu',
@@ -693,6 +697,9 @@ export enum G6Event {
   CANVAS_DRAG = 'canvas:drag',
   CANVAS_DRAGEND = 'canvas:dragend',
   CANVAS_TAP = 'canvas:tap',
+  CANVAS_PANSTART = 'canvas:panstart',
+  CANVAS_PANMOVE = 'canvas:panmove',
+  CANVAS_PANEND = 'canvas:panend',
 
   // timing events
   BEFORERENDER = 'beforerender',
