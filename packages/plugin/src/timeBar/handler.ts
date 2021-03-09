@@ -60,8 +60,10 @@ export default class Handler {
 
   private handleType: 'trend' | 'simple';
 
-  // 组件
-  private background: IShape;
+  // 垂线、上圆、下圆图形
+  private verticalLine: IShape;
+  private topCircle: IShape;
+  private bottomCircle: IShape;
 
   private handleGroup: IGroup;
 
@@ -123,8 +125,8 @@ export default class Handler {
 
     // 趋势图时的 handle
     if (this.handleType === 'trend') {
-      // 垂直框
-      this.background = this.handleGroup.addShape('rect', {
+      // 垂直线
+      this.verticalLine = this.handleGroup.addShape('rect', {
         attrs: {
           x: 0,
           y: 0,
@@ -138,7 +140,7 @@ export default class Handler {
         },
         name: `${name}-handler`,
       });
-      this.handleGroup.addShape('circle', {
+      this.topCircle = this.handleGroup.addShape('circle', {
         attrs: {
           x: width / 2,
           y: 0,
@@ -151,7 +153,7 @@ export default class Handler {
         },
         name: `${name}-handler`,
       });
-      this.handleGroup.addShape('circle', {
+      this.bottomCircle = this.handleGroup.addShape('circle', {
         attrs: {
           x: width / 2,
           y: height,
@@ -165,21 +167,7 @@ export default class Handler {
         name: `${name}-handler`,
       });
     } else if (this.handleType === 'simple') {
-      this.handleGroup.addShape('circle', {
-        attrs: {
-          x: width / 2,
-          y: height / 2,
-          r: 2 * width,
-          fill,
-          stroke,
-          radius,
-          opacity,
-          cursor,
-          lineWidth: 2,
-        },
-        name: `${name}-handler`,
-      });
-      this.handleGroup.addShape('circle', {
+      this.topCircle = this.handleGroup.addShape('circle', {
         attrs: {
           x: width / 2,
           y: height / 2,
@@ -199,20 +187,39 @@ export default class Handler {
     this.updateXY();
 
     if (this.handleType === 'trend') {
-      this.bindEvents();
+      this.bindTrendEvents();
+    } else if (this.handleType === 'simple') {
+      this.bindSimpleEvents();
     }
   }
 
-  private bindEvents() {
+  private bindSimpleEvents() {
     const { name } = this;
     this.handleGroup.on(`${name}-handler:mouseenter`, () => {
       const { highLightFill } = this.style;
-      this.background.attr('fill', highLightFill);
+      this.topCircle.attr('fill', highLightFill);
     });
 
     this.handleGroup.on(`${name}-handler:mouseleave`, () => {
       const { fill } = this.style;
-      this.background.attr('fill', fill);
+      this.topCircle.attr('fill', fill);
+    });
+  }
+
+  private bindTrendEvents() {
+    const { name } = this;
+    this.handleGroup.on(`${name}-handler:mouseenter`, () => {
+      const { highLightFill } = this.style;
+      this.verticalLine.attr('fill', highLightFill);
+      this.topCircle.attr('fill', highLightFill);
+      this.bottomCircle.attr('fill', highLightFill);
+    });
+
+    this.handleGroup.on(`${name}-handler:mouseleave`, () => {
+      const { fill } = this.style;
+      this.verticalLine.attr('fill', fill);
+      this.topCircle.attr('fill', fill);
+      this.bottomCircle.attr('fill', fill);
     });
   }
 

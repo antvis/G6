@@ -1,5 +1,10 @@
 # ChangeLog
 
+#### 4.2.0
+- fix: combo edge link position problem;
+- fix: activate-relations with combo and combo edges problem;
+- feat: support config TimeBar handler, background, foreground, tick label, tick line style;
+
 #### 4.1.16
 - fix: webworker in dist;
 

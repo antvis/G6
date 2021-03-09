@@ -131,6 +131,7 @@ describe('drag-combo', () => {
         style: {
           fill: '#b5f5ec',
         },
+        padding: 1
       },
       comboStateStyles: {
         active: {
@@ -167,18 +168,19 @@ describe('drag-combo', () => {
     const comboC = graph.findById('C');
     let comboCBBox = comboC.getKeyShape().getCanvasBBox();
 
-    expect(Math.abs(comboCBBox.width - 392) < 2).toBe(true);
+    expect(Math.abs(comboCBBox.width - 437) < 2).toBe(true);
 
     graph.emit('combo:dragstart', { item: combo, x: 100, y: 100 });
     graph.emit('combo:drag', { item: combo, x: 500, y: 100 });
 
+
     comboCBBox = comboC.getKeyShape().getCanvasBBox();
-    expect(Math.abs(comboCBBox.width - 392) < 2).toBe(true);
+    expect(Math.abs(comboCBBox.width - 437) < 2).toBe(true);
 
     graph.emit('combo:dragend', { item: combo, x: 500, y: 100 });
     setTimeout(() => {
       comboCBBox = comboC.getKeyShape().getCanvasBBox();
-      expect(Math.abs(comboCBBox.width - 163) < 2).toBe(true);
+      expect(Math.abs(comboCBBox.width - 95) < 2).toBe(true);
       graph.destroy();
       done();
     }, 550);
@@ -278,6 +280,7 @@ describe('drag-combo', () => {
         style: {
           fill: '#b5f5ec',
         },
+        padding: 5
       },
       comboStateStyles: {
         active: {
@@ -303,18 +306,18 @@ describe('drag-combo', () => {
     const comboC = graph.findById('C');
     let comboCBBox = comboC.getKeyShape().getCanvasBBox();
 
-    expect(Math.abs(comboCBBox.width - 392) < 2).toBe(true);
+    expect(Math.abs(comboCBBox.width - 467) < 2).toBe(true);
 
     graph.emit('combo:dragstart', { item: combo, x: 100, y: 100 });
     graph.emit('combo:drag', { item: combo, x: 500, y: 100 });
 
     comboCBBox = comboC.getKeyShape().getCanvasBBox();
-    expect(Math.abs(comboCBBox.width - 392) < 2).toBe(true);
+    expect(Math.abs(comboCBBox.width - 467) < 2).toBe(true);
 
     graph.emit('combo:dragend', { item: combo, x: 500, y: 100 });
     setTimeout(() => {
       comboCBBox = comboC.getKeyShape().getCanvasBBox();
-      expect(Math.abs(comboCBBox.width - 635) < 2).toBe(true);
+      expect(Math.abs(comboCBBox.width - 673) < 2).toBe(true);
       graph.destroy();
       done();
     }, 550);
