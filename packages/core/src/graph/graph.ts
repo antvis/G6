@@ -2706,7 +2706,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     let res = 0;
     // 如果是通过 addItem 后面新增加的节点，此时它的所有度数都为 0
     if (!nodeDegrees) {
-      return res
+      return res;
     }
 
     switch (type) {
