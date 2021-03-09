@@ -29,9 +29,21 @@ export default class Graph extends AbstractGraph implements IGraph {
     this.destroyed = false;
   }
 
-  public eventHandler(event) {
+  public emitEvent(event) {
     const canvas: GMobileCanvas = this.get('canvas');
-    canvas.registerEventCallback.bind(canvas)(event);
+    event.type = event.type.toLowerCase();
+    // 小程序中touchend不存在touches 但有changedTouches
+    if (event.type === 'touchend') {
+      event.touches = event.changedTouches;
+    }
+
+    // TODO 属于临时兜底，需要fix
+    event.touches.forEach((touch) => {
+      touch.clientX = touch.pageX;
+      touch.clientY = touch.pageY;
+    });
+
+    canvas.registerEventCallback(event);
   }
 
   protected initLayoutController() {
