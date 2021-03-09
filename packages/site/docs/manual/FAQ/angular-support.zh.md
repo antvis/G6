@@ -10,4 +10,4 @@
 
 基本上要在Angular中使用G6需要满足以下两点:
 1. 项目根目录下(与package.json同目录) 需要有`.browserslistrc`文件, 请注意`browserslist`文件无效.
-2. 不开启IE支持
+2. **_不_** 开启IE支持
