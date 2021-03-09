@@ -55,7 +55,6 @@ export default {
     // 缓存当前的缩放比例
     this.currentScale = zoom;
 
-    console.log('canvas', zoom);
     const minZoom = this.get('minZoom') || this.graph.get('minZoom');
     const maxZoom = this.get('maxZoom') || this.graph.get('maxZoom');
 
