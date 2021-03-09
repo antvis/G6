@@ -53,7 +53,6 @@ export default {
    * @param evt
    */
   onDragStart(evt: IG6GraphEvent) {
-    console.log('onDragStart');
     if (!this.shouldBegin.call(this, evt)) {
       return;
     }
