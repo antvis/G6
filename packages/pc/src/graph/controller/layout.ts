@@ -294,7 +294,7 @@ export default class LayoutController extends AbstractLayout {
     start.then(() => {
       if (layoutCfg.onAllLayoutEnd) layoutCfg.onAllLayoutEnd();
     }).catch((error) => {
-      console.error('graph layout failed,', error);
+      console.warn('graph layout failed,', error);
     });
 
     return false;
