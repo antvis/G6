@@ -122,15 +122,19 @@ export const calculationItemsBBox = (items: Item[]) => {
 
 /**
  * 若 edges 中存在两端点相同的边，使用 quadratic 边并自动计算 curveOffset 使它们不相互重叠
+ * 文档: https://g6.antv.vision/en/docs/api/Util
  * @param edges 边数据集合
  * @param offsetDiff 相邻两边的 offset 之差
+ * @param multiEdgeType
+ * @param singleEdgeType
+ * @param loopEdgeType
  */
 export const processParallelEdges = (
   edges,
   offsetDiff = 15,
   multiEdgeType: string = 'quadratic',
-  singleEdgeType: string,
-  loopEdgeType: string,
+  singleEdgeType: string = undefined,
+  loopEdgeType: string = undefined
 ) => {
   const len = edges.length;
   const cod = offsetDiff * 2;

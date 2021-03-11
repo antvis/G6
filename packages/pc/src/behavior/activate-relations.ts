@@ -16,11 +16,14 @@ export default {
     if ((this as any).get('trigger') === 'mouseenter') {
       return {
         'node:mouseenter': 'setAllItemStates',
+        'combo:mouseenter': 'setAllItemStates',
         'node:mouseleave': 'clearActiveState',
+        'combo:mouseleave': 'clearActiveState',
       };
     }
     return {
       'node:click': 'setAllItemStates',
+      'combo:click': 'setAllItemStates',
       'canvas:click': 'clearAllItemStates',
     };
   },
@@ -35,9 +38,14 @@ export default {
     const activeState = this.activeState;
     const inactiveState = this.inactiveState;
     const nodes = graph.getNodes();
+    const combos = graph.getCombos();
     const edges = graph.getEdges();
+    const vEdges = graph.get('vedges');
     const nodeLength = nodes.length;
+    const comboLength = combos.length;
     const edgeLength = edges.length;
+    const vEdgeLength = vEdges.length;
+
     for (let i = 0; i < nodeLength; i++) {
       const node = nodes[i];
       const hasSelected = node.hasState('selected');
@@ -51,12 +59,33 @@ export default {
         graph.setItemState(node, inactiveState, true);
       }
     }
+    for (let i = 0; i < comboLength; i++) {
+      const combo = combos[i];
+      const hasSelected = combo.hasState('selected');
+      if (self.resetSelected) {
+        if (hasSelected) {
+          graph.setItemState(combo, 'selected', false);
+        }
+      }
+      graph.setItemState(combo, activeState, false);
+      if (inactiveState) {
+        graph.setItemState(combo, inactiveState, true);
+      }
+    }
 
     for (let i = 0; i < edgeLength; i++) {
       const edge = edges[i];
       graph.setItemState(edge, activeState, false);
       if (inactiveState) {
         graph.setItemState(edge, inactiveState, true);
+      }
+    }
+
+    for (let i = 0; i < vEdgeLength; i++) {
+      const vEdge = vEdges[i];
+      graph.setItemState(vEdge, activeState, false);
+      if (inactiveState) {
+        graph.setItemState(vEdge, inactiveState, true);
       }
     }
 
@@ -98,17 +127,29 @@ export default {
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
     const nodes = graph.getNodes();
+    const combos = graph.getCombos();
     const edges = graph.getEdges();
+    const vEdges = graph.get('vedges');
     const nodeLength = nodes.length;
+    const comboLength = combos.length;
     const edgeLength = edges.length;
+    const vEdgeLength = vEdges.length;
 
     for (let i = 0; i < nodeLength; i++) {
       const node = nodes[i];
       graph.clearItemStates(node, [activeState, inactiveState]);
     }
+    for (let i = 0; i < comboLength; i++) {
+      const combo = combos[i];
+      graph.clearItemStates(combo, [activeState, inactiveState]);
+    }
     for (let i = 0; i < edgeLength; i++) {
       const edge = edges[i];
       graph.clearItemStates(edge, [activeState, inactiveState, 'deactivate']);
+    }
+    for (let i = 0; i < vEdgeLength; i++) {
+      const vEdge = vEdges[i];
+      graph.clearItemStates(vEdge, [activeState, inactiveState, 'deactivate']);
     }
     graph.paint();
     graph.setAutoPaint(autoPaint);

@@ -4,6 +4,7 @@ import TimeBar from '../../src/timeBar';
 const div = document.createElement('div');
 div.id = 'timebar-plugin';
 document.body.appendChild(div);
+// div.style.backgroundColor = '#252728'
 
 const data: GraphData = {
   nodes: [
@@ -40,7 +41,7 @@ for (let i = 0; i < 100; i++) {
   const edgeDate = Math.round(Math.random() * 100);
   data.edges.push({
     date: edgeDate,
-    label: edgeDate,
+    label: `${edgeDate}`,
     source: `node-${Math.round(Math.random() * 90)}`,
     target: `node-${Math.round(Math.random() * 90)}`,
   });
@@ -58,7 +59,7 @@ describe('timeline filter edges', () => {
     }
 
     const timeLine = new TimeBar({
-      x: 0,
+      x: 15,
       y: 0,
       width: 500,
       height: 150,
@@ -68,55 +69,97 @@ describe('timeline filter edges', () => {
       trend: {
         data: timeBarData,
         isArea: true,
+        areaStyle: {
+          fill: '#08214E',
+          opacity: 0.3
+        }
+      },
+      tick: {
         tickLabelFormatter: (d) => {
           const i = d.date;
           const month = i < 30 ? '01' : '02';
           const day = i % 30 < 10 ? `0${i % 30}` : `${i % 30}`;
           return `2020${month}${day}`;
         },
+        tickLabelStyle: {
+          fill: '#000'
+        },
+        tickLineStyle: {
+          stroke: '#000'
+        }
+      },
+      backgroundStyle: {
+        fill: '#115EEB',
+        opacity: 0.3
+      },
+      foregroundStyle: {
+        fill: '#000',
+        opacity: 0.25
+      },
+      textStyle: {
+        fill: '#000',
+        fontWeight: 500
       },
       controllerCfg: {
         // scale: 0.7,
-        // offsetY: 20,
         // offsetX: -250,
         x: 200,
-        width: 100,
+        y: 45,
+        width: 480,
+        fill: '#fff',
+        stroke: '#fff',
         preBtnStyle: {
-          fill: '#f00',
+          fill: '#155EE1',
+          stroke: '#155EE1',
+          opacity: 0.85
         },
-        nextBtnStyle: {},
+        nextBtnStyle: {
+          fill: '#155EE1',
+          stroke: '#155EE1',
+          opacity: 0.85
+        },
         playBtnStyle: {
-          fill: '#0f0',
-          stroke: '#00f',
+          fill: '#155EE1',
+          stroke: '#155EE1',
+          opacity: 0.85,
+          fillOpacity: 0.2
         },
         speedControllerStyle: {
           pointer: {
-            stroke: '#f00',
-            fill: '#0f0',
-            lineWidth: 2,
+            fill: '#155EE1',
+            lineWidth: 0,
           },
           scroller: {
-            stroke: '#0f0',
+            fill: '#155EE1',
+            stroke: '#155EE1'
           },
           text: {
-            fill: '#00f',
+            fill: '#000',
+            opacity: 0.65
           },
         },
         timeTypeControllerStyle: {
           box: {
-            fill: '#f00',
-            fillOpacity: 0.1,
-            stroke: '#f00',
+            fillOpacity: 0,
+            stroke: '#155EE1',
           },
           check: {
             lineWidth: 1,
-            stroke: '#000',
+            stroke: '#155EE1',
           },
           text: {
-            fill: '#00f',
+            fill: '#000',
+            opacity: 0.65
           },
         },
       },
+      slider: {
+        handlerStyle: {
+          fill: '#497CD8',
+          stroke: '#497CD8',
+          highLightFill: '#f00'
+        }
+      }
     });
     const graph = new G6.Graph({
       container: div,
@@ -124,6 +167,9 @@ describe('timeline filter edges', () => {
       height: 250,
       // renderer: 'svg',
       plugins: [timeLine],
+      // layout: {
+      //   type: 'force'
+      // },
       modes: {
         default: ['drag-node', 'zoom-canvas', 'drag-canvas'],
       },
@@ -136,6 +182,7 @@ describe('timeline filter edges', () => {
 
     graph.data(data);
     graph.render();
+    // graph.destroy();
   });
 });
 

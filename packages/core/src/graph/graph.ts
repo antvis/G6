@@ -1277,6 +1277,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       if (self.get('fitCenter')) {
         self.fitCenter();
       }
+
       self.emit('afterrender');
       self.set('animate', animate);
     }

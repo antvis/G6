@@ -179,6 +179,8 @@ export default class LayoutController extends AbstractLayout {
       return true;
     }
 
+    const isForce = layoutType === 'force' || layoutType === 'g6force' || layoutType === 'gForce';
+
     // 所有布局挂载 onLayoutEnd, 在布局结束后依次执行：
     // 执行用户自定义 onLayoutEnd，触发 afterlayout、更新节点位置、fitView/fitCenter、触发 afterrender
     const { onLayoutEnd, layoutEndFormatted } = layoutCfg;
@@ -194,11 +196,10 @@ export default class LayoutController extends AbstractLayout {
         // 更新节点位置
         this.refreshLayout();
         // 由 graph 传入的，控制 fitView、fitCenter，并触发 afterrender
-        if (success) success();
       };
     }
 
-    if (layoutType === 'force' || layoutType === 'g6force' || layoutType === 'gForce') {
+    if (isForce) {
       const { onTick } = layoutCfg;
       const tick = () => {
         if (onTick) {
@@ -238,7 +239,10 @@ export default class LayoutController extends AbstractLayout {
       if (hasLayoutType) {
         graph.emit('beginlayout');
         layoutMethod.execute();
-        if (layoutMethod.isCustomLayout && layoutCfg.onLayoutEnd) layoutCfg.onLayoutEnd();
+        if (layoutMethod.isCustomLayout && layoutCfg.onLayoutEnd && !isForce) layoutCfg.onLayoutEnd();
+        // 在执行 execute 后立即执行 success，且在 timeBar 中有 throttle，可以防止 timeBar 监听 afterrender 进行 changeData 后 layout，从而死循环
+        // 对于 force 一类布局完成后的 fitView 需要用户自己在 onLayoutEnd 中配置
+        if (success) success();
       }
       this.layoutMethod = layoutMethod;
     }

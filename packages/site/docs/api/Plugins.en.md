@@ -441,8 +441,9 @@ interface TimeBarConfig extends IPluginBaseConfig {
   // the configurations for the two sliders
   readonly slider?: SliderOption;
 
-  // the configuration for the TimeBar with descrete ticks, takes effect whtn the type is 'tick'
-  readonly tick?: TimeBarSliceOption;
+  // when the type is 'tick', it is the configuration for the TimeBar with descrete ticks
+  // when the type is 'trend' or 'simpe', it is the configuration for the time tick labels under the timeBar
+  readonly tick?: TimeBarSliceOption | TickCfg;
 
   // the buttons for play, fast forward, and back forward
   readonly controllerCfg?: ControllerCfg;
@@ -462,13 +463,13 @@ interface TimeBarConfig extends IPluginBaseConfig {
 | container | HTMLDivElement | null | The DOM container of the TimeBar. By default, the plugin will create a container DOM with 'g6-component-timebar' as className |
 | x | number | 0 | The beginning x position of the TimeBar plugin |
 | y | number | 0 | The beginning y position of the TimeBar plugin |
-| width | number |  | **Requred**, the width of the TimBar |
-| height | number |  | **Requred**, the height of the TimBar |
+| width | number |  | **Requred**, the width of the TimeBar |
+| height | number |  | **Requred**, the height of the TimeBar |
 | padding | number/number[] | 10 | The padding of the container of the TimeBar |
 | type | 'trend' / 'simple' / 'tick' | trend | The type of the TimeBar, 'trend' by default |
 | trend | TrendConfig | null | The configuration for the TimeBar with line chart and simple TimeBar, takes effect whtn the type is 'trend' or 'simple' |
 | slider | SliderOption | null | The configurations for the two sliders |
-| tick | TimeBarSliceOption | null | The configuration for the TimeBar with descrete ticks, takes effect whtn the type is 'tick' |
+| tick | TimeBarSliceOption / TickCfg | null | If the type is 'tick', it is the configuration for the TimeBar with descrete ticks. If it the type is 'trend' or 'simple', it is the configuration for the time tick labels under the timeBar |
 | controllerCfg | ControllerCfg | null | The buttons for play, fast forward, and back forward |
 | filterEdge | boolean | false | Whether to consider the edge filtering. If it is false, only filter the nodes and the edges whose end nodes are filtered out while the selected range of the timeBar is changed. If it is true, there should be `date` properties on the edges data, and the timeBar will filter the edges which is not in the selected range in the same time |
 | rangeChange | Function | null | The callback function after the time range is changed. When it is not assigned, the graph elements will be filtered after the time range is changed |
@@ -600,6 +601,27 @@ export interface TimeBarSliceOption {
 | data | any[] | [] | **Requred**, the data for the ticks |
 | tickLabelFormatter | Function | null | The formatter function for customing the labels of the ticks |
 | tooltipFomatter | Function | null | The formatter function for customing the tooltip |
+
+#### TickCfg
+
+```javascript
+export interface TickCfg {
+  // the fomatter for the time tick labels
+  readonly tickLabelFormatter?: (d: any) => string | undefined;
+  // the shape style for the time tick labels
+  readonly tickLabelStyle?: ShapeStyle;
+  // the shape style for the short vertical lines uppon the time tick labels
+  readonly tickLineStyle?: ShapeStyle;
+}
+```
+
+#### Parameters for TickCfg
+
+| Name | Type | Default Value | Description |
+| --- | --- | --- | --- |
+| tickLabelFormatter | Function | null | The formatter function for customing the labels of the ticks |
+| tickLabelStyle | ShapeStyle | {} | The shape style for the time tick labels |
+| tickLineStyle | ShapeStyle | {} | The shape style for the short vertical lines uppon the time tick labels |
 
 #### Interface of the ControllerCfg
 

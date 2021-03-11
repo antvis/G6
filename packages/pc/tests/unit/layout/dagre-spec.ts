@@ -1,5 +1,6 @@
 import G6 from '../../../src';
 import { mathEqual } from './util';
+import { GraphData } from '@antv/g6-core';
 
 const div = document.createElement('div');
 div.id = 'dagre';
@@ -204,7 +205,7 @@ const data: any = {
   ],
 };
 describe('dagre layout with combo', () => {
-  const data2 = {
+  const data2: GraphData = {
     nodes: [
       {
         id: '1',

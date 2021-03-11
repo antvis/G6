@@ -40,8 +40,8 @@ export default class Combo extends Node implements ICombo {
         size.height += padding * 2;
       } else {
         size.r += padding[0];
-        size.width += padding[1] + padding[3] || padding[1] * 2;
-        size.height += padding[0] + padding[2] || padding[0] * 2;
+        size.width += (padding[1] + padding[3]) || padding[1] * 2;
+        size.height += (padding[0] + padding[2]) || padding[0] * 2;
       }
       this.set(CACHE_SIZE, size);
       return newModel;
@@ -67,6 +67,9 @@ export default class Combo extends Node implements ICombo {
     const oriY = cacheBBox.x;
 
     if (cacheSize) {
+      cacheSize.r = Math.max(cacheSize.r, bbox.width);
+      cacheSize.width = Math.max(cacheSize.width, bbox.width);
+      cacheSize.height = Math.max(cacheSize.height, bbox.height);
       const type: string = keyShape.get('type');
       if (type === 'circle') {
         bbox.width = cacheSize.r * 2;

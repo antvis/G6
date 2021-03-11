@@ -83,3 +83,47 @@ describe('combo states', () => {
     });
   });
 });
+
+describe.only('combo edges', () => {
+  const data2 = {
+    nodes: [
+      { id: 'node1', x: 350, y: 200, comboId: 'combo1', },
+      { id: 'node3', x: 100, y: 200 },
+    ],
+    edges: [
+      { source: 'combo1', target: 'node3', style: {endArrow: true} },
+    ],
+    combos: [
+      { id: 'combo1', label: 'Combo 1' },
+    ],
+  };
+  it('combo edges', () => {
+    const graph = new G6.Graph({
+      container: 'container',
+      width: 500,
+      height: 500,
+      // Set groupByTypes to false to get rendering result with reasonable visual zIndex for combos
+      groupByTypes: false,
+      defaultCombo: {
+        type: 'rect',
+        padding: 0,
+        // size: 0
+        style: {
+          opacity: 0.5
+        }
+      },
+      modes: {
+        default: ['drag-canvas', 'drag-node', 'drag-combo', 'collapse-expand-combo'],
+      },
+    });
+
+    graph.data(data2);
+    graph.render();
+
+    const combo = graph.getCombos()[0];
+    expect(combo.getBBox().width).toBe(81);
+    expect(combo.getBBox().height).toBe(62);
+
+    graph.destroy();
+  });
+});
