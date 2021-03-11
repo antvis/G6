@@ -71,11 +71,15 @@ export const LayoutWorker = (
             break;
           }
 
-          const layoutMethod = new LayoutClass(layoutCfg);
+          let layoutMethod;
+          layoutCfg.onLayoutEnd = () => {
+            this.postMessage({ type: LAYOUT_MESSAGE.END, nodes });
+            layoutMethod?.destroy();
+          };
+
+          layoutMethod = new LayoutClass(layoutCfg);
           layoutMethod.init({ nodes, edges });
           layoutMethod.execute();
-          this.postMessage({ type: LAYOUT_MESSAGE.END, nodes });
-          layoutMethod.destroy();
           break;
         }
 

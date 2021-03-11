@@ -43,7 +43,6 @@ describe('no node and one node', () => {
       height: 500,
     });
     graph.on('afterlayout', () => {
-      console.log('after lkayout');
       expect(testData.nodes[0].x).toBe(250);
       expect(testData.nodes[0].y).toBe(250);
       done();
@@ -121,6 +120,7 @@ describe('combo force layout', () => {
       height: 500,
       defaultNode: { size: nodeSize },
     });
+
     graph.on('afterlayout', () => {
       const node0 = data.nodes[0];
       const node1 = data.nodes[1];
@@ -182,8 +182,11 @@ describe('combo force layout', () => {
     });
     graph.data(data);
     graph.render();
-    const forceLayout = graph.get('layoutController').layoutMethod;
-    forceLayout.execute(); // re execute when it is ticking
+
+    Promise.resolve().then(() => {
+      const forceLayout = graph.get('layoutController').layoutMethods[0];
+      forceLayout.execute(); // re execute when it is ticking
+    });
 
     setTimeout(() => {
       const node0 = data.nodes[0];
@@ -224,10 +227,14 @@ describe('undefined configurations and update layout', () => {
     });
     graph.data(data);
     graph.render();
-    const forceLayout = graph.get('layoutController').layoutMethod;
-    expect(isFunction(forceLayout.linkDistance)).toEqual(true);
-    expect(forceLayout.linkDistance()).toEqual(10);
-    expect(forceLayout.preventOverlap).toEqual(false);
+
+    let forceLayout;
+    Promise.resolve().then(() => {
+      forceLayout = graph.get('layoutController').layoutMethods[0];
+      expect(isFunction(forceLayout.linkDistance)).toEqual(true);
+      expect(forceLayout.linkDistance()).toEqual(10);
+      expect(forceLayout.preventOverlap).toEqual(false);
+    });
 
     setTimeout(() => {
       graph.hideItem(graph.getCombos()[0]);
@@ -239,10 +246,13 @@ describe('undefined configurations and update layout', () => {
         nodeSize: 10,
         comboPadding: null,
       });
-      expect(isFunction(forceLayout.linkDistance)).toEqual(true);
-      expect(forceLayout.linkDistance()).toEqual(100);
-      expect(forceLayout.preventOverlap).toEqual(true);
-      done();
+
+      Promise.resolve().then(() => {
+        expect(isFunction(forceLayout.linkDistance)).toEqual(true);
+        expect(forceLayout.linkDistance()).toEqual(100);
+        expect(forceLayout.preventOverlap).toEqual(true);
+        done();
+      });
     }, 300);
   });
 });
