@@ -560,8 +560,8 @@ describe('minimap', () => {
         expect(matrix[4]).toEqual(2);
         graph.destroy();
         done();
-      }, 100);
-    }, 100);
+      }, 300);
+    }, 300);
   });
   it('invalid dom event', () => {
     const minimap = new Minimap({ size: [200, 200] });

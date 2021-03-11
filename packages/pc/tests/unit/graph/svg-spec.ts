@@ -1460,10 +1460,13 @@ describe('layouts', () => {
     });
     graph.data(data);
     graph.render();
-    const item = graph.getNodes()[0];
-    expect(item.getModel().x).toBe(250);
-    expect(item.getModel().y).toBe(250);
-    graph.destroy();
+
+    graph.on('afterlayout', () => {
+      const item = graph.getNodes()[0];
+      expect(item.getModel().x).toBe(250);
+      expect(item.getModel().y).toBe(250);
+      graph.destroy();
+    });
   });
   it('with circular layout', () => {
     const graph = new Graph({
@@ -1477,12 +1480,15 @@ describe('layouts', () => {
     });
     graph.data(data);
     graph.render();
-    const item = graph.getNodes()[0];
-    expect(item.getModel().x).not.toBe(null);
-    expect(item.getModel().x).not.toBe(undefined);
-    expect(item.getModel().y).not.toBe(null);
-    expect(item.getModel().y).not.toBe(undefined);
-    graph.destroy();
+
+    graph.on('afterlayout', () => {
+      const item = graph.getNodes()[0];
+      expect(item.getModel().x).not.toBe(null);
+      expect(item.getModel().x).not.toBe(undefined);
+      expect(item.getModel().y).not.toBe(null);
+      expect(item.getModel().y).not.toBe(undefined);
+      graph.destroy();
+    });
   });
   it('with grid layout', () => {
     const graph = new Graph({
@@ -1496,10 +1502,13 @@ describe('layouts', () => {
     });
     graph.data(data);
     graph.render();
-    const item = graph.getNodes()[0];
-    expect(item.getModel().x).toBe(125);
-    expect(item.getModel().y).toBe(83.33333333333333);
-    graph.destroy();
+
+    graph.on('afterlayout', () => {
+      const item = graph.getNodes()[0];
+      expect(item.getModel().x).toBe(125);
+      expect(item.getModel().y).toBe(83.33333333333333);
+      graph.destroy();
+    });
   });
   it('with concentric layout', () => {
     const graph = new Graph({
@@ -1513,10 +1522,13 @@ describe('layouts', () => {
     });
     graph.data(data);
     graph.render();
-    const item = graph.getNodes()[0];
-    expect(item.getModel().x).toBe(250);
-    expect(item.getModel().y).toBe(250);
-    graph.destroy();
+
+    graph.on('afterlayout', () => {
+      const item = graph.getNodes()[0];
+      expect(item.getModel().x).toBe(250);
+      expect(item.getModel().y).toBe(250);
+      graph.destroy();
+    });
   });
   it('with mds layout', () => {
     const graph = new Graph({
@@ -1530,10 +1542,12 @@ describe('layouts', () => {
     });
     graph.data(data);
     graph.render();
-    const item = graph.getNodes()[0];
-    expect(item.getModel().x).toBe(261.9235736012207);
-    expect(item.getModel().y).toBe(249.99999999999997);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      const item = graph.getNodes()[0];
+      expect(item.getModel().x).toBe(261.9235736012207);
+      expect(item.getModel().y).toBe(249.99999999999997);
+      graph.destroy();
+    });
   });
   it('with dagre layout', () => {
     const graph = new Graph({
@@ -1550,12 +1564,14 @@ describe('layouts', () => {
     });
     graph.data(data);
     graph.render();
-    const item = graph.getNodes()[0];
-    expect(item.getModel().x).not.toBe(null);
-    expect(item.getModel().x).not.toBe(undefined);
-    expect(item.getModel().y).not.toBe(null);
-    expect(item.getModel().y).not.toBe(undefined);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      const item = graph.getNodes()[0];
+      expect(item.getModel().x).not.toBe(null);
+      expect(item.getModel().x).not.toBe(undefined);
+      expect(item.getModel().y).not.toBe(null);
+      expect(item.getModel().y).not.toBe(undefined);
+      graph.destroy();
+    });
   });
   it('change layout', () => {
     const graph = new Graph({
@@ -1576,8 +1592,11 @@ describe('layouts', () => {
     graph.updateLayout({
       type: 'force',
     });
-    expect(graph.get('layoutController').layoutMethod.type).toBe('force');
-    graph.destroy();
+
+    Promise.resolve().then(() => {
+      expect(graph.get('layoutController').layoutMethods[0].type).toBe('force');
+      graph.destroy();
+    });
   });
   it('subgraph layout', () => {
     const graph = new Graph({
@@ -1979,7 +1998,7 @@ describe('plugins', () => {
       graph.destroy();
 
       done();
-    }, 100);
+    }, 200);
   });
   it('minimap delegate', () => {
     const minimap2 = new G6.Minimap({

@@ -137,10 +137,12 @@ describe('radial', () => {
       ],
     });
     graph.render();
-    const nodeModel = graph.getNodes()[0].getModel();
-    expect(nodeModel.x).toEqual(250);
-    expect(nodeModel.y).toEqual(250);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      const nodeModel = graph.getNodes()[0].getModel();
+      expect(nodeModel.x).toEqual(250);
+      expect(nodeModel.y).toEqual(250);
+      graph.destroy();
+    });
   });
 
   it('focus on descrete node, prevent overlapping', () => {
