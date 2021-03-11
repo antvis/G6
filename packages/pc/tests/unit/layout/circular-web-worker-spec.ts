@@ -22,6 +22,8 @@ describe('circular layout(web worker)', () => {
       defaultNode: { size: 10 },
     });
     graph.data(data);
+    graph.render();
+
     graph.on('afterlayout', () => {
       const width = graph.get('width');
       const height = graph.get('height');
@@ -33,7 +35,6 @@ describe('circular layout(web worker)', () => {
       graph.destroy();
       done();
     });
-    graph.render();
   });
 
   it('circular(web worker) counterclockwise, and fixed radius, start angle, end angle', done => {
@@ -53,6 +54,8 @@ describe('circular layout(web worker)', () => {
       defaultNode: { size: 10 },
     });
     graph.data(data);
+    graph.render();
+
     graph.on('afterlayout', () => {
       const pos = (200 * Math.sqrt(2)) / 2;
       expect(mathEqual(data.nodes[0].x, 250 + pos)).toEqual(true);
@@ -60,6 +63,5 @@ describe('circular layout(web worker)', () => {
       graph.destroy();
       done();
     });
-    graph.render();
   });
 });

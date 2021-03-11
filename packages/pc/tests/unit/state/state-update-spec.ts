@@ -197,31 +197,34 @@ describe('force layout', () => {
 
     graph.data(data);
     graph.render();
-    const edge = graph.getEdges()[0];
 
-    graph.emit('edge:mouseenter', { item: edge });
-    const keyShape = edge.getKeyShape();
-    const text = edge.getContainer().find((e) => e.get('name') === 'text-shape');
-    expect(keyShape.attr('stroke')).toBe('rgb(95, 149, 255)');
-    expect(text.attr('x')).not.toBe(200);
+    graph.on('afterlayout', () => {
+      const edge = graph.getEdges()[0];
 
-    graph.emit('edge:mouseleave', { item: edge });
-    expect(keyShape.attr('stroke')).toBe('#f00');
-    expect(text.attr('x')).not.toBe(200);
+      graph.emit('edge:mouseenter', { item: edge });
+      const keyShape = edge.getKeyShape();
+      const text = edge.getContainer().find((e) => e.get('name') === 'text-shape');
+      expect(keyShape.attr('stroke')).toBe('rgb(95, 149, 255)');
+      expect(text.attr('x')).not.toBe(200);
 
-    graph.emit('edge:mouseenter', { item: edge });
-    graph.emit('edge:click', { item: edge });
-    expect(keyShape.attr('stroke')).toBe('rgb(95, 149, 255)');
-    expect(text.attr('x')).not.toBe(200);
-    expect(keyShape.attr('lineWidth')).toBe(2);
+      graph.emit('edge:mouseleave', { item: edge });
+      expect(keyShape.attr('stroke')).toBe('#f00');
+      expect(text.attr('x')).not.toBe(200);
 
-    graph.emit('edge:mouseleave', { item: edge });
-    graph.emit('canvas:click', {});
-    expect(keyShape.attr('lineWidth')).toBe(1);
-    expect(text.attr('x')).not.toBe(200);
-    expect(keyShape.attr('stroke')).toBe('#f00');
+      graph.emit('edge:mouseenter', { item: edge });
+      graph.emit('edge:click', { item: edge });
+      expect(keyShape.attr('stroke')).toBe('rgb(95, 149, 255)');
+      expect(text.attr('x')).not.toBe(200);
+      expect(keyShape.attr('lineWidth')).toBe(2);
 
-    graph.destroy();
+      graph.emit('edge:mouseleave', { item: edge });
+      graph.emit('canvas:click', {});
+      expect(keyShape.attr('lineWidth')).toBe(1);
+      expect(text.attr('x')).not.toBe(200);
+      expect(keyShape.attr('stroke')).toBe('#f00');
+
+      graph.destroy();
+    });
   });
 
   it('acitvate-relations wrong label position', () => {

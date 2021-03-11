@@ -156,11 +156,13 @@ describe('preset layout', () => {
     });
     graph.data(data);
     graph.render();
-    expect(graph.getNodes()[0].getModel().x).not.toEqual(100);
-    expect(graph.getNodes()[0].getModel().y).not.toEqual(30);
-    expect(graph.getNodes()[1].getModel().x).not.toEqual(150);
-    expect(graph.getNodes()[1].getModel().y).not.toEqual(80);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      expect(graph.getNodes()[0].getModel().x).not.toEqual(100);
+      expect(graph.getNodes()[0].getModel().y).not.toEqual(30);
+      expect(graph.getNodes()[1].getModel().x).not.toEqual(150);
+      expect(graph.getNodes()[1].getModel().y).not.toEqual(80);
+      graph.destroy();
+    });
   });
   it('update layout from undefined layout to force layout', () => {
     const graph = new G6.Graph({
