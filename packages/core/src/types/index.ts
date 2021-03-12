@@ -121,6 +121,8 @@ export interface LayoutConfig {
   type?: string;
   gpuEnabled?: boolean;
   workerEnabled?: boolean;
+  // 只有当 workerEnabled 为 true 时才生效
+  workerScriptURL?: string;
   onLayoutEnd?: () => void;
   [key: string]: unknown;
 }
