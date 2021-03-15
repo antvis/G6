@@ -21,7 +21,14 @@
   },
   "license": "MIT",
   "author": "https://github.com/orgs/antvis/people",
-  "files": ["package.json", "es", "lib", "dist", "LICENSE", "README.md"],
+  "files": [
+    "package.json",
+    "es",
+    "lib",
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
   "main": "lib/index.js",
   "miniprogram": "dist",
   "module": "es/index.js",
@@ -52,8 +59,13 @@
     }
   },
   "lint-staged": {
-    "**/*.{js,jsx,ts,tsx}": ["npm run lint-staged:js", "prettier --write"],
-    "**/*.{less,md,json}": ["prettier --write"]
+    "**/*.{js,jsx,ts,tsx}": [
+      "npm run lint-staged:js",
+      "prettier --write"
+    ],
+    "**/*.{less,md,json}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@ant-design/colors": "^5.0.1",
