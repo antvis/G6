@@ -21,7 +21,14 @@
   },
   "license": "MIT",
   "author": "https://github.com/orgs/antvis/people",
-  "files": ["package.json", "es", "lib", "dist", "LICENSE", "README.md"],
+  "files": [
+    "package.json",
+    "es",
+    "lib",
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
   "main": "lib/index.js",
   "module": "es/index.js",
   "browser": "dist/g6.min.js",
@@ -51,8 +58,13 @@
     }
   },
   "lint-staged": {
-    "**/*.{js,jsx,ts,tsx}": ["npm run lint-staged:js", "prettier --write"],
-    "**/*.{less,md,json}": ["prettier --write"]
+    "**/*.{js,jsx,ts,tsx}": [
+      "npm run lint-staged:js",
+      "prettier --write"
+    ],
+    "**/*.{less,md,json}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@ant-design/colors": "^5.0.1",
@@ -62,6 +74,7 @@
     "@antv/g-base": "^0.5.1",
     "@antv/g-canvas": "^0.5.2",
     "@antv/g-math": "^0.1.1",
+    "@antv/g-mobile": "^0.0.1-beta.2",
     "@antv/g6-core": "*",
     "@antv/hierarchy": "^0.6.2",
     "@antv/layout": "0.1.7-beta.1",
