@@ -742,10 +742,10 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   }
 
   /**
-   * 将视口坐标转换为屏幕坐标
-   * @param {number} x 视口x坐标
-   * @param {number} y 视口y坐标
-   * @return {Point} 视口坐标
+   * 将绘制坐标转换为屏幕坐标
+   * @param {number} x 绘制坐标 x 
+   * @param {number} y 绘制坐标 y 
+   * @return {Point} 绘制坐标
    */
   public getClientByPoint(x: number, y: number): Point {
     const viewController: ViewController = this.get('viewController');
@@ -753,10 +753,10 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   }
 
   /**
-   * 将画布坐标转换为视口坐标
+   * 将画布坐标转换为绘制坐标
    * @param {number} canvasX 画布 x 坐标
    * @param {number} canvasY 画布 y 坐标
-   * @return {object} 视口坐标
+   * @return {object} 绘制坐标
    */
   public getPointByCanvas(canvasX: number, canvasY: number): Point {
     const viewController: ViewController = this.get('viewController');
@@ -764,14 +764,34 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   }
 
   /**
-   * 将视口坐标转换为画布坐标
-   * @param {number} x 视口 x 坐标
-   * @param {number} y 视口 y 坐标
+   * 将绘制坐标转换为画布坐标
+   * @param {number} x 绘制坐标 x 
+   * @param {number} y 绘制坐标 y 
    * @return {object} 画布坐标
    */
   public getCanvasByPoint(x: number, y: number): Point {
     const viewController: ViewController = this.get('viewController');
     return viewController.getCanvasByPoint(x, y);
+  }
+
+  /**
+   * 获取图内容的中心绘制坐标
+   * @return {object} 中心绘制坐标
+   */
+  public getGraphCenterPoint(): Point {
+    const bbox = this.get('group').getCanvasBBox();
+    return {
+      x: (bbox.minX + bbox.maxX) / 2,
+      y: (bbox.minY + bbox.maxY) / 2,
+    }
+  }
+
+  /**
+   * 获取视口中心绘制坐标
+   * @return {object} 视口中心绘制坐标
+   */
+  public getViewPortCenterPoint(): Point {
+    return this.getPointByCanvas(this.get('width') / 2, this.get('height') / 2);
   }
 
   /**
@@ -1868,7 +1888,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * 导出图数据
    * @return {object} data
    */
-  public save(): TreeGraphData | GraphData {
+  public save(): GraphData | TreeGraphData {
     const nodes: NodeConfig[] = [];
     const edges: EdgeConfig[] = [];
     const combos: ComboConfig[] = [];
@@ -2692,22 +2712,23 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   public getNodeDegree(
     node: string | INode,
     type: 'in' | 'out' | 'total' | 'all' | undefined = undefined,
+    refresh: boolean = false
   ): Number | Object {
     let item = node as INode;
     if (isString(node)) {
       item = this.findById(node) as INode;
     }
     let degrees = this.get('degrees');
-    if (!degrees) {
-      degrees = getDegree(this.get('data'));
+    if (!degrees || refresh) {
+      degrees = getDegree(this.save() as any);
+      this.set('degrees', degrees);
     }
-    this.set('degrees', degrees);
     const nodeDegrees = degrees[item.getID()];
 
     let res = 0;
     // 如果是通过 addItem 后面新增加的节点，此时它的所有度数都为 0
     if (!nodeDegrees) {
-      return res
+      return 0
     }
 
     switch (type) {

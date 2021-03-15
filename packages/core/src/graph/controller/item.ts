@@ -624,6 +624,7 @@ export default class ItemController {
     item.changeVisibility(visible);
 
     if (item.getType && item.getType() === NODE) {
+
       const edges = (item as INode).getEdges();
       each(edges, (edge: IEdge) => {
         // 若隐藏节点，则将与之关联的边也隐藏

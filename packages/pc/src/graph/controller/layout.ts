@@ -113,7 +113,7 @@ export default class LayoutController extends AbstractLayout {
     const { graph } = this;
 
     this.data = this.setDataFromGraph();
-    const { nodes } = this.data;
+    const { nodes, hiddenNodes } = this.data;
 
     if (!nodes) {
       return false;
@@ -140,7 +140,9 @@ export default class LayoutController extends AbstractLayout {
     }
 
     graph.emit('beforelayout');
-    const allHavePos = this.initPositions(layoutCfg.center, nodes);
+    this.initPositions(layoutCfg.center, nodes);
+    // init hidden ndoes
+    this.initPositions(layoutCfg.center, hiddenNodes);
 
     let layoutType = this.layoutType;
     let isGPU = false;

@@ -552,6 +552,7 @@ export interface GraphData {
   nodes?: NodeConfig[];
   edges?: EdgeConfig[];
   combos?: ComboConfig[];
+  [key: string]: any;
 }
 
 export interface GraphAnimateConfig extends AnimateCfg {

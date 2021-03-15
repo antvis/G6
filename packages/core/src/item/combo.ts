@@ -67,7 +67,6 @@ export default class Combo extends Node implements ICombo {
     const oriY = cacheBBox.x;
 
     if (cacheSize) {
-      cacheSize.r = Math.max(cacheSize.r, bbox.width);
       cacheSize.width = Math.max(cacheSize.width, bbox.width);
       cacheSize.height = Math.max(cacheSize.height, bbox.height);
       const type: string = keyShape.get('type');

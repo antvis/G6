@@ -66,10 +66,10 @@ const data = {
   ],
 };
 const tooltip = new G6.Tooltip({
-  // offsetX and offsetY include the padding of the parent container
-  // offsetX 与 offsetY 需要加上父容器的 padding
   offsetX: 10,
-  offsetY: 50 + 10,
+  offsetY: 10,
+  // v4.2.1 起支持配置 trigger，click 代表点击后出现 tooltip。默认为 mouseenter
+  trigger: 'click',
   // the types of items that allow the tooltip show up
   // 允许出现 tooltip 的 item 类型
   itemTypes: ['node', 'edge'],

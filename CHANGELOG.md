@@ -1,5 +1,17 @@
 # ChangeLog
 
+#### 4.2.1
+- fix: circle combo edge linking position problem;
+- fix: drag minimap viewport with forbidden icon in chrome on windows;
+- fix: show node without node position problem;
+- fix: addItem and getNodeDgree with wrong result problem;
+- fix: timebar data filtering problem;
+- fix: update endArrow to be false and set state problem;
+- feat: pass comb and comboEdge data for layout;
+- feat: tooltip with fixToItem to avoid following the mouse when moving;
+- feat: getViewPortCenterPoint and getGraphCenterPoint API;
+- feat: tooltip with trigger configuration, supports mouseenter and click;
+
 #### 4.2.0
 - fix: combo edge link position problem;
 - fix: activate-relations with combo and combo edges problem;
