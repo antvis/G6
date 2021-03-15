@@ -91,35 +91,52 @@ export default abstract class LayoutController {
   // 从 this.graph 获取数据
   public setDataFromGraph(): GraphData {
     const nodes = [];
+    const hiddenNodes = [];
     const edges = [];
+    const hiddenEdges = [];
+    const comboEdges = [];
     const combos = [];
+    const hiddenCombos = [];
     const nodeItems = this.graph.getNodes();
     const edgeItems = this.graph.getEdges();
     const comboItems = this.graph.getCombos();
     const nodeLength = nodeItems.length;
     for (let i = 0; i < nodeLength; i++) {
       const nodeItem = nodeItems[i];
-      if (!nodeItem.isVisible()) continue;
+      if (!nodeItem || nodeItem.destroyed) continue;
       const model = nodeItem.getModel();
+      if (!nodeItem.isVisible()) {
+        hiddenNodes.push(model);
+        continue;
+      }
       nodes.push(model);
     }
 
     const edgeLength = edgeItems.length;
     for (let i = 0; i < edgeLength; i++) {
       const edgeItem = edgeItems[i];
-      if (!edgeItem || edgeItem.destroyed || !edgeItem.isVisible()) continue;
+      if (!edgeItem || edgeItem.destroyed) continue;
       const model = edgeItem.getModel();
+      if (!edgeItem.isVisible()) {
+        hiddenEdges.push(model);
+        continue;
+      }
       if (!model.isComboEdge) edges.push(model);
+      else comboEdges.push(model);
     }
 
     const comboLength = comboItems.length;
     for (let i = 0; i < comboLength; i++) {
       const comboItem = comboItems[i];
-      if (comboItem.destroyed || !comboItem.isVisible()) continue;
+      if (comboItem.destroyed ) continue;
       const model = comboItem.getModel();
+      if (!comboItem.isVisible()) {
+        hiddenEdges.push(model);
+        continue;
+      }
       combos.push(model);
     }
-    return { nodes, edges, combos } as GraphData;
+    return { nodes, hiddenNodes, edges, hiddenEdges, combos, hiddenCombos, comboEdges } as GraphData;
   }
 
   // 重新布局
@@ -182,19 +199,21 @@ export default abstract class LayoutController {
     if (!nodes) {
       return false;
     }
-    let allHavePos = true;
+    const nodeLength = nodes ? nodes.length : 0;
+    if (!nodeLength) return;
+
     const width = graph.get('width') * 0.85;
     const height = graph.get('height') * 0.85;
-    const nodeNum = nodes.length;
-    const horiNum = Math.ceil(Math.sqrt(nodeNum) * (width / height));
-    const vertiNum = Math.ceil(nodeNum / horiNum);
+    const horiNum = Math.ceil(Math.sqrt(nodeLength) * (width / height));
+    const vertiNum = Math.ceil(nodeLength / horiNum);
     let horiGap = width / (horiNum - 1);
     let vertiGap = height / (vertiNum - 1);
     if (!isFinite(horiGap) || !horiGap) horiGap = 0;
     if (!isFinite(vertiGap) || !horiGap) vertiGap = 0;
     const beginX = center[0] - width / 2;
     const beginY = center[1] - height / 2;
-    const nodeLength = nodes.length;
+
+    let allHavePos = true;
     for (let i = 0; i < nodeLength; i++) {
       const node = nodes[i];
       if (isNaN(node.x)) {
@@ -206,6 +225,7 @@ export default abstract class LayoutController {
         node.y = Math.floor(i / horiNum) * vertiGap + beginY;
       }
     }
+
     return allHavePos;
   }
 

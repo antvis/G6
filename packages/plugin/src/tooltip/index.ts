@@ -1,5 +1,5 @@
 import { modifyCSS, createDom } from '@antv/dom-util';
-import { isString } from '@antv/util';
+import { isArray, isString } from '@antv/util';
 import insertCss from 'insert-css';
 import { IG6GraphEvent, Item, IAbstractGraph as IGraph } from '@antv/g6-core';
 import Base, { IPluginBaseConfig } from '../base';
@@ -25,12 +25,13 @@ insertCss(`
 
 interface TooltipConfig extends IPluginBaseConfig {
   getContent?: (evt?: IG6GraphEvent) => HTMLDivElement | string;
-  // offsetX 与 offsetY 需要加上父容器的 padding
   offsetX?: number;
   offsetY?: number;
   shouldBegin?: (evt?: IG6GraphEvent) => boolean;
   // 允许出现 tooltip 的 item 类型
   itemTypes?: string[];
+  trigger?: 'mouseenter' | 'click';
+  fixToNode?: [number, number] | undefined;
 }
 
 export default class Tooltip extends Base {
@@ -51,11 +52,24 @@ export default class Tooltip extends Base {
         return true;
       },
       itemTypes: ['node', 'edge', 'combo'],
+      trigger: 'mouseenter',
+      fixToNode: undefined
     };
   }
 
   // class-methods-use-this
   public getEvents() {
+    if (this.get('trigger') === 'click') {
+      return {
+        'node:click': 'onClick',
+        'edge:click': 'onClick',
+        'combo:click': 'onClick',
+        'canvas:click': 'onMouseLeave',
+        afterremoveitem: 'onMouseLeave',
+        contextmenu: 'onMouseLeave',
+        'drag': 'onMouseLeave',
+      };
+    }
     return {
       'node:mouseenter': 'onMouseEnter',
       'node:mouseleave': 'onMouseLeave',
@@ -86,6 +100,24 @@ export default class Tooltip extends Base {
     modifyCSS(tooltip, { position: 'absolute', visibility: 'hidden', display: 'none' });
     container.appendChild(tooltip);
     this.set('tooltip', tooltip);
+  }
+
+  onClick(e: IG6GraphEvent) {
+    const itemTypes = this.get('itemTypes');
+    if (e.item && e.item.getType && itemTypes.indexOf(e.item.getType()) === -1) return;
+
+    const { item } = e;
+    const graph: IGraph = this.get('graph');
+    // 若与上一次同一 item，隐藏该 tooltip
+    if (this.currentTarget === item) {
+      this.currentTarget = null;
+      this.hideTooltip();
+      graph.emit('tooltipchange', { item: e.item, action: 'hide' });
+    } else {
+      this.currentTarget = item;
+      this.showTooltip(e);
+      graph.emit('tooltipchange', { item: e.item, action: 'show' });
+    }
   }
 
   onMouseEnter(e: IG6GraphEvent) {
@@ -161,30 +193,45 @@ export default class Tooltip extends Base {
     const offsetY = this.get('offsetY') || 0;
 
     // const mousePos = graph.getPointByClient(e.clientX, e.clientY);
-    const point = graph.getPointByClient(e.clientX, e.clientY);
-    let { x, y } = graph.getCanvasByPoint(point.x, point.y);
+    let point = graph.getPointByClient(e.clientX, e.clientY);
 
-    // let x = mousePos.x + offsetX;
-    // let y = mousePos.y + offsetY;
-    // let x = e.x + offsetX;
-    // let y = e.y + offsetY;
-    x += offsetX;
-    y += offsetY;
+    const fixToNode = this.get('fixToNode');
+    const { item } = e;
+    if (item.getType && item.getType() === 'node' && fixToNode && isArray(fixToNode) && fixToNode.length >= 2) {
+      const itemBBox = item.getBBox();
+      point = {
+        x: itemBBox.minX + itemBBox.width * fixToNode[0],
+        y: itemBBox.minY + itemBBox.height * fixToNode[1]
+      };
+    }
+    
+    const { x, y } = graph.getCanvasByPoint(point.x, point.y);
 
-    const bbox = tooltip.getBoundingClientRect();
-    if (x + bbox.width > width) {
-      x = x - bbox.width - offsetX;
+    const graphContainer = graph.getContainer();
+
+    const res = {
+      x: x + graphContainer.offsetLeft + offsetX,
+      y: y + graphContainer.offsetTop + offsetY
     }
 
-    if (y + bbox.height > height) {
-      y = y - bbox.height - offsetY;
+    // 先修改为 visible 方可正确计算 bbox
+    modifyCSS(tooltip, {
+      visibility: 'visible',
+      display: 'unset',
+    });
+    const bbox = tooltip.getBoundingClientRect();
+    
+    if (x + bbox.width + offsetX > width) {
+      res.x -= bbox.width + offsetX;
+    }
+
+    if (y + bbox.height + offsetY > height) {
+      res.y -= bbox.height + offsetY;
     }
 
     modifyCSS(tooltip, {
-      left: `${x}px`,
-      top: `${y}px`,
-      visibility: 'visible',
-      display: 'unset',
+      left: `${res.x}px`,
+      top: `${res.y}px`,
     });
   }
 

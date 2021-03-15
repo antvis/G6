@@ -272,7 +272,7 @@ export default class ItemBase implements IItemBase {
           Object.keys(shapeAttrs).forEach((key) => {
             const value = shapeAttrs[key];
             // 如果是对象且不是 arrow，则是其他 shape 的样式
-            if (isPlainObject(value) && ARROWS.indexOf(name) === -1) return;
+            // if (isPlainObject(value) && ARROWS.indexOf(name) === -1) return;
             if (keyShapeStateStyles[key] !== value) {
               if (keyShapeName) styles[keyShapeName][key] = value;
               else styles[key] = value;

@@ -155,9 +155,9 @@ const singleEdge: ShapeOptions = {
       };
     }
     if (currentAttr.startArrow && previousStyle.startArrow === false) {
-      cfg.style.startArrow = {
-        path: '',
-      };
+      // cfg.style.startArrow = {
+      //   path: '',
+      // };
     }
     const path = (this as any).getPath(points, routeCfg);
     const style = mix(

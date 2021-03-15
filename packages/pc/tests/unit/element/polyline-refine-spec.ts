@@ -95,6 +95,119 @@ describe('polyline edge', () => {
     expect(path1[5][2]).toBe(25.5);
   });
 
+
+  it.only('polyline with radius and circle ellipse node', () => {
+
+    const data2 = {
+      nodes: [
+        {
+          id: '1',
+        },
+        {
+          id: '2',
+        },
+        {
+          id: '3',
+        },
+        {
+          id: '4',
+        },
+        {
+          id: '5',
+        },
+        {
+          id: '6',
+        },
+        {
+          id: '7',
+        },
+        {
+          id: '8',
+        },
+      ],
+      edges: [
+        {
+          source: '1',
+          target: '2',
+        },
+        {
+          source: '1',
+          target: '3',
+        },
+        {
+          source: '2',
+          target: '4',
+        },
+        {
+          source: '3',
+          target: '4',
+        },
+        {
+          source: '4',
+          target: '5',
+        },
+        {
+          source: '5',
+          target: '6',
+        },
+        {
+          source: '6',
+          target: '7',
+        },
+        {
+          source: '6',
+          target: '8',
+        },
+      ],
+    };
+
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [
+          {
+            type: 'drag-node',
+          },
+          'zoom-canvas',
+          'drag-canvas',
+        ],
+      },
+      defaultEdge: {
+        type: 'polyline',
+        // routeCfg: {
+        //   simple: true,
+        // },
+        style: {
+          radius: 20,
+          offset: 45,
+          endArrow: true,
+        },
+      },
+      defaultNode: {
+        type: 'circle',
+        style: {
+          opacity: 0.1,
+        },
+      },
+    });
+    graph.data(data2);
+    graph.render();
+
+    // const path1 = graph.getEdges()[0].getKeyShape().attr('path');
+    // expect(path1[1][1]).toBe(150);
+    // expect(path1[1][2]).toBe(130.5);
+    // expect(path1[2][1]).toBe(273.5);
+    // expect(path1[2][2]).toBe(130.5);
+    // expect(path1[3][1]).toBe(273.5);
+    // expect(path1[3][2]).toBe(20.5);
+    // expect(path1[4][1]).toBe(208);
+    // expect(path1[4][2]).toBe(20.5);
+    // expect(path1[5][1]).toBe(208);
+    // expect(path1[5][2]).toBe(25.5);
+  });
+  
   xit('polyline edge performance exam', () => {
     const graph = new Graph({
       container: div,

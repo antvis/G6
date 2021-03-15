@@ -36,7 +36,7 @@ const Graph = new G6.Graph({
 
 The size of the Container DOM is 550\*500. The origin of the canvasX/canvasY system is at the left-top of the Container DOM, and the right-bottom point of the Container DOM is (550, 500).
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1wNDQI9sgRoAAAAAAAAAAABkARQnAQ' alt='img' width='500'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1wNDQI9sgRoAAAAAAAAAAABkARQnAQ' alt='img' width='1000'/>
 
 ### pointX/pointY
 
@@ -54,7 +54,7 @@ The three systems in the figures of this section are colored with grey, blue, an
 
 The figure below shows the case without transfromation, that is, the tranfromational matrix is a unit matrix. We can see from the figure that the canvasX/canvasY and pointX/pointY are overlapped, including the scale of the axes and the origin. The canvasX/canvasY and pointX/pointY coordinates of the root node's position, tagged by black point, of the graph are the same. And the origin of the clientX/clientY is at the left-top of the broswer's content, and the black point's clientX/clientY coordinate is equal to the canvasX/canvasY or pointX/pointY plus the left and top distance to the browser's border.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Dzz_R5yJEooAAAAAAAAAAABkARQnAQ' alt='img' width='500'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Dzz_R5yJEooAAAAAAAAAAABkARQnAQ' alt='img' width='1000'/>
 
 > Figure 1: three coordinate systems when the graph has no transformation.
 
@@ -75,7 +75,7 @@ The graph is zoomed with scale `2` means the pointX/pointY system is zoomed with
 
 In the same time, canvasX/canvasY and clientX/clientY coordinate systems stay unchanged. In the other word, (90, 0) in canvasX/canvasY is (45, 0) in the pointX/pointY, (0, 250) in canvasX/canvasY is (0, 125) in pointX/pointY. But the corresponding values in clientX/clientY is the values in canvasX/canvasY plus the left and top distances from the Container DOM to the borders of the browser.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dbZBQKvdhYAAAAAAAAAAAABkARQnAQ' alt='img' width='500'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dbZBQKvdhYAAAAAAAAAAAABkARQnAQ' alt='img' width='1000'/>
 
 > Figure 2: Three coordinate systems when the graph is zoomed.
 
@@ -98,7 +98,7 @@ Similar the previous version, translating the graph is actrually translating the
 
 In the sametime, canvasX/canvasY and clientX/clientY system stay unchanged. E.g., (90, 0) of canvasX/canvasY corresponds to ((90-50)/2=20, 0) in pointX/pointY system; (0, 250) of canvasX/canvasY corresponds to (0, (250-50)/2=100) in pointX/pointY system. But the corresponding values in clientX/clientY is still the values in canvasX/canvasY plus the left and top distances from the Container DOM to the borders of the browser.
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*s35JSa1VxTsAAAAAAAAAAABkARQnAQ' alt='img' width='500'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*s35JSa1VxTsAAAAAAAAAAABkARQnAQ' alt='img' width='1000'/>
 
 > Figure 3: Three coordinate systems of zoomed and translated graph.
 

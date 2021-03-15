@@ -27,7 +27,8 @@ G6.registerBehavior('double-finger-drag-canvas', {
       });
     } else {
       const x = ev.deltaX || ev.movementX;
-      const y = ev.deltaY || ev.movementY || (-ev.wheelDelta * 125) / 3;
+      let y = ev.deltaY || ev.movementY;
+      if (!y && navigator.userAgent.indexOf('Firefox') > -1) y = (-ev.wheelDelta * 125) / 3
       graph.translate(-x, -y);
     }
     ev.preventDefault();

@@ -41,7 +41,7 @@ The size of the node.
 
 <description> _Array_ **optional** </description>
 
-The interactions of the node and related edges. It can be null. [0, 0] represents the anchor on the left top; [1, 1]represents the anchor ont he right bottom.
+The interactions of the node and related edges. It can be null. [0, 0] represents the anchor on the left top; [1, 1] represents the anchor ont he right bottom.
 
 ### style
 

@@ -500,6 +500,12 @@ export default class MiniMap extends Base {
       '<div class="g6-minimap-container" style="position: relative;"></div>',
     );
     container.appendChild(containerDOM);
+    containerDOM.addEventListener('dragenter', e => {
+      e.preventDefault();
+    })
+    containerDOM.addEventListener('dragover', e => {
+      e.preventDefault();
+    })
 
     let canvas;
     const renderer = graph.get('renderer');

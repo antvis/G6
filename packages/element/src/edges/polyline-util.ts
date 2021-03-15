@@ -447,7 +447,6 @@ export const getPathWithBorderRadiusByPolyline = (
   points: PolyPoint[],
   borderRadius: number,
 ): string => {
-  // TODO
   const pathSegments: string[] = [];
   const startPoint = points[0];
   pathSegments.push(`M${startPoint.x} ${startPoint.y}`);
