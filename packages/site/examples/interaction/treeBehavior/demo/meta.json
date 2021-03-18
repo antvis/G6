@@ -13,6 +13,14 @@
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EU_yRa8hMJUAAAAAAAAAAABkARQnAQ"
     },
     {
+      "filename": "collapseSlibing.js",
+      "title": {
+        "zh": "合并同类兄弟节点",
+        "en": "Collapse the Sibling Nodes"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ugs9Qad-bQMAAAAAAAAAAAAAARQnAQ"
+    },
+    {
       "filename": "changeData.js",
       "title": {
         "zh": "使用 changeData",

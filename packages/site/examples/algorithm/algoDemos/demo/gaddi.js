@@ -121,6 +121,9 @@ const patternGraph = new G6.Graph({
     style: {
       endArrow: true
     }
+  },
+  layout: {
+    type: 'circular'
   }
 })
 patternGraph.data(pattern);
