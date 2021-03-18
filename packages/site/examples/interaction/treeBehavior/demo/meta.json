@@ -31,8 +31,8 @@
     {
       "filename": "loadTreeData.js",
       "title": {
-        "zh": "使用 refreshLayout",
-        "en": "Using refreshLayout"
+        "zh": "使用 addChild",
+        "en": "Using addChild"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wc1-QaqOPsgAAAAAAAAAAABkARQnAQ"
     }
