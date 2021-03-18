@@ -13,8 +13,8 @@ order: 1
 
 共演示了两种动态添加数据的方式：
 
-- 使用 `graph.refreshLayout` ；
-- 使用 `graph.changeData`。
+- 使用 `graph.changeData`；
+- 使用 `graph.addChild`。
 
 ## 合并同类兄弟节点
 

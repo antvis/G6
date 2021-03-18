@@ -12,8 +12,8 @@ Move a subtree to a new parent by dragging the root node of the subtree. Drag th
 
 Click the nodes on the tree graph to onload multiple data. The following demos show two ways to load data:
 
-- `graph.refreshLayout`;
-- `graph.changeData`.
+- `graph.changeData`;
+- `graph.addChild`;
 
 ## Collapse the Sibling Nodes
 
