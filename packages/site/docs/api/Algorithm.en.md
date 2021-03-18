@@ -9,6 +9,84 @@ If you are interested in data structures and algorithms, you can learn from [jav
 
 G6 has added graph algorithms since V3.5. In future versions, we will continue to enrich the built-in algorithms.
 
+
+### GADDI Graph Pattern Macthing
+
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>New Feature in「v4.2.2」</strong></span> 
+
+[GADDI Graph Pattern Macthing]() supports structure and semantic matching. Give a graph data and a pattern data with specific semantic clustering infomation, it returns the same and similar sub structures on the origin graph data. [DEMO](/en/examples/algorithm/algoDemos#gaddi)。
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ahYwQJtk00EAAAAAAAAAAAAAARQnAQ' alt="img" width='500px'>
+
+**Parameters**
+
+| Name        | Type                | Required | Description                      |
+| ----------- | ------------------- | -------- | ------------------- |
+| graphData   | GraphData           | true     | The origin graph data       |
+| pattern | GraphData              | true     | The pattern graph data to be matched |
+| k   | number | false    | The parameter for GADDI, it will be calculated automatically when it is `undefined`    |
+| length   | number | false    | The parameter for GADDI, it will be calculated automatically when it is `undefined` |
+| nodeLabelProp   | number | false    | The name of the cluster property in the nodes data |
+| edgeLabelProp   | number | false    | The name of the cluster property in the edges data |
+
+
+**Usage**
+
+```javascript
+import G6, { Algorithm } from '@antv/g6'
+const graph = new G6.Graph({
+  container: 'container',
+  width: 500,
+  height: 500
+})
+
+const graphData = {
+  nodes: [
+    { id: 'A', cluster: 'nc1' },
+    { id: 'B', cluster: 'nc1' },
+    { id: 'C', cluster: 'nc2' },
+    { id: 'D', cluster: 'nc1' },
+    { id: 'E', cluster: 'nc3' },
+  ],
+  edges: [
+    { source: 'A', target: 'B', cluster: 'ec1' },
+    { source: 'B', target: 'C', cluster: 'ec2' },
+    { source: 'A', target: 'D', cluster: 'ec1' },
+    { source: 'A', target: 'E', cluster: 'ec2' },
+  ]
+}
+
+graph.data(data)
+graph.render()
+
+const { GADDI } = Algorithm;
+const patternData = {
+  nodes: [
+    { id: 'pn1', cluster: 'nc1' },
+    { id: 'pn2', cluster: 'nc1' },
+    { id: 'pn3', cluster: 'nc3' },
+  ],
+  edges: [
+    { source: 'pn1', target: 'pn2', cluster: 'ec1' },
+    { source: 'pn1', target: 'pn3', cluster: 'ec2' },
+  ]
+}
+const resultMatches = GADDI(graphData, patternData, true, undefined, undefined, 'cluster', 'cluster');
+
+console.log(resultMatches);
+  // output:
+  // [{
+  //   nodes: [
+  //     { id: 'A', cluster: 'nc1' },
+  //     { id: 'B', cluster: 'nc1' },
+  //     { id: 'E', cluster: 'nc3' },],
+  //   edges: [
+  //     { source: 'A', target: 'B', cluster: 'ec1' },
+  //     { source: 'A', target: 'E', cluster: 'ec2' }
+  //   ]
+  // }]
+```
+
 ### depthFirstSearch
 
 [Depth first search](https://en.wikipedia.org/wiki/Depth-first_search) (DFS) is an algorithm for traversing or searching tree or graph data structures. One starts at the root (selecting some arbitrary node as the root in the case of a graph) and explores as far as possible along each branch before backtracking.

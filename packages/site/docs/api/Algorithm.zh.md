@@ -1,5 +1,5 @@
 ---
-title: 图算法
+title: 图算法 Algorithm
 order: 15
 ---
 
@@ -8,6 +8,83 @@ order: 15
 如果你对数据结构及算法感兴趣，可以通过 [javascript-algorithms](https://github.com/trekhleb/javascript-algorithms) 来进一步学习。
 
 G6 从 V3.5 版本开始加入了图算法，在以后版本更新中，我们会不断丰富内置的算法。
+
+### GADDI 图模式匹配
+
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>「v4.2.2」新特性</strong></span> 
+
+[GADDI 图模式匹配]()算法是一种支持结构和语义的图模式匹配算法，给定一个模式，可通过在算法在原数据上查找结果和语义相同、相似的结构。[DEMO](/zh/examples/algorithm/algoDemos#gaddi)。
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ahYwQJtk00EAAAAAAAAAAAAAARQnAQ' alt="img" width='500px'>
+
+**参数**
+
+| 名称        | 类型                | 是否必选 | 描述                |
+| ----------- | ------------------- | -------- | ------------------- |
+| graphData   | GraphData           | true     | 原图数据       |
+| pattern | GraphData              | true     | 需要查找的模式图数据 |
+| k   | number | false    | 匹配算法的参数，设置为 `undefined` 则自动设置      |
+| length   | number | false    | 匹配算法的参数，设置为 `undefined` 则自动设置      |
+| nodeLabelProp   | number | false    | 节点聚类信息的属性名，默认为 `'cluster'` |
+| edgeLabelProp   | number | false    | 边聚类信息的属性名，默认为 `'cluster'` |
+
+
+**用法**
+
+```javascript
+import G6, { Algorithm } from '@antv/g6'
+const graph = new G6.Graph({
+  container: 'container',
+  width: 500,
+  height: 500
+})
+
+const graphData = {
+  nodes: [
+    { id: 'A', cluster: 'nc1' },
+    { id: 'B', cluster: 'nc1' },
+    { id: 'C', cluster: 'nc2' },
+    { id: 'D', cluster: 'nc1' },
+    { id: 'E', cluster: 'nc3' },
+  ],
+  edges: [
+    { source: 'A', target: 'B', cluster: 'ec1' },
+    { source: 'B', target: 'C', cluster: 'ec2' },
+    { source: 'A', target: 'D', cluster: 'ec1' },
+    { source: 'A', target: 'E', cluster: 'ec2' },
+  ]
+}
+
+graph.data(data)
+graph.render()
+
+const { GADDI } = Algorithm;
+const patternData = {
+  nodes: [
+    { id: 'pn1', cluster: 'nc1' },
+    { id: 'pn2', cluster: 'nc1' },
+    { id: 'pn3', cluster: 'nc3' },
+  ],
+  edges: [
+    { source: 'pn1', target: 'pn2', cluster: 'ec1' },
+    { source: 'pn1', target: 'pn3', cluster: 'ec2' },
+  ]
+}
+const resultMatches = GADDI(graphData, patternData, true, undefined, undefined, 'cluster', 'cluster');
+
+console.log(resultMatches);
+  // output:
+  // [{
+  //   nodes: [
+  //     { id: 'A', cluster: 'nc1' },
+  //     { id: 'B', cluster: 'nc1' },
+  //     { id: 'E', cluster: 'nc3' },],
+  //   edges: [
+  //     { source: 'A', target: 'B', cluster: 'ec1' },
+  //     { source: 'A', target: 'E', cluster: 'ec2' }
+  //   ]
+  // }]
+```
 
 ### depthFirstSearch
 
