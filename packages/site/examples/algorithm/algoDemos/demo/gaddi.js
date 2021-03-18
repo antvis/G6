@@ -128,13 +128,14 @@ const patternGraph = new G6.Graph({
 })
 patternGraph.data(pattern);
 patternGraph.render();
-console.log(patternGraph.get('canvas'))
-patternGraph.get('canvas').get('el').style.position = 'absolute';
-patternGraph.get('canvas').get('el').style.top = '50px';
-patternGraph.get('canvas').get('el').style.left = '15px';
-patternGraph.get('canvas').get('el').style.backgroundColor = '#eee';
-patternGraph.get('canvas').get('el').style.opacity = 0.7;
-patternGraph.get('canvas').addShape('text', {
+const patternCanvas = patternGraph.get('canvas');
+const patternCanvasEl = patternCanvas.get('el');
+patternCanvasEl.style.position = 'absolute';
+patternCanvasEl.style.top = '50px';
+patternCanvasEl.style.left = '15px';
+patternCanvasEl.style.backgroundColor = '#eee';
+patternCanvasEl.style.opacity = 0.7;
+patternCanvas.addShape('text', {
   attrs: {
     text: 'Pattern',
     x: patternGraphWidth - 55,
