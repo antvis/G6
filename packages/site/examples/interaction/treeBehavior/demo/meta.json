@@ -5,6 +5,14 @@
   },
   "demos": [
     {
+      "filename": "dragSubtree.js",
+      "title": {
+        "zh": "拖拽子树改变结构",
+        "en": "Move Subtree to New Parent"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EU_yRa8hMJUAAAAAAAAAAABkARQnAQ"
+    },
+    {
       "filename": "changeData.js",
       "title": {
         "zh": "使用 changeData",
