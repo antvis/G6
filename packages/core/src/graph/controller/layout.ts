@@ -1,3 +1,4 @@
+import { isFunction } from '@antv/util';
 import { isNaN } from '../../util/base';
 import { GraphData } from '../../types';
 import { IAbstractGraph } from '../../interface/graph';
@@ -9,16 +10,17 @@ export default abstract class LayoutController {
 
   protected layoutCfg;
 
-  protected layoutType: string;
+  protected layoutType: string | string[];
 
-  protected layoutMethod;
+  protected layoutMethods;
 
   protected data;
 
   constructor(graph: IAbstractGraph) {
     this.graph = graph;
     this.layoutCfg = graph.get('layout') || {};
-    this.layoutType = this.layoutCfg.type;
+    this.layoutType = this.getLayoutType();
+    this.layoutMethods = [];
     this.initLayout();
   }
 
@@ -27,8 +29,33 @@ export default abstract class LayoutController {
     // no data before rendering
   }
 
-  public getLayoutType(): string {
-    return this.layoutCfg.type;
+  public getLayoutType(): string | string[] {
+    return this.getLayoutCfgType(this.layoutCfg);
+  }
+
+  protected getLayoutCfgType(layoutCfg): string | string[] {
+    const type = layoutCfg.type;
+    // type should be top priority
+    if (type) {
+      return type;
+    }
+
+    const pipes = layoutCfg.pipes;
+    if (Array.isArray(pipes)) {
+      return pipes.map((pipe) => pipe?.type || "");
+    }
+
+    return null;
+  }
+
+  protected isLayoutTypeSame(cfg): boolean {
+    const current = this.getLayoutCfgType(cfg);
+    // already has pipes
+    if (Array.isArray(this.layoutType)) {
+      return this.layoutType.every((type, index) => type === current[index])
+    }
+
+    return cfg?.type === this.layoutType;
   }
 
   /**
@@ -52,40 +79,35 @@ export default abstract class LayoutController {
   public abstract updateLayoutCfg(cfg);
 
   // 更换布局
-  public changeLayout(layoutType: string) {
-    const { graph, layoutMethod } = this;
+  public changeLayout(cfg) {
+    this.layoutCfg = cfg;
 
-    this.layoutType = layoutType;
-
-    this.layoutCfg = graph.get('layout') || {};
-    this.layoutCfg.type = layoutType;
-
-    if (layoutMethod) {
-      layoutMethod.destroy();
-    }
+    this.destoryLayoutMethods();
     this.layout();
   }
 
   // 更换数据
   public changeData() {
-    const { layoutMethod } = this;
-
-    if (layoutMethod) {
-      layoutMethod.destroy();
-    }
+    this.destoryLayoutMethods();
     this.layout();
+  }
+
+  public destoryLayoutMethods() {
+    const { layoutMethods } = this;
+    layoutMethods?.forEach((layoutMethod) => {
+      layoutMethod.destroy();
+    });
   }
 
   // 销毁布局，不能使用 this.destroy，因为 controller 还需要被使用，只是把布局算法销毁
   public destroyLayout() {
-    const { layoutMethod, graph } = this;
-    if (layoutMethod) {
-      layoutMethod.destroy();
-    }
+    const { graph } = this;
+    this.destoryLayoutMethods();
+
     graph.set('layout', undefined);
     this.layoutCfg = undefined;
     this.layoutType = undefined;
-    this.layoutMethod = undefined;
+    this.layoutMethods = undefined;
   }
 
   // 从 this.graph 获取数据
@@ -139,9 +161,32 @@ export default abstract class LayoutController {
     return { nodes, hiddenNodes, edges, hiddenEdges, combos, hiddenCombos, comboEdges } as GraphData;
   }
 
+  protected reLayoutMethod(layoutMethod, layoutCfg): Promise<void> {
+    return new Promise((reslove, reject) => {
+      const { graph } = this;
+      const layoutType = layoutCfg?.type;
+
+      // 每个布局方法都需要注册
+      layoutCfg.onLayoutEnd = () => {
+        graph.emit('afterSublayout', { type: layoutType });
+        reslove();
+      }
+
+      layoutMethod.init(this.data);
+      if (layoutType === 'force') {
+        layoutMethod.ticking = false;
+        layoutMethod.forceSimulation.stop();
+      }
+
+      graph.emit('beforeSublayout', { type: layoutType });
+      layoutMethod.execute();
+      if (layoutMethod.isCustomLayout && layoutCfg.onLayoutEnd) layoutCfg.onLayoutEnd();
+    });
+  }
+
   // 重新布局
   public relayout(reloadData?: boolean) {
-    const { graph, layoutMethod, layoutCfg } = this;
+    const { graph, layoutMethods, layoutCfg } = this;
 
     if (reloadData) {
       this.data = this.setDataFromGraph();
@@ -150,21 +195,59 @@ export default abstract class LayoutController {
         return false;
       }
       this.initPositions(layoutCfg.center, nodes);
-      layoutMethod.init(this.data);
     }
 
-    if (this.layoutType === 'force') {
-      layoutMethod.ticking = false;
-      layoutMethod.forceSimulation.stop();
-    }
     graph.emit('beforelayout');
-    layoutMethod.execute(reloadData);
-    if (layoutMethod.isCustomLayout && layoutCfg.onLayoutEnd) layoutCfg.onLayoutEnd();
+
+    let start = Promise.resolve();
+    layoutMethods?.forEach((layoutMethod: any, index: number) => {
+      const currentCfg = layoutCfg[index];
+      start = start.then(() => this.reLayoutMethod(layoutMethod, currentCfg));
+    });
+
+    start.then(() => {
+      if (layoutCfg.onAllLayoutEnd) layoutCfg.onAllLayoutEnd();
+    }).catch((error) => {
+      console.warn('relayout failed', error);
+    });
+  }
+
+  // 筛选参与布局的nodes和edges
+  protected filterLayoutData(data, cfg) {
+    const { nodes, edges } = data;
+    if (!nodes) {
+      return false;
+    }
+
+    let nodesFilter;
+    let edegsFilter;
+    if (isFunction(cfg?.nodesFilter)) {
+      nodesFilter = cfg.nodesFilter;
+    } else {
+      nodesFilter = () => true;
+    }
+
+    if (isFunction(cfg?.edgesFilter)) {
+      edegsFilter = cfg.edgesFilter;
+    } else {
+      const nodesMap = nodes.reduce((acc, cur) => {
+        acc[cur.id] = true;
+        return acc;
+      }, {});
+      edegsFilter = (edge) => {
+        return nodesMap[edge.source] && nodesMap[edge.target];
+      }
+    }
+
+    return {
+      nodes: nodes.filter(nodesFilter),
+      edges: edges.filter(edegsFilter)
+    }
   }
 
   // 控制布局动画
   // eslint-disable-next-line class-methods-use-this
-  public layoutAnimate() {}
+  public layoutAnimate() { }
 
   // 将当前节点的平均中心移动到原点
   public moveToZero() {
@@ -230,14 +313,8 @@ export default abstract class LayoutController {
   }
 
   public destroy() {
-    const { layoutMethod } = this;
-
     this.graph = null;
-
-    if (layoutMethod) {
-      layoutMethod.destroy();
-      layoutMethod.destroyed = true;
-    }
+    this.destoryLayoutMethods();
 
     this.destroyed = true;
   }

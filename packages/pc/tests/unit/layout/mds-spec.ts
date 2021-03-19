@@ -76,10 +76,12 @@ describe('mds', () => {
       ],
     });
     graph.render();
-    const nodeModel = graph.getNodes()[0].getModel();
-    expect(nodeModel.x).toEqual(250);
-    expect(nodeModel.y).toEqual(250);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      const nodeModel = graph.getNodes()[0].getModel();
+      expect(nodeModel.x).toEqual(250);
+      expect(nodeModel.y).toEqual(250);
+      graph.destroy();
+    });
   });
   it('mds layout with unconnected graph', () => {
     const graph = new G6.Graph({

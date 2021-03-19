@@ -24,12 +24,14 @@ describe('concentric layout', () => {
     data.nodes[2].label = data.nodes[2].id;
     graph.data(data);
     graph.render();
-    const node = data.nodes[2];
-    const width = graph.get('width');
-    const height = graph.get('height');
-    expect(mathEqual(node.x, width / 2)).toEqual(true);
-    expect(mathEqual(node.y, height / 2)).toEqual(true);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      const node = data.nodes[2];
+      const width = graph.get('width');
+      const height = graph.get('height');
+      expect(mathEqual(node.x, width / 2)).toEqual(true);
+      expect(mathEqual(node.y, height / 2)).toEqual(true);
+      graph.destroy();
+    });
   });
 
   it('concentric with no node', () => {
@@ -69,10 +71,12 @@ describe('concentric layout', () => {
       ],
     });
     graph.render();
-    const nodeModel = graph.getNodes()[0].getModel();
-    expect(nodeModel.x).toEqual(center[0]);
-    expect(nodeModel.y).toEqual(center[1]);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      const nodeModel = graph.getNodes()[0].getModel();
+      expect(nodeModel.x).toEqual(center[0]);
+      expect(nodeModel.y).toEqual(center[1]);
+      graph.destroy();
+    });
   });
 
   it('concentric with array nodeSize', () => {
@@ -132,9 +136,11 @@ describe('concentric layout', () => {
     });
     graph.data(data);
     graph.render();
-    const layout = graph.get('layoutController').layoutMethod;
-    expect(!isString(layout.sortBy)).toEqual(false);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      const layout = graph.get('layoutController').layoutMethods[0];
+      expect(!isString(layout.sortBy)).toEqual(false);
+      graph.destroy();
+    });
   });
 
   it('concentric preventOverlap', () => {
@@ -149,12 +155,14 @@ describe('concentric layout', () => {
     });
     graph.data(data);
     graph.render();
-    const node = data.nodes[2];
-    const width = graph.get('width');
-    const height = graph.get('height');
-    expect(mathEqual(node.x, width / 2)).toEqual(true);
-    expect(mathEqual(node.y, height / 2)).not.toEqual(true);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      const node = data.nodes[2];
+      const width = graph.get('width');
+      const height = graph.get('height');
+      expect(mathEqual(node.x, width / 2)).toEqual(true);
+      expect(mathEqual(node.y, height / 2)).not.toEqual(true);
+      graph.destroy();
+    });
   });
 
   it('concentric equidistant', () => {
@@ -169,12 +177,14 @@ describe('concentric layout', () => {
     });
     graph.data(data);
     graph.render();
-    const node = data.nodes[2];
-    const width = graph.get('width');
-    const height = graph.get('height');
-    expect(mathEqual(node.x, width / 2)).toEqual(true);
-    expect(mathEqual(node.y, height / 2)).toEqual(true);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      const node = data.nodes[2];
+      const width = graph.get('width');
+      const height = graph.get('height');
+      expect(mathEqual(node.x, width / 2)).toEqual(true);
+      expect(mathEqual(node.y, height / 2)).toEqual(true);
+      graph.destroy();
+    });
   });
 
   it('instantiate layout', () => {

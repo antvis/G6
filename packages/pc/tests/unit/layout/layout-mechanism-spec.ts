@@ -52,11 +52,13 @@ describe('layout mechanism', () => {
     });
     graph.data(data);
     graph.render();
-    expect(graph.getNodes()[0].getModel().x).toEqual(0);
-    expect(graph.getNodes()[0].getModel().y).toEqual(0);
-    expect(graph.getNodes()[1].getModel().x).toEqual(10);
-    expect(graph.getNodes()[1].getModel().y).toEqual(5);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      expect(graph.getNodes()[0].getModel().x).toEqual(0);
+      expect(graph.getNodes()[0].getModel().y).toEqual(0);
+      expect(graph.getNodes()[1].getModel().x).toEqual(10);
+      expect(graph.getNodes()[1].getModel().y).toEqual(5);
+      graph.destroy();
+    });
   });
   it('register layout and use it independently', () => {
     G6.registerLayout('custom2', {
