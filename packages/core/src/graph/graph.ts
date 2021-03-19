@@ -2181,37 +2181,24 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    */
   public updateLayout(cfg: any): void {
     const layoutController = this.get('layoutController');
-    let newLayoutType;
 
     if (isString(cfg)) {
-      newLayoutType = cfg;
       cfg = {
-        type: newLayoutType,
+        type: cfg,
       };
-    } else {
-      newLayoutType = cfg.type;
     }
 
     const oriLayoutCfg = this.get('layout');
-    const oriLayoutType = oriLayoutCfg ? oriLayoutCfg.type : undefined;
+    const layoutCfg: any = {};
+    Object.assign(layoutCfg, oriLayoutCfg, cfg);
+    this.set('layout', layoutCfg);
 
-    if (
-      (!newLayoutType || oriLayoutType === newLayoutType) &&
-      (cfg.gpuEnabled === undefined || cfg.gpuEnabled === oriLayoutCfg.gpuEnabled)
-    ) {
+    if (layoutController.isLayoutTypeSame(layoutCfg) && (layoutCfg.gpuEnabled === oriLayoutCfg.gpuEnabled)) {
       // no type or same type, or switch the gpu and cpu, update layout
-      const layoutCfg: any = {};
-      Object.assign(layoutCfg, oriLayoutCfg, cfg);
-      layoutCfg.type = oriLayoutType || 'random';
-
-      this.set('layout', layoutCfg);
-
       layoutController.updateLayoutCfg(layoutCfg);
     } else {
-      if (!newLayoutType) newLayoutType = oriLayoutType;
       // has different type, change layout
-      this.set('layout', cfg);
-      layoutController.changeLayout(newLayoutType);
+      layoutController.changeLayout(layoutCfg);
     }
   }
 
@@ -2795,9 +2782,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const stackData = data
       ? clone(data)
       : {
-          before: {},
-          after: clone(this.save()),
-        };
+        before: {},
+        after: clone(this.save()),
+      };
 
     if (stackType === 'redo') {
       this.redoStack.push({
