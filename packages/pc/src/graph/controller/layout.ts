@@ -228,6 +228,8 @@ export default class LayoutController extends AbstractLayout {
     this.destoryLayoutMethods();
 
     graph.emit('beforelayout');
+    this.initPositions(layoutCfg.center, nodes);
+    // init hidden ndoes
     this.initPositions(layoutCfg.center, hiddenNodes);
 
     // 防止用户直接用 -gpu 结尾指定布局
