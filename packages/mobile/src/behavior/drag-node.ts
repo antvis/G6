@@ -27,9 +27,9 @@ export default {
   },
   getEvents(): { [key in G6Event]?: string } {
     return {
-      'node:panstart': 'onDragStart',
-      'node:panmove': 'onDrag',
-      'node:panend': 'onDragEnd',
+      'node:dragstart': 'onDragStart',
+      'node:drag': 'onDrag',
+      'node:dragend': 'onDragEnd',
       'combo:dragenter': 'onDragEnter',
       'combo:dragleave': 'onDragLeave',
       'combo:drop': 'onDropCombo',

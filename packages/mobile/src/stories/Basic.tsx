@@ -24,7 +24,7 @@ for (let i = 0; i < 10; i++) {
   });
 }
 
-export interface BasicProps { }
+export interface BasicProps {}
 
 export const BasicDemo = () => {
   const ref = React.useRef(null);
@@ -103,6 +103,14 @@ export const BasicDemo = () => {
         defaultEdge: {
           style: {
             stroke: '#e2e2e2',
+          },
+        },
+        nodeStateStyles: {
+          // 节点在 selected 状态下的样式，对应内置的 click-select 行为
+          selected: {
+            stroke: '#666',
+            lineWidth: 2,
+            fill: 'steelblue',
           },
         },
       });
