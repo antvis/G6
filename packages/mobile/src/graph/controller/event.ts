@@ -75,23 +75,10 @@ export default class EventController extends AbstractEvent {
 
     evt.currentTarget = graph;
 
-    //if (evt.type === 'touchstart') {
-    //  //graph.emit('node:dragenter', evt);
-    //  graph.emit('node:dragstart', evt);
-    //}
-
-    //if (evt.type === 'touchend') {
-    //  //graph.emit('node:drop', evt);
-    //  //graph.emit('canvas:drop', evt);
-    //  graph.emit('node:dragend', evt);
-    //  //graph.emit('node:dragleave', evt);
-    //}
-
-    //if (evt.type === 'touchmove') {
-    //  graph.emit('node:drag', evt);
-    //}
-
     if (target === canvas) {
+      if (eventType === 'panmove') {
+        this.handleTouchMove(evt, 'canvas');
+      }
       evt.target = canvas;
       evt.item = null;
 
@@ -122,6 +109,7 @@ export default class EventController extends AbstractEvent {
       evt.canvasY = canvasPoint.y;
     }
 
+    graph.emit(eventType, evt);
     if (evt.name && !evt.name.includes(':')) {
       graph.emit(`${type}:${eventType}`, evt);
     } else {
@@ -133,6 +121,9 @@ export default class EventController extends AbstractEvent {
     }
     if (eventType === 'dragend') {
       this.dragging = false;
+    }
+    if (eventType === 'panmove') {
+      this.handleTouchMove(evt, type);
     }
   }
 
@@ -174,5 +165,38 @@ export default class EventController extends AbstractEvent {
     this.extendEvents.length = 0;
     (this.canvasHandler as Fun | null) = null;
     this.destroyed = true;
+  }
+
+  /**
+   * 处理移动事件
+   * @param evt 事件句柄
+   * @param type item 类型
+   */
+  private handleTouchMove(evt: IG6GraphEvent, type: string) {
+    const { graph, preItem } = this;
+    const canvas: ICanvas = graph.get('canvas');
+    const item = (evt.target as any) === canvas ? null : evt.item;
+
+    evt = cloneEvent(evt) as IG6GraphEvent;
+
+    // 从前一个item直接移动到当前item，触发前一个item的leave事件
+    if (preItem && preItem !== item && !preItem.destroyed) {
+      evt.item = preItem;
+      this.emitCustomEvent(preItem.getType(), 'touchleave', evt);
+      if (this.dragging) {
+        this.emitCustomEvent(preItem.getType(), 'dragleave', evt);
+      }
+    }
+
+    // 从一个item或canvas移动到当前item，触发当前item的enter事件
+    if (item && preItem !== item) {
+      evt.item = item;
+      this.emitCustomEvent(type, 'touchenter', evt);
+      if (this.dragging) {
+        this.emitCustomEvent(type, 'dragenter', evt);
+      }
+    }
+
+    this.preItem = item;
   }
 }
