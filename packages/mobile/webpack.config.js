@@ -11,16 +11,25 @@ let entry = {
   g6: './src/index.ts',
 };
 
-const extenders = fs.readdirSync(path.join(__dirname, './src/extends'));
-extenders.forEach((name) => {
-  entry[name] = `./src/extends/${name}/index.ts`;
+
+const layoutExtenders = fs.readdirSync(path.join(__dirname, './src/extends/layout'));
+layoutExtenders.forEach((name) => {
+  entry[name] = `./src/extends/layout/${name}/index.ts`;
 })
 
 module.exports = {
   entry,
   output: {
     filename: (pathData) => {
-      return pathData.chunk.name === 'g6' ? '[name].min.js' : 'extends/[name].min.js';
+      const chunkName = pathData.chunk.name;
+      let filename = 'index.js';
+      if ('g6' === chunkName) {
+        filename = 'g6.js';
+      }
+      if (/layout/i.test(chunkName)) {
+        filename = 'extends/layout/[name].js';
+      }
+      return filename;
     },
     library: 'G6',
     libraryTarget: 'umd',

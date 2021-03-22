@@ -18,13 +18,6 @@ import Util from './util';
 import './element';
 import './behavior';
 
-const extend = (extender: IExtender, option: any): any => {
-  if (!extender.installed) {
-    extender(option, G6)
-    extender.installed = true;
-  }
-  return G6;
-};
 
 const G6 = {
   version: Global.version,
@@ -37,7 +30,6 @@ const G6 = {
   registerCombo,
   registerEdge,
   registerNode,
-  extend,
   Algorithm,
   Arrow,
   Marker,
