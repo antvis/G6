@@ -49,6 +49,8 @@ export const LayoutWorker = (
     layout.registerLayout('gForce-gpu', layout.GForceGPULayout);
     // @ts-ignore
     layout.registerLayout('comboForce', layout.ComboForceLayout);
+    // @ts-ignore
+    layout.registerLayout('forceAtlas2', layout.ForceAtlas2Layout);
 
     function isLayoutMessage(event: Event) {
       const { type } = event.data;
