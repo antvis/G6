@@ -292,7 +292,6 @@ export default {
    * @param evt
    */
   onDragEnter(evt: IG6GraphEvent) {
-    console.log('onDragEnter');
     const item = evt.item as ICombo;
     if (!this.validationCombo(item)) return;
 
@@ -306,7 +305,6 @@ export default {
    * @param evt
    */
   onDragLeave(evt: IG6GraphEvent) {
-    console.log('onDragLeave');
     const item = evt.item as ICombo;
     if (!this.validationCombo(item)) return;
 
