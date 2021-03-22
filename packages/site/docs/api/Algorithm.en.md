@@ -99,7 +99,7 @@ console.log(resultMatches);
 
 | Name        | Type                | Required | Description                      |
 | ----------- | ------------------- | -------- | -------------------------------- |
-| graph       | IGraph              | true     | G6 Graph Instance                |
+| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure)                                             |
 | startNodeId | string              | true     | The ID of the node to be started |
 | callbacks   | IAlgorithmCallbacks | false    | The callback function            |
 
@@ -137,7 +137,7 @@ graph.data(data);
 graph.render();
 
 const { depthFirstSearch } = Algorithm;
-depthFirstSearch(graph, 'A', {
+depthFirstSearch(data, 'A', {
   enter: ({ current, previous }) => {
     // The callback function for the traversal's begining
   },
@@ -159,7 +159,7 @@ depthFirstSearch(graph, 'A', {
 
 | Name              | Type                | Required | Description                 |
 | ----------------- | ------------------- | -------- | --------------------------- |
-| graph             | IGraph              | true     | G6 Graph Instance           |
+| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure)                                             |
 | startNodeId       | string              | true     | The ID of the starting node |
 | originalCallbacks | IAlgorithmCallbacks | false    | The callback function       |
 
@@ -197,7 +197,7 @@ graph.data(data);
 graph.render();
 
 const { breadthFirstSearch } = Algorithm;
-breadthFirstSearch(graph, 'A', {
+breadthFirstSearch(data, 'A', {
   enter: ({ current, previous }) => {
     // The callback function for the traversal's begining
   },
@@ -400,7 +400,7 @@ References:
 
 | Name  | Type   | Required | Description       |
 | ----- | ------ | -------- | ----------------- |
-| graph | IGraph | true     | G6 Graph Instance |
+| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure)                                             |
 
 **Return**
 
@@ -442,7 +442,7 @@ graph.render();
 const { detectDirectedCycle } = Algorithm;
 
 // There is no cycle in the graph, the result is null
-let result = detectDirectedCycle(graph);
+let result = detectDirectedCycle(data);
 
 // There will be a cycle after adding edge F->D
 data.edges.push({
@@ -460,10 +460,10 @@ graph.changeData(data);
     E: Node,
   }
 */
-result = detectDirectedCycle(graph);
+result = detectDirectedCycle(data);
 ```
 
-### detectAllCycles(graph, directed, nodeIds, include)
+### detectAllCycles(graphData, directed, nodeIds, include)
 
 Find all simple cycles (elementary circuits) of a directed graph, and for undirected graph, find a list of cycles which form a [basis for cycles](https://en.wikipedia.org/wiki/Cycle_basis) of graph.
 
@@ -477,7 +477,7 @@ References:
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| graph | IGraph | true | G6 Graph Instance |
+| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure)                                             |
 | directed | boolean | false | Whether the graph is directed, use the value of `graph.get('directed')` by default. ｜ |
 | nodeIds | string[] | false | The nodes that should be included in or excluded from the cycles. If not configured, return all of the cycles.｜ |
 | include | boolean | false | If it is `true`, the returned cycles shuld include one of the nodes in `nodeIds`, otherwise the cycles should not have any nodes in `nodeIds`. `true` by default.｜ |
@@ -492,16 +492,16 @@ References:
 ```javascript
 const { detectAllCycles } = Algorithm;
 
-const allCycles = detectAllCycles(graph, true);
+const allCycles = detectAllCycles(data, true);
 
 // Find all cycles that includes node B
-const allCycleIncludeB = detectAllCycles(graph, true, ['B']);
+const allCycleIncludeB = detectAllCycles(data, true, ['B']);
 
 // Find all cycles that does not includes node B
-const allCycleExcludeB = detectAllCycles(graph, false, ['B'], false);
+const allCycleExcludeB = detectAllCycles(data, false, ['B'], false);
 ```
 
-### findShortestPath(graph, start, end, directed, weightPropertyName)
+### findShortestPath(graphData, start, end, directed, weightPropertyName)
 
 Compute the shortest path between two nodes in the graph.
 
@@ -509,7 +509,7 @@ Compute the shortest path between two nodes in the graph.
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| graph | IGraph | true | G6 Graph Instance |
+| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure)                                             |
 | start | INode / string | true | G6 Node Instance or node ID, indicating the start of the path ｜ |
 | end | INode / string | true | G6 Node Instance or node ID, indicating the end of the path ｜ |
 | directed | boolean | false | Whether the graph is directed, use the value of `graph.get('directed')` by default. ｜ |
@@ -611,12 +611,12 @@ graph.render();
 
 const { findShortestPath } = Algorithm;
 // Find the shortest path between node A and node C in this undirected graph
-const { length, path, allPath } = findShortestPath(graph, 'A', 'C');
+const { length, path, allPath } = findShortestPath(data, 'A', 'C');
 console.log(length, path);
 // Expected output: 2, ['A', 'B', 'C']
 ```
 
-### findAllPath(graph, start, end, directed)
+### findAllPath(graphData, start, end, directed)
 
 Find all paths between two nodes in the graph.
 
@@ -624,7 +624,7 @@ Find all paths between two nodes in the graph.
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| graph | IGraph | true | G6 Graph Instance |
+| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure)                                             |
 | start | INode / string | true | G6 Node Instance or node ID, indicating the start of the path ｜ |
 | end | INode / string | true | G6 Node Instance or node ID, indicating the end of the path ｜ |
 | directed | boolean | false | Whether the graph is directed, use the value of `graph.get('directed')` by default. ｜ |
@@ -717,7 +717,7 @@ graph.data(data);
 graph.render();
 
 const { findAllPath } = Algorithm;
-const allPath = findAllPath(graph, 'A', 'E');
+const allPath = findAllPath(data, 'A', 'E');
 console.log(allPath);
 // Expected output: [['A', 'D', 'F', 'E'], ['A', 'D', 'E'], ['A', 'E']]
 ```
@@ -736,7 +736,7 @@ Reference:
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| graph | IGraph | true | G6 Graph Instance |
+| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure)                                             |
 | directed | boolean | false | Whether the graph is directed, use the value of `graph.get('directed')` by default. ｜ |
 
 **Return**
@@ -822,14 +822,14 @@ graph.data(data);
 graph.render();
 
 // Connected components
-const components = getConnectedComponents(graph, false);
+const components = getConnectedComponents(data, false);
 components.forEach((component) => {
   console.log(component.map((node) => node.get('id')));
 });
 // Expected output: ['A', 'B', 'C', 'D', 'E', 'F'], ['G', 'H']
 
 // Strongly-connected components
-const components2 = getConnectedComponents(graph, true);
+const components2 = getConnectedComponents(data, true);
 components2.forEach((component) => {
   console.log(component.map((node) => node.get('id')));
 });
@@ -848,7 +848,7 @@ Reference:
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| graph | IGraph | true | G6 Graph Instance |
+| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure)                                             |
 | epsilon | number | false | The precision level used to identify whether the calculation is converged. ｜ |
 | linkProb | number | false | The the probability that the outgoing links will be visited next, 0.85 by default.｜ |
 
