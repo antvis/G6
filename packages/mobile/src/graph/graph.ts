@@ -11,6 +11,16 @@ import { LayoutController, EventController } from './controller';
 import PluginBase from '../plugin/base';
 import { createDom } from '@antv/dom-util';
 
+
+export const registerGraph = (graphName: string, GraphFunction: any, G6: Object): Object => {
+  if (G6[graphName]) {
+    console.warn(`The graph with the name ${graphName} exists already, it will be overridden`);
+  }
+  G6[graphName] = GraphFunction(G6);
+  return G6;
+}
+
+
 export default class Graph extends AbstractGraph implements IGraph {
   // private cfg: GraphOptions & { [key: string]: any };
 

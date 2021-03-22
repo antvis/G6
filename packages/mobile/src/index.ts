@@ -10,13 +10,20 @@ import {
 } from '@antv/g6-core';
 import { ICanvas, IGroup, IShape } from '@antv/g-base';
 import * as Algorithm from '@antv/algorithm';
-import Graph from './graph/graph';
+import Graph, { registerGraph as oRegisterGraph } from './graph/graph';
 import { Layout, registerLayout } from './layout';
-import { IExtender } from './interface/extend';
 import Global from './global';
 import Util from './util';
 import './element';
 import './behavior';
+
+function registerExtenderWrapper<T1, T2>(registerExtender: (registerName: T1, registerFunction: T2, global: Object) => Object): (registerName: T1, registerFunction: T2) => Object {
+  return function (...args) {
+    return registerExtender.apply(null, [...args, G6]);
+  }
+}
+
+const registerGraph = registerExtenderWrapper(oRegisterGraph);
 
 
 const G6 = {
@@ -25,6 +32,7 @@ const G6 = {
   Util,
   Layout,
   registerLayout,
+  registerGraph,
   Global,
   registerBehavior,
   registerCombo,
@@ -45,6 +53,7 @@ export {
   Util,
   Layout,
   registerLayout,
+  registerGraph,
   Global,
   Algorithm,
   Arrow,
