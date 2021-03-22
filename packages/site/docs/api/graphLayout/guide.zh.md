@@ -15,6 +15,7 @@ G6 提供了以下内置布局算法。可以在[实例化图时配置](#实例�
   > 力导向布局：一个布局网络中，粒子与粒子之间具有引力和斥力，从初始的随机无序的布局不断演变，逐渐趋于平衡稳定的布局方式称之为力导向布局。适用于描述事物间关系，比如人物关系、计算机网络关系等。
 
 - [Force Layout](./force)：引用 d3 的经典力导向布局；
+- [Force Atlas 2 Layout](./forceAtlas2)：FA2 力导向布局，比 force 收敛地更好，更紧凑；
 - [Circular Layout](./circular)：环形布局；
 - [Radial Layout](./radial)：辐射状布局；
 - [MDS Layout](./mds)：高维数据降维算法布局；
