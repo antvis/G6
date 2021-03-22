@@ -502,6 +502,7 @@ export default class LayoutController extends AbstractLayout {
       }
 
       if (!LayoutPipesAdjustNames.includes(adjust)) {
+        console.warn(`The adjust type ${adjust} is not supported yet, please assign it with 'force', 'grid', or 'circular'.` );
         resolve();
       }
 
