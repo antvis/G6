@@ -85,9 +85,9 @@ Page({
 
 ```ts
 import G6 from '@antv/g6-mobile';
-import TreeGraph from '@antv/g6-mobile/es/extends/treeGraph';
+import TreeGraph from '@antv/g6-mobile/dist/extends/graph/treeGraph';
 
-G6.extend(TreeGraph);
+G6.registerGraph('TreeGraph', TreeGraph);
 
 Page({
   data: {
@@ -175,9 +175,10 @@ Page({
 
 ```ts
 import G6 from '@antv/g6-mobile';
-import CircularLayout from '@antv/g6-mobile/lib/extends/circularLayout';
+import CircularLayout from '@antv/g6-mobile/dist/extends/layout/circularLayout'
 
-G6.extend(CircularLayout);
+
+G6.registerLayout('circle', CircularLayout);
 
 Page({
   data: {
