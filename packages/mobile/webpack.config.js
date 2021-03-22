@@ -11,8 +11,11 @@ let entry = {
   g6: './src/index.ts',
 };
 
-
+const graphExtenders = fs.readdirSync(path.join(__dirname, './src/extends/graph'));
 const layoutExtenders = fs.readdirSync(path.join(__dirname, './src/extends/layout'));
+graphExtenders.forEach((name) => {
+  entry[name] = `./src/extends/graph/${name}/index.ts`;
+})
 layoutExtenders.forEach((name) => {
   entry[name] = `./src/extends/layout/${name}/index.ts`;
 })
@@ -25,6 +28,9 @@ module.exports = {
       let filename = 'index.js';
       if ('g6' === chunkName) {
         filename = 'g6.js';
+      }
+      if (/graph/i.test(chunkName)) {
+        filename = 'extends/graph/[name].js';
       }
       if (/layout/i.test(chunkName)) {
         filename = 'extends/layout/[name].js';
