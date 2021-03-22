@@ -799,8 +799,8 @@ graph.data(data);
 graph.render();
 
 const { findAllPath } = Algorithm;
-const allPaths = findAllPath(graph, 'A', 'E');
-console.log(allPaths);
+const allPath = findAllPath(graph, 'A', 'E');
+console.log(allPath);
 // 期望输出值：[['A', 'D', 'F', 'E'], ['A', 'D', 'E'], ['A', 'E']]
 ```
 
