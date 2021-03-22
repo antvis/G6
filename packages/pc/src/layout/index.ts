@@ -14,6 +14,7 @@ import {
   GForceLayout,
   GForceGPULayout,
   ComboForceLayout,
+  ForceAtlas2Layout
 } from '@antv/layout';
 
 oRegisterLayout('grid', GridLayout);
@@ -29,6 +30,7 @@ oRegisterLayout('fruchterman-gpu', FruchtermanGPULayout);
 oRegisterLayout('gForce', GForceLayout);
 oRegisterLayout('gForce-gpu', GForceGPULayout);
 oRegisterLayout('comboForce', ComboForceLayout);
+oRegisterLayout('forceAtlas2', ForceAtlas2Layout);
 
 const registerLayout = (name: string, layoutOverride: any) => {
   layoutOverride.isCustomLayout = true;
