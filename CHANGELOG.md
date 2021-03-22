@@ -1,5 +1,8 @@
 # ChangeLog
 
+#### 4.2.2
+- feat: pipe layouts for subgraphs;
+
 #### 4.2.1
 - fix: circle combo edge linking position problem;
 - fix: drag minimap viewport with forbidden icon in chrome on windows;
