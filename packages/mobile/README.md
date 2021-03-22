@@ -327,9 +327,10 @@ Page({
 
 ```ts
 import G6 from '@antv/g6-mobile';
-import CircularLayout from '@antv/g6-mobile/lib/extends/circularLayout';
+import CircularLayout from '@antv/g6-mobile/dist/extends/layout/circularLayout'
 
-G6.extend(CircularLayout);
+
+G6.registerLayout('circle', CircularLayout);
 
 Page({
   data: {
