@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import G6 from '../../src';
-import GridLayout from '../extends/gridLayout';
+import GridLayout from '../extends/layout/gridLayout';
 import './basic.css';
 
-G6.extend(GridLayout, null);
+G6.registerLayout('grid', GridLayout);
 
 const data = {
   nodes: [],
@@ -24,7 +24,7 @@ for (let i = 0; i < 10; i++) {
   });
 }
 
-export interface BasicProps {}
+export interface BasicProps { }
 
 export const BasicDemo = () => {
   const ref = React.useRef(null);
