@@ -11,7 +11,6 @@ import { ICanvas, IGroup, IShape } from '@antv/g-base';
 import * as Algorithm from '@antv/algorithm';
 import Graph, { registerGraph as oRegisterGraph } from './graph/graph';
 import { Layout, registerLayout } from './layout';
-import { IExtender } from './interface/extend';
 import Global from './global';
 import Util from './util';
 import './element';
