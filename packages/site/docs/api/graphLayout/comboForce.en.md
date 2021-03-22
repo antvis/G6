@@ -1,6 +1,6 @@
 ---
 title: ComboForce
-order: 11
+order: 12
 ---
 
 _It is a new feature of V3.5._ Combo Force is designed for the graph with combos based on classical force directed layout algorith. It modifies the forces between nodes according to their combo infomation to achieve a final result with clustering nodes inside each combo and no overlappings.
