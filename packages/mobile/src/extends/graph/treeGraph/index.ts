@@ -10,10 +10,10 @@ import {
   TreeGraphData,
   GraphOptions,
 } from '@antv/g6-core';
-import { ITreeGraph } from '../../interface/graph';
-import { getExtender } from '../../util/extend';
+import { ITreeGraph } from '../../../interface/graph';
+// import { makeExtender } from '../../../util/extender';
 
-function treeGraphExtender(option: any, G6: { Graph?: any; Util?: any; }) {
+const treeGraph = (G6: { Graph?: any; Util?: any; }): ITreeGraph => {
 
   const { Graph, Util } = G6;
   const { radialLayout, traverseTree } = Util;
@@ -596,9 +596,7 @@ function treeGraphExtender(option: any, G6: { Graph?: any; Util?: any; }) {
     }
   }
 
-  G6.TreeGraph = TreeGraph;
-
+  return TreeGraph;
 }
 
-export default getExtender(treeGraphExtender);
-
+export default treeGraph;
