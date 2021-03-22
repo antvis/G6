@@ -30,7 +30,7 @@ const helper = {
 };
 
 const GPULayoutNames = ['fruchterman', 'gForce'];
-const LayoutPipesAdjustNames = ['force'];
+const LayoutPipesAdjustNames = ['force', 'grid', 'circular'];
 export default class LayoutController extends AbstractLayout {
   public graph: IGraph;
 
@@ -505,7 +505,6 @@ export default class LayoutController extends AbstractLayout {
         resolve();
       }
 
-      const layoutType = adjust;
       const layoutCfg = {
         center: this.layoutCfg.center,
         nodeSize: (d) => Math.max(d.height, d.width),
@@ -521,16 +520,16 @@ export default class LayoutController extends AbstractLayout {
       layoutCfg.onLayoutEnd = () => {
         layoutNodes?.forEach((ele, index) => {
           const dx = ele.x - preNodes[index]?.x;
-          const dy = ele.y = preNodes[index]?.y;
+          const dy = ele.y - preNodes[index]?.y;
           groupNodes[index]?.forEach((n: any) => {
-            n.x = n.x + dx;
-            n.y = n.y + dy;
+            n.x += dx;
+            n.y += dy;
           });
         });
         resolve();
       }
 
-      const layoutMethod = new Layout[layoutType](layoutCfg);
+      const layoutMethod = new Layout[adjust](layoutCfg);
       layoutMethod.layout({ nodes: layoutNodes });
     });
   }
