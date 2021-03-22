@@ -252,7 +252,9 @@ export default abstract class LayoutController {
       return n.getModel().layoutOrder;
     });
     const layoutNodes = Object.values(graphGroupNodes).map((value) => {
-      return calculationItemsBBox(value as any);
+      const bbox: any = calculationItemsBBox(value as any);
+      bbox.size = [bbox.width, bbox.height];
+      return bbox;
     });
 
     const groupNodes = Object.values(groupBy(nodes, 'layoutOrder'));
