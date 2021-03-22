@@ -99,7 +99,7 @@ console.log(resultMatches);
 
 | Name        | Type                | Required | Description                      |
 | ----------- | ------------------- | -------- | -------------------------------- |
-| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure)                                             |
+| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure). Note that it should be assigned with graph instance to this parameter instead before v4.1.0 |
 | startNodeId | string              | true     | The ID of the node to be started |
 | callbacks   | IAlgorithmCallbacks | false    | The callback function            |
 
@@ -159,7 +159,7 @@ depthFirstSearch(data, 'A', {
 
 | Name              | Type                | Required | Description                 |
 | ----------------- | ------------------- | -------- | --------------------------- |
-| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure)                                             |
+| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure). Note that it should be assigned with graph instance to this parameter instead before v4.1.0 |
 | startNodeId       | string              | true     | The ID of the starting node |
 | originalCallbacks | IAlgorithmCallbacks | false    | The callback function       |
 
@@ -400,7 +400,7 @@ References:
 
 | Name  | Type   | Required | Description       |
 | ----- | ------ | -------- | ----------------- |
-| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure)                                             |
+| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure). Note that it should be assigned with graph instance to this parameter instead before v4.1.0 |
 
 **Return**
 
@@ -477,7 +477,7 @@ References:
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure)                                             |
+| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure). Note that it should be assigned with graph instance to this parameter instead before v4.1.0 |
 | directed | boolean | false | Whether the graph is directed, use the value of `graph.get('directed')` by default. ｜ |
 | nodeIds | string[] | false | The nodes that should be included in or excluded from the cycles. If not configured, return all of the cycles.｜ |
 | include | boolean | false | If it is `true`, the returned cycles shuld include one of the nodes in `nodeIds`, otherwise the cycles should not have any nodes in `nodeIds`. `true` by default.｜ |
@@ -509,7 +509,7 @@ Compute the shortest path between two nodes in the graph.
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure)                                             |
+| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure). Note that it should be assigned with graph instance to this parameter instead before v4.1.0 |
 | start | INode / string | true | G6 Node Instance or node ID, indicating the start of the path ｜ |
 | end | INode / string | true | G6 Node Instance or node ID, indicating the end of the path ｜ |
 | directed | boolean | false | Whether the graph is directed, use the value of `graph.get('directed')` by default. ｜ |
@@ -624,7 +624,7 @@ Find all paths between two nodes in the graph.
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure)                                             |
+| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure). . Note that it should be assigned with graph instance to this parameter instead before v4.1.0 |
 | start | INode / string | true | G6 Node Instance or node ID, indicating the start of the path ｜ |
 | end | INode / string | true | G6 Node Instance or node ID, indicating the end of the path ｜ |
 | directed | boolean | false | Whether the graph is directed, use the value of `graph.get('directed')` by default. ｜ |
@@ -736,7 +736,7 @@ Reference:
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure)                                             |
+| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure). . Note that it should be assigned with graph instance to this parameter instead before v4.1.0 |
 | directed | boolean | false | Whether the graph is directed, use the value of `graph.get('directed')` by default. ｜ |
 
 **Return**
@@ -848,7 +848,7 @@ Reference:
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure)                                             |
+| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure). Note that it should be assigned with graph instance to this parameter instead before v4.1.0 |
 | epsilon | number | false | The precision level used to identify whether the calculation is converged. ｜ |
 | linkProb | number | false | The the probability that the outgoing links will be visited next, 0.85 by default.｜ |
 

@@ -98,7 +98,7 @@ console.log(resultMatches);
 
 | 名称        | 类型                | 是否必选 | 描述                |
 | ----------- | ------------------- | -------- | ------------------- |
-| graphData    | GraphData         | true     | 图数据，满足 G6 [数据格式](/zh/docs/manual/getting-started#step-2-数据准备)                                             |
+| graphData    | GraphData         | true     | 图数据，满足 G6 [数据格式](/zh/docs/manual/getting-started#step-2-数据准备)。注意，4.1 以前的版本该参数请传入图实例 |
 | startNodeId | string              | true     | 开始访问的节点的 ID |
 | callbacks   | IAlgorithmCallbacks | false    | 遍历的回调函数      |
 
@@ -198,7 +198,7 @@ depthFirstSearch(data, 'A', {
 
 | 名称              | 类型                | 是否必选 | 描述                |
 | ----------------- | ------------------- | -------- | ------------------- |
-| graphData    | GraphData         | true     | 图数据，满足 G6 [数据格式](/zh/docs/manual/getting-started#step-2-数据准备)                                             |
+| graphData    | GraphData         | true     | 图数据，满足 G6 [数据格式](/zh/docs/manual/getting-started#step-2-数据准备)。注意，4.1 以前的版本该参数请传入图实例 |
 | startNodeId       | string              | true     | 开始访问的节点的 ID |
 | originalCallbacks | IAlgorithmCallbacks | false    | 遍历的回调函数      |
 
@@ -479,7 +479,7 @@ let result = louvain(data);
 
 | 名称  | 类型   | 是否必选 | 描述          |
 | ----- | ------ | -------- | ------------- |
-| graphData    | GraphData         | true     | 图数据，满足 G6 [数据格式](/zh/docs/manual/getting-started#step-2-数据准备)                                             |
+| graphData    | GraphData         | true     | 图数据，满足 G6 [数据格式](/zh/docs/manual/getting-started#step-2-数据准备)。注意，4.1 以前的版本该参数请传入图实例|
 
 **返回值**
 
@@ -556,7 +556,7 @@ result = detectDirectedCycle(data);
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| graphData    | GraphData         | true     | 图数据，满足 G6 [数据格式](/zh/docs/manual/getting-started#step-2-数据准备)                                             |
+| graphData    | GraphData         | true     | 图数据，满足 G6 [数据格式](/zh/docs/manual/getting-started#step-2-数据准备)。注意，4.1 以前的版本该参数请传入图实例 |
 | directed | boolean | false | 是否考虑边的方向性，若不指定，则取图的 `directed` 属性 ｜ |
 | nodeIds | string[] | false | 需包含或排除的节点 ID 的数组，若不指定，则返回图中所有的圈 ｜ |
 | include | boolean | false | 若为 `true`, 则返回包含参数 `nodeIds` 中指定的节点的圈，否则，返回所有不包含 `nodeIds` 中指定的节点的圈。默认为 `true` ｜ |
@@ -589,7 +589,7 @@ const allCycleExcludeB = detectAllCycles(data, false, ['B'], false);
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| graphData    | GraphData         | true     | 图数据，满足 G6 [数据格式](/zh/docs/manual/getting-started#step-2-数据准备)                                             |
+| graphData    | GraphData         | true     | 图数据，满足 G6 [数据格式](/zh/docs/manual/getting-started#step-2-数据准备)。注意，4.1 以前的版本该参数请传入图实例 |
 | start | INode / string | true | G6 Node 实例或 ID，路径起始点 ｜ |
 | end | INode / string | true | G6 Node 实例或 ID，路径终点 ｜ |
 | directed | boolean | false | 是否考虑边的方向性，若不指定，则取图的 `directed` 属性 ｜ |
@@ -706,7 +706,7 @@ console.log(length, path);
 
 | 名称     | 类型           | 是否必选 | 描述                                                      |
 | -------- | -------------- | -------- | --------------------------------------------------------- |
-| graphData    | GraphData         | true     | 图数据，满足 G6 [数据格式](/zh/docs/manual/getting-started#step-2-数据准备)                                             |
+| graphData    | GraphData         | true     | 图数据，满足 G6 [数据格式](/zh/docs/manual/getting-started#step-2-数据准备)。注意，4.1 以前的版本该参数请传入图实例  |
 | start    | INode / string | true     | G6 Node 实例或 ID，路径起始点 ｜                          |
 | end      | INode / string | true     | G6 Node 实例或 ID，路径终点 ｜                            |
 | directed | boolean        | false    | 是否考虑边的方向性，若不指定，则取图的 `directed` 属性 ｜ |
@@ -816,7 +816,7 @@ console.log(allPath);
 
 | 名称     | 类型    | 是否必选 | 描述                                                      |
 | -------- | ------- | -------- | --------------------------------------------------------- |
-| graphData    | GraphData         | true     | 图数据，满足 G6 [数据格式](/zh/docs/manual/getting-started#step-2-数据准备)                                             |
+| graphData    | GraphData         | true     | 图数据，满足 G6 [数据格式](/zh/docs/manual/getting-started#step-2-数据准备)。注意，4.1 以前的版本该参数请传入图实例 |
 | directed | boolean | false    | 是否考虑边的方向性，若不指定，则取图的 `directed` 属性 ｜ |
 
 **返回值**
@@ -928,7 +928,7 @@ PageRank 可以用来度量网络中节点的重要性，最初用于标识网�
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| graphData    | GraphData         | true     | 图数据，满足 G6 [数据格式](/zh/docs/manual/getting-started#step-2-数据准备)                                             |
+| graphData    | GraphData         | true     | 图数据，满足 G6 [数据格式](/zh/docs/manual/getting-started#step-2-数据准备)。注意，4.1 以前的版本该参数请传入图实例 |
 | epsilon | number | false | 判断 PageRank 得分是否稳定的精度值，默认 0.000001 ｜ |
 | linkProb | number | false | 阻尼系数（dumping factor），指任意时刻，用户访问到某节点后继续访问该节点指向的节点的概率，默认 0.85。 ｜ |
 
