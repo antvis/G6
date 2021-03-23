@@ -1,5 +1,5 @@
 import { Canvas as GMobileCanvas } from '@antv/g-mobile';
-import { ICanvas, IGroup, Point } from '@antv/g-base';
+import { IGroup } from '@antv/g-base';
 import { mat3 } from '@antv/matrix-util';
 import { clone, deepMix, each, isString, isNumber } from '@antv/util';
 import { IGraph, DataUrlType } from '../interface/graph';
