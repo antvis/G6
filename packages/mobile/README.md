@@ -322,13 +322,11 @@ Page({
 }
 ```
 
-
 #### Layout with g6-mobile extends package
 
 ```ts
 import G6 from '@antv/g6-mobile';
-import CircularLayout from '@antv/g6-mobile/dist/extends/layout/circularLayout'
-
+import CircularLayout from '@antv/g6-mobile/dist/extends/layout/circularLayout';
 
 G6.registerLayout('circle', CircularLayout);
 
@@ -339,12 +337,12 @@ Page({
   },
 
   onLoad() {
-    this.ctx = my.createCanvasContext('canvas')
-    this.drawG6()
+    this.ctx = my.createCanvasContext('canvas');
+    this.drawG6();
   },
 
   drawG6() {
-    const { canvasWidth, canvasHeight } = this.data
+    const { canvasWidth, canvasHeight } = this.data;
     const data = {
       nodes: [
         {
@@ -445,7 +443,7 @@ Page({
         // width: 800,
         // height: 1200,
       },
-    })
+    });
 
     // graph.on('beforelayout', evt => {
     //   console.log('beforelayout------haha',  evt)
@@ -456,22 +454,15 @@ Page({
     // graph.on('beginlayout', evt => {
     //   console.log('beginlayout------haha',  evt)
     // })
-    graph.data(data)
-    graph.render()
+    graph.data(data);
+    graph.render();
   },
-})
+});
 ```
-
 
 ```html
 <view class="page-map-relation">
-  <canvas
-    id="canvas"
-    class="canvas"
-    onTouchStart="log"
-    onTouchMove="log"
-    onTouchEnd="log"
-  />
+  <canvas id="canvas" class="canvas" onTouchStart="log" onTouchMove="log" onTouchEnd="log" />
 </view>
 ```
 

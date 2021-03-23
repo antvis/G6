@@ -52,9 +52,9 @@ export default class LayoutController extends AbstractLayout {
   }
 
   /**
- * @param {function} success callback
- * @return {boolean} 是否使用web worker布局
- */
+   * @param {function} success callback
+   * @return {boolean} 是否使用web worker布局
+   */
   public layout(success?: () => void): boolean {
     const { graph } = this;
 
@@ -255,7 +255,6 @@ export default class LayoutController extends AbstractLayout {
       layoutMethod.layout({ nodes: layoutNodes });
     });
   }
-
 
   public destroy() {
     this.destoryLayoutMethods();
