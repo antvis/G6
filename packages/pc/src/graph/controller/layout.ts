@@ -106,14 +106,14 @@ export default class LayoutController extends AbstractLayout {
     }
   }
 
-  private execLayoutMethod(layoutCfg, order, success?: () => void): Promise<void> {
+  private execLayoutMethod(layoutCfg, order): Promise<void> {
     return new Promise((reslove, reject) => {
       const { graph } = this;
       let layoutType = layoutCfg.type;
 
       // 每个布局方法都需要注册
       layoutCfg.onLayoutEnd = () => {
-        graph.emit('afterSublayout', { type: layoutType });
+        graph.emit('aftersublayout', { type: layoutType });
         reslove();
       }
 
@@ -169,12 +169,9 @@ export default class LayoutController extends AbstractLayout {
       layoutMethod.init(layoutData);
       // 若存在节点没有位置信息，且没有设置 layout，在 initPositions 中 random 给出了所有节点的位置，不需要再次执行 random 布局
       // 所有节点都有位置信息，且指定了 layout，则执行布局（代表不是第一次进行布局）
-      graph.emit('beforeSublayout', { type: layoutType });
+      graph.emit('beforesublayout', { type: layoutType });
       layoutMethod.execute();
       if (layoutMethod.isCustomLayout && layoutCfg.onLayoutEnd) layoutCfg.onLayoutEnd();
-      // 在执行 execute 后立即执行 success，且在 timeBar 中有 throttle，可以防止 timeBar 监听 afterrender 进行 changeData 后 layout，从而死循环
-      // 对于 force 一类布局完成后的 fitView 需要用户自己在 onLayoutEnd 中配置
-      if (success) success();
       this.layoutMethods.push(layoutMethod);
     });
   }
@@ -186,14 +183,14 @@ export default class LayoutController extends AbstractLayout {
 
       // 每个布局方法都需要注册
       layoutCfg.onLayoutEnd = () => {
-        graph.emit('afterSublayout', { type: layoutType });
+        graph.emit('aftersublayout', { type: layoutType });
         reslove();
       }
 
       const layoutData = this.filterLayoutData(this.data, layoutCfg);
       layoutMethod.init(layoutData);
       layoutMethod.updateCfg(layoutCfg);
-      graph.emit('beforeSublayout', { type: layoutType });
+      graph.emit('beforesublayout', { type: layoutType });
       layoutMethod.execute();
       if (layoutMethod.isCustomLayout && layoutCfg.onLayoutEnd) layoutCfg.onLayoutEnd();
     });
@@ -285,16 +282,19 @@ export default class LayoutController extends AbstractLayout {
 
     let start = Promise.resolve();
     if (layoutCfg.type) {
-      start = start.then(() => this.execLayoutMethod(layoutCfg, 0, success));
+      start = start.then(() => this.execLayoutMethod(layoutCfg, 0));
     } else if (layoutCfg.pipes) {
       layoutCfg.pipes.forEach((cfg, index) => {
-        start = start.then(() => this.execLayoutMethod(cfg, index, success));
+        start = start.then(() => this.execLayoutMethod(cfg, index));
       });
     }
 
     // 最后统一在外部调用onAllLayoutEnd
     start.then(() => {
       if (layoutCfg.onAllLayoutEnd) layoutCfg.onAllLayoutEnd();
+      // 在执行 execute 后立即执行 success，且在 timeBar 中有 throttle，可以防止 timeBar 监听 afterrender 进行 changeData 后 layout，从而死循环
+      // 对于 force 一类布局完成后的 fitView 需要用户自己在 onLayoutEnd 中配置
+      if (success) success();
     }).catch((error) => {
       console.warn('graph layout failed,', error);
     });

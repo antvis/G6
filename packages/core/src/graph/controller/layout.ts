@@ -168,7 +168,7 @@ export default abstract class LayoutController {
 
       // 每个布局方法都需要注册
       layoutCfg.onLayoutEnd = () => {
-        graph.emit('afterSublayout', { type: layoutType });
+        graph.emit('aftersublayout', { type: layoutType });
         reslove();
       }
 
@@ -178,7 +178,7 @@ export default abstract class LayoutController {
         layoutMethod.forceSimulation.stop();
       }
 
-      graph.emit('beforeSublayout', { type: layoutType });
+      graph.emit('beforesublayout', { type: layoutType });
       layoutMethod.execute();
       if (layoutMethod.isCustomLayout && layoutCfg.onLayoutEnd) layoutCfg.onLayoutEnd();
     });
