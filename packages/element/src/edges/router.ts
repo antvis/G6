@@ -295,7 +295,7 @@ const getControlPoints = (
     id: currentId,
   };
   if (getDirectionChange(lastPoint, scaleEndPoint, cameFrom, scaleStartPoint)) {
-    // if (scaleEndPoint.x === endPoint.x && scaleEndPoint.y === endPoint.y) 
+    // if (scaleEndPoint.x === endPoint.x && scaleEndPoint.y === endPoint.y)
     //   controlPoints.unshift({
     //     x: endPoint.x,
     //     y: endPoint.y
@@ -305,7 +305,7 @@ const getControlPoints = (
     //     x: lastPoint.x * gridSize,
     //     y: lastPoint.y * gridSize,
     //   });
-    
+
     controlPoints.unshift({
       x: scaleEndPoint.x === endPoint.x ? endPoint.x : lastPoint.x * gridSize,
       y: scaleEndPoint.y === endPoint.y ? endPoint.y : lastPoint.y * gridSize,
@@ -327,8 +327,7 @@ const getControlPoints = (
     };
     const directionChange = getDirectionChange(prePoint, point, cameFrom, scaleStartPoint);
     if (directionChange) {
-
-      // if (prePoint.x === point.x && prePoint.y === point.y) 
+      // if (prePoint.x === point.x && prePoint.y === point.y)
       //   controlPoints.unshift({
       //     x: controlPoints[0].x,
       //     y: controlPoints[0].y
@@ -338,7 +337,7 @@ const getControlPoints = (
       //     x: prePoint.x * gridSize,
       //     y: prePoint.y * gridSize,
       //   });
-      
+
       controlPoints.unshift({
         x: prePoint.x === point.x ? controlPoints[0].x : prePoint.x * gridSize,
         y: prePoint.y === point.y ? controlPoints[0].y : prePoint.y * gridSize,
@@ -469,7 +468,9 @@ export const pathFinder = (
       neighbor = {
         x: current.x + direction.stepX,
         y: current.y + direction.stepY,
-        id: `${Math.round(current.x) + direction.stepX}|||${Math.round(current.y) + direction.stepY}`,
+        id: `${Math.round(current.x) + direction.stepX}|||${
+          Math.round(current.y) + direction.stepY
+        }`,
       };
 
       if (closedSet[neighbor.id]) continue;

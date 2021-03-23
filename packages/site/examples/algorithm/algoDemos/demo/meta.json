@@ -5,6 +5,14 @@
   },
   "demos": [
     {
+      "filename": "gaddi.js",
+      "title": {
+        "zh": "图模式匹配",
+        "en": "Graph Pattern Matching"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ucUBSoDw2TwAAAAAAAAAAAAAARQnAQ"
+    },
+    {
       "filename": "shortestPath.js",
       "title": {
         "zh": "最短路径",

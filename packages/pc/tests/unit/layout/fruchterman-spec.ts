@@ -89,10 +89,12 @@ describe('fruchterman', () => {
       ],
     });
     graph.render();
-    const nodeModel = graph.getNodes()[0].getModel();
-    expect(nodeModel.x).toEqual(250);
-    expect(nodeModel.y).toEqual(250);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      const nodeModel = graph.getNodes()[0].getModel();
+      expect(nodeModel.x).toEqual(250);
+      expect(nodeModel.y).toEqual(250);
+      graph.destroy();
+    });
   });
   it('fruchterman layout with clustering and no clusterGravity', () => {
     const colors = ['#f00', '#0f0', '#00f', '#ff0'];
@@ -160,11 +162,13 @@ describe('fruchterman', () => {
     };
     graph.data(tmpData);
     graph.render();
-    const node0 = tmpData.nodes[0];
-    const node1 = tmpData.nodes[1];
-    expect(node0.x).not.toEqual(node1.x);
-    expect(node0.y).not.toEqual(node1.y);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      const node0 = tmpData.nodes[0];
+      const node1 = tmpData.nodes[1];
+      expect(node0.x).not.toEqual(node1.x);
+      expect(node0.y).not.toEqual(node1.y);
+      graph.destroy();
+    });
   });
   it('update fructherman layout configurations', () => {
     const graph = new G6.Graph({

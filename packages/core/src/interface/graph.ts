@@ -113,6 +113,18 @@ export interface IAbstractGraph extends EventEmitter {
   getCanvasByPoint: (x: number, y: number) => Point;
 
   /**
+   * 获取图内容的中心绘制坐标
+   * @return {object} 中心绘制坐标
+   */
+  getGraphCenterPoint: () => Point;
+
+  /**
+   * 获取视口中心绘制坐标
+   * @return {object} 视口中心绘制坐标
+   */
+  getViewPortCenterPoint: () => Point;
+
+  /**
    * 设置是否在更新/刷新后自动重绘
    * @param {boolean} auto 自动重绘
    */
@@ -309,6 +321,7 @@ export interface IAbstractGraph extends EventEmitter {
   getNodeDegree: (
     node: string | INode,
     type?: 'in' | 'out' | 'total' | 'all' | undefined,
+    refresh?: boolean
   ) => Number | Object;
   /**
    * 获取指定 combo 中所有的节点

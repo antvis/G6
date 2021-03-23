@@ -66,10 +66,8 @@ const data = {
   ],
 };
 const tooltip = new G6.Tooltip({
-  // offsetX and offsetY include the padding of the parent container
-  // offsetX 与 offsetY 需要加上父容器的 padding
   offsetX: 10,
-  offsetY: 50 + 10,
+  offsetY: 10,
   // the types of items that allow the tooltip show up
   // 允许出现 tooltip 的 item 类型
   itemTypes: ['node', 'edge'],

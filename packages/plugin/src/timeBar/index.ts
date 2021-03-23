@@ -6,7 +6,7 @@ import { Canvas as GSVGCanvas } from '@antv/g-svg';
 import { ICanvas } from '@antv/g-base';
 import { createDom, modifyCSS } from '@antv/dom-util';
 import Base, { IPluginBaseConfig } from '../base';
-import TrendTimeBar, { SliderOption } from './trendTimeBar';
+import TrendTimeBar, { TickCfg, SliderOption } from './trendTimeBar';
 import TimeBarSlice, { TimeBarSliceOption } from './timeBarSlice';
 import { VALUE_CHANGE } from './constant';
 import {
@@ -65,8 +65,8 @@ interface TimeBarConfig extends IPluginBaseConfig {
   // 滑块、及前后背景的配置
   readonly slider?: SliderOption;
 
-  // 刻度时间轴配置项
-  readonly tick?: TimeBarSliceOption;
+  // tick 类型配置项，或 trend 和 simple 类型的时间刻度配置项
+  readonly tick?: TimeBarSliceOption | TickCfg;
 
   // 控制按钮
   readonly controllerCfg?: ControllerCfg;
@@ -189,6 +189,8 @@ export default class TimeBar extends Base {
       controllerCfg,
       textStyle,
       tick,
+      backgroundStyle,
+      foregroundStyle,
     } = this._cfgs;
     const { data, ...other } = trend;
 
@@ -211,6 +213,8 @@ export default class TimeBar extends Base {
         width: realWidth,
         height: defaultHeight,
         padding,
+        backgroundStyle,
+        foregroundStyle,
         trendCfg: {
           ...other,
           data: data.map((d) => d.value),
@@ -219,6 +223,8 @@ export default class TimeBar extends Base {
         tick: {
           ticks: data,
           tickLabelFormatter: tick.tickLabelFormatter,
+          tickLabelStyle: tick.tickLabelStyle,
+          tickLineStyle: tick.tickLineStyle,
         },
         handlerStyle: {
           ...slider.handlerStyle,

@@ -7,6 +7,7 @@ import {
   roundedHull,
   paddedHull,
 } from '../../../src/util/path';
+import { vec2 } from '@antv/matrix-util';
 
 describe('Path Util Test', () => {
   it('getSpline', () => {
@@ -194,7 +195,7 @@ describe('Path Util Test', () => {
   });
 
   it('roundedHull', () => {
-    const points = [
+    const points: vec2[] = [
       [0, 0],
       [10, 10],
       [100, 40],
@@ -208,7 +209,7 @@ describe('Path Util Test', () => {
   });
 
   it('paddedHull', () => {
-    const points = [
+    const points: vec2[] = [
       [0, 0],
       [10, 10],
       [100, 40],

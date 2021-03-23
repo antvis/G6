@@ -1,6 +1,5 @@
 ### G6 Mobile
 
-
 ## Usage
 
 #### Graph with g6-mobile
@@ -15,12 +14,12 @@ Page({
   },
 
   onLoad() {
-    this.ctx = my.createCanvasContext('canvas')
-    this.drawG6()
+    this.ctx = my.createCanvasContext('canvas');
+    this.drawG6();
   },
 
   drawG6() {
-    const { canvasWidth, canvasHeight } = this.data
+    const { canvasWidth, canvasHeight } = this.data;
     const data = {
       nodes: [
         {
@@ -42,7 +41,7 @@ Page({
           target: 'node2',
         },
       ],
-    }
+    };
 
     const graph = new G6.Graph({
       container: null,
@@ -70,16 +69,13 @@ Page({
           stroke: '#e2e2e2',
         },
       },
-    })
+    });
 
-    graph.data(data)
-    graph.render()
+    graph.data(data);
+    graph.render();
   },
-})
-
+});
 ```
-
-
 
 #### TreeGraph with g6-mobile extends package
 
@@ -96,12 +92,12 @@ Page({
   },
 
   onLoad() {
-    this.ctx = my.createCanvasContext('canvas')
-    this.drawG6()
+    this.ctx = my.createCanvasContext('canvas');
+    this.drawG6();
   },
 
   drawG6() {
-    const { canvasWidth, canvasHeight } = this.data
+    const { canvasWidth, canvasHeight } = this.data;
 
     const data = {
       id: 'Modeling Methods',
@@ -129,7 +125,7 @@ Page({
           ],
         },
       ],
-    }
+    };
 
     const graph = new G6.TreeGraph({
       container: null,
@@ -162,21 +158,19 @@ Page({
         direction: 'TB', // H / V / LR / RL / TB / BT
         // fixedRoot: true,
       },
-    })
+    });
 
-    graph.data(data)
-    graph.render()
+    graph.data(data);
+    graph.render();
   },
-})
+});
 ```
-
 
 #### Layout with g6-mobile extends package
 
 ```ts
 import G6 from '@antv/g6-mobile';
-import CircularLayout from '@antv/g6-mobile/dist/extends/layout/circularLayout'
-
+import CircularLayout from '@antv/g6-mobile/dist/extends/layout/circularLayout';
 
 G6.registerLayout('circle', CircularLayout);
 
@@ -187,12 +181,12 @@ Page({
   },
 
   onLoad() {
-    this.ctx = my.createCanvasContext('canvas')
-    this.drawG6()
+    this.ctx = my.createCanvasContext('canvas');
+    this.drawG6();
   },
 
   drawG6() {
-    const { canvasWidth, canvasHeight } = this.data
+    const { canvasWidth, canvasHeight } = this.data;
     const data = {
       nodes: [
         {
@@ -293,7 +287,7 @@ Page({
         // width: 800,
         // height: 1200,
       },
-    })
+    });
 
     // graph.on('beforelayout', evt => {
     //   console.log('beforelayout------haha',  evt)
@@ -304,22 +298,15 @@ Page({
     // graph.on('beginlayout', evt => {
     //   console.log('beginlayout------haha',  evt)
     // })
-    graph.data(data)
-    graph.render()
+    graph.data(data);
+    graph.render();
   },
-})
+});
 ```
-
 
 ```html
 <view class="page-map-relation">
-  <canvas
-    id="canvas"
-    class="canvas"
-    onTouchStart="log"
-    onTouchMove="log"
-    onTouchEnd="log"
-  />
+  <canvas id="canvas" class="canvas" onTouchStart="log" onTouchMove="log" onTouchEnd="log" />
 </view>
 ```
 

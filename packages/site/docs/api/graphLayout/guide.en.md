@@ -12,6 +12,7 @@ Notice that the layouts for Graph cannot be used on TreeGraph.
 - [Random Layout](./random): Randomizes the node postions;
 - [GForce Layout](./gforce): Classical force-directed layout supports GPU parallel computing, supported by G6 4.0;
 - [Force Layout](./force): Classical force-directed layout;
+- [Force Atlas 2 Layout](./forceAtlas2): FA2 is a kind of force directed layout, which performs better on the convergence and compactness;
 - [Fruchterman Layout](./fruchterman): A kind of force-directed layout;
 - [Circular Layout](./circular): Arranges the nodes on a circle;
 - [Radial Layout](./radial): Arranges the nodes around a focus node radially;

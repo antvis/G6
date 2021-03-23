@@ -1,9 +1,43 @@
 # ChangeLog
 
+#### 4.2.3
+
+- fix: layout with fitView;
+
+#### 4.2.2
+
+- feat: pipe layouts for subgraphs;
+
+#### 4.2.1
+
+- fix: circle combo edge linking position problem;
+- fix: drag minimap viewport with forbidden icon in chrome on windows;
+- fix: show node without node position problem;
+- fix: addItem and getNodeDgree with wrong result problem;
+- fix: timebar data filtering problem;
+- fix: update endArrow to be false and set state problem;
+- feat: pass comb and comboEdge data for layout;
+- feat: tooltip with fixToItem to avoid following the mouse when moving;
+- feat: getViewPortCenterPoint and getGraphCenterPoint API;
+- feat: tooltip with trigger configuration, supports mouseenter and click;
+
+#### 4.2.0
+
+- fix: combo edge link position problem;
+- fix: activate-relations with combo and combo edges problem;
+- feat: support config TimeBar handler, background, foreground, tick label, tick line style;
+
+#### 4.1.16
+
+- fix: webworker in dist;
+
+#### 4.1.15
+
+- fix: cubic-x problem, closes: #2698;
+
 #### 4.1.14
 
 - fix: gridSize for polyline;
-- fix: cubic-x problem, closes: #2698;
 - fix: create-edge undo problem;
 - fix: tslib spreadArray problem;
 - fix: rect combo position with state problem;

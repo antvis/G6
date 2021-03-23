@@ -1,9 +1,10 @@
 import { AbstractLayout, GraphData } from '@antv/g6-core';
 import { Layout } from '../../layout';
-import { mix } from '@antv/util';
+import { mix, clone } from '@antv/util';
 
 import { IGraph } from '../../interface/graph';
 
+const LayoutPipesAdjustNames = ['force', 'grid', 'circular'];
 export default class LayoutController extends AbstractLayout {
   public graph: IGraph;
 
@@ -13,27 +14,40 @@ export default class LayoutController extends AbstractLayout {
     super(graph);
     this.graph = graph;
     this.layoutCfg = graph.get('layout') || {};
-    this.layoutType = this.layoutCfg.type;
+    this.layoutType = this.getLayoutType();
   }
 
   // 更新布局参数
   public updateLayoutCfg(cfg) {
-    const { graph, layoutMethod, layoutType, layoutCfg } = this;
+    const { graph, layoutMethods } = this;
+    const layoutCfg = mix({}, this.layoutCfg, cfg);
+    this.layoutCfg = layoutCfg;
 
-    this.layoutType = cfg.type;
-    if (!layoutMethod || layoutMethod.destroyed) {
-      this.layoutCfg = mix({}, layoutCfg, cfg);
+    if (!layoutMethods?.length) {
       this.layout();
       return;
     }
     this.data = this.setDataFromGraph();
 
-    layoutMethod.init(this.data);
-    layoutMethod.updateCfg(cfg);
     graph.emit('beforelayout');
-    layoutMethod.execute();
 
-    if (layoutCfg.onLayoutEnd) layoutCfg.onLayoutEnd();
+    let start = Promise.resolve();
+    if (layoutMethods.length === 1) {
+      start = start.then(() => this.updateLayoutMethod(layoutMethods[0], layoutCfg));
+    } else {
+      layoutMethods?.forEach((layoutMethod, index) => {
+        const currentCfg = layoutCfg.pipes[index];
+        start = start.then(() => this.updateLayoutMethod(layoutMethod, currentCfg));
+      });
+    }
+
+    start
+      .then(() => {
+        if (layoutCfg.onAllLayoutEnd) layoutCfg.onAllLayoutEnd();
+      })
+      .catch((error) => {
+        console.warn('layout failed', error);
+      });
   }
 
   /**
@@ -44,7 +58,7 @@ export default class LayoutController extends AbstractLayout {
     const { graph } = this;
 
     this.data = this.setDataFromGraph();
-    const { nodes } = this.data;
+    const { nodes, hiddenNodes } = this.data;
 
     if (!nodes) {
       return false;
@@ -63,63 +77,102 @@ export default class LayoutController extends AbstractLayout {
     );
     this.layoutCfg = layoutCfg;
 
-    const hasLayoutType = !!this.layoutType;
-
-    let { layoutMethod } = this;
-    if (layoutMethod) {
-      layoutMethod.destroy();
-    }
+    this.destoryLayoutMethods();
 
     graph.emit('beforelayout');
-    const allHavePos = this.initPositions(layoutCfg.center, nodes);
+    this.initPositions(layoutCfg.center, nodes);
+    // init hidden ndoes
+    this.initPositions(layoutCfg.center, hiddenNodes);
 
-    let layoutType = this.layoutType;
+    // 在 onAllLayoutEnd 中执行用户自定义 onLayoutEnd，触发 afterlayout、更新节点位置、fitView/fitCenter、触发 afterrender
+    const { onLayoutEnd, layoutEndFormatted, adjust } = layoutCfg;
 
-    // 所有布局挂载 onLayoutEnd, 在布局结束后依次执行：
-    // 执行用户自定义 onLayoutEnd，触发 afterlayout、更新节点位置、fitView/fitCenter、触发 afterrender
-    const { onLayoutEnd, layoutEndFormatted } = layoutCfg;
     if (!layoutEndFormatted) {
       layoutCfg.layoutEndFormatted = true;
-      layoutCfg.onLayoutEnd = () => {
+
+      layoutCfg.onAllLayoutEnd = async () => {
         // 执行用户自定义 onLayoutEnd
         if (onLayoutEnd) {
           onLayoutEnd();
         }
-        // 触发 afterlayout
-        graph.emit('afterlayout');
+
         // 更新节点位置
         this.refreshLayout();
-        // 由 graph 传入的，控制 fitView、fitCenter，并触发 afterrender
-        if (success) success();
-      };
-    }
 
-    if (layoutType === 'force' || layoutType === 'g6force' || layoutType === 'gForce') {
-      const { onTick } = layoutCfg;
-      const tick = () => {
-        if (onTick) {
-          onTick();
+        // 最后再次调整
+        if (adjust && layoutCfg.pipes) {
+          await this.adjustPipesBox(this.data, adjust);
+          this.refreshLayout();
         }
-        graph.refreshPositions();
+
+        // 触发 afterlayout
+        graph.emit('afterlayout');
       };
-      layoutCfg.tick = tick;
-    } else if (this.layoutType === 'comboForce') {
-      layoutCfg.comboTrees = graph.get('comboTrees');
     }
 
-    let enableTick = false;
-    if (layoutType !== undefined) {
+    let start = Promise.resolve();
+    if (layoutCfg.type) {
+      start = start.then(() => this.execLayoutMethod(layoutCfg, 0));
+    } else if (layoutCfg.pipes) {
+      layoutCfg.pipes.forEach((cfg, index) => {
+        start = start.then(() => this.execLayoutMethod(cfg, index));
+      });
+    }
+
+    // 最后统一在外部调用onAllLayoutEnd
+    start
+      .then(() => {
+        if (layoutCfg.onAllLayoutEnd) layoutCfg.onAllLayoutEnd();
+        // 在执行 execute 后立即执行 success，且在 timeBar 中有 throttle，可以防止 timeBar 监听 afterrender 进行 changeData 后 layout，从而死循环
+        // 对于 force 一类布局完成后的 fitView 需要用户自己在 onLayoutEnd 中配置
+        if (success) success();
+      })
+      .catch((error) => {
+        console.warn('graph layout failed,', error);
+      });
+
+    return false;
+  }
+
+  private execLayoutMethod(layoutCfg, order): Promise<void> {
+    return new Promise((reslove, reject) => {
+      const { graph } = this;
+      let layoutType = layoutCfg.type;
+
+      // 每个布局方法都需要注册
+      layoutCfg.onLayoutEnd = () => {
+        graph.emit('aftersublayout', { type: layoutType });
+        reslove();
+      };
+
+      const isForce = layoutType === 'force' || layoutType === 'g6force' || layoutType === 'gForce';
+      if (isForce) {
+        const { onTick } = layoutCfg;
+        const tick = () => {
+          if (onTick) {
+            onTick();
+          }
+          graph.refreshPositions();
+        };
+        layoutCfg.tick = tick;
+      } else if (layoutCfg.type === 'comboForce') {
+        layoutCfg.comboTrees = graph.get('comboTrees');
+      }
+
+      let enableTick = false;
+      let layoutMethod;
+
       try {
         layoutMethod = new Layout(layoutCfg);
       } catch (e) {
         console.warn(`The layout method: '${layoutType}' does not exist! Please specify it first.`);
-        return false;
+        reject();
       }
 
       // 是否需要迭代的方式完成布局。这里是来自布局对象的实例属性，是由布局的定义者在布局类定义的。
       enableTick = layoutMethod.enableTick;
       if (enableTick) {
-        const { onTick, onLayoutEnd } = layoutCfg;
+        const { onTick } = layoutCfg;
         const tick = () => {
           if (onTick) {
             onTick();
@@ -127,42 +180,99 @@ export default class LayoutController extends AbstractLayout {
           graph.refreshPositions();
         };
         layoutMethod.tick = tick;
-        const onLayoutEndNew = () => {
-          if (onLayoutEnd) {
-            onLayoutEnd();
-          }
-          graph.emit('afterlayout');
-        };
-        layoutMethod.onLayoutEnd = onLayoutEndNew;
       }
-      layoutMethod.init(this.data);
+      const layoutData = this.filterLayoutData(this.data, layoutCfg);
+      addLayoutOrder(layoutData, order);
+      layoutMethod.init(layoutData);
       // 若存在节点没有位置信息，且没有设置 layout，在 initPositions 中 random 给出了所有节点的位置，不需要再次执行 random 布局
       // 所有节点都有位置信息，且指定了 layout，则执行布局（代表不是第一次进行布局）
-      if (hasLayoutType) {
-        graph.emit('beginlayout');
-        layoutMethod.execute();
-        if (layoutCfg.onLayoutEnd) layoutCfg.onLayoutEnd();
+      graph.emit('beforesublayout', { type: layoutType });
+      layoutMethod.execute();
+      if (layoutMethod.isCustomLayout && layoutCfg.onLayoutEnd) layoutCfg.onLayoutEnd();
+      this.layoutMethods.push(layoutMethod);
+    });
+  }
+
+  private updateLayoutMethod(layoutMethod, layoutCfg): Promise<void> {
+    return new Promise((reslove, reject) => {
+      const { graph } = this;
+      const layoutType = layoutCfg?.type;
+
+      // 每个布局方法都需要注册
+      layoutCfg.onLayoutEnd = () => {
+        graph.emit('aftersublayout', { type: layoutType });
+        reslove();
+      };
+
+      const layoutData = this.filterLayoutData(this.data, layoutCfg);
+      layoutMethod.init(layoutData);
+      layoutMethod.updateCfg(layoutCfg);
+      graph.emit('beforesublayout', { type: layoutType });
+      layoutMethod.execute();
+      if (layoutMethod.isCustomLayout && layoutCfg.onLayoutEnd) layoutCfg.onLayoutEnd();
+    });
+  }
+
+  protected adjustPipesBox(data, adjust: string): Promise<void> {
+    return new Promise((resolve) => {
+      const { nodes } = data;
+      if (!nodes?.length) {
+        resolve();
       }
-      this.layoutMethod = layoutMethod;
-    } else if (layoutCfg.onLayoutEnd) {
-      // 若没有配置 layout，也需要更新画布
-      layoutCfg.onLayoutEnd();
-    }
-    return false;
+
+      if (!LayoutPipesAdjustNames.includes(adjust)) {
+        console.warn(
+          `The adjust type ${adjust} is not supported yet, please assign it with 'force', 'grid', or 'circular'.`,
+        );
+        resolve();
+      }
+
+      const layoutCfg = {
+        center: this.layoutCfg.center,
+        nodeSize: (d) => Math.max(d.height, d.width),
+        preventOverlap: true,
+        onLayoutEnd: () => {},
+      };
+
+      // 计算出大单元
+      const { groupNodes, layoutNodes } = this.getLayoutBBox(nodes);
+      const preNodes = clone(layoutNodes);
+
+      // 根据大单元坐标的变化，调整这里面每个小单元nodes
+      layoutCfg.onLayoutEnd = () => {
+        layoutNodes?.forEach((ele, index) => {
+          const dx = ele.x - preNodes[index]?.x;
+          const dy = ele.y - preNodes[index]?.y;
+          groupNodes[index]?.forEach((n: any) => {
+            n.x += dx;
+            n.y += dy;
+          });
+        });
+        resolve();
+      };
+      const layoutMethod = new Layout(layoutCfg);
+      layoutMethod.layout({ nodes: layoutNodes });
+    });
   }
 
   public destroy() {
-    const { layoutMethod } = this;
-    if (layoutMethod) {
-      layoutMethod.destroy();
-      layoutMethod.destroyed = true;
-    }
+    this.destoryLayoutMethods();
     this.destroyed = true;
 
     this.graph.set('layout', undefined);
     this.layoutCfg = undefined;
     this.layoutType = undefined;
-    this.layoutMethod = undefined;
+    this.layoutMethods = undefined;
     this.graph = null;
   }
+}
+
+function addLayoutOrder(data, order) {
+  if (!data?.nodes?.length) {
+    return;
+  }
+  const { nodes } = data;
+  nodes.forEach((node) => {
+    node.layoutOrder = order;
+  });
 }

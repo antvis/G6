@@ -141,9 +141,9 @@ const layout = {
 treeGraph.changeLayout(layout);
 ```
 
-### refreshLayout(fitView)
+### layout(fitView)
 
-数据变更后，重新布局，刷新视图，并更新到画布。
+数据变更后，重新布局，刷新视图，并更新到画布。v4.x 废弃了 `refreshLayout`，请使用 `layout` 替代。
 
 **参数**
 
@@ -154,7 +154,7 @@ treeGraph.changeLayout(layout);
 **用法**
 
 ```javascript
-treeGraph.refreshLayout(true);
+treeGraph.layout(true);
 ```
 
 ## 查找

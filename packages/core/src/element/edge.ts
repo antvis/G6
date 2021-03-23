@@ -155,9 +155,9 @@ const singleEdge: ShapeOptions = {
       };
     }
     if (currentAttr.startArrow && previousStyle.startArrow === false) {
-      cfg.style.startArrow = {
-        path: '',
-      };
+      // cfg.style.startArrow = {
+      //   path: '',
+      // };
     }
     const path = (this as any).getPath(points, routeCfg);
     const style = mix(
@@ -610,7 +610,7 @@ Shape.registerEdge(
       if (isNumber(cfg.curvePosition))
         cfg.curvePosition = [cfg.curvePosition, 1 - cfg.curvePosition];
 
-      const yDist = Math.abs(endPoint!.y - startPoint!.y);
+      const yDist = endPoint!.y - startPoint!.y;
       let curveOffset: number[] = [0, 0];
       if (cfg.curveOffset) {
         curveOffset = cfg.curveOffset;
@@ -650,7 +650,7 @@ Shape.registerEdge(
       if (isNumber(cfg.curvePosition))
         cfg.curvePosition = [cfg.curvePosition, 1 - cfg.curvePosition];
 
-      const xDist = Math.abs(endPoint!.x - startPoint!.x);
+      const xDist = endPoint!.x - startPoint!.x;
       let curveOffset: number[] = [0, 0];
       if (cfg.curveOffset) {
         curveOffset = cfg.curveOffset;

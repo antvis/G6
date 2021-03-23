@@ -446,7 +446,7 @@ export default class ControllerBtn {
     this.toggleGroup.addShape('rect', {
       attrs: {
         x: width - TOGGLE_MODEL_OFFSET,
-        y: this.speedAxisY[0] + 4,
+        y: this.speedAxisY[0] + 3.5,
         ...box,
       },
       isChecked: false,

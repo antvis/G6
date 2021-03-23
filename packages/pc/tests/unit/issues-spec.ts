@@ -1,4 +1,4 @@
-import G6, { Graph, TreeGraph } from '../../src';
+import G6, { Graph } from '../../src';
 
 const div = document.createElement('div');
 div.id = 'container';

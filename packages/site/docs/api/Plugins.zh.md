@@ -359,6 +359,8 @@ ToolTip 插件主要用于在节点和边上展示一些辅助信息，G6 4.0 �
 | offsetX | number | 6 | tooltip 的 x 方向偏移值，需要考虑父级容器的 padding |
 | offsetY | number | 6 | tooltip 的 y 方向偏移值，需要考虑父级容器的 padding |
 | itemTypes | string[] | ['node', 'edge', 'combo'] | tooltip 作用在哪些类型的元素上，若只想在节点上显示，可将其设置为 ['node'] |
+| trigger | 'mouseenter' / 'click' | 'mouseenter' | v4.2.1 支持。出现 tooltip 的触发方式。默认为鼠标进入节点/边/combo。设置为 `'click'` 代表触发方式为点击节点/边/combo |
+| fixToNode | boolean / [number, number] | false | v4.2.1 支持。是否固定出现在相对于目标节点的某个位置，鼠标在节点上方移动时不实时更新。`false` 代表不固定，`[number, number]` 类型的值用于指定固定位置，例如 `[1, 0.5]` 代表 tooltip 的左上角固定到目标节点的正右方（数组代表的类似 [Anchor Point](/zh/docs/manual/middle/nodes/anchorPoint) 的位置定义）。仅在节点上生效 |
 
 ### 用法
 
@@ -631,8 +633,9 @@ interface TimeBarConfig extends IPluginBaseConfig {
   // 滑块、及前后背景的配置
   readonly slider?: SliderOption;
 
-  // 刻度时间轴配置项
-  readonly tick?: TimeBarSliceOption;
+  // 当 type 是 tick 时，这是 tick 类型时间轴的配置项
+  // 当 type 是 trend 或 simple 时，这是时间轴下方时间刻度文本的配置项
+  readonly tick?: TimeBarSliceOption | TickCfg;
 
   // 控制按钮
   readonly controllerCfg?: ControllerCfg;
@@ -658,7 +661,7 @@ interface TimeBarConfig extends IPluginBaseConfig {
 | type | 'trend' / 'simple' / 'tick' | trend | 默认的 TimeBar 类型，默认为趋势图样式 |
 | trend | TrendConfig | null | Timebar 中趋势图的配置项，当 type 为 trend 或 simple 时，该字段必选 |
 | slider | SliderOption | null | TimeBar 组件背景及控制调节范围的滑块的配置项 |
-| tick | TimeBarSliceOption | null | 刻度 TimeBar 配置项，当 type 为 tick 时，该字段必选 |
+| tick | TimeBarSliceOption / TickCfg | null | 当 type 是 tick 时，这是 tick 类型时间轴的配置项，该字段必须按；当 type 是 trend 或 simple 时，这是时间轴下方时间刻度文本的配置项 |
 | controllerCfg | ControllerCfg | null | 控制按钮组配置项 |
 | filterEdge | boolean | false | 是否过滤边，若为 true，则需要配合边数据上有 date 字段，过滤节点同时将不满足 date 在选中范围内的边也过滤出去；若为 false，则仅过滤节点以及两端节点都被过滤出去的边 |
 | rangeChange | Function | null | TimeBar 时间范围变化时的回调函数，当不定义该函数时，时间范围变化时默认过滤图上的数据 |
@@ -790,6 +793,28 @@ export interface TimeBarSliceOption {
 | data                   | any[]             | []     | 必选，刻度时间轴的刻度数据     |
 | tickLabelFormatter     | Function          | null   | 刻度的格式化回调函数           |
 | tooltipFomatter        | Function          | null   | tooltip 上内容格式化的回调函数 |
+
+
+#### TickCfg 接口定义
+
+```javascript
+export interface TickCfg {
+  // 时间轴下方文本的格式化函数
+  readonly tickLabelFormatter?: (d: any) => string | undefined;
+  // 时间轴下方文本的图形样式
+  readonly tickLabelStyle?: ShapeStyle;
+  // 时间轴下方文本上的竖线图形样式
+  readonly tickLineStyle?: ShapeStyle;
+}
+```
+
+#### TickCfg 参数说明
+
+| Name | Type | Default Value | Description |
+| --- | --- | --- | --- |
+| tickLabelFormatter | Function | null | The formatter function for customing the labels of the ticks |
+| tickLabelStyle | ShapeStyle | {} | The shape style for the time tick labels |
+| tickLineStyle | ShapeStyle | {} | The shape style for the short vertical lines uppon the time tick labels |
 
 #### ControllerCfg 接口定义
 

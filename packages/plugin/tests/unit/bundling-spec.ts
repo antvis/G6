@@ -24,7 +24,7 @@ describe('edge bundling', () => {
     const bundle = new Bundling();
     bundle.initPlugin(graph);
 
-    const graphData = graph.save();
+    const graphData = graph.save() as GraphData;
     bundle.bundling(graphData);
 
     expect(graphData.edges[0].type).toEqual('polyline');
@@ -39,7 +39,7 @@ describe('edge bundling', () => {
     });
     bundle.initPlugin(graph);
 
-    const graphData = graph.save();
+    const graphData = graph.save() as GraphData;
     bundle.bundling(graphData);
 
     expect(graphData.edges[0].type).toEqual('polyline');
@@ -53,32 +53,33 @@ describe('edge bundling', () => {
       edges: [{ source: 'n0', target: 'n1' }],
     };
     graph.changeData(data2);
+    graph.on('afterlayout', () => {
+      const bundle = new Bundling();
+      bundle.initPlugin(graph);
+      bundle.bundling(data2);
 
-    const bundle = new Bundling();
-    bundle.initPlugin(graph);
-    bundle.bundling(data2);
+      data2.nodes = [
+        { id: 'n0', x: 10, y: 100 },
+        { id: 'n1', x: 100, y: 100 },
+        { id: 'n2', x: 10, y: 10 },
+      ];
 
-    data2.nodes = [
-      { id: 'n0', x: 10, y: 100 },
-      { id: 'n1', x: 100, y: 100 },
-      { id: 'n2', x: 10, y: 10 },
-    ];
+      data2.edges = [
+        { source: 'n0', target: 'n1' },
+        { source: 'n1', target: 'n2' },
+        { source: 'n0', target: 'n2' },
+      ];
 
-    data2.edges = [
-      { source: 'n0', target: 'n1' },
-      { source: 'n1', target: 'n2' },
-      { source: 'n0', target: 'n2' },
-    ];
+      bundle.updateBundling({
+        bundleThreshold: 0.1,
+        iterations: 120,
+        data: data2,
+      });
 
-    bundle.updateBundling({
-      bundleThreshold: 0.1,
-      iterations: 120,
-      data: data2,
+      expect(data2.edges[0].type).toEqual('polyline');
+      expect(data2.edges[0].controlPoints.length > 2).toEqual(true);
+      bundle.destroy();
     });
-
-    expect(data2.edges[0].type).toEqual('polyline');
-    expect(data2.edges[0].controlPoints.length > 2).toEqual(true);
-    bundle.destroy();
   });
 
   it('bundling no position info, throw error', () => {

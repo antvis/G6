@@ -304,14 +304,14 @@ G6.registerBehavior('dice-mindmap', {
             },
           ]),
         });
-        evt.currentTarget.refreshLayout(false);
+        evt.currentTarget.layout(false);
         break;
       case 'delete':
         const parent = evt.item.get('parent');
         evt.currentTarget.updateItem(parent, {
           children: (parent.get('model').children || []).filter((e) => e.id !== model.id),
         });
-        evt.currentTarget.refreshLayout(false);
+        evt.currentTarget.layout(false);
         break;
       case 'edit':
         break;
@@ -356,7 +356,7 @@ G6.registerBehavior('dice-mindmap', {
         graph.updateItem(item, {
           label: input.value,
         });
-        graph.refreshLayout(false);
+        graph.layout(false);
         graph.off('wheelZoom', clickEvt);
         destroyEl();
       }
