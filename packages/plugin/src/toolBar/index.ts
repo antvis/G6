@@ -77,7 +77,7 @@ export default class ToolBar extends Base {
     return {
       handleClick: undefined,
       // 指定菜单内容，function(e) {...}
-      getContent: graph => {
+      getContent: (graph) => {
         return `
           <ul class='g6-component-toolbar'>
             <li code='redo'>
@@ -142,8 +142,8 @@ export default class ToolBar extends Base {
 
     const handleClick = this.get('handleClick');
 
-    toolBarDOM.addEventListener('click', evt => {
-      const current = getEventPath(evt).filter(p => p.nodeName === 'LI');
+    toolBarDOM.addEventListener('click', (evt) => {
+      const current = getEventPath(evt).filter((p) => p.nodeName === 'LI');
       if (current.length === 0) {
         return;
       }
@@ -184,7 +184,7 @@ export default class ToolBar extends Base {
       return;
     }
 
-    graph.on('stackchange', evt => {
+    graph.on('stackchange', (evt) => {
       const { undoStack, redoStack } = evt;
       const undoStackLen = undoStack.length;
       const redoStackLen = redoStack.length;
@@ -233,10 +233,10 @@ export default class ToolBar extends Base {
 
       switch (action) {
         case 'visible': {
-          Object.keys(data).forEach(key => {
+          Object.keys(data).forEach((key) => {
             const array = data[key];
             if (!array) return;
-            array.forEach(model => {
+            array.forEach((model) => {
               const item = graph.findById(model.id);
               if (model.visible) {
                 graph.showItem(item, false);
@@ -249,10 +249,10 @@ export default class ToolBar extends Base {
         }
         case 'render':
         case 'update':
-          Object.keys(data).forEach(key => {
+          Object.keys(data).forEach((key) => {
             const array = data[key];
             if (!array) return;
-            array.forEach(model => {
+            array.forEach((model) => {
               graph.updateItem(model.id, model, false);
             });
           });
@@ -261,10 +261,10 @@ export default class ToolBar extends Base {
           graph.changeData(data, false);
           break;
         case 'delete': {
-          Object.keys(data).forEach(key => {
+          Object.keys(data).forEach((key) => {
             const array = data[key];
             if (!array) return;
-            array.forEach(model => {
+            array.forEach((model) => {
               const itemType = model.itemType;
               delete model.itemType;
               graph.addItem(itemType, model, false);
@@ -273,19 +273,19 @@ export default class ToolBar extends Base {
           break;
         }
         case 'add':
-          Object.keys(data).forEach(key => {
+          Object.keys(data).forEach((key) => {
             const array = data[key];
             if (!array) return;
-            array.forEach(model => {
+            array.forEach((model) => {
               graph.removeItem(model.id, false);
             });
           });
           break;
         case 'updateComboTree':
-          Object.keys(data).forEach(key => {
+          Object.keys(data).forEach((key) => {
             const array = data[key];
             if (!array) return;
-            array.forEach(model => {
+            array.forEach((model) => {
               graph.updateComboTree(model.id, model.parentId, false);
             });
           });
@@ -319,10 +319,10 @@ export default class ToolBar extends Base {
 
       switch (action) {
         case 'visible': {
-          Object.keys(data).forEach(key => {
+          Object.keys(data).forEach((key) => {
             const array = data[key];
             if (!array) return;
-            array.forEach(model => {
+            array.forEach((model) => {
               const item = graph.findById(model.id);
               if (model.visible) {
                 graph.showItem(item, false);
@@ -335,10 +335,10 @@ export default class ToolBar extends Base {
         }
         case 'render':
         case 'update':
-          Object.keys(data).forEach(key => {
+          Object.keys(data).forEach((key) => {
             const array = data[key];
             if (!array) return;
-            array.forEach(model => {
+            array.forEach((model) => {
               graph.updateItem(model.id, model, false);
             });
           });
@@ -348,26 +348,26 @@ export default class ToolBar extends Base {
           break;
         case 'delete':
           if (data.edges) {
-            data.edges.forEach(model => {
+            data.edges.forEach((model) => {
               graph.removeItem(model.id, false);
             });
           }
           if (data.nodes) {
-            data.nodes.forEach(model => {
+            data.nodes.forEach((model) => {
               graph.removeItem(model.id, false);
             });
           }
           if (data.combos) {
-            data.combos.forEach(model => {
+            data.combos.forEach((model) => {
               graph.removeItem(model.id, false);
             });
           }
           break;
         case 'add': {
-          Object.keys(data).forEach(key => {
+          Object.keys(data).forEach((key) => {
             const array = data[key];
             if (!array) return;
-            array.forEach(model => {
+            array.forEach((model) => {
               const itemType = model.itemType;
               delete model.itemType;
               graph.addItem(itemType, model, false);
@@ -376,10 +376,10 @@ export default class ToolBar extends Base {
           break;
         }
         case 'updateComboTree':
-          Object.keys(data).forEach(key => {
+          Object.keys(data).forEach((key) => {
             const array = data[key];
             if (!array) return;
-            array.forEach(model => {
+            array.forEach((model) => {
               graph.updateComboTree(model.id, model.parentId, false);
             });
           });

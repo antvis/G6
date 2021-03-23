@@ -3,13 +3,11 @@ title: Coordinate Transformation
 order: 15
 ---
 
-In this part, we will describe the methods about transformation between view port, canvas, and client coordinates. The relationships between them are shown below:
-
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M_xPSqLZYawAAAAAAAAAAABkARQnAQ' width=565 alt='img'/>
+In this part, we will describe the methods about transformation between point canvas, and client coordinates. The relationships and details could be refered to [Coordinate Systems in G6](/en/docs/manual/advanced/coordinate-system).
 
 ### graph.getPointByClient(clientX, clientY)
 
-Transform client/screen coordinates into view port coordinates.
+Transform client/screen coordinates into point coordinates.
 
 **Parameters**
 
@@ -27,19 +25,19 @@ Transform client/screen coordinates into view port coordinates.
 
 ```javascript
 const point = graph.getPointByClient(e.clientX, e.clientY);
-console.log('The x and y of view port are: ', point.x, point.y);
+console.log('The x and y of point coordinate system are: ', point.x, point.y);
 ```
 
 ### graph.getClientByPoint(x, y)
 
-Transform view port coordinates into client/screen coordinates.
+Transform point coordinates into client/screen coordinates.
 
 **Parameters**
 
 | Name | Type   | Required | Description                |
 | ---- | ------ | -------- | -------------------------- |
-| x    | Number | true     | x coordinate of view port. |
-| y    | Number | true     | y coordinate of view port. |
+| x    | Number | true     | x coordinate of point coordinate system. |
+| y    | Number | true     | y coordinate of point coordinate system. |
 
 **Return**
 
@@ -55,7 +53,7 @@ console.log('The x and y of client/screen are: ', point.x, point.y);
 
 ### graph.getPointByCanvas(canvasX, canvasY)
 
-Transform canvas coordinates into view port coordinates.
+Transform canvas coordinates into point coordinates.
 
 **Parameters**
 
@@ -73,19 +71,19 @@ Transform canvas coordinates into view port coordinates.
 
 ```javascript
 const point = graph.getPointByCanvas(100, 200);
-console.log('The x and y of view port: ', point.x, point.y);
+console.log('The x and y of point coordinate system: ', point.x, point.y);
 ```
 
 ### graph.getCanvasByPoint(x, y)
 
-Transform view port coordinates into canvas coordinates.
+Transform point coordinates into canvas coordinates.
 
 **Parameters**
 
 | Name | Type   | Required | Description                    |
 | ---- | ------ | -------- | ------------------------------ |
-| x    | Number | true     | The x coordinate of view port. |
-| y    | Number | true     | The y coordinate of view port. |
+| x    | Number | true     | The x coordinate of point coordinate system. |
+| y    | Number | true     | The y coordinate of point coordinate system. |
 
 **Return**
 
@@ -97,4 +95,44 @@ Transform view port coordinates into canvas coordinates.
 ```javascript
 const point = graph.getCanvasByPoint(100, 200);
 console.log('The x and y coordinates of canvas: ', point.x, point.y);
+```
+
+### graph.getGraphCenterPoint()
+
+Get the x/y in point coordinate system of the graph content's center. Supported by v4.2.1
+
+**Parameters**
+
+None
+
+**Return**
+
+- Type of the return value: Object;
+- Includes x and y of point coordinate system.
+
+**Usage**
+
+```javascript
+const point = graph.getGraphCenterPoint();
+console.log('graph content center under point coordinate system', point.x, point.y);
+```
+
+### graph.getViewPortCenterPoint()
+
+Get the x/y in point coordinate system of the view port center. Supported by v4.2.1
+
+**Parameters**
+
+None
+
+**Return**
+
+- Type of the return value: Object;
+- Includes x and y of point coordinate system.
+
+**Usage**
+
+```javascript
+const point = graph.getViewPortCenterPoint();
+console.log('view port center under point coordinate system', point.x, point.y);
 ```

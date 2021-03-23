@@ -2,10 +2,6 @@ import { IGroup } from '@antv/g-base';
 import { dataToPath, linePathToAreaPath, dataToRectPath } from './path';
 import { ShapeStyle } from '@antv/g6-core';
 
-export const BACKGROUND_STYLE = {
-  opacity: 0.5,
-};
-
 export const LINE_STYLE = {
   stroke: '#C5C5C5',
   strokeOpacity: 0.85,
@@ -33,7 +29,7 @@ export interface TrendCfg {
   // 样式
   readonly smooth?: boolean;
   readonly isArea?: boolean;
-  // readonly backgroundStyle?: ShapeStyle;
+  
   readonly lineStyle?: ShapeStyle;
   readonly areaStyle?: ShapeStyle;
   readonly interval?: Interval;
@@ -60,8 +56,6 @@ export default class Trend {
 
   private isArea: boolean;
 
-  private backgroundStyle: ShapeStyle;
-
   private lineStyle: ShapeStyle;
 
   private areaStyle: ShapeStyle;
@@ -77,7 +71,6 @@ export default class Trend {
       smooth = true,
       isArea = false,
       data = [],
-      // backgroundStyle,
       lineStyle,
       areaStyle,
       group,
@@ -95,7 +88,6 @@ export default class Trend {
 
     this.smooth = smooth;
     this.isArea = isArea;
-    // this.backgroundStyle = Object.assign({} as any, BACKGROUND_STYLE, backgroundStyle);
     this.lineStyle = Object.assign({} as any, LINE_STYLE, lineStyle);
     this.areaStyle = Object.assign({} as any, AREA_STYLE, areaStyle);
     this.intervalConfig = interval;
@@ -116,23 +108,12 @@ export default class Trend {
       data,
       smooth,
       isArea,
-      backgroundStyle,
       lineStyle,
       areaStyle,
     } = this;
     const trendGroup = this.group.addGroup({
       name: 'trend-group',
     });
-    // 背景
-    // trendGroup.addShape('rect', {
-    //   attrs: {
-    //     x,
-    //     y,
-    //     width,
-    //     height,
-    //     ...backgroundStyle,
-    //   },
-    // });
 
     if (data) {
       const path = dataToPath(data, width, height, smooth);

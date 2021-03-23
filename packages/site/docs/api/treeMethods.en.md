@@ -144,9 +144,9 @@ const layout = {
 treeGraph.changeLayout(layout);
 ```
 
-### refreshLayout(fitView)
+### layout(fitView)
 
-Refresh the layout. Usually, it is called after changing data.
+Refresh the layout. Usually, it is called after changing data. The `refreshLayout` is discarded by v4.x, call `layout` instead.
 
 **Parameters**
 
@@ -157,7 +157,7 @@ Refresh the layout. Usually, it is called after changing data.
 **Usage**
 
 ```javascript
-treeGraph.refreshLayout(true);
+treeGraph.layout(true);
 ```
 
 ## Search

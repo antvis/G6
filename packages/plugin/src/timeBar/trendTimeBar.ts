@@ -50,6 +50,17 @@ export const TEXT_STYLE = {
   opacity: 0.45,
 };
 
+export const TICK_LABEL_STYLE = {
+  textAlign: 'center',
+  textBaseline: 'top',
+  fill: '#607889',
+  opacity: 0.35,
+}
+export const TICK_LINE_STYLE = {
+  lineWidth: 1,
+  stroke: '#ccc',
+}
+
 export type SliderOption = Partial<{
   readonly width?: number;
   readonly height?: number;
@@ -70,6 +81,16 @@ export type SliderOption = Partial<{
   readonly maxText: string;
 }>;
 
+export type TickCfg = {
+  readonly ticks?: {
+    date: string;
+    value: string;
+  }[];
+  readonly tickLabelFormatter?: (d: any) => string | undefined;
+  readonly tickLabelStyle?: ShapeStyle;
+  readonly tickLineStyle?: ShapeStyle;
+};
+
 interface TrendTimeBarConfig extends SliderOption {
   readonly graph: IGraph;
   readonly canvas: ICanvas;
@@ -83,14 +104,9 @@ interface TrendTimeBarConfig extends SliderOption {
   readonly type: 'trend' | 'simple';
   // style
   readonly trendCfg?: TrendCfg;
-
-  readonly tick?: {
-    readonly ticks: {
-      date: string;
-      value: string;
-    }[];
-    readonly tickLabelFormatter?: (d: any) => string | undefined;
-  };
+  readonly backgroundStyle?: ShapeStyle;
+  readonly foregroundStyle?: ShapeStyle;
+  readonly tick?: TickCfg;
 
   readonly controllerCfg: ControllerCfg;
 
@@ -187,6 +203,10 @@ export default class TrendTimeBar {
 
   private tickLabelFormatter: (d: any) => string | undefined;
 
+  private tickLabelStyle: ShapeStyle;
+
+  private tickLineStyle: ShapeStyle;
+
   constructor(cfg: TrendTimeBarConfig) {
     const {
       x = 0,
@@ -210,7 +230,12 @@ export default class TrendTimeBar {
       group,
       graph,
       canvas,
-      tick,
+      tick = {
+        tickLabelStyle: {},
+        tickLineStyle: {},
+        tickLabelFormatter: (d: string) => { return d; },
+        ticks: []
+      } as TickCfg,
       type,
     } = cfg;
 
@@ -238,6 +263,8 @@ export default class TrendTimeBar {
     this.foregroundStyle = { ...FOREGROUND_STYLE, ...foregroundStyle };
     this.handlerStyle = { ...HANDLER_STYLE, ...handlerStyle };
     this.textStyle = { ...TEXT_STYLE, ...textStyle };
+    this.tickLabelStyle = { ...TICK_LABEL_STYLE, ...tick.tickLabelStyle };
+    this.tickLineStyle = { ...TICK_LINE_STYLE, ...tick.tickLineStyle };
 
     this.currentMode = 'range';
     // 初始信息
@@ -408,8 +435,7 @@ export default class TrendTimeBar {
       y: this.y,
       width: handlerWidth,
       height: handlerHeight,
-      cursor: 'ew-resize',
-      ...this.handlerStyle,
+      style: this.handlerStyle,
     });
 
     const maxHandleGroup = this.group.addGroup({
@@ -423,8 +449,7 @@ export default class TrendTimeBar {
       y: this.y,
       width: handlerWidth,
       height: handlerHeight,
-      cursor: 'ew-resize',
-      ...this.handlerStyle,
+      style: this.handlerStyle,
     });
 
     // 缩略图下面的时间刻度
@@ -457,11 +482,8 @@ export default class TrendTimeBar {
           x: this.x + index * interval,
           y: this.y + height + 5,
           text: label,
-          textAlign: 'center',
-          textBaseline: 'top',
-          fill: '#607889',
-          opacity: 0.35,
           fontFamily: this.fontFamily || 'Arial, sans-serif',
+          ...this.tickLabelStyle
         },
       });
 
@@ -472,8 +494,7 @@ export default class TrendTimeBar {
           y1: this.y + height + 2,
           x2: this.x + index * interval,
           y2: this.y + height + 6,
-          lineWidth: 1,
-          stroke: '#ccc',
+          ...this.tickLineStyle
         },
       });
       line.toBack();

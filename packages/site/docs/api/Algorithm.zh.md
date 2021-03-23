@@ -1,5 +1,5 @@
 ---
-title: 图算法
+title: 图算法 Algorithm
 order: 15
 ---
 
@@ -8,6 +8,83 @@ order: 15
 如果你对数据结构及算法感兴趣，可以通过 [javascript-algorithms](https://github.com/trekhleb/javascript-algorithms) 来进一步学习。
 
 G6 从 V3.5 版本开始加入了图算法，在以后版本更新中，我们会不断丰富内置的算法。
+
+### GADDI 图模式匹配
+
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>「v4.2.2」新特性</strong></span> 
+
+[GADDI 图模式匹配]()算法是一种支持结构和语义的图模式匹配算法，给定一个模式，可通过在算法在原数据上查找结果和语义相同、相似的结构。[DEMO](/zh/examples/algorithm/algoDemos#gaddi)。
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ahYwQJtk00EAAAAAAAAAAAAAARQnAQ' alt="img" width='500px'>
+
+**参数**
+
+| 名称        | 类型                | 是否必选 | 描述                |
+| ----------- | ------------------- | -------- | ------------------- |
+| graphData   | GraphData           | true     | 原图数据       |
+| pattern | GraphData              | true     | 需要查找的模式图数据 |
+| k   | number | false    | 匹配算法的参数，设置为 `undefined` 则自动设置      |
+| length   | number | false    | 匹配算法的参数，设置为 `undefined` 则自动设置      |
+| nodeLabelProp   | number | false    | 节点聚类信息的属性名，默认为 `'cluster'` |
+| edgeLabelProp   | number | false    | 边聚类信息的属性名，默认为 `'cluster'` |
+
+
+**用法**
+
+```javascript
+import G6, { Algorithm } from '@antv/g6'
+const graph = new G6.Graph({
+  container: 'container',
+  width: 500,
+  height: 500
+})
+
+const graphData = {
+  nodes: [
+    { id: 'A', cluster: 'nc1' },
+    { id: 'B', cluster: 'nc1' },
+    { id: 'C', cluster: 'nc2' },
+    { id: 'D', cluster: 'nc1' },
+    { id: 'E', cluster: 'nc3' },
+  ],
+  edges: [
+    { source: 'A', target: 'B', cluster: 'ec1' },
+    { source: 'B', target: 'C', cluster: 'ec2' },
+    { source: 'A', target: 'D', cluster: 'ec1' },
+    { source: 'A', target: 'E', cluster: 'ec2' },
+  ]
+}
+
+graph.data(data)
+graph.render()
+
+const { GADDI } = Algorithm;
+const patternData = {
+  nodes: [
+    { id: 'pn1', cluster: 'nc1' },
+    { id: 'pn2', cluster: 'nc1' },
+    { id: 'pn3', cluster: 'nc3' },
+  ],
+  edges: [
+    { source: 'pn1', target: 'pn2', cluster: 'ec1' },
+    { source: 'pn1', target: 'pn3', cluster: 'ec2' },
+  ]
+}
+const resultMatches = GADDI(graphData, patternData, true, undefined, undefined, 'cluster', 'cluster');
+
+console.log(resultMatches);
+  // output:
+  // [{
+  //   nodes: [
+  //     { id: 'A', cluster: 'nc1' },
+  //     { id: 'B', cluster: 'nc1' },
+  //     { id: 'E', cluster: 'nc3' },],
+  //   edges: [
+  //     { source: 'A', target: 'B', cluster: 'ec1' },
+  //     { source: 'A', target: 'E', cluster: 'ec2' }
+  //   ]
+  // }]
+```
 
 ### depthFirstSearch
 
@@ -21,7 +98,7 @@ G6 从 V3.5 版本开始加入了图算法，在以后版本更新中，我们�
 
 | 名称        | 类型                | 是否必选 | 描述                |
 | ----------- | ------------------- | -------- | ------------------- |
-| graph       | IGraph              | true     | G6 Graph 实例       |
+| graphData    | GraphData         | true     | 图数据，满足 G6 [数据格式](/zh/docs/manual/getting-started#step-2-数据准备)。注意，4.1 以前的版本该参数请传入图实例 |
 | startNodeId | string              | true     | 开始访问的节点的 ID |
 | callbacks   | IAlgorithmCallbacks | false    | 遍历的回调函数      |
 
@@ -99,7 +176,7 @@ graph.data(data)
 graph.render()
 
 const { depthFirstSearch } = Algorithm
-depthFirstSearch(graph, 'A', {
+depthFirstSearch(data, 'A', {
   enter: ({ current, previous }) => {
     // 开始遍历点的回调
   },
@@ -121,7 +198,7 @@ depthFirstSearch(graph, 'A', {
 
 | 名称              | 类型                | 是否必选 | 描述                |
 | ----------------- | ------------------- | -------- | ------------------- |
-| graph             | IGraph              | true     | G6 Graph 实例       |
+| graphData    | GraphData         | true     | 图数据，满足 G6 [数据格式](/zh/docs/manual/getting-started#step-2-数据准备)。注意，4.1 以前的版本该参数请传入图实例 |
 | startNodeId       | string              | true     | 开始访问的节点的 ID |
 | originalCallbacks | IAlgorithmCallbacks | false    | 遍历的回调函数      |
 
@@ -199,7 +276,7 @@ graph.data(data)
 graph.render()
 
 const { breadthFirstSearch } = Algorithm
-breadthFirstSearch(graph, 'A', {
+breadthFirstSearch(data, 'A', {
   enter: ({ current, previous }) => {
     // 开始遍历点的回调
   },
@@ -402,7 +479,7 @@ let result = louvain(data);
 
 | 名称  | 类型   | 是否必选 | 描述          |
 | ----- | ------ | -------- | ------------- |
-| graph | IGraph | true     | G6 Graph 实例 |
+| graphData    | GraphData         | true     | 图数据，满足 G6 [数据格式](/zh/docs/manual/getting-started#step-2-数据准备)。注意，4.1 以前的版本该参数请传入图实例|
 
 **返回值**
 
@@ -444,7 +521,7 @@ graph.render();
 const { detectDirectedCycle } = Algorithm;
 
 // 此时图中没有环，result 为 null
-let result = detectDirectedCycle(graph);
+let result = detectDirectedCycle(data);
 
 // 当数据中加入 F->D 这条边后，图中有一个环
 data.edges.push({
@@ -462,10 +539,10 @@ graph.changeData(data);
     E: Node,
   }
 */
-result = detectDirectedCycle(graph);
+result = detectDirectedCycle(data);
 ```
 
-### detectAllCycles(graph, directed, nodeIds, include)
+### detectAllCycles(graphData, directed, nodeIds, include)
 
 提供支持寻找图中所有环路的函数。对有向图来说返回所有简单环，简单环是指路径上的节点都只出现一次的闭合路径；对于无向图来说，返回一组完备的[基本环](https://en.wikipedia.org/wiki/Cycle_basis)。
 
@@ -479,7 +556,7 @@ result = detectDirectedCycle(graph);
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| graph | IGraph | true | G6 Graph 实例 |
+| graphData    | GraphData         | true     | 图数据，满足 G6 [数据格式](/zh/docs/manual/getting-started#step-2-数据准备)。注意，4.1 以前的版本该参数请传入图实例 |
 | directed | boolean | false | 是否考虑边的方向性，若不指定，则取图的 `directed` 属性 ｜ |
 | nodeIds | string[] | false | 需包含或排除的节点 ID 的数组，若不指定，则返回图中所有的圈 ｜ |
 | include | boolean | false | 若为 `true`, 则返回包含参数 `nodeIds` 中指定的节点的圈，否则，返回所有不包含 `nodeIds` 中指定的节点的圈。默认为 `true` ｜ |
@@ -495,16 +572,16 @@ result = detectDirectedCycle(graph);
 const { detectAllCycles } = Algorithm;
 
 // 检测有向图中的所有简单环
-const allCycles = detectAllCycles(graph, true);
+const allCycles = detectAllCycles(data, true);
 
 // 检测有向图中包含节点 B 的所有简单环
-const allCycleIncludeB = detectAllCycles(graph, true, ['B']);
+const allCycleIncludeB = detectAllCycles(data, true, ['B']);
 
 // 检测无向图中所有不包含节点 B 的所有基本环
-const allCycleExcludeB = detectAllCycles(graph, false, ['B'], false);
+const allCycleExcludeB = detectAllCycles(data, false, ['B'], false);
 ```
 
-### findShortestPath(graph, start, end, directed, weightPropertyName)
+### findShortestPath(graphData, start, end, directed, weightPropertyName)
 
 查找两点之间的最短路径。
 
@@ -512,7 +589,7 @@ const allCycleExcludeB = detectAllCycles(graph, false, ['B'], false);
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| graph | IGraph | true | G6 Graph 实例 |
+| graphData    | GraphData         | true     | 图数据，满足 G6 [数据格式](/zh/docs/manual/getting-started#step-2-数据准备)。注意，4.1 以前的版本该参数请传入图实例 |
 | start | INode / string | true | G6 Node 实例或 ID，路径起始点 ｜ |
 | end | INode / string | true | G6 Node 实例或 ID，路径终点 ｜ |
 | directed | boolean | false | 是否考虑边的方向性，若不指定，则取图的 `directed` 属性 ｜ |
@@ -616,12 +693,12 @@ graph.render();
 
 const { findShortestPath } = Algorithm;
 // 不考虑边的方向性，查找节点 A 和 节点 C 之间的最短路径
-const { length, path, allPath } = findShortestPath(graph, 'A', 'C');
+const { length, path, allPath } = findShortestPath(data, 'A', 'C');
 console.log(length, path);
 // 期望输出：2, ['A', 'B', 'C']
 ```
 
-### findAllPath(graph, start, end, directed)
+### findAllPath(graphData, start, end, directed)
 
 查找两点之间的所有路径。
 
@@ -629,7 +706,7 @@ console.log(length, path);
 
 | 名称     | 类型           | 是否必选 | 描述                                                      |
 | -------- | -------------- | -------- | --------------------------------------------------------- |
-| graph    | IGraph         | true     | G6 Graph 实例                                             |
+| graphData    | GraphData         | true     | 图数据，满足 G6 [数据格式](/zh/docs/manual/getting-started#step-2-数据准备)。注意，4.1 以前的版本该参数请传入图实例  |
 | start    | INode / string | true     | G6 Node 实例或 ID，路径起始点 ｜                          |
 | end      | INode / string | true     | G6 Node 实例或 ID，路径终点 ｜                            |
 | directed | boolean        | false    | 是否考虑边的方向性，若不指定，则取图的 `directed` 属性 ｜ |
@@ -722,8 +799,8 @@ graph.data(data);
 graph.render();
 
 const { findAllPath } = Algorithm;
-const allPaths = findAllPath(graph, 'A', 'E');
-console.log(allPaths);
+const allPath = findAllPath(data, 'A', 'E');
+console.log(allPath);
 // 期望输出值：[['A', 'D', 'F', 'E'], ['A', 'D', 'E'], ['A', 'E']]
 ```
 
@@ -739,7 +816,7 @@ console.log(allPaths);
 
 | 名称     | 类型    | 是否必选 | 描述                                                      |
 | -------- | ------- | -------- | --------------------------------------------------------- |
-| graph    | IGraph  | true     | G6 Graph 实例                                             |
+| graphData    | GraphData         | true     | 图数据，满足 G6 [数据格式](/zh/docs/manual/getting-started#step-2-数据准备)。注意，4.1 以前的版本该参数请传入图实例 |
 | directed | boolean | false    | 是否考虑边的方向性，若不指定，则取图的 `directed` 属性 ｜ |
 
 **返回值**
@@ -825,14 +902,14 @@ graph.data(data);
 graph.render();
 
 // 图中的连通分量
-const components = getConnectedComponents(graph, false);
+const components = getConnectedComponents(data, false);
 components.forEach((component) => {
   console.log(component.map((node) => node.get('id')));
 });
 // 期望输出结果：['A', 'B', 'C', 'D', 'E', 'F'], ['G', 'H']
 
 // 有向图中的强连通分量
-const components2 = getConnectedComponents(graph, true);
+const components2 = getConnectedComponents(data, true);
 components2.forEach((component) => {
   console.log(component.map((node) => node.get('id')));
 });
@@ -851,7 +928,7 @@ PageRank 可以用来度量网络中节点的重要性，最初用于标识网�
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| graph | IGraph | true | G6 Graph 实例 |
+| graphData    | GraphData         | true     | 图数据，满足 G6 [数据格式](/zh/docs/manual/getting-started#step-2-数据准备)。注意，4.1 以前的版本该参数请传入图实例 |
 | epsilon | number | false | 判断 PageRank 得分是否稳定的精度值，默认 0.000001 ｜ |
 | linkProb | number | false | 阻尼系数（dumping factor），指任意时刻，用户访问到某节点后继续访问该节点指向的节点的概率，默认 0.85。 ｜ |
 

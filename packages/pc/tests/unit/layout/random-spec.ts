@@ -1,5 +1,5 @@
 import G6 from '../../../src';
-import { NodeConfig, EdgeConfig } from '../../../src/types';
+import { NodeConfig, EdgeConfig } from '@antv/g6-core';
 
 const div = document.createElement('div');
 div.id = 'graph-spec';
@@ -26,11 +26,14 @@ describe('random', () => {
     });
     graph.data(data);
     graph.render();
-    expect(graph.getNodes()[0].getModel().x).not.toEqual(undefined);
-    expect(graph.getNodes()[0].getModel().y).not.toEqual(undefined);
-    expect(graph.getNodes()[1].getModel().x).not.toEqual(undefined);
-    expect(graph.getNodes()[1].getModel().y).not.toEqual(undefined);
-    graph.destroy();
+
+    graph.on('afterlayout', () => {
+      expect(graph.getNodes()[0].getModel().x).not.toEqual(undefined);
+      expect(graph.getNodes()[0].getModel().y).not.toEqual(undefined);
+      expect(graph.getNodes()[1].getModel().x).not.toEqual(undefined);
+      expect(graph.getNodes()[1].getModel().y).not.toEqual(undefined);
+      graph.destroy();
+    });
   });
   it('new graph with random layout', () => {
     const graph = new G6.Graph({

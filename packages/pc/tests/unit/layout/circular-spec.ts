@@ -19,14 +19,16 @@ describe('circular layout', () => {
     });
     graph.data(data);
     graph.render();
-    const width = graph.get('width');
-    const height = graph.get('height');
-    const radius = height > width ? width / 2 : height / 2;
-    expect(mathEqual(data.nodes[0].x, 250 + radius)).toEqual(true);
-    expect(mathEqual(data.nodes[0].y, 250)).toEqual(true);
-    expect(data.nodes[0].y === 250);
+    graph.on('afterlayout', () => {
+      const width = graph.get('width');
+      const height = graph.get('height');
+      const radius = height > width ? width / 2 : height / 2;
+      expect(mathEqual(data.nodes[0].x, 250 + radius)).toEqual(true);
+      expect(mathEqual(data.nodes[0].y, 250)).toEqual(true);
+      expect(data.nodes[0].y === 250);
 
-    graph.destroy();
+      graph.destroy();
+    });
   });
 
   it('fixed radius, start angle, end angle', () => {
@@ -45,10 +47,12 @@ describe('circular layout', () => {
     });
     graph.data(data);
     graph.render();
-    const pos = (200 * Math.sqrt(2)) / 2;
-    expect(mathEqual(data.nodes[0].x, 250 + pos)).toEqual(true);
-    expect(mathEqual(data.nodes[0].y, 250 + pos)).toEqual(true);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      const pos = (200 * Math.sqrt(2)) / 2;
+      expect(mathEqual(data.nodes[0].x, 250 + pos)).toEqual(true);
+      expect(mathEqual(data.nodes[0].y, 250 + pos)).toEqual(true);
+      graph.destroy();
+    });
   });
 
   it('circular with no node', () => {
@@ -88,10 +92,12 @@ describe('circular layout', () => {
       ],
     });
     graph.render();
-    const nodeModel = graph.getNodes()[0].getModel();
-    expect(nodeModel.x).toEqual(center[0]);
-    expect(nodeModel.y).toEqual(center[1]);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      const nodeModel = graph.getNodes()[0].getModel();
+      expect(nodeModel.x).toEqual(center[0]);
+      expect(nodeModel.y).toEqual(center[1]);
+      graph.destroy();
+    });
   });
 
   it('circular with no radius but startRadius and endRadius', () => {
@@ -111,14 +117,16 @@ describe('circular layout', () => {
     });
     graph.data(data);
     graph.render();
-    const nodeModelFirst = graph.getNodes()[0].getModel();
-    expect(nodeModelFirst.x).toEqual(center[0] + startRadius);
-    expect(nodeModelFirst.y).toEqual(center[1]);
-    const nodeNumber = graph.getNodes().length;
-    const nodeModelLast = graph.getNodes()[nodeNumber - 1].getModel();
-    expect(mathEqual(nodeModelLast.x, 248)).toEqual(true);
-    expect(mathEqual(nodeModelLast.y, 180)).toEqual(true);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      const nodeModelFirst = graph.getNodes()[0].getModel();
+      expect(nodeModelFirst.x).toEqual(center[0] + startRadius);
+      expect(nodeModelFirst.y).toEqual(center[1]);
+      const nodeNumber = graph.getNodes().length;
+      const nodeModelLast = graph.getNodes()[nodeNumber - 1].getModel();
+      expect(mathEqual(nodeModelLast.x, 248)).toEqual(true);
+      expect(mathEqual(nodeModelLast.y, 180)).toEqual(true);
+      graph.destroy();
+    });
   });
 
   it('circular with no radius and startRadius but endRadius', () => {
@@ -136,10 +144,12 @@ describe('circular layout', () => {
     });
     graph.data(data);
     graph.render();
-    const nodeModelFirst = graph.getNodes()[0].getModel();
-    expect(nodeModelFirst.x).toEqual(center[0] + endRadius);
-    expect(nodeModelFirst.y).toEqual(center[1]);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      const nodeModelFirst = graph.getNodes()[0].getModel();
+      expect(nodeModelFirst.x).toEqual(center[0] + endRadius);
+      expect(nodeModelFirst.y).toEqual(center[1]);
+      graph.destroy();
+    });
   });
 
   it('circular with no radius and endRadius but startRadius', () => {
@@ -179,21 +189,23 @@ describe('circular layout', () => {
     });
     graph.data(data);
     graph.render();
-    const node0 = graph.findById('Uruguay').getModel();
-    const node1 = graph.findById('Saudi Arabia').getModel();
-    const dist1 =
-      (node0.x - node1.x) * (node0.x - node1.x) + (node0.y - node1.y) * (node0.y - node1.y);
+    graph.on('afterlayout', () => {
+      const node0 = graph.findById('Uruguay').getModel();
+      const node1 = graph.findById('Saudi Arabia').getModel();
+      const dist1 =
+        (node0.x - node1.x) * (node0.x - node1.x) + (node0.y - node1.y) * (node0.y - node1.y);
 
-    const node2 = graph.findById('Switzerland').getModel();
-    const dist2 =
-      (node2.x - node1.x) * (node2.x - node1.x) + (node2.y - node1.y) * (node2.y - node1.y);
-    expect(mathEqual(dist1, dist2)).toEqual(true);
+      const node2 = graph.findById('Switzerland').getModel();
+      const dist2 =
+        (node2.x - node1.x) * (node2.x - node1.x) + (node2.y - node1.y) * (node2.y - node1.y);
+      expect(mathEqual(dist1, dist2)).toEqual(true);
 
-    const node3 = graph.findById('Sweden').getModel();
-    const dist3 =
-      (node2.x - node3.x) * (node2.x - node3.x) + (node2.y - node3.y) * (node2.y - node3.y);
-    expect(mathEqual(dist3, dist2)).toEqual(true);
-    graph.destroy();
+      const node3 = graph.findById('Sweden').getModel();
+      const dist3 =
+        (node2.x - node3.x) * (node2.x - node3.x) + (node2.y - node3.y) * (node2.y - node3.y);
+      expect(mathEqual(dist3, dist2)).toEqual(true);
+      graph.destroy();
+    });
   });
 
   it('circular with topology-directed ordering', () => {
@@ -213,21 +225,23 @@ describe('circular layout', () => {
     });
     graph.data(data);
     graph.render();
-    const node0 = graph.findById('Uruguay').getModel();
-    const node1 = graph.findById('Tunisia').getModel();
-    const dist1 =
-      (node0.x - node1.x) * (node0.x - node1.x) + (node0.y - node1.y) * (node0.y - node1.y);
+    graph.on('afterlayout', () => {
+      const node0 = graph.findById('Uruguay').getModel();
+      const node1 = graph.findById('Tunisia').getModel();
+      const dist1 =
+        (node0.x - node1.x) * (node0.x - node1.x) + (node0.y - node1.y) * (node0.y - node1.y);
 
-    const node2 = graph.findById('Switzerland').getModel();
-    const dist2 =
-      (node2.x - node1.x) * (node2.x - node1.x) + (node2.y - node1.y) * (node2.y - node1.y);
-    expect(mathEqual(dist1, dist2)).toEqual(true);
+      const node2 = graph.findById('Switzerland').getModel();
+      const dist2 =
+        (node2.x - node1.x) * (node2.x - node1.x) + (node2.y - node1.y) * (node2.y - node1.y);
+      expect(mathEqual(dist1, dist2)).toEqual(true);
 
-    const node3 = graph.findById('Sweden').getModel();
-    const dist3 =
-      (node2.x - node3.x) * (node2.x - node3.x) + (node2.y - node3.y) * (node2.y - node3.y);
-    expect(mathEqual(dist3, dist2)).toEqual(true);
-    graph.destroy();
+      const node3 = graph.findById('Sweden').getModel();
+      const dist3 =
+        (node2.x - node3.x) * (node2.x - node3.x) + (node2.y - node3.y) * (node2.y - node3.y);
+      expect(mathEqual(dist3, dist2)).toEqual(true);
+      graph.destroy();
+    });
   });
 
   it('circular with degree ordering, counterclockwise', () => {
@@ -247,21 +261,23 @@ describe('circular layout', () => {
     });
     graph.data(data);
     graph.render();
-    const node0 = graph.findById('England').getModel();
-    const node1 = graph.findById('Croatia').getModel();
-    const dist1 =
-      (node0.x - node1.x) * (node0.x - node1.x) + (node0.y - node1.y) * (node0.y - node1.y);
+    graph.on('afterlayout', () => {
+      const node0 = graph.findById('England').getModel();
+      const node1 = graph.findById('Croatia').getModel();
+      const dist1 =
+        (node0.x - node1.x) * (node0.x - node1.x) + (node0.y - node1.y) * (node0.y - node1.y);
 
-    const node2 = graph.findById('Belgium').getModel();
-    const dist2 =
-      (node2.x - node1.x) * (node2.x - node1.x) + (node2.y - node1.y) * (node2.y - node1.y);
-    expect(mathEqual(dist1, dist2)).toEqual(true);
+      const node2 = graph.findById('Belgium').getModel();
+      const dist2 =
+        (node2.x - node1.x) * (node2.x - node1.x) + (node2.y - node1.y) * (node2.y - node1.y);
+      expect(mathEqual(dist1, dist2)).toEqual(true);
 
-    const node3 = graph.findById('Uruguay').getModel();
-    const dist3 =
-      (node2.x - node3.x) * (node2.x - node3.x) + (node2.y - node3.y) * (node2.y - node3.y);
-    expect(mathEqual(dist3, dist2)).toEqual(true);
-    graph.destroy();
+      const node3 = graph.findById('Uruguay').getModel();
+      const dist3 =
+        (node2.x - node3.x) * (node2.x - node3.x) + (node2.y - node3.y) * (node2.y - node3.y);
+      expect(mathEqual(dist3, dist2)).toEqual(true);
+      graph.destroy();
+    });
   });
 
   it('circular layout', () => {

@@ -537,7 +537,6 @@ const initGraph = (data) => {
   const { onInit, config } = props;
   const tooltip = new G6.Tooltip({
     // offsetX and offsetY include the padding of the parent container
-    // offsetX 与 offsetY 需要加上父容器的 padding
     offsetX: 20,
     offsetY: 30,
     // the types of items that allow the tooltip show up
