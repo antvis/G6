@@ -15,10 +15,10 @@ const graphExtenders = fs.readdirSync(path.join(__dirname, './src/extends/graph'
 const layoutExtenders = fs.readdirSync(path.join(__dirname, './src/extends/layout'));
 graphExtenders.forEach((name) => {
   entry[name] = `./src/extends/graph/${name}/index.ts`;
-})
+});
 layoutExtenders.forEach((name) => {
   entry[name] = `./src/extends/layout/${name}/index.ts`;
-})
+});
 
 module.exports = {
   entry,
@@ -84,8 +84,8 @@ module.exports = {
       },
     ],
   },
-  plugins: process.env.ANALYZE ?
-    [new Visualizer(), new BundleAnalyzerPlugin(), new webpack.optimize.AggressiveMergingPlugin()] :
-    [new webpack.optimize.AggressiveMergingPlugin()],
+  plugins: process.env.ANALYZE
+    ? [new Visualizer(), new BundleAnalyzerPlugin(), new webpack.optimize.AggressiveMergingPlugin()]
+    : [new webpack.optimize.AggressiveMergingPlugin()],
   devtool: 'source-map',
 };

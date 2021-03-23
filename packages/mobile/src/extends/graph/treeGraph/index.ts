@@ -13,8 +13,7 @@ import {
 import { ITreeGraph } from '../../../interface/graph';
 // import { makeExtender } from '../../../util/extender';
 
-const treeGraph = (G6: { Graph?: any; Util?: any; }): ITreeGraph => {
-
+const treeGraph = (G6: { Graph?: any; Util?: any }): ITreeGraph => {
   const { Graph, Util } = G6;
   const { radialLayout, traverseTree } = Util;
 
@@ -87,7 +86,11 @@ const treeGraph = (G6: { Graph?: any; Util?: any; }): ITreeGraph => {
      * @param parent 父节点实例
      * @param animate 是否开启动画
      */
-    private innerAddChild(treeData: TreeGraphData, parent: Item | undefined, animate: boolean): Item {
+    private innerAddChild(
+      treeData: TreeGraphData,
+      parent: Item | undefined,
+      animate: boolean,
+    ): Item {
       const self = this;
       const model = treeData.data;
 
@@ -597,6 +600,6 @@ const treeGraph = (G6: { Graph?: any; Util?: any; }): ITreeGraph => {
   }
 
   return TreeGraph;
-}
+};
 
 export default treeGraph;

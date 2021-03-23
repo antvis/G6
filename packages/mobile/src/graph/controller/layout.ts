@@ -41,17 +41,19 @@ export default class LayoutController extends AbstractLayout {
       });
     }
 
-    start.then(() => {
-      if (layoutCfg.onAllLayoutEnd) layoutCfg.onAllLayoutEnd();
-    }).catch((error) => {
-      console.warn('layout failed', error);
-    });
+    start
+      .then(() => {
+        if (layoutCfg.onAllLayoutEnd) layoutCfg.onAllLayoutEnd();
+      })
+      .catch((error) => {
+        console.warn('layout failed', error);
+      });
   }
 
   /**
- * @param {function} success callback
- * @return {boolean} 是否使用web worker布局
- */
+   * @param {function} success callback
+   * @return {boolean} 是否使用web worker布局
+   */
   public layout(success?: () => void): boolean {
     const { graph } = this;
 
@@ -118,14 +120,16 @@ export default class LayoutController extends AbstractLayout {
     }
 
     // 最后统一在外部调用onAllLayoutEnd
-    start.then(() => {
-      if (layoutCfg.onAllLayoutEnd) layoutCfg.onAllLayoutEnd();
-      // 在执行 execute 后立即执行 success，且在 timeBar 中有 throttle，可以防止 timeBar 监听 afterrender 进行 changeData 后 layout，从而死循环
-      // 对于 force 一类布局完成后的 fitView 需要用户自己在 onLayoutEnd 中配置
-      if (success) success();
-    }).catch((error) => {
-      console.warn('graph layout failed,', error);
-    });
+    start
+      .then(() => {
+        if (layoutCfg.onAllLayoutEnd) layoutCfg.onAllLayoutEnd();
+        // 在执行 execute 后立即执行 success，且在 timeBar 中有 throttle，可以防止 timeBar 监听 afterrender 进行 changeData 后 layout，从而死循环
+        // 对于 force 一类布局完成后的 fitView 需要用户自己在 onLayoutEnd 中配置
+        if (success) success();
+      })
+      .catch((error) => {
+        console.warn('graph layout failed,', error);
+      });
 
     return false;
   }
@@ -139,7 +143,7 @@ export default class LayoutController extends AbstractLayout {
       layoutCfg.onLayoutEnd = () => {
         graph.emit('aftersublayout', { type: layoutType });
         reslove();
-      }
+      };
 
       const isForce = layoutType === 'force' || layoutType === 'g6force' || layoutType === 'gForce';
       if (isForce) {
@@ -198,7 +202,7 @@ export default class LayoutController extends AbstractLayout {
       layoutCfg.onLayoutEnd = () => {
         graph.emit('aftersublayout', { type: layoutType });
         reslove();
-      }
+      };
 
       const layoutData = this.filterLayoutData(this.data, layoutCfg);
       layoutMethod.init(layoutData);
@@ -209,7 +213,6 @@ export default class LayoutController extends AbstractLayout {
     });
   }
 
-
   protected adjustPipesBox(data, adjust: string): Promise<void> {
     return new Promise((resolve) => {
       const { nodes } = data;
@@ -218,7 +221,9 @@ export default class LayoutController extends AbstractLayout {
       }
 
       if (!LayoutPipesAdjustNames.includes(adjust)) {
-        console.warn(`The adjust type ${adjust} is not supported yet, please assign it with 'force', 'grid', or 'circular'.`);
+        console.warn(
+          `The adjust type ${adjust} is not supported yet, please assign it with 'force', 'grid', or 'circular'.`,
+        );
         resolve();
       }
 
@@ -226,7 +231,7 @@ export default class LayoutController extends AbstractLayout {
         center: this.layoutCfg.center,
         nodeSize: (d) => Math.max(d.height, d.width),
         preventOverlap: true,
-        onLayoutEnd: () => { },
+        onLayoutEnd: () => {},
       };
 
       // 计算出大单元
@@ -244,12 +249,11 @@ export default class LayoutController extends AbstractLayout {
           });
         });
         resolve();
-      }
+      };
       const layoutMethod = new Layout(layoutCfg);
       layoutMethod.layout({ nodes: layoutNodes });
     });
   }
-
 
   public destroy() {
     this.destoryLayoutMethods();
@@ -263,13 +267,12 @@ export default class LayoutController extends AbstractLayout {
   }
 }
 
-
 function addLayoutOrder(data, order) {
   if (!data?.nodes?.length) {
     return;
   }
   const { nodes } = data;
-  nodes.forEach(node => {
+  nodes.forEach((node) => {
     node.layoutOrder = order;
   });
 }

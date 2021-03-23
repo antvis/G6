@@ -1,4 +1,3 @@
-
 import {
   registerBehavior,
   registerCombo,
@@ -17,14 +16,15 @@ import Util from './util';
 import './element';
 import './behavior';
 
-function registerExtenderWrapper<T1, T2>(registerExtender: (registerName: T1, registerFunction: T2, global: Object) => Object): (registerName: T1, registerFunction: T2) => Object {
+function registerExtenderWrapper<T1, T2>(
+  registerExtender: (registerName: T1, registerFunction: T2, global: Object) => Object,
+): (registerName: T1, registerFunction: T2) => Object {
   return function (...args) {
     return registerExtender.apply(null, [...args, G6]);
-  }
+  };
 }
 
 const registerGraph = registerExtenderWrapper(oRegisterGraph);
-
 
 const G6 = {
   version: Global.version,
