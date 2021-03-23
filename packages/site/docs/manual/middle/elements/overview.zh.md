@@ -8,8 +8,8 @@ order: 0
 图元素具有公共的通用属性和通用方法。图元素的属性包括：
 
 - 样式属性，通过 `style` 字段对象进行配置，和元素的关键图形相关，例如 `fill`，`stroke`。可在[元素状态](/zh/docs/manual/middle/states/state)改变时被改变。
-- 其他属性，例如 `id`、`type`，不能在元素状态改变是进行改变，可通过 [graph.updateItem](/zh/docs/api/graphFunc/item#graphupdateitemitem-model-stack) 进行手动更新。完整的元素属性列表参考：[元素配置项](/zh/docs/api/items/itemProperties)。除了各类元素共有的通用属性外，每种节点/边/ Combo 都有各自的特有属性。
+- 其他属性，例如 `id`、`type`，不能在元素状态改变是进行改变，可通过 [graph.updateItem](/zh/docs/api/graphFunc/item#graphupdateitemitem-model-stack) 进行手动更新。完整的元素属性列表参考：[元素配置项](/zh/docs/api/Items/itemProperties)。除了各类元素共有的通用属性外，每种节点/边/ Combo 都有各自的特有属性。
 
-图元素实例上具有对元素进行更新、销毁、获取属性、修改状态等[通用方法](/zh/docs/api/items/itemMethods)，同时，对于实例的变更也可以通过调用 [graph](/zh/docs/api/Graph) 上的方法进行。
+图元素实例上具有对元素进行更新、销毁、获取属性、修改状态等[通用方法](/zh/docs/api/Items/itemMethods)，同时，对于实例的变更也可以通过调用 [graph](/zh/docs/api/Graph) 上的方法进行。
 
 本章对三大类图元素的通用属性和方法进行了概览性介绍，每种图元素（节点/边/ Combo）各自的属性和使用方法将在后面章节中详述。
