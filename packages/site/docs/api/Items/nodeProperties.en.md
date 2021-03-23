@@ -3,7 +3,7 @@ title: Node Model Properties
 order: 6
 ---
 
-Except for the common properties, apart from the [Item Model Properities](/en/docs/api/items/itemProperties.zh.md), there are special configurations for Nodes. The `style`s of them depend on their keyShape.
+Except for the common properties, apart from the [Item Model Properities](/en/docs/api/Items/itemProperties.zh.md), there are special configurations for Nodes. The `style`s of them depend on their keyShape.
 
 ## Common Property
 
