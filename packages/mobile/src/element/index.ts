@@ -1,2 +1,1 @@
-import './edges';
-// import '@antv/g6-element';
+import '@antv/g6-element';
