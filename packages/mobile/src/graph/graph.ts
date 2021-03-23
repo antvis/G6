@@ -11,15 +11,13 @@ import { LayoutController, EventController } from './controller';
 import PluginBase from '../plugin/base';
 import { createDom } from '@antv/dom-util';
 
-
 export const registerGraph = (graphName: string, GraphFunction: any, G6: Object): Object => {
   if (G6[graphName]) {
     console.warn(`The graph with the name ${graphName} exists already, it will be overridden`);
   }
   G6[graphName] = GraphFunction(G6);
   return G6;
-}
-
+};
 
 export default class Graph extends AbstractGraph implements IGraph {
   // private cfg: GraphOptions & { [key: string]: any };
@@ -28,6 +26,12 @@ export default class Graph extends AbstractGraph implements IGraph {
 
   constructor(cfg: GraphOptions) {
     super(cfg);
+
+    if (this.get('renderer').startsWith('mini')) {
+      this.set('context', (cfg as any).context);
+    }
+
+    super.init();
     const defaultNode = this.get('defaultNode');
     if (!defaultNode) {
       this.set('defaultNode', { type: 'circle' });
@@ -38,6 +42,9 @@ export default class Graph extends AbstractGraph implements IGraph {
     }
     this.destroyed = false;
   }
+
+  // 这里是为了规避基类那个deepmix，等待架构调整
+  protected init() {}
 
   public emitEvent(event) {
     const canvas: GMobileCanvas = this.get('canvas');
@@ -93,6 +100,8 @@ export default class Graph extends AbstractGraph implements IGraph {
     const renderer: string = this.get('renderer');
     const context: string = this.get('context');
     const fitView: boolean = this.get('fitView');
+    // native canvas 会传递 requestAnimationFrame, clearAnimationFrame 等函数进来
+    const extra: any = this.get('extra');
 
     const canvasCfg: any = {
       container,
@@ -101,7 +110,9 @@ export default class Graph extends AbstractGraph implements IGraph {
       height,
       renderer,
       fitView,
+      extra, // 小程序下专用，用于打一些小patch
     };
+
     const pixelRatio = this.get('pixelRatio');
 
     if (pixelRatio) {
