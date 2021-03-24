@@ -650,10 +650,36 @@ export default class Graph extends AbstractGraph implements IGraph {
     const canvas: GMobileCanvas = this.get('canvas');
 
     const group: IGroup = canvas.addGroup({
-      id: `root`,
+      id: 'root',
       className: Global.rootContainerClassName,
     });
 
+    if (this.get('groupByTypes')) {
+      const edgeGroup: IGroup = group.addGroup({
+        id: 'edge',
+        className: Global.edgeContainerClassName,
+      });
+
+      const nodeGroup: IGroup = group.addGroup({
+        id: 'node',
+        className: Global.nodeContainerClassName,
+      });
+
+      const comboGroup: IGroup = group.addGroup({
+        id: 'combo',
+        className: Global.comboContainerClassName,
+      });
+
+      // 用于存储自定义的群组
+      comboGroup.toBack();
+
+      this.set({ nodeGroup, edgeGroup, comboGroup });
+    }
+    const delegateGroup: IGroup = group.addGroup({
+      id: 'delegate',
+      className: Global.delegateContainerClassName,
+    });
+    this.set({ delegateGroup });
     this.set('group', group);
   }
 }
