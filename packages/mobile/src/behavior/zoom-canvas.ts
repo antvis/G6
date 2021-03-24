@@ -36,8 +36,9 @@ export default {
     };
   },
   onPinch(evt) {
-    evt.preventDefault();
-    const scale = evt.originalEvent.extra.scale;
+    evt.preventDefault || evt.preventDefault();
+    evt.originalEvent.preventDefault || evt.originalEvent.preventDefault();
+    const scale = evt.originalEvent.scale || evt.originalEvent.srcEvent.extra.scale;
     // 应用到画布上的缩放比例
     const zoom = scale;
 
