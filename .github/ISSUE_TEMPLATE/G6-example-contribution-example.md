@@ -1,10 +1,14 @@
 ---
 name: Example Contribution
-about: To Contribute to G6 Graph Example
+about: G6 案例提供专用，请不要用来提问！！！ To Contribute to G6 Graph Example, Do not use it for asking question
 title: '[Example] New Example'
 labels: 'example'
 assignees: 'mxz96102'
 ---
+
+<!-- G6 案例提供专用，请不要用来提问！！！ To Contribute to G6 Graph Example, Do not use it for asking question -->
+<!-- G6 案例提供专用，请不要用来提问！！！ To Contribute to G6 Graph Example, Do not use it for asking question -->
+<!-- G6 案例提供专用，请不要用来提问！！！ To Contribute to G6 Graph Example, Do not use it for asking question -->
 
 ### Description
 
