@@ -1,5 +1,10 @@
 # ChangeLog
 
+#### 4.2.4
+
+- fix: change data with dulplicated name between nodes and combos;
+- fix: pixelRatio for graph types;
+
 #### 4.2.3
 
 - fix: layout with fitView;
