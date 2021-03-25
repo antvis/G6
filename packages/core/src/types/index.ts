@@ -337,6 +337,8 @@ export interface GraphOptions {
    * 存储图上的 tooltip dom，方便销毁
    */
   tooltips?: [];
+
+  pixelRatio?: number;
 }
 
 export type LabelStyle = Partial<{

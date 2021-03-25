@@ -158,7 +158,6 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         id: `${id}-node`,
         className: Global.nodeContainerClassName,
       });
-
       const comboGroup: IGroup = group.addGroup({
         id: `${id}-combo`,
         className: Global.comboContainerClassName,
@@ -1029,9 +1028,8 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       const parentCombo = this.findById(model.comboId as string);
       if (parentCombo && parentCombo.getType && parentCombo.getType() !== 'combo') {
         console.warn(
-          `'${model.comboId}' is a not id of a combo in the graph, the node will be added without combo.`,
+          `'${model.comboId}' is not a id of a combo in the graph, the node will be added without combo.`,
         );
-        return;
       }
       item = itemController.addItem(type, model);
 
@@ -1071,7 +1069,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       const parentCombo = this.findById(
         (model.comboId as string) || (model.parentId as string),
       ) as ICombo;
-      if (parentCombo) parentCombo.addChild(item);
+      if (parentCombo && parentCombo.getType && parentCombo.getType() === 'combo') parentCombo.addChild(item);
     }
 
     const combos = this.get('combos');

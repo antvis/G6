@@ -418,7 +418,7 @@ export default class ItemController {
     const id = item.get('id');
     if (type === NODE) {
       const comboId = item.getModel().comboId as string;
-      if (comboTrees) {
+      if (comboTrees && comboId) {
         let brothers = comboTrees;
         let found = false; // the flag to terminate the forEach circulation
         // remove the node from the children array of its parent fromt he tree
