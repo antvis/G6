@@ -96,6 +96,82 @@ export default class Graph extends AbstractGraph implements IGraph {
   }
 
   /**
+  * 增加图片下载水印功能
+  */
+  protected async downloadImageWatermark(watermarker: HTMLElement, context: CanvasRenderingContext2D, width: number, height: number) {
+    const watermarkStr = watermarker.style.backgroundImage;
+    const watermarkbase64 = watermarkStr.slice(5, watermarkStr.length - 2);
+    var img = new Image();
+    img.src = watermarkbase64;
+    await new Promise((resolve) => {
+      img.onload = () => {
+        var pat = context.createPattern(img, "repeat");
+        context.rect(0, 0, width, height);
+        context.fillStyle = pat;
+        context.fill();
+        resolve('');
+      }
+    });
+  }
+
+  /**
+   * 用于生成图片 (异步callback)
+   * @param {String} type 图片类型，可选值："image/png" | "image/jpeg" | "image/webp" | "image/bmp"
+   * @param {string} backgroundColor 图片背景色
+   * @return {string} 图片 dataURL
+   */
+  protected asyncToDataUrl(type?: DataUrlType, backgroundColor?: string, callback?: Function, widths?: number, heights?: number, vCanvasEl?: any): void {
+    const watermarker = document.querySelector('.g6-graph-watermarker') as HTMLElement;
+    const canvas: GCanvas = this.get('canvas');
+    const renderer = canvas.getRenderer();
+    const canvasDom = vCanvasEl ? vCanvasEl : canvas.get('el');
+
+    let dataURL = '';
+    if (!type) type = 'image/png';
+
+    setTimeout(async () => {
+      if (renderer === 'svg') {
+        const cloneNode = canvasDom.cloneNode(true);
+        const svgDocType = document.implementation.createDocumentType(
+          'svg',
+          '-//W3C//DTD SVG 1.1//EN',
+          'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd',
+        );
+        const svgDoc = document.implementation.createDocument(
+          'http://www.w3.org/2000/svg',
+          'svg',
+          svgDocType,
+        );
+        svgDoc.replaceChild(cloneNode, svgDoc.documentElement);
+        const svgData = new XMLSerializer().serializeToString(svgDoc);
+        dataURL = `data:image/svg+xml;charset=utf8,${encodeURIComponent(svgData)}`;
+      } else {
+        let imageData;
+        const context = canvasDom.getContext('2d');
+        const width = widths ? widths : this.get('width');
+        const height = heights ? heights : this.get('height');
+        let compositeOperation;
+        if (watermarker) await this.downloadImageWatermark(watermarker, context, width, height);
+        if (backgroundColor) {
+          const pixelRatio = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
+          imageData = context.getImageData(0, 0, width * pixelRatio, height * pixelRatio);
+          compositeOperation = context.globalCompositeOperation;
+          context.globalCompositeOperation = 'destination-over';
+          context.fillStyle = backgroundColor;
+          context.fillRect(0, 0, width, height);
+        }
+        dataURL = canvasDom.toDataURL(type);
+        if (backgroundColor) {
+          context.clearRect(0, 0, width, height);
+          context.putImageData(imageData, 0, 0);
+          context.globalCompositeOperation = compositeOperation;
+        }
+      }
+      callback && callback(dataURL)
+    }, 16)
+  }
+
+  /**
    * 返回可见区域的图的 dataUrl，用于生成图片
    * @param {String} type 图片类型，可选值："image/png" | "image/jpeg" | "image/webp" | "image/bmp"
    * @param {string} backgroundColor 图片背景色
@@ -258,14 +334,20 @@ export default class Graph extends AbstractGraph implements IGraph {
     const width = bbox.width;
     const renderer = this.get('renderer');
     const vContainerDOM: HTMLDivElement = createDom('<id="virtual-image"></div>');
+    const watermarker = document.querySelector('.g6-graph-watermarker') as HTMLElement;
 
     const backgroundColor = imageConfig ? imageConfig.backgroundColor : undefined;
     let padding = imageConfig ? imageConfig.padding : undefined;
     if (!padding) padding = [0, 0, 0, 0];
     else if (isNumber(padding)) padding = [padding, padding, padding, padding];
 
-    const vHeight = height + padding[0] + padding[2];
-    const vWidth = width + padding[1] + padding[3];
+    let vHeight = height + padding[0] + padding[2];
+    let vWidth = width + padding[1] + padding[3];
+    if (watermarker) {
+      const { width: wmWidth, height: wmHeight } = this.get('graphWaterMarker').cfg || {};
+      vHeight = Math.ceil(vHeight / wmHeight) * wmHeight;
+      vWidth = Math.ceil(vWidth / wmWidth) * wmWidth;
+    }
     const canvasOptions = {
       container: vContainerDOM,
       height: vHeight,
@@ -292,42 +374,7 @@ export default class Graph extends AbstractGraph implements IGraph {
     const vCanvasEl = vCanvas.get('el');
 
     if (!type) type = 'image/png';
-    setTimeout(() => {
-      let dataURL = '';
-      if (renderer === 'svg') {
-        const cloneNode = vCanvasEl.cloneNode(true);
-        const svgDocType = document.implementation.createDocumentType(
-          'svg',
-          '-//W3C//DTD SVG 1.1//EN',
-          'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd',
-        );
-        const svgDoc = document.implementation.createDocument(
-          'http://www.w3.org/2000/svg',
-          'svg',
-          svgDocType,
-        );
-        svgDoc.replaceChild(cloneNode, svgDoc.documentElement);
-        const svgData = new XMLSerializer().serializeToString(svgDoc);
-        dataURL = `data:image/svg+xml;charset=utf8,${encodeURIComponent(svgData)}`;
-      } else {
-        let imageData;
-        const context = vCanvasEl.getContext('2d');
-        let compositeOperation;
-        if (backgroundColor) {
-          const pixelRatio = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
-          imageData = context.getImageData(0, 0, vWidth * pixelRatio, vHeight * pixelRatio);
-          compositeOperation = context.globalCompositeOperation;
-          context.globalCompositeOperation = 'destination-over';
-          context.fillStyle = backgroundColor;
-          context.fillRect(0, 0, vWidth, vHeight);
-        }
-        dataURL = vCanvasEl.toDataURL(type);
-        if (backgroundColor) {
-          context.clearRect(0, 0, vWidth, vHeight);
-          context.putImageData(imageData, 0, 0);
-          context.globalCompositeOperation = compositeOperation;
-        }
-      }
+    this.asyncToDataUrl(type, backgroundColor, (dataURL) => {
 
       const link: HTMLAnchorElement = document.createElement('a');
       const fileName: string =
@@ -338,7 +385,7 @@ export default class Graph extends AbstractGraph implements IGraph {
       const e = document.createEvent('MouseEvents');
       e.initEvent('click', false, false);
       link.dispatchEvent(e);
-    }, 16);
+    }, vWidth, vHeight, vCanvasEl)
   }
 
   /**
@@ -359,14 +406,13 @@ export default class Graph extends AbstractGraph implements IGraph {
     if (!type) type = 'image/png';
     const fileName: string = (name || 'graph') + (renderer === 'svg' ? '.svg' : type.split('/')[1]);
     const link: HTMLAnchorElement = document.createElement('a');
-    setTimeout(() => {
-      const dataURL = self.toDataURL(type, backgroundColor);
+    self.asyncToDataUrl(type, backgroundColor, (dataURL) => {
       this.dataURLToImage(dataURL, renderer, link, fileName);
 
       const e = document.createEvent('MouseEvents');
       e.initEvent('click', false, false);
       link.dispatchEvent(e);
-    }, 16);
+    });
   }
 
   private dataURLToImage(dataURL: string, renderer: string, link, fileName) {
