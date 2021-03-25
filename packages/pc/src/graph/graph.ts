@@ -101,11 +101,11 @@ export default class Graph extends AbstractGraph implements IGraph {
   protected async downloadImageWatermark(watermarker: HTMLElement, context: CanvasRenderingContext2D, width: number, height: number) {
     const watermarkStr = watermarker.style.backgroundImage;
     const watermarkbase64 = watermarkStr.slice(5, watermarkStr.length - 2);
-    var img = new Image();
+    const img = new Image();
     img.src = watermarkbase64;
     await new Promise((resolve) => {
       img.onload = () => {
-        var pat = context.createPattern(img, "repeat");
+        const pat = context.createPattern(img, "repeat");
         context.rect(0, 0, width, height);
         context.fillStyle = pat;
         context.fill();
@@ -124,7 +124,7 @@ export default class Graph extends AbstractGraph implements IGraph {
     const watermarker = document.querySelector('.g6-graph-watermarker') as HTMLElement;
     const canvas: GCanvas = this.get('canvas');
     const renderer = canvas.getRenderer();
-    const canvasDom = vCanvasEl ? vCanvasEl : canvas.get('el');
+    const canvasDom = vCanvasEl || canvas.get('el');
 
     let dataURL = '';
     if (!type) type = 'image/png';
@@ -148,8 +148,8 @@ export default class Graph extends AbstractGraph implements IGraph {
       } else {
         let imageData;
         const context = canvasDom.getContext('2d');
-        const width = widths ? widths : this.get('width');
-        const height = heights ? heights : this.get('height');
+        const width = widths || this.get('width');
+        const height = heights || this.get('height');
         let compositeOperation;
         if (watermarker) await this.downloadImageWatermark(watermarker, context, width, height);
         if (backgroundColor) {
@@ -167,7 +167,7 @@ export default class Graph extends AbstractGraph implements IGraph {
           context.globalCompositeOperation = compositeOperation;
         }
       }
-      callback && callback(dataURL)
+      if (callback) callback(dataURL)
     }, 16)
   }
 
