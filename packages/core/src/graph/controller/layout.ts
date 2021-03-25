@@ -97,6 +97,7 @@ export default abstract class LayoutController {
     layoutMethods?.forEach((layoutMethod) => {
       layoutMethod.destroy();
     });
+    this.layoutMethods = [];
   }
 
   // 销毁布局，不能使用 this.destroy，因为 controller 还需要被使用，只是把布局算法销毁
