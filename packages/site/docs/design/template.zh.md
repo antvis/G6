@@ -18,13 +18,13 @@ order: 5
 
 | 形状 | 名称 | 描述 |
 | --- | --- | --- |
-| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*4wLRTpVEM2sAAAAAAAAAAAAAARQnAQ' width=70 alt=‘img’> | 起止符号 | 用来表示次要或程序的开始与完结。常以一个圆角长方形表示。通常里面会标上“开始”或“结束”或其他相关字眼，如“提交查询”或“接受产品”。 |
-| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ejgOT7FamT4AAAAAAAAAAAAAARQnAQ' width=70 alt=‘img’> | 程序 | 以长方形来代表一系列程序去改变量值、形式、数据的位置。 |
-| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ns2VQKZU22QAAAAAAAAAAAAAARQnAQ' width=70 alt=‘img’> | 决策判断 | 以一个菱形去显示一个条件进程，用来按情况去决定下一步走向。通常以“是/否”或“真/假”值去决定。 |
-| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*4-jRQK3dXvQAAAAAAAAAAAAAARQnAQ' width=70 alt=‘img’> | 输入/输出 | 以平行四边形来据输入或输出的过程，即填入数据或显示工作结果的步骤。 |
-| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mjiqTKWv2XAAAAAAAAAAAAAAARQnAQ' width=70 alt=‘img’> | 已定义流程 | 用一个有 2 条左右垂直线长方型，来表示一个已在其他地方定义了的过程。 |
-| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*UX_xTaDD2KQAAAAAAAAAAAAAARQnAQ' width=70 alt=‘img’> | 同页参考 | 用一个含有字母的小圆圈来连接目标流程画于同一页上。 |
-| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*eEzhQa6tyJMAAAAAAAAAAAAAARQnAQ' width=70 alt=‘img’> | 换页参考 | 用一个倒画的屋型来表示目标流程画于另一页上。 |
+| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*4wLRTpVEM2sAAAAAAAAAAAAAARQnAQ' width=70 alt=‘img’/> | 起止符号 | 用来表示次要或程序的开始与完结。常以一个圆角长方形表示。通常里面会标上“开始”或“结束”或其他相关字眼，如“提交查询”或“接受产品”。 |
+| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ejgOT7FamT4AAAAAAAAAAAAAARQnAQ' width=70 alt=‘img’/> | 程序 | 以长方形来代表一系列程序去改变量值、形式、数据的位置。 |
+| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ns2VQKZU22QAAAAAAAAAAAAAARQnAQ' width=70 alt=‘img’/> | 决策判断 | 以一个菱形去显示一个条件进程，用来按情况去决定下一步走向。通常以“是/否”或“真/假”值去决定。 |
+| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*4-jRQK3dXvQAAAAAAAAAAAAAARQnAQ' width=70 alt=‘img’/> | 输入/输出 | 以平行四边形来据输入或输出的过程，即填入数据或显示工作结果的步骤。 |
+| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mjiqTKWv2XAAAAAAAAAAAAAAARQnAQ' width=70 alt=‘img’/> | 已定义流程 | 用一个有 2 条左右垂直线长方型，来表示一个已在其他地方定义了的过程。 |
+| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*UX_xTaDD2KQAAAAAAAAAAAAAARQnAQ' width=70 alt=‘img’/> | 同页参考 | 用一个含有字母的小圆圈来连接目标流程画于同一页上。 |
+| <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*eEzhQa6tyJMAAAAAAAAAAAAAARQnAQ' width=70 alt=‘img’/> | 换页参考 | 用一个倒画的屋型来表示目标流程画于另一页上。 |
 
 ### 业务场景
 
