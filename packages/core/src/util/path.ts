@@ -1,6 +1,5 @@
 import { vec2 } from '@antv/matrix-util';
 import { catmullRom2Bezier } from '@antv/path-util';
-import { isString } from '@antv/util';
 import { IPoint } from '../types';
 
 /**
