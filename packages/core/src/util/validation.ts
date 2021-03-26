@@ -34,7 +34,11 @@ export const validationData = (data?: GraphData | TreeGraphData): boolean => {
 
   const nonNode = ((nodes as NodeConfig[]) || []).find(node => !isString(node.id));
   if (nonNode) {
-    console.error(`G6 Error Tips: Node ID ${nonNode.id} only supports string type`);
+    console.warn(
+      `G6 Warn Tips: Node ID %c${nonNode.id}%c only supports string type.`,
+      'font-size: 20px; color: red;',
+      '',
+    );
     return false;
   }
 
@@ -44,8 +48,10 @@ export const validationData = (data?: GraphData | TreeGraphData): boolean => {
     edge => !nodeIds.includes(edge.source) || !nodeIds.includes(edge.target),
   );
   if (nonEdges) {
-    console.error(
-      `G6 Error Tips: The edge with source ${nonEdges.source} and target ${nonEdges.target} does not completely exist in the ID of the node`,
+    console.warn(
+      `G6 Warn Tips: The edge with source %c${nonEdges.source}%c and target %c${nonEdges.target}%c does not completely exist in the ID of the node.`,
+      'font-size: 20px; color: red;',
+      '',
     );
     return false;
   }
@@ -65,7 +71,11 @@ export const validationSingleData = (
   if (type === 'node' || type === 'combo') {
     // 必须有id字段，且id必须为字符串类型
     if (!data.id || !isString(data.id)) {
-      console.error(`G6 Error Tips: ID must be defined first or ID ${data.id} is not string type`);
+      console.warn(
+        `G6 Warn Tips: ID must be defined first or ID %c${data.id}%c is not string type.`,
+        'font-size: 20px; color: red;',
+        '',
+      );
       return false;
     }
   } else if (type === 'edge') {
@@ -76,8 +86,10 @@ export const validationSingleData = (
       !isString((data as EdgeConfig).source) ||
       !isString((data as EdgeConfig).target)
     ) {
-      console.error(
-        `G6 Error Tips: source and target must be defined first or source ${data.source} and target ${data.target} is not string type`,
+      console.warn(
+        `G6 Warn Tips: source and target must be defined first or source %c${data.source}%c and target %c${data.target}%c is not string type.`,
+        'font-size: 20px; color: red;',
+        '',
       );
       return false;
     }

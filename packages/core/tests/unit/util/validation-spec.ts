@@ -2,6 +2,10 @@ import { validationData, validationSingleData } from '../../../src/util/validati
 import { GraphData, TreeGraphData } from '../../../src';
 
 describe('validationData', () => {
+  it('no data', () => {
+    const validated = validationData();
+    expect(validated).toBe(false);
+  });
   it('validation graph right nodes data', () => {
     const data: GraphData = {
       nodes: [
