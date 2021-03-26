@@ -133,9 +133,6 @@ describe('validationSingleData', () => {
       id: 123,
       label: 'test',
     };
-    const data1 = {
-      label: 'xxx',
-    };
     expect(validationSingleData('node', data as any)).toBe(false);
   });
 
@@ -159,7 +156,6 @@ describe('validationSingleData', () => {
     };
 
     const data1 = {
-      source: 124,
       target: '234',
     };
     expect(validationSingleData('edge', data as any)).toBe(false);
