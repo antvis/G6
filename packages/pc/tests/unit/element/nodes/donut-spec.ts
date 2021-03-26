@@ -12,8 +12,31 @@ describe('donut test', () => {
     defaultNode: {
       type: 'donut',
       size: 50,
+      style: {
+        fill: '#bae637',
+        stroke: '#eaff8f',
+        lineWidth: 5,
+      },
+      linkPoints: {
+        top: true,
+        bottom: true,
+        left: true,
+        right: true,
+        fill: '#fff',
+        size: 5,
+      },
       icon: {
-        show: true
+        show: true,
+        //img: '...', 可更换为其他图片地址
+        width: 25,
+        height: 25,
+      },
+      labelCfg: {
+        position: 'bottom',
+        offset: 10,
+        style: {
+          // ... 文本样式的配置
+        },
       }
     },
   };
@@ -25,29 +48,29 @@ describe('donut test', () => {
           id: 'node',
           x: 100,
           y: 100,
+          label: 'donut',
           donutAttrs: {
             prop1: 10,
             prop2: 20,
-            prop3: 25
-          }
+            prop3: 25,
+            prop5: 10,
+            prop6: 20,
+          },
+          donutColorMap: {
+            prop1: '#8eaade',
+            prop2: '#55a9f2',
+            prop3: '#0d47b5',
+            prop5: '#7b8085',
+            prop6: '#003870'
+          },
         },
       ],
     };
     graph.data(data);
     graph.render();
+
+    const donutGroup = graph.getNodes()[0].getContainer();
+    expect(donutGroup.get('children').length).toBe(12)
     
-    graph.on('canvas:click', e => {
-      graph.updateItem(graph.getNodes()[0], {
-        donutAttrs: {
-          prop2: 0,
-          prop3: 0,
-          prop4: Math.random(),
-          prop1: Math.random(),
-          prop6: Math.random(),
-          prop7: Math.random(),
-          prop8: Math.random()
-        }
-      })
-    })
   });
 });

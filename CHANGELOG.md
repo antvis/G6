@@ -3,6 +3,7 @@
 #### 4.2.5
 
 - feat: donut node;
+- feat: downloadImage with watermarker;
 - fix: multiple layout calling error;
 - fix: combo collapse and related edges diappearing;
 
