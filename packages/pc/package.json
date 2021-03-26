@@ -79,7 +79,7 @@
     "@antv/g6-element": "*",
     "@antv/algorithm": "^0.1.5",
     "@antv/hierarchy": "^0.6.7",
-    "@antv/layout": "^0.1.11",
+    "@antv/layout": "^0.1.12",
     "@antv/matrix-util": "^3.0.4",
     "@antv/path-util": "^2.0.3",
     "@antv/scale": "^0.3.1",
