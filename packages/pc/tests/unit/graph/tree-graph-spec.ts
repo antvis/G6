@@ -121,7 +121,7 @@ describe('tree graph without animate', () => {
       type: 'rect',
       children: [{ x: 150, y: 150, id: 'SubTreeNode3.1.1' }],
     };
-    graph.on('afteraddchild', function (e) {
+    graph.on('afteraddchild', function(e) {
       expect(
         e.item.getModel().id === 'SubTreeNode3.1' || e.item.getModel().id === 'SubTreeNode3.1.1',
       ).toBe(true);
@@ -548,7 +548,7 @@ describe('tree graph with animate', () => {
 
     expect(graph3.save()).toEqual(data3);
   });
-  it('collapse & expand with parameter trigger=dblclick', (done) => {
+  it('collapse & expand with parameter trigger=dblclick', done => {
     graph3.off();
     graph3.moveTo(100, 150);
 
