@@ -187,7 +187,7 @@ G6.registerNode(
   'single-node',
 );
 
-G6.registerEdge('polyline', {
+G6.registerEdge('fund-polyline', {
   itemType: 'edge',
   draw: function draw(cfg, group) {
     const startPoint = cfg.startPoint;
@@ -195,9 +195,9 @@ G6.registerEdge('polyline', {
 
     const Ydiff = endPoint.y - startPoint.y;
 
-    const slope = Ydiff !== 0 ? 500 / Math.abs(Ydiff) : 0;
+    const slope = Ydiff !== 0 ? Math.min(500 / Math.abs(Ydiff), 20) : 0;
 
-    const cpOffset = 16;
+    const cpOffset = slope > 15 ? 0 : 16;
     const offset = Ydiff < 0 ? cpOffset : -cpOffset;
 
     const line1EndPoint = {
@@ -225,19 +225,21 @@ G6.registerEdge('polyline', {
       ['L', endPoint.x, endPoint.y],
     ];
 
-    if (Ydiff === 0) {
+    if (Math.abs(Ydiff) <= 5) {
       path = [
         ['M', startPoint.x, startPoint.y],
         ['L', endPoint.x, endPoint.y],
       ];
     }
 
+    const endArrow = cfg?.style && cfg.style.endArrow ? cfg.style.endArrow : false;
+    if (isObject(endArrow)) endArrow.fill = stroke;
     const line = group.addShape('path', {
       attrs: {
         path,
         stroke: colorMap[cfg.data && cfg.data.type],
         lineWidth: 1.2,
-        endArrow: false,
+        endArrow,
       },
       name: 'path-shape',
     });
@@ -317,7 +319,7 @@ const graph = new G6.Graph({
     },
   },
   defaultEdge: {
-    type: 'polyline',
+    type: 'fund-polyline',
   },
 });
 

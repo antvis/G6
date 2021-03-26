@@ -9,6 +9,84 @@ If you are interested in data structures and algorithms, you can learn from [jav
 
 G6 has added graph algorithms since V3.5. In future versions, we will continue to enrich the built-in algorithms.
 
+
+### GADDI Graph Pattern Macthing
+
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>New Feature in「v4.2.2」</strong></span> 
+
+[GADDI Graph Pattern Macthing]() supports structure and semantic matching. Give a graph data and a pattern data with specific semantic clustering infomation, it returns the same and similar sub structures on the origin graph data. [DEMO](/en/examples/algorithm/algoDemos#gaddi)。
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ahYwQJtk00EAAAAAAAAAAAAAARQnAQ' alt="img" width='500px'>
+
+**Parameters**
+
+| Name        | Type                | Required | Description                      |
+| ----------- | ------------------- | -------- | ------------------- |
+| graphData   | GraphData           | true     | The origin graph data       |
+| pattern | GraphData              | true     | The pattern graph data to be matched |
+| k   | number | false    | The parameter for GADDI, it will be calculated automatically when it is `undefined`    |
+| length   | number | false    | The parameter for GADDI, it will be calculated automatically when it is `undefined` |
+| nodeLabelProp   | number | false    | The name of the cluster property in the nodes data |
+| edgeLabelProp   | number | false    | The name of the cluster property in the edges data |
+
+
+**Usage**
+
+```javascript
+import G6, { Algorithm } from '@antv/g6'
+const graph = new G6.Graph({
+  container: 'container',
+  width: 500,
+  height: 500
+})
+
+const graphData = {
+  nodes: [
+    { id: 'A', cluster: 'nc1' },
+    { id: 'B', cluster: 'nc1' },
+    { id: 'C', cluster: 'nc2' },
+    { id: 'D', cluster: 'nc1' },
+    { id: 'E', cluster: 'nc3' },
+  ],
+  edges: [
+    { source: 'A', target: 'B', cluster: 'ec1' },
+    { source: 'B', target: 'C', cluster: 'ec2' },
+    { source: 'A', target: 'D', cluster: 'ec1' },
+    { source: 'A', target: 'E', cluster: 'ec2' },
+  ]
+}
+
+graph.data(data)
+graph.render()
+
+const { GADDI } = Algorithm;
+const patternData = {
+  nodes: [
+    { id: 'pn1', cluster: 'nc1' },
+    { id: 'pn2', cluster: 'nc1' },
+    { id: 'pn3', cluster: 'nc3' },
+  ],
+  edges: [
+    { source: 'pn1', target: 'pn2', cluster: 'ec1' },
+    { source: 'pn1', target: 'pn3', cluster: 'ec2' },
+  ]
+}
+const resultMatches = GADDI(graphData, patternData, true, undefined, undefined, 'cluster', 'cluster');
+
+console.log(resultMatches);
+  // output:
+  // [{
+  //   nodes: [
+  //     { id: 'A', cluster: 'nc1' },
+  //     { id: 'B', cluster: 'nc1' },
+  //     { id: 'E', cluster: 'nc3' },],
+  //   edges: [
+  //     { source: 'A', target: 'B', cluster: 'ec1' },
+  //     { source: 'A', target: 'E', cluster: 'ec2' }
+  //   ]
+  // }]
+```
+
 ### depthFirstSearch
 
 [Depth first search](https://en.wikipedia.org/wiki/Depth-first_search) (DFS) is an algorithm for traversing or searching tree or graph data structures. One starts at the root (selecting some arbitrary node as the root in the case of a graph) and explores as far as possible along each branch before backtracking.
@@ -21,7 +99,7 @@ G6 has added graph algorithms since V3.5. In future versions, we will continue t
 
 | Name        | Type                | Required | Description                      |
 | ----------- | ------------------- | -------- | -------------------------------- |
-| graph       | IGraph              | true     | G6 Graph Instance                |
+| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure). Note that it should be assigned with graph instance to this parameter instead before v4.1.0 |
 | startNodeId | string              | true     | The ID of the node to be started |
 | callbacks   | IAlgorithmCallbacks | false    | The callback function            |
 
@@ -59,7 +137,7 @@ graph.data(data);
 graph.render();
 
 const { depthFirstSearch } = Algorithm;
-depthFirstSearch(graph, 'A', {
+depthFirstSearch(data, 'A', {
   enter: ({ current, previous }) => {
     // The callback function for the traversal's begining
   },
@@ -81,7 +159,7 @@ depthFirstSearch(graph, 'A', {
 
 | Name              | Type                | Required | Description                 |
 | ----------------- | ------------------- | -------- | --------------------------- |
-| graph             | IGraph              | true     | G6 Graph Instance           |
+| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure). Note that it should be assigned with graph instance to this parameter instead before v4.1.0 |
 | startNodeId       | string              | true     | The ID of the starting node |
 | originalCallbacks | IAlgorithmCallbacks | false    | The callback function       |
 
@@ -119,7 +197,7 @@ graph.data(data);
 graph.render();
 
 const { breadthFirstSearch } = Algorithm;
-breadthFirstSearch(graph, 'A', {
+breadthFirstSearch(data, 'A', {
   enter: ({ current, previous }) => {
     // The callback function for the traversal's begining
   },
@@ -322,7 +400,7 @@ References:
 
 | Name  | Type   | Required | Description       |
 | ----- | ------ | -------- | ----------------- |
-| graph | IGraph | true     | G6 Graph Instance |
+| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure). Note that it should be assigned with graph instance to this parameter instead before v4.1.0 |
 
 **Return**
 
@@ -364,7 +442,7 @@ graph.render();
 const { detectDirectedCycle } = Algorithm;
 
 // There is no cycle in the graph, the result is null
-let result = detectDirectedCycle(graph);
+let result = detectDirectedCycle(data);
 
 // There will be a cycle after adding edge F->D
 data.edges.push({
@@ -382,10 +460,10 @@ graph.changeData(data);
     E: Node,
   }
 */
-result = detectDirectedCycle(graph);
+result = detectDirectedCycle(data);
 ```
 
-### detectAllCycles(graph, directed, nodeIds, include)
+### detectAllCycles(graphData, directed, nodeIds, include)
 
 Find all simple cycles (elementary circuits) of a directed graph, and for undirected graph, find a list of cycles which form a [basis for cycles](https://en.wikipedia.org/wiki/Cycle_basis) of graph.
 
@@ -399,7 +477,7 @@ References:
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| graph | IGraph | true | G6 Graph Instance |
+| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure). Note that it should be assigned with graph instance to this parameter instead before v4.1.0 |
 | directed | boolean | false | Whether the graph is directed, use the value of `graph.get('directed')` by default. ｜ |
 | nodeIds | string[] | false | The nodes that should be included in or excluded from the cycles. If not configured, return all of the cycles.｜ |
 | include | boolean | false | If it is `true`, the returned cycles shuld include one of the nodes in `nodeIds`, otherwise the cycles should not have any nodes in `nodeIds`. `true` by default.｜ |
@@ -414,16 +492,16 @@ References:
 ```javascript
 const { detectAllCycles } = Algorithm;
 
-const allCycles = detectAllCycles(graph, true);
+const allCycles = detectAllCycles(data, true);
 
 // Find all cycles that includes node B
-const allCycleIncludeB = detectAllCycles(graph, true, ['B']);
+const allCycleIncludeB = detectAllCycles(data, true, ['B']);
 
 // Find all cycles that does not includes node B
-const allCycleExcludeB = detectAllCycles(graph, false, ['B'], false);
+const allCycleExcludeB = detectAllCycles(data, false, ['B'], false);
 ```
 
-### findShortestPath(graph, start, end, directed, weightPropertyName)
+### findShortestPath(graphData, start, end, directed, weightPropertyName)
 
 Compute the shortest path between two nodes in the graph.
 
@@ -431,7 +509,7 @@ Compute the shortest path between two nodes in the graph.
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| graph | IGraph | true | G6 Graph Instance |
+| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure). Note that it should be assigned with graph instance to this parameter instead before v4.1.0 |
 | start | INode / string | true | G6 Node Instance or node ID, indicating the start of the path ｜ |
 | end | INode / string | true | G6 Node Instance or node ID, indicating the end of the path ｜ |
 | directed | boolean | false | Whether the graph is directed, use the value of `graph.get('directed')` by default. ｜ |
@@ -533,12 +611,12 @@ graph.render();
 
 const { findShortestPath } = Algorithm;
 // Find the shortest path between node A and node C in this undirected graph
-const { length, path, allPath } = findShortestPath(graph, 'A', 'C');
+const { length, path, allPath } = findShortestPath(data, 'A', 'C');
 console.log(length, path);
 // Expected output: 2, ['A', 'B', 'C']
 ```
 
-### findAllPath(graph, start, end, directed)
+### findAllPath(graphData, start, end, directed)
 
 Find all paths between two nodes in the graph.
 
@@ -546,7 +624,7 @@ Find all paths between two nodes in the graph.
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| graph | IGraph | true | G6 Graph Instance |
+| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure). . Note that it should be assigned with graph instance to this parameter instead before v4.1.0 |
 | start | INode / string | true | G6 Node Instance or node ID, indicating the start of the path ｜ |
 | end | INode / string | true | G6 Node Instance or node ID, indicating the end of the path ｜ |
 | directed | boolean | false | Whether the graph is directed, use the value of `graph.get('directed')` by default. ｜ |
@@ -639,8 +717,8 @@ graph.data(data);
 graph.render();
 
 const { findAllPath } = Algorithm;
-const allPaths = findAllPath(graph, 'A', 'E');
-console.log(allPaths);
+const allPath = findAllPath(data, 'A', 'E');
+console.log(allPath);
 // Expected output: [['A', 'D', 'F', 'E'], ['A', 'D', 'E'], ['A', 'E']]
 ```
 
@@ -658,7 +736,7 @@ Reference:
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| graph | IGraph | true | G6 Graph Instance |
+| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure). . Note that it should be assigned with graph instance to this parameter instead before v4.1.0 |
 | directed | boolean | false | Whether the graph is directed, use the value of `graph.get('directed')` by default. ｜ |
 
 **Return**
@@ -744,14 +822,14 @@ graph.data(data);
 graph.render();
 
 // Connected components
-const components = getConnectedComponents(graph, false);
+const components = getConnectedComponents(data, false);
 components.forEach((component) => {
   console.log(component.map((node) => node.get('id')));
 });
 // Expected output: ['A', 'B', 'C', 'D', 'E', 'F'], ['G', 'H']
 
 // Strongly-connected components
-const components2 = getConnectedComponents(graph, true);
+const components2 = getConnectedComponents(data, true);
 components2.forEach((component) => {
   console.log(component.map((node) => node.get('id')));
 });
@@ -770,7 +848,7 @@ Reference:
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| graph | IGraph | true | G6 Graph Instance |
+| graphData    | GraphData         | true     | Graph data in G6 [data format](/en/docs/manual/tutorial/elements#data-structure). Note that it should be assigned with graph instance to this parameter instead before v4.1.0 |
 | epsilon | number | false | The precision level used to identify whether the calculation is converged. ｜ |
 | linkProb | number | false | The the probability that the outgoing links will be visited next, 0.85 by default.｜ |
 

@@ -382,8 +382,12 @@ describe('force layout', () => {
     });
     graph.data(data);
     graph.render();
-    const forceLayout = graph.get('layoutController').layoutMethod;
-    forceLayout.execute(); // re execute when it is ticking
+
+    let forceLayout;
+    Promise.resolve().then(() => {
+      forceLayout = graph.get('layoutController').layoutMethods[0];
+      forceLayout.execute(); // re execute when it is ticking
+    });
 
     setTimeout(() => {
       const node0 = data.nodes[0];
@@ -408,9 +412,13 @@ describe('update and simulation', () => {
     });
     graph.data(data);
     graph.render();
-    const forceLayout = graph.get('layoutController').layoutMethod;
-    expect(forceLayout.linkDistance).toEqual(50); // default value
-    expect(forceLayout.preventOverlap).toEqual(false);
+
+    let forceLayout;
+    Promise.resolve().then(() => {
+      forceLayout = graph.get('layoutController').layoutMethods[0];
+      expect(forceLayout.linkDistance).toEqual(50); // default value
+      expect(forceLayout.preventOverlap).toEqual(false);
+    });
 
     setTimeout(() => {
       graph.updateLayout({
@@ -418,11 +426,14 @@ describe('update and simulation', () => {
         preventOverlap: true,
         alphaDecay: 0.8,
       });
-      expect(forceLayout.linkDistance).toEqual(100);
-      expect(forceLayout.preventOverlap).toEqual(true);
-      const simulation = forceLayout.forceSimulation;
-      simulation.stop();
-      done();
+
+      Promise.resolve().then(() => {
+        expect(forceLayout.linkDistance).toEqual(100);
+        expect(forceLayout.preventOverlap).toEqual(true);
+        const simulation = forceLayout.forceSimulation;
+        simulation.stop();
+        done();
+      });
     }, 300);
   });
   it('assign simualtion', (done) => {

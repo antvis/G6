@@ -49,6 +49,8 @@ export const LayoutWorker = (
     layout.registerLayout('gForce-gpu', layout.GForceGPULayout);
     // @ts-ignore
     layout.registerLayout('comboForce', layout.ComboForceLayout);
+    // @ts-ignore
+    layout.registerLayout('forceAtlas2', layout.ForceAtlas2Layout);
 
     function isLayoutMessage(event: Event) {
       const { type } = event.data;
@@ -71,11 +73,15 @@ export const LayoutWorker = (
             break;
           }
 
-          const layoutMethod = new LayoutClass(layoutCfg);
+          let layoutMethod;
+          layoutCfg.onLayoutEnd = () => {
+            this.postMessage({ type: LAYOUT_MESSAGE.END, nodes });
+            layoutMethod?.destroy();
+          };
+
+          layoutMethod = new LayoutClass(layoutCfg);
           layoutMethod.init({ nodes, edges });
           layoutMethod.execute();
-          this.postMessage({ type: LAYOUT_MESSAGE.END, nodes });
-          layoutMethod.destroy();
           break;
         }
 

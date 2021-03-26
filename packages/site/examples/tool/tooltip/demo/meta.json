@@ -13,6 +13,14 @@
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*kjsSQ5pgVmoAAAAAAAAAAABkARQnAQ"
     },
     {
+      "filename": "tooltipFix.js",
+      "title": {
+        "zh": "固定提示框位置",
+        "en": "Tooltip Plugin with fixToNode"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*kjsSQ5pgVmoAAAAAAAAAAABkARQnAQ"
+    },
+    {
       "filename": "tooltipPluginLocal.js",
       "title": {
         "zh": "提示框插件局部生效",
@@ -21,20 +29,12 @@
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*kjsSQ5pgVmoAAAAAAAAAAABkARQnAQ"
     },
     {
-      "filename": "tooltip.js",
+      "filename": "tooltipClick.js",
       "title": {
-        "zh": "提示框 behavior",
-        "en": "Tooltip Behavior"
+        "zh": "点击出现提示框",
+        "en": "Tooltip Plugin with Click Trigger"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*kjsSQ5pgVmoAAAAAAAAAAABkARQnAQ"
-    },
-    {
-      "filename": "tooltipLocal.js",
-      "title": {
-        "zh": "局部图形响应提示框 behavior",
-        "en": "Local Tooltip Behavior"
-      },
-      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7eCgR6DTI_IAAAAAAAAAAABkARQnAQ"
     },
     {
       "filename": "tooltipLocalCustom.js",

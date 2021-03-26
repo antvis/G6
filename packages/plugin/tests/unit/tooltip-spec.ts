@@ -133,4 +133,89 @@ describe('tooltip', () => {
     graph.render();
     graph.destroy();
   });
+  it('tooltip fix to item', () => {
+    data.nodes[0].x = 120;
+    data.nodes[0].y = 20;
+    data.nodes[1].x = 450;
+    data.nodes[1].y = 450;
+    const offsetX = 0 // 5 + 20; // 当前 canvas 的左侧元素宽度总和
+    const offsetY = 0 // 162 + 20; // 当前 canvas 的上方元素高度总和
+    const fixToNode = [1, 0.5];
+    const tooltip = new Tooltip({
+      getContent(e) {
+        return `<div style='width: 180px;'>
+          <ul id='menu'>
+            <li title='1'>测试02</li>
+            <li title='2'>测试02</li>
+            <li>测试02</li>
+            <li>测试02</li>
+            <li>测试02</li>
+          </ul>
+        </div>`;
+      },
+      fixToNode,
+      offsetX,
+      offsetY,
+      trigger: 'click'
+    });
+
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      plugins: [tooltip],
+      modes: {
+        default: ['drag-node', 'zoom-canvas', 'drag-canvas'],
+      },
+    });
+
+    graph.getContainer().style.backgroundColor = '#ccc'
+
+
+    graph.data(data);
+    graph.render();
+
+    const tooltipPlugin = graph.get('plugins')[0];
+    graph.emit('node:click', { item: graph.getNodes()[0] });
+    const dom = tooltipPlugin.get('tooltip')
+    expect(dom.style.visibility).toEqual('visible');
+
+    const nodeBBox = graph.getNodes()[0].getBBox();
+    const expectPoint = {
+      x: nodeBBox.minX + nodeBBox.width * fixToNode[0],
+      y: nodeBBox.minY + nodeBBox.height * fixToNode[1]
+    }
+    const expectCanvasXY = graph.getCanvasByPoint(expectPoint.x, expectPoint.y);
+    const graphContainer = graph.getContainer();
+    expectCanvasXY.x += graphContainer.offsetLeft + offsetX;
+    expectCanvasXY.y += graphContainer.offsetTop + offsetY;
+
+    expect(dom.style.left).toEqual(`${expectCanvasXY.x}px`)
+    expect(dom.style.top).toEqual(`${expectCanvasXY.y}px`)
+
+    graph.emit('canvas:click', { item: graph.getNodes()[0] });
+    expect(dom.style.visibility).toEqual('hidden');
+
+    console.log(graph.getNodes()[1].getModel().x, graph.getNodes()[1].getModel().y)
+    graph.emit('node:click', { item: graph.getNodes()[1] });
+    const nodeBBox2 = graph.getNodes()[0].getBBox();
+    const expectPoint2 = {
+      x: nodeBBox2.minX + nodeBBox2.width * fixToNode[0],
+      y: nodeBBox2.minY + nodeBBox2.height * fixToNode[1]
+    }
+    const expectCanvasXY2 = graph.getCanvasByPoint(expectPoint2.x, expectPoint2.y);
+    expectCanvasXY2.x += graphContainer.offsetLeft + offsetX;
+    expectCanvasXY2.y += graphContainer.offsetTop + offsetY;
+    
+    // 此时超出了下边界和右边界
+    const bbox = dom.getBoundingClientRect();
+    expectCanvasXY2.x -= bbox.width + offsetX;
+    expectCanvasXY2.y -= bbox.height + offsetY;
+
+    // 由于测试界面图上方的 DOM 未渲染出来导致的误差，下面内容无法判断
+    // expect(dom.style.left === `${expectCanvasXY2.x}px`).toEqual(true)
+    // expect(dom.style.top === `${expectCanvasXY2.y}px`).toEqual(true)
+
+    graph.destroy();
+  });
 });

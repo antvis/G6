@@ -3,7 +3,7 @@ import { Layout } from '../../layout';
 import { LayoutWorker } from '../../layout/worker/layout.worker';
 import { LAYOUT_MESSAGE } from '../../layout/worker/layoutConst';
 import { gpuDetector } from '../../util/gpu';
-import { mix } from '@antv/util';
+import { mix, clone } from '@antv/util';
 
 import { IGraph } from '../../interface/graph';
 
@@ -30,6 +30,7 @@ const helper = {
 };
 
 const GPULayoutNames = ['fruchterman', 'gForce'];
+const LayoutPipesAdjustNames = ['force', 'grid', 'circular'];
 export default class LayoutController extends AbstractLayout {
   public graph: IGraph;
 
@@ -51,13 +52,13 @@ export default class LayoutController extends AbstractLayout {
 
   // private data: GraphData;
 
-  // private layoutMethod: typeof Layout;
+  // private layoutMethods: typeof Layout;
 
   constructor(graph: IGraph) {
     super(graph);
     this.graph = graph;
     this.layoutCfg = graph.get('layout') || {};
-    this.layoutType = this.layoutCfg.type;
+    this.layoutType = this.getLayoutType();
     this.worker = null;
     this.workerData = {};
     this.initLayout();
@@ -105,6 +106,95 @@ export default class LayoutController extends AbstractLayout {
     }
   }
 
+  private execLayoutMethod(layoutCfg, order): Promise<void> {
+    return new Promise((reslove, reject) => {
+      const { graph } = this;
+      let layoutType = layoutCfg.type;
+
+      // 每个布局方法都需要注册
+      layoutCfg.onLayoutEnd = () => {
+        graph.emit('aftersublayout', { type: layoutType });
+        reslove();
+      }
+
+      // 若用户指定开启 gpu，且当前浏览器支持 webgl，且该算法存在 GPU 版本（目前仅支持 fruchterman 和 gForce），使用 gpu 版本的布局
+      if (layoutType && this.isGPU) {
+        if (!this.hasGPUVersion(layoutType)) {
+          console.warn(
+            `The '${layoutType}' layout does not support GPU calculation for now, it will run in CPU.`,
+          );
+        } else {
+          layoutType = `${layoutType}-gpu`;
+        }
+      }
+
+      const isForce = layoutType === 'force' || layoutType === 'g6force' || layoutType === 'gForce';
+      if (isForce) {
+        const { onTick } = layoutCfg;
+        const tick = () => {
+          if (onTick) {
+            onTick();
+          }
+          graph.refreshPositions();
+        };
+        layoutCfg.tick = tick;
+      } else if (layoutCfg.type === 'comboForce') {
+        layoutCfg.comboTrees = graph.get('comboTrees');
+      }
+
+      let enableTick = false;
+      let layoutMethod;
+
+      try {
+        layoutMethod = new Layout[layoutType](layoutCfg);
+      } catch (e) {
+        console.warn(`The layout method: '${layoutType}' does not exist! Please specify it first.`);
+        reject();
+      }
+
+      // 是否需要迭代的方式完成布局。这里是来自布局对象的实例属性，是由布局的定义者在布局类定义的。
+      enableTick = layoutMethod.enableTick;
+      if (enableTick) {
+        const { onTick } = layoutCfg;
+        const tick = () => {
+          if (onTick) {
+            onTick();
+          }
+          graph.refreshPositions();
+        };
+        layoutMethod.tick = tick;
+      }
+      const layoutData = this.filterLayoutData(this.data, layoutCfg);
+      addLayoutOrder(layoutData, order);
+      layoutMethod.init(layoutData);
+      // 若存在节点没有位置信息，且没有设置 layout，在 initPositions 中 random 给出了所有节点的位置，不需要再次执行 random 布局
+      // 所有节点都有位置信息，且指定了 layout，则执行布局（代表不是第一次进行布局）
+      graph.emit('beforesublayout', { type: layoutType });
+      layoutMethod.execute();
+      if (layoutMethod.isCustomLayout && layoutCfg.onLayoutEnd) layoutCfg.onLayoutEnd();
+      this.layoutMethods.push(layoutMethod);
+    });
+  }
+
+  private updateLayoutMethod(layoutMethod, layoutCfg): Promise<void> {
+    return new Promise((reslove, reject) => {
+      const { graph } = this;
+      const layoutType = layoutCfg?.type;
+
+      // 每个布局方法都需要注册
+      layoutCfg.onLayoutEnd = () => {
+        graph.emit('aftersublayout', { type: layoutType });
+        reslove();
+      }
+
+      const layoutData = this.filterLayoutData(this.data, layoutCfg);
+      layoutMethod.init(layoutData);
+      layoutMethod.updateCfg(layoutCfg);
+      graph.emit('beforesublayout', { type: layoutType });
+      layoutMethod.execute();
+      if (layoutMethod.isCustomLayout && layoutCfg.onLayoutEnd) layoutCfg.onLayoutEnd();
+    });
+  }
   /**
    * @param {function} success callback
    * @return {boolean} 是否使用web worker布局
@@ -113,7 +203,7 @@ export default class LayoutController extends AbstractLayout {
     const { graph } = this;
 
     this.data = this.setDataFromGraph();
-    const { nodes } = this.data;
+    const { nodes, hiddenNodes } = this.data;
 
     if (!nodes) {
       return false;
@@ -132,138 +222,93 @@ export default class LayoutController extends AbstractLayout {
     );
     this.layoutCfg = layoutCfg;
 
-    const hasLayoutType = !!this.layoutType;
-
-    let { layoutMethod } = this;
-    if (layoutMethod) {
-      layoutMethod.destroy();
-    }
+    this.destoryLayoutMethods();
 
     graph.emit('beforelayout');
-    const allHavePos = this.initPositions(layoutCfg.center, nodes);
-
-    let layoutType = this.layoutType;
-    let isGPU = false;
+    this.initPositions(layoutCfg.center, nodes);
+    // init hidden ndoes
+    this.initPositions(layoutCfg.center, hiddenNodes);
 
     // 防止用户直接用 -gpu 结尾指定布局
+    let layoutType = layoutCfg.type;
     if (layoutType && layoutType.split('-')[1] === 'gpu') {
       layoutType = layoutType.split('-')[0];
       layoutCfg.gpuEnabled = true;
     }
 
     // 若用户指定开启 gpu，且当前浏览器支持 webgl，且该算法存在 GPU 版本（目前仅支持 fruchterman 和 gForce），使用 gpu 版本的布局
-    if (layoutType && layoutCfg.gpuEnabled) {
-      let enableGPU = true;
+    let enableGPU = false;
+    if (layoutCfg.gpuEnabled) {
+      enableGPU = true;
       // 打开下面语句将会导致 webworker 报找不到 window
       if (!gpuDetector().webgl) {
         console.warn(`Your browser does not support webGL or GPGPU. The layout will run in CPU.`);
         enableGPU = false;
       }
-      if (!this.hasGPUVersion(layoutType)) {
-        console.warn(
-          `The '${layoutType}' layout does not support GPU calculation for now, it will run in CPU.`,
-        );
-        enableGPU = false;
-      }
-      if (enableGPU) {
-        layoutType = `${layoutType}-gpu`;
-        // layoutCfg.canvasEl = this.graph.get('canvas').get('el');
-        isGPU = true;
-      }
     }
-    this.isGPU = isGPU;
+    this.isGPU = enableGPU;
 
-    this.stopWorker();
-    if (layoutCfg.workerEnabled && this.layoutWithWorker(this.data, success)) {
-      // 如果启用布局web worker并且浏览器支持web worker，用web worker布局。否则回退到不用web worker布局。
-      return true;
-    }
+    // 在 onAllLayoutEnd 中执行用户自定义 onLayoutEnd，触发 afterlayout、更新节点位置、fitView/fitCenter、触发 afterrender
+    const { onLayoutEnd, layoutEndFormatted, adjust } = layoutCfg;
 
-    const isForce = layoutType === 'force' || layoutType === 'g6force' || layoutType === 'gForce';
-
-    // 所有布局挂载 onLayoutEnd, 在布局结束后依次执行：
-    // 执行用户自定义 onLayoutEnd，触发 afterlayout、更新节点位置、fitView/fitCenter、触发 afterrender
-    const { onLayoutEnd, layoutEndFormatted } = layoutCfg;
     if (!layoutEndFormatted) {
       layoutCfg.layoutEndFormatted = true;
-      layoutCfg.onLayoutEnd = () => {
+
+      layoutCfg.onAllLayoutEnd = async () => {
         // 执行用户自定义 onLayoutEnd
         if (onLayoutEnd) {
           onLayoutEnd();
         }
-        // 触发 afterlayout
-        graph.emit('afterlayout');
+
         // 更新节点位置
         this.refreshLayout();
-        // 由 graph 传入的，控制 fitView、fitCenter，并触发 afterrender
-      };
-    }
 
-    if (isForce) {
-      const { onTick } = layoutCfg;
-      const tick = () => {
-        if (onTick) {
-          onTick();
+        // 最后再次调整
+        if (adjust && layoutCfg.pipes) {
+          await this.adjustPipesBox(this.data, adjust);
+          this.refreshLayout();
         }
-        graph.refreshPositions();
+
+        // 触发 afterlayout
+        graph.emit('afterlayout');
       };
-      layoutCfg.tick = tick;
-    } else if (this.layoutType === 'comboForce') {
-      layoutCfg.comboTrees = graph.get('comboTrees');
     }
 
-    let enableTick = false;
-    if (layoutType !== undefined) {
-      try {
-        layoutMethod = new Layout[layoutType](layoutCfg);
-      } catch (e) {
-        console.warn(`The layout method: '${layoutType}' does not exist! Please specify it first.`);
-        return false;
-      }
-
-      // 是否需要迭代的方式完成布局。这里是来自布局对象的实例属性，是由布局的定义者在布局类定义的。
-      enableTick = layoutMethod.enableTick;
-      if (enableTick) {
-        const { onTick } = layoutCfg;
-        const tick = () => {
-          if (onTick) {
-            onTick();
-          }
-          graph.refreshPositions();
-        };
-        layoutMethod.tick = tick;
-      }
-      layoutMethod.init(this.data);
-      // 若存在节点没有位置信息，且没有设置 layout，在 initPositions 中 random 给出了所有节点的位置，不需要再次执行 random 布局
-      // 所有节点都有位置信息，且指定了 layout，则执行布局（代表不是第一次进行布局）
-      if (hasLayoutType) {
-        graph.emit('beginlayout');
-        layoutMethod.execute();
-        if (layoutMethod.isCustomLayout && layoutCfg.onLayoutEnd && !isForce) layoutCfg.onLayoutEnd();
-        // 在执行 execute 后立即执行 success，且在 timeBar 中有 throttle，可以防止 timeBar 监听 afterrender 进行 changeData 后 layout，从而死循环
-        // 对于 force 一类布局完成后的 fitView 需要用户自己在 onLayoutEnd 中配置
-        if (success) success();
-      }
-      this.layoutMethod = layoutMethod;
+    this.stopWorker();
+    if (layoutCfg.workerEnabled && this.layoutWithWorker(this.data)) {
+      // 如果启用布局web worker并且浏览器支持web worker，用web worker布局。否则回退到不用web worker布局。
+      return true;
     }
 
-    // 若没有配置 layout，也需要更新画布
-    if (!this.layoutMethod && success) {
-      graph.refreshPositions();
-      success();
+    let start = Promise.resolve();
+    if (layoutCfg.type) {
+      start = start.then(() => this.execLayoutMethod(layoutCfg, 0));
+    } else if (layoutCfg.pipes) {
+      layoutCfg.pipes.forEach((cfg, index) => {
+        start = start.then(() => this.execLayoutMethod(cfg, index));
+      });
     }
+
+    // 最后统一在外部调用onAllLayoutEnd
+    start.then(() => {
+      if (layoutCfg.onAllLayoutEnd) layoutCfg.onAllLayoutEnd();
+      // 在执行 execute 后立即执行 success，且在 timeBar 中有 throttle，可以防止 timeBar 监听 afterrender 进行 changeData 后 layout，从而死循环
+      // 对于 force 一类布局完成后的 fitView 需要用户自己在 onLayoutEnd 中配置
+      if (success) success();
+    }).catch((error) => {
+      console.warn('graph layout failed,', error);
+    });
+
     return false;
   }
 
   /**
    * layout with web worker
    * @param {object} data graph data
-   * @param {function} success callback function
    * @return {boolean} 是否支持web worker
    */
-  private layoutWithWorker(data, success?: () => void): boolean {
-    const { nodes, edges } = data;
-    const { layoutCfg, graph, isGPU } = this;
+  private layoutWithWorker(data): boolean {
+    const { layoutCfg, graph } = this;
     const worker = this.getWorker();
     // 每次worker message event handler调用之间的共享数据，会被修改。
     const { workerData } = this;
@@ -278,6 +323,30 @@ export default class LayoutController extends AbstractLayout {
     workerData.currentTickData = null;
 
     graph.emit('beforelayout');
+
+    let start = Promise.resolve();
+    if (layoutCfg.type) {
+      start = start.then(() => this.runWebworker(worker, data, layoutCfg));
+    } else if (layoutCfg.pipes) {
+      for (const cfg of layoutCfg.pipes) {
+        start = start.then(() => this.runWebworker(worker, data, cfg));
+      }
+    }
+
+    // 最后统一在外部调用onAllLayoutEnd
+    start.then(() => {
+      if (layoutCfg.onAllLayoutEnd) layoutCfg.onAllLayoutEnd();
+    }).catch((error) => {
+      console.error('layout failed', error);
+    });
+
+    return true;
+  }
+
+  private runWebworker(worker, allData, layoutCfg): Promise<void> {
+    const { isGPU } = this;
+    const data = this.filterLayoutData(allData, layoutCfg);
+    const { nodes, edges } = data;
 
     const offScreenCanvas = document.createElement('canvas');
     const gpuWorkerAbility =
@@ -316,27 +385,23 @@ export default class LayoutController extends AbstractLayout {
         [offscreen],
       );
     }
-    worker.onmessage = event => {
-      this.handleWorkerMessage(event, data, success);
-    };
-    return true;
+
+    return new Promise((reslove, reject) => {
+      worker.onmessage = (event) => {
+        this.handleWorkerMessage(reslove, reject, event, data, layoutCfg);
+      };
+    });
   }
 
   // success callback will be called when updating graph positions for the first time.
-  private handleWorkerMessage(event, data, success?: () => void) {
-    const { graph, workerData, layoutCfg } = this;
+  private handleWorkerMessage(reslove, reject, event, data, layoutCfg) {
+    const { graph, workerData } = this;
     const eventData = event.data;
     const { type } = eventData;
     const onTick = () => {
       if (layoutCfg.onTick) {
         layoutCfg.onTick();
       }
-    };
-    const onLayoutEnd = () => {
-      if (layoutCfg.onLayoutEnd) {
-        layoutCfg.onLayoutEnd();
-      }
-      graph.emit('afterlayout');
     };
 
     switch (type) {
@@ -348,13 +413,10 @@ export default class LayoutController extends AbstractLayout {
             updateLayoutPosition(data, eventData);
             graph.refreshPositions();
             onTick();
-            if (eventData.currentTick === 1 && success) {
-              success();
-            }
 
             if (eventData.currentTick === eventData.totalTicks) {
               // 如果是最后一次tick
-              onLayoutEnd();
+              reslove();
             } else if (workerData.currentTick === eventData.totalTicks) {
               // 注意这里workerData.currentTick可能已经不再是前面赋值时候的值了，
               // 因为在requestAnimationFrame等待时间里，可能产生新的tick。
@@ -364,7 +426,7 @@ export default class LayoutController extends AbstractLayout {
                 graph.refreshPositions();
                 workerData.requestId2 = null;
                 onTick();
-                onLayoutEnd();
+                reslove();
               });
             }
             workerData.requestId = null;
@@ -375,58 +437,102 @@ export default class LayoutController extends AbstractLayout {
         // 如果没有tick消息（非力导布局）
         if (workerData.currentTick == null) {
           updateLayoutPosition(data, eventData);
-          this.refreshLayout();
-          // 非力导布局，没有tick消息，只有end消息，所以需要执行一次回调。
-          if (success) {
-            success();
-          }
-          graph.emit('afterlayout');
+          reslove();
         }
         break;
       case LAYOUT_MESSAGE.GPUEND:
         // 如果没有tick消息（非力导布局）
         if (workerData.currentTick == null) {
           updateGPUWorkerLayoutPosition(data, eventData);
-          this.refreshLayout();
-          // 非力导布局，没有tick消息，只有end消息，所以需要执行一次回调。
-          if (success) {
-            success();
-          }
-          graph.emit('afterlayout');
+          reslove();
         }
         break;
       case LAYOUT_MESSAGE.ERROR:
         console.warn('Web-Worker layout error!', eventData.message);
+        reject();
         break;
       default:
+        reject();
         break;
     }
   }
 
   // 更新布局参数
   public updateLayoutCfg(cfg) {
-    const { graph, layoutMethod, layoutType, layoutCfg } = this;
+    const { graph, layoutMethods } = this;
+    const layoutCfg = mix({}, this.layoutCfg, cfg);
+    this.layoutCfg = layoutCfg;
 
-    this.layoutType = cfg.type;
-    if (!layoutMethod || layoutMethod.destroyed) {
-      this.layoutCfg = mix({}, layoutCfg, cfg);
+    if (!layoutMethods?.length) {
       this.layout();
       return;
     }
     this.data = this.setDataFromGraph();
 
     this.stopWorker();
-    if (cfg.workerEnabled && this.layoutWithWorker(this.data, null)) {
+    if (cfg.workerEnabled && this.layoutWithWorker(this.data)) {
       // 如果启用布局web worker并且浏览器支持web worker，用web worker布局。否则回退到不用web worker布局。
       return;
     }
 
-    layoutMethod.init(this.data);
-    layoutMethod.updateCfg(cfg);
     graph.emit('beforelayout');
-    layoutMethod.execute();
 
-    if (layoutMethod.isCustomLayout && layoutCfg.onLayoutEnd) layoutCfg.onLayoutEnd();
+    let start = Promise.resolve();
+    if (layoutMethods.length === 1) {
+      start = start.then(() => this.updateLayoutMethod(layoutMethods[0], layoutCfg));
+    } else {
+      layoutMethods?.forEach((layoutMethod, index) => {
+        const currentCfg = layoutCfg.pipes[index];
+        start = start.then(() => this.updateLayoutMethod(layoutMethod, currentCfg));
+      });
+    }
+
+    start.then(() => {
+      if (layoutCfg.onAllLayoutEnd) layoutCfg.onAllLayoutEnd();
+    }).catch((error) => {
+      console.warn('layout failed', error);
+    });
+  }
+
+  protected adjustPipesBox(data, adjust: string): Promise<void> {
+    return new Promise((resolve) => {
+      const { nodes } = data;
+      if (!nodes?.length) {
+        resolve();
+      }
+
+      if (!LayoutPipesAdjustNames.includes(adjust)) {
+        console.warn(`The adjust type ${adjust} is not supported yet, please assign it with 'force', 'grid', or 'circular'.` );
+        resolve();
+      }
+
+      const layoutCfg = {
+        center: this.layoutCfg.center,
+        nodeSize: (d) => Math.max(d.height, d.width),
+        preventOverlap: true,
+        onLayoutEnd: () => { },
+      };
+
+      // 计算出大单元
+      const { groupNodes, layoutNodes } = this.getLayoutBBox(nodes);
+      const preNodes = clone(layoutNodes);
+
+      // 根据大单元坐标的变化，调整这里面每个小单元nodes
+      layoutCfg.onLayoutEnd = () => {
+        layoutNodes?.forEach((ele, index) => {
+          const dx = ele.x - preNodes[index]?.x;
+          const dy = ele.y - preNodes[index]?.y;
+          groupNodes[index]?.forEach((n: any) => {
+            n.x += dx;
+            n.y += dy;
+          });
+        });
+        resolve();
+      }
+
+      const layoutMethod = new Layout[adjust](layoutCfg);
+      layoutMethod.layout({ nodes: layoutNodes });
+    });
   }
 
   public hasGPUVersion(layoutName: string): boolean {
@@ -438,11 +544,7 @@ export default class LayoutController extends AbstractLayout {
   }
 
   public destroy() {
-    const { layoutMethod } = this;
-    if (layoutMethod) {
-      layoutMethod.destroy();
-      layoutMethod.destroyed = true;
-    }
+    this.destoryLayoutMethods();
     const { worker } = this;
     if (worker) {
       worker.terminate();
@@ -453,7 +555,7 @@ export default class LayoutController extends AbstractLayout {
     this.graph.set('layout', undefined);
     this.layoutCfg = undefined;
     this.layoutType = undefined;
-    this.layoutMethod = undefined;
+    this.layoutMethods = undefined;
     this.graph = null;
   }
 }
@@ -494,4 +596,14 @@ function updateGPUWorkerLayoutPosition(data, layoutData) {
     node.x = x;
     node.y = y;
   }
+}
+
+function addLayoutOrder(data, order) {
+  if (!data?.nodes?.length) {
+    return;
+  }
+  const { nodes } = data;
+  nodes.forEach(node => {
+    node.layoutOrder = order;
+  });
 }

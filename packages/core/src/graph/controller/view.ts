@@ -144,7 +144,7 @@ export default class ViewController {
     const canvas: AbstractCanvas = this.graph.get('canvas');
     const canvasPoint = this.getCanvasByPoint(x, y);
     const point = canvas.getClientByPoint(canvasPoint.x, canvasPoint.y);
-    // return { x: point.clientX, y: point.clientY };
+
     return { x: point.x, y: point.y };
   }
 

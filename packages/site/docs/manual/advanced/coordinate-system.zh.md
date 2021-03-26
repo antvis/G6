@@ -34,7 +34,7 @@ const Graph = new G6.Graph({
 
 则下图 Container DOM 的宽高即为 550\*500。canvasX/canvsY 的原点在 Container DOM 的左上角，Container DOM 右下角的 canvasX/canvasY 坐标为（550，500）。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1wNDQI9sgRoAAAAAAAAAAABkARQnAQ' alt='img' width='500'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1wNDQI9sgRoAAAAAAAAAAABkARQnAQ' alt='img' width='1000'/>
 
 ### pointX/pointY
 
@@ -52,7 +52,7 @@ const Graph = new G6.Graph({
 
 下图展示了当图没有缩放和平移，也就是说其变换矩阵 matrix 为单位矩阵时，三个坐标系的关系。可以看到 canvasX/canvasY 与 pointX/pointY 两个坐标系是完全重合的，坐标轴尺度、原点位置完全一致。如下图中树图根节点（黑点标注的）位置，其 canvasX/canvasY 和 pointX/pointY 坐标值是一样的。而 clientX/clientY 的原点在浏览器内容左上角，黑点的 clientX/clientY 则需要加上 Container DOM 的左边距和上边距。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Dzz_R5yJEooAAAAAAAAAAABkARQnAQ' alt='img' width='500'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Dzz_R5yJEooAAAAAAAAAAABkARQnAQ' alt='img' width='1000'/>
 
 > 图 1：图无变换时的三种坐标系。
 
@@ -73,7 +73,7 @@ matrix =
 
 canvasX/canvasY 和 clientX/clientY 坐标系不随图的变换而变化。换句话说，在这种情况下，canvasX/canvasY 的 (90, 0) 对应的 pointX/pointY 坐标为 (45, 0) ，canvasX/canvasY 的 (0, 250) 对应的 pointX/pointY 坐标为 (0, 125) 。而 clientX/clientY 仍然是 canvasX/canvasY 加上 Container DOM 的左/上边距。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dbZBQKvdhYAAAAAAAAAAAABkARQnAQ' alt='img' width='500'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*dbZBQKvdhYAAAAAAAAAAAABkARQnAQ' alt='img' width='1000'/>
 
 > 图 2：图缩放变换时的三种坐标系。
 
@@ -96,7 +96,7 @@ matrix =
 
 canvasX/canvasY 和 clientX/clientY 坐标系不随图的变换而变化。换句话说，在这种情况下，canvasX/canvasY 的 (90, 0) 对应的 pointX/pointY 坐标为 ((90-50)/2=20, 0) ，canvasX/canvasY 的 (0, 250) 对应的 pointX/pointY 坐标为 (0, (250-50)/2=100) 。而 clientX/clientY 仍然是 canvasX/canvasY 加上 Container DOM 的左/上边距。
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*s35JSa1VxTsAAAAAAAAAAABkARQnAQ' alt='img' width='500'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*s35JSa1VxTsAAAAAAAAAAABkARQnAQ' alt='img' width='1000'/>
 
 > 图 3：图缩放+平移变换时的三种坐标系。
 

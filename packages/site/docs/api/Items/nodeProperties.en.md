@@ -3,7 +3,7 @@ title: Node Model Properties
 order: 6
 ---
 
-Except for the common properties, apart from the [Item Model Properities](/en/docs/api/items/itemProperties.zh.md), there are special configurations for Nodes. The `style`s of them depend on their keyShape.
+Except for the common properties, apart from the [Item Model Properities](/en/docs/api/Items/itemProperties.zh.md), there are special configurations for Nodes. The `style`s of them depend on their keyShape.
 
 ## Common Property
 
@@ -41,7 +41,7 @@ The size of the node.
 
 <description> _Array_ **optional** </description>
 
-The interactions of the node and related edges. It can be null. [0, 0] represents the anchor on the left top; [1, 1]represents the anchor ont he right bottom.
+The interactions of the node and related edges. It can be null. [0, 0] represents the anchor on the left top; [1, 1] represents the anchor ont he right bottom.
 
 ### style
 

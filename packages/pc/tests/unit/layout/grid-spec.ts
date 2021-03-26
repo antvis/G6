@@ -39,8 +39,10 @@ describe('grid layout', () => {
     });
     graph.data(data);
     graph.render();
-    expect(graph.getNodes()[0].getModel().x != null).toEqual(true);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      expect(graph.getNodes()[0].getModel().x != null).toEqual(true);
+      graph.destroy();
+    });
   });
 
   it('grid layout with no node', () => {
@@ -76,10 +78,12 @@ describe('grid layout', () => {
       ],
     });
     graph.render();
-    const nodeModel = graph.getNodes()[0].getModel();
-    expect(nodeModel.x).toEqual(0);
-    expect(nodeModel.y).toEqual(0);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      const nodeModel = graph.getNodes()[0].getModel();
+      expect(nodeModel.x).toEqual(0);
+      expect(nodeModel.y).toEqual(0);
+      graph.destroy();
+    });
   });
 
   it('grid layout with fixed columns', () => {
@@ -99,15 +103,17 @@ describe('grid layout', () => {
     });
     graph.data(data);
     graph.render();
-    expect(
-      graph.getNodes()[0].getModel().x != null && graph.getNodes()[0].getModel().y != null,
-    ).toEqual(true);
-    expect(
-      graph.getNodes()[2].getModel().x != null && graph.getNodes()[2].getModel().y != null,
-    ).toEqual(true);
-    expect(graph.getNodes()[0].getModel().x === graph.getNodes()[2].getModel().x).toEqual(true);
-    expect(graph.getNodes()[0].getModel().y > graph.getNodes()[2].getModel().y).toEqual(true);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      expect(
+        graph.getNodes()[0].getModel().x != null && graph.getNodes()[0].getModel().y != null,
+      ).toEqual(true);
+      expect(
+        graph.getNodes()[2].getModel().x != null && graph.getNodes()[2].getModel().y != null,
+      ).toEqual(true);
+      expect(graph.getNodes()[0].getModel().x === graph.getNodes()[2].getModel().x).toEqual(true);
+      expect(graph.getNodes()[0].getModel().y > graph.getNodes()[2].getModel().y).toEqual(true);
+      graph.destroy();
+    });
   });
 
   it('grid layout with fixed rows', () => {
@@ -127,15 +133,17 @@ describe('grid layout', () => {
     });
     graph.data(data);
     graph.render();
-    expect(
-      graph.getNodes()[3].getModel().x != null && graph.getNodes()[3].getModel().y != null,
-    ).toEqual(true);
-    expect(
-      graph.getNodes()[7].getModel().x != null && graph.getNodes()[7].getModel().y != null,
-    ).toEqual(true);
-    expect(graph.getNodes()[3].getModel().x === graph.getNodes()[7].getModel().x).toEqual(true);
-    expect(graph.getNodes()[3].getModel().y > graph.getNodes()[7].getModel().y).toEqual(true);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      expect(
+        graph.getNodes()[3].getModel().x != null && graph.getNodes()[3].getModel().y != null,
+      ).toEqual(true);
+      expect(
+        graph.getNodes()[7].getModel().x != null && graph.getNodes()[7].getModel().y != null,
+      ).toEqual(true);
+      expect(graph.getNodes()[3].getModel().x === graph.getNodes()[7].getModel().x).toEqual(true);
+      expect(graph.getNodes()[3].getModel().y > graph.getNodes()[7].getModel().y).toEqual(true);
+      graph.destroy();
+    });
   });
 
   it('grid layout with fixed cols and rows, rows*cols>nodes, situation 1', () => {
@@ -156,9 +164,11 @@ describe('grid layout', () => {
     });
     graph.data(data);
     graph.render();
-    expect(graph.getNodes()[2].getModel().x === graph.getNodes()[7].getModel().x).toEqual(true);
-    expect(graph.getNodes()[2].getModel().y > graph.getNodes()[7].getModel().y).toEqual(true);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      expect(graph.getNodes()[2].getModel().x === graph.getNodes()[7].getModel().x).toEqual(true);
+      expect(graph.getNodes()[2].getModel().y > graph.getNodes()[7].getModel().y).toEqual(true);
+      graph.destroy();
+    });
   });
 
   it('grid layout with fixed cols and rows, rows*cols>nodes, situation 2', () => {
@@ -179,9 +189,11 @@ describe('grid layout', () => {
     });
     graph.data(data);
     graph.render();
-    expect(graph.getNodes()[3].getModel().x === graph.getNodes()[7].getModel().x).toEqual(true);
-    expect(graph.getNodes()[3].getModel().y > graph.getNodes()[7].getModel().y).toEqual(true);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      expect(graph.getNodes()[3].getModel().x === graph.getNodes()[7].getModel().x).toEqual(true);
+      expect(graph.getNodes()[3].getModel().y > graph.getNodes()[7].getModel().y).toEqual(true);
+      graph.destroy();
+    });
   });
 
   it('grid layout with fixed cols and rows, rows*cols<nodes, situation 1', () => {
@@ -202,11 +214,13 @@ describe('grid layout', () => {
     });
     graph.data(data);
     graph.render();
-    expect(graph.getNodes()[3].getModel().x === graph.getNodes()[7].getModel().x).toEqual(true);
-    expect(graph.getNodes()[3].getModel().y > graph.getNodes()[7].getModel().y).toEqual(true);
-    expect(graph.getNodes()[5].getModel().x === graph.getNodes()[7].getModel().x).toEqual(true);
-    expect(graph.getNodes()[5].getModel().y > graph.getNodes()[7].getModel().y).toEqual(true);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      expect(graph.getNodes()[3].getModel().x === graph.getNodes()[7].getModel().x).toEqual(true);
+      expect(graph.getNodes()[3].getModel().y > graph.getNodes()[7].getModel().y).toEqual(true);
+      expect(graph.getNodes()[5].getModel().x === graph.getNodes()[7].getModel().x).toEqual(true);
+      expect(graph.getNodes()[5].getModel().y > graph.getNodes()[7].getModel().y).toEqual(true);
+      graph.destroy();
+    });
   });
 
   it('grid layout with fixed cols and rows, rows*cols<nodes, situation 2', () => {
@@ -227,9 +241,11 @@ describe('grid layout', () => {
     });
     graph.data(data);
     graph.render();
-    expect(graph.getNodes()[3].getModel().x === graph.getNodes()[7].getModel().x).toEqual(true);
-    expect(graph.getNodes()[3].getModel().y > graph.getNodes()[7].getModel().y).toEqual(true);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      expect(graph.getNodes()[3].getModel().x === graph.getNodes()[7].getModel().x).toEqual(true);
+      expect(graph.getNodes()[3].getModel().y > graph.getNodes()[7].getModel().y).toEqual(true);
+      graph.destroy();
+    });
   });
 
   it('grid layout with condense', () => {
@@ -248,9 +264,11 @@ describe('grid layout', () => {
     });
     graph.data(data);
     graph.render();
-    expect(graph.getNodes()[1].getModel().x === graph.getNodes()[6].getModel().x).toEqual(true);
-    expect(graph.getNodes()[1].getModel().y < graph.getNodes()[6].getModel().y).toEqual(true);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      expect(graph.getNodes()[1].getModel().x === graph.getNodes()[6].getModel().x).toEqual(true);
+      expect(graph.getNodes()[1].getModel().y < graph.getNodes()[6].getModel().y).toEqual(true);
+      graph.destroy();
+    });
   });
 
   it('grid layout with preventOverlap', () => {
@@ -345,11 +363,13 @@ describe('grid layout', () => {
     });
     graph.data(data);
     graph.render();
-    expect(graph.getNodes()[0].getModel().x === graph.getNodes()[3].getModel().x).toEqual(true);
-    expect(graph.getNodes()[0].getModel().y < graph.getNodes()[3].getModel().y).toEqual(true);
-    expect(graph.getNodes()[3].getModel().x === graph.getNodes()[6].getModel().x).toEqual(true);
-    expect(graph.getNodes()[3].getModel().y < graph.getNodes()[6].getModel().y).toEqual(true);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      expect(graph.getNodes()[0].getModel().x === graph.getNodes()[3].getModel().x).toEqual(true);
+      expect(graph.getNodes()[0].getModel().y < graph.getNodes()[3].getModel().y).toEqual(true);
+      expect(graph.getNodes()[3].getModel().x === graph.getNodes()[6].getModel().x).toEqual(true);
+      expect(graph.getNodes()[3].getModel().y < graph.getNodes()[6].getModel().y).toEqual(true);
+      graph.destroy();
+    });
   });
   it('grid layout with position function, col undefined', () => {
     const graph = new G6.Graph({
@@ -367,11 +387,13 @@ describe('grid layout', () => {
     });
     graph.data(data);
     graph.render();
-    expect(graph.getNodes()[1].getModel().x === graph.getNodes()[3].getModel().x).toEqual(true);
-    expect(graph.getNodes()[1].getModel().y < graph.getNodes()[3].getModel().y).toEqual(true);
-    expect(graph.getNodes()[3].getModel().x === graph.getNodes()[6].getModel().x).toEqual(true);
-    expect(graph.getNodes()[3].getModel().y < graph.getNodes()[6].getModel().y).toEqual(true);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      expect(graph.getNodes()[1].getModel().x === graph.getNodes()[3].getModel().x).toEqual(true);
+      expect(graph.getNodes()[1].getModel().y < graph.getNodes()[3].getModel().y).toEqual(true);
+      expect(graph.getNodes()[3].getModel().x === graph.getNodes()[6].getModel().x).toEqual(true);
+      expect(graph.getNodes()[3].getModel().y < graph.getNodes()[6].getModel().y).toEqual(true);
+      graph.destroy();
+    });
   });
   it('grid layout with position function, row undefined', () => {
     const graph = new G6.Graph({
@@ -389,10 +411,12 @@ describe('grid layout', () => {
     });
     graph.data(data);
     graph.render();
-    expect(graph.getNodes()[3].getModel().x === graph.getNodes()[6].getModel().x).toEqual(true);
-    expect(graph.getNodes()[3].getModel().y < graph.getNodes()[6].getModel().y).toEqual(true);
-    expect(graph.getNodes()[6].getModel().x === graph.getNodes()[0].getModel().x).toEqual(true);
-    expect(graph.getNodes()[6].getModel().y < graph.getNodes()[0].getModel().y).toEqual(true);
-    graph.destroy();
+    graph.on('afterlayout', () => {
+      expect(graph.getNodes()[3].getModel().x === graph.getNodes()[6].getModel().x).toEqual(true);
+      expect(graph.getNodes()[3].getModel().y < graph.getNodes()[6].getModel().y).toEqual(true);
+      expect(graph.getNodes()[6].getModel().x === graph.getNodes()[0].getModel().x).toEqual(true);
+      expect(graph.getNodes()[6].getModel().y < graph.getNodes()[0].getModel().y).toEqual(true);
+      graph.destroy();
+    });
   });
 });

@@ -724,6 +724,8 @@ ToolTip helps user to explore detail infomations on the node and edge. Do note t
 | offsetX | number | 6 | the offset of tooltip along x axis, the padding of the parent container should be take into consider |
 | offsetY | number | 6 | the offset of tooltip along y axis, the padding of the parent container should be take into consider |
 | itemTypes | string[] | ['node', 'edge', 'combo'] | the item types that allow the tooltip show up. e.g. if you only want the node tooltip, set the `itemTypes` to be ['node'] |
+| trigger | 'mouseenter' / 'click' | 'mouseenter' | Supported by v4.2.1. The trigger to show the tooltip. By default, the tooltip shows up when the mouse enter a node/edge/combo, where the trigger is `'mouseebter'`. If the trigger is assigned to `'click'`, the tooltip shows up when the user click a node/edge/combo |
+| fixToNode | boolean / [number, number] | false | Supported by v4.2.1. Whether fix the position of the tooltip when mouse moving on the node. By default, the `fixToNode` is `false`, which means the tooltip follows the position of the mouse. If the `fixToNode` is assigned to an array as `[number, number]`, it means fixing the tooltip to a relative position to the target node. e.g. `[1, 0.5]` means the tooltip will be fixed to the right of the node after showing up, and do not follow the mouse when mouse move on the node. The meaning of the array is similar to the [Anchor Point](/en/docs/manual/middle/nodes/anchorPoint). `fixToNode` is only available for tooltip on node |
 
 ### Usage
 
