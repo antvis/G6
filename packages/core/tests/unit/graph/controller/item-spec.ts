@@ -104,7 +104,11 @@ describe('item controller', () => {
       color: '#666',
       size: [100, 70],
     });
-    const edge = graph.addItem('edge', { id: 'edge3', source: node1, target: node2 });
+    const edge = graph.addItem('edge', {
+      id: 'edge3',
+      source: node1.getID(),
+      target: 'node4',
+    });
 
     expect(graph.get('edges').length).toEqual(1);
     expect(graph.get('edges')[0]).toEqual(edge);
@@ -144,12 +148,12 @@ describe('item controller', () => {
     const shape = node.get('keyShape');
     expect(shape.attr('fill')).toEqual('#ccc');
   });
-  it('fresh graph', (done) => {
+  it('fresh graph', done => {
     graph.clear();
     const node = graph.addItem('node', { id: 'node6', x: 100, y: 100, size: 50 });
     const node2 = graph.addItem('node', { id: 'node7', x: 100, y: 200, size: 50 });
     const node3 = graph.addItem('node', { id: 'node8', x: 300, y: 100, size: 50 });
-    const edge = graph.addItem('edge', { id: 'edge4', source: node, target: node2 });
+    const edge = graph.addItem('edge', { id: 'edge4', source: 'node6', target: 'node7' });
     graph.paint();
 
     let path = edge.get('keyShape').attr('path');
@@ -172,7 +176,7 @@ describe('item controller', () => {
   it('show & hide item', () => {
     const node = graph.addItem('node', { id: 'node9', x: 100, y: 100, size: 50 });
     const node2 = graph.addItem('node', { id: 'node10', x: 100, y: 100, size: 50 });
-    const edge = graph.addItem('edge', { id: 'edge5', source: node, target: node2 });
+    const edge = graph.addItem('edge', { id: 'edge5', source: 'node9', target: 'node10' });
     graph.hideItem('node9');
 
     expect(node.isVisible()).toBe(false);

@@ -127,7 +127,12 @@ describe('graph', () => {
     expect(inst.get('group')).not.toBe(undefined);
 
     expect(inst.get('group').get('className')).toEqual('root-container');
-    expect(inst.get('group').get('id').endsWith('-root')).toBe(true);
+    expect(
+      inst
+        .get('group')
+        .get('id')
+        .endsWith('-root'),
+    ).toBe(true);
 
     const children = inst.get('group').get('children');
     expect(children.length).toBe(4);
@@ -529,7 +534,10 @@ describe('graph', () => {
 
   it('client point & model point convert', () => {
     const group = globalGraph.get('group');
-    const bbox = globalGraph.get('canvas').get('el').getBoundingClientRect();
+    const bbox = globalGraph
+      .get('canvas')
+      .get('el')
+      .getBoundingClientRect();
 
     let point = globalGraph.getPointByClient(bbox.left + 100, bbox.top + 100);
 
@@ -613,10 +621,7 @@ describe('all node link center', () => {
     graph.render();
 
     const edge = graph.findById('e1');
-    expect(edge.get('keyShape').attr('path')).toEqual([
-      ['M', 10, 10],
-      ['L', 100, 100],
-    ]);
+    expect(edge.get('keyShape').attr('path')).toEqual([['M', 10, 10], ['L', 100, 100]]);
   });
 
   it('loop', () => {
@@ -627,16 +632,13 @@ describe('all node link center', () => {
       x: 150,
       y: 150,
       style: { fill: 'yellow' },
-      anchorPoints: [
-        [0, 0],
-        [0, 1],
-      ],
+      anchorPoints: [[0, 0], [0, 1]],
     });
 
     const edge1 = graph.addItem('edge', {
       id: 'edge',
-      source: node,
-      target: node,
+      source: 'circleNode',
+      target: 'circleNode',
       type: 'loop',
       loopCfg: {
         position: 'top',
@@ -648,8 +650,8 @@ describe('all node link center', () => {
 
     const edge2 = graph.addItem('edge', {
       id: 'edge1',
-      source: node,
-      target: node,
+      source: 'circleNode',
+      target: 'circleNode',
       type: 'loop',
       loopCfg: {
         position: 'top-left',
@@ -661,8 +663,8 @@ describe('all node link center', () => {
 
     const edge3 = graph.addItem('edge', {
       id: 'edge2',
-      source: node,
-      target: node,
+      source: 'circleNode',
+      target: 'circleNode',
       type: 'loop',
       loopCfg: {
         position: 'top-right',
@@ -673,8 +675,8 @@ describe('all node link center', () => {
 
     const edge4 = graph.addItem('edge', {
       id: 'edge4',
-      source: node,
-      target: node,
+      source: 'circleNode',
+      target: 'circleNode',
       type: 'loop',
       loopCfg: {
         position: 'right',
@@ -686,8 +688,8 @@ describe('all node link center', () => {
 
     const edgeWithAnchor = graph.addItem('edge', {
       id: 'edge5',
-      source: node,
-      target: node,
+      source: 'circleNode',
+      target: 'circleNode',
       type: 'loop',
       sourceAnchor: 0,
       targetAnchor: 1,
@@ -701,8 +703,8 @@ describe('all node link center', () => {
 
     graph.addItem('edge', {
       id: 'edge6',
-      source: node,
-      target: node,
+      source: 'circleNode',
+      target: 'circleNode',
       type: 'loop',
       loopCfg: {
         position: 'bottom',
@@ -714,8 +716,8 @@ describe('all node link center', () => {
 
     graph.addItem('edge', {
       id: 'edge7',
-      source: node,
-      target: node,
+      source: 'circleNode',
+      target: 'circleNode',
       type: 'loop',
       loopCfg: {
         position: 'bottom-left',
@@ -727,8 +729,8 @@ describe('all node link center', () => {
 
     graph.addItem('edge', {
       id: 'edge8',
-      source: node,
-      target: node,
+      source: 'circleNode',
+      target: 'circleNode',
       type: 'loop',
       loopCfg: {
         position: 'left',
@@ -838,7 +840,7 @@ describe('all node link center', () => {
       },
     });
 
-    defaultGraph.on('node:click', (e) => {
+    defaultGraph.on('node:click', e => {
       e.item.setState('selected', true);
     });
 
@@ -881,7 +883,7 @@ describe('all node link center', () => {
     expect(keyShape.attr('strokeStyle')).toBe(undefined);
 
     defaultGraph.addItem('node', { id: 'node10' });
-    const edge = defaultGraph.addItem('edge', { id: 'edge', source: node, target: 'node9' });
+    const edge = defaultGraph.addItem('edge', { id: 'edge', source: 'node9', target: 'node9' });
 
     const edgeKeyShape = edge.get('keyShape');
     expect(edgeKeyShape.attr('stroke')).toEqual('blue');

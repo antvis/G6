@@ -70,7 +70,7 @@ export const validationSingleData = (
 ): boolean => {
   if (type === 'node' || type === 'combo') {
     // 必须有id字段，且id必须为字符串类型
-    if (!data.id || !isString(data.id)) {
+    if (data.id && !isString(data.id)) {
       console.warn(
         `G6 Warn Tips: ID must be defined first or ID %c${data.id}%c is not string type.`,
         'font-size: 20px; color: red;',
