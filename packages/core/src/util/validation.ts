@@ -52,6 +52,8 @@ export const validationData = (data?: GraphData | TreeGraphData): boolean => {
       `G6 Warn Tips: The edge with source %c${nonEdges.source}%c and target %c${nonEdges.target}%c does not completely exist in the ID of the node.`,
       'font-size: 20px; color: red;',
       '',
+      'font-size: 20px; color: red;',
+      '',
     );
     return false;
   }
@@ -88,6 +90,8 @@ export const validationSingleData = (
     ) {
       console.warn(
         `G6 Warn Tips: source and target must be defined first or source %c${data.source}%c and target %c${data.target}%c is not string type.`,
+        'font-size: 20px; color: red;',
+        '',
         'font-size: 20px; color: red;',
         '',
       );
