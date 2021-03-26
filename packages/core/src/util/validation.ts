@@ -1,4 +1,4 @@
-import { isString } from '@antv/util';
+import { isString, isPlainObject } from '@antv/util';
 import { GraphData, TreeGraphData, NodeConfig, EdgeConfig, ComboConfig, ITEM_TYPE } from '../types';
 import { traverseTree } from './graphic';
 
@@ -81,20 +81,9 @@ export const validationSingleData = (
       return false;
     }
   } else if (type === 'edge') {
-    // 必须有 source 和 target 字段，且类型必须为字符串
-    if (
-      !(data as EdgeConfig).source ||
-      !(data as EdgeConfig).target ||
-      !isString((data as EdgeConfig).source) ||
-      !isString((data as EdgeConfig).target)
-    ) {
-      console.warn(
-        `G6 Warn Tips: source and target must be defined first or source %c${data.source}%c and target %c${data.target}%c is not string type.`,
-        'font-size: 20px; color: red;',
-        '',
-        'font-size: 20px; color: red;',
-        '',
-      );
+    // 必须有 source 和 target 字段
+    if (!(data as EdgeConfig).source || !(data as EdgeConfig).target) {
+      console.warn('G6 Warn Tips: source and target must be defined first.');
       return false;
     }
   }
