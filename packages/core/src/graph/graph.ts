@@ -31,7 +31,7 @@ import {
   IG6GraphEvent,
 } from '../types';
 import { move } from '../util/math';
-import { validationData } from '../util/validation';
+import { validationData, validationSingleData } from '../util/validation';
 import Global from '../global';
 import { ItemController, ModeController, StateController, ViewController } from './controller';
 import { plainCombosToTrees, traverseTree, reconstructTree, traverseTreeUp } from '../util/graphic';
@@ -973,6 +973,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const currentComboSorted = this.get('comboSorted');
     this.set('comboSorted', currentComboSorted && !sortCombo);
     const itemController: ItemController = this.get('itemController');
+
+    // 添加节点、边或combo之前，先验证数据是否符合规范
+    if (!validationSingleData(type, model)) {
+      return false;
+    }
 
     if (model.id && this.findById(model.id as string)) {
       console.warn(
