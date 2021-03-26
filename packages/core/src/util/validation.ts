@@ -1,5 +1,5 @@
 import { isString } from '@antv/util';
-import { GraphData, TreeGraphData, NodeConfig, EdgeConfig } from '../types';
+import { GraphData, TreeGraphData, NodeConfig, EdgeConfig, ComboConfig, ITEM_TYPE } from '../types';
 import { traverseTree } from './graphic';
 
 /**
@@ -48,6 +48,39 @@ export const validationData = (data?: GraphData | TreeGraphData): boolean => {
       `G6 Error Tips: The edge with source ${nonEdges.source} and target ${nonEdges.target} does not completely exist in the ID of the node`,
     );
     return false;
+  }
+  return true;
+};
+
+/**
+ * 验证添加节点、边或从combo时的数据
+ * @param type 节点、边或从combo
+ * @param data 添加的单条数据
+ * @return boolean 全部验证通过返回 true，否则返回 false
+ */
+export const validationSingleData = (
+  type: ITEM_TYPE,
+  data: NodeConfig | EdgeConfig | ComboConfig,
+): boolean => {
+  if (type === 'node' || type === 'combo') {
+    // 必须有id字段，且id必须为字符串类型
+    if (!data.id || !isString(data.id)) {
+      console.error(`G6 Error Tips: ID must be defined first or ID ${data.id} is not string type`);
+      return false;
+    }
+  } else if (type === 'edge') {
+    // 必须有 source 和 target 字段，且类型必须为字符串
+    if (
+      !(data as EdgeConfig).source ||
+      !(data as EdgeConfig).target ||
+      !isString((data as EdgeConfig).source) ||
+      !isString((data as EdgeConfig).target)
+    ) {
+      console.error(
+        `G6 Error Tips: source and target must be defined first or source ${data.source} and target ${data.target} is not string type`,
+      );
+      return false;
+    }
   }
   return true;
 };
