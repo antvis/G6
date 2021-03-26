@@ -137,7 +137,6 @@ describe('validationSingleData', () => {
       label: 'xxx',
     };
     expect(validationSingleData('node', data as any)).toBe(false);
-    expect(validationSingleData('node', data1 as any)).toBe(false);
   });
 
   it('add single node with right data', () => {
@@ -145,7 +144,12 @@ describe('validationSingleData', () => {
       id: '123',
       label: 'test',
     };
+
+    const data1 = {
+      label: 'xxx',
+    };
     expect(validationSingleData('node', data as any)).toBe(true);
+    expect(validationSingleData('node', data1 as any)).toBe(true);
   });
 
   it('add single edge with error data', () => {
@@ -175,11 +179,8 @@ describe('validationSingleData', () => {
       id: 123,
       label: 'test',
     };
-    const data1 = {
-      label: 'xxx',
-    };
+
     expect(validationSingleData('combo', data as any)).toBe(false);
-    expect(validationSingleData('combo', data1 as any)).toBe(false);
   });
 
   it('add single combo with right data', () => {
@@ -187,6 +188,10 @@ describe('validationSingleData', () => {
       id: '123',
       label: 'test',
     };
+    const data1 = {
+      label: 'xxx',
+    };
+    expect(validationSingleData('combo', data1 as any)).toBe(true);
     expect(validationSingleData('combo', data as any)).toBe(true);
   });
 });
