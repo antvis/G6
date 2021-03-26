@@ -1,4 +1,4 @@
-import { validationData } from '../../../src/util/validation';
+import { validationData, validationSingleData } from '../../../src/util/validation';
 import { GraphData, TreeGraphData } from '../../../src';
 
 describe('validationData', () => {
@@ -120,5 +120,69 @@ describe('validationData', () => {
 
     const validated = validationData(data);
     expect(validated).toBe(true);
+  });
+});
+
+describe('validationSingleData', () => {
+  it('add single node with error data', () => {
+    const data = {
+      id: 123,
+      label: 'test',
+    };
+    const data1 = {
+      label: 'xxx',
+    };
+    expect(validationSingleData('node', data as any)).toBe(false);
+    expect(validationSingleData('node', data1 as any)).toBe(false);
+  });
+
+  it('add single node with right data', () => {
+    const data = {
+      id: '123',
+      label: 'test',
+    };
+    expect(validationSingleData('node', data as any)).toBe(true);
+  });
+
+  it('add single edge with error data', () => {
+    const data = {
+      source: '123',
+      label: 'xxx',
+    };
+
+    const data1 = {
+      source: 124,
+      target: '234',
+    };
+    expect(validationSingleData('edge', data as any)).toBe(false);
+    expect(validationSingleData('edge', data1 as any)).toBe(false);
+  });
+
+  it('add single edge with right data', () => {
+    const data = {
+      source: '123',
+      target: '234',
+    };
+    expect(validationSingleData('edge', data as any)).toBe(true);
+  });
+
+  it('add single combo with error data', () => {
+    const data = {
+      id: 123,
+      label: 'test',
+    };
+    const data1 = {
+      label: 'xxx',
+    };
+    expect(validationSingleData('combo', data as any)).toBe(false);
+    expect(validationSingleData('combo', data1 as any)).toBe(false);
+  });
+
+  it('add single combo with right data', () => {
+    const data = {
+      id: '123',
+      label: 'test',
+    };
+    expect(validationSingleData('combo', data as any)).toBe(true);
   });
 });
