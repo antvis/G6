@@ -85,8 +85,8 @@ registerNode(
         });
       }
 
-      let donutR = keyShape.attr('r');
-      let innerR = 0.6 * donutR; // 甜甜圈的内环半径
+      const donutR = keyShape.attr('r');
+      const innerR = 0.6 * donutR; // 甜甜圈的内环半径
       const arcR = (donutR + innerR) / 2; // 内环半径与外环半径的平均值
 
       const { donutAttrs = {}, donutColorMap = {} } = cfg as any;
