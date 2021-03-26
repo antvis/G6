@@ -3,7 +3,8 @@ title: 节点总览
 order: 0
 ---
 
-G6 的内置节点包括 circle，rect，ellipse，diamond，triangle，star，image，modelRect。这些内置节点的默认样式分别如下图所示。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FY3RTbDCz_8AAAAAAAAAAABkARQnAQ' width='750' height='100' alt='img'/>
+G6 的内置节点包括 circle，rect，ellipse，diamond，triangle，star，image，modelRect，donut（v4.2.5 起支持）。这些内置节点的默认样式分别如下图所示。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FY3RTbDCz_8AAAAAAAAAAABkARQnAQ' width='750' height='100' alt='img'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NRJ7RpkMPNsAAAAAAAAAAAAAARQnAQ' width='50' alt='img'/>
 
 本文将概述 G6 中的各个内置节点类型、内置节点的通用属性、配置方法。各类型节点详细配置项及配置方法见本目录下相应文档。
 
@@ -21,6 +22,7 @@ G6 的内置节点包括 circle，rect，ellipse，diamond，triangle，star，i
 | star | 星形：<br />- `size` 是单个数字，表示星形的大小<br />- 星星的中心位置是节点的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点中央<br />- 更多字段见 [Star](/zh/docs/manual/middle/elements/nodes/built-in/star) 节点教程<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_euwQpARvhMAAAAAAAAAAABkARQnAQ' width=50 alt='img'/> |
 | image | 图片：<br />- `size` 是数组，表示图片的宽和高<br />- 图片的中心位置是节点位置<br />- `img` 图片的路径，也可以在 `style` 里面设置<br />- `color` 字段不生效<br />- 标签文本默认在节点下方<br />- 更多字段见 [Image](/zh/docs/manual/middle/elements/nodes/built-in/image) 节点教程<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*gtNxQY2RvMwAAAAAAAAAAABkARQnAQ' width=50 alt='img'/> |
 | modelRect | 卡片：<br />- `size` 是数组，表示卡片的宽和高<br />- 卡片的中心位置是节点的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点中央<br />- 若有  `description` 字段则显示在标签文本下方显示  `description` 内容<br />- 更多字段见 [ModelRect](/zh/docs/manual/middle/elements/nodes/built-in/modelRect) 节点教程<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*MqR9QKfimxUAAAAAAAAAAABkARQnAQ' width=100 alt='img'/><br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9HKrSKtmNGQAAAAAAAAAAABkARQnAQ' width=100 alt='img'/> |
+| donut | 圆形：<br />- `size` 是单个数字，表示直径<br />- 圆心位置对应节点的位置<br />- `color` 字段默认在描边上生效<br />- 标签文本默认在节点中央<br />- 必须指定合法的 `donutAttrs` 字段<br />- 更多字段见 [Donut](/zh/docs/manual/middle/elements/nodes/built-in/donut) 节点教程<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NRJ7RpkMPNsAAAAAAAAAAAAAARQnAQ' width=50 alt='img'/> |
 
 ## 节点的通用属性
 

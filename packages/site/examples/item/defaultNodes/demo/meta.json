@@ -13,6 +13,14 @@
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*8QIsS5rud6oAAAAAAAAAAABkARQnAQ"
     },
     {
+      "filename": "donut.js",
+      "title": {
+        "zh": "甜甜圈",
+        "en": "Donut"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NRJ7RpkMPNsAAAAAAAAAAAAAARQnAQ"
+    },
+    {
       "filename": "ellipse.js",
       "title": {
         "zh": "椭圆",
