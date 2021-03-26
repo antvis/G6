@@ -172,7 +172,7 @@ export default class LayoutController extends AbstractLayout {
       graph.emit('beforesublayout', { type: layoutType });
       layoutMethod.execute();
       if (layoutMethod.isCustomLayout && layoutCfg.onLayoutEnd) layoutCfg.onLayoutEnd();
-      this.layoutMethods.push(layoutMethod);
+      this.layoutMethods[order](layoutMethod);
     });
   }
 

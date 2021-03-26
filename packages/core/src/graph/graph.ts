@@ -2275,7 +2275,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
           // if the combo is found
           found = true;
         }
-        if (found) {
+        if (found && cnodes.length === 0) {
           // if the combo is found, concat the descendant nodes and combos
           const item = this.findById(subTree.id) as ICombo;
           if (item && item.getType && item.getType() === 'combo') {

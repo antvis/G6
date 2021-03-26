@@ -1,5 +1,11 @@
 # ChangeLog
 
+#### 4.2.5
+
+- feat: donut node;
+- fix: multiple layout calling error;
+- fix: combo collapse and related edges diappearing;
+
 #### 4.2.4
 
 - fix: change data with dulplicated name between nodes and combos;
