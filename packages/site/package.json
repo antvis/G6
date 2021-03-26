@@ -34,7 +34,7 @@
   "dependencies": {
     "@antv/chart-node-g6": "^0.0.3",
     "@antv/util": "^2.0.9",
-    "@antv/g6": "",
+    "@antv/g6": "4.2.4",
     "@antv/gatsby-theme-antv": "1.1.1",
     "gatsby": "^2.24.40",
     "gh-pages": "^2.1.1",
