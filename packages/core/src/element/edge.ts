@@ -349,7 +349,8 @@ const singleEdge: ShapeOptions = {
   drawLabel(cfg: EdgeConfig, group: IGroup): IShape {
     const { labelCfg: defaultLabelCfg } = this.options as ModelConfig;
     let defaultFontFamily;
-    if (typeof window !== 'undefined')
+    // 额外判断window.getComputedStyle的原因为，如果nodemodule不安装在src目录下，小程序会有一个错误的window
+    if (typeof window !== 'undefined' && window.getComputedStyle)
       defaultFontFamily =
         window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
         'Arial, sans-serif';

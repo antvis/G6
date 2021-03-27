@@ -71,10 +71,11 @@ export const shapeBase: ShapeOptions = {
     return deepMix(
       {
         // 解决局部渲染导致的文字移动残影问题
+        // 额外判断window.getComputedStyle的原因为，如果nodemodule不安装在src目录下，小程序会有一个错误的window
         labelCfg: {
           style: {
             fontFamily:
-              typeof window !== 'undefined'
+              typeof window !== 'undefined' && window.getComputedStyle
                 ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
                   'Arial, sans-serif'
                 : 'Arial, sans-serif',
