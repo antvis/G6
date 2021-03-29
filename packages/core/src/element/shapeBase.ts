@@ -75,7 +75,7 @@ export const shapeBase: ShapeOptions = {
         labelCfg: {
           style: {
             fontFamily:
-              typeof window !== 'undefined' && window.getComputedStyle
+              typeof window !== 'undefined' && typeof window.getComputedStyle !== 'undefined'
                 ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
                   'Arial, sans-serif'
                 : 'Arial, sans-serif',
