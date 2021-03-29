@@ -10,7 +10,7 @@ import { traverseTree } from './graphic';
  * @param data 关系图或树图数据
  * @return boolean 全部验证通过返回 true，否则返回 false
  */
-export const validationData = (data?: GraphData | TreeGraphData): boolean => {
+export const dataValidation = (data?: GraphData | TreeGraphData): boolean => {
   // 1. 必须传入数据
   if (!data) {
     console.error('G6 Error Tips: data must be defined first');
@@ -66,7 +66,7 @@ export const validationData = (data?: GraphData | TreeGraphData): boolean => {
  * @param data 添加的单条数据
  * @return boolean 全部验证通过返回 true，否则返回 false
  */
-export const validationSingleData = (
+export const singleDataValidation = (
   type: ITEM_TYPE,
   data: NodeConfig | EdgeConfig | ComboConfig,
 ): boolean => {

@@ -31,7 +31,7 @@ import {
   IG6GraphEvent,
 } from '../types';
 import { move } from '../util/math';
-import { validationData, validationSingleData } from '../util/validation';
+import { dataValidation, singleDataValidation } from '../util/validation';
 import Global from '../global';
 import { ItemController, ModeController, StateController, ViewController } from './controller';
 import { plainCombosToTrees, traverseTree, reconstructTree, traverseTreeUp } from '../util/graphic';
@@ -975,7 +975,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const itemController: ItemController = this.get('itemController');
 
     // 添加节点、边或combo之前，先验证数据是否符合规范
-    if (!validationSingleData(type, model)) {
+    if (!singleDataValidation(type, model)) {
       return false;
     }
 
@@ -1242,7 +1242,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * @param {GraphData} data 初始化数据
    */
   public data(data?: GraphData | TreeGraphData): void {
-    validationData(data);
+    dataValidation(data);
     this.set('data', data);
   }
 
@@ -1396,7 +1396,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    */
   public changeData(data?: GraphData | TreeGraphData, stack: boolean = true): AbstractGraph {
     const self = this;
-    if (!validationData(data)) {
+    if (!dataValidation(data)) {
       return this;
     }
     if (stack && this.get('enabledStack')) {
