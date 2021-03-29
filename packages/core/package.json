@@ -58,7 +58,7 @@
     ]
   },
   "dependencies": {
-    "@antv/algorithm": "^0.1.5",
+    "@antv/algorithm": "0.1.8-beta.5",
     "@antv/dom-util": "^2.0.1",
     "@antv/event-emitter": "~0.1.0",
     "@antv/g-base": "^0.5.1",
