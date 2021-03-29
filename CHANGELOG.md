@@ -6,6 +6,7 @@
 - feat: downloadImage with watermarker;
 - fix: multiple layout calling error;
 - fix: combo collapse and related edges diappearing;
+- fix: forceAtlas2 with descrete node error;
 
 #### 4.2.4
 
