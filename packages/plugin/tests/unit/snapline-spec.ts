@@ -1,4 +1,4 @@
-import G6, { IGraph } from '@antv/g6';
+import G6 from '@antv/g6';
 import SnapLine from '../../src/snapline';
 
 const div = document.createElement('div');
@@ -32,6 +32,36 @@ describe('snapline', () => {
   };
 
   it('default snapLine', () => {
+    const snapline = new SnapLine();
+    const graph = new G6.Graph({
+      container: div,
+      width: 400,
+      height: 300,
+      defaultNode: {
+        size: 40,
+      },
+      modes: {
+        default: ['drag-canvas', 'zoom-canvas', 'drag-node'],
+      },
+      plugins: [snapline],
+    });
+
+    graph.data(data);
+    graph.render();
+
+    const plugins = graph.get('plugins');
+    expect(plugins.length).toBe(1);
+    const plugin = plugins[0];
+    expect(plugin).not.toBe(undefined);
+    const line = plugin.get('line');
+    expect(line.stroke).toEqual('#FA8C16');
+    expect(line.lineWidth).toBe(1);
+
+    graph.destroy();
+    expect(graph.destroyed).toBe(true);
+  });
+
+  it('custom snapline', () => {
     const snapline = new SnapLine({
       line: {
         stroke: 'red',
@@ -54,12 +84,15 @@ describe('snapline', () => {
 
     graph.data(data);
     graph.render();
-  });
-  // it('grid destroy', () => {
-  //   const container = graph.get('container');
-  //   expect(container.childNodes.length).toEqual(2);
+    const plugins = graph.get('plugins');
+    expect(plugins.length).toBe(1);
+    const plugin = plugins[0];
+    expect(plugin).not.toBe(undefined);
+    const line = plugin.get('line');
+    expect(line.stroke).toEqual('red');
+    expect(line.lineWidth).toBe(3);
 
-  //   graph.destroy();
-  //   expect(container.childNodes.length).toEqual(0);
-  // });
+    graph.destroy();
+    expect(graph.destroyed).toBe(true);
+  });
 });
