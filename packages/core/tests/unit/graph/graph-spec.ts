@@ -101,11 +101,43 @@ describe('graph', () => {
     expect(edges.length).toBe(0);
 
     const canvas = inst.get('canvas');
-    // inst.destroy();
+    inst.destroy();
 
-    // expect(inst.destroyed).toBe(true);
-    // expect(canvas.destroyed).toBe(true);
-    // expect(length - div.childNodes.length).toBe(1);
+    expect(inst.destroyed).toBe(true);
+    expect(canvas.destroyed).toBe(true);
+    expect(length - div.childNodes.length).toBe(1);
+  });
+
+  it('new Graph without width & height', () => {
+    const container = document.createElement('div');
+    container.id = 'autoWH';
+    container.style.height = '200px';
+    document.body.appendChild(container);
+    const graph = new Graph({
+      container: container,
+    });
+
+    const data = {
+      nodes: [
+        {
+          id: 'node',
+          label: 'width',
+          x: 200,
+          y: 150,
+        },
+      ],
+    };
+    graph.data(data);
+    graph.render();
+
+    const domContainer = graph.getContainer();
+    expect(domContainer.style.width).toEqual('');
+    expect(domContainer.style.height).toEqual('200px');
+    const canvas = graph.get('canvas');
+    // expect(canvas.get('width')).toBe(539);
+    expect(canvas.get('height')).toBe(200);
+    graph.destroy();
+    expect(graph.destroyed).toBe(true);
   });
 
   it('render without data', () => {
