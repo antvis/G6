@@ -13,7 +13,7 @@
     "lint:src": "eslint --ext .ts --format=pretty \"./src\"",
     "prettier": "prettier -c --write \"**/*\"",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch ./tests/unit/minimap-spec.ts",
+    "test-live": "DEBUG_MODE=1 jest --watch ./tests/unit/snapline-spec.ts",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
     "watch": "father build -w"
   },
@@ -22,7 +22,7 @@
     "@antv/g-base": "^0.5.1",
     "@antv/g-canvas": "^0.5.2",
     "@antv/g-svg": "^0.5.2",
-    "@antv/g6-core": "0.2.5",
+    "@antv/g6-core": "*",
     "@antv/matrix-util": "^3.0.4",
     "@antv/scale": "^0.3.4",
     "@antv/util": "^2.0.9",

@@ -43,7 +43,6 @@ export default abstract class PluginBase {
   public initPlugin(graph: IGraph) {
     const self = this;
     self.set('graph', graph);
-
     const events = self.getEvents();
 
     const bindEvents: EventMapType = {};
