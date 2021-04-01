@@ -30,6 +30,20 @@ const graph = new G6.Graph({
 });
 ```
 
+## SnapLine
+
+SnapLine G6 内置的对齐线插件。
+
+实例化时可以通过配置项调整 SnapLine 的样式和功能。
+
+### 配置项
+
+| 名称 | 类型 | 描述 |
+| --- | --- | --- |
+| line | ShapeStyle | 辅助线的样式 |
+| itemAlignType | boolean、'horizontal' 、'vertical'、'center'; | 辅助线类型，true 表示全部 |
+
+
 ## Grid
 
 Grid 插件在画布上绘制了网格。

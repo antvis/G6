@@ -8,6 +8,7 @@ import Tooltip from './tooltip';
 import TimeBar from './timeBar';
 import ImageMinimap from './imageMinimap';
 import EdgeFilterLens from './edgeFilterLens';
+import SnapLine from './snapline';
 import PluginBase from './base';
 
 export {
@@ -22,6 +23,7 @@ export {
   TimeBar,
   ImageMinimap,
   EdgeFilterLens,
+  SnapLine,
 };
 
 const Plugin = {
@@ -36,6 +38,7 @@ const Plugin = {
   TimeBar,
   ImageMinimap,
   EdgeFilterLens,
+  SnapLine,
 };
 
 export default Plugin;

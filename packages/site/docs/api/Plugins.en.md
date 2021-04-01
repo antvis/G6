@@ -30,6 +30,17 @@ const graph = new G6.Graph({
 });
 ```
 
+## SnapLine
+
+SnapLine is a built-in components in G6.
+
+### 配置项
+
+| Name          | Type                                          | Required | Description           |
+| ------------- | --------------------------------------------- | -------- | --------------------- |
+| line          | ShapeStyle                                    | false    | the style of SnapLine |
+| itemAlignType | boolean、'horizontal' 、'vertical'、'center'; | false    | the type of SnapLine  |
+
 ## Grid
 
 Grid plugin draws grids on the canvas.
@@ -402,14 +413,14 @@ const timebar = new G6.TimeBar({
     data: timeBarData,
     width,
     height: 42,
-    tickLabelFormatter: (d) => {
+    tickLabelFormatter: d => {
       const dateStr = `${d.date}`;
       if ((count - 1) % 10 === 0) {
         return `${dateStr.substr(0, 4)}-${dateStr.substr(4, 2)}-${dateStr.substr(6, 2)}`;
       }
       return false;
     },
-    tooltipFomatter: (d) => {
+    tooltipFomatter: d => {
       const dateStr = `${d}`;
       return `${dateStr.substr(0, 4)}-${dateStr.substr(4, 2)}-${dateStr.substr(6, 2)}`;
     },
@@ -502,7 +513,7 @@ interface TrendConfig {
 #### Parameters of the TrendConfig
 
 | Name | Type | Default Value | Description |
-| --- | --- | --- | --- | --- |
+| --- | --- | --- | --- |
 | x | number | 0 | The beginning x position of the trend line chart |
 | y | number | 0 | The beginning y position of the trend line chart |
 | width | number | The width of the TimeBar | The width of the trend line chart of the TimeBar, we suggest to use the default value. If you wanna custom it, please assign the `width` of the slider in the same time |
