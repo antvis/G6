@@ -35,15 +35,15 @@ const graph = new G6.Graph({
 
 ### GraphOptions.width
 
-<description> _Number_ **required** </description>
+<description> _Number_ **optional** </description>
 
-指定画布宽度，单位为 'px'。
+指定画布宽度，单位为 'px'，默认为画布容器宽度。
 
 ### GraphOptions.height
 
-<description> _Number_ **required** </description>
+<description> _Number_ **optional** </description>
 
-指定画布高度，单位为 'px'。
+指定画布高度，单位为 'px'，默认为画布容器高度。
 
 ### GraphOptions.fitView
 
