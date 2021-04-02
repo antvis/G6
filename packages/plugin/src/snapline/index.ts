@@ -1,6 +1,7 @@
 import { each, mix } from '@antv/util';
 import { IAbstractGraph as IGraph, ShapeStyle, Util } from '@antv/g6-core';
 import Base, { IPluginBaseConfig } from '../base';
+
 const { pointLineDistance } = Util;
 
 interface SnapLineConfig extends IPluginBaseConfig {
@@ -17,6 +18,10 @@ const alignLineStyle = {
 };
 
 export default class SnapLine extends Base {
+  constructor(props?: SnapLineConfig) {
+    super(props);
+  }
+
   public getDefaultCfgs() {
     return {
       line: alignLineStyle,
@@ -35,10 +40,6 @@ export default class SnapLine extends Base {
       verticalLines: {},
       alignLines: [],
     };
-  }
-
-  constructor(props?: SnapLineConfig) {
-    super(props);
   }
 
   public init() {}
@@ -102,11 +103,11 @@ export default class SnapLine extends Base {
         // tltr: top left top right
         // lcrc: left center right center
         // blbr: bottom left bottom right
-        horizontalLines[nodeId + 'tltr'] = [bbox.minX, bbox.minY, bbox.maxX, bbox.minY, item];
-        horizontalLines[nodeId + 'lcrc'] = [bbox.minX, bbox.centerY, bbox.maxX, bbox.centerY, item];
-        horizontalLines[nodeId + 'blbr'] = [bbox.minX, bbox.maxY, bbox.maxX, bbox.maxY, item];
+        horizontalLines[`${nodeId}tltr`] = [bbox.minX, bbox.minY, bbox.maxX, bbox.minY, item];
+        horizontalLines[`${nodeId}lcrc`] = [bbox.minX, bbox.centerY, bbox.maxX, bbox.centerY, item];
+        horizontalLines[`${nodeId}blbr`] = [bbox.minX, bbox.maxY, bbox.maxX, bbox.maxY, item];
       } else if (itemAlignType === 'center') {
-        horizontalLines[nodeId + 'lcrc'] = [bbox.minX, bbox.centerY, bbox.maxX, bbox.centerY, item];
+        horizontalLines[`${nodeId}lcrc`] = [bbox.minX, bbox.centerY, bbox.maxX, bbox.centerY, item];
       }
 
       // 设置垂直方向辅助线
@@ -114,11 +115,11 @@ export default class SnapLine extends Base {
         // tlbl: top left bottom left
         // tcbc: top center bottom center
         // trbr: top right bottom right
-        verticalLines[nodeId + 'tlbl'] = [bbox.minX, bbox.minY, bbox.minX, bbox.maxY, item];
-        verticalLines[nodeId + 'tcbc'] = [bbox.centerX, bbox.minY, bbox.centerX, bbox.maxY, item];
-        verticalLines[nodeId + 'trbr'] = [bbox.maxX, bbox.minY, bbox.maxX, bbox.maxY, item];
+        verticalLines[`${nodeId}tlbl`] = [bbox.minX, bbox.minY, bbox.minX, bbox.maxY, item];
+        verticalLines[`${nodeId}tcbc`] = [bbox.centerX, bbox.minY, bbox.centerX, bbox.maxY, item];
+        verticalLines[`${nodeId}trbr`] = [bbox.maxX, bbox.minY, bbox.maxX, bbox.maxY, item];
       } else if (itemAlignType === 'center') {
-        verticalLines[nodeId + 'tcbc'] = [bbox.centerX, bbox.minY, bbox.centerX, bbox.maxY, item];
+        verticalLines[`${nodeId}tcbc`] = [bbox.centerX, bbox.minY, bbox.centerX, bbox.maxY, item];
       }
     });
   }
@@ -337,7 +338,7 @@ export default class SnapLine extends Base {
    * @memberof AlignLine
    */
   clearAlignLine() {
-    let { alignLines } = this._cfgs;
+    const { alignLines } = this._cfgs;
     each(alignLines, line => {
       line.remove();
     });
@@ -356,12 +357,12 @@ export default class SnapLine extends Base {
     const nodes = graph.getNodes();
     nodes.forEach(node => {
       const itemId = node.get('id');
-      delete horizontalLines[itemId + 'tltr'];
-      delete horizontalLines[itemId + 'lcrc'];
-      delete horizontalLines[itemId + 'blbr'];
-      delete verticalLines[itemId + 'tlbl'];
-      delete verticalLines[itemId + 'tcbc'];
-      delete verticalLines[itemId + 'trbr'];
+      delete horizontalLines[`${itemId}tltr`];
+      delete horizontalLines[`${itemId}lcrc`];
+      delete horizontalLines[`${itemId}blbr`];
+      delete verticalLines[`${itemId}tlbl`];
+      delete verticalLines[`${itemId}tcbc`];
+      delete verticalLines[`${itemId}trbr`];
     });
 
     this.clearAlignLine();
