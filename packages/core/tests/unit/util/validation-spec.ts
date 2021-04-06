@@ -125,6 +125,28 @@ describe('dataValidation', () => {
     const validated = dataValidation(data);
     expect(validated).toBe(true);
   });
+
+  it('validation with combo ids', () => {
+    const data = {
+      nodes: [
+        { id: '1', label: '1' },
+        { id: '2', label: '2', comboId: 'Combo' },
+        { id: '3', label: '3' },
+      ],
+      edges: [{ source: '1', target: '2' }, { source: 'Combo', target: '3' }],
+      combos: [{ id: 'Combo', label: 'Combo' }],
+    };
+    const validated = dataValidation(data);
+    expect(validated).toBe(true);
+
+    // 添加一条不存在与 combo 中的边
+    data.edges.push({
+      source: 'Combo',
+      target: 'combo1',
+    });
+
+    expect(dataValidation(data)).toBe(false);
+  });
 });
 
 describe('singleDataValidation', () => {
