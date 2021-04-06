@@ -29,6 +29,11 @@ describe('create-edge', () => {
       modes: {
         default: ['create-edge'],
       },
+      layout: {
+        type: 'force',
+        linkDistance: 120,
+        preventOverlap: true,
+      },
       defaultEdge: {
         style: {
           stroke: '#f00',
@@ -196,13 +201,13 @@ describe('create-edge', () => {
         default: [
           {
             type: 'create-edge',
-            shouldBegin: (e) => {
+            shouldBegin: e => {
               if (e.target && e.target.get('name') === 'text-shape') {
                 return false;
               }
               return true;
             },
-            shouldEnd: (e) => {
+            shouldEnd: e => {
               if (e.target && e.target.get('name') === 'text-shape') {
                 return false;
               }
@@ -218,7 +223,7 @@ describe('create-edge', () => {
         },
       },
     });
-    graph.node((node) => {
+    graph.node(node => {
       return {
         label: node.id,
         labelCfg: {
@@ -229,9 +234,9 @@ describe('create-edge', () => {
     graph.data(data);
     graph.render();
     const node0 = graph.getNodes()[0];
-    const node0text = node0.getContainer().find((e) => e.get('name') === 'text-shape');
+    const node0text = node0.getContainer().find(e => e.get('name') === 'text-shape');
     const node1 = graph.getNodes()[1];
-    const node1text = node0.getContainer().find((e) => e.get('name') === 'text-shape');
+    const node1text = node0.getContainer().find(e => e.get('name') === 'text-shape');
 
     // shouldBegin returns true
     graph.emit('node:click', { x: 100, y: 100, item: node0, target: node0.getKeyShape() });
@@ -258,7 +263,7 @@ describe('create-edge', () => {
 
     graph.destroy();
   });
-  xit('create edge width stack', () => {
+  it('create edge width stack', () => {
     const toolbar = new G6.ToolBar();
     const graph: Graph = new Graph({
       container: div,
@@ -387,7 +392,7 @@ describe('create-edge', () => {
     });
     graph.data(data);
     graph.render();
-    graph.on('node:click', (e) => {
+    graph.on('node:click', e => {
       graph.removeItem('0');
     });
     expect(graph.getEdges().length).toEqual(0);
