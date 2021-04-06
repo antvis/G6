@@ -2089,7 +2089,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     let model: NodeConfig;
 
     const updatedNodes: { [key: string]: boolean } = {};
-    const nodeChangeMap = {};
+    
     each(nodes, (node: INode) => {
       model = node.getModel() as NodeConfig;
       const originAttrs = node.get('originAttrs');
@@ -2107,13 +2107,18 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
     each(edges, (edge: IEdge) => {
       const sourceModel = edge.getSource().getModel();
-      const targetModel = edge.getTarget().getModel();
-      if (
-        updatedNodes[sourceModel.id as string] ||
-        updatedNodes[targetModel.id as string] ||
-        edge.getModel().isComboEdge
-      ) {
-        edge.refresh();
+      const target = edge.getTarget()
+      // 避免 target 是纯对象的情况下调用 getModel 方法
+      // 拖动生成边的时候 target 会是纯对象
+      if (!isPlainObject(target)) {
+        const targetModel = (target as INode | ICombo).getModel();
+        if (
+          updatedNodes[sourceModel.id as string] ||
+          updatedNodes[targetModel.id as string] ||
+          edge.getModel().isComboEdge
+        ) {
+          edge.refresh();
+        }
       }
     });
 
