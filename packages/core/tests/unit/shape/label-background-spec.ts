@@ -10,6 +10,11 @@ describe('edge label with background', () => {
       container: 'container',
       width: 500,
       height: 500,
+      defaultNode: {
+        style: {
+          opacity: 0
+        }
+      },
       defaultEdge: {
         type: 'line',
         labelCfg: {
@@ -17,6 +22,7 @@ describe('edge label with background', () => {
           style: {
             fill: '#1890ff',
             fontSize: 14,
+            fontFamily: 'Arial',
             background: {
               fill: '#ffffff',
               stroke: '#9EC9FF',
