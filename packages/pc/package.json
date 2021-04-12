@@ -77,7 +77,7 @@
     "@antv/g6-core": "*",
     "@antv/g6-plugin": "*",
     "@antv/g6-element": "*",
-    "@antv/algorithm": "0.1.8-beta.5",
+    "@antv/algorithm": "0.1.8-beta.6",
     "@antv/hierarchy": "^0.6.7",
     "@antv/layout": "^0.1.12",
     "@antv/matrix-util": "^3.0.4",
