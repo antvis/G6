@@ -45,7 +45,8 @@ describe('edge label with background', () => {
     expect(Math.abs(bgRect.attr('x') - 86) < 1).toBe(true);
     expect(Math.abs(bgRect.attr('y') - 91) < 2).toBe(true);
     console.warn('background label', bgRect.attr('width'), bgRect.attr('height'))
-    expect(bgRect.attr('width') - 27 < 2).toBe(true);
+    // expect(Math.abs(bgRect.attr('width') - 27) < 2).toBe(true);
+    expect(bgRect.attr('width')).toBe(27);
     expect(bgRect.attr('height')).toBe(18);
     graph.destroy();
   });
