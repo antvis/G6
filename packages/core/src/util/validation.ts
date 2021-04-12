@@ -35,7 +35,7 @@ export const dataValidation = (data?: GraphData | TreeGraphData): boolean => {
   const nonNode = ((nodes as NodeConfig[]) || []).find(node => !isString(node.id));
   if (nonNode) {
     console.warn(
-      `G6 Warn Tips: Node ID %c${nonNode.id}%c only supports string type.`,
+      `G6 Warn Tips: missing \'id\' property, or %c${nonNode.id}%c is not a string.`,
       'font-size: 20px; color: red;',
       '',
     );
@@ -51,7 +51,7 @@ export const dataValidation = (data?: GraphData | TreeGraphData): boolean => {
   );
   if (nonEdges) {
     console.warn(
-      `G6 Warn Tips: The edge with source %c${nonEdges.source}%c and target %c${nonEdges.target}%c does not completely exist in the ID of the node or combo.`,
+      `G6 Warn Tips: The source %c${nonEdges.source}%c or the target %c${nonEdges.target}%c of the edge do not exist in the nodes or combos.`,
       'font-size: 20px; color: red;',
       '',
       'font-size: 20px; color: red;',
@@ -73,10 +73,10 @@ export const singleDataValidation = (
   data: NodeConfig | EdgeConfig | ComboConfig,
 ): boolean => {
   if (type === 'node' || type === 'combo') {
-    // 必须有id字段，且id必须为字符串类型
+    // 必须有 id 字段，且id必须为字符串类型
     if (data.id && !isString(data.id)) {
       console.warn(
-        `G6 Warn Tips: ID must be defined first or ID %c${data.id}%c is not string type.`,
+        `G6 Warn Tips: missing \'id\' property, or the \'id\' %c${data.id}%c is not a string.`,
         'font-size: 20px; color: red;',
         '',
       );
@@ -85,7 +85,7 @@ export const singleDataValidation = (
   } else if (type === 'edge') {
     // 必须有 source 和 target 字段
     if (!(data as EdgeConfig).source || !(data as EdgeConfig).target) {
-      console.warn('G6 Warn Tips: source and target must be defined first.');
+      console.warn('G6 Warn Tips: missing \`source\` or \`target\` for the edge.');
       return false;
     }
   }
