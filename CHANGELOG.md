@@ -2,7 +2,7 @@
 
 #### 4.2.6
 
-- feat: scroll-canvas;
+- feat: scroll-canvas behavior;
 - feat: iconfont for node icon;
 - fix: missing brushStyle in type ModeOption;
 - fix: the comboId remains in the node after uncombo(), closes #2801;
