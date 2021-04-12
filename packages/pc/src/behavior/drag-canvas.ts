@@ -59,19 +59,26 @@ export default {
     const height = this.graph.get('height');
     const graphCanvasBBox = this.graph.get('canvas').getCanvasBBox();
 
+    let expandWidth = this.scalableRange;
+    let expandHeight = this.scalableRange;
+    // 若 scalableRange 是 0~1 的小数，则作为比例考虑
+    if (expandWidth < 1 && expandWidth > -1) {
+      expandWidth = width * expandWidth;
+      expandHeight = height * expandHeight;
+    }
     if (
-      (graphCanvasBBox.minX <= width + this.scalableRange &&
-        graphCanvasBBox.minX + dx > width + this.scalableRange) ||
-      (graphCanvasBBox.maxX + this.scalableRange >= 0 &&
-        graphCanvasBBox.maxX + this.scalableRange + dx < 0)
+      (graphCanvasBBox.minX <= width + expandWidth &&
+        graphCanvasBBox.minX + dx > width + expandWidth) ||
+      (graphCanvasBBox.maxX + expandWidth >= 0 &&
+        graphCanvasBBox.maxX + expandWidth + dx < 0)
     ) {
       dx = 0;
     }
     if (
-      (graphCanvasBBox.minY <= height + this.scalableRange &&
-        graphCanvasBBox.minY + dy > height + this.scalableRange) ||
-      (graphCanvasBBox.maxY + this.scalableRange >= 0 &&
-        graphCanvasBBox.maxY + this.scalableRange + dy < 0)
+      (graphCanvasBBox.minY <= height + expandHeight &&
+        graphCanvasBBox.minY + dy > height + expandHeight ||
+      (graphCanvasBBox.maxY + expandHeight >= 0 &&
+        graphCanvasBBox.maxY + expandHeight + dy < 0)
     ) {
       dy = 0;
     }

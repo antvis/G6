@@ -162,6 +162,8 @@ export interface ModeOption {
   functionName?: string;
   functionParams?: any[];
   relayout?: boolean;
+  brushStyle?: object;
+  zoomKey?: 'shift' | 'ctrl' | 'alt' | 'control';
   shouldUpdate?: (e: IG6GraphEvent) => boolean;
   shouldBegin?: (e: IG6GraphEvent) => boolean;
   shouldEnd?: (e: IG6GraphEvent) => boolean;
@@ -464,6 +466,7 @@ export interface NodeConfig extends ModelConfig {
     show?: boolean;
     // icon的地址，字符串类型
     img?: string;
+    text?: string;
     width?: number;
     height?: number;
     offset?: number;

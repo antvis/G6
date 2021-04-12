@@ -233,7 +233,7 @@ G6.registerEdge('fund-polyline', {
     }
 
     const endArrow = cfg?.style && cfg.style.endArrow ? cfg.style.endArrow : false;
-    if (isObject(endArrow)) endArrow.fill = stroke;
+    if (window.AntVUtil.isObject(endArrow)) endArrow.fill = stroke;
     const line = group.addShape('path', {
       attrs: {
         path,

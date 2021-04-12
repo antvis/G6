@@ -56,4 +56,4 @@ const graph = new G6.Graph({
 
 ## layoutCfg.gpuEnabled
 
-**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to enable the GPU parallel computing, supported by G6 4.0. The performance improvement: <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*3rScQqqfpAAAAAAAAAAAAAAAARQnAQ' width='80%'/>
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to enable the GPU parallel computing, supported by G6 4.0. If the machine or browser does not support GPU computing, it will be degraded to CPU computing automatically. The performance improvement: <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*3rScQqqfpAAAAAAAAAAAAAAAARQnAQ' width='80%'/>

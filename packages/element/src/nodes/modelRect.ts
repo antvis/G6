@@ -138,19 +138,37 @@ registerNode(
       const width = size[0];
 
       if (logoIcon.show) {
-        const { width: w, height: h, x, y, offset, ...logoIconStyle } = logoIcon;
-        group.addShape('image', {
-          attrs: {
-            ...logoIconStyle,
-            x: x || -width / 2 + (w as number) + (offset as number),
-            y: y || -(h as number) / 2,
-            width: w,
-            height: h,
-          },
-          className: 'rect-logo-icon',
-          name: 'rect-logo-icon',
-          draggable: true,
-        });
+        const { width: w, height: h, x, y, offset, text, ...logoIconStyle } = logoIcon;
+        if (text) {
+          group.addShape('text', {
+            attrs: {
+              x: 0,
+              y: 0,
+              fontSize: 12,
+              fill: '#000',
+              stroke: '#000',
+              textBaseline: 'middle',
+              textAlign: 'center',
+              ...logoIconStyle,
+            },
+            className: 'rect-logo-icon',
+            name: 'rect-logo-icon',
+            draggable: true,
+          });
+        } else {
+          group.addShape('image', {
+            attrs: {
+              ...logoIconStyle,
+              x: x || -width / 2 + (w as number) + (offset as number),
+              y: y || -(h as number) / 2,
+              width: w,
+              height: h,
+            },
+            className: 'rect-logo-icon',
+            name: 'rect-logo-icon',
+            draggable: true,
+          });
+        }
       }
     },
     /**
@@ -164,19 +182,37 @@ registerNode(
       const width = size[0];
 
       if (stateIcon.show) {
-        const { width: w, height: h, x, y, offset, ...iconStyle } = stateIcon;
-        group.addShape('image', {
-          attrs: {
-            ...iconStyle,
-            x: x || width / 2 - (w as number) + (offset as number),
-            y: y || -(h as number) / 2,
-            width: w,
-            height: h,
-          },
-          className: 'rect-state-icon',
-          name: 'rect-state-icon',
-          draggable: true,
-        });
+        const { width: w, height: h, x, y, offset, text, ...iconStyle } = stateIcon;
+        if (text) {
+          group.addShape('text', {
+            attrs: {
+              x: 0,
+              y: 0,
+              fontSize: 12,
+              fill: '#000',
+              stroke: '#000',
+              textBaseline: 'middle',
+              textAlign: 'center',
+              ...iconStyle,
+            },
+            className: 'rect-state-icon',
+            name: 'rect-state-icon',
+            draggable: true,
+          });
+        } else {
+          group.addShape('image', {
+            attrs: {
+              ...iconStyle,
+              x: x || width / 2 - (w as number) + (offset as number),
+              y: y || -(h as number) / 2,
+              width: w,
+              height: h,
+            },
+            className: 'rect-state-icon',
+            name: 'rect-state-icon',
+            draggable: true,
+          });
+        }
       }
     },
     /**
