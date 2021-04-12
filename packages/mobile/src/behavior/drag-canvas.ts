@@ -1,6 +1,7 @@
 import { G6Event, IG6GraphEvent } from '@antv/g6-core';
 import { IGraph } from '../interface/graph';
 import Util from '../util';
+
 const { cloneEvent, isNaN } = Util;
 
 const { abs } = Math;
@@ -16,14 +17,15 @@ export default {
       // 当设置的值小于 0 时，相当于缩小了可拖动范围
       // 具体实例可参考：https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IFfoS67_HssAAAAAAAAAAAAAARQnAQ
       scalableRange: 0,
+      allowDragOnItem: false,
     };
   },
   getEvents(): { [key in G6Event]?: string } {
     return {
-      'canvas:panstart': 'onPanStart',
-      'canvas:panmove': 'onPanMove',
-      'canvas:panend': 'onPanEnd',
-      'canvas:tap': 'onPanEnd',
+      'canvas:dragstart': 'onDragStart',
+      'canvas:drag': 'onDragMove',
+      'canvas:dragend': 'onDragEnd',
+      'canvas:tap': 'onDragEnd',
     };
   },
   updateViewport(e: IG6GraphEvent) {
@@ -68,10 +70,16 @@ export default {
     }
     this.graph.translate(dx, dy);
   },
-  onPanStart(e: IG6GraphEvent) {
+  onDragStart(e: IG6GraphEvent) {
     const self = this as any;
+    const event = e.originalEvent as Event;
+    if (!this.shouldBegin.call(this, e)) {
+      return;
+    }
 
-    if (!(e.target && e.target.isCanvas && e.target.isCanvas())) return;
+    const target = e.target;
+    const targetIsCanvas = target && target.isCanvas && target.isCanvas();
+    if (!this.allowDragOnItem && !targetIsCanvas) return;
 
     self.origin = { x: e.clientX, y: e.clientY };
     self.dragging = false;
@@ -84,7 +92,7 @@ export default {
         const shapes = edges[i].get('group').get('children');
         if (!shapes) continue;
         shapes.forEach((shape) => {
-          shape.set('ori-visibility', shape.get('visible'));
+          shape.set('ori-visibility', shape.get('ori-visibility') || shape.get('visible'));
           shape.hide();
         });
       }
@@ -95,16 +103,19 @@ export default {
         for (const child of children) {
           const isKeyShape = child.get('isKeyShape');
           if (!isKeyShape) {
-            child.set('ori-visibility', child.get('visible'));
+            child.set('ori-visibility', child.get('ori-visibility') || child.get('visible'));
             child.hide();
           }
         }
       }
     }
   },
-  onPanMove(e: IG6GraphEvent) {
+
+  onDragMove(e: IG6GraphEvent) {
     const { graph } = this;
-    if (!(e.target && e.target.isCanvas && e.target.isCanvas())) return;
+    const target = e.target;
+    const targetIsCanvas = target && target.isCanvas && target.isCanvas();
+    if (!this.allowDragOnItem && !targetIsCanvas) return;
 
     e = cloneEvent(e);
     if (!this.origin) {
@@ -117,19 +128,14 @@ export default {
       }
       if (this.shouldBegin.call(this, e)) {
         e.type = 'dragstart';
-        graph.emit('canvas:dragstart', e);
         this.dragging = true;
       }
-    } else {
-      e.type = 'drag';
-      graph.emit('canvas:drag', e);
     }
-
     if (this.shouldUpdate.call(this, e)) {
       this.updateViewport(e);
     }
   },
-  onPanEnd(e: IG6GraphEvent) {
+  onDragEnd(e: IG6GraphEvent) {
     const { graph } = this;
 
     if (this.enableOptimize) {
@@ -168,7 +174,7 @@ export default {
       this.updateViewport(e);
     }
     e.type = 'dragend';
-    graph.emit('canvas:dragend', e);
+    //graph.emit('canvas:dragend', e);
     this.endDrag();
   },
   endDrag() {
