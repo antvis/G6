@@ -13,7 +13,7 @@ import { traverseTree } from './graphic';
 export const dataValidation = (data?: GraphData | TreeGraphData): boolean => {
   // 1. 必须传入数据
   if (!data) {
-    console.error('G6 Error Tips: data must be defined first');
+    console.error('G6 Error Tips: the data must be defined');
     return false;
   }
 

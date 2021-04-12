@@ -44,6 +44,7 @@ describe('edge label with background', () => {
     const bgRect = group.find(e => e.get('name') === 'text-bg-shape');
     expect(Math.abs(bgRect.attr('x') - 86) < 1).toBe(true);
     expect(Math.abs(bgRect.attr('y') - 91) < 2).toBe(true);
+    console.log('background label', bgRect.attr('width'), bgRect.attr('height'))
     expect(bgRect.attr('width') - 27 < 2).toBe(true);
     expect(bgRect.attr('height')).toBe(18);
     graph.destroy();
