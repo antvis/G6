@@ -54,7 +54,7 @@ const graph = new G6.Graph({
 
 ## layoutCfg.mode
 
-**类型**： 'normal' | 'linlog'<br />**默认值**：'normal'<br />**是否必须**：false<br />**说明**：'normal' 模式下，聚类将更加紧凑
+**类型**： 'normal' | 'linlog'<br />**默认值**：'normal'<br />**是否必须**：false<br />**说明**：'linlog' 模式下，聚类将更加紧凑
 
 ## layoutCfg.preventOverlap
 

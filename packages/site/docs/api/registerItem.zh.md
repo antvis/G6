@@ -146,8 +146,8 @@ G6.registerEdge(
 ### 用法
 
 ```javascript
-G6.registerNode(
-  'nodeName',
+G6.registerCombo(
+  'comboName',
   {
     /**
      * 绘制 combo，包含文本

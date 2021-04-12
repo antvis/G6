@@ -1,6 +1,6 @@
 ---
 title: G6 3.3.x 版本 Rollup 集成错误
-order: 2
+order: 3
 ---
 
 具体参考：[#1260](https://github.com/antvis/G6/issues/1260#issuecomment-596306823)

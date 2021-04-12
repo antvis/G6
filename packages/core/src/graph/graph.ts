@@ -1660,7 +1660,8 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       treeToBeUncombo.children.forEach(child => {
         child.parentId = undefined;
         const childModel = this.findById(child.id).getModel();
-        childModel.parentId = undefined; // update the parentId of the model
+        delete childModel.parentId; // update the parentId of the model
+        delete childModel.comboId; // update the comboId of the model
         if (child.itemType !== 'node') comboTrees.push(child);
       });
     }
@@ -2290,7 +2291,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
           // if the combo is found
           found = true;
         }
-        if (found && cnodes.length === 0) {
+        if (found) {
           // if the combo is found, concat the descendant nodes and combos
           const item = this.findById(subTree.id) as ICombo;
           if (item && item.getType && item.getType() === 'combo') {
