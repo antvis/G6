@@ -76,7 +76,7 @@ export default {
     }
     if (
       (graphCanvasBBox.minY <= height + expandHeight &&
-        graphCanvasBBox.minY + dy > height + expandHeight ||
+        graphCanvasBBox.minY + dy > height + expandHeight) ||
       (graphCanvasBBox.maxY + expandHeight >= 0 &&
         graphCanvasBBox.maxY + expandHeight + dy < 0)
     ) {
