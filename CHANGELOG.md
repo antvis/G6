@@ -6,7 +6,7 @@
 - feat: iconfont for node icon;
 - fix: missing brushStyle in type ModeOption;
 - fix: the comboId remains in the node after uncombo(), closes #2801;
-- fix: disapearing edges when combos are expanded/collapsed, closes #2798;
+- fix: disappearing edges when combos are expanded/collapsed, closes #2798;
 
 #### 4.2.5
 
