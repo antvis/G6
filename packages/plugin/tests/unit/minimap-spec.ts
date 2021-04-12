@@ -470,10 +470,15 @@ describe('minimap', () => {
           viewport.style.height.substr(0, viewport.style.height.length - 2),
         );
 
-        expect(mathEqual(left, 105)).toBe(true);
-        expect(mathEqual(top, 95)).toBe(true);
-        expect(mathEqual(width, 85)).toBe(true);
-        expect(mathEqual(height, 85)).toBe(true);
+        expect(left).toBe(105);
+        expect(top).toBe(95);
+        expect(width).toBe(85);
+        expect(height).toBe(85);
+
+        // expect(mathEqual(left, 105)).toBe(true);
+        // expect(mathEqual(top, 95)).toBe(true);
+        // expect(mathEqual(width, 85)).toBe(true);
+        // expect(mathEqual(height, 85)).toBe(true);
 
         minimap.destroyPlugin();
 

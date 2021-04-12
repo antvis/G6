@@ -21,10 +21,10 @@ export default class Graph extends AbstractGraph {
       throw new Error('invalid container');
     }
 
-    // const { clientWidth, clientHeight } = container;
+    const { clientWidth, clientHeight } = container;
 
-    const width: number = this.get('width');// || clientWidth;
-    const height: number = this.get('height');// || clientHeight;
+    const width: number = this.get('width') || clientWidth;
+    const height: number = this.get('height') || clientHeight;
 
     const canvasCfg: any = {
       container,
