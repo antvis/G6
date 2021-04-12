@@ -7,6 +7,7 @@
 - fix: missing brushStyle in type ModeOption;
 - fix: the comboId remains in the node after uncombo(), closes #2801;
 - fix: disappearing edges when combos are expanded/collapsed, closes #2798;
+- fix: invisible nodes and edges should not be selected by brush-select and lasso-select, closes #2810;
 
 #### 4.2.5
 
