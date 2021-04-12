@@ -7,6 +7,9 @@ export default {
    * @param graph Graph instance
    */
   bind(graph: IAbstractGraph) {
+    if (this.type === 'drag-canvas') {
+      graph.get('canvas').set('draggable', true);
+    }
     const { events } = this;
     this.graph = graph;
     each(events, (handler: () => void, event: G6Event) => {
@@ -16,6 +19,9 @@ export default {
 
   unbind(graph: IAbstractGraph) {
     const { events } = this;
+    if (this.type === 'drag-canvas') {
+      graph.get('canvas').set('draggable', false);
+    }
     this.graph = null;
     each(events, (handler: () => void, event: G6Event) => {
       graph.off(event, handler);
