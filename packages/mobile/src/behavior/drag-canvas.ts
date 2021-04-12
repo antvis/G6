@@ -1,6 +1,7 @@
 import { G6Event, IG6GraphEvent } from '@antv/g6-core';
 import { IGraph } from '../interface/graph';
 import Util from '../util';
+
 const { cloneEvent, isNaN } = Util;
 
 const { abs } = Math;
