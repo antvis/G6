@@ -34,7 +34,7 @@ const graph = new G6.Graph({
     default: ['drag-canvas', 'drag-node', 'zoom-canvas'],
   },
   layout: {
-    // type: 'gForce',
+    type: 'gForce',
     minMovement: 0.1,
   },
 });

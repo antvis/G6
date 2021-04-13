@@ -4,6 +4,7 @@
 
 - feat: scroll-canvas behavior;
 - feat: iconfont for node icon;
+- feat: percentage of scalable range for drag-canvas;
 - fix: missing brushStyle in type ModeOption;
 - fix: the comboId remains in the node after uncombo(), closes #2801;
 - fix: disappearing edges when combos are expanded/collapsed, closes #2798;

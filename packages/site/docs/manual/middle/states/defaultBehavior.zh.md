@@ -108,7 +108,7 @@ const graph = new G6.Graph({
   - `enableOptimize`：是否开启优化，开启后拖动画布过程中隐藏所有的边及节点上非 keyShape 部分，默认关闭；
   - `shouldBegin(e)`：是否允许触发该操作；
   - `allowDragOnItem`：是否允许用户在节点/边/ combo 上拖拽时响应，默认为 false；
-  - `scalableRange`：拖动 canvas 可扩展的范围，默认为 0，取值为正和负数时的效果如下图所示。
+  - `scalableRange`：拖动 canvas 可扩展的范围，默认为 0，值为 -1 ～ 1 代表可超出视口的范围的比例值（相对于视口大小）。值小于 -1 或大于 1 时，为正和负数时的效果如下图所示。
 
   <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IFfoS67_HssAAAAAAAAAAAAAARQnAQ' width='650' />
 
@@ -145,6 +145,53 @@ const graph = new G6.Graph({
 ```
 
 此时只能在 x 方向上面拖动，y 方向上不允许拖动。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*54yxRrW1A7sAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
+
+
+### scroll-canvas
+
+- 含义：滚轮滚动画布，*v4.2.6 起支持*；
+- 配置项：
+
+  - `type: 'scroll-canvas'`；
+  - `direction`：允许拖拽方向，支持`'x'`，`'y'`，`'both'`，默认方向为 `'both'`；
+  - `enableOptimize`：是否开启优化，开启后拖动画布过程中隐藏所有的边及节点上非 keyShape 部分，默认关闭；
+  - `zoomKey`：切换为滚动缩放的键盘按钮，按住该键并滚动滚轮，则切换为滚轮缩放画布，可选项为：`'shift'`，`'ctrl'`，`'alt'`，`'control'`；
+  - `scalableRange`：拖动 canvas 可扩展的范围，默认为 0，值为 -1 ～ 1 代表可超出视口的范围的比例值（相对于视口大小）。值小于 -1 或大于 1 时，为正和负数时的效果如下图所示。
+
+  <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IFfoS67_HssAAAAAAAAAAAAAARQnAQ' width='650' alt="" />
+
+- 相关时机事件：
+  - `onWheel`：滚轮滚动时触发，使用 `graph.on('onWheel', e => {...})` 监听。
+
+**使用默认配置**
+
+```javascript
+const graph = new G6.Graph({
+  modes: {
+    default: ['scroll-canvas'],
+  },
+});
+```
+
+默认配置下，可以在 x 和 y 两个方向上滚动画布。
+
+**使用自定义参数**
+
+```javascript
+const graph = new G6.Graph({
+  modes: {
+    default: [
+      {
+        type: 'scroll-canvas',
+        direction: 'x',
+      },
+    ],
+  },
+});
+```
+
+此时只能在 x 方向上面滚动，y 方向上不允许滚动。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*54yxRrW1A7sAAAAAAAAAAABkARQnAQ' width=400 alt='img'/>
+
 
 ### zoom-canvas
 
