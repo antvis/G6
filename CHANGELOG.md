@@ -1,5 +1,10 @@
 # ChangeLog
 
+#### 4.2.7 
+- fix: failed to update startArrow to be false, closes #2814;
+- fix: createCombo and add combId or parentId to the related nodes or combos, closes #2815;
+ 
+
 #### 4.2.6
 
 - feat: scroll-canvas behavior;
