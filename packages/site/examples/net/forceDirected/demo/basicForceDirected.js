@@ -27,12 +27,12 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
     });
     graph.render();
 
-    const forceLayout = graph.get('layoutController').layoutMethod;
     graph.on('node:dragstart', function (e) {
       graph.layout();
       refreshDragedNodePosition(e);
     });
     graph.on('node:drag', function (e) {
+      const forceLayout = graph.get('layoutController').layoutMethods[0];
       forceLayout.execute();
       refreshDragedNodePosition(e);
     });

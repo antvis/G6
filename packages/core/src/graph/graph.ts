@@ -2277,25 +2277,13 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     let ccombos = [];
     const comboTrees = this.get('comboTrees');
     let found = false;
-    let brothers = {};
-    (comboTrees || []).forEach(ctree => {
-      brothers[ctree.id] = ctree;
-    });
     (comboTrees || []).forEach(ctree => {
       if (found) return; // if the combo is found, terminate the forEach
       traverseTree(ctree, subTree => {
-        // if the combo is found and the it is traversing the other brothers, terminate
-        if (found && brothers[subTree.id]) return false;
-        if (comboModel.parentId === subTree.id) {
-          // if the parent is found, store the brothers
-          brothers = {};
-          subTree.children.forEach(child => {
-            brothers[child.id] = child;
-          });
-        } else if (comboModel.id === subTree.id) {
-          // if the combo is found
-          found = true;
-        }
+        // if the combo is found and it is traversing the other branches, terminate
+        if (found && subTree.depth <= comboModel.depth) return false;
+        // if the combo is found
+        if (comboModel.id === subTree.id) found = true;
         if (found) {
           // if the combo is found, concat the descendant nodes and combos
           const item = this.findById(subTree.id) as ICombo;
@@ -2435,24 +2423,12 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     let ccombos = [];
     const comboTrees = this.get('comboTrees');
     let found = false;
-    let brothers = {};
-    (comboTrees || []).forEach(ctree => {
-      brothers[ctree.id] = ctree;
-    });
     (comboTrees || []).forEach(ctree => {
       if (found) return; // if the combo is found, terminate
       traverseTree(ctree, subTree => {
-        if (found && brothers[subTree.id]) {
-          return false;
-        }
-        if (comboModel.parentId === subTree.id) {
-          brothers = {};
-          subTree.children.forEach(child => {
-            brothers[child.id] = child;
-          });
-        } else if (comboModel.id === subTree.id) {
-          found = true;
-        }
+        // if the combo is found and it is traversing the other branches, terminate
+        if (found && subTree.depth <= comboModel.depth) return false;
+        if (comboModel.id === subTree.id) found = true;
         if (found) {
           const item = this.findById(subTree.id) as ICombo;
           if (item && item.getType && item.getType() === 'combo') {

@@ -1,9 +1,11 @@
 # ChangeLog
 
-#### 4.2.7 
+#### 4.2.7
+
+- fix: edges disappear when collapsing combo, closes: #2816;
+- fix: drag-node with edge key, closes: #2819;
 - fix: failed to update startArrow to be false, closes #2814;
 - fix: createCombo and add combId or parentId to the related nodes or combos, closes #2815;
- 
 
 #### 4.2.6
 

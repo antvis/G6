@@ -507,7 +507,7 @@ graph.on('node:click', (e) => {
   // if clicked a root, hide unrelated items and show the related items
   if (!model.neighbor) {
     const layoutController = graph.get('layoutController');
-    const forceLayout = layoutController.layoutMethod;
+    const forceLayout = layoutController.layoutMethods[0];
     forceLayout.forceSimulation.stop();
     // light the level 0 nodes
     showNodes.forEach((snode) => {
@@ -639,7 +639,7 @@ graph.on('node:click', (e) => {
 });
 graph.on('canvas:click', () => {
   currentFocus = undefined;
-  const forceLayout = graph.get('layoutController').layoutMethod;
+  const forceLayout = graph.get('layoutController').layoutMethods[0];
   forceLayout.forceSimulation.stop();
   const nodeItems = graph.getNodes();
   const edgeItems = graph.getEdges();
