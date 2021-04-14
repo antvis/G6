@@ -1075,7 +1075,8 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       const parentCombo = this.findById(
         (model.comboId as string) || (model.parentId as string),
       ) as ICombo;
-      if (parentCombo && parentCombo.getType && parentCombo.getType() === 'combo') parentCombo.addChild(item);
+      if (parentCombo && parentCombo.getType && parentCombo.getType() === 'combo')
+        parentCombo.addChild(item);
     }
 
     const combos = this.get('combos');
@@ -1536,8 +1537,10 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       comboConfig = combo;
     }
 
+    // step2: 更新 children，根据类型添加 comboId 或 parentId
     const trees: ComboTree[] = children.map(elementId => {
       const item = this.findById(elementId);
+      const model = item.getModel();
 
       let type = '';
       if (item.getType) type = item.getType();
@@ -1548,8 +1551,10 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
       if (type === 'combo') {
         (cItem as ComboConfig).parentId = comboId;
+        model.parentId = comboId;
       } else if (type === 'node') {
         (cItem as NodeConfig).comboId = comboId;
+        model.comboId = comboId;
       }
 
       return cItem;
@@ -1557,11 +1562,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
     comboConfig.children = trees;
 
-    // step 2: 添加 Combo，addItem 时会将子将元素添加到 Combo 中
+    // step 3: 添加 Combo，addItem 时会将子将元素添加到 Combo 中
     this.addItem('combo', comboConfig, false);
     this.set('comboSorted', false);
 
-    // step3: 更新 comboTrees 结构
+    // step4: 更新 comboTrees 结构
     const comboTrees = this.get('comboTrees');
     (comboTrees || []).forEach(ctree => {
       traverseTreeUp<ComboTree>(ctree, child => {
@@ -2090,7 +2095,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     let model: NodeConfig;
 
     const updatedNodes: { [key: string]: boolean } = {};
-    
+
     each(nodes, (node: INode) => {
       model = node.getModel() as NodeConfig;
       const originAttrs = node.get('originAttrs');
@@ -2108,7 +2113,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
     each(edges, (edge: IEdge) => {
       const sourceModel = edge.getSource().getModel();
-      const target = edge.getTarget()
+      const target = edge.getTarget();
       // 避免 target 是纯对象的情况下调用 getModel 方法
       // 拖动生成边的时候 target 会是纯对象
       if (!isPlainObject(target)) {
