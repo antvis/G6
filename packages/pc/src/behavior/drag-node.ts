@@ -121,7 +121,7 @@ export default {
         const edges = node.getEdges();
         edges.forEach(edge => {
           if (!edge.isVisible()) return;
-          this.hidenEdge[edge] = true;
+          this.hidenEdge[edge.getID()] = true;
           edge.hide();
         });
       });
@@ -193,7 +193,7 @@ export default {
       this.targets.forEach(node => {
         const edges = node.getEdges();
         edges.forEach(edge => {
-          if (this.hidenEdge[edge]) edge.show();
+          if (this.hidenEdge[edge.getID()]) edge.show();
           edge.refresh();
         });
       });
