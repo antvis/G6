@@ -5,6 +5,22 @@
   },
   "demos": [
     {
+      "filename": "decisionBubbles.js",
+      "title": {
+        "zh": "图表决策",
+        "en": "Decision Bubbles"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wvofQ6DuC0YAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "customFlow.js",
+      "title": {
+        "zh": "自定义流向图",
+        "en": "Custom Flow"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1AZTQ4oSPowAAAAAAAAAAABkARQnAQ"
+    },
+    {
       "filename": "sankey.js",
       "title": {
         "zh": "桑基图",
@@ -23,10 +39,18 @@
     {
       "filename": "ER.js",
       "title": {
-        "zh": "ER图",
+        "zh": "节点内容可滚动的 ER 图",
         "en": "ER Graph"
       },
       "screenshot": "https://gw.alipayobjects.com/zos/antfincdn/H9Bs25IFet/xiazai%252520%2813%29.png"
+    },
+    {
+      "filename": "simplifyCluster.js",
+      "title": {
+        "zh": "聚类的折叠/扩展",
+        "en": "Collapse/Expand Cluster"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*yU5sRLivdLIAAAAAAAAAAABkARQnAQ"
     }
   ]
 }

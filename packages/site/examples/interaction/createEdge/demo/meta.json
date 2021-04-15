@@ -18,6 +18,16 @@
       "filename": "click-and-key.js",
       "title": "按住 shift 并点击端点",
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*B9dxR4x8UmUAAAAAAAAAAAAAARQnAQ"
+    },
+    {
+      "filename": "click-link-point.js",
+      "title": "点击端点上的子图形",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*WAQ6T4pqCd8AAAAAAAAAAAAAARQnAQ"
+    },
+    {
+      "filename": "drag-link-point.js",
+      "title": "从端点上的子图形拖拽",
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*WAQ6T4pqCd8AAAAAAAAAAAAAARQnAQ"
     }
   ]
 }

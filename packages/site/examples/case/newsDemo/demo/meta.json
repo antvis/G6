@@ -1,0 +1,40 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "christmasBubbles.js",
+      "title": {
+        "zh": "圣诞推文可视化",
+        "en": "Christmas Bubbles"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*yRU1QZbcQN4AAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "australiaFire.js",
+      "title": {
+        "zh": "澳大利亚大火",
+        "en": "Australia Fire"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*WLzKQpZl5QEAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "metroLines.js",
+      "title": {
+        "zh": "地铁线路图",
+        "en": "Animated Metro Map"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*1MS4TbqujQAAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "edgeBundling.js",
+      "title": {
+        "zh": "美国迁徙图边绑定",
+        "en": "Edge Bundling"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z9iXQq_kcrYAAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}
