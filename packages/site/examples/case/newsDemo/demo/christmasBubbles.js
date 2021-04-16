@@ -308,8 +308,8 @@ G6.registerEdge(
     drawShape(cfg, group) {
       const self = this;
       let shapeStyle = self.getShapeStyle(cfg);
-      // 实际开发中把 AntVUtil || window.AntVUtil 换成从 @antv/util 引入的模块
-      // replace window.AntVUtil with AntVUtil from @antv/util in your project
+      // 实际开发中把 AntVUtil || window.AntVUtil 换成从 @antv/util 引入的相关模块，如 import { mix } from @antv/util
+      // replace window.AntVUtil.mix with import { mix } from @antv/util in your project
       shapeStyle = window.AntVUtil.mix(shapeStyle, {
         opacity: 0,
         strokeOpacity: 0,

@@ -36,8 +36,8 @@ insertCss(`
 
 const { labelPropagation, louvain, findShortestPath } = G6.Algorithm;
 const { uniqueId } = G6.Util;
-// 实际开发中把 AntVUtil || window.AntVUtil 换成从 @antv/util 引入的模块
-// Replace AntVUtil || window.AntVUtil by the module imported from @antv/util in your project
+// 实际开发中把 AntVUtil || window.AntVUtil 换成从 @antv/util 引入的模块，如 import { isNumber, isArray } from @antv/util
+// Replace AntVUtil || window.AntVUtil by import { isNumber, isArray } from @antv/util in your project
 const { isNumber, isArray } = AntVUtil || window.AntVUtil;
 
 const NODESIZEMAPPING = 'degree';
