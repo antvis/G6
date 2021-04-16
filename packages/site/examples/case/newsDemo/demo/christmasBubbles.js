@@ -1,5 +1,9 @@
 import G6 from '@antv/g6';
-import AntVUtil from '@antv/util';
+
+// 实际开发中把 window.AntVUtil 换成从 @antv/util 引入的相关模块
+// replace window.AntVUtil.isObject with
+// import { mix } from '@antv/util';
+const { mix } = window.AntVUtil;
 
 let showNodes = [];
 let showEdges = [];
@@ -308,9 +312,7 @@ G6.registerEdge(
     drawShape(cfg, group) {
       const self = this;
       let shapeStyle = self.getShapeStyle(cfg);
-      // 实际开发中把 AntVUtil || window.AntVUtil 换成从 @antv/util 引入的相关模块，如 import { mix } from @antv/util
-      // replace window.AntVUtil.mix with import { mix } from @antv/util in your project
-      shapeStyle = window.AntVUtil.mix(shapeStyle, {
+      shapeStyle = mix(shapeStyle, {
         opacity: 0,
         strokeOpacity: 0,
       });
