@@ -1,4 +1,10 @@
 import G6 from '@antv/g6';
+
+// 实际开发中把 window.AntVUtil 换成从 @antv/util 引入的相关模块
+// replace window.AntVUtil.isObject with
+// import { isObject } from '@antv/util';
+const isObject = window.AntVUtil.isObject;
+
 /**
  * Fund Transfer Demo
  * by 十吾
@@ -233,9 +239,7 @@ G6.registerEdge('fund-polyline', {
     }
 
     const endArrow = cfg?.style && cfg.style.endArrow ? cfg.style.endArrow : false;
-    // 实际开发中把 window.AntVUtil 换成从 @antv/util 引入的相关模块，如 import { isObject } from @antv/util
-    // replace window.AntVUtil.isObject with import { isObject } from @antv/util in your project
-    if (window.AntVUtil.isObject(endArrow)) endArrow.fill = stroke;
+    if (isObject(endArrow)) endArrow.fill = stroke;
     const line = group.addShape('path', {
       attrs: {
         path,
