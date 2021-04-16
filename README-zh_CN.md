@@ -152,11 +152,11 @@ DEBUG_MODE=1 npm test -- --watch ./tests/unit/algorithm/find-path-spec
 
 > **G6 图可视化交流群** 已满员，该群会不定期移除不活跃的成员。
 
-> 由于值班同学的时间和精力有限，**G6 图可视化交流二群** 中的问题我们会不定期回复。欢迎对 G6 感兴趣的同学加入到答疑中来，非常感谢！交流群-1 已满，请加交流群-2。
+> 由于维护精力有限，**G6 图可视化交流群** 仅供社区同学相互交流，不进行答疑。欢迎对 G6 感兴趣的同学加入到答疑中来，非常感谢！
 
 <p >
-  <a href="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LFppR6_BfdYAAAAAAAAAAABkARQnAQ" >
-    <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LFppR6_BfdYAAAAAAAAAAABkARQnAQ' style='width:250px;display:inline-block;vertical-align:top;' />
+  <a href="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-RO_R7SCvroAAAAAAAAAAAAAARQnAQ" >
+    <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-RO_R7SCvroAAAAAAAAAAAAAARQnAQ' style='width:250px;display:inline-block;vertical-align:top;' />
   </a>
   <a href="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hzfaSrAj0jkAAAAAAAAAAABkARQnAQ" >
     <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hzfaSrAj0jkAAAAAAAAAAABkARQnAQ' style='width:250px;display:inline-block;vertical-align:top;' />

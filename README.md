@@ -148,11 +148,11 @@ At present, Graphin has good practices in business graph analysis projects. For 
 
 ## G6 Communication Group
 
-Users are welcome to join the **G6 Communication Group** or **G6 Communication Group-2** (They are DingTalk groups),Graphin users please join **Graphin's Group Chat**. We also welcome the github issues. The Group is full, join Group-2 instead.
+Welcome to join the **G6 Communication Group** or **G6 Communication Group-2** (DingTalk groups). We also welcome the github issues.
 
 <p>
-  <a href="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LFppR6_BfdYAAAAAAAAAAABkARQnAQ" >
-    <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*LFppR6_BfdYAAAAAAAAAAABkARQnAQ' style='width:250px;display:inline-block;vertical-align:top;' />
+  <a href="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-RO_R7SCvroAAAAAAAAAAAAAARQnAQ" >
+    <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-RO_R7SCvroAAAAAAAAAAAAAARQnAQ' style='width:250px;display:inline-block;vertical-align:top;' />
   </a>
   <a href="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hzfaSrAj0jkAAAAAAAAAAABkARQnAQ" >
     <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hzfaSrAj0jkAAAAAAAAAAABkARQnAQ' style='width:250px;display:inline-block;vertical-align:top;' />
