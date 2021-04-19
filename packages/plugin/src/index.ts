@@ -10,6 +10,7 @@ import ImageMinimap from './imageMinimap';
 import EdgeFilterLens from './edgeFilterLens';
 import SnapLine from './snapline';
 import PluginBase from './base';
+import Legend from './legend';
 
 export {
   PluginBase,
@@ -24,6 +25,7 @@ export {
   ImageMinimap,
   EdgeFilterLens,
   SnapLine,
+  Legend
 };
 
 const Plugin = {
@@ -39,6 +41,7 @@ const Plugin = {
   ImageMinimap,
   EdgeFilterLens,
   SnapLine,
+  Legend
 };
 
 export default Plugin;
