@@ -60,6 +60,5 @@ export default {
     // 缩放点放中间
     const point = canvas.getPointByClient((posA.x + posB.x)/2, (posA.y + posB.y)/2);
     this.graph.zoomTo(zoom, { x: point.x, y: point.y });
-    this.graph.emit('wheelzoom', evt);
   },
 };
