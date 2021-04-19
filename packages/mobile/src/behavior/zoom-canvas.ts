@@ -40,7 +40,10 @@ export default {
     evt.originalEvent.preventDefault || evt.originalEvent.preventDefault();
     const scale = evt.originalEvent.scale || evt.originalEvent.srcEvent.extra.scale;
     // 应用到画布上的缩放比例
-    const zoom = scale;
+    const zoom = 1 + (scale - 1) / 2;
+
+    const pointers = evt.originalEvent.pointers;
+    if (pointers.length < 2) return;
 
     // 缓存当前的缩放比例
     this.currentScale = zoom;
@@ -50,9 +53,12 @@ export default {
     if (zoom > maxZoom || zoom < minZoom) {
       return;
     }
-
     const canvas = this.graph.get('canvas');
-    const point = canvas.getPointByClient(evt.clientX, evt.clientY);
+
+    const posA = {x: pointers[0].clientX, y: pointers[0].clientY};
+    const posB = {x: pointers[1].clientX, y: pointers[1].clientY};
+    // 缩放点放中间
+    const point = canvas.getPointByClient((posA.x + posB.x)/2, (posA.y + posB.y)/2);
     this.graph.zoomTo(zoom, { x: point.x, y: point.y });
     this.graph.emit('wheelzoom', evt);
   },
