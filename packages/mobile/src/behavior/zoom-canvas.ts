@@ -5,6 +5,7 @@ import { clone } from '@antv/util';
 const DELTA = 0.05;
 
 export default {
+  firstScale: null,
   getDefaultCfg(): object {
     return {
       originScale: 1,
@@ -38,12 +39,18 @@ export default {
   onPinch(evt) {
     evt.preventDefault || evt.preventDefault();
     evt.originalEvent.preventDefault || evt.originalEvent.preventDefault();
-    const scale = evt.originalEvent.scale || evt.originalEvent.srcEvent.extra.scale;
-    // 应用到画布上的缩放比例
-    const zoom = 1 + (scale - 1) / 2;
 
     const pointers = evt.originalEvent.pointers;
     if (pointers.length < 2) return;
+
+    if (this.firstScale === null) {
+      this.firstScale = this.graph.getZoom();
+    }
+
+    const scale = evt.originalEvent.scale || evt.originalEvent.srcEvent.extra.scale;
+    
+    // 应用到画布上的缩放比例
+    const zoom = this.firstScale + (scale - 1) / 2;
 
     // 缓存当前的缩放比例
     this.currentScale = zoom;
