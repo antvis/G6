@@ -43,20 +43,21 @@ export default {
     const pointers = evt.originalEvent.pointers;
     if (pointers.length < 2) return;
 
-    if (this.firstScale === null) {
+    if (evt.type === 'pinchstart')  {
       this.firstScale = this.graph.getZoom();
     }
 
     const scale = evt.originalEvent.scale || evt.originalEvent.srcEvent.extra.scale;
     
     // 应用到画布上的缩放比例
-    const zoom = this.firstScale + (scale - 1) / 2;
+    const zoom = this.firstScale * scale;
 
     // 缓存当前的缩放比例
     this.currentScale = zoom;
 
     const minZoom = this.get('minZoom') || this.graph.get('minZoom');
     const maxZoom = this.get('maxZoom') || this.graph.get('maxZoom');
+
     if (zoom > maxZoom || zoom < minZoom) {
       return;
     }
