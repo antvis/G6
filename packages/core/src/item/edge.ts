@@ -138,6 +138,7 @@ export default class Edge extends Item implements IEdge {
   public getShapeCfg(model: EdgeConfig): EdgeConfig {
     const self = this;
     const linkCenter: boolean = self.get('linkCenter'); // 如果连接到中心，忽视锚点、忽视控制点
+    
     const cfg = super.getShapeCfg(model) as EdgeConfig;
 
     if (linkCenter) {
@@ -150,6 +151,7 @@ export default class Edge extends Item implements IEdge {
     }
     cfg.sourceNode = self.get('sourceNode');
     cfg.targetNode = self.get('targetNode');
+      
     return cfg;
   }
 

@@ -99,7 +99,7 @@ export default class EventController extends AbstractEvent {
     evt.currentTarget = graph;
 
     if (target === canvas) {
-      if (eventType === 'mousemove') {
+      if (eventType === 'mousemove' || eventType === 'mouseleave') {
         this.handleMouseMove(evt, 'canvas');
       }
       evt.target = canvas;

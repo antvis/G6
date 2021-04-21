@@ -2606,7 +2606,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     if (isString(combo)) {
       combo = this.findById(combo) as ICombo;
     }
-    if (combo.getType && combo.getType() !== 'combo') return;
+    if (!combo || (combo.getType && combo.getType() !== 'combo')) return;
 
     const comboModel = combo.getModel();
 

@@ -6,6 +6,7 @@
 - fix: drag-node with edge key, closes: #2819;
 - fix: failed to update startArrow to be false, closes #2814;
 - fix: createCombo and add combId or parentId to the related nodes or combos, closes #2815;
+- feat: no animation when first rendering with collapsed combos, closes: #2826;
 
 #### 4.2.6
 
