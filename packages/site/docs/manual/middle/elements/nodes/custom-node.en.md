@@ -469,6 +469,7 @@ graph.on('node:mouseleave', (ev) => {
 ## 5. Custom Node with DOM
 
 > SVG and DOM shape are not supported in V3.3.x.
+> DOM node is available only when the `renderer` of the graph instance is `'svg'`.
 
 Here, we demonstrate customing a node named `'dom-node'` with DOM. We add a `'dom'` type shape with `group.addShape` in `draw` function, and set the `html` of it to be the `html` value we want.
 

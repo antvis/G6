@@ -53,7 +53,6 @@ const simplePolyline = (
   endNode: INode,
   cfg: RouterCfg,
 ) => {
-  // console.warn('fallbackRoute: simple polyline path');
   return simplifyPolyline(getPolylinePoints(start, end, startNode, endNode, cfg.offset));
 };
 // getPolylinePoints

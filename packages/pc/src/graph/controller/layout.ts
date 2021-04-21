@@ -1,4 +1,4 @@
-import { AbstractLayout, GraphData } from '@antv/g6-core';
+import { AbstractLayout } from '@antv/g6-core';
 import { Layout } from '../../layout';
 import { LayoutWorker } from '../../layout/worker/layout.worker';
 import { LAYOUT_MESSAGE } from '../../layout/worker/layoutConst';
