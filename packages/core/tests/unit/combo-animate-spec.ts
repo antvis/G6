@@ -222,7 +222,7 @@ describe('collapse combo initially', () => {
       done()
     }, 16);
   });
-  it('collapse combo and edges', (done) => {
+  it('collapse combo initially and no animation', (done) => {
     const graph = new Graph({
       container: div,
       width: 500,
