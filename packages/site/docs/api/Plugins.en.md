@@ -430,6 +430,17 @@ const timebar = new G6.TimeBar({
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*n6ECQ7Jn5pQAAAAAAAAAAAAAARQnAQ' width='600' />
 
+
+### Event Listener
+
+TimeBar Plugin exposes several timing events. They could be listened by `graph.on('eventname', e => {})`.
+
+| Event Name | Description |
+| --- | --- |
+| valuechange | Emitted when the value range of the timebar is chaged. |
+| timebarstartplay | Emitted when the timeline starts to play. |
+| timebarendplay | Emitted when the timeline ends playing. |
+
 ### Definition of the Configurations
 
 #### Definition of the Interfaces
@@ -744,7 +755,7 @@ The content of the Tooltip is the type and id of the item by default. Users are 
 
 #### Dom Tooltip
 
-```
+```javascript
 const tooltip = new G6.Tooltip({
   offsetX: 10,
   offsetY: 20,
@@ -769,7 +780,7 @@ const graph = new G6.Graph({
 
 #### String Tooltip
 
-```
+```javascript
 const tooltip = new G6.Tooltip({
   getContent(e) {
     return `<div style='width: 180px;'>
@@ -789,6 +800,13 @@ const graph = new G6.Graph({
   plugins: [tooltip], // Use Tooltip plugin
 });
 ```
+### Event Listener
+
+TimeBar Plugin exposes several timing events. They could be listened by `graph.on('eventname', e => {})`.
+
+| Event Name | Description |
+| --- | --- |
+| tooltipchange | Emitted when the Tooltip is changed. |
 
 ## Fisheye Lens
 

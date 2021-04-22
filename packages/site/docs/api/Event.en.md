@@ -148,45 +148,61 @@ graph.on(timingEventName, evt => {
 
 | Event Name | Description |
 | --- | --- |
-| beforerender | Activated before `graph.render` / `graph.read` being called. |
-| afterrender | Activated after `graph.render` / `graph.read` being called. |
-| beforeadditem | Activated before `graph.add` / `graph.addItem` being called. |
-| afteradditem | Activated after `graph.add` / `graph.addItem` being called. |
-| beforeremoveitem | Activated before `graph.remove` / `graph.removeItem` being called. |
-| afterremoveitem | Activated after `graph.remove` / `graph.removeItem` being called. |
-| beforeupdateitem | Activated before `graph.update` / `graph.updateItem` being called. |
-| afterupdateitem | Activated after `graph.update` / `graph.updateItem` being called. |
-| beforeitemvisibilitychange | Activated before `graph.showItem` / `graph.hideItem` being called. |
-| afteritemvisibilitychange | Activated after `graph.showItem` / `graph.hideItem` being called. |
-| beforeitemstatechange | Activated before `graph.setItemState` being called. |
-| afteritemstatechange | Activated after `graph.setItemState` being called. |
-| beforeitemrefresh | Activated before `graph.refreshItem` being called. |
-| afteritemrefresh | Activated after `graph.refreshItem` being called. |
-| beforeitemstatesclear | Activated before `graph.clearItemStates` being called. |
-| afteritemstatesclear | Activated after `graph.clearItemStates` being called. |
-| beforemodechange | Activated before `graph.setMode` / `graph.addBehaviors` / `graph.removeBehaviors` being called. |
-| aftermodechange | Activated after `graph.setMode` / `graph.addBehaviors` / `graph.removeBehaviors` being called. |
-| beforelayout | Activated before graph layout. `graph.render` will layout the graph, so `graph.render` will activate this event as well. |
-| afterlayout | Activated after graph layout being done. `graph.render` will layout the graph, so `graph.render` will activate this event as well. |
-| beforegraphrefreshposition | Activated before `graph.refreshPositions` beging called |
-| aftergraphrefreshposition | Activated after `graph.refreshPositions` beging called |
-| beforegraphrefresh | Activated before `graph.refresh` beging called |
-| aftergraphrefresh | Activated after `graph.refresh` beging called |
-| beforeanimate | Activated before global animation |
-| afteranimate | Activated after global animation |
-| beforecreateedge | Activated before an edge is created by the built-in behavior `create-edge` |
-| aftercreateedge | Activated after an edge is created by the built-in behavior `create-edge` |
-| beforecollapseexpandcombo | Activated before an combo is collapsed or expanded, the parameter `action` indicates collapse or expand |
-| aftercollapseexpandcombo | Activated after an combo is collapsed or expanded, the parameter `action` indicates collapse or expand |
-| graphstatechange | Activated after `graph.updateItemState` being called. |
-| afteractivaterelations | Activated while activating a node by `'activate-relations'` Behavior which is assigned to the the instance of Graph. |
-| nodeselectchange | Activated while the selected items are changed by `'brush-select'`, `'click-select'` or `'lasso-select'` Behavior which is assigned to the instance of Graph. |
-| itemcollapsed | Activated while a node is clicked to collapse or expand by `'collapse-expand'` Behavior which is assigned to the instance of TreeGraph. |
-| tooltipchange | Activated after the show/hide state is changed by `'tooltip'` or `'edge-tooltip'` Behavior which is assigned to the instance of Graph. |
-| wheelzoom | Activated after the canvas is zoomed by `'zoom-canvas'` Behavior which is assigned to the instance of Graph. |
-| viewportchange | Activated after the canvas is translated by `graph.moveTo`, `graph.translate`, and `graph.zoom`. |
-| dragnodeend | Activated while drag node end by `'drag-node'` Behavior. |
-| stackchange | Activated while the redo or undo stacks are changed. |
+| beforerender | Emitted before `graph.render` / `graph.read` being called. |
+| afterrender | Emitted after `graph.render` / `graph.read` being called. |
+| beforeadditem | Emitted before `graph.add` / `graph.addItem` being called. |
+| afteradditem | Emitted after `graph.add` / `graph.addItem` being called. |
+| beforeremoveitem | Emitted before `graph.remove` / `graph.removeItem` being called. |
+| afterremoveitem | Emitted after `graph.remove` / `graph.removeItem` being called. |
+| beforeupdateitem | Emitted before `graph.update` / `graph.updateItem` being called. |
+| afterupdateitem | Emitted after `graph.update` / `graph.updateItem` being called. |
+| beforeitemvisibilitychange | Emitted before `graph.showItem` / `graph.hideItem` being called. |
+| afteritemvisibilitychange | Emitted after `graph.showItem` / `graph.hideItem` being called. |
+| beforeitemstatechange | Emitted before `graph.setItemState` being called. |
+| afteritemstatechange | Emitted after `graph.setItemState` being called. |
+| beforeitemrefresh | Emitted before `graph.refreshItem` being called. |
+| afteritemrefresh | Emitted after `graph.refreshItem` being called. |
+| beforeitemstatesclear | Emitted before `graph.clearItemStates` being called. |
+| afteritemstatesclear | Emitted after `graph.clearItemStates` being called. |
+| beforemodechange | Emitted before `graph.setMode` / `graph.addBehaviors` / `graph.removeBehaviors` being called. |
+| aftermodechange | Emitted after `graph.setMode` / `graph.addBehaviors` / `graph.removeBehaviors` being called. |
+| beforelayout | Emitted before graph layout. `graph.render` will layout the graph, so `graph.render` will activate this event as well. |
+| afterlayout | Emitted after graph layout being done. `graph.render` will layout the graph, so `graph.render` will activate this event as well. |
+| beforegraphrefreshposition | Emitted before `graph.refreshPositions` beging called |
+| aftergraphrefreshposition | Emitted after `graph.refreshPositions` beging called |
+| beforegraphrefresh | Emitted before `graph.refresh` beging called |
+| aftergraphrefresh | Emitted after `graph.refresh` beging called |
+| beforeanimate | Emitted before global animation |
+| afteranimate | Emitted after global animation |
+| beforecreateedge | Emitted before an edge is created by the built-in behavior `create-edge` |
+| aftercreateedge | Emitted after an edge is created by the built-in behavior `create-edge` |
+| beforecollapseexpandcombo | Emitted before an combo is collapsed or expanded, the parameter `action` indicates collapse or expand |
+| aftercollapseexpandcombo | Emitted after an combo is collapsed or expanded, the parameter `action` indicates collapse or expand |
+| graphstatechange | Emitted after `graph.updateItemState` being called. |
+| afteractivaterelations | Emitted while activating a node by `'activate-relations'` Behavior which is assigned to the the instance of Graph. |
+| nodeselectchange | Emitted while the selected items are changed by `'brush-select'`, `'click-select'` or `'lasso-select'` Behavior which is assigned to the instance of Graph. |
+| itemcollapsed | Emitted while a node is clicked to collapse or expand by `'collapse-expand'` Behavior which is assigned to the instance of TreeGraph. |
+| tooltipchange | Emitted after the show/hide state is changed by `'tooltip'` or `'edge-tooltip'` Behavior which is assigned to the instance of Graph. |
+| wheelzoom | Emitted after the canvas is zoomed by `'zoom-canvas'` Behavior which is assigned to the instance of Graph. |
+| viewportchange | Emitted after the canvas is translated by `graph.moveTo`, `graph.translate`, and `graph.zoom`. |
+| dragnodeend | Emitted while drag node end by `'drag-node'` Behavior. |
+| stackchange | Emitted while the redo or undo stacks are changed. |
+
+**Timing Events in the Plugins**
+
+TimeBar plugin:
+
+| Event Name | Description |
+| --- | --- |
+| valuechange | Emitted when the value range of the timebar is chaged. |
+| timebarstartplay | Emitted when the timeline starts to play. |
+| timebarendplay | Emitted when the timeline ends playing. |
+
+Tooltip:
+
+| Event Name | Description |
+| --- | --- |
+| tooltipchange | Emitted when the Tooltip is changed. |
 
 ### Callback Parameters
 
@@ -345,3 +361,20 @@ No parameters.
 | --------- | -------- | --------------- |
 | redoStack | Object[] | The redo stack. |
 | undoStack | Object[] | The undo stack. |
+
+#### valuechange
+
+| Name      | Type     | Description     |
+| --------- | -------- | -------- |
+| value | number[] | The current value range, `value[0]` is the start and `value[1]` is the end. |
+
+#### timelinestart / timelineend
+
+No parameters.
+
+#### tooltipchange
+
+| Name      | Type     | Description     |
+| --------- | -------- | -------- |
+| item | Item | The item the tooltip related to (a node or an edge). |
+| action | 'show' / 'hide' | The current action. |
