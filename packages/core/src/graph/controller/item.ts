@@ -308,7 +308,8 @@ export default class ItemController {
     if (!combo || combo.destroyed) {
       return;
     }
-    const comboBBox = getComboBBox(children, graph);
+    const model = combo.getModel();
+    const comboBBox = getComboBBox(model.collapsed ? [] : children, graph);
 
     combo.set('bbox', comboBBox);
     combo.update({
@@ -316,7 +317,6 @@ export default class ItemController {
       y: comboBBox.y,
     });
 
-    const model = combo.getModel();
     const shapeFactory = combo.get('shapeFactory');
     const shapeType = (model.type as string) || 'circle';
     const comboAnimate =
