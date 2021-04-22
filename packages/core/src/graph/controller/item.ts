@@ -339,11 +339,11 @@ export default class ItemController {
     for (let i = 0; i < combEdges.length; i++) {
       const edge = combEdges[i];
       if (edge && !edge.destroyed) {
-        let shapeFactory = edge.get('shapeFactory');
-        let cfg = edge.getShapeCfg(edge.getModel());
-        let gr = edge.getContainer();
-        gr.clear();
-        shapeFactory.draw(cfg.type, cfg, gr);
+        const edgeSF = edge.get('shapeFactory');
+        const edgeCfg = edge.getShapeCfg(edge.getModel());
+        const edgeGroup = edge.getContainer();
+        edgeGroup.clear();
+        edgeSF.draw(edgeCfg.type, edgeCfg, edgeGroup);
       }
     }
   }
