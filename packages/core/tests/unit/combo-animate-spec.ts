@@ -174,7 +174,55 @@ const data = {
 };
 
 describe('collapse combo initially', () => {
-  it('collapse combo initially and no animation', (done) => {
+  it('initial animate', (done) => {
+    const data2 = {
+      nodes: [
+        {
+          id: 'node1',
+          x: 250,
+          y: 150,
+          comboId: 'combo',
+        },
+        {
+          id: 'node2',
+          x: 350,
+          y: 150,
+          comboId: 'combo',
+        },
+      ],
+      combos: [
+        {
+          id: 'combo',
+          label: 'Combo1',
+          collapsed: true,
+        },
+      ],
+    };
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 600,
+      fitCenter: true,
+      groupByTypes: false,
+      modes: {
+        default: ['drag-canvas', 'drag-node', 'drag-combo', 'collapse-expand-combo'],
+      },
+      defaultCombo: {
+        type: 'circle',
+        labelCfg: {
+          position: 'top',
+        },
+      },
+    });
+    graph.read(data2);
+
+    expect(graph.get('vedges').length).toBe(0)
+    setTimeout(() => {
+      expect(graph.get('edges').filter(e => e.isVisible()).length).toBe(0);
+      done()
+    }, 16);
+  });
+  it('collapse combo and edges', (done) => {
     const graph = new Graph({
       container: div,
       width: 500,
