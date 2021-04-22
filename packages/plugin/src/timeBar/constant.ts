@@ -1,9 +1,9 @@
 import { ShapeStyle } from '@antv/g6-core';
 
-export const TIMELINE_START = 'timelinestart';
-export const TIMELINE_END = 'timelineend';
+export const TIMELINE_START = 'timebarstartplay';
+export const TIMELINE_END = 'timebarendplay';
 
-export const VALUE_CHANGE = 'valueChange';
+export const VALUE_CHANGE = 'valuechange';
 
 export const TIMEBAR_CONFIG_CHANGE = 'timebarConfigChanged';
 
