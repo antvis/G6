@@ -95,9 +95,7 @@ describe('polyline edge', () => {
     expect(path1[5][2]).toBe(25.5);
   });
 
-
   it.only('polyline with radius and circle ellipse node', () => {
-
     const data2 = {
       nodes: [
         {

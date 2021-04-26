@@ -43,12 +43,12 @@ export default {
     const pointers = evt.originalEvent.pointers;
     if (pointers.length < 2) return;
 
-    if (evt.type === 'pinchstart')  {
+    if (evt.type === 'pinchstart') {
       this.firstScale = this.graph.getZoom();
     }
 
     const scale = evt.originalEvent.scale || evt.originalEvent.srcEvent.extra.scale;
-    
+
     // 应用到画布上的缩放比例
     const zoom = this.firstScale * scale;
 
@@ -63,10 +63,10 @@ export default {
     }
     const canvas = this.graph.get('canvas');
 
-    const posA = {x: pointers[0].clientX, y: pointers[0].clientY};
-    const posB = {x: pointers[1].clientX, y: pointers[1].clientY};
+    const posA = { x: pointers[0].clientX, y: pointers[0].clientY };
+    const posB = { x: pointers[1].clientX, y: pointers[1].clientY };
     // 缩放点放中间
-    const point = canvas.getPointByClient((posA.x + posB.x)/2, (posA.y + posB.y)/2);
+    const point = canvas.getPointByClient((posA.x + posB.x) / 2, (posA.y + posB.y) / 2);
     this.graph.zoomTo(zoom, { x: point.x, y: point.y });
   },
 };
