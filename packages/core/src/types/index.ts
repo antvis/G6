@@ -635,11 +635,6 @@ export enum G6Event {
   NODE_DRAGSTART = 'node:dragstart',
   NODE_DRAG = 'node:drag',
   NODE_DRAGEND = 'node:dragend',
-  NODE_TAP = 'node:tap',
-  NODE_PANSTART = 'node:panstart',
-  NODE_PANMOVE = 'node:panmove',
-  NODE_PANEND = 'node:panend',
-
   // combo, extends from nodes
   COMBO_CONTEXTMENU = 'combo:contextmenu',
   COMBO_CLICK = 'combo:click',
@@ -658,10 +653,6 @@ export enum G6Event {
   COMBO_DRAGSTART = 'combo:dragstart',
   COMBO_DRAG = 'combo:drag',
   COMBO_DRAGEND = 'combo:dragend',
-  COMBO_TAP = 'combo:tap',
-  COMBO_PANSTART = 'combo:panstart',
-  COMBO_PANMOVE = 'combo:panmove',
-  COMBO_PANEND = 'combo:panend',
 
   // edge events
   EDGE_CONTEXTMENU = 'edge:contextmenu',
@@ -696,10 +687,6 @@ export enum G6Event {
   CANVAS_DRAGSTART = 'canvas:dragstart',
   CANVAS_DRAG = 'canvas:drag',
   CANVAS_DRAGEND = 'canvas:dragend',
-  CANVAS_TAP = 'canvas:tap',
-  CANVAS_PANSTART = 'canvas:panstart',
-  CANVAS_PANMOVE = 'canvas:panmove',
-  CANVAS_PANEND = 'canvas:panend',
 
   // timing events
   BEFORERENDER = 'beforerender',
@@ -743,14 +730,6 @@ export enum G6Event {
   VIEWPORTCHANGE = 'viewportchange',
   DRAGNODEEND = 'dragnodeend',
   STACKCHANGE = 'stackchange',
-
-  // Mobile event support
-  TAP = 'tap',
-  PINCHSTART = 'pinchstart',
-  PINCHMOVE = 'pinchmove',
-  PANSTART = 'panstart',
-  PANMOVE = 'panmove',
-  PANEND = 'panend',
 }
 
 export type DefaultBehaviorType = IG6GraphEvent | string | number | object;
