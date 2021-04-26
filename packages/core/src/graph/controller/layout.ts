@@ -42,7 +42,7 @@ export default abstract class LayoutController {
 
     const pipes = layoutCfg.pipes;
     if (Array.isArray(pipes)) {
-      return pipes.map((pipe) => pipe?.type || '');
+      return pipes.map((pipe) => pipe?.type || "");
     }
 
     return null;
@@ -52,7 +52,7 @@ export default abstract class LayoutController {
     const current = this.getLayoutCfgType(cfg);
     // already has pipes
     if (Array.isArray(this.layoutType)) {
-      return this.layoutType.every((type, index) => type === current[index]);
+      return this.layoutType.every((type, index) => type === current[index])
     }
 
     return cfg?.type === this.layoutType;
@@ -151,7 +151,7 @@ export default abstract class LayoutController {
     const comboLength = comboItems.length;
     for (let i = 0; i < comboLength; i++) {
       const comboItem = comboItems[i];
-      if (comboItem.destroyed) continue;
+      if (comboItem.destroyed ) continue;
       const model = comboItem.getModel();
       if (!comboItem.isVisible()) {
         hiddenEdges.push(model);
@@ -159,15 +159,7 @@ export default abstract class LayoutController {
       }
       combos.push(model);
     }
-    return {
-      nodes,
-      hiddenNodes,
-      edges,
-      hiddenEdges,
-      combos,
-      hiddenCombos,
-      comboEdges,
-    } as GraphData;
+    return { nodes, hiddenNodes, edges, hiddenEdges, combos, hiddenCombos, comboEdges } as GraphData;
   }
 
   protected reLayoutMethod(layoutMethod, layoutCfg): Promise<void> {
@@ -179,7 +171,7 @@ export default abstract class LayoutController {
       layoutCfg.onLayoutEnd = () => {
         graph.emit('aftersublayout', { type: layoutType });
         reslove();
-      };
+      }
 
       layoutMethod.init(this.data);
       if (layoutType === 'force') {
@@ -214,13 +206,11 @@ export default abstract class LayoutController {
       start = start.then(() => this.reLayoutMethod(layoutMethod, currentCfg));
     });
 
-    start
-      .then(() => {
-        if (layoutCfg.onAllLayoutEnd) layoutCfg.onAllLayoutEnd();
-      })
-      .catch((error) => {
-        console.warn('relayout failed', error);
-      });
+    start.then(() => {
+      if (layoutCfg.onAllLayoutEnd) layoutCfg.onAllLayoutEnd();
+    }).catch((error) => {
+      console.warn('relayout failed', error);
+    });
   }
 
   // 筛选参与布局的nodes和edges
@@ -247,14 +237,14 @@ export default abstract class LayoutController {
       }, {});
       edegsFilter = (edge) => {
         return nodesMap[edge.source] && nodesMap[edge.target];
-      };
+      }
     }
 
     return {
       nodes: nodes.filter(nodesFilter),
       edges: edges.filter(edegsFilter),
-      ...rest,
-    };
+      ...rest
+    }
   }
 
   protected getLayoutBBox(nodes) {
@@ -271,13 +261,13 @@ export default abstract class LayoutController {
     const groupNodes = Object.values(groupBy(nodes, 'layoutOrder'));
     return {
       groupNodes,
-      layoutNodes,
-    };
+      layoutNodes
+    }
   }
 
   // 控制布局动画
   // eslint-disable-next-line class-methods-use-this
-  public layoutAnimate() {}
+  public layoutAnimate() { }
 
   // 将当前节点的平均中心移动到原点
   public moveToZero() {
