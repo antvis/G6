@@ -1,5 +1,11 @@
 # ChangeLog
 
+#### 4.2.8
+
+- fix: empty object for TreeGraph data;
+- fix: combo edge arrow error with state styles;
+- feat: focus edge item;
+
 #### 4.2.7
 
 - fix: edges disappear when collapsing combo, closes: #2816;
