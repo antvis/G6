@@ -572,7 +572,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
     const self = this;
     const data: TreeGraphData = self.get('data');
 
-    if (!data) {
+    if (!data || !Object.keys(data).length) {
       throw new Error('data must be defined first');
     }
 

@@ -354,9 +354,7 @@ export const shapeBase: ShapeOptions = {
    */
   setState(name: string, value: string | boolean, item: Item) {
     const shape: IShape = item.get('keyShape');
-    if (!shape) {
-      return;
-    }
+    if (!shape || shape.destroyed) return;
 
     const type = item.getType();
 

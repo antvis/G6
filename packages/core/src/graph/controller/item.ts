@@ -343,7 +343,11 @@ export default class ItemController {
         const edgeCfg = edge.getShapeCfg(edge.getModel());
         const edgeGroup = edge.getContainer();
         edgeGroup.clear();
-        edgeSF.draw(edgeCfg.type, edgeCfg, edgeGroup);
+        const keyShape = edgeSF.draw(edgeCfg.type, edgeCfg, edgeGroup);
+        edge.set('keyShape', keyShape);
+        keyShape.set('isKeyShape', true);
+        keyShape.set('draggable', true);
+        edge.setOriginStyle()
       }
     }
   }
