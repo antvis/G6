@@ -1,6 +1,11 @@
-## This doc is only for Angular 9 and above and the solution is only tested on Angular 9 and above.
+---
+title: Error in Angular with G6
+order: 2
+---
 
-There's no special settings or changes / differences to use G6 in Angular if you just start a new Angular project from latest Angular CLI. Do it like you normal do when adding new dependency
+**This doc is only for Angular 9 and above and the solution is only tested on Angular 9 and above.**
+
+There's no special settings or differences to use G6 in Angular if you just start a new Angular project from latest Angular CLI. Do it like you normal do when adding new dependency
 
 However, if your application is upgraded from older angular version (for example, my project is from angular 6), you may run into trouble.
 

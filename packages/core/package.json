@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6-core",
-  "version": "0.2.4",
+  "version": "0.2.7",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",
@@ -58,14 +58,13 @@
     ]
   },
   "dependencies": {
-    "@antv/algorithm": "^0.1.5",
+    "@antv/algorithm": "0.1.8-beta.6",
     "@antv/dom-util": "^2.0.1",
     "@antv/event-emitter": "~0.1.0",
     "@antv/g-base": "^0.5.1",
     "@antv/g-math": "^0.1.1",
     "@antv/matrix-util": "^3.1.0-beta.2",
     "@antv/path-util": "^2.0.3",
-    "@antv/scale": "^0.3.1",
     "@antv/util": "~2.0.5",
     "ml-matrix": "^6.5.0",
     "tslib": "^2.1.0"

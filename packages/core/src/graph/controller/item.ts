@@ -141,15 +141,17 @@ export default class ItemController {
       const children: ComboTree[] = (model as ComboConfig).children;
 
       const comboBBox = getComboBBox(children, graph);
-      model.x = comboBBox.x || model.x || Math.random() * 100;
-      model.y = comboBBox.y || model.y || Math.random() * 100;
+      if (!isNaN(comboBBox.x)) model.x = comboBBox.x;
+      else if (isNaN(model.x)) model.x = Math.random() * 100;
+      if (!isNaN(comboBBox.y)) model.y = comboBBox.y;
+      else if (isNaN(model.y)) model.y = Math.random() * 100;
 
       const comboGroup = parent.addGroup();
       comboGroup.setZIndex((model as ComboConfig).depth as number);
       item = new Combo({
         model,
         styles,
-        bbox: comboBBox,
+        bbox: model.collapsed ? getComboBBox([], graph) : comboBBox,
         group: comboGroup,
       });
 
@@ -165,8 +167,7 @@ export default class ItemController {
       if (model.collapsed) {
         setTimeout(() => {
           graph.collapseCombo(item as ICombo);
-          this.updateCombo(item as ICombo, []);
-        }, 250);
+        }, 16);
       }
     }
 
@@ -307,17 +308,15 @@ export default class ItemController {
     if (!combo || combo.destroyed) {
       return;
     }
-    const comboBBox = getComboBBox(children, graph);
+    const model = combo.getModel();
+    const comboBBox = getComboBBox(model.collapsed ? [] : children, graph);
 
     combo.set('bbox', comboBBox);
     combo.update({
       x: comboBBox.x,
       y: comboBBox.y,
     });
-    const combEdges = combo.getEdges() || [];
-    const length = combEdges.length;
 
-    const model = combo.getModel();
     const shapeFactory = combo.get('shapeFactory');
     const shapeType = (model.type as string) || 'circle';
     const comboAnimate =
@@ -327,15 +326,24 @@ export default class ItemController {
         if (!combo || (combo as ICombo).destroyed) return;
         const keyShape = (combo as ICombo).getKeyShape();
         if (!keyShape || keyShape.destroyed) return;
-        for (let i = 0; i < length; i++) {
-          const edge = combEdges[i];
-          if (edge && !edge.destroyed) edge.refresh();
-        }
+        (combo as ICombo).getShapeCfg(model); // 更新 combo 缓存的 size
+        this.updateComboEdges(combo as ICombo)
       }, 201);
     } else {
-      for (let i = 0; i < length; i++) {
-        const edge = combEdges[i];
-        if (edge && !edge.destroyed) edge.refresh();
+      this.updateComboEdges(combo as ICombo)
+    }
+  }
+
+  private updateComboEdges(combo: ICombo) {
+    const combEdges = combo.getEdges() || [];
+    for (let i = 0; i < combEdges.length; i++) {
+      const edge = combEdges[i];
+      if (edge && !edge.destroyed) {
+        const edgeSF = edge.get('shapeFactory');
+        const edgeCfg = edge.getShapeCfg(edge.getModel());
+        const edgeGroup = edge.getContainer();
+        edgeGroup.clear();
+        edgeSF.draw(edgeCfg.type, edgeCfg, edgeGroup);
       }
     }
   }
@@ -652,7 +660,7 @@ export default class ItemController {
           return true;
         });
       });
-      if (children) {
+      if (children && (!visible || (visible && !item.getModel().collapsed))) {
         children.forEach((child) => {
           const childItem = graph.findById(child.id);
           this.changeItemVisibility(childItem, visible);

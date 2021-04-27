@@ -188,6 +188,22 @@ graph.on(timingEventName, evt => {
 | dragnodeend | 使用了 `'drag-node'` Behavior，当拖动结束时，该事件被触发 |
 | stackchange | 撤销/重做栈发生变化时，该事件触发 |
 
+**插件中的时机事件**
+
+TimeBar 插件：
+
+| 事件名称 | 描述 |
+| --- | --- |
+| valuechange | 时间轴的时间范围发生变化时触发 |
+| timebarstartplay | 时间轴开始播放时触发 |
+| timebarendplay | 时间轴播放结束时触发 |
+
+Tooltip 插件：
+
+| 事件名称 | 描述 |
+| --- | --- |
+| tooltipchange | Tooltip 发生变化时触发 |
+
 ### 回调参数
 
 不同时机监听事件的回调参数不同，下面针对各个自定义事件的回调参数进行说明。
@@ -338,3 +354,21 @@ graph.on(timingEventName, evt => {
 | --------- | -------- | -------- |
 | redoStack | Object[] | 重做堆栈 |
 | undoStack | Object[] | 撤销堆栈 |
+
+
+#### valuechange
+
+| 名称      | 类型     | 描述     |
+| --------- | -------- | -------- |
+| value | number[] | 时间轴当前时间范围，`value[0]` 为起始值，`value[1]` 为结束值 |
+
+#### timelinestart / timelineend
+
+无参数
+
+#### tooltipchange
+
+| 名称      | 类型     | 描述     |
+| --------- | -------- | -------- |
+| item | Item | tooltip 所关联的元素（节点/边） |
+| action | 'show' / 'hide' | tooltip 当前的变化时显示还是隐藏 |

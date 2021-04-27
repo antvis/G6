@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@antv/g6-site",
-  "version": "4.2.4",
+  "version": "4.2.7",
   "description": "G6 sites deployed on gh-pages",
   "keywords": [
     "antv",
@@ -32,18 +32,19 @@
     "start": "npm run site:develop"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.0.6",
     "@antv/chart-node-g6": "^0.0.3",
-    "@antv/util": "^2.0.9",
-    "@antv/g6": "",
+    "@antv/g6": "4.2.7",
     "@antv/gatsby-theme-antv": "1.1.1",
-    "gatsby": "^2.24.40",
-    "gh-pages": "^2.1.1",
-    "typedoc": "^0.17.6",
-    "typedoc-plugin-markdown": "^2.2.11",
+    "@antv/util": "^2.0.9",
+    "@antv/vis-predict-engine": "^0.0.7",
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
+    "gatsby": "^2.24.40",
+    "gh-pages": "^2.1.1",
     "react-i18next": "^11.1.0",
-    "@ant-design/icons": "^4.0.6",
+    "typedoc": "^0.17.6",
+    "typedoc-plugin-markdown": "^2.2.11",
     "typescript": "^3.6.5"
   },
   "resolutions": {

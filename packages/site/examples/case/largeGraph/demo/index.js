@@ -1,6 +1,10 @@
 import G6 from '@antv/g6';
 import insertCss from 'insert-css';
-import AntVUtil from '@antv/util';
+
+// 实际开发中把 window.AntVUtil 换成从 @antv/util 引入的相关模块
+// replace window.AntVUtil.isObject with
+// import { isNumber, isArray } from '@antv/util';
+const { isNumber, isArray } = window.AntVUtil;
 
 insertCss(`
   .g6-component-contextmenu {
@@ -36,9 +40,6 @@ insertCss(`
 
 const { labelPropagation, louvain, findShortestPath } = G6.Algorithm;
 const { uniqueId } = G6.Util;
-// 实际开发中把 AntVUtil || window.AntVUtil 换成从 @antv/util 引入的模块
-// Replace AntVUtil || window.AntVUtil by the module imported from @antv/util in your project
-const { isNumber, isArray } = AntVUtil || window.AntVUtil;
 
 const NODESIZEMAPPING = 'degree';
 const SMALLGRAPHLABELMAXLENGTH = 5;

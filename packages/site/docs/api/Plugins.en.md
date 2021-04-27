@@ -30,6 +30,17 @@ const graph = new G6.Graph({
 });
 ```
 
+## SnapLine
+
+SnapLine is a built-in components in G6.
+
+### 配置项
+
+| Name          | Type                                          | Required | Description           |
+| ------------- | --------------------------------------------- | -------- | --------------------- |
+| line          | ShapeStyle                                    | false    | the style of SnapLine |
+| itemAlignType | boolean、'horizontal' 、'vertical'、'center'; | false    | the type of SnapLine  |
+
 ## Grid
 
 Grid plugin draws grids on the canvas.
@@ -402,14 +413,14 @@ const timebar = new G6.TimeBar({
     data: timeBarData,
     width,
     height: 42,
-    tickLabelFormatter: (d) => {
+    tickLabelFormatter: d => {
       const dateStr = `${d.date}`;
       if ((count - 1) % 10 === 0) {
         return `${dateStr.substr(0, 4)}-${dateStr.substr(4, 2)}-${dateStr.substr(6, 2)}`;
       }
       return false;
     },
-    tooltipFomatter: (d) => {
+    tooltipFomatter: d => {
       const dateStr = `${d}`;
       return `${dateStr.substr(0, 4)}-${dateStr.substr(4, 2)}-${dateStr.substr(6, 2)}`;
     },
@@ -418,6 +429,17 @@ const timebar = new G6.TimeBar({
 ```
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*n6ECQ7Jn5pQAAAAAAAAAAAAAARQnAQ' width='600' />
+
+
+### Event Listener
+
+TimeBar Plugin exposes several timing events. They could be listened by `graph.on('eventname', e => {})`.
+
+| Event Name | Description |
+| --- | --- |
+| valuechange | Emitted when the value range of the timebar is chaged. |
+| timebarstartplay | Emitted when the timeline starts to play. |
+| timebarendplay | Emitted when the timeline ends playing. |
 
 ### Definition of the Configurations
 
@@ -502,7 +524,7 @@ interface TrendConfig {
 #### Parameters of the TrendConfig
 
 | Name | Type | Default Value | Description |
-| --- | --- | --- | --- | --- |
+| --- | --- | --- | --- |
 | x | number | 0 | The beginning x position of the trend line chart |
 | y | number | 0 | The beginning y position of the trend line chart |
 | width | number | The width of the TimeBar | The width of the trend line chart of the TimeBar, we suggest to use the default value. If you wanna custom it, please assign the `width` of the slider in the same time |
@@ -733,7 +755,7 @@ The content of the Tooltip is the type and id of the item by default. Users are 
 
 #### Dom Tooltip
 
-```
+```javascript
 const tooltip = new G6.Tooltip({
   offsetX: 10,
   offsetY: 20,
@@ -758,7 +780,7 @@ const graph = new G6.Graph({
 
 #### String Tooltip
 
-```
+```javascript
 const tooltip = new G6.Tooltip({
   getContent(e) {
     return `<div style='width: 180px;'>
@@ -778,6 +800,13 @@ const graph = new G6.Graph({
   plugins: [tooltip], // Use Tooltip plugin
 });
 ```
+### Event Listener
+
+TimeBar Plugin exposes several timing events. They could be listened by `graph.on('eventname', e => {})`.
+
+| Event Name | Description |
+| --- | --- |
+| tooltipchange | Emitted when the Tooltip is changed. |
 
 ## Fisheye Lens
 

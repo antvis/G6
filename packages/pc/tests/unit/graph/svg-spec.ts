@@ -606,8 +606,8 @@ describe('all node link center', () => {
 
     const edge1 = graph.addItem('edge', {
       id: 'edge',
-      source: node,
-      target: node,
+      source: 'circleNode',
+      target: 'circleNode',
       type: 'loop',
       loopCfg: {
         position: 'top',
@@ -619,8 +619,8 @@ describe('all node link center', () => {
 
     const edge2 = graph.addItem('edge', {
       id: 'edge1',
-      source: node,
-      target: node,
+      source: 'circleNode',
+      target: 'circleNode',
       type: 'loop',
       loopCfg: {
         position: 'top-left',
@@ -632,8 +632,8 @@ describe('all node link center', () => {
 
     const edge3 = graph.addItem('edge', {
       id: 'edge2',
-      source: node,
-      target: node,
+      source: 'circleNode',
+      target: 'circleNode',
       type: 'loop',
       loopCfg: {
         position: 'top-right',
@@ -644,8 +644,8 @@ describe('all node link center', () => {
 
     const edge4 = graph.addItem('edge', {
       id: 'edge4',
-      source: node,
-      target: node,
+      source: 'circleNode',
+      target: 'circleNode',
       type: 'loop',
       loopCfg: {
         position: 'right',
@@ -657,8 +657,8 @@ describe('all node link center', () => {
 
     const edgeWithAnchor = graph.addItem('edge', {
       id: 'edge5',
-      source: node,
-      target: node,
+      source: 'circleNode',
+      target: 'circleNode',
       type: 'loop',
       sourceAnchor: 0,
       targetAnchor: 1,
@@ -672,8 +672,8 @@ describe('all node link center', () => {
 
     graph.addItem('edge', {
       id: 'edge6',
-      source: node,
-      target: node,
+      source: 'circleNode',
+      target: 'circleNode',
       type: 'loop',
       loopCfg: {
         position: 'bottom',
@@ -685,8 +685,8 @@ describe('all node link center', () => {
 
     graph.addItem('edge', {
       id: 'edge7',
-      source: node,
-      target: node,
+      source: 'circleNode',
+      target: 'circleNode',
       type: 'loop',
       loopCfg: {
         position: 'bottom-left',
@@ -698,8 +698,8 @@ describe('all node link center', () => {
 
     graph.addItem('edge', {
       id: 'edge8',
-      source: node,
-      target: node,
+      source: 'circleNode',
+      target: 'circleNode',
       type: 'loop',
       loopCfg: {
         position: 'left',
@@ -852,7 +852,7 @@ describe('all node link center', () => {
     expect(keyShape.attr('strokeStyle')).toBe(undefined);
 
     defaultGraph.addItem('node', { id: 'node10' });
-    const edge = defaultGraph.addItem('edge', { id: 'edge', source: node, target: 'node9' });
+    const edge = defaultGraph.addItem('edge', { id: 'edge', source: 'node9', target: 'node9' });
 
     const edgeKeyShape = edge.get('keyShape');
     expect(edgeKeyShape.attr('stroke')).toEqual('blue');

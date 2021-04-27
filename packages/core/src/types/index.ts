@@ -162,6 +162,8 @@ export interface ModeOption {
   functionName?: string;
   functionParams?: any[];
   relayout?: boolean;
+  brushStyle?: object;
+  zoomKey?: 'shift' | 'ctrl' | 'alt' | 'control';
   shouldUpdate?: (e: IG6GraphEvent) => boolean;
   shouldBegin?: (e: IG6GraphEvent) => boolean;
   shouldEnd?: (e: IG6GraphEvent) => boolean;
@@ -185,10 +187,10 @@ export interface States {
 
 export interface StateStyles {
   [key: string]:
-  | ShapeStyle
-  | {
-    [key: string]: ShapeStyle;
-  };
+    | ShapeStyle
+    | {
+        [key: string]: ShapeStyle;
+      };
 }
 
 // model types (node edge group)
@@ -204,13 +206,13 @@ export interface GraphOptions {
    */
   container: string | HTMLElement;
   /**
-   * 指定画布宽度，单位为 'px'
+   * 指定画布宽度，单位为 'px'，可选，默认为容器宽度
    */
-  width: number;
+  width?: number;
   /**
-   * 指定画布高度，单位为 'px'
+   * 指定画布高度，单位为 'px'，可选，默认为容器宽度
    */
-  height: number;
+  height?: number;
   /**
    * renderer canvas or svg
    */
@@ -263,7 +265,7 @@ export interface GraphOptions {
     size: number | number[];
     color: string;
   }> &
-  ModelStyle;
+    ModelStyle;
 
   /**
    * 默认状态下边的配置，比如 type, size, color。会被写入的 data 覆盖。
@@ -273,7 +275,7 @@ export interface GraphOptions {
     size: number | number[];
     color: string;
   }> &
-  ModelStyle;
+    ModelStyle;
 
   /**
    * Combo 默认配置
@@ -283,7 +285,7 @@ export interface GraphOptions {
     size: number | number[];
     color: string;
   }> &
-  ModelStyle;
+    ModelStyle;
 
   nodeStateStyles?: StateStyles;
 
@@ -415,10 +417,10 @@ export interface TreeGraphData {
   depth?: number;
   collapsed?: boolean;
   style?:
-  | ShapeStyle
-  | {
-    [key: string]: ShapeStyle;
-  };
+    | ShapeStyle
+    | {
+        [key: string]: ShapeStyle;
+      };
   stateStyles?: StateStyles;
   [key: string]: unknown;
 }
@@ -464,6 +466,7 @@ export interface NodeConfig extends ModelConfig {
     show?: boolean;
     // icon的地址，字符串类型
     img?: string;
+    text?: string;
     width?: number;
     height?: number;
     offset?: number;

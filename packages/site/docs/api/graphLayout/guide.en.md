@@ -34,7 +34,7 @@ const graph = new G6.Graph({
     preventOverlap: true,
     nodeSize: 30,
     // workerEnabled: true, // Whether enable webworker
-    // gpuEnabled: true // Whether enable GPU version. supported by G6 4.0, and only support gForce and fruchterman layout
+    // gpuEnabled: true // Whether enable GPU version. supported by G6 4.0, and only support gForce and fruchterman layout. If the machine or browser does not support GPU computing, it will be degraded to CPU computing automatically. 
     ...                    // Other layout configurations
   }
 });

@@ -35,13 +35,13 @@ The DOM container of graph, it can be the id of a DOM element or the an HTML nod
 
 ### GraphOptions.width
 
-<description> _Number_ **required** </description>
+<description> _Number_ **optional** </description>
 
 The width of the canvas for graph with the unit 'px'.
 
 ### GraphOptions.height
 
-<description> _Number_ **required** </description>
+<description> _Number_ **optional** </description>
 
 The height of the canvas for graph with the unit 'px'.
 

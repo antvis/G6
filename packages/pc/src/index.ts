@@ -28,6 +28,7 @@ const Tooltip = Plugin.Tooltip;
 const TimeBar = Plugin.TimeBar;
 const ImageMinimap = Plugin.ImageMinimap;
 const EdgeFilterLens = Plugin.EdgeFilterLens;
+const SnapLine = Plugin.SnapLine;
 
 export * from '@antv/g6-core';
 export * from './types';
@@ -51,6 +52,7 @@ export {
   TimeBar,
   ImageMinimap,
   EdgeFilterLens,
+  SnapLine,
   Arrow,
   Marker,
   Shape,
@@ -79,11 +81,12 @@ export default {
   ToolBar: Plugin.ToolBar,
   Tooltip: Plugin.Tooltip,
   TimeBar,
+  SnapLine,
   Fisheye,
   ImageMinimap,
   EdgeFilterLens,
   Algorithm,
   Arrow,
   Marker,
-  Shape
+  Shape,
 };

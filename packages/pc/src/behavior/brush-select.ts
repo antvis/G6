@@ -134,6 +134,7 @@ export default {
     const selectedNodes = [];
     const selectedIds = [];
     graph.getNodes().forEach((node) => {
+      if (!node.isVisible()) return; // 隐藏节点不能被选中
       const bbox = node.getBBox();
       if (
         bbox.centerX >= left &&
@@ -155,6 +156,7 @@ export default {
       selectedNodes.forEach((node) => {
         const edges = node.getOutEdges();
         edges.forEach((edge) => {
+          if (!edge.isVisible()) return; // 隐藏边不能够被选中
           const model = edge.getModel();
           const { source, target } = model;
           if (

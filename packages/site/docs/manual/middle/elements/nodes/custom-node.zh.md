@@ -473,6 +473,7 @@ graph.on('node:mouseleave', (ev) => {
 ## 5. 使用 DOM 自定义节点
 
 > SVG 与 DOM 图形在 V3.3.x 中不支持。
+> 仅在 Graph 的 `renderer` 为 `'svg'` 时可以使用 DOM 自定义节点。
 
 这里，我们演示使用 DOM 自定义一个名为 `'dom-node'` 的节点。在 `draw` 方法中使用 `group.addShape` 增加一个 `'dom'` 类型的图形，并设置其 `html` 为 DOM 的 `html` 值。
 

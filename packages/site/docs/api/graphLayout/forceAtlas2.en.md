@@ -13,7 +13,7 @@ const graph = new G6.Graph({
   width: 1000,
   height: 600,
   layout: {
-    type: 'random',
+    type: 'forceAtlas2',
     width: 300,
     height: 300,
   },

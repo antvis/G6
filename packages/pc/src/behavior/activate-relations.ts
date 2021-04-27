@@ -24,7 +24,7 @@ export default {
     return {
       'node:click': 'setAllItemStates',
       'combo:click': 'setAllItemStates',
-      'canvas:click': 'clearAllItemStates',
+      'canvas:click': 'clearActiveState',
     };
   },
   setAllItemStates(e: IG6GraphEvent) {
@@ -126,10 +126,10 @@ export default {
 
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
-    const nodes = graph.getNodes();
-    const combos = graph.getCombos();
-    const edges = graph.getEdges();
-    const vEdges = graph.get('vedges');
+    const nodes = graph.getNodes() || [];
+    const combos = graph.getCombos() || [];
+    const edges = graph.getEdges() || [];
+    const vEdges = graph.get('vedges') || [];
     const nodeLength = nodes.length;
     const comboLength = combos.length;
     const edgeLength = edges.length;
@@ -153,35 +153,6 @@ export default {
     }
     graph.paint();
     graph.setAutoPaint(autoPaint);
-    graph.emit('afteractivaterelations', {
-      item: e.item || self.get('item'),
-      action: 'deactivate',
-    });
-  },
-  clearAllItemStates(e: any) {
-    const self = this;
-    const graph = self.graph;
-    if (!self.shouldUpdate(e.item, { event: e, action: 'deactivate' })) {
-      return;
-    }
-
-    const activeState = this.activeState;
-    const inactiveState = this.inactiveState;
-
-    const nodes = graph.getNodes();
-    const edges = graph.getEdges();
-    const nodeLength = nodes.length;
-    const edgeLength = edges.length;
-
-    for (let i = 0; i < nodeLength; i++) {
-      const node = nodes[i];
-      graph.clearItemStates(node, [activeState, inactiveState]);
-    }
-    for (let i = 0; i < edgeLength; i++) {
-      const edge = edges[i];
-      graph.clearItemStates(edge, [activeState, inactiveState, 'deactivate']);
-    }
-
     graph.emit('afteractivaterelations', {
       item: e.item || self.get('item'),
       action: 'deactivate',

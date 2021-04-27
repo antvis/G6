@@ -30,6 +30,20 @@ const graph = new G6.Graph({
 });
 ```
 
+## SnapLine
+
+SnapLine G6 内置的对齐线插件。
+
+实例化时可以通过配置项调整 SnapLine 的样式和功能。
+
+### 配置项
+
+| 名称 | 类型 | 描述 |
+| --- | --- | --- |
+| line | ShapeStyle | 辅助线的样式 |
+| itemAlignType | boolean、'horizontal' 、'vertical'、'center'; | 辅助线类型，true 表示全部 |
+
+
 ## Grid
 
 Grid 插件在画布上绘制了网格。
@@ -344,9 +358,9 @@ const graph = new G6.Graph({
 });
 ```
 
-## ToolTip
+## Tooltip
 
-ToolTip 插件主要用于在节点和边上展示一些辅助信息，G6 4.0 以后，Tooltip 插件将会替换 Behavior 中的 tooltip。
+Tooltip 插件主要用于在节点和边上展示一些辅助信息，G6 4.0 以后，Tooltip 插件将会替换 Behavior 中的 tooltip。
 
 ### 配置项
 
@@ -413,6 +427,14 @@ const graph = new G6.Graph({
   plugins: [tooltip], // 配置 Tooltip 插件
 });
 ```
+
+### 事件监听
+
+Tooltip 插件暴露除了几个时机事件，方便用户监听内部状态的变化。以下事件可通过 `graph.on('eventname', e => {})` 进行监听。
+
+| 事件名称 | 描述 |
+| --- | --- |
+| tooltipchange | Tooltip 发生变化时触发 |
 
 ## Fisheye
 
@@ -611,6 +633,16 @@ const timebar = new G6.TimeBar({
 ```
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*n6ECQ7Jn5pQAAAAAAAAAAAAAARQnAQ' width='600' />
+
+### 事件监听
+
+TimeBar 插件暴露除了几个时机事件，方便用户监听内部状态的变化。以下事件可通过 `graph.on('eventname', e => {})` 进行监听。
+
+| 事件名称 | 描述 |
+| --- | --- |
+| valuechange | 时间轴的时间范围发生变化时触发 |
+| timebarstartplay | 时间轴开始播放时触发 |
+| timebarendplay | 时间轴播放结束时触发 |
 
 ### 参数定义
 

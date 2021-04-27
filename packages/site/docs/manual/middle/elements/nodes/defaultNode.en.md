@@ -3,7 +3,8 @@ title: Overview of Nodes
 order: 0
 ---
 
-The built-in nodes in G6 include circle, rect, ellipse, diamond, triangle, star, image, and modelRect. <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FY3RTbDCz_8AAAAAAAAAAABkARQnAQ' width='750' height='100' alt='img'/>
+The built-in nodes in G6 include circle, rect, ellipse, diamond, triangle, star, image, modelRect, and donut(supported after v4.2.5). <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FY3RTbDCz_8AAAAAAAAAAABkARQnAQ' width='750' height='100' alt='img'/>
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NRJ7RpkMPNsAAAAAAAAAAAAAARQnAQ' width=50 alt='img'/>
 
 In this document, we will briefly introduce the built-in nodes in G6, the common property, and the way to configure the node type. To know more about each type of built-in nodes in G6, please refer to the corresponding documents in this directory.
 
@@ -21,6 +22,7 @@ The table below shows the built-in nodes and their special properties:
 | star | Star node: <br />- `size` is a number, representing the size of the star<br />- The star is centered on the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />- More properties are described in [star](/zh/docs/manual/middle/elements/nodes/built-in/star)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*_euwQpARvhMAAAAAAAAAAABkARQnAQ' width=50 alt='img'/> |
 | image | Image node: <br />- `size` is an array, representing the width and the height of the image<br />- The image is centered on the node position<br />- `img` The url of the image. It can be assigned in `style` as well<br />- `color` does not take effect<br />- The label lays on the bottom of the node by default<br />- More properties are described in [image](/zh/docs/manual/middle/elements/nodes/built-in/image)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*gtNxQY2RvMwAAAAAAAAAAABkARQnAQ' width=50 alt='img'/> |
 | modelRect | Card node: <br />- `size` is an array, representing the width and the height of the card<br />- The modelRect is centered on the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />- If `description` exists, it will lay below the label<br />- More properties are described in [modelRect](/zh/docs/manual/middle/elements/nodes/built-in/modelRect)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*MqR9QKfimxUAAAAAAAAAAABkARQnAQ' width=100 alt='img'/><br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9HKrSKtmNGQAAAAAAAAAAABkARQnAQ' width=100 alt='img'/> |
+| donut | Circle node: <br />- `size` is a number representing the diameter<br />- The circle is centered at the node position<br />- `color` takes effect on the stroke<br />- The label is placed on the center of the circle by default<br />- Valid property `donutAttrs` should be assigned<br />- More properties are in  [Donut](/en/docs/manual/middle/elements/nodes/built-in/donut)<br /> | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NRJ7RpkMPNsAAAAAAAAAAAAAARQnAQ' width=50 alt='img'/> |
 
 ## Common Property
 

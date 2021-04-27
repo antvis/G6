@@ -1,5 +1,31 @@
 # ChangeLog
 
+#### 4.2.7
+
+- fix: edges disappear when collapsing combo, closes: #2816;
+- fix: drag-node with edge key, closes: #2819;
+- fix: failed to update startArrow to be false, closes #2814;
+- fix: createCombo and add combId or parentId to the related nodes or combos, closes #2815;
+- feat: no animation when first rendering with collapsed combos, closes: #2826;
+
+#### 4.2.6
+
+- feat: scroll-canvas behavior;
+- feat: iconfont for node icon;
+- feat: percentage of scalable range for drag-canvas;
+- fix: missing brushStyle in type ModeOption;
+- fix: the comboId remains in the node after uncombo(), closes #2801;
+- fix: disappearing edges when combos are expanded/collapsed, closes #2798;
+- fix: invisible nodes and edges should not be selected by brush-select and lasso-select, closes #2810;
+
+#### 4.2.5
+
+- feat: donut node;
+- feat: downloadImage with watermarker;
+- fix: multiple layout calling error;
+- fix: combo collapse and related edges diappearing;
+- fix: forceAtlas2 with descrete node error;
+
 #### 4.2.4
 
 - fix: change data with dulplicated name between nodes and combos;

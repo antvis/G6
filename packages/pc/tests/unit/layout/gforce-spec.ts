@@ -1,6 +1,5 @@
 import G6 from '../../../src';
 import dataset from './data';
-import * as d3Force from 'd3-force';
 
 const data = dataset.data;
 

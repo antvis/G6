@@ -96,7 +96,7 @@ const graph = new G6.Graph({
 | onTick | Function |  | {} | 每一次迭代的回调函数 |
 | onLayoutEnd | Function |  | {} | 布局完成后的回调函数 |
 | workerEnabled | Boolean | true / false | false | 是否启用 web-worker 以防布局计算时间过长阻塞页面交互 |
-| gpuEnabled | Boolean | true / false | false | 是否启用 GPU 并行计算，G6 4.0 支持 |
+| gpuEnabled | Boolean | true / false | false | 是否启用 GPU 并行计算，G6 4.0 支持。若用户的机器或浏览器不支持 GPU 计算，将会自动降级为 CPU 计算 |
 
 ### Force
 

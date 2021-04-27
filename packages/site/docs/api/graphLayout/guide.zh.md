@@ -37,7 +37,7 @@ const graph = new G6.Graph({
     preventOverlap: true,
     nodeSize: 30,
     // workerEnabled: true, // 是否启用 webworker
-    // gpuEnabled: true // 是否使用 gpu 版本的布局算法，G6 4.0 支持，目前仅支持 gForce 及 fruchterman
+    // gpuEnabled: true // 是否使用 gpu 版本的布局算法，G6 4.0 支持，目前仅支持 gForce 及 fruchterman。若用户的机器或浏览器不支持 GPU 计算，将会自动降级为 CPU 计算
     ...                    // 其他配置
   }
 });

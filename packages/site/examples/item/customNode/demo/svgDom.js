@@ -123,6 +123,13 @@ bindClickListener();
 graph.on('afterupdateitem', (e) => {
   bindClickListener();
 });
+graph.on('afterrender', (e) => {
+  bindClickListener();
+});
+// if it is TreeGraph and with default animate:true, you should bind the litsener after animation
+// graph.on('afteranimate', (e) => {
+//   bindClickListener();
+// });
 
 if (typeof window !== 'undefined')
   window.onresize = () => {

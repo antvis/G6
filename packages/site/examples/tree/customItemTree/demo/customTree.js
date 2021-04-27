@@ -8,6 +8,10 @@ G6.registerNode(
         attrs: {
           fill: '#fff',
           stroke: '#666',
+          x: 0,
+          y: 0,
+          width:1,
+          height: 1
         },
         name: 'rect-shape',
       });
@@ -25,10 +29,20 @@ G6.registerNode(
       });
       const bbox = text.getBBox();
       const hasChildren = cfg.children && cfg.children.length > 0;
+      rect.attr({
+        x: -bbox.width / 2 - 4,
+        y: -bbox.height / 2 - 6,
+        width: bbox.width + (hasChildren ? 26 : 12),
+        height: bbox.height + 12,
+      });
+      text.attr({
+        x: -bbox.width / 2,
+        y: 0
+      })
       if (hasChildren) {
         group.addShape('marker', {
           attrs: {
-            x: bbox.maxX + 12,
+            x: bbox.width / 2 + 12,
             y: 0,
             r: 6,
             symbol: cfg.collapsed ? G6.Marker.expand : G6.Marker.collapse,
@@ -38,12 +52,6 @@ G6.registerNode(
           name: 'collapse-icon',
         });
       }
-      rect.attr({
-        x: bbox.minX - 4,
-        y: bbox.minY - 6,
-        width: bbox.width + (hasChildren ? 26 : 8),
-        height: bbox.height + 12,
-      });
       return rect;
     },
     update: (cfg, item) => {

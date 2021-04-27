@@ -96,7 +96,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/graphLayout/gu
 | onTick | Function |  | undefined | The callback function of each iteration |
 | onLayoutEnd | Function |  | undefined | The callback function after layout |
 | workerEnabled | Boolean | true / false | false | Whether to enable the web-worker in case layout calculation takes too long to block page interaction |
-| gpuEnabled | Boolean | true / false | false | Whether to enable the GPU parallel computing, supported by G6 4.0 |
+| gpuEnabled | Boolean | true / false | false | Whether to enable the GPU parallel computing, supported by G6 4.0. If the machine or browser does not support GPU computing, it will be degraded to CPU computing automatically.  |
 
 ### Force
 

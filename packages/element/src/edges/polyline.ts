@@ -113,7 +113,6 @@ registerEdge(
       cfg = this.getPathPoints!(cfg);
 
       const { startPoint, endPoint } = cfg;
-
       const controlPoints = this.getControlPoints!(cfg); // || cfg.controlPoints;
       let points = [startPoint]; // 添加起始点
       // 添加控制点
@@ -131,6 +130,7 @@ registerEdge(
       const { routeCfg: defaultRouteCfg } = this.options;
       const routeCfg = mix({}, defaultRouteCfg, cfg.routeCfg);
       routeCfg.offset = previousStyle.offset;
+
       let path = (this as any).getPath(points, source, target, radius, routeCfg);
       if ((isArray(path) && path.length <= 1) || (isString(path) && path.indexOf('L') === -1)) {
         path = 'M0 0, L0 0';
@@ -192,7 +192,7 @@ registerEdge(
       const polylinePoints = simple
         ? getPolylinePoints(points[points.length - 1], points[0], target, source, offset)
         : pathFinder(points[0], points[points.length - 1], source, target, routeCfg);
-        
+      
       if (!polylinePoints || !polylinePoints.length) return 'M0 0, L0 0';
 
       if (radius) {

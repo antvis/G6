@@ -10,6 +10,11 @@ describe('edge label with background', () => {
       container: 'container',
       width: 500,
       height: 500,
+      defaultNode: {
+        style: {
+          opacity: 0
+        }
+      },
       defaultEdge: {
         type: 'line',
         labelCfg: {
@@ -17,6 +22,7 @@ describe('edge label with background', () => {
           style: {
             fill: '#1890ff',
             fontSize: 14,
+            fontFamily: 'Arial',
             background: {
               fill: '#ffffff',
               stroke: '#9EC9FF',
@@ -37,9 +43,9 @@ describe('edge label with background', () => {
     const group = edge.getContainer();
     const bgRect = group.find(e => e.get('name') === 'text-bg-shape');
     expect(Math.abs(bgRect.attr('x') - 86) < 1).toBe(true);
-    expect(bgRect.attr('y')).toBe(91);
-    expect(bgRect.attr('width') - 27 < 1).toBe(true);
-    expect(bgRect.attr('height')).toBe(18);
+    expect(Math.abs(bgRect.attr('y') - 91) < 2).toBe(true);
+    expect(Math.abs(bgRect.attr('width') - 27) < 3).toBe(true);
+    expect(Math.abs(bgRect.attr('height') - 18) < 3).toBe(true);
     graph.destroy();
   });
 });

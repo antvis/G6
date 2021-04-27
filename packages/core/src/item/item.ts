@@ -200,7 +200,7 @@ export default class ItemBase implements IItemBase {
    * @param keyShape 图元素 keyShape
    * @param group Group 容器
    */
-  public setOriginStyle(cfg?: ModelConfig) {
+  public setOriginStyle() {
     const group: IGroup = this.get('group');
     const children = group.get('children');
     const keyShape: IShapeBase = this.getKeyShape();
@@ -652,13 +652,13 @@ export default class ItemBase implements IItemBase {
     if (shapeFactory.shouldUpdate(shape) && shape === this.get('currentShape')) {
       const updateCfg = this.getShapeCfg(model);
       shapeFactory.baseUpdate(shape, updateCfg, this);
+
+      // 更新完以后重新设置原始样式
+      this.setOriginStyle();
     } else {
       // 如果不满足上面两种状态，重新绘制
       this.draw();
     }
-
-    // 更新完以后重新设置原始样式
-    this.setOriginStyle(model);
 
     // 更新后重置节点状态
     this.restoreStates(shapeFactory, shape);

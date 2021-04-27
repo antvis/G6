@@ -64,18 +64,36 @@ registerNode(
         draggable: true,
       });
 
-      const { width, height, show } = icon;
+      const { width, height, show, text } = icon;
       if (show) {
-        const image = group.addShape('image', {
-          attrs: {
-            x: -width! / 2,
-            y: -height! / 2,
-            ...icon,
-          },
-          className: `${this.type}-icon`,
-          name: `${this.type}-icon`,
-          draggable: true,
-        });
+        if (text) {
+          group.addShape('text', {
+            attrs: {
+              x: 0,
+              y: 0,
+              fontSize: 12,
+              fill: '#000',
+              stroke: '#000',
+              textBaseline: 'middle',
+              textAlign: 'center',
+              ...icon,
+            },
+            className: `${this.type}-icon`,
+            name: `${this.type}-icon`,
+            draggable: true,
+          });
+        } else {
+          group.addShape('image', {
+            attrs: {
+              x: -width! / 2,
+              y: -height! / 2,
+              ...icon,
+            },
+            className: `${this.type}-icon`,
+            name: `${this.type}-icon`,
+            draggable: true,
+          });
+        }
       }
 
       (this as any).drawLinkPoints(cfg, group);

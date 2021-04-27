@@ -45,6 +45,7 @@ module.exports = {
     "@typescript-eslint/array-type": 0,
     "@typescript-eslint/consistent-type-definitions": 0,
     // using Record<string, unknown> instead
-    "@typescript-eslint/ban-types": 0
+    "@typescript-eslint/ban-types": 0,
+    "@typescript-eslint/no-useless-constructor": 0
   },
 };

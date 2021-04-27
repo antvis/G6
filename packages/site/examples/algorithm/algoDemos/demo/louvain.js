@@ -46,13 +46,13 @@ fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/relations.json')
 
     button.addEventListener('click', (e) => {
       const clusteredData = louvain(data, false);
+      
       clusteredData.clusters.forEach((cluster, i) => {
         const colorSet = colorSets[i % colorSets.length];
         cluster.nodes.forEach((node) => {
-          node.style = {
-            fill: colorSet.mainFill,
-            stroke: colorSet.mainStroke,
-          };
+          const model = graph.findById(node.id).getModel();
+          model.style.fill = colorSet.mainFill
+          model.style.stroke = colorSet.mainStroke
         });
       });
       graph.refresh();

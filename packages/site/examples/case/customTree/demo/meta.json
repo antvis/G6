@@ -1,0 +1,24 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "decisionTree.js",
+      "title": {
+        "zh": "决策树",
+        "en": "Decision Tree"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HS5gQ6yCiL4AAAAAAAAAAAAAARQnAQ"
+    },
+    {
+      "filename": "knowledgeTreeGraph.js",
+      "title": {
+        "zh": "知识图谱树",
+        "en": "Knowledge Tree Graph"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2J5YTbvU5FoAAAAAAAAAAAAAARQnAQ"
+    }
+  ]
+}

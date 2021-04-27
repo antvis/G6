@@ -2,8 +2,8 @@ import G6 from '@antv/g6';
 import Simulate from 'event-simulate';
 import Minimap from '../../src/minimap';
 
-export function mathEqual(a: number, b: number) {
-  return Math.abs(a - b) < 1;
+export function mathEqual(a: number, b: number, threshold: number = 1) {
+  return Math.abs(a - b) < threshold;
 }
 
 const cdata = {
@@ -470,10 +470,10 @@ describe('minimap', () => {
           viewport.style.height.substr(0, viewport.style.height.length - 2),
         );
 
-        expect(mathEqual(left, 105)).toBe(true);
-        expect(mathEqual(top, 95)).toBe(true);
-        expect(mathEqual(width, 85)).toBe(true);
-        expect(mathEqual(height, 85)).toBe(true);
+        expect(mathEqual(left, 105, 5)).toBe(true);
+        expect(mathEqual(top, 95, 5)).toBe(true);
+        expect(mathEqual(width, 85, 5)).toBe(true);
+        expect(mathEqual(height, 85, 5)).toBe(true);
 
         minimap.destroyPlugin();
 

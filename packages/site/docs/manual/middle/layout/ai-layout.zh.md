@@ -46,3 +46,7 @@ const graph = new G6.Graph({
 如下图所示，在一份医疗健康图谱中，通过智能布局预测引擎得出 "Force" 的布局效果最佳，通过对比实验，也符合预期。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*9W-4S6WyouMAAAAAAAAAAAAAARQnAQ' width='90%'>
+
+### Demo
+
+具体 Demo 参考这里：[AI 智能布局推荐 DEMO](/zh/examples/net/aiLayout#layoutPrediction)

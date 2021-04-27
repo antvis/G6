@@ -72,26 +72,44 @@ registerNode(
         draggable: true,
       });
 
-      const { width: w, height: h, show, offset } = icon;
+      const { width: w, height: h, show, offset, text } = icon;
       if (show) {
-        let iconW = -w! / 2;
-        let iconH = -h! / 2;
-        if (direction === 'up' || direction === 'down') {
-          iconH += offset;
+        if (text) {
+          group.addShape('text', {
+            attrs: {
+              x: 0,
+              y: 0,
+              fontSize: 12,
+              fill: '#000',
+              stroke: '#000',
+              textBaseline: 'middle',
+              textAlign: 'center',
+              ...icon,
+            },
+            className: `${this.type}-icon`,
+            name: `${this.type}-icon`,
+            draggable: true,
+          });
+        } else {
+          let iconW = -w! / 2;
+          let iconH = -h! / 2;
+          if (direction === 'up' || direction === 'down') {
+            iconH += offset;
+          }
+          if (direction === 'left' || direction === 'right') {
+            iconW += offset;
+          }
+          group.addShape('image', {
+            attrs: {
+              x: iconW,
+              y: iconH,
+              ...icon,
+            },
+            className: `${this.type}-icon`,
+            name: `${this.type}-icon`,
+            draggable: true,
+          });
         }
-        if (direction === 'left' || direction === 'right') {
-          iconW += offset;
-        }
-        group.addShape('image', {
-          attrs: {
-            x: iconW,
-            y: iconH,
-            ...icon,
-          },
-          className: `${this.type}-icon`,
-          name: `${this.type}-icon`,
-          draggable: true,
-        });
       }
 
       (this as any).drawLinkPoints(cfg, group);

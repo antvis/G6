@@ -32,7 +32,7 @@ const group = item.get('group');
 | 名称 | 类型 | 说明 |
 | --- | --- | --- |
 | id | String | 图形分组的唯一标识，非必须指定，指定则必须唯一 |
-| name | String | 图形分组的标识，非必须指定，可以不唯一。在 G6 3.3 及以后版本中必须指定。另外，`name` 可以用于组内搜索到该元素：`const shape = group.find(element => element.name === 'shape-name')`，find 函数用法见 [find(fn)](#findfn) |
+| name | String | 图形分组的标识，非必须指定，可以不唯一。在 G6 3.3 及以后版本中必须指定。另外，`name` 可以用于组内搜索到该元素：`const shape = group.find(element => element.get('name') === 'shape-name')`，find 函数用法见 [find(fn)](#findfn) |
 | capture | Boolean | 非必须指定，该图形分组是否可以被鼠标事件捕捉到，即是否能够响应各鼠标事件。非必须指定 |
 | visible | Boolean | 非必须指定，该图形分组是否可见。非必须指定，默认为 `true` |
 | draggable | Boolean | 非必须指定，该图形分组是否允许被拖拽。例如，自定义节点通过 `addGroup` 添加图形分组，当该图形分组的 `draggable` 值为 `true` 时，鼠标在该自定义节点的这个图形分组上才能够响应 `dragstart`，`drag`，与 `dragend` 事件；在实例化图时的 `modes` 中配置的 `'drag-node'` 交互才可以在该图形分组上进行拖拽时生效 |
@@ -68,7 +68,7 @@ group.addGroup({
 | 名称 | 类型 | 说明 |
 | --- | --- | --- |
 | attrs | Object | 图形样式，必须配置，例如：`{x: 0, y: 10, fill: '#0f0'}` |
-| name | String | 图形的标识，可以不唯一。在 G6 3.3 及以后版本中必须指定。另外，`name` 可以用于组内搜索到该元素：`const shape = group.find(element => element.name === 'shape-name')`，find 函数用法见 [find(fn)](#findfn) |
+| name | String | 图形的标识，可以不唯一。在 G6 3.3 及以后版本中必须指定。另外，`name` 可以用于组内搜索到该元素：`const shape = group.find(element => element.get('name') === 'shape-name')`，find 函数用法见 [find(fn)](#findfn) |
 | capture | Boolean | 该图形是否可以被鼠标事件捕捉到，即是否能够响应各鼠标事件。非必须指定 |
 | visible | Boolean | 该图形是否可见。非必须指定，默认为 `true` |
 | draggable | Boolean | 该图形是否允许被拖拽。例如，自定义节点通过 `addShape` 添加图形，当该图形的 `draggable` 值为 `true` 时，鼠标在该自定义节点的这个图形上才能够响应 `dragstart`，`drag`，与 `dragend` 事件；在实例化图时的 `modes` 中配置的 `'drag-node'` 交互才可以在该图形上进行拖拽时生效 |

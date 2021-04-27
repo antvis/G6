@@ -1,5 +1,11 @@
-## 本文档仅对于Angular 9以上版本适用
-如果你的项目是通过最新的Angular CLI创建,那么G6可以即开即用,不会遇到什么问题,也不需要特殊设置.
+---
+title: Angular + G6 报错
+order: 2
+---
+
+**本文档仅对于 Angular 9 以上版本适用**
+
+如果你的项目是通过最新的 Angular CLI 创建，那么 G6 可以即开即用，不需要特殊设置。
 
 如果你的项目是从老的 Angular 版本升级而来（比如我的是从 Angular 6 逐步升级），那么你大概会遇到问题。
 
@@ -10,5 +16,5 @@
 
 在 Angular 中使用 G6，需要满足以下两点：
 
-1. 项目根目录下（与package.json同目录）需要有`.browserslistrc`文件, 请注意`browserslist`文件无效.
-2. 不开启IE支持
+1. 项目根目录下（与 package.json 同目录）需要有 `.browserslistrc` 文件，请注意 `browserslist` 文件无效。
+2. 不开启IE支持。
