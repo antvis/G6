@@ -1,10 +1,11 @@
 # ChangeLog
 
-#### 4.2.8
+#### 4.3.0
 
 - fix: empty object for TreeGraph data;
 - fix: combo edge arrow error with state styles;
 - feat: focus edge item;
+- feat: legend plugin;
 
 #### 4.2.7
 

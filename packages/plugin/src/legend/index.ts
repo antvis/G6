@@ -354,7 +354,6 @@ export default class Legend extends Base {
     if (!filter || !filterFunctions) return;
     const lg = this.get('legendGraph');
     const activeLegend = lg.findAllByState('node', 'legendActive');
-
     const graph = this.get('graph');
     const activeState = filter.graphActiveState || 'active';
     const inactiveState = filter.graphInactiveState || 'inactive';
@@ -489,7 +488,6 @@ export default class Legend extends Base {
       Math.max(nodeGroupBBox.width, titleGroupBBox.width) + padding[1] + padding[3],
       lgBBox.height + padding[0] + padding[2]
     ];
-
     // 根据 size 和 titleConfig 调整 title 位置，再调整 nodeGroup 位置
     if (titleShape) {
       const titleConfig = {
@@ -517,7 +515,6 @@ export default class Legend extends Base {
       nodeGroupMatrix = [1, 0, 0, 0, 1, 0, nodeGroupBeginX, nodeGroupBeginY, 1];
       nodeGroup.setMatrix(nodeGroupMatrix);
     }
-
     lgBBox = group.getCanvasBBox();
     nodeGroupMatrix = nodeGroup.getMatrix() || [1, 0, 0, 0, 1, 0, 0, 0, 1];
     nodeGroupBBox = nodeGroup.getCanvasBBox();
