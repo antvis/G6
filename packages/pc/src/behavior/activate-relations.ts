@@ -3,7 +3,9 @@ import { G6Event, IG6GraphEvent, INode } from '@antv/g6-core';
 export default {
   getDefaultCfg(): object {
     return {
-      trigger: 'mouseenter', // 可选 mouseenter || click
+      // 可选 mouseenter || click
+      // 选择 click 会监听 touch，mouseenter 不会监听
+      trigger: 'mouseenter',
       activeState: 'active',
       inactiveState: 'inactive',
       resetSelected: false,
@@ -25,7 +27,36 @@ export default {
       'node:click': 'setAllItemStates',
       'combo:click': 'setAllItemStates',
       'canvas:click': 'clearActiveState',
+      'node:touchstart': 'setOnTouchStart',
+      'combo:touchstart': 'setOnTouchStart',
+      'canvas:touchstart': 'clearOnTouchStart',
     };
+  },
+  setOnTouchStart(e: IG6GraphEvent) {
+    const self = this;
+    const touches = (e.originalEvent as any).touches;
+    const event1 = touches[0];
+    const event2 = touches[1];
+
+    if (event1 && event2) {
+      return;
+    }
+
+    e.preventDefault();
+    self.setAllItemStates(e);
+  },
+  clearOnTouchStart(e: IG6GraphEvent) {
+    const self = this;
+    const touches = (e.originalEvent as any).touches;
+    const event1 = touches[0];
+    const event2 = touches[1];
+
+    if (event1 && event2) {
+      return;
+    }
+
+    e.preventDefault();
+    self.clearActiveState(e);
   },
   setAllItemStates(e: IG6GraphEvent) {
     const item: INode = e.item as INode;
