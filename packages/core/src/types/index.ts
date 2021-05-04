@@ -604,6 +604,18 @@ export enum G6Event {
   TOUCHSTART = 'touchstart',
   TOUCHMOVE = 'touchmove',
   TOUCHEND = 'touchend',
+  CANVAS_TOUCHSTART = 'canvas:touchstart',
+  CANVAS_TOUCHMOVE = 'canvas:touchmove',
+  CANVAS_TOUCHEND = 'canvas:touchend',
+  NODE_TOUCHSTART = 'node:touchstart',
+  NODE_TOUCHMOVE = 'node:touchmove',
+  NODE_TOUCHEND = 'node:touchend',
+  COMBO_TOUCHSTART = 'combo:touchstart',
+  COMBO_TOUCHMOVE = 'combo:touchmove',
+  COMBO_TOUCHEND = 'combo:touchend',
+  EDGE_TOUCHSTART = 'edge:touchstart',
+  EDGE_TOUCHMOVE = 'edge:touchmove',
+  EDGE_TOUCHEND = 'edge:touchend',
 
   // node events
   NODE_CONTEXTMENU = 'node:contextmenu',
