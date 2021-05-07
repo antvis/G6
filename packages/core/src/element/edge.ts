@@ -349,7 +349,7 @@ const singleEdge: ShapeOptions = {
   drawLabel(cfg: EdgeConfig, group: IGroup): IShape {
     const { labelCfg: defaultLabelCfg } = this.options as ModelConfig;
     let defaultFontFamily;
-    if (typeof window !== 'undefined')
+    if (typeof window !== 'undefined' && window.getComputedStyle)
       defaultFontFamily =
         window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
         'Arial, sans-serif';
