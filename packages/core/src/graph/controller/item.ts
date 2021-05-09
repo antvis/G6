@@ -327,10 +327,10 @@ export default class ItemController {
         const keyShape = (combo as ICombo).getKeyShape();
         if (!keyShape || keyShape.destroyed) return;
         (combo as ICombo).getShapeCfg(model); // 更新 combo 缓存的 size
-        this.updateComboEdges(combo as ICombo)
+        this.updateComboEdges(combo as ICombo);
       }, 201);
     } else {
-      this.updateComboEdges(combo as ICombo)
+      this.updateComboEdges(combo as ICombo);
     }
   }
 
@@ -636,7 +636,6 @@ export default class ItemController {
     item.changeVisibility(visible);
 
     if (item.getType && item.getType() === NODE) {
-
       const edges = (item as INode).getEdges();
       each(edges, (edge: IEdge) => {
         // 若隐藏节点，则将与之关联的边也隐藏
