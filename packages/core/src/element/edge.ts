@@ -125,7 +125,7 @@ const singleEdge: ShapeOptions = {
       stroke: cfg.color,
     };
     const shape =
-      group.find(element => element.get('className') === 'edge-shape') || item.getKeyShape();
+      group.find((element) => element.get('className') === 'edge-shape') || item.getKeyShape();
 
     const { size } = cfg;
     cfg = this.getPathPoints!(cfg);
@@ -178,7 +178,7 @@ const singleEdge: ShapeOptions = {
     const labelPosition = labelCfg.position || this.labelPosition; // 文本的位置用户可以传入
     const style: LabelStyle = {};
 
-    const pathShape = group && group.find(element => element.get('className') === CLS_SHAPE);
+    const pathShape = group && group.find((element) => element.get('className') === CLS_SHAPE);
 
     // 不对 pathShape 进行判空，如果线不存在，说明有问题了
     let pointPercent;
@@ -247,7 +247,7 @@ const singleEdge: ShapeOptions = {
     if (isNil(labelCfg.autoRotate)) autoRotate = this.labelAutoRotate;
     else autoRotate = labelCfg.autoRotate;
 
-    const pathShape = group && group.find(element => element.get('className') === CLS_SHAPE);
+    const pathShape = group && group.find((element) => element.get('className') === CLS_SHAPE);
 
     // 不对 pathShape 进行判空，如果线不存在，说明有问题了
     let pointPercent;
@@ -349,7 +349,7 @@ const singleEdge: ShapeOptions = {
   drawLabel(cfg: EdgeConfig, group: IGroup): IShape {
     const { labelCfg: defaultLabelCfg } = this.options as ModelConfig;
     let defaultFontFamily;
-    if (typeof window !== 'undefined' && window.getComputedStyle)
+    if (typeof window !== 'undefined' && typeof window.getComputedStyle !== 'undefined')
       defaultFontFamily =
         window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
         'Arial, sans-serif';
