@@ -34,7 +34,7 @@ const graph = new G6.Graph({
 
 ## Legend
 
-Legend is a built-in legend plugin for G6. *supported by v4.3.0 and later versions*.
+Legend is a built-in legend plugin for G6. It is useful for npde/edge type demonstration, and the end-users are able to interact with the legend to highlight and filter the items on the graph. *supported by v4.3.0 and later versions*.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*UmXzQLG65vYAAAAAAAAAAAAAARQnAQ' alt="img" width='500px'>
 

@@ -34,7 +34,7 @@ const graph = new G6.Graph({
 
 ## Legend
 
-Legend 是 G6 内置的图例插件。 *v4.3.0 起支持*。
+Legend 是 G6 内置的图例插件。用于说明图中不同类型的节点和边所代表的含义，并可以通过与图例的交互做简单的高亮和过滤。 *v4.3.0 起支持*。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*UmXzQLG65vYAAAAAAAAAAAAAARQnAQ' alt="img" width='500px'>
 
