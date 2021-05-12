@@ -80,7 +80,7 @@ const graph = new G6.Graph({
 
 ## layoutCfg.controlPoints
 
-**类型**： Boolean<br />**默认值**：true<br />**是否必须**：false<br />**说明**：是否保留布局连线的控制点
+**类型**： Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否保留布局连线的控制点
 
 ## layoutCfg.workerEnabled
 

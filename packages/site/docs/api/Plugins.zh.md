@@ -5,6 +5,8 @@ order: 14
 
 G6 提供了一些可插拔的组件，包括：
 
+- [Legend](#legend) *v4.3.0 起支持*
+- [SnapLine](#snapline) *v4.3.0 起支持*
 - [Grid](#grid)
 - [Minimap](#minimap)
 - [ImageMinimap](#image-minimap)
@@ -30,9 +32,45 @@ const graph = new G6.Graph({
 });
 ```
 
+## Legend
+
+Legend 是 G6 内置的图例插件。 *v4.3.0 起支持*。
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*UmXzQLG65vYAAAAAAAAAAAAAARQnAQ' alt="img" width='500px'>
+
+### 配置项
+
+| 名称 | 类型 | 描述 |
+| --- | --- | --- |
+| data | GraphData | 图例的数据，与图数据格式相同。节点图例目前支持 `'circle'`，`'rect'`，和 `'ellipse'`，边图例目前支持 `'line'`、`'cubic'`、`'quadratic'`。通过指定每个数据项中的 `type` 字段以确定图例元素的类型，每个数据项中的 `order` 字段可用于同组图例的排序 |
+| position | 'top' / 'top-left' / 'top-right' / 'right' / 'right-top' / 'right-bottom' / 'left' / 'left-top' / 'left-bottom' / 'bottom' / 'bottom-left' / 'bottom-right' | 图例在画布中的相对位置，默认为 `'top'`，代表在画布正上方 |
+| padding | number / number[] | 图例区域内部内容到边框的距离，四位数组分别代表上、右、下、左边距 |
+| margin | number / number[] | 图例区域与画布边界的距离，四位数组分别代表上、右、下、左边距。在 `position:'top'` 时只有上边距生效，其他情况类似 |
+| offsetX | number | 图例区域离 `position` 对应的默认位置的 x 方向的偏移量，可被用于图例位置的微调 |
+| offsetY | number | 图例区域离 `position` 对应的默认位置的 y 方向的偏移量，可被用于图例位置的微调 |
+| containerStyle | ShapeStyle | 图例背景框的样式，格式与 [rect 图形的样式](/zh/docs/api/shapeProperties#矩形图形-rect)相同 |
+| horiSep | number | 图例之间的水平间距 |
+| vertiSep | number | 图例之间的竖直间距 |
+| layout | 'vertical' / 'horizontal' | 图例的布局方式。默认为 `'horizontal'` 横向布局 |
+| align | 'center' / 'right' / 'left' | 图例的对齐方式，可以是居中、右对齐、左对齐。默认为 `'center'` 居中 |
+| title | string | 图例的标题文本内容，样式通过 `titleConfig` 设置 |
+| titleConfig | object | 图例标题的样式，具体配置项如下 |
+| titleConfig.position | 'center' / 'right' / 'left' | 图例标题的对齐方式，可以是居中、右对齐、左对齐。默认为 `'center'` 居中 |
+| titleConfig.offsetX | number | 图例标题的 x 方向偏移，用于微调标题位置 |
+| titleConfig.offsetY | number | 图例标题的 y 方向偏移，用于微调标题位置 |
+| titleConfig[key] | ShapeStyle | 其他对于文本本身的样式，支持的内容与 [text 图形的样式](/zh/docs/api/shapeProperties#文本-text)相同 |
+| filter | object | 通过图例的交互对主图元素进行过滤的配置项，具体配置如下 |
+| filter.enable | boolean | 是否允许通过图例的交互对主图元素过滤，默认为 `false` |
+| filter.multiple | boolean | 是否支持多种元素过滤，默认为 `false`。当它为 `true` 时，只有 `filter.trigger` 为 `'click'` 时方可多选图例 |
+| filter.trigger | 'click' / 'mouseenter' | 触发主图元素过滤的图例交互方式，默认为 `click` |
+| filter.legendStateStyles | { active?: ShapeStyle, inactive?: ShapeStyle  | 在过滤时，图例本身的状态样式，包括 `filter.legendStateStyles.active` 和 `filter.legendStateStyles.inactive` 两种，每种的类型均为 ShapeStyle。类似图的 `nodeStateStyles` 配置 |
+| filter.graphActiveState | string | 主图元素过滤时，被选中的主图元素的状态名，将寻找主图元素的对应的状态样式进行主图元素的更新。默认值为 `'active'` |
+| filter.graphInactiveState | string | 主图元素过滤时，未被选中的主图元素的状态名，将寻找主图元素的对应的状态样式进行主图元素的更新。默认值为 `'inactive'` |
+| filter.filterFunctions | { [key: string]: (d) => boolean; } | 由于图例的数据与主图解耦，因此需要配置每种图例对应的主图过滤函数，`key` 为图例数据的 `type`，值为函数，函数的参数为主图元素的数据，返回值为布尔型，代表是否被选中 |
+
 ## SnapLine
 
-SnapLine G6 内置的对齐线插件。
+SnapLine 是 G6 内置的对齐线插件。 *v4.3.0 起支持*。
 
 实例化时可以通过配置项调整 SnapLine 的样式和功能。
 

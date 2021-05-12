@@ -1,5 +1,8 @@
 import G6 from '@antv/g6';
-import { GraphLayoutPredict } from '@antv/vis-predict-engine';
+// import by this way in your project. 在您的项目中请这样引入
+// import { GraphLayoutPredict } from '@antv/vis-predict-engine';
+
+const { GraphLayoutPredict } = window.GraphLayoutPredict
 
 const data = {
   nodes: [
@@ -113,40 +116,44 @@ const data = {
   ],
 };
 
-const layoutPredict = async () => {
+
+async function layoutPredict() {
   return await GraphLayoutPredict.predict(data);
-};
-
-const { predictLayout, confidence } = await layoutPredict();
-console.log('----predictLayout---', predictLayout);
-console.log('----confidence---', confidence);
-
-const container = document.getElementById('root');
-const graph = new G6.Graph({
-  container,
-  width: container.scrollWidth || 500,
-  height: container.scrollHeight || 500,
-  layout: {
-    type: predictLayout,
-    nodeSize: 50,
-    preventOverlap: true,
-  },
-  modes: {
-    default: ['drag-canvas', 'zoom-canvas', 'drag-node'],
-  },
-});
-
-graph.data(data);
-graph.render();
-
-graph.on('afterlayout', () => {
-  graph.fitView();
-});
-
-if (typeof window !== 'undefined') {
-  window.onresize = () => {
-    if (!graph || graph.get('destroyed')) return;
-    if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.changeSize(container.scrollWidth, container.scrollHeight);
-  };
 }
+
+(async function () {
+  // predictLayout 表示预测的布局
+  // confidence 表示预测的可信度
+  const { predictLayout, confidence } = await layoutPredict();
+  console.log("----predictLayout---", predictLayout);
+  console.log("----confidence---", confidence);
+  const container = document.getElementById("container");
+  const graph = new G6.Graph({
+    container,
+    width: container.scrollWidth,
+    height: container.scrollHeight || 500,
+    layout: {
+      type: predictLayout,
+      nodeSize: 50,
+      preventOverlap: true
+    },
+    modes: {
+      default: ["drag-canvas", "zoom-canvas", "drag-node"]
+    }
+  });
+
+  graph.data(data);
+  graph.render();
+  graph.on("afterlayout", () => {
+    graph.fitView();
+  });
+
+  if (typeof window !== "undefined") {
+    window.onresize = () => {
+      if (!graph || graph.get("destroyed")) return;
+      if (!container || !container.scrollWidth || !container.scrollHeight)
+        return;
+      graph.changeSize(container.scrollWidth, container.scrollHeight);
+    };
+  }
+})();

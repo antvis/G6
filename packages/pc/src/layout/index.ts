@@ -17,6 +17,8 @@ import {
   ForceAtlas2Layout
 } from '@antv/layout';
 
+import TreeLayout from './tree-layout';
+
 oRegisterLayout('grid', GridLayout);
 oRegisterLayout('random', RandomLayout);
 oRegisterLayout('force', ForceLayout);
@@ -37,4 +39,4 @@ const registerLayout = (name: string, layoutOverride: any) => {
   oRegisterLayout(name, layoutOverride);
 };
 
-export { Layout, registerLayout };
+export { TreeLayout, Layout, registerLayout };
