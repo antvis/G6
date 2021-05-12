@@ -58,8 +58,8 @@ Object 类型。通过 `style` 配置来修改边的颜色、线宽等属性。�
 | stroke | false | String | 边的颜色 |
 | lineWidth | false | Number | 边宽度 |
 | lineAppendWidth | false | Number | 边响应鼠标事件时的检测宽度，当 `lineWidth` 太小而不易选中时，可以通过该参数提升击中范围 |
-| endArrow | false | Boolean / Object | 为 `true` 时在边的结束端绘制默认箭头，为 `false` 时不绘制结束端箭头；也可以使用[内置箭头配置]()，例如：<br />endArrow: {<br /> path: G6.arrow.vee(10, 20, 10), // 内置箭头，参数为箭头宽度、长度、偏移量 d（默认为 0）<br /> d: 10 // 偏移量<br />} ；或通过 path 自定义的箭头，例如：<br />endArrow: {<br /> path: 'M 0,0 L 20,10 L 20,-10 Z', // 自定义箭头路径<br /> d: -2 // 偏移量<br />} |
-| startArrow | false | Boolean / Object | 为 `true` 时在边的开始端绘制默认箭头，为 `false` 时不绘制结束端箭头；也可以使用[内置箭头配置]()，例如：<br />startArrow: {<br /> path: G6.arrow.vee(10, 20, 10), // 内置箭头，参数为箭头宽度、长度、偏移量 d（默认为 0）<br /> d: 10 // 偏移量<br />} ；或通过 path 自定义的箭头，例如：<br />startArrow: {<br /> path: 'M 0,0 L 20,10 L 20,-10 Z', // 自定义箭头路径<br /> d: -2 // 偏移量<br />} |
+| endArrow | false | Boolean / Object | 为 `true` 时在边的结束端绘制默认箭头，为 `false` 时不绘制结束端箭头；也可以使用[内置箭头配置]()，例如：<br />endArrow: {<br /> path: G6.Arrow.vee(10, 20, 10), // 内置箭头，参数为箭头宽度、长度、偏移量 d（默认为 0）<br /> d: 10 // 偏移量<br />} ；或通过 path 自定义的箭头，例如：<br />endArrow: {<br /> path: 'M 0,0 L 20,10 L 20,-10 Z', // 自定义箭头路径<br /> d: -2 // 偏移量<br />} |
+| startArrow | false | Boolean / Object | 为 `true` 时在边的开始端绘制默认箭头，为 `false` 时不绘制结束端箭头；也可以使用[内置箭头配置]()，例如：<br />startArrow: {<br /> path: G6.Arrow.vee(10, 20, 10), // 内置箭头，参数为箭头宽度、长度、偏移量 d（默认为 0）<br /> d: 10 // 偏移量<br />} ；或通过 path 自定义的箭头，例如：<br />startArrow: {<br /> path: 'M 0,0 L 20,10 L 20,-10 Z', // 自定义箭头路径<br /> d: -2 // 偏移量<br />} |
 | strokeOpacity | false | Number | 边透明度 |
 | shadowColor | false | String | 阴影颜色 |
 | shadowBlur | false | Number | 阴影模糊程度 |
