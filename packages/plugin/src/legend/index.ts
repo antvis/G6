@@ -240,7 +240,7 @@ export default class Legend extends Base {
     const nodeGroup = group.find(e => e.get('name') === 'node-group');
     const edgeGroup = group.find(e => e.get('name') === 'edge-group');
     if (type === 'node') return nodeGroup.get('children').filter(g => !!g.get(stateName) === value);
-    else if (type === 'edge') return edgeGroup.get('children').filter(g => !!g.get(stateName) === value);
+    if (type === 'edge') return edgeGroup.get('children').filter(g => !!g.get(stateName) === value);
     return nodeGroup.get('children').filter(g => !!g.get(stateName) === value)
       .concat(edgeGroup.get('children').filter(g => !!g.get(stateName) === value));
   }
@@ -535,7 +535,7 @@ export default class Legend extends Base {
 
     // 更新容器背景样式
     const containerStyle = this.get('containerStyle');
-    let viewportMatrix = group.getMatrix() || [1, 0, 0, 0, 1, 0, 0, 0, 1];
+    const viewportMatrix = group.getMatrix() || [1, 0, 0, 0, 1, 0, 0, 0, 1];
     const beginPos = Util.invertMatrix({ x: 0, y: 0 }, viewportMatrix);
     const backRect = group.addShape('rect', {
       attrs: {
