@@ -6,6 +6,7 @@
 - fix: combo edge arrow error with state styles;
 - feat: focus edge item;
 - feat: legend plugin;
+- feat: allow to new a tree layout indenpently;
 
 #### 4.2.7
 

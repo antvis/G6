@@ -5,6 +5,8 @@ order: 14
 
 There are several plugins in G6 which can be used for G6's graph or other applications.
 
+- [Legend](#legend) *supported by v4.3.0 and later versions*
+- [SnapLine](#snapline) *supported by v4.3.0 and later versions*
 - [Grid](#grid)
 - [Minimap](#minimap)
 - [Edge Bundling](#edge-bundling)
@@ -30,13 +32,50 @@ const graph = new G6.Graph({
 });
 ```
 
+
+## Legend
+
+Legend is a built-in legend plugin for G6. *supported after v4.3.0*.
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*UmXzQLG65vYAAAAAAAAAAAAAARQnAQ' alt="img" width='500px'>
+
+### Configuration
+
+| Name | Type  | Description                                |
+| --- | --- | --- |
+| data | GraphData | The data for the legend, not related to the data of the graph. The legend for nodes currently supports `'circle'`, `'rect'`, and `'ellipse'`. The legend for edges currently supports `'line'`, `'cubic'`, and `'quadratic'`. `type` for each data means the type of the legend item, and the `order` could be assigned to each node/edge data for ordering in a legend group |
+| position | 'top' / 'top-left' / 'top-right' / 'right' / 'right-top' / 'right-bottom' / 'left' / 'left-top' / 'left-bottom' / 'bottom' / 'bottom-left' / 'bottom-right' | The relative of the position to the canvas. `'top'` by default, which means the legend area is on the top of the canvas |
+| padding | number / number[] | The inner distance between the content of the legend to the border of the legend area. Array with four numbers means the padding to the top, right, bottom, and left responsively |
+| margin | number / number[] | The outer distance between the legend area to the border of the canvas. Array with four numbers means the distance to the top, right, bottom, and left responsively. Only the top distance takes effect when  `position:'top'`, situations for other `position` configurations are similar to it |
+| offsetX | number | The x-axis offset for the legend area, it is useful when you want to adjust the position of the lenged slightly |
+| offsetY | number | The y-axis offset for the legend area, it is useful when you want to adjust the position of the lenged slightly |
+| containerStyle | ShapeStyle | The style for the background rect, the format is similar as [rect shape style](/en/docs/api/shapeProperties#rect) |
+| horiSep | number | The horizontal seperation of the legend items |
+| vertiSep | number | The vertical seperation of the legend items |
+| layout | 'vertical' / 'horizontal' | The layout of the legend items. `'horizontal'` by default |
+| align | 'center' / 'right' / 'left' | The alignment of the legend items.  `'center'` by default |
+| title | string | The title string for the legend, the style of the title could be configured by `titleConfig` |
+| titleConfig | object | The style of the legend title, detail configurations are shown in following lines |
+| titleConfig.position | 'center' / 'right' / 'left' | The alignment of the title to the legend content. `'center'` by default |
+| titleConfig.offsetX | number | The x-axis offset for the legend title, it is useful when you want to adjust the position of the title slightly |
+| titleConfig.offsetY | number | The y-axis offset for the legend title, it is useful when you want to adjust the position of the title slightly |
+| titleConfig[key] | ShapeStyle | Other styles for the text, configurations are same as [text shape style](/en/docs/api/shapeProperties#text) |
+| filter | object | Configurations for the graph item filtering while the end-user interacting with the legend items. Detials are shown in the following lines |
+| filter.enable | boolean | Whether allow filtering the items in the main graph while the end-user interaction with the legend items. `false` by default |
+| filter.multiple | boolean | Whether support active multiple types of legend items, `false` by default, which means only one type of legend item will be activated in the same time. If it is `true`, multiple items could be activated only when the `filter.trigger` is `'click'` |
+| filter.trigger | 'click' / 'mouseenter' | The interaction way to the legend items. `click` by default, which means while the end-user clicking a legend item, the legend item and corresponding filtered items on the main graph will be activated |
+| filter.legendStateStyles | { active?: ShapeStyle, inactive?: ShapeStyle  | The state styles for the legend items while filtering, inluding `filter.legendStateStyles.active` and `filter.legendStateStyles.inactive`. The type of each one is `ShapeStyle`. Similar to the `nodeStateStyles` of Graph |
+| filter.graphActiveState | string | The activate state name for the items on the main graph. When a lenged item is activated, the corresponding items of the main graph will be set to `filter.graphActiveState`, `'active'` by default. And you should assign the state style for this state name on Graph |
+| filter.graphInactiveState | string | The inactivate state name for the items on the main graph. When a lenged item is inactivated, the corresponding items of the main graph will be set to `filter.graphInactiveState`, `'inactive'` by default. And you should assign the state style for this state name on Graph |
+| filter.filterFunctions | { [key: string]: (d) => boolean; } | Since the data of the legend is not related to the main graph, you should configure filtering functions for each legend item type. The `key` is corresponding to the `type` of the legend item, and the value is a function. For the function, the parameter is the item data of the main graph, and the return value is a boolean which means whether the item of the main graph should be activated |
+
 ## SnapLine
 
-SnapLine is a built-in components in G6.
+SnapLine is a built-in components in G6. *supported by v4.3.0 and later versions*.
 
-### 配置项
+### Configuration
 
-| Name          | Type                                          | Required | Description           |
+| Name | Type   | Required | Description                                |
 | ------------- | --------------------------------------------- | -------- | --------------------- |
 | line          | ShapeStyle                                    | false    | the style of SnapLine |
 | itemAlignType | boolean、'horizontal' 、'vertical'、'center'; | false    | the type of SnapLine  |

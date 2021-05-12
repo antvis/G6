@@ -1,0 +1,24 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "legend.js",
+      "title": {
+        "zh": "图例-点击筛选",
+        "en": "Legend with Clicking Filtering"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*0RYmToKWsOQAAAAAAAAAAAAAARQnAQ"
+    },
+    {
+      "filename": "legendMouseenter.js",
+      "title": {
+        "zh": "图例-Hover 筛选",
+        "en": "Legend with Hovering Filtering"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ftAtR6k9RWIAAAAAAAAAAAAAARQnAQ"
+    }
+  ]
+}

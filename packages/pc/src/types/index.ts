@@ -1,3 +1,5 @@
+import { TreeGraphData } from '@antv/g6-core';
+
 /* eslint @typescript-eslint/no-use-before-define: 0 */
 export type WaterMarkerConfig = Partial<{
   // 水印 canvas 容器的宽高
@@ -23,3 +25,10 @@ export type WaterMarkerConfig = Partial<{
     rotate?: number;
   };
 }>;
+
+export type TreeLayoutConfig = {
+  type: string;
+  data?: TreeGraphData;
+  radial?: boolean;
+  [key: string]: unknown;
+}

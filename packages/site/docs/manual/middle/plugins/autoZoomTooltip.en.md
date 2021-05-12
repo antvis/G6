@@ -1,5 +1,5 @@
 ---
-title: How to auto zoom tooltip & ContextMenu when zoom canvas
+title: How to Auto Zoom Tooltip & ContextMenu When Zooming Graph
 order: 1
 ---
 

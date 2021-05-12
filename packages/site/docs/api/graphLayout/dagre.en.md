@@ -82,7 +82,7 @@ const graph = new G6.Graph({
 
 ## layoutCfg.controlPoints
 
-**Type**: Boolean<br />**Default**: true<br />**Required**: false<br />**Description**: Whether to keep the control points of layout
+**Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to keep the control points of layout
 
 ## layoutCfg.workerEnabled
 

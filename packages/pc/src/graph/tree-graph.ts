@@ -33,6 +33,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
    */
   private getLayout() {
     const layout = this.get('layout');
+
     if (!layout) {
       return null;
     }
@@ -299,7 +300,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
     const self = this;
     const data: TreeGraphData = self.get('data');
     const layoutMethod = self.get('layoutMethod');
-    const layoutData = layoutMethod(data, self.get('layout'));
+    const layoutData = layoutMethod ? layoutMethod(data, self.get('layout')) : data;
 
     const animate: boolean = self.get('animate');
 

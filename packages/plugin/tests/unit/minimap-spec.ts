@@ -640,7 +640,7 @@ describe('minimap', () => {
       expect(delegateShape.attr('stroke')).toEqual('#096dd9');
       graph.destroy();
       done();
-    }, 100);
+    }, 110);
   });
   it('minimap container', () => {
     const minimap = new Minimap({
@@ -944,5 +944,202 @@ describe('minimap with hidden shape', () => {
       ).toBe(false);
       done();
     }, 100);
+  });
+});
+
+
+describe('minimap with combo', () => {
+  const combodata = {
+    nodes: [
+      {
+        id: "5930",
+        label: "NODE1",
+        comboId: "CHILD-93-5-1",
+        x: 440,
+        y: 0
+      },
+      {
+        id: "3830",
+        label: "NODE2",
+        comboId: "CHILD-83-3-1",
+        x: 320,
+        y: 0
+      },
+      {
+        id: "5920",
+        label: "NODE3",
+        comboId: "CHILD-92-5-1",
+        x: 440,
+        y: 40
+      },
+      {
+        id: "2400",
+        label: "NODE4",
+        comboId: "CHILD-40-2-1",
+        x: 260,
+        y: 0
+      },
+      {
+        id: "41010",
+        label: "NODE5",
+        comboId: "CHILD-101-4-1",
+        x: 380,
+        y: 0
+      },
+      {
+        id: "41280",
+        label: "NODE6",
+        comboId: "CHILD-128-4-1",
+        x: 380,
+        y: 80
+      }
+    ],
+    edges: [
+      { source: "5920", target: "41280" },
+      { source: "5930", target: "41010" },
+      { source: "41010", target: "5920" },
+      { source: "41010", target: "3830" },
+      { source: "3830", target: "2400" }
+    ],
+    combos: [
+      {
+        id: "ROOT-1",
+        label: " ROOT1",
+        collapsed: false
+      },
+      {
+        id: "PARENT-5-1",
+        label: "CMB5",
+        parentId: "ROOT-1",
+        collapsed: false,
+        style: { fill: "#AD9D9A", stroke: "#AD9D9A" }
+      },
+      {
+        id: "CHILD-93-5-1",
+        label: " COMBTKT5",
+        parentId: "PARENT-5-1",
+        collapsed: true,
+      },
+      {
+        id: "PARENT-3-1",
+        label: "CMB9",
+        parentId: "ROOT-1",
+        collapsed: true,
+        style: { fill: "#DE6295", stroke: "#DDDDDD" }
+      },
+      {
+        id: "CHILD-83-3-1",
+        label: " COMBTUH4",
+        parentId: "PARENT-3-1",
+        collapsed: true,
+      },
+      {
+        id: "CHILD-92-5-1",
+        label: " COMBTUH3",
+        parentId: "PARENT-5-1",
+        collapsed: true,
+      },
+      {
+        id: "PARENT-2-1",
+        label: "CMB4",
+        parentId: "ROOT-1",
+        collapsed: true,
+        style: { fill: "#9E7FCB", stroke: "#CDCDCD" }
+      },
+      {
+        id: "CHILD-40-2-1",
+        label: " COMBQGL3",
+        parentId: "PARENT-2-1",
+        collapsed: true,
+      },
+      {
+        id: "PARENT-4-1",
+        label: "CMB0",
+        parentId: "ROOT-1",
+        collapsed: true,
+        style: { fill: "#8FB9C2", stroke: "#8FB9C2" }
+      },
+      {
+        id: "CHILD-101-4-1",
+        label: " COMBQISB",
+        parentId: "PARENT-4-1",
+        collapsed: false,
+      },
+      {
+        id: "CHILD-128-4-1",
+        label: " COMBTTIT",
+        parentId: "PARENT-4-1",
+        collapsed: true,
+      }
+    ]
+  };
+  
+  it('keyShape minimap with combo', (done) => {
+    const minimap = new Minimap({
+      size: [200, 200],
+      type: 'keyShape'
+    });
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [
+          'drag-node',
+          'zoom-canvas',
+          'collapse-expand-combo',
+          'drag-canvas',
+        ],
+      },
+      plugins: [minimap],
+      defaultCombo: {
+        type: 'rect'
+      },
+    });
+
+    graph.read(combodata);
+    setTimeout(() => {
+      const canvas = minimap.get('canvas');
+      expect(canvas.get('children').length).toBe(1);
+      const comboGroup = canvas.find(ele => ele.get('name') === 'comboGroup');
+      expect(comboGroup.get('children').length).toBe(11);
+      expect(comboGroup.get('children').filter(e => e.get('visible')).length).toBe(7);
+      graph.destroy();
+      done();
+    }, 600);
+  });
+  it('delegate minimap with combo', (done) => {
+    const minimap = new Minimap({
+      size: [500, 500],
+      type: 'delegate'
+    });
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [
+          'drag-node',
+          'zoom-canvas',
+          'collapse-expand-combo',
+          'drag-canvas',
+        ],
+      },
+      plugins: [minimap],
+      defaultCombo: {
+        type: 'rect'
+      },
+    });
+
+    graph.read(combodata)
+    setTimeout(() => {
+      const canvas = minimap.get('canvas');
+      expect(canvas.get('children').length).toBe(1);
+      const comboGroup = canvas.find(ele => ele.get('name') === 'comboGroup');
+      expect(comboGroup.get('children').length).toBe(11);
+      expect(comboGroup.get('children').filter(e => e.get('visible')).length).toBe(7);
+      graph.destroy();
+      done();
+    }, 600);
   });
 });
