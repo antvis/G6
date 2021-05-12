@@ -2,6 +2,7 @@ import Hierarchy from '@antv/hierarchy';
 import { TreeGraphData } from '@antv/g6-core';
 import { TreeLayoutConfig } from '../types';
 import Util from '../util';
+
 const { radialLayout } = Util;
 
 class TreeLayout {
