@@ -7,6 +7,8 @@ order: 3
 
 At present, the subgraph layout mechanism is independent to the graph layout. You can instantiate the layout method and load the data of subgraph onto the layout instance. This mechanism allows users to utilize G6's layout algorithms to calculate the node positions, and render the graph with another rendering engine.
 
+**v4.3.0 newly support subgraph layout pipeline**, which allows several subgraph layouts executed in pipeline configured on Graph.layout. Refer to[Subgraph Layout Piepeline](/en/docs/manual/middle/layout/sub-layout-pipe).
+
 ### Usage
 
 ```javascript
