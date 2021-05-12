@@ -1,7 +1,7 @@
 import { modifyCSS, createDom } from '@antv/dom-util';
 import { IAbstractGraph as IGraph, GraphData, ShapeStyle } from '@antv/g6-core';
 import Base from '../base';
-import { isArray, isNumber, uniqueId } from '_@antv_util@2.0.13@@antv/util';
+import { isArray, isNumber, uniqueId } from '@antv/util';
 import { Util } from '@antv/g6-core';
 import { Canvas } from '@antv/g-canvas';
 
