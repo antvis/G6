@@ -195,7 +195,8 @@ const graph = new G6.Graph({
 | show | Whether to show the icon | Boolean | `false` by default |
 | width | The width of the icon | Number | `16` by default |
 | height | The height of the icon | Number | `16` by default |
-| img | The image url of the icon | String |  |
+| img | The image url or base64 of the icon | String | Configuring it means the icon is an image |
+| text    | iconfont for the icon | String | Configuring it means the icon is an iconfont |
 | **offset** | **The offset of the icon** | **Number** | **`0` by default. It is a special property for triangle node** |
 
 Base on the code in [style](#style) section, we add `icon` to `defaultNode`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2w62R5ZYtVAAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
@@ -213,7 +214,8 @@ const graph = new G6.Graph({
       width: 30,
       height: 30,
       offset: 20,
-      //img: '...', The image url of the icon
+      // img: '...', The image url of the icon
+      // text: '...', Use an iconfont for the icon
     },
   },
 });

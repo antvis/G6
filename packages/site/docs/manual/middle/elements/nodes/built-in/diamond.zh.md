@@ -170,7 +170,8 @@ Object 类型。通过配置 `icon`，可以在圆上显示小图标。
 | show   | 是否显示 icon | Boolean | 默认为 `false`，不显示 |
 | width  | icon 的宽度   | Number  | 默认为 `16`            |
 | height | icon 的高度   | Number  | 默认为 `16`            |
-| img    | icon 的地址   | String  |                        |
+| img    | icon 的地址或 base64   | String  | 若配置则表示使用图片作为 icon  |
+| text    | icon 的 iconfont | String | 若配置则表示使用 iconfont 作为 icon |
 
 下面代码演示在实例化图时全局配置方法中配置 `icon`。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*rmsFSJd6kXUAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
 
@@ -186,6 +187,8 @@ const graph = new G6.Graph({
       show: true,
       width: 25,
       height: 25,
+      // img: '...', 可更换为其他图片地址
+      // text: '...', 使用 iconfont
     },
   },
 });

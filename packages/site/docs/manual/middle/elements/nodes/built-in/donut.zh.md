@@ -208,7 +208,8 @@ Object 类型。通过配置 `icon`，可以在节点上显示小图标。
 | show   | 是否显示 icon | Boolean | 默认为 `false`，不显示 |
 | width  | icon 的宽度   | Number  | 默认为 `16`            |
 | height | icon 的高度   | Number  | 默认为 `16`            |
-| img    | icon 的地址   | String  |                        |
+| img    | icon 的地址或 base64   | String  | 若配置则表示使用图片作为 icon  |
+| text    | icon 的 iconfont | String | 若配置则表示使用 iconfont 作为 icon |
 
 基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了 `icon`  配置项进行图标的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AuNDSq7DTu0AAAAAAAAAAAAAARQnAQ' width=100 alt='img'/>
 
@@ -225,6 +226,8 @@ const graph = new G6.Graph({
       //img: '...', 可更换为其他图片地址
       width: 25,
       height: 25,
+      // img: '...', 可更换为其他图片地址
+      // text: '...', 使用 iconfont
     },
   },
 });
