@@ -88,6 +88,9 @@ graph.on(eventName, evt => {
 | node:dragleave | 当拖曳节点离开目标元素的时候触发的事件，此事件作用在目标元素上 |
 | node:dragover | 当拖曳节点在另一目标元素上移动时触发此事件，此事件作用在目标元素上 |
 | node:drop | 被拖拽的节点在目标元素上同时鼠标放开触发的事件，此事件作用在目标元素上 |
+| node:touchstart | 在触控屏上，当节点开始被触碰的时候触发的事件 |
+| node:touchmove | 在触控屏上，当节点开始被触碰过程中触发的事件 |
+| node:touchend | 在触控屏上，当节点开始被触碰结束的时候触发的事件 |
 | node:contextmenu | 用户在节点上右击鼠标时触发并打开右键菜单，见 [Demo](/zh/examples/tool/contextMenu) |
 
 ### Edge 交互事件
@@ -133,6 +136,9 @@ Combo 继承所有 Node 事件。
 | canvas:dragenter | 当拖曳画布进入目标元素的时候触发的事件，此事件作用在目标画布上 |
 | canvas:dragleave | 当拖曳画布离开目标元素的时候触发的事件，此事件作用在目标画布上 |
 | canvas:drop | 被拖拽的元素在空白画布上同时鼠标放开触发的事件，此事件作用在目标画布上 |
+| canvas:touchstart | 在触控屏上，当画布开始被触碰的时候触发的事件 |
+| canvas:touchmove | 在触控屏上，当画布开始被触碰过程中触发的事件 |
+| canvas:touchend | 在触控屏上，当画布开始被触碰结束的时候触发的事件 |
 
 ## 时机事件
 

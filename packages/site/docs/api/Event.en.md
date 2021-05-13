@@ -88,6 +88,9 @@ Where, the event object `evt` has the properties:
 | node:dragleave | Activated when user drags an item out of a target node item. This event is applied on the target node item. |
 | node:dragover | Activated when user drags an item over a target node item. This event is applied on the target node item |
 | node:drop | Activated when user drops an item on a target item. This event is applied on the target item. |
+| node:touchstart | On touch screen, this event is activated when user begin to touch the node |
+| node:touchmove | On touch screen, this event is activated when user is touching the node |
+| node:touchend | On touch screen, this event is activated when user finish touching the node |
 | node:contextmenu | Open the context menu when user clicks the right button of mouse on the node. [Demo](/en/examples/tool/contextMenu). |
 
 ### Edge Interaction Event
@@ -133,6 +136,9 @@ Combo inherit all the interaction events of Node.
 | canvas:dragenter | Activated when user drags the canvas into a target item. This event is applied on the target item. |
 | canvas:dragleave | Activated when user drags the canvas out of a target item. This event is applied on the target item. |
 | canvas:drop | Activated when user drags and drops an item on the canvas. |
+| canvas:touchstart | On touch screen, this event is activated when user begin to touch the canvas |
+| canvas:touchmove | On touch screen, this event is activated when user is touching the canvas |
+| canvas:touchend | On touch screen, this event is activated when user finish touching the canvas |
 
 ## Timing Events
 
