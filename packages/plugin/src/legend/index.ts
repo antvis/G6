@@ -639,59 +639,62 @@ export default class Legend extends Base {
 
   protected processData() {
     const data = this.get('data');
-    const itemsData = {nodes: [], edges: []};
-    data.nodes.sort((a, b) => a.order - b.order);
-    data.edges.sort((a, b) => a.order - b.order);
-    data.nodes.forEach(node => {
-      const size = node.size || [node.style?.width || node.style?.r || 8, node.style?.height || node.style?.r || 8];
-      const labelStyle = node.labelCfg?.style || {};
-      itemsData.nodes.push({
-        id: node.id || uniqueId(),
-        type: node.type || 'circle',
-        style: {
-          ...node.style
-        },
-        order: node.order,
-        label: node.label,
-        itemType: 'node',
-        size,
-        labelCfg: {
-          position: 'right',
+    const itemsData = { nodes: [], edges: [] };
+    if (data.nodes) {
+      data.nodes.sort((a, b) => a.order - b.order);
+      data.nodes.forEach(node => {
+        const size = node.size || [node.style?.width || node.style?.r || 8, node.style?.height || node.style?.r || 8];
+        const labelStyle = node.labelCfg?.style || {};
+        itemsData.nodes.push({
+          id: node.id || uniqueId(),
+          type: node.type || 'circle',
           style: {
-            fontFamily: "Arial",
-            ...labelStyle
+            ...node.style
           },
-        }
-      })
-    });
-
-    data.edges.forEach(edge => {
-      let type = edge.type || 'line';
-      if (edge.type === 'cubic-horizontal') type = 'cubic';
-      const labelStyle = edge.labelCfg?.style || {};
-      const size = edge.size || [edge.style?.width || 8, 1];
-
-      itemsData.edges.push({
-        id: edge.id || uniqueId(),
-        type,
-        size,
-        style: {
-          lineWidth: isArray(size) ? size[1] : 1,
-          ...edge.style
-        },
-        order: edge.order,
-        label: edge.label,
-        itemType: 'edge',
-        labelCfg: {
-          position: 'right',
+          order: node.order,
+          label: node.label,
+          itemType: 'node',
+          size,
+          labelCfg: {
+            position: 'right',
+            style: {
+              fontFamily: "Arial",
+              ...labelStyle
+            },
+          }
+        })
+      });
+    }
+    if (data.edges) {
+      data.edges.sort((a, b) => a.order - b.order);
+      data.edges.forEach(edge => {
+        let type = edge.type || 'line';
+        if (edge.type === 'cubic-horizontal') type = 'cubic';
+        const labelStyle = edge.labelCfg?.style || {};
+        const size = edge.size || [edge.style?.width || 8, 1];
+  
+        itemsData.edges.push({
+          id: edge.id || uniqueId(),
+          type,
+          size,
           style: {
-            fontFamily: "Arial",
-            ...labelStyle
+            lineWidth: isArray(size) ? size[1] : 1,
+            ...edge.style
           },
-        }
-      })
+          order: edge.order,
+          label: edge.label,
+          itemType: 'edge',
+          labelCfg: {
+            position: 'right',
+            style: {
+              fontFamily: "Arial",
+              ...labelStyle
+            },
+          }
+        });
+      });
+    }
 
-    });
     this.set('itemsData', itemsData);
   }
 

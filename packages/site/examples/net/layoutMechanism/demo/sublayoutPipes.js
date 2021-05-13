@@ -5,138 +5,172 @@ const data = {
     {
       id: '0',
       label: '0',
+      cluster: 'a',
     },
     {
       id: '1',
       label: '1',
+      cluster: 'a',
     },
     {
       id: '2',
       label: '2',
+      cluster: 'a',
     },
     {
       id: '3',
       label: '3',
+      cluster: 'a',
     },
     {
       id: '4',
       label: '4',
+      cluster: 'a',
     },
     {
       id: '5',
       label: '5',
+      cluster: 'a',
     },
     {
       id: '6',
       label: '6',
+      cluster: 'a',
     },
     {
       id: '7',
       label: '7',
+      cluster: 'a',
     },
     {
       id: '8',
       label: '8',
+      cluster: 'a',
     },
     {
       id: '9',
       label: '9',
+      cluster: 'a',
     },
     {
       id: '10',
       label: '10',
+      cluster: 'a',
     },
     {
       id: '11',
       label: '11',
+      cluster: 'a',
     },
     {
       id: '12',
       label: '12',
+      cluster: 'a',
     },
     {
       id: '13',
       label: '13',
+      cluster: 'b',
     },
     {
       id: '14',
       label: '14',
+      cluster: 'b',
     },
     {
       id: '15',
       label: '15',
+      cluster: 'b',
     },
     {
       id: '16',
       label: '16',
+      cluster: 'b',
     },
     {
       id: '17',
       label: '17',
+      cluster: 'b',
     },
     {
       id: '18',
       label: '18',
+      cluster: 'c',
     },
     {
       id: '19',
       label: '19',
+      cluster: 'c',
     },
     {
       id: '20',
       label: '20',
+      cluster: 'c',
     },
     {
       id: '21',
       label: '21',
+      cluster: 'c',
     },
     {
       id: '22',
       label: '22',
+      cluster: 'c',
     },
     {
       id: '23',
       label: '23',
+      cluster: 'c',
     },
     {
       id: '24',
       label: '24',
+      cluster: 'c',
     },
     {
       id: '25',
       label: '25',
+      cluster: 'c',
     },
     {
       id: '26',
       label: '26',
+      cluster: 'c',
     },
     {
       id: '27',
       label: '27',
+      cluster: 'c',
     },
     {
       id: '28',
       label: '28',
+      cluster: 'c',
     },
     {
       id: '29',
       label: '29',
+      cluster: 'c',
     },
     {
       id: '30',
       label: '30',
+      cluster: 'c',
     },
     {
       id: '31',
       label: '31',
+      cluster: 'd',
     },
     {
       id: '32',
       label: '32',
+      cluster: 'd',
     },
     {
       id: '33',
       label: '33',
+      cluster: 'd',
     },
   ],
   edges: [
@@ -383,17 +417,126 @@ const data = {
   ],
 };
 
-const nodes = data.nodes;
+const colors = [
+  '#BDD2FD',
+  '#BDEFDB',
+  '#C2C8D5',
+  '#FBE5A2',
+  '#F6C3B7',
+  '#B6E3F5',
+  '#D3C6EA',
+  '#FFD8B8',
+  '#AAD8D8',
+  '#FFD6E7',
+];
+const strokes = [
+  '#5B8FF9',
+  '#5AD8A6',
+  '#5D7092',
+  '#F6BD16',
+  '#E8684A',
+  '#6DC8EC',
+  '#9270CA',
+  '#FF9D4D',
+  '#269A99',
+  '#FF99C3',
+];
 
-nodes.forEach(function (node, i) {
-  if (i <= 16 && i !== 12) {
-    if (!node.style) {
-      node.style = {
-        fill: '#F6C3B7',
-        stroke: '#E8684A',
-      };
-    } else {
-      node.style.fill = 'lightsteelblue';
+const clusterMap = new Map();
+let clusterId = 0;
+data.nodes.forEach(function (node) {
+  // cluster
+  if (node.cluster && clusterMap.get(node.cluster) === undefined) {
+    clusterMap.set(node.cluster, clusterId);
+    clusterId++;
+  }
+  const cid = clusterMap.get(node.cluster);
+  if (!node.style) {
+    node.style = {};
+  }
+  node.style.fill = colors[cid % colors.length];
+  node.style.stroke = strokes[cid % strokes.length];
+});
+
+data.edges.forEach(edge => {
+  edge.cluster = data.nodes[+edge.source].cluster;
+  const cid = clusterMap.get(edge.cluster);
+  console.log(edge.cluster, cid)
+  edge.style = {
+    stroke: colors[cid % colors.length]
+  }
+})
+
+
+const legendData = {
+  nodes: [
+    { id: 'a', label: 'a', },
+    { id: 'b', label: 'b', },
+    { id: 'c', label: 'c', },
+    { id: 'd', label: 'd', }
+  ], edges: [
+    { id: 'a', label: 'a', },
+    { id: 'b', label: 'b', },
+    { id: 'c', label: 'c', },
+    { id: 'd', label: 'd', }
+  ]
+}
+legendData.nodes.forEach(node => {
+  const cid = clusterMap.get(node.id);
+  node.style = {
+    fill: colors[cid % colors.length],
+    stroke: strokes[cid % strokes.length]
+  };
+})
+legendData.edges.forEach(node => {
+  const cid = clusterMap.get(node.id);
+  node.style = {
+    fill: colors[cid % colors.length],
+    stroke: strokes[cid % strokes.length]
+  };
+})
+const legend = new G6.Legend({
+  data: legendData,
+  align: 'center',
+  layout: 'horizontal', // vertical
+  position: 'bottom-left',
+  vertiSep: 12,
+  horiSep: 24,
+  offsetY: -24,
+  padding: [4, 16, 8, 16],
+  containerStyle: {
+    fill: '#ccc',
+    lineWidth: 1
+  },
+  title: 'Legend',
+  titleConfig: {
+    position: 'left',
+    offsetX: 0,
+    offsetY: 12,
+  },
+  filter: {
+    enable: true,
+    multiple: true,
+    trigger: 'click',
+    graphActiveState: 'activeByLegend',
+    graphInactiveState: 'inactiveByLegend',
+    filterFunctions: {
+      'a': (d) => {
+        if (d.cluster === 'a') return true;
+        return false
+      },
+      'b': (d) => {
+        if (d.cluster === 'b') return true;
+        return false
+      },
+      'c': (d) => {
+        if (d.cluster === 'c') return true;
+        return false
+      },
+      'd': (d) => {
+        if (d.cluster === 'd') return true;
+        return false
+      },
     }
   }
 });
@@ -405,39 +548,49 @@ const graph = new G6.Graph({
   container: 'container',
   width,
   height,
-  fitView: true,
-  fitViewPadding: 40,
   modes: {
-    default: ['drag-node'],
+    default: ['drag-canvas', 'drag-node'],
   },
+  plugins: [legend],
+  animate: true,
   defaultNode: {
     size: 20,
     style: {
-      fill: '#C6E5FF',
-      stroke: '#5B8FF9',
+      lineWidth: 2,
     },
   },
   defaultEdge: {
     size: 1,
     color: '#e2e2e2',
+    style: {
+      endArrow: {
+        path: 'M 0,0 L 8,4 L 8,-4 Z',
+        fill: '#e2e2e2',
+      },
+    },
+  },
+  nodeStateStyles: {
+    activeByLegend: {
+      lineWidth: 5,
+      strokeOpacity: 0.5,
+      stroke: '#f00'
+    },
+    inactiveByLegend: {
+      opacity: 0.5
+    }
+  },
+  edgeStateStyles: {
+    activeByLegend: {
+      lineWidth: 10,
+      strokeOpacity: 0.5
+    },
+    inactiveByLegend: {
+      opacity: 0.5
+    }
   },
   layout: {
-  // the graph is separated into two parts (red and blue), and they are applied with different layout method
-  // 图被划分为两部分（红色和蓝色），不同部分使用了不同的布局
-    pipes: [
-      {
-        type: 'circular',
-        nodesFilter: (node) => (+node.id) <= 16 && (+node.id) !== 12,
-        radius: 100,
-        center: [-10, 150]
-      },
-      {
-        type: 'grid',
-        begin: [100, 0],
-        nodesFilter: (node) => (+node.id) > 16 || (+node.id) === 12,
-      }
-    ],
-  }
+    type: 'gForce',
+  },
 });
 graph.data(data);
 graph.render();
@@ -446,6 +599,5 @@ if (typeof window !== 'undefined')
   window.onresize = () => {
     if (!graph || graph.get('destroyed')) return;
     if (!container || !container.scrollWidth || !container.scrollHeight) return;
-    graph.changeSize(container.scrollWidth, container.scrollHeight - 20);
+    graph.changeSize(container.scrollWidth, container.scrollHeight);
   };
-
