@@ -1057,7 +1057,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
             cloneNode.itemType = 'node';
             if (child.children) child.children.push(cloneNode as any);
             else child.children = [cloneNode as any];
-            model.depth = child.depth + 1;
+            cloneNode.depth = child.depth + 1;
           }
           // update the size of all the ancestors
           if (foundParent && itemMap[child.id].getType && itemMap[child.id].getType() === 'combo') {
