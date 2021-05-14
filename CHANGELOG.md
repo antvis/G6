@@ -4,6 +4,7 @@
 
 - fix: empty object for TreeGraph data;
 - fix: combo edge arrow error with state styles;
+- fix: depth problem for addItem with comboId, closes: #2888;
 - feat: focus edge item;
 - feat: legend plugin;
 - feat: allow to new a tree layout indenpently;
