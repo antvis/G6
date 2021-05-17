@@ -1,0 +1,4 @@
+types/**/*.ts
+es/**/*.js
+demo/es/**/*.js
+demo/g6/**/*.js

@@ -1,0 +1,8 @@
+<native-canvas
+  width="{{width}}"
+  height="{{height - 100}}"
+  pixelRatio="{{pixelRatio}}"
+  forceMini="{{false}}"
+  onInit="onCanvasInit"
+  onTouchEvent="onTouch"
+/>

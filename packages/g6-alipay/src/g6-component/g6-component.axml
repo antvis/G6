@@ -1,0 +1,26 @@
+<view
+  style="width: {{width}}px; height: {{height}}px; {{style}}"
+  catchTouchStart="ontouch"
+  catchTouchCancel="ontouch"
+  catchTouchMove="ontouch"
+  catchTouchEnd="ontouch"
+>
+  <canvas
+    a:if="{{supportNative && !forceMini}}"
+    id="canvas"
+    type="webgl"
+    width="{{width * pixelRatio}}"
+    height="{{height * pixelRatio}}"
+    style="width: {{width}}px; height: {{height}}px;"
+    disable-scroll="{{true}}"
+    onReady="onCanvasReady"
+  ></canvas>
+  <canvas
+    a:else
+    id="canvas"
+    width="{{width * pixelRatio}}"
+    height="{{height * pixelRatio}}"
+    style="width: {{width}}px; height: {{height}}px;"
+    disable-scroll="{{true}}"
+  ></canvas>
+</view>

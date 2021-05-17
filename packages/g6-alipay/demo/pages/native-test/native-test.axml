@@ -1,0 +1,5 @@
+<view class="container">
+  <view class="canvas">
+    <native-canvas width="{{width}}" height="{{height}}" forceMini="{{false}}" pixelRatio="{{pixelRatio}}" onInit="onCanvasInit" onTouchEvent="onTouch" />
+  </view>
+</view>
