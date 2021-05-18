@@ -1,5 +1,5 @@
 {
-  "name": "g6-wx",
+  "name": "@antv/g6-wx",
   "version": "0.0.1",
   "description": "微信小程序g6组件",
   "files": ["es"],
