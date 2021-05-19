@@ -174,7 +174,7 @@ export default {
       this.updateViewport(e);
     }
     e.type = 'dragend';
-    //graph.emit('canvas:dragend', e);
+    // graph.emit('canvas:dragend', e);
     this.endDrag();
   },
   endDrag() {

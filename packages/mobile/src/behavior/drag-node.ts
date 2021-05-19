@@ -252,10 +252,10 @@ export default {
    * @param evt
    */
   onDropNode(evt: IG6GraphEvent) {
-    if (!this.targets || this.targets.length === 0) return;
     const self = this;
+    if (!self.targets || self.targets.length === 0) return;
     const item = evt.item as INode;
-    this.updatePositions(evt);
+    self.updatePositions(evt);
     const graph: IGraph = self.graph;
 
     const comboId = item.getModel().comboId as string;
@@ -265,7 +265,7 @@ export default {
       if (self.comboActiveState) {
         graph.setItemState(combo, self.comboActiveState, false);
       }
-      this.targets.map((node: INode) => {
+      self.targets.map((node: INode) => {
         const nodeModel = node.getModel();
         if (comboId !== nodeModel.comboId) {
           graph.updateComboTree(node, comboId);
@@ -273,7 +273,7 @@ export default {
       });
       graph.updateCombo(combo as ICombo);
     } else {
-      this.targets.map((node: INode) => {
+      self.targets.map((node: INode) => {
         const model = node.getModel();
         if (model.comboId) {
           graph.updateComboTree(node);
@@ -283,7 +283,7 @@ export default {
 
     // 将节点拖动到另外个节点上面，emit 事件抛出当前操作的节点及目标节点
     graph.emit('dragnodeend', {
-      items: this.targets,
+      items: self.targets,
       targetItem: item,
     });
   },

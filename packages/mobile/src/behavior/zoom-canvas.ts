@@ -1,8 +1,4 @@
-import { G6Event, IG6GraphEvent } from '@antv/g6-core';
-import { mat3 } from '@antv/matrix-util';
-import { clone } from '@antv/util';
-
-const DELTA = 0.05;
+import { G6Event } from '@antv/g6-core';
 
 export default {
   firstScale: null,
@@ -37,8 +33,8 @@ export default {
     };
   },
   onPinch(evt) {
-    evt.preventDefault || evt.preventDefault();
-    evt.originalEvent.preventDefault || evt.originalEvent.preventDefault();
+    if (evt.preventDefault) evt.preventDefault();
+    if (evt.originalEvent.preventDefault) evt.originalEvent.preventDefault();
 
     const pointers = evt.originalEvent.pointers;
     if (pointers.length < 2) return;

@@ -138,7 +138,7 @@ export default class LayoutController extends AbstractLayout {
   private execLayoutMethod(layoutCfg, order): Promise<void> {
     return new Promise((reslove, reject) => {
       const { graph } = this;
-      let layoutType = layoutCfg.type;
+      const layoutType = layoutCfg.type;
 
       // 每个布局方法都需要注册
       layoutCfg.onLayoutEnd = () => {

@@ -18,15 +18,15 @@ export default {
     };
   },
   setAllItemStates(e: IG6GraphEvent) {
+    const self = this;
     const item: INode = e.item as INode;
-    const graph = this.graph;
-    this.item = item;
-    if (!this.shouldUpdate(e.item, { event: e, action: 'activate' })) {
+    const graph = self.graph;
+    self.item = item;
+    if (!self.shouldUpdate(e.item, { event: e, action: 'activate' })) {
       return;
     }
-    const self = this;
-    const activeState = this.activeState;
-    const inactiveState = this.inactiveState;
+    const activeState = self.activeState;
+    const inactiveState = self.inactiveState;
     const nodes = graph.getNodes();
     const edges = graph.getEdges();
     const nodeLength = nodes.length;
