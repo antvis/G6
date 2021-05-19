@@ -23,7 +23,7 @@
     "lint:pc": "cd ./packages/pc && npm run lint",
     "lint:g6": "cd ./packages/g6 && npm run lint",
     "lint:mobile": "cd ./packages/mobile && npm run lint",
-    "lint:all": "npm run lint:core && npm run lint:element && npm run lint:plugin && npm run lint:pc && npm run lint:g6 && npm run lint:mobile",
+    "lint:all": "npm run lint:core && npm run lint:element && npm run lint:plugin && npm run lint:pc && npm run lint:g6",
     "build": "lerna run build --include-dependencies --stream",
     "lint": "npm run lint:all",
     "test:core": "cd ./packages/core && npm run test",
