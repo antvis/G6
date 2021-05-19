@@ -16,6 +16,23 @@ import Util from './util';
 import './element';
 import './behavior';
 
+const G6 = {
+  version: Global.version,
+  Graph,
+  Util,
+  Layout,
+  registerLayout,
+  Global,
+  registerBehavior,
+  registerCombo,
+  registerEdge,
+  registerNode,
+  Algorithm,
+  Arrow,
+  Marker,
+  Shape
+};
+
 function registerExtenderWrapper<T1, T2>(
   registerExtender: (registerName: T1, registerFunction: T2, global: Object) => Object,
 ): (registerName: T1, registerFunction: T2) => Object {
@@ -26,23 +43,8 @@ function registerExtenderWrapper<T1, T2>(
 
 const registerGraph = registerExtenderWrapper(oRegisterGraph);
 
-const G6 = {
-  version: Global.version,
-  Graph,
-  Util,
-  Layout,
-  registerLayout,
-  registerGraph,
-  Global,
-  registerBehavior,
-  registerCombo,
-  registerEdge,
-  registerNode,
-  Algorithm,
-  Arrow,
-  Marker,
-  Shape,
-};
+(G6 as any).registerGraph = registerGraph;
+
 
 export * from '@antv/g6-core';
 export * from './types';

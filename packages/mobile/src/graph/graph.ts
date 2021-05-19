@@ -261,7 +261,7 @@ export default class Graph extends AbstractGraph implements IGraph {
           context.globalCompositeOperation = compositeOperation;
         }
       }
-      callback && callback(dataURL);
+      if (callback) callback(dataURL);
     }, 16);
   }
 

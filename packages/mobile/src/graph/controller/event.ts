@@ -1,8 +1,8 @@
-import { addEventListener } from '@antv/dom-util';
 import { ICanvas, IGroup, IShape } from '@antv/g-base';
-import { each, isNil, wrapBehavior } from '@antv/util';
+import { each, wrapBehavior } from '@antv/util';
 import { AbstractEvent, IG6GraphEvent, Matrix, Item, Util } from '@antv/g6-core';
 import Graph from '../graph';
+
 const { cloneEvent, isViewportChanged } = Util;
 
 type Fun = () => void;
