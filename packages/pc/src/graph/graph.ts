@@ -60,6 +60,12 @@ export default class Graph extends AbstractGraph implements IGraph {
     const { clientWidth, clientHeight } = container
     const width: number = this.get('width') || clientWidth;
     const height: number = this.get('height') || clientHeight;
+
+    if (!this.get('width') && !this.get('height')) {
+      this.set('width', clientWidth);
+      this.set('height', clientHeight);
+    }
+
     const renderer: string = this.get('renderer');
 
     let canvas;
