@@ -2,7 +2,7 @@ import { Graph } from '../../../src';
 import { Event } from '@antv/g-canvas';
 import Stats from 'stats-js';
 
-/* nodes: 1589, edges: 2742, shapes: 5920 */
+/* nodes: 25000, edges: 10000, shapes: 60000 */
 
 const TIMES = 10;
 
@@ -23,19 +23,42 @@ class G6Event extends Event {
   wheelDelta: number;
 }
 
+const generateData = (nodeNum, edgeNum) => {
+  const nodes = [], edges = [];
+  for (let i = 0; i < nodeNum; i ++) {
+    nodes.push({
+      id: `${i}`,
+      label: `${i}`
+    });
+  }
+  for (let i = 0; i < edgeNum; i ++) {
+    edges.push({
+      source: `${Math.floor(Math.random() * nodeNum)}`,
+      target: `${Math.floor(Math.random() * nodeNum)}`,
+    });
+  }
+  return { nodes, edges };
+}
+
 describe('graph', () => {
   const graph = new Graph({
     container: div,
     width: 500,
     height: 500,
     defaultNode: {
+      size: 5,
       labelCfg: {
-        // style: {
-        //   fontSize: 2
-        // }
+        style: {
+          fontSize: 2
+        }
       },
       style: {
         lineWidth: 0.3
+      }
+    },
+    defaultEdge: {
+      style: {
+        lineWidth: 0.2
       }
     },
     modes: {
@@ -55,20 +78,15 @@ describe('graph', () => {
 
   
   it('first render', done => {
-    fetch('https://gw.alipayobjects.com/os/basement_prod/da5a1b47-37d6-44d7-8d10-f3e046dabf82.json')
-    .then((res) => res.json())
-    .then((data) => {
-      data.nodes.forEach(node => {
-        node.label = node.olabel
-      })
-      const begin = performance.now();
-      graph.once('afterrender', e => {
-        console.log('first render time:', performance.now() - begin);
-      })
-      graph.data(data);
-      graph.render();
-      done();
-    });
+    const data = generateData(25000, 10000);
+    const begin = performance.now();
+    graph.once('afterrender', e => {
+      console.log('first render time:', performance.now() - begin);
+    })
+    graph.data(data);
+    graph.render();
+    console.log('nodes:', graph.getNodes().length, 'edges:', graph.getEdges().length)
+    done();
   });
   it('global refresh: drag', done => {
     let begin, duration = 0;
@@ -82,7 +100,7 @@ describe('graph', () => {
     console.log(`ave time (${TIMES} times) for dragging canvas: `, duration / TIMES, 'ms')
     graph.fitCenter();
 
-    // fps monitor loops
+    // // fps monitor loops
     // let count = 0;
     // let currentPos = 150;
     // function animate() {
@@ -110,7 +128,7 @@ describe('graph', () => {
     console.log(`ave time (${TIMES} times) for zooming canvas: `, duration / TIMES, 'ms')
 
 
-    // fps monitor loops
+    // // fps monitor loops
     // let count = 0;
     // let currentPos = 150;
     // function animate() {
