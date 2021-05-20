@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
 import G6 from '../../src';
 import GridLayout from '../extends/layout/gridLayout';
 import './basic.css';
@@ -36,7 +34,7 @@ export const BasicDemo = () => {
   useEffect(() => {
     if (!graph) {
       graph = new G6.Graph({
-        container: ReactDOM.findDOMNode(ref.current),
+        container: ref.current,
         width: 500,
         height: 500,
         layout: {
