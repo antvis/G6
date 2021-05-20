@@ -3,6 +3,8 @@ import { Event } from '@antv/g-canvas';
 
 /* nodes: 1589, edges: 2742, shapes: 5920 */
 
+const TIMES = 10;
+
 const div = document.createElement('div');
 div.id = 'global-spec';
 document.body.appendChild(div);
@@ -88,30 +90,28 @@ describe('graph', () => {
     });
   });
   it('global refresh: drag', done => {
-    const times = 10;
     let begin, duration = 0;
-    for (let i = 0; i < times; i ++) {
+    for (let i = 0; i < TIMES; i ++) {
       begin = performance.now();
       graph.emit('dragstart', { clientX: 150, clientY: 150, target: graph.get('canvas') });
       graph.emit('drag', { clientX: 200, clientY: 200, target: graph.get('canvas') });
       graph.emit('dragend', { clientX: 250, clientY: 250 });
       duration += (performance.now() - begin);
     }
-    console.log(`ave time (${times} times) for dragging canvas: `, duration / times, 'ms')
+    console.log(`ave time (${TIMES} times) for dragging canvas: `, duration / TIMES, 'ms')
     graph.fitCenter();
     done()
   });
   it('global refresh: zoom', done => {
     const eIn = createWheelEvent(graph.get('canvas').get('el'), 1, 100, 100);
     const eOut = createWheelEvent(graph.get('canvas').get('el'), -1, 100, 100);
-    const times = 10;
     let begin, duration = 0;
-    for (let i = 0; i < times; i ++) {
+    for (let i = 0; i < TIMES; i ++) {
       begin = performance.now();
-      graph.emit('wheel', i > times / 2 ? eIn : eOut);
+      graph.emit('wheel', i > TIMES / 2 ? eIn : eOut);
       duration += (performance.now() - begin);
     }
-    console.log(`ave time (${times} times) for zooming canvas: `, duration / times, 'ms')
+    console.log(`ave time (${TIMES} times) for zooming canvas: `, duration / TIMES, 'ms')
     done()
   });
   it('local refresh: update one item', done => {
@@ -130,39 +130,37 @@ describe('graph', () => {
         lineWidth: 5
       }
     }
-    const times = 10;
     let begin, duration = 0;
     const nodeNum = graph.getNodes().length;
     const edgeNum = graph.getEdges().length;
-    for (let i = 0; i < times; i ++) {
-      const item = i < times / 2 ?
+    for (let i = 0; i < TIMES; i ++) {
+      const item = i < TIMES / 2 ?
         graph.getNodes()[Math.floor(Math.random() * nodeNum)] :
         graph.getEdges()[Math.floor(Math.random() * edgeNum)];
-      const config = i < times / 2 ? {...nodeTargetConfig} : {...edgeTargetConfig};
+      const config = i < TIMES / 2 ? {...nodeTargetConfig} : {...edgeTargetConfig};
       begin = performance.now();
       graph.updateItem(item, config);
       duration += (performance.now() - begin);
     }
-    console.log(`ave time (${times} times) for updating one item: `, duration / times, 'ms')
+    console.log(`ave time (${TIMES} times) for updating one item: `, duration / TIMES, 'ms')
     done()
   });
   it('state refresh: setting and clear one item state', done => {
-    const times = 10;
     let begin, duration = 0;
     const items = [];
     const nodeNum = graph.getNodes().length;
     const edgeNum = graph.getEdges().length;
-    for (let i = 0; i < times; i ++) {
-      const item = i < times / 2 ?
+    for (let i = 0; i < TIMES; i ++) {
+      const item = i < TIMES / 2 ?
         graph.getNodes()[Math.floor(Math.random() * nodeNum)] :
         graph.getEdges()[Math.floor(Math.random() * edgeNum)];
       begin = performance.now();
-      graph.setItemState(item, 'a', true);
-      graph.setItemState(item, 'a', false);
+      graph.setItemState(item, 'highlight', true);
+      graph.setItemState(item, 'highlight', false);
       duration += (performance.now() - begin);
       items.push(item);
     }
-    console.log(`ave time (${times} times) for setting one item with one state: `, duration / times, 'ms')
+    console.log(`ave time (${TIMES} times) for setting one item with one state: `, duration / TIMES, 'ms')
 
     duration = 0;
     items.forEach(item => {
@@ -170,7 +168,7 @@ describe('graph', () => {
       graph.setItemState(item, 'highlight', false);
       duration += (performance.now() - begin);
     })
-    console.log(`ave time (${times} times) for clearing one item with one state: `, duration / times, 'ms')
+    console.log(`ave time (${TIMES} times) for clearing one item with one state: `, duration / TIMES, 'ms')
     
     duration = 0;
     items.forEach(item => {
@@ -180,7 +178,7 @@ describe('graph', () => {
       graph.setItemState(item, 'active', true);
       duration += (performance.now() - begin);
     })
-    console.log(`ave time (${times} times) for setting one item with 3 states: `, duration / times, 'ms')
+    console.log(`ave time (${TIMES} times) for setting one item with 3 states: `, duration / TIMES, 'ms')
 
     duration = 0;
     items.forEach(item => {
@@ -188,7 +186,7 @@ describe('graph', () => {
       graph.clearItemStates(item, ['highlight', 'selected', 'active']);
       duration += (performance.now() - begin);
     })
-    console.log(`ave time (${times} times) for clearing all states on one item: `, duration / times, 'ms')
+    console.log(`ave time (${TIMES} times) for clearing all states on one item: `, duration / TIMES, 'ms')
     done()
   });
 });
