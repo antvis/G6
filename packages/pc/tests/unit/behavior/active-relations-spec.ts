@@ -151,6 +151,12 @@ describe('activate-relations', () => {
     graph.emit('canvas:click', {});
     graph.emit('node:click', { item: node2 });
     graph.emit('canvas:click', {});
+
+    graph.emit('node:touchstart', { item: node1 });
+    graph.emit('canvas:touchstart', {});
+    graph.emit('node:touchstart', { item: node2 });
+    graph.emit('canvas:touchstart', {});
+
     graph.removeBehaviors(['activate-relations'], 'default');
     graph.off('afteractivaterelations');
   });
