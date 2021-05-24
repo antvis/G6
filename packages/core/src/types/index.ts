@@ -145,6 +145,7 @@ export interface ModeOption {
   inactiveState?: string;
   comboActiveState?: string;
   selectedState?: string;
+  resetSelected?: boolean;
   onlyChangeComboSize?: boolean;
   includeEdges?: boolean;
   direction?: 'x' | 'y';
