@@ -86,7 +86,7 @@ export default {
   },
   onTouchStart(e: IG6GraphEvent) {
     const self = this as any;
-    const touches = (e.originalEvent as any).touches;
+    const touches = (e.originalEvent as TouchEvent).touches;
     const event1 = touches[0];
     const event2 = touches[1];
 
@@ -155,7 +155,7 @@ export default {
   },
   onTouchMove(e: IG6GraphEvent) {
     const self = this as any;
-    const touches = (e.originalEvent as any).touches;
+    const touches = (e.originalEvent as TouchEvent).touches;
     const event1 = touches[0];
     const event2 = touches[1];
 

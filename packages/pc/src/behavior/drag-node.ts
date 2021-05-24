@@ -55,29 +55,36 @@ export default {
   },
   onTouchStart(e: IG6GraphEvent) {
     const self = this;
-    const touches = (e.originalEvent as any).touches;
-    const event1 = touches[0];
-    const event2 = touches[1];
+    try {
+      const touches = (e.originalEvent as TouchEvent).touches;
+      const event1 = touches[0];
+      const event2 = touches[1];
 
-    if (event1 && event2) {
-      return;
+      if (event1 && event2) {
+        return;
+      }
+
+      e.preventDefault();
+    } catch (e) {
+      console.warn('Touch original event not exist!');
     }
-
-    e.preventDefault();
     self.onDragStart(e);
   },
   onTouchMove(e: IG6GraphEvent) {
     const self = this;
-    const touches = (e.originalEvent as any).touches;
-    const event1 = touches[0];
-    const event2 = touches[1];
+    try {
+      const touches = (e.originalEvent as TouchEvent).touches;
+      const event1 = touches[0];
+      const event2 = touches[1];
 
-    if (event1 && event2) {
-      self.onDragEnd(e);
-      return;
+      if (event1 && event2) {
+        return;
+      }
+
+      e.preventDefault();
+    } catch (e) {
+      console.warn('Touch original event not exist!');
     }
-
-    e.preventDefault();
     self.onDrag(e);
   },
   /**
