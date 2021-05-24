@@ -78,6 +78,7 @@ export default {
       const event2 = touches[1];
 
       if (event1 && event2) {
+        self.onDragEnd(e);
         return;
       }
 
