@@ -398,8 +398,8 @@ div.appendChild(container);
 const isFireFox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 const dragEvent = isFireFox ? 'dragover' : 'drag';
 
-describe.only('minimap', () => {
-  it.only('minimap with default settings & destroy', () => { // done
+describe('minimap', () => {
+  it('minimap with default settings & destroy', (done) => {
     const minimap = new Minimap({ size: [200, 200] });
     const graph = new G6.Graph({
       container: div,
@@ -433,56 +433,57 @@ describe.only('minimap', () => {
     graph.addItem('node', { id: 'node3', label: 'text3', x: 150, y: 190 });
     graph.addItem('node', { id: 'node4', label: 'text4', x: 220, y: 250 });
     graph.addItem('edge', { id: 'edge1', source: 'node1', target: 'node2' });
-    // const canvas = minimap.getCanvas();
-    // expect(canvas).not.toBe(undefined);
-    // expect(canvas.get('width')).toEqual(200);
-    // expect(canvas.get('height')).toEqual(200);
+    const canvas = minimap.getCanvas();
+    expect(canvas).not.toBe(undefined);
+    expect(canvas.get('width')).toEqual(200);
+    expect(canvas.get('height')).toEqual(200);
 
-    // const viewport = minimap.getViewport();
-    // expect(viewport).not.toBe(undefined);
-    // expect(viewport.className.indexOf('g6-minimap-viewport') >= 0).toBe(true);
+    const viewport = minimap.getViewport();
+    expect(viewport).not.toBe(undefined);
+    expect(viewport.className.indexOf('g6-minimap-viewport') >= 0).toBe(true);
 
-    // // 缩小的时候，viewport已经最大了，不会更大
-    // graph.zoom(0.5, { x: 250, y: 250 });
-    // expect(viewport.style.left).toEqual('0px');
-    // expect(viewport.style.top).toEqual('0px');
-    // expect(viewport.style.width).toEqual('200px');
-    // expect(viewport.style.height).toEqual('200px');
+    // 缩小的时候，viewport已经最大了，不会更大
+    graph.zoom(0.5, { x: 250, y: 250 });
+    expect(viewport.style.left).toEqual('0px');
+    expect(viewport.style.top).toEqual('0px');
+    expect(viewport.style.width).toEqual('200px');
+    expect(viewport.style.height).toEqual('200px');
 
-    // graph.zoom(2.5, { x: 250, y: 250 });
+    graph.zoom(2.5, { x: 250, y: 250 });
 
-    // setTimeout(() => {
-    //   const left = parseFloat(viewport.style.left.substr(0, viewport.style.left.length - 2));
-    //   const top = parseFloat(viewport.style.top.substr(0, viewport.style.top.length - 2));
-    //   const width = parseFloat(viewport.style.width.substr(0, viewport.style.width.length - 2));
-    //   const height = parseFloat(viewport.style.height.substr(0, viewport.style.height.length - 2));
-    //   expect(mathEqual(left, 42)).toBe(true);
-    //   expect(mathEqual(top, 32)).toBe(true);
-    //   expect(mathEqual(width, 158)).toBe(true);
-    //   expect(mathEqual(height, 167)).toBe(true);
+    setTimeout(() => {
+      const left = parseFloat(viewport.style.left.substr(0, viewport.style.left.length - 2));
+      const top = parseFloat(viewport.style.top.substr(0, viewport.style.top.length - 2));
+      const width = parseFloat(viewport.style.width.substr(0, viewport.style.width.length - 2));
+      const height = parseFloat(viewport.style.height.substr(0, viewport.style.height.length - 2));
+      
+      expect(mathEqual(left, 47)).toBe(true);
+      expect(mathEqual(top, 37)).toBe(true);
+      expect(mathEqual(width, 152)).toBe(true);
+      expect(mathEqual(height, 162)).toBe(true);
 
-    //   graph.zoom(2.5, { x: 250, y: 250 });
-    //   setTimeout(() => {
-    //     const left = parseFloat(viewport.style.left.substr(0, viewport.style.left.length - 2));
-    //     const top = parseFloat(viewport.style.top.substr(0, viewport.style.top.length - 2));
-    //     const width = parseFloat(viewport.style.width.substr(0, viewport.style.width.length - 2));
-    //     const height = parseFloat(
-    //       viewport.style.height.substr(0, viewport.style.height.length - 2),
-    //     );
+      graph.zoom(2.5, { x: 250, y: 250 });
+      setTimeout(() => {
+        const left = parseFloat(viewport.style.left.substr(0, viewport.style.left.length - 2));
+        const top = parseFloat(viewport.style.top.substr(0, viewport.style.top.length - 2));
+        const width = parseFloat(viewport.style.width.substr(0, viewport.style.width.length - 2));
+        const height = parseFloat(
+          viewport.style.height.substr(0, viewport.style.height.length - 2),
+        );
 
-    //     expect(mathEqual(left, 105, 5)).toBe(true);
-    //     expect(mathEqual(top, 95, 5)).toBe(true);
-    //     expect(mathEqual(width, 85, 5)).toBe(true);
-    //     expect(mathEqual(height, 85, 5)).toBe(true);
+        expect(mathEqual(left, 121, 5)).toBe(true);
+        expect(mathEqual(top, 112, 5)).toBe(true);
+        expect(mathEqual(width, 78, 5)).toBe(true);
+        expect(mathEqual(height, 87, 5)).toBe(true);
 
-    //     minimap.destroyPlugin();
+        minimap.destroyPlugin();
 
-    //     const container: HTMLElement = div.childNodes[1] as HTMLElement;
-    //     expect(container.innerHTML).toEqual('');
+        const container: HTMLElement = div.childNodes[0] as HTMLElement;
+        expect(container.innerHTML).toEqual('');
 
-    //     done();
-    //   }, 100);
-    // }, 100);
+        done();
+      }, 100);
+    }, 100);
   });
   it('move viewport', (done) => {
     const minimap = new Minimap({ size: [200, 200] });
@@ -529,10 +530,10 @@ describe.only('minimap', () => {
     graph.translate(50, 50);
 
     setTimeout(() => {
-      expect(viewport.style.left).toEqual('40.7749px');
-      expect(viewport.style.top).toEqual('40.7749px');
-      expect(viewport.style.width).toEqual('92.2509px');
-      expect(viewport.style.height).toEqual('92.2509px');
+      expect(viewport.style.left).toEqual('68.8474px');
+      expect(viewport.style.top).toEqual('59.5016px');
+      expect(viewport.style.width).toEqual('131.153px');
+      expect(viewport.style.height).toEqual('140.498px');
 
       Simulate.simulate(viewport, 'dragstart', {
         clientX: 100,
@@ -551,10 +552,10 @@ describe.only('minimap', () => {
       });
 
       setTimeout(() => {
-        expect(viewport.style.left).toEqual('38.7749px');
-        expect(viewport.style.top).toEqual('31.7749px');
-        expect(viewport.style.width).toEqual('92.2509px');
-        expect(viewport.style.height).toEqual('92.2509px');
+        expect(viewport.style.left).toEqual('66.8474px');
+        expect(viewport.style.top).toEqual('50.5016px');
+        expect(viewport.style.width).toEqual('133.153px');
+        expect(viewport.style.height).toEqual('149.498px');
         const matrix = graph.get('group').getMatrix();
         expect(matrix[0]).toEqual(2);
         expect(matrix[4]).toEqual(2);
