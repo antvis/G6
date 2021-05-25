@@ -1,8 +1,9 @@
 import { Graph } from '../../../src';
 import { Event } from '@antv/g-canvas';
+import data from './world-cup-data';
 import Stats from 'stats-js';
 
-/* nodes: 55000, edges: 4933, shapes: 114933 */
+/* nodes: 736, edges: 9228, shapes: 9964 */
 
 const TIMES = 10;
 
@@ -28,20 +29,24 @@ describe('graph', () => {
     container: div,
     width: 500,
     height: 500,
+    // layout: {
+    //   type: 'gForce',
+    // },
     defaultNode: {
-      size: 5,
-      labelCfg: {
-        style: {
-          fontSize: 2
-        }
-      },
+      // size: 10,
       style: {
-        lineWidth: 0.3
-      }
+        lineWidth: 1
+      },
+      // labelCfg: {
+      //   style: {
+      //     fontSize: 2
+      //   }
+      // },
     },
     defaultEdge: {
+      type: 'quadratic',
       style: {
-        lineWidth: 0.2
+        lineWidth: 1
       }
     },
     modes: {
@@ -52,7 +57,8 @@ describe('graph', () => {
         type: 'drag-canvas',
         enableOptimize: true
       }, 'drag-node']
-    }
+    },
+    fitView: true
   });
 
   const stats = new Stats();
@@ -61,10 +67,40 @@ describe('graph', () => {
 
   
   it('first render', done => {
-    const data = generateData(50000, 20000);
+    const colors = [
+      '#5F95FF', // blue
+      '#61DDAA',
+      '#65789B',
+      '#F6BD16',
+      '#7262FD',
+      '#78D3F8',
+      '#9661BC',
+      '#F6903D',
+      '#008685',
+      '#F08BB4',
+    ];
+    const nodeMap = {};
     data.nodes.forEach(node => {
-      node.label = node.id
+      node.olabel = node.label;
+      delete node.label;
+      delete node.x;
+      delete node.y;
+      node.size = Math.sqrt(node.value);
+      node.color = colors[node.group % 10];
+      node.style = {
+        fill: colors[node.group % 10],
+        fillOpacity: 0.8
+      };
+      nodeMap[node.id] = node;
+    });
+    data.edges.forEach(edge => {
+      edge.color = colors[nodeMap[edge.target].group % 10];
+      edge.style = {
+        lineWidth: 0.5,
+        opacity: 0.3
+      }
     })
+
     const begin = performance.now();
     graph.once('afterrender', e => {
       console.log('first render time:', performance.now() - begin);
@@ -152,7 +188,6 @@ describe('graph', () => {
       const item = i < TIMES / 2 ?
         graph.getNodes()[Math.floor(Math.random() * nodeNum)] :
         graph.getEdges()[Math.floor(Math.random() * edgeNum)];
-      if (!item) continue;
       const config = i < TIMES / 2 ? {...nodeTargetConfig} : {...edgeTargetConfig};
       begin = performance.now();
       graph.updateItem(item, config);
@@ -161,28 +196,28 @@ describe('graph', () => {
     console.log(`ave time (${TIMES} times) for updating one item: `, duration / TIMES, 'ms')
 
 
-    // fps monitor loops
-    graph.fitView();
-    let count = 0;
-    let currentPos = 150;
-    function animate() {
-      stats.update();
-      let config;
-      const seed = Math.random() > 0.5
-      if (seed) config = {...nodeTargetConfig};
-      else config = {...edgeTargetConfig};
-      const item = seed ? 
-        graph.getNodes()[Math.floor(Math.random() * nodeNum)] :
-        graph.getEdges()[Math.floor(Math.random() * edgeNum)];
-      graph.updateItem(item, config);
-      count ++;
-      requestAnimationFrame( animate );
-    }
-    requestAnimationFrame( animate );
+    // // fps monitor loops
+    // graph.fitView();
+    // let count = 0;
+    // let currentPos = 150;
+    // function animate() {
+    //   stats.update();
+    //   let config;
+    //   const seed = Math.random() > 0.5
+    //   if (seed) config = {...nodeTargetConfig};
+    //   else config = {...edgeTargetConfig};
+    //   const item = seed ? 
+    //     graph.getNodes()[Math.floor(Math.random() * nodeNum)] :
+    //     graph.getEdges()[Math.floor(Math.random() * edgeNum)];
+    //   graph.updateItem(item, config);
+    //   count ++;
+    //   requestAnimationFrame( animate );
+    // }
+    // requestAnimationFrame( animate );
 
     done()
   });
-  xit('state refresh: setting and clear one item state', done => {
+  it('state refresh: setting and clear one item state', done => {
     let begin, duration = 0;
     const items = [];
     const nodeNum = graph.getNodes().length;

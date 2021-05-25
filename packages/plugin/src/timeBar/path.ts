@@ -79,7 +79,7 @@ export function dataToPath(
   return smooth ? getSmoothLinePath(points) : getLinePath(points);
 }
 
-export function dataToRectPath(data: number[], width: number, height: number): any[][] {
+export function dataToRectPath(data: number[], width: number, height: number, barWidth: number = 5): any[][] {
   // 利用 scale 来获取 y 上的映射
   const y = new Linear({
     values: data,
@@ -100,7 +100,7 @@ export function dataToRectPath(data: number[], width: number, height: number): a
       x: point[0],
       y: point[1],
       y0: height,
-      size: 5,
+      size: barWidth,
     };
     const rectPoint = getRectPoints(param);
     rectPoints.push(...rectPoint);

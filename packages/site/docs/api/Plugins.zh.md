@@ -773,7 +773,7 @@ interface TrendConfig {
 | isArea | boolean | false | 是否显示面积图 |
 | lineStyle | ShapeStyle | null | 折线的样式配置 |
 | areaStyle | ShapeStyle | null | 面积的样式配置项，只有当 isArea 为 true 时生效 |
-| interval | Interval | null | 柱状图配置项，当配置了该项后，趋势图上会展现为混合图样式 |
+| interval | Interval | null | 柱状图配置项，当配置了该项后，趋势图上会展现为混合图样式。`Interval = { data: number[], style: ShapeStyle }`，`style` 除 `ShapeStyle` 类型中图形的样式外，还可配置 `barWidth` 配置柱状图柱子的宽度。 |
 
 #### SliderOption 接口定义
 
