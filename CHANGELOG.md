@@ -7,6 +7,7 @@
 - fix: minimap with zoomingproblem, closes: #2863
 - feat: fx and fy for fruchterman and gForce layout in both gpu and cpu version;
 - feat: barWidth for interval bar chart for TimeBar plugin, closes: #2989;
+- feat: click trigger for context munu, closes: #2686;
 
 #### 4.3.0
 
