@@ -248,12 +248,12 @@ export default class MiniMap extends Base {
     const correctLeft: number | string = `${left}px`;
     const correctTop: number | string = `${top}px`;
 
-    modifyCSS(viewport, {
-      left: correctLeft,
-      top: correctTop,
-      width: `${width}px`,
-      height: `${height}px`,
-    });
+    // modifyCSS(viewport, {
+    //   left: correctLeft,
+    //   top: correctTop,
+    //   width: `${width}px`,
+    //   height: `${height}px`,
+    // });
   }
 
   /**
@@ -636,7 +636,7 @@ export default class MiniMap extends Base {
     const bbox = group.getCanvasBBox();
 
     // 主图的 bbox
-    const graphBBox = graph.get('canvas').getCanvasBBox();
+    const graphBBox = graph.get('canvas').getBBox();
 
     let width = graphBBox.width;
     let height = graphBBox.height;
@@ -651,6 +651,7 @@ export default class MiniMap extends Base {
     height += 2 * padding;
 
     const ratio = Math.min(size[0] / width, size[1] / height);
+    console.log('ratio', ratio, size, width, height)
 
     let matrix: Matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
 
