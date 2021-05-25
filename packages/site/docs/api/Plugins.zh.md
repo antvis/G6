@@ -228,7 +228,7 @@ Menu 用于配置节点上的右键菜单。
 | offsetX | number | 6 | menu 的 x 方向偏移值，需要考虑父级容器的 padding |
 | offsetY | number | 6 | menu 的 y 方向偏移值，需要考虑父级容器的 padding |
 | itemTypes | string[] | ['node', 'edge', 'combo'] | menu 作用在哪些类型的元素上，若只想在节点上显示，可将其设置为 ['node'] |
-| trigger | 'click' / 'contextmenu' | 'contextmenu' | menu 出现的触发方式，默认为 `'contextmenu'`，即右击。`'click'` 代表左击 |
+| trigger | 'click' / 'contextmenu' | 'contextmenu' | menu 出现的触发方式，默认为 `'contextmenu'`，即右击。`'click'` 代表左击。*v4.3.2 起支持 'click'* |
 
 ### 用法
 
