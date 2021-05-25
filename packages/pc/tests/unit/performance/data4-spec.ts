@@ -19,6 +19,23 @@ function createWheelEvent(canvas, delta, x, y) {
   return e;
 }
 
+const generateData = (nodeNum, edgeNum) => {
+  const nodes = [], edges = [];
+  for (let i = 0; i < nodeNum; i ++) {
+    nodes.push({
+      id: `${i}`,
+      label: `${i}`
+    });
+  }
+  for (let i = 0; i < edgeNum; i ++) {
+    edges.push({
+      source: `${Math.floor(Math.random() * nodeNum)}`,
+      target: `${Math.floor(Math.random() * nodeNum)}`,
+    });
+  }
+  return { nodes, edges };
+}
+
 class G6Event extends Event {
   wheelDelta: number;
 }
