@@ -31,6 +31,7 @@ interface MenuConfig extends IPluginBaseConfig {
   shouldBegin?: (evt?: IG6GraphEvent) => boolean;
   // 允许出现 tooltip 的 item 类型
   itemTypes?: string[];
+  trigger?: 'click' | 'contextmenu';
 }
 
 export default class Menu extends Base {
@@ -56,11 +57,17 @@ export default class Menu extends Base {
         return true;
       },
       itemTypes: ['node', 'edge', 'combo'],
+      trigger: 'contextmenu'
     };
   }
 
   // class-methods-use-this
   public getEvents() {
+    if (this.get('trigger') === 'click') {
+      return {
+        click: 'onMenuShow'
+      }
+    }
     return {
       contextmenu: 'onMenuShow',
     };

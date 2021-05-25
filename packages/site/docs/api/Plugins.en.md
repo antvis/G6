@@ -222,6 +222,11 @@ Menu is used to configure the right-click menu on the node.
 | className | string | null | the class name of the menu dom |
 | getContent | (evt?: IG6GraphEvent) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OtOkS4g-vrkAAAAAAAAAAABkARQnAQ' width=60 alt='img'/> | the menu content，supports DOM or string |
 | handleMenuClick | (target: HTMLElement, item: Item) => void | undefined | the callback function when click the menu |
+| shouldBegin | (evt: G6Event) => boolean | undefined | whether allow the menu show up, you can return `true` or `false` according to the `evt.item` or `evt.target` |
+| offsetX | number | 6 | The x offset of the menu to the parent container |
+| offsetY | number | 6 | The y offset of the menu to the parent container |
+| itemTypes | string[] | ['node', 'edge', 'combo'] | which types of items the menu takes effect on. E.g. if you want the menu shows up only on node, assign `itemTypes` with ['node'] |
+| trigger | 'click' / 'contextmenu' | 'contextmenu' | the trigger for the menu, `'contextmenu'` by default, which means the menu will show up when the end user right click on some item. `'click'` means left click |
 
 ### Usage
 
