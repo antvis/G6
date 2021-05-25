@@ -161,6 +161,7 @@ Menu is used to configure the right-click menu on the node.
 | offsetX | number | 6 | the offset of tooltip along x axis, the padding of the parent container should be take into consider |
 | offsetY | number | 6 | the offset of tooltip along y axis, the padding of the parent container should be take into consider |
 | itemTypes | string[] | ['node', 'edge', 'combo'] | the item types that allow the tooltip show up. e.g. if you only want the node tooltip, set the `itemTypes` to be ['node'] |
+| trigger | 'click' / 'contextmenu' | 'contextmenu' | the trigger for the menu, `'contextmenu'` by default, which means the menu will show up when the end user right click on some item. `'click'` means left click. *'click' is supported by v4.3.2 and later versions* |
 
 ### Usage
 
