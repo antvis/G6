@@ -4,6 +4,7 @@
 
 - fix: upgrade the layout package to 0.1.14 to solve the different results from gpu and cpu problem in gForce layout, closes: #2902;
 - fix: auto fitting container without width and height for graph problem, closes: #2901;
+- fix: minimap with zoomingproblem, closes: #2863
 - feat: fx and fy for fruchterman and gForce layout in both gpu and cpu version;
 - feat: barWidth for interval bar chart for TimeBar plugin, closes: #2989;
 
