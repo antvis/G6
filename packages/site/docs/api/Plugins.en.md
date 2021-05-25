@@ -572,7 +572,7 @@ interface TrendConfig {
 | isArea | boolean | false | Whether to show a area chart instead |
 | lineStyle | ShapeStyle | null | The configurations for the style of the line in the line chart |
 | areaStyle | ShapeStyle | null | The configuration for the style of the area in the chart when `isArea` is `true` |
-| interval | Interval | null | The configuration for the style of the bars in the chart. When it is assigned, a mixed trend chart will take place |
+| interval | Interval | null | The configuration for the style of the bars in the chart. When it is assigned, a mixed trend chart will take place. `Interval = { data: number[], style: ShapeStyle }`. Except the configurations in `ShapeStyle` for the style of the shapes in the bar charts, `barWidth` for the width of one bar is also configurable for `style`  |
 
 #### Interfaces of SliderOption
 

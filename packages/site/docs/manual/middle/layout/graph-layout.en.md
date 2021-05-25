@@ -74,7 +74,9 @@ General graph layout API: [General Graph Layout API](/en/docs/api/graphLayout/gu
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lX-qSqDECrIAAAAAAAAAAAAAARQnAQ' width=500 alt='img'/>
 
-<br /> **Description**: GForce implements the classical force-directed layout algorithm by G6 4.0. It supports assign different masses and center gravities for different nodes freedomly. More importantly, it supports GPU parallel acceleration. <br /> **API**: [GForce API](/en/docs/api/graphLayout/gforce) <br /> **Configuration**:
+<br /> **Description**: GForce implements the classical force-directed layout algorithm by G6 4.0. It supports assign different masses and center gravities for different nodes freedomly. More importantly, it supports GPU parallel acceleration. If you want to fix the positions for some nodes during calculation, assign `fx` and `fy` for the nodes as fixing positions. [Demo for fixing node](/en/examples/net/forceDirected#gForceFix).
+<br /> **API**: [GForce API](/en/docs/api/graphLayout/gforce) 
+<br /> **Configuration**:
 
 | Name | Type | Example | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -102,7 +104,9 @@ General graph layout API: [General Graph Layout API](/en/docs/api/graphLayout/gu
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*oDbHRJc5td8AAAAAAAAAAABkARQnAQ' width='500' alt='img'/>graphLayout/guide
 
-<br /> **Description**: Classical force-directed layout algorithm. <br /> **API**: [Force API](/en/docs/api/graphLayout/force) <br /> **Configuration**: Corresponds to the configurations in force-directed algorithm in d3.js
+<br /> **Description**: Classical force-directed layout algorithm. If you want to fix the positions for some nodes during calculation, assign `fx` and `fy` for the nodes as fixing positions. [Demo for fixing the dragged node with force layout](/en/examples/net/forceDirected#basicForceDirectedDragFix).
+<br /> **API**: [Force API](/en/docs/api/graphLayout/force) 
+<br /> **Configuration**: Corresponds to the configurations in force-directed algorithm in d3.js
 
 | Name | Type | Example | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -132,7 +136,9 @@ General graph layout API: [General Graph Layout API](/en/docs/api/graphLayout/gu
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*DibyQYaI2qYAAAAAAAAAAABkARQnAQ' width='400' alt='img'/>
 
-<br />**Description**: Fruchterman is a kind of force-directed layout. <br />**API**: [Fruchterman API](/en/docs/api/graphLayout/fruchterman) <br />**Configuration**:
+<br />**Description**: Fruchterman is a kind of force-directed layout. If you want to fix the positions for some nodes during calculation, assign `fx` and `fy` for the nodes as fixing positions. [Demo for fixing node](/en/examples/net/fruchtermanLayout#fructhermanFix).
+<br />**API**: [Fruchterman API](/en/docs/api/graphLayout/fruchterman) 
+<br />**Configuration**:
 
 | Name | Type | Example | Default | Description |
 | --- | --- | --- | --- | --- |

@@ -50,6 +50,8 @@ export default class Trend {
 
   private height: number;
 
+  private barWidth: number; // 柱状图一根柱子的宽度
+
   private data: number[];
 
   private smooth: boolean;
@@ -105,6 +107,7 @@ export default class Trend {
       y,
       width,
       height,
+      barWidth,
       data,
       smooth,
       isArea,
@@ -140,7 +143,7 @@ export default class Trend {
     if (this.intervalConfig) {
       trendGroup.addShape('path', {
         attrs: {
-          path: dataToRectPath(this.intervalConfig.data, width, height),
+          path: dataToRectPath(this.intervalConfig.data, width, height, this.intervalConfig.style.barWidth),
           ...this.intervalConfig.style,
         },
       });
