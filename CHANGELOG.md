@@ -16,7 +16,7 @@
 - fix: depth problem for addItem with comboId, closes: #2888;
 - feat: focus edge item;
 - feat: legend plugin;
-- feat: allow to new a tree layout indenpently;
+- feat: allow to new a tree layout independently;
 
 #### 4.2.7
 
