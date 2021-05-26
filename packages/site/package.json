@@ -28,13 +28,12 @@
     "site:clean": "gatsby clean",
     "site:develop": "GATSBY=true gatsby develop --open",
     "site:deploy": "npm run site:build && npm run site:copy-mirror-action && gh-pages -d public",
-    "site:copy-mirror-action": "mkdir -p public/.github/workflows && cp .github/workflows/mirror.yml public/.github/workflows",
     "start": "npm run site:develop"
   },
   "dependencies": {
     "@ant-design/icons": "^4.0.6",
     "@antv/chart-node-g6": "^0.0.3",
-    "@antv/g6": "4.2.7",
+    "@antv/g6": "4.3.2",
     "@antv/gatsby-theme-antv": "1.1.1",
     "@antv/util": "^2.0.9",
     "@antv/vis-predict-engine": "^0.0.7",
