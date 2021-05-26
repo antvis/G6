@@ -27,7 +27,7 @@
     "site:build": "npm run site:clean && GATSBY=true gatsby build --prefix-paths",
     "site:clean": "gatsby clean",
     "site:develop": "GATSBY=true gatsby develop --open",
-    "site:deploy": "npm run site:build && npm run site:copy-mirror-action && gh-pages -d public",
+    "site:deploy": "npm run site:build && gh-pages -d public",
     "start": "npm run site:develop"
   },
   "dependencies": {
