@@ -384,7 +384,7 @@ export default class ItemBase implements IItemBase {
 
       each(currentShape.attr(), (val, key) => {
         // 修改 img 通过 updateItem 实现
-        if (key !== 'img') {
+        if (key !== 'img' || isString(val)) {
           styles[key] = val;
         }
       });

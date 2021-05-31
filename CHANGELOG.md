@@ -3,6 +3,7 @@
 #### 4.3.3
 
 - fix: uncombo with id, closes: #2924;
+- fix: image node with state changing, closes: #2923;
 
 #### 4.3.2
 
