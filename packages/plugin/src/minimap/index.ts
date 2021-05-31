@@ -635,10 +635,10 @@ export default class MiniMap extends Base {
     // 该 bbox 是准确的，不计算 matrix 的包围盒
     const bbox = group.getCanvasBBox();
 
-    var graphBBox = graph.get('canvas').getCanvasBBox(); // 主图的 bbox
+    const graphBBox = graph.get('canvas').getCanvasBBox(); // 主图的 bbox
     const graphZoom = graph.getZoom() || 1;
-    var width = graphBBox.width / graphZoom;
-    var height = graphBBox.height / graphZoom;
+    const width = graphBBox.width / graphZoom;
+    const height = graphBBox.height / graphZoom;
 
     if (Number.isFinite(bbox.width)) {
       // 刷新后bbox可能会变，需要重置画布矩阵以缩放到合适的大小
