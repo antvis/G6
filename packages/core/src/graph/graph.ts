@@ -574,9 +574,17 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * @param {number} x 水平坐标
    * @param {number} y 垂直坐标
    */
-  public moveTo(x: number, y: number): void {
+  public moveTo(x: number, y: number, animate?: boolean, animateCfg?: GraphAnimateConfig): void {
     const group: IGroup = this.get('group');
-    move(group, { x, y });
+    move(
+      group,
+      { x, y },
+      animate,
+      animateCfg || {
+        duration: 500,
+        easing: 'easeCubic',
+      }
+    );
     this.emit('viewportchange', { action: 'move', matrix: group.getMatrix() });
   }
 
