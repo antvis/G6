@@ -357,7 +357,7 @@ export const translate = (group: IGroup, vec: Point) => {
  * @param group Group 实例
  * @param point 移动到的坐标点
  */
-export const move = (group: IGroup, point: Point, animate?: boolean, animateCfg?: GraphAnimateConfig = {}) => {
+export const move = (group: IGroup, point: Point, animate?: boolean, animateCfg?: GraphAnimateConfig = { duration: 500 }) => {
   let matrix: Matrix = group.getMatrix();
   if (!matrix) {
     matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
