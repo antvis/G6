@@ -254,4 +254,28 @@ describe('collapse combo initially', () => {
       }, 201)
     }, 201)
   });
+  it('uncombo with id', () => {
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 600,
+      fitCenter: true,
+      groupByTypes: false,
+    });
+
+    graph.read({
+      nodes: [
+        { id: 'node1', x: 250, y: 150, comboId: 'combo' },
+        { id: 'node2', x: 350, y: 150, comboId: 'combo2' },
+      ],
+      combos: [
+        { id: 'combo', label: 'Combo' },
+        { id: 'combo2', label: 'Combo2' },
+      ]
+    });
+
+    graph.uncombo('combo');
+    const newData = graph.save();
+    expect(newData.combos.length).toBe(1);
+  })
 });
