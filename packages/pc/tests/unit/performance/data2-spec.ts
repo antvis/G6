@@ -54,7 +54,7 @@ describe('graph', () => {
   document.body.appendChild(stats.dom);
 
   
-  it('first render', done => {
+  it.only('first render', done => {
     fetch('https://gw.alipayobjects.com/os/bmw-prod/f0b6af53-7013-40ea-ae12-a24c89a0f960.json')
     .then((res) => res.json())
     .then((data) => {
@@ -68,7 +68,7 @@ describe('graph', () => {
       done();
     });
   });
-  it('global refresh: drag', done => {
+  it.only('global refresh: drag', done => {
     let begin, duration = 0;
     for (let i = 0; i < TIMES; i ++) {
       begin = performance.now();
@@ -80,20 +80,20 @@ describe('graph', () => {
     console.log(`ave time (${TIMES} times) for dragging canvas: `, duration / TIMES, 'ms')
     graph.fitCenter();
 
-    // // fps monitor loops
-    // let count = 0;
-    // let currentPos = 150;
-    // function animate() {
-    //   stats.update();
-    //   graph.emit('dragstart', { clientX: currentPos, clientY: currentPos, target: graph.get('canvas') });
-    //   if (Math.round(count / 100) % 2) currentPos += 5;
-    //   else  currentPos -= 5;
-    //   graph.emit('drag', { clientX: currentPos, clientY: currentPos, target: graph.get('canvas') });
-    //   graph.emit('dragend', { clientX: currentPos, clientY: currentPos });
-    //   count ++;
-    //   requestAnimationFrame( animate );
-    // }
-    // requestAnimationFrame( animate );
+    // fps monitor loops
+    let count = 0;
+    let currentPos = 150;
+    function animate() {
+      stats.update();
+      graph.emit('dragstart', { clientX: currentPos, clientY: currentPos, target: graph.get('canvas') });
+      if (Math.round(count / 100) % 2) currentPos += 5;
+      else  currentPos -= 5;
+      graph.emit('drag', { clientX: currentPos, clientY: currentPos, target: graph.get('canvas') });
+      graph.emit('dragend', { clientX: currentPos, clientY: currentPos });
+      count ++;
+      requestAnimationFrame( animate );
+    }
+    requestAnimationFrame( animate );
     done()
   });
   it('global refresh: zoom', done => {
@@ -218,5 +218,27 @@ describe('graph', () => {
     })
     console.log(`ave time (${TIMES} times) for clearing all states on one item: `, duration / TIMES, 'ms')
     done()
+  });
+  xit('force layout(force, gForce, FA2) FPS', done => {
+    // fps monitor loops
+    graph.set('minZoom', 0.000001);
+    graph.fitView();
+
+    const funcs = [];
+    graph.updateLayout({
+      type: 'force',
+      tick: () => {
+        funcs.push(() => {});
+      }
+    });
+
+    function animate() {
+      stats.update();
+      const func = funcs.pop();
+      if (func) func();
+      requestAnimationFrame( animate );
+    }
+    requestAnimationFrame(animate);
+    done();
   });
 });

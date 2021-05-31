@@ -65,7 +65,6 @@ describe('graph', () => {
   stats.showPanel(0);
   document.body.appendChild(stats.dom);
 
-  
   it('first render', done => {
     const colors = [
       '#5F95FF', // blue
@@ -260,5 +259,27 @@ describe('graph', () => {
     })
     console.log(`ave time (${TIMES} times) for clearing all states on one item: `, duration / TIMES, 'ms')
     done()
+  });
+  xit('force layout FPS', done => {
+    // fps monitor loops
+    graph.set('minZoom', 0.000001);
+    graph.fitView();
+
+    const funcs = [];
+    graph.updateLayout({
+      type: 'force',
+      tick: () => {
+        funcs.push(() => {});
+      }
+    });
+
+    function animate() {
+      stats.update();
+      const func = funcs.pop();
+      if (func) func();
+      requestAnimationFrame( animate );
+    }
+    requestAnimationFrame(animate);
+    done();
   });
 });
