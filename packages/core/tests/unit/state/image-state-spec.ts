@@ -51,13 +51,7 @@ describe('graph node states', () => {
         options: {
           stateStyles: {
             highlight: {
-              lineWidth: 0,
-              'text-shape': {
-                fontWeight: 700,
-              },
-            },
-            dark: {
-              'image-shape':{
+              'image-shape': {
                 opacity: 0.2,
               }
             },
@@ -122,9 +116,15 @@ describe('graph node states', () => {
     graph.render();
 
     const node = graph.getNodes()[0];
-    graph.setItemState(node, 'dark', true)
+    graph.setItemState(node, 'highlight', true)
     expect(node.getContainer().find(e => e.get('name') === 'image-shape').attr('opacity')).toBe(0.2);
-    graph.destroy();
+    
+    setTimeout(() => {
+      graph.setItemState(node, 'highlight', false)
+      console.log(node)
+    }, 500)
+
+    // graph.destroy();
     done();
   })
 });

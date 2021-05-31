@@ -12,6 +12,7 @@ import {
   IBBox,
   Item,
   IPoint,
+  GraphAnimateConfig
 } from '../types';
 
 const transform = ext.transform;
@@ -356,7 +357,7 @@ export const translate = (group: IGroup, vec: Point) => {
  * @param group Group 实例
  * @param point 移动到的坐标点
  */
-export const move = (group: IGroup, point: Point) => {
+export const move = (group: IGroup, point: Point, animate?: boolean, animateCfg?: GraphAnimateConfig = {}) => {
   let matrix: Matrix = group.getMatrix();
   if (!matrix) {
     matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
@@ -365,8 +366,25 @@ export const move = (group: IGroup, point: Point) => {
   const vx = point.x - bbox.minX;
   const vy = point.y - bbox.minY;
 
-  const movedMatrix = transform(matrix, [['t', vx, vy]]);
-  group.setMatrix(movedMatrix);
+  if (animate) {
+    const dx = vx * matrix[0];
+    const dy = vy * matrix[4];
+    let lastX = 0;
+    let lastY = 0;
+    let newX = 0;
+    let newY = 0;
+    group.animate((ratio) => {
+      newX = dx * ratio;
+      newY = dy * ratio;
+      matrix = transform(matrix, [['t', newX - lastX, newY - lastY]]);
+      lastX = newX;
+      lastY = newY;
+      return { matrix };
+    }, animateCfg);
+  } else {
+    const movedMatrix = transform(matrix, [['t', vx, vy]]);
+    group.setMatrix(movedMatrix);
+  }
 };
 
 /**

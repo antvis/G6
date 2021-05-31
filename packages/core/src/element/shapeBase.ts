@@ -431,7 +431,7 @@ export const shapeBase: ShapeOptions = {
         if (isPlainObject(style) && !ARROWS.includes(p)) {
           const subShape = group.find((element) => element.get('name') === p);
           if (subShape) {
-            const subShapeStyles = clone(subShape.attr());
+            const subShapeStyles = cloneBesidesImg(subShape.attr());
             each(style, (v, key) => {
               if (p === keyShapeName && keyShapeStyles[key] && !keptAttrs[key]) {
                 delete keyShapeStyles[key];
