@@ -1620,7 +1620,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
           edges.forEach(edge => {
             this.removeItem(edge, false);
           });
-          const index = comboItems.indexOf(combo);
+          const index = comboItems.indexOf(comboItem);
           comboItems.splice(index, 1);
           delete itemMap[comboId];
           comboItem.destroy();

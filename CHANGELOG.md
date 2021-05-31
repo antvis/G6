@@ -1,5 +1,9 @@
 # ChangeLog
 
+#### 4.3.3
+
+- fix: uncombo with id, closes: #2924;
+
 #### 4.3.2
 
 - fix: upgrade the layout package to 0.1.14 to solve the different results from gpu and cpu problem in gForce layout, closes: #2902;
