@@ -34,8 +34,8 @@ export default class Edge extends Item implements IEdge {
       // 如果设置成具体的点，则清理节点
       this.set(pointName, value);
       this.set(itemName, null);
-    } else {
-      value!.addEdge(this);
+    } else if (value) {
+      value.addEdge(this);
       this.set(itemName, value);
       this.set(pointName, null);
     }
