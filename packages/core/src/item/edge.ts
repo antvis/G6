@@ -21,7 +21,7 @@ export default class Edge extends Item implements IEdge {
     };
   }
 
-  private setEnd(name: SourceTarget, value: INode) {
+  private setEnd(name: SourceTarget, value: any) {
     const pointName = END_MAP[name] + POINT_NAME_SUFFIX;
     const itemName = name + ITEM_NAME_SUFFIX;
     const preItem = this.get(itemName);
