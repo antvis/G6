@@ -87,11 +87,12 @@ export default class Tooltip extends Base {
   }
 
   public init() {
-    const className = this.get('className') || 'g6-component-tooltip';
+    const self = this;
+    const className = self.get('className') || 'g6-component-tooltip';
     const tooltip = createDom(`<div class=${className}></div>`);
-    let container: HTMLDivElement | null = this.get('container');
+    let container: HTMLDivElement | null = self.get('container');
     if (!container) {
-      container = this.get('graph').get('container');
+      container = self.get('graph').get('container');
     }
     if (isString(container)) {
       container = document.getElementById(container) as HTMLDivElement;
@@ -99,7 +100,19 @@ export default class Tooltip extends Base {
 
     modifyCSS(tooltip, { position: 'absolute', visibility: 'hidden', display: 'none' });
     container.appendChild(tooltip);
-    this.set('tooltip', tooltip);
+
+    if (self.get('trigger') !== 'click') {
+      tooltip.addEventListener('mouseenter', e => {
+        modifyCSS(tooltip, {
+          visibility: 'visible',
+          display: 'unset',
+        });
+      });
+      tooltip.addEventListener('mouseleave', e => {
+        self.hideTooltip()
+      });
+    }
+    self.set('tooltip', tooltip);
   }
 
   onClick(e: IG6GraphEvent) {
