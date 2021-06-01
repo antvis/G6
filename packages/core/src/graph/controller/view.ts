@@ -173,7 +173,8 @@ export default class ViewController {
     }
 
     if (item) {
-      let x = 0, y = 0;
+      let x = 0,
+        y = 0;
       if (item.getType && item.getType() === 'edge') {
         const sourceMatrix: IGroup = (item as IEdge).getSource().get('group').getMatrix();
         const targetMatrix: IGroup = (item as IEdge).getTarget().get('group').getMatrix();
@@ -192,11 +193,7 @@ export default class ViewController {
         y = matrix[7];
       }
       // 用实际位置而不是model中的x,y,防止由于拖拽等的交互导致model的x,y并不是当前的x,y
-      this.focusPoint(
-        { x, y },
-        animate,
-        animateCfg,
-      );
+      this.focusPoint({ x, y }, animate, animateCfg);
     }
   }
 
@@ -219,17 +216,8 @@ export default class ViewController {
     const plugins = graph.get('plugins');
     plugins.forEach((plugin) => {
       if (plugin.get('gridContainer')) {
-        const minZoom = graph.get('minZoom');
-        modifyCSS(plugin.get('container'), {
-          width: `${width}px`,
-          height: `${height}px`,
-        });
-        modifyCSS(plugin.get('gridContainer'), {
-          width: `${width / minZoom}px`,
-          height: `${height / minZoom}px`,
-          left: 0,
-          top: 0,
-        });
+        // 网格定位信息初始化
+        plugin.positionInit();
       }
     });
   }
