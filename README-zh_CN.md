@@ -170,8 +170,6 @@ DEBUG_MODE=1 npm test -- --watch ./tests/unit/algorithm/find-path-spec
 
 请让我们知道您要解决或贡献什么，所以在贡献之前请先提交 [issues](https://github.com/antvis/g6/issues) 描述 bug 或建议。
 
-成为一个贡献者前请阅读 [代码贡献规范](https://github.com/antvis/G6/blob/master/packages/g6/CONTRIBUTING.zh-CN.md).
-
 ## License
 
 [MIT license](./LICENSE).
