@@ -5,6 +5,8 @@ import Base from '../base';
 
 interface GridConfig {
   img?: string;
+  /** 网格是否跟随视图移动 */
+  follow?: boolean;
 }
 
 // 网格背景图片
@@ -15,51 +17,59 @@ export default class Grid extends Base {
   public getDefaultCfgs(): GridConfig {
     return {
       img: GRID_PNG,
+      follow: true,
     };
   }
 
   public init() {
     const graph: IGraph = this.get('graph');
-    const minZoom = graph.get<number>('minZoom');
     const graphContainer = graph.get<HTMLDivElement>('container');
     const canvas: HTMLDivElement = graph.get<ICanvas>('canvas').get('el');
-    const width = graph.get<number>('width');
-    const height: number = graph.get<number>('height');
     const img = this.get('img') || GRID_PNG;
 
     const container: HTMLDivElement = createDom(
-      `<div class='g6-grid-container' style="position: absolute; left:0;top:0;right:0;bottom:0;overflow: hidden;z-index: -1;"></div>`,
+      `<div class='g6-grid-container' style="position:absolute;overflow:hidden;z-index: -1;"></div>`,
     );
 
     const gridContainer: HTMLDivElement = createDom(
-      `<div 
-        class='g6-grid' 
+      `<div
+        class='g6-grid'
         style='position:absolute;
-        transform-origin: 0% 0% 0px;
         background-image: ${img};
         user-select: none
         '></div>`,
     );
 
-    container.appendChild(gridContainer);
-    modifyCSS(container, {
-      width: `${width}px`,
-      height: `${height}px`,
-      left: `${graphContainer.offsetLeft}px`,
-      top: `${graphContainer.offsetTop}px`,
-    });
-
-    modifyCSS(gridContainer, {
-      width: `${width / minZoom}px`,
-      height: `${height / minZoom}px`,
-      left: `0px`,
-      top: `0px`,
-    });
-
-    graphContainer.insertBefore(container, canvas);
-
     this.set('container', container);
     this.set('gridContainer', gridContainer);
+
+    this.positionInit();
+
+    container.appendChild(gridContainer);
+    graphContainer.insertBefore(container, canvas);
+  }
+
+  /** 定位信息初始化 */
+  public positionInit() {
+    const graph: IGraph = this.get('graph');
+    const minZoom = graph.get('minZoom');
+    const width = graph.get<number>('width');
+    const height: number = graph.get<number>('height');
+
+    modifyCSS(this.get('container'), {
+      width: `${width}px`,
+      height: `${height}px`,
+    });
+
+    // 网格 40*40 需保证 (gridContainerWidth / 2) % 40 = 0 才能让网格线对齐左上角 故 * 80
+    const gridContainerWidth = (width * 80) / minZoom;
+    const gridContainerHeight = (height * 80) / minZoom;
+    modifyCSS(this.get('gridContainer'), {
+      width: `${gridContainerWidth}px`,
+      height: `${gridContainerHeight}px`,
+      left: `-${gridContainerWidth / 2}px`,
+      top: `-${gridContainerHeight / 2}px`,
+    });
   }
 
   // class-methods-use-this
@@ -78,7 +88,10 @@ export default class Grid extends Base {
     let { matrix } = param;
     if (!matrix) matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
 
-    const transform = `matrix(${matrix[0]}, ${matrix[1]}, ${matrix[3]}, ${matrix[4]}, 0, 0)`;
+    const isFollow = this.get('follow');
+    const transform = `matrix(${matrix[0]}, ${matrix[1]}, ${matrix[3]}, ${matrix[4]}, ${
+      isFollow ? matrix[6] : '0'
+    }, ${isFollow ? matrix[7] : '0'})`;
 
     modifyCSS(gridContainer, {
       transform,
