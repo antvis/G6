@@ -35,7 +35,7 @@ export default class Edge extends Item implements IEdge {
       this.set(pointName, value);
       this.set(itemName, null);
     } else if (value) {
-      value.addEdge(this);
+      value!.addEdge(this);
       this.set(itemName, value);
       this.set(pointName, null);
     }
