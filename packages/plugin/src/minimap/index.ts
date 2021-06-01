@@ -637,8 +637,8 @@ export default class MiniMap extends Base {
 
     const graphBBox = graph.get('canvas').getCanvasBBox(); // 主图的 bbox
     const graphZoom = graph.getZoom() || 1;
-    const width = graphBBox.width / graphZoom;
-    const height = graphBBox.height / graphZoom;
+    let width = graphBBox.width / graphZoom;
+    let height = graphBBox.height / graphZoom;
 
     if (Number.isFinite(bbox.width)) {
       // 刷新后bbox可能会变，需要重置画布矩阵以缩放到合适的大小
