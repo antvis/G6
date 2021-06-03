@@ -4,7 +4,7 @@
 
 - fix: uncombo with id, closes: #2924;
 - fix: image node with state changing, closes: #2923;
-- fix: mouseentering tooltip DOM makes the DOM hidden;
+- fix: mouseentering tooltip DOM hides the DOM;
 - feat: moveTo with animate, closes: #2252;
 
 #### 4.3.2
