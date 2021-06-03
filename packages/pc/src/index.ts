@@ -8,7 +8,8 @@ import {
   Shape,
 } from '@antv/g6-core';
 import { ICanvas, IGroup, IShape } from '@antv/g-base';
-import * as Algorithm from '@antv/algorithm';
+import * as AlgorithmSync from '@antv/algorithm';
+import * as AlgorithmAsync from '@antv/algorithm/lib/asyncIndex';
 import Graph from './graph/graph';
 import TreeGraph from './graph/tree-graph';
 import { TreeLayout, Layout, registerLayout } from './layout';
@@ -17,6 +18,9 @@ import Util from './util';
 import Plugin from './plugin';
 import './element';
 import './behavior';
+
+type IAlgorithm = typeof AlgorithmSync | typeof AlgorithmAsync;
+const Algorithm: IAlgorithm = { ...AlgorithmSync, ... AlgorithmAsync };
 
 const Grid = Plugin.Grid;
 const Minimap = Plugin.Minimap;

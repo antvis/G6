@@ -36,7 +36,7 @@
     "@antv/g6": "4.3.2",
     "@antv/gatsby-theme-antv": "1.1.1",
     "@antv/util": "^2.0.9",
-    "@antv/vis-predict-engine": "^0.0.7",
+    "@antv/vis-predict-engine": "^0.1.1",
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
     "gatsby": "^2.24.40",

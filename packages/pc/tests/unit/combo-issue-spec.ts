@@ -84,7 +84,7 @@ describe('combo states', () => {
   });
 });
 
-describe.only('combo edges', () => {
+describe('combo edges', () => {
   const data2 = {
     nodes: [
       { id: 'node1', x: 350, y: 200, comboId: 'combo1', },
