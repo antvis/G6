@@ -56,12 +56,19 @@ describe('circular layout(web worker)', () => {
     graph.data(data);
     graph.render();
 
+    let timeout = false;
     graph.on('afterlayout', () => {
+      if (timeout) return;
       const pos = (200 * Math.sqrt(2)) / 2;
       expect(mathEqual(data.nodes[0].x, 250 + pos)).toEqual(true);
       expect(mathEqual(data.nodes[0].y, 250 + pos)).toEqual(true);
       graph.destroy();
       done();
     });
+    setTimeout(() => {
+      timeout = true;
+      graph.destroy();
+      done();
+    }, 1000)
   });
 });
