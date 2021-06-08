@@ -1,4 +1,5 @@
 import { EventAttrs } from '../Register/event';
+import { AnimationConfig } from '../Animation/animate';
 import React from 'react';
 
 interface GroupProps {
@@ -32,6 +33,11 @@ interface GroupProps {
    * @description.zh-CN 图形/组的层级
    */
   zIndex?: number;
+  /**
+   * @description.en-US animation config
+   * @description.zh-CN 动画设置
+   */
+  animation?: Partial<AnimationConfig>;
 }
 
 export type CommonProps = GroupProps & EventAttrs;
