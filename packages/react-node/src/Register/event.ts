@@ -1,16 +1,11 @@
 import { IShape } from '@antv/g-base';
-import {
-  IG6GraphEvent,
-  INode,
-  IAbstractGraph as Graph,
-} from '@antv/g6-core/lib';
-import { IAbstractGraph } from '@antv/g6-pc';
+import { IAbstractGraph, IG6GraphEvent, Item } from '@antv/g6-pc';
 
 export type ShapeEventListner = (
   event: IG6GraphEvent,
-  node: INode | null,
+  node: Item | null,
   shape: IShape,
-  graph: Graph,
+  graph: IAbstractGraph,
 ) => void;
 
 export interface EventAttrs {
@@ -61,7 +56,7 @@ export function appenAutoShapeListener(graph: IAbstractGraph) {
       const graph = evt.currentTarget as IAbstractGraph;
       const func = shape?.get(propName) as ShapeEventListner;
 
-      if (func) {
+      if (func && item) {
         func(evt, item, shape, graph);
       }
     });
