@@ -431,6 +431,10 @@ const graph = new G6.Graph({
     type: 'fruchterman',
     gravity: 5,
     speed: 5,
+    // for rendering after each iteration
+    tick: () => {
+      graph.refreshPositions()
+    }
   },
   animate: true,
   defaultNode: {

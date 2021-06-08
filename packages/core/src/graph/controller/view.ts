@@ -2,7 +2,7 @@ import { AbstractCanvas } from '@antv/g-base';
 import { Point, IGroup } from '@antv/g-base';
 import { isNumber, isString } from '@antv/util';
 import { modifyCSS } from '@antv/dom-util';
-import { Item, Matrix, Padding, GraphAnimateConfig } from '../../types';
+import { Item, Matrix, Padding, GraphAnimateConfig, IEdge } from '../../types';
 import { formatPadding } from '../../util/base';
 import { applyMatrix, invertMatrix } from '../../util/math';
 import { IAbstractGraph } from '../../interface/graph';
@@ -171,20 +171,29 @@ export default class ViewController {
     if (isString(item)) {
       item = this.graph.findById(item);
     }
-    const group: IGroup = item.get('group');
-    let matrix: Matrix = group.getMatrix();
-    if (!matrix) matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
 
     if (item) {
+      let x = 0,
+        y = 0;
+      if (item.getType && item.getType() === 'edge') {
+        const sourceMatrix: IGroup = (item as IEdge).getSource().get('group').getMatrix();
+        const targetMatrix: IGroup = (item as IEdge).getTarget().get('group').getMatrix();
+        if (sourceMatrix && targetMatrix) {
+          x = (sourceMatrix[6] + targetMatrix[6]) / 2;
+          y = (sourceMatrix[7] + targetMatrix[7]) / 2;
+        } else if (sourceMatrix || targetMatrix) {
+          x = sourceMatrix ? sourceMatrix[6] : targetMatrix[6];
+          y = sourceMatrix ? sourceMatrix[7] : targetMatrix[7];
+        }
+      } else {
+        const group: IGroup = item.get('group');
+        let matrix: Matrix = group.getMatrix();
+        if (!matrix) matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
+        x = matrix[6];
+        y = matrix[7];
+      }
       // 用实际位置而不是model中的x,y,防止由于拖拽等的交互导致model的x,y并不是当前的x,y
-      this.focusPoint(
-        {
-          x: matrix[6],
-          y: matrix[7],
-        },
-        animate,
-        animateCfg,
-      );
+      this.focusPoint({ x, y }, animate, animateCfg);
     }
   }
 
@@ -207,17 +216,8 @@ export default class ViewController {
     const plugins = graph.get('plugins');
     plugins.forEach((plugin) => {
       if (plugin.get('gridContainer')) {
-        const minZoom = graph.get('minZoom');
-        modifyCSS(plugin.get('container'), {
-          width: `${width}px`,
-          height: `${height}px`,
-        });
-        modifyCSS(plugin.get('gridContainer'), {
-          width: `${width / minZoom}px`,
-          height: `${height / minZoom}px`,
-          left: 0,
-          top: 0,
-        });
+        // 网格定位信息初始化
+        plugin.positionInit();
       }
     });
   }

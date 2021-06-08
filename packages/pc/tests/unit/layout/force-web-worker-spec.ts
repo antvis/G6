@@ -12,37 +12,45 @@ describe('force layout(web worker)', function () {
   // this.timeout(10000);
 
   it('force layout(web worker) with default configs', done => {
-      const node = data.nodes[0];
-      let count = 0;
-      let ended = false;
-      const graph = new G6.Graph({
-        container: div,
-        layout: {
-          type: 'force',
-          onTick() {
-            count++;
-            expect(node.x).not.toEqual(undefined);
-            expect(node.y).not.toEqual(undefined);
-          },
-          onLayoutEnd() {
-            ended = true;
-          },
-          // use web worker to layout
-          workerEnabled: true,
+    const node = data.nodes[0];
+    let count = 0;
+    let ended = false;
+    const graph = new G6.Graph({
+      container: div,
+      layout: {
+        type: 'force',
+        onTick() {
+          count++;
+          expect(node.x).not.toEqual(undefined);
+          expect(node.y).not.toEqual(undefined);
         },
-        width: 500,
-        height: 500,
-        defaultNode: { size: 10 },
-      });
-      graph.on('afterlayout', () => {
-        expect(node.x).not.toEqual(undefined);
-        expect(node.y).not.toEqual(undefined);
-        expect(count >= 1).toEqual(true);
-        expect(ended).toEqual(true);
-        graph.destroy();
-        done();
-      });
-      graph.data(data);
-      graph.render();
+        onLayoutEnd() {
+          ended = true;
+          graph.emit('afterlayout', {});
+        },
+        // use web worker to layout
+        workerEnabled: true,
+      },
+      width: 500,
+      height: 500,
+      defaultNode: { size: 10 },
+    });
+    let timeout = false;
+    graph.on('afterlayout', () => {
+      if (timeout) return;
+      expect(node.x).not.toEqual(undefined);
+      expect(node.y).not.toEqual(undefined);
+      expect(count >= 1).toEqual(true);
+      expect(ended).toEqual(true);
+      graph.destroy();
+      done();
+    });
+    graph.data(data);
+    graph.render();
+    setTimeout(() => {
+      timeout = true;
+      graph.destroy();
+      done();
+    }, 4000)
   });
 });

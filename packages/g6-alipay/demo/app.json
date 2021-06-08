@@ -1,0 +1,19 @@
+{
+  "pages": [
+    "pages/native-canvas/index",
+    "pages/g6/g6",
+    "pages/native-test/native-test",
+    "pages/native-test-fullpage/index",
+    "pages/image/image"
+  ],
+  "window": {
+    "enableWK": "YES",
+    "enableDSL": "YES",
+    "enableJSC": "YES",
+    "defaultTitle": "G6组件测试",
+    "backgroundColor": "#F5F5F9",
+    "pullRefresh": false,
+    "allowsBounceVertical": "NO"
+  },
+  "debug": true
+}

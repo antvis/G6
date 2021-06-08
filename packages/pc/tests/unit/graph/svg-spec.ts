@@ -2532,8 +2532,8 @@ describe('plugins', () => {
     const gridDom = document.getElementsByClassName('g6-grid')[0] as HTMLElement;
     expect(gridDom).not.toBe(undefined);
     const minZoom = graph.get('minZoom');
-    const width = 500 / minZoom;
-    const height = 500 / minZoom;
+    const width = (500 * 80) / minZoom;
+    const height = (500 * 80) / minZoom;
     expect(gridDom.style.width).toBe(`${width}px`);
     expect(gridDom.style.height).toBe(`${height}px`);
     // graph.destroy();

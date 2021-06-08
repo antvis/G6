@@ -1,6 +1,8 @@
 import G6 from '@antv/g6';
 
-const { Util } = G6;
+const {
+  Util
+} = G6;
 
 const colorArr = [
   '#5B8FF9',
@@ -28,13 +30,11 @@ const colorArr = [
 const rawData = {
   label: 'Modeling Methods',
   id: '0',
-  children: [
-    {
+  children: [{
       label: 'Classification',
       id: '0-1',
       color: '#5AD8A6',
-      children: [
-        {
+      children: [{
           label: 'Logistic regression',
           id: '0-1-1',
         },
@@ -72,12 +72,10 @@ const rawData = {
       label: 'Consensus',
       id: '0-2',
       color: '#F6BD16',
-      children: [
-        {
+      children: [{
           label: 'Models diversity',
           id: '0-2-1',
-          children: [
-            {
+          children: [{
               label: 'Different initializations',
               id: '0-2-1-1',
             },
@@ -106,8 +104,7 @@ const rawData = {
         {
           label: 'Methods',
           id: '0-2-2',
-          children: [
-            {
+          children: [{
               label: 'Classifier selection',
               id: '0-2-2-1',
             },
@@ -120,8 +117,7 @@ const rawData = {
         {
           label: 'Common',
           id: '0-2-3',
-          children: [
-            {
+          children: [{
               label: 'Bagging',
               id: '0-2-3-1',
             },
@@ -141,8 +137,7 @@ const rawData = {
       label: 'Regression',
       id: '0-3',
       color: '#269A99',
-      children: [
-        {
+      children: [{
           label: 'Multiple linear regression',
           id: '0-3-1',
         },
@@ -168,8 +163,7 @@ const rawData = {
 };
 
 G6.registerNode(
-  'dice-mind-map-root',
-  {
+  'dice-mind-map-root', {
     jsx: (cfg) => {
       const width = Util.getTextSize(cfg.label, 16)[0] + 24;
       const stroke = cfg.style.stroke || '#096dd9';
@@ -198,8 +192,7 @@ G6.registerNode(
   'single-node',
 );
 G6.registerNode(
-  'dice-mind-map-sub',
-  {
+  'dice-mind-map-sub', {
     jsx: (cfg) => {
       const width = Util.getTextSize(cfg.label, 14)[0] + 24;
       const color = cfg.color || cfg.style.stroke;
@@ -236,8 +229,7 @@ G6.registerNode(
   'single-node',
 );
 G6.registerNode(
-  'dice-mind-map-leaf',
-  {
+  'dice-mind-map-leaf', {
     jsx: (cfg) => {
       const width = Util.getTextSize(cfg.label, 12)[0] + 24;
       const color = cfg.color || cfg.style.stroke;
@@ -288,21 +280,19 @@ G6.registerBehavior('dice-mindmap', {
         const newId =
           model.id +
           '-' +
-          ((model.children.reduce((a, b) => {
-            const num = Number(b.id.split('-').pop());
-            return a < num ? num : a;
-          }, 0) || 0) +
+          (((model.children || []).reduce((a, b) => {
+              const num = Number(b.id.split('-').pop());
+              return a < num ? num : a;
+            }, 0) || 0) +
             1);
         evt.currentTarget.updateItem(evt.item, {
-          children: (model.children || []).concat([
-            {
-              id: newId,
-              direction: newId.charCodeAt(newId.length - 1) % 2 === 0 ? 'right' : 'left',
-              label: 'New',
-              type: 'dice-mind-map-leaf',
-              color: model.color || colorArr[Math.floor(Math.random() * colorArr.length)],
-            },
-          ]),
+          children: (model.children || []).concat([{
+            id: newId,
+            direction: newId.charCodeAt(newId.length - 1) % 2 === 0 ? 'right' : 'left',
+            label: 'New',
+            type: 'dice-mind-map-leaf',
+            color: model.color || colorArr[Math.floor(Math.random() * colorArr.length)],
+          }, ]),
         });
         evt.currentTarget.layout(false);
         break;
@@ -322,7 +312,10 @@ G6.registerBehavior('dice-mindmap', {
   editNode(evt) {
     const item = evt.item;
     const model = item.get('model');
-    const { x, y } = item.calculateBBox();
+    const {
+      x,
+      y
+    } = item.calculateBBox();
     const graph = evt.currentTarget;
     const realPosition = evt.currentTarget.getClientByPoint(x, y);
     const el = document.createElement('div');
@@ -350,7 +343,7 @@ G6.registerBehavior('dice-mindmap', {
       document.body.removeChild(el);
     };
     const clickEvt = (event) => {
-      if (!event.target['className'].includes('dice-input')) {
+      if (!(event.target && event.target.className && event.target.className.includes('dice-input'))) {
         window.removeEventListener('mousedown', clickEvt);
         window.removeEventListener('scroll', clickEvt);
         graph.updateItem(item, {
@@ -391,7 +384,9 @@ G6.registerBehavior('scroll-canvas', {
   },
 
   onWheel: function onWheel(ev) {
-    const { graph } = this;
+    const {
+      graph
+    } = this;
     if (!graph) {
       return;
     }
@@ -476,9 +471,9 @@ const tree = new G6.TreeGraph({
       return 16;
     },
     getWidth: (node) => {
-      return node.level === 0
-        ? Util.getTextSize(node.label, 16)[0] + 12
-        : Util.getTextSize(node.label, 12)[0];
+      return node.level === 0 ?
+        Util.getTextSize(node.label, 16)[0] + 12 :
+        Util.getTextSize(node.label, 12)[0];
     },
     getVGap: () => {
       return 10;

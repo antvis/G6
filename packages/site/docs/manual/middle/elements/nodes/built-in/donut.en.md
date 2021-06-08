@@ -208,7 +208,8 @@ const graph = new G6.Graph({
 | show   | Whether to show the icon  | Boolean | `false` by default |
 | width  | The width of the icon     | Number  | `16` by default    |
 | height | The height of the icon    | Number  | `16` by default    |
-| img    | The image url of the icon | String  |                    |
+| img | The image url or base64 of the icon | String | Configuring it means the icon is an image |
+| text    | iconfont for the icon | String | Configuring it means the icon is an iconfont |                 |
 
 Base on the code in [style](#style) section, we add `icon` to `defaultNode`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AuNDSq7DTu0AAAAAAAAAAAAAARQnAQ' width=100 alt='img'/>
 
@@ -222,9 +223,10 @@ const graph = new G6.Graph({
     // ... Other configurations for nodes
     icon: {
       show: true,
-      //img: '...', The image url of the icon
       width: 25,
       height: 25,
+      // img: '...', The image url of the icon
+      // text: '...', Use an iconfont for the icon
     },
   },
 });

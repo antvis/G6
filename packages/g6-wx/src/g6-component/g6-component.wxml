@@ -1,0 +1,13 @@
+<canvas
+  id="g6-canvas"
+  type="2d"
+  width="{{width * pixelRatio}}"
+  height="{{(height) * pixelRatio}}"
+  style="width: {{width}}px; height: {{height}}px; {{style}}"
+  disable-scroll="{{true}}"
+  bindtouchstart="ontouch"
+  bindtouchcancel="ontouch"
+  bindtouchmove="ontouch"
+  bindtouchend="ontouch"
+  binderror="error"
+></canvas>

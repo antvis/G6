@@ -74,7 +74,9 @@ const graph = new G6.Graph({
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lX-qSqDECrIAAAAAAAAAAAAAARQnAQ' width=500 alt='img'/>
 
-<br /> **描述**：G6 4.0 支持的经典力导向布局。能够更加自由地支持设置节点质量、群组中心力等。更重要的是，它支持 GPU 并行计算。 <br /> **API**：[Force API](/zh/docs/api/graphLayout/gforce) <br /> **参数**：
+<br /> **描述**：G6 4.0 支持的经典力导向布局。能够更加自由地支持设置节点质量、群组中心力等。更重要的是，它支持 GPU 并行计算。当你希望固定某个节点的位置，不受力的影响时，可以在该节点数据中配置 `fx` 与 `fy` 作为固定的坐标。[GForce 布局固定被拖拽节点位置的 Demo](/zh/examples/net/forceDirected#gForceFix)。
+<br /> **API**：[Force API](/zh/docs/api/graphLayout/gforce) 
+<br /> **参数**：
 
 | 参数名 | 类型 | 示例 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -102,7 +104,9 @@ const graph = new G6.Graph({
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*oDbHRJc5td8AAAAAAAAAAABkARQnAQ' width='500'  alt='img'/>
 
-<br /> **描述**：经典力导向布局。 <br /> **API**：[Force API](/zh/docs/api/graphLayout/force) <br /> **参数**：与 d3.js 的力导布局参数相对应。
+<br /> **描述**：经典力导向布局。当你希望固定某个节点的位置，不受力的影响时，可以在该节点数据中配置 `fx` 与 `fy` 作为固定的坐标。[Force 布局固定被拖拽节点位置的 Demo](/zh/examples/net/forceDirected#basicForceDirectedDragFix)。
+<br /> **API**：[Force API](/zh/docs/api/graphLayout/force) 
+<br /> **参数**：与 d3.js 的力导布局参数相对应。
 
 | 参数名 | 类型 | 示例 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -132,7 +136,9 @@ const graph = new G6.Graph({
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*DibyQYaI2qYAAAAAAAAAAABkARQnAQ' width='400'  alt='img'/>
 
-<br />**描述**：Fruchterman 布局，一种力导布局。 <br />**API**：[Fruchterman API](/zh/docs/api/graphLayout/fruchterman) <br />**参数**：
+<br />**描述**：Fruchterman 布局，一种力导布局。当你希望固定某个节点的位置，不受力的影响时，可以在该节点数据中配置 `fx` 与 `fy` 作为固定的坐标。[Fruchterman 布局固定被拖拽节点位置的 Demo](/zh/examples/net/fruchtermanLayout#fructhermanFix)。
+<br />**API**：[Fruchterman API](/zh/docs/api/graphLayout/fruchterman) 
+<br />**参数**：
 
 | 参数名 | 类型 | 示例 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |

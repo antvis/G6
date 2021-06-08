@@ -217,8 +217,6 @@ export default class MiniMap extends Base {
       this.initViewport();
     }
 
-    const zoom = graph.getZoom();
-
     // viewport宽高,左上角点的计算
     let width = (bottomRight.x - topLeft.x) * ratio;
     let height = (bottomRight.y - topLeft.y) * ratio;
@@ -300,22 +298,74 @@ export default class MiniMap extends Base {
   private updateKeyShapes() {
     const { graph } = this._cfgs;
 
+    const canvas: GCanvas = this.get('canvas');
+    const group = canvas.get('children')[0] || canvas.addGroup();
+
     each(graph!.getEdges(), (edge) => {
-      this.updateOneEdgeKeyShape(edge);
+      this.updateOneEdgeKeyShape(edge, group);
     });
     each(graph!.getNodes(), (node) => {
-      this.updateOneNodeKeyShape(node);
+      this.updateOneNodeKeyShape(node, group);
     });
+    const combos = graph!.getCombos();
+    if (combos && combos.length) {
+      const comboGroup = group.find(e => e.get('name') === 'comboGroup') ||
+        group.addGroup({
+        name: 'comboGroup'
+      });
+      setTimeout(() => {
+        each(combos, (combo) => {
+          this.updateOneComboKeyShape(combo, comboGroup);
+        });
+        comboGroup.sort();
+        comboGroup.toBack();
+      }, 250)
+    }
     this.clearDestroyedShapes();
+  }
+
+  /**
+   * 增加/更新单个元素的 keyShape
+   * @param item ICombo 实例
+   */
+  private updateOneComboKeyShape(item, comboGroup) {
+    const itemMap = this.get('itemMap') || {};
+
+    // 差量更新 minimap 上的一个节点，对应主图的 item
+    let mappedItem = itemMap[item.get('id')];
+    const bbox = item.getBBox(); // 计算了节点父组矩阵的 bbox
+    const cKeyShape = item.get('keyShape').clone();
+    const keyShapeStyle = cKeyShape.attr();
+    let attrs: any = {
+      x: bbox.centerX,
+      y: bbox.centerY,
+    };
+    if (!mappedItem) {
+      mappedItem = cKeyShape;
+      comboGroup.add(mappedItem);
+    } else {
+      attrs = Object.assign(keyShapeStyle, attrs);
+    }
+    const shapeType = mappedItem.get('type');
+    if (shapeType === 'rect' || shapeType === 'image') {
+      attrs.x = bbox.minX;
+      attrs.y = bbox.minY;
+    }
+    mappedItem.attr(attrs);
+    if (!item.isVisible()) mappedItem.hide();
+    else mappedItem.show();
+    mappedItem.exist = true;
+    const zIndex = item.getModel().depth;
+    if (!isNaN(zIndex)) mappedItem.set('zIndex', zIndex)
+    itemMap[item.get('id')] = mappedItem;
+    this.set('itemMap', itemMap);
   }
 
   /**
    * 增加/更新单个元素的 keyShape
    * @param item INode 实例
    */
-  private updateOneNodeKeyShape(item) {
-    const canvas: GCanvas = this.get('canvas');
-    const group = canvas.get('children')[0] || canvas.addGroup();
+  private updateOneNodeKeyShape(item, group) {
     const itemMap = this.get('itemMap') || {};
 
     // 差量更新 minimap 上的一个节点，对应主图的 item
@@ -339,10 +389,11 @@ export default class MiniMap extends Base {
       attrs.y = bbox.minY;
     }
     mappedItem.attr(attrs);
-    if (!item.isVisible()) {
-      mappedItem.hide();
-    }
+    if (!item.isVisible()) mappedItem.hide();
+    else mappedItem.show();
     mappedItem.exist = true;
+    const zIndex = item.getModel().depth;
+    if (!isNaN(zIndex)) mappedItem.set('zIndex', zIndex)
     itemMap[item.get('id')] = mappedItem;
     this.set('itemMap', itemMap);
   }
@@ -353,13 +404,30 @@ export default class MiniMap extends Base {
   private updateDelegateShapes() {
     const { graph } = this._cfgs;
 
+    const canvas: GCanvas = this.get('canvas');
+    const group = canvas.get('children')[0] || canvas.addGroup();
+
     // 差量更新 minimap 上的节点和边
     each(graph!.getEdges(), (edge) => {
-      this.updateOneEdgeKeyShape(edge);
+      this.updateOneEdgeKeyShape(edge, group);
     });
     each(graph!.getNodes(), (node) => {
-      this.updateOneNodeDelegateShape(node);
+      this.updateOneNodeDelegateShape(node, group);
     });
+    const combos = graph!.getCombos();
+    if (combos && combos.length) {
+      const comboGroup = group.find(e => e.get('name') === 'comboGroup') ||
+        group.addGroup({
+        name: 'comboGroup'
+      });
+      setTimeout(() => {
+        each(combos, (combo) => {
+          this.updateOneComboKeyShape(combo, comboGroup);
+        });
+        comboGroup.sort();
+        comboGroup.toBack();
+      }, 250)
+    }
     this.clearDestroyedShapes();
   }
 
@@ -382,9 +450,7 @@ export default class MiniMap extends Base {
    * 设置只显示 edge 的 keyShape
    * @param item IEdge 实例
    */
-  private updateOneEdgeKeyShape(item) {
-    const canvas: GCanvas = this.get('canvas');
-    const group = canvas.get('children')[0] || canvas.addGroup();
+  private updateOneEdgeKeyShape(item, group) {
     const itemMap = this.get('itemMap') || {};
     // 差量更新 minimap 上的一个节点，对应主图的 item
     let mappedItem = itemMap[item.get('id')];
@@ -394,11 +460,9 @@ export default class MiniMap extends Base {
     } else {
       mappedItem = item.get('keyShape').clone();
       group.add(mappedItem);
-      mappedItem.toBack();
     }
-    if (!item.isVisible()) {
-      mappedItem.hide();
-    }
+    if (!item.isVisible()) mappedItem.hide();
+    else mappedItem.show();
     mappedItem.exist = true;
     itemMap[item.get('id')] = mappedItem;
     this.set('itemMap', itemMap);
@@ -409,9 +473,7 @@ export default class MiniMap extends Base {
    * 增加/更新单个元素
    * @param item INode 实例
    */
-  private updateOneNodeDelegateShape(item) {
-    const canvas: GCanvas = this.get('canvas');
-    const group = canvas.get('children')[0] || canvas.addGroup();
+  private updateOneNodeDelegateShape(item, group) {
     const delegateStyle = this.get('delegateStyle');
     const itemMap = this.get('itemMap') || {};
 
@@ -438,9 +500,8 @@ export default class MiniMap extends Base {
         name: 'minimap-node-shape',
       });
     }
-    if (!item.isVisible()) {
-      mappedItem.hide();
-    }
+    if (!item.isVisible()) mappedItem.hide();
+    else mappedItem.show();
     mappedItem.exist = true;
     itemMap[item.get('id')] = mappedItem;
     this.set('itemMap', itemMap);
@@ -574,11 +635,10 @@ export default class MiniMap extends Base {
     // 该 bbox 是准确的，不计算 matrix 的包围盒
     const bbox = group.getCanvasBBox();
 
-    // 主图的 bbox
-    const graphBBox = graph.get('canvas').getCanvasBBox();
-
-    let width = graphBBox.width;
-    let height = graphBBox.height;
+    const graphBBox = graph.get('canvas').getCanvasBBox(); // 主图的 bbox
+    const graphZoom = graph.getZoom() || 1;
+    let width = graphBBox.width / graphZoom;
+    let height = graphBBox.height / graphZoom;
 
     if (Number.isFinite(bbox.width)) {
       // 刷新后bbox可能会变，需要重置画布矩阵以缩放到合适的大小

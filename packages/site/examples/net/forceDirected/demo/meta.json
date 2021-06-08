@@ -75,6 +75,14 @@
         "en": "Constrain the Nodes in a region"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-4H8SaV8QKwAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "gForceFix.js",
+      "title": {
+        "zh": "GForce 固定被拖拽的节点",
+        "en": "GForce with Fixing Dragged Nodes"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YMwnTbT9NnQAAAAAAAAAAAAAARQnAQ"
     }
   ]
 }

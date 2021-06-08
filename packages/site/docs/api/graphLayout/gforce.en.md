@@ -32,6 +32,8 @@ const graph = new G6.Graph({
 });
 ```
 
+If you want to fix the positions for some nodes during calculation, assign `fx` and `fy` for the nodes as fixing positions. [Demo for fixing node](/en/examples/net/forceDirected#gForceFix).
+
 ## layoutCfg.center
 
 **Type**: Array<br />**Example**: [ 0, 0 ]<br />**Default**: The center of the graph<br />**Required**: false<br />**Description**: The center of the layout

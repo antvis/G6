@@ -3,7 +3,9 @@ import { G6Event, IG6GraphEvent, INode } from '@antv/g6-core';
 export default {
   getDefaultCfg(): object {
     return {
-      trigger: 'mouseenter', // 可选 mouseenter || click
+      // 可选 mouseenter || click
+      // 选择 click 会监听 touch，mouseenter 不会监听
+      trigger: 'mouseenter',
       activeState: 'active',
       inactiveState: 'inactive',
       resetSelected: false,
@@ -25,7 +27,44 @@ export default {
       'node:click': 'setAllItemStates',
       'combo:click': 'setAllItemStates',
       'canvas:click': 'clearActiveState',
+      'node:touchstart': 'setOnTouchStart',
+      'combo:touchstart': 'setOnTouchStart',
+      'canvas:touchstart': 'clearOnTouchStart',
     };
+  },
+  setOnTouchStart(e: IG6GraphEvent) {
+    const self = this;
+    try {
+      const touches = (e.originalEvent as TouchEvent).touches;
+      const event1 = touches[0];
+      const event2 = touches[1];
+
+      if (event1 && event2) {
+        return;
+      }
+
+      e.preventDefault();
+    } catch (e) {
+      console.warn('Touch original event not exist!');
+    }
+    self.setAllItemStates(e);
+  },
+  clearOnTouchStart(e: IG6GraphEvent) {
+    const self = this;
+    try {
+      const touches = (e.originalEvent as TouchEvent).touches;
+      const event1 = touches[0];
+      const event2 = touches[1];
+
+      if (event1 && event2) {
+        return;
+      }
+
+      e.preventDefault();
+    } catch (e) {
+      console.warn('Touch original event not exist!');
+    }
+    self.clearActiveState(e);
   },
   setAllItemStates(e: IG6GraphEvent) {
     const item: INode = e.item as INode;
@@ -98,7 +137,7 @@ export default {
     const rEdgeLegnth = rEdges.length;
     for (let i = 0; i < rEdgeLegnth; i++) {
       const edge = rEdges[i];
-      let otherEnd;
+      let otherEnd: INode;
       if (edge.getSource() === item) {
         otherEnd = edge.getTarget();
       } else {

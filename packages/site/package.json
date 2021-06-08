@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@antv/g6-site",
-  "version": "4.2.7",
+  "version": "4.3.3",
   "description": "G6 sites deployed on gh-pages",
   "keywords": [
     "antv",
@@ -27,17 +27,16 @@
     "site:build": "npm run site:clean && GATSBY=true gatsby build --prefix-paths",
     "site:clean": "gatsby clean",
     "site:develop": "GATSBY=true gatsby develop --open",
-    "site:deploy": "npm run site:build && npm run site:copy-mirror-action && gh-pages -d public",
-    "site:copy-mirror-action": "mkdir -p public/.github/workflows && cp .github/workflows/mirror.yml public/.github/workflows",
+    "site:deploy": "npm run site:build && gh-pages -d public",
     "start": "npm run site:develop"
   },
   "dependencies": {
     "@ant-design/icons": "^4.0.6",
     "@antv/chart-node-g6": "^0.0.3",
-    "@antv/g6": "4.2.7",
+    "@antv/g6": "4.3.3",
     "@antv/gatsby-theme-antv": "1.1.1",
     "@antv/util": "^2.0.9",
-    "@antv/vis-predict-engine": "^0.0.7",
+    "@antv/vis-predict-engine": "^0.1.1",
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
     "gatsby": "^2.24.40",

@@ -574,9 +574,17 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * @param {number} x 水平坐标
    * @param {number} y 垂直坐标
    */
-  public moveTo(x: number, y: number): void {
+  public moveTo(x: number, y: number, animate?: boolean, animateCfg?: GraphAnimateConfig): void {
     const group: IGroup = this.get('group');
-    move(group, { x, y });
+    move(
+      group,
+      { x, y },
+      animate,
+      animateCfg || {
+        duration: 500,
+        easing: 'easeCubic',
+      }
+    );
     this.emit('viewportchange', { action: 'move', matrix: group.getMatrix() });
   }
 
@@ -1057,7 +1065,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
             cloneNode.itemType = 'node';
             if (child.children) child.children.push(cloneNode as any);
             else child.children = [cloneNode as any];
-            model.depth = child.depth + 1;
+            cloneNode.depth = child.depth + 1;
           }
           // update the size of all the ancestors
           if (foundParent && itemMap[child.id].getType && itemMap[child.id].getType() === 'combo') {
@@ -1620,7 +1628,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
           edges.forEach(edge => {
             this.removeItem(edge, false);
           });
-          const index = comboItems.indexOf(combo);
+          const index = comboItems.indexOf(comboItem);
           comboItems.splice(index, 1);
           delete itemMap[comboId];
           comboItem.destroy();

@@ -32,6 +32,8 @@ const graph = new G6.Graph({
 });
 ```
 
+当你希望固定某个节点的位置，不受力的影响时，可以在该节点数据中配置 `fx` 与 `fy` 作为固定的坐标。[GForce 布局固定被拖拽节点位置的 Demo](/zh/examples/net/forceDirected#gForceFix)。
+
 ## layoutCfg.center
 
 **类型**： Array<br />**示例**：[ 0, 0 ]<br />**默认值**：图的中心<br />**是否必须**：false<br />**说明**：布局的中心

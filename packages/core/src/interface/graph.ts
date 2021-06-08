@@ -452,7 +452,7 @@ export interface IAbstractGraph extends EventEmitter {
    * @param {number} x 水平坐标
    * @param {number} y 垂直坐标
    */
-  moveTo: (x: number, y: number) => void;
+  moveTo: (x: number, y: number, animate?: boolean, animateCfg?: GraphAnimateConfig) => void;
 
   /**
    * 根据对应规则查找单个元素

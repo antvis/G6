@@ -1,0 +1,18 @@
+{
+  "extends": "eslint-config-ali",
+  "globals": {
+    "my": true,
+    "wx": true,
+    "App": true,
+    "Component": true,
+    "Page": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "typescript"
+  ],
+  "rules": {
+    "typescript/class-name-casing": "error",
+    "typescript/type-annotation-spacing": "error"
+  }
+}

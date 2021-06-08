@@ -111,6 +111,29 @@ describe('view', () => {
     expect(centerPoint.x - 50 < 0.1).toBe(true);
     expect(centerPoint.y - 50 < 0.1).toBe(true);
   });
+  it('focus edge', () => {
+    const data = {
+      nodes: [{id: '1', x: 10, y: 10}, {id: '2', x: 25, y: 40}, {id: '3', x: -50, y: 80}],
+      edges: [{source: '1', target: '2'}, {source: '1', target: '3'}]
+    }
+    const g = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+    })
+    g.read(data);
+    g.get('canvas').get('el').style.backgroundColor='#ccc';
+    g.zoom(2, { x: 10, y: 10 });
+    g.focusItem(g.getEdges()[0]);
+    let centerPoint = g.getPointByCanvas(250, 250);
+    expect(centerPoint.x).toBe(17.5);
+    expect(centerPoint.y).toBe(25);
+
+    g.focusItem(g.getEdges()[1]);
+    centerPoint = g.getPointByCanvas(250, 250);
+    expect(centerPoint.x).toBe(-20);
+    expect(centerPoint.y).toBe(45);
+  });
 
   it('getPointByCanvas', () => {
     const point = graph.getPointByCanvas(250, 250);

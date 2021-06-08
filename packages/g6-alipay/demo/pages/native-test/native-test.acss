@@ -1,0 +1,16 @@
+page {
+  height: 1000px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.canvas {
+  border: 2px solid red;
+  margin: 40px;
+  width: 300px;
+  height: 400px;
+  background-color: bisque;
+}

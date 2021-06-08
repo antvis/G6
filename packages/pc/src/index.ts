@@ -8,18 +8,22 @@ import {
   Shape,
 } from '@antv/g6-core';
 import { ICanvas, IGroup, IShape } from '@antv/g-base';
-import * as Algorithm from '@antv/algorithm';
+import * as AlgorithmSync from '@antv/algorithm';
+import * as AlgorithmAsync from '@antv/algorithm/lib/asyncIndex';
 import Graph from './graph/graph';
 import TreeGraph from './graph/tree-graph';
-import { Layout, registerLayout } from './layout';
+import { TreeLayout, Layout, registerLayout } from './layout';
 import Global from './global';
 import Util from './util';
 import Plugin from './plugin';
 import './element';
 import './behavior';
 
-const Minimap = Plugin.Minimap;
+type IAlgorithm = typeof AlgorithmSync | typeof AlgorithmAsync;
+const Algorithm: IAlgorithm = { ...AlgorithmSync, ... AlgorithmAsync };
+
 const Grid = Plugin.Grid;
+const Minimap = Plugin.Minimap;
 const Bundling = Plugin.Bundling;
 const Menu = Plugin.Menu;
 const Fisheye = Plugin.Fisheye;
@@ -29,6 +33,7 @@ const TimeBar = Plugin.TimeBar;
 const ImageMinimap = Plugin.ImageMinimap;
 const EdgeFilterLens = Plugin.EdgeFilterLens;
 const SnapLine = Plugin.SnapLine;
+const Legend = Plugin.Legend;
 
 export * from '@antv/g6-core';
 export * from './types';
@@ -39,6 +44,7 @@ export {
   TreeGraph,
   Util,
   Layout,
+  TreeLayout,
   registerLayout,
   Global,
   Minimap,
@@ -53,6 +59,7 @@ export {
   ImageMinimap,
   EdgeFilterLens,
   SnapLine,
+  Legend,
   Arrow,
   Marker,
   Shape,
@@ -68,6 +75,7 @@ export default {
   TreeGraph,
   Util,
   Layout,
+  TreeLayout,
   registerLayout,
   Global,
   registerBehavior,
@@ -80,6 +88,7 @@ export default {
   Menu: Plugin.Menu,
   ToolBar: Plugin.ToolBar,
   Tooltip: Plugin.Tooltip,
+  Legend: Plugin.Legend,
   TimeBar,
   SnapLine,
   Fisheye,

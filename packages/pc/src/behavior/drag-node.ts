@@ -37,6 +37,9 @@ export default {
       'combo:drop': 'onDropCombo',
       'node:drop': 'onDropNode',
       'canvas:drop': 'onDropCanvas',
+      'node:touchstart': 'onTouchStart',
+      'node:touchmove': 'onTouchMove',
+      'node:touchend': 'onDragEnd',
     };
   },
   validationCombo(item: ICombo) {
@@ -49,6 +52,41 @@ export default {
       return false;
     }
     return true;
+  },
+  onTouchStart(e: IG6GraphEvent) {
+    const self = this;
+    try {
+      const touches = (e.originalEvent as TouchEvent).touches;
+      const event1 = touches[0];
+      const event2 = touches[1];
+
+      if (event1 && event2) {
+        return;
+      }
+
+      e.preventDefault();
+    } catch (e) {
+      console.warn('Touch original event not exist!');
+    }
+    self.onDragStart(e);
+  },
+  onTouchMove(e: IG6GraphEvent) {
+    const self = this;
+    try {
+      const touches = (e.originalEvent as TouchEvent).touches;
+      const event1 = touches[0];
+      const event2 = touches[1];
+
+      if (event1 && event2) {
+        self.onDragEnd(e);
+        return;
+      }
+
+      e.preventDefault();
+    } catch (e) {
+      console.warn('Touch original event not exist!');
+    }
+    self.onDrag(e);
   },
   /**
    * 开始拖动节点

@@ -21,7 +21,7 @@ export default class Edge extends Item implements IEdge {
     };
   }
 
-  private setEnd(name: SourceTarget, value: INode) {
+  private setEnd(name: SourceTarget, value: any) {
     const pointName = END_MAP[name] + POINT_NAME_SUFFIX;
     const itemName = name + ITEM_NAME_SUFFIX;
     const preItem = this.get(itemName);
@@ -34,7 +34,7 @@ export default class Edge extends Item implements IEdge {
       // 如果设置成具体的点，则清理节点
       this.set(pointName, value);
       this.set(itemName, null);
-    } else {
+    } else if (value) {
       value!.addEdge(this);
       this.set(itemName, value);
       this.set(pointName, null);

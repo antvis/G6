@@ -1,0 +1,16 @@
+# TypeScript 未开启的全局类型声明文件
+global.d.ts
+
+# TypeScript 开启后的全局类型声明文件
+types
+
+# 临时文件 / 产物目录
+.tea
+.kaitian
+.temp
+.h5pro
+dist
+es
+node_modules
+.node
+.mini-ide

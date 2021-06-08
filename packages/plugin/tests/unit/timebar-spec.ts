@@ -216,10 +216,10 @@ describe('timeline play with timebar', () => {
       type: 'trend',
       trend: {
         data: timeBarData,
-        isArea: true,
         // areaStyle: {
         //   fill: 'pink'
         // },
+        isArea: true,
         lineStyle: {
           stroke: 'green',
           lineWidth: 1,
@@ -229,6 +229,9 @@ describe('timeline play with timebar', () => {
           style: {
             // stroke: '#ccc',
             fill: '#ccc',
+            stroke: '#5E6B73',
+            barWidth: 10,
+            // lineWidth: 3
           },
         },
       },

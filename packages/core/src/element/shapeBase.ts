@@ -74,7 +74,7 @@ export const shapeBase: ShapeOptions = {
         labelCfg: {
           style: {
             fontFamily:
-              typeof window !== 'undefined'
+              typeof window !== 'undefined' && window.getComputedStyle
                 ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
                   'Arial, sans-serif'
                 : 'Arial, sans-serif',
@@ -83,7 +83,7 @@ export const shapeBase: ShapeOptions = {
         descriptionCfg: {
           style: {
             fontFamily:
-              typeof window !== 'undefined'
+              typeof window !== 'undefined' && window.getComputedStyle
                 ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
                   'Arial, sans-serif'
                 : 'Arial, sans-serif',
@@ -354,9 +354,7 @@ export const shapeBase: ShapeOptions = {
    */
   setState(name: string, value: string | boolean, item: Item) {
     const shape: IShape = item.get('keyShape');
-    if (!shape) {
-      return;
-    }
+    if (!shape || shape.destroyed) return;
 
     const type = item.getType();
 
@@ -433,7 +431,7 @@ export const shapeBase: ShapeOptions = {
         if (isPlainObject(style) && !ARROWS.includes(p)) {
           const subShape = group.find((element) => element.get('name') === p);
           if (subShape) {
-            const subShapeStyles = clone(subShape.attr());
+            const subShapeStyles = cloneBesidesImg(subShape.attr());
             each(style, (v, key) => {
               if (p === keyShapeName && keyShapeStyles[key] && !keptAttrs[key]) {
                 delete keyShapeStyles[key];

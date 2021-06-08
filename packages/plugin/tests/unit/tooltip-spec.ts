@@ -219,345 +219,345 @@ describe('tooltip', () => {
   });
 });
 
-describe.only('tooltip mouse out of view', () => {
-  it.only('tooltip mouse out of view', () => {
+describe('tooltip mouse out of view', () => {
+  it('tooltip mouse out of view', () => {
     // 扩展studio节点
-G6.registerNode(
-  'pai-studio-node',
-  {
-    afterDraw(cfg: any, group: any) {
-      if (cfg.ports) {
-        const [width, height] = cfg.size;
-        const ports = [...(cfg.ports?.inputPorts ?? []), ...(cfg.ports?.outputPorts ?? [])];
-        const anchorPoints = getAnchorPoints(cfg.ports?.inputPorts ?? [], cfg.ports?.outputPorts ?? []);
-        anchorPoints.forEach((point, index) => {
-          let text = 'undefined';
+    G6.registerNode(
+      'pai-studio-node',
+      {
+        afterDraw(cfg: any, group: any) {
           if (cfg.ports) {
-            if (!ports[index].desc) {
-              return;
-            }
-            text = ports[index].desc;
-          }
-          const textWidth = parseInt(G6.Util.getTextSize(text, 12)[0]) + 28;
-          const x = point[0] * width - width / 2;
-          const y = point[1] * height - height / 2;
-          const rectTranslateY = point[1] === 0 ? -40 - 14 : 14;
-          const textTranslateY = point[1] === 0 ? -40 - 14 + 20 : 14 + 20;
-          group.addShape('circle', {
-            attrs: {
-              x,
-              y,
-              r: 5,
-              fill: '#fff',
-              stroke: '#8086a2',
-              cursor: 'pointer',
-              opacity: 0,
-            },
-            name: 'link-point',
-            index,
-            model: ports[index],
-            tooltip: {
-              rect: {
-                attrs: {
-                  x: x - textWidth / 2,
-                  y: y + rectTranslateY,
-                  width: textWidth,
-                  height: 40,
-                  fill: 'rgba(0, 0, 0, 0.75)',
-                  radius: [4, 4],
-                },
-                name: 'link-point-tooltip-rect-shape',
-                index,
-              },
-              text: {
-                attrs: {
-                  text,
-                  x: x - textWidth / 2 + 8,
-                  y: y + textTranslateY,
-                  fontSize: 12,
-                  textAlign: 'left',
-                  textBaseline: 'middle',
-                  fill: '#fff',
-                },
-                name: 'link-point-tooltip-text-shape',
-                index,
-              },
-              arrow: {
+            const [width, height] = cfg.size;
+            const ports = [...(cfg.ports?.inputPorts ?? []), ...(cfg.ports?.outputPorts ?? [])];
+            const anchorPoints = getAnchorPoints(cfg.ports?.inputPorts ?? [], cfg.ports?.outputPorts ?? []);
+            anchorPoints.forEach((point, index) => {
+              let text = 'undefined';
+              if (cfg.ports) {
+                if (!ports[index].desc) {
+                  return;
+                }
+                text = ports[index].desc;
+              }
+              const textWidth = parseInt(G6.Util.getTextSize(text, 12)[0]) + 28;
+              const x = point[0] * width - width / 2;
+              const y = point[1] * height - height / 2;
+              const rectTranslateY = point[1] === 0 ? -40 - 14 : 14;
+              const textTranslateY = point[1] === 0 ? -40 - 14 + 20 : 14 + 20;
+              group.addShape('circle', {
                 attrs: {
                   x,
-                  y: point[1] === 0 ? -30.6 : 30.6,
-                  r: 4,
-                  fill: 'rgba(0, 0, 0, 0.75)',
-                  symbol: point[1] === 0 ? 'triangle-down' : 'triangle',
-                },
-                name: 'link-point-tooltip-arrow-shape',
-                index,
-              },
-            },
-          });
-        });
-      }
-      group.addShape('rect', {
-        attrs: {
-          x: -86,
-          y: -16,
-          width: 32,
-          height: 32,
-          stroke: null,
-          fill: '#f00',
-          radius: [12, 12],
-        },
-        zIndex: 1,
-        name: 'rect-shape',
-      });
-      group.addShape('image', {
-        attrs: {
-          x: -78,
-          y: -8,
-          width: 16,
-          height: 16,
-          img: 'https://img.alicdn.com/tfs/TB1fyIo3KL2gK0jSZFmXXc7iXXa-200-200.png',
-        },
-        name: 'logo-icon',
-        zIndex: 10,
-      });
-    },
-    afterUpdate(cfg: any, node: any) {
-      const g = node._cfg.group;
-      const children = g.get('children');
-      const anchors = children.filter((child) => {
-        return child.cfg.name === 'link-point';
-      });
-      if (anchors.length) {
-        anchors.forEach((item) => {
-          g.removeChild(item);
-        });
-      }
-      if (cfg.ports) {
-        const [width, height] = cfg.size;
-        const ports = [...(cfg.ports?.inputPorts ?? []), ...(cfg.ports?.outputPorts ?? [])];
-        const anchorPoints = getAnchorPoints(cfg.ports?.inputPorts ?? [], cfg.ports?.outputPorts ?? []);
-        anchorPoints.forEach((point, index) => {
-          let text = 'undefined';
-          if (cfg.ports) {
-            if (!ports[index].desc) {
-              return;
-            }
-            text = ports[index].desc;
-          }
-          const textWidth = parseInt(G6.Util.getTextSize(text, 12)[0]) + 28;
-          const x = point[0] * width - width / 2;
-          const y = point[1] * height - height / 2;
-          const rectTranslateY = point[1] === 0 ? -40 - 14 : 14;
-          const textTranslateY = point[1] === 0 ? -40 - 14 + 20 : 14 + 20;
-          g.addShape('circle', {
-            attrs: {
-              x,
-              y,
-              r: 5,
-              fill: '#fff',
-              stroke: '#8086a2',
-              cursor: 'pointer',
-              opacity: 0,
-            },
-            name: 'link-point',
-            index,
-            model: ports[index],
-            tooltip: {
-              rect: {
-                attrs: {
-                  x: x - textWidth / 2,
-                  y: y + rectTranslateY,
-                  width: textWidth,
-                  height: 40,
-                  fill: 'rgba(0, 0, 0, 0.75)',
-                  radius: [4, 4],
-                },
-                name: 'link-point-tooltip-rect-shape',
-                index,
-              },
-              text: {
-                attrs: {
-                  text,
-                  x: x - textWidth / 2 + 8,
-                  y: y + textTranslateY,
-                  fontSize: 12,
-                  textAlign: 'left',
-                  textBaseline: 'middle',
+                  y,
+                  r: 5,
                   fill: '#fff',
+                  stroke: '#8086a2',
+                  cursor: 'pointer',
+                  opacity: 0,
                 },
-                name: 'link-point-tooltip-text-shape',
+                name: 'link-point',
                 index,
-              },
-              arrow: {
+                model: ports[index],
+                tooltip: {
+                  rect: {
+                    attrs: {
+                      x: x - textWidth / 2,
+                      y: y + rectTranslateY,
+                      width: textWidth,
+                      height: 40,
+                      fill: 'rgba(0, 0, 0, 0.75)',
+                      radius: [4, 4],
+                    },
+                    name: 'link-point-tooltip-rect-shape',
+                    index,
+                  },
+                  text: {
+                    attrs: {
+                      text,
+                      x: x - textWidth / 2 + 8,
+                      y: y + textTranslateY,
+                      fontSize: 12,
+                      textAlign: 'left',
+                      textBaseline: 'middle',
+                      fill: '#fff',
+                    },
+                    name: 'link-point-tooltip-text-shape',
+                    index,
+                  },
+                  arrow: {
+                    attrs: {
+                      x,
+                      y: point[1] === 0 ? -30.6 : 30.6,
+                      r: 4,
+                      fill: 'rgba(0, 0, 0, 0.75)',
+                      symbol: point[1] === 0 ? 'triangle-down' : 'triangle',
+                    },
+                    name: 'link-point-tooltip-arrow-shape',
+                    index,
+                  },
+                },
+              });
+            });
+          }
+          group.addShape('rect', {
+            attrs: {
+              x: -86,
+              y: -16,
+              width: 32,
+              height: 32,
+              stroke: null,
+              fill: '#f00',
+              radius: [12, 12],
+            },
+            zIndex: 1,
+            name: 'rect-shape',
+          });
+          group.addShape('image', {
+            attrs: {
+              x: -78,
+              y: -8,
+              width: 16,
+              height: 16,
+              img: 'https://img.alicdn.com/tfs/TB1fyIo3KL2gK0jSZFmXXc7iXXa-200-200.png',
+            },
+            name: 'logo-icon',
+            zIndex: 10,
+          });
+        },
+        afterUpdate(cfg: any, node: any) {
+          const g = node._cfg.group;
+          const children = g.get('children');
+          const anchors = children.filter((child) => {
+            return child.cfg.name === 'link-point';
+          });
+          if (anchors.length) {
+            anchors.forEach((item) => {
+              g.removeChild(item);
+            });
+          }
+          if (cfg.ports) {
+            const [width, height] = cfg.size;
+            const ports = [...(cfg.ports?.inputPorts ?? []), ...(cfg.ports?.outputPorts ?? [])];
+            const anchorPoints = getAnchorPoints(cfg.ports?.inputPorts ?? [], cfg.ports?.outputPorts ?? []);
+            anchorPoints.forEach((point, index) => {
+              let text = 'undefined';
+              if (cfg.ports) {
+                if (!ports[index].desc) {
+                  return;
+                }
+                text = ports[index].desc;
+              }
+              const textWidth = parseInt(G6.Util.getTextSize(text, 12)[0]) + 28;
+              const x = point[0] * width - width / 2;
+              const y = point[1] * height - height / 2;
+              const rectTranslateY = point[1] === 0 ? -40 - 14 : 14;
+              const textTranslateY = point[1] === 0 ? -40 - 14 + 20 : 14 + 20;
+              g.addShape('circle', {
                 attrs: {
                   x,
-                  y: point[1] === 0 ? -30.6 : 30.6,
-                  r: 4,
-                  fill: 'rgba(0, 0, 0, 0.75)',
-                  symbol: point[1] === 0 ? 'triangle-down' : 'triangle',
+                  y,
+                  r: 5,
+                  fill: '#fff',
+                  stroke: '#8086a2',
+                  cursor: 'pointer',
+                  opacity: 0,
                 },
-                name: 'link-point-tooltip-arrow-shape',
+                name: 'link-point',
                 index,
-              },
-            },
+                model: ports[index],
+                tooltip: {
+                  rect: {
+                    attrs: {
+                      x: x - textWidth / 2,
+                      y: y + rectTranslateY,
+                      width: textWidth,
+                      height: 40,
+                      fill: 'rgba(0, 0, 0, 0.75)',
+                      radius: [4, 4],
+                    },
+                    name: 'link-point-tooltip-rect-shape',
+                    index,
+                  },
+                  text: {
+                    attrs: {
+                      text,
+                      x: x - textWidth / 2 + 8,
+                      y: y + textTranslateY,
+                      fontSize: 12,
+                      textAlign: 'left',
+                      textBaseline: 'middle',
+                      fill: '#fff',
+                    },
+                    name: 'link-point-tooltip-text-shape',
+                    index,
+                  },
+                  arrow: {
+                    attrs: {
+                      x,
+                      y: point[1] === 0 ? -30.6 : 30.6,
+                      r: 4,
+                      fill: 'rgba(0, 0, 0, 0.75)',
+                      symbol: point[1] === 0 ? 'triangle-down' : 'triangle',
+                    },
+                    name: 'link-point-tooltip-arrow-shape',
+                    index,
+                  },
+                },
+              });
+            });
+          }
+
+          const nodeStatus = cfg.Status;
+          const nodeStatusType = cfg.StatusType;
+          const { group } = node._cfg;
+          const icon = group.find((item) => {
+            return item.cfg.name === 'status-icon';
           });
-        });
-      }
-
-      const nodeStatus = cfg.Status;
-      const nodeStatusType = cfg.StatusType;
-      const { group } = node._cfg;
-      const icon = group.find((item) => {
-        return item.cfg.name === 'status-icon';
-      });
-      if (icon) {
-        if (icon.cfg?.Status === nodeStatus && icon.cfg?.StatusType === nodeStatusType) {
-          return;
-        } else {
-          group.removeChild(icon);
-        }
-      }
-      let statusIcon;
-      if (cfg.StatusType === 1) {
-        statusIcon = statusMap['Edited'];
-      } else {
-        statusIcon = status.includes(nodeStatus) ? statusMap[nodeStatus] : null;
-      }
-      if (statusIcon) {
-        const image = group.addShape('image', {
-          // 节点状态图标
-          attrs: {
-            x: 68,
-            y: -8,
-            width: 16,
-            height: 16,
-            img: statusIcon,
-          },
-          name: 'status-icon',
-          status: nodeStatus,
-        });
-        if (nodeStatus === 'Running') {
-          image.animate(
-            (ratio) => {
-              const matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
-              const toMatrix = G6.Util.transform(matrix, [
-                ['t', -76, 0],
-                ['r', ratio * Math.PI * 2],
-                ['t', 76, 0],
-              ]);
-              return {
-                matrix: toMatrix,
-              };
-            },
-            {
-              repeat: true,
-              duration: 2000,
-              easing: 'easeLinear',
-            },
-          );
-        }
-      }
-    },
-    // 响应状态变化
-    setState(name, value, item: any) {
-      const group = item.getContainer();
-      const children = group.get('children');
-      const keyShape = children.find((child) => child.cfg.name === 'pai-studio-node-keyShape');
-      if (name === 'hover') {
-        if (value) {
-          keyShape.attr('stroke', '#CFD4E5');
-          keyShape.attr('lineWidth', 2.5);
-        } else {
-          keyShape.attr('stroke', '#c9cbc9');
-          keyShape.attr('lineWidth', 1);
-        }
-      }
-      if (name === 'click') {
-        if (value) {
-          keyShape.attr('fill', '#F6F7FB');
-          keyShape.attr('stroke', '#D7DBE9');
-          keyShape.attr('lineWidth', 1);
-        } else {
-          keyShape.attr('fill', '#FFFFFF');
-          keyShape.attr('stroke', '#D7DBE9');
-          keyShape.attr('lineWidth', 1);
-        }
-      }
-      if (name === 'selected') {
-        if (value) {
-          keyShape.attr('fill', '#E2F2FF');
-          keyShape.attr('stroke', '#D7DBE9');
-          keyShape.attr('lineWidth', 1);
-        } else {
-          keyShape.attr('fill', '#FFFFFF');
-          keyShape.attr('stroke', '#D7DBE9');
-          keyShape.attr('lineWidth', 1);
-        }
-      }
-    },
-  },
-  'modelRect',
-);
-
-// 扩展边
-const lineDash = [4, 2, 1, 2]; // 描述边虚线
-G6.registerEdge(
-  'pai-studio-edge',
-  {
-    afterUpdate(cfg: any, edge: any) {
-      const { group } = edge._cfg;
-      const s = cfg.Status;
-      const shape = group.get('children')[0]; // 获得该边的第一个图形，这里是边的 path
-      if (s === 'Running') {
-        let index = 0;
-        // 边 path 图形的动画
-        shape.animate(
-          () => {
-            index++;
-            if (index > 9) {
-              index = 0;
+          if (icon) {
+            if (icon.cfg?.Status === nodeStatus && icon.cfg?.StatusType === nodeStatusType) {
+              return;
+            } else {
+              group.removeChild(icon);
             }
-            return {
-              lineDash,
-              lineDashOffset: -index,
-            };
-          },
-          {
-            repeat: true, // 动画重复
-            duration: 3000, // 一次动画的时长为 3000
-          },
-        );
-        shape.attr('stroke', '#00C800');
-      } else {
-        shape.stopAnimate();
-        shape.attr('lineDash', null);
-        shape.attr('stroke', '#969BB4');
-      }
-    },
-    // 响应状态变化
-    setState(name, value, item: any) {
-      const shape = item.get('keyShape');
-      if (name === 'hover') {
-        if (value) {
-          shape.attr('lineWidth', 3);
-        } else if (item.get('states').includes('click')) {
-          shape.attr('lineWidth', 3);
-        } else {
-          shape.attr('lineWidth', 1);
-        }
-      }
-      if (name === 'click') {
-        if (value) {
-          shape.attr('lineWidth', 3);
-        } else {
-          shape.attr('lineWidth', 1);
-        }
-      }
-    },
-  },
-  'cubic-vertical',
-);
+          }
+          let statusIcon;
+          if (cfg.StatusType === 1) {
+            statusIcon = statusMap['Edited'];
+          } else {
+            statusIcon = status.includes(nodeStatus) ? statusMap[nodeStatus] : null;
+          }
+          if (statusIcon) {
+            const image = group.addShape('image', {
+              // 节点状态图标
+              attrs: {
+                x: 68,
+                y: -8,
+                width: 16,
+                height: 16,
+                img: statusIcon,
+              },
+              name: 'status-icon',
+              status: nodeStatus,
+            });
+            if (nodeStatus === 'Running') {
+              image.animate(
+                (ratio) => {
+                  const matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
+                  const toMatrix = G6.Util.transform(matrix, [
+                    ['t', -76, 0],
+                    ['r', ratio * Math.PI * 2],
+                    ['t', 76, 0],
+                  ]);
+                  return {
+                    matrix: toMatrix,
+                  };
+                },
+                {
+                  repeat: true,
+                  duration: 2000,
+                  easing: 'easeLinear',
+                },
+              );
+            }
+          }
+        },
+        // 响应状态变化
+        setState(name, value, item: any) {
+          const group = item.getContainer();
+          const children = group.get('children');
+          const keyShape = children.find((child) => child.cfg.name === 'pai-studio-node-keyShape');
+          if (name === 'hover') {
+            if (value) {
+              keyShape.attr('stroke', '#CFD4E5');
+              keyShape.attr('lineWidth', 2.5);
+            } else {
+              keyShape.attr('stroke', '#c9cbc9');
+              keyShape.attr('lineWidth', 1);
+            }
+          }
+          if (name === 'click') {
+            if (value) {
+              keyShape.attr('fill', '#F6F7FB');
+              keyShape.attr('stroke', '#D7DBE9');
+              keyShape.attr('lineWidth', 1);
+            } else {
+              keyShape.attr('fill', '#FFFFFF');
+              keyShape.attr('stroke', '#D7DBE9');
+              keyShape.attr('lineWidth', 1);
+            }
+          }
+          if (name === 'selected') {
+            if (value) {
+              keyShape.attr('fill', '#E2F2FF');
+              keyShape.attr('stroke', '#D7DBE9');
+              keyShape.attr('lineWidth', 1);
+            } else {
+              keyShape.attr('fill', '#FFFFFF');
+              keyShape.attr('stroke', '#D7DBE9');
+              keyShape.attr('lineWidth', 1);
+            }
+          }
+        },
+      },
+      'modelRect',
+    );
+
+    // 扩展边
+    const lineDash = [4, 2, 1, 2]; // 描述边虚线
+    G6.registerEdge(
+      'pai-studio-edge',
+      {
+        afterUpdate(cfg: any, edge: any) {
+          const { group } = edge._cfg;
+          const s = cfg.Status;
+          const shape = group.get('children')[0]; // 获得该边的第一个图形，这里是边的 path
+          if (s === 'Running') {
+            let index = 0;
+            // 边 path 图形的动画
+            shape.animate(
+              () => {
+                index++;
+                if (index > 9) {
+                  index = 0;
+                }
+                return {
+                  lineDash,
+                  lineDashOffset: -index,
+                };
+              },
+              {
+                repeat: true, // 动画重复
+                duration: 3000, // 一次动画的时长为 3000
+              },
+            );
+            shape.attr('stroke', '#00C800');
+          } else {
+            shape.stopAnimate();
+            shape.attr('lineDash', null);
+            shape.attr('stroke', '#969BB4');
+          }
+        },
+        // 响应状态变化
+        setState(name, value, item: any) {
+          const shape = item.get('keyShape');
+          if (name === 'hover') {
+            if (value) {
+              shape.attr('lineWidth', 3);
+            } else if (item.get('states').includes('click')) {
+              shape.attr('lineWidth', 3);
+            } else {
+              shape.attr('lineWidth', 1);
+            }
+          }
+          if (name === 'click') {
+            if (value) {
+              shape.attr('lineWidth', 3);
+            } else {
+              shape.attr('lineWidth', 1);
+            }
+          }
+        },
+      },
+      'cubic-vertical',
+    );
 
     const tooltip = new Tooltip();
 
@@ -1082,4 +1082,4 @@ G6.registerEdge(
     graph.data(d.Content);
     graph.render();
   })
-})
+});

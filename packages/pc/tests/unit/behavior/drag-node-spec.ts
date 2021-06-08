@@ -52,6 +52,51 @@ describe('drag-node', () => {
     expect(matrix[7]).toEqual(70);
     graph.destroy();
   });
+  it('drag node when touch', () => {
+    const graph: Graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [
+          {
+            type: 'drag-node',
+            enableDelegate: true,
+          },
+        ],
+      },
+    });
+    const data = {
+      nodes: [
+        {
+          id: 'node',
+          x: 50,
+          y: 50,
+        },
+      ],
+    };
+    graph.data(data);
+    graph.render();
+    const node = graph.addItem('node', {
+      color: '#666',
+      x: 50,
+      y: 50,
+      r: 20,
+      style: { lineWidth: 2, fill: '#666' },
+    });
+    graph.emit('node:touchstart', { x: 100, y: 100, item: node });
+    graph.emit('node:touchmove', { x: 120, y: 120, item: node });
+    const dragMatrix = node.get('group').getMatrix();
+    expect(dragMatrix[6]).toEqual(50);
+    expect(dragMatrix[7]).toEqual(50);
+
+    graph.emit('node:touchend', { x: 120, y: 120, item: node });
+    const matrix = node.get('group').getMatrix();
+    expect(matrix[0]).toEqual(1);
+    expect(matrix[6]).toEqual(70);
+    expect(matrix[7]).toEqual(70);
+    graph.destroy();
+  });
   it('drag locked node', () => {
     const graph: Graph = new Graph({
       container: div,

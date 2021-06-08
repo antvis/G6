@@ -8,6 +8,7 @@ G6 provides the mechanism for layout paramters translation, layout methods trans
 ## Usage
 
 - Example 1 : Subgrpah(red nodes) layout by force-directed layout.
-- Example 2 : Tranlate the layout parameters in dynamic.
-- Example 3 : Custom layout for a bigraph.
-- Example 4 : Layout timing events —— `beforelayout` and `afterlayout`.
+- Example 2 : Apply different layouts for subgraphs in the same time.
+- Example 3 : Tranlate the layout parameters in dynamic.
+- Example 4 : Custom layout for a bigraph.
+- Example 5 : Layout timing events —— `beforelayout` and `afterlayout`.

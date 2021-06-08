@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { Point } from '@antv/g-base';
 import Hierarchy from '@antv/hierarchy';
-import { each, isString } from '@antv/util';
+import { each, isObject, isString } from '@antv/util';
 import {
   GraphData,
   Item,
@@ -33,6 +33,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
    */
   private getLayout() {
     const layout = this.get('layout');
+
     if (!layout) {
       return null;
     }
@@ -299,7 +300,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
     const self = this;
     const data: TreeGraphData = self.get('data');
     const layoutMethod = self.get('layoutMethod');
-    const layoutData = layoutMethod(data, self.get('layout'));
+    const layoutData = layoutMethod ? layoutMethod(data, self.get('layout')) : data;
 
     const animate: boolean = self.get('animate');
 
@@ -572,7 +573,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
     const self = this;
     const data: TreeGraphData = self.get('data');
 
-    if (!data) {
+    if (!data || !isObject(data) || !Object.keys(data).length) {
       throw new Error('data must be defined first');
     }
 

@@ -1,5 +1,30 @@
 # ChangeLog
 
+#### 4.3.3
+
+- fix: uncombo with id, closes: #2924;
+- fix: image node with state changing, closes: #2923;
+- fix: mouseentering tooltip DOM hides the DOM;
+- feat: moveTo with animate, closes: #2252;
+
+#### 4.3.2
+
+- fix: upgrade the layout package to 0.1.14 to solve the different results from gpu and cpu problem in gForce layout, closes: #2902;
+- fix: auto fitting container without width and height for graph problem, closes: #2901;
+- fix: minimap with zoomingproblem, closes: #2863
+- feat: fx and fy for fruchterman and gForce layout in both gpu and cpu version;
+- feat: barWidth for interval bar chart for TimeBar plugin, closes: #2989;
+- feat: click trigger for context munu, closes: #2686;
+
+#### 4.3.0
+
+- fix: empty object for TreeGraph data;
+- fix: combo edge arrow error with state styles;
+- fix: depth problem for addItem with comboId, closes: #2888;
+- feat: focus edge item;
+- feat: legend plugin;
+- feat: allow to new a tree layout independently;
+
 #### 4.2.7
 
 - fix: edges disappear when collapsing combo, closes: #2816;
@@ -53,6 +78,7 @@
 - feat: tooltip with trigger configuration, supports mouseenter and click;
 
 #### 4.2.0
+#### 4.1.14
 
 - fix: combo edge link position problem;
 - fix: activate-relations with combo and combo edges problem;
@@ -69,6 +95,12 @@
 #### 4.1.14
 
 - fix: gridSize for polyline;
+- fix: create-edge undo problem;
+- fix: tslib spreadArray problem;
+- fix: rect combo position with state problem;
+- feat: simple polyline for better performance;
+- fix: gridSize for polyline;
+- fix: cubic-x problem, closes: #2698;
 - fix: create-edge undo problem;
 - fix: tslib spreadArray problem;
 - fix: rect combo position with state problem;

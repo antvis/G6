@@ -456,10 +456,11 @@ describe('minimap', () => {
       const top = parseFloat(viewport.style.top.substr(0, viewport.style.top.length - 2));
       const width = parseFloat(viewport.style.width.substr(0, viewport.style.width.length - 2));
       const height = parseFloat(viewport.style.height.substr(0, viewport.style.height.length - 2));
-      expect(mathEqual(left, 42)).toBe(true);
-      expect(mathEqual(top, 32)).toBe(true);
-      expect(mathEqual(width, 158)).toBe(true);
-      expect(mathEqual(height, 167)).toBe(true);
+      
+      expect(mathEqual(left, 47)).toBe(true);
+      expect(mathEqual(top, 37)).toBe(true);
+      expect(mathEqual(width, 152)).toBe(true);
+      expect(mathEqual(height, 162)).toBe(true);
 
       graph.zoom(2.5, { x: 250, y: 250 });
       setTimeout(() => {
@@ -470,14 +471,14 @@ describe('minimap', () => {
           viewport.style.height.substr(0, viewport.style.height.length - 2),
         );
 
-        expect(mathEqual(left, 105, 5)).toBe(true);
-        expect(mathEqual(top, 95, 5)).toBe(true);
-        expect(mathEqual(width, 85, 5)).toBe(true);
-        expect(mathEqual(height, 85, 5)).toBe(true);
+        expect(mathEqual(left, 121, 5)).toBe(true);
+        expect(mathEqual(top, 112, 5)).toBe(true);
+        expect(mathEqual(width, 78, 5)).toBe(true);
+        expect(mathEqual(height, 87, 5)).toBe(true);
 
         minimap.destroyPlugin();
 
-        const container: HTMLElement = div.childNodes[1] as HTMLElement;
+        const container: HTMLElement = div.childNodes[0] as HTMLElement;
         expect(container.innerHTML).toEqual('');
 
         done();
@@ -529,10 +530,10 @@ describe('minimap', () => {
     graph.translate(50, 50);
 
     setTimeout(() => {
-      expect(viewport.style.left).toEqual('40.7749px');
-      expect(viewport.style.top).toEqual('40.7749px');
-      expect(viewport.style.width).toEqual('92.2509px');
-      expect(viewport.style.height).toEqual('92.2509px');
+      expect(viewport.style.left).toEqual('68.8474px');
+      expect(viewport.style.top).toEqual('59.5016px');
+      expect(viewport.style.width).toEqual('131.153px');
+      expect(viewport.style.height).toEqual('140.498px');
 
       Simulate.simulate(viewport, 'dragstart', {
         clientX: 100,
@@ -551,10 +552,10 @@ describe('minimap', () => {
       });
 
       setTimeout(() => {
-        expect(viewport.style.left).toEqual('38.7749px');
-        expect(viewport.style.top).toEqual('31.7749px');
-        expect(viewport.style.width).toEqual('92.2509px');
-        expect(viewport.style.height).toEqual('92.2509px');
+        expect(viewport.style.left).toEqual('66.8474px');
+        expect(viewport.style.top).toEqual('50.5016px');
+        expect(viewport.style.width).toEqual('133.153px');
+        expect(viewport.style.height).toEqual('149.498px');
         const matrix = graph.get('group').getMatrix();
         expect(matrix[0]).toEqual(2);
         expect(matrix[4]).toEqual(2);
@@ -640,7 +641,7 @@ describe('minimap', () => {
       expect(delegateShape.attr('stroke')).toEqual('#096dd9');
       graph.destroy();
       done();
-    }, 100);
+    }, 110);
   });
   it('minimap container', () => {
     const minimap = new Minimap({
@@ -944,5 +945,202 @@ describe('minimap with hidden shape', () => {
       ).toBe(false);
       done();
     }, 100);
+  });
+});
+
+
+describe('minimap with combo', () => {
+  const combodata = {
+    nodes: [
+      {
+        id: "5930",
+        label: "NODE1",
+        comboId: "CHILD-93-5-1",
+        x: 440,
+        y: 0
+      },
+      {
+        id: "3830",
+        label: "NODE2",
+        comboId: "CHILD-83-3-1",
+        x: 320,
+        y: 0
+      },
+      {
+        id: "5920",
+        label: "NODE3",
+        comboId: "CHILD-92-5-1",
+        x: 440,
+        y: 40
+      },
+      {
+        id: "2400",
+        label: "NODE4",
+        comboId: "CHILD-40-2-1",
+        x: 260,
+        y: 0
+      },
+      {
+        id: "41010",
+        label: "NODE5",
+        comboId: "CHILD-101-4-1",
+        x: 380,
+        y: 0
+      },
+      {
+        id: "41280",
+        label: "NODE6",
+        comboId: "CHILD-128-4-1",
+        x: 380,
+        y: 80
+      }
+    ],
+    edges: [
+      { source: "5920", target: "41280" },
+      { source: "5930", target: "41010" },
+      { source: "41010", target: "5920" },
+      { source: "41010", target: "3830" },
+      { source: "3830", target: "2400" }
+    ],
+    combos: [
+      {
+        id: "ROOT-1",
+        label: " ROOT1",
+        collapsed: false
+      },
+      {
+        id: "PARENT-5-1",
+        label: "CMB5",
+        parentId: "ROOT-1",
+        collapsed: false,
+        style: { fill: "#AD9D9A", stroke: "#AD9D9A" }
+      },
+      {
+        id: "CHILD-93-5-1",
+        label: " COMBTKT5",
+        parentId: "PARENT-5-1",
+        collapsed: true,
+      },
+      {
+        id: "PARENT-3-1",
+        label: "CMB9",
+        parentId: "ROOT-1",
+        collapsed: true,
+        style: { fill: "#DE6295", stroke: "#DDDDDD" }
+      },
+      {
+        id: "CHILD-83-3-1",
+        label: " COMBTUH4",
+        parentId: "PARENT-3-1",
+        collapsed: true,
+      },
+      {
+        id: "CHILD-92-5-1",
+        label: " COMBTUH3",
+        parentId: "PARENT-5-1",
+        collapsed: true,
+      },
+      {
+        id: "PARENT-2-1",
+        label: "CMB4",
+        parentId: "ROOT-1",
+        collapsed: true,
+        style: { fill: "#9E7FCB", stroke: "#CDCDCD" }
+      },
+      {
+        id: "CHILD-40-2-1",
+        label: " COMBQGL3",
+        parentId: "PARENT-2-1",
+        collapsed: true,
+      },
+      {
+        id: "PARENT-4-1",
+        label: "CMB0",
+        parentId: "ROOT-1",
+        collapsed: true,
+        style: { fill: "#8FB9C2", stroke: "#8FB9C2" }
+      },
+      {
+        id: "CHILD-101-4-1",
+        label: " COMBQISB",
+        parentId: "PARENT-4-1",
+        collapsed: false,
+      },
+      {
+        id: "CHILD-128-4-1",
+        label: " COMBTTIT",
+        parentId: "PARENT-4-1",
+        collapsed: true,
+      }
+    ]
+  };
+  
+  it('keyShape minimap with combo', (done) => {
+    const minimap = new Minimap({
+      size: [200, 200],
+      type: 'keyShape'
+    });
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [
+          'drag-node',
+          'zoom-canvas',
+          'collapse-expand-combo',
+          'drag-canvas',
+        ],
+      },
+      plugins: [minimap],
+      defaultCombo: {
+        type: 'rect'
+      },
+    });
+
+    graph.read(combodata);
+    setTimeout(() => {
+      const canvas = minimap.get('canvas');
+      expect(canvas.get('children').length).toBe(1);
+      const comboGroup = canvas.find(ele => ele.get('name') === 'comboGroup');
+      expect(comboGroup.get('children').length).toBe(11);
+      expect(comboGroup.get('children').filter(e => e.get('visible')).length).toBe(7);
+      graph.destroy();
+      done();
+    }, 600);
+  });
+  it('delegate minimap with combo', (done) => {
+    const minimap = new Minimap({
+      size: [500, 500],
+      type: 'delegate'
+    });
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      modes: {
+        default: [
+          'drag-node',
+          'zoom-canvas',
+          'collapse-expand-combo',
+          'drag-canvas',
+        ],
+      },
+      plugins: [minimap],
+      defaultCombo: {
+        type: 'rect'
+      },
+    });
+
+    graph.read(combodata)
+    setTimeout(() => {
+      const canvas = minimap.get('canvas');
+      expect(canvas.get('children').length).toBe(1);
+      const comboGroup = canvas.find(ele => ele.get('name') === 'comboGroup');
+      expect(comboGroup.get('children').length).toBe(11);
+      expect(comboGroup.get('children').filter(e => e.get('visible')).length).toBe(7);
+      graph.destroy();
+      done();
+    }, 600);
   });
 });
