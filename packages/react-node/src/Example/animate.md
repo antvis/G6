@@ -76,7 +76,7 @@ const Card = ({ cfg }) => {
             }
           }
         >
-          点我看动画
+          点我{animated ? '暂停' : '看'}动画
         </Text>
         <Text style={{ fill: '#ccc', fontSize: 12, margin: [12, 24] }}>
           我是一段特别特别特别特别特别特别特别长的描述
