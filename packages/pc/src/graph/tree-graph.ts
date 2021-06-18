@@ -225,7 +225,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
       node.set('originAttrs', { x: model.x, y: model.y });
       self.get('removeList').push(node);
     } else {
-      self.removeItem(node);
+      self.removeItem(node, false);
     }
   }
 
