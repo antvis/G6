@@ -129,8 +129,8 @@ Combo inherit all the interaction events of Node.
 | canvas:mouseleave | Activated when the mouse leaves the canvas. |
 | canvas:mousedown | Activated when the left or right button is clicked down on the canvas. It cannot be activated by keyboard. |
 | canvas:mouseup | Activated when the left or right button is released on the canvas. It cannot be activated by keyboard. |
-| canvas:contextmenu | Open the context menu when user clicks the right button of mouse on the canvas. |
-| canvas:dragstart | Activated when user begins to drag the canvas. This event is applied on the dragged canvas.  |
+| canvas:contextmenu | Open the context menu when user clicks the right button of mouse on the canvas. [Demo](/en/examples/tool/contextMenu). |
+| canvas:dragstart | Activated when user begins to drag the canvas. This event is applied on the dragged canvas. |
 | canvas:drag | Activated during the dragging process on the canvas. This event is applied on the dragged canvas. |
 | canvas:dragend | Activated when user stops dragging on the canvas. This event is applied on the dragged canvas. |
 | canvas:dragenter | Activated when user drags the canvas into a target item. This event is applied on the target item. |

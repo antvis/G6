@@ -1446,6 +1446,8 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     if (combosData) {
       const comboTrees = plainCombosToTrees(combosData, (data as GraphData).nodes);
       this.set('comboTrees', comboTrees);
+    } else {
+      this.set('comboTrees', []);
     }
 
     this.diffItems('node', items, (data as GraphData).nodes!);
@@ -1470,6 +1472,8 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         comboItems.splice(i, 1);
       }
     }
+
+    console.log('this.getCombos()',itemMap, comboItems, combosData, this.getCombos())
 
     // process the data to tree structure
     if (combosData) {

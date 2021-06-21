@@ -156,6 +156,11 @@ registerBehavior("dice-er-scroll", {
 
       return isInBBox(graph.getPointByClient(e.clientX, e.clientY), bbox);
     });
+
+    const x = e.deltaX || e.movementX;
+    let y = e.deltaY || e.movementY;
+    if (!y && navigator.userAgent.indexOf('Firefox') > -1) y = (-e.wheelDelta * 125) / 3
+
     if (nodes) {
       nodes.forEach((node) => {
         const model = node.getModel();
@@ -164,8 +169,8 @@ registerBehavior("dice-er-scroll", {
         }
         const idx = model.startIndex || 0;
         let startX = model.startX || 0.5;
-        let startIndex = idx + e.deltaY * 0.02;
-        startX -= e.deltaX;
+        let startIndex = idx + y * 0.02;
+        startX -= x;
         if (startIndex < 0) {
           startIndex = 0;
         }
