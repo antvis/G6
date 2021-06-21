@@ -120,7 +120,7 @@ G6.registerNode('test', createNodeFromReact(Card));
 
 It results in this
 
-<img width="400" src="https://gw.alipayobjects.com/zos/antfincdn/imZMZ8jYKJ/xiazai%252520%2815%29.png" />
+<img alt="card" width="400" src="https://gw.alipayobjects.com/zos/antfincdn/imZMZ8jYKJ/xiazai%252520%2815%29.png" />
 
 
 ### Using Guide
@@ -164,7 +164,7 @@ For Example:
       >
 ```
 
-<img src="https://gw.alipayobjects.com/zos/antfincdn/cXLES5%26w5x/ezgif.com-video-to-gif.gif" />
+<img alt="animate-show" src="https://gw.alipayobjects.com/zos/antfincdn/cXLES5%26w5x/ezgif.com-video-to-gif.gif" />
 
 ### More Help
 
