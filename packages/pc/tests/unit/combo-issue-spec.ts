@@ -287,3 +287,30 @@ describe('combo edges', () => {
     graph.destroy();
   })
 });
+
+
+describe.only('select combo and node', () => {
+  it('select combo and node', () => {
+    const graph = new G6.Graph({
+      container: 'container',
+      width: 500,
+      height: 500,
+      // Set groupByTypes to false to get rendering result with reasonable visual zIndex for combos
+      groupByTypes: false,
+      comboStateStyles: {
+        hover: {
+          stroke: 'green',
+        },
+        selected: {
+          stroke: 'red',
+        },
+      },
+      modes: {
+        default: ['click-select'],
+      },
+    });
+
+    graph.data(data);
+    graph.render();
+  });
+});

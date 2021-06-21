@@ -52,7 +52,7 @@ export default {
 
     // allow to select multiple nodes but did not press a key || do not allow the select multiple nodes
     if (!keydown || !multiple) {
-      const selected = graph.findAllByState(type, self.selectedState);
+      const selected = graph.findAllByState('node', self.selectedState).concat(graph.findAllByState('combo', self.selectedState));
       each(selected, (combo) => {
         if (combo !== item) {
           graph.setItemState(combo, self.selectedState, false);
