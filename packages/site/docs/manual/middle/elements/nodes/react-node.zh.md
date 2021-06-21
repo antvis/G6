@@ -120,7 +120,7 @@ G6.registerNode('test', createNodeFromReact(Card));
 
 他展示了这样一个卡片的节点：
 
-<img width="400" src="https://gw.alipayobjects.com/zos/antfincdn/imZMZ8jYKJ/xiazai%252520%2815%29.png" />
+<img alt="graph" width="400" src="https://gw.alipayobjects.com/zos/antfincdn/imZMZ8jYKJ/xiazai%252520%2815%29.png" />
 
 
 ### 使用指南
@@ -162,7 +162,7 @@ G6.registerNode('test', createNodeFromReact(Card));
       >
 ```
 
-<img src="https://gw.alipayobjects.com/zos/antfincdn/cXLES5%26w5x/ezgif.com-video-to-gif.gif" />
+<img alt="animate show" src="https://gw.alipayobjects.com/zos/antfincdn/cXLES5%26w5x/ezgif.com-video-to-gif.gif" />
 
 ### 更多帮助
 
