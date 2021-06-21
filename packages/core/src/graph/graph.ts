@@ -1473,8 +1473,6 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       }
     }
 
-    console.log('this.getCombos()',itemMap, comboItems, combosData, this.getCombos())
-
     // process the data to tree structure
     if (combosData) {
       // add combos
