@@ -97,7 +97,10 @@ export default class Menu extends Base {
 
     const itemTypes = this.get('itemTypes');
     if (!e.item) {
-      if (itemTypes.indexOf('canvas') === -1) return;
+      if (itemTypes.indexOf('canvas') === -1) {
+        self.onMenuHide();
+        return;
+      }
     } else {
       if (e.item && e.item.getType && itemTypes.indexOf(e.item.getType()) === -1) {
         self.onMenuHide();
@@ -158,7 +161,9 @@ export default class Menu extends Base {
     });
 
     const handler = (evt) => {
-      self.onMenuHide();
+      if (self.get('trigger') !== 'click' || evt.target !== graph.get('canvas').get('el')) {
+        self.onMenuHide();
+      }
     };
 
     // 如果在页面中其他任意地方进行click, 隐去菜单
