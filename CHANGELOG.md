@@ -3,7 +3,7 @@
 #### 4.3.4
 
 - fix: when select a node with click-select, selected combos should be deselected;
-- fix: contextmenu with click trigger does not show the menu up;
+- fix: contextmenu with click trigger does not show the menu up, closes: #2982;
 - fix: layout with collapsed combo, closes: #2988;
 
 #### 4.3.3
