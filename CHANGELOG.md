@@ -1,5 +1,10 @@
 # ChangeLog
 
+#### 4.3.4
+
+- fix: when select a node with click-select, selected combos should be deselected;
+- fix: contextmenu with click trigger does not show the menu up;
+
 #### 4.3.3
 
 - fix: uncombo with id, closes: #2924;

@@ -113,6 +113,12 @@ const data = {
 
 ## 解决方案
 
+### 方案 1
+
+参考 [Demo](/zh/examples/item/multiEdge#multiEdges)，使用 util 方法  `processParallelEdges`。
+
+### 方案 2
+
 这个时候，需要借助 G6 的 [自定义边](/zh/docs/manual/middle/elements/edges/custom-edge) 功能。
 
 有了这个黑科技，什么样的需求，那还不是分分钟的事。
@@ -127,11 +133,11 @@ const data = {
 完善的自定义边的代码如下。
 
 <iframe
-     src="https://codesandbox.io/embed/restless-breeze-fhief?fontsize=14&hidenavigation=1&theme=dark"
-     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="restless-breeze-fhief"
-     allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
-     sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
+    src="https://codesandbox.io/embed/cocky-bash-9hh3u?fontsize=14&hidenavigation=1&theme=dark"
+    style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+    title="cocky-bash-9hh3u"
+    allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+    sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
    ></iframe>
 
 至此，我们实现了让两个节点之间展示多条边的功能。
