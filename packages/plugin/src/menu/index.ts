@@ -160,10 +160,14 @@ export default class Menu extends Base {
       visibility: 'visible',
     });
 
+    // 左键单击会触发 body 上监听的 click 事件，导致菜单展示出来后又立即被隐藏了，需要过滤掉
+    let triggeredByFirstClick = this.get('trigger') === 'click';
     const handler = (evt) => {
-      if (self.get('trigger') !== 'click' || evt.target !== graph.get('canvas').get('el')) {
-        self.onMenuHide();
+      if (triggeredByFirstClick) {
+        triggeredByFirstClick = false;
+        return;
       }
+      self.onMenuHide();
     };
 
     // 如果在页面中其他任意地方进行click, 隐去菜单
