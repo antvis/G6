@@ -1,6 +1,0 @@
-{
-  "defaultTitle": "g6-native-canvas",
-  "usingComponents": {
-    "native-canvas": "../../es/g6-component/g6-component"
-  }
-}
