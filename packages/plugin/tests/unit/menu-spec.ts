@@ -33,6 +33,7 @@ describe('menu', () => {
     };
     graph.data(data);
     graph.render();
+    graph.destroy();
   });
   it('menu with dom', () => {
     const menu = new Menu({
@@ -74,6 +75,7 @@ describe('menu', () => {
 
     graph.data(data);
     graph.render();
+    graph.destroy();
   });
 
   it('menu with string', () => {
@@ -137,6 +139,7 @@ describe('menu', () => {
       'menu-string-test',
     ) as HTMLCollectionOf<HTMLElement>)[0];
     expect(menuDOM.style.visibility).toEqual('visible');
+    graph.destroy();
   });
   it('menu with false shouldBegin', () => {
     let menuDOM = (document.getElementsByClassName(
@@ -233,5 +236,66 @@ describe('menu', () => {
       'menu-should-begin-false',
     ) as HTMLCollectionOf<HTMLElement>)[0];
     expect(menuDOM.style.visibility).toEqual('visible');
+    graph.destroy();
+  });
+
+  it('click trigger', () => {
+    const menu = new Menu({
+      handleMenuClick: (target, item) => {},
+      trigger: 'click',
+      className: 'menu-click',
+    });
+
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      plugins: [menu],
+      modes: {
+        default: ['drag-node', 'zoom-canvas', 'drag-canvas'],
+      },
+    });
+
+    const data = {
+      nodes: [
+        {
+          id: 'node1',
+          label: 'node1',
+          x: 100,
+          y: 100,
+        },
+      ],
+    };
+    graph.data(data);
+    graph.render();
+
+    const event = {
+      type: 'node:click',
+      item: graph.getNodes()[0],
+      canvasX: 100,
+      canvasY: 100,
+      bubbles: false,
+      preventDefault: () => {},
+      stopPropagation: () => {},
+    };
+    graph.emit('click', event);
+    let menuDOM = (document.getElementsByClassName(
+      'menu-click',
+    ) as HTMLCollectionOf<HTMLElement>)[0];
+    expect(menuDOM.style.visibility).toEqual('visible');
+
+    graph.emit('click', {
+      type: 'click',
+      canvasX: 100,
+      canvasY: 100,
+      bubbles: false,
+      preventDefault: () => {},
+      stopPropagation: () => {},
+    });
+    menuDOM = (document.getElementsByClassName(
+      'menu-click',
+    ) as HTMLCollectionOf<HTMLElement>)[0];
+    expect(menuDOM.style.visibility).toEqual('hidden');
+    graph.destroy();
   });
 });

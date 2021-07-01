@@ -167,7 +167,7 @@ export default class ItemController {
       if (model.collapsed) {
         setTimeout(() => {
           graph.collapseCombo(item as ICombo);
-        }, 16);
+        }, 0);
       }
     }
 
@@ -310,11 +310,12 @@ export default class ItemController {
     }
     const model = combo.getModel();
     const comboBBox = getComboBBox(model.collapsed ? [] : children, graph);
+    const { x: comboX, y: comboY } = model.collapsed ? getComboBBox(children, graph) : comboBBox;
 
     combo.set('bbox', comboBBox);
     combo.update({
-      x: comboBBox.x,
-      y: comboBBox.y,
+      x: comboX,
+      y: comboY,
     });
 
     const shapeFactory = combo.get('shapeFactory');

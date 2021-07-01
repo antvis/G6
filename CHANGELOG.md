@@ -1,5 +1,12 @@
 # ChangeLog
 
+#### 4.3.4
+
+- fix: when select a node with click-select, selected combos should be deselected;
+- fix: contextmenu with click trigger does not show the menu up, closes: #2982;
+- fix: layout with collapsed combo, closes: #2988;
+- fix: zoom-canvas with optimizeZoom, drag-canvas shows the node shapes hiden by zoom-canvas optimizeZoom, closes: #2996; 
+
 #### 4.3.3
 
 - fix: uncombo with id, closes: #2924;
