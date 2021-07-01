@@ -273,12 +273,16 @@ export default {
       });
       graph.updateCombo(combo as ICombo);
     } else {
-      self.targets.map((node: INode) => {
-        const model = node.getModel();
-        if (model.comboId) {
-          graph.updateComboTree(node);
-        }
-      });
+      if (this.onlyChangeComboSize) {
+        graph.updateCombos();
+      } else {
+        self.targets.map((node: INode) => {
+          const model = node.getModel();
+          if (model.comboId) {
+            graph.updateComboTree(node);
+          }
+        });
+      }
     }
 
     // 将节点拖动到另外个节点上面，emit 事件抛出当前操作的节点及目标节点
