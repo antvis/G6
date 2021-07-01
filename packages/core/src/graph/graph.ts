@@ -35,6 +35,7 @@ import { dataValidation, singleDataValidation } from '../util/validation';
 import Global from '../global';
 import { ItemController, ModeController, StateController, ViewController } from './controller';
 import { plainCombosToTrees, traverseTree, reconstructTree, traverseTreeUp } from '../util/graphic';
+import { processParallelEdges } from '../util/base';
 import Hull from '../item/hull';
 
 const { transform } = ext;
@@ -583,7 +584,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       animateCfg || {
         duration: 500,
         easing: 'easeCubic',
-      }
+      },
     );
     this.emit('viewportchange', { action: 'move', matrix: group.getMatrix() });
   }
@@ -1252,6 +1253,8 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    */
   public data(data?: GraphData | TreeGraphData): void {
     dataValidation(data);
+    // 默认处理多边情况
+    processParallelEdges(data.edges);
     this.set('data', data);
   }
 
@@ -1447,6 +1450,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       const comboTrees = plainCombosToTrees(combosData, (data as GraphData).nodes);
       this.set('comboTrees', comboTrees);
     }
+
+    // changeData 时处理多边
+    processParallelEdges(data.edges);
 
     this.diffItems('node', items, (data as GraphData).nodes!);
 
@@ -2271,7 +2277,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     }
     this.emit('beforecollapseexpandcombo', { action: 'expand', item: combo });
 
-    const comboModel = combo.getModel();
+    const comboModel = combo.getModel() as ComboConfig;
 
     const itemController: ItemController = this.get('itemController');
     itemController.collapseCombo(combo);
@@ -2417,7 +2423,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     }
     this.emit('beforecollapseexpandcombo', { action: 'expand', item: combo });
 
-    const comboModel = combo.getModel();
+    const comboModel = combo.getModel() as ComboConfig;
 
     const itemController: ItemController = this.get('itemController');
     itemController.expandCombo(combo);

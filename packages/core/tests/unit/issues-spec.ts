@@ -111,4 +111,152 @@ describe('issues', () => {
     expect(current.length).toBe(1);
     expect(current[0].getModel().parentId).toEqual('combo1');
   });
+
+  it('multiple edges with processParallelEdges', () => {
+    const data = {
+      nodes: [
+        {
+          id: 'node1',
+          x: 50,
+          y: 350,
+          label: 'A',
+        },
+        {
+          id: 'node2',
+          x: 250,
+          y: 150,
+          label: 'B',
+        },
+        {
+          id: 'node3',
+          x: 450,
+          y: 350,
+          label: 'C',
+        },
+      ],
+      edges: [],
+    };
+
+    for (let i = 0; i < 10; i++) {
+      data.edges.push({
+        source: 'node1',
+        target: 'node2',
+        label: `${i}th edge of A-B`,
+      });
+    }
+    for (let i = 0; i < 5; i++) {
+      data.edges.push({
+        source: 'node2',
+        target: 'node3',
+        label: `${i}th edge of B-C`,
+      });
+    }
+
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 600,
+      groupByTypes: false,
+    });
+    graph.data(data);
+    graph.render();
+
+    setTimeout(() => {
+      data.edges.length = 0;
+
+      for (let i = 0; i < 4; i++) {
+        data.edges.push({
+          source: 'node1',
+          target: 'node2',
+          label: `${i}th edge of A-B`,
+        });
+      }
+
+      graph.changeData(data);
+    }, 2000);
+  });
+
+  it('multiple edges changeData with processParallelEdges', () => {
+    const data = {
+      nodes: [
+        {
+          id: 'node1',
+          x: 50,
+          y: 350,
+          label: 'A',
+        },
+        {
+          id: 'node2',
+          x: 250,
+          y: 150,
+          label: 'B',
+        },
+        {
+          id: 'node3',
+          x: 450,
+          y: 350,
+          label: 'C',
+        },
+      ],
+      edges: [
+        {
+          source: 'node1',
+          target: 'node2',
+        },
+        {
+          source: 'node3',
+          target: 'node2',
+        },
+      ],
+    };
+
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 600,
+      groupByTypes: false,
+    });
+    graph.data(data);
+    graph.render();
+
+    setTimeout(() => {
+      data.edges.length = 0;
+
+      for (let i = 0; i < 4; i++) {
+        data.edges.push({
+          source: 'node1',
+          target: 'node2',
+        });
+      }
+
+      for (let i = 0; i < 3; i++) {
+        data.edges.push({
+          source: 'node3',
+          target: 'node2',
+        });
+      }
+
+      graph.changeData(data);
+    }, 2000);
+
+    setTimeout(() => {
+      data.edges.length = 0;
+
+      for (let i = 0; i < 2; i++) {
+        data.edges.push({
+          source: 'node1',
+          target: 'node2',
+        });
+      }
+
+      for (let i = 0; i < 1; i++) {
+        data.edges.push({
+          source: 'node3',
+          target: 'node2',
+        });
+      }
+
+      graph.changeData(data);
+    }, 4000);
+  });
 });
