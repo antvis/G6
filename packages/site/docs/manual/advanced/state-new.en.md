@@ -20,7 +20,7 @@ In actual scene, state has lots of implicity recommand and complexity.
 - **Mutually exclusive state**: e.g. 'healthy', 'suspect', 'ill', and 'dead' for 'bodyState' are mutually exclusive to each other, any two of them will not exist on a person in the same time;
 - **Update the styles for all the sub shapes on a node or an edge**: e.g. a node consist of a rect, a text and a icon image. When the state of the node is chagned, styles of all the shapes can be changed to response it; Modify the state configurations: modify the style configurations for a state easily.
 
-### Program
+### Solution
 
 To address the issues above, we have the following functions for states in G6 3.4:
 
@@ -76,9 +76,9 @@ const data = {
 };
 ```
 
-#### State Styles for Sub Shape
+#### State Styles for Sub-shapes
 
-In general, an item(node/edge) consists several a keyShape and some sub shapes. Before V3.4, state styles are only available for keyShape, which means users need to define state styles for other sub shapes in `setState` function when custom a node or an item type.
+On the ascpect of drawing, an item(node/edge) has a graphics group, which contains a keyShape and several sub-shapes. Before V3.4, state styles are only available on keyShape, which means users need to define state styles for other sub shapes in `setState` function when custom a node or an item type.
 
 G6 3.4 supports state styles for sub shapes. They can also be defined by two ways as [Global State](/#global-state) and State for [Single Node/Edge](/#state-for-single-nodeedge). Now we show how to define the global state styles for sub shapes as an example.
 
@@ -111,6 +111,11 @@ graph.setItemState(item, 'selected', true);
 ```
 
 Besides, G6 also supports `updateItem` function to update the state styles for an item.
+
+
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ NOTICE: </strong></span>
+
+The state styles for sub-shapes are only available for the sub-shapes which are the chilren of the root graphics group of a node/edge, but not other descendant shapes grouped by nested sub-graphics-groups. The sub-shapes in the built-in nodes/edges are all the children of the root graphics group of a node/edge. If you are customizing a node/edge type, this rule should be noticed.
 
 ### Set State
 
