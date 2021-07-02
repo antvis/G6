@@ -3,6 +3,8 @@ title: Vite + G6 报错
 order: 3
 ---
 
+> 感谢来自 GitHub 用户 @wooodchen 的解决方案
+
 如果你在使用 Vite + G6 构建时遇到类似下图的错误
 ![image](https://user-images.githubusercontent.com/20942938/121661253-98c82e00-cad6-11eb-9d5c-e5827db62ed9.png)
 
