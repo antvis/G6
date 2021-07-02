@@ -3,6 +3,7 @@
 #### 4.3.5
 
 - fix: drag a node without comboId by drag-node with onlyChangeComboSize;
+- fix: gpu layout with async;
 
 #### 4.3.4
 
