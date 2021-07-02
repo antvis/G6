@@ -28,12 +28,11 @@ describe('gpu layout', () => {
     expect(graph.getNodes()[1].getModel().x).not.toEqual(undefined);
     expect(graph.getNodes()[1].getModel().y).not.toEqual(undefined);
 
-    Promise.resolve().then(() => {
+    setTimeout(() => {
       const layoutController = graph.get('layoutController');
       expect(layoutController.layoutMethods[0].getType()).toEqual('fruchterman-gpu');
       graph.destroy();
-    });
-
+    }, 500);
   });
   it('gforce gpu', () => {
     const graph = new G6.Graph({
@@ -56,10 +55,11 @@ describe('gpu layout', () => {
     expect(graph.getNodes()[1].getModel().x).not.toEqual(undefined);
     expect(graph.getNodes()[1].getModel().y).not.toEqual(undefined);
 
-    Promise.resolve().then(() => {
+    setTimeout(() => {
       const layoutController = graph.get('layoutController');
       expect(layoutController.layoutMethods[0].getType()).toEqual('gForce-gpu');
       graph.destroy();
-    });
+    }, 500);
   });
 });
+
