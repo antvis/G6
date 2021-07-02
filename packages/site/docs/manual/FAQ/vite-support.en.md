@@ -3,6 +3,8 @@ title: Error in Vite with G6
 order: 3
 ---
 
+> This solution comes from GitHub User @wooodchen
+
 If you coming up with the error like following picture shows
 ![image](https://user-images.githubusercontent.com/20942938/121661253-98c82e00-cad6-11eb-9d5c-e5827db62ed9.png)
 
