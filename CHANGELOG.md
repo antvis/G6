@@ -1,5 +1,9 @@
 # ChangeLog
 
+#### 4.3.5
+
+- fix: drag a node without comboId by drag-node with onlyChangeComboSize;
+
 #### 4.3.4
 
 - fix: when select a node with click-select, selected combos should be deselected;
