@@ -1,6 +1,6 @@
 ---
 title: 如何让 IE 支持 G6
-order: 11
+order: 12
 ---
 
 本文将介绍如何在 IE 中使用 G6。
