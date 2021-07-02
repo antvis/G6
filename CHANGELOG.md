@@ -4,6 +4,7 @@
 
 - fix: drag a node without comboId by drag-node with onlyChangeComboSize;
 - fix: gpu layout with async;
+- fix: minimap with delegate type cannot reach the top of the canvas, closes: #2885;
 
 #### 4.3.4
 

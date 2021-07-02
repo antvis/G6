@@ -319,6 +319,7 @@ export default class MiniMap extends Base {
         });
         comboGroup.sort();
         comboGroup.toBack();
+        this.updateCanvas();
       }, 250)
     }
     this.clearDestroyedShapes();
@@ -426,6 +427,7 @@ export default class MiniMap extends Base {
         });
         comboGroup.sort();
         comboGroup.toBack();
+        this.updateCanvas();
       }, 250)
     }
     this.clearDestroyedShapes();
