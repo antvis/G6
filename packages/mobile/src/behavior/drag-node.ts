@@ -260,22 +260,20 @@ export default {
 
     const comboId = item.getModel().comboId as string;
 
-    if (comboId) {
-      if (this.onlyChangeComboSize) {
-        graph.updateCombos();
-      } else {
-        const combo = graph.findById(comboId);
-        if (self.comboActiveState) {
-          graph.setItemState(combo, self.comboActiveState, false);
-        }
-        self.targets.map((node: INode) => {
-          const nodeModel = node.getModel();
-          if (comboId !== nodeModel.comboId) {
-            graph.updateComboTree(node, comboId);
-          }
-        });
-        graph.updateCombo(combo as ICombo);
+    if (this.onlyChangeComboSize) {
+      graph.updateCombos();
+    } else if (comboId) {
+      const combo = graph.findById(comboId);
+      if (self.comboActiveState) {
+        graph.setItemState(combo, self.comboActiveState, false);
       }
+      self.targets.map((node: INode) => {
+        const nodeModel = node.getModel();
+        if (comboId !== nodeModel.comboId) {
+          graph.updateComboTree(node, comboId);
+        }
+      });
+      graph.updateCombo(combo as ICombo);
     } else {
       self.targets.map((node: INode) => {
         const model = node.getModel();
