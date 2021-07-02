@@ -115,7 +115,7 @@ G6.registerBehavior('nodeClick', {
 
 上小节使用 `graph.setItemState` 使某些状态在图元素（节点/边）上被激活/灭活，仅仅是为该元素做了某些状态的标识。为了将这些状态反应到终端用户所见的视觉空间中，我们需要为不同的状态设置不同的图元素样式，以响应该图元素状态的变化。
 
-在 G6 中，有两种方式配置不同状态的样式：
+在 G6 中，有三种方式配置不同状态的样式：
 
 - 在实例化 Graph 时，通过 `nodeStateStyles` 和 `edgeStateStyles` 对象定义；
 - 在节点/边数据中，在 `stateStyles` 对象中定义状态；
@@ -123,7 +123,10 @@ G6.registerBehavior('nodeClick', {
 
 可为二值/多值状态设置 keyShape 样式以及其他子图形的样式。
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意: </strong></span> 多值状态和除 keyShape 以外的子图形状态样式设置在 V3.4 后支持。
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意: </strong></span>
+
+- 多值状态和除 keyShape 以外的子图形状态样式设置在 V3.4 后支持。
+- 子图形状态样式仅限于指定节点/边的图形分组下平铺的图形，不支持嵌套图形分组下的图形。内置节点/边的图形分组内的图形均为平铺，在自定义节点时需要注意该规则。
 
 `nodeStateStyles` 、 `edgeStateStyles` 、 `stateStyles` 对象的格式如下：
 
@@ -131,14 +134,16 @@ G6.registerBehavior('nodeClick', {
 {
   // 二值状态 hover 为 true 时的样式
   hover: {
+    // keyShape 的状态样式
     fill: '#d3adf7',
-    // name 为 shape-name1 的子图形在该状态值下的样式
+    // name 为 node-label 的子图形在该状态值下的样式
     'node-label': {
       fontSize: 15
     },
   },
   // 二值状态 running 为 true 时的样式
   running: {
+    // keyShape 的状态样式
     stroke: 'steelblue',
   },
   // 多值状态与子图形样式的设置在 G6 3.4 后支持
@@ -201,7 +206,7 @@ const graph = new G6.Graph({
 
 上面的实例代码中，我们在实例化 Graph 时候，通过 `nodeStateStyles` 定义了交互状态 `hover` 和业务状态 `running` 的样式。当某个任务状态变为正在执行时，二值状态 `running` 被设置为 `true` 后，节点的描边色将变为 `'steelblue'`。当二值状态 `hover` 被设置为 `true` 时，节点 `keyShape` 的填充色会变为 `'#d3adf7'`；（V3.4 后支持）且该节点中 `name` 为 `'node-label'` 的子图形也会发生改变，这里的 `'node-label'` 即节点上的文本图形，它的 `fontSize` 将会发生改变。 <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Beu6QY_ETOgAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
-（V3.4 后支持）上面实例还指定了名为 `'bodyState'` 的多值状态各值下的样式。当一个节点的 `'bodyState'` 的值被设置为 `'health'` 时，该节点的 keyShape 样式以及 `name` 为 `'shape-name1'` 和 `'shape-name1'` 的子图形样式都会发生变化。
+（V3.4 后支持）上面实例还指定了名为 `'bodyState'` 的多值状态各值下的样式。当一个节点的 `'bodyState'` 的值被设置为 `'health'` 时，该节点的 keyShape 样式以及 `name` 为 `'shape-name1'` 和 `'shape-name2'` 的子图形样式都会发生变化。
 
 同理，`defaultEdge` 中的 `style` 属性定义了默认状态下边的样式，使用 `edgeStateStyles`  可以定义不同状态下边的样式。
 
