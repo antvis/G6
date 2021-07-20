@@ -52,7 +52,7 @@ G6.registerNode('card-node', {
           y: 0,
           r: 6,
           cursor: 'pointer',
-          symbol: G6.Marker.collapse,
+          symbol: cfg.collapsed ? G6.Marker.expand : G6.Marker.collapse,
           stroke: '#666',
           lineWidth: 1,
           fill: '#fff',

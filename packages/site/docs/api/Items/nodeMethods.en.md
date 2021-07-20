@@ -123,16 +123,8 @@ Get all the anchor points of the node.
 
 ```javascript
 [
-  (0: {
-    x: 100,
-    y: 105,
-    index: 0,
-  }),
-  (1: {
-    x: 200,
-    y: 105,
-    index: 1,
-  }),
+  [100, 105],
+  [200, 105]
 ];
 ```
 

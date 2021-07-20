@@ -86,7 +86,10 @@ To achive some transformation in G6 3.3, you should set the matrix value manuall
 We provide the function for transformantion:
 
 ```javascript
-import { transform } from '@antv/matrix-util';
+import { ext } from '@antv/matrix-util';
+
+const transform = ext.transform;
+
 // transform a 3*3 matrix
 transform(m, [
   ['t', x, y], // translate with vector (x, y)
@@ -100,7 +103,10 @@ transform(m, [
 The following code registers a custom node with a transfromed rect with: translation with vector `(100, 50)`, rotating with angle `Math.PI / 4`, magnifying 2 times on x-axis and 0.5 times on y-axis:
 
 ```javascript
-import { transform, mat3 } from '@antv/matrix-util';
+import { ext, mat3 } from '@antv/matrix-util';
+
+const transform = ext.transform;
+
 G6.registerNode('example', {
   drawShape: (cfg, group) => {
     const rect = group.addShape('rect', {

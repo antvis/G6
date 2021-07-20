@@ -608,8 +608,8 @@ export default class ItemBase implements IItemBase {
     const cfgVisible = cfg.visible;
     if (oriVisible !== cfgVisible && cfgVisible !== undefined) this.changeVisibility(cfgVisible);
     const originPosition: IPoint = { x: model.x!, y: model.y! };
-    cfg.x = isNaN(cfg.x) ? model.x : cfg.x;
-    cfg.y = isNaN(cfg.y) ? model.y : cfg.y;
+    cfg.x = isNaN(+cfg.x) ? model.x : (+cfg.x);
+    cfg.y = isNaN(+cfg.y) ? model.y : (+cfg.y);
 
     const styles = this.get('styles');
     if (cfg.stateStyles) {
@@ -671,8 +671,8 @@ export default class ItemBase implements IItemBase {
   public updatePosition(cfg: ModelConfig): boolean {
     const model: ModelConfig = this.get('model');
 
-    const x = isNil(cfg.x) ? model.x : cfg.x;
-    const y = isNil(cfg.y) ? model.y : cfg.y;
+    const x = isNil(+cfg.x) ? (+model.x) : (+cfg.x);
+    const y = isNil(+cfg.y) ? (+model.y) : (+cfg.y);
 
     const group: IGroup = this.get('group');
 

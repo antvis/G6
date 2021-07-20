@@ -35,6 +35,22 @@ CompactBox is the default layout for TreeGraph. It will consider the bounding bo
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZFCiTLwCoAYAAAAAAAAAAABkARQnAQ' width=102 alt='img'/>
 
+
+### layoutCfg.getSide
+
+**Type**: Function<br />**Example**:
+
+```javascript
+(d) => {
+  // d is a node
+  if (d.id === 'test-child-id') return 'right';
+  return 'left';
+};
+```
+
+**Default**: 'right'<br />**Required**: false<br />**Description**: The callback function of node position(left or right of root node). Only affects the nodes which are connected to the root node directly. And the descendant nodes will be placed according to it
+
+
 ### layoutCfg.getId
 
 **Type**: Function<br />**Example**:

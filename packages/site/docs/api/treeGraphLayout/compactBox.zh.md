@@ -35,6 +35,21 @@ order: 1
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*E0c8TIYRPYoAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
 
+### layoutCfg.getSide
+
+**类型**：Function<br />**示例**：
+
+```javascript
+(d) => {
+  // d 是一个节点
+  if (d.id === 'test-child-id') return 'right';
+  return 'left';
+};
+```
+
+**默认值**：'right'<br />**是否必须**：false<br />**说明**：节点排布在根节点的左侧/右侧。若设置了该值，则所有节点会在根节点同一侧，即 direction = 'H' 不再起效。若该参数为回调函数，则可以指定每一个节点在根节点的左/右侧。
+
+
 ### layoutCfg.getId
 
 **类型**: Function<br />**示例**:
