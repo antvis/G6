@@ -86,7 +86,10 @@ rect.transform([
 为了方面使用，我们提供了矩阵变换的工具方法：
 
 ```javascript
-import { transform } from '@antv/matrix-util';
+import { ext } from '@antv/matrix-util';
+
+const transform = ext.transform;
+
 // 3*3 矩阵变换，用于二维渲染
 transform(m, [
   ['t', 100, 50], // translate (100, 50)
@@ -100,7 +103,10 @@ transform(m, [
 以下方法实现了在自定义节点 example 中增加一个矩形，并将该矩形位移 `(100, 50)` 后，旋转 `Math.PI / 4`，最后在 x 方向放大 2 倍，并在 y 方向缩小 2 倍：
 
 ```javascript
-import { transform, mat3 } from '@antv/matrix-util';
+import { ext, mat3 } from '@antv/matrix-util';
+
+const transform = ext.transform;
+
 G6.registerNode('example', {
   drawShape: (cfg, group) => {
     const rect = group.addShape('rect', {

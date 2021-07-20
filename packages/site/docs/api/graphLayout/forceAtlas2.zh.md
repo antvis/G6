@@ -66,11 +66,11 @@ const graph = new G6.Graph({
 
 ## layoutCfg.barnesHut
 
-**类型**： boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否打开 barnes hut 加速，即四叉树加速。由于每次迭代需要更新构建四叉树，建议在较大规模图上打开
+**类型**： boolean<br />**默认值**：undefined<br />**是否必须**：false<br />**说明**：是否打开 barnes hut 加速，即四叉树加速。由于每次迭代需要更新构建四叉树，建议在较大规模图上打开。默认情况下为 undefined，当节点数量大于 250 时它将会被激活。设置为 false 则不会自动被激活
 
 ## layoutCfg.prune
 
-**类型**： boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否开启自动剪枝模式。默认情况下，当节点数量大于 100 时它将会被激活。注意，剪枝能够提高收敛速度，但可能会降低图的布局质量
+**类型**： boolean<br />**默认值**：undefined<br />**是否必须**：false<br />**说明**：是否开启自动剪枝模式。默认情况下为 undefined，当节点数量大于 100 时它将会被激活。注意，剪枝能够提高收敛速度，但可能会降低图的布局质量。设置为 false 则不会自动被激活
 
 ## layoutCfg.maxIteration
 
