@@ -7,7 +7,8 @@ import insertCss from 'insert-css';
 
 const DELTA = 0.05;
 
-insertCss(`
+typeof document !== 'undefined' &&
+  insertCss(`
   .g6-component-toolbar {
     position: absolute;
     list-style-type: none;
