@@ -35,6 +35,9 @@ interface TooltipConfig extends IPluginBaseConfig {
 }
 
 export default class Tooltip extends Base {
+  constructor(config?: TooltipConfig) {
+    super(config);
+  }
   private currentTarget: Item;
 
   public getDefaultCfgs(): TooltipConfig {
@@ -217,7 +220,7 @@ export default class Tooltip extends Base {
         y: itemBBox.minY + itemBBox.height * fixToNode[1]
       };
     }
-    
+
     const { x, y } = graph.getCanvasByPoint(point.x, point.y);
 
     const graphContainer = graph.getContainer();
@@ -233,7 +236,7 @@ export default class Tooltip extends Base {
       display: 'unset',
     });
     const bbox = tooltip.getBoundingClientRect();
-    
+
     if (x + bbox.width + offsetX > width) {
       res.x -= bbox.width + offsetX;
     }

@@ -35,6 +35,10 @@ interface MenuConfig extends IPluginBaseConfig {
 }
 
 export default class Menu extends Base {
+  constructor(config?: MenuConfig) {
+    super(config);
+  }
+
   public getDefaultCfgs(): MenuConfig {
     return {
       offsetX: 6,

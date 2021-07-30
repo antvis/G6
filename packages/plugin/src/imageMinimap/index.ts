@@ -35,6 +35,9 @@ interface MiniMapConfig extends IPluginBaseConfig {
 }
 
 export default class ImageMiniMap extends Base {
+  constructor(config?: MiniMapConfig) {
+    super(config);
+  }
   public getDefaultCfgs(): MiniMapConfig {
     return {
       container: null,
