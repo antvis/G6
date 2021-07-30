@@ -4,7 +4,8 @@ import insertCss from 'insert-css';
 import { IAbstractGraph as IGraph, IG6GraphEvent, Item } from '@antv/g6-core';
 import Base, { IPluginBaseConfig } from '../base';
 
-insertCss(`
+typeof document !== 'undefined' &&
+  insertCss(`
   .g6-component-contextmenu {
     border: 1px solid #e2e2e2;
     border-radius: 4px;
@@ -57,7 +58,7 @@ export default class Menu extends Base {
         return true;
       },
       itemTypes: ['node', 'edge', 'combo'],
-      trigger: 'contextmenu'
+      trigger: 'contextmenu',
     };
   }
 
@@ -65,8 +66,8 @@ export default class Menu extends Base {
   public getEvents() {
     if (this.get('trigger') === 'click') {
       return {
-        click: 'onMenuShow'
-      }
+        click: 'onMenuShow',
+      };
     }
     return {
       contextmenu: 'onMenuShow',

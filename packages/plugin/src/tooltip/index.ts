@@ -4,7 +4,8 @@ import insertCss from 'insert-css';
 import { IG6GraphEvent, Item, IAbstractGraph as IGraph } from '@antv/g6-core';
 import Base, { IPluginBaseConfig } from '../base';
 
-insertCss(`
+typeof document !== 'undefined' &&
+  insertCss(`
   .g6-component-tooltip {
     border: 1px solid #e2e2e2;
     border-radius: 4px;
@@ -53,7 +54,7 @@ export default class Tooltip extends Base {
       },
       itemTypes: ['node', 'edge', 'combo'],
       trigger: 'mouseenter',
-      fixToNode: undefined
+      fixToNode: undefined,
     };
   }
 
@@ -67,7 +68,7 @@ export default class Tooltip extends Base {
         'canvas:click': 'onMouseLeave',
         afterremoveitem: 'onMouseLeave',
         contextmenu: 'onMouseLeave',
-        'drag': 'onMouseLeave',
+        drag: 'onMouseLeave',
       };
     }
     return {
@@ -102,14 +103,14 @@ export default class Tooltip extends Base {
     container.appendChild(tooltip);
 
     if (self.get('trigger') !== 'click') {
-      tooltip.addEventListener('mouseenter', e => {
+      tooltip.addEventListener('mouseenter', (e) => {
         modifyCSS(tooltip, {
           visibility: 'visible',
           display: 'unset',
         });
       });
-      tooltip.addEventListener('mouseleave', e => {
-        self.hideTooltip()
+      tooltip.addEventListener('mouseleave', (e) => {
+        self.hideTooltip();
       });
     }
     self.set('tooltip', tooltip);
@@ -210,22 +211,28 @@ export default class Tooltip extends Base {
 
     const fixToNode = this.get('fixToNode');
     const { item } = e;
-    if (item.getType && item.getType() === 'node' && fixToNode && isArray(fixToNode) && fixToNode.length >= 2) {
+    if (
+      item.getType &&
+      item.getType() === 'node' &&
+      fixToNode &&
+      isArray(fixToNode) &&
+      fixToNode.length >= 2
+    ) {
       const itemBBox = item.getBBox();
       point = {
         x: itemBBox.minX + itemBBox.width * fixToNode[0],
-        y: itemBBox.minY + itemBBox.height * fixToNode[1]
+        y: itemBBox.minY + itemBBox.height * fixToNode[1],
       };
     }
-    
+
     const { x, y } = graph.getCanvasByPoint(point.x, point.y);
 
     const graphContainer = graph.getContainer();
 
     const res = {
       x: x + graphContainer.offsetLeft + offsetX,
-      y: y + graphContainer.offsetTop + offsetY
-    }
+      y: y + graphContainer.offsetTop + offsetY,
+    };
 
     // 先修改为 visible 方可正确计算 bbox
     modifyCSS(tooltip, {
@@ -233,7 +240,7 @@ export default class Tooltip extends Base {
       display: 'unset',
     });
     const bbox = tooltip.getBoundingClientRect();
-    
+
     if (x + bbox.width + offsetX > width) {
       res.x -= bbox.width + offsetX;
     }
