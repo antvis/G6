@@ -217,6 +217,13 @@ export default class ItemBase implements IItemBase {
         if (name && name !== keyShapeName) {
           originStyles[name] =
             shapeType !== 'image' ? clone(child.attr()) : self.getShapeStyleByName(name);
+
+          // The text's position and matrix is not allowed to be affected by states
+          if (originStyles[name] && shapeType === 'text') {
+            delete originStyles[name].x;
+            delete originStyles[name].y;
+            delete originStyles[name].matrix;
+          }
         } else {
           // !name || name === keyShape
           const keyShapeStyle: ShapeStyle = self.getShapeStyleByName(); // 可优化，需要去除 child.attr 中其他 shape 名的对象
