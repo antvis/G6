@@ -1,7 +1,7 @@
 import { IGroup } from '@antv/g-base';
 import { ICombo, INode, IItemBaseConfig } from '../interface/item';
 import Node from './node';
-import { ComboConfig, IBBox, IShapeBase, ModelConfig } from '../types';
+import { IBBox, IShapeBase, ModelConfig, UpdateType } from '../types';
 import Global from '../global';
 import { getBBox } from '../util/graphic';
 import { isNumber } from '@antv/util';
@@ -218,8 +218,8 @@ export default class Combo extends Node implements ICombo {
     return false;
   }
 
-  public isOnlyMove(cfg?: any): boolean {
-    return false;
+  public getUpdateType(cfg?: ModelConfig): UpdateType {
+    return undefined;
   }
 
   /**

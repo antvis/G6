@@ -161,7 +161,7 @@ const graph = new G6.Graph({
   <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IFfoS67_HssAAAAAAAAAAAAAARQnAQ' width='650' alt="" />
 
 - 相关时机事件：
-  - `onWheel`：滚轮滚动时触发，使用 `graph.on('onWheel', e => {...})` 监听。
+  - `onWheel`：滚轮滚动时触发，使用 `graph.on('wheel', e => {...})` 监听。
 
 **使用默认配置**
 

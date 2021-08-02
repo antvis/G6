@@ -6,7 +6,7 @@
 import { IGroup, IShape, IElement, Point } from '@antv/g-base';
 import { deepMix, mix, each, isNil, isNumber, isArray } from '@antv/util';
 import { ILabelConfig, ShapeOptions } from '../interface/shape';
-import { EdgeConfig, EdgeData, IPoint, LabelStyle, ShapeStyle, Item, ModelConfig } from '../types';
+import { EdgeConfig, EdgeData, IPoint, LabelStyle, ShapeStyle, Item, ModelConfig, UpdateType } from '../types';
 import { getLabelPosition, getLoopCfgs } from '../util/graphic';
 import { distance, getCircleCenterByPoints } from '../util/math';
 import { getControlPoint, getSpline } from '../util/path';
@@ -119,13 +119,13 @@ const singleEdge: ShapeOptions = {
     );
     return styles;
   },
-  updateShapeStyle(cfg: EdgeConfig, item: Item) {
+  updateShapeStyle(cfg: EdgeConfig, item: Item, updateType?: UpdateType) {
     const group = item.getContainer();
     const strokeStyle: ShapeStyle = {
       stroke: cfg.color,
     };
     const shape =
-      group.find((element) => element.get('className') === 'edge-shape') || item.getKeyShape();
+      item.getKeyShape?.() || group.find((element) => element.get('className') === 'edge-shape');
 
     const { size } = cfg;
     cfg = this.getPathPoints!(cfg);
@@ -149,26 +149,31 @@ const singleEdge: ShapeOptions = {
     if (!controlPoints) {
       routeCfg = { source, target, offset: previousStyle.offset, radius: previousStyle.radius };
     }
-    if (currentAttr.endArrow && previousStyle.endArrow === false) {
-      cfg.style.endArrow = {
-        path: '',
-      };
-    }
-    if (currentAttr.startArrow && previousStyle.startArrow === false) {
-      cfg.style.startArrow = {
-        path: '',
-      };
-    }
     const path = (this as any).getPath(points, routeCfg);
-    const style = mix(
-      strokeStyle,
-      shape.attr(),
-      {
-        lineWidth: size,
-        path,
-      },
-      cfg.style,
-    );
+    let style = {};
+    if (updateType === 'move') {
+      style = { path };
+    } else {
+      if (currentAttr.endArrow && previousStyle.endArrow === false) {
+        cfg.style.endArrow = {
+          path: '',
+        };
+      }
+      if (currentAttr.startArrow && previousStyle.startArrow === false) {
+        cfg.style.startArrow = {
+          path: '',
+        };
+      }
+      style = mix(
+        strokeStyle,
+        currentAttr,
+        {
+          lineWidth: size,
+          path,
+        },
+        cfg.style,
+      );
+    }
 
     if (shape) {
       shape.attr(style);

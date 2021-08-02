@@ -7,6 +7,8 @@ import { ILabelConfig } from '../interface/shape';
 
 export * from '../interface';
 
+export type UpdateType = 'move' | 'bbox' | 'style' | undefined;
+
 // Node Edge Combo 实例
 export type Item = INode | IEdge | ICombo;
 

@@ -1,5 +1,5 @@
 import { IGroup } from '@antv/g-base';
-import { clone, deepMix, each, isArray, isObject, isString, upperFirst } from '@antv/util';
+import { clone, deepMix, each, isArray, isObject, isString, upperFirst, throttle } from '@antv/util';
 import Edge from '../../item/edge';
 import Node from '../../item/node';
 import Combo from '../../item/combo';
@@ -12,6 +12,7 @@ import {
   NodeMap,
   ComboTree,
   ComboConfig,
+  UpdateType,
 } from '../../types';
 import { IAbstractGraph } from '../../interface/graph';
 import { IEdge, INode, ICombo } from '../../interface/item';
@@ -31,6 +32,13 @@ export default class ItemController {
   private graph: IAbstractGraph;
 
   public destroyed: boolean;
+
+  private edgeToBeUpdateMap: {
+    [key: string]: {
+      edge: IEdge,
+      updateType: UpdateType
+    }
+  } = {};
 
   constructor(graph: IAbstractGraph) {
     this.graph = graph;
@@ -206,7 +214,7 @@ export default class ItemController {
     const mapper = graph.get(type + MAPPER_SUFFIX);
     const model = item.getModel();
 
-    const isOnlyMove = item.isOnlyMove(cfg);
+    const updateType = item.getUpdateType(cfg);
 
     if (mapper) {
       const result: ModelConfig = deepMix({}, model, cfg);
@@ -258,13 +266,24 @@ export default class ItemController {
     // item.update(cfg);
 
     if (type === NODE || type === COMBO) {
-      item.update(cfg, isOnlyMove);
+      item.update(cfg, updateType);
       const edges: IEdge[] = (item as INode).getEdges();
-      const refreshEdge = shouldRefreshEdge(cfg)!;
-      if (refreshEdge && type === NODE)
-        each(edges, (edge: IEdge) => {
-          edge.refresh();
-        });
+      const refreshEdge = updateType === 'bbox' || updateType === 'move';
+      if (type === NODE) {
+        if (updateType === 'move') {
+          each(edges, (edge: IEdge) => {
+            this.edgeToBeUpdateMap[edge.getID()] = {
+              edge: edge,
+              updateType
+            };
+            this.throttleRefresh();
+          });
+        } else if (refreshEdge) {
+          each(edges, (edge: IEdge) => {
+            edge.refresh();
+          });
+        }
+      }
       else if (refreshEdge && type === COMBO) {
         const shapeFactory = item.get('shapeFactory');
         const shapeType = (model.type as string) || 'circle';
@@ -290,6 +309,25 @@ export default class ItemController {
     }
     graph.emit('afterupdateitem', { item, cfg });
   }
+
+  /**
+   * 更新边限流，同时可以防止相同的边频繁重复更新
+   * */
+  private throttleRefresh = throttle(
+    _ => {
+      const edgeToBeUpdateMap = this.edgeToBeUpdateMap;
+      if (!edgeToBeUpdateMap || !Object.keys(edgeToBeUpdateMap)?.length) return;
+      Object.keys(edgeToBeUpdateMap).forEach(eid => {
+        edgeToBeUpdateMap[eid].edge.refresh(edgeToBeUpdateMap[eid].updateType);
+      });
+      this.edgeToBeUpdateMap = {};
+    },
+    16,
+    {
+      trailing: true,
+      leading: true,
+    }
+  )
 
   /**
    * 根据 combo 的子元素更新 combo 的位置及大小
