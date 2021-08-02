@@ -496,6 +496,12 @@ export const shapeBase: ShapeOptions = {
         if (isPlainObject(style) && !ARROWS.includes(originKey)) {
           const subShape = group.find((element) => element.get('name') === originKey);
           if (subShape) {
+            // The text's position and matrix is not allowed to be affected by states
+            if (subShape.get('type') === 'text') {
+              delete (style as any).x;
+              delete (style as any).y;
+              delete (style as any).matrix;
+            }
             if (originKey === keyShapeName) {
               if (type === 'combo') {
                 delete (style as any).r;
@@ -560,7 +566,7 @@ export const shapeBase: ShapeOptions = {
    * @return {Array|null} 锚点的数组,如果为 null，则没有锚点
    */
   getAnchorPoints(cfg: ModelConfig): number[][] | undefined {
-    const anchorPoints =  this.options?.anchorPoints || this.getCustomConfig(cfg)?.anchorPoints || cfg?.anchorPoints;
+    const anchorPoints =  cfg?.anchorPoints || this.getCustomConfig(cfg)?.anchorPoints || this.options?.anchorPoints ;
     return anchorPoints;
   },
 };

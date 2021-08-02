@@ -315,10 +315,14 @@ export default class ItemController {
    * */
   private throttleRefresh = throttle(
     _ => {
+      const { graph } = this;
+      if (!graph || graph.get('destroyed')) return;
       const edgeToBeUpdateMap = this.edgeToBeUpdateMap;
       if (!edgeToBeUpdateMap || !Object.keys(edgeToBeUpdateMap)?.length) return;
       Object.keys(edgeToBeUpdateMap).forEach(eid => {
-        edgeToBeUpdateMap[eid].edge.refresh(edgeToBeUpdateMap[eid].updateType);
+        const edge = edgeToBeUpdateMap[eid].edge;
+        if (!edge || edge.destroyed) return;
+        edge.refresh(edgeToBeUpdateMap[eid].updateType);
       });
       this.edgeToBeUpdateMap = {};
     },

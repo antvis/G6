@@ -358,7 +358,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * @param key 键
    */
   public get(key: string) {
-    return this.cfg[key];
+    return this.cfg?.[key];
   }
 
   /**
@@ -2188,8 +2188,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * @return {object} this
    */
   public clear(avoidEmit: boolean = false): AbstractGraph {
-    const canvas: ICanvas = this.get('canvas');
-    canvas.clear();
+    this.get('canvas')?.clear();
 
     this.initGroups();
 
