@@ -29,6 +29,7 @@ import {
   ComboTree,
   HullCfg,
   IG6GraphEvent,
+  IPoint,
 } from '../types';
 import { move } from '../util/math';
 import { dataValidation, singleDataValidation } from '../util/validation';
@@ -2202,16 +2203,51 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   /**
    * 更换布局配置项
    * @param {object} cfg 新布局配置项
+   * @param {'center' | 'begin'} align 对齐方式，可选中心（center）对齐到对齐点，或左上角（begin）对齐到对齐点
+   * @param {IPoint} alignPoint 画布上的对齐点，为 Canvas 坐标系（Canvas DOM）
    * 若 cfg 含有 type 字段或为 String 类型，且与现有布局方法不同，则更换布局
    * 若 cfg 不包括 type ，则保持原有布局方法，仅更新布局配置项
    */
-  public updateLayout(cfg: any): void {
+  public updateLayout(cfg: any, align?: 'center' | 'begin', alignPoint?: IPoint): void {
     const layoutController = this.get('layoutController');
 
     if (isString(cfg)) {
       cfg = {
         type: cfg,
       };
+    }
+
+    // align the graph after layout
+    if (align) {
+      let toPoint = alignPoint;
+      if (!toPoint) {
+        if (align === 'begin') toPoint = { x: 0, y: 0 };
+        else toPoint = { x: this.getWidth() / 2, y: this.getHeight() / 2 };
+      }
+      // translate to point coordinate system
+      toPoint = this.getPointByCanvas(toPoint.x, toPoint.y); 
+
+      const forceTypes = ['force', 'gForce', 'fruchterman'];
+
+      // if it is force layout, only center takes effect, and assign center force
+      if (forceTypes.includes(cfg.type) || (!cfg.type && forceTypes.includes(layoutController?.layoutType))) {
+        cfg.center = [toPoint.x, toPoint.y];
+      } else {
+        this.once('afterlayout', e => {
+          const matrix = this.getGroup().getMatrix() || [1, 0, 0, 0, 1, 0, 0, 0, 1];
+          toPoint.x = toPoint.x * matrix[0] + matrix[6];
+          toPoint.y = toPoint.y * matrix[0] + matrix[7];
+
+          const { minX, maxX, minY, maxY } = this.getGroup().getCanvasBBox();
+          const bboxPoint = { x: (minX + maxX) / 2, y: (minY + maxY) / 2 };
+          if (align === 'begin') {
+            bboxPoint.x = minX;
+            bboxPoint.y = minY;
+          }
+    
+          this.translate(toPoint.x - bboxPoint.x, toPoint.y - bboxPoint.y);
+        });
+      }
     }
 
     const oriLayoutCfg = this.get('layout');
