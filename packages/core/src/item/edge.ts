@@ -1,6 +1,6 @@
 import { isString, isPlainObject, isNil, mix } from '@antv/util';
 import { IEdge, INode, ICombo } from '../interface/item';
-import { EdgeConfig, IPoint, NodeConfig, SourceTarget, Indexable } from '../types';
+import { EdgeConfig, IPoint, NodeConfig, SourceTarget, Indexable, UpdateType } from '../types';
 import Item from './item';
 import Node from './node';
 
@@ -135,11 +135,11 @@ export default class Edge extends Item implements IEdge {
     this.setTarget(this.get('target'));
   }
 
-  public getShapeCfg(model: EdgeConfig): EdgeConfig {
+  public getShapeCfg(model: EdgeConfig, updateType?: UpdateType): EdgeConfig {
     const self = this;
     const linkCenter: boolean = self.get('linkCenter'); // 如果连接到中心，忽视锚点、忽视控制点
     
-    const cfg = super.getShapeCfg(model) as EdgeConfig;
+    const cfg = updateType === 'move' ? {} : super.getShapeCfg(model) as EdgeConfig;
 
     if (linkCenter) {
       cfg.startPoint = self.getEndCenter('source');
@@ -211,7 +211,7 @@ export default class Edge extends Item implements IEdge {
    * 边不需要重计算容器位置，直接重新计算 path 位置
    * @param {object} cfg 待更新数据
    */
-  public update(cfg: EdgeConfig, onlyMove: boolean = false) {
+  public update(cfg: EdgeConfig, updateType: UpdateType = undefined) {
     const model: EdgeConfig = this.get('model');
     const oriVisible = model.visible;
     const cfgVisible = cfg.visible;
@@ -226,7 +226,7 @@ export default class Edge extends Item implements IEdge {
     }
 
     Object.assign(model, cfg);
-    this.updateShape();
+    this.updateShape(updateType);
     this.afterUpdate();
     this.clearCache();
   }

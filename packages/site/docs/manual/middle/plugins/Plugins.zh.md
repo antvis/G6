@@ -195,7 +195,7 @@ imageMinimap.updateGraphImg(img); // 使用新的图片（用户自己生成）�
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z9iXQq_kcrYAAAAAAAAAAABkARQnAQ' width=600 alt='img'/>
 
-> 美国航线图边绑定。<a href='http://g6.antv.vision/zh/examples/case/edgeBundling' target='_blank'>Demo 链接</a>。该 <a href='https://g6.antv.vision/zh/docs/manual/cases/edgeBundling' target='_blank'>Demo 教程</a>。
+> 美国航线图边绑定。<a href='/zh/examples/case/graphDemos#edgeBundling' target='_blank'>Demo 链接</a>。该 <a href='/zh/docs/manual/cases/edgeBundling' target='_blank'>Demo 教程</a>。
 
 实例化时可以通过配置项调整边绑定的功能。
 
