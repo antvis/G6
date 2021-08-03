@@ -74,6 +74,9 @@ const getEventPath = (evt: MouseEvent) => {
 };
 
 export default class ToolBar extends Base {
+  constructor(config?: ToolBarConfig) {
+    super(config);
+  }
   public getDefaultCfgs(): ToolBarConfig {
     return {
       handleClick: undefined,
