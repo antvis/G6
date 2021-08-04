@@ -1,4 +1,4 @@
-import G6, { Graph } from '../../../src';
+import { Graph } from '../../../src';
 import '../../../src/behavior';
 import { GraphData, Item } from '@antv/g6-core';
 import Core from '@antv/g6-core';

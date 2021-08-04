@@ -19,6 +19,7 @@ import {
   StackData,
   HullCfg,
   IG6GraphEvent,
+  IPoint,
 } from '../types';
 import { IEdge, INode, ICombo } from './item';
 import Hull from '../item/hull';
@@ -487,7 +488,7 @@ export interface IAbstractGraph extends EventEmitter {
    * 若 cfg 含有 type 字段或为 String 类型，且与现有布局方法不同，则更换布局
    * 若 cfg 不包括 type ，则保持原有布局方法，仅更新布局配置项
    */
-  updateLayout: (cfg: LayoutConfig) => void;
+  updateLayout: (cfg: LayoutConfig, align?: 'center' | 'begin', canvasPoint?: IPoint) => void;
 
   /**
    * 重新以当前示例中配置的属性进行一次布局

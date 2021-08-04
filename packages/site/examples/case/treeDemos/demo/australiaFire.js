@@ -250,7 +250,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/d676014a-0a11-4ea9-9af4-403
         },
       },
       modes: {
-        default: ['drag-canvas'],
+        default: ['drag-canvas', 'zoom-canvas'],
       },
       layout: {
         type: 'dendrogram',

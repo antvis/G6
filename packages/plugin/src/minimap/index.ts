@@ -25,6 +25,9 @@ interface MiniMapConfig extends IPluginBaseConfig {
 }
 
 export default class MiniMap extends Base {
+  constructor(config?: MiniMapConfig) {
+    super(config);
+  }
   this: IGraph;
   public getDefaultCfgs(): MiniMapConfig {
     return {
@@ -319,6 +322,7 @@ export default class MiniMap extends Base {
         });
         comboGroup.sort();
         comboGroup.toBack();
+        this.updateCanvas();
       }, 250)
     }
     this.clearDestroyedShapes();
@@ -426,6 +430,7 @@ export default class MiniMap extends Base {
         });
         comboGroup.sort();
         comboGroup.toBack();
+        this.updateCanvas();
       }, 250)
     }
     this.clearDestroyedShapes();

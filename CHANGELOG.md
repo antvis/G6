@@ -1,5 +1,13 @@
 # ChangeLog
 
+#### 4.3.5
+
+- fix: drag a node without comboId by drag-node with onlyChangeComboSize;
+- fix: gpu layout with async;
+- fix: minimap with delegate type cannot reach the top of the canvas, closes: #2885;
+- feat: improve the performance for updating nodes;
+- feat: updateLayout with align and alignPoint;
+
 #### 4.3.4
 
 - fix: when select a node with click-select, selected combos should be deselected;

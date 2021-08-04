@@ -53,7 +53,7 @@ Move the canvas with **relative displacement**.
 graph.translate(100, 100);
 ```
 
-### graph.moveTo(x, y)
+### graph.moveTo(x, y, animate, animateCfg)
 
 Move the canvas to a **fixed position**.
 
@@ -63,11 +63,18 @@ Move the canvas to a **fixed position**.
 | ---- | ------ | -------- | ----------------------------------------- |
 | x    | Number | true     | Displacement in the horizontal direction. |
 | y    | Number | true     | Displacement in the vertical direction.   |
+| animate | boolean | false | Whether move the graph with animation. If it is not assigned, animates following the graph's `animate`. |
+| animateCfg | Object | false | The animation's configuraiton. Its configurations can be found in [Basic Animation Docs](/en/docs/manual/advanced/animation#animatecfg). If it is not assigned, animates following the graph's `animateCfg`. |
 
 **Usage**
 
 ```javascript
 graph.moveTo(200, 300);
+
+// with animation
+graph.moveTo(200, 300, true, {
+  duration: 100
+});
 ```
 
 ### graph.fitView(padding)

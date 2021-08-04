@@ -1,7 +1,7 @@
 import { IGroup, IShape } from '@antv/g-base';
 import { upperFirst } from '@antv/util';
 import { ShapeOptions, ShapeDefine } from '../interface/shape';
-import { IPoint, Item, ModelConfig, NodeConfig, EdgeConfig } from '../types';
+import { IPoint, Item, ModelConfig, NodeConfig, EdgeConfig, UpdateType } from '../types';
 import { createNodeFromXML } from './xml';
 
 const cache: {
@@ -62,11 +62,11 @@ export const ShapeFactoryBase = {
    * @param  {Object} cfg 配置项
    * @param  {G6.Item} item 节点、边、分组等
    */
-  baseUpdate(type: string, cfg: ModelConfig, item: Item) {
+  baseUpdate(type: string, cfg: ModelConfig, item: Item, updateType?: UpdateType) {
     const shape = this.getShape(type);
     if (shape.update) {
       // 防止没定义 update 函数
-      shape.update(cfg, item);
+      shape.update(cfg, item, updateType);
     }
 
     if (shape.afterUpdate) {

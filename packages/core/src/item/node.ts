@@ -1,6 +1,6 @@
-import { each, isNil, mix } from '@antv/util';
+import { each, isNil, isNumber } from '@antv/util';
 import { IEdge, INode } from '../interface/item';
-import { IPoint, IShapeBase, ModelConfig, NodeConfig } from '../types';
+import { IPoint, IShapeBase, ModelConfig, NodeConfig, UpdateType } from '../types';
 import { getBBox } from '../util/graphic';
 import {
   distance,
@@ -234,12 +234,12 @@ export default class Node extends Item implements INode {
   }
 
   /**
-   * 是否仅仅移动节点，其他属性没变化
+   * 判断更新的种类，move 表示仅移动，bbox 表示大小有变化，style 表示仅与大小无关的参数变化
    * @param cfg 节点数据模型
    */
-  public isOnlyMove(cfg: ModelConfig): boolean {
+  public getUpdateType(cfg: ModelConfig): UpdateType {
     if (!cfg) {
-      return false;
+      return undefined;
     }
 
     const existX = !isNil(cfg.x);
@@ -249,6 +249,28 @@ export default class Node extends Item implements INode {
 
     // 仅有一个字段，包含 x 或者 包含 y
     // 两个字段，同时有 x，同时有 y
-    return (keys.length === 1 && (existX || existY)) || (keys.length === 2 && existX && existY);
+    if ((keys.length === 1 && (existX || existY)) || (keys.length === 2 && existX && existY)) {
+      return 'move';
+    }
+
+    if (
+      isNumber(cfg.x) ||
+      isNumber(cfg.y) ||
+      cfg.type ||
+      cfg.anchorPoints ||
+      cfg.size ||
+      (cfg?.style && (
+        cfg?.style?.r ||
+        cfg?.style?.width ||
+        cfg?.style?.height ||
+        cfg?.style?.rx ||
+        cfg?.style?.ry
+      ))
+    ) {
+      return 'bbox';
+    }
+
+    return 'style';
+    
   }
 }

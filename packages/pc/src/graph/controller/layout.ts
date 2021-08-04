@@ -107,7 +107,7 @@ export default class LayoutController extends AbstractLayout {
   }
 
   private execLayoutMethod(layoutCfg, order): Promise<void> {
-    return new Promise((reslove, reject) => {
+    return new Promise(async (reslove, reject) => {
       const { graph } = this;
       let layoutType = layoutCfg.type;
 
@@ -170,14 +170,14 @@ export default class LayoutController extends AbstractLayout {
       // 若存在节点没有位置信息，且没有设置 layout，在 initPositions 中 random 给出了所有节点的位置，不需要再次执行 random 布局
       // 所有节点都有位置信息，且指定了 layout，则执行布局（代表不是第一次进行布局）
       graph.emit('beforesublayout', { type: layoutType });
-      layoutMethod.execute();
+      await layoutMethod.execute();
       if (layoutMethod.isCustomLayout && layoutCfg.onLayoutEnd) layoutCfg.onLayoutEnd();
       this.layoutMethods[order] = layoutMethod;
     });
   }
 
   private updateLayoutMethod(layoutMethod, layoutCfg): Promise<void> {
-    return new Promise((reslove, reject) => {
+    return new Promise(async (reslove, reject) => {
       const { graph } = this;
       const layoutType = layoutCfg?.type;
 
@@ -191,7 +191,7 @@ export default class LayoutController extends AbstractLayout {
       layoutMethod.init(layoutData);
       layoutMethod.updateCfg(layoutCfg);
       graph.emit('beforesublayout', { type: layoutType });
-      layoutMethod.execute();
+      await layoutMethod.execute();
       if (layoutMethod.isCustomLayout && layoutCfg.onLayoutEnd) layoutCfg.onLayoutEnd();
     });
   }
@@ -282,10 +282,10 @@ export default class LayoutController extends AbstractLayout {
 
     let start = Promise.resolve();
     if (layoutCfg.type) {
-      start = start.then(() => this.execLayoutMethod(layoutCfg, 0));
+      start = start.then(async () => await this.execLayoutMethod(layoutCfg, 0));
     } else if (layoutCfg.pipes) {
       layoutCfg.pipes.forEach((cfg, index) => {
-        start = start.then(() => this.execLayoutMethod(cfg, index));
+        start = start.then(async () => await this.execLayoutMethod(cfg, index));
       });
     }
 
@@ -479,11 +479,11 @@ export default class LayoutController extends AbstractLayout {
 
     let start = Promise.resolve();
     if (layoutMethods.length === 1) {
-      start = start.then(() => this.updateLayoutMethod(layoutMethods[0], layoutCfg));
+      start = start.then(async () => await this.updateLayoutMethod(layoutMethods[0], layoutCfg));
     } else {
       layoutMethods?.forEach((layoutMethod, index) => {
         const currentCfg = layoutCfg.pipes[index];
-        start = start.then(() => this.updateLayoutMethod(layoutMethod, currentCfg));
+        start = start.then(async() => await this.updateLayoutMethod(layoutMethod, currentCfg));
       });
     }
 

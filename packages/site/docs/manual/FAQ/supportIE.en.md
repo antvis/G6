@@ -1,6 +1,6 @@
 ---
 title: Using G6 with IE
-order: 11
+order: 12
 ---
 
 In this section, we will introduce the usage of G6 in IE.

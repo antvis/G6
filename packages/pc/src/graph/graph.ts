@@ -658,8 +658,8 @@ export default class Graph extends AbstractGraph implements IGraph {
       }
     }
 
-    this.get('eventController').destroy();
-    this.get('layoutController').destroy();
+    this.get('eventController')?.destroy();
+    this.get('layoutController')?.destroy();
 
     // this.get('eventController').destroy();
     // this.get('itemController').destroy();
@@ -668,12 +668,8 @@ export default class Graph extends AbstractGraph implements IGraph {
     // this.get('stateController').destroy();
     // this.get('canvas').destroy();
 
-    if (this.get('graphWaterMarker')) {
-      this.get('graphWaterMarker').destroy();
-    }
-    if (document.querySelector('.g6-graph-watermarker')) {
-      document.querySelector('.g6-graph-watermarker').remove();
-    }
+    this.get('graphWaterMarker')?.destroy();
+    document.querySelector('.g6-graph-watermarker')?.remove();
 
     super.destroy();
   }

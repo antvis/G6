@@ -60,6 +60,9 @@ function projectPointToEdge(p: Point, e: VectorPosition): Point {
 }
 
 export default class Bundling extends Base {
+  constructor(config?: BundlingConfig) {
+    super(config);
+  }
   public getDefaultCfgs(): BundlingConfig {
     return {
       edgeBundles: [], // |edges| arrays, each one stores the related edges' id

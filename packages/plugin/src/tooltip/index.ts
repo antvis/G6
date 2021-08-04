@@ -36,6 +36,9 @@ interface TooltipConfig extends IPluginBaseConfig {
 }
 
 export default class Tooltip extends Base {
+  constructor(config?: TooltipConfig) {
+    super(config);
+  }
   private currentTarget: Item;
 
   public getDefaultCfgs(): TooltipConfig {

@@ -329,11 +329,11 @@ export default abstract class LayoutController {
     let allHavePos = true;
     for (let i = 0; i < nodeLength; i++) {
       const node = nodes[i];
-      if (isNaN(node.x)) {
+      if (isNaN(+node.x)) {
         allHavePos = false;
         node.x = (i % horiNum) * horiGap + beginX;
       }
-      if (isNaN(node.y)) {
+      if (isNaN(+node.y)) {
         allHavePos = false;
         node.y = Math.floor(i / horiNum) * vertiGap + beginY;
       }

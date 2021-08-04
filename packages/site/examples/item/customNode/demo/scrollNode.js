@@ -69,23 +69,6 @@ const rawData = [{
     ]
   },
   {
-    "id": "job",
-    "label": "Job",
-    "attrs": [{
-        "key": "id",
-        "type": "number(3)"
-      },
-      {
-        "key": "title",
-        "type": "varchar(255)"
-      },
-      {
-        "key": "level",
-        "type": "number(3)"
-      }
-    ]
-  },
-  {
     "id": "dept",
     "label": "Department",
     "attrs": [{
@@ -131,7 +114,7 @@ const isInBBox = (point, bbox) => {
   return x < maxX && x > minX && y > minY && y < maxY;
 };
 
-const itemHeight = 30;
+const itemHeight = 20;
 registerBehavior("dice-er-scroll", {
   getDefaultCfg() {
     return {
@@ -140,7 +123,7 @@ registerBehavior("dice-er-scroll", {
   },
   getEvents() {
     return {
-      itemHeight: 50,
+      itemHeight,
       wheel: "scorll",
       click: "click",
       "node:mousemove": "move",
@@ -164,7 +147,7 @@ registerBehavior("dice-er-scroll", {
     if (nodes) {
       nodes.forEach((node) => {
         const model = node.getModel();
-        if (model.attrs.length < 9) {
+        if (model.attrs.length < 2) {
           return;
         }
         const idx = model.startIndex || 0;
@@ -212,7 +195,7 @@ registerBehavior("dice-er-scroll", {
     } else if (shape.get("name") === "expand") {
       graph.updateItem(item, {
         collapsed: false,
-        size: [300, 500],
+        size: [300, 80],
       });
       setTimeout(() => graph.layout(), 100);
     }
@@ -249,7 +232,7 @@ registerEdge("dice-er-edge", {
 
     if (!sourceNode.collapsed && sourceIndex > sourceStartIndex - 1) {
       sourceY = 30 + (sourceIndex - sourceStartIndex + 0.5) * 30;
-      sourceY = Math.min(sourceY, 300);
+      sourceY = Math.min(sourceY, 80);
     }
 
     const targetIndex = targetNode.attrs.findIndex(
@@ -262,7 +245,7 @@ registerEdge("dice-er-edge", {
 
     if (!targetNode.collapsed && targetIndex > targetStartIndex - 1) {
       targetY = (targetIndex - targetStartIndex + 0.5) * 30 + 30;
-      targetY = Math.min(targetY, 300);
+      targetY = Math.min(targetY, 80);
     }
 
     const startPoint = {
@@ -354,7 +337,7 @@ registerEdge("dice-er-edge", {
 registerNode("dice-er-box", {
   draw(cfg, group) {
     const width = 250;
-    const height = 316;
+    const height = 96;
     const itemCount = 10;
     const boxStyle = {
       stroke: "#096DD9",
@@ -414,7 +397,7 @@ registerNode("dice-er-box", {
     group.addShape("rect", {
       attrs: {
         x: 0,
-        y: collapsed ? 30 : 300,
+        y: collapsed ? 30 : 80,
         height: 15,
         width,
         fill: "#eee",
@@ -427,7 +410,7 @@ registerNode("dice-er-box", {
     group.addShape("text", {
       attrs: {
         x: width / 2 - 6,
-        y: (collapsed ? 30 : 300) + 12,
+        y: (collapsed ? 30 : 80) + 12,
         text: collapsed ? "+" : "-",
         width,
         fill: "#000",
@@ -459,7 +442,7 @@ registerNode("dice-er-box", {
         x: -8,
         y: 30,
         width: width + 16,
-        height: 300 - 30,
+        height: 80 - 30,
       },
     });
     listContainer.addShape({
@@ -468,7 +451,7 @@ registerNode("dice-er-box", {
         x: 1,
         y: 30,
         width: width - 2,
-        height: 300 - 30,
+        height: 80 - 30,
         fill: "#fff",
       },
       draggable: true,
@@ -636,7 +619,7 @@ const graph = new G6.Graph({
   width,
   height,
   defaultNode: {
-    size: [300, 400],
+    size: [300, 200],
     type: 'dice-er-box',
     color: '#5B8FF9',
     style: {
@@ -670,6 +653,7 @@ const graph = new G6.Graph({
     ranksepFunc: () => 0.5,
   },
   animate: true,
+  fitView: true
 })
 
 graph.data(dataTransform(rawData));
