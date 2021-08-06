@@ -149,7 +149,7 @@ const graph = new G6.Graph({
 | clustering | Boolean | false | false | 是否按照聚类布局 |
 | clusterGravity | Number | 30 | 10 | 聚类内部的重力大小，影响聚类的紧凑程度 |
 | workerEnabled | Boolean | true / false | false | 是否启用 web-worker 以防布局计算时间过长阻塞页面交互 |
-| gouEnabled | Boolean | true / false | false | 是否启用 GPU 并行计算，G6 4.0 支持 |
+| gpuEnabled | Boolean | true / false | false | 是否启用 GPU 并行计算，G6 4.0 支持 |
 
 ### Circular
 
