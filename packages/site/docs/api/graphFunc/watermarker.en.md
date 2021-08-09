@@ -5,7 +5,7 @@ order: 16
 
 ### graph.setTextWaterMarker(texts, config)
 
-Add text water marker for the canvas. Note that, images downloaded by `downloadImage` or `downloadFullImage` will not contains the water markers.
+Add text water marker for the canvas.
 
 **Parameters**
 

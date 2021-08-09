@@ -334,7 +334,8 @@ group.addShape('text', {
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span>
 
 - 只支持原生 HTML DOM，不支持各类 react、vue 组件；
-- 使用 dom 进行自定义的节点或边，不支持 G6 的交互事件，请使用原生 DOM 的交互事件。
+- 使用 `'dom'` 进行自定义的节点或边，不支持 G6 的交互事件，请使用原生 DOM 的交互事件；
+- 在 Safari 中，若 dom 节点被设置了 `position:relative`，将会导致渲染异常。该问题与 [Safari 的 foreignObject bug](https://bugs.webkit.org/show_bug.cgi?id=23113) 有关。[Issus](https://github.com/antvis/G6/issues/2990)。 
 
 ### 特殊属性
 
