@@ -46,6 +46,9 @@ interface LegendConfig {
 }
 
 export default class Legend extends Base {
+  constructor(config?: LegendConfig) {
+    super(config);
+  }
   public getDefaultCfgs(): LegendConfig {
     return {
       data: {},
@@ -306,12 +309,12 @@ export default class Legend extends Base {
         }
       });
     });
-    if (!activeCount) 
+    if (!activeCount)
       typeFuncs.forEach(typeFunc => {
         graph[typeFunc]().forEach(graphItem => {
           graph.clearItemStates(graphItem, [inactiveState])
         });
-      });  
+      });
   }
 
   /**
@@ -369,7 +372,7 @@ export default class Legend extends Base {
         const { width, height, r } = this.getShapeSize(data);
         const style = this.getStyle(itemType.substr(0, 4), data);
         switch(data.type) {
-          case 'circle': 
+          case 'circle':
             attrs = { r, x: 0, y: 0 };
             break;
           case 'rect':
@@ -400,10 +403,10 @@ export default class Legend extends Base {
             };
             shapeType = 'path';
             break;
-          default: 
+          default:
             attrs = { r, x: 0, y: 0 };
             break;
-  
+
         }
         const keyShape = subGroup.addShape(shapeType, {
           attrs: { ...attrs, ...style },
@@ -672,7 +675,7 @@ export default class Legend extends Base {
         if (edge.type === 'cubic-horizontal') type = 'cubic';
         const labelStyle = edge.labelCfg?.style || {};
         const size = edge.size || [edge.style?.width || 8, 1];
-  
+
         itemsData.edges.push({
           id: edge.id || uniqueId(),
           type,
@@ -707,7 +710,7 @@ export default class Legend extends Base {
     if (isNumber(value)) this.set(key, [value, value, value, value]);
     else if (isArray(value)) {
       switch(value.length) {
-        case 0: 
+        case 0:
           this.set(key, [0, 0, 0, 0]);
           break;
         case 1:

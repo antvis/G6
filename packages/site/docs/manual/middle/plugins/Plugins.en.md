@@ -129,7 +129,7 @@ In complex graph with large number of edges, edge bundling can help you to impro
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z9iXQq_kcrYAAAAAAAAAAABkARQnAQ' width=600 alt='img'/>
 
-> Edge bundling on American airline graph. <a href='/en/examples/case/edgeBundling' target='_blank'>Demo Link</a>. <a href='/en/docs/manual/cases/edgeBundling' target='_blank'>Demo Document</a>.
+> Edge bundling on American airline graph. <a href='/en/examples/case/graphDemos#edgeBundling' target='_blank'>Demo Link</a>. <a href='/en/docs/manual/cases/edgeBundling' target='_blank'>Demo Document</a>.
 
 The edge bundling plugin can be configured to adjust the styles and functions.
 

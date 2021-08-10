@@ -4,7 +4,8 @@ import insertCss from 'insert-css';
 import { IAbstractGraph as IGraph, IG6GraphEvent, Item } from '@antv/g6-core';
 import Base, { IPluginBaseConfig } from '../base';
 
-insertCss(`
+typeof document !== 'undefined' &&
+  insertCss(`
   .g6-component-contextmenu {
     border: 1px solid #e2e2e2;
     border-radius: 4px;
@@ -35,6 +36,10 @@ interface MenuConfig extends IPluginBaseConfig {
 }
 
 export default class Menu extends Base {
+  constructor(config?: MenuConfig) {
+    super(config);
+  }
+
   public getDefaultCfgs(): MenuConfig {
     return {
       offsetX: 6,
@@ -57,7 +62,7 @@ export default class Menu extends Base {
         return true;
       },
       itemTypes: ['node', 'edge', 'combo'],
-      trigger: 'contextmenu'
+      trigger: 'contextmenu',
     };
   }
 
@@ -65,8 +70,8 @@ export default class Menu extends Base {
   public getEvents() {
     if (this.get('trigger') === 'click') {
       return {
-        click: 'onMenuShow'
-      }
+        click: 'onMenuShow',
+      };
     }
     return {
       contextmenu: 'onMenuShow',
@@ -97,7 +102,10 @@ export default class Menu extends Base {
 
     const itemTypes = this.get('itemTypes');
     if (!e.item) {
-      if (itemTypes.indexOf('canvas') === -1) return;
+      if (itemTypes.indexOf('canvas') === -1) {
+        self.onMenuHide();
+        return;
+      }
     } else {
       if (e.item && e.item.getType && itemTypes.indexOf(e.item.getType()) === -1) {
         self.onMenuHide();
@@ -157,7 +165,13 @@ export default class Menu extends Base {
       visibility: 'visible',
     });
 
+    // 左键单击会触发 body 上监听的 click 事件，导致菜单展示出来后又立即被隐藏了，需要过滤掉
+    let triggeredByFirstClick = this.get('trigger') === 'click';
     const handler = (evt) => {
+      if (triggeredByFirstClick) {
+        triggeredByFirstClick = false;
+        return;
+      }
       self.onMenuHide();
     };
 

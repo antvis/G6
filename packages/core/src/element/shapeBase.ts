@@ -4,7 +4,7 @@
  */
 import { IGroup, IShape, IElement } from '@antv/g-base';
 import { ShapeOptions, ILabelConfig } from '../interface/shape';
-import { IPoint, Item, LabelStyle, ShapeStyle, ModelConfig, EdgeConfig } from '../types';
+import { IPoint, Item, LabelStyle, ShapeStyle, ModelConfig, EdgeConfig, UpdateType } from '../types';
 import Global from '../global';
 import { ext } from '@antv/matrix-util';
 import { deepMix, each, mix, isBoolean, isPlainObject, clone } from '@antv/util';
@@ -67,7 +67,10 @@ export const shapeBase: ShapeOptions = {
   getCustomConfig(cfg: ModelConfig): ModelConfig {
     return {};
   },
-  getOptions(cfg: ModelConfig): ModelConfig {
+  getOptions(cfg: ModelConfig, updateType?: UpdateType): ModelConfig {
+    if (updateType === 'move' || updateType === 'bbox') {
+      return {};
+    }
     return deepMix(
       {
         // 解决局部渲染导致的文字移动残影问题
@@ -234,11 +237,11 @@ export const shapeBase: ShapeOptions = {
    * @param  {Object} cfg 节点/边的配置项
    * @param  {G6.Item} item 节点/边
    */
-  update(cfg: ModelConfig, item: Item) {
-    (this as any).updateShapeStyle(cfg, item);
-    (this as any).updateLabel(cfg, item);
+  update(cfg: ModelConfig, item: Item, updateType?: UpdateType) {
+    (this as any).updateShapeStyle(cfg, item, updateType);
+    (this as any).updateLabel(cfg, item, updateType);
   },
-  updateShapeStyle(cfg: ModelConfig, item: Item) {
+  updateShapeStyle(cfg: ModelConfig, item: Item, updateType?: UpdateType) {
     const group = item.getContainer();
     const shape = item.getKeyShape();
     const shapeStyle = mix({}, shape.attr(), cfg.style);
@@ -258,9 +261,9 @@ export const shapeBase: ShapeOptions = {
     }
   },
 
-  updateLabel(cfg: ModelConfig, item: Item) {
+  updateLabel(cfg: ModelConfig, item: Item, updateType?: UpdateType) {
     const group = item.getContainer();
-    const { labelCfg: defaultLabelCfg } = this.getOptions({}) as ModelConfig;
+    const { labelCfg: defaultLabelCfg } = this.getOptions({}, updateType) as ModelConfig;
     const labelClassName = this.itemType + CLS_LABEL_SUFFIX;
     const label = group.find((element) => element.get('className') === labelClassName);
     const labelBgClassname = this.itemType + CLS_LABEL_BG_SUFFIX;
@@ -493,6 +496,12 @@ export const shapeBase: ShapeOptions = {
         if (isPlainObject(style) && !ARROWS.includes(originKey)) {
           const subShape = group.find((element) => element.get('name') === originKey);
           if (subShape) {
+            // The text's position and matrix is not allowed to be affected by states
+            if (subShape.get('type') === 'text') {
+              delete (style as any).x;
+              delete (style as any).y;
+              delete (style as any).matrix;
+            }
             if (originKey === keyShapeName) {
               if (type === 'combo') {
                 delete (style as any).r;
@@ -557,7 +566,7 @@ export const shapeBase: ShapeOptions = {
    * @return {Array|null} 锚点的数组,如果为 null，则没有锚点
    */
   getAnchorPoints(cfg: ModelConfig): number[][] | undefined {
-    const { anchorPoints } = this.getOptions(cfg) as ModelConfig;
+    const anchorPoints =  cfg?.anchorPoints || this.getCustomConfig(cfg)?.anchorPoints || this.options?.anchorPoints ;
     return anchorPoints;
   },
 };

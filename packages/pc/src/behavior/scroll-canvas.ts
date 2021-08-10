@@ -41,37 +41,50 @@ export default {
         y: point.y,
       });
     } else {
-      let dx = ev.deltaX || ev.movementX;
-      let dy = ev.deltaY || ev.movementY;
+      let dx = (ev.deltaX || ev.movementX) as number;
+      let dy = (ev.deltaY || ev.movementY) as number;
       if (!dy && navigator.userAgent.indexOf('Firefox') > -1) dy = (-ev.wheelDelta * 125) / 3
       
       const width = this.graph.get('width');
       const height = this.graph.get('height');
       const graphCanvasBBox = this.graph.get('canvas').getCanvasBBox();
   
-      let expandWidth = this.scalableRange;
-      let expandHeight = this.scalableRange;
+      let expandWidth = this.scalableRange as number;
+      let expandHeight = this.scalableRange as number;
       // 若 scalableRange 是 0~1 的小数，则作为比例考虑
       if (expandWidth < 1 && expandWidth > -1) {
         expandWidth = width * expandWidth;
         expandHeight = height * expandHeight;
       }
+      const { minX, maxX, minY, maxY } = graphCanvasBBox;
 
-      if (
-        (graphCanvasBBox.minX <= width + expandWidth &&
-          graphCanvasBBox.minX + dx > width + expandWidth) ||
-        (graphCanvasBBox.maxX + expandWidth >= 0 &&
-          graphCanvasBBox.maxX + expandWidth + dx < 0)
-      ) {
-        dx = 0;
+
+      if (dx > 0) {
+        if (maxX < -expandWidth) {
+          dx = 0
+        } else if (maxX - dx < -expandWidth) {
+          dx = maxX + expandWidth
+        }
+      } else if (dx < 0) {
+        if (minX > width + expandWidth) {
+          dx = 0
+        } else if (minX - dx > width + expandWidth) {
+          dx = minX - (width + expandWidth)
+        }
       }
-      if (
-        (graphCanvasBBox.minY <= height + expandHeight &&
-          graphCanvasBBox.minY + dy > height + expandHeight) ||
-        (graphCanvasBBox.maxY + expandHeight >= 0 &&
-          graphCanvasBBox.maxY + expandHeight + dy < 0)
-      ) {
-        dy = 0;
+
+      if (dy > 0) {
+        if (maxY < -expandHeight) {
+          dy = 0
+        } else if (maxY - dy < -expandHeight) {
+          dy = maxY + expandHeight
+        }
+      } else if (dy < 0) {
+        if (minY > height + expandHeight) {
+          dy = 0
+        } else if (minY - dy > height + expandHeight) {
+          dy = minY - (height + expandHeight)
+        }
       }
   
       if (this.get('direction') === 'x') {

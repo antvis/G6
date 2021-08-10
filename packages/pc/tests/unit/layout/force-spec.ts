@@ -384,10 +384,10 @@ describe('force layout', () => {
     graph.render();
 
     let forceLayout;
-    Promise.resolve().then(() => {
+    setTimeout(() => {
       forceLayout = graph.get('layoutController').layoutMethods[0];
       forceLayout.execute(); // re execute when it is ticking
-    });
+    }, 300);
 
     setTimeout(() => {
       const node0 = data.nodes[0];
@@ -396,7 +396,7 @@ describe('force layout', () => {
       forceLayout.forceSimulation.stop();
       graph.destroy();
       done();
-    }, 300);
+    }, 500);
   });
 });
 
@@ -414,11 +414,11 @@ describe('update and simulation', () => {
     graph.render();
 
     let forceLayout;
-    Promise.resolve().then(() => {
+    setTimeout(() => {
       forceLayout = graph.get('layoutController').layoutMethods[0];
       expect(forceLayout.linkDistance).toEqual(50); // default value
       expect(forceLayout.preventOverlap).toEqual(false);
-    });
+    }, 300);
 
     setTimeout(() => {
       graph.updateLayout({
@@ -427,14 +427,14 @@ describe('update and simulation', () => {
         alphaDecay: 0.8,
       });
 
-      Promise.resolve().then(() => {
+      setTimeout(() => {
         expect(forceLayout.linkDistance).toEqual(100);
         expect(forceLayout.preventOverlap).toEqual(true);
         const simulation = forceLayout.forceSimulation;
         simulation.stop();
         done();
-      });
-    }, 300);
+      }, 200);
+    }, 500);
   });
   it('assign simualtion', (done) => {
     const center = [300, 300];

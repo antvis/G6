@@ -5,7 +5,7 @@ order: 16
 
 ### graph.setTextWaterMarker(texts, config)
 
-为画布添加文字水印。注意，使用 `downloadImage` 或 `downloadFullImage` 下载图片将不会带有水印。
+为画布添加文字水印。
 
 **参数**
 

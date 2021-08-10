@@ -26,6 +26,9 @@ const lensDelegateStyle = {
   fill: '#fff',
 };
 export default class EdgeFilterLens extends Base {
+  constructor(config?: EdgeFilterLensConfig) {
+    super(config);
+  }
   public getDefaultCfgs(): EdgeFilterLensConfig {
     return {
       type: 'both',

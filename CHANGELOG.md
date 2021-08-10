@@ -1,5 +1,20 @@
 # ChangeLog
 
+#### 4.3.5
+
+- fix: drag a node without comboId by drag-node with onlyChangeComboSize;
+- fix: gpu layout with async;
+- fix: minimap with delegate type cannot reach the top of the canvas, closes: #2885;
+- feat: improve the performance for updating nodes;
+- feat: updateLayout with align and alignPoint;
+
+#### 4.3.4
+
+- fix: when select a node with click-select, selected combos should be deselected;
+- fix: contextmenu with click trigger does not show the menu up, closes: #2982;
+- fix: layout with collapsed combo, closes: #2988;
+- fix: zoom-canvas with optimizeZoom, drag-canvas shows the node shapes hiden by zoom-canvas optimizeZoom, closes: #2996; 
+
 #### 4.3.3
 
 - fix: uncombo with id, closes: #2924;

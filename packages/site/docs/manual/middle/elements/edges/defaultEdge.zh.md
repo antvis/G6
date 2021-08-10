@@ -39,7 +39,7 @@ G6 提供了 9 种内置边：
 
 | 名称 | 是否必须 | 类型 | 备注 |
 | --- | --- | --- | --- | --- |
-| id | false | String | 边唯一 ID，**必须**是唯一的 string |
+| id | true | String | 边唯一 ID，**必须**是唯一的 string |
 | source | true | String | Number | 起始点 id |
 | target | true | String | 结束点 id |
 | type | false | String | 指定边的类型，可以是内置边的类型名称，也可以是自定义边的名称。默认为 `'line'` |

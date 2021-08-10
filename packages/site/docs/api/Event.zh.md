@@ -258,7 +258,7 @@ Tooltip 插件：
 | ------- | ------- | ----------------------------------------- |
 | item    | Item    | 当前操作的 item 实例                      |
 | state   | String  | 状态                                      |
-| enalbed | Boolean | 状态是否可用，`true` 可用，`false` 不可用 |
+| enabled | Boolean | 状态是否可用，`true` 可用，`false` 不可用 |
 
 #### beforeitemstatesclear / afteritemstatesclear
 

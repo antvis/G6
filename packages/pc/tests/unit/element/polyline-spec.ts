@@ -56,7 +56,7 @@ describe('polyline edge', () => {
     graph.data(data);
     graph.render();
   });
-  it.only('polyline edge', () => {
+  it('polyline edge', () => {
     const graph = new Graph({
       container: div,
       width: 500,
@@ -68,7 +68,11 @@ describe('polyline edge', () => {
       defaultEdge: {
         type: 'polyline',
         style: {
-          offset: 5
+          offset: 5,
+          gridSize: 5
+        },
+        routeCfg: {
+          gridSize: 5
         }
       },
       defaultNode: {
@@ -110,7 +114,23 @@ describe('polyline edge', () => {
     graph.render();
     const edge = graph.getEdges()[0];
     const keyShape = edge.getKeyShape();
-    const path = keyShape.attr('path');
+    let path = keyShape.attr('path');
+    graph.getGroup().addShape('circle', {
+      attrs: {
+        r: 1,
+        fill: '#f00',
+        x: 105.5,
+        y: 300
+      }
+    })
+    graph.getGroup().addShape('circle', {
+      attrs: {
+        r: 1,
+        fill: '#0f0',
+        x: 127.5,
+        y: 300
+      }
+    })
     expect(path[0][1]).toBe(105.5);
     expect(path[0][2]).toBe(300);
     expect(path[2][1]).toBe(110.5);

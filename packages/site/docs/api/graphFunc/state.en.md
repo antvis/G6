@@ -7,7 +7,7 @@ order: 7
 
 Set the item's state.
 
-v3.4 and futher versions support multiple values for a state, refer to [Take Use of State Mechanism](/en/docs/manual/middle/states/state-new).
+v3.4 and futher versions support multiple values for a state, refer to [Take Use of State Mechanism](/en/docs/manual/advanced/state-new).
 
 This function will emit events `beforitemstatechange` and `afteritemstatechange`.
 

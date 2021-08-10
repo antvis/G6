@@ -35,6 +35,9 @@ interface MiniMapConfig extends IPluginBaseConfig {
 }
 
 export default class ImageMiniMap extends Base {
+  constructor(config?: MiniMapConfig) {
+    super(config);
+  }
   public getDefaultCfgs(): MiniMapConfig {
     return {
       container: null,
@@ -373,7 +376,7 @@ export default class ImageMiniMap extends Base {
     const img = createDom(
       `<img alt="" src="${this.get(
         'graphImg',
-      )}" style="display: inline-block;" ondragstart="return false;" onselectstart="return false;"/>`,
+      )}" style="display: inline-block; user-select: none;" draggable="false" />`,
     );
     self.set('imgDOM', img);
 

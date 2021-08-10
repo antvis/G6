@@ -5,6 +5,7 @@ import getShapeFromReact from '@/Register/getDataFromReactNode';
 import getPositionUsingYoga, {
   LayoutedNode,
 } from '@/Layout/getPositionsUsingYoga';
+import { animateShapeWithConfig } from '@/Animation/animate';
 
 export const registerNodeReact = (el: ReactElement) => {
   const result = getShapeFromReact(el);
@@ -27,6 +28,7 @@ const renderTarget = (target: LayoutedNode, group: any) => {
       ...props,
     });
     keyshape = shape;
+    animateShapeWithConfig(shape, props.animation);
   } else {
     g = group.addGroup(props);
     keyshape = g;

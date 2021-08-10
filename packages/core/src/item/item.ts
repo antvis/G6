@@ -13,6 +13,7 @@ import {
   EdgeConfig,
   ComboConfig,
   ITEM_TYPE,
+  UpdateType,
 } from '../types';
 import { getBBox } from '../util/graphic';
 import { translate } from '../util/math';
@@ -216,6 +217,13 @@ export default class ItemBase implements IItemBase {
         if (name && name !== keyShapeName) {
           originStyles[name] =
             shapeType !== 'image' ? clone(child.attr()) : self.getShapeStyleByName(name);
+
+          // The text's position and matrix is not allowed to be affected by states
+          if (originStyles[name] && shapeType === 'text') {
+            delete originStyles[name].x;
+            delete originStyles[name].y;
+            delete originStyles[name].matrix;
+          }
         } else {
           // !name || name === keyShape
           const keyShapeStyle: ShapeStyle = self.getShapeStyleByName(); // 可优化，需要去除 child.attr 中其他 shape 名的对象
@@ -265,10 +273,13 @@ export default class ItemBase implements IItemBase {
           }
         } else {
           const shapeAttrs = child.attr();
-          const keyShapeStateStyles = {
-            ...currentStatesStyle,
-            ...currentStatesStyle[keyShapeName],
-          };
+          const keyShapeStateStyles = {};
+          Object.keys(currentStatesStyle).forEach(styleKey => {
+            const subStyle = currentStatesStyle[styleKey];
+            if (!isPlainObject(subStyle) || styleKey === keyShapeName) {
+              keyShapeStateStyles[styleKey] = subStyle
+            }
+          })
           Object.keys(shapeAttrs).forEach((key) => {
             const value = shapeAttrs[key];
             // 如果是对象且不是 arrow，则是其他 shape 的样式
@@ -393,7 +404,7 @@ export default class ItemBase implements IItemBase {
     return {};
   }
 
-  public getShapeCfg(model: ModelConfig): ModelConfig {
+  public getShapeCfg(model: ModelConfig, updateType?: UpdateType): ModelConfig {
     const styles = this.get('styles');
     if (styles) {
       // merge graph的item样式与数据模型中的样式
@@ -581,20 +592,20 @@ export default class ItemBase implements IItemBase {
    *
    * 因为数据从外部被修改无法判断一些属性是否被修改，直接走位置和 shape 的更新
    */
-  public refresh() {
+  public refresh(updateType?: UpdateType) {
     const model: ModelConfig = this.get('model');
     // 更新元素位置
     this.updatePosition(model);
     // 更新元素内容，样式
-    this.updateShape();
+    this.updateShape(updateType);
     // 做一些更新之后的操作
     this.afterUpdate();
     // 清除缓存
     this.clearCache();
   }
 
-  public isOnlyMove(cfg?: ModelConfig): boolean {
-    return false;
+  public getUpdateType(cfg?: ModelConfig): UpdateType {
+    return undefined;
   }
 
   /**
@@ -602,33 +613,30 @@ export default class ItemBase implements IItemBase {
    * @internal 仅提供给 Graph 使用，外部直接调用 graph.update 接口
    * @param  {Object} cfg       配置项，可以是增量信息
    */
-  public update(cfg: ModelConfig, onlyMove: boolean = false) {
+  public update(cfg: ModelConfig, updateType: UpdateType = undefined) {
     const model: ModelConfig = this.get('model');
-    const oriVisible = model.visible;
-    const cfgVisible = cfg.visible;
-    if (oriVisible !== cfgVisible && cfgVisible !== undefined) this.changeVisibility(cfgVisible);
-    const originPosition: IPoint = { x: model.x!, y: model.y! };
-    cfg.x = isNaN(cfg.x) ? model.x : cfg.x;
-    cfg.y = isNaN(cfg.y) ? model.y : cfg.y;
-
-    const styles = this.get('styles');
-    if (cfg.stateStyles) {
-      // 更新 item 时更新 this.get('styles') 中的值
-      const { stateStyles } = cfg;
-      mix(styles, stateStyles);
-      delete cfg.stateStyles;
-    }
-
-    // 直接将更新合到原数据模型上，可以保证用户在外部修改源数据然后刷新时的样式符合期待。
-    Object.assign(model, cfg);
-
-    // isOnlyMove 仅用于node
-    // const onlyMove = this.isOnlyMove(cfg);
-
     // 仅仅移动位置时，既不更新，也不重绘
-    if (onlyMove) {
+    if (updateType === 'move') {
       this.updatePosition(cfg);
     } else {
+      const oriVisible = model.visible;
+      const cfgVisible = cfg.visible;
+      if (oriVisible !== cfgVisible && cfgVisible !== undefined) this.changeVisibility(cfgVisible);
+      const originPosition: IPoint = { x: model.x!, y: model.y! };
+      cfg.x = isNaN(+cfg.x) ? model.x : (+cfg.x);
+      cfg.y = isNaN(+cfg.y) ? model.y : (+cfg.y);
+
+      const styles = this.get('styles');
+      if (cfg.stateStyles) {
+        // 更新 item 时更新 this.get('styles') 中的值
+        const { stateStyles } = cfg;
+        mix(styles, stateStyles);
+        delete cfg.stateStyles;
+      }
+
+      // 直接将更新合到原数据模型上，可以保证用户在外部修改源数据然后刷新时的样式符合期待。
+      Object.assign(model, cfg);
+      
       // 如果 x,y 有变化，先重置位置
       if (originPosition.x !== cfg.x || originPosition.y !== cfg.y) {
         this.updatePosition(cfg);
@@ -642,7 +650,7 @@ export default class ItemBase implements IItemBase {
   /**
    * 更新元素内容，样式
    */
-  public updateShape() {
+  public updateShape(updateType?: UpdateType) {
     const shapeFactory = this.get('shapeFactory');
     const model = this.get('model');
     const shape = model.type;
@@ -650,11 +658,11 @@ export default class ItemBase implements IItemBase {
     // 1. 注册的节点允许更新
     // 2. 更新后的 shape 等于原先的 shape
     if (shapeFactory.shouldUpdate(shape) && shape === this.get('currentShape')) {
-      const updateCfg = this.getShapeCfg(model);
-      shapeFactory.baseUpdate(shape, updateCfg, this);
+      const updateCfg = this.getShapeCfg(model, updateType);
+      shapeFactory.baseUpdate(shape, updateCfg, this, updateType);
 
       // 更新完以后重新设置原始样式
-      this.setOriginStyle();
+      if (updateType !== 'move') this.setOriginStyle();
     } else {
       // 如果不满足上面两种状态，重新绘制
       this.draw();
@@ -671,8 +679,8 @@ export default class ItemBase implements IItemBase {
   public updatePosition(cfg: ModelConfig): boolean {
     const model: ModelConfig = this.get('model');
 
-    const x = isNil(cfg.x) ? model.x : cfg.x;
-    const y = isNil(cfg.y) ? model.y : cfg.y;
+    const x = isNil(+cfg.x) ? (+model.x) : (+cfg.x);
+    const y = isNil(+cfg.y) ? (+model.y) : (+cfg.y);
 
     const group: IGroup = this.get('group');
 

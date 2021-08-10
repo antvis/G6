@@ -11,4 +11,4 @@ order: 0
 - [Render the Edge on the Top](/en/docs/manual/middle/elements/methods/elementIndex)
 - [Multiple Edges between Two Nodes](/en/docs/manual/middle/elements/methods/multi-line)
 - [G6 in React](/en/docs/manual/advanced/g6InReact)
-- [How to auto zoom Tooltip、ContextMenu when zoom canvas](/en/docs/manual/middle/plugins/pluginFaq)
+- [How to auto zoom Tooltip、ContextMenu when zoom canvas](/en/docs/manual/middle/plugins/autoZoomTooltip)

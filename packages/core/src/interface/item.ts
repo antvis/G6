@@ -14,6 +14,7 @@ import {
   ComboConfig,
   ITEM_TYPE,
   TreeGraphData,
+  UpdateType
 } from '../types';
 
 // item 的配置项
@@ -147,7 +148,7 @@ export interface IItemBase {
    */
   getID: () => string;
 
-  getShapeCfg: (model: ModelConfig) => ModelConfig;
+  getShapeCfg: (model: ModelConfig, updateType?: UpdateType) => ModelConfig;
 
   /**
    * 刷新一般用于处理几种情况
@@ -156,20 +157,20 @@ export interface IItemBase {
    *
    * 因为数据从外部被修改无法判断一些属性是否被修改，直接走位置和 shape 的更新
    */
-  refresh: () => void;
+  refresh: (updateType?: UpdateType) => void;
 
   /**
    * 将更新应用到 model 上，刷新属性
    * @internal 仅提供给 Graph 使用，外部直接调用 graph.update 接口
    * @param  {Object} cfg       配置项，可以是增量信息
-   * @param  {boolean} onlyMove 是否仅移动，只有 node 和 combo 可能是 true
+   * @param  {boolean} updateType 更新的类型，'move' 代表仅移动
    */
-  update: (cfg: ModelConfig, onlyMove?: boolean) => void;
+  update: (cfg: ModelConfig, updateType?: UpdateType) => void;
 
   /**
    * 更新元素内容，样式
    */
-  updateShape: () => void;
+  updateShape: (updateType?: UpdateType) => void;
 
   /**
    * 更新位置，避免整体重绘
@@ -226,7 +227,7 @@ export interface IItemBase {
 
   isVisible: () => boolean;
 
-  isOnlyMove: (cfg: ModelConfig) => boolean;
+  getUpdateType: (cfg?: ModelConfig) => UpdateType;
 
   get: <T = any>(key: string) => T;
   set: <T = any>(key: string, value: T) => void;

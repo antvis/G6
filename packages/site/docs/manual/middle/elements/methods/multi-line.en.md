@@ -113,6 +113,12 @@ We found that the code above can not handle this situation any more. The result:
 
 ## Solution
 
+### Solution 1
+
+Refer to the [Demo](/en/examples/item/multiEdge#multiEdges) and use the util function `processParallelEdges`.
+
+### Solution 2
+
 To solve this problem, we utlize the [Custom Edge](/en/docs/manual/middle/elements/edges/custom-edge) of G6.
 
 There are two tips should be taken into consideration before customize an edge:
@@ -125,11 +131,11 @@ Therefore, we add a property `edgeType` for each edge in its data to identify di
 The complete the code for the demo is shown below:
 
 <iframe
-     src="https://codesandbox.io/embed/restless-breeze-fhief?fontsize=14&hidenavigation=1&theme=dark"
-     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="restless-breeze-fhief"
-     allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
-     sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
+    src="https://codesandbox.io/embed/cocky-bash-9hh3u?fontsize=14&hidenavigation=1&theme=dark"
+    style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+    title="cocky-bash-9hh3u"
+    allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+    sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
    ></iframe>
 
-Now, the prolem is solved.
+Now, the problem is solved.

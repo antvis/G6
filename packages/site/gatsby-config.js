@@ -278,19 +278,19 @@ module.exports = {
         },
       },
       {
-        slug: 'tree',
-        icon: 'tree', // 图标名可以去 https://antv.alipay.com/zh-cn/g2/3.x/demo/index.html 打开控制台查看图标类名
-        title: {
-          zh: '树图',
-          en: 'Tree Graph',
-        },
-      },
-      {
         slug: 'net',
         icon: 'net',
         title: {
-          zh: '一般图',
-          en: 'General Graph',
+          zh: '布局：一般图',
+          en: 'Layout：General Graph',
+        },
+      },
+      {
+        slug: 'tree',
+        icon: 'tree', // 图标名可以去 https://antv.alipay.com/zh-cn/g2/3.x/demo/index.html 打开控制台查看图标类名
+        title: {
+          zh: '布局：树图',
+          en: 'Layout：Tree Graph',
         },
       },
       {

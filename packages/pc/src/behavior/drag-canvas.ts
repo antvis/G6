@@ -202,6 +202,11 @@ export default {
 
     if (this.keydown) return;
 
+    const currentZoom = graph.getZoom();
+    const modeController = graph.get('modeController');
+    const zoomCanvas = modeController?.modes[modeController.mode]?.filter(behavior => behavior.type === 'zoom-canvas')?.[0];
+    const optimizeZoom = zoomCanvas ? zoomCanvas.optimizeZoom || 0.1 : 0;
+    
     if (this.enableOptimize) {
       // 拖动结束后显示所有的边
       const edges = graph.getEdges();
@@ -213,15 +218,17 @@ export default {
           if (oriVis) shape.show();
         });
       }
-      const nodes = graph.getNodes();
-      for (let j = 0, nodeLen = nodes.length; j < nodeLen; j++) {
-        const container = nodes[j].getContainer();
-        const children = container.get('children');
-        for (const child of children) {
-          const isKeyShape = child.get('isKeyShape');
-          if (!isKeyShape) {
-            const oriVis = child.get('ori-visibility');
-            if (oriVis) child.show();
+      if (currentZoom > optimizeZoom) {
+        const nodes = graph.getNodes();
+        for (let j = 0, nodeLen = nodes.length; j < nodeLen; j++) {
+          const container = nodes[j].getContainer();
+          const children = container.get('children');
+          for (const child of children) {
+            const isKeyShape = child.get('isKeyShape');
+            if (!isKeyShape) {
+              const oriVis = child.get('ori-visibility');
+              if (oriVis) child.show();
+            }
           }
         }
       }

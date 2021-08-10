@@ -225,8 +225,8 @@ export const getLabelPosition = (
 ): LabelStyle => {
   const TAN_OFFSET = 0.0001;
   let vector: number[][] = [];
-  const point: IPoint = pathShape.getPoint(percent);
-  if (point === null) {
+  const point: IPoint = pathShape?.getPoint(percent);
+  if (!point) {
     return {
       x: 0,
       y: 0,
@@ -241,7 +241,7 @@ export const getLabelPosition = (
     vector = pathShape.getEndTangent();
   } else {
     // 否则取指定位置的点,与少量偏移的点，做微分向量
-    const offsetPoint: IPoint = pathShape.getPoint(percent + TAN_OFFSET);
+    const offsetPoint: IPoint = pathShape?.getPoint(percent + TAN_OFFSET);
     vector.push([point.x, point.y]);
     vector.push([offsetPoint.x, offsetPoint.y]);
   }

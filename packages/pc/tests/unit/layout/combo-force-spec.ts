@@ -183,10 +183,10 @@ describe('combo force layout', () => {
     graph.data(data);
     graph.render();
 
-    Promise.resolve().then(() => {
+    setTimeout(() => {
       const forceLayout = graph.get('layoutController').layoutMethods[0];
       forceLayout.execute(); // re execute when it is ticking
-    });
+    }, 300);
 
     setTimeout(() => {
       const node0 = data.nodes[0];
@@ -194,7 +194,7 @@ describe('combo force layout', () => {
       expect(node0.y).not.toEqual(NaN);
       graph.destroy();
       done();
-    }, 300);
+    }, 500);
   });
 });
 
@@ -229,12 +229,12 @@ describe('undefined configurations and update layout', () => {
     graph.render();
 
     let forceLayout;
-    Promise.resolve().then(() => {
+    setTimeout(() => {
       forceLayout = graph.get('layoutController').layoutMethods[0];
       expect(isFunction(forceLayout.linkDistance)).toEqual(true);
       expect(forceLayout.linkDistance()).toEqual(10);
       expect(forceLayout.preventOverlap).toEqual(false);
-    });
+    }, 300);
 
     setTimeout(() => {
       graph.hideItem(graph.getCombos()[0]);
@@ -247,12 +247,12 @@ describe('undefined configurations and update layout', () => {
         comboPadding: null,
       });
 
-      Promise.resolve().then(() => {
+      setTimeout(() => {
         expect(isFunction(forceLayout.linkDistance)).toEqual(true);
         expect(forceLayout.linkDistance()).toEqual(100);
         expect(forceLayout.preventOverlap).toEqual(true);
         done();
-      });
-    }, 300);
+      }, 300);
+    }, 500);
   });
 });

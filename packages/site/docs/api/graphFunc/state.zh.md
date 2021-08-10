@@ -5,7 +5,7 @@ order: 7
 
 ### graph.setItemState(item, state, value)
 
-设置元素状态。支持单个状态多值的情况，详情参考 [G6 状态管理最佳实践](/zh/docs/manual/middle/states/state-new)。
+设置元素状态。支持单个状态多值的情况，详情参考 [G6 状态管理最佳实践](/zh/docs/manual/advanced/state-new)。
 
 该方法在执行过程中会触发 `beforitemstatechange`，`afteritemstatechange` 事件。
 
