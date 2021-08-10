@@ -147,7 +147,7 @@ const graph = new G6.Graph({
 
 <description> _Object_ **optional** _default:_ `{}`</description>
 
-动画配置项，仅在 `animate` 为 `true` 时有效。关于 `animateCfg` 的更多配置项参见[基础动画教程](/zh/docs/manual/advanced/animation#animatecfg)。
+动画配置项，仅在 `animate` 为 `true` 时有效。关于 `animateCfg` 的更多配置项参见[基础动画教程](/zh/docs/manual/middle/animation)。
 
 #### GraphOptions.animateCfg.onFrame
 
@@ -188,7 +188,7 @@ const graph = new G6.Graph({
 - 若数据中节点有位置信息（`x` 和 `y`），则按照数据的位置信息进行绘制；
 - 若数据中节点没有位置信息，则默认使用 Random Layout 进行布局。
 
-每种布局方法的配置项不尽相同，具体参见 [Graph 内置布局](/zh/docs/api/G6/common/graphLayout)。
+每种布局方法的配置项不尽相同，具体参见 [Graph 内置布局](/zh/docs/api/graphLayout/guide)。
 
 #### GraphOptions.layout.pipes
 
