@@ -108,7 +108,7 @@ graph.translate(100, 100);
 | x    | Number | true     | 水平方向坐标 |
 | y    | Number | true     | 垂直方向坐标 |
 | animate | boolean | false | 是否带有动画。若未配置，则跟随 graph 的 `animate` 参数 |
-| animateCfg | Object | false | 若带有动画，可配置动画，参见[基础动画教程](/zh/docs/manual/advanced/animation#animatecfg)。若未配置，则跟随 graph 的 `animateCfg` 参数 |
+| animateCfg | Object | false | 若带有动画，可配置动画，参见[基础动画教程](/zh/docs/manual/middle/animation)。若未配置，则跟随 graph 的 `animateCfg` 参数 |
 
 **用法**
 
@@ -168,7 +168,7 @@ graph.fitCenter();
 | --- | --- | --- | --- |
 | item | string / Object | true | 元素 ID 或元素实例 |
 | animate | boolean | false | 是否带有动画。若未配置，则跟随 graph 的 `animate` 参数 |
-| animateCfg | Object | false | 若带有动画，可配置动画，参见[基础动画教程](/zh/docs/manual/advanced/animation#animatecfg)。若未配置，则跟随 graph 的 `animateCfg` 参数 |
+| animateCfg | Object | false | 若带有动画，可配置动画，参见[基础动画教程](/zh/docs/manual/middle/animation)。若未配置，则跟随 graph 的 `animateCfg` 参数 |
 
 **用法**
 

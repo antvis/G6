@@ -448,7 +448,7 @@ graph = new G6.Graph({
     default: ['drag-canvas'],
   },
   defaultNode: {
-    type: 'circle', // 'bubble'
+    type: 'bubble',
     size: 95,
     labelCfg: {
       position: 'center',
