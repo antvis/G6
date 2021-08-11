@@ -475,6 +475,12 @@ graph.on('node:mouseleave', (ev) => {
 > SVG 与 DOM 图形在 V3.3.x 中不支持。
 > 仅在 Graph 的 `renderer` 为 `'svg'` 时可以使用 DOM 自定义节点。
 
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span>
+
+- 只支持原生 HTML DOM，不支持各类 react、vue 组件；
+- 使用 `'dom'` 进行自定义的节点或边，不支持 G6 的交互事件，请使用原生 DOM 的交互事件；
+- 在 Safari 中，若 dom 节点被设置了 `position:relative`，将会导致渲染异常。该问题与 [Safari 的 foreignObject bug](https://bugs.webkit.org/show_bug.cgi?id=23113) 有关。[Issus](https://github.com/antvis/G6/issues/2990)。 
+
 这里，我们演示使用 DOM 自定义一个名为 `'dom-node'` 的节点。在 `draw` 方法中使用 `group.addShape` 增加一个 `'dom'` 类型的图形，并设置其 `html` 为 DOM 的 `html` 值。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VgQlQK1MdbIAAAAAAAAAAABkARQnAQ' alt='img' width='120'/>

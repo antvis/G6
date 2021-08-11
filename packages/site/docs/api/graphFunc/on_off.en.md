@@ -41,6 +41,39 @@ graph.on('click', (evt) => {
 });
 ```
 
+
+### graph.emit(eventName, params)
+
+Trigger some event manually. Similar to `dispatch` in DOM.
+
+**Parameters**
+
+| Name      | Type     | Required | Description                                                   |
+| --------- | -------- | -------- | -------------------------------------------------- |
+| eventName | string   | true     | Name of the event, options are in [Event](/en/docs/api/Event). And you can custom a event name to trigger, use graph.on to bind lisenter for the custom event name too |
+| params   | object | true     | The parameters of this event. If you want to trigger the events in [Event Docs](/en/docs/api/Event), you might need to simulate some required [Event Parameters](en/docs/api/Event#交互事件) for different situations |
+
+**Usage**
+
+```javascript
+const node = graph.findById('node1');
+// Trigger the node click event
+graph.emit('node:click', {
+  item: node, // the 'clicked' node
+  target: node.getKeyShape(), // the 'clicked' shape on the node. It uses the keyShape of the node here, you could assign any shapes in the graphics group (node.getContainer()) of the node
+  x: 10,
+  y: 10
+  // ...
+})
+
+// Trigger a customo event named 'someevent', and pass some custom parameters
+// listen to it by graph.on('someevent', e => {}). Notice that, you should bind the listener before emit it
+graph.emit('someevent', {
+  name: 'xxx',
+  value: 'xxx'
+});
+
+```
 ### graph.off(eventName, handler)
 
 Unbind the specific listener.

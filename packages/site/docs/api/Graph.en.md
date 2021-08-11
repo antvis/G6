@@ -147,7 +147,7 @@ Wheter activate the global animation. Which will take effect while changing layo
 
 <description> _Object_ **optional** _default:_ `{}`</description>
 
-The configurations for global animation. Takes effect only when `animate: true`. For more detail about animateCfg, see [Basic Animation Docs](/en/docs/manual/advanced/animation#animatecfg).
+The configurations for global animation. Takes effect only when `animate: true`. For more detail about animateCfg, see [Basic Animation Docs](/en/docs/manual/middle/animation).
 
 #### GraphOptions.animateCfg.onFrame
 

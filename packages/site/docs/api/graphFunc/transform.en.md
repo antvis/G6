@@ -64,7 +64,7 @@ Move the canvas to a **fixed position**.
 | x    | Number | true     | Displacement in the horizontal direction. |
 | y    | Number | true     | Displacement in the vertical direction.   |
 | animate | boolean | false | Whether move the graph with animation. If it is not assigned, animates following the graph's `animate`. |
-| animateCfg | Object | false | The animation's configuraiton. Its configurations can be found in [Basic Animation Docs](/en/docs/manual/advanced/animation#animatecfg). If it is not assigned, animates following the graph's `animateCfg`. |
+| animateCfg | Object | false | The animation's configuraiton. Its configurations can be found in [Basic Animation Docs](/en/docs/manual/middle/animation). If it is not assigned, animates following the graph's `animateCfg`. |
 
 **Usage**
 
@@ -124,7 +124,7 @@ Move the graph to center at the item. This operation can be used as easing anima
 | --- | --- | --- | --- |
 | item | string / Object | true | The id or the instance of the item. |
 | animate | boolean | false | Whether move the graph with animation. If it is not assigned, animates following the graph's `animate`. |
-| animateCfg | Object | false | The animation's configuraiton. Its configurations can be found in [Basic Animation Docs](/en/docs/manual/advanced/animation#animatecfg). If it is not assigned, animates following the graph's `animateCfg`. |
+| animateCfg | Object | false | The animation's configuraiton. Its configurations can be found in [Basic Animation Docs](/en/docs/manual/middle/animation). If it is not assigned, animates following the graph's `animateCfg`. |
 
 **Usage**
 
