@@ -1,6 +1,6 @@
 /* eslint @typescript-eslint/no-use-before-define: 0 */
 // import { IGroup, Event as GraphEvent, BBox, AnimateCfg, ICanvas, IShape } from '@antv/g-base';
-import { Group as IGroup, Canvas as ICanvas, DisplayObject as IShape } from '@antv/g';
+import { Group as IGroup, AABB as BBox, Canvas as ICanvas, DisplayObject as IShape } from '@antv/g';
 import Node from '../item/node';
 import { IAbstractGraph } from '../interface/graph';
 import { IEdge, INode, ICombo } from '../interface/item';
@@ -12,16 +12,6 @@ export * from '../interface';
 export interface IPos {
   x: number;
   y: number;
-}
-export interface BBox {
-  x: number;
-  y: number;
-  minX: number;
-  minY: number;
-  maxX: number;
-  maxY: number;
-  width: number;
-  height: number;
 }
 
 export type UpdateType = 'move' | 'bbox' | 'style' | undefined;

@@ -1,5 +1,5 @@
 // import { IGroup, BBox } from '@antv/g-base';
-import { Group as IGroup } from '@antv/g';
+import { Group as IGroup, AABB as BBox } from '@antv/g';
 import { vec2 } from '@antv/matrix-util';
 import Global from '../global';
 import {
