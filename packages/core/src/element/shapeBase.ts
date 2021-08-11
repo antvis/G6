@@ -2,7 +2,8 @@
  * @fileOverview 自定义节点和边的过程中，发现大量重复代码
  * @author dxq613@gmail.com
  */
-import { IGroup, IShape, IElement } from '@antv/g-base';
+// import { IGroup, IShape, IElement } from '@antv/g-base';
+import { Group as IGroup, DisplayObject as IShape, DisplayObject as IElement, Text, Rect } from '@antv/g';
 import { ShapeOptions, ILabelConfig } from '../interface/shape';
 import { IPoint, Item, LabelStyle, ShapeStyle, ModelConfig, EdgeConfig, UpdateType } from '../types';
 import Global from '../global';
@@ -131,12 +132,19 @@ export const shapeBase: ShapeOptions = {
     const labelStyle = this.getLabelStyle!(cfg, labelCfg, group);
     const rotate = labelStyle.rotate;
     delete labelStyle.rotate;
-    const label = group.addShape('text', {
+    // const label = group.addShape('text', {
+    //   attrs: labelStyle,
+    //   draggable: true,
+    //   className: 'text-shape',
+    //   name: 'text-shape',
+    // });
+    const label = new Text({
       attrs: labelStyle,
       draggable: true,
       className: 'text-shape',
       name: 'text-shape',
     });
+    group.appendChild(label);
     if (rotate) {
       const labelBBox = label.getBBox();
       let labelMatrix = label.getMatrix();
@@ -195,7 +203,9 @@ export const shapeBase: ShapeOptions = {
     const { labelCfg: defaultLabelCfg } = this.options as ModelConfig;
     const labelCfg = mix({}, defaultLabelCfg, cfg.labelCfg) as ILabelConfig;
     const style = this.getLabelBgStyleByPosition(label, cfg, labelCfg, group);
-    const rect = group.addShape('rect', { name: 'text-bg-shape', attrs: style });
+    // const rect = group.addShape('rect', { name: 'text-bg-shape', attrs: style });
+    const rect = new Rect({ name: 'text-bg-shape', attrs: style });
+    group.appendChild(rect);
     return rect;
   },
   getLabelStyleByPosition(cfg: ModelConfig, labelCfg?: ILabelConfig, group?: IGroup): LabelStyle {

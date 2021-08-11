@@ -1,4 +1,5 @@
-import { Event as GraphEvent, ICanvas } from '@antv/g-base';
+// import { Event as GraphEvent, ICanvas } from '@antv/g-base';
+import { Canvas as ICanvas, CustomEvent } from '@antv/g';
 import { G6Event, IG6GraphEvent, IShapeBase, Item, BehaviorOption } from '../types';
 import { IAbstractGraph } from './graph';
 
@@ -22,7 +23,8 @@ export interface IBehaviorOption {
   unbind?: (e: IAbstractGraph) => void;
 }
 
-export class G6GraphEvent extends GraphEvent implements IG6GraphEvent {
+// export class G6GraphEvent extends GraphEvent implements IG6GraphEvent {
+export class G6GraphEvent extends CustomEvent implements IG6GraphEvent {
   public item: Item;
 
   public canvasX: number;

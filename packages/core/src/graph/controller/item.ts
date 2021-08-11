@@ -1,4 +1,5 @@
-import { IGroup } from '@antv/g-base';
+// import { IGroup } from '@antv/g-base';
+import { Group as IGroup, Group } from '@antv/g';
 import { clone, deepMix, each, isArray, isObject, isString, upperFirst, throttle } from '@antv/util';
 import Edge from '../../item/edge';
 import Node from '../../item/node';
@@ -131,19 +132,25 @@ export default class ItemController {
         // graph.updateCombo(target as ICombo);
       }
 
+      const group = new Group();
+      parent.appendChild(group);
       item = new Edge({
         model,
         source,
         target,
         styles,
         linkCenter: graph.get('linkCenter'),
-        group: parent.addGroup(),
+        // group: parent.addGroup(),
+        group: group,
       });
     } else if (type === NODE) {
+      const group = new Group();
+      parent.appendChild(group);
       item = new Node({
         model,
         styles,
-        group: parent.addGroup(),
+        // group: parent.addGroup(),
+        group: group,
       });
     } else if (type === COMBO) {
       const children: ComboTree[] = (model as ComboConfig).children;
@@ -154,7 +161,9 @@ export default class ItemController {
       if (!isNaN(comboBBox.y)) model.y = comboBBox.y;
       else if (isNaN(model.y)) model.y = Math.random() * 100;
 
-      const comboGroup = parent.addGroup();
+      // const comboGroup = parent.addGroup();
+      const comboGroup = new Group();
+      parent.appendChild(comboGroup);
       comboGroup.setZIndex((model as ComboConfig).depth as number);
       item = new Combo({
         model,

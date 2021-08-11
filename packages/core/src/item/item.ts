@@ -1,4 +1,5 @@
-import { IGroup } from '@antv/g-base';
+// import { IGroup } from '@antv/g-base';
+import { Group as IGroup } from '@antv/g';
 import { each, isNil, isPlainObject, isString, isBoolean, mix, deepMix, clone } from '@antv/util';
 import { IItemBase, IItemBaseConfig } from '../interface/item';
 import Shape from '../element/shape';
@@ -170,7 +171,8 @@ export default class ItemBase implements IItemBase {
     const shapeFactory = self.get('shapeFactory');
     const group: IGroup = self.get('group');
     const model: ModelConfig = self.get('model');
-    group.clear();
+    // group.clear();
+    group.getRootNode()?.removeChildren();
     const visible = model.visible;
     if (visible !== undefined && !visible) self.changeVisibility(visible);
 
@@ -693,7 +695,8 @@ export default class ItemBase implements IItemBase {
     const matrix = group.getMatrix();
     if (matrix && matrix[6] === x && matrix[7] === y) return false;
 
-    group.resetMatrix();
+    // group.resetMatrix();
+    group.setMatrix([1, 0, 0, 0, 1, 0, 0, 0, 1]);
     // G 4.0 element 中移除了矩阵相关方法，详见https://www.yuque.com/antv/blog/kxzk9g#4rMMV
     translate(group, { x: x!, y: y! });
     this.clearCache(); // 位置更新后需要清除缓存

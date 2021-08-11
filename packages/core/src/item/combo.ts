@@ -1,4 +1,4 @@
-import { IGroup } from '@antv/g-base';
+import { Group as IGroup } from '@antv/g';
 import { ICombo, INode, IItemBaseConfig } from '../interface/item';
 import Node from './node';
 import { IBBox, IShapeBase, ModelConfig, UpdateType } from '../types';

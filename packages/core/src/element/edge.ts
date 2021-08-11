@@ -3,10 +3,12 @@
  * @description 自定义边中有大量逻辑同自定义节点重复，虽然可以提取成为 mixin ，但是考虑到代码的可读性，还是单独实现。
  */
 
-import { IGroup, IShape, IElement, Point } from '@antv/g-base';
+// import { IGroup, IShape, IElement, Point } from '@antv/g-base';
+import { Group as IGroup, DisplayObject as IShape, DisplayObject as IElement, Path, Rect, Text, Circle } from '@antv/g';
 import { deepMix, mix, each, isNil, isNumber, isArray } from '@antv/util';
 import { ILabelConfig, ShapeOptions } from '../interface/shape';
-import { EdgeConfig, EdgeData, IPoint, LabelStyle, ShapeStyle, Item, ModelConfig, UpdateType } from '../types';
+// import { EdgeConfig, EdgeData, IPoint, LabelStyle, ShapeStyle, Item, ModelConfig, UpdateType } from '../types';
+import { EdgeConfig, EdgeData, IPoint, IPos as Point, LabelStyle, ShapeStyle, Item, ModelConfig, UpdateType } from '../types';
 import { getLabelPosition, getLoopCfgs } from '../util/graphic';
 import { distance, getCircleCenterByPoints } from '../util/math';
 import { getControlPoint, getSpline } from '../util/path';
@@ -344,11 +346,37 @@ const singleEdge: ShapeOptions = {
    */
   drawShape(cfg: EdgeConfig, group: IGroup): IShape {
     const shapeStyle = this.getShapeStyle!(cfg);
-    const shape = group.addShape('path', {
+    // const shape = group.addShape('path', {
+    //   className: CLS_SHAPE,
+    //   name: CLS_SHAPE,
+    //   attrs: shapeStyle,
+    // });
+    debugger
+    const shape = new Path({
       className: CLS_SHAPE,
       name: CLS_SHAPE,
       attrs: shapeStyle,
     });
+    // TODO: 测试，画边的时候存在问题
+    // group.appendChild(shape);
+    // const a = new Circle({
+    //   style: {
+    //     x: 290,
+    //     y: 290,
+    //     r: 100,
+    //     fill: '#ff0000'
+    //   }
+    // })
+    // group.appendChild(a)
+    // const path1 = new Path({
+    //   attrs: {
+    //     path: [["M",290.16130089900093,104.91934955049953],["L",392.22182540694797,292.22182540694797]
+    //     // path: [["M", 0.1, 0], ["L", 10, 10]
+    //     ],
+    //     stroke: '#ff0000',
+    //   },
+    // });
+    // group.appendChild(path1);
     return shape;
   },
   drawLabel(cfg: EdgeConfig, group: IGroup): IShape {
@@ -370,10 +398,15 @@ const singleEdge: ShapeOptions = {
     const labelStyle = this.getLabelStyle!(cfg, labelCfg, group);
     const rotate = labelStyle.rotate;
     delete labelStyle.rotate;
-    const label = group.addShape('text', {
+    // const label = group.addShape('text', {
+    //   attrs: labelStyle,
+    //   name: 'text-shape',
+    // });
+    const label = new Text({
       attrs: labelStyle,
       name: 'text-shape',
     });
+    group.appendChild(label);
     if (rotate) {
       label.rotateAtStart(rotate);
     }
@@ -394,7 +427,9 @@ const singleEdge: ShapeOptions = {
 
     const style = this.getLabelBgStyleByPosition(label, cfg, labelCfg, group);
     delete style.rotate;
-    const rect = group.addShape('rect', { name: 'text-bg-shape', attrs: style });
+    // const rect = group.addShape('rect', { name: 'text-bg-shape', attrs: style });
+    const rect = new Rect({ name: 'text-bg-shape', attrs: style });
+    group.appendChild(rect);
     if (rotate) rect.rotateAtStart(rotate);
     return rect;
   },

@@ -1,4 +1,5 @@
-import { IGroup, IShape } from '@antv/g-base';
+// import { IGroup, IShape } from '@antv/g-base';
+import { Group as IGroup, DisplayObject as IShape, Circle } from '@antv/g';
 import { deepMix } from '@antv/util';
 import { Item, NodeConfig, ShapeStyle } from '../../types';
 import Global from '../../global';
@@ -34,11 +35,17 @@ Shape.registerNode(
     labelPosition: 'center',
     drawShape(cfg: NodeConfig, group: IGroup): IShape {
       const style = this.getShapeStyle!(cfg);
-      const keyShape: IShape = group.addShape('circle', {
+      // const keyShape: IShape = group.addShape('circle', {
+      //   attrs: style,
+      //   className: `${this.type}-keyShape`,
+      //   draggable: true,
+      // });
+      const keyShape: IShape = new Circle({
         attrs: style,
         className: `${this.type}-keyShape`,
         draggable: true,
       });
+      group.appendChild(keyShape);
 
       return keyShape;
     },

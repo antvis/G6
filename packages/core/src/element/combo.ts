@@ -2,7 +2,8 @@
  * @fileOverview common combo shape
  * @author shiwu.wyy@antfin.com
  */
-import { IGroup, IShape } from '@antv/g-base';
+// import { IGroup, IShape } from '@antv/g-base';
+import { Group as IGroup, DisplayObject as IShape } from '@antv/g';
 import { isArray, isNil, clone } from '@antv/util';
 import { ILabelConfig, ShapeOptions } from '../interface/shape';
 import { Item, LabelStyle, NodeConfig, ModelConfig, ShapeStyle } from '../types';

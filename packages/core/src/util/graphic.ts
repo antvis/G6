@@ -1,4 +1,5 @@
-import { IGroup, BBox } from '@antv/g-base';
+// import { IGroup, BBox } from '@antv/g-base';
+import { Group as IGroup, AABB as BBox } from '@antv/g';
 import { vec2 } from '@antv/matrix-util';
 import Global from '../global';
 import {
@@ -23,14 +24,23 @@ const SELF_LINK_SIN: number = sin(PI / 8);
 const SELF_LINK_COS: number = cos(PI / 8);
 
 export const getBBox = (element: IShapeBase, group: IGroup): IBBox => {
-  const bbox = element.getBBox();
+  // const bbox = element.getBBox();
+  // let leftTop: IPoint = {
+  //   x: bbox.minX,
+  //   y: bbox.minY,
+  // };
+  // let rightBottom: IPoint = {
+  //   x: bbox.maxX,
+  //   y: bbox.maxY,
+  // };
+  const bbox = element.getBounds();
   let leftTop: IPoint = {
-    x: bbox.minX,
-    y: bbox.minY,
+    x: bbox.min[0],
+    y: bbox.min[1],
   };
   let rightBottom: IPoint = {
-    x: bbox.maxX,
-    y: bbox.maxY,
+    x: bbox.max[0],
+    y: bbox.max[1],
   };
   // 根据父元素变换矩阵
   if (group) {

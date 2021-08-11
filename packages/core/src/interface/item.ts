@@ -1,8 +1,10 @@
 /* eslint @typescript-eslint/no-use-before-define: 0 */
-import { IGroup, Point } from '@antv/g-base';
+// import { IGroup, Point } from '@antv/g-base';
+import { Group as IGroup } from '@antv/g';
 import {
   IBBox,
   IPoint,
+  IPos,
   IShapeBase,
   Item,
   ModelConfig,
@@ -16,6 +18,8 @@ import {
   TreeGraphData,
   UpdateType
 } from '../types';
+
+type Point = IPos;
 
 // item 的配置项
 export type IItemBaseConfig = Partial<{

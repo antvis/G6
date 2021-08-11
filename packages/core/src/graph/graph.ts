@@ -1,5 +1,7 @@
 import EventEmitter from '@antv/event-emitter';
-import { ICanvas, IGroup, Point } from '@antv/g-base';
+// import { ICanvas, IGroup, Point } from '@antv/g-base';
+import { Canvas as ICanvas, Group as IGroup, Group } from '@antv/g';
+import { IPos as Point } from '../types';
 import { ext } from '@antv/matrix-util';
 import { clone, deepMix, each, isPlainObject, isString } from '@antv/util';
 import {
@@ -142,38 +144,67 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   // 初始化所有 Group
   protected initGroups(): void {
     const canvas: ICanvas = this.get('canvas');
-    const el: HTMLElement = this.get('canvas').get('el');
+    // const el: HTMLElement = this.get('canvas').get('el');
+    const el: HTMLElement = canvas.getContextService().getDomElement();
     const { id } = el;
 
-    const group: IGroup = canvas.addGroup({
+    // const group: IGroup = canvas.addGroup({
+    //   id: `${id}-root`,
+    //   className: Global.rootContainerClassName,
+    // });
+
+    const group: IGroup = new Group({
       id: `${id}-root`,
       className: Global.rootContainerClassName,
     });
+    canvas.appendChild(group);
 
     if (this.get('groupByTypes')) {
-      const edgeGroup: IGroup = group.addGroup({
+      // const edgeGroup: IGroup = group.addGroup({
+      //   id: `${id}-edge`,
+      //   className: Global.edgeContainerClassName,
+      // });
+      const edgeGroup: IGroup = new Group({
         id: `${id}-edge`,
         className: Global.edgeContainerClassName,
       });
+      group.appendChild(edgeGroup);
 
-      const nodeGroup: IGroup = group.addGroup({
+      // const nodeGroup: IGroup = group.addGroup({
+      //   id: `${id}-node`,
+      //   className: Global.nodeContainerClassName,
+      // });
+      const nodeGroup: IGroup = new Group({
         id: `${id}-node`,
         className: Global.nodeContainerClassName,
       });
-      const comboGroup: IGroup = group.addGroup({
+      group.appendChild(nodeGroup);
+
+      // const comboGroup: IGroup = group.addGroup({
+      //   id: `${id}-combo`,
+      //   className: Global.comboContainerClassName,
+      // });
+      const comboGroup: IGroup = new Group({
         id: `${id}-combo`,
         className: Global.comboContainerClassName,
       });
+      group.appendChild(comboGroup);
 
       // 用于存储自定义的群组
       comboGroup.toBack();
 
       this.set({ nodeGroup, edgeGroup, comboGroup });
     }
-    const delegateGroup: IGroup = group.addGroup({
+    // const delegateGroup: IGroup = group.addGroup({
+    //   id: `${id}-delegate`,
+    //   className: Global.delegateContainerClassName,
+    // });
+    const delegateGroup: IGroup = new Group({
       id: `${id}-delegate`,
       className: Global.delegateContainerClassName,
     });
+    group.appendChild(delegateGroup);
+
     this.set({ delegateGroup });
     this.set('group', group);
   }
@@ -735,7 +766,8 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    */
   public paint(): void {
     this.emit('beforepaint');
-    this.get('canvas').draw();
+    // this.get('canvas').draw();
+    this.get('canvas').render();
     this.emit('afterpaint');
   }
 
@@ -1426,7 +1458,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
     const canvas: ICanvas = this.get('canvas');
     const localRefresh: boolean = canvas.get('localRefresh');
-    canvas.set('localRefresh', false);
+    // canvas.set('localRefresh', false);
 
     if (!self.get('data')) {
       self.data(data);
@@ -1507,7 +1539,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     }
 
     setTimeout(() => {
-      canvas.set('localRefresh', localRefresh);
+      // canvas.set('localRefresh', localRefresh);
     }, 16);
     return this;
   }
@@ -2189,7 +2221,8 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * @return {object} this
    */
   public clear(avoidEmit: boolean = false): AbstractGraph {
-    this.get('canvas')?.clear();
+    // this.get('canvas')?.clear();
+    this.get('canvas')?.getRoot().removeChildren()
 
     this.initGroups();
 

@@ -2,7 +2,8 @@
  * @fileOverview common node shape
  * @author huangtonger@aliyun.com
  */
-import { IGroup, IShape, IElement } from '@antv/g-base';
+// import { IGroup, IShape, IElement } from '@antv/g-base';
+import { Group as IGroup, DisplayObject as IShape, DisplayObject as IElement } from '@antv/g';
 import { isArray, isNil, mix } from '@antv/util';
 import { ILabelConfig, ShapeOptions } from '../interface/shape';
 import { Item, LabelStyle, NodeConfig, ModelConfig } from '../types';

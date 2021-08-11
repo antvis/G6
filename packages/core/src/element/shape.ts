@@ -1,4 +1,5 @@
-import { IGroup, IShape } from '@antv/g-base';
+// import { IGroup, IShape } from '@antv/g-base';
+import { Group as IGroup, DisplayObject as IShape } from '@antv/g';
 import { upperFirst } from '@antv/util';
 import { ShapeOptions, ShapeDefine } from '../interface/shape';
 import { IPoint, Item, ModelConfig, NodeConfig, EdgeConfig, UpdateType } from '../types';

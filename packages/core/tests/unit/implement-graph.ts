@@ -1,4 +1,6 @@
-import { Canvas as GCanvas } from '@antv/g-canvas';
+// import { Canvas as GCanvas } from '@antv/g-canvas';
+import { Canvas } from '@antv/g';
+import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { AbstractGraph } from '../../src';
 
 export default class Graph extends AbstractGraph {
@@ -36,7 +38,13 @@ export default class Graph extends AbstractGraph {
       canvasCfg.pixelRatio = pixelRatio;
     }
 
-    const canvas = new GCanvas(canvasCfg);
+    const canvasRenderer = new CanvasRenderer();
+
+    // create a canvas
+    const canvas = new Canvas({
+      ...{renderer: canvasRenderer},
+      ...canvasCfg,
+    });
 
     this.set('canvas', canvas);
   }

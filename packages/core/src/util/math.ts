@@ -1,4 +1,5 @@
-import { Point, IGroup } from '@antv/g-base';
+// import { Point, IGroup } from '@antv/g-base';
+import { Group as IGroup } from '@antv/g';
 import { mat3, vec3, ext, vec2 } from '@antv/matrix-util';
 import { isArray, each } from '@antv/util';
 import {
@@ -12,10 +13,13 @@ import {
   IBBox,
   Item,
   IPoint,
+  IPos,
   GraphAnimateConfig
 } from '../types';
 
 const transform = ext.transform;
+
+type Point = IPos;
 
 /**
  * 对比对象，用于对象数组排序

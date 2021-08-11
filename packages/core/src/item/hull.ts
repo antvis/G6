@@ -1,4 +1,5 @@
-import { IGroup } from '@antv/g-base';
+// import { IGroup } from '@antv/g-base';
+import { Group as IGroup } from '@antv/g';
 import { deepMix, isString } from '@antv/util';
 import { parsePathString } from '@antv/path-util';
 import { Item, BubblesetCfg, HullCfg } from '../types';

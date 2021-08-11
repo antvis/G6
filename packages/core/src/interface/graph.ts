@@ -1,5 +1,6 @@
 import EventEmitter from '@antv/event-emitter';
-import { IGroup, Point } from '@antv/g-base';
+// import { IGroup, Point } from '@antv/g-base';
+import { Group as IGroup } from '@antv/g';
 import Graph from '../graph/graph';
 import {
   EdgeConfig,
@@ -20,10 +21,13 @@ import {
   HullCfg,
   IG6GraphEvent,
   IPoint,
+  IPos,
 } from '../types';
 import { IEdge, INode, ICombo } from './item';
 import Hull from '../item/hull';
 import { Stack } from '@antv/algorithm';
+
+type Point = IPos;
 
 export interface IAbstractGraph extends EventEmitter {
   getDefaultCfg: () => Partial<GraphOptions>;

@@ -1,11 +1,14 @@
-import { AbstractCanvas } from '@antv/g-base';
-import { Point, IGroup } from '@antv/g-base';
+// import { AbstractCanvas } from '@antv/g-base';
+import { Canvas as AbstractCanvas } from '@antv/g';
+// import { Point, IGroup } from '@antv/g-base';
+import { Group as IGroup } from '@antv/g';
 import { isNumber, isString } from '@antv/util';
 import { modifyCSS } from '@antv/dom-util';
 import { Item, Matrix, Padding, GraphAnimateConfig, IEdge } from '../../types';
 import { formatPadding } from '../../util/base';
 import { applyMatrix, invertMatrix } from '../../util/math';
 import { IAbstractGraph } from '../../interface/graph';
+import { IPos as Point } from '../../types';
 
 export default class ViewController {
   private graph: IAbstractGraph;
