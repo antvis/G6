@@ -23,7 +23,17 @@ order: 3
 
 ### layoutCfg.indent
 
-**类型**：Number<br />**默认值**：20<br />**是否必须**：false<br />**说明**：列间间距
+**类型**：Number | Function<br />**默认值**：20<br />**示例**：
+
+```javascript
+(d) => {
+  // d 是一个节点
+  if (d.parent?.id === 'testId') return d.parent.x + 50;
+  return 100;
+};
+```
+
+**是否必须**：false<br />**说明**：类型为Number时，列间间距是固定值；类型为Function时，节点与根结点的间距是函数返回值。
 
 ### layoutCfg.getWidth
 
