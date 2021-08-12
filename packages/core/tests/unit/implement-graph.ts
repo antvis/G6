@@ -1,6 +1,7 @@
 // import { Canvas as GCanvas } from '@antv/g-canvas';
 import { Canvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
+import { Renderer as SVGRenderer } from '@antv/g-svg';
 import { AbstractGraph } from '../../src';
 
 export default class Graph extends AbstractGraph {
@@ -39,10 +40,12 @@ export default class Graph extends AbstractGraph {
     }
 
     const canvasRenderer = new CanvasRenderer();
+    const svgRenderer = new SVGRenderer();
 
     // create a canvas
     const canvas = new Canvas({
-      ...{renderer: canvasRenderer},
+      ...{renderer: svgRenderer},
+      // ...{renderer: canvasRenderer},
       ...canvasCfg,
     });
 

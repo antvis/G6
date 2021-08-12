@@ -7,6 +7,7 @@ document.body.appendChild(div);
 
 describe('graph', () => {
   const globalGraph = new Graph({
+    autoPaint: false,
     container: div,
     width: 500,
     height: 500,

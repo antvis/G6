@@ -351,32 +351,13 @@ const singleEdge: ShapeOptions = {
     //   name: CLS_SHAPE,
     //   attrs: shapeStyle,
     // });
-    debugger
     const shape = new Path({
       className: CLS_SHAPE,
       name: CLS_SHAPE,
       attrs: shapeStyle,
     });
-    // TODO: 测试，画边的时候存在问题
-    // group.appendChild(shape);
-    // const a = new Circle({
-    //   style: {
-    //     x: 290,
-    //     y: 290,
-    //     r: 100,
-    //     fill: '#ff0000'
-    //   }
-    // })
-    // group.appendChild(a)
-    // const path1 = new Path({
-    //   attrs: {
-    //     path: [["M",290.16130089900093,104.91934955049953],["L",392.22182540694797,292.22182540694797]
-    //     // path: [["M", 0.1, 0], ["L", 10, 10]
-    //     ],
-    //     stroke: '#ff0000',
-    //   },
-    // });
-    // group.appendChild(path1);
+    group.appendChild(shape);
+
     return shape;
   },
   drawLabel(cfg: EdgeConfig, group: IGroup): IShape {
