@@ -30,7 +30,7 @@ export interface EventAttrs {
 
 const propsToEventMap = {
   click: 'onClick',
-  dbclick: 'onDBClick',
+  dblclick: 'onDBClick',
   mouseenter: 'onMouseEnter',
   mousemove: 'onMouseMove',
   mouseout: 'onMouseOut',
