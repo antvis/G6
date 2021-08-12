@@ -146,6 +146,7 @@ export default class ItemBase implements IItemBase {
     return bbox;
   }
 
+  // TODO: 这俩函数似乎一样？
   /**
    * 根据 keyshape 计算包围盒
    */
