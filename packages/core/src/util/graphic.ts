@@ -1,9 +1,10 @@
 // import { IGroup, BBox } from '@antv/g-base';
-import { Group as IGroup, AABB as BBox } from '@antv/g';
+import { Group as IGroup } from '@antv/g';
 import { vec2 } from '@antv/matrix-util';
 import Global from '../global';
 import {
   EdgeData,
+  BBox,
   IBBox,
   IPoint,
   IShapeBase,
@@ -79,11 +80,14 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
   if (!containerMatrix) containerMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
 
   const keyShape: IShapeBase = item.getKeyShape();
-  const bbox: IBBox = keyShape.getBBox();
+  // const bbox: IBBox = keyShape.getBBox();
+  const bbox = keyShape.getLocalBounds();
+  const boxWidth = bbox.max[0] - bbox.min[0];
+  const boxHeight = bbox.max[1] - bbox.min[1];
 
   const loopCfg = cfg.loopCfg || {};
   // 距离keyShape边的最高距离
-  const dist: number = loopCfg.dist || Math.max(bbox.width, bbox.height) * 2;
+  const dist: number = loopCfg.dist || Math.max(boxWidth, boxHeight) * 2;
   // 自环边与keyShape的相对位置关系
   const position: string = loopCfg.position || Global.defaultLoopPosition;
 
@@ -92,8 +96,8 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
   let startPoint = [cfg.startPoint.x, cfg.startPoint.y];
   let endPoint = [cfg.endPoint.x, cfg.endPoint.y];
 
-  let rstart = bbox.height / 2;
-  let rend = bbox.height / 2;
+  let rstart = boxHeight / 2;
+  let rend = boxHeight / 2;
   let sinDeltaStart = rstart * SELF_LINK_SIN;
   let cosDeltaStart = rstart * SELF_LINK_COS;
   let sinDeltaEnd = rend * SELF_LINK_SIN;
@@ -107,8 +111,8 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
         endPoint = [center[0] + sinDeltaEnd, center[1] - cosDeltaEnd];
         break;
       case 'top-right':
-        rstart = bbox.height / 2;
-        rend = bbox.width / 2;
+        rstart = boxHeight / 2;
+        rend = boxWidth / 2;
         sinDeltaStart = rstart * SELF_LINK_SIN;
         cosDeltaStart = rstart * SELF_LINK_COS;
         sinDeltaEnd = rend * SELF_LINK_SIN;
@@ -117,8 +121,8 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
         endPoint = [center[0] + cosDeltaEnd, center[1] - sinDeltaEnd];
         break;
       case 'right':
-        rstart = bbox.width / 2;
-        rend = bbox.width / 2;
+        rstart = boxWidth / 2;
+        rend = boxWidth / 2;
         sinDeltaStart = rstart * SELF_LINK_SIN;
         cosDeltaStart = rstart * SELF_LINK_COS;
         sinDeltaEnd = rend * SELF_LINK_SIN;
@@ -127,8 +131,8 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
         endPoint = [center[0] + cosDeltaEnd, center[1] + sinDeltaEnd];
         break;
       case 'bottom-right':
-        rstart = bbox.width / 2;
-        rend = bbox.height / 2;
+        rstart = boxWidth / 2;
+        rend = boxHeight / 2;
         sinDeltaStart = rstart * SELF_LINK_SIN;
         cosDeltaStart = rstart * SELF_LINK_COS;
         sinDeltaEnd = rend * SELF_LINK_SIN;
@@ -137,8 +141,8 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
         endPoint = [center[0] + sinDeltaEnd, center[1] + cosDeltaEnd];
         break;
       case 'bottom':
-        rstart = bbox.height / 2;
-        rend = bbox.height / 2;
+        rstart = boxHeight / 2;
+        rend = boxHeight / 2;
         sinDeltaStart = rstart * SELF_LINK_SIN;
         cosDeltaStart = rstart * SELF_LINK_COS;
         sinDeltaEnd = rend * SELF_LINK_SIN;
@@ -147,8 +151,8 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
         endPoint = [center[0] - sinDeltaEnd, center[1] + cosDeltaEnd];
         break;
       case 'bottom-left':
-        rstart = bbox.height / 2;
-        rend = bbox.width / 2;
+        rstart = boxHeight / 2;
+        rend = boxWidth / 2;
         sinDeltaStart = rstart * SELF_LINK_SIN;
         cosDeltaStart = rstart * SELF_LINK_COS;
         sinDeltaEnd = rend * SELF_LINK_SIN;
@@ -157,8 +161,8 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
         endPoint = [center[0] - cosDeltaEnd, center[1] + sinDeltaEnd];
         break;
       case 'left':
-        rstart = bbox.width / 2;
-        rend = bbox.width / 2;
+        rstart = boxWidth / 2;
+        rend = boxWidth / 2;
         sinDeltaStart = rstart * SELF_LINK_SIN;
         cosDeltaStart = rstart * SELF_LINK_COS;
         sinDeltaEnd = rend * SELF_LINK_SIN;
@@ -167,8 +171,8 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
         endPoint = [center[0] - cosDeltaEnd, center[1] - sinDeltaEnd];
         break;
       case 'top-left':
-        rstart = bbox.width / 2;
-        rend = bbox.height / 2;
+        rstart = boxWidth / 2;
+        rend = boxHeight / 2;
         sinDeltaStart = rstart * SELF_LINK_SIN;
         cosDeltaStart = rstart * SELF_LINK_COS;
         sinDeltaEnd = rend * SELF_LINK_SIN;
@@ -177,8 +181,8 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
         endPoint = [center[0] - sinDeltaEnd, center[1] - cosDeltaEnd];
         break;
       default:
-        rstart = bbox.width / 2;
-        rend = bbox.width / 2;
+        rstart = boxWidth / 2;
+        rend = boxWidth / 2;
         sinDeltaStart = rstart * SELF_LINK_SIN;
         cosDeltaStart = rstart * SELF_LINK_COS;
         sinDeltaEnd = rend * SELF_LINK_SIN;
@@ -662,19 +666,19 @@ export const shouldRefreshEdge = (cfg) => {
 
 export const cloneBesidesImg = (obj) => {
   const clonedObj = {};
-  Object.keys(obj).forEach(key1 => {
+  Object.keys(obj).forEach((key1) => {
     const obj2 = obj[key1];
     if (isObject(obj2)) {
       const clonedObj2 = {};
-      Object.keys(obj2).forEach(key2 => {
+      Object.keys(obj2).forEach((key2) => {
         const v = obj2[key2];
-        if(key2 === 'img' && !isString(v)) return;
+        if (key2 === 'img' && !isString(v)) return;
         clonedObj2[key2] = clone(v);
-      })
+      });
       clonedObj[key1] = clonedObj2;
     } else {
       clonedObj[key1] = clone(obj2);
     }
   });
   return clonedObj;
-}
+};

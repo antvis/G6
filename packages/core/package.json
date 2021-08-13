@@ -70,6 +70,7 @@
     "tslib": "^2.1.0"
   },
   "devDependencies": {
+    "@antv/g-webgl": "1.0.0-alpha.9",
     "@antv/g-canvas": "1.0.0-alpha.9",
     "@antv/g-svg": "1.0.0-alpha.9",
     "@babel/core": "^7.7.7",

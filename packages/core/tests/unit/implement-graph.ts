@@ -2,6 +2,7 @@
 import { Canvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Renderer as SVGRenderer } from '@antv/g-svg';
+import { Renderer as WebGLRenderer } from '@antv/g-webgl';
 import { AbstractGraph } from '../../src';
 
 export default class Graph extends AbstractGraph {
@@ -39,13 +40,15 @@ export default class Graph extends AbstractGraph {
       canvasCfg.pixelRatio = pixelRatio;
     }
 
+    // const webglRenderer = new WebGLRenderer();
     const canvasRenderer = new CanvasRenderer();
     const svgRenderer = new SVGRenderer();
 
     // create a canvas
     const canvas = new Canvas({
-      ...{renderer: svgRenderer},
-      // ...{renderer: canvasRenderer},
+      // ...{ renderer: webglRenderer },
+      ...{ renderer: svgRenderer },
+      // ...{ renderer: canvasRenderer },
       ...canvasCfg,
     });
 
