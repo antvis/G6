@@ -317,7 +317,7 @@ const singleNode: ShapeOptions = {
       if (show || show === undefined) {
         // 若传入 show: true, 或没有设置，则更新原有的 icon 样式
         const iconConfig = mix({}, iconShape.attr(), icon);
-        const { width: w, height: h } = iconConfig;
+        const { width: w = 20, height: h = 20 } = iconConfig;
         iconShape.attr({
           ...iconConfig,
           x: -w / 2,
@@ -329,7 +329,7 @@ const singleNode: ShapeOptions = {
       }
     } else if (show) {
       // 如果原先不存在 icon，但传入了 show: true，则新增 icon
-      const { width: w, height: h } = icon;
+      const { width: w = 20, height: h = 20 } = icon;
       const image = new Image({
         attrs: {
           ...icon,

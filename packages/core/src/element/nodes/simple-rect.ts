@@ -1,5 +1,5 @@
 // import { IGroup, IShape } from '@antv/g-base';
-import { Group as IGroup, DisplayObject as IShape } from '@antv/g';
+import { Group as IGroup, DisplayObject as IShape, Rect } from '@antv/g';
 import { mix } from '@antv/util';
 import { Item, NodeConfig, ShapeStyle } from '../../types';
 import Global from '../../global';
@@ -40,12 +40,13 @@ Shape.registerNode(
     drawShape(cfg: NodeConfig, group: IGroup): IShape {
       const style = this.getShapeStyle!(cfg);
 
-      const keyShape = group.addShape('rect', {
+      const keyShape = new Rect({
         attrs: style,
         className: `${this.type}-keyShape`,
         name: `${this.type}-keyShape`,
         draggable: true,
       });
+      group.appendChild(keyShape);
 
       return keyShape;
     },

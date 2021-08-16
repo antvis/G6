@@ -188,6 +188,8 @@ describe('circle test', () => {
       const div = document.createElement('div');
       document.body.appendChild(div);
       const graph = new Graph({
+        // TODO: 这里设置autoPaint为false，顺序正常，比较迷惑
+        autoPaint: false,
         container: div,
         width: 500,
         height: 500,
