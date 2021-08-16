@@ -3,7 +3,12 @@
  * @author huangtonger@aliyun.com
  */
 // import { IGroup, IShape, IElement } from '@antv/g-base';
-import { Group as IGroup, DisplayObject as IShape, DisplayObject as IElement } from '@antv/g';
+import {
+  Group as IGroup,
+  DisplayObject as IShape,
+  DisplayObject as IElement,
+  Image,
+} from '@antv/g';
 import { isArray, isNil, mix } from '@antv/util';
 import { ILabelConfig, ShapeOptions } from '../interface/shape';
 import { Item, LabelStyle, NodeConfig, ModelConfig } from '../types';
@@ -325,7 +330,7 @@ const singleNode: ShapeOptions = {
     } else if (show) {
       // 如果原先不存在 icon，但传入了 show: true，则新增 icon
       const { width: w, height: h } = icon;
-      group.addShape('image', {
+      const image = new Image({
         attrs: {
           ...icon,
           x: -w! / 2,
@@ -334,6 +339,7 @@ const singleNode: ShapeOptions = {
         className: `${this.type}-icon`,
         name: `${this.type}-icon`,
       });
+      group.appendChild(image);
       // to ensure the label is on the top of all the shapes
       const labelShape = group.find((element) => element.get('className') === `node-label`);
       if (labelShape) {

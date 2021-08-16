@@ -3,9 +3,23 @@
  * @author dxq613@gmail.com
  */
 // import { IGroup, IShape, IElement } from '@antv/g-base';
-import { Group as IGroup, DisplayObject as IShape, DisplayObject as IElement, Text, Rect } from '@antv/g';
+import {
+  Group as IGroup,
+  DisplayObject as IShape,
+  DisplayObject as IElement,
+  Text,
+  Rect,
+} from '@antv/g';
 import { ShapeOptions, ILabelConfig } from '../interface/shape';
-import { IPoint, Item, LabelStyle, ShapeStyle, ModelConfig, EdgeConfig, UpdateType } from '../types';
+import {
+  IPoint,
+  Item,
+  LabelStyle,
+  ShapeStyle,
+  ModelConfig,
+  EdgeConfig,
+  UpdateType,
+} from '../types';
 import Global from '../global';
 import { ext } from '@antv/matrix-util';
 import { deepMix, each, mix, isBoolean, isPlainObject, clone } from '@antv/util';
@@ -311,15 +325,22 @@ export const shapeBase: ShapeOptions = {
         if (rotate) {
           // if G 4.x define the rotateAtStart, use it directly instead of using the following codes
           let rotateMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
+          // TODO: 在新版本下可以整合到新的命令式的API
           rotateMatrix = transform(rotateMatrix, [
             ['t', -labelStyle.x, -labelStyle.y],
             ['r', rotate],
             ['t', labelStyle.x, labelStyle.y],
           ]);
-          label.resetMatrix();
+          // label.resetMatrix();
+          label.setLocalEulerAngles(0);
+          label.setLocalPosition(0);
+          label.setLocalScale(1);
           label.attr({ ...labelStyle, matrix: rotateMatrix });
         } else {
-          label.resetMatrix();
+          // label.resetMatrix();
+          label.setLocalEulerAngles(0);
+          label.setLocalPosition(0);
+          label.setLocalScale(1);
           label.attr(labelStyle);
         }
 
@@ -337,7 +358,10 @@ export const shapeBase: ShapeOptions = {
             group,
           );
           const labelBgStyle = { ...calculateBgStyle, ...cfgBgStyle };
-          labelBg.resetMatrix();
+          // labelBg.resetMatrix();
+          labelBg.setLocalEulerAngles(0);
+          labelBg.setLocalPosition(0);
+          labelBg.setLocalScale(1);
           if (rotate) {
             let bgRotateMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
             bgRotateMatrix = transform(bgRotateMatrix, [
@@ -576,7 +600,8 @@ export const shapeBase: ShapeOptions = {
    * @return {Array|null} 锚点的数组,如果为 null，则没有锚点
    */
   getAnchorPoints(cfg: ModelConfig): number[][] | undefined {
-    const anchorPoints =  cfg?.anchorPoints || this.getCustomConfig(cfg)?.anchorPoints || this.options?.anchorPoints ;
+    const anchorPoints =
+      cfg?.anchorPoints || this.getCustomConfig(cfg)?.anchorPoints || this.options?.anchorPoints;
     return anchorPoints;
   },
 };
