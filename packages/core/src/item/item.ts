@@ -277,12 +277,12 @@ export default class ItemBase implements IItemBase {
         } else {
           const shapeAttrs = child.attr();
           const keyShapeStateStyles = {};
-          Object.keys(currentStatesStyle).forEach(styleKey => {
+          Object.keys(currentStatesStyle).forEach((styleKey) => {
             const subStyle = currentStatesStyle[styleKey];
             if (!isPlainObject(subStyle) || styleKey === keyShapeName) {
-              keyShapeStateStyles[styleKey] = subStyle
+              keyShapeStateStyles[styleKey] = subStyle;
             }
-          })
+          });
           Object.keys(shapeAttrs).forEach((key) => {
             const value = shapeAttrs[key];
             // 如果是对象且不是 arrow，则是其他 shape 的样式
@@ -626,8 +626,8 @@ export default class ItemBase implements IItemBase {
       const cfgVisible = cfg.visible;
       if (oriVisible !== cfgVisible && cfgVisible !== undefined) this.changeVisibility(cfgVisible);
       const originPosition: IPoint = { x: model.x!, y: model.y! };
-      cfg.x = isNaN(+cfg.x) ? model.x : (+cfg.x);
-      cfg.y = isNaN(+cfg.y) ? model.y : (+cfg.y);
+      cfg.x = isNaN(+cfg.x) ? model.x : +cfg.x;
+      cfg.y = isNaN(+cfg.y) ? model.y : +cfg.y;
 
       const styles = this.get('styles');
       if (cfg.stateStyles) {
@@ -639,7 +639,7 @@ export default class ItemBase implements IItemBase {
 
       // 直接将更新合到原数据模型上，可以保证用户在外部修改源数据然后刷新时的样式符合期待。
       Object.assign(model, cfg);
-      
+
       // 如果 x,y 有变化，先重置位置
       if (originPosition.x !== cfg.x || originPosition.y !== cfg.y) {
         this.updatePosition(cfg);
@@ -679,11 +679,12 @@ export default class ItemBase implements IItemBase {
    * 更新位置，避免整体重绘
    * @param {object} cfg 待更新数据
    */
+  // TODO: 类型问题
   public updatePosition(cfg: ModelConfig): boolean {
     const model: ModelConfig = this.get('model');
 
-    const x = isNil(+cfg.x) ? (+model.x) : (+cfg.x);
-    const y = isNil(+cfg.y) ? (+model.y) : (+cfg.y);
+    const x = isNil(+cfg.x) ? +model.x : +cfg.x;
+    const y = isNil(+cfg.y) ? +model.y : +cfg.y;
 
     const group: IGroup = this.get('group');
 

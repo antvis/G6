@@ -1,5 +1,5 @@
 // import { IGroup } from '@antv/g-base';
-import { Group as IGroup } from '@antv/g';
+import { Group as IGroup, Path } from '@antv/g';
 import { deepMix, isString } from '@antv/util';
 import { parsePathString } from '@antv/path-util';
 import { Item, BubblesetCfg, HullCfg } from '../types';
@@ -70,7 +70,9 @@ export default class Hull {
   }
 
   setPadding() {
-    const nodeSize = this.members.length && this.members[0].getKeyShape().getCanvasBBox().width / 2;
+    // const nodeSize = this.members.length && this.members[0].getKeyShape().getCanvasBBox().width / 2;
+    const bbox = this.members.length && this.members[0].getKeyShape().getBounds();
+    const nodeSize = (bbox.max[0] - bbox.min[0]) / 2;
     this.padding = this.cfg.padding > 0 ? this.cfg.padding + nodeSize : 10 + nodeSize;
     this.cfg.bubbleCfg = {
       nodeR0: this.padding - nodeSize,
@@ -129,7 +131,7 @@ export default class Hull {
   }
 
   render() {
-    this.group.addShape('path', {
+    const path = new Path({
       attrs: {
         path: this.path,
         ...this.cfg.style,
@@ -137,6 +139,7 @@ export default class Hull {
       id: this.id,
       name: this.cfg.id,
     });
+    this.group.appendChild(path);
     this.group.toBack();
   }
 
@@ -208,7 +211,8 @@ export default class Hull {
   }
 
   public updateData(members: Item[] | string[], nonMembers: string[] | Item[]) {
-    this.group.findById(this.id).remove();
+    // this.group.findById(this.id).remove();
+    this.group.getElementById(this.id).remove();
     if (members)
       this.members = (members as any[]).map((item) =>
         isString(item) ? this.graph.findById(item) : item,
@@ -222,7 +226,8 @@ export default class Hull {
   }
 
   public updateStyle(cfg: HullCfg['style']) {
-    const path = this.group.findById(this.id);
+    // const path = this.group.findById(this.id);
+    const path = this.group.getElementById(this.id);
     path.attr({
       ...cfg,
     });

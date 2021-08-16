@@ -47,8 +47,8 @@ export default class Graph extends AbstractGraph {
     // create a canvas
     const canvas = new Canvas({
       // ...{ renderer: webglRenderer },
-      ...{ renderer: svgRenderer },
-      // ...{ renderer: canvasRenderer },
+      // ...{ renderer: svgRenderer },
+      ...{ renderer: canvasRenderer },
       ...canvasCfg,
     });
 

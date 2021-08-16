@@ -1,6 +1,6 @@
 import { each, isNil, isNumber } from '@antv/util';
 import { IEdge, INode } from '../interface/item';
-import { IPoint, IShapeBase, ModelConfig, NodeConfig, UpdateType } from '../types';
+import { IPos, IPoint, IShapeBase, ModelConfig, NodeConfig, UpdateType } from '../types';
 import { getBBox } from '../util/graphic';
 import {
   distance,
@@ -259,18 +259,16 @@ export default class Node extends Item implements INode {
       cfg.type ||
       cfg.anchorPoints ||
       cfg.size ||
-      (cfg?.style && (
-        cfg?.style?.r ||
-        cfg?.style?.width ||
-        cfg?.style?.height ||
-        cfg?.style?.rx ||
-        cfg?.style?.ry
-      ))
+      (cfg?.style &&
+        (cfg?.style?.r ||
+          cfg?.style?.width ||
+          cfg?.style?.height ||
+          cfg?.style?.rx ||
+          cfg?.style?.ry))
     ) {
       return 'bbox';
     }
 
     return 'style';
-    
   }
 }
