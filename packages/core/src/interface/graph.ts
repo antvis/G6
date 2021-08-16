@@ -35,7 +35,7 @@ export interface IAbstractGraph extends EventEmitter {
   set: <T = any>(key: string | object, value?: T) => Graph;
   findById: (id: string) => Item;
   translate: (dx: number, dy: number) => void;
-  zoom: (ratio: number, center?: Point) => void;
+  zoom: (ratio: number, center?: Point) => boolean;
 
   /**
    * 获取 graph 的根图形分组
@@ -188,8 +188,9 @@ export interface IAbstractGraph extends EventEmitter {
    * 伸缩视口到一固定比例
    * @param {number} toRatio 伸缩比例
    * @param {Point} center 以center的x, y坐标为中心缩放
+   * @return {boolean} 缩放是否成功
    */
-  zoomTo: (toRatio: number, center?: Point) => void;
+  zoomTo: (toRatio: number, center?: Point) => boolean;
 
   /**
    * 删除元素

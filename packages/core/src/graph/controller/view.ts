@@ -65,7 +65,9 @@ export default class ViewController {
       ratio = h;
     }
     const zoomCenter = graph.get('canvas').getCamera().getPosition();
-    graph.zoom(ratio, { x: zoomCenter[0], y: zoomCenter[1] });
+    if(!graph.zoom(ratio, { x: zoomCenter[0], y: zoomCenter[1] })) {
+      console.warn('zoom failed, ratio out of range, ratio: %f', ratio);
+    }
   }
 
   public getFormatPadding(): number[] {

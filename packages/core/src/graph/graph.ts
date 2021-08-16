@@ -685,8 +685,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * 伸缩窗口
    * @param ratio 伸缩比例
    * @param center 以center的x, y坐标为中心缩放
+   * @return {boolean} 缩放是否成功
    */
-  public zoom(ratio: number, center?: Point = { x: 0, y: 0 }): void {
+  public zoom(ratio: number, center?: Point = { x: 0, y: 0 }): boolean {
     if (ratio === 1 || !ratio) return;
     const minZoom: number = this.get('minZoom');
     const maxZoom: number = this.get('maxZoom');
@@ -695,7 +696,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const targetRatio = ratio * (oriZoom || 1);
 
     if ((minZoom && targetRatio < minZoom) || (maxZoom && targetRatio > maxZoom)) {
-      return;
+      return false;
     }
 
     const centerPortPoint = global2Port(this, center);
@@ -712,16 +713,18 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const group: IGroup = this.get('group');
     const matrix = group.getMatrix(); // TODO 为兼容升级 G 5.0 之前 viewportchange 中参数
     this.emit('viewportchange', { action: 'zoom', matrix, ratio });
+    return true;
   }
 
   /**
    * 伸缩视口到一固定比例
    * @param {number} toRatio 伸缩比例
    * @param {Point} center 以center的x, y坐标为中心缩放
+   * @return {boolean} 缩放是否成功
    */
-  public zoomTo(toRatio: number, center?: Point): void {
+  public zoomTo(toRatio: number, center?: Point): boolean {
     const ratio = toRatio / this.getZoom();
-    this.zoom(ratio, center);
+    return this.zoom(ratio, center);
   }
 
   /**
@@ -2252,7 +2255,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         else toPoint = { x: this.getWidth() / 2, y: this.getHeight() / 2 };
       }
       // translate to point coordinate system
-      toPoint = this.getPointByCanvas(toPoint.x, toPoint.y); 
+      toPoint = this.getPointByCanvas(toPoint.x, toPoint.y);
 
       const forceTypes = ['force', 'gForce', 'fruchterman'];
 
@@ -2271,7 +2274,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
             bboxPoint.x = minX;
             bboxPoint.y = minY;
           }
-    
+
           this.translate(toPoint.x - bboxPoint.x, toPoint.y - bboxPoint.y);
         });
       }
