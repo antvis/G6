@@ -659,8 +659,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * 伸缩窗口
    * @param ratio 伸缩比例
    * @param center 以center的x, y坐标为中心缩放
+   * @return {boolean} 是否缩放成功, 如果超出缩放范围返回 false
    */
-  public zoom(ratio: number, center?: Point): void {
+  public zoom(ratio: number, center?: Point): boolean {
     const group: IGroup = this.get('group');
     let matrix = clone(group.getMatrix());
     const minZoom: number = this.get('minZoom');
@@ -681,23 +682,25 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     }
 
     if ((minZoom && matrix[0] < minZoom) || (maxZoom && matrix[0] > maxZoom)) {
-      return;
+      return false;
     }
     // matrix = [2, 0, 0, 0, 2, 0, -125, -125, 1];
 
     group.setMatrix(matrix);
     this.emit('viewportchange', { action: 'zoom', matrix });
     this.autoPaint();
+    return true;
   }
 
   /**
    * 伸缩视口到一固定比例
    * @param {number} toRatio 伸缩比例
    * @param {Point} center 以center的x, y坐标为中心缩放
+   * @return {boolean} 是否缩放成功, 如果超出缩放范围返回 false
    */
-  public zoomTo(toRatio: number, center?: Point): void {
+  public zoomTo(toRatio: number, center?: Point): boolean {
     const ratio = toRatio / this.getZoom();
-    this.zoom(ratio, center);
+    return this.zoom(ratio, center);
   }
 
   /**
