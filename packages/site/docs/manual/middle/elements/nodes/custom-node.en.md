@@ -471,6 +471,13 @@ graph.on('node:mouseleave', (ev) => {
 > SVG and DOM shape are not supported in V3.3.x.
 > DOM node is available only when the `renderer` of the graph instance is `'svg'`.
 
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span>
+
+- Only support native HTML DOM, but not react or other components;
+- If you custom a Node type or an Edge type with dom shape, please use the original DOM events instead of events of G6.
+- In Safari, if you assign `position:relative` for the a dom node, the rendered position might be unexpected. It is related to the [foreignObject bug of Safari](https://bugs.webkit.org/show_bug.cgi?id=23113). [Issus](https://github.com/antvis/G6/issues/2990).
+
+
 Here, we demonstrate customing a node named `'dom-node'` with DOM. We add a `'dom'` type shape with `group.addShape` in `draw` function, and set the `html` of it to be the `html` value we want.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*VgQlQK1MdbIAAAAAAAAAAABkARQnAQ' alt='img' width='120'/>
