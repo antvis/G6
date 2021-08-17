@@ -3,13 +3,12 @@ import '../../../../src/element/node';
 import '../../../../src/element/nodes';
 import '../../../../src/element/edge';
 
-const div = document.createElement('div');
-div.id = 'graph-spec';
-document.body.appendChild(div);
-
 describe('image test', () => {
   describe('default image test', () => {
+    const div = document.createElement('div');
+    document.body.appendChild(div);
     const cfg = {
+      autoPaint: false,
       container: div,
       width: 500,
       height: 500,
@@ -69,13 +68,15 @@ describe('image test', () => {
       expect(label.attr('fill')).toEqual('#000');
       const type = label.get('type');
       expect(type).toEqual('text');
-      graph.destroy();
-      expect(graph.destroyed).toBe(true);
+      // graph.destroy();
+      // expect(graph.destroyed).toBe(true);
     });
   });
 
   describe('clip', () => {
     it('default clip', () => {
+      const div = document.createElement('div');
+      document.body.appendChild(div);
       const graph = new Graph({
         container: div,
         width: 500,
@@ -102,6 +103,7 @@ describe('image test', () => {
           },
         ],
       };
+      debugger
       graph.data(data);
       graph.render();
 
@@ -110,10 +112,12 @@ describe('image test', () => {
       const nodeShape = node.get('group').get('children')[0];
       expect(nodeShape.get('clipShape').attr('r')).toEqual(50);
 
-      graph.destroy();
-      expect(graph.destroyed).toBe(true);
+      // graph.destroy();
+      // expect(graph.destroyed).toBe(true);
     });
     it('circle clip and update', () => {
+      const div = document.createElement('div');
+      document.body.appendChild(div);
       const graph = new Graph({
         container: div,
         width: 500,
@@ -152,11 +156,13 @@ describe('image test', () => {
       //     x: -100
       //   }
       // })
-      graph.destroy();
-      expect(graph.destroyed).toBe(true);
+      // graph.destroy();
+      // expect(graph.destroyed).toBe(true);
     });
 
     it('rect clip and update', () => {
+      const div = document.createElement('div');
+      document.body.appendChild(div);
       const graph = new Graph({
         container: div,
         width: 500,
@@ -197,11 +203,13 @@ describe('image test', () => {
       //   clipCfg: {
       //   }
       // })
-      graph.destroy();
-      expect(graph.destroyed).toBe(true);
+      // graph.destroy();
+      // expect(graph.destroyed).toBe(true);
     });
 
     it('ellipse clip and update', () => {
+      const div = document.createElement('div');
+      document.body.appendChild(div);
       const graph = new Graph({
         container: div,
         width: 500,
@@ -242,11 +250,13 @@ describe('image test', () => {
       //   clipCfg: {
       //   }
       // })
-      graph.destroy();
-      expect(graph.destroyed).toBe(true);
+      // graph.destroy();
+      // expect(graph.destroyed).toBe(true);
     });
 
     it('polygon clip and update', () => {
+      const div = document.createElement('div');
+      document.body.appendChild(div);
       const graph = new Graph({
         container: div,
         width: 500,
@@ -295,11 +305,13 @@ describe('image test', () => {
       //   clipCfg: {
       //   }
       // })
-      graph.destroy();
-      expect(graph.destroyed).toBe(true);
+      // graph.destroy();
+      // expect(graph.destroyed).toBe(true);
     });
 
     it('path clip and update', () => {
+      const div = document.createElement('div');
+      document.body.appendChild(div);
       const graph = new Graph({
         container: div,
         width: 500,
@@ -337,13 +349,15 @@ describe('image test', () => {
       //   clipCfg: {
       //   }
       // })
-      graph.destroy();
-      expect(graph.destroyed).toBe(true);
+      // graph.destroy();
+      // expect(graph.destroyed).toBe(true);
     });
   });
 
   describe('update', () => {
     it('update style', () => {
+      const div = document.createElement('div');
+      document.body.appendChild(div);
       const graph = new Graph({
         container: div,
         width: 500,
@@ -385,10 +399,12 @@ describe('image test', () => {
       expect(keyShape.attr('height')).toBe(30);
       expect(keyShape.attr('shadowColor')).toBe('#f00');
 
-      graph.destroy();
-      expect(graph.destroyed).toBe(true);
+      // graph.destroy();
+      // expect(graph.destroyed).toBe(true);
     });
     it('update label', () => {
+      const div = document.createElement('div');
+      document.body.appendChild(div);
       const graph = new Graph({
         container: div,
         width: 500,
@@ -441,10 +457,12 @@ describe('image test', () => {
       expect(label.attr('lineWidth')).toEqual(3);
       expect(label.attr('stroke')).toEqual('black');
 
-      graph.destroy();
-      expect(graph.destroyed).toBe(true);
+      // graph.destroy();
+      // expect(graph.destroyed).toBe(true);
     });
     it('update label from none', () => {
+      const div = document.createElement('div');
+      document.body.appendChild(div);
       const graph = new Graph({
         container: div,
         width: 500,
@@ -482,8 +500,8 @@ describe('image test', () => {
       expect(label.attr('text')).toEqual('new image label');
       expect(label.attr('fill')).toEqual('#ff0');
 
-      graph.destroy();
-      expect(graph.destroyed).toBe(true);
+      // graph.destroy();
+      // expect(graph.destroyed).toBe(true);
     });
   });
 });

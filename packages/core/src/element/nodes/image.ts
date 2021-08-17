@@ -1,5 +1,6 @@
 // import { IGroup, IShape } from '@antv/g-base';
 import { Group as IGroup, DisplayObject as IShape } from '@antv/g';
+import { Rect, Circle, Ellipse, Polygon, Path, Image } from '@antv/g';
 import Shape from '../shape';
 import { NodeConfig, Item } from '../../types';
 
@@ -51,15 +52,23 @@ Shape.registerNode(
     shapeType: 'image',
     labelPosition: 'bottom',
     drawShape(cfg: NodeConfig, group: IGroup): IShape {
-      const { shapeType } = this; // || this.type，都已经加了 shapeType
+      // const { shapeType } = this; // || this.type，都已经加了 shapeType
       const style = this.getShapeStyle!(cfg);
       delete style.fill;
-      const shape = group.addShape(shapeType, {
+      // const shape = group.addShape(shapeType, {
+      //   attrs: style,
+      //   className: `${this.type}-keyShape`,
+      //   name: `${this.type}-keyShape`,
+      //   draggable: true,
+      // });
+      const shape = new Image({
         attrs: style,
         className: `${this.type}-keyShape`,
         name: `${this.type}-keyShape`,
         draggable: true,
       });
+      group.appendChild(shape);
+
       (this as any).drawClip(cfg, shape);
       return shape;
     },
@@ -73,21 +82,30 @@ Shape.registerNode(
       const { type, x, y, style } = clip;
       if (type === 'circle') {
         const { r } = clip;
-        shape.setClip({
-          type: 'circle',
+        debugger
+        shape.setClip(new Circle({
           attrs: {
             r,
             x,
             y,
             ...style,
           },
-        });
+        }));
       } else if (type === 'rect') {
         const { width, height } = clip;
         const rectX = x - width / 2;
         const rectY = y - height / 2;
-        shape.setClip({
-          type: 'rect',
+        // shape.setClip({
+        //   type: 'rect',
+        //   attrs: {
+        //     x: rectX,
+        //     y: rectY,
+        //     width,
+        //     height,
+        //     ...style,
+        //   },
+        // });
+        shape.setClip(new Rect({
           attrs: {
             x: rectX,
             y: rectY,
@@ -95,11 +113,10 @@ Shape.registerNode(
             height,
             ...style,
           },
-        });
+        }));
       } else if (type === 'ellipse') {
         const { rx, ry } = clip;
-        shape.setClip({
-          type: 'ellipse',
+        shape.setClip(new Ellipse({
           attrs: {
             x,
             y,
@@ -107,25 +124,24 @@ Shape.registerNode(
             ry,
             ...style,
           },
-        });
+        }));
       } else if (type === 'polygon') {
         const { points } = clip;
-        shape.setClip({
+        shape.setClip(new Polygon({
           type: 'polygon',
           attrs: {
             points,
             ...style,
           },
-        });
+        }));
       } else if (type === 'path') {
         const { path } = clip;
-        shape.setClip({
-          type: 'path',
+        shape.setClip(new Path({
           attrs: {
             path,
             ...style,
           },
-        });
+        }));
       }
     },
     getShapeStyle(cfg: NodeConfig) {

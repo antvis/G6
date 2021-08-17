@@ -148,6 +148,7 @@ describe('rect test', () => {
       const nodes = graph.getNodes();
       const node = nodes[0];
       const group = node.get('group');
+      // TODO: label并没有更新
       node.update({
         label: 'new rect label',
         labelCfg: {
@@ -186,6 +187,8 @@ describe('rect test', () => {
       const div = document.createElement('div');
       document.body.appendChild(div);
       const graph = new Graph({
+        // TODO: 这里设置autoPaint为false，顺序正常，比较迷惑
+        autoPaint: false,
         container: div,
         width: 500,
         height: 500,
