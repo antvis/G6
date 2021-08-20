@@ -33,7 +33,7 @@ import {
   IG6GraphEvent,
   IPoint,
 } from '../types';
-import { move } from '../util/math';
+import { move, port2Global, global2Port } from '../util/math';
 import { dataValidation, singleDataValidation } from '../util/validation';
 import Global from '../global';
 import { ItemController, ModeController, StateController, ViewController } from './controller';
@@ -587,16 +587,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * @param dy 垂直方向位移
    */
   public translate(dx: number, dy: number): void {
+    const canvas = this.get('canvas');
+    const camera = canvas.getCamera();
+    camera.pan(-dx, -dy)
+
     const group: IGroup = this.get('group');
-
-    let matrix = clone(group.getMatrix());
-    if (!matrix) {
-      matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
-    }
-    matrix = transform(matrix, [['t', dx, dy]]);
-
-    group.setMatrix(matrix);
-
     this.emit('viewportchange', { action: 'translate', matrix: group.getMatrix() });
     this.autoPaint();
   }
@@ -609,7 +604,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   public moveTo(x: number, y: number, animate?: boolean, animateCfg?: GraphAnimateConfig): void {
     const group: IGroup = this.get('group');
     move(
-      group,
+      this,
       { x, y },
       animate,
       animateCfg || {
@@ -691,34 +686,32 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * @param ratio 伸缩比例
    * @param center 以center的x, y坐标为中心缩放
    */
-  public zoom(ratio: number, center?: Point): void {
-    const group: IGroup = this.get('group');
-    let matrix = clone(group.getMatrix());
+  public zoom(ratio: number, center?: Point = { x: 0, y: 0 }): void {
+    if (ratio === 1 || !ratio) return;
     const minZoom: number = this.get('minZoom');
     const maxZoom: number = this.get('maxZoom');
+    const camera = this.get('canvas').getCamera();
+    const oriZoom = camera.getZoom();
+    const targetRatio = ratio * (oriZoom || 1);
 
-    if (!matrix) {
-      matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
-    }
-
-    if (center) {
-      matrix = transform(matrix, [
-        ['t', -center.x, -center.y],
-        ['s', ratio, ratio],
-        ['t', center.x, center.y],
-      ]);
-    } else {
-      matrix = transform(matrix, [['s', ratio, ratio]]);
-    }
-
-    if ((minZoom && matrix[0] < minZoom) || (maxZoom && matrix[0] > maxZoom)) {
+    if ((minZoom && targetRatio < minZoom) || (maxZoom && targetRatio > maxZoom)) {
       return;
     }
-    // matrix = [2, 0, 0, 0, 2, 0, -125, -125, 1];
 
-    group.setMatrix(matrix);
-    this.emit('viewportchange', { action: 'zoom', matrix });
-    this.autoPaint();
+    const centerPortPoint = global2Port(this, center);
+    camera.setPosition([center.x, center.y, 0]);
+    camera.setZoom(targetRatio); // targetRatio
+    const centerGlobalPoint = port2Global(this, centerPortPoint);
+    const currentCameraPosition = camera.getPosition();
+    camera.setPosition([
+      currentCameraPosition[0] - (centerGlobalPoint.x - center.x),
+      currentCameraPosition[1] - (centerGlobalPoint.y - center.y),
+      0
+    ]);
+
+    const group: IGroup = this.get('group');
+    const matrix = group.getMatrix(); // TODO 为兼容升级 G 5.0 之前 viewportchange 中参数
+    this.emit('viewportchange', { action: 'zoom', matrix, ratio });
   }
 
   /**
@@ -816,23 +809,26 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   }
 
   /**
-   * 获取图内容的中心绘制坐标
-   * @return {object} 中心绘制坐标
+   * 获取图内容的中心绘制坐标(全局坐标系)
+   * @return {object} 中心绘制坐标(全局坐标系)
    */
   public getGraphCenterPoint(): Point {
-    const bbox = this.get('group').getCanvasBBox();
+    const bbox = this.get('group').getBounds();
     return {
-      x: (bbox.minX + bbox.maxX) / 2,
-      y: (bbox.minY + bbox.maxY) / 2,
+      x: (bbox.min[0] + bbox.max[0]) / 2,
+      y: (bbox.min[1] + bbox.max[1]) / 2,
     };
   }
 
   /**
-   * 获取视口中心绘制坐标
+   * 获取视口中心绘制坐标（全局坐标）
    * @return {object} 视口中心绘制坐标
    */
   public getViewPortCenterPoint(): Point {
-    return this.getPointByCanvas(this.get('width') / 2, this.get('height') / 2);
+    return port2Global(
+      this,
+      { x: this.get('width') / 2, y: this.get('height') / 2 }
+    );
   }
 
   /**
@@ -2192,8 +2188,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * @return {number} 比例
    */
   public getZoom(): number {
-    const matrix = this.get('group').getMatrix();
-    return matrix ? matrix[0] : 1;
+    return this.get('canvas').getCamera().zoom || 1;
   }
 
   /**
