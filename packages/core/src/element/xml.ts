@@ -4,7 +4,22 @@
  */
 
 import { get } from '@antv/util';
+import { Group, Circle, Ellipse, Image, Rect, Line, Polygon, Polyline, Text, Path } from '@antv/g';
 import { getTextSize } from '../util/graphic';
+
+
+const SHAPE_MAP = {
+  'group': Group,
+  'circle': Circle,
+  'ellipse': Ellipse,
+  'image': Image,
+  'rect': Rect,
+  'line': Line,
+  'polyline': Polyline,
+  'polygon': Polygon,
+  'text': Text,
+  'path': Path,
+}
 
 /**
  * 一种更宽松的JSON 解析，如果遇到不符合规范的字段会直接转为字符串
@@ -473,7 +488,7 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
       const renderTarget = (target) => {
         const { attrs = {}, bbox, type, children, ...rest } = target;
         if (target.type !== 'group') {
-          const shape = group.addShape(target.type, {
+          const shape = new SHAPE_MAP[target.type]({
             attrs,
             origin: {
               bbox,
@@ -482,6 +497,16 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
             },
             ...rest,
           });
+          group.appendChild(shape);
+          // const shape = group.addShape(target.type, {
+          //   attrs,
+          //   origin: {
+          //     bbox,
+          //     type,
+          //     children,
+          //   },
+          //   ...rest,
+          // });
           if (target.keyshape) {
             keyshape = shape;
           }
@@ -503,13 +528,16 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
         structures[cfg.id] = [];
       }
       const container = node.getContainer();
-      const children = container.get('children');
+      // const children = container.get('children');
+      const children = container.getChildren();
       const newTarget = compileXML(cfg);
       const lastTarget = structures[cfg.id].pop();
       const diffResult = compareTwoTarget(newTarget, lastTarget);
       const addShape = (shape) => {
         if (shape.type !== 'group') {
-          container.addShape(shape.type, { attrs: shape.attrs });
+          // container.addShape(shape.type, { attrs: shape.attrs });
+          const shapeObject = new SHAPE_MAP[shape.type]({ attrs: shape.attrs });
+          container.appendChild(shapeObject);
         }
         if (shape.children?.length) {
           shape.children.map((e) => addShape(e));
@@ -527,7 +555,8 @@ export function createNodeFromXML(gen: string | ((node: any) => string)) {
       const updateTarget = (target) => {
         const { key } = target;
         if (target.type !== 'group') {
-          const targetShape = children.find((e) => e.attrs.key === key);
+          // const targetShape = children.find((e) => e.attrs.key === key);
+          const targetShape = children.find((e) => e.attr('key') === key);
           switch (target.action) {
             case 'change':
               if (targetShape) {

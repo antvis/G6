@@ -43,12 +43,13 @@ const testXMLNode = (cfg) => `
 `;
 
 const div = document.createElement('div');
-div.id = 'graph-spec';
 document.body.appendChild(div);
 
 describe('xml node test', () => {
   describe('registerTest', () => {
     it('register test', () => {
+      const div = document.createElement('div');
+      document.body.appendChild(div);
       G6.registerNode('test', testXMLNode);
       const graph = new Graph({
         container: div,
@@ -92,12 +93,14 @@ describe('xml node test', () => {
       graph.setItemState(node, 'test', true);
       const afterNode = graph.getNodes()[0];
       const afterGroup = afterNode.get('group');
-      expect(afterGroup.get('children')[1].attr('fill')).toBe('#eee');
+      // TODO: API有变动，用getChildren()
+      // expect(afterGroup.get('children')[1].attr('fill')).toBe('#eee');
+      expect(afterGroup.getChildren()[1].attr('fill')).toBe('#eee');
       graph.updateItem('node', { name: 1 });
       expect(group.getCount()).toEqual(4);
 
-      graph.destroy();
-      expect(graph.destroyed).toBe(true);
+      // graph.destroy();
+      // expect(graph.destroyed).toBe(true);
     });
   });
 
@@ -261,8 +264,10 @@ describe('xml node test', () => {
       ],
     };
     it('node state', () => {
+      const div = document.createElement('div');
+      document.body.appendChild(div);
       const graph = new Graph({
-        container: 'graph-spec',
+        container: div,
         width: 500,
         height: 500,
         modes: {
