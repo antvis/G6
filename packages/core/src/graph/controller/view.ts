@@ -68,6 +68,7 @@ export default class ViewController {
     if(!graph.zoom(ratio, { x: zoomCenter[0], y: zoomCenter[1] })) {
       console.warn('zoom failed, ratio out of range, ratio: %f', ratio);
     }
+    graph.zoom(ratio, { x: zoomCenter[0], y: zoomCenter[1] });
   }
 
   public getFormatPadding(): number[] {
