@@ -1,4 +1,6 @@
-import { Canvas } from '@antv/g-canvas';
+import { Canvas, Group, Circle } from '@antv/g';
+// import { Renderer as CanvasRenderer } from '@antv/g-canvas';
+import { Renderer as SVGRenderer } from '@antv/g-svg';
 import '../../../src/element/node';
 import '../../../src/element/nodes';
 import '../../../src/element/edge';
@@ -10,10 +12,15 @@ const div = document.createElement('div');
 div.id = 'edge-shape';
 document.body.appendChild(div);
 
+// const canvasRenderer = new CanvasRenderer();
+const svgRenderer = new SVGRenderer();
+
 const canvas = new Canvas({
   container: 'edge-shape',
   width: 600,
   height: 600,
+  // renderer: canvasRenderer,
+  renderer: svgRenderer,
 });
 
 describe('shape edge test', () => {
@@ -32,7 +39,8 @@ describe('shape edge test', () => {
   describe('line test', () => {
     const factory = Shape.getFactory('edge');
     it('line without label', () => {
-      const group = canvas.addGroup();
+      const group = new Group();
+      canvas.appendChild(group);
       const shape = factory.draw(
         'line',
         {
@@ -42,7 +50,7 @@ describe('shape edge test', () => {
         },
         group,
       );
-      canvas.draw();
+      canvas.render();
       const path = shape.attr('path');
       expect(shape.attr('stroke')).toEqual('red');
       expect(path.length).toEqual(2);
@@ -51,7 +59,8 @@ describe('shape edge test', () => {
     });
 
     it('line with label', () => {
-      const group = canvas.addGroup();
+      const group = new Group();
+      canvas.appendChild(group);
       const shape = factory.draw(
         'line',
         {
@@ -64,7 +73,8 @@ describe('shape edge test', () => {
       );
 
       expect(shape.attr('path').length).toEqual(2);
-      const label = group.get('children')[1];
+      // const label = group.get('children')[1];
+      const label = group.getChildren()[1];
       expect(shape.attr('path').length).toEqual(2);
       expect(label.attr('x')).toEqual((100 + 150) / 2);
       expect(label.attr('y')).toEqual((100 + 50) / 2);
@@ -91,7 +101,7 @@ describe('shape edge test', () => {
         },
         item,
       );
-      canvas.draw();
+      canvas.render();
       expect(label.attr('x')).toEqual(150);
       expect(label.attr('y')).toEqual(50);
       factory.baseUpdate(
@@ -108,12 +118,15 @@ describe('shape edge test', () => {
         },
         item,
       );
-      canvas.draw();
+      canvas.render();
       expect(label.attr('x')).toEqual(100);
       expect(label.attr('y')).toEqual(100);
     });
+
+
     it('line with overlapped nodes and label', () => {
-      const group = canvas.addGroup();
+      const group = new Group();
+      canvas.appendChild(group);
       const shape = factory.draw(
         'line',
         {
@@ -126,16 +139,17 @@ describe('shape edge test', () => {
       );
 
       expect(shape.attr('path').length).toEqual(2);
-      const label = group.get('children')[1];
+      const label = group.getChildren()[1];
       expect(shape.attr('path').length).toEqual(2);
       expect(label.attr('x')).toEqual(150);
       expect(label.attr('y')).toEqual(150);
       expect(group.getCount()).toEqual(2);
-      canvas.draw();
+      canvas.render();
     });
 
     it('update points', () => {
-      const group = canvas.addGroup();
+      const group = new Group();
+      canvas.appendChild(group);
       const shape = factory.draw(
         'line',
         {
@@ -156,6 +170,8 @@ describe('shape edge test', () => {
           return '';
         },
       };
+      canvas.render();
+      debugger
       factory.baseUpdate(
         'line',
         {
@@ -168,15 +184,16 @@ describe('shape edge test', () => {
       );
 
       expect(shape.attr('path')[0]).toEqual(['M', 300, 300]);
-      const label = group.get('children')[1];
-      expect(label.attr('x')).toEqual((300 + 250) / 2);
-      expect(label.attr('y')).toEqual((300 + 200) / 2);
+      const label = group.getChildren()[1];
+      // expect(label.attr('x')).toEqual((300 + 250) / 2);
+      // expect(label.attr('y')).toEqual((300 + 200) / 2);
 
-      canvas.draw();
+      canvas.render();
     });
 
     it('quadratic', () => {
-      const group = canvas.addGroup();
+      const group = new Group();
+      canvas.appendChild(group);
       const shape = factory.draw(
         'quadratic',
         {
@@ -192,7 +209,8 @@ describe('shape edge test', () => {
       expect(path.length).toEqual(2);
       expect(path[1]).toEqual(['Q', 220, 160, 150, 100]);
 
-      const group1 = canvas.addGroup();
+      const group1 = new Group();
+      canvas.appendChild(group1);
       const shape1 = factory.draw(
         'quadratic',
         {
@@ -215,7 +233,7 @@ describe('shape edge test', () => {
         100,
         100,
       ]);
-      canvas.draw();
+      canvas.render();
 
       // update with control points
       const item = {
@@ -240,7 +258,8 @@ describe('shape edge test', () => {
     });
 
     it('cubic', () => {
-      const group = canvas.addGroup();
+      const group = new Group();
+      canvas.appendChild(group);
       const shape = factory.draw(
         'cubic',
         {
@@ -268,11 +287,12 @@ describe('shape edge test', () => {
         group,
       );
       expect(shape1.attr('path').length).toEqual(2);
-      canvas.draw();
+      canvas.render();
     });
 
     it('cubic vertical', () => {
-      const group = canvas.addGroup();
+      const group = new Group();
+      canvas.appendChild(group);
       const shape = factory.draw(
         'cubic-vertical',
         {
@@ -284,11 +304,12 @@ describe('shape edge test', () => {
       );
 
       expect(shape.attr('path')[1]).toEqual(['C', 0, 75, 150, 75, 150, 150]);
-      canvas.draw();
+      canvas.render();
     });
 
     it('cubic horizontal', () => {
-      const group = canvas.addGroup();
+      const group = new Group();
+      canvas.appendChild(group);
       const shape = factory.draw(
         'cubic-horizontal',
         {
@@ -300,11 +321,12 @@ describe('shape edge test', () => {
       );
 
       expect(shape.attr('path')[1]).toEqual(['C', 75, 0, 75, 150, 150, 150]);
-      canvas.draw();
+      canvas.render();
     });
 
     it('arc', () => {
-      const group = canvas.addGroup();
+      const group = new Group();
+      canvas.appendChild(group);
       const shape = factory.draw(
         'arc',
         {
@@ -517,14 +539,18 @@ describe('shape edge test', () => {
       graph.render();
       const node = graph.getNodes()[0];
       const edge = graph.getEdges()[0];
-      const path = edge.get('group').get('children')[0];
-      let bbox = path.getBBox();
+      const path = edge.get('group').getChildren()[0];
+      // let bbox = path.getBBox();
       // console.log(bbox);
-      expect(bbox.minX).toEqual(90.60845891791658);
+      // expect(bbox.minX).toEqual(90.60845891791658);
+      let bbox = path.getBounds();
+      console.log(bbox);
+      expect(bbox.min[0]).toEqual(90.60845891791658);
     });
 
     it('clear', () => {
-      canvas.clear();
+      // canvas.clear();
+      canvas.getRoot().removeChildren();
     });
   });
 
@@ -538,12 +564,14 @@ describe('shape edge test', () => {
     }
     it('auto rotate with arrow', () => {
       const center = { x: 100, y: 100 };
-      const canvasGroup = canvas.addGroup();
+      const canvasGroup = new Group();
+      canvas.appendChild(canvasGroup);
       for (let i = 0; i < 360; i += 45) {
         const angle = (i / 180) * Math.PI;
         const startPoint = getPoint(center, 20, angle);
         const endPoint = getPoint(center, 60, angle);
-        const group = canvasGroup.addGroup();
+        const group = new Group();
+        canvasGroup.appendChild(group);
         factory.draw(
           'line',
           {
@@ -569,8 +597,8 @@ describe('shape edge test', () => {
       }
       canvasGroup.setMatrix([0.8, 0, 0, 0, 0.8, 0, 0, 0, 1]);
       canvasGroup.setMatrix([0.8, 0, 0, 0, 0.8, 0, 200, 200, 1]);
-      canvas.draw();
-      const label = canvasGroup.get('children')[1].get('children')[1];
+      canvas.render();
+      const label = canvasGroup.getChildren()[1].getChildren()[1];
       expect(label.attr('rotate')).toBe(undefined);
       expect(label.attr('matrix')[0]).toBe(0.7071067811865476);
       expect(label.attr('matrix')[3]).toBe(-0.7071067811865475);
@@ -583,7 +611,8 @@ describe('shape edge test', () => {
         const angle = (i / 180) * Math.PI;
         const startPoint = getPoint(center, 20, angle);
         const endPoint = getPoint(center, 60, angle);
-        const group = canvas.addGroup();
+        const group = new Group();
+        canvas.appendChild(group);
         factory.draw(
           'line',
           {
@@ -603,17 +632,17 @@ describe('shape edge test', () => {
           },
           group,
         );
-        const label = group.get('children')[1];
+        const label = group.getChildren()[1];
         // expect(label.attr('textAlign')).toEqual('center');
 
         // expect(label.attr('stroke')).toEqual('white');
       }
-      canvas.draw();
+      canvas.render();
     });
 
     it('not auto rotate, start', () => {
       const center = { x: 250, y: 100 };
-      canvas.addShape('circle', {
+      const circle = new Circle({
         attrs: {
           x: center.x,
           y: center.y,
@@ -621,11 +650,13 @@ describe('shape edge test', () => {
           stroke: 'blue',
         },
       });
+      canvas.appendChild(circle);
       for (let i = 0; i < 360; i += 30) {
         const angle = (i / 180) * Math.PI;
         const startPoint = getPoint(center, 40, angle);
         const endPoint = getPoint(center, 80, angle);
-        const group = canvas.addGroup();
+        const group = new Group();
+        canvas.appendChild(group);
         factory.draw(
           'line',
           {
@@ -642,7 +673,7 @@ describe('shape edge test', () => {
           },
           group,
         );
-        const label = group.get('children')[1];
+        const label = group.getChildren()[1];
         if (angle < (1 / 2) * Math.PI) {
           expect(label.attr('textAlign')).toEqual('start');
         }
@@ -651,12 +682,12 @@ describe('shape edge test', () => {
         }
         // expect(label.attr('textAlign')).toEqual('center');
       }
-      canvas.draw();
+      canvas.render();
     });
 
     it('not auto rotate, end', () => {
       const center = { x: 450, y: 100 };
-      canvas.addShape('circle', {
+      const circle = new Circle({
         attrs: {
           x: center.x,
           y: center.y,
@@ -664,11 +695,13 @@ describe('shape edge test', () => {
           stroke: 'blue',
         },
       });
+      canvas.appendChild(circle);
       for (let i = 0; i < 360; i += 30) {
         const angle = (i / 180) * Math.PI;
         const startPoint = getPoint(center, 40, angle);
         const endPoint = getPoint(center, 80, angle);
-        const group = canvas.addGroup();
+        const group = new Group();
+        canvas.appendChild(group);
         factory.draw(
           'line',
           {
@@ -685,7 +718,7 @@ describe('shape edge test', () => {
           },
           group,
         );
-        const label = group.get('children')[1];
+        const label = group.getChildren()[1];
         if (angle < (1 / 2) * Math.PI) {
           expect(label.attr('textAlign')).toEqual('end');
         }
@@ -694,7 +727,7 @@ describe('shape edge test', () => {
         }
         // expect(label.attr('textAlign')).toEqual('center');
       }
-      canvas.draw();
+      canvas.render();
     });
 
     it('auto rotate, middle', () => {
@@ -703,7 +736,8 @@ describe('shape edge test', () => {
         const angle = (i / 180) * Math.PI;
         const startPoint = getPoint(center, 20, angle);
         const endPoint = getPoint(center, 60, angle);
-        const group = canvas.addGroup();
+        const group = new Group();
+        canvas.appendChild(group);
         factory.draw(
           'line',
           {
@@ -720,15 +754,15 @@ describe('shape edge test', () => {
           },
           group,
         );
-        const label = group.get('children')[1];
+        const label = group.getChildren()[1];
         expect(label.attr('textAlign')).toEqual('center');
       }
-      canvas.draw();
+      canvas.render();
     });
 
     it('auto rotate, start', () => {
       const center = { x: 250, y: 300 };
-      canvas.addShape('circle', {
+      const circle = new Circle({
         attrs: {
           x: center.x,
           y: center.y,
@@ -736,11 +770,13 @@ describe('shape edge test', () => {
           stroke: 'blue',
         },
       });
+      canvas.appendChild(circle);
       for (let i = 0; i < 360; i += 30) {
         const angle = (i / 180) * Math.PI;
         const startPoint = getPoint(center, 40, angle);
         const endPoint = getPoint(center, 80, angle);
-        const group = canvas.addGroup();
+        const group = new Group();
+        canvas.appendChild(group);
         factory.draw(
           'line',
           {
@@ -758,7 +794,7 @@ describe('shape edge test', () => {
           },
           group,
         );
-        const label = group.get('children')[1];
+        const label = group.getChildren()[1];
         if (angle < (1 / 2) * Math.PI) {
           expect(label.attr('textAlign')).toEqual('start');
         }
@@ -767,12 +803,12 @@ describe('shape edge test', () => {
         }
         // expect(label.attr('textAlign')).toEqual('center');
       }
-      canvas.draw();
+      canvas.render();
     });
 
     it('auto rotate, end', () => {
       const center = { x: 450, y: 300 };
-      canvas.addShape('circle', {
+      const circle = new Circle({
         attrs: {
           x: center.x,
           y: center.y,
@@ -780,11 +816,13 @@ describe('shape edge test', () => {
           stroke: 'blue',
         },
       });
+      canvas.appendChild(circle);
       for (let i = 0; i < 360; i += 30) {
         const angle = (i / 180) * Math.PI;
         const startPoint = getPoint(center, 40, angle);
         const endPoint = getPoint(center, 80, angle);
-        const group = canvas.addGroup();
+        const group = new Group();
+        canvas.appendChild(group);
         const shape = factory.draw(
           'line',
           {
@@ -802,7 +840,7 @@ describe('shape edge test', () => {
           },
           group,
         );
-        const label = group.get('children')[1];
+        const label = group.getChildren()[1];
         if (angle < (1 / 2) * Math.PI) {
           expect(label.attr('textAlign')).toEqual('end');
         }
@@ -814,11 +852,12 @@ describe('shape edge test', () => {
         expect(label.attr('x')).toEqual(point.x);
         expect(label.attr('y')).toEqual(point.y);
       }
-      canvas.draw();
+      canvas.render();
     });
 
     it('curve rotate center', () => {
-      const group = canvas.addGroup();
+      const group = new Group();
+      canvas.appendChild(group);
       const shape = factory.draw(
         'cubic',
         {
@@ -837,18 +876,19 @@ describe('shape edge test', () => {
         group,
       );
       const path = shape.attr('path');
-      const label = group.get('children')[1];
+      const label = group.getChildren()[1];
       expect(path.length).toEqual(2);
 
       const point = shape.getPoint(0.5);
       expect(point.x).toEqual(label.attr('x'));
       expect(point.y).toEqual(label.attr('y'));
 
-      canvas.draw();
+      canvas.render();
     });
 
     it('curve rotate start', () => {
-      const group = canvas.addGroup();
+      const group = new Group();
+      canvas.appendChild(group);
       const shape = factory.draw(
         'cubic',
         {
@@ -868,19 +908,19 @@ describe('shape edge test', () => {
         group,
       );
       const path = shape.attr('path');
-      const label = group.get('children')[1];
+      const label = group.getChildren()[1];
       expect(path.length).toEqual(2);
 
       const point = shape.getPoint(0);
       expect(point.x).toEqual(label.attr('x'));
       expect(point.y).toEqual(label.attr('y'));
       expect(label.attr('rotate')).not.toEqual(0);
-      canvas.draw();
+      canvas.render();
     });
 
     it('text on line, text refX and refY', () => {
       const center = { x: 250, y: 500 };
-      canvas.addShape('circle', {
+      const circle = new Circle({
         attrs: {
           x: center.x,
           y: center.y,
@@ -888,11 +928,13 @@ describe('shape edge test', () => {
           stroke: 'blue',
         },
       });
+      canvas.appendChild(circle);
       for (let i = 0; i < 360; i += 30) {
         const angle = (i / 180) * Math.PI;
         const startPoint = getPoint(center, 40, angle);
         const endPoint = getPoint(center, 80, angle);
-        const group = canvas.addGroup();
+        const group = new Group();
+        canvas.appendChild(group);
         factory.draw(
           'line',
           {
@@ -912,7 +954,7 @@ describe('shape edge test', () => {
           },
           group,
         );
-        const label = group.get('children')[1];
+        const label = group.getChildren()[1];
         if (angle < (1 / 2) * Math.PI) {
           expect(label.attr('textAlign')).toEqual('start');
         }
@@ -921,7 +963,7 @@ describe('shape edge test', () => {
         }
         // expect(label.attr('textAlign')).toEqual('center');
       }
-      canvas.draw();
+      canvas.render();
     });
 
     function distance(p1, p2) {
@@ -932,7 +974,8 @@ describe('shape edge test', () => {
     }
 
     it('text on curve, text refX and refY', () => {
-      const group = canvas.addGroup();
+      const group = new Group();
+      canvas.appendChild(group);
       const shape = factory.draw(
         'spline',
         {
@@ -955,14 +998,15 @@ describe('shape edge test', () => {
       );
 
       const point = shape.getPoint(0.5);
-      const label = group.get('children')[1];
+      const label = group.getChildren()[1];
       // 3*3 + 4*4 = 5*5
       expect(equal(distance(point, { x: label.attr('x'), y: label.attr('y') }), 5)).toEqual(true);
-      canvas.draw();
+      canvas.render();
     });
 
     it('text offset only one dim', () => {
-      const group = canvas.addGroup();
+      const group = new Group();
+      canvas.appendChild(group);
       const shape = factory.draw(
         'line',
         {
@@ -979,7 +1023,7 @@ describe('shape edge test', () => {
         group,
       );
       const point = shape.getPoint(0.5);
-      const label = group.get('children')[1];
+      const label = group.getChildren()[1];
       expect(equal(distance(point, { x: label.attr('x'), y: label.attr('y') }), 5)).toEqual(true);
     });
   });
