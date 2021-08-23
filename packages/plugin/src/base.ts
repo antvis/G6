@@ -74,7 +74,7 @@ export default abstract class PluginBase {
    * @param key 键值
    */
   public get(key: string) {
-    return this._cfgs[key];
+    return this._cfgs?.[key];
   }
 
   /**
