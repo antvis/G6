@@ -25,6 +25,7 @@ export default {
       selectedState: 'selected',
       enableOptimize: false,
       enableDebounce: false,
+      enableStack: true,
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -37,9 +38,9 @@ export default {
       'combo:drop': 'onDropCombo',
       'node:drop': 'onDropNode',
       'canvas:drop': 'onDropCanvas',
-      'node:touchstart': 'onTouchStart',
-      'node:touchmove': 'onTouchMove',
-      'node:touchend': 'onDragEnd',
+      'touchstart': 'onTouchStart',
+      'touchmove': 'onTouchMove',
+      'touchend': 'onDragEnd',
     };
   },
   validationCombo(item: ICombo) {
@@ -54,6 +55,7 @@ export default {
     return true;
   },
   onTouchStart(e: IG6GraphEvent) {
+    if (!e.item) return;
     const self = this;
     try {
       const touches = (e.originalEvent as TouchEvent).touches;
@@ -105,6 +107,8 @@ export default {
     // 拖动时，设置拖动元素的 capture 为false，则不拾取拖动的元素
     const group = item.getContainer();
     group.set('capture', false);
+    if (!this.cachedCaptureItems) this.cachedCaptureItems = []
+    this.cachedCaptureItems.push(item);
 
     // 如果拖动的target 是linkPoints / anchorPoints 则不允许拖动
     const { target } = evt;
@@ -215,11 +219,11 @@ export default {
     }
 
     // 拖动结束后，设置拖动元素 group 的 capture 为 true，允许拾取拖动元素
-    const item = evt.item as INode;
-    if (item) {
+    this.cachedCaptureItems?.forEach(item => {
       const group = item.getContainer();
       group.set('capture', true);
-    }
+    });
+    this.cachedCaptureItems = [];
 
     if (this.delegateRect) {
       this.delegateRect.remove();
@@ -241,7 +245,7 @@ export default {
     const graph: IGraph = this.graph;
 
     // 拖动结束后，入栈
-    if (graph.get('enabledStack')) {
+    if (graph.get('enabledStack') && this.enableStack) {
       const stackData = {
         before: { nodes: [], edges: [], combos: [] },
         after: { nodes: [], edges: [], combos: [] },
