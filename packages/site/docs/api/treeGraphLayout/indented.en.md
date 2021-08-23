@@ -33,7 +33,7 @@ Indented layout represents the hierarchy by indent between them. Each node will 
 };
 ```
 
-**Required**: false<br />**Description**: When the type is Number, the colunm separation is a fixed value; When the type is Function, the distance between the node and the root node is the return value of the function.
+**Required**: false<br />**Description**: When the type is Number, the colunm separation is a fixed value; When the type is Function, the distance between the node and the root node is the returned value of the function.
 
 ### layoutCfg.getWidth
 
