@@ -3,10 +3,9 @@ import { Canvas as AbstractCanvas } from '@antv/g';
 // import { Point, IGroup } from '@antv/g-base';
 import { Group as IGroup } from '@antv/g';
 import { isNumber, isString } from '@antv/util';
-import { modifyCSS } from '@antv/dom-util';
-import { Item, Matrix, Padding, GraphAnimateConfig, IEdge } from '../../types';
+import { Item, Padding, GraphAnimateConfig, IEdge } from '../../types';
 import { formatPadding } from '../../util/base';
-import { applyMatrix, invertMatrix } from '../../util/math';
+import { global2Port, port2Global } from '../../util/math';
 import { IAbstractGraph } from '../../interface/graph';
 import { IPos as Point } from '../../types';
 
@@ -35,16 +34,15 @@ export default class ViewController {
   public fitCenter() {
     const { graph } = this;
     const group: IGroup = graph.get('group');
-    group.resetMatrix();
-    const bbox = group.getCanvasBBox();
-    if (bbox.width === 0 || bbox.height === 0) return;
-    const viewCenter = this.getViewCenter();
+    const bbox = group.getBounds();
+    const bboxWidth = bbox.max[0] - bbox.min[0];
+    const bboxHeight = bbox.max[1] - bbox.min[1];
+    if (bboxWidth === 0 || bboxHeight === 0) return;
     const groupCenter: Point = {
-      x: bbox.x + bbox.width / 2,
-      y: bbox.y + bbox.height / 2,
-    };
-
-    graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y);
+      x: (bbox.min[0] + bbox.max[0]) / 2,
+      y: (bbox.min[1] + bbox.max[1]) / 2
+    }
+    this.focusPoint(groupCenter);
   }
 
   // fit view graph
@@ -54,25 +52,20 @@ export default class ViewController {
     const width: number = graph.get('width');
     const height: number = graph.get('height');
     const group: IGroup = graph.get('group');
-    group.resetMatrix();
-    const bbox = group.getCanvasBBox();
+    const bbox = group.getBounds();
+    const bboxWidth = bbox.max[0] - bbox.min[0];
+    const bboxHeight = bbox.max[1] - bbox.min[1];
 
-    if (bbox.width === 0 || bbox.height === 0) return;
-    const viewCenter = this.getViewCenter();
+    this.fitCenter();
 
-    const groupCenter: Point = {
-      x: bbox.x + bbox.width / 2,
-      y: bbox.y + bbox.height / 2,
-    };
-
-    graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y);
-    const w = (width - padding[1] - padding[3]) / bbox.width;
-    const h = (height - padding[0] - padding[2]) / bbox.height;
+    const w = (width - padding[1] - padding[3]) / bboxWidth;
+    const h = (height - padding[0] - padding[2]) / bboxHeight;
     let ratio = w;
     if (w > h) {
       ratio = h;
     }
-    graph.zoom(ratio, viewCenter);
+    const zoomCenter = graph.get('canvas').getCamera().getPosition();
+    graph.zoom(ratio, { x: zoomCenter[0], y: zoomCenter[1] });
   }
 
   public getFormatPadding(): number[] {
@@ -82,49 +75,33 @@ export default class ViewController {
 
   public focusPoint(point: Point, animate?: boolean, animateCfg?: GraphAnimateConfig) {
     const viewCenter = this.getViewCenter();
-    const modelCenter = this.getPointByCanvas(viewCenter.x, viewCenter.y);
-    let viewportMatrix: Matrix = this.graph.get('group').getMatrix();
-    if (!viewportMatrix) viewportMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
+    const portCenterGlobal = port2Global(this.graph, viewCenter);
+    const dx = point.x - portCenterGlobal.x;
+    const dy = point.y - portCenterGlobal.y;
+
+    const canvas = this.graph.get('canvas');
+    const camera = canvas.getCamera();
     if (animate) {
-      const dx = (modelCenter.x - point.x) * viewportMatrix[0];
-      const dy = (modelCenter.y - point.y) * viewportMatrix[4];
-      let lastX = 0;
-      let lastY = 0;
-      let newX = 0;
-      let newY = 0;
-      // 动画每次平移一点，直到目标位置
-      this.graph.get('canvas').animate(
-        (ratio) => {
-          newX = dx * ratio;
-          newY = dy * ratio;
-          this.graph.translate(newX - lastX, newY - lastY);
-          lastX = newX;
-          lastY = newY;
-        },
-        {
-          ...animateCfg,
-        },
-      );
+      const cameraPosition = camera.getPosition();
+      const markName = `moveLandmark${Math.random()}`
+      camera.createLandmark(markName, {
+        position: [dx + cameraPosition[0], dy + cameraPosition[1], 0],
+        focalPoint: [dx + cameraPosition[0], dy + cameraPosition[1], 0],
+      });
+      camera.gotoLandmark(markName, animateCfg?.duration || 300);
     } else {
-      this.graph.translate(
-        (modelCenter.x - point.x) * viewportMatrix[0],
-        (modelCenter.y - point.y) * viewportMatrix[4],
-      );
+      camera.pan(dx, dy);
     }
   }
 
   /**
-   * 将 Canvas 坐标转成视口坐标
-   * @param canvasX canvas x 坐标
-   * @param canvasY canvas y 坐标
+   * 将画布视口坐标转成画布全局坐标
+   * @param canvasX 画布视口 x 坐标
+   * @param canvasY 画布视口 y 坐标
    */
   public getPointByCanvas(canvasX: number, canvasY: number): Point {
-    let viewportMatrix: Matrix = this.graph.get('group').getMatrix();
-    if (!viewportMatrix) {
-      viewportMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
-    }
-    const point = invertMatrix({ x: canvasX, y: canvasY }, viewportMatrix);
-    return point;
+    return port2Global(this.graph, { x: canvasX, y: canvasY });
+    
   }
 
   /**
@@ -152,16 +129,12 @@ export default class ViewController {
   }
 
   /**
-   * 将视口坐标转成 Canvas 坐标
-   * @param x 视口 x 坐标
-   * @param y 视口 y 坐标
+   * 将画布全局坐标转成画布视口坐标
+   * @param x 全局 x 坐标
+   * @param y 全局 y 坐标
    */
   public getCanvasByPoint(x: number, y: number): Point {
-    let viewportMatrix: Matrix = this.graph.get('group').getMatrix();
-    if (!viewportMatrix) {
-      viewportMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
-    }
-    return applyMatrix({ x, y }, viewportMatrix);
+    return global2Port(this.graph, { x, y });
   }
 
   /**
@@ -178,24 +151,16 @@ export default class ViewController {
     if (item) {
       let x = 0,
         y = 0;
-      if (item.getType && item.getType() === 'edge') {
-        const sourceMatrix: IGroup = (item as IEdge).getSource().get('group').getMatrix();
-        const targetMatrix: IGroup = (item as IEdge).getTarget().get('group').getMatrix();
-        if (sourceMatrix && targetMatrix) {
-          x = (sourceMatrix[6] + targetMatrix[6]) / 2;
-          y = (sourceMatrix[7] + targetMatrix[7]) / 2;
-        } else if (sourceMatrix || targetMatrix) {
-          x = sourceMatrix ? sourceMatrix[6] : targetMatrix[6];
-          y = sourceMatrix ? sourceMatrix[7] : targetMatrix[7];
-        }
+      if (item.getType?.() === 'edge') {
+        const sourcePosition = (item as IEdge).getSource().get('group').getPosition();
+        const targetPosition = (item as IEdge).getTarget().get('group').getPosition();
+        x = (sourcePosition[0] + targetPosition[0]) / 2;
+        y = ((sourcePosition[1] + targetPosition[1]) / 2;
       } else {
-        const group: IGroup = item.get('group');
-        let matrix: Matrix = group.getMatrix();
-        if (!matrix) matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
-        x = matrix[6];
-        y = matrix[7];
+        const position = item.get('group').getPosition();
+        x = position[0];
+        y = position[1];
       }
-      // 用实际位置而不是model中的x,y,防止由于拖拽等的交互导致model的x,y并不是当前的x,y
       this.focusPoint({ x, y }, animate, animateCfg);
     }
   }

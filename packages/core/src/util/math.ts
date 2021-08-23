@@ -353,41 +353,76 @@ export const getAdjMatrix = (data: GraphData, directed: boolean): Matrix[] => {
  * @param vec 移动向量
  */
 export const translate = (group: IGroup, vec: Point) => {
-  group.translate(vec.x, vec.y);
+  group.translateLocal(vec.x, vec.y);
 };
 
 /**
- * 移动到指定坐标点
+ * 视口坐标 => 世界坐标
+ * @param graph Graph 实例
+ * @param point 视口坐标
+ */
+export const port2Global = (graph, point) => {
+  const canvas = graph.get('canvas');
+  const camera = canvas.getCamera();
+  const cameraPosition = camera.getPosition();
+  const cameraZoom = camera.zoom;
+  const viewSize = [ graph.get('width') / cameraZoom, graph.get('height') / cameraZoom];
+  const halfViewSize = [ 0.5 * viewSize[0], 0.5 * viewSize[1]];
+  return {
+    // x: point.x + cameraPosition[0],
+    // y: point.y + cameraPosition[1],
+    x: point.x / graph.get('width') * viewSize[0] + cameraPosition[0] - halfViewSize[0],
+    y: point.y / graph.get('height') * viewSize[1] + cameraPosition[1] - halfViewSize[1],
+  };
+}
+
+/**
+ * 世界坐标 => 视口坐标
+ * @param graph Graph 实例
+ * @param point 世界坐标
+ */
+ export const global2Port = (graph, point) => {
+  const canvas = graph.get('canvas');
+  const camera = canvas.getCamera();
+  const cameraPosition = camera.getPosition();
+  const cameraZoom = camera.zoom;
+  const viewSize = [ graph.get('width') / cameraZoom, graph.get('height') / cameraZoom];
+  const halfViewSize = [ 0.5 * viewSize[0], 0.5 * viewSize[1]];
+  return {
+    x: (point.x - cameraPosition[0] + halfViewSize[0]) / viewSize[0] * graph.get('width'),
+    y: (point.y - cameraPosition[1] + halfViewSize[1]) / viewSize[1] * graph.get('height'),
+  };
+}
+
+/**
+ * 移动到指定坐标点 Make the left top of the graph align to the point
  * @param group Group 实例
  * @param point 移动到的坐标点
  */
-export const move = (group: IGroup, point: Point, animate?: boolean, animateCfg: GraphAnimateConfig = { duration: 500 }) => {
-  let matrix: Matrix = group.getMatrix();
-  if (!matrix) {
-    matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
-  }
-  const bbox = group.getCanvasBBox();
-  const vx = point.x - bbox.minX;
-  const vy = point.y - bbox.minY;
+export const move = (graph: IAbstractGraph, point: Point, animate?: boolean, animateCfg: GraphAnimateConfig = { duration: 500 }) => {
+  const canvas = graph.get('canvas');
+  const camera = canvas.getCamera();
+  const cameraZoom = camera.zoom;
+  const viewSize = [graph.get('width') / cameraZoom, graph.get('height') / cameraZoom];
+  const cameraPosition = camera.getPosition();
 
+  const pointGlobal = [point.x + cameraPosition[0] - viewSize[0] / 2, point.y + cameraPosition[1] - viewSize[1] / 2];
+  const group = graph.get('group');
+  const bbox = group.getBounds();
+  const bboxLeftTopGlobal = [bbox.min[0], bbox.min[1], 0];
+
+  const dx = bboxLeftTopGlobal[0] - pointGlobal[0];
+  const dy = bboxLeftTopGlobal[1] - pointGlobal[1];
+  
   if (animate) {
-    const dx = vx * matrix[0];
-    const dy = vy * matrix[4];
-    let lastX = 0;
-    let lastY = 0;
-    let newX = 0;
-    let newY = 0;
-    group.animate((ratio) => {
-      newX = dx * ratio;
-      newY = dy * ratio;
-      matrix = transform(matrix, [['t', newX - lastX, newY - lastY]]);
-      lastX = newX;
-      lastY = newY;
-      return { matrix };
-    }, animateCfg);
+    const markName = `moveLandmark${Math.random()}`
+    camera.createLandmark(markName, {
+      position: [dx + cameraPosition[0], dy + cameraPosition[1], 0],
+      focalPoint: [dx + cameraPosition[0], dy + cameraPosition[1], 0],
+    });
+    camera.gotoLandmark(markName, animateCfg?.duration || 300);
   } else {
-    const movedMatrix = transform(matrix, [['t', vx, vy]]);
-    group.setMatrix(movedMatrix);
+    camera.pan(dx, dy);
   }
 };
 
