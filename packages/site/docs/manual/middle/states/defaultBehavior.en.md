@@ -225,6 +225,7 @@ The canvas can be dragged along x direction only.<br /><img src='https://gw.alip
   - `onlyChangeComboSize`:Supported by V3.5 or later vertions. Only Change the size of the prarent combo whose child node to be dragged, which means do not change the hierarchy structures of combos and nodes. `false` by default;
   - `comboActiveState`: Supported by V3.5 or later vertions. The state's name(string) of the entered combo to be dragged over, coordinating with the configuration in `comboStateStyles` to define the state styles when instantiating a graph. It is empty by default;
   - `selectedState`: Supported by V3.5 or later vertions. The state's name(string) when combo is selected, `'selected'` by default;
+  - `enableStack`: Whether push the operations into undo/redo stack, assign it to false to avoid pushing;
   - `shouldBegin(e)`: Whether allow the behavior happen;
   - `shouldUpdate(e)`: Whether allow update the node/ delegate's position while dragging;
   - `shouldEnd(e)`: Whether allow update the node/ delegate's position after drag end.

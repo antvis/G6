@@ -229,6 +229,7 @@ const graph = new G6.Graph({
   - `enableOptimize`：是否在拖拽节点时隐藏相关边，拖拽结束后再显示。这个 boolean 类型的配置项可以完全避免拖拽过程中相关折线边的重新寻径，默认值为 `false`；
   - `comboActiveState`：V3.5 及以上版本支持，拖动节点过程中，如果存在 Combo，节点所在 Combo 或节点进入的 Combo 的状态，需要在实例化 Graph 时候通过 `comboStateStyles` 进行配置，默认为空；
   - `selectedState`：V3.5 及以上版本支持，选中 Combo 的样式，需要在实例化 Graph 时候通过 `comboStateStyles` 进行配置,默认为 selected；
+  - `enableStack`：该 behaivor 产生的拖拽节点是否入栈，设置为 false 则不入栈；
   - `shouldBegin(e)`：是否允许当前被操作的节点被拖动；
   - `shouldUpdate(e)`：是否允许当前被操作的节点在拖动过程中更新自身/ delegate 位置；
   - `shouldEnd(e)`：是否允许当前被操作的节点在拖拽结束时更新位置。

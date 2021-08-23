@@ -1,6 +1,7 @@
 import '../../../src';
 import { Graph, INode } from '../../../src';
 import Simulate from 'event-simulate';
+import { mathEqual } from '../layout/util';
 
 const div = document.createElement('div');
 div.id = 'drag-spec';
@@ -84,13 +85,13 @@ describe('drag-node', () => {
       r: 20,
       style: { lineWidth: 2, fill: '#666' },
     });
-    graph.emit('node:touchstart', { x: 100, y: 100, item: node });
-    graph.emit('node:touchmove', { x: 120, y: 120, item: node });
+    graph.emit('touchstart', { x: 100, y: 100, item: node });
+    graph.emit('touchmove', { x: 120, y: 120, item: node });
     const dragMatrix = node.get('group').getMatrix();
     expect(dragMatrix[6]).toEqual(50);
     expect(dragMatrix[7]).toEqual(50);
 
-    graph.emit('node:touchend', { x: 120, y: 120, item: node });
+    graph.emit('touchend', { x: 120, y: 120, item: node });
     const matrix = node.get('group').getMatrix();
     expect(matrix[0]).toEqual(1);
     expect(matrix[6]).toEqual(70);
@@ -324,7 +325,7 @@ describe('drag-node', () => {
     graph.destroy();
   }, 50);
 
-  it('delegate drag node with edge', () => {
+  it('delegate drag node with edge', (done) => {
     const graph = new Graph({
       container: div,
       width: 500,
@@ -366,28 +367,35 @@ describe('drag-node', () => {
       .attr('path');
     expect(path[0][1]).toEqual(57.77817459305202);
     expect(path[0][2]).toEqual(57.77817459305202);
-    expect(path[1][1]).toEqual(289);
-    expect(path[1][2]).toEqual(300);
-    graph.emit('node:dragstart', { x: 100, y: 100, item: source });
-    graph.emit('node:drag', { x: 120, y: 120, item: source });
-    path = edge
-      .get('group')
-      .get('children')[0]
-      .attr('path');
-    expect(path[0][1]).toEqual(57.77817459305202);
-    expect(path[0][2]).toEqual(57.77817459305202);
-    expect(path[1][1]).toEqual(289);
-    expect(path[1][2]).toEqual(300);
-    graph.emit('node:dragend', { x: 140, y: 140, item: source });
-    path = edge
-      .get('group')
-      .get('children')[0]
-      .attr('path');
-    expect(path[0][1]).toEqual(97.77817459305203);
-    expect(path[0][2]).toEqual(97.77817459305203);
-    expect(path[1][1]).toEqual(289);
-    expect(path[1][2]).toEqual(300);
-    graph.destroy();
+    setTimeout(() => {
+      expect(mathEqual(289, path[1][1])).toEqual(true);
+      expect(mathEqual(300, path[1][2])).toEqual(true);
+      graph.emit('node:dragstart', { x: 100, y: 100, item: source });
+      graph.emit('node:drag', { x: 120, y: 120, item: source });
+      path = edge
+        .get('group')
+        .get('children')[0]
+        .attr('path');
+      expect(path[0][1]).toEqual(57.77817459305202);
+      expect(path[0][2]).toEqual(57.77817459305202);
+      setTimeout(() => {
+        expect(mathEqual(289, path[1][1])).toEqual(true);
+        expect(mathEqual(300, path[1][2])).toEqual(true);
+        graph.emit('node:dragend', { x: 140, y: 140, item: source });
+        path = edge
+          .get('group')
+          .get('children')[0]
+          .attr('path');
+        expect(path[0][1]).toEqual(97.77817459305203);
+        expect(path[0][2]).toEqual(97.77817459305203);
+        setTimeout(() => {
+          expect(mathEqual(289, path[1][1])).toEqual(true);
+          expect(mathEqual(300, path[1][2])).toEqual(true);
+          graph.destroy();
+          done()
+        }, 50)
+      }, 50)
+    }, 50)
   });
   it('drag node without size', () => {
     const graph = new Graph({

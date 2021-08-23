@@ -61,6 +61,7 @@ export default {
 
   unbind(graph: IAbstractGraph) {
     const { events } = this;
+    let draggable = graph.get('canvas').get('draggable');
     if (
       this.type === 'drag-canvas' ||
       this.type === 'brush-select' ||
@@ -71,6 +72,7 @@ export default {
     each(events, (handler: () => void, event: G6Event) => {
       graph.off(event, handler);
     });
+    graph.get('canvas').set('draggable', draggable);
   },
 
   get(val: string) {
