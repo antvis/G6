@@ -317,11 +317,12 @@ export default class MiniMap extends Base {
         name: 'comboGroup'
       });
       setTimeout(() => {
+        if (this.destroyed) return;
         each(combos, (combo) => {
           this.updateOneComboKeyShape(combo, comboGroup);
         });
-        comboGroup.sort();
-        comboGroup.toBack();
+        comboGroup?.sort();
+        comboGroup?.toBack();
         this.updateCanvas();
       }, 250)
     }
@@ -333,6 +334,7 @@ export default class MiniMap extends Base {
    * @param item ICombo 实例
    */
   private updateOneComboKeyShape(item, comboGroup) {
+    if (this.destroyed) return;
     const itemMap = this.get('itemMap') || {};
 
     // 差量更新 minimap 上的一个节点，对应主图的 item
@@ -425,11 +427,12 @@ export default class MiniMap extends Base {
         name: 'comboGroup'
       });
       setTimeout(() => {
+        if (this.destroyed) return;
         each(combos, (combo) => {
           this.updateOneComboKeyShape(combo, comboGroup);
         });
-        comboGroup.sort();
-        comboGroup.toBack();
+        comboGroup?.sort();
+        comboGroup?.toBack();
         this.updateCanvas();
       }, 250)
     }
@@ -593,6 +596,7 @@ export default class MiniMap extends Base {
   }
 
   public updateCanvas() {
+    if (this.destroyed) return;
     // 如果是在动画，则不刷新视图
     const isRefresh: boolean = this.get('refresh');
     if (!isRefresh) {
