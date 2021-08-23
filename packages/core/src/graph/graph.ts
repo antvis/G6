@@ -983,7 +983,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         const model = (nodeItem as INode).getModel();
         // 如果删除的是节点，且该节点存在于某个 Combo 中，则需要先将 node 从 combo 中移除，否则删除节点后，操作 combo 会出错
         if (model.comboId) {
-          this.updateComboTree(nodeItem as INode);
+          this.updateComboTree(nodeItem as INode, undefined, false);
         }
       }
 
