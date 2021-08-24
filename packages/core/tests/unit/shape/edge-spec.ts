@@ -58,6 +58,7 @@ describe('shape edge test', () => {
       expect(group.getCount()).toEqual(1);
     });
 
+    // TODO: G中原有的getStartTangent缺失
     it('line with label', () => {
       const group = new Group();
       canvas.appendChild(group);
@@ -147,6 +148,7 @@ describe('shape edge test', () => {
       canvas.render();
     });
 
+    // TODO: 未更新，且位置有偏移
     it('update points', () => {
       const group = new Group();
       canvas.appendChild(group);
@@ -171,7 +173,6 @@ describe('shape edge test', () => {
         },
       };
       canvas.render();
-      debugger
       factory.baseUpdate(
         'line',
         {
@@ -185,12 +186,13 @@ describe('shape edge test', () => {
 
       expect(shape.attr('path')[0]).toEqual(['M', 300, 300]);
       const label = group.getChildren()[1];
-      // expect(label.attr('x')).toEqual((300 + 250) / 2);
-      // expect(label.attr('y')).toEqual((300 + 200) / 2);
+      expect(label.attr('x')).toEqual((300 + 250) / 2);
+      expect(label.attr('y')).toEqual((300 + 200) / 2);
 
       canvas.render();
     });
 
+    // TODO: 更新没有起作用，其余正常
     it('quadratic', () => {
       const group = new Group();
       canvas.appendChild(group);
@@ -516,6 +518,7 @@ describe('shape edge test', () => {
       expect(shape.attr('path')[1]).toEqual(['L', 50, 50]);
     });
 
+    // TODO: 新版本G中没有相对于画布坐标的bbox
     it('loop', () => {
       const div = document.createElement('div');
       div.id = 'graph-spec';
@@ -554,6 +557,7 @@ describe('shape edge test', () => {
     });
   });
 
+  // TODO: 还未测试，有label，arrow，rotate等问题
   describe('label align', () => {
     const factory = Shape.getFactory('edge');
     function getPoint(center, radius, angle) {
