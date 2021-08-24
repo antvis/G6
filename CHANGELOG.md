@@ -6,6 +6,7 @@
 - fix: removeBehaviors drag-canvas cause canvas:drag event cannot be listened;
 - fix: drag-node with unexpected offseted edge end points, closes: #3118;
 - fix: delete node with combo, closes: #3141;
+- fix: update node position with wrong position;
 - feat: enableStack for drag-node behavior, closes: #3128;
 
 
