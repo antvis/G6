@@ -142,7 +142,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   // 初始化所有 Group
   protected initGroups(): void {
     const canvas: ICanvas = this.get('canvas');
-    const el: HTMLElement = this.get('canvas').get('el');
+    const el: HTMLElement = canvas?.get('el');
     const { id } = el;
 
     const group: IGroup = canvas.addGroup({
