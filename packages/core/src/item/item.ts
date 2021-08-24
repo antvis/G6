@@ -684,12 +684,12 @@ export default class ItemBase implements IItemBase {
   public updatePosition(cfg: ModelConfig): boolean {
     const model: ModelConfig = this.get('model');
 
-    const x = isNil(+cfg.x) ? (+model.x) : (+cfg.x);
-    const y = isNil(+cfg.y) ? (+model.y) : (+cfg.y);
+    const x = isNaN(+cfg.x) ? (+model.x) : (+cfg.x);
+    const y = isNaN(+cfg.y) ? (+model.y) : (+cfg.y);
 
     const group: IGroup = this.get('group');
 
-    if (isNil(x) || isNil(y)) {
+    if (isNaN(x) || isNaN(y)) {
       return false;
     }
     model.x = x;
