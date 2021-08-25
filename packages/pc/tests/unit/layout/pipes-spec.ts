@@ -57,6 +57,39 @@ describe('pipes layout', () => {
     });
   });
 
+  it('pipe force and grid layout with default configs', () => {
+    const graph = new G6.Graph({
+      container: div,
+      layout: {
+        pipes: [
+          {
+            type: 'force',
+            center: [100, 100],
+            nodesFilter: (node) => (+node.id) <= 4
+          },
+          {
+            type: 'grid',
+            begin: [100, 0],
+            nodesFilter: (node) => (+node.id) > 4
+          }],
+      },
+      defaultNode: {
+        size: 10,
+      },
+      width: 500,
+      height: 500,
+    });
+    graph.data(data);
+    graph.render();
+
+    graph.on('afterlayout', () => {
+      const firstNode = graph.getNodes()[0].getModel();
+      expect(mathEqual(firstNode.x, 300)).toBeFalsy();
+      expect(mathEqual(firstNode.y, 150)).toBeFalsy();
+      // graph.destroy();
+    });
+  });
+
   it('pipe circular and grid layout with center configs', () => {
     const graph = new G6.Graph({
       container: div,

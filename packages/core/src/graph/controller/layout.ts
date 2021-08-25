@@ -238,10 +238,12 @@ export default abstract class LayoutController {
       nodesFilter = () => true;
     }
 
+    const fNodes = nodes.filter(nodesFilter);
+
     if (isFunction(cfg?.edgesFilter)) {
       edegsFilter = cfg.edgesFilter;
     } else {
-      const nodesMap = nodes.reduce((acc, cur) => {
+      const nodesMap = fNodes.reduce((acc, cur) => {
         acc[cur.id] = true;
         return acc;
       }, {});
@@ -251,7 +253,7 @@ export default abstract class LayoutController {
     }
 
     return {
-      nodes: nodes.filter(nodesFilter),
+      nodes: fNodes,
       edges: edges.filter(edegsFilter),
       ...rest,
     };
@@ -277,7 +279,7 @@ export default abstract class LayoutController {
 
   // 控制布局动画
   // eslint-disable-next-line class-methods-use-this
-  public layoutAnimate() {}
+  public layoutAnimate() { }
 
   // 将当前节点的平均中心移动到原点
   public moveToZero() {
