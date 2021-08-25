@@ -1,5 +1,15 @@
 # ChangeLog
 
+#### 4.3.6
+
+- fix: drag-node on mobile, closes: #3127;
+- fix: removeBehaviors drag-canvas cause canvas:drag event cannot be listened;
+- fix: drag-node with unexpected offseted edge end points, closes: #3118;
+- fix: delete node with combo, closes: #3141;
+- fix: update node position with wrong position;
+- feat: enableStack for drag-node behavior, closes: #3128;
+
+
 #### 4.3.5
 
 - fix: drag a node without comboId by drag-node with onlyChangeComboSize;

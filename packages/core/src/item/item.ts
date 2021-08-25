@@ -102,7 +102,6 @@ export default class ItemBase implements IItemBase {
     }
 
     this.set('id', id);
-
     const { group } = cfg;
     if (group) {
       group.set('item', this);
@@ -227,8 +226,8 @@ export default class ItemBase implements IItemBase {
         } else {
           // !name || name === keyShape
           const keyShapeStyle: ShapeStyle = self.getShapeStyleByName(); // 可优化，需要去除 child.attr 中其他 shape 名的对象
-          if (keyShapeStyle.path) delete keyShapeStyle.path;
-          if (keyShapeStyle.matrix) delete keyShapeStyle.matrix;
+          delete keyShapeStyle.path;
+          delete keyShapeStyle.matrix;
           if (!keyShapeName) {
             Object.assign(originStyles, keyShapeStyle);
           } else {
@@ -238,7 +237,9 @@ export default class ItemBase implements IItemBase {
               child.set('name', shapeName);
               originStyles[shapeName] =
                 shapeType !== 'image' ? clone(child.attr()) : self.getShapeStyleByName(name);
-            } else originStyles[keyShapeName] = keyShapeStyle;
+            } else {
+              originStyles[keyShapeName] = keyShapeStyle;
+            }
           }
         }
       });
@@ -296,8 +297,12 @@ export default class ItemBase implements IItemBase {
       if (styles.matrix) delete styles.matrix;
       if (styles.x) delete styles.x;
       if (styles.y) delete styles.y;
-      if (styles[keyShapeName] && styles[keyShapeName].x) delete styles[keyShapeName].x;
-      if (styles[keyShapeName] && styles[keyShapeName].y) delete styles[keyShapeName].y;
+      if (styles[keyShapeName]) {
+        delete styles[keyShapeName].x;
+        delete styles[keyShapeName].y;
+        delete styles[keyShapeName].matrix;
+        delete styles[keyShapeName].path;
+      }
       self.set('originStyle', styles);
     }
   }
@@ -679,12 +684,12 @@ export default class ItemBase implements IItemBase {
   public updatePosition(cfg: ModelConfig): boolean {
     const model: ModelConfig = this.get('model');
 
-    const x = isNil(+cfg.x) ? (+model.x) : (+cfg.x);
-    const y = isNil(+cfg.y) ? (+model.y) : (+cfg.y);
+    const x = isNaN(+cfg.x) ? (+model.x) : (+cfg.x);
+    const y = isNaN(+cfg.y) ? (+model.y) : (+cfg.y);
 
     const group: IGroup = this.get('group');
 
-    if (isNil(x) || isNil(y)) {
+    if (isNaN(x) || isNaN(y)) {
       return false;
     }
     model.x = x;
