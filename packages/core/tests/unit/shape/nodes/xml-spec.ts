@@ -94,7 +94,7 @@ describe('xml node test', () => {
       const afterNode = graph.getNodes()[0];
       const afterGroup = afterNode.get('group');
       // TODO: API有变动，用getChildren()
-      // expect(afterGroup.get('children')[1].attr('fill')).toBe('#eee');
+      // expect(afterGroup.children[1].attr('fill')).toBe('#eee');
       expect(afterGroup.getChildren()[1].attr('fill')).toBe('#eee');
       graph.updateItem('node', { name: 1 });
       expect(group.getCount()).toEqual(4);

@@ -373,7 +373,7 @@ export const shapeBase: ShapeOptions = {
           }
           labelBg.attr(labelBgStyle);
         } else {
-          group.removeChild(labelBg);
+          group.removeChild(labelBg, true);
         }
       }
     }
@@ -472,11 +472,11 @@ export const shapeBase: ShapeOptions = {
             each(style, (v, key) => {
               if (p === keyShapeName && keyShapeStyles[key] && !keptAttrs[key]) {
                 delete keyShapeStyles[key];
-                const value = originStyle[p][key] || SHAPES_DEFAULT_ATTRS[type][key];
+                const value = originStyle[p]?.[key] || SHAPES_DEFAULT_ATTRS[type]?.[key];
                 shape.attr(key, value);
               } else if (subShapeStyles[key] || subShapeStyles[key] === 0) {
                 delete subShapeStyles[key];
-                const value = originStyle[p][key] || SHAPES_DEFAULT_ATTRS[type][key];
+                const value = originStyle[p]?.[key] || SHAPES_DEFAULT_ATTRS[type]?.[key];
                 subShape.attr(key, value);
               }
             });
@@ -485,10 +485,11 @@ export const shapeBase: ShapeOptions = {
         } else {
           if (keyShapeStyles[p] && !keptAttrs[p]) {
             delete keyShapeStyles[p];
-            const value =
+            let value =
               originStyle[p] ||
               (originStyle[keyShapeName] ? originStyle[keyShapeName][p] : undefined) ||
               SHAPES_DEFAULT_ATTRS[type][p];
+            if (['fill', 'shadowColor', 'stroke'].includes(p) && value === undefined) value = '';
             shape.attr(p, value);
           }
         }
@@ -547,7 +548,8 @@ export const shapeBase: ShapeOptions = {
             subShape.attr(style);
           }
         } else if (!keyShapeSetted) {
-          const value = style || SHAPES_DEFAULT_ATTRS[type][originKey];
+          let value = style || SHAPES_DEFAULT_ATTRS[type][originKey];
+          if (['fill', 'shadowColor', 'stroke'].includes(originKey) && value === undefined) value = '';
           // 当更新 combo 状态时，当不存在 keyShapeName 时候，则认为是设置到 keyShape 上面的
           if (type === 'combo') {
             if (!keyShapeName) {

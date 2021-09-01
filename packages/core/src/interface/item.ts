@@ -1,6 +1,9 @@
 /* eslint @typescript-eslint/no-use-before-define: 0 */
 // import { IGroup, Point } from '@antv/g-base';
-import { Group as IGroup } from '@antv/g';
+import {
+  Group as IGroup, 
+  DisplayObject as IShape
+} from '@antv/g';
 import {
   IBBox,
   IPoint,
@@ -133,7 +136,7 @@ export interface IItemBase {
    * 节点的关键形状，用于计算节点大小，连线截距等
    * @return {IShapeBase} 关键形状
    */
-  getKeyShape: () => IShapeBase;
+  getKeyShape: () => IShape;
 
   /**
    * 节点 / 边 / Combo 的数据模型

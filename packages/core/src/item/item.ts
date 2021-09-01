@@ -172,7 +172,7 @@ export default class ItemBase implements IItemBase {
     const group: IGroup = self.get('group');
     const model: ModelConfig = self.get('model');
     // group.clear();
-    group.getRootNode()?.removeChildren();
+    group.getRootNode()?.removeChildren(true);
     const visible = model.visible;
     if (visible !== undefined && !visible) self.changeVisibility(visible);
 
@@ -205,7 +205,7 @@ export default class ItemBase implements IItemBase {
    */
   public setOriginStyle() {
     const group: IGroup = this.get('group');
-    const children = group.get('children');
+    const children = group.children;
     const keyShape: IShapeBase = this.getKeyShape();
     const self = this;
     const keyShapeName = keyShape.get('name');

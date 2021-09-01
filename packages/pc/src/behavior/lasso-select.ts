@@ -12,12 +12,12 @@ const isItemIntersecPolygon = (item: Item, polyPoints: number[][]) => {
   if (item.get('type') === 'path') {
     shapePoints = pathToPoints(shape.attr('path'));
   } else {
-    const shapeBBox = shape.getCanvasBBox();
+    const shapeBBox = shape.getBounds();
     shapePoints = [
-      [shapeBBox.minX, shapeBBox.minY],
-      [shapeBBox.maxX, shapeBBox.minY],
-      [shapeBBox.maxX, shapeBBox.maxY],
-      [shapeBBox.minX, shapeBBox.maxY],
+      [shapeBBox.min[0], shapeBBox.min[1]],
+      [shapeBBox.max[0], shapeBBox.min[1]],
+      [shapeBBox.max[0], shapeBBox.max[1]],
+      [shapeBBox.min[0], shapeBBox.max[1]],
     ];
   }
   return isPolygonsIntersect(polyPoints, shapePoints);

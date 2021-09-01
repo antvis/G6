@@ -74,7 +74,7 @@ describe('shape edge test', () => {
       );
 
       expect(shape.attr('path').length).toEqual(2);
-      // const label = group.get('children')[1];
+      // const label = group.children[1];
       const label = group.getChildren()[1];
       expect(shape.attr('path').length).toEqual(2);
       expect(label.attr('x')).toEqual((100 + 150) / 2);
@@ -553,7 +553,7 @@ describe('shape edge test', () => {
 
     it('clear', () => {
       // canvas.clear();
-      canvas.getRoot().removeChildren();
+      canvas.getRoot().removeChildren(true);
     });
   });
 

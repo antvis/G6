@@ -389,7 +389,8 @@ const singleEdge: ShapeOptions = {
     });
     group.appendChild(label);
     if (rotate) {
-      label.rotateAtStart(rotate);
+      label.style.origin = [0, 0];
+      label.rotateLocal(rotate / Math.PI * 180);
     }
 
     if (labelStyle.background) {
@@ -411,7 +412,10 @@ const singleEdge: ShapeOptions = {
     // const rect = group.addShape('rect', { name: 'text-bg-shape', attrs: style });
     const rect = new Rect({ name: 'text-bg-shape', attrs: style });
     group.appendChild(rect);
-    if (rotate) rect.rotateAtStart(rotate);
+    if (rotate) {
+      rect.style.origin = [0, 0];
+      rect.rotateLocal(rotate / Math.PI * 180);
+    }
     return rect;
   },
 };

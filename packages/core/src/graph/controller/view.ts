@@ -109,6 +109,7 @@ export default class ViewController {
 
   /**
    * 将页面坐标转成视口坐标
+   * TODO: canvas.getPointByClient 不存在，新版 page 坐标待确认
    * @param clientX 页面 x 坐标
    * @param clientY 页面 y 坐标
    */

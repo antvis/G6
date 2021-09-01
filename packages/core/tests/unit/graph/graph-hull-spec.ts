@@ -235,12 +235,12 @@ describe('graph hull', () => {
     expect(hulls.length).toEqual(3);
   });
   it('remove hull', () => {
-    let hullShapes = graph.get('hullGroup').get('children');
+    let hullShapes = graph.get('hullGroup').children;
     expect(hullShapes.length).toEqual(3);
 
     expect(graph.getHulls()['hull2']).toBeDefined();
     graph.removeHull('hull2');
-    hullShapes = graph.get('hullGroup').get('children');
+    hullShapes = graph.get('hullGroup').children;
     expect(hullShapes.length).toEqual(2);
     expect(graph.getHulls()['hull2']).not.toBeDefined();
   });

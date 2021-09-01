@@ -72,7 +72,7 @@ describe('register node', () => {
     });
     // debugger;
     // TODO: 测试不通过，显示下标为1的才是steelblue
-    // expect(node.get('group').get('children')[0].attr('fill')).toBe('steelblue');
+    // expect(node.get('group').children[0].attr('fill')).toBe('steelblue');
     graph.destroy();
   });
   it('register node without draw and drawShape, extend circle', () => {
@@ -81,7 +81,7 @@ describe('register node', () => {
       {
         setState(name, value, item) {
           const group = item.getContainer();
-          const shape = group.get('children')[0]; // 顺序根据 draw 时确定
+          const shape = group.children[0]; // 顺序根据 draw 时确定
           if (name === 'active') {
             if (value) {
               shape.attr('stroke', 'red');

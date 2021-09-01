@@ -769,6 +769,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
   /**
    * 将屏幕坐标转换为视口坐标
+   * TODO: canvas.getPointByClient 不存在，新版 page 坐标待确认
    * @param {number} clientX 屏幕x坐标
    * @param {number} clientY 屏幕y坐标
    * @return {Point} 视口坐标
@@ -1455,10 +1456,6 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     this.getNodes().map(node => self.clearItemStates(node));
     this.getEdges().map(edge => self.clearItemStates(edge));
 
-    const canvas: ICanvas = this.get('canvas');
-    const localRefresh: boolean = canvas.get('localRefresh');
-    // canvas.set('localRefresh', false);
-
     if (!self.get('data')) {
       self.data(data);
       self.render();
@@ -2064,62 +2061,90 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       };
     });
 
-    if (self.isAnimating()) {
-      self.stopAnimate();
-    }
+    // if (self.isAnimating()) {
+    //   self.stopAnimate();
+    // }
 
-    const canvas: ICanvas = self.get('canvas');
+    this.getNodes().forEach(node => {
+      const nodeGroup = node.getContainer();
+      const model = node.getModel();
+      const targetPos = [model.x, model.y];
+      const oriPos = nodeGroup.getPosition();
+      nodeGroup.animate([
+        {
+          // from
+          transform: `translate(0, 0)`
+        }, {
+          // to
+          transform: `translate(${targetPos[0] - oriPos[0]}px, ${targetPos[1] - oriPos[1]}px)`
+        }
+      ], {
+        ...animateCfg,
+        fill: 'both',
+        // TODO: 等待 G 提供 onFrame 后测试. 可优化: edge debounce refresh
+        onFrame: (ratio) => {
+          const currentPos = nodeGroup.getPosition();
+          model.x = currentPos[0];
+          model.y = currentPos[1];
+          node.getEdges().forEach(edge => {
+            edge.refresh();
+          })
+        }
+      });
+    });
 
-    canvas.animate(
-      (ratio: number) => {
-        each(toNodes, data => {
-          const node: Item = self.findById(data.id);
+    // const canvas: ICanvas = self.get('canvas');
 
-          if (!node || node.destroyed) {
-            return;
-          }
+    // canvas.animate(
+    //   (ratio: number) => {
+    //     each(toNodes, data => {
+    //       const node: Item = self.findById(data.id);
 
-          let originAttrs: Point = node.get('originAttrs');
+    //       if (!node || node.destroyed) {
+    //         return;
+    //       }
 
-          const model: NodeConfig = node.get('model');
+    //       let originAttrs: Point = node.get('originAttrs');
 
-          if (!originAttrs) {
-            let containerMatrix = node.getContainer().getMatrix();
-            if (!containerMatrix) containerMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
-            originAttrs = {
-              x: containerMatrix[6],
-              y: containerMatrix[7],
-            };
-            node.set('originAttrs', originAttrs);
-          }
+    //       const model: NodeConfig = node.get('model');
 
-          if (onFrame) {
-            const attrs = onFrame(node, ratio, data, originAttrs);
-            node.set('model', Object.assign(model, attrs));
-          } else {
-            model.x = originAttrs.x + (data.x - originAttrs.x) * ratio;
-            model.y = originAttrs.y + (data.y - originAttrs.y) * ratio;
-          }
-        });
+    //       if (!originAttrs) {
+    //         let containerMatrix = node.getContainer().getMatrix();
+    //         if (!containerMatrix) containerMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
+    //         originAttrs = {
+    //           x: containerMatrix[6],
+    //           y: containerMatrix[7],
+    //         };
+    //         node.set('originAttrs', originAttrs);
+    //       }
 
-        self.refreshPositions();
-      },
-      {
-        duration: animateCfg.duration,
-        easing: animateCfg.easing,
-        callback: () => {
-          each(nodes, (node: INode) => {
-            node.set('originAttrs', null);
-          });
+    //       if (onFrame) {
+    //         const attrs = onFrame(node, ratio, data, originAttrs);
+    //         node.set('model', Object.assign(model, attrs));
+    //       } else {
+    //         model.x = originAttrs.x + (data.x - originAttrs.x) * ratio;
+    //         model.y = originAttrs.y + (data.y - originAttrs.y) * ratio;
+    //       }
+    //     });
 
-          if (animateCfg.callback) {
-            animateCfg.callback();
-          }
-          self.emit('afteranimate');
-          self.animating = false;
-        },
-      },
-    );
+    //     self.refreshPositions();
+    //   },
+    //   {
+    //     duration: animateCfg.duration,
+    //     easing: animateCfg.easing,
+    //     callback: () => {
+    //       each(nodes, (node: INode) => {
+    //         node.set('originAttrs', null);
+    //       });
+
+    //       if (animateCfg.callback) {
+    //         animateCfg.callback();
+    //       }
+    //       self.emit('afteranimate');
+    //       self.animating = false;
+    //     },
+    //   },
+    // );
   }
 
   /**
@@ -2220,7 +2245,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    */
   public clear(avoidEmit: boolean = false): AbstractGraph {
     // this.get('canvas')?.clear();
-    this.get('canvas')?.getRoot().removeChildren()
+    this.get('canvas')?.getRoot().removeChildren(true)
 
     this.initGroups();
 
@@ -2960,9 +2985,10 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       this.set('hullMap', hullMap);
     }
     if (!parent || parent.get('destroyed')) {
-      parent = this.get('group').addGroup({
+      parent = new Group({
         id: 'hullGroup',
       });
+      this.get('group').appendChild(parent);
       parent.toBack();
       this.set('hullGroup', parent);
     }
@@ -2970,9 +2996,10 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       console.warn('Existed hull id.');
       return hullMap[cfg.id];
     }
-    const group = parent.addGroup({
+    const group = new Group({
       id: `${cfg.id}-container`,
-    });
+    })
+    parent.appendChild(group);
     const hull = new Hull(this, {
       ...cfg,
       group,

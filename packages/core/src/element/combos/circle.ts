@@ -1,5 +1,5 @@
 // import { IGroup, IShape } from '@antv/g-base';
-import { Group as IGroup, DisplayObject as IShape } from '@antv/g';
+import { Group as IGroup, DisplayObject as IShape, Circle } from '@antv/g';
 import { Item, ComboConfig, ShapeStyle } from '../../types';
 import Global from '../../global';
 import Shape from '../shape';
@@ -39,12 +39,13 @@ Shape.registerCombo(
       const style = this.getShapeStyle!(cfg);
       delete style.height;
       delete style.width;
-      const keyShape: IShape = group.addShape('circle', {
+      const keyShape: IShape = new Circle({
         attrs: style,
         className: 'circle-combo',
         name: 'circle-combo',
         draggable: true,
       });
+      group.appendChild(keyShape);
 
       return keyShape;
     },

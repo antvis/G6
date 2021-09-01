@@ -134,7 +134,7 @@ describe('graph', () => {
         .endsWith('-root'),
     ).toBe(true);
 
-    const children = inst.get('group').get('children');
+    const children = inst.get('group').children;
     expect(children.length).toBe(4);
     expect(children[1].get('className')).toEqual('edge-container');
 
@@ -1060,7 +1060,7 @@ describe('auto rotate label on edge', () => {
     graph.data(data);
     graph.render();
     const edge1 = graph.getEdges()[0];
-    const label1 = edge1.get('group').get('children')[1];
+    const label1 = edge1.get('group').children[1];
     const label1Matrix = label1.attr('matrix');
 
     expect(label1Matrix[0]).toBe(0.28751589136689853);
@@ -1070,7 +1070,7 @@ describe('auto rotate label on edge', () => {
     expect(label1Matrix[6]).toBe(142.08905380311842);
     expect(label1Matrix[7]).toBe(8.99297948103171);
     const edge2 = graph.getEdges()[1];
-    const label2 = edge2.get('group').get('children')[1];
+    const label2 = edge2.get('group').children[1];
     const label2Matrix = label2.attr('matrix');
     expect(label2Matrix).toBe(null);
   });
@@ -1081,7 +1081,7 @@ describe('auto rotate label on edge', () => {
   //   graph.emit('node:drag', { x: 200, y: 200, item: node });
   //   graph.emit('node:dragend', { x: 200, y: 200, item: node });
   //   const edge1 = graph.getEdges()[0];
-  //   const label1 = edge1.get('group').get('children')[1];
+  //   const label1 = edge1.get('group').children[1];
   //   const label1Matrix = label1.attr('matrix');
   //   expect(label1Matrix[0]).toBe(0.7071067811865476);
   //   expect(label1Matrix[1]).toBe(0.7071067811865475);
@@ -1090,7 +1090,7 @@ describe('auto rotate label on edge', () => {
   //   expect(label1Matrix[6]).toBe(124.99999999999999);
   //   expect(label1Matrix[7]).toBe(-51.77669529663689);
   //   const edge2 = graph.getEdges()[1];
-  //   const label2 = edge2.get('group').get('children')[1];
+  //   const label2 = edge2.get('group').children[1];
   //   const label2Matrix = label2.attr('matrix');
   //   expect(label2Matrix).toBe(null);
   // });
@@ -1224,7 +1224,7 @@ describe('built-in items', () => {
       },
     });
 
-    expect(item.get('group').get('children').length).toBe(2);
+    expect(item.get('group').children.length).toBe(2);
   });
 
   it('update edge style', () => {
@@ -1240,7 +1240,7 @@ describe('built-in items', () => {
         clockwise: false,
       },
     });
-    const loopShape = loop.get('group').get('children')[0];
+    const loopShape = loop.get('group').children[0];
     expect(loopShape.attr('endArrow')).toBe(true);
 
     const cubic = graph.getEdges()[2];
@@ -1254,8 +1254,8 @@ describe('built-in items', () => {
         lineWidth: 2,
       },
     });
-    const cubicShape = cubic.get('group').get('children')[0];
-    const cubicTextShape = cubic.get('group').get('children')[1];
+    const cubicShape = cubic.get('group').children[0];
+    const cubicTextShape = cubic.get('group').children[1];
     expect(cubicShape.attr('stroke')).toBe('#f00');
     expect(cubicTextShape.attr('text')).toBe('cubic label');
     graph.destroy();
