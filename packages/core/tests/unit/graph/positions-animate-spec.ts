@@ -53,21 +53,12 @@ describe('graph', () => {
   globalGraph.data(data);
   globalGraph.render();
 
+  // TODO: 新版 G 无 canvas.animate, 改为节点图形的 animate + onFrame
   it('new & destroy graph', () => {
-    const inst = new Graph({
-      container: div,
-      width: 500,
-      height: 500,
-      modes: {
-        default: ['drag-node'],
-      },
-    });
-    const length = div.childNodes.length;
-
     data.nodes.forEach(node => {
       node.x = Math.random() * 100;
       node.y = Math.random() * 100;
     });
-    inst.positionsAnimate();
+    globalGraph.positionsAnimate();
   });
 });

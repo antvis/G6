@@ -394,7 +394,7 @@ export default class ItemController {
         const edgeSF = edge.get('shapeFactory');
         const edgeCfg = edge.getShapeCfg(edge.getModel());
         const edgeGroup = edge.getContainer();
-        edgeGroup.clear();
+        edgeGroup.removeChildren(true);
         const keyShape = edgeSF.draw(edgeCfg.type, edgeCfg, edgeGroup);
         edge.set('keyShape', keyShape);
         keyShape.set('isKeyShape', true);
@@ -660,8 +660,6 @@ export default class ItemController {
         return true;
       });
     });
-    const comboGroup = graph.get('comboGroup');
-    if (comboGroup) comboGroup.sort();
   }
 
   /**

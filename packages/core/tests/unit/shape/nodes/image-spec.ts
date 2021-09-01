@@ -109,7 +109,7 @@ describe('image test', () => {
 
       const nodes = graph.getNodes();
       const node = nodes[0];
-      const nodeShape = node.get('group').get('children')[0];
+      const nodeShape = node.get('group').children[0];
       expect(nodeShape.get('clipShape').attr('r')).toEqual(50);
 
       // graph.destroy();
@@ -147,7 +147,7 @@ describe('image test', () => {
 
       const nodes = graph.getNodes();
       const node = nodes[0];
-      const nodeShape = node.get('group').get('children')[0];
+      const nodeShape = node.get('group').children[0];
       expect(nodeShape.get('clipShape').attr('r')).toEqual(10);
 
       // node.update({
@@ -194,7 +194,7 @@ describe('image test', () => {
 
       const nodes = graph.getNodes();
       const node = nodes[0];
-      const nodeShape = node.get('group').get('children')[0];
+      const nodeShape = node.get('group').children[0];
       expect(nodeShape.get('clipShape').attr('width')).toEqual(100);
       expect(nodeShape.get('clipShape').attr('height')).toEqual(50);
       expect(nodeShape.get('clipShape').attr('x')).toEqual(-100);
@@ -241,7 +241,7 @@ describe('image test', () => {
 
       const nodes = graph.getNodes();
       const node = nodes[0];
-      const nodeShape = node.get('group').get('children')[0];
+      const nodeShape = node.get('group').children[0];
       expect(nodeShape.get('clipShape').attr('rx')).toEqual(100);
       expect(nodeShape.get('clipShape').attr('ry')).toEqual(50);
       expect(nodeShape.get('clipShape').attr('x')).toEqual(-50);
@@ -292,7 +292,7 @@ describe('image test', () => {
 
       const nodes = graph.getNodes();
       const node = nodes[0];
-      const nodeShape = node.get('group').get('children')[0];
+      const nodeShape = node.get('group').children[0];
       expect(nodeShape.get('clipShape').attr('points')).toEqual([
         [10, 20],
         [15, 15],
@@ -342,7 +342,7 @@ describe('image test', () => {
 
       const nodes = graph.getNodes();
       const node = nodes[0];
-      const nodeShape = node.get('group').get('children')[0];
+      const nodeShape = node.get('group').children[0];
       expect(nodeShape.get('clipShape').attr('path')).toEqual(clipPath);
 
       // node.update({

@@ -97,7 +97,7 @@ describe('shape node test', () => {
       canvas.draw();
       expect(shape.attr('x')).toBe(-20);
       expect(shape.attr('y')).toBe(-10);
-      const label = group.get('children')[1];
+      const label = group.children[1];
       expect(label.attr('fill')).toBe('white');
       expect(group.getCount()).toBe(2);
     });
@@ -119,7 +119,7 @@ describe('shape node test', () => {
       expect(shape.attr('x')).toBe(-20);
       expect(shape.attr('y')).toBe(-10);
       expect(shape.attr('img')).not.toBe(undefined);
-      const label = group.get('children')[1];
+      const label = group.children[1];
       expect(label.attr('x')).toBe(0);
       expect(label.attr('y')).toBe(10 + Global.nodeLabel.offset);
       expect(group.getCount()).toBe(2);
@@ -156,7 +156,7 @@ describe('shape node test', () => {
         },
         item,
       );
-      const shape = group.get('children')[0];
+      const shape = group.children[0];
       expect(shape.attr('x')).toBe(-50);
       expect(shape.attr('y')).toBe(-25);
       expect(shape.attr('width')).toBe(100);
@@ -173,7 +173,7 @@ describe('shape node test', () => {
         item,
       );
       expect(group.getCount()).toBe(2);
-      const label = group.get('children')[1];
+      const label = group.children[1];
       expect(label.attr('text')).toBe('new rect');
       factory.baseUpdate(
         'rect',
@@ -213,7 +213,7 @@ describe('shape node test', () => {
         },
         group: rectGroup,
       });
-      const shape = rectGroup.get('children')[0];
+      const shape = rectGroup.children[0];
 
       expect(shape.attr('fillOpacity')).toBe(1);
       factory.setState('rectnode', 'active', true, item);
@@ -238,7 +238,7 @@ describe('shape node test', () => {
         },
         group,
       });
-      const shape = group.get('children')[0];
+      const shape = group.children[0];
       expect(shape.attr('lineWidth')).toBe(1);
       factory.setState('node', 'selected', true, item);
       expect(shape.attr('lineWidth')).toBe(2);
