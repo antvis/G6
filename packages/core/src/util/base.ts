@@ -1,5 +1,6 @@
 import { isString, isNumber, isNil, isArray } from '@antv/util';
-import { G6GraphEvent } from '../interface/behavior';
+import { CustomEvent } from '@antv/g';
+import { IAbstractGraph } from '../interface/graph';
 import { IG6GraphEvent, Padding, Matrix, Item } from '../types';
 
 export const uniqueId = (type: string): string => {
@@ -35,12 +36,17 @@ export const formatPadding = (padding: Padding): number[] => {
  * clone event
  * @param e
  */
-export const cloneEvent = (e: IG6GraphEvent): IG6GraphEvent => {
-  const event = new G6GraphEvent(e.type, e);
+export const cloneEvent = (e: IG6GraphEvent, graph: IAbstractGraph = undefined): IG6GraphEvent => {
+  const event: IG6GraphEvent = new CustomEvent(e.type as string, e) as any;
   event.clientX = e.clientX;
   event.clientY = e.clientY;
-  event.x = e.x;
-  event.y = e.y;
+  // event.x = e.x;
+  // event.y = e.y;
+  const canvasXY = graph?.getCanvasByPoint(e.x, e.y);
+  if (canvasXY) {
+    event.canvasX = canvasXY.x;
+    event.canvasY = canvasXY.y;
+  }
   event.target = e.target;
   event.currentTarget = e.currentTarget;
   event.bubbles = true;

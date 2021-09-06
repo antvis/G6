@@ -7,7 +7,17 @@ import {
   Group as IGroup,
   DisplayObject as IShape,
   DisplayObject as IElement,
+  DisplayObjectConfig,
+  CircleStyleProps,
+  ImageStyleProps,
   Image,
+  Circle,
+  Ellipse,
+  Rect,
+  Path,
+  Line,
+  Polyline,
+  Text
 } from '@antv/g';
 import { isArray, isNil, mix } from '@antv/util';
 import { ILabelConfig, ShapeOptions } from '../interface/shape';
@@ -16,6 +26,17 @@ import { formatPadding } from '../util/base';
 import Global from '../global';
 import Shape from './shape';
 import { shapeBase } from './shapeBase';
+
+const shapeClassMap = {
+  'circle': Circle,
+  'ellipse': Ellipse,
+  'image': Image,
+  'rect': Rect,
+  'path': Path,
+  'line': Line,
+  'polyline': Polyline,
+  'text': Text
+}
 
 const singleNode: ShapeOptions = {
   itemType: 'node',
@@ -115,15 +136,15 @@ const singleNode: ShapeOptions = {
     if (!label) {
       return {};
     }
-    const bbox = label.getBBox();
+    const bbox = label.getBounds();
     const backgroundStyle = labelCfg.style && labelCfg.style.background;
     if (!backgroundStyle) {
       return {};
     }
 
     const padding = formatPadding(backgroundStyle.padding);
-    const backgroundWidth = bbox.width + padding[1] + padding[3];
-    const backgroundHeight = bbox.height + padding[0] + padding[2];
+    const backgroundWidth = bbox.max[0] - bbox.min[0] + padding[1] + padding[3];
+    const backgroundHeight = bbox.max[1] - bbox.min[1] + padding[0] + padding[2];
 
     let { offset } = labelCfg;
     if (isNil(offset)) {
@@ -133,8 +154,8 @@ const singleNode: ShapeOptions = {
 
     let style: any;
     style = {
-      x: bbox.minX - padding[3],
-      y: bbox.minY - padding[0],
+      x: bbox.min[0] - padding[3],
+      y: bbox.min[1] - padding[0],
     };
 
     style = {
@@ -149,11 +170,13 @@ const singleNode: ShapeOptions = {
   drawShape(cfg: NodeConfig, group: IGroup): IShape {
     const { shapeType } = this; // || this.type，都已经加了 shapeType
     const style = this.getShapeStyle!(cfg);
-    const shape = group.addShape(shapeType, {
+    const ShapeClass = shapeClassMap[shapeType];
+    const shape = new ShapeClass({
       attrs: style,
       draggable: true,
       name: 'node-shape',
     });
+    group.appendChild(shape);
     return shape;
   },
 
@@ -215,7 +238,7 @@ const singleNode: ShapeOptions = {
         });
       }
     } else if (left) {
-      group.addShape('circle', {
+      group.appendChild(new Circle({
         attrs: {
           ...styles,
           x: -width / 2,
@@ -224,7 +247,7 @@ const singleNode: ShapeOptions = {
         className: 'link-point-left',
         name: 'link-point-left',
         isAnchorPoint: true,
-      });
+      } as DisplayObjectConfig<CircleStyleProps>));
     }
 
     if (markRight) {
@@ -237,7 +260,7 @@ const singleNode: ShapeOptions = {
         y: 0,
       });
     } else if (right) {
-      group.addShape('circle', {
+      group.appendChild(new Circle({
         attrs: {
           ...styles,
           x: width / 2,
@@ -246,7 +269,7 @@ const singleNode: ShapeOptions = {
         className: 'link-point-right',
         name: 'link-point-right',
         isAnchorPoint: true,
-      });
+      } as DisplayObjectConfig<CircleStyleProps>));
     }
 
     if (markTop) {
@@ -259,7 +282,7 @@ const singleNode: ShapeOptions = {
         y: -height / 2,
       });
     } else if (top) {
-      group.addShape('circle', {
+      group.appendChild(new Circle({
         attrs: {
           ...styles,
           x: 0,
@@ -268,7 +291,7 @@ const singleNode: ShapeOptions = {
         className: 'link-point-top',
         name: 'link-point-top',
         isAnchorPoint: true,
-      });
+      } as DisplayObjectConfig<CircleStyleProps>));
     }
 
     if (markBottom) {
@@ -282,7 +305,7 @@ const singleNode: ShapeOptions = {
         });
       }
     } else if (bottom) {
-      group.addShape('circle', {
+      group.appendChild(new Circle({
         attrs: {
           ...styles,
           x: 0,
@@ -291,7 +314,7 @@ const singleNode: ShapeOptions = {
         className: 'link-point-bottom',
         name: 'link-point-bottom',
         isAnchorPoint: true,
-      });
+      } as DisplayObjectConfig<CircleStyleProps>));
     }
   },
   updateShape(cfg: NodeConfig, item: Item, keyShapeStyle: object, hasIcon: boolean) {
@@ -338,7 +361,7 @@ const singleNode: ShapeOptions = {
         },
         className: `${this.type}-icon`,
         name: `${this.type}-icon`,
-      });
+      } as DisplayObjectConfig<ImageStyleProps>);
       group.appendChild(image);
       // to ensure the label is on the top of all the shapes
       const labelShape = group.find((element) => element.get('className') === `node-label`);

@@ -64,8 +64,8 @@ describe('circle test', () => {
       expect(label.attr('fill')).toEqual('#000');
       const type = label.get('type');
       expect(type).toEqual('text');
-      // graph.destroy();
-      // expect(graph.destroyed).toBe(true);
+      graph.destroy();
+      expect(graph.destroyed).toBe(true);
     });
   });
 
@@ -119,8 +119,8 @@ describe('circle test', () => {
       expect(keyShape.attr('fill')).toBe('steelblue');
       expect(keyShape.attr('lineWidth')).toBe(5);
 
-      // graph.destroy();
-      // expect(graph.destroyed).toBe(true);
+      graph.destroy();
+      expect(graph.destroyed).toBe(true);
     });
 
     it('update label', () => {
@@ -181,15 +181,13 @@ describe('circle test', () => {
       expect(label.attr('stroke')).toEqual('black');
       expect(label.attr('lineWidth')).toEqual(3);
 
-      // graph.destroy();
-      // expect(graph.destroyed).toBe(true);
+      graph.destroy();
+      expect(graph.destroyed).toBe(true);
     });
     it('update label from none', () => {
       const div = document.createElement('div');
       document.body.appendChild(div);
       const graph = new Graph({
-        // TODO: 这里设置autoPaint为false，顺序正常，比较迷惑
-        autoPaint: false,
         container: div,
         width: 500,
         height: 500,
@@ -198,6 +196,7 @@ describe('circle test', () => {
         nodes: [
           {
             id: 'node',
+            label: 'node',
             x: 200,
             y: 100,
           },
@@ -213,9 +212,12 @@ describe('circle test', () => {
         label: 'new circle label',
         labelCfg: {
           style: {
-            fill: '#ff0',
+            fill: '#f00',
           },
         },
+        style: {
+          fill: '#0f0'
+        }
       });
 
       const label = group.find((g) => {
@@ -223,10 +225,10 @@ describe('circle test', () => {
       });
       expect(label).not.toEqual(null);
       expect(label.attr('text')).toEqual('new circle label');
-      expect(label.attr('fill')).toEqual('#ff0');
+      expect(label.attr('fill')).toEqual('#f00');
 
-      // graph.destroy();
-      // expect(graph.destroyed).toBe(true);
+      graph.destroy();
+      expect(graph.destroyed).toBe(true);
     });
   });
 });

@@ -144,6 +144,11 @@ const singleEdge: ShapeOptions = {
     points.push(endPoint);
 
     const currentAttr = shape.attr();
+
+    // TODO: path.attr() 返回的 x y 有值, 但 path.config.attr 和 path.config.style中 x y 为0
+    delete currentAttr.x;
+    delete currentAttr.y;
+
     const previousStyle = mix({}, strokeStyle, currentAttr, cfg.style);
     const source = cfg.sourceNode;
     const target = cfg.targetNode;
@@ -152,7 +157,7 @@ const singleEdge: ShapeOptions = {
       routeCfg = { source, target, offset: previousStyle.offset, radius: previousStyle.radius };
     }
     const path = (this as any).getPath(points, routeCfg);
-    let style = {};
+    let style: ShapeStyle = {};
     if (updateType === 'move') {
       style = { path };
     } else {
@@ -176,6 +181,9 @@ const singleEdge: ShapeOptions = {
         cfg.style,
       );
     }
+    delete style.x;
+    delete style.y;
+
 
     if (shape) {
       shape.attr(style);
@@ -233,21 +241,21 @@ const singleEdge: ShapeOptions = {
     if (!label) {
       return {};
     }
-    const bbox = label.getBBox();
+    const bbox = label.getBounds();
     const backgroundStyle = labelCfg.style && labelCfg.style.background;
     if (!backgroundStyle) {
       return {};
     }
     const { padding } = backgroundStyle;
-    const backgroundWidth = bbox.width + padding[1] + padding[3];
-    const backgroundHeight = bbox.height + padding[0] + padding[2];
+    const backgroundWidth = bbox.max[0] - bbox.min[0] + padding[1] + padding[3];
+    const backgroundHeight = bbox.max[1] - bbox.min[1] + padding[0] + padding[2];
     const labelPosition = labelCfg.position || this.labelPosition;
     const style = {
       ...backgroundStyle,
       width: backgroundWidth,
       height: backgroundHeight,
-      x: bbox.minX - padding[2],
-      y: bbox.minY - padding[0],
+      x: bbox.min[0] - padding[2],
+      y: bbox.min[1] - padding[0],
       rotate: 0,
     };
     let autoRotate;
@@ -550,8 +558,8 @@ Shape.registerEdge(
         if (isArray(this.curveOffset)) cfg.curveOffset = cfg.curveOffset[0];
         if (isArray(this.curvePosition)) cfg.curvePosition = cfg.curveOffset[0];
         const innerPoint = getControlPoint(
-          startPoint as Point,
-          endPoint as Point,
+          startPoint as IPoint,
+          endPoint as IPoint,
           cfg.curvePosition as number,
           cfg.curveOffset as number,
         );
@@ -584,14 +592,14 @@ Shape.registerEdge(
       if (!controlPoints || !controlPoints.length || controlPoints.length < 2) {
         const { startPoint, endPoint } = cfg;
         const innerPoint1 = getControlPoint(
-          startPoint as Point,
-          endPoint as Point,
+          startPoint as IPoint,
+          endPoint as IPoint,
           cfg.curvePosition[0],
           cfg.curveOffset[0],
         );
         const innerPoint2 = getControlPoint(
-          startPoint as Point,
-          endPoint as Point,
+          startPoint as IPoint,
+          endPoint as IPoint,
           cfg.curvePosition[1],
           cfg.curveOffset[1],
         );

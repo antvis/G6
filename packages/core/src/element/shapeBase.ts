@@ -9,6 +9,8 @@ import {
   DisplayObject as IElement,
   Text,
   Rect,
+  DisplayObjectConfig,
+  TextStyleProps
 } from '@antv/g';
 import { ShapeOptions, ILabelConfig } from '../interface/shape';
 import {
@@ -157,53 +159,64 @@ export const shapeBase: ShapeOptions = {
       draggable: true,
       className: 'text-shape',
       name: 'text-shape',
-    });
+    } as DisplayObjectConfig<TextStyleProps>);
     group.appendChild(label);
+    const rotateOriginMap = {
+      'center': 'center',
+      'lefttop': 'left top',
+      'leftcenter': 'left center',
+    }
     if (rotate) {
-      const labelBBox = label.getBBox();
-      let labelMatrix = label.getMatrix();
-      if (!labelMatrix) {
-        labelMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
-      }
+      // const labelBBox = label.getBounds();
+      // const labelBBoxWidth = labelBBox.max[0] - labelBBox.min[0];
+      // const labelBBoxHeight = labelBBox.max[1] - labelBBox.min[1];
+      // let labelMatrix = label.getMatrix();
+      // if (!labelMatrix) {
+      //   labelMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
+      // }
       if (labelStyle.rotateCenter) {
-        switch (labelStyle.rotateCenter) {
-          case 'center':
-            labelMatrix = transform(labelMatrix, [
-              ['t', -labelBBox.width / 2, -labelBBox.height / 2],
-              ['r', rotate],
-              ['t', labelBBox.width / 2, labelBBox.height / 2],
-            ]);
-            break;
-          case 'lefttop':
-            labelMatrix = transform(labelMatrix, [
-              ['t', -labelStyle.x!, -labelStyle.y!],
-              ['r', rotate],
-              ['t', labelStyle.x, labelStyle.y],
-            ]);
-            break;
-          case 'leftcenter':
-            labelMatrix = transform(labelMatrix, [
-              ['t', -labelStyle.x!, -labelStyle.y! - labelBBox.height / 2],
-              ['r', rotate],
-              ['t', labelStyle.x, labelStyle.y! + labelBBox.height / 2],
-            ]);
-            break;
-          default:
-            labelMatrix = transform(labelMatrix, [
-              ['t', -labelBBox.width / 2, -labelBBox.height / 2],
-              ['r', rotate],
-              ['t', labelBBox.width / 2, labelBBox.height / 2],
-            ]);
-            break;
-        }
+        label.style.transformOrigin = rotateOriginMap[labelStyle.rotateCenter];
+        label.rotateLocal(rotate);
+        // switch (labelStyle.rotateCenter) {
+        //   case 'center':
+        //     labelMatrix = transform(labelMatrix, [
+        //       ['t', -labelBBoxWidth / 2, -labelBBoxHeight / 2],
+        //       ['r', rotate],
+        //       ['t', labelBBoxWidth / 2, labelBBoxHeight / 2],
+        //     ]);
+        //     break;
+        //   case 'lefttop':
+        //     labelMatrix = transform(labelMatrix, [
+        //       ['t', -labelStyle.x!, -labelStyle.y!],
+        //       ['r', rotate],
+        //       ['t', labelStyle.x, labelStyle.y],
+        //     ]);
+        //     break;
+        //   case 'leftcenter':
+        //     labelMatrix = transform(labelMatrix, [
+        //       ['t', -labelStyle.x!, -labelStyle.y! - labelBBoxHeight / 2],
+        //       ['r', rotate],
+        //       ['t', labelStyle.x, labelStyle.y! + labelBBoxHeight / 2],
+        //     ]);
+        //     break;
+        //   default:
+        //     labelMatrix = transform(labelMatrix, [
+        //       ['t', -labelBBoxWidth / 2, -labelBBoxHeight / 2],
+        //       ['r', rotate],
+        //       ['t', labelBBoxWidth / 2, labelBBoxHeight / 2],
+        //     ]);
+        //     break;
+        // }
       } else {
-        labelMatrix = transform(labelMatrix, [
-          ['t', -labelStyle.x!, -labelStyle.y! - labelBBox.height / 2],
-          ['r', rotate],
-          ['t', labelStyle.x, labelStyle.y! + labelBBox.height / 2],
-        ]);
+        label.style.transformOrigin = rotateOriginMap['leftcenter'];
+        label.rotateLocal(rotate);
+        // labelMatrix = transform(labelMatrix, [
+        //   ['t', -labelStyle.x!, -labelStyle.y! - labelBBoxHeight / 2],
+        //   ['r', rotate],
+        //   ['t', labelStyle.x, labelStyle.y! + labelBBoxHeight / 2],
+        // ]);
       }
-      label.setMatrix(labelMatrix);
+      // label.setMatrix(labelMatrix);
     }
     if (labelStyle.background) {
       const rect = this.drawLabelBg(cfg, group, label);
@@ -289,9 +302,9 @@ export const shapeBase: ShapeOptions = {
     const group = item.getContainer();
     const { labelCfg: defaultLabelCfg } = this.getOptions({}, updateType) as ModelConfig;
     const labelClassName = this.itemType + CLS_LABEL_SUFFIX;
-    const label = group.find((element) => element.get('className') === labelClassName);
+    const label = group.find((element: any) => element.get('className') === labelClassName);
     const labelBgClassname = this.itemType + CLS_LABEL_BG_SUFFIX;
-    let labelBg = group.find((element) => element.get('classname') === labelBgClassname);
+    let labelBg = group.find((element: any) => element.get('classname') === labelBgClassname);
     // 防止 cfg.label = "" 的情况
     if (cfg.label || cfg.label === '') {
       // 若传入的新配置中有 label，（用户没传入但原先有 label，label 也会有值）
@@ -347,7 +360,8 @@ export const shapeBase: ShapeOptions = {
         if (!labelBg) {
           if (labelStyle.background) {
             labelBg = this.drawLabelBg(cfg, group, label);
-            labelBg.set('classname', labelBgClassname);
+            // TODO 新 G shape 类型没有 set, 但可以调用
+            (labelBg as any).set('classname', labelBgClassname);
             label.toFront();
           }
         } else if (labelStyle.background) {
@@ -391,7 +405,7 @@ export const shapeBase: ShapeOptions = {
    */
   setState(name: string, value: string | boolean, item: Item) {
     const shape: IShape = item.get('keyShape');
-    if (!shape || shape.destroyed) return;
+    if (!shape || (shape as any).destroyed) return;
 
     const type = item.getType();
 

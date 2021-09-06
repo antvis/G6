@@ -5,19 +5,24 @@
 
 import Shape from '../../../src/element/shape';
 import Global from '../../../src/global';
-import { IGroup } from '@antv/g-base';
-import { Canvas } from '@antv/g-canvas';
 import Node from '../../../src/item/node';
 import { translate } from '../../../src/util/math';
 import '../../../src/element/node';
 import '../../../src/element/nodes';
 
+import G, { Path, Canvas, Group, Rect } from '@antv/g';
+import { Renderer as CanvasRenderer } from '@antv/g-canvas';
+
 const div = document.createElement('div');
-div.id = 'node-shape';
+div.id = 'node-spec';
 document.body.appendChild(div);
 
+const canvasRenderer = new CanvasRenderer();
+
+// create a canvas
 const canvas = new Canvas({
-  container: 'node-shape',
+  ...{ renderer: canvasRenderer },
+  container: div,
   width: 500,
   height: 500,
 });
@@ -38,8 +43,9 @@ describe('shape node test', () => {
   describe('nodes test', () => {
     const factory = Shape.getFactory('node');
     it('circle no label', () => {
-      const group = canvas.addGroup();
-      translate(group, { x: 50, y: 50 });
+      const group = new Group();
+      canvas.appendChild(group);
+      group.setPosition([50, 50, 500]);
       const shape = factory.draw(
         'circle',
         {
@@ -48,14 +54,16 @@ describe('shape node test', () => {
         },
         group,
       );
-      canvas.draw();
       expect(shape.attr('r')).toBe(20);
       expect(group.getCount()).toBe(1);
+      expect(group.getPosition()[0]).toBe(50);
+      expect(group.getPosition()[1]).toBe(50);
     });
 
     it('circle with label', () => {
-      const group = canvas.addGroup();
-      translate(group, { x: 50, y: 100 });
+      const group = new Group();
+      canvas.appendChild(group);
+      group.setPosition([50, 100, 500]);
       factory.draw(
         'simple-circle',
         {
@@ -68,15 +76,15 @@ describe('shape node test', () => {
         },
         group,
       );
-      canvas.draw();
       expect(group.getCount()).toBe(2);
     });
 
     it('rect', () => {
-      const group = canvas.addGroup({
+      const group = new Group({
         id: 'rect',
       });
-      translate(group, { x: 100, y: 100 });
+      canvas.appendChild(group);
+      group.setPosition([100, 100, 500]);
       const shape = factory.draw(
         'simple-rect',
         {
@@ -94,7 +102,6 @@ describe('shape node test', () => {
         },
         group,
       );
-      canvas.draw();
       expect(shape.attr('x')).toBe(-20);
       expect(shape.attr('y')).toBe(-10);
       const label = group.children[1];
@@ -103,8 +110,9 @@ describe('shape node test', () => {
     });
 
     it('image', () => {
-      const group = canvas.addGroup();
-      translate(group, { x: 150, y: 100 });
+      const group = new Group();
+      canvas.appendChild(group);
+      group.setPosition([150, 100, 500]);
       const shape = factory.draw(
         'image',
         {
@@ -115,7 +123,6 @@ describe('shape node test', () => {
         },
         group,
       );
-      canvas.draw();
       expect(shape.attr('x')).toBe(-20);
       expect(shape.attr('y')).toBe(-10);
       expect(shape.attr('img')).not.toBe(undefined);
@@ -126,9 +133,10 @@ describe('shape node test', () => {
     });
 
     it('update', () => {
-      const group = canvas.addGroup({
+      const group = new Group({
         id: 'rect',
       });
+      canvas.appendChild(group);
       // 伪造 item, 仅测试接口和图形的变化，不测试一致性
       const item = new Node({
         model: {
@@ -194,11 +202,10 @@ describe('shape node test', () => {
         },
       });
       expect(shape.attr('fill')).toBe('steelblue');
-      canvas.draw();
     });
 
     it('active', () => {
-      const rectGroup = canvas.findById('rect') as IGroup;
+      const rectGroup = canvas.getRoot().getElementById('rect');
       // 伪造 item, 仅测试接口和图形的变化，不测试一致性
       const item = new Node({
         model: {
@@ -223,9 +230,10 @@ describe('shape node test', () => {
     });
 
     it('selected', () => {
-      const group = canvas.addGroup({
+      const group = new Group({
         id: 'rect',
       });
+      canvas.appendChild(group);
       // 伪造 item, 仅测试接口和图形的变化，不测试一致性
       const item = new Node({
         model: {

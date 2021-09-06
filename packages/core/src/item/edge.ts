@@ -136,7 +136,6 @@ export default class Edge extends Item implements IEdge {
   }
 
   public getShapeCfg(model: EdgeConfig, updateType?: UpdateType): EdgeConfig {
-    debugger
     const self = this;
     const linkCenter: boolean = self.get('linkCenter'); // 如果连接到中心，忽视锚点、忽视控制点
     

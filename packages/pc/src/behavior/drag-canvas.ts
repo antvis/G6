@@ -174,7 +174,7 @@ export default {
     const targetIsCanvas = target && target.isCanvas && target.isCanvas();
     if (!this.allowDragOnItem && !targetIsCanvas) return;
 
-    e = cloneEvent(e);
+    e = cloneEvent(e, graph);
     if (!this.origin) {
       return;
     }
@@ -239,7 +239,7 @@ export default {
       return;
     }
 
-    e = cloneEvent(e);
+    e = cloneEvent(e, graph);
 
     if (this.shouldEnd.call(this, e)) {
       this.updateViewport(e);

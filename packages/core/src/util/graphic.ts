@@ -1,10 +1,8 @@
-// import { IGroup, BBox } from '@antv/g-base';
-import { Group as IGroup, AABB as BBox } from '@antv/g';
+import { Group as IGroup } from '@antv/g';
 import { vec2 } from '@antv/matrix-util';
 import Global from '../global';
 import {
   EdgeData,
-  BBox,
   IBBox,
   IPoint,
   IShapeBase,
@@ -35,14 +33,7 @@ export const getBBox = (element: IShapeBase, group: IGroup): IBBox => {
   //   y: bbox.maxY,
   // };
   const bbox = element.getBounds();
-  let leftTop: IPoint = {
-    x: bbox.min[0],
-    y: bbox.min[1],
-  };
-  let rightBottom: IPoint = {
-    x: bbox.max[0],
-    y: bbox.max[1],
-  };
+  console.log('bbox', bbox)
   // TODO: 新的API getBounds直接得到了世界坐标的bbox，不需要再应用父元素的变换矩阵了
   // 根据父元素变换矩阵
   // if (group) {
@@ -54,18 +45,15 @@ export const getBBox = (element: IShapeBase, group: IGroup): IBBox => {
   //   rightBottom = applyMatrix(rightBottom, matrix);
   // }
 
-  const { x: lx, y: ly } = leftTop;
-  const { x: rx, y: ry } = rightBottom;
-
   return {
-    x: lx,
-    y: ly,
-    minX: lx,
-    minY: ly,
-    maxX: rx,
-    maxY: ry,
-    width: rx - lx,
-    height: ry - ly,
+    x: bbox.min[0],
+    y: bbox.min[1],
+    minX: bbox.min[0],
+    minY: bbox.min[1],
+    maxX: bbox.max[0],
+    maxY: bbox.max[1],
+    width: bbox.max[0] - bbox.min[0],
+    height: bbox.max[1] - bbox.min[1],
   };
 };
 
@@ -79,7 +67,7 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
   let containerMatrix = container.getMatrix();
   if (!containerMatrix) containerMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
 
-  const keyShape: IShapeBase = item.getKeyShape();
+  const keyShape = item.getKeyShape();
   // const bbox: IBBox = keyShape.getBBox();
   const bbox = keyShape.getLocalBounds();
   const boxWidth = bbox.max[0] - bbox.min[0];
@@ -606,7 +594,7 @@ export const reconstructTree = (
   return trees;
 };
 
-export const getComboBBox = (children: ComboTree[], graph: IAbstractGraph): BBox => {
+export const getComboBBox = (children: ComboTree[], graph: IAbstractGraph): IBBox => {
   const comboBBox = {
     minX: Infinity,
     minY: Infinity,

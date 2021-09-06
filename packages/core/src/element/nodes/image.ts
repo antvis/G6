@@ -1,6 +1,6 @@
 // import { IGroup, IShape } from '@antv/g-base';
 import { Group as IGroup, DisplayObject as IShape } from '@antv/g';
-import { Rect, Circle, Ellipse, Polygon, Path, Image } from '@antv/g';
+import { Rect, Circle, Ellipse, Polygon, Path, Image, DisplayObjectConfig, ImageStyleProps, } from '@antv/g';
 import Shape from '../shape';
 import { NodeConfig, Item } from '../../types';
 
@@ -66,7 +66,7 @@ Shape.registerNode(
         className: `${this.type}-keyShape`,
         name: `${this.type}-keyShape`,
         draggable: true,
-      });
+      } as DisplayObjectConfig<ImageStyleProps>);
       group.appendChild(shape);
 
       (this as any).drawClip(cfg, shape);
@@ -82,7 +82,6 @@ Shape.registerNode(
       const { type, x, y, style } = clip;
       if (type === 'circle') {
         const { r } = clip;
-        debugger
         shape.setClip(new Circle({
           attrs: {
             r,

@@ -1,5 +1,5 @@
 // import { IGroup, IShape } from '@antv/g-base';
-import { Group as IGroup, DisplayObject as IShape, Rect } from '@antv/g';
+import { Group as IGroup, DisplayObject as IShape, Rect, DisplayObjectConfig, RectStyleProps } from '@antv/g';
 import { mix } from '@antv/util';
 import { Item, NodeConfig, ShapeStyle } from '../../types';
 import Global from '../../global';
@@ -45,7 +45,7 @@ Shape.registerNode(
         className: `${this.type}-keyShape`,
         name: `${this.type}-keyShape`,
         draggable: true,
-      });
+      } as DisplayObjectConfig<RectStyleProps>);
       group.appendChild(keyShape);
 
       return keyShape;

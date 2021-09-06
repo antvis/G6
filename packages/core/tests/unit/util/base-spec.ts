@@ -8,6 +8,7 @@ import {
 } from '../../../src/util/base';
 import { IG6GraphEvent, G6GraphEvent } from '../../../src';
 import Graph from '../implement-graph';
+import { CustomEvent } from '@antv/g';
 
 describe('base util', () => {
   it('formatPadding', () => {
@@ -72,13 +73,17 @@ describe('base util', () => {
   });
 
   it('cloneEvent', () => {
-    const event = new G6GraphEvent('click', {
+    const event = new CustomEvent('click', {
       clientX: Math.random(),
       clientY: Math.random(),
-      x: Math.random(),
-      y: Math.random(),
+      canvasX: 0,
+      canvasY: 0,
       bubbles: false,
-    } as IG6GraphEvent);
+      item: null,
+      target: null,
+      wheelDelta: 0,
+      detail: 0,
+    });
     const cEvent = cloneEvent(event);
     expect(cEvent.type).toEqual(event.type);
     expect(cEvent.clientX).toEqual(event.clientX);
@@ -110,10 +115,10 @@ describe('base util', () => {
     const bbox = calculationItemsBBox(graph.getNodes());
     expect(bbox.height).toBe(222);
     expect(bbox.width).toBe(222);
-    expect(bbox.minX).toBe(-110.5);
-    expect(bbox.minY).toBe(-110.5);
-    expect(bbox.maxX).toBe(110.5);
-    expect(bbox.maxY).toBe(110.5);
+    expect(bbox.minX).toBe(-111);
+    expect(bbox.minY).toBe(-111);
+    expect(bbox.maxX).toBe(111);
+    expect(bbox.maxY).toBe(111);
     expect(bbox.x).toBe(-111);
     expect(bbox.y).toBe(-111);
   });
