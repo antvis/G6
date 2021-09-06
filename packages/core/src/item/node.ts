@@ -14,15 +14,15 @@ const CACHE_ANCHOR_POINTS = 'anchorPointsCache';
 const CACHE_BBOX = 'bboxCache';
 
 export default class Node extends Item implements INode {
-  public getNearestPoint(points: IPoint[], curPoint: IPoint): IPoint {
+  public getNearestPoint(points: IPos[], curPoint: IPos): IPoint {
     let index = 0;
-    let nearestPoint = points[0];
+    let nearestPoint = points[0] as IPoint;
     let minDistance = distance(points[0], curPoint);
     for (let i = 0; i < points.length; i++) {
       const point = points[i];
       const dis = distance(point, curPoint);
       if (dis < minDistance) {
-        nearestPoint = point;
+        nearestPoint = point as IPoint;
         minDistance = dis;
         index = i;
       }
@@ -107,7 +107,7 @@ export default class Node extends Item implements INode {
    */
   public getLinkPoint(point: IPoint): IPoint | null {
     const keyShape: IShapeBase = this.get('keyShape');
-    const type: string = keyShape.get('type');
+    const type: string = (keyShape as any).get('type');
     const itemType: string = this.get('type');
     let centerX;
     let centerY;
@@ -120,7 +120,7 @@ export default class Node extends Item implements INode {
       centerY = bbox.centerY;
     }
     const anchorPoints = this.getAnchorPoints();
-    let intersectPoint: IPoint | null;
+    let intersectPoint: IPos | null;
     switch (type) {
       case 'circle':
         intersectPoint = getCircleIntersectByPoint(
@@ -159,7 +159,7 @@ export default class Node extends Item implements INode {
       // 如果最终依然没法找到锚点和连接点，直接返回中心点
       linkPoint = { x: centerX, y: centerY } as IPoint;
     }
-    return linkPoint;
+    return linkPoint as IPoint;
   }
 
   /**

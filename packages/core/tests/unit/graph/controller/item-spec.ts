@@ -10,8 +10,12 @@ describe('item controller', () => {
     width: 500,
     height: 500,
     nodeStateStyles: {
-      select: {},
-      hover: {},
+      select: {
+        fill: "#f00"
+      },
+      hover: {
+        fill: '#0f0'
+      },
     },
   });
   it('init item controller', () => {
@@ -56,19 +60,25 @@ describe('item controller', () => {
     const node1 = graph.addItem('node', {
       id: 'node1',
       color: '#ccc',
-      style: { x: 50, y: 50, r: 20, lineWidth: 2 },
+      x: 50,
+      y: 50,
+      style: {r: 20, lineWidth: 2 },
     });
     const node2 = graph.addItem('node', {
       id: 'node2',
       type: 'circle',
       color: '#ccc',
-      style: { x: 50, y: 150, r: 20, lineWidth: 2 },
+      x: 50,
+      y: 150,
+      style: { r: 20, lineWidth: 2 },
     });
     graph.addItem('node', {
       id: 'node3',
       type: 'circle',
       color: '#ccc',
-      style: { x: 50, y: 200, r: 20, lineWidth: 2 },
+      x: 50,
+      y: 200, 
+      style: { r: 20, lineWidth: 2 },
     });
 
     graph.addItem('edge', { id: 'edge1', source: 'node1', target: 'node2', type: 'line' });
@@ -84,6 +94,7 @@ describe('item controller', () => {
     expect(graph.findById('edge1')).toBe(undefined);
     expect(graph.findById('edge2')).toBe(undefined);
     expect(node2.getEdges().length).toBe(0);
+    // TODO: 没删干净
     graph.clear();
   });
   it('add & remove edge', () => {
@@ -133,48 +144,47 @@ describe('item controller', () => {
       color: '#ccc',
       type: 'circle',
     });
-    const group = node.get('group');
-    let matrix = group.getMatrix();
-    expect(matrix[6]).toBe(100);
-    expect(matrix[7]).toBe(100);
+    let nodeGroupPosition = node.get('group').getPosition();
+    expect(nodeGroupPosition[0]).toBe(100);
+    expect(nodeGroupPosition[1]).toBe(100);
 
     graph.update('node5', { x: 150, y: 150 });
-    matrix = node.get('group').getMatrix();
-
-    expect(matrix[6]).toBe(150);
-    expect(matrix[7]).toBe(150);
-
+    nodeGroupPosition = node.get('group').getPosition();
+    expect(nodeGroupPosition[0]).toBe(150);
+    expect(nodeGroupPosition[1]).toBe(150);
+    
     graph.update(node, { style: { fill: '#ccc' } });
     const shape = node.get('keyShape');
     expect(shape.attr('fill')).toEqual('#ccc');
   });
   it('fresh graph', done => {
     graph.clear();
-    const node = graph.addItem('node', { id: 'node6', x: 100, y: 100, size: 50 });
-    const node2 = graph.addItem('node', { id: 'node7', x: 100, y: 200, size: 50 });
-    const node3 = graph.addItem('node', { id: 'node8', x: 300, y: 100, size: 50 });
-    const edge = graph.addItem('edge', { id: 'edge4', source: 'node6', target: 'node7' });
-    graph.paint();
+    const node = graph.addItem('node', { id: 'node6', label: 'node6', x: 100, y: 100, size: 50 });
+    const node2 = graph.addItem('node', { id: 'node7', label: 'node7', x: 100, y: 200, size: 50 });
+    const node3 = graph.addItem('node', { id: 'node8', label: 'node8', x: 300, y: 100, size: 50 });
+    const edge = graph.addItem('edge', { id: 'edge4',label: 'edge4',  source: 'node6', target: 'node7' });
 
     let path = edge.get('keyShape').attr('path');
 
     expect(path[0][1]).toBe(100);
-    expect(path[0][2]).toBe(125.5);
+    expect(path[0][2]).toBe(126);
     expect(path[1][1]).toBe(100);
-    expect(path[1][2]).toBe(174.5);
+    expect(path[1][2]).toBe(174);
     edge.setTarget(node3);
-    graph.refresh();
+    edge.refresh();
     setTimeout(() => {
+      // TODO: path.attr() 返回的 x y 有值, 但 path.config.attr 和 path.config.style中 x y 为0. 临时通过 update 的时候删去 path.attr() 返回的 x y 解决
       path = edge.get('keyShape').attr('path');
-      expect(path[0][1]).toBe(125.5);
+      console.log('edge', graph.findById('edge4'), path, edge.get('keyShape'));
+      expect(path[0][1]).toBe(126);
       expect(path[0][2]).toBe(100);
-      expect(path[1][1]).toBe(274.5);
+      expect(path[1][1]).toBe(274);
       expect(path[1][2]).toBe(100);
       done();
     }, 800);
   });
   it('show & hide item', () => {
-    const node = graph.addItem('node', { id: 'node9', x: 100, y: 100, size: 50 });
+    const node = graph.addItem('node', { id: 'node9', label: 'node9', x: 200, y: 200, size: 50 });
     const node2 = graph.addItem('node', { id: 'node10', x: 100, y: 100, size: 50 });
     const edge = graph.addItem('edge', { id: 'edge5', source: 'node9', target: 'node10' });
     graph.hideItem('node9');
@@ -189,15 +199,18 @@ describe('item controller', () => {
   });
 
   it('setItemState & clearItemStates', () => {
-    const node = graph.addItem('node', { id: 'node11', x: 100, y: 100, size: 50 });
-    const node2 = graph.addItem('node', { id: 'node12', x: 100, y: 100, size: 50 });
+    const node = graph.addItem('node', { id: 'node11', x: 100, y: 250, size: 50 });
+    const node2 = graph.addItem('node', { id: 'node12', x: 100, y: 270, size: 50 });
 
     graph.setItemState(node, 'select', true);
     expect(node.hasState('select')).toBe(true);
     expect(node2.hasState('select')).toBe(false);
 
-    graph.clearItemStates(node, ['select']);
+    graph.setItemState(node, 'hover', true);
+
+    graph.clearItemStates(node, ['select', 'hover']);
     expect(node.hasState('select')).toBe(false);
+    expect(node.hasState('hover')).toBe(false);
 
     graph.setItemState(node2, 'hover', true);
     expect(node2.hasState('hover')).toBe(true);

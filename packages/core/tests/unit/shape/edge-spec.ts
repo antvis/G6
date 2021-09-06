@@ -518,7 +518,6 @@ describe('shape edge test', () => {
       expect(shape.attr('path')[1]).toEqual(['L', 50, 50]);
     });
 
-    // TODO: 新版本G中没有相对于画布坐标的bbox
     it('loop', () => {
       const div = document.createElement('div');
       div.id = 'graph-spec';
@@ -543,12 +542,8 @@ describe('shape edge test', () => {
       const node = graph.getNodes()[0];
       const edge = graph.getEdges()[0];
       const path = edge.get('group').getChildren()[0];
-      // let bbox = path.getBBox();
-      // console.log(bbox);
-      // expect(bbox.minX).toEqual(90.60845891791658);
       let bbox = path.getBounds();
-      console.log(bbox);
-      expect(bbox.min[0]).toEqual(90.60845891791658);
+      expect(bbox.min[0]).toEqual(88.73267364501953);
     });
 
     it('clear', () => {
@@ -604,10 +599,11 @@ describe('shape edge test', () => {
       canvas.render();
       const label = canvasGroup.getChildren()[1].getChildren()[1];
       expect(label.attr('rotate')).toBe(undefined);
-      expect(label.attr('matrix')[0]).toBe(0.7071067811865476);
-      expect(label.attr('matrix')[3]).toBe(-0.7071067811865475);
-      expect(label.attr('matrix')[6]).toBe(128.2842712474619);
-      expect(label.attr('matrix')[7]).toBe(-53.13708498984761);
+      const transform = label.getLocalTransform();
+      expect(transform[0]).toBe(0.7071067690849304);
+      expect(transform[4]).toBe(-0.7071067690849304);
+      expect(transform[12]).toBe(128.28427124023438);
+      expect(transform[13]).toBe(128.28427124023438);
     });
     it('not auto rotate, middle', () => {
       const center = { x: 100, y: 100 };
@@ -853,8 +849,8 @@ describe('shape edge test', () => {
         }
 
         const point = shape.getPoint(1);
-        expect(label.attr('x')).toEqual(point.x);
-        expect(label.attr('y')).toEqual(point.y);
+        expect(Math.abs(label.attr('x') - point.x) < 1).toEqual(true);
+        expect(Math.abs(label.attr('y') - point.y) < 1).toEqual(true);
       }
       canvas.render();
     });

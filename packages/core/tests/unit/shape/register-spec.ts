@@ -70,23 +70,29 @@ describe('register node', () => {
         fill: 'steelblue',
       },
     });
-    // debugger;
-    // TODO: 测试不通过，显示下标为1的才是steelblue
-    // expect(node.get('group').children[0].attr('fill')).toBe('steelblue');
+    expect(node.get('group').children[0].attr('fill')).toBe('steelblue');
     graph.destroy();
   });
   it('register node without draw and drawShape, extend circle', () => {
     G6.registerNode(
-      'custom-node',
+      'custom-node2',
       {
         setState(name, value, item) {
+          // TODO 没有进来
+          console.log('set state', name, value)
           const group = item.getContainer();
           const shape = group.children[0]; // 顺序根据 draw 时确定
           if (name === 'active') {
             if (value) {
-              shape.attr('stroke', 'red');
+              shape.attr({
+                stroke: 'red',
+                lineWidth: 2
+              });
             } else {
-              shape.attr('stroke', '#333');
+              shape.attr({
+                stroke: '#333',
+                lineWidth: 2
+              });
             }
           }
         },
@@ -97,23 +103,28 @@ describe('register node', () => {
       container: div,
       width: 500,
       height: 500,
-      defaultNode: {
-        type: 'custom-node',
-      },
     });
+    data.nodes.forEach(node => {
+      node.type = 'custom-node2'
+    })
     graph.data(data);
     graph.render();
-    graph.on('node:click', (evt) => {
-      const { item } = evt;
-      graph.setItemState(item, 'active', true);
-    });
-    graph.on('canvas:click', (evt) => {
-      graph.getNodes().forEach((node) => {
-        graph.setItemState(node, 'active', false);
-      });
-    });
-    expect(graph.getNodes()[0].getModel().x).not.toBe(undefined);
-    expect(graph.getNodes()[0].getModel().y).not.toBe(undefined);
+    const node = graph.getNodes()[0]
+    debugger
+    graph.setItemState(node, 'active', true);
+    expect(node.hasState('active')).toBe(true);
+    expect(node.getKeyShape().attr('stroke')).toBe('red');
+    expect(node.getKeyShape().attr('lineWidth')).toBe(2);
+    expect(node.getKeyShape().attr('fill')).toBe('steelblue');
+
+    graph.setItemState(node, 'active', false);
+    expect(node.hasState('active')).toBe(false);
+    expect(node.getKeyShape().attr('stroke')).toBe('#333');
+    expect(node.getKeyShape().attr('lineWidth')).toBe(2);
+    expect(node.getKeyShape().attr('fill')).toBe('steelblue');
+
+    expect(node.getModel().x).not.toBe(undefined);
+    expect(node.getModel().y).not.toBe(undefined);
     graph.destroy();
   });
   it('register edge without draw and drawShape function, extend quadratic', () => {
@@ -137,12 +148,19 @@ describe('register node', () => {
       container: div,
       width: 500,
       height: 500,
-      defaultEdge: {
-        type: 'custom-edge',
-      },
     });
+    data.edges.forEach(edge => {
+      edge.type = 'custom-edge';
+    })
     graph.data(data);
     graph.render();
+    const edge = graph.getEdges()[0];
+    const path = edge.getKeyShape().attr('path');
+    console.log(path)
+    expect(path[0][1]).toBe(56.871645523098664);
+    expect(path[1][0]).toBe('Q');
+    expect(path[1][1]).toBe(150);
+    expect(path[1][2]).toBe(183.58955690387333);
     expect(graph.getNodes()[0].getModel().x).not.toBe(undefined);
     expect(graph.getNodes()[0].getModel().y).not.toBe(undefined);
     graph.destroy();

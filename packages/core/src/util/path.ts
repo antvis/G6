@@ -1,6 +1,6 @@
 import { vec2 } from '@antv/matrix-util';
 import { catmullRom2Bezier } from '@antv/path-util';
-import { IPoint } from '../types';
+import { IPoint, IPos } from '../types';
 
 /**
  * 替换字符串中的字段
@@ -26,7 +26,7 @@ const substitute = (str: string, o: any): string => {
  * 给定坐标获取三次贝塞尔曲线的 M 及 C 值
  * @param points coordinate set
  */
-export const getSpline = (points: IPoint[]) => {
+export const getSpline = (points: IPos[]) => {
   const data: number[] = [];
 
   if (points.length < 2) {

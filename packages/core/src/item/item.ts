@@ -1,6 +1,6 @@
 // import { IGroup } from '@antv/g-base';
 import { Group as IGroup } from '@antv/g';
-import { each, isNil, isPlainObject, isString, isBoolean, mix, deepMix, clone } from '@antv/util';
+import { each, isPlainObject, isString, isBoolean, mix, deepMix, clone } from '@antv/util';
 import { IItemBase, IItemBaseConfig } from '../interface/item';
 import Shape from '../element/shape';
 import {
@@ -15,6 +15,7 @@ import {
   ComboConfig,
   ITEM_TYPE,
   UpdateType,
+  IPos
 } from '../types';
 import { getBBox } from '../util/graphic';
 import { translate } from '../util/math';
@@ -105,8 +106,9 @@ export default class ItemBase implements IItemBase {
     this.set('id', id);
     const { group } = cfg;
     if (group) {
-      group.set('item', this);
-      group.set('id', id);
+      // TODO 新 G shape 类型没有 set, 但可以调用
+      (group as any).set('item', this);
+      (group as any).set('id', id);
     }
 
     this.init();
@@ -172,14 +174,14 @@ export default class ItemBase implements IItemBase {
     const group: IGroup = self.get('group');
     const model: ModelConfig = self.get('model');
     // group.clear();
-    group.getRootNode()?.removeChildren(true);
+    group.removeChildren(true);
     const visible = model.visible;
     if (visible !== undefined && !visible) self.changeVisibility(visible);
 
     if (!shapeFactory) {
       return;
     }
-    self.updatePosition(model);
+    self.updatePosition(model as IPos);
     const cfg = self.getShapeCfg(model); // 可能会附加额外信息
     const shapeType = cfg.type as string;
 
@@ -187,8 +189,9 @@ export default class ItemBase implements IItemBase {
 
     if (keyShape) {
       self.set('keyShape', keyShape);
-      keyShape.set('isKeyShape', true);
-      keyShape.set('draggable', true);
+      // TODO 新 G shape 类型无 set, 但可调用
+      (keyShape as any).set('isKeyShape', true);
+      (keyShape as any).set('draggable', true);
     }
 
     this.setOriginStyle();
@@ -603,7 +606,7 @@ export default class ItemBase implements IItemBase {
   public refresh(updateType?: UpdateType) {
     const model: ModelConfig = this.get('model');
     // 更新元素位置
-    this.updatePosition(model);
+    this.updatePosition(model as IPos);
     // 更新元素内容，样式
     this.updateShape(updateType);
     // 做一些更新之后的操作
@@ -625,7 +628,7 @@ export default class ItemBase implements IItemBase {
     const model: ModelConfig = this.get('model');
     // 仅仅移动位置时，既不更新，也不重绘
     if (updateType === 'move') {
-      this.updatePosition(cfg);
+      this.updatePosition(cfg as IPos);
     } else {
       const oriVisible = model.visible;
       const cfgVisible = cfg.visible;
@@ -647,7 +650,7 @@ export default class ItemBase implements IItemBase {
 
       // 如果 x,y 有变化，先重置位置
       if (originPosition.x !== cfg.x || originPosition.y !== cfg.y) {
-        this.updatePosition(cfg);
+        this.updatePosition(cfg as IPos);
       }
       this.updateShape();
     }
@@ -685,7 +688,7 @@ export default class ItemBase implements IItemBase {
    * @param {object} cfg 待更新数据
    */
   // TODO: 类型问题
-  public updatePosition(cfg: ModelConfig): boolean {
+  public updatePosition(cfg: IPos): boolean {
     const model: ModelConfig = this.get('model');
 
     const x = isNaN(+cfg.x) ? (+model.x) : (+cfg.x);
@@ -803,11 +806,14 @@ export default class ItemBase implements IItemBase {
 
   public destroy() {
     if (!this.destroyed) {
-      const animate = this.get('animate');
       const group: IGroup = this.get('group');
-      if (animate) {
-        group.stopAnimate();
-      }
+
+      // TODO: [G 升级 POC 忽略内容]
+      // const animate = this.get('animate');
+      // if (animate) {
+      //   group.stopAnimate();
+      // }
+      
       this.clearCache();
       group.remove();
       (this._cfg as IItemBaseConfig | null) = null;

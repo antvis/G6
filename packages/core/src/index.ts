@@ -1,6 +1,10 @@
 import Behavior from './behavior';
 import AbstractGraph from './graph/graph';
-import Shape, { Arrow, Marker } from './element';
+
+// TODO: [G 升级 POC 忽略内容]
+// import { Arrow, Marker } from './element'
+
+import Shape from './element';
 import { IBehavior } from './types';
 import Global from './global';
 import Util from './util';
@@ -10,27 +14,33 @@ import AbstractEvent from './graph/controller/event';
 
 import Node from './item/node';
 import Edge from './item/edge';
-import Hull from './item/hull';
-import Combo from './item/combo';
+
+// TODO: [G 升级 POC 忽略内容]
+// import Hull from './item/hull';
+// import Combo from './item/combo';
 
 const registerNode = Shape.registerNode;
 const registerEdge = Shape.registerEdge;
-const registerCombo = Shape.registerCombo;
+
+// TODO: [G 升级 POC 忽略内容]
+// const registerCombo = Shape.registerCombo;
+
 const registerBehavior = (Behavior as IBehavior).registerBehavior;
 const BaseGlobal = Global;
 
 export * from './types';
 
 export {
-  Arrow,
   Shape,
   Node,
   Edge,
-  Combo,
-  Hull,
-  Marker,
+  // TODO: [G 升级 POC 忽略内容]
+  // Combo,
+  // Hull,
+  // Marker,
+  // Arrow,
+  // registerCombo,
   registerNode,
-  registerCombo,
   AbstractGraph,
   Util,
   registerEdge,
@@ -48,14 +58,15 @@ export default {
   Shape,
   Node,
   Edge,
-  Combo,
-  Hull,
+  // TODO: [G 升级 POC 忽略内容]
+  // Combo,
+  // Hull,
+  // Arrow,
+  // Marker,
+  // registerCombo: Shape.registerCombo,
   registerNode: Shape.registerNode,
   registerEdge: Shape.registerEdge,
-  registerCombo: Shape.registerCombo,
   registerBehavior: (Behavior as IBehavior).registerBehavior,
-  Arrow,
-  Marker,
   AbstractLayout,
   AbstractEvent,
 };

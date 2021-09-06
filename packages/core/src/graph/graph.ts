@@ -1,7 +1,6 @@
 import EventEmitter from '@antv/event-emitter';
-// import { ICanvas, IGroup, Point } from '@antv/g-base';
 import { Canvas as ICanvas, Group as IGroup, Group } from '@antv/g';
-import { IPos as Point } from '../types';
+import { IPos } from '../types';
 import { ext } from '@antv/matrix-util';
 import { clone, deepMix, each, isPlainObject, isString } from '@antv/util';
 import {
@@ -38,7 +37,7 @@ import { dataValidation, singleDataValidation } from '../util/validation';
 import Global from '../global';
 import { ItemController, ModeController, StateController, ViewController } from './controller';
 import { plainCombosToTrees, traverseTree, reconstructTree, traverseTreeUp } from '../util/graphic';
-import Hull from '../item/hull';
+// import Hull from '../item/hull'; // TODO: [G 升级 POC 忽略内容]
 
 const { transform } = ext;
 const NODE = 'node';
@@ -511,15 +510,16 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     }
   }
 
-  /**
-   * 设置各个 combo 的配置
-   * @param comboFn
-   */
-  public combo(comboFn: (config: ComboConfig) => Partial<ComboConfig>): void {
-    if (typeof comboFn === 'function') {
-      this.set('comboMapper', comboFn);
-    }
-  }
+  // TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 设置各个 combo 的配置
+  //  * @param comboFn
+  //  */
+  // public combo(comboFn: (config: ComboConfig) => Partial<ComboConfig>): void {
+  //   if (typeof comboFn === 'function') {
+  //     this.set('comboMapper', comboFn);
+  //   }
+  // }
 
   /**
    * 根据 ID 查询图元素实例
@@ -687,7 +687,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * @param center 以center的x, y坐标为中心缩放
    * @return {boolean} 缩放是否成功
    */
-  public zoom(ratio: number, center?: Point = { x: 0, y: 0 }): boolean {
+  public zoom(ratio: number, center: IPos = { x: 0, y: 0 }): boolean {
     if (ratio === 1 || !ratio) return;
     const minZoom: number = this.get('minZoom');
     const maxZoom: number = this.get('maxZoom');
@@ -719,10 +719,10 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   /**
    * 伸缩视口到一固定比例
    * @param {number} toRatio 伸缩比例
-   * @param {Point} center 以center的x, y坐标为中心缩放
+   * @param {IPos} center 以center的x, y坐标为中心缩放
    * @return {boolean} 缩放是否成功
    */
-  public zoomTo(toRatio: number, center?: Point): boolean {
+  public zoomTo(toRatio: number, center?: IPos): boolean {
     const ratio = toRatio / this.getZoom();
     return this.zoom(ratio, center);
   }
@@ -772,9 +772,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * TODO: canvas.getPointByClient 不存在，新版 page 坐标待确认
    * @param {number} clientX 屏幕x坐标
    * @param {number} clientY 屏幕y坐标
-   * @return {Point} 视口坐标
+   * @return {IPos} 视口坐标
    */
-  public getPointByClient(clientX: number, clientY: number): Point {
+  public getPointByClient(clientX: number, clientY: number): IPos {
     const viewController: ViewController = this.get('viewController');
     return viewController.getPointByClient(clientX, clientY);
   }
@@ -783,9 +783,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * 将绘制坐标转换为屏幕坐标
    * @param {number} x 绘制坐标 x
    * @param {number} y 绘制坐标 y
-   * @return {Point} 绘制坐标
+   * @return {IPos} 绘制坐标
    */
-  public getClientByPoint(x: number, y: number): Point {
+  public getClientByPoint(x: number, y: number): IPos {
     const viewController: ViewController = this.get('viewController');
     return viewController.getClientByPoint(x, y);
   }
@@ -796,7 +796,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * @param {number} canvasY 画布 y 坐标
    * @return {object} 绘制坐标
    */
-  public getPointByCanvas(canvasX: number, canvasY: number): Point {
+  public getPointByCanvas(canvasX: number, canvasY: number): IPos {
     const viewController: ViewController = this.get('viewController');
     return viewController.getPointByCanvas(canvasX, canvasY);
   }
@@ -807,7 +807,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * @param {number} y 绘制坐标 y
    * @return {object} 画布坐标
    */
-  public getCanvasByPoint(x: number, y: number): Point {
+  public getCanvasByPoint(x: number, y: number): IPos {
     const viewController: ViewController = this.get('viewController');
     return viewController.getCanvasByPoint(x, y);
   }
@@ -816,7 +816,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * 获取图内容的中心绘制坐标(全局坐标系)
    * @return {object} 中心绘制坐标(全局坐标系)
    */
-  public getGraphCenterPoint(): Point {
+  public getGraphCenterPoint(): IPos {
     const bbox = this.get('group').getBounds();
     return {
       x: (bbox.min[0] + bbox.max[0]) / 2,
@@ -828,7 +828,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * 获取视口中心绘制坐标（全局坐标）
    * @return {object} 视口中心绘制坐标
    */
-  public getViewPortCenterPoint(): Point {
+  public getViewPortCenterPoint(): IPos {
     return port2Global(
       this,
       { x: this.get('width') / 2, y: this.get('height') / 2 }
@@ -910,16 +910,17 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     itemController.refreshItem(item);
   }
 
-  /**
-   * 设置是否在更新/刷新后自动重绘
-   * @param {boolean} auto 自动重绘
-   */
-  public setAutoPaint(auto: boolean): void {
-    const self = this;
-    self.set('autoPaint', auto);
-    const canvas: ICanvas = self.get('canvas');
-    canvas.set('autoDraw', auto);
-  }
+  // TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 设置是否在更新/刷新后自动重绘
+  //  * @param {boolean} auto 自动重绘
+  //  */
+  // public setAutoPaint(auto: boolean): void {
+  //   const self = this;
+  //   self.set('autoPaint', auto);
+  //   const canvas: ICanvas = self.get('canvas');
+  //   canvas.set('autoDraw', auto);
+  // }
 
   /**
    * 删除元素
@@ -982,18 +983,22 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
       if (type === 'node') {
         const model = (nodeItem as INode).getModel();
-        // 如果删除的是节点，且该节点存在于某个 Combo 中，则需要先将 node 从 combo 中移除，否则删除节点后，操作 combo 会出错
-        if (model.comboId) {
-          this.updateComboTree(nodeItem as INode, undefined, false);
-        }
+
+  // TODO: [G 升级 POC 忽略内容]
+        // // 如果删除的是节点，且该节点存在于某个 Combo 中，则需要先将 node 从 combo 中移除，否则删除节点后，操作 combo 会出错
+        // if (model.comboId) {
+        //   this.updateComboTree(nodeItem as INode, undefined, false);
+        // }
       }
 
       const itemController: ItemController = this.get('itemController');
       itemController.removeItem(nodeItem);
-      if (type === 'combo') {
-        const newComboTrees = reconstructTree(this.get('comboTrees'));
-        this.set('comboTrees', newComboTrees);
-      }
+
+  // TODO: [G 升级 POC 忽略内容]
+      // if (type === 'combo') {
+      //   const newComboTrees = reconstructTree(this.get('comboTrees'));
+      //   this.set('comboTrees', newComboTrees);
+      // }
     }
   }
 
@@ -1030,100 +1035,105 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     }
 
     let item;
-    let comboTrees = this.get('comboTrees');
-    if (!comboTrees) comboTrees = [];
-    if (type === 'combo') {
-      const itemMap = this.get('itemMap');
-      let foundParent = false;
-      comboTrees.forEach((ctree: ComboTree) => {
-        if (foundParent) return; // terminate the forEach after the tree containing the item is done
-        traverseTreeUp<ComboTree>(ctree, child => {
-          // find the parent
-          if (model.parentId === child.id) {
-            foundParent = true;
-            const newCombo: ComboTree = {
-              id: model.id as string,
-              depth: child.depth + 2,
-              ...model,
-            };
-            if (child.children) child.children.push(newCombo);
-            else child.children = [newCombo];
-            model.depth = newCombo.depth;
-            item = itemController.addItem(type, model) as ICombo;
-          }
-          const childItem = itemMap[child.id];
-          // after the parent is found, update all the ancestors
-          if (foundParent && childItem && childItem.getType && childItem.getType() === 'combo') {
-            itemController.updateCombo(childItem, child.children);
-          }
-          return true;
-        });
-      });
-      // if the parent is not found, add it to the root
-      if (!foundParent) {
-        const newCombo: ComboTree = {
-          id: model.id as string,
-          depth: 0,
-          ...model,
-        };
-        model.depth = newCombo.depth;
-        comboTrees.push(newCombo);
-        item = itemController.addItem(type, model) as ICombo;
-      }
-      this.set('comboTrees', comboTrees);
-    } else if (type === 'node' && isString(model.comboId) && comboTrees) {
-      const parentCombo = this.findById(model.comboId as string);
-      if (parentCombo && parentCombo.getType && parentCombo.getType() !== 'combo') {
-        console.warn(
-          `'${model.comboId}' is not a id of a combo in the graph, the node will be added without combo.`,
-        );
-      }
+
+// TODO: [G 升级 POC 忽略内容]
+    // let comboTrees = this.get('comboTrees');
+    // if (!comboTrees) comboTrees = [];
+    // if (type === 'combo') {
+    //   const itemMap = this.get('itemMap');
+    //   let foundParent = false;
+    //   comboTrees.forEach((ctree: ComboTree) => {
+    //     if (foundParent) return; // terminate the forEach after the tree containing the item is done
+    //     traverseTreeUp<ComboTree>(ctree, child => {
+    //       // find the parent
+    //       if (model.parentId === child.id) {
+    //         foundParent = true;
+    //         const newCombo: ComboTree = {
+    //           id: model.id as string,
+    //           depth: child.depth + 2,
+    //           ...model,
+    //         };
+    //         if (child.children) child.children.push(newCombo);
+    //         else child.children = [newCombo];
+    //         model.depth = newCombo.depth;
+    //         item = itemController.addItem(type, model) as ICombo;
+    //       }
+    //       const childItem = itemMap[child.id];
+
+    //       // after the parent is found, update all the ancestors
+    //       if (foundParent && childItem && childItem.getType && childItem.getType() === 'combo') {
+    //         itemController.updateCombo(childItem, child.children);
+    //       }
+    //       return true;
+    //     });
+    //   });
+    //   // if the parent is not found, add it to the root
+    //   if (!foundParent) {
+    //     const newCombo: ComboTree = {
+    //       id: model.id as string,
+    //       depth: 0,
+    //       ...model,
+    //     };
+    //     model.depth = newCombo.depth;
+    //     comboTrees.push(newCombo);
+    //     item = itemController.addItem(type, model) as ICombo;
+    //   }
+    //   this.set('comboTrees', comboTrees);
+    // } else if (type === 'node' && isString(model.comboId) && comboTrees) {
+    //   const parentCombo = this.findById(model.comboId as string);
+    //   if (parentCombo && parentCombo.getType && parentCombo.getType() !== 'combo') {
+    //     console.warn(
+    //       `'${model.comboId}' is not a id of a combo in the graph, the node will be added without combo.`,
+    //     );
+    //   }
+    //   item = itemController.addItem(type, model);
+
+    //   const itemMap = this.get('itemMap');
+    //   let foundParent = false,
+    //     foundNode = false;
+    //   (comboTrees || []).forEach((ctree: ComboTree) => {
+    //     if (foundNode || foundParent) return; // terminate the forEach
+    //     traverseTreeUp<ComboTree>(ctree, child => {
+    //       if (child.id === model.id) {
+    //         // if the item exists in the tree already, terminate
+    //         foundNode = true;
+    //         return false;
+    //       }
+    //       if (model.comboId === child.id && !foundNode) {
+    //         // found the parent, add the item to the children of its parent in the tree
+    //         foundParent = true;
+    //         const cloneNode = clone(model);
+    //         cloneNode.itemType = 'node';
+    //         if (child.children) child.children.push(cloneNode as any);
+    //         else child.children = [cloneNode as any];
+    //         cloneNode.depth = child.depth + 1;
+    //       }
+    //       // update the size of all the ancestors
+    //       if (foundParent && itemMap[child.id].getType && itemMap[child.id].getType() === 'combo') {
+    //         itemController.updateCombo(itemMap[child.id], child.children);
+    //       }
+    //       return true;
+    //     });
+    //   });
+    // } else {
       item = itemController.addItem(type, model);
+    // }
 
-      const itemMap = this.get('itemMap');
-      let foundParent = false,
-        foundNode = false;
-      (comboTrees || []).forEach((ctree: ComboTree) => {
-        if (foundNode || foundParent) return; // terminate the forEach
-        traverseTreeUp<ComboTree>(ctree, child => {
-          if (child.id === model.id) {
-            // if the item exists in the tree already, terminate
-            foundNode = true;
-            return false;
-          }
-          if (model.comboId === child.id && !foundNode) {
-            // found the parent, add the item to the children of its parent in the tree
-            foundParent = true;
-            const cloneNode = clone(model);
-            cloneNode.itemType = 'node';
-            if (child.children) child.children.push(cloneNode as any);
-            else child.children = [cloneNode as any];
-            cloneNode.depth = child.depth + 1;
-          }
-          // update the size of all the ancestors
-          if (foundParent && itemMap[child.id].getType && itemMap[child.id].getType() === 'combo') {
-            itemController.updateCombo(itemMap[child.id], child.children);
-          }
-          return true;
-        });
-      });
-    } else {
-      item = itemController.addItem(type, model);
-    }
+// TODO: [G 升级 POC 忽略内容]
+    // if ((type === 'node' && model.comboId) || (type === 'combo' && model.parentId)) {
+    //   // add the combo to the parent's children array
+    //   const parentCombo = this.findById(
+    //     (model.comboId as string) || (model.parentId as string),
+    //   ) as ICombo;
+    //   if (parentCombo && parentCombo.getType && parentCombo.getType() === 'combo')
+    //     parentCombo.addChild(item);
+    // }
 
-    if ((type === 'node' && model.comboId) || (type === 'combo' && model.parentId)) {
-      // add the combo to the parent's children array
-      const parentCombo = this.findById(
-        (model.comboId as string) || (model.parentId as string),
-      ) as ICombo;
-      if (parentCombo && parentCombo.getType && parentCombo.getType() === 'combo')
-        parentCombo.addChild(item);
-    }
-
-    const combos = this.get('combos');
-    if (combos && combos.length > 0) {
-      this.sortCombos();
-    }
+// TODO: [G 升级 POC 忽略内容]
+    // const combos = this.get('combos');
+    // if (combos && combos.length > 0) {
+    //   this.sortCombos();
+    // }
     this.autoPaint();
 
     if (stack && this.get('enabledStack')) {
@@ -1193,14 +1203,17 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     let type = '';
     if (currentItem.getType) type = currentItem.getType();
     const states = [...currentItem.getStates()];
-    if (type === 'combo') {
-      each(states, state => this.setItemState(currentItem, state, false));
-    }
+
+  // TODO: [G 升级 POC 忽略内容]
+    // if (type === 'combo') {
+    //   each(states, state => this.setItemState(currentItem, state, false));
+    // }
     itemController.updateItem(currentItem, cfg);
 
-    if (type === 'combo') {
-      each(states, state => this.setItemState(currentItem, state, true));
-    }
+  // TODO: [G 升级 POC 忽略内容]
+    // if (type === 'combo') {
+    //   each(states, state => this.setItemState(currentItem, state, true));
+    // }
 
     if (stack && this.get('enabledStack')) {
       const before = { nodes: [], edges: [], combos: [] };
@@ -1315,13 +1328,14 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       self.add('node', node, false, false);
     });
 
-    // process the data to tree structure
-    if (combos && combos.length !== 0) {
-      const comboTrees = plainCombosToTrees(combos, nodes);
-      this.set('comboTrees', comboTrees);
-      // add combos
-      self.addCombos(combos);
-    }
+  // TODO: [G 升级 POC 忽略内容]
+    // // process the data to tree structure
+    // if (combos && combos.length !== 0) {
+    //   const comboTrees = plainCombosToTrees(combos, nodes);
+    //   this.set('comboTrees', comboTrees);
+    //   // add combos
+    //   self.addCombos(combos);
+    // }
 
     each(edges, (edge: EdgeConfig) => {
       self.add('edge', edge, false, false);
@@ -1365,7 +1379,8 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
     if (!this.get('groupByTypes')) {
       if (combos && combos.length !== 0) {
-        this.sortCombos();
+        // TODO: [G 升级 POC 忽略内容]
+        // this.sortCombos();
       } else {
         // 为提升性能，选择数量少的进行操作
         if (data.nodes && data.edges && data.nodes.length < data.edges.length) {
@@ -1449,8 +1464,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     }
     this.set('comboSorted', false);
 
-    // 删除 hulls
-    this.removeHulls();
+// TODO: [G 升级 POC 忽略内容]
+    // // 删除 hulls
+    // this.removeHulls();
 
     // 更改数据源后，取消所有状态
     this.getNodes().map(node => self.clearItemStates(node));
@@ -1471,13 +1487,14 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       edges: [],
     };
 
-    const combosData = (data as GraphData).combos;
-    if (combosData) {
-      const comboTrees = plainCombosToTrees(combosData, (data as GraphData).nodes);
-      this.set('comboTrees', comboTrees);
-    } else {
-      this.set('comboTrees', []);
-    }
+  // TODO: [G 升级 POC 忽略内容]
+    // const combosData = (data as GraphData).combos;
+    // if (combosData) {
+    //   const comboTrees = plainCombosToTrees(combosData, (data as GraphData).nodes);
+    //   this.set('comboTrees', comboTrees);
+    // } else {
+    //   this.set('comboTrees', []);
+    // }
 
     this.diffItems('node', items, (data as GraphData).nodes!);
 
@@ -1493,23 +1510,25 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       }
     });
 
-    // clear the destroyed combos here to avoid removing sub nodes before removing the parent combo
-    const comboItems = this.getCombos();
-    const combosLength = comboItems.length;
-    for (let i = combosLength - 1; i >= 0; i--) {
-      if (comboItems[i].destroyed) {
-        comboItems.splice(i, 1);
-      }
-    }
+  // TODO: [G 升级 POC 忽略内容]
+    // // clear the destroyed combos here to avoid removing sub nodes before removing the parent combo
+    // const comboItems = this.getCombos();
+    // const combosLength = comboItems.length;
+    // for (let i = combosLength - 1; i >= 0; i--) {
+    //   if (comboItems[i].destroyed) {
+    //     comboItems.splice(i, 1);
+    //   }
+    // }
 
-    // process the data to tree structure
-    if (combosData) {
-      // add combos
-      self.addCombos(combosData);
-      if (!this.get('groupByTypes')) {
-        this.sortCombos();
-      }
-    }
+  // TODO: [G 升级 POC 忽略内容]
+    // // process the data to tree structure
+    // if (combosData) {
+    //   // add combos
+    //   self.addCombos(combosData);
+    //   if (!this.get('groupByTypes')) {
+    //     this.sortCombos();
+    //   }
+    // }
 
     this.diffItems('edge', items, (data as GraphData).edges!);
     each(itemMap, (item: INode & IEdge & ICombo, id: number) => {
@@ -1533,406 +1552,410 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         self.autoPaint();
       }
     }
-
-    setTimeout(() => {
-      // canvas.set('localRefresh', localRefresh);
-    }, 16);
     return this;
   }
 
-  /**
-   * 私有方法，在 render 和 changeData 的时候批量添加数据中所有平铺的 combos
-   * @param {ComboConfig[]} combos 平铺的 combos 数据
-   */
-  protected addCombos(combos: ComboConfig[]) {
-    const self = this;
-    const comboTrees = self.get('comboTrees');
-    const itemController: ItemController = this.get('itemController');
-    itemController.addCombos(comboTrees, combos);
-  }
+  // TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 私有方法，在 render 和 changeData 的时候批量添加数据中所有平铺的 combos
+  //  * @param {ComboConfig[]} combos 平铺的 combos 数据
+  //  */
+  // protected addCombos(combos: ComboConfig[]) {
+  //   const self = this;
+  //   const comboTrees = self.get('comboTrees');
+  //   const itemController: ItemController = this.get('itemController');
+  //   itemController.addCombos(comboTrees, combos);
+  // }
 
-  /**
-   * 根据已经存在的节点或 combo 创建新的 combo
-   * @param combo combo ID 或 Combo 配置
-   * @param children 添加到 Combo 中的元素，包括节点和 combo
-   */
-  public createCombo(combo: string | ComboConfig, children: string[]): void {
-    this.set('comboSorted', false);
-    // step 1: 创建新的 Combo
-    let comboId = '';
-    let comboConfig: ComboConfig;
-    if (!combo) return;
-    if (isString(combo)) {
-      comboId = combo;
-      comboConfig = {
-        id: combo,
-      };
-    } else {
-      comboId = combo.id;
-      if (!comboId) {
-        console.warn('Create combo failed. Please assign a unique string id for the adding combo.');
-        return;
-      }
-      comboConfig = combo;
-    }
+  // TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 根据已经存在的节点或 combo 创建新的 combo
+  //  * @param combo combo ID 或 Combo 配置
+  //  * @param children 添加到 Combo 中的元素，包括节点和 combo
+  //  */
+  // public createCombo(combo: string | ComboConfig, children: string[]): void {
+  //   this.set('comboSorted', false);
+  //   // step 1: 创建新的 Combo
+  //   let comboId = '';
+  //   let comboConfig: ComboConfig;
+  //   if (!combo) return;
+  //   if (isString(combo)) {
+  //     comboId = combo;
+  //     comboConfig = {
+  //       id: combo,
+  //     };
+  //   } else {
+  //     comboId = combo.id;
+  //     if (!comboId) {
+  //       console.warn('Create combo failed. Please assign a unique string id for the adding combo.');
+  //       return;
+  //     }
+  //     comboConfig = combo;
+  //   }
 
-    // step2: 更新 children，根据类型添加 comboId 或 parentId
-    const trees: ComboTree[] = children.map(elementId => {
-      const item = this.findById(elementId);
-      const model = item.getModel();
+  //   // step2: 更新 children，根据类型添加 comboId 或 parentId
+  //   const trees: ComboTree[] = children.map(elementId => {
+  //     const item = this.findById(elementId);
+  //     const model = item.getModel();
 
-      let type = '';
-      if (item.getType) type = item.getType();
-      const cItem: ComboTree = {
-        id: item.getID(),
-        itemType: type as 'node' | 'combo',
-      };
+  //     let type = '';
+  //     if (item.getType) type = item.getType();
+  //     const cItem: ComboTree = {
+  //       id: item.getID(),
+  //       itemType: type as 'node' | 'combo',
+  //     };
 
-      if (type === 'combo') {
-        (cItem as ComboConfig).parentId = comboId;
-        model.parentId = comboId;
-      } else if (type === 'node') {
-        (cItem as NodeConfig).comboId = comboId;
-        model.comboId = comboId;
-      }
+  //     if (type === 'combo') {
+  //       (cItem as ComboConfig).parentId = comboId;
+  //       model.parentId = comboId;
+  //     } else if (type === 'node') {
+  //       (cItem as NodeConfig).comboId = comboId;
+  //       model.comboId = comboId;
+  //     }
 
-      return cItem;
-    });
+  //     return cItem;
+  //   });
 
-    comboConfig.children = trees;
+  //   comboConfig.children = trees;
 
-    // step 3: 添加 Combo，addItem 时会将子将元素添加到 Combo 中
-    this.addItem('combo', comboConfig, false);
-    this.set('comboSorted', false);
+  //   // step 3: 添加 Combo，addItem 时会将子将元素添加到 Combo 中
+  //   this.addItem('combo', comboConfig, false);
+  //   this.set('comboSorted', false);
 
-    // step4: 更新 comboTrees 结构
-    const comboTrees = this.get('comboTrees');
-    (comboTrees || []).forEach(ctree => {
-      traverseTreeUp<ComboTree>(ctree, child => {
-        if (child.id === comboId) {
-          child.itemType = 'combo';
-          child.children = trees as ComboTree[];
-          return false;
-        }
-        return true;
-      });
-    });
-    if (comboTrees) {
-      this.sortCombos();
-    }
-  }
+  //   // step4: 更新 comboTrees 结构
+  //   const comboTrees = this.get('comboTrees');
+  //   (comboTrees || []).forEach(ctree => {
+  //     traverseTreeUp<ComboTree>(ctree, child => {
+  //       if (child.id === comboId) {
+  //         child.itemType = 'combo';
+  //         child.children = trees as ComboTree[];
+  //         return false;
+  //       }
+  //       return true;
+  //     });
+  //   });
+  //   if (comboTrees) {
+  //     this.sortCombos();
+  //   }
+  // }
 
-  /**
-   * 解散 combo
-   * @param {String | INode | ICombo} combo 需要被解散的 Combo item 或 id
-   */
-  public uncombo(combo: string | ICombo) {
-    const self = this;
-    let comboItem: ICombo = combo as ICombo;
-    if (isString(combo)) {
-      comboItem = this.findById(combo) as ICombo;
-    }
+  // TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 解散 combo
+  //  * @param {String | INode | ICombo} combo 需要被解散的 Combo item 或 id
+  //  */
+  // public uncombo(combo: string | ICombo) {
+  //   const self = this;
+  //   let comboItem: ICombo = combo as ICombo;
+  //   if (isString(combo)) {
+  //     comboItem = this.findById(combo) as ICombo;
+  //   }
 
-    if (!comboItem || (comboItem.getType && comboItem.getType() !== 'combo')) {
-      console.warn('The item is not a combo!');
-      return;
-    }
+  //   if (!comboItem || (comboItem.getType && comboItem.getType() !== 'combo')) {
+  //     console.warn('The item is not a combo!');
+  //     return;
+  //   }
 
-    const parentId = comboItem.getModel().parentId;
-    let comboTrees = self.get('comboTrees');
-    if (!comboTrees) comboTrees = [];
-    const itemMap = this.get('itemMap');
-    const comboId = comboItem.get('id');
-    let treeToBeUncombo;
-    let brothers = [];
-    const comboItems = this.get('combos');
-    const parentItem = this.findById(parentId as string) as ICombo;
+  //   const parentId = comboItem.getModel().parentId;
+  //   let comboTrees = self.get('comboTrees');
+  //   if (!comboTrees) comboTrees = [];
+  //   const itemMap = this.get('itemMap');
+  //   const comboId = comboItem.get('id');
+  //   let treeToBeUncombo;
+  //   let brothers = [];
+  //   const comboItems = this.get('combos');
+  //   const parentItem = this.findById(parentId as string) as ICombo;
 
-    comboTrees.forEach(ctree => {
-      if (treeToBeUncombo) return; // terminate the forEach
-      traverseTreeUp<ComboTree>(ctree, subtree => {
-        // find the combo to be uncomboed, delete the combo from map and cache
-        if (subtree.id === comboId) {
-          treeToBeUncombo = subtree;
-          // delete the related edges
-          const edges = comboItem.getEdges();
-          edges.forEach(edge => {
-            this.removeItem(edge, false);
-          });
-          const index = comboItems.indexOf(comboItem);
-          comboItems.splice(index, 1);
-          delete itemMap[comboId];
-          comboItem.destroy();
-        }
-        // find the parent to remove the combo from the combo's brothers array and add the combo's children to the combo's brothers array in the tree
-        if (parentId && treeToBeUncombo && subtree.id === parentId) {
-          parentItem.removeCombo(comboItem);
-          brothers = subtree.children; // the combo's brothers
-          // remove the combo from its brothers array
-          const index = brothers.indexOf(treeToBeUncombo);
-          if (index !== -1) {
-            brothers.splice(index, 1);
-          }
+  //   comboTrees.forEach(ctree => {
+  //     if (treeToBeUncombo) return; // terminate the forEach
+  //     traverseTreeUp<ComboTree>(ctree, subtree => {
+  //       // find the combo to be uncomboed, delete the combo from map and cache
+  //       if (subtree.id === comboId) {
+  //         treeToBeUncombo = subtree;
+  //         // delete the related edges
+  //         const edges = comboItem.getEdges();
+  //         edges.forEach(edge => {
+  //           this.removeItem(edge, false);
+  //         });
+  //         const index = comboItems.indexOf(comboItem);
+  //         comboItems.splice(index, 1);
+  //         delete itemMap[comboId];
+  //         comboItem.destroy();
+  //       }
+  //       // find the parent to remove the combo from the combo's brothers array and add the combo's children to the combo's brothers array in the tree
+  //       if (parentId && treeToBeUncombo && subtree.id === parentId) {
+  //         parentItem.removeCombo(comboItem);
+  //         brothers = subtree.children; // the combo's brothers
+  //         // remove the combo from its brothers array
+  //         const index = brothers.indexOf(treeToBeUncombo);
+  //         if (index !== -1) {
+  //           brothers.splice(index, 1);
+  //         }
 
-          // append the combo's children to the combo's brothers array
-          treeToBeUncombo.children.forEach(child => {
-            const item = this.findById(child.id) as ICombo | INode;
-            const childModel = item.getModel();
-            if (item.getType && item.getType() === 'combo') {
-              child.parentId = parentId;
-              delete child.comboId;
-              childModel.parentId = parentId; // update the parentId of the model
-              delete childModel.comboId;
-            } else if (item.getType && item.getType() === 'node') {
-              child.comboId = parentId;
-              childModel.comboId = parentId; // update the parentId of the model
-            }
-            parentItem.addChild(item);
-            brothers.push(child);
-          });
-          return false;
-        }
-        return true;
-      });
-    });
+  //         // append the combo's children to the combo's brothers array
+  //         treeToBeUncombo.children.forEach(child => {
+  //           const item = this.findById(child.id) as ICombo | INode;
+  //           const childModel = item.getModel();
+  //           if (item.getType && item.getType() === 'combo') {
+  //             child.parentId = parentId;
+  //             delete child.comboId;
+  //             childModel.parentId = parentId; // update the parentId of the model
+  //             delete childModel.comboId;
+  //           } else if (item.getType && item.getType() === 'node') {
+  //             child.comboId = parentId;
+  //             childModel.comboId = parentId; // update the parentId of the model
+  //           }
+  //           parentItem.addChild(item);
+  //           brothers.push(child);
+  //         });
+  //         return false;
+  //       }
+  //       return true;
+  //     });
+  //   });
 
-    // if the parentId is not found, remove the combo from the roots
-    if (!parentId && treeToBeUncombo) {
-      const index = comboTrees.indexOf(treeToBeUncombo);
-      comboTrees.splice(index, 1);
-      // modify the parentId of the children
-      treeToBeUncombo.children.forEach(child => {
-        child.parentId = undefined;
-        const childModel = this.findById(child.id).getModel();
-        delete childModel.parentId; // update the parentId of the model
-        delete childModel.comboId; // update the comboId of the model
-        if (child.itemType !== 'node') comboTrees.push(child);
-      });
-    }
-  }
+  //   // if the parentId is not found, remove the combo from the roots
+  //   if (!parentId && treeToBeUncombo) {
+  //     const index = comboTrees.indexOf(treeToBeUncombo);
+  //     comboTrees.splice(index, 1);
+  //     // modify the parentId of the children
+  //     treeToBeUncombo.children.forEach(child => {
+  //       child.parentId = undefined;
+  //       const childModel = this.findById(child.id).getModel();
+  //       delete childModel.parentId; // update the parentId of the model
+  //       delete childModel.comboId; // update the comboId of the model
+  //       if (child.itemType !== 'node') comboTrees.push(child);
+  //     });
+  //   }
+  // }
 
-  /**
-   * 根据节点的 bbox 更新所有 combos 的绘制，包括 combos 的位置和范围
-   */
-  public updateCombos() {
-    const self = this;
-    const comboTrees = this.get('comboTrees');
-    const itemController: ItemController = self.get('itemController');
+// TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 根据节点的 bbox 更新所有 combos 的绘制，包括 combos 的位置和范围
+  //  */
+  // public updateCombos() {
+  //   const self = this;
+  //   const comboTrees = this.get('comboTrees');
+  //   const itemController: ItemController = self.get('itemController');
 
-    const itemMap = self.get('itemMap');
-    (comboTrees || []).forEach((ctree: ComboTree) => {
-      traverseTreeUp<ComboTree>(ctree, child => {
-        if (!child) {
-          return true;
-        }
-        const childItem = itemMap[child.id];
-        if (childItem && childItem.getType && childItem.getType() === 'combo') {
-          // 更新具体的 Combo 之前先清除所有的已有状态，以免将 state 中的样式更新为 Combo 的样式
-          const states = [...childItem.getStates()];
-          each(states, state => this.setItemState(childItem, state, false));
+  //   const itemMap = self.get('itemMap');
+  //   (comboTrees || []).forEach((ctree: ComboTree) => {
+  //     traverseTreeUp<ComboTree>(ctree, child => {
+  //       if (!child) {
+  //         return true;
+  //       }
+  //       const childItem = itemMap[child.id];
+  //       if (childItem && childItem.getType && childItem.getType() === 'combo') {
+  //         // 更新具体的 Combo 之前先清除所有的已有状态，以免将 state 中的样式更新为 Combo 的样式
+  //         const states = [...childItem.getStates()];
+  //         each(states, state => this.setItemState(childItem, state, false));
 
-          // 更新具体的 Combo
-          itemController.updateCombo(childItem, child.children);
+  //         // 更新具体的 Combo
+  //         itemController.updateCombo(childItem, child.children);
 
-          // 更新 Combo 后，还原已有的状态
-          each(states, state => this.setItemState(childItem, state, true));
-        }
-        return true;
-      });
-    });
-    self.sortCombos();
-  }
+  //         // 更新 Combo 后，还原已有的状态
+  //         each(states, state => this.setItemState(childItem, state, true));
+  //       }
+  //       return true;
+  //     });
+  //   });
+  //   self.sortCombos();
+  // }
 
-  /**
-   * 根据节点的 bbox 更新 combo 及其祖先 combos 的绘制，包括 combos 的位置和范围
-   * @param {String | ICombo} combo 需要被更新的 Combo 或 id，若指定，则该 Combo 及所有祖先 Combod 都会被更新
-   */
-  public updateCombo(combo: string | ICombo) {
-    const self = this;
 
-    let comboItem: ICombo = combo as ICombo;
-    let comboId;
-    if (isString(combo)) {
-      comboItem = this.findById(combo) as ICombo;
-    }
-    if (!comboItem || (comboItem.getType && comboItem.getType() !== 'combo')) {
-      console.warn('The item to be updated is not a combo!');
-      return;
-    }
-    comboId = comboItem.get('id');
+// TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 根据节点的 bbox 更新 combo 及其祖先 combos 的绘制，包括 combos 的位置和范围
+  //  * @param {String | ICombo} combo 需要被更新的 Combo 或 id，若指定，则该 Combo 及所有祖先 Combod 都会被更新
+  //  */
+  // public updateCombo(combo: string | ICombo) {
+  //   const self = this;
 
-    const comboTrees = this.get('comboTrees');
-    const itemController: ItemController = self.get('itemController');
+  //   let comboItem: ICombo = combo as ICombo;
+  //   let comboId;
+  //   if (isString(combo)) {
+  //     comboItem = this.findById(combo) as ICombo;
+  //   }
+  //   if (!comboItem || (comboItem.getType && comboItem.getType() !== 'combo')) {
+  //     console.warn('The item to be updated is not a combo!');
+  //     return;
+  //   }
+  //   comboId = comboItem.get('id');
 
-    const itemMap = self.get('itemMap');
-    (comboTrees || []).forEach((ctree: ComboTree) => {
-      traverseTreeUp<ComboTree>(ctree, child => {
-        if (!child) {
-          return true;
-        }
-        const childItem = itemMap[child.id];
-        if (
-          comboId === child.id &&
-          childItem &&
-          childItem.getType &&
-          childItem.getType() === 'combo'
-        ) {
-          // 更新具体的 Combo 之前先清除所有的已有状态，以免将 state 中的样式更新为 Combo 的样式
-          const states = [...childItem.getStates()];
-          // || !item.getStateStyle(stateName)
-          each(states, state => {
-            if (childItem.getStateStyle(state)) {
-              this.setItemState(childItem, state, false);
-            }
-          });
+  //   const comboTrees = this.get('comboTrees');
+  //   const itemController: ItemController = self.get('itemController');
 
-          // 更新具体的 Combo
-          itemController.updateCombo(childItem, child.children);
+  //   const itemMap = self.get('itemMap');
+  //   (comboTrees || []).forEach((ctree: ComboTree) => {
+  //     traverseTreeUp<ComboTree>(ctree, child => {
+  //       if (!child) {
+  //         return true;
+  //       }
+  //       const childItem = itemMap[child.id];
+  //       if (
+  //         comboId === child.id &&
+  //         childItem &&
+  //         childItem.getType &&
+  //         childItem.getType() === 'combo'
+  //       ) {
+  //         // 更新具体的 Combo 之前先清除所有的已有状态，以免将 state 中的样式更新为 Combo 的样式
+  //         const states = [...childItem.getStates()];
+  //         // || !item.getStateStyle(stateName)
+  //         each(states, state => {
+  //           if (childItem.getStateStyle(state)) {
+  //             this.setItemState(childItem, state, false);
+  //           }
+  //         });
 
-          // 更新 Combo 后，还原已有的状态
-          each(states, state => {
-            if (childItem.getStateStyle(state)) {
-              this.setItemState(childItem, state, true);
-            }
-          });
+  //         // 更新具体的 Combo
+  //         itemController.updateCombo(childItem, child.children);
 
-          if (comboId) comboId = child.parentId;
-        }
-        return true;
-      });
-    });
-  }
+  //         // 更新 Combo 后，还原已有的状态
+  //         each(states, state => {
+  //           if (childItem.getStateStyle(state)) {
+  //             this.setItemState(childItem, state, true);
+  //           }
+  //         });
 
-  /**
-   * 更新树结构，例如移动子树等
-   * @param {String | INode | ICombo} item 需要被更新的 Combo 或 节点 id
-   * @param {string | undefined} parentId 新的父 combo id，undefined 代表没有父 combo
-   */
-  public updateComboTree(
-    item: string | INode | ICombo,
-    parentId?: string | undefined,
-    stack: boolean = true,
-  ) {
-    const self = this;
-    this.set('comboSorted', false);
-    let uItem: INode | ICombo;
-    if (isString(item)) {
-      uItem = self.findById(item) as INode | ICombo;
-    } else {
-      uItem = item as INode | ICombo;
-    }
+  //         if (comboId) comboId = child.parentId;
+  //       }
+  //       return true;
+  //     });
+  //   });
+  // }
 
-    const model = uItem.getModel();
-    const oldParentId = (model.comboId as string) || (model.parentId as string);
 
-    let type = '';
-    if (uItem.getType) type = uItem.getType();
+// TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 更新树结构，例如移动子树等
+  //  * @param {String | INode | ICombo} item 需要被更新的 Combo 或 节点 id
+  //  * @param {string | undefined} parentId 新的父 combo id，undefined 代表没有父 combo
+  //  */
+  // public updateComboTree(
+  //   item: string | INode | ICombo,
+  //   parentId?: string | undefined,
+  //   stack: boolean = true,
+  // ) {
+  //   const self = this;
+  //   this.set('comboSorted', false);
+  //   let uItem: INode | ICombo;
+  //   if (isString(item)) {
+  //     uItem = self.findById(item) as INode | ICombo;
+  //   } else {
+  //     uItem = item as INode | ICombo;
+  //   }
 
-    // 若 item 是 Combo，且 parentId 是其子孙 combo 的 id，则警告并终止
-    if (parentId && type === 'combo') {
-      const comboTrees = this.get('comboTrees');
-      let valid = true;
-      let itemSubTree;
-      (comboTrees || []).forEach(ctree => {
-        if (itemSubTree) return;
-        traverseTree(ctree, subTree => {
-          if (itemSubTree) return;
-          // 找到从 item 开始的子树
-          if (subTree.id === uItem.getID()) {
-            itemSubTree = subTree;
-          }
-          return true;
-        });
-      });
-      // 在以 item 为根的子树中寻找与 parentId 相同的后继元素
-      traverseTree(itemSubTree, subTree => {
-        if (subTree.id === parentId) {
-          valid = false;
-          return false;
-        }
-        return true;
-      });
-      // parentId 是 item 的一个后继元素，不能进行更新
-      if (!valid) {
-        console.warn(
-          'Failed to update the combo tree! The parentId points to a descendant of the combo!',
-        );
-        return;
-      }
-    }
+  //   const model = uItem.getModel();
+  //   const oldParentId = (model.comboId as string) || (model.parentId as string);
 
-    if (stack && this.get('enabledStack')) {
-      const beforeData: GraphData = {},
-        afterData: GraphData = {};
-      if (type === 'combo') {
-        beforeData.combos = [
-          {
-            id: model.id,
-            parentId: (model as ComboConfig).parentId,
-          },
-        ];
-        afterData.combos = [
-          {
-            id: model.id,
-            parentId,
-          },
-        ];
-      } else if (type === 'node') {
-        beforeData.nodes = [
-          {
-            id: model.id,
-            parentId: (model as NodeConfig).comboId,
-          },
-        ];
-        afterData.nodes = [
-          {
-            id: model.id,
-            parentId,
-          },
-        ];
-      }
-      this.pushStack('updateComboTree', {
-        before: beforeData,
-        after: afterData,
-      });
-    }
+  //   let type = '';
+  //   if (uItem.getType) type = uItem.getType();
 
-    // 当 combo 存在 parentId 或 comboId 时，才将其移除
-    if (model.parentId || model.comboId) {
-      const combo = this.findById((model.parentId || model.comboId) as string) as ICombo;
-      if (combo) {
-        combo.removeChild(uItem);
-      }
-    }
+  //   // 若 item 是 Combo，且 parentId 是其子孙 combo 的 id，则警告并终止
+  //   if (parentId && type === 'combo') {
+  //     const comboTrees = this.get('comboTrees');
+  //     let valid = true;
+  //     let itemSubTree;
+  //     (comboTrees || []).forEach(ctree => {
+  //       if (itemSubTree) return;
+  //       traverseTree(ctree, subTree => {
+  //         if (itemSubTree) return;
+  //         // 找到从 item 开始的子树
+  //         if (subTree.id === uItem.getID()) {
+  //           itemSubTree = subTree;
+  //         }
+  //         return true;
+  //       });
+  //     });
+  //     // 在以 item 为根的子树中寻找与 parentId 相同的后继元素
+  //     traverseTree(itemSubTree, subTree => {
+  //       if (subTree.id === parentId) {
+  //         valid = false;
+  //         return false;
+  //       }
+  //       return true;
+  //     });
+  //     // parentId 是 item 的一个后继元素，不能进行更新
+  //     if (!valid) {
+  //       console.warn(
+  //         'Failed to update the combo tree! The parentId points to a descendant of the combo!',
+  //       );
+  //       return;
+  //     }
+  //   }
 
-    if (type === 'combo') {
-      model.parentId = parentId;
-    } else if (type === 'node') {
-      model.comboId = parentId;
-    }
+  //   if (stack && this.get('enabledStack')) {
+  //     const beforeData: GraphData = {},
+  //       afterData: GraphData = {};
+  //     if (type === 'combo') {
+  //       beforeData.combos = [
+  //         {
+  //           id: model.id,
+  //           parentId: (model as ComboConfig).parentId,
+  //         },
+  //       ];
+  //       afterData.combos = [
+  //         {
+  //           id: model.id,
+  //           parentId,
+  //         },
+  //       ];
+  //     } else if (type === 'node') {
+  //       beforeData.nodes = [
+  //         {
+  //           id: model.id,
+  //           parentId: (model as NodeConfig).comboId,
+  //         },
+  //       ];
+  //       afterData.nodes = [
+  //         {
+  //           id: model.id,
+  //           parentId,
+  //         },
+  //       ];
+  //     }
+  //     this.pushStack('updateComboTree', {
+  //       before: beforeData,
+  //       after: afterData,
+  //     });
+  //   }
 
-    // 只有当移入到指定 combo 时才添加
-    if (parentId) {
-      const parentCombo = this.findById(parentId) as ICombo;
-      if (parentCombo) {
-        // 将元素添加到 parentCombo 中
-        parentCombo.addChild(uItem as ICombo | INode);
-      }
-    }
-    // 如果原先有父亲 combo，则从原父 combo 的子元素数组中删除
-    if (oldParentId) {
-      const parentCombo = this.findById(oldParentId) as ICombo;
-      if (parentCombo) {
-        // 将元素从 parentCombo 中移除
-        parentCombo.removeChild(uItem as ICombo | INode);
-      }
-    }
+  //   // 当 combo 存在 parentId 或 comboId 时，才将其移除
+  //   if (model.parentId || model.comboId) {
+  //     const combo = this.findById((model.parentId || model.comboId) as string) as ICombo;
+  //     if (combo) {
+  //       combo.removeChild(uItem);
+  //     }
+  //   }
 
-    const newComboTrees = reconstructTree(this.get('comboTrees'), model.id, parentId);
-    this.set('comboTrees', newComboTrees);
+  //   if (type === 'combo') {
+  //     model.parentId = parentId;
+  //   } else if (type === 'node') {
+  //     model.comboId = parentId;
+  //   }
 
-    this.updateCombos();
-  }
+  //   // 只有当移入到指定 combo 时才添加
+  //   if (parentId) {
+  //     const parentCombo = this.findById(parentId) as ICombo;
+  //     if (parentCombo) {
+  //       // 将元素添加到 parentCombo 中
+  //       parentCombo.addChild(uItem as ICombo | INode);
+  //     }
+  //   }
+  //   // 如果原先有父亲 combo，则从原父 combo 的子元素数组中删除
+  //   if (oldParentId) {
+  //     const parentCombo = this.findById(oldParentId) as ICombo;
+  //     if (parentCombo) {
+  //       // 将元素从 parentCombo 中移除
+  //       parentCombo.removeChild(uItem as ICombo | INode);
+  //     }
+  //   }
+
+  //   const newComboTrees = reconstructTree(this.get('comboTrees'), model.id, parentId);
+  //   this.set('comboTrees', newComboTrees);
+
+  //   this.updateCombos();
+  // }
 
   /**
    * 导出图数据
@@ -2017,32 +2040,35 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     return this.get('edges');
   }
 
-  /**
-   * 获取图中所有的 combo 实例
-   */
-  public getCombos(): ICombo[] {
-    return this.get('combos');
-  }
+  // TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 获取图中所有的 combo 实例
+  //  */
+  // public getCombos(): ICombo[] {
+  //   return this.get('combos');
+  // }
 
-  /**
-   * 获取指定 Combo 中所有的节点
-   * @param comboId combo ID
-   */
-  public getComboChildren(combo: string | ICombo): { nodes: INode[]; combos: ICombo[] } {
-    if (isString(combo)) {
-      combo = this.findById(combo) as ICombo;
-    }
-    if (!combo || (combo.getType && combo.getType() !== 'combo')) {
-      console.warn('The combo does not exist!');
-      return;
-    }
-    return combo.getChildren();
-  }
+  // TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 获取指定 Combo 中所有的节点
+  //  * @param comboId combo ID
+  //  */
+  // public getComboChildren(combo: string | ICombo): { nodes: INode[]; combos: ICombo[] } {
+  //   if (isString(combo)) {
+  //     combo = this.findById(combo) as ICombo;
+  //   }
+  //   if (!combo || (combo.getType && combo.getType() !== 'combo')) {
+  //     console.warn('The combo does not exist!');
+  //     return;
+  //   }
+  //   return combo.getChildren();
+  // }
 
   /**
    * 根据 graph 上的 animateCfg 进行视图中节点位置动画接口
    */
   public positionsAnimate(): void {
+    console.log('pisition animate')
     const self = this;
     self.emit('beforeanimate');
 
@@ -2052,14 +2078,14 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
     const nodes = self.getNodes();
 
-    const toNodes = nodes.map(node => {
-      const model = node.getModel();
-      return {
-        id: model.id,
-        x: model.x,
-        y: model.y,
-      };
-    });
+    // const toNodes = nodes.map(node => {
+    //   const model = node.getModel();
+    //   return {
+    //     id: model.id,
+    //     x: model.x,
+    //     y: model.y,
+    //   };
+    // });
 
     // if (self.isAnimating()) {
     //   self.stopAnimate();
@@ -2070,7 +2096,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       const model = node.getModel();
       const targetPos = [model.x, model.y];
       const oriPos = nodeGroup.getPosition();
-      nodeGroup.animate([
+      const animate = nodeGroup.animate([
         {
           // from
           transform: `translate(0, 0)`
@@ -2081,16 +2107,17 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       ], {
         ...animateCfg,
         fill: 'both',
-        // TODO: 等待 G 提供 onFrame 后测试. 可优化: edge debounce refresh
-        onFrame: (ratio) => {
-          const currentPos = nodeGroup.getPosition();
-          model.x = currentPos[0];
-          model.y = currentPos[1];
-          node.getEdges().forEach(edge => {
-            edge.refresh();
-          })
-        }
       });
+      // TODO: onframe 只被调用了一次
+      animate.onframe = (e) => {
+        const currentPos = nodeGroup.getPosition();
+        console.log('currentPos', model.id, currentPos)
+        model.x = currentPos[0];
+        model.y = currentPos[1];
+        node.getEdges().forEach(edge => {
+          edge.refresh();
+        })
+      }
     });
 
     // const canvas: ICanvas = self.get('canvas');
@@ -2104,7 +2131,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     //         return;
     //       }
 
-    //       let originAttrs: Point = node.get('originAttrs');
+    //       let originAttrs: IPos = node.get('originAttrs');
 
     //       const model: NodeConfig = node.get('model');
 
@@ -2174,9 +2201,10 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       if (model.comboId) updatedNodes[model.comboId] = updatedNodes[model.comboId] || changed;
     });
 
-    if (combos && combos.length !== 0) {
-      self.updateCombos();
-    }
+  // TODO: [G 升级 POC 忽略内容]
+    // if (combos && combos.length !== 0) {
+    //   self.updateCombos();
+    // }
 
     each(edges, (edge: IEdge) => {
       const sourceModel = edge.getSource().getModel();
@@ -2244,8 +2272,10 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * @return {object} this
    */
   public clear(avoidEmit: boolean = false): AbstractGraph {
-    // this.get('canvas')?.clear();
+    console.log('clearing', this.get('canvas')?.getRoot())
+    // TODO: 没删除
     this.get('canvas')?.getRoot().removeChildren(true)
+    console.log('canvas', this.get('canvas'), this.get('canvas').getRoot())
 
     this.initGroups();
 
@@ -2263,7 +2293,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * 若 cfg 含有 type 字段或为 String 类型，且与现有布局方法不同，则更换布局
    * 若 cfg 不包括 type ，则保持原有布局方法，仅更新布局配置项
    */
-  public updateLayout(cfg: any, align?: 'center' | 'begin', alignPoint?: IPoint): void {
+  public updateLayout(cfg: any, align?: 'center' | 'begin', alignPoint?: IPos): void {
     const layoutController = this.get('layoutController');
 
     if (isString(cfg)) {
@@ -2293,11 +2323,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
           toPoint.x = toPoint.x * matrix[0] + matrix[6];
           toPoint.y = toPoint.y * matrix[0] + matrix[7];
 
-          const { minX, maxX, minY, maxY } = this.getGroup().getCanvasBBox();
-          const bboxPoint = { x: (minX + maxX) / 2, y: (minY + maxY) / 2 };
+          const { min, max } = this.getGroup().getBounds();
+          const bboxPoint = { x: (min[0] + max[0]) / 2, y: (min[1] + max[1]) / 2 };
           if (align === 'begin') {
-            bboxPoint.x = minX;
-            bboxPoint.y = minY;
+            bboxPoint.x = min[0];
+            bboxPoint.y = min[1];
           }
 
           this.translate(toPoint.x - bboxPoint.x, toPoint.y - bboxPoint.y);
@@ -2350,424 +2380,429 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     }
   }
 
-  /**
-   * 收起指定的 combo
-   * @param {string | ICombo} combo combo ID 或 combo item
-   */
-  public collapseCombo(combo: string | ICombo): void {
-    if (isString(combo)) {
-      combo = this.findById(combo) as ICombo;
-    }
-    if (!combo) {
-      console.warn('The combo to be collapsed does not exist!');
-      return;
-    }
-    this.emit('beforecollapseexpandcombo', { action: 'expand', item: combo });
+  // TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 收起指定的 combo
+  //  * @param {string | ICombo} combo combo ID 或 combo item
+  //  */
+  // public collapseCombo(combo: string | ICombo): void {
+  //   if (isString(combo)) {
+  //     combo = this.findById(combo) as ICombo;
+  //   }
+  //   if (!combo) {
+  //     console.warn('The combo to be collapsed does not exist!');
+  //     return;
+  //   }
+  //   this.emit('beforecollapseexpandcombo', { action: 'expand', item: combo });
 
-    const comboModel = combo.getModel();
+  //   const comboModel = combo.getModel();
 
-    const itemController: ItemController = this.get('itemController');
-    itemController.collapseCombo(combo);
-    comboModel.collapsed = true;
+  //   const itemController: ItemController = this.get('itemController');
+  //   itemController.collapseCombo(combo);
+  //   comboModel.collapsed = true;
 
-    // add virtual edges
-    const edges = this.getEdges().concat(this.get('vedges'));
+  //   // add virtual edges
+  //   const edges = this.getEdges().concat(this.get('vedges'));
 
-    // find all the descendant nodes and combos
-    let cnodes = [];
-    let ccombos = [];
-    const comboTrees = this.get('comboTrees');
-    let found = false;
-    (comboTrees || []).forEach(ctree => {
-      if (found) return; // if the combo is found, terminate the forEach
-      traverseTree(ctree, subTree => {
-        // if the combo is found and it is traversing the other branches, terminate
-        if (found && subTree.depth <= comboModel.depth) return false;
-        // if the combo is found
-        if (comboModel.id === subTree.id) found = true;
-        if (found) {
-          // if the combo is found, concat the descendant nodes and combos
-          const item = this.findById(subTree.id) as ICombo;
-          if (item && item.getType && item.getType() === 'combo') {
-            cnodes = cnodes.concat(item.getNodes());
-            ccombos = ccombos.concat(item.getCombos());
-          }
-        }
-        return true;
-      });
-    });
+  //   // find all the descendant nodes and combos
+  //   let cnodes = [];
+  //   let ccombos = [];
+  //   const comboTrees = this.get('comboTrees');
+  //   let found = false;
+  //   (comboTrees || []).forEach(ctree => {
+  //     if (found) return; // if the combo is found, terminate the forEach
+  //     traverseTree(ctree, subTree => {
+  //       // if the combo is found and it is traversing the other branches, terminate
+  //       if (found && subTree.depth <= comboModel.depth) return false;
+  //       // if the combo is found
+  //       if (comboModel.id === subTree.id) found = true;
+  //       if (found) {
+  //         // if the combo is found, concat the descendant nodes and combos
+  //         const item = this.findById(subTree.id) as ICombo;
+  //         if (item && item.getType && item.getType() === 'combo') {
+  //           cnodes = cnodes.concat(item.getNodes());
+  //           ccombos = ccombos.concat(item.getCombos());
+  //         }
+  //       }
+  //       return true;
+  //     });
+  //   });
 
-    const edgeWeightMap = {};
-    const addedVEdges = [];
-    edges.forEach(edge => {
-      if (edge.isVisible() && !edge.getModel().isVEdge) return;
-      let source = edge.getSource();
-      let target = edge.getTarget();
-      if (
-        ((cnodes.includes(source) || ccombos.includes(source)) &&
-          !cnodes.includes(target) &&
-          !ccombos.includes(target)) ||
-        source.getModel().id === comboModel.id
-      ) {
-        const edgeModel = edge.getModel();
-        if (edgeModel.isVEdge) {
-          this.removeItem(edge, false);
-          return;
-        }
+  //   const edgeWeightMap = {};
+  //   const addedVEdges = [];
+  //   edges.forEach(edge => {
+  //     if (edge.isVisible() && !edge.getModel().isVEdge) return;
+  //     let source = edge.getSource();
+  //     let target = edge.getTarget();
+  //     if (
+  //       ((cnodes.includes(source) || ccombos.includes(source)) &&
+  //         !cnodes.includes(target) &&
+  //         !ccombos.includes(target)) ||
+  //       source.getModel().id === comboModel.id
+  //     ) {
+  //       const edgeModel = edge.getModel();
+  //       if (edgeModel.isVEdge) {
+  //         this.removeItem(edge, false);
+  //         return;
+  //       }
 
-        let targetModel = target.getModel();
-        while (!target.isVisible()) {
-          target = this.findById(
-            (targetModel.parentId as string) || (targetModel.comboId as string),
-          ) as ICombo;
-          if (!target || (!targetModel.parentId && !targetModel.comboId)) return; // all the ancestors are hidden, then ignore the edge
-          targetModel = target.getModel();
-        }
+  //       let targetModel = target.getModel();
+  //       while (!target.isVisible()) {
+  //         target = this.findById(
+  //           (targetModel.parentId as string) || (targetModel.comboId as string),
+  //         ) as ICombo;
+  //         if (!target || (!targetModel.parentId && !targetModel.comboId)) return; // all the ancestors are hidden, then ignore the edge
+  //         targetModel = target.getModel();
+  //       }
 
-        const targetId = targetModel.id;
+  //       const targetId = targetModel.id;
 
-        if (edgeWeightMap[`${comboModel.id}-${targetId}`]) {
-          edgeWeightMap[`${comboModel.id}-${targetId}`] += edgeModel.size || 1;
-          return;
-        }
-        // the source is in the combo, the target is not
-        const vedge = this.addItem(
-          'vedge',
-          {
-            source: comboModel.id,
-            target: targetId,
-            isVEdge: true,
-          },
-          false,
-        );
-        edgeWeightMap[`${comboModel.id}-${targetId}`] = edgeModel.size || 1;
-        addedVEdges.push(vedge);
-      } else if (
-        (!cnodes.includes(source) &&
-          !ccombos.includes(source) &&
-          (cnodes.includes(target) || ccombos.includes(target))) ||
-        target.getModel().id === comboModel.id
-      ) {
-        const edgeModel = edge.getModel();
-        if (edgeModel.isVEdge) {
-          this.removeItem(edge, false);
-          return;
-        }
-        let sourceModel = source.getModel();
-        while (!source.isVisible()) {
-          source = this.findById(
-            (sourceModel.parentId as string) || (sourceModel.comboId as string),
-          ) as ICombo;
-          if (!source || (!sourceModel.parentId && !sourceModel.comboId)) return; // all the ancestors are hidden, then ignore the edge
-          sourceModel = source.getModel();
-        }
-        const sourceId = sourceModel.id;
-        if (edgeWeightMap[`${sourceId}-${comboModel.id}`]) {
-          edgeWeightMap[`${sourceId}-${comboModel.id}`] += edgeModel.size || 1;
-          return;
-        }
-        // the target is in the combo, the source is not
-        const vedge = this.addItem(
-          'vedge',
-          {
-            target: comboModel.id,
-            source: sourceId,
-            isVEdge: true,
-          },
-          false,
-        );
-        edgeWeightMap[`${sourceId}-${comboModel.id}`] = edgeModel.size || 1;
-        addedVEdges.push(vedge);
-      }
-    });
+  //       if (edgeWeightMap[`${comboModel.id}-${targetId}`]) {
+  //         edgeWeightMap[`${comboModel.id}-${targetId}`] += edgeModel.size || 1;
+  //         return;
+  //       }
+  //       // the source is in the combo, the target is not
+  //       const vedge = this.addItem(
+  //         'vedge',
+  //         {
+  //           source: comboModel.id,
+  //           target: targetId,
+  //           isVEdge: true,
+  //         },
+  //         false,
+  //       );
+  //       edgeWeightMap[`${comboModel.id}-${targetId}`] = edgeModel.size || 1;
+  //       addedVEdges.push(vedge);
+  //     } else if (
+  //       (!cnodes.includes(source) &&
+  //         !ccombos.includes(source) &&
+  //         (cnodes.includes(target) || ccombos.includes(target))) ||
+  //       target.getModel().id === comboModel.id
+  //     ) {
+  //       const edgeModel = edge.getModel();
+  //       if (edgeModel.isVEdge) {
+  //         this.removeItem(edge, false);
+  //         return;
+  //       }
+  //       let sourceModel = source.getModel();
+  //       while (!source.isVisible()) {
+  //         source = this.findById(
+  //           (sourceModel.parentId as string) || (sourceModel.comboId as string),
+  //         ) as ICombo;
+  //         if (!source || (!sourceModel.parentId && !sourceModel.comboId)) return; // all the ancestors are hidden, then ignore the edge
+  //         sourceModel = source.getModel();
+  //       }
+  //       const sourceId = sourceModel.id;
+  //       if (edgeWeightMap[`${sourceId}-${comboModel.id}`]) {
+  //         edgeWeightMap[`${sourceId}-${comboModel.id}`] += edgeModel.size || 1;
+  //         return;
+  //       }
+  //       // the target is in the combo, the source is not
+  //       const vedge = this.addItem(
+  //         'vedge',
+  //         {
+  //           target: comboModel.id,
+  //           source: sourceId,
+  //           isVEdge: true,
+  //         },
+  //         false,
+  //       );
+  //       edgeWeightMap[`${sourceId}-${comboModel.id}`] = edgeModel.size || 1;
+  //       addedVEdges.push(vedge);
+  //     }
+  //   });
 
-    // update the width of the virtual edges, which is the sum of merged actual edges
-    // be attention that the actual edges with same endpoints but different directions will be represented by two different virtual edges
-    addedVEdges.forEach(vedge => {
-      const vedgeModel = vedge.getModel();
-      this.updateItem(
-        vedge,
-        {
-          size: edgeWeightMap[`${vedgeModel.source}-${vedgeModel.target}`],
-        },
-        false,
-      );
-    });
-    this.emit('aftercollapseexpandcombo', { action: 'collapse', item: combo });
-  }
+  //   // update the width of the virtual edges, which is the sum of merged actual edges
+  //   // be attention that the actual edges with same endpoints but different directions will be represented by two different virtual edges
+  //   addedVEdges.forEach(vedge => {
+  //     const vedgeModel = vedge.getModel();
+  //     this.updateItem(
+  //       vedge,
+  //       {
+  //         size: edgeWeightMap[`${vedgeModel.source}-${vedgeModel.target}`],
+  //       },
+  //       false,
+  //     );
+  //   });
+  //   this.emit('aftercollapseexpandcombo', { action: 'collapse', item: combo });
+  // }
 
-  /**
-   * 展开指定的 combo
-   * @param {string | ICombo} combo combo ID 或 combo item
-   */
-  public expandCombo(combo: string | ICombo): void {
-    if (isString(combo)) {
-      combo = this.findById(combo) as ICombo;
-    }
-    if (!combo || (combo.getType && combo.getType() !== 'combo')) {
-      console.warn('The combo to be collapsed does not exist!');
-      return;
-    }
-    this.emit('beforecollapseexpandcombo', { action: 'expand', item: combo });
+  // TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 展开指定的 combo
+  //  * @param {string | ICombo} combo combo ID 或 combo item
+  //  */
+  // public expandCombo(combo: string | ICombo): void {
+  //   if (isString(combo)) {
+  //     combo = this.findById(combo) as ICombo;
+  //   }
+  //   if (!combo || (combo.getType && combo.getType() !== 'combo')) {
+  //     console.warn('The combo to be collapsed does not exist!');
+  //     return;
+  //   }
+  //   this.emit('beforecollapseexpandcombo', { action: 'expand', item: combo });
 
-    const comboModel = combo.getModel();
+  //   const comboModel = combo.getModel();
 
-    const itemController: ItemController = this.get('itemController');
-    itemController.expandCombo(combo);
-    comboModel.collapsed = false;
+  //   const itemController: ItemController = this.get('itemController');
+  //   itemController.expandCombo(combo);
+  //   comboModel.collapsed = false;
 
-    // add virtual edges
-    const edges = this.getEdges().concat(this.get('vedges'));
+  //   // add virtual edges
+  //   const edges = this.getEdges().concat(this.get('vedges'));
 
-    // find all the descendant nodes and combos
-    let cnodes = [];
-    let ccombos = [];
-    const comboTrees = this.get('comboTrees');
-    let found = false;
-    (comboTrees || []).forEach(ctree => {
-      if (found) return; // if the combo is found, terminate
-      traverseTree(ctree, subTree => {
-        // if the combo is found and it is traversing the other branches, terminate
-        if (found && subTree.depth <= comboModel.depth) return false;
-        if (comboModel.id === subTree.id) found = true;
-        if (found) {
-          const item = this.findById(subTree.id) as ICombo;
-          if (item && item.getType && item.getType() === 'combo') {
-            cnodes = cnodes.concat(item.getNodes());
-            ccombos = ccombos.concat(item.getCombos());
-          }
-        }
-        return true;
-      });
-    });
+  //   // find all the descendant nodes and combos
+  //   let cnodes = [];
+  //   let ccombos = [];
+  //   const comboTrees = this.get('comboTrees');
+  //   let found = false;
+  //   (comboTrees || []).forEach(ctree => {
+  //     if (found) return; // if the combo is found, terminate
+  //     traverseTree(ctree, subTree => {
+  //       // if the combo is found and it is traversing the other branches, terminate
+  //       if (found && subTree.depth <= comboModel.depth) return false;
+  //       if (comboModel.id === subTree.id) found = true;
+  //       if (found) {
+  //         const item = this.findById(subTree.id) as ICombo;
+  //         if (item && item.getType && item.getType() === 'combo') {
+  //           cnodes = cnodes.concat(item.getNodes());
+  //           ccombos = ccombos.concat(item.getCombos());
+  //         }
+  //       }
+  //       return true;
+  //     });
+  //   });
 
-    const edgeWeightMap = {};
-    const addedVEdges = {};
-    edges.forEach(edge => {
-      if (edge.isVisible() && !edge.getModel().isVEdge) return;
-      let source = edge.getSource();
-      let target = edge.getTarget();
-      let sourceId = source.get('id');
-      let targetId = target.get('id');
-      if (
-        ((cnodes.includes(source) || ccombos.includes(source)) &&
-          !cnodes.includes(target) &&
-          !ccombos.includes(target)) ||
-        sourceId === comboModel.id
-      ) {
-        // the source is in the combo, the target is not
+  //   const edgeWeightMap = {};
+  //   const addedVEdges = {};
+  //   edges.forEach(edge => {
+  //     if (edge.isVisible() && !edge.getModel().isVEdge) return;
+  //     let source = edge.getSource();
+  //     let target = edge.getTarget();
+  //     let sourceId = source.get('id');
+  //     let targetId = target.get('id');
+  //     if (
+  //       ((cnodes.includes(source) || ccombos.includes(source)) &&
+  //         !cnodes.includes(target) &&
+  //         !ccombos.includes(target)) ||
+  //       sourceId === comboModel.id
+  //     ) {
+  //       // the source is in the combo, the target is not
 
-        // ignore the virtual edges
-        if (edge.getModel().isVEdge) {
-          this.removeItem(edge, false);
-          return;
-        }
+  //       // ignore the virtual edges
+  //       if (edge.getModel().isVEdge) {
+  //         this.removeItem(edge, false);
+  //         return;
+  //       }
 
-        let targetModel = target.getModel();
-        // find the nearest visible ancestor
-        while (!target.isVisible()) {
-          target = this.findById(
-            (targetModel.comboId as string) || (targetModel.parentId as string),
-          ) as ICombo;
-          if (!target || (!targetModel.parentId && !targetModel.comboId)) {
-            return; // if all the ancestors of the oppsite are all hidden, ignore the edge
-          }
-          targetModel = target.getModel();
-        }
-        targetId = targetModel.id;
+  //       let targetModel = target.getModel();
+  //       // find the nearest visible ancestor
+  //       while (!target.isVisible()) {
+  //         target = this.findById(
+  //           (targetModel.comboId as string) || (targetModel.parentId as string),
+  //         ) as ICombo;
+  //         if (!target || (!targetModel.parentId && !targetModel.comboId)) {
+  //           return; // if all the ancestors of the oppsite are all hidden, ignore the edge
+  //         }
+  //         targetModel = target.getModel();
+  //       }
+  //       targetId = targetModel.id;
 
-        let sourceModel = source.getModel();
-        // find the nearest visible ancestor
-        while (!source.isVisible()) {
-          source = this.findById(
-            (sourceModel.comboId as string) || (sourceModel.parentId as string),
-          ) as ICombo;
-          if (!source || (!sourceModel.parentId && !sourceModel.comboId)) {
-            return; // if all the ancestors of the oppsite are all hidden, ignore the edge
-          }
-          if (sourceModel.comboId === comboModel.id || sourceModel.parentId === comboModel.id) {
-            break; // if the next ancestor is the combo, break the while
-          }
-          sourceModel = source.getModel();
-        }
-        sourceId = sourceModel.id;
+  //       let sourceModel = source.getModel();
+  //       // find the nearest visible ancestor
+  //       while (!source.isVisible()) {
+  //         source = this.findById(
+  //           (sourceModel.comboId as string) || (sourceModel.parentId as string),
+  //         ) as ICombo;
+  //         if (!source || (!sourceModel.parentId && !sourceModel.comboId)) {
+  //           return; // if all the ancestors of the oppsite are all hidden, ignore the edge
+  //         }
+  //         if (sourceModel.comboId === comboModel.id || sourceModel.parentId === comboModel.id) {
+  //           break; // if the next ancestor is the combo, break the while
+  //         }
+  //         sourceModel = source.getModel();
+  //       }
+  //       sourceId = sourceModel.id;
 
-        if (targetId) {
-          const vedgeId = `${sourceId}-${targetId}`;
-          // update the width of the virtual edges, which is the sum of merged actual edges
-          // be attention that the actual edges with same endpoints but different directions will be represented by two different virtual edges
-          if (edgeWeightMap[vedgeId]) {
-            edgeWeightMap[vedgeId] += edge.getModel().size || 1;
-            this.updateItem(
-              addedVEdges[vedgeId],
-              {
-                size: edgeWeightMap[vedgeId],
-              },
-              false,
-            );
-            return;
-          }
-          const vedge = this.addItem(
-            'vedge',
-            {
-              source: sourceId,
-              target: targetId,
-              isVEdge: true,
-            },
-            false,
-          );
+  //       if (targetId) {
+  //         const vedgeId = `${sourceId}-${targetId}`;
+  //         // update the width of the virtual edges, which is the sum of merged actual edges
+  //         // be attention that the actual edges with same endpoints but different directions will be represented by two different virtual edges
+  //         if (edgeWeightMap[vedgeId]) {
+  //           edgeWeightMap[vedgeId] += edge.getModel().size || 1;
+  //           this.updateItem(
+  //             addedVEdges[vedgeId],
+  //             {
+  //               size: edgeWeightMap[vedgeId],
+  //             },
+  //             false,
+  //           );
+  //           return;
+  //         }
+  //         const vedge = this.addItem(
+  //           'vedge',
+  //           {
+  //             source: sourceId,
+  //             target: targetId,
+  //             isVEdge: true,
+  //           },
+  //           false,
+  //         );
 
-          edgeWeightMap[vedgeId] = edge.getModel().size || 1;
-          addedVEdges[vedgeId] = vedge;
-        }
-      } else if (
-        (!cnodes.includes(source) &&
-          !ccombos.includes(source) &&
-          (cnodes.includes(target) || ccombos.includes(target))) ||
-        targetId === comboModel.id
-      ) {
-        // the target is in the combo, the source is not
+  //         edgeWeightMap[vedgeId] = edge.getModel().size || 1;
+  //         addedVEdges[vedgeId] = vedge;
+  //       }
+  //     } else if (
+  //       (!cnodes.includes(source) &&
+  //         !ccombos.includes(source) &&
+  //         (cnodes.includes(target) || ccombos.includes(target))) ||
+  //       targetId === comboModel.id
+  //     ) {
+  //       // the target is in the combo, the source is not
 
-        // ignore the virtual edges
-        if (edge.getModel().isVEdge) {
-          this.removeItem(edge, false);
-          return;
-        }
+  //       // ignore the virtual edges
+  //       if (edge.getModel().isVEdge) {
+  //         this.removeItem(edge, false);
+  //         return;
+  //       }
 
-        let sourceModel = source.getModel();
-        // find the nearest visible ancestor
-        while (!source.isVisible()) {
-          source = this.findById(
-            (sourceModel.comboId as string) || (sourceModel.parentId as string),
-          ) as ICombo;
-          if (!source || (!sourceModel.parentId && !sourceModel.comboId)) {
-            return; // if all the ancestors of the oppsite are all hidden, ignore the edge
-          }
-          sourceModel = source.getModel();
-        }
-        sourceId = sourceModel.id;
+  //       let sourceModel = source.getModel();
+  //       // find the nearest visible ancestor
+  //       while (!source.isVisible()) {
+  //         source = this.findById(
+  //           (sourceModel.comboId as string) || (sourceModel.parentId as string),
+  //         ) as ICombo;
+  //         if (!source || (!sourceModel.parentId && !sourceModel.comboId)) {
+  //           return; // if all the ancestors of the oppsite are all hidden, ignore the edge
+  //         }
+  //         sourceModel = source.getModel();
+  //       }
+  //       sourceId = sourceModel.id;
 
-        let targetModel = target.getModel();
-        // find the nearest visible ancestor
-        while (!target.isVisible()) {
-          target = this.findById(
-            (targetModel.comboId as string) || (targetModel.parentId as string),
-          ) as ICombo;
-          if (!target || (!targetModel.parentId && !targetModel.comboId)) {
-            return; // if all the ancestors of the oppsite are all hidden, ignore the edge
-          }
-          if (targetModel.comboId === comboModel.id || targetModel.parentId === comboModel.id) {
-            break; // if the next ancestor is the combo, break the while
-          }
-          targetModel = target.getModel();
-        }
-        targetId = targetModel.id;
+  //       let targetModel = target.getModel();
+  //       // find the nearest visible ancestor
+  //       while (!target.isVisible()) {
+  //         target = this.findById(
+  //           (targetModel.comboId as string) || (targetModel.parentId as string),
+  //         ) as ICombo;
+  //         if (!target || (!targetModel.parentId && !targetModel.comboId)) {
+  //           return; // if all the ancestors of the oppsite are all hidden, ignore the edge
+  //         }
+  //         if (targetModel.comboId === comboModel.id || targetModel.parentId === comboModel.id) {
+  //           break; // if the next ancestor is the combo, break the while
+  //         }
+  //         targetModel = target.getModel();
+  //       }
+  //       targetId = targetModel.id;
 
-        if (sourceId) {
-          const vedgeId = `${sourceId}-${targetId}`;
-          // update the width of the virtual edges, which is the sum of merged actual edges
-          // be attention that the actual edges with same endpoints but different directions will be represented by two different virtual edges
-          if (edgeWeightMap[vedgeId]) {
-            edgeWeightMap[vedgeId] += edge.getModel().size || 1;
-            this.updateItem(
-              addedVEdges[vedgeId],
-              {
-                size: edgeWeightMap[vedgeId],
-              },
-              false,
-            );
-            return;
-          }
-          const vedge = this.addItem(
-            'vedge',
-            {
-              target: targetId,
-              source: sourceId,
-              isVEdge: true,
-            },
-            false,
-          );
-          edgeWeightMap[vedgeId] = edge.getModel().size || 1;
-          addedVEdges[vedgeId] = vedge;
-        }
-      } else if (
-        (cnodes.includes(source) || ccombos.includes(source)) &&
-        (cnodes.includes(target) || ccombos.includes(target))
-      ) {
-        // both source and target are in the combo, if the target and source are both visible, show the edge
-        if (source.isVisible() && target.isVisible()) {
-          edge.show();
-        }
-      }
-    });
-    this.emit('aftercollapseexpandcombo', { action: 'expand', item: combo });
-  }
+  //       if (sourceId) {
+  //         const vedgeId = `${sourceId}-${targetId}`;
+  //         // update the width of the virtual edges, which is the sum of merged actual edges
+  //         // be attention that the actual edges with same endpoints but different directions will be represented by two different virtual edges
+  //         if (edgeWeightMap[vedgeId]) {
+  //           edgeWeightMap[vedgeId] += edge.getModel().size || 1;
+  //           this.updateItem(
+  //             addedVEdges[vedgeId],
+  //             {
+  //               size: edgeWeightMap[vedgeId],
+  //             },
+  //             false,
+  //           );
+  //           return;
+  //         }
+  //         const vedge = this.addItem(
+  //           'vedge',
+  //           {
+  //             target: targetId,
+  //             source: sourceId,
+  //             isVEdge: true,
+  //           },
+  //           false,
+  //         );
+  //         edgeWeightMap[vedgeId] = edge.getModel().size || 1;
+  //         addedVEdges[vedgeId] = vedge;
+  //       }
+  //     } else if (
+  //       (cnodes.includes(source) || ccombos.includes(source)) &&
+  //       (cnodes.includes(target) || ccombos.includes(target))
+  //     ) {
+  //       // both source and target are in the combo, if the target and source are both visible, show the edge
+  //       if (source.isVisible() && target.isVisible()) {
+  //         edge.show();
+  //       }
+  //     }
+  //   });
+  //   this.emit('aftercollapseexpandcombo', { action: 'expand', item: combo });
+  // }
 
-  public collapseExpandCombo(combo: string | ICombo) {
-    if (isString(combo)) {
-      combo = this.findById(combo) as ICombo;
-    }
-    if (!combo || (combo.getType && combo.getType() !== 'combo')) return;
+  // TODO: [G 升级 POC 忽略内容]
+  // public collapseExpandCombo(combo: string | ICombo) {
+  //   if (isString(combo)) {
+  //     combo = this.findById(combo) as ICombo;
+  //   }
+  //   if (!combo || (combo.getType && combo.getType() !== 'combo')) return;
 
-    const comboModel = combo.getModel();
+  //   const comboModel = combo.getModel();
 
-    // if one ancestor combo of the combo is collapsed, it should not be collapsed or expanded
-    let parentItem = this.findById(comboModel.parentId as string);
-    while (parentItem) {
-      const parentModel = parentItem.getModel();
-      if (parentModel.collapsed) {
-        console.warn(`Fail to expand the combo since it's ancestor combo is collapsed.`);
-        parentItem = undefined;
-        return;
-      }
-      parentItem = this.findById(parentModel.parentId as string);
-    }
-    const collapsed = comboModel.collapsed;
-    // 该群组已经处于收起状态，需要展开
-    if (collapsed) {
-      this.expandCombo(combo);
-    } else {
-      this.collapseCombo(combo);
-    }
-    this.updateCombo(combo);
-  }
+  //   // if one ancestor combo of the combo is collapsed, it should not be collapsed or expanded
+  //   let parentItem = this.findById(comboModel.parentId as string);
+  //   while (parentItem) {
+  //     const parentModel = parentItem.getModel();
+  //     if (parentModel.collapsed) {
+  //       console.warn(`Fail to expand the combo since it's ancestor combo is collapsed.`);
+  //       parentItem = undefined;
+  //       return;
+  //     }
+  //     parentItem = this.findById(parentModel.parentId as string);
+  //   }
+  //   const collapsed = comboModel.collapsed;
+  //   // 该群组已经处于收起状态，需要展开
+  //   if (collapsed) {
+  //     this.expandCombo(combo);
+  //   } else {
+  //     this.collapseCombo(combo);
+  //   }
+  //   this.updateCombo(combo);
+  // }
 
-  /**
-   * 根据 comboTree 结构整理 Combo 相关的图形绘制层级，包括 Combo 本身、节点、边
-   * @param {GraphData} data 数据
-   */
-  protected sortCombos() {
-    const comboSorted = this.get('comboSorted');
-    if (comboSorted) return;
-    this.set('comboSorted', true);
-    const depthMap = [];
-    const dataDepthMap = {};
-    const comboTrees = this.get('comboTrees');
-    (comboTrees || []).forEach(cTree => {
-      traverseTree(cTree, child => {
-        if (depthMap[child.depth]) depthMap[child.depth].push(child.id);
-        else depthMap[child.depth] = [child.id];
-        dataDepthMap[child.id] = child.depth;
-        return true;
-      });
-    });
-    const edges = this.getEdges().concat(this.get('vedges'));
-    (edges || []).forEach(edgeItem => {
-      const edge = edgeItem.getModel();
-      const sourceDepth: number = dataDepthMap[edge.source as string] || 0;
-      const targetDepth: number = dataDepthMap[edge.target as string] || 0;
-      const depth = Math.max(sourceDepth, targetDepth);
-      if (depthMap[depth]) depthMap[depth].push(edge.id);
-      else depthMap[depth] = [edge.id];
-    });
-    depthMap.forEach(array => {
-      if (!array || !array.length) return;
-      for (let i = array.length - 1; i >= 0; i--) {
-        const item = this.findById(array[i]);
-        if (item) item.toFront();
-      }
-    });
-  }
+  // TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 根据 comboTree 结构整理 Combo 相关的图形绘制层级，包括 Combo 本身、节点、边
+  //  * @param {GraphData} data 数据
+  //  */
+  // protected sortCombos() {
+  //   const comboSorted = this.get('comboSorted');
+  //   if (comboSorted) return;
+  //   this.set('comboSorted', true);
+  //   const depthMap = [];
+  //   const dataDepthMap = {};
+  //   const comboTrees = this.get('comboTrees');
+  //   (comboTrees || []).forEach(cTree => {
+  //     traverseTree(cTree, child => {
+  //       if (depthMap[child.depth]) depthMap[child.depth].push(child.id);
+  //       else depthMap[child.depth] = [child.id];
+  //       dataDepthMap[child.id] = child.depth;
+  //       return true;
+  //     });
+  //   });
+  //   const edges = this.getEdges().concat(this.get('vedges'));
+  //   (edges || []).forEach(edgeItem => {
+  //     const edge = edgeItem.getModel();
+  //     const sourceDepth: number = dataDepthMap[edge.source as string] || 0;
+  //     const targetDepth: number = dataDepthMap[edge.target as string] || 0;
+  //     const depth = Math.max(sourceDepth, targetDepth);
+  //     if (depthMap[depth]) depthMap[depth].push(edge.id);
+  //     else depthMap[depth] = [edge.id];
+  //   });
+  //   depthMap.forEach(array => {
+  //     if (!array || !array.length) return;
+  //     for (let i = array.length - 1; i >= 0; i--) {
+  //       const item = this.findById(array[i]);
+  //       if (item) item.toFront();
+  //     }
+  //   });
+  // }
+
 
   /**
    * 获取节点所有的邻居节点
@@ -2969,81 +3004,86 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     this.undoStack = null;
   }
 
+  // TODO: [G 升级 POC 忽略内容]
   /**
    * 创建凸包或凹包轮廓
    * @param cfg HullCfg 轮廓配置项
    */
-  public createHull(cfg: HullCfg) {
-    if (!cfg.members || cfg.members.length < 1) {
-      console.warn('Create hull failed! The members is empty.');
-      return;
-    }
-    let parent = this.get('hullGroup');
-    let hullMap = this.get('hullMap');
-    if (!hullMap) {
-      hullMap = {};
-      this.set('hullMap', hullMap);
-    }
-    if (!parent || parent.get('destroyed')) {
-      parent = new Group({
-        id: 'hullGroup',
-      });
-      this.get('group').appendChild(parent);
-      parent.toBack();
-      this.set('hullGroup', parent);
-    }
-    if (hullMap[cfg.id]) {
-      console.warn('Existed hull id.');
-      return hullMap[cfg.id];
-    }
-    const group = new Group({
-      id: `${cfg.id}-container`,
-    })
-    parent.appendChild(group);
-    const hull = new Hull(this, {
-      ...cfg,
-      group,
-    });
-    const hullId = hull.id;
-    hullMap[hullId] = hull;
-    return hull;
-  }
+  // public createHull(cfg: HullCfg) {
+  //   if (!cfg.members || cfg.members.length < 1) {
+  //     console.warn('Create hull failed! The members is empty.');
+  //     return;
+  //   }
+  //   let parent = this.get('hullGroup');
+  //   let hullMap = this.get('hullMap');
+  //   if (!hullMap) {
+  //     hullMap = {};
+  //     this.set('hullMap', hullMap);
+  //   }
+  //   if (!parent || parent.get('destroyed')) {
+  //     parent = new Group({
+  //       id: 'hullGroup',
+  //     });
+  //     this.get('group').appendChild(parent);
+  //     parent.toBack();
+  //     this.set('hullGroup', parent);
+  //   }
+  //   if (hullMap[cfg.id]) {
+  //     console.warn('Existed hull id.');
+  //     return hullMap[cfg.id];
+  //   }
+  //   const group = new Group({
+  //     id: `${cfg.id}-container`,
+  //   })
+  //   parent.appendChild(group);
+  //   const hull = new Hull(this, {
+  //     ...cfg,
+  //     group,
+  //   });
+  //   const hullId = hull.id;
+  //   hullMap[hullId] = hull;
+  //   return hull;
+  // }
 
-  /**
-   * 获取当前 graph 中存在的包裹轮廓
-   * @return {[key: string]: Hull} Hull 的 map，hullId 对应的 hull 实例
-   */
-  public getHulls(): { [key: string]: Hull } {
-    return this.get('hullMap');
-  }
+  // TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 获取当前 graph 中存在的包裹轮廓
+  //  * @return {[key: string]: Hull} Hull 的 map，hullId 对应的 hull 实例
+  //  */
+  // public getHulls(): { [key: string]: Hull } {
+  //   return this.get('hullMap');
+  // }
 
-  /**
-   * 根据 hullId 获取对应的 hull
-   * @return Hull
-   */
-  public getHullById(hullId: string): Hull {
-    return this.get('hullMap')[hullId];
-  }
+  // TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 根据 hullId 获取对应的 hull
+  //  * @return Hull
+  //  */
+  // public getHullById(hullId: string): Hull {
+  //   return this.get('hullMap')[hullId];
+  // }
 
-  public removeHull(hull: Hull | string) {
-    let hullInstance: Hull;
-    if (isString(hull)) {
-      hullInstance = this.getHullById(hull);
-    } else {
-      hullInstance = hull;
-    }
-    const hullMap = this.get('hullMap');
-    delete hullMap[hullInstance.id];
-    hullInstance.destroy();
-  }
+  // TODO: [G 升级 POC 忽略内容]
+  // public removeHull(hull: Hull | string) {
+  //   let hullInstance: Hull;
+  //   if (isString(hull)) {
+  //     hullInstance = this.getHullById(hull);
+  //   } else {
+  //     hullInstance = hull;
+  //   }
+  //   const hullMap = this.get('hullMap');
+  //   delete hullMap[hullInstance.id];
+  //   hullInstance.destroy();
+  // }
 
-  public removeHulls() {
-    const hulls = this.getHulls();
-    if (!hulls || !Object.keys(hulls).length) return;
-    Object.keys(hulls).forEach(key => {
-      const hull = hulls[key];
-      hull.destroy();
-    });
-    this.set('hullMap', {});
-  }
+  // TODO: [G 升级 POC 忽略内容]
+  // public removeHulls() {
+  //   const hulls = this.getHulls();
+  //   if (!hulls || !Object.keys(hulls).length) return;
+  //   Object.keys(hulls).forEach(key => {
+  //     const hull = hulls[key];
+  //     hull.destroy();
+  //   });
+  //   this.set('hullMap', {});
+  // }
 }

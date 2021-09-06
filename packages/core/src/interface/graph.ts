@@ -24,7 +24,10 @@ import {
   IPos,
 } from '../types';
 import { IEdge, INode, ICombo } from './item';
-import Hull from '../item/hull';
+
+// TODO: [G 升级 POC 忽略内容]
+// import Hull from '../item/hull';
+
 import { Stack } from '@antv/algorithm';
 
 type Point = IPos;
@@ -129,11 +132,12 @@ export interface IAbstractGraph extends EventEmitter {
    */
   getViewPortCenterPoint: () => Point;
 
-  /**
-   * 设置是否在更新/刷新后自动重绘
-   * @param {boolean} auto 自动重绘
-   */
-  setAutoPaint: (auto: boolean) => void;
+  // TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 设置是否在更新/刷新后自动重绘
+  //  * @param {boolean} auto 自动重绘
+  //  */
+  // setAutoPaint: (auto: boolean) => void;
 
   /**
    * 显示元素
@@ -227,29 +231,34 @@ export interface IAbstractGraph extends EventEmitter {
 
   update: (item: Item | string, cfg: Partial<NodeConfig> | EdgeConfig, stack?: boolean) => void;
 
-  /**
-   * 更新 Combo 结构，例如移动子树等
-   * @param {string | INode | ICombo} item 需要被更新的 Combo 或 节点 id
-   * @param {string | undefined} parentId 新的父 combo id，undefined 代表没有父 combo
-   */
-  updateComboTree: (
-    item: string | INode | ICombo,
-    parentId?: string | undefined,
-    stack?: boolean,
-  ) => void;
+  // TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 更新 Combo 结构，例如移动子树等
+  //  * @param {string | INode | ICombo} item 需要被更新的 Combo 或 节点 id
+  //  * @param {string | undefined} parentId 新的父 combo id，undefined 代表没有父 combo
+  //  */
+  // updateComboTree: (
+  //   item: string | INode | ICombo,
+  //   parentId?: string | undefined,
+  //   stack?: boolean,
+  // ) => void;
 
-  /**
-   * 解散 combo
-   * @param {String | ICombo} item 需要被解散的 Combo item 或 id
-   */
-  uncombo: (item: string | ICombo) => void;
 
-  /**
-   * 根据已经存在的节点或 combo 创建新的 combo
-   * @param combo combo ID 或 Combo 配置
-   * @param elements 添加到 Combo 中的元素，包括节点和 combo
-   */
-  createCombo: (combo: string | ComboConfig, elements: string[]) => void;
+  // TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 解散 combo
+  //  * @param {String | ICombo} item 需要被解散的 Combo item 或 id
+  //  */
+  // uncombo: (item: string | ICombo) => void;
+
+
+  // TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 根据已经存在的节点或 combo 创建新的 combo
+  //  * @param combo combo ID 或 Combo 配置
+  //  * @param elements 添加到 Combo 中的元素，包括节点和 combo
+  //  */
+  // createCombo: (combo: string | ComboConfig, elements: string[]) => void;
 
   /**
    * 设置元素状态
@@ -302,10 +311,11 @@ export interface IAbstractGraph extends EventEmitter {
    */
   getEdges: () => IEdge[];
 
-  /**
-   * 获取当前图中所有 combo 的实例
-   */
-  getCombos: () => ICombo[];
+  // TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 获取当前图中所有 combo 的实例
+  //  */
+  // getCombos: () => ICombo[];
 
   /**
    * 获取节点所有的邻居节点，有向图中效果同无向图
@@ -329,11 +339,13 @@ export interface IAbstractGraph extends EventEmitter {
     type?: 'in' | 'out' | 'total' | 'all' | undefined,
     refresh?: boolean
   ) => Number | Object;
-  /**
-   * 获取指定 combo 中所有的节点
-   * @param comboId Combo ID 或 combo 实例
-   */
-  getComboChildren: (combo: string | ICombo) => { nodes: INode[]; combos: ICombo[] };
+
+  // TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 获取指定 combo 中所有的节点
+  //  * @param comboId Combo ID 或 combo 实例
+  //  */
+  // getComboChildren: (combo: string | ICombo) => { nodes: INode[]; combos: ICombo[] };
 
   /**
    * 获取当前视口伸缩比例
@@ -447,11 +459,12 @@ export interface IAbstractGraph extends EventEmitter {
    */
   edge: (edgeFn: (config: EdgeConfig) => Partial<EdgeConfig>) => void;
 
-  /**
-   * 设置每个 combo 的配置
-   * @param comboFn 指定每个 combo 的配置
-   */
-  combo: (comboFn: (config: ComboConfig) => Partial<ComboConfig>) => void;
+  // TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 设置每个 combo 的配置
+  //  * @param comboFn 指定每个 combo 的配置
+  //  */
+  // combo: (comboFn: (config: ComboConfig) => Partial<ComboConfig>) => void;
 
   /**
    * 平移画布到某点
@@ -500,28 +513,32 @@ export interface IAbstractGraph extends EventEmitter {
    */
   layout: () => void;
 
-  /**
-   * 收起指定的 Combo
-   * @param comboId combo ID 或 combo 实例
-   */
-  collapseCombo: (combo: string | ICombo) => void;
+  // TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 收起指定的 Combo
+  //  * @param comboId combo ID 或 combo 实例
+  //  */
+  // collapseCombo: (combo: string | ICombo) => void;
 
-  /**
-   * 展开指定的 Combo
-   * @param combo combo ID 或 combo 实例
-   */
-  expandCombo: (combo: string | ICombo) => void;
+  // TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 展开指定的 Combo
+  //  * @param combo combo ID 或 combo 实例
+  //  */
+  // expandCombo: (combo: string | ICombo) => void;
 
-  /**
-   * 展开或收缩指定的 Combo
-   * @param comboId combo ID 或 combo 实例
-   */
-  collapseExpandCombo: (combo: string | ICombo) => void;
+  // TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 展开或收缩指定的 Combo
+  //  * @param comboId combo ID 或 combo 实例
+  //  */
+  // collapseExpandCombo: (combo: string | ICombo) => void;
 
-  /**
-   * 根据节点的 bbox 更新所有 combos 的绘制，包括 combos 的位置和范围
-   */
-  updateCombos: () => void;
+  // TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 根据节点的 bbox 更新所有 combos 的绘制，包括 combos 的位置和范围
+  //  */
+  // updateCombos: () => void;
 
   /**
    * 获取 undo stack
@@ -554,11 +571,12 @@ export interface IAbstractGraph extends EventEmitter {
    */
   pushStack: (action?: string, data?: unknown, stackType?: 'redo' | 'undo') => void;
 
-  /**
-   * 根据节点的 bbox 更新 combo 及其祖先 combos 的绘制，包括 combos 的位置和范围
-   * @param combo 需要更新的 combo
-   */
-  updateCombo: (combo: string | ICombo) => void;
+  // TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 根据节点的 bbox 更新 combo 及其祖先 combos 的绘制，包括 combos 的位置和范围
+  //  * @param combo 需要更新的 combo
+  //  */
+  // updateCombo: (combo: string | ICombo) => void;
 
   /**
    * 获取邻接矩阵
@@ -580,33 +598,36 @@ export interface IAbstractGraph extends EventEmitter {
    */
   getShortestPathMatrix: (cache: boolean, directed?: boolean) => Number | Object;
 
-  /**
-   * 创建凸包或凹包轮廓
-   * @param cfg HullCfg 轮廓配置项
-   */
-  createHull: (cfg: HullCfg) => void;
+  // TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 创建凸包或凹包轮廓
+  //  * @param cfg HullCfg 轮廓配置项
+  //  */
+  // createHull: (cfg: HullCfg) => void;
 
-  /**
-   * 获取当前 graph 中存在的包裹轮廓
-   * @return {[key: string]: Hull} Hull 的 map，hullId 对应的 hull 实例
-   */
-  getHulls: () => { [key: string]: Hull };
 
-  /**
-   * 根据 hullId 获取对应的 hull
-   * @return Hull
-   */
-  getHullById: (hullId: string) => Hull;
+// TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 获取当前 graph 中存在的包裹轮廓
+  //  * @return {[key: string]: Hull} Hull 的 map，hullId 对应的 hull 实例
+  //  */
+  // getHulls: () => { [key: string]: Hull };
 
-  /**
-   * 根据 hullId 删除 Hull
-   */
-  removeHull: (hull: Hull | string) => void;
+  // /**
+  //  * 根据 hullId 获取对应的 hull
+  //  * @return Hull
+  //  */
+  // getHullById: (hullId: string) => Hull;
 
-  /**
-   * 删除所有 Hulls
-   */
-  removeHulls: () => void;
+  // /**
+  //  * 根据 hullId 删除 Hull
+  //  */
+  // removeHull: (hull: Hull | string) => void;
+
+  // /**
+  //  * 删除所有 Hulls
+  //  */
+  // removeHulls: () => void;
 
   /**
    * 重新定义监听函数，复写参数类型

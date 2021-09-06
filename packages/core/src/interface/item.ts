@@ -22,8 +22,6 @@ import {
   UpdateType
 } from '../types';
 
-type Point = IPos;
-
 // item 的配置项
 export type IItemBaseConfig = Partial<{
   /**
@@ -183,7 +181,7 @@ export interface IItemBase {
    * 更新位置，避免整体重绘
    * @param {object} cfg 待更新数据
    */
-  updatePosition: (cfg: Point) => boolean;
+  updatePosition: (cfg: IPos) => boolean;
 
   /**
    * 绘制元素

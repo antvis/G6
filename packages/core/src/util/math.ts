@@ -1,4 +1,3 @@
-// import { Point, IGroup } from '@antv/g-base';
 import { Group as IGroup } from '@antv/g';
 import { mat3, vec3, ext, vec2 } from '@antv/matrix-util';
 import { isArray, each } from '@antv/util';
@@ -6,7 +5,6 @@ import {
   GraphData,
   ICircle,
   IEllipse,
-  IRect,
   Matrix,
   EdgeConfig,
   NodeIdxMap,
@@ -16,10 +14,9 @@ import {
   IPos,
   GraphAnimateConfig
 } from '../types';
+import { IAbstractGraph } from '../interface/graph';
 
 const transform = ext.transform;
-
-type Point = IPos;
 
 /**
  * 对比对象，用于对象数组排序
@@ -45,24 +42,24 @@ const isBetween = (value: number, min: number, max: number) => value >= min && v
 
 /**
  * 获取两条线段的交点
- * @param  {Point}  p0 第一条线段起点
- * @param  {Point}  p1 第一条线段终点
- * @param  {Point}  p2 第二条线段起点
- * @param  {Point}  p3 第二条线段终点
- * @return {Point}  交点
+ * @param  {IPos}  p0 第一条线段起点
+ * @param  {IPos}  p1 第一条线段终点
+ * @param  {IPos}  p2 第二条线段起点
+ * @param  {IPos}  p3 第二条线段终点
+ * @return {IPos}  交点
  */
-export const getLineIntersect = (p0: Point, p1: Point, p2: Point, p3: Point): Point | null => {
+export const getLineIntersect = (p0: IPos, p1: IPos, p2: IPos, p3: IPos): IPos | null => {
   const tolerance = 0.0001;
 
-  const E: Point = {
+  const E: IPos = {
     x: p2.x - p0.x,
     y: p2.y - p0.y,
   };
-  const D0: Point = {
+  const D0: IPos = {
     x: p1.x - p0.x,
     y: p1.y - p0.y,
   };
-  const D1: Point = {
+  const D1: IPos = {
     x: p3.x - p2.x,
     y: p3.y - p2.y,
   };
@@ -86,15 +83,15 @@ export const getLineIntersect = (p0: Point, p1: Point, p2: Point, p3: Point): Po
 /**
  * point and rectangular intersection point
  * @param  {IRect} rect  rect
- * @param  {Point} point point
+ * @param  {IPos} point point
  * @return {PointPoint} rst;
  */
-export const getRectIntersectByPoint = (rect: IRect, point: Point): Point | null => {
+export const getRectIntersectByPoint = (rect: IBBox, point: IPos): IPos | null => {
   const { x, y, width, height } = rect;
   const cx = x + width / 2;
   const cy = y + height / 2;
-  const points: Point[] = [];
-  const center: Point = {
+  const points: IPos[] = [];
+  const center: IPos = {
     x: cx,
     y: cy,
   };
@@ -118,7 +115,7 @@ export const getRectIntersectByPoint = (rect: IRect, point: Point): Point | null
     x,
     y,
   });
-  let rst: Point | null = null;
+  let rst: IPos | null = null;
   for (let i = 1; i < points.length; i++) {
     rst = getLineIntersect(points[i - 1], points[i], center, point);
     if (rst) {
@@ -131,10 +128,10 @@ export const getRectIntersectByPoint = (rect: IRect, point: Point): Point | null
 /**
  * get point and circle inIntersect
  * @param {ICircle} circle 圆点，x,y,r
- * @param {Point} point 点 x,y
- * @return {Point} applied point
+ * @param {IPos} point 点 x,y
+ * @return {IPos} applied point
  */
-export const getCircleIntersectByPoint = (circle: ICircle, point: Point): Point | null => {
+export const getCircleIntersectByPoint = (circle: ICircle, point: IPos): IPos | null => {
   const { x: cx, y: cy, r } = circle;
   const { x, y } = point;
 
@@ -159,7 +156,7 @@ export const getCircleIntersectByPoint = (circle: ICircle, point: Point): Point 
  * @param {Object} point 点 x,y
  * @return {object} applied point
  */
-export const getEllipseIntersectByPoint = (ellipse: IEllipse, point: Point): Point => {
+export const getEllipseIntersectByPoint = (ellipse: IEllipse, point: IPos): IPos => {
   const a = ellipse.rx;
   const b = ellipse.ry;
   const cx = ellipse.x;
@@ -185,9 +182,9 @@ export const getEllipseIntersectByPoint = (ellipse: IEllipse, point: Point): Poi
  * @param  {number} point   coordinate
  * @param  {Matrix} matrix  matrix
  * @param  {number} tag     could be 0 or 1
- * @return {Point} transformed point
+ * @return {IPos} transformed point
  */
-export const applyMatrix = (point: Point, matrix: Matrix, tag: 0 | 1 = 1): Point => {
+export const applyMatrix = (point: IPos, matrix: Matrix, tag: 0 | 1 = 1): IPos => {
   const vector: vec3 = [point.x, point.y, tag];
   if (!matrix || isNaN(matrix[0])) {
     matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
@@ -208,7 +205,7 @@ export const applyMatrix = (point: Point, matrix: Matrix, tag: 0 | 1 = 1): Point
  * @param  {number} tag     could be 0 or 1
  * @return {object} transformed point
  */
-export const invertMatrix = (point: Point, matrix: Matrix, tag: 0 | 1 = 1): Point => {
+export const invertMatrix = (point: IPos, matrix: Matrix, tag: 0 | 1 = 1): IPos => {
   if (!matrix || isNaN(matrix[0])) {
     matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
   }
@@ -232,7 +229,7 @@ export const invertMatrix = (point: Point, matrix: Matrix, tag: 0 | 1 = 1): Poin
  * @param p2 second coordinate
  * @param p3 three coordinate
  */
-export const getCircleCenterByPoints = (p1: Point, p2: Point, p3: Point): Point => {
+export const getCircleCenterByPoints = (p1: IPos, p2: IPos, p3: IPos): IPos => {
   const a = p1.x - p2.x;
   const b = p1.y - p2.y;
   const c = p1.x - p3.x;
@@ -251,7 +248,7 @@ export const getCircleCenterByPoints = (p1: Point, p2: Point, p3: Point): Point 
  * @param p1 first point
  * @param p2 second point
  */
-export const distance = (p1: Point, p2: Point): number => {
+export const distance = (p1: IPos, p2: IPos): number => {
   const vx = p1.x - p2.x;
   const vy = p1.y - p2.y;
   return Math.sqrt(vx * vx + vy * vy);
@@ -352,7 +349,7 @@ export const getAdjMatrix = (data: GraphData, directed: boolean): Matrix[] => {
  * @param group Group 实例
  * @param vec 移动向量
  */
-export const translate = (group: IGroup, vec: Point) => {
+export const translate = (group: IGroup, vec: IPos) => {
   group.translateLocal(vec.x, vec.y);
 };
 
@@ -396,10 +393,10 @@ export const port2Global = (graph, point) => {
 
 /**
  * 移动到指定坐标点 Make the left top of the graph align to the point
- * @param group Group 实例
+ * @param graph Graph 实例
  * @param point 移动到的坐标点
  */
-export const move = (graph: IAbstractGraph, point: Point, animate?: boolean, animateCfg: GraphAnimateConfig = { duration: 500 }) => {
+export const move = (graph: IAbstractGraph, point: IPos, animate?: boolean, animateCfg: GraphAnimateConfig = { duration: 500 }) => {
   const canvas = graph.get('canvas');
   const camera = canvas.getCamera();
   const cameraZoom = camera.zoom;
@@ -432,38 +429,24 @@ export const move = (graph: IAbstractGraph, point: Point, animate?: boolean, ani
  * @param point 在x 和 y 方向上的缩放比例
  */
 export const scale = (group: IGroup, ratio: number | number[]) => {
-  let matrix: Matrix = group.getMatrix();
-  if (!matrix) {
-    matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
-  }
-
   let scaleXY = ratio;
   if (!isArray(ratio)) {
     scaleXY = [ratio, ratio];
   }
-
   if (isArray(ratio) && ratio.length === 1) {
     scaleXY = [ratio[0], ratio[0]];
   }
 
-  matrix = transform(matrix, [['s', (scaleXY as number[])[0], (scaleXY as number[])[1]]]);
-
-  group.setMatrix(matrix);
+  group.scaleLocal(scaleXY[0], scaleXY[0]);
 };
 
 /**
  *
  * @param group Group 实例
- * @param ratio 选择角度
+ * @param ratio 选择角度, 弧度制
  */
 export const rotate = (group: IGroup, angle: number) => {
-  let matrix: Matrix = group.getMatrix();
-  if (!matrix) {
-    matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
-  }
-  matrix = transform(matrix, [['r', angle]]);
-
-  group.setMatrix(matrix);
+  group.rotateLocal(angle / Math.PI * 180);
 };
 
 export const getDegree = (n: number, nodeIdxMap: NodeIdxMap, edges: EdgeConfig[]): number[] => {
@@ -738,6 +721,10 @@ export const itemIntersectByLine = (item: Item, line: Line): [IPoint[], number] 
   return [intersections, countIntersections];
 };
 
+
+/**
+ * 计算 item 包围盒与直线的交点中, 距离直线起点最近的相交点
+ */
 export const fractionToLine = (item: Item, line: Line) => {
   const directions = ['top', 'left', 'bottom', 'right'];
   const bbox = item.getBBox();
@@ -812,7 +799,7 @@ export const isPointsOverlap = (p1, p2, e = 1e-3) => {
  * @param point IPoint
  * @param rect IRect
  */
-export const pointRectSquareDist = (point: Point, rect: IRect) => {
+export const pointRectSquareDist = (point: IPos, rect: IBBox) => {
   const isLeft = point.x < rect.x;
   const isRight = point.x > rect.x + rect.width;
   const isTop = point.y > rect.y + rect.height;

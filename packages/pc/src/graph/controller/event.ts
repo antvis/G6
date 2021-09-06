@@ -179,7 +179,7 @@ export default class EventController extends AbstractEvent {
     const canvas: ICanvas = graph.get('canvas');
     const item = (evt.target as any) === canvas ? null : evt.item;
 
-    evt = cloneEvent(evt) as IG6GraphEvent;
+    evt = cloneEvent(evt, graph) as IG6GraphEvent;
 
     // 从前一个item直接移动到当前item，触发前一个item的leave事件
     if (preItem && preItem !== item && !preItem.destroyed) {

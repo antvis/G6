@@ -1,6 +1,6 @@
 /* eslint @typescript-eslint/no-use-before-define: 0 */
 // import { IGroup, Event as GraphEvent, BBox, AnimateCfg, ICanvas, IShape } from '@antv/g-base';
-import { Group as IGroup, AABB as BBox, Canvas as ICanvas, DisplayObject as IShape } from '@antv/g';
+import { Group as IGroup, Canvas as ICanvas, DisplayObject as IShape, KeyframeAnimationOptions as AnimateCfg } from '@antv/g';
 import Node from '../item/node';
 import { IAbstractGraph } from '../interface/graph';
 import { IEdge, INode, ICombo } from '../interface/item';
@@ -19,7 +19,7 @@ export type UpdateType = 'move' | 'bbox' | 'style' | undefined;
 // Node Edge Combo 实例
 export type Item = INode | IEdge | ICombo;
 
-export interface IG6GraphEvent extends GraphEvent {
+export interface IG6GraphEvent {
   item: Item | null;
   canvasX: number;
   canvasY: number;
@@ -47,7 +47,13 @@ export type IPointTuple = [number, number];
 
 export type Matrix = number[];
 
-export interface IBBox extends BBox {
+export interface IBBox {
+  x: number;
+  y: number;
+  minX: number;
+  minY: number;
+  maxX: number;
+  maxY: number;
   centerX?: number;
   centerY?: number;
   [key: string]: number | undefined;
@@ -577,6 +583,8 @@ export interface GraphAnimateConfig extends AnimateCfg {
    * 回调函数，用于自定义节点运动路径。
    */
   onFrame?: (item: Item, ratio: number, data?: GraphData, originAttrs?: ShapeStyle) => unknown;
+  duration?: number;
+  easing?: string;
 }
 
 export interface GroupNodeIds {

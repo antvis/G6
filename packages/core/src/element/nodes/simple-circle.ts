@@ -1,5 +1,5 @@
 // import { IGroup, IShape } from '@antv/g-base';
-import { Group as IGroup, DisplayObject as IShape, Circle } from '@antv/g';
+import { Group as IGroup, DisplayObject as IShape, Circle, DisplayObjectConfig, CircleStyleProps } from '@antv/g';
 import { deepMix } from '@antv/util';
 import { Item, NodeConfig, ShapeStyle } from '../../types';
 import Global from '../../global';
@@ -44,7 +44,7 @@ Shape.registerNode(
         attrs: style,
         className: `${this.type}-keyShape`,
         draggable: true,
-      });
+      } as DisplayObjectConfig<CircleStyleProps>);
       group.appendChild(keyShape);
 
       return keyShape;

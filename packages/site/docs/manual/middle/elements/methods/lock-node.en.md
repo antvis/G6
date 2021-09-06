@@ -72,8 +72,8 @@ G6.registerBehavior('drag-canvas-exclude-lockedNode', {
       return;
     }
 
-    e = Util.cloneEvent(e);
     const graph = this.graph;
+    e = Util.cloneEvent(e, graph);
     if (!this.origin) {
       return;
     }
@@ -104,8 +104,8 @@ G6.registerBehavior('drag-canvas-exclude-lockedNode', {
       this.origin = null;
       return;
     }
-    e = Util.cloneEvent(e);
     const graph = this.graph;
+    e = Util.cloneEvent(e, graph);
     if (this.shouldEnd.call(this, e)) {
       this.updateViewport(e);
     }

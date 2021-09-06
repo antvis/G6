@@ -122,7 +122,10 @@ export default abstract class LayoutController {
     const hiddenCombos = [];
     const nodeItems = this.graph.getNodes();
     const edgeItems = this.graph.getEdges();
-    const comboItems = this.graph.getCombos();
+
+    // TODO: [G 升级 POC 忽略内容]
+    // const comboItems = this.graph.getCombos();
+
     const nodeLength = nodeItems.length;
     for (let i = 0; i < nodeLength; i++) {
       const nodeItem = nodeItems[i];
@@ -148,17 +151,18 @@ export default abstract class LayoutController {
       else comboEdges.push(model);
     }
 
-    const comboLength = comboItems.length;
-    for (let i = 0; i < comboLength; i++) {
-      const comboItem = comboItems[i];
-      if (comboItem.destroyed) continue;
-      const model = comboItem.getModel();
-      if (!comboItem.isVisible()) {
-        hiddenEdges.push(model);
-        continue;
-      }
-      combos.push(model);
-    }
+  // TODO: [G 升级 POC 忽略内容]
+    // const comboLength = comboItems.length;
+    // for (let i = 0; i < comboLength; i++) {
+    //   const comboItem = comboItems[i];
+    //   if (comboItem.destroyed) continue;
+    //   const model = comboItem.getModel();
+    //   if (!comboItem.isVisible()) {
+    //     hiddenEdges.push(model);
+    //     continue;
+    //   }
+    //   combos.push(model);
+    // }
     return {
       nodes,
       hiddenNodes,

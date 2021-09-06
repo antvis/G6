@@ -140,7 +140,9 @@ describe('select-node', () => {
         default: ['select-node'],
       },
       nodeStateStyles: {
-        selected: {},
+        selected: {
+          fill: '#f00'
+        },
       },
     });
     const node = graph.addItem('node', {
@@ -150,7 +152,6 @@ describe('select-node', () => {
       size: 20,
       style: { lineWidth: 2, fill: '#666' },
     });
-    graph.paint();
 
     graph.once('nodeselectchange', (e) => {
       expect(e.selectedItems.nodes.length).toEqual(1);
@@ -172,7 +173,9 @@ describe('select-node', () => {
         default: ['select-node'],
       },
       nodeStateStyles: {
-        selected: {},
+        selected: {
+          fill: '#f00'
+        },
       },
     });
     const node1 = graph.addItem('node', {
@@ -189,7 +192,6 @@ describe('select-node', () => {
       size: 20,
       style: { lineWidth: 2, fill: '#666' },
     });
-    graph.paint();
     graph.emit('node:click', { item: node1 });
     expect(node1.getStates().length).toEqual(1);
     expect(node1.getStates()[0]).toEqual('selected');
@@ -231,7 +233,6 @@ describe('select-node', () => {
       size: 20,
       style: { lineWidth: 2, fill: '#666' },
     });
-    graph.paint();
     graph.emit('node:click', { item: node });
     expect(node.hasState('selected')).toBe(false);
     graph.destroy();
@@ -249,7 +250,9 @@ describe('select-node', () => {
         ],
       },
       nodeStateStyles: {
-        selected: {},
+        selected: {
+          fill: '#f00'
+        },
       },
     });
     const node = graph.addItem('node', {
@@ -259,7 +262,6 @@ describe('select-node', () => {
       size: 20,
       style: { lineWidth: 2, fill: '#666' },
     });
-    graph.paint();
     graph.emit('node:click', { item: node });
     expect(node.hasState('selected')).toBe(true);
     graph.emit('canvas:click');
@@ -288,7 +290,6 @@ describe('select-node', () => {
       size: 20,
       style: { lineWidth: 2, fill: '#666' },
     });
-    graph.paint();
     expect(graph.get('modeController').currentBehaves[0].trigger).toEqual('shift');
     graph.destroy();
   });
@@ -305,7 +306,9 @@ describe('select-node', () => {
         ],
       },
       nodeStateStyles: {
-        selected: {},
+        selected: {
+          fill: '#f00'
+        },
       },
     });
     const node1 = graph.addItem('node', {
@@ -322,7 +325,6 @@ describe('select-node', () => {
       size: 20,
       style: { lineWidth: 2, fill: '#666' },
     });
-    graph.paint();
     graph.emit('node:click', { item: node1 });
     expect(node1.getStates().length).toEqual(1);
     expect(node1.getStates()[0]).toEqual('selected');
