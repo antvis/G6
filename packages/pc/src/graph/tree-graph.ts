@@ -1,5 +1,4 @@
 // @ts-nocheck
-import { Point } from '@antv/g-base';
 import Hierarchy from '@antv/hierarchy';
 import { each, isObject, isString } from '@antv/util';
 import {
@@ -9,6 +8,7 @@ import {
   ShapeStyle,
   TreeGraphData,
   GraphOptions,
+  IPos as Point
 } from '@antv/g6-core';
 import { ITreeGraph } from '../interface/graph';
 import Util from '../util';

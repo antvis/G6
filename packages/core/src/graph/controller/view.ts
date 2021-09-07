@@ -81,7 +81,7 @@ export default class ViewController {
     const dx = point.x - portCenterGlobal.x;
     const dy = point.y - portCenterGlobal.y;
 
-    console.log('focusPoint', animate, dx, dy)
+    console.log('focusPoint', animate, dx, dy, portCenterGlobal)
 
     const canvas = this.graph.get('canvas');
     const camera = canvas.getCamera();

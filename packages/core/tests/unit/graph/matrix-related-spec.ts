@@ -28,12 +28,12 @@ describe('graph', () => {
         y: 100,
         // label: 'node2',
       },
-      // {
-      //   id: 'node3',
-      //   x: 0,
-      //   y: 100,
-      //   label: 'node3',
-      // },
+      {
+        id: 'node3',
+        x: 0,
+        y: 100,
+        // label: 'node3',
+      },
     ],
     edges: [
       {
@@ -44,10 +44,10 @@ describe('graph', () => {
         source: 'node2',
         target: 'node3',
       },
-      // {
-      //   source: 'node3',
-      //   target: 'node1',
-      // },
+      {
+        source: 'node3',
+        target: 'node1',
+      },
     ],
   };
   globalGraph.data(data);
@@ -222,88 +222,68 @@ describe('graph', () => {
 
   // ✅
   // 获取视口中心全局坐标
-  it.only('getViewPortCenterPoint', () => {
+  it('getViewPortCenterPoint', () => {
     const camera = globalGraph.get('canvas').getCamera();
     // 重置相机位置和缩放
-    // camera.setPosition([0, 0, 0]);
-    // camera.setZoom(1);
+    camera.setPosition([0, 0, 0]);
+    camera.setZoom(1);
 
-    // const res1 = globalGraph.getViewPortCenterPoint();
-    // expect(res1.x).toBe(0);
-    // expect(res1.y).toBe(0);
+    const res1 = globalGraph.getViewPortCenterPoint();
+    expect(res1.x).toBe(0);
+    expect(res1.y).toBe(0);
 
-    // // 受到平移影响
-    // camera.setPosition([250, 250, 0]);
-    // const res2 = globalGraph.getViewPortCenterPoint();
-    // expect(res2.x).toBe(250);
-    // expect(res2.y).toBe(250);
+    // 受到平移影响
+    camera.setPosition([250, 250, 0]);
+    const res2 = globalGraph.getViewPortCenterPoint();
+    expect(res2.x).toBe(250);
+    expect(res2.y).toBe(250);
 
-    // // 受到缩放影响
-    // globalGraph.zoom(2); // 以 0,0 为缩放中心，放大两倍
-    // const res3 = globalGraph.getViewPortCenterPoint();
-    // expect(res3.x).toBe(125);
-    // expect(res3.y).toBe(125);
+    // 受到缩放影响
+    globalGraph.zoom(2); // 以 0,0 为缩放中心，放大两倍
+    const res3 = globalGraph.getViewPortCenterPoint();
+    expect(res3.x).toBe(125);
+    expect(res3.y).toBe(125);
 
-    // // 受到平移影响
-    // camera.setPosition([300, 300, 0]);
-    // const res4 = globalGraph.getViewPortCenterPoint();
-    // expect(res4.x).toBe(300);
-    // expect(res4.y).toBe(300);
+    // 受到平移影响
+    camera.setPosition([300, 300, 0]);
+    const res4 = globalGraph.getViewPortCenterPoint();
+    expect(res4.x).toBe(300);
+    expect(res4.y).toBe(300);
 
     // // 不应当受到图内容影响
     globalGraph.updateItem('node2', {
       x: 300,
       y: 100
     })
-    // const res5 = globalGraph.getViewPortCenterPoint();
-    // expect(res5.x).toBe(300);
-    // expect(res5.y).toBe(300);
+    const res5 = globalGraph.getViewPortCenterPoint();
+    expect(res5.x).toBe(300);
+    expect(res5.y).toBe(300);
   })
 
   // ✅
-  it.only('fitCenter', () => {
+  it('fitCenter', () => {
     const camera = globalGraph.get('canvas').getCamera();
     // 重置相机位置和缩放，重置数据位置
-    // camera.setPosition([250, 250, 0]);
-    // camera.setZoom(1);
-    console.log('camera', camera)
+    camera.setPosition([250, 250, 0]);
+    camera.setZoom(1);
     // 更新有残影, 导致 bbox 错误, fitCenter 不准确
     globalGraph.updateItem('node2', {
       x: 100,
       y: 100
     });
-    globalGraph.getEdges().forEach(edge => {
-      console.log('edge', edge.getModel().source, edge.getModel().target, edge.getKeyShape().getBounds(), edge.getKeyShape().attr('path'), edge.getKeyShape().config.style.path)
-    })
-    globalGraph.getNodes().forEach(node => {
-      console.log('node', node.getModel().x, node.getModel().y)
-    })
-    const gBBox = globalGraph.getGroup().getBounds()
-    console.log('bbox', gBBox)
-    console.log('globalGraph.getGroup()', globalGraph.getGroup())
-    console.log('edge shape', globalGraph.getGroup().children[0].children[0].attr())
-    // globalGraph.getGroup().appendChild(new Rect({
-    //   attrs: {
-    //     x: gBBox.min[0],
-    //     y: gBBox.min[1],
-    //     width: gBBox.max[0] - gBBox.min[0],
-    //     height: gBBox.max[1] - gBBox.min[1],
-    //     fill: "#000",
-    //     opactiy: 0.3
-    //   }
-    // }))
-    // console.log()
-    // globalGraph.fitCenter();
-    // expect(camera.getPosition()[0]).toBe(50);
-    // expect(camera.getPosition()[1]).toBe(50);
-
-
-    // // 重置相机位置，缩放 2，fitCenter 后相机位置同上
-    // camera.setPosition([250, 250, 0]);
-    // camera.setZoom(2);
     globalGraph.fitCenter();
-    // expect(camera.getPosition()[0]).toBe(50);
-    // expect(camera.getPosition()[1]).toBe(50);
+    setTimeout(() => {
+      expect(camera.getPosition()[0]).toBe(50);
+      expect(camera.getPosition()[1]).toBe(50);
+      // 重置相机位置，缩放 2，fitCenter 后相机位置同上
+      camera.setPosition([250, 250, 0]);
+      camera.setZoom(2);
+      globalGraph.fitCenter();
+      setTimeout(() => {
+        expect(camera.getPosition()[0]).toBe(50);
+        expect(camera.getPosition()[1]).toBe(50);
+      }, 16);
+    }, 16);
   });
 
   // ✅
@@ -313,9 +293,10 @@ describe('graph', () => {
     camera.setPosition([250, 250, 0]);
     camera.setZoom(1);
     globalGraph.fitView();
-    expect(camera.getPosition()[0]).toBe(50);
-    expect(camera.getPosition()[1]).toBe(50);
-    expect(camera.zoom).toBe(3.7115457222683683);
+    setTimeout(() => {
+      expect(camera.getPosition()[0]).toBe(50);
+      expect(camera.getPosition()[1]).toBe(50);
+      expect(camera.zoom).toBe(3.9344262295081966);
+    }, 16);
   });
-
 });

@@ -61,7 +61,7 @@
     "@antv/algorithm": "^0.1.8",
     "@antv/dom-util": "^2.0.1",
     "@antv/event-emitter": "~0.1.0",
-    "@antv/g": "1.0.0-alpha.13",
+    "@antv/g": "1.0.0-alpha.15",
     "@antv/g-math": "1.0.0-alpha.2",
     "@antv/matrix-util": "^3.1.0-beta.2",
     "@antv/path-util": "^2.0.3",
@@ -70,9 +70,9 @@
     "tslib": "^2.1.0"
   },
   "devDependencies": {
-    "@antv/g-webgl": "1.0.0-alpha.14",
-    "@antv/g-canvas": "1.0.0-alpha.14",
-    "@antv/g-svg": "1.0.0-alpha.14",
+    "@antv/g-webgl": "1.0.0-alpha.16",
+    "@antv/g-canvas": "1.0.0-alpha.16",
+    "@antv/g-svg": "1.0.0-alpha.16",
     "@babel/core": "^7.7.7",
     "@turf/turf": "^5.1.6",
     "@types/jest": "^25.2.1",

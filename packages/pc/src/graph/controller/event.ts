@@ -1,7 +1,7 @@
 import { addEventListener } from '@antv/dom-util';
-import { ICanvas, IGroup, IShape } from '@antv/g-base';
+import { DisplayObject as IShape, Canvas as ICanvas } from '@antv/g';
 import { each, isNil, wrapBehavior } from '@antv/util';
-import { AbstractEvent, IG6GraphEvent, Matrix, Item, Util } from '@antv/g6-core';
+import { AbstractEvent, IG6GraphEvent, Item, Util } from '@antv/g6-core';
 import Graph from '../graph';
 
 const { cloneEvent, isViewportChanged } = Util;
@@ -32,7 +32,7 @@ export default class EventController extends AbstractEvent {
 
     const canvas: ICanvas = graph.get('canvas');
     // canvas.set('draggable', true);
-    const el = canvas.get('el');
+    const el = canvas?.getContextService().getDomElement();
 
     const canvasHandler: Fun = wrapBehavior(this, 'onCanvasEvents') as Fun;
     const originHandler = wrapBehavior(this, 'onExtendEvents');
@@ -82,16 +82,8 @@ export default class EventController extends AbstractEvent {
     evt.canvasY = evt.y;
     let point = { x: evt.canvasX, y: evt.canvasY };
 
-    const group: IGroup = graph.get('group');
-    let matrix: Matrix = group.getMatrix();
-
-    if (!matrix) {
-      matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
-    }
-
-    if (isViewportChanged(matrix)) {
-      point = graph.getPointByClient(evt.clientX, evt.clientY);
-    }
+    const canvas = graph.get('canvas');
+    point = canvas.getPointByClient(evt.clientX, evt.clientY);
 
     evt.x = point.x;
     evt.y = point.y;

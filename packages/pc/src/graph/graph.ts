@@ -1,5 +1,9 @@
-import { Canvas as GCanvas } from '@antv/g-canvas';
-import { Canvas as GSVGCanvas } from '@antv/g-svg';
+// import { Canvas as GCanvas } from '@antv/g-canvas';
+// import { Canvas as GSVGCanvas } from '@antv/g-svg';
+import { Canvas } from '@antv/g'
+import { Renderer as CanvasRenderer } from '@antv/g-canvas';
+import { Renderer as SVGRenderer } from '@antv/g-svg';
+import { Renderer as WebGLRenderer } from '@antv/g-webgl';
 import { ext } from '@antv/matrix-util';
 import { clone, deepMix, each, isString, isNumber } from '@antv/util';
 import { IGraph, DataUrlType } from '../interface/graph';
@@ -8,7 +12,10 @@ import { AbstractGraph, GraphOptions } from '@antv/g6-core';
 import { WaterMarkerConfig } from '../types';
 import Global from '../global';
 import { LayoutController, EventController } from './controller';
-import { PluginBase } from '@antv/g6-plugin';
+
+// TODO: [G 升级 POC 忽略内容]
+// import { PluginBase } from '@antv/g6-plugin';
+
 import { createDom } from '@antv/dom-util';
 
 const { transform } = ext;
@@ -20,9 +27,11 @@ export default class Graph extends AbstractGraph implements IGraph {
   public destroyed: boolean;
 
   constructor(cfg: GraphOptions) {
+    console.log('cons1');
     super(cfg);
+    console.log('cons2');
     const defaultNode = this.get('defaultNode');
-    if (!defaultNode) {
+    if (!defaultNode || Object.keys(defaultNode).length === 0) {
       this.set('defaultNode', { type: 'circle' });
     }
     if (!defaultNode.type) {
@@ -68,27 +77,26 @@ export default class Graph extends AbstractGraph implements IGraph {
 
     const renderer: string = this.get('renderer');
 
-    let canvas;
-
+    let gRenderer;
+    const canvasCfg: any = {
+      container,
+      width,
+      height,
+    };
+    
     if (renderer === SVG) {
-      canvas = new GSVGCanvas({
-        container,
-        width,
-        height,
-      });
+      gRenderer = new SVGRenderer();
     } else {
-      const canvasCfg: any = {
-        container,
-        width,
-        height,
-      };
       const pixelRatio = this.get('pixelRatio');
       if (pixelRatio) {
         canvasCfg.pixelRatio = pixelRatio;
       }
-
-      canvas = new GCanvas(canvasCfg);
+      gRenderer = new CanvasRenderer();
     }
+    const canvas = new Canvas({
+      ...{renderer: gRenderer},
+      ...canvasCfg
+    });
 
     this.set('canvas', canvas);
   }
@@ -131,7 +139,7 @@ export default class Graph extends AbstractGraph implements IGraph {
     const watermarker = document.querySelector('.g6-graph-watermarker') as HTMLElement;
     const canvas: GCanvas = this.get('canvas');
     const renderer = canvas.getRenderer();
-    const canvasDom = vCanvasEl || canvas.get('el');
+    const canvasDom = vCanvasEl || canvas?.getContextService().getDomElement();
 
     let dataURL = '';
     if (!type) type = 'image/png';
@@ -187,7 +195,7 @@ export default class Graph extends AbstractGraph implements IGraph {
   public toDataURL(type?: DataUrlType, backgroundColor?: string): string {
     const canvas: GCanvas = this.get('canvas');
     const renderer = canvas.getRenderer();
-    const canvasDom = canvas.get('el');
+    const canvasDom = canvas?.getContextService().getDomElement();
 
     if (!type) type = 'image/png';
 
@@ -281,7 +289,7 @@ export default class Graph extends AbstractGraph implements IGraph {
     vGroup.setMatrix(matrix);
     vCanvas.add(vGroup);
 
-    const vCanvasEl = vCanvas.get('el');
+    const vCanvasEl = vCanvas?.getContextService().getDomElement();
 
     let dataURL = '';
     if (!type) type = 'image/png';
@@ -378,7 +386,7 @@ export default class Graph extends AbstractGraph implements IGraph {
     vGroup.setMatrix(matrix);
     vCanvas.add(vGroup);
 
-    const vCanvasEl = vCanvas.get('el');
+    const vCanvasEl = vCanvas?.getContextService().getDomElement();
 
     if (!type) type = 'image/png';
     this.asyncToDataUrl(type, backgroundColor, (dataURL) => {
@@ -460,31 +468,33 @@ export default class Graph extends AbstractGraph implements IGraph {
     }
   }
 
-  /**
-   * 添加插件
-   * @param {object} plugin 插件实例
-   */
-  public addPlugin(plugin: PluginBase): void {
-    const self = this;
-    if (plugin.destroyed) {
-      return;
-    }
-    self.get('plugins').push(plugin);
-    plugin.initPlugin(self as any);
-  }
+  // TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 添加插件
+  //  * @param {object} plugin 插件实例
+  //  */
+  // public addPlugin(plugin: PluginBase): void {
+  //   const self = this;
+  //   if (plugin.destroyed) {
+  //     return;
+  //   }
+  //   self.get('plugins').push(plugin);
+  //   plugin.initPlugin(self as any);
+  // }
 
-  /**
-   * 添加插件
-   * @param {object} plugin 插件实例
-   */
-  public removePlugin(plugin: PluginBase): void {
-    const plugins = this.get('plugins');
-    const index = plugins.indexOf(plugin);
-    if (index >= 0) {
-      plugin.destroyPlugin();
-      plugins.splice(index, 1);
-    }
-  }
+  // TODO: [G 升级 POC 忽略内容]
+  // /**
+  //  * 添加插件
+  //  * @param {object} plugin 插件实例
+  //  */
+  // public removePlugin(plugin: PluginBase): void {
+  //   const plugins = this.get('plugins');
+  //   const index = plugins.indexOf(plugin);
+  //   if (index >= 0) {
+  //     plugin.destroyPlugin();
+  //     plugins.splice(index, 1);
+  //   }
+  // }
 
   /**
    * 设置图片水印
@@ -520,7 +530,8 @@ export default class Graph extends AbstractGraph implements IGraph {
       canvas = new GCanvas(canvasCfg);
       this.set('graphWaterMarker', canvas);
     }
-    canvas.get('el').style.display = 'none';
+    const el = canvas?.getContextService().getDomElement();
+    el.style.display = 'none';
     const ctx = canvas.get('context');
 
     const { rotate, x, y } = image;
@@ -594,7 +605,8 @@ export default class Graph extends AbstractGraph implements IGraph {
       canvas = new GCanvas(canvasCfg);
       this.set('graphWaterMarker', canvas);
     }
-    canvas.get('el').style.display = 'none';
+    const el = canvas?.getContextService().getDomElement();
+    el.style.display = 'none';
     const ctx = canvas.get('context');
 
     const { rotate, fill, fontFamily, fontSize, baseline, x, y, lineHeight } = text;

@@ -73,7 +73,7 @@ export default {
     modifyCSS(this.container, { left, top, visibility: 'visible' });
   },
   createTooltip(canvas): HTMLElement {
-    const el = canvas.get('el');
+    const el = canvas?.getContextService().getDomElement();
     el.style.position = 'relative';
     const container = createDom(`<div class="g6-tooltip g6-${this.item}-tooltip"></div>`);
     el.parentNode.appendChild(container);

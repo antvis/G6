@@ -60,7 +60,7 @@
     ]
   },
   "dependencies": {
-    "@antv/g-base": "^0.5.1",
+    "@antv/g": "1.0.0-alpha.15",
     "@antv/g6-core": "0.3.6",
     "@antv/util": "~2.0.5"
   },

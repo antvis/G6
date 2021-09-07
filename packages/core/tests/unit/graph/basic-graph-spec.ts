@@ -2,11 +2,11 @@ import '../../../src/behavior';
 import Graph from '../implement-graph';
 
 describe('graph', () => {
-  it('basic graph', () => {
+  it.only('basic graph', () => {
     const div = document.createElement('div');
     document.body.appendChild(div);
     const graph = new Graph({
-      autoPaint: false,
+      // autoPaint: false,
       container: div,
       width: 500,
       height: 500,

@@ -156,7 +156,13 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       id: `${id}-root`,
       className: Global.rootContainerClassName,
     });
+    console.log('before append child', id, group);
     canvas.appendChild(group);
+    console.log('after append child');
+
+    // const group = canvas.getRoot();
+    // group.id = `${id}-root`;
+    // group.className = Global.rootContainerClassName;
 
     if (this.get('groupByTypes')) {
       // const edgeGroup: IGroup = group.addGroup({
@@ -603,15 +609,18 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    */
   public moveTo(x: number, y: number, animate?: boolean, animateCfg?: GraphAnimateConfig): void {
     const group: IGroup = this.get('group');
-    move(
-      this,
-      { x, y },
-      animate,
-      animateCfg || {
-        duration: 500,
-        easing: 'easeCubic',
-      }
-    );
+    setTimeout(() => {
+      if (this && !this.destroyed) move(
+        this,
+        { x, y },
+        animate,
+        animateCfg || {
+          duration: 500,
+          easing: 'easeCubic',
+        }
+      );
+    }, 16);
+    
     this.emit('viewportchange', { action: 'move', matrix: group.getMatrix() });
   }
 
@@ -625,7 +634,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     }
 
     const viewController: ViewController = this.get('viewController');
-    viewController.fitView();
+    setTimeout(() => {
+      if (this && !this.destroyed) viewController.fitView();
+    }, 16);
 
     this.autoPaint();
   }
@@ -635,7 +646,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    */
   public fitCenter(): void {
     const viewController: ViewController = this.get('viewController');
-    viewController.fitCenter();
+    setTimeout(() => {
+      if (this && !this.destroyed) viewController.fitCenter();
+    }, 16);
     this.autoPaint();
   }
 
@@ -2068,7 +2081,6 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * 根据 graph 上的 animateCfg 进行视图中节点位置动画接口
    */
   public positionsAnimate(): void {
-    console.log('pisition animate')
     const self = this;
     self.emit('beforeanimate');
 
@@ -2111,9 +2123,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       // TODO: onframe 只被调用了一次
       animate.onframe = (e) => {
         const currentPos = nodeGroup.getPosition();
-        console.log('currentPos', model.id, currentPos)
         model.x = currentPos[0];
         model.y = currentPos[1];
+        console.log('currentPos', model.id, currentPos[0], currentPos[1], node.getEdges())
         node.getEdges().forEach(edge => {
           edge.refresh();
         })

@@ -285,6 +285,11 @@ export default class ItemController {
       const edges: IEdge[] = (item as INode).getEdges();
       const refreshEdge = updateType === 'bbox' || updateType === 'move';
       if (type === NODE) {
+        // if (refreshEdge) {
+        //   each(edges, (edge: IEdge) => {
+        //     edge.refresh();
+        //   });
+        // }
         if (updateType === 'move') {
           each(edges, (edge: IEdge) => {
             this.edgeToBeUpdateMap[edge.getID()] = {

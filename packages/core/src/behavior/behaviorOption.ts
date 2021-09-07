@@ -48,7 +48,8 @@ export default {
       this.type === 'brush-select' ||
       this.type === 'lasso-select'
     ) {
-      graph.get('canvas').set('draggable', true);
+      // TODO: 新 G 没有 drag 事件
+      // graph.get('canvas').set('draggable', true);
     }
     each(events, (handler: () => void, event: G6Event) => {
       graph.on(event, handler);

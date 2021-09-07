@@ -5,9 +5,8 @@
  * @LastEditTime: 2019-08-22 18:41:45
  * @Description: 拖动节点的Behavior
  */
-import { Point } from '@antv/g-base';
 import { deepMix, clone, debounce } from '@antv/util';
-import { G6Event, IG6GraphEvent, Item, NodeConfig, INode, ICombo } from '@antv/g6-core';
+import { G6Event, IG6GraphEvent, Item, NodeConfig, INode, ICombo, IPos as Point } from '@antv/g6-core';
 import { IGraph } from '../interface/graph';
 import Global from '../global';
 

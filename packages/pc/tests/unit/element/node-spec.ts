@@ -3,11 +3,11 @@
  * @author dxq613@gmai.com
  */
 
-import { Canvas } from '@antv/g-canvas';
+import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Shape, Node, Util } from '@antv/g6-core';
 import { Graph, Global } from '../../../src';
 import '../../../src';
-import { IGroup } from '@antv/g-base';
+import { Group as IGroup, Canvas } from '@antv/g';
 const { translate } = Util;
 
 const div = document.createElement('div');
@@ -15,6 +15,7 @@ div.id = 'node-shape';
 document.body.appendChild(div);
 
 const canvas = new Canvas({
+  renderer: new CanvasRenderer(),
   container: 'node-shape',
   width: 500,
   height: 500,

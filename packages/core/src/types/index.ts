@@ -1,6 +1,6 @@
 /* eslint @typescript-eslint/no-use-before-define: 0 */
 // import { IGroup, Event as GraphEvent, BBox, AnimateCfg, ICanvas, IShape } from '@antv/g-base';
-import { Group as IGroup, Canvas as ICanvas, DisplayObject as IShape, KeyframeAnimationOptions as AnimateCfg } from '@antv/g';
+import { Group as IGroup, Canvas as ICanvas, DisplayObject as IShape } from '@antv/g';
 import Node from '../item/node';
 import { IAbstractGraph } from '../interface/graph';
 import { IEdge, INode, ICombo } from '../interface/item';
@@ -578,7 +578,7 @@ export interface GraphData {
   [key: string]: any;
 }
 
-export interface GraphAnimateConfig extends AnimateCfg {
+export interface GraphAnimateConfig extends KeyframeAnimationOptions {
   /**
    * 回调函数，用于自定义节点运动路径。
    */

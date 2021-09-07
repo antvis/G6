@@ -7,7 +7,7 @@ import {
   Marker,
   Shape,
 } from '@antv/g6-core';
-import { ICanvas, IGroup, IShape } from '@antv/g-base';
+import { Group as IGroup, DisplayObject as IShape, Canvas as ICanvas } from '@antv/g';
 import * as AlgorithmSync from '@antv/algorithm';
 import * as AlgorithmAsync from '@antv/algorithm/lib/asyncIndex';
 import Graph from './graph/graph';

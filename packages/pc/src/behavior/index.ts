@@ -10,8 +10,11 @@ import ZoomCanvas from './zoom-canvas';
 import Tooltip from './tooltip';
 import EdgeTooltip from './edge-tooltip';
 import CollapseExpand from './collapse-expand';
-import DragCombo from './drag-combo';
-import CollapseExpandCombo from './collapse-expand-combo';
+
+// TODO: [G 升级 POC 忽略内容]
+// import DragCombo from './drag-combo';
+// import CollapseExpandCombo from './collapse-expand-combo';
+
 import LassoSelect from './lasso-select';
 import CreateEdge from './create-edge';
 import ShortcutsCall from './shortcuts-call';
@@ -28,8 +31,11 @@ const behaviors = {
   tooltip: Tooltip,
   'edge-tooltip': EdgeTooltip,
   'collapse-expand': CollapseExpand,
-  'drag-combo': DragCombo,
-  'collapse-expand-combo': CollapseExpandCombo,
+
+  // TODO: [G 升级 POC 忽略内容]
+  // 'drag-combo': DragCombo,
+  // 'collapse-expand-combo': CollapseExpandCombo,
+  
   'create-edge': CreateEdge,
   'shortcuts-call': ShortcutsCall,
   'scroll-canvas': ScrollCanvas,
