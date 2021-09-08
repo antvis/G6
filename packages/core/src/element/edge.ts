@@ -4,7 +4,7 @@
  */
 
 // import { IGroup, IShape, IElement, Point } from '@antv/g-base';
-import { Group as IGroup, DisplayObject as IShape, DisplayObject as IElement, Path, Rect, Text, Circle } from '@antv/g';
+import { Group as IGroup, DisplayObject as IShape, DisplayObject as IElement, Path, Rect, Text } from '@antv/g';
 import { deepMix, mix, each, isNil, isNumber, isArray } from '@antv/util';
 import { ILabelConfig, ShapeOptions } from '../interface/shape';
 // import { EdgeConfig, EdgeData, IPoint, LabelStyle, ShapeStyle, Item, ModelConfig, UpdateType } from '../types';
@@ -183,7 +183,6 @@ const singleEdge: ShapeOptions = {
     }
     delete style.x;
     delete style.y;
-
 
     if (shape) {
       shape.attr(style);

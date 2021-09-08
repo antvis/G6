@@ -33,7 +33,6 @@ export const getBBox = (element: IShapeBase, group: IGroup): IBBox => {
   //   y: bbox.maxY,
   // };
   const bbox = element.getBounds();
-  console.log('bbox', bbox)
   // TODO: 新的API getBounds直接得到了世界坐标的bbox，不需要再应用父元素的变换矩阵了
   // 根据父元素变换矩阵
   // if (group) {

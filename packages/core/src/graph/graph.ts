@@ -2103,6 +2103,16 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     //   self.stopAnimate();
     // }
 
+    const updateEdges = (node, nodeGroup, model, edges) => {
+      node.set('bboxCache', null)
+      const currentPos = nodeGroup.getPosition();
+      model.x = currentPos[0];
+      model.y = currentPos[1];
+      node.getEdges().forEach(edge => {
+        edge.refresh();
+      })
+    }
+
     this.getNodes().forEach(node => {
       const nodeGroup = node.getContainer();
       const model = node.getModel();
@@ -2120,15 +2130,12 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         ...animateCfg,
         fill: 'both',
       });
-      // TODO: onframe 只被调用了一次
+      const edges = node.getEdges();
       animate.onframe = (e) => {
-        const currentPos = nodeGroup.getPosition();
-        model.x = currentPos[0];
-        model.y = currentPos[1];
-        console.log('currentPos', model.id, currentPos[0], currentPos[1], node.getEdges())
-        node.getEdges().forEach(edge => {
-          edge.refresh();
-        })
+        updateEdges(node, nodeGroup, model, edges);
+      }
+      animate.onfinish = () => {
+        updateEdges(node, nodeGroup, model,  edges);
       }
     });
 

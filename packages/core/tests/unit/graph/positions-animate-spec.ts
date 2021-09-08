@@ -10,6 +10,7 @@ describe('graph', () => {
     container: div,
     width: 500,
     height: 500,
+    linkCenter: true,
     modes: {
       default: ['drag-node'],
     },
