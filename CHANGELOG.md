@@ -1,5 +1,9 @@
 # ChangeLog
 
+#### 4.3.7
+
+- fix: update edge to be horizontal and the label is on wrong position;
+
 #### 4.3.6
 
 - fix: drag-node on mobile, closes: #3127;
