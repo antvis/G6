@@ -298,7 +298,7 @@ export const shapeBase: ShapeOptions = {
         delete labelStyle.rotate;
 
         // 计算 label 的旋转矩阵
-        if (rotate) {
+        if (rotate || rotate === 0) {
           // if G 4.x define the rotateAtStart, use it directly instead of using the following codes
           let rotateMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
           rotateMatrix = transform(rotateMatrix, [
@@ -328,7 +328,7 @@ export const shapeBase: ShapeOptions = {
           );
           const labelBgStyle = { ...calculateBgStyle, ...cfgBgStyle };
           labelBg.resetMatrix();
-          if (rotate) {
+          if (rotate || rotate === 0) {
             let bgRotateMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
             bgRotateMatrix = transform(bgRotateMatrix, [
               ['t', -labelBgStyle.x, -labelBgStyle.y],
