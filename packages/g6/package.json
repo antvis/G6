@@ -66,7 +66,7 @@
     ]
   },
   "dependencies": {
-    "@antv/g6-pc": "4.3.8"
+    "@antv/g6-pc": "0.3.8"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
