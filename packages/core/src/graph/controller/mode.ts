@@ -194,6 +194,7 @@ export default class ModeController {
       );
     }
 
+    this.formatModes();
     this.setMode(this.mode);
 
     return this;

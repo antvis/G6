@@ -458,6 +458,13 @@ group.addShape('text', {
 });
 ```
 
+### text
+
+<description> _String_ **optional** </description>
+
+The text content of the text shape.
+
+
 ### textAlign
 
 <description> _String_ **optional** </description>

@@ -46,8 +46,10 @@ describe('drag-node', () => {
     expect(dragMatrix[6]).toEqual(50);
     expect(dragMatrix[7]).toEqual(50);
 
+    graph.emit('canvas:drop', { x: 120, y: 120, item: node });
     graph.emit('node:dragend', { x: 120, y: 120, item: node });
     const matrix = node.get('group').getMatrix();
+    console.log('matrix',matrix)
     expect(matrix[0]).toEqual(1);
     expect(matrix[6]).toEqual(70);
     expect(matrix[7]).toEqual(70);
@@ -91,6 +93,7 @@ describe('drag-node', () => {
     expect(dragMatrix[6]).toEqual(50);
     expect(dragMatrix[7]).toEqual(50);
 
+    graph.emit('canvas:drop', { x: 120, y: 120, item: node });
     graph.emit('touchend', { x: 120, y: 120, item: node });
     const matrix = node.get('group').getMatrix();
     expect(matrix[0]).toEqual(1);
@@ -258,6 +261,7 @@ describe('drag-node', () => {
     expect(dragMatrix[6]).toEqual(50);
     expect(dragMatrix[7]).toEqual(50);
 
+    graph.emit('canvas:drop', { x: 200, y: 200, item: node0 });
     graph.emit('node:dragend', { x: 200, y: 200, item: node0 });
     const matrix = node0.get('group').getMatrix();
     expect(matrix[0]).toEqual(1);
@@ -381,18 +385,21 @@ describe('drag-node', () => {
       setTimeout(() => {
         expect(mathEqual(289, path[1][1])).toEqual(true);
         expect(mathEqual(300, path[1][2])).toEqual(true);
+        graph.emit('canvas:drop', { x: 140, y: 140, item: source });
         graph.emit('node:dragend', { x: 140, y: 140, item: source });
-        path = edge
-          .get('group')
-          .get('children')[0]
-          .attr('path');
-        expect(path[0][1]).toEqual(97.77817459305203);
-        expect(path[0][2]).toEqual(97.77817459305203);
         setTimeout(() => {
-          expect(mathEqual(289, path[1][1])).toEqual(true);
-          expect(mathEqual(300, path[1][2])).toEqual(true);
-          graph.destroy();
-          done()
+          path = edge
+            .get('group')
+            .get('children')[0]
+            .attr('path');
+          expect(path[0][1]).toEqual(97.77817459305203);
+          expect(path[0][2]).toEqual(97.77817459305203);
+          setTimeout(() => {
+            expect(mathEqual(289, path[1][1])).toEqual(true);
+            expect(mathEqual(300, path[1][2])).toEqual(true);
+            graph.destroy();
+            done()
+          }, 50)
         }, 50)
       }, 50)
     }, 50)

@@ -1,5 +1,5 @@
 ---
-title: 使用React直接定义节点
+title: 使用 React 定义节点
 order: 5
 ---
 
@@ -118,30 +118,30 @@ const Card = ({ cfg }) => {
 G6.registerNode('test', createNodeFromReact(Card));
 ```
 
-他展示了这样一个卡片的节点：
+展示了这样一个卡片的节点：
 
 <img alt="graph" width="400" src="https://gw.alipayobjects.com/zos/antfincdn/imZMZ8jYKJ/xiazai%252520%2815%29.png" />
 
 
 ### 使用指南
 
-#### 图形React组件
+#### 图形 React 组件
 
-定义React组件节点的时候，你不能使用任何的hook或者异步获取的逻辑，因为目前节点绘制需要是一个同步的过程，并且，我们推荐把所有状态以及数据信息放在节点本身data中，这样可以更方便的进行管理。在React组件节点中，所有的数据流动都应该是：节点数据 -> react组件props(cfg) -> 节点内容变化。组件本身需要是没有任何副作用的，所有对于节点数据的改变，都是基于updateItem的。
+定义 React 组件节点的时候，你不能使用任何的 hook 或者异步获取的逻辑，因为目前节点绘制需要是一个同步的过程，并且，我们推荐把所有状态以及数据信息放在节点本身 data 中，这样可以更方便的进行管理。在React组件节点中，所有的数据流动都应该是：节点数据 -> react 组件 props(cfg) -> 节点内容变化。组件本身需要是没有任何副作用的，所有对于节点数据的改变，都是基于 updateItem 的。
 
-#### React组件内部的布局
+#### React 组件内部的布局
 
-如果你没有做任何定位或者布局，所有布局都会按照正常的文档流，自上而下排布。为了让大家有更自由的布局方式，React内部还支持了flex布局，你可以通过操作：`alignContent`,`alignItems`,`alignSelf`,`display`,`flex`,`flexBasis`,`flexGrow`,`flexShrink`,`flexDirection`,`flexWrap`,`height`,`width`,`justifyContent`,`margin`,`padding`,`maxHeight`,`maxWidth`,`minHeight`,`minWidth` 这几个属性来控制节点内部的布局。
+如果你没有做任何定位或者布局，所有布局都会按照正常的文档流，自上而下排布。为了让大家有更自由的布局方式， React 内部还支持了 flex 布局，你可以通过操作：`alignContent`,`alignItems`,`alignSelf`,`display`,`flex`,`flexBasis`,`flexGrow`,`flexShrink`,`flexDirection`,`flexWrap`,`height`,`width`,`justifyContent`,`margin`,`padding`,`maxHeight`,`maxWidth`,`minHeight`,`minWidth` 这几个属性来控制节点内部的布局。
 
-#### 基于React组件Shape的事件处理
+#### 基于 React 组件 Shape 的事件处理
 
-为了更加方便的控制节点，我们支持了在节点内部的某一个图形进行事件绑定(事件冒泡会在后续版本支持)，这些事件绑定函数都有统一的参数： `(evt: G6本身的事件, node: 事件发生的节点, shape: 事件发生的Shape, graph: 发出事件的graph)`，目前我们支持了大部分的G6事件：`onClick`,`onDBClick `,`onMouseEnter`,`onMouseMove `,`onMouseOut`,`onMouseOver `,`onMouseLeave`,`onMouseDown `,`onMouseUp `,`onDragStart `,`onDrag`,`onDragEnd `,`onDragEnter `,`onDragLeave `,`onDragOver`,`onDrop`,`onContextMenu`
+为了更加方便的控制节点，我们支持了在节点内部的某一个图形进行事件绑定(事件冒泡会在后续版本支持)，这些事件绑定函数都有统一的参数： `(evt: G6本身的事件, node: 事件发生的节点, shape: 事件发生的Shape, graph: 发出事件的graph)`，目前我们支持了大部分的 G6 事件：`onClick`,`onDBClick `,`onMouseEnter`,`onMouseMove `,`onMouseOut`,`onMouseOver `,`onMouseLeave`,`onMouseDown `,`onMouseUp `,`onDragStart `,`onDrag`,`onDragEnd `,`onDragEnter `,`onDragLeave `,`onDragOver`,`onDrop`,`onContextMenu`
 
-⚠️ 注意： 使用了事件后，需要使用函数 `appenAutoShapeListener(graph)` 对所进行对图进行事件挂载才可以生效，该方法可以直接从`@antv/g6-react-node`包引出。
+⚠️ 注意： 使用了事件后，需要使用函数 `appenAutoShapeListener(graph)` 对所进行对图进行事件挂载才可以生效，该方法可以直接从 `@antv/g6-react-node` 包引出。
 
-#### 基于React组件Shape的简单动画（alpha）
+#### 基于 React 组件 Shape 的简单动画（alpha）
 
-为了更加方便给节点添加动画，所以我们内置了一些简单的动画来使用，希望能满足基本交互的效果，第一期我们暂时只推出了六种动画，`animation`属性设置后就有动画，属性为空则停止动画。
+为了更加方便给节点添加动画，所以我们内置了一些简单的动画来使用，希望能满足基本交互的效果，第一期我们暂时只推出了六种动画， `animation` 属性设置后就有动画，属性为空则停止动画。
 
 示例：
 

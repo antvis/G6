@@ -23,7 +23,8 @@ V3.5 以上版本支持。
   - `onlyChangeComboSize`：拖动嵌套的 Combo 时，只改变父 Combo 的大小，不改变层级关系，默认为 false；
   - `activeState`：当拖动 Combo 时，父 Combo 或进入到的 Combo 的状态值，需要用户在实例化 Graph 时在 `comboStateStyles` 里面配置，默认为空；
   - `selectedState`：选中 Combo 的状态，默认为 selected，需要在 `comboStateStyles` 里面配置；
-  - `shouldUpdate(e)`：是否允许当前被操作的 combo 被拖拽，参见下面示例。
+  - `shouldUpdate(e)`：是否允许当前被操作的 combo 被拖拽，参见下面示例；
+  - `shouldEnd(e, newParent)`：【v4.3.8 后支持】是否允许当前被操作的 combo 完成拖拽。第二个参数为拖拽释放时检测到的新父 combo，若释放在画布上，则 `newParent` 为 `undefined`，参见下面示例。
 
 **使用默认配置**
 
@@ -50,6 +51,12 @@ const graph = new G6.Graph({
           if (e.item && e.item.getModel().id === 'combo1') return false;
           return true;
         },
+        // shouldEnd【v4.3.8 后支持】
+        shouldEnd: (e, newParent) => {
+          // 不可以将 combo 释放到 combo1 上
+          if (newParent && newParent.getModel().id === 'combo1') return false;
+          return true;
+        }
       },
     ],
   },

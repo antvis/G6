@@ -1,5 +1,17 @@
 # ChangeLog
 
+#### 4.3.8
+
+- fix: addBehavior with behavior string name, closes: #3020;
+- fix: drag-node shouldEnd does not stop the dragging node behavior, closes: #3173;
+- fix: drag-combo fails to merge combo with enableDelegate, closes: #3137;
+- fix: uncombo does not trigger afterremoveitem event, closes: #3179;
+- fix: error label background position when the edge label has position start, closes: #3129;
+- fix: destroyed graph judgement, closes: #3203;
+- fix: edge click event will not be triggered when the contextmenu is configure with trigger click, closes: #3201;
+- feat: drag-combo with shouldEnd, closes: #3202;
+- chore: information for failing to download image, closes: #2980;
+
 #### 4.3.7
 
 - fix: update edge to be horizontal and the label is on wrong position;

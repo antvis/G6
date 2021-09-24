@@ -95,6 +95,7 @@ export default {
    * @param evt
    */
   onDragStart(evt: IG6GraphEvent) {
+    this.currentShouldEnd = true;
     if (!this.shouldBegin.call(this, evt)) {
       return;
     }
@@ -214,7 +215,7 @@ export default {
    * @param evt
    */
   onDragEnd(evt: IG6GraphEvent) {
-    if (!this.origin || !this.shouldEnd.call(this, evt)) {
+    if (!this.origin) {
       return;
     }
 
@@ -230,7 +231,6 @@ export default {
       this.delegateRect = null;
     }
 
-    this.updatePositions(evt);
     if (this.get('updateEdge') && this.enableOptimize && !this.enableDelegate) {
       this.targets.forEach(node => {
         const edges = node.getEdges();
@@ -288,10 +288,10 @@ export default {
    */
   onDropCombo(evt: IG6GraphEvent) {
     const item = evt.item as ICombo;
-    if (!this.validationCombo(item)) return;
-
-    this.updatePositions(evt);
-
+    this.currentShouldEnd = this.shouldEnd.call(this, evt, item);
+    // 若不允许结束，则将节点位置设置回初识位置。后面的逻辑仍需要执行
+    this.updatePositions(evt, !this.currentShouldEnd);
+    if (!this.currentShouldEnd || !this.validationCombo(item)) return;
     const graph: IGraph = this.graph;
 
     if (this.comboActiveState) {
@@ -324,8 +324,10 @@ export default {
 
   onDropCanvas(evt: IG6GraphEvent) {
     const graph: IGraph = this.graph;
-    if (!this.targets || this.targets.length === 0) return;
-    this.updatePositions(evt);
+    this.currentShouldEnd = this.shouldEnd.call(this, evt, undefined);
+    // 若不允许结束，则将节点位置设置回初识位置。后面的逻辑仍需要执行
+    this.updatePositions(evt, !this.currentShouldEnd);
+    if (!this.targets || this.targets.length === 0 || !this.currentShouldEnd) return;
     if (this.onlyChangeComboSize) {
       // 拖动节点结束后，动态改变 Combo 的大小
       graph.updateCombos();
@@ -348,10 +350,15 @@ export default {
     if (!this.targets || this.targets.length === 0) return;
     const self = this;
     const item = evt.item as INode;
-    this.updatePositions(evt);
     const graph: IGraph = self.graph;
 
     const comboId = item.getModel().comboId as string;
+
+    const newParentCombo = comboId ? graph.findById(comboId) : undefined;
+    this.currentShouldEnd = this.shouldEnd.call(this, evt, newParentCombo);
+    // 若不允许结束，则将节点位置设置回初识位置。后面的逻辑仍需要执行
+    this.updatePositions(evt, !this.currentShouldEnd);
+    if (!this.currentShouldEnd) return;
 
     if (this.onlyChangeComboSize) {
       graph.updateCombos();
@@ -409,7 +416,7 @@ export default {
     }
   },
 
-  updatePositions(evt: IG6GraphEvent) {
+  updatePositions(evt: IG6GraphEvent, restore: boolean) {
     if (!this.targets || this.targets.length === 0) return;
     // 当开启 delegate 时，拖动结束后需要更新所有已选中节点的位置
     if (this.get('enableDelegate')) {
@@ -423,15 +430,15 @@ export default {
           updateEdge: this.get('updateEdge'),
           updateFunc: this.update,
         });
-      else this.targets.map(node => this.update(node, evt));
-    }
+      else if (!restore) this.targets.map(node => this.update(node, evt));
+    } else this.targets.map(node => this.update(node, evt, restore));
   },
   /**
    * 更新节点
    * @param item 拖动的节点实例
    * @param evt
    */
-  update(item: Item, evt: IG6GraphEvent) {
+  update(item: Item, evt: IG6GraphEvent, restore: boolean) {
     const { origin } = this;
     const model: NodeConfig = item.get('model');
     const nodeId: string = item.get('id');
@@ -442,8 +449,13 @@ export default {
       };
     }
 
-    const x: number = evt.x - origin.x + this.point[nodeId].x;
-    const y: number = evt.y - origin.y + this.point[nodeId].y;
+    let x: number = evt.x - origin.x + this.point[nodeId].x;
+    let y: number = evt.y - origin.y + this.point[nodeId].y;
+
+    if (restore) {
+      x += origin.x - evt.x;
+      y += origin.y - evt.y;
+    }
 
     const pos: Point = { x, y };
 

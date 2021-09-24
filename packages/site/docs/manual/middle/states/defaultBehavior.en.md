@@ -23,7 +23,8 @@ Supported by V3.5 or later versions.
   - `onlyChangeComboSize`: Supported by V3.5 or later vertions. Only Change the size of the prarent combo whose child combo to be dragged, which means do not change the hierarchy structures of combos and nodes. `false` by default;
   - `activeState`: The state's name(string) of the entered combo to be dragged over, coordinating with the configuration in `comboStateStyles` to define the state styles when instantiating a graph. It is empty by default;
   - `selectedState`: The state's name(string) when combo is selected, `'selected'` by default;
-  - `shouldUpdate(e)`: Whether allow the behavior happens on the current item (e.item), see the example below for detail.
+  - `shouldUpdate(e)`: Whether allow the behavior happens on the current item (e.item), see the example below for detail;
+  - `shouldEnd(e, newParent)`: 【supported by v4.3.8 and later versions】Whether allow the behavior ends with current item (e.item) and the new parent combo. the second parameter is the detected new parent when drop. If it is dropped on the canvas, `newParent` is `undefined`, see the example below for detail.
 
 **Using Default Configuration**
 
@@ -50,6 +51,12 @@ const graph = new G6.Graph({
           if (e.item && e.item.getModel().id === 'combo1') return false;
           return true;
         },
+        // shouldEnd【supported by v4.3.8 and later versions】
+        shouldEnd: (e, newParent) => {
+          // The combos are not allow to be drop on the combo with id combo1
+          if (newParent && newParent.getModel().id === 'combo1') return false;
+          return true;
+        }
       },
     ],
   },

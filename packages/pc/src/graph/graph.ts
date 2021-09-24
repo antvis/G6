@@ -161,11 +161,15 @@ export default class Graph extends AbstractGraph implements IGraph {
         if (watermarker) await this.downloadImageWatermark(watermarker, context, width, height);
         if (backgroundColor) {
           const pixelRatio = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
-          imageData = context.getImageData(0, 0, width * pixelRatio, height * pixelRatio);
-          compositeOperation = context.globalCompositeOperation;
-          context.globalCompositeOperation = 'destination-over';
-          context.fillStyle = backgroundColor;
-          context.fillRect(0, 0, width, height);
+          try {
+            imageData = context.getImageData(0, 0, width * pixelRatio, height * pixelRatio);
+            compositeOperation = context.globalCompositeOperation;
+            context.globalCompositeOperation = 'destination-over';
+            context.fillStyle = backgroundColor;
+            context.fillRect(0, 0, width, height);
+          } catch (error) {
+            console.error('Download image failed. Out of memory at ImageData creation');
+          }
         }
         dataURL = canvasDom.toDataURL(type);
         if (backgroundColor) {
@@ -215,11 +219,15 @@ export default class Graph extends AbstractGraph implements IGraph {
       let compositeOperation;
       if (backgroundColor) {
         const pixelRatio = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
-        imageData = context.getImageData(0, 0, width * pixelRatio, height * pixelRatio);
-        compositeOperation = context.globalCompositeOperation;
-        context.globalCompositeOperation = 'destination-over';
-        context.fillStyle = backgroundColor;
-        context.fillRect(0, 0, width, height);
+        try {
+          imageData = context.getImageData(0, 0, width * pixelRatio, height * pixelRatio);
+          compositeOperation = context.globalCompositeOperation;
+          context.globalCompositeOperation = 'destination-over';
+          context.fillStyle = backgroundColor;
+          context.fillRect(0, 0, width, height);
+        } catch (error) {
+          console.error('Download image failed. Out of memory at ImageData creation');
+        }
       }
       dataURL = canvasDom.toDataURL(type);
       if (backgroundColor) {
@@ -308,11 +316,15 @@ export default class Graph extends AbstractGraph implements IGraph {
         let compositeOperation;
         if (backgroundColor) {
           const pixelRatio = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
-          imageData = context.getImageData(0, 0, vWidth * pixelRatio, vHeight * pixelRatio);
-          compositeOperation = context.globalCompositeOperation;
-          context.globalCompositeOperation = 'destination-over';
-          context.fillStyle = backgroundColor;
-          context.fillRect(0, 0, vWidth, vHeight);
+          try { 
+            imageData = context.getImageData(0, 0, vWidth * pixelRatio, vHeight * pixelRatio);
+            compositeOperation = context.globalCompositeOperation;
+            context.globalCompositeOperation = 'destination-over';
+            context.fillStyle = backgroundColor;
+            context.fillRect(0, 0, vWidth, vHeight);
+          } catch (error) {
+            console.error('Download image failed. Out of memory at ImageData creation');
+          }
         }
         dataURL = vCanvasEl.toDataURL(type);
         if (backgroundColor) {
@@ -423,6 +435,10 @@ export default class Graph extends AbstractGraph implements IGraph {
   }
 
   private dataURLToImage(dataURL: string, renderer: string, link, fileName) {
+    if (!dataURL || dataURL === 'data:') {
+      console.error('Download image failed. The graph is too large or there is invalid attribute values in graph items');
+      return;
+    }
     if (typeof window !== 'undefined') {
       if (window.Blob && window.URL && renderer !== 'svg') {
         const arr = dataURL.split(',');

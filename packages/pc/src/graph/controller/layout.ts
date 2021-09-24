@@ -29,8 +29,8 @@ const helper = {
   },
 };
 
-const GPULayoutNames = ['fruchterman', 'gForce'];
-const LayoutPipesAdjustNames = ['force', 'grid', 'circular'];
+const GPU_LAYOUT_NAMES = ['fruchterman', 'gForce'];
+const LAYOUT_PIPES_ADJUST_NAMES = ['force', 'grid', 'circular'];
 export default class LayoutController extends AbstractLayout {
   public graph: IGraph;
 
@@ -109,6 +109,7 @@ export default class LayoutController extends AbstractLayout {
   private execLayoutMethod(layoutCfg, order): Promise<void> {
     return new Promise(async (reslove, reject) => {
       const { graph } = this;
+      if (graph.get('destroyed')) return;
       let layoutType = layoutCfg.type;
 
       // 每个布局方法都需要注册
@@ -226,7 +227,7 @@ export default class LayoutController extends AbstractLayout {
 
     graph.emit('beforelayout');
     this.initPositions(layoutCfg.center, nodes);
-    // init hidden ndoes
+    // init hidden nodes
     this.initPositions(layoutCfg.center, hiddenNodes);
 
     // 防止用户直接用 -gpu 结尾指定布局
@@ -501,7 +502,7 @@ export default class LayoutController extends AbstractLayout {
         resolve();
       }
 
-      if (!LayoutPipesAdjustNames.includes(adjust)) {
+      if (!LAYOUT_PIPES_ADJUST_NAMES.includes(adjust)) {
         console.warn(`The adjust type ${adjust} is not supported yet, please assign it with 'force', 'grid', or 'circular'.` );
         resolve();
       }
@@ -536,11 +537,7 @@ export default class LayoutController extends AbstractLayout {
   }
 
   public hasGPUVersion(layoutName: string): boolean {
-    const length = GPULayoutNames.length;
-    for (let i = 0; i < length; i++) {
-      if (GPULayoutNames[i] === layoutName) return true;
-    }
-    return false;
+    return GPU_LAYOUT_NAMES.includes(layoutName);
   }
 
   public destroy() {
