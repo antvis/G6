@@ -174,7 +174,9 @@ export default class ItemController {
       // collapse the combo if the collapsed is true in the model
       if (model.collapsed) {
         setTimeout(() => {
-          graph.collapseCombo(item as ICombo);
+          if (!item.destroyed) {
+            graph.collapseCombo(item as ICombo);
+          }
         }, 0);
       }
     }

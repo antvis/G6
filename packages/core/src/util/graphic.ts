@@ -274,7 +274,7 @@ export const getLabelPosition = (
   };
 
   if (rotate) {
-    if (rad > (1 / 2) * PI && rad < ((3 * 1) / 2) * PI) {
+    if (rad > 0.5 * PI && rad < 1.5 * PI) {
       rad -= PI;
     }
     return {

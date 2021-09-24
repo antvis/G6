@@ -60,7 +60,7 @@ describe('graph state controller', () => {
 
     const modes = graph.get('modes');
     expect(Object.keys(modes)).toEqual(['default']);
-    expect(modes.default).toEqual(['activate-relations']);
+    expect(modes.default[0].type).toEqual('activate-relations');
 
     graph.removeBehaviors('activate-relations', 'default');
 

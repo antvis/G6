@@ -98,7 +98,6 @@ export default class Menu extends Base {
   protected onMenuShow(e: IG6GraphEvent) {
     const self = this;
     e.preventDefault();
-    e.stopPropagation();
 
     const itemTypes = this.get('itemTypes');
     if (!e.item) {

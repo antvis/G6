@@ -62,7 +62,7 @@ describe('Mode Controller', () => {
 
     modeController.manipulateBehaviors('drag', 'dragx', true);
     expect(modeController.modes.dragx.length).toBe(1);
-    expect(modeController.modes.dragx[0]).toEqual('drag');
+    expect(modeController.modes.dragx[0].type).toEqual('drag');
 
     modeController.manipulateBehaviors(['drag', 'zoom'], ['out', 'xxx'], true);
     expect(Object.keys(modeController.modes).length).toBe(5);

@@ -273,25 +273,20 @@ const singleEdge: ShapeOptions = {
       return style;
     }
 
+    let bgOffsetX = offsetX - backgroundWidth / 2;
+    if (labelCfg.position === 'start') {
+      bgOffsetX =  offsetX - padding[2];
+    } else if (labelCfg.position === 'end') {
+      bgOffsetX =  offsetX - backgroundWidth;
+    }
+
     let offsetStyle = getLabelPosition(
       pathShape,
       pointPercent,
-      offsetX - backgroundWidth / 2,
+      bgOffsetX,
       offsetY + backgroundHeight / 2,
       autoRotate,
     );
-
-    const rad = offsetStyle.angle;
-
-    if (rad > (1 / 2) * Math.PI && rad < ((3 * 1) / 2) * Math.PI) {
-      offsetStyle = getLabelPosition(
-        pathShape,
-        pointPercent,
-        offsetX + backgroundWidth / 2,
-        offsetY + backgroundHeight / 2,
-        autoRotate,
-      );
-    }
 
     if (autoRotate) {
       style.x = offsetStyle.x;
@@ -379,18 +374,16 @@ const singleEdge: ShapeOptions = {
     }
 
     if (labelStyle.background) {
-      const rect = this.drawLabelBg(cfg, group, label);
+      const rect = this.drawLabelBg(cfg, group, label, labelStyle, rotate);
       const labelBgClassname = this.itemType + CLS_LABEL_BG_SUFFIX;
       rect.set('classname', labelBgClassname);
       label.toFront();
     }
     return label;
   },
-  drawLabelBg(cfg: ModelConfig, group: IGroup, label: IElement) {
+  drawLabelBg(cfg: ModelConfig, group: IGroup, label: IElement, labelStyle: any, rotate: number) {
     const { labelCfg: defaultLabelCfg } = this.options as ModelConfig;
     const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
-    const labelStyle = this.getLabelStyle!(cfg, labelCfg, group);
-    const rotate = labelStyle.rotate;
 
     const style = this.getLabelBgStyleByPosition(label, cfg, labelCfg, group);
     delete style.rotate;

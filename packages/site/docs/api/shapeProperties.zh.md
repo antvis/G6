@@ -460,6 +460,13 @@ group.addShape('text', {
 });
 ```
 
+### text
+
+<description> _String_ **optional** </description>
+
+文本文字内容。
+
+
 ### textAlign
 
 <description> _String_ **optional** </description>
