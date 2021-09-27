@@ -133,3 +133,7 @@ const result = combo.addChild(node);
 
 - 类型： `boolean`；
 - 含义：返回 `true` 表示移除成功。
+
+### 比较 Combo 与 Hull
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*08b2SZIUX1oAAAAAAAAAAAAAARQnAQ' alt='combo-hull' width='750'/>

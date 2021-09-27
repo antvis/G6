@@ -106,3 +106,7 @@ graph.removeHull('myHull');
 ```javascript
 graph.removeHulls();
 ```
+
+## 比较 Combo 与 Hull
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*08b2SZIUX1oAAAAAAAAAAAAAARQnAQ' alt='combo-hull' width='750'/>

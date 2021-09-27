@@ -106,3 +106,7 @@ No parameters.
 ```javascript
 graph.removeHulls();
 ```
+
+## Comparison for Combo and Hull
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mD9LQamLud8AAAAAAAAAAAAAARQnAQ' alt='combo-hull' width='750'/>

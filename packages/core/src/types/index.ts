@@ -53,6 +53,10 @@ export interface ArrowConfig {
   path?: string;
   stroke?: string;
   fill?: string;
+  lineDash?: number[];
+  strokeOpacity?: number;
+  opacity?: number;
+  fillOpacity?: number;
 }
 
 // Shape types

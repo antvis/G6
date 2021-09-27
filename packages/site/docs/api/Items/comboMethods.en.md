@@ -133,3 +133,7 @@ Remove a child node from the combo. The node will still exist on the graph but i
 
 - The type of return value: `boolean`;
 - Return `true` to indicate successful executed.
+
+### Comparison for Combo and Hull
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mD9LQamLud8AAAAAAAAAAAAAARQnAQ' alt='combo-hull' width='750'/>
