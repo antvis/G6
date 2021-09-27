@@ -382,6 +382,11 @@ By writing the properties into the data, we adjust the label position, color, an
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NF3eRLJP1DkAAAAAAAAAAABkARQnAQ' width='750' height='100' alt='img'/>
 
+## Comparison for Combo and Hull
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mD9LQamLud8AAAAAAAAAAAAAARQnAQ' alt='combo-hull' width='750'/>
+
 ## Related Reading
 
-- [State](/en/docs/manual/middle/states/state) —— Change the styles during the interaction process.
+- [State](/en/docs/manual/middle/states/state) —— Change the styles during the interaction process;
+- [Hull](/en/docs/api/graphFunc/hull).

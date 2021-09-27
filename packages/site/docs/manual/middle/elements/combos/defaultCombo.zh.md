@@ -394,6 +394,11 @@ graph.render();
 2. 特征分析：同一个分组中的节点在某些特征上面比较相似；
 3. 整理节点：当类似的节点放到一个分组中，只渲染分组，不渲染节点，减少干扰元素。
 
+## 与轮廓包裹 Hull 的异同
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*08b2SZIUX1oAAAAAAAAAAAAAARQnAQ' alt='combo-hull' width='750'/>
+
 ## 相关阅读
 
-- [状态 State](/zh/docs/manual/middle/states/state) —— 交互过程中的样式变化。
+- [状态 State](/zh/docs/manual/middle/states/state) —— 交互过程中的样式变化；
+- [轮廓包裹 Hull](/zh/docs/api/graphFunc/hull) —— 轮廓包裹分组。

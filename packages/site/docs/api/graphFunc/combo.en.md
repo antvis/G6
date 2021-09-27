@@ -179,3 +179,7 @@ Ungroup the combo, which deletes the combo itself, and appends the children of t
 ```
 graph.uncombo('combo1')
 ```
+
+### Comparison for Combo and Hull
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mD9LQamLud8AAAAAAAAAAAAAARQnAQ' alt='combo-hull' width='750'/>
