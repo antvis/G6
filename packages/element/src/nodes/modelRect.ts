@@ -27,6 +27,7 @@ registerNode(
         style: {
           fill: '#595959',
           fontSize: 14,
+          fontFamily: Global.windowFontFamily
         },
         offset: 30, // 距离左侧的 offset，没有设置 y 轴上移动的配置
       },
@@ -34,6 +35,7 @@ registerNode(
         style: {
           fontSize: 12,
           fill: '#bfbfbf',
+          fontFamily: Global.windowFontFamily
         },
         paddingTop: 0,
       },

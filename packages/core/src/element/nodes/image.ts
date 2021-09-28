@@ -1,6 +1,7 @@
 import { IGroup, IShape } from '@antv/g-base';
 import Shape from '../shape';
 import { NodeConfig, Item } from '../../types';
+import Global from '../../global';
 
 /**
  * 基本的图片，可以添加文本，默认文本在图片的下面
@@ -11,6 +12,11 @@ Shape.registerNode(
     options: {
       img: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*eD7nT6tmYgAAAAAAAAAAAABkARQnAQ',
       size: 200,
+      labelCfg: {
+        style: {
+          fontFamily: Global.windowFontFamily
+        },
+      },
       clipCfg: {
         show: false,
         type: 'circle',
@@ -63,7 +69,7 @@ Shape.registerNode(
       return shape;
     },
     drawClip(cfg: NodeConfig, shape: IShape) {
-      const { clipCfg: clip } = this.getOptions(cfg);
+      const { clipCfg: clip } = this.mergeStyle; //this.getOptions(cfg);
 
       if (!clip.show) {
         return;
@@ -128,9 +134,9 @@ Shape.registerNode(
       }
     },
     getShapeStyle(cfg: NodeConfig) {
-      const { style: defaultStyle } = this.getOptions(cfg);
+      const { style: defaultStyle } = this.mergeStyle; //this.getOptions(cfg);
       const size = this.getSize!(cfg);
-      const { img } = this.getOptions(cfg);
+      const { img } = this.mergeStyle; //this.getOptions(cfg);
       let width = size[0];
       let height = size[1];
       if (defaultStyle) {

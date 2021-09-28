@@ -252,7 +252,7 @@ export default class Node extends Item implements INode {
     if ((keys.length === 1 && (existX || existY)) || (keys.length === 2 && existX && existY)) {
       return 'move';
     }
-
+    
     if (
       isNumber(cfg.x) ||
       isNumber(cfg.y) ||

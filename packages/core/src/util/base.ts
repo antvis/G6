@@ -12,23 +12,29 @@ export const uniqueId = (type: string): string => {
  * @return {array} output
  */
 export const formatPadding = (padding: Padding): number[] => {
-  let top = 0;
-  let left = 0;
-  let right = 0;
-  let bottom = 0;
+  if (isArray(padding)) {
+    switch (padding.length) {
+      case 4:
+        return padding;
+      case 3:
+        padding.push(padding[1]);
+        return padding;
+      case 2:
+        return padding.concat(padding);
+      case 1:
+        return [padding[0], padding[0], padding[0], padding[0]];
+      default:
+        return [0, 0, 0, 0];
+    }
+  }
 
   if (isNumber(padding)) {
-    top = left = right = bottom = padding;
+    return [padding, padding, padding, padding];
   } else if (isString(padding)) {
     const intPadding = parseInt(padding, 10);
-    top = left = right = bottom = intPadding;
-  } else if (isArray(padding)) {
-    top = padding[0];
-    right = !isNil(padding[1]) ? padding[1] : padding[0];
-    bottom = !isNil(padding[2]) ? padding[2] : padding[0];
-    left = !isNil(padding[3]) ? padding[3] : right;
+    return [intPadding, intPadding, intPadding, intPadding];
   }
-  return [top, right, bottom, left];
+  return [0, 0, 0, 0];
 };
 
 /**

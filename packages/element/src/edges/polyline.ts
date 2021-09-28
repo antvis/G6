@@ -32,6 +32,7 @@ registerEdge(
         style: {
           fill: Global.edgeLabel.style.fill,
           fontSize: Global.edgeLabel.style.fontSize,
+          fontFamily: Global.windowFontFamily
         },
       },
       routeCfg: {

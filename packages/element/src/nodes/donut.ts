@@ -30,6 +30,7 @@ registerNode(
         style: {
           fill: Global.nodeLabel.style.fill,
           fontSize: Global.nodeLabel.style.fontSize,
+          fontFamily: Global.windowFontFamily
         },
       },
       // 节点上左右上下四个方向上的链接circle配置

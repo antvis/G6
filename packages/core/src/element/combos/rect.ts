@@ -24,6 +24,7 @@ Shape.registerCombo(
         style: {
           fill: Global.comboLabel.style.fill,
           fontSize: Global.comboLabel.style.fontSize,
+          fontFamily: Global.windowFontFamily
         },
       },
       // 连接点，默认为左右

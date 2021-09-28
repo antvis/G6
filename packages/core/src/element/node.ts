@@ -33,7 +33,7 @@ const singleNode: ShapeOptions = {
    * @return {Array} 宽高
    */
   getSize(cfg: ModelConfig): number[] {
-    let size: number | number[] = cfg.size || this.getOptions({})!.size || Global.defaultNode.size;
+    let size: number | number[] = this.mergeStyle?.size || cfg.size ||this.getOptions({})!.size || Global.defaultNode.size; // Global.defaultNode.size; //  
 
     // size 是数组，但长度为1，则补长度为2
     if (isArray(size) && size.length === 1) {
@@ -157,7 +157,7 @@ const singleNode: ShapeOptions = {
    * @param {Group} group Item所在的group
    */
   updateLinkPoints(cfg: NodeConfig, group: IGroup) {
-    const { linkPoints: defaultLinkPoints } = this.getOptions(cfg) as ModelConfig;
+    const { linkPoints: defaultLinkPoints } = this.mergeStyle; //  this.getOptions(cfg) as ModelConfig;
 
     const markLeft = group.find((element) => element.get('className') === 'link-point-left');
     const markRight = group.find((element) => element.get('className') === 'link-point-right');
@@ -303,7 +303,7 @@ const singleNode: ShapeOptions = {
   },
   updateIcon(cfg: NodeConfig, item: Item) {
     const group = item.getContainer();
-    const { icon } = this.getOptions(cfg) as NodeConfig;
+    const { icon } = this.mergeStyle; // this.getOptions(cfg) as NodeConfig;
     const { show } = cfg.icon ? cfg.icon : { show: undefined };
     const iconShape = group.find((element) => element.get('className') === `${this.type}-icon`);
     if (iconShape) {

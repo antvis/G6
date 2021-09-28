@@ -23,6 +23,7 @@ Shape.registerNode(
         style: {
           fill: Global.nodeLabel.style.fill,
           fontSize: Global.nodeLabel.style.fontSize,
+          fontFamily: Global.windowFontFamily
         },
       },
       stateStyles: {
@@ -33,6 +34,7 @@ Shape.registerNode(
     // 文本位置
     labelPosition: 'center',
     drawShape(cfg: NodeConfig, group: IGroup): IShape {
+
       const style = this.getShapeStyle!(cfg);
       const keyShape: IShape = group.addShape('circle', {
         attrs: style,
@@ -48,7 +50,7 @@ Shape.registerNode(
      * @return {Object} 节点的样式
      */
     getShapeStyle(cfg: NodeConfig): ShapeStyle {
-      const { style: defaultStyle } = this.getOptions(cfg) as NodeConfig;
+      const { style: defaultStyle } = this.mergeStyle; // this.getOptions(cfg) as NodeConfig;
       const strokeStyle = {
         stroke: cfg.color,
       };

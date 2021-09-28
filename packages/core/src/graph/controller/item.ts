@@ -217,6 +217,7 @@ export default class ItemController {
     const model = item.getModel();
 
     const updateType = item.getUpdateType(cfg);
+    // console.log('updateType', updateType);
 
     if (mapper) {
       const result: ModelConfig = deepMix({}, model, cfg);

@@ -10,6 +10,11 @@ registerNode(
     options: {
       img: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*eD7nT6tmYgAAAAAAAAAAAABkARQnAQ',
       size: 200,
+      labelCfg: {
+        style: {
+          fontFamily: Global.windowFontFamily
+        },
+      },
       clipCfg: {
         show: false,
         type: 'circle',

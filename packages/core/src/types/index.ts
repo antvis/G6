@@ -361,7 +361,8 @@ export type LabelStyle = Partial<{
   opacity: number;
   fontSize: number;
   fontStyle: 'normal' | 'italic' | 'oblique';
-  fontWeight?: 'normal' | 'bold' | 'bolder' | 'lighter' | number;
+  fontFamily: string;
+  fontWeight: 'normal' | 'bold' | 'bolder' | 'lighter' | number;
   fill: string | null;
   rotateCenter: string;
   lineWidth: number;

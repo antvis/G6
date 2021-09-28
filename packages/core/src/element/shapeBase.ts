@@ -58,7 +58,18 @@ export const CLS_LABEL_BG_SUFFIX = '-label-bg';
 // 单个 shape 带有一个 label，共用这段代码
 export const shapeBase: ShapeOptions = {
   // 默认样式及配置
-  options: {},
+  options: {
+    labelCfg: {
+      style: {
+        fontFamily: Global.windowFontFamily
+      },
+    },
+    descriptionCfg: {
+      style: {
+        fontFamily: Global.windowFontFamily
+      },
+    },
+  },
   itemType: '', // node, edge, combo 等
   /**
    * 形状的类型，例如 circle，ellipse，polyline...
@@ -72,27 +83,6 @@ export const shapeBase: ShapeOptions = {
       return {};
     }
     return deepMix(
-      {
-        // 解决局部渲染导致的文字移动残影问题
-        labelCfg: {
-          style: {
-            fontFamily:
-              typeof window !== 'undefined' && window.getComputedStyle
-                ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
-                  'Arial, sans-serif'
-                : 'Arial, sans-serif',
-          },
-        },
-        descriptionCfg: {
-          style: {
-            fontFamily:
-              typeof window !== 'undefined' && window.getComputedStyle
-                ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
-                  'Arial, sans-serif'
-                : 'Arial, sans-serif',
-          },
-        },
-      },
       this.options,
       this.getCustomConfig(cfg) || {},
       cfg,
@@ -106,6 +96,7 @@ export const shapeBase: ShapeOptions = {
    * @return {IShape} 绘制的图形
    */
   draw(cfg: ModelConfig, group: IGroup): IShape {
+    this.mergeStyle = this.getOptions(cfg);
     const shape: IShape = this.drawShape!(cfg, group);
     shape.set('className', this.itemType + CLS_SHAPE_SUFFIX);
     if (cfg.label) {
@@ -125,7 +116,7 @@ export const shapeBase: ShapeOptions = {
     return null as any;
   },
   drawLabel(cfg: ModelConfig, group: IGroup): IShape {
-    const { labelCfg: defaultLabelCfg } = this.getOptions(cfg) as ModelConfig;
+    const { labelCfg: defaultLabelCfg } = this.mergeStyle; // this.getOptions(cfg) as ModelConfig;
     // image的情况下有可能为null
     const labelCfg = (defaultLabelCfg || {}) as ILabelConfig;
     const labelStyle = this.getLabelStyle!(cfg, labelCfg, group);
@@ -260,7 +251,7 @@ export const shapeBase: ShapeOptions = {
 
   updateLabel(cfg: ModelConfig, item: Item, updateType?: UpdateType) {
     const group = item.getContainer();
-    const { labelCfg: defaultLabelCfg } = this.getOptions({}, updateType) as ModelConfig;
+    const { labelCfg: defaultLabelCfg } = this.mergeStyle; // this.getOptions({}, updateType) as ModelConfig;
     const labelClassName = this.itemType + CLS_LABEL_SUFFIX;
     const label = group.find((element) => element.get('className') === labelClassName);
     const labelBgClassname = this.itemType + CLS_LABEL_BG_SUFFIX;
@@ -279,6 +270,8 @@ export const shapeBase: ShapeOptions = {
         if (item.getModel) {
           currentLabelCfg = item.getModel().labelCfg;
         }
+        console.log('currentLabelCfg', currentLabelCfg, cfg.labelCfg);
+        debugger
         // 这里不能去掉
         const labelCfg = deepMix({}, defaultLabelCfg, currentLabelCfg, cfg.labelCfg);
 

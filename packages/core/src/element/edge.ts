@@ -63,6 +63,7 @@ const singleEdge: ShapeOptions = {
       style: {
         fill: Global.edgeLabel.style.fill,
         fontSize: Global.edgeLabel.style.fontSize,
+        fontFamily: Global.windowFontFamily
       },
     },
     stateStyles: {
@@ -348,17 +349,7 @@ const singleEdge: ShapeOptions = {
   },
   drawLabel(cfg: EdgeConfig, group: IGroup): IShape {
     const { labelCfg: defaultLabelCfg } = this.options as ModelConfig;
-    let defaultFontFamily;
-    if (typeof window !== 'undefined' && typeof window.getComputedStyle !== 'undefined')
-      defaultFontFamily =
-        window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
-        'Arial, sans-serif';
-    else defaultFontFamily = 'Arial, sans-serif';
-
     const labelCfg = deepMix(
-      {
-        fontFamily: defaultFontFamily,
-      },
       defaultLabelCfg,
       cfg.labelCfg,
     );
