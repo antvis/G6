@@ -1,10 +1,10 @@
 # ChangeLog
 
-#### 4.3.9
+#### 4.3.10
 
 - fix: add attribute types for ArrowConfig, closes: #3211;
 
-#### 4.3.8
+#### 4.3.9
 
 - fix: addBehavior with behavior string name, closes: #3020;
 - fix: drag-node shouldEnd does not stop the dragging node behavior, closes: #3173;
