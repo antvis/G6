@@ -129,7 +129,7 @@ export const shapeBase: ShapeOptions = {
     // image的情况下有可能为null
     const labelCfg = (defaultLabelCfg || {}) as ILabelConfig;
     const labelStyle = this.getLabelStyle!(cfg, labelCfg, group);
-    const rotate = labelStyle.rotate;
+    const rotate = labelStyle.rotate || undefined;
     delete labelStyle.rotate;
     const label = group.addShape('text', {
       attrs: labelStyle,
@@ -137,7 +137,7 @@ export const shapeBase: ShapeOptions = {
       className: 'text-shape',
       name: 'text-shape',
     });
-    if (rotate) {
+    if (!isNaN(rotate)) {
       const labelBBox = label.getBBox();
       let labelMatrix = label.getMatrix();
       if (!labelMatrix) {
@@ -294,11 +294,11 @@ export const shapeBase: ShapeOptions = {
 
         // 需要融合当前 label 的样式 label.attr()。不再需要全局/默认样式，因为已经应用在当前的 label 上
         const labelStyle = { ...label.attr(), ...calculateStyle, ...cfgStyle };
-        const rotate = labelStyle.rotate;
+        const rotate = labelStyle.rotate || undefined;
         delete labelStyle.rotate;
 
         // 计算 label 的旋转矩阵
-        if (rotate || rotate === 0) {
+        if (!isNaN(rotate)) {
           // if G 4.x define the rotateAtStart, use it directly instead of using the following codes
           let rotateMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
           rotateMatrix = transform(rotateMatrix, [
@@ -328,7 +328,7 @@ export const shapeBase: ShapeOptions = {
           );
           const labelBgStyle = { ...calculateBgStyle, ...cfgBgStyle };
           labelBg.resetMatrix();
-          if (rotate || rotate === 0) {
+          if (!isNaN(rotate)) {
             let bgRotateMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
             bgRotateMatrix = transform(bgRotateMatrix, [
               ['t', -labelBgStyle.x, -labelBgStyle.y],

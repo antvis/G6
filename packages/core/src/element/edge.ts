@@ -363,13 +363,13 @@ const singleEdge: ShapeOptions = {
       cfg.labelCfg,
     );
     const labelStyle = this.getLabelStyle!(cfg, labelCfg, group);
-    const rotate = labelStyle.rotate;
+    const rotate = labelStyle.rotate || undefined;
     delete labelStyle.rotate;
     const label = group.addShape('text', {
       attrs: labelStyle,
       name: 'text-shape',
     });
-    if (rotate) {
+    if (!isNaN(rotate)) {
       label.rotateAtStart(rotate);
     }
 
@@ -388,7 +388,7 @@ const singleEdge: ShapeOptions = {
     const style = this.getLabelBgStyleByPosition(label, cfg, labelCfg, group);
     delete style.rotate;
     const rect = group.addShape('rect', { name: 'text-bg-shape', attrs: style });
-    if (rotate) rect.rotateAtStart(rotate);
+    if (!isNaN(rotate)) rect.rotateAtStart(rotate);
     return rect;
   },
 };
