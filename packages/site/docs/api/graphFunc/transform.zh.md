@@ -103,10 +103,10 @@ graph.translate(100, 100);
 
 **参数**
 
-| 名称 | 类型   | 是否必选 | 描述         |
-| ---- | ------ | -------- | ------------ |
-| x    | Number | true     | 水平方向坐标 |
-| y    | Number | true     | 垂直方向坐标 |
+| 名称 | 类型 | 是否必选 | 描述 |
+| --- | --- | --- | --- |
+| x | Number | true | 水平方向坐标 |
+| y | Number | true | 垂直方向坐标 |
 | animate | boolean | false | 是否带有动画。若未配置，则跟随 graph 的 `animate` 参数 |
 | animateCfg | Object | false | 若带有动画，可配置动画，参见[基础动画教程](/zh/docs/manual/middle/animation)。若未配置，则跟随 graph 的 `animateCfg` 参数 |
 
@@ -117,7 +117,7 @@ graph.moveTo(200, 300);
 
 // 带动画
 graph.moveTo(200, 300, true, {
-  duration: 100
+  duration: 100,
 });
 ```
 
@@ -127,9 +127,10 @@ graph.moveTo(200, 300, true, {
 
 **参数**
 
-| 名称    | 类型           | 是否必选 | 描述                                          |
-| ------- | -------------- | -------- | --------------------------------------------- |
-| padding | Number / Array | false    | [top, right, bottom, left] 四个方向上的间距值 |
+| 名称 | 类型 | 是否必选 | 描述 |
+| --- | --- | --- | --- | --- | --- | --- |
+| padding | Number / Array | false | [top, right, bottom, left] 四个方向上的间距值 |
+| rules | { onlyOutOfViewPort?: boolean; direction?: 'x' | 'y' | 'both'; ratioRule?: 'max' | 'min} | false | fitView 的规则 |
 
 **用法**
 
@@ -145,6 +146,12 @@ graph.fitView([20, 10]);
 
 // padding 设置为数组，四个方向值都指定
 graph.fitView([20, 10, 20, 15]);
+
+// 使用fitViewByRules, 默认rules: onlyOutOfViewPort = false, direction = 'both', ratioRule = 'min'
+graph.fitView(0, {});
+
+// 使用fitViewByRules, 自定义rules
+graph.fitView(0, { onlyOutOfViewPort: true, direction: 'y' });
 ```
 
 ### graph.fitCenter()

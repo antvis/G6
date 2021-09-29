@@ -186,6 +186,7 @@ export default {
       if (this.shouldBegin.call(this, e)) {
         e.type = 'dragstart';
         graph.emit('canvas:dragstart', e);
+        this.originPosition = { x: e.clientX, y: e.clientY };
         this.dragging = true;
       }
     } else {
@@ -245,6 +246,9 @@ export default {
       this.updateViewport(e);
     }
     e.type = 'dragend';
+    e.dx = e.clientX - this.originPosition.x;
+    e.dy = e.clientY - this.originPosition.y;
+    
     graph.emit('canvas:dragend', e);
     this.endDrag();
   },

@@ -30,6 +30,7 @@ import {
   HullCfg,
   IG6GraphEvent,
   IPoint,
+  FitViewRules,
 } from '../types';
 import { move } from '../util/math';
 import { dataValidation, singleDataValidation } from '../util/validation';
@@ -592,14 +593,20 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   /**
    * 调整视口适应视图
    * @param {object} padding 四周围边距
+   * @param {FitViewRules} rules fitView的规则
    */
-  public fitView(padding?: Padding): void {
+  public fitView(padding?: Padding, rules?: FitViewRules): void {
     if (padding) {
       this.set('fitViewPadding', padding);
     }
 
     const viewController: ViewController = this.get('viewController');
-    viewController.fitView();
+  
+    if (rules) {
+      viewController.fitViewByRules(rules);
+    } else {
+      viewController.fitView();
+    }
 
     this.autoPaint();
   }

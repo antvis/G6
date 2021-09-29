@@ -59,10 +59,10 @@ Move the canvas to a **fixed position**.
 
 **Parameters**
 
-| Name | Type   | Required | Description                               |
-| ---- | ------ | -------- | ----------------------------------------- |
-| x    | Number | true     | Displacement in the horizontal direction. |
-| y    | Number | true     | Displacement in the vertical direction.   |
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| x | Number | true | Displacement in the horizontal direction. |
+| y | Number | true | Displacement in the vertical direction. |
 | animate | boolean | false | Whether move the graph with animation. If it is not assigned, animates following the graph's `animate`. |
 | animateCfg | Object | false | The animation's configuraiton. Its configurations can be found in [Basic Animation Docs](/en/docs/manual/middle/animation). If it is not assigned, animates following the graph's `animateCfg`. |
 
@@ -73,7 +73,7 @@ graph.moveTo(200, 300);
 
 // with animation
 graph.moveTo(200, 300, true, {
-  duration: 100
+  duration: 100,
 });
 ```
 
@@ -83,9 +83,10 @@ Fit the graph to the view port.
 
 **Parameters**
 
-| Name    | Type           | Required | Description                                |
-| ------- | -------------- | -------- | ------------------------------------------ |
-| padding | Number / Array | false    | The padding of [top, right, bottom, left]. |
+| Name | Type | Required | Description |
+| --- | --- | --- | --- | --- | --- | --- |
+| padding | Number / Array | false | The padding of [top, right, bottom, left]. |
+| rules | { onlyOutOfViewPort?: boolean; direction?: 'x' | 'y' | 'both'; ratioRule?: 'max' | 'min} | false | rules of fitView |
 
 **Usage**
 
@@ -101,6 +102,12 @@ graph.fitView([20, 10]);
 
 // When padding is an array with four values
 graph.fitView([20, 10, 20, 15]);
+
+// Use fitViewByRules, default rules: onlyOutOfViewPort = false, direction = 'both', ratioRule = 'min'
+graph.fitViewByRule(0, {});
+
+// use fitViewByRules, custom rules
+graph.fitView(0, { onlyOutOfViewPort: true, direction: 'y' });
 ```
 
 ### graph.fitCenter()
