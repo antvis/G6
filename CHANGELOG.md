@@ -1,8 +1,8 @@
 # ChangeLog
 
-#### 4.3.10
+#### 4.3.11
 
-- fix: add attribute types for ArrowConfig, closes: #3211;
+- fix: update edge to be horizontal and the label is on wrong position for min file;
 
 #### 4.3.9
 
