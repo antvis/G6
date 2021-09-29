@@ -1,6 +1,6 @@
 # ChangeLog
 
-#### 4.3.10
+#### 4.3.11
 
 - fix: update edge to be horizontal and the label is on wrong position for min file;
 

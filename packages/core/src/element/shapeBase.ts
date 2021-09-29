@@ -129,7 +129,7 @@ export const shapeBase: ShapeOptions = {
     // image的情况下有可能为null
     const labelCfg = (defaultLabelCfg || {}) as ILabelConfig;
     const labelStyle = this.getLabelStyle!(cfg, labelCfg, group);
-    const rotate = labelStyle.rotate || undefined;
+    const rotate = labelStyle.rotate;
     delete labelStyle.rotate;
     const label = group.addShape('text', {
       attrs: labelStyle,
@@ -137,12 +137,9 @@ export const shapeBase: ShapeOptions = {
       className: 'text-shape',
       name: 'text-shape',
     });
-    if (!isNaN(rotate)) {
+    if (!isNaN(rotate) && rotate !== '') {
       const labelBBox = label.getBBox();
-      let labelMatrix = label.getMatrix();
-      if (!labelMatrix) {
-        labelMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
-      }
+      let labelMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
       if (labelStyle.rotateCenter) {
         switch (labelStyle.rotateCenter) {
           case 'center':
@@ -294,11 +291,11 @@ export const shapeBase: ShapeOptions = {
 
         // 需要融合当前 label 的样式 label.attr()。不再需要全局/默认样式，因为已经应用在当前的 label 上
         const labelStyle = { ...label.attr(), ...calculateStyle, ...cfgStyle };
-        const rotate = labelStyle.rotate || undefined;
+        const rotate = labelStyle.rotate;
         delete labelStyle.rotate;
 
         // 计算 label 的旋转矩阵
-        if (!isNaN(rotate)) {
+        if (!isNaN(rotate) && rotate !== '') {
           // if G 4.x define the rotateAtStart, use it directly instead of using the following codes
           let rotateMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
           rotateMatrix = transform(rotateMatrix, [
@@ -328,7 +325,7 @@ export const shapeBase: ShapeOptions = {
           );
           const labelBgStyle = { ...calculateBgStyle, ...cfgBgStyle };
           labelBg.resetMatrix();
-          if (!isNaN(rotate)) {
+          if (!isNaN(rotate) && rotate !== '') {
             let bgRotateMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
             bgRotateMatrix = transform(bgRotateMatrix, [
               ['t', -labelBgStyle.x, -labelBgStyle.y],
