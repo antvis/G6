@@ -20,6 +20,7 @@ import {
   HullCfg,
   IG6GraphEvent,
   IPoint,
+  FitViewRules,
 } from '../types';
 import { IEdge, INode, ICombo } from './item';
 import Hull from '../item/hull';
@@ -172,8 +173,9 @@ export interface IAbstractGraph extends EventEmitter {
   /**
    * 调整视口适应视图
    * @param {Padding} padding 四周围边距
+   * @param {FitViewRules} rules fitView的规则
    */
-  fitView: (padding?: Padding) => void;
+  fitView: (padding?: Padding, rules?: FitViewRules) => void;
 
   /**
    * 调整视口适应视图，不缩放，仅将图 bbox 中心对齐到画布中心

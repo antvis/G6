@@ -141,3 +141,104 @@ describe('view', () => {
     expect(numberEqual(point.y, 50, 0.1)).toBe(true);
   });
 });
+
+describe('fitViewByRules, not out of viewport', () => {
+  const graph = new Graph({
+    container: div,
+    width: 500,
+    height: 500,
+    minZoom: 0.1,
+  });
+  const data = {
+    nodes: [
+      {
+        id: 'node-0',
+        x: 100,
+        y: 100,
+        size: [300, 200],
+        type: 'simple-rect',
+        color: '#333',
+        style: {
+          fill: '#666',
+        },
+      },
+    ],
+  };
+  graph.data(data);
+  graph.render();
+  const bbox = graph.get('canvas').getCanvasBBox();
+  it('fitViewByRules, not out of viewport, default rules', () => {
+    graph.fitView(0, {});
+    const bboxAfterFitView = graph.get('canvas').getCanvasBBox();
+    expect(numberEqual(graph.getZoom(), 1.59, 0.01)).toBe(true);
+    expect(numberEqual(bboxAfterFitView.x, 10, 1)).toBe(true);
+    expect(numberEqual(bboxAfterFitView.y, 90, 1)).toBe(true);
+    expect(numberEqual(bboxAfterFitView.width, 480, 1)).toBe(true);
+    expect(numberEqual(bboxAfterFitView.height, 321, 1)).toBe(true);
+  });
+  it('fitViewByRules, not out of viewport, custom rules', () => {
+    graph.fitView(0, { onlyOutOfViewPort: true });
+    const bboxAfterFitView = graph.get('canvas').getCanvasBBox();
+    expect(graph.getZoom()).toEqual(1);
+    expect(numberEqual(bboxAfterFitView.x, 100, 1)).toBe(true);
+    expect(numberEqual(bboxAfterFitView.y, 150, 1)).toBe(true);
+    expect(bboxAfterFitView.width).toEqual(bbox.width);
+    expect(bboxAfterFitView.height).toEqual(bbox.height);
+  });
+});
+
+describe('fitViewByRules, out of viewport', () => {
+  const graph = new Graph({
+    container: div,
+    width: 500,
+    height: 500,
+    minZoom: 0.1,
+  });
+  const data = {
+    nodes: [
+      {
+        id: 'node-0',
+        x: 100,
+        y: 100,
+        size: [1000, 1500],
+        type: 'simple-rect',
+        color: '#333',
+        style: {
+          fill: '#666',
+        },
+      },
+      {
+        id: 'node-1',
+        x: 1000,
+        y: 300,
+        size: [1000, 1500],
+        type: 'simple-rect',
+        color: '#333',
+        style: {
+          fill: '#666',
+        },
+      },
+    ],
+  };
+  graph.data(data);
+  graph.render();
+  it('fitViewByRules, out of viewport, default rules', () => {
+    graph.fitView(0, {});
+    const bbox = graph.get('canvas').getCanvasBBox();
+    expect(numberEqual(graph.getZoom(), 0.25, 0.01)).toBe(true);
+    expect(numberEqual(bbox.x, 10, 1)).toBe(true);
+    expect(numberEqual(bbox.y, 35, 1)).toBe(true);
+    expect(numberEqual(bbox.width, 480, 1)).toBe(true);
+    expect(numberEqual(bbox.height, 430, 1)).toBe(true);
+  });
+  it('fitViewByRules, out of viewport, custom rules', () => {
+    graph.fitView(0, { onlyOutOfViewPort: true, direction: 'y' });
+    const bbox = graph.get('canvas').getCanvasBBox();
+    expect(numberEqual(graph.getZoom(), 0.28, 0.01)).toBe(true);
+    expect(numberEqual(bbox.x, -18, 1)).toBe(true);
+    expect(numberEqual(bbox.y, 10, 1)).toBe(true);
+    expect(numberEqual(bbox.width, 536, 1)).toBe(true);
+    expect(numberEqual(bbox.height, 480, 1)).toBe(true);
+  });
+});
+

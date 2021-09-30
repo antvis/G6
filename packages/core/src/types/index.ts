@@ -840,3 +840,9 @@ export interface HullCfg {
   bubbleCfg?: BubblesetCfg; // 用于更精细控制bubble的效果（点和边轮廓的松弛程度，轮廓粒度），一般不需要配置
   update?: string;
 }
+
+export interface FitViewRules {
+  onlyOutOfViewPort?: boolean; // 是否仅当图形的宽度或高度超出视口时才适应视图 onlyOutOfViewPort
+  direction?: 'x' | 'y' | 'both'; // fitview的方向
+  ratioRule?: 'max' | 'min' ; // fitview的ratio大小规则
+}
