@@ -3,6 +3,7 @@
 #### 4.4.0
 
 - feat: better performance for item drawing;
+- fix: disable the capture of hull shape to enhance the performance of dragging canvas with hulls;
 
 #### 4.3.11
 

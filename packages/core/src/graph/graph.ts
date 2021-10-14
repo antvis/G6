@@ -2985,8 +2985,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     } else {
       hullInstance = hull;
     }
-    const hullMap = this.get('hullMap');
-    delete hullMap[hullInstance.id];
+    delete this.get('hullMap')?.[hullInstance.id];
     hullInstance.destroy();
   }
 
