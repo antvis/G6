@@ -1,5 +1,5 @@
 import { IGroup, IShape } from '@antv/g-base';
-import { registerNode, Item, NodeConfig, ShapeStyle, BaseGlobal as Global } from '@antv/g6-core';
+import { registerNode, Item, NodeConfig, ShapeStyle, BaseGlobal as Global, UpdateType } from '@antv/g6-core';
 import { mix } from '@antv/util';
 
 /**
@@ -64,11 +64,12 @@ registerNode(
         name: 'ellipse-keyShape',
         draggable: true,
       });
+      group['shapeMap']['ellipse-keyShape'] = keyShape;
 
       const { width, height, show, text } = icon;
       if (show) {
         if (text) {
-          group.addShape('text', {
+          group['shapeMap'][`${this.type}-icon`] = group.addShape('text', {
             attrs: {
               x: 0,
               y: 0,
@@ -84,7 +85,7 @@ registerNode(
             draggable: true,
           });
         } else {
-          group.addShape('image', {
+          group['shapeMap'][`${this.type}-icon`] = group.addShape('image', {
             attrs: {
               x: -width! / 2,
               y: -height! / 2,
@@ -116,7 +117,7 @@ registerNode(
 
       if (left) {
         // left circle
-        group.addShape('circle', {
+        group['shapeMap']['link-point-left'] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: -rx,
@@ -131,7 +132,7 @@ registerNode(
 
       if (right) {
         // right circle
-        group.addShape('circle', {
+        group['shapeMap']['link-point-right'] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: rx,
@@ -146,7 +147,7 @@ registerNode(
 
       if (top) {
         // top circle
-        group.addShape('circle', {
+        group['shapeMap']['link-point-top'] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: 0,
@@ -161,7 +162,7 @@ registerNode(
 
       if (bottom) {
         // bottom circle
-        group.addShape('circle', {
+        group['shapeMap']['link-point-bottom'] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: 0,
@@ -198,7 +199,7 @@ registerNode(
       };
       return styles;
     },
-    update(cfg: NodeConfig, item: Item) {
+    update(cfg: NodeConfig, item: Item, updateType?: UpdateType) {
       const group = item.getContainer();
       // 这里不传 cfg 参数是因为 cfg.style 需要最后覆盖样式
       const { style: defaultStyle } = this.getOptions({}) as NodeConfig;
@@ -214,7 +215,7 @@ registerNode(
       let style = mix({}, defaultStyle, keyShape.attr(), strokeStyle);
       style = mix(style, cfg.style);
 
-      (this as any).updateShape(cfg, item, style, true);
+      (this as any).updateShape(cfg, item, style, true, updateType);
       (this as any).updateLinkPoints(cfg, group);
     },
   },

@@ -136,16 +136,13 @@ export const getCircleIntersectByPoint = (circle: ICircle, point: Point): Point 
 
   const dx = x - cx;
   const dy = y - cy;
-  const d = Math.sqrt(dx * dx + dy * dy);
-  if (d < r) {
+  if (dx * dx + dy * dy < r * r) {
     return null;
   }
-  const signX = Math.sign(dx);
-  const signY = Math.sign(dy);
   const angle = Math.atan(dy / dx);
   return {
-    x: cx + Math.abs(r * Math.cos(angle)) * signX,
-    y: cy + Math.abs(r * Math.sin(angle)) * signY,
+    x: cx + Math.abs(r * Math.cos(angle)) * Math.sign(dx),
+    y: cy + Math.abs(r * Math.sin(angle)) * Math.sign(dy),
   };
 };
 

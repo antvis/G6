@@ -1,5 +1,5 @@
 import { IGroup, IShape } from '@antv/g-base';
-import { IPoint, Item, LabelStyle, ModelConfig } from '../types';
+import { IPoint, Item, LabelStyle, ModelConfig, UpdateType } from '../types';
 
 export type ILabelConfig = Partial<{
   position: string;
@@ -65,7 +65,7 @@ export type ShapeOptions = Partial<{
   getAnchorPoints: (cfg?: ModelConfig) => number[][] | undefined;
 
   // 如果没定义 update 方法，每次都调用 draw 方法
-  update: (cfg: ModelConfig, item: Item) => void;
+  update: (cfg: ModelConfig, item: Item, updateType?: UpdateType) => void;
 
   // 获取节点的大小，只对节点起效
   getSize: (cfg: ModelConfig) => number[];

@@ -1,5 +1,10 @@
 import { IGroup, IShape } from '@antv/g-base';
-import { registerNode, Item, NodeConfig } from '@antv/g6-core';
+import {
+  registerNode,
+  Item,
+  NodeConfig,
+  BaseGlobal as Global
+} from '@antv/g6-core';
 
 /**
  * 基本的图片，可以添加文本，默认文本在图片的下面
@@ -63,6 +68,7 @@ registerNode(
         name: `${this.type}-keyShape`,
         draggable: true,
       });
+      group['shapeMap'][`${this.type}-keyShape`] = shape;
       (this as any).drawClip(cfg, shape);
       return shape;
     },
@@ -154,7 +160,7 @@ registerNode(
     updateShapeStyle(cfg: NodeConfig, item: Item) {
       const group = item.getContainer();
       const shapeClassName = `${this.itemType}-shape`;
-      const shape =
+      const shape = group['shapeMap'][shapeClassName] ||
         group.find((element) => element.get('className') === shapeClassName) || item.getKeyShape();
       const shapeStyle = this.getShapeStyle!(cfg);
       if (shape) {

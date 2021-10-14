@@ -122,11 +122,11 @@ const singleEdge: ShapeOptions = {
   },
   updateShapeStyle(cfg: EdgeConfig, item: Item, updateType?: UpdateType) {
     const group = item.getContainer();
-    const strokeStyle: ShapeStyle = {
-      stroke: cfg.color,
-    };
+    // const strokeStyle: ShapeStyle = {
+    //   stroke: cfg.color,
+    // };
     const shape =
-      item.getKeyShape?.() || group.find((element) => element.get('className') === 'edge-shape');
+      item.getKeyShape?.() || group['shapeMap']['edge-shape']; // group.find((element) => element.get('className') === 'edge-shape');
 
     const { size } = cfg;
     cfg = this.getPathPoints!(cfg);
@@ -143,7 +143,11 @@ const singleEdge: ShapeOptions = {
     points.push(endPoint);
 
     const currentAttr = shape.attr();
-    const previousStyle = mix({}, strokeStyle, currentAttr, cfg.style);
+    // const previousStyle = mix({}, strokeStyle, currentAttr, cfg.style);
+    const previousStyle = cfg.style || {};
+    if (previousStyle.stroke === undefined) {
+      previousStyle.stroke = cfg.color
+    }
     const source = cfg.sourceNode;
     const target = cfg.targetNode;
     let routeCfg: { [key: string]: unknown } = { radius: previousStyle.radius };
@@ -151,7 +155,7 @@ const singleEdge: ShapeOptions = {
       routeCfg = { source, target, offset: previousStyle.offset, radius: previousStyle.radius };
     }
     const path = (this as any).getPath(points, routeCfg);
-    let style = {};
+    let style: any = {};
     if (updateType === 'move') {
       style = { path };
     } else {
@@ -165,15 +169,19 @@ const singleEdge: ShapeOptions = {
           path: '',
         };
       }
-      style = mix(
-        strokeStyle,
-        currentAttr,
-        {
-          lineWidth: size,
-          path,
-        },
-        cfg.style,
-      );
+      // style = mix(
+      //   // strokeStyle,
+      //   // currentAttr,
+      //   {
+      //     lineWidth: (isNumber(size) ? size: size?.[0]) || currentAttr.lineWidth,
+      //     path,
+      //   },
+      //   cfg.style,
+      // );
+      style = { ...cfg.style };
+      if (style.lineWidth === undefined) style.lineWdith = (isNumber(size) ? size: size?.[0]) || currentAttr.lineWidth
+      if (style.path === undefined) style.path = path;
+      if (style.stroke === undefined) style.stroke = currentAttr.stroke || cfg.color;
     }
 
     if (shape) {
@@ -184,7 +192,7 @@ const singleEdge: ShapeOptions = {
     const labelPosition = labelCfg.position || this.labelPosition; // 文本的位置用户可以传入
     const style: LabelStyle = {};
 
-    const pathShape = group && group.find((element) => element.get('className') === CLS_SHAPE);
+    const pathShape = group?.['shapeMap'][CLS_SHAPE]; // group?.find((element) => element.get('className') === CLS_SHAPE);
 
     // 不对 pathShape 进行判空，如果线不存在，说明有问题了
     let pointPercent;
@@ -253,7 +261,7 @@ const singleEdge: ShapeOptions = {
     if (isNil(labelCfg.autoRotate)) autoRotate = this.labelAutoRotate;
     else autoRotate = labelCfg.autoRotate;
 
-    const pathShape = group && group.find((element) => element.get('className') === CLS_SHAPE);
+    const pathShape = group?.['shapeMap'][CLS_SHAPE]; // group?.find((element) => element.get('className') === CLS_SHAPE);
 
     // 不对 pathShape 进行判空，如果线不存在，说明有问题了
     let pointPercent;
@@ -345,11 +353,13 @@ const singleEdge: ShapeOptions = {
       name: CLS_SHAPE,
       attrs: shapeStyle,
     });
+    group['shapeMap'][CLS_SHAPE] = shape;
     return shape;
   },
   drawLabel(cfg: EdgeConfig, group: IGroup): IShape {
     const { labelCfg: defaultLabelCfg } = this.options as ModelConfig;
     const labelCfg = deepMix(
+      {},
       defaultLabelCfg,
       cfg.labelCfg,
     );
@@ -360,6 +370,7 @@ const singleEdge: ShapeOptions = {
       attrs: labelStyle,
       name: 'text-shape',
     });
+    group['shapeMap']['text-shape'] = label;
     if (!isNaN(rotate) && rotate !== '') {
       label.rotateAtStart(rotate);
     }
@@ -368,6 +379,7 @@ const singleEdge: ShapeOptions = {
       const rect = this.drawLabelBg(cfg, group, label, labelStyle, rotate);
       const labelBgClassname = this.itemType + CLS_LABEL_BG_SUFFIX;
       rect.set('classname', labelBgClassname);
+      group['shapeMap'][labelBgClassname] = rect;
       label.toFront();
     }
     return label;
@@ -379,6 +391,7 @@ const singleEdge: ShapeOptions = {
     const style = this.getLabelBgStyleByPosition(label, cfg, labelCfg, group);
     delete style.rotate;
     const rect = group.addShape('rect', { name: 'text-bg-shape', attrs: style });
+    group['shapeMap']['text-bg-shape'] = rect;
     if (!isNaN(rotate)) rect.rotateAtStart(rotate);
     return rect;
   },

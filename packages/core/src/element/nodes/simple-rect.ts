@@ -1,6 +1,6 @@
 import { IGroup, IShape } from '@antv/g-base';
 import { mix } from '@antv/util';
-import { Item, NodeConfig, ShapeStyle } from '../../types';
+import { Item, NodeConfig, ShapeStyle, UpdateType } from '../../types';
 import Global from '../../global';
 import Shape from '../shape';
 import { ShapeOptions } from '../../interface/shape';
@@ -73,7 +73,7 @@ Shape.registerNode(
       };
       return styles;
     },
-    update(cfg: NodeConfig, item: Item) {
+    update(cfg: NodeConfig, item: Item, updateType?: UpdateType) {
       const group = item.getContainer();
       // 这里不传 cfg 参数是因为 cfg.style 需要最后覆盖样式
       const { style: defaultStyle } = this.mergeStyle; //this.getOptions({}) as NodeConfig;
@@ -95,7 +95,7 @@ Shape.registerNode(
       let style = mix({}, defaultStyle, keyShape.attr(), strokeStyle);
       style = mix(style, cfg.style);
 
-      (this as any).updateShape(cfg, item, style, false);
+      (this as any).updateShape(cfg, item, style, false, updateType);
     },
   },
   'single-node',

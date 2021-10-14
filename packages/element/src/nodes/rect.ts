@@ -7,6 +7,7 @@ import {
   ShapeStyle,
   ShapeOptions,
   BaseGlobal as Global,
+  UpdateType,
 } from '@antv/g6-core';
 
 registerNode(
@@ -71,6 +72,7 @@ registerNode(
         name: `${this.type}-keyShape`,
         draggable: true,
       });
+      group['shapeMap'][`${this.type}-keyShape`] = keyShape;
 
       (this as any).drawLinkPoints(cfg, group);
       return keyShape;
@@ -90,7 +92,7 @@ registerNode(
 
       if (left) {
         // left circle
-        group.addShape('circle', {
+        group['shapeMap']['link-point-left'] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: -width / 2,
@@ -105,7 +107,7 @@ registerNode(
 
       if (right) {
         // right circle
-        group.addShape('circle', {
+        group['shapeMap']['link-point-right'] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: width / 2,
@@ -120,7 +122,7 @@ registerNode(
 
       if (top) {
         // top circle
-        group.addShape('circle', {
+        group['shapeMap']['link-point-top'] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: 0,
@@ -135,7 +137,7 @@ registerNode(
 
       if (bottom) {
         // bottom circle
-        group.addShape('circle', {
+        group['shapeMap']['link-point-bottom'] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: 0,
@@ -172,7 +174,7 @@ registerNode(
       };
       return styles;
     },
-    update(cfg: NodeConfig, item: Item) {
+    update(cfg: NodeConfig, item: Item, updateType?: UpdateType) {
       const group = item.getContainer();
       // 这里不传 cfg 参数是因为 cfg.style 需要最后覆盖样式
       const { style: defaultStyle } = this.getOptions({}) as NodeConfig;
@@ -194,7 +196,7 @@ registerNode(
       let style = mix({}, defaultStyle, keyShape.attr(), strokeStyle);
       style = mix(style, cfg.style);
 
-      (this as any).updateShape(cfg, item, style, false);
+      (this as any).updateShape(cfg, item, style, false, updateType);
       (this as any).updateLinkPoints(cfg, group);
     },
   },

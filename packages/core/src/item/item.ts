@@ -1,5 +1,5 @@
 import { IGroup } from '@antv/g-base';
-import { each, isNil, isPlainObject, isString, isBoolean, mix, deepMix, clone } from '@antv/util';
+import { each, isPlainObject, isString, isBoolean, mix, deepMix, clone } from '@antv/util';
 import { IItemBase, IItemBaseConfig } from '../interface/item';
 import Shape from '../element/shape';
 import {
@@ -210,7 +210,8 @@ export default class ItemBase implements IItemBase {
     if (!this.get('originStyle')) {
       // 第一次 set originStyle，直接拿首次渲染所有图形的 attrs
       const originStyles = {};
-      each(children, (child) => {
+      for (let i = 0; i < children.length; i ++) {
+        const child = children[i];
         const shapeType = child.get('type');
         const name = child.get('name');
         if (name && name !== keyShapeName) {
@@ -218,13 +219,12 @@ export default class ItemBase implements IItemBase {
             shapeType !== 'image' ? clone(child.attr()) : self.getShapeStyleByName(name);
 
           // The text's position and matrix is not allowed to be affected by states
-          if (originStyles[name] && shapeType === 'text') {
+          if (shapeType === 'text' && originStyles[name]) {
             delete originStyles[name].x;
             delete originStyles[name].y;
             delete originStyles[name].matrix;
           }
         } else {
-          // !name || name === keyShape
           const keyShapeStyle: ShapeStyle = self.getShapeStyleByName(); // 可优化，需要去除 child.attr 中其他 shape 名的对象
           delete keyShapeStyle.path;
           delete keyShapeStyle.matrix;
@@ -235,6 +235,7 @@ export default class ItemBase implements IItemBase {
             if (!name) {
               const shapeName = uniqueId('shape');
               child.set('name', shapeName);
+              group['shapeMap'][shapeName] = child;
               originStyles[shapeName] =
                 shapeType !== 'image' ? clone(child.attr()) : self.getShapeStyleByName(name);
             } else {
@@ -242,13 +243,13 @@ export default class ItemBase implements IItemBase {
             }
           }
         }
-      });
+      }
       self.set('originStyle', originStyles);
     } else {
       // 第二次 set originStyles，需要找到不是 stateStyles 的样式，更新到 originStyles 中
 
       // 上一次设置的 originStyle，是初始的 shape attrs
-      const styles: ShapeStyle = this.getOriginStyle();
+      const styles: ShapeStyle = this.get('originStyle');
       // let styles: ShapeStyle = {};
       if (keyShapeName && !styles[keyShapeName]) styles[keyShapeName] = {};
 
@@ -256,7 +257,8 @@ export default class ItemBase implements IItemBase {
       const currentStatesStyle = this.getCurrentStatesStyle();
 
       // 遍历当前所有图形的 attrs，找到不是 stateStyles 的样式更新到 originStyles 中
-      each(children, (child) => {
+      for (let i = 0; i < children.length; i ++) {
+        const child = children[i];
         const name = child.get('name');
         const shapeAttrs = child.attr();
         if (name && name !== keyShapeName) {
@@ -277,7 +279,7 @@ export default class ItemBase implements IItemBase {
           const keyShapeStateStyles = {};
           Object.keys(currentStatesStyle).forEach(styleKey => {
             const subStyle = currentStatesStyle[styleKey];
-            if (!isPlainObject(subStyle) || styleKey === keyShapeName) {
+            if (styleKey === keyShapeName || !isPlainObject(subStyle)) {
               keyShapeStateStyles[styleKey] = subStyle
             }
           })
@@ -291,12 +293,12 @@ export default class ItemBase implements IItemBase {
             }
           });
         }
-      });
+      }
 
-      if (styles.path) delete styles.path;
-      if (styles.matrix) delete styles.matrix;
-      if (styles.x) delete styles.x;
-      if (styles.y) delete styles.y;
+      delete styles.path;
+      delete styles.matrix;
+      delete styles.x;
+      delete styles.y;
       if (styles[keyShapeName]) {
         delete styles[keyShapeName].x;
         delete styles[keyShapeName].y;
@@ -390,7 +392,7 @@ export default class ItemBase implements IItemBase {
     let currentShape: IShapeBase;
 
     if (name) {
-      currentShape = group.find((element) => element.get('name') === name) as IShapeBase;
+      currentShape = group['shapeMap'][name]; // group.find((element) => element.get('name') === name) as IShapeBase;
     } else {
       currentShape = this.getKeyShape();
     }
@@ -442,7 +444,7 @@ export default class ItemBase implements IItemBase {
     let styles = {};
     const states = self.getStates();
     if (!states || !states.length) {
-      return this.getOriginStyle();
+      return this.get('originStyle');
     }
     each(self.getStates(), (state) => {
       styles = Object.assign(styles, self.getStateStyle(state));
@@ -646,7 +648,7 @@ export default class ItemBase implements IItemBase {
       if (originPosition.x !== cfg.x || originPosition.y !== cfg.y) {
         this.updatePosition(cfg);
       }
-      this.updateShape();
+      this.updateShape(updateType);
     }
     this.afterUpdate();
     this.clearCache();
@@ -803,6 +805,7 @@ export default class ItemBase implements IItemBase {
       if (animate) {
         group.stopAnimate();
       }
+      group['shapeMap'] = {};
       this.clearCache();
       group.remove();
       (this._cfg as IItemBaseConfig | null) = null;

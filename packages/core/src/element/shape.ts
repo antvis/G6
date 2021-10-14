@@ -50,6 +50,7 @@ export const ShapeFactoryBase = {
    */
   draw(type: string, cfg: ModelConfig, group: IGroup): IShape {
     const shape = this.getShape(type);
+    group['shapeMap'] = {};
     const rst = shape.draw!(cfg, group);
     if (shape.afterDraw) {
       shape.afterDraw(cfg, group, rst);
@@ -67,7 +68,8 @@ export const ShapeFactoryBase = {
 
     // 防止没定义 update 函数
     if (shape.update) {
-      shape.mergeStyle = updateType === 'move' || updateType === 'bbox' ? {} : shape.getOptions?.(cfg);
+      // shape.mergeStyle = updateType === 'move' || updateType === 'bbox' ? {} : shape.getOptions?.(cfg);
+      shape.mergeStyle = shape.getOptions?.(cfg, updateType);
       shape.update?.(cfg, item, updateType);
     }
 

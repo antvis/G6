@@ -71,11 +71,12 @@ registerNode(
         draggable: true,
         name: `${this.type}-keyShape`
       });
+      group['shapeMap'][`${this.type}-keyShape`] = keyShape;
 
       const { width, height, show, text } = icon;
       if (show) {
         if (text) {
-          group.addShape('text', {
+          group['shapeMap'][`${this.type}-icon`] = group.addShape('text', {
             attrs: {
               x: 0,
               y: 0,
@@ -91,7 +92,7 @@ registerNode(
             draggable: true,
           });
         } else {
-          group.addShape('image', {
+          group['shapeMap'][`${this.type}-icon`] = group.addShape('image', {
             attrs: {
               x: -width / 2,
               y: -height / 2,
@@ -126,7 +127,7 @@ registerNode(
         if (totalValue) {
           const lineWidth = donutR - innerR;
           if (attrNum === 1) {
-            group.addShape('circle', {
+            group['shapeMap']['fan-shape-0'] = group.addShape('circle', {
               attrs: {
                 r: arcR,
                 x: 0,
@@ -145,7 +146,7 @@ registerNode(
             if (percent < 0.001) return;
             if (percent > 0.999) percent = 1;
             if (percent === 1) {
-              group.addShape('circle', {
+              group['shapeMap'][`fan-shape-${i}`] = group.addShape('circle', {
                 attrs: {
                   r: arcR,
                   x: 0,
@@ -173,7 +174,7 @@ registerNode(
               ['A', arcR, arcR, 0, isBig, 0, attr.arcEnd[0], attr.arcEnd[1]],
               ['L', attr.arcEnd[0], attr.arcEnd[1]],
             ];
-            group.addShape('path', {
+            group['shapeMap'][`fan-shape-${i}`] = group.addShape('path', {
               attrs: {
                 path,
                 lineWidth,

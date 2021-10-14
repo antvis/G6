@@ -156,10 +156,10 @@ Shape.registerNode(
     updateShapeStyle(cfg: NodeConfig, item: Item) {
       const group = item.getContainer();
       const shapeClassName = `${this.itemType}-shape`;
-      const shape =
+      const shape = group['shapeMap'][shapeClassName] ||
         group.find((element) => element.get('className') === shapeClassName) || item.getKeyShape();
       const shapeStyle = this.getShapeStyle!(cfg);
-      if (shape) {
+      if (shape && !shape.destroyed) {
         shape.attr(shapeStyle);
       }
     },

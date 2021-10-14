@@ -705,9 +705,8 @@ describe('shape node test', () => {
           lineWidth: 2,
         },
       });
-      const leftPoint = group.find((g) => {
-        return g.get('className') === 'link-point-left';
-      });
+      const leftPoint = group.find((g) => g.get('className') === 'link-point-left');
+      console.log('leftPoint', leftPoint, group);
       expect(leftPoint).not.toBe(null);
       expect(leftPoint.attr('r')).toBe(5);
       expect(leftPoint.attr('fill')).toBe('#f00');
@@ -728,13 +727,9 @@ describe('shape node test', () => {
           lineWidth: 2,
         },
       });
-      const leftPoint2 = group.find((g) => {
-        return g.get('className') === 'link-point-left';
-      });
+      const leftPoint2 = group.find((g) => g.get('className') === 'link-point-left');
       expect(leftPoint2).toBe(null);
-      const topPoint2 = group.find((g) => {
-        return g.get('className') === 'link-point-top';
-      });
+      const topPoint2 = group.find((g) => g.get('className') === 'link-point-top');
       expect(topPoint2).not.toBe(null);
       const rightPoint2 = group.find((g) => {
         return g.get('className') === 'link-point-right';

@@ -1,6 +1,12 @@
 # ChangeLog
 
+#### 4.4.0
+
+- feat: better performance for item drawing;
+
 #### 4.3.11
+
+#### 4.3.9
 
 - fix: update edge to be horizontal and the label is on wrong position for min file;
 
