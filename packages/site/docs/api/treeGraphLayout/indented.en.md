@@ -23,7 +23,17 @@ Indented layout represents the hierarchy by indent between them. Each node will 
 
 ### layoutCfg.indent
 
-**Type**: Number<br />**Default**: 20<br />**Required**: false<br />**Description**: Colunm separation
+**Type**: Number | Function<br />**Default**: 20<br />**Example**：
+
+```javascript
+(d) => {
+  // d is a node
+  if (d.parent?.id === 'testId') return d.parent.x + 50;
+  return 100;
+};
+```
+
+**Required**: false<br />**Description**: When the type is Number, the colunm separation is a fixed value; When the type is Function, the distance between the node and the root node is the returned value of the function.
 
 ### layoutCfg.getWidth
 
