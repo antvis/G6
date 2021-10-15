@@ -120,7 +120,7 @@ export const shapeBase: ShapeOptions = {
     return null as any;
   },
   drawLabel(cfg: ModelConfig, group: IGroup): IShape {
-    const { labelCfg: defaultLabelCfg } = this.mergeStyle || {}; // this.getOptions(cfg) as ModelConfig;
+    const { labelCfg: defaultLabelCfg } = this.mergeStyle || this.getOptions(cfg) as ModelConfig || {};
     // image的情况下有可能为null
     const labelCfg = (defaultLabelCfg || {}) as ILabelConfig;
     const labelStyle = this.getLabelStyle!(cfg, labelCfg, group);
@@ -257,7 +257,7 @@ export const shapeBase: ShapeOptions = {
     // 防止 cfg.label = "" 的情况
     if (cfg.label || cfg.label === '') {
       const group = item.getContainer();
-      let { labelCfg = {} } = this.mergeStyle || {}; // this.getOptions({}, updateType) as ModelConfig;
+      let { labelCfg = {} } = this.mergeStyle || this.getOptions({}, updateType) as ModelConfig ||  {};
       const labelClassName = this.itemType + CLS_LABEL_SUFFIX;
       const label = group['shapeMap'][labelClassName] || group.find(ele => ele.get('className') === labelClassName);
       const labelBgClassname = this.itemType + CLS_LABEL_BG_SUFFIX;
@@ -270,14 +270,7 @@ export const shapeBase: ShapeOptions = {
         group['shapeMap'][labelClassName] = newLabel;
       } else {
         // 若原先存在 label，则更新样式。与 getLabelStyle 不同在于这里需要融合当前 label 的样式
-        // 用于融合 style 以外的属性：position, offset, ...
-        // let currentLabelCfg = {} as any;
-        // if (item.getModel) {
-        //   currentLabelCfg = item.getModel().labelCfg;
-        // }
-        // 这里不能去掉
-        // const labelCfg = deepMix({}, defaultLabelCfg, currentLabelCfg, cfg.labelCfg);
-        // const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
+        // 融合 style 以外的属性：position, offset, ...
         if (!updateType || updateType === 'bbox|label' || (this.itemType === 'edge' && updateType !== 'style')) {
           labelCfg = deepMix(labelCfg, cfg.labelCfg);
         }
@@ -290,7 +283,6 @@ export const shapeBase: ShapeOptions = {
         // const cfgBgStyle = labelCfg.style?.background;
 
         // 需要融合当前 label 的样式 label.attr()。不再需要全局/默认样式，因为已经应用在当前的 label 上
-        // const labelStyle = { ...label.attr(), ...calculateStyle, ...cfgStyle };
         const labelStyle = { ...calculateStyle, ...cfgStyle };
         const rotate = labelStyle.rotate;
         delete labelStyle.rotate;

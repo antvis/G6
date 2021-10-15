@@ -143,8 +143,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   // 初始化所有 Group
   protected initGroups(): void {
     const canvas: ICanvas = this.get('canvas');
-    const el: HTMLElement = canvas?.get('el');
-    const { id } = el;
+    if (!canvas) return;
+    const el: HTMLElement = canvas.get('el');
+    const { id = 'g6' } = el || {};
 
     const group: IGroup = canvas.addGroup({
       id: `${id}-root`,
@@ -1658,7 +1659,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
           }
 
           // append the combo's children to the combo's brothers array
-          treeToBeUncombo.children.forEach(child => {
+          treeToBeUncombo.children?.forEach(child => {
             const item = this.findById(child.id) as ICombo | INode;
             const childModel = item.getModel();
             if (item.getType && item.getType() === 'combo') {
@@ -1684,7 +1685,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       const index = comboTrees.indexOf(treeToBeUncombo);
       comboTrees.splice(index, 1);
       // modify the parentId of the children
-      treeToBeUncombo.children.forEach(child => {
+      treeToBeUncombo.children?.forEach(child => {
         child.parentId = undefined;
         const childModel = this.findById(child.id).getModel();
         delete childModel.parentId; // update the parentId of the model

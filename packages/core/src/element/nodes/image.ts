@@ -56,7 +56,7 @@ Shape.registerNode(
     shapeType: 'image',
     labelPosition: 'bottom',
     drawShape(cfg: NodeConfig, group: IGroup): IShape {
-      const { shapeType } = this; // || this.type，都已经加了 shapeType
+      const { shapeType } = this;
       const style = this.getShapeStyle!(cfg);
       delete style.fill;
       const shape = group.addShape(shapeType, {
@@ -69,7 +69,7 @@ Shape.registerNode(
       return shape;
     },
     drawClip(cfg: NodeConfig, shape: IShape) {
-      const { clipCfg: clip } = this.mergeStyle; //this.getOptions(cfg);
+      const { clipCfg: clip } = this.mergeStyle || this.getOptions(cfg);
 
       if (!clip.show) {
         return;
@@ -134,9 +134,8 @@ Shape.registerNode(
       }
     },
     getShapeStyle(cfg: NodeConfig) {
-      const { style: defaultStyle } = this.mergeStyle; //this.getOptions(cfg);
+      const { style: defaultStyle, img } = this.mergeStyle || this.getOptions(cfg);
       const size = this.getSize!(cfg);
-      const { img } = this.mergeStyle; //this.getOptions(cfg);
       let width = size[0];
       let height = size[1];
       if (defaultStyle) {

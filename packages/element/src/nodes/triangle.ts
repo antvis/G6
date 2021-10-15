@@ -62,7 +62,7 @@ registerNode(
     // 文本位置
     labelPosition: 'bottom',
     drawShape(cfg: NodeConfig, group: IGroup): IShape {
-      const { icon = {}, direction: defaultDirection } = this.getOptions(cfg) as NodeConfig;
+      const { icon = {}, direction: defaultDirection } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
       const style = this.getShapeStyle!(cfg);
       const direction = cfg.direction || defaultDirection;
 
@@ -124,7 +124,7 @@ registerNode(
      * @param {Group} group Group实例
      */
     drawLinkPoints(cfg: NodeConfig, group: IGroup) {
-      const { linkPoints = {}, direction: defaultDirection } = this.getOptions(cfg) as NodeConfig;
+      const { linkPoints = {}, direction: defaultDirection } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
 
       const direction = cfg.direction || defaultDirection;
 
@@ -246,7 +246,7 @@ registerNode(
       }
     },
     getPath(cfg: ModelConfig) {
-      const { direction: defaultDirection } = this.getOptions(cfg) as NodeConfig;
+      const { direction: defaultDirection } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
 
       const direction = cfg.direction || defaultDirection;
       const size = (this as ShapeOptions).getSize!(cfg);
@@ -291,7 +291,7 @@ registerNode(
      * @return {Object} 节点的样式
      */
     getShapeStyle(cfg: NodeConfig) {
-      const { style: defaultStyle } = this.getOptions(cfg) as NodeConfig;
+      const { style: defaultStyle } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
       const strokeStyle: ShapeStyle = {
         stroke: cfg.color,
       };

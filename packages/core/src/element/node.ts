@@ -138,7 +138,7 @@ const singleNode: ShapeOptions = {
    * @param {Group} group Item所在的group
    */
   updateLinkPoints(cfg: NodeConfig, group: IGroup) {
-    const { linkPoints: defaultLinkPoints } = this.mergeStyle; //  this.getOptions(cfg) as ModelConfig;
+    const { linkPoints: defaultLinkPoints } = this.mergeStyle || this.getOptions(cfg) as ModelConfig;
 
     const markLeft = group['shapeMap']['link-point-left'] || group.find((element) => element.get('className') === 'link-point-left');
     const markRight = group['shapeMap']['link-point-right'] || group.find((element) => element.get('className') === 'link-point-right');
@@ -293,7 +293,7 @@ const singleNode: ShapeOptions = {
   },
   updateIcon(cfg: NodeConfig, item: Item) {
     const group = item.getContainer();
-    const { icon } = this.mergeStyle; // this.getOptions(cfg) as NodeConfig;
+    const { icon } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
     const { show } = cfg.icon ? cfg.icon : { show: undefined };
     const iconShape = group['shapeMap'][`${this.type}-icon`] || group.find(ele => ele.get('name') === `${this.type}-icon`);
     if (iconShape) {

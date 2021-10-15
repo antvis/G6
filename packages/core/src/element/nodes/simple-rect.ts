@@ -55,7 +55,7 @@ Shape.registerNode(
      * @return {Object} 节点的样式
      */
     getShapeStyle(cfg: NodeConfig) {
-      const { style: defaultStyle } = this.mergeStyle; // this.getOptions(cfg) as NodeConfig;
+      const { style: defaultStyle } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
       const strokeStyle: ShapeStyle = {
         stroke: cfg.color,
       };
@@ -76,7 +76,7 @@ Shape.registerNode(
     update(cfg: NodeConfig, item: Item, updateType?: UpdateType) {
       const group = item.getContainer();
       // 这里不传 cfg 参数是因为 cfg.style 需要最后覆盖样式
-      const { style: defaultStyle } = this.mergeStyle; //this.getOptions({}) as NodeConfig;
+      const { style: defaultStyle } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
       const size = (this as ShapeOptions).getSize!(cfg);
       const keyShape = item.get('keyShape');
       if (!cfg.size) {

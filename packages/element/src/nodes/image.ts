@@ -73,7 +73,7 @@ registerNode(
       return shape;
     },
     drawClip(cfg: NodeConfig, shape: IShape) {
-      const { clipCfg: clip } = this.getOptions(cfg);
+      const { clipCfg: clip } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
 
       if (!clip.show) {
         return;
@@ -138,9 +138,8 @@ registerNode(
       }
     },
     getShapeStyle(cfg: NodeConfig) {
-      const { style: defaultStyle } = this.getOptions(cfg);
+      const { style: defaultStyle, img } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
       const size = this.getSize!(cfg);
-      const { img } = this.getOptions(cfg);
       let width = size[0];
       let height = size[1];
       if (defaultStyle) {

@@ -4,6 +4,8 @@
 
 - feat: better performance for item drawing;
 - fix: disable the capture of hull shape to enhance the performance of dragging canvas with hulls;
+- fix: uncombo an empty combo, fix: #3248;
+- fix: upgrade layout to beta 5 to solve proxy problem for IE;
 
 #### 4.3.11
 

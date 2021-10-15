@@ -69,7 +69,7 @@ describe('graph', () => {
     graph.once('afterlayout', (e) => {
       setTimeout(() => {
         const bbox = graph.getGroup().getCanvasBBox();
-        expect(bbox.x).toBe(209.0869140625);
+        expect(bbox.x).toBe(206.43401336669922);
         expect(bbox.y).toBe(49.5);
         done();
       }, 50);

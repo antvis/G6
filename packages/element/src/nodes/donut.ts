@@ -62,7 +62,7 @@ registerNode(
     // 文本位置
     labelPosition: 'center',
     drawShape(cfg: NodeConfig, group: IGroup): IShape {
-      const { icon: defaultIcon = {} } = this.getOptions(cfg) as NodeConfig;
+      const { icon: defaultIcon = {} } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
       const style = this.getShapeStyle!(cfg);
       const icon = deepMix({}, defaultIcon, cfg.icon);
       const keyShape: IShape = group.addShape('circle', {

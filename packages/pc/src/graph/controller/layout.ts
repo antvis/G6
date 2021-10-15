@@ -16,14 +16,14 @@ const helper = {
   requestAnimationFrame(callback: FrameRequestCallback) {
     const fn =
       typeof window !== 'undefined'
-        ? window.requestAnimationFrame || window.webkitRequestAnimationFrame || mockRaf
+        ? window.requestAnimationFrame || (window as any).webkitRequestAnimationFrame || mockRaf
         : mockRaf;
     return fn(callback);
   },
   cancelAnimationFrame(requestId: number) {
     const fn =
       typeof window !== 'undefined'
-        ? window.cancelAnimationFrame || window.webkitCancelAnimationFrame || mockCaf
+        ? window.cancelAnimationFrame || (window as any).webkitCancelAnimationFrame || mockCaf
         : mockCaf;
     return fn(requestId);
   },
@@ -109,7 +109,7 @@ export default class LayoutController extends AbstractLayout {
   private execLayoutMethod(layoutCfg, order): Promise<void> {
     return new Promise(async (reslove, reject) => {
       const { graph } = this;
-      if (graph.get('destroyed')) return;
+      if (!graph || graph.get('destroyed')) return;
       let layoutType = layoutCfg.type;
 
       // 每个布局方法都需要注册

@@ -169,15 +169,6 @@ const singleEdge: ShapeOptions = {
           path: '',
         };
       }
-      // style = mix(
-      //   // strokeStyle,
-      //   // currentAttr,
-      //   {
-      //     lineWidth: (isNumber(size) ? size: size?.[0]) || currentAttr.lineWidth,
-      //     path,
-      //   },
-      //   cfg.style,
-      // );
       style = { ...cfg.style };
       if (style.lineWidth === undefined) style.lineWdith = (isNumber(size) ? size: size?.[0]) || currentAttr.lineWidth
       if (style.path === undefined) style.path = path;

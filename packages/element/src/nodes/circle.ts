@@ -60,7 +60,7 @@ registerNode(
     // 文本位置
     labelPosition: 'center',
     drawShape(cfg: NodeConfig, group: IGroup): IShape {
-      const { icon: defaultIcon = {} } = this.mergeStyle; // this.getOptions(cfg) as NodeConfig;
+      const { icon: defaultIcon = {} } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
       const style = this.getShapeStyle!(cfg);
       const icon = deepMix({}, defaultIcon, cfg.icon);
       const name = `${this.type}-keyShape`;
@@ -115,7 +115,7 @@ registerNode(
      * @param {Group} group Group实例
      */
     drawLinkPoints(cfg: NodeConfig, group: IGroup) {
-      const { linkPoints } = this.mergeStyle; // this.getOptions(cfg) as NodeConfig;
+      const { linkPoints } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
       if (!linkPoints) return;
 
       const { top, left, right, bottom, size: markSize, r: markR, ...markStyle } = linkPoints || {};
@@ -191,7 +191,7 @@ registerNode(
      * @return {Object} 节点的样式
      */
     getShapeStyle(cfg: NodeConfig): ShapeStyle {
-      const { style: defaultStyle } = this.mergeStyle; // this.getOptions(cfg) as NodeConfig;
+      const { style: defaultStyle } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
       const strokeStyle = {
         stroke: cfg.color,
       };

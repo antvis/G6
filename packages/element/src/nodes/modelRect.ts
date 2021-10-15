@@ -94,7 +94,7 @@ registerNode(
     },
     shapeType: 'modelRect',
     drawShape(cfg: NodeConfig, group: IGroup): IShape {
-      const { preRect = {} } = this.getOptions(cfg) as NodeConfig;
+      const { preRect = {} } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
       const style = this.getShapeStyle!(cfg);
       const size = (this as ShapeOptions).getSize!(cfg);
       const width = size[0];
@@ -136,7 +136,7 @@ registerNode(
      * @param {Group} group Group实例
      */
     drawLogoIcon(cfg: NodeConfig, group: IGroup) {
-      const { logoIcon = {} } = this.getOptions(cfg) as NodeConfig;
+      const { logoIcon = {} } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
       const size = (this as ShapeOptions).getSize!(cfg);
       const width = size[0];
 
@@ -180,7 +180,7 @@ registerNode(
      * @param {Group} group Group实例
      */
     drawStateIcon(cfg: NodeConfig, group: IGroup) {
-      const { stateIcon = {} } = this.getOptions(cfg) as NodeConfig;
+      const { stateIcon = {} } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
       const size = (this as ShapeOptions).getSize!(cfg);
       const width = size[0];
 
@@ -224,7 +224,7 @@ registerNode(
      * @param {Group} group Group实例
      */
     drawLinkPoints(cfg: NodeConfig, group: IGroup) {
-      const { linkPoints = {} } = this.getOptions(cfg) as NodeConfig;
+      const { linkPoints = {} } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
 
       const { top, left, right, bottom, size: markSize, r: markR, ...markStyle } = linkPoints;
       const size = (this as ShapeOptions).getSize!(cfg);
@@ -356,7 +356,7 @@ registerNode(
      * @return {Object} 节点的样式
      */
     getShapeStyle(cfg: NodeConfig) {
-      const { style: defaultStyle } = this.getOptions(cfg) as NodeConfig;
+      const { style: defaultStyle } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
       const strokeStyle: ShapeStyle = {
         stroke: cfg.color,
       };
@@ -375,7 +375,7 @@ registerNode(
       return styles;
     },
     update(cfg: NodeConfig, item: Item) {
-      const { style = {}, labelCfg = {}, descriptionCfg = {} } = this.getOptions(cfg) as NodeConfig;
+      const { style = {}, labelCfg = {}, descriptionCfg = {} } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
       const size = (this as ShapeOptions).getSize!(cfg);
       const width = size[0];
       const height = size[1];

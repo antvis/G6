@@ -459,7 +459,7 @@ describe('minimap', () => {
       
       expect(mathEqual(left, 47)).toBe(true);
       expect(mathEqual(top, 37)).toBe(true);
-      expect(mathEqual(width, 152)).toBe(true);
+      expect(mathEqual(width, 152, 2)).toBe(true);
       expect(mathEqual(height, 162)).toBe(true);
 
       graph.zoom(2.5, { x: 250, y: 250 });
