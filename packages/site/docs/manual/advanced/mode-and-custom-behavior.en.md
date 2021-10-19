@@ -42,7 +42,7 @@ Here goes the basic HTML code for this chapter. We will add new codes incrementa
       <option value="addEdge">Add Edge</option>
     </select>
     <div id="mountNode"></div>
-    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.1/dist/g6.min.js"></script>
+    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/4.3.11/dist/g6.min.js"></script>
     <script>
       // Source data
       const data = {
