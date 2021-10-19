@@ -821,3 +821,16 @@ export const pointLineDistance = (line, point) => {
   // @ts-ignore
   return Math.abs(vec2.dot(a, u));
 };
+
+
+/**
+ * Linearly interpolate between start and end, where alpha is the percent distance along the line.
+ * alpha = 0 will be start, and alpha = 1 will be end.
+ * @param {Number} start
+ * @param {Number} end
+ * @param {Number} alpha interpolation factor, typically in the closed interval [0, 1]
+ * @returns
+ */
+export const lerp = (start: number, end: number, alpha: number): number => {
+  return start + (end - start) * alpha;
+}
