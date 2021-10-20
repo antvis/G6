@@ -24,7 +24,7 @@ PS: The directory for this example is '/static/icons'.
 There are several ways to import G6 introduced in [Getting Started](/en/docs/manual/getting-started). <br />PS: We import G6 by CDN in this example.
 
 ```html
-<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.1/dist/g6.min.js"></script>
+<script src="https://gw.alipayobjects.com/os/lib/antv/g6/4.3.11/dist/g6.min.js"></script>
 ```
 
 ## Import the Iconfont

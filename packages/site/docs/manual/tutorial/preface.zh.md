@@ -37,7 +37,7 @@ G6 是一个图可视化引擎。它提供了图的绘制、布局、分析、�
 
 ## 环境准备
 
-建议使用新版的 Chrome 浏览器作为运行环境，用任意的代码编辑器进行代码的编写即可。本教程默认采用 CDN 的方式直接引入 G6 类库，引入的版本是 3.5.10，此版本很多特性会大大简化我们的代码。如果希望在其他环境尝试本教程的学习，读者可以参考 [快速上手](/zh/docs/manual/getting-started) 中的安装配置部分。
+建议使用新版的 Chrome 浏览器作为运行环境，用任意的代码编辑器进行代码的编写即可。本教程默认采用 CDN 的方式直接引入 G6 类库，引入的版本是 3.7.1，此版本很多特性会大大简化我们的代码。如果希望在其他环境尝试本教程的学习，读者可以参考 [快速上手](/zh/docs/manual/getting-started) 中的安装配置部分。
 
 新建 index.html 文件，并添加如下代码：
 
@@ -51,6 +51,8 @@ G6 是一个图可视化引擎。它提供了图的绘制、布局、分析、�
   <body>
     <!-- 引入 G6 -->
     <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.1/dist/g6.min.js"></script>
+    <!-- 4.x and later versions -->
+    <!-- <script src="https://gw.alipayobjects.com/os/lib/antv/g6/4.3.11/dist/g6.min.js"></script> -->
 
     <script>
       console.log(G6.Global.version);

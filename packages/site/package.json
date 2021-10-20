@@ -37,7 +37,7 @@
     "@ant-design/icons": "^4.0.6",
     "@antv/chart-node-g6": "^0.0.3",
     "@antv/g6": "4.3.8",
-    "@antv/gatsby-theme-antv": "1.1.1",
+    "@antv/gatsby-theme-antv": "1.1.12",
     "@antv/util": "^2.0.9",
     "@antv/vis-predict-engine": "^0.1.1",
     "@types/react": "^16.9.35",

@@ -15,7 +15,7 @@ G6 3.3.0 支持三种构建产物：
 
 **其中 esm 及 commonjs 构建产物不支持 webworker 布局。**
 
-如果要支持 webworker 布局，请引用 [CDN](https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.1/dist/g6.min.js) 上的文件。
+如果要支持 webworker 布局，请引用 [CDN](https://gw.alipayobjects.com/os/lib/antv/g6/4.3.11/dist/g6.min.js) 上的文件。
 
 ## Util
 
@@ -49,9 +49,13 @@ const grid = new Grid({
 })
 
 
-// G6 3.5
+// G6 4.x
 // CDN 引入，只需要引入 G6
-<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.5.10/dist/g6.min.js"></script>
+<script src="https://gw.alipayobjects.com/os/lib/antv/g6/4.3.11/dist/g6.min.js"></script>
+
+// G6 3.x 引入地址
+// <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.5.10/dist/g6.min.js"></script>
+
 // 或 NPM 引入，只需要引入 G6
 import G6 from '@antv/G6'
 

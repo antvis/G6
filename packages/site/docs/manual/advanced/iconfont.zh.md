@@ -24,7 +24,7 @@ PS: 本案文件目录为 '/static/icons'。
 多种引入方式，请移步[快速上手](/zh/docs/manual/getting-started)。 <br />PS: 本案例简单粗暴，通过 CDN 的方式引入。
 
 ```html
-<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.1/dist/g6.min.js"></script>
+<script src="https://gw.alipayobjects.com/os/lib/antv/g6/4.3.11/dist/g6.min.js"></script>
 ```
 
 ## 添加字体图标

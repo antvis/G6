@@ -30,7 +30,7 @@ The code for interpretation of this chapter will base on the following JavaScrip
     /* The container of the graph */
     <div id="mountNode"></div>
     /* Import G6 */
-    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.1/dist/g6.min.js"></script>
+    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/4.3.11/dist/g6.min.js"></script>
     <script>
       // Define the source data
       const data = {
