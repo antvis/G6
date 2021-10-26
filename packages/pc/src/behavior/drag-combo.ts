@@ -62,7 +62,7 @@ export default {
       return false;
     }
 
-    if (!this.shouldUpdate(this, evt)) {
+    if (!this.shouldUpdate.call(this, evt)) {
       return false;
     }
 

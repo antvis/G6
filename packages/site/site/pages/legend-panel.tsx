@@ -271,7 +271,7 @@ const LegendPanel = () => {
         <h1 className="legned-title">图例与使用方式</h1>
         <a
           className="description"
-          href="https://github.com/antvis/G6/blob/master/site/pages/largegraph.zh.tsx"
+          href="https://github.com/antvis/G6/blob/master/packages/site/site/pages/largegraph.zh.tsx"
           target="_blanck"
         >
           源代码
@@ -366,7 +366,7 @@ const LegendPanel = () => {
       <h1 className="legned-title">Legend and Usage</h1>
       <a
         className="description"
-        href="https://github.com/antvis/G6/blob/master/site/pages/largegraph.zh.tsx"
+        href="https://github.com/antvis/G6/blob/master/packages/site/site/pages/largegraph.zh.tsx"
         target="_blanck"
       >
         Source Code

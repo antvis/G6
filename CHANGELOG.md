@@ -1,6 +1,10 @@
 # ChangeLog
 
-#### 4.4.0
+#### 4.4.0-beta.1
+
+- fix: drag-combo and drag-node with wrongly calling shouldUpdate;
+
+#### 4.4.0-beta.0
 
 - feat: better performance for item drawing;
 - fix: disable the capture of hull shape to enhance the performance of dragging canvas with hulls;
