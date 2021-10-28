@@ -55,7 +55,7 @@ const graph = new G6.Graph({
 
 ## 一般图布局方法
 
-图布局通用 API：[Layout API](/zh/docs/api/graphLayout/guid)。
+图布局通用 API：[Layout API](/zh/docs/api/graphLayout/guide)。
 
 ### Random
 
