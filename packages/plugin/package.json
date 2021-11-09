@@ -1,5 +1,5 @@
 {
-  "name": "@antv/g6-plugin",
+  "name": "@sirensolutions/g6-plugin",
   "version": "0.3.11",
   "description": "G6 Plugin",
   "main": "lib/index.js",
@@ -16,6 +16,10 @@
     "test-live": "DEBUG_MODE=1 jest --watch ./tests/unit/snapline-spec.ts",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
     "watch": "father build -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sirensolutions/g6"
   },
   "dependencies": {
     "@antv/dom-util": "^2.0.2",
@@ -57,6 +61,6 @@
     "jquery": "^3.5.1",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.4.4",
-    "@antv/g6": "4.3.8"
+    "@sirensolutions/g6": "4.3.8"
   }
 }
