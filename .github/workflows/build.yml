@@ -1,0 +1,17 @@
+on:
+  push:
+    branches:
+    - siren
+  pull_request:
+    branches:
+    - siren
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 14.x
+    - run: npm ci
+    - run: npm run ci
