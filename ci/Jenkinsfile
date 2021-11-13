@@ -1,0 +1,59 @@
+#!/usr/bin/env groovy
+library 'jenkins-lib'
+
+pipeline {
+
+  agent {
+    kubernetes {
+      cloud getKubernetesClusterName()
+      yaml readK8sConfig('build', '2Gi', '1')
+    }
+  }
+
+  options {
+    timestamps()
+    ansiColor('xterm')
+  }
+
+  environment {
+    SCMVARS = null
+    CREDENTIALS_ID='86f3b7e9-aec0-4914-bc4c-24bfa709fab8'
+    CI=true
+  }
+
+  stages {
+    stage ('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage ('Boostrap') {
+      steps {
+        sh 'yarn && yarn bootstrap'
+      }
+    }
+
+    stage('Deploy') {
+      steps {
+        withCredentials([
+          [
+            $class: 'UsernamePasswordMultiBinding',
+            credentialsId: 'artifactory-sirenpublisher',
+            usernameVariable: 'ARTIFACTORY_USERNAME',
+            passwordVariable: 'ARTIFACTORY_PASSWORD'
+          ]
+        ]) {
+          sh 'curl -u"${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" https://artifactory.siren.io/artifactory/api/npm/sirensolutions-npm-local/auth/antv > ~/.npmrc'
+          script {
+            ['core', 'element', 'plugin', 'pc', 'g6'].each {
+              sh "cd packages/${it} && npm run build && npm publish --registry=https://artifactory.siren.io/artifactory/api/npm/sirensolutions-npm-local && cd .."
+            }
+          }
+        }
+      }
+    }
+
+  }
+
+}
