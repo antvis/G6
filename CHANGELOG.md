@@ -1,5 +1,9 @@
 # ChangeLog
 
+#### 4.4.1
+
+- feat: zoom with animation, contributed by @Blakko;
+
 #### 4.4.0-beta.1
 
 - fix: drag-combo and drag-node with wrongly calling shouldUpdate;
