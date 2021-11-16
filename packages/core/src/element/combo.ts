@@ -37,6 +37,7 @@ const singleCombo: ShapeOptions = {
       style: {
         fill: Global.comboLabel.style.fill,
         fontSize: Global.comboLabel.style.fontSize,
+        fontFamily: Global.windowFontFamily
       },
     },
     stateStyles: {

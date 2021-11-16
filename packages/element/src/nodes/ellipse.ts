@@ -1,5 +1,5 @@
 import { IGroup, IShape } from '@antv/g-base';
-import { registerNode, Item, NodeConfig, ShapeStyle, BaseGlobal as Global } from '@antv/g6-core';
+import { registerNode, Item, NodeConfig, ShapeStyle, BaseGlobal as Global, UpdateType } from '@antv/g6-core';
 import { mix } from '@antv/util';
 
 /**
@@ -23,6 +23,7 @@ registerNode(
         style: {
           fill: Global.nodeLabel.style.fill,
           fontSize: Global.nodeLabel.style.fontSize,
+          fontFamily: Global.windowFontFamily
         },
       },
       // 节点上左右上下四个方向上的链接circle配置
@@ -54,7 +55,7 @@ registerNode(
     // 文本位置
     labelPosition: 'center',
     drawShape(cfg: NodeConfig, group: IGroup): IShape {
-      const { icon = {} } = this.getOptions(cfg) as NodeConfig;
+      const { icon = {} } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
       const style = this.getShapeStyle!(cfg);
 
       const keyShape = group.addShape('ellipse', {
@@ -63,11 +64,12 @@ registerNode(
         name: 'ellipse-keyShape',
         draggable: true,
       });
+      group['shapeMap']['ellipse-keyShape'] = keyShape;
 
       const { width, height, show, text } = icon;
       if (show) {
         if (text) {
-          group.addShape('text', {
+          group['shapeMap'][`${this.type}-icon`] = group.addShape('text', {
             attrs: {
               x: 0,
               y: 0,
@@ -83,7 +85,7 @@ registerNode(
             draggable: true,
           });
         } else {
-          group.addShape('image', {
+          group['shapeMap'][`${this.type}-icon`] = group.addShape('image', {
             attrs: {
               x: -width! / 2,
               y: -height! / 2,
@@ -106,7 +108,7 @@ registerNode(
      * @param {Group} group Group实例
      */
     drawLinkPoints(cfg: NodeConfig, group: IGroup) {
-      const { linkPoints = {} } = this.getOptions(cfg) as NodeConfig;
+      const { linkPoints = {} } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
 
       const { top, left, right, bottom, size: markSize, r: markR, ...markStyle } = linkPoints;
       const size = this.getSize!(cfg);
@@ -115,7 +117,7 @@ registerNode(
 
       if (left) {
         // left circle
-        group.addShape('circle', {
+        group['shapeMap']['link-point-left'] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: -rx,
@@ -130,7 +132,7 @@ registerNode(
 
       if (right) {
         // right circle
-        group.addShape('circle', {
+        group['shapeMap']['link-point-right'] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: rx,
@@ -145,7 +147,7 @@ registerNode(
 
       if (top) {
         // top circle
-        group.addShape('circle', {
+        group['shapeMap']['link-point-top'] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: 0,
@@ -160,7 +162,7 @@ registerNode(
 
       if (bottom) {
         // bottom circle
-        group.addShape('circle', {
+        group['shapeMap']['link-point-bottom'] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: 0,
@@ -179,7 +181,7 @@ registerNode(
      * @return {Object} 节点的样式
      */
     getShapeStyle(cfg: NodeConfig): ShapeStyle {
-      const { style: defaultStyle } = this.getOptions(cfg) as NodeConfig;
+      const { style: defaultStyle } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
       const strokeStyle: ShapeStyle = {
         stroke: cfg.color,
       };
@@ -197,7 +199,7 @@ registerNode(
       };
       return styles;
     },
-    update(cfg: NodeConfig, item: Item) {
+    update(cfg: NodeConfig, item: Item, updateType?: UpdateType) {
       const group = item.getContainer();
       // 这里不传 cfg 参数是因为 cfg.style 需要最后覆盖样式
       const { style: defaultStyle } = this.getOptions({}) as NodeConfig;
@@ -213,7 +215,7 @@ registerNode(
       let style = mix({}, defaultStyle, keyShape.attr(), strokeStyle);
       style = mix(style, cfg.style);
 
-      (this as any).updateShape(cfg, item, style, true);
+      (this as any).updateShape(cfg, item, style, true, updateType);
       (this as any).updateLinkPoints(cfg, group);
     },
   },

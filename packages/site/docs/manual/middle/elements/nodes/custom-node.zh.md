@@ -304,7 +304,7 @@ G6.registerNode('inner-animate', {
     });
     // 执行旋转动画
     image.animate((ratio) => {
-      const matrix = Util.mat3.create();
+      const matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
       const toMatrix = Util.transform(matrix, [
         ['r', ratio * Math.PI * 2]
       ]) ;

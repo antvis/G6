@@ -32,6 +32,7 @@ registerEdge(
         style: {
           fill: Global.edgeLabel.style.fill,
           fontSize: Global.edgeLabel.style.fontSize,
+          fontFamily: Global.windowFontFamily
         },
       },
       routeCfg: {
@@ -55,6 +56,7 @@ registerEdge(
         name: 'edge-shape',
         attrs: shapeStyle,
       });
+      group['shapeMap']['edge-shape'] = keyShape;
       return keyShape;
     },
     getShapeStyle(cfg: EdgeConfig): ShapeStyle {
@@ -106,7 +108,7 @@ registerEdge(
       const strokeStyle: ShapeStyle = {
         stroke: cfg.color,
       };
-      const shape =
+      const shape = group['shapeMap']['edge-shape'] ||
         group.find((element) => element.get('className') === 'edge-shape') || item.getKeyShape();
 
       const { size } = cfg;

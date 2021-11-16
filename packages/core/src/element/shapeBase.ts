@@ -58,7 +58,18 @@ export const CLS_LABEL_BG_SUFFIX = '-label-bg';
 // 单个 shape 带有一个 label，共用这段代码
 export const shapeBase: ShapeOptions = {
   // 默认样式及配置
-  options: {},
+  options: {
+    labelCfg: {
+      style: {
+        fontFamily: Global.windowFontFamily
+      },
+    },
+    descriptionCfg: {
+      style: {
+        fontFamily: Global.windowFontFamily
+      },
+    },
+  },
   itemType: '', // node, edge, combo 等
   /**
    * 形状的类型，例如 circle，ellipse，polyline...
@@ -68,31 +79,11 @@ export const shapeBase: ShapeOptions = {
     return {};
   },
   getOptions(cfg: ModelConfig, updateType?: UpdateType): ModelConfig {
-    if (updateType === 'move' || updateType === 'bbox') {
+    if (updateType === 'move' || updateType?.includes('bbox')) {
       return {};
     }
     return deepMix(
-      {
-        // 解决局部渲染导致的文字移动残影问题
-        labelCfg: {
-          style: {
-            fontFamily:
-              typeof window !== 'undefined' && window.getComputedStyle
-                ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
-                  'Arial, sans-serif'
-                : 'Arial, sans-serif',
-          },
-        },
-        descriptionCfg: {
-          style: {
-            fontFamily:
-              typeof window !== 'undefined' && window.getComputedStyle
-                ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
-                  'Arial, sans-serif'
-                : 'Arial, sans-serif',
-          },
-        },
-      },
+      {},
       this.options,
       this.getCustomConfig(cfg) || {},
       cfg,
@@ -106,11 +97,15 @@ export const shapeBase: ShapeOptions = {
    * @return {IShape} 绘制的图形
    */
   draw(cfg: ModelConfig, group: IGroup): IShape {
+    group['shapeMap'] = {};
+    this.mergeStyle = this.getOptions(cfg);
     const shape: IShape = this.drawShape!(cfg, group);
     shape.set('className', this.itemType + CLS_SHAPE_SUFFIX);
+    group['shapeMap'][this.itemType + CLS_SHAPE_SUFFIX] = shape;
     if (cfg.label) {
       const label = this.drawLabel!(cfg, group);
       label.set('className', this.itemType + CLS_LABEL_SUFFIX);
+      group['shapeMap'][this.itemType + CLS_LABEL_SUFFIX] = label;
     }
     return shape;
   },
@@ -125,7 +120,7 @@ export const shapeBase: ShapeOptions = {
     return null as any;
   },
   drawLabel(cfg: ModelConfig, group: IGroup): IShape {
-    const { labelCfg: defaultLabelCfg } = this.getOptions(cfg) as ModelConfig;
+    const { labelCfg: defaultLabelCfg } = this.mergeStyle || this.getOptions(cfg) as ModelConfig || {};
     // image的情况下有可能为null
     const labelCfg = (defaultLabelCfg || {}) as ILabelConfig;
     const labelStyle = this.getLabelStyle!(cfg, labelCfg, group);
@@ -137,6 +132,7 @@ export const shapeBase: ShapeOptions = {
       className: 'text-shape',
       name: 'text-shape',
     });
+    group['shapeMap']['text-shape'] = label;
     if (!isNaN(rotate) && rotate !== '') {
       const labelBBox = label.getBBox();
       let labelMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
@@ -184,6 +180,7 @@ export const shapeBase: ShapeOptions = {
       const rect = this.drawLabelBg(cfg, group, label);
       const labelBgClassname = this.itemType + CLS_LABEL_BG_SUFFIX;
       rect.set('classname', labelBgClassname);
+      group['shapeMap'][labelBgClassname] = rect;
       label.toFront();
     }
     return label;
@@ -193,6 +190,7 @@ export const shapeBase: ShapeOptions = {
     const labelCfg = mix({}, defaultLabelCfg, cfg.labelCfg) as ILabelConfig;
     const style = this.getLabelBgStyleByPosition(label, cfg, labelCfg, group);
     const rect = group.addShape('rect', { name: 'text-bg-shape', attrs: style });
+    group['shapeMap']['text-bg-shape'] = rect;
     return rect;
   },
   getLabelStyleByPosition(cfg: ModelConfig, labelCfg?: ILabelConfig, group?: IGroup): LabelStyle {
@@ -217,8 +215,7 @@ export const shapeBase: ShapeOptions = {
     const calculateStyle = this.getLabelStyleByPosition!(cfg, labelCfg, group);
     const attrName = `${this.itemType}Label`; // 取 nodeLabel，edgeLabel 的配置项
     const defaultStyle = (Global as any)[attrName] ? (Global as any)[attrName].style : null;
-    const labelStyle = { ...defaultStyle, ...calculateStyle, ...labelCfg.style };
-    return labelStyle;
+    return { ...defaultStyle, ...calculateStyle, ...labelCfg.style };
   },
 
   /**
@@ -246,10 +243,8 @@ export const shapeBase: ShapeOptions = {
       const style = shapeStyle[key];
       if (isPlainObject(style)) {
         // 更新图元素样式，支持更新子元素
-        const subShape = group.find((element) => element.get('name') === key);
-        if (subShape) {
-          subShape.attr(style);
-        }
+        const subShape = group['shapeMap']?.[key] || group.find((element) => element.get('name') === key)
+        subShape?.attr(style);
       } else {
         shape.attr({
           [key]: style,
@@ -259,38 +254,36 @@ export const shapeBase: ShapeOptions = {
   },
 
   updateLabel(cfg: ModelConfig, item: Item, updateType?: UpdateType) {
-    const group = item.getContainer();
-    const { labelCfg: defaultLabelCfg } = this.getOptions({}, updateType) as ModelConfig;
-    const labelClassName = this.itemType + CLS_LABEL_SUFFIX;
-    const label = group.find((element) => element.get('className') === labelClassName);
-    const labelBgClassname = this.itemType + CLS_LABEL_BG_SUFFIX;
-    let labelBg = group.find((element) => element.get('classname') === labelBgClassname);
     // 防止 cfg.label = "" 的情况
     if (cfg.label || cfg.label === '') {
+      const group = item.getContainer();
+      let { labelCfg = {} } = this.mergeStyle || this.getOptions({}, updateType) as ModelConfig ||  {};
+      const labelClassName = this.itemType + CLS_LABEL_SUFFIX;
+      const label = group['shapeMap'][labelClassName] || group.find(ele => ele.get('className') === labelClassName);
+      const labelBgClassname = this.itemType + CLS_LABEL_BG_SUFFIX;
+      let labelBg = group['shapeMap'][labelBgClassname] || group.find(ele => ele.get('className') === labelBgClassname);
       // 若传入的新配置中有 label，（用户没传入但原先有 label，label 也会有值）
       if (!label) {
         // 若原先不存在 label，则绘制一个新的 label
         const newLabel = this.drawLabel!(cfg, group);
         newLabel.set('className', labelClassName);
+        group['shapeMap'][labelClassName] = newLabel;
       } else {
         // 若原先存在 label，则更新样式。与 getLabelStyle 不同在于这里需要融合当前 label 的样式
-        // 用于融合 style 以外的属性：position, offset, ...
-        let currentLabelCfg = {} as any;
-        if (item.getModel) {
-          currentLabelCfg = item.getModel().labelCfg;
+        // 融合 style 以外的属性：position, offset, ...
+        if (!updateType || updateType === 'bbox|label' || (this.itemType === 'edge' && updateType !== 'style')) {
+          labelCfg = deepMix(labelCfg, cfg.labelCfg);
         }
-        // 这里不能去掉
-        const labelCfg = deepMix({}, defaultLabelCfg, currentLabelCfg, cfg.labelCfg);
 
         // 获取位置信息
         const calculateStyle = (this as any).getLabelStyleByPosition(cfg, labelCfg, group);
 
         // 取 nodeLabel，edgeLabel 的配置项
-        const cfgStyle = cfg.labelCfg ? cfg.labelCfg.style : undefined;
-        const cfgBgStyle = labelCfg.style && labelCfg.style.background;
+        const cfgStyle = cfg.labelCfg?.style;
+        // const cfgBgStyle = labelCfg.style?.background;
 
         // 需要融合当前 label 的样式 label.attr()。不再需要全局/默认样式，因为已经应用在当前的 label 上
-        const labelStyle = { ...label.attr(), ...calculateStyle, ...cfgStyle };
+        const labelStyle = { ...calculateStyle, ...cfgStyle };
         const rotate = labelStyle.rotate;
         delete labelStyle.rotate;
 
@@ -303,10 +296,12 @@ export const shapeBase: ShapeOptions = {
             ['r', rotate],
             ['t', labelStyle.x, labelStyle.y],
           ]);
-          label.resetMatrix();
-          label.attr({ ...labelStyle, matrix: rotateMatrix });
+          labelStyle.matrix = rotateMatrix;
+          label.attr(labelStyle);
         } else {
-          label.resetMatrix();
+          if (label.getMatrix()?.[4] !== 1) {
+            label.resetMatrix();
+          }
           label.attr(labelStyle);
         }
 
@@ -314,6 +309,7 @@ export const shapeBase: ShapeOptions = {
           if (labelStyle.background) {
             labelBg = this.drawLabelBg(cfg, group, label);
             labelBg.set('classname', labelBgClassname);
+            group['shapeMap'][labelBgClassname] = labelBg;
             label.toFront();
           }
         } else if (labelStyle.background) {
@@ -323,8 +319,7 @@ export const shapeBase: ShapeOptions = {
             labelCfg,
             group,
           );
-          const labelBgStyle = { ...calculateBgStyle, ...cfgBgStyle };
-          labelBg.resetMatrix();
+          const labelBgStyle = calculateBgStyle;
           if (!isNaN(rotate) && rotate !== '') {
             let bgRotateMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
             bgRotateMatrix = transform(bgRotateMatrix, [
@@ -333,6 +328,8 @@ export const shapeBase: ShapeOptions = {
               ['t', labelBgStyle.x, labelBgStyle.y],
             ]);
             labelBgStyle.matrix = bgRotateMatrix;
+          } else {
+            labelBg.resetMatrix();
           }
           labelBg.attr(labelBgStyle);
         } else {
@@ -387,10 +384,8 @@ export const shapeBase: ShapeOptions = {
       for (const key in styles) {
         const style = styles[key];
         if (isPlainObject(style) && !ARROWS.includes(key)) {
-          const subShape = group.find((element) => element.get('name') === key);
-          if (subShape) {
-            subShape.attr(style);
-          }
+          const subShape = group['shapeMap']?.[key] || group.find((element) => element.get('name') === key)
+          subShape?.attr(style);
         } else {
           // 非纯对象，则认为是设置到 keyShape 上面的
           shape.attr({
@@ -429,7 +424,7 @@ export const shapeBase: ShapeOptions = {
       for (const p in styles) {
         const style = styles[p];
         if (isPlainObject(style) && !ARROWS.includes(p)) {
-          const subShape = group.find((element) => element.get('name') === p);
+          const subShape = group['shapeMap'][p] || group.find(ele => ele.get('name') === p);
           if (subShape) {
             const subShapeStyles = cloneBesidesImg(subShape.attr());
             each(style, (v, key) => {
@@ -491,7 +486,7 @@ export const shapeBase: ShapeOptions = {
       for (const originKey in originstyles) {
         const style = originstyles[originKey];
         if (isPlainObject(style) && !ARROWS.includes(originKey)) {
-          const subShape = group.find((element) => element.get('name') === originKey);
+          const subShape = group['shapeMap'][originKey] || group.find(ele => ele.get('name') === originKey);
           if (subShape) {
             // The text's position and matrix is not allowed to be affected by states
             if (subShape.get('type') === 'text') {

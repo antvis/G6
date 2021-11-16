@@ -27,6 +27,7 @@ registerNode(
         style: {
           fill: '#595959',
           fontSize: 14,
+          fontFamily: Global.windowFontFamily
         },
         offset: 30, // 距离左侧的 offset，没有设置 y 轴上移动的配置
       },
@@ -34,6 +35,7 @@ registerNode(
         style: {
           fontSize: 12,
           fill: '#bfbfbf',
+          fontFamily: Global.windowFontFamily
         },
         paddingTop: 0,
       },
@@ -92,7 +94,7 @@ registerNode(
     },
     shapeType: 'modelRect',
     drawShape(cfg: NodeConfig, group: IGroup): IShape {
-      const { preRect = {} } = this.getOptions(cfg) as NodeConfig;
+      const { preRect = {} } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
       const style = this.getShapeStyle!(cfg);
       const size = (this as ShapeOptions).getSize!(cfg);
       const width = size[0];
@@ -104,10 +106,11 @@ registerNode(
         name: `${this.type}-keyShape`,
         draggable: true,
       });
+      group['shapeMap'][`${this.type}-keyShape`] = keyShape;
 
       const { show: preRectShow, ...preRectStyle } = preRect;
       if (preRectShow) {
-        group.addShape('rect', {
+        group['shapeMap']['pre-rect'] = group.addShape('rect', {
           attrs: {
             x: -width / 2,
             y: -height / 2,
@@ -133,14 +136,14 @@ registerNode(
      * @param {Group} group Group实例
      */
     drawLogoIcon(cfg: NodeConfig, group: IGroup) {
-      const { logoIcon = {} } = this.getOptions(cfg) as NodeConfig;
+      const { logoIcon = {} } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
       const size = (this as ShapeOptions).getSize!(cfg);
       const width = size[0];
 
       if (logoIcon.show) {
         const { width: w, height: h, x, y, offset, text, ...logoIconStyle } = logoIcon;
         if (text) {
-          group.addShape('text', {
+          group['shapeMap']['rect-logo-icon'] = group.addShape('text', {
             attrs: {
               x: 0,
               y: 0,
@@ -156,7 +159,7 @@ registerNode(
             draggable: true,
           });
         } else {
-          group.addShape('image', {
+          group['shapeMap']['rect-logo-icon'] = group.addShape('image', {
             attrs: {
               ...logoIconStyle,
               x: x || -width / 2 + (w as number) + (offset as number),
@@ -177,14 +180,14 @@ registerNode(
      * @param {Group} group Group实例
      */
     drawStateIcon(cfg: NodeConfig, group: IGroup) {
-      const { stateIcon = {} } = this.getOptions(cfg) as NodeConfig;
+      const { stateIcon = {} } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
       const size = (this as ShapeOptions).getSize!(cfg);
       const width = size[0];
 
       if (stateIcon.show) {
         const { width: w, height: h, x, y, offset, text, ...iconStyle } = stateIcon;
         if (text) {
-          group.addShape('text', {
+          group['shapeMap']['rect-state-icon'] = group.addShape('text', {
             attrs: {
               x: 0,
               y: 0,
@@ -200,7 +203,7 @@ registerNode(
             draggable: true,
           });
         } else {
-          group.addShape('image', {
+          group['shapeMap']['rect-state-icon'] = group.addShape('image', {
             attrs: {
               ...iconStyle,
               x: x || width / 2 - (w as number) + (offset as number),
@@ -221,7 +224,7 @@ registerNode(
      * @param {Group} group Group实例
      */
     drawLinkPoints(cfg: NodeConfig, group: IGroup) {
-      const { linkPoints = {} } = this.getOptions(cfg) as NodeConfig;
+      const { linkPoints = {} } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
 
       const { top, left, right, bottom, size: markSize, r: markR, ...markStyle } = linkPoints;
       const size = (this as ShapeOptions).getSize!(cfg);
@@ -229,7 +232,7 @@ registerNode(
       const height = size[1];
       if (left) {
         // left circle
-        group.addShape('circle', {
+        group['shapeMap']['link-point-left'] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: -width / 2,
@@ -244,7 +247,7 @@ registerNode(
 
       if (right) {
         // right circle
-        group.addShape('circle', {
+        group['shapeMap']['link-point-right'] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: width / 2,
@@ -259,7 +262,7 @@ registerNode(
 
       if (top) {
         // top circle
-        group.addShape('circle', {
+        group['shapeMap']['link-point-top'] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: 0,
@@ -274,7 +277,7 @@ registerNode(
 
       if (bottom) {
         // bottom circle
-        group.addShape('circle', {
+        group['shapeMap']['link-point-bottom'] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: 0,
@@ -318,8 +321,9 @@ registerNode(
           name: 'text-shape',
           draggable: true,
         });
+        group['shapeMap']['text-shape'] = label;
 
-        group.addShape('text', {
+        group['shapeMap']['rect-description'] = group.addShape('text', {
           attrs: {
             ...descriptionStyle,
             x: offsetX,
@@ -342,6 +346,7 @@ registerNode(
           name: 'text-shape',
           draggable: true,
         });
+        group['shapeMap']['text-shape'] = label;
       }
       return label;
     },
@@ -351,7 +356,7 @@ registerNode(
      * @return {Object} 节点的样式
      */
     getShapeStyle(cfg: NodeConfig) {
-      const { style: defaultStyle } = this.getOptions(cfg) as NodeConfig;
+      const { style: defaultStyle } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
       const strokeStyle: ShapeStyle = {
         stroke: cfg.color,
       };
@@ -370,7 +375,7 @@ registerNode(
       return styles;
     },
     update(cfg: NodeConfig, item: Item) {
-      const { style = {}, labelCfg = {}, descriptionCfg = {} } = this.getOptions(cfg) as NodeConfig;
+      const { style = {}, labelCfg = {}, descriptionCfg = {} } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
       const size = (this as ShapeOptions).getSize!(cfg);
       const width = size[0];
       const height = size[1];
@@ -385,7 +390,7 @@ registerNode(
 
       const group = item.getContainer();
 
-      const logoIconShape = group.find((element) => element.get('className') === 'rect-logo-icon');
+      const logoIconShape = group['shapeMap']['rect-logo-icon'] || group.find((element) => element.get('className') === 'rect-logo-icon');
       const currentLogoIconAttr = logoIconShape ? logoIconShape.attr() : {};
 
       const logoIcon = mix({}, currentLogoIconAttr, cfg.logoIcon);
@@ -403,11 +408,11 @@ registerNode(
         offsetX = -width / 2 + offset;
       }
 
-      const label = group.find((element) => element.get('className') === 'node-label');
-      const description = group.find((element) => element.get('className') === 'rect-description');
+      const label = group['shapeMap']['node-label'] || group.find((element) => element.get('className') === 'node-label');
+      const description = group['shapeMap']['rect-description'] || group.find((element) => element.get('className') === 'rect-description');
       if (cfg.label) {
         if (!label) {
-          group.addShape('text', {
+          group['shapeMap']['node-label'] = group.addShape('text', {
             attrs: {
               ...labelCfg.style,
               x: offsetX,
@@ -437,7 +442,7 @@ registerNode(
       if (isString(cfg.description)) {
         const { paddingTop } = descriptionCfg;
         if (!description) {
-          group.addShape('text', {
+          group['shapeMap']['rect-description'] = group.addShape('text', {
             attrs: {
               ...descriptionCfg.style,
               x: offsetX,
@@ -461,8 +466,8 @@ registerNode(
         }
       }
 
-      const preRectShape = group.find((element) => element.get('className') === 'pre-rect');
-      if (preRectShape) {
+      const preRectShape = group['shapeMap']['pre-rect'] || group.find((element) => element.get('className') === 'pre-rect');
+      if (preRectShape && !preRectShape.destroyed) {
         const preRect = mix({}, preRectShape.attr(), cfg.preRect);
         preRectShape.attr({
           ...preRect,
@@ -472,9 +477,10 @@ registerNode(
         });
       }
 
-      if (logoIconShape) {
+      if (logoIconShape && !logoIconShape.destroyed) {
         if (!show && show !== undefined) {
           logoIconShape.remove();
+          delete group['shapeMap']['pre-rect'];
         } else {
           const { width: logoW, height: h, x, y, offset: logoOffset, ...logoIconStyle } = logoIcon;
           logoIconShape.attr({
@@ -489,7 +495,7 @@ registerNode(
         (this as any).drawLogoIcon(cfg, group);
       }
 
-      const stateIconShape = group.find(
+      const stateIconShape = group['shapeMap']['rect-state-icon'] || group.find(
         (element) => element.get('className') === 'rect-state-icon',
       );
       const currentStateIconAttr = stateIconShape ? stateIconShape.attr() : {};
@@ -497,6 +503,7 @@ registerNode(
       if (stateIconShape) {
         if (!stateIcon.show && stateIcon.show !== undefined) {
           stateIconShape.remove();
+          delete group['shapeMap']['rect-state-icon'];
         }
         const {
           width: stateW,

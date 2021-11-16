@@ -7,6 +7,7 @@ import {
   ShapeStyle,
   ShapeOptions,
   BaseGlobal as Global,
+  UpdateType,
 } from '@antv/g6-core';
 
 registerNode(
@@ -26,6 +27,7 @@ registerNode(
         style: {
           fill: Global.nodeLabel.style.fill,
           fontSize: Global.nodeLabel.style.fontSize,
+          fontFamily: Global.windowFontFamily
         },
       },
       // 节点上左右上下四个方向上的链接circle配置
@@ -70,6 +72,7 @@ registerNode(
         name: `${this.type}-keyShape`,
         draggable: true,
       });
+      group['shapeMap'][`${this.type}-keyShape`] = keyShape;
 
       (this as any).drawLinkPoints(cfg, group);
       return keyShape;
@@ -80,7 +83,7 @@ registerNode(
      * @param {Group} group Group实例
      */
     drawLinkPoints(cfg: NodeConfig, group: IGroup) {
-      const { linkPoints = {} } = this.getOptions(cfg) as NodeConfig;
+      const { linkPoints = {} } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
 
       const { top, left, right, bottom, size: markSize, r: markR, ...markStyle } = linkPoints;
       const size = (this as ShapeOptions).getSize!(cfg);
@@ -89,7 +92,7 @@ registerNode(
 
       if (left) {
         // left circle
-        group.addShape('circle', {
+        group['shapeMap']['link-point-left'] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: -width / 2,
@@ -104,7 +107,7 @@ registerNode(
 
       if (right) {
         // right circle
-        group.addShape('circle', {
+        group['shapeMap']['link-point-right'] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: width / 2,
@@ -119,7 +122,7 @@ registerNode(
 
       if (top) {
         // top circle
-        group.addShape('circle', {
+        group['shapeMap']['link-point-top'] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: 0,
@@ -134,7 +137,7 @@ registerNode(
 
       if (bottom) {
         // bottom circle
-        group.addShape('circle', {
+        group['shapeMap']['link-point-bottom'] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: 0,
@@ -153,7 +156,7 @@ registerNode(
      * @return {Object} 节点的样式
      */
     getShapeStyle(cfg: NodeConfig) {
-      const { style: defaultStyle } = this.getOptions(cfg) as NodeConfig;
+      const { style: defaultStyle } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
       const strokeStyle: ShapeStyle = {
         stroke: cfg.color,
       };
@@ -171,7 +174,7 @@ registerNode(
       };
       return styles;
     },
-    update(cfg: NodeConfig, item: Item) {
+    update(cfg: NodeConfig, item: Item, updateType?: UpdateType) {
       const group = item.getContainer();
       // 这里不传 cfg 参数是因为 cfg.style 需要最后覆盖样式
       const { style: defaultStyle } = this.getOptions({}) as NodeConfig;
@@ -193,7 +196,7 @@ registerNode(
       let style = mix({}, defaultStyle, keyShape.attr(), strokeStyle);
       style = mix(style, cfg.style);
 
-      (this as any).updateShape(cfg, item, style, false);
+      (this as any).updateShape(cfg, item, style, false, updateType);
       (this as any).updateLinkPoints(cfg, group);
     },
   },

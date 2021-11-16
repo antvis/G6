@@ -7,7 +7,7 @@ import { ILabelConfig } from '../interface/shape';
 
 export * from '../interface';
 
-export type UpdateType = 'move' | 'bbox' | 'style' | undefined;
+export type UpdateType = 'move' | 'bbox' | 'style' | 'bbox|label' | 'style|label' | undefined;
 
 // Node Edge Combo 实例
 export type Item = INode | IEdge | ICombo;
@@ -361,7 +361,8 @@ export type LabelStyle = Partial<{
   opacity: number;
   fontSize: number;
   fontStyle: 'normal' | 'italic' | 'oblique';
-  fontWeight?: 'normal' | 'bold' | 'bolder' | 'lighter' | number;
+  fontFamily: string;
+  fontWeight: 'normal' | 'bold' | 'bolder' | 'lighter' | number;
   fill: string | null;
   rotateCenter: string;
   lineWidth: number;

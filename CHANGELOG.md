@@ -1,6 +1,23 @@
 # ChangeLog
 
+#### 4.4.1
+
+- feat: zoom with animation, contributed by @Blakko;
+
+#### 4.4.0-beta.1
+
+- fix: drag-combo and drag-node with wrongly calling shouldUpdate;
+
+#### 4.4.0-beta.0
+
+- feat: better performance for item drawing;
+- fix: disable the capture of hull shape to enhance the performance of dragging canvas with hulls;
+- fix: uncombo an empty combo, fix: #3248;
+- fix: upgrade layout to beta 5 to solve proxy problem for IE;
+
 #### 4.3.11
+
+#### 4.3.9
 
 - fix: update edge to be horizontal and the label is on wrong position for min file;
 

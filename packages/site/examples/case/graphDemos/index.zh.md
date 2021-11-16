@@ -35,7 +35,7 @@ order: 0
 
 ### 大规模图下钻式探索
 
-<a className='description' href='https://github.com/antvis/G6/blob/master/site/pages/largegraph.zh.tsx' target='_blanck'>源代码</a>
+<a className='description' href='https://github.com/antvis/G6/blob/master/packages/site/site/pages/largegraph.zh.tsx' target='_blanck'>源代码</a>
 
 一些科学研究表明，不超过 500 个节点的图可视化是适合终端用户阅读和交互式探索的。根据这个原则，在大规模图上，我们将元数据中的节点通过 LOUVAIN 聚类算法进行聚合。首先展示被聚合后的图，然后用户可以通过展开聚合节点进行下钻式探索。如果一次聚合后的节点数仍然庞大，可以进行多层次的聚合。为了控制渲染节点的数量，展开多个聚类后，最早被展开的聚类将会被自动收起。这一方案除了满足上述原则，还能减少前端计算和渲染的负担。
 

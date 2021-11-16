@@ -36,7 +36,7 @@ oRegisterLayout('forceAtlas2', ForceAtlas2Layout);
 
 const registerLayout = (name: string, layoutOverride: any) => {
   layoutOverride.isCustomLayout = true;
-  oRegisterLayout(name, layoutOverride);
+  Layout[name] = oRegisterLayout(name, layoutOverride);
 };
 
 export { TreeLayout, Layout, registerLayout };

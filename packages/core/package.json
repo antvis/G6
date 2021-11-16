@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6-core",
-  "version": "0.3.11",
+  "version": "0.4.1",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",
@@ -63,7 +63,7 @@
     "@antv/event-emitter": "~0.1.0",
     "@antv/g-base": "^0.5.1",
     "@antv/g-math": "^0.1.1",
-    "@antv/matrix-util": "^3.1.0-beta.2",
+    "@antv/matrix-util": "^3.1.0-beta.3",
     "@antv/path-util": "^2.0.3",
     "@antv/util": "~2.0.5",
     "ml-matrix": "^6.5.0",
@@ -93,6 +93,7 @@
     "rimraf": "^3.0.0",
     "ts-jest": "^24.1.0",
     "ts-loader": "^7.0.3",
-    "typescript": "^3.9.5"
+    "typescript": "^3.9.5",
+    "stats-js": "^1.0.1"
   }
 }

@@ -1,6 +1,6 @@
 import { IGroup, IShape } from '@antv/g-base';
 import { deepMix } from '@antv/util';
-import { Item, NodeConfig, ShapeStyle } from '../../types';
+import { Item, NodeConfig, ShapeStyle, UpdateType } from '../../types';
 import Global from '../../global';
 import Shape from '../shape';
 import { ShapeOptions } from '../../interface/shape';
@@ -23,6 +23,7 @@ Shape.registerNode(
         style: {
           fill: Global.nodeLabel.style.fill,
           fontSize: Global.nodeLabel.style.fontSize,
+          fontFamily: Global.windowFontFamily
         },
       },
       stateStyles: {
@@ -32,13 +33,18 @@ Shape.registerNode(
     shapeType: 'simple-circle',
     // 文本位置
     labelPosition: 'center',
+    shapeMap: {},
     drawShape(cfg: NodeConfig, group: IGroup): IShape {
+
       const style = this.getShapeStyle!(cfg);
+      const name = `${this.type}-keyShape`;
       const keyShape: IShape = group.addShape('circle', {
         attrs: style,
         className: `${this.type}-keyShape`,
+        name,
         draggable: true,
       });
+      group['shapeMap'][name] = keyShape;
 
       return keyShape;
     },
@@ -48,7 +54,7 @@ Shape.registerNode(
      * @return {Object} 节点的样式
      */
     getShapeStyle(cfg: NodeConfig): ShapeStyle {
-      const { style: defaultStyle } = this.getOptions(cfg) as NodeConfig;
+      const { style: defaultStyle } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
       const strokeStyle = {
         stroke: cfg.color,
       };
@@ -64,7 +70,7 @@ Shape.registerNode(
       };
       return styles;
     },
-    update(cfg: NodeConfig, item: Item) {
+    update(cfg: NodeConfig, item: Item, updateType?: UpdateType) {
       const size = (this as ShapeOptions).getSize!(cfg);
       // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
       const strokeStyle = {
@@ -75,7 +81,7 @@ Shape.registerNode(
       const keyShape = item.get('keyShape');
       const style = deepMix({}, keyShape.attr(), strokeStyle, cfg.style);
 
-      (this as any).updateShape(cfg, item, style, true);
+      (this as any).updateShape(cfg, item, style, true, updateType);
     },
   },
   'single-node',

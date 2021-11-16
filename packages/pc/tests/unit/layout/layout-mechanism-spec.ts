@@ -83,5 +83,6 @@ describe('layout mechanism', () => {
     expect((data.nodes[0] as any).y).toBe(5);
     expect((data.nodes[1] as any).x).toBe(20);
     expect((data.nodes[1] as any).y).toBe(10);
+    console.log('data', data);
   });
 });

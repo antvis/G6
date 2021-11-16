@@ -459,8 +459,8 @@ export default class Graph extends AbstractGraph implements IGraph {
 
         const blobObj = new Blob([u8arr], { type: mime });
 
-        if (window.navigator.msSaveBlob) {
-          window.navigator.msSaveBlob(blobObj, fileName);
+        if ((window.navigator as any).msSaveBlob) {
+          (window.navigator as any).msSaveBlob(blobObj, fileName);
         } else {
           link.addEventListener('click', () => {
             link.download = fileName;

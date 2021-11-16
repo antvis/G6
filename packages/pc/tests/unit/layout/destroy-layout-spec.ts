@@ -53,10 +53,14 @@ describe('destroy circular layout', () => {
       layout: { type: 'circular' },
     });
 
-    graph.data(data);
-    graph.render();
+    graph.on('canvas:click', e => {
 
-    graph.on('afterlayout', () => {
+      graph.getNodes().forEach((node, i) => {
+        console.log('node', i, node.getModel().x, node.getModel().y);
+      })
+    })
+
+    graph.once('afterlayout', () => {
       expect(mathEqual(graph.getNodes()[0].getModel().x, 500)).toEqual(true);
       expect(mathEqual(graph.getNodes()[0].getModel().y, 250)).toEqual(true);
       expect(mathEqual(graph.getNodes()[1].getModel().x, 0)).toEqual(true);
@@ -75,13 +79,12 @@ describe('destroy circular layout', () => {
       expect(mathEqual(graph.getNodes()[3].getModel().x, 150)).toEqual(true);
       expect(mathEqual(graph.getNodes()[3].getModel().y, 250)).toEqual(true);
 
-      // update layout 后，根据新的布局计算
-      graph.updateLayout({
-        type: 'dagre',
-      });
-      graph.fitView();
 
-      graph.on('afterlayout', () => {
+      graph.once('afterlayout', () => {
+        console.log('graph.getNodes()[0].getModel().x', graph.getNodes());
+        graph.getNodes().forEach((node, i) => {
+          console.log('node', i, node.getModel().x, node.getModel().y);
+        })
         expect(mathEqual(graph.getNodes()[0].getModel().x, 165)).toEqual(true);
         expect(mathEqual(graph.getNodes()[0].getModel().y, 70)).toEqual(true);
         expect(mathEqual(graph.getNodes()[1].getModel().x, 70)).toEqual(true);
@@ -99,7 +102,15 @@ describe('destroy circular layout', () => {
         expect(mathEqual(graph.getNodes()[1].getModel().y, 260)).toEqual(true);
 
         graph.destroy();
-      })
+      });
+      // update layout 后，根据新的布局计算
+      graph.updateLayout({
+        type: 'dagre',
+      });
+      graph.fitView();
     });
+
+    graph.data(data);
+    graph.render();
   });
 });

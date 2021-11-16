@@ -6,6 +6,7 @@ import {
   ShapeStyle,
   ShapeOptions,
   BaseGlobal as Global,
+  UpdateType,
 } from '@antv/g6-core';
 import { deepMix } from '@antv/util';
 
@@ -27,6 +28,7 @@ registerNode(
         style: {
           fill: Global.nodeLabel.style.fill,
           fontSize: Global.nodeLabel.style.fontSize,
+          fontFamily: Global.windowFontFamily
         },
       },
       // 节点上左右上下四个方向上的链接circle配置
@@ -58,19 +60,23 @@ registerNode(
     // 文本位置
     labelPosition: 'center',
     drawShape(cfg: NodeConfig, group: IGroup): IShape {
-      const { icon: defaultIcon = {} } = this.getOptions(cfg) as NodeConfig;
+      const { icon: defaultIcon = {} } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
       const style = this.getShapeStyle!(cfg);
       const icon = deepMix({}, defaultIcon, cfg.icon);
+      const name = `${this.type}-keyShape`;
       const keyShape: IShape = group.addShape('circle', {
         attrs: style,
-        className: `${this.type}-keyShape`,
+        className: name,
+        name,
         draggable: true,
       });
+      group['shapeMap'][name] = keyShape;
 
       const { width, height, show, text } = icon;
       if (show) {
+        const iconName = `${this.type}-icon`;
         if (text) {
-          group.addShape('text', {
+          group['shapeMap'][iconName] = group.addShape('text', {
             attrs: {
               x: 0,
               y: 0,
@@ -81,19 +87,19 @@ registerNode(
               textAlign: 'center',
               ...icon,
             },
-            className: `${this.type}-icon`,
-            name: `${this.type}-icon`,
+            className: iconName,
+            name: iconName,
             draggable: true,
           });
         } else {
-          group.addShape('image', {
+          group['shapeMap'][iconName] = group.addShape('image', {
             attrs: {
               x: -width / 2,
               y: -height / 2,
               ...icon,
             },
-            className: `${this.type}-icon`,
-            name: `${this.type}-icon`,
+            className: iconName,
+            name: iconName,
             draggable: true,
           });
         }
@@ -109,67 +115,72 @@ registerNode(
      * @param {Group} group Group实例
      */
     drawLinkPoints(cfg: NodeConfig, group: IGroup) {
-      const { linkPoints = {} } = this.getOptions(cfg) as NodeConfig;
+      const { linkPoints } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
+      if (!linkPoints) return;
 
-      const { top, left, right, bottom, size: markSize, r: markR, ...markStyle } = linkPoints;
+      const { top, left, right, bottom, size: markSize, r: markR, ...markStyle } = linkPoints || {};
       const size = this.getSize!(cfg);
       const r = size[0] / 2;
       if (left) {
         // left circle
-        group.addShape('circle', {
+        const name = 'link-point-left';
+        group['shapeMap'][name] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: -r,
             y: 0,
             r: markSize / 2 || markR || 5,
           },
-          className: 'link-point-left',
-          name: 'link-point-left',
+          className: name,
+          name,
           isAnchorPoint: true,
         });
       }
 
       if (right) {
         // right circle
-        group.addShape('circle', {
+        const name = 'link-point-right';
+        group['shapeMap'][name] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: r,
             y: 0,
             r: markSize / 2 || markR || 5,
           },
-          className: 'link-point-right',
-          name: 'link-point-right',
+          className: name,
+          name,
           isAnchorPoint: true,
         });
       }
 
       if (top) {
         // top circle
-        group.addShape('circle', {
+        const name = 'link-point-top';
+        group['shapeMap'][name] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: 0,
             y: -r,
             r: markSize / 2 || markR || 5,
           },
-          className: 'link-point-top',
-          name: 'link-point-top',
+          className: name,
+          name,
           isAnchorPoint: true,
         });
       }
 
       if (bottom) {
         // bottom circle
-        group.addShape('circle', {
+        const name = 'link-point-bottom';
+        group['shapeMap'][name] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: 0,
             y: r,
             r: markSize / 2 || markR || 5,
           },
-          className: 'link-point-bottom',
-          name: 'link-point-bottom',
+          className: name,
+          name,
           isAnchorPoint: true,
         });
       }
@@ -180,7 +191,7 @@ registerNode(
      * @return {Object} 节点的样式
      */
     getShapeStyle(cfg: NodeConfig): ShapeStyle {
-      const { style: defaultStyle } = this.getOptions(cfg) as NodeConfig;
+      const { style: defaultStyle } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
       const strokeStyle = {
         stroke: cfg.color,
       };
@@ -196,19 +207,30 @@ registerNode(
       };
       return styles;
     },
-    update(cfg: NodeConfig, item: Item) {
+    update(cfg: NodeConfig, item: Item, updateType?: UpdateType) {
       const group = item.getContainer();
       const size = (this as ShapeOptions).getSize!(cfg);
       // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
-      const strokeStyle = {
-        stroke: cfg.color,
-        r: size[0] / 2,
-      };
-      // 与 getShapeStyle 不同在于，update 时需要获取到当前的 style 进行融合。即新传入的配置项中没有涉及的属性，保留当前的配置。
-      const keyShape = item.get('keyShape');
-      const style = deepMix({}, keyShape.attr(), strokeStyle, cfg.style);
+      // const strokeStyle = {
+      //   stroke: cfg.color,
+      //   r: size[0] / 2,
+      // };
+      // // 与 getShapeStyle 不同在于，update 时需要获取到当前的 style 进行融合。即新传入的配置项中没有涉及的属性，保留当前的配置。
+      // const keyShape = item.get('keyShape');
 
-      (this as any).updateShape(cfg, item, style, true);
+      // TODO: performance
+      // const style = deepMix({}, keyShape.attr(), strokeStyle, cfg.style);
+      // const style = deepMix({}, keyShape.attr(), cfg.style);
+      const style = {...cfg.style};
+      if (cfg.style.stroke === undefined && cfg.color) {
+        style.stroke = cfg.color;
+      }
+      if (cfg.style.r === undefined && !isNaN(size[0])) {
+        style.r = size[0] / 2
+      }
+
+      (this as any).updateShape(cfg, item, style, true, updateType);
+      // (this as any).updateShape(cfg, item, style, true, updateType);
       (this as any).updateLinkPoints(cfg, group);
     },
   },

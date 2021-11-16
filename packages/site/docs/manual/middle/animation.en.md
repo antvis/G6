@@ -214,7 +214,7 @@ G6.registerNode(
           // Returns the properties for each frame. The input parameter ratio is a number that range from 0 to 1. The return value is an object that defines the properties for this frame.
           // Rotate by manipulating matrix
           // The current matrix
-          const matrix = Util.mat3.create();
+          const matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
           // The target matrix
           const toMatrix = Util.transform(matrix, [['r', ratio * Math.PI * 2]]);
           // The properties of this frame. Only target matrix for this demo

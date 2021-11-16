@@ -551,7 +551,7 @@ describe('radial layout', () => {
     graph.data(data);
     graph.render();
     graph.on('afterlayout', () => {
-      const radialLayout = graph.get('layoutController').layoutMethod[0];
+      const radialLayout = graph.get('layoutController').layoutMethods[0];
       expect(radialLayout.focusNode.id).toEqual('0');
       graph.destroy();
     });
@@ -575,7 +575,7 @@ describe('radial layout', () => {
     graph.data(data);
     graph.render();
     graph.on('afterlayout', () => {
-      const radialLayout = graph.get('layoutController').layoutMethod[0];
+      const radialLayout = graph.get('layoutController').layoutMethods[0];
       expect(radialLayout.focusNode.id).toEqual('0');
       graph.destroy();
     });

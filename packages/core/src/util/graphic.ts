@@ -13,7 +13,7 @@ import {
 } from '../types';
 import { applyMatrix } from './math';
 import letterAspectRatio from './letterAspectRatio';
-import { isString, clone, isNumber, isObject } from '@antv/util';
+import { isString, clone, isNumber, isObject, isArray } from '@antv/util';
 import { IAbstractGraph } from '../interface/graph';
 
 const { PI, sin, cos } = Math;
@@ -653,11 +653,11 @@ export const cloneBesidesImg = (obj) => {
   const clonedObj = {};
   Object.keys(obj).forEach(key1 => {
     const obj2 = obj[key1];
-    if (isObject(obj2)) {
+    if (isObject(obj2) && !isArray(obj2)) {
       const clonedObj2 = {};
       Object.keys(obj2).forEach(key2 => {
         const v = obj2[key2];
-        if(key2 === 'img' && !isString(v)) return;
+        if (key2 === 'img' && !isString(v)) return;
         clonedObj2[key2] = clone(v);
       })
       clonedObj[key1] = clonedObj2;

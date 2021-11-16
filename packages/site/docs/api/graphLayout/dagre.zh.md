@@ -62,7 +62,7 @@ const graph = new G6.Graph({
 };
 ```
 
-<br />**是否必须**：false<br />**说明**：节点间距（px）的回调函数，通过该参数可以对不同节点设置不同的节点间距。在`rankdir` 为 'TB' 或 'BT' 时是节点的水平间距；在`rankdir` 为 'LR' 或 'RL' 时代表节点的竖直方向间距。优先级高于 `nodesep`，即若设置了 `nodesep`，则 `nodesepFunc` 不生效
+<br />**是否必须**：false<br />**说明**：节点间距（px）的回调函数，通过该参数可以对不同节点设置不同的节点间距。在`rankdir` 为 'TB' 或 'BT' 时是节点的水平间距；在`rankdir` 为 'LR' 或 'RL' 时代表节点的竖直方向间距。优先级高于 `nodesep`，即若设置了 `nodesepFunc`，则 `nodesep` 不生效
 
 ## layoutCfg.ranksepFunc
 
@@ -76,7 +76,7 @@ const graph = new G6.Graph({
 };
 ```
 
-<br />**是否必须**：false<br />**说明**：层间距（px）的回调函数，通过该参数可以对不同节点设置不同的层间距。在`rankdir` 为 'TB' 或 'BT' 时是竖直方向相邻层间距；在`rankdir` 为 'LR' 或 'RL' 时代表水平方向相邻层间距。优先级高于 `ranksep`，即若设置了 `ranksep`，则 `ranksepFunc` 不生效
+<br />**是否必须**：false<br />**说明**：层间距（px）的回调函数，通过该参数可以对不同节点设置不同的层间距。在`rankdir` 为 'TB' 或 'BT' 时是竖直方向相邻层间距；在`rankdir` 为 'LR' 或 'RL' 时代表水平方向相邻层间距。优先级高于 `ranksep`，即若设置了 `ranksepFunc`，则 `ranksep` 不生效
 
 ## layoutCfg.controlPoints
 

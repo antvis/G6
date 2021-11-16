@@ -223,9 +223,7 @@ export default class Node extends Item implements INode {
   public removeEdge(edge: IEdge) {
     const edges = this.getEdges();
     const index = edges.indexOf(edge);
-    if (index > -1) {
-      edges.splice(index, 1);
-    }
+    if (index > -1) edges.splice(index, 1);
   }
 
   public clearCache() {
@@ -238,9 +236,7 @@ export default class Node extends Item implements INode {
    * @param cfg 节点数据模型
    */
   public getUpdateType(cfg: ModelConfig): UpdateType {
-    if (!cfg) {
-      return undefined;
-    }
+    if (!cfg) return undefined;
 
     const existX = !isNil(cfg.x);
     const existY = !isNil(cfg.y);
@@ -249,9 +245,10 @@ export default class Node extends Item implements INode {
 
     // 仅有一个字段，包含 x 或者 包含 y
     // 两个字段，同时有 x，同时有 y
-    if ((keys.length === 1 && (existX || existY)) || (keys.length === 2 && existX && existY)) {
-      return 'move';
-    }
+    if (
+      (keys.length === 1 && (existX || existY)) ||
+      (keys.length === 2 && existX && existY)
+    ) return 'move';
 
     if (
       isNumber(cfg.x) ||
@@ -266,11 +263,11 @@ export default class Node extends Item implements INode {
         cfg?.style?.rx ||
         cfg?.style?.ry
       ))
-    ) {
-      return 'bbox';
-    }
+    ) return 'bbox|label';
 
-    return 'style';
+    let updateLabel = keys.includes('label') || keys.includes('labelCfg');
+
+    return updateLabel ? 'style|label' : 'style';
     
   }
 }

@@ -1,5 +1,10 @@
 import { IGroup, IShape } from '@antv/g-base';
-import { registerNode, Item, NodeConfig } from '@antv/g6-core';
+import {
+  registerNode,
+  Item,
+  NodeConfig,
+  BaseGlobal as Global
+} from '@antv/g6-core';
 
 /**
  * 基本的图片，可以添加文本，默认文本在图片的下面
@@ -10,6 +15,11 @@ registerNode(
     options: {
       img: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*eD7nT6tmYgAAAAAAAAAAAABkARQnAQ',
       size: 200,
+      labelCfg: {
+        style: {
+          fontFamily: Global.windowFontFamily
+        },
+      },
       clipCfg: {
         show: false,
         type: 'circle',
@@ -58,11 +68,12 @@ registerNode(
         name: `${this.type}-keyShape`,
         draggable: true,
       });
+      group['shapeMap'][`${this.type}-keyShape`] = shape;
       (this as any).drawClip(cfg, shape);
       return shape;
     },
     drawClip(cfg: NodeConfig, shape: IShape) {
-      const { clipCfg: clip } = this.getOptions(cfg);
+      const { clipCfg: clip } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
 
       if (!clip.show) {
         return;
@@ -127,9 +138,8 @@ registerNode(
       }
     },
     getShapeStyle(cfg: NodeConfig) {
-      const { style: defaultStyle } = this.getOptions(cfg);
+      const { style: defaultStyle, img } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
       const size = this.getSize!(cfg);
-      const { img } = this.getOptions(cfg);
       let width = size[0];
       let height = size[1];
       if (defaultStyle) {
@@ -149,7 +159,7 @@ registerNode(
     updateShapeStyle(cfg: NodeConfig, item: Item) {
       const group = item.getContainer();
       const shapeClassName = `${this.itemType}-shape`;
-      const shape =
+      const shape = group['shapeMap'][shapeClassName] ||
         group.find((element) => element.get('className') === shapeClassName) || item.getKeyShape();
       const shapeStyle = this.getShapeStyle!(cfg);
       if (shape) {

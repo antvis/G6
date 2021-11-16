@@ -6,6 +6,7 @@ import {
   ShapeStyle,
   ShapeOptions,
   BaseGlobal as Global,
+  UpdateType,
 } from '@antv/g6-core';
 
 import { mix } from '@antv/util';
@@ -26,6 +27,7 @@ registerNode(
         style: {
           fill: Global.nodeLabel.style.fill,
           fontSize: Global.nodeLabel.style.fontSize,
+          fontFamily: Global.windowFontFamily
         },
       },
       // 节点上左右上下四个方向上的链接circle配置
@@ -57,7 +59,7 @@ registerNode(
     // 文本位置
     labelPosition: 'center',
     drawShape(cfg: NodeConfig, group: IGroup): IShape {
-      const { icon = {} } = this.getOptions(cfg) as NodeConfig;
+      const { icon = {} } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
       const style = this.getShapeStyle!(cfg);
 
       const keyShape = group.addShape('path', {
@@ -66,11 +68,12 @@ registerNode(
         name: `${this.type}-keyShape`,
         draggable: true,
       });
+      group['shapeMap'][`${this.type}-keyShape`] = keyShape;
 
       const { width: w, height: h, show, text } = icon;
       if (show) {
         if (text) {
-          group.addShape('text', {
+          group['shapeMap'][`${this.type}-icon`] = group.addShape('text', {
             attrs: {
               x: 0,
               y: 0,
@@ -86,7 +89,7 @@ registerNode(
             draggable: true,
           });
         } else {
-          group.addShape('image', {
+          group['shapeMap'][`${this.type}-icon`] = group.addShape('image', {
             attrs: {
               x: -w! / 2,
               y: -h! / 2,
@@ -109,7 +112,7 @@ registerNode(
      * @param {Group} group Group实例
      */
     drawLinkPoints(cfg: NodeConfig, group: IGroup) {
-      const { linkPoints = {} } = this.getOptions(cfg) as NodeConfig;
+      const { linkPoints = {} } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
 
       const {
         top,
@@ -130,7 +133,7 @@ registerNode(
         const x1 = Math.cos(((18 + 72 * 0) / 180) * Math.PI) * outerR;
         const y1 = Math.sin(((18 + 72 * 0) / 180) * Math.PI) * outerR;
 
-        group.addShape('circle', {
+        group['shapeMap']['link-point-right'] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: x1,
@@ -148,7 +151,7 @@ registerNode(
         const y1 = Math.sin(((18 + 72 * 1) / 180) * Math.PI) * outerR;
 
         // top circle
-        group.addShape('circle', {
+        group['shapeMap']['link-point-top'] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: x1,
@@ -166,7 +169,7 @@ registerNode(
         const y1 = Math.sin(((18 + 72 * 2) / 180) * Math.PI) * outerR;
 
         // left circle
-        group.addShape('circle', {
+        group['shapeMap']['link-point-left'] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: x1,
@@ -184,7 +187,7 @@ registerNode(
         const y1 = Math.sin(((18 + 72 * 3) / 180) * Math.PI) * outerR;
 
         // left bottom circle
-        group.addShape('circle', {
+        group['shapeMap']['link-point-bottom'] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: x1,
@@ -202,7 +205,7 @@ registerNode(
         const y1 = Math.sin(((18 + 72 * 4) / 180) * Math.PI) * outerR;
 
         // left bottom circle
-        group.addShape('circle', {
+        group['shapeMap']['link-point-right-bottom'] = group.addShape('circle', {
           attrs: {
             ...markStyle,
             x: x1,
@@ -244,7 +247,7 @@ registerNode(
      * @return {Object} 节点的样式
      */
     getShapeStyle(cfg: NodeConfig): ShapeStyle {
-      const { style: defaultStyle } = this.getOptions(cfg) as NodeConfig;
+      const { style: defaultStyle } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
       const strokeStyle: ShapeStyle = {
         stroke: cfg.color,
       };
@@ -254,7 +257,7 @@ registerNode(
       const styles = { path, ...style };
       return styles;
     },
-    update(cfg: NodeConfig, item: Item) {
+    update(cfg: NodeConfig, item: Item, updateType?: UpdateType) {
       const group = item.getContainer();
       // 这里不传 cfg 参数是因为 cfg.style 需要最后覆盖样式
       const { style: defaultStyle } = this.getOptions({}) as NodeConfig;
@@ -269,7 +272,7 @@ registerNode(
       let style = mix({}, defaultStyle, keyShape.attr(), strokeStyle);
       style = mix(style, cfg.style);
 
-      (this as any).updateShape(cfg, item, style, true);
+      (this as any).updateShape(cfg, item, style, true, updateType);
       (this as any).updateLinkPoints(cfg, group);
     },
 
@@ -280,13 +283,13 @@ registerNode(
      */
     updateLinkPoints(cfg: NodeConfig, group: IGroup) {
       const { linkPoints: defaultLinkPoints } = this.getOptions({}) as NodeConfig;
-      const markLeft = group.find((element) => element.get('className') === 'link-point-left');
-      const markRight = group.find((element) => element.get('className') === 'link-point-right');
-      const markTop = group.find((element) => element.get('className') === 'link-point-top');
-      const markLeftBottom = group.find(
+      const markLeft = group['shapeMap']['link-point-left'] || group.find((element) => element.get('className') === 'link-point-left');
+      const markRight = group['shapeMap']['link-point-right'] || group.find((element) => element.get('className') === 'link-point-right');
+      const markTop = group['shapeMap']['link-point-top'] || group.find((element) => element.get('className') === 'link-point-top');
+      const markLeftBottom = group['shapeMap']['link-point-left-bottom'] || group.find(
         (element) => element.get('className') === 'link-point-left-bottom',
       );
-      const markRightBottom = group.find(
+      const markRightBottom = group['shapeMap']['link-point-left-bottom'] || group.find(
         (element) => element.get('className') === 'link-point-right-bottom',
       );
 
@@ -325,6 +328,7 @@ registerNode(
       if (markRight) {
         if (!right && right !== undefined) {
           markRight.remove();
+          delete group['shapeMap']['link-point-right'];
         } else {
           markRight.attr({
             ...styles,
@@ -333,7 +337,7 @@ registerNode(
           });
         }
       } else if (right) {
-        group.addShape('circle', {
+        group['shapeMap']['link-point-right'] = group.addShape('circle', {
           attrs: {
             ...styles,
             x,
@@ -350,6 +354,7 @@ registerNode(
       if (markTop) {
         if (!top && top !== undefined) {
           markTop.remove();
+          delete group['shapeMap']['link-point-top'];
         } else {
           markTop.attr({
             ...styles,
@@ -358,7 +363,7 @@ registerNode(
           });
         }
       } else if (top) {
-        group.addShape('circle', {
+        group['shapeMap']['link-point-top'] = group.addShape('circle', {
           attrs: {
             ...styles,
             x,
@@ -375,6 +380,7 @@ registerNode(
       if (markLeft) {
         if (!left && left !== undefined) {
           markLeft.remove();
+          delete group['shapeMap']['link-point-left'];
         } else {
           markLeft.attr({
             ...styles,
@@ -383,7 +389,7 @@ registerNode(
           });
         }
       } else if (left) {
-        group.addShape('circle', {
+        group['shapeMap']['link-point-left'] = group.addShape('circle', {
           attrs: {
             ...styles,
             x,
@@ -400,6 +406,7 @@ registerNode(
       if (markLeftBottom) {
         if (!leftBottom && leftBottom !== undefined) {
           markLeftBottom.remove();
+          delete group['shapeMap']['link-point-left-bottom'];
         } else {
           markLeftBottom.attr({
             ...styles,
@@ -408,7 +415,7 @@ registerNode(
           });
         }
       } else if (leftBottom) {
-        group.addShape('circle', {
+        group['shapeMap']['link-point-left-bottom'] = group.addShape('circle', {
           attrs: {
             ...styles,
             x,
@@ -425,6 +432,7 @@ registerNode(
       if (markRightBottom) {
         if (!rightBottom && rightBottom !== undefined) {
           markLeftBottom.remove();
+          delete group['shapeMap']['link-point-right-bottom'];
         } else {
           markRightBottom.attr({
             ...styles,
@@ -433,7 +441,7 @@ registerNode(
           });
         }
       } else if (rightBottom) {
-        group.addShape('circle', {
+        group['shapeMap']['link-point-right-bottom'] = group.addShape('circle', {
           attrs: {
             ...styles,
             x,

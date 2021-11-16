@@ -38,13 +38,13 @@ describe('Path Util Test', () => {
     const second = splinePath[1];
     expect(second.length).toEqual(7);
     expect(second[0]).toEqual('C');
-    expect(second[1]).toEqual(9.166666666666666);
-    expect(second[2]).toEqual(10.833333333333334);
+    expect(second[1]).toEqual(10);
+    expect(second[2]).toEqual(12);
     expect(second[5]).toEqual(5);
 
     const three = splinePath[2];
     expect(three.length).toEqual(7);
-    expect(three[2]).toEqual(4.166666666666667);
+    expect(three[2]).toEqual(5);
     expect(three[6]).toEqual(7);
   });
 

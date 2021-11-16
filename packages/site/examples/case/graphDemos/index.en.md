@@ -38,7 +38,7 @@ Try to click a node to collapse and expand the corresponding cluster.
 
 ### Large Graph Exploration
 
-<a className='description' href='https://github.com/antvis/G6/blob/master/site/pages/largegraph.zh.tsx' target='_blanck'>Source Code</a>
+<a className='description' href='https://github.com/antvis/G6/blob/master/packages/site/site/pages/largegraph.zh.tsx' target='_blanck'>Source Code</a>
 
 Some research has found that the graph visulization is readable and interactable for end users under 500 nodes. To reach this principle for large graph, we clustering the source data by LOUVAIN algorithm, and visualize the aggregated graph first. Then, end users are able to do drilling down exploration. If the number of nodes still large on aggregated graph, we can do multi-level aggregation. To control the number of rendering nodes, the earliest expanded cluster will be collapsed automatically. These rules also help us to avoid overloaded computation and rendering on front-end.
 

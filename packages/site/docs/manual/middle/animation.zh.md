@@ -228,7 +228,7 @@ G6.registerNode(
           // 每一帧的操作，入参 ratio：这一帧的比例值（Number）。返回值：这一帧需要变化的参数集（Object）。
           // 旋转通过矩阵来实现
           // 当前矩阵
-          const matrix = Util.mat3.create();
+          const matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
           // 目标矩阵
           const toMatrix = Util.transform(matrix, [['r', ratio * Math.PI * 2]]);
           // 返回这一帧需要的参数集，本例中只有目标矩阵

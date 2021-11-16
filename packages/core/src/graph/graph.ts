@@ -32,7 +32,7 @@ import {
   IPoint,
   FitViewRules,
 } from '../types';
-import { move } from '../util/math';
+import { lerp, move } from '../util/math';
 import { dataValidation, singleDataValidation } from '../util/validation';
 import Global from '../global';
 import { ItemController, ModeController, StateController, ViewController } from './controller';
@@ -143,8 +143,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   // 初始化所有 Group
   protected initGroups(): void {
     const canvas: ICanvas = this.get('canvas');
-    const el: HTMLElement = canvas?.get('el');
-    const { id } = el;
+    if (!canvas) return;
+    const el: HTMLElement = canvas.get('el');
+    const { id = 'g6' } = el || {};
 
     const group: IGroup = canvas.addGroup({
       id: `${id}-root`,
@@ -601,7 +602,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     }
 
     const viewController: ViewController = this.get('viewController');
-  
+
     if (rules) {
       viewController.fitViewByRules(rules);
     } else {
@@ -666,9 +667,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * 伸缩窗口
    * @param ratio 伸缩比例
    * @param center 以center的x, y坐标为中心缩放
+   * @param {boolean} animate 是否带有动画地移动
+   * @param {GraphAnimateConfig} animateCfg 若带有动画，动画的配置项
    * @return {boolean} 缩放是否成功
    */
-  public zoom(ratio: number, center?: Point): boolean {
+  public zoom(ratio: number, center?: Point, animate?: boolean, animateCfg?: GraphAnimateConfig): boolean {
     const group: IGroup = this.get('group');
     let matrix = clone(group.getMatrix());
     const minZoom: number = this.get('minZoom');
@@ -693,9 +696,55 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     }
     // matrix = [2, 0, 0, 0, 2, 0, -125, -125, 1];
 
-    group.setMatrix(matrix);
-    this.emit('viewportchange', { action: 'zoom', matrix });
-    this.autoPaint();
+    if (animate) {
+      // Clone the original matrix to perform the animation
+      let aniMatrix = clone(group.getMatrix());
+      if (!aniMatrix) {
+        aniMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
+      }
+      const initialRatio = aniMatrix[0];
+      const targetRatio = initialRatio * ratio;
+
+      let animateConfig: GraphAnimateConfig;
+      if (!animateCfg) {
+        animateConfig = {
+          duration: 500,
+          callback: () => {
+            this.emit('viewportchange', { action: 'zoom', matrix: aniMatrix });
+          }
+        };
+      } else if (animateCfg.callback) {
+        // This is to prevent modifying the original animateCfg.callback
+        const { callback } = animateCfg;
+        animateConfig = clone(animateCfg);
+        animateConfig.callback = () => {
+          this.emit('viewportchange', { action: 'zoom', matrix: aniMatrix });
+          callback();
+        }
+      } else {
+        animateConfig = animateCfg;
+      }
+
+      group.animate((ratio: number) => {
+        if (ratio === 1) {
+          // Reuse the first transformation
+          aniMatrix = matrix;
+        } else {
+          const scale = lerp(initialRatio, targetRatio, ratio) / aniMatrix[0];
+          if (center) {
+            aniMatrix = transform(aniMatrix, [['t', -center.x, -center.y], ['s', scale, scale], ['t', center.x, center.y]]);
+          } else {
+            aniMatrix = transform(aniMatrix, [['s', scale, scale]]);
+          }
+        }
+        return { matrix: aniMatrix };
+      }, animateConfig);
+    } else {
+      group.setMatrix(matrix);
+      this.emit('viewportchange', { action: 'zoom', matrix });
+      this.autoPaint();
+    }
+
     return true;
   }
 
@@ -1658,7 +1707,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
           }
 
           // append the combo's children to the combo's brothers array
-          treeToBeUncombo.children.forEach(child => {
+          treeToBeUncombo.children?.forEach(child => {
             const item = this.findById(child.id) as ICombo | INode;
             const childModel = item.getModel();
             if (item.getType && item.getType() === 'combo') {
@@ -1684,7 +1733,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       const index = comboTrees.indexOf(treeToBeUncombo);
       comboTrees.splice(index, 1);
       // modify the parentId of the children
-      treeToBeUncombo.children.forEach(child => {
+      treeToBeUncombo.children?.forEach(child => {
         child.parentId = undefined;
         const childModel = this.findById(child.id).getModel();
         delete childModel.parentId; // update the parentId of the model
@@ -2985,8 +3034,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     } else {
       hullInstance = hull;
     }
-    const hullMap = this.get('hullMap');
-    delete hullMap[hullInstance.id];
+    delete this.get('hullMap')?.[hullInstance.id];
     hullInstance.destroy();
   }
 

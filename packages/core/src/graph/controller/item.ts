@@ -270,7 +270,7 @@ export default class ItemController {
     if (type === NODE || type === COMBO) {
       item.update(cfg, updateType);
       const edges: IEdge[] = (item as INode).getEdges();
-      const refreshEdge = updateType === 'bbox' || updateType === 'move';
+      const refreshEdge = updateType?.includes('bbox') || updateType === 'move';
       if (type === NODE) {
         if (updateType === 'move') {
           each(edges, (edge: IEdge) => {
@@ -282,7 +282,7 @@ export default class ItemController {
           });
         } else if (refreshEdge) {
           each(edges, (edge: IEdge) => {
-            edge.refresh();
+            edge.refresh(updateType);
           });
         }
       }

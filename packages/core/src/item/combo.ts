@@ -245,6 +245,7 @@ export default class Combo extends Node implements ICombo {
       if (animate) {
         group.stopAnimate();
       }
+      group['shapeMap'] = {};
       this.clearCache();
       this.set(CACHE_SIZE, null);
       this.set('bbox', null);

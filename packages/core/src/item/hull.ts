@@ -135,6 +135,7 @@ export default class Hull {
       },
       id: this.id,
       name: this.cfg.id,
+      capture: false
     });
     this.group.toBack();
   }
