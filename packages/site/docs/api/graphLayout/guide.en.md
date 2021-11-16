@@ -20,7 +20,7 @@ Notice that the layouts for Graph cannot be used on TreeGraph.
 - [Dagre Layout](./dagre): Arranges the nodes hierarchically;
 - [Concentric Layout](./concentric): Arranges the nodes on concentric circles;
 - [Grid Layout](./grid): Arranges the nodes on grid.
-- [Combo Force Layout](./combo-force)：_New feature of V3.5_ Designed for graph with combos.
+- [Combo Force Layout](./comboForce)：_New feature of V3.5_ Designed for graph with combos.
 
 ## Configure to Gaph
 
