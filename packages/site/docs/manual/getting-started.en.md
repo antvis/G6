@@ -5,13 +5,12 @@ order: 1
 
 ## The First Example
 
-<iframe
-     src="https://codesandbox.io/embed/compassionate-lalande-5lxm7?fontsize=14&hidenavigation=1&theme=dark"
-     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="compassionate-lalande-5lxm7"
-     allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
-     sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
-   ></iframe>
+<iframe src="https://codesandbox.io/embed/confident-mcnulty-4ik9q?fontsize=14&hidenavigation=1&theme=light"
+	style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+	title="confident-mcnulty-4ik9q"
+	allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+	sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+></iframe>
 
 ## Installation & Import
 

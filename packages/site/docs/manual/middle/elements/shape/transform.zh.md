@@ -103,7 +103,7 @@ transform(m, [
 以下方法实现了在自定义节点 example 中增加一个矩形，并将该矩形位移 `(100, 50)` 后，旋转 `Math.PI / 4`，最后在 x 方向放大 2 倍，并在 y 方向缩小 2 倍：
 
 ```javascript
-import { ext, mat3 } from '@antv/matrix-util';
+import { ext } from '@antv/matrix-util';
 
 const transform = ext.transform;
 
@@ -123,10 +123,10 @@ G6.registerNode('example', {
       name: 'rect-shape',
       draggable: true,
     });
-    const matrix = rect.getMatrix();
+    let matrix = rect.getMatrix();
 
-    // 图形或分组的初始矩阵时 null，为了避免变换一个 null 矩阵，需要通过 mat3.create() 将其初始化为单位矩阵
-    if (!matrix) matrix = mat3.create();
+    // 图形或分组的初始矩阵时 null，为了避免变换一个 null 矩阵，需要将其初始化为单位矩阵
+    if (!matrix) matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
 
     // 3*3 矩阵变换，用于二维渲染
     const newMatrix = transform(matrix, [

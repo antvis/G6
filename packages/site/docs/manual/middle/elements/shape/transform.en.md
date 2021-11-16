@@ -103,7 +103,7 @@ transform(m, [
 The following code registers a custom node with a transfromed rect with: translation with vector `(100, 50)`, rotating with angle `Math.PI / 4`, magnifying 2 times on x-axis and 0.5 times on y-axis:
 
 ```javascript
-import { ext, mat3 } from '@antv/matrix-util';
+import { ext } from '@antv/matrix-util';
 
 const transform = ext.transform;
 
@@ -122,10 +122,10 @@ G6.registerNode('example', {
       // must be assigned in G6 3.3 and later versions. it can be any value you want
       name: 'rect-shape',
     });
-    const matrix = rect.getMatrix();
+    let matrix = rect.getMatrix();
 
     // the init matrix for a shape or a group is null, initiate it with unit matrix
-    if (!matrix) matrix = mat3.create();
+    if (!matrix) matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
 
     // transform a 3*3 matrix
     const newMatrix = transform(matrix, [

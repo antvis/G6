@@ -299,7 +299,7 @@ G6.registerNode(
       // Execute the animation
       image.animate(
         (ratio) => {
-          const matrix = Util.mat3.create();
+          const matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
           const toMatrix = Util.transform(matrix, [['r', ratio * Math.PI * 2]]);
           return {
             matrix: toMatrix,
