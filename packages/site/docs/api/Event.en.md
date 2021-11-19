@@ -236,7 +236,8 @@ No parameters.
 
 | Name | Type | Description       |
 | ---- | ---- | ----------------- |
-| item | Item | The removed item. |
+| item | Item | The removed item data model. |
+| type | 'node' / 'edge' / 'combo' | The type of removed item. |
 
 #### beforeupdateitem / afterupdateitem
 

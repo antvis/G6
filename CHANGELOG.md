@@ -1,5 +1,9 @@
 # ChangeLog
 
+#### 4.5.0
+
+- fix: add item type to the parameter of afterremoveitem event;
+
 #### 4.4.1
 
 - feat: zoom with animation, contributed by @Blakko;

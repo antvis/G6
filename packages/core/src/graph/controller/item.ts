@@ -530,7 +530,7 @@ export default class ItemController {
     }
 
     item.destroy();
-    graph.emit('afterremoveitem', { item: itemModel });
+    graph.emit('afterremoveitem', { item: itemModel, type });
   }
 
   /**
