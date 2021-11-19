@@ -556,26 +556,71 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * 平移画布
    * @param dx 水平方向位移
    * @param dy 垂直方向位移
+   * @param {boolean} animate 是否带有动画地移动
+   * @param {GraphAnimateConfig} animateCfg 若带有动画，动画的配置项
    */
-  public translate(dx: number, dy: number): void {
+  public translate(dx: number, dy: number, animate?: boolean, animateCfg?: GraphAnimateConfig): void {
     const group: IGroup = this.get('group');
 
     let matrix = clone(group.getMatrix());
     if (!matrix) {
       matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
     }
-    matrix = transform(matrix, [['t', dx, dy]]);
+    if (animate) {
+      let animateConfig: GraphAnimateConfig;
+      if (!animateCfg) {
+        animateConfig = {
+          duration: 200,
+          callback: () => {
+            this.emit('viewportchange', { action: 'translate', matrix });
+          }
+        };
+      } else {
+        animateConfig = clone(animateCfg);
+        if (animateCfg.callback) {
+          const { callback } = animateCfg;
+          animateConfig.callback = () => {
+            this.emit('viewportchange', { action: 'translate', matrix });
+            callback();
+          }
+        } else {
+          animateConfig.callback = () => {
+            this.emit('viewportchange', { action: 'translate', matrix });
+          }
+        }
+      }
 
-    group.setMatrix(matrix);
+      var dx_1 = dx * matrix[0];
+      var dy_1 = dy * matrix[4];
 
-    this.emit('viewportchange', { action: 'translate', matrix: group.getMatrix() });
-    this.autoPaint();
+      var lastX_1 = 0;
+      var lastY_1 = 0;
+      var newX_1 = 0;
+      var newY_1 = 0;
+      group.animate(function (ratio) {
+        newX_1 = dx_1 * ratio;
+        newY_1 = dy_1 * ratio;
+        matrix = transform(matrix, [['t', newX_1 - lastX_1, newY_1 - lastY_1]]);
+        lastX_1 = newX_1;
+        lastY_1 = newY_1;
+        return { matrix };
+      }, animateConfig);
+    } else {
+      matrix = transform(matrix, [['t', dx, dy]]);
+
+      group.setMatrix(matrix);
+
+      this.emit('viewportchange', { action: 'translate', matrix });
+      this.autoPaint();
+    }
   }
 
   /**
    * 平移画布到某点
    * @param {number} x 水平坐标
    * @param {number} y 垂直坐标
+   * @param {boolean} animate 是否带有动画地移动
+   * @param {GraphAnimateConfig} animateCfg 若带有动画，动画的配置项
    */
   public moveTo(x: number, y: number, animate?: boolean, animateCfg?: GraphAnimateConfig): void {
     const group: IGroup = this.get('group');
@@ -2882,9 +2927,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const stackData = data
       ? clone(data)
       : {
-          before: {},
-          after: clone(this.save()),
-        };
+        before: {},
+        after: clone(this.save()),
+      };
 
     if (stackType === 'redo') {
       this.redoStack.push({
