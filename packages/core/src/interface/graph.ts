@@ -31,8 +31,8 @@ export interface IAbstractGraph extends EventEmitter {
   get: <T = any>(key: string) => T;
   set: <T = any>(key: string | object, value?: T) => Graph;
   findById: (id: string) => Item;
-  translate: (dx: number, dy: number) => void;
-  zoom: (ratio: number, center?: Point) => boolean;
+  translate: (dx: number, dy: number, animate?: boolean, animateCfg?: GraphAnimateConfig) => void;
+  zoom: (ratio: number, center?: Point, animate?: boolean, animateCfg?: GraphAnimateConfig) => boolean;
 
   /**
    * 获取 graph 的根图形分组
