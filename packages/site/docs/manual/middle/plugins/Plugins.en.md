@@ -330,122 +330,6 @@ const graph = new G6.Graph({
 });
 ```
 
-## TimeBar
-
-The built-in TimeBar plugin has the following abilities:
-
-- Filtering the data of the graph by changing the time range;
-- Demonstrating the trending of the data by an attribute on the TimeBar.
-
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HJjmT7uQwjAAAAAAAAAAAABkARQnAQ' width=700 alt='img'/>
-
-**Description:** It is a beta version of TimeBar, which will support complex time series graph and analysis in the future.
-
-### Configuration
-
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| container | HTMLDivElement | null | The container of the TimeBar. A DOM container with className 'g6-component-timebar' will be used by default |
-| width | number | 400 | The width of the TimeBar's container |
-| height | number | 400 | The height of the TimeBar's container |
-| timebar | TimeBarOption | {} | The style configurations for TimeBar |
-| rangeChange | (graph: IGraph, min: number, max: number) => void | null | The callback function after changing the time range |
-
-**TimeBarOption for timebar**
-
-```
-interface HandleStyle {
-  width: number;
-  height: number;
-  style: ShapeStyle;
-}
-```
-
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| x | number | 0 | The begining x of the TimeBar |
-| y | number | 0 | The begining y of the TimeBar |
-| width | number | 400 | The width of the TimeBar |
-| height | number | 400 | The height of the TimeBar |
-| backgroundStyle | ShapeStyle | {} | The background style of the TimeBar |
-| foregroundStyle | ShapeStyle | {} | The foreground style of the TimeBar, which indicates the selected area |
-| handlerStyle | HandleStyle | null | The style of the slider handler |
-| textStyle | ShapeStyle | null | The style of the texts |
-| minLimit | number | 0 | The minimum position for the slider on the left, range from 0 to 1 |
-| maxLimit | number | 1 | The maximum position for the slider on the right, range from 0 to 1 |
-| start | number | 0 | The initial start position of the slider |
-| end | number | 1 | The initial end position of the slider |
-| minText | string | null | The text for the minimum value |
-| maxText | string | null | The text for the maximum value |
-| trend | TrendConfig | null | The configuration of the trend chart on the TimeBar |
-
-**TrendConfig for trend**
-
-```
-interface Data {
-  date: string;
-  value: number;
-}
-```
-
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| data | Data[] | [] | The data of the TimeBar |
-| smooth | boolean | false | Whether use the smooth curve instead of polylines for the trend chart |
-| isArea | boolean | false | Whether use the area chart instead of line chart |
-| lineStyle | ShapeStyle | null | The style of the line for line chart, takes effect when `isArea` is `false` |
-| areaStyle | ShapeStyle | null | The style of the area for area chart, takes effect when `isArea` is `true` |
-
-### Usage
-
-#### Default Usage
-
-```
-const timebar = new G6.TimeBar();
-
-const graph = new G6.Graph({
-  //... Other configurations
-  plugins: [timebar], // Use timebar plugin
-});
-```
-
-##### Style Configuration
-
-It is free to configure the style for the TimeBar, and listen to the value changing to do some response.
-
-```
-const timebar = new G6.TimeBar({
-  width: 600,
-  timebar: {
-    width: 600,
-    backgroundStyle: {
-      fill: '#08979c',
-      opacity: 0.3
-    },
-    foregroundStyle: {
-      fill: '#40a9ff',
-      opacity: 0.4
-    },
-    trend: {
-      data: timeBarData,
-      isArea: false,
-      smooth: true,
-      lineStyle: {
-        stroke: '#9254de'
-      }
-    }
-  },
-  rangeChange: (graph, min, max) => {
-    // Get the instance of the graph and the range of the timebar, you can control the rendering of the graph by yourself here
-    console.log(graph, min, max)
-  }
-});
-
-const graph = new G6.Graph({
-  //... Other configurations
-  plugins: [timebar], // Use timebar plugin
-});
-```
 
 ## ToolTip
 
@@ -627,3 +511,412 @@ const graph = new G6.Graph({
   plugins: [filterLens], // configuring edge filter lens plugin
 });
 ```
+## TimeBar
+
+There are three types of built-in TimeBar in G6:
+
+- Time bar with a line chart as background;
+- Simple time bar;
+- Time bar with descrete ticks.
+
+All the three types of timebar supports play, fast forward, and fast backward.
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*DOo6QpfFfMUAAAAAAAAAAAAAARQnAQ' width='500' />
+<br />Time bar with a line chart as background<br />
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*bzGBQKkewZMAAAAAAAAAAAAAARQnAQ' width='500' />
+<br />Simple time bar<br />
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*kHRkQpnvBmwAAAAAAAAAAAAAARQnAQ' width='500' />
+<br />Time bar with descrete ticks<br />
+
+<br />Refer to the demos [HERE](https://g6.antv.vision/en/examples/tool/timebar#timebar)<br />
+
+### Common Usage
+
+Same to other plugins of G6, the users can initiate the TimeBar and assign it to the graph as:
+
+```javascript
+import G6 from '@antv/g6';
+
+const timebar = new G6.TimeBar({
+  width: 500,
+  height: 150,
+  padding: 10,
+  type: 'trend',
+  trend: {
+    data: timeBarData,
+  },
+});
+
+const graph = new G6.Graph({
+  container: 'container',
+  width,
+  height,
+  plugins: [timebar],
+});
+```
+
+<br />If you want to use the TimeBar with line chart, assign the `type` to be `trend` when instantiating the TimeBar, which results in:
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lfvIQJYbs7oAAAAAAAAAAAAAARQnAQ' width='600' />
+
+<br />Assigning the `type` to be `simple` results in:
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*g2zhQqP6ruYAAAAAAAAAAAAAARQnAQ' width='600' />
+
+<br />And assigning the `type` to be `tick` results in a TimeBar with descrete ticks. Note that it is different from the above two types of TimeBar, \*\*The TimeBar with decrete ticks is configured with the `tick` object but not the `trend` object.
+
+```javascript
+const timebar = new G6.TimeBar({
+  width,
+  height: 150,
+  type: 'tick',
+  tick: {
+    data: timeBarData,
+    width,
+    height: 42,
+    tickLabelFormatter: d => {
+      const dateStr = `${d.date}`;
+      if ((count - 1) % 10 === 0) {
+        return `${dateStr.substr(0, 4)}-${dateStr.substr(4, 2)}-${dateStr.substr(6, 2)}`;
+      }
+      return false;
+    },
+    tooltipFomatter: d => {
+      const dateStr = `${d}`;
+      return `${dateStr.substr(0, 4)}-${dateStr.substr(4, 2)}-${dateStr.substr(6, 2)}`;
+    },
+  },
+});
+```
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*n6ECQ7Jn5pQAAAAAAAAAAAAAARQnAQ' width='600' />
+
+
+### Event Listener
+
+TimeBar Plugin exposes several timing events. They could be listened by `graph.on('eventname', e => {})`.
+
+| Event Name | Description |
+| --- | --- |
+| valuechange | Emitted when the value range of the timebar is chaged. |
+| timebarstartplay | Emitted when the timeline starts to play. |
+| timebarendplay | Emitted when the timeline ends playing. |
+
+### Definition of the Configurations
+
+#### Definition of the Interfaces
+
+The complete interfaces for the TimeBar is shown below:
+
+```javascript
+interface TimeBarConfig extends IPluginBaseConfig {
+  // position size
+  readonly x?: number;
+  readonly y?: number;
+  readonly width?: number;
+  readonly height?: number;
+  readonly padding?: number;
+
+  readonly type?: 'trend' | 'simple' | 'tick';
+  // the configuration for the TimeBar with line chart and simple TimeBar, takes effect whtn the type is 'trend' or 'simple'
+  readonly trend?: TrendConfig;
+
+  // the configurations for the two sliders
+  readonly slider?: SliderOption;
+
+  // when the type is 'tick', it is the configuration for the TimeBar with descrete ticks
+  // when the type is 'trend' or 'simpe', it is the configuration for the time tick labels under the timeBar
+  readonly tick?: TimeBarSliceOption | TickCfg;
+
+  // the buttons for play, fast forward, and back forward
+  readonly controllerCfg?: ControllerCfg;
+
+  // [Supported from v4.5.1] the CSS style for the DOM container of the timebar
+  readonly containerCSS?: Object;
+
+  // [Supported from v4.5.1] the item types that will be filtered by the timebar. e.g. ['node', 'edge']. The default value is ['node']
+  readonly filterItemTypes?: string[];
+
+  // [Deprecated from v4.5.1, replaced by filterItemTypes] whether to consider the edge filtering. If it is false, only filter the nodes and the edges whose end nodes are filtered out while the selected range of the timeBar is changed. If it is true, there should be `date` properties on the edges data, and the timeBar will filter the edges which is not in the selected range in the same time
+  readonly filterEdge?: boolean;
+
+  // [Supported from v4.5.1] whether filter the nodes and edges on the graph by graph.changeData, which means the data of the graph will be changed by the timebar. If it is false, the graph.hideItem and graph.showItem will be called to hide/show the nodes and edges instead of changeData
+  readonly changeData?: boolean;
+
+  // the callback function after the time range is changed. When it is not assigned, the graph elements will be filtered after the time range is changed
+  rangeChange?: (graph: IGraph, minValue: string, maxValue: string) => void;
+
+  // [Supported from v4.5.1] user returns the date value according to the data of a node or an edge
+  getDate?: (d: any) => number;
+
+  // [Supported from v4.5.1] user returns the value according to the data of a node or an edge. The value is used to draw the trend line for timebar with type 'trend'
+  getValue?: (d: any) => number;
+
+  // [Supported from v4.5.1] user returns true or false to decide whether to ignore the node or the edge while filtering. If it is true, the item with data model will be ignored. Or the item will be filtered according to the min and max date value
+  shouldIgnore?: (itemType: 'node' | 'edge', model: any, dateRage: { min: number, max: number }) => boolean;
+}
+```
+
+#### The Parameters of the Interfaces
+
+| Name | Type | Default Value | Description |
+| --- | --- | --- | --- |
+| container | HTMLDivElement | null | The DOM container of the TimeBar. By default, the plugin will create a container DOM with 'g6-component-timebar' as className |
+| x | number | 0 | The beginning x position of the TimeBar plugin |
+| y | number | 0 | The beginning y position of the TimeBar plugin |
+| width | number |  | **Requred**, the width of the TimeBar |
+| height | number |  | **Requred**, the height of the TimeBar |
+| padding | number/number[] | 10 | The padding of the container of the TimeBar |
+| type | 'trend' / 'simple' / 'tick' | trend | The type of the TimeBar, 'trend' by default |
+| trend | TrendConfig | null | The configuration for the TimeBar with line chart and simple TimeBar, takes effect whtn the type is 'trend' or 'simple' |
+| slider | SliderOption | null | The configurations for the two sliders |
+| tick | TimeBarSliceOption / TickCfg | null | If the type is 'tick', it is the configuration for the TimeBar with descrete ticks. If it the type is 'trend' or 'simple', it is the configuration for the time tick labels under the timeBar |
+| controllerCfg | ControllerCfg | null | The buttons for play, fast forward, and back forward |
+| containerCSS | Object | null | [Supported from v4.5.1] The CSS style for the DOM container of the timebar |
+| filterItemTypes | string[] | null | [Supported from v4.5.1] The item types that will be filtered by the timebar. e.g. ['node', 'edge']. The default value is ['node'] |
+| filterEdge | boolean | false | [Deprecated from v4.5.1, replaced by filterItemTypes] Whether to consider the edge filtering. If it is false, only filter the nodes and the edges whose end nodes are filtered out while the selected range of the timeBar is changed. If it is true, there should be `date` properties on the edges data, and the timeBar will filter the edges which is not in the selected range in the same time |
+| changeData | boolean | null | [Supported from v4.5.1] Whether filter the nodes and edges on the graph by graph.changeData, which means the data of the graph will be changed by the timebar. If it is false, the graph.hideItem and graph.showItem will be called to hide/show the nodes and edges instead of changeData |
+| rangeChange | Function | null | The callback function after the time range is changed. When it is not assigned, the graph elements will be filtered after the time range is changed |
+| getDate | (d: any) => number | null | [Supported from v4.5.1] User returns the date value according to the data of a node or an edge |
+| getValue | (d: any) => number | null | [Supported from v4.5.1] User returns the value according to the data of a node or an edge. The value is used to draw the trend line for timebar with type 'trend' |
+| shouldIgnore | (itemType: 'node' | 'edge', model: any, dateRage: { min: number, max: number }) => boolean | null | [Supported from v4.5.1] User returns true or false to decide whether to ignore the node or the edge while filtering. If it is true, the item with data model will be ignored. Or the item will be filtered according to the min and max date value |
+
+#### Interface for TrendConfig
+
+> Does not support the configurations for the style of the tick labels.
+
+```javascript
+interface TrendConfig {
+  // The data
+  readonly data: {
+    date: string;
+    value: string;
+  }[];
+  // The position and size
+  readonly x?: number;
+  readonly y?: number;
+  readonly width?: number;
+  readonly height?: number;
+  // The styles
+  readonly smooth?: boolean;
+  readonly isArea?: boolean;
+  readonly lineStyle?: ShapeStyle;
+  readonly areaStyle?: ShapeStyle;
+  readonly interval?: Interval;
+}
+```
+
+#### Parameters of the TrendConfig
+
+| Name | Type | Default Value | Description |
+| --- | --- | --- | --- |
+| x | number | 0 | The beginning x position of the trend line chart |
+| y | number | 0 | The beginning y position of the trend line chart |
+| width | number | The width of the TimeBar | The width of the trend line chart of the TimeBar, we suggest to use the default value. If you wanna custom it, please assign the `width` of the slider in the same time |
+| height | number | 28 when type='trend'<br />8 when type='simple' | The height of the TimeBar | The width of the trend line chart of the TimeBar, we suggest to use the default value. If you wanna custom it, please assign the `height` of the slider in the same time |
+| smooth | boolean | false | Whether to show a smooth line on the trend line chart |
+| isArea | boolean | false | Whether to show a area chart instead |
+| lineStyle | ShapeStyle | null | The configurations for the style of the line in the line chart |
+| areaStyle | ShapeStyle | null | The configuration for the style of the area in the chart when `isArea` is `true` |
+| interval | Interval | null | The configuration for the style of the bars in the chart. When it is assigned, a mixed trend chart will take place. `Interval = { data: number[], style: ShapeStyle }`. Except the configurations in `ShapeStyle` for the style of the shapes in the bar charts, `barWidth` for the width of one bar is also configurable for `style`  |
+
+#### Interfaces of SliderOption
+
+```javascript
+export type SliderOption = Partial<{
+  readonly width?: number;
+  readonly height?: number;
+  readonly backgroundStyle?: ShapeStyle;
+  readonly foregroundStyle?: ShapeStyle;
+  // The style of the sliders
+  readonly handlerStyle?: {
+    width?: number;
+    height?: number;
+    style?: ShapeStyle;
+  };
+  readonly textStyle?: ShapeStyle;
+  // The start and end position for the sliders, which indicate the data range for the filtering. Ranges from 0 to 1
+  readonly start: number;
+  readonly end: number;
+  // The labels for the sliders
+  readonly minText: string;
+  readonly maxText: string;
+}>;
+```
+
+#### Parameters for the SliderOption
+
+| Name | Type | Default Value | Description |
+| --- | --- | --- | --- |
+| width | number | The width of the container of the TimeBar - 2 \* padding | The width of the background trend chart. We suggest to use the default value. If you wanna custom it, assign it the the `width` in the `trend` in the same time |
+| height | number | 28 when type='trend'<br />8 when type='simple' | The height of the background trend chart. We suggest to use the default value. If you wanna custom it, assign it the the `height` in the `trend` in the same time |
+| backgroundStyle | ShapeStyle | null | The configuration for the style of the background |
+| foregroundStyle | ShapeStyle | null | The configuration for the style of the forground |
+| handlerStyle | ShapeStyle | null | The configuration for the style of the two sliders |
+| textStyle | ShapeStyle | null | The configuration for the style of the labels on the two sliders |
+| start | number | 0.1 | The start position for the sliders, which indicate the start of the data range for the filtering. Ranges from 0 to `end` |
+| end | number | 0.9 | The end position for the sliders, which indicate the end of the data range for the filtering. Ranges from `start` to 1 |
+| minText | string | min | The label for the left slider |
+| maxText | string | max | The label for the right slider |
+
+#### TimeBarSliceOption
+
+```javascript
+export interface TimeBarSliceOption {
+  // position size
+  readonly x?: number;
+  readonly y?: number;
+  readonly width?: number;
+  readonly height?: number;
+  readonly padding?: number;
+
+  // styles
+  readonly selectedTickStyle?: TickStyle;
+  readonly unselectedTickStyle?: TickStyle
+  readonly tooltipBackgroundColor?: string;
+
+  readonly start?: number;
+  readonly end?: number;
+
+  // data
+  readonly data: {
+    date: string;
+    value: string;
+  }[];
+
+  // custom the formatter function for the tick labels
+  readonly tickLabelFormatter?: (d: any) => string | boolean;
+  // custom the formatter function for the tooltip
+  readonly tooltipFomatter?: (d: any) => string;
+}
+```
+
+#### Parameters for the TimeBarSliceOption
+
+| Name | Type | Default Value | Description |
+| --- | --- | --- | --- |
+| x | number | 0 | The beginning x position for the TimeBar |
+| y | number | 0 | The beginning y position for the TimeBar |
+| width | number |  | **Requred**, the width of the TimeBar |
+| height | number |  | **Requred**, the height of the TimeBar |
+| padding | number / number[] | 0 | The padding of the container of the TimeBar |
+| selectedTickStyle | ShapeStyle | null | The style of the tick(s) which is(are) selected |
+| unselectedTickStyle | ShapeStyle | null | The style of the tick(s) which is(are) unselected |
+| tooltipBackgroundColor | ShapeStyle | null | The background style for the tooltip |
+| start | number | 0.1 | The start position for the sliders, which indicate the start of the data range for the filtering. Ranges from 0 to `end` |
+| end | number | 0.9 | The end position for the sliders, which indicate the end of the data range for the filtering. Ranges from `start` to 1 |
+| data | any[] | [] | **Requred**, the data for the ticks |
+| tickLabelFormatter | Function | null | The formatter function for customing the labels of the ticks |
+| tooltipFomatter | Function | null | The formatter function for customing the tooltip |
+
+#### TickCfg
+
+```javascript
+export interface TickCfg {
+  // the fomatter for the time tick labels
+  readonly tickLabelFormatter?: (d: any) => string | undefined;
+  // the shape style for the time tick labels. [Supported from v4.5.1] tickLabelStyle.rotate can be configured to controll the rotate of the tick label to avoid overlappings
+  readonly tickLabelStyle?: ShapeStyle;
+  // the shape style for the short vertical lines uppon the time tick labels
+  readonly tickLineStyle?: ShapeStyle;
+}
+```
+
+#### Parameters for TickCfg
+
+| Name | Type | Default Value | Description |
+| --- | --- | --- | --- |
+| tickLabelFormatter | Function | null | The formatter function for customing the labels of the ticks |
+| tickLabelStyle | ShapeStyle | {} | The shape style for the time tick labels. [Supported from v4.5.1] tickLabelStyle.rotate can be configured to controll the rotate of the tick label to avoid overlappings |
+| tickLineStyle | ShapeStyle | {} | The shape style for the short vertical lines uppon the time tick labels |
+
+#### Interface of the ControllerCfg
+
+> Does not support for now
+
+> Does not support the style configuration for controller buttons
+
+> Does not support loop play
+
+```javascript
+type ControllerCfg = Partial<{
+  /** the begining position and the size of the controller, the width and height will not scale the sub-controllers but only affects the positions of them. To change the size of the sub-controllers, try ControllerCfg.scale or the scale in the style of sub-controller */
+  readonly x?: number;
+  readonly y?: number;
+  readonly width: number;
+  readonly height: number;
+  /** the scale of the whole controller */
+  readonly scale?: number;
+  /** the fill and stroke color of the background */
+  readonly fill?: string;
+  readonly stroke?: string;
+  /** the font family for the whole controller, whose priority is lower than the fontFamily in the text style of each sub-controller */
+  readonly fontFamily?: string;
+
+  /** the play spped, means the playing time for 1 tick */
+  readonly speed?: number;
+  /** whether play in loop */
+  readonly loop?: boolean;
+  /** whether hide the 'time type controller' on the right-bottom */
+  readonly hideTimeTypeController: boolean;
+
+  /** style of the backward button. scale, offsetX, offsetY are also can be assigned to it to controll the size and position of the backward button */
+  readonly preBtnStyle?: ShapeStyle;
+
+  /** style of the forward button. scale, offsetX, offsetY are also can be assigned to it to controll the size and position of the forward button */
+  readonly nextBtnStyle?: ShapeStyle;
+
+  /** style of the play button. scale, offsetX, offsetY are also can be assigned to it to controll the size and position of the paly button */
+  readonly playBtnStyle?: ShapeStyle;
+
+  /** style of the 'speed controller'. scale, offsetX, offsetY are also can be assigned to it and each sub-styles to controll the size and position of the speed controller and sub-shapes*/
+  readonly speedControllerStyle?: {
+    offsetX?: number,
+    offsetY?: number;
+    scale?: number
+    pointer?: ShapeStyle,
+    scroller?: ShapeStyle,
+    text?: ShapeStyle
+  };
+
+  /** style of the 'time type controller'. scale, offsetX, offsetY  are also can be assigned to it and each sub-styles to controll the size and position of the speed controller and sub-shapes */
+  readonly timeTypeControllerStyle?: {
+    offsetX?: number,
+    offsetY?: number;
+    scale?: number
+    check?: ShapeStyle,
+    box?: ShapeStyle,
+    text?: ShapeStyle
+  };
+  /** [Supported from v4.5.1] The style of the background rect of the controller */
+  readonly containerStyle?: ExtendedShapeStyle;
+  /** the text for the right-botton switch controlling play with single time point or time range */
+  readonly timePointControllerText?: string;
+  readonly timeRangeControllerText?: string
+}>
+```
+
+#### Parameters for ControllerCfg
+
+| Name | Type | Default Value | Description |
+| --- | --- | --- | --- |
+| x | number | 0 | The beginning x position for the buttons group of the TimeBar |
+| y | number | 0 | The beginning y position for the buttons group of the TimeBar |
+| width | number | The width of the TimeBar | The width of the buttons group of the TimeBar, do not scale the sub-controllers but only affects the positions of them |
+| height | number | 40 | The width of the buttons group of the TimeBar, do not scale the sub-controllers but only affects the positions of them |
+| scale | number | 1 | The scale of the whole controller |
+| speed | number | 1 | The play speed |
+| loop | boolean | false | _Does not support for now_, whether play in loop |
+| hideTimeTypeController | boolean | true | Whther hide the time type controller on the right bottom |
+| fill | string |  | The fillling color for the background of the controller |
+| stroke | string |  | The stroke color for the background of the buttons group |
+| preBtnStyle | ShapeStyle | null | The style of the backward button. `scale`, `offsetX`, `offsetY` are also can be assigned to it to controll the size and position of the backward button |
+| nextBtnStyle | ShapeStyle | null | The style of the forward button. `scale`, `offsetX`, `offsetY` are also can be assigned to it to controll the size and position of the forward button |
+| playBtnStyle | ShapeStyle | null | The style of the play button. `scale`, `offsetX`, `offsetY` are also can be assigned to it to controll the size and position of the paly button |
+| speedControllerStyle | { offsetX?: number, offsetY?: number, scale?: number, pointer?: ShapeStyle, text?: ShapeStyle, scroller?: ShapeStyle} | null | The style of the 'speed controller'. `scale`, `offsetX`, `offsetY` are also can be assigned to it and each sub-styles to controll the size and position of the speed controller and sub-shapes |
+| timeTypeControllerStyle | { offsetX?: number, offsetY?: number, scale?: number, box?: ShapeStyle, check?: ShapeStyle, text?: ShapeStyle } | null | The style of the 'time type controller'. `scale`, `offsetX`, `offsetY` are also can be assigned to it and each sub-styles to controll the size and position of the speed controller and sub-shapes |
+| containerStyle ｜ ShapeStyle | {} | [Supported from v4.5.1] The style of the background rect of the controller |
+| timePointControllerText | string | "单一时间" | The text for the right-botton switch controlling play with single time point or time range |
+| timeRangeControllerText | string | "时间范围" | The text for the right-botton switch controlling play with single time point or time range |
