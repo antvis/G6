@@ -236,7 +236,8 @@ Tooltip 插件：
 
 | 名称 | 类型 | 描述               |
 | ---- | ---- | ------------------ |
-| item | Item | 要删除的 item 实例 |
+| item | Item | 被删除的 item 实例数据 |
+| type | 'node' / 'edge' / 'combo' | 被删除的 item 类型 |
 
 #### beforeupdateitem / afterupdateitem
 

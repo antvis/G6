@@ -115,6 +115,8 @@ export type ControllerCfg = Partial<{
   readonly nextBtnStyle?: ExtendedShapeStyle;
   /** ‘播放’ 与 ‘暂停’ 按钮的样式，同时可以为其配置 scale、offsetX、offsetY 单独控制该控制器的缩放以及平移 */
   readonly playBtnStyle?: ExtendedShapeStyle;
+  /** 控制栏背景方框的样式 */
+  readonly containerStyle?: ExtendedShapeStyle;
 
   /** ‘速度控制器’ 的样式，包括速度的指针、速度指示滚轮（横线）、文本的样式，以及整个速度控制器的缩放（scale）与左右偏移（offsetX，offsetY） */
   readonly speedControllerStyle?: {
@@ -233,6 +235,7 @@ export default class ControllerBtn {
       hideTimeTypeController,
       fill = DEFAULT_RECT_FILL,
       stroke = DEFAULT_RECT_STROKE,
+      containerStyle = {}
     } = controllerCfg;
 
     const playBtnStyle = {
@@ -260,6 +263,7 @@ export default class ControllerBtn {
         height,
         stroke,
         fill,
+        ...containerStyle
       },
       name: 'container-rect',
     });
@@ -392,6 +396,7 @@ export default class ControllerBtn {
         fontFamily: this.fontFamily || 'Arial, sans-serif',
         ...text,
       } as any,
+      name: 'speed-text'
     });
 
     this.speedPoint = speedGroup.addShape('path', {
@@ -403,6 +408,7 @@ export default class ControllerBtn {
         matrix: [1, 0, 0, 0, 1, 0, 0, this.speedAxisY[4], 1],
         ...pointer,
       },
+      name: 'speed-pointer'
     });
 
     // 根据配置在 speedControllerStyle 中的 scale offsetX offsetY 缩放和移动速度控制器
@@ -463,6 +469,7 @@ export default class ControllerBtn {
         ...check,
       },
       capture: false,
+      name: 'check-icon'
     });
 
     this.checkedIcon.hide();
@@ -479,6 +486,7 @@ export default class ControllerBtn {
             : 'Arial, sans-serif',
         ...text,
       } as any,
+      name: 'checked-text'
     });
 
     // 根据配置在 timeTypeControllerStyle 中的 scale offsetX offsetY 缩放和移动速度控制器

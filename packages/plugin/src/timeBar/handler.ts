@@ -150,6 +150,7 @@ export default class Handler {
           radius,
           opacity,
           cursor,
+          lineAppendWidth: 12,
         },
         name: `${name}-handler`,
       });
