@@ -19,6 +19,10 @@ export default {
         fixLabel: false,
         fixState: 'selected',
       },
+      animate: false,
+      animateCfg: {
+        duration: 500,
+      },
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -129,9 +133,12 @@ export default {
       return;
     }
 
+    const animate = this.get('animate');
+    const animateCfg = this.get('animateCfg');
+
     const canvas = this.graph.get('canvas');
     const point = canvas.getPointByClient(evt.clientX, evt.clientY);
-    this.graph.zoomTo(zoom, { x: point.x, y: point.y });
+    this.graph.zoomTo(zoom, { x: point.x, y: point.y }, animate, animateCfg);
     this.graph.emit('wheelzoom', evt);
   },
   onTouchEnd() {
@@ -366,7 +373,9 @@ export default {
         }
       }
     }
-    graph.zoomTo(zoom, { x: point.x, y: point.y });
+    const animate = this.get('animate');
+    const animateCfg = this.get('animateCfg');
+    graph.zoomTo(zoom, { x: point.x, y: point.y }, animate, animateCfg);
     graph.emit('wheelzoom', e);
   },
 };
