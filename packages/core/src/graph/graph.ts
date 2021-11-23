@@ -752,11 +752,13 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * 伸缩视口到一固定比例
    * @param {number} toRatio 伸缩比例
    * @param {Point} center 以center的x, y坐标为中心缩放
+   * @param {boolean} animate 是否带有动画地移动
+   * @param {GraphAnimateConfig} animateCfg 若带有动画，动画的配置项
    * @return {boolean} 缩放是否成功
    */
-  public zoomTo(toRatio: number, center?: Point): boolean {
+  public zoomTo(toRatio: number, center?: Point, animate?: boolean, animateCfg?: GraphAnimateConfig): boolean {
     const ratio = toRatio / this.getZoom();
-    return this.zoom(ratio, center);
+    return this.zoom(ratio, center, animate, animateCfg);
   }
 
   /**
@@ -2882,9 +2884,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const stackData = data
       ? clone(data)
       : {
-          before: {},
-          after: clone(this.save()),
-        };
+        before: {},
+        after: clone(this.save()),
+      };
 
     if (stackType === 'redo') {
       this.redoStack.push({

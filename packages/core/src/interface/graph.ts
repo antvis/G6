@@ -186,9 +186,11 @@ export interface IAbstractGraph extends EventEmitter {
    * 伸缩视口到一固定比例
    * @param {number} toRatio 伸缩比例
    * @param {Point} center 以center的x, y坐标为中心缩放
+   * @param {boolean} animate 是否带有动画地移动
+   * @param {GraphAnimateConfig} animateCfg 若带有动画，动画的配置项
    * @return {boolean} 缩放是否成功
    */
-  zoomTo: (toRatio: number, center?: Point) => boolean;
+  zoomTo: (toRatio: number, center?: Point, animate?: boolean, animateCfg?: GraphAnimateConfig) => boolean;
 
   /**
    * 删除元素
