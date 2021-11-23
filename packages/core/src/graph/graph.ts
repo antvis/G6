@@ -713,16 +713,20 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
             this.emit('viewportchange', { action: 'zoom', matrix: aniMatrix });
           }
         };
-      } else if (animateCfg.callback) {
-        // This is to prevent modifying the original animateCfg.callback
-        const { callback } = animateCfg;
-        animateConfig = clone(animateCfg);
-        animateConfig.callback = () => {
-          this.emit('viewportchange', { action: 'zoom', matrix: aniMatrix });
-          callback();
-        }
       } else {
-        animateConfig = animateCfg;
+        animateConfig = clone(animateCfg);
+        if (animateCfg.callback) {
+          // This is to prevent modifying the original animateCfg.callback
+          const { callback } = animateCfg;
+          animateConfig.callback = () => {
+            this.emit('viewportchange', { action: 'zoom', matrix: aniMatrix });
+            callback();
+          }
+        } else {
+          animateConfig.callback = () => {
+            this.emit('viewportchange', { action: 'zoom', matrix: aniMatrix });
+          }
+        }
       }
 
       group.animate((ratio: number) => {
