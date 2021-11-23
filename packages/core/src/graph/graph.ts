@@ -552,6 +552,34 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     return this.findAll(type, item => item.hasState(state));
   }
 
+  private getAnimateCfgWithCallback({
+    animateCfg,
+    callback
+  }: {
+    animateCfg: GraphAnimateConfig;
+    callback: () => void;
+  }): GraphAnimateConfig {
+    let animateConfig: GraphAnimateConfig;
+    if (!animateCfg) {
+      animateConfig = {
+        duration: 500,
+        callback
+      };
+    } else {
+      animateConfig = clone(animateCfg);
+      if (animateCfg.callback) {
+        const animateCfgCallback = animateCfg.callback;
+        animateConfig.callback = () => {
+          callback();
+          animateCfgCallback();
+        }
+      } else {
+        animateConfig.callback = callback;
+      }
+    }
+    return animateConfig;
+  }
+
   /**
    * 平移画布
    * @param dx 水平方向位移
@@ -567,44 +595,18 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
     }
     if (animate) {
-      let animateConfig: GraphAnimateConfig;
-      if (!animateCfg) {
-        animateConfig = {
-          duration: 200,
-          callback: () => {
-            this.emit('viewportchange', { action: 'translate', matrix });
-          }
-        };
-      } else {
-        animateConfig = clone(animateCfg);
-        if (animateCfg.callback) {
-          const { callback } = animateCfg;
-          animateConfig.callback = () => {
-            this.emit('viewportchange', { action: 'translate', matrix });
-            callback();
-          }
-        } else {
-          animateConfig.callback = () => {
-            this.emit('viewportchange', { action: 'translate', matrix });
-          }
-        }
-      }
+      const animateConfig = this.getAnimateCfgWithCallback({
+        animateCfg,
+        callback: () => this.emit('viewportchange', { action: 'translate', matrix: group.getMatrix() })
+      });
 
-      var dx_1 = dx * matrix[0];
-      var dy_1 = dy * matrix[4];
-
-      var lastX_1 = 0;
-      var lastY_1 = 0;
-      var newX_1 = 0;
-      var newY_1 = 0;
-      group.animate(function (ratio) {
-        newX_1 = dx_1 * ratio;
-        newY_1 = dy_1 * ratio;
-        matrix = transform(matrix, [['t', newX_1 - lastX_1, newY_1 - lastY_1]]);
-        lastX_1 = newX_1;
-        lastY_1 = newY_1;
-        return { matrix };
-      }, animateConfig);
+      move(group, {
+        x: group.getCanvasBBox().x + dx,
+        y: group.getCanvasBBox().y + dy
+      }, animate, animateConfig || {
+        duration: 500,
+        easing: 'easeCubic'
+      });
     } else {
       matrix = transform(matrix, [['t', dx, dy]]);
 
@@ -750,25 +752,10 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       const initialRatio = aniMatrix[0];
       const targetRatio = initialRatio * ratio;
 
-      let animateConfig: GraphAnimateConfig;
-      if (!animateCfg) {
-        animateConfig = {
-          duration: 500,
-          callback: () => {
-            this.emit('viewportchange', { action: 'zoom', matrix: aniMatrix });
-          }
-        };
-      } else if (animateCfg.callback) {
-        // This is to prevent modifying the original animateCfg.callback
-        const { callback } = animateCfg;
-        animateConfig = clone(animateCfg);
-        animateConfig.callback = () => {
-          this.emit('viewportchange', { action: 'zoom', matrix: aniMatrix });
-          callback();
-        }
-      } else {
-        animateConfig = animateCfg;
-      }
+      const animateConfig = this.getAnimateCfgWithCallback({
+        animateCfg,
+        callback: () => this.emit('viewportchange', { action: 'zoom', matrix: group.getMatrix() })
+      });
 
       group.animate((ratio: number) => {
         if (ratio === 1) {
