@@ -221,7 +221,7 @@ Menu is used to configure the right-click menu on the node.
 | --- | --- | --- | --- |
 | className | string | null | the class name of the menu dom |
 | getContent | (evt?: IG6GraphEvent) => HTMLDivElement / string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OtOkS4g-vrkAAAAAAAAAAABkARQnAQ' width=60 alt='img'/> | the menu content，supports DOM or string |
-| handleMenuClick | (target: HTMLElement, item: Item) => void | undefined | the callback function when click the menu |
+| handleMenuClick | (target: HTMLElement, item: Item, graph?: IGraph) => void | undefined | the callback function when click the menu |
 | shouldBegin | (evt: G6Event) => boolean | undefined | whether allow the menu show up, you can return `true` or `false` according to the `evt.item` or `evt.target` |
 | offsetX | number | 6 | The x offset of the menu to the parent container |
 | offsetY | number | 6 | The y offset of the menu to the parent container |
@@ -791,7 +791,7 @@ ToolTip helps user to explore detail infomations on the node and edge. Do note t
 | offsetY | number | 6 | the offset of tooltip along y axis, the padding of the parent container should be take into consider |
 | itemTypes | string[] | ['node', 'edge', 'combo'] | the item types that allow the tooltip show up. e.g. if you only want the node tooltip, set the `itemTypes` to be ['node'] |
 | trigger | 'mouseenter' / 'click' | 'mouseenter' | Supported by v4.2.1. The trigger to show the tooltip. By default, the tooltip shows up when the mouse enter a node/edge/combo, where the trigger is `'mouseebter'`. If the trigger is assigned to `'click'`, the tooltip shows up when the user click a node/edge/combo |
-| fixToNode | boolean / [number, number] | false | Supported by v4.2.1. Whether fix the position of the tooltip when mouse moving on the node. By default, the `fixToNode` is `false`, which means the tooltip follows the position of the mouse. If the `fixToNode` is assigned to an array as `[number, number]`, it means fixing the tooltip to a relative position to the target node. e.g. `[1, 0.5]` means the tooltip will be fixed to the right of the node after showing up, and do not follow the mouse when mouse move on the node. The meaning of the array is similar to the [Anchor Point](/en/docs/manual/middle/nodes/anchorPoint). `fixToNode` is only available for tooltip on node |
+| fixToNode | boolean / [number, number] | false | Supported by v4.2.1. Whether fix the position of the tooltip when mouse moving on the node. By default, the `fixToNode` is `false`, which means the tooltip follows the position of the mouse. If the `fixToNode` is assigned to an array as `[number, number]`, it means fixing the tooltip to a relative position to the target node. e.g. `[1, 0.5]` means the tooltip will be fixed to the right of the node after showing up, and do not follow the mouse when mouse move on the node. The meaning of the array is similar to the [Anchor Point](/en/docs/manual/middle/elements/nodes/anchorpoint). `fixToNode` is only available for tooltip on node |
 
 ### Usage
 

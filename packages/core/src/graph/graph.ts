@@ -1694,7 +1694,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
           comboItems.splice(index, 1);
           delete itemMap[comboId];
           comboItem.destroy();
-          this.emit('afterremoveitem', { item: comboItem });
+          this.emit('afterremoveitem', { item: comboItem, type: 'combo' });
         }
         // find the parent to remove the combo from the combo's brothers array and add the combo's children to the combo's brothers array in the tree
         if (parentId && treeToBeUncombo && subtree.id === parentId) {
