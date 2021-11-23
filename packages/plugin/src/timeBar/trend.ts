@@ -126,6 +126,7 @@ export default class Trend {
           path,
           ...lineStyle,
         },
+        name: 'trend-line'
       });
       // 在 line 的基础上，绘制面积图
       if (isArea) {
@@ -135,6 +136,7 @@ export default class Trend {
             path: areaPath,
             ...areaStyle,
           },
+          name: 'trend-area'
         });
       }
     }
@@ -146,6 +148,7 @@ export default class Trend {
           path: dataToRectPath(this.intervalConfig.data, width, height, this.intervalConfig.style.barWidth),
           ...this.intervalConfig.style,
         },
+        name: 'trend-interval'
       });
     }
 

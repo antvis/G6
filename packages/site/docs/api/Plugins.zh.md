@@ -711,11 +711,29 @@ interface TimeBarConfig extends IPluginBaseConfig {
   // 控制按钮
   readonly controllerCfg?: ControllerCfg;
 
-  // 是否过滤边，若为 true，则需要配合边数据上有 date 字段，过滤节点同时将不满足 date 在选中范围内的边也过滤出去；若为 false，则仅过滤节点以及两端节点都被过滤出去的边
+  // [v4.5.1 起支持] 容器的 CSS 样式
+  readonly containerCSS?: Object;
+
+  // [v4.5.1 起支持] 过滤的类型, ['node', 'edge'], 默认为 ['node']
+  readonly filterItemTypes?: string[];
+
+  // [v4.5.1 起废弃，由 filterItemTypes 代替] 是否过滤边，若为 true，则需要配合边数据上有 date 字段，过滤节点同时将不满足 date 在选中范围内的边也过滤出去；若为 false，则仅过滤节点以及两端节点都被过滤出去的边
   readonly filterEdge?: boolean;
 
+  // [v4.5.1 起支持] 是否通过 graph.changeData 改变图上数据从而达到筛选目的。若为 false 则将使用 graph.hideItem 和 graph.showItem 以隐藏/展示图上元素从而达到筛选目的
+  readonly changeData?: boolean;
+
+  // TimeBar 时间范围变化时的回调函数，当不定义该函数时，时间范围变化时默认过滤图上的数据
   rangeChange?: (graph: IGraph, minValue: string, maxValue: string) => void;
-  valueChange?: (graph: IGraph, value: string) => void;
+
+  // [v4.5.1 起支持] 用户根据节点/边数据返回对应时间值的方法
+  getDate?: (d: any) => number;
+
+  // [v4.5.1 起支持] 用户根据节点/边数据返回对应 value 的方法。value 用于在 type 为 trend 的时间轴上显示趋势线
+  getValue?: (d: any) => number;
+
+  // [v4.5.1 起支持] 在过滤图元素时是否要忽略某些元素。返回 true，则忽略。否则按照正常过滤逻辑处理
+  shouldIgnore?: (itemType: 'node' | 'edge', model: any, dateRage: { min: number, max: number }) => boolean;
 }
 ```
 
@@ -734,8 +752,14 @@ interface TimeBarConfig extends IPluginBaseConfig {
 | slider | SliderOption | null | TimeBar 组件背景及控制调节范围的滑块的配置项 |
 | tick | TimeBarSliceOption / TickCfg | null | 当 type 是 tick 时，这是 tick 类型时间轴的配置项，该字段必须按；当 type 是 trend 或 simple 时，这是时间轴下方时间刻度文本的配置项 |
 | controllerCfg | ControllerCfg | null | 控制按钮组配置项 |
-| filterEdge | boolean | false | 是否过滤边，若为 true，则需要配合边数据上有 date 字段，过滤节点同时将不满足 date 在选中范围内的边也过滤出去；若为 false，则仅过滤节点以及两端节点都被过滤出去的边 |
+| containerCSS | Object | null | [v4.5.1 起支持] 容器的 CSS 样式 |
+| filterItemTypes | string[] | null | [v4.5.1 起支持] 过滤的类型, ['node', 'edge'], 默认为 ['node'] |
+| filterEdge | boolean | false | [v4.5.1 起废弃，由 filterItemTypes 代替] 是否过滤边，若为 true，则需要配合边数据上有 date 字段，过滤节点同时将不满足 date 在选中范围内的边也过滤出去；若为 false，则仅过滤节点以及两端节点都被过滤出去的边 |
+| changeData | boolean | null | [v4.5.1 起支持] 是否通过 graph.changeData 改变图上数据从而达到筛选目的。若为 false 则将使用 graph.hideItem 和 graph.showItem 以隐藏/展示图上元素从而达到筛选目的 |
 | rangeChange | Function | null | TimeBar 时间范围变化时的回调函数，当不定义该函数时，时间范围变化时默认过滤图上的数据 |
+| getDate | (d: any) => number | null | [v4.5.1 起支持] 用户根据节点/边数据返回对应时间值的方法 |
+| getValue | (d: any) => number | null | [v4.5.1 起支持] 用户根据节点/边数据返回对应 value 的方法。value 用于在 type 为 trend 的时间轴上显示趋势线 |
+| shouldIgnore | (itemType: 'node' | 'edge', model: any, dateRage: { min: number, max: number }) => boolean | null | [v4.5.1 起支持] 在过滤图元素时是否要忽略某些元素。返回 true，则忽略。否则按照正常过滤逻辑处理 |
 
 #### TrendConfig 接口定义
 
@@ -872,7 +896,7 @@ export interface TimeBarSliceOption {
 export interface TickCfg {
   // 时间轴下方文本的格式化函数
   readonly tickLabelFormatter?: (d: any) => string | undefined;
-  // 时间轴下方文本的图形样式
+  // 时间轴下方文本的图形样式。[v4.5.1 起支持] 可配置 tickLabelStyle.rotate 以控制时间轴下方每个文本的旋转角度，可避免文本相互重叠
   readonly tickLabelStyle?: ShapeStyle;
   // 时间轴下方文本上的竖线图形样式
   readonly tickLineStyle?: ShapeStyle;
@@ -883,9 +907,9 @@ export interface TickCfg {
 
 | Name | Type | Default Value | Description |
 | --- | --- | --- | --- |
-| tickLabelFormatter | Function | null | The formatter function for customing the labels of the ticks |
-| tickLabelStyle | ShapeStyle | {} | The shape style for the time tick labels |
-| tickLineStyle | ShapeStyle | {} | The shape style for the short vertical lines uppon the time tick labels |
+| tickLabelFormatter | Function | null | 时间轴下方文本的格式化函数 |
+| tickLabelStyle | ShapeStyle | {} | 时间轴下方文本的图形样式。[v4.5.1 起支持] 可配置 tickLabelStyle.rotate 以控制时间轴下方每个文本的旋转角度，可避免文本相互重叠 |
+| tickLineStyle | ShapeStyle | {} | 时间轴下方文本上方的竖线的图形样式 |
 
 #### ControllerCfg 接口定义
 
@@ -946,6 +970,8 @@ type ControllerCfg = Partial<{
     box?: ShapeStyle,
     text?: ShapeStyle
   };
+  /** [v4.5.1 起支持] 控制栏背景方框的样式 */
+  readonly containerStyle?: ExtendedShapeStyle;
   /** ‘播放时间类型切换器’单一文本时的文本，默认为‘单一时间’ */
   readonly timePointControllerText?: string;
   /** ‘播放时间类型切换器’单一文本时的文本，默认为‘时间范围’ */
@@ -973,5 +999,6 @@ type ControllerCfg = Partial<{
 | playBtnStyle | ShapeStyle | null | ‘播放’ 与 ‘暂停’ 按钮的样式，同时可以为其配置 `scale`、`offsetX`、`offsetY` 单独控制该控制器的缩放以及平移 |
 | speedControllerStyle | { offsetX?: number, offsetY?: number, scale?: number, pointer?: ShapeStyle, text?: ShapeStyle, scroller?: ShapeStyle} | null | ‘速度控制器’ 的样式，包括速度的指针、速度指示滚轮（横线）、文本的样式，同时可以为 `speedControllerStyle` 及其子图形样式配置 `scale`、`offsetX`、`offsetY` 单独控制该控制器及其子图形的缩放以及平移 |
 | timeTypeControllerStyle | { offsetX?: number, offsetY?: number, scale?: number, box?: ShapeStyle, check?: ShapeStyle, text?: ShapeStyle } | null | ‘播放时间类型切换器’ 的样式，包括 checkbox 的框、checkbox 的选中勾、文本的样式，同时可以为 `timeTypeControllerStyle` 及其子图形样式配置 `scale`、`offsetX`、`offsetY` 单独控制该控制器及其子图形的缩放以及平移 |
+| containerStyle ｜ ShapeStyle | {} | 控制栏背景方框的样式 |
 | timePointControllerText | string | "单一时间" | 右下角“单一时间”文本，默认为”单一时间“ |
 | timePointControllerText | string | "时间范围" | 右下角“单一时间”文本，默认为”时间范围时间“ |

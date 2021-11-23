@@ -1,8 +1,10 @@
 /**
  * 基于 G 的刻度时间轴组件
  */
+import { ext } from '@antv/matrix-util';
 import { ICanvas, IGroup } from '@antv/g-base';
-import { isString } from '@antv/util';
+import { isNumber, isString } from '@antv/util';
+import { ShapeStyle, IAbstractGraph as IGraph } from '@antv/g6-core';
 import TimeBarTooltip from './timeBarTooltip';
 import ControllerBtn from './controllerBtn';
 import {
@@ -15,7 +17,7 @@ import {
   TIMEBAR_CONFIG_CHANGE,
 } from './constant';
 
-import { ShapeStyle, IAbstractGraph as IGraph } from '@antv/g6-core';
+const transform = ext.transform;
 
 const DEFAULT_SELECTEDTICK_STYLE = {
   fill: '#5B8FF9',
@@ -60,6 +62,7 @@ export interface TimeBarSliceConfig extends TimeBarSliceOption {
   // style
   readonly x: number;
   readonly y: number;
+  readonly tickLabelStyle?: Object;
 }
 
 export default class TimeBarSlice {
@@ -96,6 +99,8 @@ export default class TimeBarSlice {
   private unselectedTickStyle: ShapeStyle;
 
   private tickLabelFormatter: (d: any) => string | boolean;
+
+  private tickLabelStyle?: ShapeStyle;
 
   private tickRects: any[];
 
@@ -145,6 +150,7 @@ export default class TimeBarSlice {
       unselectedTickStyle = DEFAULT_UNSELECTEDTICK_STYLE,
       tooltipBackgroundColor,
       tooltipFomatter,
+      tickLabelStyle
     } = cfgs;
 
     this.graph = graph;
@@ -160,6 +166,7 @@ export default class TimeBarSlice {
     this.start = start;
     this.end = end;
     this.tickLabelFormatter = tickLabelFormatter;
+    this.tickLabelStyle = tickLabelStyle || {};
     this.selectedTickStyle = selectedTickStyle;
     this.unselectedTickStyle = unselectedTickStyle;
 
@@ -191,6 +198,7 @@ export default class TimeBarSlice {
       tickLabelFormatter,
       selectedTickStyle,
       unselectedTickStyle,
+      tickLabelStyle
     } = this;
 
     const realWidth = width - 2 * padding;
@@ -216,6 +224,8 @@ export default class TimeBarSlice {
     this.startTickRectId = startTickId;
     this.endTickRectId = endTickId;
 
+    const rotate = tickLabelStyle.rotate;
+    delete tickLabelStyle.rotate;
     data.forEach((d, i) => {
       // draw the tick rects
       const selected = i >= startTickId && i <= endTickId;
@@ -279,6 +289,7 @@ export default class TimeBarSlice {
             x2: centerX,
             y2: lineStartY + labelLineHeight,
           },
+          name: 'tick-line'
         });
 
         const labelStartY = lineStartY + labelLineHeight + padding;
@@ -294,14 +305,39 @@ export default class TimeBarSlice {
             textBaseline: 'top',
             fontSize: 10,
             fontFamily: this.fontFamily || 'Arial, sans-serif',
+            ...tickLabelStyle
           },
           capture: false,
+          name: 'tick-label'
         });
         const textBBox = text.getBBox();
         if (textBBox.maxX > width) {
           text.attr('textAlign', 'right');
         } else if (textBBox.minX < 0) {
           text.attr('textAlign', 'left');
+        }
+        if (isNumber(rotate) && labels.length !== 10) {
+          const matrix = transform(
+            [1, 0, 0, 0, 1, 0, 0, 0, 1],
+            [
+              ['t', -centerX!, -labelStartY!],
+              ['r', rotate],
+              ['t', centerX - 5, labelStartY + 2],
+            ],
+          );
+          text.attr({
+            textAlign: 'left',
+            matrix,
+          });
+        }
+        if (labels.length === 1) {
+          text.attr({
+            textAlign: 'left',
+          });
+        } else if (labels.length === 10) {
+          text.attr({
+            textAlign: 'right',
+          });
         }
         // draw tick labels
       }

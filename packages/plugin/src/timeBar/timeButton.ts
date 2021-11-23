@@ -78,6 +78,7 @@ export default class Button {
         path: this.getStartMarkerPath(x, y, scale),
         fill: style.stroke || '#aaa',
       },
+      name: 'start-marker'
     });
 
     this.pauseMarkerGroup = buttonGroup.addGroup({

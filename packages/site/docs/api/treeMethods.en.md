@@ -135,7 +135,7 @@ Change the layout.
 ```javascript
 const layout = {
   type: 'mindmap',
-  dirction: 'H',
+  direction: 'H',
   getSubTreeSep: () => 20,
   getVGap: () => 25,
   getHeight: () => 30,
