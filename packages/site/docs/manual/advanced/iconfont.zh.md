@@ -292,7 +292,9 @@ graph.render();
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*teUAQIkCffUAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
-**3、若出现了第一次渲染 iconfont 错误（可能显示成一个方框），可以尝试使用下面代码解决：**<br />
+**3、若出现了第一次渲染 iconfont 错误（可能显示成一个方框），可以检查下是否已经加载字体文件**<br />
+
+如果页面中没有使用字体图标的节点，字体文件是不会自动下载的，那么可以添加一个隐藏节点用以触发加载。如果已经加载，那么可以尝试以下代码刷新渲染。
 
 ```javascript
 // 在 graph.render() 之后调用以下语句：
