@@ -989,3 +989,4 @@ type ControllerCfg = Partial<{
 | containerStyle ｜ ShapeStyle | {} | [Supported from v4.5.1] The style of the background rect of the controller |
 | timePointControllerText | string | "单一时间" | The text for the right-botton switch controlling play with single time point or time range |
 | timeRangeControllerText | string | "时间范围" | The text for the right-botton switch controlling play with single time point or time range |
+
