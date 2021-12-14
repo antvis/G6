@@ -294,7 +294,9 @@ In fact, iconfont is a text shape.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*teUAQIkCffUAAAAAAAAAAABkARQnAQ' alt='download' width='600'/>
 
-**3、If the iconfonts are rendered wrongly (maybe it is rendered as an empty rect), try the following code to solve it:** <br />
+**3、If the iconfonts are rendered wrongly (maybe it is rendered as an empty rect), check whether the font file has been loaded:** <br />
+
+If there is no node using font icon in the page, the font file will not be automatically downloaded, so you can add a hidden node to trigger the loading. If it is already loaded, you can try the following code to refresh the rendering.
 
 ```javascript
 // Call the following code after graph.render()
