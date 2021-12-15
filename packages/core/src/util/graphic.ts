@@ -10,6 +10,7 @@ import {
   NodeConfig,
   ComboTree,
   ComboConfig,
+  ICombo
 } from '../types';
 import { applyMatrix } from './math';
 import letterAspectRatio from './letterAspectRatio';
@@ -591,7 +592,7 @@ export const reconstructTree = (
   return trees;
 };
 
-export const getComboBBox = (children: ComboTree[], graph: IAbstractGraph): BBox => {
+export const getComboBBox = (children: ComboTree[], graph: IAbstractGraph, combo?: ICombo): BBox => {
   const comboBBox = {
     minX: Infinity,
     minY: Infinity,
@@ -606,7 +607,18 @@ export const getComboBBox = (children: ComboTree[], graph: IAbstractGraph): BBox
   };
 
   if (!children || children.length === 0) {
-    return comboBBox;
+    const comboModel = combo?.getModel();
+    const { x, y } = comboModel || {};
+    return {
+      minX: x,
+      minY: y,
+      maxX: x,
+      maxY: y,
+      x: x,
+      y: y,
+      width: undefined,
+      height: undefined
+    };
   }
 
   children.forEach((child) => {

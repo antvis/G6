@@ -115,7 +115,7 @@ export const shapeBase: ShapeOptions = {
    * @param group
    * @param keyShape
    */
-  afterDraw(cfg?: ModelConfig, group?: IGroup, keyShape?: IShape) {},
+  afterDraw(cfg?: ModelConfig, group?: IGroup, keyShape?: IShape) { },
   drawShape(cfg?: ModelConfig, group?: IGroup): IShape {
     return null as any;
   },
@@ -188,7 +188,7 @@ export const shapeBase: ShapeOptions = {
   drawLabelBg(cfg: ModelConfig, group: IGroup, label: IElement) {
     const { labelCfg: defaultLabelCfg } = this.options as ModelConfig;
     const labelCfg = mix({}, defaultLabelCfg, cfg.labelCfg) as ILabelConfig;
-    const style = this.getLabelBgStyleByPosition(label, cfg, labelCfg, group);
+    const style = this.getLabelBgStyleByPosition(label, labelCfg);
     const rect = group.addShape('rect', { name: 'text-bg-shape', attrs: style });
     group['shapeMap']['text-bg-shape'] = rect;
     return rect;
@@ -198,9 +198,7 @@ export const shapeBase: ShapeOptions = {
   },
   getLabelBgStyleByPosition(
     label: IElement,
-    cfg: ModelConfig,
     labelCfg?: ILabelConfig,
-    group?: IGroup,
   ): LabelStyle {
     return {};
   },
@@ -257,7 +255,7 @@ export const shapeBase: ShapeOptions = {
     // 防止 cfg.label = "" 的情况
     if (cfg.label || cfg.label === '') {
       const group = item.getContainer();
-      let { labelCfg = {} } = this.mergeStyle || this.getOptions({}, updateType) as ModelConfig ||  {};
+      let { labelCfg = {} } = this.mergeStyle || this.getOptions({}, updateType) as ModelConfig || {};
       const labelClassName = this.itemType + CLS_LABEL_SUFFIX;
       const label = group['shapeMap'][labelClassName] || group.find(ele => ele.get('className') === labelClassName);
       const labelBgClassname = this.itemType + CLS_LABEL_BG_SUFFIX;
@@ -315,23 +313,9 @@ export const shapeBase: ShapeOptions = {
         } else if (labelStyle.background) {
           const calculateBgStyle = (this as any).getLabelBgStyleByPosition(
             label,
-            cfg,
             labelCfg,
-            group,
           );
-          const labelBgStyle = calculateBgStyle;
-          if (!isNaN(rotate) && rotate !== '') {
-            let bgRotateMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
-            bgRotateMatrix = transform(bgRotateMatrix, [
-              ['t', -labelBgStyle.x, -labelBgStyle.y],
-              ['r', rotate],
-              ['t', labelBgStyle.x, labelBgStyle.y],
-            ]);
-            labelBgStyle.matrix = bgRotateMatrix;
-          } else {
-            labelBg.resetMatrix();
-          }
-          labelBg.attr(labelBgStyle);
+          labelBg.attr(calculateBgStyle);
         } else {
           group.removeChild(labelBg);
         }
@@ -340,7 +324,7 @@ export const shapeBase: ShapeOptions = {
   },
 
   // update(cfg, item) // 默认不定义
-  afterUpdate(cfg?: ModelConfig, item?: Item) {},
+  afterUpdate(cfg?: ModelConfig, item?: Item) { },
   /**
    * 设置节点的状态，主要是交互状态，业务状态请在 draw 方法中实现
    * 单图形的节点仅考虑 selected、active 状态，有其他状态需求的用户自己复写这个方法
@@ -558,7 +542,7 @@ export const shapeBase: ShapeOptions = {
    * @return {Array|null} 锚点的数组,如果为 null，则没有锚点
    */
   getAnchorPoints(cfg: ModelConfig): number[][] | undefined {
-    const anchorPoints =  cfg?.anchorPoints || this.getCustomConfig(cfg)?.anchorPoints || this.options?.anchorPoints ;
+    const anchorPoints = cfg?.anchorPoints || this.getCustomConfig(cfg)?.anchorPoints || this.options?.anchorPoints;
     return anchorPoints;
   },
 };

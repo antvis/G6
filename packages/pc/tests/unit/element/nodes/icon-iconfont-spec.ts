@@ -34,4 +34,9 @@ describe('icon with iconfont', () => {
 
     expect(graph.getNodes()[0].get('group').find(e => e.get('name') === 'circle-icon').attr('text')).toBe('xxx');
   });
+  it('update iconfont node', () => {
+    graph.updateItem('node', {});
+    expect(graph.getNodes()[0].get('group').find(e => e.get('name') === 'circle-icon').attr('x')).toBe(0);
+    expect(graph.getNodes()[0].get('group').find(e => e.get('name') === 'circle-icon').attr('y')).toBe(0);
+  });
 });
