@@ -1,5 +1,21 @@
 # ChangeLog
 
+#### 4.5.1
+
+- feat: translate graph with animation;
+- feat: zoom graph with animation;
+- feat: timebar supports filterItemTypes to configure the types of the graph items to be filtered; only nodes can be filtered before; 
+- feat: timebar supports to configure the rotate of the tick labels by tickLabelStyle[dot]rotate;
+- feat: timebar supports container CSS configuration by containerCSS;
+- feat: timebar supports a function getDate to returns the date value according to each node or edge by user;
+- feat: timebar supports afunction getValue  to returns the value (for trend line of trend timebar) according to each node or edge by user;
+- feat: timebar supports to configure a boolean changeData to control the filter way, true means filters by graph[dot]changeData, false means filters by graph[dot]showItem and graph[dot]hideItem;
+- feat: timebar supports to configure a function shouldIgnore to return true or false by user to decide whether the node or the edge should be ignored while filtering;
+- fix: simple timebar silder text position strategy and expand the lineAppendWidth for the slider;
+- fix: edge label padding bug, closes: #3346;
+- fix: update node with iconfont icon, the icon is updated to a wrong position, closes: #3348;
+
+
 #### 4.5.0
 
 - fix: add item type to the parameter of afterremoveitem event;

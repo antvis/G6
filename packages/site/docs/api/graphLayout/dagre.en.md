@@ -23,6 +23,12 @@ const graph = new G6.Graph({
 });
 ```
 
+## layoutCfg.begin
+
+_Supported by G6 v4.5.1_
+
+**Type**: Array<br />**Default**: undefined<br />**Required**: false<br />**Description**: The position for the left-top of the layout.
+
 ## layoutCfg.rankdir
 
 **Type**: String<br />**Options**: 'TB' | 'BT' | 'LR' | 'RL'<br />**Default**: 'TB'<br />**Required**: false<br />**Description**: The layout direction. T:top; B:bottom; L:left; R:right.
@@ -91,3 +97,38 @@ const graph = new G6.Graph({
 ## layoutCfg.sortByCombo
 
 **Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to sort the nodes in a level according to the `comboId` in their data. Enable `sortByCombo` to avoid combo overlappings
+
+## layoutCfg.nodeOrder
+
+_Supported by G6 v4.5.0_
+
+**Type**: string[]<br />**Default** undefined<br />**Required**: false<br />**Description**: The refered order array for the nodes in the same layer. If it is not specified, the order of the nodes will be decided by the dagre algorithm.
+
+
+## layoutCfg.preset
+
+_Supported by G6 v4.5.0_
+
+**Type**: 
+
+
+```javascript
+{
+  nodes: {
+    x: number, // position
+    y: number, // position
+    layer?: number, // specify the layer for the node, 0-indexed
+    _order?: number // if the preset comes from last dagre layout, the _order will be generated to state the order of the nodes in one layer
+  }[]
+}
+```
+
+
+<br />**Default** undefined<br />**Required**: false<br />**Description**: The refered node positions and other infomations for layout computing. It is usually used to keep the consistancy for data changing, where you could specify it with the result data from last layout.
+
+
+## Specify the Layer for Node
+
+_Supported by G6 v4.5.0_
+
+Configurate `layer` (0-indexed) in the node data to specify the layout layer for it. Notice that the `layer` SHOULD NOT violate DAG's properties (e.g. DO NOT assign a layer value for a target node greater or equal to cresponding source node.). The layout will be failed otherwise.

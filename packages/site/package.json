@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@antv/g6-site",
-  "version": "4.4.1",
+  "version": "4.5.1",
   "description": "G6 sites deployed on gh-pages",
   "keywords": [
     "antv",
@@ -37,7 +37,7 @@
     "@ant-design/icons": "^4.0.6",
     "@antv/chart-node-g6": "^0.0.3",
     "@antv/g6": "4.3.8",
-    "@antv/gatsby-theme-antv": "1.1.7",
+    "@antv/gatsby-theme-antv": "1.1.15",
     "@antv/util": "^2.0.9",
     "@antv/vis-predict-engine": "^0.1.1",
     "@types/react": "^16.9.35",

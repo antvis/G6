@@ -552,30 +552,77 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     return this.findAll(type, item => item.hasState(state));
   }
 
+  private getAnimateCfgWithCallback({
+    animateCfg,
+    callback
+  }: {
+    animateCfg: GraphAnimateConfig;
+    callback: () => void;
+  }): GraphAnimateConfig {
+    let animateConfig: GraphAnimateConfig;
+    if (!animateCfg) {
+      animateConfig = {
+        duration: 500,
+        callback
+      };
+    } else {
+      animateConfig = clone(animateCfg);
+      if (animateCfg.callback) {
+        const animateCfgCallback = animateCfg.callback;
+        animateConfig.callback = () => {
+          callback();
+          animateCfgCallback();
+        }
+      } else {
+        animateConfig.callback = callback;
+      }
+    }
+    return animateConfig;
+  }
+
   /**
    * 平移画布
    * @param dx 水平方向位移
    * @param dy 垂直方向位移
+   * @param {boolean} animate 是否带有动画地移动
+   * @param {GraphAnimateConfig} animateCfg 若带有动画，动画的配置项
    */
-  public translate(dx: number, dy: number): void {
+  public translate(dx: number, dy: number, animate?: boolean, animateCfg?: GraphAnimateConfig): void {
     const group: IGroup = this.get('group');
 
     let matrix = clone(group.getMatrix());
     if (!matrix) {
       matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
     }
-    matrix = transform(matrix, [['t', dx, dy]]);
+    if (animate) {
+      const animateConfig = this.getAnimateCfgWithCallback({
+        animateCfg,
+        callback: () => this.emit('viewportchange', { action: 'translate', matrix: group.getMatrix() })
+      });
 
-    group.setMatrix(matrix);
+      move(group, {
+        x: group.getCanvasBBox().x + dx,
+        y: group.getCanvasBBox().y + dy
+      }, animate, animateConfig || {
+        duration: 500,
+        easing: 'easeCubic'
+      });
+    } else {
+      matrix = transform(matrix, [['t', dx, dy]]);
 
-    this.emit('viewportchange', { action: 'translate', matrix: group.getMatrix() });
-    this.autoPaint();
+      group.setMatrix(matrix);
+
+      this.emit('viewportchange', { action: 'translate', matrix });
+      this.autoPaint();
+    }
   }
 
   /**
    * 平移画布到某点
    * @param {number} x 水平坐标
    * @param {number} y 垂直坐标
+   * @param {boolean} animate 是否带有动画地移动
+   * @param {GraphAnimateConfig} animateCfg 若带有动画，动画的配置项
    */
   public moveTo(x: number, y: number, animate?: boolean, animateCfg?: GraphAnimateConfig): void {
     const group: IGroup = this.get('group');
@@ -705,25 +752,10 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       const initialRatio = aniMatrix[0];
       const targetRatio = initialRatio * ratio;
 
-      let animateConfig: GraphAnimateConfig;
-      if (!animateCfg) {
-        animateConfig = {
-          duration: 500,
-          callback: () => {
-            this.emit('viewportchange', { action: 'zoom', matrix: aniMatrix });
-          }
-        };
-      } else if (animateCfg.callback) {
-        // This is to prevent modifying the original animateCfg.callback
-        const { callback } = animateCfg;
-        animateConfig = clone(animateCfg);
-        animateConfig.callback = () => {
-          this.emit('viewportchange', { action: 'zoom', matrix: aniMatrix });
-          callback();
-        }
-      } else {
-        animateConfig = animateCfg;
-      }
+      const animateConfig = this.getAnimateCfgWithCallback({
+        animateCfg,
+        callback: () => this.emit('viewportchange', { action: 'zoom', matrix: group.getMatrix() })
+      });
 
       group.animate((ratio: number) => {
         if (ratio === 1) {
@@ -2963,11 +2995,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     // 清空栈数据
     this.clearStack();
 
-    this.get('itemController').destroy();
-    this.get('modeController').destroy();
-    this.get('viewController').destroy();
-    this.get('stateController').destroy();
-    this.get('canvas').destroy();
+    this.get('itemController')?.destroy();
+    this.get('modeController')?.destroy();
+    this.get('viewController')?.destroy();
+    this.get('stateController')?.destroy();
+    this.get('canvas')?.destroy();
 
     (this.cfg as any) = null;
     this.destroyed = true;

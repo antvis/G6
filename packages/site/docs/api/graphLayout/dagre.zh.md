@@ -23,6 +23,12 @@ const graph = new G6.Graph({
 });
 ```
 
+## layoutCfg.begin
+
+_自 G6 v4.5.1 起支持。_
+
+**类型**： Array<br />**示例**：[ 0, 0 ]<br />**默认值**：undefined<br />**是否必须**：false<br />**说明**：布局的左上角对齐位置。
+
 ## layoutCfg.rankdir
 
 **类型**： String<br />**可选值**：'TB' | 'BT' | 'LR' | 'RL'<br />**默认值**：'TB'<br />**是否必须**：false<br />**说明**：布局的方向。T：top（上）；B：bottom（下）；L：left（左）；R：right（右）。
@@ -89,3 +95,36 @@ const graph = new G6.Graph({
 ## layoutCfg.sortByCombo
 
 **类型**: Boolean<br />**默认值**: false<br />**是否必须**: false<br />**说明**: 同一层节点是否根据每个节点数据中的 `comboId` 进行排序，以防止 combo 重叠
+
+## layoutCfg.nodeOrder
+
+_自 G6 v4.5.0 起支持。_
+
+**类型**: string[]<br />**默认值**: undefined<br />**是否必须**: false<br />**说明**: 同层节点顺序的参考数组。若未指定，则将按照 dagre 本身机制排列同层节点顺序。
+
+
+## layoutCfg.preset
+
+_自 G6 v4.5.0 起支持。_
+
+**类型**: 
+
+```javascript
+{
+  nodes: {
+    x: number, // 位置
+    y: number, // 位置
+    layer?: number, // 指定层级
+    _order?: number // 若为上一次 dagre 布局的输出，则有该字段，代表同层节点的顺序
+  }[]
+}
+```
+
+<br />**默认值**: undefined<br />**是否必须**: false<br />**说明**: 布局计算时参考的节点位置，一般用于切换数据时保证重新布局的连续性，可使用上一次布局的结果数据作为输入。
+
+
+## 指定节点层级
+
+_自 G6 v4.5.0 起支持。_
+
+在节点数据中配置 `layer` 字段（从 0 开始计数），可以为节点指定层级。注意，`layer` 的指定不能违背图结构与层次布局原则，即每一条边的起点的 `layer` 一定小于终点的 `layer` 值。若违背该规则，则可能导致布局失败。

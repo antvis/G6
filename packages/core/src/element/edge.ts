@@ -170,7 +170,7 @@ const singleEdge: ShapeOptions = {
         };
       }
       style = { ...cfg.style };
-      if (style.lineWidth === undefined) style.lineWdith = (isNumber(size) ? size: size?.[0]) || currentAttr.lineWidth
+      if (style.lineWidth === undefined) style.lineWdith = (isNumber(size) ? size : size?.[0]) || currentAttr.lineWidth
       if (style.path === undefined) style.path = path;
       if (style.stroke === undefined) style.stroke = currentAttr.stroke || cfg.color;
     }
@@ -224,9 +224,7 @@ const singleEdge: ShapeOptions = {
   },
   getLabelBgStyleByPosition(
     label: IElement,
-    cfg: EdgeConfig,
     labelCfg?: ILabelConfig,
-    group?: IGroup,
   ) {
     if (!label) {
       return {};
@@ -239,60 +237,22 @@ const singleEdge: ShapeOptions = {
     const { padding } = backgroundStyle;
     const backgroundWidth = bbox.width + padding[1] + padding[3];
     const backgroundHeight = bbox.height + padding[0] + padding[2];
-    const labelPosition = labelCfg.position || this.labelPosition;
+
     const style = {
       ...backgroundStyle,
       width: backgroundWidth,
       height: backgroundHeight,
-      x: bbox.minX - padding[2],
+      x: bbox.minX - padding[3],
       y: bbox.minY - padding[0],
-      rotate: 0,
+      matrix: [1, 0, 0, 0, 1, 0, 0, 0, 1]
     };
     let autoRotate;
     if (isNil(labelCfg.autoRotate)) autoRotate = this.labelAutoRotate;
     else autoRotate = labelCfg.autoRotate;
 
-    const pathShape = group?.['shapeMap'][CLS_SHAPE]; // group?.find((element) => element.get('className') === CLS_SHAPE);
-
-    // 不对 pathShape 进行判空，如果线不存在，说明有问题了
-    let pointPercent;
-    if (labelPosition === 'start') {
-      pointPercent = 0;
-    } else if (labelPosition === 'end') {
-      pointPercent = 1;
-    } else {
-      pointPercent = 0.5;
-    }
-    // 偏移量
-    const offsetX = labelCfg.refX || (this.refX as number);
-    const offsetY = labelCfg.refY || (this.refY as number);
-    // // 如果两个节点重叠，线就变成了一个点，这时候label的位置，就是这个点 + 绝对偏移
-    if (cfg.startPoint!.x === cfg.endPoint!.x && cfg.startPoint!.y === cfg.endPoint!.y) {
-      style.x = cfg.startPoint!.x + offsetX - backgroundWidth / 2;
-      style.y = cfg.startPoint!.y + offsetY - backgroundHeight / 2;
-      return style;
-    }
-
-    let bgOffsetX = offsetX - backgroundWidth / 2;
-    if (labelCfg.position === 'start') {
-      bgOffsetX =  offsetX - padding[2];
-    } else if (labelCfg.position === 'end') {
-      bgOffsetX =  offsetX - backgroundWidth;
-    }
-
-    let offsetStyle = getLabelPosition(
-      pathShape,
-      pointPercent,
-      bgOffsetX,
-      offsetY + backgroundHeight / 2,
-      autoRotate,
-    );
-
     if (autoRotate) {
-      style.x = offsetStyle.x;
-      style.y = offsetStyle.y;
+      style.matrix = label.attr('matrix') || [1, 0, 0, 0, 1, 0, 0, 0, 1];
     }
-    style.rotate = offsetStyle.rotate;
     return style;
   },
   // 获取文本对齐方式
@@ -379,11 +339,9 @@ const singleEdge: ShapeOptions = {
     const { labelCfg: defaultLabelCfg } = this.options as ModelConfig;
     const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
 
-    const style = this.getLabelBgStyleByPosition(label, cfg, labelCfg, group);
-    delete style.rotate;
+    const style = this.getLabelBgStyleByPosition(label, labelCfg);
     const rect = group.addShape('rect', { name: 'text-bg-shape', attrs: style });
     group['shapeMap']['text-bg-shape'] = rect;
-    if (!isNaN(rotate)) rect.rotateAtStart(rotate);
     return rect;
   },
 };

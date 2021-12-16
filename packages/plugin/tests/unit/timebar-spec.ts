@@ -389,15 +389,38 @@ describe('timeline play with timebar', () => {
   });
 
   it('simple timebar', () => {
+
     const data = {
-      nodes: [
-        {
-          id: 'node1',
-          x: 100,
-          y: 100,
-        },
-      ],
+      nodes: [],
+      edges: [],
     };
+
+    for (let i = 0; i < 100; i++) {
+      const month = i < 30 ? '01' : '02';
+      const day = i % 30 < 10 ? `0${i % 30}` : `${i % 30}`;
+      const id = `node-${i}`;
+      data.nodes.push({
+        id,
+        // date: parseInt(`2020${month}${day}`, 10),
+        // value: Math.round(Math.random() * 300),
+        properties: {
+          date111: parseInt(`2020${month}${day}`, 10),
+          value111: Math.round(Math.random() * 300),
+        }
+      });
+
+      data.edges.push({
+        source: `node-${Math.round(Math.random() * 90)}`,
+        target: `node-${Math.round(Math.random() * 90)}`,
+        // date: parseInt(`2020${month}${day}`, 10),
+        // value: Math.round(Math.random() * 300),
+        properties: {
+          date111: parseInt(`2020${month}${day}`, 10),
+          value111: Math.round(Math.random() * 300),
+        }
+      });
+    }
+
     const timeBarData = [];
 
     for (let i = 1; i < 60; i++) {
@@ -423,25 +446,34 @@ describe('timeline play with timebar', () => {
       height: 150,
       padding: 10,
       type: 'simple',
+      // filterEdge: true,
+      filterItemTypes: ['edge'], // 'node', 
+      getDate: d => { return d.properties.date111 },
+      containerCSS: {
+        position: 'absolute',
+        bottom: '50px'
+      },
       trend: {
         data: timeBarData,
-        isArea: true,
+        // isArea: true,
         // areaStyle: {
         //   fill: 'pink'
         // },
-        lineStyle: {
-          stroke: 'green',
-          lineWidth: 1,
-        },
-        interval: {
-          data: intervalData.map((d) => d.value),
-          style: {
-            // stroke: '#ccc',
-            fill: '#ccc',
-          },
-        },
+        // lineStyle: {
+        //   stroke: 'green',
+        //   lineWidth: 1,
+        // },
+        // interval: {
+        //   data: intervalData.map((d) => d.value),
+        //   style: {
+        //     // stroke: '#ccc',
+        //     fill: '#ccc',
+        //   },
+        // },
       },
       slider: {
+        start: 0,
+        end: 1,
         // height: 50,
 
         // backgroundStyle: {
@@ -462,13 +494,18 @@ describe('timeline play with timebar', () => {
         //   }
         // }
       },
+      tick: {
+        tickLabelStyle: {
+          rotate: Math.PI / 4
+        }
+      }
       // loop: true
     });
     const graph = new G6.Graph({
       container: div,
       width: 500,
       height: 500,
-      // renderer: 'svg',
+      // renderer: 'SVG',
       plugins: [timeLine],
       modes: {
         default: ['drag-node', 'zoom-canvas', 'drag-canvas'],

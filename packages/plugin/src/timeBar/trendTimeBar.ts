@@ -1,10 +1,10 @@
 import { Event, IGroup, ICanvas, IShape } from '@antv/g-base';
-import { get, size, assign, each } from '@antv/util';
+import { get, size, assign, each, isNumber } from '@antv/util';
+import { ext } from '@antv/matrix-util';
 import Trend, { TrendCfg } from './trend';
 import Handler from './handler';
 import { isString } from '@antv/util';
 import ControllerBtn, { ControllerCfg } from './controllerBtn';
-
 import { ShapeStyle, IAbstractGraph as IGraph } from '@antv/g6-core';
 import {
   VALUE_CHANGE,
@@ -15,6 +15,8 @@ import {
   PRE_STEP_BTN,
   TIMELINE_END,
 } from './constant';
+
+const transform = ext.transform;
 
 /**
  * 一些默认的样式配置
@@ -277,7 +279,7 @@ export default class TrendTimeBar {
     this.fontFamily =
       typeof window !== 'undefined'
         ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
-          'Arial, sans-serif'
+        'Arial, sans-serif'
         : 'Arial, sans-serif';
 
     this.renderSlider();
@@ -347,6 +349,7 @@ export default class TrendTimeBar {
         height,
         ...this.backgroundStyle,
       },
+      name: 'background'
     });
 
     const textGroup = this.group.addGroup();
@@ -361,9 +364,12 @@ export default class TrendTimeBar {
           text: this.minText,
           silent: false,
           fontFamily: this.fontFamily || 'Arial, sans-serif',
+          stroke: '#fff',
+          lineWidth: 5,
           ...this.textStyle,
         },
         capture: false,
+        name: 'min-text-shape'
       });
 
       this.maxTextShape = textGroup.addShape('text', {
@@ -373,9 +379,12 @@ export default class TrendTimeBar {
           text: this.maxText,
           silent: false,
           fontFamily: this.fontFamily || 'Arial, sans-serif',
+          stroke: '#fff',
+          lineWidth: 5,
           ...this.textStyle,
         },
         capture: false,
+        name: 'max-text-shape'
       });
     } else {
       this.minTextShape = textGroup.addShape('text', {
@@ -386,9 +395,12 @@ export default class TrendTimeBar {
           text: this.minText,
           silent: false,
           fontFamily: this.fontFamily || 'Arial, sans-serif',
+          stroke: '#fff',
+          lineWidth: 5,
           ...this.textStyle,
         },
         capture: false,
+        name: 'min-text-shape'
       });
       this.maxTextShape = textGroup.addShape('text', {
         attrs: {
@@ -397,9 +409,12 @@ export default class TrendTimeBar {
           text: this.maxText,
           silent: false,
           fontFamily: this.fontFamily || 'Arial, sans-serif',
+          stroke: '#fff',
+          lineWidth: 5,
           ...this.textStyle,
         },
         capture: false,
+        name: 'max-text-shape'
       });
     }
 
@@ -411,6 +426,7 @@ export default class TrendTimeBar {
         height,
         ...this.foregroundStyle,
       },
+      name: 'foreground-shape'
     });
     this.foregroundShape.on('mousedown', (e) => {
       e.target.attr('cursor', 'grabbing');
@@ -462,6 +478,8 @@ export default class TrendTimeBar {
       });
     }
     let lastX = -Infinity;
+    const rotate = this.tickLabelStyle.rotate;
+    delete this.tickLabelStyle.rotate;
     this.textList = tickData.map((data, index) => {
       this.tickPosList.push(this.x + index * interval);
 
@@ -477,15 +495,40 @@ export default class TrendTimeBar {
       }
 
       // 文本刻度
+      const textX = this.x + index * interval, textY = this.y + height + 5;
       const text = this.group.addShape('text', {
         attrs: {
-          x: this.x + index * interval,
-          y: this.y + height + 5,
+          x: textX,
+          y: textY,
           text: label,
           fontFamily: this.fontFamily || 'Arial, sans-serif',
           ...this.tickLabelStyle
         },
+        name: 'tick-label'
       });
+      if (isNumber(rotate) && index !== tickData.length - 1) {
+        const matrix = transform(
+          [1, 0, 0, 0, 1, 0, 0, 0, 1],
+          [
+            ['t', -textX!, -textY!],
+            ['r', rotate],
+            ['t', textX - 5, textY + 2],
+          ],
+        );
+        text.attr({
+          textAlign: 'left',
+          matrix,
+        });
+      }
+      if (index === 0) {
+        text.attr({
+          textAlign: 'left',
+        });
+      } else if (index !== tickData.length - 1) {
+        text.attr({
+          textAlign: 'right',
+        });
+      }
 
       // 文本刻度上面的竖线
       const line = this.group.addShape('line', {
@@ -496,6 +539,7 @@ export default class TrendTimeBar {
           y2: this.y + height + 6,
           ...this.tickLineStyle
         },
+        name: 'tick-line'
       });
       line.toBack();
 
@@ -730,8 +774,8 @@ export default class TrendTimeBar {
     const minData = this.ticks[this.adjustTickIndex(this.start * this.width)];
     const maxData = this.ticks[this.adjustTickIndex(this.end * this.width)];
     if (!this.currentHandler) {
-      this.minText = this.tickLabelFormatter ? this.tickLabelFormatter(minData) : minData.date;
-      this.maxText = this.tickLabelFormatter ? this.tickLabelFormatter(maxData) : maxData.date;
+      this.minText = this.tickLabelFormatter ? this.tickLabelFormatter(minData) : minData?.date;
+      this.maxText = this.tickLabelFormatter ? this.tickLabelFormatter(maxData) : maxData?.date;
       return;
     }
     // 操作不同的组件，反馈不一样
@@ -839,14 +883,14 @@ export default class TrendTimeBar {
           : { x: max + handlerWidth / 2 + TEXTPADDING, textAlign: 'left' };
     } else if (this.timeBarType === 'simple') {
       minAttrs =
-        minBBox.width > min - TEXTPADDING
-          ? { x: min + handlerWidth / 2 + TEXTPADDING, textAlign: 'center' }
-          : { x: min - handlerWidth / 2 - TEXTPADDING, textAlign: 'center' };
+        minTextShape.attr('x') > minBBox.width // 左边滑块文本位置小于其宽度代表文字超过左边届
+          ? { x: min, textAlign: 'center' }
+          : { x: min, textAlign: 'left' };
 
       maxAttrs =
-        maxBBox.width > this.width - max - TEXTPADDING
-          ? { x: max - handlerWidth / 2 - TEXTPADDING, textAlign: 'center' }
-          : { x: max + handlerWidth / 2 + TEXTPADDING, textAlign: 'center' };
+        maxTextShape.attr('x') > this.width - maxBBox.width // 有边滑块文本位置大于宽度代表文字超过右边界
+          ? { x: max, textAlign: 'right' }
+          : { x: max, textAlign: 'center' };
     }
 
     return !sorted ? [minAttrs, maxAttrs] : [maxAttrs, minAttrs];
@@ -855,21 +899,21 @@ export default class TrendTimeBar {
   private startPlay() {
     return typeof window !== 'undefined'
       ? window.requestAnimationFrame(() => {
-          const { ticks, width } = this;
-          const speed = this.currentSpeed;
+        const { ticks, width } = this;
+        const speed = this.currentSpeed;
 
-          const tickInterval = width / ticks.length;
-          const offsetX = tickInterval / (((10 - speed) * 1000) / 60);
+        const tickInterval = width / ticks.length;
+        const offsetX = tickInterval / (((10 - speed) * 1000) / 60);
 
-          const offsetXRange = this.adjustOffsetRange(offsetX / this.width);
+        const offsetXRange = this.adjustOffsetRange(offsetX / this.width);
 
-          this.updateStartEnd(offsetXRange);
-          this.updateUI();
+        this.updateStartEnd(offsetXRange);
+        this.updateUI();
 
-          if (this.isPlay) {
-            this.playHandler = this.startPlay();
-          }
-        })
+        if (this.isPlay) {
+          this.playHandler = this.startPlay();
+        }
+      })
       : undefined;
   }
 

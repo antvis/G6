@@ -353,13 +353,14 @@ export default class ItemController {
       return;
     }
     const model = combo.getModel();
-    const comboBBox = getComboBBox(model.collapsed ? [] : children, graph);
-    const { x: comboX, y: comboY } = model.collapsed ? getComboBBox(children, graph) : comboBBox;
+
+    const comboBBox = getComboBBox(children, graph, combo);
+    const { x: comboX, y: comboY } = comboBBox;
 
     combo.set('bbox', comboBBox);
     combo.update({
-      x: comboX,
-      y: comboY,
+      x: comboX || model.x,
+      y: comboY || model.y,
     });
 
     const shapeFactory = combo.get('shapeFactory');

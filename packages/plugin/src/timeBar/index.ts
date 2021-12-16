@@ -73,9 +73,29 @@ interface TimeBarConfig extends IPluginBaseConfig {
 
   // 是否过滤边，若为 true，则需要配合边数据上有 date 字段，过滤节点同时将不满足 date 在选中范围内的边也过滤出去
   // 若为 false，则仅过滤节点以及两端节点都被过滤出去的边
+  //【deprecate】，由 filterItemTypes 替代
   readonly filterEdge?: boolean;
 
+  // 过滤的类型, ['node', 'edge'], 默认为 ['node']
+  readonly filterItemTypes?: string[];
+
+  // 容器的 CSS 样式
+  readonly containerCSS?: Object;
+
+  // 是否通过 changeData 来进行筛选，false 则使用 hideItem
+  readonly changeData?: boolean;
+
+  // 当时间轴范围发生变化时的回调函数
   rangeChange?: (graph: IGraph, minValue: string, maxValue: string) => void;
+
+  // 用户根据节点/边数据返回对应时间值的方法
+  getDate?: (d: any) => number;
+
+  // 用户根据节点/边数据返回对应 value 的方法。value 用于在 type 为 trend 的时间轴上显示趋势线
+  getValue?: (d: any) => number;
+
+  // 在过滤图元素时是否要忽略某些元素，范围 true，则忽略。否则按照正常过滤逻辑处理
+  shouldIgnore?: (itemType: 'node' | 'edge', model: any, dateRage: { min: number, max: number }) => boolean;
 }
 
 export default class TimeBar extends Base {
@@ -111,7 +131,9 @@ export default class TimeBar extends Base {
         data: [],
       },
       textStyle: {},
-      filterEdge: false,
+      filterEdge: false, // deprecate，由 filterItemTypes 替代
+      filterItemTypes: ['node'],
+      containerCSS: {}
     };
   }
 
@@ -157,6 +179,8 @@ export default class TimeBar extends Base {
         height,
       });
     }
+    // 根据传入的参数修改容器 CSS 样式
+    if (this.get('containerCSS')) modifyCSS(timeBarContainer, this.get('containerCSS'));
     this.set('canvas', canvas);
   }
 
@@ -175,7 +199,7 @@ export default class TimeBar extends Base {
     const fontFamily =
       typeof window !== 'undefined'
         ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
-          'Arial, sans-serif'
+        'Arial, sans-serif'
         : 'Arial, sans-serif';
     this.set('fontFamily', fontFamily);
   }
@@ -206,6 +230,7 @@ export default class TimeBar extends Base {
 
     let timebar = null;
     if (type === 'trend' || type === 'simple') {
+      const getValue = this.get('getValue');
       timebar = new TrendTimeBar({
         graph,
         canvas,
@@ -220,7 +245,7 @@ export default class TimeBar extends Base {
         foregroundStyle,
         trendCfg: {
           ...other,
-          data: data.map((d) => d.value),
+          data: data.map((d) => (getValue?.(d) || d.value)),
         },
         ...slider,
         tick: {
@@ -244,9 +269,30 @@ export default class TimeBar extends Base {
         group,
         x: x + padding,
         y: y + padding,
+        width,
+        height: 42,
+        padding: 2,
         ...tick,
       });
     }
+    // 鼠标按下左/右滑块或范围条后在任意地方释放，都触发暂停播放
+    const handleMouseUp = () => {
+      const timebarInstance = this.get('timebar');
+      timebarInstance.draggingHandler = false;
+      if (timebarInstance.isPlay) {
+        timebarInstance.isPlay = false;
+        timebarInstance.currentHandler = timebarInstance.maxHandlerShape;
+        timebarInstance.changePlayStatus();
+      }
+      document.removeEventListener('mouseup', handleMouseUp)
+    }
+    canvas.on('mousedown', e => {
+      if (e.target.get('name') === 'maxHandlerShape-handler' ||
+        e.target.get('name') === 'minHandlerShape-handler' ||
+        e.target === timebar.foregroundShape) {
+        document.addEventListener('mouseup', handleMouseUp);
+      }
+    });
 
     this.set('timebar', timebar);
   }
@@ -295,31 +341,70 @@ export default class TimeBar extends Base {
         this.cacheGraphData = graph.get('data'); // graph.save() as GraphData;
       }
 
+      const filterItemTypes = this.get('filterItemTypes');
+
+      const changeData = this.get('changeData');
+
       // 过滤不在 min 和 max 范围内的节点
-      const filterData = this.cacheGraphData.nodes.filter(
-        (d: any) => d.date >= trendData[min].date && d.date <= trendData[max].date,
-      );
-
-      const nodeIds = filterData.map((node) => node.id);
-
-      let fileterEdges = [];
-      if (this.cacheGraphData.edges) {
-        // 过滤 source 或 target 不在 min 和 max 范围内的边
-        fileterEdges = this.cacheGraphData.edges.filter(
-          (edge) => nodeIds.includes(edge.source) && nodeIds.includes(edge.target),
-        );
-
-        if (this.get('filterEdge')) {
-          fileterEdges = fileterEdges.filter(
-            (edge) => edge.date >= trendData[min].date && edge.date <= trendData[max].date,
+      const getDate = this.get('getDate');
+      const shouldIgnore = this.get('shouldIgnore');
+      const minDate = trendData[min].date, maxDate = trendData[max].date;
+      if (changeData || changeData === undefined) {
+        let filterNodes = this.cacheGraphData.nodes;
+        let filterEdges = this.cacheGraphData.edges;
+        if (filterItemTypes.includes('node')) {
+          filterNodes = filterNodes.filter((node: any) => {
+            const date = +(getDate?.(node) || node.date);
+            return (date >= minDate && date <= maxDate) || shouldIgnore?.('node', node, { min: minDate, max: maxDate });
+          }
           );
+          const nodeIds = filterNodes.map((node) => node.id);
+          if (filterEdges) {
+            // 过滤 source 或 target 不在 min 和 max 范围内的边
+            filterEdges = filterEdges.filter((edge) => (
+              (nodeIds.includes(edge.source) && nodeIds.includes(edge.target)) ||
+              shouldIgnore?.('edge', edge, { min: minDate, max: maxDate })
+            ));
+          }
+        }
+
+        if (this.get('filterEdge') || filterItemTypes.includes('edge')) {
+          filterEdges = filterEdges.filter((edge) => {
+            const date = +(getDate?.(edge) || edge.date);
+            return (date >= minDate && date <= maxDate) || shouldIgnore?.('edge', edge, { min: minDate, max: maxDate });
+          });
+        }
+
+        graph.changeData({
+          nodes: filterNodes,
+          edges: filterEdges,
+        });
+      } else {
+        if (filterItemTypes.includes('node')) {
+          graph.getNodes().forEach(node => {
+            const model = node.getModel();
+            if (shouldIgnore?.('node', model, { min: minDate, max: maxDate })) return;
+            const date = +(getDate?.(model) || model.date);
+            if (date < minDate || date > maxDate) {
+              graph.hideItem(node);
+            } else {
+              graph.showItem(node);
+            }
+          });
+        }
+        if (this.get('filterEdge') || filterItemTypes.includes('edge')) {
+          graph.getEdges().forEach(edge => {
+            const model = edge.getModel();
+            if (shouldIgnore?.('edge', model, { min: trendData[min].date, max: trendData[max].date })) return;
+            const date = +(getDate?.(model) || model.date);
+            if (date < trendData[min].date || date > trendData[max].date) {
+              graph.hideItem(edge);
+            } else {
+              graph.showItem(edge);
+            }
+          });
         }
       }
-
-      graph.changeData({
-        nodes: filterData,
-        edges: fileterEdges,
-      });
     }
   }
 

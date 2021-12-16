@@ -33,7 +33,7 @@ const singleNode: ShapeOptions = {
    * @return {Array} 宽高
    */
   getSize(cfg: ModelConfig): number[] {
-    let size: number | number[] = this.mergeStyle?.size || cfg.size ||this.getOptions({})!.size || Global.defaultNode.size; // Global.defaultNode.size; //  
+    let size: number | number[] = this.mergeStyle?.size || cfg.size || this.getOptions({})!.size || Global.defaultNode.size; // Global.defaultNode.size; //  
 
     // size 是数组，但长度为1，则补长度为2
     if (isArray(size) && size.length === 1) {
@@ -99,9 +99,7 @@ const singleNode: ShapeOptions = {
   },
   getLabelBgStyleByPosition(
     label: IElement,
-    cfg: ModelConfig,
     labelCfg?: ILabelConfig,
-    group?: IGroup,
   ) {
     if (!label) return {};
     const backgroundStyle = labelCfg.style?.background;
@@ -301,7 +299,11 @@ const singleNode: ShapeOptions = {
       if (show || show === undefined) {
         // 若传入 show: true, 或没有设置，则更新原有的 icon 样式
         const iconConfig = mix({}, iconShape.attr(), icon);
-        const { width: w = 20, height: h = 20 } = iconConfig;
+        let { width: w = 20, height: h = 20 } = iconConfig;
+        if (iconConfig.fontFamily === 'iconfont' || iconConfig.hasOwnProperty('text')) {
+          w = 0;
+          h = 0;
+        }
         iconShape.attr({
           ...iconConfig,
           x: -w / 2,
@@ -313,7 +315,11 @@ const singleNode: ShapeOptions = {
       }
     } else if (show) {
       // 如果原先不存在 icon，但传入了 show: true，则新增 icon
-      const { width: w, height: h } = icon;
+      let { width: w, height: h } = icon;
+      if (icon.fontFamily === 'iconfont') {
+        w = 0;
+        h = 0;
+      }
       const name = `${this.type}-icon`;
       group['shapeMap'][name] = group.addShape('image', {
         attrs: {

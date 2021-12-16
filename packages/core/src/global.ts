@@ -64,7 +64,7 @@ const colorSet = {
 };
 
 export default {
-  version: '0.4.1',
+  version: '0.5.1',
   rootContainerClassName: 'root-container',
   nodeContainerClassName: 'node-container',
   edgeContainerClassName: 'edge-container',
@@ -251,6 +251,6 @@ export default {
   },
   windowFontFamily: typeof window !== 'undefined' && window.getComputedStyle
     ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
-      'Arial, sans-serif'
+    'Arial, sans-serif'
     : 'Arial, sans-serif'
 };

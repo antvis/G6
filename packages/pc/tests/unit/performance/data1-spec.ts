@@ -53,26 +53,27 @@ describe('graph', () => {
   stats.showPanel(0);
   document.body.appendChild(stats.dom);
 
-  
+
   it.only('first render', done => {
     fetch('https://gw.alipayobjects.com/os/basement_prod/da5a1b47-37d6-44d7-8d10-f3e046dabf82.json')
-    .then((res) => res.json())
-    .then((data) => {
-      data.nodes.forEach(node => {
-        node.label = node.olabel
-      })
-      const begin = performance.now();
-      graph.once('afterrender', e => {
-        console.log('first render time:', performance.now() - begin);
-      })
-      graph.data(data);
-      graph.render();
-      done();
-    });
+      .then((res) => res.json())
+      .then((data) => {
+        data.nodes.forEach(node => {
+          node.label = node.olabel
+        })
+        const begin = performance.now();
+        graph.once('afterrender', e => {
+          console.log('first render time:', performance.now() - begin);
+        })
+        graph.data(data);
+        graph.render();
+        done();
+      });
+    setTimeout(() => done(), 1000);
   });
   it.only('global refresh: drag', done => {
     let begin, duration = 0;
-    for (let i = 0; i < TIMES; i ++) {
+    for (let i = 0; i < TIMES; i++) {
       begin = performance.now();
       graph.emit('dragstart', { clientX: 150, clientY: 150, target: graph.get('canvas') });
       graph.emit('drag', { clientX: 200, clientY: 200, target: graph.get('canvas') });
@@ -89,20 +90,20 @@ describe('graph', () => {
       stats.update();
       graph.emit('dragstart', { clientX: currentPos, clientY: currentPos, target: graph.get('canvas') });
       if (Math.round(count / 100) % 2) currentPos += 5;
-      else  currentPos -= 5;
+      else currentPos -= 5;
       graph.emit('drag', { clientX: currentPos, clientY: currentPos, target: graph.get('canvas') });
       graph.emit('dragend', { clientX: currentPos, clientY: currentPos });
-      count ++;
-      requestAnimationFrame( animate );
+      count++;
+      requestAnimationFrame(animate);
     }
-    requestAnimationFrame( animate );
+    requestAnimationFrame(animate);
     done()
   });
   it('global refresh: zoom', done => {
     const eIn = createWheelEvent(graph.get('canvas').get('el'), 1, 100, 100);
     const eOut = createWheelEvent(graph.get('canvas').get('el'), -1, 100, 100);
     let begin, duration = 0;
-    for (let i = 0; i < TIMES; i ++) {
+    for (let i = 0; i < TIMES; i++) {
       begin = performance.now();
       graph.emit('wheel', i > TIMES / 2 ? eIn : eOut);
       duration += (performance.now() - begin);
@@ -144,11 +145,11 @@ describe('graph', () => {
     let begin, duration = 0;
     const nodeNum = graph.getNodes().length;
     const edgeNum = graph.getEdges().length;
-    for (let i = 0; i < TIMES; i ++) {
+    for (let i = 0; i < TIMES; i++) {
       const item = i < TIMES / 2 ?
         graph.getNodes()[Math.floor(Math.random() * nodeNum)] :
         graph.getEdges()[Math.floor(Math.random() * edgeNum)];
-      const config = i < TIMES / 2 ? {...nodeTargetConfig} : {...edgeTargetConfig};
+      const config = i < TIMES / 2 ? { ...nodeTargetConfig } : { ...edgeTargetConfig };
       begin = performance.now();
       graph.updateItem(item, config);
       duration += (performance.now() - begin);
@@ -182,7 +183,7 @@ describe('graph', () => {
     const items = [];
     const nodeNum = graph.getNodes().length;
     const edgeNum = graph.getEdges().length;
-    for (let i = 0; i < TIMES; i ++) {
+    for (let i = 0; i < TIMES; i++) {
       const item = i < TIMES / 2 ?
         graph.getNodes()[Math.floor(Math.random() * nodeNum)] :
         graph.getEdges()[Math.floor(Math.random() * edgeNum)];
@@ -201,7 +202,7 @@ describe('graph', () => {
       duration += (performance.now() - begin);
     })
     console.log(`ave time (${TIMES} times) for clearing one item with one state: `, duration / TIMES, 'ms')
-    
+
     duration = 0;
     items.forEach(item => {
       begin = performance.now();
@@ -231,7 +232,7 @@ describe('graph', () => {
     graph.updateLayout({
       type: 'force',
       tick: () => {
-        funcs.push(() => {});
+        funcs.push(() => { });
       }
     });
 
@@ -240,7 +241,7 @@ describe('graph', () => {
       stats.update();
       const func = funcs.pop();
       if (func) func();
-      requestAnimationFrame( animate );
+      requestAnimationFrame(animate);
     }
     requestAnimationFrame(animate);
     done();
