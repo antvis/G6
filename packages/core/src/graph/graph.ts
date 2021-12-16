@@ -2995,11 +2995,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     // 清空栈数据
     this.clearStack();
 
-    this.get('itemController').destroy();
-    this.get('modeController').destroy();
-    this.get('viewController').destroy();
-    this.get('stateController').destroy();
-    this.get('canvas').destroy();
+    this.get('itemController')?.destroy();
+    this.get('modeController')?.destroy();
+    this.get('viewController')?.destroy();
+    this.get('stateController')?.destroy();
+    this.get('canvas')?.destroy();
 
     (this.cfg as any) = null;
     this.destroyed = true;

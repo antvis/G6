@@ -186,7 +186,7 @@ describe('timeline filter edges', () => {
   });
 });
 
-describe.only('timeline play with timebar', () => {
+describe('timeline play with timebar', () => {
   it('trend timebar', () => {
     const timeBarData = [];
 
@@ -389,7 +389,7 @@ describe.only('timeline play with timebar', () => {
   });
 
   it('simple timebar', () => {
-    
+
     const data = {
       nodes: [],
       edges: [],
@@ -453,7 +453,7 @@ describe.only('timeline play with timebar', () => {
         position: 'absolute',
         bottom: '50px'
       },
-      tick: {
+      trend: {
         data: timeBarData,
         // isArea: true,
         // areaStyle: {
@@ -470,9 +470,6 @@ describe.only('timeline play with timebar', () => {
         //     fill: '#ccc',
         //   },
         // },
-        tickLabelStyle: {
-          rotate: Math.PI / 24
-        }
       },
       slider: {
         start: 0,
@@ -497,11 +494,11 @@ describe.only('timeline play with timebar', () => {
         //   }
         // }
       },
-      // tick: {
-      //   tickLabelStyle: {
-      //     rotate: Math.PI / 4
-      //   }
-      // }
+      tick: {
+        tickLabelStyle: {
+          rotate: Math.PI / 4
+        }
+      }
       // loop: true
     });
     const graph = new G6.Graph({

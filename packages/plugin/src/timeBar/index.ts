@@ -73,7 +73,7 @@ interface TimeBarConfig extends IPluginBaseConfig {
 
   // 是否过滤边，若为 true，则需要配合边数据上有 date 字段，过滤节点同时将不满足 date 在选中范围内的边也过滤出去
   // 若为 false，则仅过滤节点以及两端节点都被过滤出去的边
-   //【deprecate】，由 filterItemTypes 替代
+  //【deprecate】，由 filterItemTypes 替代
   readonly filterEdge?: boolean;
 
   // 过滤的类型, ['node', 'edge'], 默认为 ['node']
@@ -199,7 +199,7 @@ export default class TimeBar extends Base {
     const fontFamily =
       typeof window !== 'undefined'
         ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
-          'Arial, sans-serif'
+        'Arial, sans-serif'
         : 'Arial, sans-serif';
     this.set('fontFamily', fontFamily);
   }
@@ -290,8 +290,8 @@ export default class TimeBar extends Base {
       if (e.target.get('name') === 'maxHandlerShape-handler' ||
         e.target.get('name') === 'minHandlerShape-handler' ||
         e.target === timebar.foregroundShape) {
-          document.addEventListener('mouseup', handleMouseUp);
-        }
+        document.addEventListener('mouseup', handleMouseUp);
+      }
     });
 
     this.set('timebar', timebar);
@@ -355,7 +355,7 @@ export default class TimeBar extends Base {
         if (filterItemTypes.includes('node')) {
           filterNodes = filterNodes.filter((node: any) => {
             const date = +(getDate?.(node) || node.date);
-            return (date >= minDate && date <= maxDate )|| shouldIgnore?.('node', node, { min: minDate, max: maxDate });
+            return (date >= minDate && date <= maxDate) || shouldIgnore?.('node', node, { min: minDate, max: maxDate });
           }
           );
           const nodeIds = filterNodes.map((node) => node.id);
@@ -367,14 +367,14 @@ export default class TimeBar extends Base {
             ));
           }
         }
-  
+
         if (this.get('filterEdge') || filterItemTypes.includes('edge')) {
           filterEdges = filterEdges.filter((edge) => {
             const date = +(getDate?.(edge) || edge.date);
             return (date >= minDate && date <= maxDate) || shouldIgnore?.('edge', edge, { min: minDate, max: maxDate });
           });
         }
-  
+
         graph.changeData({
           nodes: filterNodes,
           edges: filterEdges,

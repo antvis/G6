@@ -300,14 +300,14 @@ const singleNode: ShapeOptions = {
         // 若传入 show: true, 或没有设置，则更新原有的 icon 样式
         const iconConfig = mix({}, iconShape.attr(), icon);
         let { width: w = 20, height: h = 20 } = iconConfig;
-        if (iconConfig.fontFamily === 'iconfont') {
+        if (iconConfig.fontFamily === 'iconfont' || iconConfig.hasOwnProperty('text')) {
           w = 0;
           h = 0;
         }
         iconShape.attr({
+          ...iconConfig,
           x: -w / 2,
           y: -h / 2,
-          ...iconConfig,
         });
       } else {
         // 若传入了 show: false 则删除原先的 icon

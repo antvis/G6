@@ -279,7 +279,7 @@ export default class TrendTimeBar {
     this.fontFamily =
       typeof window !== 'undefined'
         ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
-          'Arial, sans-serif'
+        'Arial, sans-serif'
         : 'Arial, sans-serif';
 
     this.renderSlider();
@@ -774,8 +774,8 @@ export default class TrendTimeBar {
     const minData = this.ticks[this.adjustTickIndex(this.start * this.width)];
     const maxData = this.ticks[this.adjustTickIndex(this.end * this.width)];
     if (!this.currentHandler) {
-      this.minText = this.tickLabelFormatter ? this.tickLabelFormatter(minData) : minData.date;
-      this.maxText = this.tickLabelFormatter ? this.tickLabelFormatter(maxData) : maxData.date;
+      this.minText = this.tickLabelFormatter ? this.tickLabelFormatter(minData) : minData?.date;
+      this.maxText = this.tickLabelFormatter ? this.tickLabelFormatter(maxData) : maxData?.date;
       return;
     }
     // 操作不同的组件，反馈不一样
@@ -899,21 +899,21 @@ export default class TrendTimeBar {
   private startPlay() {
     return typeof window !== 'undefined'
       ? window.requestAnimationFrame(() => {
-          const { ticks, width } = this;
-          const speed = this.currentSpeed;
+        const { ticks, width } = this;
+        const speed = this.currentSpeed;
 
-          const tickInterval = width / ticks.length;
-          const offsetX = tickInterval / (((10 - speed) * 1000) / 60);
+        const tickInterval = width / ticks.length;
+        const offsetX = tickInterval / (((10 - speed) * 1000) / 60);
 
-          const offsetXRange = this.adjustOffsetRange(offsetX / this.width);
+        const offsetXRange = this.adjustOffsetRange(offsetX / this.width);
 
-          this.updateStartEnd(offsetXRange);
-          this.updateUI();
+        this.updateStartEnd(offsetXRange);
+        this.updateUI();
 
-          if (this.isPlay) {
-            this.playHandler = this.startPlay();
-          }
-        })
+        if (this.isPlay) {
+          this.playHandler = this.startPlay();
+        }
+      })
       : undefined;
   }
 

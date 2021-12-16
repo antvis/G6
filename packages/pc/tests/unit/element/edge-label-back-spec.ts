@@ -1,7 +1,6 @@
 import { Canvas, Shape } from '@antv/g-canvas';
 import { Graph } from '../../../src';
 import '../../../src';
-console.log('Shape', Shape);
 
 const div = document.createElement('div');
 div.id = 'edge-shape';
@@ -118,7 +117,6 @@ describe('text background label', () => {
     });
     setTimeout(() => {
       edge1bgMatrix = edge1bg.getMatrix();
-      console.log('edge1bgMatrix', edge1bgMatrix)
       expect(edge1bgMatrix[0]).toBe(0.9417419115948376);
       expect(edge1bgMatrix[6]).toBe(-83.53467171518344);
       expect(edge1bgMatrix[7]).toBe(55.06982476376146);
@@ -128,7 +126,6 @@ describe('text background label', () => {
       })
       setTimeout(() => {
         edge1bgMatrix = edge1bg.getMatrix();
-        console.log('edge1bgMatrix', edge1bgMatrix, edge1bg.attr('x'), edge1bg.attr('y'))
         expect(edge1bgMatrix[0]).toBe(1);
         expect(edge1bgMatrix[6]).toBe(0);
         expect(edge1bgMatrix[7]).toBe(0);
