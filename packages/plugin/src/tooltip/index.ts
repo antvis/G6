@@ -164,6 +164,13 @@ export default class Tooltip extends Base {
     this.currentTarget = null;
   }
 
+  clearContainer () {
+    const container = this.get('container');
+    if (container) {
+      container.innerHTML = ''
+    }
+  }
+
   showTooltip(e: IG6GraphEvent) {
     if (!e.item) {
       return;
@@ -179,7 +186,8 @@ export default class Tooltip extends Base {
     if (isString(tooltip)) {
       container.innerHTML = tooltip;
     } else {
-      container.innerHTML = tooltip.outerHTML;
+      this.clearContainer();
+      container.appendChild(tooltip);
     }
 
     this.updatePosition(e);
