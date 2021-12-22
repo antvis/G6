@@ -1,83 +1,69 @@
-name: '🐛 错误报告'
-description: 创建报告以帮助我们改进
+name: '🐞 新 Issue'
+description: 创建一个新的 issue，如果你的 issue 不符合规范，它将会被自动关闭。
 body:
   - type: markdown
     attributes:
       value: |
-        感谢您报告问题 :pray
-
-        此问题创建者用于在@ Antv / G6项目中找到的报告错误 (https://github.com/antvis/G6).
-        如果您对如何实现某些东西并挣扎有问题，请在G6的GitHub讨论选项卡中发布一个问题: https://github.com/antvis/G6/discussions
-
-        在提交新问题之前，请查看访问下面的链接，查看是否存在已发布的解决方案或问题:
-         - G6的GitHub问题的标签: https://github.com/antvis/G6/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc
-         - G6的GitHub已关闭问题选项卡: https://github.com/antvis/G6/issues?q=is%3Aissue+sort%3Aupdated-desc+is%3Aclosed
-         - G6的GitHub讨论选项卡: https://github.com/antvis/G6/discussions
-
-        您填充的信息越多，社区可以帮助您越好。
+        在提交新 issue 之前，先通过以下链接查看有没有类似的 bug 或者建议:
+         - [G6 Issues](https://github.com/antvis/G6/issues)
+         - [G6 Closed Issues](https://github.com/antvis/G6/issues?q=is%3Aissue+is%3Aclosed)
+         - [G6 Discussions](https://github.com/antvis/G6/discussions)
   - type: textarea
     id: description
     attributes:
-      label: 描述问题
-      description: 描述您遇到的挑战
+      label: 问题描述
+      description: 简洁清晰地描述你遇到的问题。
     validations:
       required: true
   - type: input
     id: link
     attributes:
-      label: 您的示例网站或应用程序
+      label: 重现链接
       description: |
-        错误发生时使用哪个网站或应用程序？
-        建议:
-        - 如果G6团队和社区可以轻松运行代码示例并且它只使用@ Antv / G6 NPM包，它可能有助于我们更快地解决错误。 建议 提交代码示例，其中包含绝对最低要求的依赖项来重现错误.
-        - 要创建可共享的代码示例，您可以使用StackBlitz（https://stackblitz.com/）或codeSandbox（https://codesandbox.io/s/new）。 请没有localhost网址。
-        - 请阅读此链接，其中包含如何创建有效的最低代码示例:  https://stackoverflow.com/help/mcve
+        可以使用 CodeSandbox(https://codesandbox.io/s/new) 或者 StackBlitz(https://stackblitz.com/) 重现你的问题。
       placeholder: |
-        示例: StackBlitz或CodeSandBox URL
+        示例: CodeSandBox 或者 StackBlitz URL
     validations:
       required: true
   - type: textarea
     id: steps
     attributes:
-      label: 列出如何重现错误的步骤
-      description: 提供我们必须采取的步骤列表来重现错误。
+      label: 重现步骤
+      description: 简洁清晰的重现步骤能够帮助我们更迅速地定位问题所在。
       placeholder: |
-        1.去....
+        1.进入页面...
         2.点击....
-        3.向下滚动到....
-        4.查看错误....
+        3.查看错误....
     validations:
       required: true
   - type: textarea
     id: expected
     attributes:
       label: 预期行为
-      description: 提供有关您预期的内容的详细信息
+      description: 描述你期望的结果以及实际的结果。
       placeholder: |
-        我期望看到___，但我看到了___
+        我期望看到...，但我看到了...
     validations:
       required: true
-  - type: textarea
-    id: screenshots_or_videos
-    attributes:
-      label: 屏幕截图或视频
-      description: |
-        如果适用，请添加屏幕截图或视频以帮助解释您的问题。
-        有关支持的图像和视频文件类型以及GitHub的文件大小限制的详细信息，请参阅以下链接: https://docs.github.com/en/github/writing-on-github/working-with-advanced-formatting/attaching-files
-      placeholder: |
-        您可以在此编辑器内拖动您的视频或图像文件↓
   - type: textarea
     id: platform
     attributes:
       label: 平台
       value: |
-        - 操作系统： [macOS, Windows, Linux, React Native ...]
+        - 操作系统: [macOS, Windows, Linux, React Native ...]
         - 网页浏览器: [Google Chrome, Safari, Firefox]
-        - 版本: [91.1 ... ]
+        - G6 版本: [4.5.1 ... ]
     validations:
       required: true
   - type: textarea
+    id: screenshots_or_videos
+    attributes:
+      label: 屏幕截图或视频（可选）
+      description: 可以添加屏幕截图或视频帮助你解释问题。
+      placeholder: |
+        可以将你的图片或者视频拖拽到此处↓
+  - type: textarea
     id: additional
     attributes:
-      label: 其他背景
-      description: 在此处添加有关此问题的任何其他上下文。
+      label: 补充说明（可选）
+      description: 比如：遇到这个 bug 的业务场景、上下文。
