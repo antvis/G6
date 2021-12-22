@@ -292,7 +292,7 @@ const singleNode: ShapeOptions = {
   updateIcon(cfg: NodeConfig, item: Item) {
     const group = item.getContainer();
     const { icon } = this.mergeStyle || this.getOptions(cfg) as NodeConfig;
-    const { show } = cfg.icon ? cfg.icon : { show: undefined };
+    const { show, text } = cfg.icon ? cfg.icon : { show: undefined, text: undefined };
     const iconShape = group['shapeMap'][`${this.type}-icon`] || group.find(ele => ele.get('name') === `${this.type}-icon`);
     if (iconShape) {
       // 若原先存在 icon
@@ -315,21 +315,34 @@ const singleNode: ShapeOptions = {
       }
     } else if (show) {
       // 如果原先不存在 icon，但传入了 show: true，则新增 icon
-      let { width: w, height: h } = icon;
-      if (icon.fontFamily === 'iconfont') {
-        w = 0;
-        h = 0;
-      }
       const name = `${this.type}-icon`;
-      group['shapeMap'][name] = group.addShape('image', {
-        attrs: {
-          ...icon,
-          x: -w! / 2,
-          y: -h! / 2,
-        },
-        className: name,
-        name,
-      });
+      if (text) {
+        group['shapeMap'][name] = group.addShape('text', {
+          attrs: {
+            x: 0,
+            y: 0,
+            fontSize: 12,
+            fill: '#000',
+            stroke: '#000',
+            textBaseline: 'middle',
+            textAlign: 'center',
+            ...icon,
+          },
+          className: name,
+          name,
+        });
+      } else {
+        let { width: w, height: h } = icon;
+        group['shapeMap'][name] = group.addShape('image', {
+          attrs: {
+            ...icon,
+            x: -w! / 2,
+            y: -h! / 2,
+          },
+          className: name,
+          name,
+        });
+      }
       // to ensure the label is on the top of all the shapes
       const labelShape = group['shapeMap']['node-label'] || group.find(ele => ele.get('name') === 'node-label');
       if (labelShape) {

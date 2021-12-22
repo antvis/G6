@@ -1,5 +1,9 @@
 # ChangeLog
 
+#### 4.5.2
+
+- fix: node update from no icon to iconfont icon failed;
+
 #### 4.5.1
 
 - feat: translate graph with animation;

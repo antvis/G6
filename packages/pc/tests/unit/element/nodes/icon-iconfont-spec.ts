@@ -14,23 +14,28 @@ describe('icon with iconfont', () => {
     },
   };
   const graph = new Graph(cfg);
-  it('default circle config', () => {
+  it.only('default circle config', () => {
     const data = {
       nodes: [
         {
           id: 'node',
           x: 100,
           y: 100,
-          icon: {
-            show: true,
-            img: undefined,
-            text: 'xxx'
-          }
         },
       ],
     };
     graph.data(data);
     graph.render();
+
+    graph.on('canvas:click', e => {
+      graph.updateItem('node', {
+        icon: {
+          show: true,
+          img: undefined,
+          text: 'xxx'
+        }
+      })
+    })
 
     expect(graph.getNodes()[0].get('group').find(e => e.get('name') === 'circle-icon').attr('text')).toBe('xxx');
   });
