@@ -195,7 +195,7 @@ const graph = new G6.Graph({
 ```
 const menu = new G6.Menu({
   offsetX: 6,
-  offsetX: 10,
+  offsetY: 10,
   itemTypes: ['node'],
   getContent(e) {
     const outDiv = document.createElement('div');
