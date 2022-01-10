@@ -662,7 +662,7 @@ export default class ItemBase implements IItemBase {
     const model = this.get('model');
     const shape = model.type;
     // 判定是否允许更新
-    // 1. 注册的节点允许更新
+    // 1. 注册的节点允许更新（即有继承的/复写的 update 方法，即 update 方法没有被复写为 undefined）
     // 2. 更新后的 shape 等于原先的 shape
     if (shapeFactory.shouldUpdate(shape) && shape === this.get('currentShape')) {
       const updateCfg = this.getShapeCfg(model, updateType);
@@ -726,7 +726,7 @@ export default class ItemBase implements IItemBase {
    * @return {Object} 包含 x,y,width,height, centerX, centerY
    */
   public getCanvasBBox(): IBBox {
-    // 计算 bbox 开销有些大，缓存
+    // 计算 bbox 开销大，缓存
     let bbox: IBBox = this.get(CACHE_CANVAS_BBOX);
     if (!bbox) {
       bbox = this.calculateCanvasBBox();

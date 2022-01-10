@@ -1477,8 +1477,6 @@ const tree = new G6.TreeGraph({
   container: 'container',
   width: 800,
   height: 800,
-  fitView: true,
-  fitViewPadding: [10, 20],
   layout: {
     type: 'indented',
     direction: 'LR',
@@ -1528,7 +1526,6 @@ const tree = new G6.TreeGraph({
 });
 
 tree.on('afterrender', e => {
-  console.log('after')
   tree.getEdges().forEach(edge => {
     const targetNode = edge.getTarget().getModel();
     const color = targetNode.branchColor;
@@ -1536,6 +1533,7 @@ tree.on('afterrender', e => {
   });
   setTimeout(() => {
     tree.moveTo(32, 32);
+    tree.zoomTo(0.7)
   }, 16);
 });
 

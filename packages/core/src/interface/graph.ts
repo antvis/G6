@@ -280,7 +280,7 @@ export interface IAbstractGraph extends EventEmitter {
   /**
    * 根据 graph 上的 animateCfg 进行视图中节点位置动画接口
    */
-  positionsAnimate: () => void;
+  positionsAnimate: (updateCombo?: boolean) => void;
 
   /**
    * 当节点位置在外部发生改变时，刷新所有节点位置，重计算边

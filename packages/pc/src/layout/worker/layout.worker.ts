@@ -50,6 +50,8 @@ export const LayoutWorker = (
     // @ts-ignore
     layout.registerLayout('comboForce', layout.ComboForceLayout);
     // @ts-ignore
+    layout.registerLayout('comboCombined', layout.ComboCombinedLayout);
+    // @ts-ignore
     layout.registerLayout('forceAtlas2', layout.ForceAtlas2Layout);
 
     function isLayoutMessage(event: Event) {

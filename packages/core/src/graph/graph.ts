@@ -1005,7 +1005,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     if (isString(item)) nodeItem = this.findById(item as string);
 
     if (!nodeItem && isString(item)) {
-      console.warn('The item to be removed does not exist!');
+      console.warn(`The item ${item} to be removed does not exist!`);
     } else if (nodeItem) {
       let type = '';
       if ((nodeItem as Item).getType) type = (nodeItem as Item).getType();
@@ -1725,9 +1725,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         if (subtree.id === comboId) {
           treeToBeUncombo = subtree;
           // delete the related edges
-          const edges = comboItem.getEdges();
-          edges.forEach(edge => {
-            this.removeItem(edge, false);
+          const edgeIds = comboItem.getEdges().map(edge => edge.getID());
+          edgeIds.forEach(edgeId => {
+            this.removeItem(edgeId, false);
           });
           const index = comboItems.indexOf(comboItem);
           comboItems.splice(index, 1);
@@ -1783,9 +1783,10 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   }
 
   /**
-   * 根据节点的 bbox 更新所有 combos 的绘制，包括 combos 的位置和范围
+   * 根据 combo 位置更新内部节点位置 followCombo = true
+   * 或根据内部元素的 bbox 更新所有 combos 的绘制，包括 combos 的位置和范围，followCombo = false
    */
-  public updateCombos() {
+  public updateCombos(followCombo: boolean = false) {
     const self = this;
     const comboTrees = this.get('comboTrees');
     const itemController: ItemController = self.get('itemController');
@@ -1803,7 +1804,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
           each(states, state => this.setItemState(childItem, state, false));
 
           // 更新具体的 Combo
-          itemController.updateCombo(childItem, child.children);
+          itemController.updateCombo(childItem, child.children, followCombo);
 
           // 更新 Combo 后，还原已有的状态
           each(states, state => this.setItemState(childItem, state, true));
@@ -2113,7 +2114,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   /**
    * 根据 graph 上的 animateCfg 进行视图中节点位置动画接口
    */
-  public positionsAnimate(): void {
+  public positionsAnimate(referComboModel?: boolean): void {
     const self = this;
     self.emit('beforeanimate');
 
@@ -2121,7 +2122,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
     const { onFrame } = animateCfg;
 
-    const nodes = self.getNodes();
+    const nodes = referComboModel ? self.getNodes().concat(self.getCombos()) : self.getNodes();
 
     const toNodes = nodes.map(node => {
       const model = node.getModel();
@@ -2170,7 +2171,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
           }
         });
 
-        self.refreshPositions();
+        self.refreshPositions(referComboModel);
       },
       {
         duration: animateCfg.duration,
@@ -2193,7 +2194,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   /**
    * 当节点位置在外部发生改变时，刷新所有节点位置，重计算边
    */
-  public refreshPositions() {
+  public refreshPositions(referComboModel?: boolean) {
     const self = this;
     self.emit('beforegraphrefreshposition');
 
@@ -2206,19 +2207,26 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
     const updatedNodes: { [key: string]: boolean } = {};
 
-    each(nodes, (node: INode) => {
-      model = node.getModel() as NodeConfig;
-      const originAttrs = node.get('originAttrs');
-      if (originAttrs && model.x === originAttrs.x && model.y === originAttrs.y) {
-        return;
-      }
-      const changed = node.updatePosition({ x: model.x!, y: model.y! });
-      updatedNodes[model.id] = changed;
-      if (model.comboId) updatedNodes[model.comboId] = updatedNodes[model.comboId] || changed;
-    });
+    const updateItems = (items) => {
+      each(items, (item: INode) => {
+        model = item.getModel() as NodeConfig;
+        const originAttrs = item.get('originAttrs');
+        if (originAttrs && model.x === originAttrs.x && model.y === originAttrs.y) {
+          return;
+        }
+        const changed = item.updatePosition({ x: model.x!, y: model.y! });
+        updatedNodes[model.id] = changed;
+        if (model.comboId) updatedNodes[model.comboId] = updatedNodes[model.comboId] || changed;
+      });
+    }
+
+    updateItems(nodes);
 
     if (combos && combos.length !== 0) {
       self.updateCombos();
+      if (referComboModel) {
+        updateItems(combos);
+      }
     }
 
     each(edges, (edge: IEdge) => {
@@ -2398,6 +2406,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * @param {string | ICombo} combo combo ID 或 combo item
    */
   public collapseCombo(combo: string | ICombo): void {
+    if (this.destroyed) return;
     if (isString(combo)) {
       combo = this.findById(combo) as ICombo;
     }

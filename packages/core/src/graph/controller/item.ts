@@ -149,10 +149,22 @@ export default class ItemController {
       const children: ComboTree[] = (model as ComboConfig).children;
 
       const comboBBox = getComboBBox(children, graph);
-      if (!isNaN(comboBBox.x)) model.x = comboBBox.x;
-      else if (isNaN(model.x)) model.x = Math.random() * 100;
-      if (!isNaN(comboBBox.y)) model.y = comboBBox.y;
-      else if (isNaN(model.y)) model.y = Math.random() * 100;
+      let bboxX, bboxY;
+      if (!isNaN(comboBBox.x)) bboxX = comboBBox.x;
+      else if (isNaN(model.x)) bboxX = Math.random() * 100;
+      if (!isNaN(comboBBox.y)) bboxY = comboBBox.y;
+      else if (isNaN(model.y)) bboxY = Math.random() * 100;
+
+      if (isNaN(model.x) || isNaN(model.y)) {
+        model.x = bboxX;
+        model.y = bboxY;
+      } else {
+        // if there is x y in model, place the combo according to it and move its succeed items. that means, the priority of the combo's position is higher than succeed items'
+        const dx = model.x - bboxX;
+        const dy = model.y - bboxY;
+        // In the same time, adjust the children's positions
+        this.updateComboSucceeds(model.id, dx, dy, children);
+      }
 
       const comboGroup = parent.addGroup();
       comboGroup.setZIndex((model as ComboConfig).depth as number);
@@ -215,6 +227,7 @@ export default class ItemController {
 
     const mapper = graph.get(type + MAPPER_SUFFIX);
     const model = item.getModel();
+    const { x: oriX, y: oriY } = model;
 
     const updateType = item.getUpdateType(cfg);
 
@@ -263,30 +276,35 @@ export default class ItemController {
         (item as IEdge).setTarget(target);
       }
       item.update(cfg);
-    }
-
-    // item.update(cfg);
-
-    if (type === NODE || type === COMBO) {
+    } else if (type === NODE) {
       item.update(cfg, updateType);
       const edges: IEdge[] = (item as INode).getEdges();
       const refreshEdge = updateType?.includes('bbox') || updateType === 'move';
-      if (type === NODE) {
-        if (updateType === 'move') {
-          each(edges, (edge: IEdge) => {
-            this.edgeToBeUpdateMap[edge.getID()] = {
-              edge: edge,
-              updateType
-            };
-            this.throttleRefresh();
-          });
-        } else if (refreshEdge) {
-          each(edges, (edge: IEdge) => {
-            edge.refresh(updateType);
-          });
-        }
+      if (updateType === 'move') {
+        each(edges, (edge: IEdge) => {
+          this.edgeToBeUpdateMap[edge.getID()] = {
+            edge: edge,
+            updateType
+          };
+          this.throttleRefresh();
+        });
+      } else if (refreshEdge) {
+        each(edges, (edge: IEdge) => {
+          edge.refresh(updateType);
+        });
       }
-      else if (refreshEdge && type === COMBO) {
+    } else if (type === COMBO) {
+      item.update(cfg, updateType);
+      if (!isNaN(cfg.x) || !isNaN(cfg.y)) {
+        // if there is x y in model, place the combo according to it and move its succeed items. that means, the priority of the combo's position is higher than succeed items'
+        const dx = (cfg.x - oriX) || 0;
+        const dy = (cfg.y - oriY) || 0;
+        // In the same time, adjust the children's positions
+        this.updateComboSucceeds(model.id, dx, dy);
+      }
+      const edges: IEdge[] = (item as INode).getEdges();
+      const refreshEdge = updateType?.includes('bbox') || updateType === 'move';
+      if (refreshEdge && type === COMBO) {
         const shapeFactory = item.get('shapeFactory');
         const shapeType = (model.type as string) || 'circle';
         const comboAnimate =
@@ -311,7 +329,6 @@ export default class ItemController {
     }
     graph.emit('afterupdateitem', { item, cfg });
   }
-
   /**
    * 更新边限流，同时可以防止相同的边频繁重复更新
    * */
@@ -342,7 +359,7 @@ export default class ItemController {
    * @returns
    * @memberof ItemController
    */
-  public updateCombo(combo: ICombo | string, children: ComboTree[]) {
+  public updateCombo(combo: ICombo | string, children: ComboTree[], followCombo?: boolean) {
     const { graph } = this;
 
     if (isString(combo)) {
@@ -358,10 +375,17 @@ export default class ItemController {
     const { x: comboX, y: comboY } = comboBBox;
 
     combo.set('bbox', comboBBox);
-    combo.update({
-      x: comboX || model.x,
-      y: comboY || model.y,
-    });
+    let x = comboX, y = comboY;
+    if (followCombo) {
+      // position of combo model first
+      x = isNaN(model.x) ? comboX : model.x;
+      y = isNaN(model.y) ? comboY : model.y;
+    } else {
+      // position of succeed items first
+      x = isNaN(comboX) ? model.x : comboX;
+      y = isNaN(comboY) ? model.y : comboY;
+    }
+    combo.update({ x, y });
 
     const shapeFactory = combo.get('shapeFactory');
     const shapeType = (model.type as string) || 'circle';
@@ -412,6 +436,37 @@ export default class ItemController {
     });
     children.combos.forEach((c) => {
       graph.hideItem(c);
+    });
+  }
+
+  /**
+   * 根据位置差量 dx dy，更新 comboId 后继元素的位置
+   * */
+  public updateComboSucceeds(comboId, dx, dy, children = []) {
+    const { graph } = this;
+    if (!dx && !dy) return;
+    let kids = children;
+    if (!kids?.length) {
+      const comboTrees = graph.get('comboTrees');
+      comboTrees?.forEach(child => {
+        traverseTree(child, subTree => {
+          if (subTree.id === comboId) {
+            kids = subTree.children;
+            return false;
+          }
+          return true;
+        });
+      });
+    }
+    kids?.forEach(child => {
+      const childItem = graph.findById(child.id);
+      if (childItem) {
+        const childModel = childItem.getModel();
+        this.updateItem(child.id, {
+          x: (childModel.x || 0) + dx,
+          y: (childModel.y || 0) + dy
+        });
+      }
     });
   }
 

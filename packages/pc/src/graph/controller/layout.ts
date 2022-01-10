@@ -139,7 +139,7 @@ export default class LayoutController extends AbstractLayout {
           graph.refreshPositions();
         };
         layoutCfg.tick = tick;
-      } else if (layoutCfg.type === 'comboForce') {
+      } else if (layoutType === 'comboForce' || layoutType === 'comboCombined') {
         layoutCfg.comboTrees = graph.get('comboTrees');
       }
 
@@ -484,7 +484,7 @@ export default class LayoutController extends AbstractLayout {
     } else {
       layoutMethods?.forEach((layoutMethod, index) => {
         const currentCfg = layoutCfg.pipes[index];
-        start = start.then(async() => await this.updateLayoutMethod(layoutMethod, currentCfg));
+        start = start.then(async () => await this.updateLayoutMethod(layoutMethod, currentCfg));
       });
     }
 
@@ -503,7 +503,7 @@ export default class LayoutController extends AbstractLayout {
       }
 
       if (!LAYOUT_PIPES_ADJUST_NAMES.includes(adjust)) {
-        console.warn(`The adjust type ${adjust} is not supported yet, please assign it with 'force', 'grid', or 'circular'.` );
+        console.warn(`The adjust type ${adjust} is not supported yet, please assign it with 'force', 'grid', or 'circular'.`);
         resolve();
       }
 

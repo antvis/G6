@@ -66,12 +66,22 @@ export default abstract class LayoutController {
 
   // 绘制
   public refreshLayout() {
-    const { graph } = this;
+    const { graph, layoutType, data } = this;
     if (!graph) return;
     if (graph.get('animate')) {
-      graph.positionsAnimate();
+      graph.positionsAnimate(layoutType === 'comboCombined');
     } else {
       graph.refreshPositions();
+      // 如果是 comboCombined 布局，则使用返回的 combos 数据更新 combo item 位置
+      if (layoutType === 'comboCombined') {
+        const { combos } = data;
+        combos.forEach(combo => {
+          graph.updateItem(combo.id, {
+            x: combo.x,
+            y: combo.y
+          })
+        })
+      }
     }
   }
 
