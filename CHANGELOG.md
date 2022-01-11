@@ -1,5 +1,13 @@
 # ChangeLog
 
+#### 4.5.2
+
+- fix: node update from no icon to iconfont icon failed;
+- fix: getUpdateType with type error;
+- fix: edge label background with clearItemStates problem;
+- fix: edge label with autoRotate false and padding problem;
+- fix: changeData in the process of create-edge behavior, an error occurs, closes: #3384;
+
 #### 4.5.1
 
 - feat: translate graph with animation;

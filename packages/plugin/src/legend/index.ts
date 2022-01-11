@@ -117,7 +117,7 @@ export default class Legend extends Base {
     positions.forEach(pos => {
       let marginValue = margin[posIdxMap[pos]];
       let key = pos;
-      switch(pos) {
+      switch (pos) {
         case 'top':
           marginValue += y;
           break;
@@ -362,7 +362,7 @@ export default class Legend extends Base {
     const nodeGroup = group.find(e => e.get('name') === 'node-group');
     const edgeGroup = group.find(e => e.get('name') === 'edge-group')
     const itemsData = this.get('itemsData');
-    const itemTypes = [ 'nodes', 'edges' ];
+    const itemTypes = ['nodes', 'edges'];
     const itemGroup = [nodeGroup, edgeGroup];
     itemTypes.forEach((itemType, i) => {
       itemsData[itemType].forEach(data => {
@@ -371,7 +371,7 @@ export default class Legend extends Base {
         let shapeType = data.type;
         const { width, height, r } = this.getShapeSize(data);
         const style = this.getStyle(itemType.substr(0, 4), data);
-        switch(data.type) {
+        switch (data.type) {
           case 'circle':
             attrs = { r, x: 0, y: 0 };
             break;
@@ -522,7 +522,7 @@ export default class Legend extends Base {
       nodeGroupBBox = nodeGroup.getCanvasBBox();
       const edgeGroupMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
       if (this.get('layout') === 'vertical') edgeGroupMatrix[6] += (nodeGroupMatrix[6] + nodeGroupBBox.maxX + this.get('horiSep'));
-      else edgeGroupMatrix[7] += (nodeGroupMatrix[7] +nodeGroupBBox.maxY + this.get('vertiSep'));
+      else edgeGroupMatrix[7] += (nodeGroupMatrix[7] + nodeGroupBBox.maxY + this.get('vertiSep'));
       edgeGroup.setMatrix(edgeGroupMatrix);
     }
     lcBBox = group.getCanvasBBox();
@@ -595,7 +595,7 @@ export default class Legend extends Base {
       }
       if (begin[0] > nodeLegendSize.max) nodeLegendSize.max = begin[0]
       if (curHeight > rowMaxY) rowMaxY = curHeight;
-      cNodeGroup.setMatrix([ 1, 0, 0, 0, 1, 0, x, y, 1 ]);
+      cNodeGroup.setMatrix([1, 0, 0, 0, 1, 0, x, y, 1]);
     });
     const nw = nodeLegendSize.max - nodeLegendSize.min;
 
@@ -616,12 +616,12 @@ export default class Legend extends Base {
         x = begin[1];
         y = begin[0];
         begin[0] = y + bbox.height + vertiSep;
-        subGroup.setMatrix([ 1, 0, 0, 0, 1, 0, 0, y + keyShapeHeight / 2, 1 ]);
+        subGroup.setMatrix([1, 0, 0, 0, 1, 0, 0, y + keyShapeHeight / 2, 1]);
       } else {
         x = begin[0];
         y = begin[1];
         begin[0] = x + bbox.width + horiSep;
-        subGroup.setMatrix([ 1, 0, 0, 0, 1, 0, x + keyShapeWidth / 2, 0, 1 ]);
+        subGroup.setMatrix([1, 0, 0, 0, 1, 0, x + keyShapeWidth / 2, 0, 1]);
       }
       if (begin[0] > edgeLegendSize.max) edgeLegendSize.max = begin[0]
     });
@@ -709,7 +709,7 @@ export default class Legend extends Base {
     const value = this.get(key);
     if (isNumber(value)) this.set(key, [value, value, value, value]);
     else if (isArray(value)) {
-      switch(value.length) {
+      switch (value.length) {
         case 0:
           this.set(key, [0, 0, 0, 0]);
           break;

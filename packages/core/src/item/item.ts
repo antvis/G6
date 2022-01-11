@@ -210,7 +210,7 @@ export default class ItemBase implements IItemBase {
     if (!this.get('originStyle')) {
       // 第一次 set originStyle，直接拿首次渲染所有图形的 attrs
       const originStyles = {};
-      for (let i = 0; i < children.length; i ++) {
+      for (let i = 0; i < children.length; i++) {
         const child = children[i];
         const shapeType = child.get('type');
         const name = child.get('name');
@@ -257,7 +257,7 @@ export default class ItemBase implements IItemBase {
       const currentStatesStyle = this.getCurrentStatesStyle();
 
       // 遍历当前所有图形的 attrs，找到不是 stateStyles 的样式更新到 originStyles 中
-      for (let i = 0; i < children.length; i ++) {
+      for (let i = 0; i < children.length; i++) {
         const child = children[i];
         const name = child.get('name');
         const shapeAttrs = child.attr();
@@ -366,17 +366,17 @@ export default class ItemBase implements IItemBase {
   /**
    * 渲染前的逻辑，提供给子类复写
    */
-  protected beforeDraw() {}
+  protected beforeDraw() { }
 
   /**
    * 渲染后的逻辑，提供给子类复写
    */
-  protected afterDraw() {}
+  protected afterDraw() { }
 
   /**
    * 更新后做一些工作
    */
-  protected afterUpdate() {}
+  protected afterUpdate() { }
 
   /**
    * draw shape
@@ -643,7 +643,7 @@ export default class ItemBase implements IItemBase {
 
       // 直接将更新合到原数据模型上，可以保证用户在外部修改源数据然后刷新时的样式符合期待。
       Object.assign(model, cfg);
-      
+
       // 如果 x,y 有变化，先重置位置
       if (originPosition.x !== cfg.x || originPosition.y !== cfg.y) {
         this.updatePosition(cfg);

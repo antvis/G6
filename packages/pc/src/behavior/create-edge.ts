@@ -156,6 +156,7 @@ export default {
   updateEndPoint(ev: IG6GraphEvent) {
     const self = this;
     if (self.key && !self.keydown) return;
+    if (self.edge && self.edge.destroyed) self.cancelCreating({ item: self.edge });
     const point = { x: ev.x, y: ev.y };
 
     // 若此时 source 节点已经被移除，结束添加边
@@ -180,16 +181,11 @@ export default {
     if (self.key && !self.keydown) return;
     const graph: IGraph = self.graph;
     const currentEdge = ev.item;
-    if (self.addingEdge && ev.target && ev.target.isCanvas && ev.target.isCanvas()) {
-      graph.removeItem(self.edge, false);
+    if (self.addingEdge && (self.edge === currentEdge || ev.target?.isCanvas?.())) {
+      if (self.edge && !self.edge.destroyed) graph.removeItem(self.edge, false);
       self.edge = null;
       self.addingEdge = false;
       return;
-    }
-    if (self.addingEdge && self.edge === currentEdge) {
-      graph.removeItem(self.edge, false);
-      self.edge = null;
-      self.addingEdge = false;
     }
   },
 

@@ -1,6 +1,9 @@
 import G6 from '@antv/g6';
 import insertCss from 'insert-css';
 
+// 我们用 insert-css 演示引入自定义样式
+// 推荐将样式添加到自己的样式文件中
+// 若拷贝官方代码，别忘了 npm install insert-css
 insertCss(`
   .g6-component-tooltip {
     background-color: rgba(0,0,0, 0.65);
@@ -277,10 +280,10 @@ const registerFn = () => {
           collapsed,
           currency,
           status,
-          rate,
+          rate
         } = cfg;
+
         const grey = '#CED4D9';
-        // 逻辑不应该在这里判断
         const rectConfig = {
           width: 202,
           height: 60,
@@ -454,7 +457,64 @@ const registerFn = () => {
         return rect;
       },
       update(cfg, item) {
+        const { level, status, name } = cfg;
         const group = item.getContainer();
+        let mask = group.find(ele => ele.get('name') === 'mask-shape');
+        let maskLabel = group.find(ele => ele.get('name') === 'mask-label-shape');
+        if (level === 0) {
+          group.get('children').forEach(child => {
+            if (child.get('name')?.includes('collapse')) return;
+            child.hide();
+          })
+          if (!mask) {
+            mask = group.addShape('rect', {
+              attrs: {
+                x: -101,
+                y: -30,
+                width: 202,
+                height: 60,
+                opacity: 0,
+                fill: colors[status]
+              },
+              name: 'mask-shape',
+            });
+            maskLabel = group.addShape('text', {
+              attrs: {
+                fill: '#fff',
+                fontSize: 20,
+                x: 0,
+                y: 10,
+                text: name.length > 28 ? name.substr(0, 16) + '...' : name,
+                textAlign: 'center',
+                opacity: 0,
+              },
+              name: 'mask-label-shape',
+            });
+            const collapseRect = group.find(ele => ele.get('name') === 'collapse-back');
+            const collapseText = group.find(ele => ele.get('name') === 'collapse-text');
+            collapseRect?.toFront();
+            collapseText?.toFront();
+          } else {
+            mask.show();
+            maskLabel.show();
+          }
+          mask.animate({ opacity: 1 }, 200);
+          maskLabel.animate({ opacity: 1 }, 200);
+          return mask;
+        } else {
+          group.get('children').forEach(child => {
+            if (child.get('name')?.includes('collapse')) return;
+            child.show();
+          })
+          mask?.animate({ opacity: 0 }, {
+            duration: 200,
+            callback: () => mask.hide()
+          });
+          maskLabel?.animate({ opacity: 0 }, {
+            duration: 200,
+            callback: () => maskLabel.hide()
+          });
+        }
         this.updateLinkPoints(cfg, group);
       },
       setState(name, value, item) {
@@ -557,7 +617,7 @@ const initGraph = (data) => {
       return outDiv;
     },
     shouldBegin: (e) => {
-      if (e.target.get('name') === 'name-shape') return true;
+      if (e.target.get('name') === 'name-shape' || e.target.get('name') === 'mask-label-shape') return true;
       return false;
     },
   });
@@ -572,7 +632,6 @@ const initGraph = (data) => {
   }
   graph.data(data);
   graph.render();
-  graph.zoom(config.defaultZoom || 1);
 
   const handleCollapse = (e) => {
     const target = e.target;
@@ -588,6 +647,28 @@ const initGraph = (data) => {
   });
   graph.on('collapse-back:click', (e) => {
     handleCollapse(e);
+  });
+
+  // 监听画布缩放，缩小到一定程度，节点显示缩略样式
+  let currentLevel = 1;
+  const briefZoomThreshold = Math.max(graph.getZoom(), 0.5);
+  graph.on('viewportchange', e => {
+    if (e.action !== 'zoom') return;
+    const currentZoom = graph.getZoom();
+    let toLevel = currentLevel;
+    if (currentZoom < briefZoomThreshold) {
+      toLevel = 0;
+    } else {
+      toLevel = 1;
+    }
+    if (toLevel !== currentLevel) {
+      currentLevel = toLevel;
+      graph.getNodes().forEach(node => {
+        graph.updateItem(node, {
+          level: toLevel
+        })
+      })
+    }
   });
 };
 

@@ -49,7 +49,6 @@ describe('drag-node', () => {
     graph.emit('canvas:drop', { x: 120, y: 120, item: node });
     graph.emit('node:dragend', { x: 120, y: 120, item: node });
     const matrix = node.get('group').getMatrix();
-    console.log('matrix',matrix)
     expect(matrix[0]).toEqual(1);
     expect(matrix[6]).toEqual(70);
     expect(matrix[7]).toEqual(70);
@@ -364,45 +363,41 @@ describe('drag-node', () => {
       style: { lineWidth: 2, fill: '#666', opacity: 0.1 },
     });
     const edge = graph.addItem('edge', { source: 'source', target: 'target' });
-
     let path = edge
       .get('group')
       .get('children')[0]
       .attr('path');
     expect(path[0][1]).toEqual(57.77817459305202);
     expect(path[0][2]).toEqual(57.77817459305202);
+    expect(mathEqual(289, path[1][1])).toEqual(true);
+    expect(mathEqual(300, path[1][2])).toEqual(true);
+    graph.emit('node:dragstart', { x: 100, y: 100, item: source });
+    graph.emit('node:drag', { x: 120, y: 120, item: source });
+    path = edge
+      .get('group')
+      .get('children')[0]
+      .attr('path');
     setTimeout(() => {
-      expect(mathEqual(289, path[1][1])).toEqual(true);
-      expect(mathEqual(300, path[1][2])).toEqual(true);
-      graph.emit('node:dragstart', { x: 100, y: 100, item: source });
-      graph.emit('node:drag', { x: 120, y: 120, item: source });
-      path = edge
-        .get('group')
-        .get('children')[0]
-        .attr('path');
+      // 因为有 delegate，没有 dragend 之前，边不更新
       expect(path[0][1]).toEqual(57.77817459305202);
       expect(path[0][2]).toEqual(57.77817459305202);
+      expect(mathEqual(289, path[1][1])).toEqual(true);
+      expect(mathEqual(300, path[1][2])).toEqual(true);
+      graph.emit('canvas:drop', { x: 140, y: 140, item: source });
+      graph.emit('node:dragend', { x: 140, y: 140, item: source });
       setTimeout(() => {
+        path = edge
+          .get('group')
+          .get('children')[0]
+          .attr('path');
+        expect(path[0][1]).toEqual(97.77817459305203);
+        expect(path[0][2]).toEqual(97.77817459305203);
         expect(mathEqual(289, path[1][1])).toEqual(true);
         expect(mathEqual(300, path[1][2])).toEqual(true);
-        graph.emit('canvas:drop', { x: 140, y: 140, item: source });
-        graph.emit('node:dragend', { x: 140, y: 140, item: source });
-        setTimeout(() => {
-          path = edge
-            .get('group')
-            .get('children')[0]
-            .attr('path');
-          expect(path[0][1]).toEqual(97.77817459305203);
-          expect(path[0][2]).toEqual(97.77817459305203);
-          setTimeout(() => {
-            expect(mathEqual(289, path[1][1])).toEqual(true);
-            expect(mathEqual(300, path[1][2])).toEqual(true);
-            graph.destroy();
-            done()
-          }, 50)
-        }, 50)
-      }, 50)
-    }, 50)
+        graph.destroy();
+        done()
+      }, 200)
+    }, 200)
   });
   it('drag node without size', () => {
     const graph = new Graph({
