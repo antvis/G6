@@ -320,6 +320,7 @@ registerNode(
           className: 'text-shape',
           name: 'text-shape',
           draggable: true,
+          labelRelated: true
         });
         group['shapeMap']['text-shape'] = label;
 
@@ -333,6 +334,7 @@ registerNode(
           className: 'rect-description',
           name: 'rect-description',
           draggable: true,
+          labelRelated: true
         });
       } else {
         label = group.addShape('text', {
@@ -345,6 +347,7 @@ registerNode(
           className: 'text-shape',
           name: 'text-shape',
           draggable: true,
+          labelRelated: true
         });
         group['shapeMap']['text-shape'] = label;
       }
@@ -422,6 +425,7 @@ registerNode(
             className: 'node-label',
             name: 'node-label',
             draggable: true,
+            labelRelated: true
           });
         } else {
           const cfgStyle = cfg.labelCfg ? cfg.labelCfg.style : {};
@@ -452,6 +456,7 @@ registerNode(
             className: 'rect-description',
             name: 'rect-description',
             draggable: true,
+            labelRelated: true
           });
         } else {
           const cfgStyle = cfg.descriptionCfg ? cfg.descriptionCfg.style : {};

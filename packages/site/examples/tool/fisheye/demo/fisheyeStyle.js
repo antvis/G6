@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
 
-const fisheye = new G6.Fisheye({
+let fisheye = new G6.Fisheye({
   r: 200,
   showLabel: true,
   delegateStyle: {
@@ -37,13 +37,13 @@ clearButton.style.width = '100px';
 buttonContainer.appendChild(clearButton);
 
 // enable/disable the fisheye lens button
-const swithButton = document.createElement('input');
-swithButton.type = 'button';
-swithButton.value = 'Disable';
-swithButton.style.height = '25px';
-swithButton.style.width = '100px';
-swithButton.style.marginLeft = '10px';
-buttonContainer.appendChild(swithButton);
+const switchButton = document.createElement('input');
+switchButton.type = 'button';
+switchButton.value = 'Disable';
+switchButton.style.height = '25px';
+switchButton.style.width = '100px';
+switchButton.style.marginLeft = '10px';
+buttonContainer.appendChild(switchButton);
 
 graphDiv.parentNode.appendChild(buttonContainer);
 
@@ -60,12 +60,12 @@ const graph = new G6.Graph({
 clearButton.addEventListener('click', (e) => {
   fisheye.clear();
 });
-swithButton.addEventListener('click', (e) => {
-  if (swithButton.value === 'Disable') {
-    swithButton.value = 'Enable';
+switchButton.addEventListener('click', (e) => {
+  if (switchButton.value === 'Disable') {
+    switchButton.value = 'Enable';
     graph.removePlugin(fisheye);
   } else {
-    swithButton.value = 'Disable';
+    switchButton.value = 'Disable';
     fisheye = new G6.Fisheye({
       r: 200,
       showLabel: true,

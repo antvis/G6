@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6-pc",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",
@@ -74,9 +74,9 @@
     "@antv/g-canvas": "^0.5.2",
     "@antv/g-math": "^0.1.1",
     "@antv/g-svg": "^0.5.1",
-    "@antv/g6-core": "0.5.1",
-    "@antv/g6-plugin": "0.5.1",
-    "@antv/g6-element": "0.5.1",
+    "@antv/g6-core": "*",
+    "@antv/g6-plugin": "*",
+    "@antv/g6-element": "*",
     "@antv/algorithm": "^0.1.8",
     "@antv/hierarchy": "^0.6.7",
     "@antv/layout": "^0.1.22",

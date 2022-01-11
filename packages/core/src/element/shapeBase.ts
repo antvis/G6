@@ -131,6 +131,7 @@ export const shapeBase: ShapeOptions = {
       draggable: true,
       className: 'text-shape',
       name: 'text-shape',
+      labelRelated: true
     });
     group['shapeMap']['text-shape'] = label;
     if (!isNaN(rotate) && rotate !== '') {
@@ -189,7 +190,7 @@ export const shapeBase: ShapeOptions = {
     const { labelCfg: defaultLabelCfg } = this.options as ModelConfig;
     const labelCfg = mix({}, defaultLabelCfg, cfg.labelCfg) as ILabelConfig;
     const style = this.getLabelBgStyleByPosition(label, labelCfg);
-    const rect = group.addShape('rect', { name: 'text-bg-shape', attrs: style });
+    const rect = group.addShape('rect', { name: 'text-bg-shape', attrs: style, labelRelated: true });
     group['shapeMap']['text-bg-shape'] = rect;
     return rect;
   },
@@ -356,7 +357,7 @@ export const shapeBase: ShapeOptions = {
     const group = item.getContainer();
 
     // 从图元素现有的样式中删除本次要取消的 states 中存在的属性值。使用对象检索更快
-    const keptAttrs: any = { x: 1, y: 1, cx: 1, cy: 1 };
+    const keptAttrs: any = { x: 1, y: 1, cx: 1, cy: 1, matrix: 1 };
     if (type === 'combo') {
       keptAttrs.r = 1;
       keptAttrs.width = 1;
@@ -473,7 +474,7 @@ export const shapeBase: ShapeOptions = {
           const subShape = group['shapeMap'][originKey] || group.find(ele => ele.get('name') === originKey);
           if (subShape) {
             // The text's position and matrix is not allowed to be affected by states
-            if (subShape.get('type') === 'text') {
+            if (subShape.get('type') === 'text' || subShape.get('labelRelated')) {
               delete (style as any).x;
               delete (style as any).y;
               delete (style as any).matrix;

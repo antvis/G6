@@ -235,7 +235,7 @@ export default class Node extends Item implements INode {
    * 判断更新的种类，move 表示仅移动，bbox 表示大小有变化，style 表示仅与大小无关的参数变化
    * @param cfg 节点数据模型
    */
-  public getUpdateType(cfg: ModelConfig): UpdateType {
+  public getUpdateType(cfg?: ModelConfig): UpdateType {
     if (!cfg) return undefined;
 
     const existX = !isNil(cfg.x);
@@ -268,6 +268,6 @@ export default class Node extends Item implements INode {
     let updateLabel = keys.includes('label') || keys.includes('labelCfg');
 
     return updateLabel ? 'style|label' : 'style';
-    
+
   }
 }

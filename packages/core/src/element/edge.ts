@@ -320,6 +320,7 @@ const singleEdge: ShapeOptions = {
     const label = group.addShape('text', {
       attrs: labelStyle,
       name: 'text-shape',
+      labelRelated: true
     });
     group['shapeMap']['text-shape'] = label;
     if (!isNaN(rotate) && rotate !== '') {
@@ -340,7 +341,7 @@ const singleEdge: ShapeOptions = {
     const labelCfg = deepMix({}, defaultLabelCfg, cfg.labelCfg);
 
     const style = this.getLabelBgStyleByPosition(label, labelCfg);
-    const rect = group.addShape('rect', { name: 'text-bg-shape', attrs: style });
+    const rect = group.addShape('rect', { name: 'text-bg-shape', attrs: style, labelRelated: true });
     group['shapeMap']['text-bg-shape'] = rect;
     return rect;
   },
