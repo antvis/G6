@@ -1,5 +1,9 @@
 # ChangeLog
 
+#### 4.5.3
+
+- fix: import G6 in head and call getComputedStyle, the document body is not exist;
+
 #### 4.5.2
 
 - fix: node update from no icon to iconfont icon failed;
