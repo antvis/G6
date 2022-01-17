@@ -64,7 +64,7 @@ const colorSet = {
 };
 
 export default {
-  version: '0.5.2',
+  version: '0.5.3',
   rootContainerClassName: 'root-container',
   nodeContainerClassName: 'node-container',
   edgeContainerClassName: 'edge-container',
@@ -249,7 +249,7 @@ export default {
     strokeOpacity: 0.9,
     lineDash: [5, 5],
   },
-  windowFontFamily: typeof window !== 'undefined' && window.getComputedStyle
+  windowFontFamily: typeof window !== 'undefined' && window.getComputedStyle && document.body
     ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
     'Arial, sans-serif'
     : 'Arial, sans-serif'
