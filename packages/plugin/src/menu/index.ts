@@ -71,6 +71,7 @@ export default class Menu extends Base {
     if (this.get('trigger') === 'click') {
       return {
         click: 'onMenuShow',
+        touchend: 'onMenuShow'
       };
     }
     return {
