@@ -1216,6 +1216,14 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   }
 
   /**
+   * Performs an expansion with the passed items
+   */
+  public expand(
+  ) {
+
+  }
+
+  /**
    * 新增元素
    * @param {ITEM_TYPE} type 元素类型(node | edge)
    * @param {ModelConfig} model 元素数据模型
