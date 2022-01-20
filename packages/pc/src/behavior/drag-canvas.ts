@@ -94,7 +94,7 @@ export default {
     if (event1 && event2) {
       return;
     }
-    e.preventDefault();
+    // e.preventDefault();
     self.onMouseDown(e);
   },
   onMouseDown(e: IG6GraphEvent) {
@@ -207,7 +207,7 @@ export default {
     const modeController = graph.get('modeController');
     const zoomCanvas = modeController?.modes[modeController.mode]?.filter(behavior => behavior.type === 'zoom-canvas')?.[0];
     const optimizeZoom = zoomCanvas ? zoomCanvas.optimizeZoom || 0.1 : 0;
-    
+
     if (this.enableOptimize) {
       // 拖动结束后显示所有的边
       const edges = graph.getEdges();
@@ -248,7 +248,7 @@ export default {
     e.type = 'dragend';
     e.dx = e.clientX - this.originPosition.x;
     e.dy = e.clientY - this.originPosition.y;
-    
+
     graph.emit('canvas:dragend', e);
     this.endDrag();
   },
