@@ -353,6 +353,10 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     } else {
       this.cfg[key] = val;
     }
+    if (key === 'enabledStack' && val && !this.undoStack && !this.redoStack) {
+      this.undoStack = new Stack(this.cfg.maxStep);
+      this.redoStack = new Stack(this.cfg.maxStep);
+    }
     return this;
   }
 
@@ -1059,23 +1063,13 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   }
 
   /**
-   * 新增元素
-   * @param {ITEM_TYPE} type 元素类型(node | edge)
-   * @param {ModelConfig} model 元素数据模型
-   * @param {boolean} stack 本次操作是否入栈，默认为 true
-   * @param {boolean} sortCombo 本次操作是否需要更新 combo 层级顺序，内部参数，用户在外部使用 addItem 时始终时需要更新
-   * @return {Item} 元素实例
+   * Adds the passed item to the graph
    */
-  public addItem(
+  private _addItem(
     type: ITEM_TYPE,
     model: ModelConfig,
-    stack: boolean = true,
-    sortCombo: boolean = true,
-  ) {
-    const currentComboSorted = this.get('comboSorted');
-    this.set('comboSorted', currentComboSorted && !sortCombo);
-    const itemController: ItemController = this.get('itemController');
-
+    itemController: ItemController
+  ): Item | boolean | undefined {
     // 添加节点、边或combo之前，先验证数据是否符合规范
     if (!singleDataValidation(type, model)) {
       return false;
@@ -1185,6 +1179,34 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     if (combos && combos.length > 0) {
       this.sortCombos();
     }
+
+    return item;
+  }
+
+  /**
+   * 新增元素
+   * @param {ITEM_TYPE} type 元素类型(node | edge)
+   * @param {ModelConfig} model 元素数据模型
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
+   * @param {boolean} sortCombo 本次操作是否需要更新 combo 层级顺序，内部参数，用户在外部使用 addItem 时始终时需要更新
+   * @return {Item} 元素实例
+   */
+  public addItem(
+    type: ITEM_TYPE,
+    model: ModelConfig,
+    stack: boolean = true,
+    sortCombo: boolean = true
+  ) {
+    const currentComboSorted = this.get('comboSorted');
+    this.set('comboSorted', currentComboSorted && !sortCombo);
+    const itemController: ItemController = this.get('itemController');
+
+    const item: any = this._addItem(type, model, itemController);
+
+    if (item === undefined || item === false || item === true) {
+      return item;
+    }
+
     this.autoPaint();
 
     if (stack && this.get('enabledStack')) {
@@ -1219,7 +1241,67 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * Performs an expansion with the passed items
    */
   public expand(
+    items: { type: ITEM_TYPE, model: ModelConfig }[] = [],
+    stack: boolean = true,
+    sortCombo: boolean = true
   ) {
+    const currentComboSorted = this.get('comboSorted');
+    this.set('comboSorted', currentComboSorted && !sortCombo);
+    const itemController: ItemController = this.get('itemController');
+    const stackEnabled = stack && this.get('enabledStack');
+
+    const stackItems: GraphData = stackEnabled ? {
+      nodes: [],
+      edges: [],
+      combos: []
+    } : undefined;
+
+    //
+    // 1. Reorder items so that edges are the last items
+    //
+    items.sort((a, b) => {
+      if (a.type !== 'edge' && a.type !== b.type) {
+        return -1;
+      }
+      if (a.type === 'edge' && b.type !== 'edge') {
+        return 1;
+      }
+      return 0;
+    });
+
+    //
+    // 2. Add the items to the graph
+    //
+    for (var i = 0; i < items.length; i++) {
+      const item = items[i];
+      const type = item.type;
+      const model = item.model;
+
+      const addedItem: any = this._addItem(type, model, itemController);
+
+      if (stackEnabled) {
+        const stackItem = {
+          ...addedItem,
+          itemType: type
+        };
+        if (type === 'node') {
+          stackItems.nodes.push(stackItem);
+        } else if (type === 'edge') {
+          stackItems.edges.push(stackItem);
+        } else if (type === 'combo') {
+          stackItems.combos.push(stackItem);
+        }
+      }
+    }
+
+    this.autoPaint();
+
+    if (stackEnabled) {
+      this.pushStack('add', {
+        before: {},
+        after: stackItems,
+      });
+    }
 
   }
 
