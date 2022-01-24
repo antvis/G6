@@ -219,7 +219,7 @@ export interface IAbstractGraph extends EventEmitter {
   /**
    * Performs an expansion with the passed items
    */
-  expand: () => void;
+  expand: (items: { type: ITEM_TYPE, model: ModelConfig }[], stack?: boolean, sortCombo?: boolean) => void;
 
   add: (type: ITEM_TYPE, model: ModelConfig, stack?: boolean) => Item;
 
