@@ -1248,13 +1248,8 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const currentComboSorted = this.get('comboSorted');
     this.set('comboSorted', currentComboSorted && !sortCombo);
     const itemController: ItemController = this.get('itemController');
-    const stackEnabled = stack && this.get('enabledStack');
 
-    const stackItems: GraphData = stackEnabled ? {
-      nodes: [],
-      edges: [],
-      combos: []
-    } : undefined;
+    const returnItems: any = [];
 
     //
     // 1. Reorder items so that edges are the last items
@@ -1272,37 +1267,49 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     //
     // 2. Add the items to the graph
     //
-    for (var i = 0; i < items.length; i++) {
+    for (let i = 0; i < items.length; i++) {
       const item = items[i];
-      const type = item.type;
-      const model = item.model;
+      const addedItem: any = this._addItem(item.type, item.model, itemController);
 
-      const addedItem: any = this._addItem(type, model, itemController);
-
-      if (stackEnabled) {
-        const stackItem = {
-          ...addedItem,
-          itemType: type
-        };
-        if (type === 'node') {
-          stackItems.nodes.push(stackItem);
-        } else if (type === 'edge') {
-          stackItems.edges.push(stackItem);
-        } else if (type === 'combo') {
-          stackItems.combos.push(stackItem);
-        }
-      }
+      returnItems.push(addedItem);
     }
 
     this.autoPaint();
 
-    if (stackEnabled) {
-      this.pushStack('add', {
+    if (stack && this.get('enabledStack')) {
+      const after: GraphData = { nodes: [], edges: [], combos: [] };
+
+      for (let i = 0; i < items.length; i++) {
+        const type = items[i].type;
+        const returnItem = returnItems[i];
+        if (returnItem && returnItem !== true && returnItem !== false) {
+          const addedModel = {
+            ...returnItem.getModel(),
+            itemType: type,
+          };
+          switch (type) {
+            case 'node':
+              after.nodes.push(addedModel);
+              break;
+            case 'edge':
+              after.edges.push(addedModel);
+              break;
+            case 'combo':
+              after.combos.push(addedModel);
+              break;
+            default:
+              break;
+          }
+        }
+      }
+
+      this.pushStack('expand', {
         before: {},
-        after: stackItems,
+        after,
       });
     }
 
+    return returnItems;
   }
 
   /**
