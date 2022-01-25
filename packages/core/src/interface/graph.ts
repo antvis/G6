@@ -211,14 +211,15 @@ export interface IAbstractGraph extends EventEmitter {
    * @param {string} type 元素类型(node | edge)
    * @param {ModelConfig} model 元素数据模型
    * @param {boolean} stack 本次操作是否入栈，默认为 true
+   * @param {boolean} sortCombo 本次操作是否需要更新 combo 层级顺序，内部参数，用户在外部使用 addItem 时始终时需要更新
    * @return {Item} 元素实例
    */
-  addItem: (type: ITEM_TYPE, model: ModelConfig, stack?: boolean) => Item;
+  addItem: (type: ITEM_TYPE, model: ModelConfig, stack?: boolean, sortCombo?: boolean) => Item;
 
   /**
    * Performs an expansion with the passed items
    */
-  expand: () => void;
+  expand: (items: { type: ITEM_TYPE, model: ModelConfig }[], stack?: boolean, sortCombo?: boolean) => void;
 
   add: (type: ITEM_TYPE, model: ModelConfig, stack?: boolean) => Item;
 
