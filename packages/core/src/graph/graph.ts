@@ -1251,6 +1251,8 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
     const returnItems: any = [];
 
+    const radius = 120;
+
     //
     // 1. Reorder items so that edges are the last items
     //
@@ -1265,16 +1267,92 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     });
 
     //
-    // 2. Add the items to the graph
+    // 2. Compute the origin positions
+    //
+    const itemMap = this.get('itemMap');
+    // Map to group the expanded nodes by origin node
+    const originsMap: { [key: string]: { model: NodeConfig, targets: INode[] } } = {};
+    const targetsMap: { [key: string]: { originId: string, pos: { x: number; y: number } } } = {};
+    for (let i = items.length - 1; i > 0; i--) {
+      const item = items[i];
+      if (item.type !== 'edge') {
+        break;
+      }
+      const edgeModel = item.model as EdgeConfig;
+
+      const sourceNode = itemMap[edgeModel.source];
+      const targetNode = itemMap[edgeModel.target];
+      if (!sourceNode) {
+        const id = targetNode.getID();
+        const targetModel = targetNode.getModel();
+        if (!originsMap[id]) {
+          originsMap[id] = { model: targetModel, targets: [] };
+        }
+        targetsMap[edgeModel.source] = { pos: { x: targetModel.x, y: targetModel.y }, originId: id };
+      } else {
+        const id = sourceNode.getID();
+        const sourceModel = sourceNode.getModel();
+        if (!originsMap[id]) {
+          originsMap[id] = { model: sourceModel, targets: [] };
+        }
+        targetsMap[edgeModel.target] = { pos: { x: sourceModel.x, y: sourceModel.y }, originId: id };
+      }
+
+    }
+
+    //
+    // 3. Add the items to the graph
     //
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
-      const addedItem: any = this._addItem(item.type, item.model, itemController);
+      const model = item.model;
+
+      if (item.type === 'node' && model.id) {
+        const nodeId = (model as NodeConfig).id;
+        // Set the origin point before adding the node to the graph
+        model.x = targetsMap[nodeId].pos.x;
+        model.y = targetsMap[nodeId].pos.y;
+      }
+
+      const addedItem: any = this._addItem(item.type, model, itemController);
+
+      if (item.type === 'node') {
+        originsMap[targetsMap[addedItem.getID()].originId].targets.push(addedItem);
+      }
 
       returnItems.push(addedItem);
     }
 
+    //
+    // 4. Compute the circular layout
+    //
+    const originEntries = Object.entries(originsMap);
+    for (let i = 0; i < originEntries.length; i++) {
+      const entry = originEntries[i][1];
+      const nodes = entry.targets;
+
+      const nodesPerLevel = nodes.length;
+
+      const angle = 2 * Math.PI / nodesPerLevel;
+      for (let l = 0; l < nodesPerLevel; l++) {
+        const item = nodes[l];
+        if (!item) {
+          break;
+        }
+        const randomRadius = radius;
+
+        const model = item.getModel();
+        const originModel = originsMap[targetsMap[item.getID()].originId].model;
+
+        if (model.x && model.y) {
+          model.x = originModel.x + randomRadius * Math.sin(angle * l);
+          model.y = originModel.y + randomRadius * Math.cos(angle * l);
+        }
+      }
+    }
+
     this.autoPaint();
+    this.positionsAnimate();
 
     if (stack && this.get('enabledStack')) {
       const after: GraphData = { nodes: [], edges: [], combos: [] };
