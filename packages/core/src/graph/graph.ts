@@ -1269,10 +1269,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     //
     // 2. Compute the origin positions
     //
-    const existingNodesMap = this.getNodes().reduce((total, node) => {
-      total[node.getID()] = node;
-      return total;
-    }, {});
+    const itemMap = this.get('itemMap');
     // Map to group the expanded nodes by origin node
     const originsMap: { [key: string]: { model: NodeConfig, targets: INode[] } } = {};
     const targetsMap: { [key: string]: { originId: string, pos: { x: number; y: number } } } = {};
@@ -1283,8 +1280,8 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       }
       const edgeModel = item.model as EdgeConfig;
 
-      const sourceNode = existingNodesMap[edgeModel.source];
-      const targetNode = existingNodesMap[edgeModel.target];
+      const sourceNode = itemMap[edgeModel.source];
+      const targetNode = itemMap[edgeModel.target];
       if (!sourceNode) {
         const id = targetNode.getID();
         const targetModel = targetNode.getModel();
