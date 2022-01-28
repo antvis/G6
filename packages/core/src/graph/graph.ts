@@ -1271,7 +1271,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     //
     const itemMap = this.get('itemMap');
     // Map to group the expanded nodes by origin node
-    const originsMap: { [key: string]: { model: NodeConfig, targets: INode[] } } = {};
+    const originsMap: { [key: string]: { model: NodeConfig, targets: INode[], levels: number, maxRadius: number } } = {};
     const targetsMap: { [key: string]: { originId: string, pos: { x: number; y: number } } } = {};
     for (let i = items.length - 1; i > 0; i--) {
       const item = items[i];
@@ -1286,14 +1286,14 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         const id = targetNode.getID();
         const targetModel = targetNode.getModel();
         if (!originsMap[id]) {
-          originsMap[id] = { model: targetModel, targets: [] };
+          originsMap[id] = { model: targetModel, targets: [], levels: 0, maxRadius: 0 };
         }
         targetsMap[edgeModel.source] = { pos: { x: targetModel.x, y: targetModel.y }, originId: id };
       } else {
         const id = sourceNode.getID();
         const sourceModel = sourceNode.getModel();
         if (!originsMap[id]) {
-          originsMap[id] = { model: sourceModel, targets: [] };
+          originsMap[id] = { model: sourceModel, targets: [], levels: 0, maxRadius: 0 };
         }
         targetsMap[edgeModel.target] = { pos: { x: sourceModel.x, y: sourceModel.y }, originId: id };
       }
@@ -1324,30 +1324,69 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     }
 
     //
-    // 4. Compute the circular layout
+    // 4. Compute the best number of layers.
+    //    Use a simple heuristic where number of nodes per level = 7 + (5 * level)
     //
+    function getNodesPerLevel(level: number): number {
+      return 7 + (5 * level);
+    }
+    const levelOffset = 70;
+    const spacing = 10;
+    const originModelsEntries = Object.entries(originsMap);
+    for (let i = 0; i < originModelsEntries.length; i++) {
+      const entry = originModelsEntries[i][1];
+      const targets = entry.targets;
+
+      let cumulativeNodesCount = 0;
+      for (let l = 1; l < 100; l++) {
+        const nodesCount = getNodesPerLevel(l) + cumulativeNodesCount;
+        if (nodesCount >= targets.length) {
+          entry.levels = l;
+          entry.maxRadius = radius + ((l - 1) * levelOffset) + spacing;
+          break;
+        }
+        cumulativeNodesCount = nodesCount;
+      }
+    }
+
+    //
+    // 5. Compute the circular layout
+    //
+    // This is used to move the nodes along the radius to break the perfect circles
+    var offsetRandom = [2, -5, 5, -8, 9, -3]; // random numbers between [-10,10]
+    var offsetRandomIndex = 0;
     const originEntries = Object.entries(originsMap);
     for (let i = 0; i < originEntries.length; i++) {
       const entry = originEntries[i][1];
       const nodes = entry.targets;
 
-      const nodesPerLevel = nodes.length;
+      let prevNodesStartingIndex = 0;
+      for (let l = 0; l < entry.levels; l++) {
+        let nodesPerLevel = getNodesPerLevel(l + 1);
+        // If the remaining nodes are less than the nodes per level we use that number instead
+        const remainingNodes = nodes.length - prevNodesStartingIndex;
+        nodesPerLevel = remainingNodes < nodesPerLevel ? remainingNodes : nodesPerLevel;
 
-      const angle = 2 * Math.PI / nodesPerLevel;
-      for (let l = 0; l < nodesPerLevel; l++) {
-        const item = nodes[l];
-        if (!item) {
-          break;
+        const angle = 2 * Math.PI / nodesPerLevel;
+        const levelRadius = radius + levelOffset * l;
+        for (let m = 0; m < nodesPerLevel; m++) {
+          const item = nodes[prevNodesStartingIndex + m];
+          if (!item) {
+            break;
+          }
+          const randomRadius = levelRadius + offsetRandom[offsetRandomIndex];
+
+          const model = item.getModel();
+          const originModel = originsMap[targetsMap[item.getID()].originId].model;
+
+          if (model.x && model.y) {
+            model.x = originModel.x + randomRadius * Math.sin(angle * m);
+            model.y = originModel.y + randomRadius * Math.cos(angle * m);
+          }
+
+          offsetRandomIndex = offsetRandomIndex === offsetRandom.length - 1 ? 0 : offsetRandomIndex + 1;
         }
-        const randomRadius = radius;
-
-        const model = item.getModel();
-        const originModel = originsMap[targetsMap[item.getID()].originId].model;
-
-        if (model.x && model.y) {
-          model.x = originModel.x + randomRadius * Math.sin(angle * l);
-          model.y = originModel.y + randomRadius * Math.cos(angle * l);
-        }
+        prevNodesStartingIndex = nodesPerLevel + prevNodesStartingIndex;
       }
     }
 
