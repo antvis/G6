@@ -353,6 +353,10 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     } else {
       this.cfg[key] = val;
     }
+    if (key === 'enabledStack' && val && !this.undoStack && !this.redoStack) {
+      this.undoStack = new Stack(this.cfg.maxStep);
+      this.redoStack = new Stack(this.cfg.maxStep);
+    }
     return this;
   }
 
