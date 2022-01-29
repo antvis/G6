@@ -285,7 +285,7 @@ export interface IAbstractGraph extends EventEmitter {
   /**
    * 当节点位置在外部发生改变时，刷新所有节点位置，重计算边
    */
-  refreshPositions: () => void;
+  refreshPositions: (referComboModel?: boolean) => void;
 
   /**
    * 根据data接口的数据渲染视图

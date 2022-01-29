@@ -1,5 +1,11 @@
 # ChangeLog
 
+#### 4.6.0-beta.0
+
+- feat: comboCombined Layout from @antv/layout;
+- feat: combo supports position configurations for any situations;
+- fix: run layout promise only when the layout is configured;
+
 #### 4.5.5
 
 - fix: tooltip with wrong duplicated child DOM nodes;

@@ -613,7 +613,6 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       });
     } else {
       matrix = transform(matrix, [['t', dx, dy]]);
-
       group.setMatrix(matrix);
 
       this.emit('viewportchange', { action: 'translate', matrix });
@@ -1095,8 +1094,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     }
 
     let item;
-    let comboTrees = this.get('comboTrees');
-    if (!comboTrees) comboTrees = [];
+    const comboTrees = this.get('comboTrees') || [];
     if (type === 'combo') {
       const itemMap = this.get('itemMap');
       let foundParent = false;
@@ -1148,7 +1146,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       const itemMap = this.get('itemMap');
       let foundParent = false,
         foundNode = false;
-      (comboTrees || []).forEach((ctree: ComboTree) => {
+      comboTrees.forEach((ctree: ComboTree) => {
         if (foundNode || foundParent) return; // terminate the forEach
         traverseTreeUp<ComboTree>(ctree, child => {
           if (child.id === model.id) {
@@ -1381,8 +1379,8 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     });
 
     // process the data to tree structure
-    if (combos && combos.length !== 0) {
-      const comboTrees = plainCombosToTrees(combos, nodes);
+    if (combos?.length !== 0) {
+      const comboTrees = plainCombosToTrees((combos as ComboConfig[]), (nodes as NodeConfig[]));
       this.set('comboTrees', comboTrees);
       // add combos
       self.addCombos(combos);

@@ -71,17 +71,7 @@ export default abstract class LayoutController {
     if (graph.get('animate')) {
       graph.positionsAnimate(layoutType === 'comboCombined');
     } else {
-      graph.refreshPositions();
-      // 如果是 comboCombined 布局，则使用返回的 combos 数据更新 combo item 位置
-      if (layoutType === 'comboCombined') {
-        const { combos } = data;
-        combos.forEach(combo => {
-          graph.updateItem(combo.id, {
-            x: combo.x,
-            y: combo.y
-          })
-        })
-      }
+      graph.refreshPositions(layoutType === 'comboCombined');
     }
   }
 
@@ -224,13 +214,15 @@ export default abstract class LayoutController {
       start = start.then(() => this.reLayoutMethod(layoutMethod, currentCfg));
     });
 
-    start
-      .then(() => {
-        if (layoutCfg.onAllLayoutEnd) layoutCfg.onAllLayoutEnd();
-      })
-      .catch((error) => {
-        console.warn('relayout failed', error);
-      });
+    if (layoutMethods?.length) {
+      start
+        .then(() => {
+          if (layoutCfg.onAllLayoutEnd) layoutCfg.onAllLayoutEnd();
+        })
+        .catch((error) => {
+          console.warn('relayout failed', error);
+        });
+    }
   }
 
   // 筛选参与布局的nodes和edges

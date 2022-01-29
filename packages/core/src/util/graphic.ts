@@ -517,10 +517,10 @@ export const reconstructTree = (
     }
     traverseTree<ComboTree>(tree, (child: any) => {
       comboChildsMap[child.id] = {
-        children: child.children,
+        children: child?.children || [],
       };
       // store the old parent id to delete the subtree from the old parent's children in next recursion
-      brothers = comboChildsMap[child.parentId || child.comboId || 'root'].children;
+      brothers = comboChildsMap[child.parentId || child.comboId || 'root']?.children;
       if (child && (child.removed || subtreeId === child.id) && brothers) {
         oldParentId = child.parentId || child.comboId || 'root';
         subtree = child;
@@ -537,7 +537,7 @@ export const reconstructTree = (
     });
   });
 
-  brothers = comboChildsMap[oldParentId].children;
+  brothers = comboChildsMap[oldParentId]?.children;
   const index = brothers ? brothers.indexOf(subtree) : -1;
   if (index > -1) brothers.splice(index, 1);
 
