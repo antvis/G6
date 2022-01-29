@@ -47,7 +47,7 @@ The index of link points on the target node. The link point is the intersection 
 
 <description> _Object_ **optional** </description>
 
-The edge style. `style` is an object to configure the stroke color, shadow, and so on. The complete configurations is listed in: [Shape Properties](/en/docs/api/shapeProperties.zh.md)。
+The edge style. `style` is an object to configure the stroke color, shadow, and so on. The complete configurations is listed in: [Shape Properties](/en/docs/api/shapeProperties).
 
 ### label
 
