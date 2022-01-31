@@ -2377,11 +2377,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   /**
    * 根据 graph 上的 animateCfg 进行视图中节点位置动画接口
    */
-  public positionsAnimate(): void {
+  public positionsAnimate(animateConfig?: GraphAnimateConfig): void {
     const self = this;
     self.emit('beforeanimate');
 
-    const animateCfg: GraphAnimateConfig = self.get('animateCfg');
+    const animateCfg: GraphAnimateConfig = animateConfig || self.get('animateCfg');
 
     const { onFrame } = animateCfg;
 
