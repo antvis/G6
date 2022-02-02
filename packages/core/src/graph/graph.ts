@@ -1244,6 +1244,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     items: { type: ITEM_TYPE, model: ModelConfig }[] = [],
     stack: boolean = true,
     sortCombo: boolean = true,
+    animate?: boolean,
     animateCfg?: GraphAnimateConfig
   ) {
     const currentComboSorted = this.get('comboSorted');
@@ -1367,7 +1368,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       let moved = false;
       // compute distance with previously processed nodes
       for (var p = 0; p < prevOrigins.length; p++) {
-        const procEntry = prevOrigins[p]
+        const procEntry = prevOrigins[p];
         const procModel = procEntry.model;
         const minDistance = entry.maxRadius + procEntry.maxRadius + levelOffset / 2;
 
@@ -1479,7 +1480,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       });
     }
 
-    this.positionsAnimate(animateCfg);
+    if (animate) {
+      this.positionsAnimate(animateCfg);
+    } else {
+      this.refreshPositions();
+    }
 
     return returnItems;
   }
