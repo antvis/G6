@@ -219,7 +219,7 @@ export interface IAbstractGraph extends EventEmitter {
   /**
    * Performs an expansion with the passed items
    */
-  expand: (items: { type: ITEM_TYPE, model: ModelConfig }[], stack?: boolean, sortCombo?: boolean) => void;
+  expand: (items: { type: ITEM_TYPE, model: ModelConfig }[], stack?: boolean, sortCombo?: boolean, animate?: boolean, animateCfg?: GraphAnimateConfig) => void;
 
   add: (type: ITEM_TYPE, model: ModelConfig, stack?: boolean) => Item;
 
@@ -286,7 +286,7 @@ export interface IAbstractGraph extends EventEmitter {
   /**
    * 根据 graph 上的 animateCfg 进行视图中节点位置动画接口
    */
-  positionsAnimate: () => void;
+  positionsAnimate: (animateCfg?: GraphAnimateConfig) => void;
 
   /**
    * 当节点位置在外部发生改变时，刷新所有节点位置，重计算边

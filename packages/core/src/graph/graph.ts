@@ -1243,7 +1243,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   public expand(
     items: { type: ITEM_TYPE, model: ModelConfig }[] = [],
     stack: boolean = true,
-    sortCombo: boolean = true
+    sortCombo: boolean = true,
+    animate?: boolean,
+    animateCfg?: GraphAnimateConfig
   ) {
     const currentComboSorted = this.get('comboSorted');
     this.set('comboSorted', currentComboSorted && !sortCombo);
@@ -1350,7 +1352,59 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     }
 
     //
-    // 5. Compute the circular layout
+    // 5. Spread the origin nodes, to make room for the expansion
+    //
+
+    function getPositionAlongTheLine(x1: number, y1: number, x2: number, y2: number, factor: number) {
+      if (x1 === x2 && y1 === y2) {
+        x1 = x1 + 1;
+        y1 = y1 + 1;
+      }
+      return { x: x1 * (1.0 - factor) + x2 * factor, y: y1 * (1.0 - factor) + y2 * factor };
+    }
+    // Move the entry away from all the previously processed origins
+    function movedEntryIfNeeded(entry, prevOrigins) {
+      const sourceModel = entry.model;
+      let moved = false;
+      // compute distance with previously processed nodes
+      for (var p = 0; p < prevOrigins.length; p++) {
+        const procEntry = prevOrigins[p];
+        const procModel = procEntry.model;
+        const minDistance = entry.maxRadius + procEntry.maxRadius + levelOffset / 2;
+
+        //If the x/y are the same offset them a little to avoid infinite loops
+        sourceModel.x = sourceModel.x === procModel.x ? sourceModel.x + 10 : sourceModel.x;
+        sourceModel.y = sourceModel.y === procModel.y ? sourceModel.y + 10 : sourceModel.y;
+        const a = sourceModel.x - procModel.x;
+        const b = sourceModel.y - procModel.y;
+
+        const distance = Math.max(Math.abs(Math.sqrt(a * a + b * b)), 1)
+        if (distance < minDistance) {
+          // Move node along the line (this makes the node move away from the processedNode)
+          const factor = (minDistance / distance) + 0.01;
+          const position = getPositionAlongTheLine(procModel.x, procModel.y, sourceModel.x, sourceModel.y, factor);
+          sourceModel.x = position.x;
+          sourceModel.y = position.y;
+          moved = true;
+        }
+      }
+      return moved;
+    }
+
+    var processedOrigins = [];
+    for (let i = 0; i < originModelsEntries.length; i++) {
+      const entry = originModelsEntries[i][1];
+      const moved = movedEntryIfNeeded(entry, processedOrigins);
+      if (moved) {
+        // If it was moved reprocess it to ensure distances are ok
+        i--;
+      } else {
+        processedOrigins.push(entry);
+      }
+    }
+
+    //
+    // 6. Compute the circular layout
     //
     // This is used to move the nodes along the radius to break the perfect circles
     var offsetRandom = [2, -5, 5, -8, 9, -3]; // random numbers between [-10,10]
@@ -1367,7 +1421,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         const remainingNodes = nodes.length - prevNodesStartingIndex;
         nodesPerLevel = remainingNodes < nodesPerLevel ? remainingNodes : nodesPerLevel;
 
-        const angle = 2 * Math.PI / nodesPerLevel;
+        const baseAngle = 2 * Math.PI / nodesPerLevel;
         const levelRadius = radius + levelOffset * l;
         for (let m = 0; m < nodesPerLevel; m++) {
           const item = nodes[prevNodesStartingIndex + m];
@@ -1380,8 +1434,10 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
           const originModel = originsMap[targetsMap[item.getID()].originId].model;
 
           if (model.x && model.y) {
-            model.x = originModel.x + randomRadius * Math.sin(angle * m);
-            model.y = originModel.y + randomRadius * Math.cos(angle * m);
+            // (base angle * node number) + layer based offset
+            const angle = (baseAngle * m) + (l / 40);
+            model.x = originModel.x + randomRadius * Math.sin(angle);
+            model.y = originModel.y + randomRadius * Math.cos(angle);
           }
 
           offsetRandomIndex = offsetRandomIndex === offsetRandom.length - 1 ? 0 : offsetRandomIndex + 1;
@@ -1389,9 +1445,6 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         prevNodesStartingIndex = nodesPerLevel + prevNodesStartingIndex;
       }
     }
-
-    this.autoPaint();
-    this.positionsAnimate();
 
     if (stack && this.get('enabledStack')) {
       const after: GraphData = { nodes: [], edges: [], combos: [] };
@@ -1424,6 +1477,12 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         before: {},
         after,
       });
+    }
+
+    if (animate) {
+      this.positionsAnimate(animateCfg);
+    } else {
+      this.refreshPositions();
     }
 
     return returnItems;
@@ -2322,11 +2381,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   /**
    * 根据 graph 上的 animateCfg 进行视图中节点位置动画接口
    */
-  public positionsAnimate(): void {
+  public positionsAnimate(animateConfig?: GraphAnimateConfig): void {
     const self = this;
     self.emit('beforeanimate');
 
-    const animateCfg: GraphAnimateConfig = self.get('animateCfg');
+    const animateCfg: GraphAnimateConfig = animateConfig || self.get('animateCfg');
 
     const { onFrame } = animateCfg;
 
