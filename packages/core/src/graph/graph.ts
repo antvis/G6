@@ -1378,8 +1378,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         const a = sourceModel.x - procModel.x;
         const b = sourceModel.y - procModel.y;
 
-        let distance = Math.abs(Math.sqrt(a * a + b * b));
-        distance = distance < 1 ? 1 : distance;
+        const distance = Math.max(Math.abs(Math.sqrt(a * a + b * b)), 1)
         if (distance < minDistance) {
           // Move node along the line (this makes the node move away from the processedNode)
           const factor = (minDistance / distance) + 0.01;
