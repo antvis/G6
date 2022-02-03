@@ -1,7 +1,7 @@
 import EventEmitter from '@antv/event-emitter';
 import { ICanvas, IGroup, Point } from '@antv/g-base';
 import { ext } from '@antv/matrix-util';
-import { clone, deepMix, each, isPlainObject, isString } from '@antv/util';
+import { clone, deepMix, each, get, isPlainObject, isString } from '@antv/util';
 import {
   getDegree,
   getAdjMatrix as getAdjacentMatrix,
@@ -1253,8 +1253,6 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
     const returnItems: any = [];
 
-    const radius = 120;
-
     //
     // 1. Reorder items so that edges are the last items
     //
@@ -1269,11 +1267,42 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     });
 
     //
+    // 1a. Function to compute the origin node to first layer distance. Used in step 2
+    function getFirstLevelDistance(item: NodeConfig): number {
+      let sizes: any;
+      let size: number;
+      switch (item.type) {
+        case 'graphin-circle':
+          size = get(item, 'style.keyshape.size', 20);
+          return size / 2 + 108;
+        case 'circle':
+        case 'donut':
+          size = get(item, 'size', 20);
+          return size / 2 + 108;
+        case 'ellipse':
+        case 'rect':
+        case 'modelRect':
+        case 'diamond':
+        case 'image':
+          sizes = get(item, 'size');
+          size = sizes ? (sizes.length ? Math.max(sizes[0], sizes[1]) : sizes) : 20;
+          return size / 2 + 108;
+        case 'star':
+        case 'triangle':
+          sizes = get(item, 'size');
+          size = sizes ? (sizes.length ? Math.max(sizes[0], sizes[1]) : sizes) : 20;
+          return size / 1.1 + 108;
+        default:
+          return 120;
+      }
+    }
+
+    //
     // 2. Compute the origin positions
     //
-    const itemMap = this.get('itemMap');
+    const itemMap: NodeMap = this.get('itemMap');
     // Map to group the expanded nodes by origin node
-    const originsMap: { [key: string]: { model: NodeConfig, targets: INode[], levels: number, maxRadius: number } } = {};
+    const originsMap: { [key: string]: { model: NodeConfig, targets: INode[], levels: number, maxRadius: number, firstLevelDistance: number } } = {};
     const targetsMap: { [key: string]: { originId: string, pos: { x: number; y: number } } } = {};
     for (let i = items.length - 1; i > 0; i--) {
       const item = items[i];
@@ -1286,16 +1315,18 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       const targetNode = itemMap[edgeModel.target];
       if (!sourceNode) {
         const id = targetNode.getID();
-        const targetModel = targetNode.getModel();
+        const targetModel = targetNode.getModel() as NodeConfig;
         if (!originsMap[id]) {
-          originsMap[id] = { model: targetModel, targets: [], levels: 0, maxRadius: 0 };
+          const firstLevelDistance = getFirstLevelDistance(targetModel);
+          originsMap[id] = { model: targetModel, targets: [], levels: 0, maxRadius: 0, firstLevelDistance };
         }
         targetsMap[edgeModel.source] = { pos: { x: targetModel.x, y: targetModel.y }, originId: id };
       } else {
         const id = sourceNode.getID();
-        const sourceModel = sourceNode.getModel();
+        const sourceModel = sourceNode.getModel() as NodeConfig;
         if (!originsMap[id]) {
-          originsMap[id] = { model: sourceModel, targets: [], levels: 0, maxRadius: 0 };
+          const firstLevelDistance = getFirstLevelDistance(sourceModel);
+          originsMap[id] = { model: sourceModel, targets: [], levels: 0, maxRadius: 0, firstLevelDistance };
         }
         targetsMap[edgeModel.target] = { pos: { x: sourceModel.x, y: sourceModel.y }, originId: id };
       }
@@ -1340,11 +1371,14 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       const targets = entry.targets;
 
       let cumulativeNodesCount = 0;
-      for (let l = 1; l < 100; l++) {
+      // The 25 limit act as a safeguard.
+      // It should be extremely unlikely that one expands with 1800 nodes
+      const MAX_LEVELS = 25;
+      for (let l = 1; l < MAX_LEVELS; l++) {
         const nodesCount = getNodesPerLevel(l) + cumulativeNodesCount;
         if (nodesCount >= targets.length) {
           entry.levels = l;
-          entry.maxRadius = radius + ((l - 1) * levelOffset) + spacing;
+          entry.maxRadius = entry.firstLevelDistance + ((l - 1) * levelOffset) + spacing;
           break;
         }
         cumulativeNodesCount = nodesCount;
@@ -1422,7 +1456,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         nodesPerLevel = remainingNodes < nodesPerLevel ? remainingNodes : nodesPerLevel;
 
         const baseAngle = 2 * Math.PI / nodesPerLevel;
-        const levelRadius = radius + levelOffset * l;
+        const levelRadius = entry.firstLevelDistance + levelOffset * l;
         for (let m = 0; m < nodesPerLevel; m++) {
           const item = nodes[prevNodesStartingIndex + m];
           if (!item) {
