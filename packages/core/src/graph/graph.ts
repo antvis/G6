@@ -1242,8 +1242,13 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    */
   public expand(
     items: { type: ITEM_TYPE, model: ModelConfig }[] = [],
-    stack: boolean = true,
-    sortCombo: boolean = true,
+    {
+      stack = true,
+      sortCombo = true
+    }: {
+      stack?: boolean;
+      sortCombo?: boolean
+    },
     animate?: boolean,
     animateCfg?: GraphAnimateConfig
   ) {
