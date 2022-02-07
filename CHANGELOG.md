@@ -6,6 +6,7 @@
 - feat: context menu plugin supports mobile touch event;
 - feat: allow enabling stack operations at runtime;
 - fix: use origin data when changeData without data param, closes: #3459;
+- feat: shouldBegin for canvas click in click-select behavior;
 
 #### 4.5.3
 
