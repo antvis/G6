@@ -90,8 +90,12 @@ export default {
       });
     }
   },
-  onCanvasClick() {
-    const { graph } = this;
+  onCanvasClick(evt: IG6GraphEvent) {
+    const { graph, shouldBegin } = this;
+    if (!shouldBegin.call(this, evt)) {
+      return;
+    }
+
     const selected = graph.findAllByState('node', this.selectedState);
     each(selected, (node) => {
       graph.setItemState(node, this.selectedState, false);
