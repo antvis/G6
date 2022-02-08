@@ -1415,6 +1415,22 @@ describe('redo stack & undo stack', () => {
     expect(graph.getRedoStack()).toBe(undefined);
   });
 
+  it('enable stack operations at runtime', () => {
+    const graph = new Graph({
+      container: 'global-spec',
+      width: 500,
+      height: 500,
+    });
+
+    expect(graph.getUndoStack()).toBe(undefined);
+    expect(graph.getRedoStack()).toBe(undefined);
+
+    graph.set('enabledStack', true);
+
+    expect(graph.getUndoStack()).toBeDefined();
+    expect(graph.getRedoStack()).toBeDefined();
+  });
+
   const graph = new Graph({
     container: 'global-spec',
     width: 500,

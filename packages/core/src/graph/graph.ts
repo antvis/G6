@@ -353,6 +353,10 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     } else {
       this.cfg[key] = val;
     }
+    if (key === 'enabledStack' && val && !this.undoStack && !this.redoStack) {
+      this.undoStack = new Stack(this.cfg.maxStep);
+      this.redoStack = new Stack(this.cfg.maxStep);
+    }
     return this;
   }
 
@@ -1497,8 +1501,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * @param {boolean} 是否入栈，默认为true
    * @return {object} this
    */
-  public changeData(data?: GraphData | TreeGraphData, stack: boolean = true): AbstractGraph {
+  public changeData(propsData?: GraphData | TreeGraphData, stack: boolean = true): AbstractGraph {
     const self = this;
+    const data = propsData || self.get('data');
     if (!dataValidation(data)) {
       return this;
     }
