@@ -205,7 +205,7 @@ describe('tooltip', () => {
     const expectCanvasXY2 = graph.getCanvasByPoint(expectPoint2.x, expectPoint2.y);
     expectCanvasXY2.x += graphContainer.offsetLeft + offsetX;
     expectCanvasXY2.y += graphContainer.offsetTop + offsetY;
-    
+
     // 此时超出了下边界和右边界
     const bbox = dom.getBoundingClientRect();
     expectCanvasXY2.x -= bbox.width + offsetX;
@@ -564,7 +564,8 @@ describe('tooltip mouse out of view', () => {
     const graph = new G6.Graph({
       container: div,
       width: 500,
-      height: 500,fitCenter: true, // 图居中
+      height: 500,
+      fitCenter: true, // 图居中
       enabledStack: true, // 设置为true，启用 redo & undo 栈功能
       defaultNode: {
         type: 'pai-studio-node',
@@ -770,7 +771,7 @@ describe('tooltip mouse out of view', () => {
             },
             properties: [],
           },
-    
+
           {
             id: '9a69c538b1eb4a3583e0dsfsdff4bc4e88d2110',
             label: '逻辑回归二分类预发',
@@ -1081,5 +1082,55 @@ describe('tooltip mouse out of view', () => {
 
     graph.data(d.Content);
     graph.render();
+
+    graph.destroy();
   })
 });
+
+describe('tooltip updated dynamically', () => {
+
+  it('tooltip update dynamically', () => {
+    const outDiv = document.createElement('div');
+    outDiv.style.width = '180px';
+    outDiv.innerHTML = `before-update`;
+    const tooltip = new Tooltip({
+      offsetX: 10,
+      getContent(e) {
+        return outDiv;
+      },
+    });
+
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      plugins: [tooltip],
+      modes: {
+        default: ['drag-node', 'zoom-canvas', 'drag-canvas'],
+      },
+      defaultNode: {
+        type: 'rect',
+      },
+      defaultEdge: {
+        style: {
+          lineAppendWidth: 20,
+        },
+      },
+    });
+
+    graph.data(data);
+    graph.render();
+
+    graph.emit('node:mouseenter', { item: graph.getNodes()[0] });
+    expect(tooltip.get('tooltip').style.visibility).toEqual('visible');
+
+    expect(tooltip.get('tooltip').childNodes[0].innerHTML).toEqual('before-update');
+
+    outDiv.innerHTML = `updated`;
+    expect(tooltip.get('tooltip').childNodes[0].innerHTML).toEqual('updated');
+
+    graph.destroy();
+
+
+  });
+})

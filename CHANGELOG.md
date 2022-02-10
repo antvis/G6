@@ -1,5 +1,9 @@
 # ChangeLog
 
+#### 4.5.5
+
+- fix: tooltip with wrong duplicated child DOM nodes;
+
 #### 4.5.4
 
 - feat: tooltip plugin supports dynamic dom configurations;

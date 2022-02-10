@@ -164,8 +164,8 @@ export default class Tooltip extends Base {
     this.currentTarget = null;
   }
 
-  clearContainer () {
-    const container = this.get('container');
+  clearContainer() {
+    const container = this.get('tooltip');
     if (container) {
       container.innerHTML = ''
     }

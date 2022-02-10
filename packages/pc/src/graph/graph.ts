@@ -254,7 +254,7 @@ export default class Graph extends AbstractGraph implements IGraph {
     const height = bbox.height;
     const width = bbox.width;
     const renderer = this.get('renderer');
-    const vContainerDOM: HTMLDivElement = createDom('<id="virtual-image"></div>');
+    const vContainerDOM: HTMLDivElement = createDom('<div id="virtual-image"></div>');
 
     const backgroundColor = imageConfig ? imageConfig.backgroundColor : undefined;
     let padding = imageConfig ? imageConfig.padding : undefined;
@@ -316,7 +316,7 @@ export default class Graph extends AbstractGraph implements IGraph {
         let compositeOperation;
         if (backgroundColor) {
           const pixelRatio = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
-          try { 
+          try {
             imageData = context.getImageData(0, 0, vWidth * pixelRatio, vHeight * pixelRatio);
             compositeOperation = context.globalCompositeOperation;
             context.globalCompositeOperation = 'destination-over';
@@ -352,7 +352,7 @@ export default class Graph extends AbstractGraph implements IGraph {
     const height = bbox.height;
     const width = bbox.width;
     const renderer = this.get('renderer');
-    const vContainerDOM: HTMLDivElement = createDom('<id="virtual-image"></div>');
+    const vContainerDOM: HTMLDivElement = createDom('<div id="virtual-image"></div>');
     const watermarker = document.querySelector('.g6-graph-watermarker') as HTMLElement;
 
     const backgroundColor = imageConfig ? imageConfig.backgroundColor : undefined;
