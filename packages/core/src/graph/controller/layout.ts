@@ -154,7 +154,7 @@ export default abstract class LayoutController {
       if (comboItem.destroyed) continue;
       const model = comboItem.getModel();
       if (!comboItem.isVisible()) {
-        hiddenEdges.push(model);
+        hiddenCombos.push(model);
         continue;
       }
       combos.push(model);
@@ -279,7 +279,7 @@ export default abstract class LayoutController {
 
   // 控制布局动画
   // eslint-disable-next-line class-methods-use-this
-  public layoutAnimate() { }
+  public layoutAnimate() {}
 
   // 将当前节点的平均中心移动到原点
   public moveToZero() {
