@@ -1,6 +1,6 @@
 # ChangeLog
 
-#### 4.6.0-beta.0
+#### 4.6.0-beta
 
 - feat: comboCombined Layout from @antv/layout;
 - feat: combo supports position configurations for any situations;
