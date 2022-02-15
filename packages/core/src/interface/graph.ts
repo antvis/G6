@@ -286,6 +286,7 @@ export interface IAbstractGraph extends EventEmitter {
 
   /**
    * 根据 graph 上的 animateCfg 进行视图中节点位置动画接口
+   * @param {GraphAnimateConfig} animateCfg 若带有动画，动画的配置项
    */
   positionsAnimate: (animateCfg?: GraphAnimateConfig) => void;
 
