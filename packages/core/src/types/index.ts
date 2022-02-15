@@ -578,6 +578,16 @@ export interface GraphAnimateConfig extends AnimateCfg {
   onFrame?: (item: Item, ratio: number, data?: GraphData, originAttrs?: ShapeStyle) => unknown;
 }
 
+export interface ExpandCfg {
+  stack?: boolean;
+  sortCombo?: boolean;
+  layersDistance?: number; // distance between each layer of expanded nodes
+  nodesSpacing?: number; // distance between expanded nodes
+  nodesPerLayer?: number; // base number of nodes for each layer
+  nodesIncrementPerLayer?: number; // Addional nodes multiplied per layer
+  maxLayers?: number; // Maximum number of layers
+}
+
 export interface GroupNodeIds {
   [key: string]: string[];
 }

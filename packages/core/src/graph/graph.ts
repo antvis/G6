@@ -31,6 +31,7 @@ import {
   IG6GraphEvent,
   IPoint,
   FitViewRules,
+  ExpandCfg
 } from '../types';
 import { lerp, move } from '../util/math';
 import { dataValidation, singleDataValidation } from '../util/validation';
@@ -68,16 +69,6 @@ export interface PrivateGraphOption extends GraphOptions {
    * }
    */
   states: States;
-}
-
-export interface ExpandCfg {
-  stack?: boolean;
-  sortCombo?: boolean;
-  layersDistance?: number; // distance between each layer of expanded nodes
-  nodesSpacing?: number; // distance between expanded nodes
-  nodesPerLayer?: number; // base number of nodes for each layer
-  nodesPerLayerAdditional?: number; // Addional nodes multiplied per layer
-  maxLayers?: number; // Maximum number of layers
 }
 
 export default abstract class AbstractGraph extends EventEmitter implements IAbstractGraph {
@@ -1258,7 +1249,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       layersDistance = 80,
       nodesSpacing = 10,
       nodesPerLayer = 7,
-      nodesPerLayerAdditional = 5,
+      nodesIncrementPerLayer = 5,
       maxLayers = 25
     }: ExpandCfg,
     animate?: boolean,
@@ -1378,7 +1369,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     //    Number of nodes per layer = nodesPerLayer + (nodesPerLayerAdditional * layer)
     //
     function getNodesPerLayer(layer: number): number {
-      return nodesPerLayer + (nodesPerLayerAdditional * layer);
+      return nodesPerLayer + (nodesIncrementPerLayer * layer);
     }
 
     const originValues = Object.values(originsMap);
