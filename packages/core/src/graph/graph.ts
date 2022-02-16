@@ -1066,7 +1066,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     type: ITEM_TYPE,
     model: ModelConfig,
     itemController: ItemController
-  ): Item | boolean | undefined {
+  ): Item | boolean {
     // 添加节点、边或combo之前，先验证数据是否符合规范
     if (!singleDataValidation(type, model)) {
       return false;
@@ -1255,7 +1255,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     this.set('comboSorted', currentComboSorted && !sortCombo);
     const itemController: ItemController = this.get('itemController');
 
-    const returnItems: any = [];
+    const returnItems: (Item | boolean)[] = [];
 
     //
     // 1. Reorder items so that edges are the last items
@@ -1487,8 +1487,8 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       for (let i = 0; i < items.length; i++) {
         const type = items[i].type;
         const returnItem = returnItems[i];
-        if (returnItem && returnItem !== true && returnItem !== false) {
-          const addedModel = {
+        if (!!returnItem && returnItem !== true) {
+          const addedModel: any = {
             ...returnItem.getModel(),
             itemType: type,
           };
