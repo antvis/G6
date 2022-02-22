@@ -341,6 +341,9 @@ export default class ItemController {
       Object.keys(edgeToBeUpdateMap).forEach(eid => {
         const edge = edgeToBeUpdateMap[eid].edge;
         if (!edge || edge.destroyed) return;
+        const source = edge.getSource();
+        const target = edge.getTarget();
+        if (!source || source.destroyed || !target || target.destroyed) return;
         edge.refresh(edgeToBeUpdateMap[eid].updateType);
       });
       this.edgeToBeUpdateMap = {};
