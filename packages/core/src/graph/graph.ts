@@ -2150,22 +2150,27 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
           const model: NodeConfig = node.get('model');
 
-          if (!originAttrs) {
-            let containerMatrix = node.getContainer().getMatrix();
-            if (!containerMatrix) containerMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
-            originAttrs = {
+          let containerMatrix = node.getContainer().getMatrix();
+
+          if (originAttrs === undefined) {
+            // 变换前存在位置，设置到 originAttrs 上。否则标记 0 表示变换前不存在位置，不需要计算动画
+            node.set('originAttrs', containerMatrix ? {
               x: containerMatrix[6],
               y: containerMatrix[7],
-            };
-            node.set('originAttrs', originAttrs);
+            } : 0);
           }
 
           if (onFrame) {
-            const attrs = onFrame(node, ratio, data, originAttrs);
+            const attrs = onFrame(node, ratio, data, originAttrs || { x: 0, y: 0 });
             node.set('model', Object.assign(model, attrs));
-          } else {
+          } else if (originAttrs) {
+            // 变换前存在位置，进行动画
             model.x = originAttrs.x + (data.x - originAttrs.x) * ratio;
             model.y = originAttrs.y + (data.y - originAttrs.y) * ratio;
+          } else {
+            // 若在变换前不存在位置信息，则直接放到最终位置上
+            model.x = data.x;
+            model.y = data.y;
           }
         });
 
