@@ -84,7 +84,6 @@ export default {
     this.updateBrush(e);
   },
   onMouseUp(e: IG6GraphEvent) {
-    const { graph } = this;
     // TODO: 触发了 canvas:click 导致 clearStates
     if (!this.brush && !this.dragging) {
       return;
@@ -182,6 +181,9 @@ export default {
         edges: selectedEdges,
       },
       select: true,
+    });
+    graph.emit('nodes:brush-dragend', {
+      items: selectedNodes
     });
   },
   createBrush() {
