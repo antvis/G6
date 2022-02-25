@@ -1272,33 +1272,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
     //
     // 1a. Function to compute the origin node to first layer distance. Used in step 2
-    function getFirstLayerDistance(item: NodeConfig): number {
-      let sizes: any;
-      let size: number;
-      switch (item.type) {
-        case 'graphin-circle':
-          size = get(item, 'style.keyshape.size', 20);
-          return size / 2 + 108;
-        case 'circle':
-        case 'donut':
-          size = get(item, 'size', 20);
-          return size / 2 + 108;
-        case 'ellipse':
-        case 'rect':
-        case 'modelRect':
-        case 'diamond':
-        case 'image':
-          sizes = get(item, 'size');
-          size = sizes ? (sizes.length ? Math.max(sizes[0], sizes[1]) : sizes) : 20;
-          return size / 2 + 108;
-        case 'star':
-        case 'triangle':
-          sizes = get(item, 'size');
-          size = sizes ? (sizes.length ? Math.max(sizes[0], sizes[1]) : sizes) : 20;
-          return size / 1.1 + 108;
-        default:
-          return 120;
-      }
+    function getFirstLayerDistance(node: INode): number {
+      const bbox = node.getBBox();
+      return (Math.max(bbox.width, bbox.height) / 2) + 108;
     }
 
     //
@@ -1321,7 +1297,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         const id = targetNode.getID();
         const targetModel = targetNode.getModel() as NodeConfig;
         if (!originsMap[id]) {
-          const firstLayerDistance = getFirstLayerDistance(targetModel);
+          const firstLayerDistance = getFirstLayerDistance(targetNode);
           originsMap[id] = { model: targetModel, targets: [], layers: 0, maxRadius: 0, firstLayerDistance };
         }
         targetsMap[edgeModel.source] = { pos: { x: targetModel.x, y: targetModel.y }, originId: id };
@@ -1329,7 +1305,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         const id = sourceNode.getID();
         const sourceModel = sourceNode.getModel() as NodeConfig;
         if (!originsMap[id]) {
-          const firstLayerDistance = getFirstLayerDistance(sourceModel);
+          const firstLayerDistance = getFirstLayerDistance(sourceNode);
           originsMap[id] = { model: sourceModel, targets: [], layers: 0, maxRadius: 0, firstLayerDistance };
         }
         targetsMap[edgeModel.target] = { pos: { x: sourceModel.x, y: sourceModel.y }, originId: id };
