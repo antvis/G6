@@ -21,7 +21,7 @@ import {
   IG6GraphEvent,
   IPoint,
   FitViewRules,
-  ExpandCfg,
+  AddItemsCfg,
 } from '../types';
 import { IEdge, INode, ICombo } from './item';
 import Hull from '../item/hull';
@@ -218,9 +218,13 @@ export interface IAbstractGraph extends EventEmitter {
   addItem: (type: ITEM_TYPE, model: ModelConfig, stack?: boolean, sortCombo?: boolean) => Item;
 
   /**
-   * Performs an expansion with the passed items
+   * Adds items in batches
+   * @param {{type: ITEM_TYPE, model: ModelConfig}[]}items Items to be added to the graph
+   * @param {AddItemsCfg} opts Additional parameters to control how nodes are added
+   * @param {boolean} animate Enables the animation
+   * @param {GraphAnimateConfig} animateCfg Configures the animation if enabled
    */
-  expand: (items: { type: ITEM_TYPE, model: ModelConfig }[], opts?: ExpandCfg, animate?: boolean, animateCfg?: GraphAnimateConfig) => void;
+  addItems: (items: { type: ITEM_TYPE, model: ModelConfig }[], opts?: AddItemsCfg, animate?: boolean, animateCfg?: GraphAnimateConfig) => void;
 
   add: (type: ITEM_TYPE, model: ModelConfig, stack?: boolean) => Item;
 

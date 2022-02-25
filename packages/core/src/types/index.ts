@@ -578,7 +578,7 @@ export interface GraphAnimateConfig extends AnimateCfg {
   onFrame?: (item: Item, ratio: number, data?: GraphData, originAttrs?: ShapeStyle) => unknown;
 }
 
-export interface ExpandCfg {
+export interface AddItemsCfg {
   stack?: boolean;
   sortCombo?: boolean;
   layersDistance?: number; // distance between each layer of expanded nodes

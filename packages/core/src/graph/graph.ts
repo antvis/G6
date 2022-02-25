@@ -31,7 +31,7 @@ import {
   IG6GraphEvent,
   IPoint,
   FitViewRules,
-  ExpandCfg
+  AddItemsCfg
 } from '../types';
 import { lerp, move } from '../util/math';
 import { dataValidation, singleDataValidation } from '../util/validation';
@@ -1062,7 +1062,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   /**
    * Adds the passed item to the graph
    */
-  private _addItem(
+  private innerAddItem(
     type: ITEM_TYPE,
     model: ModelConfig,
     itemController: ItemController
@@ -1198,7 +1198,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     this.set('comboSorted', currentComboSorted && !sortCombo);
     const itemController: ItemController = this.get('itemController');
 
-    const item: any = this._addItem(type, model, itemController);
+    const item: any = this.innerAddItem(type, model, itemController);
 
     if (item === undefined || item === false || item === true) {
       return item;
@@ -1237,7 +1237,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   /**
    * Performs an expansion with the passed items
    */
-  public expand(
+  public addItems(
     items: { type: ITEM_TYPE, model: ModelConfig }[] = [],
     {
       stack = true,
@@ -1247,7 +1247,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       nodesPerLayer = 7,
       nodesIncrementPerLayer = 5,
       maxLayers = 25
-    }: ExpandCfg,
+    }: AddItemsCfg,
     animate?: boolean,
     animateCfg?: GraphAnimateConfig
   ) {
@@ -1351,7 +1351,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         model.y = targetsMap[nodeId].pos.y;
       }
 
-      const addedItem: any = this._addItem(item.type, model, itemController);
+      const addedItem: any = this.innerAddItem(item.type, model, itemController);
 
       if (item.type === 'node') {
         originsMap[targetsMap[addedItem.getID()].originId].targets.push(addedItem);
