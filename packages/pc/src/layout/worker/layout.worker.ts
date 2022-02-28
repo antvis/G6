@@ -9,7 +9,6 @@ export const LayoutWorker = (
   workerScriptURL: string = 'https://unpkg.com/@antv/layout@latest/dist/layout.min.js',
 ) => {
   function workerCode() {
-
     const LAYOUT_MESSAGE = {
       // run layout
       RUN: 'LAYOUT_RUN',
@@ -33,6 +32,8 @@ export const LayoutWorker = (
     layout.registerLayout('circular', layout.CircularLayout);
     // @ts-ignore
     layout.registerLayout('dagre', layout.DagreLayout);
+    // @ts-ignore
+    layout.registerLayout('dagreCompound', layout.DagreCompoundLayout);
     // @ts-ignore
     layout.registerLayout('radial', layout.RadialLayout);
     // @ts-ignore
@@ -75,6 +76,7 @@ export const LayoutWorker = (
             break;
           }
 
+          // eslint-disable-next-line prefer-const
           let layoutMethod;
           layoutCfg.onLayoutEnd = () => {
             this.postMessage({ type: LAYOUT_MESSAGE.END, nodes });
@@ -117,7 +119,7 @@ export const LayoutWorker = (
           break;
       }
     }
-    onmessage = event => {
+    onmessage = (event) => {
       if (isLayoutMessage(event)) {
         handleLayoutMessage(event);
       }

@@ -6,6 +6,7 @@ import {
   ForceLayout,
   CircularLayout,
   DagreLayout,
+  DagreCompoundLayout,
   RadialLayout,
   ConcentricLayout,
   MDSLayout,
@@ -25,6 +26,7 @@ oRegisterLayout('random', RandomLayout);
 oRegisterLayout('force', ForceLayout);
 oRegisterLayout('circular', CircularLayout);
 oRegisterLayout('dagre', DagreLayout);
+oRegisterLayout('dagreCompound', DagreCompoundLayout);
 oRegisterLayout('radial', RadialLayout);
 oRegisterLayout('concentric', ConcentricLayout);
 oRegisterLayout('mds', MDSLayout);
