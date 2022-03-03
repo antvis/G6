@@ -52,7 +52,7 @@ const singleNode: ShapeOptions = {
 
     // 默认的位置（最可能的情形），所以放在最上面
     if (labelPosition === 'center') {
-      return { x: 0, y: 0, text: cfg!.label as string };
+      return { x: 0, y: 0, text: cfg!.label as string, textBaseline: 'middle', textAlign: 'center' };
     }
 
     let { offset } = labelCfg;
@@ -70,6 +70,7 @@ const singleNode: ShapeOptions = {
           x: 0,
           y: -size[1] / 2 - (offset as number),
           textBaseline: 'bottom', // 文本在图形的上面
+          textAlign: 'center',
         };
         break;
       case 'bottom':
@@ -77,12 +78,14 @@ const singleNode: ShapeOptions = {
           x: 0,
           y: size[1] / 2 + (offset as number),
           textBaseline: 'top',
+          textAlign: 'center',
         };
         break;
       case 'left':
         style = {
           x: -size[0] / 2 - (offset as number),
           y: 0,
+          textBaseline: 'middle',
           textAlign: 'right',
         };
         break;
@@ -90,6 +93,7 @@ const singleNode: ShapeOptions = {
         style = {
           x: size[0] / 2 + (offset as number),
           y: 0,
+          textBaseline: 'middle',
           textAlign: 'left',
         };
         break;
