@@ -314,8 +314,8 @@ export default class MiniMap extends Base {
     if (combos && combos.length) {
       const comboGroup = group.find(e => e.get('name') === 'comboGroup') ||
         group.addGroup({
-        name: 'comboGroup'
-      });
+          name: 'comboGroup'
+        });
       setTimeout(() => {
         if (this.destroyed) return;
         each(combos, (combo) => {
@@ -424,8 +424,8 @@ export default class MiniMap extends Base {
     if (combos && combos.length) {
       const comboGroup = group.find(e => e.get('name') === 'comboGroup') ||
         group.addGroup({
-        name: 'comboGroup'
-      });
+          name: 'comboGroup'
+        });
       setTimeout(() => {
         if (this.destroyed) return;
         each(combos, (combo) => {
@@ -717,9 +717,9 @@ export default class MiniMap extends Base {
   }
 
   public destroy() {
-    this.get('canvas').destroy();
+    this.get('canvas')?.destroy();
 
     const container = this.get('container');
-    container.parentNode.removeChild(container);
+    if (container?.parentNode) container.parentNode.removeChild(container);
   }
 }

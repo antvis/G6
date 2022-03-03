@@ -1,5 +1,11 @@
 # ChangeLog
 
+#### 4.6.0-beta
+
+- feat: comboCombined Layout from @antv/layout;
+- feat: combo supports position configurations for any situations;
+- fix: run layout promise only when the layout is configured;
+
 #### 4.5.5
 
 - fix: tooltip with wrong duplicated child DOM nodes;
@@ -23,6 +29,7 @@
 - fix: edge label background with clearItemStates problem;
 - fix: edge label with autoRotate false and padding problem;
 - fix: changeData in the process of create-edge behavior, an error occurs, closes: #3384;
+- fix: node update from no icon to iconfont icon failed;
 
 #### 4.5.1
 

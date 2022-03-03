@@ -297,7 +297,7 @@ describe('dagre layout with combo', () => {
   data2.nodes.forEach((node) => {
     node.label = node.id;
   });
-  it('layout with one level combo', () => {
+  it('layout with one level combo', (done) => {
     const graph = new G6.Graph({
       container: div,
       width: 500,
@@ -327,14 +327,15 @@ describe('dagre layout with combo', () => {
       console.log(graph.findById('1-2').getModel());
       console.log(graph.findById('1-1-1').getModel());
 
-      expect(graph.findById('1').getModel().x).toBe(195);
+      expect(graph.findById('1').getModel().x).toBe(145);
       expect(graph.findById('1').getModel().y).toBe(21.5);
       expect(graph.findById('1-2').getModel().x).toBe(45);
-      expect(graph.findById('1-2').getModel().y).toBe(64.5);
-      expect(graph.findById('1-1-1').getModel().x).toBe(370);
-      expect(graph.findById('1-1-1').getModel().y).toBe(108);
+      expect(graph.findById('1-2').getModel().y).toBe(107.5);
+      expect(graph.findById('1-1-1').getModel().x).toBe(470);
+      expect(graph.findById('1-1-1').getModel().y).toBe(107.5);
 
       graph.destroy();
+      done()
     })
   });
 

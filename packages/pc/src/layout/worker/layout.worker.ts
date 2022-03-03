@@ -9,7 +9,6 @@ export const LayoutWorker = (
   workerScriptURL: string = 'https://unpkg.com/@antv/layout@latest/dist/layout.min.js',
 ) => {
   function workerCode() {
-
     const LAYOUT_MESSAGE = {
       // run layout
       RUN: 'LAYOUT_RUN',
@@ -34,6 +33,8 @@ export const LayoutWorker = (
     // @ts-ignore
     layout.registerLayout('dagre', layout.DagreLayout);
     // @ts-ignore
+    layout.registerLayout('dagreCompound', layout.DagreCompoundLayout);
+    // @ts-ignore
     layout.registerLayout('radial', layout.RadialLayout);
     // @ts-ignore
     layout.registerLayout('concentric', layout.ConcentricLayout);
@@ -49,6 +50,8 @@ export const LayoutWorker = (
     layout.registerLayout('gForce-gpu', layout.GForceGPULayout);
     // @ts-ignore
     layout.registerLayout('comboForce', layout.ComboForceLayout);
+    // @ts-ignore
+    layout.registerLayout('comboCombined', layout.ComboCombinedLayout);
     // @ts-ignore
     layout.registerLayout('forceAtlas2', layout.ForceAtlas2Layout);
 
@@ -73,6 +76,7 @@ export const LayoutWorker = (
             break;
           }
 
+          // eslint-disable-next-line prefer-const
           let layoutMethod;
           layoutCfg.onLayoutEnd = () => {
             this.postMessage({ type: LAYOUT_MESSAGE.END, nodes });
@@ -115,7 +119,7 @@ export const LayoutWorker = (
           break;
       }
     }
-    onmessage = event => {
+    onmessage = (event) => {
       if (isLayoutMessage(event)) {
         handleLayoutMessage(event);
       }

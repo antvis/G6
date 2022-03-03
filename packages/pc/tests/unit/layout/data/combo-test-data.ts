@@ -174,6 +174,19 @@ export default {
   edges: [
     {
       source: 'a',
+      target: 'a',
+      size: 3,
+      style: {
+        stroke: 'red',
+      },
+      type: 'loop',
+      loopCfg: {
+        position: 'top',
+        dist: 20,
+      },
+    },
+    {
+      source: 'a',
       target: 'b',
       size: 3,
       style: {

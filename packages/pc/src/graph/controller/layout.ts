@@ -139,7 +139,7 @@ export default class LayoutController extends AbstractLayout {
           graph.refreshPositions();
         };
         layoutCfg.tick = tick;
-      } else if (layoutCfg.type === 'comboForce') {
+      } else if (layoutType === 'comboForce' || layoutType === 'comboCombined') {
         layoutCfg.comboTrees = graph.get('comboTrees');
       }
 
@@ -282,23 +282,28 @@ export default class LayoutController extends AbstractLayout {
     }
 
     let start = Promise.resolve();
+    let hasLayout = false;
     if (layoutCfg.type) {
+      hasLayout = true;
       start = start.then(async () => await this.execLayoutMethod(layoutCfg, 0));
     } else if (layoutCfg.pipes) {
+      hasLayout = true;
       layoutCfg.pipes.forEach((cfg, index) => {
         start = start.then(async () => await this.execLayoutMethod(cfg, index));
       });
     }
 
-    // 最后统一在外部调用onAllLayoutEnd
-    start.then(() => {
-      if (layoutCfg.onAllLayoutEnd) layoutCfg.onAllLayoutEnd();
-      // 在执行 execute 后立即执行 success，且在 timeBar 中有 throttle，可以防止 timeBar 监听 afterrender 进行 changeData 后 layout，从而死循环
-      // 对于 force 一类布局完成后的 fitView 需要用户自己在 onLayoutEnd 中配置
-      if (success) success();
-    }).catch((error) => {
-      console.warn('graph layout failed,', error);
-    });
+    if (hasLayout) {
+      // 最后统一在外部调用onAllLayoutEnd
+      start.then(() => {
+        if (layoutCfg.onAllLayoutEnd) layoutCfg.onAllLayoutEnd();
+        // 在执行 execute 后立即执行 success，且在 timeBar 中有 throttle，可以防止 timeBar 监听 afterrender 进行 changeData 后 layout，从而死循环
+        // 对于 force 一类布局完成后的 fitView 需要用户自己在 onLayoutEnd 中配置
+        if (success) success();
+      }).catch((error) => {
+        console.warn('graph layout failed,', error);
+      });
+    }
 
     return false;
   }
@@ -326,20 +331,25 @@ export default class LayoutController extends AbstractLayout {
     graph.emit('beforelayout');
 
     let start = Promise.resolve();
+    let hasLayout = false;
     if (layoutCfg.type) {
+      hasLayout = true;
       start = start.then(() => this.runWebworker(worker, data, layoutCfg));
     } else if (layoutCfg.pipes) {
+      hasLayout = true;
       for (const cfg of layoutCfg.pipes) {
         start = start.then(() => this.runWebworker(worker, data, cfg));
       }
     }
 
-    // 最后统一在外部调用onAllLayoutEnd
-    start.then(() => {
-      if (layoutCfg.onAllLayoutEnd) layoutCfg.onAllLayoutEnd();
-    }).catch((error) => {
-      console.error('layout failed', error);
-    });
+    if (hasLayout) {
+      // 最后统一在外部调用onAllLayoutEnd
+      start.then(() => {
+        if (layoutCfg.onAllLayoutEnd) layoutCfg.onAllLayoutEnd();
+      }).catch((error) => {
+        console.error('layout failed', error);
+      });
+    }
 
     return true;
   }
@@ -479,20 +489,25 @@ export default class LayoutController extends AbstractLayout {
     graph.emit('beforelayout');
 
     let start = Promise.resolve();
+    let hasLayout = false;
     if (layoutMethods.length === 1) {
+      hasLayout = true;
       start = start.then(async () => await this.updateLayoutMethod(layoutMethods[0], layoutCfg));
     } else {
+      hasLayout = true;
       layoutMethods?.forEach((layoutMethod, index) => {
         const currentCfg = layoutCfg.pipes[index];
-        start = start.then(async() => await this.updateLayoutMethod(layoutMethod, currentCfg));
+        start = start.then(async () => await this.updateLayoutMethod(layoutMethod, currentCfg));
       });
     }
 
-    start.then(() => {
-      if (layoutCfg.onAllLayoutEnd) layoutCfg.onAllLayoutEnd();
-    }).catch((error) => {
-      console.warn('layout failed', error);
-    });
+    if (hasLayout) {
+      start.then(() => {
+        if (layoutCfg.onAllLayoutEnd) layoutCfg.onAllLayoutEnd();
+      }).catch((error) => {
+        console.warn('layout failed', error);
+      });
+    }
   }
 
   protected adjustPipesBox(data, adjust: string): Promise<void> {
@@ -503,7 +518,7 @@ export default class LayoutController extends AbstractLayout {
       }
 
       if (!LAYOUT_PIPES_ADJUST_NAMES.includes(adjust)) {
-        console.warn(`The adjust type ${adjust} is not supported yet, please assign it with 'force', 'grid', or 'circular'.` );
+        console.warn(`The adjust type ${adjust} is not supported yet, please assign it with 'force', 'grid', or 'circular'.`);
         resolve();
       }
 
