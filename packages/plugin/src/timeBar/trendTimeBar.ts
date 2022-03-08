@@ -937,7 +937,7 @@ export default class TrendTimeBar {
   }
 
   public destory() {
-    this.graph.off(VALUE_CHANGE, () => { /* do nothing */}); // TODO: getting type error here: `Expected 2-3 arguments, but got 1,  An argument for 'callback' was not provided`
+    this.graph.off(VALUE_CHANGE, () => { /* do nothing */});
 
     const group = this.group;
 

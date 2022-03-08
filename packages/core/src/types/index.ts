@@ -50,8 +50,6 @@ export type NodeInteractionEvent =
   | 'dragleave'
   | 'dragover'
   | 'drop'
-  | 'keyup'
-  | 'keydown'
   | 'mousedown'
   | 'mouseenter'
   | 'mouseup'
@@ -65,7 +63,6 @@ export type NodeInteractionEvent =
   | 'touchstart'
   | 'touchmove'
   | 'touchend'
-  | 'wheel'
   | 'contextmenu';
 
 export type EdgeInteractionEvent =
@@ -77,8 +74,6 @@ export type EdgeInteractionEvent =
   | 'dragenter'
   | 'dragleave'
   | 'dragover'
-  | 'keydown' // ??
-  | 'keyup' //??
   | 'mouseenter'
   | 'mousemove'
   | 'mouseout'
@@ -89,7 +84,6 @@ export type EdgeInteractionEvent =
   | 'touchstart'
   | 'touchmove'
   | 'touchend'
-  | 'wheel'
   | 'contextmenu';
 
 export type ComboInteractionEvent = NodeInteractionEvent;
@@ -102,7 +96,7 @@ export type CanvasInteractionEvent =
   | 'dragenter'
   | 'dragleave'
   | 'drop'
-  | 'keydown' //??
+  | 'keydown'
   | 'keyup'
   | 'mouseenter'
   | 'mousemove'
@@ -114,7 +108,7 @@ export type CanvasInteractionEvent =
   | 'touchstart'
   | 'touchmove'
   | 'touchend'
-  | 'wheel' //??
+  | 'wheel'
   | 'contextmenu';
 
 /**
@@ -157,7 +151,6 @@ export type GraphTimingEvents =
   | 'beforecollapseexpandcombo'
   | 'aftercollapseexpandcombo'
   | 'graphstatechange'
-  // TODO: maybe we need a `beforeactivaterelations` created in future PR?
   | 'afteractivaterelations'
   | 'nodeselectChange'
   | 'itemcollapsed'
@@ -166,7 +159,7 @@ export type GraphTimingEvents =
   | 'viewportchange'
   | 'dragnodeend'
   | 'stackchange'
-  // TODO: Are {before,after}paint deprecated? They are not in docs, but they were in the G6Event enum.
+  // NOTE: {before,after}paint are deprecated, we are leaving here for backward compatability for now: https://github.com/antvis/G6/pull/3566#discussion_r821249756
   | 'beforepaint'
   | 'afterpaint';
 

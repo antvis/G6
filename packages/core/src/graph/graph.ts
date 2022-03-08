@@ -2343,7 +2343,6 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       if (forceTypes.includes(cfg.type) || (!cfg.type && forceTypes.includes(layoutController?.layoutType))) {
         cfg.center = [toPoint.x, toPoint.y];
       } else {
-        // TODO ↓: `Property 'once' does not exist on type 'AbstractGraph'.ts(2339)`
         this.once('afterlayout', e => {
           const matrix = this.getGroup().getMatrix() || [1, 0, 0, 0, 1, 0, 0, 0, 1];
           toPoint.x = toPoint.x * matrix[0] + matrix[6];

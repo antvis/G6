@@ -152,11 +152,11 @@ describe('select-node', () => {
     });
     graph.paint();
 
-    graph.once('nodeselectchange', (e) => { // TODO: getting error `Property 'once' does not exist on type 'Graph'.ts(2339)`
+    graph.once('nodeselectchange', (e) => {
       expect(e.selectedItems.nodes.length).toEqual(1);
     });
 
-    graph.emit('node:click', { item: node }); // TODO: getting error `Property 'emit' does not exist on type 'Graph'.ts(2339)`
+    graph.emit('node:click', { item: node });
     expect(node.getStates().length).toEqual(1);
     expect(node.hasState('selected')).toBe(true);
     graph.emit('node:click', { item: node });
