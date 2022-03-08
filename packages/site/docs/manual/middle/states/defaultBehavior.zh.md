@@ -162,7 +162,7 @@ const graph = new G6.Graph({
   - `type: 'scroll-canvas'`；
   - `direction`：允许拖拽方向，支持`'x'`，`'y'`，`'both'`，默认方向为 `'both'`；
   - `enableOptimize`：是否开启优化，开启后拖动画布过程中隐藏所有的边及节点上非 keyShape 部分，默认关闭；
-  - `zoomKey`：切换为滚动缩放的键盘按钮，按住该键并滚动滚轮，则切换为滚轮缩放画布，可选项为：`'shift'`，`'ctrl'`，`'alt'`，`'control'`；
+  - `zoomKey`：切换为滚动缩放的键盘按钮，按住该键并滚动滚轮，则切换为滚轮缩放画布，可选项为：`'shift'`，`'ctrl'`，`'alt'`，`'control'`，`'meta'`, 可使用数组监听多个按键，任意按键按下时都会触发缩放；
   - `scalableRange`：拖动 canvas 可扩展的范围，默认为 0，值为 -1 ～ 1 代表可超出视口的范围的比例值（相对于视口大小）。值小于 -1 或大于 1 时，为正和负数时的效果如下图所示。
 
   <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IFfoS67_HssAAAAAAAAAAAAAARQnAQ' width='650' alt="" />
