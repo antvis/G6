@@ -25,7 +25,7 @@ export default {
 
   onWheel(ev: IG6GraphEvent) {
     const graph = this.graph;
-    const zoomKeys = Array.isArray(this.zoomKey) ? this.zoomKey : [this.zoomKey];
+    const zoomKeys = Array.isArray(this.zoomKey) ? [].concat(this.zoomKey) : [this.zoomKey];
     if (zoomKeys.includes('control')) zoomKeys.push('ctrl');
     let keyDown = zoomKeys.some(ele => ev[`${ele}Key`]);
     if (keyDown) {
