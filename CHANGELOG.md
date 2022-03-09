@@ -1,5 +1,9 @@
 # ChangeLog
 
+#### 4.6.1
+
+- fix: layoutController is null problem;
+
 #### 4.6.0-beta
 
 - feat: comboCombined Layout from @antv/layout;
