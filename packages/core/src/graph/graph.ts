@@ -2364,6 +2364,8 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     Object.assign(layoutCfg, oriLayoutCfg, cfg);
     this.set('layout', layoutCfg);
 
+    if (!layoutController) return;
+
     if (
       layoutController.isLayoutTypeSame(layoutCfg) &&
       layoutCfg.gpuEnabled === oriLayoutCfg.gpuEnabled
@@ -2381,7 +2383,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    */
   public destroyLayout(): void {
     const layoutController = this.get('layoutController');
-    layoutController.destroyLayout();
+    layoutController?.destroyLayout();
   }
 
   /**
