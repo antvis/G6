@@ -133,6 +133,8 @@ export interface LayoutConfig {
   [key: string]: unknown;
 }
 
+export type ZoomKeyType = 'shift' | 'ctrl' | 'alt' | 'control' | 'meta';
+
 export interface ModeOption {
   type: string;
   delegate?: boolean;
@@ -170,7 +172,7 @@ export interface ModeOption {
   functionParams?: any[];
   relayout?: boolean;
   brushStyle?: object;
-  zoomKey?: 'shift' | 'ctrl' | 'alt' | 'control';
+  zoomKey?: ZoomKeyType | ZoomKeyType[];
   shouldUpdate?: (e: IG6GraphEvent) => boolean;
   shouldBegin?: (e: IG6GraphEvent) => boolean;
   shouldEnd?: (e: IG6GraphEvent) => boolean;

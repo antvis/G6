@@ -1,6 +1,6 @@
 import { G6Event, IG6GraphEvent } from '@antv/g6-core';
 
-const ALLOW_EVENTS = ['shift', 'ctrl', 'alt', 'control'];
+const ALLOW_EVENTS = ['shift', 'ctrl', 'alt', 'control', 'meta'];
 
 export default {
   getDefaultCfg(): object {
@@ -25,8 +25,9 @@ export default {
 
   onWheel(ev: IG6GraphEvent) {
     const graph = this.graph;
-    let keyDown = ev[`${this.zoomKey}Key`];
-    if (this.zoomKey === 'control') keyDown = ev.ctrlKey;
+    const zoomKeys = Array.isArray(this.zoomKey) ? [].concat(this.zoomKey) : [this.zoomKey];
+    if (zoomKeys.includes('control')) zoomKeys.push('ctrl');
+    let keyDown = zoomKeys.some(ele => ev[`${ele}Key`]);
     if (keyDown) {
       const canvas = graph.get('canvas');
       const point = canvas.getPointByClient(ev.clientX, ev.clientY);
@@ -44,11 +45,11 @@ export default {
       let dx = (ev.deltaX || ev.movementX) as number;
       let dy = (ev.deltaY || ev.movementY) as number;
       if (!dy && navigator.userAgent.indexOf('Firefox') > -1) dy = (-ev.wheelDelta * 125) / 3
-      
+
       const width = this.graph.get('width');
       const height = this.graph.get('height');
       const graphCanvasBBox = this.graph.get('canvas').getCanvasBBox();
-  
+
       let expandWidth = this.scalableRange as number;
       let expandHeight = this.scalableRange as number;
       // 若 scalableRange 是 0~1 的小数，则作为比例考虑
@@ -86,13 +87,13 @@ export default {
           dy = minY - (height + expandHeight)
         }
       }
-  
+
       if (this.get('direction') === 'x') {
         dy = 0;
       } else if (this.get('direction') === 'y') {
         dx = 0;
       }
-      
+
       graph.translate(-dx, -dy);
     }
     ev.preventDefault();

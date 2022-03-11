@@ -160,7 +160,7 @@ The canvas can be dragged along x direction only.<br /><img src='https://gw.alip
   - `type: 'scroll-canvas'`;
   - `direction`: The direction of dragging that is allowed. Options: `'x'`, `'y'`, `'both'`. `'both'` by default;
   - `enableOptimize`: whether enable optimization, `false` by default. `enableOptimize: true` means hiding all edges and the shapes beside keyShapes of nodes while dragging canvas;
-  - `zoomKey`: switch to zooming while pressing the key and wheeling. Options: `'shift'`, `'ctrl'`, `'alt'`, `'control'`;
+  - `zoomKey`: switch to zooming while pressing the key and wheeling. Options: `'shift'`, `'ctrl'`, `'alt'`, `'control'`, `'meta'`, using an array of these options allows any of these keys to trigger zooming;
   - `scalableRange`: scalable range when drag canvas, `zero` by default. -1 to 1 means the scalable percentage of the viewport; the image bellow illustrate the situation when it is smaller than -1 or bigger than 1: 
 
   <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IFfoS67_HssAAAAAAAAAAAAAARQnAQ' width='650' alt="" />
