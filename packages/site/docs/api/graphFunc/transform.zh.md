@@ -21,7 +21,7 @@ order: 3
 const zoom = graph.getZoom();
 ```
 
-### graph.zoom(ratio, center)
+### graph.zoom(ratio, center, animate, animateCfg)
 
 改变视口的缩放比例，在当前画布比例下缩放，是相对比例。
 
@@ -31,18 +31,25 @@ const zoom = graph.getZoom();
 | --- | --- | --- | --- |
 | ratio | Number | true | 缩放比例 |
 | center | Object | false | 以 `center` 的 `x`、`y` 坐标为中心缩放，如果省略了 `center` 参数，则以元素当前位置为中心缩放 |
+| animate   | Boolean | false     | 是否开启动画 |
+| animateCfg   | GraphAnimateConfig | false     | 若带有动画，可配置动画，参见[基础动画教程](/zh/docs/manual/middle/animation)。若未配置，则跟随 graph 的 `animateCfg` 参数 |
 
 **用法**
 
 ```javascript
-// 以 (100, 100) 为中心点，放大3倍
+// 以 (100, 100) 为中心点，放大到 3
 graph.zoom(3, { x: 100, y: 100 });
 
 // 以当前元素位置为中心，缩小到 0.5
 graph.zoom(0.5);
+
+// 带动画以 (100, 100) 为中心点，放大到 3
+graph.zoom(3, { x: 100, y: 100 }, true, {
+  duration: 100,
+});
 ```
 
-### graph.zoomTo(toRatio, center)
+### graph.zoomTo(toRatio, center, animate, animateCfg)
 
 缩放视窗窗口到一个固定比例。
 
@@ -52,6 +59,8 @@ graph.zoom(0.5);
 | --- | --- | --- | --- |
 | toRatio | Number | true | 固定比例值 |
 | center | Object | false | 以 `center` 的 `x`、`y` 坐标为中心缩放，如果省略了 `center` 参数，则以元素当前位置为中心缩放 |
+| animate   | Boolean | false     | 是否开启动画 |
+| animateCfg   | GraphAnimateConfig | false     | 若带有动画，可配置动画，参见[基础动画教程](/zh/docs/manual/middle/animation)。若未配置，则跟随 graph 的 `animateCfg` 参数 |
 
 **用法**
 
@@ -61,6 +70,11 @@ graph.zoomTo(3, { x: 100, y: 100 });
 
 // 以当前元素位置为中心，缩小到 0.5
 graph.zoomTo(0.5);
+
+// 带动画以 (100, 100) 为中心点，放大3倍
+graph.zoomTo(3, { x: 100, y: 100 }, true, {
+  duration: 100,
+});
 ```
 
 ### graph.changeSize(width, height)
@@ -80,7 +94,7 @@ graph.zoomTo(0.5);
 graph.changeSize(600, 350);
 ```
 
-### graph.translate(dx, dy)
+### graph.translate(dx, dy, animate, animateCfg)
 
 采用**相对位移**来平移画布。
 
@@ -90,11 +104,18 @@ graph.changeSize(600, 350);
 | ---- | ------ | -------- | ------------ |
 | dx   | Number | true     | 水平方向位移 |
 | dy   | Number | true     | 垂直方向位移 |
+| animate   | Boolean | false     | 是否开启动画 |
+| animateCfg   | GraphAnimateConfig | false     | 若带有动画，可配置动画，参见[基础动画教程](/zh/docs/manual/middle/animation)。若未配置，则跟随 graph 的 `animateCfg` 参数 |
 
 **用法**
 
 ```javascript
 graph.translate(100, 100);
+
+// 带动画
+graph.translate(100, 100, true, {
+  duration: 100,
+});
 ```
 
 ### graph.moveTo(x, y, animate, animateCfg)
