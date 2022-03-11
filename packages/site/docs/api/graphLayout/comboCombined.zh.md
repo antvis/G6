@@ -3,7 +3,7 @@ title: Combo 复合布局 ComboCombined
 order: 13
 ---
 
-*V4.6 新增功能。*ComboCombined 支持自由配置 combo 内部元素的布局以及最外层 combo 和节点之间的布局，默认情况下将使用 Concentric 同心圆布局作为内部布局，gForce 力导向布局作为外部布局。能够达到较好的效果以及稳定性。当您指定内部布局时，请使用同步的布局算法，可从以下布局中选择：Circular，Concentric，Grid，Dagre，MDS，Radial。也可以自定义布局作为内部/外部布局。
+*V4.6 新增功能。*ComboCombined 支持自由配置 combo 内部元素的布局以及最外层 combo 和节点之间的布局，默认情况下将使用 Concentric 同心圆布局作为内部布局，gForce 力导向布局作为外部布局。能够达到较好的效果以及稳定性。当您指定内部布局时，请使用同步的布局算法，可从以下布局中选择：Circular，Concentric，Grid，Dagre，MDS，Radial，或任何同步的自定义布局。也可以自定义布局作为内部/外部布局。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZlvWS7xOkjMAAAAAAAAAAAAAARQnAQ' width=650 alt='img'/>
 
@@ -71,7 +71,19 @@ outerLayout: new G6.Layout['gForce']({
 });
 ```
 
-**类型**：Object<br />**默认值**：GForce 实例<br />**是否必须**：false<br />**说明**：最外层的布局算法，需要使用同步的布局算法，默认为 gForce。具体参数详见被使用布局的文档
+**类型**：Object<br />**默认值**：GForce 实例<br />**是否必须**：false<br />**说明**：最外层的布局算法，需要使用同步的布局算法，默认为 gForce。具体参数详见被使用布局的文档。
+默认情况下 gForce 布局将使用以下参数：
+
+```javascript
+outerLayout: new G6.Layout['gForce']({
+  gravity: 1,
+  factor: 2,
+  linkDistance: (edge: any, source: any, target: any) => {
+    const nodeSize = ((source.size?.[0] || 30) + (target.size?.[0] || 30)) / 2;
+    return Math.min(nodeSize * 1.5, 700);
+  }
+});
+```
 
 ### layoutCfg.innerLayout
 
@@ -81,7 +93,14 @@ innerLayout: new G6.Layout['grid']({
 });
 ```
 
-**类型**：Object<br />**默认值**：Concentric 实例<br />**是否必须**：false<br />**说明**：ombo 内部的布局算法，默认为 concentric。具体参数详见被使用布局的文档
+**类型**：Object<br />**默认值**：Concentric 实例<br />**是否必须**：false<br />**说明**：ombo 内部的布局算法，默认为 concentric。具体参数详见被使用布局的文档。
+默认情况下 concentric 布局将使用以下参数：
+
+```javascript
+outerLayout: new G6.Layout['concentric']({
+  sortBy: 'id'
+});
+```
 
 ### layoutCfg.workerEnabled
 
