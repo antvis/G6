@@ -32,8 +32,9 @@ export default {
         stroke: '#DDEEFE',
         lineWidth: 1,
       },
-      onSelect() {},
-      onDeselect() {},
+      onSelect() { },
+      onDeselect() { },
+      shouldDeselect: undefined,
       selectedState: 'selected',
       trigger: DEFAULT_TRIGGER,
       includeEdges: true,
@@ -80,7 +81,7 @@ export default {
     }
 
     if (this.selectedNodes && this.selectedNodes.length !== 0) {
-      this.clearStates();
+      this.clearStates('dragstart');
     }
 
     if (!lasso) {
@@ -131,12 +132,16 @@ export default {
     }
     return path;
   },
-  clearStates() {
-    const { graph, selectedState } = this;
+  clearStates(action = 'canvas:click') {
+    const { graph, selectedState, shouldDeselect } = this;
+
     const nodes = graph.findAllByState('node', selectedState);
     const edges = graph.findAllByState('edge', selectedState);
-    nodes.forEach((node) => graph.setItemState(node, selectedState, false));
-    edges.forEach((edge) => graph.setItemState(edge, selectedState, false));
+
+    if (!shouldDeselect || shouldDeselect({ action, nodes, edges })) {
+      nodes.forEach((node) => graph.setItemState(node, selectedState, false));
+      edges.forEach((edge) => graph.setItemState(edge, selectedState, false));
+    }
 
     if (this.onDeselect) {
       this.onDeselect(this.selectedNodes, this.selectedEdges);

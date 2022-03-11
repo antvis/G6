@@ -188,6 +188,7 @@ export default class ItemController {
         setTimeout(() => {
           if (!item.destroyed) {
             graph.collapseCombo(item as ICombo);
+            graph.updateCombo(item as ICombo);
           }
         }, 0);
       }

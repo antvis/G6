@@ -48,11 +48,11 @@ describe('no node and one node', () => {
     graph.on('afterlayout', () => {
       expect(testData.nodes[0].x).toBe(250);
       expect(testData.nodes[0].y).toBe(250);
+      graph.destroy();
       done();
     });
     graph.data(testData);
     graph.render();
-    graph.destroy();
   });
 });
 
@@ -205,8 +205,10 @@ describe('scenario', () => {
     // 增加动画
     combo.getKeyShape().animate({ y: -comboBBox.height / 2, r: 10 }, { duration: 300, easing: 'easeCubic' });
     setTimeout(() => {
-      graph.uncombo(combo.getID());
-      graph.layout();
+      if (combo && !combo.destroyed) {
+        graph.uncombo(combo.getID());
+        graph.layout();
+      }
     }, 300);
 
     // 标记新增的边，用于观察
@@ -294,5 +296,31 @@ describe('scenario', () => {
   });
 
   it('senario', () => {
+  });
+});
+
+describe('overlap problem', () => {
+  it('overlap problem', (done) => {
+    const testData = { "nodes": [{ "id": "node===lca1_server-01.com", "label": "lca1_server-01.com", "comboId": "cluster_lca1-01.com" }, { "id": "node===lor1_server-01.com", "label": "lor1_server-01.com", "comboId": "cluster_lor1-01.com" }, { "id": "node===lor1_server-02.com", "label": "lor1_server-02.com", "comboId": "cluster_lor1-02.com" }, { "id": "node===ltx1_server-01.com", "label": "ltx1_server-01.com", "comboId": "cluster_ltxt1-01.com" }, { "id": "node===lva1-server01.com", "label": "lva1-server01.com", "comboId": "cluster_lva1-01.com" }], "combos": [{ "id": "data_center_lca1", "label": "data_center_lca1", "parentId": null }, { "id": "cluster_lca1-01.com", "label": "cluster_lca1-01.com", "parentId": "data_center_lca1" }, { "id": "data_center_lor1", "label": "data_center_lor1", "parentId": null }, { "id": "cluster_lor1-01.com", "label": "cluster_lor1-01.com", "parentId": "data_center_lor1" }, { "id": "cluster_lor1-02.com", "label": "cluster_lor1-02.com", "parentId": "data_center_lor1" }, { "id": "data_center_ltx1", "label": "data_center_ltx1", "parentId": null }, { "id": "cluster_ltxt1-01.com", "label": "cluster_ltxt1-01.com", "parentId": "data_center_ltx1" }, { "id": "data_center_lva1", "label": "data_center_lva1", "parentId": null }, { "id": "cluster_lva1-01.com", "label": "cluster_lva1-01.com", "parentId": "data_center_lva1" }] }
+    const graph = new G6.Graph({
+      container: div,
+      layout: {
+        type: 'comboCombined',
+      },
+      modes: {
+        default: ['drag-canvas', 'zoom-canvas', 'drag-node', 'drag-combo', 'collapse-expand-combo']
+      },
+      width: 500,
+      height: 500,
+      minZoom: 0.00001
+    });
+    graph.data(testData);
+    graph.render();
+
+    graph.on('canvas:click', e => {
+      graph.fitView()
+    })
+    graph.destroy();
+    done();
   });
 });
