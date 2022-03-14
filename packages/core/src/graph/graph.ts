@@ -2226,9 +2226,13 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     updateItems(nodes);
 
     if (combos && combos.length !== 0) {
-      self.updateCombos();
       if (referComboModel) {
         updateItems(combos);
+        setTimeout(() => {
+          self.updateCombos();
+        }, 0);
+      } else {
+        self.updateCombos();
       }
     }
 

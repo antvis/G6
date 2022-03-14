@@ -23,7 +23,8 @@ G6 提供了以下内置布局算法。可以在[实例化图时配置](#实例�
 - [Dagre Layout](./dagre)：层次布局；
 - [Concentric Layout](./concentric)：同心圆布局，将重要（默认以度数为度量）的节点放置在布局中心；
 - [Grid Layout](./grid)：格子布局，将节点有序（默认是数据顺序）排列在格子上；
-- [Combo Force Layout](./comboForce)：*V3.5 新增。*适用于带有 combo 图的力导向布局，推荐有 combo 的图使用该布局。
+- [Combo Force Layout](./comboForce)：*V3.5 新增。*适用于带有 combo 图的力导向布局。
+- [Combo Combined Layout](./comboCombined)：*V4.6 新增。*适用于带有 combo 的图，可自由组合内外布局，默认情况下可以有较好的效果，推荐有 combo 的图使用该布局。
 
 ## 实例化图时使用布局
 

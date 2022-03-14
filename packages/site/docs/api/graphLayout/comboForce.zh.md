@@ -1,6 +1,6 @@
 ---
 title: Combo 力导向 ComboForce
-order: 11
+order: 12
 ---
 
 *V3.5 新增功能。*ComboForce 是基于力导向的专用于带有 combo 的图的布局算法。通过自研改造经典力导向算法，将根据节点的 combo 信息，施加不同的力以达到同 combo 节点尽可能聚集，不同 combo 之间尽可能无重叠的布局。
@@ -173,4 +173,5 @@ const graph = new G6.Graph({
 
 ### layoutCfg.workerEnabled
 
-**类型**: Boolean<br />**默认值**: false<br />**是否必须**: false<br />**说明**: 是否启用 web-worker 以防布局计算时间过长阻塞页面交互
+**类型**: Boolean<br />**默认值**: false<br />**是否必须**: false<br />**说明**: 是否启用 web-worker 以防布局计算时间过长阻塞页面交互。
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> `workerEnabled: true` 时，不支持所有函数类型的参数。

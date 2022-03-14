@@ -19,6 +19,63 @@ Get the current zoom ratio.
 const zoom = graph.getZoom();
 ```
 
+### graph.zoom(ratio, center, animate, animateCfg)
+
+Change the scale of the graph with a relative ratio.
+
+**Parameters**
+
+| Name   | Type   | Required | Description               |
+| --- | --- | --- | --- |
+| ratio | Number | true | Relative zoom ratio |
+| center | Object | false | The zoom center. If it is not assigned, (0, 0) will be regarded as the zoom center |
+| animate | boolean | false | Whether move the graph with animation. If it is not assigned, animates following the graph's `animate`. |
+| animateCfg | Object | false | The animation's configuraiton. Its configurations can be found in [Basic Animation Docs](/en/docs/manual/middle/animation). |
+
+**Usage**
+
+```javascript
+// zoom to scale 3 at the center (100, 100)
+graph.zoom(3, { x: 100, y: 100 });
+
+// zoom to scale 0.5 at the center (0, 0)
+graph.zoom(0.5);
+
+// zoom to scale 3 at the center (100, 100) with animation
+graph.zoom(3, { x: 100, y: 100 }, true, {
+  duration: 100,
+});
+```
+
+### graph.zoomTo(toRatio, center)
+
+Scale the graph to a target ratio.
+
+**Parameters**
+
+| Name   | Type   | Required | Description               |
+| --- | --- | --- | --- |
+| toRatio | Number | true | The target ratio |
+| center | Object | false | The zoom center. If it is not assigned, (0, 0) will be regarded as the zoom center |
+| animate | boolean | false | Whether move the graph with animation. If it is not assigned, animates following the graph's `animate`. |
+| animateCfg | Object | false | The animation's configuraiton. Its configurations can be found in [Basic Animation Docs](/en/docs/manual/middle/animation). |
+
+**Usage**
+
+```javascript
+// Scale the graph 3 times at the center (100, 100)
+graph.zoomTo(3, { x: 100, y: 100 });
+
+// Scale the graph 0.5 times at the center (0, 0)
+graph.zoomTo(0.5);
+
+// Scale the graph 3 times at the center (100, 100) with animation
+graph.zoomTo(3, { x: 100, y: 100 }, true, {
+  duration: 100,
+});
+```
+
+
 ### graph.changeSize(width, height)
 
 Change the size of the canvas.
@@ -36,7 +93,7 @@ Change the size of the canvas.
 graph.changeSize(600, 350);
 ```
 
-### graph.translate(dx, dy)
+### graph.translate(dx, dy, animate, animateCfg)
 
 Move the canvas with **relative displacement**.
 
@@ -46,11 +103,18 @@ Move the canvas with **relative displacement**.
 | ---- | ------ | -------- | ----------------------------------------- |
 | dx   | Number | true     | Displacement in the horizontal direction. |
 | dy   | Number | true     | Displacement in the vertical direction.   |
+| animate | boolean | false | Whether translate the graph with animation. |
+| animateCfg | Object | false | The animation's configuraiton. Its configurations can be found in [Basic Animation Docs](/en/docs/manual/middle/animation). If it is not assigned, animates following the graph's `animateCfg`. |
 
 **Usage**
 
 ```javascript
 graph.translate(100, 100);
+
+// 带动画
+graph.translate(100, 100, true, {
+  duration: 100,
+});
 ```
 
 ### graph.moveTo(x, y, animate, animateCfg)

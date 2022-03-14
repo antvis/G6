@@ -1,5 +1,10 @@
 # ChangeLog
 
+#### 4.6.3
+
+- feat: shouldDeselect param for lasso-select;
+- fix: initial collapsed combos with unexpected size;
+
 #### 4.6.1
 
 - fix: layoutController is null problem;
