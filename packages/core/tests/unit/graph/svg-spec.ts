@@ -1261,3 +1261,74 @@ describe('built-in items', () => {
     graph.destroy();
   });
 });
+describe("test node label", () => {
+  const graph = new Graph({
+    container: div,
+    width: 500,
+    height: 500,
+    renderer: 'svg',
+  });
+  it('update the position of node label and it is correct', () => {
+    const graphData = {
+      nodes: [
+        {
+          id: "circle",
+          label: "circle",
+          x: 250,
+          y: 150
+        }
+      ]
+    };
+    graph.data(graphData);
+    graph.render();
+    const item = graph.getNodes()[0];
+    graph.updateItem(item, {
+      labelCfg: {
+        position: "left"
+      },
+    });
+    check("left");
+    graph.updateItem(item, {
+      labelCfg: {
+        position: "bottom"
+      },
+    });
+    check("bottom");
+    graph.updateItem(item, {
+      labelCfg: {
+        position: "center"
+      },
+    });
+    check("center");
+    function check(position: string) {
+      const positionMap = {
+        left: {
+          textAlign: "right",
+          textBaseline: "middle"
+        },
+        bottom: {
+          textAlign: "center",
+          textBaseline: "top"
+        },
+        right: {
+          textAlign: "left",
+          textBaseline: "middle"
+        },
+        top: {
+          textAlign: "center",
+          textBaseline: "bottom"
+        },
+        center: {
+          textAlign: "center",
+          textBaseline: "middle"
+        }
+      }
+      const nodeLabel = item.get('group')["shapeMap"]["node-label"];
+      const textAlignToBe = positionMap[position].textAlign;
+      const textBaselineToBe = positionMap[position].textBaseline;
+      expect(nodeLabel.attrs.textAlign).toBe(textAlignToBe);
+      expect(nodeLabel.attrs.textBaseline).toBe(textBaselineToBe);
+    }
+    graph.destroy();
+  });
+});
