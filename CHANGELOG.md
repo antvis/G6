@@ -1,6 +1,6 @@
 # ChangeLog
 
-#### 4.6.2
+#### 4.6.3
 
 - feat: shouldDeselect param for lasso-select;
 - fix: initial collapsed combos with unexpected size;
