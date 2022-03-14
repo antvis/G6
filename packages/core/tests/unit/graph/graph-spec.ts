@@ -689,121 +689,197 @@ describe('all node link center', () => {
     expect(edge.get('keyShape').attr('path')).toEqual([['M', 10, 10], ['L', 100, 100]]);
   });
 
-  it('loop', () => {
-    graph.set('linkCenter', false);
-
-    const node = graph.addItem('node', {
+  const loopNode: any = {
+    type: 'node',
+    model: {
       id: 'circleNode',
       x: 150,
       y: 150,
       style: { fill: 'yellow' },
       anchorPoints: [[0, 0], [0, 1]],
-    });
+    }
+  };
 
-    const edge1 = graph.addItem('edge', {
-      id: 'edge',
-      source: 'circleNode',
-      target: 'circleNode',
-      type: 'loop',
-      loopCfg: {
-        position: 'top',
-        dist: 60,
-        clockwise: true,
-      },
-      style: { endArrow: true },
-    });
+  const loopEdges: any = [
+    {
+      type: 'edge',
+      model: {
+        id: 'edge',
+        source: 'circleNode',
+        target: 'circleNode',
+        type: 'loop',
+        loopCfg: {
+          position: 'top',
+          dist: 60,
+          clockwise: true,
+        },
+        style: { endArrow: true },
+      }
+    },
+    {
+      type: 'edge',
+      model: {
+        id: 'edge1',
+        source: 'circleNode',
+        target: 'circleNode',
+        type: 'loop',
+        loopCfg: {
+          position: 'top-left',
+          dist: 60,
+          clockwise: false,
+        },
+        style: { endArrow: true },
+      }
+    },
+    {
+      type: 'edge',
+      model: {
+        id: 'edge2',
+        source: 'circleNode',
+        target: 'circleNode',
+        type: 'loop',
+        loopCfg: {
+          position: 'top-right',
+          dist: 60,
+        },
+        style: { endArrow: true },
+      }
+    },
+    {
+      type: 'edge',
+      model: {
+        id: 'edge4',
+        source: 'circleNode',
+        target: 'circleNode',
+        type: 'loop',
+        loopCfg: {
+          position: 'right',
+          dist: 60,
+          clockwise: true,
+        },
+        style: { endArrow: true },
+      }
+    },
+    {
+      type: 'edge',
+      model: {
+        id: 'edge5',
+        source: 'circleNode',
+        target: 'circleNode',
+        type: 'loop',
+        sourceAnchor: 0,
+        targetAnchor: 1,
+        loopCfg: {
+          position: 'bottom-right',
+          dist: 60,
+          clockwise: true,
+        },
+        style: { endArrow: true },
+      }
+    },
+    {
+      type: 'edge',
+      model: {
+        id: 'edge6',
+        source: 'circleNode',
+        target: 'circleNode',
+        type: 'loop',
+        loopCfg: {
+          position: 'bottom',
+          dist: 60,
+          clockwise: true,
+        },
+        style: { endArrow: true },
+      }
+    },
+    {
+      type: 'edge',
+      model: {
+        id: 'edge7',
+        source: 'circleNode',
+        target: 'circleNode',
+        type: 'loop',
+        loopCfg: {
+          position: 'bottom-left',
+          dist: 60,
+          clockwise: true,
+        },
+        style: { endArrow: true },
+      }
+    },
+    {
+      type: 'edge',
+      model: {
+        id: 'edge8',
+        source: 'circleNode',
+        target: 'circleNode',
+        type: 'loop',
+        loopCfg: {
+          position: 'left',
+          dist: 60,
+          clockwise: true,
+        },
+        style: { endArrow: true },
+      }
+    }
+  ];
 
-    const edge2 = graph.addItem('edge', {
-      id: 'edge1',
-      source: 'circleNode',
-      target: 'circleNode',
-      type: 'loop',
-      loopCfg: {
-        position: 'top-left',
-        dist: 60,
-        clockwise: false,
-      },
-      style: { endArrow: true },
-    });
+  it('loop - addItem', () => {
+    graph.clear();
+    graph.set('linkCenter', false);
 
-    const edge3 = graph.addItem('edge', {
-      id: 'edge2',
-      source: 'circleNode',
-      target: 'circleNode',
-      type: 'loop',
-      loopCfg: {
-        position: 'top-right',
-        dist: 60,
-      },
-      style: { endArrow: true },
-    });
+    const node = graph.addItem(loopNode.type, loopNode.model);
 
-    const edge4 = graph.addItem('edge', {
-      id: 'edge4',
-      source: 'circleNode',
-      target: 'circleNode',
-      type: 'loop',
-      loopCfg: {
-        position: 'right',
-        dist: 60,
-        clockwise: true,
-      },
-      style: { endArrow: true },
-    });
+    const edge1 = graph.addItem(loopEdges[0].type, loopEdges[0].model);
+    const edge2 = graph.addItem(loopEdges[1].type, loopEdges[1].model);
+    const edge3 = graph.addItem(loopEdges[2].type, loopEdges[2].model);
+    const edge4 = graph.addItem(loopEdges[3].type, loopEdges[3].model);
 
-    const edgeWithAnchor = graph.addItem('edge', {
-      id: 'edge5',
-      source: 'circleNode',
-      target: 'circleNode',
-      type: 'loop',
-      sourceAnchor: 0,
-      targetAnchor: 1,
-      loopCfg: {
-        position: 'bottom-right',
-        dist: 60,
-        clockwise: true,
-      },
-      style: { endArrow: true },
-    });
+    const edgeWithAnchor = graph.addItem(loopEdges[4].type, loopEdges[4].model);
 
-    graph.addItem('edge', {
-      id: 'edge6',
-      source: 'circleNode',
-      target: 'circleNode',
-      type: 'loop',
-      loopCfg: {
-        position: 'bottom',
-        dist: 60,
-        clockwise: true,
-      },
-      style: { endArrow: true },
-    });
+    graph.addItem(loopEdges[5].type, loopEdges[5].model);
+    graph.addItem(loopEdges[6].type, loopEdges[6].model);
+    graph.addItem(loopEdges[7].type, loopEdges[7].model);
 
-    graph.addItem('edge', {
-      id: 'edge7',
-      source: 'circleNode',
-      target: 'circleNode',
-      type: 'loop',
-      loopCfg: {
-        position: 'bottom-left',
-        dist: 60,
-        clockwise: true,
-      },
-      style: { endArrow: true },
-    });
+    const edgeShape = edge1.getKeyShape().attr('path');
+    const edge2Shape = edge2.getKeyShape().attr('path');
 
-    graph.addItem('edge', {
-      id: 'edge8',
-      source: 'circleNode',
-      target: 'circleNode',
-      type: 'loop',
-      loopCfg: {
-        position: 'left',
-        dist: 60,
-        clockwise: true,
-      },
-      style: { endArrow: true },
-    });
+    expect(edge2Shape[0][1]).toEqual(edgeShape[0][1]);
+    expect(edge2Shape[0][2]).toEqual(edgeShape[0][2]);
+    expect(edge3.getKeyShape().attr('path')[1][0]).toEqual('C');
+    expect(edge3.getKeyShape().attr('path')[0][1]).toEqual(edgeShape[1][5]);
+    expect(edge4.getKeyShape().attr('path')[0][1]).toEqual(edge3.getKeyShape().attr('path')[1][5]);
+    expect(edge4.getKeyShape().attr('path')[0][2]).toEqual(edge3.getKeyShape().attr('path')[1][6]);
+
+    const pathWithAnchor = edgeWithAnchor.getKeyShape().attr('path');
+    expect(pathWithAnchor[0][1]).toEqual(139.5);
+    expect(pathWithAnchor[0][2]).toEqual(139.5);
+    expect(pathWithAnchor[1][0]).toEqual('C');
+    expect(pathWithAnchor[1][5]).toEqual(139.5);
+    expect(pathWithAnchor[1][6]).toEqual(160.5);
+  });
+
+  it('loop - addItems', () => {
+    graph.clear();
+    graph.set('linkCenter', false);
+
+    const allItems = loopEdges.concat(loopNode);
+
+    const items = graph.addItems(allItems);
+
+    const edge1 = items[0];
+    debugger;
+    console.log('');
+    console.log('edge1');
+    console.log(edge1);
+    console.log('');
+    console.log('items');
+    console.log(items);
+    const edge2 = items[1];
+    const edge3 = items[2];
+    const edge4 = items[3];
+
+    const edgeWithAnchor = items[4];
 
     const edgeShape = edge1.getKeyShape().attr('path');
     const edge2Shape = edge2.getKeyShape().attr('path');
@@ -1545,6 +1621,18 @@ describe('redo stack & undo stack', () => {
     expect(firstStackData.action).toEqual('delete');
     expect(firstStackData.data.before.nodes[0].id).toEqual('node2');
     expect(firstStackData.data.before.nodes[0].itemType).toEqual('node');
+
+    graph.addItems([
+      { type: 'node', model: {} }, { type: 'node', model: {} }
+    ]);
+
+    stackData = graph.getStackData();
+    undoStack = stackData.undoStack;
+    expect(undoStack.length).toBe(7);
+
+    firstStackData = undoStack[0];
+    expect(firstStackData.action).toEqual('addItems');
+    expect(firstStackData.data.after.nodes).toHaveLength(2);
   });
 
   it('clear stack', () => {

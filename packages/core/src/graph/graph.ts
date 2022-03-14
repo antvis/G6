@@ -1174,7 +1174,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     if (combos && combos.length > 0) {
       this.sortCombos();
     }
-    return true;
+    return item;
   }
 
   /**
@@ -1242,21 +1242,23 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
     const returnItems: (Item | boolean)[] = [];
 
-    // 1. add anything that is not an edge
-    let edges: { type: ITEM_TYPE; model: ModelConfig }[] = [];
+    // 1. add anything that is not an edge.
+    // Add undefined as a placeholder for the next cycle. This way we return items matching the input order
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
       if (item.type !== 'edge') {
         returnItems.push(this.innerAddItem(item.type, item.model, itemController));
       } else {
-        edges.push(item);
+        returnItems.push(undefined);
       }
     }
 
     // 2. add all the edges
-    for (let i = 0; i < edges.length; i++) {
-      const edge = edges[i];
-      returnItems.push(this.innerAddItem(edge.type, edge.model, itemController));
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      if (item.type === 'edge') {
+        returnItems[i] = this.innerAddItem(item.type, item.model, itemController);
+      }
     }
 
     this.autoPaint();
