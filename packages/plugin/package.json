@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6-plugin",
-  "version": "43",
+  "version": "0.6.4",
   "description": "G6 Plugin",
   "main": "lib/index.js",
   "module": "es/index.js",
