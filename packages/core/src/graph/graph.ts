@@ -31,6 +31,7 @@ import {
   IG6GraphEvent,
   IPoint,
   FitViewRules,
+  G6Event,
 } from '../types';
 import { lerp, move } from '../util/math';
 import { dataValidation, singleDataValidation } from '../util/validation';
@@ -3008,7 +3009,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   /**
    * 重新定义监听函数，复写参数类型
    */
-  public on<T = IG6GraphEvent>(eventName: string, callback: (e: T) => void, once?: boolean): this {
+  public on<T = IG6GraphEvent>(eventName: G6Event, callback: (e: T) => void, once?: boolean): this {
     return super.on(eventName, callback, once);
   }
 

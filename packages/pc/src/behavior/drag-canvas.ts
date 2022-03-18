@@ -23,16 +23,16 @@ export default {
   },
   getEvents(): { [key in G6Event]?: string } {
     return {
-      dragstart: 'onMouseDown',
-      drag: 'onMouseMove',
-      dragend: 'onMouseUp',
+      'dragstart': 'onMouseDown',
+      'drag': 'onMouseMove',
+      'dragend': 'onMouseUp',
       'canvas:click': 'onMouseUp',
-      keyup: 'onKeyUp',
-      focus: 'onKeyUp',
-      keydown: 'onKeyDown',
-      touchstart: 'onTouchStart',
-      touchmove: 'onTouchMove',
-      touchend: 'onMouseUp',
+      'keyup': 'onKeyUp',
+      'focus': 'onKeyUp',
+      'keydown': 'onKeyDown',
+      'touchstart': 'onTouchStart',
+      'touchmove': 'onTouchMove',
+      'touchend': 'onMouseUp',
     };
   },
   updateViewport(e: IG6GraphEvent) {
@@ -101,12 +101,13 @@ export default {
     const self = this as any;
     const event = e.originalEvent as MouseEvent;
 
-    if (event && e.name !== G6Event.TOUCHSTART && event.button !== 0) {
+    // TODO: 'name' doesn't exist on `IG6GraphEvent`, we should consider typing it so users get autocomplete and other benefits
+    if (event && e.name !== 'touchstart' && event.button !== 0) {
       return;
     }
 
     if (
-      e.name !== G6Event.TOUCHSTART &&
+      e.name !== 'touchstart' &&
       typeof window !== 'undefined' &&
       window.event &&
       !(window.event as any).buttons &&
@@ -207,7 +208,7 @@ export default {
     const modeController = graph.get('modeController');
     const zoomCanvas = modeController?.modes[modeController.mode]?.filter(behavior => behavior.type === 'zoom-canvas')?.[0];
     const optimizeZoom = zoomCanvas ? zoomCanvas.optimizeZoom || 0.1 : 0;
-    
+
     if (this.enableOptimize) {
       // 拖动结束后显示所有的边
       const edges = graph.getEdges();
@@ -248,7 +249,7 @@ export default {
     e.type = 'dragend';
     e.dx = e.clientX - this.originPosition.x;
     e.dy = e.clientY - this.originPosition.y;
-    
+
     graph.emit('canvas:dragend', e);
     this.endDrag();
   },

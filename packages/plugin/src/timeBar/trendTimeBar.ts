@@ -937,7 +937,7 @@ export default class TrendTimeBar {
   }
 
   public destory() {
-    this.graph.off(VALUE_CHANGE);
+    this.graph.off(VALUE_CHANGE, () => { /* do nothing */});
 
     const group = this.group;
 
