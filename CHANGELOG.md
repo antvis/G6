@@ -1,5 +1,11 @@
 # ChangeLog
 
+#### 4.6.4
+
+- chore: improve the types of graph events;
+- fix: position animate considers origin attributes;
+
+
 #### 4.6.3
 
 - feat: shouldDeselect param for lasso-select;
