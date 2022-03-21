@@ -1170,10 +1170,6 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         parentCombo.addChild(item);
     }
 
-    const combos = this.get('combos');
-    if (combos && combos.length > 0) {
-      this.sortCombos();
-    }
     return item;
   }
 
@@ -1199,6 +1195,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
     if (item === false || item === true) {
       return item;
+    }
+
+    const combos = this.get('combos');
+    if (combos && combos.length > 0) {
+      this.sortCombos();
     }
 
     this.autoPaint();
@@ -1259,6 +1260,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       if (item.type === 'edge') {
         returnItems[i] = this.innerAddItem(item.type, item.model, itemController);
       }
+    }
+
+    const combos = this.get('combos');
+    if (combos && combos.length > 0) {
+      this.sortCombos();
     }
 
     this.autoPaint();
