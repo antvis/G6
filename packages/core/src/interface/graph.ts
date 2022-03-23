@@ -224,7 +224,7 @@ export interface IAbstractGraph extends EventEmitter {
    * @param {AddItemsCfg} opts Additional parameters to control how nodes are added
    * @param {boolean} animate Enables the animation
    * @param {GraphAnimateConfig} animateCfg Configures the animation if enabled
-   * @return {(Item | boolean)[]} Instance of the added items
+   * @return {(Item | boolean)[]} Instance of the added items or a boolean set to false to signal that the input node was not added
    */
   addItems: (items: { type: ITEM_TYPE, model: ModelConfig }[], stack: boolean, sortCombo: boolean) => (Item | boolean)[];
 
