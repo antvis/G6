@@ -868,13 +868,6 @@ describe('all node link center', () => {
     const items = graph.addItems(allItems);
 
     const edge1 = items[0];
-    debugger;
-    console.log('');
-    console.log('edge1');
-    console.log(edge1);
-    console.log('');
-    console.log('items');
-    console.log(items);
     const edge2 = items[1];
     const edge3 = items[2];
     const edge4 = items[3];
