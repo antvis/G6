@@ -51,6 +51,14 @@
         "en": "Donut Transfer"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*YK6yRIfKQaIAAAAAAAAAAAAAARQnAQ"
+    },
+    {
+      "filename": "customFlow.js",
+      "title": {
+        "zh": "自定义分类图",
+        "en": "Custom Category Graph"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hk1QTqVIHnIAAAAAAAAAAAAAARQnAQ"
     }
   ]
 }

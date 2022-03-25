@@ -71,7 +71,7 @@ outerLayout: new G6.Layout['gForce']({
 });
 ```
 
-**类型**：Object<br />**默认值**：GForce 实例<br />**是否必须**：false<br />**说明**：最外层的布局算法，需要使用同步的布局算法，默认为 gForce。具体参数详见被使用布局的文档。
+**类型**：Object<br />**默认值**：GForce 实例<br />**是否必须**：false<br />**说明**：最外层的布局算法，默认为 gForce。具体参数详见被使用布局的文档。
 默认情况下 gForce 布局将使用以下参数：
 
 ```javascript
@@ -93,7 +93,7 @@ innerLayout: new G6.Layout['grid']({
 });
 ```
 
-**类型**：Object<br />**默认值**：Concentric 实例<br />**是否必须**：false<br />**说明**：ombo 内部的布局算法，默认为 concentric。具体参数详见被使用布局的文档。
+**类型**：Object<br />**默认值**：Concentric 实例<br />**是否必须**：false<br />**说明**：combo 内部的布局算法，需要使用同步的布局算法，默认为 concentric。具体参数详见被使用布局的文档。
 默认情况下 concentric 布局将使用以下参数：
 
 ```javascript

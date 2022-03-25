@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@antv/g6-site",
-  "version": "4.5.5",
+  "version": "4.6.4",
   "description": "G6 sites deployed on gh-pages",
   "keywords": [
     "antv",
@@ -44,7 +44,10 @@
     "@types/react-dom": "^16.9.8",
     "gatsby": "^2.24.40",
     "gh-pages": "^2.1.1",
+    "monaco-editor": "0.29.1",
+    "monaco-editor-webpack-plugin": "5.0.0",
     "react-i18next": "^11.1.0",
+    "react-monaco-editor": "0.40.0",
     "typedoc": "^0.17.6",
     "typedoc-plugin-markdown": "^2.2.11",
     "typescript": "^3.6.5"

@@ -71,7 +71,7 @@ outerLayout: new G6.Layout['gForce']({
 });
 ```
 
-**Type**: Object<br />**Default**: GForce Instance<br />**Required**: false<br />**Description**: The outer layout instance, should be a sync layout method. Refer to the corresponding layout docs. The default configuration of the `outerLayout` is: 
+**Type**: Object<br />**Default**: GForce Instance<br />**Required**: false<br />**Description**: The outer layout instance. Refer to the corresponding layout docs. The default configuration of the `outerLayout` is: 
 
 ```javascript
 outerLayout: new G6.Layout['gForce']({
@@ -92,7 +92,7 @@ innerLayout: new G6.Layout['grid']({
 });
 ```
 
-**Type**:Object<br />**Default**:Concentric Instance<br />**Required**:false<br />**Description**: The layout method for the items inside a combo. Refer to the corresponding layout docs. The default configuration of the `outerLayout` is: 
+**Type**:Object<br />**Default**:Concentric Instance<br />**Required**:false<br />**Description**: The layout method for the items inside a combo, should be a sync layout method. Refer to the corresponding layout docs. The default configuration of the `outerLayout` is: 
 
 ```javascript
 outerLayout: new G6.Layout['concentric']({
