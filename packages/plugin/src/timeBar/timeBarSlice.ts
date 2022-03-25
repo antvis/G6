@@ -573,7 +573,7 @@ export default class TimeBarSlice {
   }
 
   public destory() {
-    this.graph.off(VALUE_CHANGE);
+    this.graph.off(VALUE_CHANGE, () => { /* do nothing */});
 
     const group = this.sliceGroup;
 

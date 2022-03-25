@@ -12,6 +12,181 @@ export type UpdateType = 'move' | 'bbox' | 'style' | 'bbox|label' | 'style|label
 // Node Edge Combo 实例
 export type Item = INode | IEdge | ICombo;
 
+export type CommonInteractionEvent =
+  | 'click'
+  | 'dblclick'
+  | 'dragstart'
+  | 'drag'
+  | 'dragend'
+  | 'dragenter'
+  | 'dragleave'
+  | 'dragover'
+  | 'dragout' // TODO: not in documentation page: https://g6.antv.vision/en/docs/api/Event/
+  | 'drop'
+  | 'focus'
+  | 'blur'
+  | 'keyup'
+  | 'keydown'
+  | 'mousedown'
+  | 'mouseenter'
+  | 'mouseup'
+  | 'mousemove'
+  | 'mouseout'
+  | 'mouseover'
+  | 'mouseleave'
+  | 'touchstart'
+  | 'touchmove'
+  | 'touchend'
+  | 'contextmenu'
+  | 'wheel';
+
+export type NodeInteractionEvent =
+  | 'click'
+  | 'dblclick'
+  | 'dragstart'
+  | 'drag'
+  | 'dragend'
+  | 'dragenter'
+  | 'dragleave'
+  | 'dragover'
+  | 'drop'
+  | 'mousedown'
+  | 'mouseenter'
+  | 'mouseup'
+  | 'mousemove'
+  | 'mouseout'
+  | 'mouseover'
+  | 'mouseleave'
+  | 'panestart'
+  | 'panmove'
+  | 'panend'
+  | 'touchstart'
+  | 'touchmove'
+  | 'touchend'
+  | 'contextmenu';
+
+export type EdgeInteractionEvent =
+  | 'click'
+  | 'dblclick'
+  | 'dragstart'
+  | 'drag'
+  | 'dragend'
+  | 'dragenter'
+  | 'dragleave'
+  | 'dragover'
+  | 'mouseenter'
+  | 'mousemove'
+  | 'mouseout'
+  | 'mouseover'
+  | 'mouseleave'
+  | 'mousedown'
+  | 'mouseup'
+  | 'touchstart'
+  | 'touchmove'
+  | 'touchend'
+  | 'contextmenu';
+
+export type ComboInteractionEvent = NodeInteractionEvent;
+export type CanvasInteractionEvent =
+  | 'click'
+  | 'dblclick'
+  | 'drag'
+  | 'dragstart'
+  | 'dragend'
+  | 'dragenter'
+  | 'dragleave'
+  | 'drop'
+  | 'keydown'
+  | 'keyup'
+  | 'mouseenter'
+  | 'mousemove'
+  | 'mouseout'
+  | 'mouseover'
+  | 'mouseleave'
+  | 'mousedown'
+  | 'mouseup'
+  | 'touchstart'
+  | 'touchmove'
+  | 'touchend'
+  | 'wheel'
+  | 'contextmenu';
+
+/**
+ * @description
+ * Canvas Intereaction events
+ *
+ * @example
+ * English: https://g6.antv.vision/en/docs/api/Event
+ * Chinese: https://g6.antv.vision/zh/docs/api/Event
+ */
+export type GraphTimingEvents =
+  | 'beforerender'
+  | 'afterrender'
+  | 'beforeadditem'
+  | 'afteradditem'
+  | 'beforeremoveitem'
+  | 'afterremoveitem'
+  | 'beforeupdateitem'
+  | 'afterupdateitem'
+  | 'beforeitemvisibilitychange'
+  | 'afteritemvisibilitychange'
+  | 'beforeitemstatechange'
+  | 'afteritemstatechange'
+  | 'beforeitemrefresh'
+  | 'afteritemrefresh'
+  | 'beforeitemstatesclear'
+  | 'afteritemstatesclear'
+  | 'beforemodechange'
+  | 'aftermodechange'
+  | 'beforelayout'
+  | 'afterlayout'
+  | 'beforegraphrefreshposition'
+  | 'aftergraphrefreshposition'
+  | 'beforegraphrefresh'
+  | 'aftergraphrefresh'
+  | 'beforeanimate'
+  | 'afteranimate'
+  | 'beforecreateedge'
+  | 'aftercreateedge'
+  | 'beforecollapseexpandcombo'
+  | 'aftercollapseexpandcombo'
+  | 'graphstatechange'
+  | 'afteractivaterelations'
+  | 'nodeselectChange'
+  | 'itemcollapsed'
+  | 'tooltipchange'
+  | 'wheelzoom'
+  | 'viewportchange'
+  | 'dragnodeend'
+  | 'stackchange'
+  // NOTE: {before,after}paint are deprecated, we are leaving here for backward compatability for now: https://github.com/antvis/G6/pull/3566#discussion_r821249756
+  | 'beforepaint'
+  | 'afterpaint';
+
+type MobileInteractionEvent =
+  | 'tap'
+  | 'pinchstart'
+  | 'pinmove'
+  | 'panstart'
+  | 'panmove'
+  | 'panend'
+
+export type NodeEventType = `node:${NodeInteractionEvent}`;
+export type EdgeEventType = `edge:${EdgeInteractionEvent}`;
+export type ComboEventType = `combo:${ComboInteractionEvent}`;
+export type CanvasEventType = `canvas:${CanvasInteractionEvent}`;
+export type GraphTimingEventType = GraphTimingEvents;
+export type MobileInteractionEventType = MobileInteractionEvent;
+
+/**
+ * @description
+ * Graph interaction events
+ *
+ * @example
+ * https://g6.antv.vision/en/docs/api/Event#combo-interaction-event
+ */
+export type G6Event = NodeEventType | EdgeEventType | ComboEventType | CanvasEventType | GraphTimingEventType | MobileInteractionEventType | CommonInteractionEvent | CommonInteractionEvent;
+
 export interface IG6GraphEvent extends GraphEvent {
   item: Item | null;
   canvasX: number;
@@ -24,6 +199,8 @@ export interface IG6GraphEvent extends GraphEvent {
   detail: number;
   key?: string;
   target: IShapeBase & ICanvas;
+  //type:
+  //name: should we add types to `@antv/g-base/event`?
   [key: string]: unknown;
 }
 
@@ -584,185 +761,6 @@ export interface GroupNodeIds {
   [key: string]: string[];
 }
 
-// Behavior type file
-export enum G6Event {
-  // common events
-  CLICK = 'click',
-  DBLCLICK = 'dblclick',
-  MOUSEDOWN = 'mousedown',
-  MOUDEUP = 'mouseup',
-  CONTEXTMENU = 'contextmenu',
-  MOUSEENTER = 'mouseenter',
-  MOUSEOUT = 'mouseout',
-  MOUSEOVER = 'mouseover',
-  MOUSEMOVE = 'mousemove',
-  MOUSELEAVE = 'mouseleave',
-  DRAGSTART = 'dragstart',
-  DRAGEND = 'dragend',
-  DRAG = 'drag',
-  DRAGENTER = 'dragenter',
-  DRAGLEAVE = 'dragleave',
-  DRAGOVER = 'dragover',
-  DRAGOUT = 'dragout',
-  DDROP = 'drop',
-  KEYUP = 'keyup',
-  KEYDOWN = 'keydown',
-  WHEEL = 'wheel',
-  FOCUS = 'focus',
-  BLUR = 'blur',
-
-  // touch events
-  TOUCHSTART = 'touchstart',
-  TOUCHMOVE = 'touchmove',
-  TOUCHEND = 'touchend',
-  CANVAS_TOUCHSTART = 'canvas:touchstart',
-  CANVAS_TOUCHMOVE = 'canvas:touchmove',
-  CANVAS_TOUCHEND = 'canvas:touchend',
-  NODE_TOUCHSTART = 'node:touchstart',
-  NODE_TOUCHMOVE = 'node:touchmove',
-  NODE_TOUCHEND = 'node:touchend',
-  COMBO_TOUCHSTART = 'combo:touchstart',
-  COMBO_TOUCHMOVE = 'combo:touchmove',
-  COMBO_TOUCHEND = 'combo:touchend',
-  EDGE_TOUCHSTART = 'edge:touchstart',
-  EDGE_TOUCHMOVE = 'edge:touchmove',
-  EDGE_TOUCHEND = 'edge:touchend',
-
-  // node events
-  NODE_CONTEXTMENU = 'node:contextmenu',
-  NODE_CLICK = 'node:click',
-  NODE_DBLCLICK = 'node:dblclick',
-  NODE_MOUSEDOWN = 'node:mousedown',
-  NODE_MOUSEUP = 'node:mouseup',
-  NODE_MOUSEENTER = 'node:mouseenter',
-  NODE_MOUSELEAVE = 'node:mouseleave',
-  NODE_MOUSEMOVE = 'node:mousemove',
-  NODE_MOUSEOUT = 'node:mouseout',
-  NODE_MOUSEOVER = 'node:mouseover',
-  NODE_DROP = 'node:drop',
-  NODE_DRAGOVER = 'node:dragover',
-  NODE_DRAGENTER = 'node:dragenter',
-  NODE_DRAGLEAVE = 'node:dragleave',
-  NODE_DRAGSTART = 'node:dragstart',
-  NODE_DRAG = 'node:drag',
-  NODE_DRAGEND = 'node:dragend',
-  NODE_TAP = 'node:tap',
-  NODE_PANSTART = 'node:panstart',
-  NODE_PANMOVE = 'node:panmove',
-  NODE_PANEND = 'node:panend',
-
-  // combo, extends from nodes
-  COMBO_CONTEXTMENU = 'combo:contextmenu',
-  COMBO_CLICK = 'combo:click',
-  COMBO_DBLCLICK = 'combo:dblclick',
-  COMBO_MOUSEDOWN = 'combo:mousedown',
-  COMBO_MOUSEUP = 'combo:mouseup',
-  COMBO_MOUSEENTER = 'combo:mouseenter',
-  COMBO_MOUSELEAVE = 'combo:mouseleave',
-  COMBO_MOUSEMOVE = 'combo:mousemove',
-  COMBO_MOUSEOUT = 'combo:mouseout',
-  COMBO_MOUSEOVER = 'combo:mouseover',
-  COMBO_DROP = 'combo:drop',
-  COMBO_DRAGOVER = 'combo:dragover',
-  COMBO_DRAGENTER = 'combo:dragenter',
-  COMBO_DRAGLEAVE = 'combo:dragleave',
-  COMBO_DRAGSTART = 'combo:dragstart',
-  COMBO_DRAG = 'combo:drag',
-  COMBO_DRAGEND = 'combo:dragend',
-  COMBO_TAP = 'combo:tap',
-  COMBO_PANSTART = 'combo:panstart',
-  COMBO_PANMOVE = 'combo:panmove',
-  COMBO_PANEND = 'combo:panend',
-
-  // edge events
-  EDGE_CONTEXTMENU = 'edge:contextmenu',
-  EDGE_CLICK = 'edge:click',
-  EDGE_DBLCLICK = 'edge:dblclick',
-  EDGE_MOUSEDOWN = 'edge:mousedown',
-  EDGE_MOUSEUP = 'edge:mouseup',
-  EDGE_MOUSEENTER = 'edge:mouseenter',
-  EDGE_MOUSELEAVE = 'edge:mouseleave',
-  EDGE_MOUSEMOVE = 'edge:mousemove',
-  EDGE_MOUSEOUT = 'edge:mouseout',
-  EDGE_MOUSEOVER = 'edge:mouseover',
-  EDGE_DROP = 'edge:drop',
-  EDGE_DRAGOVER = 'edge:dragover',
-  EDGE_DRAGENTER = 'edge:dragenter',
-  EDGE_DRAGLEAVE = 'edge:dragleave',
-
-  // canvas events
-  CANVAS_CONTEXTMENU = 'canvas:contextmenu',
-  CANVAS_CLICK = 'canvas:click',
-  CANVAS_DBLCLICK = 'canvas:dblclick',
-  CANVAS_MOUSEDOWN = 'canvas:mousedown',
-  CANVAS_MOUSEUP = 'canvas:mouseup',
-  CANVAS_MOUSEENTER = 'canvas:mouseenter',
-  CANVAS_MOUSELEAVE = 'canvas:mouseleave',
-  CANVAS_MOUSEMOVE = 'canvas:mousemove',
-  CANVAS_MOUSEOUT = 'canvas:mouseout',
-  CANVAS_MOUSEOVER = 'canvas:mouseover',
-  CANVAS_DROP = 'canvas:drop',
-  CANVAS_DRAGENTER = 'canvas:dragenter',
-  CANVAS_DRAGLEAVE = 'canvas:dragleave',
-  CANVAS_DRAGSTART = 'canvas:dragstart',
-  CANVAS_DRAG = 'canvas:drag',
-  CANVAS_DRAGEND = 'canvas:dragend',
-  CANVAS_TAP = 'canvas:tap',
-  CANVAS_PANSTART = 'canvas:panstart',
-  CANVAS_PANMOVE = 'canvas:panmove',
-  CANVAS_PANEND = 'canvas:panend',
-
-  // timing events
-  BEFORERENDER = 'beforerender',
-  AFTERRENDER = 'afterrender',
-  BEFOREADDITEM = 'beforeadditem',
-  AFTERADDITEM = 'afteradditem',
-  BEFOREREMOVEITEM = 'beforeremoveitem',
-  AFTERREMOVEITEM = 'afterremoveitem',
-  BEFOREUPDATEITEM = 'beforeupdateitem',
-  AFTERUPDATEITEM = 'afterupdateitem',
-  BEFOREITEMVISIBILITYCHANGE = 'beforeitemvisibilitychange',
-  AFTERITEMVISIBILITYCHANGE = 'afteritemvisibilitychange',
-  BEFOREITEMSTATECHANGE = 'beforeitemstatechange',
-  AFTERITEMSTATECHANGE = 'afteritemstatechange',
-  BEFOREITEMREFRESH = 'beforeitemrefresh',
-  AFTERITEMREFRESH = 'afteritemrefresh',
-  BEFOREITEMSTATESCLEAR = 'beforeitemstatesclear',
-  AFTERITEMSTATESCLEAR = 'afteritemstatesclear',
-  BEFOREMODECHANGE = 'beforemodechange',
-  AFTERMODECHANGE = 'aftermodechange',
-  BEFORELAYOUT = 'beforelayout',
-  AFTERLAYOUT = 'afterlayout',
-  BEFORECREATEEDGE = 'beforecreateedge',
-  AFTERCREATEEDGE = 'aftercreateedge',
-  BEFOREGRAPHREFRESHPOSITION = 'beforegraphrefreshposition',
-  AFTERGRAPHREFRESHPOSITION = 'aftergraphrefreshposition',
-  BEFOREGRAPHREFRESH = 'beforegraphrefresh',
-  AFTERGRAPHREFRESH = 'aftergraphrefresh',
-  BEFOREANIMATE = 'beforeanimate',
-  AFTERANIMATE = 'afteranimate',
-  BEFOREPAINT = 'beforepaint',
-  AFTERPAINT = 'afterpaint',
-  BEFORECOLLAPSEEXPANDCOMBO = 'beforecollapseexpandcombo',
-  AFTERCOLLAPSEEXPANDCOMBO = 'aftercollapseexpandcombo',
-
-  GRAPHSTATECHANGE = 'graphstatechange',
-  AFTERACTIVATERELATIONS = 'afteractivaterelations',
-  NODESELECTCHANGE = 'nodeselectchange',
-  TOOLTIPCHANGE = 'tooltipchange',
-  WHEELZOOM = 'wheelzoom',
-  VIEWPORTCHANGE = 'viewportchange',
-  DRAGNODEEND = 'dragnodeend',
-  STACKCHANGE = 'stackchange',
-
-  // Mobile event support
-  TAP = 'tap',
-  PINCHSTART = 'pinchstart',
-  PINCHMOVE = 'pinchmove',
-  PANSTART = 'panstart',
-  PANMOVE = 'panmove',
-  PANEND = 'panend',
-}
 
 export type DefaultBehaviorType = IG6GraphEvent | string | number | object;
 

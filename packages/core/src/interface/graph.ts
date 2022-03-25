@@ -612,6 +612,13 @@ export interface IAbstractGraph extends EventEmitter {
    * 重新定义监听函数，复写参数类型
    */
   on: <T = IG6GraphEvent>(eventName: string, callback: (e: T) => void, once?: boolean) => this;
+
+  /**
+   * 移除指定的監聽函數
+   */
+  off: <T = IG6GraphEvent>(eventName: string, callback: (e: T) => void, once?: boolean) => this;
+
+
   /**
    * 销毁画布
    */

@@ -31,6 +31,7 @@ import {
   IG6GraphEvent,
   IPoint,
   FitViewRules,
+  G6Event,
 } from '../types';
 import { lerp, move } from '../util/math';
 import { dataValidation, singleDataValidation } from '../util/validation';
@@ -2152,12 +2153,15 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
           let containerMatrix = node.getContainer().getMatrix();
 
-          if (originAttrs === undefined) {
+          if (originAttrs === undefined || originAttrs === null) {
             // 变换前存在位置，设置到 originAttrs 上。否则标记 0 表示变换前不存在位置，不需要计算动画
-            node.set('originAttrs', containerMatrix ? {
-              x: containerMatrix[6],
-              y: containerMatrix[7],
-            } : 0);
+            if (containerMatrix) {
+              originAttrs = {
+                x: containerMatrix[6],
+                y: containerMatrix[7],
+              }
+            }
+            node.set('originAttrs', originAttrs || 0);
           }
 
           if (onFrame) {
@@ -3005,7 +3009,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   /**
    * 重新定义监听函数，复写参数类型
    */
-  public on<T = IG6GraphEvent>(eventName: string, callback: (e: T) => void, once?: boolean): this {
+  public on<T = IG6GraphEvent>(eventName: G6Event, callback: (e: T) => void, once?: boolean): this {
     return super.on(eventName, callback, once);
   }
 

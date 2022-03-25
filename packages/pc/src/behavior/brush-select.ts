@@ -33,19 +33,19 @@ export default {
     }
     if (this.trigger === 'drag') {
       return {
-        dragstart: 'onMouseDown',
-        drag: 'onMouseMove',
-        dragend: 'onMouseUp',
+        'dragstart': 'onMouseDown',
+        'drag': 'onMouseMove',
+        'dragend': 'onMouseUp',
         'canvas:click': 'clearStates',
       };
     }
     return {
-      dragstart: 'onMouseDown',
-      drag: 'onMouseMove',
-      dragend: 'onMouseUp',
+      'dragstart': 'onMouseDown',
+      'drag': 'onMouseMove',
+      'dragend': 'onMouseUp',
       'canvas:click': 'clearStates',
-      keyup: 'onKeyUp',
-      keydown: 'onKeyDown',
+      'keyup': 'onKeyUp',
+      'keydown': 'onKeyDown',
     };
   },
   onMouseDown(e: IG6GraphEvent) {
