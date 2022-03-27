@@ -141,7 +141,7 @@ export default {
     });
 
     const selectedEdges = graph.findAllByState('edge', this.selectedState);
-    each(selected, (edge) => {
+    each(selectedEdges, (edge) => {
       graph.setItemState(edge, this.selectedState, false);
     });
 
