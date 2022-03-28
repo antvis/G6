@@ -286,3 +286,17 @@ General graph layout API: [General Graph Layout API](/en/docs/api/graphLayout/gu
 | depthRepulsiveForceScale | Number |  | 2 | The scale for adjusting the strength of repulsive force between nodes with different depths. The range is [1, Infinity]. Lager the depth difference, larger the attractive force strength |
 | velocityDecay | Number | 0.2 | 0.6 | The decay speed of the moving velocity of nodes for each iteration |
 | workerEnabled | Boolean | true / false | false | Whether to enable the web-worker in case layout calculation takes too long to block page interaction |
+
+### Combo Combined
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZlvWS7xOkjMAAAAAAAAAAAAAARQnAQ' width=300 alt='img' /><br />**API**：[Combo Combined API](/en/docs/api/graphLayout/comboCombined)<br />**Parameters**：
+
+| Name | Type | Example/Options | Default | Description |
+| --- | --- | --- | --- | --- |
+| center | Array | [ 0, 0 ] | The center of the graph | The center of the layout |
+| nodeSize | Array / Number | 10 | 10 | The diameter of the node. It is used for preventing node overlappings. If `nodeSize` is not assigned, the size property in node data will take effect. If the size in node data does not exist either, `nodeSize` is assigned to 10 by default |
+| spacing | Number / Function | 10 | 0 | Takes effect when the `preventNodeOverlap` or `preventOverlap` is `true`. The minimum distances between nodes and combos to prevent overlappings. It can be a function to assign different values for different items |
+| comboPadding | Number / Function | 10 | 10 | The padding inside a Combo, not for rendering but for force calculation. We suggest to assign the corresponding values to the graph config |
+| outerLayout | Object | GForce instance | ForceAtlas2 instance | The layout instance for the outer combos. gForce by default. For the parameters, please refer to the corresponding layout docs |
+| innerLayout | Object | Concentric instance | Grid instance | The inner layout inside combos. Concentric by default. It should be synchronous algorithm. For the parameters, please refer to the corresponding layout docs |
+| workerEnabled | Boolean | true / false | false | Whether to enable the web-worker in case layout calculation takes too long to block page interaction |

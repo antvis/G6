@@ -26,6 +26,7 @@ order: 0
 - [Concentric Layout](#concentric)：同心圆布局；
 - [Grid Layout](#grid)：网格布局；
 - [Combo Force Layout](#combo-force)：*V3.5 新增。*适用于带有 combo 图的力导向布局，推荐有 combo 的图使用该布局。
+- [Combo Combined Layout](#combo-combined)：*V4.6 新增。*适用于带有 combo 的图，可自由组合内外布局，默认情况下可以有较好的效果，推荐有 combo 的图使用该布局。
 
 ## 配置一般图布局
 
@@ -285,4 +286,18 @@ const graph = new G6.Graph({
 | depthAttractiveForceScale | Number |  | 0.5 | 根据边两端节点层级差距的调整引力的系数的因子，取值范围 [0, 1]。层级差距越大，引力越小 |
 | depthRepulsiveForceScale | Number |  | 2 | 根据边两端节点层级差距的调整斥力系数的因子，取值范围 [1, Infinity]。层级差距越大，斥力越大 |
 | velocityDecay | Number | 0.4 | 0.6 | 每个迭代节点运动速度衰减参数 |
+| workerEnabled | Boolean | true / false | false | 是否启用 web-worker 以防布局计算时间过长阻塞页面交互 |
+
+### Combo Combined
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZlvWS7xOkjMAAAAAAAAAAAAAARQnAQ' width=300 alt='img' /><br />**API**：[Combo Combined API](/zh/docs/api/graphLayout/comboCombined)<br />**参数**：
+
+| 参数名 | 类型 | 示例 | 默认值 | 说明 |
+| --- | --- | --- | --- | --- |
+| center | Array | [ 0, 0 ] | 图的中心 | 布局的中心 |
+| nodeSize | Array / Number | 10 | 10 | 节点大小（直径）。用于碰撞检测。若不指定，则根据传入的节点的 size 属性计算。若即不指定，节点中也没有 `size`，则默认大小为 `10` |
+| spacing | Number / Function | 10 | 0 | `preventNodeOverlap` 或 `preventOverlap` 为 `true` 时生效, 防止重叠时节点/ combo 边缘间距的最小值。可以是回调函数, 为不同节点设置不同的最小间距 |
+| comboPadding | Number / Function | 10 | 10 | Combo 内部的 padding 值，不用于渲染，仅用于计算力。推荐设置为与视图上 combo 内部 padding 值相同的值 |
+| outerLayout | Object | GForce 实例 | ForceAtlas2 实例 | 最外层的布局算法，需要使用同步的布局算法，默认为 gForce。具体参数详见被使用布局的文档 |
+| innerLayout | Object | Concentric 实例 | Grid 实例 | combo 内部的布局算法，默认为 concentric。具体参数详见被使用布局的文档 |
 | workerEnabled | Boolean | true / false | false | 是否启用 web-worker 以防布局计算时间过长阻塞页面交互 |
