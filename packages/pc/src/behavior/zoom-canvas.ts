@@ -45,7 +45,7 @@ export default {
     const touches = evt.originalEvent.touches;
     const event1 = touches[0];
     const event2 = touches[1];
-    evt.preventDefault();
+    // evt.preventDefault();
 
     // 如果不是缩放事件则禁止继续执行
     if (!event2) {

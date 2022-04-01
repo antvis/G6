@@ -94,7 +94,7 @@ export default {
     if (event1 && event2) {
       return;
     }
-    e.preventDefault();
+    // e.preventDefault();
     self.onMouseDown(e);
   },
   onMouseDown(e: IG6GraphEvent) {
