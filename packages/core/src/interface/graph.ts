@@ -221,9 +221,8 @@ export interface IAbstractGraph extends EventEmitter {
   /**
    * Adds multiple items with a single operation
    * @param {{type: ITEM_TYPE, model: ModelConfig}[]} items Items to be added to the graph
-   * @param {AddItemsCfg} opts Additional parameters to control how nodes are added
-   * @param {boolean} animate Enables the animation
-   * @param {GraphAnimateConfig} animateCfg Configures the animation if enabled
+   * @param {boolean} stack Add this operation to the stack, default to true
+   * @param {boolean} sortCombo Update the internal combo representation. Internal parameter, default to true
    * @return {(Item | boolean)[]} Instance of the added items or a boolean set to false to signal that the input node was not added
    */
   addItems: (items: { type: ITEM_TYPE, model: ModelConfig }[], stack: boolean, sortCombo: boolean) => (Item | boolean)[];
