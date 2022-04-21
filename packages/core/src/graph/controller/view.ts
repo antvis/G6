@@ -2,7 +2,7 @@ import { AbstractCanvas } from '@antv/g-base';
 import { Point, IGroup } from '@antv/g-base';
 import { isNumber, isString } from '@antv/util';
 import { modifyCSS } from '@antv/dom-util';
-import { Item, Matrix, Padding, GraphAnimateConfig, IEdge , FitViewRules} from '../../types';
+import { Item, Matrix, Padding, GraphAnimateConfig, IEdge, FitViewRules } from '../../types';
 import { formatPadding } from '../../util/base';
 import { applyMatrix, invertMatrix } from '../../util/math';
 import { IAbstractGraph } from '../../interface/graph';
@@ -29,7 +29,7 @@ export default class ViewController {
     };
   }
 
-  public fitCenter() {
+  public fitCenter(animate?: boolean, animateCfg?: GraphAnimateConfig) {
     const { graph } = this;
     const group: IGroup = graph.get('group');
     group.resetMatrix();
@@ -41,7 +41,7 @@ export default class ViewController {
       y: bbox.y + bbox.height / 2,
     };
 
-    graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y);
+    graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y, animate, animateCfg);
   }
 
   // fit view graph
@@ -69,7 +69,7 @@ export default class ViewController {
     if (w > h) {
       ratio = h;
     }
-    if(!graph.zoom(ratio, viewCenter)) {
+    if (!graph.zoom(ratio, viewCenter)) {
       console.warn('zoom failed, ratio out of range, ratio: %f', ratio);
     }
   }
@@ -113,7 +113,7 @@ export default class ViewController {
     if (onlyOutOfViewPort) {
       ratio = ratio < 1 ? ratio : 1;
     }
-    
+
     const initZoomRatio = graph.getZoom();
     let endZoom = initZoomRatio * ratio;
     const minZoom = graph.get('minZoom');

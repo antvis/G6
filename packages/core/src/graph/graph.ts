@@ -665,10 +665,12 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
   /**
    * 调整视口适应视图，不缩放，仅将图 bbox 中心对齐到画布中心
+   * @param {boolean} animate 是否带有动画地移动
+   * @param {GraphAnimateConfig} animateCfg 若带有动画，动画的配置项
    */
-  public fitCenter(): void {
+  public fitCenter(animate?: boolean, animateCfg?: GraphAnimateConfig): void {
     const viewController: ViewController = this.get('viewController');
-    viewController.fitCenter();
+    viewController.fitCenter(animate, animateCfg);
     this.autoPaint();
   }
 
@@ -2151,7 +2153,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
           const model: NodeConfig = node.get('model');
 
-          let containerMatrix = node.getContainer().getMatrix();
+          const containerMatrix = node.getContainer().getMatrix();
 
           if (originAttrs === undefined || originAttrs === null) {
             // 变换前存在位置，设置到 originAttrs 上。否则标记 0 表示变换前不存在位置，不需要计算动画
