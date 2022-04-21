@@ -646,8 +646,10 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * 调整视口适应视图
    * @param {object} padding 四周围边距
    * @param {FitViewRules} rules fitView的规则
+   * @param {boolean} animate 是否带有动画地移动
+   * @param {GraphAnimateConfig} animateCfg 若带有动画，动画的配置项
    */
-  public fitView(padding?: Padding, rules?: FitViewRules): void {
+  public fitView(padding?: Padding, rules?: FitViewRules, animate?: boolean, animateCfg?: GraphAnimateConfig): void {
     if (padding) {
       this.set('fitViewPadding', padding);
     }
@@ -655,9 +657,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const viewController: ViewController = this.get('viewController');
 
     if (rules) {
-      viewController.fitViewByRules(rules);
+      viewController.fitViewByRules(rules, animate, animateCfg);
     } else {
-      viewController.fitView();
+      viewController.fitView(animate, animateCfg);
     }
 
     this.autoPaint();
