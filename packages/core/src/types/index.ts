@@ -318,6 +318,7 @@ export interface ModeOption {
   delegateStyle?: object;
   updateEdge?: boolean;
   trigger?: string;
+  combinedKey?: string;
   enableDelegate?: boolean;
   maxZoom?: number;
   minZoom?: number;
