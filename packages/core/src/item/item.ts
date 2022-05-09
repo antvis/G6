@@ -96,7 +96,7 @@ export default class ItemBase implements IItemBase {
 
     const itemType = this.get('type');
 
-    if (!id) {
+    if (typeof id === 'undefined') {
       id = uniqueId(itemType);
       this.get('model').id = id;
     }
