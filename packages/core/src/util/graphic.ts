@@ -375,6 +375,13 @@ export const getTextSize = (text: string, fontSize: number) => {
   return [width, fontSize];
 };
 
+export const truncateLabelByLength = (text: string, length: number) => {
+  if (text.length > length) {
+    return text.substring(0, length) + '...';
+  }
+  return text;
+}
+
 /**
  * construct the trees from combos data
  * @param array the combos array

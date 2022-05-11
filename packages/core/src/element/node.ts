@@ -10,6 +10,7 @@ import { formatPadding } from '../util/base';
 import Global from '../global';
 import Shape from './shape';
 import { shapeBase } from './shapeBase';
+import { truncateLabelByLength } from '../util/graphic';
 
 const singleNode: ShapeOptions = {
   itemType: 'node',
@@ -52,8 +53,8 @@ const singleNode: ShapeOptions = {
 
     let text = cfg!.label as string;
 
-    if (labelMaxLength && text.length > labelMaxLength) {
-      text = text.substring(0, labelMaxLength) + '...';
+    if (labelMaxLength) {
+      text = truncateLabelByLength(text, labelMaxLength);
     }
 
     const labelPosition = labelCfg.position || this.labelPosition;
