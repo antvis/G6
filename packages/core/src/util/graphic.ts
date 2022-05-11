@@ -376,10 +376,10 @@ export const getTextSize = (text: string, fontSize: number) => {
 };
 
 export const truncateLabelByLength = (text: string, length: number) => {
-  if (text.length > length) {
-    return text.substring(0, length) + '...';
+  if (typeof length !== 'number' || length <= 0 || length >= text.length) {
+    return text;
   }
-  return text;
+  return text.substring(0, length) + '...';
 }
 
 /**
