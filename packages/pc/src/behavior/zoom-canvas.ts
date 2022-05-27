@@ -172,8 +172,10 @@ export default {
     // const zoom = ratio * graphZoom;
     const minZoom = this.get('minZoom') || graph.get('minZoom');
     const maxZoom = this.get('maxZoom') || graph.get('maxZoom');
-    if (zoom > maxZoom || zoom < minZoom) {
-      return;
+    if (zoom > maxZoom) {
+      zoom = maxZoom;
+    } else if (zoom < minZoom) {
+      zoom = minZoom;
     }
 
     // hide the shapes when the zoom ratio is smaller than optimizeZoom
