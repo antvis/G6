@@ -354,7 +354,12 @@ const toolbar = new G6.ToolBar({
         y: 150
       })
     } else if (code === 'undo') {
+      // redefine undo operator
       toolbar.undo()
+      toolbar.autoZoom()
+    } else {
+      // Other operations remain default
+      toolbar.handleDefaultOperator(code)
     }
   }
 });
