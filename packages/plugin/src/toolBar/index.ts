@@ -447,14 +447,12 @@ export default class ToolBar extends Base {
       case 'undo':
         this.undo();
         break;
-      case 'zoomOut': {
+      case 'zoomOut':
         this.zoomOut();
         break;
-      }
-      case 'zoomIn': {
+      case 'zoomIn':
         this.zoomIn();
         break;
-      }
       case 'realZoom':
         this.realZoom();
         break;
