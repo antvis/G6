@@ -2204,6 +2204,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    */
   public positionsAnimate(referComboModel?: boolean): void {
     const self = this;
+
+    if (!self.get('autoPaint')) {
+      return;
+    }
+
     self.emit('beforeanimate');
 
     const animateCfg: GraphAnimateConfig = self.get('animateCfg');
