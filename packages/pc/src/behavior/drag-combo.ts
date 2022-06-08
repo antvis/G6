@@ -408,6 +408,8 @@ export default {
     }
 
     graph.updateItem(item, { x, y });
+
+    graph.refreshPositions();
   },
 
   /**
