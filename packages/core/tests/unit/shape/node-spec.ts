@@ -247,6 +247,30 @@ describe('shape node test', () => {
       expect(shape.attr('lineWidth')).toBe(1);
     });
 
+    it('max label length', () => {
+      const mockLabel = 'This is a test label';
+      const group = canvas.addGroup();
+      factory.draw(
+        'simple-circle',
+        {
+          size: 20,
+          color: 'blue',
+          label: mockLabel,
+          labelCfg: {
+            style: {
+              maxLength: 5,
+            },
+          },
+        },
+        group,
+      );
+      canvas.draw();
+      const label = group.get('children')[1];
+
+      expect(label.attr('maxLength')).toBe(5);
+      expect(label.attr('text')).toBe(mockLabel.substring(0, 5) + '...');
+    });
+
     it('clear', () => {
       canvas.destroy();
     });

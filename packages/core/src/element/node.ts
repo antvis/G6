@@ -10,6 +10,7 @@ import { formatPadding } from '../util/base';
 import Global from '../global';
 import Shape from './shape';
 import { shapeBase } from './shapeBase';
+import { truncateLabelByLength } from '../util/graphic';
 
 const singleNode: ShapeOptions = {
   itemType: 'node',
@@ -48,11 +49,19 @@ const singleNode: ShapeOptions = {
   },
   // 私有方法，不希望扩展的节点复写这个方法
   getLabelStyleByPosition(cfg: NodeConfig, labelCfg: ILabelConfig): LabelStyle {
+    const labelMaxLength = labelCfg.style?.maxLength;
+
+    let text = cfg!.label as string;
+
+    if (labelMaxLength) {
+      text = truncateLabelByLength(text, labelMaxLength);
+    }
+
     const labelPosition = labelCfg.position || this.labelPosition;
 
     // 默认的位置（最可能的情形），所以放在最上面
     if (labelPosition === 'center') {
-      return { x: 0, y: 0, text: cfg!.label as string, textBaseline: 'middle', textAlign: 'center' };
+      return { x: 0, y: 0, text, textBaseline: 'middle', textAlign: 'center' };
     }
 
     let { offset } = labelCfg;
@@ -98,7 +107,7 @@ const singleNode: ShapeOptions = {
         };
         break;
     }
-    style.text = cfg.label;
+    style.text = text;
     return style;
   },
   getLabelBgStyleByPosition(
