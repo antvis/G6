@@ -1066,24 +1066,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     }
   }
 
-  /**
-   * 新增元素
-   * @param {ITEM_TYPE} type 元素类型(node | edge)
-   * @param {ModelConfig} model 元素数据模型
-   * @param {boolean} stack 本次操作是否入栈，默认为 true
-   * @param {boolean} sortCombo 本次操作是否需要更新 combo 层级顺序，内部参数，用户在外部使用 addItem 时始终时需要更新
-   * @return {Item} 元素实例
-   */
-  public addItem(
+  private innerAddItem(
     type: ITEM_TYPE,
     model: ModelConfig,
-    stack: boolean = true,
-    sortCombo: boolean = true,
-  ) {
-    const currentComboSorted = this.get('comboSorted');
-    this.set('comboSorted', currentComboSorted && !sortCombo);
-    const itemController: ItemController = this.get('itemController');
-
+    itemController: ItemController
+  ): Item | boolean {
     // 添加节点、边或combo之前，先验证数据是否符合规范
     if (!singleDataValidation(type, model)) {
       return false;
@@ -1188,15 +1175,43 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         parentCombo.addChild(item);
     }
 
+    return item;
+  }
+
+  /**
+   * 新增元素
+   * @param {ITEM_TYPE} type 元素类型(node | edge)
+   * @param {ModelConfig} model 元素数据模型
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
+   * @param {boolean} sortCombo 本次操作是否需要更新 combo 层级顺序，内部参数，用户在外部使用 addItem 时始终时需要更新
+   * @return {Item} 元素实例
+   */
+  public addItem(
+    type: ITEM_TYPE,
+    model: ModelConfig,
+    stack: boolean = true,
+    sortCombo: boolean = true,
+  ): Item | boolean {
+    const currentComboSorted = this.get('comboSorted');
+    this.set('comboSorted', currentComboSorted && !sortCombo);
+    const itemController: ItemController = this.get('itemController');
+
+    const item = this.innerAddItem(type, model, itemController);
+
+    if (item === false || item === true) {
+      return item;
+    }
+
     const combos = this.get('combos');
     if (combos && combos.length > 0) {
       this.sortCombos();
     }
+
     this.autoPaint();
 
     if (stack && this.get('enabledStack')) {
       const addedModel = {
-        ...item.getModel(),
+        ...item.getModel() as any,
         itemType: type,
       };
       const after: GraphData = {};
@@ -1222,11 +1237,85 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     return item;
   }
 
+  public addItems(
+    items: { type: ITEM_TYPE, model: ModelConfig }[] = [],
+    stack: boolean = true,
+    sortCombo: boolean = true
+  ) {
+    const currentComboSorted = this.get('comboSorted');
+    this.set('comboSorted', currentComboSorted && !sortCombo);
+    const itemController: ItemController = this.get('itemController');
+
+    const returnItems: (Item | boolean)[] = [];
+
+    // 1. add anything that is not an edge.
+    // Add undefined as a placeholder for the next cycle. This way we return items matching the input order
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      if (item.type !== 'edge') {
+        returnItems.push(this.innerAddItem(item.type, item.model, itemController));
+      } else {
+        returnItems.push(undefined);
+      }
+    }
+
+    // 2. add all the edges
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      if (item.type === 'edge') {
+        returnItems[i] = this.innerAddItem(item.type, item.model, itemController);
+      }
+    }
+
+    const combos = this.get('combos');
+    if (combos && combos.length > 0) {
+      this.sortCombos();
+    }
+
+    this.autoPaint();
+
+    if (stack && this.get('enabledStack')) {
+      const after: GraphData = { nodes: [], edges: [], combos: [] };
+
+      for (let i = 0; i < items.length; i++) {
+        const type = items[i].type;
+        const returnItem = returnItems[i];
+        if (!!returnItem && returnItem !== true) {
+          const addedModel: any = {
+            ...returnItem.getModel(),
+            itemType: type,
+          };
+          switch (type) {
+            case 'node':
+              after.nodes.push(addedModel);
+              break;
+            case 'edge':
+              after.edges.push(addedModel);
+              break;
+            case 'combo':
+              after.combos.push(addedModel);
+              break;
+            default:
+              break;
+          }
+        }
+      }
+
+      this.pushStack('addItems', {
+        before: {},
+        after,
+      });
+    }
+
+    return returnItems;
+  }
+
   /**
    * 新增元素
    * @param {ITEM_TYPE} type 元素类型(node | edge)
    * @param {ModelConfig} model 元素数据模型
    * @param {boolean} stack 本次操作是否入栈，默认为 true
+   * @param {boolean} sortCombo 本次操作是否需要更新 combo 层级顺序，内部参数，用户在外部使用 addItem 时始终时需要更新
    * @return {Item} 元素实例
    */
   public add(
@@ -1234,7 +1323,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     model: ModelConfig,
     stack: boolean = true,
     sortCombo: boolean = true,
-  ): Item {
+  ): Item | boolean {
     return this.addItem(type, model, stack, sortCombo);
   }
 
@@ -1492,7 +1581,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
         self.updateItem(item, model, false);
       } else {
-        item = self.addItem(type, model, false);
+        item = self.addItem(type, model, false) as any;
       }
       if (item) (items as { [key: string]: any[] })[`${type}s`].push(item);
     });
