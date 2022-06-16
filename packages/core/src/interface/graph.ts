@@ -174,13 +174,17 @@ export interface IAbstractGraph extends EventEmitter {
    * 调整视口适应视图
    * @param {Padding} padding 四周围边距
    * @param {FitViewRules} rules fitView的规则
+   * @param {boolean} animate 是否带有动画地移动
+   * @param {GraphAnimateConfig} animateCfg 若带有动画，动画的配置项
    */
-  fitView: (padding?: Padding, rules?: FitViewRules) => void;
+  fitView: (padding?: Padding, rules?: FitViewRules, animate?: boolean, animateCfg?: GraphAnimateConfig) => void;
 
   /**
    * 调整视口适应视图，不缩放，仅将图 bbox 中心对齐到画布中心
+   * @param {boolean} animate 是否带有动画地移动
+   * @param {GraphAnimateConfig} animateCfg 若带有动画，动画的配置项
    */
-  fitCenter: () => void;
+  fitCenter: (animate?: boolean, animateCfg?: GraphAnimateConfig) => void;
 
   /**
    * 伸缩视口到一固定比例

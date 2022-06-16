@@ -2,7 +2,7 @@ import { AbstractCanvas } from '@antv/g-base';
 import { Point, IGroup } from '@antv/g-base';
 import { isNumber, isString } from '@antv/util';
 import { modifyCSS } from '@antv/dom-util';
-import { Item, Matrix, Padding, GraphAnimateConfig, IEdge , FitViewRules} from '../../types';
+import { Item, Matrix, Padding, GraphAnimateConfig, IEdge, FitViewRules } from '../../types';
 import { formatPadding } from '../../util/base';
 import { applyMatrix, invertMatrix } from '../../util/math';
 import { IAbstractGraph } from '../../interface/graph';
@@ -29,7 +29,7 @@ export default class ViewController {
     };
   }
 
-  public fitCenter() {
+  public fitCenter(animate?: boolean, animateCfg?: GraphAnimateConfig) {
     const { graph } = this;
     const group: IGroup = graph.get('group');
     group.resetMatrix();
@@ -41,11 +41,11 @@ export default class ViewController {
       y: bbox.y + bbox.height / 2,
     };
 
-    graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y);
+    graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y, animate, animateCfg);
   }
 
   // fit view graph
-  public fitView() {
+  public fitView(animate?: boolean, animateCfg?: GraphAnimateConfig) {
     const { graph } = this;
     const padding = this.getFormatPadding();
     const width: number = graph.get('width');
@@ -62,20 +62,20 @@ export default class ViewController {
       y: bbox.y + bbox.height / 2,
     };
 
-    graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y);
+    graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y, animate, animateCfg);
     const w = (width - padding[1] - padding[3]) / bbox.width;
     const h = (height - padding[0] - padding[2]) / bbox.height;
     let ratio = w;
     if (w > h) {
       ratio = h;
     }
-    if(!graph.zoom(ratio, viewCenter)) {
+    if (!graph.zoom(ratio, viewCenter)) {
       console.warn('zoom failed, ratio out of range, ratio: %f', ratio);
     }
   }
 
   // fit view graph by rule
-  public fitViewByRules(rules: FitViewRules) {
+  public fitViewByRules(rules: FitViewRules, animate?: boolean, animateCfg?: GraphAnimateConfig) {
     const {
       onlyOutOfViewPort = false,
       direction = 'both',
@@ -97,7 +97,7 @@ export default class ViewController {
       y: bbox.y + bbox.height / 2,
     };
 
-    graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y);
+    graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y, animate, animateCfg);
     const wRatio = (width - padding[1] - padding[3]) / bbox.width;
     const hRatio = (height - padding[0] - padding[2]) / bbox.height;
     let ratio;
@@ -113,7 +113,7 @@ export default class ViewController {
     if (onlyOutOfViewPort) {
       ratio = ratio < 1 ? ratio : 1;
     }
-    
+
     const initZoomRatio = graph.getZoom();
     let endZoom = initZoomRatio * ratio;
     const minZoom = graph.get('minZoom');
@@ -122,7 +122,7 @@ export default class ViewController {
       endZoom = minZoom;
       console.warn('fitview failed, ratio out of range, ratio: %f', ratio, 'graph minzoom has been used instead');
     }
-    graph.zoomTo(endZoom, viewCenter);
+    graph.zoomTo(endZoom, viewCenter, animate, animateCfg);
   }
 
   public getFormatPadding(): number[] {
