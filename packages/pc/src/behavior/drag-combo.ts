@@ -10,7 +10,7 @@ import { IGraph } from '../interface/graph';
 import Util from '../util';
 import Global from '../global';
 
-const { calculationItemsBBox } = Util;
+const { calculationItemsBBox, returnNestedChildrenModels } = Util;
 
 /**
  * 遍历拖动的 Combo 下的所有 Combo
@@ -29,6 +29,51 @@ const traverseCombo = (data, fn: (param: any) => boolean) => {
     }
     each(combos, (child) => {
       traverseCombo(child, fn);
+    });
+  }
+};
+
+/**
+ * Pushes the combo and its children to
+ * stack, if redo is not empty it's cleared.
+ * @param {IGraph} graph 
+ * @param {Item[]} items 
+ */
+const pushComboToStack = (graph: IGraph, items: Item[]) => {
+  const redoStack = graph.getRedoStack();
+  const undoStack = graph.getUndoStack();
+
+  if (!redoStack.isEmpty()) {
+    redoStack.clear();
+  }
+
+  if (!items) {
+    return;
+  }
+
+  const comboIds = items.map(combo => combo.get('id'));
+  const combos = comboIds.map(id => {
+    return graph.findById(id) as ICombo;
+  });
+
+  const comboModels = returnNestedChildrenModels(combos);
+
+  if (undoStack.peek().action === 'drag-combo-start') {
+    const currentData = undoStack.pop();
+
+    graph.pushStack('drag-combo', {
+      before: currentData.data.before,
+      after: {
+        combos: comboModels.combos,
+        nodes: comboModels.nodes
+      }
+    });
+  } else {
+    graph.pushStack('drag-combo-start', {
+      before: {
+        combos: comboModels.combos,
+        nodes: comboModels.nodes
+      }
     });
   }
 };
@@ -86,6 +131,9 @@ export default {
     // 获取所有选中的 Combo
     const combos = graph.findAllByState('combo', this.selectedState);
 
+    // exit if no combos selected
+    if (!combos.length) return;
+
     const currentCombo = item.get('id');
 
     const dragCombos = combos.filter((combo) => {
@@ -129,6 +177,10 @@ export default {
       this.currentItemChildCombos.push(model.id);
       return true;
     });
+
+    if (graph.get('enabledStack')) {
+      pushComboToStack(graph, combos);
+    }
   },
   onDrag(evt: IG6GraphEvent) {
     if (!this.origin) {
@@ -215,7 +267,7 @@ export default {
         }
         // 将 Combo 放置到某个 Combo 上面时，只有当 onlyChangeComboSize 为 false 时候才更新 Combo 结构
         if (!this.onlyChangeComboSize) {
-          graph.updateComboTree(combo, targetModel.id);
+          graph.updateComboTree(combo, targetModel.id, false);
         } else {
           graph.updateCombo(combo);
         }
@@ -252,7 +304,7 @@ export default {
         if (!this.onlyChangeComboSize) {
           if (comboId !== combo.getID()) {
             droppedCombo = graph.findById(comboId);
-            if (comboId !== combo.getModel().parentId) graph.updateComboTree(combo, comboId);
+            if (comboId !== combo.getModel().parentId) graph.updateComboTree(combo, comboId, false);
           }
         } else {
           graph.updateCombo(combo);
@@ -264,7 +316,7 @@ export default {
         if (!this.onlyChangeComboSize) {
           const model = combo.getModel();
           if (model.comboId) {
-            graph.updateComboTree(combo);
+            graph.updateComboTree(combo, null, false);
           }
         } else {
           graph.updateCombo(combo);
@@ -310,6 +362,12 @@ export default {
     }
     const parentCombo = this.getParentCombo(item.getModel().parentId);
     const graph: IGraph = this.graph;
+
+    if (graph.get('enabledStack')) {
+      const combos = graph.findAllByState('combo', this.selectedState);
+      pushComboToStack(graph, combos);
+    }
+
     if (parentCombo && this.activeState) {
       graph.setItemState(parentCombo, this.activeState, false);
     }
@@ -335,7 +393,7 @@ export default {
       this.targets.map((combo: ICombo) => {
         // 将 Combo 放置到某个 Combo 上面时，只有当 onlyChangeComboSize 为 false 时候才更新 Combo 结构
         if (!this.onlyChangeComboSize) {
-          graph.updateComboTree(combo);
+          graph.updateComboTree(combo, null, false);
         } else {
           graph.updateCombo(combo);
         }
@@ -407,8 +465,7 @@ export default {
       y += origin.y - evt.y;
     }
 
-    graph.updateItem(item, { x, y });
-
+    graph.updateItem(item, { x, y }, false);
     graph.refreshPositions();
   },
 
