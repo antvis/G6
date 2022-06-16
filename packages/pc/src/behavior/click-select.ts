@@ -10,6 +10,9 @@ export default {
       multiple: true,
       trigger: DEFAULT_TRIGGER,
       selectedState: 'selected',
+      selectNode: true,
+      selectEdge: false,
+      selectCombo: true,
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -19,19 +22,21 @@ export default {
       self.trigger = DEFAULT_TRIGGER;
       // eslint-disable-next-line no-console
       console.warn(
-        "Behavior brush-select 的 trigger 参数不合法，请输入 'drag'、'shift'、'ctrl' 或 'alt'",
+        "Behavior click-select 的 trigger 参数不合法，请输入 'drag'、'shift'、'ctrl' 或 'alt'",
       );
     }
     if (!self.multiple) {
       return {
         'node:click': 'onClick',
         'combo:click': 'onClick',
+        'edge:click': 'onClick',
         'canvas:click': 'onCanvasClick',
       };
     }
     return {
       'node:click': 'onClick',
       'combo:click': 'onClick',
+      'edge:click': 'onClick',
       'canvas:click': 'onCanvasClick',
       keyup: 'onKeyUp',
       keydown: 'onKeyDown',
@@ -52,12 +57,42 @@ export default {
 
     // allow to select multiple nodes but did not press a key || do not allow the select multiple nodes
     if (!keydown || !multiple) {
-      const selected = graph.findAllByState('node', self.selectedState).concat(graph.findAllByState('combo', self.selectedState));
-      each(selected, (combo) => {
-        if (combo !== item) {
-          graph.setItemState(combo, self.selectedState, false);
+      const selected = graph.findAllByState('node', self.selectedState)
+        .concat(graph.findAllByState('edge', self.selectedState))
+        .concat(graph.findAllByState('combo', self.selectedState));
+      each(selected, (selectedItem) => {
+        if (selectedItem !== item) {
+          graph.setItemState(selectedItem, self.selectedState, false);
         }
       });
+    }
+
+    // check if the item could be selected, given the current cfg
+    const itemSelectable = (() => {
+      switch (type) {
+        case 'node':
+          return self.selectNode;
+        case 'edge':
+          return self.selectEdge;
+        case 'combo':
+          return self.selectCombo;
+        default:
+          return false;
+      }
+    })();
+    if (!itemSelectable) {
+      const selectedNodes = graph.findAllByState('node', self.selectedState);
+      const selectedEdges = graph.findAllByState('edge', self.selectedState);
+      const selectedCombos = graph.findAllByState('combo', self.selectedState);
+      graph.emit('nodeselectchange', {
+        selectedItems: {
+          nodes: selectedNodes,
+          edges: selectedEdges,
+          combos: selectedCombos,
+        },
+        select: false,
+      });
+      return;
     }
 
     if (item.hasState(self.selectedState)) {
@@ -65,11 +100,13 @@ export default {
         graph.setItemState(item, self.selectedState, false);
       }
       const selectedNodes = graph.findAllByState('node', self.selectedState);
+      const selectedEdges = graph.findAllByState('edge', self.selectedState);
       const selectedCombos = graph.findAllByState('combo', self.selectedState);
       graph.emit('nodeselectchange', {
         target: item,
         selectedItems: {
           nodes: selectedNodes,
+          edges: selectedEdges,
           combos: selectedCombos,
         },
         select: false,
@@ -79,11 +116,13 @@ export default {
         graph.setItemState(item, self.selectedState, true);
       }
       const selectedNodes = graph.findAllByState('node', self.selectedState);
+      const selectedEdges = graph.findAllByState('edge', self.selectedState);
       const selectedCombos = graph.findAllByState('combo', self.selectedState);
       graph.emit('nodeselectchange', {
         target: item,
         selectedItems: {
           nodes: selectedNodes,
+          edges: selectedEdges,
           combos: selectedCombos,
         },
         select: true,
@@ -99,6 +138,11 @@ export default {
     const selected = graph.findAllByState('node', this.selectedState);
     each(selected, (node) => {
       graph.setItemState(node, this.selectedState, false);
+    });
+
+    const selectedEdges = graph.findAllByState('edge', this.selectedState);
+    each(selectedEdges, (edge) => {
+      graph.setItemState(edge, this.selectedState, false);
     });
 
     const selectedCombos = graph.findAllByState('combo', this.selectedState);
