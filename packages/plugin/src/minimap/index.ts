@@ -83,8 +83,9 @@ export default class MiniMap extends Base {
           left:0;
           top:0;
           box-sizing:border-box;
-          outline: 2px solid #1980ff'
-        draggable=true>
+          outline: 2px solid #1980ff;
+          cursor:move'
+        draggable=true
       </div>`);
 
     const isFireFox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;

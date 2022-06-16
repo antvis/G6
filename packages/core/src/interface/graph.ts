@@ -504,19 +504,19 @@ export interface IAbstractGraph extends EventEmitter {
    * 收起指定的 Combo
    * @param comboId combo ID 或 combo 实例
    */
-  collapseCombo: (combo: string | ICombo) => void;
+  collapseCombo: (combo: string | ICombo, stack?: boolean) => void;
 
   /**
    * 展开指定的 Combo
    * @param combo combo ID 或 combo 实例
    */
-  expandCombo: (combo: string | ICombo) => void;
+  expandCombo: (combo: string | ICombo, stack?: boolean) => void;
 
   /**
    * 展开或收缩指定的 Combo
    * @param comboId combo ID 或 combo 实例
    */
-  collapseExpandCombo: (combo: string | ICombo) => void;
+  collapseExpandCombo: (combo: string | ICombo, stack?: boolean) => void;
 
   /**
    * 根据节点的 bbox 更新所有 combos 的绘制，包括 combos 的位置和范围

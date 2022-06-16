@@ -81,6 +81,7 @@ export default abstract class LayoutController {
   // 更换布局
   public changeLayout(cfg) {
     this.layoutCfg = cfg;
+    this.layoutType = cfg.type || this.layoutType;
 
     this.destoryLayoutMethods();
     this.layout();
@@ -108,7 +109,7 @@ export default abstract class LayoutController {
     graph.set('layout', undefined);
     this.layoutCfg = undefined;
     this.layoutType = undefined;
-    this.layoutMethods = undefined;
+    this.layoutMethods = [];
   }
 
   // 从 this.graph 获取数据

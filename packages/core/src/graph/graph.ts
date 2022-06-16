@@ -2418,7 +2418,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * 收起指定的 combo
    * @param {string | ICombo} combo combo ID 或 combo item
    */
-  public collapseCombo(combo: string | ICombo): void {
+  public collapseCombo(combo: string | ICombo, stack: boolean = true): void {
     if (this.destroyed) return;
     if (isString(combo)) {
       combo = this.findById(combo) as ICombo;
@@ -2432,7 +2432,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const comboModel = combo.getModel();
 
     const itemController: ItemController = this.get('itemController');
-    itemController.collapseCombo(combo);
+    itemController.collapseCombo(combo, stack);
     comboModel.collapsed = true;
 
     // add virtual edges
@@ -2565,7 +2565,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * 展开指定的 combo
    * @param {string | ICombo} combo combo ID 或 combo item
    */
-  public expandCombo(combo: string | ICombo): void {
+  public expandCombo(combo: string | ICombo, stack: boolean = true): void {
     if (isString(combo)) {
       combo = this.findById(combo) as ICombo;
     }
@@ -2578,7 +2578,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const comboModel = combo.getModel();
 
     const itemController: ItemController = this.get('itemController');
-    itemController.expandCombo(combo);
+    itemController.expandCombo(combo, stack);
     comboModel.collapsed = false;
 
     // add virtual edges
@@ -2768,7 +2768,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     this.emit('aftercollapseexpandcombo', { action: 'expand', item: combo });
   }
 
-  public collapseExpandCombo(combo: string | ICombo) {
+  public collapseExpandCombo(combo: string | ICombo, stack: boolean = true) {
     if (isString(combo)) {
       combo = this.findById(combo) as ICombo;
     }
@@ -2790,9 +2790,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const collapsed = comboModel.collapsed;
     // 该群组已经处于收起状态，需要展开
     if (collapsed) {
-      this.expandCombo(combo);
+      this.expandCombo(combo, stack);
     } else {
-      this.collapseCombo(combo);
+      this.collapseCombo(combo, stack);
     }
     this.updateCombo(combo);
   }

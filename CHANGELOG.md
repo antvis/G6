@@ -1,5 +1,13 @@
 # ChangeLog
 
+#### 4.6.5
+
+- fix: destroyLayout error, closes: #3727;
+- fix: drag combo with stack problem, closes: #3699;
+- fix: updateLayout does not take effect if update layout with same type as graph instance configuration,  closes: #3706;
+- fix: legendStateStyles typo, closes: #3705;
+- perf: minimap cursor move;
+
 #### 4.6.4
 
 - chore: improve the types of graph events;
