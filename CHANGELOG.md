@@ -1,5 +1,17 @@
 # ChangeLog
 
+#### 4.6.6
+
+- fix: destroyLayout error, closes: #3727;
+- fix: drag combo with stack problem, closes: #3699;
+- fix: updateLayout does not take effect if update layout with same type as graph instance configuration,  closes: #3706;
+- fix: legendStateStyles typo, closes: #3705;
+- perf: zoom-canvas take the maximum and minimum values instead of return directly;
+- perf: minimap cursor move;
+- feat: fitView and fitCenter with animation;
+- feat: addItems to add multiple items into graph in the same time;
+- feat: enable edge selection in click-select;
+
 #### 4.6.4
 
 - chore: improve the types of graph events;

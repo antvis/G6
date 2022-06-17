@@ -69,7 +69,7 @@
     "tslint-config-airbnb": "^5.11.2",
     "tslint-config-prettier": "^1.18.0",
     "tslint-eslint-rules": "^5.4.0",
-    "typescript": "^3.9.5"
+    "typescript": "^4.6.3"
   },
   "devDependencies": {
     "@types/react": "^16.9.35",
@@ -88,6 +88,7 @@
     "monaco-editor": "0.29.1",
     "monaco-editor-webpack-plugin": "5.0.0",
     "react-monaco-editor": "^0.40.0",
-    "normalize-url": "^4.1.0"
+    "normalize-url": "^4.1.0",
+    "sharp": "^0.30.4"
   }
 }

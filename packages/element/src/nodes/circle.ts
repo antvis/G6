@@ -221,7 +221,7 @@ registerNode(
       // TODO: performance
       // const style = deepMix({}, keyShape.attr(), strokeStyle, cfg.style);
       // const style = deepMix({}, keyShape.attr(), cfg.style);
-      const style = {...cfg.style};
+      const style = { ...cfg.style };
       if (cfg.style.stroke === undefined && cfg.color) {
         style.stroke = cfg.color;
       }

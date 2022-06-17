@@ -43,6 +43,7 @@ export default {
       // 拖动过程中目标 combo 状态样式
       activeState: '',
       selectedState: 'selected',
+      enableStack: true,
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -215,7 +216,7 @@ export default {
         }
         // 将 Combo 放置到某个 Combo 上面时，只有当 onlyChangeComboSize 为 false 时候才更新 Combo 结构
         if (!this.onlyChangeComboSize) {
-          graph.updateComboTree(combo, targetModel.id);
+          graph.updateComboTree(combo, targetModel.id, false);
         } else {
           graph.updateCombo(combo);
         }
@@ -252,7 +253,7 @@ export default {
         if (!this.onlyChangeComboSize) {
           if (comboId !== combo.getID()) {
             droppedCombo = graph.findById(comboId);
-            if (comboId !== combo.getModel().parentId) graph.updateComboTree(combo, comboId);
+            if (comboId !== combo.getModel().parentId) graph.updateComboTree(combo, comboId, false);
           }
         } else {
           graph.updateCombo(combo);
@@ -264,7 +265,7 @@ export default {
         if (!this.onlyChangeComboSize) {
           const model = combo.getModel();
           if (model.comboId) {
-            graph.updateComboTree(combo);
+            graph.updateComboTree(combo, undefined, false);
           }
         } else {
           graph.updateCombo(combo);
@@ -332,10 +333,11 @@ export default {
     }
     // 若没有被放置的 combo，则是被放置在画布上
     if (!comboDropedOn) {
+      const stack = graph.get('enabledStack') && this.enableStack;
       this.targets.map((combo: ICombo) => {
         // 将 Combo 放置到某个 Combo 上面时，只有当 onlyChangeComboSize 为 false 时候才更新 Combo 结构
         if (!this.onlyChangeComboSize) {
-          graph.updateComboTree(combo);
+          graph.updateComboTree(combo, undefined, stack);
         } else {
           graph.updateCombo(combo);
         }
@@ -407,7 +409,7 @@ export default {
       y += origin.y - evt.y;
     }
 
-    graph.updateItem(item, { x, y });
+    graph.updateItem(item, { x, y }, false);
   },
 
   /**

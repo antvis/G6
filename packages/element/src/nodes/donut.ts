@@ -136,6 +136,7 @@ registerNode(
                 lineWidth,
               },
               name: `fan-shape-0`,
+              draggable: true,
             });
             return;
           }
@@ -155,6 +156,7 @@ registerNode(
                   lineWidth,
                 },
                 name: `fan-shape-${i}`,
+                draggable: true,
               });
               return;
             }
@@ -181,6 +183,7 @@ registerNode(
                 stroke: attr.color || defaultSubjectColors[i % defaultSubjectColors.length],
               },
               name: `fan-shape-${i}`,
+              draggable: true,
             });
             arcBegin = attr.arcEnd;
           });

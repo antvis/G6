@@ -1,6 +1,7 @@
 import { Canvas, Shape } from '@antv/g-canvas';
 import { Graph } from '../../../src';
 import '../../../src';
+import { numberEqual } from '../layout/util';
 
 const div = document.createElement('div');
 div.id = 'edge-shape';
@@ -139,7 +140,6 @@ describe('text background label', () => {
     let edge = graph.getEdges()[0];
     let labelBgShape = edge.getContainer().get('children')[1];
     let { x, y } = labelBgShape.attr();
-    console.log('xy', x, y);
     expect(labelBgShape.attr().x).toBe(176.85302734375);
     expect(labelBgShape.attr().y).toBe(116);
 
@@ -150,8 +150,8 @@ describe('text background label', () => {
     graph.clearItemStates(edge, ['active']);
 
     labelBgShape = edge.getContainer().get('children')[1];
-    { x, y } = labelBgShape.attr();
-    expect(labelBgShape.attr().x).toBe(226.85302734375);
-    expect(labelBgShape.attr().y).toBe(166);
+    const { x: newX, y: newY } = labelBgShape.attr();
+    expect(numberEqual(newX, 226, 2)).toBe(true);
+    expect(numberEqual(newY, 166, 2)).toBe(true);
   });
 });
