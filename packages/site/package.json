@@ -36,7 +36,7 @@
   "dependencies": {
     "@ant-design/icons": "^4.0.6",
     "@antv/chart-node-g6": "^0.0.3",
-    "@antv/g6": "4.3.8",
+    "@antv/g6": "4.6.6",
     "@antv/gatsby-theme-antv": "1.1.15",
     "@antv/util": "^2.0.9",
     "@antv/vis-predict-engine": "^0.1.1",
