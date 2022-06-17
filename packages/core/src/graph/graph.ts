@@ -646,8 +646,10 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * 调整视口适应视图
    * @param {object} padding 四周围边距
    * @param {FitViewRules} rules fitView的规则
+   * @param {boolean} animate 是否带有动画地移动
+   * @param {GraphAnimateConfig} animateCfg 若带有动画，动画的配置项
    */
-  public fitView(padding?: Padding, rules?: FitViewRules): void {
+  public fitView(padding?: Padding, rules?: FitViewRules, animate?: boolean, animateCfg?: GraphAnimateConfig): void {
     if (padding) {
       this.set('fitViewPadding', padding);
     }
@@ -655,9 +657,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const viewController: ViewController = this.get('viewController');
 
     if (rules) {
-      viewController.fitViewByRules(rules);
+      viewController.fitViewByRules(rules, animate, animateCfg);
     } else {
-      viewController.fitView();
+      viewController.fitView(animate, animateCfg);
     }
 
     this.autoPaint();
@@ -665,10 +667,12 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
   /**
    * 调整视口适应视图，不缩放，仅将图 bbox 中心对齐到画布中心
+   * @param {boolean} animate 是否带有动画地移动
+   * @param {GraphAnimateConfig} animateCfg 若带有动画，动画的配置项
    */
-  public fitCenter(): void {
+  public fitCenter(animate?: boolean, animateCfg?: GraphAnimateConfig): void {
     const viewController: ViewController = this.get('viewController');
-    viewController.fitCenter();
+    viewController.fitCenter(animate, animateCfg);
     this.autoPaint();
   }
 
@@ -1062,24 +1066,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     }
   }
 
-  /**
-   * 新增元素
-   * @param {ITEM_TYPE} type 元素类型(node | edge)
-   * @param {ModelConfig} model 元素数据模型
-   * @param {boolean} stack 本次操作是否入栈，默认为 true
-   * @param {boolean} sortCombo 本次操作是否需要更新 combo 层级顺序，内部参数，用户在外部使用 addItem 时始终时需要更新
-   * @return {Item} 元素实例
-   */
-  public addItem(
+  private innerAddItem(
     type: ITEM_TYPE,
     model: ModelConfig,
-    stack: boolean = true,
-    sortCombo: boolean = true,
-  ) {
-    const currentComboSorted = this.get('comboSorted');
-    this.set('comboSorted', currentComboSorted && !sortCombo);
-    const itemController: ItemController = this.get('itemController');
-
+    itemController: ItemController
+  ): Item | boolean {
     // 添加节点、边或combo之前，先验证数据是否符合规范
     if (!singleDataValidation(type, model)) {
       return false;
@@ -1184,15 +1175,43 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         parentCombo.addChild(item);
     }
 
+    return item;
+  }
+
+  /**
+   * 新增元素
+   * @param {ITEM_TYPE} type 元素类型(node | edge)
+   * @param {ModelConfig} model 元素数据模型
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
+   * @param {boolean} sortCombo 本次操作是否需要更新 combo 层级顺序，内部参数，用户在外部使用 addItem 时始终时需要更新
+   * @return {Item} 元素实例
+   */
+  public addItem(
+    type: ITEM_TYPE,
+    model: ModelConfig,
+    stack: boolean = true,
+    sortCombo: boolean = true,
+  ): Item | boolean {
+    const currentComboSorted = this.get('comboSorted');
+    this.set('comboSorted', currentComboSorted && !sortCombo);
+    const itemController: ItemController = this.get('itemController');
+
+    const item = this.innerAddItem(type, model, itemController);
+
+    if (item === false || item === true) {
+      return item;
+    }
+
     const combos = this.get('combos');
     if (combos && combos.length > 0) {
       this.sortCombos();
     }
+
     this.autoPaint();
 
     if (stack && this.get('enabledStack')) {
       const addedModel = {
-        ...item.getModel(),
+        ...item.getModel() as any,
         itemType: type,
       };
       const after: GraphData = {};
@@ -1218,11 +1237,85 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     return item;
   }
 
+  public addItems(
+    items: { type: ITEM_TYPE, model: ModelConfig }[] = [],
+    stack: boolean = true,
+    sortCombo: boolean = true
+  ) {
+    const currentComboSorted = this.get('comboSorted');
+    this.set('comboSorted', currentComboSorted && !sortCombo);
+    const itemController: ItemController = this.get('itemController');
+
+    const returnItems: (Item | boolean)[] = [];
+
+    // 1. add anything that is not an edge.
+    // Add undefined as a placeholder for the next cycle. This way we return items matching the input order
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      if (item.type !== 'edge') {
+        returnItems.push(this.innerAddItem(item.type, item.model, itemController));
+      } else {
+        returnItems.push(undefined);
+      }
+    }
+
+    // 2. add all the edges
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      if (item.type === 'edge') {
+        returnItems[i] = this.innerAddItem(item.type, item.model, itemController);
+      }
+    }
+
+    const combos = this.get('combos');
+    if (combos && combos.length > 0) {
+      this.sortCombos();
+    }
+
+    this.autoPaint();
+
+    if (stack && this.get('enabledStack')) {
+      const after: GraphData = { nodes: [], edges: [], combos: [] };
+
+      for (let i = 0; i < items.length; i++) {
+        const type = items[i].type;
+        const returnItem = returnItems[i];
+        if (!!returnItem && returnItem !== true) {
+          const addedModel: any = {
+            ...returnItem.getModel(),
+            itemType: type,
+          };
+          switch (type) {
+            case 'node':
+              after.nodes.push(addedModel);
+              break;
+            case 'edge':
+              after.edges.push(addedModel);
+              break;
+            case 'combo':
+              after.combos.push(addedModel);
+              break;
+            default:
+              break;
+          }
+        }
+      }
+
+      this.pushStack('addItems', {
+        before: {},
+        after,
+      });
+    }
+
+    return returnItems;
+  }
+
   /**
    * 新增元素
    * @param {ITEM_TYPE} type 元素类型(node | edge)
    * @param {ModelConfig} model 元素数据模型
    * @param {boolean} stack 本次操作是否入栈，默认为 true
+   * @param {boolean} sortCombo 本次操作是否需要更新 combo 层级顺序，内部参数，用户在外部使用 addItem 时始终时需要更新
    * @return {Item} 元素实例
    */
   public add(
@@ -1230,7 +1323,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     model: ModelConfig,
     stack: boolean = true,
     sortCombo: boolean = true,
-  ): Item {
+  ): Item | boolean {
     return this.addItem(type, model, stack, sortCombo);
   }
 
@@ -1488,7 +1581,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
         self.updateItem(item, model, false);
       } else {
-        item = self.addItem(type, model, false);
+        item = self.addItem(type, model, false) as any;
       }
       if (item) (items as { [key: string]: any[] })[`${type}s`].push(item);
     });
@@ -2151,7 +2244,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
           const model: NodeConfig = node.get('model');
 
-          let containerMatrix = node.getContainer().getMatrix();
+          const containerMatrix = node.getContainer().getMatrix();
 
           if (originAttrs === undefined || originAttrs === null) {
             // 变换前存在位置，设置到 originAttrs 上。否则标记 0 表示变换前不存在位置，不需要计算动画
@@ -2418,7 +2511,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * 收起指定的 combo
    * @param {string | ICombo} combo combo ID 或 combo item
    */
-  public collapseCombo(combo: string | ICombo): void {
+  public collapseCombo(combo: string | ICombo, stack: boolean = true): void {
     if (this.destroyed) return;
     if (isString(combo)) {
       combo = this.findById(combo) as ICombo;
@@ -2432,7 +2525,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const comboModel = combo.getModel();
 
     const itemController: ItemController = this.get('itemController');
-    itemController.collapseCombo(combo);
+    itemController.collapseCombo(combo, stack);
     comboModel.collapsed = true;
 
     // add virtual edges
@@ -2565,7 +2658,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * 展开指定的 combo
    * @param {string | ICombo} combo combo ID 或 combo item
    */
-  public expandCombo(combo: string | ICombo): void {
+  public expandCombo(combo: string | ICombo, stack: boolean = true): void {
     if (isString(combo)) {
       combo = this.findById(combo) as ICombo;
     }
@@ -2578,7 +2671,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const comboModel = combo.getModel();
 
     const itemController: ItemController = this.get('itemController');
-    itemController.expandCombo(combo);
+    itemController.expandCombo(combo, stack);
     comboModel.collapsed = false;
 
     // add virtual edges
@@ -2768,7 +2861,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     this.emit('aftercollapseexpandcombo', { action: 'expand', item: combo });
   }
 
-  public collapseExpandCombo(combo: string | ICombo) {
+  public collapseExpandCombo(combo: string | ICombo, stack: boolean = true) {
     if (isString(combo)) {
       combo = this.findById(combo) as ICombo;
     }
@@ -2790,9 +2883,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const collapsed = comboModel.collapsed;
     // 该群组已经处于收起状态，需要展开
     if (collapsed) {
-      this.expandCombo(combo);
+      this.expandCombo(combo, stack);
     } else {
-      this.collapseCombo(combo);
+      this.collapseCombo(combo, stack);
     }
     this.updateCombo(combo);
   }

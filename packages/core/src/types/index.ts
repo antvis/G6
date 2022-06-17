@@ -318,6 +318,7 @@ export interface ModeOption {
   delegateStyle?: object;
   updateEdge?: boolean;
   trigger?: string;
+  combinedKey?: string;
   enableDelegate?: boolean;
   maxZoom?: number;
   minZoom?: number;
@@ -350,6 +351,9 @@ export interface ModeOption {
   relayout?: boolean;
   brushStyle?: object;
   zoomKey?: ZoomKeyType | ZoomKeyType[];
+  selectNode?: boolean;
+  selectEdge?: boolean;
+  selectCombo?: boolean;
   shouldUpdate?: (e: IG6GraphEvent) => boolean;
   shouldBegin?: (e: IG6GraphEvent) => boolean;
   shouldEnd?: (e: IG6GraphEvent) => boolean;

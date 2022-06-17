@@ -91,7 +91,8 @@ export default class ImageMiniMap extends Base {
         left:0;
         top:0;
         box-sizing:border-box;
-        border: 2px solid #1980ff'>
+        border: 2px solid #1980ff;
+        cursor:move'
       </div>`,
     );
 

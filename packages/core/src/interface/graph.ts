@@ -174,13 +174,17 @@ export interface IAbstractGraph extends EventEmitter {
    * 调整视口适应视图
    * @param {Padding} padding 四周围边距
    * @param {FitViewRules} rules fitView的规则
+   * @param {boolean} animate 是否带有动画地移动
+   * @param {GraphAnimateConfig} animateCfg 若带有动画，动画的配置项
    */
-  fitView: (padding?: Padding, rules?: FitViewRules) => void;
+  fitView: (padding?: Padding, rules?: FitViewRules, animate?: boolean, animateCfg?: GraphAnimateConfig) => void;
 
   /**
    * 调整视口适应视图，不缩放，仅将图 bbox 中心对齐到画布中心
+   * @param {boolean} animate 是否带有动画地移动
+   * @param {GraphAnimateConfig} animateCfg 若带有动画，动画的配置项
    */
-  fitCenter: () => void;
+  fitCenter: (animate?: boolean, animateCfg?: GraphAnimateConfig) => void;
 
   /**
    * 伸缩视口到一固定比例
@@ -211,11 +215,21 @@ export interface IAbstractGraph extends EventEmitter {
    * @param {string} type 元素类型(node | edge)
    * @param {ModelConfig} model 元素数据模型
    * @param {boolean} stack 本次操作是否入栈，默认为 true
-   * @return {Item} 元素实例
+   * @param {boolean} sortCombo 本次操作是否需要更新 combo 层级顺序，内部参数，用户在外部使用 addItem 时始终时需要更新
+   * @return {Item | boolean} 元素实例
    */
-  addItem: (type: ITEM_TYPE, model: ModelConfig, stack?: boolean) => Item;
+  addItem: (type: ITEM_TYPE, model: ModelConfig, stack?: boolean, sortCombo?: boolean) => Item | boolean;
 
-  add: (type: ITEM_TYPE, model: ModelConfig, stack?: boolean) => Item;
+  add: (type: ITEM_TYPE, model: ModelConfig, stack?: boolean, sortCombo?: boolean) => Item | boolean;
+
+  /**
+   * Adds multiple items with a single operation
+   * @param {{type: ITEM_TYPE, model: ModelConfig}[]} items Items to be added to the graph
+   * @param {boolean} stack Add this operation to the stack, default to true
+   * @param {boolean} sortCombo Update the internal combo representation. Internal parameter, default to true
+   * @return {(Item | boolean)[]} Instance of the added items or a boolean set to false to signal that the input node was not added
+   */
+  addItems: (items: { type: ITEM_TYPE, model: ModelConfig }[], stack: boolean, sortCombo: boolean) => (Item | boolean)[];
 
   /**
    * 更新元素
@@ -504,19 +518,19 @@ export interface IAbstractGraph extends EventEmitter {
    * 收起指定的 Combo
    * @param comboId combo ID 或 combo 实例
    */
-  collapseCombo: (combo: string | ICombo) => void;
+  collapseCombo: (combo: string | ICombo, stack?: boolean) => void;
 
   /**
    * 展开指定的 Combo
    * @param combo combo ID 或 combo 实例
    */
-  expandCombo: (combo: string | ICombo) => void;
+  expandCombo: (combo: string | ICombo, stack?: boolean) => void;
 
   /**
    * 展开或收缩指定的 Combo
    * @param comboId combo ID 或 combo 实例
    */
-  collapseExpandCombo: (combo: string | ICombo) => void;
+  collapseExpandCombo: (combo: string | ICombo, stack?: boolean) => void;
 
   /**
    * 根据节点的 bbox 更新所有 combos 的绘制，包括 combos 的位置和范围

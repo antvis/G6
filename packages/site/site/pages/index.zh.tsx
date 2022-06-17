@@ -1,10 +1,10 @@
-import React from 'react';
-import SEO from '@antv/gatsby-theme-antv/site/components/Seo';
-import { useTranslation } from 'react-i18next';
 import Banner from '@antv/gatsby-theme-antv/site/components/Banner';
+import Cases from '@antv/gatsby-theme-antv/site/components/Cases';
 import Companies from '@antv/gatsby-theme-antv/site/components/Companies';
 import Features from '@antv/gatsby-theme-antv/site/components/Features';
-import Cases from '@antv/gatsby-theme-antv/site/components/Cases';
+import SEO from '@antv/gatsby-theme-antv/site/components/Seo';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import './index.less';
 
 const IndexPage = () => {
@@ -19,20 +19,17 @@ const IndexPage = () => {
 
   const features = [
     {
-      icon:
-        'https://gw.alipayobjects.com/zos/basement_prod/0e03c123-031b-48ed-9050-4ee18c903e94.svg',
+      icon: 'https://gw.alipayobjects.com/zos/basement_prod/0e03c123-031b-48ed-9050-4ee18c903e94.svg',
       title: t('专注关系，完备基建'),
       description: t('G6 是一个专注于关系数据的、完备的图可视化引擎'),
     },
     {
-      icon:
-        'https://gw.alipayobjects.com/zos/basement_prod/42d17359-8607-4227-af93-7509eabb3163.svg',
+      icon: 'https://gw.alipayobjects.com/zos/basement_prod/42d17359-8607-4227-af93-7509eabb3163.svg',
       title: t('领域深钻，顶尖方案'),
       description: t('扎根实际具体业务场景、结合业界领先成果，沉淀顶尖解决方案'),
     },
     {
-      icon:
-        'https://gw.alipayobjects.com/zos/basement_prod/acd8d1f3-d256-42b7-8340-27e5d5fde92c.svg',
+      icon: 'https://gw.alipayobjects.com/zos/basement_prod/acd8d1f3-d256-42b7-8340-27e5d5fde92c.svg',
       title: t('简单易用，扩展灵活'),
       description: t('精心设计的简单、灵活、高可拓展的接口，满足你的无限创意'),
     },
@@ -75,8 +72,7 @@ const IndexPage = () => {
 
   const cases = [
     {
-      logo:
-        'https://camo.githubusercontent.com/53886f0e306c9f01c96dee2edca3992830b7cbb769118029a7e5d677deb7e67e/68747470733a2f2f67772e616c697061796f626a656374732e636f6d2f7a6f732f616e7466696e63646e2f306234487a4f63454a592f4772617068696e2e737667',
+      logo: 'https://camo.githubusercontent.com/53886f0e306c9f01c96dee2edca3992830b7cbb769118029a7e5d677deb7e67e/68747470733a2f2f67772e616c697061796f626a656374732e636f6d2f7a6f732f616e7466696e63646e2f306234487a4f63454a592f4772617068696e2e737667',
       title: t('Graphin 图可视分析组件'),
       isAppLogo: true,
       description: t(
@@ -136,9 +132,9 @@ const IndexPage = () => {
   const insNotifications = [
     {
       type: t('推荐'),
-      title: t('图可视分析如此简单'),
-      date: '2020.11.22',
-      link: 'https://www.yuque.com/antv/g6-blog/zgb5d7',
+      title: t('G6 家族新成员：GraphInsight'),
+      date: '2022.06.06',
+      link: 'https://github.com/antvis/GraphInsight',
     },
     {
       type: t('推荐'),

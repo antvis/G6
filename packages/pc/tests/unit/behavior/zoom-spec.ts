@@ -1,7 +1,10 @@
+import { Event } from '@antv/g-canvas';
 import '../../../src';
 import { Graph } from '../../../src';
-import { Event } from '@antv/g-canvas';
-import { numberEqual } from '../layout/util';
+// import { numberEqual } from '../layout/util';
+function numberEqual(a: number, b: number, gap = 0.001) {
+  return Math.abs(a - b) <= gap;
+}
 
 const data = {
   nodes: [
@@ -126,23 +129,28 @@ describe('zoom-canvas', () => {
           {
             type: 'zoom-canvas',
             maxZoom: 5,
-            minZoom: 0.5,
+            minZoom: 4.2,
           },
         ],
       },
     });
-    graph.zoom(5);
-    let e = createWheelEvent(graph.get('canvas').get('el'), -100, 100, 100);
+    graph.zoom(4.8);
+    let e = createWheelEvent(graph.get('canvas').get('el'), 100, 100, 100);
     graph.emit('wheel', e);
     let matrix = graph.get('group').getMatrix();
-    expect(matrix[0]).toEqual(4.5);
-    expect(matrix[4]).toEqual(4.5);
-    graph.zoom(0.1);
-    e = createWheelEvent(graph.get('canvas').get('el'), 100, 100, 100);
+    // maxZoom: 5
+    expect(matrix[0]).toEqual(5);
+    expect(matrix[4]).toEqual(5);
+    e = createWheelEvent(graph.get('canvas').get('el'), -100, 100, 100);
     graph.emit('wheel', e);
     matrix = graph.get('group').getMatrix();
-    expect(matrix[0]).toEqual(0.5);
-    expect(matrix[4]).toEqual(0.5);
+    expect(matrix[0]).toEqual(4.5);
+    expect(matrix[4]).toEqual(4.5);
+    graph.emit('wheel', e);
+    matrix = graph.get('group').getMatrix();
+    // minZoom: 4.2
+    expect(matrix[0]).toEqual(4.2);
+    expect(matrix[4]).toEqual(4.2);
   });
   it('unbind zoom', () => {
     const graph = new Graph({
