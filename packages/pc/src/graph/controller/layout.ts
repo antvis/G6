@@ -303,6 +303,8 @@ export default class LayoutController extends AbstractLayout {
       }).catch((error) => {
         console.warn('graph layout failed,', error);
       });
+    } else {
+      this.refreshLayout();
     }
 
     return false;

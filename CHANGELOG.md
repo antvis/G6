@@ -1,6 +1,6 @@
 # ChangeLog
 
-#### 4.6.5
+#### 4.6.6
 
 - fix: destroyLayout error, closes: #3727;
 - fix: drag combo with stack problem, closes: #3699;

@@ -66,7 +66,7 @@ export default abstract class LayoutController {
 
   // 绘制
   public refreshLayout() {
-    const { graph, layoutType, data } = this;
+    const { graph, layoutType } = this;
     if (!graph) return;
     if (graph.get('animate')) {
       graph.positionsAnimate(layoutType === 'comboCombined');
@@ -109,7 +109,7 @@ export default abstract class LayoutController {
     graph.set('layout', undefined);
     this.layoutCfg = undefined;
     this.layoutType = undefined;
-    this.layoutMethods = [];
+    this.layoutMethods = undefined;
   }
 
   // 从 this.graph 获取数据
