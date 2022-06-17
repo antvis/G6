@@ -407,7 +407,7 @@ export default {
       y += origin.y - evt.y;
     }
 
-    graph.updateItem(item, { x, y });
+    graph.updateItem(item, { x, y }, false);
     item.getEdges().forEach(edge => edge.refresh());
   },
 
