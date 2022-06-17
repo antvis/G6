@@ -8,6 +8,7 @@ export type ILabelConfig = Partial<{
   refY: number;
   autoRotate: boolean;
   style: LabelStyle;
+  maxLength?: number;
 }>;
 
 export type ShapeDefine = string | ((cfg: ModelConfig) => string);

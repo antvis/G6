@@ -49,7 +49,7 @@ const singleNode: ShapeOptions = {
   },
   // 私有方法，不希望扩展的节点复写这个方法
   getLabelStyleByPosition(cfg: NodeConfig, labelCfg: ILabelConfig): LabelStyle {
-    const labelMaxLength = labelCfg.style?.maxLength;
+    const labelMaxLength = labelCfg.maxLength;
 
     let text = cfg!.label as string;
 
