@@ -93,7 +93,7 @@ export default class Tooltip extends Base {
   public init() {
     const self = this;
     const className = self.get('className') || 'g6-component-tooltip';
-    const tooltip = createDom(`<div class=${className}></div>`);
+    const tooltip = createDom(`<div class='${className}'></div>`);
     let container: HTMLDivElement | null = self.get('container');
     if (!container) {
       container = self.get('graph').get('container');
