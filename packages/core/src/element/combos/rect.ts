@@ -217,22 +217,6 @@ Shape.registerCombo(
 
       (this as any).updateShape(cfg, item, style, false);
     },
-    updateShape(cfg: ComboConfig, item: Item, keyShapeStyle: object) {
-      const keyShape = item.get('keyShape');
-      const animate = cfg.animate === undefined ? this.options.animate : cfg.animate;
-      if (animate && keyShape.animate) {
-        keyShape.animate(keyShapeStyle, {
-          duration: 200,
-          easing: 'easeLinear',
-        });
-      } else {
-        keyShape.attr({
-          ...keyShapeStyle,
-        });
-      }
-
-      (this as any).updateLabel(cfg, item);
-    },
   },
   'single-combo',
 );

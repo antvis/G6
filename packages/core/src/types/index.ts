@@ -152,7 +152,7 @@ export type GraphTimingEvents =
   | 'aftercollapseexpandcombo'
   | 'graphstatechange'
   | 'afteractivaterelations'
-  | 'nodeselectChange'
+  | 'nodeselectchange'
   | 'itemcollapsed'
   | 'tooltipchange'
   | 'wheelzoom'

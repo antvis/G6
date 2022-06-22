@@ -140,18 +140,59 @@ const singleCombo: ShapeOptions = {
     });
     return shape;
   },
+  updateCollapsedIcon(cfg: NodeConfig, item: Item, keyShapeStyle: ShapeStyle) {
+    const { style = {}, collapsed } = cfg;
+    const { collapsedSubstituteIcon = {} } = style;
+    const { show, img, width, height } = collapsedSubstituteIcon;
+    const group = item.getContainer();
+    const collapsedIconShape = group.find(ele => ele.get('name') === 'combo-collapsed-substitute-icon');
+    const iconShapeExist = collapsedIconShape && !collapsedIconShape.destroyed;
+    if (collapsed && show) {
+      if (iconShapeExist) {
+        collapsedIconShape.show();
+      } else {
+        const sizeAttr = {
+          width: width || keyShapeStyle.r * 2 || keyShapeStyle.width,
+          height: height || keyShapeStyle.r * 2 || keyShapeStyle.height,
+        }
+        group.addShape('image', {
+          attrs: {
+            img,
+            x: -sizeAttr.width / 2,
+            y: -sizeAttr.height / 2,
+            ...sizeAttr
+          },
+          name: 'combo-collapsed-substitute-icon',
+          draggable: true
+        });
+      }
+    } else if (iconShapeExist) {
+      collapsedIconShape.hide();
+    }
+  },
   updateShape(cfg: NodeConfig, item: Item, keyShapeStyle: ShapeStyle) {
     const keyShape = item.get('keyShape');
-    const animate = cfg.animate === undefined ? this.options.animate : cfg.animate;
+    const itemAnimate = item.get('animate');
+    const animate = itemAnimate && (cfg.animate === undefined ? this.options.animate : cfg.animate);
     if (animate && keyShape.animate) {
+      // 更新到展开状态，先将 collapsedIcon 隐藏。否则在动画完成后再出现 collapsedIcon
+      if (!cfg.collapsed) {
+        this.updateCollapsedIcon(cfg, item, keyShapeStyle);
+      }
       keyShape.animate(keyShapeStyle, {
         duration: 200,
         easing: 'easeLinear',
+        callback: () => {
+          if (cfg.collapsed) {
+            this.updateCollapsedIcon(cfg, item, keyShapeStyle);
+          }
+        }
       });
     } else {
       keyShape.attr({
         ...keyShapeStyle,
       });
+      this.updateCollapsedIcon(cfg, item, keyShapeStyle);
     }
 
     (this as any).updateLabel(cfg, item);

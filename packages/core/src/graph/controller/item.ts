@@ -171,6 +171,7 @@ export default class ItemController {
       item = new Combo({
         model,
         styles,
+        animate: false,
         bbox: model.collapsed ? getComboBBox([], graph) : comboBBox,
         group: comboGroup,
       });
@@ -182,16 +183,6 @@ export default class ItemController {
         (item as ICombo).addChild(childItem);
         child.depth = (comboModel.depth as number) + 2;
       });
-
-      // collapse the combo if the collapsed is true in the model
-      if (model.collapsed) {
-        setTimeout(() => {
-          if (!item.destroyed) {
-            graph.collapseCombo(item as ICombo, false);
-            graph.updateCombo(item as ICombo);
-          }
-        }, 0);
-      }
     }
 
     if (item) {
@@ -311,7 +302,7 @@ export default class ItemController {
         const comboAnimate =
           model.animate === undefined || cfg.animate === undefined
             ? shapeFactory[shapeType]?.options?.animate
-            : model.animate || cfg.animate;
+            : (model.animate || cfg.animate);
         if (comboAnimate) {
           setTimeout(() => {
             if (!item || (item as ICombo).destroyed) return;

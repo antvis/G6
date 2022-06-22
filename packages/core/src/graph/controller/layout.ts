@@ -88,9 +88,9 @@ export default abstract class LayoutController {
   }
 
   // 更换数据
-  public changeData() {
+  public changeData(success) {
     this.destoryLayoutMethods();
-    this.layout();
+    this.layout(success);
   }
 
   public destoryLayoutMethods() {
