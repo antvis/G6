@@ -40,6 +40,9 @@ describe('combo layout with collapsed', () => {
       layout: {
         type: 'grid'
       },
+      modes: {
+        default: ['collapse-expand-combo']
+      }
     });
 
     graph.data(data);

@@ -28,8 +28,8 @@ To keep the stability of the structure of the source data, we do some compatible
 | label | string | false | 'combo A' | The label text of the combo |
 | style | Object | false |  | The style configuration of the combo, details are in [Built-in Combo Configuration](/en/docs/manual/middle/elements/combos/defaultCombo#style) and documents of each type of combo |
 | labelCfg | Object | false |  | The label configuration of the combo, details are in [Built-in Combo Configuration](/en/docs/manual/middle/elements/combos/defaultCombo#label-and-labelcfg) and documents of each type of combo |
-| collapsed | Boolean | false | | Whether the combo is collapsed. Config it with true before render will make the combo collapsed by default |
-| collapsedSubstituteIcon | Object | false | | *Supported by v4.6.7* The image shows while the combo is collapsed |
+| collapsed | Boolean | false | true | Whether the combo is collapsed. Config it with true before render will make the combo collapsed by default |
+| collapsedSubstituteIcon | Object | false | { show: true } | *Supported by v4.6.8* The image shows while the combo is collapsed |
 
 An example for the data item for a combo
 
@@ -189,7 +189,7 @@ const graph = new G6.Graph({
 
 ### collapsedSubstituteIcon
 
-`collapsedSubstituteIcon` is an object to configure a substitute image for the collapsed combo. Here is the commonly used properties in `collapsedSubstituteIcon`:
+*Supported by v4.6.8* `collapsedSubstituteIcon` is an object to configure a substitute image for the collapsed combo. Here is the commonly used properties in `collapsedSubstituteIcon`:
 
 | Name | Required | Type | Remark |
 | --- | --- | --- | --- |

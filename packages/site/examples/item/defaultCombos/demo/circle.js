@@ -20,6 +20,12 @@ const data = {
       y: 300,
       comboId: 'combo2',
     },
+    {
+      id: 'node4',
+      x: 450,
+      y: 300,
+      comboId: 'combo2',
+    },
   ],
   combos: [
     {

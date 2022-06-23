@@ -1,6 +1,6 @@
 # ChangeLog
 
-#### 4.6.7
+#### 4.6.8
 
 - fix: spelling error for 'nodeselectChange', closes: #3736;
 - fix: update node icon from show false to show true;

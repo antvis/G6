@@ -105,8 +105,8 @@ G6 的内置 Combo 包括 circle 和 rect 两种类型，分别如下图所示�
 | style | Object | false |  | 该 Combo 的样式配置项 |
 | label | string | false | 'Combo A' | 该 Combo 的文本标签 |
 | labelCfg | Object | false |  | 该 Combo 的文本标签样式配置项 |
-| collapsed | Boolean | false | | 该 Combo 是否收起。在渲染前配置 collapsed: true 在 combo 数据中，初次渲染时将默认收起 |
-| collapsedSubstituteIcon | Object | false | | *v4.6.7 起支持* 该 Combo 在收起状态下展示的图片 |
+| collapsed | Boolean | false | false | 该 Combo 是否收起。在渲染前配置 collapsed: true 在 combo 数据中，初次渲染时将默认收起 |
+| collapsedSubstituteIcon | Object | false | { show: true } | *v4.6.8 起支持* 该 Combo 在收起状态下展示的图片 |
 
 ### 样式属性 style
 
@@ -193,7 +193,7 @@ const graph = new G6.Graph({
 
 ### 收起时的 Icon collapsedSubstituteIcon
 
-Object 类型。通过 `collapsedSubstituteIcon` 配置 Combo 在收起状态下，展示在中心的图片 Icon。下表是 `collapsedSubstituteIcon` 对象中常用的配置项：
+*v4.6.8 起支持* Object 类型。通过 `collapsedSubstituteIcon` 配置 Combo 在收起状态下，展示在中心的图片 Icon。下表是 `collapsedSubstituteIcon` 对象中常用的配置项：
 
 | 名称 | 是否必须 | 类型 | 备注 |
 | --- | --- | --- | --- |

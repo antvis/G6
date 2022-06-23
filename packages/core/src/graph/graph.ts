@@ -1516,6 +1516,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
           const item = self.findById(child.id);
           if (item.getType() === 'combo' && child.collapsed) {
             self.collapseCombo(child.id, false);
+            self.updateCombo(item as ICombo);
           }
           return true;
         });
