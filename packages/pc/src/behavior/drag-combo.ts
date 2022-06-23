@@ -410,6 +410,7 @@ export default {
     }
 
     graph.updateItem(item, { x, y }, false);
+    item.getEdges().forEach(edge => edge.refresh());
   },
 
   /**
