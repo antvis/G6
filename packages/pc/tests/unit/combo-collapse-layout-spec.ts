@@ -30,7 +30,7 @@ const data = {
 };
 
 describe('combo layout with collapsed', () => {
-  it('combo layout with collapsed', () => {
+  it('combo layout with collapsed', (done) => {
     const graph = new G6.Graph({
       container: 'container',
       width: 500,
@@ -48,6 +48,7 @@ describe('combo layout with collapsed', () => {
     setTimeout(() => {
       expect(data.combos[0].x).toBe(250)
       expect(data.combos[0].y).toBe(375)
+      done()
     }, 0);
   });
 });

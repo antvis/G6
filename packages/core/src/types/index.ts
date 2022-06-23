@@ -713,6 +713,12 @@ export interface ComboConfig extends ModelConfig {
     offsetX: number;
     offsetY: number;
   }>;
+  collapsedSubstituteIcon?: Partial<{
+    show: boolean;
+    img: string;
+    width: number;
+    height: number;
+  }>;
 }
 
 export interface EdgeConfig extends ModelConfig {

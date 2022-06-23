@@ -35,6 +35,10 @@ Shape.registerCombo(
       stateStyles: {
         ...Global.comboStateStyles,
       },
+      collapsedSubstituteIcon: {
+        show: false,
+        img: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RsnHRqLfJn4AAAAAAAAAAAAAARQnAQ'
+      }
     },
     shapeType: 'rect',
     labelPosition: 'top',

@@ -304,6 +304,7 @@ export default class LayoutController extends AbstractLayout {
         console.warn('graph layout failed,', error);
       });
     } else {
+      // 无布局配置
       this.refreshLayout();
       success?.();
     }

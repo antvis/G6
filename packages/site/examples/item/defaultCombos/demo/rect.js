@@ -30,13 +30,11 @@ const data = {
       id: 'combo2',
       label: 'with substitute icon while collapsed',
       collapsed: true,
-      style: {
-        collapsedSubstituteIcon: {
-          show: true,
-          img: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IEQFS5VtXX8AAAAAAAAAAABkARQnAQ',
-          width: 72,
-          height: 72
-        }
+      collapsedSubstituteIcon: {
+        show: true,
+        img: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IEQFS5VtXX8AAAAAAAAAAABkARQnAQ',
+        width: 72,
+        height: 72
       }
     },
   ],
