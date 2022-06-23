@@ -378,7 +378,7 @@ export default {
       if (param.destroyed) {
         return false;
       }
-      this.updateSignleItem(param, evt, restore);
+      this.updateSingleItem(param, evt, restore);
       return true;
     });
   },
@@ -388,7 +388,7 @@ export default {
    * @param item 当前正在拖动的元素
    * @param evt
    */
-  updateSignleItem(item: Item, evt: IG6GraphEvent, restore: boolean) {
+  updateSingleItem(item: INode | ICombo, evt: IG6GraphEvent, restore: boolean) {
     const { origin } = this;
     const graph: IGraph = this.graph;
     const model = item.getModel() as ComboConfig;
@@ -410,7 +410,7 @@ export default {
     }
 
     graph.updateItem(item, { x, y }, false);
-    item.getEdges().forEach(edge => edge.refresh());
+    item.getEdges()?.forEach(edge => edge.refresh());
   },
 
   /**
