@@ -14,11 +14,34 @@ const data = {
       y: 150,
       comboId: 'combo',
     },
+    {
+      id: 'node3',
+      x: 250,
+      y: 300,
+      comboId: 'combo2',
+    },
+    {
+      id: 'node4',
+      x: 450,
+      y: 300,
+      comboId: 'combo2',
+    },
   ],
   combos: [
     {
       id: 'combo',
       label: 'Combo',
+    },
+    {
+      id: 'combo2',
+      label: 'with substitute icon while collapsed',
+      collapsed: true,
+      collapsedSubstituteIcon: {
+        show: true,
+        img: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IEQFS5VtXX8AAAAAAAAAAABkARQnAQ',
+        width: 72,
+        height: 72
+      }
     },
   ],
 };

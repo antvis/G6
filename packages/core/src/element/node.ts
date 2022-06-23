@@ -316,6 +316,7 @@ const singleNode: ShapeOptions = {
       } else {
         // 若传入了 show: false 则删除原先的 icon
         iconShape.remove();
+        delete group['shapeMap'][`${this.type}-icon`];
       }
     } else if (show) {
       // 如果原先不存在 icon，但传入了 show: true，则新增 icon

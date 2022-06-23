@@ -152,7 +152,7 @@ export type GraphTimingEvents =
   | 'aftercollapseexpandcombo'
   | 'graphstatechange'
   | 'afteractivaterelations'
-  | 'nodeselectChange'
+  | 'nodeselectchange'
   | 'itemcollapsed'
   | 'tooltipchange'
   | 'wheelzoom'
@@ -712,6 +712,12 @@ export interface ComboConfig extends ModelConfig {
     stroke: string;
     offsetX: number;
     offsetY: number;
+  }>;
+  collapsedSubstituteIcon?: Partial<{
+    show: boolean;
+    img: string;
+    width: number;
+    height: number;
   }>;
 }
 

@@ -151,7 +151,7 @@ graph.moveTo(200, 300, true, {
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- | --- | --- | --- |
 | padding | Number / Array | false | [top, right, bottom, left] 四个方向上的间距值 |
-| rules | { onlyOutOfViewPort?: boolean; direction?: 'x' | 'y' | 'both'; ratioRule?: 'max' | 'min} | false | fitView 的规则 |
+| rules | { onlyOutOfViewPort?: boolean; direction?: 'x' / 'y' / 'both'; ratioRule?: 'max' / 'min} | false | fitView 的规则 |
 
 **用法**
 

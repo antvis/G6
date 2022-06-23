@@ -1126,6 +1126,16 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         item = itemController.addItem(type, model) as ICombo;
       }
       this.set('comboTrees', comboTrees);
+
+      if (model.collapsed) {
+        setTimeout(() => {
+          if (item && !item.destroyed) {
+            this.collapseCombo(item as ICombo, false);
+            this.updateCombo(item as ICombo);
+          }
+        }, 0);
+      }
+
     } else if (type === 'node' && isString(model.comboId) && comboTrees) {
       const parentCombo = this.findById(model.comboId as string);
       if (parentCombo && parentCombo.getType && parentCombo.getType() !== 'combo') {
@@ -1484,6 +1494,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       self.add('edge', edge, false, false);
     });
 
+
     const animate = self.get('animate');
     if (self.get('fitView') || self.get('fitCenter')) {
       self.set('animate', false);
@@ -1495,18 +1506,21 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       layoutController.layout(success);
       if (this.destroyed) return;
     } else {
-      if (self.get('fitView')) {
-        self.fitView();
-      }
-      if (self.get('fitCenter')) {
-        self.fitCenter();
-      }
-
-      self.emit('afterrender');
-      self.set('animate', animate);
+      success();
     }
     // 将在 onLayoutEnd 中被调用
     function success() {
+      // 自底向上将 collapsed 的 combo 合起
+      (self.get('comboTrees') || []).forEach(ctree => {
+        traverseTreeUp<ComboTree>(ctree, child => {
+          const item = self.findById(child.id);
+          if (item.getType() === 'combo' && child.collapsed) {
+            self.collapseCombo(child.id, false);
+            self.updateCombo(item as ICombo);
+          }
+          return true;
+        });
+      });
       // fitView 与 fitCenter 共存时，fitView 优先，fitCenter 不再执行
       if (self.get('fitView')) {
         self.fitView();
@@ -1518,6 +1532,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       if (self.get('fitView') || self.get('fitCenter')) {
         self.set('animate', animate);
       }
+      setTimeout(() => {
+        self.getCombos()?.forEach(combo => {
+          combo.set('animate', true)
+        })
+      }, 0);
     }
 
     if (!this.get('groupByTypes')) {
@@ -1682,15 +1701,33 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       }
     });
 
+    // 自底向上将 collapsed 的 combo 合起
+    (this.get('comboTrees') || []).forEach(ctree => {
+      traverseTreeUp<ComboTree>(ctree, child => {
+        const item = this.findById(child.id);
+        if (item.getType() === 'combo' && child.collapsed) {
+          this.collapseCombo(child.id, false);
+        }
+        return true;
+      });
+    });
+
     this.set({ nodes: items.nodes, edges: items.edges });
 
     const layoutController = this.get('layoutController');
     if (layoutController) {
-      layoutController.changeData();
+      layoutController.changeData(() => {
+        setTimeout(() => {
+          self.getCombos()?.forEach(combo => {
+            combo.set('animate', true)
+          })
+        }, 0);
+      });
 
       if (self.get('animate') && !layoutController.getLayoutType()) {
         // 如果没有指定布局
         self.positionsAnimate();
+        self.getCombos()?.forEach(combo => combo.set('animate', true))
       } else {
         self.autoPaint();
       }
@@ -2325,9 +2362,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     if (combos && combos.length !== 0) {
       if (referComboModel) {
         updateItems(combos);
-        setTimeout(() => {
-          self.updateCombos();
-        }, 0);
+        self.updateCombos();
       } else {
         self.updateCombos();
       }
@@ -2500,7 +2535,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       layoutController.layout();
       return;
     }
-    if (layoutController.layoutMethod) {
+    if (layoutController.layoutMethods?.length) {
       layoutController.relayout(true);
     } else {
       layoutController.layout();

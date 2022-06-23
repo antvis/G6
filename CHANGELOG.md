@@ -1,5 +1,15 @@
 # ChangeLog
 
+#### 4.6.8
+
+- fix: spelling error for 'nodeselectChange', closes: #3736;
+- fix: update node icon from show false to show true;
+- fix: afterrender should be emitted when the layout is not configured;
+- perf: update related edges while drag-combo;
+- feat: combo supports collapsedSubstituteIcon showing after collapsed;
+- feat: remove animations while first rendering with (collapsed)combos;
+- refactor: toolbar plugin functions;
+
 #### 4.6.6
 
 - fix: destroyLayout error, closes: #3727;

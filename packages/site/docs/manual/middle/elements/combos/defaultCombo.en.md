@@ -28,6 +28,8 @@ To keep the stability of the structure of the source data, we do some compatible
 | label | string | false | 'combo A' | The label text of the combo |
 | style | Object | false |  | The style configuration of the combo, details are in [Built-in Combo Configuration](/en/docs/manual/middle/elements/combos/defaultCombo#style) and documents of each type of combo |
 | labelCfg | Object | false |  | The label configuration of the combo, details are in [Built-in Combo Configuration](/en/docs/manual/middle/elements/combos/defaultCombo#label-and-labelcfg) and documents of each type of combo |
+| collapsed | Boolean | false | true | Whether the combo is collapsed. Config it with true before render will make the combo collapsed by default |
+| collapsedSubstituteIcon | Object | false | { show: true } | *Supported by v4.6.8* The image shows while the combo is collapsed |
 
 An example for the data item for a combo
 
@@ -180,6 +182,38 @@ const graph = new G6.Graph({
       style: {
         fill: '#666',
       },
+    },
+  },
+});
+```
+
+### collapsedSubstituteIcon
+
+*Supported by v4.6.8* `collapsedSubstituteIcon` is an object to configure a substitute image for the collapsed combo. Here is the commonly used properties in `collapsedSubstituteIcon`:
+
+| Name | Required | Type | Remark |
+| --- | --- | --- | --- |
+| show | false | Boolean | Whether show the substitute image when the combo is collapsed. false by default |
+| img | false | String | The image url for the Icon, default image: <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RsnHRqLfJn4AAAAAAAAAAAAAARQnAQ' alt='download' width='50'/> |
+| width | false | Number | The width of the icon image. The width of collapsed combo will take effect by default |
+| height | false | Number | The height of the icon image. The height of collapsed combo will take effect by default |
+
+
+Configure `collapsedSubstituteIcon` globally when instantiating the Graph:
+
+```javascript
+const graph = new G6.Graph({
+  container: 'mountNode',
+  width: 800,
+  height: 600,
+  // Set groupByTypes to false to get rendering result with reasonable visual zIndex for combos
+  groupByTypes: false,
+  defaultCombo: {
+    // ... Other properties for combos
+    collapsedSubstituteIcon: {
+      show: true,
+      img: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IEQFS5VtXX8AAAAAAAAAAABkARQnAQ',
+      // ... other properties
     },
   },
 });

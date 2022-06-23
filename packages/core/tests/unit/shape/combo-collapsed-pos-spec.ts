@@ -131,8 +131,11 @@ describe('simple data', () => {
         y: (newNodePoses[0].y + newNodePoses[1].y) / 2,
       },
       {
-        x: (newNodePoses[2].x + newNodePoses[3].x) / 2,
-        y: (newNodePoses[2].y + newNodePoses[3].y) / 2,
+        // x: (newNodePoses[2].x + newNodePoses[3].x) / 2,
+        // y: (newNodePoses[2].y + newNodePoses[3].y) / 2,
+        // 该 combo 是 collapsed，因此不受节点位置影响
+        x: 400,
+        y: 400
       }
     ]
 
