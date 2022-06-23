@@ -305,6 +305,7 @@ export default class LayoutController extends AbstractLayout {
       });
     } else {
       this.refreshLayout();
+      success?.();
     }
 
     return false;

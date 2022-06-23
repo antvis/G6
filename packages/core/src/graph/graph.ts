@@ -1516,16 +1516,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       layoutController.layout(success);
       if (this.destroyed) return;
     } else {
-      if (self.get('fitView')) {
-        self.fitView();
-      }
-      if (self.get('fitCenter')) {
-        self.fitCenter();
-      }
-
-      self.emit('afterrender');
-      self.set('animate', animate);
-      self.getCombos()?.forEach(combo => combo.set('animate', true))
+      success();
     }
     // 将在 onLayoutEnd 中被调用
     function success() {
