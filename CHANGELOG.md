@@ -8,6 +8,7 @@
 - perf: update related edges while drag-combo;
 - feat: combo supports collapsedSubstituteIcon showing after collapsed;
 - feat: remove animations while first rendering with (collapsed)combos;
+- refactor: toolbar plugin functions;
 
 #### 4.6.6
 
