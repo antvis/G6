@@ -1800,6 +1800,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       return;
     }
 
+    // Expand combo if collapsed to prevent child nodes being deleted.
+    if (comboItem.getModel().collapsed) {
+      this.expandCombo(comboItem);
+    }
+
     const parentId = comboItem.getModel().parentId;
     let comboTrees = self.get('comboTrees');
     if (!comboTrees) comboTrees = [];
