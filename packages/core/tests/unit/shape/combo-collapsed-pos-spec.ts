@@ -1,4 +1,4 @@
-import { clone, groupBy } from '@antv/util';
+import { clone, groupBy, isNumberEqual } from '@antv/util';
 import Graph from '../implement-graph';
 
 const div = document.createElement('div');
@@ -131,8 +131,11 @@ describe('simple data', () => {
         y: (newNodePoses[0].y + newNodePoses[1].y) / 2,
       },
       {
-        x: (newNodePoses[2].x + newNodePoses[3].x) / 2,
-        y: (newNodePoses[2].y + newNodePoses[3].y) / 2,
+        // x: (newNodePoses[2].x + newNodePoses[3].x) / 2,
+        // y: (newNodePoses[2].y + newNodePoses[3].y) / 2,
+        // 该 combo 是 collapsed，因此不受节点位置影响
+        x: 400,
+        y: 400
       }
     ]
 
@@ -474,11 +477,11 @@ describe('hierarchy data 1: combo A has one child: an empty combo B', () => {
     comboB = graph.findById('B');
     comboBModel = comboB.getModel();
 
-    expect(comboBModel.x).toBe(100);
-    expect(comboBModel.y).toBe(200);
+    expect(isNumberEqual(comboBModel.x, 100, 1)).toBe(true);
+    expect(isNumberEqual(comboBModel.y, 200, 1)).toBe(true);
     // A has no position, follows the child
-    expect(comboAModel.x).toBe(100);
-    expect(comboAModel.y).toBe(200);
+    expect(isNumberEqual(comboAModel.x, 100, 1)).toBe(true);
+    expect(isNumberEqual(comboAModel.y, 200, 1)).toBe(true);
   });
   it('parent combo collapsed with pos, child combo with pos', (done) => {
     const testData = clone(data);

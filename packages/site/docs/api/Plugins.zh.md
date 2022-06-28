@@ -359,7 +359,12 @@ const toolbar = new G6.ToolBar({
         y: 150
       })
     } else if (code === 'undo') {
+      // 自定义 undo
       toolbar.undo()
+      toolbar.autoZoom()
+    } else {
+      // 其他操作保持默认不变
+      toolbar.handleDefaultOperator(code)
     }
   }
 });

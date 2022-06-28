@@ -66,7 +66,7 @@ export default abstract class LayoutController {
 
   // 绘制
   public refreshLayout() {
-    const { graph, layoutType, data } = this;
+    const { graph, layoutType } = this;
     if (!graph) return;
     if (graph.get('animate')) {
       graph.positionsAnimate(layoutType === 'comboCombined');
@@ -81,15 +81,16 @@ export default abstract class LayoutController {
   // 更换布局
   public changeLayout(cfg) {
     this.layoutCfg = cfg;
+    this.layoutType = cfg.type || this.layoutType;
 
     this.destoryLayoutMethods();
     this.layout();
   }
 
   // 更换数据
-  public changeData() {
+  public changeData(success) {
     this.destoryLayoutMethods();
-    this.layout();
+    this.layout(success);
   }
 
   public destoryLayoutMethods() {
@@ -210,19 +211,15 @@ export default abstract class LayoutController {
 
     let start = Promise.resolve();
     layoutMethods?.forEach((layoutMethod: any, index: number) => {
-      const currentCfg = layoutCfg[index];
-      start = start.then(() => this.reLayoutMethod(layoutMethod, currentCfg));
+      const currentCfg = layoutCfg[index] || layoutCfg;
+      start = start.then(() => {
+        const relayoutPromise = this.reLayoutMethod(layoutMethod, currentCfg);
+        if (index === layoutMethods.length - 1) {
+          layoutCfg.onAllLayoutEnd?.();
+        }
+        return relayoutPromise;
+      });
     });
-
-    if (layoutMethods?.length) {
-      start
-        .then(() => {
-          if (layoutCfg.onAllLayoutEnd) layoutCfg.onAllLayoutEnd();
-        })
-        .catch((error) => {
-          console.warn('relayout failed', error);
-        });
-    }
   }
 
   // 筛选参与布局的nodes和edges

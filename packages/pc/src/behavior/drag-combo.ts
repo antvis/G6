@@ -36,8 +36,8 @@ const traverseCombo = (data, fn: (param: any) => boolean) => {
 /**
  * Pushes the combo and its children to
  * stack, if redo is not empty it's cleared.
- * @param {IGraph} graph 
- * @param {Item[]} items 
+ * @param {IGraph} graph
+ * @param {Item[]} items
  */
 const pushComboToStack = (graph: IGraph, items: Item[]) => {
   const redoStack = graph.getRedoStack();
@@ -88,6 +88,7 @@ export default {
       // 拖动过程中目标 combo 状态样式
       activeState: '',
       selectedState: 'selected',
+      enableStack: true,
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -316,7 +317,7 @@ export default {
         if (!this.onlyChangeComboSize) {
           const model = combo.getModel();
           if (model.comboId) {
-            graph.updateComboTree(combo, null, false);
+            graph.updateComboTree(combo, undefined, false);
           }
         } else {
           graph.updateCombo(combo);
@@ -390,10 +391,11 @@ export default {
     }
     // 若没有被放置的 combo，则是被放置在画布上
     if (!comboDropedOn) {
+      const stack = graph.get('enabledStack') && this.enableStack;
       this.targets.map((combo: ICombo) => {
         // 将 Combo 放置到某个 Combo 上面时，只有当 onlyChangeComboSize 为 false 时候才更新 Combo 结构
         if (!this.onlyChangeComboSize) {
-          graph.updateComboTree(combo, null, false);
+          graph.updateComboTree(combo, undefined, stack);
         } else {
           graph.updateCombo(combo);
         }
@@ -434,7 +436,7 @@ export default {
       if (param.destroyed) {
         return false;
       }
-      this.updateSignleItem(param, evt, restore);
+      this.updateSingleItem(param, evt, restore);
       return true;
     });
   },
@@ -444,7 +446,7 @@ export default {
    * @param item 当前正在拖动的元素
    * @param evt
    */
-  updateSignleItem(item: Item, evt: IG6GraphEvent, restore: boolean) {
+  updateSingleItem(item: INode | ICombo, evt: IG6GraphEvent, restore: boolean) {
     const { origin } = this;
     const graph: IGraph = this.graph;
     const model = item.getModel() as ComboConfig;
@@ -466,7 +468,7 @@ export default {
     }
 
     graph.updateItem(item, { x, y }, false);
-    graph.refreshPositions();
+    item.getEdges()?.forEach(edge => edge.refresh());
   },
 
   /**

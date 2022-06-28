@@ -150,7 +150,7 @@ Fit the graph to the view port.
 | Name | Type | Required | Description |
 | --- | --- | --- | --- | --- | --- | --- |
 | padding | Number / Array | false | The padding of [top, right, bottom, left]. |
-| rules | { onlyOutOfViewPort?: boolean; direction?: 'x' | 'y' | 'both'; ratioRule?: 'max' | 'min} | false | rules of fitView |
+| rules | { onlyOutOfViewPort?: boolean; direction?: 'x' / 'y' / 'both'; ratioRule?: 'max' / 'min} | false | rules of fitView |
 
 **Usage**
 

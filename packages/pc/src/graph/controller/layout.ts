@@ -303,6 +303,10 @@ export default class LayoutController extends AbstractLayout {
       }).catch((error) => {
         console.warn('graph layout failed,', error);
       });
+    } else {
+      // 无布局配置
+      this.refreshLayout();
+      success?.();
     }
 
     return false;
@@ -490,7 +494,7 @@ export default class LayoutController extends AbstractLayout {
 
     let start = Promise.resolve();
     let hasLayout = false;
-    if (layoutMethods.length === 1) {
+    if (layoutMethods?.length === 1) {
       hasLayout = true;
       start = start.then(async () => await this.updateLayoutMethod(layoutMethods[0], layoutCfg));
     } else {

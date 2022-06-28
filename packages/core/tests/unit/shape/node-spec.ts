@@ -257,9 +257,7 @@ describe('shape node test', () => {
           color: 'blue',
           label: mockLabel,
           labelCfg: {
-            style: {
-              maxLength: 5,
-            },
+            maxLength: 5,
           },
         },
         group,
@@ -267,7 +265,6 @@ describe('shape node test', () => {
       canvas.draw();
       const label = group.get('children')[1];
 
-      expect(label.attr('maxLength')).toBe(5);
       expect(label.attr('text')).toBe(mockLabel.substring(0, 5) + '...');
     });
 

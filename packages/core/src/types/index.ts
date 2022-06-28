@@ -152,7 +152,7 @@ export type GraphTimingEvents =
   | 'aftercollapseexpandcombo'
   | 'graphstatechange'
   | 'afteractivaterelations'
-  | 'nodeselectChange'
+  | 'nodeselectchange'
   | 'itemcollapsed'
   | 'tooltipchange'
   | 'wheelzoom'
@@ -185,7 +185,7 @@ export type MobileInteractionEventType = MobileInteractionEvent;
  * @example
  * https://g6.antv.vision/en/docs/api/Event#combo-interaction-event
  */
-export type G6Event = NodeEventType | EdgeEventType | ComboEventType | CanvasEventType | GraphTimingEventType | MobileInteractionEventType | CommonInteractionEvent | CommonInteractionEvent;
+export type G6Event = NodeEventType | EdgeEventType | ComboEventType | CanvasEventType | GraphTimingEventType | MobileInteractionEventType | CommonInteractionEvent | CommonInteractionEvent | (string & {});
 
 export interface IG6GraphEvent extends GraphEvent {
   item: Item | null;
@@ -318,6 +318,7 @@ export interface ModeOption {
   delegateStyle?: object;
   updateEdge?: boolean;
   trigger?: string;
+  combinedKey?: string;
   enableDelegate?: boolean;
   maxZoom?: number;
   minZoom?: number;
@@ -350,6 +351,9 @@ export interface ModeOption {
   relayout?: boolean;
   brushStyle?: object;
   zoomKey?: ZoomKeyType | ZoomKeyType[];
+  selectNode?: boolean;
+  selectEdge?: boolean;
+  selectCombo?: boolean;
   shouldUpdate?: (e: IG6GraphEvent) => boolean;
   shouldBegin?: (e: IG6GraphEvent) => boolean;
   shouldEnd?: (e: IG6GraphEvent) => boolean;
@@ -709,6 +713,12 @@ export interface ComboConfig extends ModelConfig {
     stroke: string;
     offsetX: number;
     offsetY: number;
+  }>;
+  collapsedSubstituteIcon?: Partial<{
+    show: boolean;
+    img: string;
+    width: number;
+    height: number;
   }>;
 }
 

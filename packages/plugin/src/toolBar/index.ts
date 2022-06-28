@@ -74,7 +74,7 @@ const getEventPath = (evt: MouseEvent) => {
 };
 
 export default class ToolBar extends Base {
-  constructor(config?: ToolBarConfig) {
+  constructor (config?: ToolBarConfig) {
     super(config);
   }
   public getDefaultCfgs(): ToolBarConfig {
@@ -161,7 +161,7 @@ export default class ToolBar extends Base {
       if (handleClick) {
         handleClick(code, graph);
       } else {
-        this.handleDefaultOperator(code, graph);
+        this.handleDefaultOperator(code);
       }
     });
 
@@ -393,12 +393,53 @@ export default class ToolBar extends Base {
   }
 
   /**
+   * zoomOut 操作
+   */
+  public zoomOut() {
+    const graph: IGraph = this.get('graph');
+    const currentZoom = graph.getZoom();
+    const ratioOut = 1 / (1 - DELTA * this.get('zoomSensitivity'));
+    const maxZoom = this.get('maxZoom') || graph.get('maxZoom');
+    if (ratioOut * currentZoom > maxZoom) {
+      return;
+    }
+    graph.zoomTo(currentZoom * ratioOut);
+  }
+  /**
+   * zoomIn 操作
+   */
+  public zoomIn() {
+    const graph: IGraph = this.get('graph');
+    const currentZoom = graph.getZoom();
+    const ratioIn = 1 - DELTA * this.get('zoomSensitivity');
+    const minZoom = this.get('minZoom') || graph.get('minZoom');
+    if (ratioIn * currentZoom < minZoom) {
+      return;
+    }
+    graph.zoomTo(currentZoom * ratioIn);
+  }
+  /**
+   * realZoom 操作
+   */
+  public realZoom() {
+    const graph: IGraph = this.get('graph');
+    graph.zoomTo(1);
+  }
+
+  /**
+   * autoZoom 操作
+   */
+  public autoZoom() {
+    const graph: IGraph = this.get('graph');
+    graph.fitView([20, 20]);
+  }
+
+  /**
    * 根据 Toolbar 上不同类型对图进行操作
    * @param code 操作类型编码
    * @param graph Graph 实例
    */
-  private handleDefaultOperator(code: string, graph: IGraph) {
-    const currentZoom = graph.getZoom();
+  public handleDefaultOperator(code: string) {
     switch (code) {
       case 'redo':
         this.redo();
@@ -406,29 +447,17 @@ export default class ToolBar extends Base {
       case 'undo':
         this.undo();
         break;
-      case 'zoomOut': {
-        const ratioOut = 1 / (1 - DELTA * this.get('zoomSensitivity'));
-        const maxZoom = this.get('maxZoom') || graph.get('maxZoom');
-        if (ratioOut * currentZoom > maxZoom) {
-          return;
-        }
-        graph.zoomTo(currentZoom * ratioOut);
+      case 'zoomOut':
+        this.zoomOut();
         break;
-      }
-      case 'zoomIn': {
-        const ratioIn = 1 - DELTA * this.get('zoomSensitivity');
-        const minZoom = this.get('minZoom') || graph.get('minZoom');
-        if (ratioIn * currentZoom < minZoom) {
-          return;
-        }
-        graph.zoomTo(currentZoom * ratioIn);
+      case 'zoomIn':
+        this.zoomIn();
         break;
-      }
       case 'realZoom':
-        graph.zoomTo(1);
+        this.realZoom();
         break;
       case 'autoZoom':
-        graph.fitView([20, 20]);
+        this.autoZoom();
         break;
       default:
     }

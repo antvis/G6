@@ -72,3 +72,27 @@ describe('Combo with fixSize and fixCollapseSize', () => {
     graph.destroy();
   });
 });
+
+describe('stack', () => {
+  const graph = new Graph({
+    container: div,
+    width: 500,
+    height: 500,
+    groupByTypes: false,
+    enabledStack: true,
+    modes: {
+      default: ['drag-node', 'drag-combo']
+    }
+  });
+  data.combos[0].collapsed = true;
+  graph.data(data);
+  graph.render();
+  it('initial collapsed and stack', () => {
+    expect(graph.getUndoStack().linkedList.head.value.action).toBe('render')
+  })
+  it('drag combo stack', () => {
+    graph.on('canvas:click', e => {
+      console.log('undoStack', graph.undoStack, graph.getUndoStack());
+    })
+  });
+});
