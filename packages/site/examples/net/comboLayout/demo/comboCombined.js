@@ -463,6 +463,8 @@ const data = {
 const comboChildrenCache = {};
 // cache the initial parent infomation
 const itemComboMap = {};
+// cache the initial node and combo info
+const itemMap = {};
 // cache the combo related edges
 const comboEdges = {};
 (data.nodes.concat(data.combos)).forEach(item => {
@@ -473,6 +475,7 @@ const comboEdges = {};
     comboChildrenCache[parentComboId].push(id);
     itemComboMap[id] = parentComboId;
   }
+  itemMap[id] = { ...item };
 });
 const comboIds = data.combos.map(combo => combo.id);
 data.edges.forEach(edge => {
@@ -484,6 +487,48 @@ data.edges.forEach(edge => {
     }
   })
 });
+
+// colorize the nodes and combos
+const subjectColors = [
+  '#5F95FF', // blue
+  '#61DDAA',
+  '#65789B',
+  '#F6BD16',
+  '#7262FD',
+  '#78D3F8',
+  '#9661BC',
+  '#F6903D',
+  '#008685',
+  '#F08BB4',
+];
+const backColor = '#fff';
+const theme = 'default';
+const disableColor = '#777';
+const colorSets = G6.Util.getColorSetsBySubjectColors(
+  subjectColors,
+  backColor,
+  theme,
+  disableColor,
+);
+data.combos.forEach((combo, i) => {
+  const color = colorSets[i % colorSets.length];
+  combo.style = {
+    stroke: color.mainStroke,
+    fill: color.mainFill,
+    opacity: 0.8
+  }
+  itemMap[combo.id].style = { ...combo.style }
+})
+data.nodes.forEach(node => {
+  const comboId = itemComboMap[node.id];
+  const parentCombo = itemMap[comboId];
+  if (parentCombo) {
+    node.style = {
+      stroke: parentCombo.style.stroke,
+      fill: parentCombo.style.fill
+    }
+  }
+})
 
 const contextMenu = new G6.Menu({
   itemTypes: ['combo', 'node'],
@@ -526,7 +571,9 @@ const contextMenu = new G6.Menu({
       const comboId = itemComboMap[id];
       if (comboId) {
         const childrenIds = comboChildrenCache[comboId].filter(cid => !!graph.findById(cid));
-        graph.createCombo(comboId, childrenIds);
+        graph.createCombo({
+          ...itemMap[comboId]
+        }, childrenIds);
         // add the related edges back
         comboEdges[comboId]?.forEach(edge => {
           const { source, target } = edge;
@@ -556,10 +603,13 @@ const graph = new G6.Graph({
   plugins: [contextMenu],
   layout: {
     type: 'comboCombined',
+    spacing: 5,
+    outerLayout: new G6.Layout['forceAtlas2']({
+      kr: 10
+    })
   },
   defaultNode: {
     size: 15,
-    color: '#5B8FF9',
     style: {
       lineWidth: 2,
       fill: '#C6E5FF',
@@ -581,10 +631,8 @@ const graph = new G6.Graph({
     default: ['drag-combo', 'drag-node', 'drag-canvas', 'zoom-canvas', 'collapse-expand-combo'],
   },
 });
-
 graph.data(data);
 graph.render();
-
 if (typeof window !== 'undefined')
   window.onresize = () => {
     if (!graph || graph.get('destroyed')) return;
