@@ -34,7 +34,7 @@ const singleNode: ShapeOptions = {
    * @return {Array} 宽高
    */
   getSize(cfg: ModelConfig): number[] {
-    let size: number | number[] = this.mergeStyle?.size || cfg.size || this.getOptions({})!.size || Global.defaultNode.size; // Global.defaultNode.size; //  
+    let size: number | number[] = this.mergeStyle?.size || cfg.size || this.getOptions({})!.size || Global.defaultNode.size; // Global.defaultNode.size; //
 
     // size 是数组，但长度为1，则补长度为2
     if (isArray(size) && size.length === 1) {
@@ -49,7 +49,7 @@ const singleNode: ShapeOptions = {
   },
   // 私有方法，不希望扩展的节点复写这个方法
   getLabelStyleByPosition(cfg: NodeConfig, labelCfg: ILabelConfig): LabelStyle {
-    const labelMaxLength = labelCfg.style?.maxLength;
+    const labelMaxLength = labelCfg.maxLength;
 
     let text = cfg!.label as string;
 
@@ -325,6 +325,7 @@ const singleNode: ShapeOptions = {
       } else {
         // 若传入了 show: false 则删除原先的 icon
         iconShape.remove();
+        delete group['shapeMap'][`${this.type}-icon`];
       }
     } else if (show) {
       // 如果原先不存在 icon，但传入了 show: true，则新增 icon

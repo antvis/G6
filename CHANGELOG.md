@@ -1,5 +1,34 @@
 # ChangeLog
 
+#### 4.6.10
+
+- feat: maxLength for labelCfg;
+- fix: custom layout warning and layout failed problem;
+- fix: upgrade layout to fix DagreLayoutOptions type error;
+- fix: upgrade layout to fix comboCombined with original node infomations problem;
+
+#### 4.6.8
+
+- fix: spelling error for 'nodeselectChange', closes: #3736;
+- fix: update node icon from show false to show true;
+- fix: afterrender should be emitted when the layout is not configured;
+- perf: update related edges while drag-combo;
+- feat: combo supports collapsedSubstituteIcon showing after collapsed;
+- feat: remove animations while first rendering with (collapsed)combos;
+- refactor: toolbar plugin functions;
+
+#### 4.6.6
+
+- fix: destroyLayout error, closes: #3727;
+- fix: drag combo with stack problem, closes: #3699;
+- fix: updateLayout does not take effect if update layout with same type as graph instance configuration,  closes: #3706;
+- fix: legendStateStyles typo, closes: #3705;
+- perf: zoom-canvas take the maximum and minimum values instead of return directly;
+- perf: minimap cursor move;
+- feat: fitView and fitCenter with animation;
+- feat: addItems to add multiple items into graph in the same time;
+- feat: enable edge selection in click-select;
+
 #### 4.6.4
 
 - chore: improve the types of graph events;

@@ -105,6 +105,8 @@ G6 的内置 Combo 包括 circle 和 rect 两种类型，分别如下图所示�
 | style | Object | false |  | 该 Combo 的样式配置项 |
 | label | string | false | 'Combo A' | 该 Combo 的文本标签 |
 | labelCfg | Object | false |  | 该 Combo 的文本标签样式配置项 |
+| collapsed | Boolean | false | false | 该 Combo 是否收起。在渲染前配置 collapsed: true 在 combo 数据中，初次渲染时将默认收起 |
+| collapsedSubstituteIcon | Object | false | { show: true } | *v4.6.8 起支持* 该 Combo 在收起状态下展示的图片 |
 
 ### 样式属性 style
 
@@ -184,6 +186,38 @@ const graph = new G6.Graph({
       style: {
         fill: '#666',
       },
+    },
+  },
+});
+```
+
+### 收起时的 Icon collapsedSubstituteIcon
+
+*v4.6.8 起支持* Object 类型。通过 `collapsedSubstituteIcon` 配置 Combo 在收起状态下，展示在中心的图片 Icon。下表是 `collapsedSubstituteIcon` 对象中常用的配置项：
+
+| 名称 | 是否必须 | 类型 | 备注 |
+| --- | --- | --- | --- |
+| show | false | Boolean | 是否展示，默认不展示 |
+| img | false | String | Icon 图片地址，默认为: <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RsnHRqLfJn4AAAAAAAAAAAAAARQnAQ' alt='download' width='50'/> |
+| width | false | Number | Icon 图片的宽度，不设置则将使用 Combo 收起时的宽度 |
+| height | false | Number | Icon 图片高度，不设置则将使用 Combo 收起时的高度 |
+
+
+下面代码演示在实例化图时全局配置方法中配置 `collapsedSubstituteIcon`：
+
+```javascript
+const graph = new G6.Graph({
+  container: 'mountNode',
+  width: 800,
+  height: 600,
+  // 必须将 groupByTypes 设置为 false，带有 combo 的图中元素的视觉层级才能合理
+  groupByTypes: false,
+  defaultCombo: {
+    // ... 其他属性
+    collapsedSubstituteIcon: {
+      show: true,
+      img: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IEQFS5VtXX8AAAAAAAAAAABkARQnAQ',
+      // ... 其他属性
     },
   },
 });

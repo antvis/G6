@@ -85,4 +85,37 @@ describe('layout mechanism', () => {
     expect((data.nodes[1] as any).y).toBe(10);
     console.log('data', data);
   });
+  it('update layout', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      layout: {
+        type: 'grid'
+      }
+    });
+    graph.data(data);
+    graph.render();
+    graph.updateLayout({
+      type: 'concentric'
+    })
+    expect(graph.get('layoutController').layoutType).toBe('concentric');
+    graph.updateLayout({
+      type: 'grid'
+    })
+    expect(graph.get('layoutController').layoutType).toBe('grid');
+  });
+  it('destroy layout', () => {
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      layout: {
+        type: 'force'
+      }
+    });
+    graph.data(data);
+    graph.render();
+    graph.destroyLayout();
+  });
 });

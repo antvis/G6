@@ -208,7 +208,7 @@ export default class Legend extends Base {
     }
 
     // 设置样式
-    const stateStyles = filter?.lengedStateStyles || {};
+    const stateStyles = filter?.legendStateStyles || {};
 
     const legendInactive = stateStyles?.inactive || {
       opacity: 0.5,

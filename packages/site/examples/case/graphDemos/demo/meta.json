@@ -5,6 +5,14 @@
   },
   "demos": [
     {
+      "filename": "graphinsight.js",
+      "title": {
+        "zh": "GraphInsight 案例",
+        "en": "GraphInsight Case"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_0d75e8/afts/img/A*eXL9T6xqPlUAAAAAAAAAAAAAARQnAQ"
+    },
+    {
       "filename": "largeGraph.js",
       "title": {
         "zh": "大规模图下钻式探索",

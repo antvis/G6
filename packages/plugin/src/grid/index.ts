@@ -28,8 +28,10 @@ export default class Grid extends Base {
     const graph: IGraph = this.get('graph');
     const graphContainer = graph.get<HTMLDivElement>('container');
     const canvas: HTMLDivElement = graph.get<ICanvas>('canvas').get('el');
-    const img = this.get('img') || GRID_PNG;
-
+    let img = this.get('img') || GRID_PNG;
+    if (!img.includes('url(')) {
+      img = `url("${img}")`
+    }
     const container: HTMLDivElement = createDom(
       `<div class='g6-grid-container' style="position:absolute;overflow:hidden;z-index: -1;"></div>`,
     );
@@ -92,9 +94,8 @@ export default class Grid extends Base {
     if (!matrix) matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
 
     const isFollow = this.get('follow');
-    const transform = `matrix(${matrix[0]}, ${matrix[1]}, ${matrix[3]}, ${matrix[4]}, ${
-      isFollow ? matrix[6] : '0'
-    }, ${isFollow ? matrix[7] : '0'})`;
+    const transform = `matrix(${matrix[0]}, ${matrix[1]}, ${matrix[3]}, ${matrix[4]}, ${isFollow ? matrix[6] : '0'
+      }, ${isFollow ? matrix[7] : '0'})`;
 
     modifyCSS(gridContainer, {
       transform,

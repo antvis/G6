@@ -119,7 +119,6 @@ Graphin 取名意为 Graph Insight（图的分析洞察），是一个基于 G6 
 - <a href='https://github.com/dappsnation/ng-antv' target='_blank'>基于 G6 和 Angular 实现的编辑器</a>
 - <a href='https://github.com/claudewowo/welabx-g6' target='_blank'>基于 G6 和 Vue 的流程图编辑器</a>
 
-
 ## G6 图可视化交流群
 
 欢迎各界 G6 使用者、图可视化爱好者加入 **G6 图可视化交流群** 及 **G6 图可视化交流二群**（钉钉群，使用钉钉扫一扫加入）讨论与交流。Graphin 的使用者，爱好者请加入 **Graphin's Group Chat**
@@ -143,7 +142,6 @@ Graphin 取名意为 Graph Insight（图的分析洞察），是一个基于 G6 
 ## 如何贡献
 
 请让我们知道您要解决或贡献什么，所以在贡献之前请先提交 <a href='https://github.com/antvis/g6/issues' target='_blank'>issues</a> 描述 bug 或建议。
-
 
 ## License
 

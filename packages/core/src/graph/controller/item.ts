@@ -171,6 +171,7 @@ export default class ItemController {
       item = new Combo({
         model,
         styles,
+        animate: false,
         bbox: model.collapsed ? getComboBBox([], graph) : comboBBox,
         group: comboGroup,
       });
@@ -182,16 +183,6 @@ export default class ItemController {
         (item as ICombo).addChild(childItem);
         child.depth = (comboModel.depth as number) + 2;
       });
-
-      // collapse the combo if the collapsed is true in the model
-      if (model.collapsed) {
-        setTimeout(() => {
-          if (!item.destroyed) {
-            graph.collapseCombo(item as ICombo);
-            graph.updateCombo(item as ICombo);
-          }
-        }, 0);
-      }
     }
 
     if (item) {
@@ -311,7 +302,7 @@ export default class ItemController {
         const comboAnimate =
           model.animate === undefined || cfg.animate === undefined
             ? shapeFactory[shapeType]?.options?.animate
-            : model.animate || cfg.animate;
+            : (model.animate || cfg.animate);
         if (comboAnimate) {
           setTimeout(() => {
             if (!item || (item as ICombo).destroyed) return;
@@ -429,17 +420,17 @@ export default class ItemController {
   /**
    * 收起 combo，隐藏相关元素
    */
-  public collapseCombo(combo: ICombo | string) {
+  public collapseCombo(combo: ICombo | string, stack: boolean = true) {
     const graph = this.graph;
     if (isString(combo)) {
       combo = graph.findById(combo) as ICombo;
     }
     const children = (combo as ICombo).getChildren();
     children.nodes.forEach((node) => {
-      graph.hideItem(node);
+      graph.hideItem(node, stack);
     });
     children.combos.forEach((c) => {
-      graph.hideItem(c);
+      graph.hideItem(c, stack);
     });
   }
 
@@ -478,20 +469,20 @@ export default class ItemController {
    * 展开 combo，相关元素出现
    * 若子 combo 原先是收起状态，则保持它的收起状态
    */
-  public expandCombo(combo: ICombo | string) {
+  public expandCombo(combo: ICombo | string, stack: boolean = true) {
     const graph = this.graph;
     if (isString(combo)) {
       combo = graph.findById(combo) as ICombo;
     }
     const children = (combo as ICombo).getChildren();
     children.nodes.forEach((node) => {
-      graph.showItem(node);
+      graph.showItem(node, stack);
     });
     children.combos.forEach((c) => {
       if (c.getModel().collapsed) {
         c.show();
       } else {
-        graph.showItem(c);
+        graph.showItem(c, stack);
       }
     });
   }

@@ -30,13 +30,6 @@ module.exports = {
         },
       },
       {
-        slug: 'graphmarker',
-        title: {
-          zh: '交互式文档',
-          en: 'GraphMarker',
-        },
-      },
-      {
         slug: 'docs/manual/introduction',
         title: {
           zh: '教程',
@@ -48,6 +41,13 @@ module.exports = {
         title: {
           zh: 'API',
           en: 'API',
+        },
+      },
+      {
+        slug: 'tools',
+        title: {
+          zh: '在线工具',
+          en: 'online tools',
         },
       },
       {

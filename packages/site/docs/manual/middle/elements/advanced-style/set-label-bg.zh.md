@@ -17,27 +17,31 @@ order: 0
 const graph = new G6.Graph({
   // ...
   defaultNode: {
-    position: 'left',
-    style: {
-      background: {
-        fill: '#ffffff',
-        stroke: 'green',
-        padding: [3, 2, 3, 2],
-        radius: 2,
-        lineWidth: 3,
+    labelCfg: {
+      position: 'left',
+      style: {
+        background: {
+          fill: '#ffffff',
+          stroke: 'green',
+          padding: [3, 2, 3, 2],
+          radius: 2,
+          lineWidth: 3,
+        },
       },
-    },
+    }
   },
   defaultEdge: {
-    autoRotate: true,
-    style: {
-      background: {
-        fill: '#ffffff',
-        stroke: '#000000',
-        padding: [2, 2, 2, 2],
-        radius: 2,
+    labelCfg: {
+      autoRotate: true,
+      style: {
+        background: {
+          fill: '#ffffff',
+          stroke: '#000000',
+          padding: [2, 2, 2, 2],
+          radius: 2,
+        },
       },
-    },
+    }
   }
 })
 ```

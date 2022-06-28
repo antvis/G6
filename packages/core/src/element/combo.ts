@@ -5,7 +5,7 @@
 import { IGroup, IShape } from '@antv/g-base';
 import { isArray, isNil, clone } from '@antv/util';
 import { ILabelConfig, ShapeOptions } from '../interface/shape';
-import { Item, LabelStyle, NodeConfig, ModelConfig, ShapeStyle } from '../types';
+import { Item, LabelStyle, ComboConfig, ModelConfig, ShapeStyle } from '../types';
 import Global from '../global';
 import Shape from './shape';
 import { shapeBase } from './shapeBase';
@@ -43,6 +43,10 @@ const singleCombo: ShapeOptions = {
     stateStyles: {
       ...Global.comboStateStyles,
     },
+    collapsedSubstituteIcon: {
+      show: false,
+      img: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RsnHRqLfJn4AAAAAAAAAAAAAARQnAQ'
+    }
   },
   /**
    * 获取 Combo 宽高
@@ -65,7 +69,7 @@ const singleCombo: ShapeOptions = {
     return size;
   },
   // 私有方法，不希望扩展的 Combo 复写这个方法
-  getLabelStyleByPosition(cfg: NodeConfig, labelCfg: ILabelConfig): LabelStyle {
+  getLabelStyleByPosition(cfg: ComboConfig, labelCfg: ILabelConfig): LabelStyle {
     const labelPosition = labelCfg.position || this.labelPosition;
     const { style: cfgStyle } = cfg;
     let padding: number | number[] = cfg.padding || this.options.padding;
@@ -130,7 +134,7 @@ const singleCombo: ShapeOptions = {
     style.text = cfg.label;
     return style;
   },
-  drawShape(cfg: NodeConfig, group: IGroup): IShape {
+  drawShape(cfg: ComboConfig, group: IGroup): IShape {
     const { shapeType } = this; // || this.type，都已经加了 shapeType
     const style = this.getShapeStyle!(cfg);
     const shape = group.addShape(shapeType, {
@@ -140,18 +144,59 @@ const singleCombo: ShapeOptions = {
     });
     return shape;
   },
-  updateShape(cfg: NodeConfig, item: Item, keyShapeStyle: ShapeStyle) {
+  updateCollapsedIcon(cfg: ComboConfig, item: Item, keyShapeStyle: ShapeStyle) {
+    const { collapsed, collapsedSubstituteIcon = {} } = cfg;
+    const subsitututeIconConfig = Object.assign({}, this.options.collapsedSubstituteIcon, collapsedSubstituteIcon)
+    const { show, img, width, height } = subsitututeIconConfig;
+    const group = item.getContainer();
+    const collapsedIconShape = group.find(ele => ele.get('name') === 'combo-collapsed-substitute-icon');
+    const iconShapeExist = collapsedIconShape && !collapsedIconShape.destroyed;
+    if (collapsed && show) {
+      if (iconShapeExist) {
+        collapsedIconShape.show();
+      } else {
+        const sizeAttr = {
+          width: width || keyShapeStyle.r * 2 || keyShapeStyle.width,
+          height: height || keyShapeStyle.r * 2 || keyShapeStyle.height,
+        }
+        group.addShape('image', {
+          attrs: {
+            img,
+            x: -sizeAttr.width / 2,
+            y: -sizeAttr.height / 2,
+            ...sizeAttr
+          },
+          name: 'combo-collapsed-substitute-icon',
+          draggable: true
+        });
+      }
+    } else if (iconShapeExist) {
+      collapsedIconShape.hide();
+    }
+  },
+  updateShape(cfg: ComboConfig, item: Item, keyShapeStyle: ShapeStyle) {
     const keyShape = item.get('keyShape');
-    const animate = cfg.animate === undefined ? this.options.animate : cfg.animate;
+    const itemAnimate = item.get('animate');
+    const animate = itemAnimate && (cfg.animate === undefined ? this.options.animate : cfg.animate);
     if (animate && keyShape.animate) {
+      // 更新到展开状态，先将 collapsedIcon 隐藏。否则在动画完成后再出现 collapsedIcon
+      if (!cfg.collapsed) {
+        this.updateCollapsedIcon(cfg, item, keyShapeStyle);
+      }
       keyShape.animate(keyShapeStyle, {
         duration: 200,
         easing: 'easeLinear',
+        callback: () => {
+          if (cfg.collapsed) {
+            this.updateCollapsedIcon(cfg, item, keyShapeStyle);
+          }
+        }
       });
     } else {
       keyShape.attr({
         ...keyShapeStyle,
       });
+      this.updateCollapsedIcon(cfg, item, keyShapeStyle);
     }
 
     (this as any).updateLabel(cfg, item);

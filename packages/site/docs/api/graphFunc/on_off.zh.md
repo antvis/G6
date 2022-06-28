@@ -18,8 +18,8 @@ order: 9
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| item | string | true | 被操作的 item |
-| target | Function | true | 被操作的具体[图形](/zh/docs/manual/middle/elements/shape-keyshape) |
+| item | Item | true | 被操作的 item |
+| target | Ishape | true | 被操作的具体[图形](/zh/docs/manual/middle/elements/shape-keyshape) |
 
 **用法**
 

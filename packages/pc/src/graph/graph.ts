@@ -214,11 +214,11 @@ export default class Graph extends AbstractGraph implements IGraph {
     } else {
       let imageData;
       const context = canvasDom.getContext('2d');
-      const width = this.get('width');
-      const height = this.get('height');
+      const width = Math.max(this.get('width'), 500);
+      const height = Math.max(this.get('height'), 500);
       let compositeOperation;
       if (backgroundColor) {
-        const pixelRatio = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
+        const pixelRatio = typeof window !== 'undefined' ? (window.devicePixelRatio || 1) : 1;
         try {
           imageData = context.getImageData(0, 0, width * pixelRatio, height * pixelRatio);
           compositeOperation = context.globalCompositeOperation;

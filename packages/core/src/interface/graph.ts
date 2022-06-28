@@ -21,6 +21,7 @@ import {
   IG6GraphEvent,
   IPoint,
   FitViewRules,
+  G6Event
 } from '../types';
 import { IEdge, INode, ICombo } from './item';
 import Hull from '../item/hull';
@@ -518,19 +519,19 @@ export interface IAbstractGraph extends EventEmitter {
    * 收起指定的 Combo
    * @param comboId combo ID 或 combo 实例
    */
-  collapseCombo: (combo: string | ICombo) => void;
+  collapseCombo: (combo: string | ICombo, stack?: boolean) => void;
 
   /**
    * 展开指定的 Combo
    * @param combo combo ID 或 combo 实例
    */
-  expandCombo: (combo: string | ICombo) => void;
+  expandCombo: (combo: string | ICombo, stack?: boolean) => void;
 
   /**
    * 展开或收缩指定的 Combo
    * @param comboId combo ID 或 combo 实例
    */
-  collapseExpandCombo: (combo: string | ICombo) => void;
+  collapseExpandCombo: (combo: string | ICombo, stack?: boolean) => void;
 
   /**
    * 根据节点的 bbox 更新所有 combos 的绘制，包括 combos 的位置和范围
@@ -625,12 +626,12 @@ export interface IAbstractGraph extends EventEmitter {
   /**
    * 重新定义监听函数，复写参数类型
    */
-  on: <T = IG6GraphEvent>(eventName: string, callback: (e: T) => void, once?: boolean) => this;
+  on: <T = IG6GraphEvent>(eventName: G6Event, callback: (e: T) => void, once?: boolean) => this;
 
   /**
    * 移除指定的監聽函數
    */
-  off: <T = IG6GraphEvent>(eventName: string, callback: (e: T) => void, once?: boolean) => this;
+  off: <T = IG6GraphEvent>(eventName: G6Event, callback: (e: T) => void, once?: boolean) => this;
 
 
   /**
