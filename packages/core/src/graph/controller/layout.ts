@@ -211,7 +211,7 @@ export default abstract class LayoutController {
 
     let start = Promise.resolve();
     layoutMethods?.forEach((layoutMethod: any, index: number) => {
-      const currentCfg = layoutCfg[index];
+      const currentCfg = layoutCfg[index] || layoutCfg;
       start = start.then(() => this.reLayoutMethod(layoutMethod, currentCfg));
     });
 
