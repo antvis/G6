@@ -1932,7 +1932,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
           return true;
         }
         const childItem = itemMap[child.id];
-        if (childItem && childItem.getType && childItem.getType() === 'combo') {
+        if (childItem?.getType?.() === 'combo') {
           // 更新具体的 Combo 之前先清除所有的已有状态，以免将 state 中的样式更新为 Combo 的样式
           const states = [...childItem.getStates()];
           each(states, state => this.setItemState(childItem, state, false));

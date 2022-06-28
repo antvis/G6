@@ -404,15 +404,7 @@ export default class ItemController {
     for (let i = 0; i < combEdges.length; i++) {
       const edge = combEdges[i];
       if (edge && !edge.destroyed) {
-        const edgeSF = edge.get('shapeFactory');
-        const edgeCfg = edge.getShapeCfg(edge.getModel());
-        const edgeGroup = edge.getContainer();
-        edgeGroup.clear();
-        const keyShape = edgeSF.draw(edgeCfg.type, edgeCfg, edgeGroup);
-        edge.set('keyShape', keyShape);
-        keyShape.set('isKeyShape', true);
-        keyShape.set('draggable', true);
-        edge.setOriginStyle()
+        edge.refresh();
       }
     }
   }
