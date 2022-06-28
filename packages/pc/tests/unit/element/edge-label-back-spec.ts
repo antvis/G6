@@ -136,12 +136,12 @@ describe('text background label', () => {
       }, 30);
     }, 100)
   });
-  it('text background with autoRotate false and clearItemStates', () => {
+  it('text background with autoRotate false and clearItemStates', (done) => {
     let edge = graph.getEdges()[0];
     let labelBgShape = edge.getContainer().get('children')[1];
     let { x, y } = labelBgShape.attr();
-    expect(labelBgShape.attr().x).toBe(176.85302734375);
-    expect(labelBgShape.attr().y).toBe(116);
+    expect(x).toBe(176.85302734375);
+    expect(y).toBe(116);
 
     graph.updateItem(graph.getNodes()[0], {
       x: graph.getNodes()[0].getModel().x + 100,
@@ -150,8 +150,11 @@ describe('text background label', () => {
     graph.clearItemStates(edge, ['active']);
 
     labelBgShape = edge.getContainer().get('children')[1];
-    const { x: newX, y: newY } = labelBgShape.attr();
-    expect(numberEqual(newX, 226, 2)).toBe(true);
-    expect(numberEqual(newY, 166, 2)).toBe(true);
+    setTimeout(() => {
+      const { x: newX, y: newY } = labelBgShape.attr();
+      expect(numberEqual(newX, 226, 2)).toBe(true);
+      expect(numberEqual(newY, 166, 2)).toBe(true);
+      done()
+    }, 16);
   });
 });
