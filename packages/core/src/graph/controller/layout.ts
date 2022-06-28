@@ -212,18 +212,14 @@ export default abstract class LayoutController {
     let start = Promise.resolve();
     layoutMethods?.forEach((layoutMethod: any, index: number) => {
       const currentCfg = layoutCfg[index] || layoutCfg;
-      start = start.then(() => this.reLayoutMethod(layoutMethod, currentCfg));
+      start = start.then(() => {
+        const relayoutPromise = this.reLayoutMethod(layoutMethod, currentCfg);
+        if (index === layoutMethods.length - 1) {
+          layoutCfg.onAllLayoutEnd?.();
+        }
+        return relayoutPromise;
+      });
     });
-
-    if (layoutMethods?.length) {
-      start
-        .then(() => {
-          if (layoutCfg.onAllLayoutEnd) layoutCfg.onAllLayoutEnd();
-        })
-        .catch((error) => {
-          console.warn('relayout failed', error);
-        });
-    }
   }
 
   // 筛选参与布局的nodes和edges

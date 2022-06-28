@@ -5,6 +5,14 @@
   },
   "demos": [
     {
+      "filename": "arrowAnimate.js",
+      "title": {
+        "zh": "箭头沿边运动",
+        "en": "Running Arrow"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KZNLQrnz3o0AAAAAAAAAAAAAARQnAQ"
+    },
+    {
       "filename": "pointInLine.js",
       "title": {
         "zh": "圆点沿边运动",
