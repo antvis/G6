@@ -1,6 +1,6 @@
 # ChangeLog
 
-#### 4.6.9
+#### 4.6.10
 
 - feat: maxLength for labelCfg;
 - fix: custom layout warning and layout failed problem;

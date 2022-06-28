@@ -185,7 +185,7 @@ export type MobileInteractionEventType = MobileInteractionEvent;
  * @example
  * https://g6.antv.vision/en/docs/api/Event#combo-interaction-event
  */
-export type G6Event = NodeEventType | EdgeEventType | ComboEventType | CanvasEventType | GraphTimingEventType | MobileInteractionEventType | CommonInteractionEvent | CommonInteractionEvent;
+export type G6Event = NodeEventType | EdgeEventType | ComboEventType | CanvasEventType | GraphTimingEventType | MobileInteractionEventType | CommonInteractionEvent | CommonInteractionEvent | (string & {});
 
 export interface IG6GraphEvent extends GraphEvent {
   item: Item | null;
