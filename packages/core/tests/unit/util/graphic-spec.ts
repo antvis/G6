@@ -1,4 +1,4 @@
-import { traverseTree, traverseTreeUp, getTextSize } from '../../../src/util/graphic';
+import { traverseTree, traverseTreeUp, getTextSize, truncateLabelByLength } from '../../../src/util/graphic';
 
 interface TreeNode {
   id: string;
@@ -88,5 +88,23 @@ describe('graphic unit test', () => {
 
     result = getTextSize('体验技术', 14);
     expect(result).toEqual([56, 14]);
+  });
+
+  it('truncateLabelByLength' ,() => {
+    const label = 'This is a test label';
+    let length = 5;
+
+    let result = truncateLabelByLength(label, length);
+    expect(result).toEqual(label.substring(0, 5) + '...');
+
+    length = 100;
+
+    result = truncateLabelByLength(label, length);
+    expect(result).toEqual(label);
+
+    length = -1;
+
+    result = truncateLabelByLength(label, length);
+    expect(result).toEqual(label);
   });
 });

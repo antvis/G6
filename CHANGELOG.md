@@ -1,5 +1,12 @@
 # ChangeLog
 
+#### 4.6.10
+
+- feat: maxLength for labelCfg;
+- fix: custom layout warning and layout failed problem;
+- fix: upgrade layout to fix DagreLayoutOptions type error;
+- fix: upgrade layout to fix comboCombined with original node infomations problem;
+
 #### 4.6.8
 
 - fix: spelling error for 'nodeselectChange', closes: #3736;

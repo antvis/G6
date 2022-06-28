@@ -21,6 +21,7 @@ import {
   IG6GraphEvent,
   IPoint,
   FitViewRules,
+  G6Event
 } from '../types';
 import { IEdge, INode, ICombo } from './item';
 import Hull from '../item/hull';
@@ -625,12 +626,12 @@ export interface IAbstractGraph extends EventEmitter {
   /**
    * 重新定义监听函数，复写参数类型
    */
-  on: <T = IG6GraphEvent>(eventName: string, callback: (e: T) => void, once?: boolean) => this;
+  on: <T = IG6GraphEvent>(eventName: G6Event, callback: (e: T) => void, once?: boolean) => this;
 
   /**
    * 移除指定的監聽函數
    */
-  off: <T = IG6GraphEvent>(eventName: string, callback: (e: T) => void, once?: boolean) => this;
+  off: <T = IG6GraphEvent>(eventName: G6Event, callback: (e: T) => void, once?: boolean) => this;
 
 
   /**
