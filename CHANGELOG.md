@@ -4,6 +4,7 @@
 
 - fix: star node with leftBottom linkPoint show and hide problem;
 - fix: relayout does not execute onAllLayoutEnd problem;
+- fix: combo edge state update problem, closes: #3639;
 
 #### 4.6.10
 
