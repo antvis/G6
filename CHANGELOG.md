@@ -2,6 +2,7 @@
 
 #### 4.6.9
 
+- feat: maxLength for labelCfg;
 - fix: custom layout warning and layout failed problem;
 - fix: upgrade layout to fix DagreLayoutOptions type error;
 - fix: upgrade layout to fix comboCombined with original node infomations problem;
