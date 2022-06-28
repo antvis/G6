@@ -307,12 +307,12 @@ registerNode(
       const { left, right, top, leftBottom, rightBottom } = cfg.linkPoints
         ? cfg.linkPoints
         : {
-            left: undefined,
-            right: undefined,
-            top: undefined,
-            leftBottom: undefined,
-            rightBottom: undefined,
-          };
+          left: undefined,
+          right: undefined,
+          top: undefined,
+          leftBottom: undefined,
+          rightBottom: undefined,
+        };
 
       const size = (this as ShapeOptions).getSize!(cfg);
       const outerR = size[0];
@@ -431,7 +431,7 @@ registerNode(
       y = Math.sin(((18 + 72 * 4) / 180) * Math.PI) * outerR;
       if (markRightBottom) {
         if (!rightBottom && rightBottom !== undefined) {
-          markLeftBottom.remove();
+          markRightBottom.remove();
           delete group['shapeMap']['link-point-right-bottom'];
         } else {
           markRightBottom.attr({

@@ -1,5 +1,10 @@
 # ChangeLog
 
+#### 4.6.11
+
+- fix: star node with leftBottom linkPoint show and hide problem;
+- fix: relayout does not execute onAllLayoutEnd problem;
+
 #### 4.6.10
 
 - feat: maxLength for labelCfg;
