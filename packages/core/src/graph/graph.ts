@@ -1262,7 +1262,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     // Add undefined as a placeholder for the next cycle. This way we return items matching the input order
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
-      if (item.type !== 'edge') {
+      if (item.type !== 'edge' && item.type !== 'vedge') {
         returnItems.push(this.innerAddItem(item.type, item.model, itemController));
       } else {
         returnItems.push(undefined);
@@ -1272,7 +1272,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     // 2. add all the edges
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
-      if (item.type === 'edge') {
+      if (item.type === 'edge' || item.type === 'vedge') {
         returnItems[i] = this.innerAddItem(item.type, item.model, itemController);
       }
     }
@@ -1478,9 +1478,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
     this.emit('beforerender');
 
-    each(nodes, (node: NodeConfig) => {
-      self.add('node', node, false, false);
-    });
+    self.addItems(
+      nodes.map(node => ({ type: 'node', model: node })),
+      false,
+      false
+    );
 
     // process the data to tree structure
     if (combos?.length !== 0) {
@@ -1490,9 +1492,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       self.addCombos(combos);
     }
 
-    each(edges, (edge: EdgeConfig) => {
-      self.add('edge', edge, false, false);
-    });
+    self.addItems(
+      edges.map(edge => ({ type: 'edge', model: edge })),
+      false,
+      false
+    );
 
 
     const animate = self.get('animate');
@@ -2567,8 +2571,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const edges = this.getEdges().concat(this.get('vedges'));
 
     // find all the descendant nodes and combos
-    let cnodes = [];
-    let ccombos = [];
+    let cNodesCombos = [];
     const comboTrees = this.get('comboTrees');
     let found = false;
     (comboTrees || []).forEach(ctree => {
@@ -2582,110 +2585,77 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
           // if the combo is found, concat the descendant nodes and combos
           const item = this.findById(subTree.id) as ICombo;
           if (item && item.getType && item.getType() === 'combo') {
-            cnodes = cnodes.concat(item.getNodes());
-            ccombos = ccombos.concat(item.getCombos());
+            cNodesCombos = cNodesCombos.concat(item.getNodes());
+            cNodesCombos = cNodesCombos.concat(item.getCombos());
           }
         }
         return true;
       });
     });
 
-    const edgeWeightMap = {};
-    const addedVEdges = [];
+    const addedVEdgeMap = {};
     edges.forEach(edge => {
-      if (edge.isVisible() && !edge.getModel().isVEdge) return;
+      const { isVEdge, size = 1 } = edge.getModel();
+      if (edge.isVisible() && !isVEdge) return;
       let source = edge.getSource();
       let target = edge.getTarget();
-      if (
-        ((cnodes.includes(source) || ccombos.includes(source)) &&
-          !cnodes.includes(target) &&
-          !ccombos.includes(target)) ||
-        source.getModel().id === comboModel.id
+      let otherEnd = null;
+      let otherEndIsSource;
+      if (source.getModel().id === comboModel.id ||
+        (cNodesCombos.includes(source) && !cNodesCombos.includes(target))) {
+        // source is the current combo, or descent node/combo is the source but not the target)
+        otherEnd = target;
+        otherEndIsSource = false;
+      } else if (target.getModel().id === comboModel.id ||
+        (!cNodesCombos.includes(source) && cNodesCombos.includes(target))
       ) {
-        const edgeModel = edge.getModel();
-        if (edgeModel.isVEdge) {
+        // target is the current combo, or descent node/combo is the target but not the source)
+        otherEnd = source;
+        otherEndIsSource = true;
+      }
+
+      if (otherEnd) {
+        if (isVEdge) {
           this.removeItem(edge, false);
           return;
         }
-
-        let targetModel = target.getModel();
-        while (!target.isVisible()) {
-          target = this.findById(
-            (targetModel.parentId as string) || (targetModel.comboId as string),
-          ) as ICombo;
-          if (!target || (!targetModel.parentId && !targetModel.comboId)) return; // all the ancestors are hidden, then ignore the edge
-          targetModel = target.getModel();
+        let otherEndModel = otherEnd.getModel();
+        while (!otherEnd.isVisible()) {
+          const { parentId: otherEndPId, comboId: otherEndCId } = otherEndModel;
+          const otherEndParentId = otherEndPId || otherEndCId;
+          otherEnd = this.findById(otherEndParentId) as ICombo;
+          if (!otherEnd || !otherEndParentId) return; // all the ancestors are hidden, then ignore the edge
+          otherEndModel = otherEnd.getModel();
         }
 
-        const targetId = targetModel.id;
+        const otherEndId = otherEndModel.id;
 
-        if (edgeWeightMap[`${comboModel.id}-${targetId}`]) {
-          edgeWeightMap[`${comboModel.id}-${targetId}`] += edgeModel.size || 1;
+        const vEdgeInfo = otherEndIsSource ? {
+          source: otherEndId,
+          target: comboModel.id,
+          size,
+          isVEdge: true,
+        } : {
+          source: comboModel.id,
+          target: otherEndId,
+          size,
+          isVEdge: true,
+        };
+        const key = `${vEdgeInfo.source}-${vEdgeInfo.target}`;
+        if (addedVEdgeMap[key]) {
+          addedVEdgeMap[key].size += size;
           return;
         }
-        // the source is in the combo, the target is not
-        const vedge = this.addItem(
-          'vedge',
-          {
-            source: comboModel.id,
-            target: targetId,
-            isVEdge: true,
-          },
-          false,
-        );
-        edgeWeightMap[`${comboModel.id}-${targetId}`] = edgeModel.size || 1;
-        addedVEdges.push(vedge);
-      } else if (
-        (!cnodes.includes(source) &&
-          !ccombos.includes(source) &&
-          (cnodes.includes(target) || ccombos.includes(target))) ||
-        target.getModel().id === comboModel.id
-      ) {
-        const edgeModel = edge.getModel();
-        if (edgeModel.isVEdge) {
-          this.removeItem(edge, false);
-          return;
-        }
-        let sourceModel = source.getModel();
-        while (!source.isVisible()) {
-          source = this.findById(
-            (sourceModel.parentId as string) || (sourceModel.comboId as string),
-          ) as ICombo;
-          if (!source || (!sourceModel.parentId && !sourceModel.comboId)) return; // all the ancestors are hidden, then ignore the edge
-          sourceModel = source.getModel();
-        }
-        const sourceId = sourceModel.id;
-        if (edgeWeightMap[`${sourceId}-${comboModel.id}`]) {
-          edgeWeightMap[`${sourceId}-${comboModel.id}`] += edgeModel.size || 1;
-          return;
-        }
-        // the target is in the combo, the source is not
-        const vedge = this.addItem(
-          'vedge',
-          {
-            target: comboModel.id,
-            source: sourceId,
-            isVEdge: true,
-          },
-          false,
-        );
-        edgeWeightMap[`${sourceId}-${comboModel.id}`] = edgeModel.size || 1;
-        addedVEdges.push(vedge);
+        addedVEdgeMap[key] = vEdgeInfo;
       }
     });
 
     // update the width of the virtual edges, which is the sum of merged actual edges
     // be attention that the actual edges with same endpoints but different directions will be represented by two different virtual edges
-    addedVEdges.forEach(vedge => {
-      const vedgeModel = vedge.getModel();
-      this.updateItem(
-        vedge,
-        {
-          size: edgeWeightMap[`${vedgeModel.source}-${vedgeModel.target}`],
-        },
-        false,
-      );
-    });
+    this.addItems(
+      Object.values(addedVEdgeMap).map(edgeInfo => ({ type: 'vedge', model: edgeInfo as EdgeConfig })),
+      false
+    );
     this.emit('aftercollapseexpandcombo', { action: 'collapse', item: combo });
   }
 
@@ -2713,8 +2683,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const edges = this.getEdges().concat(this.get('vedges'));
 
     // find all the descendant nodes and combos
-    let cnodes = [];
-    let ccombos = [];
+    let cNodesCombos = [];
     const comboTrees = this.get('comboTrees');
     let found = false;
     (comboTrees || []).forEach(ctree => {
@@ -2726,173 +2695,107 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         if (found) {
           const item = this.findById(subTree.id) as ICombo;
           if (item && item.getType && item.getType() === 'combo') {
-            cnodes = cnodes.concat(item.getNodes());
-            ccombos = ccombos.concat(item.getCombos());
+            cNodesCombos = cNodesCombos.concat(item.getNodes());
+            cNodesCombos = cNodesCombos.concat(item.getCombos());
           }
         }
         return true;
       });
     });
 
-    const edgeWeightMap = {};
-    const addedVEdges = {};
+    const addedVEdgeMap = {};
     edges.forEach(edge => {
       if (edge.isVisible() && !edge.getModel().isVEdge) return;
       let source = edge.getSource();
       let target = edge.getTarget();
       let sourceId = source.get('id');
       let targetId = target.get('id');
-      if (
-        ((cnodes.includes(source) || ccombos.includes(source)) &&
-          !cnodes.includes(target) &&
-          !ccombos.includes(target)) ||
-        sourceId === comboModel.id
+      let otherEnd = null;
+      let otherEndIsSource;
+      if (sourceId === comboModel.id ||
+        (cNodesCombos.includes(source) && !cNodesCombos.includes(target))
       ) {
         // the source is in the combo, the target is not
-
-        // ignore the virtual edges
-        if (edge.getModel().isVEdge) {
-          this.removeItem(edge, false);
-          return;
-        }
-
-        let targetModel = target.getModel();
-        // find the nearest visible ancestor
-        while (!target.isVisible()) {
-          target = this.findById(
-            (targetModel.comboId as string) || (targetModel.parentId as string),
-          ) as ICombo;
-          if (!target || (!targetModel.parentId && !targetModel.comboId)) {
-            return; // if all the ancestors of the oppsite are all hidden, ignore the edge
-          }
-          targetModel = target.getModel();
-        }
-        targetId = targetModel.id;
-
-        let sourceModel = source.getModel();
-        // find the nearest visible ancestor
-        while (!source.isVisible()) {
-          source = this.findById(
-            (sourceModel.comboId as string) || (sourceModel.parentId as string),
-          ) as ICombo;
-          if (!source || (!sourceModel.parentId && !sourceModel.comboId)) {
-            return; // if all the ancestors of the oppsite are all hidden, ignore the edge
-          }
-          if (sourceModel.comboId === comboModel.id || sourceModel.parentId === comboModel.id) {
-            break; // if the next ancestor is the combo, break the while
-          }
-          sourceModel = source.getModel();
-        }
-        sourceId = sourceModel.id;
-
-        if (targetId) {
-          const vedgeId = `${sourceId}-${targetId}`;
-          // update the width of the virtual edges, which is the sum of merged actual edges
-          // be attention that the actual edges with same endpoints but different directions will be represented by two different virtual edges
-          if (edgeWeightMap[vedgeId]) {
-            edgeWeightMap[vedgeId] += edge.getModel().size || 1;
-            this.updateItem(
-              addedVEdges[vedgeId],
-              {
-                size: edgeWeightMap[vedgeId],
-              },
-              false,
-            );
-            return;
-          }
-          const vedge = this.addItem(
-            'vedge',
-            {
-              source: sourceId,
-              target: targetId,
-              isVEdge: true,
-            },
-            false,
-          );
-
-          edgeWeightMap[vedgeId] = edge.getModel().size || 1;
-          addedVEdges[vedgeId] = vedge;
-        }
-      } else if (
-        (!cnodes.includes(source) &&
-          !ccombos.includes(source) &&
-          (cnodes.includes(target) || ccombos.includes(target))) ||
-        targetId === comboModel.id
+        otherEnd = target;
+        otherEndIsSource = false;
+      } else if (targetId === comboModel.id ||
+        (!cNodesCombos.includes(source) && (cNodesCombos.includes(target)))
       ) {
         // the target is in the combo, the source is not
-
-        // ignore the virtual edges
-        if (edge.getModel().isVEdge) {
-          this.removeItem(edge, false);
-          return;
-        }
-
-        let sourceModel = source.getModel();
-        // find the nearest visible ancestor
-        while (!source.isVisible()) {
-          source = this.findById(
-            (sourceModel.comboId as string) || (sourceModel.parentId as string),
-          ) as ICombo;
-          if (!source || (!sourceModel.parentId && !sourceModel.comboId)) {
-            return; // if all the ancestors of the oppsite are all hidden, ignore the edge
-          }
-          sourceModel = source.getModel();
-        }
-        sourceId = sourceModel.id;
-
-        let targetModel = target.getModel();
-        // find the nearest visible ancestor
-        while (!target.isVisible()) {
-          target = this.findById(
-            (targetModel.comboId as string) || (targetModel.parentId as string),
-          ) as ICombo;
-          if (!target || (!targetModel.parentId && !targetModel.comboId)) {
-            return; // if all the ancestors of the oppsite are all hidden, ignore the edge
-          }
-          if (targetModel.comboId === comboModel.id || targetModel.parentId === comboModel.id) {
-            break; // if the next ancestor is the combo, break the while
-          }
-          targetModel = target.getModel();
-        }
-        targetId = targetModel.id;
-
-        if (sourceId) {
-          const vedgeId = `${sourceId}-${targetId}`;
-          // update the width of the virtual edges, which is the sum of merged actual edges
-          // be attention that the actual edges with same endpoints but different directions will be represented by two different virtual edges
-          if (edgeWeightMap[vedgeId]) {
-            edgeWeightMap[vedgeId] += edge.getModel().size || 1;
-            this.updateItem(
-              addedVEdges[vedgeId],
-              {
-                size: edgeWeightMap[vedgeId],
-              },
-              false,
-            );
-            return;
-          }
-          const vedge = this.addItem(
-            'vedge',
-            {
-              target: targetId,
-              source: sourceId,
-              isVEdge: true,
-            },
-            false,
-          );
-          edgeWeightMap[vedgeId] = edge.getModel().size || 1;
-          addedVEdges[vedgeId] = vedge;
-        }
-      } else if (
-        (cnodes.includes(source) || ccombos.includes(source)) &&
-        (cnodes.includes(target) || ccombos.includes(target))
-      ) {
+        otherEnd = source;
+        otherEndIsSource = true;
+      } else if (cNodesCombos.includes(source) && cNodesCombos.includes(target)) {
         // both source and target are in the combo, if the target and source are both visible, show the edge
         if (source.isVisible() && target.isVisible()) {
           edge.show();
         }
       }
+
+      if (otherEnd) {
+        const { isVEdge, size = 1 } = edge.getModel();
+        // ignore the virtual edges
+        if (isVEdge) {
+          this.removeItem(edge, false);
+          return;
+        }
+
+        let otherEndModel = otherEnd.getModel();
+        // find the nearest visible ancestor
+        while (!otherEnd.isVisible()) {
+          const { parentId: otherEndPId, comboId: otherEndCId } = otherEndModel;
+          const otherEndParentId = otherEndPId || otherEndCId;
+          otherEnd = this.findById(otherEndParentId) as ICombo;
+          if (!otherEnd || !otherEndParentId) {
+            return; // if all the ancestors of the oppsite are all hidden, ignore the edge
+          }
+          otherEndModel = otherEnd.getModel();
+        }
+        const otherEndId = otherEndModel.id;
+
+        let selfEnd = otherEndIsSource ? target : source;
+        let selfEndModel = selfEnd.getModel();
+        // find the nearest visible ancestor
+        while (!selfEnd.isVisible()) {
+          const { parentId: selfEndPId, comboId: selfEndCId } = otherEndModel;
+          const selfEndParentId = selfEndPId || selfEndCId;
+          selfEnd = this.findById(selfEndParentId) as ICombo;
+          if (!selfEnd || !selfEndParentId) {
+            return; // if all the ancestors of the oppsite are all hidden, ignore the edge
+          }
+          if (selfEndModel.comboId === comboModel.id || selfEndModel.parentId === comboModel.id) {
+            break; // if the next ancestor is the combo, break the while
+          }
+          selfEndModel = selfEnd.getModel();
+        }
+        const selfEndId = selfEndModel.id;
+
+        if (otherEndId) {
+          const vEdgeInfo = otherEndIsSource ? {
+            source: otherEndId,
+            target: selfEndId,
+            isVEdge: true,
+            size
+          } : {
+            source: selfEndId,
+            target: otherEndId,
+            isVEdge: true,
+            size
+          }
+          const vedgeId = `${vEdgeInfo.source}-${vEdgeInfo.target}`;
+          // update the width of the virtual edges, which is the sum of merged actual edges
+          // be attention that the actual edges with same endpoints but different directions will be represented by two different virtual edges
+          if (addedVEdgeMap[vedgeId]) {
+            addedVEdgeMap[vedgeId].size += size;
+            return;
+          }
+          addedVEdgeMap[vedgeId] = vEdgeInfo;
+        }
+      }
     });
+    this.addItems(
+      Object.values(addedVEdgeMap).map(edgeInfo => ({ type: 'vedge', model: edgeInfo as EdgeConfig })),
+      false
+    )
     this.emit('aftercollapseexpandcombo', { action: 'expand', item: combo });
   }
 
