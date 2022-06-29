@@ -1,5 +1,9 @@
 # ChangeLog
 
+#### 4.6.12
+
+- perf: optimize the performance of combo graph first rendering;
+
 #### 4.6.11
 
 - fix: star node with leftBottom linkPoint show and hide problem;
