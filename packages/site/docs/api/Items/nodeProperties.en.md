@@ -47,7 +47,7 @@ The interactions of the node and related edges. It can be null. [0, 0] represent
 
 <description> _Object_ **optional** </description>
 
-The node style. `style` is an object to configure the filling color, stroke color, shadow, and so on. Please refer to: [Shape Properties](/en/docs/api/shapeProperties.zh.md)。
+The node style. `style` is an object to configure the filling color, stroke color, shadow, and so on. Please refer to: [Shape Properties](/en/docs/api/shapeProperties)。
 
 ### label
 

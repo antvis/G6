@@ -141,7 +141,7 @@ graph.moveTo(200, 300, true, {
 });
 ```
 
-### graph.fitView(padding)
+### graph.fitView(padding, rules, animate, animateCfg)
 
 Fit the graph to the view port.
 
@@ -151,6 +151,8 @@ Fit the graph to the view port.
 | --- | --- | --- | --- | --- | --- | --- |
 | padding | Number / Array | false | The padding of [top, right, bottom, left]. |
 | rules | { onlyOutOfViewPort?: boolean; direction?: 'x' / 'y' / 'both'; ratioRule?: 'max' / 'min} | false | rules of fitView |
+| animate | boolean | false | _Supported by v4.6.15._ Whether move the graph with animation. If it is not assigned, animates following the graph's `animate`. |
+| animateCfg | Object | false | _Supported by v4.6.15._ The animation's configuraiton. Its configurations can be found in [Basic Animation Docs](/en/docs/manual/middle/animation). If it is not assigned, animates following the graph's `animateCfg`. |
 
 **Usage**
 
@@ -177,6 +179,13 @@ graph.fitView(0, { onlyOutOfViewPort: true, direction: 'y' });
 ### graph.fitCenter()
 
 _Supported by v3.5.1._ Translate the graph to align its center with the canvas.
+
+**Parameters**
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- | --- | --- | --- |
+| animate | boolean | false | _Supported by v4.6.15._ Whether move the graph with animation. If it is not assigned, animates following the graph's `animate`. |
+| animateCfg | Object | false | _Supported by v4.6.15._ The animation's configuraiton. Its configurations can be found in [Basic Animation Docs](/en/docs/manual/middle/animation). If it is not assigned, animates following the graph's `animateCfg`. |
 
 **Usage**
 
