@@ -1,11 +1,11 @@
 import { AbstractCanvas } from '@antv/g-base';
 import { Point, IGroup } from '@antv/g-base';
 import { isNumber, isString } from '@antv/util';
-import { modifyCSS } from '@antv/dom-util';
 import { Item, Matrix, Padding, GraphAnimateConfig, IEdge, FitViewRules } from '../../types';
 import { formatPadding } from '../../util/base';
 import { applyMatrix, invertMatrix } from '../../util/math';
 import { IAbstractGraph } from '../../interface/graph';
+import { getAnimateCfgWithCallback } from '../../util/graphic';
 
 export default class ViewController {
   private graph: IAbstractGraph;
@@ -62,15 +62,30 @@ export default class ViewController {
       y: bbox.y + bbox.height / 2,
     };
 
-    graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y, animate, animateCfg);
-    const w = (width - padding[1] - padding[3]) / bbox.width;
-    const h = (height - padding[0] - padding[2]) / bbox.height;
-    let ratio = w;
-    if (w > h) {
-      ratio = h;
+    function doZoom(viewCenter, animate, animateCfg) {
+      const w = (width - padding[1] - padding[3]) / bbox.width;
+      const h = (height - padding[0] - padding[2]) / bbox.height;
+      let ratio = w;
+      if (w > h) {
+        ratio = h;
+      }
+
+      if (!graph.zoom(ratio, viewCenter, animate, animateCfg)) {
+        console.warn('zoom failed, ratio out of range, ratio: %f', ratio);
+      }
     }
-    if (!graph.zoom(ratio, viewCenter)) {
-      console.warn('zoom failed, ratio out of range, ratio: %f', ratio);
+
+    if (animate) {
+      const animateConfig = getAnimateCfgWithCallback({
+        animateCfg,
+        callback: () => {
+          doZoom(viewCenter, animate, animateCfg);
+        }
+      });
+      graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y, animate, animateConfig);
+    } else {
+      graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y);
+      doZoom(viewCenter, animate, animateCfg);
     }
   }
 
@@ -97,32 +112,44 @@ export default class ViewController {
       y: bbox.y + bbox.height / 2,
     };
 
-    graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y, animate, animateCfg);
-    const wRatio = (width - padding[1] - padding[3]) / bbox.width;
-    const hRatio = (height - padding[0] - padding[2]) / bbox.height;
-    let ratio;
-    if (direction === 'x') {
-      ratio = wRatio;
-    } else if (direction === 'y') {
-      ratio = hRatio;
-    } else {
-      // ratioRule
-      ratio = ratioRule === 'max' ? Math.max(wRatio, hRatio) : Math.min(wRatio, hRatio);
-    }
-    // 如果设置了仅对超出视口宽高的场景进行fitview，则没超出的场景zoom取1
-    if (onlyOutOfViewPort) {
-      ratio = ratio < 1 ? ratio : 1;
+    function doZoom(bbox, padding, onlyOutOfViewPort, graph, animate, animateCfg) {
+      const wRatio = (width - padding[1] - padding[3]) / bbox.width;
+      const hRatio = (height - padding[0] - padding[2]) / bbox.height;
+      let ratio;
+      if (direction === 'x') {
+        ratio = wRatio;
+      } else if (direction === 'y') {
+        ratio = hRatio;
+      } else {
+        // ratioRule
+        ratio = ratioRule === 'max' ? Math.max(wRatio, hRatio) : Math.min(wRatio, hRatio);
+      }
+      // 如果设置了仅对超出视口宽高的场景进行fitview，则没超出的场景zoom取1
+      if (onlyOutOfViewPort) {
+        ratio = ratio < 1 ? ratio : 1;
+      }
+
+      const initZoomRatio = graph.getZoom();
+      let endZoom = initZoomRatio * ratio;
+      const minZoom = graph.get('minZoom');
+      // 如果zoom小于最小zoom, 则以最小zoom为准
+      if (endZoom < minZoom) {
+        endZoom = minZoom;
+        console.warn('fitview failed, ratio out of range, ratio: %f', ratio, 'graph minzoom has been used instead');
+      }
+      graph.zoomTo(endZoom, viewCenter, animate, animateCfg);
     }
 
-    const initZoomRatio = graph.getZoom();
-    let endZoom = initZoomRatio * ratio;
-    const minZoom = graph.get('minZoom');
-    // 如果zoom小于最小zoom, 则以最小zoom为准
-    if (endZoom < minZoom) {
-      endZoom = minZoom;
-      console.warn('fitview failed, ratio out of range, ratio: %f', ratio, 'graph minzoom has been used instead');
+    if (animate) {
+      const animateConfig = getAnimateCfgWithCallback({
+        animateCfg,
+        callback: () => { doZoom(bbox, padding, onlyOutOfViewPort, graph, animate, animateCfg); }
+      });
+      graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y, animate, animateConfig);
+    } else {
+      graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y);
+      doZoom(bbox, padding, onlyOutOfViewPort, graph, animate, animateCfg);
     }
-    graph.zoomTo(endZoom, viewCenter, animate, animateCfg);
   }
 
   public getFormatPadding(): number[] {

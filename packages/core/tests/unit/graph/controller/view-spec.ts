@@ -113,8 +113,8 @@ describe('view', () => {
   });
   it('focus edge', () => {
     const data = {
-      nodes: [{id: '1', x: 10, y: 10}, {id: '2', x: 25, y: 40}, {id: '3', x: -50, y: 80}],
-      edges: [{source: '1', target: '2'}, {source: '1', target: '3'}]
+      nodes: [{ id: '1', x: 10, y: 10 }, { id: '2', x: 25, y: 40 }, { id: '3', x: -50, y: 80 }],
+      edges: [{ source: '1', target: '2' }, { source: '1', target: '3' }]
     }
     const g = new Graph({
       container: div,
@@ -122,7 +122,7 @@ describe('view', () => {
       height: 500,
     })
     g.read(data);
-    g.get('canvas').get('el').style.backgroundColor='#ccc';
+    g.get('canvas').get('el').style.backgroundColor = '#ccc';
     g.zoom(2, { x: 10, y: 10 });
     g.focusItem(g.getEdges()[0]);
     let centerPoint = g.getPointByCanvas(250, 250);
@@ -185,6 +185,16 @@ describe('fitViewByRules, not out of viewport', () => {
     expect(bboxAfterFitView.width).toEqual(bbox.width);
     expect(bboxAfterFitView.height).toEqual(bbox.height);
   });
+  it('fitViewByRules, not out of viewport, custom rules, animated', async () => {
+    graph.fitView(0, { onlyOutOfViewPort: true }, true, { duration: 10 });
+    await new Promise((r) => setTimeout(r, 50));
+    const bboxAfterFitView = graph.get('canvas').getCanvasBBox();
+    expect(graph.getZoom()).toEqual(1);
+    expect(numberEqual(bboxAfterFitView.x, 100, 1)).toBe(true);
+    expect(numberEqual(bboxAfterFitView.y, 150, 1)).toBe(true);
+    expect(bboxAfterFitView.width).toEqual(bbox.width);
+    expect(bboxAfterFitView.height).toEqual(bbox.height);
+  });
 });
 
 describe('fitViewByRules, out of viewport', () => {
@@ -233,6 +243,16 @@ describe('fitViewByRules, out of viewport', () => {
   });
   it('fitViewByRules, out of viewport, custom rules', () => {
     graph.fitView(0, { onlyOutOfViewPort: true, direction: 'y' });
+    const bbox = graph.get('canvas').getCanvasBBox();
+    expect(numberEqual(graph.getZoom(), 0.28, 0.01)).toBe(true);
+    expect(numberEqual(bbox.x, -18, 1)).toBe(true);
+    expect(numberEqual(bbox.y, 10, 1)).toBe(true);
+    expect(numberEqual(bbox.width, 536, 1)).toBe(true);
+    expect(numberEqual(bbox.height, 480, 1)).toBe(true);
+  });
+  it('fitViewByRules, out of viewport, custom rules, animated', async () => {
+    graph.fitView(0, { onlyOutOfViewPort: true, direction: 'y' }, true, { duration: 10 });
+    await new Promise((r) => setTimeout(r, 50));
     const bbox = graph.get('canvas').getCanvasBBox();
     expect(numberEqual(graph.getZoom(), 0.28, 0.01)).toBe(true);
     expect(numberEqual(bbox.x, -18, 1)).toBe(true);
