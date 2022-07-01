@@ -2837,7 +2837,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   protected sortCombos = debounce(
     () => {
       const comboSorted = this.get('comboSorted');
-      if (comboSorted) return;
+      if (!this || this.destroyed || comboSorted) return;
       this.set('comboSorted', true);
       const depthMap = [];
       const dataDepthMap = {};

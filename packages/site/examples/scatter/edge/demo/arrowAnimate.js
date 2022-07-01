@@ -1,10 +1,7 @@
 import G6 from "@antv/g6";
 import { ext } from "@antv/matrix-util";
-// import {getLabelPosition} from '@antv/g6/util'
 
-const { getLabelPosition } = G6.Util;
-console.log("getLabelPosition", getLabelPosition);
-const transform = ext.transform;
+const { getLabelPosition, transform } = G6.Util;
 
 G6.registerEdge(
   "arrow-running",

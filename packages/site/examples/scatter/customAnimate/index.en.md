@@ -1,6 +1,6 @@
 ---
 title: Custom Animation
-order: 5
+order: 6
 ---
 
 Configuration `animateCfg` of `Graph` is designed for global animation.
