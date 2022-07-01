@@ -43,6 +43,7 @@ interface GroupProps {
 export type CommonProps = GroupProps & EventAttrs;
 
 const Group: React.FC<GroupProps> = (props) => {
+  // @ts-ignore
   const { children, ...rest } = props;
   return (
     <div

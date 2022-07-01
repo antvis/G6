@@ -50,6 +50,7 @@ interface PathProps extends CommonProps {
 }
 
 const Path: React.FC<PathProps> = (props) => {
+  // @ts-ignore
   const { children, ...rest } = props;
 
   return (

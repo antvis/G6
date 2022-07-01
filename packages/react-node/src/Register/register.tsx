@@ -1,6 +1,12 @@
 import React, { ReactElement } from 'react';
-import { Item, ModelConfig, ShapeOptions } from '@antv/g6-core/lib';
-import { IGroup } from '@antv/g-base';
+import {
+  INode,
+  IEdge,
+  ICombo,
+  ModelConfig,
+  ShapeOptions,
+} from '@antv/g6-core/lib';
+import { IGroup, IShape } from '@antv/g-base';
 import getShapeFromReact from '@/Register/getDataFromReactNode';
 import getPositionUsingYoga, {
   LayoutedNode,
@@ -27,20 +33,22 @@ const renderTarget = (target: LayoutedNode, group: any) => {
       },
       ...props,
     });
-    keyshape = shape;
+    if (props.keyShape) {
+      keyshape = shape;
+    }
     animateShapeWithConfig(shape, props.animation);
   } else {
     g = group.addGroup(props);
-    keyshape = g;
+    if (!keyshape) {
+      keyshape = g;
+    }
   }
 
   if (target.children) {
     const keyshapes = target.children
-      .map((n) => renderTarget(n, g))
-      .filter((e) => e);
-    if (keyshapes.length) {
-      keyshape = keyshapes.pop();
-    }
+      .map(n => renderTarget(n, g))
+      .filter(e => e);
+    keyshape = keyshapes.find(shape => !shape.isGroup()) || keyshape;
   }
   return keyshape;
 };
@@ -92,23 +100,26 @@ const diffTarget = (container: IGroup, shapeArr: LayoutedNode[]) => {
   }
 };
 
-export function createNodeFromReact(Component: React.FC<{ cfg: ModelConfig }>) {
+export function createNodeFromReact(
+  Component: React.FC<{ cfg: ModelConfig }>,
+): { [key: string]: any } {
   const compileXML = (cfg: ModelConfig) =>
     registerNodeReact(<Component cfg={cfg} />);
 
   return {
-    draw(cfg: ModelConfig, fatherGroup: any) {
+    draw(cfg: ModelConfig | undefined, fatherGroup: IGroup | undefined) {
       const resultTarget = compileXML(cfg || {});
-      let keyshape = fatherGroup;
-      keyshape = renderTarget(resultTarget, fatherGroup);
+      const keyshape: IShape = renderTarget(resultTarget, fatherGroup);
       return keyshape;
     },
-    update(cfg: ModelConfig, node: Item) {
+    update(cfg: ModelConfig, node: INode | IEdge | ICombo | undefined) {
       const resultTarget = compileXML(cfg || {});
-      const nodeGroup = node.getContainer();
-      const realTarget = getRealStructure(resultTarget);
+      if (node) {
+        const nodeGroup = node.getContainer();
+        const realTarget = getRealStructure(resultTarget);
 
-      diffTarget(nodeGroup, realTarget);
+        diffTarget(nodeGroup, realTarget);
+      }
     },
     getAnchorPoints() {
       return [
@@ -118,5 +129,5 @@ export function createNodeFromReact(Component: React.FC<{ cfg: ModelConfig }>) {
         [0.5, 0],
       ];
     },
-  } as ShapeOptions;
+  };
 }
