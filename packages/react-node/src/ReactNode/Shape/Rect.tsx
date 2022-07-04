@@ -28,6 +28,7 @@ interface RectProps extends CommonProps {
 }
 
 const Rect: React.FC<RectProps> = (props) => {
+  // @ts-ignore
   const { children, ...rest } = props;
 
   return (

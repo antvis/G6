@@ -62,14 +62,28 @@ export default class ViewController {
       y: bbox.y + bbox.height / 2,
     };
 
-    graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y, animate, animateCfg);
+    let animateConfig = animateCfg;
+    if (animate) {
+      animateConfig = {
+        ...(animateCfg || {
+          duration: 500,
+          easing: 'easeCubic'
+        }),
+        callback: () => {
+          graph.zoom(ratio, viewCenter, true, animateCfg);
+          animateCfg?.callback?.();
+        }
+      }
+    }
+
     const w = (width - padding[1] - padding[3]) / bbox.width;
     const h = (height - padding[0] - padding[2]) / bbox.height;
     let ratio = w;
     if (w > h) {
       ratio = h;
     }
-    if (!graph.zoom(ratio, viewCenter)) {
+    graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y, animate, animateConfig);
+    if (!animate && !graph.zoom(ratio, viewCenter)) {
       console.warn('zoom failed, ratio out of range, ratio: %f', ratio);
     }
   }

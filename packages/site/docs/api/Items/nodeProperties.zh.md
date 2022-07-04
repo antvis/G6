@@ -47,7 +47,7 @@ y 坐标。
 
 <description> _Object_ **optional** </description>
 
-通过 `style` 配置来修改节点关键图形的填充色、边框颜色、阴影等属性，具体配置属性见：[图形样式属性](/zh/docs/api/shapeProperties.zh.md)。
+通过 `style` 配置来修改节点关键图形的填充色、边框颜色、阴影等属性，具体配置属性见：[图形样式属性](/zh/docs/api/shapeProperties)。
 
 ### label
 

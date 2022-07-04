@@ -1,5 +1,5 @@
 import { IShape } from '@antv/g-base';
-import { IAbstractGraph, IG6GraphEvent, Item } from '@antv/g6-pc';
+import { IAbstractGraph, IG6GraphEvent, Item } from '@antv/g6-core';
 
 export type ShapeEventListner = (
   event: IG6GraphEvent,

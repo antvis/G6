@@ -15,7 +15,7 @@ const getShapeFromReact = (REl: ReactElement): RawNode => {
   if (typeof REl.type === 'string') {
     const data = REl.props['data-attr'] || {};
     const { style: attrs = {}, type, ...props } = data;
-    const { children: ochildren } = REl.props;
+    let { children: ochildren } = REl.props;
     if (type === 'text') {
       attrs.text = ochildren.join ? ochildren.join('') : ochildren;
       return {
@@ -29,6 +29,7 @@ const getShapeFromReact = (REl: ReactElement): RawNode => {
     if (typeof ochildren === 'object' && ochildren?.length) {
       children = ochildren
         .filter((e: any) => !!e)
+        .reduce((a: any, b: any) => a.concat(b.concat ? b : [b]), [])
         .map((e: ReactElement) => getShapeFromReact(e));
     } else if (ochildren) {
       children = [getShapeFromReact(ochildren)];

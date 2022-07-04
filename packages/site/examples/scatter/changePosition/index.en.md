@@ -1,6 +1,6 @@
 ---
 title: Node Move Animation
-order: 4
+order: 5
 ---
 
 Change the node positions by `changeData` method is a simple way to realize the node animation.

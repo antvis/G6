@@ -13,12 +13,12 @@ export interface MarkerStyle extends CommonShapeProps {
    * @description.zh-CN 内建标记 或者 生成标记路径的函数
    */
   symbol:
-    | 'circle'
-    | 'square'
-    | 'diamond'
-    | 'triangle'
-    | 'triangle-down'
-    | ((x: number, y: number, r: number) => GPath[]);
+  | 'circle'
+  | 'square'
+  | 'diamond'
+  | 'triangle'
+  | 'triangle-down'
+  | ((x: number, y: number, r: number) => GPath[]);
 }
 
 interface MarkerProps extends CommonProps {
@@ -29,6 +29,7 @@ interface MarkerProps extends CommonProps {
 }
 
 const Marker: React.FC<MarkerProps> = (props) => {
+  // @ts-ignore
   const { children, ...rest } = props;
 
   return (

@@ -18,6 +18,7 @@ interface PolygonProps extends CommonProps {
 }
 
 const Polygon: React.FC<PolygonProps> = (props) => {
+  // @ts-ignore
   const { children, ...rest } = props;
 
   return (

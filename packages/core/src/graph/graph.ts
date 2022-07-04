@@ -1,7 +1,7 @@
 import EventEmitter from '@antv/event-emitter';
 import { ICanvas, IGroup, Point } from '@antv/g-base';
 import { ext } from '@antv/matrix-util';
-import { clone, deepMix, each, isPlainObject, isString } from '@antv/util';
+import { clone, deepMix, each, isPlainObject, isString, debounce } from '@antv/util';
 import {
   getDegree,
   getAdjMatrix as getAdjacentMatrix,
@@ -1277,9 +1277,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       }
     }
 
-    const combos = this.get('combos');
-    if (combos && combos.length > 0) {
-      this.sortCombos();
+    if (sortCombo) {
+      const combos = this.get('combos');
+      if (combos && combos.length > 0) {
+        this.sortCombos();
+      }
     }
 
     this.autoPaint();
@@ -2832,38 +2834,42 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * 根据 comboTree 结构整理 Combo 相关的图形绘制层级，包括 Combo 本身、节点、边
    * @param {GraphData} data 数据
    */
-  protected sortCombos() {
-    const comboSorted = this.get('comboSorted');
-    if (comboSorted) return;
-    this.set('comboSorted', true);
-    const depthMap = [];
-    const dataDepthMap = {};
-    const comboTrees = this.get('comboTrees');
-    (comboTrees || []).forEach(cTree => {
-      traverseTree(cTree, child => {
-        if (depthMap[child.depth]) depthMap[child.depth].push(child.id);
-        else depthMap[child.depth] = [child.id];
-        dataDepthMap[child.id] = child.depth;
-        return true;
+  protected sortCombos = debounce(
+    () => {
+      const comboSorted = this.get('comboSorted');
+      if (!this || this.destroyed || comboSorted) return;
+      this.set('comboSorted', true);
+      const depthMap = [];
+      const dataDepthMap = {};
+      const comboTrees = this.get('comboTrees');
+      (comboTrees || []).forEach(cTree => {
+        traverseTree(cTree, child => {
+          if (depthMap[child.depth]) depthMap[child.depth].push(child.id);
+          else depthMap[child.depth] = [child.id];
+          dataDepthMap[child.id] = child.depth;
+          return true;
+        });
       });
-    });
-    const edges = this.getEdges().concat(this.get('vedges'));
-    (edges || []).forEach(edgeItem => {
-      const edge = edgeItem.getModel();
-      const sourceDepth: number = dataDepthMap[edge.source as string] || 0;
-      const targetDepth: number = dataDepthMap[edge.target as string] || 0;
-      const depth = Math.max(sourceDepth, targetDepth);
-      if (depthMap[depth]) depthMap[depth].push(edge.id);
-      else depthMap[depth] = [edge.id];
-    });
-    depthMap.forEach(array => {
-      if (!array || !array.length) return;
-      for (let i = array.length - 1; i >= 0; i--) {
-        const item = this.findById(array[i]);
-        if (item) item.toFront();
-      }
-    });
-  }
+      const edges = this.getEdges().concat(this.get('vedges'));
+      (edges || []).forEach(edgeItem => {
+        const edge = edgeItem.getModel();
+        const sourceDepth: number = dataDepthMap[edge.source as string] || 0;
+        const targetDepth: number = dataDepthMap[edge.target as string] || 0;
+        const depth = Math.max(sourceDepth, targetDepth);
+        if (depthMap[depth]) depthMap[depth].push(edge.id);
+        else depthMap[depth] = [edge.id];
+      });
+      depthMap.forEach(array => {
+        if (!array || !array.length) return;
+        for (let i = array.length - 1; i >= 0; i--) {
+          const item = this.findById(array[i]);
+          if (item) item.toFront();
+        }
+      });
+    },
+    500,
+    false
+  )
 
   /**
    * 获取节点所有的邻居节点
