@@ -547,8 +547,12 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * @param {string} state 状态
    * @return {object} 元素实例
    */
-  public findAllByState<T extends Item>(type: ITEM_TYPE, state: string): T[] {
-    return this.findAll(type, item => item.hasState(state));
+  public findAllByState<T extends Item>(type: ITEM_TYPE, state: string, additionalFilter?: (item: Item) => boolean): T[] {
+    if (additionalFilter) {
+      return this.findAll(type, item => item.hasState(state) && additionalFilter(item));
+    } else {
+      return this.findAll(type, item => item.hasState(state))
+    }
   }
 
   /**
