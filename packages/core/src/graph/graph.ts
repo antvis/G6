@@ -551,7 +551,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     if (additionalFilter) {
       return this.findAll(type, item => item.hasState(state) && additionalFilter(item));
     } else {
-      return this.findAll(type, item => item.hasState(state))
+      return this.findAll(type, item => item.hasState(state));
     }
   }
 
@@ -605,7 +605,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     }
 
     const viewController: ViewController = this.get('viewController');
-  
+
     if (rules) {
       viewController.fitViewByRules(rules);
     } else {
@@ -2837,9 +2837,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const stackData = data
       ? clone(data)
       : {
-          before: {},
-          after: clone(this.save()),
-        };
+        before: {},
+        after: clone(this.save()),
+      };
 
     if (stackType === 'redo') {
       this.redoStack.push({
