@@ -551,7 +551,7 @@ describe('graph', () => {
     const selectedNodes = globalGraph.findAllByState('node', 'selected', additionalFilter);
 
     expect(selectedNodes.length).toEqual(1);
-  })
+  });
 
   it('refresh positions', () => {
     const data = { id: 'node4', x: 100, y: 50, size: 50, className: 'test test2' };
