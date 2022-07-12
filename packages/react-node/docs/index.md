@@ -30,7 +30,7 @@ const ReactNode = ({ cfg = {} }) => {
             stroke: cfg.color,
             justyfyContent: 'center',
           }}
-          draggable="true"
+          draggable
         >
           <Text
             style={{
@@ -113,7 +113,7 @@ const ReactNode = ({ cfg = {} }) => {
             stroke: cfg.color,
             justyfyContent: 'center',
           }}
-          draggable="true"
+          draggable
         >
           <Text
             style={{
