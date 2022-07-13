@@ -37,7 +37,7 @@ import { lerp, move } from '../util/math';
 import { dataValidation, singleDataValidation } from '../util/validation';
 import Global from '../global';
 import { ItemController, ModeController, StateController, ViewController } from './controller';
-import { plainCombosToTrees, traverseTree, reconstructTree, traverseTreeUp } from '../util/graphic';
+import { plainCombosToTrees, traverseTree, reconstructTree, traverseTreeUp, getAnimateCfgWithCallback } from '../util/graphic';
 import Hull from '../item/hull';
 
 const { transform } = ext;
@@ -557,34 +557,6 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     return this.findAll(type, item => item.hasState(state));
   }
 
-  private getAnimateCfgWithCallback({
-    animateCfg,
-    callback
-  }: {
-    animateCfg: GraphAnimateConfig;
-    callback: () => void;
-  }): GraphAnimateConfig {
-    let animateConfig: GraphAnimateConfig;
-    if (!animateCfg) {
-      animateConfig = {
-        duration: 500,
-        callback
-      };
-    } else {
-      animateConfig = clone(animateCfg);
-      if (animateCfg.callback) {
-        const animateCfgCallback = animateCfg.callback;
-        animateConfig.callback = () => {
-          callback();
-          animateCfgCallback();
-        }
-      } else {
-        animateConfig.callback = callback;
-      }
-    }
-    return animateConfig;
-  }
-
   /**
    * 平移画布
    * @param dx 水平方向位移
@@ -600,7 +572,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
     }
     if (animate) {
-      const animateConfig = this.getAnimateCfgWithCallback({
+      const animateConfig = getAnimateCfgWithCallback({
         animateCfg,
         callback: () => this.emit('viewportchange', { action: 'translate', matrix: group.getMatrix() })
       });
@@ -760,7 +732,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       const initialRatio = aniMatrix[0];
       const targetRatio = initialRatio * ratio;
 
-      const animateConfig = this.getAnimateCfgWithCallback({
+      const animateConfig = getAnimateCfgWithCallback({
         animateCfg,
         callback: () => this.emit('viewportchange', { action: 'zoom', matrix: group.getMatrix() })
       });
