@@ -38,6 +38,11 @@ interface GroupProps {
    * @description.zh-CN 动画设置
    */
   animation?: Partial<AnimationConfig>;
+  /**
+   * @description.en-US Nodes wrapped within the component
+   * @description.zh-CN 组件内包装的节点
+   */
+  children?: React.ReactNode;
 }
 
 export type CommonProps = GroupProps & EventAttrs;
