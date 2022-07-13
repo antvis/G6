@@ -28,7 +28,7 @@ const ReactNode = ({ cfg = {} }) => {
             radius: [6, 6, 0, 0],
             cursor: 'move',
             stroke: cfg.color,
-            justyfyContent: 'center',
+            justifyContent: 'center',
           }}
           draggable
         >
@@ -111,7 +111,7 @@ const ReactNode = ({ cfg = {} }) => {
             radius: [6, 6, 0, 0],
             cursor: 'move',
             stroke: cfg.color,
-            justyfyContent: 'center',
+            justifyContent: 'center',
           }}
           draggable
         >
