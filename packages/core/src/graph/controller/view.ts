@@ -4,8 +4,10 @@ import { isNumber, isString } from '@antv/util';
 import { modifyCSS } from '@antv/dom-util';
 import { Item, Matrix, Padding, GraphAnimateConfig, IEdge, FitViewRules } from '../../types';
 import { formatPadding } from '../../util/base';
-import { applyMatrix, invertMatrix } from '../../util/math';
+import { applyMatrix, invertMatrix, lerpArray } from '../../util/math';
 import { IAbstractGraph } from '../../interface/graph';
+import { transform } from '@antv/matrix-util/lib/ext';
+import { getAnimateCfgWithCallback } from '../../util/graphic';
 
 export default class ViewController {
   private graph: IAbstractGraph;
@@ -51,6 +53,7 @@ export default class ViewController {
     const width: number = graph.get('width');
     const height: number = graph.get('height');
     const group: IGroup = graph.get('group');
+    const startMatrix = group.getMatrix() || [1, 0, 0, 0, 1, 0, 0, 0, 1];
     group.resetMatrix();
     const bbox = group.getCanvasBBox();
 
@@ -62,15 +65,59 @@ export default class ViewController {
       y: bbox.y + bbox.height / 2,
     };
 
-    graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y, animate, animateCfg);
+    // Compute ratio
     const w = (width - padding[1] - padding[3]) / bbox.width;
     const h = (height - padding[0] - padding[2]) / bbox.height;
     let ratio = w;
     if (w > h) {
       ratio = h;
     }
-    if (!graph.zoom(ratio, viewCenter)) {
-      console.warn('zoom failed, ratio out of range, ratio: %f', ratio);
+
+    if (animate) {
+      animateCfg = animateCfg ? animateCfg : { duration: 500, easing: 'easeCubic' };
+      // start from the default matrix
+      const matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
+
+      // Translate
+      const vx = bbox.x + viewCenter.x - groupCenter.x - bbox.minX;
+      const vy = bbox.y + viewCenter.y - groupCenter.y - bbox.minY;
+      const translatedMatrix = transform(matrix, [['t', vx, vy]]);
+
+      // Zoom
+      const minZoom: number = graph.get('minZoom');
+      const maxZoom: number = graph.get('maxZoom');
+
+      const zoomedMatrix = transform(translatedMatrix, [
+        ['t', -viewCenter.x, -viewCenter.y],
+        ['s', ratio, ratio],
+        ['t', viewCenter.x, viewCenter.y],
+      ]);
+
+      if ((minZoom && zoomedMatrix[0] < minZoom) || (maxZoom && zoomedMatrix[0] > maxZoom)) {
+        // If zooming fails restore the initial matrix
+        group.setMatrix(startMatrix);
+        console.warn('zoom failed, ratio out of range, ratio: %f', ratio);
+        return;
+      }
+
+      const animationConfig = getAnimateCfgWithCallback({
+        animateCfg,
+        callback: () => {
+          graph.emit('viewportchange', { action: 'translate', matrix: translatedMatrix });
+          graph.emit('viewportchange', { action: 'zoom', matrix: zoomedMatrix });
+        }
+      });
+
+      // Animate with lerp
+      group.animate((ratio: number) => {
+        return { matrix: lerpArray(startMatrix, zoomedMatrix, ratio) };
+      }, animationConfig);
+    } else {
+      graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y);
+
+      if (!graph.zoom(ratio, viewCenter)) {
+        console.warn('zoom failed, ratio out of range, ratio: %f', ratio);
+      }
     }
   }
 
