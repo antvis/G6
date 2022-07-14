@@ -1,4 +1,4 @@
-import { AbstractCanvas } from '@antv/g-base';
+import { AbstractCanvas, BBox } from '@antv/g-base';
 import { Point, IGroup } from '@antv/g-base';
 import { isNumber, isString } from '@antv/util';
 import { modifyCSS } from '@antv/dom-util';
@@ -46,6 +46,51 @@ export default class ViewController {
     graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y, animate, animateCfg);
   }
 
+  private animatedFitView(group: IGroup, startMatrix: number[], animateCfg: GraphAnimateConfig, bbox: BBox, viewCenter: Point, groupCenter: Point, ratio: number): void {
+    const { graph } = this;
+    animateCfg = animateCfg ? animateCfg : { duration: 500, easing: 'easeCubic' };
+
+    // start from the default matrix
+    const matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
+
+    // Translate
+    const vx = bbox.x + viewCenter.x - groupCenter.x - bbox.minX;
+    const vy = bbox.y + viewCenter.y - groupCenter.y - bbox.minY;
+    const translatedMatrix = transform(matrix, [['t', vx, vy]]);
+
+    // Zoom
+    const zoomedMatrix = transform(translatedMatrix, [
+      ['t', -viewCenter.x, -viewCenter.y],
+      ['s', ratio, ratio],
+      ['t', viewCenter.x, viewCenter.y],
+    ]);
+
+    // Zoom
+    const minZoom: number = graph.get('minZoom');
+    const maxZoom: number = graph.get('maxZoom');
+
+    if (minZoom && zoomedMatrix[0] < minZoom) {
+      zoomedMatrix[0] = minZoom;
+      console.warn('fitview failed, ratio out of range, ratio: %f', ratio, 'graph minzoom has been used instead');
+    } else if (maxZoom && zoomedMatrix[0] > maxZoom) {
+      zoomedMatrix[0] = maxZoom;
+      console.warn('fitview failed, ratio out of range, ratio: %f', ratio, 'graph maxzoom has been used instead');
+    }
+
+    const animationConfig = getAnimateCfgWithCallback({
+      animateCfg,
+      callback: () => {
+        graph.emit('viewportchange', { action: 'translate', matrix: translatedMatrix });
+        graph.emit('viewportchange', { action: 'zoom', matrix: zoomedMatrix });
+      }
+    });
+
+    // Animate with lerp
+    group.animate((ratio: number) => {
+      return { matrix: lerpArray(startMatrix, zoomedMatrix, ratio) };
+    }, animationConfig);
+  }
+
   // fit view graph
   public fitView(animate?: boolean, animateCfg?: GraphAnimateConfig) {
     const { graph } = this;
@@ -74,44 +119,7 @@ export default class ViewController {
     }
 
     if (animate) {
-      animateCfg = animateCfg ? animateCfg : { duration: 500, easing: 'easeCubic' };
-      // start from the default matrix
-      const matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
-
-      // Translate
-      const vx = bbox.x + viewCenter.x - groupCenter.x - bbox.minX;
-      const vy = bbox.y + viewCenter.y - groupCenter.y - bbox.minY;
-      const translatedMatrix = transform(matrix, [['t', vx, vy]]);
-
-      // Zoom
-      const minZoom: number = graph.get('minZoom');
-      const maxZoom: number = graph.get('maxZoom');
-
-      const zoomedMatrix = transform(translatedMatrix, [
-        ['t', -viewCenter.x, -viewCenter.y],
-        ['s', ratio, ratio],
-        ['t', viewCenter.x, viewCenter.y],
-      ]);
-
-      if ((minZoom && zoomedMatrix[0] < minZoom) || (maxZoom && zoomedMatrix[0] > maxZoom)) {
-        // If zooming fails restore the initial matrix
-        group.setMatrix(startMatrix);
-        console.warn('zoom failed, ratio out of range, ratio: %f', ratio);
-        return;
-      }
-
-      const animationConfig = getAnimateCfgWithCallback({
-        animateCfg,
-        callback: () => {
-          graph.emit('viewportchange', { action: 'translate', matrix: translatedMatrix });
-          graph.emit('viewportchange', { action: 'zoom', matrix: zoomedMatrix });
-        }
-      });
-
-      // Animate with lerp
-      group.animate((ratio: number) => {
-        return { matrix: lerpArray(startMatrix, zoomedMatrix, ratio) };
-      }, animationConfig);
+      this.animatedFitView(group, startMatrix, animateCfg, bbox, viewCenter, groupCenter, ratio);
     } else {
       graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y);
 
@@ -133,6 +141,7 @@ export default class ViewController {
     const width: number = graph.get('width');
     const height: number = graph.get('height');
     const group: IGroup = graph.get('group');
+    const startMatrix = group.getMatrix() || [1, 0, 0, 0, 1, 0, 0, 0, 1];
     group.resetMatrix();
     const bbox = group.getCanvasBBox();
 
@@ -144,7 +153,7 @@ export default class ViewController {
       y: bbox.y + bbox.height / 2,
     };
 
-    graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y, animate, animateCfg);
+    // Compute ratio
     const wRatio = (width - padding[1] - padding[3]) / bbox.width;
     const hRatio = (height - padding[0] - padding[2]) / bbox.height;
     let ratio;
@@ -161,15 +170,21 @@ export default class ViewController {
       ratio = ratio < 1 ? ratio : 1;
     }
 
-    const initZoomRatio = graph.getZoom();
-    let endZoom = initZoomRatio * ratio;
-    const minZoom = graph.get('minZoom');
-    // 如果zoom小于最小zoom, 则以最小zoom为准
-    if (endZoom < minZoom) {
-      endZoom = minZoom;
-      console.warn('fitview failed, ratio out of range, ratio: %f', ratio, 'graph minzoom has been used instead');
+    if (animate) {
+      this.animatedFitView(group, startMatrix, animateCfg, bbox, viewCenter, groupCenter, ratio);
+    } else {
+      const initZoomRatio = graph.getZoom();
+      let endZoom = initZoomRatio * ratio;
+      const minZoom = graph.get('minZoom');
+      // 如果zoom小于最小zoom, 则以最小zoom为准
+      if (endZoom < minZoom) {
+        endZoom = minZoom;
+        console.warn('fitview failed, ratio out of range, ratio: %f', ratio, 'graph minzoom has been used instead');
+      }
+      graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y);
+
+      graph.zoomTo(endZoom, viewCenter);
     }
-    graph.zoomTo(endZoom, viewCenter, animate, animateCfg);
   }
 
   public getFormatPadding(): number[] {
