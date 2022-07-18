@@ -1,5 +1,17 @@
 # ChangeLog
 
+#### 4.6.15
+
+- fix: fitView does not zoom the graph with animate true;
+
+#### 4.6.14
+
+- perf: optimize the performance of combo graph;
+
+#### 4.6.12
+
+- perf: optimize the performance of combo graph first rendering;
+
 #### 4.6.11
 
 - fix: star node with leftBottom linkPoint show and hide problem;

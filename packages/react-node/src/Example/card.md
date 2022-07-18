@@ -69,10 +69,9 @@ const Card = () => {
           }}
         />
         <Rect style={{ width: 'auto', flexDirection: 'row', padding: [4, 12] }}>
-          <Tag color="#66ccff" text="我是" />
-          <Tag color="#66ccff" text="很多个" />
-          <Tag color="#66ccff" text="很多个的" />
-          <Tag color="#66ccff" text="标签" />
+          {
+            ["我是", "很多个", "很多个的", "标签"].map(e => <Tag color="#66ccff" text={e} />)
+          }
         </Rect>
         <Circle
           style={{

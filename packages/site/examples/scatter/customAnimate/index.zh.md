@@ -1,6 +1,6 @@
 ---
 title: 自定义动画
-order: 5
+order: 6
 ---
 
 在实例化 `Graph` 时，可以通过 `animateCfg` 配置项设置全局动画。
