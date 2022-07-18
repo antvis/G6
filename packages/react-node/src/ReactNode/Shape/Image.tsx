@@ -28,6 +28,7 @@ interface ImageProps extends CommonProps {
 }
 
 const Image: React.FC<ImageProps> = (props) => {
+  // @ts-ignore
   const { children, ...rest } = props;
 
   return (

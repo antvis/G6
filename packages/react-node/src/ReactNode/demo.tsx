@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import G6 from '@antv/g6';
+import G6, { GraphData } from '@antv/g6';
 import { appenAutoShapeListener } from '../Register/event';
 
 export const G6MiniDemo = ({
@@ -23,11 +23,26 @@ export const G6MiniDemo = ({
           meta: {
             creatorName: 'a_creator',
           },
-          id: 'node' + i + Math.random().toString(16).slice(-4),
+          id:
+            'node' +
+            i +
+            Math.random()
+              .toString(16)
+              .slice(-4),
           type: nodeType,
         })),
       edges: [],
-    };
+    } as GraphData;
+
+    if (data && data.nodes && data.nodes.length > 1) {
+      data.edges!.push({
+        source: data.nodes[0].id,
+        target: data.nodes[1].id,
+        style: {
+          endArrow: true,
+        },
+      });
+    }
 
     const width = document.getElementById('container')?.clientWidth || 800;
 
@@ -41,6 +56,7 @@ export const G6MiniDemo = ({
       },
       layout: {
         type: 'dagre',
+        rankdir: 'LR',
       },
     });
     graph.data(data);

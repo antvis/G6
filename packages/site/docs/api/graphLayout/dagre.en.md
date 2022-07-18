@@ -103,7 +103,7 @@ _Supported by G6 v4.5.1_
 
 _Supported by G6 v4.5.0_
 
-**Type**: string[]<br />**Default** undefined<br />**Required**: false<br />**Description**: The refered order array for the nodes in the same layer. If it is not specified, the order of the nodes will be decided by the dagre algorithm.
+**Type**: string[]<br />**Default** undefined<br />**Required**: false<br />**Description**: The refered order array for the nodes in the same layer, stores the id values of each node. If it is not specified, the order of the nodes will be decided by the dagre algorithm.
 
 
 ## layoutCfg.preset

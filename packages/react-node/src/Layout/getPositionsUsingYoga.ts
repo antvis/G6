@@ -159,7 +159,7 @@ const constructNodes = (
   basicContainer: YogaNode,
 ): ContainerNode | null => {
   const childrenArr = [[root]];
-  const parentArr = [];
+  const parentArr: ContainerNode[] = [];
   let resultNode: ContainerNode | null = null;
 
   while (childrenArr[0]) {

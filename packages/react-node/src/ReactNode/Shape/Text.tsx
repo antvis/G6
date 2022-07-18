@@ -52,6 +52,7 @@ interface TextProps extends CommonProps {
 }
 
 const Text: React.FC<TextProps> = (props) => {
+  // @ts-ignore
   const { children, ...rest } = props;
 
   return (

@@ -23,6 +23,7 @@ interface EllipseProps extends CommonProps {
 }
 
 const Ellipse: React.FC<EllipseProps> = (props) => {
+  // @ts-ignore
   const { children, ...rest } = props;
 
   return (

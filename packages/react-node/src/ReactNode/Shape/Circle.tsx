@@ -18,6 +18,7 @@ interface CircleProps extends CommonProps {
 }
 
 const Circle: React.FC<CircleProps> = (props) => {
+  // @ts-ignore
   const { children, ...rest } = props;
 
   return (

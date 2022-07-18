@@ -12,7 +12,10 @@ export default function Loading() {
       }}
     >
       <div>
-        <img src="https://gw.alipayobjects.com/zos/antfincdn/cfg5jFqgVt/DiceGraph.png" />
+        <img
+          style={{ width: 120, height: 'auto' }}
+          src="https://gw.alipayobjects.com/zos/antfincdn/cfg5jFqgVt/DiceGraph.png"
+        />
         <h3>L o a d i n g . . . </h3>
       </div>
     </div>

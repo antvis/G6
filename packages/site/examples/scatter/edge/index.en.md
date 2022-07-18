@@ -1,6 +1,6 @@
 ---
 title: Edge Animation
-order: 1
+order: 2
 ---
 
 Edge animation can be realized by customing an edge.

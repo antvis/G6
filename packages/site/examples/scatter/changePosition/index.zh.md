@@ -1,6 +1,6 @@
 ---
 title: 节点移动动画
-order: 4
+order: 5
 ---
 
 通过 `changeData` 方法不断地改变节点位置，以达到动画的效果。
