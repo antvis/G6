@@ -111,20 +111,6 @@ export default class ViewController {
     };
 
     // Compute ratio
-    let animateConfig = animateCfg;
-    if (animate) {
-      animateConfig = {
-        ...(animateCfg || {
-          duration: 500,
-          easing: 'easeCubic'
-        }),
-        callback: () => {
-          graph.zoom(ratio, viewCenter, true, animateCfg);
-          animateCfg?.callback?.();
-        }
-      }
-    }
-
     const w = (width - padding[1] - padding[3]) / bbox.width;
     const h = (height - padding[0] - padding[2]) / bbox.height;
     let ratio = w;
