@@ -58,7 +58,7 @@ export default class ViewController {
     const translatedMatrix = transform(matrix, [['t', vx, vy]]);
 
     // Zoom
-    const zoomedMatrix = transform(translatedMatrix, [
+    let zoomedMatrix = transform(translatedMatrix, [
       ['t', -viewCenter.x, -viewCenter.y],
       ['s', ratio, ratio],
       ['t', viewCenter.x, viewCenter.y],
@@ -69,10 +69,18 @@ export default class ViewController {
     const maxZoom: number = graph.get('maxZoom');
 
     if (minZoom && zoomedMatrix[0] < minZoom) {
-      zoomedMatrix[0] = minZoom;
+      zoomedMatrix = transform(translatedMatrix, [
+        ['t', -viewCenter.x, -viewCenter.y],
+        ['s', minZoom, minZoom],
+        ['t', viewCenter.x, viewCenter.y],
+      ]);
       console.warn('fitview failed, ratio out of range, ratio: %f', ratio, 'graph minzoom has been used instead');
     } else if (maxZoom && zoomedMatrix[0] > maxZoom) {
-      zoomedMatrix[0] = maxZoom;
+      zoomedMatrix = transform(translatedMatrix, [
+        ['t', -viewCenter.x, -viewCenter.y],
+        ['s', maxZoom, maxZoom],
+        ['t', viewCenter.x, viewCenter.y],
+      ]);
       console.warn('fitview failed, ratio out of range, ratio: %f', ratio, 'graph maxzoom has been used instead');
     }
 
