@@ -59,24 +59,24 @@ export default class ViewController {
     const translatedMatrix = transform(matrix, [['t', vx, vy]]);
 
     // Zoom
-    const zoomedMatrix = transform(translatedMatrix, [
-      ['t', -viewCenter.x, -viewCenter.y],
-      ['s', ratio, ratio],
-      ['t', viewCenter.x, viewCenter.y],
-    ]);
-
-    // Zoom
     const minZoom: number = graph.get('minZoom');
     const maxZoom: number = graph.get('maxZoom');
 
-    if (minZoom && zoomedMatrix[0] < minZoom) {
-      zoomedMatrix[0] = minZoom;
+    let realRatio = ratio;
+    if (minZoom && ratio < minZoom) {
+      realRatio = minZoom;
       console.warn('fitview failed, ratio out of range, ratio: %f', ratio, 'graph minzoom has been used instead');
-    } else if (maxZoom && zoomedMatrix[0] > maxZoom) {
-      zoomedMatrix[0] = maxZoom;
+    } else if (maxZoom && ratio > maxZoom) {
+      realRatio = minZoom;
       console.warn('fitview failed, ratio out of range, ratio: %f', ratio, 'graph maxzoom has been used instead');
     }
+    let zoomedMatrix = transform(translatedMatrix, [
+      ['t', -viewCenter.x, -viewCenter.y],
+      ['s', realRatio, realRatio],
+      ['t', viewCenter.x, viewCenter.y],
+    ]);
 
+    // Animation
     const animationConfig = getAnimateCfgWithCallback({
       animateCfg,
       callback: () => {
@@ -84,8 +84,6 @@ export default class ViewController {
         graph.emit('viewportchange', { action: 'zoom', matrix: zoomedMatrix });
       }
     });
-
-    // Animate with lerp
     group.animate((ratio: number) => {
       return { matrix: lerpArray(startMatrix, zoomedMatrix, ratio) };
     }, animationConfig);
