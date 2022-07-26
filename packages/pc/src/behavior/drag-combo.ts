@@ -391,11 +391,10 @@ export default {
     }
     // 若没有被放置的 combo，则是被放置在画布上
     if (!comboDropedOn) {
-      const stack = graph.get('enabledStack') && this.enableStack;
       this.targets.map((combo: ICombo) => {
         // 将 Combo 放置到某个 Combo 上面时，只有当 onlyChangeComboSize 为 false 时候才更新 Combo 结构
         if (!this.onlyChangeComboSize) {
-          graph.updateComboTree(combo, undefined, stack);
+          graph.updateComboTree(combo, undefined, false);
         } else {
           graph.updateCombo(combo);
         }
