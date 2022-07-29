@@ -20,7 +20,7 @@ const ReactNode = ({ cfg = {} }) => {
             cursor: 'move',
             stroke: cfg.color,
           }}
-          draggable="true"
+          draggable
         />
 
         <Rect
