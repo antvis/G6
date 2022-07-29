@@ -217,7 +217,6 @@ export default class Tooltip extends Base {
     const offsetX = this.get('offsetX') || 0;
     const offsetY = this.get('offsetY') || 0;
 
-    // const mousePos = graph.getPointByClient(e.clientX, e.clientY);
     let point = graph.getPointByClient(e.clientX, e.clientY);
 
     const fixToNode = this.get('fixToNode');

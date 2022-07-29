@@ -1,7 +1,7 @@
 import { modifyCSS, createDom } from '@antv/dom-util';
 import { clone, isString } from '@antv/util';
 import Base, { IPluginBaseConfig } from '../base';
-import { IAbstractGraph as IGraph } from '@antv/g6-core';
+import { IAbstractGraph as IGraph, ICombo } from '@antv/g6-core';
 import { Point } from '@antv/g-base';
 import insertCss from 'insert-css';
 
@@ -74,7 +74,7 @@ const getEventPath = (evt: MouseEvent) => {
 };
 
 export default class ToolBar extends Base {
-  constructor (config?: ToolBarConfig) {
+  constructor(config?: ToolBarConfig) {
     super(config);
   }
   public getDefaultCfgs(): ToolBarConfig {
@@ -256,7 +256,9 @@ export default class ToolBar extends Base {
             const array = data[key];
             if (!array) return;
             array.forEach((model) => {
-              graph.updateItem(model.id, model, false);
+              const item = graph.findById(model.id);
+              graph.updateItem(item, model, false);
+              if (item.getType() === 'combo') graph.updateCombo(item as ICombo)
             });
           });
           break;
@@ -292,6 +294,9 @@ export default class ToolBar extends Base {
               graph.updateComboTree(model.id, model.parentId, false);
             });
           });
+          break;
+        case 'layout':
+          graph.updateLayout(data, undefined, undefined, false);
           break;
         default:
       }
@@ -342,7 +347,9 @@ export default class ToolBar extends Base {
             const array = data[key];
             if (!array) return;
             array.forEach((model) => {
-              graph.updateItem(model.id, model, false);
+              const item = graph.findById(model.id);
+              graph.updateItem(item, model, false);
+              if (item.getType() === 'combo') graph.updateCombo(item as ICombo)
             });
           });
           break;
@@ -386,6 +393,9 @@ export default class ToolBar extends Base {
               graph.updateComboTree(model.id, model.parentId, false);
             });
           });
+          break;
+        case 'layout':
+          graph.updateLayout(data, undefined, undefined, false);
           break;
         default:
       }

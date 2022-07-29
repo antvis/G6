@@ -27,8 +27,8 @@ describe('shortcuts-call', () => {
     graph.emit('keydown', { key: '1' });
     graph.emit('keyup');
     const matrix = graph.getGroup().getMatrix();
-    expect(matrix[6]).toBe(200);
-    expect(matrix[7]).toBe(200);
+    expect(matrix[6]).toBe(-250);
+    expect(matrix[7]).toBe(-250);
 
     graph.destroy();
   });

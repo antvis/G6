@@ -217,6 +217,7 @@ export default {
         if (!shapes) continue;
         shapes.forEach((shape) => {
           const oriVis = shape.get('ori-visibility');
+          shape.set('ori-visibility', undefined);
           if (oriVis) shape.show();
         });
       }
@@ -229,6 +230,7 @@ export default {
             const isKeyShape = child.get('isKeyShape');
             if (!isKeyShape) {
               const oriVis = child.get('ori-visibility');
+              child.set('ori-visibility', undefined);
               if (oriVis) child.show();
             }
           }
