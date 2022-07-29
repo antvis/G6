@@ -529,6 +529,30 @@ describe('graph', () => {
     expect(nodes[0]).toEqual(node2);
   });
 
+  it('findAllByState should not select nodes that are not visible', () => {
+    globalGraph.clear();
+
+    const node1 = globalGraph.addItem('node', {
+      id: 'node1',
+      visible: false
+    });
+
+    const node2 = globalGraph.addItem('node', {
+      id: 'node2'
+    });
+
+    node1.setState('selected', true);
+    node2.setState('selected', true);
+
+    function additionalFilter(item) {
+      return item.isVisible();
+    }
+
+    const selectedNodes = globalGraph.findAllByState('node', 'selected', additionalFilter);
+
+    expect(selectedNodes.length).toEqual(1);
+  });
+
   it('refresh positions', () => {
     const data = { id: 'node4', x: 100, y: 50, size: 50, className: 'test test2' };
     const node = globalGraph.addItem('node', data);

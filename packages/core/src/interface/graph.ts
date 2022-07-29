@@ -500,7 +500,7 @@ export interface IAbstractGraph extends EventEmitter {
    * @param {string} state z状态
    * @return {object} 元素实例
    */
-  findAllByState: <T extends Item>(type: ITEM_TYPE, state: string) => T[];
+  findAllByState: <T extends Item>(type: ITEM_TYPE, state: string, additionalFilter?: (item: Item) => boolean) => T[];
 
   /**
    * 更换布局配置项
