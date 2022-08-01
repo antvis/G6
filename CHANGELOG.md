@@ -1,5 +1,10 @@
 # ChangeLog
 
+#### 4.6.17
+
+- fix: legend changeData problem, closes: #3561;
+- fix: redo and undo with an image node, closes: #3782;
+
 #### 4.6.16
 
 - feat: ID check;
