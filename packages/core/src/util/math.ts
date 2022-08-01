@@ -823,11 +823,29 @@ export const pointLineDistance = (line, point) => {
 /**
  * Linearly interpolate between start and end, where alpha is the percent distance along the line.
  * alpha = 0 will be start, and alpha = 1 will be end.
- * @param {Number} start
- * @param {Number} end
- * @param {Number} alpha interpolation factor, typically in the closed interval [0, 1]
- * @returns
+ * @param {number} start
+ * @param {number} end
+ * @param {number} alpha interpolation factor, typically in the closed interval [0, 1]
+ * @returns {number}
  */
 export const lerp = (start: number, end: number, alpha: number): number => {
   return start + (end - start) * alpha;
 }
+
+/**
+ * Linearly interpolate between start and end arrays, where alpha is the percent distance along the line.
+ * alpha = 0 will be start, and alpha = 1 will be end.
+ * @param {number[]} start
+ * @param {number[]} end
+ * @param {number} alpha interpolation factor, typically in the closed interval [0, 1]
+ * @returns {number[]}
+ */
+export const lerpArray = (start: number[], end: number[], alpha: number): number[] => {
+  var len = Math.min(start.length, end.length);
+  const out = new Array(len);
+  for (var i = 0; i < len; i++) {
+    out[i] = lerp(start[i], end[i], alpha);
+  }
+  return out;
+}
+

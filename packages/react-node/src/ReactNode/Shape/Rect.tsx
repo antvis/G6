@@ -24,7 +24,7 @@ interface RectProps extends CommonProps {
   /**
    * @description.en-US style of shape
    */
-  style: RectStyle;
+  style?: RectStyle;
 }
 
 const Rect: React.FC<RectProps> = (props) => {

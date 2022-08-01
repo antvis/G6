@@ -169,7 +169,6 @@ export default {
       ratio = 1 / (1 - DELTA * sensitivity);
     }
     zoom = graphZoom * ratio;
-    // const zoom = ratio * graphZoom;
     const minZoom = this.get('minZoom') || graph.get('minZoom');
     const maxZoom = this.get('maxZoom') || graph.get('maxZoom');
     if (zoom > maxZoom) {
@@ -233,11 +232,13 @@ export default {
             if (currentZoom < optimizeZoom) {
               const keyShape = node.getKeyShape();
               const oriVis = keyShape.get('ori-visibility');
+              keyShape.set('ori-visibility', undefined);
               if (oriVis) keyShape.show();
             } else {
               for (let c = 0; c < childrenLength; c++) {
                 const shape = children[c];
                 const oriVis = shape.get('ori-visibility');
+                shape.set('ori-visibility', undefined);
                 if (!shape.get('visible') && oriVis) {
                   if (oriVis) shape.show();
                 }
@@ -252,12 +253,14 @@ export default {
             if (currentZoom < optimizeZoom) {
               const keyShape = edge.getKeyShape();
               const oriVis = keyShape.get('ori-visibility');
+              keyShape.set('ori-visibility', undefined);
               if (oriVis) keyShape.show();
             } else {
               for (let c = 0; c < childrenLength; c++) {
                 const shape = children[c];
                 if (!shape.get('visible')) {
                   const oriVis = shape.get('ori-visibility');
+                  shape.set('ori-visibility', undefined);
                   if (oriVis) shape.show();
                 }
               }

@@ -10,7 +10,8 @@ import {
   NodeConfig,
   ComboTree,
   ComboConfig,
-  ICombo
+  ICombo,
+  GraphAnimateConfig
 } from '../types';
 import { applyMatrix } from './math';
 import letterAspectRatio from './letterAspectRatio';
@@ -685,4 +686,32 @@ export const cloneBesidesImg = (obj) => {
     }
   });
   return clonedObj;
+}
+
+export const getAnimateCfgWithCallback = ({
+  animateCfg,
+  callback
+}: {
+  animateCfg: GraphAnimateConfig;
+  callback: () => void;
+}): GraphAnimateConfig => {
+  let animateConfig: GraphAnimateConfig;
+  if (!animateCfg) {
+    animateConfig = {
+      duration: 500,
+      callback
+    };
+  } else {
+    animateConfig = clone(animateCfg);
+    if (animateCfg.callback) {
+      const animateCfgCallback = animateCfg.callback;
+      animateConfig.callback = () => {
+        callback();
+        animateCfgCallback();
+      }
+    } else {
+      animateConfig.callback = callback;
+    }
+  }
+  return animateConfig;
 }

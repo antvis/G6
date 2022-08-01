@@ -500,7 +500,7 @@ export interface IAbstractGraph extends EventEmitter {
    * @param {string} state z状态
    * @return {object} 元素实例
    */
-  findAllByState: <T extends Item>(type: ITEM_TYPE, state: string) => T[];
+  findAllByState: <T extends Item>(type: ITEM_TYPE, state: string, additionalFilter?: (item: Item) => boolean) => T[];
 
   /**
    * 更换布局配置项
@@ -508,7 +508,7 @@ export interface IAbstractGraph extends EventEmitter {
    * 若 cfg 含有 type 字段或为 String 类型，且与现有布局方法不同，则更换布局
    * 若 cfg 不包括 type ，则保持原有布局方法，仅更新布局配置项
    */
-  updateLayout: (cfg: LayoutConfig, align?: 'center' | 'begin', canvasPoint?: IPoint) => void;
+  updateLayout: (cfg: LayoutConfig, align?: 'center' | 'begin', canvasPoint?: IPoint, stack?: boolean) => void;
 
   /**
    * 重新以当前示例中配置的属性进行一次布局

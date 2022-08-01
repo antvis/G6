@@ -48,7 +48,7 @@ interface TextProps extends CommonProps {
   /**
    * @description.en-US style of shape
    */
-  style: TextStyle;
+  style?: TextStyle;
 }
 
 const Text: React.FC<TextProps> = (props) => {

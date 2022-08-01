@@ -96,11 +96,13 @@ export default class ItemBase implements IItemBase {
 
     const itemType = this.get('type');
 
-    if (!id) {
+    if (typeof id === 'undefined') {
       id = uniqueId(itemType);
-      this.get('model').id = id;
+    } else if (typeof id !== 'string') {
+      id = String(id);
     }
 
+    this.get('model').id = id;
     this.set('id', id);
     const { group } = cfg;
     if (group) {

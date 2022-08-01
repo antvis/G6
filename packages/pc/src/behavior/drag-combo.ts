@@ -5,7 +5,7 @@
  */
 import { each } from '@antv/util';
 import { IGroup } from '@antv/g-base';
-import { G6Event, IG6GraphEvent, Item, ComboConfig, ICombo, INode } from '@antv/g6-core';
+import { G6Event, IG6GraphEvent, Item, ComboConfig, ICombo, INode, IEdge } from '@antv/g6-core';
 import { IGraph } from '../interface/graph';
 import Util from '../util';
 import Global from '../global';
@@ -100,6 +100,13 @@ export default {
       this.targets = combos;
     }
 
+    const beforeDragItems = [];
+    this.targets.forEach(t => {
+      const { x, y, id } = t.getModel();
+      beforeDragItems.push({ x, y, id });
+    });
+    this.set('beforeDragItems', beforeDragItems);
+
     if (this.activeState) {
       this.targets.map((combo: ICombo) => {
         const model = combo.getModel() as ComboConfig;
@@ -191,6 +198,7 @@ export default {
   updatePositions(evt: IG6GraphEvent, restore: boolean) {
     // 当启用 delegate 时，拖动结束时需要更新 combo
     if (this.enableDelegate || restore) {
+      console.log('updatePositions', this.targets);
       each(this.targets, (item) => {
         this.updateCombo(item, evt, restore);
       });
@@ -334,12 +342,21 @@ export default {
     // 若没有被放置的 combo，则是被放置在画布上
     if (!comboDropedOn) {
       const stack = graph.get('enabledStack') && this.enableStack;
+
+      const stackData = {
+        before: { nodes: [], edges: [], combos: [].concat(this.get('beforeDragItems')) },
+        after: { nodes: [], edges: [], combos: [] },
+      };
+
       this.targets.map((combo: ICombo) => {
         // 将 Combo 放置到某个 Combo 上面时，只有当 onlyChangeComboSize 为 false 时候才更新 Combo 结构
         if (!this.onlyChangeComboSize) {
           graph.updateComboTree(combo, undefined, stack);
         } else {
           graph.updateCombo(combo);
+          const { x, y, id } = combo.getModel();
+          stackData.after.combos.push({ x, y, id });
+          graph.pushStack('update', stackData);
         }
       });
     }
@@ -355,32 +372,35 @@ export default {
    * @param data
    * @param fn
    */
-  traverse<T extends Item>(data: T, fn: (param: T) => boolean) {
-    if (fn(data) === false) {
+  traverse<T extends Item>(data: T, fn: (param: T, cacheMap) => boolean, edgesToBeUpdate = {}) {
+    if (fn(data, edgesToBeUpdate) === false) {
       return;
     }
 
     if (data) {
       const combos = data.get('combos');
       each(combos, (child) => {
-        this.traverse(child, fn);
+        this.traverse(child, fn, edgesToBeUpdate);
       });
 
       const nodes = data.get('nodes');
       each(nodes, (child) => {
-        this.traverse(child, fn);
+        this.traverse(child, fn, edgesToBeUpdate);
       });
     }
   },
 
   updateCombo(item: ICombo, evt: IG6GraphEvent, restore: boolean) {
-    this.traverse(item, (param) => {
-      if (param.destroyed) {
+    this.updateSingleItem(item, evt, restore);
+    const edgesToBeUpdate: { [id: string]: IEdge } = {};
+    this.traverse(item, (paramItem, paramEdgesMap) => {
+      if (paramItem.destroyed) {
         return false;
       }
-      this.updateSingleItem(param, evt, restore);
+      paramItem.getEdges().forEach(edge => paramEdgesMap[edge.getID()] = edge);
       return true;
-    });
+    }, edgesToBeUpdate);
+    Object.values(edgesToBeUpdate).forEach(edge => edge.refresh());
   },
 
   /**
@@ -404,13 +424,14 @@ export default {
     let x: number = evt.x - origin.x + this.point[itemId].x;
     let y: number = evt.y - origin.y + this.point[itemId].y;
 
+    console.log('restore', restore);
     if (restore) {
       x += origin.x - evt.x;
       y += origin.y - evt.y;
     }
 
     graph.updateItem(item, { x, y }, false);
-    item.getEdges()?.forEach(edge => edge.refresh());
+    // item.getEdges()?.forEach(edge => edge.refresh());
   },
 
   /**

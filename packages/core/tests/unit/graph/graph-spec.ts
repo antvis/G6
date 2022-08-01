@@ -221,11 +221,11 @@ describe('graph', () => {
 
     graph.zoom(0.5, { x: 100, y: 100 });
     matrix = graph.get('group').getMatrix();
-    expect(matrix).toBe(null);
+    expect(JSON.stringify(matrix)).toBe(JSON.stringify([2, 0, 0, 0, 2, 0, -100, -100, 1])); // 使用最小值
 
     graph.zoom(5.5);
     matrix = graph.get('group').getMatrix();
-    expect(matrix).toBe(null);
+    expect(JSON.stringify(matrix)).toBe(JSON.stringify([5, 0, 0, 0, 5, 0, -250, -250, 1])); // 使用最大值
   });
 
   it('zoomTo', () => {
@@ -527,6 +527,30 @@ describe('graph', () => {
     nodes = globalGraph.findAllByState('node', 'selected');
     expect(nodes.length).toEqual(1);
     expect(nodes[0]).toEqual(node2);
+  });
+
+  it('findAllByState should not select nodes that are not visible', () => {
+    globalGraph.clear();
+
+    const node1 = globalGraph.addItem('node', {
+      id: 'node1',
+      visible: false
+    });
+
+    const node2 = globalGraph.addItem('node', {
+      id: 'node2'
+    });
+
+    node1.setState('selected', true);
+    node2.setState('selected', true);
+
+    function additionalFilter(item) {
+      return item.isVisible();
+    }
+
+    const selectedNodes = globalGraph.findAllByState('node', 'selected', additionalFilter);
+
+    expect(selectedNodes.length).toEqual(1);
   });
 
   it('refresh positions', () => {
