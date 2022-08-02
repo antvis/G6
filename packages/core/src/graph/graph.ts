@@ -2247,12 +2247,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       };
     });
 
-    if (self.isAnimating()) {
-      self.stopAnimate();
-    }
+    self.stopAnimate();
 
     const canvas: ICanvas = self.get('canvas');
 
+    self.animating = true;
     canvas.animate(
       (ratio: number) => {
         each(toNodes, data => {
@@ -2379,7 +2378,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   }
 
   public stopAnimate(): void {
-    this.get('canvas').stopAnimate();
+    if (this.isAnimating()) {
+      this.get('canvas').stopAnimate();
+    }
   }
 
   public isAnimating(): boolean {

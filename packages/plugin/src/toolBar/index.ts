@@ -257,6 +257,7 @@ export default class ToolBar extends Base {
             if (!array) return;
             array.forEach((model) => {
               const item = graph.findById(model.id);
+              delete model.id;
               graph.updateItem(item, model, false);
               if (item.getType() === 'combo') graph.updateCombo(item as ICombo)
             });
@@ -348,6 +349,7 @@ export default class ToolBar extends Base {
             if (!array) return;
             array.forEach((model) => {
               const item = graph.findById(model.id);
+              delete model.id;
               graph.updateItem(item, model, false);
               if (item.getType() === 'combo') graph.updateCombo(item as ICombo)
             });

@@ -305,7 +305,7 @@ export default class LayoutController extends AbstractLayout {
       });
     } else {
       // 无布局配置
-      this.refreshLayout();
+      graph.refreshPositions();
       success?.();
     }
 
