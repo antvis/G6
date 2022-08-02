@@ -16,9 +16,9 @@ class Graph extends AbstractGraph {
     super(cfg);
   }
 
-  initEventController() {}
+  initEventController() { }
 
-  initLayoutController() {}
+  initLayoutController() { }
 
   initCanvas() {
     let container: string | HTMLElement | Element | null = this.get('container');
@@ -48,7 +48,7 @@ class Graph extends AbstractGraph {
 
     this.set('canvas', canvas);
   }
-  initPlugins() {}
+  initPlugins() { }
 }
 
 describe('graph', () => {
@@ -363,11 +363,11 @@ describe('graph', () => {
 
     graph.zoom(0.5, { x: 100, y: 100 });
     matrix = graph.get('group').getMatrix();
-    expect(matrix).toBe(null);
+    expect(JSON.stringify(matrix)).toBe(JSON.stringify([2, 0, 0, 0, 2, 0, -100, -100, 1])); // 使用最小值
 
     graph.zoom(5.5);
     matrix = graph.get('group').getMatrix();
-    expect(matrix).toBe(null);
+    expect(JSON.stringify(matrix)).toBe(JSON.stringify([5, 0, 0, 0, 5, 0, -250, -250, 1])); // 使用最大值
     graph.destroy();
   });
 

@@ -154,7 +154,8 @@ export default {
     }
     const beforeDragNodes = [];
     this.targets.forEach(t => {
-      beforeDragNodes.push(clone(t.getModel()));
+      const { x, y, id } = t.getModel();
+      beforeDragNodes.push({ x, y, id });
     });
     this.set('beforeDragNodes', beforeDragNodes);
 
@@ -252,20 +253,12 @@ export default {
       };
 
       this.get('beforeDragNodes').forEach(model => {
-        stackData.before.nodes.push({
-          id: model.id,
-          x: model.x,
-          y: model.y,
-        });
+        stackData.before.nodes.push(model);
       });
 
       this.targets.forEach(target => {
-        const targetModel = target.getModel();
-        stackData.after.nodes.push({
-          id: targetModel.id,
-          x: targetModel.x,
-          y: targetModel.y,
-        });
+        const { x, y, id } = target.getModel();
+        stackData.after.nodes.push({ x, y, id });
       });
       graph.pushStack('update', clone(stackData));
     }

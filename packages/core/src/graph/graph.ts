@@ -224,7 +224,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       /**
        * Minimum scale size
        */
-      minZoom: 0.2,
+      minZoom: 0.02,
       /**
        * Maxmum scale size
        */
@@ -704,28 +704,31 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    */
   public zoom(ratio: number, center?: Point, animate?: boolean, animateCfg?: GraphAnimateConfig): boolean {
     const group: IGroup = this.get('group');
-    let matrix = clone(group.getMatrix());
+    let matrix = clone(group.getMatrix()) || [1, 0, 0, 0, 1, 0, 0, 0, 1];
     const minZoom: number = this.get('minZoom');
     const maxZoom: number = this.get('maxZoom');
+    const currentZoom = this.getZoom() || 1;
+    const targetZoom = currentZoom * ratio;
+    let finalRatio = ratio;
 
-    if (!matrix) {
-      matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
+    let failed = false;
+    if (minZoom && targetZoom < minZoom) {
+      finalRatio = minZoom / currentZoom;
+      failed = true;
+    } else if (maxZoom && targetZoom > maxZoom) {
+      finalRatio = maxZoom / currentZoom;
+      failed = true;
     }
 
     if (center) {
       matrix = transform(matrix, [
         ['t', -center.x, -center.y],
-        ['s', ratio, ratio],
+        ['s', finalRatio, finalRatio],
         ['t', center.x, center.y],
       ]);
     } else {
-      matrix = transform(matrix, [['s', ratio, ratio]]);
+      matrix = transform(matrix, [['s', finalRatio, finalRatio]]);
     }
-
-    if ((minZoom && matrix[0] < minZoom) || (maxZoom && matrix[0] > maxZoom)) {
-      return false;
-    }
-    // matrix = [2, 0, 0, 0, 2, 0, -125, -125, 1];
 
     if (animate) {
       // Clone the original matrix to perform the animation
@@ -734,7 +737,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         aniMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
       }
       const initialRatio = aniMatrix[0];
-      const targetRatio = initialRatio * ratio;
+      const targetRatio = initialRatio * finalRatio;
 
       const animateConfig = getAnimateCfgWithCallback({
         animateCfg,
@@ -761,7 +764,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       this.autoPaint();
     }
 
-    return true;
+    return !failed;
   }
 
   /**
@@ -2254,12 +2257,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       };
     });
 
-    if (self.isAnimating()) {
-      self.stopAnimate();
-    }
+    self.stopAnimate();
 
     const canvas: ICanvas = self.get('canvas');
 
+    self.animating = true;
     canvas.animate(
       (ratio: number) => {
         each(toNodes, data => {
@@ -2386,7 +2388,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   }
 
   public stopAnimate(): void {
-    this.get('canvas').stopAnimate();
+    if (this.isAnimating()) {
+      this.get('canvas').stopAnimate();
+    }
   }
 
   public isAnimating(): boolean {
@@ -2445,7 +2449,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * 若 cfg 含有 type 字段或为 String 类型，且与现有布局方法不同，则更换布局
    * 若 cfg 不包括 type ，则保持原有布局方法，仅更新布局配置项
    */
-  public updateLayout(cfg: any, align?: 'center' | 'begin', alignPoint?: IPoint): void {
+  public updateLayout(cfg: any, align?: 'center' | 'begin', alignPoint?: IPoint, stack: boolean = true): void {
     const layoutController = this.get('layoutController');
 
     if (isString(cfg)) {
@@ -2487,7 +2491,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       }
     }
 
-    const oriLayoutCfg = this.get('layout');
+    const oriLayoutCfg = { ...this.get('layout') };
     const layoutCfg: any = {};
     Object.assign(layoutCfg, oriLayoutCfg, cfg);
     this.set('layout', layoutCfg);
@@ -2503,6 +2507,10 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     } else {
       // has different type, change layout
       layoutController.changeLayout(layoutCfg);
+    }
+
+    if (stack && this.get('enabledStack')) {
+      this.pushStack('layout', { before: oriLayoutCfg, after: layoutCfg });
     }
   }
 

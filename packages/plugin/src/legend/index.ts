@@ -349,18 +349,14 @@ export default class Legend extends Base {
         width: 200,
         height: 200,
       });
-      const rootGroup = lc.addGroup({ name: 'root' });
-      rootGroup.addGroup({ name: 'node-group' });
-      rootGroup.addGroup({ name: 'edge-group' });
-      // nodeStateStyles: {
-      //   legendActive,
-      //   legendInactive
-      // }
-      this.set('legendCanvas', lc);
+    } else {
+      lc.clear();
     }
-    const group = lc.find(e => e.get('name') === 'root');
-    const nodeGroup = group.find(e => e.get('name') === 'node-group');
-    const edgeGroup = group.find(e => e.get('name') === 'edge-group')
+    const group = lc.addGroup({ name: 'root' });
+    const nodeGroup = group.addGroup({ name: 'node-group' });
+    const edgeGroup = group.addGroup({ name: 'edge-group' });
+    this.set('legendCanvas', lc);
+
     const itemsData = this.get('itemsData');
     const itemTypes = ['nodes', 'edges'];
     const itemGroup = [nodeGroup, edgeGroup];

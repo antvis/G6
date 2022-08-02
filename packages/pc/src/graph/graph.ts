@@ -415,10 +415,7 @@ export default class Graph extends AbstractGraph implements IGraph {
    */
   public downloadImage(name?: string, type?: DataUrlType, backgroundColor?: string): void {
     const self = this;
-
-    if (self.isAnimating()) {
-      self.stopAnimate();
-    }
+    self.stopAnimate();
 
     const canvas = self.get('canvas');
     const renderer = canvas.getRenderer();
