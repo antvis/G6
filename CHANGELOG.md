@@ -1,5 +1,22 @@
 # ChangeLog
 
+#### 4.6.17
+
+- fix: legend changeData problem, closes: #3561;
+- fix: redo and undo with an image node, closes: #3782;
+- fix: call refreshPositions instead of positionsAnimate while there is no layout configuration;
+
+#### 4.6.16
+
+- feat: ID check;
+- feat: fitView with animation;
+- feat: findAllByState with additional filter;
+- fix: wrong dropped position for drag-combo with enableDelegate, closes: #3810;
+- fix: stack for drag-combo with onlyChangeComboSize, closes: #3801;
+- fix: stack updateLayout, closes: #3765;
+- fix: drag-canvas and zoom-canvas with enableOptimize show a hidden shape which is controlled by state, closes: #3635;
+- fix: typing problem for react node;
+
 #### 4.6.15
 
 - fix: fitView does not zoom the graph with animate true;

@@ -169,15 +169,15 @@ const graph = new G6.Graph({
 
 ### GraphOptions.minZoom
 
-<description> _Number_ **optional** _default:_ `0.2`</description>
+<description> _Number_ **optional** _default:_ `0.02`</description>
 
-最小缩放比例。
+最小缩放比例。若 fitView、zoom、zoomTo 等操作导致图的缩放比例小于该值，则将使用该值进行缩放，并返回 false。
 
 ### GraphOptions.maxZoom
 
 <description> _Number_ **optional** _default:_ `10`</description>
 
-最大缩放比例。
+最大缩放比例。若 fitView、zoom、zoomTo 等操作导致图的缩放比例大于该值，则将使用该值进行缩放，并返回 false。
 
 ### GraphOptions.layout
 

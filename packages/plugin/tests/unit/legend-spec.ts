@@ -181,7 +181,7 @@ describe('legend', () => {
     setTimeout(() => {
       graph.addPlugin(legend)
       expect(document.getElementsByClassName('g6-legend-container').length).not.toBe(0);
-      
+
       const legendCanvas = legend.get('legendCanvas');
       const rootGroup = legendCanvas.get('children')[0];
       const nodeGroup = rootGroup.find(e => e.get('name') === 'node-group');
@@ -215,7 +215,7 @@ describe('legend', () => {
         y: 0,
       });
       expect(graph.findAllByState('edge', 'active').length).toBe(2)
-      
+
       legendCanvas.emit('click', {
         target: legendCanvas
       })
@@ -264,7 +264,7 @@ describe('legend', () => {
         }
       }
     });
-  
+
     const graph = new G6.Graph({
       container: div,
       width: 400,
@@ -286,7 +286,7 @@ describe('legend', () => {
     setTimeout(() => {
       graph.addPlugin(legend)
       expect(document.getElementsByClassName('g6-legend-container').length).not.toBe(0);
-      
+
       const legendCanvas = legend.get('legendCanvas');
       const rootGroup = legendCanvas.get('children')[0];
       const nodeGroup = rootGroup.find(e => e.get('name') === 'node-group');
@@ -331,16 +331,189 @@ describe('legend', () => {
         y: 0,
       });
       expect(graph.findAllByState('edge', 'active').length).toBe(2)
-      
+
       legendCanvas.emit('node-container:mouseleave', {
         target: legendEdge0Shape,
         x: 0,
         y: 0,
       });
-      
+
       graph.destroy()
       done();
     }, 500);
+  });
+  it('legend changeData', () => {
+    const typeConfigs = {
+      'type1': {
+        type: 'circle',
+        size: 5,
+        style: {
+          fill: '#5B8FF9'
+        }
+      },
+      'type2': {
+        type: 'circle',
+        size: 20,
+        style: {
+          fill: '#5AD8A6'
+        }
+      },
+      'type3': {
+        type: 'rect',
+        size: [10, 10],
+        style: {
+          fill: '#5D7092'
+        }
+      },
+      'eType1': {
+        type: 'line',
+        style: {
+          width: 20,
+          stroke: '#F6BD16',
+        }
+      },
+      'eType2': {
+        type: 'cubic',
+      },
+      'eType3': {
+        type: 'quadratic',
+        style: {
+          width: 25,
+          stroke: '#6F5EF9'
+        }
+      }
+    }
+    const legendData = {
+      nodes: [{
+        id: 'type1',
+        label: 'node-type1',
+        order: 4,
+        ...typeConfigs['type1']
+      }, {
+        id: 'type2',
+        label: 'node-type2',
+        order: 0,
+        ...typeConfigs['type2']
+      }, {
+        id: 'type3',
+        label: 'node-type3',
+        order: 2,
+        ...typeConfigs['type3']
+      }],
+      edges: [{
+        id: 'eType1',
+        label: 'edge-type1',
+        order: 2,
+        ...typeConfigs['eType1']
+      }, {
+        id: 'eType2',
+        label: 'edge-type2',
+        ...typeConfigs['eType2']
+      }, {
+        id: 'eType3',
+        label: 'edge-type3',
+        ...typeConfigs['eType3']
+      }]
+    }
+    const legend = new Legend({
+      data: legendData,
+      align: 'center',
+      layout: 'horizontal', // vertical
+      position: 'bottom-right',
+      vertiSep: 12,
+      horiSep: 24,
+      offsetY: -24,
+      padding: [4, 16, 8, 16],
+      containerStyle: {
+        fill: '#ccc',
+        lineWidth: 1
+      },
+      title: 'Legend',
+      titleConfig: {
+        position: 'center',
+        offsetX: 0,
+        offsetY: 12,
+      },
+      filter: {
+        enable: true,
+        multiple: true,
+        trigger: 'click',
+        graphActiveState: 'activeByLegend',
+        graphInactiveState: 'inactiveByLegend',
+        filterFunctions: {
+          'type1': (d) => {
+            if (d.legendType === 'type1') return true;
+            return false
+          },
+          'type2': (d) => {
+            if (d.legendType === 'type2') return true;
+            return false
+          },
+          'type3': (d) => {
+            if (d.legendType === 'type3') return true;
+            return false
+          },
+          'eType1': (d) => {
+            if (d.legendType === 'eType1') return true;
+            return false
+          },
+          'eType2': (d) => {
+            if (d.legendType === 'eType2') return true;
+            return false
+          },
+          'eType3': (d) => {
+            if (d.legendType === 'eType3') return true;
+            return false
+          },
+        }
+      }
+    });
+
+    const graph = new G6.Graph({
+      container: div,
+      width: 400,
+      height: 400,
+      plugins: [legend],
+      modes: {
+        default: ['drag-canvas', 'zoom-canvas', 'drag-node']
+      },
+      edgeStateStyles: {
+        active: {
+          lineWidth: 3
+        },
+        inactive: {
+          opacity: 0.5
+        }
+      }
+    });
+    graph.read(data);
+    const legendCanvas = legend.get('legendCanvas');
+    let legendRoot = legendCanvas.find(e => e.get('name') === 'root');
+    let nodesGroup = legendRoot.find(e => e.get('name') === 'node-group')
+    let edgesGroup = legendRoot.find(e => e.get('name') === 'edge-group')
+    expect(nodesGroup.get('children').length).toBe(3);
+    expect(edgesGroup.get('children').length).toBe(3);
+
+    legend.changeData({
+      nodes: [{
+        id: 'type1',
+        label: 'node-type1',
+        order: 4,
+        ...typeConfigs['type1']
+      }],
+      edges: [{
+        id: 'eType1',
+        label: 'edge-type1',
+        order: 2,
+        ...typeConfigs['eType1']
+      }]
+    });
+    legendRoot = legendCanvas.find(e => e.get('name') === 'root');
+    nodesGroup = legendRoot.find(e => e.get('name') === 'node-group')
+    edgesGroup = legendRoot.find(e => e.get('name') === 'edge-group')
+    expect(nodesGroup.get('children').length).toBe(1);
+    expect(edgesGroup.get('children').length).toBe(1);
+    graph.destroy();
   });
 });
 

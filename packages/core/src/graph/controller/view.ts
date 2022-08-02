@@ -1,7 +1,6 @@
 import { AbstractCanvas, BBox } from '@antv/g-base';
 import { Point, IGroup } from '@antv/g-base';
 import { isNumber, isString } from '@antv/util';
-import { modifyCSS } from '@antv/dom-util';
 import { Item, Matrix, Padding, GraphAnimateConfig, IEdge, FitViewRules } from '../../types';
 import { formatPadding } from '../../util/base';
 import { applyMatrix, invertMatrix, lerpArray } from '../../util/math';
