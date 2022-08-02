@@ -2533,10 +2533,10 @@ describe('plugins', () => {
     const gridDom = document.getElementsByClassName('g6-grid')[0] as HTMLElement;
     expect(gridDom).not.toBe(undefined);
     const minZoom = graph.get('minZoom');
-    const width = (500 * 80) / minZoom;
-    const height = (500 * 80) / minZoom;
-    expect(gridDom.style.width).toBe(`${width}px`);
-    expect(gridDom.style.height).toBe(`${height}px`);
+    const width = (500 * 80) / minZoom; // 2000000
+    const height = (500 * 80) / minZoom; // 2000000
+    expect(gridDom.style.width).toBe("2e+06px");
+    expect(gridDom.style.height).toBe("2e+06px");
     // graph.destroy();
     // const parentDom = gridDom.parentNode.parentNode;
     // expect(parentDom).toBe(null);

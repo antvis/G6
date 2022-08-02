@@ -415,7 +415,7 @@ describe('legend', () => {
         ...typeConfigs['eType3']
       }]
     }
-    const legend = new G6.Legend({
+    const legend = new Legend({
       data: legendData,
       align: 'center',
       layout: 'horizontal', // vertical
