@@ -66,7 +66,7 @@ export default class ViewController {
       realRatio = minZoom;
       console.warn('fitview failed, ratio out of range, ratio: %f', ratio, 'graph minzoom has been used instead');
     } else if (maxZoom && ratio > maxZoom) {
-      realRatio = minZoom;
+      realRatio = maxZoom;
       console.warn('fitview failed, ratio out of range, ratio: %f', ratio, 'graph maxzoom has been used instead');
     }
     let zoomedMatrix = transform(translatedMatrix, [
@@ -181,6 +181,73 @@ export default class ViewController {
       graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y);
 
       graph.zoomTo(endZoom, viewCenter);
+    }
+  }
+
+  public fitItems(items: Item[], animate?: boolean, animateCfg?: GraphAnimateConfig): void {
+    if (!items.length) {
+      this.fitView(animate, animateCfg);
+      return;
+    }
+
+    const { graph } = this;
+    const padding = this.getFormatPadding();
+    const width: number = graph.get('width');
+    const height: number = graph.get('height');
+    const group: IGroup = graph.get('group');
+    const startMatrix = group.getMatrix() || [1, 0, 0, 0, 1, 0, 0, 0, 1];
+    group.resetMatrix();
+
+    let bbox: BBox = {
+      x: 0, y: 0,
+      minX: Number.MAX_SAFE_INTEGER, minY: Number.MAX_SAFE_INTEGER,
+      maxX: Number.MIN_SAFE_INTEGER, maxY: Number.MIN_SAFE_INTEGER,
+      width: 0, height: 0
+    };
+    for (const item of items) {
+      const itemBBox = item.getBBox();
+      if (itemBBox.minX < bbox.minX) {
+        bbox.minX = itemBBox.minX;
+      }
+      if (itemBBox.minY < bbox.minY) {
+        bbox.minY = itemBBox.minY;
+      }
+      if (itemBBox.maxX > bbox.maxX) {
+        bbox.maxX = itemBBox.maxX;
+      }
+      if (itemBBox.maxY > bbox.maxY) {
+        bbox.maxY = itemBBox.maxY;
+      }
+    }
+    bbox.x = bbox.minX;
+    bbox.y = bbox.minY;
+    bbox.width = bbox.maxX - bbox.minX;
+    bbox.height = bbox.maxY - bbox.minY;
+
+    if (bbox.width === 0 || bbox.height === 0) return;
+    const viewCenter = this.getViewCenter();
+
+    const groupCenter: Point = {
+      x: bbox.x + bbox.width / 2,
+      y: bbox.y + bbox.height / 2,
+    };
+
+    // Compute ratio
+    const w = (width - padding[1] - padding[3]) / bbox.width;
+    const h = (height - padding[0] - padding[2]) / bbox.height;
+    let ratio = w;
+    if (w > h) {
+      ratio = h;
+    }
+
+    if (animate) {
+      this.animatedFitView(group, startMatrix, animateCfg, bbox, viewCenter, groupCenter, ratio);
+    } else {
+      graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y);
+
+      if (!graph.zoom(ratio, viewCenter)) {
+        console.warn('zoom failed, ratio out of range, ratio: %f', ratio);
+      }
     }
   }
 

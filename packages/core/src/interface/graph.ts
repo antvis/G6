@@ -181,6 +181,15 @@ export interface IAbstractGraph extends EventEmitter {
   fitView: (padding?: Padding, rules?: FitViewRules, animate?: boolean, animateCfg?: GraphAnimateConfig) => void;
 
   /**
+   * Fits the passed items into the view. If no items are passed it will fit the whole graph
+   * @param {Item[]} items Items you want to fit into the view
+   * @param {Padding} padding padding around the items
+   * @param {boolean} animate Wheter to animate the transition
+   * @param {GraphAnimateConfig} animateCfg Animation configuration
+   */
+  fitItems: (items: Item[], padding?: Padding, animate?: boolean, animateCfg?: GraphAnimateConfig) => void;
+
+  /**
    * 调整视口适应视图，不缩放，仅将图 bbox 中心对齐到画布中心
    * @param {boolean} animate 是否带有动画地移动
    * @param {GraphAnimateConfig} animateCfg 若带有动画，动画的配置项
