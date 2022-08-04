@@ -201,7 +201,7 @@ export default class ViewController {
     let bbox: BBox = {
       x: 0, y: 0,
       minX: Number.MAX_SAFE_INTEGER, minY: Number.MAX_SAFE_INTEGER,
-      maxX: 0, maxY: 0,
+      maxX: Number.MIN_SAFE_INTEGER, maxY: Number.MIN_SAFE_INTEGER,
       width: 0, height: 0
     };
     for (const item of items) {
