@@ -642,22 +642,6 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   }
 
   /**
-   * Fits the passed items into the view
-   * @param {Item[]} items Items you want to fit into the view
-   * @param {Padding} padding padding around the items
-   * @param {boolean} animate Wheter to animate the transition
-   * @param {GraphAnimateConfig} animateCfg Animation configuration
-   */
-  public fitItems(items: Item[], padding?: Padding, animate?: boolean, animateCfg?: GraphAnimateConfig): void {
-    if (padding) {
-      this.set('fitViewPadding', padding);
-    }
-
-    const viewController: ViewController = this.get('viewController');
-    viewController.fitItems(items, animate, animateCfg);
-  }
-
-  /**
    * 调整视口适应视图，不缩放，仅将图 bbox 中心对齐到画布中心
    * @param {boolean} animate 是否带有动画地移动
    * @param {GraphAnimateConfig} animateCfg 若带有动画，动画的配置项
@@ -814,6 +798,18 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     viewController.focus(item, isAnimate, curAniamteCfg);
 
     this.autoPaint();
+  }
+
+  /**
+   * Focus on the passed items
+   * @param {Item[]} items Items you want to focus on
+   * @param {boolean} zoomToFit Wether to zoom on the passed items
+   * @param {boolean} animate Wether to animate the transition
+   * @param {GraphAnimateConfig} animateCfg Animation configuration
+   */
+  public focusItems(items: Item[], zoomToFit?: boolean, animate?: boolean, animateCfg?: GraphAnimateConfig): void {
+    const viewController: ViewController = this.get('viewController');
+    viewController.focusItems(items, zoomToFit, animate, animateCfg);
   }
 
   /**

@@ -57,71 +57,6 @@ describe('view', () => {
     expect(numberEqual(bbox.width, 320, 1)).toBe(true);
     expect(numberEqual(bbox.height, 480, 1)).toBe(true);
   });
-  it('fit items', () => {
-    const data = {
-      nodes: [
-        {
-          id: 'node-1',
-          x: 100,
-          y: 100,
-          size: [150, 100],
-          type: 'simple-rect',
-          color: '#333',
-          style: {
-            fill: '#666',
-          },
-        },
-        {
-          id: 'node-2',
-          x: 200,
-          y: 200,
-          size: [150, 100],
-          type: 'simple-rect',
-          color: '#333',
-          style: {
-            fill: '#666',
-          },
-        }
-      ],
-    };
-    graph.data(data);
-    graph.render();
-
-    const canvas: AbstractCanvas = graph.get('canvas');
-
-    let bbox = canvas.getCanvasBBox();
-
-    expect(numberEqual(bbox.x, 10, 1)).toBe(true);
-    expect(numberEqual(bbox.y, 57, 1)).toBe(true);
-    expect(numberEqual(bbox.maxX, 490, 1)).toBe(true);
-    expect(numberEqual(bbox.maxY, 442, 1)).toBe(true);
-    expect(numberEqual(bbox.width, 480, 1)).toBe(true);
-    expect(numberEqual(bbox.height, 384, 1)).toBe(true);
-
-    const node1 = graph.findById('node-1');
-    graph.fitItems([node1]);
-
-    bbox = graph.get('canvas').getCanvasBBox();
-
-    expect(numberEqual(bbox.x, 10, 1)).toBe(true);
-    expect(numberEqual(bbox.y, 89, 1)).toBe(true);
-    expect(numberEqual(bbox.maxX, 807, 1)).toBe(true);
-    expect(numberEqual(bbox.maxY, 728, 1)).toBe(true);
-    expect(numberEqual(bbox.width, 797, 1)).toBe(true);
-    expect(numberEqual(bbox.height, 638, 1)).toBe(true);
-
-    const node2 = graph.findById('node-2');
-    graph.fitItems([node1, node2]);
-
-    bbox = graph.get('canvas').getCanvasBBox();
-
-    expect(numberEqual(bbox.x, 10, 1)).toBe(true);
-    expect(numberEqual(bbox.y, 57, 1)).toBe(true);
-    expect(numberEqual(bbox.maxX, 490, 1)).toBe(true);
-    expect(numberEqual(bbox.maxY, 442, 1)).toBe(true);
-    expect(numberEqual(bbox.width, 480, 1)).toBe(true);
-    expect(numberEqual(bbox.height, 384, 1)).toBe(true);
-  });
   it('modify padding', () => {
     const data = {
       nodes: [
@@ -175,6 +110,71 @@ describe('view', () => {
 
     expect(centerPoint.x - 50 < 0.1).toBe(true);
     expect(centerPoint.y - 50 < 0.1).toBe(true);
+  });
+  it('focus items', () => {
+    const data = {
+      nodes: [
+        {
+          id: 'node-1',
+          x: 100,
+          y: 100,
+          size: [150, 100],
+          type: 'simple-rect',
+          color: '#333',
+          style: {
+            fill: '#666',
+          },
+        },
+        {
+          id: 'node-2',
+          x: 200,
+          y: 200,
+          size: [150, 100],
+          type: 'simple-rect',
+          color: '#333',
+          style: {
+            fill: '#666',
+          },
+        }
+      ],
+    };
+    graph.data(data);
+    graph.render();
+
+    const canvas: AbstractCanvas = graph.get('canvas');
+
+    let bbox = canvas.getCanvasBBox();
+
+    expect(numberEqual(bbox.x, 50, 1)).toBe(true);
+    expect(numberEqual(bbox.y, 89, 1)).toBe(true);
+    expect(numberEqual(bbox.maxX, 450, 1)).toBe(true);
+    expect(numberEqual(bbox.maxY, 410, 1)).toBe(true);
+    expect(numberEqual(bbox.width, 400, 1)).toBe(true);
+    expect(numberEqual(bbox.height, 320, 1)).toBe(true);
+
+    const node1 = graph.findById('node-1');
+    graph.focusItems([node1], true);
+
+    bbox = graph.get('canvas').getCanvasBBox();
+
+    expect(numberEqual(bbox.x, 50, 1)).toBe(true);
+    expect(numberEqual(bbox.y, 116, 1)).toBe(true);
+    expect(numberEqual(bbox.maxX, 714, 1)).toBe(true);
+    expect(numberEqual(bbox.maxY, 648, 1)).toBe(true);
+    expect(numberEqual(bbox.width, 664, 1)).toBe(true);
+    expect(numberEqual(bbox.height, 532, 1)).toBe(true);
+
+    const node2 = graph.findById('node-2');
+    graph.focusItems([node1, node2], true);
+
+    bbox = graph.get('canvas').getCanvasBBox();
+
+    expect(numberEqual(bbox.x, 50, 1)).toBe(true);
+    expect(numberEqual(bbox.y, 89, 1)).toBe(true);
+    expect(numberEqual(bbox.maxX, 450, 1)).toBe(true);
+    expect(numberEqual(bbox.maxY, 410, 1)).toBe(true);
+    expect(numberEqual(bbox.width, 400, 1)).toBe(true);
+    expect(numberEqual(bbox.height, 320, 1)).toBe(true);
   });
   it('focus edge', () => {
     const data = {

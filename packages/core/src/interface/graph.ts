@@ -172,6 +172,15 @@ export interface IAbstractGraph extends EventEmitter {
   focusItem: (item: Item | string, animate?: boolean, animateCfg?: GraphAnimateConfig) => void;
 
   /**
+   * Fits the passed items into the view. If no items are passed it will fit the whole graph
+   * @param {Item[]} items Items you want to fit into the view
+   * @param {boolean} zoomToFit Wether to zoom on the passed items
+   * @param {boolean} animate Wheter to animate the transition
+   * @param {GraphAnimateConfig} animateCfg Animation configuration
+   */
+  focusItems: (items: Item[], zoomToFit?: boolean, animate?: boolean, animateCfg?: GraphAnimateConfig) => void;
+
+  /**
    * 调整视口适应视图
    * @param {Padding} padding 四周围边距
    * @param {FitViewRules} rules fitView的规则
@@ -179,15 +188,6 @@ export interface IAbstractGraph extends EventEmitter {
    * @param {GraphAnimateConfig} animateCfg 若带有动画，动画的配置项
    */
   fitView: (padding?: Padding, rules?: FitViewRules, animate?: boolean, animateCfg?: GraphAnimateConfig) => void;
-
-  /**
-   * Fits the passed items into the view. If no items are passed it will fit the whole graph
-   * @param {Item[]} items Items you want to fit into the view
-   * @param {Padding} padding padding around the items
-   * @param {boolean} animate Wheter to animate the transition
-   * @param {GraphAnimateConfig} animateCfg Animation configuration
-   */
-  fitItems: (items: Item[], padding?: Padding, animate?: boolean, animateCfg?: GraphAnimateConfig) => void;
 
   /**
    * 调整视口适应视图，不缩放，仅将图 bbox 中心对齐到画布中心
