@@ -1,5 +1,10 @@
 # ChangeLog
 
+#### 4.6.18
+
+- feat: updateLayout from no pipes to pipes, closes: #3726;
+- fix: relayout with pipes;
+
 #### 4.6.17
 
 - fix: legend changeData problem, closes: #3561;

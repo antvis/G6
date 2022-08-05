@@ -50,11 +50,17 @@ export default abstract class LayoutController {
 
   protected isLayoutTypeSame(cfg): boolean {
     const current = this.getLayoutCfgType(cfg);
-    // already has pipes
-    if (Array.isArray(this.layoutType)) {
-      return this.layoutType.every((type, index) => type === current[index]);
+    const preHasPipies = Array.isArray(this.layoutType);
+    const currentHasPipes = Array.isArray(current);
+    // already has pipes, and the new one is pipes
+    if (preHasPipies && currentHasPipes) {
+      return (this.layoutType as string[]).every((type, index) => type === current[index]);
     }
-
+    // only one of the pre and current is pipes
+    if (Array.isArray(current) || Array.isArray(this.layoutType)) {
+      return false;
+    }
+    // both of the pre and current are not pipes
     return cfg?.type === this.layoutType;
   }
 
@@ -171,28 +177,7 @@ export default abstract class LayoutController {
     } as GraphData;
   }
 
-  protected reLayoutMethod(layoutMethod, layoutCfg): Promise<void> {
-    return new Promise((reslove, reject) => {
-      const { graph } = this;
-      const layoutType = layoutCfg?.type;
-
-      // 每个布局方法都需要注册
-      layoutCfg.onLayoutEnd = () => {
-        graph.emit('aftersublayout', { type: layoutType });
-        reslove();
-      };
-
-      layoutMethod.init(this.data);
-      if (layoutType === 'force') {
-        layoutMethod.ticking = false;
-        layoutMethod.forceSimulation.stop();
-      }
-
-      graph.emit('beforesublayout', { type: layoutType });
-      layoutMethod.execute();
-      if (layoutMethod.isCustomLayout && layoutCfg.onLayoutEnd) layoutCfg.onLayoutEnd();
-    });
-  }
+  protected abstract execLayoutMethod(layoutCfg, order): Promise<void>;
 
   // 重新布局
   public relayout(reloadData?: boolean) {
@@ -213,7 +198,7 @@ export default abstract class LayoutController {
     layoutMethods?.forEach((layoutMethod: any, index: number) => {
       const currentCfg = layoutCfg[index] || layoutCfg;
       start = start.then(() => {
-        const relayoutPromise = this.reLayoutMethod(layoutMethod, currentCfg);
+        const relayoutPromise = this.execLayoutMethod(layoutMethod, currentCfg);
         if (index === layoutMethods.length - 1) {
           layoutCfg.onAllLayoutEnd?.();
         }

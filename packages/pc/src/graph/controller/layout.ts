@@ -106,7 +106,7 @@ export default class LayoutController extends AbstractLayout {
     }
   }
 
-  private execLayoutMethod(layoutCfg, order): Promise<void> {
+  protected execLayoutMethod(layoutCfg, order): Promise<void> {
     return new Promise(async (reslove, reject) => {
       const { graph } = this;
       if (!graph || graph.get('destroyed')) return;
