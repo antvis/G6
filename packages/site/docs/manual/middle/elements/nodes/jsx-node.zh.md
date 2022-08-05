@@ -79,6 +79,19 @@ G6.registerNode(
 我们再来看一个稍微复杂的案例。
 
 ```javascript
+// 假设一个节点数据如下：
+const data = {
+  nodes: [
+    {
+      id: 'node1',
+      type: 'xml-card', // 使用自定义的节点名称
+      metric: 'CPU usage',
+      cpuUsage: 80
+    },
+  ]
+}
+
+// 定义进度条的绘制方式
 const percentageBar = ({ width, used, height = 12 }) => `
   <rect style={{
     marginLeft: 10,
@@ -98,6 +111,7 @@ const percentageBar = ({ width, used, height = 12 }) => `
   </rect>
 `;
 
+// 定义节点的 jsx 绘制方式
 const textXML = (cfg) => `
 <group>
   <rect style={{
@@ -112,7 +126,7 @@ const textXML = (cfg) => `
 		radius: [0, 0, 6, 6] }} 
 		keyshape="true" 
 		cursor="move">
-    <text style={{marginLeft: 10 ,fill: "red"}}>${FULL}</text>
+    <text style={{marginLeft: 10 ,fill: 'red'}}>'FULL'</text>
     <text style={{ marginTop: 5, marginLeft: 10, fill: '#333'}}>${cfg.metric}: </text>
     <text style={{
       marginTop: 1,
@@ -125,7 +139,8 @@ const textXML = (cfg) => `
 </group>
 `;
 
-G6.registerNode('test', {
+// 注册节点
+G6.registerNode('xml-card', {
   jsx: textXML,
 });
 ```
