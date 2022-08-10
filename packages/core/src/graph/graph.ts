@@ -1161,6 +1161,15 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         parentCombo.addChild(item);
     }
 
+    if (item) {
+      const model = item.getModel();
+      if (model.initialStates) {
+        Object.keys(model.initialStates).forEach(key => {
+          item.setState(key, model.initialStates[key]);
+        });
+      }
+    }
+
     return item;
   }
 
@@ -1584,7 +1593,16 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       } else {
         item = self.addItem(type, model, false) as any;
       }
-      if (item) (items as { [key: string]: any[] })[`${type}s`].push(item);
+
+      if (item) {
+        if (model.initialStates) {
+          Object.keys(model.initialStates).forEach(key => {
+            item.setState(key, model.initialStates[key]);
+          });
+        }
+
+        (items as { [key: string]: any[] })[`${type}s`].push(item)
+      }
     });
   }
 
@@ -2130,16 +2148,33 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const nodes: NodeConfig[] = [];
     const edges: EdgeConfig[] = [];
     const combos: ComboConfig[] = [];
+
+    const getModelWithInitialStates = (item: INode | IEdge | ICombo): NodeConfig | EdgeConfig | ComboConfig => {
+      const model = item.getModel();
+      model.initialStates = {};
+      item.getStates().forEach(state => {
+        // console.log('node', state);
+        if (state.includes(':')) {
+          const stateWithValueParsed = state.split(':');
+          model.initialStates[stateWithValueParsed[0]] = stateWithValueParsed[1];
+        } else {
+          model.initialStates[state] = true;
+        }
+      });
+
+      return model;
+    };
+
     each(this.get('nodes'), (node: INode) => {
-      nodes.push(node.getModel() as NodeConfig);
+      nodes.push(getModelWithInitialStates(node) as NodeConfig);
     });
 
     each(this.get('edges'), (edge: IEdge) => {
-      edges.push(edge.getModel() as EdgeConfig);
+      edges.push(getModelWithInitialStates(edge) as EdgeConfig);
     });
 
     each(this.get('combos'), (combo: ICombo) => {
-      combos.push(combo.getModel() as ComboConfig);
+      edges.push(getModelWithInitialStates(combo) as ComboConfig);
     });
 
     return { nodes, edges, combos };
