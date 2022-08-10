@@ -2439,7 +2439,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * 若 cfg 含有 type 字段或为 String 类型，且与现有布局方法不同，则更换布局
    * 若 cfg 不包括 type ，则保持原有布局方法，仅更新布局配置项
    */
-  public updateLayout(cfg: any, align?: 'center' | 'begin', alignPoint?: IPoint, stack: boolean = true): void {
+  public updateLayout(cfg: any = {}, align?: 'center' | 'begin', alignPoint?: IPoint, stack: boolean = true): void {
     const layoutController = this.get('layoutController');
 
     if (isString(cfg)) {

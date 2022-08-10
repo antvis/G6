@@ -2,7 +2,7 @@ import { AbstractCanvas, BBox } from '@antv/g-base';
 import { Point, IGroup } from '@antv/g-base';
 import { isNumber, isString } from '@antv/util';
 import { Item, Matrix, Padding, GraphAnimateConfig, IEdge, FitViewRules } from '../../types';
-import { formatPadding } from '../../util/base';
+import { formatPadding, isNaN } from '../../util/base';
 import { applyMatrix, invertMatrix, lerpArray } from '../../util/math';
 import { IAbstractGraph } from '../../interface/graph';
 import { transform } from '@antv/matrix-util/lib/ext';
@@ -55,6 +55,7 @@ export default class ViewController {
     // Translate
     const vx = bbox.x + viewCenter.x - groupCenter.x - bbox.minX;
     const vy = bbox.y + viewCenter.y - groupCenter.y - bbox.minY;
+    if (isNaN(vx) || isNaN(vy)) return;
     const translatedMatrix = transform(matrix, [['t', vx, vy]]);
 
     // Zoom
@@ -79,10 +80,13 @@ export default class ViewController {
     const animationConfig = getAnimateCfgWithCallback({
       animateCfg,
       callback: () => {
+        group.setMatrix(zoomedMatrix);
         graph.emit('viewportchange', { action: 'translate', matrix: translatedMatrix });
         graph.emit('viewportchange', { action: 'zoom', matrix: zoomedMatrix });
       }
     });
+    group.stopAnimate();
+    group.setMatrix(startMatrix);
     group.animate((ratio: number) => {
       return { matrix: lerpArray(startMatrix, zoomedMatrix, ratio) };
     }, animationConfig);
@@ -118,7 +122,10 @@ export default class ViewController {
     if (animate) {
       this.animatedFitView(group, startMatrix, animateCfg, bbox, viewCenter, groupCenter, ratio);
     } else {
-      graph.translate(viewCenter.x - groupCenter.x, viewCenter.y - groupCenter.y);
+      const dx = viewCenter.x - groupCenter.x;
+      const dy = viewCenter.y - groupCenter.y;
+      if (isNaN(dx) || isNaN(dy)) return;
+      graph.translate(dx, dy);
 
       if (!graph.zoom(ratio, viewCenter)) {
         console.warn('zoom failed, ratio out of range, ratio: %f', ratio);
