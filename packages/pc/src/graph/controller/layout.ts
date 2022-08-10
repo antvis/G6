@@ -268,7 +268,7 @@ export default class LayoutController extends AbstractLayout {
       layoutCfg.onAllLayoutEnd = async () => {
         // 执行用户自定义 onLayoutEnd
         if (onLayoutEnd) {
-          onLayoutEnd();
+          onLayoutEnd(nodes);
         }
 
         // 更新节点位置
