@@ -2458,7 +2458,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       // translate to point coordinate system
       toPoint = this.getPointByCanvas(toPoint.x, toPoint.y);
 
-      const forceTypes = ['force', 'gForce', 'fruchterman'];
+      const forceTypes = ['force', 'gForce', 'fruchterman', 'force2'];
 
       // if it is force layout, only center takes effect, and assign center force
       if (forceTypes.includes(cfg.type) || (!cfg.type && forceTypes.includes(layoutController?.layoutType))) {
