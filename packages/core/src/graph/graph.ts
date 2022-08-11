@@ -2160,7 +2160,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const edges: EdgeConfig[] = [];
     const combos: ComboConfig[] = [];
 
-    const getModelWithstates = (item: INode | IEdge | ICombo): NodeConfig | EdgeConfig | ComboConfig => {
+    const getModelWithStates = (item: INode | IEdge | ICombo): NodeConfig | EdgeConfig | ComboConfig => {
       const model = item.getModel();
       model.states = {};
       item.getStates().forEach(state => {
@@ -2176,15 +2176,15 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     };
 
     each(this.get('nodes'), (node: INode) => {
-      nodes.push(getModelWithstates(node) as NodeConfig);
+      nodes.push(getModelWithStates(node) as NodeConfig);
     });
 
     each(this.get('edges'), (edge: IEdge) => {
-      edges.push(getModelWithstates(edge) as EdgeConfig);
+      edges.push(getModelWithStates(edge) as EdgeConfig);
     });
 
     each(this.get('combos'), (combo: ICombo) => {
-      combos.push(getModelWithstates(combo) as ComboConfig);
+      combos.push(getModelWithStates(combo) as ComboConfig);
     });
 
     return { nodes, edges, combos };
