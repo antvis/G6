@@ -1343,14 +1343,14 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     }
 
     const currentModel = currentItem.getModel();
+    const UnupdateModel = clone(currentModel);
+
     if (cfg.states && currentModel.states) {
       // if `.states` is passed to update item
       // and also presented on the previous model
       // give priority to `cfg.states`
       currentModel.states = {};
     }
-
-    const UnupdateModel = clone(currentModel);
 
     let type = '';
     if (currentItem.getType) type = currentItem.getType();
@@ -1623,7 +1623,6 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * @return {object} this
    */
   public changeData(propsData?: GraphData | TreeGraphData, stack: boolean = true): AbstractGraph {
-    console.error(1);
     const self = this;
     const data = propsData || self.get('data');
     if (!dataValidation(data)) {

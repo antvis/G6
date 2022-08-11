@@ -1736,7 +1736,6 @@ describe('states', () => {
   });
 
   it('should change data and swap initial states on updated item if model has it', () => {
-    console.log('LOGGING');
     graph.changeData({
       nodes: [
         {
@@ -1750,7 +1749,6 @@ describe('states', () => {
   });
 
   it('should change data and apply initial styles on added item if model has it', () => {
-    console.log('LOGGING');
     graph.changeData({
       nodes: [
         {
