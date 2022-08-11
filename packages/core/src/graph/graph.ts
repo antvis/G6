@@ -1180,6 +1180,15 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         parentCombo.addChild(item);
     }
 
+    if (item) {
+      const model = item.getModel();
+      if (model.states) {
+        Object.keys(model.states).forEach(key => {
+          item.setState(key, model.states[key]);
+        });
+      }
+    }
+
     return item;
   }
 
@@ -1352,7 +1361,15 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       currentItem = item;
     }
 
-    const UnupdateModel = clone(currentItem.getModel());
+    const currentModel = currentItem.getModel();
+    const UnupdateModel = clone(currentModel);
+
+    if (cfg.states && currentModel.states) {
+      // if `.states` is passed to update item
+      // and also presented on the previous model
+      // give priority to `cfg.states`
+      currentModel.states = {};
+    }
 
     let type = '';
     if (currentItem.getType) type = currentItem.getType();
@@ -1364,6 +1381,14 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
     if (type === 'combo') {
       each(states, state => this.setItemState(currentItem, state, true));
+    }
+
+    if (cfg.states) {
+      currentItem.clearStates();
+
+      Object.keys(cfg.states).forEach(key => {
+        currentItem.setState(key, cfg.states[key]);
+      });
     }
 
     if (stack && this.get('enabledStack')) {
@@ -1603,7 +1628,10 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       } else {
         item = self.addItem(type, model, false) as any;
       }
-      if (item) (items as { [key: string]: any[] })[`${type}s`].push(item);
+
+      if (item) {
+        (items as { [key: string]: any[] })[`${type}s`].push(item);
+      }
     });
   }
 
@@ -2149,16 +2177,32 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const nodes: NodeConfig[] = [];
     const edges: EdgeConfig[] = [];
     const combos: ComboConfig[] = [];
+
+    const getModelWithStates = (item: INode | IEdge | ICombo): NodeConfig | EdgeConfig | ComboConfig => {
+      const model = item.getModel();
+      model.states = {};
+      item.getStates().forEach(state => {
+        if (state.includes(':')) {
+          const stateWithValueParsed = state.split(':');
+          model.states[stateWithValueParsed[0]] = stateWithValueParsed[1];
+        } else {
+          model.states[state] = true;
+        }
+      });
+
+      return model;
+    };
+
     each(this.get('nodes'), (node: INode) => {
-      nodes.push(node.getModel() as NodeConfig);
+      nodes.push(getModelWithStates(node) as NodeConfig);
     });
 
     each(this.get('edges'), (edge: IEdge) => {
-      edges.push(edge.getModel() as EdgeConfig);
+      edges.push(getModelWithStates(edge) as EdgeConfig);
     });
 
     each(this.get('combos'), (combo: ICombo) => {
-      combos.push(combo.getModel() as ComboConfig);
+      combos.push(getModelWithStates(combo) as ComboConfig);
     });
 
     return { nodes, edges, combos };

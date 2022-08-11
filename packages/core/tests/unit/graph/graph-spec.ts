@@ -1,6 +1,6 @@
 import '../../../src/behavior';
 import { scale, translate } from '../../../src/util/math';
-import { GraphData, Item } from '../../../src/types';
+import { GraphData, ICombo, IEdge, INode, Item } from '../../../src/types';
 import Graph from '../implement-graph';
 
 const div = document.createElement('div');
@@ -1686,5 +1686,89 @@ describe('redo stack & undo stack', () => {
     });
 
     graph.destroy();
+  });
+});
+
+describe('states', () => {
+  let graph: Graph;
+  let items: (INode | IEdge)[];
+
+  beforeEach(() => {
+    graph = new Graph({ container: div, width: 500, height: 500 });
+
+    items = [];
+    items.push(graph.addItem('node', {
+      id: 'node1',
+      states: { appliedOnNode: true, multipleOnNode: 'value' }
+    }) as INode);
+    items.push(graph.addItem('node', {
+      id: 'node2'
+    }) as INode);
+    items.push(graph.addItem('edge', {
+      id: 'edge1',
+      source: 'node1',
+      target: 'node1',
+      type: 'loop',
+      states: { appliedOnEdge: true, multipleOnEdge: 'value' }
+    }) as IEdge);
+    items.push(graph.addItem('edge', {
+      id: 'edge2',
+      source: 'node2',
+      target: 'node2',
+      type: 'loop'
+    }) as IEdge);
+    items.push(graph.addItem('combo', {
+      id: 'combo1',
+      states: { appliedOnCombo: true, multipleOnCombo: 'value' }
+    }) as ICombo);
+    items.push(graph.addItem('combo', {
+      id: 'combo2'
+    }) as ICombo);
+  });
+
+  it('should set initial states on added item if model has it', () => {
+    expect(items[0].getStates()).toEqual(['appliedOnNode', 'multipleOnNode:value']);
+    expect(items[1].getStates()).toEqual([]);
+    expect(items[2].getStates()).toEqual(['appliedOnEdge', 'multipleOnEdge:value']);
+    expect(items[3].getStates()).toEqual([]);
+    expect(items[4].getStates()).toEqual(['appliedOnCombo', 'multipleOnCombo:value']);
+    expect(items[5].getStates()).toEqual([]);
+  });
+
+  it('should change data and swap initial states on updated item if model has it', () => {
+    graph.changeData({
+      nodes: [
+        {
+          id: 'node1',
+          states: { appliedOnNodeNew: true, multipleOnNodeNew: 'valueNew' }
+        }
+      ]
+    });
+
+    expect(graph.findById('node1').getStates()).toEqual(['appliedOnNodeNew', 'multipleOnNodeNew:valueNew']);
+  });
+
+  it('should change data and apply initial styles on added item if model has it', () => {
+    graph.changeData({
+      nodes: [
+        {
+          id: 'node3',
+          states: { appliedOnAddedNode: true, multipleOnAddedNode: 'addedValue' }
+        }
+      ]
+    });
+
+    expect(graph.findById('node3').getStates()).toEqual(['appliedOnAddedNode', 'multipleOnAddedNode:addedValue']);
+  });
+
+  it('should save graph with current states which will be initial ones', () => {
+    const savedGraph = graph.save();
+
+    expect(savedGraph.nodes[0].states).toEqual({ appliedOnNode: true, multipleOnNode: 'value' });
+    expect(savedGraph.nodes[1].states).toEqual({});
+    expect(savedGraph.edges[0].states).toEqual({ appliedOnEdge: true, multipleOnEdge: 'value' });
+    expect(savedGraph.edges[1].states).toEqual({});
+    expect(savedGraph.combos[0].states).toEqual({ appliedOnCombo: true, multipleOnCombo: 'value' });
+    expect(savedGraph.combos[1].states).toEqual({});
   });
 });
