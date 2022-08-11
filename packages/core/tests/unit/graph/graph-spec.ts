@@ -1689,7 +1689,7 @@ describe('redo stack & undo stack', () => {
   });
 });
 
-describe('initialStates', () => {
+describe('states', () => {
   let graph: Graph;
   let items: (INode | IEdge)[];
 
@@ -1699,7 +1699,7 @@ describe('initialStates', () => {
     items = [];
     items.push(graph.addItem('node', {
       id: 'node1',
-      initialStates: { appliedOnNode: true, multipleOnNode: 'value' }
+      states: { appliedOnNode: true, multipleOnNode: 'value' }
     }) as INode);
     items.push(graph.addItem('node', {
       id: 'node2'
@@ -1709,7 +1709,7 @@ describe('initialStates', () => {
       source: 'node1',
       target: 'node1',
       type: 'loop',
-      initialStates: { appliedOnEdge: true, multipleOnEdge: 'value' }
+      states: { appliedOnEdge: true, multipleOnEdge: 'value' }
     }) as IEdge);
     items.push(graph.addItem('edge', {
       id: 'edge2',
@@ -1719,7 +1719,7 @@ describe('initialStates', () => {
     }) as IEdge);
     items.push(graph.addItem('combo', {
       id: 'combo1',
-      initialStates: { appliedOnCombo: true, multipleOnCombo: 'value' }
+      states: { appliedOnCombo: true, multipleOnCombo: 'value' }
     }) as ICombo);
     items.push(graph.addItem('combo', {
       id: 'combo2'
@@ -1741,7 +1741,7 @@ describe('initialStates', () => {
       nodes: [
         {
           id: 'node1',
-          initialStates: { appliedOnNodeNew: true, multipleOnNodeNew: 'valueNew' }
+          states: { appliedOnNodeNew: true, multipleOnNodeNew: 'valueNew' }
         }
       ]
     });
@@ -1755,7 +1755,7 @@ describe('initialStates', () => {
       nodes: [
         {
           id: 'node3',
-          initialStates: { appliedOnAddedNode: true, multipleOnAddedNode: 'addedValue' }
+          states: { appliedOnAddedNode: true, multipleOnAddedNode: 'addedValue' }
         }
       ]
     });
@@ -1766,11 +1766,11 @@ describe('initialStates', () => {
   it('should save graph with current states which will be initial ones', () => {
     const savedGraph = graph.save();
 
-    expect(savedGraph.nodes[0].initialStates).toEqual({ appliedOnNode: true, multipleOnNode: 'value' });
-    expect(savedGraph.nodes[1].initialStates).toEqual({});
-    expect(savedGraph.edges[0].initialStates).toEqual({ appliedOnEdge: true, multipleOnEdge: 'value' });
-    expect(savedGraph.edges[1].initialStates).toEqual({});
-    expect(savedGraph.combos[0].initialStates).toEqual({ appliedOnCombo: true, multipleOnCombo: 'value' });
-    expect(savedGraph.combos[1].initialStates).toEqual({});
+    expect(savedGraph.nodes[0].states).toEqual({ appliedOnNode: true, multipleOnNode: 'value' });
+    expect(savedGraph.nodes[1].states).toEqual({});
+    expect(savedGraph.edges[0].states).toEqual({ appliedOnEdge: true, multipleOnEdge: 'value' });
+    expect(savedGraph.edges[1].states).toEqual({});
+    expect(savedGraph.combos[0].states).toEqual({ appliedOnCombo: true, multipleOnCombo: 'value' });
+    expect(savedGraph.combos[1].states).toEqual({});
   });
 });

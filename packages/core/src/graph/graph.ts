@@ -1163,9 +1163,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
     if (item) {
       const model = item.getModel();
-      if (model.initialStates) {
-        Object.keys(model.initialStates).forEach(key => {
-          item.setState(key, model.initialStates[key]);
+      if (model.states) {
+        Object.keys(model.states).forEach(key => {
+          item.setState(key, model.states[key]);
         });
       }
     }
@@ -1343,11 +1343,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     }
 
     const currentModel = currentItem.getModel();
-    if (cfg.initialStates && currentModel.initialStates) {
-      // if `.initialStates` is passed to update item
+    if (cfg.states && currentModel.states) {
+      // if `.states` is passed to update item
       // and also presented on the previous model
-      // give priority to `cfg.initialStates`
-      currentModel.initialStates = {};
+      // give priority to `cfg.states`
+      currentModel.states = {};
     }
 
     const UnupdateModel = clone(currentModel);
@@ -1364,11 +1364,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       each(states, state => this.setItemState(currentItem, state, true));
     }
 
-    if (cfg.initialStates) {
+    if (cfg.states) {
       currentItem.clearStates();
 
-      Object.keys(cfg.initialStates).forEach(key => {
-        currentItem.setState(key, cfg.initialStates[key]);
+      Object.keys(cfg.states).forEach(key => {
+        currentItem.setState(key, cfg.states[key]);
       });
     }
 
@@ -1670,7 +1670,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     } else {
       this.set('comboTrees', []);
     }
-    
+
     this.diffItems('node', items, (data as GraphData).nodes!);
 
     each(itemMap, (item: INode & IEdge & ICombo, id: number) => {
@@ -2160,15 +2160,15 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const edges: EdgeConfig[] = [];
     const combos: ComboConfig[] = [];
 
-    const getModelWithInitialStates = (item: INode | IEdge | ICombo): NodeConfig | EdgeConfig | ComboConfig => {
+    const getModelWithstates = (item: INode | IEdge | ICombo): NodeConfig | EdgeConfig | ComboConfig => {
       const model = item.getModel();
-      model.initialStates = {};
+      model.states = {};
       item.getStates().forEach(state => {
         if (state.includes(':')) {
           const stateWithValueParsed = state.split(':');
-          model.initialStates[stateWithValueParsed[0]] = stateWithValueParsed[1];
+          model.states[stateWithValueParsed[0]] = stateWithValueParsed[1];
         } else {
-          model.initialStates[state] = true;
+          model.states[state] = true;
         }
       });
 
@@ -2176,15 +2176,15 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     };
 
     each(this.get('nodes'), (node: INode) => {
-      nodes.push(getModelWithInitialStates(node) as NodeConfig);
+      nodes.push(getModelWithstates(node) as NodeConfig);
     });
 
     each(this.get('edges'), (edge: IEdge) => {
-      edges.push(getModelWithInitialStates(edge) as EdgeConfig);
+      edges.push(getModelWithstates(edge) as EdgeConfig);
     });
 
     each(this.get('combos'), (combo: ICombo) => {
-      combos.push(getModelWithInitialStates(combo) as ComboConfig);
+      combos.push(getModelWithstates(combo) as ComboConfig);
     });
 
     return { nodes, edges, combos };
