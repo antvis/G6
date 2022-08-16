@@ -276,7 +276,7 @@ export default class LayoutController extends AbstractLayout {
     }
 
     this.stopWorker();
-    if (layoutCfg.workerEnabled && this.layoutWithWorker(this.data)) {
+    if (layoutCfg.workerEnabled && this.layoutWithWorker(this.data, success)) {
       // 如果启用布局web worker并且浏览器支持web worker，用web worker布局。否则回退到不用web worker布局。
       return true;
     }
@@ -317,7 +317,7 @@ export default class LayoutController extends AbstractLayout {
    * @param {object} data graph data
    * @return {boolean} 是否支持web worker
    */
-  private layoutWithWorker(data): boolean {
+  private layoutWithWorker(data, success): boolean {
     const { layoutCfg, graph } = this;
     const worker = this.getWorker();
     // 每次worker message event handler调用之间的共享数据，会被修改。
@@ -350,6 +350,7 @@ export default class LayoutController extends AbstractLayout {
       // 最后统一在外部调用onAllLayoutEnd
       start.then(() => {
         if (layoutCfg.onAllLayoutEnd) layoutCfg.onAllLayoutEnd();
+        success?.()
       }).catch((error) => {
         console.error('layout failed', error);
       });
@@ -485,7 +486,7 @@ export default class LayoutController extends AbstractLayout {
     this.data = this.setDataFromGraph();
 
     this.stopWorker();
-    if (cfg.workerEnabled && this.layoutWithWorker(this.data)) {
+    if (cfg.workerEnabled && this.layoutWithWorker(this.data, null)) {
       // 如果启用布局web worker并且浏览器支持web worker，用web worker布局。否则回退到不用web worker布局。
       return;
     }
