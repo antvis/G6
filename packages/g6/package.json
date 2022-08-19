@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "4.6.17",
+  "version": "4.7.0-beta.2",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",
@@ -66,7 +66,7 @@
     ]
   },
   "dependencies": {
-    "@antv/g6-pc": "0.6.17"
+    "@antv/g6-pc": "0.7.0-beta.2"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
