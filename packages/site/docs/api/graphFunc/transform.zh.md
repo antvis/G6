@@ -40,7 +40,7 @@ const zoom = graph.getZoom();
 // 以 (100, 100) 为中心点，放大到 3
 graph.zoom(3, { x: 100, y: 100 });
 
-// 以当前元素位置为中心，缩小到 0.5
+// 以绘制坐标系的原点 (0, 0) 为缩放中心，缩小到 0.5。注意绘制坐标系的原点 != 视窗左上角，可用 graph.getCanvasByViewport 进行转换。各坐标系解析文档： https://g6.antv.vision/zh/docs/manual/advanced/coordinate-system
 graph.zoom(0.5);
 
 // 带动画以 (100, 100) 为中心点，放大到 3

@@ -62,7 +62,7 @@ const nodeBasicMethod = {
         x: 0,
         y: 0,
         width: w,
-        heigh: h,
+        height: h,
       },
       name: 'big-rect-shape',
     });
@@ -181,7 +181,7 @@ const nodeBasicMethod = {
       ipCPBox.on('mouseleave', () => {
         onMouseLeave();
       });
-      ipCPBox.on('click', () => {});
+      ipCPBox.on('click', () => { });
     }
   },
   setState: (name, value, item) => {

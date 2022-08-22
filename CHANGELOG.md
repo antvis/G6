@@ -1,5 +1,9 @@
 # ChangeLog
 
+#### 4.7.0
+
+- fix: combo collapsed edge problems, closes: #3839;
+
 #### 4.7.0-beta
 
 - feat: force2 from graphin-force;
