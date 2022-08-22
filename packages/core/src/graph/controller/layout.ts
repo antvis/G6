@@ -86,25 +86,30 @@ export default abstract class LayoutController {
 
   // 更换布局
   public changeLayout(cfg) {
-    this.layoutCfg = cfg;
-    this.layoutType = cfg.type || this.layoutType;
+    const { disableTriggerLayout, ...otherCfgs } = cfg;
+    this.layoutCfg = otherCfgs;
+    this.layoutType = otherCfgs.type || this.layoutType;
 
-    this.destoryLayoutMethods();
+    // 不触发重新布局，仅更新参数
+    if (disableTriggerLayout) return;
     this.layout();
   }
 
   // 更换数据
   public changeData(success) {
-    this.destoryLayoutMethods();
     this.layout(success);
   }
 
-  public destoryLayoutMethods() {
+  public destoryLayoutMethods(): string[] {
     const { layoutMethods } = this;
+    const destroyedLayoutTypes = [];
     layoutMethods?.forEach((layoutMethod) => {
+      const layoutType = layoutMethod.getType?.();
+      if (layoutType) destroyedLayoutTypes.push(layoutType);
       layoutMethod.destroy();
     });
     this.layoutMethods = [];
+    return destroyedLayoutTypes;
   }
 
   // 销毁布局，不能使用 this.destroy，因为 controller 还需要被使用，只是把布局算法销毁
@@ -292,6 +297,8 @@ export default abstract class LayoutController {
     }
   }
 
+  public abstract initWithPreset(): boolean;
+
   // 初始化节点到 center 附近
   public initPositions(center, nodes): boolean {
     const { graph } = this;
@@ -300,6 +307,10 @@ export default abstract class LayoutController {
     }
     const nodeLength = nodes ? nodes.length : 0;
     if (!nodeLength) return;
+
+    const hasPreset = this.initWithPreset();
+
+    if (hasPreset) return false;
 
     const width = graph.get('width') * 0.85;
     const height = graph.get('height') * 0.85;

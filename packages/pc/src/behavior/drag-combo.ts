@@ -198,7 +198,6 @@ export default {
   updatePositions(evt: IG6GraphEvent, restore: boolean) {
     // 当启用 delegate 时，拖动结束时需要更新 combo
     if (this.enableDelegate || restore) {
-      console.log('updatePositions', this.targets);
       each(this.targets, (item) => {
         this.updateCombo(item, evt, restore);
       });
@@ -424,7 +423,6 @@ export default {
     let x: number = evt.x - origin.x + this.point[itemId].x;
     let y: number = evt.y - origin.y + this.point[itemId].y;
 
-    console.log('restore', restore);
     if (restore) {
       x += origin.x - evt.x;
       y += origin.y - evt.y;

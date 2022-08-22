@@ -82,19 +82,26 @@ describe('graph', () => {
     );
   });
   it('force align center', (done) => {
-    setTimeout(() => {
-      const bbox = graph.getGroup().getCanvasBBox();
-      console.log('bbox', bbox.x, bbox.y);
-      expect(Math.abs(bbox.x - 55.352659713113454) < 10).toBe(true);
-      expect(Math.abs(bbox.y - 163.01955290709174) < 10).toBe(true);
+    const canvasPoint = { x: 100, y: 200 }
+    const point = graph.getPointByCanvas(canvasPoint.x, canvasPoint.y)
+    graph.once('afterlayout', () => {
+      const meanCenter = { x: 0, y: 0 };
+      graph.getNodes().forEach(node => {
+        meanCenter.x += node.getModel().x;
+        meanCenter.y += node.getModel().y;
+      });
+      meanCenter.x /= graph.getNodes().length;
+      meanCenter.y /= graph.getNodes().length;
+      expect(Math.abs(meanCenter.x - point.x) < 10).toBe(true);
+      expect(Math.abs(meanCenter.y - point.y) < 10).toBe(true);
       done();
-    }, 2000);
+    })
     graph.updateLayout(
       {
         type: 'force',
       },
       'center',
-      { x: 100, y: 200 },
+      canvasPoint,
     );
   });
 });
