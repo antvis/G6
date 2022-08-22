@@ -111,10 +111,75 @@ describe('view', () => {
     expect(centerPoint.x - 50 < 0.1).toBe(true);
     expect(centerPoint.y - 50 < 0.1).toBe(true);
   });
+  it('focus items', () => {
+    const data = {
+      nodes: [
+        {
+          id: 'node-1',
+          x: 100,
+          y: 100,
+          size: [150, 100],
+          type: 'simple-rect',
+          color: '#333',
+          style: {
+            fill: '#666',
+          },
+        },
+        {
+          id: 'node-2',
+          x: 200,
+          y: 200,
+          size: [150, 100],
+          type: 'simple-rect',
+          color: '#333',
+          style: {
+            fill: '#666',
+          },
+        }
+      ],
+    };
+    graph.data(data);
+    graph.render();
+
+    const canvas: AbstractCanvas = graph.get('canvas');
+
+    let bbox = canvas.getCanvasBBox();
+
+    expect(numberEqual(bbox.x, 50, 1)).toBe(true);
+    expect(numberEqual(bbox.y, 89, 1)).toBe(true);
+    expect(numberEqual(bbox.maxX, 450, 1)).toBe(true);
+    expect(numberEqual(bbox.maxY, 410, 1)).toBe(true);
+    expect(numberEqual(bbox.width, 400, 1)).toBe(true);
+    expect(numberEqual(bbox.height, 320, 1)).toBe(true);
+
+    const node1 = graph.findById('node-1');
+    graph.focusItems([node1], true);
+
+    bbox = graph.get('canvas').getCanvasBBox();
+
+    expect(numberEqual(bbox.x, 50, 1)).toBe(true);
+    expect(numberEqual(bbox.y, 116, 1)).toBe(true);
+    expect(numberEqual(bbox.maxX, 714, 1)).toBe(true);
+    expect(numberEqual(bbox.maxY, 648, 1)).toBe(true);
+    expect(numberEqual(bbox.width, 664, 1)).toBe(true);
+    expect(numberEqual(bbox.height, 532, 1)).toBe(true);
+
+    const node2 = graph.findById('node-2');
+    graph.focusItems([node1, node2], true);
+
+    bbox = graph.get('canvas').getCanvasBBox();
+
+    expect(numberEqual(bbox.x, 50, 1)).toBe(true);
+    expect(numberEqual(bbox.y, 89, 1)).toBe(true);
+    expect(numberEqual(bbox.maxX, 450, 1)).toBe(true);
+    expect(numberEqual(bbox.maxY, 410, 1)).toBe(true);
+    expect(numberEqual(bbox.width, 400, 1)).toBe(true);
+    expect(numberEqual(bbox.height, 320, 1)).toBe(true);
+  });
   it('focus edge', () => {
     const data = {
-      nodes: [{id: '1', x: 10, y: 10}, {id: '2', x: 25, y: 40}, {id: '3', x: -50, y: 80}],
-      edges: [{source: '1', target: '2'}, {source: '1', target: '3'}]
+      nodes: [{ id: '1', x: 10, y: 10 }, { id: '2', x: 25, y: 40 }, { id: '3', x: -50, y: 80 }],
+      edges: [{ source: '1', target: '2' }, { source: '1', target: '3' }]
     }
     const g = new Graph({
       container: div,
@@ -122,7 +187,7 @@ describe('view', () => {
       height: 500,
     })
     g.read(data);
-    g.get('canvas').get('el').style.backgroundColor='#ccc';
+    g.get('canvas').get('el').style.backgroundColor = '#ccc';
     g.zoom(2, { x: 10, y: 10 });
     g.focusItem(g.getEdges()[0]);
     let centerPoint = g.getPointByCanvas(250, 250);
