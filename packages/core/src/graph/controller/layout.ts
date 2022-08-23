@@ -297,6 +297,9 @@ export default abstract class LayoutController {
     }
   }
 
+  /**
+   * execute a preset layout before running layout
+   */
   public abstract initWithPreset(): boolean;
 
   // 初始化节点到 center 附近
@@ -308,7 +311,7 @@ export default abstract class LayoutController {
     const nodeLength = nodes ? nodes.length : 0;
     if (!nodeLength) return;
 
-    const hasPreset = this.initWithPreset();
+    const hasPreset = this.initWithPreset?.();
 
     if (hasPreset) return false;
 

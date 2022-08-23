@@ -801,6 +801,18 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   }
 
   /**
+   * Focus on the passed items
+   * @param {Item[]} items Items you want to focus on
+   * @param {boolean} zoomToFit Wether to zoom on the passed items
+   * @param {boolean} animate Wether to animate the transition
+   * @param {GraphAnimateConfig} animateCfg Animation configuration
+   */
+  public focusItems(items: Item[], zoomToFit?: boolean, animate?: boolean, animateCfg?: GraphAnimateConfig): void {
+    const viewController: ViewController = this.get('viewController');
+    viewController.focusItems(items, zoomToFit, animate, animateCfg);
+  }
+
+  /**
    * 自动重绘
    * @internal 仅供内部更新机制调用，外部根据需求调用 render 或 paint 接口
    */
@@ -2743,8 +2755,8 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         let selfEndModel = selfEnd.getModel();
         // find the nearest visible ancestor
         while (!selfEnd.isVisible()) {
-          const { parentId: selfEndPId, comboId: selfEndCId } = otherEndModel;
-          const selfEndParentId = selfEndPId || selfEndCId;
+          const { parentId: selfEndPId, comboId: selfEndCId } = selfEndModel;
+          const selfEndParentId = (selfEndPId || selfEndCId) as string;
           selfEnd = this.findById(selfEndParentId) as ICombo;
           if (!selfEnd || !selfEndParentId) {
             return; // if all the ancestors of the oppsite are all hidden, ignore the edge
