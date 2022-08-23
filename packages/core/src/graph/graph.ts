@@ -2756,7 +2756,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         // find the nearest visible ancestor
         while (!selfEnd.isVisible()) {
           const { parentId: selfEndPId, comboId: selfEndCId } = selfEndModel;
-          const selfEndParentId = selfEndPId || selfEndCId;
+          const selfEndParentId = (selfEndPId || selfEndCId) as string;
           selfEnd = this.findById(selfEndParentId) as ICombo;
           if (!selfEnd || !selfEndParentId) {
             return; // if all the ancestors of the oppsite are all hidden, ignore the edge

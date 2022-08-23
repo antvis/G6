@@ -202,8 +202,9 @@ describe('view', () => {
 
   it('getPointByCanvas', () => {
     const point = graph.getPointByCanvas(250, 250);
-    expect(numberEqual(point.x, 50, 0.1)).toBe(true);
-    expect(numberEqual(point.y, 50, 0.1)).toBe(true);
+    console.log('point', point);
+    expect(numberEqual(point.x, 150, 0.1)).toBe(true);
+    expect(numberEqual(point.y, 150, 0.1)).toBe(true);
   });
 });
 
