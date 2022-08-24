@@ -319,24 +319,24 @@ describe('dagre layout with combo', () => {
         default: ['drag-combo'],
       },
     });
-    graph.data(data2);
-    graph.render();
 
     graph.on('afterlayout', () => {
       console.log(graph.findById('1').getModel());
       console.log(graph.findById('1-2').getModel());
       console.log(graph.findById('1-1-1').getModel());
 
-      expect(graph.findById('1').getModel().x).toBe(145);
+      expect(graph.findById('1').getModel().x).toBe(120);
       expect(graph.findById('1').getModel().y).toBe(21.5);
       expect(graph.findById('1-2').getModel().x).toBe(45);
       expect(graph.findById('1-2').getModel().y).toBe(107.5);
-      expect(graph.findById('1-1-1').getModel().x).toBe(470);
+      expect(graph.findById('1-1-1').getModel().x).toBe(482.5);
       expect(graph.findById('1-1-1').getModel().y).toBe(107.5);
 
       graph.destroy();
       done()
     })
+    graph.data(data2);
+    graph.render();
   });
 
   it('layout with nested combos', () => {

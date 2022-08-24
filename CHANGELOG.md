@@ -1,5 +1,20 @@
 # ChangeLog
 
+#### 4.7.0
+
+- fix: combo collapsed edge problems, closes: #3839;
+
+#### 4.7.0-beta
+
+- feat: force2 from graphin-force;
+- feat: preset for layout;
+- feat: tweak incremental layout init for force like layouts;
+
+#### 4.6.18
+
+- feat: updateLayout from no pipes to pipes, closes: #3726;
+- fix: relayout with pipes;
+
 #### 4.6.17
 
 - fix: legend changeData problem, closes: #3561;

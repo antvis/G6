@@ -50,11 +50,17 @@ export default abstract class LayoutController {
 
   protected isLayoutTypeSame(cfg): boolean {
     const current = this.getLayoutCfgType(cfg);
-    // already has pipes
-    if (Array.isArray(this.layoutType)) {
-      return this.layoutType.every((type, index) => type === current[index]);
+    const preHasPipies = Array.isArray(this.layoutType);
+    const currentHasPipes = Array.isArray(current);
+    // already has pipes, and the new one is pipes
+    if (preHasPipies && currentHasPipes) {
+      return (this.layoutType as string[]).every((type, index) => type === current[index]);
     }
-
+    // only one of the pre and current is pipes
+    if (Array.isArray(current) || Array.isArray(this.layoutType)) {
+      return false;
+    }
+    // both of the pre and current are not pipes
     return cfg?.type === this.layoutType;
   }
 
@@ -80,25 +86,30 @@ export default abstract class LayoutController {
 
   // 更换布局
   public changeLayout(cfg) {
-    this.layoutCfg = cfg;
-    this.layoutType = cfg.type || this.layoutType;
+    const { disableTriggerLayout, ...otherCfgs } = cfg;
+    this.layoutCfg = otherCfgs;
+    this.layoutType = otherCfgs.type || this.layoutType;
 
-    this.destoryLayoutMethods();
+    // 不触发重新布局，仅更新参数
+    if (disableTriggerLayout) return;
     this.layout();
   }
 
   // 更换数据
   public changeData(success) {
-    this.destoryLayoutMethods();
     this.layout(success);
   }
 
-  public destoryLayoutMethods() {
+  public destoryLayoutMethods(): string[] {
     const { layoutMethods } = this;
+    const destroyedLayoutTypes = [];
     layoutMethods?.forEach((layoutMethod) => {
+      const layoutType = layoutMethod.getType?.();
+      if (layoutType) destroyedLayoutTypes.push(layoutType);
       layoutMethod.destroy();
     });
     this.layoutMethods = [];
+    return destroyedLayoutTypes;
   }
 
   // 销毁布局，不能使用 this.destroy，因为 controller 还需要被使用，只是把布局算法销毁
@@ -171,28 +182,7 @@ export default abstract class LayoutController {
     } as GraphData;
   }
 
-  protected reLayoutMethod(layoutMethod, layoutCfg): Promise<void> {
-    return new Promise((reslove, reject) => {
-      const { graph } = this;
-      const layoutType = layoutCfg?.type;
-
-      // 每个布局方法都需要注册
-      layoutCfg.onLayoutEnd = () => {
-        graph.emit('aftersublayout', { type: layoutType });
-        reslove();
-      };
-
-      layoutMethod.init(this.data);
-      if (layoutType === 'force') {
-        layoutMethod.ticking = false;
-        layoutMethod.forceSimulation.stop();
-      }
-
-      graph.emit('beforesublayout', { type: layoutType });
-      layoutMethod.execute();
-      if (layoutMethod.isCustomLayout && layoutCfg.onLayoutEnd) layoutCfg.onLayoutEnd();
-    });
-  }
+  protected abstract execLayoutMethod(layoutCfg, order): Promise<void>;
 
   // 重新布局
   public relayout(reloadData?: boolean) {
@@ -213,7 +203,7 @@ export default abstract class LayoutController {
     layoutMethods?.forEach((layoutMethod: any, index: number) => {
       const currentCfg = layoutCfg[index] || layoutCfg;
       start = start.then(() => {
-        const relayoutPromise = this.reLayoutMethod(layoutMethod, currentCfg);
+        const relayoutPromise = this.execLayoutMethod(layoutMethod, currentCfg);
         if (index === layoutMethods.length - 1) {
           layoutCfg.onAllLayoutEnd?.();
         }
@@ -307,6 +297,11 @@ export default abstract class LayoutController {
     }
   }
 
+  /**
+   * execute a preset layout before running layout
+   */
+  public abstract initWithPreset(): boolean;
+
   // 初始化节点到 center 附近
   public initPositions(center, nodes): boolean {
     const { graph } = this;
@@ -315,6 +310,10 @@ export default abstract class LayoutController {
     }
     const nodeLength = nodes ? nodes.length : 0;
     if (!nodeLength) return;
+
+    const hasPreset = this.initWithPreset?.();
+
+    if (hasPreset) return false;
 
     const width = graph.get('width') * 0.85;
     const height = graph.get('height') * 0.85;

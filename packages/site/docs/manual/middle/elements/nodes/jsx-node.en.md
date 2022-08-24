@@ -79,6 +79,19 @@ G6.registerNode(
 Using JSX-like syntax to customize a complicated node.
 
 ```javascript
+// Propose the data for a node as following:
+const data = {
+  nodes: [
+    {
+      id: 'node1',
+      type: 'xml-card', // the custom node's type name
+      metric: 'CPU usage',
+      cpuUsage: 80
+    },
+  ]
+}
+
+// def for the drawing of the percentage bar
 const percentageBar = ({ width, used, height = 12 }) => `
   <rect style={{
     marginLeft: 10,
@@ -98,6 +111,7 @@ const percentageBar = ({ width, used, height = 12 }) => `
   </rect>
 `;
 
+// def for the drawing of the jsx node
 const textXML = (cfg) => `
 <group>
   <rect style={{
@@ -112,7 +126,7 @@ const textXML = (cfg) => `
 		radius: [0, 0, 6, 6] }} 
 		keyshape="true" 
 		cursor="move">
-    <text style={{marginLeft: 10 ,fill: "red"}}>${FULL}</text>
+    <text style={{marginLeft: 10 ,fill: 'red'}}>FULL</text>
     <text style={{ marginTop: 5, marginLeft: 10, fill: '#333'}}>${cfg.metric}: </text>
     <text style={{
       marginTop: 1,
@@ -125,6 +139,7 @@ const textXML = (cfg) => `
 </group>
 `;
 
+// register the custom node to G6
 G6.registerNode('test', {
   jsx: textXML,
 });

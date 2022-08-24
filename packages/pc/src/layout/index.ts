@@ -13,6 +13,7 @@ import {
   FruchtermanGPULayout,
   FruchtermanLayout,
   GForceLayout,
+  Force2Layout,
   GForceGPULayout,
   ComboForceLayout,
   ComboCombinedLayout,
@@ -33,6 +34,7 @@ oRegisterLayout('mds', MDSLayout);
 oRegisterLayout('fruchterman', FruchtermanLayout);
 oRegisterLayout('fruchterman-gpu', FruchtermanGPULayout);
 oRegisterLayout('gForce', GForceLayout);
+oRegisterLayout('force2', Force2Layout);
 oRegisterLayout('gForce-gpu', GForceGPULayout);
 oRegisterLayout('comboForce', ComboForceLayout);
 oRegisterLayout('comboCombined', ComboCombinedLayout);

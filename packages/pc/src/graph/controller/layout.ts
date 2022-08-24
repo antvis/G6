@@ -106,7 +106,7 @@ export default class LayoutController extends AbstractLayout {
     }
   }
 
-  private execLayoutMethod(layoutCfg, order): Promise<void> {
+  protected execLayoutMethod(layoutCfg, order): Promise<void> {
     return new Promise(async (reslove, reject) => {
       const { graph } = this;
       if (!graph || graph.get('destroyed')) return;
@@ -129,14 +129,14 @@ export default class LayoutController extends AbstractLayout {
         }
       }
 
-      const isForce = layoutType === 'force' || layoutType === 'g6force' || layoutType === 'gForce';
+      const isForce = layoutType === 'force' || layoutType === 'g6force' || layoutType === 'gForce' || layoutType === 'force2';
       if (isForce) {
-        const { onTick } = layoutCfg;
+        const { onTick, animate } = layoutCfg;
         const tick = () => {
           if (onTick) {
             onTick();
           }
-          graph.refreshPositions();
+          if (animate) graph.refreshPositions();
         };
         layoutCfg.tick = tick;
       } else if (layoutType === 'comboForce' || layoutType === 'comboCombined') {
@@ -148,6 +148,10 @@ export default class LayoutController extends AbstractLayout {
 
       try {
         layoutMethod = new Layout[layoutType](layoutCfg);
+        if (this.layoutMethods[order]) {
+          this.layoutMethods[order].destroy()
+        }
+        this.layoutMethods[order] = layoutMethod;
       } catch (e) {
         console.warn(`The layout method: '${layoutType}' does not exist! Please specify it first.`);
         reject();
@@ -173,7 +177,6 @@ export default class LayoutController extends AbstractLayout {
       graph.emit('beforesublayout', { type: layoutType });
       await layoutMethod.execute();
       if (layoutMethod.isCustomLayout && layoutCfg.onLayoutEnd) layoutCfg.onLayoutEnd();
-      this.layoutMethods[order] = layoutMethod;
     });
   }
 
@@ -222,16 +225,23 @@ export default class LayoutController extends AbstractLayout {
       this.layoutCfg,
     );
     this.layoutCfg = layoutCfg;
+    let layoutType = layoutCfg.type;
 
-    this.destoryLayoutMethods();
+    const preLayoutTypes = this.destoryLayoutMethods();
 
     graph.emit('beforelayout');
-    this.initPositions(layoutCfg.center, nodes);
+
+    // 增量情况下（上一次的布局与当前布局一致），使用 treakInit
+    if (preLayoutTypes?.length && layoutType && preLayoutTypes?.length === 1 && preLayoutTypes[0] === layoutType) {
+      this.tweakInit();
+    } else {
+      // 初始化位置，若配置了 preset，则使用 preset 的参数生成布局作为预布局，否则使用 grid
+      this.initPositions(layoutCfg.center, nodes);
+    }
     // init hidden nodes
     this.initPositions(layoutCfg.center, hiddenNodes);
 
     // 防止用户直接用 -gpu 结尾指定布局
-    let layoutType = layoutCfg.type;
     if (layoutType && layoutType.split('-')[1] === 'gpu') {
       layoutType = layoutType.split('-')[0];
       layoutCfg.gpuEnabled = true;
@@ -258,7 +268,7 @@ export default class LayoutController extends AbstractLayout {
       layoutCfg.onAllLayoutEnd = async () => {
         // 执行用户自定义 onLayoutEnd
         if (onLayoutEnd) {
-          onLayoutEnd();
+          onLayoutEnd(nodes);
         }
 
         // 更新节点位置
@@ -276,7 +286,7 @@ export default class LayoutController extends AbstractLayout {
     }
 
     this.stopWorker();
-    if (layoutCfg.workerEnabled && this.layoutWithWorker(this.data)) {
+    if (layoutCfg.workerEnabled && this.layoutWithWorker(this.data, success)) {
       // 如果启用布局web worker并且浏览器支持web worker，用web worker布局。否则回退到不用web worker布局。
       return true;
     }
@@ -313,11 +323,62 @@ export default class LayoutController extends AbstractLayout {
   }
 
   /**
+   * 增量数据初始化位置
+   */
+  public tweakInit() {
+    const { data, graph } = this;
+    const { nodes, edges } = data;
+    if (!nodes?.length) return;
+    const positionMap = {};
+    nodes.forEach(node => {
+      const { x, y } = node;
+      if (!isNaN(x) && !isNaN(y)) {
+        positionMap[node.id] = { x, y };
+        // 有位置信息，则是原有节点，增加 mass
+        node.mass = node.mass || 2;
+      }
+    });
+    edges.forEach(edge => {
+      const { source, target } = edge;
+      const sourcePosition = positionMap[source]
+      const targetPosition = positionMap[target]
+      if (!sourcePosition && targetPosition) {
+        positionMap[source] = {
+          x: targetPosition.x + (Math.random() - 0.5) * 80,
+          y: targetPosition.y + (Math.random() - 0.5) * 80
+        }
+      } else if (!targetPosition && sourcePosition) {
+        positionMap[target] = {
+          x: sourcePosition.x + (Math.random() - 0.5) * 80,
+          y: sourcePosition.y + (Math.random() - 0.5) * 80
+        }
+      }
+    });
+    const width = graph.get('width');
+    const height = graph.get('height');
+    nodes.forEach(node => {
+      const position = positionMap[node.id] || { x: width / 2 + (Math.random() - 0.5) * 20, y: height / 2 + (Math.random() - 0.5) * 20 };
+      node.x = position.x;
+      node.y = position.y;
+    })
+  }
+
+  public initWithPreset(): boolean {
+    const { layoutCfg, data } = this;
+    const { preset } = layoutCfg;
+    if (!preset?.type || !Layout[preset?.type]) return false;
+    const presetLayout = new Layout[preset?.type](preset);
+    presetLayout.layout(data);
+    delete layoutCfg.preset;
+    return true;
+  }
+
+  /**
    * layout with web worker
    * @param {object} data graph data
    * @return {boolean} 是否支持web worker
    */
-  private layoutWithWorker(data): boolean {
+  private layoutWithWorker(data, success): boolean {
     const { layoutCfg, graph } = this;
     const worker = this.getWorker();
     // 每次worker message event handler调用之间的共享数据，会被修改。
@@ -350,6 +411,7 @@ export default class LayoutController extends AbstractLayout {
       // 最后统一在外部调用onAllLayoutEnd
       start.then(() => {
         if (layoutCfg.onAllLayoutEnd) layoutCfg.onAllLayoutEnd();
+        success?.()
       }).catch((error) => {
         console.error('layout failed', error);
       });
@@ -475,8 +537,15 @@ export default class LayoutController extends AbstractLayout {
   // 更新布局参数
   public updateLayoutCfg(cfg) {
     const { graph, layoutMethods } = this;
-    const layoutCfg = mix({}, this.layoutCfg, cfg);
+    // disableTriggerLayout 不触发重新布局，仅更新参数
+    const { disableTriggerLayout, ...otherCfg } = cfg;
+    const layoutCfg = mix({}, this.layoutCfg, otherCfg);
     this.layoutCfg = layoutCfg;
+
+    // disableTriggerLayout 不触发重新布局，仅更新参数
+    if (disableTriggerLayout) {
+      return;
+    }
 
     if (!layoutMethods?.length) {
       this.layout();
@@ -485,7 +554,7 @@ export default class LayoutController extends AbstractLayout {
     this.data = this.setDataFromGraph();
 
     this.stopWorker();
-    if (cfg.workerEnabled && this.layoutWithWorker(this.data)) {
+    if (otherCfg.workerEnabled && this.layoutWithWorker(this.data, null)) {
       // 如果启用布局web worker并且浏览器支持web worker，用web worker布局。否则回退到不用web worker布局。
       return;
     }
@@ -497,9 +566,9 @@ export default class LayoutController extends AbstractLayout {
     if (layoutMethods?.length === 1) {
       hasLayout = true;
       start = start.then(async () => await this.updateLayoutMethod(layoutMethods[0], layoutCfg));
-    } else {
+    } else if (layoutMethods?.length) {
       hasLayout = true;
-      layoutMethods?.forEach((layoutMethod, index) => {
+      layoutMethods.forEach((layoutMethod, index) => {
         const currentCfg = layoutCfg.pipes[index];
         start = start.then(async () => await this.updateLayoutMethod(layoutMethod, currentCfg));
       });
