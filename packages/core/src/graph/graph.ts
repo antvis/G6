@@ -2438,7 +2438,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     this.initGroups();
 
     // 清空画布时同时清除数据
-    this.set({ itemMap: {}, nodes: [], edges: [], groups: [], combos: [], comboTrees: [] });
+    this.set({ itemMap: {}, nodes: [], edges: [], vedges: [], groups: [], combos: [], comboTrees: [] });
     if (!avoidEmit) this.emit('afterrender');
     return this;
   }

@@ -1,5 +1,13 @@
 # ChangeLog
 
+#### 4.7.1
+
+- feat: Annotation plugin;
+- fix: combo and drag-node with heap maximum problem, closes: #3886;
+- fix: combo and graph re-read problem, closes: 3902;
+- fix: d3 force layout with default animate;
+- perf: bundling plugin ts problem, closes: #3904;
+
 #### 4.7.0
 
 - fix: combo collapsed edge problems, closes: #3839;

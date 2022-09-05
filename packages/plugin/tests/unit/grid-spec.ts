@@ -42,36 +42,36 @@ describe('grid', () => {
     const minZoom = graph.get('minZoom');
     const width = (800 * 80) / minZoom; // 3200000
     const height = (600 * 80) / minZoom; // 2400000
-    expect(gridContainer.style.width).toBe('3.2e+06px'); // width
-    expect(gridContainer.style.height).toBe('2.4e+06px'); // height
-    expect(gridContainer.style.left).toEqual('-1.6e+06px'); // -width . 2
-    expect(gridContainer.style.top).toEqual('-1.2e+06px'); // -height / 2
+    expect(gridContainer.style.width).toBe('320000px'); // width
+    expect(gridContainer.style.height).toBe('240000px'); // height
+    expect(gridContainer.style.left).toEqual('-160000px'); // -width . 2
+    expect(gridContainer.style.top).toEqual('-120000px'); // -height / 2
     expect(gridContainer.style.backgroundImage).not.toEqual('');
 
     graph.translate(-100, -100);
 
     expect(gridContainer.style.transform).toEqual('matrix(1, 0, 0, 1, -100, -100)');
-    expect(gridContainer.style.left).toEqual('-1.6e+06px'); // -width . 2
-    expect(gridContainer.style.top).toEqual('-1.2e+06px'); // -height / 2
+    expect(gridContainer.style.left).toEqual('-160000px'); // -width . 2
+    expect(gridContainer.style.top).toEqual('-120000px'); // -height / 2
 
     graph.zoom(0.5);
     expect(gridContainer.style.transform).toEqual('matrix(0.5, 0, 0, 0.5, -50, -50)');
-    expect(gridContainer.style.left).toEqual('-1.6e+06px'); // -width . 2
-    expect(gridContainer.style.top).toEqual('-1.2e+06px'); // -height / 2
+    expect(gridContainer.style.left).toEqual('-160000px'); // -width . 2
+    expect(gridContainer.style.top).toEqual('-120000px'); // -height / 2
 
     graph.get('group').resetMatrix();
 
     graph.translate(100, 100);
     expect(gridContainer.style.transform).toEqual('matrix(1, 0, 0, 1, 100, 100)');
-    expect(gridContainer.style.left).toEqual('-1.6e+06px'); // -width . 2
-    expect(gridContainer.style.top).toEqual('-1.2e+06px'); // -height / 2
+    expect(gridContainer.style.left).toEqual('-160000px'); // -width . 2
+    expect(gridContainer.style.top).toEqual('-120000px'); // -height / 2
 
     graph.addItem('node', { x: -200, y: 200 });
 
     graph.translate(100, 100);
     expect(gridContainer.style.transform).toEqual('matrix(1, 0, 0, 1, 200, 200)');
-    expect(gridContainer.style.left).toEqual('-1.6e+06px'); // -width . 2
-    expect(gridContainer.style.top).toEqual('-1.2e+06px'); // -height / 2
+    expect(gridContainer.style.left).toEqual('-160000px'); // -width . 2
+    expect(gridContainer.style.top).toEqual('-120000px'); // -height / 2
   });
   it('grid destroy', () => {
     const container = graph.get('container');

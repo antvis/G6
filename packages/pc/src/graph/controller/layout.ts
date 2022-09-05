@@ -132,11 +132,12 @@ export default class LayoutController extends AbstractLayout {
       const isForce = layoutType === 'force' || layoutType === 'g6force' || layoutType === 'gForce' || layoutType === 'force2';
       if (isForce) {
         const { onTick, animate } = layoutCfg;
+        const d3ForceAnimate = animate === undefined && layoutType === 'force'
         const tick = () => {
           if (onTick) {
             onTick();
           }
-          if (animate) graph.refreshPositions();
+          if (animate || d3ForceAnimate) graph.refreshPositions();
         };
         layoutCfg.tick = tick;
       } else if (layoutType === 'comboForce' || layoutType === 'comboCombined') {

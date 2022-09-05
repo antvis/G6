@@ -20,7 +20,7 @@ import './element';
 import './behavior';
 
 type IAlgorithm = typeof AlgorithmSync | typeof AlgorithmAsync;
-const Algorithm: IAlgorithm = { ...AlgorithmSync, ... AlgorithmAsync };
+const Algorithm: IAlgorithm = { ...AlgorithmSync, ...AlgorithmAsync };
 
 const Grid = Plugin.Grid;
 const Minimap = Plugin.Minimap;
@@ -34,6 +34,7 @@ const ImageMinimap = Plugin.ImageMinimap;
 const EdgeFilterLens = Plugin.EdgeFilterLens;
 const SnapLine = Plugin.SnapLine;
 const Legend = Plugin.Legend;
+const Annotation = Plugin.Annotation;
 
 export * from '@antv/g6-core';
 export * from './types';
@@ -60,6 +61,7 @@ export {
   EdgeFilterLens,
   SnapLine,
   Legend,
+  Annotation,
   Arrow,
   Marker,
   Shape,
@@ -94,6 +96,7 @@ export default {
   Fisheye,
   ImageMinimap,
   EdgeFilterLens,
+  Annotation,
   Algorithm,
   Arrow,
   Marker,

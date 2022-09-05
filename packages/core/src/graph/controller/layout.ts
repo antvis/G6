@@ -203,7 +203,7 @@ export default abstract class LayoutController {
     layoutMethods?.forEach((layoutMethod: any, index: number) => {
       const currentCfg = layoutCfg[index] || layoutCfg;
       start = start.then(() => {
-        const relayoutPromise = this.execLayoutMethod(layoutMethod, currentCfg);
+        const relayoutPromise = this.execLayoutMethod(currentCfg, index);
         if (index === layoutMethods.length - 1) {
           layoutCfg.onAllLayoutEnd?.();
         }
