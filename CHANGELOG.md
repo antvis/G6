@@ -5,6 +5,8 @@
 - feat: Annotation plugin supports configuring behaviors for collapse and close icon;
 - feat: Annotation plugin supports canvas annotation;
 - fix: gForce layout has animation by default;
+- fix: createCombo creates vedges asynchronously, closes: #3912;
+- fix: strange polyline path edge related to combo, closes: #3913;
 
 #### 4.7.1
 
