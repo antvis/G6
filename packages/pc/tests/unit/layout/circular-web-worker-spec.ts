@@ -21,13 +21,11 @@ describe('circular layout(web worker)', () => {
       height: 500,
       defaultNode: { size: 10 },
     });
-    graph.data(data);
-    graph.render();
-
     graph.on('afterlayout', () => {
       const width = graph.get('width');
       const height = graph.get('height');
       const radius = height > width ? width / 2 : height / 2;
+      console.log('nodes', data.nodes[0].x, data.nodes[0].y, 250 + radius)
 
       expect(mathEqual(data.nodes[0].x, 250 + radius)).toEqual(true);
       expect(mathEqual(data.nodes[0].y, 250)).toEqual(true);
@@ -35,6 +33,8 @@ describe('circular layout(web worker)', () => {
       graph.destroy();
       done();
     });
+    graph.data(data);
+    graph.render();
   });
 
   it('circular(web worker) counterclockwise, and fixed radius, start angle, end angle', done => {
