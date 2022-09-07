@@ -25,7 +25,6 @@ describe('circular layout(web worker)', () => {
       const width = graph.get('width');
       const height = graph.get('height');
       const radius = height > width ? width / 2 : height / 2;
-      console.log('nodes', data.nodes[0].x, data.nodes[0].y, 250 + radius)
 
       expect(mathEqual(data.nodes[0].x, 250 + radius)).toEqual(true);
       expect(mathEqual(data.nodes[0].y, 250)).toEqual(true);
