@@ -1,4 +1,4 @@
-import { isNumber } from '@antv/util';
+import { isNumber, debounce } from '@antv/util';
 import { Util, ShapeStyle } from '@antv/g6-core';
 import { modifyCSS, createDom } from '@antv/dom-util';
 import insertCss from 'insert-css';
@@ -15,7 +15,6 @@ typeof document !== 'undefined' &&
   .g6-annotation-wrapper {
     background-color: #fff;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.85);
-    border-radius: 5px;
   }
   .g6-annotation-header-wapper {
     height: fit-content;
@@ -44,12 +43,18 @@ typeof document !== 'undefined' &&
     padding: 8px;
     width: fit-content;
     cursor: text;
+    word-break: break-all;
   }
   .g6-annotation-title-input-wrapper {
     margin: 4px 40px 4px 8px;
   }
+  .g6-annotation-content-input {
+    height: 100%;
+    word-break: break-all;
+  }
   .g6-annotation-content-input-wrapper {
     margin: 8px;
+    height: 100%;
   }
 `);
 
@@ -63,7 +68,7 @@ interface AnnotationConfig {
     offsetX?: number,
     offsetY?: number,
   },
-  editable?: boolean, // TODO
+  editable?: boolean,
   itemHighlightState?: string,
   defaultData?: CardCfg[],
   cardCfg?: CardCfg,
@@ -86,6 +91,13 @@ interface CardCfg {
   y?: number;
   title?: string,
   content?: string,
+  borderRadius?: number;
+  maxTitleLength?: number;
+  maxWidth?: number;
+  collapseType?: 'minimize' | 'hide'; // 点击收起按钮(-)的响应，最小化、隐藏
+  closeType?: 'hide' | 'remove'; // 点击关闭按钮(x)的相应，隐藏、移除
+  onMouseEnterIcon?: (evt: any, id: string, type: 'expand' | 'collapse' | 'close') => void;
+  onMouseLeaveIcon?: (evt: any, id: string, type: 'expand' | 'collapse' | 'close') => void;
 }
 
 interface CardInfoMap {
@@ -117,7 +129,11 @@ export default class Annotation extends Base {
       cardCfg: {
         minHeight: 60,
         width: 'fit-content',
-        height: 'fit-content'
+        height: 'fit-content',
+        collapseType: 'minimize',
+        closeType: 'hide',
+        borderRadius: 5,
+        maxTitleLength: 20
       },
     };
   }
@@ -144,20 +160,29 @@ export default class Annotation extends Base {
 
   private getDOMContent(cfg) {
     if (this.destroyed) return;
-    const { collapsed, title = '', content = '' } = cfg;
+    const {
+      itemId,
+      collapsed,
+      maxWidth,
+      title = '',
+      content = '',
+      borderRadius: r = 5,
+    } = cfg;
     const collapseExpandDOM = collapsed ?
       `<p class='g6-annotation-expand'>+</p>` :
       `<p class='g6-annotation-collapse'>-</p>`;
     const contentDOM = collapsed ? '' : ` <p class='g6-annotation-content'>${content}</p>`;
+    const closeDOM = `<p class='g6-annotation-close'>x</p>`
+    const borderRadius = collapsed ? `${r}px` : `${r}px ${r}px 0 0`;
 
-    return `<div class="g6-annotation-wrapper">
+    return `<div class="g6-annotation-wrapper" style="border-radius: ${r}px; maxWidth: ${maxWidth}px">
         <div
           class="g6-annotation-header-wapper"
-          style="border-radius: ${collapsed ? '5px' : '5px 5px 0 0'};"
+          style="border-radius: ${borderRadius};"
         >
           <h4 class='g6-annotation-title'>${title}</h4>
           ${collapseExpandDOM}
-          <p class='g6-annotation-close'>x</p>
+          ${closeDOM}
         </div>
         ${contentDOM}
       </div>`
@@ -186,18 +211,14 @@ export default class Annotation extends Base {
       width: graphContainerBBox.right - graphContainerBBox.left,
       height: graphContainerBBox.bottom - graphContainerBBox.top
     });
-    const { top, left } = graph.get('canvas').get('el').getBoundingClientRect();
-    const graphTop = graphCantainer.offsetTop;
-    const graphLeft = graphCantainer.offsetLeft;
     modifyCSS(linkCanvas.get('el'), {
       position: 'absolute',
       top: 0,
       left: 0,
-      // top: `${top}px`,
-      // left: `${left}px`,
       pointerEvents: 'none'
     })
-    window.addEventListener('resize', this.resizeCanvas);
+    // 需要传入 self，无法 removeEventListener，只能在内部判断 self 被销毁则不继续
+    window.addEventListener('resize', debounce(() => self.resizeCanvas(self), 100));
 
     const linkGroup = linkCanvas.addGroup({ id: 'annotation-link-group' });
     self.set('linkGroup', linkGroup);
@@ -205,15 +226,17 @@ export default class Annotation extends Base {
 
     if (!self.get('getTitle')) {
       self.set('getTitle', (item) => {
-        const { label, id } = item?.getModel() || {};
+        const { label, id } = item?.getModel?.() || {};
         return label || id || '-';
       });
     }
     if (!self.get('getContent')) {
       self.set('getContent', (item) => {
         if (!item) return '-';
-        const { label, id } = item.getModel();
-        return `${item.getType()}: ${label || id || ''}`;
+        const { label, id } = item.getModel?.() || {};
+        const type = item.getType?.();
+        const suffix = type ? `${type}: ` : '';
+        return `${suffix}${label || id || ''}`;
       });
     }
 
@@ -283,13 +306,56 @@ export default class Annotation extends Base {
     return container;
   }
 
-  private resizeCanvas(e) {
-    if (this.destroyed) return;
-    const cBBox = this.get('container').getBoundingClientRect();
-    this.get('canvas').changeSize(
-      cBBox.right - cBBox.left,
-      cBBox.bottom - cBBox.top
-    )
+  private resizeCanvas(self) {
+    // 仅在 resize 完成后进行调整
+    clearTimeout(self.resizeTimer);
+    self.resizeTimer = setTimeout(() => {
+      if (!self || self.destroyed) return;
+      const cBBox = self.get('container').getBoundingClientRect();
+      const newWidth = cBBox.right - cBBox.left;
+      const newHeight = cBBox.bottom - cBBox.top
+      self.get('canvas').changeSize(
+        newWidth,
+        newHeight
+      )
+      self.updateOutsideCards(self);
+    }, 250);
+  }
+
+  private updateOutsideCards(self) {
+    const cardInfoMap = self.get('cardInfoMap') || {};
+    const graph = self.get('graph');
+    const graphLeftTopCanvas = graph.getPointByCanvas(0, 0);
+    const graphRightBottomCanvas = graph.getPointByCanvas(graph.getWidth(), graph.getHeight());
+    const { x: graphLeft, y: graphTop } = graph.getClientByPoint(graphLeftTopCanvas.x, graphLeftTopCanvas.y);
+    const { x: graphRight, y: graphBottom } = graph.getClientByPoint(graphRightBottomCanvas.x, graphRightBottomCanvas.y);
+    Object.values(cardInfoMap).forEach((cardInfo: any) => {
+      const { card } = cardInfo;
+      if (!card) return;
+      const style = card.style;
+      const left = px2Num(style.left);
+      const top = px2Num(style.top);
+      const { width, height } = card.getBoundingClientRect();
+      let newLeft = left;
+      let newTop = top;
+      if (left + width > graphRight - graphLeft) {
+        newLeft = graphRight - graphLeft - width;
+      }
+      if (left < 0) {
+        newLeft = 0;
+      }
+      if (top + height > graphBottom - graphTop) {
+        newTop = graphBottom - graphTop - height;
+      }
+      if (top < 0) {
+        newTop = 0;
+      }
+      modifyCSS(card, {
+        left: `${newLeft}px`,
+        top: `${newTop}px`
+      });
+    });
+    self.updateLinks();
   }
 
   public showAnnotation(evt) {
@@ -298,22 +364,15 @@ export default class Annotation extends Base {
     this.toggleAnnotation(item);
   }
 
-  public hideCard(evt) {
-    if (this.destroyed) return;
-    const { item } = evt;
-    this.closeCard(item.getID());
-  }
-
-  public closeCards() {
+  public hideCards() {
     const self = this;
     if (self.destroyed) return;
-    const graph = self.get('graph');
     const cardInfoMap = self.get('cardInfoMap') || {};
     Object.keys(cardInfoMap).forEach((itemId) => {
-      const item = graph.findById(itemId);
-      if (item) self.hideCard({ item });
+      self.hideCard(itemId);
     })
   }
+
 
   public toggleAnnotation(item, cfg: CardCfg = {}) {
     const self = this;
@@ -321,7 +380,7 @@ export default class Annotation extends Base {
     const cardInfoMap = self.get('cardInfoMap') || {};
     const graph = self.get('graph');
     const container = self.get('container');
-    const containerCfg = self.get('containerCfg')
+    const containerCfg = self.get('containerCfg');
     const {
       minHeight,
       minWidth,
@@ -331,20 +390,26 @@ export default class Annotation extends Base {
       x: propsX,
       y: propsY,
       title: propsTitle,
-      content: propsContent
+      content: propsContent,
+      maxTitleLength,
+      ...otherCardCfg
     } = Object.assign({}, self.get('cardCfg') || {}, cfg);
     const linkGroup = self.get('linkGroup');
     const rows = this.get('rows') || [[]];
 
-    const itemId = item.getID();
+    const isCanvas = item.isCanvas?.();
+
+    const itemId = isCanvas ? 'canvas-annotation' : item.getID();
     let { card, link, x, y, title, content } = cardInfoMap[itemId] || {};
 
     const getTitle = this.get('getTitle');
     const getContent = this.get('getContent');
     const newCard = createDom(this.getDOMContent({
+      itemId,
       collapsed,
-      title: title || propsTitle || getTitle?.(item),
-      content: content || propsContent || getContent?.(item)
+      title: (title || propsTitle || getTitle?.(item)).substr(0, maxTitleLength),
+      content: content || propsContent || getContent?.(item),
+      ...otherCardCfg
     }));
     const minHeightPx = isNumber(minHeight) ? `${minHeight}px` : minHeight
     modifyCSS(newCard, {
@@ -371,11 +436,9 @@ export default class Annotation extends Base {
         y = propsY;
       } else if (!card) {
         // 第一次创建，且无 conatiner，初始化位置
-        const { left: containerLeft = 0, width: containerWidth, top: containerTop } = containerBBox;
+        const { top: containerTop } = containerBBox;
         const cardWidth = isNumber(minWidth) ? minWidth : 100;
-        console.log('card pos', container.scrollWidth, containerWidth, newCard.scrollWidth, newCard.getBoundingClientRect().width, containerLeft);
         x = container.scrollWidth - newCard.scrollWidth - 16 - (rows.length - 1) * cardWidth;
-        console.log('card pos', container.scrollWidth, containerWidth, newCard.scrollWidth, newCard.getBoundingClientRect().width, containerLeft, x);
         const currentRow = rows[rows.length - 1];
         const lastCardBBox = currentRow[currentRow.length - 1];
         y = ((lastCardBBox?.bottom - containerTop) || 0) + 8;
@@ -389,20 +452,23 @@ export default class Annotation extends Base {
     }
     this.bindListener(newCard, itemId);
 
-    // 创建相关连线
     const cardBBox = newCard.getBoundingClientRect()
-    const path = getPathItem2Card(item, cardBBox, graph, this.get('canvas'));
-    const linkStyle = this.get('linkStyle');
-    link = linkGroup.addShape('path', {
-      attrs: {
-        lineWidth: 1,
-        lineDash: [5, 5],
-        stroke: '#ccc',
-        path,
-        ...linkStyle
-      }
-    });
+    if (!isCanvas) {
+      // 创建相关连线
+      const path = getPathItem2Card(item, cardBBox, graph, this.get('canvas'));
+      const linkStyle = this.get('linkStyle');
+      link = linkGroup.addShape('path', {
+        attrs: {
+          lineWidth: 1,
+          lineDash: [5, 5],
+          stroke: '#ccc',
+          path,
+          ...linkStyle
+        }
+      });
+    }
     cardInfoMap[itemId] = {
+      ...(cardInfoMap[itemId] || {}),
       id: itemId,
       collapsed,
       card: newCard,
@@ -418,13 +484,13 @@ export default class Annotation extends Base {
     } else if (!card) {
       // 没有 container、新增 card 时，记录当前列中最下方位置，方便换行
       const { bottom: containerBottom = 0 } = containerBBox;
-      console.log('bottom', containerBottom, cardBBox);
       rows[rows.length - 1].push(cardBBox);
       if (cardBBox.bottom > containerBottom - 16) {
         rows.push([]);
       }
       this.set('rows', rows)
     }
+    this.updateCardSize(itemId);
   }
 
   public updateCardPositionsInConatainer() {
@@ -464,14 +530,27 @@ export default class Annotation extends Base {
     const { collapsed } = cardInfoMap[id];
     const item = graph.findById(id);
     if (!item) return;
-    this.toggleAnnotation(item, { collapsed: !collapsed });
+    const { collapseType } = this.get('cardCfg');
+
+    if (collapseType === 'hide' && !collapsed) {
+      // collapse 行为被配置为隐藏
+      this.hideCard(id);
+    } else {
+      this.toggleAnnotation(item, { collapsed: !collapsed });
+    }
+
     cardInfoMap[id] = {
       ...cardInfoMap[id],
       collapsed: !collapsed
     }
   }
 
-  public closeCard(id) {
+  /**
+   * 隐藏标注卡片，下次打开还保留隐藏前的配置，包括文本内容、位置等
+   * @param id 卡片 id，即元素(节点/边)的 id
+   * @returns 
+   */
+  public hideCard(id) {
     if (this.destroyed) return;
     const cardInfoMap = this.get('cardInfoMap');
     if (!cardInfoMap) return;
@@ -480,45 +559,108 @@ export default class Annotation extends Base {
     link?.hide();
   }
 
+  /**
+   * 移除标注卡片，下一次生成时将被初始化
+   * @param id 卡片 id，即元素(节点/边)的 id
+   * @returns 
+   */
+  public removeCard(id) {
+    if (this.destroyed) return;
+    const cardInfoMap = this.get('cardInfoMap');
+    if (!cardInfoMap) return;
+    const { card, link } = cardInfoMap[id];
+    const container = this.get('container');
+    container.removeChild(card);
+    link?.remove(true);
+    delete cardInfoMap[id];
+  }
+
   private bindListener(card, itemId) {
     if (this.destroyed) return;
+    card.addEventListener('mousemove', e => {
+      // icon 的鼠标进入监听，方便外部加 tooltip
+      let iconType;
+      if (e.target.className === 'g6-annotation-collapse') {
+        iconType = 'collapse'
+      } else if (e.target.className === 'g6-annotation-expand') {
+        iconType = 'expand'
+      } else if (e.target.className === 'g6-annotation-close') {
+        iconType = 'close'
+      }
+      if (iconType) {
+        const { onMouseEnterIcon = () => { } } = this.get('cardCfg');
+        onMouseEnterIcon(e, itemId, iconType);
+      }
+    });
+    card.addEventListener('mouseout', e => {
+      // icon 的鼠标移出监听，方便外部加 tooltip
+      let iconType;
+      if (e.target.className === 'g6-annotation-collapse') {
+        iconType = 'collapse'
+      } else if (e.target.className === 'g6-annotation-expand') {
+        iconType = 'expand'
+      } else if (e.target.className === 'g6-annotation-close') {
+        iconType = 'close'
+      }
+      if (iconType) {
+        const { onMouseLeaveIcon = () => { } } = this.get('cardCfg');
+        onMouseLeaveIcon(e, itemId, iconType);
+      }
+    });
     // mouseenter and mouseleave to highlight the corresponding items
     card.addEventListener('mouseenter', e => {
       const cardInfoMap = this.get('cardInfoMap');
       if (!cardInfoMap) return;
       const graph = this.get('graph');
-      const itemHighlightState = this.get('itemHighlightState')
       const item = graph.findById(itemId);
-      graph.setItemState(item, itemHighlightState, true);
-
+      if (item) {
+        const itemHighlightState = this.get('itemHighlightState')
+        graph.setItemState(item, itemHighlightState, true);
+      }
       const { link } = cardInfoMap[itemId];
-      const linkHighlightStyle = this.get('linkHighlightStyle') || {};
-      link.attr(linkHighlightStyle);
+      if (link) {
+        const linkHighlightStyle = this.get('linkHighlightStyle') || {};
+        link.attr(linkHighlightStyle);
+      }
     })
     card.addEventListener('mouseleave', e => {
       const cardInfoMap = this.get('cardInfoMap');
       if (!cardInfoMap) return;
       const graph = this.get('graph');
-      const itemHighlightState = this.get('itemHighlightState')
       const item = graph.findById(itemId);
-      graph.setItemState(item, itemHighlightState, false);
+      if (item) {
+        const itemHighlightState = this.get('itemHighlightState')
+        graph.setItemState(item, itemHighlightState, false);
+      }
 
       const { link } = cardInfoMap[itemId];
-      const linkHighlightStyle = this.get('linkHighlightStyle') || {};
-      Object.keys(linkHighlightStyle).forEach(key => {
-        link.attr(key, undefined);
-        link.attr(key, undefined);
-      });
-      const linkStyle = this.get('linkStyle');
-      link.attr(linkStyle);
+      if (link) {
+        const linkHighlightStyle = this.get('linkHighlightStyle') || {};
+        Object.keys(linkHighlightStyle).forEach(key => {
+          link.attr(key, undefined);
+          link.attr(key, undefined);
+        });
+        const linkStyle = this.get('linkStyle');
+        link.attr(linkStyle);
+      }
     })
     card.addEventListener('click', e => {
       if (e.target.className === 'g6-annotation-collapse' || e.target.className === 'g6-annotation-expand') {
         // collapse & expand
-        this.handleExpandCollapseCard(itemId);
+        const { collapseType } = this.get('cardCfg');
+        if (collapseType === 'hide') {
+          this.hideCard(itemId);
+        } else {
+          this.handleExpandCollapseCard(itemId);
+        }
       } else if (e.target.className === 'g6-annotation-close') {
         // close
-        this.closeCard(itemId);
+        const { closeType } = this.get('cardCfg');
+        if (closeType === 'remove') {
+          this.removeCard(itemId);
+        } else {
+          this.hideCard(itemId);
+        }
       }
     });
     // dblclick to edit the title and content text
@@ -526,17 +668,26 @@ export default class Annotation extends Base {
     if (editable) {
       card.addEventListener('dblclick', e => {
         const cardInfoMap = this.get('cardInfoMap');
+        const { maxTitleLength = 20 } = this.get('cardCfg') || {};
         if (!cardInfoMap) return;
         const target = e.target;
         const targetClass = target.className;
         if (targetClass !== 'g6-annotation-title' && targetClass !== 'g6-annotation-content') return;
-        const { width } = target.getBoundingClientRect();
+        const { width, height } = target.getBoundingClientRect();
         const computeStyle = getComputedStyle(target);
-        const name = targetClass === 'g6-annotation-title' ? 'title' : 'content';
-        const input = createDom(`<input class="${targetClass}-input" type="text" name="${name}" value="${target.innerHTML}" style="width: 100%;"/>`);
-        const inputWrapper = createDom(`<div class="${targetClass}-input-wrapper" style="width: ${width}px; margin-right: ${computeStyle['marginRight']}" />`);
+        const inputTag = targetClass === 'g6-annotation-title' ? 'input' : 'textarea';
+        const input = createDom(`<${inputTag} class="${targetClass}-input" type="textarea" style="width:${width}px; height: ${height}px"/>`);
+        const inputWrapper = createDom(`<div class="${targetClass}-input-wrapper" style="width: ${width}px; height: ${height}px margin-right: ${computeStyle['marginRight']}" />`);
         inputWrapper.appendChild(input);
         target.parentNode.replaceChild(inputWrapper, target);
+        if (targetClass === 'g6-annotation-title') {
+          input.name = 'title';
+          input.maxLength = maxTitleLength;
+        } else {
+          input.name = 'content';
+        }
+        input.innerHTML = target.innerHTML;
+        input.value = target.innerHTML;
         input.focus();
         const cardInfo = cardInfoMap[itemId];
         input.addEventListener('blur', blurEvt => {
@@ -549,49 +700,47 @@ export default class Annotation extends Base {
         });
       });
     }
-    let mousedown = false;
     const unmovableClasses = ['g6-annotation-title', 'g6-annotation-content', 'g6-annotation-title-input', 'g6-annotation-content-input']
-    card.addEventListener('mousedown', e => {
+    card.draggable = true
+    card.addEventListener('dragstart', e => {
       const targetClass = e.target.className;
       if (unmovableClasses.includes(targetClass)) return;
-      mousedown = true;
+      const { style } = card;
+      this.set('dragging', {
+        card,
+        x: e.clientX,
+        y: e.clientY,
+        left: px2Num(style.left),
+        top: px2Num(style.top)
+      });
     });
-    card.addEventListener('mousemove', e => {
+    card.addEventListener('drag', e => {
       e.preventDefault();
       const cardInfoMap = this.get('cardInfoMap');
       if (!cardInfoMap) return;
-      if (mousedown) {
-        // == dragstart
-        mousedown = false;
-        const { style } = card;
-        this.set('dragging', {
-          card,
-          x: e.clientX,
-          y: e.clientY,
-          left: px2Num(style.left),
-          top: px2Num(style.top)
-        });
-      }
       const { clientX, clientY } = e;
       const dragging = this.get('dragging');
-      if (dragging?.card !== card || isNaN(clientX) || isNaN(clientY)) return;
-      let { x, y, left, top } = dragging;
+      if (isNaN(clientX) || isNaN(clientY) || !dragging) return;
+      let { x, y, left, top, card: draggingCard } = dragging;
       const dx = clientX - x;
       const dy = clientY - y;
-      if (Math.abs(dx) > 100 || Math.abs(dy) > 100) return;
       left += dx;
       top += dy;
       const graph = this.get('graph');
-      const graphContainerBBox = graph.getContainer().getBoundingClientRect();
-      const cardBBox = card.getBoundingClientRect();
+      const graphLeftTopCanvas = graph.getPointByCanvas(0, 0);
+      const graphRightBottomCanvas = graph.getPointByCanvas(graph.getWidth(), graph.getHeight());
+      const { x: graphLeft, y: graphTop } = graph.getClientByPoint(graphLeftTopCanvas.x, graphLeftTopCanvas.y);
+      const { x: graphRight, y: graphBottom } = graph.getClientByPoint(graphRightBottomCanvas.x, graphRightBottomCanvas.y);
+      const cardBBox = draggingCard.getBoundingClientRect();
       const cardWidth = cardBBox.right - cardBBox.left;
       const cardHeight = cardBBox.bottom - cardBBox.top;
-      if (left > graphContainerBBox.right - cardWidth) left -= dx;
-      if (top > graphContainerBBox.bottom - cardHeight) top -= dy;
+      if ((left > (graphRight - graphLeft) - cardWidth && dx > 0) || (left < 0 && dx < 0)) left -= dx;
+      if ((top > (graphBottom - graphTop) - cardHeight && dy > 0) || (top < 0 && dy < 0)) top -= dy;
       // 更新卡片位置
-      modifyCSS(card, {
+      modifyCSS(draggingCard, {
         left: `${left}px`,
         top: `${top}px`,
+        visibility: 'hidden'
       });
       x = clientX;
       y = clientY;
@@ -602,23 +751,24 @@ export default class Annotation extends Base {
         const item = graph.findById(itemId);
         link.attr('path', getPathItem2Card(item, cardBBox, graph, this.get('canvas')));
       }
-      this.set('dragging', { x, y, left, top, card });
+      this.set('dragging', { x, y, left, top, card: draggingCard });
     });
     const dragendListener = e => {
       const cardInfoMap = this.get('cardInfoMap');
       if (!cardInfoMap) return;
       const dragging = this.get('dragging');
-      mousedown = false;
       if (dragging) {
         // = dragend
-        let { left, top } = dragging;
+        let { left, top, card: draggingCard } = dragging;
         cardInfoMap[itemId].x = left;
         cardInfoMap[itemId].y = top;
+        modifyCSS(draggingCard, {
+          visibility: 'visible'
+        });
         this.set('dragging', false);
       }
     }
-    card.addEventListener('mouseup', dragendListener);
-    card.addEventListener('mouseleave', dragendListener);
+    card.addEventListener('dragend', dragendListener);
   }
 
   public updateCardSize(id) {
@@ -646,8 +796,10 @@ export default class Annotation extends Base {
     Object.values(cardInfoMap).forEach(cardInfo => {
       const { link, id, card } = cardInfo;
       const item = graph.findById(id);
-      const path = getPathItem2Card(item, card.getBoundingClientRect(), graph, canvas);
-      link.attr('path', path)
+      if (link && item) {
+        const path = getPathItem2Card(item, card.getBoundingClientRect(), graph, canvas);
+        link.attr('path', path)
+      }
     })
   }
 
@@ -681,7 +833,7 @@ export default class Annotation extends Base {
       const { id, x, y, title, content, collapsed, visible } = info;
       const item = graph.findById(id);
       this.toggleAnnotation(item, { x, y, title, content, collapsed });
-      if (!visible) this.closeCard(id);
+      if (!visible) this.hideCard(id);
     })
   }
 
@@ -706,7 +858,6 @@ export default class Annotation extends Base {
   public destroy() {
     this.clear();
     this.get('canvas')?.destroy();
-    window.removeEventListener('resize', this.resizeCanvas);
     const graph = this.get('graph');
     if (!graph || graph.destroyed) return;
     if (this.get('containerCfg')) {

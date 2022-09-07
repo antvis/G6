@@ -25,6 +25,7 @@ export default abstract class PluginBase {
    */
   constructor(cfgs?: IPluginBaseConfig) {
     this._cfgs = deepMix(this.getDefaultCfgs(), cfgs);
+    console.log('_cfgs', this._cfgs)
     this._events = {};
     this.destroyed = false;
   }
@@ -89,7 +90,7 @@ export default abstract class PluginBase {
   /**
    * 销毁方法，供子类复写
    */
-  public destroy() {}
+  public destroy() { }
 
   /**
    * 销毁插件

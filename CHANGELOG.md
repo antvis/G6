@@ -1,5 +1,11 @@
 # ChangeLog
 
+### 4.7.2
+
+- feat: Annotation plugin supports configuring behaviors for collapse and close icon;
+- feat: Annotation plugin supports canvas annotation;
+- fix: gForce layout has animation by default;
+
 #### 4.7.1
 
 - feat: Annotation plugin;
