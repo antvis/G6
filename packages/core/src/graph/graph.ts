@@ -1119,12 +1119,8 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       this.set('comboTrees', comboTrees);
 
       if (model.collapsed) {
-        setTimeout(() => {
-          if (item && !item.destroyed) {
-            this.collapseCombo(item as ICombo, false);
-            this.updateCombo(item as ICombo);
-          }
-        }, 0);
+        this.collapseCombo(item as ICombo, false);
+        this.updateCombo(item as ICombo);
       }
 
     } else if (type === 'node' && isString(model.comboId) && comboTrees) {
