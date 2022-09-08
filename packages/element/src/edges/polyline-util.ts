@@ -480,18 +480,31 @@ export const getPolylinePoints = (
   if (!sNode || !sNode.getType()) {
     sBBox = getBBoxFromPoint(start);
   } else if (sNode.getType() === 'combo') {
-    const sNodeKeyShape = sNode.getKeyShape();
-    sBBox = sNodeKeyShape.getCanvasBBox() || (getBBoxFromPoint(start) as PBBox);
-    sBBox.centerX = (sBBox.minX + sBBox.maxX) / 2;
-    sBBox.centerY = (sBBox.minY + sBBox.maxY) / 2;
+    const sKeyShapeBBox = sNode.getKeyShape().getBBox();
+    if (sKeyShapeBBox) {
+      const { x: sx, y: sy } = sNode.getModel();
+      sBBox = {
+        x: sx,
+        y: sy,
+        width: sKeyShapeBBox.width,
+        height: sKeyShapeBBox.height,
+        minX: sKeyShapeBBox.minX + sx,
+        maxX: sKeyShapeBBox.maxX + sx,
+        minY: sKeyShapeBBox.minY + sy,
+        maxY: sKeyShapeBBox.maxY + sy,
+      }
+      sBBox.centerX = (sBBox.minX + sBBox.maxX) / 2;
+      sBBox.centerY = (sBBox.minY + sBBox.maxY) / 2;
+    } else {
+      sBBox = getBBoxFromPoint(start) as PBBox
+    }
   } else {
-    sBBox = sNode.getBBox();
+    sBBox = sNode && sNode.getBBox();
   }
 
   if (!tNode || !tNode.getType()) {
     tBBox = getBBoxFromPoint(end);
-  }
-  else if (tNode.getType() === 'combo') {
+  } else if (tNode.getType() === 'combo') {
     const tKeyShapeBBox = tNode.getKeyShape().getBBox();
     if (tKeyShapeBBox) {
       const { x: tx, y: ty } = tNode.getModel();
@@ -510,8 +523,7 @@ export const getPolylinePoints = (
     } else {
       tBBox = getBBoxFromPoint(end) as PBBox
     }
-  }
-  else {
+  } else {
     tBBox = tNode && tNode.getBBox();
   }
 

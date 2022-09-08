@@ -126,7 +126,7 @@ const textXML = (cfg) => `
 		radius: [0, 0, 6, 6] }} 
 		keyshape="true" 
 		cursor="move">
-    <text style={{marginLeft: 10 ,fill: 'red'}}>'FULL'</text>
+    <text style={{marginLeft: 10 ,fill: 'red'}}>FULL</text>
     <text style={{ marginTop: 5, marginLeft: 10, fill: '#333'}}>${cfg.metric}: </text>
     <text style={{
       marginTop: 1,

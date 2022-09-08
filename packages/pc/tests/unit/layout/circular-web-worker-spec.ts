@@ -9,7 +9,8 @@ div.id = 'circular-layout-web-worker';
 document.body.appendChild(div);
 
 describe('circular layout(web worker)', () => {
-  it('circular layout(web worker) with default configs', done => {
+  // siren: Temporarily disabled
+  it.skip('circular layout(web worker) with default configs', done => {
     const graph = new G6.Graph({
       container: div,
       layout: {
@@ -21,9 +22,6 @@ describe('circular layout(web worker)', () => {
       height: 500,
       defaultNode: { size: 10 },
     });
-    graph.data(data);
-    graph.render();
-
     graph.on('afterlayout', () => {
       const width = graph.get('width');
       const height = graph.get('height');
@@ -35,6 +33,8 @@ describe('circular layout(web worker)', () => {
       graph.destroy();
       done();
     });
+    graph.data(data);
+    graph.render();
   });
 
   it('circular(web worker) counterclockwise, and fixed radius, start angle, end angle', done => {
