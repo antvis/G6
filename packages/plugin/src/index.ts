@@ -11,6 +11,7 @@ import EdgeFilterLens from './edgeFilterLens';
 import SnapLine from './snapline';
 import PluginBase from './base';
 import Legend from './legend';
+import Annotation from './annotation';
 
 export {
   PluginBase,
@@ -25,7 +26,8 @@ export {
   ImageMinimap,
   EdgeFilterLens,
   SnapLine,
-  Legend
+  Legend,
+  Annotation
 };
 
 const Plugin = {
@@ -41,7 +43,8 @@ const Plugin = {
   ImageMinimap,
   EdgeFilterLens,
   SnapLine,
-  Legend
+  Legend,
+  Annotation
 };
 
 export default Plugin;

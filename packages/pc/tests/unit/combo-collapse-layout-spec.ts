@@ -9,7 +9,12 @@ const data = {
     {
       "id": "ccc",
       "label": "ccc",
-      "collapsed": true
+      "collapsed": true,
+      parentId: 'd'
+    },
+    {
+      "id": "d",
+      "label": "d",
     }
   ],
   "edges": [
@@ -28,7 +33,6 @@ const data = {
     }
   ]
 };
-
 describe('combo layout with collapsed', () => {
   it('combo layout with collapsed', (done) => {
     const graph = new G6.Graph({

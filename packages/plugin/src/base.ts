@@ -89,7 +89,7 @@ export default abstract class PluginBase {
   /**
    * 销毁方法，供子类复写
    */
-  public destroy() {}
+  public destroy() { }
 
   /**
    * 销毁插件
