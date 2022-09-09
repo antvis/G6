@@ -766,6 +766,8 @@ export default class Legend extends Base {
   }
 
   public destroy() {
+    const lc = this.get('legendCanvas');
+    lc?.destroy();
     const graph: IGraph = this.get('graph');
     const graphContainer = graph.get<HTMLDivElement>('container');
     const container: HTMLDivElement = this.get('container');
