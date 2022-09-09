@@ -25,7 +25,6 @@ export default abstract class PluginBase {
    */
   constructor(cfgs?: IPluginBaseConfig) {
     this._cfgs = deepMix(this.getDefaultCfgs(), cfgs);
-    console.log('_cfgs', this._cfgs)
     this._events = {};
     this.destroyed = false;
   }
