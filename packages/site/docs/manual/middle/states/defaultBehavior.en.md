@@ -277,6 +277,10 @@ const graph = new G6.Graph({
   - `type: 'click-select'`;
   - `multiple`: Whether to allow multiple selection. `true` by default. `false` means multiple selection is not allowed, and the `trigger` will not take effect.
   - `trigger`: Specify which trigger for multiple selection. `shift` by default, which means multiple selection is activated when the shift button is pressed. Options: `'shift'`, `'ctrl'`, `'alt'`, and so on;
+  - `selectedState`: The state name for an item which is selected by this behaivor, `'selected'` by default;
+  - `selectNode`: Whether allow selecting node by this behavior, `true` by default;
+  - `selectEdge`: Whether allow selecting edge by this behavior, `false` by default;
+  - `selectCombo`: Whether allow selecting combo by this behaivor, `true` by default;
   - `shouldBegin(e)`: Whether allow the behavior happen on the current item (e.item), see the example below;
   - `shouldUpdate(e)`: Whether allow the behavior changes the state and state style of the on the current item (e.item), see the example below.
 - Related timing events:

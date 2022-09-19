@@ -1,5 +1,9 @@
 # ChangeLog
 
+ ### 4.7.4
+  
+  - perf: Annotation min-width and input width;
+
 ### 4.7.3
 
 - feat: beforechangedata and afterchagnedata for graph changeData;

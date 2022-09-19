@@ -26,6 +26,7 @@ typeof document !== 'undefined' &&
   .g6-annotation-title {
     margin: 4px 40px 4px 8px;
     cursor: text;
+    min-width: 32px;
   }
   .g6-annotation-collapse {
     margin: 4px;
@@ -44,6 +45,7 @@ typeof document !== 'undefined' &&
     width: fit-content;
     cursor: text;
     word-break: break-all;
+    min-width: 32px;
   }
   .g6-annotation-title-input-wrapper {
     margin: 4px 40px 4px 8px;
@@ -181,7 +183,7 @@ export default class Annotation extends Base {
     const closeDOM = `<p class='g6-annotation-close'>x</p>`
     const borderRadius = collapsed ? `${r}px` : `${r}px ${r}px 0 0`;
 
-    return `<div class="g6-annotation-wrapper" style="border-radius: ${r}px; maxWidth: ${maxWidth}px">
+    return `<div class="g6-annotation-wrapper" style="border-radius: ${r}px; max-width: ${maxWidth}px">
         <div
           class="g6-annotation-header-wapper"
           style="border-radius: ${borderRadius};"
@@ -709,11 +711,11 @@ export default class Annotation extends Base {
         const target = e.target;
         const targetClass = target.className;
         if (targetClass !== 'g6-annotation-title' && targetClass !== 'g6-annotation-content') return;
-        const { width, height } = target.getBoundingClientRect();
+        const { width, height } = targetClass === 'g6-annotation-title' ? target.getBoundingClientRect() : target.parentNode.getBoundingClientRect();
         const computeStyle = getComputedStyle(target);
         const inputTag = targetClass === 'g6-annotation-title' ? 'input' : 'textarea';
-        const input = createDom(`<${inputTag} class="${targetClass}-input" type="textarea" style="width:${width}px; height: ${height}px"/>`);
-        const inputWrapper = createDom(`<div class="${targetClass}-input-wrapper" style="width: ${width}px; height: ${height}px margin-right: ${computeStyle['marginRight']}" />`);
+        const input = createDom(`<${inputTag} class="${targetClass}-input" type="textarea" style="width:${width}px; height: ${height}px; min-width: 16px;"/>`);
+        const inputWrapper = createDom(`<div class="${targetClass}-input-wrapper" style="width: ${width}px; height: ${height}px; min-width: 16px; margin-right: ${computeStyle['marginRight']}" />`);
         inputWrapper.appendChild(input);
         target.parentNode.replaceChild(inputWrapper, target);
         if (targetClass === 'g6-annotation-title') {
