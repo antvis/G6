@@ -27,6 +27,7 @@
     "@antv/matrix-util": "^3.1.0-beta.3",
     "@antv/scale": "^0.3.4",
     "@antv/util": "^2.0.9",
+    "@antv/path-util": "^2.0.3",
     "insert-css": "^2.0.0"
   },
   "sideEffects": false,
