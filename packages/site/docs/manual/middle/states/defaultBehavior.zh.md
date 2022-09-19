@@ -281,6 +281,10 @@ const graph = new G6.Graph({
   - `type: 'click-select'`；
   - `multiple`：是否允许多选，默认为 `true`，当设置为 `false`，表示不允许多选，此时 `trigger` 参数无效；
   - `trigger`：指定按住哪个键进行多选，默认为 shift，按住 Shift 键多选，用户可配置 shift、ctrl、alt；
+  - `selectedState`：被点击选择后设置元素的状态名，默认为 `'selected'`；
+  - `selectNode`：是否允许节点被该交互选中，默认为 `true`；
+  - `selectEdge`：是否允许边被该交互选中，默认为 `false`；
+  - `selectCombo`：是否允许 Combo 被该交互选中，默认为 `true`；
   - `shouldBegin(e)`：是否允许该 behavior 发生，参考下面示例；
   - `shouldUpdate(e)`：是否允许对该 behavior 发生状态响应，参考下面示例。
 - 相关时机事件：
