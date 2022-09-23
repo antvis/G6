@@ -19,8 +19,10 @@ export default {
       selectedState: 'selected',
       trigger: DEFAULT_TRIGGER,
       includeEdges: true,
+      includeCombos: false,
       selectedEdges: [],
       selectedNodes: [],
+      selectedCombos: [],
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -104,20 +106,25 @@ export default {
 
     const nodes = graph.findAllByState('node', selectedState);
     const edges = graph.findAllByState('edge', selectedState);
+    const combos = graph.findAllByState('combo', selectedState);
+
     nodes.forEach((node) => graph.setItemState(node, selectedState, false));
     edges.forEach((edge) => graph.setItemState(edge, selectedState, false));
+    combos.forEach((combo) => graph.setItemState(combo, selectedState, false));
 
     this.selectedNodes = [];
-
     this.selectedEdges = [];
+    this.selectedCombos = [];
+
     if (this.onDeselect) {
-      this.onDeselect(this.selectedNodes, this.selectedEdges);
+      this.onDeselect(this.selectedNodes, this.selectedEdges, this.selectedCombos);
     }
 
     graph.emit('nodeselectchange', {
       selectedItems: {
         nodes: [],
         edges: [],
+        combos: [],
       },
       select: false,
     });
@@ -170,16 +177,39 @@ export default {
         });
       });
     }
+    const selectedCombos = [];
+    if (this.includeCombos) {
+      graph.getCombos().forEach((combo) => {
+        if (!combo.isVisible()) return;
+        const bbox = combo.getBBox();
+        if (
+          bbox.centerX >= left &&
+          bbox.centerX <= right &&
+          bbox.centerY >= top &&
+          bbox.centerY <= bottom
+        ) {
+          if (shouldUpdate(combo, 'select')) {
+            selectedCombos.push(combo);
+            const model = combo.getModel();
+            selectedIds.push(model.id);
+            graph.setItemState(combo, state, true);
+          }
+        }
+      });
+    }
+
 
     this.selectedEdges = selectedEdges;
     this.selectedNodes = selectedNodes;
+    this.selectedCombos = selectedCombos;
     if (this.onSelect) {
-      this.onSelect(selectedNodes, selectedEdges);
+      this.onSelect(selectedNodes, selectedEdges, selectedCombos);
     }
     graph.emit('nodeselectchange', {
       selectedItems: {
         nodes: selectedNodes,
         edges: selectedEdges,
+        combos: selectedCombos,
       },
       select: true,
     });
