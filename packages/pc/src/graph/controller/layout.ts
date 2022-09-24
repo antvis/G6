@@ -1,6 +1,6 @@
 import { AbstractLayout } from '@antv/g6-core';
 import { Layout } from '../../layout';
-import { LayoutWorker } from '../../layout/worker/layout.worker';
+import { LayoutWorker } from '../../layout/worker/layout';
 import { LAYOUT_MESSAGE } from '../../layout/worker/layoutConst';
 import { gpuDetector } from '../../util/gpu';
 import { mix, clone } from '@antv/util';
