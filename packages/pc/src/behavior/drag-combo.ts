@@ -132,9 +132,6 @@ export default {
     // 获取所有选中的 Combo
     const combos = graph.findAllByState('combo', this.selectedState);
 
-    // exit if no combos selected
-    if (!combos.length) return;
-
     const currentCombo = item.get('id');
 
     const dragCombos = combos.filter((combo) => {
@@ -186,7 +183,7 @@ export default {
       return true;
     });
 
-    if (graph.get('enabledStack')) {
+    if (graph.get('enabledStack') && combos.length) {
       pushComboToStack(graph, combos);
     }
   },
@@ -373,7 +370,9 @@ export default {
 
     if (graph.get('enabledStack')) {
       const combos = graph.findAllByState('combo', this.selectedState);
-      pushComboToStack(graph, combos);
+      if (combos.length) {
+        pushComboToStack(graph, combos);
+      }
     }
 
     if (parentCombo && this.activeState) {
