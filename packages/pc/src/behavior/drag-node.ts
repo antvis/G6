@@ -38,9 +38,9 @@ export default {
       'combo:drop': 'onDropCombo',
       'node:drop': 'onDropNode',
       'canvas:drop': 'onDropCanvas',
-      touchstart: 'onTouchStart',
-      touchmove: 'onTouchMove',
-      touchend: 'onDragEnd',
+      'touchstart': 'onTouchStart',
+      'touchmove': 'onTouchMove',
+      'touchend': 'onDragEnd',
     };
   },
   validationCombo(item: ICombo) {
@@ -133,7 +133,7 @@ export default {
     const currentNodeId = item.get('id');
 
     // 当前拖动的节点是否是选中的节点
-    const dragNodes = nodes.filter((node) => {
+    const dragNodes = nodes.filter(node => {
       const nodeId = node.get('id');
       return currentNodeId === nodeId;
     });
@@ -143,7 +143,7 @@ export default {
       this.targets.push(item);
     } else if (nodes.length > 1) {
       // 拖动多个节点
-      nodes.forEach((node) => {
+      nodes.forEach(node => {
         const locked = node.hasLocked();
         if (!locked) {
           this.targets.push(node);
@@ -164,9 +164,9 @@ export default {
 
     this.hidenEdge = {};
     if (this.get('updateEdge') && this.enableOptimize && !this.enableDelegate) {
-      this.targets.forEach((node) => {
+      this.targets.forEach(node => {
         const edges = node.getEdges();
-        edges.forEach((edge) => {
+        edges.forEach(edge => {
           if (!edge.isVisible()) return;
           this.hidenEdge[edge.getID()] = true;
           edge.hide();
@@ -209,7 +209,7 @@ export default {
           updateEdge: this.get('updateEdge'),
         });
       else
-        this.targets.map((target) => {
+        this.targets.map(target => {
           this.update(target, evt);
         });
     }
@@ -224,7 +224,7 @@ export default {
     }
 
     // 拖动结束后，设置拖动元素 group 的 capture 为 true，允许拾取拖动元素
-    this.cachedCaptureItems?.forEach((item) => {
+    this.cachedCaptureItems?.forEach(item => {
       const group = item.getContainer();
       group.set('capture', true);
     });
@@ -236,9 +236,9 @@ export default {
     }
 
     if (this.get('updateEdge') && this.enableOptimize && !this.enableDelegate) {
-      this.targets.forEach((node) => {
+      this.targets.forEach(node => {
         const edges = node.getEdges();
-        edges.forEach((edge) => {
+        edges.forEach(edge => {
           if (this.hidenEdge[edge.getID()]) edge.show();
           edge.refresh();
         });
@@ -255,11 +255,11 @@ export default {
         after: { nodes: [], edges: [], combos: [] },
       };
 
-      this.get('beforeDragNodes').forEach((model) => {
+      this.get('beforeDragNodes').forEach(model => {
         stackData.before.nodes.push(model);
       });
 
-      this.targets.forEach((target) => {
+      this.targets.forEach(target => {
         const { x, y, id } = target.getModel();
         stackData.after.nodes.push({ x, y, id });
       });
@@ -426,8 +426,8 @@ export default {
           updateEdge: this.get('updateEdge'),
           updateFunc: this.update,
         });
-      else if (!restore) this.targets.map((node) => this.update(node, evt));
-    } else this.targets.map((node) => this.update(node, evt, restore));
+      else if (!restore) this.targets.map(node => this.update(node, evt));
+    } else this.targets.map(node => this.update(node, evt, restore));
   },
   /**
    * 更新节点
@@ -468,9 +468,9 @@ export default {
    * @param evt
    */
   debounceUpdate: debounce(
-    (event) => {
+    event => {
       const { targets, graph, point, origin, evt, updateEdge, updateFunc } = event;
-      targets.map((item) => {
+      targets.map(item => {
         const model: NodeConfig = item.get('model');
         const nodeId: string = item.get('id');
         if (!point[nodeId]) {
