@@ -329,14 +329,16 @@ export default class ItemController {
       const { graph } = this;
       if (!graph || graph.get('destroyed')) return;
       const edgeToBeUpdateMap = this.edgeToBeUpdateMap;
-      if (!edgeToBeUpdateMap || !Object.keys(edgeToBeUpdateMap)?.length) return;
-      Object.keys(edgeToBeUpdateMap).forEach(eid => {
-        const edge = edgeToBeUpdateMap[eid].edge;
+      if (!edgeToBeUpdateMap) return;
+      const edgeValues = Object.values(edgeToBeUpdateMap);
+      if (!edgeValues.length) return;
+      edgeValues.forEach(obj => {
+        const edge = obj.edge;
         if (!edge || edge.destroyed) return;
         const source = edge.getSource();
         const target = edge.getTarget();
         if (!source || source.destroyed || !target || target.destroyed) return;
-        edge.refresh(edgeToBeUpdateMap[eid].updateType);
+        edge.refresh(obj.updateType);
       });
       this.edgeToBeUpdateMap = {};
     },
