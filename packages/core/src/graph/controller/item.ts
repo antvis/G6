@@ -271,7 +271,6 @@ export default class ItemController {
     } else if (type === NODE) {
       item.update(cfg, updateType);
       const edges: IEdge[] = (item as INode).getEdges();
-      const refreshEdge = updateType?.includes('bbox') || updateType === 'move';
       if (updateType === 'move') {
         each(edges, (edge: IEdge) => {
           this.edgeToBeUpdateMap[edge.getID()] = {
@@ -280,7 +279,7 @@ export default class ItemController {
           };
           this.throttleRefresh();
         });
-      } else if (refreshEdge) {
+      } else if (updateType?.includes('bbox')) {
         each(edges, (edge: IEdge) => {
           edge.refresh(updateType);
         });
