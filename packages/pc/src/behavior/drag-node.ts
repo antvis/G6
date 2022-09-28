@@ -108,7 +108,7 @@ export default {
     // 拖动时，设置拖动元素的 capture 为false，则不拾取拖动的元素
     const group = item.getContainer();
     group.set('capture', false);
-    if (!this.cachedCaptureItems) this.cachedCaptureItems = []
+    if (!this.cachedCaptureItems) this.cachedCaptureItems = [];
     this.cachedCaptureItems.push(item);
 
     // 如果拖动的target 是linkPoints / anchorPoints 则不允许拖动
@@ -152,12 +152,15 @@ export default {
     } else {
       this.targets.push(item);
     }
-    const beforeDragNodes = [];
-    this.targets.forEach(t => {
-      const { x, y, id } = t.getModel();
-      beforeDragNodes.push({ x, y, id });
-    });
-    this.set('beforeDragNodes', beforeDragNodes);
+
+    if (this.graph.get('enabledStack') && this.enableStack) {
+      const beforeDragNodes = [];
+      this.targets.forEach((t) => {
+        const { x, y, id } = t.getModel();
+        beforeDragNodes.push({ x, y, id });
+      });
+      this.set('beforeDragNodes', beforeDragNodes);
+    }
 
     this.hidenEdge = {};
     if (this.get('updateEdge') && this.enableOptimize && !this.enableDelegate) {
