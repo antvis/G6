@@ -3029,6 +3029,8 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     }
 
     this.emit('stackchange', {
+      action,
+      stackType,
       undoStack: this.undoStack,
       redoStack: this.redoStack,
     });
