@@ -1,5 +1,17 @@
 # ChangeLog
 
+ ### 4.7.4
+  
+  - perf: Annotation min-width and input width;
+
+### 4.7.3
+
+- feat: beforechangedata and afterchagnedata for graph changeData;
+- feat: Annotation supports icon events callbacks;
+- feat: Annotation supports defaultBegin position configuration for new annotation cards;
+- perf: Annotation updated automatically when graph data changed and graph item visiblity changed;
+- fix: Destroy legend canvas when the plugin is destroyed, closes: #3931;
+
 ### 4.7.2
 
 - feat: Annotation plugin supports configuring behaviors for collapse and close icon;

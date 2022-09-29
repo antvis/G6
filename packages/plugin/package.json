@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6-plugin",
-  "version": "0.7.2-siren.0",
+  "version": "0.7.4-siren.0",
   "description": "G6 Plugin",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -22,11 +22,12 @@
     "@antv/g-base": "^0.5.1",
     "@antv/g-canvas": "^0.5.2",
     "@antv/g-svg": "^0.5.2",
-    "@antv/g6-core": "0.7.2-siren.0",
-    "@antv/g6-element": "0.7.2-siren.0",
+    "@antv/g6-core": "0.7.4-siren.0",
+    "@antv/g6-element": "0.7.4-siren.0",
     "@antv/matrix-util": "^3.1.0-beta.3",
     "@antv/scale": "^0.3.4",
     "@antv/util": "^2.0.9",
+    "@antv/path-util": "^2.0.3",
     "insert-css": "^2.0.0"
   },
   "sideEffects": false,
@@ -58,6 +59,6 @@
     "jquery": "^3.5.1",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.4.4",
-    "@antv/g6": "4.7.2-siren.0"
+    "@antv/g6": "4.7.4-siren.0"
   }
 }

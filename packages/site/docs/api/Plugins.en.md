@@ -992,10 +992,5 @@ type ControllerCfg = Partial<{
 | speedControllerStyle | { offsetX?: number, offsetY?: number, scale?: number, pointer?: ShapeStyle, text?: ShapeStyle, scroller?: ShapeStyle} | null | The style of the 'speed controller'. `scale`, `offsetX`, `offsetY` are also can be assigned to it and each sub-styles to controll the size and position of the speed controller and sub-shapes |
 | timeTypeControllerStyle | { offsetX?: number, offsetY?: number, scale?: number, box?: ShapeStyle, check?: ShapeStyle, text?: ShapeStyle } | null | The style of the 'time type controller'. `scale`, `offsetX`, `offsetY` are also can be assigned to it and each sub-styles to controll the size and position of the speed controller and sub-shapes |
 | containerStyle ｜ ShapeStyle | {} | [Supported from v4.5.1] The style of the background rect of the controller |
-<<<<<<< Updated upstream
-| timePointControllerText | string | "单一时间" | The text for the right-botton switch controlling play with single time point or time range |
-| timeRangeControllerText | string | "时间范围" | The text for the right-botton switch controlling play with single time point or time range |
-=======
 | timePointControllerText | string | "单一时间" | The text for the right-bottom switch controlling play with single time point or time range |
 | timeRangeControllerText | string | "时间范围" | The text for the right-bottom switch controlling play with single time point or time range |
->>>>>>> Stashed changes
