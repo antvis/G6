@@ -368,6 +368,8 @@ No parameters.
 | --------- | -------- | --------------- |
 | redoStack | Object[] | The redo stack. |
 | undoStack | Object[] | The undo stack. |
+| action    | String   | The type of operation. |
+| stackType | String   | The type of stack. |
 
 #### valuechange
 
