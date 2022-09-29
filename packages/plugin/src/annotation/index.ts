@@ -26,6 +26,7 @@ typeof document !== 'undefined' &&
   .g6-annotation-title {
     margin: 4px 40px 4px 8px;
     cursor: text;
+    min-width: 32px;
   }
   .g6-annotation-collapse {
     margin: 4px;
@@ -44,6 +45,7 @@ typeof document !== 'undefined' &&
     width: fit-content;
     cursor: text;
     word-break: break-all;
+    min-width: 32px;
   }
   .g6-annotation-title-input-wrapper {
     margin: 4px 40px 4px 8px;
@@ -75,7 +77,8 @@ interface AnnotationConfig {
   linkStyle?: ShapeStyle,
   linkHighlightStyle?: ShapeStyle,
   getTitle?: (item) => string | HTMLDivElement,
-  getContent?: (item) => string | HTMLDivElement
+  getContent?: (item) => string | HTMLDivElement,
+  onAnnotationChange?: (info: any, action: string) => void;
 }
 
 
@@ -96,14 +99,17 @@ interface CardCfg {
   maxWidth?: number;
   collapseType?: 'minimize' | 'hide'; // 点击收起按钮(-)的响应，最小化、隐藏
   closeType?: 'hide' | 'remove'; // 点击关闭按钮(x)的相应，隐藏、移除
+  defaultBegin?: { left?: number, top?: number, right?: number, bottom?: number }, // 一个个卡片出生的起始位置，后续卡片会往后排列
   onMouseEnterIcon?: (evt: any, id: string, type: 'expand' | 'collapse' | 'close') => void;
   onMouseLeaveIcon?: (evt: any, id: string, type: 'expand' | 'collapse' | 'close') => void;
+  onClickIcon?: (evt: any, id: string, type: 'expand' | 'collapse' | 'close') => void;
 }
 
 interface CardInfoMap {
   [id: string]: CardCfg & {
     card: HTMLDivElement,
     link: IShape,
+    isCanvas?: boolean,
     cardBBox?: {
       left: number,
       right: number,
@@ -146,6 +152,9 @@ export default class Annotation extends Base {
       'viewportchange': 'updateLinks',
       'afterlayout': 'updateLinks',
       'aftergraphrefreshposition': 'updateLinks',
+      'afterupdateitem': 'updateLink',
+      'afterchangedata': 'onGraphDataChange',
+      'afteritemvisibilitychange': 'onGraphItemVisibilityChange'
     }
     switch (this.get('trigger')) {
       case 'click':
@@ -161,7 +170,6 @@ export default class Annotation extends Base {
   private getDOMContent(cfg) {
     if (this.destroyed) return;
     const {
-      itemId,
       collapsed,
       maxWidth,
       title = '',
@@ -175,7 +183,7 @@ export default class Annotation extends Base {
     const closeDOM = `<p class='g6-annotation-close'>x</p>`
     const borderRadius = collapsed ? `${r}px` : `${r}px ${r}px 0 0`;
 
-    return `<div class="g6-annotation-wrapper" style="border-radius: ${r}px; maxWidth: ${maxWidth}px">
+    return `<div class="g6-annotation-wrapper" style="border-radius: ${r}px; max-width: ${maxWidth}px">
         <div
           class="g6-annotation-header-wapper"
           style="border-radius: ${borderRadius};"
@@ -392,6 +400,7 @@ export default class Annotation extends Base {
       title: propsTitle,
       content: propsContent,
       maxTitleLength,
+      defaultBegin,
       ...otherCardCfg
     } = Object.assign({}, self.get('cardCfg') || {}, cfg);
     const linkGroup = self.get('linkGroup');
@@ -418,7 +427,8 @@ export default class Annotation extends Base {
       height,
       width,
     });
-    if (card) {
+    let exist = !!card;
+    if (exist) {
       // 移除相应连线
       link?.remove(true);
       // 替换原来的卡片
@@ -434,14 +444,23 @@ export default class Annotation extends Base {
         // 使用配置的位置
         x = propsX;
         y = propsY;
-      } else if (!card) {
+      } else if (!exist && !isCanvas) {
         // 第一次创建，且无 conatiner，初始化位置
         const { top: containerTop } = containerBBox;
+        const { left: beginLeft, right: propsBeginRight = 16, top: propsBeginTop = 8, bottom: beginBottom } = defaultBegin || {};
+        let beginRight = propsBeginRight;
+        let beginTop = propsBeginTop;
+        if (!isNaN(beginLeft)) {
+          beginRight = container.scrollWidth - beginLeft;
+        }
+        if (!isNaN(beginBottom)) {
+          beginTop = container.scrollHeight - beginBottom;
+        }
         const cardWidth = isNumber(minWidth) ? minWidth : 100;
-        x = container.scrollWidth - newCard.scrollWidth - 16 - (rows.length - 1) * cardWidth;
+        x = container.scrollWidth - newCard.scrollWidth - (rows.length - 1) * cardWidth - beginRight;
         const currentRow = rows[rows.length - 1];
-        const lastCardBBox = currentRow[currentRow.length - 1];
-        y = ((lastCardBBox?.bottom - containerTop) || 0) + 8;
+        const { bbox: lastCardBBox } = currentRow[currentRow.length - 1] || {};
+        y = (lastCardBBox?.bottom - containerTop) || beginTop
       }
       modifyCSS(newCard, {
         position: 'absolute',
@@ -476,21 +495,32 @@ export default class Annotation extends Base {
       x,
       y,
       cardBBox,
+      content: content || propsContent,
+      title: title || propsTitle,
+      isCanvas
     };
+
     self.set('cardInfoMap', cardInfoMap);
     if (containerCfg) {
       this.updateCardPositionsInConatainer();
       this.updateLinks();
-    } else if (!card) {
-      // 没有 container、新增 card 时，记录当前列中最下方位置，方便换行
-      const { bottom: containerBottom = 0 } = containerBBox;
-      rows[rows.length - 1].push(cardBBox);
-      if (cardBBox.bottom > containerBottom - 16) {
-        rows.push([]);
+    } else {
+      const hasPropsPosition = !isNaN(propsX) && !isNaN(propsY);
+      if (!exist && !isCanvas && !hasPropsPosition) {
+        // 没有 container、新增 card 时，记录当前列中最下方位置，方便换行
+        const { bottom: containerBottom = 0, top: containerTop } = containerBBox;
+        rows[rows.length - 1].push({
+          id: itemId,
+          bbox: cardBBox
+        });
+        if (cardBBox.top > containerBottom - containerTop - cardBBox.height - 16) rows.push([]);
+        this.set('rows', rows)
       }
-      this.set('rows', rows)
     }
     this.updateCardSize(itemId);
+
+    const onAnnotationChange = this.get('onAnnotationChange');
+    onAnnotationChange?.(cardInfoMap[itemId], exist ? 'update' : 'create');
   }
 
   public updateCardPositionsInConatainer() {
@@ -557,6 +587,8 @@ export default class Annotation extends Base {
     const { card, link } = cardInfoMap[id];
     modifyCSS(card, { display: 'none' });
     link?.hide();
+    const onAnnotationChange = this.get('onAnnotationChange');
+    onAnnotationChange(cardInfoMap[id], 'hide');
   }
 
   /**
@@ -568,11 +600,14 @@ export default class Annotation extends Base {
     if (this.destroyed) return;
     const cardInfoMap = this.get('cardInfoMap');
     if (!cardInfoMap) return;
-    const { card, link } = cardInfoMap[id];
+    const cardInfo = cardInfoMap[id]
+    const { card, link } = cardInfo;
     const container = this.get('container');
     container.removeChild(card);
     link?.remove(true);
     delete cardInfoMap[id];
+    const onAnnotationChange = this.get('onAnnotationChange');
+    onAnnotationChange(cardInfo, 'remove');
   }
 
   private bindListener(card, itemId) {
@@ -645,6 +680,7 @@ export default class Annotation extends Base {
       }
     })
     card.addEventListener('click', e => {
+      const { onClickIcon } = this.get('cardCfg') || {};
       if (e.target.className === 'g6-annotation-collapse' || e.target.className === 'g6-annotation-expand') {
         // collapse & expand
         const { collapseType } = this.get('cardCfg');
@@ -653,6 +689,7 @@ export default class Annotation extends Base {
         } else {
           this.handleExpandCollapseCard(itemId);
         }
+        onClickIcon?.(e, itemId, e.target.className === 'g6-annotation-collapse' ? 'collapse' : 'expand')
       } else if (e.target.className === 'g6-annotation-close') {
         // close
         const { closeType } = this.get('cardCfg');
@@ -661,6 +698,7 @@ export default class Annotation extends Base {
         } else {
           this.hideCard(itemId);
         }
+        onClickIcon?.(e, itemId, 'close')
       }
     });
     // dblclick to edit the title and content text
@@ -673,11 +711,11 @@ export default class Annotation extends Base {
         const target = e.target;
         const targetClass = target.className;
         if (targetClass !== 'g6-annotation-title' && targetClass !== 'g6-annotation-content') return;
-        const { width, height } = target.getBoundingClientRect();
+        const { width, height } = targetClass === 'g6-annotation-title' ? target.getBoundingClientRect() : target.parentNode.getBoundingClientRect();
         const computeStyle = getComputedStyle(target);
         const inputTag = targetClass === 'g6-annotation-title' ? 'input' : 'textarea';
-        const input = createDom(`<${inputTag} class="${targetClass}-input" type="textarea" style="width:${width}px; height: ${height}px"/>`);
-        const inputWrapper = createDom(`<div class="${targetClass}-input-wrapper" style="width: ${width}px; height: ${height}px margin-right: ${computeStyle['marginRight']}" />`);
+        const input = createDom(`<${inputTag} class="${targetClass}-input" type="textarea" style="width:${width}px; height: ${height}px; min-width: 16px;"/>`);
+        const inputWrapper = createDom(`<div class="${targetClass}-input-wrapper" style="width: ${width}px; height: ${height}px; min-width: 16px; margin-right: ${computeStyle['marginRight']}" />`);
         inputWrapper.appendChild(input);
         target.parentNode.replaceChild(inputWrapper, target);
         if (targetClass === 'g6-annotation-title') {
@@ -697,6 +735,9 @@ export default class Annotation extends Base {
           }
           inputWrapper.parentNode.replaceChild(target, inputWrapper);
           this.updateCardSize(itemId);
+
+          const onAnnotationChange = this.get('onAnnotationChange');
+          onAnnotationChange?.(cardInfo, 'update');
         });
       });
     }
@@ -766,6 +807,17 @@ export default class Annotation extends Base {
           visibility: 'visible'
         });
         this.set('dragging', false);
+
+        // 移动过的卡片从 rows 中移除，避免影响后续卡片出生位置
+        const rows = this.get("rows");
+        rows?.forEach(rowItems => {
+          for (let i = rowItems.length - 1; i >= 0; i--) {
+            if (rowItems[i].id === itemId) rowItems.splice(i, 1);
+          }
+        })
+
+        const onAnnotationChange = this.get('onAnnotationChange');
+        onAnnotationChange?.(cardInfoMap[itemId], 'update');
       }
     }
     card.addEventListener('dragend', dragendListener);
@@ -787,25 +839,60 @@ export default class Annotation extends Base {
     }
   }
 
+  public updateLink({ item }) {
+    if (!item) return;
+    const cardInfoMap: CardInfoMap = this.get('cardInfoMap');
+    if (!cardInfoMap) return;
+    const canvas = this.get('canvas');
+    const graph = this.get('graph');
+    const id = item.getID();
+    const { link, card } = cardInfoMap[id] || {};
+    if (link) {
+      const path = getPathItem2Card(item, card.getBoundingClientRect(), graph, canvas);
+      link.attr('path', path)
+    }
+  }
+
   public updateLinks() {
     if (this.destroyed) return;
     const cardInfoMap: CardInfoMap = this.get('cardInfoMap');
     if (!cardInfoMap) return;
     const graph = this.get('graph');
-    const canvas = this.get('canvas');
     Object.values(cardInfoMap).forEach(cardInfo => {
-      const { link, id, card } = cardInfo;
+      const { id } = cardInfo;
       const item = graph.findById(id);
-      if (link && item) {
-        const path = getPathItem2Card(item, card.getBoundingClientRect(), graph, canvas);
-        link.attr('path', path)
+      this.updateLink({ item });
+    })
+  }
+
+  public onGraphDataChange() {
+    const cardInfoMap: CardInfoMap = this.get('cardInfoMap');
+    if (!cardInfoMap) return;
+    const graph = this.get('graph');
+    Object.values(cardInfoMap).forEach(info => {
+      const { id, card, isCanvas } = info;
+      if (isCanvas || card.style.display === 'none') return;
+      const item = graph.findById(id);
+      if (item && item.isVisible()) {
+        this.toggleAnnotation(item);
+      } else {
+        this.hideCard(id);
       }
     })
   }
 
+  public onGraphItemVisibilityChange({ item, visible }) {
+    if (!item || item.destroyed) return;
+    const cardInfoMap: CardInfoMap = this.get('cardInfoMap');
+    if (!cardInfoMap) return;
+    const id = item.getID();
+    if (!cardInfoMap[id]) return;
+    if (!visible) this.hideCard(id);
+  }
+
   public saveData(saveClosed = false) {
     const cardInfoMap: CardInfoMap = this.get('cardInfoMap');
-    if (!cardInfoMap) [];
+    if (!cardInfoMap) return;
     const graph = this.get('graph');
     const getTitle = this.get('getTitle');
     const getContent = this.get('getContent');
@@ -813,7 +900,7 @@ export default class Annotation extends Base {
     Object.values(cardInfoMap).forEach(info => {
       const { title, content, x, y, id, collapsed, card } = info;
       if (card.style.display === 'none' && !saveClosed) return;
-      const item = graph.findById(id);
+      const item = graph.findById(id) || graph.get('canvas');
       data.push({
         id,
         x,
@@ -831,7 +918,7 @@ export default class Annotation extends Base {
     const graph = this.get('graph');
     data.forEach(info => {
       const { id, x, y, title, content, collapsed, visible } = info;
-      const item = graph.findById(id);
+      const item = graph.findById(id) || graph.get('canvas');
       this.toggleAnnotation(item, { x, y, title, content, collapsed });
       if (!visible) this.hideCard(id);
     })

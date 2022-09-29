@@ -174,7 +174,7 @@ const processNodesEdges = (
   // let maxCount = 0;
   edges.forEach((edge) => {
     // to avoid the dulplicated id to nodes
-    if (!edge.id) edge.id = `edge-${uniqueId()}`;
+    if (!edge.id) edge.id = uniqueId('edge');
     else if (edge.id.split('-')[0] !== 'edge') edge.id = `edge-${edge.id}`;
     // TODO: delete the following line after the queried data is correct
     if (!currentNodeMap[edge.source] || !currentNodeMap[edge.target]) {
@@ -237,9 +237,8 @@ const processNodesEdges = (
     const arrowWidth = Math.max(size / 2 + 2, 3);
     const arrowLength = 10;
     const arrowBeging = targetNode.size + arrowLength;
-    let arrowPath = `M ${arrowBeging},0 L ${arrowBeging + arrowLength},-${arrowWidth} L ${
-      arrowBeging + arrowLength
-    },${arrowWidth} Z`;
+    let arrowPath = `M ${arrowBeging},0 L ${arrowBeging + arrowLength},-${arrowWidth} L ${arrowBeging + arrowLength
+      },${arrowWidth} Z`;
     let d = targetNode.size / 2 + arrowLength;
     if (edge.source === edge.target) {
       edge.type = 'loop';
@@ -263,11 +262,11 @@ const processNodesEdges = (
       lineDash,
       endArrow: arrowPath
         ? {
-            path: arrowPath,
-            d,
-            fill: stroke,
-            strokeOpacity: 0,
-          }
+          path: arrowPath,
+          d,
+          fill: stroke,
+          strokeOpacity: 0,
+        }
         : false,
     };
     edge.labelCfg = {
@@ -541,7 +540,7 @@ const getMixedGraph = (
       const vedge = {
         source: edge.source,
         target: targetClusterId,
-        id: `edge-${uniqueId()}`,
+        id: uniqueId('edge'),
         label: '',
       };
       edges.push(vedge);
@@ -550,7 +549,7 @@ const getMixedGraph = (
       const vedge = {
         target: edge.target,
         source: sourceClusterId,
-        id: `edge-${uniqueId()}`,
+        id: uniqueId('edge'),
         label: '',
       };
       edges.push(vedge);
@@ -609,7 +608,7 @@ const generateNeighbors = (centerNodeModel, step, maxNeighborNumPerNode = 5) => 
   const neighborNum = Math.ceil(Math.random() * maxNeighborNumPerNode);
   for (let i = 0; i < neighborNum; i++) {
     const neighborNode = {
-      id: uniqueId(),
+      id: uniqueId('node'),
       clusterId,
       level: 0,
       colorSet: centerNodeModel.colorSet,
@@ -619,7 +618,7 @@ const generateNeighbors = (centerNodeModel, step, maxNeighborNumPerNode = 5) => 
     const source = dire ? centerId : neighborNode.id;
     const target = dire ? neighborNode.id : centerId;
     const neighborEdge = {
-      id: uniqueId(),
+      id: uniqueId('edge'),
       source,
       target,
       label: `${source}-${target}`,
@@ -655,7 +654,7 @@ const getExtractNodeMixedGraph = (
       if (!aggregatedNodeMap[targetClusterId].expanded) {
         // did not expand, create an virtual edge fromt he extract node to the cluster
         currentUnproccessedData.edges.push({
-          id: uniqueId(),
+          id: uniqueId('edge'),
           source: extractNodeId,
           target: targetClusterId,
         });
@@ -668,7 +667,7 @@ const getExtractNodeMixedGraph = (
       if (!aggregatedNodeMap[sourceClusterId].expanded) {
         // did not expand, create an virtual edge fromt he extract node to the cluster
         currentUnproccessedData.edges.push({
-          id: uniqueId(),
+          id: uniqueId('edge'),
           target: extractNodeId,
           source: sourceClusterId,
         });
@@ -1006,7 +1005,7 @@ const LargeGraph = () => {
               ...clusterEdge,
               size: Math.log(clusterEdge.count as number),
               label: '',
-              id: `edge-${uniqueId()}`,
+              id: uniqueId('edge'),
             };
             if (cedge.source === cedge.target) {
               cedge.type = 'loop';
@@ -1019,7 +1018,7 @@ const LargeGraph = () => {
 
           data.edges.forEach((edge) => {
             edge.label = `${edge.source}-${edge.target}`;
-            edge.id = `edge-${uniqueId()}`;
+            edge.id = uniqueId('edge');
           });
 
           currentUnproccessedData = aggregatedData;
