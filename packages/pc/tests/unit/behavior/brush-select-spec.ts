@@ -37,11 +37,11 @@ describe('brush-select', () => {
     let edge1: Edge;
 
     beforeEach(() => {
-      node1 = graph.addItem('node', { id: 'node1', x: 100, y: 100, label: 'node1' });
-      node2 = graph.addItem('node', { id: 'node2', x: 200, y: 200, label: 'node2' });
-      node3 = graph.addItem('node', { id: 'node3', x: 80, y: 150, label: 'node3' });
+      node1 = graph.addItem('node', { id: 'node1', x: 100, y: 100, label: 'node1' }) as Node;
+      node2 = graph.addItem('node', { id: 'node2', x: 200, y: 200, label: 'node2' }) as Node;
+      node3 = graph.addItem('node', { id: 'node3', x: 80, y: 150, label: 'node3' }) as Node;
       graph.addItem('edge', { source: 'node1', target: 'node2' });
-      edge1 = graph.addItem('edge', { source: 'node1', target: 'node3' });
+      edge1 = graph.addItem('edge', { source: 'node1', target: 'node3' }) as Edge;
     });
 
     afterEach(() => {
@@ -218,10 +218,10 @@ describe('brush-select', () => {
         }
       ], 'default');
 
-      node1 = graph.addItem('node', { id: 'node1', x: 100, y: 100, label: 'node1' });
-      node2 = graph.addItem('node', { id: 'node2', x: 200, y: 200, label: 'node2' });
-      edge = graph.addItem('edge', { source: 'node1', target: 'node2' });
-      combo = graph.addItem('combo', { id: combo, x: 100, y: 100 });
+      node1 = graph.addItem('node', { id: 'node1', x: 100, y: 100, label: 'node1' }) as Node;
+      node2 = graph.addItem('node', { id: 'node2', x: 200, y: 200, label: 'node2' }) as Node;
+      edge = graph.addItem('edge', { source: 'node1', target: 'node2' }) as Edge;
+      combo = graph.addItem('combo', { id: combo, x: 100, y: 100 }) as Combo;
 
       graph.paint();
 
@@ -274,7 +274,7 @@ describe('brush-select', () => {
           }
         ], 'default');
 
-        combo = graph.addItem('combo', { id: 'combo1', x: 50, y: 50 });
+        combo = graph.addItem('combo', { id: 'combo1', x: 50, y: 50 }) as Combo;
 
         graph.paint();
       });
@@ -318,7 +318,7 @@ describe('brush-select', () => {
           }
         ], 'default');
 
-        combo = graph.addItem('combo', { id: 'combo1', x: 50, y: 50 });
+        combo = graph.addItem('combo', { id: 'combo1', x: 50, y: 50 }) as Combo;
 
         graph.paint();
       });
