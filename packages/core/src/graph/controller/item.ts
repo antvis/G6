@@ -349,6 +349,26 @@ export default class ItemController {
   )
 
   /**
+   * Recursively expand parent combos when an ancestor or nested combo is expanded
+   * 
+   * @param {ICombo} combo 
+   */
+  public updateParentCombo (combo: ICombo) {
+    const model = combo.getModel() as ComboConfig;
+    if (model.parentId) {
+      const graph = this.graph;
+      const parent = graph.findById(model.parentId) as ICombo;
+      const parentModel = parent.getModel();
+      const parentBbox = getComboBBox(parentModel.children as ComboTree[], graph, parent);
+  
+      parent.set('bbox', parentBbox);
+      parent.refresh("bbox")
+
+      this.updateParentCombo(parent);
+    }
+  }
+
+  /**
    * 根据 combo 的子元素更新 combo 的位置及大小
    *
    * @param {ICombo} combo ID 或 实例
@@ -478,6 +498,12 @@ export default class ItemController {
         graph.showItem(c, stack);
       }
     });
+    
+    if (combo instanceof ICombo) {
+      setTimeout(() => {
+        this.updateParentCombo(combo);
+      }, 200);
+    }
   }
 
   /**
