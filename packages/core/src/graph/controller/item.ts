@@ -499,9 +499,9 @@ export default class ItemController {
       }
     });
     
-    if (combo instanceof ICombo) {
+    if (typeof combo !== 'string') {
       setTimeout(() => {
-        this.updateParentCombo(combo);
+        this.updateParentCombo(combo as ICombo);
       }, 200);
     }
   }
