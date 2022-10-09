@@ -1,4 +1,4 @@
-import { G6Event, IG6GraphEvent } from '@antv/g6-core';
+import { Item, G6Event, IG6GraphEvent } from '@antv/g6-core';
 
 const { min, max, abs } = Math;
 
@@ -19,8 +19,10 @@ export default {
       selectedState: 'selected',
       trigger: DEFAULT_TRIGGER,
       includeEdges: true,
+      includeCombos: false,
       selectedEdges: [],
       selectedNodes: [],
+      selectedCombos: [],
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -104,26 +106,40 @@ export default {
 
     const nodes = graph.findAllByState('node', selectedState);
     const edges = graph.findAllByState('edge', selectedState);
+    const combos = graph.findAllByState('combo', selectedState);
+
     nodes.forEach((node) => graph.setItemState(node, selectedState, false));
     edges.forEach((edge) => graph.setItemState(edge, selectedState, false));
+    combos.forEach((combo) => graph.setItemState(combo, selectedState, false));
 
     this.selectedNodes = [];
-
     this.selectedEdges = [];
+    this.selectedCombos = [];
+
     if (this.onDeselect) {
-      this.onDeselect(this.selectedNodes, this.selectedEdges);
+      this.onDeselect(this.selectedNodes, this.selectedEdges, this.selectedCombos);
     }
 
     graph.emit('nodeselectchange', {
       selectedItems: {
         nodes: [],
         edges: [],
+        combos: [],
       },
       select: false,
     });
   },
+  isBBoxCenterInRect(item: Item, left: number, right: number, top: number, bottom: number) {
+      const bbox = item.getBBox();
+      return (
+        bbox.centerX >= left &&
+        bbox.centerX <= right &&
+        bbox.centerY >= top &&
+        bbox.centerY <= bottom
+      );
+  },
   getSelectedNodes(e: IG6GraphEvent) {
-    const { graph, originPoint, shouldUpdate } = this;
+    const { graph, originPoint, shouldUpdate, isBBoxCenterInRect } = this;
     const state = this.selectedState;
     const p1 = { x: e.x, y: e.y };
     const p2 = graph.getPointByCanvas(originPoint.x, originPoint.y);
@@ -134,20 +150,15 @@ export default {
     const selectedNodes = [];
     const selectedIds = [];
     graph.getNodes().forEach((node) => {
-      if (!node.isVisible()) return; // 隐藏节点不能被选中
-      const bbox = node.getBBox();
       if (
-        bbox.centerX >= left &&
-        bbox.centerX <= right &&
-        bbox.centerY >= top &&
-        bbox.centerY <= bottom
+        node.isVisible() && // 隐藏节点不能被选中
+        isBBoxCenterInRect(node, left, right, top, bottom) &&
+        shouldUpdate(node, 'select')
       ) {
-        if (shouldUpdate(node, 'select')) {
-          selectedNodes.push(node);
-          const model = node.getModel();
-          selectedIds.push(model.id);
-          graph.setItemState(node, state, true);
-        }
+        selectedNodes.push(node);
+        const model = node.getModel();
+        selectedIds.push(model.id);
+        graph.setItemState(node, state, true);
       }
     });
     const selectedEdges = [];
@@ -170,16 +181,34 @@ export default {
         });
       });
     }
+    const selectedCombos = [];
+    if (this.includeCombos) {
+      graph.getCombos().forEach((combo) => {
+        if (
+          combo.isVisible() && // 隐藏节点不能被选中
+          isBBoxCenterInRect(combo, left, right, top, bottom) &&
+          shouldUpdate(combo, 'select')
+        ) {
+          selectedCombos.push(combo);
+          const model = combo.getModel();
+          selectedIds.push(model.id);
+          graph.setItemState(combo, state, true);
+        }
+      });
+    }
+
 
     this.selectedEdges = selectedEdges;
     this.selectedNodes = selectedNodes;
+    this.selectedCombos = selectedCombos;
     if (this.onSelect) {
-      this.onSelect(selectedNodes, selectedEdges);
+      this.onSelect(selectedNodes, selectedEdges, selectedCombos);
     }
     graph.emit('nodeselectchange', {
       selectedItems: {
         nodes: selectedNodes,
         edges: selectedEdges,
+        combos: selectedCombos,
       },
       select: true,
     });

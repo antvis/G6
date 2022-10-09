@@ -334,6 +334,7 @@ export interface ModeOption {
   resetSelected?: boolean;
   onlyChangeComboSize?: boolean;
   includeEdges?: boolean;
+  includeCombos?: boolean;
   direction?: 'x' | 'y';
   scalableRange?: number;
   offset?: number;
