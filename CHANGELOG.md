@@ -2,7 +2,7 @@
 
 ### 4.7.5
 
-- perf: Annotation support update positions for outside cards by calling updateOutsideCards;
+- perf: Annotation support updating positions for outside cards by calling updateOutsideCards;
 
  ### 4.7.4
   
