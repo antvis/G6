@@ -479,6 +479,7 @@ Assign `true` to `resetSelected` to reset the selected states for nodes after th
   - `onDeselect(nodes)`: The callback function when canceling selections. `nodes` is the selected ndoes;
   - `selectedState`: The state of the selected nodes. `'selected'` by default;
   - `includeEdges`: Whether to select the edges when selecting by brushing. `true` by default. `false` means do not select the edges.
+  - `includeCombos`: Whether to select the combos when selecting by brushing. `false` by default. `true` means combos are selected.
   - `trigger`: The trigger button for this operation. `'shift'` by default, which means the select by brushing operation will be activated by pressing Shift button. Options: `'shift'`, `'ctrl' / 'control'`, `'alt'` and `'drag'`, not case sensitive:
     - `'shift'`: Select by brushing when Shift is pressed;
     - `'ctrl' / 'control'`: Select by brushing when Ctrl is pressed;
@@ -519,7 +520,8 @@ const graph = new G6.Graph({
       {
         type: 'brush-select',
         trigger: 'ctrl',
-        includeEdges: false,
+        includeEdges: false, // Will ignore edges
+        includeCombos: true, // Will select combos
       },
       // Whether allow the behavior happen on the current manipulated item (e.item). If it returns false, the item will not be selected and the timing event 'nodeselectchange' will not be triggered
       shouldUpdate: e => {

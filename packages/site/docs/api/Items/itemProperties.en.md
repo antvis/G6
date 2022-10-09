@@ -15,7 +15,7 @@ The ID of the item, **MUST** be unique and string
 
 <description> _Object_ **optional** </description>
 
-The style of the item's [keyShape](/en/docs/manual/middle/elements/shape-keyshape). Its properites are related to the type of the keyShape. Refer to [Shape Style Properties](/en/docs/api/shapeProperties)
+The style of the item's [keyShape](/en/docs/manual/middle/elements/shape/shape-keyshape). Its properites are related to the type of the keyShape. Refer to [Shape Style Properties](/en/docs/api/shapeProperties)
 
 ### type
 

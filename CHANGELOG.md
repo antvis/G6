@@ -1,5 +1,9 @@
 # ChangeLog
 
+### 4.7.5
+
+- perf: Annotation support updating positions for outside cards by calling updateOutsideCards;
+
  ### 4.7.4
   
   - perf: Annotation min-width and input width;
