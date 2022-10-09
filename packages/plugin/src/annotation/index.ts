@@ -330,7 +330,12 @@ export default class Annotation extends Base {
     }, 250);
   }
 
-  private updateOutsideCards(self) {
+  /**
+   * 更新超出视口范围的卡片位置
+   * @param selfObj 当前 annotation 插件对象。外部调用不需要传入该参数
+   */
+  public updateOutsideCards(selfObj) {
+    const self = selfObj || this;
     const cardInfoMap = self.get('cardInfoMap') || {};
     const graph = self.get('graph');
     const graphLeftTopCanvas = graph.getPointByCanvas(0, 0);
