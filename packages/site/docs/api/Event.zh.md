@@ -361,6 +361,8 @@ Tooltip 插件：
 | --------- | -------- | -------- |
 | redoStack | Object[] | 重做堆栈 |
 | undoStack | Object[] | 撤销堆栈 |
+| action    | String   | 操作类型 |
+| stackType | String   | 栈变更类型，撤销 undo / 重做 redo |
 
 
 #### valuechange
