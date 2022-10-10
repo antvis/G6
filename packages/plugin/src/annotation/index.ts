@@ -119,6 +119,8 @@ interface CardInfoMap {
   }
 }
 
+const CANVAS_ANNOTATION_ID = 'g6-canvas-annotation';
+
 export default class Annotation extends Base {
   constructor(config?: AnnotationConfig) {
     super(config);
@@ -413,7 +415,7 @@ export default class Annotation extends Base {
 
     const isCanvas = item.isCanvas?.();
 
-    const itemId = isCanvas ? 'canvas-annotation' : item.getID();
+    const itemId = isCanvas ? CANVAS_ANNOTATION_ID : item.getID();
     let { card, link, x, y, title, content } = cardInfoMap[itemId] || {};
 
     const getTitle = this.get('getTitle');
@@ -588,7 +590,7 @@ export default class Annotation extends Base {
   public hideCard(id) {
     if (this.destroyed) return;
     const cardInfoMap = this.get('cardInfoMap');
-    if (!cardInfoMap) return;
+    if (!cardInfoMap || !cardInfoMap[id]) return;
     const { card, link } = cardInfoMap[id];
     modifyCSS(card, { display: 'none' });
     link?.hide();
@@ -876,7 +878,7 @@ export default class Annotation extends Base {
     const graph = this.get('graph');
     Object.values(cardInfoMap).forEach(info => {
       const { id, card, isCanvas } = info;
-      if (isCanvas || card.style.display === 'none') return;
+      if (!card || isCanvas || card.style.display === 'none') return;
       const item = graph.findById(id);
       if (item && item.isVisible()) {
         this.toggleAnnotation(item);
@@ -904,7 +906,7 @@ export default class Annotation extends Base {
     const data = [];
     Object.values(cardInfoMap).forEach(info => {
       const { title, content, x, y, id, collapsed, card } = info;
-      if (card.style.display === 'none' && !saveClosed) return;
+      if (card && card.style.display === 'none' && !saveClosed) return;
       const item = graph.findById(id) || graph.get('canvas');
       data.push({
         id,
@@ -913,7 +915,7 @@ export default class Annotation extends Base {
         collapsed,
         title: title || getTitle?.(item),
         content: content || getContent?.(item),
-        visible: card.style.display !== 'none'
+        visible: card && card.style.display !== 'none'
       })
     });
     return data;
@@ -921,9 +923,16 @@ export default class Annotation extends Base {
 
   public readData(data) {
     const graph = this.get('graph');
+    const cardInfoMap = this.get('cardInfoMap') || {};
     data.forEach(info => {
       const { id, x, y, title, content, collapsed, visible } = info;
-      const item = graph.findById(id) || graph.get('canvas');
+      let item = graph.findById(id);
+      if (!item && id === CANVAS_ANNOTATION_ID) item = graph.get('canvas');
+      if (!item) {
+        cardInfoMap[id] = info;
+        this.set('cardInfoMap', cardInfoMap);
+        return;
+      }
       this.toggleAnnotation(item, { x, y, title, content, collapsed });
       if (!visible) this.hideCard(id);
     })
