@@ -923,7 +923,6 @@ export default class Annotation extends Base {
 
   public readData(data) {
     const graph = this.get('graph');
-    const cardInfoMap = this.get('cardInfoMap') || {};
     data.forEach(info => {
       const { id, x, y, title, content, collapsed, visible } = info;
       let item = graph.findById(id);
@@ -931,6 +930,7 @@ export default class Annotation extends Base {
         item = graph.get('canvas');
       }
       if (!item) {
+        const cardInfoMap = this.get('cardInfoMap') || {};
         cardInfoMap[id] = info;
         this.set('cardInfoMap', cardInfoMap);
         return;
