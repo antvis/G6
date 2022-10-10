@@ -119,7 +119,7 @@ interface CardInfoMap {
   }
 }
 
-const CANVAS_ANNOTATION_ID = 'g6-canvas-annotation';
+const CANVAS_ANNOTATION_ID = 'canvas-annotation';
 
 export default class Annotation extends Base {
   constructor(config?: AnnotationConfig) {
@@ -927,7 +927,9 @@ export default class Annotation extends Base {
     data.forEach(info => {
       const { id, x, y, title, content, collapsed, visible } = info;
       let item = graph.findById(id);
-      if (!item && id === CANVAS_ANNOTATION_ID) item = graph.get('canvas');
+      if (!item && id === CANVAS_ANNOTATION_ID) {
+        item = graph.get('canvas');
+      }
       if (!item) {
         cardInfoMap[id] = info;
         this.set('cardInfoMap', cardInfoMap);
@@ -935,7 +937,7 @@ export default class Annotation extends Base {
       }
       this.toggleAnnotation(item, { x, y, title, content, collapsed });
       if (!visible) this.hideCard(id);
-    })
+    });
   }
 
   /**
