@@ -9,7 +9,7 @@ import {
   floydWarshall,
 } from '@antv/algorithm';
 import { IAbstractGraph } from '../interface/graph';
-import { IEdge, INode, ICombo } from '../interface/item';
+import { IEdge, INode, ICombo, IItemBaseConfig } from '../interface/item';
 import {
   GraphAnimateConfig,
   GraphOptions,
@@ -1337,14 +1337,18 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     stack: boolean = true,
   ): void {
     const itemController: ItemController = this.get('itemController');
-    let currentItem;
+    let currentItem: Item;
     if (isString(item)) {
       currentItem = this.findById(item as string);
     } else {
       currentItem = item;
     }
 
-    const UnupdateModel = clone(currentItem.getModel());
+    const stackEnabled = stack && this.get('enabledStack');
+    let unupdatedModel;
+    if (stackEnabled) {
+      unupdatedModel = clone(currentItem.getModel());
+    }
 
     let type = '';
     if (currentItem.getType) type = currentItem.getType();
@@ -1358,31 +1362,28 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       each(states, state => this.setItemState(currentItem, state, true));
     }
 
-    if (stack && this.get('enabledStack')) {
+    if (stackEnabled) {
       const before = { nodes: [], edges: [], combos: [] };
       const after = { nodes: [], edges: [], combos: [] };
       const afterModel = {
-        id: UnupdateModel.id,
+        id: unupdatedModel.id,
         ...cfg,
       };
       switch (type) {
         case 'node':
-          before.nodes.push(UnupdateModel);
+          before.nodes.push(unupdatedModel);
           after.nodes.push(afterModel);
           break;
         case 'edge':
-          before.edges.push(UnupdateModel);
+          before.edges.push(unupdatedModel);
           after.edges.push(afterModel);
           break;
         case 'combo':
-          before.combos.push(UnupdateModel);
+          before.combos.push(unupdatedModel);
           after.combos.push(afterModel);
           break;
         default:
           break;
-      }
-      if (type === 'node') {
-        before.nodes.push(UnupdateModel);
       }
       this.pushStack('update', { before, after });
     }

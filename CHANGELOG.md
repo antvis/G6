@@ -1,5 +1,10 @@
 # ChangeLog
 
+### 4.7.6
+
+- fix: Annotation readData with inexistent item;
+- perf: improve the performance for updating;
+
 ### 4.7.5
 
 - perf: Annotation support updating positions for outside cards by calling updateOutsideCards;
