@@ -78,6 +78,8 @@ interface AnnotationConfig {
   linkHighlightStyle?: ShapeStyle,
   getTitle?: (item) => string | HTMLDivElement,
   getContent?: (item) => string | HTMLDivElement,
+  getTitlePlaceholder?: (item) => string | HTMLDivElement, // getTitle 返回空时使用 getTitlePlaceholder 的返回值
+  getContentPlaceholder?: (item) => string | HTMLDivElement, // getContent 返回空时使用 getContentPlaceholder 的返回值
   onAnnotationChange?: (info: any, action: string) => void;
 }
 
@@ -175,14 +177,13 @@ export default class Annotation extends Base {
       collapsed,
       maxWidth,
       title = '',
-      content,
-      placeholder = '',
+      content = '',
       borderRadius: r = 5,
     } = cfg;
     const collapseExpandDOM = collapsed ?
       `<p class='g6-annotation-expand'>+</p>` :
       `<p class='g6-annotation-collapse'>-</p>`;
-    const contentDOM = collapsed ? '' : ` <p class='g6-annotation-content'>${content || placeholder}</p>`;
+    const contentDOM = collapsed ? '' : ` <p class='g6-annotation-content'>${content}</p>`;
     const closeDOM = `<p class='g6-annotation-close'>x</p>`
     const borderRadius = collapsed ? `${r}px` : `${r}px ${r}px 0 0`;
 
@@ -421,13 +422,15 @@ export default class Annotation extends Base {
 
     const getTitle = this.get('getTitle');
     const getContent = this.get('getContent');
-    const getPlaceholder = this.get('getPlaceholder') || (() => { });
+    const getContentPlaceholder = this.get('getContentPlaceholder') || (() => '');
+    const getTitlePlaceHolder = this.get('getTitlePlaceHolder') || (() => '');
+    const contentPlaceholder = getContentPlaceholder(item);
+    const titlePlaceholder = getTitlePlaceHolder(item);
     const newCard = createDom(this.getDOMContent({
       itemId,
       collapsed,
-      title: (title || propsTitle || getTitle?.(item)).substr(0, maxTitleLength),
-      content: content || propsContent || getContent?.(item),
-      placeholder: getPlaceholder?.(item),
+      title: (title || propsTitle || getTitle?.(item))?.substr(0, maxTitleLength) || titlePlaceholder,
+      content: content || propsContent || getContent?.(item) || contentPlaceholder,
       ...otherCardCfg
     }));
     const minHeightPx = isNumber(minHeight) ? `${minHeight}px` : minHeight
@@ -507,6 +510,8 @@ export default class Annotation extends Base {
       cardBBox,
       content: content || propsContent,
       title: title || propsTitle,
+      contentPlaceholder,
+      titlePlaceholder,
       isCanvas
     };
 
@@ -729,7 +734,7 @@ export default class Annotation extends Base {
         inputWrapper.appendChild(input);
         target.parentNode.replaceChild(inputWrapper, target);
         const cardInfo = cardInfoMap[itemId];
-        const { placeholder, content, title } = cardInfo;
+        const { contentPlaceholder, titlePlaceholder, content, title } = cardInfo;
         let value = content;
         if (targetClass === 'g6-annotation-title') {
           input.name = 'title';
@@ -742,7 +747,7 @@ export default class Annotation extends Base {
           input.innerHTML = target.innerHTML;
           input.value = target.innerHTML;
         } else {
-          input.placeholder = placeholder;
+          input.placeholder = targetClass === 'g6-annotation-title' ? titlePlaceholder : contentPlaceholder;
         }
         input.focus();
         input.addEventListener('blur', blurEvt => {

@@ -2,7 +2,7 @@
 
 ### 4.7.7
  
- - feat: getPlaceholder for Annotation plugin;
+ - feat: getContentPlaceholder and getTitlePlaceholder for Annotation plugin;
 
 ### 4.7.6
 
