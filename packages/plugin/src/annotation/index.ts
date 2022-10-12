@@ -78,6 +78,8 @@ interface AnnotationConfig {
   linkHighlightStyle?: ShapeStyle,
   getTitle?: (item) => string | HTMLDivElement,
   getContent?: (item) => string | HTMLDivElement,
+  getTitlePlaceholder?: (item) => string | HTMLDivElement, // getTitle 返回空时使用 getTitlePlaceholder 的返回值
+  getContentPlaceholder?: (item) => string | HTMLDivElement, // getContent 返回空时使用 getContentPlaceholder 的返回值
   onAnnotationChange?: (info: any, action: string) => void;
 }
 
@@ -420,11 +422,15 @@ export default class Annotation extends Base {
 
     const getTitle = this.get('getTitle');
     const getContent = this.get('getContent');
+    const getContentPlaceholder = this.get('getContentPlaceholder') || (() => '');
+    const getTitlePlaceHolder = this.get('getTitlePlaceHolder') || (() => '');
+    const contentPlaceholder = getContentPlaceholder(item);
+    const titlePlaceholder = getTitlePlaceHolder(item);
     const newCard = createDom(this.getDOMContent({
       itemId,
       collapsed,
-      title: (title || propsTitle || getTitle?.(item)).substr(0, maxTitleLength),
-      content: content || propsContent || getContent?.(item),
+      title: (title || propsTitle || getTitle?.(item))?.substr(0, maxTitleLength) || titlePlaceholder,
+      content: content || propsContent || getContent?.(item) || contentPlaceholder,
       ...otherCardCfg
     }));
     const minHeightPx = isNumber(minHeight) ? `${minHeight}px` : minHeight
@@ -504,6 +510,8 @@ export default class Annotation extends Base {
       cardBBox,
       content: content || propsContent,
       title: title || propsTitle,
+      contentPlaceholder,
+      titlePlaceholder,
       isCanvas
     };
 
@@ -725,16 +733,23 @@ export default class Annotation extends Base {
         const inputWrapper = createDom(`<div class="${targetClass}-input-wrapper" style="width: ${width}px; height: ${height}px; min-width: 16px; margin-right: ${computeStyle['marginRight']}" />`);
         inputWrapper.appendChild(input);
         target.parentNode.replaceChild(inputWrapper, target);
+        const cardInfo = cardInfoMap[itemId];
+        const { contentPlaceholder, titlePlaceholder, content, title } = cardInfo;
+        let value = content;
         if (targetClass === 'g6-annotation-title') {
           input.name = 'title';
           input.maxLength = maxTitleLength;
+          value = title;
         } else {
           input.name = 'content';
         }
-        input.innerHTML = target.innerHTML;
-        input.value = target.innerHTML;
+        if (value) {
+          input.innerHTML = target.innerHTML;
+          input.value = target.innerHTML;
+        } else {
+          input.placeholder = targetClass === 'g6-annotation-title' ? titlePlaceholder : contentPlaceholder;
+        }
         input.focus();
-        const cardInfo = cardInfoMap[itemId];
         input.addEventListener('blur', blurEvt => {
           if (input.value) {
             target.innerHTML = input.value;
