@@ -175,13 +175,14 @@ export default class Annotation extends Base {
       collapsed,
       maxWidth,
       title = '',
-      content = '',
+      content,
+      placeholder = '',
       borderRadius: r = 5,
     } = cfg;
     const collapseExpandDOM = collapsed ?
       `<p class='g6-annotation-expand'>+</p>` :
       `<p class='g6-annotation-collapse'>-</p>`;
-    const contentDOM = collapsed ? '' : ` <p class='g6-annotation-content'>${content}</p>`;
+    const contentDOM = collapsed ? '' : ` <p class='g6-annotation-content'>${content || placeholder}</p>`;
     const closeDOM = `<p class='g6-annotation-close'>x</p>`
     const borderRadius = collapsed ? `${r}px` : `${r}px ${r}px 0 0`;
 
@@ -420,11 +421,13 @@ export default class Annotation extends Base {
 
     const getTitle = this.get('getTitle');
     const getContent = this.get('getContent');
+    const getPlaceholder = this.get('getPlaceholder') || (() => { });
     const newCard = createDom(this.getDOMContent({
       itemId,
       collapsed,
       title: (title || propsTitle || getTitle?.(item)).substr(0, maxTitleLength),
       content: content || propsContent || getContent?.(item),
+      placehoder: getPlaceholder?.(item),
       ...otherCardCfg
     }));
     const minHeightPx = isNumber(minHeight) ? `${minHeight}px` : minHeight
@@ -725,16 +728,23 @@ export default class Annotation extends Base {
         const inputWrapper = createDom(`<div class="${targetClass}-input-wrapper" style="width: ${width}px; height: ${height}px; min-width: 16px; margin-right: ${computeStyle['marginRight']}" />`);
         inputWrapper.appendChild(input);
         target.parentNode.replaceChild(inputWrapper, target);
+        const cardInfo = cardInfoMap[itemId];
+        const { placeholder, content, title } = cardInfo;
+        let value = content;
         if (targetClass === 'g6-annotation-title') {
           input.name = 'title';
           input.maxLength = maxTitleLength;
+          value = title;
         } else {
           input.name = 'content';
         }
-        input.innerHTML = target.innerHTML;
-        input.value = target.innerHTML;
+        if (value) {
+          input.innerHTML = target.innerHTML;
+          input.value = target.innerHTML;
+        } else {
+          input.placehoder = placeholder;
+        }
         input.focus();
-        const cardInfo = cardInfoMap[itemId];
         input.addEventListener('blur', blurEvt => {
           if (input.value) {
             target.innerHTML = input.value;
