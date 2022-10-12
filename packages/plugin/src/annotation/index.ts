@@ -427,7 +427,7 @@ export default class Annotation extends Base {
       collapsed,
       title: (title || propsTitle || getTitle?.(item)).substr(0, maxTitleLength),
       content: content || propsContent || getContent?.(item),
-      placehoder: getPlaceholder?.(item),
+      placeholder: getPlaceholder?.(item),
       ...otherCardCfg
     }));
     const minHeightPx = isNumber(minHeight) ? `${minHeight}px` : minHeight
@@ -742,7 +742,7 @@ export default class Annotation extends Base {
           input.innerHTML = target.innerHTML;
           input.value = target.innerHTML;
         } else {
-          input.placehoder = placeholder;
+          input.placeholder = placeholder;
         }
         input.focus();
         input.addEventListener('blur', blurEvt => {
