@@ -25,7 +25,7 @@ describe('graph node states', () => {
           position: 'bottom',
           style: {  fill: '#e80a0a', fontSize: 10,}
         },
-      }
+      },
       nodeStateStyles: {
         hover: {
           img: 'https://gw.alipayobjects.com/zos/bmw-prod/5d015065-8505-4e7a-baec-976f81e3c41d.svg',

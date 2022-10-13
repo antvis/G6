@@ -1,6 +1,6 @@
 import { Graph } from '../../../src';
 import '../../../src/behavior';
-import { GraphData, ICombo } from '@antv/g6-core';
+import { GraphData, ICombo, ComboTree, Util } from '@antv/g6-core';
 import { clone } from '@antv/util';
 
 const div = document.createElement('div');
@@ -113,13 +113,77 @@ const data = {
 };
 
 describe('graph with combo', () => {
-  it('uncombo', () => {
-    const graph = new Graph({
+  let graph: Graph;
+
+  function makeGraph(config = {}) {
+    graph = new Graph({
       container: div,
       width: 500,
       height: 600,
+      ...config
     });
     graph.read(clone(data));
+  }
+
+  it('createCombo', () => {
+    makeGraph();
+
+    graph.addItem('node', { id: 'top-level-node' });
+
+    const childIds = [
+      'top-level-node', // a top-level node
+      '0', // Inside top-level combo 'a'
+      '2', // Inside top-level combo 'b'
+      '5', // Inside depth-1 combo 'e'
+      'a', // Top-level combo
+      'e', // Depth-1 combo
+    ];
+
+    graph.createCombo('new-combo', childIds);
+
+    const newCombo = graph.findById('new-combo') as ICombo;
+
+    // Children are assigned correctly to the new combo parent
+    childIds.forEach(id => {
+      const itemModel = graph.findById(id).getModel();
+      expect(itemModel.comboId || itemModel.parentId).toBe('new-combo');
+    });
+
+    // Children should have been removed from their original parents in the comboTrees
+    const comboTrees = graph.get('comboTrees');
+
+    const expectedTopLevelComboIds = ['b', 'c', 'new-combo'];
+    const expectedChildrenById = {
+      a: ['1'], // '0' has been transferred to new combo
+      b: ['3'], // 'e' moved to new combo
+      c: ['4'], // Not changed
+      e: ['6'], // '5' moved to new combo
+      'new-combo': childIds,
+    }
+
+    const topLevelComboIds = comboTrees.map(comboTree => comboTree.id);
+
+    expect(topLevelComboIds).toEqual(expect.arrayContaining(expectedTopLevelComboIds));
+    expect(expectedTopLevelComboIds).toEqual(expect.arrayContaining(topLevelComboIds));
+
+    comboTrees.forEach(ctree => {
+      Util.traverseTree<ComboTree>(ctree, (node: ComboTree): boolean => {
+        if (node.itemType === 'combo') {
+          const nodeChildIds = node.children.map(child => child.id);
+          const expectedChildren = expectedChildrenById[node.id];
+
+          expect(nodeChildIds).toEqual(expect.arrayContaining(expectedChildren));
+          expect(expectedChildren).toEqual(expect.arrayContaining(nodeChildIds));
+        }
+
+        return true;
+      });
+    });
+  });
+
+  it('uncombo', () => {
+    makeGraph();
+
     // uncombo with combo item
     graph.uncombo(graph.findById('a') as ICombo);
     expect(graph.getCombos().length).toBe(3);
@@ -139,12 +203,8 @@ describe('graph with combo', () => {
     graph.destroy();
   });
   it('uncombo subcombo', () => {
-    const graph = new Graph({
-      container: div,
-      width: 500,
-      height: 600,
-    });
-    graph.read(clone(data));
+    makeGraph();
+
     // uncombo the parent first and then uncombo the subcombo
     graph.uncombo(graph.findById('b') as ICombo);
     expect(graph.getCombos().length).toBe(3);
@@ -156,12 +216,8 @@ describe('graph with combo', () => {
   });
 
   it('get combo children', () => {
-    const graph = new Graph({
-      container: div,
-      width: 500,
-      height: 600,
-    });
-    graph.read(clone(data));
+    makeGraph();
+
     const comboB: ICombo = graph.findById('b') as ICombo;
     const comboBChildren = comboB.getChildren();
     expect(comboBChildren.nodes.length).toBe(2);
@@ -171,12 +227,8 @@ describe('graph with combo', () => {
   });
 
   it('hide and show a combo', () => {
-    const graph = new Graph({
-      container: div,
-      width: 500,
-      height: 600,
-    });
-    graph.read(clone(data));
+    makeGraph();
+
     // hide an item itself
     const comboA: ICombo = graph.findById('a') as ICombo;
     comboA.hide();
@@ -208,10 +260,7 @@ describe('graph with combo', () => {
   });
 
   it('collapse expand combo', () => {
-    const graph = new Graph({
-      container: div,
-      width: 500,
-      height: 600,
+    makeGraph({
       defaultCombo: {
         size: 10,
         padding: 1,
@@ -223,7 +272,7 @@ describe('graph with combo', () => {
       },
       animate: true,
     });
-    graph.read(clone(data));
+
     // collapse / expand the combo with invalid id
     graph.collapseCombo('invalidid');
     graph.expandCombo('invalidid');
@@ -271,12 +320,8 @@ describe('graph with combo', () => {
   });
 
   it('combo mapper', () => {
-    const graph = new Graph({
-      container: div,
-      width: 500,
-      height: 600,
-      groupByTypes: false,
-    });
+    makeGraph({ groupByTypes: false });
+
     graph.combo(() => {
       return {
         style: {
@@ -294,12 +339,7 @@ describe('graph with combo', () => {
   });
 
   it('getComboChildren', () => {
-    const graph = new Graph({
-      container: div,
-      width: 500,
-      height: 600,
-    });
-    graph.read(clone(data));
+    makeGraph();
 
     // getComboChildren with id
     const childrenById = graph.getComboChildren('b');
@@ -318,10 +358,7 @@ describe('graph with combo', () => {
   });
 
   it('changeData with combos', () => {
-    const graph = new Graph({
-      container: div,
-      width: 500,
-      height: 600,
+    makeGraph({
       layout: {
         type: 'comboForce',
       },
@@ -331,7 +368,7 @@ describe('graph with combo', () => {
       fitView: true,
       groupByTypes: false,
     });
-    graph.read(clone(data));
+
     const newData = {
       nodes: [
         {
@@ -405,17 +442,15 @@ describe('graph with combo', () => {
     // expect(comboAChildren.combos.length).toBe(2);
     // graph.destroy();
   });
+
   it('updateComboTree', () => {
-    const graph = new Graph({
-      container: div,
-      width: 500,
-      height: 600,
+    makeGraph({
       layout: {
         type: 'comboForce',
       },
       fitView: true,
     });
-    graph.read(clone(data));
+
     graph.updateComboTree('4', 'b');
     graph.layout();
     expect(graph.get('comboTrees').length).toBe(3);
@@ -433,10 +468,7 @@ describe('graph with combo', () => {
     graph.destroy();
   });
   it('add combo item', () => {
-    const graph = new Graph({
-      container: div,
-      width: 500,
-      height: 600,
+    makeGraph({
       layout: {
         type: 'comboForce',
       },
@@ -445,7 +477,7 @@ describe('graph with combo', () => {
       },
       fitView: true,
     });
-    graph.read(clone(data));
+
     const newComboItem = graph.addItem('combo', {
       id: 'new combo',
       label: 'new combo',
@@ -501,10 +533,7 @@ describe('graph with combo', () => {
   });
 
   it('graph.save with combos', () => {
-    const graph = new Graph({
-      container: div,
-      width: 500,
-      height: 600,
+    makeGraph({
       layout: {
         type: 'comboForce',
       },
@@ -513,7 +542,7 @@ describe('graph with combo', () => {
       },
       animate: true,
     });
-    graph.read(clone(data));
+
     const result = graph.save() as GraphData;
     expect(result.combos).not.toBe(undefined);
     expect(result.combos.length).toBe(4);
