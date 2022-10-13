@@ -1,5 +1,10 @@
 # ChangeLog
 
+### 4.7.8
+
+- feat: pointPadding config for loop edges with non-circle nodes, closes: #3974;
+- fix: image lost while updating the size for an image node, closes: #3938;
+
 ### 4.7.7
  
  - feat: getContentPlaceholder and getTitlePlaceholder for Annotation plugin;

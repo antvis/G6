@@ -79,9 +79,7 @@ export const shapeBase: ShapeOptions = {
     return {};
   },
   getOptions(cfg: ModelConfig, updateType?: UpdateType): ModelConfig {
-    if (updateType === 'move' || updateType?.includes('bbox')) {
-      return {};
-    }
+    if (updateType === 'move' || updateType?.includes('bbox')) return cfg;
     return deepMix(
       {},
       this.options,
