@@ -98,7 +98,7 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
   const defaultPointPadding = Math.min(halfOfHeight / 2, halfOfWidth / 2);
   const maxPointPadding = Math.min(halfOfHeight, halfOfWidth);
 
-  // 对于非圆形节点设置的连接点与节点中心坐标在x轴或y轴方向的偏移量
+  // 对于非圆形节点设置的连接点与节点中心坐标（`top-right`，`bottom-right`,`top-left`,`bottom-left`较特殊，为四个角坐标）在 x 轴或 y 轴方向的偏移量，默认为  `节点宽高中最小值的1/4`
   const pointPadding = loopCfg?.pointPadding
     ? Math.min(maxPointPadding, loopCfg?.pointPadding)
     : defaultPointPadding;
