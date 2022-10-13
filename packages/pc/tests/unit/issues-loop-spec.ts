@@ -84,7 +84,7 @@ describe('issues', () => {
     graph.render();
   });
 
-  it('test position right final pointPadding value is ok ', () => {
+  it('test position right calc pointPadding value is ok ', () => {
     const node =
     {
       id: '1',
@@ -139,7 +139,7 @@ describe('issues', () => {
     expect([currentEdges.endPoint.x, currentEdges.endPoint.y]).toEqual(endPoint);
   })
 
-  it('test position top-right final pointPadding value is ok ', () => {
+  it('test position top-right calc pointPadding value is ok ', () => {
     const node =
     {
       id: '1',
@@ -197,7 +197,7 @@ describe('issues', () => {
   })
 
 
-  it('test unset pointPadding final pointPadding calc is ok', () => {
+  it('test unset pointPadding and final pointPadding calc is ok', () => {
     const node =
     {
       id: '1',
@@ -253,7 +253,7 @@ describe('issues', () => {
     expect([currentEdges.endPoint.x, currentEdges.endPoint.y]).toEqual(endPoint);
   })
 
-  it('test set pointPadding greater than minimum height and width minimum value , pointPadding final pointPadding calc is ok', () => {
+  it('test set pointPadding greater than minimum height and width minimum value , final pointPadding calc is ok', () => {
     const node =
     {
       id: '1',
@@ -312,7 +312,7 @@ describe('issues', () => {
   })
 
 
-  it('test set clockwise => true, pointPadding final pointPadding calc is ok', () => {
+  it('test set clockwise => true, calc pointPadding is ok', () => {
     const node =
     {
       id: '1',
