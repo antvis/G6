@@ -298,7 +298,7 @@ export type LoopConfig = Partial<{
   position: string;
   // 如果逆时针画，交换起点和终点
   clockwise: boolean;
-  // 对于非圆形设置的连接点与 center[0],center[1] 的 x 轴或 y轴的距离
+  // 对于非圆形节点设置的连接点与节点中心坐标在x轴或y轴方向的偏移量
   pointPadding: number;
 }>;
 
