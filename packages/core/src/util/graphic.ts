@@ -83,10 +83,10 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
   let startPoint = [cfg.startPoint.x, cfg.startPoint.y];
   let endPoint = [cfg.endPoint.x, cfg.endPoint.y];
 
-  let rstart = bbox.height / 2;
-  let rend = bbox.height / 2;
   let halfOfHeight = bbox.height / 2;
   let halfOfWidth = bbox.width / 2;
+  let rstart = halfOfHeight;
+  let rend = halfOfHeight;
 
   let sinDeltaStart = rstart * SELF_LINK_SIN;
   let cosDeltaStart = rstart * SELF_LINK_COS;
@@ -116,8 +116,8 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
         }
         break;
       case 'top-right':
-        rstart = bbox.height / 2;
-        rend = bbox.width / 2;
+        rstart = halfOfHeight;
+        rend = halfOfWidth;
         if (shapeType === 'circle') {
           sinDeltaStart = rstart * SELF_LINK_SIN;
           cosDeltaStart = rstart * SELF_LINK_COS;
@@ -131,8 +131,8 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
         }
         break;
       case 'right':
-        rstart = bbox.width / 2;
-        rend = bbox.width / 2;
+        rstart = halfOfWidth;
+        rend = halfOfWidth;
         if (shapeType === 'circle') {
           sinDeltaStart = rstart * SELF_LINK_SIN;
           cosDeltaStart = rstart * SELF_LINK_COS;
@@ -146,8 +146,8 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
         }
         break;
       case 'bottom-right':
-        rstart = bbox.width / 2;
-        rend = bbox.height / 2;
+        rstart = halfOfWidth;
+        rend = halfOfHeight;
         if (shapeType === 'circle') {
           sinDeltaStart = rstart * SELF_LINK_SIN;
           cosDeltaStart = rstart * SELF_LINK_COS;
@@ -161,8 +161,8 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
         }
         break;
       case 'bottom':
-        rstart = bbox.height / 2;
-        rend = bbox.height / 2;
+        rstart = halfOfHeight;
+        rend = halfOfHeight;
         if (shapeType === 'circle') {
           sinDeltaStart = rstart * SELF_LINK_SIN;
           cosDeltaStart = rstart * SELF_LINK_COS;
@@ -176,8 +176,8 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
         }
         break;
       case 'bottom-left':
-        rstart = bbox.height / 2;
-        rend = bbox.width / 2;
+        rstart = halfOfHeight;
+        rend = halfOfWidth;
         if (shapeType === 'circle') {
           sinDeltaStart = rstart * SELF_LINK_SIN;
           cosDeltaStart = rstart * SELF_LINK_COS;
@@ -191,8 +191,8 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
         }
         break;
       case 'left':
-        rstart = bbox.width / 2;
-        rend = bbox.width / 2;
+        rstart = halfOfWidth;
+        rend = halfOfWidth;
         if (shapeType === 'circle') {
           sinDeltaStart = rstart * SELF_LINK_SIN;
           cosDeltaStart = rstart * SELF_LINK_COS;
@@ -206,8 +206,8 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
         }
         break;
       case 'top-left':
-        rstart = bbox.width / 2;
-        rend = bbox.height / 2;
+        rstart = halfOfWidth;
+        rend = halfOfHeight;
         if (shapeType === 'circle') {
           sinDeltaStart = rstart * SELF_LINK_SIN;
           cosDeltaStart = rstart * SELF_LINK_COS;
@@ -221,8 +221,8 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
         }
         break;
       default:
-        rstart = bbox.width / 2;
-        rend = bbox.width / 2;
+        rstart = halfOfWidth;
+        rend = halfOfWidth;
         sinDeltaStart = rstart * SELF_LINK_SIN;
         cosDeltaStart = rstart * SELF_LINK_COS;
         sinDeltaEnd = rend * SELF_LINK_SIN;
