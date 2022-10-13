@@ -11,7 +11,7 @@ import {
   ComboTree,
   ComboConfig,
   ICombo,
-  GraphAnimateConfig
+  GraphAnimateConfig,
 } from '../types';
 import { applyMatrix } from './math';
 import letterAspectRatio from './letterAspectRatio';
@@ -83,93 +83,146 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
   let startPoint = [cfg.startPoint.x, cfg.startPoint.y];
   let endPoint = [cfg.endPoint.x, cfg.endPoint.y];
 
-  let rstart = bbox.height / 2;
-  let rend = bbox.height / 2;
+  let halfOfHeight = bbox.height / 2;
+  let halfOfWidth = bbox.width / 2;
+  let rstart = halfOfHeight;
+  let rend = halfOfHeight;
+
   let sinDeltaStart = rstart * SELF_LINK_SIN;
   let cosDeltaStart = rstart * SELF_LINK_COS;
   let sinDeltaEnd = rend * SELF_LINK_SIN;
   let cosDeltaEnd = rend * SELF_LINK_COS;
+  const shapeType = keyShape.get('type');
+
+  // 美观考虑，pointPadding 默认取宽高中最小的1/4
+  const defaultPointPadding = Math.min(halfOfHeight / 2, halfOfWidth / 2);
+  const maxPointPadding = Math.min(halfOfHeight, halfOfWidth);
+
+  // 对于非圆形节点设置的连接点与节点中心坐标（`top-right`，`bottom-right`,`top-left`,`bottom-left`较特殊，为四个角坐标）在 x 轴或 y 轴方向的偏移量，默认为  `节点宽高中最小值的1/4`
+  const pointPadding = loopCfg?.pointPadding
+    ? Math.min(maxPointPadding, loopCfg?.pointPadding)
+    : defaultPointPadding;
 
   // 如果定义了锚点的，直接用锚点坐标，否则，根据自环的 cfg 计算
   if (startPoint[0] === endPoint[0] && startPoint[1] === endPoint[1]) {
     switch (position) {
       case 'top':
-        startPoint = [center[0] - sinDeltaStart, center[1] - cosDeltaStart];
-        endPoint = [center[0] + sinDeltaEnd, center[1] - cosDeltaEnd];
+        if (shapeType === 'circle') {
+          startPoint = [center[0] - sinDeltaStart, center[1] - cosDeltaStart];
+          endPoint = [center[0] + sinDeltaEnd, center[1] - cosDeltaEnd];
+        } else {
+          startPoint = [center[0] - pointPadding, center[1] - halfOfHeight];
+          endPoint = [center[0] + pointPadding, center[1] - halfOfHeight];
+        }
         break;
       case 'top-right':
-        rstart = bbox.height / 2;
-        rend = bbox.width / 2;
-        sinDeltaStart = rstart * SELF_LINK_SIN;
-        cosDeltaStart = rstart * SELF_LINK_COS;
-        sinDeltaEnd = rend * SELF_LINK_SIN;
-        cosDeltaEnd = rend * SELF_LINK_COS;
-        startPoint = [center[0] + sinDeltaStart, center[1] - cosDeltaStart];
-        endPoint = [center[0] + cosDeltaEnd, center[1] - sinDeltaEnd];
+        rstart = halfOfHeight;
+        rend = halfOfWidth;
+        if (shapeType === 'circle') {
+          sinDeltaStart = rstart * SELF_LINK_SIN;
+          cosDeltaStart = rstart * SELF_LINK_COS;
+          sinDeltaEnd = rend * SELF_LINK_SIN;
+          cosDeltaEnd = rend * SELF_LINK_COS;
+          startPoint = [center[0] + sinDeltaStart, center[1] - cosDeltaStart];
+          endPoint = [center[0] + cosDeltaEnd, center[1] - sinDeltaEnd];
+        } else {
+          startPoint = [center[0] + halfOfWidth - pointPadding, center[1] - halfOfHeight];
+          endPoint = [center[0] + halfOfWidth, center[1] - halfOfHeight + pointPadding];
+        }
         break;
       case 'right':
-        rstart = bbox.width / 2;
-        rend = bbox.width / 2;
-        sinDeltaStart = rstart * SELF_LINK_SIN;
-        cosDeltaStart = rstart * SELF_LINK_COS;
-        sinDeltaEnd = rend * SELF_LINK_SIN;
-        cosDeltaEnd = rend * SELF_LINK_COS;
-        startPoint = [center[0] + cosDeltaStart, center[1] - sinDeltaStart];
-        endPoint = [center[0] + cosDeltaEnd, center[1] + sinDeltaEnd];
+        rstart = halfOfWidth;
+        rend = halfOfWidth;
+        if (shapeType === 'circle') {
+          sinDeltaStart = rstart * SELF_LINK_SIN;
+          cosDeltaStart = rstart * SELF_LINK_COS;
+          sinDeltaEnd = rend * SELF_LINK_SIN;
+          cosDeltaEnd = rend * SELF_LINK_COS;
+          startPoint = [center[0] + cosDeltaStart, center[1] - sinDeltaStart];
+          endPoint = [center[0] + cosDeltaEnd, center[1] + sinDeltaEnd];
+        } else {
+          startPoint = [center[0] + halfOfWidth, center[1] - pointPadding];
+          endPoint = [center[0] + halfOfWidth, center[1] + pointPadding];
+        }
         break;
       case 'bottom-right':
-        rstart = bbox.width / 2;
-        rend = bbox.height / 2;
-        sinDeltaStart = rstart * SELF_LINK_SIN;
-        cosDeltaStart = rstart * SELF_LINK_COS;
-        sinDeltaEnd = rend * SELF_LINK_SIN;
-        cosDeltaEnd = rend * SELF_LINK_COS;
-        startPoint = [center[0] + cosDeltaStart, center[1] + sinDeltaStart];
-        endPoint = [center[0] + sinDeltaEnd, center[1] + cosDeltaEnd];
+        rstart = halfOfWidth;
+        rend = halfOfHeight;
+        if (shapeType === 'circle') {
+          sinDeltaStart = rstart * SELF_LINK_SIN;
+          cosDeltaStart = rstart * SELF_LINK_COS;
+          sinDeltaEnd = rend * SELF_LINK_SIN;
+          cosDeltaEnd = rend * SELF_LINK_COS;
+          startPoint = [center[0] + cosDeltaStart, center[1] + sinDeltaStart];
+          endPoint = [center[0] + sinDeltaEnd, center[1] + cosDeltaEnd];
+        } else {
+          startPoint = [center[0] + halfOfWidth, center[1] + halfOfHeight - pointPadding];
+          endPoint = [center[0] + halfOfWidth - pointPadding, center[1] + halfOfHeight];
+        }
         break;
       case 'bottom':
-        rstart = bbox.height / 2;
-        rend = bbox.height / 2;
-        sinDeltaStart = rstart * SELF_LINK_SIN;
-        cosDeltaStart = rstart * SELF_LINK_COS;
-        sinDeltaEnd = rend * SELF_LINK_SIN;
-        cosDeltaEnd = rend * SELF_LINK_COS;
-        startPoint = [center[0] + sinDeltaStart, center[1] + cosDeltaStart];
-        endPoint = [center[0] - sinDeltaEnd, center[1] + cosDeltaEnd];
+        rstart = halfOfHeight;
+        rend = halfOfHeight;
+        if (shapeType === 'circle') {
+          sinDeltaStart = rstart * SELF_LINK_SIN;
+          cosDeltaStart = rstart * SELF_LINK_COS;
+          sinDeltaEnd = rend * SELF_LINK_SIN;
+          cosDeltaEnd = rend * SELF_LINK_COS;
+          startPoint = [center[0] + sinDeltaStart, center[1] + cosDeltaStart];
+          endPoint = [center[0] - sinDeltaEnd, center[1] + cosDeltaEnd];
+        } else {
+          startPoint = [center[0] - pointPadding, center[1] + halfOfHeight];
+          endPoint = [center[0] + pointPadding, center[1] + halfOfHeight];
+        }
         break;
       case 'bottom-left':
-        rstart = bbox.height / 2;
-        rend = bbox.width / 2;
-        sinDeltaStart = rstart * SELF_LINK_SIN;
-        cosDeltaStart = rstart * SELF_LINK_COS;
-        sinDeltaEnd = rend * SELF_LINK_SIN;
-        cosDeltaEnd = rend * SELF_LINK_COS;
-        startPoint = [center[0] - sinDeltaStart, center[1] + cosDeltaStart];
-        endPoint = [center[0] - cosDeltaEnd, center[1] + sinDeltaEnd];
+        rstart = halfOfHeight;
+        rend = halfOfWidth;
+        if (shapeType === 'circle') {
+          sinDeltaStart = rstart * SELF_LINK_SIN;
+          cosDeltaStart = rstart * SELF_LINK_COS;
+          sinDeltaEnd = rend * SELF_LINK_SIN;
+          cosDeltaEnd = rend * SELF_LINK_COS;
+          startPoint = [center[0] - sinDeltaStart, center[1] + cosDeltaStart];
+          endPoint = [center[0] - cosDeltaEnd, center[1] + sinDeltaEnd];
+        } else {
+          startPoint = [center[0] - halfOfWidth, center[1] + halfOfHeight - pointPadding];
+          endPoint = [center[0] - halfOfWidth + pointPadding, center[1] + halfOfHeight];
+        }
         break;
       case 'left':
-        rstart = bbox.width / 2;
-        rend = bbox.width / 2;
-        sinDeltaStart = rstart * SELF_LINK_SIN;
-        cosDeltaStart = rstart * SELF_LINK_COS;
-        sinDeltaEnd = rend * SELF_LINK_SIN;
-        cosDeltaEnd = rend * SELF_LINK_COS;
-        startPoint = [center[0] - cosDeltaStart, center[1] + sinDeltaStart];
-        endPoint = [center[0] - cosDeltaEnd, center[1] - sinDeltaEnd];
+        rstart = halfOfWidth;
+        rend = halfOfWidth;
+        if (shapeType === 'circle') {
+          sinDeltaStart = rstart * SELF_LINK_SIN;
+          cosDeltaStart = rstart * SELF_LINK_COS;
+          sinDeltaEnd = rend * SELF_LINK_SIN;
+          cosDeltaEnd = rend * SELF_LINK_COS;
+          startPoint = [center[0] - cosDeltaStart, center[1] + sinDeltaStart];
+          endPoint = [center[0] - cosDeltaEnd, center[1] - sinDeltaEnd];
+        } else {
+          startPoint = [center[0] - halfOfWidth, center[1] - pointPadding];
+          endPoint = [center[0] - halfOfWidth, center[1] + pointPadding];
+        }
         break;
       case 'top-left':
-        rstart = bbox.width / 2;
-        rend = bbox.height / 2;
-        sinDeltaStart = rstart * SELF_LINK_SIN;
-        cosDeltaStart = rstart * SELF_LINK_COS;
-        sinDeltaEnd = rend * SELF_LINK_SIN;
-        cosDeltaEnd = rend * SELF_LINK_COS;
-        startPoint = [center[0] - cosDeltaStart, center[1] - sinDeltaStart];
-        endPoint = [center[0] - sinDeltaEnd, center[1] - cosDeltaEnd];
+        rstart = halfOfWidth;
+        rend = halfOfHeight;
+        if (shapeType === 'circle') {
+          sinDeltaStart = rstart * SELF_LINK_SIN;
+          cosDeltaStart = rstart * SELF_LINK_COS;
+          sinDeltaEnd = rend * SELF_LINK_SIN;
+          cosDeltaEnd = rend * SELF_LINK_COS;
+          startPoint = [center[0] - cosDeltaStart, center[1] - sinDeltaStart];
+          endPoint = [center[0] - sinDeltaEnd, center[1] - cosDeltaEnd];
+        } else {
+          startPoint = [center[0] - halfOfWidth + pointPadding, center[1] - halfOfHeight];
+          endPoint = [center[0] - halfOfWidth, center[1] - halfOfHeight + pointPadding];
+        }
         break;
       default:
-        rstart = bbox.width / 2;
-        rend = bbox.width / 2;
+        rstart = halfOfWidth;
+        rend = halfOfWidth;
         sinDeltaStart = rstart * SELF_LINK_SIN;
         cosDeltaStart = rstart * SELF_LINK_COS;
         sinDeltaEnd = rend * SELF_LINK_SIN;
@@ -381,7 +434,7 @@ export const truncateLabelByLength = (text: string, length: number) => {
     return text;
   }
   return text.substring(0, length) + '...';
-}
+};
 
 /**
  * construct the trees from combos data
@@ -600,7 +653,11 @@ export const reconstructTree = (
   return trees;
 };
 
-export const getComboBBox = (children: ComboTree[], graph: IAbstractGraph, combo?: ICombo): BBox => {
+export const getComboBBox = (
+  children: ComboTree[],
+  graph: IAbstractGraph,
+  combo?: ICombo,
+): BBox => {
   const comboBBox = {
     minX: Infinity,
     minY: Infinity,
@@ -625,7 +682,7 @@ export const getComboBBox = (children: ComboTree[], graph: IAbstractGraph, combo
       x: x,
       y: y,
       width: undefined,
-      height: undefined
+      height: undefined,
     };
   }
 
@@ -671,26 +728,26 @@ export const shouldRefreshEdge = (cfg) => {
 
 export const cloneBesidesImg = (obj) => {
   const clonedObj = {};
-  Object.keys(obj).forEach(key1 => {
+  Object.keys(obj).forEach((key1) => {
     const obj2 = obj[key1];
     if (isObject(obj2) && !isArray(obj2)) {
       const clonedObj2 = {};
-      Object.keys(obj2).forEach(key2 => {
+      Object.keys(obj2).forEach((key2) => {
         const v = obj2[key2];
         if (key2 === 'img' && !isString(v)) return;
         clonedObj2[key2] = clone(v);
-      })
+      });
       clonedObj[key1] = clonedObj2;
     } else {
       clonedObj[key1] = clone(obj2);
     }
   });
   return clonedObj;
-}
+};
 
 export const getAnimateCfgWithCallback = ({
   animateCfg,
-  callback
+  callback,
 }: {
   animateCfg: GraphAnimateConfig;
   callback: () => void;
@@ -699,7 +756,7 @@ export const getAnimateCfgWithCallback = ({
   if (!animateCfg) {
     animateConfig = {
       duration: 500,
-      callback
+      callback,
     };
   } else {
     animateConfig = clone(animateCfg);
@@ -708,10 +765,10 @@ export const getAnimateCfgWithCallback = ({
       animateConfig.callback = () => {
         callback();
         animateCfgCallback();
-      }
+      };
     } else {
       animateConfig.callback = callback;
     }
   }
   return animateConfig;
-}
+};
