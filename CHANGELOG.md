@@ -1,5 +1,9 @@
 # ChangeLog
 
+### 4.7.7
+ 
+ - feat: getContentPlaceholder and getTitlePlaceholder for Annotation plugin;
+
 ### 4.7.6
 
 - fix: Annotation readData with inexistent item;
