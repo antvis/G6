@@ -298,6 +298,8 @@ export type LoopConfig = Partial<{
   position: string;
   // 如果逆时针画，交换起点和终点
   clockwise: boolean;
+  // 对于非圆形节点设置的连接点与节点中心坐标（`top-right`，`bottom-right`,`top-left`,`bottom-left`较特殊，为四个角坐标）在 x 轴或 y 轴方向的偏移量，默认为  `节点宽高中最小值的1/4`
+  pointPadding: number;
 }>;
 
 export interface LayoutConfig {
