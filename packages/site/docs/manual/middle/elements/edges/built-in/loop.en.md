@@ -137,7 +137,7 @@ const graph = new G6.Graph({
 - `position`: The relative position to the source/target node. Options: `top`, `top-right`, `right`,`bottom-right`, `bottom`, `bottom-left`, `left`, `top-left`. `top` by default.
 - `dist`: The distance between the keyShape of the source/target node to the highest position of the loop. It is equal to the height of the source/target node by default.
 - `clockwise`: Whether to draw the loop clockwisely. `true` by default
-- `pointPadding`: For the offset between the connection point set by a non-circular node and the node center coordinate in the x-axis or y-axis direction, the default value is' 1/4 of the minimum value of node width and height '. *Supported by v4.7.8.*
+- `pointPadding`: For non-circular nodes, the offset between the connection point and the node center coordinates ('top right', 'bottom right', 'top left', 'bottom left', which are special, four angular coordinates) in the x-axis or y-axis direction, the default value is' 1/4 of the minimum value of node width and height '. *Supported by v4.7.8.*
 
 Base on the code in [style](#style) section, we add `loopCfg` to `defaultEdge`.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z9dwTZvACcEAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
 

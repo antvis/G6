@@ -137,7 +137,7 @@ Object 类型。通过 `loopCfg`  配置自环的方位、高度、顺逆时针
 - `position`: 指定自环与节点的相对位置。默认为：`top`。支持的值有：`top`, `top-right`, `right`,`bottom-right`, `bottom`, `bottom-left`, `left`, `top-left`
 - `dist`: 从节点 keyShape 的边缘到自环最顶端的位置，用于指定自环的曲度，默认为节点的高度。
 - `clockwise`: 指定是否顺时针画环，默认为  `true`。
-- `pointPadding`: 对于非圆形节点设置的连接点与节点中心坐标在 x 轴或 y 轴方向的偏移量，默认为  `节点宽高中最小值的1/4`，*v4.7.8 后支持*。
+- `pointPadding`: 对于非圆形节点设置的连接点与节点中心坐标（`top-right`，`bottom-right`,`top-left`,`bottom-left`较特殊，为四个角坐标）在 x 轴或 y 轴方向的偏移量，默认为  `节点宽高中最小值的1/4`，*v4.7.8 后支持*。
 
 基于上面 [样式属性 style](#XQFb2) 中的代码，下面代码在 `defaultEdge` 中增加了  `loopCfg`  配置项进行文本的配置，使之达到如下图效果。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z9dwTZvACcEAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
 
