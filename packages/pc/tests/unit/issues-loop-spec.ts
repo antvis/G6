@@ -291,8 +291,6 @@ describe('issues', () => {
       fitCenter: true,
     });
 
-
-
     const center = [node.x, node.y]
     const halfOfWidth = node.size[0] / 2
     const halfOfHeight = node.size[1] / 2
