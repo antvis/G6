@@ -1775,8 +1775,8 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
     // step 2: Pull children out of their parents
     let comboTrees = this.get('comboTrees');
-    const childrenIdsSet = new Set(children);
-    const pulledComboTreesById = new Map();
+    const childrenIdsSet = new Set<string>(children);
+    const pulledComboTreesById = new Map<string, ComboTree>();
 
     if (comboTrees) {
       comboTrees.forEach(ctree => {
