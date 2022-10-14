@@ -291,14 +291,19 @@ export const getLabelPosition = (
  * depth first traverse, from root to leaves, children in inverse order
  *  if the fn returns false, terminate the traverse
  */
-const traverse = <T extends { children?: T[] }>(data: T, fn: (param: T) => boolean) => {
-  if (fn(data) === false) {
+const traverse = <T extends { children?: T[] }>(
+  data: T,
+  parent: T | null,
+  index: number,
+  fn: (data: T, parent: T | null, index: number) => boolean
+) => {
+  if (fn(data, parent, index) === false) {
     return false;
   }
 
   if (data && data.children) {
     for (let i = data.children.length - 1; i >= 0; i--) {
-      if (!traverse(data.children[i], fn)) return false;
+      if (!traverse(data.children[i], data, i, fn)) return false;
     }
   }
   return true;
@@ -308,14 +313,19 @@ const traverse = <T extends { children?: T[] }>(data: T, fn: (param: T) => boole
  * depth first traverse, from leaves to root, children in inverse order
  *  if the fn returns false, terminate the traverse
  */
-const traverseUp = <T extends { children?: T[] }>(data: T, fn: (param: T) => boolean) => {
+const traverseUp = <T extends { children?: T[] }>(
+  data: T,
+  parent: T | null,
+  index: number,
+  fn: (data: T, parent: T | null, index: number) => boolean
+) => {
   if (data && data.children) {
     for (let i = data.children.length - 1; i >= 0; i--) {
-      if (!traverseUp(data.children[i], fn)) return;
+      if (!traverseUp(data.children[i], data, i, fn)) return;
     }
   }
 
-  if (fn(data) === false) {
+  if (fn(data, parent, index) === false) {
     return false;
   }
   return true;
@@ -325,11 +335,14 @@ const traverseUp = <T extends { children?: T[] }>(data: T, fn: (param: T) => boo
  * depth first traverse, from root to leaves, children in inverse order
  *  if the fn returns false, terminate the traverse
  */
-export const traverseTree = <T extends { children?: T[] }>(data: T, fn: (param: T) => boolean) => {
+export const traverseTree = <T extends { children?: T[] }>(
+  data: T,
+  fn: (data: T, parent: T | null, index: number) => boolean
+) => {
   if (typeof fn !== 'function') {
     return;
   }
-  traverse(data, fn);
+  traverse(data, null, -1, fn);
 };
 
 /**
@@ -338,12 +351,12 @@ export const traverseTree = <T extends { children?: T[] }>(data: T, fn: (param: 
  */
 export const traverseTreeUp = <T extends { children?: T[] }>(
   data: T,
-  fn: (param: T) => boolean,
+  fn: (data: T, parent: T | null, index: number) => boolean,
 ) => {
   if (typeof fn !== 'function') {
     return;
   }
-  traverseUp(data, fn);
+  traverseUp(data, null, -1, fn);
 };
 
 /**
@@ -472,7 +485,7 @@ export const plainCombosToTrees = (array: ComboConfig[], nodes?: NodeConfig[]) =
   let maxDepth = 0;
   result.forEach((tree: ComboTree) => {
     tree.depth = maxDepth + 10;
-    traverse<ComboTree>(tree, (child) => {
+    traverseTree<ComboTree>(tree, (child) => {
       let parent;
       const itemType = addedMap[child.id].itemType;
       if (itemType === 'node') {

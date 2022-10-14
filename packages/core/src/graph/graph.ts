@@ -1764,6 +1764,8 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    * @param children 添加到 Combo 中的元素，包括节点和 combo
    */
   public createCombo(combo: string | ComboConfig, children: string[]): void {
+    const itemController: ItemController = this.get('itemController');
+
     this.set('comboSorted', false);
     // step 1: 创建新的 Combo
     let comboId = '';
@@ -1783,14 +1785,52 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       comboConfig = combo;
     }
 
-    // step2: 更新 children，根据类型添加 comboId 或 parentId
+    // step 2: Pull children out of their parents
+    let comboTrees = this.get('comboTrees');
+    const childrenIdsSet = new Set<string>(children);
+    const pulledComboTreesById = new Map<string, ComboTree>();
+
+    if (comboTrees) {
+      comboTrees.forEach(ctree => {
+        traverseTreeUp<ComboTree>(ctree, (treeNode, parentTreeNode, index) => {
+          if (childrenIdsSet.has(treeNode.id)) {
+            if (parentTreeNode) {
+              const parentItem = this.findById(parentTreeNode.id) as ICombo;
+              const item = this.findById(treeNode.id) as INode | ICombo;
+
+              // Removing current item from the tree during the traversal is ok because children traversal is done
+              // in an *inverse order* - indices of the next-traversed items are not disturbed by the removal.
+              parentTreeNode.children.splice(index, 1);
+              parentItem.removeChild(item);
+
+              // We have to update the parent node geometry since nodes were removed from them, _while they are still visible_
+              // (combos may be moved inside the new combo and become hidden)
+              itemController.updateCombo(parentItem, parentTreeNode.children);
+            }
+
+            if (treeNode.itemType === 'combo') {
+              pulledComboTreesById.set(treeNode.id, treeNode);
+            }
+          }
+
+          return true;
+        });
+      });
+      comboTrees = comboTrees.filter(ctree => !childrenIdsSet.has(ctree.id));
+
+      this.set('comboTrees', comboTrees);
+    }
+
+    // step 3: 更新 children，根据类型添加 comboId 或 parentId
     const trees: ComboTree[] = children.map(elementId => {
       const item = this.findById(elementId);
       const model = item.getModel();
 
       let type = '';
       if (item.getType) type = item.getType();
-      const cItem: ComboTree = {
+
+      // Combos will be just moved around, so their children can be preserved
+      const cItem: ComboTree = pulledComboTreesById.get(elementId) || {
         id: item.getID(),
         itemType: type as 'node' | 'combo',
       };
@@ -1808,23 +1848,25 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
     comboConfig.children = trees;
 
-    // step 3: 添加 Combo，addItem 时会将子将元素添加到 Combo 中
+    // step 4: 添加 Combo，addItem 时会将子将元素添加到 Combo 中
     this.addItem('combo', comboConfig, false);
     this.set('comboSorted', false);
 
-    // step4: 更新 comboTrees 结构
-    const comboTrees = this.get('comboTrees');
-    (comboTrees || []).forEach(ctree => {
-      traverseTreeUp<ComboTree>(ctree, child => {
-        if (child.id === comboId) {
-          child.itemType = 'combo';
-          child.children = trees as ComboTree[];
-          return false;
-        }
-        return true;
-      });
-    });
+    // step 5: 更新 comboTrees 结构
     if (comboTrees) {
+      comboTrees.forEach(ctree => {
+        traverseTree<ComboTree>(ctree, (treeNode) => {
+          // Set the children to the newly created combo
+          if (treeNode.id === comboId) {
+            treeNode.itemType = 'combo';
+            treeNode.children = trees as ComboTree[];
+            return false;
+          }
+
+          return true;
+        });
+      });
+
       this.sortCombos();
     }
   }

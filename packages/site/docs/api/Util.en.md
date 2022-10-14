@@ -60,7 +60,15 @@ Traverse the tree data depth-first from top (the root) to bottom (the leaves).
 | Name | Type     | Required | Description                                    |
 | ---- | -------- | -------- | ---------------------------------------------- |
 | data | TreeData | true     | The tree data to be traversed                  |
-| fn   | function | true     | The callback function called when visit a node |
+| fn   | function | true     | The callback function called when visit a node. Returning `false` from the callback function will stop traversal. |
+
+Callback parameters
+
+| Name     | Type     | Description                                            |
+| -------- | -------- | ------------------------------------------------------ |
+| node     | T        | Tree node being currently visited                      |
+| parent   | T | null | Parent of the current tree node                        |
+| index    | number   | Index of current tree node among the parent's children |
 
 #### Usage
 
@@ -104,7 +112,15 @@ Traverse the tree data depth-first from bottom (the leaves) to top (the root).
 | Name | Type     | Required | Description                                    |
 | ---- | -------- | -------- | ---------------------------------------------- |
 | data | TreeData | true     | The tree data to be traversed                  |
-| fn   | function | true     | The callback function called when visit a node |
+| fn   | function | true     | The callback function called when visit a node. Returning `false` from the callback function will stop traversal. |
+
+Callback parameters
+
+| Name     | Type     | Description                                            |
+| -------- | -------- | ------------------------------------------------------ |
+| node     | T        | Tree node being currently visited                      |
+| parent   | T | null | Parent of the current tree node                        |
+| index    | number   | Index of current tree node among the parent's children |
 
 #### Usage
 

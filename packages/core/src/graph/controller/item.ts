@@ -171,7 +171,7 @@ export default class ItemController {
       item = new Combo({
         model,
         styles,
-        animate: false,
+        animate: graph.get('animate'),
         bbox: model.collapsed ? getComboBBox([], graph) : comboBBox,
         group: comboGroup,
       });
