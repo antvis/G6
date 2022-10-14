@@ -130,7 +130,7 @@ describe('graph with combo', () => {
 
     graph.addItem('node', { id: 'top-level-node' });
 
-    const childIds = [
+    const newComboChildIds = [
       'top-level-node', // a top-level node
       '0', // Inside top-level combo 'a'
       '2', // Inside top-level combo 'b'
@@ -139,28 +139,39 @@ describe('graph with combo', () => {
       'e', // Depth-1 combo
     ];
 
-    graph.createCombo('new-combo', childIds);
+    graph.createCombo('new-combo', newComboChildIds);
 
     const newCombo = graph.findById('new-combo') as ICombo;
 
     // Children are assigned correctly to the new combo parent
-    childIds.forEach(id => {
+    newComboChildIds.forEach(id => {
       const itemModel = graph.findById(id).getModel();
       expect(itemModel.comboId || itemModel.parentId).toBe('new-combo');
     });
 
-    // Children should have been removed from their original parents in the comboTrees
-    const comboTrees = graph.get('comboTrees');
-
-    const expectedTopLevelComboIds = ['b', 'c', 'new-combo'];
+    // Combo children are updated correctly
     const expectedChildrenById = {
       a: ['1'], // '0' has been transferred to new combo
       b: ['3'], // 'e' moved to new combo
       c: ['4'], // Not changed
       e: ['6'], // '5' moved to new combo
-      'new-combo': childIds,
+      'new-combo': newComboChildIds,
     }
 
+    Object.entries(expectedChildrenById).forEach(([comboId, expectedChildIds]) => {
+      const combo = graph.findById(comboId) as ICombo;
+      const children = [...combo.getNodes(), ...combo.getCombos()];
+      const childIds = children.map(item => item.getID());
+
+      // Double-contains because we don't care about order
+      expect(childIds).toEqual(expect.arrayContaining(expectedChildIds));
+      expect(expectedChildIds).toEqual(expect.arrayContaining(childIds));
+    });
+
+    // Children should have been removed from their original parents in the comboTrees
+    const expectedTopLevelComboIds = ['b', 'c', 'new-combo'];
+
+    const comboTrees = graph.get('comboTrees');
     const topLevelComboIds = comboTrees.map(comboTree => comboTree.id);
 
     expect(topLevelComboIds).toEqual(expect.arrayContaining(expectedTopLevelComboIds));
@@ -169,11 +180,11 @@ describe('graph with combo', () => {
     comboTrees.forEach(ctree => {
       Util.traverseTree<ComboTree>(ctree, (node: ComboTree): boolean => {
         if (node.itemType === 'combo') {
-          const nodeChildIds = node.children.map(child => child.id);
-          const expectedChildren = expectedChildrenById[node.id];
+          const childIds = node.children.map(child => child.id);
+          const expectedChildIds = expectedChildrenById[node.id];
 
-          expect(nodeChildIds).toEqual(expect.arrayContaining(expectedChildren));
-          expect(expectedChildren).toEqual(expect.arrayContaining(nodeChildIds));
+          expect(childIds).toEqual(expect.arrayContaining(expectedChildIds));
+          expect(expectedChildIds).toEqual(expect.arrayContaining(childIds));
         }
 
         return true;
@@ -481,7 +492,7 @@ describe('graph with combo', () => {
     const newComboItem = graph.addItem('combo', {
       id: 'new combo',
       label: 'new combo',
-    });
+    }) as ICombo;
     expect(newComboItem.getChildren().nodes.length).toBe(0);
     expect(newComboItem.getChildren().combos.length).toBe(0);
     expect(graph.getCombos().length).toBe(5);
@@ -491,7 +502,7 @@ describe('graph with combo', () => {
       id: 'new combo 2',
       label: 'new combo 2',
       parentId: 'new combo',
-    });
+    }) as ICombo;
     graph.addItem('combo', {
       id: 'new combo 3',
       label: 'new combo 3',
