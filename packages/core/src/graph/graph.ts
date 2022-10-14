@@ -1804,7 +1804,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
           return true;
         });
       });
-      comboTrees = (comboTrees || []).filter(ctree => !isChildById.has(ctree.id));
+      comboTrees = comboTrees.filter(ctree => !isChildById.has(ctree.id));
 
       this.set('comboTrees', comboTrees);
     }
