@@ -1775,13 +1775,13 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
     // step 2: Pull children out of their parents
     let comboTrees = this.get('comboTrees');
-    const isChildById = new Set(children);
+    const childrenIdsSet = new Set(children);
     const pulledComboTreesById = new Map();
 
     if (comboTrees) {
       comboTrees.forEach(ctree => {
         traverseTreeUp<ComboTree>(ctree, (treeNode, parentTreeNode, index) => {
-          if (isChildById.has(treeNode.id)) {
+          if (childrenIdsSet.has(treeNode.id)) {
             if (parentTreeNode) {
               const parentItem = this.findById(parentTreeNode.id) as ICombo;
               const item = this.findById(treeNode.id) as INode | ICombo;
@@ -1804,7 +1804,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
           return true;
         });
       });
-      comboTrees = comboTrees.filter(ctree => !isChildById.has(ctree.id));
+      comboTrees = comboTrees.filter(ctree => !childrenIdsSet.has(ctree.id));
 
       this.set('comboTrees', comboTrees);
     }
