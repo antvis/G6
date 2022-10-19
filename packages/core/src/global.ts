@@ -64,7 +64,7 @@ const colorSet = {
 };
 
 export default {
-  version: '0.7.4-siren.2',
+  version: '0.7.4-siren.3',
   rootContainerClassName: 'root-container',
   nodeContainerClassName: 'node-container',
   edgeContainerClassName: 'edge-container',

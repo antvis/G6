@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "4.7.4-siren.2",
+  "version": "4.7.4-siren.3",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",
@@ -35,7 +35,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "start": "father build --watch",
-    "build": "npm run clean && father build && npm run build:umd",
+    "build": "npm run clean && father build",
     "build:umd": "webpack --config webpack.config.js --mode production",
     "ci": "npm run build && npm run coverage",
     "clean": "rimraf es esm lib dist",
@@ -66,7 +66,7 @@
     ]
   },
   "dependencies": {
-    "@antv/g6-pc": "0.7.4-siren.2"
+    "@antv/g6-pc": "0.7.4-siren.3"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
