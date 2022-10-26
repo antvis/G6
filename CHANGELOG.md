@@ -1,5 +1,9 @@
 # ChangeLog
 
+### 4.7.9
+
+- perf: init node positions when the node has no x and y in the origin data;
+
 ### 4.7.8
 
 - feat: pointPadding config for loop edges with non-circle nodes, closes: #3974;

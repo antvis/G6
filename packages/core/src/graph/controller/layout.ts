@@ -308,11 +308,10 @@ export default abstract class LayoutController {
     if (!nodes) {
       return false;
     }
-    const nodeLength = nodes ? nodes.length : 0;
+    const nodesToInit = nodes.filter(node => isNaN(node.x) || isNaN(node.y))
+    const nodeLength = nodesToInit ? nodesToInit.length : 0;
     if (!nodeLength) return;
-
     const hasPreset = this.initWithPreset?.();
-
     if (hasPreset) return false;
 
     const width = graph.get('width') * 0.85;
@@ -328,7 +327,7 @@ export default abstract class LayoutController {
 
     let allHavePos = true;
     for (let i = 0; i < nodeLength; i++) {
-      const node = nodes[i];
+      const node = nodesToInit[i];
       if (isNaN(+node.x)) {
         allHavePos = false;
         node.x = (i % horiNum) * horiGap + beginX;
