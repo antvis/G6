@@ -2,7 +2,7 @@
 
 ### 4.7.10
 
-- perf: force layout with animation using graph refreshPositions instead positionsAnimate;
+- perf: force layout with animation calls graph refreshPositions instead positionsAnimate while refreshing;
 
 ### 4.7.9
 
