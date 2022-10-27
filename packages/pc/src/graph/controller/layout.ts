@@ -1,4 +1,4 @@
-import { AbstractLayout } from '@antv/g6-core';
+import { AbstractLayout, Util } from '@antv/g6-core';
 import { Layout } from '../../layout';
 import { LayoutWorker } from '../../layout/worker/layout';
 import { LAYOUT_MESSAGE } from '../../layout/worker/layoutConst';
@@ -129,8 +129,7 @@ export default class LayoutController extends AbstractLayout {
         }
       }
 
-      const isForce = layoutType === 'force' || layoutType === 'g6force' || layoutType === 'gForce' || layoutType === 'force2';
-      if (isForce) {
+      if (Util.isForce(layoutType)) {
         const { onTick, animate } = layoutCfg;
         const isDefaultAnimateLayout = animate === undefined && (layoutType === 'force' || layoutType === 'force2');
         const tick = () => {

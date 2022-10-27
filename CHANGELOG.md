@@ -1,5 +1,9 @@
 # ChangeLog
 
+### 4.7.10
+
+- perf: force layout with animation using graph refreshPositions instead positionsAnimate;
+
 ### 4.7.9
 
 - perf: init node positions when the node has no x and y in the origin data;
