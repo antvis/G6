@@ -1,5 +1,31 @@
 # ChangeLog
 
+### 4.7.10
+
+- perf: force layout with animation calls graph refreshPositions instead positionsAnimate while refreshing;
+
+### 4.7.9
+
+- perf: init node positions when the node has no x and y in the origin data;
+
+### 4.7.8
+
+- feat: pointPadding config for loop edges with non-circle nodes, closes: #3974;
+- fix: image lost while updating the size for an image node, closes: #3938;
+
+### 4.7.7
+ 
+ - feat: getContentPlaceholder and getTitlePlaceholder for Annotation plugin;
+
+### 4.7.6
+
+- fix: Annotation readData with inexistent item;
+- perf: improve the performance for updating;
+
+### 4.7.5
+
+- perf: Annotation support updating positions for outside cards by calling updateOutsideCards;
+
  ### 4.7.4
   
   - perf: Annotation min-width and input width;
