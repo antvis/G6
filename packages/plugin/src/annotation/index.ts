@@ -78,6 +78,8 @@ interface AnnotationConfig {
   linkHighlightStyle?: ShapeStyle,
   getTitle?: (item) => string | HTMLDivElement,
   getContent?: (item) => string | HTMLDivElement,
+  getTitlePlaceholder?: (item) => string | HTMLDivElement, // getTitle 返回空时使用 getTitlePlaceholder 的返回值
+  getContentPlaceholder?: (item) => string | HTMLDivElement, // getContent 返回空时使用 getContentPlaceholder 的返回值
   onAnnotationChange?: (info: any, action: string) => void;
 }
 
@@ -118,6 +120,8 @@ interface CardInfoMap {
     }
   }
 }
+
+const CANVAS_ANNOTATION_ID = 'canvas-annotation';
 
 export default class Annotation extends Base {
   constructor(config?: AnnotationConfig) {
@@ -330,7 +334,12 @@ export default class Annotation extends Base {
     }, 250);
   }
 
-  private updateOutsideCards(self) {
+  /**
+   * 更新超出视口范围的卡片位置
+   * @param selfObj 当前 annotation 插件对象。外部调用不需要传入该参数
+   */
+  public updateOutsideCards(selfObj) {
+    const self = selfObj || this;
     const cardInfoMap = self.get('cardInfoMap') || {};
     const graph = self.get('graph');
     const graphLeftTopCanvas = graph.getPointByCanvas(0, 0);
@@ -408,16 +417,20 @@ export default class Annotation extends Base {
 
     const isCanvas = item.isCanvas?.();
 
-    const itemId = isCanvas ? 'canvas-annotation' : item.getID();
+    const itemId = isCanvas ? CANVAS_ANNOTATION_ID : item.getID();
     let { card, link, x, y, title, content } = cardInfoMap[itemId] || {};
 
     const getTitle = this.get('getTitle');
     const getContent = this.get('getContent');
+    const getContentPlaceholder = this.get('getContentPlaceholder') || (() => '');
+    const getTitlePlaceHolder = this.get('getTitlePlaceHolder') || (() => '');
+    const contentPlaceholder = getContentPlaceholder(item);
+    const titlePlaceholder = getTitlePlaceHolder(item);
     const newCard = createDom(this.getDOMContent({
       itemId,
       collapsed,
-      title: (title || propsTitle || getTitle?.(item)).substr(0, maxTitleLength),
-      content: content || propsContent || getContent?.(item),
+      title: (title || propsTitle || getTitle?.(item))?.substr(0, maxTitleLength) || titlePlaceholder,
+      content: content || propsContent || getContent?.(item) || contentPlaceholder,
       ...otherCardCfg
     }));
     const minHeightPx = isNumber(minHeight) ? `${minHeight}px` : minHeight
@@ -497,6 +510,8 @@ export default class Annotation extends Base {
       cardBBox,
       content: content || propsContent,
       title: title || propsTitle,
+      contentPlaceholder,
+      titlePlaceholder,
       isCanvas
     };
 
@@ -583,7 +598,7 @@ export default class Annotation extends Base {
   public hideCard(id) {
     if (this.destroyed) return;
     const cardInfoMap = this.get('cardInfoMap');
-    if (!cardInfoMap) return;
+    if (!cardInfoMap || !cardInfoMap[id]) return;
     const { card, link } = cardInfoMap[id];
     modifyCSS(card, { display: 'none' });
     link?.hide();
@@ -718,16 +733,23 @@ export default class Annotation extends Base {
         const inputWrapper = createDom(`<div class="${targetClass}-input-wrapper" style="width: ${width}px; height: ${height}px; min-width: 16px; margin-right: ${computeStyle['marginRight']}" />`);
         inputWrapper.appendChild(input);
         target.parentNode.replaceChild(inputWrapper, target);
+        const cardInfo = cardInfoMap[itemId];
+        const { contentPlaceholder, titlePlaceholder, content, title } = cardInfo;
+        let value = content;
         if (targetClass === 'g6-annotation-title') {
           input.name = 'title';
           input.maxLength = maxTitleLength;
+          value = title;
         } else {
           input.name = 'content';
         }
-        input.innerHTML = target.innerHTML;
-        input.value = target.innerHTML;
+        if (value) {
+          input.innerHTML = target.innerHTML;
+          input.value = target.innerHTML;
+        } else {
+          input.placeholder = targetClass === 'g6-annotation-title' ? titlePlaceholder : contentPlaceholder;
+        }
         input.focus();
-        const cardInfo = cardInfoMap[itemId];
         input.addEventListener('blur', blurEvt => {
           if (input.value) {
             target.innerHTML = input.value;
@@ -871,7 +893,7 @@ export default class Annotation extends Base {
     const graph = this.get('graph');
     Object.values(cardInfoMap).forEach(info => {
       const { id, card, isCanvas } = info;
-      if (isCanvas || card.style.display === 'none') return;
+      if (!card || isCanvas || card.style.display === 'none') return;
       const item = graph.findById(id);
       if (item && item.isVisible()) {
         this.toggleAnnotation(item);
@@ -899,7 +921,7 @@ export default class Annotation extends Base {
     const data = [];
     Object.values(cardInfoMap).forEach(info => {
       const { title, content, x, y, id, collapsed, card } = info;
-      if (card.style.display === 'none' && !saveClosed) return;
+      if (card && card.style.display === 'none' && !saveClosed) return;
       const item = graph.findById(id) || graph.get('canvas');
       data.push({
         id,
@@ -908,7 +930,7 @@ export default class Annotation extends Base {
         collapsed,
         title: title || getTitle?.(item),
         content: content || getContent?.(item),
-        visible: card.style.display !== 'none'
+        visible: card && card.style.display !== 'none'
       })
     });
     return data;
@@ -918,10 +940,19 @@ export default class Annotation extends Base {
     const graph = this.get('graph');
     data.forEach(info => {
       const { id, x, y, title, content, collapsed, visible } = info;
-      const item = graph.findById(id) || graph.get('canvas');
+      let item = graph.findById(id);
+      if (!item && id === CANVAS_ANNOTATION_ID) {
+        item = graph.get('canvas');
+      }
+      if (!item) {
+        const cardInfoMap = this.get('cardInfoMap') || {};
+        cardInfoMap[id] = info;
+        this.set('cardInfoMap', cardInfoMap);
+        return;
+      }
       this.toggleAnnotation(item, { x, y, title, content, collapsed });
       if (!visible) this.hideCard(id);
-    })
+    });
   }
 
   /**

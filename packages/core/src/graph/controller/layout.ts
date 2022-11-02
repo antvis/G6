@@ -2,6 +2,7 @@ import { isFunction, groupBy } from '@antv/util';
 import { isNaN, calculationItemsBBox } from '../../util/base';
 import { GraphData } from '../../types';
 import { IAbstractGraph } from '../../interface/graph';
+import { isForce } from '../../util/layout';
 
 export default abstract class LayoutController {
   public graph: IAbstractGraph;
@@ -72,9 +73,12 @@ export default abstract class LayoutController {
 
   // 绘制
   public refreshLayout() {
-    const { graph, layoutType } = this;
+    const { graph, layoutType, layoutCfg = {} } = this;
     if (!graph) return;
-    if (graph.get('animate')) {
+    const { animate } = layoutCfg;
+    const isDefaultAnimateLayout = animate === undefined && (layoutType === 'force' || layoutType === 'force2');
+    const forceAnimate = isForce(layoutType) && (animate || isDefaultAnimateLayout);
+    if (graph.get('animate') && !forceAnimate) {
       graph.positionsAnimate(layoutType === 'comboCombined');
     } else {
       graph.refreshPositions(layoutType === 'comboCombined');
@@ -308,11 +312,10 @@ export default abstract class LayoutController {
     if (!nodes) {
       return false;
     }
-    const nodeLength = nodes ? nodes.length : 0;
+    const nodesToInit = nodes.filter(node => isNaN(node.x) || isNaN(node.y))
+    const nodeLength = nodesToInit ? nodesToInit.length : 0;
     if (!nodeLength) return;
-
     const hasPreset = this.initWithPreset?.();
-
     if (hasPreset) return false;
 
     const width = graph.get('width') * 0.85;
@@ -328,7 +331,7 @@ export default abstract class LayoutController {
 
     let allHavePos = true;
     for (let i = 0; i < nodeLength; i++) {
-      const node = nodes[i];
+      const node = nodesToInit[i];
       if (isNaN(+node.x)) {
         allHavePos = false;
         node.x = (i % horiNum) * horiGap + beginX;

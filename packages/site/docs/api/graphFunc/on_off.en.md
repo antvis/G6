@@ -19,7 +19,7 @@ Here is the description for the objects `item` and `target` of the `handler`'s p
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | item | Item | true | The manipulated item |
-| target | IShape | true | The manipulated [Graphics Shape](/en/docs/manual/middle/elements/shape-keyshape) |
+| target | IShape | true | The manipulated [Graphics Shape](/en/docs/manual/middle/elements/shape/shape-keyshape) |
 
 **Usage**
 

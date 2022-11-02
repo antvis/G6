@@ -15,7 +15,7 @@ G6 图上的元素包括节点、边、节点分组 Combo。每一个元素是�
 
 <description> _Object_ **optional** </description>
 
-元素 [keyShape](/zh/docs/manual/middle/elements/shape-keyshape) 的样式属性，可配置内容与该 keyShape 的图形类型相关，各图形的具体属性参见[各图形样式属性](/zh/docs/api/shapeProperties) |
+元素 [keyShape](/zh/docs/manual/middle/elements/shape/shape-keyshape) 的样式属性，可配置内容与该 keyShape 的图形类型相关，各图形的具体属性参见[各图形样式属性](/zh/docs/api/shapeProperties) |
 
 ### type
 

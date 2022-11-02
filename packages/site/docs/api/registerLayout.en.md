@@ -12,7 +12,7 @@ When the built-in Layouts cannot satisfy your requirments, custom a type of Layo
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
 | layoutName | String | true | The name of the custom layout. |
-| layout | Object | true | The configurations of the custom layout. For more information, please refer to [Layout API](/en/docs/manual/middle/layout). |
+| layout | Object | true | The configurations of the custom layout. For more information, please refer to [Layout API](/en/docs/manual/middle/layout/custom-layout). |
 
 ### Usage
 
