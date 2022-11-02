@@ -267,9 +267,9 @@ export default {
       return;
     }
     if (ALLOW_EVENTS.indexOf(code.toLowerCase()) > -1) {
-      self.keydown = true;
-    } else {
       self.keydown = false;
+    } else {
+      self.keydown = true;
     }
   },
   onKeyUp() {
