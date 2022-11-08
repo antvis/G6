@@ -1,5 +1,12 @@
 # ChangeLog
 
+### 4.7.12
+
+- fix: drag-canvas incorrectly stopped by right click;
+- fix: createCombo with nodes which already has parent combos;
+- perf: combo animate inherit from graph's animate config;
+- perf: improve the performance of setItemState and active-relations again;
+
 ### 4.7.11
 
 - perf: improve the performance of setItemState and active-relations;
