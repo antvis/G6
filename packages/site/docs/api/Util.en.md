@@ -51,7 +51,7 @@ If the two end nodes of the two edges are the same, the two edges are said to be
 
 [Demo](/en/examples/item/multiEdge#multiEdges)
 
-### traverseTree Depth-first Top to Bottom Tree Data Traversing
+### traverseTree: Depth-first Top to Bottom Tree Data Traversing
 
 Traverse the tree data depth-first from top (the root) to bottom (the leaves).
 
@@ -62,7 +62,7 @@ Traverse the tree data depth-first from top (the root) to bottom (the leaves).
 | data | TreeData | true     | The tree data to be traversed                  |
 | fn   | function | true     | The callback function called when visit a node. Returning `false` from the callback function will stop traversal. |
 
-Callback parameters
+Parameters of the callback function `fn` in the table above:
 
 | Name     | Type     | Description                                            |
 | -------- | -------- | ------------------------------------------------------ |
@@ -114,7 +114,7 @@ Traverse the tree data depth-first from bottom (the leaves) to top (the root).
 | data | TreeData | true     | The tree data to be traversed                  |
 | fn   | function | true     | The callback function called when visit a node. Returning `false` from the callback function will stop traversal. |
 
-Callback parameters
+Parameters of the callback function `fn` in the table above:
 
 | Name     | Type     | Description                                            |
 | -------- | -------- | ------------------------------------------------------ |

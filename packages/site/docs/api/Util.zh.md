@@ -60,7 +60,16 @@ G6.Util.processParallelEdges(data.edges, offsetDiff, multiEdgeType, singleEdgeTy
 | 名称 | 类型     | 是否必须 | 描述                       |
 | ---- | -------- | -------- | -------------------------- |
 | data | TreeData | true     | 需要遍历的树数据           |
-| fn   | function | true     | 遍历到每个节点时的回调函数 |
+| fn   | function | true     | 遍历到每个节点时的回调函数，返回 `false` 将终止遍历 |
+
+
+上表中的回调函数 fn 的参数：
+
+| Name     | Type     | Description                                            |
+| -------- | -------- | ------------------------------------------------------ |
+| node     | T        | 当前正在访问的树上的节点                        |
+| parent   | T | null | 当前节点的父节点                       |
+| index    | number   | 当前节点在父节点的子节点列表中的顺序 |
 
 #### 使用示例
 
@@ -104,7 +113,16 @@ traverseTree(treeData, (subTree) => {
 | 名称 | 类型     | 是否必须 | 描述                       |
 | ---- | -------- | -------- | -------------------------- |
 | data | TreeData | true     | 需要遍历的树数据           |
-| fn   | function | true     | 遍历到每个节点时的回调函数 |
+| fn   | function | true     | 遍历到每个节点时的回调函数，返回 `false` 将终止遍历 |
+
+上表中的回调函数 fn 的参数：
+
+| Name     | Type     | Description                                            |
+| -------- | -------- | ------------------------------------------------------ |
+| node     | T        | 当前正在访问的树上的节点                        |
+| parent   | T | null | 当前节点的父节点                       |
+| index    | number   | 当前节点在父节点的子节点列表中的顺序 |
+
 
 #### 使用示例
 
