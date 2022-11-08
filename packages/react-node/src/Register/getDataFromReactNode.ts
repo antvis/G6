@@ -17,7 +17,7 @@ const getShapeFromReact = (REl: ReactElement): RawNode => {
     const { style: attrs = {}, type, ...props } = data;
     let { children: ochildren } = REl.props;
     if (type === 'text') {
-      attrs.text = ochildren.join ? ochildren.join('') : ochildren;
+      attrs.text = ochildren?.join ? ochildren.join('') : ochildren;
       return {
         type,
         attrs,

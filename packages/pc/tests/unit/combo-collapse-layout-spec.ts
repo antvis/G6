@@ -51,10 +51,10 @@ describe('combo layout with collapsed', () => {
 
     graph.data(data);
     graph.render();
-    console.log('data', data)
     setTimeout(() => {
       expect(data.combos[0].x).toBe(250)
       expect(data.combos[0].y).toBe(375)
+      graph.destroy();
       done()
     }, 0);
   });

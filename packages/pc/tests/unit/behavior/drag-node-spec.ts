@@ -40,14 +40,15 @@ describe('drag-node', () => {
       r: 20,
       style: { lineWidth: 2, fill: '#666' },
     });
-    graph.emit('node:dragstart', { x: 100, y: 100, item: node });
-    graph.emit('node:drag', { x: 120, y: 120, item: node });
+    graph.emit('node:mousedown', { x: 100, y: 100, item: node });
+    graph.emit('drag', { x: 100, y: 100, item: node });
+    graph.emit('drag', { x: 120, y: 120, item: node });
     const dragMatrix = node.get('group').getMatrix();
     expect(dragMatrix[6]).toEqual(50);
     expect(dragMatrix[7]).toEqual(50);
 
     graph.emit('canvas:drop', { x: 120, y: 120, item: node });
-    graph.emit('node:dragend', { x: 120, y: 120, item: node });
+    graph.emit('dragend', { x: 120, y: 120, item: node });
     const matrix = node.get('group').getMatrix();
     expect(matrix[0]).toEqual(1);
     expect(matrix[6]).toEqual(70);
@@ -134,9 +135,10 @@ describe('drag-node', () => {
     }) as INode;
     graph.paint();
     node.lock();
-    graph.emit('node:dragstart', { x: 100, y: 100, item: node });
-    graph.emit('node:drag', { x: 120, y: 120, item: node });
-    graph.emit('node:dragend', { x: 120, y: 120, item: node });
+    graph.emit('node:mousedown', { x: 100, y: 100, item: node });
+    graph.emit('drag', { x: 100, y: 100, item: node });
+    graph.emit('drag', { x: 120, y: 120, item: node });
+    graph.emit('dragend', { x: 120, y: 120, item: node });
     const dragMatrix = node.get('group').getMatrix();
     expect(dragMatrix[6]).toEqual(50);
     expect(dragMatrix[7]).toEqual(50);
@@ -193,14 +195,15 @@ describe('drag-node', () => {
     });
     graph.paint();
     const node = graph.getNodes()[2];
-    graph.emit('node:dragstart', { x: 100, y: 50, item: node });
-    graph.emit('node:drag', { x: 120, y: 120, item: node });
-    graph.emit('node:drag', { x: 150, y: 150, item: node });
+    graph.emit('node:mousedown', { x: 100, y: 50, item: node });
+    graph.emit('drag', { x: 100, y: 50, item: node });
+    graph.emit('drag', { x: 120, y: 120, item: node });
+    graph.emit('drag', { x: 150, y: 150, item: node });
     const dragMatrix = node.get('group').getMatrix();
     expect(dragMatrix[6]).toEqual(100);
     expect(dragMatrix[7]).toEqual(50);
 
-    graph.emit('node:dragend', { x: 200, y: 200, item: node });
+    graph.emit('dragend', { x: 200, y: 200, item: node });
   });
   it('drag selected nodes', () => {
     const graph: Graph = new Graph({
@@ -253,15 +256,16 @@ describe('drag-node', () => {
     });
     graph.paint();
     const node0 = graph.getNodes()[0];
-    graph.emit('node:dragstart', { x: 50, y: 50, item: node0 });
-    graph.emit('node:drag', { x: 120, y: 120, item: node0 });
-    graph.emit('node:drag', { x: 150, y: 150, item: node0 });
+    graph.emit('node:mousedown', { x: 50, y: 50, item: node0 });
+    graph.emit('drag', { x: 50, y: 50, item: node0 });
+    graph.emit('drag', { x: 120, y: 120, item: node0 });
+    graph.emit('drag', { x: 150, y: 150, item: node0 });
     const dragMatrix = node0.get('group').getMatrix();
     expect(dragMatrix[6]).toEqual(50);
     expect(dragMatrix[7]).toEqual(50);
 
     graph.emit('canvas:drop', { x: 200, y: 200, item: node0 });
-    graph.emit('node:dragend', { x: 200, y: 200, item: node0 });
+    graph.emit('dragend', { x: 200, y: 200, item: node0 });
     const matrix = node0.get('group').getMatrix();
     expect(matrix[0]).toEqual(1);
     expect(matrix[6]).toEqual(200);
@@ -314,13 +318,14 @@ describe('drag-node', () => {
     const node0 = graph.getNodes()[0];
     graph.setItemState(graph.getNodes()[0], 'selected', true);
     graph.paint();
-    graph.emit('node:dragstart', { x: 50, y: 50, item: node0 });
-    graph.emit('node:drag', { x: 150, y: 150, item: node0 });
+    graph.emit('node:mousedown', { x: 50, y: 50, item: node0 });
+    graph.emit('drag', { x: 50, y: 50, item: node0 });
+    graph.emit('drag', { x: 150, y: 150, item: node0 });
     const dragMatrix = node0.get('group').getMatrix();
     expect(dragMatrix[6]).toEqual(150);
     expect(dragMatrix[7]).toEqual(150);
     // if the enableDelegate is false, dragend will not change the node position
-    graph.emit('node:dragend', { x: 200, y: 200, item: node0 });
+    graph.emit('dragend', { x: 200, y: 200, item: node0 });
     const matrix = node0.get('group').getMatrix();
     expect(matrix[0]).toEqual(1);
     expect(matrix[6]).toEqual(150);
@@ -371,8 +376,9 @@ describe('drag-node', () => {
     expect(path[0][2]).toEqual(57.77817459305202);
     expect(mathEqual(289, path[1][1])).toEqual(true);
     expect(mathEqual(300, path[1][2])).toEqual(true);
-    graph.emit('node:dragstart', { x: 100, y: 100, item: source });
-    graph.emit('node:drag', { x: 120, y: 120, item: source });
+    graph.emit('node:mousedown', { x: 100, y: 100, item: source });
+    graph.emit('drag', { x: 100, y: 100, item: source });
+    graph.emit('drag', { x: 120, y: 120, item: source });
     path = edge
       .get('group')
       .get('children')[0]
@@ -384,7 +390,7 @@ describe('drag-node', () => {
       expect(mathEqual(289, path[1][1])).toEqual(true);
       expect(mathEqual(300, path[1][2])).toEqual(true);
       graph.emit('canvas:drop', { x: 140, y: 140, item: source });
-      graph.emit('node:dragend', { x: 140, y: 140, item: source });
+      graph.emit('dragend', { x: 140, y: 140, item: source });
       setTimeout(() => {
         path = edge
           .get('group')
@@ -424,9 +430,10 @@ describe('drag-node', () => {
       y: 50,
       style: { lineWidth: 2, fill: '#666' },
     });
-    graph.emit('node:dragstart', { x: 100, y: 100, item: node });
-    graph.emit('node:drag', { x: 120, y: 120, item: node });
-    graph.emit('node:dragend', { x: 120, y: 120, item: node });
+    graph.emit('node:mousedown', { x: 100, y: 100, item: node });
+    graph.emit('drag', { x: 100, y: 100, item: node });
+    graph.emit('drag', { x: 120, y: 120, item: node });
+    graph.emit('dragend', { x: 120, y: 120, item: node });
     expect(clicked).toBe(false);
     graph.destroy();
   });
@@ -477,9 +484,10 @@ describe('drag-node', () => {
     expect(matrix[1]).toEqual(0.7848921132128235);
     expect(matrix[3]).toEqual(-0.7848921132128235);
     expect(matrix[4]).toEqual(0.6196324480014811);
-    graph.emit('node:dragstart', { x: 100, y: 100, item: target });
-    graph.emit('node:drag', { x: 120, y: 120, item: target });
-    graph.emit('node:dragend', { x: 80, y: 120, item: target });
+    graph.emit('node:mousedown', { x: 100, y: 100, item: target });
+    graph.emit('drag', { x: 100, y: 100, item: target });
+    graph.emit('drag', { x: 120, y: 120, item: target });
+    graph.emit('dragend', { x: 80, y: 120, item: target });
     matrix = label.getMatrix();
     expect(matrix[0]).toEqual(0.627307162629268);
     expect(matrix[1]).toEqual(0.7787719330548688);
@@ -515,13 +523,14 @@ describe('drag-node', () => {
       style: { lineWidth: 2, fill: '#666' },
     });
     graph.paint();
-    graph.emit('node:dragstart', { x: 100, y: 100, item: node });
-    graph.emit('node:drag', { x: 120, y: 120, item: node });
+    graph.emit('node:mousedown', { x: 100, y: 100, item: node });
+    graph.emit('drag', { x: 100, y: 100, item: node });
+    graph.emit('drag', { x: 120, y: 120, item: node });
     const matrix = node.get('group').getMatrix();
     expect(matrix[0]).toEqual(1);
     expect(matrix[6]).toEqual(50);
     expect(matrix[7]).toEqual(50);
-    graph.emit('node:dragend', { x: 120, y: 120, item: node });
+    graph.emit('dragend', { x: 120, y: 120, item: node });
     const stack = graph.getUndoStack();
     expect(stack.linkedList.head).not.toBe(null);
     graph.destroy();
@@ -552,8 +561,9 @@ describe('drag-node', () => {
       style: { lineWidth: 2, fill: '#666' },
     });
     graph.paint();
-    graph.emit('node:dragstart', { x: 100, y: 100, item: node });
-    graph.emit('node:drag', { x: 120, y: 120, item: node });
+    graph.emit('node:mousedown', { x: 100, y: 100, item: node });
+    graph.emit('drag', { x: 100, y: 100, item: node });
+    graph.emit('drag', { x: 120, y: 120, item: node });
     const matrix = node.get('group').getMatrix();
     expect(matrix[0]).toEqual(1);
     expect(matrix[6]).toEqual(50);
@@ -588,9 +598,10 @@ describe('drag-node', () => {
       id: 'node1',
     });
 
-    graph.emit('node:dragstart', { x: 0, y: 0, item: node });
-    graph.emit('node:drag', { x: 120, y: 120, item: node });
-    graph.emit('node:dragend', { x: 120, y: 120, item: node });
+    graph.emit('node:mousedown', { x: 0, y: 0, item: node });
+    graph.emit('drag', { x: 0, y: 0, item: node });
+    graph.emit('drag', { x: 120, y: 120, item: node });
+    graph.emit('dragend', { x: 120, y: 120, item: node });
     const matrix = node.get('group').getMatrix();
     expect(matrix[0]).toEqual(1);
     expect(matrix[6]).toEqual(120);
@@ -635,8 +646,9 @@ describe('drag-node', () => {
     });
     const keyShape = edge.get('keyShape');
     const path = keyShape.attr('path');
-    graph.emit('node:dragstart', { item: src, x: 55, y: 55 });
-    graph.emit('node:drag', { item: src, x: 66, y: 66 });
+    graph.emit('node:mousedown', { item: src, x: 55, y: 55 });
+    graph.emit('drag', { item: src, x: 55, y: 55 });
+    graph.emit('drag', { item: src, x: 66, y: 66 });
     expect(keyShape.attr('path')).toEqual(path);
     graph.destroy();
   });
@@ -665,7 +677,7 @@ describe('drag-node', () => {
       r: 20,
       style: { lineWidth: 2, fill: '#666' },
     });
-    graph.emit('node:dragstart', { x: 100, y: 100, item: node });
+    graph.emit('node:mousedown', { x: 100, y: 100, item: node });
     expect(node.getContainer().getMatrix()[6]).toEqual(50);
     expect(node.getContainer().getMatrix()[7]).toEqual(50);
     graph.emit('canvas:mouseleave', { x: 600, y: 600, item: node });
@@ -704,8 +716,9 @@ describe('drag-node', () => {
       r: 20,
       style: { lineWidth: 2, fill: '#666' },
     });
-    graph.emit('node:dragstart', { x: 100, y: 100, item: node });
-    graph.emit('node:drag', { x: 120, y: 120, item: node });
+    graph.emit('node:mousedown', { x: 100, y: 100, item: node });
+    graph.emit('drag', { x: 100, y: 100, item: node });
+    graph.emit('drag', { x: 120, y: 120, item: node });
     const matrix = node.get('group').getMatrix();
     expect(matrix[0]).toEqual(1);
     expect(matrix[6]).toEqual(50);
@@ -760,9 +773,10 @@ describe('drag-node', () => {
     const node = graph.getNodes()[0];
     const anchorPoint = node.get('group').get('children')[1];
 
-    graph.emit('node:dragstart', { x: 100, y: 100, target: anchorPoint });
-    graph.emit('node:drag', { x: 120, y: 120, target: anchorPoint });
-    graph.emit('node:dragend', { x: 120, y: 120, target: anchorPoint });
+    graph.emit('node:mousedown', { x: 100, y: 100, target: anchorPoint });
+    graph.emit('drag', { x: 100, y: 100, target: anchorPoint });
+    graph.emit('drag', { x: 120, y: 120, target: anchorPoint });
+    graph.emit('dragend', { x: 120, y: 120, target: anchorPoint });
     const dragMatrix = node.get('group').getMatrix();
     expect(dragMatrix[6]).toEqual(50);
     expect(dragMatrix[7]).toEqual(50);
@@ -813,16 +827,18 @@ describe('drag-node', () => {
     const node = graph.getNodes()[0];
     const combo = graph.getCombos()[0];
 
-    graph.emit('node:dragstart', { x: 100, y: 100, item: node });
-    graph.emit('node:drag', { x: 120, y: 120, item: node });
+    graph.emit('node:mousedown', { x: 100, y: 100, item: node });
+    graph.emit('drag', { x: 100, y: 100, item: node });
+    graph.emit('drag', { x: 120, y: 120, item: node });
     graph.emit('combo:drop', { x: 120, y: 120, item: combo });
-    graph.emit('node:dragend', { x: 120, y: 120, item: node });
+    graph.emit('dragend', { x: 120, y: 120, item: node });
     expect(combo.getChildren().nodes.length).toBe(1);
 
-    graph.emit('node:dragstart', { x: 100, y: 100, item: node });
-    graph.emit('node:drag', { x: 120, y: 120, item: node });
+    graph.emit('node:mousedown', { x: 100, y: 100, item: node });
+    graph.emit('drag', { x: 100, y: 100, item: node });
+    graph.emit('drag', { x: 120, y: 120, item: node });
     graph.emit('canvas:drop', { x: 120, y: 120 });
-    graph.emit('node:dragend', { x: 120, y: 120, item: node });
+    graph.emit('dragend', { x: 120, y: 120, item: node });
     expect(combo.getChildren().nodes.length).toBe(0);
     graph.destroy();
   });

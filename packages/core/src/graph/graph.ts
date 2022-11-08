@@ -1418,12 +1418,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     itemController.setItemState(item, state, value);
 
     const stateController: StateController = this.get('stateController');
-
-    if (isString(value)) {
-      stateController.updateState(item, `${state}:${value}`, true);
-    } else {
-      stateController.updateState(item, state, value);
-    }
+    stateController.updateState(item, state, value);
   }
 
   /**
@@ -1731,6 +1726,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     setTimeout(() => {
       canvas.set('localRefresh', localRefresh);
     }, 16);
+    this.set('data', data);
     this.emit('afterchangedata');
     return this;
   }

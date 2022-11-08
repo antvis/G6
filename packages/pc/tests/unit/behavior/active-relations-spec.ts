@@ -133,6 +133,8 @@ describe('activate-relations', () => {
           expect(edges.length).toEqual(0);
           expect(graph.findAllByState('node', 'inactive').length).toEqual(0);
           expect(graph.findAllByState('edge', 'inactive').length).toEqual(0);
+          graph.removeBehaviors(['activate-relations'], 'default');
+          graph.off('afteractivaterelations');
           done();
         }
       }
@@ -152,13 +154,16 @@ describe('activate-relations', () => {
     graph.emit('node:click', { item: node2 });
     graph.emit('canvas:click', {});
 
-    graph.emit('node:touchstart', { item: node1 });
-    graph.emit('canvas:touchstart', {});
-    graph.emit('node:touchstart', { item: node2 });
-    graph.emit('canvas:touchstart', {});
+    // TODO: 上面几行影响了下面执行
+    setTimeout(() => {
+      graph.emit('node:touchstart', { originalEvent: { touches: [1, 0] }, item: node1 });
+      graph.emit('canvas:touchstart', {});
+      setTimeout(() => {
+        graph.emit('node:touchstart', { originalEvent: { touches: [1, 0] }, item: node2 });
+        graph.emit('canvas:touchstart', {});
+      }, 50)
+    }, 50)
 
-    graph.removeBehaviors(['activate-relations'], 'default');
-    graph.off('afteractivaterelations');
   });
   it('custom state', (done) => {
     const graph2 = new Graph({
@@ -183,6 +188,7 @@ describe('activate-relations', () => {
     graph2.addItem('edge', { source: 'node1', target: 'node2' });
     graph2.addItem('edge', { source: 'node1', target: 'node3' });
     graph2.on('afteractivaterelations', (e) => {
+      console.log('afteractivaterelations', e.item === g2node1, e.action)
       const action = e.action;
       if (e.item === g2node1) {
         if (action === 'activate') {
@@ -211,6 +217,7 @@ describe('activate-relations', () => {
           const edges = graph2.findAllByState('edge', 'highlight');
           expect(nodes.length).toEqual(0);
           expect(edges.length).toEqual(0);
+          graph2.destroy();
           done();
         }
       }
@@ -229,7 +236,6 @@ describe('activate-relations', () => {
     graph2.emit('node:mouseleave', { item: g2node1 });
     graph2.emit('node:mouseenter', { item: g2node2 });
     graph2.emit('node:mouseleave', { item: g2node2 });
-    graph2.destroy();
   });
   it('should not update', () => {
     graph.addBehaviors(
@@ -260,7 +266,7 @@ describe('activate-relations', () => {
     graph.off('node:click');
     graph.off('canvas:click');
   });
-  it('combine selected state', () => {
+  it('combine selected state', done => {
     graph.addBehaviors(
       [
         {
@@ -284,18 +290,21 @@ describe('activate-relations', () => {
     let nodes = graph.findAllByState('node', 'selected');
     expect(nodes.length).toEqual(1);
     graph.emit('node:mouseenter', { item: node2 });
-    nodes = graph.findAllByState('node', 'selected');
-    expect(nodes.length).toEqual(0);
-    nodes = graph.findAllByState('node', 'active');
-    const edges = graph.findAllByState('edge', 'active');
-    expect(nodes.length).toEqual(2);
-    expect(edges.length).toEqual(1);
-    graph.emit('node:click', { item: node1 });
-    nodes = graph.findAllByState('node', 'selected');
-    expect(nodes.length).toEqual(1);
-    graph.emit('node:mouseleave', {});
-    graph.removeBehaviors(['activate-relations'], 'default');
-    graph.destroy();
+    setTimeout(() => {
+      nodes = graph.findAllByState('node', 'selected');
+      expect(nodes.length).toEqual(0);
+      nodes = graph.findAllByState('node', 'active');
+      const edges = graph.findAllByState('edge', 'active');
+      expect(nodes.length).toEqual(2);
+      expect(edges.length).toEqual(1);
+      graph.emit('node:click', { item: node1 });
+      nodes = graph.findAllByState('node', 'selected');
+      expect(nodes.length).toEqual(1);
+      graph.emit('node:mouseleave', {});
+      graph.removeBehaviors(['activate-relations'], 'default');
+      graph.destroy();
+      done();
+    }, 100);
   });
 });
 
@@ -706,7 +715,7 @@ describe('active-relations with combos', () => {
       },
       groupByTypes: false
     });
-  
+
     graph.read(data2);
     graph.on('canvas:click', e => {
       console.log(graph.getEdges())
