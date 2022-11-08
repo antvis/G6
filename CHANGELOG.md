@@ -1,5 +1,16 @@
 # ChangeLog
 
+### 4.7.11
+
+- perf: improve the performance of setItemState and active-relations;
+- perf: keyShape is hiden when a combo is collapsed with collapsedSubstituIcon;
+- fix: drag-node incorrectly stopped by right click;
+- fix: timebar plugin destroy problem, closes: #3998;
+- fix: controllerCfg does not take effect in timebar with tick type, closes: #3843;
+- feat: timebar plugin supports config the default time type;
+- feat: timebar with play and pause API;
+- chore: use addItem and removeItem instead of changeData in timebar;
+
 ### 4.7.10
 
 - perf: force layout with animation calls graph refreshPositions instead positionsAnimate while refreshing;

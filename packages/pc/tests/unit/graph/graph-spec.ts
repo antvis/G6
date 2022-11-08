@@ -1330,9 +1330,10 @@ describe('auto rotate label on edge', () => {
 
   it('drag node', () => {
     const node = graph.getNodes()[1];
-    graph.emit('node:dragstart', { x: 80, y: 150, item: node });
-    graph.emit('node:drag', { x: 200, y: 200, item: node });
-    graph.emit('node:dragend', { x: 200, y: 200, item: node });
+    graph.emit('node:mousedown', { x: 80, y: 150, item: node });
+    graph.emit('drag', { x: 80, y: 150, item: node });
+    graph.emit('drag', { x: 200, y: 200, item: node });
+    graph.emit('dragend', { x: 200, y: 200, item: node });
     const edge1 = graph.getEdges()[0];
     console.log('edge1', edge1);
     const label1 = edge1.get('group').get('children')[1];

@@ -4,7 +4,7 @@ import { ext } from '@antv/matrix-util';
 import Trend, { TrendCfg } from './trend';
 import Handler from './handler';
 import { isString } from '@antv/util';
-import ControllerBtn, { ControllerCfg } from './controllerBtn';
+import ControllerBtn, { ControllerCfg, TIME_TYPE } from './controllerBtn';
 import { ShapeStyle, IAbstractGraph as IGraph } from '@antv/g6-core';
 import {
   VALUE_CHANGE,
@@ -268,7 +268,7 @@ export default class TrendTimeBar {
     this.tickLabelStyle = { ...TICK_LABEL_STYLE, ...tick.tickLabelStyle };
     this.tickLineStyle = { ...TICK_LINE_STYLE, ...tick.tickLineStyle };
 
-    this.currentMode = 'range';
+    this.currentMode = controllerCfg.defaultTimeType || TIME_TYPE.RANGE;
     // 初始信息
     this.start = start;
     this.end = end;
@@ -579,6 +579,12 @@ export default class TrendTimeBar {
 
     // 绑定事件鼠标事件
     this.bindEvents();
+
+    if (this.currentMode === TIME_TYPE.SINGLE) {
+      this.minHandlerShape.hide();
+      this.foregroundShape.hide();
+      this.minTextShape.hide();
+    }
   }
 
   /**
@@ -645,11 +651,11 @@ export default class TrendTimeBar {
     this.group.on(TIMEBAR_CONFIG_CHANGE, ({ type, speed }) => {
       this.currentSpeed = speed;
       this.currentMode = type;
-      if (type === 'single') {
+      if (type === TIME_TYPE.SINGLE) {
         this.minHandlerShape.hide();
         this.foregroundShape.hide();
         this.minTextShape.hide();
-      } else if (type === 'range') {
+      } else if (type === TIME_TYPE.RANGE) {
         this.minHandlerShape.show();
         this.foregroundShape.show();
         this.minTextShape.show();
@@ -838,10 +844,10 @@ export default class TrendTimeBar {
     this.maxHandlerShape.setX(max - handlerWidth / 2);
     each(maxAttrs, (v, k) => this.maxTextShape.attr(k, v));
 
-    if (this.currentMode === 'range') {
+    if (this.currentMode === TIME_TYPE.RANGE) {
       // 因为存储的 start、end 可能不一定是按大小存储的，所以排序一下，对外是 end >= start
       this.graph.emit(VALUE_CHANGE, { value: [this.start, this.end].sort() });
-    } else if (this.currentMode === 'single') {
+    } else if (this.currentMode === TIME_TYPE.SINGLE) {
       this.graph.emit(VALUE_CHANGE, { value: [this.end, this.end] });
     }
   }
@@ -937,7 +943,7 @@ export default class TrendTimeBar {
   }
 
   public destory() {
-    this.graph.off(VALUE_CHANGE, () => { /* do nothing */});
+    this.graph.off(VALUE_CHANGE, () => { /* do nothing */ });
 
     const group = this.group;
 

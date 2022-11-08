@@ -678,9 +678,17 @@ TimeBar Plugin exposes several timing events. They could be listened by `graph.o
 | timebarstartplay | Emitted when the timeline starts to play. |
 | timebarendplay | Emitted when the timeline ends playing. |
 
-### Definition of the Configurations
+### API
 
-#### Definition of the Interfaces
+#### play
+
+Controll the timebar instance begin to play. e.g. `timebar.play()`.
+
+#### pause
+
+Controll the timebar instance to pause. e.g. `timebar.pause()`.
+
+### Definition of the Interfaces
 
 The complete interfaces for the TimeBar is shown below:
 
@@ -968,7 +976,9 @@ type ControllerCfg = Partial<{
   readonly containerStyle?: ExtendedShapeStyle;
   /** the text for the right-bottom switch controlling play with single time point or time range */
   readonly timePointControllerText?: string;
-  readonly timeRangeControllerText?: string
+  readonly timeRangeControllerText?: string;
+  /** [Supported from v4.7.11] the default type of the playing, 'single' means single time point, and 'range' means time range. 'range' by default */
+  readonly defaultTimeType?: 'single' | 'range';
 }>
 ```
 
