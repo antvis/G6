@@ -31,7 +31,7 @@ export type ShapeOptions = Partial<{
   /**
    * 绘制
    */
-  draw: (cfg?: ModelConfig, group?: IGroup) => IShape;
+  draw: (cfg?: ModelConfig, group?: IGroup) => IShape | undefined;
 
   getCustomConfig: (cfg: ModelConfig) => ModelConfig;
   drawShape: (cfg?: ModelConfig, group?: IGroup) => IShape;
