@@ -248,7 +248,7 @@ group.addShape('marker', {
 | --- | --- | --- |
 | path | The path. | It can be a String, or an Array of path |
 | startArrow | The arrow on the start of the path | When `startArrow` is `true`, show a default arrow on the start of the path. User can customize an arrow by path |
-| endArrow | The arrow on the end of the path | When `startArrow` is `true`, show a default arrow on the end of the path. User can customize an arrow by path |
+| endArrow | The arrow on the end of the path | When `endArrow` is `true`, show a default arrow on the end of the path. User can customize an arrow by path |
 | lineAppendWidth | The hitting area of the path | Enlarge the hitting area by enlarging its value |
 | lineCap | The style of two ends of the path |  |
 | lineJoin | The style of the intersection of two path |  |
