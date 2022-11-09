@@ -1210,7 +1210,7 @@ describe('behaviors', () => {
   graph.data(data);
   graph.render();
   const item = graph.getNodes()[0];
-  it('active-relations', () => {
+  it('active-relations', (done) => {
     graph.emit('node:mouseenter', { item });
     const itemKeyShape = item.get('group').get('children')[0];
     expect(itemKeyShape.attr('stroke')).toBe('#000');
@@ -1234,11 +1234,14 @@ describe('behaviors', () => {
     expect(unrelativeEdgeKeyShape.attr('opacity')).toBe(0.1);
 
     graph.emit('node:mouseleave', { item });
-    expect(itemKeyShape.attr('stroke')).toBe('rgb(95, 149, 255)');
-    expect(itemKeyShape.attr('lineWidth')).toBe(1);
-    expect(unrelativeNodeKeyShape.attr('lineWidth')).toBe(1);
-    expect(unrelativeNodeKeyShape.attr('stroke')).toBe('rgb(95, 149, 255)');
-    expect(unrelativeNodeKeyShape.attr('opacity')).toBe(1);
+    setTimeout(() => {
+      expect(itemKeyShape.attr('stroke')).toBe('rgb(95, 149, 255)');
+      expect(itemKeyShape.attr('lineWidth')).toBe(1);
+      expect(unrelativeNodeKeyShape.attr('lineWidth')).toBe(1);
+      expect(unrelativeNodeKeyShape.attr('stroke')).toBe('rgb(95, 149, 255)');
+      expect(unrelativeNodeKeyShape.attr('opacity')).toBe(1);
+      done()
+    }, 60)
   });
   it('click-select', () => {
     graph.setMode('select');

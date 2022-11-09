@@ -30,6 +30,9 @@ export default class ItemBase implements IItemBase {
 
   public destroyed: boolean = false;
 
+  // 是否开启优化，由 graph 根据当前图上节点数量来控制
+  protected optimize: boolean = false;
+
   constructor(cfg: IItemBaseConfig) {
     const defaultCfg: IItemBaseConfig = {
       /**
@@ -528,6 +531,15 @@ export default class ItemBase implements IItemBase {
     states.forEach((state) => {
       shapeFactory.setState(shape, state, false, self);
     });
+  }
+
+  /**
+   * 设置是否开启性能优化模式
+   * 目前影响：节点的状态样式更新是否影响相关边的更新
+   * @param {Boolean} enableOptimize 是否开启
+   */
+  public setOptimize(enableOptimize: boolean) {
+    this.optimize = enableOptimize;
   }
 
   /**

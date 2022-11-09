@@ -1,6 +1,6 @@
 ---
 title: GForce
-order: 2
+order: 11
 ---
 
 GForce implements the classical force-directed layout algorithm by G6 4.0. It supports assign different masses and center gravities for different nodes freedomly. More importantly, it supports GPU parallel acceleration.
@@ -96,7 +96,7 @@ If you want to fix the positions for some nodes during calculation, assign `fx` 
 
 ## layoutCfg.getMass
 
-**Type**: Function<br />**Default**: undefined<br />**Required**: false<br />**Description**: It is a callback returns the mass of each node. If it is not assigned, the degree of each node will takes effect. The usage is similar to `nodeSpacing`
+**Type**: Function<br />**Default**: undefined<br />**Required**: false<br />**Description**: It is a callback returns the mass of each node. If it is not assigned, the degree of each node will take effect. The usage is similar to `nodeSpacing`
 
 ## layoutCfg.getCenter
 

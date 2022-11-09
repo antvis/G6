@@ -1,6 +1,6 @@
 ---
 title: ComboCombined
-order: 13
+order: 14
 ---
 
 _It is a new feature of V4.6._ ComboCombined supports configuring layout method for items inside a combo and layout method for the outer combo and nodes. By default, the inner layout is Concentric layout, and the outer layout is Gforce. When you assigning inner layout by yourself, please use the sync layout methods, such as Circular, Concentric, Grid, Dagre, MDS, Radial, or any custom sync layout. You can also assign custom layout method for the outer layout.

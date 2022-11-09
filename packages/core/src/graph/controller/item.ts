@@ -171,7 +171,7 @@ export default class ItemController {
       item = new Combo({
         model,
         styles,
-        animate: false,
+        animate: graph.get('animate'),
         bbox: model.collapsed ? getComboBBox([], graph) : comboBBox,
         group: comboGroup,
       });
@@ -186,6 +186,7 @@ export default class ItemController {
     }
 
     if (item) {
+      item.setOptimize(graph.getNodes().length > graph.get('optimizeThreshold'));
       graph.get(`${type}s`).push(item);
       graph.get('itemMap')[item.get('id')] = item;
       graph.emit('afteradditem', { item, model });
@@ -318,6 +319,7 @@ export default class ItemController {
         }
       }
     }
+    item.setOptimize(graph.getNodes().length > graph.get('optimizeThreshold'));
     graph.emit('afterupdateitem', { item, cfg });
   }
   /**

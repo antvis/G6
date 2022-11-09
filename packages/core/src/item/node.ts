@@ -268,6 +268,42 @@ export default class Node extends Item implements INode {
     let updateLabel = keys.includes('label') || keys.includes('labelCfg');
 
     return updateLabel ? 'style|label' : 'style';
+  }
+  public setState(state: string, value: string | boolean) {
+    if (this.optimize) {
+      super.setState(state, value);
+      return;
+    }
+    this.runWithBBoxAffected(() => super.setState(state, value));
 
+  }
+  public clearStates(states?: string | string[]) {
+    if (this.optimize) {
+      super.clearStates(states);
+      return;
+    }
+    this.runWithBBoxAffected(() => super.clearStates(states));
+  }
+
+  private runWithBBoxAffected(fn: Function) {
+    const bboxAffectedStyleKeys = ['r', 'width', 'height', 'rx', 'ry', 'lineWidth'];
+    const beforeAttrs = this.getKeyShape().attr();
+    const bboxAffectedStyleBefore = {};
+    Object.keys(this.getKeyShape().attr()).forEach(key => {
+      if (bboxAffectedStyleKeys.includes(key)) bboxAffectedStyleBefore[key] = beforeAttrs[key]
+    });
+
+    fn();
+
+    // if the state styles affect the bbox, the bbox cache should be cleared to get correct edge connecting points
+    const afterAttrs = this.getKeyShape().attr();
+    for (let i = 0; i < bboxAffectedStyleKeys.length; i++) {
+      const key = bboxAffectedStyleKeys[i];
+      if (afterAttrs[key] !== bboxAffectedStyleBefore[key]) {
+        this.clearCache();
+        this.getEdges().forEach(edge => edge.refresh());
+        break;
+      }
+    }
   }
 }

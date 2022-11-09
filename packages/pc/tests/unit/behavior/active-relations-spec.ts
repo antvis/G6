@@ -45,6 +45,7 @@ describe('activate-relations', () => {
   graph.addItem('edge', { source: 'node1', target: 'node2' });
   graph.addItem('edge', { source: 'node1', target: 'node3' });
   it('default activate', (done) => {
+    let last = false;
     graph.on('afteractivaterelations', (e) => {
       const action = e.action;
       if (e.item === node1) {
@@ -84,18 +85,21 @@ describe('activate-relations', () => {
           expect(graph.findAllByState('edge', 'inactive').length).toEqual(0);
         }
       }
-      done();
+      if (last) {
+        graph.removeBehaviors(['activate-relations'], 'default');
+        graph.off('afteractivaterelations');
+        done();
+      }
     });
     graph.addBehaviors(['activate-relations'], 'default');
     graph.emit('node:mouseenter', { item: node1 });
     graph.emit('node:mouseleave', { item: node1 });
     graph.emit('node:mouseenter', { item: node2 });
+    last = true;
     graph.emit('node:mouseleave', { item: node2 });
-    graph.removeBehaviors(['activate-relations'], 'default');
-    // graph.removeEvent();
-    graph.off('afteractivaterelations');
   });
   it('click to activate', (done) => {
+    let last = false;
     graph.on('afteractivaterelations', (e) => {
       const action = e.action;
       if (e.item === node1) {
@@ -133,10 +137,12 @@ describe('activate-relations', () => {
           expect(edges.length).toEqual(0);
           expect(graph.findAllByState('node', 'inactive').length).toEqual(0);
           expect(graph.findAllByState('edge', 'inactive').length).toEqual(0);
-          graph.removeBehaviors(['activate-relations'], 'default');
-          graph.off('afteractivaterelations');
-          done();
         }
+      }
+      if (last) {
+        graph.removeBehaviors(['activate-relations'], 'default');
+        graph.off('afteractivaterelations');
+        done();
       }
     });
     graph.addBehaviors(
@@ -160,6 +166,7 @@ describe('activate-relations', () => {
       graph.emit('canvas:touchstart', {});
       setTimeout(() => {
         graph.emit('node:touchstart', { originalEvent: { touches: [1, 0] }, item: node2 });
+        last = true;
         graph.emit('canvas:touchstart', {});
       }, 50)
     }, 50)
@@ -188,7 +195,6 @@ describe('activate-relations', () => {
     graph2.addItem('edge', { source: 'node1', target: 'node2' });
     graph2.addItem('edge', { source: 'node1', target: 'node3' });
     graph2.on('afteractivaterelations', (e) => {
-      console.log('afteractivaterelations', e.item === g2node1, e.action)
       const action = e.action;
       if (e.item === g2node1) {
         if (action === 'activate') {
@@ -492,15 +498,17 @@ describe('active-relations with combos', () => {
       expect(vEdges.length).toEqual(1);
 
       graph.emit('node:mouseleave', { item: node });
-      nodes = graph.findAllByState('node', 'active');
-      expect(nodes.length).toEqual(0);
-      combos = graph.findAllByState('combo', 'active');
-      expect(combos.length).toEqual(0);
-      edges = graph.findAllByState('edge', 'active');
-      expect(edges.length).toEqual(0);
-      vEdges = graph.findAllByState('vedge', 'active');
-      expect(vEdges.length).toEqual(0);
-      done()
+      setTimeout(() => {
+        nodes = graph.findAllByState('node', 'active');
+        expect(nodes.length).toEqual(0);
+        combos = graph.findAllByState('combo', 'active');
+        expect(combos.length).toEqual(0);
+        edges = graph.findAllByState('edge', 'active');
+        expect(edges.length).toEqual(0);
+        vEdges = graph.findAllByState('vedge', 'active');
+        expect(vEdges.length).toEqual(0);
+        done()
+      }, 60);
     }, 500)
   })
   it('with collapsed combo', () => {
