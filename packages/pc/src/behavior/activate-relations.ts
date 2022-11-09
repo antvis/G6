@@ -75,7 +75,7 @@ export default {
     // avoid clear state frequently, it costs a lot since all the items' states on the graph need to be cleared
     this.timer = setTimeout(() => {
       this.throttleClearActiveState(e, this);
-    }, 100)
+    }, 50)
   },
   throttleSetAllItemStates: throttle(
     (e, self) => {
