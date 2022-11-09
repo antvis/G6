@@ -4,10 +4,10 @@
 
 - fix: drag-canvas incorrectly stopped by right click;
 - fix: createCombo with nodes which already has parent combos;
-- fix: setItemState on node, related edges linking positions are not refreshed;
+- fix: setItemState on node, related edges's linking positions are not refreshed;
 - perf: combo animate inherit from graph's animate config;
 - perf: improve the performance of setItemState and active-relations again;
-- feat: graph supports optimizeThreshold to control the number threshold of nodes to enable the optimization on rendering and interaction, currently only affects the edges refresh while the related node state style changed;
+- feat: graph supports optimizeThreshold to control the number threshold of nodes to enable the optimization on rendering and interaction, currently only affects the edges' refresh while the related node state style changed;
 
 ### 4.7.11
 
