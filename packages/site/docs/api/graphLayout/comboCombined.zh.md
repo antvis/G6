@@ -1,6 +1,6 @@
 ---
 title: Combo 复合布局 ComboCombined
-order: 13
+order: 14
 ---
 
 *V4.6 新增功能。*ComboCombined 支持自由配置 combo 内部元素的布局以及最外层 combo 和节点之间的布局，默认情况下将使用 Concentric 同心圆布局作为内部布局，gForce 力导向布局作为外部布局。能够达到较好的效果以及稳定性。当您指定内部布局时，请使用同步的布局算法，可从以下布局中选择：Circular，Concentric，Grid，Dagre，MDS，Radial，或任何同步的自定义布局。也可以自定义布局作为内部/外部布局。

@@ -171,13 +171,13 @@ The easing function name of animation. Please refer to ease in d3.
 
 <description> _Number_ **optional** _default:_ `0.02`</description>
 
-The minimum zoom ratio. If the ratio to be scaled in `fitView`, `zoom`, or `zoomTo` is smaller than the minZoom, the minZoom will takes effect and the current funcion will return false.
+The minimum zoom ratio. If the ratio to be scaled in `fitView`, `zoom`, or `zoomTo` is smaller than the minZoom, the minZoom will take effect and the current funcion will return false.
 
 ### GraphOptions.maxZoom
 
 <description> _Number_ **optional** _default:_ `10`</description>
 
-The maximum zoom ratio. If the ratio to be scaled in `fitView`, `zoom`, or `zoomTo` is bigger than the maxZoom, the maxZoom will takes effect and the current funcion will return false.
+The maximum zoom ratio. If the ratio to be scaled in `fitView`, `zoom`, or `zoomTo` is bigger than the maxZoom, the maxZoom will take effect and the current funcion will return false.
 
 ### GraphOptions.layout
 
