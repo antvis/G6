@@ -534,6 +534,12 @@ export interface GraphOptions {
   tooltips?: [];
 
   pixelRatio?: number;
+
+  /**
+   * 达到这一节点数量，将开启性能优化模式
+   * 目前包括：节点状态样式变更是否影响相关边的更新
+   */
+  optimizeThreshold?: number;
 }
 
 export type LabelStyle = Partial<{

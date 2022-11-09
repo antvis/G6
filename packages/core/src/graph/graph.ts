@@ -9,7 +9,7 @@ import {
   floydWarshall,
 } from '@antv/algorithm';
 import { IAbstractGraph } from '../interface/graph';
-import { IEdge, INode, ICombo, IItemBaseConfig } from '../interface/item';
+import { IEdge, INode, ICombo } from '../interface/item';
 import {
   GraphAnimateConfig,
   GraphOptions,
@@ -340,6 +340,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
       // 存储图上的 tooltip dom，方便销毁
       tooltips: [],
+
+      // 达到这一节点数量(默认值 1000)，将开启性能优化模式。目前包括：节点状态样式变更是否影响相关边的更新
+      optimizeThreshold: 1000
     };
   }
 
