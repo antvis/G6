@@ -151,11 +151,11 @@ At present, Graphin has good practices in business graph analysis projects. For 
 Welcome to join the **G6 Communication Group** or **G6 Communication Group-2** (DingTalk groups). We also welcome the github issues.
 
 <p>
-  <a href="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-RO_R7SCvroAAAAAAAAAAAAAARQnAQ" >
-    <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*-RO_R7SCvroAAAAAAAAAAAAAARQnAQ' style='width:250px;display:inline-block;vertical-align:top;' alt='' />
+  <a href="https://mdn.alipayobjects.com/mdn/huamei_qa8qxu/afts/img/A*yCTQR78ipZEAAAAAAAAAAAAADmJ7AQ" >
+    <img src='https://mdn.alipayobjects.com/mdn/huamei_qa8qxu/afts/img/A*yCTQR78ipZEAAAAAAAAAAAAADmJ7AQ' style='width:250px;display:inline-block;vertical-align:top;' alt='' />
   </a>
-  <a href="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hzfaSrAj0jkAAAAAAAAAAABkARQnAQ" >
-    <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hzfaSrAj0jkAAAAAAAAAAABkARQnAQ' style='width:250px;display:inline-block;vertical-align:top;' alt='' />
+  <a href="https://mdn.alipayobjects.com/mdn/huamei_qa8qxu/afts/img/A*WVxyRpjxrEMAAAAAAAAAAAAADmJ7AQ" >
+    <img src='https://mdn.alipayobjects.com/mdn/huamei_qa8qxu/afts/img/A*WVxyRpjxrEMAAAAAAAAAAAAADmJ7AQ' style='width:250px;display:inline-block;vertical-align:top;' alt='' />
   </a>
   <a href="https://graphin.antv.vision/" >
    <img src='https://camo.githubusercontent.com/5e6624abcdde991f9fd89fce4933ad133a48d8fb603d1852c670da329df73ef7/68747470733a2f2f67772e616c697061796f626a656374732e636f6d2f6d646e2f726d735f3430326331612f616674732f696d672f412a2d717a6f54704c672d3163414141414141414141414141414152516e4151' style='width:250px;display:inline-block;vertical-align: top;' alt='' />
