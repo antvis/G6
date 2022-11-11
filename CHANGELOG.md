@@ -1,5 +1,10 @@
 # ChangeLog
 
+### 4.7.13
+
+- fix: unexpected move with fitCenter with animation;
+- fix: update modelRect with rendering error, closes: #4041;
+
 ### 4.7.12
 
 - fix: drag-canvas incorrectly stopped by right click;
