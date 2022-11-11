@@ -33,7 +33,6 @@ export default class ViewController {
   public fitCenter(animate?: boolean, animateCfg?: GraphAnimateConfig) {
     const { graph } = this;
     const group: IGroup = graph.get('group');
-    group.resetMatrix();
     const bbox = group.getCanvasBBox();
     if (bbox.width === 0 || bbox.height === 0) return;
     const viewCenter = this.getViewCenter();
