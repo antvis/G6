@@ -6,7 +6,7 @@ const { cloneEvent, isNaN } = Util;
 
 const { abs } = Math;
 const DRAG_OFFSET = 10;
-const ALLOW_EVENTS = ['shift', 'ctrl', 'alt', 'control'];
+const PREVENT_EVENTS = ['shift', 'ctrl', 'alt', 'control'];
 
 export default {
   getDefaultCfg(): object {
@@ -266,10 +266,10 @@ export default {
     if (!code) {
       return;
     }
-    if (ALLOW_EVENTS.indexOf(code.toLowerCase()) > -1) {
-      self.keydown = false;
-    } else {
+    if (PREVENT_EVENTS.indexOf(code.toLowerCase()) > -1) {
       self.keydown = true;
+    } else {
+      self.keydown = false;
     }
   },
   onKeyUp() {
