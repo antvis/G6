@@ -2,4 +2,4 @@
 title: API
 ---
 
-`markdown:docs/api/graphLayout/fruchterman.zh.md`
+<embed src="@/docs/api/graphLayout/fruchterman.zh.md"></embed>

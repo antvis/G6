@@ -1,9 +1,36 @@
+import fs from 'fs'
+import path from 'path'
 import { defineConfig } from 'dumi';
 import { repository, version, homepage } from './package.json';
+import { Extractor, ExtractorConfig } from '@microsoft/api-extractor';
+
+const getExtraLib = () => {
+  try {
+    const extractorConfig = ExtractorConfig.loadFileAndPrepare(
+      path.resolve('./api-extractor.json'),
+    );
+    const extractorResult = Extractor.invoke(extractorConfig, {
+      localBuild: true,
+      showVerboseMessages: true,
+    });
+    if (extractorResult.succeeded) {
+      const typeFilePath = extractorResult.extractorConfig.untrimmedFilePath;
+      if (typeFilePath) {
+        return `declare module '${name}'{
+          ${fs.readFileSync(typeFilePath, `utf8`)}
+        }`;
+      }
+    }
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.warn(`api-extractor warn: ${e.message}`);
+  }
+  return '';
+};
 
 export default defineConfig({
   locales: [{ id: 'zh', name: '中文' }, { id: 'en', name: 'English' }],
-  title: 'G6',                                        // 网站header标题
+  title: 'G6',                                                          // 网站header标题
   favicons: ['https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7svFR6wkPMoAAAAAAAAAAAAADmJ7AQ/original'], // 网站 favicon
   metas: [                                                              // 自定义 meta 标签  
     { name: 'keywords', content: 'G6' },
@@ -56,25 +83,24 @@ export default defineConfig({
         },
       },
       {
-        notPage: true,
         title: {
           zh: '在线工具',
           en: 'Online Tools',
         },
         dropdownItems: [
           {
-            label: {
+            name: {
               zh: 'Graphinsight',
               en: 'Graphinsight'
             },
-            key: 'https://graphinsight.antgroup.com/#/workspace'
+            url: 'https://graphinsight.antgroup.com/#/workspace'
           },
           {
-            label: {
+            name: {
               zh: 'GraphMaker',
               en: 'GraphMaker'
             },
-            key: 'https://render.mybank.cn/p/c/17sfi50vhu80#/home'
+            url: 'https://render.mybank.cn/p/c/17sfi50vhu80#/home'
           },
         ]
       },
@@ -94,20 +120,7 @@ export default defineConfig({
       },
     ],
     ecosystems: [                                                       // 头部的菜单中的「周边生态」
-      {
-        name: {
-          zh: 'G2 官网',
-          en: 'G2 website',
-        },
-        url: 'https://g2.antv.vision',
-      },
-      {
-        name: {
-          zh: 'G6 官网',
-          en: 'G6 website',
-        },
-        url: 'https://g6.antv.vision',
-      }
+
     ],
     docs: [
       // ===========Design===================
@@ -324,14 +337,6 @@ export default defineConfig({
         },
       },
       {
-        slug: 'gallery',
-        icon: 'gallery',
-        title: {
-          zh: '所有图表',
-          en: 'All Demos',
-        },
-      },
-      {
         slug: 'net',
         icon: 'net',
         title: {
@@ -345,14 +350,6 @@ export default defineConfig({
         title: {
           zh: '布局：树图',
           en: 'Layout：Tree Graph',
-        },
-      },
-      {
-        slug: 'graphql',
-        icon: 'graphql',
-        title: {
-          zh: '其他表达形式',
-          en: 'Net Charts',
         },
       },
       {
@@ -404,26 +401,12 @@ export default defineConfig({
         },
       },
     ],
+    mdPlayground: {
+      // 第一个分块的大小
+      splitPaneMainSize: '62%',
+    },
     playground: {
-      devDependencies: {
-        typescript: 'latest',
-      },
-      htmlCodeTemplate: `<!DOCTYPE html>
-        <html>
-          <head>
-            <meta charset='UTF-8'>
-            <title>{{title}}</title>
-          </head>
-          <body>
-            <div id='container' />
-            <script src='https://gw.alipayobjects.com/os/lib/antv/g2/${version}/dist/g2.min.js'></script>
-            <script src='https://gw.alipayobjects.com/os/antv/pkg/_antv.data-set-0.11.1/dist/data-set.js'></script>
-            <script>
-            <!-- 浏览器引入，请使用全局命名空间 G2，如 new Chart() 改为 new G2.Chart，即可运行。 -->
-            {{code}}
-            </script>
-          </body>
-        </html>`,
+      extraLib: getExtraLib(),
     },
     announcement: {
       zh: '',
@@ -446,7 +429,7 @@ export default defineConfig({
             zh: '图表示例',
             en: 'Examples',
           },
-          link: `/examples/tree/compactBox`,
+          link: `/examples`,
         },
         {
           text: {
@@ -561,7 +544,7 @@ export default defineConfig({
           zh: '社交网络分析是图可视化中一个重要的应用场景。随着社交网络越来越流行，人与人、人与组织之间的关系变得越来越复杂，使用传统的分析手段，已经很难满足我们的分析需求。在这种情况下，图分析及图可视化显得愈发重要。',
           en: 'Social network is an important scenario in graph visualization. The relationships become complicate with the development of social network. Graph visualization and analysis do well on these complex cases.'
         },
-        link: `/manual/introduction`,
+        link: `/manual/cases/relations`,
         image:
           'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RYFQSZYewokAAAAAAAAAAABkARQnAQ',
       },
@@ -593,6 +576,9 @@ export default defineConfig({
     ],
   },
   mfsu: false,
+  alias: {
+    '@': __dirname
+  },
   links: [
   ],
   scripts: [

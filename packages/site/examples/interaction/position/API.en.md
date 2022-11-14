@@ -2,4 +2,4 @@
 title: API
 ---
 
-`markdown:docs/api/graphFunc/transform.en.md`
+<embed src="@/docs/api/graphFunc/transform.en.md"></embed>

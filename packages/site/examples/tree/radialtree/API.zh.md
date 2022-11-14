@@ -4,8 +4,8 @@ title: API
 
 ## Dendrogram
 
-`markdown:docs/api/treeGraphLayout/dendrogram.zh.md`
+<embed src="@/docs/api/treeGraphLayout/dendrogram.zh.md"></embed>
 
 ## CompactBox
 
-`markdown:docs/api/treeGraphLayout/compactBox.zh.md`
+<embed src="@/docs/api/treeGraphLayout/compactBox.zh.md"></embed>

@@ -4,8 +4,8 @@ title: API
 
 ## ComboCombined
 
-`markdown:docs/api/graphLayout/comboCombined.en.md`
+<embed src="@/docs/api/graphLayout/comboCombined.en.md"></embed>
 
 ## ComboForce
 
-`markdown:docs/api/graphLayout/comboForce.en.md`
+<embed src="@/docs/api/graphLayout/comboForce.en.md"></embed>

@@ -2,4 +2,4 @@
 title: API
 ---
 
-`markdown:docs/api/graphLayout/dagre.zh.md`
+<embed src="@/docs/api/graphLayout/dagre.zh.md"></embed>

@@ -5,4 +5,4 @@ order: 0
 
 **🛠The English Version is in Prograss🛠**
 
-`markdown:docs/design/component/compoenentOverview.zh.md`
+<embed src="@/docs/design/component/componentOverview.zh.md"></embed>
