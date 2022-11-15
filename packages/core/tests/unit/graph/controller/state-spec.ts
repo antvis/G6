@@ -48,7 +48,7 @@ describe('graph state controller', () => {
     graph.setItemState('node2', 'selected', true);
     expect(itemCount).toBe(2);
     setTimeout(() => {
-      expect(graphCount).toBe(1);
+      expect(graphCount).toBe(2);
       done();
     }, 100);
   });

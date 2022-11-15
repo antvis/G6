@@ -6,46 +6,51 @@ div.id = 'timebar-plugin';
 document.body.appendChild(div);
 // div.style.backgroundColor = '#252728'
 
-const data: GraphData = {
-  nodes: [
-    {
-      id: 'node1',
-      label: 'node1',
-      x: 100,
-      y: 100,
-    },
-    {
-      id: 'node2',
-      label: 'node2',
-      x: 150,
-      y: 300,
-    },
-  ],
-  edges: [
-    {
-      source: 'node1',
-      target: 'node2',
-    },
-  ],
-};
+const generateData = (nodeNum = 100) => {
+  const data: GraphData = {
+    nodes: [
+      {
+        id: 'node1',
+        label: 'node1',
+        x: 100,
+        y: 100,
+      },
+      {
+        id: 'node2',
+        label: 'node2',
+        x: 150,
+        y: 300,
+      },
+    ],
+    edges: [
+      {
+        source: 'node1',
+        target: 'node2',
+      },
+    ],
+  };
 
-for (let i = 0; i < 100; i++) {
-  const id = `node-${i}`;
-  data.nodes.push({
-    id,
-    label: `node${i}`,
-    date: i,
-    value: Math.round(Math.random() * 300),
-  });
+  for (let i = 0; i < nodeNum; i++) {
+    const id = `node-${i}`;
+    data.nodes.push({
+      id,
+      label: `node${i}`,
+      date: i,
+      value: Math.round(Math.random() * 300),
+    });
 
-  const edgeDate = Math.round(Math.random() * 100);
-  data.edges.push({
-    date: edgeDate,
-    label: `${edgeDate}`,
-    source: `node-${Math.round(Math.random() * 90)}`,
-    target: `node-${Math.round(Math.random() * 90)}`,
-  });
+    const edgeDate = Math.round(Math.random() * 100);
+    data.edges.push({
+      date: edgeDate,
+      label: `${edgeDate}`,
+      source: `node-${Math.floor(Math.random() * nodeNum)}`,
+      target: `node-${Math.floor(Math.random() * nodeNum)}`,
+    });
+  }
+  return data;
 }
+
+const data = generateData();
 
 describe('timeline filter edges', () => {
   it('timeline filter edges', () => {
@@ -75,6 +80,7 @@ describe('timeline filter edges', () => {
         }
       },
       tick: {
+        data: timeBarData,
         tickLabelFormatter: (d) => {
           const i = d.date;
           const month = i < 30 ? '01' : '02';
@@ -108,6 +114,7 @@ describe('timeline filter edges', () => {
         width: 480,
         fill: '#fff',
         stroke: '#fff',
+        // defaultTimeType: 'single',
         preBtnStyle: {
           fill: '#155EE1',
           stroke: '#155EE1',

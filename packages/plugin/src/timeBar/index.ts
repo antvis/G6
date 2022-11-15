@@ -204,6 +204,29 @@ export default class TimeBar extends Base {
     this.set('fontFamily', fontFamily);
   }
 
+  /**
+   * 触发时间轴播放
+   */
+  public play() {
+    this.togglePlay(true);
+  }
+  /**
+   * 触发时间轴暂停
+   */
+  public pause() {
+    this.togglePlay(false);
+  }
+
+  /**
+   * 时间轴播放状态（播放/暂停）的切换
+   */
+  private togglePlay(play) {
+    const timebar = this.get('timebar');
+    if (!timebar) return;
+    timebar.isPlay = !!play;
+    timebar.changePlayStatus();
+  }
+
   private renderTrend() {
     const {
       width,
@@ -272,6 +295,7 @@ export default class TimeBar extends Base {
         width,
         height: 42,
         padding: 2,
+        controllerCfg,
         ...tick,
       });
     }
@@ -298,7 +322,18 @@ export default class TimeBar extends Base {
   }
 
   private filterData(evt) {
-    const { value } = evt;
+    let { value } = evt;
+    if (!value) {
+      value = [];
+      const type = this._cfgs.type;
+      if (!type || type === 'trend' || type === 'simple') {
+        value[0] = this._cfgs.slider.start;
+        value[1] = this._cfgs.slider.end;
+      } else if (type === 'tick') {
+        value[0] = this._cfgs.tick.start;
+        value[1] = this._cfgs.tick.end;
+      }
+    }
 
     let trendData = null;
     const type = this._cfgs.type;
@@ -350,35 +385,58 @@ export default class TimeBar extends Base {
       const shouldIgnore = this.get('shouldIgnore');
       const minDate = trendData[min].date, maxDate = trendData[max].date;
       if (changeData || changeData === undefined) {
-        let filterNodes = this.cacheGraphData.nodes;
-        let filterEdges = this.cacheGraphData.edges;
-        if (filterItemTypes.includes('node')) {
-          filterNodes = filterNodes.filter((node: any) => {
-            const date = +(getDate?.(node) || node.date);
-            return (date >= minDate && date <= maxDate) || shouldIgnore?.('node', node, { min: minDate, max: maxDate });
-          }
-          );
-          const nodeIds = filterNodes.map((node) => node.id);
-          if (filterEdges) {
-            // 过滤 source 或 target 不在 min 和 max 范围内的边
-            filterEdges = filterEdges.filter((edge) => (
-              (nodeIds.includes(edge.source) && nodeIds.includes(edge.target)) ||
-              shouldIgnore?.('edge', edge, { min: minDate, max: maxDate })
-            ));
-          }
-        }
+        let originNodes = this.cacheGraphData.nodes;
+        let originEdges = this.cacheGraphData.edges;
+        const currentNodeExistMap = {};
+        const currentEdgeExistMap = {};
+        graph.getNodes().forEach(node => currentNodeExistMap[node.getID()] = true);
+        graph.getEdges().forEach(edge => currentEdgeExistMap[edge.getID()] = true);
 
-        if (this.get('filterEdge') || filterItemTypes.includes('edge')) {
-          filterEdges = filterEdges.filter((edge) => {
-            const date = +(getDate?.(edge) || edge.date);
-            return (date >= minDate && date <= maxDate) || shouldIgnore?.('edge', edge, { min: minDate, max: maxDate });
+        if (filterItemTypes.includes('node')) {
+          originNodes.forEach((node: any) => {
+            const date = +(getDate?.(node) || node.date);
+            const hitRange = (date >= minDate && date <= maxDate) || shouldIgnore?.('node', node, { min: minDate, max: maxDate });
+            const exist = currentNodeExistMap[node.id];
+            if (exist && !hitRange) {
+              graph.removeItem(node.id);
+              currentNodeExistMap[node.id] = false;
+            } else if (!exist && hitRange) {
+              graph.addItem('node', node);
+              currentNodeExistMap[node.id] = true;
+            }
+          });
+          // 过滤 source 或 target 不在 min 和 max 范围内的边
+          originEdges?.forEach((edge) => {
+            const shouldShow = (currentNodeExistMap[edge.source] && currentNodeExistMap[edge.target]) || shouldIgnore?.('edge', edge, { min: minDate, max: maxDate });
+            const exist = !!graph.findById(edge.id);
+            if (exist && !shouldShow) {
+              graph.removeItem(edge.id);
+              currentEdgeExistMap[edge.id] = false;
+            } else if (!exist && shouldShow) {
+              graph.addItem('edge', edge);
+              currentEdgeExistMap[edge.id] = true;
+            } else if (!exist) {
+              currentEdgeExistMap[edge.id] = false;
+            }
           });
         }
 
-        graph.changeData({
-          nodes: filterNodes,
-          edges: filterEdges,
-        });
+        if (this.get('filterEdge') || filterItemTypes.includes('edge')) {
+          originEdges?.filter((edge) => {
+            const date = +(getDate?.(edge) || edge.date);
+            const hitRange = (date >= minDate && date <= maxDate) || shouldIgnore?.('edge', edge, { min: minDate, max: maxDate });
+            const endsExist = currentNodeExistMap[edge.source] && currentNodeExistMap[edge.target];
+            const shouldShow = hitRange && endsExist;
+            const exist = currentEdgeExistMap[edge.id];
+            if (exist && !shouldShow) {
+              currentEdgeExistMap[edge.id] = false;
+              graph.removeItem(edge.id);
+            } else if (!exist && shouldShow) {
+              currentEdgeExistMap[edge.id] = true;
+              graph.addItem('edge', edge);
+            }
+          });
+        }
       } else {
         if (filterItemTypes.includes('node')) {
           graph.getNodes().forEach(node => {
@@ -400,7 +458,9 @@ export default class TimeBar extends Base {
             if (date < trendData[min].date || date > trendData[max].date) {
               graph.hideItem(edge);
             } else {
-              graph.showItem(edge);
+              const sourceVisible = edge.getSource().isVisible();
+              const targetVisible = edge.getTarget().isVisible();
+              if (sourceVisible && targetVisible) graph.showItem(edge);
             }
           });
         }
@@ -408,40 +468,40 @@ export default class TimeBar extends Base {
     }
   }
 
-  private initEvent() {
-    let start = 0;
-    let end = 0;
-    const type = this._cfgs.type;
-    if (!type || type === 'trend' || type === 'simple') {
-      start = this._cfgs.slider.start;
-      end = this._cfgs.slider.end;
-    } else if (type === 'tick') {
-      start = this._cfgs.tick.start;
-      end = this._cfgs.tick.end;
-    }
+  private afterrenderListener = e => this.filterData({});
+  private valueChangeListener = throttle(
+    e => this.filterData(e), // 不可简写，否则 filterData 中 this 指针不对
+    200,
+    {
+      trailing: true,
+      leading: true,
+    },
+  ) as any;
 
+  public changeData = e => {
     const graph: IGraph = this.get('graph');
-    graph.on('afterrender', (e) => {
-      this.filterData({ value: [start, end] });
-    });
+    this.cacheGraphData = graph.get('data');
+    this.filterData({});
+  }
 
-    // 时间轴的值发生改变的事件
+  private initEvent() {
+    const graph: IGraph = this.get('graph');
+    // 图数据变化，更新时间轴的原始数据
+    graph.on('afterchangedata', this.changeData);
+    // 图渲染，触发时间轴筛选
+    graph.on('afterrender', this.afterrenderListener);
+    // 时间轴的值发生改变的事件，触发筛选
     graph.on(
       VALUE_CHANGE,
-      throttle(
-        (e) => {
-          this.filterData(e);
-        },
-        200,
-        {
-          trailing: true,
-          leading: true,
-        },
-      ) as any,
+      this.valueChangeListener
     );
   }
 
   public destroy() {
+    const graph: IGraph = this.get('graph');
+    graph.off('afterchangedata', this.changeData);
+    graph.off('afterrender', this.afterrenderListener);
+    graph.off(VALUE_CHANGE, this.valueChangeListener);
     const timebar = this.get('timebar');
     if (timebar && timebar.destory) {
       timebar.destory();

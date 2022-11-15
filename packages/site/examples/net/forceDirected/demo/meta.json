@@ -5,6 +5,14 @@
   },
   "demos": [
     {
+      "filename": "basicForce2.js",
+      "title": {
+        "zh": "Force2 聚类及固定拖拽节点",
+        "en": "Basic Force2 Layout with dragging"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ce2WSIlo_fcAAAAAAAAAAABkARQnAQ"
+    },
+    {
       "filename": "basicForceDirected.js",
       "title": {
         "zh": "基本力导向布局及节点拖拽",

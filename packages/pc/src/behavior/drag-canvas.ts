@@ -23,8 +23,8 @@ export default {
   },
   getEvents(): { [key in G6Event]?: string } {
     return {
-      'dragstart': 'onMouseDown',
-      'drag': 'onMouseMove',
+      'mousedown': 'onMouseDown',
+      'drag': 'onDragMove',
       'dragend': 'onMouseUp',
       'canvas:click': 'onMouseUp',
       'keyup': 'onKeyUp',
@@ -95,9 +95,24 @@ export default {
       return;
     }
     e.preventDefault();
-    self.onMouseDown(e);
+    this.mousedown = true;
+    self.onDragStart(e);
   },
   onMouseDown(e: IG6GraphEvent) {
+    this.mousedown = true;
+  },
+  onDragMove(evt: IG6GraphEvent) {
+    if (!this.mousedown) return;
+    if (!this.dragstart) {
+      // dragstart
+      this.dragstart = true;
+      this.onDragStart(evt);
+    } else {
+      // drag
+      this.onDrag(evt);
+    }
+  },
+  onDragStart(e: IG6GraphEvent) {
     const self = this as any;
     const event = e.originalEvent as MouseEvent;
 
@@ -153,6 +168,13 @@ export default {
         }
       }
     }
+
+    // 绑定浏览器右键监听，触发拖拽结束，结束拖拽时移除
+    if (typeof window !== 'undefined') {
+      const self = this;
+      this.handleDOMContextMenu = (e) => self.onMouseUp(e);
+      document.body.addEventListener('contextmenu', this.handleDOMContextMenu);
+    }
   },
   onTouchMove(e: IG6GraphEvent) {
     const self = this as any;
@@ -166,9 +188,10 @@ export default {
       return;
     }
     e.preventDefault();
-    self.onMouseMove(e);
+    self.onDrag(e);
   },
-  onMouseMove(e: IG6GraphEvent) {
+  onDrag(e: IG6GraphEvent) {
+    if (!this.mousedown) return;
     const { graph } = this;
     if (this.keydown) return;
     const target = e.target;
@@ -200,6 +223,8 @@ export default {
     }
   },
   onMouseUp(e: IG6GraphEvent) {
+    this.mousedown = false;
+    this.dragstart = false;
     const { graph } = this;
 
     if (this.keydown) return;
@@ -254,11 +279,18 @@ export default {
 
     graph.emit('canvas:dragend', e);
     this.endDrag();
+
+    // 结束拖拽时移除浏览器右键监听
+    if (typeof window !== 'undefined') {
+      document.body.removeEventListener('contextmenu', this.handleDOMContextMenu);
+    }
   },
   endDrag() {
     this.origin = null;
     this.dragging = false;
     this.dragbegin = false;
+    this.mousedown = false;
+    this.dragstart = false;
   },
   onKeyDown(e: KeyboardEvent) {
     const self = this as any;

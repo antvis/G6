@@ -688,9 +688,17 @@ TimeBar 插件暴露除了几个时机事件，方便用户监听内部状态的
 | timebarstartplay | 时间轴开始播放时触发 |
 | timebarendplay | 时间轴播放结束时触发 |
 
-### 参数定义
+### API
 
-#### 接口定义
+#### play
+
+使用 API 控制时间轴开始播放。e.g. `timebar.play()`。
+
+#### pause
+
+使用 API 控制时间轴暂停播放。e.g. `timebar.pause()`。
+
+### 接口定义
 
 完整的 TimeBar 的接口定义如下：
 
@@ -725,7 +733,7 @@ interface TimeBarConfig extends IPluginBaseConfig {
   // [v4.5.1 起废弃，由 filterItemTypes 代替] 是否过滤边，若为 true，则需要配合边数据上有 date 字段，过滤节点同时将不满足 date 在选中范围内的边也过滤出去；若为 false，则仅过滤节点以及两端节点都被过滤出去的边
   readonly filterEdge?: boolean;
 
-  // [v4.5.1 起支持] 是否通过 graph.changeData 改变图上数据从而达到筛选目的。若为 false 则将使用 graph.hideItem 和 graph.showItem 以隐藏/展示图上元素从而达到筛选目的
+  // [v4.5.1 起支持] 是否通过增删图上元素（graph.addItem graph.removeItem）从而达到筛选目的。若为 false 则将使用 graph.hideItem 和 graph.showItem 以隐藏/展示图上元素从而达到筛选目的
   readonly changeData?: boolean;
 
   // TimeBar 时间范围变化时的回调函数，当不定义该函数时，时间范围变化时默认过滤图上的数据
@@ -955,6 +963,9 @@ type ControllerCfg = Partial<{
 
   /** ‘播放’ 与 ‘暂停’ 按钮的样式，同时可以为其配置 scale、offsetX、offsetY 单独控制该控制器的缩放以及平移 */
   readonly playBtnStyle?: ShapeStyle;
+
+  /** [v4.7.11 起支持配置] 时间播放类型默认值，不配置则为 'range' 即‘时间范围’ */
+  readonly defaultTimeType?: 'single' | 'range';
 
   /** ‘速度控制器’ 的样式，包括速度的指针、速度指示滚轮（横线）、文本的样式，同时可以为 speedControllerStyle 及其子图形样式配置 scale、offsetX、offsetY 单独控制该控制器及其子图形的缩放以及平移） */
   readonly speedControllerStyle?: {

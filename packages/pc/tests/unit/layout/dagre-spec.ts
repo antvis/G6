@@ -513,6 +513,86 @@ describe('dagre layout with combo', () => {
       graph.destroy();
     })
   });
+  it.only('layout failed', () => {
+    const tdata = {
+      nodes: [
+        {
+          id: "8a804cc2816b0a9a018170412b180ca7-8a804cc282e8aa680182ed506db90670",
+          layer: 0,
+          name: "根节点",
+        },
+        {
+          id: "8a804cc283ea578c0183ee15132910ca",
+          layer: 1,
+          name: "中间件服务器（123.11.1.1）",
+        },
+        {
+          id: "8a804cc283f44c940183f44fde860434",
+          layer: 2,
+          name: "66redis",
+        },
+        {
+          comboId: "8a804cc283f44c940183f4519e74074e",
+          id: "8a804cc283f44c940183f4519e740752",
+          layer: 2,
+          name: "集群nacos测试(节点2)",
+        },
+        {
+          comboId: "8a804cc283f44c940183f4519e74074e",
+          id: "8a804cc283f44c940183f4519e980754",
+          layer: 2,
+          name: "集群nacos测试(节点3)",
+        },
+        {
+          comboId: "8a804cc283f44c940183f4519e74074e",
+          id: "8a804cc28407ea7301840dfcbcf91f4f",
+          layer: 2,
+          name: "集群nacos测试(节点1)",
+        }
+      ],
+      combos: [
+        { id: "8a804cc283f44c940183f4519e74074e", "label": "集群nacos测试" }
+      ],
+      edges: [
+        {
+          source: "8a804cc2816b0a9a018170412b180ca7-8a804cc282e8aa680182ed506db90670",
+          target: "8a804cc283ea578c0183ee15132910ca"
+        },
+        {
+          source: "8a804cc283ea578c0183ee15132910ca",
+          target: "8a804cc283f44c940183f44fde860434"
+        },
+        {
+          source: "8a804cc283ea578c0183ee15132910ca",
+          target: "8a804cc283f44c940183f44fde860434"
+        },
+        {
+          source: "8a804cc283ea578c0183ee15132910ca",
+          target: "8a804cc283f44c940183f4519e740752"
+        }
+      ]
+    };
+    const graph = new G6.Graph({
+      container: div,
+      width: 800,
+      height: 500,
+      fitView: true,
+      fitViewPadding: 50,
+      layout: {
+        type: 'dagre',
+        controlPoints: true,
+        sortByCombo: true,
+        ranksep: 20,
+        nodesep: 10,
+      },
+      modes: {
+        default: ['drag-combo', 'drag-canvas', 'drag-node'],
+      },
+    });
+    graph.data(tdata);
+    graph.render();
+    console.log('graph.get', graph.getNodes())
+  });
 });
 
 describe('dagre layout', () => {
