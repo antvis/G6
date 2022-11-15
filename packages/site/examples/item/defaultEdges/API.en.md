@@ -4,12 +4,12 @@ title: API
 
 # Edge Configurations
 
-`markdown:docs/api/Items/edgeProperties.zh.md`
+<embed src="@/docs/api/Items/edgeProperties.zh.md"></embed>
 
 # Common Functions for Item
 
-`markdown:docs/api/Items/itemMethods.en.md`
+<embed src="@/docs/api/Items/itemMethods.en.md"></embed>
 
 # Edge Functions
 
-`markdown:docs/api/Items/edgeMethods.en.md`
+<embed src="@/docs/api/Items/edgeMethods.en.md"></embed>

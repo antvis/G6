@@ -2,4 +2,4 @@
 title: API
 ---
 
-`markdown:docs/api/Algorithm.en.md`
+<embed src="@/docs/api/Algorithm.en.md"></embed>

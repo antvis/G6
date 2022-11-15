@@ -4,8 +4,8 @@ title: API
 
 # Item Operations
 
-`markdown:docs/api/graphFunc/item.en.md`
+<embed src="@/docs/api/graphFunc/item.en.md"></embed>
 
 # Combo Operations
 
-`markdown:docs/api/graphFunc/combo.en.md`
+<embed src="@/docs/api/graphFunc/combo.en.md"></embed>

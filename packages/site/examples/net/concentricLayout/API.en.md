@@ -2,4 +2,4 @@
 title: API
 ---
 
-`markdown:docs/api/graphLayout/concentric.en.md`
+<embed src="@/docs/api/graphLayout/concentric.en.md"></embed>

@@ -2,4 +2,4 @@
 title: API
 ---
 
-`markdown:docs/api/registerItem.en.md`
+<embed src="@/docs/api/registerItem.en.md"></embed>

@@ -2,4 +2,4 @@
 title: API
 ---
 
-`markdown:docs/api/Plugins.zh.md`
+<embed src="@/docs/api/Plugins.zh.md"></embed>

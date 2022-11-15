@@ -5,4 +5,4 @@ order: 5
 
 **🛠The English Version is in Prograss🛠**
 
-`markdown:docs/design/template.zh.md`
+<embed src="@/docs/design/template.zh.md"></embed>

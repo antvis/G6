@@ -2,4 +2,4 @@
 title: API
 ---
 
-`markdown:docs/api/treeGraphLayout/indented.en.md`
+<embed src="@/docs/api/treeGraphLayout/indented.en.md"></embed>

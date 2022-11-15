@@ -111,4 +111,4 @@ const graph = new G6.Graph({
 
 ## AI 智能布局推荐
 
-`markdown:docs/manual/middle/layout/ai-layout.zh.md`
+<embed src="@/docs/manual/middle/layout/ai-layout.zh.md"></embed>
