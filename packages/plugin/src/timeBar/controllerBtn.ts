@@ -85,6 +85,10 @@ const DEFAULT_CONTROLLER_CONFIG = {
 
 const SPEED_CONTROLLER_OFFSET = 110;
 const TOGGLE_MODEL_OFFSET = 50;
+export const TIME_TYPE = {
+  SINGLE: 'single' as 'single',
+  RANGE: 'range' as 'range'
+}
 
 export type ControllerCfg = Partial<{
   readonly group: IGroup;
@@ -141,6 +145,8 @@ export type ControllerCfg = Partial<{
   readonly timePointControllerText?: string;
   /** 播放时间类型切换器单一文本时的文本，默认为‘时间范围’ */
   readonly timeRangeControllerText?: string;
+  /** 时间播放类型默认值，不配置则为 'range' 即‘时间范围’ */
+  readonly defaultTimeType?: 'single' | 'range';
 }>;
 
 export default class ControllerBtn {
@@ -189,7 +195,7 @@ export default class ControllerBtn {
     });
     this.speedAxisY = [];
     this.currentSpeed = this.controllerCfg.speed;
-    this.currentType = 'range';
+    this.currentType = this.controllerCfg.defaultTimeType || TIME_TYPE.RANGE;
     this.fontFamily = cfg.fontFamily || 'Arial, sans-serif';
     this.init();
   }
@@ -429,7 +435,7 @@ export default class ControllerBtn {
   }
 
   private renderToggleTime() {
-    const { width } = this.controllerCfg;
+    const { width, defaultTimeType } = this.controllerCfg;
 
     const timeTypeControllerStyle = {
       ...DEFAULT_TIMETYPE_CONTROLLER_STYLE,
@@ -449,13 +455,14 @@ export default class ControllerBtn {
       name: 'toggle-group',
     });
 
+    const isChecked = defaultTimeType === TIME_TYPE.SINGLE;
     this.toggleGroup.addShape('rect', {
       attrs: {
         x: width - TOGGLE_MODEL_OFFSET,
         y: this.speedAxisY[0] + 3.5,
         ...box,
       },
-      isChecked: false,
+      isChecked,
       name: 'toggle-model',
     });
 
@@ -472,17 +479,17 @@ export default class ControllerBtn {
       name: 'check-icon'
     });
 
-    this.checkedIcon.hide();
+    if (!isChecked) this.checkedIcon.hide();
 
     this.checkedText = this.toggleGroup.addShape('text', {
       attrs: {
-        text: this.controllerCfg?.timePointControllerText || '单一时间',
+        text: isChecked ? this.controllerCfg?.timeRangeControllerText || '时间范围' : this.controllerCfg?.timePointControllerText || '单一时间',
         x: width - TOGGLE_MODEL_OFFSET + 15,
         y: this.speedAxisY[0] + 4,
         fontFamily:
           typeof window !== 'undefined'
             ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
-              'Arial, sans-serif'
+            'Arial, sans-serif'
             : 'Arial, sans-serif',
         ...text,
       } as any,
@@ -558,11 +565,11 @@ export default class ControllerBtn {
         if (!isChecked) {
           this.checkedIcon.show();
           this.checkedText.attr('text', this.controllerCfg?.timeRangeControllerText || '时间范围');
-          this.currentType = 'single';
+          this.currentType = TIME_TYPE.SINGLE;
         } else {
           this.checkedIcon.hide();
           this.checkedText.attr('text', this.controllerCfg?.timePointControllerText || '单一时间');
-          this.currentType = 'range';
+          this.currentType = TIME_TYPE.RANGE;
         }
         evt.target.set('isChecked', !isChecked);
         this.group.emit(TIMEBAR_CONFIG_CHANGE, {

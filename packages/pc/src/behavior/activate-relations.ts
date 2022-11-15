@@ -1,4 +1,5 @@
 import { G6Event, IG6GraphEvent, INode } from '@antv/g6-core';
+import { throttle } from '@antv/util';
 
 export default {
   getDefaultCfg(): object {
@@ -67,134 +68,178 @@ export default {
     self.clearActiveState(e);
   },
   setAllItemStates(e: IG6GraphEvent) {
-    const item: INode = e.item as INode;
-    const graph = this.graph;
-    this.item = item;
-    if (!this.shouldUpdate(e.item, { event: e, action: 'activate' })) {
-      return;
-    }
-    const self = this;
-    const activeState = this.activeState;
-    const inactiveState = this.inactiveState;
-    const nodes = graph.getNodes();
-    const combos = graph.getCombos();
-    const edges = graph.getEdges();
-    const vEdges = graph.get('vedges');
-    const nodeLength = nodes.length;
-    const comboLength = combos.length;
-    const edgeLength = edges.length;
-    const vEdgeLength = vEdges.length;
-
-    for (let i = 0; i < nodeLength; i++) {
-      const node = nodes[i];
-      const hasSelected = node.hasState('selected');
-      if (self.resetSelected) {
-        if (hasSelected) {
-          graph.setItemState(node, 'selected', false);
-        }
-      }
-      graph.setItemState(node, activeState, false);
-      if (inactiveState) {
-        graph.setItemState(node, inactiveState, true);
-      }
-    }
-    for (let i = 0; i < comboLength; i++) {
-      const combo = combos[i];
-      const hasSelected = combo.hasState('selected');
-      if (self.resetSelected) {
-        if (hasSelected) {
-          graph.setItemState(combo, 'selected', false);
-        }
-      }
-      graph.setItemState(combo, activeState, false);
-      if (inactiveState) {
-        graph.setItemState(combo, inactiveState, true);
-      }
-    }
-
-    for (let i = 0; i < edgeLength; i++) {
-      const edge = edges[i];
-      graph.setItemState(edge, activeState, false);
-      if (inactiveState) {
-        graph.setItemState(edge, inactiveState, true);
-      }
-    }
-
-    for (let i = 0; i < vEdgeLength; i++) {
-      const vEdge = vEdges[i];
-      graph.setItemState(vEdge, activeState, false);
-      if (inactiveState) {
-        graph.setItemState(vEdge, inactiveState, true);
-      }
-    }
-
-    if (inactiveState) {
-      graph.setItemState(item, inactiveState, false);
-    }
-    graph.setItemState(item, activeState, true);
-
-    const rEdges = item.getEdges();
-    const rEdgeLegnth = rEdges.length;
-    for (let i = 0; i < rEdgeLegnth; i++) {
-      const edge = rEdges[i];
-      let otherEnd: INode;
-      if (edge.getSource() === item) {
-        otherEnd = edge.getTarget();
-      } else {
-        otherEnd = edge.getSource();
-      }
-      if (inactiveState) {
-        graph.setItemState(otherEnd, inactiveState, false);
-      }
-      graph.setItemState(otherEnd, activeState, true);
-      graph.setItemState(edge, inactiveState, false);
-      graph.setItemState(edge, activeState, true);
-      edge.toFront();
-    }
-    graph.emit('afteractivaterelations', { item: e.item, action: 'activate' });
+    clearTimeout(this.timer);
+    this.throttleSetAllItemStates(e, this);
   },
   clearActiveState(e: any) {
-    const self = this;
-    const graph = self.get('graph');
-    if (!self.shouldUpdate(e.item, { event: e, action: 'deactivate' })) {
-      return;
-    }
-
-    const activeState = this.activeState;
-    const inactiveState = this.inactiveState;
-
-    const autoPaint = graph.get('autoPaint');
-    graph.setAutoPaint(false);
-    const nodes = graph.getNodes() || [];
-    const combos = graph.getCombos() || [];
-    const edges = graph.getEdges() || [];
-    const vEdges = graph.get('vedges') || [];
-    const nodeLength = nodes.length;
-    const comboLength = combos.length;
-    const edgeLength = edges.length;
-    const vEdgeLength = vEdges.length;
-
-    for (let i = 0; i < nodeLength; i++) {
-      const node = nodes[i];
-      graph.clearItemStates(node, [activeState, inactiveState]);
-    }
-    for (let i = 0; i < comboLength; i++) {
-      const combo = combos[i];
-      graph.clearItemStates(combo, [activeState, inactiveState]);
-    }
-    for (let i = 0; i < edgeLength; i++) {
-      const edge = edges[i];
-      graph.clearItemStates(edge, [activeState, inactiveState, 'deactivate']);
-    }
-    for (let i = 0; i < vEdgeLength; i++) {
-      const vEdge = vEdges[i];
-      graph.clearItemStates(vEdge, [activeState, inactiveState, 'deactivate']);
-    }
-    graph.paint();
-    graph.setAutoPaint(autoPaint);
-    graph.emit('afteractivaterelations', {
-      item: e.item || self.get('item'),
-      action: 'deactivate',
-    });
+    // avoid clear state frequently, it costs a lot since all the items' states on the graph need to be cleared
+    this.timer = setTimeout(() => {
+      this.throttleClearActiveState(e, this);
+    }, 50)
   },
+  throttleSetAllItemStates: throttle(
+    (e, self) => {
+      const item: INode = e.item as INode;
+      const graph = self.graph;
+      if (!graph || graph.destroyed) return;
+      self.item = item;
+      if (!self.shouldUpdate(e.item, { event: e, action: 'activate' })) {
+        return;
+      }
+      const activeState = self.activeState;
+      const inactiveState = self.inactiveState;
+      const nodes = graph.getNodes();
+      const combos = graph.getCombos();
+      const edges = graph.getEdges();
+      const vEdges = graph.get('vedges');
+      const nodeLength = nodes.length;
+      const comboLength = combos.length;
+      const edgeLength = edges.length;
+      const vEdgeLength = vEdges.length;
+      const inactiveItems = self.inactiveItems || {};
+      const activeItems = self.activeItems || {};
+
+      for (let i = 0; i < nodeLength; i++) {
+        const node = nodes[i];
+        const nodeId = node.getID();
+        const hasSelected = node.hasState('selected');
+        if (self.resetSelected) {
+          if (hasSelected) {
+            graph.setItemState(node, 'selected', false);
+          }
+        }
+        if (activeItems[nodeId]) {
+          graph.setItemState(node, activeState, false);
+          delete activeItems[nodeId];
+        }
+        if (inactiveState && !inactiveItems[nodeId]) {
+          graph.setItemState(node, inactiveState, true);
+          inactiveItems[nodeId] = node;
+        }
+      }
+      for (let i = 0; i < comboLength; i++) {
+        const combo = combos[i];
+        const comboId = combo.getID();
+        const hasSelected = combo.hasState('selected');
+        if (self.resetSelected) {
+          if (hasSelected) {
+            graph.setItemState(combo, 'selected', false);
+          }
+        }
+        if (activeItems[comboId]) {
+          graph.setItemState(combo, activeState, false);
+          delete activeItems[comboId];
+        }
+        if (inactiveState && !inactiveItems[comboId]) {
+          graph.setItemState(combo, inactiveState, true);
+          inactiveItems[comboId] = combo;
+        }
+      }
+
+      for (let i = 0; i < edgeLength; i++) {
+        const edge = edges[i];
+        const edgeId = edge.getID();
+        if (activeItems[edgeId]) {
+          graph.setItemState(edge, activeState, false);
+          delete activeItems[edgeId];
+        }
+        if (inactiveState && !inactiveItems[edgeId]) {
+          graph.setItemState(edge, inactiveState, true);
+          inactiveItems[edgeId] = edge;
+        }
+      }
+
+      for (let i = 0; i < vEdgeLength; i++) {
+        const vEdge = vEdges[i];
+        const vEdgeId = vEdge.getID();
+        if (activeItems[vEdgeId]) {
+          graph.setItemState(vEdge, activeState, false);
+          delete activeItems[vEdgeId];
+        }
+        if (inactiveState && !inactiveItems[vEdgeId]) {
+          graph.setItemState(vEdge, inactiveState, true);
+          inactiveItems[vEdgeId] = vEdge;
+        }
+      }
+
+      if (inactiveState) {
+        graph.setItemState(item, inactiveState, false);
+        delete inactiveItems[item.getID()];
+      }
+      if (!activeItems[item.getID()]) {
+        graph.setItemState(item, activeState, true);
+        activeItems[item.getID()] = item;
+      }
+
+      const rEdges = item.getEdges();
+      const rEdgeLegnth = rEdges.length;
+      for (let i = 0; i < rEdgeLegnth; i++) {
+        const edge = rEdges[i];
+        const edgeId = edge.getID();
+        let otherEnd: INode;
+        if (edge.getSource() === item) {
+          otherEnd = edge.getTarget();
+        } else {
+          otherEnd = edge.getSource();
+        }
+        const otherEndId = otherEnd.getID();
+        if (inactiveState && inactiveItems[otherEndId]) {
+          graph.setItemState(otherEnd, inactiveState, false);
+          delete inactiveItems[otherEndId];
+        }
+        if (!activeItems[otherEndId]) {
+          graph.setItemState(otherEnd, activeState, true);
+          activeItems[otherEndId] = otherEnd;
+        }
+        if (inactiveItems[edgeId]) {
+          graph.setItemState(edge, inactiveState, false);
+          delete inactiveItems[edgeId];
+        }
+        if (!activeItems[edgeId]) {
+          graph.setItemState(edge, activeState, true);
+          activeItems[edgeId] = edge;
+        }
+        edge.toFront();
+      }
+      self.activeItems = activeItems;
+      self.inactiveItems = inactiveItems;
+      graph.emit('afteractivaterelations', { item: e.item, action: 'activate' });
+    },
+    50,
+    {
+      trailing: true,
+      leading: true
+    }
+  ),
+  throttleClearActiveState: throttle(
+    (e, self) => {
+      const graph = self.get('graph');
+      if (!graph || graph.destroyed) return;
+      if (!self.shouldUpdate(e.item, { event: e, action: 'deactivate' })) return;
+
+      const activeState = self.activeState;
+      const inactiveState = self.inactiveState;
+
+      const activeItems = self.activeItems || {};
+      const inactiveItems = self.inactiveItems || {};
+
+      Object.values(activeItems).forEach(item => {
+        graph.clearItemStates(item, activeState);
+      });
+      Object.values(inactiveItems).forEach(item => {
+        graph.clearItemStates(item, inactiveState);
+      });
+      self.activeItems = {};
+      self.inactiveItems = {};
+      graph.emit('afteractivaterelations', {
+        item: e.item || self.get('item'),
+        action: 'deactivate',
+      });
+    },
+    50,
+    {
+      trailing: true,
+      leading: true
+    }
+  )
 };

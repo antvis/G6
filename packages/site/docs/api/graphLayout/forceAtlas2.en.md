@@ -1,6 +1,6 @@
 ---
 title: Force Atlas 2
-order: 11
+order: 12
 ---
 
 _It is a new feature of V3.2.2._ FA2 is a kind of force directed layout, which performs better on the convergence and compactness.

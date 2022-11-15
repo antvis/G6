@@ -1,9 +1,9 @@
 ---
-title: GForce
-order: 11
+title: Force2 力导向
+order: 2
 ---
 
-GForce 实现了经典的力导向算法，G6 4.0 支持。能够更加自由地支持设置节点质量、群组中心力等。更重要的是，它支持 GPU 并行计算。
+Force2 实现经典的力导向算法，G6 4.7.0 后支持。沉淀自 graphin-force，能够更加自由地支持设置节点质量、群组中心力等。相比 graphin-force，性能有显著提升。
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lX-qSqDECrIAAAAAAAAAAAAAARQnAQ' width=600 alt='img'/>
 
@@ -13,7 +13,7 @@ const graph = new G6.Graph({
   width: 1000,
   height: 600,
   layout: {
-    type: 'gForce',
+    type: 'force2',
     center: [ 200, 200 ],     // 可选，默认为图的中心
     linkDistance: 50,         // 可选，边长
     nodeStrength: 30,         // 可选
@@ -26,17 +26,20 @@ const graph = new G6.Graph({
       console.log('force layout done');
     },
     workerEnabled: true,      // 可选，开启 web-worker
-    gpuEnabled: true          // 可选，开启 GPU 并行计算，G6 4.0 支持
     ... // 更多参数见下方
   }
 });
 ```
 
-当你希望固定某个节点的位置，不受力的影响时，可以在该节点数据中配置 `fx` 与 `fy` 作为固定的坐标。[GForce 布局固定被拖拽节点位置的 Demo](/zh/examples/net/forceDirected#gForceFix)。
+当你希望固定某个节点的位置，不受力的影响时，可以在该节点数据中配置 `fx` 与 `fy` 作为固定的坐标。[Force2 布局固定被拖拽节点位置的 Demo](/zh/examples/net/forceDirected#force2Fix)。
 
 ## layoutCfg.center
 
 **类型**： Array<br />**示例**：[ 0, 0 ]<br />**默认值**：图的中心<br />**是否必须**：false<br />**说明**：布局的中心
+
+## layoutCfg.animate
+
+**类型**： Boolean<br />**示例**：false<br />**默认值**：：false<br />**是否必须**：false<br />**说明**：是否每次迭代都刷新画布，若为 `true` 则将表现出带有动画逐步布局的效果
 
 ## layoutCfg.linkDistance
 
@@ -76,7 +79,11 @@ const graph = new G6.Graph({
 
 ## layoutCfg.minMovement
 
-**类型**：Number<br />**默认值**：0.5<br />**是否必须**：false<br />**说明**：当一次迭代的平均移动长度小于该值时停止迭代。数字越小，布局越收敛，所用时间将越长
+**类型**：Number<br />**默认值**：0.5<br />**是否必须**：false<br />**说明**：当一次迭代的平均/最大/最小（根据`distanceThresholdMode`决定）移动长度小于该值时停止迭代。数字越小，布局越收敛，所用时间将越长
+
+## layoutCfg.distanceThresholdMode
+
+**类型**：'mean' | 'max' ｜ 'min'<br />**默认值**：'mean'<br />**是否必须**：false<br />**说明**：`minMovement` 的使用条件，`'mean'` 代表平均移动距离小于 `minMovement` 时停止迭代，`'max'` / `'min'` 代表最大/最小移动距离小于时 `minMovement` 时停时迭代。默认为 `'mean'`
 
 ## layoutCfg.maxIteration
 
@@ -86,9 +93,17 @@ const graph = new G6.Graph({
 
 **类型**：Number<br />**默认值**：0.9<br />**是否必须**：false<br />**说明**：阻尼系数，取值范围 [0, 1]。数字越大，速度降低得越慢
 
+## layoutCfg.interval
+
+**类型**：Number<br />**默认值**：0.02<br />**是否必须**：false<br />**说明**：控制每个迭代节点的移动速度
+
 ## layoutCfg.maxSpeed
 
 **类型**：Number<br />**默认值**：1000<br />**是否必须**：false<br />**说明**：一次迭代的最大移动长度
+
+## layoutCfg.factor
+
+**类型**：Number<br />**默认值**：1<br />**是否必须**：false<br />**说明**：斥力系数，数值越大，斥力越大
 
 ## layoutCfg.coulombDisScale
 
@@ -115,6 +130,56 @@ const graph = new G6.Graph({
 
 **类型**：Number<br />**默认值**：10<br />**是否必须**：false<br />**说明**：中心力大小，指所有节点被吸引到 `center` 的力。数字越大，布局越紧凑
 
+## layoutCfg.centripetalOptions
+
+**类型**：CentripetalOptions（见下文类型说明）<br />**默认值**：见下文<br />**是否必须**：false<br />**说明**：详细配置见下文。向心力配置，包括叶子节点、离散点、其他节点的向心中心及向心力大小
+
+`CentripetalOptions` 类型说明：
+
+| 参数名 | 类型 | 示例 | 默认值 | 说明 |
+| --- | --- | --- | --- | --- |
+| single | number / Function | 2 | 2, | 离散节点（即度数为 0 的节点）受到的向心力大小 |
+| leaf | number / Function | 2 | 2 | 叶子节点（即度数为 1 的节点）受到的向心力大小 |
+| others | number / Function | 1 | 1 | 除离散节点、叶子节点以外的其他节点（即度数 > 1 的节点）受到的向心力大小 |
+| center | Function | (node, nodes, edges) => ({ x: 10, y: 10 }) | 图的中心 | 向心力发出的位置，可根据节点、边的情况返回不同的值 |
+
+`centripetalOptions` 示例：
+
+```
+centripetalOptions: {
+  // single、leaf、others 的函数形式的参数为当前节点数据、所有节点数据、所有边数据
+  single: (node, nodes, edges) => node.field1 || 1,
+  leaf: (node, nodes, edges) => node.field2 || 1,
+  others: (node, nodes, edges) => node.field3|| 1,
+  // 参数为当前节点数据、所有节点数据、所有边数据、画布宽度、画布高度
+  center: (node, nodes, edges, width, height) => {
+    if (node.field4) return { x: width / 2, y: height / 2 };
+    if (node.field5) return { x: node.field6, y: node.field7 };
+    // ...
+  }
+}
+```
+
+## layoutCfg.leafCluster
+
+**类型**：Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否需要叶子结点聚类，若为 `true`，则 centripetalOptions.single 将为 100；centripetalOptions.leaf 将使用 `getClusterNodeStrength` 返回值；getClusterNodeStrength.center 将为叶子节点返回当前所有叶子节点的平均中心
+
+## layoutCfg.clustering
+
+**类型**：Boolean<br />**默认值**：false<br />**是否必须**：false<br />**说明**：是否需要全部节点聚类，若为 `true`，将使用 `nodeClusterBy` 配置的节点数据中的字段作为聚类依据。 centripetalOptions.single、centripetalOptions.leaf、centripetalOptions.others 将使用 `getClusterNodeStrength` 返回值；leaf、centripetalOptions.center 将使用当前节点所属聚类中所有节点的平均中心
+
+## layoutCfg.nodeClusterBy
+
+**类型**：String<br />**默认值**：undefined<br />**是否必须**：false<br />**说明**：指定节点数据中的字段名称作为节点聚类的依据，`clustering` 为 `true` 时生效，自动生成 `centripetalOptions`，可配合 `clusterNodeStrength` 使用
+
+## layoutCfg.clusterNodeStrength
+
+**类型**：Number | Function<br />**默认值**：20<br />**是否必须**：false<br />**说明**：配合 `clustering` 和 `nodeClusterBy` 使用，指定聚类向心力的大小
+
+## layoutCfg.monitor
+
+**类型**：`(params:{ energy: number, nodes: NodeData[], edges: EdgeData[], iterations: number }) => void`<br />**默认值**：undefined<br />**是否必须**：false<br />**说明**：每个迭代的监控信息回调，`energy` 表示布局的收敛能量。若配置可能带来额外的计算能量性能消耗，不配置则不计算
+
 ## layoutCfg.onTick
 
 **类型**：Function<br />**默认值**：{}<br />**是否必须**：false<br />**说明**：每一次迭代的回调函数
@@ -127,7 +192,3 @@ const graph = new G6.Graph({
 
 **类型**: Boolean<br />**默认值**: false<br />**是否必须**: false<br />**说明**: 是否启用 web-worker 以防布局计算时间过长阻塞页面交互。
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> `workerEnabled: true` 时，不支持所有函数类型的参数。
-
-## layoutCfg.gpuEnabled
-
-**类型**: Boolean<br />**默认值**: false<br />**是否必须**: false<br />**说明**: 是否启用 GPU 并行计算。若用户的机器或浏览器不支持 GPU 计算，将会自动降级为 CPU 计算。自 G6 4.0 起支持，性能提升概览： <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*4ogTQKrWhIkAAAAAAAAAAAAAARQnAQ' width='80%' alt=''/>

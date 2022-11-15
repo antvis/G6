@@ -1,4 +1,4 @@
-import { mix, isString } from '@antv/util';
+import { mix, isString, deepMix } from '@antv/util';
 import { IGroup, IShape } from '@antv/g-base';
 import {
   registerNode,
@@ -7,6 +7,7 @@ import {
   ShapeStyle,
   ShapeOptions,
   BaseGlobal as Global,
+  UpdateType,
 } from '@antv/g6-core';
 
 registerNode(
@@ -530,6 +531,16 @@ registerNode(
       }
 
       (this as any).updateLinkPoints(cfg, group);
+    },
+    getOptions(cfg: NodeConfig, updateType?: UpdateType): NodeConfig {
+      if (updateType === 'move') return cfg;
+      // different from baseShape, the config should be mixed when the updateType is not 'move'
+      return deepMix(
+        {},
+        this.options,
+        this.getCustomConfig(cfg) || {},
+        cfg,
+      );
     },
   },
   'single-node',

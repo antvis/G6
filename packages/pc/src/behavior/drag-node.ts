@@ -30,9 +30,9 @@ export default {
   },
   getEvents(): { [key in G6Event]?: string } {
     return {
-      'node:dragstart': 'onDragStart',
-      'node:drag': 'onDrag',
-      'node:dragend': 'onDragEnd',
+      'node:mousedown': 'onMouseDown', // G's dragstart event is not triggered sometimes when the drag events are not finished properly. Listen to mousedown and drag instead of dragstart
+      'drag': 'onDragMove', // global drag, mouseup, and dragend to avoid mouse moving too fast to go out of a node while draging
+      'dragend': 'onDragEnd',
       'combo:dragenter': 'onDragEnter',
       'combo:dragleave': 'onDragLeave',
       'combo:drop': 'onDropCombo',
@@ -54,11 +54,11 @@ export default {
     }
     return true;
   },
-  onTouchStart(e: IG6GraphEvent) {
-    if (!e.item) return;
+  onTouchStart(evt: IG6GraphEvent) {
+    if (!evt.item) return;
     const self = this;
     try {
-      const touches = (e.originalEvent as TouchEvent).touches;
+      const touches = (evt.originalEvent as TouchEvent).touches;
       const event1 = touches[0];
       const event2 = touches[1];
 
@@ -66,11 +66,16 @@ export default {
         return;
       }
 
-      e.preventDefault();
+      evt.preventDefault();
     } catch (e) {
       console.warn('Touch original event not exist!');
     }
-    self.onDragStart(e);
+    this.mousedown = {
+      item: evt.item,
+      target: evt.target
+    };
+    this.dragstart = true;
+    self.onDragStart(evt);
   },
   onTouchMove(e: IG6GraphEvent) {
     const self = this;
@@ -91,16 +96,43 @@ export default {
     self.onDrag(e);
   },
   /**
+   * cache the manipulated item and target, since drag and dragend are global events but not node:*
+   * @param evt event param
+   */
+  onMouseDown(evt: IG6GraphEvent) {
+    this.mousedown = {
+      item: evt.item,
+      target: evt.target
+    };
+  },
+  /**
+   * trigger dragstart/drag by mousedown and drag events
+   * @param evt event param
+   */
+  onDragMove(evt: IG6GraphEvent) {
+    if (!this.mousedown) return;
+    if (!this.dragstart) {
+      // dragstart
+      this.dragstart = true;
+      this.onDragStart(evt);
+    } else {
+      // drag
+      this.onDrag({
+        ...evt,
+        ...this.mousedown
+      });
+    }
+  },
+  /**
    * 开始拖动节点
    * @param evt
    */
   onDragStart(evt: IG6GraphEvent) {
     this.currentShouldEnd = true;
-    if (!this.shouldBegin.call(this, evt)) {
+    if (!this.shouldBegin.call(this, { ...evt, ...this.mousedown })) {
       return;
     }
-
-    const item: INode = evt.item as INode;
+    const { item, target } = this.mousedown;
     if (!item || item.destroyed || item.hasLocked()) {
       return;
     }
@@ -112,7 +144,6 @@ export default {
     this.cachedCaptureItems.push(item);
 
     // 如果拖动的target 是linkPoints / anchorPoints 则不允许拖动
-    const { target } = evt;
     if (target) {
       const isAnchorPoint = target.get('isAnchorPoint');
       if (isAnchorPoint) {
@@ -181,6 +212,13 @@ export default {
 
     this.point = {};
     this.originPoint = {};
+
+    // 绑定浏览器右键监听，触发拖拽结束，结束拖拽时移除
+    if (typeof window !== 'undefined') {
+      const self = this;
+      this.handleDOMContextMenu = () => self.onDragEnd();
+      document.body.addEventListener('contextmenu', this.handleDOMContextMenu);
+    }
   },
 
   /**
@@ -188,13 +226,8 @@ export default {
    * @param evt
    */
   onDrag(evt: IG6GraphEvent) {
-    if (!this.origin) {
-      return;
-    }
-
-    if (!this.shouldUpdate.call(this, evt)) {
-      return;
-    }
+    if (!this.mousedown || !this.origin) return;
+    if (!this.shouldUpdate.call(this, evt)) return;
 
     if (this.get('enableDelegate')) {
       this.updateDelegate(evt);
@@ -219,6 +252,8 @@ export default {
    * @param evt
    */
   onDragEnd(evt: IG6GraphEvent) {
+    this.mousedown = false;
+    this.dragstart = false;
     if (!this.origin) {
       return;
     }
@@ -277,6 +312,11 @@ export default {
     this.originPoint = {};
     this.targets.length = 0;
     this.targetCombo = null;
+
+    // 结束拖拽时移除浏览器右键监听
+    if (typeof window !== 'undefined') {
+      document.body.removeEventListener('contextmenu', this.handleDOMContextMenu);
+    }
   },
   /**
    * 拖动过程中将节点放置到 combo 上
@@ -498,18 +538,18 @@ export default {
 
   /**
    * 更新拖动元素时的delegate
-   * @param {Event} e 事件句柄
+   * @param {Event} evt 事件句柄
    * @param {number} x 拖动单个元素时候的x坐标
    * @param {number} y 拖动单个元素时候的y坐标
    */
-  updateDelegate(e) {
+  updateDelegate(evt) {
     const { graph } = this;
     if (!this.delegateRect) {
       // 拖动多个
       const parent = graph.get('group');
       const attrs = deepMix({}, Global.delegateStyle, this.delegateStyle);
 
-      const { x: cx, y: cy, width, height, minX, minY } = this.calculationGroupPosition(e);
+      const { x: cx, y: cy, width, height, minX, minY } = this.calculationGroupPosition(evt);
       this.originPoint = { x: cx, y: cy, width, height, minX, minY };
       // model上的x, y是相对于图形中心的，delegateShape是g实例，x,y是绝对坐标
       this.delegateRect = parent.addShape('rect', {
@@ -525,8 +565,8 @@ export default {
       this.delegate = this.delegateRect;
       this.delegateRect.set('capture', false);
     } else {
-      const clientX = e.x - this.origin.x + this.originPoint.minX;
-      const clientY = e.y - this.origin.y + this.originPoint.minY;
+      const clientX = evt.x - this.origin.x + this.originPoint.minX;
+      const clientY = evt.y - this.origin.y + this.originPoint.minY;
       this.delegateRect.attr({
         x: clientX,
         y: clientY,

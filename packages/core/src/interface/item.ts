@@ -229,6 +229,13 @@ export interface IItemBase {
 
   getUpdateType: (cfg?: ModelConfig) => UpdateType;
 
+  /**
+   * 设置是否开启性能优化模式
+   * 目前影响：节点的状态样式更新是否影响相关边的更新
+   * @param {Boolean} enableOptimize 是否开启
+   */
+  setOptimize: (enableOptimize: boolean) => void;
+
   get: <T = any>(key: string) => T;
   set: <T = any>(key: string, value: T) => void;
 

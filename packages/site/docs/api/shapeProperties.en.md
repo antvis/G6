@@ -402,7 +402,7 @@ The arrow on the start of the path. When `startArrow` is `true`, show a default 
 
 <description> _Boolean | Object_ **optional** </description>
 
-The arrow on the end of the path. When `startArrow` is `true`, show a default arrow on the end of the path. User can custom an arrow by path.
+The arrow on the end of the path. When `endArrow` is `true`, show a default arrow on the end of the path. User can custom an arrow by path.
 
 ### lineAppendWidth
 
