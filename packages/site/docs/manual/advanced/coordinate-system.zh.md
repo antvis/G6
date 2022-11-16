@@ -24,7 +24,7 @@ order: 0
 
 Container DOM 的自身坐标系。假设示例化图时设定 `width` 与 `height` 分别是 550 与 500:
 
-```
+```javascript
 const Graph = new G6.Graph({
   container: 'container',
   width: 550,
@@ -132,14 +132,14 @@ canvasX/canvasY 和 clientX/clientY 坐标系不随图的变换而变化。换�
 
 - clientX/clientY 转 canvasX/canvasY：
 
-```
+```javascript
 const point = graph.getPointByClient(clientX, clientY)
 const canvasXY = graph.getCanvasByPoint(point.x, point.y);
 ```
 
 - canvasX/canvasY 转 clientX/clientY：
 
-```
+```javascript
 const point = graph.getPointByCanvas(canvasX, canvasY)
 const clientXY = graph.getClientByPoint(point.x, point.y);
 ```
@@ -155,7 +155,7 @@ const clientXY = graph.getClientByPoint(point.x, point.y);
 
 如果使用了错误的坐标系来给定悬浮 DOM 元素的位置，将会出现偏移，在图有缩放、平移等变化时，偏移更加严重。在了解如何使用坐标系给悬浮 DOM 定位前，我们先定义一个悬浮 DOM 元素：
 
-```
+```javascript
   const floatDOM = createDom(`
   <div id="test-dom" style="position: absolute; background: #f00; height: 100px; width: 200px">
     floating dom
@@ -167,13 +167,13 @@ const clientXY = graph.getClientByPoint(point.x, point.y);
 
 - 方法一：挂载在 body 上：
 
-```
+```javascript
 document.body.appendChild(floatDOM);
 ```
 
 - 方法二：挂载在 Container DOM 上，即与 canvas 标签同一父容器：
 
-```
+```javascript
 const container = document.getElementById('container') // 假设 Container DOM 的 id 为 container
 container.appendChild(floatDOM);
 ```
@@ -184,7 +184,7 @@ container.appendChild(floatDOM);
 
 - 在点击画布的位置上放置 DOM：
 
-```
+```javascript
 graph.on('canvas:click', event => {
     floatDOM.style.left = event.clientX;
   floatDOM.style.top = event.clientY;
@@ -193,7 +193,7 @@ graph.on('canvas:click', event => {
 
 - 在某个节点的位置上放置 DOM：
 
-```
+```javascript
 const node = graph.getNodes()[0];
 const { x, y } = node.getModel(); // 获得该节点的位置，对应 pointX/pointY 坐标
 const clientXY = graph.getClientByPoint(x, y);
@@ -207,7 +207,7 @@ floatDOM.style.top = clientXY.y;
 
 - 在点击画布的位置上放置 DOM：
 
-```
+```javascript
 graph.on('canvas:click', event => {
     floatDOM.style.marginLeft = event.canvasX;
   floatDOM.style.marginTop = event.canvasY;
@@ -216,7 +216,7 @@ graph.on('canvas:click', event => {
 
 - 在某个节点的位置上放置 DOM：
 
-```
+```javascript
 const node = graph.getNodes()[0];
 const { x, y } = node.getModel(); // 获得该节点的位置，对应 pointX/pointY 坐标
 const canvasXY = graph.getCanvasByPoint(x, y);

@@ -77,7 +77,7 @@ Get the children of the `combo`.
 
 **Usage**
 
-```
+```javascript
 const elements: {
   nodes: INode[],
   combos: ICombo[]

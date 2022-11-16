@@ -11,7 +11,7 @@ The first demo below shows the Tooltip plugin. Instantiate the Tooltip plugin an
 
 The second to the forth demo below show the Tooltip behavior. Tooltip's style can be defined by the CSS with class name `g6-tooltip` as below. For more detail, please refer to [Tooltip Behavior](/en/docs/manual/middle/states/defaultBehavior#tooltip).
 
-```
+```css
 // change the 'g6-tooltip' tobe 'g6-component-tooltip' for plugin type Tooltip
 .g6-tooltip {
     border: 1px solid #e2e2e2;

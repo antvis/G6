@@ -104,7 +104,7 @@ console.log(resultMatches);
 
 **用法**
 
-```
+```javascript
 import G6, { Algorithm } from '@antv/g6'
 const graph = new G6.Graph({
   container: 'container',
@@ -204,7 +204,7 @@ depthFirstSearch(data, 'A', {
 
 **用法**
 
-```
+```javascript
 import G6, { Algorithm } from '@antv/g6'
 const graph = new G6.Graph({
   container: 'container',

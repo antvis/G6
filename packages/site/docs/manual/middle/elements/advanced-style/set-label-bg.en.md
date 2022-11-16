@@ -13,7 +13,7 @@ In G6 3.4.5 version, uses can set the background for nodes or edges through `bac
 
 **Important Hint：** The [PR](https://github.com/antvis/G6/pull/1354) comes from GitHub use @zhanba.
 
-```
+```javascript
 const graph = new G6.Graph({
   // ...
   defaultNode: {

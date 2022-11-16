@@ -143,7 +143,7 @@ Update the hierarchy structure of the combo, such as move a combo into another o
 
 **Usage**
 
-```
+```javascript
 // move combo1 out of its parent combo. combo1 will be in the same hierarchy level as its old parent.
 graph.updateComboTree('combo1')
 

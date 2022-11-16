@@ -11,7 +11,7 @@ order: 8
 
 设置边的背景：
 
-```
+```javascript
 const graph = new G6.Graph({
   // ...
   defaultNode: {
@@ -31,7 +31,7 @@ const graph = new G6.Graph({
 
 设置节点 label 的背景：
 
-```
+```javascript
 const graph = new G6.Graph({
   // ...
   defaultEdge: {
