@@ -15,7 +15,7 @@ order: 6
 
 **用法**
 
-```
+```javascript
 graph.collapseCombo('combo1')
 ```
 
@@ -31,7 +31,7 @@ graph.collapseCombo('combo1')
 
 **用法**
 
-```
+```javascript
 graph.expandCombo('combo1')
 ```
 
@@ -47,7 +47,7 @@ graph.expandCombo('combo1')
 
 **用法**
 
-```
+```javascript
 graph.collapseExpandCombo('combo1')
 ```
 
@@ -64,7 +64,7 @@ graph.collapseExpandCombo('combo1')
 
 **用法**
 
-```
+```javascript
 // 第一个参数为 combo ID
 graph.createCombo('combo1', ['node1', 'node2', 'combo2'])
 
@@ -89,7 +89,7 @@ graph.createCombo({
 
 **用法**
 
-```
+```javascript
 graph.uncombo('combo1')
 ```
 

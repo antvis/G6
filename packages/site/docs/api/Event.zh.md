@@ -11,7 +11,7 @@ order: 12
 
 使用如下形式进行交互事件的监听：
 
-```
+```javascript
 graph.on(eventName, evt => {
   // 一些操作
 })
@@ -144,7 +144,7 @@ Combo 继承所有 Node 事件。
 
 用于监听图的某方法调用前后的时机。使用如下形式进行交互事件的监听：
 
-```
+```javascript
 graph.on(timingEventName, evt => {
   // 一些操作
 })

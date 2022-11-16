@@ -169,7 +169,7 @@ Parameters:
 
 `graphImg` is required when instantiating the Image Minimap.
 
-```
+```javascript
 // Instantiating the Image Minimap
 const imageMinimap = new G6.ImageMinimap({
   width: 200,
@@ -232,7 +232,7 @@ Menu is used to configure the right-click menu on the node.
 
 Use G6 build-in menu by default.
 
-```
+```javascript
 // Instantiate Menu plugin
 const menu = new G6.Menu();
 const graph = new G6.Graph({
@@ -243,7 +243,7 @@ const graph = new G6.Graph({
 
 #### DOM Menu
 
-```
+```javascript
 const menu = new G6.Menu({
   getContent(e) {
     const outDiv = document.createElement('div');
@@ -270,7 +270,7 @@ const graph = new G6.Graph({
 
 #### String Menu
 
-```
+```javascript
 const menu = new G6.Menu({
   getContent(evt) {
     return `<ul>
@@ -319,7 +319,7 @@ ToolBar has the following operations by default:
 
 ToolBar provides some default operations above.
 
-```
+```javascript
 const toolbar = new G6.ToolBar();
 
 const graph = new G6.Graph({
@@ -330,7 +330,7 @@ const graph = new G6.Graph({
 
 #### Custom ToolBar by String
 
-```
+```javascript
 const tc = document.createElement('div');
 tc.id = 'toolbarContainer';
 document.body.appendChild(tc);
@@ -372,7 +372,7 @@ const graph = new G6.Graph({
 
 #### Custom ToolBar by DOM
 
-```
+```javascript
 const toolbar = new G6.ToolBar({
   getContent: () => {
     const outDiv = document.createElement('div');
@@ -500,7 +500,7 @@ Fisheye is designed for focus_context exploration, it keeps the context and the 
 
 Update partial of the configurations of the FishEye instance, including `trigger`, `d`, `r`, `maxR`, `minR`, `maxD`, `minD`, `scaleRBy`, and `scaleDBy`. E.g.
 
-```
+```javascript
 const fisheye = new G6.Fisheye({
   trigger: 'mousemove'
 });
@@ -516,7 +516,7 @@ fisheye.updateParams({
 
 ### Usage
 
-```
+```javascript
 const fisheye = new G6.Fisheye({
   trigger: 'mousemove',
   d: 1.5,
@@ -555,7 +555,7 @@ Edge Filter Lens is designed for edge filtering, the desired edges will be kept 
 
 Update partial of the configurations of the filter lens instance, including `trigger`, `type`, `r`, `maxR`, `minR`, `shouldShow`, `showLabel`, and `scaleRBy`. E.g.
 
-```
+```javascript
 const filterLens = new G6.EdgeFilterLens({
   trigger: 'drag'
 });
@@ -570,7 +570,7 @@ filterLens.updateParams({
 
 ### Usage
 
-```
+```javascript
 const filterLens = new G6.EdgeFilterLens({
   trigger: 'mousemove',
   r: 300,

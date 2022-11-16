@@ -9,7 +9,7 @@ Set the background of the label on Node or Edge.
 
 Set the background of the label on edge：
 
-```
+```javascript
 const graph = new G6.Graph({
   // ...
   defaultNode: {
@@ -29,7 +29,7 @@ const graph = new G6.Graph({
 
 Set the background of the label on node:
 
-```
+```javascript
 const graph = new G6.Graph({
   // ...
   defaultEdge: {

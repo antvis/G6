@@ -171,7 +171,7 @@ Minimap 是用于快速预览和探索图的工具。
 
 实例化 Image Minimap 插件时，`graphImg` 是必要参数。
 
-```
+```javascript
 // 实例化 Image Minimap 插件
 const imageMinimap = new G6.ImageMinimap({
   width: 200,
@@ -234,7 +234,7 @@ Menu 用于配置节点上的右键菜单。
 
 实例化 Menu 插件时，如果不传参数，则使用 G6 默认提供的值，只能展示默认的菜单项，不能进行任何操作。
 
-```
+```javascript
 // 实例化 Menu 插件
 const menu = new G6.Menu();
 const graph = new G6.Graph({
@@ -245,7 +245,7 @@ const graph = new G6.Graph({
 
 #### DOM Menu
 
-```
+```javascript
 const menu = new G6.Menu({
   offsetX: 6,
   offsetX: 10,
@@ -275,7 +275,7 @@ const graph = new G6.Graph({
 
 #### String Menu
 
-```
+```javascript
 const menu = new G6.Menu({
   getContent(evt) {
     return `<ul>
@@ -311,7 +311,7 @@ ToolBar 集成了以下常见的操作：
 ### 配置项
 
 | 名称 | 类型 | 默认值 | 描述 |
-| --- | --- | --- | --- | --- |
+| --- | --- | --- | --- |
 | container | HTMLDivElement | null | ToolBar 容器，如果不设置，则默认使用 canvas 的 DOM 容器 |
 | className | string | null | ToolBar 内容元素的 class 类名 |
 | getContent | (graph?: IGraph) => HTMLDivElement | string | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*7QSRRJwAWxQAAAAAAAAAAABkARQnAQ' width=80 alt='img'/> | ToolBar 内容，支持 DOM 元素或字符串 |
@@ -324,7 +324,7 @@ ToolBar 集成了以下常见的操作：
 
 默认的 ToolBar 提供了撤销、重做、放大等功能。
 
-```
+```javascript
 const toolbar = new G6.ToolBar();
 
 const graph = new G6.Graph({
@@ -335,7 +335,7 @@ const graph = new G6.Graph({
 
 #### 使用 String 自定义 ToolBar 功能
 
-```
+```javascript
 const tc = document.createElement('div');
 tc.id = 'toolbarContainer';
 document.body.appendChild(tc);
@@ -377,7 +377,7 @@ const graph = new G6.Graph({
 
 #### 使用 DOM 自定义 ToolBar 功能
 
-```
+```javascript
 const toolbar = new G6.ToolBar({
   getContent: () => {
     const outDiv = document.createElement('div');
@@ -426,7 +426,7 @@ Tooltip 插件主要用于在节点和边上展示一些辅助信息，G6 4.0 �
 
 #### Dom Tooltip
 
-```
+```javascript
 const tooltip = new G6.Tooltip({
   offsetX: 10,
   offsetY: 20,
@@ -451,7 +451,7 @@ const graph = new G6.Graph({
 
 #### String Tooltip
 
-```
+```javascript
 const tooltip = new G6.Tooltip({
   getContent(e) {
     return `<div style='width: 180px;'>
@@ -487,7 +487,7 @@ Fisheye 鱼眼放大镜是为 focus+context 的探索场景设计的，它能够
 ### 配置项
 
 | 名称 | 类型 | 默认值 | 描述 |
-| --- | --- | --- | --- | --- |
+| --- | --- | --- | --- |
 | trigger | 'mousemove' / 'click' / 'drag' | 'mousemove' | 放大镜的触发事件 |
 | d | Number | 1.5 | 放大系数，数值越大，放大程度越大 |
 | r | Number | 300 | 放大区域的范围半径 |
@@ -507,7 +507,7 @@ Fisheye 鱼眼放大镜是为 focus+context 的探索场景设计的，它能够
 
 用于更新该 FishEye 的部分配置项，包括 `trigger`，`d`，`r`，`maxR`，`minR`，`maxD`，`minD`，`scaleRBy`，`scaleDBy`。例如：
 
-```
+```javascript
 const fisheye = new G6.Fisheye({
   trigger: 'mousemove'
 });
@@ -523,7 +523,7 @@ fisheye.updateParams({
 
 ### 用法
 
-```
+```javascript
 const fisheye = new G6.Fisheye({
   trigger: 'mousemove',
   d: 1.5,
@@ -562,7 +562,7 @@ EdgeFilterLens 边过滤镜可以将关注的边保留在过滤镜范围内，�
 
 用于更新该过滤镜的部分配置项，包括 `trigger`，`type`，`r`，`maxR`，`minR`，`scaleRBy`，`showLabel`，`shouldShow`。例如：
 
-```
+```javascript
 const filterLens = new G6.EdgeFilterLens({
   trigger: 'drag'
 });
@@ -577,7 +577,7 @@ filterLens.updateParams({
 
 ### 用法
 
-```
+```javascript
 const filterLens = new G6.EdgeFilterLens({
   trigger: 'mousemove',
   r: 300,

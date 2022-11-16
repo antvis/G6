@@ -5,7 +5,7 @@ order: 20
 
 AntV 团队将图布局预测的能力封装成 NPM 包 @antv/vis-predict-engine，通过 predict 方法来预测提供的数据应该使用什么布局，基本用法如下。
 
-```
+```javascript
 import G6 from '@antv/g6'
 import { GraphLayoutPredict } from '@antv/vis-predict-engine'
 const data = {

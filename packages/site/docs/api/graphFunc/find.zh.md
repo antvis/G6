@@ -77,7 +77,7 @@ const combos = graph.getCombos();
 
 **用法**
 
-```
+```javascript
 const elements: {
   nodes: INode[],
   combos: ICombo[]

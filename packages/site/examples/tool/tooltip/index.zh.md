@@ -11,7 +11,7 @@ G6 提供了两种 Tooltip，分别插件和 behavior。Tooltip behavior 即将�
 
 下面第二～第四个示例展示了 tooltip behavior。若需要定义 tooltip 的样式，需要定义类名为 `g6-tooltip` 的标签的 CSS 样式，见下方。使用方法详见 [Tooltip Behavior](/zh/docs/manual/middle/states/defaultBehavior#tooltip)。
 
-```
+```css
 // 使用 Tooltip 插件，请将 'g6-tooltip' 替换为 'g6-component-tooltip'
 .g6-tooltip {
     border: 1px solid #e2e2e2;

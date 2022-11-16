@@ -102,7 +102,7 @@ Collapse a Combo.
 
 **Usage**
 
-```
+```javascript
 graph.collapseCombo('combo1')
 ```
 
@@ -118,7 +118,7 @@ Expand a Combo.
 
 **Usage**
 
-```
+```javascript
 graph.expandCombo('combo1')
 ```
 
@@ -134,7 +134,7 @@ Expand the `combo` if it is collapsed. Collapse the `combo` if it is expanded.
 
 **Usage**
 
-```
+```javascript
 graph.collapseExpandCombo('combo1')
 ```
 
@@ -151,7 +151,7 @@ Create a new combo with existing nodes or combos to be its children.
 
 **Usage**
 
-```
+```javascript
 // The first parameter is the id of the combo to be created
 graph.createCombo('combo1', ['node1', 'node2', 'combo2'])
 
@@ -176,7 +176,7 @@ Ungroup the combo, which deletes the combo itself, and appends the children of t
 
 **Usage**
 
-```
+```javascript
 graph.uncombo('combo1')
 ```
 

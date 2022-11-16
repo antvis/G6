@@ -13,7 +13,7 @@ order: 0
 
 **特别说明：** 该功能是由 GitHub 用户 @zhanba 贡献 [feat: add label background](https://github.com/antvis/G6/pull/1354) 。
 
-```
+```javascript
 const graph = new G6.Graph({
   // ...
   defaultNode: {
