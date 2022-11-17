@@ -137,10 +137,10 @@ DEBUG_MODE=1 npm test -- --watch ./tests/unit/algorithm/find-path-spec
 
 ## 文档
 
-- <a href='https://g6.antv.vision/zh/docs/manual/tutorial/preface' target='_blank'>入门教程</a>
-- <a href='https://g6.antv.vision/zh/docs/manual/middle/overview' target='_blank'>核心概念</a>
-- <a href='https://g6.antv.vision/zh/docs/manual/advanced/coordinate-system' target='_blank'>扩展阅读</a>
-- <a href='https://g6.antv.vision/zh/docs/api/Graph' target='_blank'>API</a>
+- <a href='https://g6.antv.antgroup.com/manual/tutorial/preface' target='_blank'>入门教程</a>
+- <a href='https://g6.antv.antgroup.com/manual/middle/overview' target='_blank'>核心概念</a>
+- <a href='https://g6.antv.antgroup.com/manual/advanced/coordinate-system' target='_blank'>扩展阅读</a>
+- <a href='https://g6.antv.antgroup.com/api/graph' target='_blank'>API</a>
 
 ## React 项目集成
 

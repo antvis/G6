@@ -53,7 +53,7 @@ export default defineConfig({
     showAPIDoc: true,                                                   // 是否在 demo 页展示API文档
     themeSwitcher: 'g2',
     versions: {                                                         // 历史版本以及切换下拉菜单
-        [version]: 'https://g6.antv.vision',
+        [version]: 'https://g6.antv.antgroup.com',
         '3.2.x': 'https://g6-v3-2.antv.vision',
     },
     docsearchOptions: {                                                 // 头部搜索框配置

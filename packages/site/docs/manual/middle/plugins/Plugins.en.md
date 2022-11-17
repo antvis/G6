@@ -530,7 +530,7 @@ All the three types of timebar supports play, fast forward, and fast backward.
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*kHRkQpnvBmwAAAAAAAAAAAAAARQnAQ' width='500' />
 <br />Time bar with descrete ticks<br />
 
-<br />Refer to the demos [HERE](https://g6.antv.vision/en/examples/tool/timebar#timebar)<br />
+<br />Refer to the demos [HERE](https://g6.antv.antgroup.com/en/examples/tool/timebar#timebar)<br />
 
 ### Common Usage
 

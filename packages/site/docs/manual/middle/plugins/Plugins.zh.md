@@ -599,7 +599,7 @@ const graph = new G6.Graph({
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*17VoSoTm9o8AAAAAAAAAAAAAARQnAQ' width='500' />
 
-<br />虽然 G6 提供了各种不同类型的 TimeBar 组件，但在使用的方式却非常简单，通过配置字段就可以进行区分。<br /> <br />关于 TimeBar 的使用案例，请参考[这里](https://g6.antv.vision/zh/examples/tool/timebar#timebar)。<br />
+<br />虽然 G6 提供了各种不同类型的 TimeBar 组件，但在使用的方式却非常简单，通过配置字段就可以进行区分。<br /> <br />关于 TimeBar 的使用案例，请参考[这里](https://g6.antv.antgroup.com/examples/tool/timebar#timebar)。<br />
 
 ### 使用 TimeBar 组件
 

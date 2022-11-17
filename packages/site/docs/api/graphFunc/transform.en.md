@@ -38,7 +38,7 @@ Change the scale of the graph with a relative ratio.
 // zoom to scale 3 at the center (100, 100)
 graph.zoom(3, { x: 100, y: 100 });
 
-// zoom to scale 0.5 at the origin (0, 0) of canvas drawing coordinate system, which is not the same as the lefttop of the viewport. To see the transformantion and relationships between three coordinate systems in G6, checkout out the doc: https://g6.antv.vision/en/docs/manual/advanced/coordinate-system
+// zoom to scale 0.5 at the origin (0, 0) of canvas drawing coordinate system, which is not the same as the lefttop of the viewport. To see the transformantion and relationships between three coordinate systems in G6, checkout out the doc: https://g6.antv.antgroup.com/en/manual/advanced/coordinate-system
 graph.zoom(0.5);
 
 // zoom to scale 3 at the center (100, 100) with animation
