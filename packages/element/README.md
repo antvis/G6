@@ -108,7 +108,7 @@ graph.render();
 
 [![Edit compassionate-lalande-5lxm7](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/compassionate-lalande-5lxm7?fontsize=14&hidenavigation=1&theme=dark)
 
-For more information of the usage, please refer to [Getting Started](https://antv-g6.gitee.io/en/docs/manual/getting-started).
+For more information of the usage, please refer to [Getting Started](https://g6.antv.antgroup.com/en/manual/getting-started).
 
 ## Development
 

@@ -110,7 +110,7 @@ graph.render();
 
 [![Edit compassionate-lalande-5lxm7](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/compassionate-lalande-5lxm7?fontsize=14&hidenavigation=1&theme=dark)
 
-更多关于 G6 使用的问题，请参考[快速上手](https://antv-g6.gitee.io/zh/docs/manual/getting-started)。
+更多关于 G6 使用的问题，请参考[快速上手](https://g6.antv.antgroup.com/manual/getting-started)。
 
 ## 开发
 
