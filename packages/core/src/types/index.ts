@@ -21,7 +21,7 @@ export type CommonInteractionEvent =
   | 'dragenter'
   | 'dragleave'
   | 'dragover'
-  | 'dragout' // TODO: not in documentation page: https://g6.antv.vision/en/docs/api/Event/
+  | 'dragout' // TODO: not in documentation page: https://g6.antv.antgroup.com/en/api/Event/
   | 'drop'
   | 'focus'
   | 'blur'
@@ -116,8 +116,8 @@ export type CanvasInteractionEvent =
  * Canvas Intereaction events
  *
  * @example
- * English: https://g6.antv.vision/en/docs/api/Event
- * Chinese: https://g6.antv.vision/zh/docs/api/Event
+ * English: https://g6.antv.antgroup.com/en/api/Event
+ * Chinese: https://g6.antv.antgroup.com/api/Event
  */
 export type GraphTimingEvents =
   | 'beforerender'
@@ -183,7 +183,7 @@ export type MobileInteractionEventType = MobileInteractionEvent;
  * Graph interaction events
  *
  * @example
- * https://g6.antv.vision/en/docs/api/Event#combo-interaction-event
+ * https://g6.antv.antgroup.com/en/api/Event#combo-interaction-event
  */
 export type G6Event = NodeEventType | EdgeEventType | ComboEventType | CanvasEventType | GraphTimingEventType | MobileInteractionEventType | CommonInteractionEvent | CommonInteractionEvent | (string & {});
 
