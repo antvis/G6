@@ -53,8 +53,8 @@ export default defineConfig({
     showAPIDoc: true,                                                   // 是否在 demo 页展示API文档
     themeSwitcher: 'g2',
     versions: {                                                         // 历史版本以及切换下拉菜单
-        [version]: 'https://g6.antv.antgroup.com',
-        '3.2.x': 'https://g6-v3-2.antv.vision',
+      [version]: 'https://g6.antv.antgroup.com',
+      '3.2.x': 'https://g6-v3-2.antv.vision',
     },
     docsearchOptions: {                                                 // 头部搜索框配置
       apiKey: '9d1cd586972bb492b7b41b13a949ef30',
@@ -574,6 +574,13 @@ export default defineConfig({
       { name: 'yunos', img: 'https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*_js7SaNosUwAAAAAAAAAAABkARQnAQ', },
       { name: '菜鸟', img: 'https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*TgV-RZDODJIAAAAAAAAAAABkARQnAQ', },
     ],
+    internalSite: {
+      url: 'https://g6.antv.antgroup.com',
+      name: {
+        zh: '极速站点',
+        en: 'Fast Site',
+      },
+    },
   },
   mfsu: false,
   alias: {
@@ -583,4 +590,5 @@ export default defineConfig({
   ],
   scripts: [
   ],
+  jsMinifier: 'terser',
 });

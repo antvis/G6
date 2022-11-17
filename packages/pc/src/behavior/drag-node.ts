@@ -110,6 +110,10 @@ export default {
    * @param evt event param
    */
   onDragMove(evt: IG6GraphEvent) {
+    if (evt.item?.getType?.() !== 'node') {
+      this.onDragEnd();
+      return;
+    }
     if (!this.mousedown) return;
     if (!this.dragstart) {
       // dragstart
