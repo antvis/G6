@@ -25,7 +25,7 @@ order: 17
 **用法**
 
 ```javascript
-graph.downloadFullImage('tree-graph', {
+graph.downloadFullImage('tree-graph', 'image/png', {
   backgroundColor: '#ddd',
   padding: [30, 15, 15, 15],
 });
