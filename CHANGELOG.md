@@ -1,5 +1,9 @@
 # ChangeLog
 
+### 4.7.14
+
+- fix: error occurs while dragging combo with drag-node behavior;
+
 ### 4.7.13
 
 - fix: unexpected move with fitCenter with animation;
