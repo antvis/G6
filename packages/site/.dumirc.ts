@@ -446,26 +446,26 @@ export default defineConfig({
       {
         type: {
           zh: '推荐',
-          en: 'Recommand',
+          en: 'News',
         },
         title: {
-          zh: 'G6 家族新成员：GraphInsight',
-          en: 'New to the G6 family: GraphInsight',
+          zh: '图可视分析与搭建平台 GraphInsight 开源',
+          en: 'GraphInsight is opened source!',
         },
-        date: '2022.06.06',
-        link: 'https://github.com/antvis/GraphInsight',
+        date: '2022.11.22',
+        link: 'https://www.yuque.com/antv/blog/nyl5bkhdkicgm7v8',
       },
       {
         type: {
           zh: '推荐',
-          en: 'Recommand',
+          en: 'News',
         },
         title: {
-          zh: '不仅成长了一点',
-          en: 'Not only grew a little',
+          zh: 'G6 5.0 插件机制与引擎性能蓄势待发',
+          en: 'G6 5.0: extension mechanism and better performance',
         },
         date: '2022.11.22',
-        link: 'https://www.yuque.com/antv/g6-blog/nnmqbk',
+        link: 'https://www.yuque.com/antv/blog/fm6setn8p9m9lmh5',
       },
     ],
     /** 首页特性介绍 */
