@@ -183,6 +183,7 @@ export default abstract class LayoutController {
       combos,
       hiddenCombos,
       comboEdges,
+      vedges: this.graph.get('vedges')?.map(edge => edge.getModel())
     } as GraphData;
   }
 
