@@ -22,6 +22,7 @@ interface MiniMapConfig extends IPluginBaseConfig {
   delegateStyle?: ShapeStyle;
   refresh?: boolean;
   padding?: number;
+  hideEdge?: boolean; // hide the edges on the minimap to enhance the performance
 }
 
 export default class MiniMap extends Base {
@@ -43,6 +44,7 @@ export default class MiniMap extends Base {
         stroke: '#096dd9',
       },
       refresh: true,
+      hideEdge: false,
     };
   }
 
@@ -76,6 +78,8 @@ export default class MiniMap extends Base {
     const canvas = this.get('canvas');
 
     const containerDOM = canvas.get('container');
+    const isFireFox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+    const isSafari = navigator.userAgent.toLowerCase().indexOf('safari') > -1;
     const viewport = createDom(`
       <div
         class=${cfgs.viewportClassName}
@@ -85,10 +89,9 @@ export default class MiniMap extends Base {
           box-sizing:border-box;
           outline: 2px solid #1980ff;
           cursor:move'
-        draggable=true
+        draggable=${isSafari || isFireFox ? false : true}
       </div>`);
 
-    const isFireFox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 
     // 计算拖拽水平方向距离
     let x = 0;
@@ -107,8 +110,9 @@ export default class MiniMap extends Base {
     let ratio = 0;
     let zoom = 0;
 
+    const dragstartevent = isSafari || isFireFox ? 'mousedown' : 'dragstart';
     viewport.addEventListener(
-      'dragstart',
+      dragstartevent,
       (e: GraphEvent) => {
         if ((e as any).dataTransfer) {
           const img = new Image();
@@ -149,52 +153,69 @@ export default class MiniMap extends Base {
       false,
     );
 
+    const dragListener = (e: GraphEvent) => {
+      if (!dragging || isNil(e.clientX) || isNil(e.clientY)) {
+        return;
+      }
+
+      let dx = x - e.clientX;
+      let dy = y - e.clientY;
+
+      // 若视口移动到最左边或最右边了,仅移动到边界
+      if (left - dx < 0 || left - dx + width >= size[0]) {
+        dx = 0;
+      }
+
+      // 若视口移动到最上或最下边了，仅移动到边界
+      if (top - dy < 0 || top - dy + height >= size[1]) {
+        dy = 0;
+      }
+
+      left -= dx;
+      top -= dy;
+
+      // 先移动视口，避免移动到边上以后出现视口闪烁
+      modifyCSS(viewport, {
+        left: `${left}px`,
+        top: `${top}px`,
+      });
+
+      // graph 移动需要偏移量 dx/dy * 缩放比例才会得到正确的移动距离
+      graph!.translate((dx * zoom) / ratio, (dy * zoom) / ratio);
+
+      x = e.clientX;
+      y = e.clientY;
+    }
+    if (!isSafari && !isFireFox) {
+      let dragevent = isFireFox ? 'dragover' : 'drag';
+      viewport.addEventListener(
+        dragevent,
+        dragListener,
+        false,
+      );
+    }
+
+    const dragendListener = () => {
+      dragging = false;
+      cfgs.refresh = true;
+    };
+    const dragendevent = isSafari || isFireFox ? 'mouseup' : 'dragend';
     viewport.addEventListener(
-      isFireFox ? 'dragover' : 'drag',
-      (e: GraphEvent) => {
-        if (!dragging || isNil(e.clientX) || isNil(e.clientY)) {
-          return;
-        }
-
-        let dx = x - e.clientX;
-        let dy = y - e.clientY;
-
-        // 若视口移动到最左边或最右边了,仅移动到边界
-        if (left - dx < 0 || left - dx + width >= size[0]) {
-          dx = 0;
-        }
-
-        // 若视口移动到最上或最下边了，仅移动到边界
-        if (top - dy < 0 || top - dy + height >= size[1]) {
-          dy = 0;
-        }
-
-        left -= dx;
-        top -= dy;
-
-        // 先移动视口，避免移动到边上以后出现视口闪烁
-        modifyCSS(viewport, {
-          left: `${left}px`,
-          top: `${top}px`,
-        });
-
-        // graph 移动需要偏移量 dx/dy * 缩放比例才会得到正确的移动距离
-        graph!.translate((dx * zoom) / ratio, (dy * zoom) / ratio);
-
-        x = e.clientX;
-        y = e.clientY;
-      },
+      dragendevent,
+      dragendListener,
       false,
     );
 
-    viewport.addEventListener(
-      'dragend',
-      () => {
-        dragging = false;
-        cfgs.refresh = true;
-      },
-      false,
-    );
+    containerDOM.addEventListener('mouseleave', dragendListener);
+    containerDOM.addEventListener('mouseup', dragendListener);
+
+    if (isSafari || isFireFox) {
+      containerDOM.addEventListener(
+        'mousemove',
+        dragListener,
+        false,
+      );
+    }
 
     this.set('viewport', viewport);
     containerDOM.appendChild(viewport);
@@ -268,12 +289,19 @@ export default class MiniMap extends Base {
     const canvas: GCanvas = this.get('canvas');
     const graphGroup = graph!.get('group');
     if (graphGroup.destroyed) return;
-    const clonedGroup = graphGroup.clone();
-
-    clonedGroup.resetMatrix();
-
     canvas.clear();
-    canvas.add(clonedGroup);
+    let clonedGroup;
+    if (this.get('hideEdge')) {
+      clonedGroup = canvas.addGroup();
+      graphGroup.get('children').forEach(group => {
+        if (group.get('id').includes('-edge')) return;
+        clonedGroup.add(group.clone());
+      })
+    } else {
+      clonedGroup = graphGroup.clone();
+      clonedGroup.resetMatrix();
+      canvas.add(clonedGroup);
+    }
 
     // 当 renderer 是 svg，由于渲染引擎的 bug，这里需要将 visible 为 false 的元素手动隐藏
     const renderer = graph.get('renderer');
@@ -305,9 +333,11 @@ export default class MiniMap extends Base {
     const canvas: GCanvas = this.get('canvas');
     const group = canvas.get('children')[0] || canvas.addGroup();
 
-    each(graph!.getEdges(), (edge) => {
-      this.updateOneEdgeKeyShape(edge, group);
-    });
+    if (!this.get('hideEdge')) {
+      each(graph!.getEdges(), (edge) => {
+        this.updateOneEdgeKeyShape(edge, group);
+      });
+    }
     each(graph!.getNodes(), (node) => {
       this.updateOneNodeKeyShape(node, group);
     });
@@ -389,6 +419,7 @@ export default class MiniMap extends Base {
       group.add(mappedItem);
     } else {
       attrs = Object.assign(keyShapeStyle, attrs);
+      mappedItem.toFront();
     }
     const shapeType = mappedItem.get('type');
     if (shapeType === 'rect' || shapeType === 'image') {
@@ -415,9 +446,11 @@ export default class MiniMap extends Base {
     const group = canvas.get('children')[0] || canvas.addGroup();
 
     // 差量更新 minimap 上的节点和边
-    each(graph!.getEdges(), (edge) => {
-      this.updateOneEdgeKeyShape(edge, group);
-    });
+    if (!this.get('hideEdge')) {
+      each(graph!.getEdges(), (edge) => {
+        this.updateOneEdgeKeyShape(edge, group);
+      });
+    }
     each(graph!.getNodes(), (node) => {
       this.updateOneNodeDelegateShape(node, group);
     });
@@ -497,6 +530,7 @@ export default class MiniMap extends Base {
         height: bbox.height,
       };
       mappedItem.attr(attrs);
+      mappedItem.toFront();
     } else {
       mappedItem = group.addShape('rect', {
         attrs: {

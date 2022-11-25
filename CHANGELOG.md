@@ -2,7 +2,10 @@
 
 ### 4.7.16
 
-- feat: allowDragOnItem config for scroll-canvas;
+- feat: allowDragOnItem config for scroll-canvas, closes: #3062;
+- feat: hideEdge config for minimap to enhance the performance, closes: #3158;
+- fix: minimap has incorrect shape zIndex with keyShape type and delegate type, closes: #3132;
+- fix: minimap viewport dragging problem in firefox and safari, closes: #2939;
 
 ### 4.7.15
 

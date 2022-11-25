@@ -85,6 +85,7 @@ export default class Graph extends AbstractGraph implements IGraph {
       const pixelRatio = this.get('pixelRatio');
       if (pixelRatio) {
         canvasCfg.pixelRatio = pixelRatio;
+        window.devicePixelRatio = pixelRatio;
       }
 
       canvas = new GCanvas(canvasCfg);
@@ -529,6 +530,7 @@ export default class Graph extends AbstractGraph implements IGraph {
       const pixelRatio = this.get('pixelRatio');
       if (pixelRatio) {
         canvasCfg.pixelRatio = pixelRatio;
+        window.devicePixelRatio = pixelRatio;
       }
       canvas = new GCanvas(canvasCfg);
       this.set('graphWaterMarker', canvas);
@@ -603,6 +605,7 @@ export default class Graph extends AbstractGraph implements IGraph {
       const pixelRatio = this.get('pixelRatio');
       if (pixelRatio) {
         canvasCfg.pixelRatio = pixelRatio;
+        window.devicePixelRatio = pixelRatio;
       }
       canvas = new GCanvas(canvasCfg);
       this.set('graphWaterMarker', canvas);
