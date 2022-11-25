@@ -25,7 +25,7 @@ where the `imageConfig` is the configuration for exported image:
 **Usage**
 
 ```javascript
-graph.downloadFullImage('tree-graph', {
+graph.downloadFullImage('tree-graph', 'image/png', {
   backgroundColor: '#ddd',
   padding: [30, 15, 15, 15],
 });
