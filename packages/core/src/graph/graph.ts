@@ -2376,23 +2376,25 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const vedges: IEdge[] = self.get('vedges');
     const combos: ICombo[] = self.get('combos');
 
-    let model: NodeConfig;
+    let model: NodeConfig | ComboConfig;
 
     const updatedNodes: { [key: string]: boolean } = {};
 
     const updateItems = (items) => {
       each(items, (item: INode) => {
-        model = item.getModel() as NodeConfig;
+        model = item.getModel() as NodeConfig | ComboConfig;
         const originAttrs = item.get('originAttrs');
         if (originAttrs && model.x === originAttrs.x && model.y === originAttrs.y) {
           return;
         }
         const changed = item.updatePosition({ x: model.x!, y: model.y! });
         updatedNodes[model.id] = changed;
-        if (model.comboId) updatedNodes[model.comboId] = updatedNodes[model.comboId] || changed;
+        if (model.comboId) updatedNodes[(model as NodeConfig).comboId] = updatedNodes[(model as NodeConfig).comboId] || changed;
+        if (model.parentId) updatedNodes[(model as ComboConfig).parentId] = updatedNodes[(model as ComboConfig).parentId] || changed;
       });
     }
 
+    updateItems(combos);
     updateItems(nodes);
 
     if (combos && combos.length !== 0) {

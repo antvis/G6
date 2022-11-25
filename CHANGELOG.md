@@ -1,5 +1,10 @@
 # ChangeLog
 
+### 4.7.15
+
+- fix: dagre layout for collapsed combos;
+- perf: give layout algorithm vedges;
+
 ### 4.7.14
 
 - fix: error occurs while dragging combo with drag-node behavior;
