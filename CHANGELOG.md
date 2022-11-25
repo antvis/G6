@@ -1,5 +1,9 @@
 # ChangeLog
 
+### 4.7.16
+
+- feat: allowDragOnItem config for scroll-canvas;
+
 ### 4.7.15
 
 - fix: dagre layout for collapsed combos;

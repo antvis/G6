@@ -13,6 +13,7 @@ export default {
       // 当设置的值小于 0 时，相当于缩小了可滚动范围
       // 具体实例可参考：https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IFfoS67_HssAAAAAAAAAAAAAARQnAQ
       scalableRange: 0,
+      allowDragOnItem: true
     };
   },
 
@@ -24,6 +25,9 @@ export default {
   },
 
   onWheel(ev: IG6GraphEvent) {
+    const target = ev.target;
+    const targetIsCanvas = target && target.isCanvas && target.isCanvas();
+    if (!this.allowDragOnItem && !targetIsCanvas) return;
     const graph = this.graph;
     const zoomKeys = Array.isArray(this.zoomKey) ? [].concat(this.zoomKey) : [this.zoomKey];
     if (zoomKeys.includes('control')) zoomKeys.push('ctrl');
