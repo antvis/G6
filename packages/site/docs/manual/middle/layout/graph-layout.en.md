@@ -228,7 +228,7 @@ centripetalOptions: {
 <br />**Description**: Arranges the nodes on a circle. <br />**API**: [Circular API](/en/docs/api/graphLayout/circular) <br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
-| --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | center | Array | [ 0, 0 ] | The center of the graph | The center of the layout |
 | radius | Number | 50 | null | The radius of the circle. If the `raidus` exists, `startRadius` and `endRadius` do not take effect. |
 | startRadius | Number | 10 | null | The start radius of spiral layout |
@@ -292,7 +292,7 @@ centripetalOptions: {
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ux0-SYBy6Y8AAAAAAAAAAABkARQnAQ' width=300 alt='img'/><br />Tips: Concentric layout in G6 refers to <a href='https://github.com/cytoscape/cytoscape.js' target='_blank'>cytoscape.js</a>, we obey the MIT license <br />**Description**: Arranges the nodes on several concentric circles.<br />**API**: [Concentric API](/en/docs/api/graphLayout/concentric)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | center | Array | [ 0, 0 ] | The center of the graph | The center of the layout |
 | nodeSize | Number | 30 | 30 | The diameter of the node. It is used for preventing node overlappings |
 | minNodeSpacing | Number | 10 | 10 | The minimum separation between adjacent circles |

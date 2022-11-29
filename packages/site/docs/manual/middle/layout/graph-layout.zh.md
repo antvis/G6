@@ -229,7 +229,7 @@ centripetalOptions: {
 <br />**描述**：环形布局。 <br />**API**：[Circular API](/zh/docs/api/graphLayout/circular) <br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
-| --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | center | Array | [ 0, 0 ] | 图的中心 | 布局的中心 |
 | radius | Number | 50 | null | 圆的半径。若设置了 `radius`，则 `startRadius` 与 `endRadius` 不生效 |
 | startRadius | Number | 10 | null | 螺旋状布局的起始半径 |
