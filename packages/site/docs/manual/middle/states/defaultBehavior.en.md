@@ -121,7 +121,7 @@ const graph = new G6.Graph({
 - Related timing events:
   - `canvas:dragstart`: Triggered when drag start. Listened by `graph.on('canvas:dragstart', e => {...})`;
   - `canvas:drag`: Triggered when dragging. Listened by `graph.on('canvas:drag', e => {...})`;
-  - `canvas:dragend`: Triggered when drag end. Listened by `graph.on('canvas:drag', e => {...})`.
+  - `canvas:dragend`: Triggered when drag end. Listened by `graph.on('canvas:dragend', e => {...})`.
 
 **Using Default Configuration**
 
