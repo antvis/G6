@@ -187,9 +187,8 @@ export default class MiniMap extends Base {
       y = e.clientY;
     }
     if (!isSafari && !isFireFox) {
-      let dragevent = isFireFox ? 'dragover' : 'drag';
       viewport.addEventListener(
-        dragevent,
+        'drag',
         dragListener,
         false,
       );

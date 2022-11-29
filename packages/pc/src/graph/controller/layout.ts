@@ -258,7 +258,7 @@ export default class LayoutController extends AbstractLayout {
       }
     }
     // the layout does not support GPU, will run in CPU
-    if (!this.hasGPUVersion(layoutType)) {
+    if (enableGPU && !this.hasGPUVersion(layoutType)) {
       console.warn(
         `The '${layoutType}' layout does not support GPU calculation for now, it will run in CPU.`,
       );
