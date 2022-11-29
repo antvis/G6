@@ -113,6 +113,7 @@ Minimap 是用于快速预览和探索图的工具。
 | type | String | 选项：`'default'`：渲染图上所有图形；`'keyShape'`：只渲染图上元素的 keyShape，以减少渲染成本；`'delegate'`：只渲染图上元素的大致图形，以降低渲染成本。渲染成本 `'default'` > `'keyShape'` > `'delegate'`。默认为 `'default'` |
 | size | Array | Minimap 的大小 |
 | delegateStyle | Object | 在 `type` 为 `'delegate'` 时生效，代表元素大致图形的样式 |
+| hideEdge | Boolean | false | **v4.7.16 起支持** 控制 Minimap 上边的显示与隐藏，设置为 `true` 可在大规模图上大幅提升性能 |
 
 其中，delegateStyle 可以设置如下属性：
 

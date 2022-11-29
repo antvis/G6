@@ -112,6 +112,8 @@ It can be configured to adjust the styles and functions.
 | type | String | false | Render type. Options: `'default'`: Render all the graphics shapes on the graph; `'keyShape'`: Only render the keyShape of the items on the graph to reach better performance; `'delegate'`: Only render the delegate of the items on the graph to reach better performance. Performance: `'default'` < `'keyShape'` < `'delegate'`. `'default'` by default |
 | size | Array | false | The size of the Minimap |
 | delegateStyle | Object | false | Takes effect when `type` is `'delegate'`. The style of the delegate of the items on the graph |
+| hideEdge | Boolean | false | **Supported by v4.7.16** Whether to hide the edges on minimap to enhance the performance |
+
 
 The `delegateStyle` has the properties:
 
