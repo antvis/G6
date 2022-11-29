@@ -1,3 +1,9 @@
+
+/**
+ * by @WontonCat from GitHub
+ */
+
+
 import G6 from '@antv/g6';
 
 const sequenceStyle = {

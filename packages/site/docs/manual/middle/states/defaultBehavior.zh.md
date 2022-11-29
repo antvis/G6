@@ -122,7 +122,7 @@ const graph = new G6.Graph({
 - 相关时机事件：
   - `canvas:dragstart`：画布拖拽开始时触发，使用 `graph.on('canvas:dragstart', e => {...})` 监听；
   - `canvas:drag`：画布拖拽中触发，使用 `graph.on('canvas:drag', e => {...})` 监听；
-  - `canvas:dragend`：画布拖拽结束后触发，使用 `graph.on('canvas:drag', e => {...})` 监听。
+  - `canvas:dragend`：画布拖拽结束后触发，使用 `graph.on('canvas:dragend', e => {...})` 监听。
 
 **使用默认配置**
 
