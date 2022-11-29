@@ -133,7 +133,7 @@ export default {
    */
   onDragStart(evt: IG6GraphEvent) {
     this.currentShouldEnd = true;
-    if (!this.shouldBegin.call(this, { ...evt, ...this.mousedown })) {
+    if (!this.shouldBegin({ ...evt, ...this.mousedown }, this)) {
       return;
     }
     const { item, target } = this.mousedown;
@@ -231,7 +231,7 @@ export default {
    */
   onDrag(evt: IG6GraphEvent) {
     if (!this.mousedown || !this.origin) return;
-    if (!this.shouldUpdate.call(this, evt)) return;
+    if (!this.shouldUpdate(evt, this)) return;
 
     if (this.get('enableDelegate')) {
       this.updateDelegate(evt);
@@ -328,7 +328,7 @@ export default {
    */
   onDropCombo(evt: IG6GraphEvent) {
     const item = evt.item as ICombo;
-    this.currentShouldEnd = this.shouldEnd.call(this, evt, item);
+    this.currentShouldEnd = this.shouldEnd(evt, item, this);
     // 若不允许结束，则将节点位置设置回初识位置。后面的逻辑仍需要执行
     this.updatePositions(evt, !this.currentShouldEnd);
     if (!this.currentShouldEnd || !this.validationCombo(item)) return;
@@ -364,7 +364,7 @@ export default {
 
   onDropCanvas(evt: IG6GraphEvent) {
     const graph: IGraph = this.graph;
-    this.currentShouldEnd = this.shouldEnd.call(this, evt, undefined);
+    this.currentShouldEnd = this.shouldEnd(evt, undefined, this);
     // 若不允许结束，则将节点位置设置回初识位置。后面的逻辑仍需要执行
     this.updatePositions(evt, !this.currentShouldEnd);
     if (!this.targets || this.targets.length === 0 || !this.currentShouldEnd) return;
@@ -395,7 +395,7 @@ export default {
     const comboId = item.getModel().comboId as string;
 
     const newParentCombo = comboId ? graph.findById(comboId) : undefined;
-    this.currentShouldEnd = this.shouldEnd.call(this, evt, newParentCombo);
+    this.currentShouldEnd = this.shouldEnd(evt, newParentCombo, this);
     // 若不允许结束，则将节点位置设置回初识位置。后面的逻辑仍需要执行
     this.updatePositions(evt, !this.currentShouldEnd);
     if (!this.currentShouldEnd) return;

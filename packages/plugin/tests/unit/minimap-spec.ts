@@ -456,7 +456,7 @@ describe('minimap', () => {
       const top = parseFloat(viewport.style.top.substr(0, viewport.style.top.length - 2));
       const width = parseFloat(viewport.style.width.substr(0, viewport.style.width.length - 2));
       const height = parseFloat(viewport.style.height.substr(0, viewport.style.height.length - 2));
-      
+
       expect(mathEqual(left, 47)).toBe(true);
       expect(mathEqual(top, 37)).toBe(true);
       expect(mathEqual(width, 152, 2)).toBe(true);
@@ -535,18 +535,27 @@ describe('minimap', () => {
       expect(viewport.style.width).toEqual('131.153px');
       expect(viewport.style.height).toEqual('140.498px');
 
-      Simulate.simulate(viewport, 'dragstart', {
+      // use different events for different browsers
+      // electron: Mozilla/5.0 (Macintosh; Intel Mac OS X 11_5_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Electron/11.5.0 Safari/537.36
+      const isFireFox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+      const isSafari = navigator.userAgent.toLowerCase().indexOf('safari') > -1;
+      const dragstartevent = isSafari || isFireFox ? 'mousedown' : 'dragstart';
+      const dragevent = isSafari || isFireFox ? 'mousemove' : 'drag';
+      const dragDOM = isSafari || isFireFox ? minimap.get('canvas').get('container') : viewport;
+      const dragendevent = isSafari || isFireFox ? 'mouseup' : 'dragend';
+
+      Simulate.simulate(viewport, dragstartevent, {
         clientX: 100,
         clientY: 100,
         target: viewport,
       });
 
-      Simulate.simulate(viewport, dragEvent, {
+      Simulate.simulate(dragDOM, dragevent, {
         clientX: 98,
         clientY: 91,
       });
 
-      Simulate.simulate(viewport, 'dragend', {
+      Simulate.simulate(viewport, dragendevent, {
         clientX: 98,
         clientY: 91,
       });
@@ -1074,7 +1083,7 @@ describe('minimap with combo', () => {
       }
     ]
   };
-  
+
   it('keyShape minimap with combo', (done) => {
     const minimap = new Minimap({
       size: [200, 200],

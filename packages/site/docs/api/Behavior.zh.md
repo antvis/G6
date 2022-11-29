@@ -154,24 +154,24 @@ G6.registerBehavior('behaviorName', {
 }
 ```
 
-### BehaviorOption.shouldBegin(evt)
+### BehaviorOption.shouldBegin(evt, self)
 
-是否阻止行为发生，默认返回 `true`，不阻止行为，需要在处理逻辑中自行调用。
+是否阻止行为发生，默认返回 `true`，不阻止行为，需要在处理逻辑中自行调用。**v4.7.16 起支持** 最后一个参数为 behavior 实例，方便在箭头函数定义的 `shouldBegin` 中访问该实例。
 
 **用法**
 
 ```javascript
 G6.registerBehavior('behaviorName', {
-  shouldBegin() {
+  shouldBegin(evt, self) {
     // 这里可以根据业务自定义
     return true
   }
 }
 ```
 
-### BehaviorOption.shouldUpdate(evt)
+### BehaviorOption.shouldUpdate(evt, self)
 
-是否更新数据及更改视图，默认返回 `true`，允许更新，如果返回 `false`，则不更新数据和视图。
+是否更新数据及更改视图，默认返回 `true`，允许更新，如果返回 `false`，则不更新数据和视图。**v4.7.16 起支持** 最后一个参数为 behavior 实例，方便在箭头函数定义的 `shouldUpdate` 中访问该实例。
 
 **用法**
 
@@ -185,7 +185,7 @@ const graph = new G6.Graph({
       'drag-canvas',
       {
         type: 'self-behavior',
-        shouldUpdate: (e) => {
+        shouldUpdate: (e, self) => {
           if (e.target.type !== 'text') {
             return false;
           }
@@ -197,6 +197,6 @@ const graph = new G6.Graph({
 });
 ```
 
-### BehaviorOption.shouldEnd(evt)
+### BehaviorOption.shouldEnd(evt, self)
 
-是否结束行为，默认返回 `true`。
+是否结束行为，默认返回 `true`。**v4.7.16 起支持** 最后一个参数为 behavior 实例，方便在箭头函数定义的 `shouldEnd` 中访问该实例。

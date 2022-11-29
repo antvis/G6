@@ -121,13 +121,13 @@ describe('tree graph without animate', () => {
       type: 'rect',
       children: [{ x: 150, y: 150, id: 'SubTreeNode3.1.1' }],
     };
-    graph.on('afteraddchild', function(e) {
+    graph.on('afteraddchild', function (e) {
       expect(
         e.item.getModel().id === 'SubTreeNode3.1' || e.item.getModel().id === 'SubTreeNode3.1.1',
       ).toBe(true);
       expect(
         e.item.get('parent').getModel().id === 'SubTreeNode3' ||
-          e.item.get('parent').getModel().id === 'SubTreeNode3.1',
+        e.item.get('parent').getModel().id === 'SubTreeNode3.1',
       ).toBe(true);
       expect(
         e.parent.getModel().id === 'SubTreeNode3' || e.parent.getModel().id === 'SubTreeNode3.1',

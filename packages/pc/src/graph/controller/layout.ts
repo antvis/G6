@@ -257,6 +257,13 @@ export default class LayoutController extends AbstractLayout {
         enableGPU = false;
       }
     }
+    // the layout does not support GPU, will run in CPU
+    if (enableGPU && !this.hasGPUVersion(layoutType)) {
+      console.warn(
+        `The '${layoutType}' layout does not support GPU calculation for now, it will run in CPU.`,
+      );
+      enableGPU = false;
+    }
     this.isGPU = enableGPU;
 
     // 在 onAllLayoutEnd 中执行用户自定义 onLayoutEnd，触发 afterlayout、更新节点位置、fitView/fitCenter、触发 afterrender

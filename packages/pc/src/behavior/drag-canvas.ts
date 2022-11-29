@@ -131,7 +131,7 @@ export default {
       return;
     }
 
-    if (!this.shouldBegin.call(this, e)) {
+    if (!this.shouldBegin(e, this)) {
       return;
     }
 
@@ -207,7 +207,7 @@ export default {
       if (abs(this.origin.x - e.clientX) + abs(this.origin.y - e.clientY) < DRAG_OFFSET) {
         return;
       }
-      if (this.shouldBegin.call(this, e)) {
+      if (this.shouldBegin(e, this)) {
         e.type = 'dragstart';
         graph.emit('canvas:dragstart', e);
         this.originPosition = { x: e.clientX, y: e.clientY };
@@ -218,7 +218,7 @@ export default {
       graph.emit('canvas:drag', e);
     }
 
-    if (this.shouldUpdate.call(this, e)) {
+    if (this.shouldUpdate(e, this)) {
       this.updateViewport(e);
     }
   },
@@ -270,7 +270,7 @@ export default {
 
     e = cloneEvent(e);
 
-    if (this.shouldEnd.call(this, e)) {
+    if (this.shouldEnd(e, this)) {
       this.updateViewport(e);
     }
     e.type = 'dragend';

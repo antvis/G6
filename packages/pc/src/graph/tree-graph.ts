@@ -195,7 +195,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
         y: model.y,
       });
     }
-    current.set('model', data.data);
+    current.set('model', Object.assign(model, data.data));
     if (oriX !== data.x || oriY !== data.y) {
       current.updatePosition({ x: data.x, y: data.y });
     }

@@ -14,8 +14,8 @@ export default {
         stroke: '#DDEEFE',
         lineWidth: 1,
       },
-      onSelect() {},
-      onDeselect() {},
+      onSelect() { },
+      onDeselect() { },
       selectedState: 'selected',
       trigger: DEFAULT_TRIGGER,
       includeEdges: true,
@@ -130,13 +130,13 @@ export default {
     });
   },
   isBBoxCenterInRect(item: Item, left: number, right: number, top: number, bottom: number) {
-      const bbox = item.getBBox();
-      return (
-        bbox.centerX >= left &&
-        bbox.centerX <= right &&
-        bbox.centerY >= top &&
-        bbox.centerY <= bottom
-      );
+    const bbox = item.getBBox();
+    return (
+      bbox.centerX >= left &&
+      bbox.centerX <= right &&
+      bbox.centerY >= top &&
+      bbox.centerY <= bottom
+    );
   },
   getSelectedNodes(e: IG6GraphEvent) {
     const { graph, originPoint, shouldUpdate, isBBoxCenterInRect } = this;
@@ -153,7 +153,7 @@ export default {
       if (
         node.isVisible() && // 隐藏节点不能被选中
         isBBoxCenterInRect(node, left, right, top, bottom) &&
-        shouldUpdate(node, 'select')
+        shouldUpdate(node, 'select', this)
       ) {
         selectedNodes.push(node);
         const model = node.getModel();
@@ -173,7 +173,7 @@ export default {
           if (
             selectedIds.includes(source) &&
             selectedIds.includes(target) &&
-            shouldUpdate(edge, 'select')
+            shouldUpdate(edge, 'select', this)
           ) {
             selectedEdges.push(edge);
             graph.setItemState(edge, this.selectedState, true);
@@ -187,7 +187,7 @@ export default {
         if (
           combo.isVisible() && // 隐藏节点不能被选中
           isBBoxCenterInRect(combo, left, right, top, bottom) &&
-          shouldUpdate(combo, 'select')
+          shouldUpdate(combo, 'select', this)
         ) {
           selectedCombos.push(combo);
           const model = combo.getModel();

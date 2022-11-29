@@ -81,7 +81,7 @@ G6.registerBehavior('drag-canvas-exclude-lockedNode', {
       if (abs(this.origin.x - e.clientX) + abs(this.origin.y - e.clientY) < DRAG_OFFSET) {
         return;
       }
-      if (this.shouldBegin.call(this, e)) {
+      if (this.shouldBegin(e, this)) {
         e.type = 'dragstart';
         graph.emit('canvas:dragstart', e);
         this.dragging = true;
@@ -91,7 +91,7 @@ G6.registerBehavior('drag-canvas-exclude-lockedNode', {
       e.type = 'drag';
       graph.emit('canvas:drag', e);
     }
-    if (this.shouldUpdate.call(this, e)) {
+    if (this.shouldUpdate(e, this)) {
       this.updateViewport(e);
     }
   },
@@ -106,7 +106,7 @@ G6.registerBehavior('drag-canvas-exclude-lockedNode', {
     }
     e = Util.cloneEvent(e);
     const graph = this.graph;
-    if (this.shouldEnd.call(this, e)) {
+    if (this.shouldEnd(e, this)) {
       this.updateViewport(e);
     }
     e.type = 'dragend';
@@ -178,7 +178,7 @@ G6.registerBehavior('zoom-canvas-exclude-lockedNode', {
   },
   onWheel(e) {
     e.preventDefault();
-    if (!this.shouldUpdate.call(this, e)) {
+    if (!this.shouldUpdate(e, this)) {
       return;
     }
     const graph = this.graph;

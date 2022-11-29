@@ -1,5 +1,19 @@
 # ChangeLog
 
+### 4.7.16
+
+- feat: allowDragOnItem config for scroll-canvas, closes: #3062;
+- feat: allow to setTextWaterMarker and setImageWaterMarker with an undefined parameter to remove the watermarker, closes: #3478;
+- feat: hideEdge config for minimap to enhance the performance, closes: #3158;
+- fix: minimap has incorrect shape zIndex with keyShape type and delegate type, closes: #3132;
+- fix: minimap viewport dragging problem in firefox and safari, closes: #2939;
+- docs: add sequence demo to site, closes: #3027;
+- perf: unify the formats of shouldBegin, shouldUpdate, and shouldEnd in behaviors, closes: #3028;
+- perf: fitView and fitCenter according to the corner ndoes insead of getCanvasBBox to avoid maximum call stack size exceeded, closes: #2447;
+- fix: treeGraph changeData with node properties lost, closes: #3215;
+- fix: error occurs while calling updateLayout from gpu layout to a cpu layout, closes: #3272;
+- fix: error occurs while calling changeData to remove a node in a combo, cloases: #3293;
+
 ### 4.7.15
 
 - fix: dagre layout for collapsed combos;
