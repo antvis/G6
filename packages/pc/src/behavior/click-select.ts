@@ -51,7 +51,7 @@ export default {
 
     const type = item.getType();
     const { graph, keydown, multiple, shouldUpdate, shouldBegin } = self;
-    if (!shouldBegin.call(self, evt)) {
+    if (!shouldBegin(evt, self)) {
       return;
     }
 
@@ -96,7 +96,7 @@ export default {
     }
 
     if (item.hasState(self.selectedState)) {
-      if (shouldUpdate.call(self, evt)) {
+      if (shouldUpdate(evt, self)) {
         graph.setItemState(item, self.selectedState, false);
       }
       const selectedNodes = graph.findAllByState('node', self.selectedState);
@@ -112,7 +112,7 @@ export default {
         select: false,
       });
     } else {
-      if (shouldUpdate.call(self, evt)) {
+      if (shouldUpdate(evt, self)) {
         graph.setItemState(item, self.selectedState, true);
       }
       const selectedNodes = graph.findAllByState('node', self.selectedState);
@@ -131,7 +131,7 @@ export default {
   },
   onCanvasClick(evt: IG6GraphEvent) {
     const { graph, shouldBegin } = this;
-    if (!shouldBegin.call(this, evt)) {
+    if (!shouldBegin(evt, this)) {
       return;
     }
 

@@ -76,7 +76,7 @@ G6.registerBehavior('activate-node', {
   },
   onCanvasClick(e) {
     // shouldUpdate 可以由用户复写，返回 true 时取消所有节点的 'active' 状态，即将 'active' 状态置为 false
-    if (this.shouldUpdate(e)) {
+    if (this.shouldUpdate(e, self)) {
       removeNodesState();
     }
   },

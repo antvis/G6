@@ -83,7 +83,7 @@ export default {
       const graph = self.graph;
       if (!graph || graph.destroyed) return;
       self.item = item;
-      if (!self.shouldUpdate(e.item, { event: e, action: 'activate' })) {
+      if (!self.shouldUpdate(e.item, { event: e, action: 'activate' }, self)) {
         return;
       }
       const activeState = self.activeState;
@@ -215,7 +215,7 @@ export default {
     (e, self) => {
       const graph = self.get('graph');
       if (!graph || graph.destroyed) return;
-      if (!self.shouldUpdate(e.item, { event: e, action: 'deactivate' })) return;
+      if (!self.shouldUpdate(e.item, { event: e, action: 'deactivate' }, self)) return;
 
       const activeState = self.activeState;
       const inactiveState = self.inactiveState;

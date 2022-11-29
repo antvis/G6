@@ -52,7 +52,7 @@ export default {
       return;
     }
 
-    if (this.shouldBegin && !this.shouldBegin.call(this, evt)) {
+    if (this.shouldBegin && !this.shouldBegin(evt, this)) {
       return;
     }
 
@@ -148,11 +148,11 @@ export default {
   onWheel(e: IG6GraphEvent) {
     const { graph, fixSelectedItems } = this;
 
-    if (this.shouldBegin && !this.shouldBegin.call(this, e)) {
+    if (this.shouldBegin && !this.shouldBegin(e, this)) {
       return;
     }
 
-    if (!this.shouldUpdate.call(this, e)) {
+    if (!this.shouldUpdate(e, this)) {
       return;
     }
     e.preventDefault();

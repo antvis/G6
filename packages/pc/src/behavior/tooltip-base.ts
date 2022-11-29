@@ -9,7 +9,7 @@ export default {
     this.graph.emit('tooltipchange', { item: e.item, action: 'show' });
   },
   onMouseMove(e: IG6GraphEvent) {
-    if (!this.shouldUpdate(e)) {
+    if (!this.shouldUpdate(e, this)) {
       this.hideTooltip();
       return;
     }
@@ -19,7 +19,7 @@ export default {
     this.updatePosition(e);
   },
   onMouseLeave(e: IG6GraphEvent) {
-    if (!this.shouldEnd(e)) {
+    if (!this.shouldEnd(e, this)) {
       return;
     }
     this.hideTooltip();
@@ -49,7 +49,7 @@ export default {
   updatePosition(e: IG6GraphEvent) {
     const shouldBegin = this.get('shouldBegin');
     const { width, height, container, graph } = this;
-    if (!shouldBegin(e)) {
+    if (!shouldBegin(e, this)) {
       modifyCSS(container, {
         visibility: 'hidden',
       });

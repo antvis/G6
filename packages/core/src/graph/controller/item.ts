@@ -406,7 +406,7 @@ export default class ItemController {
     const combEdges = combo.getEdges() || [];
     for (let i = 0; i < combEdges.length; i++) {
       const edge = combEdges[i];
-      if (edge && !edge.destroyed) {
+      if (!edge?.destroyed && !edge?.getSource()?.destroyed && !edge?.getTarget()?.destroyed) {
         edge.refresh();
       }
     }

@@ -11,7 +11,7 @@ Add text water marker for the canvas.
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| texts | String[] | true | The text array for the water marker, the each item in the array with take one line |
+| texts | String[] / string / undefined | true | The text array for the water marker, the each item in the array with take one line |
 | config | Object | false | The configurations for the text water marker, the properties are listed below |
 
 `config` is the configurations for the text water marker with:
@@ -37,7 +37,7 @@ Add image water markers for the graph.
 
 | Name | Type | Required | Description |
 | --- | --- | --- | --- |
-| imgURL | String[] | true | The url of the image for the water marker, the default value is `'https://gw.alipayobjects.com/os/s/prod/antv/assets/image/logo-with-text-73b8a.svg'` |
+| imgURL | String / undefined | true | The url of the image for the water marker, the default value is `'https://gw.alipayobjects.com/os/s/prod/antv/assets/image/logo-with-text-73b8a.svg'` |
 | config | Object | false | The configurations for the image watermarker, the properties are listed below |
 
 `config` is the configurations for the image water marker with:

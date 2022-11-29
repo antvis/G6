@@ -77,14 +77,14 @@ export default {
     const getEdgeConfig = self.getEdgeConfig;
     // 如果起点已经指定而终点未指定，则指定终点
     if (self.addingEdge && self.edge) {
-      if (!self.shouldEnd.call(self, ev)) return;
+      if (!self.shouldEnd(ev, self)) return;
 
       let edgeConfig;
       if (getEdgeConfig && isFunction(getEdgeConfig)) {
         edgeConfig = getEdgeConfig({
           source: self.source,
           target: model.id,
-        });
+        }, self);
       } else {
         edgeConfig = self.edgeConfig;
       }
@@ -125,14 +125,14 @@ export default {
       self.addingEdge = false;
     } else {
       // 如果边的起点没有指定，则根据起点创建新边
-      if (!self.shouldBegin.call(self, ev)) return;
+      if (!self.shouldBegin(ev, self)) return;
       // 获取自定义 edge 配置
       let edgeConfig;
       if (getEdgeConfig && isFunction(getEdgeConfig)) {
         edgeConfig = getEdgeConfig({
           source: model.id,
           target: model.id,
-        });
+        }, self);
       } else {
         edgeConfig = self.edgeConfig;
       }

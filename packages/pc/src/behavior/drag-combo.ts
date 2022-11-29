@@ -63,7 +63,7 @@ export default {
       return false;
     }
 
-    if (!this.shouldUpdate.call(this, evt)) {
+    if (!this.shouldUpdate(evt, this)) {
       return false;
     }
 
@@ -207,7 +207,7 @@ export default {
   onDrop(evt: IG6GraphEvent) {
     // 被放下的目标 combo
     const { item } = evt;
-    this.currentShouldEnd = this.shouldEnd.call(this, evt, item);
+    this.currentShouldEnd = this.shouldEnd(evt, item, this);
     this.updatePositions(evt, !this.currentShouldEnd);
     if (!this.currentShouldEnd || !item || !this.targets || item.destroyed) return;
 
@@ -245,7 +245,7 @@ export default {
     const comboId = item.getModel().comboId as string;
 
     const newParentCombo = comboId ? graph.findById(comboId) : undefined;
-    this.currentShouldEnd = this.shouldEnd.call(this, evt, newParentCombo);
+    this.currentShouldEnd = this.shouldEnd(evt, newParentCombo, this);
     this.updatePositions(evt, !this.currentShouldEnd);
     if (!this.currentShouldEnd) return;
 

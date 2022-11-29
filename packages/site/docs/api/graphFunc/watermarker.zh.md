@@ -11,7 +11,7 @@ order: 16
 
 | 名称   | 类型     | 是否必选 | 描述                                     |
 | ------ | -------- | -------- | ---------------------------------------- |
-| texts  | String[] | true     | 水印文字内容数组，数组中的不同项将会换行 |
+| texts  | String[] / string / undefined | true     | 水印文字内容数组，数组中的不同项将会换行 |
 | config | Object   | false    | 文字水印配置项，可选，具体字段见下方     |
 
 其中，config 为文字水印配置项，具体字段：
@@ -37,7 +37,7 @@ graph.setTextWaterMarker(['AntV', 'G6']);
 
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
-| imgURL | String[] | true | 水印图片，默认为 'https://gw.alipayobjects.com/os/s/prod/antv/assets/image/logo-with-text-73b8a.svg' |
+| imgURL | String / undefined | true | 水印图片，默认为 'https://gw.alipayobjects.com/os/s/prod/antv/assets/image/logo-with-text-73b8a.svg' |
 | config | Object | false | 图片水印配置项，可选，具体字段见下方 |
 
 其中，config 为图片水印配置项，具体字段：

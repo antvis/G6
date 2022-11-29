@@ -9,7 +9,7 @@ export default {
        * 发生收缩/扩展变化时的回调
        */
       trigger: DEFAULT_TRIGGER,
-      onChange() {},
+      onChange() { },
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -44,16 +44,16 @@ export default {
       return;
     }
     const collapsed = !sourceData.collapsed;
-    if (!this.shouldBegin(e, collapsed)) {
+    if (!this.shouldBegin(e, collapsed, this)) {
       return;
     }
     sourceData.collapsed = collapsed;
     item.getModel().collapsed = collapsed;
     this.graph.emit('itemcollapsed', { item: e.item, collapsed });
-    if (!this.shouldUpdate(e, collapsed)) {
+    if (!this.shouldUpdate(e, collapsed, this)) {
       return;
     }
-    this.onChange(item, collapsed);
+    this.onChange(item, collapsed, this);
     this.graph.layout();
   },
 };
