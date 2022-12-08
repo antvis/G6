@@ -38,9 +38,9 @@ G6 提供了 9 种内置边：
 所有内置的边支持的通用属性：
 
 | 名称 | 是否必须 | 类型 | 备注 |
-| --- | --- | --- | --- | --- |
+| --- | --- | --- | --- |
 | id | true | String | 边唯一 ID，**必须**是唯一的 string |
-| source | true | String | Number | 起始点 id |
+| source | true | String | 起始点 id |
 | target | true | String | 结束点 id |
 | type | false | String | 指定边的类型，可以是内置边的类型名称，也可以是自定义边的名称。默认为 `'line'` |
 | sourceAnchor | false | Number | 边的起始节点上的锚点的索引值 |
@@ -278,15 +278,15 @@ graph.render();
   color: '#722ed1',     // 边颜色
   size: 5,              // 边粗细
   style: {
-  	lineDash: [2, 2]    // 虚线边
+    lineDash: [2, 2]    // 虚线边
   },
   label: 'cubic-vertical',
   labelCfg: {
-  	position: 'center', // 其实默认就是 center，这里写出来便于理解
+    position: 'center', // 其实默认就是 center，这里写出来便于理解
     autoRotate: true,   // 使文本随边旋转
     style: {
       stroke: 'white',  // 给文本添加白边和白色背景
-    	lineWidth: 5,     // 文本白边粗细
+      lineWidth: 5,     // 文本白边粗细
       fill: '#722ed1',  // 文本颜色
     }
   }
