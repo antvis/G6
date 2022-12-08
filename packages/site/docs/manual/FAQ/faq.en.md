@@ -72,4 +72,4 @@ group.addShape('text', {
 
 ### Performance Improvement
 
-The performance problem in G6 has two aspect: rendering and calculation(e.g. layout). We are trying our best to improve the built-in code in G6 to make the proformance better. But sometimes, we suggest users to implement graph app with better way to alleviate the probmen. Refre to (How to imporve my G6 app)[] to see the tips for your app!
+The performance problem in G6 has two aspect: rendering and calculation(e.g. layout). We are trying our best to improve the built-in code in G6 to make the proformance better. But sometimes, we suggest users to implement graph app with better way to alleviate the probmen. Refre to [Performance Tips for G6 Apps](/en/docs/manual/faq/performance-opt) to see the tips for your app!

@@ -5,7 +5,7 @@ order: 13
 
 ## Introduction
 
-Performance problem is significant on graph visualization apps since graph usually has complex and large data. There are some tips to alleviate the issue for G6 apps. G6 has two performance bottleneck: rendering and computation. If you are not interested about the theory, jump to the [Tips]() chapter.
+Performance problem is significant on graph visualization apps since graph usually has complex and large data. There are some tips to alleviate the issue for G6 apps. G6 has two performance bottleneck: rendering and computation. If you are not interested about the theory, jump to the [Tips](#tips) chapter.
 
 ### Performance Bottleneck - Rendering
 
@@ -28,7 +28,7 @@ The `width` and `height` should be assigned according to the container DOM in th
 
 Comparing to Canvas, some users might be more familiar with the DOM/SVG. And the shapes rendered by SVG could be inspected by the browser console. When you defined a shape by `group.addShape('dom', {...})` in custom node, the graph instance must be configured with `renderer: 'svg'`. **BUT, the performance of SVG is much worse than Canvas.** If you have medium size or large size data to visualize, we strongly suggest you to use Canvas instead of SVG. And Canvas is very flexible to defined all kinds of nodes, including those look like DOM card. For example, there are two card-like node which is defined and redered by canvas:
 
-<img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*3cRGRb5nB_UAAAAAAAAAAABkARQnAQ" width=300 style="display: inline-flex"/><img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*b-g0RoOpI3sAAAAAAAAAAABkARQnAQ" width=300 style="display: inline-flex" />
+<img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*3cRGRb5nB_UAAAAAAAAAAABkARQnAQ" width=300 style="display: inline-flex" alt='' /><img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*b-g0RoOpI3sAAAAAAAAAAABkARQnAQ" width=300 style="display: inline-flex" alt='' />
 
 - http://g6.antv.antgroup.com/en/examples/item/customNode/#card
 - http://g6.antv.antgroup.com/en/examples/item/customNode/#cardNode
@@ -49,13 +49,13 @@ const labelShape = nodeShapeGroup.find(ele => ele.get('name') === 'label-shape')
 console.log(nodeShapes[0].attr(), keyShape.attr(), labelShape.attr()); // get and print the shape's style attributes
 ```
 
-Besides, we suggest to limit the number of shapes in custom node/edge/combo, refer to the chapter [Cut down the Shapes on Custom Items]().
+Besides, we suggest to limit the number of shapes in custom node/edge/combo, refer to the chapter [Cut down the Shapes on Custom Items](#cut-down-the-shapes-on-custom-items).
 
 ### Cut down the Shapes on Custom Items
 
 The rendering performance depends on the number of shapes on the canvas to a great degree. Sometimes, although there are only 100 nodes, the complex shapes on custom node lead to large number of shapes on canvas. For example, there are 27 shapes in the following node, some of them are hidden by scrolled container:
 
-<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*WUI9Sr9E5a0AAAAAAAAAAAAADmJ7AQ/original" width=300 />
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*WUI9Sr9E5a0AAAAAAAAAAAAADmJ7AQ/original" width=300 alt='' />
 
 We suggest: 
 - Cut down the unnecessary shapes. e.g. if you want to add stroke, configure `lineWidth` and `stroke` for a shape instead of adding an extra background shape.
@@ -73,8 +73,8 @@ circleShape.hide(); // hide
 
 - Adjust the visibility of shapes according to the detail/zoom level of the graph. On small graphs, it is feasible to show every detail infomation of a node data on the displaying node, since the users are interested in the detail in those cases. But on large graphs with an small zoom ratio, user will be more interested about the overview structure of the data, and the detail when they zoom-in the graph. So we suggest to adjust the visibility of shapes according to detail/zoom level to reduce the clutter of infomation, and improve the performance in the same time. Try to zoom-in and zoom-out the graph in this Demo [Decision Tree](http://g6.antv.antgroup.com/en/examples/case/treeDemos/#decisionTree), you will see the shapes being hidden and shown graciously (9 shapes in detail view, 2 shapes in overview).
 
-<img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HS5gQ6yCiL4AAAAAAAAAAAAAARQnAQ" width=500 />
-<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*b03ARph0fyUAAAAAAAAAAAAADmJ7AQ/original" width=500 />
+<img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HS5gQ6yCiL4AAAAAAAAAAAAAARQnAQ" width=500 alt='' />
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*b03ARph0fyUAAAAAAAAAAAAADmJ7AQ/original" width=500 alt='' />
 
 
 ### Implement the Update Function for Custom Items

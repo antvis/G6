@@ -27,7 +27,7 @@ G6 内部代码，我们在持续迭代其性能。而基于 G6 的图应用，�
 ### 尽可能选择 Canvas 渲染
 
 相比于 Canvas，可能部分开发者更熟悉 DOM/SVG 的定义，毕竟 SVG 渲染出来之后可以审查元素，更符合我们的日常调试习惯。比如当你在自定义节点中使用 `group.addShape('dom', {...})` 这种 'dom' 图形时，就必须要使用 SVG 渲染，即在图实例上配置 `renderer: 'svg'`。**但 SVG 的性能比 Canvas 差得多。** 在数据较大、节点比较复杂的情况下，我们强烈推荐你使用 Canvas 进行渲染。Canvas 定义图形的方式也非常灵活，完全可以覆盖 SVG 的能力，或任何看起来像 DOM 定义的卡片样式的节点。比如下面这两个例子，都是使用 Canvas 渲染和定义。
-<img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*3cRGRb5nB_UAAAAAAAAAAABkARQnAQ" width=300 style="display: inline-flex"/><img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*b-g0RoOpI3sAAAAAAAAAAABkARQnAQ" width=300 style="display: inline-flex" />
+<img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*3cRGRb5nB_UAAAAAAAAAAABkARQnAQ" width=300 style="display: inline-flex" alt='' /><img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*b-g0RoOpI3sAAAAAAAAAAABkARQnAQ" width=300 style="display: inline-flex" alt='' />
 
 - http://g6.antv.antgroup.com/examples/item/customNode/#card
 - http://g6.antv.antgroup.com/examples/item/customNode/#cardNode
@@ -53,7 +53,7 @@ console.log(nodeShapes[0].attr(), keyShape.attr(), labelShape.attr()); // 获取
 ### 减少自定义元素的图形数量
 
 图的渲染性能很大程度取决于画布上图形的数量。有时虽然数据层面只有 100 个节点，但由于自定义节点非常复杂，每个节点达到数十个图形，再加上复杂的自定义边，可能图上图形也能够达到上万。比如下面这个节点上有二十七个图形（因为节点带滚动，部分文字、锚点被隐藏）：
-<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*WUI9Sr9E5a0AAAAAAAAAAAAADmJ7AQ/original" width=300 />
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*WUI9Sr9E5a0AAAAAAAAAAAAADmJ7AQ/original" width=300 alt='' />
 
 - 减少不必要的图形。例如，给矩形增加边框，不需要新增图形，只需要给矩形设置描边粗细 `lineWidth` 和描边色 `stroke` 即可。
 - 默认看不见的图形，设置 `visible: false`（而不是 `opacity: 0`）进行隐藏。在自定义节点的 `update` 方法或 `draw` 方法中，根据情况再通过 `shape.show()` 将其显示出来或 `shape.hide()` 再次隐藏，e.g.
@@ -68,8 +68,8 @@ circleShape.hide(); // 隐藏
 ```
 - 根据缩放等级，调整显示的图形。在小规模的图上，每个节点都有详细信息性能问题不大，且用户也许需要在每个节点上看到如此详细的信息。但在较大规模的图上，概览时用户更关心的是图的关系结构，此时我们应当考虑，根据情况调整自定义节点上图形的数量，隐藏不必要的信息。这样做一方面可以减小渲染的压力，另一方面可以让用户更高效地获得更清晰的信息。在官网案例[决策树](http://g6.antv.antgroup.com/examples/case/treeDemos/#decisionTree)中，进行画布的缩放，可以看到详情（左）和缩略节点（右）的优雅切换。每个节点上图形显示的图形数量从 9 个（详细）降低到 2 个（缩略）。
 
-<img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HS5gQ6yCiL4AAAAAAAAAAAAAARQnAQ" width=500 />
-<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*b03ARph0fyUAAAAAAAAAAAAADmJ7AQ/original" width=500 />
+<img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HS5gQ6yCiL4AAAAAAAAAAAAAARQnAQ" width=500 alt='' />
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*b03ARph0fyUAAAAAAAAAAAAADmJ7AQ/original" width=500 alt='' />
 
 
 ### 为自定义元素实现 update 方法
