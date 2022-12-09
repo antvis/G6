@@ -1,5 +1,9 @@
 # ChangeLog
 
+### 4.7.17
+
+- fix: expandCombo and the edges of the children are not refreshed, closes: #3250;
+
 ### 4.7.16
 
 - feat: allowDragOnItem config for scroll-canvas, closes: #3062;

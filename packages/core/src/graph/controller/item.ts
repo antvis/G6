@@ -470,8 +470,10 @@ export default class ItemController {
       combo = graph.findById(combo) as ICombo;
     }
     const children = (combo as ICombo).getChildren();
+    const edgeSet = new Set<IEdge>();
     children.nodes.forEach((node) => {
       graph.showItem(node, stack);
+      node.getEdges().forEach(edge => edgeSet.add(edge));
     });
     children.combos.forEach((c) => {
       if (c.getModel().collapsed) {
@@ -479,7 +481,9 @@ export default class ItemController {
       } else {
         graph.showItem(c, stack);
       }
+      c.getEdges().forEach(edge => edgeSet.add(edge));
     });
+    edgeSet.forEach(edge => edge.refresh());
   }
 
   /**
