@@ -3,6 +3,9 @@
 ### 4.7.17
 
 - fix: expandCombo and the edges of the children are not refreshed, closes: #3250;
+- fix: the item param of the afterremoveitem for combo should be data;
+- fix: add type to the parameter list of beforeremoveitem event;
+- fix: edge update with destroyed end items, closes: #3925;
 
 ### 4.7.16
 

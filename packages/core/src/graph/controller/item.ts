@@ -504,10 +504,10 @@ export default class ItemController {
     }
 
     const itemModel = clone(item.getModel());
-    graph.emit('beforeremoveitem', { item: itemModel });
-
     let type = '';
     if (item.getType) type = item.getType();
+    graph.emit('beforeremoveitem', { item: itemModel, type });
+
     const items = graph.get(`${type}s`);
     const index = items.indexOf(item);
     if (index > -1) items.splice(index, 1);
