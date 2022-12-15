@@ -6,6 +6,9 @@
 - fix: the item param of the afterremoveitem for combo should be data;
 - fix: add type to the parameter list of beforeremoveitem event;
 - fix: edge update with destroyed end items, closes: #3925;
+- perf: take the max value of padding array for circle combo, closes: #4113;
+- feat: support top-center for rect combo label position, closes: #3750;
+- feat: createCombo and uncombo support stack, closes: #3695, #3323;
 
 ### 4.7.16
 

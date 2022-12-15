@@ -105,7 +105,7 @@ graph.render();
 
 ### labelCfg
 
-`labelCfg` is an object to configure the label of the combo. The [Combo Common Label Configurations](/en/docs/manual/middle/elements/combos/defaultCombo/#label-and-labelcfg) are available. Base on the code in [style](#style) section, we add `labelCfg` to `defaultCombo`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qAqbSLqTWSoAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
+`labelCfg` is an object to configure the label of the combo. The [Combo Common Label Configurations](/en/docs/manual/middle/elements/combos/defaultCombo/#label-and-labelcfg) are available. *Supported by v4.7.17 and later versions* And rect type combo has a special value `'top-center'` for `labelCfg.position`, to place the label text on the top center of the rect. Base on the code in [style](#style) section, we add `labelCfg` to `defaultCombo`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qAqbSLqTWSoAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ```javascript
 const data = {

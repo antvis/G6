@@ -39,7 +39,7 @@ export default class Combo extends Node implements ICombo {
         size.width += padding * 2;
         size.height += padding * 2;
       } else {
-        size.r += padding[0];
+        size.r = size.r + Math.max(...(padding as Array<number>));
         size.width += (padding[1] + padding[3]) || padding[1] * 2;
         size.height += (padding[0] + padding[2]) || padding[0] * 2;
       }

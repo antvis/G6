@@ -1748,9 +1748,9 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
   /**
    * 根据已经存在的节点或 combo 创建新的 combo
    * @param combo combo ID 或 Combo 配置
-   * @param children 添加到 Combo 中的元素，包括节点和 combo
+   * @param childrenIds 添加到 Combo 中的元素，包括节点和 combo
    */
-  public createCombo(combo: string | ComboConfig, children: string[]): void {
+  public createCombo(combo: string | ComboConfig, childrenIds: string[], stack: boolean = true): void {
     const itemController: ItemController = this.get('itemController');
 
     this.set('comboSorted', false);
@@ -1772,9 +1772,26 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       comboConfig = combo;
     }
 
+    const shouldStack = stack && this.get('enabledStack');
+
+    // cache the children's old parent for stack
+    const childrenParentCache = { nodes: [], combos: [] };
+    if (shouldStack) {
+      childrenIds.forEach(childId => {
+        const childItem = this.findById(childId);
+        const childType = childItem.getType();
+        if (childType !== 'node' && childType !== 'combo') return;
+        const childModel = childItem.getModel();
+        childrenParentCache[`${childType}s`].push({
+          id: childId,
+          parentId: childType === 'node' ? childModel.comboId : childModel.parentId,
+        })
+      });
+    }
+
     // step 2: Pull children out of their parents
     let comboTrees = this.get('comboTrees');
-    const childrenIdsSet = new Set<string>(children);
+    const childrenIdsSet = new Set<string>(childrenIds);
     const pulledComboTreesById = new Map<string, ComboTree>();
 
     if (comboTrees) {
@@ -1809,7 +1826,8 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     }
 
     // step 3: 更新 children，根据类型添加 comboId 或 parentId
-    const trees: ComboTree[] = children.map(elementId => {
+    const newChildrenParent = { nodes: [], combos: [] };
+    const trees: ComboTree[] = childrenIds.map(elementId => {
       const item = this.findById(elementId);
       const model = item.getModel();
 
@@ -1828,6 +1846,12 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       } else if (type === 'node') {
         (cItem as NodeConfig).comboId = comboId;
         model.comboId = comboId;
+      }
+      if (shouldStack) {
+        newChildrenParent[`${type}s`].push({
+          id: model.id,
+          parentId: comboId
+        });
       }
 
       return cItem;
@@ -1856,13 +1880,21 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
 
       this.sortCombos();
     }
+
+    if (shouldStack) {
+      newChildrenParent.combos.push(comboConfig);
+      this.pushStack('createCombo', {
+        before: childrenParentCache,
+        after: newChildrenParent
+      });
+    }
   }
 
   /**
    * 解散 combo
    * @param {String | INode | ICombo} combo 需要被解散的 Combo item 或 id
    */
-  public uncombo(combo: string | ICombo) {
+  public uncombo(combo: string | ICombo, stack: boolean = true) {
     const self = this;
     let comboItem: ICombo = combo as ICombo;
     if (isString(combo)) {
@@ -1874,6 +1906,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       return;
     }
 
+    const comboModel = comboItem.getModel();
     const parentId = comboItem.getModel().parentId;
     let comboTrees = self.get('comboTrees');
     if (!comboTrees) comboTrees = [];
@@ -1883,6 +1916,14 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     let brothers = [];
     const comboItems = this.get('combos');
     const parentItem = this.findById(parentId as string) as ICombo;
+
+
+    const shouldStack = stack && this.get('enabledStack');
+    let comboConfig: any = {};
+    if (shouldStack) {
+      comboConfig = clone(comboModel);
+      comboConfig.children = [];
+    }
 
     comboTrees.forEach(ctree => {
       if (treeToBeUncombo) return; // terminate the forEach
@@ -1928,6 +1969,7 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
             parentItem.addChild(item);
             brothers.push(child);
           });
+          this.updateCombo(parentItem);
           return false;
         }
         return true;
@@ -1945,6 +1987,31 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         delete childModel.parentId; // update the parentId of the model
         delete childModel.comboId; // update the comboId of the model
         if (child.itemType !== 'node') comboTrees.push(child);
+      });
+    }
+
+    if (shouldStack) {
+      // cache the children's old parent and combo model for stack
+      const childrenParentCache = { nodes: [], combos: [] };
+      const childNewParent = { nodes: [], combos: [] };
+      treeToBeUncombo.children?.forEach(child => {
+        const childItem = this.findById(child.id);
+        const childType = childItem.getType();
+        if (childType !== 'node' && childType !== 'combo') return;
+        childrenParentCache[`${childType}s`].push({
+          id: child.id,
+          parentId: comboId
+        });
+        childNewParent[`${childType}s`].push({
+          id: child.id,
+          parentId
+        });
+      });
+
+      childrenParentCache.combos.push(comboConfig);
+      this.pushStack('uncombo', {
+        before: childrenParentCache,
+        after: childNewParent
       });
     }
   }
