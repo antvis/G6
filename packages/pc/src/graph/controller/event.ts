@@ -166,13 +166,10 @@ export default class EventController extends AbstractEvent {
       evt.canvasY = canvasPoint.y;
     }
 
-    // emit('click', evt);
-
     if (evt.name && !evt.name.includes(':')) {
       graph.emit(`${type}:${eventType}`, evt); // emit('node:click', evt)
-      graph.emit(eventType, evt);
-    }
-    else {
+      graph.emit(eventType, evt); // emit('click', evt);
+    } else if (evt.name) {
       graph.emit(evt.name, evt); // emit('text-shape:click', evt)
     }
 
