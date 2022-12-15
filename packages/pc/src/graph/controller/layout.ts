@@ -205,6 +205,7 @@ export default class LayoutController extends AbstractLayout {
    */
   public layout(success?: () => void): boolean {
     const { graph } = this;
+    if (!graph || graph.get('destroyed')) return;
 
     this.data = this.setDataFromGraph();
     const { nodes, hiddenNodes } = this.data;
@@ -544,6 +545,7 @@ export default class LayoutController extends AbstractLayout {
   // 更新布局参数
   public updateLayoutCfg(cfg) {
     const { graph, layoutMethods } = this;
+    if (!graph || graph.get('destroyed')) return;
     // disableTriggerLayout 不触发重新布局，仅更新参数
     const { disableTriggerLayout, ...otherCfg } = cfg;
     const layoutCfg = mix({}, this.layoutCfg, otherCfg);
