@@ -1,5 +1,9 @@
 # ChangeLog
 
+### 4.7.18
+
+- fix: destroy graph and call layout problem, closes: #4126;
+
 ### 4.7.17
 
 - fix: expandCombo and the edges of the children are not refreshed, closes: #3250;
