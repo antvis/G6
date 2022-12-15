@@ -177,7 +177,7 @@ G6.registerNode(
           lineWidth: 0,
           fill: lightOrange,
         },
-        // must be assigned in G6 3.3 and later versions. it can be any value you want
+        // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
         name: 'in-fan-shape',
       });
       // 定义代表出度的扇形形状
@@ -192,7 +192,7 @@ G6.registerNode(
           lineWidth: 0,
           fill: lightBlue,
         },
-        // must be assigned in G6 3.3 and later versions. it can be any value you want
+        // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
         name: 'out-fan-shape',
       });
       // 返回 keyshape

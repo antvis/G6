@@ -146,6 +146,7 @@ G6.registerNode(
           lineWidth: 1.2,
           fillOpacity: 1,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'rect-shape',
       });
       group.addShape('circle', {
@@ -155,6 +156,7 @@ G6.registerNode(
           r: 3,
           fill: stroke,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'circle-shape',
       });
       group.addShape('circle', {
@@ -164,6 +166,7 @@ G6.registerNode(
           r: 3,
           fill: stroke,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'circle-shape2',
       });
       return rect;
@@ -247,6 +250,7 @@ G6.registerEdge('fund-polyline', {
         lineWidth: 1.2,
         endArrow,
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'path-shape',
     });
 
@@ -263,6 +267,7 @@ G6.registerEdge('fund-polyline', {
         textBaseline: 'middle',
         fill: '#000000D9',
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'text-shape-amount',
     });
     // type
@@ -276,6 +281,7 @@ G6.registerEdge('fund-polyline', {
         textBaseline: 'middle',
         fill: '#000000D9',
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'text-shape-type',
     });
     // date
@@ -290,6 +296,7 @@ G6.registerEdge('fund-polyline', {
         textBaseline: 'middle',
         fill: '#000000D9',
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'text-shape-date',
     });
     return line;

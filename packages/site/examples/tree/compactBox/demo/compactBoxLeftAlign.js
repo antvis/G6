@@ -15,6 +15,7 @@ G6.registerNode('crect', {
         lineWidth: 0,
         opacity: 0,
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'rect-shape',
       draggable: true,
     });
@@ -26,6 +27,7 @@ G6.registerNode('crect', {
         x: 0,
         y: 0,
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'label-shape',
       draggable: true,
     });
@@ -37,6 +39,7 @@ G6.registerNode('crect', {
         r: 5,
         stroke: '#000',
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'circle-shape',
       draggable: true,
     });
@@ -53,6 +56,7 @@ G6.registerNode('crect', {
           ['L', bboxWidth, 0],
         ],
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'path-shape',
       draggable: true,
     });

@@ -277,6 +277,7 @@ registerEdge("dice-er-edge", {
           ],
           endArrow: true,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: "path-shape",
       });
     } else if (!sourceNode.collapsed) {
@@ -301,6 +302,7 @@ registerEdge("dice-er-edge", {
           ],
           endArrow: true,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: "path-shape",
       });
     }
@@ -404,6 +406,7 @@ registerNode("dice-er-box", {
         radius: [0, 0, boxStyle.radius, boxStyle.radius],
         cursor: "pointer",
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: collapsed ? "expand" : "collapse",
     });
 
@@ -417,6 +420,7 @@ registerNode("dice-er-box", {
         radius: [0, 0, boxStyle.radius, boxStyle.radius],
         cursor: "pointer",
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: collapsed ? "expand" : "collapse",
     });
 
@@ -518,6 +522,7 @@ registerNode("dice-er-box", {
             lineWidth: 1,
             cursor: "pointer",
           },
+          // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
           name: `item-${Math.floor(startIndex) + i}-content`,
           draggable: true,
         });
@@ -561,6 +566,7 @@ registerNode("dice-er-box", {
             fontWeight: isSelected ? 500 : 100,
             cursor: "pointer",
           },
+          // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
           name: `item-${Math.floor(startIndex) + i}`,
         });
       });

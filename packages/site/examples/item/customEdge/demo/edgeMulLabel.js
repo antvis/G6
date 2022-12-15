@@ -26,6 +26,7 @@ G6.registerEdge('multipleLabelsEdge', {
           ['L', endPoint.x, endPoint.y],
         ],
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'path-shape',
     });
     if (cfg.label && cfg.label.length) {
@@ -39,6 +40,7 @@ G6.registerEdge('multipleLabelsEdge', {
           x: startPoint.x,
           y: startPoint.y - 10,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'left-text-shape',
       });
       if (cfg.label.length > 1) {
@@ -52,6 +54,7 @@ G6.registerEdge('multipleLabelsEdge', {
             x: endPoint.x,
             y: endPoint.y - 10,
           },
+          // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
           name: 'right-text-shape',
         });
       }

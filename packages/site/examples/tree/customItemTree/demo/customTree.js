@@ -13,6 +13,7 @@ G6.registerNode(
           width:1,
           height: 1
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'rect-shape',
       });
       const content = cfg.name.replace(/(.{19})/g, '$1\n');
@@ -25,6 +26,7 @@ G6.registerNode(
           textBaseline: 'middle',
           fill: '#666',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'text-shape',
       });
       const bbox = text.getBBox();
@@ -49,6 +51,7 @@ G6.registerNode(
             stroke: '#666',
             lineWidth: 2,
           },
+          // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
           name: 'collapse-icon',
         });
       }

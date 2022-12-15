@@ -47,6 +47,7 @@ G6.registerCombo(
           height: style.height,
         },
         draggable: true,
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'combo-keyShape',
       });
       // Add the circle on the right
@@ -62,6 +63,7 @@ G6.registerCombo(
           symbol: collapseIcon,
         },
         draggable: true,
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'combo-marker-shape',
       });
       return rect;

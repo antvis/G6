@@ -112,7 +112,7 @@ G6.registerNode('diamond', {
         path: this.getPath(cfg), // Get the path by cfg
         stroke: cfg.color, // Apply the color to the stroke. For filling, use fill: cfg.color instead
       },
-      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'path-shape',
       // allow the shape to response the drag events
       draggable: true
@@ -131,7 +131,7 @@ G6.registerNode('diamond', {
           text: cfg.label,
           fill: '#666',
         },
-        // must be assigned in G6 3.3 and later versions. it can be any value you want
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'text-shape',
         // allow the shape to response the drag events
         draggable: true
@@ -159,7 +159,7 @@ G6.registerNode('diamond', {
 });
 ```
 
-We have registered a dimond node. Attention: you need to assign `name` and `draggable` for the shapes added in the custom node, where the `name` can be not unique with any value you want. `draggable: true` means that the shape is allowed to response the drag events. Only when `draggable: true`, the interact behavior `'drag-node'` can be responsed on this shape. In the codes above, if you only assign `draggable: true` to the `keyShape` but not the `label`, the drag events will only be responsed on the `keyShape`.
+We have registered a dimond node. Attention: you need to assign `name` and `draggable` for the shapes added in the custom node, where **the value of `name` must be unique in a custom node/edge/combo type**. `draggable: true` means that the shape is allowed to response the drag events. Only when `draggable: true`, the interact behavior `'drag-node'` can be responsed on this shape. In the codes above, if you only assign `draggable: true` to the `keyShape` but not the `label`, the drag events will only be responsed on the `keyShape`.
 
 The following code uses the diamond node:
 
@@ -257,7 +257,7 @@ G6.registerNode(
           ...style,
         },
         draggable: true,
-        name: 'diamond-keyShape',
+        name: 'diamond-keyShape', // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       });
       // return the keyShape
       return keyShape;
@@ -293,7 +293,7 @@ G6.registerNode(
           height: height,
           img: cfg.img,
         },
-        // must be assigned in G6 3.3 and later versions. it can be any value you want
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'image-shape',
       });
       // Execute the animation
@@ -503,6 +503,7 @@ G6.registerNode(
         </div>
           `,
         },
+        name: 'dom-node-keyShape', // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         draggable: true,
       });
     },
@@ -561,6 +562,7 @@ G6.registerNode(
         </div>
           `,
         },
+        name: 'dom-node-keyShape', // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         draggable: true,
       });
     },

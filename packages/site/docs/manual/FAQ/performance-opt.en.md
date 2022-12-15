@@ -64,7 +64,7 @@ We suggest:
 ```javascript
 const circleShape = group.addShape('circle', {
   attrs: {}, // if hide the shape by opacity: 0, the shape is rendered. so we suggest to use visible as below
-  name: 'custom-circle',
+  name: 'custom-circle', // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
   visible: false, // hide the shape and it will not be rendered
 });
 circleShape.show(); // show
@@ -119,7 +119,7 @@ G6.registerNode('custom-node', {
   draw: (cfg, group) => {
     group.addShape('circle', {
       attrs: {...}, // styles,
-      name: 'xxx'
+      name: 'xxx' // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
     })
     // ...
   },

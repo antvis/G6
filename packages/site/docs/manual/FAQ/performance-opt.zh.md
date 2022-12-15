@@ -60,7 +60,7 @@ console.log(nodeShapes[0].attr(), keyShape.attr(), labelShape.attr()); // 获取
 ```javascript
 const circleShape = group.addShape('circle', {
   attrs: {}, // 在 attrs 中设置 opacity: 0 也能达到看不见的目的，但实际上还是渲染了，更推荐使用 visible 控制
-  name: 'custom-circle',
+  name: 'custom-circle', // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
   visible: false, // 默认隐藏。注意 visible 字段的位置。visible 为 false 时，图形不会被渲染
 });
 circleShape.show(); // 显示
@@ -114,7 +114,7 @@ G6.registerNode('custom-node', {
   draw: (cfg, group) => {
     group.addShape('circle', {
       attrs: {...}, // styles,
-      name: 'xxx'
+      name: 'xxx' // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
     })
     // ...
   },

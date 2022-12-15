@@ -62,7 +62,9 @@ group.addShape('text', {
     // ... other attributes,
     stroke: '#fff',
     lineWidth: 4,
-  }
+  },
+  // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
+  name: 'text-shape'
 })
 ```
 

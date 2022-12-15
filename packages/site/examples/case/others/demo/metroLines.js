@@ -30,6 +30,7 @@ G6.registerNode(
           fill: cfg.color || (cfg.style && cfg.style.fill),
           opacity: 0.6,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'back1-shape',
       });
       const back2 = group.addShape('circle', {
@@ -42,6 +43,7 @@ G6.registerNode(
           // 为了显示清晰，随意设置了颜色
           opacity: 0.6,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'back2-shape',
       });
       const back3 = group.addShape('circle', {
@@ -53,6 +55,7 @@ G6.registerNode(
           fill: cfg.color,
           opacity: 0.6,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'back3-shape',
       });
       group.sort(); // 排序，根据zIndex 排序
@@ -123,6 +126,7 @@ G6.registerEdge(
             shadowColor: '#fff',
             shadowBlur: 30,
           },
+          // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
           name: 'circle-shape',
         });
         circle.animate(

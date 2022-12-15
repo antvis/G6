@@ -16,6 +16,7 @@ G6.registerNode('card-node', {
         radius: r,
         fill: '#fff',
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'main-box',
       draggable: true,
     });
@@ -29,6 +30,7 @@ G6.registerNode('card-node', {
         fill: color,
         radius: [r, r, 0, 0],
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'title-box',
       draggable: true,
     });
@@ -43,6 +45,7 @@ G6.registerNode('card-node', {
         text: cfg.id,
         fill: '#fff',
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'title',
     });
     cfg.children &&
@@ -57,6 +60,7 @@ G6.registerNode('card-node', {
           lineWidth: 1,
           fill: '#fff',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'collapse-icon',
       });
     group.addShape('text', {
@@ -68,6 +72,7 @@ G6.registerNode('card-node', {
         text: 'description',
         fill: 'rgba(0,0,0, 1)',
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: `description`,
     });
     return shape;

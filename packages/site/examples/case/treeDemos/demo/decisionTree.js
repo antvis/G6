@@ -327,6 +327,7 @@ const registerFn = () => {
             fill: '#000',
             cursor: 'pointer',
           },
+          // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
           name: 'name-shape',
         });
 
@@ -432,6 +433,7 @@ const registerFn = () => {
               cursor: 'pointer',
               fill: '#fff',
             },
+            // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
             name: 'collapse-back',
             modelId: cfg.id,
           });
@@ -448,6 +450,7 @@ const registerFn = () => {
               cursor: 'pointer',
               fill: 'rgba(0, 0, 0, 0.25)',
             },
+            // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
             name: 'collapse-text',
             modelId: cfg.id,
           });
@@ -476,6 +479,7 @@ const registerFn = () => {
                 opacity: 0,
                 fill: colors[status]
               },
+              // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
               name: 'mask-shape',
             });
             maskLabel = group.addShape('text', {
@@ -488,6 +492,7 @@ const registerFn = () => {
                 textAlign: 'center',
                 opacity: 0,
               },
+              // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
               name: 'mask-label-shape',
             });
             const collapseRect = group.find(ele => ele.get('name') === 'collapse-back');

@@ -68,6 +68,7 @@ G6.registerNode('customNode',
           lineWidth: 1,
           fill: '#fff',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'rect-intention',
       });
       // title
@@ -81,6 +82,7 @@ G6.registerNode('customNode',
           fontWeight: 'bold',
           textAlign: 'center'
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'rect-title',
       });
       // time
@@ -93,6 +95,7 @@ G6.registerNode('customNode',
           fill: '#999',
           textAlign: 'center'
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'rect-time',
       });
       if (cfg.expandRange) {
@@ -108,6 +111,7 @@ G6.registerNode('customNode',
             lineWidth: 1,
             fill: '#FFF',
           },
+          // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
           name: 'rectBtn',
         });
         // button text
@@ -121,6 +125,7 @@ G6.registerNode('customNode',
             textAlign: 'center'
           },
           capture: false,
+          // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
           name: 'rectBtn-text',
         });
         group.shapeMap['rectBtn-text'] = expandShape;
@@ -138,6 +143,7 @@ G6.registerNode('customNode',
           opacity: 0.5
         },
         visible: false,
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'polygon-shape',
       });
       expandShape.toBack();

@@ -63,7 +63,7 @@ The events on rendering shapes of Node/Ede/Combo item, e.g. `circle-shape:moused
 
 About the shape's 'name':
  - For buit-in Node/Edge/Combo type, you could know the `name` value by `graph.on('node:click', (ev) => console.log(ev.target.get('name')))` during developping.
- - For custom Node/Edge/Combo type, assign `name` which is in the same level of `attrs` for `addShape` when custom items. And we suggest to use unique `name` value in a Node/Edge/Combo type.
+ - For custom Node/Edge/Combo type, assign `name` which is in the same level of `attrs` for `addShape` when custom items. **The value of `name` must be unique in a Node/Edge/Combo type.**
 
 The following demo binds click event listener for all the shapes named `circle-shape`:
 

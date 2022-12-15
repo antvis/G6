@@ -179,7 +179,7 @@ G6.registerNode(
           lineWidth: 0,
           fill: lightOrange,
         },
-        // must be assigned in G6 3.3 and later versions. it can be any value you want
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'in-fan-shape',
       });
       // The outDegree fan
@@ -194,7 +194,7 @@ G6.registerNode(
           lineWidth: 0,
           fill: lightBlue,
         },
-        // must be assigned in G6 3.3 and later versions. it can be any value you want
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'out-fan-shape',
       });
       // return the keyshape

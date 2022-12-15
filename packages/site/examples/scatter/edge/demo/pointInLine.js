@@ -16,6 +16,7 @@ G6.registerEdge(
           fill: '#1890ff',
           r: 3,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'circle-shape',
       });
 

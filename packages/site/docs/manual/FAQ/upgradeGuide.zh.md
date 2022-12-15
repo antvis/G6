@@ -242,7 +242,7 @@ G6.registerEdge('customNode', {
 });
 ```
 
-G6 3.3 中，新增图形时建议指定 `name` 与 `draggable`。若不添加，可能导致节点/边上的非 keyShape 图形不能响应部分事件。添加方式如下：
+G6 3.3 中，新增图形时建议指定 `draggable`，必须指定 `name`（**`name` 值在同一元素类型中需要不唯一**）。若不添加，可能导致节点/边上的非 keyShape 图形不能响应部分事件。添加方式如下：
 
 ```javascript
 G6.registerEdge('customNode', {
@@ -252,14 +252,14 @@ G6.registerEdge('customNode', {
         // ... 图形属性
       },
       draggable: true, // Allow this shape to be dragged
-      name: 'key-shape', // Not unique, you can assign any string value to it
+      name: 'key-shape', // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
     });
     const circle = group.addShape('circle', {
       attrs: {
         // ... 图形属性
       },
       draggable: true, // Allow this shape to be dragged
-      name: 'circle-shape', // Not unique, you can assign any string value to it
+      name: 'circle-shape', // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
     });
     return keyShape;
   },
@@ -284,7 +284,7 @@ G6.registerEdge('customNode', {
         radius: cfg.size[0],
       },
       draggable: true,
-      name: 'marker-shape',
+      name: 'marker-shape', // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
     });
     return keyShape;
   },
@@ -299,7 +299,7 @@ G6.registerEdge('customNode', {
         r: cfg.size[0],
       },
       draggable: true,
-      name: 'marker-shape',
+      name: 'marker-shape', // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
     });
     return keyShape;
   },
@@ -323,6 +323,7 @@ group.addShape('fan', {
     clockwise: false,
     fill: '#b7eb8f',
   },
+  name: 'fan-shape' // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
 });
 ```
 

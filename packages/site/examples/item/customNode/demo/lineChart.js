@@ -24,6 +24,7 @@ G6.registerNode('circleLine', {
           stroke: '#bae7ff',
           lineDash: [4, 4],
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'circle-shape',
       });
     }
@@ -56,6 +57,7 @@ G6.registerNode('circleLine', {
           ],
           stroke: cat.color,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'path-shape',
       });
 
@@ -71,6 +73,7 @@ G6.registerNode('circleLine', {
               stroke: cat.color,
               cursor: 'pointer',
             },
+            // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
             name: 'circle-shape',
           });
           // 加上交互动画
@@ -111,6 +114,7 @@ G6.registerNode('circleLine', {
         fill: cfg.centerColor,
         stroke: 'darkgray',
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'circle-shape',
     });
     if (cfg.label) {
@@ -124,6 +128,7 @@ G6.registerNode('circleLine', {
           fill: 'white',
           fontStyle: 'bold',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'text-shape',
       });
     }
