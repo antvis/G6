@@ -345,6 +345,8 @@ export default class TreeGraph extends Graph implements ITreeGraph {
         parentData.children = [];
       }
       parentData.children.push(data);
+      const parentItem = self.findById(parent);
+      parentItem.refresh();
       self.changeData();
     }
   }
@@ -358,7 +360,8 @@ export default class TreeGraph extends Graph implements ITreeGraph {
     const self = this;
 
     // 如果没有父节点或找不到该节点，是全量的更新，直接重置data
-    if (!parentId || !self.findById(parentId)) {
+    const parentItem = self.findById(parentId);
+    if (!parentId || !parentItem) {
       console.warn(`Update children failed! There is no node with id '${parentId}'`);
       return;
     }
@@ -366,6 +369,8 @@ export default class TreeGraph extends Graph implements ITreeGraph {
     const parentModel = self.findDataById(parentId) as NodeConfig;
 
     parentModel.children = data;
+
+    parentItem.refresh();
 
     self.changeData();
   }
@@ -398,8 +403,10 @@ export default class TreeGraph extends Graph implements ITreeGraph {
       parentModel.children.push(data);
     } else {
       const index = TreeGraph.indexOfChild(parentModel.children, data.id);
-      parentModel.children[index] = data;
+      if (index > -1) parentModel.children[index] = data;
     }
+    const parentItem = self.findById(parentId);
+    parentItem?.refresh();
     self.changeData();
   }
 
@@ -411,18 +418,23 @@ export default class TreeGraph extends Graph implements ITreeGraph {
     const self = this;
     const node = self.findById(id);
 
+    let parent;
     if (!node) {
-      return;
+      parent = self.getNodes().find(node => {
+        const children = node.getModel().children || [];
+        return !!children.find(child => child.id === id);
+      });
+    } else {
+      parent = node?.get('parent');
     }
 
-    const parent = node.get('parent');
     if (parent && !parent.destroyed) {
-      const parentNode = self.findDataById(parent.get('id'));
+      const parentId = parent.get('id');
+      const parentNode = self.findDataById(parentId);
       const siblings = (parentNode && parentNode.children) || [];
-      const model: NodeConfig = node.getModel() as NodeConfig;
-
-      const index = TreeGraph.indexOfChild(siblings, model.id);
+      const index = TreeGraph.indexOfChild(siblings, id);
       siblings.splice(index, 1);
+      parent.refresh();
     }
     self.changeData();
   }

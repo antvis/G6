@@ -3,6 +3,11 @@
 ### 4.7.18
 
 - fix: destroy graph and call layout problem, closes: #4126;
+- fix: remove duplicated event emit, closes: #4043;
+- fix: mousedown on other DOMs and mouseup on canvas, click is triggered unexpectly, closes: #2922;
+- fix: mousemove and mouseup are not triggered with drag and dragend, closes: #3086;
+- fix: replace DOMMouseScroll and mousewheel with wheel event, closes: #3256;
+- perf: refresh item when updateChild, updateChildren, addChild, removeChild for TreeGraph;
 
 ### 4.7.17
 

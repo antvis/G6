@@ -145,6 +145,7 @@ registerBehavior("dice-er-scroll", {
     if (!y && navigator.userAgent.indexOf('Firefox') > -1) y = (-e.wheelDelta * 125) / 3
 
     if (nodes) {
+      const edgesToUpdate = new Set();
       nodes.forEach((node) => {
         const model = node.getModel();
         if (model.attrs.length < 2) {
@@ -163,11 +164,15 @@ registerBehavior("dice-er-scroll", {
         if (startIndex > model.attrs.length - 1) {
           startIndex = model.attrs.length - 1;
         }
-        graph.update(node, {
+        graph.updateItem(node, {
           startIndex,
           startX,
         });
+        node.getEdges().forEach(edge => edgesToUpdate.add(edge))
       });
+      // G6 update the related edges when graph.updateItem with a node according to the new properties
+      // here you need to update the related edges manualy since the new properties { startIndex, startX } for the nodes are custom, and cannot be recognized by G6
+      edgesToUpdate.forEach(edge => edge.refresh())
     }
 
 
@@ -176,15 +181,11 @@ registerBehavior("dice-er-scroll", {
     const {
       graph
     } = this;
-    const {
-      y
-    } = e;
     const item = e.item;
     const shape = e.shape;
     if (!item) {
       return;
     }
-    const model = item.getModel();
 
     if (shape.get("name") === "collapse") {
       graph.updateItem(item, {
@@ -231,7 +232,7 @@ registerEdge("dice-er-edge", {
     let sourceY = 15;
 
     if (!sourceNode.collapsed && sourceIndex > sourceStartIndex - 1) {
-      sourceY = 30 + (sourceIndex - sourceStartIndex + 0.5) * 30;
+      sourceY = 30 + (sourceIndex - sourceStartIndex + 0.5) * itemHeight;
       sourceY = Math.min(sourceY, 80);
     }
 
@@ -244,7 +245,7 @@ registerEdge("dice-er-edge", {
     let targetY = 15;
 
     if (!targetNode.collapsed && targetIndex > targetStartIndex - 1) {
-      targetY = (targetIndex - targetStartIndex + 0.5) * 30 + 30;
+      targetY = (targetIndex - targetStartIndex + 0.5) * itemHeight + 30;
       targetY = Math.min(targetY, 80);
     }
 
