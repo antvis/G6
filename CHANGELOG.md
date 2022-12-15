@@ -1,6 +1,6 @@
 # ChangeLog
 
-### 4.7.18
+### 4.8.0
 
 - fix: destroy graph and call layout problem, closes: #4126;
 - fix: remove duplicated event emit, closes: #4043;
