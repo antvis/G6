@@ -12,7 +12,7 @@ Shape.registerCombo(
     // 自定义节点时的配置
     options: {
       size: [Global.defaultCombo.size[0], Global.defaultCombo.size[0]],
-      padding: Global.defaultCombo.padding[0],
+      padding: Math.max(...Global.defaultCombo.padding),
       animate: true,
       style: {
         stroke: Global.defaultCombo.style.stroke,
@@ -59,7 +59,7 @@ Shape.registerCombo(
     getShapeStyle(cfg: ComboConfig): ShapeStyle {
       const { style: defaultStyle } = this.options as ComboConfig;
       let padding: number | number[] = cfg.padding || this.options.padding;
-      if (isArray(padding)) padding = padding[0];
+      if (isArray(padding)) padding = Math.max(...padding);
       const strokeStyle: ShapeStyle = {
         stroke: cfg.color,
       };
@@ -91,7 +91,7 @@ Shape.registerCombo(
     update(cfg: ComboConfig, item: Item) {
       const size = (this as ShapeOptions).getSize!(cfg);
       let padding: number | number[] = cfg.padding || this.options.padding;
-      if (isArray(padding)) padding = padding[0];
+      if (isArray(padding)) padding = Math.max(...padding)
       const cfgStyle = clone(cfg.style);
       const fixSize = cfg.collapsed && cfg.fixCollapseSize ? cfg.fixCollapseSize : cfg.fixSize;
       let r;

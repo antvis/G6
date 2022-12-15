@@ -116,6 +116,7 @@ G6.registerNode('rect-node', {
           fill: '#fff',
           stroke: '#5F95FF'
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: `anchor-point`, // the name, for searching by group.find(ele => ele.get('name') === 'anchor-point')
         anchorPointIdx: i, // flag the idx of the anchor-point circle
         links: 0, // cache the number of edges connected to this shape

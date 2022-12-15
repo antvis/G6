@@ -68,7 +68,7 @@ const keyShape = group.addShape('rect', {
   attrs: {
     stroke: 'red',
   },
-  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
   name: 'rect-shape',
 });
 ```

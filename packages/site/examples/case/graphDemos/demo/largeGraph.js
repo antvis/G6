@@ -159,6 +159,7 @@ G6.registerNode(
           lineWidth: 0,
           radius: (height / 2 || 13) * 1.2,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'halo-shape',
         visible: false,
       });
@@ -194,6 +195,7 @@ G6.registerNode(
           radius: height / 2 || 13,
           lineDash: [2, 2],
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'aggregated-node-keyShape',
       });
 
@@ -214,6 +216,7 @@ G6.registerNode(
           opacity: 0.85,
           fontWeight: 400,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'count-shape',
         className: 'count-shape',
         draggable: true,
@@ -230,6 +233,7 @@ G6.registerNode(
             lineWidth: 0.5,
             stroke: '#FFFFFF',
           },
+          // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
           name: 'typeNode-tag-circle',
         });
       }
@@ -296,6 +300,7 @@ G6.registerNode(
           opacity: 0.9,
           lineWidth: 0,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'halo-shape',
         visible: false,
       });
@@ -311,6 +316,7 @@ G6.registerNode(
           strokeOpacity: 0.85,
           lineWidth: 1,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'stroke-shape',
         visible: false,
       });
@@ -326,6 +332,7 @@ G6.registerNode(
           lineWidth: 2,
           cursor: 'pointer',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'aggregated-node-keyShape',
       });
 
@@ -360,6 +367,7 @@ G6.registerNode(
             fontWeight: 400,
             stroke: global.edge.labelCfg.style.stroke,
           },
+          // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
           name: 'text-shape',
           className: 'text-shape',
         });
@@ -376,6 +384,7 @@ G6.registerNode(
             lineWidth: 0.5,
             stroke: '#FFFFFF',
           },
+          // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
           name: 'typeNode-tag-circle',
         });
       }
@@ -462,6 +471,7 @@ G6.registerEdge(
                 endArrow,
                 opacity: animateBackOpacity,
               },
+              // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
               name: 'back-line',
             });
             back.toBack();
@@ -564,6 +574,7 @@ G6.registerEdge(
                 lineWidth,
                 opacity: animateBackOpacity,
               },
+              // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
               name: 'back-line',
             });
             back.toBack();

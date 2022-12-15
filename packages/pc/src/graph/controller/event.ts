@@ -13,6 +13,8 @@ export default class EventController extends AbstractEvent {
 
   protected canvasHandler!: Fun;
 
+  private resetHandler!: Fun;
+
   protected dragging: boolean = false;
 
   protected preItem: Item | null = null;
@@ -21,6 +23,7 @@ export default class EventController extends AbstractEvent {
 
   constructor(graph: Graph) {
     super(graph);
+    this.destroy();
     this.graph = graph;
     this.destroyed = false;
     this.initEvents();
@@ -53,6 +56,11 @@ export default class EventController extends AbstractEvent {
       extendEvents.push(addEventListener(window as any, 'keyup', originHandler));
       extendEvents.push(addEventListener(window as any, 'focus', originHandler));
     }
+
+    // 数据变更，重置一些状态
+    if (this.resetHandler) graph.off('afterchangedata', this.resetHandler);
+    this.resetHandler = wrapBehavior(this, 'resetStatus') as Fun;
+    graph.on('afterchangedata', this.resetHandler);
   }
 
   // 获取 shape 的 item 对象
@@ -213,6 +221,11 @@ export default class EventController extends AbstractEvent {
     this.graph.emit(`${itemType}:${eventType}`, evt);
   }
 
+  private resetStatus() {
+    this.dragging = false;
+    this.preItem = null;
+  }
+
   public destroy() {
     const { graph, canvasHandler, extendEvents } = this;
     const canvas: ICanvas = graph.get('canvas');
@@ -227,10 +240,10 @@ export default class EventController extends AbstractEvent {
       event.remove();
     });
 
-    this.dragging = false;
-    this.preItem = null;
+    this.resetStatus();
     this.extendEvents.length = 0;
     (this.canvasHandler as Fun | null) = null;
+    (this.resetHandler as Fun | null) = null;
     this.destroyed = true;
   }
 }

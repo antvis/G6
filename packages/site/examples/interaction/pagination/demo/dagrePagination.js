@@ -335,6 +335,7 @@ const drawIcons = (nodeId) => {
         opacity: 0,
         cursor: 'pointer',
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: `pre-icon`,
       levelIdx,
     });
@@ -348,6 +349,7 @@ const drawIcons = (nodeId) => {
         opacity: 0,
         cursor: 'pointer',
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: `next-icon`,
       levelIdx,
     });

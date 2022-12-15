@@ -118,7 +118,7 @@ G6.registerNode(
           fill: cfg.color,
           opacity: 0.6,
         },
-        // must be assigned in G6 3.3 and later versions. it can be any value you want
+        // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
         name: 'circle-shape1',
       });
       // 第二个背景圆
@@ -131,7 +131,7 @@ G6.registerNode(
           fill: 'blue', // 为了显示清晰，随意设置了颜色
           opacity: 0.6,
         },
-        // must be assigned in G6 3.3 and later versions. it can be any value you want
+        // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
         name: 'circle-shape2',
       });
       // 第三个背景圆
@@ -144,7 +144,7 @@ G6.registerNode(
           fill: 'green',
           opacity: 0.6,
         },
-        // must be assigned in G6 3.3 and later versions. it can be any value you want
+        // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
         name: 'circle-shape3',
       });
       group.sort(); // 排序，根据 zIndex 排序
@@ -219,7 +219,7 @@ G6.registerNode(
           height: height,
           img: cfg.img,
         },
-        // must be assigned in G6 3.3 and later versions. it can be any value you want
+        // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
         name: 'image-shape',
       });
       // 该图片 shape 的动画
@@ -286,7 +286,7 @@ G6.registerEdge(
           fill: 'red',
           r: 3,
         },
-        // must be assigned in G6 3.3 and later versions. it can be any value you want
+        // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
         name: 'circle-shape',
       });
 

@@ -115,7 +115,7 @@ G6.registerNode('background-animate', {
         fill: cfg.color,
         opacity: 0.6
       },
-      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'circle-shape1'
     });
     // The second background circle
@@ -128,7 +128,7 @@ G6.registerNode('background-animate', {
         fill: 'blue',
         opacity: 0.6
       },
-      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'circle-shape2'
     });
     // The third background circle
@@ -141,7 +141,7 @@ G6.registerNode('background-animate', {
         fill: 'green',
         opacity: 0.6
       },
-      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'circle-shape3'
     });
     group.sort(); // Sort the graphic shapes of the nodes by zIndex
@@ -205,7 +205,7 @@ G6.registerNode(
           height: height,
           img: cfg.img,
         },
-        // must be assigned in G6 3.3 and later versions. it can be any value you want
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'image-shape',
       });
       // Add animation for the image
@@ -272,7 +272,7 @@ G6.registerEdge(
           fill: 'red',
           r: 3,
         },
-        // must be assigned in G6 3.3 and later versions. it can be any value you want
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'circle-shape',
       });
 

@@ -73,7 +73,7 @@ const singleCombo: ShapeOptions = {
     const labelPosition = labelCfg.position || this.labelPosition;
     const { style: cfgStyle } = cfg;
     let padding: number | number[] = cfg.padding || this.options.padding;
-    if (isArray(padding)) padding = padding[0];
+    if (isArray(padding)) padding = Math.max(...padding);
 
     let { refX, refY } = labelCfg;
     // 考虑 refX 和 refY = 0 的场景，不用用 labelCfg.refX || Global.nodeLabel.refX

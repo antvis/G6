@@ -225,6 +225,7 @@ G6.registerNode('treeNode', {
         fontFamily: 'PingFangSC-Regular',
       },
       cursor: 'pointer',
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'name-text-shape',
     });
   },
@@ -240,6 +241,7 @@ G6.registerNode('treeNode', {
           stroke,
           lineWidth,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'node-path-shape',
       });
     }
@@ -278,6 +280,7 @@ G6.registerNode('treeNode', {
           cursor: 'pointer',
         },
         // capture: false,
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'main-shape',
       });
 
@@ -291,6 +294,7 @@ G6.registerNode('treeNode', {
           height: 12,
           cursor: 'pointer',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'main-selected-shape',
       });
     }
@@ -319,6 +323,7 @@ G6.registerNode('treeNode', {
           fontFamily: 'PingFangSC-Regular',
           cursor: 'pointer',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'root-text-shape',
       });
     } else {
@@ -334,6 +339,7 @@ G6.registerNode('treeNode', {
           fontFamily: 'PingFangSC-Regular',
           cursor: 'pointer'
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'not-root-text-shape',
       });
     }
@@ -362,6 +368,7 @@ G6.registerNode('treeNode', {
           radius: 6,
           cursor: 'pointer',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'child-count-rect-shape',
       });
       group.addShape('text', {
@@ -375,6 +382,7 @@ G6.registerNode('treeNode', {
           textAlign: 'center',
           cursor: 'pointer',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'child-count-text-shape',
       });
     }
@@ -426,6 +434,7 @@ G6.registerNode('treeNode', {
     }
     const keyShape = group.addShape('rect', {
       attrs: keyShapeAttrs,
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'root-key-shape-rect-shape',
     });
 
@@ -500,6 +509,7 @@ G6.registerNode('indentedRoot', {
         lineWidth: model.selected ? 2 : 0,
         cursor: 'pointer'
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'key-shape'
     })
 
@@ -515,6 +525,7 @@ G6.registerNode('indentedRoot', {
           textBaseline: 'middle',
           cursor: 'pointer'
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'root-text-shape'
       });
       const textBBox = text.getBBox();
@@ -535,6 +546,7 @@ G6.registerNode('indentedRoot', {
     if (hasChildren) {
       const schemaType = model.schemaType;
       const childCountGroup = group.addGroup({
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'child-count-group'
       })
       childCountGroup.setMatrix([1, 0, 0, 0, 1, 0, 0, clickCircleY, 1])
@@ -551,6 +563,7 @@ G6.registerNode('indentedRoot', {
           y: -6,
           cursor: 'pointer',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'child-count-rect-shape',
       });
       const childCountText = childCountGroup.addShape('text', {
@@ -564,6 +577,7 @@ G6.registerNode('indentedRoot', {
           textBaseline: 'middle',
           cursor: 'pointer',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'child-count-text-shape',
       });
       const childHoverIcon = childCountGroup.addShape('path', {
@@ -573,6 +587,7 @@ G6.registerNode('indentedRoot', {
           cursor: 'pointer',
           path: [['M', -3, 2], ['L', 0, -2], ['L', 3, 2]]
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'child-count-expand-icon',
         capture: false
       });
@@ -592,6 +607,7 @@ G6.registerNode('indentedRoot', {
           stroke: model.branchColor,
           lineWidth: 2,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'count-link'
       });
       countLink.toBack();
@@ -621,6 +637,7 @@ G6.registerNode('indentedRoot', {
         lineWidth: 1,
         cursor: 'pointer'
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'add-child-icon',
     });
 
@@ -632,6 +649,7 @@ G6.registerNode('indentedRoot', {
         stroke: model.branchColor,
         lineWidth: 2,
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'add-child-link'
     });
     addChildLink.toBack();
@@ -691,6 +709,7 @@ G6.registerNode('indentedNode', {
     // 子类数量 icon，绘制圆点在节点正下方
     if (tag) {
       const childCountGroup = group.addGroup({
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'child-count-group'
       });
       childCountGroup.setMatrix([1, 0, 0, 0, 1, 0, 0, clickCircleY, 1])
@@ -707,6 +726,7 @@ G6.registerNode('indentedNode', {
           y: -6,
           cursor: 'pointer',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'child-count-rect-shape',
       });
       const childCountText = childCountGroup.addShape('text', {
@@ -720,6 +740,7 @@ G6.registerNode('indentedNode', {
           textBaseline: 'middle',
           cursor: 'pointer',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'child-count-text-shape',
       });
       const childHoverIcon = childCountGroup.addShape('path', {
@@ -729,6 +750,7 @@ G6.registerNode('indentedNode', {
           cursor: 'pointer',
           path: [['M', -3, 2], ['L', 0, -2], ['L', 3, 2]]
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'child-count-expand-icon',
         capture: false
       });
@@ -741,6 +763,7 @@ G6.registerNode('indentedNode', {
           stroke: branchColor,
           lineWidth: 2,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'count-link'
       });
       countLink.toBack();
@@ -771,6 +794,7 @@ G6.registerNode('indentedNode', {
         lineWidth: 1,
         cursor: 'pointer'
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'add-child-icon',
     });
     addChildIcon.hide();
@@ -782,6 +806,7 @@ G6.registerNode('indentedNode', {
         stroke: branchColor,
         lineWidth: 2,
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'add-child-link'
     });
     addChildLink.toBack();
@@ -800,6 +825,7 @@ G6.registerNode('indentedNode', {
         cursor: 'pointer'
       },
       // capture: false,
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'main-shape',
       draggable: true
     });
@@ -818,6 +844,7 @@ G6.registerNode('indentedNode', {
         fontFamily: 'PingFangSC-Regular',
         cursor: 'pointer',
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'not-root-text-shape',
       draggable: true
     });
@@ -858,6 +885,7 @@ G6.registerNode('indentedNode', {
 
     const keyShape = group.addShape('rect', {
       attrs: keyShapeAttrs,
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'root-key-shape-rect-shape',
     });
 
@@ -1233,6 +1261,7 @@ G6.registerBehavior('drag-branch', {
           y: cy,
           ...attrs,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'rect-delegate-shape',
       });
       this.delegateRect.set('capture', false);

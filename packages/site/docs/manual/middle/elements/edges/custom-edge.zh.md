@@ -45,7 +45,7 @@ G6.registerEdge('hvh', {
           ['L', endPoint.x, endPoint.y],
         ],
       },
-      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
       name: 'path-shape',
     });
     return shape;
@@ -167,6 +167,7 @@ G6.registerEdge(
           x: midPoint.x - 5,
           y: midPoint.y - 5,
         },
+        name: 'mid-point-edge-rect', // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
       });
     },
     update: undefined,
@@ -352,7 +353,7 @@ G6.registerEdge('line-arrow', {
           // ...
         },
       },
-      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
       name: 'path-shape',
     });
     return keyShape;

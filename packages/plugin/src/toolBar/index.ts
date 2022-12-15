@@ -296,6 +296,23 @@ export default class ToolBar extends Base {
             });
           });
           break;
+        case 'createCombo':
+          const afterCombos = currentData.data.after.combos;
+          const createdCombo =  afterCombos[afterCombos.length - 1];
+          Object.keys(data).forEach((key) => {
+            const array = data[key];
+            if (!array) return;
+            array.forEach((model) => {
+              graph.updateComboTree(model.id, model.parentId, false);
+            });
+          });
+          graph.removeItem(createdCombo.id, false);
+          break;
+        case 'uncombo':
+          const targetCombo = data.combos[data.combos.length - 1];
+          const childrenIds = data.nodes.concat(data.combos).map(child => child.id).filter(id => id !== targetCombo.id);
+          graph.createCombo(targetCombo, childrenIds, false);
+          break;
         case 'layout':
           graph.updateLayout(data, undefined, undefined, false);
           break;
@@ -395,6 +412,15 @@ export default class ToolBar extends Base {
               graph.updateComboTree(model.id, model.parentId, false);
             });
           });
+          break;
+        case 'createCombo':
+          const createdCombo = data.combos[ data.combos.length - 1];
+          graph.createCombo(createdCombo, createdCombo.children.map(child => child.id), false);
+          break;
+        case 'uncombo':
+          const beforeCombos = currentData.data.before.combos;
+          const targertCombo = beforeCombos[beforeCombos.length - 1];
+          graph.uncombo(targertCombo.id, false);
           break;
         case 'layout':
           graph.updateLayout(data, undefined, undefined, false);

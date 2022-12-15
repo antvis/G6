@@ -470,8 +470,10 @@ export default class ItemController {
       combo = graph.findById(combo) as ICombo;
     }
     const children = (combo as ICombo).getChildren();
+    const edgeSet = new Set<IEdge>();
     children.nodes.forEach((node) => {
       graph.showItem(node, stack);
+      node.getEdges().forEach(edge => edgeSet.add(edge));
     });
     children.combos.forEach((c) => {
       if (c.getModel().collapsed) {
@@ -479,7 +481,9 @@ export default class ItemController {
       } else {
         graph.showItem(c, stack);
       }
+      c.getEdges().forEach(edge => edgeSet.add(edge));
     });
+    edgeSet.forEach(edge => edge.refresh());
   }
 
   /**
@@ -500,10 +504,10 @@ export default class ItemController {
     }
 
     const itemModel = clone(item.getModel());
-    graph.emit('beforeremoveitem', { item: itemModel });
-
     let type = '';
     if (item.getType) type = item.getType();
+    graph.emit('beforeremoveitem', { item: itemModel, type });
+
     const items = graph.get(`${type}s`);
     const index = items.indexOf(item);
     if (index > -1) items.splice(index, 1);

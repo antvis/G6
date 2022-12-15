@@ -55,6 +55,7 @@ G6.registerNode('circleBar', {
             stroke: 'darkgray',
             fill: cat.color,
           },
+          // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
           name: 'path-shape',
         });
         // behavior animation
@@ -92,6 +93,7 @@ G6.registerNode('circleBar', {
         fill: cfg.centerColor,
         stroke: 'darkgray',
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'circle-shape',
     });
     if (cfg.label) {
@@ -105,6 +107,7 @@ G6.registerNode('circleBar', {
           fill: 'white',
           fontStyle: 'bold',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'text-shape',
       });
     }

@@ -266,14 +266,14 @@ export interface IAbstractGraph extends EventEmitter {
    * 解散 combo
    * @param {String | ICombo} item 需要被解散的 Combo item 或 id
    */
-  uncombo: (item: string | ICombo) => void;
+  uncombo: (item: string | ICombo, stack?: boolean) => void;
 
   /**
    * 根据已经存在的节点或 combo 创建新的 combo
    * @param combo combo ID 或 Combo 配置
-   * @param elements 添加到 Combo 中的元素，包括节点和 combo
+   * @param childrenIds 添加到 Combo 中的元素，包括节点和 combo
    */
-  createCombo: (combo: string | ComboConfig, elements: string[]) => void;
+  createCombo: (combo: string | ComboConfig, childrenIds: string[], stack?: boolean) => void;
 
   /**
    * 设置元素状态

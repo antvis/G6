@@ -105,7 +105,7 @@ graph.render();
 
 ### 标签文本配置  labelCfg
 
-Object 类型。通过 `labelCfg` 配置标签文本。支持 [Combo 通用标签配置](/zh/docs/manual/middle/elements/combos/defaultCombo/#标签文本-label-及其配置-labelcfg)。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultCombo` 中增加了  `labelCfg`  配置项进行文本的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qAqbSLqTWSoAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
+Object 类型。通过 `labelCfg` 配置标签文本。支持 [Combo 通用标签配置](/zh/docs/manual/middle/elements/combos/defaultCombo/#标签文本-label-及其配置-labelcfg)。**v4.7.17 及后续版本支持** 其中，rect 类型的 Combo 的 `labelCfg.position` 额外支持 `'top-center'`，表示将标签文本绘制在矩形 Combo 的上方中央。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultCombo` 中增加了  `labelCfg`  配置项进行文本的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qAqbSLqTWSoAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ```javascript
 const data = {

@@ -45,7 +45,7 @@ G6.registerEdge('hvh', {
           ['L', endPoint.x, endPoint.y],
         ],
       },
-      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'path-shape',
     });
     return shape;
@@ -168,6 +168,7 @@ G6.registerEdge(
           x: midPoint.x - 5,
           y: midPoint.y - 5,
         },
+        name: 'mid-point-edge-rect', // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       });
     },
     update: undefined,
@@ -342,7 +343,7 @@ G6.registerEdge('line-arrow', {
           // d: -10
         },
       },
-      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'path-shape',
     });
     return keyShape;

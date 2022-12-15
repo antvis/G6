@@ -18,6 +18,7 @@ G6.registerNode('justPoints', {
           stroke: '#5ad8a6',
           lineDash: [4, 4],
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'circle-shape',
       });
     }
@@ -73,6 +74,7 @@ G6.registerNode('justPoints', {
           lineDash: [4, 4],
           stroke: '#5ad8a6',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'path-shape',
       });
       nowAngle2 += everyIncAngleCat;
@@ -86,6 +88,7 @@ G6.registerNode('justPoints', {
         fill: cfg.centerColor,
         stroke: 'darkgray',
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'circle-shape',
     });
 
@@ -100,6 +103,7 @@ G6.registerNode('justPoints', {
           fill: '#fff',
           fontStyle: 'bold',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'text-shape',
       });
     }

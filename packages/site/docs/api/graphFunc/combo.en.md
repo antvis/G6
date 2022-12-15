@@ -138,7 +138,7 @@ Expand the `combo` if it is collapsed. Collapse the `combo` if it is expanded.
 graph.collapseExpandCombo('combo1')
 ```
 
-### graph.createCombo(combo, elements)
+### graph.createCombo(combo, elements, stack)
 
 Create a new combo with existing nodes or combos to be its children.
 
@@ -148,6 +148,8 @@ Create a new combo with existing nodes or combos to be its children.
 | --- | --- | --- | --- |
 | combo | string / ICombo | true | The ID or the configuration of the combo to be created |
 | elements | string[] | The IDs of the existing nodes or combos to be the children of the newly created combo |
+| stack | boolean | false | **Supported by v4.7.17 and later versions** Whether to push the operator into the undo & redo stack. If the `enableStack` is `true`, this operation will be automatically pushed into the stack by default. Set `stack` to be `false` if you do not want it. |
+
 
 **Usage**
 
@@ -164,7 +166,7 @@ graph.createCombo({
 }, ['node1', 'node2', 'combo2'])
 ```
 
-### graph.uncombo(combo)
+### graph.uncombo(combo, stack)
 
 Ungroup the combo, which deletes the combo itself, and appends the children of the combo to its parent(if it exists).
 
@@ -173,12 +175,73 @@ Ungroup the combo, which deletes the combo itself, and appends the children of t
 | Name  | Type            | Required | Description                                        |
 | ----- | --------------- | -------- | -------------------------------------------------- |
 | combo | string / ICombo | true     | The ID of the item or the combo item to be updated |
+| stack | boolean | false | **Supported by v4.7.17 and later versions** Whether to push the operator into the undo & redo stack. If the `enableStack` is `true`, this operation will be automatically pushed into the stack by default. Set `stack` to be `false` if you do not want it. |
 
 **Usage**
 
 ```javascript
 graph.uncombo('combo1')
 ```
+
+### graph..updateCombos()
+
+Update the sizes and positions of all the combos according to the bboxes of its children.
+
+**Usage**
+
+```javascript
+// Update all the combos
+graph.updateCombos();
+```
+
+### graph.updateCombo(combo)
+
+Update the positions and sizes of the combo and all of its ancestors.
+
+**Parameters**
+
+| Name  | Type            | Required | Description                         |
+| ----- | --------------- | -------- | ----------------------------------- |
+| combo | string / ICombo | true     | The ID or the instance of the combo |
+
+**Usage**
+
+```javascript
+// Update a node's position
+const node1 = graph.findById('node1');
+graph.updateItem(node1, {
+  x: 100,
+  y: 100,
+});
+
+// the combo who contains the node
+const comboId = node1.getModel().comboId;
+
+// Update the combo and all its ancestors who contains node1
+graph.updateCombo(comboId);
+```
+
+### graph.updateComboTree(item, parentId)
+
+Update the hierarchy structure of the combo, such as move a combo into another one.
+
+**Parameters**
+
+| Name | Type | Required | Description |
+| --- | --- | --- | --- |
+| item | string / INode / ICombo | The ID or the item of the node/combo to be updated |
+| parentId | string | undefined | The ID of the new parent combo, undefined means updating the item with no parent |
+
+**Usage**
+
+```javascript
+// move combo1 out of its parent combo. combo1 will be in the same hierarchy level as its old parent.
+graph.updateComboTree('combo1')
+
+// move combo1 into combo2. combo1 will be the child of combo2.
+graph.updateComboTree('combo1', 'combo2')
+```
+
 
 ### Comparison for Combo and Hull
 

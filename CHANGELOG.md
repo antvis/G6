@@ -1,5 +1,15 @@
 # ChangeLog
 
+### 4.7.17
+
+- fix: expandCombo and the edges of the children are not refreshed, closes: #3250;
+- fix: the item param of the afterremoveitem for combo should be data;
+- fix: add type to the parameter list of beforeremoveitem event;
+- fix: edge update with destroyed end items, closes: #3925;
+- perf: take the max value of padding array for circle combo, closes: #4113;
+- feat: support top-center for rect combo label position, closes: #3750;
+- feat: createCombo and uncombo support stack, closes: #3695, #3323;
+
 ### 4.7.16
 
 - feat: allowDragOnItem config for scroll-canvas, closes: #3062;
@@ -12,7 +22,7 @@
 - perf: fitView and fitCenter according to the corner ndoes insead of getCanvasBBox to avoid maximum call stack size exceeded, closes: #2447;
 - fix: treeGraph changeData with node properties lost, closes: #3215;
 - fix: error occurs while calling updateLayout from gpu layout to a cpu layout, closes: #3272;
-- fix: error occurs while calling changeData to remove a node in a combo, cloases: #3293;
+- fix: error occurs while calling changeData to remove a node in a combo, closes: #3293;
 
 ### 4.7.15
 

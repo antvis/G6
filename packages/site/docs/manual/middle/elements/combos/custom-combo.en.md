@@ -121,7 +121,7 @@ G6.registerCombo(
           height: style.height,
         },
         draggable: true,
-        name: 'combo-keyShape',
+        name: 'combo-keyShape', // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       });
       // Add the circle on the right
       group.addShape('circle', {
@@ -135,7 +135,7 @@ G6.registerCombo(
           r: 5,
         },
         draggable: true,
-        name: 'combo-circle-shape',
+        name: 'combo-circle-shape', // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       });
       return rect;
     },
@@ -156,7 +156,7 @@ G6.registerCombo(
 );
 ```
 
-Attention: you need to assign `name` and `draggable` for the shapes added in the custom node, where the `name` can be not unique with any value you want. `draggable: true` means that the shape is allowed to response the drag events. Only when `draggable: true`, the interaction behavior `'drag-node'` can be responsed on this shape. In the codes above, if you only assign `draggable: true` to the `keyShape` but not the right circle shape, the drag events will only be responsed on the `keyShape`.
+Attention: you need to assign `name` and `draggable` for the shapes added in the custom node, where **the value of `name` must be unique in a custom node/edge/combo type**. `draggable: true` means that the shape is allowed to response the drag events. Only when `draggable: true`, the interaction behavior `'drag-node'` can be responsed on this shape. In the codes above, if you only assign `draggable: true` to the `keyShape` but not the right circle shape, the drag events will only be responsed on the `keyShape`.
 
 ### Use the Custom Combo
 
@@ -254,7 +254,7 @@ G6.registerCombo(
           r: style.r,
         },
         draggable: true,
-        name: 'combo-keyShape',
+        name: 'combo-keyShape', // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       });
       // Add the marker on the bottom
       const marker = group.addShape('marker', {
@@ -268,7 +268,7 @@ G6.registerCombo(
           symbol: collapseIcon,
         },
         draggable: true,
-        name: 'combo-marker-shape',
+        name: 'combo-marker-shape', // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       });
 
       return circle;

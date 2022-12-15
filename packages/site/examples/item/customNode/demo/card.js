@@ -64,6 +64,7 @@ const nodeBasicMethod = {
         width: w,
         height: h,
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'big-rect-shape',
     });
     if (!isRoot) {
@@ -75,6 +76,7 @@ const nodeBasicMethod = {
           r: 6,
           fill: config.basicColor,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'left-dot-shape',
       });
     }
@@ -90,6 +92,7 @@ const nodeBasicMethod = {
         radius: 2,
         cursor: 'pointer',
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'rect-shape',
     });
 
@@ -103,6 +106,7 @@ const nodeBasicMethod = {
         fill: config.basicColor,
         radius: 1.5,
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'left-border-shape',
     });
     return container;
@@ -118,6 +122,7 @@ const nodeBasicMethod = {
         opacity: 0,
         zIndex: -2,
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'collapse-icon-bg',
     });
     group.addShape('marker', {
@@ -131,6 +136,7 @@ const nodeBasicMethod = {
         lineWidth: 1,
         cursor: 'pointer',
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'collapse-icon',
     });
   },
@@ -237,6 +243,7 @@ G6.registerNode('card-node', {
           textBaseline: 'middle',
           fill: 'rgba(0,0,0,0.65)',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'type-text-shape',
       });
     }
@@ -251,6 +258,7 @@ G6.registerNode('card-node', {
           radius: 2,
           cursor: 'pointer',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'ip-container-shape',
       });
 
@@ -266,6 +274,7 @@ G6.registerNode('card-node', {
           fill: nodeError ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.65)',
           cursor: 'pointer',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'ip-text-shape',
       });
 
@@ -294,6 +303,7 @@ G6.registerNode('card-node', {
           fill: '#fff',
           opacity: 0,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'ip-box',
       });
 
@@ -307,6 +317,7 @@ G6.registerNode('card-node', {
           fill: '#E3E6E8',
           opacity: 0,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'ip-cp-line',
       });
       /* copyIpBG */
@@ -320,6 +331,7 @@ G6.registerNode('card-node', {
           cursor: 'pointer',
           opacity: 0,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'ip-cp-bg',
       });
       /* copyIpIcon */
@@ -333,6 +345,7 @@ G6.registerNode('card-node', {
           cursor: 'pointer',
           opacity: 0,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'ip-cp-icon',
       });
       /* a transparent rect on the icon area for click listener */
@@ -346,6 +359,7 @@ G6.registerNode('card-node', {
           cursor: 'pointer',
           opacity: 0,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'ip-cp-box',
         tooltip: 'Copy the IP',
       });
@@ -366,6 +380,7 @@ G6.registerNode('card-node', {
         fill: config.fontColor,
         cursor: 'pointer',
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'name-text-shape',
     });
 
@@ -381,6 +396,7 @@ G6.registerNode('card-node', {
         fill: config.fontColor,
         cursor: 'pointer',
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'bottom-text-shape',
     });
 
@@ -393,6 +409,7 @@ G6.registerNode('card-node', {
           fill: '#000',
           fontSize: 18,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'error-text-shape',
       });
     }

@@ -110,6 +110,7 @@ G6.registerNode(
 
       // 上部文字区域
       const topGroup = group.addGroup({
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: "top-group"
       });
 
@@ -137,6 +138,7 @@ G6.registerNode(
           shadowColor: fontColor,
           fill: fontColor
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: "top-text"
       });
 
@@ -150,11 +152,13 @@ G6.registerNode(
           opacity: 0,
           cursor: "pointer"
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: "top-copy-img"
       });
 
       // 下部文字区域
       const bottomGroup = group.addGroup({
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: "bottom-group"
       });
 
@@ -169,6 +173,7 @@ G6.registerNode(
           shadowColor: fontColor,
           fill: fontColor
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: "bottom-text"
       });
 
@@ -182,6 +187,7 @@ G6.registerNode(
           opacity: 0,
           cursor: "pointer"
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: "bottom-copy-img"
       });
 

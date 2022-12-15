@@ -25,6 +25,7 @@ G6.registerNode(
           height: cfg.size[1],
           ...cfg.style,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'rect-shape',
       });
       const responseRect = group.addShape('rect', {
@@ -37,6 +38,7 @@ G6.registerNode(
           stroke: cfg.style.stroke,
           lineWidth: 1,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'tooltip-response-shape',
       });
       const responseText = group.addShape('text', {
@@ -47,6 +49,7 @@ G6.registerNode(
           y: -cfg.size[1] / 2 + 10,
           textBaseline: 'top',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'tooltip-response-text-shape',
       });
       const textBBox = responseText.getBBox();

@@ -92,7 +92,7 @@ export default class Edge extends Item implements IEdge {
     const pointName = END_MAP[name] + POINT_NAME_SUFFIX;
     const item = this.get(itemName);
     // 如果有端点，直接使用 model
-    if (item) {
+    if (item && !item.destroyed) {
       return item.get('model');
     } // 否则直接使用点
     return this.get(pointName);
@@ -216,6 +216,10 @@ export default class Edge extends Item implements IEdge {
     const oriVisible = model.visible;
     const cfgVisible = cfg.visible;
     if (oriVisible !== cfgVisible && cfgVisible !== undefined) this.changeVisibility(cfgVisible);
+
+    const sourceItem = this.get('source');
+    const targetItem = this.get('target');
+    if (!sourceItem || sourceItem.destroyed || !targetItem || targetItem.destroyed) return;
 
     const styles = this.get('styles');
     if (cfg.stateStyles) {
