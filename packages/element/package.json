@@ -60,13 +60,10 @@
     ]
   },
   "dependencies": {
-    "@antv/g-base": "^0.5.1",
-    "@antv/g6-core": "0.8.0",
-    "@antv/util": "~2.0.5"
+    "@antv/g6-core": "*"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
-    "@turf/turf": "^5.1.6",
     "@types/jest": "^25.2.1",
     "@types/node": "13.11.1",
     "@typescript-eslint/eslint-plugin": "^4.11.1",

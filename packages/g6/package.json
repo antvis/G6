@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "4.8.0",
+  "version": "5.0.0",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",
@@ -40,7 +40,6 @@
     "ci": "npm run build && npm run coverage",
     "clean": "rimraf es esm lib dist",
     "coverage": "jest --coverage",
-    "demos": "start-storybook -p 8080 -c .storybook",
     "doc": "rimraf apis && typedoc",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --format=pretty \"./\"",
     "lint:src": "eslint --ext .ts --format=pretty \"./src\"",
@@ -66,19 +65,17 @@
     ]
   },
   "dependencies": {
-    "@antv/g6-pc": "0.8.0"
+    "@antv/g6-pc": "*"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
-    "@turf/turf": "^5.1.6",
     "@types/jest": "^25.2.1",
     "@types/node": "13.11.1",
     "@typescript-eslint/eslint-plugin": "^4.11.1",
     "@umijs/fabric": "^2.0.0",
     "babel-loader": "^8.0.6",
     "eslint": "^7.7.0",
-    "event-simulate": "~1.0.0",
     "father": "^2.29.1",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",

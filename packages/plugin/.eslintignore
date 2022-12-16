@@ -1,5 +1,3 @@
-build/
-coverage/
 lib/
 dist/
 mocks/
@@ -12,11 +10,6 @@ esm/
 es/
 examples/
 tests/
-stories/
-gatsby-browser.js
-site/
 webpack.*.js
-gatsby-*.js
-global.d.ts
 jest.config.js
 .eslintrc.*

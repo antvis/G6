@@ -20,19 +20,6 @@ module.exports = {
   },
   module: {
     rules: [
-      // {
-      //   test: /\.worker\.ts$/,
-      //   exclude: /(node_modules)/,
-      //   use: [
-      //     {
-      //       loader: 'worker-loader',
-      //       options: {
-      //         inline: 'fallback',
-      //         filename: 'g6Layout.worker.js',
-      //       },
-      //     },
-      //   ],
-      // },
       {
         test: /\.js$/,
         include: /node_modules/,
