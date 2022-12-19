@@ -747,8 +747,10 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         callback: () => this.emit('viewportchange', { action: 'zoom', matrix: group.getMatrix() })
       });
 
-      // Clear animations to prevent zoom-in and zoom-out animations to be triggered together
-      group.set('animations', []);
+      if (animate) {
+        // Clear animations to prevent zoom-in and zoom-out animations to be triggered together
+        group.set('animations', []);
+      }
       
       group.animate((ratio: number) => {
         if (ratio === 1) {
