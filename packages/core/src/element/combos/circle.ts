@@ -69,7 +69,7 @@ Shape.registerCombo(
       const fixSize = cfg.collapsed && cfg.fixCollapseSize ? cfg.fixCollapseSize : cfg.fixSize;
       let r: number;
       if (fixSize) {
-        r = isNumber(fixSize) ? fixSize : fixSize[0];
+        r = isNumber(fixSize) ? fixSize / 2 : fixSize[0] / 2;
       } else {
         const size = (this as ShapeOptions).getSize!(cfg);
         if (!isNumber(style.r) || isNaN(style.r)) r = size[0] / 2 || Global.defaultCombo.style.r;
@@ -96,7 +96,7 @@ Shape.registerCombo(
       const fixSize = cfg.collapsed && cfg.fixCollapseSize ? cfg.fixCollapseSize : cfg.fixSize;
       let r;
       if (fixSize) {
-        r = isNumber(fixSize) ? fixSize : fixSize[0];
+        r = isNumber(fixSize) ? fixSize / 2 : fixSize[0] / 2;
       } else {
         r = Math.max(cfgStyle.r, size[0] / 2) || size[0] / 2;
       }

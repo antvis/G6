@@ -6,6 +6,7 @@
 - perf: improve the performance for polyline by improve the pathFind implementations;
 - fix: unexpected backforward path caused by redundant controlPoints for polyline;
 - fix: minimap viewport size problem when the graph have no width or height param, closes: #4152;
+- fix: combo with fixSize has wrong link points for related edges, closes: #4153;
 
 ### 4.8.0
 
