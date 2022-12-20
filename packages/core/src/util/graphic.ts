@@ -686,8 +686,9 @@ export const getComboBBox = (
 
   if (!children || children.length === 0) {
     const comboModel = combo?.getModel();
-    const { x, y, fixSize } = comboModel || {};
-    const [ width, height ] = isArray(fixSize) ? fixSize : [fixSize, fixSize];
+    const { x, y, fixSize, collapsed, fixCollapseSize } = comboModel || {};
+    const useFixSize = collapsed ? fixCollapseSize : fixSize;
+    const [ width, height ] = isArray(useFixSize) ? useFixSize : [useFixSize, useFixSize];
     const halfSize = [ width / 2, height / 2 ];
     return {
       minX: x - halfSize[0],
