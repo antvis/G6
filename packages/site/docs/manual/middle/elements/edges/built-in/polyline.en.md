@@ -84,6 +84,19 @@ labelCfg: {
 | labelCfg | The configurations of the label | Object |  |
 | controlPoints | The array of the control points for the polyline | Array | If it is not assigned, G6 will calculate it by <a href='https://www.yuque.com/antv/blog/eyi70n' target='_blank'>A\* algorithm</a> If it is assgned, the path of the polyline will be generated according to it. e.g. `[{ x: 10, y: 20 }, { x: 20, y: 25 }, ...]` |
 | stateStyles | The styles in different states | Object | Refer to [Configure Styles for State](/en/docs/manual/middle/states/state#configure-styles-for-state) |
+| routeCfg | Route configurations | Object | Takes effect when there are no controlPoints on edge data and calculate the route by itself. Refer to routeCfg section below |
+
+### routeCfg
+
+`routeCfg` is an object, takes effect when there are no controlPoints on edge data and calculate the route by itself. The attributes are:
+
+| Name | Default Value | Type | Description |
+| --- | --- | --- | --- |
+| gridSize | 10 | number | The grid size for calculation. Smaller the value, higher the cost |
+| maxAllowedDirectionChange | Math.PI / 2 | number | The max angle at each bend, in radian system |
+| obstacles | INode[] | [] | The obstacle nodes to avoid passing through |
+
+The polyline does not support avoid obstacles automatically. You could avoid several nodes by calling `graph.updateItem(edge, { routeCfg: { obstacles: [graph.findById('node1', graph.findById('node2'))] } })`. If you have strong requirements on ER diagram or graph editing, we suggest @antv/x6 for better route algorithms for polyline, [Manhattan Router](https://x6.antv.antgroup.com/en/examples/edge/router/#manhattan).
 
 ### style
 
