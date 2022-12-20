@@ -5,6 +5,7 @@
 - perf: use simple router for polyline when there is no obstacles, the performance is improved, closes: #2658;
 - perf: improve the performance for polyline by improve the pathFind implementations;
 - fix: unexpected backforward path caused by redundant controlPoints for polyline;
+- fix: minimap viewport size problem when the graph have no width or height param, closes: #4152;
 
 ### 4.8.0
 

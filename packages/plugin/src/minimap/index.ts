@@ -226,14 +226,13 @@ export default class MiniMap extends Base {
   private updateViewport() {
     if (this.destroyed) return;
     const ratio: number = this.get('ratio');
-    const dx: number = this.get('dx');
-    const dy: number = this.get('dy');
     const totaldx: number = this.get('totaldx');
     const totaldy: number = this.get('totaldy');
     const graph: IGraph = this.get('graph');
     const size: number[] = this.get('size');
-    const graphWidth = graph.get('width');
-    const graphHeight = graph.get('height');
+    const graphCanvasEl = graph.get('canvas').get('el');
+    const graphWidth = graph.get('width') || graphCanvasEl.scrollWidth || 500;
+    const graphHeight = graph.get('height') || graphCanvasEl.scrollHeight || 500;
     const topLeft: Point = graph.getPointByCanvas(0, 0);
     const bottomRight: Point = graph.getPointByCanvas(graphWidth, graphHeight);
     const viewport: HTMLElement = this.get('viewport');
