@@ -21,9 +21,9 @@ The reasons and solutions for it：
 
 1. The value of `minZoom` is too big. If you have a graph with large range, e.g. positions of nodes range from 0 to 10000, the zoom ratio to propertly fit to the view requires a very small value of `minZoom`. So the zoom failed. The default value of `minZoom` is 0.02. To address it, you could assign a small value to `minZoom`, e.g. 0.0000001;
 
-2. If you are using `type: force` layout, or other force family layouts e,g, force2、forceAtlas2 etc. and assigned `animate: true` for them. The animation looks like force simulation is the result of rendering the mid-result after each iteration during the layout calculation. If we do `fitView` every single time the graph renders, the view might flashes a lot. So the `fitView` will be called after the layout is totaly done. And, when the force layout going to end, the displacements of the nodes might be micro. It looks like the animation is finished but the graph did not fit to view. It is also expected, since the `fitView` will only be called after the force layout is totaly fininshed.
+2. If you are using `type: force` layout, or other force family layouts e,g, force2、forceAtlas2 etc. and assigned `animate: true` for them. The animation looks like force simulation is the result of rendering the mid-result after each iteration during the layout calculation. If we do `fitView` every single time the graph renders, the view might flashes a lot. So the `fitView` will be called after the layout is totally done. And, when the force layout going to end, the displacements of the nodes might be micro. It looks like the animation is finished but the graph did not fit to view. It is also expected, since the `fitView` will only be called after the force layout is totally finished.
 
-P.S. force does not support silence layout right now. But we add a new force family layout named `force2`, whichi supports config it by `animate`. If it is assigned to `false` and the graph instance is configured with `fitView: true`, the graph will not be rendered until the layout is done and fit to the view in the same time.
+P.S. force does not support silence layout right now. But we add a new force family layout named `force2`, which supports config it by `animate`. If it is assigned to `false` and the graph instance is configured with `fitView: true`, the graph will not be rendered until the layout is done and fit to the view in the same time.
 
 3. The `width` or `height` for the graph instance is not correct. Oversize comparing to the container, initial state at React, or some other reasons might lead to the problem. If you want to keep the graph fitting the the container, listen to the changes of `width` and `height` of the container, and call `graph.changeSize` and `graph.fitView`. e.g. call `graph.changeSize` after the user resize the browser:
 
@@ -45,7 +45,7 @@ G6 4.x depends on the rendering engine @antv/g@4.x, which supports the local ref
 
 2. Use the round number for the number type attributes if it is possible, e.g. `r`, `width`, `height`, `fontSize`, etc.;
 
-3. Assign `labelCfg.style.fontFamily` or `fontFamily` in the text shape who leaves residuals with the font of the brower;
+3. Assign `labelCfg.style.fontFamily` or `fontFamily` in the text shape who leaves residuals with the font of the broswer;
 
 4. Add white stroke to the text, e.g.:
 
