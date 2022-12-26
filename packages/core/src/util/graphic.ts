@@ -720,6 +720,12 @@ export const getComboBBox = (
   comboBBox.centerX = (comboBBox.minX + comboBBox.maxX) / 2;
   comboBBox.centerY = (comboBBox.minY + comboBBox.maxY) / 2;
 
+  // if it is a circle combo, diagnal length of the children's bbox should be the diameter of the combo's bbox
+  if (combo?.getKeyShape().get('type') === 'circle') {
+    comboBBox.width = Math.hypot(comboBBox.height, comboBBox.width);
+    comboBBox.height = comboBBox.width;
+  }
+
   Object.keys(comboBBox).forEach((key) => {
     if (comboBBox[key] === Infinity || comboBBox[key] === -Infinity) {
       comboBBox[key] = undefined;

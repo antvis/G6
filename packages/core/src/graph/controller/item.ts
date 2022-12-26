@@ -16,7 +16,7 @@ import {
 } from '../../types';
 import { IAbstractGraph } from '../../interface/graph';
 import { IEdge, INode, ICombo } from '../../interface/item';
-import { traverseTreeUp, traverseTree, getComboBBox, shouldRefreshEdge } from '../../util/graphic';
+import { traverseTreeUp, traverseTree, getComboBBox } from '../../util/graphic';
 
 const NODE = 'node';
 const EDGE = 'edge';
@@ -148,7 +148,9 @@ export default class ItemController {
     } else if (type === COMBO) {
       const children: ComboTree[] = (model as ComboConfig).children;
 
+      if (model.id === 'A') debugger
       const comboBBox = getComboBBox(children, graph);
+      console.log('comboBBox1', model.id, comboBBox)
       let bboxX, bboxY;
       if (!isNaN(comboBBox.x)) bboxX = comboBBox.x;
       else if (isNaN(model.x)) bboxX = Math.random() * 100;
@@ -369,8 +371,11 @@ export default class ItemController {
     }
     const model = combo.getModel();
 
+    if (model.id === 'A') debugger
     const comboBBox = getComboBBox(children, graph, combo);
     const { x: comboX, y: comboY } = comboBBox;
+
+    console.log('comboBBox2', combo.getID(), comboBBox)
 
     combo.set('bbox', comboBBox);
     let x = comboX, y = comboY;
