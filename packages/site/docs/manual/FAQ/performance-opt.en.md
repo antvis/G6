@@ -9,7 +9,7 @@ Performance problem is significant on graph visualization apps since graph usual
 
 ### Performance Bottleneck - Rendering
 
-On the aspect of renderng, the proformance is mainly affected by the total number of shapes on the canvas. e.g. there is a rect, a text, and an image shape on a node, and a path, a text shape on a edge. Then, a graph with 100 nodes and 50 edges will have 100 * 3 + 50 * 2 = 400 shapes in total. However, the number of shapes on a custom node usually reaches 10-20, which means the total number on the canvas will be large. So we suggest to reduce the shapes on custom items to improve the rendering performance.
+On the aspect of rendering, the performance is mainly affected by the total number of shapes on the canvas. e.g. there is a rect, a text, and an image shape on a node, and a path, a text shape on a edge. Then, a graph with 100 nodes and 50 edges will have 100 * 3 + 50 * 2 = 400 shapes in total. However, the number of shapes on a custom node usually reaches 10-20, which means the total number on the canvas will be large. So we suggest to reduce the shapes on custom items to improve the rendering performance.
 
 ### Performance Bottleneck - Computation
 
@@ -18,11 +18,11 @@ Computation on a graph mainly includes layout calculation, polyline path finding
 
 ## Tips
 
-We are trying to keep on improving the built-in codes in G6 to reach better performance. And on the aspect of apps based on G6, the implement ways are significant to the upper level performance. Inpropriate implementations might lead to unexpected costs.
+We are trying to keep on improving the built-in codes in G6 to reach better performance. And on the aspect of apps based on G6, the implement ways are significant to the upper level performance. Impropriate implementations might lead to unexpected costs.
 
 ### A Proper Size for Graph
 
-The `width` and `height` should be assigned according to the container DOM in the browser. According to the resolutions of most diplays, the `width` is usually smaller than 2500 and the `height` is usually smaller than 2000. There was a issue about the performance, we find `width` and `height` in the reproducing demo are over 100,000, it leads to a very large `<canvas />`, which is totaly unnecessary, since most part of the canvas will overflow the viewport. Actually, it is common to have nodes with large `x` and `y`, but we don't have to set the `width` and `height` to a large number, only use G6's ability to visualize and interact with the data, e.g. `graph.fitView` to fit to the viewport, `zoom-canvas` behavior to allow user zoom canvas, `drag-canvas` behavior to allow user drag canvas.
+The `width` and `height` should be assigned according to the container DOM in the browser. According to the resolutions of most displays, the `width` is usually smaller than 2500 and the `height` is usually smaller than 2000. There was a issue about the performance, we find `width` and `height` in the reproducing demo are over 100,000, it leads to a very large `<canvas />`, which is totaly unnecessary, since most part of the canvas will overflow the viewport. Actually, it is common to have nodes with large `x` and `y`, but we don't have to set the `width` and `height` to a large number, only use G6's ability to visualize and interact with the data, e.g. `graph.fitView` to fit to the viewport, `zoom-canvas` behavior to allow user zoom canvas, `drag-canvas` behavior to allow user drag canvas.
 
 ### Canvas Instead of SVG
 
@@ -49,7 +49,7 @@ const labelShape = nodeShapeGroup.find(ele => ele.get('name') === 'label-shape')
 console.log(nodeShapes[0].attr(), keyShape.attr(), labelShape.attr()); // get and print the shape's style attributes
 ```
 
-Besides, we suggest to limit the number of shapes in custom node/edge/combo, refer to the chapter [Cut down the Shapes on Custom Items](#cut-down-the-shapes-on-custom-items).
+Besides, we suggest to limit the number of shapes in custom node/edge/combo, refer to the section [Cut down the Shapes on Custom Items](#cut-down-the-shapes-on-custom-items).
 
 ### Cut down the Shapes on Custom Items
 
@@ -71,7 +71,7 @@ circleShape.show(); // show
 circleShape.hide(); // hide
 ```
 
-- Adjust the visibility of shapes according to the detail/zoom level of the graph. On small graphs, it is feasible to show every detail infomation of a node data on the displaying node, since the users are interested in the detail in those cases. But on large graphs with an small zoom ratio, user will be more interested about the overview structure of the data, and the detail when they zoom-in the graph. So we suggest to adjust the visibility of shapes according to detail/zoom level to reduce the clutter of infomation, and improve the performance in the same time. Try to zoom-in and zoom-out the graph in this Demo [Decision Tree](http://g6.antv.antgroup.com/en/examples/case/treeDemos/#decisionTree), you will see the shapes being hidden and shown graciously (9 shapes in detail view, 2 shapes in overview).
+- Adjust the visibility of shapes according to the detail/zoom level of the graph. On small graphs, it is feasible to show every detail information of a node data on the displaying node, since the users are interested in the detail in those cases. But on large graphs with a small zoom ratio, user will be more interested about the overview structure of the data, and the detail when they zoom-in the graph. So we suggest to adjust the visibility of shapes according to detail/zoom level to reduce the clutter of information, and improve the performance in the same time. Try to zoom-in and zoom-out the graph in this Demo [Decision Tree](http://g6.antv.antgroup.com/en/examples/case/treeDemos/#decisionTree), you will see the shapes being hidden and shown graciously (9 shapes in detail view, 2 shapes in overview).
 
 <img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HS5gQ6yCiL4AAAAAAAAAAAAAARQnAQ" width=500 alt='' />
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*b03ARph0fyUAAAAAAAAAAAAADmJ7AQ/original" width=500 alt='' />
@@ -79,7 +79,7 @@ circleShape.hide(); // hide
 
 ### Implement the Update Function for Custom Items
 
-For convenience, fresh men usually only implement `draw` or `drawShape` in custom node/edge/combo. We also encourage that in small graphs, which will reduce the cost for developing and learning. But it aslo brings extra performance cost. There might be several situations when customize a node:
+For convenience, fresh men usually only implement `draw` or `drawShape` in custom node/edge/combo. We also encourage that in small graphs, which will reduce the cost for developing and learning. But it also brings extra performance cost. There might be several situations when customize a node:
 
 1. Did not give the third parameter for `G6.registerNode` as extended type name, and did not implement `update` (or defining it with `update: undefined`):
 
@@ -100,7 +100,7 @@ G6.registerNode('custom-node', {
 }, 'circle'); // extend built-in circle type node
 ```
 
-`custom-node` will extend the built-in `circle` type node, including its functions like `update`, `setState`, and so on. Sometimes, you may find the custom-node is not updated as expected, e.g. some strange shapes or styles occurs. It is due to the `draw` of `custom-node` and the `draw` of extended `circle` type are so different that `circle`'s `update` (which matches its own shapes defined in its `draw`) does not match `custom-node`'s shapes. To address the problem, a simplest way is to rewrite `update` to `undefined`. But it also brings the extra cost like the first situation.
+`custom-node` will extend the built-in `circle` type node, including its functions like `update`, `setState`, and so on. Sometimes, you may find the custom-node is not updated as expected, e.g. some strange shapes or styles occurs. It is due to the `draw` of `custom-node` and the `draw` of extended `circle` type are so different that `circle`'s `update` (which matches its own shapes defined in its `draw`) does not match `custom-node`'s shapes. To address the problem, a simplest way is rewriting `update` as `undefined`. But it also brings the extra cost like the first situation.
 
 3. Gave the third parameter for `G6.registerNode`, and rewrote `update: undefined`:
 
@@ -137,7 +137,7 @@ It requires developers to have clear management for shapes. Similar to the hooks
 
 Different from other edge types, polyline calculates its path by A* path finding algorithm when its `controlPoints` is not defined. A* is an algorithm with high complexity. The performance issue will be extremely significant when dragging nodes, since the algorithm will be re-calculated frequently during dragging. There are some tips to alleviate the problem:
 
-- Custom simple polyline instead using the built-in polyline. There is a demo [Custom Polyline](http://g6.antv.antgroup.com/en/examples/item/customEdge/#customPolyline). In most cases, the bending positions are at the 1/3 and 2/3 of the line between source node and target node (the begining position from source node is `startPoint` and the ending position from the target node is `endPoint` in the following example):
+- Custom simple polyline instead using the built-in polyline. There is a demo [Custom Polyline](http://g6.antv.antgroup.com/en/examples/item/customEdge/#customPolyline). In most cases, the bending positions are at the 1/3 and 2/3 of the line between source node and target node (the beginning position from source node is `startPoint` and the ending position from the target node is `endPoint` in the following example):
 
 ```javascript
 [
@@ -165,12 +165,12 @@ const graph = new Graph({
 
 ### Enable Optimize Configurations for Behaviors
 
-Local refresh happens on updating node/edge/combo's configurations, states, and so on, which means renderer only clears the dirty bounding box and redraws the updated shapes. Renderer will clear the whole canvas and redraw at global updates like panning canvas and zooming canvas. That is to say, global updates cost much more than local udpates. For example, when user drags or zooms the canvas, the clearing and redrawing are frequently repeated. So the user may find it is not so smooth in large graph with such behaviors. G6 supports `enableOptimize` option for built-in behaviors `zoom-canvas` and `drag-canvas`, which is `false` by default. Assign it to `true`, all the shapes besides keyShapes will be hidden during panning and zooming. ([keyShape](http://g6.antv.antgroup.com/en/manual/middle/elements/shape/shape-keyshape) is the shape returned by `draw` function of `G6.registerNode`, `G6.registerEdge`, and `G6.registerCombo`). After panning and zooming, the hidden shapes will be shown again. It will enhance the performance of these global updates a lot.
+Local refresh happens on updating node/edge/combo's configurations, states, and so on, which means renderer only clears the dirty bounding box and redraws the updated shapes. Renderer will clear the whole canvas and redraw at global updates like panning canvas and zooming canvas. That is to say, global updates cost much more than local updates. For example, when user drags or zooms the canvas, the clearing and redrawing are frequently repeated. So the user may find it is not so smooth in large graph with such behaviors. G6 supports `enableOptimize` option for built-in behaviors `zoom-canvas` and `drag-canvas`, which is `false` by default. Assign it with `true`, all the shapes besides keyShapes will be hidden during panning and zooming. ([keyShape](http://g6.antv.antgroup.com/en/manual/middle/elements/shape/shape-keyshape) is the shape returned by `draw` function of `G6.registerNode`, `G6.registerEdge`, and `G6.registerCombo`). After panning and zooming, the hidden shapes will be shown again. It will enhance the performance of these global updates a lot.
 
 Configure `enableOptimize` to `true`:
 
 ```javascript
-const graoh = new Graph({
+const graph = new Graph({
   // ...other configurations
   modes: {
     default: [{
@@ -192,12 +192,12 @@ G6 provides lots of layout methods. Layouts of force family are chosen by most d
 
 - force2: new force layout in G6 with better performance, and more configurations for gravity, center forces, clustering forces. And the animation is also configurable (by `animate`);
 - force: d3's classic force layout, does not support silence calculation currently;
-- forceAtlas2: a force layout with different force model, whose result is more compact. Implements the paper [ForceAtlas2, a Continuous Graph Layout Algorithm forHandy Network Visualization Designed for the GephiSoftware](https://www.researchgate.net/publication/262977655_ForceAtlas2_a_Continuous_Graph_Layout_Algorithm_for_Handy_Network_Visualization_Designed_for_the_Gephi_Software)；
-- fruchterman: another force model, whose result looks like regular hexagon in a way. The performance of it is not so good. Implements the paper [Fruchterman–Reingold Hexagon Empowered NodeDeployment in Wireless Sensor Network Application](https://www.researchgate.net/publication/361955786_Fruchterman-Reingold_Hexagon_Empowered_Node_Deployment_in_Wireless_Sensor_Network_Application?_sg=HVkgQIDKgLcvASw6B488WEdzJxN2m_X1T2MZ4zoa12KVnE-w8f6v_CawQ98tU2Bh7DN5qlRbmWNUDEA)。
+- forceAtlas2: a force layout with different force model, whose result is more compact. Implements the paper [ForceAtlas2, a Continuous Graph Layout Algorithm forHandy Network Visualization Designed for the GephiSoftware](https://www.researchgate.net/publication/262977655_ForceAtlas2_a_Continuous_Graph_Layout_Algorithm_for_Handy_Network_Visualization_Designed_for_the_Gephi_Software);
+- fruchterman: another force model, whose result looks like regular hexagon in a way. The performance of it is not so good. Implements the paper [Fruchterman–Reingold Hexagon Empowered NodeDeployment in Wireless Sensor Network Application](https://www.researchgate.net/publication/361955786_Fruchterman-Reingold_Hexagon_Empowered_Node_Deployment_in_Wireless_Sensor_Network_Application?_sg=HVkgQIDKgLcvASw6B488WEdzJxN2m_X1T2MZ4zoa12KVnE-w8f6v_CawQ98tU2Bh7DN5qlRbmWNUDEA).
 
 Besides `force`, other force family layouts have option `animate` to enable the animation during layout calculation. Actually, the 'animation' means rendering the mid-result after each iteration of force calculation. Nodes look like particles pushes/pulled by real forces. And other layouts will be rendered one time after layout finished (or force layout with `animate: false`). Configure `animate: true` on graph instance enables the interpolation animation for those static layouts after calculation finished.
 
-On samll graphs, force layouts always output good result whatever `animate` is `true` or `false`. On large graphs, if `animate` is disabled, the layout might cost some time for calculation and the user will not see the graph until the layout is done, which leads to bad user experience. Enabling `ainmate` shows the graph at the begining and user could wait with animation, which will be more acceptable by users. Sometimes, the nodes might swing nearing the end of calculation. Developers could stop the layout in the listeners of canvas clicking or node clicking.
+On small graphs, force layouts always output good result whatever `animate` is `true` or `false`. On large graphs, if `animate` is disabled, the layout might cost some time for calculation and the user will not see the graph until the layout is done, which leads to bad user experience. Enabling `animate` shows the graph at the beginning and user could wait with animation, which will be more acceptable by users. Sometimes, the nodes might swing nearing the end of calculation. Developers could stop the layout in the listeners of canvas clicking or node clicking.
 
 ### Data Increment APIs
 
@@ -210,8 +210,8 @@ On samll graphs, force layouts always output good result whatever `animate` is `
 
 Minimap is a plugin of G6, which has three types: `'default'`, `'keyShape'`, and `'delegate'`. With `'default'` type, all the graphics shapes and groups will be completely cloned to the canvas ad Minimap. And the minimap canvas will be updated when the items on the main graph being updated. That is to say, twice cost occurs for a graph with a `'default'` type minimap. With `'keyShape'` type, minimap only shows the key shapes of the main graph. With `'delegate'` type, minimap shows delegate shapes (configured by `delegateStyle`) to represent the items of the main graph. These simplification with `'keyShape'` and `'delegate'` types enhance the performance a lot. Therefore we suggest to use these two types instead of `'default'` type on large graphs.
 
-Besides, the size of minimap is much smaller than main graph in usual. When there is lots of items, the edges will be extremely thin and not easy to recognized by users on the small view anyway. Therefore, v4.7.16 supports `hideEdge` option (`false` by default) for minimap. Assign it to `true` to hide the edges on the minimap to further enhance the performance.
+Besides, the size of minimap is much smaller than main graph in usual. When there is lots of items, the edges will be extremely thin and not easy to recognized by users on the small view anyway. Therefore, v4.7.16 supports `hideEdge` option (`false` by default) for minimap. Assign it with `true` to hide the edges on the minimap to further enhance the performance.
 
 ### Use Animation Properly
 
-Animation costs a lot in usual. We suggest developers to use animation reasonably on local responses instead of globaly, e.g. breath animation when hover a node, flow animation on selected edges. And developers should well manage the animations and stop them in time.
+Animation costs a lot in usual. We suggest developers to use animation reasonably on local responses instead of globally, e.g. breath animation when hover a node, flow animation on selected edges. And developers should well manage the animations and stop them in time.

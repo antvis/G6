@@ -9,7 +9,7 @@ import {
   Util,
   BaseGlobal as Global,
 } from '@antv/g6-core';
-import { getPathWithBorderRadiusByPolyline, getPolylinePoints } from './polyline-util';
+import { getPathWithBorderRadiusByPolyline, getPolylinePoints, removeRedundantPoint } from './polyline-util';
 import { RouterCfg, pathFinder } from './router';
 
 // 折线
@@ -171,7 +171,8 @@ registerEdge(
       radius: number,
       routeCfg?: RouterCfg,
     ): Array<Array<string | number>> | string {
-      const { offset, simple } = routeCfg;
+      const { offset, obstacles } = routeCfg;
+      let simple = routeCfg.simple;
       // 指定了控制点
       if (!offset || points.length > 2) {
         if (radius) {
@@ -191,7 +192,8 @@ registerEdge(
 
 
       // 未指定控制点
-      const polylinePoints = simple
+      if (simple !== false && !obstacles?.length) simple = true;
+      let polylinePoints = simple
         ? getPolylinePoints(points[points.length - 1], points[0], target, source, offset)
         : pathFinder(points[0], points[points.length - 1], source, target, routeCfg);
 
@@ -202,6 +204,8 @@ registerEdge(
         return res;
       }
 
+      // 去除连续同 x 不同 y 的中间点；去除连续同 y 不同 x 的中间点
+      polylinePoints = removeRedundantPoint(polylinePoints);
       const res = Util.pointsToPolygon(polylinePoints);
       return res;
     },

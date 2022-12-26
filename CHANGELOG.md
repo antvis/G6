@@ -1,5 +1,14 @@
 # ChangeLog
 
+### 4.8.1
+
+- perf: use simple router for polyline when there is no obstacles, the performance is improved, closes: #2658;
+- perf: improve the performance for polyline by improve the pathFind implementations;
+- perf: layout without nodes at first time should not tweak at the second time;
+- fix: unexpected backforward path caused by redundant controlPoints for polyline;
+- fix: minimap viewport size problem when the graph have no width or height param, closes: #4152;
+- fix: combo with fixSize has wrong link points for related edges, closes: #4153;
+
 ### 4.8.0
 
 - fix: destroy graph and call layout problem, closes: #4126;

@@ -228,12 +228,15 @@ export default class LayoutController extends AbstractLayout {
     this.layoutCfg = layoutCfg;
     let layoutType = layoutCfg.type;
 
+    let prevHasNodes = false;
+    this.layoutMethods?.forEach(method => prevHasNodes = !!method.nodes?.length || prevHasNodes);
+
     const preLayoutTypes = this.destoryLayoutMethods();
 
     graph.emit('beforelayout');
 
-    // 增量情况下（上一次的布局与当前布局一致），使用 treakInit
-    if (preLayoutTypes?.length && layoutType && preLayoutTypes?.length === 1 && preLayoutTypes[0] === layoutType) {
+    // 增量情况下（上一次的布局与当前布局一致），上一次有节点，使用 treakInit
+    if (prevHasNodes && layoutType && preLayoutTypes?.length === 1 && preLayoutTypes[0] === layoutType) {
       this.tweakInit();
     } else {
       // 初始化位置，若配置了 preset，则使用 preset 的参数生成布局作为预布局，否则使用 grid

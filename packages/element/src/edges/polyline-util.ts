@@ -65,13 +65,15 @@ export const isBBoxesOverlapping = (b1: PBBox, b2: PBBox) =>
 export const filterConnectPoints = (points: PolyPoint[]): PolyPoint[] => {
   // pre-process: remove duplicated points
   const result: any[] = [];
-  const pointsMap: any = {};
+  const map = {};
   const pointsLength = points.length;
   for (let i = pointsLength - 1; i >= 0; i--) {
     const p = points[i];
     p.id = `${p.x}|||${p.y}`;
-    pointsMap[p.id] = p;
-    result.push(p);
+    if (!map[p.id]) {
+      map[p.id] = p;
+      result.push(p);
+    }
   }
   return result;
 };
@@ -165,7 +167,6 @@ export const mergeBBox = (b1: PBBox, b2: PBBox): PBBox => {
 };
 export const getPointsFromBBox = (bbox: PBBox): PolyPoint[] => {
   // anticlockwise
-  // const { minX, minY, maxX, maxY } = bbox;
   return [
     {
       x: bbox.minX,
@@ -345,8 +346,10 @@ export const pathFinder = (
   ot: any,
 ): PolyPoint[] => {
   // A-Star Algorithm
-  const closedSet: any = [];
-  const openSet = [start];
+  const closedSet = [];
+  const openSet = {
+    [start.id]: start
+  };
   const cameFrom: {
     [key: string]: any;
   } = {};
@@ -361,6 +364,11 @@ export const pathFinder = (
 
   gScore[start.id] = 0;
   fScore[start.id] = heuristicCostEstimate(start, goal, start);
+  const sortedOpenSet = new SortedArray();
+  sortedOpenSet.add({
+    id: start.id,
+    value: fScore[start.id]
+  })
 
   const pointById: {
     [key: string]: PolyPoint;
@@ -370,18 +378,15 @@ export const pathFinder = (
     pointById[p.id] = p;
   });
 
-  let current, lowestFScore;
-  while (openSet.length) {
-    current = undefined;
-    lowestFScore = Infinity;
-    // 找到 openSet 中 fScore 最小的点
-    openSet.forEach((p: any) => {
-      if (fScore[p.id] <= lowestFScore) {
-        lowestFScore = fScore[p.id];
-        current = p;
-      }
-    });
-
+  let current;
+  while (Object.keys(openSet).length) {
+    const minId = sortedOpenSet.minId(false);
+     if (minId) {
+       current = openSet[minId];
+     } else {
+       break;
+     }
+    
     // 若 openSet 中 fScore 最小的点就是终点
     if (current === goal) {
       // ending condition
@@ -390,29 +395,44 @@ export const pathFinder = (
       return pathPoints;
     }
 
-    removeFrom(openSet, current);
+    delete openSet[current.id];
+    sortedOpenSet.remove(current.id);
     closedSet.push(current);
 
-    getNeighborPoints(points, current, sBBox, tBBox).forEach((neighbor) => {
-      if (closedSet.indexOf(neighbor) !== -1) {
-        return;
-      }
-
-      if (openSet.indexOf(neighbor) === -1) {
-        openSet.push(neighbor);
-      }
-
-      const tentativeGScore = fScore[current.id] + distance(current, neighbor); // + distance(neighbor, goal);
-      if (gScore[neighbor.id] && tentativeGScore >= gScore[neighbor.id]) {
-        return;
-      }
-
-      cameFrom[neighbor.id] = current.id;
-      gScore[neighbor.id] = tentativeGScore;
-      fScore[neighbor.id] =
-        gScore[neighbor.id] + heuristicCostEstimate(neighbor, goal, start, os, ot);
-    });
+    const neighborPoints = getNeighborPoints(points, current, sBBox, tBBox);
+    const iterateNeighbors = (items) => {
+      items.forEach((neighbor) => {
+        if (closedSet.indexOf(neighbor) !== -1) {
+          return;
+        }
+  
+        const neighborId = neighbor.id;
+        if (!openSet[neighborId]) {
+          openSet[neighborId] = neighbor;
+        }
+  
+        const tentativeGScore = fScore[current.id] + distance(current, neighbor); // + distance(neighbor, goal);
+        if (gScore[neighborId] && tentativeGScore >= gScore[neighborId]) {
+          sortedOpenSet.add({
+            id: neighborId,
+            value: fScore[neighborId]
+          })
+          return;
+        }
+  
+        cameFrom[neighborId] = current.id;
+        gScore[neighborId] = tentativeGScore;
+        fScore[neighborId] =
+          gScore[neighborId] + heuristicCostEstimate(neighbor, goal, start, os, ot);
+        sortedOpenSet.add({
+          id: neighborId,
+          value: fScore[neighborId]
+        })
+      });
+    }
+    iterateNeighbors(neighborPoints);
   }
+
   // throw new Error('Cannot find path');
   return [start, goal];
 };
@@ -590,3 +610,127 @@ export const getPolylinePoints = (
 
   return simplifyPolyline(pathPoints);
 };
+
+/**
+ * 去除连续同 x 不同 y 的中间点；去除连续同 y 不同 x 的中间点
+ * @param points 坐标集合 { x: number, y: number, id: string }[]
+ * @returns 
+ */
+export const removeRedundantPoint = (points) => {
+  if (!points?.length) return points;
+  const beginPoint = points[points.length - 1];
+  const current = {
+    x: beginPoint.x,
+    y: beginPoint.y
+  }
+  let continueSameX = [beginPoint];
+  let continueSameY = [beginPoint];
+  for (let i = points.length - 2; i >= 0; i--) {
+    const point = points[i];
+    if (point.x === current.x) {
+      continueSameX.push(point);
+    } else {
+      continueSameX = [point];
+      current.x = point.x;
+    }
+    if (point.y === current.y) {
+      continueSameY.push(point);
+    } else {
+      continueSameY = [point];
+      current.y = point.y;
+    }
+
+    if (continueSameX.length > 2) {
+      const removeIdx = points.indexOf(continueSameX[1]);
+      if (removeIdx > -1) points.splice(removeIdx, 1);
+      continue;
+    }
+    if (continueSameY.length > 2) {
+      const removeIdx = points.indexOf(continueSameY[1]);
+      if (removeIdx > -1) points.splice(removeIdx, 1);
+    }
+  }
+  return points;
+}
+
+/**
+ * sorted array ascendly
+ * add new item to proper index when calling add
+ */
+export class SortedArray {
+  public arr: {
+    id: string,
+    value: number
+  }[] = [];
+  private map: {
+    [id: string]: boolean
+  } = {};
+  constructor() {
+    this.arr = [];
+    this.map = {};
+  }
+  private _innerAdd(item, length) {
+   const idxRange = [0, length - 1];
+   while (idxRange[1] - idxRange[0] > 1) {
+     const midIdx = Math.floor((idxRange[0] + idxRange[1]) / 2);       
+     if (this.arr[midIdx].value > item.value) {
+       idxRange[1] = midIdx;
+     } else if (this.arr[midIdx].value < item.value) {
+       idxRange[0] = midIdx;
+     } else {
+       this.arr.splice(midIdx, 0, item);
+       this.map[item.id] = true;
+       return;
+     }
+   }
+   this.arr.splice(idxRange[1], 0, item);
+   this.map[item.id] = true;
+  }
+  public add(item) {
+    // 已经存在，先移除
+    delete this.map[item.id];
+
+    const length = this.arr.length;
+    if (!length) {
+      this.arr.push(item);
+      this.map[item.id] = true;
+      return;
+    }
+
+    // 比最后一个大，加入尾部
+    if (this.arr[length - 1].value < item.value) {
+      this.arr.push(item);
+      this.map[item.id] = true;
+      return;
+    }
+    this._innerAdd(item, length);
+
+  }
+  // only remove from the map to avoid cost
+  // clear the invalid (not in the map) item when calling minId(true)
+  public remove(id) {
+    if (!this.map[id]) return;
+    delete this.map[id];
+  }
+  private _clearAndGetMinId(){
+    let res;
+    for (let i = this.arr.length - 1; i >= 0; i--) {
+      if (this.map[this.arr[i].id]) res = this.arr[i].id;
+      else this.arr.splice(i, 1);
+    }
+    return res;
+  }
+  private _findFirstId() {
+    while (this.arr.length) {
+      const first = this.arr.shift();
+      if (this.map[first.id]) return first.id;
+    }
+  }
+  public minId(clear) {
+   if (clear) {
+    return this._clearAndGetMinId();
+   } else {
+    return this._findFirstId();
+   }
+  }
+}

@@ -16,7 +16,7 @@ import {
 } from '../../types';
 import { IAbstractGraph } from '../../interface/graph';
 import { IEdge, INode, ICombo } from '../../interface/item';
-import { traverseTreeUp, traverseTree, getComboBBox, shouldRefreshEdge } from '../../util/graphic';
+import { traverseTreeUp, traverseTree, getComboBBox } from '../../util/graphic';
 
 const NODE = 'node';
 const EDGE = 'edge';
@@ -175,6 +175,14 @@ export default class ItemController {
         bbox: model.collapsed ? getComboBBox([], graph) : comboBBox,
         group: comboGroup,
       });
+
+      // if it is a circle combo, diagnal length of the children's bbox should be the diameter of the combo's bbox
+      if (!model.collapsed && item.getKeyShape().get('type') === 'circle') {
+        comboBBox.width = Math.hypot(comboBBox.height, comboBBox.width);
+        comboBBox.height = comboBBox.width;
+        item.set('bbox', comboBBox);
+        item.refresh();
+      }
 
       const comboModel = item.getModel();
 
