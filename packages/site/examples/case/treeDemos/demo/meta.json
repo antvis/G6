@@ -51,6 +51,14 @@
         "en": "Decision Tree"
       },
       "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*HS5gQ6yCiL4AAAAAAAAAAAAAARQnAQ"
+    },
+    {
+      "filename": "decisionTree2.js",
+      "title": {
+        "zh": "决策树2",
+        "en": "Decision Tree2"
+      },
+      "screenshot": "https://user-images.githubusercontent.com/26192378/143408151-5b238ad6-65c9-4a17-85e9-b047af13e7a4.png"
     }
   ]
 }
