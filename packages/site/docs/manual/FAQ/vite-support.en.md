@@ -28,3 +28,13 @@ export default defineConfig({
   ]
 })
 ```
+
+And [#3284](https://github.com/antvis/G6/issues/3284) propose another sulution for reference:
+
+```javascript
+build: {
+  commonjsOptions: {
+    ignoreTryCatch: false,
+  },
+},
+```
