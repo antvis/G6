@@ -39,6 +39,9 @@ describe('donut test', () => {
         },
       }
     },
+    modes: {
+      default: ['drag-node']
+    }
   };
   const graph = new Graph(cfg);
   it('default donut config', () => {
@@ -53,15 +56,15 @@ describe('donut test', () => {
             prop1: 10,
             prop2: 20,
             prop3: 25,
-            prop5: 10,
-            prop6: 20,
+            prop4: 10,
+            prop5: 20,
           },
           donutColorMap: {
             prop1: '#8eaade',
             prop2: '#55a9f2',
             prop3: '#0d47b5',
-            prop5: '#7b8085',
-            prop6: '#003870'
+            prop4: '#7b8085',
+            prop5: '#003870'
           },
         },
       ],
@@ -71,6 +74,67 @@ describe('donut test', () => {
 
     const donutGroup = graph.getNodes()[0].getContainer();
     expect(donutGroup.get('children').length).toBe(12)
-    
+
+  });
+  it('update donut with same number of donutAttrs', () => {
+    const prevFanShapes = Object.values(graph.findById('node').getContainer()['shapeMap']).filter(shape => shape.get('name').includes('fan-shape-'));
+    graph.updateItem('node', {
+      donutAttrs: {
+        prop1: 20,
+        prop2: 10,
+        prop3: 15,
+        prop4: 20,
+        prop5: 20
+      },
+    });
+    const fanShapes = Object.values(graph.findById('node').getContainer()['shapeMap']).filter(shape => shape.get('name').includes('fan-shape-'));
+
+    // same objects as previous
+    expect(fanShapes.length).toBe(prevFanShapes.length);
+    fanShapes.forEach((shape, i) => expect(shape).toBe(prevFanShapes[i]));
+  });
+  it('update donut with more donutAttrs', () => {
+    const prevFanShapes = Object.values(graph.findById('node').getContainer()['shapeMap']).filter(shape => shape.get('name').includes('fan-shape-'));
+    graph.updateItem('node', {
+      donutAttrs: {
+        prop1: 20 + Math.random(),
+        prop2: 10 + Math.random(),
+        prop3: 15 + Math.random(),
+        prop4: 20 + Math.random(),
+        prop5: 20 + Math.random(),
+        prop6: 0 + Math.random()
+      },
+    });
+    const fanShapes = Object.values(graph.findById('node').getContainer()['shapeMap']).filter(shape => shape.get('name').includes('fan-shape-'));
+
+    // 0-4 same objects as previous, one new object
+    expect(fanShapes.length).toBe(prevFanShapes.length + 1);
+    prevFanShapes.forEach((shape, i) => expect(shape).toBe(fanShapes[i]));
+  });
+  it('update donut with less donutAttrs', () => {
+    const prevFanShapes = Object.values(graph.findById('node').getContainer()['shapeMap']).filter(shape => shape.get('name').includes('fan-shape-'));
+    graph.updateItem('node', {
+      donutAttrs: {
+        prop1: 20 + Math.random(),
+        prop2: 10 + Math.random(),
+        prop3: 15 + Math.random(),
+        prop4: undefined, // set to undefined or 0 to remove the shape
+        prop5: 0,
+        prop6: 0
+      },
+    });
+    const fanShapes = Object.values(graph.findById('node').getContainer()['shapeMap']).filter(shape => shape.get('name').includes('fan-shape-'));
+
+    // 0-2 same objects as previous
+    expect(fanShapes.length).toBe(prevFanShapes.length - 3);
+    fanShapes.forEach((shape, i) => expect(shape).toBe(prevFanShapes[i]));
+  });
+  it('update donut radius', () => {
+    graph.updateItem('node', {
+      size: 150
+    });
+    const fanShapes = Object.values(graph.findById('node').getContainer()['shapeMap']).filter(shape => shape.get('name').includes('fan-shape-'));
+    expect(fanShapes[0].attr('path')[0][1]).toBe(150 / 2 * 1.6 / 2); // (keyShapeR + 0.6 * keyShapeR) / 2
+    expect(fanShapes[0].attr('lineWidth')).toBe(150 / 2 * (1 - 0.6)); // keyShapeR - 0.6 * keyShapeR
   });
 });

@@ -210,17 +210,6 @@ registerNode(
     update(cfg: NodeConfig, item: Item, updateType?: UpdateType) {
       const group = item.getContainer();
       const size = (this as ShapeOptions).getSize!(cfg);
-      // 下面这些属性需要覆盖默认样式与目前样式，但若在 cfg 中有指定则应该被 cfg 的相应配置覆盖。
-      // const strokeStyle = {
-      //   stroke: cfg.color,
-      //   r: size[0] / 2,
-      // };
-      // // 与 getShapeStyle 不同在于，update 时需要获取到当前的 style 进行融合。即新传入的配置项中没有涉及的属性，保留当前的配置。
-      // const keyShape = item.get('keyShape');
-
-      // TODO: performance
-      // const style = deepMix({}, keyShape.attr(), strokeStyle, cfg.style);
-      // const style = deepMix({}, keyShape.attr(), cfg.style);
       const style = { ...cfg.style };
       if (cfg.style.stroke === undefined && cfg.color) {
         style.stroke = cfg.color;
@@ -230,7 +219,6 @@ registerNode(
       }
 
       (this as any).updateShape(cfg, item, style, true, updateType);
-      // (this as any).updateShape(cfg, item, style, true, updateType);
       (this as any).updateLinkPoints(cfg, group);
     },
   },
