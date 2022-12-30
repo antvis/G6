@@ -7,6 +7,7 @@ import {
   ShapeOptions,
   BaseGlobal as Global,
   UpdateType,
+  Util,
 } from '@antv/g6-core';
 
 import { mix } from '@antv/util';
@@ -222,24 +223,7 @@ registerNode(
       const outerR = size[0];
       const defaultInnerR = (outerR * 3) / 8;
       const innerR = cfg.innerR || defaultInnerR;
-      const path = [];
-      for (let i = 0; i < 5; i++) {
-        const x1 = Math.cos(((18 + 72 * i) / 180) * Math.PI) * outerR;
-        const y1 = Math.sin(((18 + 72 * i) / 180) * Math.PI) * outerR;
-        const x2 = Math.cos(((54 + 72 * i) / 180) * Math.PI) * innerR;
-        const y2 = Math.sin(((54 + 72 * i) / 180) * Math.PI) * innerR;
-
-        if (i === 0) {
-          path.push(['M', x1, -y1]);
-        } else {
-          path.push(['L', x1, -y1]);
-        }
-        path.push(['L', x2, -y2]);
-      }
-
-      path.push(['Z']);
-
-      return path;
+      return Util.getStarPath(outerR, innerR);
     },
     /**
      * 获取节点的样式，供基于该节点自定义时使用
