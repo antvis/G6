@@ -188,12 +188,19 @@ export default class ToolBar extends Base {
       return;
     }
 
+    // initialy disabled redo and undo icons
+    undoDom.setAttribute('style', 'cursor: not-allowed');
+    undoDomIcon.setAttribute('style', 'opacity: 0.4');
+    redoDom.setAttribute('style', 'cursor: not-allowed');
+    redoDomIcon.setAttribute('style', 'opacity: 0.4');
+
+
     graph.on('stackchange', (evt) => {
       const { undoStack, redoStack } = evt;
       const undoStackLen = undoStack.length;
       const redoStackLen = redoStack.length;
       // undo 不可用
-      if (undoStackLen === 1) {
+      if (undoStackLen === 0) {
         undoDom.setAttribute('style', 'cursor: not-allowed');
         undoDomIcon.setAttribute('style', 'opacity: 0.4');
       } else {
@@ -218,7 +225,7 @@ export default class ToolBar extends Base {
   public undo() {
     const graph: IGraph = this.get('graph');
     const undoStack = graph.getUndoStack();
-    if (!undoStack || undoStack.length === 1) {
+    if (!undoStack || undoStack.length === 0) {
       return;
     }
 
@@ -298,7 +305,7 @@ export default class ToolBar extends Base {
           break;
         case 'createCombo':
           const afterCombos = currentData.data.after.combos;
-          const createdCombo =  afterCombos[afterCombos.length - 1];
+          const createdCombo = afterCombos[afterCombos.length - 1];
           Object.keys(data).forEach((key) => {
             const array = data[key];
             if (!array) return;
@@ -414,7 +421,7 @@ export default class ToolBar extends Base {
           });
           break;
         case 'createCombo':
-          const createdCombo = data.combos[ data.combos.length - 1];
+          const createdCombo = data.combos[data.combos.length - 1];
           graph.createCombo(createdCombo, createdCombo.children.map(child => child.id), false);
           break;
         case 'uncombo':

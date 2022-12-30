@@ -1553,10 +1553,6 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         }
       }
     }
-
-    if (this.get('enabledStack')) {
-      this.pushStack('render');
-    }
   }
 
   /**
@@ -3069,6 +3065,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     if (this.get('enabledStack')) {
       this.undoStack.clear();
       this.redoStack.clear();
+
+      this.emit('stackchange', {
+        undoStack: this.undoStack,
+        redoStack: this.redoStack,
+      });
     }
   }
 

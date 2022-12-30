@@ -5,6 +5,7 @@
 - perf: add updateShape function for donut node, closes: #4091;
 - chore: refactor the implementation of donut node;
 - feat: legend supports diamond, ellipse, triangle, star shape, closes: #3876;
+- feat: add redo undo for TreeGraph, closes: #3664, #2414;
 
 ### 4.8.1
 
