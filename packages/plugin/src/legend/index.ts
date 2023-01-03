@@ -375,7 +375,8 @@ export default class Legend extends Base {
             attrs = { width, height, x: -width / 2, y: -height / 2 };
             break;
           case 'ellipse':
-            attrs = { r1: width, r2: height, x: 0, y: 0 };
+            attrs = { rx: width, ry: height, x: 0, y: 0 };
+            shapeType = 'ellipse';
             break;
           case 'line':
             attrs = { x1: -width / 2, y1: 0, x2: width / 2, y2: 0 };
@@ -396,6 +397,35 @@ export default class Legend extends Base {
                 ['M', -width / 2, 0],
                 ['C', -width / 6, width / 2, width / 6, -width / 2, width / 2, 0]
               ],
+            };
+            shapeType = 'path';
+            break;
+          case 'diamond':
+            attrs = {
+              path: [
+                ['M', 0, -height],
+                ['L', width, 0],
+                ['L', 0, height],
+                ['L', -width, 0],
+                ['Z']
+              ]
+            };
+            shapeType = 'path';
+            break;
+          case 'triangle':
+            attrs = {
+              path: [
+                ['M', -width, height],
+                ['L', 0, -height],
+                ['L', width, height],
+                ['Z']
+              ]
+            };
+            shapeType = 'path';
+            break;
+          case 'star':
+            attrs = {
+              path: Util.getStarPath(r * 3, r * 1.2)
             };
             shapeType = 'path';
             break;

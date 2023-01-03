@@ -330,3 +330,28 @@ export function paddedHull(polyPoints: vec2[], padding: number) {
     return { x: point[0], y: point[1] };
   });
 }
+
+/**
+ * get a path of a star with outer radius and inner radius
+ * @param outerR 
+ * @param innerR 
+ * @returns 
+ */
+export const getStarPath = (outerR: number, innerR: number) => {
+  const path = [];
+  for (let i = 0; i < 5; i++) {
+    const x1 = Math.cos(((18 + 72 * i) / 180) * Math.PI) * outerR;
+    const y1 = Math.sin(((18 + 72 * i) / 180) * Math.PI) * outerR;
+    const x2 = Math.cos(((54 + 72 * i) / 180) * Math.PI) * innerR;
+    const y2 = Math.sin(((54 + 72 * i) / 180) * Math.PI) * innerR;
+    if (i === 0) {
+      path.push(['M', x1, -y1]);
+    } else {
+      path.push(['L', x1, -y1]);
+    }
+    path.push(['L', x2, -y2]);
+  }
+
+  path.push(['Z']);
+  return path;
+}

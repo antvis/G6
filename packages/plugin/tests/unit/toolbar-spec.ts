@@ -46,9 +46,7 @@ describe('toolbar', () => {
     let undoStack = stackData.undoStack;
     let redoStack = stackData.redoStack;
 
-    expect(undoStack.length).toBe(1);
-    expect(undoStack[0].action).toEqual('render');
-    expect(undoStack[0].data.after.nodes.length).toEqual(2);
+    expect(undoStack.length).toBe(0);
     expect(redoStack.length).toBe(0);
 
     // update 后，undo stack 中有 2 条数据，一条 render，一条 update
@@ -59,7 +57,7 @@ describe('toolbar', () => {
 
     stackData = graph.getStackData();
     undoStack = stackData.undoStack;
-    expect(undoStack.length).toBe(2);
+    expect(undoStack.length).toBe(1);
 
     let firstStackData = undoStack[0];
     expect(firstStackData.action).toEqual('update');
@@ -75,7 +73,7 @@ describe('toolbar', () => {
 
     stackData = graph.getStackData();
     undoStack = stackData.undoStack;
-    expect(undoStack.length).toBe(3);
+    expect(undoStack.length).toBe(2);
 
     firstStackData = undoStack[0];
     expect(firstStackData.action).toEqual('update');
@@ -93,7 +91,7 @@ describe('toolbar', () => {
 
     stackData = graph.getStackData();
     undoStack = stackData.undoStack;
-    expect(undoStack.length).toBe(4);
+    expect(undoStack.length).toBe(3);
 
     firstStackData = undoStack[0];
     expect(firstStackData.action).toEqual('add');
@@ -106,7 +104,7 @@ describe('toolbar', () => {
 
     stackData = graph.getStackData();
     undoStack = stackData.undoStack;
-    expect(undoStack.length).toBe(5);
+    expect(undoStack.length).toBe(4);
 
     firstStackData = undoStack[0];
     expect(firstStackData.action).toEqual('visible');
@@ -117,7 +115,7 @@ describe('toolbar', () => {
 
     stackData = graph.getStackData();
     undoStack = stackData.undoStack;
-    expect(undoStack.length).toBe(6);
+    expect(undoStack.length).toBe(5);
 
     firstStackData = undoStack[0];
     expect(firstStackData.action).toEqual('delete');
@@ -130,7 +128,7 @@ describe('toolbar', () => {
     stackData = graph.getStackData();
     undoStack = stackData.undoStack;
     redoStack = stackData.redoStack;
-    expect(undoStack.length).toBe(5);
+    expect(undoStack.length).toBe(4);
     expect(redoStack.length).toBe(1);
 
     firstStackData = redoStack[0];
@@ -148,7 +146,7 @@ describe('toolbar', () => {
     stackData = graph.getStackData();
     undoStack = stackData.undoStack;
     redoStack = stackData.redoStack;
-    expect(undoStack.length).toBe(4);
+    expect(undoStack.length).toBe(3);
     expect(redoStack.length).toBe(2);
 
     firstStackData = redoStack[0];

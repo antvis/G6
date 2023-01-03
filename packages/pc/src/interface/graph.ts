@@ -74,20 +74,27 @@ export interface ITreeGraph extends IGraph {
    * @param {TreeGraphData} data 子树数据模型
    * @param {string | Item} parent 子树的父节点id
    */
-  addChild: (data: TreeGraphData, parent: string | Item) => void;
+  addChild: (data: TreeGraphData, parent: string | Item, stack?: boolean) => void;
 
   /**
    * 更新源数据，差量更新子树
    * @param {TreeGraphData} data 子树数据模型
    * @param {string} parent 子树的父节点id
    */
-  updateChild: (data: TreeGraphData, parent?: string) => void;
+  updateChild: (data: TreeGraphData, parent?: string, stack?: boolean) => void;
+
+  /**
+   * 更新某个节点下的所有子节点
+   * @param {TreeGraphData[]} data 子树数据模型集合
+   * @param {string} parent 子树的父节点id
+   */
+  updateChildren: (data: TreeGraphData[], parentId: string, stack?: boolean) => void;
 
   /**
    * 删除子树
    * @param {string} id 子树根节点id
    */
-  removeChild: (id: string) => void;
+  removeChild: (id: string, stack?: boolean) => void;
 
   /**
    * 根据id获取对应的源数据
