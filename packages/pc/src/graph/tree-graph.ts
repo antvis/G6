@@ -630,7 +630,6 @@ export default class TreeGraph extends Graph implements ITreeGraph {
    */
   public data(data?: TreeGraphData): void {
     super.data(data);
-    console.log('data', data)
     this.set('originData', JSON.parse(JSON.stringify(data)));
   }
 }
