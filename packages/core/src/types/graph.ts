@@ -1,10 +1,16 @@
 import EventEmitter from '@antv/event-emitter';
-import { AnimateCfg, Padding, Point, FitViewRules, GraphAlignment } from '.';
+import { AnimateCfg } from './animate';
+import { ComboUserData } from './combo';
+import { Padding, Point } from './common';
+import { GraphData } from './data';
 import { EdgeUserData } from './edge';
 import { ITEM_TYPE } from './item';
 import { LayoutCommonConfig } from './layout';
 import { NodeUserData } from './node';
 import { Specification } from './spec';
+import { FitViewRules, GraphAlignment } from './view';
+
+// TODO: 1. BehaviorCfg type; 2. Item type;
 
 export interface IGraph extends EventEmitter {
 
@@ -12,6 +18,17 @@ export interface IGraph extends EventEmitter {
    * Update the specs(configurations)
    */
   updateSpec: (spec: Specification) => void;
+  /**
+   * input data and render the graph
+   * @param data 
+   * @returns 
+   */
+  read: (data: GraphData) => void;
+  /**
+   * clear the graph, means remove all the items on the graph
+   * @returns 
+   */
+  clear: () => void;
 
 
   // ===== view operations =====
@@ -109,7 +126,7 @@ export interface IGraph extends EventEmitter {
    * @param stack whether push this operation to stack
    * @returns the added item
    */
-  addItem: (itemType: ITEM_TYPE, model: NodeUserData | EdgeUserData, stack?: boolean) => Item;
+  addItem: (itemType: ITEM_TYPE, model: NodeUserData | EdgeUserData | ComboUserData, stack?: boolean) => Item;
   /**
    * add items to the graph
    * @param itemType item type
@@ -117,7 +134,7 @@ export interface IGraph extends EventEmitter {
    * @param stack whether push this operation to stack
    * @returns the added items
    */
-  addItems: (itemType: ITEM_TYPE, models: (NodeUserData | EdgeUserData)[], stack?: boolean) => Item[];
+  addItems: (itemType: ITEM_TYPE, models: NodeUserData[] | EdgeUserData[] | ComboUserData[], stack?: boolean) => Item[];
   /**
    * remove an item from the graph
    * @param item the item to be removed
@@ -132,6 +149,13 @@ export interface IGraph extends EventEmitter {
    * @returns 
    */
   removeItems: (items: (Item | string)[], stack?: boolean) => void;
+  /**
+   * Update an item on the graph
+   * @param {Item} item item or id
+   * @param {EdgeConfig | NodeConfig} cfg incremental updated configs
+   * @param {boolean} stack 本次操作是否入栈，默认为 true
+   */
+  updateItem: (item: Item | string, cfg: Partial<NodeUserData> | Partial<EdgeUserData> | Partial<ComboUserData>, stack?: boolean) => Item;
   /**
    * show the item
    * @param item the item to be shown
@@ -160,7 +184,7 @@ export interface IGraph extends EventEmitter {
   * @param combo combo ID or Combo model
   * @param childrenIds id array of children of the new combo
   */
-  createCombo: (combo: string | ComboConfig, childrenIds: string[], stack?: boolean) => void;
+  createCombo: (combo: string | ComboUserData, childrenIds: string[], stack?: boolean) => void;
   /**
    * dissolve combo
    * @param {String | ICombo} item combo item or id to be dissolve
@@ -187,4 +211,34 @@ export interface IGraph extends EventEmitter {
    * @param {boolean} stack push it into stack
    */
   layout: (cfg?: LayoutCommonConfig, align?: GraphAlignment, canvasPoint?: Point, stack?: boolean) => void;
+
+
+  // ===== interaction =====
+  /**
+   * switch mode
+   * @param mode mode name
+   * @returns 
+   */
+  setMode: (mode: string) => void;
+  /**
+   * add behavior(s) to mode(s)
+   * @param behaviors behavior names or configs
+   * @param modes mode names
+   * @returns 
+   */
+  addBehaviors: (behaviors: BehaviorName | BehaviorCfg | BehaviorName[] | BehaviorCfg[], modes: string | string[]) => void;
+  /**
+   * remove behavior(s) from mode(s)
+   * @param behaviors behavior names or configs
+   * @param modes mode names
+   * @returns 
+   */
+  removeBehaviors: (behaviors: BehaviorName | BehaviorCfg | BehaviorName[] | BehaviorCfg[], modes: string | string[]) => void;
+  /**
+   * update behavior(s) on a mode
+   * @param behavior behavior configs, whose name indicates the behavior to be updated
+   * @param mode mode name
+   * @returns 
+   */
+  updateBehavior: (behavior: BehaviorCfg, mode?: string) => void;
 }

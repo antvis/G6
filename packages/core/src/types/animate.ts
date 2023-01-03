@@ -1,4 +1,4 @@
-export type AnimateCfg = {
+export interface AnimateCfg {
   /**
    * whether enable animation
    * @type {boolean}

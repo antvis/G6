@@ -5,7 +5,7 @@ export type NodeLabelPosition = 'bottom' | 'center' | 'top' | 'left' | 'right';
 /** user input data */
 export interface NodeUserData {
   id: string;
-  comboId?: string;
+  parentId?: string;
 }
 
 /** inner node data, clone and transform from user data */

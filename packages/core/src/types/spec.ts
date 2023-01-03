@@ -9,7 +9,7 @@ import { LayoutCommonConfig } from "./layout";
 type rendererName = 'canvas' | 'svg' | 'webgl';
 
 export interface Specification {
-  type: 'graph' | 'treeGraph';
+  type: 'graph' | 'tree';
   width?: number;
   height?: number;
   renderer?: rendererName | {
