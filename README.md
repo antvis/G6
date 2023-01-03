@@ -148,6 +148,12 @@ DEBUG_MODE=1 npm test -- --watch ./tests/unit/algorithm/find-path-spec
 
 目前 Graphin 在商业图分析项目中均有良好的实践，具体查看[《谁在使用 Graphin》](https://github.com/antvis/Graphin/issues/212)
 
+## 在线分析工具 G6VP
+
+如果你有一份关系数据（图数据），想要快速在线进行可视化，并能够高效分析，那么我们推荐使用官方出品的 [G6VP](https://github.com/antvis/G6VP)，它支持本地文件 JSON，Excel，也支持 TuGraph，Neo4J，GraphScope 等图数据源，内置了 60+ 的分析资产，图分析可以像搭积木一样简单。平台还提供一键导出 SDK，快速集成到业务系统中，大大降 低初始研发门槛 与 后续维护成本。
+
+![G6VP Image](https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*GOVySaZ1iHYAAAAAAAAAAAAADmJ7AQ/original)
+
 ## G6 图可视化交流群
 
 欢迎各界 G6 使用者、图可视化爱好者加入 **G6 图可视化交流群** 及 **G6 图可视化交流二群**（钉钉群，使用钉钉扫一扫加入）讨论与交流。Graphin 的使用者，爱好者请加入 **Graphin's Group Chat**
