@@ -566,6 +566,7 @@ export type LabelStyle = Partial<{
   textBaseline: 'top' | 'middle' | 'bottom' | 'hanging' | 'alphabetic' | 'ideographic';
   offset: number;
   fillOpacity: number;
+  maxLength?: number;
   background?: {
     fill?: string;
     stroke?: string;

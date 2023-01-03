@@ -10,7 +10,7 @@ import { IGraph } from '../interface/graph';
 import Util from '../util';
 import Global from '../global';
 
-const { calculationItemsBBox } = Util;
+const { calculationItemsBBox, returnNestedChildrenModels } = Util;
 
 /**
  * 遍历拖动的 Combo 下的所有 Combo
@@ -29,6 +29,51 @@ const traverseCombo = (data, fn: (param: any) => boolean) => {
     }
     each(combos, (child) => {
       traverseCombo(child, fn);
+    });
+  }
+};
+
+/**
+ * Pushes the combo and its children to
+ * stack, if redo is not empty it's cleared.
+ * @param {IGraph} graph
+ * @param {Item[]} items
+ */
+const pushComboToStack = (graph: IGraph, items: Item[]) => {
+  const redoStack = graph.getRedoStack();
+  const undoStack = graph.getUndoStack();
+
+  if (!redoStack.isEmpty()) {
+    redoStack.clear();
+  }
+
+  if (!items) {
+    return;
+  }
+
+  const comboIds = items.map((combo) => combo.get('id'));
+  const combos = comboIds.map((id) => {
+    return graph.findById(id) as ICombo;
+  });
+
+  const comboModels = returnNestedChildrenModels(combos);
+
+  if (undoStack.peek().action === 'drag-combo-start') {
+    const currentData = undoStack.pop();
+
+    graph.pushStack('drag-combo', {
+      before: currentData.data.before,
+      after: {
+        combos: comboModels.combos,
+        nodes: comboModels.nodes,
+      },
+    });
+  } else {
+    graph.pushStack('drag-combo-start', {
+      before: {
+        combos: comboModels.combos,
+        nodes: comboModels.nodes,
+      },
     });
   }
 };
@@ -101,7 +146,7 @@ export default {
     }
 
     const beforeDragItems = [];
-    this.targets.forEach(t => {
+    this.targets.forEach((t) => {
       const { x, y, id } = t.getModel();
       beforeDragItems.push({ x, y, id });
     });
@@ -137,6 +182,10 @@ export default {
       this.currentItemChildCombos.push(model.id);
       return true;
     });
+
+    if (graph.get('enabledStack') && combos.length) {
+      pushComboToStack(graph, combos);
+    }
   },
   onDrag(evt: IG6GraphEvent) {
     if (!this.origin) {
@@ -318,6 +367,14 @@ export default {
     }
     const parentCombo = this.getParentCombo(item.getModel().parentId);
     const graph: IGraph = this.graph;
+
+    if (graph.get('enabledStack')) {
+      const combos = graph.findAllByState('combo', this.selectedState);
+      if (combos.length) {
+        pushComboToStack(graph, combos);
+      }
+    }
+
     if (parentCombo && this.activeState) {
       graph.setItemState(parentCombo, this.activeState, false);
     }
@@ -350,7 +407,7 @@ export default {
       this.targets.map((combo: ICombo) => {
         // 将 Combo 放置到某个 Combo 上面时，只有当 onlyChangeComboSize 为 false 时候才更新 Combo 结构
         if (!this.onlyChangeComboSize) {
-          graph.updateComboTree(combo, undefined, stack);
+          graph.updateComboTree(combo, undefined, false);
         } else {
           graph.updateCombo(combo);
           const { x, y, id } = combo.getModel();
@@ -392,14 +449,18 @@ export default {
   updateCombo(item: ICombo, evt: IG6GraphEvent, restore: boolean) {
     this.updateSingleItem(item, evt, restore);
     const edgesToBeUpdate: { [id: string]: IEdge } = {};
-    this.traverse(item, (paramItem, paramEdgesMap) => {
-      if (paramItem.destroyed) {
-        return false;
-      }
-      paramItem.getEdges().forEach(edge => paramEdgesMap[edge.getID()] = edge);
-      return true;
-    }, edgesToBeUpdate);
-    Object.values(edgesToBeUpdate).forEach(edge => edge.refresh());
+    this.traverse(
+      item,
+      (paramItem, paramEdgesMap) => {
+        if (paramItem.destroyed) {
+          return false;
+        }
+        paramItem.getEdges().forEach((edge) => (paramEdgesMap[edge.getID()] = edge));
+        return true;
+      },
+      edgesToBeUpdate,
+    );
+    Object.values(edgesToBeUpdate).forEach((edge) => edge.refresh());
   },
 
   /**

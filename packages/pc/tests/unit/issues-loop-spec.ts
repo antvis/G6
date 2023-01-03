@@ -5,10 +5,8 @@ const div = document.createElement('div');
 div.id = 'container';
 document.body.appendChild(div);
 
-
 describe('issues', () => {
   it('basic test ui', () => {
-
     const nodes = [
       {
         id: '1',
@@ -85,8 +83,7 @@ describe('issues', () => {
   });
 
   it('test position right calc pointPadding value is ok ', () => {
-    const node =
-    {
+    const node = {
       id: '1',
       type: 'rect',
       color: '#333',
@@ -95,9 +92,9 @@ describe('issues', () => {
       size: [80, 80],
       label: 'rect',
       style: {
-        lineWidth: 0
+        lineWidth: 0,
       },
-    }
+    };
     const edge = {
       source: '1',
       target: '1',
@@ -107,7 +104,7 @@ describe('issues', () => {
         dist: 20,
         pointPadding: 15,
       },
-    }
+    };
 
     const data = {
       nodes: [node],
@@ -121,27 +118,26 @@ describe('issues', () => {
       fitCenter: true,
     });
 
-    const center = [node.x, node.y]
-    const halfOfWidth = node.size[0] / 2
-    const halfOfHeight = node.size[1] / 2
-    const pointPadding = edge.loopCfg.pointPadding
+    const center = [node.x, node.y];
+    const halfOfWidth = node.size[0] / 2;
+    const halfOfHeight = node.size[1] / 2;
+    const pointPadding = edge.loopCfg.pointPadding;
     graph.data(data);
     graph.render();
     const startPoint = [center[0] + halfOfWidth, center[1] - pointPadding];
     const endPoint = [center[0] + halfOfWidth, center[1] + pointPadding];
 
-    const { edges } = data
-    const currentEdges = edges[0]
+    const { edges } = data;
+    const currentEdges = edges[0];
 
     //@ts-ignore
     expect([currentEdges.startPoint.x, currentEdges.startPoint.y]).toEqual(startPoint);
     //@ts-ignore
     expect([currentEdges.endPoint.x, currentEdges.endPoint.y]).toEqual(endPoint);
-  })
+  });
 
   it('test position top-right calc pointPadding value is ok ', () => {
-    const node =
-    {
+    const node = {
       id: '1',
       type: 'rect',
       color: '#333',
@@ -150,9 +146,9 @@ describe('issues', () => {
       size: [80, 80],
       label: 'rect',
       style: {
-        lineWidth: 0
+        lineWidth: 0,
       },
-    }
+    };
     const edge = {
       source: '1',
       target: '1',
@@ -162,7 +158,7 @@ describe('issues', () => {
         dist: 20,
         pointPadding: 15,
       },
-    }
+    };
 
     const data = {
       nodes: [node],
@@ -176,30 +172,27 @@ describe('issues', () => {
       fitCenter: true,
     });
 
-
-    const center = [node.x, node.y]
-    const halfOfWidth = node.size[0] / 2
-    const halfOfHeight = node.size[1] / 2
-    const pointPadding = edge.loopCfg.pointPadding
+    const center = [node.x, node.y];
+    const halfOfWidth = node.size[0] / 2;
+    const halfOfHeight = node.size[1] / 2;
+    const pointPadding = edge.loopCfg.pointPadding;
     graph.data(data);
     graph.render();
 
     const startPoint = [center[0] + halfOfWidth - pointPadding, center[1] - halfOfHeight];
     const endPoint = [center[0] + halfOfWidth, center[1] - halfOfHeight + pointPadding];
 
-    const { edges } = data
-    const currentEdges = edges[0]
+    const { edges } = data;
+    const currentEdges = edges[0];
 
     //@ts-ignore
     expect([currentEdges.startPoint.x, currentEdges.startPoint.y]).toEqual(startPoint);
     //@ts-ignore
     expect([currentEdges.endPoint.x, currentEdges.endPoint.y]).toEqual(endPoint);
-  })
-
+  });
 
   it('test unset pointPadding and final pointPadding calc is ok', () => {
-    const node =
-    {
+    const node = {
       id: '1',
       type: 'rect',
       color: '#333',
@@ -208,9 +201,9 @@ describe('issues', () => {
       size: [80, 80],
       label: 'rect',
       style: {
-        lineWidth: 0
+        lineWidth: 0,
       },
-    }
+    };
     const edge = {
       source: '1',
       target: '1',
@@ -219,7 +212,7 @@ describe('issues', () => {
         position: 'top-right',
         dist: 20,
       },
-    }
+    };
 
     const data = {
       nodes: [node],
@@ -233,29 +226,28 @@ describe('issues', () => {
       fitCenter: true,
     });
 
-    const center = [node.x, node.y]
-    const halfOfWidth = node.size[0] / 2
-    const halfOfHeight = node.size[1] / 2
-    // 预期 pointPadding 为 20 
-    const pointPadding = 20
+    const center = [node.x, node.y];
+    const halfOfWidth = node.size[0] / 2;
+    const halfOfHeight = node.size[1] / 2;
+    // 预期 pointPadding 为 20
+    const pointPadding = 20;
     graph.data(data);
     graph.render();
 
     const startPoint = [center[0] + halfOfWidth - pointPadding, center[1] - halfOfHeight];
     const endPoint = [center[0] + halfOfWidth, center[1] - halfOfHeight + pointPadding];
 
-    const { edges } = data
-    const currentEdges = edges[0]
+    const { edges } = data;
+    const currentEdges = edges[0];
 
     //@ts-ignore
     expect([currentEdges.startPoint.x, currentEdges.startPoint.y]).toEqual(startPoint);
     //@ts-ignore
     expect([currentEdges.endPoint.x, currentEdges.endPoint.y]).toEqual(endPoint);
-  })
+  });
 
   it('test set pointPadding greater than minimum height and width minimum value , final pointPadding calc is ok', () => {
-    const node =
-    {
+    const node = {
       id: '1',
       type: 'rect',
       color: '#333',
@@ -264,9 +256,9 @@ describe('issues', () => {
       size: [80, 80],
       label: 'rect',
       style: {
-        lineWidth: 0
+        lineWidth: 0,
       },
-    }
+    };
     const edge = {
       source: '1',
       target: '1',
@@ -277,7 +269,7 @@ describe('issues', () => {
         clockwise: true,
         pointPadding: 1000,
       },
-    }
+    };
 
     const data = {
       nodes: [node],
@@ -291,30 +283,28 @@ describe('issues', () => {
       fitCenter: true,
     });
 
-    const center = [node.x, node.y]
-    const halfOfWidth = node.size[0] / 2
-    const halfOfHeight = node.size[1] / 2
+    const center = [node.x, node.y];
+    const halfOfWidth = node.size[0] / 2;
+    const halfOfHeight = node.size[1] / 2;
     // 预期 pointPadding 为 40
-    const pointPadding = 40
+    const pointPadding = 40;
     graph.data(data);
     graph.render();
 
     const startPoint = [center[0] + halfOfWidth - pointPadding, center[1] - halfOfHeight];
     const endPoint = [center[0] + halfOfWidth, center[1] - halfOfHeight + pointPadding];
 
-    const { edges } = data
-    const currentEdges = edges[0]
+    const { edges } = data;
+    const currentEdges = edges[0];
 
     //@ts-ignore
     expect([currentEdges.startPoint.x, currentEdges.startPoint.y]).toEqual(startPoint);
     //@ts-ignore
     expect([currentEdges.endPoint.x, currentEdges.endPoint.y]).toEqual(endPoint);
-  })
-
+  });
 
   it('test set clockwise => true, calc pointPadding is ok', () => {
-    const node =
-    {
+    const node = {
       id: '1',
       type: 'rect',
       color: '#333',
@@ -323,9 +313,9 @@ describe('issues', () => {
       size: [80, 80],
       label: 'rect',
       style: {
-        lineWidth: 0
+        lineWidth: 0,
       },
-    }
+    };
     const edge = {
       source: '1',
       target: '1',
@@ -336,7 +326,7 @@ describe('issues', () => {
         clockwise: true,
         pointPadding: 1000,
       },
-    }
+    };
 
     const data = {
       nodes: [node],
@@ -350,23 +340,23 @@ describe('issues', () => {
       fitCenter: true,
     });
 
-    const center = [node.x, node.y]
-    const halfOfWidth = node.size[0] / 2
-    const halfOfHeight = node.size[1] / 2
+    const center = [node.x, node.y];
+    const halfOfWidth = node.size[0] / 2;
+    const halfOfHeight = node.size[1] / 2;
     // 预期 pointPadding 为 40
-    const pointPadding = 40
+    const pointPadding = 40;
     graph.data(data);
     graph.render();
 
     const startPoint = [center[0] + halfOfWidth - pointPadding, center[1] - halfOfHeight];
     const endPoint = [center[0] + halfOfWidth, center[1] - halfOfHeight + pointPadding];
 
-    const { edges } = data
-    const currentEdges = edges[0]
+    const { edges } = data;
+    const currentEdges = edges[0];
 
     //@ts-ignore
     expect([currentEdges.startPoint.x, currentEdges.startPoint.y]).toEqual(startPoint);
     //@ts-ignore
     expect([currentEdges.endPoint.x, currentEdges.endPoint.y]).toEqual(endPoint);
-  })
+  });
 });

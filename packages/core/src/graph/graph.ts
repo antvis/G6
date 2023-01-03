@@ -1175,6 +1175,15 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         parentCombo.addChild(item);
     }
 
+    if (item) {
+      const model = item.getModel();
+      if (model.states) {
+        Object.keys(model.states).forEach(key => {
+          item.setState(key, model.states[key]);
+        });
+      }
+    }
+
     return item;
   }
 
@@ -1590,7 +1599,10 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
       } else {
         item = self.addItem(type, model, false) as any;
       }
-      if (item) (items as { [key: string]: any[] })[`${type}s`].push(item);
+
+      if (item) {
+        (items as { [key: string]: any[] })[`${type}s`].push(item);
+      }
     });
   }
 
@@ -1903,7 +1915,12 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     }
 
     const comboModel = comboItem.getModel();
-    const parentId = comboItem.getModel().parentId;
+    // Expand combo if collapsed to prevent child nodes being deleted.
+    if (comboModel.collapsed) {
+      this.expandCombo(comboItem);
+    }
+
+    const parentId = comboModel.parentId;
     let comboTrees = self.get('comboTrees');
     if (!comboTrees) comboTrees = [];
     const itemMap = this.get('itemMap');
@@ -2244,16 +2261,32 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     const nodes: NodeConfig[] = [];
     const edges: EdgeConfig[] = [];
     const combos: ComboConfig[] = [];
+
+    const getModelWithStates = (item: INode | IEdge | ICombo): NodeConfig | EdgeConfig | ComboConfig => {
+      const model = item.getModel();
+      model.states = {};
+      item.getStates().forEach(state => {
+        if (state.includes(':')) {
+          const stateWithValueParsed = state.split(':');
+          model.states[stateWithValueParsed[0]] = stateWithValueParsed[1];
+        } else {
+          model.states[state] = true;
+        }
+      });
+
+      return model;
+    };
+
     each(this.get('nodes'), (node: INode) => {
-      nodes.push(node.getModel() as NodeConfig);
+      nodes.push(getModelWithStates(node) as NodeConfig);
     });
 
     each(this.get('edges'), (edge: IEdge) => {
-      edges.push(edge.getModel() as EdgeConfig);
+      edges.push(getModelWithStates(edge) as EdgeConfig);
     });
 
     each(this.get('combos'), (combo: ICombo) => {
-      combos.push(combo.getModel() as ComboConfig);
+      combos.push(getModelWithStates(combo) as ComboConfig);
     });
 
     return { nodes, edges, combos };
@@ -2346,6 +2379,11 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
    */
   public positionsAnimate(referComboModel?: boolean): void {
     const self = this;
+
+    if (!self.get('autoPaint')) {
+      return;
+    }
+
     self.emit('beforeanimate');
 
     const animateCfg: GraphAnimateConfig = self.get('animateCfg');
