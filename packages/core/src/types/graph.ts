@@ -1,6 +1,7 @@
 import EventEmitter from '@antv/event-emitter';
 import { Hooks } from '../types/hook';
 import { AnimateCfg } from './animate';
+import { BehaviorCfg, BehaviorName } from './behavior';
 import { ComboUserData } from './combo';
 import { Padding, Point } from './common';
 import { GraphData } from './data';
