@@ -3,19 +3,19 @@ import { Encode, LabelBackground, ShapeAttrEncode, ShapesEncode } from "./item";
 
 export type NodeLabelPosition = 'bottom' | 'center' | 'top' | 'left' | 'right';
 
-/** user input data */
+/** User input data. */
 export interface NodeUserData {
   id: string;
   parentId?: string;
 }
 
-/** inner node data, clone and transform from user data */
+/** Inner node data, clone and transform from user data. */
 export interface NodeModel extends NodeUserData {
   visible?: boolean;
   label?: string;
 }
 
-/** displayed data, only for drawing and not received by users */
+/** Displayed data, only for drawing and not received by users. */
 export interface NodeDisplayModel extends NodeModel {
   keyShape?: {
     [shapeAttr: string]: unknown;
@@ -42,7 +42,7 @@ export interface NodeDisplayModel extends NodeModel {
   anchorPoints?: AnchorPoint[]
 }
 
-/** anchor points, for linking edges and drawing circles */
+/** Anchor points, for linking edges and drawing circles. */
 export interface AnchorPoint {
   position?: [number, number]; // range from 0 to 1
   show?: boolean;

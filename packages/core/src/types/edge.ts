@@ -2,20 +2,20 @@ import { AnimateAttr } from "./animate";
 import { Encode, LabelBackground, ShapeAttrEncode, ShapesEncode } from "./item";
 
 
-/** user input data */
+/** User input data. */
 export interface EdgeUserData {
   id: string,
   source: string,
   target: string,
 }
 
-/** inner node data, clone and transform from user data */
+/** Inner node data, clone and transform from user data. */
 export interface EdgeModel extends EdgeUserData {
   visible?: boolean;
   label?: string;
 }
 
-/** displayed data, only for drawing and not received by users */
+/** Displayed data, only for drawing and not received by users. */
 export interface EdgeDisplayModel extends EdgeModel {
   keyShape?: {
     [shapeAttr: string]: unknown;

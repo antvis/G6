@@ -5,19 +5,19 @@ import { AnchorPoint } from "./node";
 
 export type ComboLabelPosition = 'bottom' | 'top' | 'left' | 'left-top' | 'right' | 'ouside-top' | 'outside-left' | 'outside-right' | 'outside-bottom';
 
-/** user input data */
+/** User input data. */
 export interface ComboUserData {
   id: string;
   parentId?: string;
 }
 
-/** inner combo data, clone and transform from user data */
+/** Inner combo data, clone and transform from user data. */
 export interface ComboModel extends ComboUserData {
   visible?: boolean;
   label?: string;
 }
 
-/** displayed data, only for drawing and not received by users */
+/** Displayed data, only for drawing and not received by users. */
 export interface ComboDisplayModel extends ComboModel {
   keyShape?: {
     [shapeAttr: string]: unknown;

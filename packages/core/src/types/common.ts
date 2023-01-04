@@ -1,4 +1,4 @@
-export type Padding = number | string | number[];
+export type Padding = number | number[];
 
 export type Point = {
   x: number;
