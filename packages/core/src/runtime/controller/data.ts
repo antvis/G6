@@ -5,17 +5,18 @@ import { getExtension } from "../../util/extension";
 import { clone } from "@antv/util";
 
 /**
- * Manage the data transform extensions; storage user data and inner data
+ * Manages the data transform extensions;
+ * Storages user data and inner data.
  */
 export class DataController {
   public graph: IGraph;
   public extensions = [];
   /**
-   * user input data
+   * User input data.
    */
   public userData: GraphData;
   /**
-   * inner data stored in graphCore structure
+   * Inner data stored in graphCore structure.
    */
   public graphCore;
 
@@ -51,12 +52,12 @@ export class DataController {
     let dataCloned = clone(data);
     const { graphCore } = this;
 
-    // transform the data
+    // Transform the data.
     this.extensions.forEach(ext => {
       dataCloned = ext(dataCloned);
     })
 
-    // input and store in graphcore
+    // Input and store in graphcore.
     const { nodes = [], edges = [], combos = [] } = dataCloned;
     // TODO: distinguish combos
     if (!graphCore.getAllNodes().length) {

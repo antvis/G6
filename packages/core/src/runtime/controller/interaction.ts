@@ -5,7 +5,8 @@ import stdlib from '../../stdlib';
 import { getExtension } from "../../util/extension";
 
 /**
- * Manage the interaction extensions; storage related data
+ * Manages the interaction extensions;
+ * Storage related data.
  */
 export class InteractionController {
   public extensions = {};
