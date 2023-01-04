@@ -1,4 +1,4 @@
-import { AnimateCfg } from ".";
+import { AnimateCfg } from "./animate";
 import { Point } from "./common";
 import { FetchDataConfig, InlineDataConfig, TransformerFn } from "./data";
 import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeShapesEncode } from "./edge";
@@ -52,8 +52,8 @@ export interface Specification {
 
   /** interaction */
   modes?: {
-    default: string[] | BehaviorConfig[]; // TODO: behavior config comes from behaviors; TODO: interaction specs
-    [mode: string]: string[] | BehaviorConfig[]; // TODO: behavior config comes from behaviors; TODO: interaction specs
+    default: BehaviorName[] | BehaviorConfig[]; // TODO: behavior config comes from behaviors; TODO: interaction specs
+    [mode: string]: BehaviorName[] | BehaviorConfig[]; // TODO: behavior config comes from behaviors; TODO: interaction specs
   };
   mode?: string;
 

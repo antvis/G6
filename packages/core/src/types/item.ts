@@ -1,10 +1,13 @@
+import { AnimateAttr } from "./animate";
+
 export interface Encode<T> {
   fields: string[],
   formatter: (values: unknown[]) => T;
 }
 
 export interface ShapeAttrEncode {
-  [shapeAttr: string]: unknown | Encode<unknown>
+  [shapeAttr: string]: unknown | Encode<unknown>;
+  animate: AnimateAttr | Encode<AnimateAttr>;
 };
 
 export interface LabelBackground {
@@ -20,7 +23,8 @@ export interface ShapesEncode {
   iconShape?: ShapeAttrEncode;
   otherShapes?: {
     [shapeName: string]: {
-      [shapeAtrr: string]: unknown | Encode<unknown>
+      [shapeAtrr: string]: unknown | Encode<unknown>;
+      animate: AnimateAttr | Encode<AnimateAttr>;
     }
   };
 }

@@ -1,3 +1,4 @@
+import { AnimateAttr } from "./animate";
 import { Encode, LabelBackground, ShapeAttrEncode, ShapesEncode } from "./item";
 
 
@@ -18,6 +19,7 @@ export interface EdgeModel extends EdgeUserData {
 export interface EdgeDisplayModel extends EdgeModel {
   keyShape?: {
     [shapeAttr: string]: unknown;
+    animate: AnimateAttr;
   };
   labelShape?: {
     position?: EdgeLabelPosition;
@@ -26,13 +28,16 @@ export interface EdgeDisplayModel extends EdgeModel {
     background?: LabelBackground;
     autoRotate?: boolean;
     [shapeAttr: string]: unknown;
+    animate: AnimateAttr;
   };
   iconShape?: {
     [shapeAttr: string]: unknown;
+    animate: AnimateAttr;
   };
   otherShapes?: {
     [shapeName: string]: {
       [shapeAttr: string]: unknown;
+      animate: AnimateAttr;
     }
   };
   sourceAnchor?: number;

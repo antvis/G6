@@ -40,3 +40,11 @@ export interface AnimateCfg {
    */
   resumeCallback?: () => void;
 };
+
+export type AnimateWhen = 'show' | 'exit' | 'update' | 'last';
+
+export interface AnimateAttr {
+  when: AnimateWhen;
+  type: string;
+  [param: string]: unknown;
+}

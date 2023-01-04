@@ -1,5 +1,7 @@
+import { AnimateAttr } from "./animate";
 import { Padding } from "./common";
 import { Encode, LabelBackground, ShapeAttrEncode, ShapesEncode } from "./item";
+import { AnchorPoint } from "./node";
 
 export type ComboLabelPosition = 'bottom' | 'top' | 'left' | 'left-top' | 'right' | 'ouside-top' | 'outside-left' | 'outside-right' | 'outside-bottom';
 
@@ -19,6 +21,7 @@ export interface ComboModel extends ComboUserData {
 export interface ComboDisplayModel extends ComboModel {
   keyShape?: {
     [shapeAttr: string]: unknown;
+    animate: AnimateAttr;
   };
   labelShape?: {
     position?: ComboLabelPosition;
@@ -26,13 +29,16 @@ export interface ComboDisplayModel extends ComboModel {
     offsetY?: number;
     background?: LabelBackground;
     [shapeAttr: string]: unknown;
+    animate: AnimateAttr;
   };
   iconShape?: {
     [shapeAttr: string]: unknown;
+    animate: AnimateAttr;
   };
   otherShapes?: {
     [shapeName: string]: {
       [shapeAttr: string]: unknown;
+      animate: AnimateAttr;
     }
   };
   anchorPoints?: AnchorPoint[];
@@ -40,12 +46,6 @@ export interface ComboDisplayModel extends ComboModel {
   padding?: Padding;
 }
 
-/** anchor points, for linking edges and drawing circles */
-export interface AnchorPoint {
-  position?: [number, number]; // range from 0 to 1
-  show?: boolean;
-  [shapeAttr: string]: unknown;
-}
 
 interface ComboLabelShapeAttrEncode extends ShapeAttrEncode { // TODO: extends Text shape attr, import from G
   position?: ComboLabelPosition | Encode<ComboLabelPosition>;

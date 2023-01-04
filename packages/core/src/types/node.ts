@@ -1,3 +1,4 @@
+import { AnimateAttr } from "./animate";
 import { Encode, LabelBackground, ShapeAttrEncode, ShapesEncode } from "./item";
 
 export type NodeLabelPosition = 'bottom' | 'center' | 'top' | 'left' | 'right';
@@ -18,6 +19,7 @@ export interface NodeModel extends NodeUserData {
 export interface NodeDisplayModel extends NodeModel {
   keyShape?: {
     [shapeAttr: string]: unknown;
+    animate: AnimateAttr;
   };
   labelShape?: {
     position?: NodeLabelPosition;
@@ -25,13 +27,16 @@ export interface NodeDisplayModel extends NodeModel {
     offsetY?: number;
     background?: LabelBackground;
     [shapeAttr: string]: unknown;
+    animate: AnimateAttr;
   };
   iconShape?: {
     [shapeAttr: string]: unknown;
+    animate: AnimateAttr;
   };
   otherShapes?: {
     [shapeName: string]: {
       [shapeAttr: string]: unknown;
+      animate: AnimateAttr;
     }
   };
   anchorPoints?: AnchorPoint[]
@@ -42,6 +47,7 @@ export interface AnchorPoint {
   position?: [number, number]; // range from 0 to 1
   show?: boolean;
   [shapeAttr: string]: unknown;
+  animate: AnimateAttr;
 }
 
 interface NodeLabelShapeAttrEncode extends ShapeAttrEncode { // TODO: extends Text shape attr, import from G
