@@ -1,4 +1,5 @@
 import EventEmitter from '@antv/event-emitter';
+import { Hooks } from '../types/hook';
 import { AnimateCfg } from './animate';
 import { ComboUserData } from './combo';
 import { Padding, Point } from './common';
@@ -14,16 +15,29 @@ import { FitViewRules, GraphAlignment } from './view';
 
 export interface IGraph extends EventEmitter {
 
+  hooks: Hooks;
+
   /**
    * Update the specs(configurations).
    */
   updateSpec: (spec: Specification) => void;
+  /**
+   * Get the specs(configurations).
+   * @returns graph specs
+   */
+  getSpec: () => Specification;
   /**
    * Input data and render the graph.
    * @param data 
    * @returns 
    */
   read: (data: GraphData) => void;
+  /**
+   * Input new data to replace the old one.
+   * @param data 
+   * @returns 
+   */
+  changeData: (data: GraphData) => void;
   /**
    * Clear the graph, means remove all the items on the graph.
    * @returns 
@@ -252,7 +266,7 @@ export interface IGraph extends EventEmitter {
    */
   removeBehaviors: (behaviors: BehaviorName | BehaviorCfg | BehaviorName[] | BehaviorCfg[], modes: string | string[]) => void;
   /**
-   * Update behavior(s) on a mode.
+   * Update a behavior on a mode.
    * @param behavior behavior configs, whose name indicates the behavior to be updated
    * @param mode mode name
    * @returns 
