@@ -5,6 +5,7 @@ import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeShapesEncode } from "./edg
 import { NodeDisplayModel, NodeEncode, NodeModel, NodeShapesEncode } from "./node";
 import { GraphAlignment } from "./view";
 import { LayoutCommonConfig } from "./layout";
+import { ComboDisplayModel, ComboEncode, ComboModel } from "./combo";
 
 type rendererName = 'canvas' | 'svg' | 'webgl';
 
@@ -34,7 +35,7 @@ export interface Specification {
   /** item */
   node?: (data: NodeModel) => NodeDisplayModel | NodeEncode;
   edge?: (data: EdgeModel) => EdgeDisplayModel | EdgeEncode;
-  combo?: (data: NodeModel) => NodeDisplayModel | NodeEncode; // TODO: combo's type
+  combo?: (data: ComboModel) => ComboDisplayModel | ComboEncode;
 
   /** item state styles */
   nodeState?: {

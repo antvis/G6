@@ -1,10 +1,11 @@
+import { ComboUserData } from "./combo";
 import { EdgeUserData } from "./edge";
 import { NodeUserData } from "./node"
 
 export interface GraphData {
   nodes?: NodeUserData[];
   edges?: EdgeUserData[];
-  combos?: NodeUserData[]; // TODO: combo data's interface
+  combos?: ComboUserData[];
 }
 
 export interface InlineDataConfig {
