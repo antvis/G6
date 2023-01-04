@@ -58,6 +58,7 @@
     ]
   },
   "dependencies": {
+    "@antv/g": "^5.15.7"
   },
   "devDependencies": {
     "@types/jest": "^25.2.1",
