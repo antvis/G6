@@ -46,6 +46,7 @@ G6.registerNode(
           r: 5,
           fill: cfg.color || '#5B8FF9',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'circle-shape',
       });
     },
@@ -73,6 +74,7 @@ G6.registerNode(
           fill: 'gray',
           opacity: 0.4,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'circle-shape1',
       });
       group.addShape('circle', {
@@ -84,6 +86,7 @@ G6.registerNode(
           fill: 'gray',
           opacity: 0.2,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'circle-shape2',
       });
       group.sort();

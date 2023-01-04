@@ -153,6 +153,7 @@ G6.registerNode(
               img ||
               'https://g.alicdn.com/cm-design/arms-trace/1.0.155/styles/armsTrace/images/TAIR.png',
           },
+          // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
           name: 'image-shape',
         });
       }
@@ -167,6 +168,7 @@ G6.registerNode(
           cursor: 'pointer',
           symbol: EXPAND_ICON,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'add-item',
       });
 
@@ -179,6 +181,7 @@ G6.registerNode(
           cursor: 'pointer',
           symbol: COLLAPSE_ICON,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'remove-item',
       });
 

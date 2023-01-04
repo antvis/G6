@@ -20,6 +20,7 @@ G6.registerNode(
           stroke: color,
           radius: r,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'main-box',
         draggable: true,
       });
@@ -33,6 +34,7 @@ G6.registerNode(
           fill: color,
           radius: [r, r, 0, 0],
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'title-box',
         draggable: true,
       });
@@ -47,6 +49,7 @@ G6.registerNode(
           cursor: 'pointer',
           img: ICON_MAP[cfg.nodeType || 'app'],
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'node-icon',
       });
 
@@ -60,6 +63,7 @@ G6.registerNode(
           text: cfg.title,
           fill: '#fff',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'title',
       });
 
@@ -74,6 +78,7 @@ G6.registerNode(
             stroke: '#666',
             lineWidth: 1,
           },
+          // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
           name: 'collapse-icon',
         });
       }
@@ -90,6 +95,7 @@ G6.registerNode(
             text: item.title,
             fill: 'rgba(0,0,0, 0.4)',
           },
+          // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
           name: `index-title-${index}`,
         });
 
@@ -103,7 +109,8 @@ G6.registerNode(
             text: item.value,
             fill: '#595959',
           },
-          name: `index-title-${index}`,
+          // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
+          name: `index-value-${index}`,
         });
       });
       return shape;

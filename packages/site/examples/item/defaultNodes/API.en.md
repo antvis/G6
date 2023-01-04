@@ -4,12 +4,12 @@ title: API
 
 # Node Configurations
 
-`markdown:docs/api/Items/nodeProperties.en.md`
+<embed src="@/docs/api/Items/nodeProperties.en.md"></embed>
 
 # Common Functions for Item
 
-`markdown:docs/api/Items/itemMethods.en.md`
+<embed src="@/docs/api/Items/itemMethods.en.md"></embed>
 
 # Node Functions
 
-`markdown:docs/api/Items/nodeMethods.en.md`
+<embed src="@/docs/api/Items/nodeMethods.en.md"></embed>

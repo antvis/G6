@@ -23,8 +23,8 @@ Supported by V3.5 or later versions.
   - `onlyChangeComboSize`: Supported by V3.5 or later vertions. Only Change the size of the prarent combo whose child combo to be dragged, which means do not change the hierarchy structures of combos and nodes. `false` by default;
   - `activeState`: The state's name(string) of the entered combo to be dragged over, coordinating with the configuration in `comboStateStyles` to define the state styles when instantiating a graph. It is empty by default;
   - `selectedState`: The state's name(string) when combo is selected, `'selected'` by default;
-  - `shouldUpdate(e)`: Whether allow the behavior happens on the current item (e.item), see the example below for detail;
-  - `shouldEnd(e, newParent)`: 【supported by v4.3.8 and later versions】Whether allow the behavior ends with current item (e.item) and the new parent combo. the second parameter is the detected new parent when drop. If it is dropped on the canvas, `newParent` is `undefined`, see the example below for detail.
+  - `shouldUpdate(e, self)`: Whether allow the behavior happens on the current item (e.item), see the example below for detail. **Supported after v4.7.16** The last parameter is the behavior instance, which will be convenient to get it in arrow function formatted `shouldUpdate`;
+  - `shouldEnd(e, newParent, self)`:  **Supported after v4.3.8.** Whether allow the behavior ends with current item (e.item) and the new parent combo. the second parameter is the detected new parent when drop. If it is dropped on the canvas, `newParent` is `undefined`, see the example below for detail. **Supported after v4.7.16** The last parameter is the behavior instance, which will be convenient to get it in arrow function formatted `shouldEnd`.
 
 **Using Default Configuration**
 
@@ -46,13 +46,13 @@ const graph = new G6.Graph({
         type: 'drag-combo',
         enableDelegate: true,
         activeState: 'actived',
-        shouldUpdate: (e) => {
+        shouldUpdate: (e, self) => {
           // Do not allow the combo with id 'combo1' be dragged
           if (e.item && e.item.getModel().id === 'combo1') return false;
           return true;
         },
         // shouldEnd【supported by v4.3.8 and later versions】
-        shouldEnd: (e, newParent) => {
+        shouldEnd: (e, newParent, self) => {
           // The combos are not allow to be drop on the combo with id combo1
           if (newParent && newParent.getModel().id === 'combo1') return false;
           return true;
@@ -112,7 +112,7 @@ const graph = new G6.Graph({
   - `type: 'drag-canvas'`;
   - `direction`: The direction of dragging that is allowed. Options: `'x'`, `'y'`, `'both'`. `'both'` by default;
   - `enableOptimize`: whether enable optimization, `false` by default. `enableOptimize: true` means hiding all edges and the shapes beside keyShapes of nodes while dragging canvas;
-  - `shouldBegin(e)`: Whether allow the behavior happen on the current item (e.item);
+  - `shouldBegin(e, self)`: Whether allow the behavior happen on the current item (e.item). **Supported after v4.7.16** The last parameter is the behavior instance, which will be convenient to get it in arrow function formatted `shouldBegin`;
   - `scalableRange`: scalable range when drag canvas, `zero` by default. -1 to 1 means the scalable percentage of the viewport; the image bellow illustrate the situation when it is smaller than -1 or bigger than 1: 
 
   <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IFfoS67_HssAAAAAAAAAAAAAARQnAQ' width='650' alt="" />
@@ -121,7 +121,7 @@ const graph = new G6.Graph({
 - Related timing events:
   - `canvas:dragstart`: Triggered when drag start. Listened by `graph.on('canvas:dragstart', e => {...})`;
   - `canvas:drag`: Triggered when dragging. Listened by `graph.on('canvas:drag', e => {...})`;
-  - `canvas:dragend`: Triggered when drag end. Listened by `graph.on('canvas:drag', e => {...})`.
+  - `canvas:dragend`: Triggered when drag end. Listened by `graph.on('canvas:dragend', e => {...})`.
 
 **Using Default Configuration**
 
@@ -162,6 +162,7 @@ The canvas can be dragged along x direction only.<br /><img src='https://gw.alip
   - `enableOptimize`: whether enable optimization, `false` by default. `enableOptimize: true` means hiding all edges and the shapes beside keyShapes of nodes while dragging canvas;
   - `zoomKey`: switch to zooming while pressing the key and wheeling. Options: `'shift'`, `'ctrl'`, `'alt'`, `'control'`, `'meta'`, using an array of these options allows any of these keys to trigger zooming;
   - `scalableRange`: scalable range when drag canvas, `zero` by default. -1 to 1 means the scalable percentage of the viewport; the image bellow illustrate the situation when it is smaller than -1 or bigger than 1: 
+  - `allowDragOnItem`: whether response when the users drag on items(node/edge/combo), `true` by default;
 
   <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IFfoS67_HssAAAAAAAAAAAAAARQnAQ' width='650' alt="" />
 
@@ -207,7 +208,7 @@ The canvas can be dragged along x direction only.<br /><img src='https://gw.alip
   - `maxZoom`: maximum zoom ratio;
   - `enableOptimize`: whether enable the optimization, false by default. If it is assigned to true, the shapes except keyShape will be hide when the ratio is smaller thant `optimizeZoom`;
   - `optimizeZoom`: Takes effect when `enableOptimize` is `true`. `0.7` by default. See `enableOptimize` upon.
-  - `shouldUpdate(e)`: Whether allow the behavior happen.
+  - `shouldUpdate(e, self)`: Whether allow the behavior happen. **Supported after v4.7.16** The last parameter is the behavior instance, which will be convenient to get it in arrow function formatted `shouldUpdate`.
   - `fixSelectedItems`: Fix the line width, fontSize, or overall size of some items while zooming out the canvas. `fixSelectedItems` is an object with:
     - `fixSelectedItems.fixState`: The state of the items to be fixed. Set the item state to be the value to make it fix while zooming out. `'selected'` by default;
     - `fixSelectedItems.fixAll`: Fix the overall size of the selected items. `fixAll` has higher priority than `fixSelectedItems.fixLineWidth` and `fixSelectedItems.fixLabel`;
@@ -233,9 +234,9 @@ The canvas can be dragged along x direction only.<br /><img src='https://gw.alip
   - `comboActiveState`: Supported by V3.5 or later vertions. The state's name(string) of the entered combo to be dragged over, coordinating with the configuration in `comboStateStyles` to define the state styles when instantiating a graph. It is empty by default;
   - `selectedState`: Supported by V3.5 or later vertions. The state's name(string) when combo is selected, `'selected'` by default;
   - `enableStack`: Whether push the operations into undo/redo stack, assign it to false to avoid pushing;
-  - `shouldBegin(e)`: Whether allow the behavior happen;
-  - `shouldUpdate(e)`: Whether allow update the node/ delegate's position while dragging;
-  - `shouldEnd(e)`: Whether allow update the node/ delegate's position after drag end.
+  - `shouldBegin(e, self)`: Whether allow the behavior happen. **Supported after v4.7.16** The last parameter is the behavior instance, which will be convenient to get it in arrow function formatted `shouldBegin`;
+  - `shouldUpdate(e, self)`: Whether allow update the node/ delegate's position while dragging. **Supported after v4.7.16** The last parameter is the behavior instance, which will be convenient to get it in arrow function formatted `shouldUpdate`;
+  - `shouldEnd(e, targetItem: Item, self)`: Whether allow update the node/ delegate's position after drag end. **Supported after v4.7.16** The last parameter is the behavior instance, which will be convenient to get it in arrow function formatted `shouldEnd`.
 
 **Using Default Configuration**
 
@@ -258,9 +259,10 @@ const graph = new G6.Graph({
       {
         type: 'drag-node',
         enableDelegate: true,
-        shouldBegin: (e) => {
+        shouldBegin: (e, self) => {
           // Do not allow the node with id 'node1' to be dragged
           if (e.item && e.item.getModel().id === 'node1') return false;
+          return true;
         },
       },
     ],
@@ -281,8 +283,8 @@ const graph = new G6.Graph({
   - `selectNode`: Whether allow selecting node by this behavior, `true` by default;
   - `selectEdge`: Whether allow selecting edge by this behavior, `false` by default;
   - `selectCombo`: Whether allow selecting combo by this behaivor, `true` by default;
-  - `shouldBegin(e)`: Whether allow the behavior happen on the current item (e.item), see the example below;
-  - `shouldUpdate(e)`: Whether allow the behavior changes the state and state style of the on the current item (e.item), see the example below.
+  - `shouldBegin(e, self)`: Whether allow the behavior happen on the current item (e.item), see the example below. **Supported after v4.7.16** The last parameter is the behavior instance, which will be convenient to get it in arrow function formatted `shouldBegin`;
+  - `shouldUpdate(e, self)`: Whether allow the behavior changes the state and state style of the on the current item (e.item), see the example below. **Supported after v4.7.16** The last parameter is the behavior instance, which will be convenient to get it in arrow function formatted `shouldUpdate`;
 - Related timing events:
   - `'nodeselectchange'`: Triggered when the set of selected items changed. Listened by `graph.on('nodeselectchange', e => {...})`. The fields of the parameter `e` are:
     - `e.target`: The current manipulated item;
@@ -322,7 +324,7 @@ const graph = new G6.Graph({
         trigger: 'ctrl',
       },
       // Whether allow the behavior happen on the item. If it returns false, the current manipulated item will not be selected and the timing event 'nodeselectchange' will not be triggered as well
-      shouldBegin: e => {
+      shouldBegin: (e, self) => {
         // Do not allow the behavior happen when the clicked shape has name 'text-shape'
         if (e.target.get('name') === 'text-shape') return false;
         // Do not allow the behavior happen when the clicked item has id 'text-shape'
@@ -330,7 +332,7 @@ const graph = new G6.Graph({
         return true;
       },
       // Whehter allow the behavior change the state or state styles of the current manipulated item. If it returns false, the state and state styles of the current item will not be changed. But the timing event 'nodeselectchange' will still be triggered
-      shouldUpdate: e => {
+      shouldUpdate: (e, self) => {
         // The item's state and state style will not be changed if its id is 'id2'
         if (e.item.getModel().id === 'id2') return false;
         return true;
@@ -359,8 +361,8 @@ With the configuration above, users are allowed to select more than one nodes wh
   - `type: 'tooltip'`;
   - `formatText(model)`: Format function, returns a text string or an HTML element;
   - `offset`: the offset of the tooltip to the mouse.
-  - `shouldBegin(e)`: Whether allow the tooltip the show up;
-  - `shouldUpdate(e)`: Whether allow the tooltip to be updated.
+  - `shouldBegin(e, self)`: Whether allow the tooltip the show up. **Supported after v4.7.16** The last parameter is the behavior instance, which will be convenient to get it in arrow function formatted `shouldBegin`;
+  - `shouldUpdate(e, self)`: Whether allow the tooltip to be updated. **Supported after v4.7.16** The last parameter is the behavior instance, which will be convenient to get it in arrow function formatted `shouldUpdate`.
 - Related timing events:
   - `tooltipchange`: Triggered when the tooltip is changed. Listened by `graph.on('tooltipchange', e => {...})`.
 
@@ -404,8 +406,8 @@ The usage of edge-tooltip is similar to tooltip. It will be activated when the u
   - `type: 'edge-tooltip'`;
   - `formatText(model)`: Format function, returns a text string or an HTML element;
   - `offset`: the offset of the tooltip to the mouse;
-  - `shouldBegin(e)`: Whether allow the tooltip the show up;
-  - `shouldUpdate(e)`: Whether allow the tooltip to be updated.
+  - `shouldBegin(e, self)`: Whether allow the tooltip the show up. **Supported after v4.7.16** The last parameter is the behavior instance, which will be convenient to get it in arrow function formatted `shouldBegin`;
+  - `shouldUpdate(e, self)`: Whether allow the tooltip to be updated. **Supported after v4.7.16** The last parameter is the behavior instance, which will be convenient to get it in arrow function formatted `shouldUpdate`.
 - Related timing events:
   - `tooltipchange`: Triggered when the tooltip is changed. Listened by `graph.on('tooltipchange', e => {...})`.
 
@@ -418,7 +420,7 @@ The usage of edge-tooltip is similar to tooltip. It will be activated when the u
   - `activeState: 'active'`. The state name when the node is activated. When `activate-relations` is activated, the related nodes and edges will have this state. `active` by default. It can be combined with `nodeStyle` and `edgeStyle` of graph to enrich the visual effect;
   - `inactiveState: 'inactive'`. The state name when of the node is inactivated. All the nodes and edges which are not activated by `activate-relations` will have this state. `inactive` by default. It can be combined with `nodeStyle` and `edgeStyle` of graph to enrich the visual effect;
   - `resetSelected`: Whether to reset the selected nodes when highlight the related nodes. `false` by default, which means the selected state will not be covered by `activate-relations`;
-  - `shouldUpdate(e)`: Whether allow the behavior happen.
+  - `shouldUpdate(item: Item, { event: G6Event, action: 'deactivate' | 'activate' }, self)`: Whether allow the behavior happen. **Supported after v4.7.16** The last parameter is the behavior instance, which will be convenient to get it in arrow function formatted `shouldUpdate`;
 - Related timing event:
   - `'afteractivaterelations'`: Triggered when the activated items changed. Listened by `graph.on('afteractivaterelations', evt => {...})`. The fields of the parameter `e`:
     - `e.item`: The current manipulated item;
@@ -485,7 +487,7 @@ Assign `true` to `resetSelected` to reset the selected states for nodes after th
     - `'ctrl' / 'control'`: Select by brushing when Ctrl is pressed;
     - `'alt'`: Select by brushing when Alt is pressed;
     - `'drag'`: Select by brushing without any pressed buttons. Note that it will conflict with the `drag-canvas`;
-  - `shouldUpdate(e)`: Whether allow the behavior happen on the current manipulated item (e.item). See the example below.
+  - `shouldUpdate(item: Item, action: string, self)`: Whether allow the behavior happen on the current manipulated item (e.item). See the example below. **Supported after v4.7.16** The last parameter is the behavior instance, which will be convenient to get it in arrow function formatted `shouldUpdate`;
 - Related timing events:
   - `'nodeselectchange'`: Triggered when the set of selected items changed. Listened by `graph.on('nodeselectchange', e => {...})`. The fields of the parameter `e`:
     - `e.selectedItems`: The set of selected items after the operation;
@@ -524,7 +526,7 @@ const graph = new G6.Graph({
         includeCombos: true, // Will select combos
       },
       // Whether allow the behavior happen on the current manipulated item (e.item). If it returns false, the item will not be selected and the timing event 'nodeselectchange' will not be triggered
-      shouldUpdate: e => {
+      shouldUpdate: (e, self) => {
         // Do not allow the behavior happen on the node/edge/combo with id 'id2'
         if (e.item.getModel().id === 'id2') return false;
         return true;
@@ -595,7 +597,8 @@ It is a solution to put these two conflicting events into two mdoes. They will b
     - `'ctrl' / 'control'`: Select by brushing when Ctrl is pressed;
     - `'alt'`: Select by brushing when Alt is pressed;
     - `'drag'`: Select by brushing without any pressed buttons. Note that it will conflict with the `drag-canvas`;
-  - `shouldUpdate(e)`: Whether allow the behavior happen on the current manipulated item (e.item). See the example below.
+  - `shouldUpdate(item: Item, action: string, self)`: Whether allow the behavior happen on the current manipulated item (e.item). See the example below. **Supported after v4.7.16** The last parameter is the behavior instance, which will be convenient to get it in arrow function formatted `shouldUpdate`;
+  - `shouldDeselect({ action: string, nodes: INode[], edges: IEdge[] })`: Whether allow to deselect the items at current conditions. **Supported after v4.7.16** The last parameter is the behavior instance, which will be convenient to get it in arrow function formatted `shouldDeselect`.
 - Related timing events:
   - `'nodeselectchange'`: Triggered when the set of selected items changed. Listened by `graph.on('nodeselectchange', e => {...})`. The fields of the parameter `e`:
     - `e.selectedItems`: The set of selected items after the operation, include `nodes` and `edges`;
@@ -610,8 +613,9 @@ The configuration of `lasso-select` behavior is the same as that of `brush-selec
 - Configurations:
   - `type: 'collapse-expand'`;
   - `trigger`: The operation for collapsing and expanding. Options: `click` and `dblclick`. `click` by default;
-  - `onChange`: The callback function after collapsing or expanding. **Warining**: it will be removed from V3.1.2;
-  - `shouldBegin(e)`: Whether allow this behavior happen on the current item (e.item).
+  - `onChange(item: Item, collapsed: boolean, self)`: The callback function after collapsing or expanding. **Warining**: it will be removed from V3.1.2;
+  - `shouldBegin(e, collapsed: boolean, self)`: Whether allow this behavior happen on the current item (e.item). **Supported after v4.7.16** The last parameter is the behavior instance, which will be convenient to get it in arrow function formatted `shouldBegin`;
+  - `shouldUpdate(e, collapsed: boolean, self)`: whether allow call `onChange` and relayout the graph after update the `collpased` to the node. **Supported after v4.7.16** The last parameter is the behavior instance, which will be convenient to get it in arrow function formatted `shouldUpdate`;
 - Related timing event:
   - `itemcollapsed`: Triggered when collapse-expand happens. Listened by `graph.on('itemcollapsed', e => {...})`. The fields of the parameter `e`:
     - `e.item`: The current manipulated item;
@@ -631,7 +635,7 @@ const graph = new G6.TreeGraph({
           data.collapsed = collapsed;
           return true;
         },
-        shouldBegin: (e) => {
+        shouldBegin: (e, self) => {
           // Nothing happens when the current item has id 'node1'
           if (e.item && e.item.getModel().id === 'node1') return false;
           return true;
@@ -702,26 +706,6 @@ const graph = new G6.Graph({
 });
 ```
 
-### drag-node-with-group
-
-- Description: Allow users to drag the nodes in the group;
-- Configurations:
-  - `type: 'drag-node-with-group'`;
-  - `delegateStyle`: The style of the `delegate` when dragging the node.
-  - `maxMultiple`;
-  - `minMultiple`;
-  - `shouldBegin(e)`: Whether allow the current node (e.item) to be dragged.
-
-**Using Default Configuration**
-
-```javascript
-const graph = new G6.Graph({
-  modes: {
-    default: ['drag-node-with-group'],
-  },
-});
-```
-
 ### create-edge
 
 - Description: create edge by interaction;
@@ -730,8 +714,8 @@ const graph = new G6.Graph({
   - `trigger`: Specify the trigger for creating an edge, options: `'click'`, `'drag'`. The default value is `'click'`, which means the user is allowed to creat an edge by clicking two end nodes as source and target node respectively. `'drag'` means the user is allowed to create an edge by 'dragging' from a source node to a target ndoe. Note that `trigger: 'drag'` cannot create a self-loop edge;
   - `key`: The assistant trigger key from the keyboard. If it is undefined or unset, only `trigger` decides the triggering interaction from user. Otherwise, this behavior will be triggered by `trigger` only when `key` is pressed. Options: `'shift'`, `'ctrl'`, 'control', `'alt'`, `'meta'`, `undefined`;
   - `edgeConfig`: The edge configurations for the edges created by this behavior, the configurations are the same as the edge, ref to [Edge Configurations](/en/docs/manual/middle/elements/edges/defaultEdge). To modify the configurations for different added edges, listener to `'aftercreateedge'` and update the edge.
-  - `shouldBegin(e)`: Whether allow the behavior begins with the condition `e`;
-  - `shouldEnd(e)`: Whether allow the behavior ends under the condition `e`;
+  - `shouldBegin(e, self)`: Whether allow the behavior begins with the condition `e`. **Supported after v4.7.16** The last parameter is the behavior instance, which will be convenient to get it in arrow function formatted `shouldBegin`;
+  - `shouldEnd(e, self)`: Whether allow the behavior ends under the condition `e`. **Supported after v4.7.16** The last parameter is the behavior instance, which will be convenient to get it in arrow function formatted `shouldEnd`;
 - Related timing event:
   - `'aftercreateedge'`: Triggered after the creating process is finished. Listen to it by `graph.on('aftercreateedge', e => {...})`, where the parameter `e` has a property `edge` which is the created edge.
 

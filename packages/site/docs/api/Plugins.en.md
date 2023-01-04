@@ -112,6 +112,7 @@ It can be configured to adjust the styles and functions.
 | type | String | false | Render type. Options: `'default'`: Render all the graphics shapes on the graph; `'keyShape'`: Only render the keyShape of the items on the graph to reach better performance; `'delegate'`: Only render the delegate of the items on the graph to reach better performance. Performance: `'default'` < `'keyShape'` < `'delegate'`. `'default'` by default |
 | size | Array | false | The size of the Minimap |
 | delegateStyle | Object | false | Takes effect when `type` is `'delegate'`. The style of the delegate of the items on the graph |
+| hideEdge | Boolean | false | **Supported by v4.7.16** Whether to hide the edges on minimap to enhance the performance |
 
 The `delegateStyle` has the properties:
 
@@ -169,7 +170,7 @@ Parameters:
 
 `graphImg` is required when instantiating the Image Minimap.
 
-```
+```javascript
 // Instantiating the Image Minimap
 const imageMinimap = new G6.ImageMinimap({
   width: 200,
@@ -232,7 +233,7 @@ Menu is used to configure the right-click menu on the node.
 
 Use G6 build-in menu by default.
 
-```
+```javascript
 // Instantiate Menu plugin
 const menu = new G6.Menu();
 const graph = new G6.Graph({
@@ -243,7 +244,7 @@ const graph = new G6.Graph({
 
 #### DOM Menu
 
-```
+```javascript
 const menu = new G6.Menu({
   getContent(e) {
     const outDiv = document.createElement('div');
@@ -270,7 +271,7 @@ const graph = new G6.Graph({
 
 #### String Menu
 
-```
+```javascript
 const menu = new G6.Menu({
   getContent(evt) {
     return `<ul>
@@ -319,7 +320,7 @@ ToolBar has the following operations by default:
 
 ToolBar provides some default operations above.
 
-```
+```javascript
 const toolbar = new G6.ToolBar();
 
 const graph = new G6.Graph({
@@ -330,7 +331,7 @@ const graph = new G6.Graph({
 
 #### Custom ToolBar by String
 
-```
+```javascript
 const tc = document.createElement('div');
 tc.id = 'toolbarContainer';
 document.body.appendChild(tc);
@@ -372,7 +373,7 @@ const graph = new G6.Graph({
 
 #### Custom ToolBar by DOM
 
-```
+```javascript
 const toolbar = new G6.ToolBar({
   getContent: () => {
     const outDiv = document.createElement('div');
@@ -500,7 +501,7 @@ Fisheye is designed for focus_context exploration, it keeps the context and the 
 
 Update partial of the configurations of the FishEye instance, including `trigger`, `d`, `r`, `maxR`, `minR`, `maxD`, `minD`, `scaleRBy`, and `scaleDBy`. E.g.
 
-```
+```javascript
 const fisheye = new G6.Fisheye({
   trigger: 'mousemove'
 });
@@ -516,7 +517,7 @@ fisheye.updateParams({
 
 ### Usage
 
-```
+```javascript
 const fisheye = new G6.Fisheye({
   trigger: 'mousemove',
   d: 1.5,
@@ -555,7 +556,7 @@ Edge Filter Lens is designed for edge filtering, the desired edges will be kept 
 
 Update partial of the configurations of the filter lens instance, including `trigger`, `type`, `r`, `maxR`, `minR`, `shouldShow`, `showLabel`, and `scaleRBy`. E.g.
 
-```
+```javascript
 const filterLens = new G6.EdgeFilterLens({
   trigger: 'drag'
 });
@@ -570,7 +571,7 @@ filterLens.updateParams({
 
 ### Usage
 
-```
+```javascript
 const filterLens = new G6.EdgeFilterLens({
   trigger: 'mousemove',
   r: 300,
@@ -604,7 +605,7 @@ All the three types of timebar supports play, fast forward, and fast backward.
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*kHRkQpnvBmwAAAAAAAAAAAAAARQnAQ' width='500' />
 <br />Time bar with descrete ticks<br />
 
-<br />Refer to the demos [HERE](https://g6.antv.vision/en/examples/tool/timebar#timebar)<br />
+<br />Refer to the demos [HERE](https://g6.antv.antgroup.com/en/examples/tool/timebar#timebar)<br />
 
 ### Common Usage
 
@@ -678,9 +679,17 @@ TimeBar Plugin exposes several timing events. They could be listened by `graph.o
 | timebarstartplay | Emitted when the timeline starts to play. |
 | timebarendplay | Emitted when the timeline ends playing. |
 
-### Definition of the Configurations
+### API
 
-#### Definition of the Interfaces
+#### play
+
+Controll the timebar instance begin to play. e.g. `timebar.play()`.
+
+#### pause
+
+Controll the timebar instance to pause. e.g. `timebar.pause()`.
+
+### Definition of the Interfaces
 
 The complete interfaces for the TimeBar is shown below:
 
@@ -968,7 +977,9 @@ type ControllerCfg = Partial<{
   readonly containerStyle?: ExtendedShapeStyle;
   /** the text for the right-bottom switch controlling play with single time point or time range */
   readonly timePointControllerText?: string;
-  readonly timeRangeControllerText?: string
+  readonly timeRangeControllerText?: string;
+  /** [Supported from v4.7.11] the default type of the playing, 'single' means single time point, and 'range' means time range. 'range' by default */
+  readonly defaultTimeType?: 'single' | 'range';
 }>
 ```
 

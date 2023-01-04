@@ -4,8 +4,8 @@ title: API
 
 # 元素操作
 
-`markdown:docs/api/graphFunc/item.zh.md`
+<embed src="@/docs/api/graphFunc/item.zh.md"></embed>
 
 # Combo 操作
 
-`markdown:docs/api/graphFunc/combo.zh.md`
+<embed src="@/docs/api/graphFunc/combo.zh.md"></embed>

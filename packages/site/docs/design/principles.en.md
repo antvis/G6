@@ -7,4 +7,4 @@ redirect_from:
 
 **🛠The English Version is in Prograss🛠**
 
-`markdown:docs/design/principles.zh.md`
+<embed src="@/docs/design/principles.zh.md"></embed>

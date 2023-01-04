@@ -11,7 +11,7 @@ The parameters of callbacks for common events, Node events, and Edge events are 
 
 Listen to the interaction events such as `click`, `mousemove` by the following way:
 
-```
+```javascript
 graph.on(eventName, evt => {
   // some operations
 })
@@ -144,7 +144,7 @@ Combo inherit all the interaction events of Node.
 
 Before and after being called some functions, G6 exports the timing events. These timing events can be listened by the following way:
 
-```
+```javascript
 graph.on(timingEventName, evt => {
   // some operations
 })

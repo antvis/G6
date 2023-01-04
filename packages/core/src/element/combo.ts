@@ -73,7 +73,7 @@ const singleCombo: ShapeOptions = {
     const labelPosition = labelCfg.position || this.labelPosition;
     const { style: cfgStyle } = cfg;
     let padding: number | number[] = cfg.padding || this.options.padding;
-    if (isArray(padding)) padding = padding[0];
+    if (isArray(padding)) padding = Math.max(...padding);
 
     let { refX, refY } = labelCfg;
     // 考虑 refX 和 refY = 0 的场景，不用用 labelCfg.refX || Global.nodeLabel.refX
@@ -149,8 +149,9 @@ const singleCombo: ShapeOptions = {
     const subsitututeIconConfig = Object.assign({}, this.options.collapsedSubstituteIcon, collapsedSubstituteIcon)
     const { show, img, width, height } = subsitututeIconConfig;
     const group = item.getContainer();
-    const collapsedIconShape = group.find(ele => ele.get('name') === 'combo-collapsed-substitute-icon');
+    let collapsedIconShape = group.find(ele => ele.get('name') === 'combo-collapsed-substitute-icon');
     const iconShapeExist = collapsedIconShape && !collapsedIconShape.destroyed;
+    const keyShape = item.get('keyShape');
     if (collapsed && show) {
       if (iconShapeExist) {
         collapsedIconShape.show();
@@ -159,7 +160,7 @@ const singleCombo: ShapeOptions = {
           width: width || keyShapeStyle.r * 2 || keyShapeStyle.width,
           height: height || keyShapeStyle.r * 2 || keyShapeStyle.height,
         }
-        group.addShape('image', {
+        collapsedIconShape = group.addShape('image', {
           attrs: {
             img,
             x: -sizeAttr.width / 2,
@@ -170,8 +171,10 @@ const singleCombo: ShapeOptions = {
           draggable: true
         });
       }
+      keyShape.hide();
     } else if (iconShapeExist) {
       collapsedIconShape.hide();
+      keyShape.show();
     }
   },
   updateShape(cfg: ComboConfig, item: Item, keyShapeStyle: ShapeStyle) {

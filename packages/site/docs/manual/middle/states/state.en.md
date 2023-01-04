@@ -275,7 +275,7 @@ graph.updateItem(item, {
 
 There might be two situations when you calling `graph.updateItem`:
 
-- The state for the item is activated, that is `item.hasState('hover') === true`: the modified hover style will takes effect immediately;
+- The state for the item is activated, that is `item.hasState('hover') === true`: the modified hover style will take effect immediately;
 - The state for the item is inactivated, that is `item.hasState('hover') === false`: the modified hover style will take effect after calling `graph.setItemState(item, 'hover', true)`.
 
 ## Cancel/Inactivate the State

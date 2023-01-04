@@ -5,7 +5,7 @@ order: 7
 
 本文介绍的相关方法是在自定义节点（registerNode）或自定义边（registerEdge）的过程中需要部分实现或复写的方法。
 
-**友情提示：**以下属性和 API 方法，全部用于自定义节点和边时候使用，即作为 `G6.registerNode` / `G6.registerEdge` 的第二个参数中的方法。
+**友情提示：** 以下属性和 API 方法，全部用于自定义节点和边时候使用，即作为 `G6.registerNode` / `G6.registerEdge` 的第二个参数中的方法。
 
 本文介绍 G6 的自定义机制，包括自定义节点、自定义边、自定义 combo、自定义交互行为、自定义布局的相关方法。它们都被挂载在 G6 全局上，通过 `G6.registerXXX` 进行调用。
 

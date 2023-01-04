@@ -17,7 +17,7 @@ In G6, you can set **Linear Gradient** for stroke and **Circular Gradient** for 
 
 Assign the `stroke` as below while [Configurating the Node or Edge](/en/docs/manual/tutorial/elements):
 
-```
+```javascript
 // Using the linear gradient for the stroke. The gradient angle is 0, and the begin color is #ffffff, the color of the midpoint is #7ec2f3, and the end color is #1890ff
 stroke: 'l(0) 0:#ffffff 0.5:#7ec2f3 1:#1890ff'
 ```
@@ -34,7 +34,7 @@ stroke: 'l(0) 0:#ffffff 0.5:#7ec2f3 1:#1890ff'
 
 Assign the `fill` as below while [Configurating the Node or Edge](/en/docs/manual/tutorial/elements):
 
-```
+```javascript
 // Using the radial gradient for filling color. The center of the circular gradient is the center of the filled shape's bbox(bounding box). The radius is equal to 0.1 multiples the length of the diagonal of the bbox. The begin color is #ffffff, the color of the midpoint is #7ec2f3, and the end color is #1890ff
 fill: 'r(0.5, 0.5, 0.1) 0:#ffffff 1:#1890ff'
 ```

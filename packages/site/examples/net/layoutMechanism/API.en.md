@@ -2,4 +2,4 @@
 title: API
 ---
 
-`markdown:docs/api/graphFunc/layout.en.md`
+<embed src="@/docs/api/graphFunc/layout.en.md"></embed>

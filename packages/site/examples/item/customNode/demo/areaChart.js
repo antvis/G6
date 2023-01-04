@@ -25,6 +25,7 @@ G6.registerNode('area', {
           stroke: '#bae7ff',
           lineDash: [4, 4],
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'circle-shape',
       });
     }
@@ -80,6 +81,7 @@ G6.registerNode('area', {
           stroke: strokeColors[index],
           fill: fillColors[index],
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'path-shape1',
       });
     });
@@ -99,6 +101,7 @@ G6.registerNode('area', {
           lineDash: [4, 4],
           stroke: 'darkgray',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'path-shape2',
       });
       nowAngle2 += everyIncAngleCat;
@@ -114,6 +117,7 @@ G6.registerNode('area', {
         fill: cfg.centerColor,
         stroke: 'darkgray',
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'circle-shape',
     });
 
@@ -129,6 +133,7 @@ G6.registerNode('area', {
           fill: 'white',
           fontStyle: 'bold',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'text-shape',
       });
     }

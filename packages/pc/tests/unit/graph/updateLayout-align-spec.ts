@@ -88,7 +88,7 @@ describe('graph', () => {
     const point = graph.getPointByCanvas(canvasPoint.x, canvasPoint.y);
     graph.once('afterlayout', () => {
       const meanCenter = { x: 0, y: 0 };
-      graph.getNodes().forEach(node => {
+      graph.getNodes().forEach((node) => {
         meanCenter.x += node.getModel().x;
         meanCenter.y += node.getModel().y;
       });
@@ -97,7 +97,7 @@ describe('graph', () => {
       expect(Math.abs(meanCenter.x - point.x) < 10).toBe(true);
       expect(Math.abs(meanCenter.y - point.y) < 10).toBe(true);
       done();
-    })
+    });
     graph.updateLayout(
       {
         type: 'force',

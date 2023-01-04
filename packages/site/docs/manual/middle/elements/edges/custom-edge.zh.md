@@ -5,16 +5,16 @@ order: 3
 
 G6 除了提供丰富的 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)  外，还提供了自定义边的机制，方便用户开发更加定制化的边，包括含有复杂图形的边、复杂交互的边、带有动画的边等。
 
-用户可以通过 `G6.registerEdge(typeName: string, edgeDefinition: object, extendedTypeName?: string)` 注册一个新的边类型，其中：
+用户可以通过 `G6.registerEdge(typeName: string, edgeDefinition: object, extendedEdgeType?: string)` 注册一个新的边类型，其中：
 
 - `typeName`：该新边类型名称；
-- `extendedTypeName`：被继承的边类型，可以是内置边类型名，也可以是其他自定义边的类型名。`extendedTypeName` 未指定时代表不继承其他类型的边；
-- `edgeDefinition`：该新边类型的定义，其中必要函数详见 [自定义机制 API](/zh/docs/api/registerItem#g6registeredgeedgename-options-extendededgename)。当有 `extendedTypeName` 时，没被复写的函数将会继承 `extendedTypeName` 的定义。
+- `extendedEdgeType`：被继承的边类型，可以是内置边类型名，也可以是其他自定义边的类型名。`extendedEdgeType` 未指定时代表不继承其他类型的边；
+- `edgeDefinition`：该新边类型的定义，其中必要函数详见 [自定义机制 API](/zh/docs/api/registerItem#g6registeredgeedgename-options-extendededgename)。当有 `extendedEdgeType` 时，没被复写的函数将会继承 `extendedEdgeType` 的定义。
 
-**需要注意的是**，自定义边/节点时，若给定了 `extendedTypeName`，如 `draw`，`update`，`setState` 等必要的函数若不在 `edgeDefinition` 中进行复写，将会继承 `extendedTypeName` 中的相关定义。常见问题：
+**需要注意的是**，自定义边/节点时，若给定了 `extendedEdgeType`，如 `draw`，`update`，`setState` 等必要的函数若不在 `edgeDefinition` 中进行复写，将会继承 `extendedEdgeType` 中的相关定义。常见问题：
 
 - Q：边/节点更新时，没有按照在 `edgeDefinition` 中自定义实现的 `draw` 或 `drawShape` 逻辑更新。例如，有些图形没有被更新，增加了没有在 `draw` 或 `drawShape` 方法中定义的图形等。
-- A：由于继承了 `extendedTypeName`，且在 `edgeDefinition` 中没有复写 `update` 方法，导致边/节点更新时执行了 `extendedTypeName` 中的 `update` 方法，从而与自定义的 `draw` 或 `drawShape` 有出入。可以通过复写 `update` 方法为 `undefined` 解决。当 `update` 方法为 `undefined` 时，边/节点的更新将会执行 `draw` 或 `drawShape` 进行重绘。
+- A：由于继承了 `extendedEdgeType`，且在 `edgeDefinition` 中没有复写 `update` 方法，导致边/节点更新时执行了 `extendedEdgeType` 中的 `update` 方法，从而与自定义的 `draw` 或 `drawShape` 有出入。可以通过复写 `update` 方法为 `undefined` 解决。当 `update` 方法为 `undefined` 时，边/节点的更新将会执行 `draw` 或 `drawShape` 进行重绘。
 
 在本章中我们会通过四个案例，从简单到复杂讲解边的自定义：<br />1. 从无到有的定义边；<br />2. 扩展现有边；<br />3. 增加额外图形；<br />4. 边的交互样式；<br />5. 自定义带箭头的边。
 
@@ -45,7 +45,7 @@ G6.registerEdge('hvh', {
           ['L', endPoint.x, endPoint.y],
         ],
       },
-      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
       name: 'path-shape',
     });
     return shape;
@@ -167,6 +167,7 @@ G6.registerEdge(
           x: midPoint.x - 5,
           y: midPoint.y - 5,
         },
+        name: 'mid-point-edge-rect', // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
       });
     },
     update: undefined,
@@ -352,7 +353,7 @@ G6.registerEdge('line-arrow', {
           // ...
         },
       },
-      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
       name: 'path-shape',
     });
     return keyShape;

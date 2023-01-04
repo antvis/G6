@@ -20,6 +20,7 @@ G6.registerNode(
       });
       const shape = group.addShape(shapeType, {
         attrs: style,
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'key-shape',
       });
       // 绘制节点里面的小圆。点击这个小圆会显示tooltip
@@ -31,6 +32,7 @@ G6.registerNode(
           fill: '#096dd9',
           cursor: 'pointer',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'circle-shape',
       });
       return shape;

@@ -154,24 +154,24 @@ G6.registerBehavior('behaviorName', {
 }
 ```
 
-### BehaviorOption.shouldBegin(evt)
+### BehaviorOption.shouldBegin(evt, self)
 
-Whether to prevent the behavior. Return `true` by default, which means do not prevent the behavior. User should call it by themselves.
+Whether to prevent the behavior. Return `true` by default, which means do not prevent the behavior. User should call it by themselves. **Supported after v4.7.16** The last parameter is the behavior instance, which will be convenient to get it in arrow function formatted `shouldBegin`.
 
 **Usage**
 
 ```javascript
 G6.registerBehavior('behaviorName', {
-  shouldBegin() {
+  shouldBegin(evt, self) {
     // Customize it according to your scenario
     return true;
   },
 });
 ```
 
-### BehaviorOption.shouldUpdate(evt)
+### BehaviorOption.shouldUpdate(evt, self)
 
-Whether to update the data and the view. Returns `true` by default, which means allow updating.
+Whether to update the data and the view. Returns `true` by default, which means allow updating. **Supported after v4.7.16** The last parameter is the behavior instance, which will be convenient to get it in arrow function formatted `shouldUpdate`.
 
 **Usage**
 
@@ -185,7 +185,7 @@ const graph = new G6.Graph({
       'drag-canvas',
       {
         type: 'self-behavior',
-        shouldUpdate: (e) => {
+        shouldUpdate: (e, self) => {
           if (e.target.type !== 'text') {
             return false;
           }
@@ -197,6 +197,6 @@ const graph = new G6.Graph({
 });
 ```
 
-### BehaviorOption.shouldEnd(evt)
+### BehaviorOption.shouldEnd(evt, self)
 
-Whether to end the behavior. Returns `true` by default.
+Whether to end the behavior. Returns `true` by default. **Supported after v4.7.16** The last parameter is the behavior instance, which will be convenient to get it in arrow function formatted `shouldEnd`.

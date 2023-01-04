@@ -16,6 +16,7 @@ In this ducoment, we will introduce the layout algorithms in detail.
 ## G6 Layouts Overview
 
 - [Random Layout](#random): Randomizes the node postions;
+- [Force2 Layout](#force2): Force-directed layout comes from graphin-force, but with better performance;
 - [GForce Layout](#gforce): Classical force-directed layout supports GPU parallel computing, supported by G6 4.0;
 - [Force Layout](#force): Classical force-directed layout imported from d3;
 - [Fruchterman Layout](#fruchterman): A kind of force-directed layout;
@@ -70,6 +71,74 @@ General graph layout API: [General Graph Layout API](/en/docs/api/graphLayout/gu
 | height | Number | 300 | The height of the graph |  |
 | workerEnabled | Boolean | true / false | false | Whether to enable the web-worker in case layout calculation takes too long to block page interaction |
 
+### Force2
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lX-qSqDECrIAAAAAAAAAAAAAARQnAQ' width=500 alt='img'/>
+
+<br /> **Description**: Force2 implements the force-directed layout algorithm by G6 4.7.0, comes from graphin-force. It supports assign different masses and center gravities for different nodes freedomly. Comparing to graphin-force, it has much better performance. If you want to fix the positions for some nodes during calculation, assign `fx` and `fy` for the nodes as fixing positions. [Demo for fixing node](/en/examples/net/forceDirected#force2Fix).
+<br /> **API**: [GForce API](/en/docs/api/graphLayout/force2) 
+<br /> **Configuration**:
+
+| Name | Type | Example | Default | Description |
+| --- | --- | --- | --- | --- |
+| center | Array | [ 0, 0 ] | The center of the graph | The center of the layout |
+| animate | boolean | false | false | Whether refresh the node positions on the canvas each iteration. If it is `true`, the nodes on the canvas will looks like animating with forces |
+| linkDistance | Number / Function | Example 1: `50` <br />Example 2:<br />d => {<br />  // d is an edge<br />  if (d.id === 'edge1') {<br />    return 100;<br />  }<br />  return 50;<br />} | 1 | The edge length. It can be a function to define the different edge lengths for different edges (Example 2) |
+| nodeStrength | Number / Function | Exmaple 1: -30 <br />Exmaple 2:<br />d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return -100;<br />  }<br />  return -30;<br />} / 1000 | 1000 | The strength of node force. Positive value means repulsive force, negative value means attractive force (it is different from 'force')(As example 2) |
+| edgeStrength | Number / Function | Example 1: 1 <br />Example 2:<br />d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 10;<br />  }<br />  return 1;<br />} | 200 | The strength of edge force. Calculated according to the degree of nodes by default (As Example 2) |
+| preventOverlap | Boolean | false | false | Whether to prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned |
+| nodeSize | Array / Number | 20 | undefined | The diameter of the node. It is used for preventing node overlappings. If `nodeSize` is not assigned, the size property in node data will take effect. If the size in node data does not exist either, `nodeSize` is assigned to 10 by default |
+| nodeSpacing<br /><br /> | Number / Function | Example 1 : 10<br />Example 2 : <br />d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />Takes effect when `preventOverlap` is `true`. It is the minimum distance between nodes to prevent node overlappings. It can be a function to define different distances for different nodes (example 2) |
+| minMovement | Number | 0.1 | 0.5 | When the average/minimum/maximum (according to `distanceThresholdMode`) movement of nodes in one iteration is smaller than `minMovement`, terminate the layout |
+| distanceThresholdMode | 'mean' / 'max' / 'min' | 'mean' | 'mean' | The condition to judge with `minMovement`, `'mean'` means the layout stops while the nodes' average movement is smaller than `minMovement`, `'max'` / `'min'` means the layout stops while the nodes' maximum/minimum movement is smaller than `minMovement`. `'mean'` by default |
+| maxIteration | Number | 500 | 1000 | The max number of iterations. If the average movement do not reach `minMovement` but the iteration number is over `maxIteration`, terminate the layout |
+| damping | Number | 0.99 | 0.9 | Range [0, 1], affect the speed of decreasing node moving speed. Large the number, slower the decreasing |
+| interval | number | 0.05 | 0.02 | controls the speed of the nodes' movement in each iteration |
+| factor | number | 1 | 1 | Coefficient for the repulsive force. Larger the number, larger the repulsive force |
+| maxSpeed | Number | 10 | 1000 | The max speed in each iteration |
+| coulombDisScale | Number | 0.003 | 0.005 | A parameter for repulsive force between nodes. Large the number, larger the repulsion |
+| getMass | Function | d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | It is a callback returns the mass of each node. If it is not assigned, the degree of each node will take effect. The usage is similar to `nodeSpacing` |
+| getCenter | Function | (d, degree) => {<br />  // d is a node, degree is the degree of the node<br />  if (d.degree === 0') {<br />    return [100, 100, 10]; // x, y, strength<br />  }<br />  return [210, 150, 5]; // x, y, strength<br />} | undefined | It is a callback returns gravity center and the gravity strength for each node |
+| gravity | Number | 20 | 10 | The gravity strength to the `center` for all the nodes. Larger the number, more compact the nodes |
+| centripetalOptions | CentripetalOptions | refers to below | refers to below | Configurations for the center forces, including the center coordinates and the force strengths for leaf nodes, discrete nodes, and other nodes |
+| leafCluster | boolean | false | false | Whether to cluster the leaf nodes. If it is `true`, the value of  `centripetalOptions.single` will be set to 100; The returned value of `getClusterNodeStrength` will be used for `centripetalOptions.leaf`; `getClusterNodeStrength.center` will take the average center for all the leaf nodes in current iteration |
+| clustering | boolean | false | false | Whehter cluster all the nodes according to `nodeClusterBy`. If it is `true`, the returned value of `getClusterNodeStrength` will be used for `centripetalOptions.single`, `centripetalOptions.leaf`, and `centripetalOptions.others`; `centripetalOptions.center` will take the average center of all the nodes in the same cluster |
+| nodeClusterBy | string | undefined | undefined | The field name in the node data to cluster the nodes. Takes effect when `clustering` is `true`, and the `centripetalOptions` will be generated automatically. You could configure the strengths for different nodes with `clusterNodeStrength` |
+| clusterNodeStrength | number / Function | node => node.weight | 20 | The clustering center force strengths for different nodes, takes effect with `clustering` and `nodeClusterBy` |
+| monitor | (params:{ energy: number, nodes: NodeData[], edges: EdgeData[], iterations: number }) => void | undefined | undefined | The callback function for each iteration, the parameters including the energy of the layout, all the nodes' data, all the edges' data, and the current iteration number. Note that the calculation for energy will take extra cost. If the `monitor` is not configured, the calculation will be ignore. |
+| onTick | Function |  | undefined | The callback function of each iteration |
+| onLayoutEnd | Function |  | undefined | The callback function after layout |
+| workerEnabled | Boolean | true / false | false | Whether to enable the web-worker in case layout calculation takes too long to block page interaction |
+| gpuEnabled | Boolean | true / false | false | Whether to enable the GPU parallel computing, supported by G6 4.0. If the machine or browser does not support GPU computing, it will be degraded to CPU computing automatically.  |
+
+
+Type `CentripetalOptions`:
+
+| Parameter | Type | Example | Default | Description |
+| --- | --- | --- | --- | --- |
+| single | number / Function | 2 | 2, | the center force strength for discrete nodes (with 0 degree) |
+| leaf | number / Function | 2 | 2 | the center force strength for leaf nodes (with 1 degree) |
+| others | number / Function | 1 | 1 | the center force strength for other nodes beside leaf and discrete nodes |
+| center | Function | (node, nodes, edges) => ({ x: 10, y: 10 }) | center of the graph | the center force's coordinate. You can return different values for different nodes |
+
+Example for `centripetalOptions`:
+
+```
+centripetalOptions: {
+  // single, leaf, and others support function configuration, the parameters are the current node data, all the nodes' data, all the edges' data
+  single: (node, nodes, edges) => node.field1 || 1,
+  leaf: (node, nodes, edges) => node.field2 || 1,
+  others: (node, nodes, edges) => node.field3|| 1,
+  // the parameters are current node data, all the nodes' data, all the edges' data, width of the graph, height of the graph
+  center: (node, nodes, edges, width, height) => {
+    if (node.field4) return { x: width / 2, y: height / 2 };
+    if (node.field5) return { x: node.field6, y: node.field7 };
+    // ...
+  }
+}
+```
+
+
 ### GForce
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lX-qSqDECrIAAAAAAAAAAAAAARQnAQ' width=500 alt='img'/>
@@ -92,14 +161,13 @@ General graph layout API: [General Graph Layout API](/en/docs/api/graphLayout/gu
 | damping | Number | 0.99 | 0.9 | Range [0, 1], affect the speed of decreasing node moving speed. Large the number, slower the decreasing |
 | maxSpeed | Number | 10 | 1000 | The max speed in each iteration |
 | coulombDisScale | Number | 0.003 | 0.005 | A parameter for repulsive force between nodes. Large the number, larger the repulsion |
-| getMass | Function | d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | It is a callback returns the mass of each node. If it is not assigned, the degree of each node will takes effect. The usage is similar to `nodeSpacing` |
+| getMass | Function | d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | It is a callback returns the mass of each node. If it is not assigned, the degree of each node will take effect. The usage is similar to `nodeSpacing` |
 | getCenter | Function | (d, degree) => {<br />  // d is a node, degree is the degree of the node<br />  if (d.degree === 0') {<br />    return [100, 100, 10]; // x, y, strength<br />  }<br />  return [210, 150, 5]; // x, y, strength<br />} | undefined | It is a callback returns gravity center and the gravity strength for each node |
 | gravity | Number | 20 | 10 | The gravity strength to the `center` for all the nodes. Larger the number, more compact the nodes |
 | onTick | Function |  | undefined | The callback function of each iteration |
 | onLayoutEnd | Function |  | undefined | The callback function after layout |
 | workerEnabled | Boolean | true / false | false | Whether to enable the web-worker in case layout calculation takes too long to block page interaction |
 | gpuEnabled | Boolean | true / false | false | Whether to enable the GPU parallel computing, supported by G6 4.0. If the machine or browser does not support GPU computing, it will be degraded to CPU computing automatically.  |
-
 ### Force
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*oDbHRJc5td8AAAAAAAAAAABkARQnAQ' width='500' alt='img'/>graphLayout/guide
@@ -160,7 +228,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/graphLayout/gu
 <br />**Description**: Arranges the nodes on a circle. <br />**API**: [Circular API](/en/docs/api/graphLayout/circular) <br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
-| --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | center | Array | [ 0, 0 ] | The center of the graph | The center of the layout |
 | radius | Number | 50 | null | The radius of the circle. If the `raidus` exists, `startRadius` and `endRadius` do not take effect. |
 | startRadius | Number | 10 | null | The start radius of spiral layout |
@@ -224,7 +292,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/graphLayout/gu
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ux0-SYBy6Y8AAAAAAAAAAABkARQnAQ' width=300 alt='img'/><br />Tips: Concentric layout in G6 refers to <a href='https://github.com/cytoscape/cytoscape.js' target='_blank'>cytoscape.js</a>, we obey the MIT license <br />**Description**: Arranges the nodes on several concentric circles.<br />**API**: [Concentric API](/en/docs/api/graphLayout/concentric)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | center | Array | [ 0, 0 ] | The center of the graph | The center of the layout |
 | nodeSize | Number | 30 | 30 | The diameter of the node. It is used for preventing node overlappings |
 | minNodeSpacing | Number | 10 | 10 | The minimum separation between adjacent circles |

@@ -11,7 +11,7 @@ order: 9
 
 获取实例的属性值。
 
-```
+```javascript
 const width = shape.attr('width');
 ```
 
@@ -23,10 +23,10 @@ const width = shape.attr('width');
 
 批量更新实例绘图属性。
 
-```
+```javascript
 rect.attr({
-    fill: '#999',
-    stroke: '#666'
+  fill: '#999',
+  stroke: '#666'
 });
 ```
 

@@ -206,6 +206,7 @@ export default class LayoutController extends AbstractLayout {
    */
   public layout(success?: () => void): boolean {
     const { graph } = this;
+    if (!graph || graph.get('destroyed')) return;
 
     this.data = this.setDataFromGraph();
     const { nodes, hiddenNodes } = this.data;
@@ -228,13 +229,18 @@ export default class LayoutController extends AbstractLayout {
     this.layoutCfg = layoutCfg;
     let layoutType = layoutCfg.type;
 
+    let prevHasNodes = false;
+    this.layoutMethods?.forEach(
+      (method) => (prevHasNodes = !!method.nodes?.length || prevHasNodes),
+    );
+
     const preLayoutTypes = this.destoryLayoutMethods();
 
     graph.emit('beforelayout');
 
-    // 增量情况下（上一次的布局与当前布局一致），使用 treakInit
+    // 增量情况下（上一次的布局与当前布局一致），上一次有节点，使用 treakInit
     if (
-      preLayoutTypes?.length &&
+      prevHasNodes &&
       layoutType &&
       preLayoutTypes?.length === 1 &&
       preLayoutTypes[0] === layoutType
@@ -262,6 +268,13 @@ export default class LayoutController extends AbstractLayout {
         console.warn(`Your browser does not support webGL or GPGPU. The layout will run in CPU.`);
         enableGPU = false;
       }
+    }
+    // the layout does not support GPU, will run in CPU
+    if (enableGPU && !this.hasGPUVersion(layoutType)) {
+      console.warn(
+        `The '${layoutType}' layout does not support GPU calculation for now, it will run in CPU.`,
+      );
+      enableGPU = false;
     }
     this.isGPU = enableGPU;
 
@@ -442,8 +455,8 @@ export default class LayoutController extends AbstractLayout {
     const gpuWorkerAbility =
       isGPU &&
       typeof window !== 'undefined' &&
-      // eslint-disable-next-line @typescript-eslint/dot-notation
       window.navigator &&
+      // eslint-disable-next-line @typescript-eslint/dot-notation
       !navigator[`gpu`] && // WebGPU 还不支持 OffscreenCanvas
       'OffscreenCanvas' in window &&
       'transferControlToOffscreen' in offScreenCanvas;
@@ -550,6 +563,7 @@ export default class LayoutController extends AbstractLayout {
   // 更新布局参数
   public updateLayoutCfg(cfg) {
     const { graph, layoutMethods } = this;
+    if (!graph || graph.get('destroyed')) return;
     // disableTriggerLayout 不触发重新布局，仅更新参数
     const { disableTriggerLayout, ...otherCfg } = cfg;
     const layoutCfg = mix({}, this.layoutCfg, otherCfg);

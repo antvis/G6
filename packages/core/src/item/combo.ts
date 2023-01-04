@@ -28,7 +28,7 @@ export default class Combo extends Node implements ICombo {
       // merge graph的item样式与数据模型中的样式
       const newModel = model;
       const size = {
-        r: Math.hypot(bbox.height, bbox.width) / 2 || Global.defaultCombo.size[0] / 2,
+        r: bbox.width / 2 || Global.defaultCombo.size[0] / 2,
         width: bbox.width || Global.defaultCombo.size[0],
         height: bbox.height || Global.defaultCombo.size[1],
       };
@@ -39,7 +39,7 @@ export default class Combo extends Node implements ICombo {
         size.width += padding * 2;
         size.height += padding * 2;
       } else {
-        size.r += padding[0];
+        size.r = size.r + Math.max(...(padding as Array<number>));
         size.width += (padding[1] + padding[3]) || padding[1] * 2;
         size.height += (padding[0] + padding[2]) || padding[0] * 2;
       }

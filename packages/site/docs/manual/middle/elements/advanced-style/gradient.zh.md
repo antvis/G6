@@ -17,7 +17,7 @@ G6 提供描边的**线性渐变**和填充的**环形渐变**两种形式。
 
 在[配置节点或边](/zh/docs/manual/tutorial/elements)的样式时，指定 `stroke` 属性如下：
 
-```
+```javascript
 // 使用渐变色描边，渐变角度为 0，渐变的起始点颜色 #ffffff，中点的渐变色为 #7ec2f3，结束的渐变色为 #1890ff
 
 stroke: 'l(0) 0:#ffffff 0.5:#7ec2f3 1:#1890ff'
@@ -35,7 +35,7 @@ stroke: 'l(0) 0:#ffffff 0.5:#7ec2f3 1:#1890ff'
 
 在[配置节点或边](/zh/docs/manual/tutorial/elements)的样式时，指定 `fill` 属性如下：
 
-```
+```javascript
 // 使用渐变色填充，渐变起始圆的圆心坐标为被填充物体的包围盒中心点，半径为(包围盒对角线长度 / 2) 的 0.1 倍，渐变的起始点颜色 #ffffff，中点的渐变色为 #7ec2f3，结束的渐变色为 #1890ff
 
 fill: 'r(0.5, 0.5, 0.1) 0:#ffffff 1:#1890ff'

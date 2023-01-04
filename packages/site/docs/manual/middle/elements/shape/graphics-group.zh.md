@@ -64,7 +64,7 @@ const keyShape = group.addShape('rect', {
   attrs: {
     stroke: 'red',
   },
-  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
   name: 'rect-shape',
 });
 ```

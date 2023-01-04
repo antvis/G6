@@ -16,6 +16,6 @@ G6 支持用特定的纹理填充图形。G6 支持的纹理内容可以直接�
 
 在[配置节点或边](/zh/docs/manual/tutorial/elements)的样式时，指定 `fill` 属性如下：
 
-```
+```javascript
 shape.attr('fill', 'p(a)https://gw.alipay.com/cube.png');
 ```

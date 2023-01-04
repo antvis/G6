@@ -4,8 +4,8 @@ title: API
 
 ## ComboCombined - Combo 组合布局
 
-`markdown:docs/api/graphLayout/comboCombined.zh.md`
+<embed src="@/docs/api/graphLayout/comboCombined.zh.md"></embed>
 
 ## ComboForce - Combo 力导布局
 
-`markdown:docs/api/graphLayout/comboForce.zh.md`
+<embed src="@/docs/api/graphLayout/comboForce.zh.md"></embed>

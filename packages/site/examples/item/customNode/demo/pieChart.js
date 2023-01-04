@@ -33,6 +33,7 @@ G6.registerNode('pie-node', {
         lineWidth: 0,
         fill: lightOrange,
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'in-fan-shape',
     });
     // draw the fan shape
@@ -47,6 +48,7 @@ G6.registerNode('pie-node', {
         lineWidth: 0,
         fill: lightBlue,
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'out-fan-shape',
     });
     // 返回 keyshape

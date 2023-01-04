@@ -135,6 +135,7 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/a3ae9b40-ff40-434a-894f-b10c535f
             opacity: 0,
             cursor: 'pointer',
           },
+          // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
           name: `pre-icon`,
           subtreeID: model.id,
         });
@@ -148,6 +149,7 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/a3ae9b40-ff40-434a-894f-b10c535f
             opacity: 0,
             cursor: 'pointer',
           },
+          // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
           name: `next-icon`,
           subtreeID: model.id,
         });

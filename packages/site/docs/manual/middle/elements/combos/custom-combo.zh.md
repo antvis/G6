@@ -112,7 +112,7 @@ G6.registerCombo(
           height: style.height,
         },
         draggable: true,
-        name: 'combo-keyShape',
+        name: 'combo-keyShape', // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
       });
       // 增加右侧圆
       group.addShape('circle', {
@@ -126,7 +126,7 @@ G6.registerCombo(
           r: 5,
         },
         draggable: true,
-        name: 'combo-circle-shape',
+        name: 'combo-circle-shape', // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
       });
       return rect;
     },
@@ -147,7 +147,7 @@ G6.registerCombo(
 );
 ```
 
-值得注意的是，G6 3.3 需要用户为自定义节点中的图形设置 `name` 和 `draggable`。其中，`name` 可以是不唯一的任意值。`draggable` 为 `true` 是表示允许该图形响应鼠标的拖拽事件，只有 `draggable: true` 时，图上的交互行为 `'drag-combo'` 才能在该图形上生效。若上面代码仅在 keyShape 上设置了 `draggable: true`，而右侧圆图形上没有设置，则鼠标拖拽只能在 keyShape 上响应。
+值得注意的是，G6 3.3 需要用户为自定义节点中的图形设置 `name` 和 `draggable`。**其中，`name` 的值必须在同一元素类型内唯一**。`draggable` 为 `true` 是表示允许该图形响应鼠标的拖拽事件，只有 `draggable: true` 时，图上的交互行为 `'drag-combo'` 才能在该图形上生效。若上面代码仅在 keyShape 上设置了 `draggable: true`，而右侧圆图形上没有设置，则鼠标拖拽只能在 keyShape 上响应。
 
 ### 使用自定义 Combo
 
@@ -246,7 +246,7 @@ G6.registerCombo(
           r: style.r,
         },
         draggable: true,
-        name: 'combo-keyShape',
+        name: 'combo-keyShape', // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
       });
       // 增加下方 marker
       const marker = group.addShape('marker', {
@@ -260,7 +260,7 @@ G6.registerCombo(
           symbol: collapseIcon,
         },
         draggable: true,
-        name: 'combo-marker-shape',
+        name: 'combo-marker-shape',// 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
       });
 
       return circle;
@@ -286,7 +286,7 @@ G6.registerCombo(
 );
 ```
 
-值得注意的是，G6 3.3 需要用户为自定义节点中的图形设置 `name` 和 `draggable`。其中，`name` 可以是不唯一的任意值。`draggable` 为 `true` 是表示允许该图形响应鼠标的拖拽事件，只有 `draggable: true` 时，图上的交互行为 `'drag-combo'` 才能在该图形上生效。若上面代码仅在 keyShape 上设置了 `draggable: true`，而右侧圆图形上没有设置，则鼠标拖拽只能在 keyShape 上响应。
+值得注意的是，G6 3.3 需要用户为自定义节点中的图形设置 `name` 和 `draggable`。**其中，`name` 的值必须在同一元素类型内唯一**。`draggable` 为 `true` 是表示允许该图形响应鼠标的拖拽事件，只有 `draggable: true` 时，图上的交互行为 `'drag-combo'` 才能在该图形上生效。若上面代码仅在 keyShape 上设置了 `draggable: true`，而右侧圆图形上没有设置，则鼠标拖拽只能在 keyShape 上响应。
 
 ### 使用自定义 Combo
 

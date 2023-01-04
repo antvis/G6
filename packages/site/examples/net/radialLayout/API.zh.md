@@ -2,4 +2,4 @@
 title: API
 ---
 
-`markdown:docs/api/graphLayout/radial.zh.md`
+<embed src="@/docs/api/graphLayout/radial.zh.md"></embed>

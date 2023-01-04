@@ -13,7 +13,11 @@ export default class EventController extends AbstractEvent {
 
   protected canvasHandler!: Fun;
 
+  private resetHandler!: Fun;
+
   protected dragging: boolean = false;
+
+  protected mousedown: boolean = false;
 
   protected preItem: Item | null = null;
 
@@ -21,6 +25,7 @@ export default class EventController extends AbstractEvent {
 
   constructor(graph: Graph) {
     super(graph);
+    this.destroy();
     this.graph = graph;
     this.destroyed = false;
     this.initEvents();
@@ -45,14 +50,18 @@ export default class EventController extends AbstractEvent {
     canvas.off('*').on('*', canvasHandler);
 
     this.canvasHandler = canvasHandler;
-    extendEvents.push(addEventListener(el, 'DOMMouseScroll', wheelHandler));
-    extendEvents.push(addEventListener(el, 'mousewheel', wheelHandler));
+    extendEvents.push(addEventListener(el, 'wheel', wheelHandler));
 
     if (typeof window !== 'undefined') {
       extendEvents.push(addEventListener(window as any, 'keydown', originHandler));
       extendEvents.push(addEventListener(window as any, 'keyup', originHandler));
       extendEvents.push(addEventListener(window as any, 'focus', originHandler));
     }
+
+    // 数据变更，重置一些状态
+    if (this.resetHandler) graph.off('afterchangedata', this.resetHandler);
+    this.resetHandler = wrapBehavior(this, 'resetStatus') as Fun;
+    graph.on('afterchangedata', this.resetHandler);
   }
 
   // 获取 shape 的 item 对象
@@ -73,6 +82,31 @@ export default class EventController extends AbstractEvent {
     const canvas = graph.get('canvas');
     const { target } = evt;
     const eventType = evt.type;
+
+    switch(eventType) {
+      // solve G's problem: mousemove and mosueup are not triggered with drag and dragend
+      case 'drag':
+        this.onCanvasEvents(Object.assign({}, evt, { type: 'mousemove' }));
+        break;
+      case 'dragend':
+        this.onCanvasEvents(Object.assign({}, evt, { type: 'mouseup' }));
+        break;
+      // solve G's problem: mousedown on other DOMs, mouseup on canvas, click event is triggered unexpectly
+      case  'mousedown':
+        this.mousedown = true;
+        break;
+      case 'dragend':
+      case 'mouseup':
+        // mouseup happend before click, so setTimeout to reset the tag for reference in click event
+        setTimeout(() => this.mousedown = false);
+        break;
+      case 'click':
+        // the mousedown is not happend, the click is invalid
+        if (!this.mousedown) return;
+        break;
+      default:
+        break;
+    }
     /**
      * (clientX, clientY): 相对于页面的坐标；
      * (canvasX, canvasY): 相对于 <canvas> 左上角的坐标；
@@ -132,12 +166,12 @@ export default class EventController extends AbstractEvent {
       evt.canvasY = canvasPoint.y;
     }
 
-    // emit('click', evt);
-    graph.emit(eventType, evt);
-
-    if (evt.name && !evt.name.includes(':')) graph.emit(`${type}:${eventType}`, evt);
-    // emit('node:click', evt)
-    else graph.emit(evt.name, evt); // emit('text-shape:click', evt)
+    if (evt.name && !evt.name.includes(':')) {
+      graph.emit(`${type}:${eventType}`, evt); // emit('node:click', evt)
+      graph.emit(eventType, evt); // emit('click', evt);
+    } else if (evt.name) {
+      graph.emit(evt.name, evt); // emit('text-shape:click', evt)
+    }
 
     if (eventType === 'dragstart') {
       this.dragging = true;
@@ -213,6 +247,12 @@ export default class EventController extends AbstractEvent {
     this.graph.emit(`${itemType}:${eventType}`, evt);
   }
 
+  private resetStatus() {
+    this.mousedown = false;
+    this.dragging = false;
+    this.preItem = null;
+  }
+
   public destroy() {
     const { graph, canvasHandler, extendEvents } = this;
     const canvas: ICanvas = graph.get('canvas');
@@ -227,10 +267,10 @@ export default class EventController extends AbstractEvent {
       event.remove();
     });
 
-    this.dragging = false;
-    this.preItem = null;
+    this.resetStatus();
     this.extendEvents.length = 0;
     (this.canvasHandler as Fun | null) = null;
+    (this.resetHandler as Fun | null) = null;
     this.destroyed = true;
   }
 }

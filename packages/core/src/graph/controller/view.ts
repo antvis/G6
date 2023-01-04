@@ -33,8 +33,38 @@ export default class ViewController {
   public fitCenter(animate?: boolean, animateCfg?: GraphAnimateConfig) {
     const { graph } = this;
     const group: IGroup = graph.get('group');
-    group.resetMatrix();
-    const bbox = group.getCanvasBBox();
+    let bbox;
+
+    // if reaches optimizeThreshold, fitView according to the 4 corner nodes
+    const nodes = graph.getNodes();
+    if (nodes.length > graph.get('optimizeThreshold')) {
+      let minX = Infinity;
+      let minY = Infinity;
+      let maxX = -Infinity;
+      let maxY = -Infinity;
+      nodes.forEach(node => {
+        const { x, y } = node.getModel();
+        if (minX > x) minX = x;
+        if (minY > y) minY = y;
+        if (maxX < x) maxX = x;
+        if (maxY < y) maxY = y;
+      });
+      const matrix = group.getMatrix() || [1, 0, 0, 0, 1, 0, 0, 0, 1];
+      const { x: transMinX, y: transMinY } = applyMatrix({ x: minX, y: minY }, matrix);
+      const { x: transMaxX, y: transMaxY } = applyMatrix({ x: maxX, y: maxY }, matrix);
+      bbox = {
+        minX: transMinX,
+        maxX: transMaxX,
+        minY: transMinY,
+        maxY: transMaxY,
+        width: transMaxX - transMinX,
+        height: transMaxY - transMinY,
+        x: transMinX,
+        y: transMinY
+      }
+    } else {
+      bbox = group.getCanvasBBox();
+    }
     if (bbox.width === 0 || bbox.height === 0) return;
     const viewCenter = this.getViewCenter();
     const groupCenter: Point = {
@@ -116,11 +146,36 @@ export default class ViewController {
     const group: IGroup = graph.get('group');
     const startMatrix = group.getMatrix() || [1, 0, 0, 0, 1, 0, 0, 0, 1];
     group.resetMatrix();
-    const bbox = group.getCanvasBBox();
+    let bbox;
+
+    // if reaches optimizeThreshold, fitView according to the 4 corner nodes
+    const nodes = graph.getNodes();
+    if (nodes.length > graph.get('optimizeThreshold')) {
+      let minX = Infinity;
+      let minY = Infinity;
+      let maxX = -Infinity;
+      let maxY = -Infinity;
+      nodes.forEach(node => {
+        const { x, y } = node.getModel();
+        if (minX > x) minX = x;
+        if (minY > y) minY = y;
+        if (maxX < x) maxX = x;
+        if (maxY < y) maxY = y;
+      });
+      bbox = {
+        minX, maxX, minY, maxY,
+        width: maxX - minX,
+        height: maxY - minY,
+        x: minX,
+        y: minY
+      }
+    } else {
+      bbox = group.getCanvasBBox();
+    }
 
     if (bbox.width === 0 || bbox.height === 0) return;
-    const viewCenter = this.getViewCenter();
 
+    const viewCenter = this.getViewCenter();
     const groupCenter: Point = {
       x: bbox.x + bbox.width / 2,
       y: bbox.y + bbox.height / 2,
@@ -162,11 +217,37 @@ export default class ViewController {
     const group: IGroup = graph.get('group');
     const startMatrix = group.getMatrix() || [1, 0, 0, 0, 1, 0, 0, 0, 1];
     group.resetMatrix();
-    const bbox = group.getCanvasBBox();
+    let bbox;
+
+    // if reaches optimizeThreshold, fitView according to the 4 corner nodes
+    const nodes = graph.getNodes();
+    if (nodes.length > graph.get('optimizeThreshold')) {
+      let minX = Infinity;
+      let minY = Infinity;
+      let maxX = -Infinity;
+      let maxY = -Infinity;
+      nodes.forEach(node => {
+        const { x, y } = node.getModel();
+        if (minX > x) minX = x;
+        if (minY > y) minY = y;
+        if (maxX < x) maxX = x;
+        if (maxY < y) maxY = y;
+      });
+      bbox = {
+        minX, maxX, minY, maxY,
+        width: maxX - minX,
+        height: maxY - minY,
+        x: minX,
+        y: minY
+      }
+    } else {
+      bbox = group.getCanvasBBox();
+    }
+
 
     if (bbox.width === 0 || bbox.height === 0) return;
-    const viewCenter = this.getViewCenter();
 
+    const viewCenter = this.getViewCenter();
     const groupCenter: Point = {
       x: bbox.x + bbox.width / 2,
       y: bbox.y + bbox.height / 2,

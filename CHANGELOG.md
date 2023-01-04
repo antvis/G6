@@ -1,5 +1,88 @@
 # ChangeLog
 
+### 4.8.2
+
+- perf: add updateShape function for donut node, closes: #4091;
+- chore: refactor the implementation of donut node;
+- feat: legend supports diamond, ellipse, triangle, star shape, closes: #3876;
+- feat: add redo undo for TreeGraph, closes: #3664, #2414;
+
+### 4.8.1
+
+- perf: use simple router for polyline when there is no obstacles, the performance is improved, closes: #2658;
+- perf: improve the performance for polyline by improve the pathFind implementations;
+- perf: layout without nodes at first time should not tweak at the second time;
+- fix: unexpected backforward path caused by redundant controlPoints for polyline;
+- fix: minimap viewport size problem when the graph have no width or height param, closes: #4152;
+- fix: combo with fixSize has wrong link points for related edges, closes: #4153;
+
+### 4.8.0
+
+- fix: destroy graph and call layout problem, closes: #4126;
+- fix: remove duplicated event emit, closes: #4043;
+- fix: mousedown on other DOMs and mouseup on canvas, click is triggered unexpectly, closes: #2922;
+- fix: mousemove and mouseup are not triggered with drag and dragend, closes: #3086;
+- fix: replace DOMMouseScroll and mousewheel with wheel event, closes: #3256;
+- perf: refresh item when updateChild, updateChildren, addChild, removeChild for TreeGraph;
+
+### 4.7.17
+
+- fix: expandCombo and the edges of the children are not refreshed, closes: #3250;
+- fix: the item param of the afterremoveitem for combo should be data;
+- fix: add type to the parameter list of beforeremoveitem event;
+- fix: edge update with destroyed end items, closes: #3925;
+- perf: take the max value of padding array for circle combo, closes: #4113;
+- feat: support top-center for rect combo label position, closes: #3750;
+- feat: createCombo and uncombo support stack, closes: #3695, #3323;
+
+### 4.7.16
+
+- feat: allowDragOnItem config for scroll-canvas, closes: #3062;
+- feat: allow to setTextWaterMarker and setImageWaterMarker with an undefined parameter to remove the watermarker, closes: #3478;
+- feat: hideEdge config for minimap to enhance the performance, closes: #3158;
+- fix: minimap has incorrect shape zIndex with keyShape type and delegate type, closes: #3132;
+- fix: minimap viewport dragging problem in firefox and safari, closes: #2939;
+- docs: add sequence demo to site, closes: #3027;
+- perf: unify the formats of shouldBegin, shouldUpdate, and shouldEnd in behaviors, closes: #3028;
+- perf: fitView and fitCenter according to the corner ndoes insead of getCanvasBBox to avoid maximum call stack size exceeded, closes: #2447;
+- fix: treeGraph changeData with node properties lost, closes: #3215;
+- fix: error occurs while calling updateLayout from gpu layout to a cpu layout, closes: #3272;
+- fix: error occurs while calling changeData to remove a node in a combo, closes: #3293;
+
+### 4.7.15
+
+- fix: dagre layout for collapsed combos;
+- perf: give layout algorithm vedges;
+
+### 4.7.14
+
+- fix: error occurs while dragging combo with drag-node behavior;
+
+### 4.7.13
+
+- fix: unexpected move with fitCenter with animation;
+- fix: update modelRect with rendering error, closes: #4041;
+
+### 4.7.12
+
+- fix: drag-canvas incorrectly stopped by right click;
+- fix: createCombo with nodes which already has parent combos;
+- fix: setItemState on node, related edges's linking positions are not refreshed;
+- perf: combo animate inherit from graph's animate config;
+- perf: improve the performance of setItemState and active-relations again;
+- feat: graph supports optimizeThreshold to control the number threshold of nodes to enable the optimization on rendering and interaction, currently only affects the edges' refresh while the related node state style changed;
+
+### 4.7.11
+
+- perf: improve the performance of setItemState and active-relations;
+- perf: keyShape is hiden when a combo is collapsed with collapsedSubstituIcon;
+- fix: drag-node incorrectly stopped by right click;
+- fix: timebar plugin destroy problem, closes: #3998;
+- fix: controllerCfg does not take effect in timebar with tick type, closes: #3843;
+- feat: timebar plugin supports config the default time type;
+- feat: timebar with play and pause API;
+- chore: use addItem and removeItem instead of changeData in timebar;
+
 ### 4.7.10
 
 - perf: force layout with animation calls graph refreshPositions instead positionsAnimate while refreshing;

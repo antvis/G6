@@ -91,6 +91,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7ba82250-8367-4351-82b2-d48
               lineWidth: 0,
               fill: lightOrange,
             },
+            // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
             name: 'fan-in-path',
           });
 
@@ -106,6 +107,7 @@ fetch('https://gw.alipayobjects.com/os/basement_prod/7ba82250-8367-4351-82b2-d48
               lineWidth: 0,
               fill: lightBlue,
             },
+            // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
             name: 'fan-out-path',
           });
           return fanIn;

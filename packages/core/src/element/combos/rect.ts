@@ -68,15 +68,17 @@ Shape.registerCombo(
         refY = this.refY as number; // 不居中时的偏移量
       }
 
-      const leftDis = cfgStyle.width / 2 + padding[3];
-      const topDis = cfgStyle.height / 2 + padding[0];
+      const left = -cfgStyle.width / 2 - padding[3];
+      const right = cfgStyle.width / 2 + padding[1];
+      const top = -cfgStyle.height / 2 - padding[0];
+      const bottom = cfgStyle.height / 2 + padding[2];
 
       let style: any;
       switch (labelPosition) {
         case 'top':
           style = {
-            x: 0 - leftDis + refX,
-            y: 0 - topDis + refY,
+            x: left + refX,
+            y: top + refY,
             textBaseline: 'top', // 文本在图形的上方
             textAlign: 'left',
           };
@@ -84,14 +86,14 @@ Shape.registerCombo(
         case 'bottom':
           style = {
             x: 0,
-            y: topDis + refY,
-            textBaseline: 'bottom',
+            y: bottom + refY,
+            textBaseline: 'top',
             textAlign: 'center',
           };
           break;
         case 'left':
           style = {
-            x: 0 - leftDis + refY,
+            x: left + refY,
             y: 0,
             textAlign: 'left',
           };
@@ -104,9 +106,17 @@ Shape.registerCombo(
             textAlign: 'center',
           };
           break;
+        case 'top-center':
+          style = {
+            x: 0,
+            y: top + refY,
+            textBaseline: 'top',
+            textAlign: 'center'
+          };
+          break;
         default:
           style = {
-            x: leftDis + refX,
+            x: right + refX,
             y: 0,
             textAlign: 'right',
           };

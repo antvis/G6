@@ -113,6 +113,7 @@ Minimap 是用于快速预览和探索图的工具。
 | type | String | 选项：`'default'`：渲染图上所有图形；`'keyShape'`：只渲染图上元素的 keyShape，以减少渲染成本；`'delegate'`：只渲染图上元素的大致图形，以降低渲染成本。渲染成本 `'default'` > `'keyShape'` > `'delegate'`。默认为 `'default'` |
 | size | Array | Minimap 的大小 |
 | delegateStyle | Object | 在 `type` 为 `'delegate'` 时生效，代表元素大致图形的样式 |
+| hideEdge | Boolean | false | **v4.7.16 起支持** 控制 Minimap 上边的显示与隐藏，设置为 `true` 可在大规模图上大幅提升性能 |
 
 其中，delegateStyle 可以设置如下属性：
 
@@ -170,7 +171,7 @@ Minimap 是用于快速预览和探索图的工具。
 
 实例化 Image Minimap 插件时，`graphImg` 是必要参数。
 
-```
+```javascript
 // 实例化 Image Minimap 插件
 const imageMinimap = new G6.ImageMinimap({
   width: 200,
@@ -233,7 +234,7 @@ Menu 用于配置节点上的右键菜单。
 
 实例化 Menu 插件时，如果不传参数，则使用 G6 默认提供的值，只能展示默认的菜单项，不能进行任何操作。
 
-```
+```javascript
 // 实例化 Menu 插件
 const menu = new G6.Menu();
 const graph = new G6.Graph({
@@ -244,7 +245,7 @@ const graph = new G6.Graph({
 
 #### DOM Menu
 
-```
+```javascript
 const menu = new G6.Menu({
   offsetX: 6,
   offsetX: 10,
@@ -274,7 +275,7 @@ const graph = new G6.Graph({
 
 #### String Menu
 
-```
+```javascript
 const menu = new G6.Menu({
   getContent(evt) {
     return `<ul>
@@ -323,7 +324,7 @@ ToolBar 集成了以下常见的操作：
 
 默认的 ToolBar 提供了撤销、重做、放大等功能。
 
-```
+```javascript
 const toolbar = new G6.ToolBar();
 
 const graph = new G6.Graph({
@@ -334,7 +335,7 @@ const graph = new G6.Graph({
 
 #### 使用 String 自定义 ToolBar 功能
 
-```
+```javascript
 const tc = document.createElement('div');
 tc.id = 'toolbarContainer';
 document.body.appendChild(tc);
@@ -371,7 +372,7 @@ const graph = new G6.Graph({
 
 #### 使用 DOM 自定义 ToolBar 功能
 
-```
+```javascript
 const toolbar = new G6.ToolBar({
   getContent: () => {
     const outDiv = document.createElement('div');
@@ -418,7 +419,7 @@ ToolTip 插件主要用于在节点和边上展示一些辅助信息，G6 4.0 �
 
 #### Dom Tooltip
 
-```
+```javascript
 const tooltip = new G6.Tooltip({
   offsetX: 10,
   offsetY: 20,
@@ -443,7 +444,7 @@ const graph = new G6.Graph({
 
 #### String Tooltip
 
-```
+```javascript
 const tooltip = new G6.Tooltip({
   getContent(e) {
     return `<div style='width: 180px;'>
@@ -491,7 +492,7 @@ Fisheye 鱼眼放大镜是为 focus+context 的探索场景设计的，它能够
 
 用于更新该 FishEye 的部分配置项，包括 `trigger`，`d`，`r`，`maxR`，`minR`，`maxD`，`minD`，`scaleRBy`，`scaleDBy`。例如：
 
-```
+```javascript
 const fisheye = new G6.Fisheye({
   trigger: 'mousemove'
 });
@@ -507,7 +508,7 @@ fisheye.updateParams({
 
 ### 用法
 
-```
+```javascript
 const fisheye = new G6.Fisheye({
   trigger: 'mousemove',
   d: 1.5,
@@ -546,7 +547,7 @@ EdgeFilterLens 边过滤镜可以将关注的边保留在过滤镜范围内，�
 
 用于更新该过滤镜的部分配置项，包括 `trigger`，`type`，`r`，`maxR`，`minR`，`scaleRBy`，`showLabel`，`shouldShow`。例如：
 
-```
+```javascript
 const filterLens = new G6.EdgeFilterLens({
   trigger: 'drag'
 });
@@ -561,7 +562,7 @@ filterLens.updateParams({
 
 ### 用法
 
-```
+```javascript
 const filterLens = new G6.EdgeFilterLens({
   trigger: 'mousemove',
   r: 300,
@@ -599,7 +600,7 @@ const graph = new G6.Graph({
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*17VoSoTm9o8AAAAAAAAAAAAAARQnAQ' width='500' />
 
-<br />虽然 G6 提供了各种不同类型的 TimeBar 组件，但在使用的方式却非常简单，通过配置字段就可以进行区分。<br /> <br />关于 TimeBar 的使用案例，请参考[这里](https://g6.antv.vision/zh/examples/tool/timebar#timebar)。<br />
+<br />虽然 G6 提供了各种不同类型的 TimeBar 组件，但在使用的方式却非常简单，通过配置字段就可以进行区分。<br /> <br />关于 TimeBar 的使用案例，请参考[这里](https://g6.antv.antgroup.com/examples/tool/timebar#timebar)。<br />
 
 ### 使用 TimeBar 组件
 

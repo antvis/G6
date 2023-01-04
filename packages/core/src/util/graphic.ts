@@ -686,16 +686,19 @@ export const getComboBBox = (
 
   if (!children || children.length === 0) {
     const comboModel = combo?.getModel();
-    const { x, y } = comboModel || {};
+    const { x, y, fixSize, collapsed, fixCollapseSize } = comboModel || {};
+    const useFixSize = collapsed ? fixCollapseSize : fixSize;
+    const [ width, height ] = isArray(useFixSize) ? useFixSize : [useFixSize, useFixSize];
+    const halfSize = [ width / 2, height / 2 ];
     return {
-      minX: x,
-      minY: y,
-      maxX: x,
-      maxY: y,
+      minX: x - halfSize[0],
+      minY: y - halfSize[1],
+      maxX: x + halfSize[0],
+      maxY: y + halfSize[1],
       x: x,
       y: y,
-      width: undefined,
-      height: undefined,
+      width,
+      height
     };
   }
 
@@ -716,6 +719,12 @@ export const getComboBBox = (
 
   comboBBox.centerX = (comboBBox.minX + comboBBox.maxX) / 2;
   comboBBox.centerY = (comboBBox.minY + comboBBox.maxY) / 2;
+
+  // if it is a circle combo, diagnal length of the children's bbox should be the diameter of the combo's bbox
+  if (combo?.getKeyShape().get('type') === 'circle') {
+    comboBBox.width = Math.hypot(comboBBox.height, comboBBox.width);
+    comboBBox.height = comboBBox.width;
+  }
 
   Object.keys(comboBBox).forEach((key) => {
     if (comboBBox[key] === Infinity || comboBBox[key] === -Infinity) {

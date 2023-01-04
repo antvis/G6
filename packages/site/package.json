@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@antv/g6-site",
-  "version": "4.7.10-siren.0",
+  "version": "4.8.2-siren.0",
   "description": "G6 sites deployed on gh-pages",
   "keywords": [
     "antv",
@@ -13,7 +13,7 @@
     "relational data",
     "site"
   ],
-  "homepage": "https://g6.antv.vision",
+  "homepage": "https://g6.antv.antgroup.com",
   "bugs": {
     "url": "https://github.com/antvis/g6/issues"
   },
@@ -24,10 +24,10 @@
   "license": "MIT",
   "author": "https://github.com/orgs/antvis/people",
   "scripts": {
-    "site:build": "npm run site:clean && cross-env GATSBY=true gatsby build --prefix-paths",
-    "site:clean": "gatsby clean",
-    "site:develop": "cross-env GATSBY=true gatsby develop --open",
-    "site:deploy": "npm run site:build && gh-pages -d public",
+    "site:build": "dumi build",
+    "site:develop": "dumi dev",
+    "site:preview": "dumi preview",
+    "site:deploy": "npm run site:build && gh-pages -d dist",
     "start": "npm run site:develop"
   },
   "devDependencies": {
@@ -36,18 +36,14 @@
   "dependencies": {
     "@ant-design/icons": "^4.0.6",
     "@antv/chart-node-g6": "^0.0.3",
-    "@antv/g6": "4.7.10-siren.0",
-    "@antv/gatsby-theme-antv": "1.1.15",
+    "@antv/dumi-theme-antv": "^0.3.0-beta.5",
+    "@antv/g6": "4.8.2-siren.0",
+    "@antv/g6-react-node": "1.4.5-siren.8",
     "@antv/util": "^2.0.9",
     "@antv/vis-predict-engine": "^0.1.1",
-    "@types/react": "^16.9.35",
-    "@types/react-dom": "^16.9.8",
-    "gatsby": "^2.24.40",
-    "gh-pages": "^2.1.1",
-    "monaco-editor": "0.29.1",
-    "monaco-editor-webpack-plugin": "5.0.0",
-    "react-i18next": "^11.1.0",
-    "react-monaco-editor": "0.40.0",
+    "@microsoft/api-extractor": "^7.33.6",
+    "dumi": "^2.0.0-beta.15",
+    "insert-css": "^2.0.0",
     "typedoc": "^0.17.6",
     "typedoc-plugin-markdown": "^2.2.11",
     "typescript": "^4.6.3"

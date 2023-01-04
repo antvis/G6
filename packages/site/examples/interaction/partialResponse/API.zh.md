@@ -2,4 +2,4 @@
 title: API
 ---
 
-`markdown:docs/api/graphFunc/on_off.zh.md`
+<embed src="@/docs/api/graphFunc/on_off.zh.md"></embed>

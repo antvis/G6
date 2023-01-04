@@ -42,6 +42,7 @@ G6.registerNode('treeNode', {
         fontFamily: 'PingFangSC-Regular',
       },
       cursor: 'pointer',
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'name-text-shape',
     });
     const textWidth = text.getBBox().width;
@@ -69,6 +70,7 @@ G6.registerNode('treeNode', {
     }
     const keyShape = group.addShape('rect', {
       attrs: keyShapeAttrs,
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'root-key-shape-rect-shape',
     });
 
@@ -83,6 +85,7 @@ G6.registerNode('treeNode', {
           stroke: '#AAB7C4',
           lineWidth: 1,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'node-path-shape',
       });
     }
@@ -101,6 +104,7 @@ G6.registerNode('treeNode', {
           fill: '#e8f7ff',
           cursor: 'pointer',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'main-shape',
       });
     }
@@ -124,6 +128,7 @@ G6.registerNode('treeNode', {
           fontFamily: 'PingFangSC-Regular',
           cursor: 'pointer',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'root-text-shape',
       });
     } else {
@@ -139,6 +144,7 @@ G6.registerNode('treeNode', {
           fontFamily: 'PingFangSC-Regular',
           cursor: 'pointer',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'not-root-text-shape',
       });
     }
@@ -160,6 +166,7 @@ G6.registerNode('treeNode', {
           radius: 6,
           cursor: 'pointer',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'child-count-rect-shape',
       });
       group.addShape('text', {
@@ -173,6 +180,7 @@ G6.registerNode('treeNode', {
           textAlign: 'center',
           cursor: 'pointer',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'child-count-text-shape',
       });
     }
@@ -204,6 +212,7 @@ G6.registerEdge('smooth', {
         stroke: '#AAB7C4',
         path,
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'smooth-path-shape',
     });
     return shape;

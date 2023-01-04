@@ -76,7 +76,7 @@ G6.registerBehavior('activate-node', {
   },
   onCanvasClick(e) {
     // shouldUpdate can be overrode by users. Returning true means turning the 'active' to be false for all the nodes
-    if (this.shouldUpdate(e)) {
+    if (this.shouldUpdate(e, self)) {
       removeNodesState();
     }
   },

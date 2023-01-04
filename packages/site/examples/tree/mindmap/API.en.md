@@ -2,4 +2,4 @@
 title: API
 ---
 
-`markdown:docs/api/treeGraphLayout/mindmap.en.md`
+<embed src="@/docs/api/treeGraphLayout/mindmap.en.md"></embed>

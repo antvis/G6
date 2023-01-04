@@ -4,16 +4,16 @@ title: API
 
 # Combo Configurations
 
-`markdown:docs/api/Items/comboProperties.en.md`
+<embed src="@/docs/api/Items/comboProperties.en.md"></embed>
 
 # Common Functions for Item
 
-`markdown:docs/api/Items/itemMethods.en.md`
+<embed src="@/docs/api/Items/itemMethods.en.md"></embed>
 
 # Functions for Node (Combo extends from Node)
 
-`markdown:docs/api/Items/nodeMethods.en.md`
+<embed src="@/docs/api/Items/nodeMethods.en.md"></embed>
 
 # Combo Functions
 
-`markdown:docs/api/Items/comboMethods.en.md`
+<embed src="@/docs/api/Items/comboMethods.en.md"></embed>

@@ -31,6 +31,7 @@ G6.registerNode('file-node', {
           r: 4,
           fill: '#666',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'marker-shape',
       });
     } else {
@@ -50,6 +51,7 @@ G6.registerNode('file-node', {
               'Arial, sans-serif'
             : 'Arial, sans-serif',
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'text-shape',
     });
     const bbox = shape.getBBox();

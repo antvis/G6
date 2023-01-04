@@ -15,7 +15,7 @@ group.addShape('rect', {
     shadowBlur: 10,
     opacity: 0.8,
   },
-  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
   name: 'rect-shape',
 });
 ```
@@ -38,7 +38,7 @@ G6 has these shapes:
 
 <description> _String_ **required** </description>
 
-Must be assigned in G6 3.3 and later versions. It can be any value you want
+Must be assigned in G6 3.3 and later versions. It can be any string you want but must be unique in a custom node/edge/combo type. Otherwise, the style updating might be wrong.
 
 ### fill
 
@@ -122,7 +122,7 @@ group.addShape('circle', {
     r: 50,
     fill: 'blue',
   },
-  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
   name: 'circle-shape',
 });
 ```
@@ -156,7 +156,7 @@ group.addShape('ellipse', {
     ry: 50,
     fill: 'blue',
   },
-  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
   name: 'ellipse-shape',
 });
 ```
@@ -194,7 +194,7 @@ group.addShape('image', {
     y: 0,
     img: 'https://g.alicdn.com/cm-design/arms-trace/1.0.155/styles/armsTrace/images/TAIR.png',
   },
-  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
   name: 'image-shape',
 });
 ```
@@ -240,7 +240,7 @@ group.addShape('marker', {
     r: 10,
     symbol: 'triangle-down',
   },
-  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
   name: 'marker-shape',
 });
 
@@ -254,7 +254,7 @@ group.addShape('marker', {
       return [['M', x, y], ['L', x + r, y + r], ['L', x + r * 2, y], ['Z']];
     },
   },
-  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
   name: 'marker-shape',
 });
 ```
@@ -296,7 +296,7 @@ group.addShape('polygon', {
     ],
     fill: 'red',
   },
-  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
   name: 'polygon-shape',
 });
 ```
@@ -319,7 +319,7 @@ group.addShape('rect', {
     stroke: 'black',
     radius: [2, 4],
   },
-  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
   name: 'rect-shape',
 });
 ```
@@ -381,7 +381,7 @@ group.addShape('path', {
     lineWidth: 8,
     lineAppendWidth: 5,
   },
-  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
   name: 'path-shape',
 });
 ```
@@ -402,7 +402,7 @@ The arrow on the start of the path. When `startArrow` is `true`, show a default 
 
 <description> _Boolean | Object_ **optional** </description>
 
-The arrow on the end of the path. When `startArrow` is `true`, show a default arrow on the end of the path. User can custom an arrow by path.
+The arrow on the end of the path. When `endArrow` is `true`, show a default arrow on the end of the path. User can custom an arrow by path.
 
 ### lineAppendWidth
 
@@ -453,7 +453,7 @@ group.addShape('text', {
     shadowColor: 'blue',
     shadowBlur: 10,
   },
-  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
   name: 'text-shape',
 });
 ```
@@ -541,7 +541,7 @@ group.addShape('dom', {
     </div>
       `,
   },
-  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
   name: 'dom-shape',
   draggable: true,
 });

@@ -13,6 +13,6 @@ G6 support filling a shape with texture with **Image** or **Data URL**.
 
 Assign the `fill` as below while [Configurating the Node or Edge](/en/docs/manual/tutorial/elements):
 
-```
+```javascript
 shape.attr('fill', 'p(a)https://gw.alipay.com/cube.png');
 ```

@@ -51,8 +51,8 @@ const pushComboToStack = (graph: IGraph, items: Item[]) => {
     return;
   }
 
-  const comboIds = items.map(combo => combo.get('id'));
-  const combos = comboIds.map(id => {
+  const comboIds = items.map((combo) => combo.get('id'));
+  const combos = comboIds.map((id) => {
     return graph.findById(id) as ICombo;
   });
 
@@ -65,15 +65,15 @@ const pushComboToStack = (graph: IGraph, items: Item[]) => {
       before: currentData.data.before,
       after: {
         combos: comboModels.combos,
-        nodes: comboModels.nodes
-      }
+        nodes: comboModels.nodes,
+      },
     });
   } else {
     graph.pushStack('drag-combo-start', {
       before: {
         combos: comboModels.combos,
-        nodes: comboModels.nodes
-      }
+        nodes: comboModels.nodes,
+      },
     });
   }
 };
@@ -108,7 +108,7 @@ export default {
       return false;
     }
 
-    if (!this.shouldUpdate.call(this, evt)) {
+    if (!this.shouldUpdate(evt, this)) {
       return false;
     }
 
@@ -146,7 +146,7 @@ export default {
     }
 
     const beforeDragItems = [];
-    this.targets.forEach(t => {
+    this.targets.forEach((t) => {
       const { x, y, id } = t.getModel();
       beforeDragItems.push({ x, y, id });
     });
@@ -256,7 +256,7 @@ export default {
   onDrop(evt: IG6GraphEvent) {
     // 被放下的目标 combo
     const { item } = evt;
-    this.currentShouldEnd = this.shouldEnd.call(this, evt, item);
+    this.currentShouldEnd = this.shouldEnd(evt, item, this);
     this.updatePositions(evt, !this.currentShouldEnd);
     if (!this.currentShouldEnd || !item || !this.targets || item.destroyed) return;
 
@@ -294,7 +294,7 @@ export default {
     const comboId = item.getModel().comboId as string;
 
     const newParentCombo = comboId ? graph.findById(comboId) : undefined;
-    this.currentShouldEnd = this.shouldEnd.call(this, evt, newParentCombo);
+    this.currentShouldEnd = this.shouldEnd(evt, newParentCombo, this);
     this.updatePositions(evt, !this.currentShouldEnd);
     if (!this.currentShouldEnd) return;
 
@@ -449,14 +449,18 @@ export default {
   updateCombo(item: ICombo, evt: IG6GraphEvent, restore: boolean) {
     this.updateSingleItem(item, evt, restore);
     const edgesToBeUpdate: { [id: string]: IEdge } = {};
-    this.traverse(item, (paramItem, paramEdgesMap) => {
-      if (paramItem.destroyed) {
-        return false;
-      }
-      paramItem.getEdges().forEach(edge => paramEdgesMap[edge.getID()] = edge);
-      return true;
-    }, edgesToBeUpdate);
-    Object.values(edgesToBeUpdate).forEach(edge => edge.refresh());
+    this.traverse(
+      item,
+      (paramItem, paramEdgesMap) => {
+        if (paramItem.destroyed) {
+          return false;
+        }
+        paramItem.getEdges().forEach((edge) => (paramEdgesMap[edge.getID()] = edge));
+        return true;
+      },
+      edgesToBeUpdate,
+    );
+    Object.values(edgesToBeUpdate).forEach((edge) => edge.refresh());
   },
 
   /**

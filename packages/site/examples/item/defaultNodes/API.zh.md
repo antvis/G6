@@ -4,12 +4,12 @@ title: API
 
 # 节点配置
 
-`markdown:docs/api/Items/nodeProperties.zh.md`
+<embed src="@/docs/api/Items/nodeProperties.zh.md"></embed>
 
 # 元素通用方法
 
-`markdown:docs/api/Items/itemMethods.zh.md`
+<embed src="@/docs/api/Items/itemMethods.zh.md"></embed>
 
 # 节点实例方法
 
-`markdown:docs/api/Items/nodeMethods.zh.md`
+<embed src="@/docs/api/Items/nodeMethods.zh.md"></embed>

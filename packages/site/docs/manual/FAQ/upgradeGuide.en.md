@@ -238,7 +238,7 @@ G6.registerEdge('customNode', {
 });
 ```
 
-In G6 3.3, we highly recommend you to assign `name` and `draggable` when adding a shape. If not, the shapes will not response some interactive events. Adding these two property as below:
+In G6 3.3, we highly recommend you to assign `draggable`, and must assign `name`  when adding a shape. **And the value of `name` should be unique in a custom node/edge/combo type.** If not, the shapes will not response some interactive events. Adding these two property as below:
 
 ```javascript
 G6.registerEdge('customNode', {
@@ -248,14 +248,14 @@ G6.registerEdge('customNode', {
         // ... The attributes of the graphic shape
       },
       draggable: true, // Allow this shape to be dragged
-      name: 'key-shape', // Not unique, you can assign any string value to it
+      name: 'key-shape', // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
     });
     const circle = group.addShape('circle', {
       attrs: {
         // ... The attributes of the graphic shape
       },
       draggable: true, // Allow this shape to be dragged
-      name: 'circle-shape', // Not unique, you can assign any string value to it
+      name: 'circle-shape', // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
     });
     return keyShape;
   },
@@ -280,7 +280,7 @@ G6.registerEdge('customNode', {
         radius: cfg.size[0],
       },
       draggable: true,
-      name: 'marker-shape',
+      name: 'marker-shape', // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
     });
     return keyShape;
   },
@@ -295,7 +295,7 @@ G6.registerEdge('customNode', {
         r: cfg.size[0],
       },
       draggable: true,
-      name: 'marker-shape',
+      name: 'marker-shape',// must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
     });
     return keyShape;
   },
@@ -319,6 +319,7 @@ group.addShape('fan', {
     clockwise: false,
     fill: '#b7eb8f',
   },
+  name: 'fan-shape' // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
 });
 ```
 

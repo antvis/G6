@@ -40,7 +40,7 @@ const zoom = graph.getZoom();
 // 以 (100, 100) 为中心点，放大到 3
 graph.zoom(3, { x: 100, y: 100 });
 
-// 以绘制坐标系的原点 (0, 0) 为缩放中心，缩小到 0.5。注意绘制坐标系的原点 != 视窗左上角，可用 graph.getCanvasByViewport 进行转换。各坐标系解析文档： https://g6.antv.vision/zh/docs/manual/advanced/coordinate-system
+// 以绘制坐标系的原点 (0, 0) 为缩放中心，缩小到 0.5。注意绘制坐标系的原点 != 视窗左上角，可用 graph.getCanvasByViewport 进行转换。各坐标系解析文档： https://g6.antv.antgroup.com/manual/advanced/coordinate-system
 graph.zoom(0.5);
 
 // 带动画以 (100, 100) 为中心点，放大到 3
@@ -149,7 +149,7 @@ graph.moveTo(200, 300, true, {
 **参数**
 
 | 名称 | 类型 | 是否必选 | 描述 |
-| --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- |
 | padding | Number / Array | false | [top, right, bottom, left] 四个方向上的间距值 |
 | rules | { onlyOutOfViewPort?: boolean; direction?: 'x' / 'y' / 'both'; ratioRule?: 'max' / 'min} | false | fitView 的规则 |
 | animate | boolean | false | *v4.6.15 后支持。*是否带有动画。若未配置，则跟随 graph 的 `animate` 参数 |
@@ -184,7 +184,7 @@ graph.fitView(0, { onlyOutOfViewPort: true, direction: 'y' });
 **参数**
 
 | 名称 | 类型 | 是否必选 | 描述 |
-| --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- |
 | animate | boolean | false | *v4.6.15 后支持。*是否带有动画。若未配置，则跟随 graph 的 `animate` 参数 |
 | animateCfg | Object | false | *v4.6.15 后支持。*若带有动画，可配置动画，参见[基础动画教程](/zh/docs/manual/middle/animation)。若未配置，则跟随 graph 的 `animateCfg` 参数 |
 

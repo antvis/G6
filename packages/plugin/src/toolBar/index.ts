@@ -188,12 +188,19 @@ export default class ToolBar extends Base {
       return;
     }
 
+    // initialy disabled redo and undo icons
+    undoDom.setAttribute('style', 'cursor: not-allowed');
+    undoDomIcon.setAttribute('style', 'opacity: 0.4');
+    redoDom.setAttribute('style', 'cursor: not-allowed');
+    redoDomIcon.setAttribute('style', 'opacity: 0.4');
+
+
     graph.on('stackchange', (evt) => {
       const { undoStack, redoStack } = evt;
       const undoStackLen = undoStack.length;
       const redoStackLen = redoStack.length;
       // undo 不可用
-      if (undoStackLen === 1) {
+      if (undoStackLen === 0) {
         undoDom.setAttribute('style', 'cursor: not-allowed');
         undoDomIcon.setAttribute('style', 'opacity: 0.4');
       } else {
@@ -218,7 +225,7 @@ export default class ToolBar extends Base {
   public undo() {
     const graph: IGraph = this.get('graph');
     const undoStack = graph.getUndoStack();
-    if (!undoStack || undoStack.length === 1) {
+    if (!undoStack || undoStack.length === 0) {
       return;
     }
 
@@ -295,6 +302,23 @@ export default class ToolBar extends Base {
               graph.updateComboTree(model.id, model.parentId, false);
             });
           });
+          break;
+        case 'createCombo':
+          const afterCombos = currentData.data.after.combos;
+          const createdCombo = afterCombos[afterCombos.length - 1];
+          Object.keys(data).forEach((key) => {
+            const array = data[key];
+            if (!array) return;
+            array.forEach((model) => {
+              graph.updateComboTree(model.id, model.parentId, false);
+            });
+          });
+          graph.removeItem(createdCombo.id, false);
+          break;
+        case 'uncombo':
+          const targetCombo = data.combos[data.combos.length - 1];
+          const childrenIds = data.nodes.concat(data.combos).map(child => child.id).filter(id => id !== targetCombo.id);
+          graph.createCombo(targetCombo, childrenIds, false);
           break;
         case 'layout':
           graph.updateLayout(data, undefined, undefined, false);
@@ -395,6 +419,15 @@ export default class ToolBar extends Base {
               graph.updateComboTree(model.id, model.parentId, false);
             });
           });
+          break;
+        case 'createCombo':
+          const createdCombo = data.combos[data.combos.length - 1];
+          graph.createCombo(createdCombo, createdCombo.children.map(child => child.id), false);
+          break;
+        case 'uncombo':
+          const beforeCombos = currentData.data.before.combos;
+          const targertCombo = beforeCombos[beforeCombos.length - 1];
+          graph.uncombo(targertCombo.id, false);
           break;
         case 'layout':
           graph.updateLayout(data, undefined, undefined, false);

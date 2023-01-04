@@ -85,6 +85,7 @@ export default class Graph extends AbstractGraph implements IGraph {
       const pixelRatio = this.get('pixelRatio');
       if (pixelRatio) {
         canvasCfg.pixelRatio = pixelRatio;
+        window.devicePixelRatio = pixelRatio;
       }
 
       canvas = new GCanvas(canvasCfg);
@@ -504,7 +505,7 @@ export default class Graph extends AbstractGraph implements IGraph {
    * @param {string} imgURL 图片水印的url地址
    * @param {WaterMarkerConfig} config 文本水印的配置项
    */
-  public setImageWaterMarker(imgURL: string = Global.waterMarkerImage, config?: WaterMarkerConfig) {
+  public setImageWaterMarker(imgURL: string | undefined = Global.waterMarkerImage, config?: WaterMarkerConfig) {
     let container: string | HTMLElement | null = this.get('container');
     if (isString(container)) {
       container = document.getElementById(container);
@@ -519,6 +520,13 @@ export default class Graph extends AbstractGraph implements IGraph {
     const waterMarkerConfig: WaterMarkerConfig = deepMix({}, Global.imageWaterMarkerConfig, config);
     const { width, height, compatible, image } = waterMarkerConfig;
 
+    if (!imgURL) {
+      const dom = compatible ? container : document.querySelector('.g6-graph-watermarker') as HTMLElement;
+      if (dom) dom.style.cssText = undefined;
+      if (canvas) canvas.clear();
+      return;
+    }
+
     if (!canvas) {
       const canvasCfg: any = {
         container,
@@ -529,9 +537,12 @@ export default class Graph extends AbstractGraph implements IGraph {
       const pixelRatio = this.get('pixelRatio');
       if (pixelRatio) {
         canvasCfg.pixelRatio = pixelRatio;
+        window.devicePixelRatio = pixelRatio;
       }
       canvas = new GCanvas(canvasCfg);
       this.set('graphWaterMarker', canvas);
+    } else {
+      canvas.clear();
     }
     canvas.get('el').style.display = 'none';
     const ctx = canvas.get('context');
@@ -578,7 +589,7 @@ export default class Graph extends AbstractGraph implements IGraph {
    * @param {string[]} texts 水印的文本内容
    * @param {WaterMarkerConfig} config 文本水印的配置项
    */
-  public setTextWaterMarker(texts: string[], config?: WaterMarkerConfig) {
+  public setTextWaterMarker(texts: string[] | string | undefined, config?: WaterMarkerConfig) {
     let container: string | HTMLElement | null = this.get('container');
     if (isString(container)) {
       container = document.getElementById(container);
@@ -593,6 +604,13 @@ export default class Graph extends AbstractGraph implements IGraph {
     const waterMarkerConfig: WaterMarkerConfig = deepMix({}, Global.textWaterMarkerConfig, config);
     const { width, height, compatible, text } = waterMarkerConfig;
 
+    if (!texts?.length) {
+      const dom = compatible ? container : document.querySelector('.g6-graph-watermarker') as HTMLElement;
+      if (dom) dom.style.cssText = undefined;
+      if (canvas) canvas.clear();
+      return;
+    }
+
     if (!canvas) {
       const canvasCfg: any = {
         container,
@@ -603,9 +621,12 @@ export default class Graph extends AbstractGraph implements IGraph {
       const pixelRatio = this.get('pixelRatio');
       if (pixelRatio) {
         canvasCfg.pixelRatio = pixelRatio;
+        window.devicePixelRatio = pixelRatio;
       }
       canvas = new GCanvas(canvasCfg);
       this.set('graphWaterMarker', canvas);
+    } else {
+      canvas.clear();
     }
     canvas.get('el').style.display = 'none';
     const ctx = canvas.get('context');
@@ -622,9 +643,10 @@ export default class Graph extends AbstractGraph implements IGraph {
 
     ctx.textBaseline = baseline;
 
-    for (let i = texts.length - 1; i >= 0; i--) {
+    let displayTexts = isString(texts) ? [texts] : texts;
+    for (let i = displayTexts.length - 1; i >= 0; i--) {
       // 将文字绘制到画布
-      ctx.fillText(texts[i], x, y + i * lineHeight);
+      ctx.fillText(displayTexts[i], x, y + i * lineHeight);
     }
 
     // 恢复旋转角度

@@ -170,7 +170,7 @@ graph.updateCombo(comboId);
 
 **用法**
 
-```
+```javascript
 // 将 combo1 从父 combo 中移出，完成后同原父 combo 平级
 graph.updateComboTree('combo1')
 

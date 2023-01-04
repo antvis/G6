@@ -163,6 +163,7 @@ G6.registerNode(
           path,
           fill: cfg.color || 'steelblue',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'path-shape',
       });
 
@@ -178,6 +179,7 @@ G6.registerNode(
           shadowOffsetX: 0,
           shadowOffsetY: 30,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'mask-shape',
       });
 
@@ -395,6 +397,7 @@ G6.registerEdge(
       });
       const keyShape = group.addShape('path', {
         attrs: shapeStyle,
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'path-shape',
       });
       return keyShape;

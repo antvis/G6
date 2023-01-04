@@ -24,7 +24,7 @@ const rect = group.addShape('rect', {
     stroke: '#5B8FF9',
     lineWidth: 3,
   },
-  // must be assigned in G6 3.3 and later versions. it can be any value you want
+  // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
   name: 'rect-shape',
 });
 ```
@@ -119,7 +119,7 @@ G6.registerNode('example', {
         stroke: '#5B8FF9',
         lineWidth: 3,
       },
-      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'rect-shape',
     });
     let matrix = rect.getMatrix();

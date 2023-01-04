@@ -1,6 +1,6 @@
 ---
 title: Force Atlas 2
-order: 11
+order: 12
 ---
 
 *V4.2.2 新增功能。*Force Atlas 2 是一种力导向布局的变形，比 force 收敛地更好，更紧凑。

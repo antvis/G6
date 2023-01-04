@@ -51,6 +51,7 @@ G6.registerNode('stacked-bar-node', {
               stroke: 'darkgray',
               fill: cat.color,
             },
+            // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
             name: 'path-shape1',
           });
           nowStartR = nowStartR + baseIncR + 2;
@@ -70,6 +71,7 @@ G6.registerNode('stacked-bar-node', {
                 stroke: 'darkgray',
                 fill: cat.color,
               },
+              // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
               name: 'path-shape2',
             });
           }
@@ -86,6 +88,7 @@ G6.registerNode('stacked-bar-node', {
         fill: cfg.centerColor,
         stroke: 'darkgray',
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'circle-shape',
     });
     if (cfg.label) {
@@ -99,6 +102,7 @@ G6.registerNode('stacked-bar-node', {
           fill: 'white',
           fontStyle: 'bold',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'text-shape',
       });
     }

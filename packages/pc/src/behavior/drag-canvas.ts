@@ -23,16 +23,16 @@ export default {
   },
   getEvents(): { [key in G6Event]?: string } {
     return {
-      'dragstart': 'onMouseDown',
-      'drag': 'onMouseMove',
-      'dragend': 'onMouseUp',
+      mousedown: 'onMouseDown',
+      drag: 'onDragMove',
+      dragend: 'onMouseUp',
       'canvas:click': 'onMouseUp',
-      'keyup': 'onKeyUp',
-      'focus': 'onKeyUp',
-      'keydown': 'onKeyDown',
-      'touchstart': 'onTouchStart',
-      'touchmove': 'onTouchMove',
-      'touchend': 'onMouseUp',
+      keyup: 'onKeyUp',
+      focus: 'onKeyUp',
+      keydown: 'onKeyDown',
+      touchstart: 'onTouchStart',
+      touchmove: 'onTouchMove',
+      touchend: 'onMouseUp',
     };
   },
   updateViewport(e: IG6GraphEvent) {
@@ -69,16 +69,14 @@ export default {
     if (
       (graphCanvasBBox.minX <= width + expandWidth &&
         graphCanvasBBox.minX + dx > width + expandWidth) ||
-      (graphCanvasBBox.maxX + expandWidth >= 0 &&
-        graphCanvasBBox.maxX + expandWidth + dx < 0)
+      (graphCanvasBBox.maxX + expandWidth >= 0 && graphCanvasBBox.maxX + expandWidth + dx < 0)
     ) {
       dx = 0;
     }
     if (
       (graphCanvasBBox.minY <= height + expandHeight &&
         graphCanvasBBox.minY + dy > height + expandHeight) ||
-      (graphCanvasBBox.maxY + expandHeight >= 0 &&
-        graphCanvasBBox.maxY + expandHeight + dy < 0)
+      (graphCanvasBBox.maxY + expandHeight >= 0 && graphCanvasBBox.maxY + expandHeight + dy < 0)
     ) {
       dy = 0;
     }
@@ -95,9 +93,24 @@ export default {
       return;
     }
     e.preventDefault();
-    self.onMouseDown(e);
+    this.mousedown = true;
+    self.onDragStart(e);
   },
   onMouseDown(e: IG6GraphEvent) {
+    this.mousedown = true;
+  },
+  onDragMove(evt: IG6GraphEvent) {
+    if (!this.mousedown) return;
+    if (!this.dragstart) {
+      // dragstart
+      this.dragstart = true;
+      this.onDragStart(evt);
+    } else {
+      // drag
+      this.onDrag(evt);
+    }
+  },
+  onDragStart(e: IG6GraphEvent) {
     const self = this as any;
     const event = e.originalEvent as MouseEvent;
 
@@ -116,7 +129,7 @@ export default {
       return;
     }
 
-    if (!this.shouldBegin.call(this, e)) {
+    if (!this.shouldBegin(e, this)) {
       return;
     }
 
@@ -153,6 +166,13 @@ export default {
         }
       }
     }
+
+    // 绑定浏览器右键监听，触发拖拽结束，结束拖拽时移除
+    if (typeof window !== 'undefined') {
+      const self = this;
+      this.handleDOMContextMenu = (e) => self.onMouseUp(e);
+      document.body.addEventListener('contextmenu', this.handleDOMContextMenu);
+    }
   },
   onTouchMove(e: IG6GraphEvent) {
     const self = this as any;
@@ -166,9 +186,10 @@ export default {
       return;
     }
     e.preventDefault();
-    self.onMouseMove(e);
+    self.onDrag(e);
   },
-  onMouseMove(e: IG6GraphEvent) {
+  onDrag(e: IG6GraphEvent) {
+    if (!this.mousedown) return;
     const { graph } = this;
     if (this.keydown) return;
     const target = e.target;
@@ -184,7 +205,7 @@ export default {
       if (abs(this.origin.x - e.clientX) + abs(this.origin.y - e.clientY) < DRAG_OFFSET) {
         return;
       }
-      if (this.shouldBegin.call(this, e)) {
+      if (this.shouldBegin(e, this)) {
         e.type = 'dragstart';
         graph.emit('canvas:dragstart', e);
         this.originPosition = { x: e.clientX, y: e.clientY };
@@ -195,18 +216,22 @@ export default {
       graph.emit('canvas:drag', e);
     }
 
-    if (this.shouldUpdate.call(this, e)) {
+    if (this.shouldUpdate(e, this)) {
       this.updateViewport(e);
     }
   },
   onMouseUp(e: IG6GraphEvent) {
+    this.mousedown = false;
+    this.dragstart = false;
     const { graph } = this;
 
     if (this.keydown) return;
 
     const currentZoom = graph.getZoom();
     const modeController = graph.get('modeController');
-    const zoomCanvas = modeController?.modes[modeController.mode]?.filter(behavior => behavior.type === 'zoom-canvas')?.[0];
+    const zoomCanvas = modeController?.modes[modeController.mode]?.filter(
+      (behavior) => behavior.type === 'zoom-canvas',
+    )?.[0];
     const optimizeZoom = zoomCanvas ? zoomCanvas.optimizeZoom || 0.1 : 0;
 
     if (this.enableOptimize) {
@@ -245,7 +270,7 @@ export default {
 
     e = cloneEvent(e);
 
-    if (this.shouldEnd.call(this, e)) {
+    if (this.shouldEnd(e, this)) {
       this.updateViewport(e);
     }
     e.type = 'dragend';
@@ -254,11 +279,18 @@ export default {
 
     graph.emit('canvas:dragend', e);
     this.endDrag();
+
+    // 结束拖拽时移除浏览器右键监听
+    if (typeof window !== 'undefined') {
+      document.body.removeEventListener('contextmenu', this.handleDOMContextMenu);
+    }
   },
   endDrag() {
     this.origin = null;
     this.dragging = false;
     this.dragbegin = false;
+    this.mousedown = false;
+    this.dragstart = false;
   },
   onKeyDown(e: KeyboardEvent) {
     const self = this as any;

@@ -118,10 +118,13 @@ export default abstract class LayoutController {
 
   // 销毁布局，不能使用 this.destroy，因为 controller 还需要被使用，只是把布局算法销毁
   public destroyLayout() {
-    const { graph } = this;
     this.destoryLayoutMethods();
 
-    graph.set('layout', undefined);
+    const { graph } = this;
+    if (graph && !graph.get('destroyed')) {
+      graph.set('layout', undefined);
+    }
+
     this.layoutCfg = undefined;
     this.layoutType = undefined;
     this.layoutMethods = undefined;
@@ -183,6 +186,7 @@ export default abstract class LayoutController {
       combos,
       hiddenCombos,
       comboEdges,
+      vedges: this.graph.get('vedges')?.map(edge => edge.getModel())
     } as GraphData;
   }
 
@@ -191,6 +195,7 @@ export default abstract class LayoutController {
   // 重新布局
   public relayout(reloadData?: boolean) {
     const { graph, layoutMethods, layoutCfg } = this;
+    if (!graph || graph.get('destroyed')) return;
 
     if (reloadData) {
       this.data = this.setDataFromGraph();

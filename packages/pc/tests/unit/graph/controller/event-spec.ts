@@ -239,8 +239,15 @@ describe('event', () => {
       count += 1;
       expect(e.type).toEqual('mousemove');
     });
+    const keyShape = node.get('keyShape')
+    const keyShapeName = keyShape.get('name');
+    graph.on(`${keyShapeName}:mousemove`, (e) => {
+      count += 1;
+      expect(e.type).toEqual('mousemove');
+      expect(e.name).toEqual(`${keyShapeName}:mousemove`);
+    });
 
-    canvas.emit('mousemove', { type: 'mousemove', target: node.get('keyShape') });
+    canvas.emit('mousemove', { type: 'mousemove', target: keyShape, name: `${keyShapeName}:mousemove` });
     expect(count).toEqual(1);
     expect(triggered).toBe(false);
 

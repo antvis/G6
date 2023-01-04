@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6-core",
-  "version": "0.7.10-siren.0",
+  "version": "0.8.2-siren.0",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",
@@ -11,7 +11,7 @@
     "graph visualization",
     "relational data"
   ],
-  "homepage": "https://g6.antv.vision",
+  "homepage": "https://g6.antv.antgroup.com/",
   "bugs": {
     "url": "https://github.com/antvis/g6/issues"
   },

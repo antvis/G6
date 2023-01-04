@@ -16,7 +16,7 @@ import {
 } from '../../types';
 import { IAbstractGraph } from '../../interface/graph';
 import { IEdge, INode, ICombo } from '../../interface/item';
-import { traverseTreeUp, traverseTree, getComboBBox, shouldRefreshEdge } from '../../util/graphic';
+import { traverseTreeUp, traverseTree, getComboBBox } from '../../util/graphic';
 
 const NODE = 'node';
 const EDGE = 'edge';
@@ -176,6 +176,14 @@ export default class ItemController {
         group: comboGroup,
       });
 
+      // if it is a circle combo, diagnal length of the children's bbox should be the diameter of the combo's bbox
+      if (!model.collapsed && item.getKeyShape().get('type') === 'circle') {
+        comboBBox.width = Math.hypot(comboBBox.height, comboBBox.width);
+        comboBBox.height = comboBBox.width;
+        item.set('bbox', comboBBox);
+        item.refresh();
+      }
+
       const comboModel = item.getModel();
 
       (children || []).forEach((child) => {
@@ -186,6 +194,7 @@ export default class ItemController {
     }
 
     if (item) {
+      item.setOptimize(graph.getNodes().length > graph.get('optimizeThreshold'));
       graph.get(`${type}s`).push(item);
       graph.get('itemMap')[item.get('id')] = item;
       graph.emit('afteradditem', { item, model });
@@ -318,6 +327,7 @@ export default class ItemController {
         }
       }
     }
+    item.setOptimize(graph.getNodes().length > graph.get('optimizeThreshold'));
     graph.emit('afterupdateitem', { item, cfg });
   }
   /**
@@ -404,7 +414,7 @@ export default class ItemController {
     const combEdges = combo.getEdges() || [];
     for (let i = 0; i < combEdges.length; i++) {
       const edge = combEdges[i];
-      if (edge && !edge.destroyed) {
+      if (!edge?.destroyed && !edge?.getSource()?.destroyed && !edge?.getTarget()?.destroyed) {
         edge.refresh();
       }
     }
@@ -468,8 +478,10 @@ export default class ItemController {
       combo = graph.findById(combo) as ICombo;
     }
     const children = (combo as ICombo).getChildren();
+    const edgeSet = new Set<IEdge>();
     children.nodes.forEach((node) => {
       graph.showItem(node, stack);
+      node.getEdges().forEach(edge => edgeSet.add(edge));
     });
     children.combos.forEach((c) => {
       if (c.getModel().collapsed) {
@@ -477,7 +489,9 @@ export default class ItemController {
       } else {
         graph.showItem(c, stack);
       }
+      c.getEdges().forEach(edge => edgeSet.add(edge));
     });
+    edgeSet.forEach(edge => edge.refresh());
   }
 
   /**
@@ -498,10 +512,10 @@ export default class ItemController {
     }
 
     const itemModel = clone(item.getModel());
-    graph.emit('beforeremoveitem', { item: itemModel });
-
     let type = '';
     if (item.getType) type = item.getType();
+    graph.emit('beforeremoveitem', { item: itemModel, type });
+
     const items = graph.get(`${type}s`);
     const index = items.indexOf(item);
     if (index > -1) items.splice(index, 1);

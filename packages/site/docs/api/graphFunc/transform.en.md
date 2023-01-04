@@ -38,7 +38,7 @@ Change the scale of the graph with a relative ratio.
 // zoom to scale 3 at the center (100, 100)
 graph.zoom(3, { x: 100, y: 100 });
 
-// zoom to scale 0.5 at the origin (0, 0) of canvas drawing coordinate system, which is not the same as the lefttop of the viewport. To see the transformantion and relationships between three coordinate systems in G6, checkout out the doc: https://g6.antv.vision/en/docs/manual/advanced/coordinate-system
+// zoom to scale 0.5 at the origin (0, 0) of canvas drawing coordinate system, which is not the same as the lefttop of the viewport. To see the transformantion and relationships between three coordinate systems in G6, checkout out the doc: https://g6.antv.antgroup.com/en/manual/advanced/coordinate-system
 graph.zoom(0.5);
 
 // zoom to scale 3 at the center (100, 100) with animation
@@ -148,7 +148,7 @@ Fit the graph to the view port.
 **Parameters**
 
 | Name | Type | Required | Description |
-| --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- |
 | padding | Number / Array | false | The padding of [top, right, bottom, left]. |
 | rules | { onlyOutOfViewPort?: boolean; direction?: 'x' / 'y' / 'both'; ratioRule?: 'max' / 'min} | false | rules of fitView |
 | animate | boolean | false | _Supported by v4.6.15._ Whether move the graph with animation. If it is not assigned, animates following the graph's `animate`. |
@@ -183,7 +183,7 @@ _Supported by v3.5.1._ Translate the graph to align its center with the canvas.
 **Parameters**
 
 | Name | Type | Required | Description |
-| --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- |
 | animate | boolean | false | _Supported by v4.6.15._ Whether move the graph with animation. If it is not assigned, animates following the graph's `animate`. |
 | animateCfg | Object | false | _Supported by v4.6.15._ The animation's configuraiton. Its configurations can be found in [Basic Animation Docs](/en/docs/manual/middle/animation). If it is not assigned, animates following the graph's `animateCfg`. |
 

@@ -54,9 +54,14 @@ const data = {
 
 ## 配置项说明
 
-polyline 边支持 [边通用配置项](/zh/docs/manual/middle/elements/edges/defaultEdge/#边的通用属性)，以下表格对部分常用配置项进行说明：
+polyline 边支持 [边通用配置项](/zh/docs/manual/middle/elements/edges/defaultEdge/#边的通用属性)，此外，polyline 额外支持 `routeCfg` 配置，用以配置路由计算的参数。以下表格对部分常用配置项进行说明：
 
 ```javascript
+routeCfg: { // 路由计算参数，详见下面表格
+  gridSize: 10, // 指定精度
+  maxAllowedDirectionChange: Math.PI / 2, // 允许的最大转角，弧度制
+  obstacles: [graph.findById('node0'), graph.findById('node1')], // 需要躲避的障碍节点对象
+},
 color: '#87e8de',
 style: {
   offset: 20,  // 拐弯处距离节点最小距离
@@ -84,6 +89,19 @@ labelCfg: {
 | label | 标签文本文字 | String |  |
 | labelCfg | 标签文本配置项 | Object |  |
 | stateStyles | 各状态下的样式 | Object | 详见[配置状态样式](/zh/docs/manual/middle/states/state#配置-state-样式) |
+| routeCfg | 路由计算参数 | Object | 在数据中不存在 controlPoints 时生效，此时 polyline 将自动计算路径。具体字段见下面 routeCfg 章节 |
+
+### 路由参数 routeCfg
+
+Object 类型， 在数据中不存在 controlPoints 时生效，此时 polyline 将自动计算路径。字段有：
+
+| 名称 | 默认值 | 类型 | 备注 |
+| --- | --- | --- | --- |
+| gridSize | 10 | number | 计算折线的网格大小，值越小性能消耗越高 |
+| maxAllowedDirectionChange | Math.PI / 2 | number | 允许的最大转角角度，弧度制 |
+| obstacles | INode[] | [] | 需要躲避的障碍节点对象 |
+
+目前不支持自动躲避所有节点，只能通过例如 `graph.updateItem(edge, { routeCfg: { obstacles: [graph.findById('node1', graph.findById('node2'))] } })` 的方式手动增加个别需要躲避的节点对象到边的配置中。类似 ER 图、图编辑的场景，推荐使用 @antv/x6，针对此类折线的避障有更好的支持，参考 demo [智能路由](http://x6.antv.antgroup.com/examples/edge/router/#manhattan)。
 
 ### 样式属性 style
 

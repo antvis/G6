@@ -170,7 +170,7 @@ export default {
     graph.getNodes().forEach((node) => {
       if (!node.isVisible()) return; // 隐藏节点不能被选中
       if (isItemIntersecPolygon(node, lassoContour)) {
-        if (shouldUpdate(node, 'select')) {
+        if (shouldUpdate(node, 'select', this)) {
           selectedNodes.push(node);
           const model = node.getModel();
           selectedIds.push(model.id);
@@ -190,7 +190,7 @@ export default {
           if (
             selectedIds.includes(source) &&
             selectedIds.includes(target) &&
-            shouldUpdate(edge, 'select')
+            shouldUpdate(edge, 'select', this)
           ) {
             selectedEdges.push(edge);
             graph.setItemState(edge, this.selectedState, true);

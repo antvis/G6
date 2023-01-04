@@ -131,7 +131,7 @@ describe('drag-combo', () => {
         style: {
           fill: '#b5f5ec',
         },
-        padding: 1
+        padding: 1,
       },
       comboStateStyles: {
         active: {
@@ -172,7 +172,6 @@ describe('drag-combo', () => {
 
     graph.emit('combo:dragstart', { item: combo, x: 100, y: 100 });
     graph.emit('combo:drag', { item: combo, x: 500, y: 100 });
-
 
     comboCBBox = comboC.getKeyShape().getCanvasBBox();
     expect(Math.abs(comboCBBox.width - 279) < 2).toBe(true);
@@ -281,7 +280,7 @@ describe('drag-combo', () => {
         style: {
           fill: '#b5f5ec',
         },
-        padding: 5
+        padding: 5,
       },
       comboStateStyles: {
         active: {
@@ -547,8 +546,8 @@ describe('drag-combo', () => {
         {
           id: 'A',
           label: 'group A',
-        }
-      ]
+        },
+      ],
     };
     const graph = new G6.Graph({
       container: 'drag-combo-spec',
@@ -576,18 +575,17 @@ describe('drag-combo', () => {
     graph.render();
 
     const combo = graph.findById('A');
- 
+
     graph.emit('combo:dragstart', { item: combo, x: 100, y: 100 });
     graph.emit('combo:drag', { item: combo, x: 500, y: 250 });
-    const selectedCombos = graph.findAllByState('combo', 'selected')
+    const selectedCombos = graph.findAllByState('combo', 'selected');
 
     expect(selectedCombos.length).toBe(0);
     expect(selectedCombos).not.toContain(combo);
 
     graph.emit('combo:dragend', { item: combo, x: 500, y: 250 });
 
-    expect(combo._cfg.model.x).toBe(500)
-    expect(combo._cfg.model.y).toBe(250)
-
+    expect(combo._cfg.model.x).toBe(500);
+    expect(combo._cfg.model.y).toBe(250);
   });
 });

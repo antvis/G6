@@ -6,7 +6,7 @@ import { ICanvas, IGroup } from '@antv/g-base';
 import { isNumber, isString } from '@antv/util';
 import { ShapeStyle, IAbstractGraph as IGraph } from '@antv/g6-core';
 import TimeBarTooltip from './timeBarTooltip';
-import ControllerBtn from './controllerBtn';
+import ControllerBtn, { ControllerCfg } from './controllerBtn';
 import {
   VALUE_CHANGE,
   TIMELINE_START,
@@ -63,6 +63,7 @@ export interface TimeBarSliceConfig extends TimeBarSliceOption {
   readonly x: number;
   readonly y: number;
   readonly tickLabelStyle?: Object;
+  readonly controllerCfg?: ControllerCfg
 }
 
 export default class TimeBarSlice {
@@ -132,6 +133,8 @@ export default class TimeBarSlice {
 
   private fontFamily: string = 'Arial, sans-serif';
 
+  private controllerCfg: ControllerCfg;
+
   constructor(cfgs?: TimeBarSliceConfig) {
     const {
       graph,
@@ -150,7 +153,10 @@ export default class TimeBarSlice {
       unselectedTickStyle = DEFAULT_UNSELECTEDTICK_STYLE,
       tooltipBackgroundColor,
       tooltipFomatter,
-      tickLabelStyle
+      tickLabelStyle,
+      controllerCfg = {
+        speed: 1,
+      }
     } = cfgs;
 
     this.graph = graph;
@@ -169,6 +175,8 @@ export default class TimeBarSlice {
     this.tickLabelStyle = tickLabelStyle || {};
     this.selectedTickStyle = selectedTickStyle;
     this.unselectedTickStyle = unselectedTickStyle;
+    this.controllerCfg = controllerCfg;
+    this.currentSpeed = controllerCfg.speed || 1;
 
     this.x = x;
     this.y = y;
@@ -180,7 +188,7 @@ export default class TimeBarSlice {
     this.fontFamily =
       typeof window !== 'undefined'
         ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
-          'Arial, sans-serif'
+        'Arial, sans-serif'
         : 'Arial, sans-serif';
 
     this.renderSlices();
@@ -357,6 +365,7 @@ export default class TimeBarSlice {
       hideTimeTypeController: true,
       speed: this.currentSpeed,
       fontFamily: this.fontFamily || 'Arial, sans-serif',
+      ...this.controllerCfg,
     });
   }
 
@@ -520,19 +529,19 @@ export default class TimeBarSlice {
   private startPlay() {
     return typeof window !== 'undefined'
       ? window.requestAnimationFrame(() => {
-          const speed = this.currentSpeed;
+        const speed = this.currentSpeed;
 
-          // 一分钟刷新一次
-          if (this.frameCount % (60 / speed) === 0) {
-            this.frameCount = 0;
-            this.updateStartEnd(1);
-          }
-          this.frameCount++;
+        // 一分钟刷新一次
+        if (this.frameCount % (60 / speed) === 0) {
+          this.frameCount = 0;
+          this.updateStartEnd(1);
+        }
+        this.frameCount++;
 
-          if (this.isPlay) {
-            this.playHandler = this.startPlay();
-          }
-        })
+        if (this.isPlay) {
+          this.playHandler = this.startPlay();
+        }
+      })
       : undefined;
   }
 
@@ -573,10 +582,7 @@ export default class TimeBarSlice {
   }
 
   public destory() {
-    this.graph.off(VALUE_CHANGE, () => { /* do nothing */});
-
     const group = this.sliceGroup;
-
     group.off('click');
     group.off('dragstart');
     group.off('dragover');

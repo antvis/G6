@@ -20,6 +20,7 @@ G6.registerNode('expandNode', {
         height: 50,
         fill: '#C6E5FF',
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'key-rect-shape',
     });
 
@@ -32,6 +33,7 @@ G6.registerNode('expandNode', {
         x: 10,
         y: 32,
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'name-text-shape',
     });
 
@@ -46,6 +48,7 @@ G6.registerNode('expandNode', {
           width: 50,
           height: 50,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'rect-shape',
       });
 
@@ -59,6 +62,7 @@ G6.registerNode('expandNode', {
           textBaseline: 'middle',
           className: 'sub-group-text',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'sub-text-shape1',
       });
 
@@ -73,6 +77,7 @@ G6.registerNode('expandNode', {
           textAlign: 'left',
           className: 'sub-group-text',
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'name-text-shape2',
       });
     });
@@ -89,6 +94,7 @@ G6.registerNode('expandNode', {
         x: 70,
         y: 30,
       },
+      // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
       name: 'list-rect-shape1',
     });
 
@@ -102,6 +108,7 @@ G6.registerNode('expandNode', {
           x: 80,
           y: 40 * index + 40,
         },
+        // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
         name: 'list-rect-shape2',
       });
       let count = 0;
@@ -117,6 +124,7 @@ G6.registerNode('expandNode', {
             textBaseline: 'middle',
             textAlign: 'left',
           },
+          // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
           name: 'text-shape',
         });
         count++;

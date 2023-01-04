@@ -26,7 +26,7 @@ It is related to the broswer, whose origin is at the left top of the broswer's c
 
 It is the self coordinate system of the Container DOM. We suppose that the `width` and `height` of the graph were assigned to be 550 and 500:
 
-```
+```javascript
 const Graph = new G6.Graph({
   container: 'container',
   width: 550,
@@ -134,14 +134,14 @@ Easy to find out that these four APIs are all about pointX/pointY, and users are
 
 - clientX/clientY to canvasX/canvasY:
 
-```
+```javascript
 const point = graph.getPointByClient(clientX, clientY)
 const canvasXY = graph.getCanvasByPoint(point.x, point.y);
 ```
 
 - canvasX/canvasY to clientX/clientY:
 
-```
+```javascript
 const point = graph.getPointByCanvas(canvasX, canvasY)
 const clientXY = graph.getClientByPoint(point.x, point.y);
 ```
@@ -159,7 +159,7 @@ Wrong offset will occur if user takes coordinate values of wrong coordinate syst
 
 Now, we are going to define a DOM for such case:
 
-```
+```javascript
   const floatDOM = createDom(`
   <div id="test-dom" style="position: absolute; background: #f00; height: 100px; width: 200px">
     floating dom
@@ -171,13 +171,13 @@ No matter which case, we recommend two ways to mount the DOM:
 
 - Way 1: Mount the DOM on body:
 
-```
+```javascript
 document.body.appendChild(floatDOM);
 ```
 
 - Way 3: Mount the DOM on Container DOM , which means the DOM has the same parent of the canvas:
 
-```
+```javascript
 const container = document.getElementById('container') // Suppose that the id of the COntainer DOM is 'container'
 container.appendChild(floatDOM);
 ```
@@ -188,7 +188,7 @@ We know that a DOM with `position: absolute` is positioned related to the parent
 
 - Place the DOM on the position where the mouse currently clicked:
 
-```
+```javascript
 graph.on('canvas:click', event => {
     floatDOM.style.left = event.clientX;
   floatDOM.style.top = event.clientY;
@@ -197,7 +197,7 @@ graph.on('canvas:click', event => {
 
 - Place the DOM on the position where the currently clicked node on:
 
-```
+```javascript
 const node = graph.getNodes()[0];
 const { x, y } = node.getModel(); // 获得该节点的位置，对应 pointX/pointY 坐标
 const clientXY = graph.getClientByPoint(x, y);
@@ -211,7 +211,7 @@ If we mount the DOM on the Container DOM, the parent of the DOM is the Container
 
 - Place the DOM on the position where the mouse currently clicked:
 
-```
+```javascript
 graph.on('canvas:click', event => {
     floatDOM.style.marginLeft = event.canvasX;
   floatDOM.style.marginTop = event.canvasY;
@@ -220,7 +220,7 @@ graph.on('canvas:click', event => {
 
 - Place the DOM on the position where the currently clicked node on:
 
-```
+```javascript
 const node = graph.getNodes()[0];
 const { x, y } = node.getModel(); // 获得该节点的位置，对应 pointX/pointY 坐标
 const canvasXY = graph.getCanvasByPoint(x, y);

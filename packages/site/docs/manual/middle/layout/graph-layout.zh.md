@@ -16,7 +16,8 @@ order: 0
 ## 一般图 Graph 布局方法总览
 
 - [Random Layout](#random)：随机布局；
-- [Force Layout](#gforce)：G6 4.0 支持的经典力导向布局，支持 GPU 并行计算；
+- [Force2 Layout](#force2)：G6 4.7.0 后支持力导向布局，与 gForce 相比性能更强；
+- [GForce Layout](#gForce)：G6 4.0 支持的经典力导向布局，支持 GPU 并行计算；
 - [Force Layout](#force)：引用 d3 的经典力导向布局；
 - [Fruchterman Layout](#fruchterman)：Fruchterman 布局，一种力导布局；
 - [Circular Layout](#circular)：环形布局；
@@ -71,6 +72,73 @@ const graph = new G6.Graph({
 | height | Number | 300 | 图的高 |  |
 | workerEnabled | Boolean | true / false | false | 是否启用 web-worker 以防布局计算时间过长阻塞页面交互 |
 
+### Force2
+
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lX-qSqDECrIAAAAAAAAAAAAAARQnAQ' width=500 alt='img'/>
+
+<br /> **描述**：G6 4.0 支持力导向布局（由 graphin-force 沉淀，性能更强）。能够更加自由地支持设置节点质量、群组中心力等。当你希望固定某个节点的位置，不受力的影响时，可以在该节点数据中配置 `fx` 与 `fy` 作为固定的坐标。[Force2 布局固定被拖拽节点位置的 Demo](/zh/examples/net/forceDirected#force2Fix)。
+<br /> **API**：[Force API](/zh/docs/api/graphLayout/force2) 
+<br /> **参数**：
+
+| 参数名 | 类型 | 示例 | 默认值 | 说明 |
+| --- | --- | --- | --- | --- |
+| center | Array | [ 0, 0 ] | 图的中心 | 布局的中心 |
+| animate | boolean | false | false | 是否每次迭代都刷新画布，若为 `true` 则将表现出带有动画逐步布局的效果 |
+| linkDistance | number / Function | 示例 1: 50 <br />示例 2:<br />d => {<br />  // d 是一条边<br />  if (d.id === 'edge1') {<br />    return 100;<br />  }<br />  return 50;<br />} | 1 | 边长。可以使用回调函数的形式对不同对边定义不同边长（如示例 2） |
+| nodeStrength | number / Function | 示例 1: -30 <br />示例 2:<br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return -100;<br />  }<br />  return -30;<br />} / 1000 | 1000 | 节点作用力，正数代表节点之间的斥力作用，负数代表节点之间的引力作用（注意与 'force' 相反）（如示例 2） |
+| edgeStrength | number / Function | 示例 1: 1 <br />示例 2:<br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 10;<br />  }<br />  return 1;<br />} | 200 | 边的作用力，默认根据节点的出入度自适应。可以使用回调函数的形式对不同对节点定义不同边作用力（如示例 2） |
+| preventOverlap | Boolean | false | false | 是否防止重叠，必须配合属性 `nodeSize` ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测。若未设置 `nodeSize` ，则根据节点数据中的 `size` 进行碰撞检测。若二者都未设置，则默认以 10 为节点大小进行碰撞检测 |
+| nodeSize | Array / Number | 20 | undefined | 节点大小（直径）。用于碰撞检测。<br />若不指定，则根据传入的数据节点中的 `size`  字段计算。若即不指定，节点中也没有 `size`，则默认大小为 10 |
+| nodeSpacing | number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
+| minMovement | number | 0.1 | 0.5 | 当一次迭代的平均/最大/最小（根据`distanceThresholdMode`决定）移动长度小于该值时停止迭代。数字越小，布局越收敛，所用时间将越长 |
+| distanceThresholdMode | 'mean' / 'max' / 'min' | 'mean' | 'mean' | `minMovement` 的使用条件，`'mean'` 代表平均移动距离小于 `minMovement` 时停止迭代，`'max'` / `'min'` 代表最大/最小移动距离小于时 `minMovement` 时停时迭代。默认为 `'mean'` |
+| maxIteration | number | 500 | 1000 | 最大迭代次数。当迭代次数超过该值，但平均移动长度仍然没有达到 minMovement，也将强制停止迭代 |
+| damping | number | 0.99 | 0.9 | 阻尼系数，取值范围 [0, 1]。数字越大，速度降低得越慢 |
+| interval | number | 0.05 | 0.02 | 控制每个迭代节点的移动速度 |
+| factor | number | 1 | 1 | 斥力系数，数值越大，斥力越大 |
+| maxSpeed | number | 10 | 1000 | 一次迭代的最大移动长度 |
+| coulombDisScale | number | 0.003 | 0.005 | 库伦系数，斥力的一个系数，数字越大，节点之间的斥力越大 |
+| getMass | Function | d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | 每个节点质量的回调函数，若不指定，则默认使用度数作为节点质量。使用方法与 `nodeSpacing` 类似，每个回调函数返回一个数值作为该节点的质量 |
+| getCenter | Function | (d, degree) => {<br />  // d 是一个节点, degree 为该节点度数<br />  if (d.degree === 0') {<br />    return [100, 100, 10]; // x, y, 强度<br />  }<br />  return [210, 150, 5]; // x, y, 强度<br />} | undefined | 每个节点中心力的 x、y、强度的回调函数，若不指定，则没有额外中心力 |
+| gravity | number | 20 | 10 | 中心力大小，指所有节点被吸引到 `center` 的力。数字越大，布局越紧凑 |
+| centripetalOptions | CentripetalOptions | 见下文 | 见下文 | 详细配置见下文。向心力配置，包括叶子节点、离散点、其他节点的向心中心及向心力大小 |
+| leafCluster | boolean | false | false | 是否需要叶子结点聚类，若为 `true`，则 centripetalOptions.single 将为 100；centripetalOptions.leaf 将使用 `getClusterNodeStrength` 返回值；getClusterNodeStrength.center 将为叶子节点返回当前所有叶子节点的平均中心 |
+| clustering | boolean | false | false | 是否需要全部节点聚类，若为 `true`，将使用 `nodeClusterBy` 配置的节点数据中的字段作为聚类依据。 centripetalOptions.single、centripetalOptions.leaf、centripetalOptions.others 将使用 `getClusterNodeStrength` 返回值；leaf、centripetalOptions.center 将使用当前节点所属聚类中所有节点的平均中心 |
+| nodeClusterBy | string | undefined | undefined | 指定节点数据中的字段名称作为节点聚类的依据，`clustering` 为 `true` 时生效，自动生成 `centripetalOptions`，可配合 `clusterNodeStrength` 使用 |
+| clusterNodeStrength | number / Function | node => node.weight | 20 | 配合 `clustering` 和 `nodeClusterBy` 使用，指定聚类向心力的大小 |
+| monitor | (params:{ energy: number, nodes: NodeData[], edges: EdgeData[], iterations: number }) => void | undefined | undefined | 每个迭代的监控信息回调，`energy` 表示布局的收敛能量。若配置可能带来额外的计算能量性能消耗，不配置则不计算 |
+| onTick | Function | undefined | undefined| 每一次迭代的回调函数 |
+| onLayoutEnd | Function | undefined | undefined | 布局完成后的回调函数 |
+| workerEnabled | Boolean | true / false | false | 是否启用 web-worker 以防布局计算时间过长阻塞页面交互 |
+
+
+`CentripetalOptions` 类型说明：
+
+| 参数名 | 类型 | 示例 | 默认值 | 说明 |
+| --- | --- | --- | --- | --- |
+| single | number / Function | 2 | 2, | 离散节点（即度数为 0 的节点）受到的向心力大小 |
+| leaf | number / Function | 2 | 2 | 叶子节点（即度数为 1 的节点）受到的向心力大小 |
+| others | number / Function | 1 | 1 | 除离散节点、叶子节点以外的其他节点（即度数 > 1 的节点）受到的向心力大小 |
+| center | Function | (node, nodes, edges) => ({ x: 10, y: 10 }) | 图的中心 | 向心力发出的位置，可根据节点、边的情况返回不同的值 |
+
+`centripetalOptions` 示例：
+
+```
+centripetalOptions: {
+  // single、leaf、others 的函数形式的参数为当前节点数据、所有节点数据、所有边数据
+  single: (node, nodes, edges) => node.field1 || 1,
+  leaf: (node, nodes, edges) => node.field2 || 1,
+  others: (node, nodes, edges) => node.field3|| 1,
+  // 参数为当前节点数据、所有节点数据、所有边数据、画布宽度、画布高度
+  center: (node, nodes, edges, width, height) => {
+    if (node.field4) return { x: width / 2, y: height / 2 };
+    if (node.field5) return { x: node.field6, y: node.field7 };
+    // ...
+  }
+}
+```
+
+
 ### GForce
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lX-qSqDECrIAAAAAAAAAAAAAARQnAQ' width=500 alt='img'/>
@@ -87,7 +155,7 @@ const graph = new G6.Graph({
 | edgeStrength | Number / Function | 示例 1: 1 <br />示例 2:<br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 10;<br />  }<br />  return 1;<br />} | 200 | 边的作用力，默认根据节点的出入度自适应。可以使用回调函数的形式对不同对节点定义不同边作用力（如示例 2） |
 | preventOverlap | Boolean | false | false | 是否防止重叠，必须配合属性 `nodeSize` ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测。若未设置 `nodeSize` ，则根据节点数据中的 `size` 进行碰撞检测。若二者都未设置，则默认以 10 为节点大小进行碰撞检测 |
 | nodeSize | Array / Number | 20 | undefined | 节点大小（直径）。用于碰撞检测。<br />若不指定，则根据传入的数据节点中的 `size`  字段计算。若即不指定，节点中也没有 `size`，则默认大小为 10 |
-| nodeSpacing<br /><br /> | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
+| nodeSpacing | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
 | minMovement | Number | 0.1 | 0.5 | 当一次迭代的平均移动长度小于该值时停止迭代。数字越小，布局越收敛，所用时间将越长 |
 | maxIteration | Number | 500 | 1000 | 最大迭代次数。当迭代次数超过该值，但平均移动长度仍然没有达到 minMovement，也将强制停止迭代 |
 | damping | Number | 0.99 | 0.9 | 阻尼系数，取值范围 [0, 1]。数字越大，速度降低得越慢 |
@@ -96,8 +164,8 @@ const graph = new G6.Graph({
 | getMass | Function | d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | undefined | 每个节点质量的回调函数，若不指定，则默认使用度数作为节点质量。使用方法与 `nodeSpacing` 类似，每个回调函数返回一个数值作为该节点的质量 |
 | getCenter | Function | (d, degree) => {<br />  // d 是一个节点, degree 为该节点度数<br />  if (d.degree === 0') {<br />    return [100, 100, 10]; // x, y, 强度<br />  }<br />  return [210, 150, 5]; // x, y, 强度<br />} | undefined | 每个节点中心力的 x、y、强度的回调函数，若不指定，则没有额外中心力 |
 | gravity | Number | 20 | 10 | 中心力大小，指所有节点被吸引到 `center` 的力。数字越大，布局越紧凑 |
-| onTick | Function |  | {} | 每一次迭代的回调函数 |
-| onLayoutEnd | Function |  | {} | 布局完成后的回调函数 |
+| onTick | Function | undefined | undefined | 每一次迭代的回调函数 |
+| onLayoutEnd | Function | undefined | undefined | 布局完成后的回调函数 |
 | workerEnabled | Boolean | true / false | false | 是否启用 web-worker 以防布局计算时间过长阻塞页面交互 |
 | gpuEnabled | Boolean | true / false | false | 是否启用 GPU 并行计算，G6 4.0 支持。若用户的机器或浏览器不支持 GPU 计算，将会自动降级为 CPU 计算 |
 
@@ -117,7 +185,7 @@ const graph = new G6.Graph({
 | edgeStrength | Number / Function | 示例 1: 1 <br />示例 2:<br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 10;<br />  }<br />  return 1;<br />} | null | 边的作用力，范围是 0 到 1，默认根据节点的出入度自适应。可以使用回调函数的形式对不同对节点定义不同边作用力（如示例 2） |
 | preventOverlap | Boolean | false | false | 是否防止重叠，必须配合属性 `nodeSize` ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测。若未设置 `nodeSize` ，则根据节点数据中的 `size` 进行碰撞检测。若二者都未设置，则默认以 10 为节点大小进行碰撞检测 |
 | nodeSize | Array / Number | 20 | undefined | 节点大小（直径）。用于碰撞检测。<br />若不指定，则根据传入的数据节点中的 `size`  字段计算。若即不指定，节点中也没有 `size`，则默认大小为 10 |
-| nodeSpacing<br /><br /> | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
+| nodeSpacing | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
 | alphaDecay | Number | 0.03 | 0.028 | 迭代阈值的衰减率。范围 [0, 1]，0.028 对应迭代数为 300 |
 | alphaMin | Number | 0.03 | 0.001 | 停止迭代的阈值 |
 | alpha | Number | 0.1 | 0.3 | 当前阈值 |
@@ -161,7 +229,7 @@ const graph = new G6.Graph({
 <br />**描述**：环形布局。 <br />**API**：[Circular API](/zh/docs/api/graphLayout/circular) <br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
-| --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | center | Array | [ 0, 0 ] | 图的中心 | 布局的中心 |
 | radius | Number | 50 | null | 圆的半径。若设置了 `radius`，则 `startRadius` 与 `endRadius` 不生效 |
 | startRadius | Number | 10 | null | 螺旋状布局的起始半径 |
@@ -272,7 +340,7 @@ const graph = new G6.Graph({
 | nodeCollideStrength | Number | 0.4 | 0.5 | 设置防止节点之间重叠的力强度，范围 [0, 1] |
 | comboCollideStrength | Number | 0.4 | 0.5 | 防止 combo 之间重叠的力强度，范围 [0, 1] |
 | nodeSize | Array / Number | 10 | 10 | 节点大小（直径）。用于碰撞检测。若不指定，则根据传入的节点的 size 属性计算。若即不指定，节点中也没有 `size`，则默认大小为 `10` |
-| nodeSpacing<br /><br /> | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />`preventNodeOverlap` 或 `preventOverlap` 为 `true` 时生效, 防止重叠时节点边缘间距的最小值。可以是回调函数, 为不同节点设置不同的最小间距, 如示例 2 所示<br /> |
+| nodeSpacing | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ob0MQ5W8vk8AAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />`preventNodeOverlap` 或 `preventOverlap` 为 `true` 时生效, 防止重叠时节点边缘间距的最小值。可以是回调函数, 为不同节点设置不同的最小间距, 如示例 2 所示<br /> |
 | comboSpacing<br /><br /> | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | `preventComboOverlap` 或 `preventOverlap` 为 `true` 时生效, 防止重叠时 combo 边缘间距的最小值。可以是回调函数, 为不同节点设置不同的最小间距, 如示例 2 所示<br /> |
 | comboPadding<br /><br /> | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | Combo 内部的 padding 值，不用于渲染，仅用于计算力。推荐设置为与视图上 combo 内部 padding 值相同的值<br /> |
 | alphaDecay | Number | 0.03 | 0.028 | 迭代阈值的衰减率。范围 [0, 1]，0.028 对应迭代数为 300 |

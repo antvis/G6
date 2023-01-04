@@ -195,7 +195,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
         y: model.y,
       });
     }
-    current.set('model', data.data);
+    current.set('model', Object.assign(model, data.data));
     if (oriX !== data.x || oriY !== data.y) {
       current.updatePosition({ x: data.x, y: data.y });
     }
@@ -233,16 +233,23 @@ export default class TreeGraph extends Graph implements ITreeGraph {
    * 更新数据模型，差量更新并重新渲染
    * @param {object} data 数据模型
    */
-  public changeData(data?: GraphData | TreeGraphData): any {
+  public changeData(data?: GraphData | TreeGraphData, stack: boolean = true): any {
     const self = this;
 
     // 更改数据源后，取消所有状态
     this.getNodes().map(node => self.clearItemStates(node));
     this.getEdges().map(edge => self.clearItemStates(edge));
 
+    if (stack && this.get('enabledStack')) {
+      this.pushStack('changedata', {
+        before: self.get('originData'),
+        after: data || self.get('data'),
+      });
+    }
+
     if (data) {
       self.data(data);
-      self.render();
+      self.render(false);
     } else {
       self.layout(this.get('fitView'));
     }
@@ -266,12 +273,18 @@ export default class TreeGraph extends Graph implements ITreeGraph {
    * 更改并应用树布局算法
    * @param {object} layout 布局算法
    */
-  public updateLayout(layout: any) {
+  public updateLayout(layout: any, stack: boolean = true) {
     const self = this;
     if (!layout) {
       // eslint-disable-next-line no-console
       console.warn('layout cannot be null');
       return;
+    }
+    if (stack && this.get('enabledStack')) {
+      this.pushStack('layout', {
+        before: self.get('layout'),
+        after: layout
+      });
     }
     self.set('layout', layout);
     self.set('layoutMethod', self.getLayout());
@@ -330,7 +343,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
    * @param {TreeGraphData} data 子树数据模型
    * @param {string} parent 子树的父节点id
    */
-  public addChild(data: TreeGraphData, parent: string | Item): void {
+  public addChild(data: TreeGraphData, parent: string | Item, stack: boolean = true): void {
     const self = this;
     self.emit('beforeaddchild', { model: data, parent });
     // 将数据添加到源数据中，走changeData方法
@@ -345,7 +358,9 @@ export default class TreeGraph extends Graph implements ITreeGraph {
         parentData.children = [];
       }
       parentData.children.push(data);
-      self.changeData();
+      const parentItem = self.findById(parent);
+      parentItem.refresh();
+      self.changeData(undefined, stack);
     }
   }
 
@@ -354,11 +369,12 @@ export default class TreeGraph extends Graph implements ITreeGraph {
    * @param {TreeGraphData[]} data 子树数据模型集合
    * @param {string} parent 子树的父节点id
    */
-  public updateChildren(data: TreeGraphData[], parentId: string): void {
+  public updateChildren(data: TreeGraphData[], parentId: string, stack: boolean = true): void {
     const self = this;
 
     // 如果没有父节点或找不到该节点，是全量的更新，直接重置data
-    if (!parentId || !self.findById(parentId)) {
+    const parentItem = self.findById(parentId);
+    if (!parentId || !parentItem) {
       console.warn(`Update children failed! There is no node with id '${parentId}'`);
       return;
     }
@@ -367,7 +383,9 @@ export default class TreeGraph extends Graph implements ITreeGraph {
 
     parentModel.children = data;
 
-    self.changeData();
+    parentItem.refresh();
+
+    self.changeData(undefined, stack);
   }
 
   /**
@@ -375,12 +393,12 @@ export default class TreeGraph extends Graph implements ITreeGraph {
    * @param {TreeGraphData} data 子树数据模型
    * @param {string} parentId 子树的父节点id
    */
-  public updateChild(data: TreeGraphData, parentId?: string): void {
+  public updateChild(data: TreeGraphData, parentId?: string, stack: boolean = true): void {
     const self = this;
 
     // 如果没有父节点或找不到该节点，是全量的更新，直接重置data
     if (!parentId || !self.findById(parentId)) {
-      self.changeData(data);
+      self.changeData(data, stack);
       return;
     }
 
@@ -398,33 +416,40 @@ export default class TreeGraph extends Graph implements ITreeGraph {
       parentModel.children.push(data);
     } else {
       const index = TreeGraph.indexOfChild(parentModel.children, data.id);
-      parentModel.children[index] = data;
+      if (index > -1) parentModel.children[index] = data;
     }
-    self.changeData();
+    const parentItem = self.findById(parentId);
+    parentItem?.refresh();
+    self.changeData(undefined, stack);
   }
 
   /**
    * 删除子树
    * @param {string} id 子树根节点id
    */
-  public removeChild(id: string): void {
+  public removeChild(id: string, stack: boolean = true): void {
     const self = this;
     const node = self.findById(id);
 
+    let parent;
     if (!node) {
-      return;
+      parent = self.getNodes().find(node => {
+        const children = node.getModel().children || [];
+        return !!children.find(child => child.id === id);
+      });
+    } else {
+      parent = node?.get('parent');
     }
 
-    const parent = node.get('parent');
     if (parent && !parent.destroyed) {
-      const parentNode = self.findDataById(parent.get('id'));
+      const parentId = parent.get('id');
+      const parentNode = self.findDataById(parentId);
       const siblings = (parentNode && parentNode.children) || [];
-      const model: NodeConfig = node.getModel() as NodeConfig;
-
-      const index = TreeGraph.indexOfChild(siblings, model.id);
+      const index = TreeGraph.indexOfChild(siblings, id);
       siblings.splice(index, 1);
+      parent.refresh();
     }
-    self.changeData();
+    self.changeData(undefined, stack);
   }
 
   /**
@@ -533,7 +558,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
           });
 
           each(self.get('removeList'), node => {
-            self.removeItem(node);
+            self.removeItem(node, false);
           });
 
           self.set('removeList', []);
@@ -569,7 +594,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
   /**
    * 根据data接口的数据渲染视图
    */
-  public render(): void {
+  public render(clearStack: boolean = true): void {
     const self = this;
     const data: TreeGraphData = self.get('data');
 
@@ -578,6 +603,11 @@ export default class TreeGraph extends Graph implements ITreeGraph {
     }
 
     self.clear();
+
+    if (clearStack && this.get('enabledStack')) {
+      // render 之前清空 redo 和 undo 栈
+      this.clearStack();
+    }
 
     self.emit('beforerender');
 
@@ -590,7 +620,16 @@ export default class TreeGraph extends Graph implements ITreeGraph {
    * 导出图数据
    * @return {object} data
    */
-  public save(): TreeGraphData | GraphData {
+  public save(): TreeGraphData {
     return this.get('data');
+  }
+
+  /**
+   * 设置视图初始化数据
+   * @param {TreeGraphData} data 初始化数据
+   */
+  public data(data?: TreeGraphData): void {
+    super.data(data);
+    this.set('originData', JSON.parse(JSON.stringify(data)));
   }
 }

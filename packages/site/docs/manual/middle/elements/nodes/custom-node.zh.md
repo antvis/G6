@@ -3,16 +3,16 @@ title: 自定义节点
 order: 2
 ---
 
-G6 提供了一系列[内置节点](/zh/docs/manual/middle/elements/nodes/defaultNode)，包括 [circle](/zh/docs/manual/middle/elements/nodes/built-in/circle)、[rect](/zh/docs/manual/middle/elements/nodes/built-in/rect)、[diamond](/zh/docs/manual/middle/elements/nodes/built-in/diamond)、[triangle](/zh/docs/manual/middle/elements/nodes/built-in/triangle)、[star](/zh/docs/manual/middle/elements/nodes/built-in/star)、[image](/zh/docs/manual/middle/elements/nodes/built-in/image)、[modelRect](/zh/docs/manual/middle/elements/nodes/built-in/modelRect)。若内置节点无法满足需求，用户还可以通过 `G6.registerNode(typeName: string, nodeDefinition: object, extendedTypeName?: string)` 进行自定义节点，方便用户开发更加定制化的节点，包括含有复杂图形的节点、复杂交互的节点、带有动画的节点等。其参数：
+G6 提供了一系列[内置节点](/zh/docs/manual/middle/elements/nodes/defaultNode)，包括 [circle](/zh/docs/manual/middle/elements/nodes/built-in/circle)、[rect](/zh/docs/manual/middle/elements/nodes/built-in/rect)、[diamond](/zh/docs/manual/middle/elements/nodes/built-in/diamond)、[triangle](/zh/docs/manual/middle/elements/nodes/built-in/triangle)、[star](/zh/docs/manual/middle/elements/nodes/built-in/star)、[image](/zh/docs/manual/middle/elements/nodes/built-in/image)、[modelRect](/zh/docs/manual/middle/elements/nodes/built-in/modelRect)。若内置节点无法满足需求，用户还可以通过 `G6.registerNode(typeName: string, nodeDefinition: object, extendedNodeType?: string)` 进行自定义节点，方便用户开发更加定制化的节点，包括含有复杂图形的节点、复杂交互的节点、带有动画的节点等。其参数：
 
 - `typeName`：该新节点类型名称；
-- `extendedTypeName`：被继承的节点类型，可以是内置节点类型名，也可以是其他自定义节点的类型名。`extendedTypeName` 未指定时代表不继承其他类型的节点；
-- `nodeDefinition`：该新节点类型的定义，其中必要函数详见 [自定义机制 API](/zh/docs/api/registerItem#g6registernodenodename-options-extendednodename)。当有 `extendedTypeName` 时，没被复写的函数将会继承 `extendedTypeName` 的定义。
+- `extendedNodeType`：被继承的节点类型，可以是内置节点类型名，也可以是其他自定义节点的类型名。`extendedNodeType` 未指定时代表不继承其他类型的节点；
+- `nodeDefinition`：该新节点类型的定义，其中必要函数详见 [自定义机制 API](/zh/docs/api/registerItem#g6registernodenodename-options-extendednodename)。当有 `extendedNodeType` 时，没被复写的函数将会继承 `extendedNodeType` 的定义。
 
-**需要注意的是**，自定义节点/边时，若给定了 `extendedTypeName`，如 `draw`，`update`，`setState` 等必要的函数若不在 `nodeDefinition` 中进行复写，将会继承 `extendedTypeName` 中的相关定义。常见问题：
+**需要注意的是**，自定义节点/边时，若给定了 `extendedNodeType`，如 `draw`，`update`，`setState` 等必要的函数若不在 `nodeDefinition` 中进行复写，将会继承 `extendedNodeType` 中的相关定义。常见问题：
 
 - Q：节点/边更新时，没有按照在 `nodeDefinition` 中自定义实现的 `draw` 或 `drawShape` 逻辑更新。例如，有些图形没有被更新，增加了没有在 `draw` 或 `drawShape` 方法中定义的图形等。
-- A：由于继承了 `extendedTypeName`，且在 `nodeDefinition` 中没有复写 `update` 方法，导致节点/边更新时执行了 `extendedTypeName` 中的 `update` 方法，从而与自定义的 `draw` 或 `drawShape` 有出入。可以通过复写 `update` 方法为 `undefined` 解决。当 `update` 方法为 `undefined` 时，节点/边的更新将会执行 `draw` 或 `drawShape` 进行重绘。
+- A：由于继承了 `extendedNodeType`，且在 `nodeDefinition` 中没有复写 `update` 方法，导致节点/边更新时执行了 `extendedNodeType` 中的 `update` 方法，从而与自定义的 `draw` 或 `drawShape` 有出入。可以通过复写 `update` 方法为 `undefined` 解决。当 `update` 方法为 `undefined` 时，节点/边的更新将会执行 `draw` 或 `drawShape` 进行重绘。
 
 在本章中我们会通过五个案例，从简单到复杂讲解节点的自定义。这五个案例是： <br /> <strong>1. 从无到有的定义节点：</strong>绘制图形；优化性能。 <br /> <strong>2. 扩展现有的节点：</strong>附加图形；增加动画。 <br /> <strong>3. 调整节点的锚点；</strong> <br /> <strong>4. 调整节点的鼠标选中/悬浮样式：</strong>样式变化响应；动画响应； <br /> <strong>5. 使用 DOM 自定义节点。</strong>
 
@@ -79,7 +79,7 @@ G6.registerNode(
   },
   // 继承内置节点类型的名字，例如基类 'single-node'，或 'circle', 'rect' 等
   // 当不指定该参数则代表不继承任何内置节点类型
-  extendedNodeName,
+  extendedNodeType,
 );
 ```
 
@@ -88,7 +88,7 @@ G6.registerNode(
 - 如果不从任何现有的节点或从 `'single-node'` 扩展新节点时，`draw` 方法是必须的；
 - 节点内部所有图形**使用相对于节点自身的坐标系**，即 `(0, 0)` 是该节点的中心。而节点的坐标是相对于画布的，由该节点 group 上的矩阵控制，自定义节点中不需要用户感知。若在自定义节点内增加 `rect` 图形，要注意让它的 x 与 y 各减去其长与宽的一半。详见例子 [从无到有定义节点](#1-从无到有定义节点)；
 - `update` 方法可以不定义：
-  - 当 `update` 未定义：若指定了 `registerNode` 的第三个参数 `extendedNodeName`（即代表继承指定的内置节点类型），则节点更新时将执行被继承的内置节点类型的 `update` 逻辑；若未指定 `registerNode` 的第三个参数，则节点更新时会执行 `draw` 方法，所有图形清除重绘；
+  - 当 `update` 未定义：若指定了 `registerNode` 的第三个参数 `extendedNodeType`（即代表继承指定的内置节点类型），则节点更新时将执行被继承的内置节点类型的 `update` 逻辑；若未指定 `registerNode` 的第三个参数，则节点更新时会执行 `draw` 方法，所有图形清除重绘；
   - 当定义了 `update` 方法，则不论是否指定 `registerNode` 的第三个参数，在节点更新时都会执行复写的 `update` 函数逻辑。
 - `afterDraw`，`afterUpdate` 方法一般用于扩展已有的节点，例如：在矩形节点上附加图片，圆节点增加动画等；
 - `setState` 只有在需要使用动画的方式来响应状态变化时需要复写，一般的样式响应状态变化可以通过 [配置状态样式](/zh/docs/manual/middle/states/state#配置-state-样式) 实现；
@@ -115,7 +115,7 @@ G6.registerNode('diamond', {
         path: this.getPath(cfg), // 根据配置获取路径
         stroke: cfg.color, // 颜色应用到描边上，如果应用到填充，则使用 fill: cfg.color
       },
-      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
       name: 'path-shape',
       // 设置 draggable 以允许响应鼠标的图拽事件
       draggable: true,
@@ -135,7 +135,7 @@ G6.registerNode('diamond', {
           text: cfg.label,
           fill: '#666',
         },
-        // must be assigned in G6 3.3 and later versions. it can be any value you want
+        // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
         name: 'text-shape',
         // 设置 draggable 以允许响应鼠标的图拽事件
         draggable: true,
@@ -163,7 +163,7 @@ G6.registerNode('diamond', {
 });
 ```
 
-上面的代码自定义了一个菱形节点。值得注意的是，G6 3.3 需要用户为自定义节点中的图形设置 `name` 和 `draggable`。其中，`name` 可以是不唯一的任意值。`draggable` 为 `true` 是表示允许该图形响应鼠标的拖拽事件，只有 `draggable: true` 时，图上的交互行为 `'drag-node'` 才能在该图形上生效。若上面代码仅在 keyShape 上设置了 `draggable: true`，而 label 图形上没有设置，则鼠标拖拽只能在 keyShape 上响应。
+上面的代码自定义了一个菱形节点。值得注意的是，G6 3.3 需要用户为自定义节点中的图形设置 `name` 和 `draggable`。**其中，`name` 值必须在同元素类型内唯一**。`draggable` 为 `true` 是表示允许该图形响应鼠标的拖拽事件，只有 `draggable: true` 时，图上的交互行为 `'drag-node'` 才能在该图形上生效。若上面代码仅在 keyShape 上设置了 `draggable: true`，而 label 图形上没有设置，则鼠标拖拽只能在 keyShape 上响应。
 
 现在，我们使用下面的数据输入就会绘制出 diamond 这个节点。
 
@@ -263,7 +263,7 @@ G6.registerNode(
           ...style,
         },
         draggable: true,
-        name: 'diamond-keyShape',
+        name: 'diamond-keyShape', // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
       });
       // 返回 keyShape
       return keyShape;
@@ -299,7 +299,7 @@ G6.registerNode('inner-animate', {
         height: height,
         img: cfg.img
       },
-      // must be assigned in G6 3.3 and later versions. it can be any value you want
+      // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
       name: 'image-shape'
     });
     // 执行旋转动画
@@ -506,6 +506,7 @@ G6.registerNode(
         </div>
           `,
         },
+        name: 'dom-node-keyShape',  // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
         draggable: true,
       });
     },
@@ -514,7 +515,7 @@ G6.registerNode(
 );
 ```
 
-上面的代码自定义了一个名为 `'dom-node'` 的带有 DOM 的节点。值得注意的是，G6 3.3 需要用户为自定义节点中的图形设置 `name` 和 `draggable`。其中，`name` 可以是不唯一的任意值。`draggable` 为 `true` 是表示允许该图形响应鼠标的拖拽事件，只有 `draggable: true` 时，图上的交互行为 `'drag-node'` 才能在该图形上生效。
+上面的代码自定义了一个名为 `'dom-node'` 的带有 DOM 的节点。值得注意的是，G6 3.3 需要用户为自定义节点中的图形设置 `name` 和 `draggable`。**其中，`name` 值必须在同元素类型内唯一**。`draggable` 为 `true` 是表示允许该图形响应鼠标的拖拽事件，只有 `draggable: true` 时，图上的交互行为 `'drag-node'` 才能在该图形上生效。
 
 现在，我们使用下面的数据输入就会绘制出带有 `'dom-node'` 节点的图。
 
@@ -564,6 +565,7 @@ G6.registerNode(
         </div>
           `,
         },
+        name: 'dom-node-keyShape',  // 在 G6 3.3 及之后的版本中，必须指定 name，可以是任意字符串，但需要在同一个自定义元素类型中保持唯一性
         draggable: true,
       });
     },

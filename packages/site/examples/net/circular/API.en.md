@@ -2,4 +2,4 @@
 title: API
 ---
 
-`markdown:docs/api/graphLayout/circular.en.md`
+<embed src="@/docs/api/graphLayout/circular.en.md"></embed>

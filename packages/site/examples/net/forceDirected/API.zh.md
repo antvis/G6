@@ -4,8 +4,8 @@ title: API
 
 # Force Layout
 
-`markdown:docs/api/graphLayout/force.zh.md`
+<embed src="@/docs/api/graphLayout/force.zh.md"></embed>
 
 # Force Atlas 2 Layout
 
-`markdown:docs/api/graphLayout/forceAtlas2.zh.md`
+<embed src="@/docs/api/graphLayout/forceAtlas2.zh.md"></embed>

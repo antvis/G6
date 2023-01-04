@@ -2,4 +2,4 @@
 title: API
 ---
 
-`markdown:docs/api/treeMethods.en.md`
+<embed src="@/docs/api/treeMethods.en.md"></embed>

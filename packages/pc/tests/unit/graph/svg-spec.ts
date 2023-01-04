@@ -1087,9 +1087,10 @@ describe('auto rotate label on edge', () => {
 
   it('drag node', () => {
     const node = graph.getNodes()[1];
-    graph.emit('node:dragstart', { x: 80, y: 150, item: node });
-    graph.emit('node:drag', { x: 200, y: 200, item: node });
-    graph.emit('node:dragend', { x: 200, y: 200, item: node });
+    graph.emit('node:mousedown', { x: 80, y: 150, item: node });
+    graph.emit('drag', { x: 80, y: 150, item: node });
+    graph.emit('drag', { x: 200, y: 200, item: node });
+    graph.emit('dragend', { x: 200, y: 200, item: node });
     const edge1 = graph.getEdges()[0];
     const label1 = edge1.get('group').get('children')[1];
     const label1Matrix = label1.attr('matrix');
@@ -1209,7 +1210,7 @@ describe('behaviors', () => {
   graph.data(data);
   graph.render();
   const item = graph.getNodes()[0];
-  it('active-relations', () => {
+  it('active-relations', (done) => {
     graph.emit('node:mouseenter', { item });
     const itemKeyShape = item.get('group').get('children')[0];
     expect(itemKeyShape.attr('stroke')).toBe('#000');
@@ -1233,11 +1234,14 @@ describe('behaviors', () => {
     expect(unrelativeEdgeKeyShape.attr('opacity')).toBe(0.1);
 
     graph.emit('node:mouseleave', { item });
-    expect(itemKeyShape.attr('stroke')).toBe('rgb(95, 149, 255)');
-    expect(itemKeyShape.attr('lineWidth')).toBe(1);
-    expect(unrelativeNodeKeyShape.attr('lineWidth')).toBe(1);
-    expect(unrelativeNodeKeyShape.attr('stroke')).toBe('rgb(95, 149, 255)');
-    expect(unrelativeNodeKeyShape.attr('opacity')).toBe(1);
+    setTimeout(() => {
+      expect(itemKeyShape.attr('stroke')).toBe('rgb(95, 149, 255)');
+      expect(itemKeyShape.attr('lineWidth')).toBe(1);
+      expect(unrelativeNodeKeyShape.attr('lineWidth')).toBe(1);
+      expect(unrelativeNodeKeyShape.attr('stroke')).toBe('rgb(95, 149, 255)');
+      expect(unrelativeNodeKeyShape.attr('opacity')).toBe(1);
+      done()
+    }, 60)
   });
   it('click-select', () => {
     graph.setMode('select');
@@ -1307,10 +1311,11 @@ describe('behaviors', () => {
   });
 
   it('drag-node', (done) => {
-    graph.emit('node:dragstart', { item, target: item, x: 0, y: 0 });
-    graph.emit('node:drag', { item, target: item, x: 50, y: 150 });
-    graph.emit('node:drag', { item, target: item, x: 50, y: 250 });
-    graph.emit('node:dragend', { item, target: item, x: 50, y: 250 });
+    graph.emit('node:mousedown', { item, target: item, x: 0, y: 0 });
+    graph.emit('drag', { item, target: item, x: 0, y: 0 });
+    graph.emit('drag', { item, target: item, x: 50, y: 150 });
+    graph.emit('drag', { item, target: item, x: 50, y: 250 });
+    graph.emit('dragend', { item, target: item, x: 50, y: 250 });
     expect(item.getModel().x).toBe(100);
     expect(item.getModel().y).toBe(300);
     const edge = graph.getEdges()[0];
@@ -1322,9 +1327,10 @@ describe('behaviors', () => {
       const item2 = graph.getNodes()[1];
       graph.setItemState(item, 'selected', true);
       graph.setItemState(item2, 'selected', true);
-      graph.emit('node:dragstart', { item, target: item, x: 0, y: 0 });
-      graph.emit('node:drag', { item, target: item, x: 50, y: 50 });
-      graph.emit('node:dragend', { item, target: item, x: 50, y: 50 });
+      graph.emit('node:mousedown', { item, target: item, x: 0, y: 0 });
+      graph.emit('drag', { item, target: item, x: 0, y: 0 });
+      graph.emit('drag', { item, target: item, x: 50, y: 50 });
+      graph.emit('dragend', { item, target: item, x: 50, y: 50 });
       expect(item.getModel().x).toBe(150);
       expect(item.getModel().y).toBe(350);
       expect(item2.getModel().x).toBe(130);

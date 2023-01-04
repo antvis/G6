@@ -63,7 +63,7 @@ graph.on('combo:click', (ev) => {
 
 关于图形的 name：
  - 内置节点/边/combo 上每个图形的名称在开发过程中可以通过 `graph.on('node:click', (ev) => console.log(ev.target.get('name')))` 得知；
- - 自定义节点/边/combo 中通过 addShape 增加的图形，可添加与 attrs 平级的 name 字段指定任意（同元素中唯一）字符串作为 name。请注意同个元素（节点/边/combo）中不同图形尽量给予不同的 name 值。
+ - 自定义节点/边/combo 中通过 addShape 增加的图形，可添加与 attrs 平级的 name 字段指定任意（**注意：同元素类型中需要是唯一的**）字符串作为 name。
 
 下面例子为图中所有 name 为 circle-shape 的图形绑定了 click 事件监听：
 
