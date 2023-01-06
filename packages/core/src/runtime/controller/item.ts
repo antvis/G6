@@ -63,7 +63,7 @@ export class ItemController {
    */
   private onRender(param: { graphCore: GraphCore }) {
     const { graphCore } = param;
-    // TODO: 1. create node / edge / combo items, classes from node/edge/comboExtensions
+    // TODO: 1. create node / edge / combo items, classes from ../../item, and element drawing and updating fns from node/edge/comboExtensions
     // TODO: 2. draw them
   }
 }
