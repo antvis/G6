@@ -19,6 +19,13 @@ export const genConvexHull = (items: Item[]) => {
   points.sort((a, b) => {
     return a.x === b.x ? a.y - b.y : a.x - b.x;
   });
+  // remove duplicate points
+  const pointMap = {}
+  for (let i = points.length - 1; i >= 0; i--) {
+    const { x, y } = points[i]
+    if (pointMap[`${x}-${y}`]) points.splice(i, 1);
+    pointMap[`${x}-${y}`] = true;
+  }
 
   if (points.length === 1) {
     return points;
