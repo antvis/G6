@@ -59,6 +59,7 @@
   },
   "dependencies": {
     "@antv/g": "^5.15.7",
+    "@antv/graphlib": "^2.0.0-alpha.0",
     "@antv/util": "~2.0.5"
   },
   "devDependencies": {

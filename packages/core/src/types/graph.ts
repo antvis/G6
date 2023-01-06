@@ -5,10 +5,10 @@ import { BehaviorCfg, BehaviorName } from './behavior';
 import { ComboUserData } from './combo';
 import { Padding, Point } from './common';
 import { GraphData } from './data';
-import { EdgeUserData } from './edge';
+import { EdgeUserModel } from './edge';
 import { ITEM_TYPE } from './item';
 import { LayoutCommonConfig } from './layout';
-import { NodeUserData } from './node';
+import { NodeUserModel } from './node';
 import { Specification } from './spec';
 import { FitViewRules, GraphAlignment } from './view';
 
@@ -29,16 +29,12 @@ export interface IGraph extends EventEmitter {
   getSpec: () => Specification;
   /**
    * Input data and render the graph.
+   * If there is old data, diffs and changes it.
    * @param data 
    * @returns 
+   * @group Data
    */
   read: (data: GraphData) => void;
-  /**
-   * Input new data to replace the old one.
-   * @param data 
-   * @returns 
-   */
-  changeData: (data: GraphData) => void;
   /**
    * Clear the graph, means remove all the items on the graph.
    * @returns 
@@ -144,7 +140,7 @@ export interface IGraph extends EventEmitter {
    * @returns the added item
    * @group Item
    */
-  addItem: (itemType: ITEM_TYPE, model: NodeUserData | EdgeUserData | ComboUserData, stack?: boolean) => Item;
+  addItem: (itemType: ITEM_TYPE, model: NodeUserModel | EdgeUserModel | ComboUserData, stack?: boolean) => Item;
   /**
    * Add items to the graph.
    * @param itemType item type
@@ -153,7 +149,7 @@ export interface IGraph extends EventEmitter {
    * @returns the added items
    * @group Item
    */
-  addItems: (itemType: ITEM_TYPE, models: NodeUserData[] | EdgeUserData[] | ComboUserData[], stack?: boolean) => Item[];
+  addItems: (itemType: ITEM_TYPE, models: NodeUserModel[] | EdgeUserModel[] | ComboUserData[], stack?: boolean) => Item[];
   /**
    * Remove an item from the graph.
    * @param item the item to be removed
@@ -177,7 +173,7 @@ export interface IGraph extends EventEmitter {
    * @param {boolean} stack 本次操作是否入栈，默认为 true
    * @group Item
    */
-  updateItem: (item: Item | string, cfg: Partial<NodeUserData> | Partial<EdgeUserData> | Partial<ComboUserData>, stack?: boolean) => Item;
+  updateItem: (item: Item | string, cfg: Partial<NodeUserModel> | Partial<EdgeUserModel> | Partial<ComboUserData>, stack?: boolean) => Item;
   /**
    * Show the item.
    * @param item the item to be shown

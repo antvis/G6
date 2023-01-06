@@ -1,22 +1,23 @@
+import { Node as INode, PlainObject } from '@antv/graphlib';
 import { AnimateAttr } from "./animate";
 import { Encode, LabelBackground, ShapeAttrEncode, ShapesEncode } from "./item";
 
 export type NodeLabelPosition = 'bottom' | 'center' | 'top' | 'left' | 'right';
 
-/** User input data. */
-export interface NodeUserData {
-  id: string;
+/** Data in user input model. */
+export interface NodeUserModelData extends PlainObject {
   parentId?: string;
 }
 
-/** Inner node data, clone and transform from user data. */
-export interface NodeModel extends NodeUserData {
+/** Data in inner model. */
+export interface NodeModelData extends NodeUserModelData {
   visible?: boolean;
   label?: string;
 }
 
-/** Displayed data, only for drawing and not received by users. */
-export interface NodeDisplayModel extends NodeModel {
+
+/** Data in display model. */
+export interface NodeDisplayModelData extends NodeModelData {
   keyShape?: {
     [shapeAttr: string]: unknown;
     animate: AnimateAttr;
@@ -41,6 +42,15 @@ export interface NodeDisplayModel extends NodeModel {
   };
   anchorPoints?: AnchorPoint[]
 }
+
+/** User input model. */
+export type NodeUserModel = INode<NodeUserModelData>;
+
+/** Inner node model, clone and transform from user data. */
+export type NodeModel = INode<NodeModelData>;
+
+/** Displayed model, only for drawing and not received by users. */
+export type NodeDisplayModel = INode<NodeDisplayModelData>;
 
 /** Anchor points, for linking edges and drawing circles. */
 export interface AnchorPoint {

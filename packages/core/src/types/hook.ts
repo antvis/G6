@@ -1,4 +1,4 @@
-import { GraphData } from "./data";
+import { GraphCore, GraphData } from "./data";
 
 export interface IHook<T> {
   name: string;
@@ -11,7 +11,7 @@ export interface IHook<T> {
 export interface Hooks {
   'init': IHook<void>,
   'datachange': IHook<{ data: GraphData }>,
-  'render': IHook<any>, // TODO: define param template
+  'render': IHook<{ graphCore: GraphCore }>, // TODO: define param template
   'layout': IHook<any>, // TODO: define param template
   'modechange': IHook<{ mode: string }>,
   'behaviorchange': IHook<{

@@ -1,8 +1,11 @@
-import GraphLib from "@antv/graphlib";
+import { Graph as GraphLib } from "@antv/graphlib";
 import { GraphData, IGraph } from "../../types";
 import stdlib from '../../stdlib';
 import { getExtension } from "../../util/extension";
 import { clone } from "@antv/util";
+import { NodeModelData } from "../../types/node";
+import { EdgeModelData } from "../../types/edge";
+import { GraphCore } from "../../types/data";
 
 /**
  * Manages the data transform extensions;
@@ -18,11 +21,11 @@ export class DataController {
   /**
    * Inner data stored in graphCore structure.
    */
-  public graphCore;
+  public graphCore: GraphCore;
 
   constructor(graph: IGraph) {
     this.graph = graph;
-    this.graphCore = new GraphLib();
+    this.graphCore = new GraphLib<NodeModelData, EdgeModelData>();
     this.tap();
   }
 
@@ -49,7 +52,7 @@ export class DataController {
   private onDataChange(param: { data: GraphData }) {
     const { data } = param;
     this.userData = data;
-    let dataCloned = clone(data);
+    let dataCloned: GraphData = clone(data);
     const { graphCore } = this;
 
     // Transform the data.
@@ -63,9 +66,9 @@ export class DataController {
     if (!graphCore.getAllNodes().length) {
       graphCore.addNodes(nodes);
     } else {
-      data.nodes.forEach(node => {
+      nodes.forEach(node => {
         if (graphCore.hasNode(node.id)) {
-          graphCore.mergeNodeData(node.id, node);
+          graphCore.mergeNodeData(node.id, node.data);
         } else {
           graphCore.addNode(node);
         }
@@ -75,9 +78,9 @@ export class DataController {
     if (!graphCore.getAllEdges().length) {
       graphCore.addEdges(edges);
     } else {
-      data.edges.forEach(edge => {
+      edges.forEach(edge => {
         if (graphCore.hasEdge(edge.id)) {
-          graphCore.mergeEdgeData(edge.id, edge);
+          graphCore.mergeEdgeData(edge.id, edge.data);
         } else {
           graphCore.addEdge(edge);
         }

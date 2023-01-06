@@ -2,6 +2,7 @@ import EventEmitter from '@antv/event-emitter';
 import { isArray } from '@antv/util';
 import { GraphData, IGraph, Specification } from '../types';
 import { BehaviorCfg, BehaviorName } from '../types/behavior';
+import { GraphCore } from '../types/data';
 import { Hooks } from '../types/hook';
 import { DataController } from './controller/data';
 import { InteractionController } from './controller/interaction';
@@ -9,6 +10,8 @@ import Hook from './hooks';
 
 export default class Graph extends EventEmitter implements IGraph {
   public hooks: Hooks;
+  private dataController;
+  private interactionController;
   constructor(cfg: Specification) {
     super();
     // TODO: analyse cfg
@@ -21,8 +24,8 @@ export default class Graph extends EventEmitter implements IGraph {
    * Initialize the controllers for different plugins.
    */
   private initControllers() {
-    const dataController = new DataController(this);
-    const interactionController = new InteractionController(this);
+    this.dataController = new DataController(this);
+    this.interactionController = new InteractionController(this);
   }
 
   /**
@@ -31,6 +34,7 @@ export default class Graph extends EventEmitter implements IGraph {
   private initHooks() {
     this.hooks.init = new Hook<void>({ name: 'init' });
     this.hooks.datachange = new Hook<{ data: GraphData }>({ name: 'datachange' });
+    this.hooks.render = new Hook<{ graphCore: GraphCore }>({ name: 'render' });
     this.hooks.modechange = new Hook<{ mode: string }>({ name: 'modechange' });
     this.hooks.behaviorchange = new Hook<{
       action: 'update' | 'add' | 'remove',
@@ -41,20 +45,16 @@ export default class Graph extends EventEmitter implements IGraph {
 
   /**
    * Input data and render the graph.
+   * If there is old data, diffs and changes it.
    * @param data 
    * @returns 
+   * @group Data
    */
   public read(data: GraphData) {
     this.hooks.datachange.emit({ data });
-  }
-
-  /**
-   * Input new data to replace the old one.
-   * @param data 
-   * @returns 
-   */
-  public changeData(data: GraphData) {
-    this.hooks.datachange.emit({ data });
+    this.hooks.render.emit({
+      graphCore: this.dataController.graphCore
+    });
   }
 
   /**
@@ -72,6 +72,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @param behaviors behavior names or configs
    * @param modes mode names
    * @returns 
+   * @group Interaction
    */
   public addBehaviors(behaviors: BehaviorName | BehaviorCfg | BehaviorName[] | BehaviorCfg[], modes: string | string[]) {
     this.hooks.behaviorchange.emit({

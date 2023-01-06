@@ -1,22 +1,14 @@
+import { Edge as IEdge, PlainObject } from '@antv/graphlib';
 import { AnimateAttr } from "./animate";
 import { Encode, LabelBackground, ShapeAttrEncode, ShapesEncode } from "./item";
 
 
-/** User input data. */
-export interface EdgeUserData {
-  id: string,
-  source: string,
-  target: string,
-}
-
-/** Inner node data, clone and transform from user data. */
-export interface EdgeModel extends EdgeUserData {
+export interface EdgeUserModelData extends PlainObject { };
+export interface EdgeModelData extends EdgeUserModelData {
   visible?: boolean;
   label?: string;
-}
-
-/** Displayed data, only for drawing and not received by users. */
-export interface EdgeDisplayModel extends EdgeModel {
+};
+export interface EdgeDisplayModelData extends EdgeModelData {
   keyShape?: {
     [shapeAttr: string]: unknown;
     animate: AnimateAttr;
@@ -42,7 +34,16 @@ export interface EdgeDisplayModel extends EdgeModel {
   };
   sourceAnchor?: number;
   targetAnchor?: number;
-}
+};
+
+/** User input data. */
+export type EdgeUserModel = IEdge<EdgeUserModelData>;
+
+/** Inner node data, clone and transform from user data. */
+export type EdgeModel = IEdge<EdgeModelData>;
+
+/** Displayed data, only for drawing and not received by users. */
+export type EdgeDisplayModel = IEdge<EdgeDisplayModelData>;
 
 
 export type EdgeLabelPosition = 'start' | 'middle' | 'end';

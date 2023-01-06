@@ -36,4 +36,23 @@ export default class Hook<T> implements IHook<T> {
   public emit(param: T) {
     this.listeners.forEach(listener => listener(param));
   }
+  /**
+   * Linearly async emit the corresponding lifecycle to call the listeners
+   * @param param 
+   */
+  public async emitLinearAsync(param: T): Promise<void> {
+    return new Promise(async () => {
+      let start = Promise.resolve();
+      this.listeners.forEach(listener => {
+        start = start.then(async () => new Promise(async (resolve, reject) => {
+          try {
+            await listener(param);
+            resolve();
+          } catch (e) {
+            reject();
+          }
+        }));
+      });
+    });
+  }
 }

@@ -1,6 +1,5 @@
-import GraphLib from "@antv/graphlib";
-import { isString, isFunction } from "util";
-import { GraphData, IGraph } from "../../types";
+import { isString } from "util";
+import { IGraph } from "../../types";
 import stdlib from '../../stdlib';
 import { getExtension } from "../../util/extension";
 
