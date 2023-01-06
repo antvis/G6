@@ -7,8 +7,7 @@ import { NodeDisplayModelData } from "../../types/node";
 import { EdgeDisplayModelData } from "../../types/edge";
 
 /**
- * Manages the data transform extensions;
- * Storages user data and inner data.
+ * Manages and stores the node / edge / combo items.
  */
 export class ItemController {
   public graph: IGraph;

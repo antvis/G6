@@ -5,10 +5,10 @@ export default {
     comboFromNode
   },
   theme: {},
-  layout: {},
-  behavior: {}, // from @antv/layout
-  plugin: {},
-  node: {},
-  edge: {},
-  combo: {},
+  layout: {}, // from @antv/layout
+  behavior: {}, // @antv/g6-pc
+  plugin: {}, // @antv/g6-plugin
+  node: {}, // @antv/g6-element
+  edge: {}, // @antv/g6-element
+  combo: {}, // @antv/g6-element
 }
