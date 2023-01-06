@@ -1,6 +1,6 @@
-import { Edge as IEdge, PlainObject } from '@antv/graphlib';
+import { Edge as GEdge, PlainObject } from '@antv/graphlib';
 import { AnimateAttr } from "./animate";
-import { Encode, LabelBackground, ShapeAttrEncode, ShapesEncode } from "./item";
+import { Encode, IItem, LabelBackground, ShapeAttrEncode, ShapesEncode } from "./item";
 
 
 export interface EdgeUserModelData extends PlainObject { };
@@ -37,13 +37,13 @@ export interface EdgeDisplayModelData extends EdgeModelData {
 };
 
 /** User input data. */
-export type EdgeUserModel = IEdge<EdgeUserModelData>;
+export type EdgeUserModel = GEdge<EdgeUserModelData>;
 
 /** Inner node data, clone and transform from user data. */
-export type EdgeModel = IEdge<EdgeModelData>;
+export type EdgeModel = GEdge<EdgeModelData>;
 
 /** Displayed data, only for drawing and not received by users. */
-export type EdgeDisplayModel = IEdge<EdgeDisplayModelData>;
+export type EdgeDisplayModel = GEdge<EdgeDisplayModelData>;
 
 
 export type EdgeLabelPosition = 'start' | 'middle' | 'end';
@@ -62,4 +62,9 @@ export interface EdgeShapesEncode extends ShapesEncode {
 }
 export interface EdgeEncode extends EdgeShapesEncode {
   type?: string | Encode<string>;
+}
+
+// TODO
+export interface IEdge extends IItem {
+
 }

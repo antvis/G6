@@ -1,12 +1,12 @@
 import { Graph as IGraph } from '@antv/graphlib';
-import { ComboUserData } from "./combo";
+import { ComboUserModel } from "./combo";
 import { NodeDisplayModelData, NodeModelData, NodeUserModel } from "./node"
 import { EdgeDisplayModelData, EdgeModelData, EdgeUserModel } from "./edge";
 
 export interface GraphData {
   nodes?: NodeUserModel[];
   edges?: EdgeUserModel[];
-  combos?: ComboUserData[];
+  combos?: ComboUserModel[];
 }
 
 export interface InlineDataConfig {
