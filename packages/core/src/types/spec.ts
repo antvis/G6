@@ -54,7 +54,7 @@ export interface Specification<B extends BehaviorRegistry> {
 
   /** interaction */
   modes?: {
-    default: BehaviorOptionsOf<B>[]; // TODO: behavior config comes from behaviors; TODO: interaction specs
+    // default: BehaviorOptionsOf<B>[]; // TODO: behavior config comes from behaviors; TODO: interaction specs
     [mode: string]: BehaviorOptionsOf<B>[]; // TODO: behavior config comes from behaviors; TODO: interaction specs
   };
   mode?: 'default' | string;

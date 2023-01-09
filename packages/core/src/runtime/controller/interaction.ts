@@ -2,18 +2,17 @@ import { isString } from "util";
 import { IGraph } from "../../types";
 import stdlib from '../../stdlib';
 import { getExtension } from "../../util/extension";
-import { BehaviorRegistry } from "../../types/behavior";
 
 /**
  * Manages the interaction extensions and graph modes;
  * Storage related data.
  */
-export class InteractionController<B extends BehaviorRegistry> {
+export class InteractionController {
   public extensions = {};
-  public graph: IGraph<B>;
+  public graph: IGraph;
   public mode: string;
 
-  constructor(graph: IGraph<B>) {
+  constructor(graph: IGraph<any>) {
     this.graph = graph;
     this.tap();
   }
@@ -56,7 +55,7 @@ export class InteractionController<B extends BehaviorRegistry> {
    * Listener of graph's behaviorchange hook. Update, add, or remove behaviors from modes.
    * @param param contains action, modes, and behaviors
    */
-  private onBehaviorChange(param: { action: 'update' | 'add' | 'remove', modes: string[], behaviors: B[] }) {
+  private onBehaviorChange(param: { action: 'update' | 'add' | 'remove', modes: string[], behaviors: string[] | { type: string }[] }) {
     const { action, modes, behaviors } = param;
     modes.forEach(mode => {
       switch (action) {

@@ -1,7 +1,7 @@
 import EventEmitter from '@antv/event-emitter';
 import { Hooks } from '../types/hook';
 import { AnimateCfg } from './animate';
-import { BehaviorRegistry } from './behavior';
+import { BehaviorOptionsOf, BehaviorRegistry } from './behavior';
 import { ComboUserModel, ICombo } from './combo';
 import { Padding, Point } from './common';
 import { GraphData } from './data';
@@ -12,9 +12,9 @@ import { NodeUserModel } from './node';
 import { Specification } from './spec';
 import { FitViewRules, GraphAlignment } from './view';
 
-export interface IGraph<B extends BehaviorRegistry> extends EventEmitter {
+export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends EventEmitter {
 
-  hooks: Hooks<B>;
+  hooks: Hooks;
 
   /**
    * Update the specs(configurations).
@@ -251,7 +251,7 @@ export interface IGraph<B extends BehaviorRegistry> extends EventEmitter {
    * @param modes mode names
    * @returns 
    */
-  addBehaviors: (behaviors: B | B[], modes: string | string[]) => void;
+  addBehaviors: (behaviors: BehaviorOptionsOf<B>[], modes: string | string[]) => void;
   /**
    * Remove behavior(s) from mode(s).
    * @param behaviors behavior names or configs
@@ -259,7 +259,7 @@ export interface IGraph<B extends BehaviorRegistry> extends EventEmitter {
    * @returns 
    * @group Interaction
    */
-  removeBehaviors: (behaviors: B | B[], modes: string | string[]) => void;
+  removeBehaviors: (behaviors: BehaviorOptionsOf<B>[], modes: string | string[]) => void;
   /**
    * Update a behavior on a mode.
    * @param behavior behavior configs, whose name indicates the behavior to be updated
@@ -267,5 +267,5 @@ export interface IGraph<B extends BehaviorRegistry> extends EventEmitter {
    * @returns 
    * @group Interaction
    */
-  updateBehavior: (behavior: B, mode?: string) => void;
+  updateBehavior: (behavior: BehaviorOptionsOf<B>, mode?: string) => void;
 }

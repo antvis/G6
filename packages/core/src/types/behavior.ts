@@ -14,17 +14,18 @@ abstract class Behavior {
 /** Behavior regisry table.
  * @example { 'drag-node': DragNodeBehavior, 'my-drag-node': MyDragNodeBehavior }
  */
-export interface BehaviorRegistry {
-  [name: string]: Behavior;
-}
+export type BehaviorRegistry = Record<string, Behavior>;
+// {
+//   [name: string]: Behavior;
+// }
 
 /**
  * Type gymnastics, input registry table, output configure type.
  * @example BehaviorOptionsOf<{ 'drag-node': typeof DragNodeBehavior }> // 'drag-node' | { type: 'drag-node', key?: 'ctrl' | 'shift' }
  */
-export type BehaviorOptionsOf<B extends BehaviorRegistry> = keyof B | {
+export type BehaviorOptionsOf<B extends BehaviorRegistry = {}> = Extract<keyof B, string> | {
   [K in keyof B]: B[K] extends { new(options: infer O): any } ? O & { type: K } : never;
-}[keyof B];
+}[Extract<keyof B, string>];
 
 /**
  * TODO: interaction specification

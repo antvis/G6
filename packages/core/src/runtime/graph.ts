@@ -2,7 +2,7 @@ import EventEmitter from '@antv/event-emitter';
 import { isArray } from '@antv/util';
 import { ComboUserModel, EdgeUserModel, GraphData, IGraph, NodeUserModel, Specification } from '../types';
 import { AnimateCfg } from '../types/animate';
-import { BehaviorRegistry } from '../types/behavior';
+import { BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';
 import { ICombo } from '../types/combo';
 import { Padding, Point } from '../types/common';
 import { GraphCore } from '../types/data';
@@ -14,13 +14,13 @@ import { DataController, InteractionController, ItemController, LayoutController
 import Hook from './hooks';
 
 export default class Graph<B extends BehaviorRegistry> extends EventEmitter implements IGraph<B> {
-  public hooks: Hooks<B>;
-  private dataController: DataController<B>;
-  private interactionController: InteractionController<B>;
-  private layoutController: LayoutController<B>;
-  private themeController: ThemeController<B>;
-  private itemController: ItemController<B>;
-  private extensionController: ExtensionController<B>;
+  public hooks: Hooks;
+  private dataController: DataController;
+  private interactionController: InteractionController;
+  private layoutController: LayoutController;
+  private themeController: ThemeController;
+  private itemController: ItemController;
+  private extensionController: ExtensionController;
 
   constructor(spec: Specification<B>) {
     super();
@@ -53,7 +53,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     this.hooks.behaviorchange = new Hook<{
       action: 'update' | 'add' | 'remove',
       modes: string[],
-      behaviors: B[]
+      behaviors: BehaviorOptionsOf<{}>[]
     }>({ name: 'behaviorchange' });
   }
 
@@ -356,7 +356,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @returns 
    * @group Interaction
    */
-  public addBehaviors(behaviors: B | B[], modes: string | string[]) {
+  public addBehaviors(behaviors: BehaviorOptionsOf<B>[], modes: string | string[]) {
     this.hooks.behaviorchange.emit({
       action: 'add',
       modes: isArray(modes) ? modes : [modes],
@@ -370,7 +370,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @returns 
    * @group Interaction
    */
-  public removeBehaviors(behaviors: B | B[], modes: string | string[]) {
+  public removeBehaviors(behaviors: BehaviorOptionsOf<B>[], modes: string | string[]) {
     this.hooks.behaviorchange.emit({
       action: 'remove',
       modes: isArray(modes) ? modes : [modes],
@@ -384,7 +384,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @returns 
    * @group Interaction
    */
-  public updateBehavior(behavior: B, mode?: string) {
+  public updateBehavior(behavior: BehaviorOptionsOf<B>, mode?: string) {
     this.hooks.behaviorchange.emit({
       action: 'update',
       modes: [mode],

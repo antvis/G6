@@ -12,8 +12,8 @@ import { BehaviorRegistry } from "../../types/behavior";
  * Manages the data transform extensions;
  * Storages user data and inner data.
  */
-export class DataController<B extends BehaviorRegistry> {
-  public graph: IGraph<B>;
+export class DataController {
+  public graph: IGraph;
   public extensions = [];
   /**
    * User input data.
@@ -24,7 +24,7 @@ export class DataController<B extends BehaviorRegistry> {
    */
   public graphCore: GraphCore;
 
-  constructor(graph: IGraph<B>) {
+  constructor(graph: IGraph<any>) {
     this.graph = graph;
     this.graphCore = new GraphLib<NodeModelData, EdgeModelData>();
     this.tap();

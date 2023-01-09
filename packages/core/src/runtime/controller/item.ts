@@ -5,15 +5,14 @@ import { getExtension } from "../../util/extension";
 import { DisplayGraphCore, GraphCore } from "../../types/data";
 import { NodeDisplayModelData } from "../../types/node";
 import { EdgeDisplayModelData } from "../../types/edge";
-import { BehaviorRegistry } from "../../types/behavior";
 import Edge from "../../item/edge";
 import Combo from "../../item/combo";
 
 /**
  * Manages and stores the node / edge / combo items.
  */
-export class ItemController<B extends BehaviorRegistry> {
-  public graph: IGraph<B>;
+export class ItemController {
+  public graph: IGraph;
   public nodeExtensions = [];
   public edgeExtensions = [];
   public comboExtensions = [];
@@ -29,7 +28,7 @@ export class ItemController<B extends BehaviorRegistry> {
   public edges: Edge[];
   public combos: Combo[];
 
-  constructor(graph: IGraph<B>) {
+  constructor(graph: IGraph<any>) {
     this.graph = graph;
     this.graphCore = new GraphLib<NodeDisplayModelData, EdgeDisplayModelData>();
     this.tap();
