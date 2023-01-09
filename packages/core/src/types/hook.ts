@@ -1,3 +1,4 @@
+import { BehaviorRegistry } from "./behavior";
 import { GraphCore, GraphData } from "./data";
 
 export interface IHook<T> {
@@ -8,7 +9,7 @@ export interface IHook<T> {
   emit: (param: T) => void;
 }
 
-export interface Hooks {
+export interface Hooks<B extends BehaviorRegistry> {
   'init': IHook<void>,
   'datachange': IHook<{ data: GraphData }>,
   'render': IHook<{ graphCore: GraphCore }>, // TODO: define param template
@@ -17,7 +18,7 @@ export interface Hooks {
   'behaviorchange': IHook<{
     action: 'update' | 'add' | 'remove',
     modes: string[],
-    behaviors: BehaviorCfg[]
+    behaviors: B[]
   }>
 };
-export const hookNames: (keyof Hooks)[] = ['init', 'datachange', 'render', 'layout', 'modechange', 'behaviorchange'];
+// export const hookNames: (keyof Hooks)[] = ['init', 'datachange', 'render', 'layout', 'modechange', 'behaviorchange'];

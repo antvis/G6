@@ -6,13 +6,14 @@ import { clone } from "@antv/util";
 import { NodeModelData } from "../../types/node";
 import { EdgeModelData } from "../../types/edge";
 import { GraphCore } from "../../types/data";
+import { BehaviorRegistry } from "../../types/behavior";
 
 /**
  * Manages the data transform extensions;
  * Storages user data and inner data.
  */
-export class DataController {
-  public graph: IGraph;
+export class DataController<B extends BehaviorRegistry> {
+  public graph: IGraph<B>;
   public extensions = [];
   /**
    * User input data.
@@ -23,7 +24,7 @@ export class DataController {
    */
   public graphCore: GraphCore;
 
-  constructor(graph: IGraph) {
+  constructor(graph: IGraph<B>) {
     this.graph = graph;
     this.graphCore = new GraphLib<NodeModelData, EdgeModelData>();
     this.tap();

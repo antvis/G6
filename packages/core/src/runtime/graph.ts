@@ -2,7 +2,7 @@ import EventEmitter from '@antv/event-emitter';
 import { isArray } from '@antv/util';
 import { ComboUserModel, EdgeUserModel, GraphData, IGraph, NodeUserModel, Specification } from '../types';
 import { AnimateCfg } from '../types/animate';
-import { BehaviorCfg, BehaviorName } from '../types/behavior';
+import { BehaviorRegistry } from '../types/behavior';
 import { ICombo } from '../types/combo';
 import { Padding, Point } from '../types/common';
 import { GraphCore } from '../types/data';
@@ -13,16 +13,16 @@ import { FitViewRules, GraphAlignment } from '../types/view';
 import { DataController, InteractionController, ItemController, LayoutController, ThemeController, ExtensionController } from './controller';
 import Hook from './hooks';
 
-export default class Graph extends EventEmitter implements IGraph {
-  public hooks: Hooks;
-  private dataController: DataController;
-  private interactionController: InteractionController;
-  private layoutController: LayoutController;
-  private themeController: ThemeController;
-  private itemController: ItemController;
-  private extensionController: ExtensionController;
+export default class Graph<B extends BehaviorRegistry> extends EventEmitter implements IGraph<B> {
+  public hooks: Hooks<B>;
+  private dataController: DataController<B>;
+  private interactionController: InteractionController<B>;
+  private layoutController: LayoutController<B>;
+  private themeController: ThemeController<B>;
+  private itemController: ItemController<B>;
+  private extensionController: ExtensionController<B>;
 
-  constructor(cfg: Specification) {
+  constructor(spec: Specification<B>) {
     super();
     // TODO: analyse cfg
 
@@ -53,21 +53,21 @@ export default class Graph extends EventEmitter implements IGraph {
     this.hooks.behaviorchange = new Hook<{
       action: 'update' | 'add' | 'remove',
       modes: string[],
-      behaviors: BehaviorName[] | BehaviorCfg[]
+      behaviors: B[]
     }>({ name: 'behaviorchange' });
   }
 
   /**
    * Update the specs(configurations).
    */
-  public updateSpec(spec: Specification) {
+  public updateSpec(spec: Specification<B>) {
     // TODO
   }
   /**
    * Get the specs(configurations).
    * @returns graph specs
    */
-  public getSpec(): Specification {
+  public getSpec(): Specification<B> {
     // TODO
   }
 
@@ -301,6 +301,7 @@ export default class Graph extends EventEmitter implements IGraph {
   /**
    * dissolve combo
    * @param {String | ICombo} item combo item or id to be dissolve
+   * @group Combo
    */
   public uncombo(item: string | ICombo, stack?: boolean) {
     // TODO
@@ -315,7 +316,6 @@ export default class Graph extends EventEmitter implements IGraph {
   }
   /**
  * Expand a combo.
- * @group Combo
  * @param combo combo ID 或 combo 实例
  * @group Combo
  */
@@ -356,7 +356,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @returns 
    * @group Interaction
    */
-  public addBehaviors(behaviors: BehaviorName | BehaviorCfg | BehaviorName[] | BehaviorCfg[], modes: string | string[]) {
+  public addBehaviors(behaviors: B | B[], modes: string | string[]) {
     this.hooks.behaviorchange.emit({
       action: 'add',
       modes: isArray(modes) ? modes : [modes],
@@ -370,7 +370,7 @@ export default class Graph extends EventEmitter implements IGraph {
    * @returns 
    * @group Interaction
    */
-  public removeBehaviors(behaviors: BehaviorName | BehaviorCfg | BehaviorName[] | BehaviorCfg[], modes: string | string[]) {
+  public removeBehaviors(behaviors: B | B[], modes: string | string[]) {
     this.hooks.behaviorchange.emit({
       action: 'remove',
       modes: isArray(modes) ? modes : [modes],
@@ -384,13 +384,11 @@ export default class Graph extends EventEmitter implements IGraph {
    * @returns 
    * @group Interaction
    */
-  public updateBehavior(behavior: BehaviorCfg, mode?: string) {
+  public updateBehavior(behavior: B, mode?: string) {
     this.hooks.behaviorchange.emit({
       action: 'update',
       modes: [mode],
       behaviors: [behavior],
     });
   }
-
-
 }

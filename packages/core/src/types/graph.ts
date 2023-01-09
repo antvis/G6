@@ -1,7 +1,7 @@
 import EventEmitter from '@antv/event-emitter';
 import { Hooks } from '../types/hook';
 import { AnimateCfg } from './animate';
-import { BehaviorCfg, BehaviorName } from './behavior';
+import { BehaviorRegistry } from './behavior';
 import { ComboUserModel, ICombo } from './combo';
 import { Padding, Point } from './common';
 import { GraphData } from './data';
@@ -12,19 +12,19 @@ import { NodeUserModel } from './node';
 import { Specification } from './spec';
 import { FitViewRules, GraphAlignment } from './view';
 
-export interface IGraph extends EventEmitter {
+export interface IGraph<B extends BehaviorRegistry> extends EventEmitter {
 
-  hooks: Hooks;
+  hooks: Hooks<B>;
 
   /**
    * Update the specs(configurations).
    */
-  updateSpec: (spec: Specification) => void;
+  updateSpec: (spec: Specification<B>) => void;
   /**
    * Get the specs(configurations).
    * @returns graph specs
    */
-  getSpec: () => Specification;
+  getSpec: () => Specification<B>;
   /**
    * Input data and render the graph.
    * If there is old data, diffs and changes it.
@@ -251,7 +251,7 @@ export interface IGraph extends EventEmitter {
    * @param modes mode names
    * @returns 
    */
-  addBehaviors: (behaviors: BehaviorName | BehaviorCfg | BehaviorName[] | BehaviorCfg[], modes: string | string[]) => void;
+  addBehaviors: (behaviors: B | B[], modes: string | string[]) => void;
   /**
    * Remove behavior(s) from mode(s).
    * @param behaviors behavior names or configs
@@ -259,7 +259,7 @@ export interface IGraph extends EventEmitter {
    * @returns 
    * @group Interaction
    */
-  removeBehaviors: (behaviors: BehaviorName | BehaviorCfg | BehaviorName[] | BehaviorCfg[], modes: string | string[]) => void;
+  removeBehaviors: (behaviors: B | B[], modes: string | string[]) => void;
   /**
    * Update a behavior on a mode.
    * @param behavior behavior configs, whose name indicates the behavior to be updated
@@ -267,5 +267,5 @@ export interface IGraph extends EventEmitter {
    * @returns 
    * @group Interaction
    */
-  updateBehavior: (behavior: BehaviorCfg, mode?: string) => void;
+  updateBehavior: (behavior: B, mode?: string) => void;
 }
