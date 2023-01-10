@@ -202,7 +202,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @returns items that is the type and has the state
    * @group Item
    */
-  public findByState<T extends IItem>(itemType: ITEM_TYPE, state: string, additionalFilter?: (item: Item) => boolean): T[] {
+  public findByState<T extends IItem>(itemType: ITEM_TYPE, state: string, additionalFilter?: (item: IItem) => boolean): T[] {
     // TODO
   }
   /**

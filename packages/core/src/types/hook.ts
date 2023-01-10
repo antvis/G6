@@ -1,4 +1,3 @@
-import { BehaviorOptionsOf, BehaviorRegistry } from "./behavior";
 import { GraphCore, GraphData } from "./data";
 
 export interface IHook<T> {
@@ -19,7 +18,5 @@ export interface Hooks {
     action: 'update' | 'add' | 'remove';
     modes: string[];
     behaviors: (string | { type: string })[];
-    // behaviors: string[] | { type: string }[];
   }>;
 };
-// export const hookNames: (keyof Hooks)[] = ['init', 'datachange', 'render', 'layout', 'modechange', 'behaviorchange'];

@@ -11,13 +11,14 @@ export const comboFromNode = (data: GraphData) => {
   const comboMap = {};
   nodes.forEach(node => nodeMap[node.id] = node);
   nodes.forEach(node => {
-    if (node.parentId) {
-      if (nodeMap[node.parentId]) {
-        combos.push(nodeMap[node.parentId]);
+    const { parentId } = node.data || {};
+    if (parentId) {
+      if (nodeMap[parentId]) {
+        combos.push(nodeMap[parentId]);
       } else {
-        combos.push({ id: node.parentId });
+        combos.push({ id: parentId });
       }
-      comboMap[node.parentId] = node;
+      comboMap[parentId] = node;
     }
   });
   return {
