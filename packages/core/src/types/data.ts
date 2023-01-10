@@ -1,10 +1,12 @@
-import { EdgeUserData } from "./edge";
-import { NodeUserData } from "./node"
+import { Graph as IGraph } from '@antv/graphlib';
+import { ComboUserModel } from "./combo";
+import { NodeDisplayModelData, NodeModelData, NodeUserModel } from "./node"
+import { EdgeDisplayModelData, EdgeModelData, EdgeUserModel } from "./edge";
 
 export interface GraphData {
-  nodes?: NodeUserData[];
-  edges?: EdgeUserData[];
-  combos?: NodeUserData[]; // TODO: combo data's interface
+  nodes?: NodeUserModel[];
+  edges?: EdgeUserModel[];
+  combos?: ComboUserModel[];
 }
 
 export interface InlineDataConfig {
@@ -16,5 +18,8 @@ export interface FetchDataConfig {
   type: 'fetch';
   value: string;
 }
+
+export type GraphCore = IGraph<NodeModelData, EdgeModelData>;
+export type DisplayGraphCore = IGraph<NodeDisplayModelData, EdgeDisplayModelData>;
 
 export type TransformerFn = (data: GraphData) => GraphData

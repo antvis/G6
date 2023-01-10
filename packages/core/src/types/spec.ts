@@ -5,10 +5,12 @@ import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeShapesEncode } from "./edg
 import { NodeDisplayModel, NodeEncode, NodeModel, NodeShapesEncode } from "./node";
 import { GraphAlignment } from "./view";
 import { LayoutCommonConfig } from "./layout";
+import { ComboDisplayModel, ComboEncode, ComboModel } from "./combo";
+import { BehaviorOptionsOf, BehaviorRegistry } from "./behavior";
 
 type rendererName = 'canvas' | 'svg' | 'webgl';
 
-export interface Specification {
+export interface Specification<B extends BehaviorRegistry> {
   type: 'graph' | 'tree';
   width?: number;
   height?: number;
@@ -34,7 +36,7 @@ export interface Specification {
   /** item */
   node?: (data: NodeModel) => NodeDisplayModel | NodeEncode;
   edge?: (data: EdgeModel) => EdgeDisplayModel | EdgeEncode;
-  combo?: (data: NodeModel) => NodeDisplayModel | NodeEncode; // TODO: combo's type
+  combo?: (data: ComboModel) => ComboDisplayModel | ComboEncode;
 
   /** item state styles */
   nodeState?: {
@@ -52,10 +54,10 @@ export interface Specification {
 
   /** interaction */
   modes?: {
-    default: BehaviorName[] | BehaviorConfig[]; // TODO: behavior config comes from behaviors; TODO: interaction specs
-    [mode: string]: BehaviorName[] | BehaviorConfig[]; // TODO: behavior config comes from behaviors; TODO: interaction specs
+    // default: BehaviorOptionsOf<B>[]; // TODO: behavior config comes from behaviors; TODO: interaction specs
+    [mode: string]: BehaviorOptionsOf<B>[]; // TODO: behavior config comes from behaviors; TODO: interaction specs
   };
-  mode?: string;
+  mode?: 'default' | string;
 
   /** global animate */
   animate?: AnimateCfg;
