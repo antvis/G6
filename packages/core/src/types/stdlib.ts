@@ -1,0 +1,1 @@
+export type StdLibCategory = 'transform' | 'behavior' | 'layout' | 'node' | 'edge' | 'combo' | 'theme' | 'plugin';

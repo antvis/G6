@@ -1,27 +1,36 @@
 import EventEmitter from '@antv/event-emitter';
+import { Hooks } from '../types/hook';
 import { AnimateCfg } from './animate';
-import { ComboUserData } from './combo';
+import { BehaviorOptionsOf, BehaviorRegistry } from './behavior';
+import { ComboUserModel, ICombo } from './combo';
 import { Padding, Point } from './common';
 import { GraphData } from './data';
-import { EdgeUserData } from './edge';
-import { ITEM_TYPE } from './item';
+import { EdgeUserModel } from './edge';
+import { IItem, ITEM_TYPE } from './item';
 import { LayoutCommonConfig } from './layout';
-import { NodeUserData } from './node';
+import { NodeUserModel } from './node';
 import { Specification } from './spec';
 import { FitViewRules, GraphAlignment } from './view';
 
-// TODO: 1. BehaviorCfg type; 2. Item type;
+export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends EventEmitter {
 
-export interface IGraph extends EventEmitter {
+  hooks: Hooks;
 
   /**
    * Update the specs(configurations).
    */
-  updateSpec: (spec: Specification) => void;
+  updateSpec: (spec: Specification<B>) => void;
+  /**
+   * Get the specs(configurations).
+   * @returns graph specs
+   */
+  getSpec: () => Specification<B>;
   /**
    * Input data and render the graph.
+   * If there is old data, diffs and changes it.
    * @param data 
    * @returns 
+   * @group Data
    */
   read: (data: GraphData) => void;
   /**
@@ -93,7 +102,7 @@ export interface IGraph extends EventEmitter {
    * @returns 
    * @group View
    */
-  focusItem: (item: Item | string, animateCfg?: AnimateCfg) => void;
+  focusItem: (item: IItem | string, animateCfg?: AnimateCfg) => void;
   /**
    * Move (and zoom) the graph to make the items align (and fit) the view center.
    * @param items node/edge/combo item array or their id array
@@ -101,7 +110,7 @@ export interface IGraph extends EventEmitter {
    * @returns 
    * @group View
    */
-  focusItems: (items: Item[] | string[], zoomToFit?: boolean, animateCfg?: AnimateCfg) => void;
+  focusItems: (items: IItem[] | string[], zoomToFit?: boolean, animateCfg?: AnimateCfg) => void;
 
 
   // ===== item operations =====
@@ -111,7 +120,7 @@ export interface IGraph extends EventEmitter {
    * @returns 
    * @group Item
    */
-  findById: <T extends Item>(id: string) => T | undefined;
+  findById: <T extends IItem>(id: string) => T | undefined;
   /**
    * Find items which has the state.
    * @param itemType item type
@@ -120,7 +129,7 @@ export interface IGraph extends EventEmitter {
    * @returns items that is the type and has the state
    * @group Item
    */
-  findByState: <T extends Item>(itemType: ITEM_TYPE, state: string, additionalFilter?: (item: Item) => boolean) => T[];
+  findByState: <T extends IItem>(itemType: ITEM_TYPE, state: string, additionalFilter?: (item: IItem) => boolean) => T[];
   /**
    * Add an item to the graph.
    * @param itemType item type
@@ -129,7 +138,7 @@ export interface IGraph extends EventEmitter {
    * @returns the added item
    * @group Item
    */
-  addItem: (itemType: ITEM_TYPE, model: NodeUserData | EdgeUserData | ComboUserData, stack?: boolean) => Item;
+  addItem: (itemType: ITEM_TYPE, model: NodeUserModel | EdgeUserModel | ComboUserModel, stack?: boolean) => IItem;
   /**
    * Add items to the graph.
    * @param itemType item type
@@ -138,7 +147,7 @@ export interface IGraph extends EventEmitter {
    * @returns the added items
    * @group Item
    */
-  addItems: (itemType: ITEM_TYPE, models: NodeUserData[] | EdgeUserData[] | ComboUserData[], stack?: boolean) => Item[];
+  addItems: (itemType: ITEM_TYPE, models: NodeUserModel[] | EdgeUserModel[] | ComboUserModel[], stack?: boolean) => IItem[];
   /**
    * Remove an item from the graph.
    * @param item the item to be removed
@@ -146,7 +155,7 @@ export interface IGraph extends EventEmitter {
    * @returns 
    * @group Item
    */
-  removeItem: (item: Item | string, stack?: boolean) => void;
+  removeItem: (item: IItem | string, stack?: boolean) => void;
   /**
    * Remove multiple items from the graph.
    * @param items the items to be removed
@@ -154,7 +163,7 @@ export interface IGraph extends EventEmitter {
    * @returns 
    * @group Item
    */
-  removeItems: (items: (Item | string)[], stack?: boolean) => void;
+  removeItems: (items: (IItem | string)[], stack?: boolean) => void;
   /**
    * Update an item on the graph.
    * @param {Item} item item or id
@@ -162,21 +171,21 @@ export interface IGraph extends EventEmitter {
    * @param {boolean} stack 本次操作是否入栈，默认为 true
    * @group Item
    */
-  updateItem: (item: Item | string, cfg: Partial<NodeUserData> | Partial<EdgeUserData> | Partial<ComboUserData>, stack?: boolean) => Item;
+  updateItem: (item: IItem | string, cfg: Partial<NodeUserModel> | Partial<EdgeUserModel> | Partial<ComboUserModel>, stack?: boolean) => IItem;
   /**
    * Show the item.
    * @param item the item to be shown
    * @returns 
    * @group Item
    */
-  showItem: (item: Item | string) => void;
+  showItem: (item: IItem | string) => void;
   /**
    * Hide the item.
    * @param item the item to be hidden
    * @returns 
    * @group Item
    */
-  hideItem: (item: Item | string) => void;
+  hideItem: (item: IItem | string) => void;
   /**
    * Set state for the item.
    * @param item the item to be set
@@ -185,7 +194,7 @@ export interface IGraph extends EventEmitter {
    * @returns 
    * @group Item
    */
-  setItemState: (item: Item | string, state: string, value: boolean) => void;
+  setItemState: (item: IItem | string, state: string, value: boolean) => void;
 
 
   // ===== combo operations =====
@@ -195,7 +204,7 @@ export interface IGraph extends EventEmitter {
   * @param childrenIds id array of children of the new combo
   * @group Combo
   */
-  createCombo: (combo: string | ComboUserData, childrenIds: string[], stack?: boolean) => void;
+  createCombo: (combo: string | ComboUserModel, childrenIds: string[], stack?: boolean) => void;
   /**
    * dissolve combo
    * @param {String | ICombo} item combo item or id to be dissolve
@@ -242,7 +251,7 @@ export interface IGraph extends EventEmitter {
    * @param modes mode names
    * @returns 
    */
-  addBehaviors: (behaviors: BehaviorName | BehaviorCfg | BehaviorName[] | BehaviorCfg[], modes: string | string[]) => void;
+  addBehaviors: (behaviors: BehaviorOptionsOf<B>[], modes: string | string[]) => void;
   /**
    * Remove behavior(s) from mode(s).
    * @param behaviors behavior names or configs
@@ -250,13 +259,13 @@ export interface IGraph extends EventEmitter {
    * @returns 
    * @group Interaction
    */
-  removeBehaviors: (behaviors: BehaviorName | BehaviorCfg | BehaviorName[] | BehaviorCfg[], modes: string | string[]) => void;
+  removeBehaviors: (behaviors: BehaviorOptionsOf<B>[], modes: string | string[]) => void;
   /**
-   * Update behavior(s) on a mode.
+   * Update a behavior on a mode.
    * @param behavior behavior configs, whose name indicates the behavior to be updated
    * @param mode mode name
    * @returns 
    * @group Interaction
    */
-  updateBehavior: (behavior: BehaviorCfg, mode?: string) => void;
+  updateBehavior: (behavior: BehaviorOptionsOf<B>, mode?: string) => void;
 }
