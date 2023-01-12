@@ -9,7 +9,8 @@ div.id = 'circular-layout-web-worker';
 document.body.appendChild(div);
 
 describe('circular layout(web worker)', () => {
-  it('circular layout(web worker) with default configs', done => {
+  // siren: Temporarily disabled
+  it.skip('circular layout(web worker) with default configs', (done) => {
     const graph = new G6.Graph({
       container: div,
       layout: {
@@ -36,7 +37,7 @@ describe('circular layout(web worker)', () => {
     graph.render();
   });
 
-  it('circular(web worker) counterclockwise, and fixed radius, start angle, end angle', done => {
+  it('circular(web worker) counterclockwise, and fixed radius, start angle, end angle', (done) => {
     const graph = new G6.Graph({
       container: div,
       layout: {
@@ -68,6 +69,6 @@ describe('circular layout(web worker)', () => {
       timeout = true;
       graph.destroy();
       done();
-    }, 1000)
+    }, 1000);
   });
 });

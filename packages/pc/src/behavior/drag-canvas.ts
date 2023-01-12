@@ -23,16 +23,16 @@ export default {
   },
   getEvents(): { [key in G6Event]?: string } {
     return {
-      'mousedown': 'onMouseDown',
-      'drag': 'onDragMove',
-      'dragend': 'onMouseUp',
+      mousedown: 'onMouseDown',
+      drag: 'onDragMove',
+      dragend: 'onMouseUp',
       'canvas:click': 'onMouseUp',
-      'keyup': 'onKeyUp',
-      'focus': 'onKeyUp',
-      'keydown': 'onKeyDown',
-      'touchstart': 'onTouchStart',
-      'touchmove': 'onTouchMove',
-      'touchend': 'onMouseUp',
+      keyup: 'onKeyUp',
+      focus: 'onKeyUp',
+      keydown: 'onKeyDown',
+      touchstart: 'onTouchStart',
+      touchmove: 'onTouchMove',
+      touchend: 'onMouseUp',
     };
   },
   updateViewport(e: IG6GraphEvent) {
@@ -69,16 +69,14 @@ export default {
     if (
       (graphCanvasBBox.minX <= width + expandWidth &&
         graphCanvasBBox.minX + dx > width + expandWidth) ||
-      (graphCanvasBBox.maxX + expandWidth >= 0 &&
-        graphCanvasBBox.maxX + expandWidth + dx < 0)
+      (graphCanvasBBox.maxX + expandWidth >= 0 && graphCanvasBBox.maxX + expandWidth + dx < 0)
     ) {
       dx = 0;
     }
     if (
       (graphCanvasBBox.minY <= height + expandHeight &&
         graphCanvasBBox.minY + dy > height + expandHeight) ||
-      (graphCanvasBBox.maxY + expandHeight >= 0 &&
-        graphCanvasBBox.maxY + expandHeight + dy < 0)
+      (graphCanvasBBox.maxY + expandHeight >= 0 && graphCanvasBBox.maxY + expandHeight + dy < 0)
     ) {
       dy = 0;
     }
@@ -231,7 +229,9 @@ export default {
 
     const currentZoom = graph.getZoom();
     const modeController = graph.get('modeController');
-    const zoomCanvas = modeController?.modes[modeController.mode]?.filter(behavior => behavior.type === 'zoom-canvas')?.[0];
+    const zoomCanvas = modeController?.modes[modeController.mode]?.filter(
+      (behavior) => behavior.type === 'zoom-canvas',
+    )?.[0];
     const optimizeZoom = zoomCanvas ? zoomCanvas.optimizeZoom || 0.1 : 0;
 
     if (this.enableOptimize) {
@@ -299,9 +299,9 @@ export default {
       return;
     }
     if (ALLOW_EVENTS.indexOf(code.toLowerCase()) > -1) {
-      self.keydown = true;
-    } else {
       self.keydown = false;
+    } else {
+      self.keydown = true;
     }
   },
   onKeyUp() {
