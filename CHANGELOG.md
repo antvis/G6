@@ -1,5 +1,9 @@
 # ChangeLog
 
+### 4.8.3
+
+- fix: unexpected error occurs when points of a hull are all duplicated;
+
 ### 4.8.2
 
 - perf: add updateShape function for donut node, closes: #4091;

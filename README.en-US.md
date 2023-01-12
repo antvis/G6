@@ -146,6 +146,12 @@ For React project integration, we have an independent product recommendation: [G
 
 At present, Graphin has good practices in business graph analysis projects. For details, see [《Who uses Graphin》](https://github.com/antvis/Graphin/issues/212)
 
+## Online Analysis Tool：G6VP
+
+If you have a piece of relational data (graph data) and want to quickly visualize it online and analyze it efficiently, then we recommend using the official [G6VP](https://github.com/antvis/G6VP), which supports local File JSON, Excel, and graph data sources such as TuGraph, Neo4J, and GraphScope are also supported. With 60+ built-in analysis assets, graph analysis can be as simple as building blocks. The platform also provides one-click export of SDK, which can be quickly integrated into the business system
+
+![G6VP Image](https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*GOVySaZ1iHYAAAAAAAAAAAAADmJ7AQ/original)
+
 ## G6 Communication Group
 
 Welcome to join the **G6 Communication Group** or **G6 Communication Group-2** (DingTalk groups). We also welcome the github issues.
