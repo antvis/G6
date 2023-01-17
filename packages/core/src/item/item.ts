@@ -3,7 +3,7 @@ import { IItem, ItemDisplayModel, ItemModel } from "../types/item";
 
 export default class Item implements IItem {
   public destroyed: boolean = false;
-  private model: ItemModel;
+  public model: ItemModel;
   private displayModel: ItemDisplayModel;
   private group: Group;
   private visible: boolean = true;
@@ -22,13 +22,13 @@ export default class Item implements IItem {
 
   public draw() {
     // TODO: 1. map this.model to displayModel
-    // TODO: 2. call element draw fn from stdlib
+    // TODO: 2. call element draw fn from useLib
   }
 
   public update(model: ItemModel) {
     // TODO: 1. merge model into this model
     // TODO: 2. map new merged model to displayModel, keep prevModel and newModel for 3.
-    // TODO: 3. call element update fn from stdlib
+    // TODO: 3. call element update fn from useLib
   }
 
   public getModel() {
@@ -73,7 +73,7 @@ export default class Item implements IItem {
       const idx = this.states.indexOf(existState);
       this.states.splice(idx, 1);
     }
-    // TODO: call element setState fn from stdlib
+    // TODO: call element setState fn from useLib
   }
 
   public hasState(state: string) {
@@ -85,7 +85,7 @@ export default class Item implements IItem {
     const newStates = this.states.filter(state => !states.includes(state.name));
     this.states = newStates;
     states.forEach(state => {
-      // TODO: call element setState fn with false from stdlib
+      // TODO: call element setState fn with false from useLib
     });
   }
 

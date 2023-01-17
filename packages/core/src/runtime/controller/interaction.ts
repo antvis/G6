@@ -1,7 +1,7 @@
-import { isString } from "util";
 import { IGraph } from "../../types";
-import stdlib from '../../stdlib';
+import { registery } from '../../stdlib';
 import { getExtension } from "../../util/extension";
+import { isObject } from "@antv/util";
 
 /**
  * Manages the interaction extensions and graph modes;
@@ -22,20 +22,20 @@ export class InteractionController {
    */
   private tap() {
     this.extensions = this.getExtensions();
-    this.graph.hooks.init.tap(() => this.onModeChange({ mode: 'default' }));
-    this.graph.hooks.modechange.tap(this.onModeChange);
-    this.graph.hooks.behaviorchange.tap(this.onBehaviorChange);
+    this.graph.hooks.init.tap(() => this.onModeChange(this, { mode: 'default' }));
+    this.graph.hooks.modechange.tap((...params) => this.onModeChange(this, ...params));
+    this.graph.hooks.behaviorchange.tap((...params) => this.onBehaviorChange(this, ...params));
   }
 
   /**
-   * Get the extensions from stdlib.
+   * Get the extensions from useLib, stdLib is a sub set of useLib.
    * @returns 
    */
   private getExtensions() {
-    const { modes = {} } = this.graph.getSpec();
+    const { modes = {} } = this.graph.getSpecification();
     const modeBehaviors = {};
     Object.keys(modes).forEach(mode => {
-      modeBehaviors[mode] = modes[mode].map(config => getExtension(config, stdlib, 'behavior')).filter(behavior => !!behavior);
+      modeBehaviors[mode] = modes[mode].map(config => getExtension(config, registery.useLib, 'behavior')).filter(behavior => !!behavior);
     })
     return modeBehaviors;
   }
@@ -44,8 +44,8 @@ export class InteractionController {
    * Listener of graph's init hook. Add listeners from behaviors to graph.
    * @param param contains the mode to switch to
    */
-  private onModeChange(param: { mode: string }) {
-    this.mode = param.mode;
+  private onModeChange(self, param: { mode: string }) {
+    self.mode = param.mode;
     // TODO: add listeners from behaviors in mode
     // ...
   }
@@ -55,24 +55,25 @@ export class InteractionController {
    * Listener of graph's behaviorchange hook. Update, add, or remove behaviors from modes.
    * @param param contains action, modes, and behaviors
    */
-  private onBehaviorChange(param: { action: 'update' | 'add' | 'remove', modes: string[], behaviors: string[] | { type: string }[] }) {
+  private onBehaviorChange(self, param: { action: 'update' | 'add' | 'remove', modes: string[], behaviors: (string | { key: string, type: string })[] }) {
     const { action, modes, behaviors } = param;
     modes.forEach(mode => {
       switch (action) {
         case 'add':
-          behaviors.forEach(config => this.extensions[mode].push(getExtension(config, stdlib, 'behavior')));
+          behaviors.forEach(config => self.extensions[mode].push(getExtension(config, registery.useLib, 'behavior')));
           break;
         case 'remove':
-          behaviors.forEach(config => {
-            const type = isString(config) ? config : config.type;
-            this.extensions[mode] = this.extensions[mode].filter(behavior => behavior.getName() === type)
+          behaviors.forEach(key => {
+            self.extensions[mode] = self.extensions[mode].filter(behavior => behavior.getKey() === key)
           });
           break;
         case 'update':
           behaviors.forEach(config => {
-            const type = isString(config) ? config : config.type;
-            const behaviorItem = this.extensions[mode].find(behavior => behavior.getName() === type);
-            behaviorItem.updateConfig(config);
+            if (isObject(config) && config.hasOwnProperty('key')) {
+              const behaviorItem = self.extensions[mode].find(behavior => behavior.getKey() === config.key);
+              debugger
+              if (behaviorItem) behaviorItem.updateConfig(config);
+            }
           });
           break;
         default:

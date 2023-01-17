@@ -1,8 +1,8 @@
 import EventEmitter from '@antv/event-emitter';
-import { isArray } from '@antv/util';
+import { clone, isArray, isObject } from '@antv/util';
 import { ComboUserModel, EdgeUserModel, GraphData, IGraph, NodeUserModel, Specification } from '../types';
 import { AnimateCfg } from '../types/animate';
-import { BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';
+import { BehaviorObjectOptionsOf, BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';
 import { ICombo } from '../types/combo';
 import { Padding, Point } from '../types/common';
 import { GraphCore } from '../types/data';
@@ -15,17 +15,19 @@ import Hook from './hooks';
 
 export default class Graph<B extends BehaviorRegistry> extends EventEmitter implements IGraph<B> {
   public hooks: Hooks;
+  private specification: Specification<B>;
   private dataController: DataController;
   private interactionController: InteractionController;
   private layoutController: LayoutController;
-  private themeController: ThemeController;
   private itemController: ItemController;
   private extensionController: ExtensionController;
+  private themeController: ThemeController;
 
   constructor(spec: Specification<B>) {
     super();
     // TODO: analyse cfg
 
+    this.specification = spec;
     this.initHooks();
     this.initControllers();
   }
@@ -46,29 +48,32 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * Initialize the hooks for graph's lifecycles.
    */
   private initHooks() {
-    this.hooks.init = new Hook<void>({ name: 'init' });
-    this.hooks.datachange = new Hook<{ data: GraphData }>({ name: 'datachange' });
-    this.hooks.render = new Hook<{ graphCore: GraphCore }>({ name: 'render' });
-    this.hooks.modechange = new Hook<{ mode: string }>({ name: 'modechange' });
-    this.hooks.behaviorchange = new Hook<{
-      action: 'update' | 'add' | 'remove',
-      modes: string[],
-      behaviors: BehaviorOptionsOf<{}>[]
-    }>({ name: 'behaviorchange' });
+    this.hooks = {
+      init: new Hook<void>({ name: 'init' }),
+      datachange: new Hook<{ data: GraphData }>({ name: 'datachange' }),
+      render: new Hook<{ graphCore: GraphCore }>({ name: 'render' }),
+      modechange: new Hook<{ mode: string }>({ name: 'modechange' }),
+      behaviorchange: new Hook<{
+        action: 'update' | 'add' | 'remove',
+        modes: string[],
+        behaviors: BehaviorOptionsOf<{}>[]
+      }>({ name: 'behaviorchange' }),
+    };
   }
 
   /**
    * Update the specs(configurations).
    */
-  public updateSpec(spec: Specification<B>) {
+  public updateSpecification(spec: Specification<B>) {
     // TODO
   }
+
   /**
-   * Get the specs(configurations).
+   * Get the copy of specs(configurations).
    * @returns graph specs
    */
-  public getSpec(): Specification<B> {
-    // TODO
+  public getSpecification(): Specification<B> {
+    return clone(this.specification);
   }
 
   /**
@@ -193,6 +198,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    */
   public findById<T extends IItem>(id: string): T | undefined {
     // TODO
+    return;
   }
   /**
    * Find items which has the state.
@@ -204,6 +210,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    */
   public findByState<T extends IItem>(itemType: ITEM_TYPE, state: string, additionalFilter?: (item: IItem) => boolean): T[] {
     // TODO
+    return;
   }
   /**
    * Add an item to the graph.
@@ -215,6 +222,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    */
   public addItem(itemType: ITEM_TYPE, model: NodeUserModel | EdgeUserModel | ComboUserModel, stack?: boolean): IItem {
     // TODO
+    return;
   };
   /**
    * Add items to the graph.
@@ -226,6 +234,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    */
   public addItems(itemType: ITEM_TYPE, models: NodeUserModel[] | EdgeUserModel[] | ComboUserModel[], stack?: boolean): IItem[] {
     // TODO
+    return;
   }
   /**
    * Remove an item from the graph.
@@ -256,6 +265,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    */
   public updateItem(item: IItem | string, cfg: Partial<NodeUserModel> | Partial<EdgeUserModel> | Partial<ComboUserModel>, stack?: boolean): IItem {
     // TODO
+    return;
   }
   /**
    * Show the item.
@@ -357,24 +367,39 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @group Interaction
    */
   public addBehaviors(behaviors: BehaviorOptionsOf<B>[], modes: string | string[]) {
+    const modesArr = isArray(modes) ? modes : [modes];
+    const behaviorsArr = isArray(behaviors) ? behaviors : [behaviors];
     this.hooks.behaviorchange.emit({
       action: 'add',
-      modes: isArray(modes) ? modes : [modes],
-      behaviors: isArray(behaviors) ? behaviors : [behaviors]
+      modes: modesArr,
+      behaviors: behaviorsArr
+    });
+    // update the graph specification
+    modesArr.forEach(mode => {
+      this.specification.modes[mode] = this.specification.modes[mode].concat(behaviorsArr);
     });
   }
   /**
    * Remove behavior(s) from mode(s).
-   * @param behaviors behavior names or configs
+   * @param behaviors behavior configs with unique key
    * @param modes mode names
    * @returns 
    * @group Interaction
    */
-  public removeBehaviors(behaviors: BehaviorOptionsOf<B>[], modes: string | string[]) {
+  public removeBehaviors(behaviorKeys: string[], modes: string | string[]) {
+    const modesArr = isArray(modes) ? modes : [modes];
     this.hooks.behaviorchange.emit({
       action: 'remove',
-      modes: isArray(modes) ? modes : [modes],
-      behaviors: isArray(behaviors) ? behaviors : [behaviors]
+      modes: modesArr,
+      behaviors: behaviorKeys
+    });
+    // update the graph specification
+    modesArr.forEach(mode => {
+      behaviorKeys.forEach(key => {
+        const oldBehavior = this.specification.modes[mode].find(behavior => isObject(behavior) && behavior.key === key);
+        const indexOfOldBehavior = this.specification.modes[mode].indexOf(oldBehavior);
+        this.specification.modes[mode].splice(indexOfOldBehavior, 1);
+      })
     });
   }
   /**
@@ -384,11 +409,17 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @returns 
    * @group Interaction
    */
-  public updateBehavior(behavior: BehaviorOptionsOf<B>, mode?: string) {
+  public updateBehavior(behavior: BehaviorObjectOptionsOf<B>, mode?: string) {
     this.hooks.behaviorchange.emit({
       action: 'update',
       modes: [mode],
       behaviors: [behavior],
     });
+    // no need to update specification since the corresponding part is the same object as the behavior's option 
+    // this.specification.modes[mode].forEach((b, i) => {
+    //   if (isObject(b) && b.key === behavior.key) {
+    //     this.specification.modes[mode][i] = behavior;
+    //   }
+    // });
   }
 }

@@ -9,7 +9,7 @@ export default class Hook<T> implements IHook<T> {
   /**
    * A series listeners for this hook which will be executed one by one
    */
-  public listeners: ((param: T) => void)[];
+  public listeners: ((param: T) => void)[] = [];
   constructor(cfg) {
     const { name } = cfg;
     this.name = name;

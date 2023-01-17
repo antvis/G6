@@ -1,12 +1,11 @@
 import { Graph as GraphLib } from "@antv/graphlib";
 import { GraphData, IGraph } from "../../types";
-import stdlib from '../../stdlib';
+import { registery } from '../../stdlib';
 import { getExtension } from "../../util/extension";
 import { clone } from "@antv/util";
 import { NodeModelData } from "../../types/node";
 import { EdgeModelData } from "../../types/edge";
 import { GraphCore } from "../../types/data";
-import { BehaviorRegistry } from "../../types/behavior";
 
 /**
  * Manages the data transform extensions;
@@ -39,11 +38,11 @@ export class DataController {
   }
 
   /**
-   * Get the extensions from stdlib.
+   * Get the extensions from useLib.
    */
   private getExtensions() {
-    const { transform } = this.graph.getSpec();
-    return transform.map(config => getExtension(config, stdlib, 'transform')).filter(transformer => !!transformer);
+    const { transform = [] } = this.graph.getSpecification();
+    return transform.map(config => getExtension(config, registery.useLib, 'transform')).filter(transformer => !!transformer);
   }
 
   /**
@@ -58,7 +57,7 @@ export class DataController {
 
     // Transform the data.
     this.extensions.forEach(ext => {
-      dataCloned = ext(dataCloned);
+      dataCloned = ext(dataCloned,); // TODO: configs
     })
 
     // Input and store in graphcore.

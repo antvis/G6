@@ -10,12 +10,12 @@ import { StdLibCategory } from "../types/stdlib";
  * @returns 
  */
 export const getExtension = (config: string | Function | object, lib, cat: StdLibCategory) => {
+  const catKey = `${cat}s`;
   // TODO: whether keep function type config?
   if (isFunction(config)) {
     return config;
   }
-  if (typeof config === 'string') {
-    return lib[cat]?.[config]
-  }
-  return lib[cat]?.[config.type];
+  const type = typeof config === 'string' ? config : (config as any).type;
+  const Ext = lib[catKey]?.[type];
+  return new Ext(config);
 };
