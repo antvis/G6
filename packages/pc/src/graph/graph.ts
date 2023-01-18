@@ -10,6 +10,7 @@ import Global from '../global';
 import { LayoutController, EventController } from './controller';
 import { PluginBase } from '@antv/g6-plugin';
 import { createDom } from '@antv/dom-util';
+import { cloneGElement } from '../util/image';
 
 const { transform } = ext;
 const SVG = 'svg';
@@ -376,7 +377,8 @@ export default class Graph extends AbstractGraph implements IGraph {
     const vCanvas = renderer === 'svg' ? new GSVGCanvas(canvasOptions) : new GCanvas(canvasOptions);
 
     const group = this.get('group');
-    const vGroup = group.clone();
+    // clone group and clone image shape's clip
+    const vGroup = cloneGElement(group);
 
     let matrix = clone(vGroup.getMatrix());
     if (!matrix) matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];

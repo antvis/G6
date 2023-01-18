@@ -117,7 +117,7 @@ const graph = new G6.Graph({
 
   <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IFfoS67_HssAAAAAAAAAAAAAARQnAQ' width='650' alt="" />
 
-  - `allowDragOnItem`: whether response when the users drag on items(node/edge/combo), `false` by default;
+  - `allowDragOnItem`: whether response when the users drag on items(node/edge/combo), `false` by default. **Supported by 4.8.4** Allow object config with type `{ node?: boolean, edge?: boolean, combo?: boolean }` to control draggable on different item types;
 - Related timing events:
   - `canvas:dragstart`: Triggered when drag start. Listened by `graph.on('canvas:dragstart', e => {...})`;
   - `canvas:drag`: Triggered when dragging. Listened by `graph.on('canvas:drag', e => {...})`;
@@ -162,7 +162,7 @@ The canvas can be dragged along x direction only.<br /><img src='https://gw.alip
   - `enableOptimize`: whether enable optimization, `false` by default. `enableOptimize: true` means hiding all edges and the shapes beside keyShapes of nodes while dragging canvas;
   - `zoomKey`: switch to zooming while pressing the key and wheeling. Options: `'shift'`, `'ctrl'`, `'alt'`, `'control'`, `'meta'`, using an array of these options allows any of these keys to trigger zooming;
   - `scalableRange`: scalable range when drag canvas, `zero` by default. -1 to 1 means the scalable percentage of the viewport; the image bellow illustrate the situation when it is smaller than -1 or bigger than 1: 
-  - `allowDragOnItem`: whether response when the users drag on items(node/edge/combo), `true` by default;
+  - `allowDragOnItem`: whether response when the users drag on items(node/edge/combo), `false` by default. **Supported after 4.8.4** allows object config with type `{ node?: boolean, edge?: boolean, combo?: boolean }` to control draggable on different item types;
 
   <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IFfoS67_HssAAAAAAAAAAAAAARQnAQ' width='650' alt="" />
 

@@ -41,7 +41,7 @@ const graph = new G6.Graph({
 
 **类型**： Number<br />**默认值**：30<br />**是否必须**：false<br />**说明**：节点大小（直径）。用于防止节点重叠时的碰撞检测
 
-## layoutCfg.minNodeSpacing
+## layoutCfg.nodeSpacing
 
 **类型**： Number<br />**默认值**：10<br />**是否必须**：false<br />**说明**：环与环之间最小间距，用于调整半径
 

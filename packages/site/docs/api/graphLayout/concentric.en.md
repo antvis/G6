@@ -41,7 +41,7 @@ const graph = new G6.Graph({
 
 **Type**: Number<br />**Default**: 30<br />**Required**: false<br />**Description**: The diameter of the node. It is used for preventing node overlappings
 
-## layoutCfg.minNodeSpacing
+## layoutCfg.nodeSpacing
 
 **Type**: Number<br />**Default**: 10<br />**Required**: false<br />**Description**: The minimum separation between adjacent circles
 

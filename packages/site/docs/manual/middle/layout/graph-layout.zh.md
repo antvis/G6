@@ -296,7 +296,7 @@ centripetalOptions: {
 | --- | --- | --- | --- | --- |
 | center | Array | [ 0, 0 ] | 图的中心 | 布局的中心 |
 | nodeSize | Number | 30 | 30 | 节点大小（直径）。用于防止节点重叠时的碰撞检测 |
-| minNodeSpacing | Number | 10 | 10 | 环与环之间最小间距，用于调整半径 |
+| nodeSpacing | Number | 10 | 10 | 环与环之间最小间距，用于调整半径 |
 | preventOverlap | Boolean | false | false | 是否防止重叠，必须配合属性 `nodeSize` ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测。若未设置 `nodeSize` ，则将根据节点数据中的 `size` 进行碰撞检测。若二者都未设置，则默认以 30 为节点大小进行碰撞检测 |
 | sweep | Number | Math.PI | undefined | 第一个节点与最后一个节点之间的弧度差 |
 | equidistant | Boolean | false | false | 环与环之间的距离是否相等 |

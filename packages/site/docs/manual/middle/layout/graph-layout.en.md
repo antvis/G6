@@ -295,7 +295,7 @@ centripetalOptions: {
 | --- | --- | --- | --- | --- |
 | center | Array | [ 0, 0 ] | The center of the graph | The center of the layout |
 | nodeSize | Number | 30 | 30 | The diameter of the node. It is used for preventing node overlappings |
-| minNodeSpacing | Number | 10 | 10 | The minimum separation between adjacent circles |
+| nodeSpacing | Number | 10 | 10 | The minimum separation between adjacent circles |
 | preventOverlap | Boolean | false | false | Whether to prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. If the size in node data does not exist either, `nodeSize` is assigned to 30 by default |
 | sweep | Number | Math.PI | undefined | How many radians should be between the first and last node (defaults to full circle). If it is undefined, 2 _ Math.PI _ (1 - 1 / | level.nodes | ) will be used, where level.nodes is nodes set of each level, | level.nodes | is the number of nodes of the level |
 | equidistant | Boolean | false | false | Whether levels have an equal radial distance between them, may cause bounding box overflow |

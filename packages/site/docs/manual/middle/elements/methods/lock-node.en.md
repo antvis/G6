@@ -57,7 +57,6 @@ G6.registerBehavior('drag-canvas-exclude-lockedNode', {
     lockedNodes.forEach((node) => {
       node.get('group').translate(dx, dy);
     });
-    this.graph.paint();
   },
   onMouseDown(e) {
     if (this.keydown) {
@@ -208,7 +207,6 @@ G6.registerBehavior('zoom-canvas-exclude-lockedNode', {
       ]);
       node.get('group').setMatrix(matrix);
     });
-    graph.paint();
     graph.emit('wheelzoom', e);
   },
 });
