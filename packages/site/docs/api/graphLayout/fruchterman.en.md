@@ -32,6 +32,24 @@ If you want to fix the positions for some nodes during calculation, assign `fx` 
 
 **Type**: Array<br />**Example**: [ 0, 0 ]<br />**Default**: The center of the graph<br />**Required**: false<br />**Description**: The center of the layout
 
+
+## layoutCfg.preset
+
+_Supported from v4.7.0_
+
+**Type**:
+
+```javascript
+{
+  type: string; // preset layout name, could be any static layout like random, concentric, grid, circular, radial, and dagre
+  [key: string]: unkown; // corresponding configurations for the preset layout type
+}
+```
+<br />
+
+**Default**: undefined<br />**Required**: false<br />**Description**: Preset layout calculates intialize positions for nodes, and the force layout will start from the inited result. The quality of the force layout's result depends on the initial positions of nodes. Configuring a proper preset for a force layout will speed up the convergence of force layout, and enhance the quality in the same time. By default, the positions of nodes will be inited as grid
+
+
 ## layoutCfg.maxIteration
 
 **Type**: Number<br />**Default**: 1000<br />**Required**: false<br />**Description**: The maximum iteration number

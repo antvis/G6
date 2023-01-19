@@ -37,6 +37,23 @@ const graph = new G6.Graph({
 **Type**: Boolean<br />**Default**: false<br />**Required**: false<br />**Description**: Whether to enable the web-worker in case layout calculation takes too long to block page interaction.
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Notice:</strong></span> When `workerEnabled: true`, all the function type parameters are not supported.
 
+
+## layoutCfg.preset
+
+_Supported from v4.7.0_
+
+**Type**:
+
+```javascript
+{
+  type: string; // preset layout name, could be any static layout like random, concentric, grid, circular, radial, and dagre
+  [key: string]: unkown; // corresponding configurations for the preset layout type
+}
+```
+<br />
+
+**Default**: undefined<br />**Required**: false<br />**Description**: Preset layout calculates intialize positions for nodes, and the force layout will start from the inited result. The quality of the force layout's result depends on the initial positions of nodes. Configuring a proper preset for a force layout will speed up the convergence of force layout, and enhance the quality in the same time. By default, the positions of nodes will be inited as grid
+
 ## layoutCfg.kr
 
 **Type**: Number<br />**Default**: 5<br />**Required**: false<br />**Description**: Repulsive parameter, smaller the kr, more compact the graph
