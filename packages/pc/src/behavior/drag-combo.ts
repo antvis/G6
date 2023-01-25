@@ -369,9 +369,8 @@ export default {
     const graph: IGraph = this.graph;
 
     if (graph.get('enabledStack')) {
-      const combos = graph.findAllByState('combo', this.selectedState);
-      if (combos.length) {
-        pushComboToStack(graph, combos);
+      if (this.targets.length) {
+        pushComboToStack(graph, this.targets);
       }
     }
 
