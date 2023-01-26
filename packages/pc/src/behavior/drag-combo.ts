@@ -33,6 +33,7 @@ const traverseCombo = (data, fn: (param: any) => boolean) => {
   }
 };
 
+// *Siren* Added for single combo action (undo/redo)
 /**
  * Pushes the combo and its children to
  * stack, if redo is not empty it's cleared.
@@ -183,6 +184,7 @@ export default {
       return true;
     });
 
+    // *Siren* Added for single combo action (undo/redo)
     if (graph.get('enabledStack') && combos.length) {
       pushComboToStack(graph, combos);
     }
@@ -368,6 +370,7 @@ export default {
     const parentCombo = this.getParentCombo(item.getModel().parentId);
     const graph: IGraph = this.graph;
 
+    // *Siren* Added for single combo action (undo/redo)
     if (graph.get('enabledStack')) {
       if (this.targets.length) {
         pushComboToStack(graph, this.targets);
