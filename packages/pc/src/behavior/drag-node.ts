@@ -250,6 +250,10 @@ export default {
           this.update(target, evt);
         });
     }
+    if (this.onlyChangeComboSize) {
+      // 拖动节点结束后，动态改变 Combo 的大小
+      this.graph.updateCombos();
+    }
   },
   /**
    * 拖动结束，设置拖动元素capture为true，更新元素位置，如果是拖动涉及到 combo，则更新 combo 结构

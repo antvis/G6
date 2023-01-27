@@ -243,6 +243,10 @@ export default {
       each(this.targets, (item) => {
         this.updateCombo(item, evt);
       });
+      if (this.onlyChangeComboSize) {
+        // 拖动节点结束后，动态改变 Combo 的大小
+        this.graph.updateCombos();
+      }
     }
   },
 
