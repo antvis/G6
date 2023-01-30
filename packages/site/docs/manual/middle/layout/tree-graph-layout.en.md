@@ -86,6 +86,7 @@ const graph = new G6.TreeGraph({
 | getHeight | Function | (d) => {<br />  // d is a node<br />  return 10;<br />} | undefined | The height of each node |
 | getWidth | Function | (d) => {<br />  // d is a node<br />  return 20;<br />} | undefined | The width of each node |
 | getSide | Function | (d) => {<br />  // d is a node<br />  return 'left';<br />} | undefined | The callback function of node position(left or right of root node). Only affects the nodes which are connected to the root node directly. And the descendant nodes will be placed according to it |
+| align | 'center' / undefined | 'center' | undefined | Tell the layout whether the nodes drawing aligned at the center or the left-top. Built-in nodes are all aligned at the center, e.g. built-in 'circle' type node has circle type keyShape, and the circle shape's x and y are assigned with 0, which means the origin of this node's coordinate system is aligned at the circle's center; built-in 'rect' type node has rect type keyShape, and the rect shape's x and y are assigned with `width / 2` and `height / 2` respectively, which means the origin of this node's coordinate system is aligned at the center of the rect shape. But user customed node type with rect keyShape usually has [0, 0] for x and y, which means the origin is aligned at the left-top of the rect. Tell layout this info and correct `getWidth`, `getHeight` in the same time will make the coordinate calculation more precise. |
 
 ### mindmap
 

@@ -38,7 +38,8 @@ describe('random', () => {
       width: 500,
       height: 500,
       fitView: true
-    })
+    });
+    G6.Util.traverseTree(layoutData, subtree => delete subtree.parent);
     tree.data(layoutData);
     tree.render();
     expect(!isNaN(layoutData.x)).toBe(true);

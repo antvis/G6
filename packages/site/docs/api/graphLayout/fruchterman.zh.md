@@ -32,6 +32,22 @@ const graph = new G6.Graph({
 
 **类型**： Array<br />**示例**：[ 0, 0 ]<br />**默认值**：图的中心<br />**是否必须**：false<br />**说明**：布局的中心
 
+## layoutCfg.preset
+
+_自 G6 v4.7.0 起支持。_
+
+**类型**: 
+
+```javascript
+{
+  type: string; // 布局名称，可以是 random、concentric、grid、circular、radial、dagre 等静态布局
+  [key: string]: unkown; // 对应布局的配置项
+}
+```
+<br />
+
+**默认值**: undefined<br />**是否必须**: false<br />**说明**: 力导向布局的初始化布局，将先执行 preset 指定的布局，再进行力导向计算。由于力导向布局的结果非常依赖节点的初始位置，配置 preset 的可以给力导向布局一个好的初始化，让力导向算法更快收敛、效果更好。默认情况下，力导向的初始化为格子布局（grid）的结果
+
 ## layoutCfg.maxIteration
 
 **类型**： Number<br />**默认值**：1000<br />**是否必须**：false<br />**说明**：最大迭代次数

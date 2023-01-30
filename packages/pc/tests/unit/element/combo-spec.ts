@@ -88,7 +88,7 @@ describe('stack', () => {
   graph.data(data);
   graph.render();
   it('initial collapsed and stack', () => {
-    expect(graph.getUndoStack().linkedList.head.value.action).toBe('render')
+    expect(graph.getUndoStack().linkedList.head).toBe(null)
   })
   it('drag combo stack', () => {
     graph.on('canvas:click', e => {

@@ -326,7 +326,11 @@ export interface ModeOption {
   minZoom?: number;
   enableOptimize?: boolean;
   enableDebounce?: boolean;
-  allowDragOnItem?: boolean;
+  allowDragOnItem?: boolean | {
+    node?: boolean,
+    edge?: boolean,
+    combo?: boolean
+  };
   optimizeZoom?: number;
   multiple?: boolean;
   activeState?: string;

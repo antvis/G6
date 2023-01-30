@@ -50,7 +50,6 @@ describe('drag-canvas', () => {
     graph.on('canvas:dragend', () => {
       start = false;
     });
-    graph.paint();
     graph.emit('mousedown', { clientX: 150, clientY: 150, target: graph.get('canvas') });
     graph.emit('drag', { clientX: 150, clientY: 150, target: graph.get('canvas') });
     graph.emit('drag', { clientX: 200, clientY: 200, target: graph.get('canvas') });
@@ -64,7 +63,7 @@ describe('drag-canvas', () => {
     expect(start).toBe(false);
     graph.destroy();
   });
-  it('drag canvas with allowDragOnItem', () => {
+  it('drag canvas with boolean allowDragOnItem', () => {
     const graph = new Graph({
       container: div,
       width: 500,
@@ -87,7 +86,6 @@ describe('drag-canvas', () => {
     graph.on('canvas:dragend', () => {
       start = false;
     });
-    graph.paint();
     graph.emit('mousedown', { clientX: 150, clientY: 150, target: graph.getNodes()[0] });
     graph.emit('drag', { clientX: 150, clientY: 150, target: graph.getNodes()[0] });
     graph.emit('drag', { clientX: 200, clientY: 200, target: graph.getNodes()[0] });
@@ -99,6 +97,80 @@ describe('drag-canvas', () => {
     expect(matrix[7]).toEqual(100);
     graph.emit('dragend', {});
     expect(start).toBe(false);
+    graph.destroy();
+  });
+  it('drag canvas with object allowDragOnItem', () => {
+    const graph = new Graph({
+      container: div,
+      width: 500,
+      height: 500,
+      defaultEdge: {
+        size: 10
+      },
+      modes: {
+        default: [
+          {
+            type: 'drag-canvas',
+            allowDragOnItem: {
+              node: false,
+              edge: true
+            },
+          },
+        ],
+      },
+    });
+    const gdata = {
+      ...data,
+      combos: [{
+        id: 'combo1'
+      }]
+    };
+    gdata.nodes[0].comboId = 'combo1';
+    graph.data(gdata);
+    graph.render();
+    let start = false;
+    graph.on('canvas:dragstart', () => {
+      start = true;
+    });
+    graph.on('canvas:dragend', () => {
+      start = false;
+    });
+    // drag failed on node
+    graph.emit('mousedown', { clientX: 150, clientY: 150, target: graph.getNodes()[0], item: graph.getNodes()[0] });
+    graph.emit('drag', { clientX: 150, clientY: 150, target: graph.getNodes()[0], item: graph.getNodes()[0] });
+    graph.emit('drag', { clientX: 200, clientY: 200, target: graph.getNodes()[0], item: graph.getNodes()[0] });
+    expect(start).toBe(false);
+    graph.emit('drag', { clientX: 250, clientY: 250, target: graph.getNodes()[0], item: graph.getNodes()[0] });
+    expect(start).toBe(false);
+    let matrix = graph.get('group').getMatrix();
+    expect(matrix).toEqual(null);
+    graph.emit('dragend', {});
+
+    // drag success on edge
+    graph.emit('mousedown', { clientX: 150, clientY: 150, target: graph.getEdges()[0], item: graph.getEdges()[0] });
+    graph.emit('drag', { clientX: 150, clientY: 150, target: graph.getEdges()[0], item: graph.getEdges()[0] });
+    graph.emit('drag', { clientX: 200, clientY: 200, target: graph.getEdges()[0], item: graph.getEdges()[0] });
+    expect(start).toBe(true);
+    graph.emit('drag', { clientX: 250, clientY: 250, target: graph.getEdges()[0], item: graph.getEdges()[0] });
+    expect(start).toBe(true);
+    matrix = graph.get('group').getMatrix();
+    expect(matrix[6]).toEqual(100);
+    expect(matrix[7]).toEqual(100);
+    graph.emit('dragend', {});
+    expect(start).toBe(false);
+
+    // drag failed on combo
+    graph.emit('mousedown', { clientX: 150, clientY: 150, target: graph.getCombos()[0], item: graph.getCombos()[0] });
+    graph.emit('drag', { clientX: 150, clientY: 150, target: graph.getCombos()[0], item: graph.getCombos()[0] });
+    graph.emit('drag', { clientX: 200, clientY: 200, target: graph.getCombos()[0], item: graph.getCombos()[0] });
+    expect(start).toBe(false);
+    graph.emit('drag', { clientX: 250, clientY: 250, target: graph.getCombos()[0], item: graph.getCombos()[0] });
+    expect(start).toBe(false);
+    matrix = graph.get('group').getMatrix();
+    expect(matrix[6]).toEqual(100);
+    expect(matrix[7]).toEqual(100);
+    graph.emit('dragend', {});
+
     graph.destroy();
   });
   it('prevent default drag behavior', () => {
@@ -126,7 +198,6 @@ describe('drag-canvas', () => {
     graph.on('canvas:dragend', () => {
       start = false;
     });
-    graph.paint();
     graph.emit('mousedown', { clientX: 150, clientY: 150, target: graph.get('canvas') });
     graph.emit('drag', { clientX: 150, clientY: 150, target: graph.get('canvas') });
     graph.emit('drag', { clientX: 200, clientY: 200, target: graph.get('canvas') });
@@ -197,7 +268,6 @@ describe('drag-canvas', () => {
     graph.on('canvas:dragend', () => {
       start = false;
     });
-    graph.paint();
     graph.emit('mousedown', { clientX: 150, clientY: 150, target: graph.get('canvas') });
     graph.emit('drag', { clientX: 150, clientY: 150, target: graph.get('canvas') });
     graph.emit('drag', { clientX: 200, clientY: 200, target: graph.get('canvas') });
@@ -227,7 +297,6 @@ describe('drag-canvas', () => {
     });
     let start = false;
     graph.addItem('node', { x: 100, y: 100, color: '#666', type: 'rect', id: 'test' });
-    graph.paint();
     graph.emit('mousedown', { clientX: 150, clientY: 150, target: graph.get('canvas') });
     graph.emit('drag', { clientX: 150, clientY: 150, target: graph.get('canvas') });
     graph.emit('drag', { clientX: 250, clientY: 250, target: graph.get('canvas') });
@@ -517,7 +586,6 @@ describe('drag-canvas', () => {
     graph.on('canvas:dragend', () => {
       start = false;
     });
-    graph.paint();
     graph.emit('mousedown', { clientX: 150, clientY: 150, target: graph.get('canvas') });
     graph.emit('drag', { clientX: 150, clientY: 150, target: graph.get('canvas') });
     graph.emit('drag', { clientX: 200, clientY: 200, target: graph.get('canvas') });

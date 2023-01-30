@@ -1,5 +1,11 @@
 # ChangeLog
 
+### 4.8.4
+
+- fix: error edge link positions for circle combo with size config, closes: #4193;
+- fix: indented layout with different node widths, closes: #4200;
+- feat: indented layout with align config to tell the node drawing alignment;
+
 ### 4.8.3
 
 - fix: unexpected error occurs when points of a hull are all duplicated;

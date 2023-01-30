@@ -292,7 +292,7 @@ describe('create-edge', () => {
 
     let stackData = graph.getStackData();
     const { undoStack, redoStack } = stackData;
-    expect(undoStack.length).toBe(1);
+    expect(undoStack.length).toBe(0);
     expect(redoStack.length).toBe(0);
 
     // cancel
@@ -304,14 +304,14 @@ describe('create-edge', () => {
     graph.emit('node:click', { x: 120, y: 120, item: node1 });
     expect(graph.getEdges().length).toEqual(1);
     stackData = graph.getStackData();
-    expect(stackData.undoStack.length).toBe(2);
+    expect(stackData.undoStack.length).toBe(1);
     expect(stackData.redoStack.length).toBe(0);
 
     // loop
     graph.emit('node:click', { x: 100, y: 100, item: node0 });
     graph.emit('node:click', { x: 100, y: 100, item: node0 });
     stackData = graph.getStackData();
-    expect(stackData.undoStack.length).toBe(3);
+    expect(stackData.undoStack.length).toBe(2);
     expect(stackData.redoStack.length).toBe(0);
     expect(graph.getEdges().length).toEqual(2);
     const loop = graph.getEdges()[1];

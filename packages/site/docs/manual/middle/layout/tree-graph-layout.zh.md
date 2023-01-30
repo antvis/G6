@@ -86,6 +86,7 @@ const graph = new G6.TreeGraph({
 | getHeight | Function | (d) => {<br />  // d 是一个节点<br />  return 10;<br />} | undefined | 节点高度的回调函数 |
 | getWidth | Function | (d) => {<br />  // d 是一个节点<br />  return 20;<br />} | undefined | 节点宽度的回调函数 |
 | getSide | Function | (d) => {<br />  // d 是一个节点<br />  return 'left';<br />} | undefined | 节点放置在根节点左侧或右侧的回调函数，仅对与根节点直接相连的节点有效，设置后将会影响被设置节点的所有子孙节点 |
+| align | 'center' / undefined | 'center' | undefined | 告知 indented 布局，节点在绘制时自身坐标系的原点在其中心还是左上角。所有的内置节点的自身坐标系原点均在中心，例如 'circle' 类型节点的 keyShape 是圆形图形，它的圆心 x、y 被设置为 0，代表原点对齐在该 keyShape 的圆心（即中心）；而 'rect' 类型的内置节点 keyShape 是矩形图形，内置定义中它的 x、y 分别被设置为 `width / 2` 和 `height / 2`，意味着矩形的左上角在 [width / 2, height / 2] 坐标上，那么坐标系原点就在矩形的中心。但自定义的 keyShape 为矩形的节点中，矩形的 x、y 可能被设置为 0，那么这一节点类型的自身坐标系原点就在其左上角。从整个图来看，每个节点的自身坐标系原点，将对齐到布局计算的节点位置上（画布绘制坐标系）。根据你使用的节点类型，告知 indented 布局是如何对齐的，可以更准确地计算节点位置，当然，这同时需要配合准确的 `getWidth` 和 `getHeight` 的返回值  |
 
 ### mindmap
 

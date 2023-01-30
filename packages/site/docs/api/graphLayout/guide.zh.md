@@ -49,6 +49,8 @@ const graph = new G6.Graph({
 - 若数据中节点有位置信息（`x` 和 `y`），则按照数据的位置信息进行绘制；
 - 若数据中节点没有位置信息，则默认使用 Random Layout 进行布局。
 
+如果开启了 webworker，worker 使用的是 @antv/layout 线上的脚本，如果你的项目无法访问到线上资源，请保存 [layout 脚本](https://unpkg.com/@antv/layout@latest/dist/layout.min.js)，并放在可以访问到的地址上，将 layout 的 `workerScriptURL` 配置为该地址即可。
+
 ## 单独使用布局
 
 以下方法为通过 `const layout = new G6.Layout['layoutName']` 单独使用布局时，或自定义布局时可能需要复写的方法。如果上述两种情况，仅在实例化图时通过配置 `layout` 使用内置布局方法时，以下方法由 G6 控制并调用，用户不需要了解。
