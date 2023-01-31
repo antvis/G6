@@ -5,6 +5,7 @@
 - fix: combo with size and fixSize setting;
 - fix: active-relations with combo and clear states for destroyed virtual edges leads to unexpected error, closes: #4229;
 - fix: applyCloneClip with uncliped image leads to unexpected error, closes: #4231;
+- feat: drag-node and drag-combo support dynamically changes parent combos size while dragging the child items;
 
 ### 4.8.4
 
