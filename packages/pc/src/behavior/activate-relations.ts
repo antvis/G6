@@ -1,4 +1,4 @@
-import { G6Event, IG6GraphEvent, INode } from '@antv/g6-core';
+import { G6Event, IG6GraphEvent, INode, ICombo, IEdge } from '@antv/g6-core';
 import { throttle } from '@antv/util';
 
 export default {
@@ -162,44 +162,46 @@ export default {
         }
       }
 
-      if (inactiveState) {
-        graph.setItemState(item, inactiveState, false);
-        delete inactiveItems[item.getID()];
-      }
-      if (!activeItems[item.getID()]) {
-        graph.setItemState(item, activeState, true);
-        activeItems[item.getID()] = item;
-      }
+      if (item && !item.destroyed) {
+        if (inactiveState) {
+          graph.setItemState(item, inactiveState, false);
+          delete inactiveItems[item.getID()];
+        }
+        if (!activeItems[item.getID()]) {
+          graph.setItemState(item, activeState, true);
+          activeItems[item.getID()] = item;
+        }
 
-      const rEdges = item.getEdges();
-      const rEdgeLegnth = rEdges.length;
-      for (let i = 0; i < rEdgeLegnth; i++) {
-        const edge = rEdges[i];
-        const edgeId = edge.getID();
-        let otherEnd: INode;
-        if (edge.getSource() === item) {
-          otherEnd = edge.getTarget();
-        } else {
-          otherEnd = edge.getSource();
+        const rEdges = item.getEdges();
+        const rEdgeLegnth = rEdges.length;
+        for (let i = 0; i < rEdgeLegnth; i++) {
+          const edge = rEdges[i];
+          const edgeId = edge.getID();
+          let otherEnd: INode;
+          if (edge.getSource() === item) {
+            otherEnd = edge.getTarget();
+          } else {
+            otherEnd = edge.getSource();
+          }
+          const otherEndId = otherEnd.getID();
+          if (inactiveState && inactiveItems[otherEndId]) {
+            graph.setItemState(otherEnd, inactiveState, false);
+            delete inactiveItems[otherEndId];
+          }
+          if (!activeItems[otherEndId]) {
+            graph.setItemState(otherEnd, activeState, true);
+            activeItems[otherEndId] = otherEnd;
+          }
+          if (inactiveItems[edgeId]) {
+            graph.setItemState(edge, inactiveState, false);
+            delete inactiveItems[edgeId];
+          }
+          if (!activeItems[edgeId]) {
+            graph.setItemState(edge, activeState, true);
+            activeItems[edgeId] = edge;
+          }
+          edge.toFront();
         }
-        const otherEndId = otherEnd.getID();
-        if (inactiveState && inactiveItems[otherEndId]) {
-          graph.setItemState(otherEnd, inactiveState, false);
-          delete inactiveItems[otherEndId];
-        }
-        if (!activeItems[otherEndId]) {
-          graph.setItemState(otherEnd, activeState, true);
-          activeItems[otherEndId] = otherEnd;
-        }
-        if (inactiveItems[edgeId]) {
-          graph.setItemState(edge, inactiveState, false);
-          delete inactiveItems[edgeId];
-        }
-        if (!activeItems[edgeId]) {
-          graph.setItemState(edge, activeState, true);
-          activeItems[edgeId] = edge;
-        }
-        edge.toFront();
       }
       self.activeItems = activeItems;
       self.inactiveItems = inactiveItems;
@@ -223,10 +225,10 @@ export default {
       const activeItems = self.activeItems || {};
       const inactiveItems = self.inactiveItems || {};
 
-      Object.values(activeItems).forEach(item => {
+      Object.values(activeItems).filter((item: INode | IEdge | ICombo) => !item.destroyed).forEach(item => {
         graph.clearItemStates(item, activeState);
       });
-      Object.values(inactiveItems).forEach(item => {
+      Object.values(inactiveItems).filter((item: INode | IEdge | ICombo) => !item.destroyed).forEach(item => {
         graph.clearItemStates(item, inactiveState);
       });
       self.activeItems = {};
