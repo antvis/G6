@@ -27,8 +27,10 @@ const applyCloneClip = (element: IElement, clonedElement: IElement) => {
   const clonedType = clonedElement.get('type');
   if (type !== 'image' || clonedType !== 'image') return;
   const clipShape = element.get('clipShape');
-  clonedElement.setClip({
-    type: clipShape.get('type'),
-    attrs: clipShape.attr()
-  });
+  if (clipShape) {
+    clonedElement.setClip({
+      type: clipShape.get('type'),
+      attrs: clipShape.attr()
+    });
+  }
 }
