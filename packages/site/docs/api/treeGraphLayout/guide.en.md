@@ -5,7 +5,7 @@ order: 0
 
 ## Overview
 
-Similar to [Graph Layout](/en/docs/api/graphLayout/guide), G6 provides several built-in TreeGraph layouts, which can be [configured to Graph](#Usage) by `layout`. The differences between TreeGraph and Graph:
+Similar to [Graph Layout](/en/docs/api/graph-layout/guide), G6 provides several built-in TreeGraph layouts, which can be [configured to Graph](#Usage) by `layout`. The differences between TreeGraph and Graph:
 
 - When instantiating a TreeGraph, the `layout` is required, but it is not required for Graph;
 - TreeGaph layouts does not support being instantiated and used independently;
