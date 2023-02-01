@@ -294,7 +294,7 @@ Whether to allow the node or edge to be updated.
 
 ### setState(name, value, item)
 
-After [`graph.setItemState(item, state, value)`](/en/docs/api/graphFunc/state#graphsetitemstateitem-state-value) is called, this function will do some responses.
+After [`graph.setItemState(item, state, value)`](/en/docs/api/graph-func/state#graphsetitemstateitem-state-value) is called, this function will do some responses.
 
 **Paramters**
 

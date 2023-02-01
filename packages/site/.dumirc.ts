@@ -285,7 +285,7 @@ export default defineConfig({
       },
       // ==========API====================
       {
-        slug: 'api/graphLayout',
+        slug: 'api/graph-layout',
         title: {
           zh: '图布局 Graph Layout',
           en: 'Graph Layout',
@@ -293,7 +293,7 @@ export default defineConfig({
         order: 2,
       },
       {
-        slug: 'api/graphFunc',
+        slug: 'api/graph-func',
         title: {
           zh: 'Graph 实例方法',
           en: 'Graph Functions',
@@ -301,7 +301,7 @@ export default defineConfig({
         order: 1,
       },
       {
-        slug: 'api/treeGraphLayout',
+        slug: 'api/tree-graph-layout',
         title: {
           zh: '树图布局 TreeGraph Layout',
           en: 'TreeGraph Layout',

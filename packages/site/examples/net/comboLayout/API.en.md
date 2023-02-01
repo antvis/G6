@@ -4,8 +4,8 @@ title: API
 
 ## ComboCombined
 
-<embed src="@/docs/api/graphLayout/comboCombined.en.md"></embed>
+<embed src="@/docs/api/graph-layout/comboCombined.en.md"></embed>
 
 ## ComboForce
 
-<embed src="@/docs/api/graphLayout/comboForce.en.md"></embed>
+<embed src="@/docs/api/graph-layout/comboForce.en.md"></embed>

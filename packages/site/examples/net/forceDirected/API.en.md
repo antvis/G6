@@ -2,4 +2,4 @@
 title: API
 ---
 
-<embed src="@/docs/api/graphLayout/force.en.md"></embed>
+<embed src="@/docs/api/graph-layout/force.en.md"></embed>

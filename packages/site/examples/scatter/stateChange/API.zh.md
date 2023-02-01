@@ -8,4 +8,4 @@ title: API
 
 # 状态
 
-<embed src="@/docs/api/graphFunc/state.zh.md"></embed>
+<embed src="@/docs/api/graph-func/state.zh.md"></embed>

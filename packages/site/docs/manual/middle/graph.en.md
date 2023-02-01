@@ -144,7 +144,7 @@ Type: Object. The style properties of edges in different states expect for defau
 
 - `layout`
 
-Type: Object. If there is no position information in data, Random Layout will take effect by default. The layout options and their configurations can be found in [Layout](/en/docs/manual/middle/layout/graph-layout)，[Graph Layout API](/en/docs/api/graphLayout/guide) or [TreeGraph Layout API](/en/docs/api/treeGraphLayout/guide).
+Type: Object. If there is no position information in data, Random Layout will take effect by default. The layout options and their configurations can be found in [Layout](/en/docs/manual/middle/layout/graph-layout)，[Graph Layout API](/en/docs/api/graph-layout/guide) or [TreeGraph Layout API](/en/docs/api/tree-graph-layout/guide).
 
 #### Interaction
 
