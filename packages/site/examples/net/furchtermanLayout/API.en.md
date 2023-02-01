@@ -2,4 +2,4 @@
 title: API
 ---
 
-<embed src="@/docs/api/graphLayout/fruchterman.en.md"></embed>
+<embed src="@/docs/api/graph-layout/fruchterman.en.md"></embed>

@@ -2,4 +2,4 @@
 title: API
 ---
 
-<embed src="@/docs/api/graphLayout/dagre.en.md"></embed>
+<embed src="@/docs/api/graph-layout/dagre.en.md"></embed>

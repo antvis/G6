@@ -435,4 +435,4 @@ graph.render();
 ## 相关阅读
 
 - [状态 State](/zh/docs/manual/middle/states/state) —— 交互过程中的样式变化；
-- [轮廓包裹 Hull](/zh/docs/api/graphFunc/hull) —— 轮廓包裹分组。
+- [轮廓包裹 Hull](/zh/docs/api/graph-func/hull) —— 轮廓包裹分组。

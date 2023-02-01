@@ -3,7 +3,7 @@ title: 自定义布局 Layout
 order: 6
 ---
 
-G6 提供了一般图和树图的一些常用布局，使用方式参见：中级教程  [一般图布局 Layout](/zh/docs/manual/middle/layout/graph-layout)，[树图布局 Layout](/zh/docs/manual/middle/layout/tree-graph-layout)，[图布局 API](/zh/docs/api/graphLayout/guide) 或 [树图布局 API](/zh/docs/api/treeGraphLayout/guide)。当这些内置布局无法满足需求时，G6 还提供了一般图的自定义布局的机制，方便用户进行更定制化的扩展。
+G6 提供了一般图和树图的一些常用布局，使用方式参见：中级教程  [一般图布局 Layout](/zh/docs/manual/middle/layout/graph-layout)，[树图布局 Layout](/zh/docs/manual/middle/layout/tree-graph-layout)，[图布局 API](/zh/docs/api/graph-layout/guide) 或 [树图布局 API](/zh/docs/api/tree-graph-layout/guide)。当这些内置布局无法满足需求时，G6 还提供了一般图的自定义布局的机制，方便用户进行更定制化的扩展。
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"> &nbsp;&nbsp;<strong>⚠️ 注意:</strong></span> 树图暂时不支持自定义布局。
 

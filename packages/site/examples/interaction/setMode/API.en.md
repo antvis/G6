@@ -2,4 +2,4 @@
 title: API
 ---
 
-<embed src="@/docs/api/graphFunc/transform.en.md"></embed>
+<embed src="@/docs/api/graph-func/transform.en.md"></embed>

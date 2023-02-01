@@ -2,4 +2,4 @@
 title: API
 ---
 
-<embed src="@/docs/api/graphFunc/hull.zh.md"></embed>
+<embed src="@/docs/api/graph-func/hull.zh.md"></embed>

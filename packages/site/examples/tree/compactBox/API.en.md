@@ -2,4 +2,4 @@
 title: API
 ---
 
-<embed src="@/docs/api/treeGraphLayout/compactBox.en.md"></embed>
+<embed src="@/docs/api/tree-graph-layout/compactBox.en.md"></embed>

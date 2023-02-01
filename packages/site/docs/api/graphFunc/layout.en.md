@@ -3,7 +3,7 @@ title: Layout
 order: 10
 ---
 
-There are several basic layout algorithms in G6 3.1. For more information, please refer to [Graph Layout API](/en/docs/api/graphLayout/guide) or [TreeGraph Layout API](/en/docs/api/treeGraphLayout/guide).
+There are several basic layout algorithms in G6 3.1. For more information, please refer to [Graph Layout API](/en/docs/api/graph-layout/guide) or [TreeGraph Layout API](/en/docs/api/tree-graph-layout/guide).
 
 ### graph.layout()
 

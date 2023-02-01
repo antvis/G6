@@ -142,7 +142,7 @@ const graph = new G6.Graph({
 
 - `layout`
 
-类型：Object。若数据中不存在节点位置，则默认为随机布局。配置布局类型及其参数。详见 [使用布局 Layout](/zh/docs/manual/middle/layout/graph-layout) 教程，[图布局 API](/zh/docs/api/graphLayout/guide) 或 [树图布局 API](/zh/docs/api/treeGraphLayout/guide)。
+类型：Object。若数据中不存在节点位置，则默认为随机布局。配置布局类型及其参数。详见 [使用布局 Layout](/zh/docs/manual/middle/layout/graph-layout) 教程，[图布局 API](/zh/docs/api/graph-layout/guide) 或 [树图布局 API](/zh/docs/api/tree-graph-layout/guide)。
 
 #### 交互行为相关
 

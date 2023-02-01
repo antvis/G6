@@ -2,4 +2,4 @@
 title: API
 ---
 
-<embed src="@/docs/api/treeGraphLayout/indented.en.md"></embed>
+<embed src="@/docs/api/tree-graph-layout/indented.en.md"></embed>

@@ -188,7 +188,7 @@ Configurations for layout. The `type` in it is the name of layout method with th
 - If there are `x` and `y` in node data, the graph will render with these information;
 - If there is no positions information in node data, the graph will arrange nodes with Random Layout by default.
 
-For more configurations for different layout methods, please refer to [Layout API](/en/docs/api/graphLayout/guide).
+For more configurations for different layout methods, please refer to [Layout API](/en/docs/api/graph-layout/guide).
 
 #### GraphOptions.layout.pipes
 

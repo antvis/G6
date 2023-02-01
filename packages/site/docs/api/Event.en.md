@@ -3,7 +3,7 @@ title: Event
 order: 12
 ---
 
-The events in this chapter can be binded or unbinded to graph by [graph.on](/en/docs/api/graphFunc/on_off#graphoneventname-handler) and [graph.off](/en/docs/api/graphFunc/on_off#graphoffeventname-handler).
+The events in this chapter can be binded or unbinded to graph by [graph.on](/en/docs/api/graph-func/on_off#graphoneventname-handler) and [graph.off](/en/docs/api/graph-func/on_off#graphoffeventname-handler).
 
 The parameters of callbacks for common events, Node events, and Edge events are described in [Behavior API](/en/docs/api/Behavior).
 

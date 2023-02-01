@@ -2,4 +2,4 @@
 title: API
 ---
 
-<embed src="@/docs/api/graphLayout/radial.zh.md"></embed>
+<embed src="@/docs/api/graph-layout/radial.zh.md"></embed>

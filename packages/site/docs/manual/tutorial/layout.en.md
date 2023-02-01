@@ -27,7 +27,7 @@ When there is no node position information in the data, or the location informat
 - Mindmap Layout;
 - Indented Layout.
 
-For more information about each layout algorithm, please refer to [Graph Layout API](/en/docs/api/graphLayout/guide) or [TreeGraph Layout API](/en/docs/api/treeGraphLayout/guide). We will utilize Force Layout in the tutorial.
+For more information about each layout algorithm, please refer to [Graph Layout API](/en/docs/api/graph-layout/guide) or [TreeGraph Layout API](/en/docs/api/tree-graph-layout/guide). We will utilize Force Layout in the tutorial.
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qnUwSZVjYOMAAAAAAAAAAABkARQnAQ' width=550  alt='img'/>
 
@@ -52,7 +52,7 @@ When the `layout` is not assigned to graph instance:
 
 ## Configure the Layout
 
-It is very simple to configure a layout for a graph in G6. Just assign `layout` to the graph when instantiating. The following code configures the layout with `type: 'force'`, which is the classical force-directed layout algorithm. And set `preventOverlap: true` to avoid node overlappings. More configurations are described in: [Graph Layout API](/en/docs/api/graphLayout/guide) or [TreeGraph Layout API](/en/docs/api/treeGraphLayout/guide).
+It is very simple to configure a layout for a graph in G6. Just assign `layout` to the graph when instantiating. The following code configures the layout with `type: 'force'`, which is the classical force-directed layout algorithm. And set `preventOverlap: true` to avoid node overlappings. More configurations are described in: [Graph Layout API](/en/docs/api/graph-layout/guide) or [TreeGraph Layout API](/en/docs/api/tree-graph-layout/guide).
 
 ```javascript
 const graph = new G6.Graph({

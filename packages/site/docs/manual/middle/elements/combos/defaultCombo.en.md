@@ -423,4 +423,4 @@ By writing the properties into the data, we adjust the label position, color, an
 ## Related Reading
 
 - [State](/en/docs/manual/middle/states/state) —— Change the styles during the interaction process;
-- [Hull](/en/docs/api/graphFunc/hull).
+- [Hull](/en/docs/api/graph-func/hull).
