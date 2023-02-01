@@ -70,7 +70,7 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
   if (!containerMatrix) containerMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
 
   const keyShape: IShapeBase = item.getKeyShape();
-  const bbox: IBBox = keyShape.getBBox();
+  const bbox: IBBox = keyShape.getCanvasBBox();
 
   const loopCfg = cfg.loopCfg || {};
   // 距离keyShape边的最高距离
@@ -78,8 +78,8 @@ export const getLoopCfgs = (cfg: EdgeData): EdgeData => {
   // 自环边与keyShape的相对位置关系
   const position: string = loopCfg.position || Global.defaultLoopPosition;
 
-  // 中心取group上真实位置
-  const center = [containerMatrix[6], containerMatrix[7]];
+  // 中心取 keyShape canvasBBox 的中心位置
+  const center = [(bbox.minX + bbox.maxX) / 2, (bbox.minY + bbox.maxY) / 2];
   let startPoint = [cfg.startPoint.x, cfg.startPoint.y];
   let endPoint = [cfg.endPoint.x, cfg.endPoint.y];
 
@@ -688,8 +688,8 @@ export const getComboBBox = (
     const comboModel = combo?.getModel();
     const { x, y, fixSize, collapsed, fixCollapseSize } = comboModel || {};
     const useFixSize = collapsed ? fixCollapseSize : fixSize;
-    const [ width, height ] = isArray(useFixSize) ? useFixSize : [useFixSize, useFixSize];
-    const halfSize = [ width / 2, height / 2 ];
+    const [width, height] = isArray(useFixSize) ? useFixSize : [useFixSize, useFixSize];
+    const halfSize = [width / 2, height / 2];
     return {
       minX: x - halfSize[0],
       minY: y - halfSize[1],

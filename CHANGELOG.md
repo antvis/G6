@@ -1,5 +1,9 @@
 # ChangeLog
 
+### 4.8.6
+
+- fix: loop edge position for custom rect node, closes: #4236;
+
 ### 4.8.5
 
 - fix: combo with size and fixSize setting;
