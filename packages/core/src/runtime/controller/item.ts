@@ -1,6 +1,6 @@
 import { Graph as GraphLib } from "@antv/graphlib";
 import { IGraph } from "../../types";
-import stdlib from '../../stdlib';
+import { registery } from '../../stdlib';
 import { getExtension } from "../../util/extension";
 import { DisplayGraphCore, GraphCore } from "../../types/data";
 import { NodeDisplayModelData } from "../../types/node";
@@ -47,14 +47,14 @@ export class ItemController {
   }
 
   /**
-   * Get the extensions from stdlib.
+   * Get the extensions from useLib, stdLib is a subset of useLib.
    */
   private getExtensions() {
-    const { transform } = this.graph.getSpec();
+    const { transform = [] } = this.graph.getSpecification();
     return {
-      node: transform.map(config => getExtension(config, stdlib, 'node')).filter(transformer => !!transformer),
-      edge: transform.map(config => getExtension(config, stdlib, 'edge')).filter(transformer => !!transformer),
-      combo: transform.map(config => getExtension(config, stdlib, 'combo')).filter(transformer => !!transformer),
+      node: transform.map(config => getExtension(config, registery.useLib, 'node')).filter(transformer => !!transformer),
+      edge: transform.map(config => getExtension(config, registery.useLib, 'edge')).filter(transformer => !!transformer),
+      combo: transform.map(config => getExtension(config, registery.useLib, 'combo')).filter(transformer => !!transformer),
     }
   }
 

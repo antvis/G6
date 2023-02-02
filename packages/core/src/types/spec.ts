@@ -1,6 +1,6 @@
 import { AnimateCfg } from "./animate";
 import { Point } from "./common";
-import { FetchDataConfig, InlineDataConfig, TransformerFn } from "./data";
+import { FetchDataConfig, GraphData, InlineDataConfig, TransformerFn } from "./data";
 import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeShapesEncode } from "./edge";
 import { NodeDisplayModel, NodeEncode, NodeModel, NodeShapesEncode } from "./node";
 import { GraphAlignment } from "./view";
@@ -27,7 +27,7 @@ export interface Specification<B extends BehaviorRegistry> {
   optimizeThreshold?: number;
 
   /** data */
-  data: InlineDataConfig | FetchDataConfig; // TODO: more
+  data: GraphData | InlineDataConfig | FetchDataConfig; // TODO: more
   transform?: string[] | {
     type: string,
     [param: string]: unknown // TODO: generate by plugins

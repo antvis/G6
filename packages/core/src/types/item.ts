@@ -46,18 +46,18 @@ export interface IItem {
   destroyed: boolean;
   /** Inner model. */
   model: ItemModel;
-  /** Display model, user will not touch it. */
-  displayModel: ItemDisplayModel;
-  /** The graphic group for item drawing. */
-  group: Group;
-  /** Visibility. */
-  visible: boolean;
-  /** The states on the item. */
-  states: {
-    name: string,
-    value: string | boolean
-  }[];
-  type: 'node' | 'edge' | 'combo';
+  // /** Display model, user will not touch it. */
+  // displayModel: ItemDisplayModel;
+  // /** The graphic group for item drawing. */
+  // group: Group;
+  // /** Visibility. */
+  // visible: boolean;
+  // /** The states on the item. */
+  // states: {
+  //   name: string,
+  //   value: string | boolean
+  // }[];
+  // type: 'node' | 'edge' | 'combo';
 
   /** Gets the inner model.  */
   getModel: () => ItemModel;
