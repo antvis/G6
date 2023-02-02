@@ -1,0 +1,32 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "netscience.js",
+      "title": {
+        "zh": "5000+ 图元",
+        "en": "5000+ Graphic Shapes"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Q6eRT7RNwBYAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "eva.js",
+      "title": {
+        "zh": "~20000 图元",
+        "en": "~20000 Graphic Shapes"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mysRTLxipwMAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "moreData.js",
+      "title": {
+        "zh": "50000+ 图元",
+        "en": "50000+ Graphic Shapes"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6U-cSrdpBjYAAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}

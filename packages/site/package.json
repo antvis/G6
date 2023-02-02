@@ -1,0 +1,54 @@
+{
+  "private": true,
+  "name": "@antv/g6-site",
+  "version": "4.8.0",
+  "description": "G6 sites deployed on gh-pages",
+  "keywords": [
+    "antv",
+    "g6",
+    "graph",
+    "graph analysis",
+    "graph editor",
+    "graph visualization",
+    "relational data",
+    "site"
+  ],
+  "homepage": "https://g6.antv.antgroup.com",
+  "bugs": {
+    "url": "https://github.com/antvis/g6/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/antvis/g6"
+  },
+  "license": "MIT",
+  "author": "https://github.com/orgs/antvis/people",
+  "scripts": {
+    "site:build": "dumi build",
+    "site:develop": "dumi dev",
+    "site:preview": "dumi preview",
+    "site:deploy": "npm run site:build && gh-pages -d dist",
+    "start": "npm run site:develop"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^4.0.6",
+    "@antv/chart-node-g6": "^0.0.3",
+    "@antv/dumi-theme-antv": "^0.3.0-beta.5",
+    "@antv/g6": "4.7.9",
+    "@antv/g6-react-node": "^1.4.5",
+    "@antv/util": "^2.0.9",
+    "@antv/vis-predict-engine": "^0.1.1",
+    "@microsoft/api-extractor": "^7.33.6",
+    "dumi": "^2.0.0-beta.15",
+    "insert-css": "^2.0.0",
+    "typedoc": "^0.17.6",
+    "typedoc-plugin-markdown": "^2.2.11",
+    "typescript": "^4.6.3"
+  },
+  "resolutions": {
+    "@types/react": "^16.9.35"
+  }
+}

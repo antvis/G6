@@ -1,0 +1,24 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "built-in-arrows.js",
+      "title": {
+        "zh": "默认和内置箭头",
+        "en": "Default and Built-in Arrows"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mGusTo9FcCYAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "custom-arrows.js",
+      "title": {
+        "zh": "自定义箭头",
+        "en": "Custom Arrows"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*C2ODRb7E9mwAAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}

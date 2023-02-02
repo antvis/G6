@@ -1,0 +1,16 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "fixItem.js",
+      "title": {
+        "zh": "缩放画布时固定元素",
+        "en": "Fix Items while Zooming"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*nmaeRqYi9CMAAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}

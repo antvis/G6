@@ -1,0 +1,32 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "basicCompactBox.js",
+      "title": {
+        "zh": "紧凑树",
+        "en": "CompactBox Layout"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XlXOR5pmM3oAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "tbCompactBox.js",
+      "title": {
+        "zh": "至上而下的紧凑树",
+        "en": "Top to Bottom CompactBox"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*KrAqTrFbNjMAAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "compactBoxLeftAlign.js",
+      "title": {
+        "zh": "节点左对齐的紧凑树",
+        "en": "CompactBox with Left Align Nodes"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*b3G-QZZekE8AAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}

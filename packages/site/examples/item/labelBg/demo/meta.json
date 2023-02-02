@@ -1,0 +1,24 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "nodeBg.js",
+      "title": {
+        "zh": "设置节点文本背景",
+        "en": "Set Node Label Background"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*m5ABT5ra4w4AAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "edgeBg.js",
+      "title": {
+        "zh": "设置边上文本背景",
+        "en": "Set Edge label Background"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*w_bNSZTlPXUAAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}

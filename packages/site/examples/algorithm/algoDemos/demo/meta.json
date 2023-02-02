@@ -1,0 +1,48 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "gaddi.js",
+      "title": {
+        "zh": "图模式匹配",
+        "en": "Graph Pattern Matching"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ucUBSoDw2TwAAAAAAAAAAAAAARQnAQ"
+    },
+    {
+      "filename": "shortestPath.js",
+      "title": {
+        "zh": "最短路径",
+        "en": "Shortest Path"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*pBV2T6BU6g8AAAAAAAAAAAAAARQnAQ"
+    },
+    {
+      "filename": "labelPropagation.js",
+      "title": {
+        "zh": "LP 自动聚类",
+        "en": "Label Propagation Clustering"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*NXkTSbPhEA0AAAAAAAAAAAAAARQnAQ"
+    },
+    {
+      "filename": "louvain.js",
+      "title": {
+        "zh": "LOUVAIN 自动聚类",
+        "en": "LOUVAIN Clustering"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*OVgcSa33xBYAAAAAAAAAAAAAARQnAQ"
+    },
+    {
+      "filename": "colorSets.js",
+      "title": {
+        "zh": "自动计算色板",
+        "en": "Color Sets Compoting"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*hS7MTKlo6LsAAAAAAAAAAAAAARQnAQ"
+    }
+  ]
+}

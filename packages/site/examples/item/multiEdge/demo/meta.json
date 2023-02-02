@@ -1,0 +1,16 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "multiEdges.js",
+      "title": {
+        "zh": "两节点间存在多条边",
+        "en": "Multiple Edges Between 2 Nodes"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*g2p_Qa_wZcIAAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}

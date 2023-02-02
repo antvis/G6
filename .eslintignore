@@ -1,0 +1,14 @@
+lib/
+dist/
+node_modules/
+.cache
+public
+bin
+esm/
+es/
+tests/
+webpack.*.js
+gatsby-*.js
+global.d.ts
+jest.config.js
+.eslintrc.*

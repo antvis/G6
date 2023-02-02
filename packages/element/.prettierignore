@@ -1,0 +1,8 @@
+package.json
+package-lock.json
+dist
+es
+lib
+.*
+*.png
+**/assets/**

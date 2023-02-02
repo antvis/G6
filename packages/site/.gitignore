@@ -1,0 +1,10 @@
+/node_modules
+/dist
+/example/node_modules
+/example/dist
+/example/.dumi/theme
+/example/.dumi/tmp
+/example/.dumi/tmp-production
+.dumi/tmp
+.dumi/tmp-production
+.DS_Store

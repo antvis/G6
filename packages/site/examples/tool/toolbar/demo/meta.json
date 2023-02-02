@@ -1,0 +1,24 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "toolbar.js",
+      "title": {
+        "zh": "工具栏",
+        "en": "ToolBar"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*MhpmS68lZW0AAAAAAAAAAABkARQnAQ"
+    },
+    {
+      "filename": "self-toolbar.js",
+      "title": {
+        "zh": "自定义工具栏",
+        "en": "ToolBar"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ljOiTJAuQnIAAAAAAAAAAABkARQnAQ"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+export { default as Group } from './Group';
+export { default as Circle } from './Shape/Circle';
+export { default as Ellipse } from './Shape/Ellipse';
+export { default as Image } from './Shape/Image';
+export { default as Marker } from './Shape/Marker';
+export { default as Polygon } from './Shape/Polygon';
+export { default as Rect } from './Shape/Rect';
+export { default as Path } from './Shape/Path';
+export { default as Text } from './Shape/Text';
+export { createNodeFromReact } from '../Register/register';
+export { appenAutoShapeListener } from '../Register/event';

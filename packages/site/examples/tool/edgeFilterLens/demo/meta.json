@@ -1,0 +1,24 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "edgeFilter.js",
+      "title": {
+        "zh": "边过滤镜",
+        "en": "Edge Filter Lens"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*elTYSJwOR7MAAAAAAAAAAAAAARQnAQ"
+    },
+    {
+      "filename": "edgeFilterConfig.js",
+      "title": {
+        "zh": "更多配置",
+        "en": "More Configs"
+      },
+      "screenshot": "https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZkZ4Q6JeIaQAAAAAAAAAAAAAARQnAQ"
+    }
+  ]
+}
