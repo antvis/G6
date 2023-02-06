@@ -1,7 +1,13 @@
-import G6 from '@antv/g6-pc';
+import EmptyGraph from './runtime/graph';
+import { stdLib } from './stdlib';
+import { extend } from './util/extend';
+export * from './types';
 
-G6.version = '5.0.0';
+/**
+ * Extend the graph class with std lib
+ */
+const Graph = extend(EmptyGraph<{}>, stdLib);
 
-export * from '@antv/g6-pc';
-export default G6;
-export const version = '5.0.0';
+export { Graph, stdLib };
+
+export default { Graph, stdLib };
