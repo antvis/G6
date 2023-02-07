@@ -74,7 +74,7 @@ sidebar_label: "Graph"
 
 \+ **new Graph**(`spec`: Specification‹B›): *[Graph](_graph_.graph.md)*
 
-*Defined in [src/runtime/graph.ts:26](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L26)*
+*Defined in [src/runtime/graph.ts:26](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L26)*
 
 **Parameters:**
 
@@ -90,7 +90,7 @@ Name | Type |
 
 • **hooks**: *Hooks*
 
-*Defined in [src/runtime/graph.ts:19](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L19)*
+*Defined in [src/runtime/graph.ts:19](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L19)*
 
 ## Methods
 
@@ -98,7 +98,7 @@ Name | Type |
 
 ▸ **addBehaviors**(`behaviors`: BehaviorOptionsOf‹B›[], `modes`: string | string[]): *void*
 
-*Defined in [src/runtime/graph.ts:374](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L374)*
+*Defined in [src/runtime/graph.ts:374](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L374)*
 
 Add behavior(s) to mode(s).
 
@@ -119,7 +119,7 @@ ___
 
 ▸ **addItem**(`itemType`: ITEM_TYPE, `models`: NodeUserModel | EdgeUserModel | ComboUserModel | NodeUserModel[] | EdgeUserModel[] | ComboUserModel[], `stack?`: boolean): *boolean*
 
-*Defined in [src/runtime/graph.ts:235](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L235)*
+*Defined in [src/runtime/graph.ts:235](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L235)*
 
 Add an item or items to the graph.
 
@@ -143,7 +143,7 @@ ___
 
 ▸ **clear**(): *void*
 
-*Defined in [src/runtime/graph.ts:102](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L102)*
+*Defined in [src/runtime/graph.ts:102](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L102)*
 
 Clear the graph, means remove all the items on the graph.
 
@@ -155,7 +155,7 @@ ___
 
 ▸ **collapseCombo**(`comboId`: string | number, `stack?`: boolean): *void*
 
-*Defined in [src/runtime/graph.ts:329](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L329)*
+*Defined in [src/runtime/graph.ts:329](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L329)*
 
 Collapse a combo.
 
@@ -176,7 +176,7 @@ ___
 
 ▸ **createCombo**(`combo`: string | ComboUserModel, `childrenIds`: string[], `stack?`: boolean): *void*
 
-*Defined in [src/runtime/graph.ts:313](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L313)*
+*Defined in [src/runtime/graph.ts:313](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L313)*
 
 Create a new combo with existing child nodes and combos.
 
@@ -219,7 +219,7 @@ ___
 
 ▸ **expandCombo**(`comboId`: string | number, `stack?`: boolean): *void*
 
-*Defined in [src/runtime/graph.ts:337](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L337)*
+*Defined in [src/runtime/graph.ts:337](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L337)*
 
 Expand a combo.
 
@@ -238,17 +238,13 @@ ___
 
 ###  findIdByState
 
-▸ **findIdByState**‹**T**›(`itemType`: ITEM_TYPE, `state`: string, `additionalFilter?`: function): *string[]*
+▸ **findIdByState**(`itemType`: ITEM_TYPE, `state`: string, `additionalFilter?`: function): *(string | number)[]*
 
-*Defined in [src/runtime/graph.ts:223](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L223)*
+*Defined in [src/runtime/graph.ts:223](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L223)*
 
 Find items which has the state.
 
 **`group`** Item
-
-**Type parameters:**
-
-▪ **T**: *IItem*
 
 **Parameters:**
 
@@ -264,15 +260,15 @@ state name
 
 additional filter function
 
-▸ (`item`: IItem): *boolean*
+▸ (`item`: NodeModel | EdgeModel | ComboModel): *boolean*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`item` | IItem |
+`item` | NodeModel &#124; EdgeModel &#124; ComboModel |
 
-**Returns:** *string[]*
+**Returns:** *(string | number)[]*
 
 items that is the type and has the state
 
@@ -282,7 +278,7 @@ ___
 
 ▸ **fitCenter**(`animateCfg?`: AnimateCfg): *void*
 
-*Defined in [src/runtime/graph.ts:172](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L172)*
+*Defined in [src/runtime/graph.ts:172](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L172)*
 
 Fit the graph center to the view center.
 
@@ -302,7 +298,7 @@ ___
 
 ▸ **fitView**(`padding?`: Padding, `rules?`: FitViewRules, `animateCfg?`: AnimateCfg): *void*
 
-*Defined in [src/runtime/graph.ts:163](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L163)*
+*Defined in [src/runtime/graph.ts:163](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L163)*
 
 Fit the graph content to the view.
 
@@ -324,7 +320,7 @@ ___
 
 ▸ **focusItem**(`ids`: string | number | (string | number)[], `animateCfg?`: AnimateCfg): *void*
 
-*Defined in [src/runtime/graph.ts:182](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L182)*
+*Defined in [src/runtime/graph.ts:182](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L182)*
 
 Move the graph to make the item align the view center.
 
@@ -343,9 +339,9 @@ ___
 
 ###  getComboData
 
-▸ **getComboData**(`condition`: string | Function): *ICombo | undefined*
+▸ **getComboData**(`condition`: string | Function): *ComboModel | undefined*
 
-*Defined in [src/runtime/graph.ts:212](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L212)*
+*Defined in [src/runtime/graph.ts:212](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L212)*
 
 Find an combo's inner data according to id or function.
 
@@ -357,7 +353,7 @@ Name | Type | Description |
 ------ | ------ | ------ |
 `condition` | string &#124; Function | id or condition function |
 
-**Returns:** *ICombo | undefined*
+**Returns:** *ComboModel | undefined*
 
 result combo
 
@@ -365,9 +361,9 @@ ___
 
 ###  getEdgeData
 
-▸ **getEdgeData**(`condition`: string | Function): *IEdge | undefined*
+▸ **getEdgeData**(`condition`: string | Function): *EdgeModel | undefined*
 
-*Defined in [src/runtime/graph.ts:203](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L203)*
+*Defined in [src/runtime/graph.ts:203](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L203)*
 
 Find an edge's inner data according to id or function.
 
@@ -379,7 +375,7 @@ Name | Type | Description |
 ------ | ------ | ------ |
 `condition` | string &#124; Function | id or condition function |
 
-**Returns:** *IEdge | undefined*
+**Returns:** *EdgeModel | undefined*
 
 result edge
 
@@ -399,9 +395,9 @@ ___
 
 ###  getNodeData
 
-▸ **getNodeData**(`condition`: string | Function): *INode | undefined*
+▸ **getNodeData**(`condition`: string | Function): *NodeModel | undefined*
 
-*Defined in [src/runtime/graph.ts:194](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L194)*
+*Defined in [src/runtime/graph.ts:194](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L194)*
 
 Find a node's inner data according to id or function.
 
@@ -413,7 +409,7 @@ Name | Type | Description |
 ------ | ------ | ------ |
 `condition` | string &#124; Function | id or condition function |
 
-**Returns:** *INode | undefined*
+**Returns:** *NodeModel | undefined*
 
 result node
 
@@ -423,7 +419,7 @@ ___
 
 ▸ **getSpecification**(): *Specification‹B›*
 
-*Defined in [src/runtime/graph.ts:80](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L80)*
+*Defined in [src/runtime/graph.ts:80](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L80)*
 
 Get the copy of specs(configurations).
 
@@ -437,7 +433,7 @@ ___
 
 ▸ **hideItem**(`ids`: string | number | (string | number)[]): *void*
 
-*Defined in [src/runtime/graph.ts:290](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L290)*
+*Defined in [src/runtime/graph.ts:290](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L290)*
 
 Hide the item(s).
 
@@ -457,7 +453,7 @@ ___
 
 ▸ **layout**(`cfg?`: LayoutCommonConfig, `align?`: GraphAlignment, `canvasPoint?`: Point, `stack?`: boolean): *void*
 
-*Defined in [src/runtime/graph.ts:351](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L351)*
+*Defined in [src/runtime/graph.ts:351](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L351)*
 
 Layout the graph (with current configurations if cfg is not assigned).
 
@@ -480,7 +476,7 @@ ___
 
 ▸ **move**(`dx`: number, `dy`: number, `animateCfg?`: AnimateCfg): *void*
 
-*Defined in [src/runtime/graph.ts:114](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L114)*
+*Defined in [src/runtime/graph.ts:114](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L114)*
 
 Move the graph with a relative vector.
 
@@ -502,7 +498,7 @@ ___
 
 ▸ **moveTo**(`x`: number, `y`: number, `alignment`: GraphAlignment, `animateCfg?`: AnimateCfg): *void*
 
-*Defined in [src/runtime/graph.ts:127](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L127)*
+*Defined in [src/runtime/graph.ts:127](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L127)*
 
 Move the graph and align to a point.
 
@@ -589,7 +585,7 @@ ___
 
 ▸ **read**(`data`: GraphData): *void*
 
-*Defined in [src/runtime/graph.ts:91](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L91)*
+*Defined in [src/runtime/graph.ts:91](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L91)*
 
 Input data and render the graph.
 If there is old data, diffs and changes it.
@@ -610,7 +606,7 @@ ___
 
 ▸ **removeBehaviors**(`behaviorKeys`: string[], `modes`: string | string[]): *void*
 
-*Defined in [src/runtime/graph.ts:394](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L394)*
+*Defined in [src/runtime/graph.ts:394](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L394)*
 
 Remove behavior(s) from mode(s).
 
@@ -631,7 +627,7 @@ ___
 
 ▸ **removeItem**(`itemType`: ITEM_TYPE, `ids`: string | number | (string | number)[], `stack?`: boolean): *boolean*
 
-*Defined in [src/runtime/graph.ts:251](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L251)*
+*Defined in [src/runtime/graph.ts:251](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L251)*
 
 Remove an item or items from the graph.
 
@@ -655,7 +651,7 @@ ___
 
 ▸ **setItemState**(`ids`: string | number | (string | number)[], `state`: string, `value`: boolean): *void*
 
-*Defined in [src/runtime/graph.ts:301](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L301)*
+*Defined in [src/runtime/graph.ts:301](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L301)*
 
 Set state for the item.
 
@@ -677,7 +673,7 @@ ___
 
 ▸ **setMode**(`mode`: string): *void*
 
-*Defined in [src/runtime/graph.ts:363](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L363)*
+*Defined in [src/runtime/graph.ts:363](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L363)*
 
 Switch mode.
 
@@ -697,7 +693,7 @@ ___
 
 ▸ **showItem**(`ids`: string | number | (string | number)[]): *void*
 
-*Defined in [src/runtime/graph.ts:281](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L281)*
+*Defined in [src/runtime/graph.ts:281](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L281)*
 
 Show the item(s).
 
@@ -717,7 +713,7 @@ ___
 
 ▸ **uncombo**(`comboId`: string | number, `stack?`: boolean): *void*
 
-*Defined in [src/runtime/graph.ts:321](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L321)*
+*Defined in [src/runtime/graph.ts:321](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L321)*
 
 dissolve combo
 
@@ -738,7 +734,7 @@ ___
 
 ▸ **updateBehavior**(`behavior`: BehaviorObjectOptionsOf‹B›, `mode?`: string): *void*
 
-*Defined in [src/runtime/graph.ts:417](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L417)*
+*Defined in [src/runtime/graph.ts:417](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L417)*
 
 Update a behavior on a mode.
 
@@ -759,7 +755,7 @@ ___
 
 ▸ **updateItem**(`itemType`: ITEM_TYPE, `models`: Partial‹NodeUserModel› | Partial‹EdgeUserModel› | Partial‹ComboUserModel | Partial‹NodeUserModel›[] | Partial‹EdgeUserModel›[] | Partial‹ComboUserModel›[]›, `stack?`: boolean): *boolean*
 
-*Defined in [src/runtime/graph.ts:266](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L266)*
+*Defined in [src/runtime/graph.ts:266](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L266)*
 
 Update an item or items on the graph.
 
@@ -781,7 +777,7 @@ ___
 
 ▸ **updateSpecification**(`spec`: Specification‹B›): *void*
 
-*Defined in [src/runtime/graph.ts:72](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L72)*
+*Defined in [src/runtime/graph.ts:72](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L72)*
 
 Update the specs(configurations).
 
@@ -799,7 +795,7 @@ ___
 
 ▸ **zoom**(`ratio`: number, `center?`: Point, `animateCfg?`: AnimateCfg): *void*
 
-*Defined in [src/runtime/graph.ts:139](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L139)*
+*Defined in [src/runtime/graph.ts:139](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L139)*
 
 Zoom the graph with a relative ratio.
 
@@ -821,7 +817,7 @@ ___
 
 ▸ **zoomTo**(`toRatio`: number, `center?`: Point, `animateCfg?`: AnimateCfg): *void*
 
-*Defined in [src/runtime/graph.ts:151](https://github.com/antvis/G6/blob/6880a3aad7/packages/g6/src/runtime/graph.ts#L151)*
+*Defined in [src/runtime/graph.ts:151](https://github.com/antvis/G6/blob/v5/packages/g6/src/runtime/graph.ts#L151)*
 
 Zoom the graph to a specified ratio.
 
