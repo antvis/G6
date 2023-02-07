@@ -6,9 +6,11 @@ import { BehaviorObjectOptionsOf, BehaviorOptionsOf, BehaviorRegistry } from '..
 import { ICombo } from '../types/combo';
 import { Padding, Point } from '../types/common';
 import { GraphCore } from '../types/data';
+import { IEdge } from '../types/edge';
 import { Hooks } from '../types/hook';
 import { IItem, ITEM_TYPE } from '../types/item';
 import { LayoutCommonConfig } from '../types/layout';
+import { INode } from '../types/node';
 import { FitViewRules, GraphAlignment } from '../types/view';
 import { DataController, InteractionController, ItemController, LayoutController, ThemeController, ExtensionController } from './controller';
 import Hook from './hooks';
@@ -51,6 +53,9 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     this.hooks = {
       init: new Hook<void>({ name: 'init' }),
       datachange: new Hook<{ data: GraphData }>({ name: 'datachange' }),
+      additems: new Hook<{ type: ITEM_TYPE, models: NodeUserModel[] | EdgeUserModel[] | ComboUserModel[] }>({ name: 'additems' }),
+      removeitems: new Hook<{ type: ITEM_TYPE, ids: (string | number)[] }>({ name: 'removeitems' }),
+      updateitems: new Hook<{ type: ITEM_TYPE, models: NodeUserModel[] | EdgeUserModel[] | ComboUserModel[] }>({ name: 'updateitems' }),
       render: new Hook<{ graphCore: GraphCore }>({ name: 'render' }),
       modechange: new Hook<{ mode: string }>({ name: 'modechange' }),
       behaviorchange: new Hook<{
@@ -174,31 +179,38 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @returns 
    * @group View
    */
-  public focusItem(item: IItem | string, animateCfg?: AnimateCfg) {
-    // TODO
-  }
-  /**
-   * Move (and zoom) the graph to make the items align (and fit) the view center.
-   * @param items node/edge/combo item array or their id array
-   * @param animateCfg animation configurations
-   * @returns 
-   * @group View
-   */
-  public focusItems(items: IItem[] | string[], zoomToFit?: boolean, animateCfg?: AnimateCfg) {
+  public focusItem(ids: string | number | (string | number)[], animateCfg?: AnimateCfg) {
     // TODO
   }
 
 
   // ===== item operations =====
   /**
-   * Find an element item according to id.
-   * @param id 
-   * @returns 
+   * Find a node's inner data according to id or function.
+   * @param { string | Function} condition id or condition function
+   * @returns result node
    * @group Item
    */
-  public findById<T extends IItem>(id: string): T | undefined {
-    // TODO
-    return;
+  public getNodeData(condition: string | Function): INode | undefined {
+    return this.dataController.findData('node', condition);
+  }
+  /**
+   * Find an edge's inner data according to id or function.
+   * @param { string | Function} condition id or condition function
+   * @returns result edge
+   * @group Item
+   */
+  public getEdgeData(condition: string | Function): IEdge | undefined {
+    return this.dataController.findData('edge', condition);
+  }
+  /**
+   * Find an combo's inner data according to id or function.
+   * @param { string | Function} condition id or condition function
+   * @returns result combo
+   * @group Item
+   */
+  public getComboData(condition: string | Function): ICombo | undefined {
+    return this.dataController.findData('combo', condition);
   }
   /**
    * Find items which has the state.
@@ -208,81 +220,74 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @returns items that is the type and has the state
    * @group Item
    */
-  public findByState<T extends IItem>(itemType: ITEM_TYPE, state: string, additionalFilter?: (item: IItem) => boolean): T[] {
+  public findIdByState<T extends IItem>(itemType: ITEM_TYPE, state: string, additionalFilter?: (item: IItem) => boolean): string[] {
     // TODO
     return;
   }
   /**
-   * Add an item to the graph.
+   * Add an item or items to the graph.
    * @param itemType item type
    * @param model user data
    * @param stack whether push this operation to stack
-   * @returns the added item
+   * @returns whether success
    * @group Item
    */
-  public addItem(itemType: ITEM_TYPE, model: NodeUserModel | EdgeUserModel | ComboUserModel, stack?: boolean): IItem {
-    // TODO
-    return;
+  public addItem(itemType: ITEM_TYPE, models: NodeUserModel | EdgeUserModel | ComboUserModel | NodeUserModel[] | EdgeUserModel[] | ComboUserModel[], stack?: boolean): boolean {
+    // data controller and item controller subscribe additem in order
+    const modelArr = isArray(models) ? models : [models];
+    this.hooks.additems.emit({
+      type: itemType,
+      models: modelArr
+    });
+    return this.dataController.findData(itemType, modelArr.map(model => model.id)).every(Boolean);
   };
   /**
-   * Add items to the graph.
-   * @param itemType item type
-   * @param models user datas
-   * @param stack whether push this operation to stack
-   * @returns the added items
-   * @group Item
-   */
-  public addItems(itemType: ITEM_TYPE, models: NodeUserModel[] | EdgeUserModel[] | ComboUserModel[], stack?: boolean): IItem[] {
-    // TODO
-    return;
-  }
-  /**
-   * Remove an item from the graph.
+   * Remove an item or items from the graph.
    * @param item the item to be removed
    * @param stack whether push this operation to stack
-   * @returns 
+   * @returns whether success
    * @group Item
    */
-  public removeItem(item: IItem | string, stack?: boolean) {
-    // TODO
+  public removeItem(itemType: ITEM_TYPE, ids: string | number | (string | number)[], stack?: boolean): boolean {
+    const idArr = isArray(ids) ? ids : [ids]
+    this.hooks.removeitems.emit({
+      type: itemType,
+      ids: idArr
+    });
+    return this.dataController.findData(itemType, idArr).every(Boolean);
   }
   /**
-   * Remove multiple items from the graph.
-   * @param items the items to be removed
-   * @param stack whether push this operation to stack
-   * @returns 
-   * @group Item
-   */
-  public removeItems(items: (IItem | string)[], stack?: boolean) {
-    // TODO
-  }
-  /**
-   * Update an item on the graph.
+   * Update an item or items on the graph.
    * @param {Item} item item or id
    * @param {EdgeConfig | NodeConfig} cfg incremental updated configs
    * @param {boolean} stack 本次操作是否入栈，默认为 true
    * @group Item
    */
-  public updateItem(item: IItem | string, cfg: Partial<NodeUserModel> | Partial<EdgeUserModel> | Partial<ComboUserModel>, stack?: boolean): IItem {
+  public updateItem(itemType: ITEM_TYPE, models: Partial<NodeUserModel> | Partial<EdgeUserModel> | Partial<ComboUserModel | Partial<NodeUserModel>[] | Partial<EdgeUserModel>[] | Partial<ComboUserModel>[]>, stack?: boolean): boolean {
+    const modelArr = isArray(models) ? models : [models];
+    this.hooks.updateitems.emit({
+      type: itemType,
+      models: modelArr
+    });
     // TODO
-    return;
+    return true;
   }
   /**
-   * Show the item.
+   * Show the item(s).
    * @param item the item to be shown
    * @returns 
    * @group Item
    */
-  public showItem(item: IItem | string) {
+  public showItem(ids: string | number | (string | number)[]) {
     // TODO
   }
   /**
-   * Hide the item.
+   * Hide the item(s).
    * @param item the item to be hidden
    * @returns 
    * @group Item
    */
-  public hideItem(item: IItem | string) {
+  public hideItem(ids: string | number | (string | number)[]) {
     // TODO
   }
   /**
@@ -293,7 +298,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @returns 
    * @group Item
    */
-  public setItemState(item: IItem | string, state: string, value: boolean) {
+  public setItemState(ids: string | number | (string | number)[], state: string, value: boolean) {
     // TODO
   }
 
@@ -313,7 +318,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @param {String | ICombo} item combo item or id to be dissolve
    * @group Combo
    */
-  public uncombo(item: string | ICombo, stack?: boolean) {
+  public uncombo(comboId: string | number, stack?: boolean) {
     // TODO
   }
   /**
@@ -321,7 +326,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
   * @param comboId combo id or item
   * @group Combo
   */
-  public collapseCombo(combo: string | ICombo, stack?: boolean) {
+  public collapseCombo(comboId: string | number, stack?: boolean) {
     // TODO
   }
   /**
@@ -329,7 +334,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
  * @param combo combo ID 或 combo 实例
  * @group Combo
  */
-  public expandCombo(combo: string | ICombo, stack?: boolean) {
+  public expandCombo(comboId: string | number, stack?: boolean) {
     // TODO
   }
 
