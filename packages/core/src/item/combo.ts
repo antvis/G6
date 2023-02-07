@@ -27,10 +27,14 @@ export default class Combo extends Node implements ICombo {
     if (styles && bbox) {
       // merge graph的item样式与数据模型中的样式
       const newModel = model;
+      const modelSize = isNumber(model.size) ? [model.size, model.size] : model.size;
+      const modelFixSize = isNumber(model.fixSize) ? [model.fixSize, model.fixSize] : model.fixSize;
+      const useModelSize = modelSize || modelFixSize || Global.defaultCombo.size;
+
       const size = {
-        r: bbox.width / 2 || Global.defaultCombo.size[0] / 2,
-        width: bbox.width || Global.defaultCombo.size[0],
-        height: bbox.height || Global.defaultCombo.size[1],
+        r: (Math.max(bbox.width, bbox.height) || Math.max(useModelSize[0], useModelSize[1])) / 2, // bbox.width / 2 || Global.defaultCombo.size[0] / 2,
+        width: bbox.width || useModelSize[0],
+        height: bbox.height || useModelSize[1],
       };
       newModel.style = { ...styles, ...model.style, ...size };
       const padding = model.padding || Global.defaultCombo.padding;
@@ -60,33 +64,15 @@ export default class Combo extends Node implements ICombo {
     const bbox = getBBox(keyShape, group);
     bbox.centerX = (bbox.minX + bbox.maxX) / 2;
     bbox.centerY = (bbox.minY + bbox.maxY) / 2;
-    const cacheSize = this.get(CACHE_SIZE);
 
     const cacheBBox = this.get(CACHE_BBOX) || {};
     const oriX = cacheBBox.x;
     const oriY = cacheBBox.x;
 
-    if (cacheSize) {
-      cacheSize.width = Math.max(cacheSize.width, bbox.width);
-      cacheSize.height = Math.max(cacheSize.height, bbox.height);
-      const type: string = keyShape.get('type');
-      if (type === 'circle') {
-        bbox.width = cacheSize.r * 2;
-        bbox.height = cacheSize.r * 2;
-      } else {
-        bbox.width = cacheSize.width;
-        bbox.height = cacheSize.height;
-      }
-      bbox.minX = bbox.centerX - bbox.width / 2;
-      bbox.minY = bbox.centerY - bbox.height / 2;
-      bbox.maxX = bbox.centerX + bbox.width / 2;
-      bbox.maxY = bbox.centerY + bbox.height / 2;
-    } else {
-      bbox.width = bbox.maxX - bbox.minX;
-      bbox.height = bbox.maxY - bbox.minY;
-      bbox.centerX = (bbox.minX + bbox.maxX) / 2;
-      bbox.centerY = (bbox.minY + bbox.maxY) / 2;
-    }
+    bbox.width = bbox.maxX - bbox.minX;
+    bbox.height = bbox.maxY - bbox.minY;
+    bbox.centerX = (bbox.minX + bbox.maxX) / 2;
+    bbox.centerY = (bbox.minY + bbox.maxY) / 2;
     bbox.x = bbox.minX;
     bbox.y = bbox.minY;
     if (bbox.x !== oriX || bbox.y !== oriY) this.set(CACHE_ANCHOR_POINTS, null);

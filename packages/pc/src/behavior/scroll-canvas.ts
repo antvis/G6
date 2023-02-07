@@ -1,4 +1,5 @@
 import { G6Event, IG6GraphEvent } from '@antv/g6-core';
+import { isBoolean, isObject } from '@antv/util';
 
 const ALLOW_EVENTS = ['shift', 'ctrl', 'alt', 'control', 'meta'];
 
@@ -25,9 +26,7 @@ export default {
   },
 
   onWheel(ev: IG6GraphEvent) {
-    const target = ev.target;
-    const targetIsCanvas = target && target.isCanvas && target.isCanvas();
-    if (!this.allowDragOnItem && !targetIsCanvas) return;
+    if (!this.allowDrag(ev)) return;
     const graph = this.graph;
     const zoomKeys = Array.isArray(this.zoomKey) ? [].concat(this.zoomKey) : [this.zoomKey];
     if (zoomKeys.includes('control')) zoomKeys.push('ctrl');
@@ -193,4 +192,17 @@ export default {
       this.set('timeout', timeout);
     }
   },
+  allowDrag(evt: IG6GraphEvent) {
+    const target = evt.target;
+    const targetIsCanvas = target && target.isCanvas && target.isCanvas();
+    if (isBoolean(this.allowDragOnItem) && !this.allowDragOnItem && !targetIsCanvas) return false;
+    if (isObject(this.allowDragOnItem)) {
+      const { node, edge, combo } = this.allowDragOnItem;
+      const itemType = evt.item?.getType?.();
+      if (!node && itemType === 'node') return false;
+      if (!edge && itemType === 'edge') return false;
+      if (!combo && itemType === 'combo') return false;
+    }
+    return true;
+  }
 };

@@ -11,7 +11,7 @@ Besides, G6 supports [Custom Layout](/en/docs/manual/middle/layout/custom-layout
 
 In fact, 'layout' is a free mechanism in G6. The built-in layouts only calculate and manipulate the `x` and `y` in node data. In other word, users can assign `x` and `y` to nodes by any other ways including the algorithms from the third-party libraries. Once G6 find the `x` and `y` information on data, it will render the graph according to it.
 
-In order to handle the tree data structure, G6 extends Graph to TreeGraph. Refer to: [TreeGraph API](/en/docs/api/treeGraphLayout/guide). TreeGraph is appropriate for visualizing hierarchy data. In this ducoment, we will introduce the TreeGraph layout algorithms in detail.
+In order to handle the tree data structure, G6 extends Graph to TreeGraph. Refer to: [TreeGraph API](/en/docs/api/tree-graph-layout/guide). TreeGraph is appropriate for visualizing hierarchy data. In this ducoment, we will introduce the TreeGraph layout algorithms in detail.
 
 ## TreeGraph Layouts Overview
 
@@ -50,7 +50,7 @@ const graph = new G6.TreeGraph({
 
 ### compactBox
 
-**Description**: CompactBox is the default layout for TreeGraph. It will consider the bounding box of each node when layout.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**API**: [CompactBox API](/en/docs/api/treeGraphLayout/compactBox)<br />**Configuration**:
+**Description**: CompactBox is the default layout for TreeGraph. It will consider the bounding box of each node when layout.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**API**: [CompactBox API](/en/docs/api/tree-graph-layout/compactBox)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -64,7 +64,7 @@ const graph = new G6.TreeGraph({
 
 ### dendrogram
 
-**Description**: Arranges all the leaves on the same level. It is appropriate for hierarchical clustering. It does not consider the node size, which will be regarded as 1 px.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XehWSKAWdrwAAAAAAAAAAABkARQnAQ' width=300 alt='img'/><br />**API**: [Dendrogram API](/en/docs/api/treeGraphLayout/dendrogram)<br />**Configuration**:
+**Description**: Arranges all the leaves on the same level. It is appropriate for hierarchical clustering. It does not consider the node size, which will be regarded as 1 px.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XehWSKAWdrwAAAAAAAAAAABkARQnAQ' width=300 alt='img'/><br />**API**: [Dendrogram API](/en/docs/api/tree-graph-layout/dendrogram)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -77,7 +77,7 @@ const graph = new G6.TreeGraph({
 
 **Description**: Indented layout represents the hierarchy by indent between them. Each node will take a row/column. It is appropriate for file directory.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zuBlR4oBIE0AAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
-**API**: [Indented API](/en/docs/api/treeGraphLayout/indented)<br />**Configuration**:
+**API**: [Indented API](/en/docs/api/tree-graph-layout/indented)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -86,10 +86,11 @@ const graph = new G6.TreeGraph({
 | getHeight | Function | (d) => {<br />  // d is a node<br />  return 10;<br />} | undefined | The height of each node |
 | getWidth | Function | (d) => {<br />  // d is a node<br />  return 20;<br />} | undefined | The width of each node |
 | getSide | Function | (d) => {<br />  // d is a node<br />  return 'left';<br />} | undefined | The callback function of node position(left or right of root node). Only affects the nodes which are connected to the root node directly. And the descendant nodes will be placed according to it |
+| align | 'center' / undefined | 'center' | undefined | Tell the layout whether the nodes drawing aligned at the center or the left-top. Built-in nodes are all aligned at the center, e.g. built-in 'circle' type node has circle type keyShape, and the circle shape's x and y are assigned with 0, which means the origin of this node's coordinate system is aligned at the circle's center; built-in 'rect' type node has rect type keyShape, and the rect shape's x and y are assigned with `width / 2` and `height / 2` respectively, which means the origin of this node's coordinate system is aligned at the center of the rect shape. But user customed node type with rect keyShape usually has [0, 0] for x and y, which means the origin is aligned at the left-top of the rect. Tell layout this info and correct `getWidth`, `getHeight` in the same time will make the coordinate calculation more precise. |
 
 ### mindmap
 
-**Description**: Mindmap arranged the nodes with same depth on the same level. Different from compactBox, it does not consider the size of nodes while doing layout.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sRi6Q6Qrm-oAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**API**: [Mindmap API](/en/docs/api/treeGraphLayout/mindmap)<br />**Configuration**:
+**Description**: Mindmap arranged the nodes with same depth on the same level. Different from compactBox, it does not consider the size of nodes while doing layout.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sRi6Q6Qrm-oAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**API**: [Mindmap API](/en/docs/api/tree-graph-layout/mindmap)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |

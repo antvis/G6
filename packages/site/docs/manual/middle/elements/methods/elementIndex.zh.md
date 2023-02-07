@@ -139,8 +139,6 @@ const nodes = graph.getNodes();
 nodes.forEach((node) => {
   node.toFront();
 });
-// 更改层级后需要重新绘制图
-graph.paint();
 ```
 
 <br />这样，所有节点被绘制在边上层：<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*8TnuS7pkUfwAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
@@ -190,8 +188,6 @@ graph.on('edge:mouseenter', (ev) => {
   edge.toFront();
   source.toFront();
   target.toFront();
-  // 注意：必须调用以根据新的层级顺序重绘
-  graph.paint();
 });
 
 graph.on('edge:mouseleave', (ev) => {
@@ -201,8 +197,6 @@ graph.on('edge:mouseleave', (ev) => {
   edges.forEach((edge) => {
     edge.toBack();
   });
-  // 注意：必须调用以根据新的层级顺序重绘
-  graph.paint();
 });
 
 graph.on('node:mouseenter', (ev) => {
@@ -216,8 +210,6 @@ graph.on('node:mouseenter', (ev) => {
     edge.getSource().toFront();
     edge.getTarget().toFront();
   });
-  // 注意：必须调用以根据新的层级顺序重绘
-  graph.paint();
 });
 
 graph.on('node:mouseleave', (ev) => {
@@ -227,7 +219,5 @@ graph.on('node:mouseleave', (ev) => {
   edges.forEach((edge) => {
     edge.toBack();
   });
-  // 注意：必须调用以根据新的层级顺序重绘
-  graph.paint();
 });
 ```

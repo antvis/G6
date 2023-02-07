@@ -56,13 +56,13 @@ When the `layout` is not assigned:
 
 ## Layouts for Graph
 
-General graph layout API: [General Graph Layout API](/en/docs/api/graphLayout/guide).
+General graph layout API: [General Graph Layout API](/en/docs/api/graph-layout/guide).
 
 ### Random
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M5FySIdhX4oAAAAAAAAAAABkARQnAQ' width='400' alt='img'/>
 
-<br />**Description**: Randomizes the node positions. <br />**API**: [Random API](/en/docs/api/graphLayout/random) <br />**Configuration**:
+<br />**Description**: Randomizes the node positions. <br />**API**: [Random API](/en/docs/api/graph-layout/random) <br />**Configuration**:
 
 | Name | Type | Example | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -76,7 +76,7 @@ General graph layout API: [General Graph Layout API](/en/docs/api/graphLayout/gu
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lX-qSqDECrIAAAAAAAAAAAAAARQnAQ' width=500 alt='img'/>
 
 <br /> **Description**: Force2 implements the force-directed layout algorithm by G6 4.7.0, comes from graphin-force. It supports assign different masses and center gravities for different nodes freedomly. Comparing to graphin-force, it has much better performance. If you want to fix the positions for some nodes during calculation, assign `fx` and `fy` for the nodes as fixing positions. [Demo for fixing node](/en/examples/net/forceDirected#force2Fix).
-<br /> **API**: [GForce API](/en/docs/api/graphLayout/force2) 
+<br /> **API**: [GForce API](/en/docs/api/graph-layout/force2) 
 <br /> **Configuration**:
 
 | Name | Type | Example | Default | Description |
@@ -144,7 +144,7 @@ centripetalOptions: {
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lX-qSqDECrIAAAAAAAAAAAAAARQnAQ' width=500 alt='img'/>
 
 <br /> **Description**: GForce implements the classical force-directed layout algorithm by G6 4.0. It supports assign different masses and center gravities for different nodes freedomly. More importantly, it supports GPU parallel acceleration. If you want to fix the positions for some nodes during calculation, assign `fx` and `fy` for the nodes as fixing positions. [Demo for fixing node](/en/examples/net/forceDirected#gForceFix).
-<br /> **API**: [GForce API](/en/docs/api/graphLayout/gforce) 
+<br /> **API**: [GForce API](/en/docs/api/graph-layout/gforce) 
 <br /> **Configuration**:
 
 | Name | Type | Example | Default | Description |
@@ -173,7 +173,7 @@ centripetalOptions: {
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*oDbHRJc5td8AAAAAAAAAAABkARQnAQ' width='500' alt='img'/>graphLayout/guide
 
 <br /> **Description**: Classical force-directed layout algorithm. If you want to fix the positions for some nodes during calculation, assign `fx` and `fy` for the nodes as fixing positions. [Demo for fixing the dragged node with force layout](/en/examples/net/forceDirected#basicForceDirectedDragFix).
-<br /> **API**: [Force API](/en/docs/api/graphLayout/force) 
+<br /> **API**: [Force API](/en/docs/api/graph-layout/force) 
 <br /> **Configuration**: Corresponds to the configurations in force-directed algorithm in d3.js
 
 | Name | Type | Example | Default | Description |
@@ -205,7 +205,7 @@ centripetalOptions: {
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*DibyQYaI2qYAAAAAAAAAAABkARQnAQ' width='400' alt='img'/>
 
 <br />**Description**: Fruchterman is a kind of force-directed layout. If you want to fix the positions for some nodes during calculation, assign `fx` and `fy` for the nodes as fixing positions. [Demo for fixing node](/en/examples/net/fruchtermanLayout#fructhermanFix).
-<br />**API**: [Fruchterman API](/en/docs/api/graphLayout/fruchterman) 
+<br />**API**: [Fruchterman API](/en/docs/api/graph-layout/fruchterman) 
 <br />**Configuration**:
 
 | Name | Type | Example | Default | Description |
@@ -225,7 +225,7 @@ centripetalOptions: {
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qw1ES7nYvr8AAAAAAAAAAABkARQnAQ' width='200' alt='img' />
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mCXwQYRV8IkAAAAAAAAAAABkARQnAQ' width='200' alt='img' />
 
-<br />**Description**: Arranges the nodes on a circle. <br />**API**: [Circular API](/en/docs/api/graphLayout/circular) <br />**Configuration**:
+<br />**Description**: Arranges the nodes on a circle. <br />**API**: [Circular API](/en/docs/api/graph-layout/circular) <br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -243,7 +243,7 @@ centripetalOptions: {
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FZIpRKpJo_MAAAAAAAAAAABkARQnAQ' width='200' alt='img' />
 
-<br />**Description**: Arranges the nodes to concentrics centered at a focus node according to their shortest path length to the focus node. <br />**API**: [Radial API](/en/docs/api/graphLayout/radial) <br />**Configuration**:
+<br />**Description**: Arranges the nodes to concentrics centered at a focus node according to their shortest path length to the focus node. <br />**API**: [Radial API](/en/docs/api/graph-layout/radial) <br />**Configuration**:
 
 | Name | Type | Example | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -256,14 +256,14 @@ centripetalOptions: {
 | maxPreventOverlapIteration | Number | 500 | 200 | The maximum iteration number of preventing node overlappings |
 | nodeSize | Number | 10 | 10 | The diameter of the node. It is used for preventing node overlappings. <br />: <br />The size in the node data will take effect if `nodeSize` is not assigned. If the size in node data does not exist either, `nodeSize` is assigned to 10 by default |
 | nodeSpacing<br /> | Number / Function | Example 1: 10<br />Example 2:  <br />d => {<br />  // d is a node<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cFq4QbXVx7sAAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />Takes effect when `preventOverlap` is `true`. It is the minimum distance between nodes to prevent node overlappings. It can be a function to define different distances for different nodes (example 2)<br /> |
-| strictRadial | Boolean | true | false | Whether to layout the graph as strict radial, which means the nodes will be arranged on each circle strictly. Takes effect only when `preventOverlap` is `true`. Refer to [Radial-strictRadial API](/en/docs/api/graphLayout/radial#layoutcfgstrictradial)<br />- When `preventOverlap` is `true`, and `strictRadial` is `false`, the overlapped nodes are arranged along their circles strictly. But for the situation that there are too many nodes on a circle to be arranged, the overlappings might not be eliminated completely <br />- When `preventOverlap` is `true`, and `strictRadial` is `true` , the overlapped nodes can be arranged around their circle with small offsets.<br /> |
+| strictRadial | Boolean | true | false | Whether to layout the graph as strict radial, which means the nodes will be arranged on each circle strictly. Takes effect only when `preventOverlap` is `true`. Refer to [Radial-strictRadial API](/en/docs/api/graph-layout/radial#layoutcfgstrictradial)<br />- When `preventOverlap` is `true`, and `strictRadial` is `false`, the overlapped nodes are arranged along their circles strictly. But for the situation that there are too many nodes on a circle to be arranged, the overlappings might not be eliminated completely <br />- When `preventOverlap` is `true`, and `strictRadial` is `true` , the overlapped nodes can be arranged around their circle with small offsets.<br /> |
 | sortBy | String | 'data' / 'cluster' | undefined | Sort the nodes of the same level. `undefined` by default, which means place the nodes with connections as close as possible; `'data'` means place the node according to the ordering in data, the closer the nodes in data ordering, the closer the nodes will be placed. `sortBy` also can be assigned to any name of property in nodes data, such as `'cluster'`, `'name'` and so on (make sure the property exists in the data) |
 | sortStrength | Number | 10 | 10 | The strength to sort the nodes in the same circle. Larger number means place the nodes with smaller distance of `sortBy` more closely. Takes effect only when `sortBy` is not `undefined` |
 | workerEnabled | Boolean | true / false | false | Whether to enable the web-worker in case layout calculation takes too long to block page interaction |
 
 ### MDS
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6OPTT7bz5sUAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**Description**: MDS (Multidimensional scaling) is used for project high dimensional data onto low dimensional space.<br />**API**: [MDS API](/en/docs/api/graphLayout/mds)<br />**Configuration**:
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6OPTT7bz5sUAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**Description**: MDS (Multidimensional scaling) is used for project high dimensional data onto low dimensional space.<br />**API**: [MDS API](/en/docs/api/graph-layout/mds)<br />**Configuration**:
 
 | Name | Type | Example | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -273,7 +273,7 @@ centripetalOptions: {
 
 ### Dagre
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RQEORY5A_LoAAAAAAAAAAABkARQnAQ' width=250 alt='img'/><br />**Description**: An hierarchical layout.<br />**API**: [Dagre API](/en/docs/api/graphLayout/dagre)<br />**Configuration**:
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RQEORY5A_LoAAAAAAAAAAABkARQnAQ' width=250 alt='img'/><br />**Description**: An hierarchical layout.<br />**API**: [Dagre API](/en/docs/api/graph-layout/dagre)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -289,13 +289,13 @@ centripetalOptions: {
 
 ### Concentric
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ux0-SYBy6Y8AAAAAAAAAAABkARQnAQ' width=300 alt='img'/><br />Tips: Concentric layout in G6 refers to <a href='https://github.com/cytoscape/cytoscape.js' target='_blank'>cytoscape.js</a>, we obey the MIT license <br />**Description**: Arranges the nodes on several concentric circles.<br />**API**: [Concentric API](/en/docs/api/graphLayout/concentric)<br />**Configuration**:
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ux0-SYBy6Y8AAAAAAAAAAABkARQnAQ' width=300 alt='img'/><br />Tips: Concentric layout in G6 refers to <a href='https://github.com/cytoscape/cytoscape.js' target='_blank'>cytoscape.js</a>, we obey the MIT license <br />**Description**: Arranges the nodes on several concentric circles.<br />**API**: [Concentric API](/en/docs/api/graph-layout/concentric)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
 | center | Array | [ 0, 0 ] | The center of the graph | The center of the layout |
 | nodeSize | Number | 30 | 30 | The diameter of the node. It is used for preventing node overlappings |
-| minNodeSpacing | Number | 10 | 10 | The minimum separation between adjacent circles |
+| nodeSpacing | Number | 10 | 10 | The minimum separation between adjacent circles |
 | preventOverlap | Boolean | false | false | Whether to prevent node overlappings. To activate preventing node overlappings, `nodeSize` is required, which is used for collide detection. The size in the node data will take effect if `nodeSize` is not assigned. If the size in node data does not exist either, `nodeSize` is assigned to 30 by default |
 | sweep | Number | Math.PI | undefined | How many radians should be between the first and last node (defaults to full circle). If it is undefined, 2 _ Math.PI _ (1 - 1 / | level.nodes | ) will be used, where level.nodes is nodes set of each level, | level.nodes | is the number of nodes of the level |
 | equidistant | Boolean | false | false | Whether levels have an equal radial distance between them, may cause bounding box overflow |
@@ -307,7 +307,7 @@ centripetalOptions: {
 
 ### Grid
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5U3_TZVolpEAAAAAAAAAAABkARQnAQ' width=300 alt='img'/><br />Tips: Concentric layout in G6 refers to <a href='https://github.com/cytoscape/cytoscape.js' target='_blank'>cytoscape.js</a>, we obey the MIT license.<br />**Description**: Orders the nodes according to the configurations and arranged them onto grid.<br />**API**: [Grid API](/en/docs/api/graphLayout/grid)<br />**Configuration**:
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5U3_TZVolpEAAAAAAAAAAABkARQnAQ' width=300 alt='img'/><br />Tips: Concentric layout in G6 refers to <a href='https://github.com/cytoscape/cytoscape.js' target='_blank'>cytoscape.js</a>, we obey the MIT license.<br />**Description**: Orders the nodes according to the configurations and arranged them onto grid.<br />**API**: [Grid API](/en/docs/api/graph-layout/grid)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -323,7 +323,7 @@ centripetalOptions: {
 
 ### Combo Force
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AngFRpOo4SAAAAAAAAAAAABkARQnAQ' width=300 alt='img' /><br />**API**：[Combo Force API](/en/docs/api/graphLayout/comboForce)<br />**Parameters**：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AngFRpOo4SAAAAAAAAAAAABkARQnAQ' width=300 alt='img' /><br />**API**：[Combo Force API](/en/docs/api/graph-layout/comboForce)<br />**Parameters**：
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -357,7 +357,7 @@ centripetalOptions: {
 
 ### Combo Combined
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZlvWS7xOkjMAAAAAAAAAAAAAARQnAQ' width=300 alt='img' /><br />**API**：[Combo Combined API](/en/docs/api/graphLayout/comboCombined)<br />**Parameters**：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZlvWS7xOkjMAAAAAAAAAAAAAARQnAQ' width=300 alt='img' /><br />**API**：[Combo Combined API](/en/docs/api/graph-layout/comboCombined)<br />**Parameters**：
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |

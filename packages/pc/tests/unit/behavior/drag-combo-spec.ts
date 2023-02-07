@@ -311,17 +311,15 @@ describe('drag-combo', () => {
     graph.emit('combo:dragstart', { item: combo, x: 100, y: 100 });
     graph.emit('combo:drag', { item: combo, x: 500, y: 100 });
 
+    // 拖拽过程中即刻完成父 combo 大小变换
     comboCBBox = comboC.getKeyShape().getCanvasBBox();
-    expect(Math.abs(comboCBBox.width - 298) < 2).toBe(true);
+    expect(Math.abs(comboCBBox.width - 541) < 2).toBe(true);
 
     graph.emit('combo:dragend', { item: combo, x: 500, y: 100 });
-    setTimeout(() => {
-      comboCBBox = comboC.getKeyShape().getCanvasBBox();
-      // setTimeout 有时候未变化完成
-      // expect(Math.abs(comboCBBox.width - 541) < 2).toBe(true);
-      graph.destroy();
-      done();
-    }, 550);
+    comboCBBox = comboC.getKeyShape().getCanvasBBox();
+    expect(Math.abs(comboCBBox.width - 541) < 2).toBe(true);
+    graph.destroy();
+    done();
   });
 
   it('combo example', () => {

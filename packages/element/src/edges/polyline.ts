@@ -88,7 +88,7 @@ registerEdge(
       const routeCfg = mix({}, defaultRouteCfg, cfg.routeCfg);
       routeCfg.offset = style.offset;
 
-      let path = (this as any).getPath(points, source, target, radius, routeCfg);
+      let path = (this as any).getPath(points, source, target, radius, routeCfg, !Boolean(controlPoints));
       if ((isArray(path) && path.length <= 1) || (isString(path) && path.indexOf('L') === -1)) {
         path = 'M0 0, L0 0';
       }
@@ -133,7 +133,7 @@ registerEdge(
       const routeCfg = mix({}, defaultRouteCfg, cfg.routeCfg);
       routeCfg.offset = previousStyle.offset;
 
-      let path = (this as any).getPath(points, source, target, radius, routeCfg);
+      let path = (this as any).getPath(points, source, target, radius, routeCfg, !Boolean(controlPoints));
       if ((isArray(path) && path.length <= 1) || (isString(path) && path.indexOf('L') === -1)) {
         path = 'M0 0, L0 0';
       }
@@ -170,11 +170,12 @@ registerEdge(
       target: INode,
       radius: number,
       routeCfg?: RouterCfg,
+      auto?: boolean, // whether calculate the path with A*
     ): Array<Array<string | number>> | string {
       const { offset, obstacles } = routeCfg;
       let simple = routeCfg.simple;
       // 指定了控制点
-      if (!offset || points.length > 2) {
+      if (!offset || points.length > 2 || auto === false) {
         if (radius) {
           return getPathWithBorderRadiusByPolyline(points, radius);
         }

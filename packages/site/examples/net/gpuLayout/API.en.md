@@ -2,4 +2,4 @@
 title: API
 ---
 
-<embed src="@/docs/api/graphLayout/circular.en.md"></embed>
+<embed src="@/docs/api/graph-layout/circular.en.md"></embed>

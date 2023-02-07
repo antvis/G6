@@ -1,5 +1,18 @@
 # ChangeLog
 
+### 4.8.5
+
+- fix: combo with size and fixSize setting;
+- fix: active-relations with combo and clear states for destroyed virtual edges leads to unexpected error, closes: #4229;
+- fix: applyCloneClip with uncliped image leads to unexpected error, closes: #4231;
+- feat: drag-node and drag-combo support dynamically changes parent combos size while dragging the child items;
+
+### 4.8.4
+
+- fix: error edge link positions for circle combo with size config, closes: #4193;
+- fix: indented layout with different node widths, closes: #4200;
+- feat: indented layout with align config to tell the node drawing alignment;
+
 ### 4.8.3
 
 - fix: unexpected error occurs when points of a hull are all duplicated;

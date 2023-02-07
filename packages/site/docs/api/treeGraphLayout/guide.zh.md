@@ -5,7 +5,7 @@ order: 0
 
 ## 树图布局总览
 
-与 [Graph 的布局](/zh/docs/api/graphLayout/guide) 类似，G6 为树图 TreeGraph 提供了一些内置布局算法。可以在[实例化图时配置](#使用方法)。与 [Graph 的布局](/zh/docs/api/graphLayout/guide) 不同的是：
+与 [Graph 的布局](/zh/docs/api/graph-layout/guide) 类似，G6 为树图 TreeGraph 提供了一些内置布局算法。可以在[实例化图时配置](#使用方法)。与 [Graph 的布局](/zh/docs/api/graph-layout/guide) 不同的是：
 
 - 实例化树图时必须通过配置 `layout` 配置布局，而 Graph 不配置 `layout` 时将会使用数据中的位置信息或随机布局；
 - 树图布局不支持独立使用；

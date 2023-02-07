@@ -236,7 +236,7 @@ export default {
     if (this.get('enableDelegate')) {
       this.updateDelegate(evt);
     } else {
-      if (this.enableDebounce)
+      if (this.enableDebounce) {
         this.debounceUpdate({
           targets: this.targets,
           graph: this.graph,
@@ -244,11 +244,21 @@ export default {
           origin: this.origin,
           evt,
           updateEdge: this.get('updateEdge'),
+          onlyChangeComboSize: this.onlyChangeComboSize,
+          updateParentCombos: this.updateParentCombos
         });
-      else
+      } else {
+        const parentComboMap = {};
         this.targets.map(target => {
           this.update(target, evt);
+          const parentComboId = target.getModel().comboId;
+          if (parentComboId) parentComboMap[parentComboId] = this.graph.findById(parentComboId);
         });
+        if (this.onlyChangeComboSize) {
+          // 拖动节点过程中，动态改变 Combo 的大小
+          this.updateParentCombos();
+        }
+      }
     }
     if (this.onlyChangeComboSize) {
       // 拖动节点结束后，动态改变 Combo 的大小
@@ -373,8 +383,7 @@ export default {
     this.updatePositions(evt, !this.currentShouldEnd);
     if (!this.targets || this.targets.length === 0 || !this.currentShouldEnd) return;
     if (this.onlyChangeComboSize) {
-      // 拖动节点结束后，动态改变 Combo 的大小
-      graph.updateCombos();
+      this.updateParentCombos();
     } else {
       this.targets.map((node: INode) => {
         // 拖动的节点有 comboId，即是从其他 combo 中拖出时才处理
@@ -405,7 +414,7 @@ export default {
     if (!this.currentShouldEnd) return;
 
     if (this.onlyChangeComboSize) {
-      graph.updateCombos();
+      this.updateParentCombos();
     } else if (comboId) {
       const combo = graph.findById(comboId);
       if (self.comboActiveState) {
@@ -472,7 +481,8 @@ export default {
           origin: this.origin,
           evt,
           updateEdge: this.get('updateEdge'),
-          updateFunc: this.update,
+          onlyChangeComboSize: this.onlyChangeComboSize,
+          updateParentCombos: this.updateParentCombos
         });
       else if (!restore) this.targets.map(node => this.update(node, evt));
     } else this.targets.map(node => this.update(node, evt, restore));
@@ -517,7 +527,7 @@ export default {
    */
   debounceUpdate: debounce(
     event => {
-      const { targets, graph, point, origin, evt, updateEdge, updateFunc } = event;
+      const { targets, graph, point, origin, evt, updateEdge, onlyChangeComboSize, updateParentCombos } = event;
       targets.map(item => {
         const model: NodeConfig = item.get('model');
         const nodeId: string = item.get('id');
@@ -539,6 +549,9 @@ export default {
           item.updatePosition(pos);
         }
       });
+      if (onlyChangeComboSize) {
+        updateParentCombos(graph, targets);
+      }
     },
     50,
     true,
@@ -633,4 +646,21 @@ export default {
       minY: miny,
     };
   },
+  /**
+   * updates the parent combos' size and position
+   * @param paramGraph param for debounce function, where 'this' is not available
+   * @param paramTargets param for debounce function, where 'this' is not available
+   */
+  updateParentCombos(paramGraph, paramTargets) {
+    const graph = paramGraph || this.graph;
+    const targets = paramTargets || this.targets;
+    const comboParentMap = {};
+    targets?.forEach(target => {
+      const comboId = target.getModel().comboId;
+      if (comboId) comboParentMap[comboId] = graph.findById(comboId);
+    })
+    Object.values(comboParentMap).forEach((combo: ICombo) => {
+      if (combo) graph.updateCombo(combo);
+    })
+  }
 };

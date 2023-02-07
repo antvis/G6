@@ -39,7 +39,6 @@ graph.on('node:click', (ev) => {
   const node = ev.item;
   console.log('before hide(), the nodevisible = ', node.get('visible'));
   node.hide();
-  graph.paint();
   console.log('after hide(), the node visible = ', node.get('visible'));
 });
 
@@ -48,7 +47,6 @@ graph.on('edge:click', (ev) => {
   const edge = ev.item;
   console.log('before hide(), the edge visible = ', edge.get('visible'));
   edge.hide();
-  graph.paint();
   console.log('after hide(), the edge visible = ', edge.get('visible'));
 });
 
@@ -62,6 +60,5 @@ graph.on('canvas:click', (ev) => {
   edges.forEach((edge) => {
     edge.show();
   });
-  graph.paint();
 });
 ```

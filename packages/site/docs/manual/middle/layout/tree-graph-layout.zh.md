@@ -11,7 +11,7 @@ order: 1
 
 事实上，G6 的布局是自由的，内置布局算法仅仅是操作了数据中节点的 `x` 和 `y` 值。因此，除了使用内置布局以及自定义的一般图布局外，用户还可以使用外部图布局算法，计算节点位置后赋值到数据中节点的 `x` 和 `y` 字段上，G6 便可以根据该位置信息进行绘制。
 
-由于树图特殊性，G6 扩展出了  TreeGraph ，详细文档请见：[TreeGraph](/zh/docs/api/treeGraphLayout/guide) API。树布局是一种能很好展示有一定层次结构数据的布局方式。推荐使用 G6.TreeGraph 实现。本文将逐一介绍内置的树图布局算法，及其使用方式。
+由于树图特殊性，G6 扩展出了  TreeGraph ，详细文档请见：[TreeGraph](/zh/docs/api/tree-graph-layout/guide) API。树布局是一种能很好展示有一定层次结构数据的布局方式。推荐使用 G6.TreeGraph 实现。本文将逐一介绍内置的树图布局算法，及其使用方式。
 
 ## 树图 TreeGraph 布局方法总览
 
@@ -50,7 +50,7 @@ const graph = new G6.TreeGraph({
 
 ### compactBox
 
-**描述**：紧凑树布局。从根节点开始，同一深度的节点在同一层，并且布局时会将节点大小考虑进去。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**API**：[CompactBox API](/zh/docs/api/treeGraphLayout/compactBox)<br />**参数**：
+**描述**：紧凑树布局。从根节点开始，同一深度的节点在同一层，并且布局时会将节点大小考虑进去。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**API**：[CompactBox API](/zh/docs/api/tree-graph-layout/compactBox)<br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -64,7 +64,7 @@ const graph = new G6.TreeGraph({
 
 ### dendrogram
 
-**描述**：生态树布局。不管数据的深度多少，总是叶节点对齐。不考虑节点大小，布局时将节点视为 1 个像素点。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XehWSKAWdrwAAAAAAAAAAABkARQnAQ' width=300 alt='img'/><br />**API**：[Dendrogram API](/zh/docs/api/treeGraphLayout/dendrogram)<br />**参数**：
+**描述**：生态树布局。不管数据的深度多少，总是叶节点对齐。不考虑节点大小，布局时将节点视为 1 个像素点。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*XehWSKAWdrwAAAAAAAAAAABkARQnAQ' width=300 alt='img'/><br />**API**：[Dendrogram API](/zh/docs/api/tree-graph-layout/dendrogram)<br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -77,7 +77,7 @@ const graph = new G6.TreeGraph({
 
 **描述**：缩进树布局。每个元素会占一行/一列。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zuBlR4oBIE0AAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
-**API**：[Indented API](/zh/docs/api/treeGraphLayout/indented)<br />**参数**：
+**API**：[Indented API](/zh/docs/api/tree-graph-layout/indented)<br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -86,10 +86,11 @@ const graph = new G6.TreeGraph({
 | getHeight | Function | (d) => {<br />  // d 是一个节点<br />  return 10;<br />} | undefined | 节点高度的回调函数 |
 | getWidth | Function | (d) => {<br />  // d 是一个节点<br />  return 20;<br />} | undefined | 节点宽度的回调函数 |
 | getSide | Function | (d) => {<br />  // d 是一个节点<br />  return 'left';<br />} | undefined | 节点放置在根节点左侧或右侧的回调函数，仅对与根节点直接相连的节点有效，设置后将会影响被设置节点的所有子孙节点 |
+| align | 'center' / undefined | 'center' | undefined | 告知 indented 布局，节点在绘制时自身坐标系的原点在其中心还是左上角。所有的内置节点的自身坐标系原点均在中心，例如 'circle' 类型节点的 keyShape 是圆形图形，它的圆心 x、y 被设置为 0，代表原点对齐在该 keyShape 的圆心（即中心）；而 'rect' 类型的内置节点 keyShape 是矩形图形，内置定义中它的 x、y 分别被设置为 `width / 2` 和 `height / 2`，意味着矩形的左上角在 [width / 2, height / 2] 坐标上，那么坐标系原点就在矩形的中心。但自定义的 keyShape 为矩形的节点中，矩形的 x、y 可能被设置为 0，那么这一节点类型的自身坐标系原点就在其左上角。从整个图来看，每个节点的自身坐标系原点，将对齐到布局计算的节点位置上（画布绘制坐标系）。根据你使用的节点类型，告知 indented 布局是如何对齐的，可以更准确地计算节点位置，当然，这同时需要配合准确的 `getWidth` 和 `getHeight` 的返回值  |
 
 ### mindmap
 
-**描述**：脑图布局。深度相同的节点将会被放置在同一层，与 compactBox 不同的是，布局不会考虑节点的大小。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sRi6Q6Qrm-oAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**API**：[Mindmap API](/zh/docs/api/treeGraphLayout/mindmap)<br />**参数**：
+**描述**：脑图布局。深度相同的节点将会被放置在同一层，与 compactBox 不同的是，布局不会考虑节点的大小。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*sRi6Q6Qrm-oAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**API**：[Mindmap API](/zh/docs/api/tree-graph-layout/mindmap)<br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |

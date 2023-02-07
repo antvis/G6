@@ -45,7 +45,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
       layout.type = 'dendrogram';
     }
     if (!layout.direction) {
-      layout.direction = 'TB';
+      layout.direction = layout.type === 'indented' ? 'LR' : 'TB';
     }
     if (layout.radial) {
       return (data: any) => {

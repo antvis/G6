@@ -2,4 +2,4 @@
 title: API
 ---
 
-<embed src="@/docs/api/graphLayout/concentric.en.md"></embed>
+<embed src="@/docs/api/graph-layout/concentric.en.md"></embed>

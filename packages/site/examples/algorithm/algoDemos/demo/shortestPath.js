@@ -41,9 +41,24 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/b0ca4b15-bd0c-43ec-ae41-c810374a
     graph.data(data);
     graph.render();
 
+    // store the selected nodes according to the clicked order
+    let selectedNodeIds = [];
+    graph.on('node:click', ({ item }) => {
+      const id = item.getID();
+      const index = selectedNodeIds.indexOf(id);
+      if (item.hasState('selected') && index < 0) {
+        selectedNodeIds.push(id);
+      } else if (!item.hasState('selected')) {
+        selectedNodeIds.splice(index, 1);
+      }
+    });
+
+    graph.on('canvas:click', e => {
+      selectedNodeIds = [];
+    });
+
     button.addEventListener('click', (e) => {
-      const selectedNodes = graph.findAllByState('node', 'selected');
-      if (selectedNodes.length !== 2) {
+      if (selectedNodeIds.length !== 2) {
         alert('Please select TWO nodes!\n\r请选择有且两个节点！');
         return;
       }
@@ -52,35 +67,39 @@ fetch('https://gw.alipayobjects.com/os/bmw-prod/b0ca4b15-bd0c-43ec-ae41-c810374a
       // path 为其中一条最短路径，allPath 为所有的最短路径
       const { path, allPath } = findShortestPath(
         data,
-        selectedNodes[0].getID(),
-        selectedNodes[1].getID(),
+        selectedNodeIds[0],
+        selectedNodeIds[1],
+        true
       );
+      selectedNodeIds = [];
 
-      const pathNodeMap = {};
-      path.forEach((id) => {
-        const pathNode = graph.findById(id);
-        pathNode.toFront();
-        graph.setItemState(pathNode, 'highlight', true);
-        pathNodeMap[id] = true;
-      });
-      graph.getEdges().forEach((edge) => {
-        const edgeModel = edge.getModel();
-        const source = edgeModel.source;
-        const target = edgeModel.target;
-        const sourceInPathIdx = path.indexOf(source);
-        const targetInPathIdx = path.indexOf(target);
-        if (sourceInPathIdx === -1 || targetInPathIdx === -1) return;
-        if (Math.abs(sourceInPathIdx - targetInPathIdx) === 1) {
-          graph.setItemState(edge, 'highlight', true);
-        } else {
-          graph.setItemState(edge, 'inactive', true);
-        }
-      });
-      graph.getNodes().forEach((node) => {
-        if (!pathNodeMap[node.getID()]) {
-          graph.setItemState(node, 'inactive', true);
-        }
-      });
+      if (path?.length) {
+        const pathNodeMap = {};
+        path.forEach((id) => {
+          const pathNode = graph.findById(id);
+          pathNode.toFront();
+          graph.setItemState(pathNode, 'highlight', true);
+          pathNodeMap[id] = true;
+        });
+        graph.getEdges().forEach((edge) => {
+          const edgeModel = edge.getModel();
+          const source = edgeModel.source;
+          const target = edgeModel.target;
+          const sourceInPathIdx = path.indexOf(source);
+          const targetInPathIdx = path.indexOf(target);
+          if (sourceInPathIdx === -1 || targetInPathIdx === -1) return;
+          if (Math.abs(sourceInPathIdx - targetInPathIdx) === 1) {
+            graph.setItemState(edge, 'highlight', true);
+          } else {
+            graph.setItemState(edge, 'inactive', true);
+          }
+        });
+        graph.getNodes().forEach((node) => {
+          if (!pathNodeMap[node.getID()]) {
+            graph.setItemState(node, 'inactive', true);
+          }
+        });
+      }
     });
   });
 

@@ -37,6 +37,22 @@ const graph = new G6.Graph({
 **类型**: Boolean<br />**默认值**: false<br />**是否必须**: false<br />**说明**: 是否启用 web-worker 以防布局计算时间过长阻塞页面交互。
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> `workerEnabled: true` 时，不支持所有函数类型的参数。
 
+## layoutCfg.preset
+
+_自 G6 v4.7.0 起支持。_
+
+**类型**: 
+
+```javascript
+{
+  type: string; // 布局名称，可以是 random、concentric、grid、circular、radial、dagre 等静态布局
+  [key: string]: unkown; // 对应布局的配置项
+}
+```
+<br />
+
+**默认值**: undefined<br />**是否必须**: false<br />**说明**: 力导向布局的初始化布局，将先执行 preset 指定的布局，再进行力导向计算。由于力导向布局的结果非常依赖节点的初始位置，配置 preset 的可以给力导向布局一个好的初始化，让力导向算法更快收敛、效果更好。默认情况下，力导向的初始化为格子布局（grid）的结果
+
 ## layoutCfg.kr
 
 **类型**： Number<br />**默认值**：5<br />**是否必须**：false<br />**说明**：斥力系数，可用于调整布局的紧凑程度。kr 越大，布局越松散

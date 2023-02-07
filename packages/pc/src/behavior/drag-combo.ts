@@ -244,8 +244,8 @@ export default {
         this.updateCombo(item, evt);
       });
       if (this.onlyChangeComboSize) {
-        // 拖动节点结束后，动态改变 Combo 的大小
-        this.graph.updateCombos();
+        // 拖动节点过程中，动态改变 Combo 的大小
+        this.updateParentCombos();
       }
     }
   },
@@ -558,4 +558,18 @@ export default {
       });
     }
   },
+  /**
+   * updates the parent combos' size and position
+   */
+  updateParentCombos() {
+    const { graph, targets } = this;
+    const comboParentMap = {};
+    targets?.forEach(target => {
+      const comboId = target.getModel().parentId;
+      if (comboId) comboParentMap[comboId] = graph.findById(comboId);
+    })
+    Object.values(comboParentMap).forEach((combo: ICombo) => {
+      if (combo) graph.updateCombo(combo);
+    })
+  }
 };

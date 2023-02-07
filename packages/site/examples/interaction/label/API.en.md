@@ -2,4 +2,4 @@
 title: API
 ---
 
-<embed src="@/docs/api/graphFunc/item.en.md"></embed>
+<embed src="@/docs/api/graph-func/item.en.md"></embed>

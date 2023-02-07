@@ -46,6 +46,9 @@ The configurations of each layout algorithms are different. Please refer to corr
 - If there are `x` and `y` in node data, the graph will render with these information;
 - If there is no positions information in node data, the graph will arrange nodes with Random Layout by default.
 
+If the worker is enabled, notice that worker will visit the latest online version of @antv/layout. If your application cannot reach the online resource, download and save the [layout script](https://unpkg.com/@antv/layout@latest/dist/layout.min.js), and put it on an address which is visitable for your application. And then config `workerScriptURL` with the address in `layout`.
+
+
 ## Instantiate Independently
 
 The functions in this section should be concerned in these two situation:

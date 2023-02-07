@@ -20,4 +20,5 @@ const graph = new G6.Graph({
 注意：
 
 - 树图不支持 Web-Worker 机制；
-- 子图布局机制暂不支持 Web-Worker 机制。
+- 子图布局机制暂不支持 Web-Worker 机制；
+- worker 使用的是 @antv/layout 线上的脚本，如果你的项目无法访问到线上资源，请保存 [layout 脚本](https://unpkg.com/@antv/layout@latest/dist/layout.min.js)，并放在可以访问到的地址上，将 layout 的 `workerScriptURL` 配置为该地址即可

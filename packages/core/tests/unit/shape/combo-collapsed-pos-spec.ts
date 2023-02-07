@@ -544,32 +544,32 @@ describe('hierarchy data 2: combo A has 2 children: an empty combo B, a node', (
     expect(comboAModel.x).toBe(100);
     expect(comboAModel.y).toBe(200);
     // the child combo follow the parent
-    expect(comboBModel.x).toBe(232.75);
-    expect(comboBModel.y).toBe(377.75);
-    expect(nodeModel.x).toBe(-57.25);
-    expect(nodeModel.y).toBe(-2.25);
+    expect(comboBModel.x).toBe(232.5);
+    expect(comboBModel.y).toBe(377.5);
+    expect(nodeModel.x).toBe(-57.5);
+    expect(nodeModel.y).toBe(-2.5);
   });
   it('move child empty combo B', () => {
     graph.updateItem('B', { x: 330, y: 120 });
     expect(comboBModel.x).toBe(330);
     expect(comboBModel.y).toBe(120);
     // the sibling node is not changed
-    expect(nodeModel.x).toBe(-57.25);
-    expect(nodeModel.y).toBe(-2.25);
+    expect(nodeModel.x).toBe(-57.5);
+    expect(nodeModel.y).toBe(-2.5);
     // the parent combo follows the children
     graph.updateCombos();
-    expect(comboAModel.x).toBe(148.625);
-    expect(comboAModel.y).toBe(71.125);
+    expect(comboAModel.x).toBe(148.75);
+    expect(comboAModel.y).toBe(71.25);
   });
   it('move parent combo A', () => { // done
     graph.updateItem('A', { x: 450, y: 350 });
     expect(comboAModel.x).toBe(450);
     expect(comboAModel.y).toBe(350);
     // the child follow the parent
-    expect(comboBModel.x).toBe(450 - 148.625 + 330);
-    expect(comboBModel.y).toBe(350 - 71.125 + 120);
-    expect(nodeModel.x).toBe(450 - 148.625 - 57.25);
-    expect(nodeModel.y).toBe(350 - 71.125 - 2.25);
+    expect(comboBModel.x).toBe(450 - 148.75 + 330);
+    expect(comboBModel.y).toBe(350 - 71.25 + 120);
+    expect(nodeModel.x).toBe(450 - 148.75 - 57.5);
+    expect(nodeModel.y).toBe(350 - 71.25 - 2.5);
   });
   it('parent combo without pos, children with pos', () => {
     const testData = clone(data);
@@ -591,8 +591,8 @@ describe('hierarchy data 2: combo A has 2 children: an empty combo B, a node', (
     expect(nodeModel.x).toBe(10);
     expect(nodeModel.y).toBe(20);
     // A has no position, follows the child
-    expect(comboAModel.x).toBe(167.25);
-    expect(comboAModel.y).toBe(222.25);
+    expect(comboAModel.x).toBe(167.5);
+    expect(comboAModel.y).toBe(222.5);
   });
   it('parent combo with pos, child combo without pos', () => {
     const testData = clone(data);
@@ -670,16 +670,16 @@ describe('hierarchy data3: combo A has 2 children: combo B with 2 nodes, 2 nodes
     expect(comboAModel.x).toBe(100);
     expect(comboAModel.y).toBe(200);
     // the child combo follow the parent
-    expect(comboBModel.x).toBe(161.7898448916085);
-    expect(comboBModel.y).toBe(321.7898448916085);
-    expect(nodeModels[0].x).toBe(1.7898448916085101);
-    expect(nodeModels[0].y).toBe(41.78984489160848);
-    expect(nodeModels[1].x).toBe(11.78984489160851);
-    expect(nodeModels[1].y).toBe(51.78984489160848);
-    expect(nodeModels[2].x).toBe(156.7898448916085);
-    expect(nodeModels[2].y).toBe(316.7898448916085);
-    expect(nodeModels[3].x).toBe(166.7898448916085);
-    expect(nodeModels[3].y).toBe(326.7898448916085);
+    expect(comboBModel.x).toBe(161.5398448916085);
+    expect(comboBModel.y).toBe(321.5398448916085);
+    expect(nodeModels[0].x).toBe(1.5398448916085101);
+    expect(nodeModels[0].y).toBe(41.53984489160848);
+    expect(nodeModels[1].x).toBe(11.53984489160851);
+    expect(nodeModels[1].y).toBe(51.53984489160848);
+    expect(nodeModels[2].x).toBe(156.5398448916085);
+    expect(nodeModels[2].y).toBe(316.5398448916085);
+    expect(nodeModels[3].x).toBe(166.5398448916085);
+    expect(nodeModels[3].y).toBe(326.5398448916085);
   });
   it('move child combo B', () => {
     graph.updateItem('B', { x: 330, y: 120 });
@@ -687,10 +687,10 @@ describe('hierarchy data3: combo A has 2 children: combo B with 2 nodes, 2 nodes
     expect(comboBModel.x).toBe(330);
     expect(comboBModel.y).toBe(120);
     // the sibling node is not changed
-    expect(nodeModels[0].x).toBe(1.7898448916085101);
-    expect(nodeModels[0].y).toBe(41.78984489160848);
-    expect(nodeModels[1].x).toBe(11.78984489160851);
-    expect(nodeModels[1].y).toBe(51.78984489160848);
+    expect(nodeModels[0].x).toBe(1.5398448916085101);
+    expect(nodeModels[0].y).toBe(41.53984489160848);
+    expect(nodeModels[1].x).toBe(11.53984489160851);
+    expect(nodeModels[1].y).toBe(51.53984489160848);
     // the children nodes of combo B follow B
     expect(nodeModels[2].x).toBe(325);
     expect(nodeModels[2].y).toBe(115);
@@ -698,21 +698,21 @@ describe('hierarchy data3: combo A has 2 children: combo B with 2 nodes, 2 nodes
     expect(nodeModels[3].y).toBe(125);
 
     // the parent combo follows the children
-    expect(comboAModel.x).toBe(184.10507755419576);
-    expect(comboAModel.y).toBe(99.10507755419573);
+    expect(comboAModel.x).toBe(184.23007755419576);
+    expect(comboAModel.y).toBe(99.23007755419573);
   });
   it('move parent combo A', (done) => {
     graph.updateItem('A', { x: 150, y: 150 });
     expect(comboAModel.x).toBe(150);
     expect(comboAModel.y).toBe(150);
     // the child follow the parent
-    const dx = 150 - 184.10507755419576, dy = 150 - 99.10507755419573;
+    const dx = 150 - 184.23007755419576, dy = 150 - 99.23007755419573;
     expect(comboBModel.x).toBe(dx + 330);
     expect(comboBModel.y).toBe(dy + 120);
-    expect(nodeModels[0].x).toBe(dx + 1.7898448916085101);
-    expect(nodeModels[0].y).toBe(dy + 41.78984489160848);
-    expect(nodeModels[1].x).toBe(dx + 11.78984489160851);
-    expect(nodeModels[1].y).toBe(dy + 51.78984489160848);
+    expect(nodeModels[0].x).toBe(dx + 1.5398448916085101);
+    expect(nodeModels[0].y).toBe(dy + 41.53984489160848);
+    expect(nodeModels[1].x).toBe(dx + 11.53984489160851);
+    expect(nodeModels[1].y).toBe(dy + 51.53984489160848);
     expect(nodeModels[2].x).toBe(dx + 325);
     expect(nodeModels[2].y).toBe(dy + 115);
     expect(nodeModels[3].x).toBe(dx + 335);
@@ -727,8 +727,8 @@ describe('hierarchy data3: combo A has 2 children: combo B with 2 nodes, 2 nodes
       graph.updateCombos();
       setTimeout(() => {
         expect(Math.abs(comboA.getKeyShape().attr('r') - 105) < 1).toBe(true);
-        expect(comboAModel.x).toBe(21.092383668706375);
-        expect(comboAModel.y).toBe(64.09238366870638);
+        expect(comboAModel.x).toBe(21.154883668706375);
+        expect(comboAModel.y).toBe(63.654883668706375);
         done();
       }, 500);
     }, 500);
@@ -760,8 +760,8 @@ describe('hierarchy data3: combo A has 2 children: combo B with 2 nodes, 2 nodes
     expect(nodeModels[3].x).toBe(305);
     expect(nodeModels[3].y).toBe(405);
     // A has no position, follows the child
-    expect(comboAModel.x).toBe(238.2101551083915);
-    expect(comboAModel.y).toBe(278.2101551083915);
+    expect(comboAModel.x).toBe(238.4601551083915);
+    expect(comboAModel.y).toBe(278.4601551083915);
   });
   it('parent combo with pos, child combo without pos', () => {
     const testData = clone(data);
@@ -824,16 +824,16 @@ describe('hierarchy data3: combo A has 2 children: combo B with 2 nodes, 2 nodes
       setTimeout(() => {
         expect(comboB.isVisible()).toBe(true);
         // the child combo follow the parent
-        expect(comboBModel.x).toBe(161.7898448916085);
-        expect(comboBModel.y).toBe(321.7898448916085);
-        expect(nodeModels[0].x).toBe(1.7898448916085101);
-        expect(nodeModels[0].y).toBe(41.78984489160848);
-        expect(nodeModels[1].x).toBe(11.78984489160851);
-        expect(nodeModels[1].y).toBe(51.78984489160848);
-        expect(nodeModels[2].x).toBe(156.7898448916085);
-        expect(nodeModels[2].y).toBe(316.7898448916085);
-        expect(nodeModels[3].x).toBe(166.7898448916085);
-        expect(nodeModels[3].y).toBe(326.7898448916085);
+        expect(comboBModel.x).toBe(161.5398448916085);
+        expect(comboBModel.y).toBe(321.5398448916085);
+        expect(nodeModels[0].x).toBe(1.5398448916085101);
+        expect(nodeModels[0].y).toBe(41.53984489160848);
+        expect(nodeModels[1].x).toBe(11.53984489160851);
+        expect(nodeModels[1].y).toBe(51.53984489160848);
+        expect(nodeModels[2].x).toBe(156.5398448916085);
+        expect(nodeModels[2].y).toBe(316.5398448916085);
+        expect(nodeModels[3].x).toBe(166.5398448916085);
+        expect(nodeModels[3].y).toBe(326.5398448916085);
         graph.destroy();
         done()
       }, 500)
@@ -1011,7 +1011,7 @@ describe('hierarchy data5: combo A has 2 children: combo B with 2 nodes, 2 nodes
     setTimeout(() => {
       expect(comboModels[0].x).toBe(115.70219861834002);
       expect(comboModels[0].y).toBe(120);
-      // expect(Math.abs(combos[0].getKeyShape().attr('r') - 157) < 1).toBe(true);
+      expect(Math.abs(combos[0].getKeyShape().attr('r') - 158) < 1).toBe(true);
       done();
     }, 500)
   });
@@ -1144,7 +1144,7 @@ describe('hierarchy data6: combo A has 2 children: combo B with 2 nodes, 2 nodes
     setTimeout(() => {
       expect(comboModels[0].x).toBe(130);
       expect(comboModels[0].y).toBe(120);
-      expect(Math.abs(combos[0].getKeyShape().attr('r') - 130) < 1).toBe(true);
+      expect(Math.abs(combos[0].getKeyShape().attr('r') - 132) < 1).toBe(true);
       done();
     }, 500)
   });

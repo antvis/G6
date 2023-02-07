@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import { defineConfig } from 'dumi';
-import { repository, version, homepage } from './package.json';
+import { repository, version } from './package.json';
 import { Extractor, ExtractorConfig } from '@microsoft/api-extractor';
 
 const getExtraLib = () => {
@@ -41,7 +41,7 @@ export default defineConfig({
     description: 'A collection of charts made with the Grammar of Graphics',
     defaultLanguage: 'zh',                                              // 默认语言
     isAntVSite: false,                                                  // 是否是 AntV 的大官网
-    siteUrl: homepage,                                     // 官网地址
+    siteUrl: 'https://antv.antgroup.com',                               // 官网地址
     githubUrl: repository.url,                                          // GitHub 地址
     showSearch: true,                                                   // 是否显示搜索框
     showGithubCorner: true,                                             // 是否显示头部的 GitHub icon
@@ -285,7 +285,7 @@ export default defineConfig({
       },
       // ==========API====================
       {
-        slug: 'api/graphLayout',
+        slug: 'api/graph-layout',
         title: {
           zh: '图布局 Graph Layout',
           en: 'Graph Layout',
@@ -293,7 +293,7 @@ export default defineConfig({
         order: 2,
       },
       {
-        slug: 'api/graphFunc',
+        slug: 'api/graph-func',
         title: {
           zh: 'Graph 实例方法',
           en: 'Graph Functions',
@@ -301,7 +301,7 @@ export default defineConfig({
         order: 1,
       },
       {
-        slug: 'api/treeGraphLayout',
+        slug: 'api/tree-graph-layout',
         title: {
           zh: '树图布局 TreeGraph Layout',
           en: 'TreeGraph Layout',

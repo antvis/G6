@@ -136,5 +136,6 @@ describe('donut test', () => {
     const fanShapes = Object.values(graph.findById('node').getContainer()['shapeMap']).filter(shape => shape.get('name').includes('fan-shape-'));
     expect(fanShapes[0].attr('path')[0][1]).toBe(150 / 2 * 1.6 / 2); // (keyShapeR + 0.6 * keyShapeR) / 2
     expect(fanShapes[0].attr('lineWidth')).toBe(150 / 2 * (1 - 0.6)); // keyShapeR - 0.6 * keyShapeR
+    graph.destroy();
   });
 });

@@ -141,8 +141,6 @@ const nodes = graph.getNodes();
 nodes.forEach((node) => {
   node.toFront();
 });
-// Repaint the graph after shifting
-graph.paint();
 ```
 
 <br />Now, all the nodes are drawed on the top of edges:<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*8TnuS7pkUfwAAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
@@ -192,8 +190,6 @@ graph.on('edge:mouseenter', (ev) => {
   edge.toFront();
   source.toFront();
   target.toFront();
-  // Attention: the following code must be called to repaint the graph
-  graph.paint();
 });
 
 graph.on('edge:mouseleave', (ev) => {
@@ -203,8 +199,6 @@ graph.on('edge:mouseleave', (ev) => {
   edges.forEach((edge) => {
     edge.toBack();
   });
-  // Attention: the following code must be called to repaint the graph
-  graph.paint();
 });
 
 graph.on('node:mouseenter', (ev) => {
@@ -218,8 +212,6 @@ graph.on('node:mouseenter', (ev) => {
     edge.getSource().toFront();
     edge.getTarget().toFront();
   });
-  // Attention: the following code must be called to repaint the graph
-  graph.paint();
 });
 
 graph.on('node:mouseleave', (ev) => {
@@ -229,7 +221,5 @@ graph.on('node:mouseleave', (ev) => {
   edges.forEach((edge) => {
     edge.toBack();
   });
-  // Attention: the following code must be called to repaint the graph
-  graph.paint();
 });
 ```

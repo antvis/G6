@@ -57,13 +57,13 @@ const graph = new G6.Graph({
 
 ## 一般图布局方法
 
-图布局通用 API：[Layout API](/zh/docs/api/graphLayout/guide)。
+图布局通用 API：[Layout API](/zh/docs/api/graph-layout/guide)。
 
 ### Random
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*M5FySIdhX4oAAAAAAAAAAABkARQnAQ' width='400' alt='img'/>
 
-<br />**描述**：随机布局。 <br />**API**：[Random API](/zh/docs/api/graphLayout/random) <br />**参数**：
+<br />**描述**：随机布局。 <br />**API**：[Random API](/zh/docs/api/graph-layout/random) <br />**参数**：
 
 | 参数名 | 类型 | 示例 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -77,7 +77,7 @@ const graph = new G6.Graph({
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lX-qSqDECrIAAAAAAAAAAAAAARQnAQ' width=500 alt='img'/>
 
 <br /> **描述**：G6 4.0 支持力导向布局（由 graphin-force 沉淀，性能更强）。能够更加自由地支持设置节点质量、群组中心力等。当你希望固定某个节点的位置，不受力的影响时，可以在该节点数据中配置 `fx` 与 `fy` 作为固定的坐标。[Force2 布局固定被拖拽节点位置的 Demo](/zh/examples/net/forceDirected#force2Fix)。
-<br /> **API**：[Force API](/zh/docs/api/graphLayout/force2) 
+<br /> **API**：[Force API](/zh/docs/api/graph-layout/force2) 
 <br /> **参数**：
 
 | 参数名 | 类型 | 示例 | 默认值 | 说明 |
@@ -144,7 +144,7 @@ centripetalOptions: {
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*lX-qSqDECrIAAAAAAAAAAAAAARQnAQ' width=500 alt='img'/>
 
 <br /> **描述**：G6 4.0 支持的经典力导向布局。能够更加自由地支持设置节点质量、群组中心力等。更重要的是，它支持 GPU 并行计算。当你希望固定某个节点的位置，不受力的影响时，可以在该节点数据中配置 `fx` 与 `fy` 作为固定的坐标。[GForce 布局固定被拖拽节点位置的 Demo](/zh/examples/net/forceDirected#gForceFix)。
-<br /> **API**：[Force API](/zh/docs/api/graphLayout/gforce) 
+<br /> **API**：[Force API](/zh/docs/api/graph-layout/gforce) 
 <br /> **参数**：
 
 | 参数名 | 类型 | 示例 | 默认值 | 说明 |
@@ -174,7 +174,7 @@ centripetalOptions: {
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*oDbHRJc5td8AAAAAAAAAAABkARQnAQ' width='500'  alt='img'/>
 
 <br /> **描述**：经典力导向布局。当你希望固定某个节点的位置，不受力的影响时，可以在该节点数据中配置 `fx` 与 `fy` 作为固定的坐标。[Force 布局固定被拖拽节点位置的 Demo](/zh/examples/net/forceDirected#basicForceDirectedDragFix)。
-<br /> **API**：[Force API](/zh/docs/api/graphLayout/force) 
+<br /> **API**：[Force API](/zh/docs/api/graph-layout/force) 
 <br /> **参数**：与 d3.js 的力导布局参数相对应。
 
 | 参数名 | 类型 | 示例 | 默认值 | 说明 |
@@ -206,7 +206,7 @@ centripetalOptions: {
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*DibyQYaI2qYAAAAAAAAAAABkARQnAQ' width='400'  alt='img'/>
 
 <br />**描述**：Fruchterman 布局，一种力导布局。当你希望固定某个节点的位置，不受力的影响时，可以在该节点数据中配置 `fx` 与 `fy` 作为固定的坐标。[Fruchterman 布局固定被拖拽节点位置的 Demo](/zh/examples/net/fruchtermanLayout#fructhermanFix)。
-<br />**API**：[Fruchterman API](/zh/docs/api/graphLayout/fruchterman) 
+<br />**API**：[Fruchterman API](/zh/docs/api/graph-layout/fruchterman) 
 <br />**参数**：
 
 | 参数名 | 类型 | 示例 | 默认值 | 说明 |
@@ -226,7 +226,7 @@ centripetalOptions: {
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*qw1ES7nYvr8AAAAAAAAAAABkARQnAQ' width='200'  alt='img'/>
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*mCXwQYRV8IkAAAAAAAAAAABkARQnAQ' width='200'  alt='img'/>
 
-<br />**描述**：环形布局。 <br />**API**：[Circular API](/zh/docs/api/graphLayout/circular) <br />**参数**：
+<br />**描述**：环形布局。 <br />**API**：[Circular API](/zh/docs/api/graph-layout/circular) <br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -244,7 +244,7 @@ centripetalOptions: {
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FZIpRKpJo_MAAAAAAAAAAABkARQnAQ' width='200' alt='img' />
 
-<br />**描述**：辐射状布局。 <br />**API**：[Radial API](/zh/docs/api/graphLayout/radial) <br />**参数**：
+<br />**描述**：辐射状布局。 <br />**API**：[Radial API](/zh/docs/api/graph-layout/radial) <br />**参数**：
 
 | 参数名 | 类型 | 示例 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -257,14 +257,14 @@ centripetalOptions: {
 | maxPreventOverlapIteration | Number | 500 | 200 | 防止重叠步骤的最大迭代次数 |
 | nodeSize | Number | 10 | 10 | 节点大小（直径）。用于防止节点重叠时的碰撞检测。<br />：<br />若未设置则使用数据中节点的 `size` 字段数值进行碰撞检测计算。若二者皆未设置，则以节点大小为 `10` 进行计算。 |
 | nodeSpacing<br /> | Number / Function | 示例 1 : 10<br />示例 2 : <br />d => {<br />  // d 是一个节点<br />  if (d.id === 'node1') {<br />    return 100;<br />  }<br />  return 10;<br />} | 0 | <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*cFq4QbXVx7sAAAAAAAAAAABkARQnAQ' width=150 alt='img'/><br />`preventOverlap` 为 `true` 时生效，防止重叠时节点边缘间距的最小值。可以是回调函数，为不同节点设置不同的最小间距，如示例 2 所示<br /> |
-| strictRadial | Boolean | true | false | 是否必须是严格的 radial 布局，即每一层的节点严格布局在一个环上。`preventOverlap` 为 `true` 时生效。详见 [Radial-strictRadial API](/zh/docs/api/graphLayout/radial#layoutcfgstrictradial)<br />- 当 `preventOverlap` 为 `true`，且 `strictRadial` 为 `false` 时，有重叠的节点严格沿着所在的环展开，但在一个环上若节点过多，可能无法完全避免节点重叠。<br />- 当 `preventOverlap` 为 `true`，且 `strictRadial` 为 `true`  时，允许同环上重叠的节点不严格沿着该环布局，可以在该环的前后偏移以避免重叠。<br /> |
+| strictRadial | Boolean | true | false | 是否必须是严格的 radial 布局，即每一层的节点严格布局在一个环上。`preventOverlap` 为 `true` 时生效。详见 [Radial-strictRadial API](/zh/docs/api/graph-layout/radial#layoutcfgstrictradial)<br />- 当 `preventOverlap` 为 `true`，且 `strictRadial` 为 `false` 时，有重叠的节点严格沿着所在的环展开，但在一个环上若节点过多，可能无法完全避免节点重叠。<br />- 当 `preventOverlap` 为 `true`，且 `strictRadial` 为 `true`  时，允许同环上重叠的节点不严格沿着该环布局，可以在该环的前后偏移以避免重叠。<br /> |
 | sortBy | String | 'data' / 'cluster' | undefined | 同层节点布局后相距远近的依据。默认 `undefined` ，表示根据数据的拓扑结构（节点间最短路径）排布，即关系越近/点对间最短路径越小的节点将会被尽可能排列在一起；`'data'` 表示按照节点在数据中的顺序排列，即在数据顺序上靠近的节点将会尽可能排列在一起；也可以指定为节点数据中的某个字段名，例如 `'cluster'`、`'name'` 等（必须在数据中存在） |
 | sortStrength | Number | 10 | 10 | 同层节点根据 `sortBy` 排列的强度，数值越大，`sortBy` 指定的方式计算出距离越小的越靠近。`sortBy` 不为 `undefined` 时生效 |
 | workerEnabled | Boolean | true / false | false | 是否启用 web-worker 以防布局计算时间过长阻塞页面交互 |
 
 ### MDS
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6OPTT7bz5sUAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**描述**：高维数据降维算法布局。<br />**API**：[MDS API](/zh/docs/api/graphLayout/mds)<br />**参数**：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*6OPTT7bz5sUAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**描述**：高维数据降维算法布局。<br />**API**：[MDS API](/zh/docs/api/graph-layout/mds)<br />**参数**：
 
 | 参数名 | 类型 | 示例 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -274,7 +274,7 @@ centripetalOptions: {
 
 ### Dagre
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RQEORY5A_LoAAAAAAAAAAABkARQnAQ' width=250 alt='img'/><br />**描述**：层次布局。<br />**API**：[Dagre API](/zh/docs/api/graphLayout/dagre)<br />**参数**：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*RQEORY5A_LoAAAAAAAAAAABkARQnAQ' width=250 alt='img'/><br />**描述**：层次布局。<br />**API**：[Dagre API](/zh/docs/api/graph-layout/dagre)<br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -290,13 +290,13 @@ centripetalOptions: {
 
 ### Concentric
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ux0-SYBy6Y8AAAAAAAAAAABkARQnAQ' width=300 alt='img'/><br />注：该算法参考 <a href='https://github.com/cytoscape/cytoscape.js' target='_blank'>cytoscape.js</a>，遵守 MIT 开源协议。<br />**描述**：同心圆布局。<br />**API**：[Concentric API](/zh/docs/api/graphLayout/concentric)<br />**参数**：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Ux0-SYBy6Y8AAAAAAAAAAABkARQnAQ' width=300 alt='img'/><br />注：该算法参考 <a href='https://github.com/cytoscape/cytoscape.js' target='_blank'>cytoscape.js</a>，遵守 MIT 开源协议。<br />**描述**：同心圆布局。<br />**API**：[Concentric API](/zh/docs/api/graph-layout/concentric)<br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
 | center | Array | [ 0, 0 ] | 图的中心 | 布局的中心 |
 | nodeSize | Number | 30 | 30 | 节点大小（直径）。用于防止节点重叠时的碰撞检测 |
-| minNodeSpacing | Number | 10 | 10 | 环与环之间最小间距，用于调整半径 |
+| nodeSpacing | Number | 10 | 10 | 环与环之间最小间距，用于调整半径 |
 | preventOverlap | Boolean | false | false | 是否防止重叠，必须配合属性 `nodeSize` ，只有设置了与当前图节点大小相同的 `nodeSize` 值，才能够进行节点重叠的碰撞检测。若未设置 `nodeSize` ，则将根据节点数据中的 `size` 进行碰撞检测。若二者都未设置，则默认以 30 为节点大小进行碰撞检测 |
 | sweep | Number | Math.PI | undefined | 第一个节点与最后一个节点之间的弧度差 |
 | equidistant | Boolean | false | false | 环与环之间的距离是否相等 |
@@ -308,7 +308,7 @@ centripetalOptions: {
 
 ### Grid
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5U3_TZVolpEAAAAAAAAAAABkARQnAQ' width=300 alt='img'/><br />注：该算法参考 <a href='https://github.com/cytoscape/cytoscape.js' target='_blank'>cytoscape.js</a>，遵守 MIT 开源协议。<br />**描述**：网格布局。<br />**API**：[Grid API](/zh/docs/api/graphLayout/grid)<br />**参数**：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*5U3_TZVolpEAAAAAAAAAAABkARQnAQ' width=300 alt='img'/><br />注：该算法参考 <a href='https://github.com/cytoscape/cytoscape.js' target='_blank'>cytoscape.js</a>，遵守 MIT 开源协议。<br />**描述**：网格布局。<br />**API**：[Grid API](/zh/docs/api/graph-layout/grid)<br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -324,7 +324,7 @@ centripetalOptions: {
 
 ### Combo Force
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AngFRpOo4SAAAAAAAAAAAABkARQnAQ' width=300 alt='img' /><br />**API**：[Combo Force API](/zh/docs/api/graphLayout/comboForce)<br />**参数**：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AngFRpOo4SAAAAAAAAAAAABkARQnAQ' width=300 alt='img' /><br />**API**：[Combo Force API](/zh/docs/api/graph-layout/comboForce)<br />**参数**：
 
 | 参数名 | 类型 | 示例 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -358,7 +358,7 @@ centripetalOptions: {
 
 ### Combo Combined
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZlvWS7xOkjMAAAAAAAAAAAAAARQnAQ' width=300 alt='img' /><br />**API**：[Combo Combined API](/zh/docs/api/graphLayout/comboCombined)<br />**参数**：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZlvWS7xOkjMAAAAAAAAAAAAAARQnAQ' width=300 alt='img' /><br />**API**：[Combo Combined API](/zh/docs/api/graph-layout/comboCombined)<br />**参数**：
 
 | 参数名 | 类型 | 示例 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |

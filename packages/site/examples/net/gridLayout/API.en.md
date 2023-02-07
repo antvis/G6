@@ -2,4 +2,4 @@
 title: API
 ---
 
-<embed src="@/docs/api/graphLayout/grid.en.md"></embed>
+<embed src="@/docs/api/graph-layout/grid.en.md"></embed>

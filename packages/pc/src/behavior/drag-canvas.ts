@@ -1,4 +1,5 @@
 import { G6Event, IG6GraphEvent } from '@antv/g6-core';
+import { isBoolean, isObject } from '@antv/util';
 import { IGraph } from '../interface/graph';
 import Util from '../util';
 
@@ -134,9 +135,7 @@ export default {
     }
 
     if (self.keydown) return;
-    const target = e.target;
-    const targetIsCanvas = target && target.isCanvas && target.isCanvas();
-    if (!this.allowDragOnItem && !targetIsCanvas) return;
+    if (!this.allowDrag(e)) return;
 
     self.origin = { x: e.clientX, y: e.clientY };
     self.dragging = false;
@@ -192,9 +191,7 @@ export default {
     if (!this.mousedown) return;
     const { graph } = this;
     if (this.keydown) return;
-    const target = e.target;
-    const targetIsCanvas = target && target.isCanvas && target.isCanvas();
-    if (!this.allowDragOnItem && !targetIsCanvas) return;
+    if (!this.allowDrag(e)) return;
 
     e = cloneEvent(e);
     if (!this.origin) {
@@ -310,4 +307,17 @@ export default {
     this.dragging = false;
     this.dragbegin = false;
   },
+  allowDrag(evt: IG6GraphEvent) {
+    const target = evt.target;
+    const targetIsCanvas = target && target.isCanvas && target.isCanvas();
+    if (isBoolean(this.allowDragOnItem) && !this.allowDragOnItem && !targetIsCanvas) return false;
+    if (isObject(this.allowDragOnItem)) {
+      const { node, edge, combo } = this.allowDragOnItem;
+      const itemType = evt.item?.getType?.();
+      if (!node && itemType === 'node') return false;
+      if (!edge && itemType === 'edge') return false;
+      if (!combo && itemType === 'combo') return false;
+    }
+    return true;
+  }
 };
