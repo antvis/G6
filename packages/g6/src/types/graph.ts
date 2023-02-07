@@ -2,13 +2,13 @@ import EventEmitter from '@antv/event-emitter';
 import { Hooks } from '../types/hook';
 import { AnimateCfg } from './animate';
 import { BehaviorObjectOptionsOf, BehaviorOptionsOf, BehaviorRegistry } from './behavior';
-import { ComboUserModel, ICombo } from './combo';
+import { ComboModel, ComboUserModel } from './combo';
 import { Padding, Point } from './common';
 import { GraphData } from './data';
-import { EdgeUserModel, IEdge } from './edge';
-import { IItem, ITEM_TYPE } from './item';
+import { EdgeModel, EdgeUserModel } from './edge';
+import { ITEM_TYPE } from './item';
 import { LayoutCommonConfig } from './layout';
-import { INode, NodeUserModel } from './node';
+import { NodeModel, NodeUserModel } from './node';
 import { Specification } from './spec';
 import { FitViewRules, GraphAlignment } from './view';
 
@@ -33,21 +33,21 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
    * @returns result node
    * @group Item
    */
-  getNodeData: (condition: string | Function) => INode | undefined;
+  getNodeData: (condition: string | Function) => NodeModel | undefined;
   /**
    * Find an edge's inner data according to id or function.
    * @param { string | Function} condition id or condition function
    * @returns result edge
    * @group Item
    */
-  getEdgeData: (condition: string | Function) => IEdge | undefined;
+  getEdgeData: (condition: string | Function) => EdgeModel | undefined;
   /**
    * Find a combo's inner data according to id or function.
    * @param { string | Function} condition id or condition function
    * @returns result combo
    * @group Item
    */
-  getComboData: (condition: string | Function) => ICombo | undefined;
+  getComboData: (condition: string | Function) => ComboModel | undefined;
   /**
    * Input data and render the graph.
    * If there is old data, diffs and changes it.
@@ -137,7 +137,7 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
    * @returns items that is the type and has the state
    * @group Item
    */
-  findIdByState: <T extends IItem>(itemType: ITEM_TYPE, state: string, additionalFilter?: (item: IItem) => boolean) => string[];
+  findIdByState: (itemType: ITEM_TYPE, state: string, additionalFilter?: (model: NodeModel | EdgeModel | ComboModel) => boolean) => (string | number)[];
   /**
    * Add an item or items to the graph.
    * @param itemType item type

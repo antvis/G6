@@ -3,14 +3,14 @@ import { clone, isArray, isObject } from '@antv/util';
 import { ComboUserModel, EdgeUserModel, GraphData, IGraph, NodeUserModel, Specification } from '../types';
 import { AnimateCfg } from '../types/animate';
 import { BehaviorObjectOptionsOf, BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';
-import { ICombo } from '../types/combo';
+import { ComboModel } from '../types/combo';
 import { Padding, Point } from '../types/common';
 import { GraphCore } from '../types/data';
-import { IEdge } from '../types/edge';
+import { EdgeModel } from '../types/edge';
 import { Hooks } from '../types/hook';
-import { IItem, ITEM_TYPE } from '../types/item';
+import { ITEM_TYPE } from '../types/item';
 import { LayoutCommonConfig } from '../types/layout';
-import { INode } from '../types/node';
+import { NodeModel } from '../types/node';
 import { FitViewRules, GraphAlignment } from '../types/view';
 import { DataController, InteractionController, ItemController, LayoutController, ThemeController, ExtensionController } from './controller';
 import Hook from './hooks';
@@ -191,7 +191,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @returns result node
    * @group Item
    */
-  public getNodeData(condition: string | Function): INode | undefined {
+  public getNodeData(condition: string | Function): NodeModel | undefined {
     return this.dataController.findData('node', condition);
   }
   /**
@@ -200,7 +200,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @returns result edge
    * @group Item
    */
-  public getEdgeData(condition: string | Function): IEdge | undefined {
+  public getEdgeData(condition: string | Function): EdgeModel | undefined {
     return this.dataController.findData('edge', condition);
   }
   /**
@@ -209,7 +209,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @returns result combo
    * @group Item
    */
-  public getComboData(condition: string | Function): ICombo | undefined {
+  public getComboData(condition: string | Function): ComboModel | undefined {
     return this.dataController.findData('combo', condition);
   }
   /**
@@ -220,7 +220,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @returns items that is the type and has the state
    * @group Item
    */
-  public findIdByState<T extends IItem>(itemType: ITEM_TYPE, state: string, additionalFilter?: (item: IItem) => boolean): string[] {
+  public findIdByState(itemType: ITEM_TYPE, state: string, additionalFilter?: (item: NodeModel | EdgeModel | ComboModel) => boolean): (string | number)[] {
     // TODO
     return;
   }
