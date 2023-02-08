@@ -18,8 +18,8 @@ order: 7
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | nodeName | String | true | 自定义节点名称，需保持唯一性。 |
-| options | Object | true | 自定义节点时的配置项，配置项中包括完整的生命周期方法，具体请参考：[Shape Doc](/zh/docs/manual/middle/elements/shape/shape-keyshape) 和 [自定义节点与边 API](/zh/docs/api/registerItem)。 |
-| extendNodeName | String | false | 自定义节点时可基于内置节点进行定义，该字段表示内置节点名称，所有内置节点请参考：[内置节点](/zh/docs/manual/middle/elements/nodes/defaultNode) 教程。 |
+| options | Object | true | 自定义节点时的配置项，配置项中包括完整的生命周期方法，具体请参考：[Shape Doc](/zh/docs/manual/middle/elements/shape/shape-keyshape) 和 [自定义节点与边 API](/zh/docs/api/register-item)。 |
+| extendNodeName | String | false | 自定义节点时可基于内置节点进行定义，该字段表示内置节点名称，所有内置节点请参考：[内置节点](/zh/docs/manual/middle/elements/nodes/default-node) 教程。 |
 
 ### 用法
 
@@ -82,7 +82,7 @@ G6.registerNode(
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | edgeName | String | true | 自定义边的名称 |
-| options | Object | true | 自定义边时的配置项，配置项中包括完整的生命周期方法，具体请参考：[Shape Doc](/zh/docs/manual/middle/elements/shape/shape-keyshape) 和 [自定义节点与边 API](/zh/docs/api/registerItem)。 |
+| options | Object | true | 自定义边时的配置项，配置项中包括完整的生命周期方法，具体请参考：[Shape Doc](/zh/docs/manual/middle/elements/shape/shape-keyshape) 和 [自定义节点与边 API](/zh/docs/api/register-item)。 |
 | extendedEdgeName | String | false | 自定义边时可基于内置边进行定义，该字段表示内置边的名称，所有内置边请参考：[内置边](/zh/docs/manual/middle/elements/edges/defaultEdge) 教程。 |
 
 ### 用法
@@ -140,8 +140,8 @@ G6.registerEdge(
 | 名称 | 类型 | 是否必选 | 描述 |
 | --- | --- | --- | --- |
 | comboName | String | true | 自定义 combo 的名称，需保持唯一性。 |
-| options | Object | true | 自定义 combo 时的配置项，配置项中包括完整的生命周期方法，具体请参考：[Shape Doc](/zh/docs/manual/middle/elements/shape/shape-keyshape) 和 [自定义节点与边 API](/zh/docs/api/registerItem)。 |
-| extendedComboName | String | false | 自定义节点时可基于内置 combo 进行定义，该字段表示内置 combo 名称，所有内置 Combo 请参考：[内置 Combo](/zh/docs/manual/middle/elements/combos/defaultCombo) 教程。 |
+| options | Object | true | 自定义 combo 时的配置项，配置项中包括完整的生命周期方法，具体请参考：[Shape Doc](/zh/docs/manual/middle/elements/shape/shape-keyshape) 和 [自定义节点与边 API](/zh/docs/api/register-item)。 |
+| extendedComboName | String | false | 自定义节点时可基于内置 combo 进行定义，该字段表示内置 combo 名称，所有内置 Combo 请参考：[内置 Combo](/zh/docs/manual/middle/elements/combos/default-combo) 教程。 |
 
 ### 用法
 

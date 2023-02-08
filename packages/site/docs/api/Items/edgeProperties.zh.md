@@ -45,7 +45,7 @@ order: 7
 
 <description> _Object_ **optional** </description>
 
-通过 `style` 配置来修改边的填充色、边框颜色、阴影等属性，具体配置属性见：[图形样式属性](/zh/docs/api/shapeProperties)。
+通过 `style` 配置来修改边的填充色、边框颜色、阴影等属性，具体配置属性见：[图形样式属性](/zh/docs/api/shape-properties)。
 
 ### label
 
@@ -63,7 +63,7 @@ order: 7
 | refY | false | Number | 标签在 y 方向的偏移量 |
 | position | false | String | 文本相对于边的位置，目前支持的位置有：`'start'`，`'middle'`，`'end'`。默认为`'middle'`。 |
 | autoRotate | false | Boolean | 标签文字是否跟随边旋转，默认 `false` |
-| style | false | Object | 标签的样式属性，具体配置项参见统一整理在 [图形样式属性 - Text 图形](/zh/docs/api/shapeProperties/#文本-text) |
+| style | false | Object | 标签的样式属性，具体配置项参见统一整理在 [图形样式属性 - Text 图形](/zh/docs/api/shape-properties/#文本-text) |
 
 ## 内置边的特有属性
 

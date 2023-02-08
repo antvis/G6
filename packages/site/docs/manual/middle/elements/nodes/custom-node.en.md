@@ -3,11 +3,11 @@ title: Custom Node
 order: 2
 ---
 
-G6 provides abundant [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode), including [circle](/en/docs/manual/middle/elements/nodes/built-in/circle), [rect](/en/docs/manual/middle/elements/nodes/built-in/rect, [ellipse](/en/docs/manual/middle/elements/nodes/built-in/ellipse), [diamond](/en/docs/manual/middle/elements/nodes/built-in/diamond), [triangle](/en/docs/manual/middle/elements/nodes/built-in/triangle), [star](/en/docs/manual/middle/elements/nodes/built-in/star), [image](/en/docs/manual/middle/elements/nodes/built-in/image), [modelRect](/en/docs/manual/middle/elements/nodes/built-in/modelRect). Besides, the custom machanism allows the users to design their own type of nodes by `G6.registerNode(typeName: string, nodeDefinition: object, extendedNodeType?: string)`. A node with complex graphics shapes, complex interactions, fantastic animations can be implemented easily. For the parameters:
+G6 provides abundant [Built-in Nodes](/en/docs/manual/middle/elements/nodes/default-node), including [circle](/en/docs/manual/middle/elements/nodes/built-in/circle), [rect](/en/docs/manual/middle/elements/nodes/built-in/rect, [ellipse](/en/docs/manual/middle/elements/nodes/built-in/ellipse), [diamond](/en/docs/manual/middle/elements/nodes/built-in/diamond), [triangle](/en/docs/manual/middle/elements/nodes/built-in/triangle), [star](/en/docs/manual/middle/elements/nodes/built-in/star), [image](/en/docs/manual/middle/elements/nodes/built-in/image), [modelRect](/en/docs/manual/middle/elements/nodes/built-in/modelRect). Besides, the custom machanism allows the users to design their own type of nodes by `G6.registerNode(typeName: string, nodeDefinition: object, extendedNodeType?: string)`. A node with complex graphics shapes, complex interactions, fantastic animations can be implemented easily. For the parameters:
 
 - `typeName`: the name of the new node type;
 - `extendedNodeType`: The name of the existing type that will be extended, which can be a built-in node type, or an existing custom node type. When it is not assigned, the custom node will not extend any existing node type;
-- `nodeDefinition`: The definition of the new node type. The required options can be found at [Custom Mechanism API](/en/docs/api/registerItem#g6registernodenodename-options-extendednodename). When the `extendedNodeType` is assigned, the functions which are not rewritten will extend from the type with name `extendedNodeType`.
+- `nodeDefinition`: The definition of the new node type. The required options can be found at [Custom Mechanism API](/en/docs/api/register-item#g6registernodenodename-options-extendednodename). When the `extendedNodeType` is assigned, the functions which are not rewritten will extend from the type with name `extendedNodeType`.
 
 **Noted** that if the `extendedNodeType` is assigned, the required functions such as `draw`, `update`, and `setState` will extend from `extendedNodeType` unless they are rewritten in `nodeDefinition`. Due to this mechanism, a question is often fed back:
 
@@ -220,7 +220,7 @@ G6.registerNode('diamond', {
 
 ### Extend the Shape
 
-There are several [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) in G6. You can extend them to make some modification on them. It is similar to register the diamond node. single-node is the base class of all the node types, you can also extend it. (single-edge is the base class of all the edge types.)
+There are several [Built-in Nodes](/en/docs/manual/middle/elements/nodes/default-node) in G6. You can extend them to make some modification on them. It is similar to register the diamond node. single-node is the base class of all the node types, you can also extend it. (single-edge is the base class of all the edge types.)
 
 For example, we are going to extend the single-node. `draw`, `update`, and `setState` have been implemented in the single-node. Thus, we only override the `getShapeStyle`, which returns the path and the styles of graphics shapes.
 

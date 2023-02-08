@@ -97,14 +97,14 @@ redirect_from:
 - 信息输出：详情面板、气泡、Tooltip、画板信息等；
 - 高级功能：时间轴、快照画廊、分析报表等。
 
-[查看 AntV 内置的各类组件 >](/zh/docs/design/component/componentOverview)
+[查看 AntV 内置的各类组件 >](/zh/docs/design/component/component-overview)
 
 <a href=''></a>
 
 在某些特殊场景下，也需要结合业务实际情况基于基础组件去升级优化，乃至基于产品独有的能力去设计全新的组件。在优化一个基础组件或设计全新的组件时，需要结合实际的功能需求，从使用场景、构成元素、常见类型、交互说明等几个角度完整的思考清楚。以 AntV 最新设计的两个组件为例：
 
 - [时间轴 TimeBar](/zh/docs/design/component/timebar)
-- [视图控制栏 View ToolBar](/zh/docs/design/component/viewToolbar)
+- [视图控制栏 View ToolBar](/zh/docs/design/component/view-toolbar)
 
 ### 交互设计
 

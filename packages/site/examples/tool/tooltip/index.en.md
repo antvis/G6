@@ -9,7 +9,7 @@ G6 has two type of Tooltip, plugin and behavior. We recommand you to use the Too
 
 The first demo below shows the Tooltip plugin. Instantiate the Tooltip plugin and assign it to the `plugins` of the graph. Notice that the `offsetX` and `offsetY` can be used to adjust the offset of the tooltip to the mouse, the padding of the parent container should be counted into them, e.g. the padding of the parent container in this demo is `24px 16px`, so we set the `offsetX` and `offsetY` tobe `16 + 10` and `24 + 10` respectively. The Tooltip's style can be defined by the CSS with class name `g6-component-tooltip` as below. For more detail, please refer to [Tooltip Plugin API](/en/docs/api/Plugins#tooltip).
 
-The second to the forth demo below show the Tooltip behavior. Tooltip's style can be defined by the CSS with class name `g6-tooltip` as below. For more detail, please refer to [Tooltip Behavior](/en/docs/manual/middle/states/defaultBehavior#tooltip).
+The second to the forth demo below show the Tooltip behavior. Tooltip's style can be defined by the CSS with class name `g6-tooltip` as below. For more detail, please refer to [Tooltip Behavior](/en/docs/manual/middle/states/default-behavior#tooltip).
 
 ```css
 // change the 'g6-tooltip' tobe 'g6-component-tooltip' for plugin type Tooltip

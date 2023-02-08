@@ -126,11 +126,11 @@ Type: Boolean; Default: 'false'. Whether to translate the graph to align its cen
 
 - `defaultNode`
 
-Type: Object. The global configuration for all the nodes in the graph in default state. It includes the style properties and other properties of nodes. Refer to [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode).
+Type: Object. The global configuration for all the nodes in the graph in default state. It includes the style properties and other properties of nodes. Refer to [Built-in Nodes](/en/docs/manual/middle/elements/nodes/default-node).
 
 - `defaultEdge`
 
-Type: Object. The global configuration for all the edges in the graph in default state. It includes the style properties and other properties of edges. Refer to [Built-in Edges](/en/docs/manual/middle/elements/nodes/defaultEdge).
+Type: Object. The global configuration for all the edges in the graph in default state. It includes the style properties and other properties of edges. Refer to [Built-in Edges](/en/docs/manual/middle/elements/nodes/default-edge).
 
 - `nodeStateStyles`
 

@@ -91,7 +91,7 @@ The interaction modes of this graph. Please refer to [Interaction Mode](/en/docs
 
 <description> _Object_ **optional** _default:_ `[]`</description>
 
-The default modes of this graph. Please refer to [Default Behavior](/en/docs/manual/middle/states/defaultBehavior) for detail.
+The default modes of this graph. Please refer to [Default Behavior](/en/docs/manual/middle/states/default-behavior) for detail.
 
 ### GraphOptions.nodeStateStyles
 

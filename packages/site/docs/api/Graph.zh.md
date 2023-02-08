@@ -91,7 +91,7 @@ const graph = new G6.Graph({
 
 <description> _Object_ **optional** _default:_ `[]`</description>
 
-画布默认的模式。详情可参见 [内置的 Behavior](/zh/docs/manual/middle/states/defaultBehavior) 文档。
+画布默认的模式。详情可参见 [内置的 Behavior](/zh/docs/manual/middle/states/default-behavior) 文档。
 
 ### GraphOptions.nodeStateStyles
 
@@ -117,7 +117,7 @@ const graph = new G6.Graph({
 
 <description> _Object_ **optional** _default:_ `{}`</description>
 
-默认状态下节点的配置，比如 `type`, `size`, `color`。会被写入的 data 覆盖。 见 [节点的通用属性](/zh/docs/manual/middle/elements/nodes/defaultNode#节点的通用属性) 。
+默认状态下节点的配置，比如 `type`, `size`, `color`。会被写入的 data 覆盖。 见 [节点的通用属性](/zh/docs/manual/middle/elements/nodes/default-node#节点的通用属性) 。
 
 ### GraphOptions.defaultEdge
 
@@ -129,7 +129,7 @@ const graph = new G6.Graph({
 
 <description> _Object_ **optional** _default:_ `{}`</description>
 
-默认状态下 Combo 的配置，比如 `type`, `color`。会被写入的 data 覆盖。3.5 版本新增。 见 [Combo 的通用属性](/zh/docs/manual/middle/elements/combos/defaultCombo#combo-的通用属性) 。
+默认状态下 Combo 的配置，比如 `type`, `color`。会被写入的 data 覆盖。3.5 版本新增。 见 [Combo 的通用属性](/zh/docs/manual/middle/elements/combos/default-combo#combo-的通用属性) 。
 
 ### GraphOptions.plugins
 

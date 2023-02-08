@@ -31,7 +31,7 @@ Combo 的最小大小，默认 'circle' 类型 Combo 的 size 为 20，'rect' �
 
 <description> _Object_ **optional** </description>
 
-该 Combo 的样式配置项，详见[内置 Combo 配置文档](/zh/docs/manual/middle/elements/combos/defaultCombo#样式属性-style)。
+该 Combo 的样式配置项，详见[内置 Combo 配置文档](/zh/docs/manual/middle/elements/combos/default-combo#样式属性-style)。
 
 ### label
 
@@ -43,7 +43,7 @@ Combo 的最小大小，默认 'circle' 类型 Combo 的 size 为 20，'rect' �
 
 <description> _Object_ **optional** </description>
 
-该 Combo 的文本标签样式配置项，详见[内置 Combo 配置文档](/zh/docs/manual/middle/elements/combos/defaultCombo#标签文本-label-及其配置-labelcfg)及各类型 Combo 的文档。
+该 Combo 的文本标签样式配置项，详见[内置 Combo 配置文档](/zh/docs/manual/middle/elements/combos/default-combo#标签文本-label-及其配置-labelcfg)及各类型 Combo 的文档。
 
 ### type
 
@@ -58,4 +58,4 @@ Combo 的最小大小，默认 'circle' 类型 Combo 的 size 为 20，'rect' �
 
 ## 内置 Combo 的特有属性
 
-内置各个内置 Combo 的特有属性见 [内置 Combo](/zh/docs/manual/middle/elements/combos/defaultCombo) 目录下各文档。
+内置各个内置 Combo 的特有属性见 [内置 Combo](/zh/docs/manual/middle/elements/combos/default-combo) 目录下各文档。

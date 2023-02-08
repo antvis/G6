@@ -3,7 +3,7 @@ title: Custom Behavior
 order: 10
 ---
 
-Custom a behavior when the [built-in behaviors](/en/docs/manual/middle/states/defaultBehavior) do not meet your requirements.
+Custom a behavior when the [built-in behaviors](/en/docs/manual/middle/states/default-behavior) do not meet your requirements.
 
 ## Usage
 

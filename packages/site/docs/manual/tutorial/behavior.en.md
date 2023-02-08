@@ -18,7 +18,7 @@ G6 provides several **Built-in** interaction behaviors. You can enable these beh
 - `drag-canvas`: enable the canvas to be dragged;
 - `zoom-canvas`: enable the canvas to be zoomed;
 
-Refer to [Interaction Behavior](/en/docs/manual/middle/states/defaultBehavior) document for more information.
+Refer to [Interaction Behavior](/en/docs/manual/middle/states/default-behavior) document for more information.
 
 ### Mode
 
@@ -43,7 +43,7 @@ const graph = new G6.Graph({
 });
 ```
 
-The code above uses the Behaviors by assigning their types. Besides, you can also configure the parameters for them, e.g. the sensitivity of zooming, max/min zoom ratio. Refer to [Ineteraction Behavior](/en/docs/manual/middle/states/defaultBehavior) document for more detail.
+The code above uses the Behaviors by assigning their types. Besides, you can also configure the parameters for them, e.g. the sensitivity of zooming, max/min zoom ratio. Refer to [Ineteraction Behavior](/en/docs/manual/middle/states/default-behavior) document for more detail.
 
 `modes` object above defines a set of interaction modes of the graph, where `default` is the default mode, which includes `'drag-canvas'`, `'zoom-canvas'`, and `'drag-node'`. You can add more modes with their Behaviors into `modes`, e.g. `edit` mode:
 
@@ -55,7 +55,7 @@ modes: {
 }
 ```
 
-Refer to [Interaction Mode](/en/docs/manual/middle/states/mode) and [Interaction Behavior](/en/docs/manual/middle/states/defaultBehavior) document for more detail.
+Refer to [Interaction Mode](/en/docs/manual/middle/states/mode) and [Interaction Behavior](/en/docs/manual/middle/states/default-behavior) document for more detail.
 
 ### Hover and Click to Change Styles
 

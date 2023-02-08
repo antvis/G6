@@ -9,7 +9,7 @@ You are able to custom an edge type by `G6.registerEdge(typeName: string, edgeDe
 
 - `typeName`: the name of the new edge type;
 - `extendedEdgeType`: The name of the existing type that will be extended, which can be a built-in edge type, or an existing custom edge type. When it is not assigned, the custom edge will not extend any existing edge type;
-- `edgeDefinition`: The definition of the new edge type. The required options can be found at [Custom Mechanism API](/en/docs/api/registerItem#g6registeredgeedgename-options-extendededgename). When the `extendedEdgeType` is assigned, the functions which are not rewritten will extend from the type with name `extendedEdgeType`.
+- `edgeDefinition`: The definition of the new edge type. The required options can be found at [Custom Mechanism API](/en/docs/api/register-item#g6registeredgeedgename-options-extendededgename). When the `extendedEdgeType` is assigned, the functions which are not rewritten will extend from the type with name `extendedEdgeType`.
 
 **Noted** that if the `extendedEdgeType` is assigned, the required functions such as `draw`, `update`, and `setState` will extend from `extendedEdgeType` unless they are rewritten in `edgeDefinition`. Due to this mechanism, a question is often fed back:
 

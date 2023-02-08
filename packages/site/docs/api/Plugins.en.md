@@ -49,7 +49,7 @@ Legend is a built-in legend plugin for G6. It is useful for npde/edge type demon
 | margin | number / number[] | The outer distance between the legend area to the border of the canvas. Array with four numbers means the distance to the top, right, bottom, and left responsively. Only the top distance takes effect when  `position:'top'`, situations for other `position` configurations are similar to it |
 | offsetX | number | The x-axis offset for the legend area, it is useful when you want to adjust the position of the lenged slightly |
 | offsetY | number | The y-axis offset for the legend area, it is useful when you want to adjust the position of the lenged slightly |
-| containerStyle | ShapeStyle | The style for the background rect, the format is similar as [rect shape style](/en/docs/api/shapeProperties#rect) |
+| containerStyle | ShapeStyle | The style for the background rect, the format is similar as [rect shape style](/en/docs/api/shape-properties#rect) |
 | horiSep | number | The horizontal seperation of the legend items |
 | vertiSep | number | The vertical seperation of the legend items |
 | layout | 'vertical' / 'horizontal' | The layout of the legend items. `'horizontal'` by default |
@@ -59,7 +59,7 @@ Legend is a built-in legend plugin for G6. It is useful for npde/edge type demon
 | titleConfig.position | 'center' / 'right' / 'left' | The alignment of the title to the legend content. `'center'` by default |
 | titleConfig.offsetX | number | The x-axis offset for the legend title, it is useful when you want to adjust the position of the title slightly |
 | titleConfig.offsetY | number | The y-axis offset for the legend title, it is useful when you want to adjust the position of the title slightly |
-| titleConfig[key] | ShapeStyle | Other styles for the text, configurations are same as [text shape style](/en/docs/api/shapeProperties#text) |
+| titleConfig[key] | ShapeStyle | Other styles for the text, configurations are same as [text shape style](/en/docs/api/shape-properties#text) |
 | filter | object | Configurations for the graph item filtering while the end-user interacting with the legend items. Detials are shown in the following lines |
 | filter.enable | boolean | Whether allow filtering the items in the main graph while the end-user interaction with the legend items. `false` by default |
 | filter.multiple | boolean | Whether support active multiple types of legend items, `false` by default, which means only one type of legend item will be activated in the same time. If it is `true`, multiple items could be activated only when the `filter.trigger` is `'click'` |
@@ -195,7 +195,7 @@ In complex graph with large number of edges, edge bundling helps you to improve 
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z9iXQq_kcrYAAAAAAAAAAABkARQnAQ' width=600 alt='img'/>
 
-> Edge bundling on American airline graph. <a href='/en/examples/case/graphDemos#edgeBundling' target='_blank'>Demo Link</a>. <a href='/en/docs/manual/cases/edgeBundling' target='_blank'>Demo Document</a>.
+> Edge bundling on American airline graph. <a href='/en/examples/case/graphDemos#edgeBundling' target='_blank'>Demo Link</a>. <a href='/en/docs/api/plugins#edge-bundling' target='_blank'>Demo Document</a>.
 
 The edge bundling plugin can be configured to adjust the styles and functions.
 

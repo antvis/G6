@@ -3,7 +3,7 @@ title: Custom Behavior
 order: 2
 ---
 
-G6 provides abundant [Built-in Behavior](/en/docs/manual/middle/states/defaultBehavior). Besides, you can custom your type of behaviors to satisfy the special requirements.
+G6 provides abundant [Built-in Behavior](/en/docs/manual/middle/states/default-behavior). Besides, you can custom your type of behaviors to satisfy the special requirements.
 
 In G6, we mainly take three scenarios into consideration:
 

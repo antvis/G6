@@ -3,7 +3,7 @@ title: node 实例方法
 order: 1
 ---
 
-Node 继承自 Item。所以 Item 上面的方法在 Node 实例中都可以调用。本文仅介绍 Node 类的通用方法，内置节点见 [内置节点文档](/zh/docs/manual/middle/elements/nodes/defaultNode) 和 [demo](/zh/examples/item/defaultNodes)，自定义节点见 [自定义节点文档](/zh/docs/manual/middle/elements/nodes/custom-node) 和 [demo](/zh/examples/item/customNode)。
+Node 继承自 Item。所以 Item 上面的方法在 Node 实例中都可以调用。本文仅介绍 Node 类的通用方法，内置节点见 [内置节点文档](/zh/docs/manual/middle/elements/nodes/default-node) 和 [demo](/zh/examples/item/defaultNodes)，自定义节点见 [自定义节点文档](/zh/docs/manual/middle/elements/nodes/custom-node) 和 [demo](/zh/examples/item/customNode)。
 
 ### node.lock()
 

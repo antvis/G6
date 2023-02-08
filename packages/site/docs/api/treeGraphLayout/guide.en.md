@@ -15,7 +15,7 @@ Notice that the layouts for TreeGraph cannot be used on Graph.
 
 There are four built-in layouts for TreeGraph:
 
-- [CompactBox](./compactBox)
+- [CompactBox](./compact-box)
 - [Dendrogram](./dendrogram)
 - [Indented](./indented)
 - [Mindmap](./mindmap)

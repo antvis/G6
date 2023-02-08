@@ -324,7 +324,7 @@ centripetalOptions: {
 
 ### Combo Force
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AngFRpOo4SAAAAAAAAAAAABkARQnAQ' width=300 alt='img' /><br />**API**：[Combo Force API](/zh/docs/api/graph-layout/comboForce)<br />**参数**：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AngFRpOo4SAAAAAAAAAAAABkARQnAQ' width=300 alt='img' /><br />**API**：[Combo Force API](/zh/docs/api/graph-layout/combo-force)<br />**参数**：
 
 | 参数名 | 类型 | 示例 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
@@ -358,7 +358,7 @@ centripetalOptions: {
 
 ### Combo Combined
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZlvWS7xOkjMAAAAAAAAAAAAAARQnAQ' width=300 alt='img' /><br />**API**：[Combo Combined API](/zh/docs/api/graph-layout/comboCombined)<br />**参数**：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZlvWS7xOkjMAAAAAAAAAAAAAARQnAQ' width=300 alt='img' /><br />**API**：[Combo Combined API](/zh/docs/api/graph-layout/combo-combined)<br />**参数**：
 
 | 参数名 | 类型 | 示例 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |

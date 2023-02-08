@@ -7,11 +7,11 @@ A built-in node Circle has the default style as below, the label is drawed on th
 
 ## Usage
 
-As stated in [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) , there are three methods to configure nodes: Configure nodes globally when instantiating a Graph; Configure nodes in their data; Configure nodes by `graph.node(nodeFn)`. Their priorities are:
+As stated in [Built-in Nodes](/en/docs/manual/middle/elements/nodes/default-node) , there are three methods to configure nodes: Configure nodes globally when instantiating a Graph; Configure nodes in their data; Configure nodes by `graph.node(nodeFn)`. Their priorities are:
 
 `graph.node(nodeFn)` > Configure in data > Configure globally
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span> Expect for `id`, and `label` which should be assigned to every single node data, the other configurations in [The Common Property](/en/docs/manual/middle/elements/nodes/defaultNode#common-property) and in each node type (refer to doc of each node type) support to be assigned by the three ways.
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span> Expect for `id`, and `label` which should be assigned to every single node data, the other configurations in [The Common Property](/en/docs/manual/middle/elements/nodes/default-node#common-property) and in each node type (refer to doc of each node type) support to be assigned by the three ways.
 
 ### 1 Global Configure When Instantiating a Graph
 
@@ -51,7 +51,7 @@ const data = {
 
 ## Property
 
-The [Node Common Properties](/en/docs/manual/middle/elements/nodes/defaultNode/#common-property) are available for Circle node, some special properties are shown below. The property with Object type will be described after the table:<br />
+The [Node Common Properties](/en/docs/manual/middle/elements/nodes/default-node/#common-property) are available for Circle node, some special properties are shown below. The property with Object type will be described after the table:<br />
 
 | Name | Description | Type | Remark |
 | --- | --- | --- | --- |
@@ -65,7 +65,7 @@ The [Node Common Properties](/en/docs/manual/middle/elements/nodes/defaultNode/#
 
 ### style
 
-The [Node Common Styles](/en/docs/manual/middle/elements/nodes/defaultNode/#style) are available for Circle node. `style` is an object to configure the filling color, stroke, and other styles. The following code shows how to configure the `style` globally when instantiating a Graph.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*PKulQaVnv9IAAAAAAAAAAABkARQnAQ' width=50 alt='img'/>
+The [Node Common Styles](/en/docs/manual/middle/elements/nodes/default-node/#style) are available for Circle node. `style` is an object to configure the filling color, stroke, and other styles. The following code shows how to configure the `style` globally when instantiating a Graph.<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*PKulQaVnv9IAAAAAAAAAAABkARQnAQ' width=50 alt='img'/>
 
 ```javascript
 const data = {
@@ -97,7 +97,7 @@ graph.render();
 
 ### labelCfg
 
-`labelCfg` is an object to configure the label of the node. The [Node Common Label Configurations](/en/docs/manual/middle/elements/nodes/defaultNode/#label-and-labelcfg) are available. Base on the code in [style](#style) section, we add `labelCfg` to `defaultNode`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zPiMQ5vO3e4AAAAAAAAAAABkARQnAQ' width=50 alt='img'/>
+`labelCfg` is an object to configure the label of the node. The [Node Common Label Configurations](/en/docs/manual/middle/elements/nodes/default-node/#label-and-labelcfg) are available. Base on the code in [style](#style) section, we add `labelCfg` to `defaultNode`.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zPiMQ5vO3e4AAAAAAAAAAABkARQnAQ' width=50 alt='img'/>
 
 ```javascript
 const data = {

@@ -5,14 +5,14 @@ order: 0
 
 ## Built-in Layout Overview
 
-G6 provides several built-in layout algorithms as listed below. They can be [configured to `layout` when instantiate the Graph](#configure-to-gaph), or be [instantiated independently](#instantiate-independently). If the built-in layouts cannot meet your requirement, you can also [custom a layout](/en/docs/api/registerLayout).
+G6 provides several built-in layout algorithms as listed below. They can be [configured to `layout` when instantiate the Graph](#configure-to-gaph), or be [instantiated independently](#instantiate-independently). If the built-in layouts cannot meet your requirement, you can also [custom a layout](/en/docs/api/register-layout).
 
 Notice that the layouts for Graph cannot be used on TreeGraph.
 
 - [Random Layout](./random): Randomizes the node postions;
 - [GForce Layout](./gforce): Classical force-directed layout supports GPU parallel computing, supported by G6 4.0;
 - [Force Layout](./force): Classical force-directed layout;
-- [Force Atlas 2 Layout](./forceAtlas2): FA2 is a kind of force directed layout, which performs better on the convergence and compactness;
+- [Force Atlas 2 Layout](./force-atlas2): FA2 is a kind of force directed layout, which performs better on the convergence and compactness;
 - [Fruchterman Layout](./fruchterman): A kind of force-directed layout;
 - [Circular Layout](./circular): Arranges the nodes on a circle;
 - [Radial Layout](./radial): Arranges the nodes around a focus node radially;
@@ -20,8 +20,8 @@ Notice that the layouts for Graph cannot be used on TreeGraph.
 - [Dagre Layout](./dagre): Arranges the nodes hierarchically;
 - [Concentric Layout](./concentric): Arranges the nodes on concentric circles;
 - [Grid Layout](./grid): Arranges the nodes on grid.
-- [Combo Force Layout](./comboForce)：_New feature of V3.5_ Designed for graph with combos.
-- [Combo Combined Layout](./comboCombined)：_New feature of V4.6_ Designed for graph with combos. Support configuring the layout for items inside a combo and the layout for the outer combos and nodes.
+- [Combo Force Layout](./combo-force)：_New feature of V3.5_ Designed for graph with combos.
+- [Combo Combined Layout](./combo-combined)：_New feature of V4.6_ Designed for graph with combos. Support configuring the layout for items inside a combo and the layout for the outer combos and nodes.
 
 ## Configure to Gaph
 

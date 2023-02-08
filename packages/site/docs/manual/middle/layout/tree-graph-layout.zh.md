@@ -22,7 +22,7 @@ order: 1
 
 ## 配置树图布局
 
-与一般图 Graph 配置方法相似，通过实例化图时配置 `layout` 属性设置树的布局，还可以通过 `modes` 属性为树配置 [展开/收缩行为](/zh/docs/manual/middle/states/defaultBehavior/#collapse-expand)。以下代码声明了一个实例，定义了布局为从左到右结构的基础树图，并且定义了展开收缩行为。
+与一般图 Graph 配置方法相似，通过实例化图时配置 `layout` 属性设置树的布局，还可以通过 `modes` 属性为树配置 [展开/收缩行为](/zh/docs/manual/middle/states/default-behavior/#collapse-expand)。以下代码声明了一个实例，定义了布局为从左到右结构的基础树图，并且定义了展开收缩行为。
 
 ```javascript
 const graph = new G6.TreeGraph({
@@ -50,7 +50,7 @@ const graph = new G6.TreeGraph({
 
 ### compactBox
 
-**描述**：紧凑树布局。从根节点开始，同一深度的节点在同一层，并且布局时会将节点大小考虑进去。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**API**：[CompactBox API](/zh/docs/api/tree-graph-layout/compactBox)<br />**参数**：
+**描述**：紧凑树布局。从根节点开始，同一深度的节点在同一层，并且布局时会将节点大小考虑进去。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**API**：[CompactBox API](/zh/docs/api/tree-graph-layout/compact-box)<br />**参数**：
 
 | 参数名 | 类型 | 示例/可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |

@@ -9,11 +9,11 @@ A built-in node Circle has the default style as below, the label is drawed on th
 
 ## Usage
 
-As stated in [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) , there are three methods to configure nodes: Configure nodes globally when instantiating a Graph; Configure nodes in their data; Configure nodes by `graph.node(nodeFn)`. Their priorities are:
+As stated in [Built-in Nodes](/en/docs/manual/middle/elements/nodes/default-node) , there are three methods to configure nodes: Configure nodes globally when instantiating a Graph; Configure nodes in their data; Configure nodes by `graph.node(nodeFn)`. Their priorities are:
 
 `graph.node(nodeFn)` > Configure in data > Configure globally
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span> Expect for `id`, and `label` which should be assigned to every single node data, the other configurations in [The Common Property](/en/docs/manual/middle/elements/nodes/defaultNode#common-property) and in each node type (refer to doc of each node type) support to be assigned by the three ways.
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ Attention:</strong></span> Expect for `id`, and `label` which should be assigned to every single node data, the other configurations in [The Common Property](/en/docs/manual/middle/elements/nodes/default-node#common-property) and in each node type (refer to doc of each node type) support to be assigned by the three ways.
 
 ### 1 实例化图时全局配置
 
@@ -64,7 +64,7 @@ const data = {
 
 ## Property
 
-The [Node Common Properties](/en/docs/manual/middle/elements/nodes/defaultNode/#common-property) are available for Image node, some special properties are shown below. The property with Object type will be described after the table:
+The [Node Common Properties](/en/docs/manual/middle/elements/nodes/default-node/#common-property) are available for Image node, some special properties are shown below. The property with Object type will be described after the table:
 
 ```javascript
 img: 'https://yyb.gtimg.com/aiplat/page/product/visionimgidy/img/demo6-16a47e5d31.jpg?max_age=31536000',
@@ -95,7 +95,7 @@ size: 200,
 | **img** | **The URL addgress** | **String** | **special property for image node** |
 | size | The size of the node | Number | Array | When it is a number, the width and the height are the same |
 | label | The text of the label | String |  |
-| labelCfg | The configurations for the label | Object | The [Node Common Label Configurations](/en/docs/manual/middle/elements/nodes/defaultNode/#label-and-labelcfg) are available. |
+| labelCfg | The configurations for the label | Object | The [Node Common Label Configurations](/en/docs/manual/middle/elements/nodes/default-node/#label-and-labelcfg) are available. |
 | **clipCfg** | **The configurations for clipping** | **Object** | **Do not clip by default. It is a special property for image node** |
 
 ### clipCfg

@@ -63,4 +63,4 @@ graph.updateItem(node, {
 });
 ```
 
-For more information about the styles, refer to [Node Style Properties](/en/docs/manual/middle/elements/nodes/defaultNode/#style).
+For more information about the styles, refer to [Node Style Properties](/en/docs/manual/middle/elements/nodes/default-node/#style).

@@ -7,11 +7,11 @@ G6 内置了圆  Circle Combo，其默认样式如下。标签文本位于圆�
 
 ## 使用方法
 
-如 [内置 Combo](/zh/docs/manual/middle/elements/combos/defaultCombo) 一节所示，配置 Combo 的方式有三种：实例化图时全局配置，在数据中动态配置，使用 `graph.combo(comboFn)` 函数配置。这几种配置方法可以同时使用，优先级：
+如 [内置 Combo](/zh/docs/manual/middle/elements/combos/default-combo) 一节所示，配置 Combo 的方式有三种：实例化图时全局配置，在数据中动态配置，使用 `graph.combo(comboFn)` 函数配置。这几种配置方法可以同时使用，优先级：
 
 使用 `graph.combo(comboFn)` 配置 > 数据中动态配置 > 实例化图时全局配置
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 除 `id`、`parentId`、`label` 应当配置到每个 Combo 数据中外，其余的 [Combo 的通用属性](#/zh/docs/manual/middle/elements/combos/defaultCombo#combo-的通用属性) 以及各个 Combo 类型的特有属性（见内置 Combo 类型）均支持三种配置方式。
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 除 `id`、`parentId`、`label` 应当配置到每个 Combo 数据中外，其余的 [Combo 的通用属性](#/zh/docs/manual/middle/elements/combos/default-combo#combo-的通用属性) 以及各个 Combo 类型的特有属性（见内置 Combo 类型）均支持三种配置方式。
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 使用 Combo 时，必须在示例化图时配置 `groupByTypes` 设置为 `false`，图中元素的视觉层级才能合理。
 
@@ -58,7 +58,7 @@ const data = {
 
 ## 配置项说明
 
-Circle Combo 支持 [Combo 通用配置](/zh/docs/manual/middle/elements/combos/defaultCombo#combo-的通用属性)，下表对部分属性进行解释。对于 Object 类型的配置项将在后面有详细讲解：<br />
+Circle Combo 支持 [Combo 通用配置](/zh/docs/manual/middle/elements/combos/default-combo#combo-的通用属性)，下表对部分属性进行解释。对于 Object 类型的配置项将在后面有详细讲解：<br />
 
 | 名称 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
@@ -72,7 +72,7 @@ Circle Combo 支持 [Combo 通用配置](/zh/docs/manual/middle/elements/combos/
 
 ### 样式属性  style
 
-Object 类型。支持 [Combo 通用样式](/zh/docs/manual/middle/elements/combos/defaultCombo#样式属性-style)。通过 `style` 配置来修改 Combo 的填充色、描边等属性。下面代码演示在实例化图时全局配置方法中配置 `style`，使之达到如下图效果。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ydTKSqv-lh4AAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
+Object 类型。支持 [Combo 通用样式](/zh/docs/manual/middle/elements/combos/default-combo#样式属性-style)。通过 `style` 配置来修改 Combo 的填充色、描边等属性。下面代码演示在实例化图时全局配置方法中配置 `style`，使之达到如下图效果。<br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ydTKSqv-lh4AAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ```javascript
 const data = {
@@ -105,7 +105,7 @@ graph.render();
 
 ### 标签文本配置 labelCfg
 
-Object 类型。通过 `labelCfg` 配置标签文本。支持 [Combo 通用标签配置](/zh/docs/manual/middle/elements/combos/defaultCombo/#标签文本-label-及其配置-labelcfg)。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultCombo` 中增加了  `labelCfg`  配置项进行文本的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*oQnLQZ__8K0AAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
+Object 类型。通过 `labelCfg` 配置标签文本。支持 [Combo 通用标签配置](/zh/docs/manual/middle/elements/combos/default-combo/#标签文本-label-及其配置-labelcfg)。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultCombo` 中增加了  `labelCfg`  配置项进行文本的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*oQnLQZ__8K0AAAAAAAAAAABkARQnAQ' width=150 alt='img'/>
 
 ```javascript
 const data = {

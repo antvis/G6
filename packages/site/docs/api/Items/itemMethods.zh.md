@@ -23,7 +23,7 @@ Item 是 G6 中绘图元素实例，目前包含节点和边的实例。对于�
 
 <span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong> 提示：</strong></span>
 
-其中参数 model 可包括以下属性，下面属性的详细描述参见 [元素配置项](/zh/docs/api/Items/itemProperties)：
+其中参数 model 可包括以下属性，下面属性的详细描述参见 [元素配置项](/zh/docs/api/Items/item-properties)：
 
 
 | 名称     | 类型   | 是否必选 | 描述                                       |

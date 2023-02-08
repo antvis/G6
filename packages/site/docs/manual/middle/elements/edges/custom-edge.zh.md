@@ -9,7 +9,7 @@ G6 除了提供丰富的 [内置边](/zh/docs/manual/middle/elements/edges/defau
 
 - `typeName`：该新边类型名称；
 - `extendedEdgeType`：被继承的边类型，可以是内置边类型名，也可以是其他自定义边的类型名。`extendedEdgeType` 未指定时代表不继承其他类型的边；
-- `edgeDefinition`：该新边类型的定义，其中必要函数详见 [自定义机制 API](/zh/docs/api/registerItem#g6registeredgeedgename-options-extendededgename)。当有 `extendedEdgeType` 时，没被复写的函数将会继承 `extendedEdgeType` 的定义。
+- `edgeDefinition`：该新边类型的定义，其中必要函数详见 [自定义机制 API](/zh/docs/api/register-item#g6registeredgeedgename-options-extendededgename)。当有 `extendedEdgeType` 时，没被复写的函数将会继承 `extendedEdgeType` 的定义。
 
 **需要注意的是**，自定义边/节点时，若给定了 `extendedEdgeType`，如 `draw`，`update`，`setState` 等必要的函数若不在 `edgeDefinition` 中进行复写，将会继承 `extendedEdgeType` 中的相关定义。常见问题：
 
