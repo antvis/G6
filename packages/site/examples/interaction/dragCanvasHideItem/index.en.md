@@ -7,4 +7,4 @@ The global rendering will be triggered frequently when dragging and zooming the 
 
 ## Usage
 
-This demo hide the shapes beside the keyShape of nodes by configuring the built-in behavesides `'drag-canvas'`. and `'zoom-canvas'`. See the configuration `enableOptimize` in [drag-canvas](/en/docs/manual/middle/states/defaultBehavior#drag-canvas) and [zoom-canvas](/en/docs/manual/middle/states/defaultBehavior#zoom-canvas) for detail.
+This demo hide the shapes beside the keyShape of nodes by configuring the built-in behavesides `'drag-canvas'`. and `'zoom-canvas'`. See the configuration `enableOptimize` in [drag-canvas](/en/docs/manual/middle/states/default-behavior#drag-canvas) and [zoom-canvas](/en/docs/manual/middle/states/default-behavior#zoom-canvas) for detail.

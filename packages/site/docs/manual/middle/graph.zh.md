@@ -124,7 +124,7 @@ const graph = new G6.Graph({
 
 - `defaultNode`
 
-类型：Object。默认情况下全局节点的配置项，包括样式属性和其他属性。详见 [内置节点](/zh/docs/manual/middle/elements/nodes/defaultNode) 教程。
+类型：Object。默认情况下全局节点的配置项，包括样式属性和其他属性。详见 [内置节点](/zh/docs/manual/middle/elements/nodes/default-node) 教程。
 
 - `defaultEdge`
 

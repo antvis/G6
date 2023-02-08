@@ -100,7 +100,7 @@ const data = {
 
 - `nodes` 数组中包含节点对象。每个节点对象中唯一的、必要的 `id` 以标识不同的节点，`x`、 `y` 指定该节点的位置；
 - `edges` 数组中包含边对象。`source` 和 `target` 是每条边的必要属性，分别代表了该边的起始点 `id` 与 目标点 `id`。
-- 点和边的其他属性参见链接：[内置节点](/zh/docs/manual/middle/elements/nodes/defaultNode) 和 [内置边](/en/docs/manual/middle/elements/edges/defaultEdge)。
+- 点和边的其他属性参见链接：[内置节点](/zh/docs/manual/middle/elements/nodes/default-node) 和 [内置边](/en/docs/manual/middle/elements/edges/defaultEdge)。
 
 ### Step 3 创建关系图
 

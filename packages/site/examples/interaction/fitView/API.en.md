@@ -4,7 +4,7 @@ title: API
 
 # Built-in Behaviors
 
-Refer to [Built-in Behavior](/en/docs/manual/middle/states/defaultBehavior).
+Refer to [Built-in Behavior](/en/docs/manual/middle/states/default-behavior).
 
 # Custom Behavior
 

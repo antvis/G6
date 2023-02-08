@@ -14,8 +14,8 @@ order: 0
 
 在某些特殊场景下，也需要结合业务实际情况基于基础组件去升级优化，乃至基于产品独有的能力去设计全新的组件。在优化一个基础组件或设计全新的组件时，需要结合实际的功能需求，从使用场景、构成元素、常见类型、交互说明等几个角度完整的思考清楚。以 AntV 最新设计的两个组件为例：
 
-- [时间轴 TimeBar](./timebar)
-- [视图控制栏 View ToolBar](./viewToolbar)
+- [时间轴 TimeBar](/zh/design/component/timebar)
+- [视图控制栏 View ToolBar](/zh/design/component/view-toolbar)
 
 ## 组件类型
 

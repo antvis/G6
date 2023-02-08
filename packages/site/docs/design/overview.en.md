@@ -91,13 +91,13 @@ The styles of nodes and edges are the basic design for graph visualization. To f
 <br/>
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*EtfPTrmY5joAAAAAAAAAAAAAARQnAQ' width='90%' alt='img' />
 <br/>
-[The Buit-in Components of AntV >](https://g6.antv.antgroup.com/en/design/component/componentOverview)
+[The Buit-in Components of AntV >](https://g6.antv.antgroup.com/en/design/component/component-overview)
 <br/>
 
 In some special scenarios, it is also necessary to upgrade and optimize basic components based on the actual business requirements, or even design new components based on the unique capabilities of the product. When optimizing a basic component or designing a brand-new component, it is necessary to combine the actual functional requirements and get a full picture of several perspectives such as usage scenarios, constituent elements, common types, and interactive instructions. Take the two newly designed components of AntV as examples:
 
 - [TimeBar](https://g6.antv.antgroup.com/en/design/component/timebar)
-- [View Control ToolBar](https://g6.antv.antgroup.com/en/design/component/viewToolbar)
+- [View Control ToolBar](https://g6.antv.antgroup.com/en/design/component/view-toolbar)
 
 ### 2.4 Intereaction Design
 

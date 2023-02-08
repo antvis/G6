@@ -76,4 +76,4 @@ graph.updateItem(node, {
 });
 ```
 
-For more information about the label styles, refer to [Label on Node](/en/docs/manual/middle/elements/nodes/defaultNode/#label-and-labelcfg) and [Label on Edge](/en/docs/manual/middle/elements/edges/defaultEdge/#label-and-labelcfg).
+For more information about the label styles, refer to [Label on Node](/en/docs/manual/middle/elements/nodes/default-node/#label-and-labelcfg) and [Label on Edge](/en/docs/manual/middle/elements/edges/defaultEdge/#label-and-labelcfg).

@@ -3,7 +3,7 @@ title: 自定义 Combo
 order: 2
 ---
 
-G6 提供了一系列[内置 Combo](/zh/docs/manual/middle/elements/combos/defaultCombo)，包括 [circle](/zh/docs/manual/middle/elements/combos/built-in/circle)、[rect](/zh/docs/manual/middle/elements/combos/built-in/rect)。若内置 Combo 无法满足需求，用户还可以通过 `G6.registerCombo ('comboName', options, expendedComboName)` 进行**自定义扩展内置的 Combo**，方便用户开发更加定制化的 Combo，包括含有复杂图形的 Combo、复杂交互的 Combo、带有动画的 Combo 等。
+G6 提供了一系列[内置 Combo](/zh/docs/manual/middle/elements/combos/default-combo)，包括 [circle](/zh/docs/manual/middle/elements/combos/built-in/circle)、[rect](/zh/docs/manual/middle/elements/combos/built-in/rect)。若内置 Combo 无法满足需求，用户还可以通过 `G6.registerCombo ('comboName', options, expendedComboName)` 进行**自定义扩展内置的 Combo**，方便用户开发更加定制化的 Combo，包括含有复杂图形的 Combo、复杂交互的 Combo、带有动画的 Combo 等。
 
 在本章中，我们通过两个案例，讲解通过自定义扩展现有 Combo。
 
@@ -90,7 +90,7 @@ G6.registerCombo(
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2-SWQKDHFygAAAAAAAAAAABkARQnAQ' width='120' alt='img'/>
 
-根据上述 [内置 Rect Combo 位置逻辑详解](./custom-combo#内置-rect-combo-位置逻辑详解)，在扩展 rect 类型 Combo 时需要注意复写方法中 `x`、`y`、`width`、`height` 的设置
+根据上述 [内置 Rect Combo 位置逻辑详解](#内置-rect-combo-位置逻辑详解)，在扩展 rect 类型 Combo 时需要注意复写方法中 `x`、`y`、`width`、`height` 的设置
 
 ```javascript
 G6.registerCombo(

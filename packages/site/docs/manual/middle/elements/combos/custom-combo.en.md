@@ -3,7 +3,7 @@ title: Custom Combo
 order: 2
 ---
 
-G6 provides two types of [Built-in Combos](/en/docs/manual/middle/elements/combos/defaultCombo): [circle](/en/docs/manual/middle/elements/combos/built-in/circle), [rect](/en/docs/manual/middle/elements/combos/built-in/rect. Besides, the custom machanism allows the users to extend the built-in Combos to design their own type of nodes by `G6.registerCombo('comboName', options, expendedComboName)`. A combo with complex graphics shapes, complex interactions, fantastic animations can be implemented easily.
+G6 provides two types of [Built-in Combos](/en/docs/manual/middle/elements/combos/default-combo): [circle](/en/docs/manual/middle/elements/combos/built-in/circle), [rect](/en/docs/manual/middle/elements/combos/built-in/rect. Besides, the custom machanism allows the users to extend the built-in Combos to design their own type of nodes by `G6.registerCombo('comboName', options, expendedComboName)`. A combo with complex graphics shapes, complex interactions, fantastic animations can be implemented easily.
 
 In this document, we will introduce the custom combo mechanism by two examples:
 
@@ -99,7 +99,7 @@ Now, we are going to register a Combo as shown below (the figure below shows an 
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2-SWQKDHFygAAAAAAAAAAABkARQnAQ' width='120' alt='img'/>
 
-According to the [Illustration of Built-in Rect Combo](./custom-combo#illustration-of-built-in-rect-combo), please be caution about the `x`, `y`, `width`, `height` of the shapes when extending the rect Combo.
+According to the [Illustration of Built-in Rect Combo](#illustration-of-built-in-rect-combo), please be caution about the `x`, `y`, `width`, `height` of the shapes when extending the rect Combo.
 
 ```javascript
 G6.registerCombo(

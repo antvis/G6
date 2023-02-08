@@ -9,11 +9,11 @@ G6 内置了菱形  Diamond  节点，其默认样式如下。标签文本位�
 
 ## 使用方法
 
-如 [内置节点](/zh/docs/manual/middle/elements/nodes/defaultNode) 一节所示，配置节点的方式有三种：实例化图时全局配置，在数据中动态配置，使用 `graph.node(nodeFn)` 函数配置。这几种配置方法可以同时使用，优先级：
+如 [内置节点](/zh/docs/manual/middle/elements/nodes/default-node) 一节所示，配置节点的方式有三种：实例化图时全局配置，在数据中动态配置，使用 `graph.node(nodeFn)` 函数配置。这几种配置方法可以同时使用，优先级：
 
 使用 `graph.node(nodeFn)` 配置 > 数据中动态配置 > 实例化图时全局配置
 
-<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 除 `id`、`label` 应当配置到每个节点数据中外，其余的 [节点的通用属性](/zh/docs/manual/middle/elements/nodes/defaultNode#节点的通用属性) 以及各个节点类型的特有属性（见内置节点类型）均支持这三种配置方式。
+<span style="background-color: rgb(251, 233, 231); color: rgb(139, 53, 56)"><strong>⚠️ 注意:</strong></span> 除 `id`、`label` 应当配置到每个节点数据中外，其余的 [节点的通用属性](/zh/docs/manual/middle/elements/nodes/default-node#节点的通用属性) 以及各个节点类型的特有属性（见内置节点类型）均支持这三种配置方式。
 
 ### 1 实例化图时全局配置
 
@@ -52,7 +52,7 @@ const data = {
 
 ## 配置项说明
 
-Diamond 节点支持 [节点通用配置](/zh/docs/manual/middle/elements/nodes/defaultNode#节点的通用属性)，下表对部分属性进行解释。对于 Object 类型的配置项将在后面有详细讲解：
+Diamond 节点支持 [节点通用配置](/zh/docs/manual/middle/elements/nodes/default-node#节点的通用属性)，下表对部分属性进行解释。对于 Object 类型的配置项将在后面有详细讲解：
 
 | 名称 | 含义 | 类型 | 备注 |
 | --- | --- | --- | --- |
@@ -66,7 +66,7 @@ Diamond 节点支持 [节点通用配置](/zh/docs/manual/middle/elements/nodes/
 
 ### 样式属性 style
 
-Object 类型。支持 [节点通用样式](/zh/docs/manual/middle/elements/nodes/defaultNode#样式属性-style)。通过 `style` 配置来修改节点的填充色、描边等属性。下面代码演示在实例化图时全局配置方法中配置 `style`，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*t7w7RpKZVGkAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
+Object 类型。支持 [节点通用样式](/zh/docs/manual/middle/elements/nodes/default-node#样式属性-style)。通过 `style` 配置来修改节点的填充色、描边等属性。下面代码演示在实例化图时全局配置方法中配置 `style`，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*t7w7RpKZVGkAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
 
 ```javascript
 const data = {
@@ -99,7 +99,7 @@ graph.render();
 
 ### 标签文本配置 labelCfg
 
-Object 类型。通过 `labelCfg` 配置标签文本。支持 [节点通用标签配置](/zh/docs/manual/middle/elements/nodes/defaultNode/#标签文本-label-及其配置-labelcfg)。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了  `labelCfg`  配置项进行文本的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Pmb6QITup3wAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
+Object 类型。通过 `labelCfg` 配置标签文本。支持 [节点通用标签配置](/zh/docs/manual/middle/elements/nodes/default-node/#标签文本-label-及其配置-labelcfg)。基于上面 [样式属性 style](#样式属性-style) 中的代码，下面代码在 `defaultNode` 中增加了  `labelCfg`  配置项进行文本的配置，使之达到如下图效果。<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*Pmb6QITup3wAAAAAAAAAAABkARQnAQ' width=100 alt='img'/>
 
 ```javascript
 const data = {

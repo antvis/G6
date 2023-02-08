@@ -3,7 +3,7 @@ title: 自定义交互 Behavior
 order: 2
 ---
 
-G6 除了提供丰富的 [内置交互行为 Behavior](/zh/docs/manual/middle/states/defaultBehavior) 外，还提供了自定义交互行为的机制，方便用户开发更加定制化的交互行为。
+G6 除了提供丰富的 [内置交互行为 Behavior](/zh/docs/manual/middle/states/default-behavior) 外，还提供了自定义交互行为的机制，方便用户开发更加定制化的交互行为。
 
 在交互行为上， G6 主要考虑了三个场景：
 

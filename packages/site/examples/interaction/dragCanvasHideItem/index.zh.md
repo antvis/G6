@@ -7,4 +7,4 @@ order: 13
 
 ## 使用指南
 
-配置内置交互 'drag-canvas' 和 'zoom-canvas' 的布尔型配置项 `enableOptimize`。详见 [drag-canvas](/zh/docs/manual/middle/states/defaultBehavior#drag-canvas) 和 [zoom-canvas](/zh/docs/manual/middle/states/defaultBehavior#zoom-canvas)。
+配置内置交互 'drag-canvas' 和 'zoom-canvas' 的布尔型配置项 `enableOptimize`。详见 [drag-canvas](/zh/docs/manual/middle/states/default-behavior#drag-canvas) 和 [zoom-canvas](/zh/docs/manual/middle/states/default-behavior#zoom-canvas)。

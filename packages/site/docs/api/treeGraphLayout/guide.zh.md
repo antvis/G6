@@ -15,10 +15,10 @@ order: 0
 
 G6 的内置树图布局有：
 
-- [CompactBox 紧凑树布局](./compactBox)
-- [Dendrogram 生态树布局](./dendrogram)
-- [Indented 缩进树布局](./indented)
-- [Mindmap 脑图树布局](./mindmap)
+- [CompactBox 紧凑树布局](/zh/docs/api/treegraphlayout/compact-box)
+- [Dendrogram 生态树布局](/zh/docs/api/treegraphlayout/dendrogram)
+- [Indented 缩进树布局](/zh/docs/api/treegraphlayout/indented)
+- [Mindmap 脑图树布局](/zh/docs/api/treegraphlayout/mindmap)
 
 ## 使用方法
 

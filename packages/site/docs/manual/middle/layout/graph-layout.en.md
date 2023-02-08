@@ -323,7 +323,7 @@ centripetalOptions: {
 
 ### Combo Force
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AngFRpOo4SAAAAAAAAAAAABkARQnAQ' width=300 alt='img' /><br />**API**：[Combo Force API](/en/docs/api/graph-layout/comboForce)<br />**Parameters**：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AngFRpOo4SAAAAAAAAAAAABkARQnAQ' width=300 alt='img' /><br />**API**：[Combo Force API](/en/docs/api/graph-layout/combo-force)<br />**Parameters**：
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |
@@ -357,7 +357,7 @@ centripetalOptions: {
 
 ### Combo Combined
 
-<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZlvWS7xOkjMAAAAAAAAAAAAAARQnAQ' width=300 alt='img' /><br />**API**：[Combo Combined API](/en/docs/api/graph-layout/comboCombined)<br />**Parameters**：
+<img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*ZlvWS7xOkjMAAAAAAAAAAAAAARQnAQ' width=300 alt='img' /><br />**API**：[Combo Combined API](/en/docs/api/graph-layout/combo-combined)<br />**Parameters**：
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |

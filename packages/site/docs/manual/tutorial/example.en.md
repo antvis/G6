@@ -60,7 +60,7 @@ The data for G6 should be JSON format, includes array properties `nodes` and `ed
 
 - `nodes` is an array of nodes, the `id` is an unique and required property; the `x` and `y` are the coordinates of the node;
 - `edges` is an array of edges, `source` and `target` are required, represent the `id` of the source node and the `id` of the target node respectively.
-- The properties of node and edge are described in [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode) and [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge) document.
+- The properties of node and edge are described in [Built-in Nodes](/en/docs/manual/middle/elements/nodes/default-node) and [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge) document.
 
 ### Instantiate the Graph
 

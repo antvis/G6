@@ -48,7 +48,7 @@ Legend 是 G6 内置的图例插件。用于说明图中不同类型的节点和
 | margin | number / number[] | 图例区域与画布边界的距离，四位数组分别代表上、右、下、左边距。在 `position:'top'` 时只有上边距生效，其他情况类似 |
 | offsetX | number | 图例区域离 `position` 对应的默认位置的 x 方向的偏移量，可被用于图例位置的微调 |
 | offsetY | number | 图例区域离 `position` 对应的默认位置的 y 方向的偏移量，可被用于图例位置的微调 |
-| containerStyle | ShapeStyle | 图例背景框的样式，格式与 [rect 图形的样式](/zh/docs/api/shapeProperties#矩形图形-rect)相同 |
+| containerStyle | ShapeStyle | 图例背景框的样式，格式与 [rect 图形的样式](/zh/docs/api/shape-properties#矩形图形-rect)相同 |
 | horiSep | number | 图例之间的水平间距 |
 | vertiSep | number | 图例之间的竖直间距 |
 | layout | 'vertical' / 'horizontal' | 图例的布局方式。默认为 `'horizontal'` 横向布局 |
@@ -58,7 +58,7 @@ Legend 是 G6 内置的图例插件。用于说明图中不同类型的节点和
 | titleConfig.position | 'center' / 'right' / 'left' | 图例标题的对齐方式，可以是居中、右对齐、左对齐。默认为 `'center'` 居中 |
 | titleConfig.offsetX | number | 图例标题的 x 方向偏移，用于微调标题位置 |
 | titleConfig.offsetY | number | 图例标题的 y 方向偏移，用于微调标题位置 |
-| titleConfig[key] | ShapeStyle | 其他对于文本本身的样式，支持的内容与 [text 图形的样式](/zh/docs/api/shapeProperties#文本-text)相同 |
+| titleConfig[key] | ShapeStyle | 其他对于文本本身的样式，支持的内容与 [text 图形的样式](/zh/docs/api/shape-properties#文本-text)相同 |
 | filter | object | 通过图例的交互对主图元素进行过滤的配置项，具体配置如下 |
 | filter.enable | boolean | 是否允许通过图例的交互对主图元素过滤，默认为 `false` |
 | filter.multiple | boolean | 是否支持多种元素过滤，默认为 `false`。当它为 `true` 时，只有 `filter.trigger` 为 `'click'` 时方可多选图例 |
@@ -198,7 +198,7 @@ imageMinimap.updateGraphImg(img); // 使用新的图片（用户自己生成）�
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*z9iXQq_kcrYAAAAAAAAAAABkARQnAQ' width=600 alt='img'/>
 
-> 美国航线图边绑定。<a href='/zh/examples/case/graphDemos#edgeBundling' target='_blank'>Demo 链接</a>。该 <a href='/zh/docs/manual/cases/edgeBundling' target='_blank'>Demo 教程</a>。
+> 美国航线图边绑定。<a href='/zh/examples/case/graphDemos#edgeBundling' target='_blank'>Demo 链接</a>。该 <a href='/zh/docs/api/plugins#edge-bundling' target='_blank'>Demo 教程</a>。
 
 实例化时可以通过配置项调整边绑定的功能。
 

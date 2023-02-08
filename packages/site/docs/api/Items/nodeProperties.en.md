@@ -3,7 +3,7 @@ title: Node Model Properties
 order: 6
 ---
 
-Except for the common properties, apart from the [Item Model Properities](/en/docs/api/Items/itemProperties.zh.md), there are special configurations for Nodes. The `style`s of them depend on their keyShape.
+Except for the common properties, apart from the [Item Model Properities](/en/docs/api/Items/item-properties.zh.md), there are special configurations for Nodes. The `style`s of them depend on their keyShape.
 
 ## Common Property
 
@@ -47,7 +47,7 @@ The interactions of the node and related edges. It can be null. [0, 0] represent
 
 <description> _Object_ **optional** </description>
 
-The node style. `style` is an object to configure the filling color, stroke color, shadow, and so on. Please refer to: [Shape Properties](/en/docs/api/shapeProperties)。
+The node style. `style` is an object to configure the filling color, stroke color, shadow, and so on. Please refer to: [Shape Properties](/en/docs/api/shape-properties)。
 
 ### label
 
@@ -61,8 +61,8 @@ The label text of the node.
 | --- | --- | --- | --- |
 | position | false | String | The relative positions to the node. Options: `'center'`, `'top'`, `'left'`, `'right'`, `'bottom'`. `'center'` by default. |
 | offset | false | Number | The offset value of the label. When the `position` is `'bottom'`, the value is the top offset of the node; When the `position` is `'left'`, the value is the right offset of the node; it is similar with other `position`. |
-| style | false | Object | The style property of the label. The complete configurations for the label style is listed in [Shape Style Properties - Text](/en/docs/api/shapeProperties/#text) |
+| style | false | Object | The style property of the label. The complete configurations for the label style is listed in [Shape Style Properties - Text](/en/docs/api/shape-properties/#text) |
 
 ## Properties for Specific Built-in Nodes
 
-The special properties for each built-in Nodes can be found in the subdocuments of [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode).
+The special properties for each built-in Nodes can be found in the subdocuments of [Built-in Nodes](/en/docs/manual/middle/elements/nodes/default-node).

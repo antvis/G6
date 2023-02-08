@@ -3,7 +3,7 @@ title: 监听和绑定事件
 order: 0
 ---
 
-除了 [内置交互行为  Behavior](/zh/docs/manual/middle/states/defaultBehavior) 和 [交互模式 Mode](/zh/docs/manual/middle/states/mode) 搭配的事件管理方式外，G6 提供了直接的单个事件、时机的监听方法，可以监听画布、节点、边、以及各函数被调用的时机等。如果要了解 G6 支持的所有事件，请参考 [Event API](/zh/docs/api/Event)。**G6 上所有的事件都需要在 graph 上监听**。这些事件可以分为以下六个层次：
+除了 [内置交互行为  Behavior](/zh/docs/manual/middle/states/default-behavior) 和 [交互模式 Mode](/zh/docs/manual/middle/states/mode) 搭配的事件管理方式外，G6 提供了直接的单个事件、时机的监听方法，可以监听画布、节点、边、以及各函数被调用的时机等。如果要了解 G6 支持的所有事件，请参考 [Event API](/zh/docs/api/Event)。**G6 上所有的事件都需要在 graph 上监听**。这些事件可以分为以下六个层次：
 
 1. 全局事件
 

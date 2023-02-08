@@ -22,7 +22,7 @@ In order to handle the tree data structure, G6 extends Graph to TreeGraph. Refer
 
 ## Configure the TreeGraph
 
-Similar to Graph, assign `layout` to Graph instance to set the layout for a TreeGraph. The [Expand/Collapse](/en/docs/manual/middle/states/defaultBehavior/#collapse-expand) behavior can be assigned to the TreeGraph by `modes`.
+Similar to Graph, assign `layout` to Graph instance to set the layout for a TreeGraph. The [Expand/Collapse](/en/docs/manual/middle/states/default-behavior/#collapse-expand) behavior can be assigned to the TreeGraph by `modes`.
 
 ```javascript
 const graph = new G6.TreeGraph({
@@ -50,7 +50,7 @@ const graph = new G6.TreeGraph({
 
 ### compactBox
 
-**Description**: CompactBox is the default layout for TreeGraph. It will consider the bounding box of each node when layout.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**API**: [CompactBox API](/en/docs/api/tree-graph-layout/compactBox)<br />**Configuration**:
+**Description**: CompactBox is the default layout for TreeGraph. It will consider the bounding box of each node when layout.<br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*FltbQZAa-nMAAAAAAAAAAABkARQnAQ' width=400 alt='img'/><br />**API**: [CompactBox API](/en/docs/api/tree-graph-layout/compact-box)<br />**Configuration**:
 
 | Name | Type | Example/Options | Default | Description |
 | --- | --- | --- | --- | --- |

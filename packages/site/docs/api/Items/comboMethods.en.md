@@ -3,7 +3,7 @@ title: combo.*
 order: 3
 ---
 
-Combo inherits from Node. The functions of Node are also available for Combo. This document will only introduce the common functions for Combo Class. All the built-in combos can be found in [Built-in Combos Doc](/en/docs/manual/middle/elements/combos/defaultCombo) and [demo](/en/examples/item/defaultCombos), Custom Combo can be found in [Custom Combo Doc](/en/docs/manual/middle/elements/combos/custom-combo) and [demo](/en/examples/item/customCombo).
+Combo inherits from Node. The functions of Node are also available for Combo. This document will only introduce the common functions for Combo Class. All the built-in combos can be found in [Built-in Combos Doc](/en/docs/manual/middle/elements/combos/default-combo) and [demo](/en/examples/item/defaultCombos), Custom Combo can be found in [Custom Combo Doc](/en/docs/manual/middle/elements/combos/custom-combo) and [demo](/en/examples/item/customCombo).
 
 ### combo.getChildren()
 

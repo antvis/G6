@@ -28,8 +28,8 @@ G6 的内置 Combo 包括 circle 和 rect 两种类型，分别如下图所示�
 | fixSize | number / number[] | false | 10 或 [ 10, 20 ] | 固定该 Combo 的尺寸，不指定时 Combo 大小由内部元素的分布和大小来决定。若指定了 fixSize 而没有指定 fixCollapseSize，则即使该 Combo 在收起状态下仍然保持 fixSize 指定的尺寸 |
 | fixCollapseSize | number / number[] | false | 10 或 [ 10, 20 ] | 固定该 Combo 收起时的尺寸，不指定时，若未指定 fixSize 则由 size 决定收起时的尺寸，否则统一为 fixSize 尺寸 |
 | label | string | false | 'combo A' | 该 Combo 的文本标签 |
-| style | Object | false |  | 该 Combo 的样式配置项，详见[内置 Combo 配置文档](/zh/docs/manual/middle/elements/combos/defaultCombo#样式属性-style)及各类型 Combo 的文档 |
-| labelCfg | Object | false |  | 该 Combo 的文本标签样式配置项，详见[内置 Combo 配置文档](/zh/docs/manual/middle/elements/combos/defaultCombo#标签文本-label-及其配置-labelcfg)及各类型 Combo 的文档 |
+| style | Object | false |  | 该 Combo 的样式配置项，详见[内置 Combo 配置文档](/zh/docs/manual/middle/elements/combos/default-combo#样式属性-style)及各类型 Combo 的文档 |
+| labelCfg | Object | false |  | 该 Combo 的文本标签样式配置项，详见[内置 Combo 配置文档](/zh/docs/manual/middle/elements/combos/default-combo#标签文本-label-及其配置-labelcfg)及各类型 Combo 的文档 |
 
 `combos` 数组中一个数据项的示例：
 
@@ -167,7 +167,7 @@ const graph = new G6.Graph({
 | opacity | false | Number | 文本透明度 |
 | fontSize | false | Number | 文本字体大小 |
 | fontFamily | false | String | 文字字体 |
-| ... Combo 标签与节点、边标签样式属性相同，统一整理在 [Text 图形 API](/zh/docs/api/shapeProperties/#文本-text) |
+| ... Combo 标签与节点、边标签样式属性相同，统一整理在 [Text 图形 API](/zh/docs/api/shape-properties/#文本-text) |
 
 下面代码演示在实例化图时全局配置方法中配置  `label` 和  `labelCfg`。
 
@@ -316,7 +316,7 @@ graph.render();
 
 只是简单地将 Combo 渲染出来，并没有多大的实用价值，只有支持一系列的交互操作后，才能最大程度地体现 Combo 的价值。
 
-在 G6 中，我们内置了 `drag-combo`、`collapse-expand-combo`、`drag-node` 三个 [Behavior](/zh/docs/manual/middle/states/defaultBehavior)。
+在 G6 中，我们内置了 `drag-combo`、`collapse-expand-combo`、`drag-node` 三个 [Behavior](/zh/docs/manual/middle/states/default-behavior)。
 
 #### drag-combo
 

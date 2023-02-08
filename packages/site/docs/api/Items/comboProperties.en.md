@@ -33,7 +33,7 @@ The padding of the Combo. The default value for 'circle' type Combo is 25, [25, 
 
 <description> _Object_ **optional** </description>
 
-The Combo style. `style` is an object to configure the filling color, stroke color, shadow, and so on. The complete configurations are listed in [Overview of Combos -- style](/en/docs/manual/middle/elements/combos/defaultCombo#style)。
+The Combo style. `style` is an object to configure the filling color, stroke color, shadow, and so on. The complete configurations are listed in [Overview of Combos -- style](/en/docs/manual/middle/elements/combos/default-combo#style)。
 
 ### label
 
@@ -45,7 +45,7 @@ The label text of the combo.
 
 <description> _Object_ **optional** </description>
 
-The configurations of the combo. Please refer to [Overview of Combos -- label and label configure](/en/docs/manual/middle/elements/combos/defaultCombo#label-and-labelcfg) for detailed configurations.
+The configurations of the combo. Please refer to [Overview of Combos -- label and label configure](/en/docs/manual/middle/elements/combos/default-combo#label-and-labelcfg) for detailed configurations.
 
 ### type
 
@@ -60,4 +60,4 @@ The shape type of the Combo. It can be the type of built-in Combo, or the custom
 
 ## Properties for Specific Built-in Combos
 
-The special properties for each built-in Combos can be found in the subdocuments of [Built-in Combos](/en/docs/manual/middle/elements/combos/defaultCombo).
+The special properties for each built-in Combos can be found in the subdocuments of [Built-in Combos](/en/docs/manual/middle/elements/combos/default-combo).

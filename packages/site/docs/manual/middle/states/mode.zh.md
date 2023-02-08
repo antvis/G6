@@ -7,7 +7,7 @@ order: 3
 
 用户在交互一张图时，可能由于意图不同而存在不同的交互模式，例如在编辑模式下点击节点需要弹出窗口让用户编辑，在查看模式下点击节点需要选中节点。
 
-为了解决上述问题，G6 提供了交互模式 Mode，它是图上交互行为 [Behavior](/zh/docs/manual/middle/states/defaultBehavior) 的管理机制。一个图上可以有存在多种交互模式，每个交互模式包含多种交互行为 [Behavior](/zh/docs/manual/middle/states/defaultBehavior)。
+为了解决上述问题，G6 提供了交互模式 Mode，它是图上交互行为 [Behavior](/zh/docs/manual/middle/states/default-behavior) 的管理机制。一个图上可以有存在多种交互模式，每个交互模式包含多种交互行为 [Behavior](/zh/docs/manual/middle/states/default-behavior)。
 
 例如，存在 default 和 edit 两种 mode（交互模式）:
 
@@ -33,7 +33,7 @@ const graph = new G6.Graph({
 });
 ```
 
-以上是模式定义的一个例子。在图上定义了两个模式，分别是 `default`，`edit`。其中 `default` 包含两个  [Behavior](/zh/docs/manual/middle/states/defaultBehavior)：`'drag-canvas'` 和 '`zoom-canvas'`，都使用行为的默认参数。
+以上是模式定义的一个例子。在图上定义了两个模式，分别是 `default`，`edit`。其中 `default` 包含两个  [Behavior](/zh/docs/manual/middle/states/default-behavior)：`'drag-canvas'` 和 '`zoom-canvas'`，都使用行为的默认参数。
 
 ## 切换 Mode
 
@@ -53,7 +53,7 @@ graph.setMode('edit');
 
 ## 编辑已有的 Mode
 
-如果有已经定义好的 Behavior （[内置 Behavior](/zh/docs/manual/middle/states/defaultBehavior) 或 [自定义 Behavior](/zh/docs/manual/middle/states/custom-behavior)），需要把它添加到某个模式下，可以通过  `graph.addBehaviors` 方法；需要从某个模式中移除一些 Behavior，可以使用  `graph.removeBehaviors` 方法。如下示例：
+如果有已经定义好的 Behavior （[内置 Behavior](/zh/docs/manual/middle/states/default-behavior) 或 [自定义 Behavior](/zh/docs/manual/middle/states/custom-behavior)），需要把它添加到某个模式下，可以通过  `graph.addBehaviors` 方法；需要从某个模式中移除一些 Behavior，可以使用  `graph.removeBehaviors` 方法。如下示例：
 
 ```javascript
 // 向 default 模式中添加名为 drag-canvas 的行为，并使用行为的默认配置
@@ -92,5 +92,5 @@ graph.updateBehavior('click-select', { trigger: 'ctrl' }, 'select');
 ## 相关阅读
 
 - [使用多种交互模式](/zh/docs/manual/advanced/mode-and-custom-behavior)
-- [内置交互行为 Behavior](/zh/docs/manual/middle/states/defaultBehavior)
+- [内置交互行为 Behavior](/zh/docs/manual/middle/states/default-behavior)
 - [自定义交互行为 Behavior](/zh/docs/manual/middle/states/custom-behavior)

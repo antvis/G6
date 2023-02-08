@@ -11,7 +11,7 @@ In the figure(Left) below, there is a node with a circle Shape; (Center) a node 
 
 > (Left) A node with one circle Shape, the keyShape is the circle. (Center) A node with a text Shape and the circle Shape, the keyShape is the circle. (Right) A node with a text Shape and five circle Shapes including the main circle and four anchors, the keyShape is the green circle.
 
-G6 designs abundant built-in nodes / edges / combos by combing different Shapes. Built-in nodes includes 'circle', 'rect', 'ellipse', ...(Refer to [Built-in Nodes](/en/docs/manual/middle/elements/nodes/defaultNode)); Built-in edges includes 'line', 'polyline', 'cubic', ... (Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge)); Built-in combos includes 'circle', 'rect' (Refer to [Built-in Combos](/en/docs/manual/middle/elements/combos/defaultCombo)).
+G6 designs abundant built-in nodes / edges / combos by combing different Shapes. Built-in nodes includes 'circle', 'rect', 'ellipse', ...(Refer to [Built-in Nodes](/en/docs/manual/middle/elements/nodes/default-node)); Built-in edges includes 'line', 'polyline', 'cubic', ... (Refer to [Built-in Edges](/en/docs/manual/middle/elements/edges/defaultEdge)); Built-in combos includes 'circle', 'rect' (Refer to [Built-in Combos](/en/docs/manual/middle/elements/combos/default-combo)).
 
 Besides, G6 allows users to define their own types of item by register a custom node / edge / combo. Refer to [Custom Node](/en/docs/manual/middle/elements/nodes/custom-node), [Custom Edge](/en/docs/manual/middle/elements/edges/custom-edge), and [Custom Combo](/en/docs/manual/middle/elements/combos/custom-combo).
 
@@ -124,4 +124,4 @@ There are three key functions of custom node and edge which should be overrode a
 - `update(cfg, n)`: Update the item according to the configurations and the item;
 - `setState(name, value, item)`: Response the states change for items.
 
-For more information about custom node and edge, refer to [Custom Item API](/en/docs/api/registerItem).
+For more information about custom node and edge, refer to [Custom Item API](/en/docs/api/register-item).

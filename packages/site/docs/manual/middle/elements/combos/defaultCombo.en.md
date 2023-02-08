@@ -26,8 +26,8 @@ To keep the stability of the structure of the source data, we do some compatible
 | fixCollapseSize | number / number[] | false | 10 or [ 10, 20 ] | Fix the size of the collapsed Combo. If it is not assigned and the `fixSize` is assigned, the size of the collapsed Combo is `fixSize`; and if `fixCollapseSize` and `fixSize` are both not assigned, the size of the collapsed Combo is `size` ｜ |
 | padding | Number / Number[] | 10 or [ 10, 20, 10, 20 ] | The padding inside the combo |
 | label | string | false | 'combo A' | The label text of the combo |
-| style | Object | false |  | The style configuration of the combo, details are in [Built-in Combo Configuration](/en/docs/manual/middle/elements/combos/defaultCombo#style) and documents of each type of combo |
-| labelCfg | Object | false |  | The label configuration of the combo, details are in [Built-in Combo Configuration](/en/docs/manual/middle/elements/combos/defaultCombo#label-and-labelcfg) and documents of each type of combo |
+| style | Object | false |  | The style configuration of the combo, details are in [Built-in Combo Configuration](/en/docs/manual/middle/elements/combos/default-combo#style) and documents of each type of combo |
+| labelCfg | Object | false |  | The label configuration of the combo, details are in [Built-in Combo Configuration](/en/docs/manual/middle/elements/combos/default-combo#label-and-labelcfg) and documents of each type of combo |
 | collapsed | Boolean | false | true | Whether the combo is collapsed. Config it with true before render will make the combo collapsed by default |
 | collapsedSubstituteIcon | Object | false | { show: true } | *Supported by v4.6.8* The image shows while the combo is collapsed |
 
@@ -163,7 +163,7 @@ The commonly used configurations for the `style` in the above table are:
 | opacity | false | Number | The opacity of the label |
 | fontFamily | false | String | 文本字体 |
 | fontSize | false | Number | The font size of the label |
-| ... The label styles of Combo, Node and Edge are the same, summarized in [Text Shape API](/en/docs/api/shapeProperties/#text) |  |  |  |
+| ... The label styles of Combo, Node and Edge are the same, summarized in [Text Shape API](/en/docs/api/shape-properties/#text) |  |  |  |
 
 The following code shows how to configure `label` and `labelCfg` globally when instantiating a Graph:
 
@@ -310,7 +310,7 @@ graph.render();
 
 ## Combo Interaction
 
-To allow the users to interact with the combos, we implemented three built-in behaviors: `drag-combo`, `collapse-expand-combo`, and `drag-node` [Behavior](/en/docs/manual/middle/states/defaultBehavior)s.
+To allow the users to interact with the combos, we implemented three built-in behaviors: `drag-combo`, `collapse-expand-combo`, and `drag-node` [Behavior](/en/docs/manual/middle/states/default-behavior)s.
 
 ### drag-combo
 

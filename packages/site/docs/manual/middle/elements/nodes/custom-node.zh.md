@@ -3,11 +3,11 @@ title: 自定义节点
 order: 2
 ---
 
-G6 提供了一系列[内置节点](/zh/docs/manual/middle/elements/nodes/defaultNode)，包括 [circle](/zh/docs/manual/middle/elements/nodes/built-in/circle)、[rect](/zh/docs/manual/middle/elements/nodes/built-in/rect)、[diamond](/zh/docs/manual/middle/elements/nodes/built-in/diamond)、[triangle](/zh/docs/manual/middle/elements/nodes/built-in/triangle)、[star](/zh/docs/manual/middle/elements/nodes/built-in/star)、[image](/zh/docs/manual/middle/elements/nodes/built-in/image)、[modelRect](/zh/docs/manual/middle/elements/nodes/built-in/modelRect)。若内置节点无法满足需求，用户还可以通过 `G6.registerNode(typeName: string, nodeDefinition: object, extendedNodeType?: string)` 进行自定义节点，方便用户开发更加定制化的节点，包括含有复杂图形的节点、复杂交互的节点、带有动画的节点等。其参数：
+G6 提供了一系列[内置节点](/zh/docs/manual/middle/elements/nodes/default-node)，包括 [circle](/zh/docs/manual/middle/elements/nodes/built-in/circle)、[rect](/zh/docs/manual/middle/elements/nodes/built-in/rect)、[diamond](/zh/docs/manual/middle/elements/nodes/built-in/diamond)、[triangle](/zh/docs/manual/middle/elements/nodes/built-in/triangle)、[star](/zh/docs/manual/middle/elements/nodes/built-in/star)、[image](/zh/docs/manual/middle/elements/nodes/built-in/image)、[modelRect](/zh/docs/manual/middle/elements/nodes/built-in/modelRect)。若内置节点无法满足需求，用户还可以通过 `G6.registerNode(typeName: string, nodeDefinition: object, extendedNodeType?: string)` 进行自定义节点，方便用户开发更加定制化的节点，包括含有复杂图形的节点、复杂交互的节点、带有动画的节点等。其参数：
 
 - `typeName`：该新节点类型名称；
 - `extendedNodeType`：被继承的节点类型，可以是内置节点类型名，也可以是其他自定义节点的类型名。`extendedNodeType` 未指定时代表不继承其他类型的节点；
-- `nodeDefinition`：该新节点类型的定义，其中必要函数详见 [自定义机制 API](/zh/docs/api/registerItem#g6registernodenodename-options-extendednodename)。当有 `extendedNodeType` 时，没被复写的函数将会继承 `extendedNodeType` 的定义。
+- `nodeDefinition`：该新节点类型的定义，其中必要函数详见 [自定义机制 API](/zh/docs/api/register-item#g6registernodenodename-options-extendednodename)。当有 `extendedNodeType` 时，没被复写的函数将会继承 `extendedNodeType` 的定义。
 
 **需要注意的是**，自定义节点/边时，若给定了 `extendedNodeType`，如 `draw`，`update`，`setState` 等必要的函数若不在 `nodeDefinition` 中进行复写，将会继承 `extendedNodeType` 中的相关定义。常见问题：
 
@@ -226,7 +226,7 @@ G6.registerNode('diamond', {
 
 ### 扩展 Shape
 
-G6 中已经[内置了一些节点](/zh/docs/manual/middle/elements/nodes/defaultNode)，如果用户仅仅想对现有节点进行调整，复用原有的代码，则可以基于现有的节点进行扩展。同样实现 diamond ，可以基于  circle、ellipse、rect 等内置节点的进行扩展。single-node 是这些内置节点类型的基类，也可以基于它进行扩展。（single-edge 是所有内置边类型的基类。）
+G6 中已经[内置了一些节点](/zh/docs/manual/middle/elements/nodes/default-node)，如果用户仅仅想对现有节点进行调整，复用原有的代码，则可以基于现有的节点进行扩展。同样实现 diamond ，可以基于  circle、ellipse、rect 等内置节点的进行扩展。single-node 是这些内置节点类型的基类，也可以基于它进行扩展。（single-edge 是所有内置边类型的基类。）
 
 下面以基于 single-node 为例进行扩展。`update`，`setState` 方法在  single-node 中都有实现，这里仅需要复写 `draw` 方法即可。返回的对象中包含自定义图形的路径和其他样式。
 

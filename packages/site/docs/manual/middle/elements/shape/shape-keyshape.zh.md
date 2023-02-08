@@ -11,7 +11,7 @@ Shape 指 G6 中的图形、形状，它可以是圆形、矩形、路径等。�
 
 > （左）只含有一个圆形图形的节点，keyShape 是该圆形。（中）含有圆形和文本图形的节点，keyShape 是圆形。（右）含有主要圆形、文本、上下左右四个小圆形的节点，keyShape 是圆形。
 
-G6 使用不同的 shape 组合，设计了多种内置的节点/边/ Combo 。G6 内置节点的有 'circle'， 'rect'，'ellipse'，...（详见 [内置节点](/zh/docs/manual/middle/elements/nodes/defaultNode)）；内置边的有 'line'，'polyline'，'cubic'，...（详见 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)）；内置 Combo 有 'circle'，'rect'，()详见 [内置 Combo](/zh/docs/manual/middle/elements/combos/defaultCombo)）。
+G6 使用不同的 shape 组合，设计了多种内置的节点/边/ Combo 。G6 内置节点的有 'circle'， 'rect'，'ellipse'，...（详见 [内置节点](/zh/docs/manual/middle/elements/nodes/default-node)）；内置边的有 'line'，'polyline'，'cubic'，...（详见 [内置边](/zh/docs/manual/middle/elements/edges/defaultEdge)）；内置 Combo 有 'circle'，'rect'，()详见 [内置 Combo](/zh/docs/manual/middle/elements/combos/default-combo)）。
 
 除了使用内置的节点/边/ Combo 外，G6 还允许用户通过自己搭配和组合 shape 进行节点/边/ Combo 的自定义，详见 [自定义节点](/zh/docs/manual/middle/elements/nodes/custom-node)，[自定义边](/zh/docs/manual/middle/elements/edges/custom-edge)，[自定义 Combo](/zh/docs/manual/middle/elements/combos/custom-combo)。
 
@@ -126,4 +126,4 @@ Shape 作为 Graph 上的核心元素，这几个阶段都需要考虑，但是�
 - `update(cfg, n)`: 更新，更新时的配置项（更新的字段和原始字段的合并）和元素对象；
 - `setState(name, value, item)`: 响应节点/边/ Combo 状态的变化。
 
-关于自定义节点和边的更多方法请参考 [自定义节点与边 API](/zh/docs/api/registerItem)。
+关于自定义节点和边的更多方法请参考 [自定义节点与边 API](/zh/docs/api/register-item)。

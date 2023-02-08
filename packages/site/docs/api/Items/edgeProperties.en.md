@@ -47,7 +47,7 @@ The index of link points on the target node. The link point is the intersection 
 
 <description> _Object_ **optional** </description>
 
-The edge style. `style` is an object to configure the stroke color, shadow, and so on. The complete configurations is listed in: [Shape Properties](/en/docs/api/shapeProperties).
+The edge style. `style` is an object to configure the stroke color, shadow, and so on. The complete configurations is listed in: [Shape Properties](/en/docs/api/shape-properties).
 
 ### label
 
@@ -65,7 +65,7 @@ labelCfg is an object to configure the label. The commonly used configurations o
 | refY | false | Number | y offset of the label |
 | position | false | String | The relative position to the edge. Options: `start`, `middle`, and `end`. `middle` by default. |
 | autoRotate | false | Boolean | Whether to activate ratating according to the edge automatically. `false` by default |
-| style | false | Object | The style property of the label. The complete configurations for the label style is listed in [Shape Style Properties - Text](/en/docs/api/shapeProperties/#text) |
+| style | false | Object | The style property of the label. The complete configurations for the label style is listed in [Shape Style Properties - Text](/en/docs/api/shape-properties/#text) |
 
 ## Properties for Specific Built-in Edges
 
