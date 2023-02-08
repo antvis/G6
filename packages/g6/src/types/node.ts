@@ -1,6 +1,6 @@
 import { Node as GNode, PlainObject } from '@antv/graphlib';
 import { AnimateAttr } from "./animate";
-import { Encode, IItem, LabelBackground, ShapeAttrEncode, ShapesEncode } from "./item";
+import { Encode, IItem, LabelBackground, ShapeAttrEncode, ShapesEncode, ShapeStyle } from "./item";
 
 export type NodeLabelPosition = 'bottom' | 'center' | 'top' | 'left' | 'right';
 
@@ -15,30 +15,21 @@ export interface NodeModelData extends NodeUserModelData {
   label?: string;
 }
 
+export interface NodeLabelShapeStyle extends ShapeStyle {
+  position?: NodeLabelPosition;
+  offsetX?: number;
+  offsetY?: number;
+  background?: LabelBackground;
+}
+
 
 /** Data in display model. */
 export interface NodeDisplayModelData extends NodeModelData {
-  keyShape?: {
-    [shapeAttr: string]: unknown;
-    animate: AnimateAttr;
-  };
-  labelShape?: {
-    position?: NodeLabelPosition;
-    offsetX?: number;
-    offsetY?: number;
-    background?: LabelBackground;
-    [shapeAttr: string]: unknown;
-    animate: AnimateAttr;
-  };
-  iconShape?: {
-    [shapeAttr: string]: unknown;
-    animate: AnimateAttr;
-  };
+  keyShape?: ShapeStyle;
+  labelShape?: NodeLabelShapeStyle;
+  iconShape?: ShapeStyle;
   otherShapes?: {
-    [shapeName: string]: {
-      [shapeAttr: string]: unknown;
-      animate: AnimateAttr;
-    }
+    [shapeName: string]: ShapeStyle;
   };
   anchorPoints?: AnchorPoint[]
 }

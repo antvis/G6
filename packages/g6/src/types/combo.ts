@@ -1,7 +1,7 @@
 import { Node as GNode, PlainObject } from '@antv/graphlib';
 import { AnimateAttr } from "./animate";
 import { Padding } from "./common";
-import { Encode, IItem, LabelBackground, ShapeAttrEncode, ShapesEncode } from "./item";
+import { Encode, IItem, LabelBackground, ShapeAttrEncode, ShapesEncode, ShapeStyle } from "./item";
 import { AnchorPoint } from "./node";
 
 export type ComboLabelPosition = 'bottom' | 'top' | 'left' | 'left-top' | 'right' | 'ouside-top' | 'outside-left' | 'outside-right' | 'outside-bottom';
@@ -18,29 +18,20 @@ export interface ComboModelData extends ComboUserModelData {
   label?: string;
 }
 
+export interface ComboLabelShapeStyle extends ShapeStyle {
+  position?: ComboLabelPosition;
+  offsetX?: number;
+  offsetY?: number;
+  background?: LabelBackground;
+}
+
 /** Displayed data, only for drawing and not received by users. */
 export interface ComboDisplayModelData extends ComboModelData {
-  keyShape?: {
-    [shapeAttr: string]: unknown;
-    animate: AnimateAttr;
-  };
-  labelShape?: {
-    position?: ComboLabelPosition;
-    offsetX?: number;
-    offsetY?: number;
-    background?: LabelBackground;
-    [shapeAttr: string]: unknown;
-    animate: AnimateAttr;
-  };
-  iconShape?: {
-    [shapeAttr: string]: unknown;
-    animate: AnimateAttr;
-  };
+  keyShape?: ShapeStyle;
+  labelShape?: ComboLabelShapeStyle;
+  iconShape?: ShapeStyle;
   otherShapes?: {
-    [shapeName: string]: {
-      [shapeAttr: string]: unknown;
-      animate: AnimateAttr;
-    }
+    [shapeName: string]: ShapeStyle;
   };
   anchorPoints?: AnchorPoint[];
   fixSize?: number | number[];

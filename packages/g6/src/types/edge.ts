@@ -1,6 +1,6 @@
 import { Edge as GEdge, PlainObject } from '@antv/graphlib';
 import { AnimateAttr } from "./animate";
-import { Encode, IItem, LabelBackground, ShapeAttrEncode, ShapesEncode } from "./item";
+import { Encode, IItem, LabelBackground, ShapeAttrEncode, ShapesEncode, ShapeStyle } from "./item";
 
 
 export interface EdgeUserModelData extends PlainObject { };
@@ -8,29 +8,20 @@ export interface EdgeModelData extends EdgeUserModelData {
   visible?: boolean;
   label?: string;
 };
+
+export interface EdgeLabelShapeStyle extends ShapeStyle {
+  position?: EdgeLabelPosition;
+  offsetX?: number;
+  offsetY?: number;
+  background?: LabelBackground;
+  autoRotate?: boolean;
+}
 export interface EdgeDisplayModelData extends EdgeModelData {
-  keyShape?: {
-    [shapeAttr: string]: unknown;
-    animate: AnimateAttr;
-  };
-  labelShape?: {
-    position?: EdgeLabelPosition;
-    offsetX?: number;
-    offsetY?: number;
-    background?: LabelBackground;
-    autoRotate?: boolean;
-    [shapeAttr: string]: unknown;
-    animate: AnimateAttr;
-  };
-  iconShape?: {
-    [shapeAttr: string]: unknown;
-    animate: AnimateAttr;
-  };
+  keyShape?: ShapeStyle;
+  labelShape?: EdgeLabelShapeStyle;
+  iconShape?: ShapeStyle;
   otherShapes?: {
-    [shapeName: string]: {
-      [shapeAttr: string]: unknown;
-      animate: AnimateAttr;
-    }
+    [shapeName: string]: ShapeStyle
   };
   sourceAnchor?: number;
   targetAnchor?: number;

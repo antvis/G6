@@ -1,5 +1,6 @@
 import EventEmitter from '@antv/event-emitter';
-import { clone, isArray, isObject } from '@antv/util';
+import { Canvas, CanvasEvent } from '@antv/g';
+import { clone, isArray, isObject, isString } from '@antv/util';
 import { ComboUserModel, EdgeUserModel, GraphData, IGraph, NodeUserModel, Specification } from '../types';
 import { AnimateCfg } from '../types/animate';
 import { BehaviorObjectOptionsOf, BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';
@@ -12,11 +13,20 @@ import { ITEM_TYPE } from '../types/item';
 import { LayoutCommonConfig } from '../types/layout';
 import { NodeModel } from '../types/node';
 import { FitViewRules, GraphAlignment } from '../types/view';
+import { createCanvas } from '../util/canvas';
 import { DataController, InteractionController, ItemController, LayoutController, ThemeController, ExtensionController } from './controller';
 import Hook from './hooks';
 
 export default class Graph<B extends BehaviorRegistry> extends EventEmitter implements IGraph<B> {
   public hooks: Hooks;
+  // for nodes and edges, which will be separate into groups
+  public canvas: Canvas;
+  // for background shapes, e.g. grid, pipe indices
+  private backgroundCanvas: Canvas;
+  // for transient shapes for interactions, e.g. transient node and related edges while draging, delegates
+  private transientCanvas: Canvas;
+  // the tag indicates all the three canvases are all ready
+  private canvasReady: boolean;
   private specification: Specification<B>;
   private dataController: DataController;
   private interactionController: InteractionController;
@@ -31,7 +41,14 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
 
     this.specification = spec;
     this.initHooks();
+    this.initCanvas();
     this.initControllers();
+
+    const { data } = spec;
+    if (data) {
+      // TODO: handle multiple type data configs
+      this.read(data as GraphData);
+    }
   }
 
   /**
@@ -46,13 +63,31 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     this.extensionController = new ExtensionController(this);
   }
 
+  private initCanvas() {
+    const { renderer, container, width, height } = this.specification;
+    let rendererType;
+    let pixelRatio;
+    if (renderer && !isString(renderer)) {
+      rendererType = renderer.type || 'canvas';
+      pixelRatio = renderer.pixelRatio;
+    } else {
+      rendererType = renderer || 'canvas';
+    }
+    this.backgroundCanvas = createCanvas(rendererType, container, width, height, pixelRatio);
+    this.canvas = createCanvas(rendererType, container, width, height, pixelRatio);
+    this.transientCanvas = createCanvas(rendererType, container, width, height, pixelRatio);
+    Promise.all(
+      [this.backgroundCanvas, this.canvas, this.transientCanvas].map(canvas => canvas.ready)
+    ).then(() => this.canvasReady = true);
+  }
+
   /**
    * Initialize the hooks for graph's lifecycles.
    */
   private initHooks() {
     this.hooks = {
       init: new Hook<void>({ name: 'init' }),
-      datachange: new Hook<{ data: GraphData }>({ name: 'datachange' }),
+      datachange: new Hook<{ data: GraphData, type: 'replace' }>({ name: 'datachange' }),
       additems: new Hook<{ type: ITEM_TYPE, models: NodeUserModel[] | EdgeUserModel[] | ComboUserModel[] }>({ name: 'additems' }),
       removeitems: new Hook<{ type: ITEM_TYPE, ids: (string | number)[] }>({ name: 'removeitems' }),
       updateitems: new Hook<{ type: ITEM_TYPE, models: NodeUserModel[] | EdgeUserModel[] | ComboUserModel[] }>({ name: 'updateitems' }),
@@ -78,7 +113,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @returns graph specs
    */
   public getSpecification(): Specification<B> {
-    return clone(this.specification);
+    return this.specification;
   }
 
   /**
@@ -89,7 +124,30 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @group Data
    */
   public read(data: GraphData) {
-    this.hooks.datachange.emit({ data });
+    this.hooks.datachange.emit({ data, type: 'replace' });
+    const emitRender = () => {
+      this.hooks.render.emit({
+        graphCore: this.dataController.graphCore
+      });
+    }
+    if (this.canvasReady) {
+      emitRender();
+    } else {
+      Promise.all(
+        [this.backgroundCanvas, this.canvas, this.transientCanvas].map(canvas => canvas.ready)
+      ).then(emitRender);
+    }
+  }
+
+  /**
+   * Change graph data.
+   * @param data new data
+   * @param type the way to change data, 'replace' means discard the old data and use the new one; 'mergeReplace' means merge the common part, remove (old - new), add (new - old)
+   * @returns 
+   * @group Data
+  */
+  public changeData(data: GraphData, type: 'replace' | 'mergeReplace' = 'mergeReplace') {
+    this.hooks.datachange.emit({ data, type });
     this.hooks.render.emit({
       graphCore: this.dataController.graphCore
     });
@@ -225,16 +283,22 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     return;
   }
   /**
-   * Add an item or items to the graph.
+   * Add one or more node/edge/combo data to the graph.
    * @param itemType item type
    * @param model user data
    * @param stack whether push this operation to stack
    * @returns whether success
-   * @group Item
+   * @group Data
    */
-  public addItem(itemType: ITEM_TYPE, models: NodeUserModel | EdgeUserModel | ComboUserModel | NodeUserModel[] | EdgeUserModel[] | ComboUserModel[], stack?: boolean): boolean {
+  public addData(itemType: ITEM_TYPE, models: NodeUserModel | EdgeUserModel | ComboUserModel | NodeUserModel[] | EdgeUserModel[] | ComboUserModel[], stack?: boolean): boolean {
     // data controller and item controller subscribe additem in order
     const modelArr = isArray(models) ? models : [models];
+    const data = { nodes: [], edges: [], combos: [] };
+    data[`${itemType}s`] = modelArr;
+    this.hooks.datachange.emit({
+      data,
+      type: 'union'
+    })
     this.hooks.additems.emit({
       type: itemType,
       models: modelArr
@@ -242,14 +306,22 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     return this.dataController.findData(itemType, modelArr.map(model => model.id)).every(Boolean);
   };
   /**
-   * Remove an item or items from the graph.
+   * Remove one or more node/edge/combo data from the graph.
    * @param item the item to be removed
    * @param stack whether push this operation to stack
    * @returns whether success
-   * @group Item
+   * @group Data
    */
-  public removeItem(itemType: ITEM_TYPE, ids: string | number | (string | number)[], stack?: boolean): boolean {
-    const idArr = isArray(ids) ? ids : [ids]
+  public removeData(itemType: ITEM_TYPE, ids: string | number | (string | number)[], stack?: boolean): boolean {
+    const idArr = isArray(ids) ? ids : [ids];
+    const data = { nodes: [], edges: [], combos: [] };
+    const { userGraphCore } = this.dataController;
+    const getItem = itemType === 'edge' ? userGraphCore.getEdge : userGraphCore.getNode; // TODO: combo
+    data[`${itemType}s`] = idArr.map(id => getItem.bind(userGraphCore)(id));
+    this.hooks.datachange.emit({
+      data,
+      type: 'remove'
+    });
     this.hooks.removeitems.emit({
       type: itemType,
       ids: idArr
@@ -257,14 +329,20 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     return this.dataController.findData(itemType, idArr).every(Boolean);
   }
   /**
-   * Update an item or items on the graph.
+   * Update one or more node/edge/combo data on the graph.
    * @param {Item} item item or id
    * @param {EdgeConfig | NodeConfig} cfg incremental updated configs
    * @param {boolean} stack 本次操作是否入栈，默认为 true
-   * @group Item
+   * @group Data
    */
-  public updateItem(itemType: ITEM_TYPE, models: Partial<NodeUserModel> | Partial<EdgeUserModel> | Partial<ComboUserModel | Partial<NodeUserModel>[] | Partial<EdgeUserModel>[] | Partial<ComboUserModel>[]>, stack?: boolean): boolean {
+  public updateData(itemType: ITEM_TYPE, models: Partial<NodeUserModel> | Partial<EdgeUserModel> | Partial<ComboUserModel | Partial<NodeUserModel>[] | Partial<EdgeUserModel>[] | Partial<ComboUserModel>[]>, stack?: boolean): boolean {
     const modelArr = isArray(models) ? models : [models];
+    const data = { nodes: [], edges: [], combos: [] };
+    data[`${itemType}s`] = modelArr;
+    this.hooks.datachange.emit({
+      data,
+      type: 'update'
+    })
     this.hooks.updateitems.emit({
       type: itemType,
       models: modelArr

@@ -1,10 +1,11 @@
 import EventEmitter from '@antv/event-emitter';
+import { Canvas } from '@antv/g';
 import { Hooks } from '../types/hook';
 import { AnimateCfg } from './animate';
 import { BehaviorObjectOptionsOf, BehaviorOptionsOf, BehaviorRegistry } from './behavior';
 import { ComboModel, ComboUserModel } from './combo';
 import { Padding, Point } from './common';
-import { GraphData } from './data';
+import { DataChangeType, GraphData } from './data';
 import { EdgeModel, EdgeUserModel } from './edge';
 import { ITEM_TYPE } from './item';
 import { LayoutCommonConfig } from './layout';
@@ -15,6 +16,7 @@ import { FitViewRules, GraphAlignment } from './view';
 export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends EventEmitter {
 
   hooks: Hooks;
+  canvas: Canvas;
 
   /**
    * Update the specs(configurations).
@@ -56,6 +58,14 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
    * @group Data
    */
   read: (data: GraphData) => void;
+  /**
+   * Change graph data.
+   * @param data new data
+   * @param type the way to change data, 'replace' means discard the old data and use the new one; 'mergeReplace' means merge the common part, remove (old - new), add (new - old)
+   * @returns 
+   * @group Data
+   */
+  changeData: (data: GraphData, type: 'replace' | 'mergeReplace') => void;
   /**
    * Clear the graph, means remove all the items on the graph.
    * @returns 
@@ -139,36 +149,36 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
    */
   findIdByState: (itemType: ITEM_TYPE, state: string, additionalFilter?: (model: NodeModel | EdgeModel | ComboModel) => boolean) => (string | number)[];
   /**
-   * Add an item or items to the graph.
+   * Add one or more node/edge/combo data to the graph.
    * @param itemType item type
    * @param model user data
    * @param stack whether push this operation to stack
    * @returns whehter success
-   * @group Item
+   * @group Data
    */
-  addItem: (itemType: ITEM_TYPE, model: NodeUserModel | EdgeUserModel | ComboUserModel | NodeUserModel[] | EdgeUserModel[] | ComboUserModel[], stack?: boolean) => boolean;
+  addData: (itemType: ITEM_TYPE, model: NodeUserModel | EdgeUserModel | ComboUserModel | NodeUserModel[] | EdgeUserModel[] | ComboUserModel[], stack?: boolean) => boolean;
 
   /**
-   * Remove an item or items from the graph.
+   * Remove one or more node/edge/combo data from the graph.
    * @param item the item to be removed
    * @param stack whether push this operation to stack
    * @returns whehter success
-   * @group Item
+   * @group Data
    */
-  removeItem: (itemType: ITEM_TYPE, id: string | number | (string | number)[], stack?: boolean) => boolean;
+  removeData: (itemType: ITEM_TYPE, id: string | number | (string | number)[], stack?: boolean) => boolean;
   /**
-   * Update an item or items on the graph.
+   * Update one or more node/edge/combo data on the graph.
    * @param item the item to be updated
    * @param model update configs
    * @param {boolean} stack whether push this operation to stack
-   * @group Item
+   * @group Data
    */
-  updateItem: (itemType: ITEM_TYPE, model: Partial<NodeUserModel> | Partial<EdgeUserModel> | Partial<ComboUserModel | Partial<NodeUserModel>[] | Partial<EdgeUserModel>[] | Partial<ComboUserModel>[]>, stack?: boolean) => boolean;
+  updateData: (itemType: ITEM_TYPE, model: Partial<NodeUserModel> | Partial<EdgeUserModel> | Partial<ComboUserModel | Partial<NodeUserModel>[] | Partial<EdgeUserModel>[] | Partial<ComboUserModel>[]>, stack?: boolean) => boolean;
   /**
    * Show the item(s).
    * @param ids the item id(s) to be shown
    * @returns 
-   * @group Item
+   * @group Data
    */
   showItem: (ids: string | number | (string | number)[]) => void;
   /**

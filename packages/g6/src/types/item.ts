@@ -4,6 +4,11 @@ import { ComboDisplayModel, ComboModel } from "./combo";
 import { EdgeDisplayModel, EdgeModel } from "./edge";
 import { NodeDisplayModel, NodeModel } from "./node";
 
+export interface ShapeStyle {
+  [shapeAttr: string]: unknown;
+  animate?: AnimateAttr;
+}
+
 export interface Encode<T> {
   fields: string[],
   formatter: (values: unknown[]) => T;
@@ -39,6 +44,8 @@ export type ItemModel = NodeModel | EdgeModel | ComboModel;
 
 export type ItemDisplayModel = NodeDisplayModel | EdgeDisplayModel | ComboDisplayModel;
 
+export type DisplayMapper = (model: ItemModel) => ItemDisplayModel;
+
 /**
  * Base item of node / edge / combo.
  */
@@ -60,7 +67,7 @@ export interface IItem {
   // type: 'node' | 'edge' | 'combo';
 
   /** Gets the inner model.  */
-  getModel: () => ItemModel;
+  // getModel: () => ItemModel;
   /** Gets the id in model. */
   getID: () => string | number;
   /** Gets the item's type. */

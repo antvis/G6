@@ -17,6 +17,5 @@ export const getExtension = (config: string | Function | object, lib, cat: StdLi
   }
   const type = typeof config === 'string' ? config : (config as any).type;
   const ext = lib[catKey]?.[type];
-  if (isFunction(ext)) ext;
-  return new ext(config);
+  return ext;
 };

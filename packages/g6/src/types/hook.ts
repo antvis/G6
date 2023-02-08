@@ -1,4 +1,4 @@
-import { GraphCore, GraphData } from "./data";
+import { DataChangeType, GraphCore, GraphData } from "./data";
 import { NodeUserModel } from "./node";
 import { ComboUserModel } from "./combo";
 import { EdgeUserModel } from "./edge";
@@ -15,7 +15,10 @@ export interface IHook<T> {
 export interface Hooks {
   'init': IHook<void>;
   // data
-  'datachange': IHook<{ data: GraphData }>;
+  'datachange': IHook<{
+    type: DataChangeType;
+    data: GraphData
+  }>;
   // data, item
   'additems': IHook<{ type: ITEM_TYPE, models: NodeUserModel[] | EdgeUserModel[] | ComboUserModel[] }>
   // data, item

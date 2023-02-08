@@ -12,6 +12,7 @@ type rendererName = 'canvas' | 'svg' | 'webgl';
 
 export interface Specification<B extends BehaviorRegistry> {
   type: 'graph' | 'tree';
+  container: string | HTMLElement;
   width?: number;
   height?: number;
   renderer?: rendererName | {

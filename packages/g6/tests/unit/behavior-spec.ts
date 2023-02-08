@@ -8,6 +8,7 @@ document.querySelector('body').appendChild(container);
 describe('behavior', () => {
   it('behavior in spec, add / remove / update a behavior in defualt mode', () => {
     const graph = new G6.Graph({
+      container,
       type: 'graph',
       data: { nodes: [], edges: [] },
       modes: {
@@ -22,8 +23,11 @@ describe('behavior', () => {
     });
     let graphSpec = graph.getSpecification();
     expect(graphSpec.modes.default[0]).toBe('drag-canvas');
+    // @ts-ignore
     expect(graphSpec.modes.default[1].key).toBe('dragcanvaskey2');
+    // @ts-ignore
     expect(graphSpec.modes.default[1].type).toBe('drag-canvas');
+    // @ts-ignore
     expect(graphSpec.modes.default[1].assistKey).toBe('shift');
 
     graph.addBehaviors([{
@@ -34,8 +38,11 @@ describe('behavior', () => {
     // graph.getSpecification() returns a copy, need to be called again to fetch the lastest
     graphSpec = graph.getSpecification();
     expect(graphSpec.modes.default.length).toBe(3);
+    // @ts-ignore
     expect(graphSpec.modes.default[2].key).toBe('dragcanvaskey3');
+    // @ts-ignore
     expect(graphSpec.modes.default[2].type).toBe('drag-canvas');
+    // @ts-ignore
     expect(graphSpec.modes.default[2].assistKey).toBe('ctrl');
 
     graph.removeBehaviors(['dragcanvaskey3', 'dragcanvaskey2'], 'default');
@@ -59,6 +66,7 @@ describe('behavior', () => {
     }], 'default');
     graphSpec = graph.getSpecification();
     expect(graphSpec.modes.default.length).toBe(2);
+    // @ts-ignore
     expect(graphSpec.modes.default[1].assistKey).toBe('ctrl');
     graph.updateBehavior({
       key: 'newbehavior',
@@ -67,6 +75,7 @@ describe('behavior', () => {
     }, 'default');
     graphSpec = graph.getSpecification();
     expect(graphSpec.modes.default.length).toBe(2);
+    // @ts-ignore
     expect(graphSpec.modes.default[1].assistKey).toBe('shift');
   });
   it('register behavior and extend G6', () => {
@@ -86,6 +95,7 @@ describe('behavior', () => {
       }
     });
     const graph = new CustomGraph({
+      container,
       type: 'graph',
       data: { nodes: [], edges: [] },
       modes: {
