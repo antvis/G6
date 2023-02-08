@@ -99,7 +99,7 @@ Now, we are going to register a Combo as shown below (the figure below shows an 
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2-SWQKDHFygAAAAAAAAAAABkARQnAQ' width='120' alt='img'/>
 
-According to the [Illustration of Built-in Rect Combo](./custom-combo#illustration-of-built-in-rect-combo), please be caution about the `x`, `y`, `width`, `height` of the shapes when extending the rect Combo.
+According to the [Illustration of Built-in Rect Combo](#illustration-of-built-in-rect-combo), please be caution about the `x`, `y`, `width`, `height` of the shapes when extending the rect Combo.
 
 ```javascript
 G6.registerCombo(

@@ -90,7 +90,7 @@ G6.registerCombo(
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*2-SWQKDHFygAAAAAAAAAAABkARQnAQ' width='120' alt='img'/>
 
-根据上述 [内置 Rect Combo 位置逻辑详解](./custom-combo#内置-rect-combo-位置逻辑详解)，在扩展 rect 类型 Combo 时需要注意复写方法中 `x`、`y`、`width`、`height` 的设置
+根据上述 [内置 Rect Combo 位置逻辑详解](#内置-rect-combo-位置逻辑详解)，在扩展 rect 类型 Combo 时需要注意复写方法中 `x`、`y`、`width`、`height` 的设置
 
 ```javascript
 G6.registerCombo(
