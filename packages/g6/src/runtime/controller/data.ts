@@ -1,4 +1,4 @@
-import { Graph as GraphLib } from "@antv/graphlib";
+import { Graph as GraphLib, ID } from "@antv/graphlib";
 import { GraphData, IGraph, ComboModel } from "../../types";
 import { registery } from '../../stdlib';
 import { getExtension } from "../../util/extension";
@@ -26,13 +26,13 @@ export class DataController {
 
   constructor(graph: IGraph<any>) {
     this.graph = graph;
-    // this.graphCore = new GraphLib<NodeModelData, EdgeModelData>();
-    // this.userGraphCore = new GraphLib<NodeUserModelData, EdgeUserModelData>();
-    // this.userGraphCore.onChanged(event => this.updateGraphCore(event));
     this.tap();
   }
 
-  public findData(type: ITEM_TYPE, condition: string | number | (string | number)[] | Function) {
+  public findData(
+    type: ITEM_TYPE,
+    condition: ID[] | Function
+  ): EdgeModel[] | NodeModel[] | ComboModel[] {
     const { graphCore } = this;
     if (isString(condition) || isNumber(condition) || isArray(condition)) {
       const ids = isArray(condition) ? condition : [condition];
@@ -51,7 +51,20 @@ export class DataController {
         // TODO getDatas = ?
       }
       const datas = getDatas() as any;
-      return datas.find(data => condition(data));
+      return datas.filter(data => condition(data));
+    }
+  }
+
+  public findAllData(type: ITEM_TYPE): EdgeModel[] | NodeModel[] | ComboModel[] {
+    switch (type) {
+      case 'node':
+        return this.graphCore.getAllNodes();
+      case 'edge':
+        return this.graphCore.getAllEdges();
+      // case 'combo':
+      // TODO
+      default:
+        return [];
     }
   }
 
@@ -61,9 +74,6 @@ export class DataController {
   private tap() {
     this.extensions = this.getExtensions();
     this.graph.hooks.datachange.tap(this.onDataChange.bind(this));
-    // this.graph.hooks.additems.tap(this.onAdd.bind(this));
-    // this.graph.hooks.removeitems.tap(this.onRemove.bind(this));
-    // this.graph.hooks.updateitems.tap(this.onUpdate.bind(this));
   }
 
   /**
@@ -215,8 +225,8 @@ export class DataController {
       edges.forEach(newModel => {
         const oldModel = userGraphCore.getEdge(newModel.id);
         if (!oldModel) return;
-        if (oldModel.source !== newModel.source) userGraphCore.updateEdgeSource(newModel.id, newModel.source);
-        if (oldModel.target !== newModel.target) userGraphCore.updateEdgeTarget(newModel.id, newModel.target);
+        if (newModel.source && oldModel.source !== newModel.source) userGraphCore.updateEdgeSource(newModel.id, newModel.source);
+        if (newModel.target && oldModel.target !== newModel.target) userGraphCore.updateEdgeTarget(newModel.id, newModel.target);
         userGraphCore.mergeEdgeData(newModel.id, newModel.data);
       });
     }
@@ -250,95 +260,97 @@ export class DataController {
       // TODO: combo
     }
 
-    // === step 3: sync to graphCore according to the changes in userGraphCore ==
-    if (!idMaps?.length || idMaps.length !== this.extensions.length) {
-      // situation 1: not every extension has corresponding idMap, use default mapping: suppose id is not changed by transforms
-      // and diff the value in graphCore whose id is not in userGraphCore
-      const newModelMap: {
-        [id: string]: { type: 'node' | 'edge' | 'combo', model: NodeModel | EdgeModel | ComboModel }
-      } = {};
-      nodes.forEach(model => newModelMap[model.id] = { type: 'node', model });
-      edges.forEach(model => newModelMap[model.id] = { type: 'edge', model });
-      // edge first, in case of related edges are removed when removing node
-      prevEdges.forEach(prevEdge => {
-        const { id } = prevEdge;
-        const { model: newModel } = newModelMap[id] || {};
-        // remove
-        if (!newModel) graphCore.removeEdge(id);
-        // update
-        else if (hasDiff(newModel, prevEdge, false)) syncUpdateToGraphCore(id, newModel, prevEdge, false);
-        // delete from the map indicates this model is visited
-        delete newModelMap[id];
-      });
-      prevNodes.forEach(prevNode => {
-        const { id } = prevNode;
-        const { model: newModel } = newModelMap[id] || {};
-        // remove
-        if (!newModel) graphCore.removeNode(id);
-        // update
-        else if (hasDiff(newModel, prevNode, true)) syncUpdateToGraphCore(id, newModel, prevNode, true);
-        // delete from the map indicates this model is visited
-        delete newModelMap[id];
-      });
-      // add
-      Object.values(newModelMap).forEach(({ type, model }) => {
-        if (type === 'node') graphCore.addNode(model);
-        else if (type === 'edge') graphCore.addEdge(model as EdgeModel);
+    graphCore.batch(() => {
+      // === step 3: sync to graphCore according to the changes in userGraphCore ==
+      if (!idMaps?.length || idMaps.length !== this.extensions.length) {
+        // situation 1: not every extension has corresponding idMap, use default mapping: suppose id is not changed by transforms
+        // and diff the value in graphCore whose id is not in userGraphCore
+        const newModelMap: {
+          [id: string]: { type: 'node' | 'edge' | 'combo', model: NodeModel | EdgeModel | ComboModel }
+        } = {};
+        nodes.forEach(model => newModelMap[model.id] = { type: 'node', model });
+        edges.forEach(model => newModelMap[model.id] = { type: 'edge', model });
+        // edge first, in case of related edges are removed when removing node
+        prevEdges.forEach(prevEdge => {
+          const { id } = prevEdge;
+          const { model: newModel } = newModelMap[id] || {};
+          // remove
+          if (!newModel) graphCore.removeEdge(id);
+          // update
+          else if (hasDiff(newModel, prevEdge, false)) syncUpdateToGraphCore(id, newModel, prevEdge, false);
+          // delete from the map indicates this model is visited
+          delete newModelMap[id];
+        });
+        prevNodes.forEach(prevNode => {
+          const { id } = prevNode;
+          const { model: newModel } = newModelMap[id] || {};
+          // remove
+          if (!newModel) graphCore.removeNode(id);
+          // update
+          else if (hasDiff(newModel, prevNode, true)) syncUpdateToGraphCore(id, newModel, prevNode, true);
+          // delete from the map indicates this model is visited
+          delete newModelMap[id];
+        });
+        // add
+        Object.values(newModelMap).forEach(({ type, model }) => {
+          if (type === 'node') graphCore.addNode(model);
+          else if (type === 'edge') graphCore.addEdge(model as EdgeModel);
+          // TODO: combo
+        });
+      } else {
+        // situation 2: idMaps is complete
+        // calculate the final idMap which maps the ids from final transformed data to their comes from ids in userData
+        const finalIdMap = {};
+        const newModelMap = {};
+        const prevModelMap = {};
+        (nodes.concat(edges)).forEach(model => {
+          finalIdMap[model.id] = getComesFromLinkedList(model.id, idMaps);
+          newModelMap[model.id] = model;
+        });
+        (prevNodes.concat(prevEdges)).forEach(model => {
+          prevModelMap[model.id] = model;
+        });
         // TODO: combo
-      });
-    } else {
-      // situation 2: idMaps is complete
-      // calculate the final idMap which maps the ids from final transformed data to their comes from ids in userData
-      const finalIdMap = {};
-      const newModelMap = {};
-      const prevModelMap = {};
-      (nodes.concat(edges)).forEach(model => {
-        finalIdMap[model.id] = getComesFromLinkedList(model.id, idMaps);
-        newModelMap[model.id] = model;
-      });
-      (prevNodes.concat(prevEdges)).forEach(model => {
-        prevModelMap[model.id] = model;
-      });
-      // TODO: combo
 
-      // map changes for search
-      const changeMap = {};
-      const { changes } = event;
-      changes.forEach(change => {
-        const { value, id, type } = change;
-        // TODO: temporary skip. how to handle tree change events?
-        if (['TreeStructureAttached', 'TreeStructureDetached', 'TreeStructureChanged'].includes(type)) return;
-        const dataId = id || value.id;
-        changeMap[dataId] = changeMap[dataId] || [];
-        changeMap[dataId].push(type.toLawerCase());
-      });
+        // map changes for search
+        const changeMap = {};
+        const { changes } = event;
+        changes.forEach(change => {
+          const { value, id, type } = change;
+          // TODO: temporary skip. how to handle tree change events?
+          if (['TreeStructureAttached', 'TreeStructureDetached', 'TreeStructureChanged'].includes(type)) return;
+          const dataId = id || value.id;
+          changeMap[dataId] = changeMap[dataId] || [];
+          changeMap[dataId].push(type.toLawerCase());
+        });
 
-      // 1. remove or add model to userGraphCore according the existence
-      // 2. update or keep unchanged according to the source models' changes in userGraphCore
-      //    if source models have any change, update the data in graphcore. Kepp unchanged otherwise
-      Object.keys(newModelMap).forEach(newId => {
-        const comesFromIds = finalIdMap[newId];
-        const newValue = newModelMap[newId];
-        const oldValue = prevModelMap[newId];
-        const isNode = graphCore.hasNode(newId);
-        if (newValue && !oldValue) {
-          const addFunc = isNode ? graphCore.addNode : graphCore.addEdge;
-          addFunc(newValue);
-        } else if (!newValue && oldValue) {
-          const removeFunc = isNode ? graphCore.removeNode : graphCore.removeEdge;
-          removeFunc(newId);
-        } else {
-          if (!comesFromIds?.length) {
-            // no comesForm, find same id in userGraphCore to follow the change, if it not found, diff new and old data value of graphCore (inner data)
-            if (hasDiff(newValue, oldValue, isNode)) syncUpdateToGraphCore(newId, newValue, oldValue, isNode);
+        // 1. remove or add model to userGraphCore according the existence
+        // 2. update or keep unchanged according to the source models' changes in userGraphCore
+        //    if source models have any change, update the data in graphcore. Kepp unchanged otherwise
+        Object.keys(newModelMap).forEach(newId => {
+          const comesFromIds = finalIdMap[newId];
+          const newValue = newModelMap[newId];
+          const oldValue = prevModelMap[newId];
+          const isNode = graphCore.hasNode(newId);
+          if (newValue && !oldValue) {
+            const addFunc = isNode ? graphCore.addNode : graphCore.addEdge;
+            addFunc(newValue);
+          } else if (!newValue && oldValue) {
+            const removeFunc = isNode ? graphCore.removeNode : graphCore.removeEdge;
+            removeFunc(newId);
           } else {
-            // follow the corresponding data event in userGraphCore
-            const comesFromChanges = changeMap[comesFromIds[0]];
-            if (comesFromChanges?.length) syncUpdateToGraphCore(newId, newValue, oldValue, isNode)
+            if (!comesFromIds?.length) {
+              // no comesForm, find same id in userGraphCore to follow the change, if it not found, diff new and old data value of graphCore (inner data)
+              if (hasDiff(newValue, oldValue, isNode)) syncUpdateToGraphCore(newId, newValue, oldValue, isNode);
+            } else {
+              // follow the corresponding data event in userGraphCore
+              const comesFromChanges = changeMap[comesFromIds[0]];
+              if (comesFromChanges?.length) syncUpdateToGraphCore(newId, newValue, oldValue, isNode)
+            }
           }
-        }
-      });
-    }
+        });
+      }
+    });
   }
 
   /**

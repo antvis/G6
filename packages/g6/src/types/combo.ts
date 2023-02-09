@@ -31,7 +31,7 @@ export interface ComboDisplayModelData extends ComboModelData {
   labelShape?: ComboLabelShapeStyle;
   iconShape?: ShapeStyle;
   otherShapes?: {
-    [shapeName: string]: ShapeStyle;
+    [shapeId: string]: ShapeStyle;
   };
   anchorPoints?: AnchorPoint[];
   fixSize?: number | number[];

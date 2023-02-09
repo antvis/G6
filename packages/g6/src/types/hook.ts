@@ -1,8 +1,8 @@
 import { DataChangeType, GraphCore, GraphData } from "./data";
-import { NodeUserModel } from "./node";
-import { ComboUserModel } from "./combo";
-import { EdgeUserModel } from "./edge";
+import { NodeModel, NodeModelData, NodeUserModel } from "./node";
+import { EdgeModel, EdgeModelData, EdgeUserModel } from "./edge";
 import { ITEM_TYPE } from "./item";
+import { GraphChange } from "@antv/graphlib";
 
 export interface IHook<T> {
   name: string;
@@ -19,13 +19,11 @@ export interface Hooks {
     type: DataChangeType;
     data: GraphData
   }>;
-  // data, item
-  'additems': IHook<{ type: ITEM_TYPE, models: NodeUserModel[] | EdgeUserModel[] | ComboUserModel[] }>
-  // data, item
-  'removeitems': IHook<{ type: ITEM_TYPE, ids: (string | number)[] }>
-  // data, item
-  'updateitems': IHook<{ type: ITEM_TYPE, models: Partial<NodeUserModel>[] | Partial<EdgeUserModel>[] | Partial<ComboUserModel>[] }>
-
+  'itemchange': IHook<{
+    type: ITEM_TYPE;
+    changes: GraphChange<NodeModelData, EdgeModelData>[];
+    graphCore: GraphCore;
+  }>;
   'render': IHook<{ graphCore: GraphCore }>; // TODO: define param template
   // 'layout': IHook<any>; // TODO: define param template
   // 'updatelayout': IHook<any>; // TODO: define param template

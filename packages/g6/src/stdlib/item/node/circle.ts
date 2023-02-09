@@ -1,6 +1,7 @@
-import { Group } from "@antv/g";
+import { Group, DisplayObject } from "@antv/g";
 import { NodeDisplayModel } from "../../../types";
-import { addShape } from "../../../util/shape";
+import { NodeModelData } from "../../../types/node";
+import { createShape } from "../../../util/shape";
 import { BaseNode } from "./base";
 
 export class CircleNode extends BaseNode {
@@ -28,19 +29,54 @@ export class CircleNode extends BaseNode {
     },
     otherShapes: {}
   };
-  public draw(model: NodeDisplayModel, group: Group) {
+  public draw(
+    model: NodeDisplayModel,
+    shapeMap: { [shapeId: string]: DisplayObject },
+    diffData?: { oldData: NodeModelData, newData: NodeModelData },
+    shapesToChange?: { [shapeId: string]: boolean }
+  ): {
+    keyShape: DisplayObject,
+    labelShape?: DisplayObject,
+    iconShape?: DisplayObject,
+    [otherShapeId: string]: DisplayObject
+  } {
     const { data = {} } = model;
-    const keyShapeStyle = Object.assign({}, this.defaultStyles.keyShape, data.keyShape);
-    const labelShapeStyle = Object.assign({}, this.defaultStyles.labelShape, data.labelShape);
-    const iconShapeStyle = Object.assign({}, this.defaultStyles.iconShape, data.iconShape);
-    const keyShape = addShape(
-      'circle',
-      keyShapeStyle,
-      `${this.type}-keyShape`,
-      group
-    )
+    const handleKeyShape = () => {
+      const keyShapeStyle = Object.assign({}, this.defaultStyles.keyShape, data.keyShape);
+      const keyShape = createShape(
+        'circle',
+        keyShapeStyle,
+        'keyShape',
+        shapeMap
+      );
+      return keyShape;
+    }
+    const handleLabelShape = () => {
+      const labelShapeStyle = Object.assign({}, this.defaultStyles.labelShape, data.labelShape);
+      // addShape('text', labelShapeStyle, `${this.type}-labelShape`, group);
+    }
+    const handleIconShape = () => {
+      const iconShapeStyle = Object.assign({}, this.defaultStyles.iconShape, data.iconShape);
+      // addShape('text', labelShapeStyle, `${this.type}-labelShape`, group);
+    }
+    let keyShape;
+    if (shapesToChange) {
+      if (shapesToChange.keyShape) {
+        keyShape = handleKeyShape();
+      }
+      if (shapesToChange.labelShape) {
+        handleLabelShape();
+      }
+      if (shapesToChange.iconShape) {
+        handleIconShape();
+      }
+    } else {
+      keyShape = handleKeyShape();
+      handleLabelShape();
+      handleIconShape();
+    }
     // TODO: add label, icon, and other shapes
 
-    return keyShape;
+    return { keyShape, labelShape: undefined, iconShape: undefined, otherShapes: undefined };
   }
 }

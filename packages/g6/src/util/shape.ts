@@ -1,6 +1,8 @@
-import { Circle, DisplayObject, Ellipse, Group, IElement, Line, Polygon, Polyline, Rect } from "@antv/g";
+import { Circle, DisplayObject, Element, Ellipse, Group, IElement, Line, Polygon, Polyline, Rect } from "@antv/g";
+import { BaseEdge } from "../stdlib/item/edge/base";
+import { BaseNode } from "../stdlib/item/node/base";
 
-const shapeMap = {
+const shapeTagMap = {
   'circle': Circle,
   'rect': Rect,
   'ellipse': Ellipse,
@@ -9,21 +11,29 @@ const shapeMap = {
   'polyline': Polyline
 }
 
-export const addShape = (
+export const createShape = (
   type: string,
   style: { [shapeAttr: string]: unknown },
   id: string,
-  group: Group
+  shapeMap: { [shapeId: string]: IElement }
 ): IElement => {
-  let shape = group.getElementById(id);
+  let shape = shapeMap[id];
   if (!shape) {
-    const ShapeClass = shapeMap[type];
+    const ShapeClass = shapeTagMap[type];
     shape = new ShapeClass({ style, id, autoUpdate: true });
-    group.appendChild(shape);
   } else {
     Object.keys(style).forEach(key => {
       shape.style[key] = style[key];
     });
   }
   return shape;
+}
+
+export const getGroupSucceedMap = (group: IElement, map?: { [id: string]: IElement }) => {
+  let useMap = map || {};
+  group.children.forEach(child => {
+    if (child.tagName === 'group') getGroupSucceedMap(child, useMap);
+    useMap[child.id] = child;
+  });
+  return useMap;
 }

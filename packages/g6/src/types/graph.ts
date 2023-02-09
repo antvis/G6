@@ -1,5 +1,6 @@
 import EventEmitter from '@antv/event-emitter';
 import { Canvas } from '@antv/g';
+import { ID } from '@antv/graphlib';
 import { Hooks } from '../types/hook';
 import { AnimateCfg } from './animate';
 import { BehaviorObjectOptionsOf, BehaviorOptionsOf, BehaviorRegistry } from './behavior';
@@ -32,24 +33,42 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
   /**
    * Find a node's inner data according to id or function.
    * @param { string | Function} condition id or condition function
-   * @returns result node
-   * @group Item
+   * @returns result node's inner data
+   * @group Data
    */
   getNodeData: (condition: string | Function) => NodeModel | undefined;
   /**
    * Find an edge's inner data according to id or function.
    * @param { string | Function} condition id or condition function
-   * @returns result edge
-   * @group Item
+   * @returns result edge's inner data
+   * @group Data
    */
   getEdgeData: (condition: string | Function) => EdgeModel | undefined;
   /**
    * Find a combo's inner data according to id or function.
    * @param { string | Function} condition id or condition function
-   * @returns result combo
-   * @group Item
+   * @returns result combo's inner data
+   * @group Data
    */
   getComboData: (condition: string | Function) => ComboModel | undefined;
+  /**
+   * Get all the nodes' inner data
+   * @returns all nodes' inner data on the graph
+   * @group Data
+   */
+  getAllNodesData: () => NodeModel[];
+  /**
+   * Get all the edges' inner data
+   * @returns all edges' inner data on the graph
+   * @group Data
+   */
+  getAllEdgesData: () => EdgeModel[];
+  /**
+   * Get all the combos' inner data
+   * @returns all combos' inner data on the graph
+   * @group Data
+   */
+  getAllCombosData: () => ComboModel[];
   /**
    * Input data and render the graph.
    * If there is old data, diffs and changes it.
@@ -71,6 +90,41 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
    * @returns 
    */
   clear: () => void;
+  /**
+   * Find items which has the state.
+   * @param itemType item type
+   * @param state state name
+   * @param additionalFilter additional filter function
+   * @returns items that is the type and has the state
+   * @group Item
+   */
+  findIdByState: (itemType: ITEM_TYPE, state: string, additionalFilter?: (model: NodeModel | EdgeModel | ComboModel) => boolean) => ID[];
+  /**
+   * Add one or more node/edge/combo data to the graph.
+   * @param itemType item type
+   * @param model user data
+   * @param stack whether push this operation to stack
+   * @returns whehter success
+   * @group Data
+   */
+  addData: (itemType: ITEM_TYPE, model: NodeUserModel | EdgeUserModel | ComboUserModel | NodeUserModel[] | EdgeUserModel[] | ComboUserModel[], stack?: boolean) => NodeModel | EdgeModel | ComboModel | NodeModel[] | EdgeModel[] | ComboModel[];
+  /**
+   * Remove one or more node/edge/combo data from the graph.
+   * @param item the item to be removed
+   * @param stack whether push this operation to stack
+   * @returns whehter success
+   * @group Data
+   */
+  removeData: (itemType: ITEM_TYPE, id: ID | ID[], stack?: boolean) => void;
+  /**
+   * Update one or more node/edge/combo data on the graph.
+   * @param item the item to be updated
+   * @param model update configs
+   * @param {boolean} stack whether push this operation to stack
+   * @group Data
+   */
+  updateData: (itemType: ITEM_TYPE, model: Partial<NodeUserModel> | Partial<EdgeUserModel> | Partial<ComboUserModel | Partial<NodeUserModel>[] | Partial<EdgeUserModel>[] | Partial<ComboUserModel>[]>, stack?: boolean) => NodeModel | EdgeModel | ComboModel | NodeModel[] | EdgeModel[] | ComboModel[];
+
 
 
   // ===== view operations =====
@@ -135,59 +189,24 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
    * @returns 
    * @group View
    */
-  focusItem: (ids: string | number | (string | number)[], animateCfg?: AnimateCfg) => void;
+  focusItem: (ids: ID | ID[], animateCfg?: AnimateCfg) => void;
 
 
   // ===== item operations =====
-  /**
-   * Find items which has the state.
-   * @param itemType item type
-   * @param state state name
-   * @param additionalFilter additional filter function
-   * @returns items that is the type and has the state
-   * @group Item
-   */
-  findIdByState: (itemType: ITEM_TYPE, state: string, additionalFilter?: (model: NodeModel | EdgeModel | ComboModel) => boolean) => (string | number)[];
-  /**
-   * Add one or more node/edge/combo data to the graph.
-   * @param itemType item type
-   * @param model user data
-   * @param stack whether push this operation to stack
-   * @returns whehter success
-   * @group Data
-   */
-  addData: (itemType: ITEM_TYPE, model: NodeUserModel | EdgeUserModel | ComboUserModel | NodeUserModel[] | EdgeUserModel[] | ComboUserModel[], stack?: boolean) => boolean;
-
-  /**
-   * Remove one or more node/edge/combo data from the graph.
-   * @param item the item to be removed
-   * @param stack whether push this operation to stack
-   * @returns whehter success
-   * @group Data
-   */
-  removeData: (itemType: ITEM_TYPE, id: string | number | (string | number)[], stack?: boolean) => boolean;
-  /**
-   * Update one or more node/edge/combo data on the graph.
-   * @param item the item to be updated
-   * @param model update configs
-   * @param {boolean} stack whether push this operation to stack
-   * @group Data
-   */
-  updateData: (itemType: ITEM_TYPE, model: Partial<NodeUserModel> | Partial<EdgeUserModel> | Partial<ComboUserModel | Partial<NodeUserModel>[] | Partial<EdgeUserModel>[] | Partial<ComboUserModel>[]>, stack?: boolean) => boolean;
   /**
    * Show the item(s).
    * @param ids the item id(s) to be shown
    * @returns 
    * @group Data
    */
-  showItem: (ids: string | number | (string | number)[]) => void;
+  showItem: (ids: ID | ID[]) => void;
   /**
    * Hide the item(s).
    * @param ids the item id(s) to be hidden
    * @returns 
    * @group Item
    */
-  hideItem: (ids: string | number | (string | number)[]) => void;
+  hideItem: (ids: ID | ID[]) => void;
   /**
    * Set state for the item(s).
    * @param ids the id(s) for the item(s) to be set
@@ -196,7 +215,7 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
    * @returns 
    * @group Item
    */
-  setItemState: (ids: string | number | (string | number)[], state: string, value: boolean) => void;
+  setItemState: (ids: ID | ID[], state: string, value: boolean) => void;
 
 
   // ===== combo operations =====
@@ -211,20 +230,20 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
    * dissolve combo
    * @param {String | ICombo} item combo item or id to be dissolve
    */
-  uncombo: (comboId: string | number, stack?: boolean) => void;
+  uncombo: (comboId: ID, stack?: boolean) => void;
   /**
   * Collapse a combo.
   * @param comboId combo id or item
   * @group Combo
   */
-  collapseCombo: (comboId: string | number, stack?: boolean) => void;
+  collapseCombo: (comboId: ID, stack?: boolean) => void;
   /**
  * Expand a combo.
  * @group Combo
  * @param combo combo ID 或 combo 实例
  * @group Combo
  */
-  expandCombo: (comboId: string | number, stack?: boolean) => void;
+  expandCombo: (comboId: ID, stack?: boolean) => void;
 
 
   // ===== layout =====

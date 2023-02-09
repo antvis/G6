@@ -29,7 +29,7 @@ export interface NodeDisplayModelData extends NodeModelData {
   labelShape?: NodeLabelShapeStyle;
   iconShape?: ShapeStyle;
   otherShapes?: {
-    [shapeName: string]: ShapeStyle;
+    [shapeId: string]: ShapeStyle;
   };
   anchorPoints?: AnchorPoint[]
 }

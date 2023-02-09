@@ -21,7 +21,7 @@ export interface EdgeDisplayModelData extends EdgeModelData {
   labelShape?: EdgeLabelShapeStyle;
   iconShape?: ShapeStyle;
   otherShapes?: {
-    [shapeName: string]: ShapeStyle
+    [shapeId: string]: ShapeStyle
   };
   sourceAnchor?: number;
   targetAnchor?: number;

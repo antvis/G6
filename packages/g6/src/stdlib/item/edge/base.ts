@@ -1,4 +1,4 @@
-import { DisplayObject, Group, IElement } from "@antv/g";
+import { DisplayObject } from "@antv/g";
 import { NodeDisplayModel } from "../../../types";
 import { Point } from "../../../types/common";
 import { EdgeLabelShapeStyle } from "../../../types/edge";
@@ -11,11 +11,22 @@ export abstract class BaseEdge {
     labelShape: EdgeLabelShapeStyle;
     iconShape: ShapeStyle;
     otherShapes: {
-      [shapeName: string]: ShapeStyle;
+      [shapeId: string]: ShapeStyle;
     }
   }
-  abstract draw(model: NodeDisplayModel, sourcePoint: Point, targetPoint: Point, group: Group): IElement;
-  afterDraw: (model: NodeDisplayModel, group: Group) => void;
-  shouldUpdate: (model: NodeDisplayModel, prevModel: NodeDisplayModel) => boolean = () => true;
-  setState: (name: string, value: boolean, group: Group) => void;
+  abstract draw(
+    model: NodeDisplayModel,
+    sourcePoint: Point,
+    targetPoint: Point,
+    shapeMap: { [shapeId: string]: DisplayObject },
+    shapesToChange?: { [shapeId: string]: boolean }
+  ): {
+    keyShape: DisplayObject,
+    labelShape?: DisplayObject,
+    iconShape?: DisplayObject,
+    [otherShapeId: string]: DisplayObject
+  };
+  afterDraw: (model: NodeDisplayModel, shapeMap: { [shapeId: string]: DisplayObject }, shapesChanged?: string[]) => void;
+  // shouldUpdate: (model: NodeDisplayModel, prevModel: NodeDisplayModel) => boolean = () => true;
+  setState: (name: string, value: boolean, shapeMap: { [shapeId: string]: DisplayObject }) => void;
 }

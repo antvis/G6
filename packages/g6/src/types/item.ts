@@ -1,8 +1,9 @@
 import { Group } from "@antv/g";
+import { ID } from "@antv/graphlib";
 import { AnimateAttr } from "./animate";
-import { ComboDisplayModel, ComboModel } from "./combo";
-import { EdgeDisplayModel, EdgeModel } from "./edge";
-import { NodeDisplayModel, NodeModel } from "./node";
+import { ComboDisplayModel, ComboEncode, ComboModel, ComboModelData, ComboUserModel } from "./combo";
+import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeModelData, EdgeUserModel } from "./edge";
+import { NodeDisplayModel, NodeEncode, NodeModel, NodeModelData, NodeUserModel } from "./node";
 
 export interface ShapeStyle {
   [shapeAttr: string]: unknown;
@@ -11,7 +12,7 @@ export interface ShapeStyle {
 
 export interface Encode<T> {
   fields: string[],
-  formatter: (values: unknown[]) => T;
+  formatter: (values: NodeUserModel | EdgeUserModel | ComboUserModel) => T;
 }
 
 export interface ShapeAttrEncode {
@@ -31,7 +32,7 @@ export interface ShapesEncode {
   keyShape?: ShapeAttrEncode;
   iconShape?: ShapeAttrEncode;
   otherShapes?: {
-    [shapeName: string]: {
+    [shapeId: string]: {
       [shapeAtrr: string]: unknown | Encode<unknown>;
       animate: AnimateAttr | Encode<AnimateAttr>;
     }
@@ -40,11 +41,13 @@ export interface ShapesEncode {
 
 export type ITEM_TYPE = 'node' | 'edge' | 'combo';
 
+export type ItemModelData = NodeModelData | EdgeModelData | ComboModelData;
+
 export type ItemModel = NodeModel | EdgeModel | ComboModel;
 
 export type ItemDisplayModel = NodeDisplayModel | EdgeDisplayModel | ComboDisplayModel;
 
-export type DisplayMapper = (model: ItemModel) => ItemDisplayModel;
+export type DisplayMapper = ((model: ItemModel) => ItemDisplayModel) | NodeEncode | EdgeEncode | ComboEncode;
 
 /**
  * Base item of node / edge / combo.
@@ -69,19 +72,19 @@ export interface IItem {
   /** Gets the inner model.  */
   // getModel: () => ItemModel;
   /** Gets the id in model. */
-  getID: () => string | number;
+  getID: () => ID;
   /** Gets the item's type. */
   getType: () => 'node' | 'edge' | 'combo';
   /**
    * Draws the shapes.
    * @internal
    * */
-  draw: () => void;
+  draw: (diffData?: { oldData: ItemModelData, newData: ItemModelData }, shapesToChange?: { [shapeId: string]: boolean }) => void;
   /**
    * Updates the shapes.
    * @internal
    * */
-  update: (model: ItemModel) => void;
+  update: (model: ItemModel, diffData: { oldData: ItemModelData, newData: ItemModelData }, dataChangedFields?: string[]) => void;
   /** Puts the item to the front in its graphic group. */
   toFront: () => void;
   /** Puts the item to the back in its graphic group. */

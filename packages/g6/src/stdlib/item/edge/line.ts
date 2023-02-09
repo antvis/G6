@@ -1,7 +1,7 @@
-import { Group } from "@antv/g";
+import { DisplayObject, Group } from "@antv/g";
 import { NodeDisplayModel } from "../../../types";
 import { Point } from "../../../types/common";
-import { addShape } from "../../../util/shape";
+import { createShape } from "../../../util/shape";
 import { BaseEdge } from "./base";
 
 export class LineEdge extends BaseEdge {
@@ -29,25 +29,58 @@ export class LineEdge extends BaseEdge {
     },
     otherShapes: {}
   };
-  public draw(model: NodeDisplayModel, sourcePoint: Point, targetPoint: Point, group: Group) {
+  public draw(
+    model: NodeDisplayModel,
+    sourcePoint: Point,
+    targetPoint: Point,
+    shapeMap: { [shapeId: string]: DisplayObject },
+    shapesToChange?: { [shapeId: string]: boolean }
+  ) {
     const { data = {} } = model;
-    const keyShapeStyle = Object.assign({}, this.defaultStyles.keyShape, data.keyShape);
-    const labelShapeStyle = Object.assign({}, this.defaultStyles.labelShape, data.labelShape);
-    const iconShapeStyle = Object.assign({}, this.defaultStyles.iconShape, data.iconShape);
-    const keyShape = addShape(
-      'line',
-      {
-        ...keyShapeStyle,
-        x1: sourcePoint.x,
-        y1: sourcePoint.y,
-        x2: targetPoint.x,
-        y2: targetPoint.y
-      },
-      `${this.type}-keyShape`,
-      group
-    )
+
+    const handleKeyShape = () => {
+      const keyShapeStyle = Object.assign({}, this.defaultStyles.keyShape, data.keyShape);
+      const keyShape = createShape(
+        'line',
+        {
+          ...keyShapeStyle,
+          x1: sourcePoint.x,
+          y1: sourcePoint.y,
+          x2: targetPoint.x,
+          y2: targetPoint.y
+        },
+        'keyShape',
+        shapeMap
+      )
+      return keyShape
+    }
+    const handleLabelShape = () => {
+      const labelShapeStyle = Object.assign({}, this.defaultStyles.labelShape, data.labelShape);
+      // addShape('text', labelShapeStyle, `${this.type}-labelShape`, group);
+    }
+    const handleIconShape = () => {
+      const iconShapeStyle = Object.assign({}, this.defaultStyles.iconShape, data.iconShape);
+      // addShape('text', labelShapeStyle, `${this.type}-labelShape`, group);
+    }
+    let keyShape;
+    if (shapesToChange) {
+      if (shapesToChange.keyShape) {
+        keyShape = handleKeyShape()
+      }
+      if (shapesToChange.labelShape) {
+        handleLabelShape();
+      }
+      if (shapesToChange.iconShape) {
+        handleIconShape();
+      }
+    } else {
+      keyShape = handleKeyShape();
+      handleLabelShape();
+      handleIconShape();
+    }
+
     // TODO: add label, icon, and other shapes
 
-    return keyShape;
+    return { keyShape };
   }
 }

@@ -5,7 +5,7 @@ import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeShapesEncode } from "./edg
 import { NodeDisplayModel, NodeEncode, NodeModel, NodeShapesEncode } from "./node";
 import { GraphAlignment } from "./view";
 import { LayoutCommonConfig } from "./layout";
-import { ComboDisplayModel, ComboEncode, ComboModel } from "./combo";
+import { ComboDisplayModel, ComboEncode, ComboModel, ComboShapesEncode } from "./combo";
 import { BehaviorOptionsOf, BehaviorRegistry } from "./behavior";
 
 type rendererName = 'canvas' | 'svg' | 'webgl';
@@ -35,19 +35,19 @@ export interface Specification<B extends BehaviorRegistry> {
   }[] | TransformerFn[];
 
   /** item */
-  node?: (data: NodeModel) => NodeDisplayModel | NodeEncode;
-  edge?: (data: EdgeModel) => EdgeDisplayModel | EdgeEncode;
-  combo?: (data: ComboModel) => ComboDisplayModel | ComboEncode;
+  node?: ((data: NodeModel) => NodeDisplayModel) | NodeEncode;
+  edge?: ((data: EdgeModel) => EdgeDisplayModel) | EdgeEncode;
+  combo?: ((data: ComboModel) => ComboDisplayModel) | ComboEncode;
 
   /** item state styles */
   nodeState?: {
-    [state: string]: (data: NodeModel) => NodeDisplayModel | NodeShapesEncode;
+    [state: string]: ((data: NodeModel) => NodeDisplayModel) | NodeShapesEncode;
   };
   edgeState?: {
-    [state: string]: (data: EdgeModel) => EdgeDisplayModel | EdgeShapesEncode;
+    [state: string]: ((data: EdgeModel) => EdgeDisplayModel) | EdgeShapesEncode;
   };
   comboState?: {
-    [state: string]: (data: NodeModel) => NodeDisplayModel | NodeShapesEncode;
+    [state: string]: ((data: ComboModel) => ComboDisplayModel) | ComboShapesEncode;
   };
 
   /** layout */
