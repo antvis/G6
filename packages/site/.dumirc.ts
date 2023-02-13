@@ -56,9 +56,11 @@ export default defineConfig({
       [version]: 'https://g6.antv.antgroup.com',
       '3.2.x': 'https://g6-v3-2.antv.vision',
     },
-    docsearchOptions: {                                                 // 头部搜索框配置
-      apiKey: '9d1cd586972bb492b7b41b13a949ef30',
-      indexName: 'antv_g6',
+    docsearchOptions: {
+      versionV3: true,
+      appId: 'B46SY3F3DL',                                   // 头部搜索框配置
+      apiKey: '16ee95cbade255d2121507328f3b3c6d',
+      indexName: 'g6-antv-antgroup',
     },
     navs: [
       {
