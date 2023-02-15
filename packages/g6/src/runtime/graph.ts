@@ -18,17 +18,17 @@ import { GraphCore } from '../types/data';
 import { EdgeModel, EdgeModelData } from '../types/edge';
 import { Hooks } from '../types/hook';
 import { ITEM_TYPE } from '../types/item';
-import { LayoutCommonConfig } from '../types/layout';
+import { LayoutOptions } from '../types/layout';
 import { NodeModel, NodeModelData } from '../types/node';
 import { FitViewRules, GraphAlignment } from '../types/view';
 import { createCanvas } from '../util/canvas';
 import {
   DataController,
+  ExtensionController,
   InteractionController,
   ItemController,
   LayoutController,
   ThemeController,
-  ExtensionController,
 } from './controller';
 import Hook from './hooks';
 
@@ -111,6 +111,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
         graphCore: GraphCore;
       }>({ name: 'itemchange' }),
       render: new Hook<{ graphCore: GraphCore }>({ name: 'render' }),
+      layout: new Hook<{ graphCore: GraphCore }>({ name: 'layout' }),
       modechange: new Hook<{ mode: string }>({ name: 'modechange' }),
       behaviorchange: new Hook<{
         action: 'update' | 'add' | 'remove';
@@ -149,6 +150,11 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
         graphCore: this.dataController.graphCore,
       });
       this.emit('afterrender');
+
+      // TODO: make read async?
+      this.hooks.layout.emitLinearAsync({
+        graphCore: this.dataController.graphCore,
+      });
     };
     if (this.canvasReady) {
       emitRender();
@@ -172,6 +178,11 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
       graphCore: this.dataController.graphCore,
     });
     this.emit('afterrender');
+
+    // TODO: make changeData async?
+    this.hooks.layout.emitLinearAsync({
+      graphCore: this.dataController.graphCore,
+    });
   }
 
   /**
@@ -513,20 +524,19 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
   // ===== layout =====
   /**
    * Layout the graph (with current configurations if cfg is not assigned).
-   * @param {LayoutCommonConfig} cfg layout configurations. if assigned, the layout spec of the graph will be updated in the same time
-   * @param {GraphAlignment} align align the result
-   * @param {Point} canvasPoint align the result
-   * @param {boolean} stack push it into stack
-   * @group Layout
    */
-  public layout(
-    cfg?: LayoutCommonConfig,
-    align?: GraphAlignment,
-    canvasPoint?: Point,
-    stack?: boolean,
-  ) {
-    // TODO: LayoutConfig combination instead of LayoutCommonConfig
-    // TODO
+  public async layout(options?: LayoutOptions) {
+    await this.hooks.layout.emitLinearAsync({
+      graphCore: this.dataController.graphCore,
+      options,
+    });
+  }
+
+  /**
+   * Some layout algorithms has many iterations which can be stopped at any time.
+   */
+  public stopLayout() {
+    this.layoutController.stopLayout();
   }
 
   /**

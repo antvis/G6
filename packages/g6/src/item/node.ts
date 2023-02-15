@@ -2,7 +2,7 @@ import { Group } from '@antv/g';
 import { NodeModel } from '../types';
 import { DisplayMapper } from '../types/item';
 import { NodeModelData } from '../types/node';
-import { updateShapes, getGroupSucceedMap } from '../util/shape';
+import { updateShapes } from '../util/shape';
 import Item from './item';
 
 interface IProps {

@@ -1,16 +1,16 @@
-import { GraphChange, ID } from '@antv/graphlib';
-import { ComboModel, IGraph } from '../../types';
-import { registery } from '../../stdlib';
-import { getExtension } from '../../util/extension';
-import { GraphCore } from '../../types/data';
-import { NodeDisplayModel, NodeEncode, NodeModel, NodeModelData } from '../../types/node';
-import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeModelData } from '../../types/edge';
-import Node from '../../item/node';
-import Edge from '../../item/edge';
-import Combo from '../../item/combo';
 import { Group } from '@antv/g';
-import { ITEM_TYPE } from '../../types/item';
+import { GraphChange, ID } from '@antv/graphlib';
+import Combo from '../../item/combo';
+import Edge from '../../item/edge';
+import Node from '../../item/node';
+import { registery } from '../../stdlib';
+import { ComboModel, IGraph } from '../../types';
 import { ComboDisplayModel, ComboEncode } from '../../types/combo';
+import { GraphCore } from '../../types/data';
+import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeModelData } from '../../types/edge';
+import { ITEM_TYPE } from '../../types/item';
+import { NodeDisplayModel, NodeEncode, NodeModel, NodeModelData } from '../../types/node';
+import { getExtension } from '../../util/extension';
 
 /**
  * Manages and stores the node / edge / combo items.

@@ -61,7 +61,9 @@
     "@antv/g": "^5.15.7",
     "@antv/g-canvas": "^1.9.28",
     "@antv/g-svg": "^1.8.36",
-    "@antv/graphlib": "^2.0.0-alpha.0",
+    "@antv/graphlib": "^2.0.0",
+    "@antv/layout": "^1.0.0-alpha.15",
+    "@antv/layout-gpu": "^1.0.0-alpha.3",
     "@antv/util": "~2.0.5",
     "typedoc-plugin-markdown": "^3.14.0"
   },
