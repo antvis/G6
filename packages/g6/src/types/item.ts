@@ -1,4 +1,4 @@
-import { Group } from "@antv/g";
+import { DisplayObject, Group } from "@antv/g";
 import { ID } from "@antv/graphlib";
 import { AnimateAttr } from "./animate";
 import { ComboDisplayModel, ComboEncode, ComboModel, ComboModelData, ComboUserModel } from "./combo";

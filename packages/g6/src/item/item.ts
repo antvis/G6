@@ -1,8 +1,20 @@
-import { Group, DisplayObject } from "@antv/g";
-import { clone, isFunction } from "@antv/util";
-import { DisplayMapper, IItem, ItemDisplayModel, ItemModel, ItemModelData, ITEM_TYPE } from "../types/item";
-import { isArrayOverlap } from "../util/array";
-import { isEncode } from "../util/type";
+import { Group, DisplayObject } from '@antv/g';
+import { clone, isFunction } from '@antv/util';
+import { EdgeShapeMap } from '../types/edge';
+import {
+  DisplayMapper,
+  IItem,
+  ItemDisplayModel,
+  ItemModel,
+  ItemModelData,
+  ITEM_TYPE,
+} from '../types/item';
+import { NodeShapeMap } from '../types/node';
+import { isArrayOverlap } from '../util/array';
+import { updateShapes } from '../util/shape';
+import { isEncode } from '../util/type';
+
+export const RESERVED_SHAPE_IDS = ['keyShape', 'labelShape', 'iconShape'];
 
 export default abstract class Item implements IItem {
   public destroyed: boolean = false;
@@ -17,17 +29,12 @@ export default abstract class Item implements IItem {
   public renderExt;
   public visible: boolean = true;
   public states: {
-    name: string,
-    value: string | boolean
+    name: string;
+    value: string | boolean;
   }[] = [];
-  public shapeMap: {
-    keyShape: DisplayObject,
-    labelShape?: DisplayObject,
-    iconShape?: DisplayObject,
-    [otherShapeId: string]: DisplayObject
-  } = {
-      keyShape: undefined
-    };
+  public shapeMap: NodeShapeMap | EdgeShapeMap = {
+    keyShape: undefined,
+  };
   /** Set to different value in implements */
   public type: ITEM_TYPE = 'node';
 
@@ -41,25 +48,36 @@ export default abstract class Item implements IItem {
     this.renderExt = renderExt;
   }
 
-  public draw(diffData?: { oldData: ItemModelData, newData: ItemModelData }, shapesToChange?: { [shapeId: string]: boolean }) {
+  public draw(
+    diffData?: { oldData: ItemModelData; newData: ItemModelData },
+    shapesToChange?: { [shapeId: string]: boolean },
+  ) {
+    // call this.renderExt.draw in extend implementations
     const afterDrawShapes = this.renderExt.afterDraw?.(this.displayModel, this.group) || {};
-    Object.keys(afterDrawShapes).forEach(id => {
-      if (['keyShape', 'labelShape', 'iconShape'].includes(id)) return;
-      this.shapeMap[id] = afterDrawShapes[id];
-    });
-    Object.keys(this.shapeMap).forEach(key => {
-      const shape = this.shapeMap[key];
-      if (!shape || shape.destroyed) return;
-      if (['keyShape', 'labelShape', 'iconShape'].includes(key)) shape.id = key; // TODO: g allows id modification?
-      this.group.appendChild(shape);
+    this.shapeMap = updateShapes(this.shapeMap, afterDrawShapes, this.group, false, (id) => {
+      if (RESERVED_SHAPE_IDS.includes(id)) {
+        console.warn(
+          `Shape with id ${id} is reserved and should be returned in draw function, if the shape with ${id} returned by afterDraw is a new one, it will not be added to the group.`,
+        );
+        return false;
+      }
+      return true;
     });
   }
 
-  public update(model: ItemModel, diffData?: { oldData: ItemModelData, newData: ItemModelData }, dataChangedFields?: string[]) {
+  public update(
+    model: ItemModel,
+    diffData?: { oldData: ItemModelData; newData: ItemModelData },
+    dataChangedFields?: string[],
+  ) {
     // 1. merge model into this model
     this.model = model;
     // 2. map new merged model to displayModel, keep prevModel and newModel for 3.
-    const { model: displayModel, shapesToChange, typeChange } = this.getDisplayModelAndChanges(this.model, diffData, dataChangedFields);
+    const {
+      model: displayModel,
+      shapesToChange,
+      typeChange,
+    } = this.getDisplayModelAndChanges(this.model, diffData, dataChangedFields);
     this.displayModel = displayModel;
 
     if (typeChange) {
@@ -75,92 +93,98 @@ export default abstract class Item implements IItem {
    * @param model inner model
    * @param diffData changes from graphCore changed event
    * @param dataChangedFields (may be able to discard) the changed property names in inner model's data
-   * @returns 
+   * @returns
    */
   public getDisplayModelAndChanges(
-    model: ItemModel,
-    diffData?: { oldData: ItemModelData, newData: ItemModelData },
-    dataChangedFields?: string[]
-  ): ({
-    model: ItemDisplayModel,
-    shapesToChange?: { [shapeId: string]: boolean }
-    typeChange?: boolean
-  }) {
+    innerModel: ItemModel,
+    diffData?: { oldData: ItemModelData; newData: ItemModelData },
+    dataChangedFields?: string[],
+  ): {
+    model: ItemDisplayModel;
+    shapesToChange?: { [shapeId: string]: boolean };
+    typeChange?: boolean;
+  } {
     const { mapper } = this;
+    let shapesToChange: { [shapeId: string]: boolean } = {};
+
+    // no mapper, displayModel = model, shapesToChange should compare the new model and old model
     if (!mapper) {
-      // no mapper, displayModel = model, shapesToChange should compare the new model and old model
-      this.displayModel = model; // TODO: need clone?
+      this.displayModel = innerModel; // TODO: need clone?
       // compare the oldData and newData to find shape changes
-      let shapesToChange = {};
       let typeChange = false;
       if (diffData?.newData) {
         typeChange = Boolean(diffData.newData.type);
-        Object.keys(diffData.newData).forEach(key => {
-          if (this.shapeMap[key]) shapesToChange[key] = true;
+        Object.keys(diffData.newData).forEach((key) => {
+          if (this.shapeMap[key]) {
+            shapesToChange[key] = true;
+          }
         });
       }
-      return { model, shapesToChange, typeChange }
+      const hasShapeChange = Object.keys(shapesToChange)?.length;
+      return {
+        model: innerModel,
+        shapesToChange: hasShapeChange ? shapesToChange : undefined,
+        typeChange,
+      };
     }
-    if (isFunction(mapper)) return { model: mapper(model) };
+
+    // mapper is function, displayModel is mapper(model), cannot diff the displayModel, so all the shapes need to be updated
+    if (isFunction(mapper)) return { model: mapper(innerModel) };
+
     // fields' values in mapper are final value or Encode
-    const shapesToChange: { [shapeId: string]: boolean } = {};
     let typeChange = false;
-    const { data, ...otherProps } = model;
+    const { data, ...otherProps } = innerModel;
     const displayModelData = clone(data);
-    Object.keys(mapper).forEach(fieldName => {
-      const value = mapper[fieldName];
-      if (fieldName === 'type') {
-        if (isEncode(value)) {
-          const { fields, formatter } = value;
-          // data changed fields and the encode fields are overlapped, display value should be changed
-          if (!dataChangedFields || isArrayOverlap(dataChangedFields, fields)) {
-            typeChange = true;
-            displayModel['type'] = formatter(model);
-          }
-        } else {
-          typeChange = true;
-          displayModel['type'] = value;
-        }
-      } else if (['keyShape', 'labelShape', 'iconShape'].includes(fieldName)) {
-        Object.keys(value).forEach(shapeAttrName => {
-          const attrValue = value[shapeAttrName];
-          if (isEncode(attrValue)) {
-            const { fields, formatter } = attrValue;
-            // data changed fields and the encode fields are overlapped, display value should be changed
-            if (!dataChangedFields || isArrayOverlap(dataChangedFields, fields)) {
-              shapesToChange[fieldName] = true;
-              displayModel[fieldName][shapeAttrName] = formatter(model);
-            }
-          } else {
-            shapesToChange[fieldName] = true;
-            displayModel[fieldName][shapeAttrName] = attrValue;
-          }
+    Object.keys(mapper).forEach((fieldName) => {
+      const subMapper = mapper[fieldName];
+
+      if (RESERVED_SHAPE_IDS.includes(fieldName)) {
+        // reserved shapes
+        updateShapeChange({
+          innerModel,
+          subMapper,
+          shapeId: fieldName,
+          shapeConfig: displayModelData[fieldName],
+          shapesToChange,
+          dataChangedFields,
         });
       } else if (fieldName === 'otherShapes') {
-        Object.keys(value).forEach(shapeId => {
-          const shappStyle = value[shapeId];
-          Object.keys(shappStyle).forEach(shapeAttrName => {
-            const attrValue = shappStyle[shapeAttrName];
-            if (isEncode(attrValue)) {
-              const { fields, formatter } = attrValue;
-              // data changed fields and the encode fields are overlapped, display value should be changed
-              if (!dataChangedFields || isArrayOverlap(dataChangedFields, fields)) {
-                shapesToChange[shapeId] = true;
-                displayModel[fieldName][shapeId][shapeAttrName] = formatter(model);
-              }
-            } else {
-              shapesToChange[shapeId] = true;
-              displayModel[fieldName][shapeId][shapeAttrName] = attrValue;
-            }
+        // other shapes
+        Object.keys(subMapper).forEach((shapeId) => {
+          const shappStyle = subMapper[shapeId];
+          updateShapeChange({
+            innerModel,
+            subMapper: shappStyle,
+            shapeId,
+            shapeConfig: displayModelData[fieldName][shapeId],
+            shapesToChange,
+            dataChangedFields,
           });
         });
+      } else {
+        // fields not about shape
+        const { changed, value: mappedValue } = updateChange({
+          innerModel,
+          shapeId: undefined,
+          subMapper: mapper,
+          fieldName,
+          shapesToChange,
+          dataChangedFields,
+        });
+        displayModelData[fieldName] = mappedValue;
+        if (changed && fieldName === 'type') typeChange = true;
       }
     });
     const displayModel = {
       ...otherProps,
-      data: displayModelData
-    }
-    return { model: displayModel, shapesToChange, typeChange };
+      data: displayModelData,
+    };
+    const hasShapeChange = Object.keys(shapesToChange)?.length;
+    return {
+      model: displayModel,
+      shapesToChange: hasShapeChange ? shapesToChange : undefined,
+      typeChange,
+    };
   }
 
   public getID() {
@@ -196,7 +220,7 @@ export default abstract class Item implements IItem {
   }
 
   public setState(state: string, value: string | boolean) {
-    const existState = this.states.find(item => item.name === state);
+    const existState = this.states.find((item) => item.name === state);
     if (existState && value) {
       existState.value = value;
     } else {
@@ -207,14 +231,14 @@ export default abstract class Item implements IItem {
   }
 
   public hasState(state: string) {
-    const findState = this.states.find(item => item.name === state);
+    const findState = this.states.find((item) => item.name === state);
     return findState || false;
   }
 
   public clearStates(states?: string[]) {
-    const newStates = this.states.filter(state => !states.includes(state.name));
+    const newStates = this.states.filter((state) => !states.includes(state.name));
     this.states = newStates;
-    states.forEach(state => {
+    states.forEach((state) => {
       // TODO: call element setState fn with false from useLib
     });
   }
@@ -232,3 +256,56 @@ export default abstract class Item implements IItem {
     this.destroyed = true;
   }
 }
+
+const updateChange = ({
+  innerModel,
+  shapeId,
+  subMapper,
+  fieldName,
+  shapesToChange,
+  dataChangedFields,
+}): {
+  changed: boolean;
+  value?: unknown;
+} => {
+  const value = subMapper[fieldName];
+  if (isEncode(value)) {
+    const { fields, formatter } = value;
+    // data changed fields and the encode fields are overlapped, display value should be changed
+    if (!dataChangedFields || isArrayOverlap(dataChangedFields, fields)) {
+      if (shapeId) shapesToChange[shapeId] = true;
+      return {
+        changed: true,
+        value: formatter(innerModel),
+      };
+    }
+    return { changed: false };
+  } else {
+    if (shapeId) shapesToChange[shapeId] = true;
+    return {
+      changed: true,
+      value,
+    };
+  }
+};
+
+const updateShapeChange = ({
+  innerModel,
+  subMapper,
+  shapeId,
+  shapesToChange,
+  dataChangedFields,
+  shapeConfig,
+}) => {
+  Object.keys(subMapper).forEach((shapeAttrName) => {
+    const { value: mappedValue } = updateChange({
+      innerModel,
+      shapeId,
+      subMapper,
+      fieldName: shapeAttrName,
+      shapesToChange,
+      dataChangedFields,
+    });
+    shapeConfig[shapeAttrName] = mappedValue;
+  });
+};

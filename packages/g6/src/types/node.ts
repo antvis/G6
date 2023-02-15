@@ -1,3 +1,4 @@
+import { DisplayObject } from '@antv/g';
 import { Node as GNode, PlainObject } from '@antv/graphlib';
 import { AnimateAttr } from "./animate";
 import { Encode, IItem, LabelBackground, ShapeAttrEncode, ShapesEncode, ShapeStyle } from "./item";
@@ -63,6 +64,13 @@ export interface NodeShapesEncode extends ShapesEncode {
 }
 export interface NodeEncode extends NodeShapesEncode {
   type?: string | Encode<string>;
+}
+
+export interface NodeShapeMap {
+  keyShape: DisplayObject,
+  labelShape?: DisplayObject,
+  iconShape?: DisplayObject,
+  [otherShapeId: string]: DisplayObject
 }
 
 // TODO

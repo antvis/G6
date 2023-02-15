@@ -1,6 +1,7 @@
 import { DisplayObject, Group } from "@antv/g";
 import { NodeDisplayModel } from "../../../types";
 import { Point } from "../../../types/common";
+import { EdgeShapeMap } from "../../../types/edge";
 import { createShape } from "../../../util/shape";
 import { BaseEdge } from "./base";
 
@@ -33,9 +34,10 @@ export class LineEdge extends BaseEdge {
     model: NodeDisplayModel,
     sourcePoint: Point,
     targetPoint: Point,
-    shapeMap: { [shapeId: string]: DisplayObject },
+    shapeMap: EdgeShapeMap,
     shapesToChange?: { [shapeId: string]: boolean }
-  ) {
+  ): EdgeShapeMap {
+    if (!shapesToChange) return shapeMap;
     const { data = {} } = model;
 
     const handleKeyShape = () => {
@@ -62,20 +64,15 @@ export class LineEdge extends BaseEdge {
       const iconShapeStyle = Object.assign({}, this.defaultStyles.iconShape, data.iconShape);
       // addShape('text', labelShapeStyle, `${this.type}-labelShape`, group);
     }
+
     let keyShape;
-    if (shapesToChange) {
-      if (shapesToChange.keyShape) {
-        keyShape = handleKeyShape()
-      }
-      if (shapesToChange.labelShape) {
-        handleLabelShape();
-      }
-      if (shapesToChange.iconShape) {
-        handleIconShape();
-      }
-    } else {
-      keyShape = handleKeyShape();
+    if (shapesToChange.keyShape) {
+      keyShape = handleKeyShape()
+    }
+    if (shapesToChange.labelShape) {
       handleLabelShape();
+    }
+    if (shapesToChange.iconShape) {
       handleIconShape();
     }
 

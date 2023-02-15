@@ -1,3 +1,4 @@
+import { DisplayObject } from '@antv/g';
 import { Edge as GEdge, PlainObject } from '@antv/graphlib';
 import { AnimateAttr } from "./animate";
 import { Encode, IItem, LabelBackground, ShapeAttrEncode, ShapesEncode, ShapeStyle } from "./item";
@@ -53,6 +54,13 @@ export interface EdgeShapesEncode extends ShapesEncode {
 }
 export interface EdgeEncode extends EdgeShapesEncode {
   type?: string | Encode<string>;
+}
+
+export interface EdgeShapeMap {
+  keyShape: DisplayObject,
+  labelShape?: DisplayObject,
+  iconShape?: DisplayObject,
+  [otherShapeId: string]: DisplayObject
 }
 
 // TODO

@@ -1,6 +1,6 @@
 import { Group, DisplayObject } from "@antv/g";
 import { NodeDisplayModel } from "../../../types";
-import { NodeModelData } from "../../../types/node";
+import { NodeModelData, NodeShapeMap } from "../../../types/node";
 import { createShape } from "../../../util/shape";
 import { BaseNode } from "./base";
 
@@ -31,15 +31,11 @@ export class CircleNode extends BaseNode {
   };
   public draw(
     model: NodeDisplayModel,
-    shapeMap: { [shapeId: string]: DisplayObject },
+    shapeMap: NodeShapeMap,
     diffData?: { oldData: NodeModelData, newData: NodeModelData },
     shapesToChange?: { [shapeId: string]: boolean }
-  ): {
-    keyShape: DisplayObject,
-    labelShape?: DisplayObject,
-    iconShape?: DisplayObject,
-    [otherShapeId: string]: DisplayObject
-  } {
+  ): NodeShapeMap {
+    if (!shapesToChange) return shapeMap;
     const { data = {} } = model;
     const handleKeyShape = () => {
       const keyShapeStyle = Object.assign({}, this.defaultStyles.keyShape, data.keyShape);
@@ -60,19 +56,13 @@ export class CircleNode extends BaseNode {
       // addShape('text', labelShapeStyle, `${this.type}-labelShape`, group);
     }
     let keyShape;
-    if (shapesToChange) {
-      if (shapesToChange.keyShape) {
-        keyShape = handleKeyShape();
-      }
-      if (shapesToChange.labelShape) {
-        handleLabelShape();
-      }
-      if (shapesToChange.iconShape) {
-        handleIconShape();
-      }
-    } else {
+    if (shapesToChange.keyShape) {
       keyShape = handleKeyShape();
+    }
+    if (shapesToChange.labelShape) {
       handleLabelShape();
+    }
+    if (shapesToChange.iconShape) {
       handleIconShape();
     }
     // TODO: add label, icon, and other shapes

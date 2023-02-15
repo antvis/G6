@@ -217,7 +217,7 @@ export class DataController {
     if (prevNodes.length) {
       // update node
       nodes.forEach(newModel => {
-        userGraphCore.mergeNodeData(newModel.id, newModel.data);
+        if (newModel.data) userGraphCore.mergeNodeData(newModel.id, newModel.data);
       });
     }
     if (prevEdges.length) {
@@ -227,7 +227,7 @@ export class DataController {
         if (!oldModel) return;
         if (newModel.source && oldModel.source !== newModel.source) userGraphCore.updateEdgeSource(newModel.id, newModel.source);
         if (newModel.target && oldModel.target !== newModel.target) userGraphCore.updateEdgeTarget(newModel.id, newModel.target);
-        userGraphCore.mergeEdgeData(newModel.id, newModel.data);
+        if (newModel.data) userGraphCore.mergeEdgeData(newModel.id, newModel.data);
       });
     }
     // TODO: combo
@@ -248,14 +248,14 @@ export class DataController {
     const prevEdges = graphCore.getAllEdges();
 
     // function to update one data in graphCore with different model type ('node' or 'edge')
-    const syncUpdateToGraphCore = (id, newValue, oldValue, isNode) => {
+    const syncUpdateToGraphCore = (id, newValue, oldValue, isNode, diff = []) => {
       if (isNode) {
-        graphCore.updateNodeData(id, newValue.data);
+        if (newValue.data) graphCore.updateNodeData(id, newValue.data);
       } else {
-        graphCore.updateEdgeData(id, newValue.data);
+        if (diff.includes('data')) graphCore.updateEdgeData(id, newValue.data);
         // source and target may be changed
-        if (newValue.source !== oldValue.source) graphCore.updateEdgeSource(id, newValue.source);
-        if (newValue.target !== oldValue.target) graphCore.updateEdgeTarget(id, newValue.target);
+        if (diff.includes('source')) graphCore.updateEdgeSource(id, newValue.source);
+        if (diff.includes('target')) graphCore.updateEdgeTarget(id, newValue.target);
       }
       // TODO: combo
     }
@@ -277,7 +277,10 @@ export class DataController {
           // remove
           if (!newModel) graphCore.removeEdge(id);
           // update
-          else if (hasDiff(newModel, prevEdge, false)) syncUpdateToGraphCore(id, newModel, prevEdge, false);
+          else {
+            const diff = diffAt(newModel, prevEdge, false);
+            if (diff?.length) syncUpdateToGraphCore(id, newModel, prevEdge, false, diff);
+          }
           // delete from the map indicates this model is visited
           delete newModelMap[id];
         });
@@ -287,7 +290,7 @@ export class DataController {
           // remove
           if (!newModel) graphCore.removeNode(id);
           // update
-          else if (hasDiff(newModel, prevNode, true)) syncUpdateToGraphCore(id, newModel, prevNode, true);
+          else if (diffAt(newModel, prevNode, true)?.length) syncUpdateToGraphCore(id, newModel, prevNode, true);
           // delete from the map indicates this model is visited
           delete newModelMap[id];
         });
@@ -341,7 +344,8 @@ export class DataController {
           } else {
             if (!comesFromIds?.length) {
               // no comesForm, find same id in userGraphCore to follow the change, if it not found, diff new and old data value of graphCore (inner data)
-              if (hasDiff(newValue, oldValue, isNode)) syncUpdateToGraphCore(newId, newValue, oldValue, isNode);
+              const diff = diffAt(newValue, oldValue, isNode);
+              if (diff?.length) syncUpdateToGraphCore(newId, newValue, oldValue, isNode, diff);
             } else {
               // follow the corresponding data event in userGraphCore
               const comesFromChanges = changeMap[comesFromIds[0]];
@@ -400,27 +404,33 @@ const getComesFromLinkedList = (id, linkedList, index = linkedList.length - 1) =
  * @param newModel
  * @param oldModel 
  * @param isNode 
- * @returns whether they are different
+ * @returns false for no different, ['data'] for data different
  */
-const hasDiff = (newModel, oldModel, isNode) => {
+const diffAt = (newModel, oldModel, isNode): ('data' | 'source' | 'target')[] => {
   // edge's source or target is changed
-  if (!isNode && (newModel.source !== oldModel.source || newModel.target !== oldModel.target)) return true;
-  // value in data is chagned
+  const diff = [];
+  if (!isNode) {
+    if (newModel.source !== oldModel.source) diff.push('source');
+    if (newModel.target !== oldModel.target) diff.push('target');
+  }
+  if (!newModel.data) return diff;
+  // value in data is changed
   const newKeys = Object.keys(newModel.data);
   const oldKeys = Object.keys(oldModel.data);
-  if (oldKeys.length !== newKeys.length) return true;
+  if (oldKeys.length === 0 && oldKeys.length === newKeys.length) return diff;
+  if (oldKeys.length !== newKeys.length) return diff.concat('data');
   for (let i = 0; i < newKeys.length; i++) {
     const key = newKeys[i];
     const newValue = newModel.data[key];
     const oldValue = oldModel.data[key];
     const newValueIsObject = isObject(newValue);
     const oldValueIsObject = isObject(oldValue);
-    if (newValueIsObject !== oldValueIsObject) return true;
+    if (newValueIsObject !== oldValueIsObject) return diff.concat('data');
     if (newValueIsObject && oldValueIsObject) {
-      if (JSON.stringify(newModel) !== JSON.stringify(oldValue)) return true;
+      if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) return diff.concat('data');
       else continue;
     }
-    if (newValue !== oldValue) return true;
+    if (newValue !== oldValue) return diff.concat('data');
   }
-  return false;
+  return diff;
 }

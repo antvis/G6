@@ -1,17 +1,16 @@
-import { Graph as GraphLib, GraphChange, ID } from "@antv/graphlib";
+import { GraphChange, ID } from "@antv/graphlib";
 import { ComboModel, IGraph } from "../../types";
 import { registery } from '../../stdlib';
 import { getExtension } from "../../util/extension";
-import { DisplayGraphCore, GraphCore } from "../../types/data";
-import { NodeDisplayModel, NodeDisplayModelData, NodeEncode, NodeModel, NodeModelData } from "../../types/node";
-import { EdgeDisplayModel, EdgeDisplayModelData, EdgeEncode, EdgeModel, EdgeModelData } from "../../types/edge";
+import { GraphCore } from "../../types/data";
+import { NodeDisplayModel, NodeEncode, NodeModel, NodeModelData } from "../../types/node";
+import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeModelData } from "../../types/edge";
 import Node from "../../item/node";
 import Edge from "../../item/edge";
 import Combo from "../../item/combo";
 import { Group } from "@antv/g";
 import { ITEM_TYPE } from "../../types/item";
-import { ComboDisplayModel, ComboDisplayModelData, ComboEncode } from "../../types/combo";
-import { isFunction } from "_@antv_util@3.3.2@@antv/util";
+import { ComboDisplayModel, ComboEncode } from "../../types/combo";
 
 /**
  * Manages and stores the node / edge / combo items.
@@ -21,17 +20,10 @@ export class ItemController {
   public nodeExtensions = [];
   public edgeExtensions = [];
   public comboExtensions = [];
-  /**
-   * Display data stored in graphCore structure.
-   */
-  // public graphCore: DisplayGraphCore;
 
   /**
    * Node / edge / combo items map
    */
-  private nodeMap: { [id: ID]: Node } = {};
-  private edgeMap: { [id: ID]: Edge } = {};
-  private comboMap: { [id: ID]: Combo } = {};
   private itemMap: { [id: ID]: Node | Edge | Combo } = {};
 
   /**
@@ -47,8 +39,7 @@ export class ItemController {
 
   constructor(graph: IGraph<any>) {
     this.graph = graph;
-    // this.graphCore = new GraphLib<NodeDisplayModelData, EdgeDisplayModelData>();
-    // get mapper for node / edge/ combo
+    // get mapper for node / edge / combo
     const spec = graph.getSpecification();
     const { node, edge, combo } = spec;
     this.nodeMapper = node;
@@ -88,12 +79,12 @@ export class ItemController {
   }
 
   /**
-   * Listener of graph's render hook.
+   * Listener of runtime's render hook.
    * @param param contains inner data stored in graphCore structure
    */
   private onRender(param: { graphCore: GraphCore }) {
     const { graphCore } = param;
-    const { graph, edgeExtensions, comboExtensions } = this;
+    const { graph } = this;
     // TODO: 0. clear groups on canvas, and create new groups
     graph.canvas.removeChildren();
     const edgeGroup = new Group({ id: 'edge-group' });
@@ -108,11 +99,15 @@ export class ItemController {
     const edgeModels = graphCore.getAllEdges();
     // const combos = graphCore.getAllCombos();
 
-    this.addNodes(nodeModels);
-    this.addEdges(edgeModels);
+    this.renderNodes(nodeModels);
+    this.renderEdges(edgeModels);
     // TODO: combo
   }
 
+  /**
+   * Listener of runtime's itemchange lifecycle hook.
+   * @param param 
+   */
   private onChange(param: { type: ITEM_TYPE, changes: GraphChange<NodeModelData, EdgeModelData>[], graphCore: GraphCore }) {
     const { changes, graphCore } = param;
     const groupedChanges = {
@@ -128,41 +123,37 @@ export class ItemController {
       const { type: changeType } = change;
       groupedChanges[changeType].push(change);
     });
-    const { itemMap, nodeMap, edgeMap, comboMap, nodeMapper, edgeMapper, comboMapper } = this;
+    const { itemMap } = this;
     // change items according to the order of the keys in groupedChanges
+
     // === 1. remove edges; 2. remove nodes ===
-    const removedChanges = groupedChanges.EdgeRemoved.concat(groupedChanges.NodeRemoved);
-    removedChanges.forEach(({ value }) => {
+    groupedChanges.EdgeRemoved.concat(groupedChanges.NodeRemoved).forEach(({ value }) => {
       const { id } = value;
       const item = itemMap[id];
       if (item) {
         item.destroy();
         delete itemMap[id];
-
-        const itemType = item.getType();
-        const map = this[`${itemType}Map`];
-        if (map) delete map[id];
       }
     });
     // === 3. add nodes ===
     if (groupedChanges.NodeAdded.length) {
-      this.addNodes(Object.values(groupedChanges.NodeAdded).map(change => change.value));
+      this.renderNodes(groupedChanges.NodeAdded.map(change => change.value));
     }
     // === 4. add edges ===
     if (groupedChanges.EdgeAdded.length) {
-      this.addEdges(Object.values(groupedChanges.EdgeAdded).map(change => change.value));
+      this.renderEdges(groupedChanges.EdgeAdded.map(change => change.value));
     }
 
-    // === 5. update nodes ===
+    // === 5. update nodes's data ===
     // merge changes for each node
-    if (groupedChanges.NodeDataUpdated?.length) {
+    if (groupedChanges.NodeDataUpdated.length) {
       const nodeUpdate = {};
       groupedChanges.NodeDataUpdated.forEach((change) => {
         const { id, propertyName, newValue, oldValue } = change;
         nodeUpdate[id] = nodeUpdate[id] || { oldData: {}, newData: {} };
         if (!propertyName) {
           nodeUpdate[id] = {
-            isReplace: true,
+            isReplace: true, // whether replace the whole data
             oldData: oldValue,
             newData: newValue
           }
@@ -174,59 +165,101 @@ export class ItemController {
       const edgeToUpdate = {};
       Object.keys(nodeUpdate).forEach(id => {
         const { isReplace, newData, oldData } = nodeUpdate[id];
-        const item = nodeMap[id];
+        const item = itemMap[id];
         const innerModel = graphCore.getNode(id);
-        if (isReplace) {
-          item.update(innerModel, { newData, oldData });
-        } else {
-          item.update(innerModel, { newData, oldData }, Object.keys(nodeUpdate[id]));
-        }
+        item.update(innerModel, { newData, oldData }, isReplace ? undefined : Object.keys(nodeUpdate[id]));
         const relatedEdgeInnerModels = graphCore.getRelatedEdges(id);
         relatedEdgeInnerModels.forEach(edge => edgeToUpdate[edge.id] = edge);
       });
       Object.keys(edgeToUpdate).forEach(edgeId => {
-        const item = edgeMap[edgeId];
+        const item = itemMap[edgeId] as Edge;
         item.forceUpdate();
       });
     }
 
     // === 6. update edges' data ===
+    if (groupedChanges.EdgeDataUpdated.length) {
+      const edgeUpdate = {};
+      groupedChanges.EdgeDataUpdated.forEach(change => {
+        const { id, propertyName, newValue, oldValue } = change;
+        edgeUpdate[id] = edgeUpdate[id] || { oldData: {}, newData: {} };
+        if (!propertyName) {
+          edgeUpdate[id] = {
+            isReplace: true, // whether replace the whole data
+            oldData: oldValue,
+            newData: newValue
+          }
+        } else {
+          edgeUpdate[id].oldData[propertyName] = oldValue;
+          edgeUpdate[id].newData[propertyName] = newValue;
+        }
+      });
+
+      Object.keys(edgeUpdate).forEach(id => {
+        const { isReplace, newData, oldData } = edgeUpdate[id];
+        const item = itemMap[id];
+        const innerModel = graphCore.getEdge(id);
+        item.update(innerModel, { newData, oldData }, isReplace ? undefined : Object.keys(edgeUpdate[id]));
+      });
+    }
 
     // === 7. update edges' source target ===
+    if (groupedChanges.EdgeUpdated.length) {
+      const edgeUpdate = {};
+      groupedChanges.EdgeUpdated.forEach(change => {
+        // propertyName is 'source' or 'target'
+        const { id, propertyName, newValue } = change;
+        edgeUpdate[id] = edgeUpdate[id] || {};
+        edgeUpdate[id][propertyName] = newValue;
+      });
+
+      Object.keys(edgeUpdate).forEach(id => {
+        const { source, target } = edgeUpdate[id];
+        const item = itemMap[id] as Edge;
+        if (source !== undefined) item.updateEnd('source', this.itemMap[source] as Node);
+        if (target !== undefined) item.updateEnd('target', this.itemMap[target] as Node);
+      });
+    }
 
   }
 
-  private addNodes(models: NodeModel[]) {
+  /**
+   * Create nodes with inner data to canvas.
+   * @param models nodes' inner datas
+   */
+  private renderNodes(models: NodeModel[]) {
     const { nodeExtensions, nodeGroup } = this;
     models.forEach(node => {
       // TODO: get mapper from theme controller which is analysed from graph spec
       const extension = nodeExtensions.find(ext => ext.type === node.data?.type || 'circle-node')
-      const item = new Node({
+      this.itemMap[node.id] = new Node({
         model: node,
         renderExt: new extension(),
         containerGroup: nodeGroup,
         mapper: this.nodeMapper,
-      }); // pass extension to node?
-      this.nodeMap[node.id] = item;
-      this.itemMap[node.id] = item;
+      });
     });
   }
 
-  private addEdges(models: EdgeModel[]) {
-    const { edgeExtensions, edgeGroup, nodeMap, edgeMap, itemMap } = this;
+  /**
+   * Create edges with inner data to canvas.
+   * @param models edges' inner datas
+   */
+  private renderEdges(models: EdgeModel[]) {
+    const { edgeExtensions, edgeGroup, itemMap } = this;
     models.forEach(edge => {
       const { source, target, id } = edge;
       // TODO: get mapper from theme controller which is analysed from graph spec
       const extension = edgeExtensions.find(ext => ext.type === edge.data?.type || 'line-edge');
-      const sourceItem = nodeMap[source];
-      const targetItem = nodeMap[target];
+      const sourceItem = itemMap[source] as Node;
+      const targetItem = itemMap[target] as Node;
       if (!sourceItem) {
         console.warn(`The source node ${source} is not exist in the graph for edge ${id}, please add the node first`);
       }
       if (!targetItem) {
         console.warn(`The source node ${source} is not exist in the graph for edge ${id}, please add the node first`);
       }
-      const item = new Edge({
+      itemMap[id] = new Edge({
         model: edge,
         renderExt: new extension(),
         containerGroup: edgeGroup,
@@ -234,8 +267,6 @@ export class ItemController {
         sourceItem,
         targetItem,
       });
-      edgeMap[id] = item;
-      itemMap[id] = item;
-    })
+    });
   }
 }

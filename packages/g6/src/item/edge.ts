@@ -1,7 +1,9 @@
 import { Group } from "@antv/g";
+import { ID } from "@antv/graphlib";
 import { EdgeDisplayModel, EdgeModel } from "../types";
 import { EdgeModelData } from "../types/edge";
 import { DisplayMapper, ITEM_TYPE } from "../types/item";
+import { updateShapes } from "../util/shape";
 import Item from "./item";
 import Node from "./node";
 
@@ -44,20 +46,14 @@ export default class Edge extends Item {
       x: targetBBox.center[0],
       y: targetBBox.center[1]
     }
-    const shapeMap = this.renderExt.draw(this.displayModel, sourcePoint, targetPoint, this.shapeMap, shapesToChange);
+    let changeShapes = shapesToChange || {};
+    if (!shapesToChange) {
+      Object.keys(this.shapeMap).forEach(id => changeShapes[id] = true);
+    }
+    const shapeMap = this.renderExt.draw(this.displayModel, sourcePoint, targetPoint, this.shapeMap, changeShapes);
 
-    // TODO: be util
-    Object.keys(shapeMap).forEach(key => {
-      if (['keyShape', 'labelShape', 'iconShape'].includes(key)) {
-        if (shapeMap[key]) this.shapeMap[key] = shapeMap[key];
-        return;
-      }
-      if (!shapeMap[key]) {
-        delete this.shapeMap[key];
-      } else {
-        this.shapeMap[key] = shapeMap[key];
-      }
-    });
+    // add shapes to group, and update shapeMap
+    this.shapeMap = updateShapes(this.shapeMap, shapeMap, this.group);
 
     super.draw(diffData, shapesToChange);
   }
@@ -67,6 +63,17 @@ export default class Edge extends Item {
    * e.g. source and target nodes' position changed
    */
   public forceUpdate() {
+    this.draw();
+  }
+
+  /**
+   * Update end item for item and re-draw the edge
+   * @param type update source or target
+   * @param endItem new item to ended
+   */
+  public updateEnd(type: 'source' | 'target', endItem: Node) {
+    if (type === 'source') this.sourceItem = endItem;
+    else if (type === 'target') this.targetItem = endItem;
     this.draw();
   }
 
