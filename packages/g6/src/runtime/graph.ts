@@ -2,7 +2,14 @@ import EventEmitter from '@antv/event-emitter';
 import { Canvas } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
 import { isArray, isNumber, isObject, isString } from '@antv/util';
-import { ComboUserModel, EdgeUserModel, GraphData, IGraph, NodeUserModel, Specification } from '../types';
+import {
+  ComboUserModel,
+  EdgeUserModel,
+  GraphData,
+  IGraph,
+  NodeUserModel,
+  Specification,
+} from '../types';
 import { AnimateCfg } from '../types/animate';
 import { BehaviorObjectOptionsOf, BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';
 import { ComboModel } from '../types/combo';
@@ -11,11 +18,18 @@ import { GraphCore } from '../types/data';
 import { EdgeModel, EdgeModelData } from '../types/edge';
 import { Hooks } from '../types/hook';
 import { ITEM_TYPE } from '../types/item';
-import { LayoutCommonConfig } from '../types/layout';
+import { LayoutOptions } from '../types/layout';
 import { NodeModel, NodeModelData } from '../types/node';
 import { FitViewRules, GraphAlignment } from '../types/view';
 import { createCanvas } from '../util/canvas';
-import { DataController, InteractionController, ItemController, LayoutController, ThemeController, ExtensionController } from './controller';
+import {
+  DataController,
+  ExtensionController,
+  InteractionController,
+  ItemController,
+  LayoutController,
+  ThemeController,
+} from './controller';
 import Hook from './hooks';
 
 export default class Graph<B extends BehaviorRegistry> extends EventEmitter implements IGraph<B> {
@@ -78,8 +92,8 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     this.canvas = createCanvas(rendererType, container, width, height, pixelRatio);
     this.transientCanvas = createCanvas(rendererType, container, width, height, pixelRatio);
     Promise.all(
-      [this.backgroundCanvas, this.canvas, this.transientCanvas].map(canvas => canvas.ready)
-    ).then(() => this.canvasReady = true);
+      [this.backgroundCanvas, this.canvas, this.transientCanvas].map((canvas) => canvas.ready),
+    ).then(() => (this.canvasReady = true));
   }
 
   /**
@@ -88,14 +102,19 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
   private initHooks() {
     this.hooks = {
       init: new Hook<void>({ name: 'init' }),
-      datachange: new Hook<{ data: GraphData, type: 'replace' }>({ name: 'datachange' }),
-      itemchange: new Hook<{ type: ITEM_TYPE, changes: GraphChange<NodeModelData, EdgeModelData>[], graphCore: GraphCore }>({ name: 'itemchange' }),
+      datachange: new Hook<{ data: GraphData; type: 'replace' }>({ name: 'datachange' }),
+      itemchange: new Hook<{
+        type: ITEM_TYPE;
+        changes: GraphChange<NodeModelData, EdgeModelData>[];
+        graphCore: GraphCore;
+      }>({ name: 'itemchange' }),
       render: new Hook<{ graphCore: GraphCore }>({ name: 'render' }),
+      layout: new Hook<{ graphCore: GraphCore }>({ name: 'layout' }),
       modechange: new Hook<{ mode: string }>({ name: 'modechange' }),
       behaviorchange: new Hook<{
-        action: 'update' | 'add' | 'remove',
-        modes: string[],
-        behaviors: BehaviorOptionsOf<{}>[]
+        action: 'update' | 'add' | 'remove';
+        modes: string[];
+        behaviors: BehaviorOptionsOf<{}>[];
       }>({ name: 'behaviorchange' }),
     };
   }
@@ -118,23 +137,28 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
   /**
    * Input data and render the graph.
    * If there is old data, diffs and changes it.
-   * @param data 
-   * @returns 
+   * @param data
+   * @returns
    * @group Data
    */
   public read(data: GraphData) {
     this.hooks.datachange.emit({ data, type: 'replace' });
     const emitRender = () => {
       this.hooks.render.emit({
-        graphCore: this.dataController.graphCore
+        graphCore: this.dataController.graphCore,
       });
       this.emit('afterrender');
-    }
+
+      // TODO: make read async?
+      this.hooks.layout.emitLinearAsync({
+        graphCore: this.dataController.graphCore,
+      });
+    };
     if (this.canvasReady) {
       emitRender();
     } else {
       Promise.all(
-        [this.backgroundCanvas, this.canvas, this.transientCanvas].map(canvas => canvas.ready)
+        [this.backgroundCanvas, this.canvas, this.transientCanvas].map((canvas) => canvas.ready),
       ).then(emitRender);
     }
   }
@@ -143,20 +167,25 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * Change graph data.
    * @param data new data
    * @param type the way to change data, 'replace' means discard the old data and use the new one; 'mergeReplace' means merge the common part, remove (old - new), add (new - old)
-   * @returns 
+   * @returns
    * @group Data
-  */
+   */
   public changeData(data: GraphData, type: 'replace' | 'mergeReplace' = 'mergeReplace') {
     this.hooks.datachange.emit({ data, type });
     this.hooks.render.emit({
-      graphCore: this.dataController.graphCore
+      graphCore: this.dataController.graphCore,
     });
     this.emit('afterrender');
+
+    // TODO: make changeData async?
+    this.hooks.layout.emitLinearAsync({
+      graphCore: this.dataController.graphCore,
+    });
   }
 
   /**
    * Clear the graph, means remove all the items on the graph.
-   * @returns 
+   * @returns
    */
   public clear() {
     // TODO
@@ -167,7 +196,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @param dx x of the relative vector
    * @param dy y of the relative vector
    * @param animateCfg animation configurations
-   * @returns 
+   * @returns
    * @group View
    */
   public move(dx: number, dy: number, animateCfg?: AnimateCfg) {
@@ -180,7 +209,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @param y position on the canvas to align
    * @param alignment alignment of the graph content
    * @param animateCfg animation configurations
-   * @returns 
+   * @returns
    * @group View
    */
   public moveTo(x: number, y: number, alignment: GraphAlignment, animateCfg?: AnimateCfg) {
@@ -192,7 +221,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @param ratio relative ratio to zoom
    * @param center zoom center
    * @param animateCfg animation configurations
-   * @returns 
+   * @returns
    * @group View
    */
   public zoom(ratio: number, center?: Point, animateCfg?: AnimateCfg) {
@@ -204,7 +233,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @param toRatio specified ratio
    * @param center zoom center
    * @param animateCfg animation configurations
-   * @returns 
+   * @returns
    * @group View
    */
   public zoomTo(toRatio: number, center?: Point, animateCfg?: AnimateCfg) {
@@ -216,7 +245,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @param padding padding while fitting
    * @param rules rules for fitting
    * @param animateCfg animation configurations
-   * @returns 
+   * @returns
    * @group View
    */
   public fitView(padding?: Padding, rules?: FitViewRules, animateCfg?: AnimateCfg) {
@@ -225,7 +254,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
   /**
    * Fit the graph center to the view center.
    * @param animateCfg animation configurations
-   * @returns 
+   * @returns
    * @group View
    */
   public fitCenter(animateCfg?: AnimateCfg) {
@@ -235,13 +264,12 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * Move the graph to make the item align the view center.
    * @param item node/edge/combo item or its id
    * @param animateCfg animation configurations
-   * @returns 
+   * @returns
    * @group View
    */
-  public focusItem(ids: ID | (ID)[], animateCfg?: AnimateCfg) {
+  public focusItem(ids: ID | ID[], animateCfg?: AnimateCfg) {
     // TODO
   }
-
 
   // ===== item operations =====
   /**
@@ -261,7 +289,8 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @group Data
    */
   public getEdgeData(condition: ID | Function): EdgeModel | undefined {
-    const conds = isString(condition) || isNumber(condition) || isNumber(condition) ? [condition] : condition;
+    const conds =
+      isString(condition) || isNumber(condition) || isNumber(condition) ? [condition] : condition;
     return this.dataController.findData('edge', conds)?.[0] as EdgeModel;
   }
   /**
@@ -306,7 +335,11 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @returns items that is the type and has the state
    * @group Item
    */
-  public findIdByState(itemType: ITEM_TYPE, state: string, additionalFilter?: (item: NodeModel | EdgeModel | ComboModel) => boolean): ID[] {
+  public findIdByState(
+    itemType: ITEM_TYPE,
+    state: string,
+    additionalFilter?: (item: NodeModel | EdgeModel | ComboModel) => boolean,
+  ): ID[] {
     // TODO
     return;
   }
@@ -320,30 +353,39 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    */
   public addData(
     itemType: ITEM_TYPE,
-    models: NodeUserModel | EdgeUserModel | ComboUserModel | NodeUserModel[] | EdgeUserModel[] | ComboUserModel[],
-    stack?: boolean
+    models:
+      | NodeUserModel
+      | EdgeUserModel
+      | ComboUserModel
+      | NodeUserModel[]
+      | EdgeUserModel[]
+      | ComboUserModel[],
+    stack?: boolean,
   ): NodeModel | EdgeModel | ComboModel | NodeModel[] | EdgeModel[] | ComboModel[] {
     // data controller and item controller subscribe additem in order
 
     const { graphCore } = this.dataController;
-    graphCore.once('changed', event => {
+    graphCore.once('changed', (event) => {
       this.hooks.itemchange.emit({
         type: itemType,
         changes: graphCore.reduceChanges(event.changes),
-        graphCore
+        graphCore,
       });
-    })
+    });
 
     const modelArr = isArray(models) ? models : [models];
     const data = { nodes: [], edges: [], combos: [] };
     data[`${itemType}s`] = modelArr;
     this.hooks.datachange.emit({
       data,
-      type: 'union'
+      type: 'union',
     });
-    const dataList = this.dataController.findData(itemType, modelArr.map(model => model.id))
+    const dataList = this.dataController.findData(
+      itemType,
+      modelArr.map((model) => model.id),
+    );
     return isArray(models) ? dataList : dataList[0];
-  };
+  }
   /**
    * Remove one or more node/edge/combo data from the graph.
    * @param item the item to be removed
@@ -356,17 +398,17 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     const data = { nodes: [], edges: [], combos: [] };
     const { userGraphCore, graphCore } = this.dataController;
     const getItem = itemType === 'edge' ? userGraphCore.getEdge : userGraphCore.getNode; // TODO: combo
-    data[`${itemType}s`] = idArr.map(id => getItem.bind(userGraphCore)(id));
-    graphCore.once('changed', event => {
+    data[`${itemType}s`] = idArr.map((id) => getItem.bind(userGraphCore)(id));
+    graphCore.once('changed', (event) => {
       this.hooks.itemchange.emit({
         type: itemType,
         changes: event.changes,
-        graphCore
+        graphCore,
       });
     });
     this.hooks.datachange.emit({
       data,
-      type: 'remove'
+      type: 'remove',
     });
   }
   /**
@@ -378,33 +420,44 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    */
   public updateData(
     itemType: ITEM_TYPE,
-    models: Partial<NodeUserModel> | Partial<EdgeUserModel> | Partial<ComboUserModel | Partial<NodeUserModel>[] | Partial<EdgeUserModel>[] | Partial<ComboUserModel>[]>,
-    stack?: boolean
+    models:
+      | Partial<NodeUserModel>
+      | Partial<EdgeUserModel>
+      | Partial<
+          | ComboUserModel
+          | Partial<NodeUserModel>[]
+          | Partial<EdgeUserModel>[]
+          | Partial<ComboUserModel>[]
+        >,
+    stack?: boolean,
   ): NodeModel | EdgeModel | ComboModel | NodeModel[] | EdgeModel[] | ComboModel[] {
     const modelArr = isArray(models) ? models : [models];
     const data = { nodes: [], edges: [], combos: [] };
     data[`${itemType}s`] = modelArr;
 
     const { graphCore } = this.dataController;
-    graphCore.once('changed', event => {
+    graphCore.once('changed', (event) => {
       this.hooks.itemchange.emit({
         type: itemType,
         changes: event.changes,
-        graphCore
+        graphCore,
       });
     });
 
     this.hooks.datachange.emit({
       data,
-      type: 'update'
+      type: 'update',
     });
-    const dataList = this.dataController.findData(itemType, modelArr.map(model => model.id))
+    const dataList = this.dataController.findData(
+      itemType,
+      modelArr.map((model) => model.id),
+    );
     return isArray(models) ? dataList : dataList[0];
   }
   /**
    * Show the item(s).
    * @param item the item to be shown
-   * @returns 
+   * @returns
    * @group Item
    */
   public showItem(ids: ID | ID[]) {
@@ -413,7 +466,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
   /**
    * Hide the item(s).
    * @param item the item to be hidden
-   * @returns 
+   * @returns
    * @group Item
    */
   public hideItem(ids: ID | ID[]) {
@@ -424,21 +477,20 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @param item the item to be set
    * @param state the state name
    * @param value state value
-   * @returns 
+   * @returns
    * @group Item
    */
   public setItemState(ids: ID | ID[], state: string, value: boolean) {
     // TODO
   }
 
-
   // ===== combo operations =====
   /**
-  * Create a new combo with existing child nodes and combos.
-  * @param combo combo ID or Combo model
-  * @param childrenIds id array of children of the new combo
-  * @group Combo
-  */
+   * Create a new combo with existing child nodes and combos.
+   * @param combo combo ID or Combo model
+   * @param childrenIds id array of children of the new combo
+   * @group Combo
+   */
   public createCombo(combo: string | ComboUserModel, childrenIds: string[], stack?: boolean) {
     // TODO
   }
@@ -451,42 +503,44 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     // TODO
   }
   /**
-  * Collapse a combo.
-  * @param comboId combo id or item
-  * @group Combo
-  */
+   * Collapse a combo.
+   * @param comboId combo id or item
+   * @group Combo
+   */
   public collapseCombo(comboId: ID, stack?: boolean) {
     // TODO
   }
   /**
- * Expand a combo.
- * @param combo combo ID 或 combo 实例
- * @group Combo
- */
+   * Expand a combo.
+   * @param combo combo ID 或 combo 实例
+   * @group Combo
+   */
   public expandCombo(comboId: ID, stack?: boolean) {
     // TODO
   }
 
-
   // ===== layout =====
   /**
    * Layout the graph (with current configurations if cfg is not assigned).
-   * @param {LayoutCommonConfig} cfg layout configurations. if assigned, the layout spec of the graph will be updated in the same time
-   * @param {GraphAlignment} align align the result
-   * @param {Point} canvasPoint align the result
-   * @param {boolean} stack push it into stack
-   * @group Layout
    */
-  public layout(cfg?: LayoutCommonConfig, align?: GraphAlignment, canvasPoint?: Point, stack?: boolean) {
-    // TODO: LayoutConfig combination instead of LayoutCommonConfig
-    // TODO
+  public async layout(options?: LayoutOptions) {
+    await this.hooks.layout.emitLinearAsync({
+      graphCore: this.dataController.graphCore,
+      options,
+    });
   }
 
+  /**
+   * Some layout algorithms has many iterations which can be stopped at any time.
+   */
+  public stopLayout() {
+    this.layoutController.stopLayout();
+  }
 
   /**
    * Switch mode.
    * @param mode mode name
-   * @returns 
+   * @returns
    * @group Interaction
    */
   public setMode(mode: string) {
@@ -497,7 +551,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * Add behavior(s) to mode(s).
    * @param behaviors behavior names or configs
    * @param modes mode names
-   * @returns 
+   * @returns
    * @group Interaction
    */
   public addBehaviors(behaviors: BehaviorOptionsOf<B>[], modes: string | string[]) {
@@ -506,10 +560,10 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     this.hooks.behaviorchange.emit({
       action: 'add',
       modes: modesArr,
-      behaviors: behaviorsArr
+      behaviors: behaviorsArr,
     });
     // update the graph specification
-    modesArr.forEach(mode => {
+    modesArr.forEach((mode) => {
       this.specification.modes[mode] = this.specification.modes[mode].concat(behaviorsArr);
     });
   }
@@ -517,7 +571,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * Remove behavior(s) from mode(s).
    * @param behaviors behavior configs with unique key
    * @param modes mode names
-   * @returns 
+   * @returns
    * @group Interaction
    */
   public removeBehaviors(behaviorKeys: string[], modes: string | string[]) {
@@ -525,22 +579,24 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     this.hooks.behaviorchange.emit({
       action: 'remove',
       modes: modesArr,
-      behaviors: behaviorKeys
+      behaviors: behaviorKeys,
     });
     // update the graph specification
-    modesArr.forEach(mode => {
-      behaviorKeys.forEach(key => {
-        const oldBehavior = this.specification.modes[mode].find(behavior => isObject(behavior) && behavior.key === key);
+    modesArr.forEach((mode) => {
+      behaviorKeys.forEach((key) => {
+        const oldBehavior = this.specification.modes[mode].find(
+          (behavior) => isObject(behavior) && behavior.key === key,
+        );
         const indexOfOldBehavior = this.specification.modes[mode].indexOf(oldBehavior);
         this.specification.modes[mode].splice(indexOfOldBehavior, 1);
-      })
+      });
     });
   }
   /**
    * Update a behavior on a mode.
    * @param behavior behavior configs, whose name indicates the behavior to be updated
    * @param mode mode name
-   * @returns 
+   * @returns
    * @group Interaction
    */
   public updateBehavior(behavior: BehaviorObjectOptionsOf<B>, mode?: string) {
@@ -549,7 +605,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
       modes: [mode],
       behaviors: [behavior],
     });
-    // no need to update specification since the corresponding part is the same object as the behavior's option 
+    // no need to update specification since the corresponding part is the same object as the behavior's option
     // this.specification.modes[mode].forEach((b, i) => {
     //   if (isObject(b) && b.key === behavior.key) {
     //     this.specification.modes[mode][i] = behavior;
