@@ -1,9 +1,14 @@
-import { DisplayObject, Group } from "@antv/g";
-import { ID } from "@antv/graphlib";
-import { AnimateAttr } from "./animate";
-import { ComboDisplayModel, ComboEncode, ComboModel, ComboModelData, ComboUserModel } from "./combo";
-import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeModelData, EdgeUserModel } from "./edge";
-import { NodeDisplayModel, NodeEncode, NodeModel, NodeModelData, NodeUserModel } from "./node";
+import { ID } from '@antv/graphlib';
+import { AnimateAttr } from './animate';
+import {
+  ComboDisplayModel,
+  ComboEncode,
+  ComboModel,
+  ComboModelData,
+  ComboUserModel,
+} from './combo';
+import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeModelData, EdgeUserModel } from './edge';
+import { NodeDisplayModel, NodeEncode, NodeModel, NodeModelData, NodeUserModel } from './node';
 
 export interface ShapeStyle {
   [shapeAttr: string]: unknown;
@@ -11,14 +16,14 @@ export interface ShapeStyle {
 }
 
 export interface Encode<T> {
-  fields: string[],
+  fields: string[];
   formatter: (values: NodeUserModel | EdgeUserModel | ComboUserModel) => T;
 }
 
 export interface ShapeAttrEncode {
   [shapeAttr: string]: unknown | Encode<unknown>;
   animate: AnimateAttr | Encode<AnimateAttr>;
-};
+}
 
 export interface LabelBackground {
   fill?: string;
@@ -26,7 +31,7 @@ export interface LabelBackground {
   lineWidth?: number;
   radius?: number[] | number;
   padding?: number[] | number;
-};
+}
 
 export interface ShapesEncode {
   keyShape?: ShapeAttrEncode;
@@ -35,7 +40,7 @@ export interface ShapesEncode {
     [shapeId: string]: {
       [shapeAtrr: string]: unknown | Encode<unknown>;
       animate: AnimateAttr | Encode<AnimateAttr>;
-    }
+    };
   };
 }
 
@@ -47,7 +52,11 @@ export type ItemModel = NodeModel | EdgeModel | ComboModel;
 
 export type ItemDisplayModel = NodeDisplayModel | EdgeDisplayModel | ComboDisplayModel;
 
-export type DisplayMapper = ((model: ItemModel) => ItemDisplayModel) | NodeEncode | EdgeEncode | ComboEncode;
+export type DisplayMapper =
+  | ((model: ItemModel) => ItemDisplayModel)
+  | NodeEncode
+  | EdgeEncode
+  | ComboEncode;
 
 /**
  * Base item of node / edge / combo.
@@ -79,12 +88,19 @@ export interface IItem {
    * Draws the shapes.
    * @internal
    * */
-  draw: (diffData?: { oldData: ItemModelData, newData: ItemModelData }, shapesToChange?: { [shapeId: string]: boolean }) => void;
+  draw: (
+    diffData?: { oldData: ItemModelData; newData: ItemModelData },
+    shapesToChange?: { [shapeId: string]: boolean },
+  ) => void;
   /**
    * Updates the shapes.
    * @internal
    * */
-  update: (model: ItemModel, diffData: { oldData: ItemModelData, newData: ItemModelData }, dataChangedFields?: string[]) => void;
+  update: (
+    model: ItemModel,
+    diffData: { oldData: ItemModelData; newData: ItemModelData },
+    isUpdate?: boolean,
+  ) => void;
   /** Puts the item to the front in its graphic group. */
   toFront: () => void;
   /** Puts the item to the back in its graphic group. */
@@ -98,11 +114,11 @@ export interface IItem {
   /** Sets a state value to the item. */
   setState: (state: string, value: string | boolean) => void;
   /** Returns the state if it is true/string. Returns false otherwise. */
-  hasState: (state: string) => { name: string, value: boolean | string } | false;
+  hasState: (state: string) => { name: string; value: boolean | string } | false;
   /** Get all the true or string states of the item. */
   getStates: () => {
-    name: string,
-    value: boolean | string
+    name: string;
+    value: boolean | string;
   }[];
   /** Set all the state to false. */
   clearStates: (states?: string[]) => void;

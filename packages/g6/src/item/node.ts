@@ -1,10 +1,9 @@
 import { Group } from '@antv/g';
-import { clone } from '@antv/util';
 import { NodeModel } from '../types';
-import { DisplayMapper } from "../types/item";
+import { DisplayMapper } from '../types/item';
 import { NodeModelData } from '../types/node';
 import { updateShapes, getGroupSucceedMap } from '../util/shape';
-import Item, { RESERVED_SHAPE_IDS } from "./item";
+import Item from './item';
 
 interface IProps {
   model: NodeModel;
@@ -17,7 +16,10 @@ export default class Node extends Item {
     super(props);
     this.draw();
   }
-  public draw(diffData?: { oldData: NodeModelData, newData: NodeModelData }, shapesToChange?: { [shapeId: string]: boolean }) {
+  public draw(
+    diffData?: { oldData: NodeModelData; newData: NodeModelData },
+    shapesToChange?: { [shapeId: string]: boolean },
+  ) {
     const { group, displayModel, renderExt, shapeMap: prevShapeMap } = this;
     const { data } = displayModel;
     const { x = 0, y = 0 } = data;
@@ -25,18 +27,22 @@ export default class Node extends Item {
     group.style.y = y;
     let changeShapes = shapesToChange || {};
     if (!shapesToChange) {
-      Object.keys(prevShapeMap).forEach(id => changeShapes[id] = true);
+      Object.keys(prevShapeMap).forEach((id) => (changeShapes[id] = true));
     }
     const shapeMap = renderExt.draw(displayModel, this.shapeMap, diffData, changeShapes);
 
     // add shapes to group, and update shapeMap
     this.shapeMap = updateShapes(prevShapeMap, shapeMap, group);
 
-    super.draw(diffData, shapesToChange);;
+    super.draw(diffData, shapesToChange);
   }
 
-  public update(model: NodeModel, diffData: { oldData: NodeModelData, newData: NodeModelData }, dataChangedFields?: string[]) {
-    super.update(model, diffData, dataChangedFields);
+  public update(
+    model: NodeModel,
+    diffData: { oldData: NodeModelData; newData: NodeModelData },
+    isReplace?: boolean,
+  ) {
+    super.update(model, diffData, isReplace);
     const { data } = this.displayModel;
     const { x = 0, y = 0 } = data;
     this.group.style.x = x;
@@ -45,6 +51,6 @@ export default class Node extends Item {
 
   public getKeyBBox() {
     const { keyShape } = this.shapeMap;
-    return keyShape?.getRenderBounds() || { center: [0, 0, 0] }
+    return keyShape?.getRenderBounds() || { center: [0, 0, 0] };
   }
 }

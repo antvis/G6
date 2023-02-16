@@ -1,16 +1,16 @@
-import { GraphChange, ID } from "@antv/graphlib";
-import { ComboModel, IGraph } from "../../types";
+import { GraphChange, ID } from '@antv/graphlib';
+import { ComboModel, IGraph } from '../../types';
 import { registery } from '../../stdlib';
-import { getExtension } from "../../util/extension";
-import { GraphCore } from "../../types/data";
-import { NodeDisplayModel, NodeEncode, NodeModel, NodeModelData } from "../../types/node";
-import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeModelData } from "../../types/edge";
-import Node from "../../item/node";
-import Edge from "../../item/edge";
-import Combo from "../../item/combo";
-import { Group } from "@antv/g";
-import { ITEM_TYPE } from "../../types/item";
-import { ComboDisplayModel, ComboEncode } from "../../types/combo";
+import { getExtension } from '../../util/extension';
+import { GraphCore } from '../../types/data';
+import { NodeDisplayModel, NodeEncode, NodeModel, NodeModelData } from '../../types/node';
+import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeModelData } from '../../types/edge';
+import Node from '../../item/node';
+import Edge from '../../item/edge';
+import Combo from '../../item/combo';
+import { Group } from '@antv/g';
+import { ITEM_TYPE } from '../../types/item';
+import { ComboDisplayModel, ComboEncode } from '../../types/combo';
 
 /**
  * Manages and stores the node / edge / combo items.
@@ -68,14 +68,20 @@ export class ItemController {
   private getExtensions() {
     // TODO: user need to config using node/edge/combo types from useLib to spec?
     // const { transform = [] } = this.graph.getSpecification();
-    const nodeTypes = ['circle-node', 'rect-node',]; // TODO: WIP
-    const edgeTypes = ['line-edge', 'polyline-edge',]; // TODO: WIP
-    const comboTypes = ['circle-combo', 'rect-combo',]; // TODO: WIP
+    const nodeTypes = ['circle-node', 'rect-node']; // TODO: WIP
+    const edgeTypes = ['line-edge', 'polyline-edge']; // TODO: WIP
+    const comboTypes = ['circle-combo', 'rect-combo']; // TODO: WIP
     return {
-      node: nodeTypes.map(config => getExtension(config, registery.useLib, 'node')).filter(Boolean),
-      edge: edgeTypes.map(config => getExtension(config, registery.useLib, 'edge')).filter(Boolean),
-      combo: comboTypes.map(config => getExtension(config, registery.useLib, 'combo')).filter(Boolean),
-    }
+      node: nodeTypes
+        .map((config) => getExtension(config, registery.useLib, 'node'))
+        .filter(Boolean),
+      edge: edgeTypes
+        .map((config) => getExtension(config, registery.useLib, 'edge'))
+        .filter(Boolean),
+      combo: comboTypes
+        .map((config) => getExtension(config, registery.useLib, 'combo'))
+        .filter(Boolean),
+    };
   }
 
   /**
@@ -106,20 +112,24 @@ export class ItemController {
 
   /**
    * Listener of runtime's itemchange lifecycle hook.
-   * @param param 
+   * @param param
    */
-  private onChange(param: { type: ITEM_TYPE, changes: GraphChange<NodeModelData, EdgeModelData>[], graphCore: GraphCore }) {
+  private onChange(param: {
+    type: ITEM_TYPE;
+    changes: GraphChange<NodeModelData, EdgeModelData>[];
+    graphCore: GraphCore;
+  }) {
     const { changes, graphCore } = param;
     const groupedChanges = {
-      'NodeRemoved': [],
-      'EdgeRemoved': [],
-      'NodeAdded': [],
-      'EdgeAdded': [],
-      'NodeDataUpdated': [],
-      'EdgeUpdated': [],
-      'EdgeDataUpdated': []
-    }
-    changes.forEach(change => {
+      NodeRemoved: [],
+      EdgeRemoved: [],
+      NodeAdded: [],
+      EdgeAdded: [],
+      NodeDataUpdated: [],
+      EdgeUpdated: [],
+      EdgeDataUpdated: [],
+    };
+    changes.forEach((change) => {
       const { type: changeType } = change;
       groupedChanges[changeType].push(change);
     });
@@ -137,11 +147,11 @@ export class ItemController {
     });
     // === 3. add nodes ===
     if (groupedChanges.NodeAdded.length) {
-      this.renderNodes(groupedChanges.NodeAdded.map(change => change.value));
+      this.renderNodes(groupedChanges.NodeAdded.map((change) => change.value));
     }
     // === 4. add edges ===
     if (groupedChanges.EdgeAdded.length) {
-      this.renderEdges(groupedChanges.EdgeAdded.map(change => change.value));
+      this.renderEdges(groupedChanges.EdgeAdded.map((change) => change.value));
     }
 
     // === 5. update nodes's data ===
@@ -155,23 +165,23 @@ export class ItemController {
           nodeUpdate[id] = {
             isReplace: true, // whether replace the whole data
             oldData: oldValue,
-            newData: newValue
-          }
+            newData: newValue,
+          };
         } else {
           nodeUpdate[id].oldData[propertyName] = oldValue;
           nodeUpdate[id].newData[propertyName] = newValue;
         }
       });
       const edgeToUpdate = {};
-      Object.keys(nodeUpdate).forEach(id => {
+      Object.keys(nodeUpdate).forEach((id) => {
         const { isReplace, newData, oldData } = nodeUpdate[id];
         const item = itemMap[id];
         const innerModel = graphCore.getNode(id);
-        item.update(innerModel, { newData, oldData }, isReplace ? undefined : Object.keys(nodeUpdate[id]));
+        item.update(innerModel, { newData, oldData }, isReplace);
         const relatedEdgeInnerModels = graphCore.getRelatedEdges(id);
-        relatedEdgeInnerModels.forEach(edge => edgeToUpdate[edge.id] = edge);
+        relatedEdgeInnerModels.forEach((edge) => (edgeToUpdate[edge.id] = edge));
       });
-      Object.keys(edgeToUpdate).forEach(edgeId => {
+      Object.keys(edgeToUpdate).forEach((edgeId) => {
         const item = itemMap[edgeId] as Edge;
         item.forceUpdate();
       });
@@ -180,47 +190,46 @@ export class ItemController {
     // === 6. update edges' data ===
     if (groupedChanges.EdgeDataUpdated.length) {
       const edgeUpdate = {};
-      groupedChanges.EdgeDataUpdated.forEach(change => {
+      groupedChanges.EdgeDataUpdated.forEach((change) => {
         const { id, propertyName, newValue, oldValue } = change;
         edgeUpdate[id] = edgeUpdate[id] || { oldData: {}, newData: {} };
         if (!propertyName) {
           edgeUpdate[id] = {
             isReplace: true, // whether replace the whole data
             oldData: oldValue,
-            newData: newValue
-          }
+            newData: newValue,
+          };
         } else {
           edgeUpdate[id].oldData[propertyName] = oldValue;
           edgeUpdate[id].newData[propertyName] = newValue;
         }
       });
 
-      Object.keys(edgeUpdate).forEach(id => {
+      Object.keys(edgeUpdate).forEach((id) => {
         const { isReplace, newData, oldData } = edgeUpdate[id];
         const item = itemMap[id];
         const innerModel = graphCore.getEdge(id);
-        item.update(innerModel, { newData, oldData }, isReplace ? undefined : Object.keys(edgeUpdate[id]));
+        item.update(innerModel, { newData, oldData }, isReplace);
       });
     }
 
     // === 7. update edges' source target ===
     if (groupedChanges.EdgeUpdated.length) {
       const edgeUpdate = {};
-      groupedChanges.EdgeUpdated.forEach(change => {
+      groupedChanges.EdgeUpdated.forEach((change) => {
         // propertyName is 'source' or 'target'
         const { id, propertyName, newValue } = change;
         edgeUpdate[id] = edgeUpdate[id] || {};
         edgeUpdate[id][propertyName] = newValue;
       });
 
-      Object.keys(edgeUpdate).forEach(id => {
+      Object.keys(edgeUpdate).forEach((id) => {
         const { source, target } = edgeUpdate[id];
         const item = itemMap[id] as Edge;
         if (source !== undefined) item.updateEnd('source', this.itemMap[source] as Node);
         if (target !== undefined) item.updateEnd('target', this.itemMap[target] as Node);
       });
     }
-
   }
 
   /**
@@ -229,9 +238,9 @@ export class ItemController {
    */
   private renderNodes(models: NodeModel[]) {
     const { nodeExtensions, nodeGroup } = this;
-    models.forEach(node => {
+    models.forEach((node) => {
       // TODO: get mapper from theme controller which is analysed from graph spec
-      const extension = nodeExtensions.find(ext => ext.type === node.data?.type || 'circle-node')
+      const extension = nodeExtensions.find((ext) => ext.type === node.data?.type || 'circle-node');
       this.itemMap[node.id] = new Node({
         model: node,
         renderExt: new extension(),
@@ -247,17 +256,21 @@ export class ItemController {
    */
   private renderEdges(models: EdgeModel[]) {
     const { edgeExtensions, edgeGroup, itemMap } = this;
-    models.forEach(edge => {
+    models.forEach((edge) => {
       const { source, target, id } = edge;
       // TODO: get mapper from theme controller which is analysed from graph spec
-      const extension = edgeExtensions.find(ext => ext.type === edge.data?.type || 'line-edge');
+      const extension = edgeExtensions.find((ext) => ext.type === edge.data?.type || 'line-edge');
       const sourceItem = itemMap[source] as Node;
       const targetItem = itemMap[target] as Node;
       if (!sourceItem) {
-        console.warn(`The source node ${source} is not exist in the graph for edge ${id}, please add the node first`);
+        console.warn(
+          `The source node ${source} is not exist in the graph for edge ${id}, please add the node first`,
+        );
       }
       if (!targetItem) {
-        console.warn(`The source node ${source} is not exist in the graph for edge ${id}, please add the node first`);
+        console.warn(
+          `The source node ${source} is not exist in the graph for edge ${id}, please add the node first`,
+        );
       }
       itemMap[id] = new Edge({
         model: edge,
