@@ -1,12 +1,13 @@
-import { Graph as GraphLib, ID } from "@antv/graphlib";
-import { GraphData, IGraph, ComboModel } from "../../types";
+import { Graph as GraphLib, ID } from '@antv/graphlib';
+import { GraphData, IGraph, ComboModel, ComboUserModel } from '../../types';
 import { registery } from '../../stdlib';
-import { getExtension } from "../../util/extension";
-import { clone, isArray, isNumber, isString, isFunction, isObject } from "@antv/util";
-import { NodeModel, NodeModelData, NodeUserModelData } from "../../types/node";
-import { EdgeModel, EdgeModelData, EdgeUserModelData } from "../../types/edge";
-import { DataChangeType, GraphCore } from "../../types/data";
-import { ITEM_TYPE } from "../../types/item";
+import { getExtension } from '../../util/extension';
+import { clone, isArray, isNumber, isString, isFunction, isObject } from '@antv/util';
+import { NodeModel, NodeModelData, NodeUserModel, NodeUserModelData } from '../../types/node';
+import { EdgeModel, EdgeModelData, EdgeUserModel, EdgeUserModelData } from '../../types/edge';
+import { DataChangeType, GraphCore } from '../../types/data';
+import { ITEM_TYPE } from '../../types/item';
+import { ComboUserModelData } from '../../types/combo';
 
 /**
  * Manages the data transform extensions;
@@ -31,16 +32,16 @@ export class DataController {
 
   public findData(
     type: ITEM_TYPE,
-    condition: ID[] | Function
+    condition: ID[] | Function,
   ): EdgeModel[] | NodeModel[] | ComboModel[] {
     const { graphCore } = this;
     if (isString(condition) || isNumber(condition) || isArray(condition)) {
       const ids = isArray(condition) ? condition : [condition];
       switch (type) {
         case 'node':
-          return ids.map(id => graphCore.hasNode(id) ? graphCore.getNode(id) : undefined);
+          return ids.map((id) => (graphCore.hasNode(id) ? graphCore.getNode(id) : undefined));
         case 'edge':
-          return ids.map(id => graphCore.hasEdge(id) ? graphCore.getEdge(id) : undefined);
+          return ids.map((id) => (graphCore.hasEdge(id) ? graphCore.getEdge(id) : undefined));
         case 'combo':
           // TODO;
           return;
@@ -51,7 +52,7 @@ export class DataController {
         // TODO getDatas = ?
       }
       const datas = getDatas() as any;
-      return datas.filter(data => condition(data));
+      return datas.filter((data) => condition(data));
     }
   }
 
@@ -81,17 +82,19 @@ export class DataController {
    */
   private getExtensions() {
     const { transform = [] } = this.graph.getSpecification();
-    return transform.map(config => ({
-      config,
-      func: getExtension(config, registery.useLib, 'transform')
-    })).filter(ext => !!ext.func);
+    return transform
+      .map((config) => ({
+        config,
+        func: getExtension(config, registery.useLib, 'transform'),
+      }))
+      .filter((ext) => !!ext.func);
   }
 
   /**
    * Listener of graph's datachange hook.
    * @param param contains new graph data and type of data change
    */
-  private onDataChange(param: { data: GraphData, type: DataChangeType }) {
+  private onDataChange(param: { data: GraphData; type: DataChangeType }) {
     const { data, type: changeType } = param;
     const change = () => {
       switch (changeType) {
@@ -106,7 +109,7 @@ export class DataController {
           this.changeData(data, changeType);
           break;
       }
-    }
+    };
     const { userGraphCore } = this;
     if (userGraphCore) {
       userGraphCore.batch(change);
@@ -125,7 +128,7 @@ export class DataController {
     if (changeType === 'replace') {
       this.userGraphCore = new GraphLib<NodeUserModelData, EdgeUserModelData>({
         ...data,
-        onChanged: event => this.updateGraphCore(event)
+        onChanged: (event) => this.updateGraphCore(event),
       });
       const { data: transformedData } = this.transformData();
       this.graphCore = new GraphLib<NodeModelData, EdgeModelData>({ ...transformedData });
@@ -139,13 +142,13 @@ export class DataController {
       } else {
         if (changeType === 'mergeReplace') {
           // remove the nodes which are not in data but in userGraphCore
-          const nodeIds = nodes.map(node => node.id);
-          prevNodes.forEach(prevNode => {
+          const nodeIds = nodes.map((node) => node.id);
+          prevNodes.forEach((prevNode) => {
             if (!nodeIds.includes(prevNode.id)) userGraphCore.removeNode(prevNode.id);
           });
         }
         // add or update node
-        nodes.forEach(node => {
+        nodes.forEach((node) => {
           if (userGraphCore.hasNode(node.id)) {
             // update node which is in the graphCore
             userGraphCore.mergeNodeData(node.id, node.data);
@@ -161,13 +164,13 @@ export class DataController {
       } else {
         if (changeType === 'mergeReplace') {
           // remove the edges which are not in data but in userGraphCore
-          const edgeIds = edges.map(edge => edge.id);
-          prevEdges.forEach(prevEdge => {
+          const edgeIds = edges.map((edge) => edge.id);
+          prevEdges.forEach((prevEdge) => {
             if (!edgeIds.includes(prevEdge.id)) userGraphCore.removeNode(prevEdge.id);
           });
         }
         // add or update edge
-        edges.forEach(edge => {
+        edges.forEach((edge) => {
           if (userGraphCore.hasEdge(edge.id)) {
             // update edge which is in the graphCore
             userGraphCore.mergeEdgeData(edge.id, edge.data);
@@ -178,7 +181,6 @@ export class DataController {
         });
       }
     }
-    // this.updateGraphCore();
   }
 
   /**
@@ -193,15 +195,13 @@ export class DataController {
     // TODO: distinguish combos
     if (prevNodes.length && nodes.length) {
       // remove the node
-      userGraphCore.removeNodes(nodes.map(node => node.id));
+      userGraphCore.removeNodes(nodes.map((node) => node.id));
     }
     if (prevEdges.length && edges.length) {
       // add or update edge
-      userGraphCore.removeEdges(edges.map(edge => edge.id));
+      userGraphCore.removeEdges(edges.map((edge) => edge.id));
     }
     // TODO: combo
-
-    // this.updateGraphCore();
   }
 
   /**
@@ -216,18 +216,26 @@ export class DataController {
     // TODO: distinguish combos
     if (prevNodes.length) {
       // update node
-      nodes.forEach(newModel => {
-        if (newModel.data) userGraphCore.mergeNodeData(newModel.id, newModel.data);
+      nodes.forEach((newModel) => {
+        const { id, data } = newModel;
+        if (data) {
+          const mergedData = mergeOneLevelData(userGraphCore.getNode(id), newModel);
+          userGraphCore.mergeNodeData(id, mergedData);
+        }
       });
     }
     if (prevEdges.length) {
       // update edge
-      edges.forEach(newModel => {
+      edges.forEach((newModel) => {
         const oldModel = userGraphCore.getEdge(newModel.id);
         if (!oldModel) return;
-        if (newModel.source && oldModel.source !== newModel.source) userGraphCore.updateEdgeSource(newModel.id, newModel.source);
-        if (newModel.target && oldModel.target !== newModel.target) userGraphCore.updateEdgeTarget(newModel.id, newModel.target);
-        if (newModel.data) userGraphCore.mergeEdgeData(newModel.id, newModel.data);
+        const { id, source, target, data } = newModel;
+        if (source && oldModel.source !== source) userGraphCore.updateEdgeSource(id, source);
+        if (target && oldModel.target !== target) userGraphCore.updateEdgeTarget(id, target);
+        if (data) {
+          const mergedData = mergeOneLevelData(userGraphCore.getEdge(id), newModel);
+          userGraphCore.mergeEdgeData(id, mergedData);
+        }
       });
     }
     // TODO: combo
@@ -241,7 +249,7 @@ export class DataController {
 
     // === step 1: clone data from userGraphCore (userData) ===
     // === step 2: transform the data with transform extensions, output innerData and idMaps ===
-    const { data: transformedData, idMaps } = this.transformData()
+    const { data: transformedData, idMaps } = this.transformData();
     const { nodes, edges, combos } = transformedData;
 
     const prevNodes = graphCore.getAllNodes();
@@ -258,7 +266,7 @@ export class DataController {
         if (diff.includes('target')) graphCore.updateEdgeTarget(id, newValue.target);
       }
       // TODO: combo
-    }
+    };
 
     graphCore.batch(() => {
       // === step 3: sync to graphCore according to the changes in userGraphCore ==
@@ -266,12 +274,15 @@ export class DataController {
         // situation 1: not every extension has corresponding idMap, use default mapping: suppose id is not changed by transforms
         // and diff the value in graphCore whose id is not in userGraphCore
         const newModelMap: {
-          [id: string]: { type: 'node' | 'edge' | 'combo', model: NodeModel | EdgeModel | ComboModel }
+          [id: string]: {
+            type: 'node' | 'edge' | 'combo';
+            model: NodeModel | EdgeModel | ComboModel;
+          };
         } = {};
-        nodes.forEach(model => newModelMap[model.id] = { type: 'node', model });
-        edges.forEach(model => newModelMap[model.id] = { type: 'edge', model });
+        nodes.forEach((model) => (newModelMap[model.id] = { type: 'node', model }));
+        edges.forEach((model) => (newModelMap[model.id] = { type: 'edge', model }));
         // edge first, in case of related edges are removed when removing node
-        prevEdges.forEach(prevEdge => {
+        prevEdges.forEach((prevEdge) => {
           const { id } = prevEdge;
           const { model: newModel } = newModelMap[id] || {};
           // remove
@@ -284,13 +295,14 @@ export class DataController {
           // delete from the map indicates this model is visited
           delete newModelMap[id];
         });
-        prevNodes.forEach(prevNode => {
+        prevNodes.forEach((prevNode) => {
           const { id } = prevNode;
           const { model: newModel } = newModelMap[id] || {};
           // remove
           if (!newModel) graphCore.removeNode(id);
           // update
-          else if (diffAt(newModel, prevNode, true)?.length) syncUpdateToGraphCore(id, newModel, prevNode, true);
+          else if (diffAt(newModel, prevNode, true)?.length)
+            syncUpdateToGraphCore(id, newModel, prevNode, true);
           // delete from the map indicates this model is visited
           delete newModelMap[id];
         });
@@ -306,11 +318,11 @@ export class DataController {
         const finalIdMap = {};
         const newModelMap = {};
         const prevModelMap = {};
-        (nodes.concat(edges)).forEach(model => {
+        nodes.concat(edges).forEach((model) => {
           finalIdMap[model.id] = getComesFromLinkedList(model.id, idMaps);
           newModelMap[model.id] = model;
         });
-        (prevNodes.concat(prevEdges)).forEach(model => {
+        prevNodes.concat(prevEdges).forEach((model) => {
           prevModelMap[model.id] = model;
         });
         // TODO: combo
@@ -318,10 +330,15 @@ export class DataController {
         // map changes for search
         const changeMap = {};
         const { changes } = event;
-        changes.forEach(change => {
+        changes.forEach((change) => {
           const { value, id, type } = change;
           // TODO: temporary skip. how to handle tree change events?
-          if (['TreeStructureAttached', 'TreeStructureDetached', 'TreeStructureChanged'].includes(type)) return;
+          if (
+            ['TreeStructureAttached', 'TreeStructureDetached', 'TreeStructureChanged'].includes(
+              type,
+            )
+          )
+            return;
           const dataId = id || value.id;
           changeMap[dataId] = changeMap[dataId] || [];
           changeMap[dataId].push(type.toLawerCase());
@@ -330,7 +347,7 @@ export class DataController {
         // 1. remove or add model to userGraphCore according the existence
         // 2. update or keep unchanged according to the source models' changes in userGraphCore
         //    if source models have any change, update the data in graphcore. Kepp unchanged otherwise
-        Object.keys(newModelMap).forEach(newId => {
+        Object.keys(newModelMap).forEach((newId) => {
           const comesFromIds = finalIdMap[newId];
           const newValue = newModelMap[newId];
           const oldValue = prevModelMap[newId];
@@ -349,7 +366,8 @@ export class DataController {
             } else {
               // follow the corresponding data event in userGraphCore
               const comesFromChanges = changeMap[comesFromIds[0]];
-              if (comesFromChanges?.length) syncUpdateToGraphCore(newId, newValue, oldValue, isNode)
+              if (comesFromChanges?.length)
+                syncUpdateToGraphCore(newId, newValue, oldValue, isNode);
             }
           }
         });
@@ -364,7 +382,8 @@ export class DataController {
   private transformData() {
     const { userGraphCore } = this;
     // === step 1: clone data from userGraphCore (userData) ===
-    const userData = { // TODO: should be deepClone
+    const userData = {
+      // TODO: should be deepClone
       nodes: userGraphCore.getAllNodes(),
       edges: userGraphCore.getAllEdges(),
       // combos:
@@ -379,7 +398,7 @@ export class DataController {
       const idMap = result.idMap;
       if (idMap) idMaps.push(idMap);
     });
-    return { data: dataCloned, idMaps }
+    return { data: dataCloned, idMaps };
   }
 }
 
@@ -392,18 +411,18 @@ export class DataController {
  */
 const getComesFromLinkedList = (id, linkedList, index = linkedList.length - 1) => {
   let comesFrom = [];
-  linkedList[index][id]?.forEach(comesFromId => {
+  linkedList[index][id]?.forEach((comesFromId) => {
     if (index === 0) comesFrom.push(comesFromId);
     else comesFrom = comesFrom.concat(getComesFromLinkedList(comesFromId, linkedList, index - 1));
   });
   return comesFrom;
-}
+};
 
 /**
  * Diff new and old model.
  * @param newModel
- * @param oldModel 
- * @param isNode 
+ * @param oldModel
+ * @param isNode
  * @returns false for no different, ['data'] for data different
  */
 const diffAt = (newModel, oldModel, isNode): ('data' | 'source' | 'target')[] => {
@@ -433,4 +452,30 @@ const diffAt = (newModel, oldModel, isNode): ('data' | 'source' | 'target')[] =>
     if (newValue !== oldValue) return diff.concat('data');
   }
   return diff;
-}
+};
+
+/**
+ * Merge the first level fields in data of model
+ * @param prevModel previous model
+ * @param newModel incoming new model
+ * @returns merged model data
+ */
+const mergeOneLevelData = (
+  prevModel: NodeUserModel | EdgeUserModel | ComboUserModel,
+  newModel: NodeUserModel | EdgeUserModel | ComboUserModel,
+): NodeUserModelData | EdgeUserModelData | ComboUserModelData => {
+  const { data: newData } = newModel;
+  const { data: prevData } = prevModel;
+  const mergedData = {};
+  Object.keys(newData).forEach((key) => {
+    if (isObject(prevData[key]) && isObject(newData[key])) {
+      mergedData[key] = {
+        ...(prevData[key] as object),
+        ...(newData[key] as object),
+      };
+    } else {
+      mergedData[key] = newData[key];
+    }
+  });
+  return mergedData;
+};

@@ -49,10 +49,7 @@ export default abstract class Item implements IItem {
     this.renderExt = renderExt;
   }
 
-  public draw(
-    diffData?: { oldData: ItemModelData; newData: ItemModelData },
-    shapesToUpdate?: { [shapeId: string]: boolean },
-  ) {
+  public draw(diffData?: { oldData: ItemModelData; newData: ItemModelData }) {
     // call this.renderExt.draw in extend implementations
     const afterDrawShapes = this.renderExt.afterDraw?.(this.displayModel, this.group) || {};
     this.shapeMap = updateShapes(this.shapeMap, afterDrawShapes, this.group, false, (id) => {
@@ -74,18 +71,18 @@ export default abstract class Item implements IItem {
     // 1. merge model into this model
     this.model = model;
     // 2. map new merged model to displayModel, keep prevModel and newModel for 3.
-    const {
-      model: displayModel,
-      shapesToUpdate,
-      typeChange,
-    } = this.getDisplayModelAndChanges(this.model, diffData, isReplace);
+    const { model: displayModel, typeChange } = this.getDisplayModelAndChanges(
+      this.model,
+      diffData,
+      isReplace,
+    );
     this.displayModel = displayModel;
 
     if (typeChange) {
       // TODO
     }
     // TODO: 3. call element update fn from useLib
-    this.draw(diffData, shapesToUpdate);
+    this.draw(diffData);
   }
 
   /**
@@ -101,30 +98,21 @@ export default abstract class Item implements IItem {
     isReplace?: boolean,
   ): {
     model: ItemDisplayModel;
-    shapesToUpdate?: { [shapeId: string]: boolean };
     typeChange?: boolean;
   } {
     const { mapper } = this;
     const { newData, oldData } = diffData || {};
-    let shapesToUpdate: { [shapeId: string]: boolean } = {};
 
-    // === no mapper, displayModel = model, shapesToUpdate should compare the new model and old model ===
+    // === no mapper, displayModel = model ===
     if (!mapper) {
       this.displayModel = innerModel; // TODO: need clone?
       // compare the oldData and newData to find shape changes
       let typeChange = false;
       if (newData) {
         typeChange = Boolean(newData.type);
-        Object.keys(newData).forEach((key) => {
-          if (this.shapeMap[key]) {
-            shapesToUpdate[key] = true;
-          }
-        });
       }
-      const hasShapeChange = Object.keys(shapesToUpdate)?.length;
       return {
         model: innerModel,
-        shapesToUpdate: hasShapeChange ? shapesToUpdate : undefined,
         typeChange,
       };
     }
@@ -148,9 +136,7 @@ export default abstract class Item implements IItem {
         updateShapeChange({
           innerModel,
           mapper: subMapper,
-          shapeId: fieldName,
           dataChangedFields,
-          shapesToUpdate,
           shapeConfig: displayModelData[fieldName],
         });
       } else if (fieldName === OTHER_SHAPES_FIELD_NAME) {
@@ -160,9 +146,7 @@ export default abstract class Item implements IItem {
           updateShapeChange({
             innerModel,
             mapper: shappStyle,
-            shapeId,
             dataChangedFields,
-            shapesToUpdate,
             shapeConfig: displayModelData[fieldName][shapeId],
           });
         });
@@ -170,11 +154,9 @@ export default abstract class Item implements IItem {
         // fields not about shape
         const { changed, value: mappedValue } = updateChange({
           innerModel,
-          shapeId: undefined,
           mapper,
           fieldName,
           dataChangedFields,
-          shapesToUpdate,
         });
         displayModelData[fieldName] = mappedValue;
         if (changed && fieldName === 'type') typeChange = true;
@@ -184,10 +166,8 @@ export default abstract class Item implements IItem {
       ...otherProps,
       data: displayModelData,
     };
-    const hasShapeChange = Object.keys(shapesToUpdate)?.length;
     return {
       model: displayModel,
-      shapesToUpdate: hasShapeChange ? shapesToUpdate : undefined,
       typeChange,
     };
   }
@@ -269,7 +249,6 @@ export default abstract class Item implements IItem {
  *  fieldName, // name of the field to read from innerModel
  *  mapper, // mapper object, contains the field's mapper
  *  shapeId, // id of the shape where the fieldName belong to
- *  shapesToUpdate, // cache the ids of shapes to be updated
  *  dataChangedFields, // fields' names which are changed in data
  * }
  * @returns { changed: boolean, value: unknown } return whether the mapper affects the value, and the mapped result
@@ -278,8 +257,6 @@ const updateChange = ({
   innerModel,
   fieldName,
   mapper,
-  shapeId,
-  shapesToUpdate,
   dataChangedFields,
 }): {
   changed: boolean;
@@ -290,7 +267,6 @@ const updateChange = ({
     const { fields, formatter } = value;
     // data changed fields and the encode fields are overlapped, display value should be changed
     if (isArrayOverlap(dataChangedFields, fields)) {
-      if (shapeId) shapesToUpdate[shapeId] = true;
       return {
         changed: true,
         value: formatter(innerModel),
@@ -299,7 +275,6 @@ const updateChange = ({
     return { changed: false };
   } else {
     // not an encode, take the mapper's value as the result directly
-    if (shapeId) shapesToUpdate[shapeId] = true;
     return {
       changed: true,
       value,
@@ -313,27 +288,17 @@ const updateChange = ({
  *  innerModel, // find unmapped field value from innerModel
  *  mapper, // mapper object, contains the field's mapper
  *  shapeId, // id of the shape where the fieldName belong to
- *  shapesToUpdate, // cache the ids of shapes to be updated
  *  dataChangedFields, // fields' names which are changed in data
  *  shapeConfig, // the shape's config to be updated
  * }
  * @returns { changed: boolean, value: unknown } return whether the mapper affects the value, and the mapped result
  */
-const updateShapeChange = ({
-  innerModel,
-  mapper,
-  shapeId,
-  shapesToUpdate,
-  dataChangedFields,
-  shapeConfig,
-}) => {
+const updateShapeChange = ({ innerModel, mapper, dataChangedFields, shapeConfig }) => {
   Object.keys(mapper).forEach((shapeAttrName) => {
     const { value: mappedValue } = updateChange({
       innerModel,
-      shapeId,
       mapper,
       fieldName: shapeAttrName,
-      shapesToUpdate,
       dataChangedFields,
     });
     shapeConfig[shapeAttrName] = mappedValue;

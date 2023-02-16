@@ -1,9 +1,6 @@
-import { CanvasEvent } from '@antv/g';
-import G6, { GraphData, IGraph } from '../../src/index'
-import { Graph as GraphLib, ID } from "@antv/graphlib";
+import G6, { GraphData, IGraph } from '../../src/index';
 const container = document.createElement('div');
 document.querySelector('body').appendChild(container);
-
 
 const data: GraphData = {
   nodes: [
@@ -14,20 +11,9 @@ const data: GraphData = {
   ],
   edges: [
     { id: 'edge1', source: 'node1', target: 'node2', data: {} },
-    { id: 'edge2', source: 'node1', target: 'node3', data: {} }
-  ]
-}
-
-xdescribe('graphlib', () => {
-  it('xx', () => {
-    const graphLib = new GraphLib<any, any>({
-      ...data,
-      onChanged: event => {
-        console.log('event', event.changes);
-      }
-    })
-  })
-});
+    { id: 'edge2', source: 'node1', target: 'node3', data: {} },
+  ],
+};
 
 describe('data', () => {
   let graph: IGraph<any>;
@@ -55,7 +41,7 @@ describe('data', () => {
       id: 'node1',
       data: {
         x: 350,
-      }
+      },
     };
     graph.updateData('node', node1UpdateUserData);
     const newNode1UserData = {
@@ -63,9 +49,9 @@ describe('data', () => {
       ...node1UpdateUserData,
       data: {
         ...data.nodes[0].data,
-        ...node1UpdateUserData.data
-      }
-    }
+        ...node1UpdateUserData.data,
+      },
+    };
     const node1InnerData = graph.getNodeData('node1');
     expect(JSON.stringify(newNode1UserData)).toBe(JSON.stringify(node1InnerData));
 
@@ -74,34 +60,41 @@ describe('data', () => {
       id: 'edge2',
       data: {
         keyShape: {
-          lineWidth: 8
-        }
-      }
-    }
+          lineWidth: 8,
+        },
+      },
+    };
     graph.updateData('edge', edge2UpdateUserData);
     const newEdge2UserData = {
       ...data.edges[1],
       ...edge2UpdateUserData,
       data: {
         ...data.edges[1].data,
-        ...edge2UpdateUserData.data
-      }
-    }
+        ...edge2UpdateUserData.data,
+      },
+    };
     const edge2InnerData = graph.getEdgeData('edge2');
     expect(JSON.stringify(newEdge2UserData)).toBe(JSON.stringify(edge2InnerData));
-    expect(graph.itemController.itemMap['edge2'].shapeMap['keyShape'].attributes.lineWidth).toBe(edge2UpdateUserData.data.keyShape.lineWidth);
+    expect(graph.itemController.itemMap['edge2'].shapeMap['keyShape'].attributes.lineWidth).toBe(
+      edge2UpdateUserData.data.keyShape.lineWidth,
+    );
 
     // === update edge source  ===
     const edge1UpdateUserData = {
       id: 'edge1',
-      source: 'node3'
-    }
+      source: 'node3',
+    };
     graph.updateData('edge', edge1UpdateUserData);
     const newSourceData = graph.getNodeData('node3');
-    expect(graph.itemController.itemMap['edge1'].shapeMap['keyShape'].attributes.x1).toBe(newSourceData.data.x);
-    expect(graph.itemController.itemMap['edge1'].shapeMap['keyShape'].attributes.y1).toBe(newSourceData.data.y);
-    expect(graph.itemController.itemMap['edge1'].sourceItem).toBe(graph.itemController.itemMap['node3']);
-
+    expect(graph.itemController.itemMap['edge1'].shapeMap['keyShape'].attributes.x1).toBe(
+      newSourceData.data.x,
+    );
+    expect(graph.itemController.itemMap['edge1'].shapeMap['keyShape'].attributes.y1).toBe(
+      newSourceData.data.y,
+    );
+    expect(graph.itemController.itemMap['edge1'].sourceItem).toBe(
+      graph.itemController.itemMap['node3'],
+    );
 
     // === update edge source, target, and data in the same time  ===
     const edge1UpdateUserData2 = {
@@ -110,19 +103,21 @@ describe('data', () => {
       target: 'node4',
       data: {
         keyShape: {
-          stroke: '#f00'
-        }
-      }
-    }
+          stroke: '#f00',
+        },
+      },
+    };
     graph.updateData('edge', edge1UpdateUserData2);
     const sourceData = graph.getNodeData('node1');
     const targetData = graph.getNodeData('node4');
-    const edgeItem = graph.itemController.itemMap['edge1']
+    const edgeItem = graph.itemController.itemMap['edge1'];
     expect(edgeItem.shapeMap['keyShape'].attributes.x1).toBe(sourceData.data.x);
     expect(edgeItem.shapeMap['keyShape'].attributes.y1).toBe(sourceData.data.y);
     expect(edgeItem.shapeMap['keyShape'].attributes.x2).toBe(targetData.data.x);
     expect(edgeItem.shapeMap['keyShape'].attributes.y2).toBe(targetData.data.y);
-    expect(edgeItem.shapeMap['keyShape'].attributes.stroke).toBe(edge1UpdateUserData2.data.keyShape.stroke);
+    expect(edgeItem.shapeMap['keyShape'].attributes.stroke).toBe(
+      edge1UpdateUserData2.data.keyShape.stroke,
+    );
 
     // === update nodes ===
     graph.updateData('node', [
@@ -130,18 +125,18 @@ describe('data', () => {
         id: 'node1',
         data: {
           keyShape: {
-            fill: '#0f0'
-          }
-        }
+            fill: '#0f0',
+          },
+        },
       },
       {
         id: 'node2',
         data: {
           keyShape: {
             lineWidth: 2,
-            stroke: '#0f0'
-          }
-        }
+            stroke: '#0f0',
+          },
+        },
       },
     ]);
     const node1Item = graph.itemController.itemMap['node1'];
@@ -157,17 +152,18 @@ describe('data', () => {
         source: 'node2',
         data: {
           keyShape: {
-            stroke: '#0f0'
-          }
-        }
-      }, {
+            stroke: '#0f0',
+          },
+        },
+      },
+      {
         id: 'edge2',
         data: {
           keyShape: {
-            lineDash: [5, 5]
-          }
-        }
-      }
+            lineDash: [5, 5],
+          },
+        },
+      },
     ]);
     const edge1Item = graph.itemController.itemMap['edge1'];
     const edge2Item = graph.itemController.itemMap['edge2'];
@@ -181,20 +177,20 @@ describe('data', () => {
       data: {
         x: 300,
         y: 100,
-      }
+      },
     });
     graph.addData('node', {
       id: 'node6',
       data: {
         x: 300,
         y: 200,
-      }
+      },
     });
     graph.addData('edge', {
       id: 'edge3',
       source: 'node5',
       target: 'node6',
-      data: {}
+      data: {},
     });
     expect(graph.dataController.graphCore.getAllNodes().length).toBe(6);
     expect(graph.dataController.graphCore.getAllEdges().length).toBe(3);
@@ -206,20 +202,22 @@ describe('data', () => {
         data: {
           x: 100,
           y: 400,
-        }
-      }, {
+        },
+      },
+      {
         id: 'node8',
         data: {
           x: 200,
           y: 400,
-        }
-      }, {
+        },
+      },
+      {
         id: 'node9',
         data: {
           x: 300,
           y: 400,
-        }
-      }
+        },
+      },
     ]);
     expect(graph.dataController.graphCore.getAllNodes().length).toBe(9);
     graph.addData('edge', [
@@ -227,16 +225,16 @@ describe('data', () => {
         id: 'edge4',
         source: 'node7',
         target: 'node8',
-        data: {}
-      }, {
+        data: {},
+      },
+      {
         id: 'edge5',
         source: 'node8',
         target: 'node9',
-        data: {}
-      }
+        data: {},
+      },
     ]);
     expect(graph.dataController.graphCore.getAllEdges().length).toBe(5);
-
   });
   it('removeData', () => {
     // === remove node ===
@@ -254,4 +252,10 @@ describe('data', () => {
     graph.removeData('edge', 'edge1');
     expect(graph.dataController.graphCore.getAllEdges().length).toBe(1);
   });
+  xit('findNodeData', () => {});
+  xit('findEdgeData', () => {});
+
+  xit('changeData with replace', () => {});
+
+  xit('changeData with mergeReplace', () => {});
 });

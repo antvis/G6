@@ -16,25 +16,18 @@ export default class Node extends Item {
     super(props);
     this.draw();
   }
-  public draw(
-    diffData?: { oldData: NodeModelData; newData: NodeModelData },
-    shapesToChange?: { [shapeId: string]: boolean },
-  ) {
+  public draw(diffData?: { oldData: NodeModelData; newData: NodeModelData }) {
     const { group, displayModel, renderExt, shapeMap: prevShapeMap } = this;
     const { data } = displayModel;
     const { x = 0, y = 0 } = data;
     group.style.x = x;
     group.style.y = y;
-    let changeShapes = shapesToChange || {};
-    if (!shapesToChange) {
-      Object.keys(prevShapeMap).forEach((id) => (changeShapes[id] = true));
-    }
-    const shapeMap = renderExt.draw(displayModel, this.shapeMap, diffData, changeShapes);
+    const shapeMap = renderExt.draw(displayModel, this.shapeMap, diffData);
 
     // add shapes to group, and update shapeMap
     this.shapeMap = updateShapes(prevShapeMap, shapeMap, group);
 
-    super.draw(diffData, shapesToChange);
+    super.draw(diffData);
   }
 
   public update(

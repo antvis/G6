@@ -1,9 +1,7 @@
-import { DisplayObject, Group } from "@antv/g";
-import { NodeDisplayModel } from "../../../types";
-import { Point } from "../../../types/common";
-import { EdgeShapeMap } from "../../../types/edge";
-import { createShape } from "../../../util/shape";
-import { BaseEdge } from "./base";
+import { Point } from '../../../types/common';
+import { EdgeDisplayModel, EdgeModelData, EdgeShapeMap } from '../../../types/edge';
+import { upsertShape } from '../../../util/shape';
+import { BaseEdge } from './base';
 
 export class LineEdge extends BaseEdge {
   public type = 'line-edge';
@@ -14,70 +12,61 @@ export class LineEdge extends BaseEdge {
       x2: 0,
       y2: 0,
       stroke: '#ccc',
-      lineWidth: 1
+      lineWidth: 1,
     },
     labelShape: {
-      x: 0,
-      y: 0,
-      textAlign: 'center',
       fontSize: 12,
-      fill: '#000'
+      fill: '#000',
     },
     iconShape: {
       img: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wAmHQJbNVdwAAAAAAAAAAABkARQnAQ',
       width: 15,
-      height: 15
+      height: 15,
     },
-    otherShapes: {}
+    otherShapes: {},
   };
   public draw(
-    model: NodeDisplayModel,
+    model: EdgeDisplayModel,
     sourcePoint: Point,
     targetPoint: Point,
     shapeMap: EdgeShapeMap,
-    shapesToChange?: { [shapeId: string]: boolean }
+    diffData?: { oldData: EdgeModelData; newData: EdgeModelData },
   ): EdgeShapeMap {
-    if (!shapesToChange) return shapeMap;
     const { data = {} } = model;
 
-    const handleKeyShape = () => {
-      const keyShapeStyle = Object.assign({}, this.defaultStyles.keyShape, data.keyShape);
-      const keyShape = createShape(
-        'line',
-        {
-          ...keyShapeStyle,
-          x1: sourcePoint.x,
-          y1: sourcePoint.y,
-          x2: targetPoint.x,
-          y2: targetPoint.y
-        },
-        'keyShape',
-        shapeMap
-      )
-      return keyShape
-    }
-    const handleLabelShape = () => {
-      const labelShapeStyle = Object.assign({}, this.defaultStyles.labelShape, data.labelShape);
-      // addShape('text', labelShapeStyle, `${this.type}-labelShape`, group);
-    }
-    const handleIconShape = () => {
-      const iconShapeStyle = Object.assign({}, this.defaultStyles.iconShape, data.iconShape);
-      // addShape('text', labelShapeStyle, `${this.type}-labelShape`, group);
-    }
+    let shapes: EdgeShapeMap = { keyShape: undefined };
+    shapes.keyShape = this.drawKeyShape(model, sourcePoint, targetPoint, shapeMap, diffData);
+    if (data.labelShape)
+      shapes = {
+        ...shapes,
+        ...this.drawLabelShape(model, shapeMap, diffData),
+      };
+    if (data.iconShape) shapes.iconShape = this.drawIconShape(model, shapeMap, diffData);
 
-    let keyShape;
-    if (shapesToChange.keyShape) {
-      keyShape = handleKeyShape()
-    }
-    if (shapesToChange.labelShape) {
-      handleLabelShape();
-    }
-    if (shapesToChange.iconShape) {
-      handleIconShape();
-    }
+    // TODO: other shapes
 
-    // TODO: add label, icon, and other shapes
-
-    return { keyShape };
+    return shapes;
+  }
+  public drawKeyShape(
+    model: EdgeDisplayModel,
+    sourcePoint: Point,
+    targetPoint: Point,
+    shapeMap: EdgeShapeMap,
+    diffData?: { oldData: EdgeModelData; newData: EdgeModelData },
+  ) {
+    const keyShapeStyle = Object.assign({}, this.defaultStyles.keyShape, model.data?.keyShape);
+    const keyShape = upsertShape(
+      'line',
+      'keyShape',
+      {
+        ...keyShapeStyle,
+        x1: sourcePoint.x,
+        y1: sourcePoint.y,
+        x2: targetPoint.x,
+        y2: targetPoint.y,
+      },
+      shapeMap,
+    );
+    return keyShape;
   }
 }

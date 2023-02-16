@@ -1,11 +1,11 @@
-import { Group } from "@antv/g";
-import { ID } from "@antv/graphlib";
-import { EdgeDisplayModel, EdgeModel } from "../types";
-import { EdgeModelData } from "../types/edge";
-import { DisplayMapper, ITEM_TYPE } from "../types/item";
-import { updateShapes } from "../util/shape";
-import Item from "./item";
-import Node from "./node";
+import { Group } from '@antv/g';
+import { ID } from '@antv/graphlib';
+import { EdgeDisplayModel, EdgeModel } from '../types';
+import { EdgeModelData } from '../types/edge';
+import { DisplayMapper, ITEM_TYPE } from '../types/item';
+import { updateShapes } from '../util/shape';
+import Item from './item';
+import Node from './node';
 
 interface IProps {
   model: EdgeModel;
@@ -34,28 +34,29 @@ export default class Edge extends Item {
     this.targetItem = targetItem;
     this.draw();
   }
-  public draw(diffData?: { oldData: EdgeModelData, newData: EdgeModelData }, shapesToChange?: { [shapeId: string]: boolean }) {
+  public draw(diffData?: { oldData: EdgeModelData; newData: EdgeModelData }) {
     // get the end points
     const sourceBBox = this.sourceItem.getKeyBBox();
     const targetBBox = this.targetItem.getKeyBBox();
     const sourcePoint = {
       x: sourceBBox.center[0],
-      y: sourceBBox.center[1]
-    }
+      y: sourceBBox.center[1],
+    };
     const targetPoint = {
       x: targetBBox.center[0],
-      y: targetBBox.center[1]
-    }
-    let changeShapes = shapesToChange || {};
-    if (!shapesToChange) {
-      Object.keys(this.shapeMap).forEach(id => changeShapes[id] = true);
-    }
-    const shapeMap = this.renderExt.draw(this.displayModel, sourcePoint, targetPoint, this.shapeMap, changeShapes);
+      y: targetBBox.center[1],
+    };
+    const shapeMap = this.renderExt.draw(
+      this.displayModel,
+      sourcePoint,
+      targetPoint,
+      this.shapeMap,
+    );
 
     // add shapes to group, and update shapeMap
     this.shapeMap = updateShapes(this.shapeMap, shapeMap, this.group);
 
-    super.draw(diffData, shapesToChange);
+    super.draw(diffData);
   }
 
   /**

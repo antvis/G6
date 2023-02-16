@@ -181,8 +181,8 @@ export class ItemController {
         const relatedEdgeInnerModels = graphCore.getRelatedEdges(id);
         relatedEdgeInnerModels.forEach((edge) => (edgeToUpdate[edge.id] = edge));
       });
-      Object.keys(edgeToUpdate).forEach((edgeId) => {
-        const item = itemMap[edgeId] as Edge;
+      Object.keys(edgeToUpdate).forEach((id) => {
+        const item = itemMap[id] as Edge;
         item.forceUpdate();
       });
     }

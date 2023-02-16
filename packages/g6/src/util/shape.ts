@@ -1,44 +1,63 @@
-import { Circle, DisplayObject, Element, Ellipse, Group, IElement, Line, Polygon, Polyline, Rect } from "@antv/g";
-import { BaseEdge } from "../stdlib/item/edge/base";
-import { BaseNode } from "../stdlib/item/node/base";
-import { EdgeShapeMap } from "../types/edge";
-import { NodeShapeMap } from "../types/node";
+import {
+  Circle,
+  DisplayObject,
+  Ellipse,
+  Group,
+  IElement,
+  Line,
+  Polygon,
+  Polyline,
+  Rect,
+  Text,
+  Image,
+} from '@antv/g';
+import { EdgeShapeMap } from '../types/edge';
+import { NodeShapeMap } from '../types/node';
 
 const shapeTagMap = {
-  'circle': Circle,
-  'rect': Rect,
-  'ellipse': Ellipse,
-  'polygon': Polygon,
-  'line': Line,
-  'polyline': Polyline
-}
+  circle: Circle,
+  rect: Rect,
+  ellipse: Ellipse,
+  polygon: Polygon,
+  line: Line,
+  polyline: Polyline,
+  text: Text,
+  image: Image,
+};
 
-export const createShape = (
+const createShape = (type: string, style: { [shapeAttr: string]: unknown }, id: string) => {
+  const ShapeClass = shapeTagMap[type];
+  return new ShapeClass({ style, id, autoUpdate: true });
+};
+
+export const upsertShape = (
   type: string,
-  style: { [shapeAttr: string]: unknown },
   id: string,
-  shapeMap: { [shapeId: string]: IElement }
-): IElement => {
+  style: { [shapeAttr: string]: unknown },
+  shapeMap: { [shapeId: string]: DisplayObject },
+): DisplayObject => {
   let shape = shapeMap[id];
   if (!shape) {
-    const ShapeClass = shapeTagMap[type];
-    shape = new ShapeClass({ style, id, autoUpdate: true });
+    shape = createShape(type, style, id);
+  } else if (shape.nodeName !== type) {
+    shape.remove();
+    shape = createShape(type, style, id);
   } else {
-    Object.keys(style).forEach(key => {
+    Object.keys(style).forEach((key) => {
       shape.style[key] = style[key];
     });
   }
   return shape;
-}
+};
 
 export const getGroupSucceedMap = (group: IElement, map?: { [id: string]: IElement }) => {
   let useMap = map || {};
-  group.children.forEach(child => {
+  group.children.forEach((child) => {
     if (child.tagName === 'group') getGroupSucceedMap(child, useMap);
     useMap[child.id] = child;
   });
   return useMap;
-}
+};
 
 /**
  * Update shapes in the intersaction of prevShapeMap and newShapeMap;
@@ -54,16 +73,16 @@ export const updateShapes = (
   newShapeMap: { [id: string]: DisplayObject },
   group: Group,
   removeDiff: boolean = true,
-  shouldUpdate: (id: string) => boolean = () => true
-): (NodeShapeMap | EdgeShapeMap) => {
+  shouldUpdate: (id: string) => boolean = () => true,
+): NodeShapeMap | EdgeShapeMap => {
   const tolalMap = {
     ...prevShapeMap,
-    ...newShapeMap
+    ...newShapeMap,
   };
   const finalShapeMap = {
-    ...prevShapeMap
+    ...prevShapeMap,
   };
-  Object.keys(tolalMap).forEach(id => {
+  Object.keys(tolalMap).forEach((id) => {
     const prevShape = prevShapeMap[id];
     const newShape = newShapeMap[id];
     if (newShape && !shouldUpdate(id)) return;
@@ -85,4 +104,4 @@ export const updateShapes = (
     }
   });
   return finalShapeMap as NodeShapeMap;
-}
+};
