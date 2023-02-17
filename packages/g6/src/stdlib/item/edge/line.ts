@@ -5,7 +5,7 @@ import { BaseEdge } from './base';
 
 export class LineEdge extends BaseEdge {
   public type = 'line-edge';
-  public defaultStyles = {
+  public defaultStyles = Object.assign({}, super.getDefaultStyles(), {
     keyShape: {
       x1: 0,
       y1: 0,
@@ -14,17 +14,8 @@ export class LineEdge extends BaseEdge {
       stroke: '#ccc',
       lineWidth: 1,
     },
-    labelShape: {
-      fontSize: 12,
-      fill: '#000',
-    },
-    iconShape: {
-      img: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wAmHQJbNVdwAAAAAAAAAAABkARQnAQ',
-      width: 15,
-      height: 15,
-    },
     otherShapes: {},
-  };
+  });
   public draw(
     model: EdgeDisplayModel,
     sourcePoint: Point,

@@ -7,7 +7,7 @@ import { BaseNode } from './base';
 
 export class CircleNode extends BaseNode {
   public type = 'circle-node';
-  public defaultStyles = {
+  public defaultStyles = Object.assign({}, super.getDefaultStyles(), {
     keyShape: {
       r: 15,
       x: 0,
@@ -15,30 +15,26 @@ export class CircleNode extends BaseNode {
       fill: '#f00',
       lineWidth: 0,
       stroke: '#0f0',
-    } as ShapeStyle,
-    labelShape: {
-      fontSize: 12,
-      fill: '#000',
-      position: 'bottom',
-    } as NodeLabelShapeStyle,
-    iconShape: {
-      img: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wAmHQJbNVdwAAAAAAAAAAABkARQnAQ',
-      width: 12,
-      height: 12,
-    } as ShapeStyle,
-    otherShapes: {},
-  };
+    },
+  });
   public draw(
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
     diffData?: { oldData: NodeModelData; newData: NodeModelData },
   ): NodeShapeMap {
     const { data = {} } = model;
-    const shapes: NodeShapeMap = { keyShape: undefined };
+    let shapes: NodeShapeMap = { keyShape: undefined };
 
     shapes.keyShape = this.drawKeyShape(model, shapeMap, diffData);
-    if (data.labelShape) shapes.labelShape = this.drawLabelShape(model, shapeMap, diffData);
-    if (data.iconShape) shapes.iconShape = this.drawIconShape(model, shapeMap, diffData);
+    if (data.labelShape) {
+      shapes = {
+        ...shapes,
+        ...this.drawLabelShape(model, shapeMap, diffData),
+      };
+    }
+    if (data.iconShape) {
+      shapes.iconShape = this.drawIconShape(model, shapeMap, diffData);
+    }
 
     // TODO: other shapes
 

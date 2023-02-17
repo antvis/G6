@@ -134,7 +134,6 @@ export class DataController {
       this.graphCore = new GraphLib<NodeModelData, EdgeModelData>({ ...transformedData });
     } else {
       const prevNodes = userGraphCore.getAllNodes();
-      const prevEdges = userGraphCore.getAllEdges();
       const { nodes, edges, combos } = data;
       // TODO: distinguish combos
       if (!prevNodes.length) {
@@ -159,6 +158,7 @@ export class DataController {
         });
       }
 
+      const prevEdges = userGraphCore.getAllEdges();
       if (!prevEdges.length) {
         userGraphCore.addEdges(edges);
       } else {
@@ -166,7 +166,7 @@ export class DataController {
           // remove the edges which are not in data but in userGraphCore
           const edgeIds = edges.map((edge) => edge.id);
           prevEdges.forEach((prevEdge) => {
-            if (!edgeIds.includes(prevEdge.id)) userGraphCore.removeNode(prevEdge.id);
+            if (!edgeIds.includes(prevEdge.id)) userGraphCore.removeEdge(prevEdge.id);
           });
         }
         // add or update edge
@@ -253,7 +253,6 @@ export class DataController {
     const { nodes, edges, combos } = transformedData;
 
     const prevNodes = graphCore.getAllNodes();
-    const prevEdges = graphCore.getAllEdges();
 
     // function to update one data in graphCore with different model type ('node' or 'edge')
     const syncUpdateToGraphCore = (id, newValue, oldValue, isNode, diff = []) => {
@@ -281,8 +280,18 @@ export class DataController {
         } = {};
         nodes.forEach((model) => (newModelMap[model.id] = { type: 'node', model }));
         edges.forEach((model) => (newModelMap[model.id] = { type: 'edge', model }));
-        // edge first, in case of related edges are removed when removing node
-        prevEdges.forEach((prevEdge) => {
+        prevNodes.forEach((prevNode) => {
+          const { id } = prevNode;
+          const { model: newModel } = newModelMap[id] || {};
+          // remove
+          if (!newModel) graphCore.removeNode(id);
+          // update
+          else if (diffAt(newModel, prevNode, true)?.length)
+            syncUpdateToGraphCore(id, newModel, prevNode, true);
+          // delete from the map indicates this model is visited
+          delete newModelMap[id];
+        });
+        graphCore.getAllEdges().forEach((prevEdge) => {
           const { id } = prevEdge;
           const { model: newModel } = newModelMap[id] || {};
           // remove
@@ -292,17 +301,6 @@ export class DataController {
             const diff = diffAt(newModel, prevEdge, false);
             if (diff?.length) syncUpdateToGraphCore(id, newModel, prevEdge, false, diff);
           }
-          // delete from the map indicates this model is visited
-          delete newModelMap[id];
-        });
-        prevNodes.forEach((prevNode) => {
-          const { id } = prevNode;
-          const { model: newModel } = newModelMap[id] || {};
-          // remove
-          if (!newModel) graphCore.removeNode(id);
-          // update
-          else if (diffAt(newModel, prevNode, true)?.length)
-            syncUpdateToGraphCore(id, newModel, prevNode, true);
           // delete from the map indicates this model is visited
           delete newModelMap[id];
         });
@@ -322,7 +320,7 @@ export class DataController {
           finalIdMap[model.id] = getComesFromLinkedList(model.id, idMaps);
           newModelMap[model.id] = model;
         });
-        prevNodes.concat(prevEdges).forEach((model) => {
+        prevNodes.concat(graphCore.getAllEdges()).forEach((model) => {
           prevModelMap[model.id] = model;
         });
         // TODO: combo

@@ -36,6 +36,8 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
   public hooks: Hooks;
   // for nodes and edges, which will be separate into groups
   public canvas: Canvas;
+  // the tag to indicate whether the graph instance is destroyed
+  public destroyed: boolean;
   // for background shapes, e.g. grid, pipe indices
   private backgroundCanvas: Canvas;
   // for transient shapes for interactions, e.g. transient node and related edges while draging, delegates
@@ -601,5 +603,26 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     //     this.specification.modes[mode][i] = behavior;
     //   }
     // });
+  }
+
+  /**
+   * Destroy the graph instance and remove the related canvases.
+   * @returns
+   * @group Graph Instance
+   */
+  public destroy() {
+    this.canvas.destroy();
+    this.backgroundCanvas.destroy();
+    this.transientCanvas.destroy();
+
+    // TODO: destroy controllers and off the listeners
+    // this.dataController.destroy();
+    // this.interactionController.destroy();
+    // this.layoutController.destroy();
+    // this.themeController.destroy();
+    // this.itemController.destroy();
+    // this.extensionController.destroy();
+
+    this.destroyed = true;
   }
 }

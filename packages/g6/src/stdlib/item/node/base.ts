@@ -2,7 +2,12 @@ import { DisplayObject } from '@antv/g';
 import { NodeDisplayModel } from '../../../types';
 import { ShapeStyle } from '../../../types/item';
 import { NodeLabelShapeStyle, NodeModelData, NodeShapeMap } from '../../../types/node';
-import { upsertShape } from '../../../util/shape';
+import {
+  DEFAULT_LABEL_BG_PADDING,
+  DEFAULT_TEXT_STYLE,
+  formatPadding,
+  upsertShape,
+} from '../../../util/shape';
 
 export abstract class BaseNode {
   type: string;
@@ -13,7 +18,24 @@ export abstract class BaseNode {
     otherShapes: {
       [shapeId: string]: ShapeStyle;
     };
+  } = {
+    keyShape: {},
+    labelShape: {
+      ...DEFAULT_TEXT_STYLE,
+      fill: '#000',
+      position: 'bottom',
+    },
+    iconShape: {
+      ...DEFAULT_TEXT_STYLE,
+      img: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wAmHQJbNVdwAAAAAAAAAAABkARQnAQ',
+      width: 15,
+      height: 15,
+    },
+    otherShapes: {},
   };
+  protected getDefaultStyles() {
+    return this.defaultStyles;
+  }
   abstract draw(
     model: NodeDisplayModel,
     shapeMap: { [shapeId: string]: DisplayObject },
@@ -30,22 +52,31 @@ export abstract class BaseNode {
     diffData?: { oldData: NodeModelData; newData: NodeModelData },
   ): DisplayObject;
 
-  afterDraw: (
+  public afterDraw(
     model: NodeDisplayModel,
     shapeMap: { [shapeId: string]: DisplayObject },
     shapesChanged?: string[],
-  ) => { [otherShapeId: string]: DisplayObject };
+  ): { [otherShapeId: string]: DisplayObject } {
+    return {};
+  }
   // shouldUpdate: (model: NodeDisplayModel, prevModel: NodeDisplayModel) => boolean = () => true;
-  setState: (name: string, value: boolean, shapeMap: { [shapeId: string]: DisplayObject }) => void;
+  public setState: (
+    name: string,
+    value: boolean,
+    shapeMap: { [shapeId: string]: DisplayObject },
+  ) => void;
 
   public drawLabelShape(
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
     diffData?: { oldData: NodeModelData; newData: NodeModelData },
-  ): DisplayObject {
+  ): {
+    labelShape: DisplayObject;
+    [id: string]: DisplayObject;
+  } {
     const { keyShape } = shapeMap;
     const keyShapeBox = keyShape.getGeometryBounds();
-    const shapeStyle = Object.assign({}, this.defaultStyles.labelShape, model.data?.labelShape);
+    const shapeStyle = Object.assign({}, model.data?.labelShape);
     const {
       position,
       background,
@@ -94,10 +125,41 @@ export abstract class BaseNode {
     positionPreset.y += offsetY;
 
     const style = {
+      ...this.defaultStyles.labelShape,
       ...positionPreset,
       ...otherStyle,
     };
-    return upsertShape('text', 'labelShape', style, shapeMap);
+    const labelShape = upsertShape('text', 'labelShape', style, shapeMap);
+    const shapes = { labelShape };
+    if (background) {
+      const textBBox = labelShape.getGeometryBounds();
+      const { padding: propsPadding, ...backgroundStyle } = background;
+      const padding = formatPadding(propsPadding, DEFAULT_LABEL_BG_PADDING);
+      const bgStyle = {
+        fill: '#fff',
+        radius: 4,
+        ...backgroundStyle,
+        x: textBBox.min[0] - padding[3] + style.x,
+        y: textBBox.min[1] - padding[0] + style.y,
+        width: textBBox.max[0] - textBBox.min[0] + padding[1] + padding[3],
+        height: textBBox.max[1] - textBBox.min[1] + padding[0] + padding[2],
+      };
+      if (style.stransform) {
+        bgStyle.transform = style.transform;
+        bgStyle.transformOrigin = 'center';
+        if (style.textAlign === 'left') {
+          bgStyle.transformOrigin = `${padding[3]} ${padding[0] + bgStyle.height / 2}`;
+        }
+        if (style.textAlign === 'right') {
+          bgStyle.transformOrigin = `${padding[3] + bgStyle.width} ${
+            padding[0] + bgStyle.height / 2
+          }`;
+        }
+      }
+
+      shapes['labelBgShape'] = upsertShape('rect', 'labelBgShape', bgStyle, shapeMap);
+    }
+    return shapes;
   }
 
   public drawIconShape(
@@ -106,7 +168,7 @@ export abstract class BaseNode {
     diffData?: { oldData: NodeModelData; newData: NodeModelData },
   ): DisplayObject {
     const { iconShape } = model.data || {};
-    const shapeStyle = Object.assign({}, this.defaultStyles.iconShape, model.data?.iconShape);
+    const shapeStyle = Object.assign({}, this.defaultStyles.iconShape, iconShape);
     const iconShapeType = shapeStyle.text ? 'text' : 'image';
     if (iconShapeType === 'image') {
       const { width, height } = shapeStyle;

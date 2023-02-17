@@ -13,6 +13,11 @@ import { NodeDisplayModel, NodeEncode, NodeModel, NodeModelData, NodeUserModel }
 export interface ShapeStyle {
   [shapeAttr: string]: unknown;
   animate?: AnimateAttr;
+  x?: number;
+  y?: number;
+  width?: number;
+  height?: number;
+  r?: number;
 }
 
 export interface Encode<T> {

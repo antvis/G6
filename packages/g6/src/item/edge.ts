@@ -56,6 +56,9 @@ export default class Edge extends Item {
     // add shapes to group, and update shapeMap
     this.shapeMap = updateShapes(this.shapeMap, shapeMap, this.group);
 
+    const { labelShape } = this.shapeMap;
+    labelShape?.toFront();
+
     super.draw(diffData);
   }
 

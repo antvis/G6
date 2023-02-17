@@ -1,5 +1,5 @@
 import { DisplayObject, Line, Polyline } from '@antv/g';
-import { isNumber } from '_@antv_util@3.3.2@@antv/util';
+import { isNumber } from '@antv/util';
 import { Point } from '../../../types/common';
 import {
   EdgeDisplayModel,
@@ -8,7 +8,12 @@ import {
   EdgeShapeMap,
 } from '../../../types/edge';
 import { ShapeStyle } from '../../../types/item';
-import { upsertShape } from '../../../util/shape';
+import {
+  DEFAULT_LABEL_BG_PADDING,
+  DEFAULT_TEXT_STYLE,
+  formatPadding,
+  upsertShape,
+} from '../../../util/shape';
 
 export abstract class BaseEdge {
   type: string;
@@ -19,7 +24,26 @@ export abstract class BaseEdge {
     otherShapes: {
       [shapeId: string]: ShapeStyle;
     };
+  } = {
+    keyShape: {
+      lineWidth: 1,
+      stroke: '#fff',
+    },
+    labelShape: {
+      ...DEFAULT_TEXT_STYLE,
+      fill: '#000',
+    },
+    iconShape: {
+      ...DEFAULT_TEXT_STYLE,
+      img: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wAmHQJbNVdwAAAAAAAAAAABkARQnAQ',
+      width: 15,
+      height: 15,
+    },
+    otherShapes: {},
   };
+  protected getDefaultStyles() {
+    return this.defaultStyles;
+  }
   abstract draw(
     model: EdgeDisplayModel,
     sourcePoint: Point,
@@ -32,13 +56,19 @@ export abstract class BaseEdge {
     iconShape?: DisplayObject;
     [otherShapeId: string]: DisplayObject;
   };
-  afterDraw: (
+  public afterDraw(
     model: EdgeDisplayModel,
     shapeMap: { [shapeId: string]: DisplayObject },
     shapesChanged?: string[],
-  ) => void;
+  ): { [otherShapeId: string]: DisplayObject } {
+    return {};
+  }
   // shouldUpdate: (model: EdgeDisplayModel, prevModel: EdgeDisplayModel) => boolean = () => true;
-  setState: (name: string, value: boolean, shapeMap: { [shapeId: string]: DisplayObject }) => void;
+  public setState: (
+    name: string,
+    value: boolean,
+    shapeMap: { [shapeId: string]: DisplayObject },
+  ) => void;
 
   public drawLabelShape(
     model: EdgeDisplayModel,
@@ -50,7 +80,7 @@ export abstract class BaseEdge {
   } {
     const { keyShape } = shapeMap;
 
-    const shapeStyle = Object.assign({}, this.defaultStyles.labelShape, model.data?.labelShape);
+    const shapeStyle = Object.assign({}, model.data?.labelShape);
     const {
       position,
       background,
@@ -104,7 +134,7 @@ export abstract class BaseEdge {
       };
     }
     const style = {
-      textBaseline: 'middle',
+      ...this.defaultStyles.labelShape,
       textAlign: positionPreset.textAlign,
       ...positionStyle,
       ...otherStyle,
@@ -113,28 +143,31 @@ export abstract class BaseEdge {
     const labelShape = upsertShape('text', 'labelShape', style, shapeMap);
     const shapes = { labelShape };
     if (background) {
-      // TODO: zeros, how to estimate the bbox before being appended to group
       const textBBox = labelShape.getGeometryBounds();
-      console.log('textBBoxxxxxx', textBBox);
-      const { padding = [4, 4, 4, 4], ...backgroundStyle } = background;
-      debugger;
-      shapes['labelBgShape'] = upsertShape(
-        'rect',
-        'labelBgShape',
-        {
-          fill: '#fff',
-          radius: 4,
-          ...backgroundStyle,
-          x: textBBox.min[0] - padding[3],
-          y: textBBox.min[1] - padding[0],
-          width: textBBox.max[0] - textBBox.min[0] + padding[1] + padding[3],
-          height: textBBox.max[1] - textBBox.min[1] + padding[0] + padding[2],
-        },
-        shapeMap,
-      );
-    }
+      const { padding: propsPadding, ...backgroundStyle } = background;
+      const padding = formatPadding(propsPadding, DEFAULT_LABEL_BG_PADDING);
+      const bgStyle = {
+        fill: '#fff',
+        radius: 4,
+        ...backgroundStyle,
+        x: textBBox.min[0] - padding[3] + style.x,
+        y: textBBox.min[1] - padding[0] + style.y,
+        width: textBBox.max[0] - textBBox.min[0] + padding[1] + padding[3],
+        height: textBBox.max[1] - textBBox.min[1] + padding[0] + padding[2],
+        transform: positionStyle.transform,
+        transformOrigin: 'center',
+      };
+      if (position === 'start') {
+        bgStyle.transformOrigin = `${padding[3]} ${padding[0] + bgStyle.height / 2}`;
+      }
+      if (position === 'end') {
+        bgStyle.transformOrigin = `${padding[3] + bgStyle.width} ${
+          padding[0] + bgStyle.height / 2
+        }`;
+      }
 
-    console.log('label', shapes);
+      shapes['labelBgShape'] = upsertShape('rect', 'labelBgShape', bgStyle, shapeMap);
+    }
     return shapes;
   }
 
@@ -143,17 +176,48 @@ export abstract class BaseEdge {
     shapeMap: EdgeShapeMap,
     diffData?: { oldData: EdgeModelData; newData: EdgeModelData },
   ): DisplayObject {
-    const { iconShape } = model.data || {};
-    const shapeStyle = Object.assign({}, this.defaultStyles.iconShape, model.data?.iconShape);
+    const { labelShape, labelBgShape, keyShape } = shapeMap;
+
+    const { iconShape: propsStyle, labelShape: labelShapeProps } = model.data || {};
+    const shapeStyle = Object.assign({}, this.defaultStyles.iconShape, propsStyle);
     const iconShapeType = shapeStyle.text ? 'text' : 'image';
-    if (iconShapeType === 'image') {
-      const { width, height } = shapeStyle;
-      if (!iconShape.hasOwnProperty('x')) shapeStyle.x = -width / 2;
-      if (!iconShape.hasOwnProperty('y')) shapeStyle.y = -height / 2;
-    } else {
-      shapeStyle.textAlign = 'center';
-      shapeStyle.textBaseline = 'middle';
+    if (iconShapeType === 'text') {
+      shapeStyle.textAlign = 'left';
+      shapeStyle.textBaseline = 'top';
     }
+    const { width, height, fontSize } = shapeStyle;
+    const w = (width || fontSize) as number;
+    const h = (height || fontSize) as number;
+
+    if (labelShapeProps) {
+      const referShape = labelBgShape || labelShape;
+      const { min: referMin, halfExtents: referHalExtents } = referShape.getGeometryBounds();
+      const {
+        x: referX,
+        y: referY,
+        transform: referTransform,
+        textAlign: labelAlign,
+      } = referShape.attributes;
+      shapeStyle.x = referMin[0] - w - 4 + referX;
+      shapeStyle.y = referMin[1] + 2 + referY;
+      if (referTransform) {
+        shapeStyle.transform = referTransform;
+        if (labelAlign === 'right') {
+          shapeStyle.transformOrigin = `${w + 4 + referHalExtents[0] * 2}px ${h / 2}px`;
+        } else if (labelAlign === 'left') {
+          shapeStyle.transformOrigin = `${w + 4}px ${h / 2}px`;
+        } else {
+          // labelShape align 'center'
+          shapeStyle.transformOrigin = `${w + 4 + referHalExtents[0]}px ${h / 2}px`;
+        }
+      }
+    } else {
+      const midPoint = (keyShape as Line | Polyline).getPoint(0.5);
+      shapeStyle.x = midPoint.x;
+      shapeStyle.y = midPoint.y;
+      // TODO: rotate
+    }
+
     return upsertShape(iconShapeType, 'iconShape', shapeStyle, shapeMap);
   }
 }

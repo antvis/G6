@@ -51,7 +51,7 @@ export default abstract class Item implements IItem {
 
   public draw(diffData?: { oldData: ItemModelData; newData: ItemModelData }) {
     // call this.renderExt.draw in extend implementations
-    const afterDrawShapes = this.renderExt.afterDraw?.(this.displayModel, this.group) || {};
+    const afterDrawShapes = this.renderExt.afterDraw?.(this.displayModel, this.shapeMap) || {};
     this.shapeMap = updateShapes(this.shapeMap, afterDrawShapes, this.group, false, (id) => {
       if (RESERVED_SHAPE_IDS.includes(id)) {
         console.warn(
@@ -101,7 +101,7 @@ export default abstract class Item implements IItem {
     typeChange?: boolean;
   } {
     const { mapper } = this;
-    const { newData, oldData } = diffData || {};
+    const { newData = innerModel.data, oldData } = diffData || {};
 
     // === no mapper, displayModel = model ===
     if (!mapper) {
@@ -130,6 +130,7 @@ export default abstract class Item implements IItem {
     const displayModelData = clone(data);
     Object.keys(mapper).forEach((fieldName) => {
       const subMapper = mapper[fieldName];
+      displayModelData[fieldName] = displayModelData[fieldName] || {};
 
       if (RESERVED_SHAPE_IDS.includes(fieldName)) {
         // reserved shapes, fieldName is shapeId
@@ -142,6 +143,7 @@ export default abstract class Item implements IItem {
       } else if (fieldName === OTHER_SHAPES_FIELD_NAME) {
         // other shapes
         Object.keys(subMapper).forEach((shapeId) => {
+          displayModelData[fieldName][shapeId] = displayModelData[fieldName][shapeId] || {};
           const shappStyle = subMapper[shapeId];
           updateShapeChange({
             innerModel,
@@ -262,14 +264,15 @@ const updateChange = ({
   changed: boolean;
   value?: unknown;
 } => {
-  const value = mapper[fieldName];
+  const value = mapper[fieldName] || '';
   if (isEncode(value)) {
     const { fields, formatter } = value;
     // data changed fields and the encode fields are overlapped, display value should be changed
     if (isArrayOverlap(dataChangedFields, fields)) {
+      const formatedValue = formatter(innerModel);
       return {
         changed: true,
-        value: formatter(innerModel),
+        value: formatedValue || '',
       };
     }
     return { changed: false };

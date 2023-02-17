@@ -252,10 +252,69 @@ describe('data', () => {
     graph.removeData('edge', 'edge1');
     expect(graph.dataController.graphCore.getAllEdges().length).toBe(1);
   });
-  xit('findNodeData', () => {});
-  xit('findEdgeData', () => {});
+  it('getNodeData', () => {
+    const foundNode = graph.getNodeData('node1');
+    expect(foundNode).toBe(graph.dataController.graphCore.getNode('node1'));
 
-  xit('changeData with replace', () => {});
+    const inexisNode = graph.getNodeData('inexistnode');
+    expect(inexisNode).toBe(undefined);
+  });
+  it('getEdgeData', () => {
+    const foundEdge = graph.getEdgeData('edge2');
+    expect(foundEdge).toBe(graph.dataController.graphCore.getEdge('edge2'));
 
-  xit('changeData with mergeReplace', () => {});
+    const removedEdge = graph.getEdgeData('edge1');
+    expect(removedEdge).toBe(undefined);
+
+    const inexisEdge = graph.getEdgeData('inexistedge');
+    expect(inexisEdge).toBe(undefined);
+  });
+  it('getAllNodesData getAllEdgesDat', () => {
+    expect(graph.getAllNodesData().length).toBe(6);
+    expect(graph.getAllEdgesData().length).toBe(1);
+  });
+
+  it('changeData with replace', () => {
+    const newData = {
+      nodes: [
+        { id: 'node1', data: { x: 100, y: 200 } },
+        { id: 'node2', data: { x: 400, y: 450 } },
+        { id: 'node11', data: { x: 300, y: 200 } },
+        { id: 'node12', data: { x: 300, y: 250 } },
+      ],
+      edges: [
+        { id: 'edge1', source: 'node1', target: 'node2', data: {} },
+        { id: 'edge11', source: 'node1', target: 'node11', data: {} },
+      ],
+    };
+    graph.changeData(newData, 'replace');
+    expect(graph.getNodeData('node2').data.x).toBe(400);
+    expect(graph.getNodeData('node2').data.y).toBe(450);
+    expect(graph.getNodeData('node3')).toBe(undefined);
+    expect(graph.getNodeData('node11')).not.toBe(undefined);
+    expect(graph.getNodeData('node12')).not.toBe(undefined);
+  });
+
+  it('changeData with mergeReplace', () => {
+    const newData = {
+      nodes: [{ id: 'node13', data: { x: 50, y: 50 } }],
+      edges: [{ id: 'edge1', source: 'node13', target: 'node13', data: {} }],
+    };
+    graph.changeData(newData, 'mergeReplace');
+    const allNodes = graph.getAllNodesData();
+    expect(allNodes.length).toBe(1);
+    expect(allNodes[0].id).toBe('node13');
+
+    const allEdges = graph.getAllEdgesData();
+    expect(allEdges.length).toBe(1);
+    expect(allEdges[0].id).toBe('edge1');
+    expect(allEdges[0].source).toBe('node13');
+    expect(allEdges[0].target).toBe('node13');
+
+    graph.destroy();
+    expect(graph.destroyed).toBe(true);
+    // expect(graph.canvas.destroyed).toBe(true);
+    // expect(graph.backgroundCanvas.destroyed).toBe(true);
+    // expect(graph.transientCanvas.destroyed).toBe(true);
+  });
 });

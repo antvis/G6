@@ -68,8 +68,8 @@ export class ItemController {
   private getExtensions() {
     // TODO: user need to config using node/edge/combo types from useLib to spec?
     // const { transform = [] } = this.graph.getSpecification();
-    const nodeTypes = ['circle-node', 'rect-node']; // TODO: WIP
-    const edgeTypes = ['line-edge', 'polyline-edge']; // TODO: WIP
+    const nodeTypes = ['circle-node', 'custom-node']; // TODO: WIP
+    const edgeTypes = ['line-edge', 'custom-edge']; // TODO: WIP
     const comboTypes = ['circle-combo', 'rect-combo']; // TODO: WIP
     return {
       node: nodeTypes
@@ -240,7 +240,8 @@ export class ItemController {
     const { nodeExtensions, nodeGroup } = this;
     models.forEach((node) => {
       // TODO: get mapper from theme controller which is analysed from graph spec
-      const extension = nodeExtensions.find((ext) => ext.type === node.data?.type || 'circle-node');
+      let extension = nodeExtensions.find((ext) => ext.type === node.data?.type);
+      if (!extension) extension = nodeExtensions.find((ext) => ext.type === 'circle-node');
       this.itemMap[node.id] = new Node({
         model: node,
         renderExt: new extension(),
@@ -259,7 +260,8 @@ export class ItemController {
     models.forEach((edge) => {
       const { source, target, id } = edge;
       // TODO: get mapper from theme controller which is analysed from graph spec
-      const extension = edgeExtensions.find((ext) => ext.type === edge.data?.type || 'line-edge');
+      let extension = edgeExtensions.find((ext) => ext.type === edge.data?.type);
+      if (!extension) extension = edgeExtensions.find((ext) => ext.type === 'line-edge');
       const sourceItem = itemMap[source] as Node;
       const targetItem = itemMap[target] as Node;
       if (!sourceItem) {

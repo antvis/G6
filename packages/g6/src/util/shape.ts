@@ -11,6 +11,7 @@ import {
   Text,
   Image,
 } from '@antv/g';
+import { isArray, isNumber } from '@antv/util';
 import { EdgeShapeMap } from '../types/edge';
 import { NodeShapeMap } from '../types/node';
 
@@ -47,6 +48,7 @@ export const upsertShape = (
       shape.style[key] = style[key];
     });
   }
+  shapeMap[id] = shape;
   return shape;
 };
 
@@ -91,8 +93,8 @@ export const updateShapes = (
       finalShapeMap[id] = newShape;
       if (prevShape !== newShape) {
         prevShape.remove();
-        group.appendChild(newShape);
       }
+      group.appendChild(newShape);
     } else if (!prevShape && newShape) {
       // add newShapeMap - prevShapeMap
       finalShapeMap[id] = newShape;
@@ -104,4 +106,39 @@ export const updateShapes = (
     }
   });
   return finalShapeMap as NodeShapeMap;
+};
+
+/**
+ * Format the number or array padding to an array with length 4, [padding-top, padding-right, padding-bottom, padding-left].
+ * @param value value to be formatted
+ * @param defaultArr default value
+ * @returns [padding-top, padding-right, padding-bottom, padding-left]
+ */
+export const formatPadding = (value, defaultArr = [4, 4, 4, 4]) => {
+  if (isArray(value)) {
+    switch (value.length) {
+      case 0:
+        return defaultArr;
+      case 1:
+        return [value[0], value[0], value[0], value[0]];
+      case 2:
+        return value.concat(value);
+      default:
+        return value;
+    }
+  }
+  if (isNumber(value)) return [value, value, value, value];
+  return defaultArr;
+};
+
+export const DEFAULT_LABEL_BG_PADDING = [4, 4, 4, 4];
+export const DEFAULT_TEXT_STYLE = {
+  fontSize: 12,
+  fontFamily: 'sans-serif',
+  fontWeight: 'normal',
+  fontVariant: 'normal',
+  fontStyle: 'normal',
+  textBaseline: 'middle',
+  textAlign: 'center',
+  lineWidth: 0,
 };

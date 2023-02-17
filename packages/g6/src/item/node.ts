@@ -27,6 +27,8 @@ export default class Node extends Item {
     // add shapes to group, and update shapeMap
     this.shapeMap = updateShapes(prevShapeMap, shapeMap, group);
 
+    this.shapeMap.labelShape?.toFront();
+
     super.draw(diffData);
   }
 
