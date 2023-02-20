@@ -64,7 +64,7 @@ const colorSet = {
 };
 
 export default {
-  version: '0.8.5',
+  version: '0.8.6',
   rootContainerClassName: 'root-container',
   nodeContainerClassName: 'node-container',
   edgeContainerClassName: 'edge-container',
@@ -249,8 +249,9 @@ export default {
     strokeOpacity: 0.9,
     lineDash: [5, 5],
   },
-  windowFontFamily: typeof window !== 'undefined' && window.getComputedStyle && document.body
-    ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
-    'Arial, sans-serif'
-    : 'Arial, sans-serif'
+  windowFontFamily:
+    typeof window !== 'undefined' && window.getComputedStyle && document.body
+      ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
+        'Arial, sans-serif'
+      : 'Arial, sans-serif',
 };
