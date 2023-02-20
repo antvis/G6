@@ -6,10 +6,10 @@
  * @Description: 拖动节点的Behavior
  */
 import { Point } from '@antv/g-base';
-import { deepMix, clone, debounce } from '@antv/util';
-import { G6Event, IG6GraphEvent, Item, NodeConfig, INode, ICombo } from '@antv/g6-core';
-import { IGraph } from '../interface/graph';
+import { G6Event, ICombo, IG6GraphEvent, INode, Item, NodeConfig } from '@antv/g6-core';
+import { clone, debounce, deepMix } from '@antv/util';
 import Global from '../global';
+import { IGraph } from '../interface/graph';
 
 export default {
   getDefaultCfg(): object {
@@ -31,16 +31,17 @@ export default {
   getEvents(): { [key in G6Event]?: string } {
     return {
       'node:mousedown': 'onMouseDown', // G's dragstart event is not triggered sometimes when the drag events are not finished properly. Listen to mousedown and drag instead of dragstart
-      'drag': 'onDragMove', // global drag, mouseup, and dragend to avoid mouse moving too fast to go out of a node while draging
-      'dragend': 'onDragEnd',
+      drag: 'onDragMove', // global drag, mouseup, and dragend to avoid mouse moving too fast to go out of a node while draging
+      dragend: 'onDragEnd',
       'combo:dragenter': 'onDragEnter',
       'combo:dragleave': 'onDragLeave',
       'combo:drop': 'onDropCombo',
       'node:drop': 'onDropNode',
       'canvas:drop': 'onDropCanvas',
-      'touchstart': 'onTouchStart',
-      'touchmove': 'onTouchMove',
-      'touchend': 'onDragEnd',
+      touchstart: 'onTouchStart',
+      touchmove: 'onTouchMove',
+      touchend: 'onDragEnd',
+      afterchangedata: 'onDragEnd',
     };
   },
   validationCombo(item: ICombo) {
@@ -72,7 +73,7 @@ export default {
     }
     this.mousedown = {
       item: evt.item,
-      target: evt.target
+      target: evt.target,
     };
     this.dragstart = true;
     self.onDragStart(evt);
@@ -102,7 +103,7 @@ export default {
   onMouseDown(evt: IG6GraphEvent) {
     this.mousedown = {
       item: evt.item,
-      target: evt.target
+      target: evt.target,
     };
   },
   /**
@@ -123,7 +124,7 @@ export default {
       // drag
       this.onDrag({
         ...evt,
-        ...this.mousedown
+        ...this.mousedown,
       });
     }
   },
@@ -168,7 +169,7 @@ export default {
     const currentNodeId = item.get('id');
 
     // 当前拖动的节点是否是选中的节点
-    const dragNodes = nodes.filter(node => {
+    const dragNodes = nodes.filter((node) => {
       const nodeId = node.get('id');
       return currentNodeId === nodeId;
     });
@@ -178,7 +179,7 @@ export default {
       this.targets.push(item);
     } else if (nodes.length > 1) {
       // 拖动多个节点
-      nodes.forEach(node => {
+      nodes.forEach((node) => {
         const locked = node.hasLocked();
         if (!locked) {
           this.targets.push(node);
@@ -199,9 +200,9 @@ export default {
 
     this.hidenEdge = {};
     if (this.get('updateEdge') && this.enableOptimize && !this.enableDelegate) {
-      this.targets.forEach(node => {
+      this.targets.forEach((node) => {
         const edges = node.getEdges();
-        edges.forEach(edge => {
+        edges.forEach((edge) => {
           if (!edge.isVisible()) return;
           this.hidenEdge[edge.getID()] = true;
           edge.hide();
@@ -245,11 +246,11 @@ export default {
           evt,
           updateEdge: this.get('updateEdge'),
           onlyChangeComboSize: this.onlyChangeComboSize,
-          updateParentCombos: this.updateParentCombos
+          updateParentCombos: this.updateParentCombos,
         });
       } else {
         const parentComboMap = {};
-        this.targets.map(target => {
+        this.targets.map((target) => {
           this.update(target, evt);
           const parentComboId = target.getModel().comboId;
           if (parentComboId) parentComboMap[parentComboId] = this.graph.findById(parentComboId);
@@ -273,7 +274,7 @@ export default {
     }
 
     // 拖动结束后，设置拖动元素 group 的 capture 为 true，允许拾取拖动元素
-    this.cachedCaptureItems?.forEach(item => {
+    this.cachedCaptureItems?.forEach((item) => {
       const group = item.getContainer();
       group.set('capture', true);
     });
@@ -285,9 +286,9 @@ export default {
     }
 
     if (this.get('updateEdge') && this.enableOptimize && !this.enableDelegate) {
-      this.targets.forEach(node => {
+      this.targets.forEach((node) => {
         const edges = node.getEdges();
-        edges.forEach(edge => {
+        edges.forEach((edge) => {
           if (this.hidenEdge[edge.getID()]) edge.show();
           edge.refresh();
         });
@@ -304,11 +305,11 @@ export default {
         after: { nodes: [], edges: [], combos: [] },
       };
 
-      this.get('beforeDragNodes').forEach(model => {
+      this.get('beforeDragNodes').forEach((model) => {
         stackData.before.nodes.push(model);
       });
 
-      this.targets.forEach(target => {
+      this.targets.forEach((target) => {
         const { x, y, id } = target.getModel();
         stackData.after.nodes.push({ x, y, id });
       });
@@ -478,10 +479,10 @@ export default {
           evt,
           updateEdge: this.get('updateEdge'),
           onlyChangeComboSize: this.onlyChangeComboSize,
-          updateParentCombos: this.updateParentCombos
+          updateParentCombos: this.updateParentCombos,
         });
-      else if (!restore) this.targets.map(node => this.update(node, evt));
-    } else this.targets.map(node => this.update(node, evt, restore));
+      else if (!restore) this.targets.map((node) => this.update(node, evt));
+    } else this.targets.map((node) => this.update(node, evt, restore));
   },
   /**
    * 更新节点
@@ -522,9 +523,18 @@ export default {
    * @param evt
    */
   debounceUpdate: debounce(
-    event => {
-      const { targets, graph, point, origin, evt, updateEdge, onlyChangeComboSize, updateParentCombos } = event;
-      targets.map(item => {
+    (event) => {
+      const {
+        targets,
+        graph,
+        point,
+        origin,
+        evt,
+        updateEdge,
+        onlyChangeComboSize,
+        updateParentCombos,
+      } = event;
+      targets.map((item) => {
         const model: NodeConfig = item.get('model');
         const nodeId: string = item.get('id');
         if (!point[nodeId]) {
@@ -651,12 +661,12 @@ export default {
     const graph = paramGraph || this.graph;
     const targets = paramTargets || this.targets;
     const comboParentMap = {};
-    targets?.forEach(target => {
+    targets?.forEach((target) => {
       const comboId = target.getModel().comboId;
       if (comboId) comboParentMap[comboId] = graph.findById(comboId);
-    })
+    });
     Object.values(comboParentMap).forEach((combo: ICombo) => {
       if (combo) graph.updateCombo(combo);
-    })
-  }
+    });
+  },
 };
