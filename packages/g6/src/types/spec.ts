@@ -59,7 +59,7 @@ export interface Specification<B extends BehaviorRegistry> {
   };
 
   /** layout */
-  layout?: LayoutOptions;
+  layout?: LayoutOptions | LayoutOptions[];
 
   /** interaction */
   modes?: {
