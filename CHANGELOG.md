@@ -1,5 +1,10 @@
 # ChangeLog
 
+### 4.8.7
+
+- fix: loop edge position after node dragging;
+- fix: handle drag-node interrupted by browser contextmenu and mouseup event outside the viewport;
+
 ### 4.8.6
 
 - fix: loop edge position for custom rect node, closes: #4236;

@@ -48,7 +48,7 @@ graph.on(eventName, evt => {
 | click | 单击鼠标**左键**或者按下回车键时触发 |
 | dblclick | 双击鼠标**左键**时触发，同时会触发两次 click |
 | mouseenter | 鼠标移入元素范围内触发，**该事件不冒泡**，即鼠标移到其后代元素上时不会触发 |
-| mousemove | 鼠标在元素内部移到时不断触发，不能通过键盘触发 |
+| mousemove | 鼠标在元素内部移动时不断触发，不能通过键盘触发 |
 | mouseout | 鼠标移出目标元素后触发 |
 | mouseover | 鼠标移入目标元素上方，鼠标移到其后代元素上时会触发 |
 | mouseleave | 鼠标移出元素范围时触发，**该事件不冒泡**，即鼠标移到其后代元素时不会触发 |
@@ -75,7 +75,7 @@ graph.on(eventName, evt => {
 | node:click | 鼠标**左键**单击节点时触发 |
 | node:dblclick | 鼠标双击**左键**节点时触发，同时会触发两次 node:click |
 | node:mouseenter | 鼠标移入节点时触发 |
-| node:mousemove | 鼠标在节点内部移到时不断触发，不能通过键盘触发 |
+| node:mousemove | 鼠标在节点内部移动时不断触发，不能通过键盘触发 |
 | node:mouseout | 鼠标移出节点后触发 |
 | node:mouseover | 鼠标移入节点上方时触发 |
 | node:mouseleave | 鼠标移出节点时触发 |
@@ -100,7 +100,7 @@ graph.on(eventName, evt => {
 | edge:click | 鼠标**左键**单击边时触发 |
 | edge:dblclick | 鼠标双击**左键**边时触发，同时会触发两次 edge:click |
 | edge:mouseenter | 鼠标移入边时触发 |
-| edge:mousemove | 鼠标在边上移到时不断触发，不能通过键盘触发 |
+| edge:mousemove | 鼠标在边上移动时不断触发，不能通过键盘触发 |
 | edge:mouseout | 鼠标移出边后触发 |
 | edge:mouseover | 鼠标移入边上方时触发 |
 | edge:mouseleave | 鼠标移出边时触发 |
@@ -123,7 +123,7 @@ Combo 继承所有 Node 事件。
 | canvas:click | 鼠标**左键**单击画布时触发 |
 | canvas:dblclick | 鼠标双击**左键**画布时触发 |
 | canvas:mouseenter | 鼠标移入画布时触发 |
-| canvas:mousemove | 鼠标在画布内部移到时不断触发，不能通过键盘触发 |
+| canvas:mousemove | 鼠标在画布内部移动时不断触发，不能通过键盘触发 |
 | canvas:mouseout | 鼠标移出画布后触发 |
 | canvas:mouseover | 鼠标移入画布上方时触发 |
 | canvas:mouseleave | 鼠标移出画布时触发 |

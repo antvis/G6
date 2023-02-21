@@ -9,7 +9,7 @@ export default {
        * 发生收缩/扩展变化时的回调
        */
       trigger: DEFAULT_TRIGGER,
-      onChange() { },
+      onChange() {},
     };
   },
   getEvents(): { [key in G6Event]?: string } {
@@ -29,9 +29,25 @@ export default {
     };
   },
   onNodeClick(e: IG6GraphEvent) {
+    // avoid click being triggered on dblclick
+    if (this.trigger === 'click') {
+      if (this.timer) {
+        clearTimeout(this.timer);
+        this.timer = 0;
+        return;
+      }
+      this.timer = setTimeout(() => {
+        this.toggle(e);
+        clearTimeout(this.timer);
+        this.timer = 0;
+      }, 200);
+    } else {
+      this.toggle(e);
+    }
+  },
+  toggle(e: IG6GraphEvent) {
     const { item } = e;
     if (!item) return;
-
     // 如果节点进行过更新，model 会进行 merge，直接改 model 就不能改布局，所以需要去改源数据
     const sourceData = this.graph.findDataById(item.get('id'));
     if (!sourceData) {

@@ -105,6 +105,13 @@ export default {
       item: evt.item,
       target: evt.target,
     };
+
+    // 绑定浏览器监听，触发拖拽结束，结束拖拽时移除
+    if (typeof window !== 'undefined' && !this.windowEventBinded) {
+      this.windowEventBinded = true;
+      document.body.addEventListener('contextmenu', this.onDragEnd.bind(this));
+      document.body.addEventListener('mouseup', this.onDragEnd.bind(this));
+    }
   },
   /**
    * trigger dragstart/drag by mousedown and drag events
@@ -217,13 +224,6 @@ export default {
 
     this.point = {};
     this.originPoint = {};
-
-    // 绑定浏览器右键监听，触发拖拽结束，结束拖拽时移除
-    if (typeof window !== 'undefined') {
-      const self = this;
-      this.handleDOMContextMenu = () => self.onDragEnd();
-      document.body.addEventListener('contextmenu', this.handleDOMContextMenu);
-    }
   },
 
   /**
@@ -269,6 +269,14 @@ export default {
   onDragEnd(evt: IG6GraphEvent) {
     this.mousedown = false;
     this.dragstart = false;
+
+    // 移除浏览器监听
+    if (typeof window !== 'undefined' && this.windowEventBinded) {
+      this.windowEventBinded = false;
+      document.body.removeEventListener('contextmenu', this.onDragEnd.bind(this));
+      document.body.removeEventListener('mouseup', this.onDragEnd.bind(this));
+    }
+
     if (!this.origin) {
       return;
     }
@@ -327,11 +335,6 @@ export default {
     this.originPoint = {};
     this.targets.length = 0;
     this.targetCombo = null;
-
-    // 结束拖拽时移除浏览器右键监听
-    if (typeof window !== 'undefined') {
-      document.body.removeEventListener('contextmenu', this.handleDOMContextMenu);
-    }
   },
   /**
    * 拖动过程中将节点放置到 combo 上
