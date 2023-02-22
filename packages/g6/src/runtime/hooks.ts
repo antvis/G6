@@ -1,4 +1,4 @@
-import { IHook } from "../types/hook";
+import { IHook } from '../types/hook';
 
 /**
  * A hook class unified the definitions of tap, untap, and emit.
@@ -16,14 +16,14 @@ export default class Hook<T> implements IHook<T> {
   }
   /**
    * Tap a listener to the corresponding lifecycle of this hook.
-   * @param listener 
+   * @param listener
    */
   public tap(listener: (param: T) => void) {
     this.listeners.push(listener);
   }
   /**
    * Remove a listener from the corresponding lifecycle of this hook.
-   * @param listener 
+   * @param listener
    */
   public unTap(listener: (param: T) => void) {
     const idx = this.listeners.indexOf(listener);
@@ -31,28 +31,34 @@ export default class Hook<T> implements IHook<T> {
   }
   /**
    * Emit the corresponding lifecycle to call the listeners
-   * @param param 
+   * @param param
    */
   public emit(param: T) {
-    this.listeners.forEach(listener => listener(param));
+    this.listeners.forEach((listener) => listener(param));
   }
   /**
    * Linearly async emit the corresponding lifecycle to call the listeners
-   * @param param 
+   * @param param
    */
   public async emitLinearAsync(param: T): Promise<void> {
-    return new Promise(async () => {
-      let start = Promise.resolve();
-      this.listeners.forEach(listener => {
-        start = start.then(async () => new Promise(async (resolve, reject) => {
-          try {
-            await listener(param);
-            resolve();
-          } catch (e) {
-            reject();
-          }
-        }));
-      });
-    });
+    for (const listener of this.listeners) {
+      await listener(param);
+    }
+    // return new Promise(async () => {
+    //   let start = Promise.resolve();
+    //   this.listeners.forEach((listener) => {
+    //     start = start.then(
+    //       async () =>
+    //         new Promise(async (resolve, reject) => {
+    //           try {
+    //             await listener(param);
+    //             resolve();
+    //           } catch (e) {
+    //             reject();
+    //           }
+    //         }),
+    //     );
+    //   });
+    // });
   }
 }

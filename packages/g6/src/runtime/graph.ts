@@ -143,25 +143,28 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @returns
    * @group Data
    */
-  public read(data: GraphData) {
+  public async read(data: GraphData) {
     this.hooks.datachange.emit({ data, type: 'replace' });
-    const emitRender = () => {
+    const emitRender = async () => {
       this.hooks.render.emit({
         graphCore: this.dataController.graphCore,
       });
       this.emit('afterrender');
 
       // TODO: make read async?
-      this.hooks.layout.emitLinearAsync({
+      await this.hooks.layout.emitLinearAsync({
         graphCore: this.dataController.graphCore,
       });
+
+      this.emit('afterlayout');
     };
     if (this.canvasReady) {
-      emitRender();
+      await emitRender();
     } else {
-      Promise.all(
+      await Promise.all(
         [this.backgroundCanvas, this.canvas, this.transientCanvas].map((canvas) => canvas.ready),
-      ).then(emitRender);
+      );
+      await emitRender();
     }
   }
 
@@ -172,17 +175,18 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @returns
    * @group Data
    */
-  public changeData(data: GraphData, type: 'replace' | 'mergeReplace' = 'mergeReplace') {
+  public async changeData(data: GraphData, type: 'replace' | 'mergeReplace' = 'mergeReplace') {
     this.hooks.datachange.emit({ data, type });
     this.hooks.render.emit({
       graphCore: this.dataController.graphCore,
     });
     this.emit('afterrender');
 
-    // TODO: make changeData async?
-    this.hooks.layout.emitLinearAsync({
+    await this.hooks.layout.emitLinearAsync({
       graphCore: this.dataController.graphCore,
     });
+
+    this.emit('afterlayout');
   }
 
   /**
@@ -530,6 +534,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
       graphCore: this.dataController.graphCore,
       options,
     });
+    this.emit('afterlayout');
   }
 
   /**

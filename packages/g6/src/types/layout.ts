@@ -24,6 +24,8 @@ export type LayoutOptions = (
   | ForceAtlas2
 ) & {
   workerEnabled?: boolean;
+  animated?: boolean;
+  iterations?: number;
 };
 
 interface CircularLayout extends CircularLayoutOptions {
