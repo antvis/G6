@@ -2,18 +2,20 @@ import { Group } from '@antv/g';
 import { NodeModel } from '../types';
 import { DisplayMapper } from '../types/item';
 import { NodeModelData } from '../types/node';
-import { updateShapes, getGroupSucceedMap } from '../util/shape';
+import { updateShapes } from '../util/shape';
 import Item from './item';
 
 interface IProps {
   model: NodeModel;
-  renderExt: any; // TODO: type
+  renderExtensions: any; // TODO: type
   containerGroup: Group;
   mapper: DisplayMapper;
 }
 export default class Node extends Item {
   constructor(props: IProps) {
     super(props);
+    this.type = 'node';
+    this.init(props);
     this.draw();
   }
   public draw(diffData?: { oldData: NodeModelData; newData: NodeModelData }) {

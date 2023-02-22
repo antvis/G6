@@ -60,6 +60,7 @@ export class ItemController {
     this.comboExtensions = extensions.combo;
     this.graph.hooks.render.tap(this.onRender.bind(this));
     this.graph.hooks.itemchange.tap(this.onChange.bind(this));
+    this.graph.hooks.itemstatechange.tap(this.onItemStateChange.bind(this));
   }
 
   /**
@@ -67,7 +68,8 @@ export class ItemController {
    */
   private getExtensions() {
     // TODO: user need to config using node/edge/combo types from useLib to spec?
-    // const { transform = [] } = this.graph.getSpecification();
+    const { node, edge, combo } = this.graph.getSpecification();
+    
     const nodeTypes = ['circle-node', 'custom-node']; // TODO: WIP
     const edgeTypes = ['line-edge', 'custom-edge']; // TODO: WIP
     const comboTypes = ['circle-combo', 'rect-combo']; // TODO: WIP
@@ -239,12 +241,10 @@ export class ItemController {
   private renderNodes(models: NodeModel[]) {
     const { nodeExtensions, nodeGroup } = this;
     models.forEach((node) => {
-      // TODO: get mapper from theme controller which is analysed from graph spec
-      let extension = nodeExtensions.find((ext) => ext.type === node.data?.type);
-      if (!extension) extension = nodeExtensions.find((ext) => ext.type === 'circle-node');
+      // TODO: get mapper from theme controller which is analysed from graph spec;
       this.itemMap[node.id] = new Node({
         model: node,
-        renderExt: new extension(),
+        renderExtensions: nodeExtensions,
         containerGroup: nodeGroup,
         mapper: this.nodeMapper,
       });
@@ -259,9 +259,6 @@ export class ItemController {
     const { edgeExtensions, edgeGroup, itemMap } = this;
     models.forEach((edge) => {
       const { source, target, id } = edge;
-      // TODO: get mapper from theme controller which is analysed from graph spec
-      let extension = edgeExtensions.find((ext) => ext.type === edge.data?.type);
-      if (!extension) extension = edgeExtensions.find((ext) => ext.type === 'line-edge');
       const sourceItem = itemMap[source] as Node;
       const targetItem = itemMap[target] as Node;
       if (!sourceItem) {
@@ -276,12 +273,38 @@ export class ItemController {
       }
       itemMap[id] = new Edge({
         model: edge,
-        renderExt: new extension(),
+        renderExtensions: edgeExtensions,
         containerGroup: edgeGroup,
         mapper: this.edgeMapper,
         sourceItem,
         targetItem,
       });
     });
+  }
+
+  private onItemStateChange(param: { ids: ID[], states: string[], value: boolean }) {
+    const { ids, states, value } = param;
+    ids.forEach(id => {
+      const item = this.itemMap[id];
+      if (!item) {
+        console.warn(`Fail to set state for item ${id}, which is not exist.`);
+        return;
+      }
+      if (!states || !value) {
+        // clear all the states
+        item.clearStates(states);
+      } else {
+        states.forEach(state => item.setState(state, value));
+      }
+    });
+  }
+
+  public findIdByState(itemType: ITEM_TYPE, state: string) {
+    const ids = [];
+    Object.values(this.itemMap).forEach(item => {
+      if (item.getType() !== itemType) return;
+      if (item.hasState(state)) ids.push(item.getID());
+    });
+    return ids;
   }
 }

@@ -11,7 +11,7 @@ import {
 
 export abstract class BaseNode {
   type: string;
-  defaultStyles: {
+  baseDefaultStyles: {
     keyShape: ShapeStyle;
     labelShape: NodeLabelShapeStyle;
     iconShape: ShapeStyle;
@@ -33,9 +33,14 @@ export abstract class BaseNode {
     },
     otherShapes: {},
   };
-  protected getDefaultStyles() {
-    return this.defaultStyles;
-  }
+   defaultStyles: {
+    keyShape?: ShapeStyle;
+    labelShape?: NodeLabelShapeStyle;
+    iconShape?: ShapeStyle;
+    otherShapes?: {
+      [shapeId: string]: ShapeStyle;
+    };
+  } = {};
   abstract draw(
     model: NodeDisplayModel,
     shapeMap: { [shapeId: string]: DisplayObject },
@@ -124,7 +129,7 @@ export abstract class BaseNode {
     positionPreset.x += offsetX;
     positionPreset.y += offsetY;
 
-    const style = {
+    const style: any = {
       ...this.defaultStyles.labelShape,
       ...positionPreset,
       ...otherStyle,
@@ -135,7 +140,7 @@ export abstract class BaseNode {
       const textBBox = labelShape.getGeometryBounds();
       const { padding: propsPadding, ...backgroundStyle } = background;
       const padding = formatPadding(propsPadding, DEFAULT_LABEL_BG_PADDING);
-      const bgStyle = {
+      const bgStyle: any = {
         fill: '#fff',
         radius: 4,
         ...backgroundStyle,

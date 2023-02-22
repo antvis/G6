@@ -9,7 +9,7 @@ import Node from './node';
 
 interface IProps {
   model: EdgeModel;
-  renderExt: any; // TODO: type
+  renderExtensions: any; // TODO: type
   containerGroup: Group;
   mapper: DisplayMapper;
   sourceItem: Node;
@@ -29,6 +29,8 @@ export default class Edge extends Item {
 
   constructor(props: IProps) {
     super(props);
+    this.type = 'edge';
+    this.init(props);
     const { sourceItem, targetItem } = props;
     this.sourceItem = sourceItem;
     this.targetItem = targetItem;
