@@ -1,27 +1,28 @@
-import { comboFromNode } from "./data/comboFromNode"
-import DragCanvas from "./behavior/drag-canvas";
-import { Lib } from "../types/stdlib";
-import { CircleNode } from "./item/node";
-import { LineEdge } from "./item/edge";
+import { registry as layoutRegistry } from '@antv/layout';
+import { Lib } from '../types/stdlib';
+import DragCanvas from './behavior/drag-canvas';
+import { comboFromNode } from './data/comboFromNode';
+import { LineEdge } from './item/edge';
+import { CircleNode } from './item/node';
 
 const stdLib = {
   transforms: {
-    comboFromNode
+    comboFromNode,
   },
   themes: {},
-  layouts: {}, // from @antv/layout
+  layouts: layoutRegistry,
   behaviors: {
-    'drag-canvas': DragCanvas
+    'drag-canvas': DragCanvas,
   },
   plugins: {},
   nodes: {
-    'circle-node': CircleNode
+    'circle-node': CircleNode,
   },
   edges: {
-    'line-edge': LineEdge
+    'line-edge': LineEdge,
   },
   combos: {},
-}
+};
 
 const useLib: Lib = {
   transforms: {},
@@ -34,6 +35,6 @@ const useLib: Lib = {
   combos: {},
 };
 
-const registery = { useLib };
-export default registery;
-export { stdLib, registery };
+const registry = { useLib };
+export default registry;
+export { stdLib, registry };

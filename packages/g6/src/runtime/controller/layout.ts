@@ -1,11 +1,11 @@
-import { isLayoutWithIterations, Layout, LayoutMapping, registry, Supervisor } from '@antv/layout';
+import { isLayoutWithIterations, Layout, LayoutMapping, Supervisor } from '@antv/layout';
+import { stdLib } from '../../stdlib';
 import { IGraph } from '../../types';
 import { GraphCore } from '../../types/data';
 import { LayoutOptions } from '../../types/layout';
 
 /**
  * Manages layout extensions and graph layout.
- *
  * It will also emit `afterlayout` & `tick` events on Graph.
  */
 export class LayoutController {
@@ -45,7 +45,7 @@ export class LayoutController {
     };
 
     // Find built-in layout algorithms.
-    const layoutCtor = registry[type];
+    const layoutCtor = stdLib.layouts[type];
     if (!layoutCtor) {
       throw new Error(`Unknown layout algorithm: ${type}`);
     }

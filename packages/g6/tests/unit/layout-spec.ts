@@ -1,4 +1,5 @@
-import G6, { IGraph } from '../../src/index';
+import { Graph, Layout, LayoutMapping } from '@antv/layout';
+import G6, { IGraph, stdLib } from '../../src/index';
 import { data } from '../datasets/dataset1';
 const container = document.createElement('div');
 document.querySelector('body').appendChild(container);
@@ -215,6 +216,53 @@ describe('layout', () => {
     graph.once('afterlayout', () => {
       const nodesData = graph.getAllNodesData();
       expect(nodesData.every((node) => node.data.x > 0 && node.data.y > 0)).toBeTruthy();
+
+      graph.destroy();
+      done();
+    });
+  });
+
+  it('should allow registering custom layout at runtime.', (done) => {
+    // Put all nodes at `[0, 0]`.
+    class MyCustomLayout implements Layout<{}> {
+      async assign(graph: Graph, options?: {}): Promise<void> {
+        throw new Error('Method not implemented.');
+      }
+      async execute(graph: Graph, options?: {}): Promise<LayoutMapping> {
+        const nodes = graph.getAllNodes();
+        return {
+          nodes: nodes.map((node) => ({
+            id: node.id,
+            data: {
+              x: 0,
+              y: 0,
+            },
+          })),
+          edges: [],
+        };
+      }
+      options: {};
+      id: 'myCustomLayout';
+    }
+
+    // Register custom layout
+    stdLib.layouts['myCustomLayout'] = MyCustomLayout;
+
+    graph = new G6.Graph({
+      container,
+      width: 500,
+      height: 500,
+      type: 'graph',
+      data,
+      layout: {
+        // @ts-ignore
+        type: 'myCustomLayout',
+      },
+    });
+
+    graph.once('afterlayout', () => {
+      const nodesData = graph.getAllNodesData();
+      expect(nodesData.every((node) => node.data.x === 0 && node.data.y === 0)).toBeTruthy();
 
       graph.destroy();
       done();

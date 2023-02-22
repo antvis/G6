@@ -1,13 +1,13 @@
 import { Graph as GraphLib, ID } from '@antv/graphlib';
-import { GraphData, IGraph, ComboModel, ComboUserModel } from '../../types';
-import { registery } from '../../stdlib';
-import { getExtension } from '../../util/extension';
-import { clone, isArray, isNumber, isString, isFunction, isObject } from '@antv/util';
-import { NodeModel, NodeModelData, NodeUserModel, NodeUserModelData } from '../../types/node';
-import { EdgeModel, EdgeModelData, EdgeUserModel, EdgeUserModelData } from '../../types/edge';
-import { DataChangeType, GraphCore } from '../../types/data';
-import { ITEM_TYPE } from '../../types/item';
+import { clone, isArray, isFunction, isNumber, isObject, isString } from '@antv/util';
+import { registry } from '../../stdlib';
+import { ComboModel, ComboUserModel, GraphData, IGraph } from '../../types';
 import { ComboUserModelData } from '../../types/combo';
+import { DataChangeType, GraphCore } from '../../types/data';
+import { EdgeModel, EdgeModelData, EdgeUserModel, EdgeUserModelData } from '../../types/edge';
+import { ITEM_TYPE } from '../../types/item';
+import { NodeModel, NodeModelData, NodeUserModel, NodeUserModelData } from '../../types/node';
+import { getExtension } from '../../util/extension';
 
 /**
  * Manages the data transform extensions;
@@ -85,7 +85,7 @@ export class DataController {
     return transform
       .map((config) => ({
         config,
-        func: getExtension(config, registery.useLib, 'transform'),
+        func: getExtension(config, registry.useLib, 'transform'),
       }))
       .filter((ext) => !!ext.func);
   }

@@ -3,7 +3,7 @@ import { GraphChange, ID } from '@antv/graphlib';
 import Combo from '../../item/combo';
 import Edge from '../../item/edge';
 import Node from '../../item/node';
-import { registery } from '../../stdlib';
+import { registry } from '../../stdlib';
 import { ComboModel, IGraph } from '../../types';
 import { ComboDisplayModel, ComboEncode } from '../../types/combo';
 import { GraphCore } from '../../types/data';
@@ -73,13 +73,13 @@ export class ItemController {
     const comboTypes = ['circle-combo', 'rect-combo']; // TODO: WIP
     return {
       node: nodeTypes
-        .map((config) => getExtension(config, registery.useLib, 'node'))
+        .map((config) => getExtension(config, registry.useLib, 'node'))
         .filter(Boolean),
       edge: edgeTypes
-        .map((config) => getExtension(config, registery.useLib, 'edge'))
+        .map((config) => getExtension(config, registry.useLib, 'edge'))
         .filter(Boolean),
       combo: comboTypes
-        .map((config) => getExtension(config, registery.useLib, 'combo'))
+        .map((config) => getExtension(config, registry.useLib, 'combo'))
         .filter(Boolean),
     };
   }
