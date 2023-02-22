@@ -235,6 +235,32 @@ export class ItemController {
   }
 
   /**
+   * The listener for item state changing.
+   * @param param 
+   * {
+   *   ids: ids of the items to be set state
+   *   states: state names to set
+   *   value: state value
+   * }
+   */
+  private onItemStateChange(param: { ids: ID[], states: string[], value: boolean }) {
+    const { ids, states, value } = param;
+    ids.forEach(id => {
+      const item = this.itemMap[id];
+      if (!item) {
+        console.warn(`Fail to set state for item ${id}, which is not exist.`);
+        return;
+      }
+      if (!states || !value) {
+        // clear all the states
+        item.clearStates(states);
+      } else {
+        states.forEach(state => item.setState(state, value));
+      }
+    });
+  }
+
+  /**
    * Create nodes with inner data to canvas.
    * @param models nodes' inner datas
    */
@@ -282,23 +308,12 @@ export class ItemController {
     });
   }
 
-  private onItemStateChange(param: { ids: ID[], states: string[], value: boolean }) {
-    const { ids, states, value } = param;
-    ids.forEach(id => {
-      const item = this.itemMap[id];
-      if (!item) {
-        console.warn(`Fail to set state for item ${id}, which is not exist.`);
-        return;
-      }
-      if (!states || !value) {
-        // clear all the states
-        item.clearStates(states);
-      } else {
-        states.forEach(state => item.setState(state, value));
-      }
-    });
-  }
-
+  /**
+   * Get the id of the item which have the state with true value
+   * @param itemType item's type
+   * @param state state name
+   * @returns 
+   */
   public findIdByState(itemType: ITEM_TYPE, state: string) {
     const ids = [];
     Object.values(this.itemMap).forEach(item => {
