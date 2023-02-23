@@ -22,11 +22,13 @@ export default class Node extends Item {
     this.draw(this.displayModel as NodeDisplayModel);
   }
   public draw(displayModel: NodeDisplayModel, diffData?: { previous: NodeModelData; current: NodeModelData }, diffState?: { previous: State[], current: State[] }) {
-    const { group, renderExt, shapeMap: prevShapeMap } = this;
+    const { group, renderExt, shapeMap: prevShapeMap, model } = this;
     const { data } = displayModel;
     const { x = 0, y = 0 } = data;
     group.style.x = x;
     group.style.y = y;
+    this.group.setAttribute('data-item-type', 'node');
+    this.group.setAttribute('data-item-id', model.id);
     const shapeMap = renderExt.draw(displayModel, this.shapeMap, diffData, diffState);
 
     // add shapes to group, and update shapeMap

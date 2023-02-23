@@ -34,6 +34,8 @@ export default class Edge extends Item {
     super(props);
     this.type = 'edge';
     this.init(props);
+    this.group.setAttribute('data-item-type', 'edge');
+    this.group.setAttribute('data-item-id', props.model.id);
     const { sourceItem, targetItem } = props;
     this.sourceItem = sourceItem;
     this.targetItem = targetItem;
