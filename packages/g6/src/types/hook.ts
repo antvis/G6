@@ -1,4 +1,4 @@
-import { GraphChange } from '@antv/graphlib';
+import { GraphChange, ID } from '@antv/graphlib';
 import { DataChangeType, GraphCore, GraphData } from './data';
 import { EdgeModelData } from './edge';
 import { ITEM_TYPE } from './item';
@@ -35,8 +35,12 @@ export interface Hooks {
     modes: string[];
     behaviors: (string | { type: string; key: string })[];
   }>;
+  'itemstatechange': IHook<{
+    ids: ID[],
+    states?: string[],
+    value?: boolean
+  }>; // TODO: define param template
   // 'viewportchange': IHook<any>; // TODO: define param template
-  // 'itemstatechange': IHook<any>; // TODO: define param template
   // 'destroy': IHook<any>; // TODO: define param template
   // TODO: more timecycles here
 }

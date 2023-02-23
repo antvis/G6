@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import G6, { GraphData, IGraph } from '../../src/index';
 const container = document.createElement('div');
 document.querySelector('body').appendChild(container);

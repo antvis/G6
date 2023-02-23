@@ -1,6 +1,8 @@
+// @ts-nocheck
+
 import { DisplayObject } from '@antv/g';
 import { clone } from '@antv/util';
-import G6, { EdgeDisplayModel, GraphData, IGraph, NodeDisplayModel } from '../../src/index';
+import G6, { EdgeDisplayModel, Graph, GraphData, IGraph, NodeDisplayModel } from '../../src/index';
 import { LineEdge } from '../../src/stdlib/item/edge';
 import { CircleNode } from '../../src/stdlib/item/node';
 import { BaseNode } from '../../src/stdlib/item/node/base';
@@ -11,7 +13,7 @@ import { upsertShape } from '../../src/util/shape';
 const container = document.createElement('div');
 document.querySelector('body').appendChild(container);
 
-xdescribe('node item', () => {
+describe('node item', () => {
   let graph: IGraph<any>;
   it('new graph with one node', (done) => {
     graph = new G6.Graph({
@@ -111,7 +113,7 @@ xdescribe('node item', () => {
   });
 });
 
-xdescribe('edge item', () => {
+describe('edge item', () => {
   let graph: IGraph<any>;
   it('new graph with two nodes and one edge', (done) => {
     graph = new G6.Graph({
@@ -279,7 +281,7 @@ xdescribe('edge item', () => {
   });
 });
 
-xdescribe('node mapper', () => {
+describe('node mapper', () => {
   const data = {
     nodes: [
       {
@@ -383,7 +385,7 @@ xdescribe('node mapper', () => {
   });
 });
 
-xdescribe('edge mapper', () => {
+describe('edge mapper', () => {
   const data = {
     nodes: [
       {
@@ -517,6 +519,20 @@ xdescribe('edge mapper', () => {
 describe('register node', () => {
   it('custom node extends circle', (done) => {
     class CustomNode extends CircleNode {
+      public defaultStyles = {
+        keyShape: {
+          r: 25,
+          x: 0,
+          y: 0,
+          fill: '#ff0',
+          lineWidth: 0,
+          stroke: '#0f0',
+        },
+      }
+      constructor() {
+        super();
+        this.defaultStyles = Object.assign({}, this.baseDefaultStyles, this.defaultStyles);
+      }
       public drawLabelShape(
         model: NodeDisplayModel,
         shapeMap: NodeShapeMap,
@@ -533,11 +549,14 @@ describe('register node', () => {
           },
           shapeMap,
         );
+        const { labelShape: propsLabelStyle } = model.data;
+        const labelStyle = Object.assign({}, this.defaultStyles.labelShape, propsLabelStyle);
         const labelShape = upsertShape(
           'text',
           'labelShape',
           {
-            text: 'it-is-custom-node',
+            ...labelStyle,
+            text: model.id,
           },
           shapeMap,
         );
@@ -587,15 +606,15 @@ describe('register node', () => {
         nodes: [
           {
             id: 'node1',
-            data: { x: 100, y: 200, labelShape: {}, type: 'custom-node' },
+            data: { x: 100, y: 200,  type: 'custom-node' },
           },
           {
             id: 'node2',
-            data: { x: 100, y: 300, labelShape: {} },
+            data: { x: 100, y: 300, type: 'circle-node' },
           },
           {
             id: 'node3',
-            data: { x: 200, y: 300 },
+            data: { x: 200, y: 300, labelShape: undefined },
           },
         ],
         edges: [
@@ -614,24 +633,123 @@ describe('register node', () => {
         ],
       },
       node: {
+        // affect the nodes without type field in their data object, which means configurations in the user data has higher priority than that in the mapper
         type: 'custom-node',
+        // affect the nodes without labelShape field in their data object, which means configurations in the user data has higher priority than that in the mapper
+        labelShape: {}
       },
     });
     graph.on('afterrender', () => {
       const node1 = graph.itemController.itemMap['node1'];
       expect(node1.shapeMap.extraShape).not.toBe(undefined);
+      expect(node1.shapeMap.keyShape.style.r).toBe(25);
       const node2 = graph.itemController.itemMap['node2'];
       expect(node2.shapeMap.extraShape).toBe(undefined);
+      const node3 = graph.itemController.itemMap['node3'];
+      // labelShape is assigned with undefined in node3's data, shapes defined in drawLabelShape will be undefined
+      expect(node3.shapeMap.extraShape).toBe(undefined);
+      expect(node3.shapeMap.keyShape.style.r).toBe(25);
 
       const edge1 = graph.itemController.itemMap['edge1'];
       expect(edge1.shapeMap.buShape).not.toBe(undefined);
       const edge2 = graph.itemController.itemMap['edge2'];
       expect(edge2.shapeMap.buShape).toBe(undefined);
 
+
+      // update node type
+      graph.updateData('node', {
+        id: 'node2',
+        data: {
+          type: 'custom-node'
+        }
+      });
+      expect(node2.shapeMap.extraShape).not.toBe(undefined);
+      expect(node2.shapeMap.keyShape.style.r).toBe(25);
+
+      // // TODO: update edge type
+      // graph.updateData('edge', {
+      //   id: 'edge2',
+      //   data: {
+      //     type: 'custom-edge'
+      //   }
+      // });
+      // expect(edge2.shapeMap.buShape).not.toBe(undefined);
+
       // TODO: other shapes
-      // TODO: node/edge type on spec
 
       done();
     });
+  });
+  it('update node tyeo with different keyShape shape type', () => {
+
+  });
+  it('item state', (done) => {
+
+    const graph = new Graph({
+      container,
+      width: 500,
+      height: 500,
+      type: 'graph',
+      data: {
+        nodes: [
+          {
+            id: 'node1',
+            data: { x: 100, y: 200 },
+          },
+          {
+            id: 'node2',
+            data: { x: 100, y: 300 },
+          },
+          {
+            id: 'node3',
+            data: { x: 200, y: 300 },
+          },
+        ],
+        edges: [
+          {
+            id: 'edge1',
+            source: 'node1',
+            target: 'node2',
+            data: { },
+          },
+          {
+            id: 'edge2',
+            source: 'node1',
+            target: 'node3',
+            data: {},
+          },
+        ],
+      },
+    });
+    graph.on('afterrender', () => {
+      expect(graph.findIdByState('node', 'selected').length).toBe(0);
+      graph.setItemState('node1', 'selected', true);
+      expect(graph.findIdByState('node', 'selected').length).toBe(1);
+      expect(graph.findIdByState('node', 'selected')[0]).toBe('node1');
+      graph.setItemState('node1', 'selected', false);
+      expect(graph.findIdByState('node', 'selected').length).toBe(0);
+
+      // set multiple nodes state
+      graph.setItemState(['node1', 'node2'], 'selected', true);
+      expect(graph.findIdByState('node', 'selected').length).toBe(2);
+      graph.setItemState('node1', 'selected', false);
+      expect(graph.findIdByState('node', 'selected').length).toBe(1);
+      expect(graph.findIdByState('node', 'selected')[0]).toBe('node2');
+      graph.setItemState(['node1', 'node2'], 'selected', false);
+      expect(graph.findIdByState('node', 'selected').length).toBe(0);
+
+      // set multiple states
+      graph.setItemState(['node1', 'node2'], ['selected', 'highlight'], true);
+      expect(graph.findIdByState('node', 'selected').length).toBe(2);
+      expect(graph.findIdByState('node', 'highlight').length).toBe(2);
+      
+      // clear states
+      graph.clearItemState(['node1', 'node2']);
+      expect(graph.findIdByState('node', 'selected').length).toBe(0);
+      expect(graph.findIdByState('node', 'highlight').length).toBe(0);
+
+      graph.destroy();
+      done();
+    })
   });
 });

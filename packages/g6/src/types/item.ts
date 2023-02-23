@@ -27,7 +27,7 @@ export interface Encode<T> {
 
 export interface ShapeAttrEncode {
   [shapeAttr: string]: unknown | Encode<unknown>;
-  animate: AnimateAttr | Encode<AnimateAttr>;
+  animate?: AnimateAttr | Encode<AnimateAttr>;
 }
 
 export interface LabelBackground {

@@ -118,6 +118,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
         modes: string[];
         behaviors: BehaviorOptionsOf<{}>[];
       }>({ name: 'behaviorchange' }),
+      itemstatechange: new Hook<{ ids: ID[], state: string, value: boolean }>({ name: 'itemstatechange' })
     };
   }
 
@@ -346,8 +347,12 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     state: string,
     additionalFilter?: (item: NodeModel | EdgeModel | ComboModel) => boolean,
   ): ID[] {
-    // TODO
-    return;
+    let ids = this.itemController.findIdByState(itemType, state);
+    if (additionalFilter) {
+      const getDataFunc = itemType === 'node' ? this.getNodeData : this.getEdgeData; // TODO: combo
+      ids = ids.filter(id => additionalFilter(getDataFunc(id)));
+    }
+    return ids;
   }
   /**
    * Add one or more node/edge/combo data to the graph.
@@ -486,8 +491,30 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @returns
    * @group Item
    */
-  public setItemState(ids: ID | ID[], state: string, value: boolean) {
-    // TODO
+  public setItemState(ids: ID | ID[], states: string | string[], value: boolean) {
+    const idArr = isArray(ids) ? ids : [ids];
+    const stateArr = isArray(states) ? states : [states];
+    this.hooks.itemstatechange.emit({
+      ids: idArr as ID[],
+      states: stateArr as string[],
+      value
+    });
+  }
+
+  /**
+   * Clear all the states for item(s).
+   * @param ids the id(s) for the item(s) to be clear
+   * @param states the states' names, all the states wil be cleared if states is not assigned
+   * @returns
+   * @group Item
+   */
+  public clearItemState(ids: ID | ID[], states?: string[]) {
+    const idArr = isArray(ids) ? ids : [ids];
+    this.hooks.itemstatechange.emit({
+      ids: idArr as ID[],
+      states,
+      value: false
+    });
   }
 
   // ===== combo operations =====

@@ -37,16 +37,23 @@ export default abstract class Item implements IItem {
     keyShape: undefined,
   };
   /** Set to different value in implements */
-  public type: ITEM_TYPE = 'node';
+  public type: ITEM_TYPE;
+  public renderExtensions: any; // TODO
 
   constructor(props) {
-    const { model, renderExt, containerGroup, mapper } = props;
+  }
+
+  public init(props) {
+    const { model, containerGroup, mapper, renderExtensions} = props;
     this.group = new Group();
     containerGroup.appendChild(this.group);
     this.model = model;
     this.mapper = mapper;
     this.displayModel = this.getDisplayModelAndChanges(model).model;
-    this.renderExt = renderExt;
+    this.renderExtensions = renderExtensions;
+    const { type = this.type === 'node' ? 'circle-node' : 'line-edge' } = this.displayModel.data;
+    const extension = renderExtensions.find((ext) => ext.type === type);
+    this.renderExt = new extension();
   }
 
   public draw(diffData?: { oldData: ItemModelData; newData: ItemModelData }) {
@@ -79,7 +86,12 @@ export default abstract class Item implements IItem {
     this.displayModel = displayModel;
 
     if (typeChange) {
-      // TODO
+      this.group.replaceChildren();
+      this.shapeMap = { keyShape: undefined };
+      const { type = this.type === 'node' ? 'circle-node' : 'line-edge' } = displayModel.data;
+      const extension = this.renderExtensions.find((ext) => ext.type === type);
+      this.renderExt = new extension();
+      
     }
     // TODO: 3. call element update fn from useLib
     this.draw(diffData);
@@ -130,38 +142,46 @@ export default abstract class Item implements IItem {
     const displayModelData = clone(data);
     Object.keys(mapper).forEach((fieldName) => {
       const subMapper = mapper[fieldName];
-      displayModelData[fieldName] = displayModelData[fieldName] || {};
-
       if (RESERVED_SHAPE_IDS.includes(fieldName)) {
         // reserved shapes, fieldName is shapeId
-        updateShapeChange({
-          innerModel,
-          mapper: subMapper,
-          dataChangedFields,
-          shapeConfig: displayModelData[fieldName],
-        });
-      } else if (fieldName === OTHER_SHAPES_FIELD_NAME) {
-        // other shapes
-        Object.keys(subMapper).forEach((shapeId) => {
-          displayModelData[fieldName][shapeId] = displayModelData[fieldName][shapeId] || {};
-          const shappStyle = subMapper[shapeId];
+        if (!displayModelData.hasOwnProperty(fieldName)) {
+          displayModelData[fieldName] = displayModelData[fieldName] || {};
           updateShapeChange({
             innerModel,
-            mapper: shappStyle,
+            mapper: subMapper,
             dataChangedFields,
-            shapeConfig: displayModelData[fieldName][shapeId],
+            shapeConfig: displayModelData[fieldName],
           });
+        }
+      } else if (fieldName === OTHER_SHAPES_FIELD_NAME) {
+        // other shapes
+        displayModelData[fieldName] = displayModelData[fieldName] || {};
+        Object.keys(subMapper).forEach((shapeId) => {
+          if (!displayModelData[fieldName]?.hasOwnProperty(shapeId)) {
+            displayModelData[fieldName][shapeId] = displayModelData[fieldName][shapeId] || {};
+            const shappStyle = subMapper[shapeId];
+            updateShapeChange({
+              innerModel,
+              mapper: shappStyle,
+              dataChangedFields,
+              shapeConfig: displayModelData[fieldName][shapeId],
+            });
+          }
         });
       } else {
         // fields not about shape
-        const { changed, value: mappedValue } = updateChange({
-          innerModel,
-          mapper,
-          fieldName,
-          dataChangedFields,
-        });
-        displayModelData[fieldName] = mappedValue;
-        if (changed && fieldName === 'type') typeChange = true;
+        if (!displayModelData.hasOwnProperty(fieldName)) {
+          const { changed, value: mappedValue } = updateChange({
+            innerModel,
+            mapper,
+            fieldName,
+            dataChangedFields,
+          });
+          displayModelData[fieldName] = mappedValue;
+          if (changed && fieldName === 'type') typeChange = true;
+        } else if (fieldName === 'type' && dataChangedFields.includes('type')) {
+          typeChange = true;
+        }
       }
     });
     const displayModel = {
@@ -208,8 +228,12 @@ export default abstract class Item implements IItem {
 
   public setState(state: string, value: string | boolean) {
     const existState = this.states.find((item) => item.name === state);
-    if (existState && value) {
-      existState.value = value;
+    if (value) {
+      if (existState) existState.value = value;
+      else this.states.push({
+        name: state,
+        value
+      });
     } else {
       const idx = this.states.indexOf(existState);
       this.states.splice(idx, 1);
@@ -223,9 +247,10 @@ export default abstract class Item implements IItem {
   }
 
   public clearStates(states?: string[]) {
-    const newStates = this.states.filter((state) => !states.includes(state.name));
+    // if states is not assigned, clear all the states on the item
+    const newStates = states ? this.states.filter((state) => !states.includes(state.name)) : [];
     this.states = newStates;
-    states.forEach((state) => {
+    this.states.forEach((state) => {
       // TODO: call element setState fn with false from useLib
     });
   }
@@ -250,7 +275,6 @@ export default abstract class Item implements IItem {
  *  innerModel, // find unmapped field value from innerModel
  *  fieldName, // name of the field to read from innerModel
  *  mapper, // mapper object, contains the field's mapper
- *  shapeId, // id of the shape where the fieldName belong to
  *  dataChangedFields, // fields' names which are changed in data
  * }
  * @returns { changed: boolean, value: unknown } return whether the mapper affects the value, and the mapped result

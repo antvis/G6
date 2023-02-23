@@ -246,6 +246,14 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
    * @group Item
    */
   setItemState: (ids: ID | ID[], state: string, value: boolean) => void;
+  /**
+   * Clear all the states for item(s).
+   * @param ids the id(s) for the item(s) to be clear
+   * @param states the states' names, all the states wil be cleared if states is not assigned
+   * @returns
+   * @group Item
+   */
+  clearItemState: (ids: ID | ID[], states?: string[]) => void;
 
   // ===== combo operations =====
   /**

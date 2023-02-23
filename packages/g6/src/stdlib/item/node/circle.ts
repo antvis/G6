@@ -6,8 +6,7 @@ import { upsertShape } from '../../../util/shape';
 import { BaseNode } from './base';
 
 export class CircleNode extends BaseNode {
-  public type = 'circle-node';
-  public defaultStyles = Object.assign({}, super.getDefaultStyles(), {
+  override defaultStyles = {
     keyShape: {
       r: 15,
       x: 0,
@@ -15,8 +14,12 @@ export class CircleNode extends BaseNode {
       fill: '#f00',
       lineWidth: 0,
       stroke: '#0f0',
-    },
-  });
+    }
+  };
+  constructor() {
+    super();
+    this.defaultStyles = Object.assign({}, this.baseDefaultStyles, this.defaultStyles);
+  }
   public draw(
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,

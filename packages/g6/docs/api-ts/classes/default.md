@@ -27,6 +27,7 @@
 ### Properties
 
 - [canvas](default.md#canvas)
+- [destroyed](default.md#destroyed)
 - [hooks](default.md#hooks)
 
 ### Interaction
@@ -39,16 +40,30 @@
 ### Data
 
 - [addData](default.md#adddata)
+- [changeData](default.md#changedata)
+- [getAllCombosData](default.md#getallcombosdata)
+- [getAllEdgesData](default.md#getalledgesdata)
+- [getAllNodesData](default.md#getallnodesdata)
+- [getComboData](default.md#getcombodata)
+- [getEdgeData](default.md#getedgedata)
+- [getNodeData](default.md#getnodedata)
 - [read](default.md#read)
 - [removeData](default.md#removedata)
 - [updateData](default.md#updatedata)
 
 ### Methods
 
-- [changeData](default.md#changedata)
 - [clear](default.md#clear)
 - [getSpecification](default.md#getspecification)
 - [updateSpecification](default.md#updatespecification)
+
+### Item
+
+- [clearItemState](default.md#clearitemstate)
+- [findIdByState](default.md#findidbystate)
+- [hideItem](default.md#hideitem)
+- [setItemState](default.md#setitemstate)
+- [showItem](default.md#showitem)
 
 ### Combo
 
@@ -57,15 +72,9 @@
 - [expandCombo](default.md#expandcombo)
 - [uncombo](default.md#uncombo)
 
-### Item
+### Graph Instance
 
-- [findIdByState](default.md#findidbystate)
-- [getComboData](default.md#getcombodata)
-- [getEdgeData](default.md#getedgedata)
-- [getNodeData](default.md#getnodedata)
-- [hideItem](default.md#hideitem)
-- [setItemState](default.md#setitemstate)
-- [showItem](default.md#showitem)
+- [destroy](default.md#destroy)
 
 ### View
 
@@ -105,7 +114,7 @@ EventEmitter.constructor
 
 #### Defined in
 
-[graph.ts:38](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L38)
+[graph.ts:55](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L55)
 
 ## Properties
 
@@ -119,7 +128,21 @@ IGraph.canvas
 
 #### Defined in
 
-[graph.ts:23](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L23)
+[graph.ts:38](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L38)
+
+___
+
+### destroyed
+
+• **destroyed**: `boolean`
+
+#### Implementation of
+
+IGraph.destroyed
+
+#### Defined in
+
+[graph.ts:40](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L40)
 
 ___
 
@@ -133,7 +156,7 @@ IGraph.hooks
 
 #### Defined in
 
-[graph.ts:21](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L21)
+[graph.ts:36](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L36)
 
 ## Interaction
 
@@ -160,7 +183,7 @@ IGraph.addBehaviors
 
 #### Defined in
 
-[graph.ts:445](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L445)
+[graph.ts:576](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L576)
 
 ___
 
@@ -187,7 +210,7 @@ IGraph.removeBehaviors
 
 #### Defined in
 
-[graph.ts:465](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L465)
+[graph.ts:596](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L596)
 
 ___
 
@@ -213,7 +236,7 @@ IGraph.setMode
 
 #### Defined in
 
-[graph.ts:434](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L434)
+[graph.ts:565](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L565)
 
 ___
 
@@ -240,13 +263,13 @@ IGraph.updateBehavior
 
 #### Defined in
 
-[graph.ts:488](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L488)
+[graph.ts:621](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L621)
 
 ## Data
 
 ### addData
 
-▸ **addData**(`itemType`, `models`, `stack?`): `boolean`
+▸ **addData**(`itemType`, `models`, `stack?`): `EdgeModel` \| `NodeModel` \| `ComboModel` \| `NodeModel`[] \| `EdgeModel`[] \| `ComboModel`[]
 
 Add one or more node/edge/combo data to the graph.
 
@@ -260,7 +283,7 @@ Add one or more node/edge/combo data to the graph.
 
 #### Returns
 
-`boolean`
+`EdgeModel` \| `NodeModel` \| `ComboModel` \| `NodeModel`[] \| `EdgeModel`[] \| `ComboModel`[]
 
 whether success
 
@@ -270,7 +293,184 @@ IGraph.addData
 
 #### Defined in
 
-[graph.ts:286](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L286)
+[graph.ts:350](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L350)
+
+___
+
+### changeData
+
+▸ **changeData**(`data`, `type?`): `void`
+
+Change graph data.
+
+#### Parameters
+
+| Name | Type | Default value | Description |
+| :------ | :------ | :------ | :------ |
+| `data` | `GraphData` | `undefined` | new data |
+| `type` | ``"replace"`` \| ``"mergeReplace"`` | `'mergeReplace'` | the way to change data, 'replace' means discard the old data and use the new one; 'mergeReplace' means merge the common part, remove (old - new), add (new - old) |
+
+#### Returns
+
+`void`
+
+#### Implementation of
+
+IGraph.changeData
+
+#### Defined in
+
+[graph.ts:170](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L170)
+
+___
+
+### getAllCombosData
+
+▸ **getAllCombosData**(): `ComboModel`[]
+
+Get all the combos' inner data
+
+#### Returns
+
+`ComboModel`[]
+
+all combos' inner data on the graph
+
+#### Implementation of
+
+IGraph.getAllCombosData
+
+#### Defined in
+
+[graph.ts:319](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L319)
+
+___
+
+### getAllEdgesData
+
+▸ **getAllEdgesData**(): `EdgeModel`[]
+
+Get all the edges' inner data
+
+#### Returns
+
+`EdgeModel`[]
+
+all edges' inner data on the graph
+
+#### Implementation of
+
+IGraph.getAllEdgesData
+
+#### Defined in
+
+[graph.ts:311](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L311)
+
+___
+
+### getAllNodesData
+
+▸ **getAllNodesData**(): `NodeModel`[]
+
+Get all the nodes' inner data
+
+#### Returns
+
+`NodeModel`[]
+
+all nodes' inner data on the graph
+
+#### Implementation of
+
+IGraph.getAllNodesData
+
+#### Defined in
+
+[graph.ts:303](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L303)
+
+___
+
+### getComboData
+
+▸ **getComboData**(`condition`): `ComboModel`
+
+Find an combo's inner data according to id or function.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `condition` | `Function` \| `ID` | id or condition function |
+
+#### Returns
+
+`ComboModel`
+
+result combo's inner data
+
+#### Implementation of
+
+IGraph.getComboData
+
+#### Defined in
+
+[graph.ts:294](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L294)
+
+___
+
+### getEdgeData
+
+▸ **getEdgeData**(`condition`): `EdgeModel`
+
+Find an edge's inner data according to id or function.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `condition` | `Function` \| `ID` | id or condition function |
+
+#### Returns
+
+`EdgeModel`
+
+result edge's inner data
+
+#### Implementation of
+
+IGraph.getEdgeData
+
+#### Defined in
+
+[graph.ts:283](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L283)
+
+___
+
+### getNodeData
+
+▸ **getNodeData**(`condition`): `NodeModel`
+
+Find a node's inner data according to id or function.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `condition` | `Function` \| `ID` | id or condition function |
+
+#### Returns
+
+`NodeModel`
+
+result node's inner data
+
+#### Implementation of
+
+IGraph.getNodeData
+
+#### Defined in
+
+[graph.ts:273](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L273)
 
 ___
 
@@ -297,13 +497,13 @@ IGraph.read
 
 #### Defined in
 
-[graph.ts:126](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L126)
+[graph.ts:146](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L146)
 
 ___
 
 ### removeData
 
-▸ **removeData**(`itemType`, `ids`, `stack?`): `boolean`
+▸ **removeData**(`itemType`, `ids`, `stack?`): `void`
 
 Remove one or more node/edge/combo data from the graph.
 
@@ -312,12 +512,12 @@ Remove one or more node/edge/combo data from the graph.
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `itemType` | `ITEM_TYPE` | - |
-| `ids` | `string` \| `number` \| (`string` \| `number`)[] | - |
+| `ids` | `ID` \| `ID`[] | - |
 | `stack?` | `boolean` | whether push this operation to stack |
 
 #### Returns
 
-`boolean`
+`void`
 
 whether success
 
@@ -327,13 +527,13 @@ IGraph.removeData
 
 #### Defined in
 
-[graph.ts:308](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L308)
+[graph.ts:392](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L392)
 
 ___
 
 ### updateData
 
-▸ **updateData**(`itemType`, `models`, `stack?`): `boolean`
+▸ **updateData**(`itemType`, `models`, `stack?`): `EdgeModel` \| `NodeModel` \| `ComboModel` \| `NodeModel`[] \| `EdgeModel`[] \| `ComboModel`[]
 
 Update one or more node/edge/combo data on the graph.
 
@@ -347,7 +547,7 @@ Update one or more node/edge/combo data on the graph.
 
 #### Returns
 
-`boolean`
+`EdgeModel` \| `NodeModel` \| `ComboModel` \| `NodeModel`[] \| `EdgeModel`[] \| `ComboModel`[]
 
 #### Implementation of
 
@@ -355,34 +555,9 @@ IGraph.updateData
 
 #### Defined in
 
-[graph.ts:331](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L331)
+[graph.ts:417](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L417)
 
 ## Methods
-
-### changeData
-
-▸ **changeData**(`data`, `type?`): `void`
-
-#### Parameters
-
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `data` | `GraphData` | `undefined` |
-| `type` | ``"replace"`` \| ``"mergeReplace"`` | `'mergeReplace'` |
-
-#### Returns
-
-`void`
-
-#### Implementation of
-
-IGraph.changeData
-
-#### Defined in
-
-[graph.ts:142](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L142)
-
-___
 
 ### clear
 
@@ -400,7 +575,7 @@ IGraph.clear
 
 #### Defined in
 
-[graph.ts:153](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L153)
+[graph.ts:182](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L182)
 
 ___
 
@@ -422,7 +597,7 @@ IGraph.getSpecification
 
 #### Defined in
 
-[graph.ts:115](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L115)
+[graph.ts:135](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L135)
 
 ___
 
@@ -448,7 +623,144 @@ IGraph.updateSpecification
 
 #### Defined in
 
-[graph.ts:107](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L107)
+[graph.ts:127](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L127)
+
+## Item
+
+### clearItemState
+
+▸ **clearItemState**(`ids`, `states?`): `void`
+
+Clear all the states for item(s).
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `ids` | `ID` \| `ID`[] | the id(s) for the item(s) to be clear |
+| `states?` | `string`[] | the states' names, all the states wil be cleared if states is not assigned |
+
+#### Returns
+
+`void`
+
+#### Implementation of
+
+IGraph.clearItemState
+
+#### Defined in
+
+[graph.ts:496](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L496)
+
+___
+
+### findIdByState
+
+▸ **findIdByState**(`itemType`, `state`, `additionalFilter?`): `ID`[]
+
+Find items which has the state.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `itemType` | `ITEM_TYPE` | item type |
+| `state` | `string` | state name |
+| `additionalFilter?` | (`item`: `EdgeModel` \| `NodeModel` \| `ComboModel`) => `boolean` | additional filter function |
+
+#### Returns
+
+`ID`[]
+
+items that is the type and has the state
+
+#### Implementation of
+
+IGraph.findIdByState
+
+#### Defined in
+
+[graph.ts:330](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L330)
+
+___
+
+### hideItem
+
+▸ **hideItem**(`ids`): `void`
+
+Hide the item(s).
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `ids` | `ID` \| `ID`[] |
+
+#### Returns
+
+`void`
+
+#### Implementation of
+
+IGraph.hideItem
+
+#### Defined in
+
+[graph.ts:468](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L468)
+
+___
+
+### setItemState
+
+▸ **setItemState**(`ids`, `states`, `value`): `void`
+
+Set state for the item.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `ids` | `ID` \| `ID`[] | - |
+| `states` | `string` \| `string`[] | - |
+| `value` | `boolean` | state value |
+
+#### Returns
+
+`void`
+
+#### Implementation of
+
+IGraph.setItemState
+
+#### Defined in
+
+[graph.ts:479](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L479)
+
+___
+
+### showItem
+
+▸ **showItem**(`ids`): `void`
+
+Show the item(s).
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `ids` | `ID` \| `ID`[] |
+
+#### Returns
+
+`void`
+
+#### Implementation of
+
+IGraph.showItem
+
+#### Defined in
+
+[graph.ts:459](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L459)
 
 ## Combo
 
@@ -462,7 +774,7 @@ Collapse a combo.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `comboId` | `string` \| `number` | combo id or item |
+| `comboId` | `ID` | combo id or item |
 | `stack?` | `boolean` | - |
 
 #### Returns
@@ -475,7 +787,7 @@ IGraph.collapseCombo
 
 #### Defined in
 
-[graph.ts:400](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L400)
+[graph.ts:528](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L528)
 
 ___
 
@@ -503,7 +815,7 @@ IGraph.createCombo
 
 #### Defined in
 
-[graph.ts:384](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L384)
+[graph.ts:512](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L512)
 
 ___
 
@@ -517,7 +829,7 @@ Expand a combo.
 
 | Name | Type |
 | :------ | :------ |
-| `comboId` | `string` \| `number` |
+| `comboId` | `ID` |
 | `stack?` | `boolean` |
 
 #### Returns
@@ -530,7 +842,7 @@ IGraph.expandCombo
 
 #### Defined in
 
-[graph.ts:408](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L408)
+[graph.ts:536](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L536)
 
 ___
 
@@ -544,7 +856,7 @@ dissolve combo
 
 | Name | Type |
 | :------ | :------ |
-| `comboId` | `string` \| `number` |
+| `comboId` | `ID` |
 | `stack?` | `boolean` |
 
 #### Returns
@@ -557,135 +869,15 @@ IGraph.uncombo
 
 #### Defined in
 
-[graph.ts:392](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L392)
+[graph.ts:520](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L520)
 
-## Item
+## Graph Instance
 
-### findIdByState
+### destroy
 
-▸ **findIdByState**(`itemType`, `state`, `additionalFilter?`): (`string` \| `number`)[]
+▸ **destroy**(): `void`
 
-Find items which has the state.
-
-#### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `itemType` | `ITEM_TYPE` | item type |
-| `state` | `string` | state name |
-| `additionalFilter?` | (`item`: `EdgeModel` \| `NodeModel` \| `ComboModel`) => `boolean` | additional filter function |
-
-#### Returns
-
-(`string` \| `number`)[]
-
-items that is the type and has the state
-
-#### Implementation of
-
-IGraph.findIdByState
-
-#### Defined in
-
-[graph.ts:274](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L274)
-
-___
-
-### getComboData
-
-▸ **getComboData**(`condition`): `ComboModel`
-
-Find an combo's inner data according to id or function.
-
-#### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `condition` | `string` \| `Function` | id or condition function |
-
-#### Returns
-
-`ComboModel`
-
-result combo
-
-#### Implementation of
-
-IGraph.getComboData
-
-#### Defined in
-
-[graph.ts:263](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L263)
-
-___
-
-### getEdgeData
-
-▸ **getEdgeData**(`condition`): `EdgeModel`
-
-Find an edge's inner data according to id or function.
-
-#### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `condition` | `string` \| `Function` | id or condition function |
-
-#### Returns
-
-`EdgeModel`
-
-result edge
-
-#### Implementation of
-
-IGraph.getEdgeData
-
-#### Defined in
-
-[graph.ts:254](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L254)
-
-___
-
-### getNodeData
-
-▸ **getNodeData**(`condition`): `NodeModel`
-
-Find a node's inner data according to id or function.
-
-#### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `condition` | `string` \| `Function` | id or condition function |
-
-#### Returns
-
-`NodeModel`
-
-result node
-
-#### Implementation of
-
-IGraph.getNodeData
-
-#### Defined in
-
-[graph.ts:245](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L245)
-
-___
-
-### hideItem
-
-▸ **hideItem**(`ids`): `void`
-
-Hide the item(s).
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `ids` | `string` \| `number` \| (`string` \| `number`)[] |
+Destroy the graph instance and remove the related canvases.
 
 #### Returns
 
@@ -693,65 +885,11 @@ Hide the item(s).
 
 #### Implementation of
 
-IGraph.hideItem
+IGraph.destroy
 
 #### Defined in
 
-[graph.ts:361](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L361)
-
-___
-
-### setItemState
-
-▸ **setItemState**(`ids`, `state`, `value`): `void`
-
-Set state for the item.
-
-#### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `ids` | `string` \| `number` \| (`string` \| `number`)[] | - |
-| `state` | `string` | the state name |
-| `value` | `boolean` | state value |
-
-#### Returns
-
-`void`
-
-#### Implementation of
-
-IGraph.setItemState
-
-#### Defined in
-
-[graph.ts:372](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L372)
-
-___
-
-### showItem
-
-▸ **showItem**(`ids`): `void`
-
-Show the item(s).
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `ids` | `string` \| `number` \| (`string` \| `number`)[] |
-
-#### Returns
-
-`void`
-
-#### Implementation of
-
-IGraph.showItem
-
-#### Defined in
-
-[graph.ts:352](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L352)
+[graph.ts:640](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L640)
 
 ## View
 
@@ -777,7 +915,7 @@ IGraph.fitCenter
 
 #### Defined in
 
-[graph.ts:223](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L223)
+[graph.ts:252](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L252)
 
 ___
 
@@ -805,7 +943,7 @@ IGraph.fitView
 
 #### Defined in
 
-[graph.ts:214](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L214)
+[graph.ts:243](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L243)
 
 ___
 
@@ -819,7 +957,7 @@ Move the graph to make the item align the view center.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `ids` | `string` \| `number` \| (`string` \| `number`)[] | - |
+| `ids` | `ID` \| `ID`[] | - |
 | `animateCfg?` | `AnimateCfg` | animation configurations |
 
 #### Returns
@@ -832,7 +970,7 @@ IGraph.focusItem
 
 #### Defined in
 
-[graph.ts:233](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L233)
+[graph.ts:262](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L262)
 
 ___
 
@@ -860,7 +998,7 @@ IGraph.move
 
 #### Defined in
 
-[graph.ts:165](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L165)
+[graph.ts:194](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L194)
 
 ___
 
@@ -889,7 +1027,7 @@ IGraph.moveTo
 
 #### Defined in
 
-[graph.ts:178](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L178)
+[graph.ts:207](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L207)
 
 ___
 
@@ -917,7 +1055,7 @@ IGraph.zoom
 
 #### Defined in
 
-[graph.ts:190](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L190)
+[graph.ts:219](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L219)
 
 ___
 
@@ -945,7 +1083,7 @@ IGraph.zoomTo
 
 #### Defined in
 
-[graph.ts:202](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L202)
+[graph.ts:231](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L231)
 
 ## Layout
 
@@ -974,4 +1112,4 @@ IGraph.layout
 
 #### Defined in
 
-[graph.ts:422](https://github.com/antvis/G6/blob/bb82593eb8/packages/g6/src/runtime/graph.ts#L422)
+[graph.ts:549](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L549)
