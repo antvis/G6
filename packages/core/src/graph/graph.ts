@@ -1884,6 +1884,13 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
         after: newChildrenParent
       });
     }
+
+    // Fixes issue of nested child combos not being interactive (under parent on graph).
+    const comboItem = this.findById(comboId) as ICombo;
+
+    if (!comboItem.getModel().parentId && comboItem.getChildren().combos.length) {
+      this.updateComboTree(comboItem, undefined, false);
+    }
   }
 
   /**
