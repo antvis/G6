@@ -41,13 +41,13 @@ export interface Specification<B extends BehaviorRegistry> {
 
   /** item state styles */
   nodeState?: {
-    [state: string]: ((data: NodeModel) => NodeDisplayModel) | NodeShapesEncode;
+    [stateName: string]: ((data: NodeModel) => NodeDisplayModel) | NodeShapesEncode;
   };
   edgeState?: {
-    [state: string]: ((data: EdgeModel) => EdgeDisplayModel) | EdgeShapesEncode;
+    [stateName: string]: ((data: EdgeModel) => EdgeDisplayModel) | EdgeShapesEncode;
   };
   comboState?: {
-    [state: string]: ((data: ComboModel) => ComboDisplayModel) | ComboShapesEncode;
+    [stateName: string]: ((data: ComboModel) => ComboDisplayModel) | ComboShapesEncode;
   };
 
   /** layout */

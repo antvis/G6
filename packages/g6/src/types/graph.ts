@@ -101,6 +101,7 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
    * Find items which has the state.
    * @param itemType item type
    * @param state state name
+   * @param value state value, true by default
    * @param additionalFilter additional filter function
    * @returns items that is the type and has the state
    * @group Item
@@ -108,6 +109,7 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
   findIdByState: (
     itemType: ITEM_TYPE,
     state: string,
+    value?: string | boolean,
     additionalFilter?: (model: NodeModel | EdgeModel | ComboModel) => boolean,
   ) => ID[];
   /**
@@ -246,6 +248,14 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
    * @group Item
    */
   setItemState: (ids: ID | ID[], state: string, value: boolean) => void;
+  /**
+   * Get the state value for an item.
+   * @param id the id for the item
+   * @param states the state name
+   * @returns {boolean | string} the state value
+   * @group Item
+   */
+  getItemState: (id: ID, state: string) => boolean | string;
   /**
    * Clear all the states for item(s).
    * @param ids the id(s) for the item(s) to be clear

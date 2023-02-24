@@ -1,9 +1,10 @@
 import { DisplayObject } from '@antv/g';
 import { NodeDisplayModel } from '../../../types';
-import { ShapeStyle } from '../../../types/item';
+import { ShapeStyle, State } from '../../../types/item';
 import { NodeLabelShapeStyle, NodeModelData, NodeShapeMap } from '../../../types/node';
 import {
   DEFAULT_LABEL_BG_PADDING,
+  DEFAULT_SHAPE_STYLE,
   DEFAULT_TEXT_STYLE,
   formatPadding,
   upsertShape,
@@ -15,11 +16,16 @@ export abstract class BaseNode {
     keyShape: ShapeStyle;
     labelShape: NodeLabelShapeStyle;
     iconShape: ShapeStyle;
-    otherShapes: {
-      [shapeId: string]: ShapeStyle;
-    };
+    [shapeId: string]: ShapeStyle;
   } = {
-    keyShape: {},
+    keyShape: {
+      ...DEFAULT_SHAPE_STYLE,
+      x: 0,
+      y: 0,
+      fill: '#f00',
+      lineWidth: 0,
+      stroke: '#0f0',
+    },
     labelShape: {
       ...DEFAULT_TEXT_STYLE,
       fill: '#000',
@@ -31,31 +37,24 @@ export abstract class BaseNode {
       width: 15,
       height: 15,
     },
-    otherShapes: {},
   };
    defaultStyles: {
     keyShape?: ShapeStyle;
     labelShape?: NodeLabelShapeStyle;
     iconShape?: ShapeStyle;
-    otherShapes?: {
-      [shapeId: string]: ShapeStyle;
-    };
+    [shapeId: string]: ShapeStyle;
   } = {};
   abstract draw(
     model: NodeDisplayModel,
     shapeMap: { [shapeId: string]: DisplayObject },
-    diffData?: { oldData: NodeModelData; newData: NodeModelData },
+    diffData?: { previous: NodeModelData; current: NodeModelData },
+    diffState?: { previous: State[], current: State[] }
   ): {
     keyShape: DisplayObject;
     labelShape?: DisplayObject;
     iconShape?: DisplayObject;
     [otherShapeId: string]: DisplayObject;
   };
-  abstract drawKeyShape(
-    model: NodeDisplayModel,
-    shapeMap: NodeShapeMap,
-    diffData?: { oldData: NodeModelData; newData: NodeModelData },
-  ): DisplayObject;
 
   public afterDraw(
     model: NodeDisplayModel,
@@ -71,10 +70,18 @@ export abstract class BaseNode {
     shapeMap: { [shapeId: string]: DisplayObject },
   ) => void;
 
+  abstract drawKeyShape(
+    model: NodeDisplayModel,
+    shapeMap: NodeShapeMap,
+    diffData?: { previous: NodeModelData; current: NodeModelData },
+    diffState?: { previous: State[], current: State[] }
+  ): DisplayObject;
+
   public drawLabelShape(
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
-    diffData?: { oldData: NodeModelData; newData: NodeModelData },
+    diffData?: { previous: NodeModelData; current: NodeModelData },
+    diffState?: { oldState: State[], newState: State[] }
   ): {
     labelShape: DisplayObject;
     [id: string]: DisplayObject;
@@ -170,7 +177,8 @@ export abstract class BaseNode {
   public drawIconShape(
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
-    diffData?: { oldData: NodeModelData; newData: NodeModelData },
+    diffData?: { previous: NodeModelData; current: NodeModelData },
+    diffState?: { oldState: State[], newState: State[] }
   ): DisplayObject {
     const { iconShape } = model.data || {};
     const shapeStyle = Object.assign({}, this.defaultStyles.iconShape, iconShape);
@@ -184,5 +192,14 @@ export abstract class BaseNode {
       shapeStyle.textBaseline = 'middle';
     }
     return upsertShape(iconShapeType, 'iconShape', shapeStyle, shapeMap);
+  }
+
+  public drawOtherShapes(
+    model: NodeDisplayModel,
+    shapeMap: NodeShapeMap,
+    diffData?: { previous: NodeModelData; current: NodeModelData },
+    diffState?: { previous: State[], current: State[] }
+  ): { [id: string]: DisplayObject; } {
+    return {}
   }
 }

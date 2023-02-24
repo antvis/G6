@@ -1,6 +1,6 @@
 import { Group, DisplayObject } from '@antv/g';
 import { clone, isFunction } from '@antv/util';
-import { EdgeShapeMap } from '../types/edge';
+import { EdgeLabelShapeStyle, EdgeShapeMap } from '../types/edge';
 import {
   DisplayMapper,
   IItem,
@@ -8,8 +8,10 @@ import {
   ItemModel,
   ItemModelData,
   ITEM_TYPE,
+  ShapeStyle,
+  State,
 } from '../types/item';
-import { NodeShapeMap } from '../types/node';
+import { NodeShapeMap, NodeLabelShapeStyle } from '../types/node';
 import { isArrayOverlap } from '../util/array';
 import { updateShapes } from '../util/shape';
 import { isEncode } from '../util/type';
@@ -24,6 +26,9 @@ export default abstract class Item implements IItem {
   // display data model
   public displayModel: ItemDisplayModel;
   public mapper: DisplayMapper;
+  public stateMapper: {
+    [stateName: string]: DisplayMapper
+  };
   public group: Group;
   public keyShape: DisplayObject;
   // render extension for this item
@@ -40,25 +45,36 @@ export default abstract class Item implements IItem {
   public type: ITEM_TYPE;
   public renderExtensions: any; // TODO
 
-  constructor(props) {
-  }
+  /** Cache the dirty tags for states when data changed, to re-map the state styles when state changed */
+  private stateDirtyMap: { [stateName: string]: boolean } = {};
+  private cacheStateStyles: {
+    keyShape?: ShapeStyle;
+    labelShape?: NodeLabelShapeStyle | EdgeLabelShapeStyle;
+    iconShape?: ShapeStyle;
+    [shapeId: string]: ShapeStyle
+  } = {}
+  private renderExtClass;
+
+  constructor(props) {}
 
   public init(props) {
-    const { model, containerGroup, mapper, renderExtensions} = props;
+    const { model, containerGroup, mapper, stateMapper, renderExtensions} = props;
     this.group = new Group();
     containerGroup.appendChild(this.group);
     this.model = model;
     this.mapper = mapper;
+    this.stateMapper = stateMapper;
     this.displayModel = this.getDisplayModelAndChanges(model).model;
     this.renderExtensions = renderExtensions;
     const { type = this.type === 'node' ? 'circle-node' : 'line-edge' } = this.displayModel.data;
-    const extension = renderExtensions.find((ext) => ext.type === type);
-    this.renderExt = new extension();
+    const RenderExtension = renderExtensions.find((ext) => ext.type === type);
+    this.renderExtClass = RenderExtension;
+    this.renderExt = new RenderExtension();
   }
 
-  public draw(diffData?: { oldData: ItemModelData; newData: ItemModelData }) {
+  public draw(displayModel: ItemDisplayModel, diffData?: { previous: ItemModelData; current: ItemModelData }, diffState?: { previous: State[], current: State[] }) {
     // call this.renderExt.draw in extend implementations
-    const afterDrawShapes = this.renderExt.afterDraw?.(this.displayModel, this.shapeMap) || {};
+    const afterDrawShapes = this.renderExt.afterDraw?.(displayModel, this.shapeMap) || {};
     this.shapeMap = updateShapes(this.shapeMap, afterDrawShapes, this.group, false, (id) => {
       if (RESERVED_SHAPE_IDS.includes(id)) {
         console.warn(
@@ -72,7 +88,7 @@ export default abstract class Item implements IItem {
 
   public update(
     model: ItemModel,
-    diffData?: { oldData: ItemModelData; newData: ItemModelData },
+    diffData?: { previous: ItemModelData; current: ItemModelData },
     isReplace?: boolean,
   ) {
     // 1. merge model into this model
@@ -86,15 +102,17 @@ export default abstract class Item implements IItem {
     this.displayModel = displayModel;
 
     if (typeChange) {
-      this.group.replaceChildren();
+      Object.values(this.shapeMap).forEach(child => child.remove(true));
       this.shapeMap = { keyShape: undefined };
       const { type = this.type === 'node' ? 'circle-node' : 'line-edge' } = displayModel.data;
       const extension = this.renderExtensions.find((ext) => ext.type === type);
       this.renderExt = new extension();
-      
     }
-    // TODO: 3. call element update fn from useLib
-    this.draw(diffData);
+    // 3. call element update fn from useLib
+    this.draw(this.displayModel, diffData);
+    // 4. tag all the states with 'dirty', for state style regenerating when state changed
+    this.stateDirtyMap = {}
+    this.states.forEach(({ name }) => this.stateDirtyMap[name] = true);
   }
 
   /**
@@ -106,22 +124,22 @@ export default abstract class Item implements IItem {
    */
   public getDisplayModelAndChanges(
     innerModel: ItemModel,
-    diffData?: { oldData: ItemModelData; newData: ItemModelData },
+    diffData?: { previous: ItemModelData; current: ItemModelData },
     isReplace?: boolean,
   ): {
     model: ItemDisplayModel;
     typeChange?: boolean;
   } {
     const { mapper } = this;
-    const { newData = innerModel.data, oldData } = diffData || {};
+    const { current = innerModel.data, previous } = diffData || {};
 
     // === no mapper, displayModel = model ===
     if (!mapper) {
       this.displayModel = innerModel; // TODO: need clone?
-      // compare the oldData and newData to find shape changes
+      // compare the previous data and current data to find shape changes
       let typeChange = false;
-      if (newData) {
-        typeChange = Boolean(newData.type);
+      if (current) {
+        typeChange = Boolean(current.type);
       }
       return {
         model: innerModel,
@@ -130,12 +148,13 @@ export default abstract class Item implements IItem {
     }
 
     // === mapper is function, displayModel is mapper(model), cannot diff the displayModel, so all the shapes need to be updated ===
-    if (isFunction(mapper)) return { model: mapper(innerModel) };
+    if (isFunction(mapper)) return { model: (mapper as Function)(innerModel) };
 
     // === fields' values in mapper are final value or Encode ===
     const dataChangedFields = isReplace
-      ? Array.from(new Set(Object.keys(newData).concat(Object.keys(oldData)))) // all the fields for replacing all data
-      : Object.keys(newData); // only fields in newData for partial updating
+      ? undefined
+      // ? Array.from(new Set(Object.keys(current).concat(Object.keys(previous)))) // all the fields for replacing all data
+      : Object.keys(current); // only fields in current data for partial updating
 
     let typeChange = false;
     const { data, ...otherProps } = innerModel;
@@ -145,7 +164,7 @@ export default abstract class Item implements IItem {
       if (RESERVED_SHAPE_IDS.includes(fieldName)) {
         // reserved shapes, fieldName is shapeId
         if (!displayModelData.hasOwnProperty(fieldName)) {
-          displayModelData[fieldName] = displayModelData[fieldName] || {};
+          displayModelData[fieldName] = {};
           updateShapeChange({
             innerModel,
             mapper: subMapper,
@@ -179,7 +198,7 @@ export default abstract class Item implements IItem {
           });
           displayModelData[fieldName] = mappedValue;
           if (changed && fieldName === 'type') typeChange = true;
-        } else if (fieldName === 'type' && dataChangedFields.includes('type')) {
+        } else if (fieldName === 'type' && (!dataChangedFields || dataChangedFields.includes('type'))) {
           typeChange = true;
         }
       }
@@ -226,7 +245,23 @@ export default abstract class Item implements IItem {
     this.group.toFront();
   }
 
+  /**
+   * The state value for the item, false if the item does not have the state.
+   * @param state state name
+   * @returns { boolean | string } the state value
+   */
+  public hasState(state: string) {
+    const findState = this.states.find((item) => item.name === state);
+    return findState?.value || false;
+  }
+
+  /**
+   * Set the state for the item.
+   * @param state state name
+   * @param value state value
+   */
   public setState(state: string, value: string | boolean) {
+    const previousStates = clone(this.states);
     const existState = this.states.find((item) => item.name === state);
     if (value) {
       if (existState) existState.value = value;
@@ -238,23 +273,48 @@ export default abstract class Item implements IItem {
       const idx = this.states.indexOf(existState);
       this.states.splice(idx, 1);
     }
-    // TODO: call element setState fn from useLib
+
+    // if the renderExt overwrote the setState, run the custom setState instead of the default
+    if (this.renderExt.constructor.prototype.hasOwnProperty('setState')) {
+      this.renderExt.setState(state, value, this.shapeMap);
+      return;
+    }
+    this.drawWithStates(previousStates);
   }
 
-  public hasState(state: string) {
-    const findState = this.states.find((item) => item.name === state);
-    return findState || false;
-  }
-
+  /**
+   * Clear the states for the item.
+   * @param states the states to be cleared. All the states will be cleared if the states is not assigned
+   */
   public clearStates(states?: string[]) {
     // if states is not assigned, clear all the states on the item
-    const newStates = states ? this.states.filter((state) => !states.includes(state.name)) : [];
+    const previousStates = clone(this.states);
+    const newStates = [];
+    let changedStates = [];
+    if (states) {
+      this.states.filter(state => {
+        if (!states.includes(state.name)) {
+          newStates.push(state);
+        } else {
+          changedStates.push(state);
+        }
+      });
+    } else {
+      changedStates = this.states.map(({ name, value }) => ({ name, value: false }));
+    }
     this.states = newStates;
-    this.states.forEach((state) => {
-      // TODO: call element setState fn with false from useLib
-    });
+    // if the renderExt overwrote the setState, run the custom setState instead of the default
+    if (this.renderExt.constructor.prototype.hasOwnProperty('setState')) {
+      changedStates.forEach(({ name, value }) => this.renderExt.setState(name, value, this.shapeMap));
+      return;
+    }
+    this.drawWithStates(previousStates);
   }
 
+  /**
+   * Get all the states of the item.
+   * @retruns states array with has { name: string, value: string | boolean } format item
+   */
   public getStates() {
     return this.states;
   }
@@ -262,15 +322,89 @@ export default abstract class Item implements IItem {
   public destroy() {
     // TODO: 1. stop animations
     // 2. clear group and remove group
-    this.group.remove();
+    this.group.remove(true);
     this.model = null;
     this.displayModel = null;
     this.destroyed = true;
   }
+
+  /**
+   * Re-draw the item with merged state styles.
+   * @param previousStates previous states
+   * @returns 
+   */
+  private drawWithStates(previousStates: State[]) {
+    if (!this.stateMapper) return;
+
+    const { data: displayModelData } = this.displayModel;
+    const styles = {}; // merged styles
+    this.states.forEach(({ name: stateName, value }) => {
+      let stateStyles = this.cacheStateStyles[stateName] || {};
+      // re-mapper the state styles for states if they has dirty tag
+      if (value && (!this.stateDirtyMap.hasOwnProperty(stateName) || this.stateDirtyMap[stateName])) {
+        this.stateDirtyMap[stateName] = false;
+        const mapper = this.stateMapper[stateName];
+        if (!mapper) return;
+        Object.keys(mapper).forEach(shapeId => {
+          stateStyles[shapeId] = {
+            ...(displayModelData[shapeId] as Object)
+          }
+          if (RESERVED_SHAPE_IDS.includes(shapeId)) {
+            // reserved shapes, fieldName is shapeId
+            if (!displayModelData.hasOwnProperty(shapeId)) {
+              updateShapeChange({
+                innerModel: this.model,
+                mapper: mapper[shapeId],
+                dataChangedFields: undefined,
+                shapeConfig: stateStyles[shapeId],
+              });
+            }
+          } else if (shapeId === OTHER_SHAPES_FIELD_NAME) {
+            // other shapes
+            Object.keys(mapper).forEach((otherShapeId) => {
+              if (!displayModelData[shapeId]?.hasOwnProperty(otherShapeId)) {
+                stateStyles[shapeId] = stateStyles[shapeId] || {};
+                updateShapeChange({
+                  innerModel: this.model,
+                  mapper: mapper[shapeId][otherShapeId],
+                  dataChangedFields: undefined,
+                  shapeConfig: stateStyles[shapeId],
+                });
+              }
+            });
+          }
+        });
+      }
+      // merge the state styles
+      Object.keys(stateStyles).forEach(shapeId => {
+        styles[shapeId] = Object.assign({}, styles[shapeId], stateStyles[shapeId]);
+      });
+      this.cacheStateStyles[stateName] = stateStyles;
+    });
+
+    // apply the merged styles
+    this.draw(
+      // displayModel
+      {
+        ...this.displayModel,
+        data: {
+          ...displayModelData,
+          ...styles
+        },
+      } as ItemDisplayModel,
+      // diffData
+      undefined,
+      // diffState
+      { 
+        previous: previousStates,
+        current: this.states,
+      }
+    );
+  }
 }
 
 /**
- * Get the mapped value of a field on innerModel
+ * Get the mapped value of a field on innerModel.
  * @param param0: {
  *  innerModel, // find unmapped field value from innerModel
  *  fieldName, // name of the field to read from innerModel
@@ -292,7 +426,7 @@ const updateChange = ({
   if (isEncode(value)) {
     const { fields, formatter } = value;
     // data changed fields and the encode fields are overlapped, display value should be changed
-    if (isArrayOverlap(dataChangedFields, fields)) {
+    if (!dataChangedFields || isArrayOverlap(dataChangedFields, fields)) {
       const formatedValue = formatter(innerModel);
       return {
         changed: true,
@@ -310,7 +444,7 @@ const updateChange = ({
 };
 
 /**
- * Update a shape's config according to the mapper
+ * Update a shape's config according to the mapper.
  * @param param0: {
  *  innerModel, // find unmapped field value from innerModel
  *  mapper, // mapper object, contains the field's mapper

@@ -7,9 +7,10 @@ import {
   EdgeModelData,
   EdgeShapeMap,
 } from '../../../types/edge';
-import { ShapeStyle } from '../../../types/item';
+import { ShapeStyle, State } from '../../../types/item';
 import {
   DEFAULT_LABEL_BG_PADDING,
+  DEFAULT_SHAPE_STYLE,
   DEFAULT_TEXT_STYLE,
   formatPadding,
   upsertShape,
@@ -17,15 +18,14 @@ import {
 
 export abstract class BaseEdge {
   type: string;
-  defaultStyles: {
+  baseDefaultStyles: {
     keyShape: ShapeStyle;
     labelShape: EdgeLabelShapeStyle;
     iconShape: ShapeStyle;
-    otherShapes: {
-      [shapeId: string]: ShapeStyle;
-    };
+    [shapeId: string]: ShapeStyle;
   } = {
     keyShape: {
+      ...DEFAULT_SHAPE_STYLE,
       lineWidth: 1,
       stroke: '#fff',
     },
@@ -39,8 +39,13 @@ export abstract class BaseEdge {
       width: 15,
       height: 15,
     },
-    otherShapes: {},
   };
+  defaultStyles: {
+    keyShape?: ShapeStyle;
+    labelShape?: EdgeLabelShapeStyle;
+    iconShape?: ShapeStyle;
+    [shapeId: string]: ShapeStyle;
+  } = {};
   protected getDefaultStyles() {
     return this.defaultStyles;
   }
@@ -49,7 +54,8 @@ export abstract class BaseEdge {
     sourcePoint: Point,
     targetPoint: Point,
     shapeMap: { [shapeId: string]: DisplayObject },
-    diffData?: { oldData: EdgeModelData; newData: EdgeModelData },
+    diffData?: { previous: EdgeModelData; current: EdgeModelData },
+    diffState?: { previous: State[], current: State[] }
   ): {
     keyShape: DisplayObject;
     labelShape?: DisplayObject;
@@ -73,7 +79,8 @@ export abstract class BaseEdge {
   public drawLabelShape(
     model: EdgeDisplayModel,
     shapeMap: EdgeShapeMap,
-    diffData?: { oldData: EdgeModelData; newData: EdgeModelData },
+    diffData?: { previous: EdgeModelData; current: EdgeModelData },
+    diffState?: { previous: State[], current: State[] }
   ): {
     labelShape: DisplayObject;
     [id: string]: DisplayObject;
@@ -174,7 +181,8 @@ export abstract class BaseEdge {
   public drawIconShape(
     model: EdgeDisplayModel,
     shapeMap: EdgeShapeMap,
-    diffData?: { oldData: EdgeModelData; newData: EdgeModelData },
+    diffData?: { previous: EdgeModelData; current: EdgeModelData },
+    diffState?: { previous: State[], current: State[] }
   ): DisplayObject {
     const { labelShape, labelBgShape, keyShape } = shapeMap;
 
