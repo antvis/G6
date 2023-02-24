@@ -796,8 +796,10 @@ describe('register node', () => {
       done()
     });
   });
-  it('node state', (done) => {
+});
 
+describe('state', () => {
+  it('node state', (done) => {
     const graph = new Graph({
       container,
       width: 500,
