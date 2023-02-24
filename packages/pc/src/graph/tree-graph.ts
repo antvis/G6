@@ -9,6 +9,7 @@ import {
   ShapeStyle,
   TreeGraphData,
   GraphOptions,
+  IPoint,
 } from '@antv/g6-core';
 import { ITreeGraph } from '../interface/graph';
 import Util from '../util';
@@ -273,7 +274,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
    * 更改并应用树布局算法
    * @param {object} layout 布局算法
    */
-  public updateLayout(layout: any, stack: boolean = true) {
+  public updateLayout(layout: any, _align?: 'center' | 'begin', _canvasPoint?: IPoint, stack?: boolean = true) {
     const self = this;
     if (!layout) {
       // eslint-disable-next-line no-console
@@ -628,7 +629,7 @@ export default class TreeGraph extends Graph implements ITreeGraph {
    * 设置视图初始化数据
    * @param {TreeGraphData} data 初始化数据
    */
-  public data(data?: TreeGraphData): void {
+  public data(data?: GraphData | TreeGraphData): void {
     super.data(data);
     this.set('originData', JSON.parse(JSON.stringify(data)));
   }
