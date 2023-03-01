@@ -1,11 +1,12 @@
 import { Point } from '../../../types/common';
 import { EdgeDisplayModel, EdgeModelData, EdgeShapeMap } from '../../../types/edge';
-import { upsertShape } from '../../../util/shape';
+import { State } from '../../../types/item';
+import { mergeStyles, upsertShape } from '../../../util/shape';
 import { BaseEdge } from './base';
 
 export class LineEdge extends BaseEdge {
   public type = 'line-edge';
-  public defaultStyles = Object.assign({}, super.getDefaultStyles(), {
+  public defaultStyles = {
     keyShape: {
       x1: 0,
       y1: 0,
@@ -13,15 +14,20 @@ export class LineEdge extends BaseEdge {
       y2: 0,
       stroke: '#ccc',
       lineWidth: 1,
-    },
-    otherShapes: {},
-  });
+    }
+  }
+  constructor() {
+    super();
+    // suggest to merge default styles like this to avoid style value missing
+    this.defaultStyles = mergeStyles(this.baseDefaultStyles, this.defaultStyles);
+  }
   public draw(
     model: EdgeDisplayModel,
     sourcePoint: Point,
     targetPoint: Point,
     shapeMap: EdgeShapeMap,
-    diffData?: { oldData: EdgeModelData; newData: EdgeModelData },
+    diffData?: { previous: EdgeModelData; current: EdgeModelData },
+    diffState?: { previous: State[], current: State[] }
   ): EdgeShapeMap {
     const { data = {} } = model;
 
@@ -43,7 +49,8 @@ export class LineEdge extends BaseEdge {
     sourcePoint: Point,
     targetPoint: Point,
     shapeMap: EdgeShapeMap,
-    diffData?: { oldData: EdgeModelData; newData: EdgeModelData },
+    diffData?: { previous: EdgeModelData; current: EdgeModelData },
+    diffState?: { previous: State[], current: State[] }
   ) {
     const keyShapeStyle = Object.assign({}, this.defaultStyles.keyShape, model.data?.keyShape);
     const keyShape = upsertShape(

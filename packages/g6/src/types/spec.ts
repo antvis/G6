@@ -1,12 +1,12 @@
-import { AnimateCfg } from './animate';
-import { BehaviorOptionsOf, BehaviorRegistry } from './behavior';
-import { ComboDisplayModel, ComboEncode, ComboModel, ComboShapesEncode } from './combo';
-import { Point } from './common';
-import { FetchDataConfig, GraphData, InlineDataConfig, TransformerFn } from './data';
-import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeShapesEncode } from './edge';
-import { LayoutOptions } from './layout';
-import { NodeDisplayModel, NodeEncode, NodeModel, NodeShapesEncode } from './node';
-import { GraphAlignment } from './view';
+import { AnimateCfg } from "./animate";
+import { Point } from "./common";
+import { FetchDataConfig, GraphData, InlineDataConfig, TransformerFn } from "./data";
+import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeShapesEncode } from "./edge";
+import { NodeDisplayModel, NodeEncode, NodeModel, NodeShapesEncode } from "./node";
+import { GraphAlignment } from "./view";
+import { ComboDisplayModel, ComboEncode, ComboModel, ComboShapesEncode } from "./combo";
+import { BehaviorOptionsOf, BehaviorRegistry } from "./behavior";
+import { LayoutOptions } from "./layout";
 
 type rendererName = 'canvas' | 'svg' | 'webgl';
 
@@ -49,13 +49,13 @@ export interface Specification<B extends BehaviorRegistry> {
 
   /** item state styles */
   nodeState?: {
-    [state: string]: ((data: NodeModel) => NodeDisplayModel) | NodeShapesEncode;
+    [stateName: string]: ((data: NodeModel) => NodeDisplayModel) | NodeShapesEncode;
   };
   edgeState?: {
-    [state: string]: ((data: EdgeModel) => EdgeDisplayModel) | EdgeShapesEncode;
+    [stateName: string]: ((data: EdgeModel) => EdgeDisplayModel) | EdgeShapesEncode;
   };
   comboState?: {
-    [state: string]: ((data: ComboModel) => ComboDisplayModel) | ComboShapesEncode;
+    [stateName: string]: ((data: ComboModel) => ComboDisplayModel) | ComboShapesEncode;
   };
 
   /** layout */

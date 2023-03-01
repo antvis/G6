@@ -1,8 +1,8 @@
 import { DisplayObject } from '@antv/g';
 import { NodeDisplayModel } from '../../../types';
-import { ShapeStyle } from '../../../types/item';
-import { NodeLabelShapeStyle, NodeModelData, NodeShapeMap } from '../../../types/node';
-import { upsertShape } from '../../../util/shape';
+import { State } from '../../../types/item';
+import { NodeModelData, NodeShapeMap } from '../../../types/node';
+import { mergeStyles, upsertShape } from '../../../util/shape';
 import { BaseNode } from './base';
 
 export class CircleNode extends BaseNode {
@@ -18,12 +18,14 @@ export class CircleNode extends BaseNode {
   };
   constructor() {
     super();
-    this.defaultStyles = Object.assign({}, this.baseDefaultStyles, this.defaultStyles);
+    // suggest to merge default styles like this to avoid style value missing
+    this.defaultStyles = mergeStyles(this.baseDefaultStyles, this.defaultStyles);
   }
   public draw(
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
-    diffData?: { oldData: NodeModelData; newData: NodeModelData },
+    diffData?: { previous: NodeModelData; current: NodeModelData },
+    diffState?: { previous: State[], current: State[] }
   ): NodeShapeMap {
     const { data = {} } = model;
     let shapes: NodeShapeMap = { keyShape: undefined };
@@ -38,16 +40,20 @@ export class CircleNode extends BaseNode {
     if (data.iconShape) {
       shapes.iconShape = this.drawIconShape(model, shapeMap, diffData);
     }
-
-    // TODO: other shapes
-
+    if (data.otherShapes && this.drawOtherShapes) {
+      shapes = {
+        ...shapes,
+        ...this.drawOtherShapes(model, shapeMap, diffData)
+      }
+    }
     return shapes;
   }
 
   public drawKeyShape(
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
-    diffData?: { oldData: NodeModelData; newData: NodeModelData },
+    diffData?: { previous: NodeModelData; current: NodeModelData },
+    diffState?: { previous: State[], current: State[] }
   ): DisplayObject {
     const shapeStyle = Object.assign({}, this.defaultStyles.keyShape, model.data?.keyShape);
     return upsertShape('circle', 'keyShape', shapeStyle, shapeMap);

@@ -24,11 +24,11 @@ import { FitViewRules, GraphAlignment } from '../types/view';
 import { createCanvas } from '../util/canvas';
 import {
   DataController,
-  ExtensionController,
   InteractionController,
   ItemController,
   LayoutController,
   ThemeController,
+  ExtensionController,
 } from './controller';
 import Hook from './hooks';
 
@@ -345,9 +345,10 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
   public findIdByState(
     itemType: ITEM_TYPE,
     state: string,
+    value: string | boolean = true,
     additionalFilter?: (item: NodeModel | EdgeModel | ComboModel) => boolean,
   ): ID[] {
-    let ids = this.itemController.findIdByState(itemType, state);
+    let ids = this.itemController.findIdByState(itemType, state, value);
     if (additionalFilter) {
       const getDataFunc = itemType === 'node' ? this.getNodeData : this.getEdgeData; // TODO: combo
       ids = ids.filter(id => additionalFilter(getDataFunc(id)));
@@ -499,6 +500,16 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
       states: stateArr as string[],
       value
     });
+  }
+  /**
+   * Get the state value for an item.
+   * @param id the id for the item
+   * @param states the state name
+   * @returns {boolean} the state value
+   * @group Item
+   */
+  public getItemState(id: ID, state: string) {
+    return this.itemController.getItemState(id, state);
   }
 
   /**

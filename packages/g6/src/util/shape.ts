@@ -11,7 +11,7 @@ import {
   Text,
   Image,
 } from '@antv/g';
-import { isArray, isNumber } from '@antv/util';
+import { clone, isArray, isNumber } from '@antv/util';
 import { EdgeShapeMap } from '../types/edge';
 import { NodeShapeMap } from '../types/node';
 
@@ -131,8 +131,37 @@ export const formatPadding = (value, defaultArr = [4, 4, 4, 4]) => {
   return defaultArr;
 };
 
+/**
+ * Merge two shape map including undefined value in incoming map.
+ * @param styleMap1 shapes' styles map as current map
+ * @param styleMap2 shapes' styles map as incoming map
+ * @returns 
+ */
+export const mergeStyles = (styleMap1, styleMap2) => {
+  const mergedStyle = clone(styleMap1);
+  Object.keys(styleMap2).forEach(shapeId => {
+    const style = styleMap2[shapeId];
+    mergedStyle[shapeId] = mergedStyle[shapeId] || {};
+    Object.keys(style).forEach(styleName => {
+      const value = style[styleName];
+      mergedStyle[shapeId][styleName] = value;
+    });
+  });
+  return mergedStyle;
+}
+
 export const DEFAULT_LABEL_BG_PADDING = [4, 4, 4, 4];
+/** Default shape style to avoid shape value missing */
+export const DEFAULT_SHAPE_STYLE = {
+  opacity: 1,
+  fillOpacity: 1,
+  shadowColor: undefined,
+  shadowBlur: undefined,
+  lineDash: undefined,
+};
+/** Default text style to avoid shape value missing */
 export const DEFAULT_TEXT_STYLE = {
+  ...DEFAULT_SHAPE_STYLE,
   fontSize: 12,
   fontFamily: 'sans-serif',
   fontWeight: 'normal',

@@ -82,9 +82,7 @@ export class InteractionController {
         case 'update':
           behaviors.forEach((config) => {
             if (isObject(config) && config.hasOwnProperty('key')) {
-              const behaviorItem = self.extensions[mode].find(
-                (behavior) => behavior.getKey() === config.key,
-              );
+              const behaviorItem = self.extensions[mode].find(behavior => behavior.getKey() === config.key);
               if (behaviorItem) behaviorItem.updateConfig(config);
             }
           });

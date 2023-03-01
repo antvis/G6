@@ -2,7 +2,7 @@ import { Group } from '@antv/g';
 import { ID } from '@antv/graphlib';
 import { EdgeDisplayModel, EdgeModel } from '../types';
 import { EdgeModelData } from '../types/edge';
-import { DisplayMapper, ITEM_TYPE } from '../types/item';
+import { DisplayMapper, ITEM_TYPE, State } from '../types/item';
 import { updateShapes } from '../util/shape';
 import Item from './item';
 import Node from './node';
@@ -12,6 +12,9 @@ interface IProps {
   renderExtensions: any; // TODO: type
   containerGroup: Group;
   mapper: DisplayMapper;
+  stateMapper: {
+    [stateName: string]: DisplayMapper
+  };
   sourceItem: Node;
   targetItem: Node;
 }
@@ -34,9 +37,9 @@ export default class Edge extends Item {
     const { sourceItem, targetItem } = props;
     this.sourceItem = sourceItem;
     this.targetItem = targetItem;
-    this.draw();
+    this.draw(this.displayModel);
   }
-  public draw(diffData?: { oldData: EdgeModelData; newData: EdgeModelData }) {
+  public draw(displayModel: EdgeDisplayModel, diffData?: { previous: EdgeModelData; current: EdgeModelData }, diffState?: { previous: State[], current: State[] }) {
     // get the end points
     const sourceBBox = this.sourceItem.getKeyBBox();
     const targetBBox = this.targetItem.getKeyBBox();
@@ -53,6 +56,8 @@ export default class Edge extends Item {
       sourcePoint,
       targetPoint,
       this.shapeMap,
+      diffData,
+      diffState
     );
 
     // add shapes to group, and update shapeMap
@@ -61,7 +66,7 @@ export default class Edge extends Item {
     const { labelShape } = this.shapeMap;
     labelShape?.toFront();
 
-    super.draw(diffData);
+    super.draw(displayModel, diffData, diffState);
   }
 
   /**
@@ -69,7 +74,7 @@ export default class Edge extends Item {
    * e.g. source and target nodes' position changed
    */
   public forceUpdate() {
-    this.draw();
+    this.draw(this.displayModel);
   }
 
   /**
@@ -80,7 +85,7 @@ export default class Edge extends Item {
   public updateEnd(type: 'source' | 'target', endItem: Node) {
     if (type === 'source') this.sourceItem = endItem;
     else if (type === 'target') this.targetItem = endItem;
-    this.draw();
+    this.draw(this.displayModel);
   }
 
   // public update(model: EdgeModel) {

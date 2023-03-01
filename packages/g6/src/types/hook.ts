@@ -1,9 +1,9 @@
-import { GraphChange, ID } from '@antv/graphlib';
-import { DataChangeType, GraphCore, GraphData } from './data';
-import { EdgeModelData } from './edge';
-import { ITEM_TYPE } from './item';
-import { LayoutOptions } from './layout';
-import { NodeModelData } from './node';
+import { DataChangeType, GraphCore, GraphData } from "./data";
+import { NodeModelData } from "./node";
+import { EdgeModelData } from "./edge";
+import { ITEM_TYPE } from "./item";
+import { GraphChange, ID } from "@antv/graphlib";
+import { LayoutOptions } from "./layout";
 
 export interface IHook<T> {
   name: string;
@@ -17,11 +17,11 @@ export interface IHook<T> {
 export interface Hooks {
   init: IHook<void>;
   // data
-  datachange: IHook<{
+  'datachange': IHook<{
     type: DataChangeType;
-    data: GraphData;
+    data: GraphData
   }>;
-  itemchange: IHook<{
+  'itemchange': IHook<{
     type: ITEM_TYPE;
     changes: GraphChange<NodeModelData, EdgeModelData>[];
     graphCore: GraphCore;

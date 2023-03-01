@@ -63,6 +63,11 @@ export type DisplayMapper =
   | EdgeEncode
   | ComboEncode;
 
+export type State = {
+  name: string;
+  value: boolean | string;
+}
+
 /**
  * Base item of node / edge / combo.
  */
@@ -94,8 +99,9 @@ export interface IItem {
    * @internal
    * */
   draw: (
-    diffData?: { oldData: ItemModelData; newData: ItemModelData },
-    shapesToChange?: { [shapeId: string]: boolean },
+    displayModel: ItemDisplayModel,
+    diffData?: { previous: ItemModelData; current: ItemModelData },
+    diffState?: { previous: State[], current: State[] },
   ) => void;
   /**
    * Updates the shapes.
@@ -103,7 +109,7 @@ export interface IItem {
    * */
   update: (
     model: ItemModel,
-    diffData: { oldData: ItemModelData; newData: ItemModelData },
+    diffData: { previous: ItemModelData; current: ItemModelData },
     isUpdate?: boolean,
   ) => void;
   /** Puts the item to the front in its graphic group. */
@@ -119,7 +125,7 @@ export interface IItem {
   /** Sets a state value to the item. */
   setState: (state: string, value: string | boolean) => void;
   /** Returns the state if it is true/string. Returns false otherwise. */
-  hasState: (state: string) => { name: string; value: boolean | string } | false;
+  hasState: (state: string) => string | boolean;
   /** Get all the true or string states of the item. */
   getStates: () => {
     name: string;

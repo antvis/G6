@@ -1,16 +1,16 @@
-import { Group } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
-import Combo from '../../item/combo';
-import Edge from '../../item/edge';
-import Node from '../../item/node';
-import { registry } from '../../stdlib';
 import { ComboModel, IGraph } from '../../types';
-import { ComboDisplayModel, ComboEncode } from '../../types/combo';
-import { GraphCore } from '../../types/data';
-import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeModelData } from '../../types/edge';
-import { ITEM_TYPE } from '../../types/item';
-import { NodeDisplayModel, NodeEncode, NodeModel, NodeModelData } from '../../types/node';
+import { registry } from '../../stdlib';
 import { getExtension } from '../../util/extension';
+import { GraphCore } from '../../types/data';
+import { NodeDisplayModel, NodeEncode, NodeModel, NodeModelData } from '../../types/node';
+import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeModelData } from '../../types/edge';
+import Node from '../../item/node';
+import Edge from '../../item/edge';
+import Combo from '../../item/combo';
+import { Group } from '@antv/g';
+import { ITEM_TYPE } from '../../types/item';
+import { ComboDisplayModel, ComboEncode } from '../../types/combo';
 
 /**
  * Manages and stores the node / edge / combo items.
@@ -33,6 +33,16 @@ export class ItemController {
   private edgeMapper: ((data: EdgeModel) => EdgeDisplayModel) | EdgeEncode;
   private comboMapper: ((data: ComboModel) => ComboDisplayModel) | ComboEncode;
 
+  private nodeStateMapper: {
+    [stateName: string]: ((data: NodeModel) => NodeDisplayModel) | NodeEncode;
+  };
+  private edgeStateMapper: {
+    [stateName: string]: ((data: EdgeModel) => EdgeDisplayModel) | EdgeEncode;
+  };
+  private comboStateMapper: {
+    [stateName: string]: ((data: ComboModel) => ComboDisplayModel) | ComboEncode;
+  };
+
   private nodeGroup: Group;
   private edgeGroup: Group;
   // TODO: combo? not a independent group
@@ -40,11 +50,13 @@ export class ItemController {
   constructor(graph: IGraph<any>) {
     this.graph = graph;
     // get mapper for node / edge / combo
-    const spec = graph.getSpecification();
-    const { node, edge, combo } = spec;
+    const { node, edge, combo, nodeState, edgeState, comboState }  = graph.getSpecification();
     this.nodeMapper = node;
     this.edgeMapper = edge;
     this.comboMapper = combo;
+    this.nodeStateMapper = nodeState;
+    this.edgeStateMapper = edgeState;
+    this.comboStateMapper = comboState;
 
     this.tap();
   }
@@ -162,24 +174,24 @@ export class ItemController {
       const nodeUpdate = {};
       groupedChanges.NodeDataUpdated.forEach((change) => {
         const { id, propertyName, newValue, oldValue } = change;
-        nodeUpdate[id] = nodeUpdate[id] || { oldData: {}, newData: {} };
+        nodeUpdate[id] = nodeUpdate[id] || { previous: {}, current: {} };
         if (!propertyName) {
           nodeUpdate[id] = {
             isReplace: true, // whether replace the whole data
-            oldData: oldValue,
-            newData: newValue,
+            previous: oldValue,
+            current: newValue,
           };
         } else {
-          nodeUpdate[id].oldData[propertyName] = oldValue;
-          nodeUpdate[id].newData[propertyName] = newValue;
+          nodeUpdate[id].previous[propertyName] = oldValue;
+          nodeUpdate[id].current[propertyName] = newValue;
         }
       });
       const edgeToUpdate = {};
       Object.keys(nodeUpdate).forEach((id) => {
-        const { isReplace, newData, oldData } = nodeUpdate[id];
+        const { isReplace, previous, current } = nodeUpdate[id];
         const item = itemMap[id];
         const innerModel = graphCore.getNode(id);
-        item.update(innerModel, { newData, oldData }, isReplace);
+        item.update(innerModel, { previous, current }, isReplace);
         const relatedEdgeInnerModels = graphCore.getRelatedEdges(id);
         relatedEdgeInnerModels.forEach((edge) => (edgeToUpdate[edge.id] = edge));
       });
@@ -194,24 +206,24 @@ export class ItemController {
       const edgeUpdate = {};
       groupedChanges.EdgeDataUpdated.forEach((change) => {
         const { id, propertyName, newValue, oldValue } = change;
-        edgeUpdate[id] = edgeUpdate[id] || { oldData: {}, newData: {} };
+        edgeUpdate[id] = edgeUpdate[id] || { previous: {}, current: {} };
         if (!propertyName) {
           edgeUpdate[id] = {
             isReplace: true, // whether replace the whole data
-            oldData: oldValue,
-            newData: newValue,
+            previous: oldValue,
+            current: newValue,
           };
         } else {
-          edgeUpdate[id].oldData[propertyName] = oldValue;
-          edgeUpdate[id].newData[propertyName] = newValue;
+          edgeUpdate[id].previous[propertyName] = oldValue;
+          edgeUpdate[id].current[propertyName] = newValue;
         }
       });
 
       Object.keys(edgeUpdate).forEach((id) => {
-        const { isReplace, newData, oldData } = edgeUpdate[id];
+        const { isReplace, current, previous } = edgeUpdate[id];
         const item = itemMap[id];
         const innerModel = graphCore.getEdge(id);
-        item.update(innerModel, { newData, oldData }, isReplace);
+        item.update(innerModel, { current, previous }, isReplace);
       });
     }
 
@@ -273,6 +285,7 @@ export class ItemController {
         renderExtensions: nodeExtensions,
         containerGroup: nodeGroup,
         mapper: this.nodeMapper,
+        stateMapper: this.nodeStateMapper,
       });
     });
   }
@@ -302,6 +315,7 @@ export class ItemController {
         renderExtensions: edgeExtensions,
         containerGroup: edgeGroup,
         mapper: this.edgeMapper,
+        stateMapper: this.edgeStateMapper,
         sourceItem,
         targetItem,
       });
@@ -312,14 +326,30 @@ export class ItemController {
    * Get the id of the item which have the state with true value
    * @param itemType item's type
    * @param state state name
+   * @param value state value, true by default
    * @returns 
    */
-  public findIdByState(itemType: ITEM_TYPE, state: string) {
+  public findIdByState(itemType: ITEM_TYPE, state: string, value: string | boolean = true) {
     const ids = [];
     Object.values(this.itemMap).forEach(item => {
       if (item.getType() !== itemType) return;
-      if (item.hasState(state)) ids.push(item.getID());
+      if (item.hasState(state) === value) ids.push(item.getID());
     });
     return ids;
+  }
+
+  /**
+   * Get the state value for the item with id
+   * @param id item' id
+   * @param state state name
+   * @returns {boolean | string} the state value
+   */
+  public getItemState(id: ID, state: string) {
+    const item = this.itemMap[id];
+    if (!item) {
+      console.warn(`Fail to item state, the item with id ${id} does not exist.`);
+      return false;
+    }
+    return item.hasState(state);
   }
 }

@@ -6,7 +6,7 @@ import { AnimateCfg } from './animate';
 import { BehaviorObjectOptionsOf, BehaviorOptionsOf, BehaviorRegistry } from './behavior';
 import { ComboModel, ComboUserModel } from './combo';
 import { Padding, Point } from './common';
-import { GraphData } from './data';
+import { DataChangeType, GraphData } from './data';
 import { EdgeModel, EdgeUserModel } from './edge';
 import { ITEM_TYPE } from './item';
 import { LayoutOptions } from './layout';
@@ -91,7 +91,7 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
    * @returns
    * @group Data
    */
-  changeData: (data: GraphData, type?: 'replace' | 'mergeReplace') => void;
+  changeData: (data: GraphData, type: 'replace' | 'mergeReplace') => void;
   /**
    * Clear the graph, means remove all the items on the graph.
    * @returns
@@ -101,6 +101,7 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
    * Find items which has the state.
    * @param itemType item type
    * @param state state name
+   * @param value state value, true by default
    * @param additionalFilter additional filter function
    * @returns items that is the type and has the state
    * @group Item
@@ -108,6 +109,7 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
   findIdByState: (
     itemType: ITEM_TYPE,
     state: string,
+    value?: string | boolean,
     additionalFilter?: (model: NodeModel | EdgeModel | ComboModel) => boolean,
   ) => ID[];
   /**
@@ -247,6 +249,14 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
    */
   setItemState: (ids: ID | ID[], state: string, value: boolean) => void;
   /**
+   * Get the state value for an item.
+   * @param id the id for the item
+   * @param states the state name
+   * @returns {boolean | string} the state value
+   * @group Item
+   */
+  getItemState: (id: ID, state: string) => boolean | string;
+  /**
    * Clear all the states for item(s).
    * @param ids the id(s) for the item(s) to be clear
    * @param states the states' names, all the states wil be cleared if states is not assigned
@@ -285,11 +295,6 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
   // ===== layout =====
   /**
    * Layout the graph (with current configurations if cfg is not assigned).
-   * @param {LayoutCommonConfig} cfg layout configurations. if assigned, the layout spec of the graph will be updated in the same time
-   * @param {GraphAlignment} align align the result
-   * @param {Point} canvasPoint align the result
-   * @param {boolean} stack push it into stack
-   * @group Layout
    */
   layout: (options?: LayoutOptions) => Promise<void>;
   stopLayout: () => void;

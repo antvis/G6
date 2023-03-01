@@ -12,17 +12,17 @@ const stdLib = {
   themes: {},
   layouts: layoutRegistry,
   behaviors: {
-    'drag-canvas': DragCanvas,
+    'drag-canvas': DragCanvas
   },
   plugins: {},
   nodes: {
-    'circle-node': CircleNode,
+    'circle-node': CircleNode
   },
   edges: {
-    'line-edge': LineEdge,
+    'line-edge': LineEdge
   },
   combos: {},
-};
+}
 
 const useLib: Lib = {
   transforms: {},

@@ -6,13 +6,13 @@ import { isString } from '@antv/util';
 
 /**
  * Create a canvas
- * @param { 'canvas' | 'svg' | 'webgl' } rendererType
- * @param {string | HTMLElement} container
+ * @param { 'canvas' | 'svg' | 'webgl' } rendererType 
+ * @param {string | HTMLElement} container 
  * @param {number} width
  * @param {number} height
  * @param {number} pixelRatio optional
  * @param {boolean} customCanvasTag whether create a <canvas /> for multiple canvas under the container
- * @returns
+ * @returns 
  */
 export const createCanvas = (
   rendererType: 'canvas' | 'svg' | 'webgl',
@@ -20,7 +20,7 @@ export const createCanvas = (
   width: number,
   height: number,
   pixelRatio?: number,
-  customCanvasTag: boolean = true,
+  customCanvasTag: boolean = true
 ) => {
   let Renderer;
   switch (rendererType.toLowerCase()) {
@@ -43,7 +43,7 @@ export const createCanvas = (
     canvasTag.style.height = `${height}px`;
     canvasTag.style.position = 'fixed';
     const containerDOM = isString(container) ? document.getElementById('container') : container;
-    containerDOM.appendChild(canvasTag);
+    containerDOM!.appendChild(canvasTag);
     return new Canvas({
       canvas: canvasTag,
       devicePixelRatio: pixelRatio,
@@ -55,6 +55,6 @@ export const createCanvas = (
     width,
     height,
     devicePixelRatio: pixelRatio,
-    renderer: new Renderer(),
+    renderer: new Renderer()
   });
-};
+}
