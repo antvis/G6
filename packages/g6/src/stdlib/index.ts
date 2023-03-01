@@ -1,6 +1,8 @@
 import { comboFromNode } from "./data/comboFromNode"
 import DragCanvas from "./behavior/drag-canvas";
 import { Lib } from "../types/stdlib";
+import { CircleNode } from "./item/node";
+import { LineEdge } from "./item/edge";
 
 const stdLib = {
   transforms: {
@@ -10,11 +12,15 @@ const stdLib = {
   layouts: {}, // from @antv/layout
   behaviors: {
     'drag-canvas': DragCanvas
-  }, // @antv/g6-pc
-  plugins: {}, // @antv/g6-plugin
-  nodes: {}, // @antv/g6-element
-  edges: {}, // @antv/g6-element
-  combos: {}, // @antv/g6-element
+  },
+  plugins: {},
+  nodes: {
+    'circle-node': CircleNode
+  },
+  edges: {
+    'line-edge': LineEdge
+  },
+  combos: {},
 }
 
 const useLib: Lib = {

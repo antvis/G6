@@ -1,4 +1,4 @@
-import { BehaviorRegistry } from "../types/behavior";
+import { BehaviorRegistry } from '../types/behavior';
 import Graph from '../runtime/graph';
 import registery from '../stdlib';
 
@@ -13,13 +13,19 @@ import registery from '../stdlib';
 export const extend = <B1 extends BehaviorRegistry, B2 extends BehaviorRegistry>(
   GraphClass: typeof Graph<B2>,
   extendLibrary: {
-    behaviors?: B1,
-  }
+    behaviors?: B1;
+    nodes?: any; // TODO
+    edges?: any; // TODO
+  },
 ): typeof Graph<B1 & B2> => {
   // merged the extendLibrary to useLib for global usage
-  Object.keys(extendLibrary).forEach(cat => {
+  Object.keys(extendLibrary).forEach((cat) => {
     registery.useLib[cat] = Object.assign({}, registery.useLib[cat], extendLibrary[cat] || {});
+    Object.keys(registery.useLib[cat]).forEach((type) => {
+      const extension = registery.useLib[cat][type];
+      extension.type = type;
+    });
   });
   // @ts-expect-error
   return GraphClass;
-}
+};

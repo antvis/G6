@@ -1,6 +1,7 @@
+import { DisplayObject } from '@antv/g';
 import { Node as GNode, PlainObject } from '@antv/graphlib';
-import { AnimateAttr } from "./animate";
-import { Encode, IItem, LabelBackground, ShapeAttrEncode, ShapesEncode } from "./item";
+import { AnimateAttr } from './animate';
+import { Encode, IItem, LabelBackground, ShapeAttrEncode, ShapesEncode, ShapeStyle } from './item';
 
 export type NodeLabelPosition = 'bottom' | 'center' | 'top' | 'left' | 'right';
 
@@ -15,32 +16,22 @@ export interface NodeModelData extends NodeUserModelData {
   label?: string;
 }
 
+export interface NodeLabelShapeStyle extends ShapeStyle {
+  position?: NodeLabelPosition;
+  offsetX?: number;
+  offsetY?: number;
+  background?: LabelBackground;
+}
 
 /** Data in display model. */
 export interface NodeDisplayModelData extends NodeModelData {
-  keyShape?: {
-    [shapeAttr: string]: unknown;
-    animate: AnimateAttr;
-  };
-  labelShape?: {
-    position?: NodeLabelPosition;
-    offsetX?: number;
-    offsetY?: number;
-    background?: LabelBackground;
-    [shapeAttr: string]: unknown;
-    animate: AnimateAttr;
-  };
-  iconShape?: {
-    [shapeAttr: string]: unknown;
-    animate: AnimateAttr;
-  };
+  keyShape?: ShapeStyle;
+  labelShape?: NodeLabelShapeStyle;
+  iconShape?: ShapeStyle;
   otherShapes?: {
-    [shapeName: string]: {
-      [shapeAttr: string]: unknown;
-      animate: AnimateAttr;
-    }
+    [shapeId: string]: ShapeStyle;
   };
-  anchorPoints?: AnchorPoint[]
+  anchorPoints?: AnchorPoint[];
 }
 
 /** User input model. */
@@ -60,7 +51,8 @@ export interface AnchorPoint {
   animate: AnimateAttr;
 }
 
-interface NodeLabelShapeAttrEncode extends ShapeAttrEncode { // TODO: extends Text shape attr, import from G
+interface NodeLabelShapeAttrEncode extends ShapeAttrEncode {
+  // TODO: extends Text shape attr, import from G
   position?: NodeLabelPosition | Encode<NodeLabelPosition>;
   offsetX?: number | Encode<number>;
   offsetY?: number | Encode<number>;
@@ -68,13 +60,18 @@ interface NodeLabelShapeAttrEncode extends ShapeAttrEncode { // TODO: extends Te
 }
 export interface NodeShapesEncode extends ShapesEncode {
   labelShape?: NodeLabelShapeAttrEncode;
-  anchorPoints?: AnchorPoint[] | Encode<AnchorPoint[]>
+  anchorPoints?: AnchorPoint[] | Encode<AnchorPoint[]>;
 }
 export interface NodeEncode extends NodeShapesEncode {
   type?: string | Encode<string>;
 }
 
-// TODO
-export interface INode extends IItem {
-
+export interface NodeShapeMap {
+  keyShape: DisplayObject;
+  labelShape?: DisplayObject;
+  iconShape?: DisplayObject;
+  [otherShapeId: string]: DisplayObject;
 }
+
+// TODO
+export interface INode extends IItem {}

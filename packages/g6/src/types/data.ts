@@ -23,3 +23,5 @@ export type GraphCore = IGraph<NodeModelData, EdgeModelData>;
 export type DisplayGraphCore = IGraph<NodeDisplayModelData, EdgeDisplayModelData>;
 
 export type TransformerFn = (data: GraphData) => GraphData
+
+export type DataChangeType = 'replace' | 'mergeReplace' | 'union' | 'remove' | 'update';

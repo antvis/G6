@@ -1,8 +1,8 @@
-import { GraphCore, GraphData } from "./data";
-import { NodeUserModel } from "./node";
-import { ComboUserModel } from "./combo";
-import { EdgeUserModel } from "./edge";
+import { DataChangeType, GraphCore, GraphData } from "./data";
+import { NodeModel, NodeModelData, NodeUserModel } from "./node";
+import { EdgeModel, EdgeModelData, EdgeUserModel } from "./edge";
 import { ITEM_TYPE } from "./item";
+import { GraphChange, ID } from "@antv/graphlib";
 
 export interface IHook<T> {
   name: string;
@@ -15,14 +15,15 @@ export interface IHook<T> {
 export interface Hooks {
   'init': IHook<void>;
   // data
-  'datachange': IHook<{ data: GraphData }>;
-  // data, item
-  'additems': IHook<{ type: ITEM_TYPE, models: NodeUserModel[] | EdgeUserModel[] | ComboUserModel[] }>
-  // data, item
-  'removeitems': IHook<{ type: ITEM_TYPE, ids: (string | number)[] }>
-  // data, item
-  'updateitems': IHook<{ type: ITEM_TYPE, models: Partial<NodeUserModel>[] | Partial<EdgeUserModel>[] | Partial<ComboUserModel>[] }>
-
+  'datachange': IHook<{
+    type: DataChangeType;
+    data: GraphData
+  }>;
+  'itemchange': IHook<{
+    type: ITEM_TYPE;
+    changes: GraphChange<NodeModelData, EdgeModelData>[];
+    graphCore: GraphCore;
+  }>;
   'render': IHook<{ graphCore: GraphCore }>; // TODO: define param template
   // 'layout': IHook<any>; // TODO: define param template
   // 'updatelayout': IHook<any>; // TODO: define param template
@@ -32,8 +33,12 @@ export interface Hooks {
     modes: string[];
     behaviors: (string | { type: string, key: string })[];
   }>;
+  'itemstatechange': IHook<{
+    ids: ID[],
+    states?: string[],
+    value?: boolean
+  }>; // TODO: define param template
   // 'viewportchange': IHook<any>; // TODO: define param template
-  // 'itemstatechange': IHook<any>; // TODO: define param template
   // 'destroy': IHook<any>; // TODO: define param template
   // TODO: more timecycles here
 };

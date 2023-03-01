@@ -1,10 +1,4 @@
----
-id: "index"
-title: "@antv/g6"
-sidebar_label: "README"
----
-
-[@antv/g6](index.md) › [Globals](globals.md)
+@antv/g6 / [Exports](modules.md)
 
 # G6：图分析引擎
 

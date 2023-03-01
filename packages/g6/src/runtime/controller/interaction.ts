@@ -71,7 +71,6 @@ export class InteractionController {
           behaviors.forEach(config => {
             if (isObject(config) && config.hasOwnProperty('key')) {
               const behaviorItem = self.extensions[mode].find(behavior => behavior.getKey() === config.key);
-              debugger
               if (behaviorItem) behaviorItem.updateConfig(config);
             }
           });

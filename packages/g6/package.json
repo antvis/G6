@@ -43,7 +43,7 @@
     "lint:src": "eslint --ext .ts --format=pretty \"./src\"",
     "prettier": "prettier -c --write \"**/*\"",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/behavior-spec.ts",
+    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/item-spec.ts",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
     "watch": "father build -w"
   },
@@ -59,8 +59,11 @@
   },
   "dependencies": {
     "@antv/g": "^5.15.7",
+    "@antv/g-canvas": "^1.9.28",
+    "@antv/g-svg": "^1.8.36",
     "@antv/graphlib": "^2.0.0-alpha.0",
-    "@antv/util": "~2.0.5"
+    "@antv/util": "~2.0.5",
+    "typedoc-plugin-markdown": "^3.14.0"
   },
   "devDependencies": {
     "@types/jest": "^25.2.1",
