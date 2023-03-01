@@ -4,9 +4,9 @@ import { FetchDataConfig, GraphData, InlineDataConfig, TransformerFn } from "./d
 import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeShapesEncode } from "./edge";
 import { NodeDisplayModel, NodeEncode, NodeModel, NodeShapesEncode } from "./node";
 import { GraphAlignment } from "./view";
-import { LayoutCommonConfig } from "./layout";
 import { ComboDisplayModel, ComboEncode, ComboModel, ComboShapesEncode } from "./combo";
 import { BehaviorOptionsOf, BehaviorRegistry } from "./behavior";
+import { LayoutOptions } from "./layout";
 
 type rendererName = 'canvas' | 'svg' | 'webgl';
 
@@ -15,24 +15,32 @@ export interface Specification<B extends BehaviorRegistry> {
   container: string | HTMLElement;
   width?: number;
   height?: number;
-  renderer?: rendererName | {
-    type: rendererName,
-    pixelRatio: number,
-    headless: boolean,
-  };
+  renderer?:
+    | rendererName
+    | {
+        type: rendererName;
+        pixelRatio: number;
+        headless: boolean;
+      };
   zoom?: number;
-  autoFit?: 'view' | 'center' | {
-    position: Point,
-    alignment: GraphAlignment
-  };
+  autoFit?:
+    | 'view'
+    | 'center'
+    | {
+        position: Point;
+        alignment: GraphAlignment;
+      };
   optimizeThreshold?: number;
 
   /** data */
   data: GraphData | InlineDataConfig | FetchDataConfig; // TODO: more
-  transform?: string[] | {
-    type: string,
-    [param: string]: unknown // TODO: generate by plugins
-  }[] | TransformerFn[];
+  transform?:
+    | string[]
+    | {
+        type: string;
+        [param: string]: unknown; // TODO: generate by plugins
+      }[]
+    | TransformerFn[];
 
   /** item */
   node?: ((data: NodeModel) => NodeDisplayModel) | NodeEncode;
@@ -51,7 +59,7 @@ export interface Specification<B extends BehaviorRegistry> {
   };
 
   /** layout */
-  layout?: LayoutCommonConfig | LayoutCommonConfig[]; // TODO: Config comes from @antv/layout
+  layout?: LayoutOptions | LayoutOptions[];
 
   /** interaction */
   modes?: {
@@ -65,7 +73,7 @@ export interface Specification<B extends BehaviorRegistry> {
 
   /** free plugins */
   plugins?: {
-    name: string,
+    name: string;
     options: any; // TODO: configs from plugins
-  }[]
+  }[];
 }

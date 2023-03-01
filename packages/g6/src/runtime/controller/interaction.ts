@@ -1,7 +1,7 @@
-import { IGraph } from "../../types";
-import { registery } from '../../stdlib';
-import { getExtension } from "../../util/extension";
-import { isObject } from "@antv/util";
+import { isObject } from '@antv/util';
+import { registry } from '../../stdlib';
+import { IGraph } from '../../types';
+import { getExtension } from '../../util/extension';
 
 /**
  * Manages the interaction extensions and graph modes;
@@ -29,14 +29,16 @@ export class InteractionController {
 
   /**
    * Get the extensions from useLib, stdLib is a sub set of useLib.
-   * @returns 
+   * @returns
    */
   private getExtensions() {
     const { modes = {} } = this.graph.getSpecification();
     const modeBehaviors = {};
-    Object.keys(modes).forEach(mode => {
-      modeBehaviors[mode] = modes[mode].map(config => getExtension(config, registery.useLib, 'behavior')).filter(behavior => !!behavior);
-    })
+    Object.keys(modes).forEach((mode) => {
+      modeBehaviors[mode] = modes[mode]
+        .map((config) => getExtension(config, registry.useLib, 'behavior'))
+        .filter((behavior) => !!behavior);
+    });
     return modeBehaviors;
   }
 
@@ -50,25 +52,35 @@ export class InteractionController {
     // ...
   }
 
-
   /**
    * Listener of graph's behaviorchange hook. Update, add, or remove behaviors from modes.
    * @param param contains action, modes, and behaviors
    */
-  private onBehaviorChange(self, param: { action: 'update' | 'add' | 'remove', modes: string[], behaviors: (string | { key: string, type: string })[] }) {
+  private onBehaviorChange(
+    self,
+    param: {
+      action: 'update' | 'add' | 'remove';
+      modes: string[];
+      behaviors: (string | { key: string; type: string })[];
+    },
+  ) {
     const { action, modes, behaviors } = param;
-    modes.forEach(mode => {
+    modes.forEach((mode) => {
       switch (action) {
         case 'add':
-          behaviors.forEach(config => self.extensions[mode].push(getExtension(config, registery.useLib, 'behavior')));
+          behaviors.forEach((config) =>
+            self.extensions[mode].push(getExtension(config, registry.useLib, 'behavior')),
+          );
           break;
         case 'remove':
-          behaviors.forEach(key => {
-            self.extensions[mode] = self.extensions[mode].filter(behavior => behavior.getKey() === key)
+          behaviors.forEach((key) => {
+            self.extensions[mode] = self.extensions[mode].filter(
+              (behavior) => behavior.getKey() === key,
+            );
           });
           break;
         case 'update':
-          behaviors.forEach(config => {
+          behaviors.forEach((config) => {
             if (isObject(config) && config.hasOwnProperty('key')) {
               const behaviorItem = self.extensions[mode].find(behavior => behavior.getKey() === config.key);
               if (behaviorItem) behaviorItem.updateConfig(config);

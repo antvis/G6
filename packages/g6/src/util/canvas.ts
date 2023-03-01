@@ -1,7 +1,7 @@
 import { Canvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Renderer as SVGRenderer } from '@antv/g-svg';
-// import { Renderer as WebGLRenderer } from '@antv/g-webgl';
+import { Renderer as WebGLRenderer } from '@antv/g-webgl';
 import { isString } from '@antv/util';
 
 /**
@@ -28,8 +28,7 @@ export const createCanvas = (
       Renderer = SVGRenderer;
       break;
     case 'webgl':
-      // Renderer = WebGLRenderer;
-      // TODO
+      Renderer = WebGLRenderer;
       break;
     default:
       Renderer = CanvasRenderer;
@@ -44,7 +43,7 @@ export const createCanvas = (
     canvasTag.style.height = `${height}px`;
     canvasTag.style.position = 'fixed';
     const containerDOM = isString(container) ? document.getElementById('container') : container;
-    containerDOM.appendChild(canvasTag);
+    containerDOM!.appendChild(canvasTag);
     return new Canvas({
       canvas: canvasTag,
       devicePixelRatio: pixelRatio,

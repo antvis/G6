@@ -18,7 +18,7 @@ import { GraphCore } from '../types/data';
 import { EdgeModel, EdgeModelData } from '../types/edge';
 import { Hooks } from '../types/hook';
 import { ITEM_TYPE } from '../types/item';
-import { LayoutCommonConfig } from '../types/layout';
+import { LayoutOptions } from '../types/layout';
 import { NodeModel, NodeModelData } from '../types/node';
 import { FitViewRules, GraphAlignment } from '../types/view';
 import { createCanvas } from '../util/canvas';
@@ -111,6 +111,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
         graphCore: GraphCore;
       }>({ name: 'itemchange' }),
       render: new Hook<{ graphCore: GraphCore }>({ name: 'render' }),
+      layout: new Hook<{ graphCore: GraphCore }>({ name: 'layout' }),
       modechange: new Hook<{ mode: string }>({ name: 'modechange' }),
       behaviorchange: new Hook<{
         action: 'update' | 'add' | 'remove';
@@ -143,20 +144,28 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @returns
    * @group Data
    */
-  public read(data: GraphData) {
+  public async read(data: GraphData) {
     this.hooks.datachange.emit({ data, type: 'replace' });
-    const emitRender = () => {
+    const emitRender = async () => {
       this.hooks.render.emit({
         graphCore: this.dataController.graphCore,
       });
       this.emit('afterrender');
+
+      // TODO: make read async?
+      await this.hooks.layout.emitLinearAsync({
+        graphCore: this.dataController.graphCore,
+      });
+
+      this.emit('afterlayout');
     };
     if (this.canvasReady) {
-      emitRender();
+      await emitRender();
     } else {
-      Promise.all(
+      await Promise.all(
         [this.backgroundCanvas, this.canvas, this.transientCanvas].map((canvas) => canvas.ready),
-      ).then(emitRender);
+      );
+      await emitRender();
     }
   }
 
@@ -167,12 +176,18 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @returns
    * @group Data
    */
-  public changeData(data: GraphData, type: 'replace' | 'mergeReplace' = 'mergeReplace') {
+  public async changeData(data: GraphData, type: 'replace' | 'mergeReplace' = 'mergeReplace') {
     this.hooks.datachange.emit({ data, type });
     this.hooks.render.emit({
       graphCore: this.dataController.graphCore,
     });
     this.emit('afterrender');
+
+    await this.hooks.layout.emitLinearAsync({
+      graphCore: this.dataController.graphCore,
+    });
+
+    this.emit('afterlayout');
   }
 
   /**
@@ -551,20 +566,20 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
   // ===== layout =====
   /**
    * Layout the graph (with current configurations if cfg is not assigned).
-   * @param {LayoutCommonConfig} cfg layout configurations. if assigned, the layout spec of the graph will be updated in the same time
-   * @param {GraphAlignment} align align the result
-   * @param {Point} canvasPoint align the result
-   * @param {boolean} stack push it into stack
-   * @group Layout
    */
-  public layout(
-    cfg?: LayoutCommonConfig,
-    align?: GraphAlignment,
-    canvasPoint?: Point,
-    stack?: boolean,
-  ) {
-    // TODO: LayoutConfig combination instead of LayoutCommonConfig
-    // TODO
+  public async layout(options?: LayoutOptions) {
+    await this.hooks.layout.emitLinearAsync({
+      graphCore: this.dataController.graphCore,
+      options,
+    });
+    this.emit('afterlayout');
+  }
+
+  /**
+   * Some layout algorithms has many iterations which can be stopped at any time.
+   */
+  public stopLayout() {
+    this.layoutController.stopLayout();
   }
 
   /**

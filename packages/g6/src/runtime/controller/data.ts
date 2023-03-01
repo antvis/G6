@@ -1,6 +1,6 @@
 import { Graph as GraphLib, ID } from '@antv/graphlib';
 import { GraphData, IGraph, ComboModel, ComboUserModel } from '../../types';
-import { registery } from '../../stdlib';
+import { registry } from '../../stdlib';
 import { getExtension } from '../../util/extension';
 import { clone, isArray, isNumber, isString, isFunction, isObject } from '@antv/util';
 import { NodeModel, NodeModelData, NodeUserModel, NodeUserModelData } from '../../types/node';
@@ -85,7 +85,7 @@ export class DataController {
     return transform
       .map((config) => ({
         config,
-        func: getExtension(config, registery.useLib, 'transform'),
+        func: getExtension(config, registry.useLib, 'transform'),
       }))
       .filter((ext) => !!ext.func);
   }

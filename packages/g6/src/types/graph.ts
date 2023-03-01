@@ -9,7 +9,7 @@ import { Padding, Point } from './common';
 import { DataChangeType, GraphData } from './data';
 import { EdgeModel, EdgeUserModel } from './edge';
 import { ITEM_TYPE } from './item';
-import { LayoutCommonConfig } from './layout';
+import { LayoutOptions } from './layout';
 import { NodeModel, NodeUserModel } from './node';
 import { Specification } from './spec';
 import { FitViewRules, GraphAlignment } from './view';
@@ -295,18 +295,9 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
   // ===== layout =====
   /**
    * Layout the graph (with current configurations if cfg is not assigned).
-   * @param {LayoutCommonConfig} cfg layout configurations. if assigned, the layout spec of the graph will be updated in the same time
-   * @param {GraphAlignment} align align the result
-   * @param {Point} canvasPoint align the result
-   * @param {boolean} stack push it into stack
-   * @group Layout
    */
-  layout: (
-    cfg?: LayoutCommonConfig,
-    align?: GraphAlignment,
-    canvasPoint?: Point,
-    stack?: boolean,
-  ) => void;
+  layout: (options?: LayoutOptions) => Promise<void>;
+  stopLayout: () => void;
 
   // ===== interaction =====
   /**

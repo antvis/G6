@@ -1,6 +1,6 @@
 import { GraphChange, ID } from '@antv/graphlib';
 import { ComboModel, IGraph } from '../../types';
-import { registery } from '../../stdlib';
+import { registry } from '../../stdlib';
 import { getExtension } from '../../util/extension';
 import { GraphCore } from '../../types/data';
 import { NodeDisplayModel, NodeEncode, NodeModel, NodeModelData } from '../../types/node';
@@ -87,13 +87,13 @@ export class ItemController {
     const comboTypes = ['circle-combo', 'rect-combo']; // TODO: WIP
     return {
       node: nodeTypes
-        .map((config) => getExtension(config, registery.useLib, 'node'))
+        .map((config) => getExtension(config, registry.useLib, 'node'))
         .filter(Boolean),
       edge: edgeTypes
-        .map((config) => getExtension(config, registery.useLib, 'edge'))
+        .map((config) => getExtension(config, registry.useLib, 'edge'))
         .filter(Boolean),
       combo: comboTypes
-        .map((config) => getExtension(config, registery.useLib, 'combo'))
+        .map((config) => getExtension(config, registry.useLib, 'combo'))
         .filter(Boolean),
     };
   }
