@@ -58,20 +58,20 @@ export class InteractionController {
   /**
    * Subscribe the lifecycle of graph.
    */
-  private tap(): void {
+  private tap = (): void => {
     this.graph.hooks.init.tap(() => this.onModeChange({ mode: 'default' }));
     this.onModeChange({ mode: 'default' });
-    this.graph.hooks.modechange.tap(params => this.onModeChange(params));
-    this.graph.hooks.behaviorchange.tap(params => this.onBehaviorChange(params));
+    this.graph.hooks.modechange.tap(this.onModeChange);
+    this.graph.hooks.behaviorchange.tap(this.onBehaviorChange);
   }
 
-  private validateMode(mode: string): boolean {
+  private validateMode = (mode: string): boolean => {
     if (mode === 'default') return true;
     const modes = this.graph.getSpecification().modes || {};
     return Object.keys(modes).includes(mode);
   }
 
-  private initBehavior(config: string | { type: string }): Behavior | null {
+  private initBehavior = (config: string | { type: string }): Behavior | null => {
     const type = typeof config === 'string' ? config : (config as any).type;
     if (this.behaviorMap.has(type)) {
       console.error(`G6: Failed to add behavior "${type}"! It was already added.`);
@@ -93,7 +93,7 @@ export class InteractionController {
     }
   }
 
-  private destroyBehavior(type: string, behavior: Behavior) {
+  private destroyBehavior = (type: string, behavior: Behavior) => {
     try {
       behavior.destroy();
     } catch (error) {
@@ -101,7 +101,7 @@ export class InteractionController {
     }
   }
 
-  private addListeners(type: string, behavior: Behavior) {
+  private addListeners = (type: string, behavior: Behavior) => {
     const events = behavior.getEvents();
     this.listenersMap[type] = {};
     Object.keys(events).forEach(eventName => {
@@ -112,7 +112,7 @@ export class InteractionController {
     });
   }
 
-  private removeListeners(type: string) {
+  private removeListeners = (type: string) => {
     Object.keys(this.listenersMap[type] || {}).forEach(eventName => {
       const listener = this.listenersMap[type][eventName];
       this.graph.off(eventName, listener);
@@ -123,7 +123,7 @@ export class InteractionController {
    * Listener of graph's init hook. Add listeners from behaviors to graph.
    * @param param contains the mode to switch to
    */
-  private onModeChange(param: { mode: string }) {
+  private onModeChange = (param: { mode: string }) => {
     const { mode } = param;
 
     // Skip if set to same mode.
@@ -161,7 +161,11 @@ export class InteractionController {
    * Listener of graph's behaviorchange hook. Update, add, or remove behaviors from modes.
    * @param param contains action, modes, and behaviors
    */
-  private onBehaviorChange(param: { action: 'update' | 'add' | 'remove', modes: string[], behaviors: (string | { type: string })[] }) {
+  private onBehaviorChange = (param: {
+    action: 'update' | 'add' | 'remove',
+    modes: string[],
+    behaviors: (string | { type: string })[],
+  }) => {
     const { action, modes, behaviors } = param;
     modes.forEach(mode => {
       // Do nothing if it's not the current mode.

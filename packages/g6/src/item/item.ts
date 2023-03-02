@@ -60,6 +60,8 @@ export default abstract class Item implements IItem {
   public init(props) {
     const { model, containerGroup, mapper, stateMapper, renderExtensions} = props;
     this.group = new Group();
+    this.group.setAttribute('data-item-type', this.type);
+    this.group.setAttribute('data-item-id', props.model.id);
     containerGroup.appendChild(this.group);
     this.model = model;
     this.mapper = mapper;
@@ -331,7 +333,7 @@ export default abstract class Item implements IItem {
   /**
    * Re-draw the item with merged state styles.
    * @param previousStates previous states
-   * @returns 
+   * @returns
    */
   private drawWithStates(previousStates: State[]) {
     if (!this.stateMapper) return;
@@ -395,7 +397,7 @@ export default abstract class Item implements IItem {
       // diffData
       undefined,
       // diffState
-      { 
+      {
         previous: previousStates,
         current: this.states,
       }
