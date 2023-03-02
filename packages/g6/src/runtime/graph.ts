@@ -92,7 +92,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     }
     this.backgroundCanvas = createCanvas(rendererType, container, width, height, pixelRatio);
     this.canvas = createCanvas(rendererType, container, width, height, pixelRatio);
-    this.transientCanvas = createCanvas(rendererType, container, width, height, pixelRatio);
+    this.transientCanvas = createCanvas(rendererType, container, width, height, pixelRatio, true, { pointerEvents: 'none' });
     Promise.all(
       [this.backgroundCanvas, this.canvas, this.transientCanvas].map((canvas) => canvas.ready),
     ).then(() => (this.canvasReady = true));

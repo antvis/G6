@@ -1,31 +1,30 @@
 import { uniqueId } from "@antv/util";
+import { IG6GraphEvent } from "./event";
+import { IGraph } from "./graph";
 
 export interface BehaviorOption {
   key?: string;
 }
 /**
  * Base behavior.
- * Two implementing ways: getSpec or getEvents
+ * TODO: Support spec mode.
  */
 export abstract class Behavior {
-  protected key: string;
-  protected options: BehaviorOption = {};
-  constructor(options: BehaviorOption) {
-    this.key = options.key || uniqueId();
+  graph: IGraph;
+  options: any;
+  constructor(options: any) {
     this.options = options;
   };
-  public getKey = () => this.key;
-  abstract getSpec(): BehaviorSpecification;
   abstract getEvents(): {
-    [eventName: string]: string
+    [eventName: string]: (event: IG6GraphEvent) => void;
   };
-  public updateConfig = (options: BehaviorOption) => {
+  updateConfig = (options: any) => {
     this.options = Object.assign(this.options, options);
   }
-  abstract destroy(): void;
+  destroy() {};
 }
 
-/** Behavior regisry table.
+/** Behavior registry table.
  * @example { 'drag-node': DragNodeBehavior, 'my-drag-node': MyDragNodeBehavior }
  */
 export interface BehaviorRegistry {

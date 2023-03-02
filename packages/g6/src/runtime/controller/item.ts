@@ -1,6 +1,6 @@
 import { GraphChange, ID } from '@antv/graphlib';
 import { ComboModel, IGraph } from '../../types';
-import { registry } from '../../stdlib';
+import registry from '../../stdlib';
 import { getExtension } from '../../util/extension';
 import { GraphCore } from '../../types/data';
 import { NodeDisplayModel, NodeEncode, NodeModel, NodeModelData } from '../../types/node';
@@ -81,7 +81,7 @@ export class ItemController {
   private getExtensions() {
     // TODO: user need to config using node/edge/combo types from useLib to spec?
     const { node, edge, combo } = this.graph.getSpecification();
-    
+
     const nodeTypes = ['circle-node', 'custom-node']; // TODO: WIP
     const edgeTypes = ['line-edge', 'custom-edge']; // TODO: WIP
     const comboTypes = ['circle-combo', 'rect-combo']; // TODO: WIP
@@ -248,7 +248,7 @@ export class ItemController {
 
   /**
    * The listener for item state changing.
-   * @param param 
+   * @param param
    * {
    *   ids: ids of the items to be set state
    *   states: state names to set
@@ -327,7 +327,7 @@ export class ItemController {
    * @param itemType item's type
    * @param state state name
    * @param value state value, true by default
-   * @returns 
+   * @returns
    */
   public findIdByState(itemType: ITEM_TYPE, state: string, value: string | boolean = true) {
     const ids = [];

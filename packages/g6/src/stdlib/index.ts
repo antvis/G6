@@ -1,6 +1,7 @@
 import { registry as layoutRegistry } from '@antv/layout';
 import { Lib } from '../types/stdlib';
 import DragCanvas from './behavior/drag-canvas';
+import { ClickSelect } from "./behavior/click-select";
 import { comboFromNode } from './data/comboFromNode';
 import { LineEdge } from './item/edge';
 import { CircleNode } from './item/node';
@@ -12,7 +13,8 @@ const stdLib = {
   themes: {},
   layouts: layoutRegistry,
   behaviors: {
-    'drag-canvas': DragCanvas
+    'drag-canvas': DragCanvas,
+    'click-select': ClickSelect,
   },
   plugins: {},
   nodes: {
@@ -35,6 +37,6 @@ const useLib: Lib = {
   combos: {},
 };
 
-const registry = { useLib };
-export default registry;
-export { stdLib, registry };
+const registery = { useLib };
+export default registery;
+export { stdLib, registery };

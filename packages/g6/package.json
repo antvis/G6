@@ -44,6 +44,7 @@
     "prettier": "prettier -c --write \"**/*\"",
     "test": "jest",
     "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/item-spec.ts",
+    "test-behavior": "DEBUG_MODE=1 jest --watch ./tests/unit/click-select-spec.ts",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
     "watch": "father build -w"
   },
@@ -69,7 +70,7 @@
     "typedoc-plugin-markdown": "^3.14.0"
   },
   "devDependencies": {
-    "@types/jest": "^25.2.1",
+    "@types/jest": "^29.4.0",
     "@types/node": "13.11.1",
     "@typescript-eslint/eslint-plugin": "^4.11.1",
     "@umijs/fabric": "^2.0.0",
