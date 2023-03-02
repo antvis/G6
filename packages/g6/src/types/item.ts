@@ -68,6 +68,16 @@ export type State = {
   value: boolean | string;
 }
 
+
+/** Shape styles for an item. */
+export type ItemShapeStyles = {
+  keyShape?: ShapeStyle;
+  labelShape?: ShapeStyle;
+  iconShape?: ShapeStyle;
+  [shapeId: string]: ShapeStyle;
+}
+
+
 /**
  * Base item of node / edge / combo.
  */

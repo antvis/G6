@@ -1,49 +1,37 @@
 import { DisplayObject } from '@antv/g';
+import { DEFAULT_LABEL_BG_PADDING, OTHER_SHAPES_FIELD_NAME, RESERVED_SHAPE_IDS } from '../../../constant';
 import { NodeDisplayModel } from '../../../types';
-import { ShapeStyle, State } from '../../../types/item';
-import { NodeLabelShapeStyle, NodeModelData, NodeShapeMap } from '../../../types/node';
+import { ItemShapeStyles, ShapeStyle, State } from '../../../types/item';
+import { NodeModelData, NodeShapeMap } from '../../../types/node';
 import {
-  DEFAULT_LABEL_BG_PADDING,
-  DEFAULT_SHAPE_STYLE,
-  DEFAULT_TEXT_STYLE,
   formatPadding,
+  mergeStyles,
   upsertShape,
 } from '../../../util/shape';
 
 export abstract class BaseNode {
   type: string;
-  baseDefaultStyles: {
-    keyShape: ShapeStyle;
-    labelShape: NodeLabelShapeStyle;
-    iconShape: ShapeStyle;
-    [shapeId: string]: ShapeStyle;
-  } = {
-    keyShape: {
-      ...DEFAULT_SHAPE_STYLE,
-      x: 0,
-      y: 0,
-      fill: '#f00',
-      lineWidth: 0,
-      stroke: '#0f0',
-    },
-    labelShape: {
-      ...DEFAULT_TEXT_STYLE,
-      fill: '#000',
-      position: 'bottom',
-    },
-    iconShape: {
-      ...DEFAULT_TEXT_STYLE,
-      img: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wAmHQJbNVdwAAAAAAAAAAABkARQnAQ',
-      width: 15,
-      height: 15,
-    },
-  };
-   defaultStyles: {
-    keyShape?: ShapeStyle;
-    labelShape?: NodeLabelShapeStyle;
-    iconShape?: ShapeStyle;
-    [shapeId: string]: ShapeStyle;
-  } = {};
+  defaultStyles: ItemShapeStyles;
+  themeStyles: ItemShapeStyles;
+  mergedStyles: ItemShapeStyles;
+  constructor(props) {
+    const { themeStyles } = props;
+    if (themeStyles) this.themeStyles = themeStyles;
+  }
+  public mergeStyles(model: NodeDisplayModel) {
+    this.mergedStyles = this.getMergedStyles(model);
+  }
+  public getMergedStyles(model: NodeDisplayModel) {
+    const { data } = model;
+    const dataStyles = {} as ItemShapeStyles;
+    Object.keys(data).forEach(fieldName => {
+      if (RESERVED_SHAPE_IDS.includes(fieldName)) dataStyles[fieldName] = data[fieldName] as ShapeStyle;
+      else if (fieldName === OTHER_SHAPES_FIELD_NAME) {
+        Object.keys(data[fieldName]).forEach(otherShapeId => dataStyles[otherShapeId] = data[fieldName][otherShapeId]);
+      }
+    });
+    return mergeStyles([this.themeStyles, this.defaultStyles, dataStyles]);
+  }
   abstract draw(
     model: NodeDisplayModel,
     shapeMap: { [shapeId: string]: DisplayObject },
@@ -88,7 +76,7 @@ export abstract class BaseNode {
   } {
     const { keyShape } = shapeMap;
     const keyShapeBox = keyShape.getGeometryBounds();
-    const shapeStyle = Object.assign({}, model.data?.labelShape);
+    const shapeStyle = Object.assign({}, this.mergedStyles.labelShape, model.data?.labelShape);
     const {
       position,
       background,

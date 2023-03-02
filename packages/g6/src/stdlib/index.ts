@@ -5,12 +5,15 @@ import { ClickSelect } from "./behavior/click-select";
 import { comboFromNode } from './data/comboFromNode';
 import { LineEdge } from './item/edge';
 import { CircleNode } from './item/node';
+import SpecThemeSolver from './themeSolver/spec';
 
 const stdLib = {
   transforms: {
     comboFromNode,
   },
-  themes: {},
+  themes: {
+    'spec': SpecThemeSolver,
+  },
   layouts: layoutRegistry,
   behaviors: {
     'drag-canvas': DragCanvas,

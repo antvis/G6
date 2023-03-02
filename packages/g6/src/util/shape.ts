@@ -12,7 +12,9 @@ import {
   Image,
 } from '@antv/g';
 import { clone, isArray, isNumber } from '@antv/util';
+import { DEFAULT_LABEL_BG_PADDING } from '../constant';
 import { EdgeShapeMap } from '../types/edge';
+import { ItemShapeStyles } from '../types/item';
 import { NodeShapeMap } from '../types/node';
 
 const shapeTagMap = {
@@ -114,7 +116,7 @@ export const updateShapes = (
  * @param defaultArr default value
  * @returns [padding-top, padding-right, padding-bottom, padding-left]
  */
-export const formatPadding = (value, defaultArr = [4, 4, 4, 4]) => {
+export const formatPadding = (value, defaultArr = DEFAULT_LABEL_BG_PADDING) => {
   if (isArray(value)) {
     switch (value.length) {
       case 0:
@@ -132,12 +134,27 @@ export const formatPadding = (value, defaultArr = [4, 4, 4, 4]) => {
 };
 
 /**
- * Merge two shape map including undefined value in incoming map.
+ * Merge multiple shape style map including undefined value in incoming map.
+ * @param styleMaps shapes' styles map array, the latter item in the array will be merged into the former
+ * @returns 
+ */
+export const mergeStyles = (styleMaps: ItemShapeStyles[]) => {
+  let currentResult = styleMaps[0];
+  styleMaps.forEach((styleMap, i) => {
+    if (i > 0) currentResult = merge2Styles(currentResult, styleMap);
+  });
+  return currentResult;
+}
+
+/**
+ * Merge two shape style map including undefined value in incoming map.
  * @param styleMap1 shapes' styles map as current map
  * @param styleMap2 shapes' styles map as incoming map
  * @returns 
  */
-export const mergeStyles = (styleMap1, styleMap2) => {
+const merge2Styles = (styleMap1: ItemShapeStyles, styleMap2: ItemShapeStyles) => {
+  if (!styleMap1) return clone(styleMap2);
+  else if (!styleMap2) return clone(styleMap1);
   const mergedStyle = clone(styleMap1);
   Object.keys(styleMap2).forEach(shapeId => {
     const style = styleMap2[shapeId];
@@ -149,25 +166,3 @@ export const mergeStyles = (styleMap1, styleMap2) => {
   });
   return mergedStyle;
 }
-
-export const DEFAULT_LABEL_BG_PADDING = [4, 4, 4, 4];
-/** Default shape style to avoid shape value missing */
-export const DEFAULT_SHAPE_STYLE = {
-  opacity: 1,
-  fillOpacity: 1,
-  shadowColor: undefined,
-  shadowBlur: undefined,
-  lineDash: undefined,
-};
-/** Default text style to avoid shape value missing */
-export const DEFAULT_TEXT_STYLE = {
-  ...DEFAULT_SHAPE_STYLE,
-  fontSize: 12,
-  fontFamily: 'sans-serif',
-  fontWeight: 'normal',
-  fontVariant: 'normal',
-  fontStyle: 'normal',
-  textBaseline: 'middle',
-  textAlign: 'center',
-  lineWidth: 0,
-};

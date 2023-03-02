@@ -1,9 +1,11 @@
+import { Canvas } from '@antv/g';
 import { DataChangeType, GraphCore, GraphData } from "./data";
 import { NodeModelData } from "./node";
 import { EdgeModelData } from "./edge";
 import { ITEM_TYPE } from "./item";
 import { GraphChange, ID } from "@antv/graphlib";
 import { LayoutOptions } from "./layout";
+import { ThemeSpecification } from "./theme";
 
 export interface IHook<T> {
   name: string;
@@ -15,18 +17,25 @@ export interface IHook<T> {
 }
 
 export interface Hooks {
-  init: IHook<void>;
+  init: IHook<{
+    canvases: {
+      background: Canvas,
+      main: Canvas,
+      transient: Canvas
+    }
+  }>;
   // data
-  'datachange': IHook<{
+  datachange: IHook<{
     type: DataChangeType;
     data: GraphData
   }>;
-  'itemchange': IHook<{
+  itemchange: IHook<{
     type: ITEM_TYPE;
     changes: GraphChange<NodeModelData, EdgeModelData>[];
     graphCore: GraphCore;
+    theme: ThemeSpecification;
   }>;
-  render: IHook<{ graphCore: GraphCore }>; // TODO: define param template
+  render: IHook<{ graphCore: GraphCore, theme: ThemeSpecification }>; // TODO: define param template
   layout: IHook<{ graphCore: GraphCore; options?: LayoutOptions }>; // TODO: define param template
   // 'updatelayout': IHook<any>; // TODO: define param template
   modechange: IHook<{ mode: string }>;
@@ -35,7 +44,7 @@ export interface Hooks {
     modes: string[];
     behaviors: (string | { type: string; key: string })[];
   }>;
-  'itemstatechange': IHook<{
+  itemstatechange: IHook<{
     ids: ID[],
     states?: string[],
     value?: boolean

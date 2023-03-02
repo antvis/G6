@@ -7,10 +7,11 @@ import { GraphAlignment } from "./view";
 import { ComboDisplayModel, ComboEncode, ComboModel, ComboShapesEncode } from "./combo";
 import { BehaviorOptionsOf, BehaviorRegistry } from "./behavior";
 import { LayoutOptions } from "./layout";
+import { ThemeOptionsOf, ThemeRegistry } from "./theme";
 
 type rendererName = 'canvas' | 'svg' | 'webgl';
 
-export interface Specification<B extends BehaviorRegistry> {
+export interface Specification<B extends BehaviorRegistry, T extends ThemeRegistry> {
   type: 'graph' | 'tree';
   container: string | HTMLElement;
   width?: number;
@@ -76,4 +77,7 @@ export interface Specification<B extends BehaviorRegistry> {
     name: string;
     options: any; // TODO: configs from plugins
   }[];
+
+  /** theme */
+  theme?: ThemeOptionsOf<T>;
 }

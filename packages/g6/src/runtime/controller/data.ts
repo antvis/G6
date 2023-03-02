@@ -25,7 +25,7 @@ export class DataController {
    */
   public graphCore: GraphCore;
 
-  constructor(graph: IGraph<any>) {
+  constructor(graph: IGraph<any, any>) {
     this.graph = graph;
     this.tap();
   }

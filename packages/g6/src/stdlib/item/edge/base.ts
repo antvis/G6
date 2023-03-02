@@ -1,53 +1,41 @@
 import { DisplayObject, Line, Polyline } from '@antv/g';
 import { isNumber } from '@antv/util';
+import { DEFAULT_LABEL_BG_PADDING, OTHER_SHAPES_FIELD_NAME, RESERVED_SHAPE_IDS } from '../../../constant';
 import { Point } from '../../../types/common';
 import {
   EdgeDisplayModel,
-  EdgeLabelShapeStyle,
   EdgeModelData,
   EdgeShapeMap,
 } from '../../../types/edge';
-import { ShapeStyle, State } from '../../../types/item';
+import { ItemShapeStyles, ShapeStyle, State } from '../../../types/item';
 import {
-  DEFAULT_LABEL_BG_PADDING,
-  DEFAULT_SHAPE_STYLE,
-  DEFAULT_TEXT_STYLE,
   formatPadding,
+  mergeStyles,
   upsertShape,
 } from '../../../util/shape';
 
 export abstract class BaseEdge {
   type: string;
-  baseDefaultStyles: {
-    keyShape: ShapeStyle;
-    labelShape: EdgeLabelShapeStyle;
-    iconShape: ShapeStyle;
-    [shapeId: string]: ShapeStyle;
-  } = {
-    keyShape: {
-      ...DEFAULT_SHAPE_STYLE,
-      lineWidth: 1,
-      stroke: '#fff',
-    },
-    labelShape: {
-      ...DEFAULT_TEXT_STYLE,
-      fill: '#000',
-    },
-    iconShape: {
-      ...DEFAULT_TEXT_STYLE,
-      img: 'https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*wAmHQJbNVdwAAAAAAAAAAABkARQnAQ',
-      width: 15,
-      height: 15,
-    },
-  };
-  defaultStyles: {
-    keyShape?: ShapeStyle;
-    labelShape?: EdgeLabelShapeStyle;
-    iconShape?: ShapeStyle;
-    [shapeId: string]: ShapeStyle;
-  } = {};
-  protected getDefaultStyles() {
-    return this.defaultStyles;
+  defaultStyles: ItemShapeStyles = {};
+  themeStyles: ItemShapeStyles;
+  mergedStyles: ItemShapeStyles;
+  constructor(props) {
+    const { themeStyles } = props;
+    if (themeStyles) this.themeStyles = themeStyles;
+  }
+  private mergeStyles(model: EdgeDisplayModel) {
+    this.mergedStyles = this.getMergedStyles(model);
+  }
+  public getMergedStyles(model: EdgeDisplayModel) {
+    const { data } = model;
+    const dataStyles = {} as ItemShapeStyles;
+    Object.keys(data).forEach(fieldName => {
+      if (RESERVED_SHAPE_IDS.includes(fieldName)) dataStyles[fieldName] = data[fieldName] as ShapeStyle;
+      else if (fieldName === OTHER_SHAPES_FIELD_NAME) {
+        Object.keys(data[fieldName]).forEach(otherShapeId => dataStyles[otherShapeId] = data[fieldName][otherShapeId]);
+      }
+    });
+    return mergeStyles([this.themeStyles, this.defaultStyles, dataStyles]);
   }
   abstract draw(
     model: EdgeDisplayModel,

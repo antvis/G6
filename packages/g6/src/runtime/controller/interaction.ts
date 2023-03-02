@@ -49,7 +49,7 @@ export class InteractionController {
 
   private prevItemInfo: ItemInfo;
 
-  constructor(graph: IGraph<any>) {
+  constructor(graph: IGraph<any, any>) {
     this.graph = graph;
     this.initEvents();
     this.tap();
