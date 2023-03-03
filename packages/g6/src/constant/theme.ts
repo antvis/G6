@@ -55,6 +55,15 @@ const LightTheme: ThemeSpecification = {
           width: 15,
           height: 15,
         },
+      },
+      selected: {
+        keyShape: {
+          lineWidth: 2,
+          stroke: '#f00',
+        },
+        labelShape: {
+          fontWeight: 700
+        }
       }
     }]
   },

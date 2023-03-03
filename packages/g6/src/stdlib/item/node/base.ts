@@ -76,7 +76,8 @@ export abstract class BaseNode {
   } {
     const { keyShape } = shapeMap;
     const keyShapeBox = keyShape.getGeometryBounds();
-    const shapeStyle = Object.assign({}, this.mergedStyles.labelShape, model.data?.labelShape);
+    const { labelShape: shapeStyle } = this.mergedStyles;
+
     const {
       position,
       background,
@@ -169,7 +170,7 @@ export abstract class BaseNode {
     diffState?: { oldState: State[], newState: State[] }
   ): DisplayObject {
     const { iconShape } = model.data || {};
-    const shapeStyle = Object.assign({}, this.defaultStyles.iconShape, iconShape);
+    const { iconShape: shapeStyle } = this.mergedStyles;
     const iconShapeType = shapeStyle.text ? 'text' : 'image';
     if (iconShapeType === 'image') {
       const { width, height } = shapeStyle;

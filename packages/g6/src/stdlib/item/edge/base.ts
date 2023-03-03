@@ -75,7 +75,7 @@ export abstract class BaseEdge {
   } {
     const { keyShape } = shapeMap;
 
-    const shapeStyle = Object.assign({}, model.data?.labelShape);
+    const { labelShape: shapeStyle } = this.mergedStyles;
     const {
       position,
       background,
@@ -173,9 +173,8 @@ export abstract class BaseEdge {
     diffState?: { previous: State[], current: State[] }
   ): DisplayObject {
     const { labelShape, labelBgShape, keyShape } = shapeMap;
+    const { iconShape: shapeStyle, labelShape: labelShapeProps } = this.mergedStyles;
 
-    const { iconShape: propsStyle, labelShape: labelShapeProps } = model.data || {};
-    const shapeStyle = Object.assign({}, this.defaultStyles.iconShape, propsStyle);
     const iconShapeType = shapeStyle.text ? 'text' : 'image';
     if (iconShapeType === 'text') {
       shapeStyle.textAlign = 'left';

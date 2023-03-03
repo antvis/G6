@@ -14,8 +14,9 @@ const data: GraphData = {
     { id: 'node4', data: { x: 300, y: 250, } },
   ],
   edges: [
-    { id: 'edge1', source: 'node1', target: 'node2', data: {} },
-    { id: 'edge2', source: 'node1', target: 'node3', data: {} },
+    { id: 'edge1', source: 'node1', target: 'node2', data: { edt: '1' } },
+    { id: 'edge2', source: 'node1', target: 'node3', data: { edt: '2' } },
+    { id: 'edge3', source: 'node1', target: 'node4', data: { } },
   ],
 };
 
@@ -39,12 +40,24 @@ describe('theme', () => {
           }
         }
       },
+      edge: {
+        labelShape: {
+          text: {
+            fields: ['edt'],
+            formatter: model => model.data.edt
+          }
+        }
+      },
     });
     graph.on('afterlayout', () => {
       const node = graph.itemController.itemMap['node1'];
       const { keyShape: nodeKeyShape, labelShape: nodeLabelShape } = node.shapeMap;
       expect(nodeKeyShape.style.fill).toBe(BuiltinTheme.light.node.styles[0].default.keyShape.fill);
       expect(nodeLabelShape.style.fill).toBe(BuiltinTheme.light.node.styles[0].default.labelShape.fill);
+      const edge = graph.itemController.itemMap['edge1'];
+      const { keyShape: edgeKeyShape, labelShape: edgeLabelShape } = edge.shapeMap;
+      expect(edgeKeyShape.style.stroke).toBe(BuiltinTheme.light.edge.styles[0].default.keyShape.stroke);
+      expect(edgeLabelShape.style.fill).toBe(BuiltinTheme.light.edge.styles[0].default.labelShape.fill);
 
       // set state, should response with default theme state style
       graph.setItemState('node1', 'selected', true);
@@ -53,6 +66,12 @@ describe('theme', () => {
       graph.clearItemState('node1');
       expect(nodeKeyShape.style.fill).toBe(BuiltinTheme.light.node.styles[0].default.keyShape.fill);
       expect(nodeLabelShape.style.fill).toBe(BuiltinTheme.light.node.styles[0].default.labelShape.fill);
+
+      graph.setItemState('edge1', 'selected', true);
+      console.log('xssx', BuiltinTheme.light.edge.styles[0].selected.keyShape)
+      expect(edgeKeyShape.style.stroke).toBe(BuiltinTheme.light.edge.styles[0].selected.keyShape.stroke);
+      expect(edgeKeyShape.style.lineWidth).toBe(BuiltinTheme.light.edge.styles[0].selected.keyShape.lineWidth);
+      expect(edgeLabelShape.style.fill).toBe(BuiltinTheme.light.edge.styles[0].default.labelShape.fill); // no change in theme def
 
       graph.destroy();
       done();
@@ -73,6 +92,14 @@ describe('theme', () => {
           text: {
             fields: ['dt'],
             formatter: model => model.data.dt
+          }
+        }
+      },
+      edge: {
+        labelShape: {
+          text: {
+            fields: ['edt'],
+            formatter: model => model.data.edt
           }
         }
       },
@@ -104,6 +131,32 @@ describe('theme', () => {
               });
               return styleSetsMap;
             }
+          },
+          edge: {
+            dataTypeField: 'edt',
+            palette: { '1': '#f00', '2': '#0f0' },
+            getStyleSets: palette => {
+              const styleSetsMap = {};
+              Object.keys(palette).forEach(dataType => {
+                const color = palette[dataType];
+                styleSetsMap[dataType] = {
+                  default: {
+                    keyShape: { stroke: color },
+                    labelShape: { fill: color }
+                  },
+                  state1: {
+                    keyShape: { stroke: '#000' },
+                  },
+                  state2: {
+                    keyShape: { lineDash: [5, 5] },
+                  },
+                  state3: {
+                    keyShape: { stroke: '#ff0' },
+                  }
+                }
+              });
+              return styleSetsMap;
+            }
           }
         }
       }
@@ -130,7 +183,22 @@ describe('theme', () => {
       expect(nodeKeyShape4.style.fill).toBe(BuiltinTheme.light.node.styles[0].default.keyShape.fill);
       expect(nodeLabelShape4.style.fill).toBe(BuiltinTheme.light.node.styles[0].default.labelShape.fill);
 
-      // update dataType
+      // edges
+      const edge1 = graph.itemController.itemMap['edge1'];
+      const { keyShape: edgeKeyShape1, labelShape: edgeLabelShape1 } = edge1.shapeMap;
+      expect(edgeKeyShape1.style.stroke).toBe('#f00');
+      expect(edgeLabelShape1.style.fill).toBe('#f00');
+      const edge2 = graph.itemController.itemMap['edge2'];
+      const { keyShape: edgeKeyShape2, labelShape: edgeLabelShape2 } = edge2.shapeMap;
+      expect(edgeKeyShape2.style.stroke).toBe('#0f0');
+      expect(edgeLabelShape2.style.fill).toBe('#0f0');
+      // edge3 has no mapped palette, buitin theme take effects
+      const edge3 = graph.itemController.itemMap['edge3'];
+      const { keyShape: edgeKeyShape4, labelShape: edgeLabelShape4 } = edge3.shapeMap;
+      expect(edgeKeyShape4.style.stroke).toBe(BuiltinTheme.light.edge.styles[0].default.keyShape.stroke);
+      expect(edgeLabelShape4.style.fill).toBe(BuiltinTheme.light.edge.styles[0].default.labelShape.fill);
+
+      // update node dataType
       graph.updateData('node', {
         id: 'node1',
         data: {
@@ -140,11 +208,27 @@ describe('theme', () => {
       expect(nodeKeyShape1.style.fill).toBe('#0f0');
       expect(nodeLabelShape1.style.fill).toBe('#0f0');
 
-      // setState with state in builtin theme
+      // update edge dataType
+      graph.updateData('edge', {
+        id: 'edge1',
+        data: {
+          edt: '2'
+        }
+      });
+      expect(edgeKeyShape1.style.stroke).toBe('#0f0');
+      expect(edgeLabelShape1.style.fill).toBe('#0f0');
+
+      // node setState with state in builtin theme
       graph.setItemState('node1', 'selected', true);
       expect(nodeKeyShape1.style.fill).toBe(BuiltinTheme.light.node.styles[0].selected.keyShape.fill);
       expect(nodeLabelShape1.style.fill).toBe(BuiltinTheme.light.node.styles[0].selected.labelShape.fill);
+      // edge setState with state in builtin theme
+      graph.setItemState('edge1', 'selected', true);
+      expect(edgeKeyShape1.style.stroke).toBe(BuiltinTheme.light.edge.styles[0].selected.keyShape.stroke);
+      expect(edgeLabelShape1.style.fill).toBe('#0f0'); // not assigned in selected theme
+      expect(edgeLabelShape1.style.fontWeight).toBe(BuiltinTheme.light.edge.styles[0].selected.labelShape.fontWeight);
 
+      // node setState with state in configured spec
       graph.setItemState('node1', 'state1', true);
       expect(nodeKeyShape1.style.fill).toBe('#000');
       expect(nodeLabelShape1.style.fill).toBe(BuiltinTheme.light.node.styles[0].selected.labelShape.fill);
@@ -155,15 +239,37 @@ describe('theme', () => {
       expect(nodeKeyShape1.style.fill).toBe('#ff0');
       expect(nodeKeyShape1.style.stroke).toBe('#f00');
 
-      // clear one state
+      // edge setState with state in configured spec
+      graph.setItemState('edge1', 'state1', true);
+      expect(edgeKeyShape1.style.stroke).toBe('#000');
+      expect(edgeKeyShape1.style.lineWidth).toBe(2);
+      expect(edgeLabelShape1.style.fontWeight).toBe(BuiltinTheme.light.edge.styles[0].selected.labelShape.fontWeight);
+      graph.setItemState('edge1', 'state2', true);
+      expect(JSON.stringify(edgeKeyShape1.style.lineDash)).toBe(JSON.stringify([5, 5]));
+      expect(edgeKeyShape1.style.stroke).toBe('#000');
+      expect(edgeKeyShape1.style.lineWidth).toBe(2);
+      graph.setItemState('edge1', 'state3', true);
+      expect(edgeKeyShape1.style.stroke).toBe('#ff0');
+      expect(JSON.stringify(edgeKeyShape1.style.lineDash)).toBe(JSON.stringify([5, 5]));
+      expect(edgeKeyShape1.style.lineWidth).toBe(2);
+
+      // clear node's one state
       graph.clearItemState('node1', ['state2']);
       expect(nodeKeyShape1.style.fill).toBe('#ff0');
       expect(nodeKeyShape1.style.stroke).toBe(BuiltinTheme.light.node.styles[0].default.keyShape.stroke);
+      // clear edge's one state, state1 + state3 is kept
+      graph.clearItemState('edge1', ['state2']);
+      expect(edgeKeyShape1.style.stroke).toBe('#ff0');
+      expect(JSON.stringify(edgeKeyShape1.style.lineDash)).toBe(JSON.stringify([5, 5]));
+      expect(edgeKeyShape1.style.lineWidth).toBe(2);
 
       // clear all states
       graph.clearItemState('node1');
       expect(nodeKeyShape1.style.fill).toBe('#0f0');
       expect(nodeLabelShape1.style.fill).toBe('#0f0');
+      graph.clearItemState('edge1');
+      expect(edgeKeyShape1.style.stroke).toBe('#0f0');
+      expect(edgeLabelShape1.style.fill).toBe('#0f0');
 
       graph.destroy();
       done();
@@ -182,8 +288,16 @@ describe('theme', () => {
       node: {
         labelShape: {
           text: {
-            fields: ['id'],
-            formatter: model => model.id
+            fields: ['dt'],
+            formatter: model => model.data.dt
+          }
+        }
+      },
+      edge: {
+        labelShape: {
+          text: {
+            fields: ['edt'],
+            formatter: model => model.data.edt
           }
         }
       },
@@ -211,11 +325,31 @@ describe('theme', () => {
                 }
               }));
             }
+          },
+          edge: {
+            dataTypeField: 'edt',
+            palette: ['#f00', '#0f0'],
+            getStyleSets: palette => {
+              return palette.map(color => ({
+                default: {
+                  keyShape: { stroke: color },
+                  labelShape: { fill: color }
+                },
+                state1: {
+                  keyShape: { stroke: '#000' },
+                },
+                state2: {
+                  keyShape: { lineDash: [5, 5] },
+                },
+                state3: {
+                  keyShape: { stroke: '#ff0' },
+                }
+              }));
+            }
           }
         }
       }
     });
-    console.log('data', data, BuiltinTheme.light);
     graph.on('afterlayout', () => {
       const node1 = graph.itemController.itemMap['node1'];
       const { keyShape: nodeKeyShape1, labelShape: nodeLabelShape1 } = node1.shapeMap;
@@ -236,7 +370,21 @@ describe('theme', () => {
       expect(nodeKeyShape4.style.fill).toBe('#f00');
       expect(nodeLabelShape4.style.fill).toBe('#f00');
 
-      // update dataType
+      // edges
+      const edge1 = graph.itemController.itemMap['edge1'];
+      const { keyShape: edgeKeyShape1, labelShape: edgeLabelShape1 } = edge1.shapeMap;
+      expect(edgeKeyShape1.style.stroke).toBe('#f00');
+      expect(edgeLabelShape1.style.fill).toBe('#f00');
+      const edge2 = graph.itemController.itemMap['edge2'];
+      const { keyShape: edgeKeyShape2, labelShape: edgeLabelShape2 } = edge2.shapeMap;
+      expect(edgeKeyShape2.style.stroke).toBe('#0f0');
+      expect(edgeLabelShape2.style.fill).toBe('#0f0');
+      // edge3 has no mapped palette, buitin theme take effects
+      const edge3 = graph.itemController.itemMap['edge3'];
+      const { keyShape: edgeKeyShape3 } = edge3.shapeMap;
+      expect(edgeKeyShape3.style.stroke).toBe('#f00');
+
+      // update node dataType
       graph.updateData('node', {
         id: 'node1',
         data: {
@@ -246,11 +394,27 @@ describe('theme', () => {
       expect(nodeKeyShape1.style.fill).toBe('#0f0');
       expect(nodeLabelShape1.style.fill).toBe('#0f0');
 
-      // setState with state in builtin theme
+      // update edge dataType
+      graph.updateData('edge', {
+        id: 'edge1',
+        data: {
+          edt: '2'
+        }
+      });
+      expect(edgeKeyShape1.style.stroke).toBe('#0f0');
+      expect(edgeLabelShape1.style.fill).toBe('#0f0');
+
+      // node setState with state in builtin theme
       graph.setItemState('node1', 'selected', true);
       expect(nodeKeyShape1.style.fill).toBe(BuiltinTheme.light.node.styles[0].selected.keyShape.fill);
       expect(nodeLabelShape1.style.fill).toBe(BuiltinTheme.light.node.styles[0].selected.labelShape.fill);
+      // edge setState with state in builtin theme
+      graph.setItemState('edge1', 'selected', true);
+      expect(edgeKeyShape1.style.stroke).toBe(BuiltinTheme.light.edge.styles[0].selected.keyShape.stroke);
+      expect(edgeLabelShape1.style.fill).toBe('#0f0'); // not assigned in selected theme
+      expect(edgeLabelShape1.style.fontWeight).toBe(BuiltinTheme.light.edge.styles[0].selected.labelShape.fontWeight);
 
+      // node setState with state in configured spec
       graph.setItemState('node1', 'state1', true);
       expect(nodeKeyShape1.style.fill).toBe('#000');
       expect(nodeLabelShape1.style.fill).toBe(BuiltinTheme.light.node.styles[0].selected.labelShape.fill);
@@ -261,18 +425,40 @@ describe('theme', () => {
       expect(nodeKeyShape1.style.fill).toBe('#ff0');
       expect(nodeKeyShape1.style.stroke).toBe('#f00');
 
-      // clear one state
+      // edge setState with state in configured spec
+      graph.setItemState('edge1', 'state1', true);
+      expect(edgeKeyShape1.style.stroke).toBe('#000');
+      expect(edgeKeyShape1.style.lineWidth).toBe(2);
+      expect(edgeLabelShape1.style.fontWeight).toBe(BuiltinTheme.light.edge.styles[0].selected.labelShape.fontWeight);
+      graph.setItemState('edge1', 'state2', true);
+      expect(JSON.stringify(edgeKeyShape1.style.lineDash)).toBe(JSON.stringify([5, 5]));
+      expect(edgeKeyShape1.style.stroke).toBe('#000');
+      expect(edgeKeyShape1.style.lineWidth).toBe(2);
+      graph.setItemState('edge1', 'state3', true);
+      expect(edgeKeyShape1.style.stroke).toBe('#ff0');
+      expect(JSON.stringify(edgeKeyShape1.style.lineDash)).toBe(JSON.stringify([5, 5]));
+      expect(edgeKeyShape1.style.lineWidth).toBe(2);
+
+      // clear node's one state
       graph.clearItemState('node1', ['state2']);
       expect(nodeKeyShape1.style.fill).toBe('#ff0');
       expect(nodeKeyShape1.style.stroke).toBe(BuiltinTheme.light.node.styles[0].default.keyShape.stroke);
+
+      // clear edge's one state, state1 + state3 is kept
+      graph.clearItemState('edge1', ['state2']);
+      expect(edgeKeyShape1.style.stroke).toBe('#ff0');
+      expect(JSON.stringify(edgeKeyShape1.style.lineDash)).toBe(JSON.stringify([5, 5]));
+      expect(edgeKeyShape1.style.lineWidth).toBe(2);
 
       // clear all states
       graph.clearItemState('node1');
       expect(nodeKeyShape1.style.fill).toBe('#0f0');
       expect(nodeLabelShape1.style.fill).toBe('#0f0');
+      graph.clearItemState('edge1');
+      expect(edgeKeyShape1.style.stroke).toBe('#0f0');
+      expect(edgeLabelShape1.style.fill).toBe('#0f0');
       graph.destroy();
       done();
     });
   });
-  // TODO: edge tests
 });

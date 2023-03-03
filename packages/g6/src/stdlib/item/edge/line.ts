@@ -50,7 +50,7 @@ export class LineEdge extends BaseEdge {
     diffData?: { previous: EdgeModelData; current: EdgeModelData },
     diffState?: { previous: State[], current: State[] }
   ) {
-    const keyShapeStyle = Object.assign({}, this.mergedStyles.keyShape, model.data?.keyShape);
+    const { keyShape: keyShapeStyle } = this.mergedStyles;
     const keyShape = upsertShape(
       'line',
       'keyShape',
