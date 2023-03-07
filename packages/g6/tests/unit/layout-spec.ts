@@ -222,6 +222,53 @@ describe('layout', () => {
     }, 500);
   });
 
+  it('should execute an immediately invoked layout with animation.', (done) => {
+    setTimeout(() => {
+      graph = new G6.Graph({
+        container,
+        width: 500,
+        height: 500,
+        type: 'graph',
+        data,
+        layout: {
+          type: 'circular',
+          animated: true,
+          center: [250, 250],
+          radius: 200,
+        },
+      });
+
+      graph.once('afterlayout', async () => {
+        const nodesData = graph.getAllNodesData();
+        expect(nodesData[0].data.x).toBe(450);
+        expect(nodesData[0].data.y).toBe(250);
+
+        await graph.layout({
+          execute: async (graph) => {
+            const nodes = graph.getAllNodes();
+            return {
+              nodes: nodes.map((node) => ({
+                id: node.id,
+                data: {
+                  x: 250,
+                  y: 250,
+                },
+              })),
+              edges: [],
+            };
+          },
+          animated: true,
+          animationEffectTiming: {
+            duration: 1000,
+          },
+        });
+
+        graph.destroy();
+        done();
+      });
+    }, 500);
+  });
+
   it('should stop animated layout process with `stopLayout`.', (done) => {
     graph = new G6.Graph({
       container,

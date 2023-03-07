@@ -7,28 +7,14 @@ import {
   ForceLayoutOptions,
   FruchtermanLayoutOptions,
   GridLayoutOptions,
+  LayoutMapping,
   MDSLayoutOptions,
   RadialLayoutOptions,
   RandomLayoutOptions,
 } from '@antv/layout';
+import { GraphCore } from './data';
 
-export type LayoutOptions = (
-  | CircularLayout
-  | RandomLayout
-  | ConcentricLayout
-  | GridLayout
-  | MDSLayout
-  | RadialLayout
-  | FruchtermanLayout
-  | D3ForceLayout
-  | ForceLayout
-  | ForceAtlas2
-) & {
-  /**
-   * Make layout running in WebWorker.
-   */
-  workerEnabled?: boolean;
-
+type Animatable = {
   /**
    * Make layout animated. For layouts with iterations, transitions will happen between ticks.
    */
@@ -39,12 +25,38 @@ export type LayoutOptions = (
    * @see https://g.antv.antgroup.com/api/animation/waapi#effecttiming
    */
   animationEffectTiming?: Partial<IAnimationEffectTiming>;
-
-  /**
-   * Iterations for iteratable layouts such as Force.
-   */
-  iterations?: number;
 };
+
+export type LayoutOptions =
+  | ({
+      /**
+       * like an IIFE.
+       */
+      execute: (graph: GraphCore, options?: any) => Promise<LayoutMapping>;
+    } & Animatable)
+  | (((
+      | CircularLayout
+      | RandomLayout
+      | ConcentricLayout
+      | GridLayout
+      | MDSLayout
+      | RadialLayout
+      | FruchtermanLayout
+      | D3ForceLayout
+      | ForceLayout
+      | ForceAtlas2
+    ) & {
+      /**
+       * Make layout running in WebWorker.
+       */
+      workerEnabled?: boolean;
+
+      /**
+       * Iterations for iteratable layouts such as Force.
+       */
+      iterations?: number;
+    }) &
+      Animatable);
 
 interface CircularLayout extends CircularLayoutOptions {
   type: 'circular';

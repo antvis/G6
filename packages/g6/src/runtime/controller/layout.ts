@@ -45,59 +45,70 @@ export class LayoutController {
         duration: 1000,
       } as Partial<IAnimationEffectTiming>,
       iterations = 300,
+      execute = null,
       ...rest
     } = {
       ...this.graph.getSpecification().layout,
       ...options,
     };
 
-    // Find built-in layout algorithms.
-    const layoutCtor = stdLib.layouts[type];
-    if (!layoutCtor) {
-      throw new Error(`Unknown layout algorithm: ${type}`);
-    }
-
-    // Initialize layout.
-    const layout = new layoutCtor(rest);
-    this.currentLayout = layout;
-
     let positions: LayoutMapping;
 
-    if (workerEnabled) {
-      /**
-       * Run algorithm in WebWorker, `animated` option will be ignored.
-       */
-      const supervisor = new Supervisor(graphCore, layout, { iterations });
-      this.currentSupervisor = supervisor;
-      positions = await supervisor.execute();
+    const isImmediatelyInvokedLayout = !!execute;
+    if (isImmediatelyInvokedLayout) {
+      // It will ignore some layout options such as `type` and `workerEnabled`.
+      positions = await execute(graphCore, rest);
+
+      if (animated) {
+        await this.animateLayoutWithoutIterations(positions, animationEffectTiming);
+      }
     } else {
-      if (isLayoutWithIterations(layout)) {
-        if (animated) {
-          positions = await layout.execute(graphCore, {
-            onTick: (positionsOnTick: LayoutMapping) => {
-              // Display the animated process of layout.
-              this.updateNodesPosition(positionsOnTick);
-              this.graph.emit('tick', positionsOnTick);
-            },
-          });
-        } else {
-          /**
-           * Manually step simulation in a sync way. `onTick` won't get triggered in this case,
-           * there will be no animation either.
-           */
-          layout.execute(graphCore);
-          layout.stop();
-          positions = layout.tick(iterations);
-        }
+      // Find built-in layout algorithms.
+      const layoutCtor = stdLib.layouts[type];
+      if (!layoutCtor) {
+        throw new Error(`Unknown layout algorithm: ${type}`);
+      }
 
+      // Initialize layout.
+      const layout = new layoutCtor(rest);
+      this.currentLayout = layout;
+
+      if (workerEnabled) {
         /**
-         * `onTick` will get triggered in this case.
+         * Run algorithm in WebWorker, `animated` option will be ignored.
          */
+        const supervisor = new Supervisor(graphCore, layout, { iterations });
+        this.currentSupervisor = supervisor;
+        positions = await supervisor.execute();
       } else {
-        positions = await layout.execute(graphCore);
+        if (isLayoutWithIterations(layout)) {
+          if (animated) {
+            positions = await layout.execute(graphCore, {
+              onTick: (positionsOnTick: LayoutMapping) => {
+                // Display the animated process of layout.
+                this.updateNodesPosition(positionsOnTick);
+                this.graph.emit('tick', positionsOnTick);
+              },
+            });
+          } else {
+            /**
+             * Manually step simulation in a sync way. `onTick` won't get triggered in this case,
+             * there will be no animation either.
+             */
+            layout.execute(graphCore);
+            layout.stop();
+            positions = layout.tick(iterations);
+          }
 
-        if (animated) {
-          await this.animateLayoutWithoutIterations(positions, animationEffectTiming);
+          /**
+           * `onTick` will get triggered in this case.
+           */
+        } else {
+          positions = await layout.execute(graphCore);
+
+          if (animated) {
+            await this.animateLayoutWithoutIterations(positions, animationEffectTiming);
+          }
         }
       }
     }
