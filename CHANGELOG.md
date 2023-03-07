@@ -1,5 +1,9 @@
 # ChangeLog
 
+### 4.8.8
+
+- fix: preset layout with gpu layout;
+
 ### 4.8.7
 
 - fix: loop edge position after node dragging;

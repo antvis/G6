@@ -197,18 +197,18 @@ export default abstract class LayoutController {
     const { graph, layoutMethods, layoutCfg } = this;
     if (!graph || graph.get('destroyed')) return;
 
+    let start = Promise.resolve();
     if (reloadData) {
       this.data = this.setDataFromGraph();
       const { nodes } = this.data;
       if (!nodes) {
         return false;
       }
-      this.initPositions(layoutCfg.center, nodes);
+      start = this.initPositions(layoutCfg.center, nodes);
     }
 
     graph.emit('beforelayout');
 
-    let start = Promise.resolve();
     layoutMethods?.forEach((layoutMethod: any, index: number) => {
       const currentCfg = layoutCfg[index] || layoutCfg;
       start = start.then(() => {
@@ -309,45 +309,44 @@ export default abstract class LayoutController {
   /**
    * execute a preset layout before running layout
    */
-  public abstract initWithPreset(): boolean;
+  public abstract initWithPreset(hasPresetCallback, noPresetCallback): Promise<void>;
 
   // 初始化节点到 center 附近
-  public initPositions(center, nodes): boolean {
+  public async initPositions(center, nodes): Promise<void> {
     const { graph } = this;
-    if (!nodes) {
-      return false;
+    if (!nodes?.length) {
+      return Promise.resolve();
     }
     const nodesToInit = nodes.filter(node => isNaN(node.x) || isNaN(node.y))
     const nodeLength = nodesToInit ? nodesToInit.length : 0;
     if (!nodeLength) return;
-    const hasPreset = this.initWithPreset?.();
-    if (hasPreset) return false;
-
-    const width = graph.get('width') * 0.85;
-    const height = graph.get('height') * 0.85;
-    const horiNum = Math.ceil(Math.sqrt(nodeLength) * (width / height));
-    const vertiNum = Math.ceil(nodeLength / horiNum);
-    let horiGap = width / (horiNum - 1);
-    let vertiGap = height / (vertiNum - 1);
-    if (!isFinite(horiGap) || !horiGap) horiGap = 0;
-    if (!isFinite(vertiGap) || !horiGap) vertiGap = 0;
-    const beginX = center[0] - width / 2;
-    const beginY = center[1] - height / 2;
-
-    let allHavePos = true;
-    for (let i = 0; i < nodeLength; i++) {
-      const node = nodesToInit[i];
-      if (isNaN(+node.x)) {
-        allHavePos = false;
-        node.x = (i % horiNum) * horiGap + beginX;
-      }
-      if (isNaN(+node.y)) {
-        allHavePos = false;
-        node.y = Math.floor(i / horiNum) * vertiGap + beginY;
-      }
-    }
-
-    return allHavePos;
+    return this.initWithPreset?.(
+      () => { }, // onFullfillment
+      () => { // onRejction
+        const width = graph.get('width') * 0.85;
+        const height = graph.get('height') * 0.85;
+        const horiNum = Math.ceil(Math.sqrt(nodeLength) * (width / height));
+        const vertiNum = Math.ceil(nodeLength / horiNum);
+        let horiGap = width / (horiNum - 1);
+        let vertiGap = height / (vertiNum - 1);
+        if (!isFinite(horiGap) || !horiGap) horiGap = 0;
+        if (!isFinite(vertiGap) || !horiGap) vertiGap = 0;
+        const beginX = center[0] - width / 2;
+        const beginY = center[1] - height / 2;
+    
+        let allHavePos = true;
+        for (let i = 0; i < nodeLength; i++) {
+          const node = nodesToInit[i];
+          if (isNaN(+node.x)) {
+            allHavePos = false;
+            node.x = (i % horiNum) * horiGap + beginX;
+          }
+          if (isNaN(+node.y)) {
+            allHavePos = false;
+            node.y = Math.floor(i / horiNum) * vertiGap + beginY;
+          }
+        }
+      });
   }
 
   public destroy() {
