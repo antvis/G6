@@ -1,4 +1,5 @@
-import { isLayoutWithIterations, Layout, LayoutMapping, Supervisor } from '@antv/layout';
+import { Animation, DisplayObject, IAnimationEffectTiming } from '@antv/g';
+import { isLayoutWithIterations, Layout, LayoutMapping, OutNode, Supervisor } from '@antv/layout';
 import { stdLib } from '../../stdlib';
 import { IGraph } from '../../types';
 import { GraphCore } from '../../types/data';
@@ -12,11 +13,14 @@ export class LayoutController {
   public extensions = {};
   public graph: IGraph;
 
-  private currentLayout: Layout<any>;
-  private currentSupervisor: Supervisor;
+  private currentLayout: Layout<any> | null;
+  private currentSupervisor: Supervisor | null;
+  private currentAnimation: Animation | null;
+  private animatedDisplayObject: DisplayObject;
 
   constructor(graph: IGraph<any>) {
     this.graph = graph;
+    this.animatedDisplayObject = new DisplayObject({});
     this.tap();
   }
 
@@ -34,9 +38,12 @@ export class LayoutController {
     const { graphCore, options } = params;
 
     const {
-      type,
-      workerEnabled,
-      animated,
+      type = 'grid',
+      workerEnabled = false,
+      animated = false,
+      animationEffectTiming = {
+        duration: 1000,
+      } as Partial<IAnimationEffectTiming>,
       iterations = 300,
       ...rest
     } = {
@@ -88,6 +95,10 @@ export class LayoutController {
          */
       } else {
         positions = await layout.execute(graphCore);
+
+        if (animated) {
+          await this.animateLayoutWithoutIterations(positions, animationEffectTiming);
+        }
       }
     }
 
@@ -104,6 +115,11 @@ export class LayoutController {
     if (this.currentSupervisor) {
       this.currentSupervisor.stop();
       this.currentSupervisor = null;
+    }
+
+    if (this.currentAnimation) {
+      this.currentAnimation.finish();
+      this.currentAnimation = null;
     }
   }
 
@@ -125,5 +141,62 @@ export class LayoutController {
         },
       });
     });
+  }
+
+  private async animateLayoutWithoutIterations(
+    positions: LayoutMapping,
+    animationEffectTiming: Partial<IAnimationEffectTiming>,
+  ) {
+    // Animation should be executed only once.
+    animationEffectTiming.iterations = 1;
+
+    const originalPositions = positions.nodes.map((node) => {
+      return this.graph.getNodeData(`${node.id}`)!;
+    });
+
+    // Add a connected displayobject so that we can animate it.
+    if (!this.animatedDisplayObject.isConnected) {
+      await this.graph.canvas.ready;
+      this.graph.canvas.appendChild(this.animatedDisplayObject);
+    }
+
+    // Use `opacity` since it is an interpolated property.
+    this.currentAnimation = this.animatedDisplayObject.animate(
+      [
+        {
+          opacity: 0,
+        },
+        {
+          opacity: 1,
+        },
+      ],
+      animationEffectTiming,
+    ) as Animation;
+
+    // Update each node's position on each frame.
+    // @see https://g.antv.antgroup.com/api/animation/waapi#%E5%B1%9E%E6%80%A7
+    this.currentAnimation.onframe = (e) => {
+      // @see https://g.antv.antgroup.com/api/animation/waapi#progress
+      const progress = (e.target as Animation).effect.getComputedTiming().progress as number;
+
+      const interpolatedNodesPosition = (originalPositions as OutNode[]).map(({ id, data }, i) => {
+        const { x: fromX = 0, y: fromY = 0 } = data;
+        const { x: toX, y: toY } = positions.nodes[i].data;
+        return {
+          id,
+          data: {
+            x: fromX + (toX - fromX) * progress,
+            y: fromY + (toY - fromY) * progress,
+          },
+        };
+      });
+
+      this.updateNodesPosition({
+        nodes: interpolatedNodesPosition,
+        edges: [],
+      });
+    };
+
+    await this.currentAnimation.finished;
   }
 }

@@ -145,7 +145,7 @@ describe('layout', () => {
     });
   });
 
-  it('should display the layout process with `animated`.', (done) => {
+  it('should display the process in layout with iterations when `animated` enabled.', (done) => {
     graph = new G6.Graph({
       container,
       width: 500,
@@ -167,6 +167,59 @@ describe('layout', () => {
       graph.destroy();
       done();
     });
+  });
+
+  it('should display the process in layout without iterations when `animated` enabled.', (done) => {
+    setTimeout(() => {
+      graph = new G6.Graph({
+        container,
+        width: 500,
+        height: 500,
+        type: 'graph',
+        data,
+        layout: {
+          type: 'circular',
+          animated: true,
+          center: [250, 250],
+          radius: 200,
+        },
+      });
+
+      graph.once('afterlayout', async () => {
+        const nodesData = graph.getAllNodesData();
+        expect(nodesData[0].data.x).toBe(450);
+        expect(nodesData[0].data.y).toBe(250);
+
+        await graph.layout({
+          type: 'circular',
+          center: [250, 250],
+          radius: 100,
+          animated: true,
+          animationEffectTiming: {
+            duration: 1000,
+            easing: 'in-out-bounce',
+          },
+        });
+
+        await graph.layout({
+          type: 'random',
+          animated: true,
+          animationEffectTiming: {
+            duration: 1000,
+          },
+        });
+
+        await graph.layout({
+          type: 'circular',
+          center: [250, 250],
+          radius: 200,
+          animated: false,
+        });
+
+        graph.destroy();
+        done();
+      });
+    }, 500);
   });
 
   it('should stop animated layout process with `stopLayout`.', (done) => {

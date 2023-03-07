@@ -1,3 +1,4 @@
+import { IAnimationEffectTiming } from '@antv/g';
 import {
   CircularLayoutOptions,
   ConcentricLayoutOptions,
@@ -23,8 +24,25 @@ export type LayoutOptions = (
   | ForceLayout
   | ForceAtlas2
 ) & {
+  /**
+   * Make layout running in WebWorker.
+   */
   workerEnabled?: boolean;
+
+  /**
+   * Make layout animated. For layouts with iterations, transitions will happen between ticks.
+   */
   animated?: boolean;
+
+  /**
+   * Effect timing of animation for layouts without iterations.
+   * @see https://g.antv.antgroup.com/api/animation/waapi#effecttiming
+   */
+  animationEffectTiming?: Partial<IAnimationEffectTiming>;
+
+  /**
+   * Iterations for iteratable layouts such as Force.
+   */
   iterations?: number;
 };
 
