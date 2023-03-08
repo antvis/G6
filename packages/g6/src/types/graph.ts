@@ -2,17 +2,17 @@ import EventEmitter from '@antv/event-emitter';
 import { Canvas } from '@antv/g';
 import { ID } from '@antv/graphlib';
 import { Hooks } from '../types/hook';
-import { AnimateCfg } from './animate';
+import { CameraAnimationOptions } from './animate';
 import { BehaviorObjectOptionsOf, BehaviorOptionsOf, BehaviorRegistry } from './behavior';
 import { ComboModel, ComboUserModel } from './combo';
 import { Padding, Point } from './common';
-import { DataChangeType, GraphData } from './data';
+import { GraphData } from './data';
 import { EdgeModel, EdgeUserModel } from './edge';
 import { ITEM_TYPE } from './item';
 import { LayoutOptions } from './layout';
 import { NodeModel, NodeUserModel } from './node';
 import { Specification } from './spec';
-import { FitViewRules, GraphAlignment } from './view';
+import { FitViewRules } from './view';
 
 export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends EventEmitter {
   hooks: Hooks;
@@ -166,63 +166,58 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
    * Move the graph with a relative vector.
    * @param dx x of the relative vector
    * @param dy y of the relative vector
-   * @param animateCfg animation configurations
-   * @returns
-   * @group View
+   * @param effectTiming animation configurations
    */
-  move: (dx: number, dy: number, animateCfg?: AnimateCfg) => void;
+  move: (dx: number, dy: number, effectTiming?: CameraAnimationOptions) => void;
   /**
    * Move the graph and align to a point.
    * @param x position on the canvas to align
    * @param y position on the canvas to align
-   * @param alignment alignment of the graph content
-   * @param animateCfg animation configurations
-   * @returns
-   * @group View
+   * @param effectTiming animation configurations
    */
-  moveTo: (x: number, y: number, alignment: GraphAlignment, animateCfg?: AnimateCfg) => void;
+  moveTo: (x: number, y: number, effectTiming?: CameraAnimationOptions) => void;
   /**
    * Zoom the graph with a relative ratio.
    * @param ratio relative ratio to zoom
    * @param center zoom center
-   * @param animateCfg animation configurations
+   * @param effectTiming animation configurations
    * @returns
    * @group View
    */
-  zoom: (ratio: number, center?: Point, animateCfg?: AnimateCfg) => void;
+  zoom: (ratio: number, center?: Point, effectTiming?: CameraAnimationOptions) => void;
   /**
    * Zoom the graph to a specified ratio.
    * @param toRatio specified ratio
    * @param center zoom center
-   * @param animateCfg animation configurations
+   * @param effectTiming animation configurations
    * @returns
    * @group View
    */
-  zoomTo: (toRatio: number, center?: Point, animateCfg?: AnimateCfg) => void;
+  zoomTo: (toRatio: number, center?: Point, effectTiming?: CameraAnimationOptions) => void;
   /**
    * Fit the graph content to the view.
    * @param padding padding while fitting
    * @param rules rules for fitting
-   * @param animateCfg animation configurations
+   * @param effectTiming animation configurations
    * @returns
    * @group View
    */
-  fitView: (padding?: Padding, rules?: FitViewRules, animateCfg?: AnimateCfg) => void;
+  fitView: (padding?: Padding, rules?: FitViewRules, effectTiming?: CameraAnimationOptions) => void;
   /**
    * Fit the graph center to the view center.
-   * @param animateCfg animation configurations
+   * @param effectTiming animation configurations
    * @returns
    * @group View
    */
-  fitCenter: (animateCfg?: AnimateCfg) => void;
+  fitCenter: (effectTiming?: CameraAnimationOptions) => void;
   /**
    * Move the graph to make the item align the view center.
    * @param item node/edge/combo item or its id
-   * @param animateCfg animation configurations
+   * @param effectTiming animation configurations
    * @returns
    * @group View
    */
-  focusItem: (ids: ID | ID[], animateCfg?: AnimateCfg) => void;
+  focusItem: (ids: ID | ID[], effectTiming?: CameraAnimationOptions) => void;
 
   // ===== item operations =====
   /**

@@ -10,25 +10,26 @@ import {
   NodeUserModel,
   Specification,
 } from '../types';
-import { AnimateCfg } from '../types/animate';
+import { AnimateCfg, CameraAnimationOptions } from '../types/animate';
 import { BehaviorObjectOptionsOf, BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';
 import { ComboModel } from '../types/combo';
 import { Padding, Point } from '../types/common';
 import { GraphCore } from '../types/data';
 import { EdgeModel, EdgeModelData } from '../types/edge';
-import { Hooks } from '../types/hook';
+import { Hooks, ViewportChangeHookParams } from '../types/hook';
 import { ITEM_TYPE } from '../types/item';
 import { LayoutOptions } from '../types/layout';
 import { NodeModel, NodeModelData } from '../types/node';
-import { FitViewRules, GraphAlignment } from '../types/view';
+import { FitViewRules } from '../types/view';
 import { createCanvas } from '../util/canvas';
 import {
   DataController,
+  ExtensionController,
   InteractionController,
   ItemController,
   LayoutController,
   ThemeController,
-  ExtensionController,
+  ViewportController,
 } from './controller';
 import Hook from './hooks';
 
@@ -48,6 +49,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
   private dataController: DataController;
   private interactionController: InteractionController;
   private layoutController: LayoutController;
+  private viewportController: ViewportController;
   private itemController: ItemController;
   private extensionController: ExtensionController;
   private themeController: ThemeController;
@@ -77,6 +79,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     this.layoutController = new LayoutController(this);
     this.themeController = new ThemeController(this);
     this.itemController = new ItemController(this);
+    this.viewportController = new ViewportController(this);
     this.extensionController = new ExtensionController(this);
   }
 
@@ -92,7 +95,9 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     }
     this.backgroundCanvas = createCanvas(rendererType, container, width, height, pixelRatio);
     this.canvas = createCanvas(rendererType, container, width, height, pixelRatio);
-    this.transientCanvas = createCanvas(rendererType, container, width, height, pixelRatio, true, { pointerEvents: 'none' });
+    this.transientCanvas = createCanvas(rendererType, container, width, height, pixelRatio, true, {
+      pointerEvents: 'none',
+    });
     Promise.all(
       [this.backgroundCanvas, this.canvas, this.transientCanvas].map((canvas) => canvas.ready),
     ).then(() => (this.canvasReady = true));
@@ -112,13 +117,16 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
       }>({ name: 'itemchange' }),
       render: new Hook<{ graphCore: GraphCore }>({ name: 'render' }),
       layout: new Hook<{ graphCore: GraphCore }>({ name: 'layout' }),
+      viewportchange: new Hook<ViewportChangeHookParams>({ name: 'viewport' }),
       modechange: new Hook<{ mode: string }>({ name: 'modechange' }),
       behaviorchange: new Hook<{
         action: 'update' | 'add' | 'remove';
         modes: string[];
         behaviors: BehaviorOptionsOf<{}>[];
       }>({ name: 'behaviorchange' }),
-      itemstatechange: new Hook<{ ids: ID[], state: string, value: boolean }>({ name: 'itemstatechange' })
+      itemstatechange: new Hook<{ ids: ID[]; state: string; value: boolean }>({
+        name: 'itemstatechange',
+      }),
     };
   }
 
@@ -202,49 +210,73 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * Move the graph with a relative vector.
    * @param dx x of the relative vector
    * @param dy y of the relative vector
-   * @param animateCfg animation configurations
-   * @returns
-   * @group View
+   * @param effectTiming animation configurations
    */
-  public move(dx: number, dy: number, animateCfg?: AnimateCfg) {
-    // TODO
+  public async move(dx: number, dy: number, effectTiming?: CameraAnimationOptions) {
+    await this.hooks.viewportchange.emitLinearAsync({
+      action: 'translate',
+      options: {
+        dx,
+        dy,
+        effectTiming,
+      },
+    });
+
+    this.emit('viewportchange', {
+      action: 'translate',
+      options: {
+        dx,
+        dy,
+        camera: this.canvas.getCamera(),
+      },
+    });
   }
 
   /**
    * Move the graph and align to a point.
    * @param x position on the canvas to align
    * @param y position on the canvas to align
-   * @param alignment alignment of the graph content
-   * @param animateCfg animation configurations
-   * @returns
-   * @group View
+   * @param effectTiming animation configurations
    */
-  public moveTo(x: number, y: number, alignment: GraphAlignment, animateCfg?: AnimateCfg) {
-    // TODO
+  public async moveTo(x: number, y: number, effectTiming?: CameraAnimationOptions) {
+    const [px, py] = this.canvas.getCamera().getPosition();
+    await this.move(px - x, py - y, effectTiming);
   }
 
   /**
    * Zoom the graph with a relative ratio.
    * @param ratio relative ratio to zoom
    * @param center zoom center
-   * @param animateCfg animation configurations
-   * @returns
-   * @group View
+   * @param effectTiming animation configurations
    */
-  public zoom(ratio: number, center?: Point, animateCfg?: AnimateCfg) {
-    // TODO
+  public async zoom(ratio: number, center?: Point, effectTiming?: CameraAnimationOptions) {
+    await this.zoomTo(this.canvas.getCamera().getZoom() * ratio, center, effectTiming);
   }
 
   /**
    * Zoom the graph to a specified ratio.
-   * @param toRatio specified ratio
+   * @param zoom specified ratio
    * @param center zoom center
-   * @param animateCfg animation configurations
-   * @returns
-   * @group View
+   * @param effectTiming animation configurations
    */
-  public zoomTo(toRatio: number, center?: Point, animateCfg?: AnimateCfg) {
-    // TODO
+  public async zoomTo(zoom: number, center?: Point, effectTiming?: CameraAnimationOptions) {
+    const [x, y] = this.canvas.getCamera().getPosition();
+    await this.hooks.viewportchange.emitLinearAsync({
+      action: 'zoom',
+      options: {
+        zoom,
+        center: center || { x, y },
+        effectTiming,
+      },
+    });
+    this.emit('viewportchange', {
+      action: 'zoom',
+      options: {
+        zoom,
+        center: center || { x, y },
+        camera: this.canvas.getCamera(),
+      },
+    });
   }
 
   /**
@@ -351,7 +383,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     let ids = this.itemController.findIdByState(itemType, state, value);
     if (additionalFilter) {
       const getDataFunc = itemType === 'node' ? this.getNodeData : this.getEdgeData; // TODO: combo
-      ids = ids.filter(id => additionalFilter(getDataFunc(id)));
+      ids = ids.filter((id) => additionalFilter(getDataFunc(id)));
     }
     return ids;
   }
@@ -498,7 +530,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     this.hooks.itemstatechange.emit({
       ids: idArr as ID[],
       states: stateArr as string[],
-      value
+      value,
     });
   }
   /**
@@ -524,7 +556,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     this.hooks.itemstatechange.emit({
       ids: idArr as ID[],
       states,
-      value: false
+      value: false,
     });
   }
 

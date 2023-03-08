@@ -1,3 +1,5 @@
+import { IAnimationEffectTiming } from '@antv/g';
+
 export interface AnimateCfg {
   /**
    * Whether enable animation.
@@ -39,7 +41,7 @@ export interface AnimateCfg {
    * @type {function}
    */
   resumeCallback?: () => void;
-};
+}
 
 export type AnimateWhen = 'show' | 'exit' | 'update' | 'last';
 
@@ -47,4 +49,9 @@ export interface AnimateAttr {
   when: AnimateWhen;
   type: string;
   [param: string]: unknown;
+}
+
+export interface CameraAnimationOptions
+  extends Pick<IAnimationEffectTiming, 'duration' | 'easing' | 'easingFunction'> {
+  onfinish: any;
 }

@@ -1,9 +1,11 @@
-import { DataChangeType, GraphCore, GraphData } from "./data";
-import { NodeModelData } from "./node";
-import { EdgeModelData } from "./edge";
-import { ITEM_TYPE } from "./item";
-import { GraphChange, ID } from "@antv/graphlib";
-import { LayoutOptions } from "./layout";
+import { PointLike } from '@antv/g';
+import { GraphChange, ID } from '@antv/graphlib';
+import { CameraAnimationOptions } from './animate';
+import { DataChangeType, GraphCore, GraphData } from './data';
+import { EdgeModelData } from './edge';
+import { ITEM_TYPE } from './item';
+import { LayoutOptions } from './layout';
+import { NodeModelData } from './node';
 
 export interface IHook<T> {
   name: string;
@@ -14,14 +16,39 @@ export interface IHook<T> {
   emitLinearAsync: (param: T) => Promise<void>;
 }
 
+export type ViewportChangeHookParams =
+  | {
+      action: 'translate';
+      options: {
+        dx: number;
+        dy: number;
+        effectTiming?: CameraAnimationOptions;
+      };
+    }
+  | {
+      action: 'rotate';
+      options: {
+        angle: number;
+        effectTiming?: CameraAnimationOptions;
+      };
+    }
+  | {
+      action: 'zoom';
+      options: {
+        zoom: number;
+        center: PointLike;
+        effectTiming?: CameraAnimationOptions;
+      };
+    };
+
 export interface Hooks {
   init: IHook<void>;
   // data
-  'datachange': IHook<{
+  datachange: IHook<{
     type: DataChangeType;
-    data: GraphData
+    data: GraphData;
   }>;
-  'itemchange': IHook<{
+  itemchange: IHook<{
     type: ITEM_TYPE;
     changes: GraphChange<NodeModelData, EdgeModelData>[];
     graphCore: GraphCore;
@@ -35,12 +62,12 @@ export interface Hooks {
     modes: string[];
     behaviors: (string | { type: string; key: string })[];
   }>;
-  'itemstatechange': IHook<{
-    ids: ID[],
-    states?: string[],
-    value?: boolean
+  itemstatechange: IHook<{
+    ids: ID[];
+    states?: string[];
+    value?: boolean;
   }>; // TODO: define param template
-  // 'viewportchange': IHook<any>; // TODO: define param template
+  viewportchange: IHook<ViewportChangeHookParams>;
   // 'destroy': IHook<any>; // TODO: define param template
   // TODO: more timecycles here
 }
