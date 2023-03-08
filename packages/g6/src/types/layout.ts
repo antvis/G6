@@ -27,14 +27,32 @@ type Animatable = {
   animationEffectTiming?: Partial<IAnimationEffectTiming>;
 };
 
-export type LayoutOptions =
-  | ({
-      /**
-       * like an IIFE.
-       */
-      execute: (graph: GraphCore, options?: any) => Promise<LayoutMapping>;
-    } & Animatable)
-  | (((
+type Workerized = {
+  /**
+   * Make layout running in WebWorker.
+   */
+  workerEnabled?: boolean;
+
+  /**
+   * Iterations for iteratable layouts such as Force.
+   */
+  iterations?: number;
+};
+
+export type ImmediatelyInvokedLayoutOptions = {
+  /**
+   * like an IIFE.
+   */
+  execute: (graph: GraphCore, options?: any) => Promise<LayoutMapping>;
+} & Animatable;
+
+type CustomLayout = {
+  type: string;
+  [option: string]: any;
+};
+
+export type StandardLayoutOptions =
+  | (
       | CircularLayout
       | RandomLayout
       | ConcentricLayout
@@ -45,18 +63,37 @@ export type LayoutOptions =
       | D3ForceLayout
       | ForceLayout
       | ForceAtlas2
-    ) & {
-      /**
-       * Make layout running in WebWorker.
-       */
-      workerEnabled?: boolean;
+      | CustomLayout
+    ) &
+      Animatable &
+      Workerized;
 
-      /**
-       * Iterations for iteratable layouts such as Force.
-       */
-      iterations?: number;
-    }) &
-      Animatable);
+export type LayoutOptions = StandardLayoutOptions | ImmediatelyInvokedLayoutOptions;
+
+export function isImmediatelyInvokedLayoutOptions(
+  options: any,
+): options is ImmediatelyInvokedLayoutOptions {
+  return !!options.execute;
+}
+
+export function isLayoutWorkerized(options: StandardLayoutOptions) {
+  return (
+    [
+      'circular',
+      'random',
+      'grid',
+      'mds',
+      'concentric',
+      'radial',
+      'fruchterman',
+      'fruchtermanGPU',
+      'd3force',
+      'force',
+      'gforce',
+      'forceAtlas2',
+    ].indexOf(options.type) > -1
+  );
+}
 
 interface CircularLayout extends CircularLayoutOptions {
   type: 'circular';

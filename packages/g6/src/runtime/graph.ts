@@ -1,7 +1,7 @@
 import EventEmitter from '@antv/event-emitter';
 import { Canvas } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
-import { isArray, isNumber, isObject, isString } from '@antv/util';
+import { isArray, isNil, isNumber, isObject, isString } from '@antv/util';
 import {
   ComboUserModel,
   EdgeUserModel,
@@ -18,17 +18,21 @@ import { GraphCore } from '../types/data';
 import { EdgeModel, EdgeModelData } from '../types/edge';
 import { Hooks } from '../types/hook';
 import { ITEM_TYPE } from '../types/item';
-import { LayoutOptions } from '../types/layout';
+import {
+  ImmediatelyInvokedLayoutOptions,
+  LayoutOptions,
+  StandardLayoutOptions,
+} from '../types/layout';
 import { NodeModel, NodeModelData } from '../types/node';
 import { FitViewRules, GraphAlignment } from '../types/view';
 import { createCanvas } from '../util/canvas';
 import {
   DataController,
+  ExtensionController,
   InteractionController,
   ItemController,
   LayoutController,
   ThemeController,
-  ExtensionController,
 } from './controller';
 import Hook from './hooks';
 
@@ -92,7 +96,9 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     }
     this.backgroundCanvas = createCanvas(rendererType, container, width, height, pixelRatio);
     this.canvas = createCanvas(rendererType, container, width, height, pixelRatio);
-    this.transientCanvas = createCanvas(rendererType, container, width, height, pixelRatio, true, { pointerEvents: 'none' });
+    this.transientCanvas = createCanvas(rendererType, container, width, height, pixelRatio, true, {
+      pointerEvents: 'none',
+    });
     Promise.all(
       [this.backgroundCanvas, this.canvas, this.transientCanvas].map((canvas) => canvas.ready),
     ).then(() => (this.canvasReady = true));
@@ -118,7 +124,9 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
         modes: string[];
         behaviors: BehaviorOptionsOf<{}>[];
       }>({ name: 'behaviorchange' }),
-      itemstatechange: new Hook<{ ids: ID[], state: string, value: boolean }>({ name: 'itemstatechange' })
+      itemstatechange: new Hook<{ ids: ID[]; state: string; value: boolean }>({
+        name: 'itemstatechange',
+      }),
     };
   }
 
@@ -152,12 +160,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
       });
       this.emit('afterrender');
 
-      // TODO: make read async?
-      await this.hooks.layout.emitLinearAsync({
-        graphCore: this.dataController.graphCore,
-      });
-
-      this.emit('afterlayout');
+      await this.layout();
     };
     if (this.canvasReady) {
       await emitRender();
@@ -183,11 +186,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     });
     this.emit('afterrender');
 
-    await this.hooks.layout.emitLinearAsync({
-      graphCore: this.dataController.graphCore,
-    });
-
-    this.emit('afterlayout');
+    await this.layout();
   }
 
   /**
@@ -351,7 +350,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     let ids = this.itemController.findIdByState(itemType, state, value);
     if (additionalFilter) {
       const getDataFunc = itemType === 'node' ? this.getNodeData : this.getEdgeData; // TODO: combo
-      ids = ids.filter(id => additionalFilter(getDataFunc(id)));
+      ids = ids.filter((id) => additionalFilter(getDataFunc(id)));
     }
     return ids;
   }
@@ -498,7 +497,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     this.hooks.itemstatechange.emit({
       ids: idArr as ID[],
       states: stateArr as string[],
-      value
+      value,
     });
   }
   /**
@@ -524,7 +523,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     this.hooks.itemstatechange.emit({
       ids: idArr as ID[],
       states,
-      value: false
+      value: false,
     });
   }
 
@@ -568,9 +567,39 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * Layout the graph (with current configurations if cfg is not assigned).
    */
   public async layout(options?: LayoutOptions) {
+    const { graphCore } = this.dataController;
+    const formattedOptions = {
+      ...this.getSpecification().layout,
+      ...options,
+    } as LayoutOptions;
+
+    const layoutUnset = !options && !this.getSpecification().layout;
+    if (layoutUnset) {
+      const nodes = graphCore.getAllNodes();
+      if (nodes.every((node) => isNil(node.data.x) && isNil(node.data.y))) {
+        // Use `grid` layout as default when x/y of each node is unset.
+        (formattedOptions as StandardLayoutOptions).type = 'grid';
+      } else {
+        // - 没有配置 layout，只要部分节点数据中有 x y 的时候，直接使用数据中的坐标，没有 x y 的部分就初始化为 0 0
+        (formattedOptions as ImmediatelyInvokedLayoutOptions).execute = async (graph) => {
+          const nodes = graph.getAllNodes();
+          return {
+            nodes: nodes.map((node) => ({
+              id: node.id,
+              data: {
+                x: Number(node.data.x) || 0,
+                y: Number(node.data.y) || 0,
+              },
+            })),
+            edges: [],
+          };
+        };
+      }
+    }
+
     await this.hooks.layout.emitLinearAsync({
-      graphCore: this.dataController.graphCore,
-      options,
+      graphCore,
+      options: formattedOptions,
     });
     this.emit('afterlayout');
   }

@@ -1,9 +1,13 @@
 import { Animation, DisplayObject, IAnimationEffectTiming } from '@antv/g';
 import { isLayoutWithIterations, Layout, LayoutMapping, OutNode, Supervisor } from '@antv/layout';
 import { stdLib } from '../../stdlib';
-import { IGraph } from '../../types';
+import {
+  IGraph,
+  isImmediatelyInvokedLayoutOptions,
+  isLayoutWorkerized,
+  LayoutOptions,
+} from '../../types';
 import { GraphCore } from '../../types/data';
-import { LayoutOptions } from '../../types/layout';
 
 /**
  * Manages layout extensions and graph layout.
@@ -31,31 +35,27 @@ export class LayoutController {
     this.graph.hooks.layout.tap(this.onLayout.bind(this));
   }
 
-  private async onLayout(params: { graphCore: GraphCore; options?: LayoutOptions }) {
+  private async onLayout(params: { graphCore: GraphCore; options: LayoutOptions }) {
+    /**
+     * The final calculated result.
+     */
+    let positions: LayoutMapping;
+
     // Stop currentLayout if any.
     this.stopLayout();
 
     const { graphCore, options } = params;
 
-    const {
-      type = 'grid',
-      workerEnabled = false,
-      animated = false,
-      animationEffectTiming = {
-        duration: 1000,
-      } as Partial<IAnimationEffectTiming>,
-      iterations = 300,
-      execute = null,
-      ...rest
-    } = {
-      ...this.graph.getSpecification().layout,
-      ...options,
-    };
+    if (isImmediatelyInvokedLayoutOptions(options)) {
+      const {
+        animated = false,
+        animationEffectTiming = {
+          duration: 1000,
+        } as Partial<IAnimationEffectTiming>,
+        execute,
+        ...rest
+      } = options;
 
-    let positions: LayoutMapping;
-
-    const isImmediatelyInvokedLayout = !!execute;
-    if (isImmediatelyInvokedLayout) {
       // It will ignore some layout options such as `type` and `workerEnabled`.
       positions = await execute(graphCore, rest);
 
@@ -63,6 +63,17 @@ export class LayoutController {
         await this.animateLayoutWithoutIterations(positions, animationEffectTiming);
       }
     } else {
+      const {
+        type = 'grid',
+        animated = false,
+        animationEffectTiming = {
+          duration: 1000,
+        } as Partial<IAnimationEffectTiming>,
+        iterations = 300,
+        ...rest
+      } = options;
+      let { workerEnabled = false } = options;
+
       // Find built-in layout algorithms.
       const layoutCtor = stdLib.layouts[type];
       if (!layoutCtor) {
@@ -73,6 +84,12 @@ export class LayoutController {
       const layout = new layoutCtor(rest);
       this.currentLayout = layout;
 
+      // CustomLayout is not workerized.
+      if (!isLayoutWorkerized(options)) {
+        workerEnabled = false;
+        // TODO: console.warn();
+      }
+
       if (workerEnabled) {
         /**
          * Run algorithm in WebWorker, `animated` option will be ignored.
@@ -81,8 +98,12 @@ export class LayoutController {
         this.currentSupervisor = supervisor;
         positions = await supervisor.execute();
       } else {
+        // e.g. Force layout
         if (isLayoutWithIterations(layout)) {
           if (animated) {
+            /**
+             * `onTick` will get triggered in this case.
+             */
             positions = await layout.execute(graphCore, {
               onTick: (positionsOnTick: LayoutMapping) => {
                 // Display the animated process of layout.
@@ -99,10 +120,6 @@ export class LayoutController {
             layout.stop();
             positions = layout.tick(iterations);
           }
-
-          /**
-           * `onTick` will get triggered in this case.
-           */
         } else {
           positions = await layout.execute(graphCore);
 
@@ -154,6 +171,13 @@ export class LayoutController {
     });
   }
 
+  /**
+   * For those layout without iterations, e.g. circular, random, since they don't have `onTick` callback,
+   * we have to translate each node from its initial position to final one after layout,
+   * with the help of `onframe` from G's animation API.
+   * @param positions
+   * @param animationEffectTiming
+   */
   private async animateLayoutWithoutIterations(
     positions: LayoutMapping,
     animationEffectTiming: Partial<IAnimationEffectTiming>,
@@ -161,8 +185,9 @@ export class LayoutController {
     // Animation should be executed only once.
     animationEffectTiming.iterations = 1;
 
-    const originalPositions = positions.nodes.map((node) => {
-      return this.graph.getNodeData(`${node.id}`)!;
+    const initialPositions = positions.nodes.map((node) => {
+      // Should clone each node's initial data since it will be updated during the layout process.
+      return { ...this.graph.getNodeData(`${node.id}`)! };
     });
 
     // Add a connected displayobject so that we can animate it.
@@ -189,8 +214,7 @@ export class LayoutController {
     this.currentAnimation.onframe = (e) => {
       // @see https://g.antv.antgroup.com/api/animation/waapi#progress
       const progress = (e.target as Animation).effect.getComputedTiming().progress as number;
-
-      const interpolatedNodesPosition = (originalPositions as OutNode[]).map(({ id, data }, i) => {
+      const interpolatedNodesPosition = (initialPositions as OutNode[]).map(({ id, data }, i) => {
         const { x: fromX = 0, y: fromY = 0 } = data;
         const { x: toX, y: toY } = positions.nodes[i].data;
         return {
