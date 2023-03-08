@@ -6,29 +6,6 @@ document.querySelector('body')!.appendChild(container);
 
 describe('layout', () => {
   let graph: any;
-  // it.only('should use `x/y` properties of nodes when layout is unset.', (done) => {
-  //   // - 没有配置 layout，只要部分节点数据中有 x y 的时候，直接使用数据中的坐标，没有 x y 的部分就初始化为 0 0
-  //   // - 没有配置 layout，数据中没有 x y，使用 grid 布局进行初始化
-  //   graph = new G6.Graph({
-  //     container,
-  //     width: 500,
-  //     height: 500,
-  //     type: 'graph',
-  //     data,
-  //   });
-
-  //   graph.once('afterlayout', () => {
-  //     const nodesData = graph.getAllNodesData();
-  //     expect(nodesData[0].data.x).toBe(125);
-  //     expect(nodesData[0].data.y).toBe(75);
-
-  //     expect(nodesData[1].data.x).toBe(225);
-  //     expect(nodesData[1].data.y).toBe(75);
-
-  //     // graph.destroy();
-  //     done();
-  //   });
-  // });
 
   it('should use grid as default when layout is unset in spec.', (done) => {
     graph = new G6.Graph({

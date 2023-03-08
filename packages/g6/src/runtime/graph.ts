@@ -1,5 +1,5 @@
 import EventEmitter from '@antv/event-emitter';
-import { Canvas } from '@antv/g';
+import { Canvas, runtime } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
 import { isArray, isNil, isNumber, isObject, isString } from '@antv/util';
 import {
@@ -35,6 +35,11 @@ import {
   ThemeController,
 } from './controller';
 import Hook from './hooks';
+
+/**
+ * Disable CSS parsing for better performance.
+ */
+runtime.enableCSSParsing = false;
 
 export default class Graph<B extends BehaviorRegistry> extends EventEmitter implements IGraph<B> {
   public hooks: Hooks;
@@ -580,7 +585,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
         // Use `grid` layout as default when x/y of each node is unset.
         (formattedOptions as StandardLayoutOptions).type = 'grid';
       } else {
-        // - 没有配置 layout，只要部分节点数据中有 x y 的时候，直接使用数据中的坐标，没有 x y 的部分就初始化为 0 0
+        // Use user-defined position(x/y default to 0).
         (formattedOptions as ImmediatelyInvokedLayoutOptions).execute = async (graph) => {
           const nodes = graph.getAllNodes();
           return {
