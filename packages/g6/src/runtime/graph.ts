@@ -1,5 +1,5 @@
 import EventEmitter from '@antv/event-emitter';
-import { Canvas } from '@antv/g';
+import { Canvas, PointLike } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
 import { isArray, isNumber, isObject, isString } from '@antv/util';
 import {
@@ -13,14 +13,14 @@ import {
 import { AnimateCfg, CameraAnimationOptions } from '../types/animate';
 import { BehaviorObjectOptionsOf, BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';
 import { ComboModel } from '../types/combo';
-import { Padding, Point } from '../types/common';
+import { Padding } from '../types/common';
 import { GraphCore } from '../types/data';
 import { EdgeModel, EdgeModelData } from '../types/edge';
 import { Hooks, ViewportChangeHookParams } from '../types/hook';
 import { ITEM_TYPE } from '../types/item';
 import { LayoutOptions } from '../types/layout';
 import { NodeModel, NodeModelData } from '../types/node';
-import { FitViewRules } from '../types/view';
+import { FitViewRules, GraphTransformOptions } from '../types/view';
 import { createCanvas } from '../util/canvas';
 import {
   DataController,
@@ -206,77 +206,88 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     // TODO
   }
 
+  public async transform(
+    options: GraphTransformOptions,
+    effectTiming?: CameraAnimationOptions,
+  ): Promise<void> {
+    await this.hooks.viewportchange.emitLinearAsync({
+      transform: options,
+      effectTiming,
+    });
+    this.emit('viewportchange', options);
+  }
+
   /**
    * Move the graph with a relative vector.
    * @param dx x of the relative vector
    * @param dy y of the relative vector
    * @param effectTiming animation configurations
    */
-  public async move(dx: number, dy: number, effectTiming?: CameraAnimationOptions) {
-    await this.hooks.viewportchange.emitLinearAsync({
-      action: 'translate',
-      options: {
-        dx,
-        dy,
-        effectTiming,
+  public async translate(dx: number, dy: number, effectTiming?: CameraAnimationOptions) {
+    await this.transform(
+      {
+        translate: {
+          dx,
+          dy,
+        },
       },
-    });
-
-    this.emit('viewportchange', {
-      action: 'translate',
-      options: {
-        dx,
-        dy,
-        camera: this.canvas.getCamera(),
-      },
-    });
+      effectTiming,
+    );
   }
 
   /**
    * Move the graph and align to a point.
-   * @param x position on the canvas to align
-   * @param y position on the canvas to align
+   * @param point position on the canvas to align
    * @param effectTiming animation configurations
    */
-  public async moveTo(x: number, y: number, effectTiming?: CameraAnimationOptions) {
+  public async translateTo(point: PointLike, effectTiming?: CameraAnimationOptions) {
     const [px, py] = this.canvas.getCamera().getPosition();
-    await this.move(px - x, py - y, effectTiming);
+    await this.translate(px - point.x, py - point.y, effectTiming);
   }
 
   /**
    * Zoom the graph with a relative ratio.
    * @param ratio relative ratio to zoom
-   * @param center zoom center
+   * @param origin zoom center
    * @param effectTiming animation configurations
    */
-  public async zoom(ratio: number, center?: Point, effectTiming?: CameraAnimationOptions) {
-    await this.zoomTo(this.canvas.getCamera().getZoom() * ratio, center, effectTiming);
+  public async zoom(ratio: number, origin?: PointLike, effectTiming?: CameraAnimationOptions) {
+    const [x, y] = this.canvas.getCamera().getPosition();
+    await this.transform(
+      {
+        zoom: {
+          ratio,
+        },
+        origin: origin || { x, y },
+      },
+      effectTiming,
+    );
   }
 
   /**
    * Zoom the graph to a specified ratio.
    * @param zoom specified ratio
-   * @param center zoom center
+   * @param origin zoom center
    * @param effectTiming animation configurations
    */
-  public async zoomTo(zoom: number, center?: Point, effectTiming?: CameraAnimationOptions) {
-    const [x, y] = this.canvas.getCamera().getPosition();
-    await this.hooks.viewportchange.emitLinearAsync({
-      action: 'zoom',
-      options: {
-        zoom,
-        center: center || { x, y },
-        effectTiming,
+  public async zoomTo(zoom: number, origin?: PointLike, effectTiming?: CameraAnimationOptions) {
+    await this.zoom(zoom / this.canvas.getCamera().getZoom(), origin, effectTiming);
+  }
+
+  public async rotate(angle: number, origin?: PointLike, effectTiming?: CameraAnimationOptions) {
+    await this.transform(
+      {
+        rotate: {
+          angle,
+        },
+        origin,
       },
-    });
-    this.emit('viewportchange', {
-      action: 'zoom',
-      options: {
-        zoom,
-        center: center || { x, y },
-        camera: this.canvas.getCamera(),
-      },
-    });
+      effectTiming,
+    );
+  }
+
+  public async rotateTo(angle: number, origin?: PointLike, effectTiming?: CameraAnimationOptions) {
+    await this.rotate(angle - this.canvas.getCamera().getRoll(), origin, effectTiming);
   }
 
   /**
@@ -292,22 +303,34 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
   }
   /**
    * Fit the graph center to the view center.
-   * @param animateCfg animation configurations
-   * @returns
-   * @group View
+   * @param effectTiming animation configurations
    */
-  public fitCenter(animateCfg?: AnimateCfg) {
-    // TODO
+  public async fitCenter(effectTiming?: CameraAnimationOptions) {
+    const {
+      center: [graphCenterX, graphCenterY],
+    } = this.canvas.document.documentElement.getBounds();
+    // const { width, height } = this.canvas.getConfig();
+    // const { x: canvasX, y: canvasY } = this.canvas.viewport2Canvas({
+    //   x: width! / 2,
+    //   y: height! / 2,
+    // });
+
+    await this.translateTo({ x: graphCenterX, y: graphCenterY }, effectTiming);
   }
   /**
    * Move the graph to make the item align the view center.
    * @param item node/edge/combo item or its id
-   * @param animateCfg animation configurations
-   * @returns
-   * @group View
+   * @param effectTiming animation configurations
    */
-  public focusItem(ids: ID | ID[], animateCfg?: AnimateCfg) {
-    // TODO
+  public async focusItem(id: ID, effectTiming?: CameraAnimationOptions) {
+    const item = this.itemController.getItemById(id);
+
+    if (item) {
+      const {
+        center: [itemCenterX, itemCenterY],
+      } = item.group.getBounds();
+      await this.translateTo({ x: itemCenterX, y: itemCenterY }, effectTiming);
+    }
   }
 
   // ===== item operations =====

@@ -1,16 +1,16 @@
-import { GraphChange, ID } from '@antv/graphlib';
-import { ComboModel, IGraph } from '../../types';
-import registry from '../../stdlib';
-import { getExtension } from '../../util/extension';
-import { GraphCore } from '../../types/data';
-import { NodeDisplayModel, NodeEncode, NodeModel, NodeModelData } from '../../types/node';
-import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeModelData } from '../../types/edge';
-import Node from '../../item/node';
-import Edge from '../../item/edge';
-import Combo from '../../item/combo';
 import { Group } from '@antv/g';
-import { ITEM_TYPE } from '../../types/item';
+import { GraphChange, ID } from '@antv/graphlib';
+import Combo from '../../item/combo';
+import Edge from '../../item/edge';
+import Node from '../../item/node';
+import registry from '../../stdlib';
+import { ComboModel, IGraph } from '../../types';
 import { ComboDisplayModel, ComboEncode } from '../../types/combo';
+import { GraphCore } from '../../types/data';
+import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeModelData } from '../../types/edge';
+import { ITEM_TYPE } from '../../types/item';
+import { NodeDisplayModel, NodeEncode, NodeModel, NodeModelData } from '../../types/node';
+import { getExtension } from '../../util/extension';
 
 /**
  * Manages and stores the node / edge / combo items.
@@ -50,7 +50,7 @@ export class ItemController {
   constructor(graph: IGraph<any>) {
     this.graph = graph;
     // get mapper for node / edge / combo
-    const { node, edge, combo, nodeState, edgeState, comboState }  = graph.getSpecification();
+    const { node, edge, combo, nodeState, edgeState, comboState } = graph.getSpecification();
     this.nodeMapper = node;
     this.edgeMapper = edge;
     this.comboMapper = combo;
@@ -255,9 +255,9 @@ export class ItemController {
    *   value: state value
    * }
    */
-  private onItemStateChange(param: { ids: ID[], states: string[], value: boolean }) {
+  private onItemStateChange(param: { ids: ID[]; states: string[]; value: boolean }) {
     const { ids, states, value } = param;
-    ids.forEach(id => {
+    ids.forEach((id) => {
       const item = this.itemMap[id];
       if (!item) {
         console.warn(`Fail to set state for item ${id}, which is not exist.`);
@@ -267,7 +267,7 @@ export class ItemController {
         // clear all the states
         item.clearStates(states);
       } else {
-        states.forEach(state => item.setState(state, value));
+        states.forEach((state) => item.setState(state, value));
       }
     });
   }
@@ -331,7 +331,7 @@ export class ItemController {
    */
   public findIdByState(itemType: ITEM_TYPE, state: string, value: string | boolean = true) {
     const ids = [];
-    Object.values(this.itemMap).forEach(item => {
+    Object.values(this.itemMap).forEach((item) => {
       if (item.getType() !== itemType) return;
       if (item.hasState(state) === value) ids.push(item.getID());
     });
@@ -351,5 +351,9 @@ export class ItemController {
       return false;
     }
     return item.hasState(state);
+  }
+
+  public getItemById(id: ID) {
+    return this.itemMap[id];
   }
 }

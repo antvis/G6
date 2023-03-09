@@ -1,4 +1,3 @@
-import { PointLike } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
 import { CameraAnimationOptions } from './animate';
 import { DataChangeType, GraphCore, GraphData } from './data';
@@ -6,6 +5,7 @@ import { EdgeModelData } from './edge';
 import { ITEM_TYPE } from './item';
 import { LayoutOptions } from './layout';
 import { NodeModelData } from './node';
+import { GraphTransformOptions } from './view';
 
 export interface IHook<T> {
   name: string;
@@ -16,30 +16,10 @@ export interface IHook<T> {
   emitLinearAsync: (param: T) => Promise<void>;
 }
 
-export type ViewportChangeHookParams =
-  | {
-      action: 'translate';
-      options: {
-        dx: number;
-        dy: number;
-        effectTiming?: CameraAnimationOptions;
-      };
-    }
-  | {
-      action: 'rotate';
-      options: {
-        angle: number;
-        effectTiming?: CameraAnimationOptions;
-      };
-    }
-  | {
-      action: 'zoom';
-      options: {
-        zoom: number;
-        center: PointLike;
-        effectTiming?: CameraAnimationOptions;
-      };
-    };
+export type ViewportChangeHookParams = {
+  transform: GraphTransformOptions;
+  effectTiming?: CameraAnimationOptions;
+};
 
 export interface Hooks {
   init: IHook<void>;

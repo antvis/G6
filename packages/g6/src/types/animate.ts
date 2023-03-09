@@ -52,6 +52,4 @@ export interface AnimateAttr {
 }
 
 export interface CameraAnimationOptions
-  extends Pick<IAnimationEffectTiming, 'duration' | 'easing' | 'easingFunction'> {
-  onfinish: any;
-}
+  extends Pick<IAnimationEffectTiming, 'duration' | 'easing' | 'easingFunction'> {}

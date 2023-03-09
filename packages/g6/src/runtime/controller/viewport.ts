@@ -20,35 +20,38 @@ export class ViewportController {
     this.graph.hooks.viewportchange.tap(this.onViewportChange.bind(this));
   }
 
-  private async onViewportChange({ action, options }: ViewportChangeHookParams) {
+  private async onViewportChange({ transform, effectTiming }: ViewportChangeHookParams) {
     const camera = this.graph.canvas.getCamera();
-    if (action === 'translate') {
-      await this.translate(options, camera);
-    } else if (action === 'rotate') {
-    } else if (action === 'zoom') {
-      await this.zoom(options, camera);
-    }
-  }
+    const { translate, rotate, zoom, origin } = transform;
 
-  private async translate(
-    options: {
-      dx: number;
-      dy: number;
-      effectTiming?: CameraAnimationOptions;
-    },
-    camera: ICamera,
-  ) {
-    const { dx, dy, effectTiming } = options;
     if (effectTiming) {
       const { duration = 1000, easing = 'linear', easingFunction } = effectTiming;
-      const [px, py] = camera.getPosition();
-      const [fx, fy] = camera.getFocalPoint();
+      const landmarkOptions: Partial<{
+        position: [number, number] | [number, number, number] | Float32Array;
+        focalPoint: [number, number] | [number, number, number] | Float32Array;
+        zoom: number;
+        roll: number;
+      }> = {};
 
-      const landmark = camera.createLandmark(`mark${landmarkCounter++}`, {
-        position: [px - dx, py - dy],
-        focalPoint: [fx - dx, fy - dy],
-      });
+      if (translate) {
+        const { dx = 0, dy = 0 } = translate;
+        const [px, py] = camera.getPosition();
+        const [fx, fy] = camera.getFocalPoint();
+        landmarkOptions.position = [px - dx, py - dy];
+        landmarkOptions.focalPoint = [fx - dx, fy - dy];
+      }
 
+      if (zoom) {
+        const { ratio } = zoom;
+        landmarkOptions.zoom = camera.getZoom() * ratio;
+      }
+
+      if (rotate) {
+        const { angle } = rotate;
+        landmarkOptions.roll = camera.getRoll() + angle;
+      }
+
+      const landmark = camera.createLandmark(`mark${landmarkCounter++}`, landmarkOptions);
       return new Promise((resolve) => {
         camera.gotoLandmark(landmark, {
           duration: Number(duration),
@@ -60,40 +63,28 @@ export class ViewportController {
         });
       });
     } else {
-      camera.pan(-dx, -dy);
-    }
-  }
+      if (translate) {
+        const { dx = 0, dy = 0 } = translate;
+        camera.pan(-dx, -dy);
+      }
 
-  private async zoom(
-    options: {
-      zoom: number;
-      center: PointLike;
-      effectTiming?: CameraAnimationOptions | undefined;
-    },
-    camera: ICamera,
-  ) {
-    const { zoom, center, effectTiming } = options;
-    if (effectTiming) {
-      const { duration = 1000, easing = 'linear', easingFunction, onfinish } = effectTiming;
-      const landmark = camera.createLandmark(`mark${landmarkCounter++}`, {
-        position: [center.x, center.y],
-        focalPoint: [center.x, center.y],
-        zoom,
-      });
+      if (rotate) {
+        const { angle } = rotate;
+        const [x, y] = camera.getPosition();
+        if (origin) {
+          camera.setPosition(origin.x, origin.y);
+        }
+        camera.rotate(0, 0, angle);
+        if (origin) {
+          camera.pan(x - origin.x, y - origin.y);
+        }
+      }
 
-      return new Promise((resolve) => {
-        camera.gotoLandmark(landmark, {
-          duration: Number(duration),
-          easing,
-          easingFunction,
-          onfinish: () => {
-            resolve(undefined);
-          },
-        });
-      });
-    } else {
-      const vp = this.graph.canvas.canvas2Viewport(center);
-      camera.setZoomByViewportPoint(zoom, [vp.x, vp.y]);
+      if (zoom) {
+        const { ratio } = zoom;
+        const vp = this.graph.canvas.canvas2Viewport(origin!);
+        camera.setZoomByViewportPoint(camera.getZoom() * ratio, [vp.x, vp.y]);
+      }
     }
   }
 
