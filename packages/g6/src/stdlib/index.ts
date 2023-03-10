@@ -6,12 +6,18 @@ import { comboFromNode } from './data/comboFromNode';
 import { LineEdge } from './item/edge';
 import { CircleNode } from './item/node';
 import SpecThemeSolver from './themeSolver/spec';
+import LightTheme from './theme/light';
+import DarkTheme from './theme/dark';
 
 const stdLib = {
   transforms: {
     comboFromNode,
   },
   themes: {
+    'light': LightTheme,
+    'dark': DarkTheme
+  },
+  themeSolvers: {
     'spec': SpecThemeSolver,
   },
   layouts: layoutRegistry,

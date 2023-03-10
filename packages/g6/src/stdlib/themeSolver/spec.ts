@@ -1,8 +1,7 @@
 import { isArray } from '_@antv_util@3.3.2@@antv/util';
-import { BuiltinTheme } from '../../constant';
 import { ItemStyleSets, ThemeSpecification } from '../../types/theme';
 import { mergeStyles } from '../../util/shape';
-import BaseThemeSolver from './base';
+import BaseThemeSolver, { ThemeSpecificationMap } from './base';
 
 interface SpecThemeSolverOptions {
   base: 'light' | 'dark',
@@ -31,9 +30,9 @@ export default class SpecThemeSolver extends BaseThemeSolver {
   protected specification: ThemeSpecification;
   protected options: SpecThemeSolverOptions;
 
-  public solver(options: SpecThemeSolverOptions): ThemeSpecification {
+  public solver(options: SpecThemeSolverOptions, themes: ThemeSpecificationMap): ThemeSpecification {
     const { base = 'light', specification } = options;
-    const baseSpec = BuiltinTheme[base];
+    const baseSpec = themes[base];
     const mergedSpec = { ...baseSpec };
     if (specification) {
       ['node', 'edge', 'combo'].forEach(itemType => {

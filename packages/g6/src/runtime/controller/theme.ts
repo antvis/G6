@@ -1,7 +1,7 @@
 import registry from "../../stdlib";
 import { IGraph } from "../../types";
 import { ThemeSpecification } from "../../types/theme";
-import { getExtension } from "../../util/extension";
+import { getCatExtensions, getExtension } from "../../util/extension";
 
 /**
  * Manages theme extensions for graph.
@@ -14,6 +14,9 @@ export class ThemeController {
   private themeConfig;
   private solver;
   public specification: ThemeSpecification;
+  private themes: {
+    [themeName: string]: ThemeSpecification
+  };
 
   constructor(graph: IGraph<any, any>) {
     this.graph = graph;
@@ -24,6 +27,7 @@ export class ThemeController {
    */
   private tap() {
     this.extension = this.getExtension();
+    this.themes = this.getThemes();
     this.graph.hooks.init.tap(this.onInit.bind(this));
   }
 
@@ -33,7 +37,11 @@ export class ThemeController {
   private getExtension() {
     const { theme = {} } = this.graph.getSpecification();
     this.themeConfig = theme;
-    return theme ? getExtension(theme, registry.useLib, 'theme') : undefined;
+    return theme ? getExtension(theme, registry.useLib, 'themeSolver') : undefined;
+  }
+
+  private getThemes() {
+    return getCatExtensions(registry.useLib, 'theme');
   }
 
   /**
@@ -41,7 +49,7 @@ export class ThemeController {
    */
   private onInit({ canvases }) {
     if (this.extension) {
-      this.solver = new this.extension(this.themeConfig);
+      this.solver = new this.extension(this.themeConfig, this.themes);
       this.specification = this.solver.specification;
       // apply canvas style in theme to the background canvas dom
       const { canvas } = this.specification;

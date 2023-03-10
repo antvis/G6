@@ -18,7 +18,7 @@ export const DEFAULT_TEXT_STYLE = {
   fontWeight: 'normal',
   fontVariant: 'normal',
   fontStyle: 'normal',
-  textBaseline: 'middle',
-  textAlign: 'center',
+  // textBaseline: 'middle',
+  // textAlign: 'center',
   lineWidth: 0,
 };
