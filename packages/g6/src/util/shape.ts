@@ -114,7 +114,7 @@ export const updateShapes = (
  * @param defaultArr default value
  * @returns [padding-top, padding-right, padding-bottom, padding-left]
  */
-export const formatPadding = (value, defaultArr = [4, 4, 4, 4]) => {
+export const formatPadding = (value?: number | number[], defaultArr = [4, 4, 4, 4]) => {
   if (isArray(value)) {
     switch (value.length) {
       case 0:
@@ -135,20 +135,20 @@ export const formatPadding = (value, defaultArr = [4, 4, 4, 4]) => {
  * Merge two shape map including undefined value in incoming map.
  * @param styleMap1 shapes' styles map as current map
  * @param styleMap2 shapes' styles map as incoming map
- * @returns 
+ * @returns
  */
 export const mergeStyles = (styleMap1, styleMap2) => {
   const mergedStyle = clone(styleMap1);
-  Object.keys(styleMap2).forEach(shapeId => {
+  Object.keys(styleMap2).forEach((shapeId) => {
     const style = styleMap2[shapeId];
     mergedStyle[shapeId] = mergedStyle[shapeId] || {};
-    Object.keys(style).forEach(styleName => {
+    Object.keys(style).forEach((styleName) => {
       const value = style[styleName];
       mergedStyle[shapeId][styleName] = value;
     });
   });
   return mergedStyle;
-}
+};
 
 export const DEFAULT_LABEL_BG_PADDING = [4, 4, 4, 4];
 /** Default shape style to avoid shape value missing */

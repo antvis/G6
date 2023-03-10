@@ -3,6 +3,8 @@ import { Circle } from '@antv/g';
 import G6, { IGraph, stdLib } from '../../src/index';
 import { data } from '../datasets/dataset1';
 const container = document.createElement('div');
+
+// document.getElementById('__jest-electron-test-results__')?.style.position = 'absolute';
 document.querySelector('body')!.appendChild(container);
 
 describe('viewport', () => {
@@ -57,15 +59,15 @@ describe('viewport', () => {
       });
 
       graph.once('viewportchange', ({ translate }) => {
-        expect(translate.dx).toBe(-249);
-        expect(translate.dy).toBe(-249);
+        expect(translate.dx).toBe(-250);
+        expect(translate.dy).toBe(-250);
         const [px, py] = graph.canvas.getCamera().getPosition();
-        expect(px).toBe(250);
-        expect(py).toBe(250);
+        expect(px).toBe(251);
+        expect(py).toBe(251);
       });
 
       await graph.translateTo(
-        { x: 250, y: 250 },
+        { x: 500, y: 500 },
         {
           duration: 2000,
           easing: 'ease-in',
@@ -327,6 +329,33 @@ describe('viewport', () => {
         },
       });
 
+      graph.once('viewportchange', ({ zoom }) => {
+        expect(zoom.ratio).toBe(0.5);
+        expect(graph.canvas.getCamera().getZoom()).toBe(0.5);
+      });
+      await graph.transform({
+        zoom: {
+          ratio: 0.5,
+        },
+        origin: { x: 0, y: 0 },
+      });
+
+      await graph.transform({
+        translate: {
+          dx: 250,
+          dy: 250,
+        },
+        zoom: {
+          ratio: 4,
+        },
+      });
+      await graph.transform({
+        translate: {
+          dx: -250,
+          dy: -250,
+        },
+      });
+
       // graph.once('viewportchange', ({ rotate }) => {
       //   // expect(rotate.angle).toBe(0);
       //   expect(graph.canvas.getCamera().getZoom()).toBe(0.5);
@@ -368,11 +397,11 @@ describe('viewport', () => {
       });
 
       graph.once('viewportchange', ({ translate }) => {
-        expect(translate.dx).toBe(-249);
-        expect(translate.dy).toBe(-249);
+        expect(translate.dx).toBeCloseTo(-249);
+        expect(translate.dy).toBeCloseTo(-249);
         const [px, py] = graph.canvas.getCamera().getPosition();
-        expect(px).toBe(250);
-        expect(py).toBe(250);
+        expect(px).toBeCloseTo(250);
+        expect(py).toBeCloseTo(250);
       });
 
       await graph.fitCenter({
@@ -380,13 +409,14 @@ describe('viewport', () => {
         easing: 'ease-in',
       });
 
+      await graph.zoom(0.5);
       await graph.translate(249, 249);
       graph.once('viewportchange', ({ translate }) => {
-        expect(translate.dx).toBe(-249);
-        expect(translate.dy).toBe(-249);
+        expect(translate.dx).toBeCloseTo(-249);
+        expect(translate.dy).toBeCloseTo(-249);
         const [px, py] = graph.canvas.getCamera().getPosition();
-        expect(px).toBe(250);
-        expect(py).toBe(250);
+        expect(px).toBeCloseTo(250);
+        expect(py).toBeCloseTo(250);
       });
       await graph.fitCenter();
 
@@ -421,8 +451,8 @@ describe('viewport', () => {
 
       graph.once('viewportchange', () => {
         const [px, py] = graph.canvas.getCamera().getPosition();
-        expect(px).toBe(450);
-        expect(py).toBe(250);
+        expect(px).toBeCloseTo(450);
+        expect(py).toBeCloseTo(250);
       });
       await graph.focusItem('Argentina', {
         duration: 1000,
@@ -451,6 +481,79 @@ describe('viewport', () => {
       graph.focusItem('Argentina');
 
       graph.focusItem('Non existed node');
+
+      graph.destroy();
+      done();
+    });
+  });
+
+  it('should fitView with transition correctly.', (done) => {
+    graph = new G6.Graph({
+      container,
+      width: 500,
+      height: 500,
+      type: 'graph',
+      data,
+      layout: {
+        type: 'circular',
+        center: [250, 250],
+        radius: 200,
+      },
+    });
+
+    graph.once('afterlayout', async () => {
+      const nodesData = graph.getAllNodesData();
+      expect(nodesData[0].id).toBe('Argentina');
+      expect(nodesData[0].data.x).toBe(450);
+      expect(nodesData[0].data.y).toBe(250);
+
+      expect(nodesData[4].id).toBe('Colombia');
+      expect(nodesData[4].data.x).toBeCloseTo(391.421356237309);
+      expect(nodesData[4].data.y).toBeCloseTo(391.4213562373095);
+
+      graph.once('viewportchange', () => {
+        const [px, py] = graph.canvas.getCamera().getPosition();
+        expect(px).toBeCloseTo(450);
+        expect(py).toBeCloseTo(250);
+      });
+      await graph.focusItem('Argentina', {
+        duration: 1000,
+        easing: 'ease-in',
+      });
+      await graph.zoom(0.5, undefined, {
+        duration: 1000,
+        easing: 'ease-in',
+      });
+      await graph.fitView(
+        {
+          padding: [50, 50, 50, 50],
+        },
+        {
+          duration: 1000,
+          easing: 'ease-in',
+        },
+      );
+      await graph.translate(100, 100, {
+        duration: 1000,
+        easing: 'ease-in',
+      });
+      await graph.fitView(
+        {
+          padding: [150, 100],
+          rules: {
+            direction: 'both',
+            ratioRule: 'min',
+          },
+        },
+        {
+          duration: 1000,
+          easing: 'ease-in',
+        },
+      );
+      await graph.fitView(undefined, {
+        duration: 1000,
+        easing: 'ease-in',
+      });
 
       graph.destroy();
       done();

@@ -22,7 +22,8 @@ export class ViewportController {
 
   private async onViewportChange({ transform, effectTiming }: ViewportChangeHookParams) {
     const camera = this.graph.canvas.getCamera();
-    const { translate, rotate, zoom, origin } = transform;
+    const { translate, rotate, zoom, origin = this.graph.getViewportCenter() } = transform;
+    const currentZoom = camera.getZoom();
 
     if (effectTiming) {
       const { duration = 1000, easing = 'linear', easingFunction } = effectTiming;
@@ -43,7 +44,7 @@ export class ViewportController {
 
       if (zoom) {
         const { ratio } = zoom;
-        landmarkOptions.zoom = camera.getZoom() * ratio;
+        landmarkOptions.zoom = currentZoom * ratio;
       }
 
       if (rotate) {
@@ -65,7 +66,7 @@ export class ViewportController {
     } else {
       if (translate) {
         const { dx = 0, dy = 0 } = translate;
-        camera.pan(-dx, -dy);
+        camera.pan(-dx / currentZoom, -dy / currentZoom);
       }
 
       if (rotate) {
@@ -82,8 +83,7 @@ export class ViewportController {
 
       if (zoom) {
         const { ratio } = zoom;
-        const vp = this.graph.canvas.canvas2Viewport(origin!);
-        camera.setZoomByViewportPoint(camera.getZoom() * ratio, [vp.x, vp.y]);
+        camera.setZoomByViewportPoint(currentZoom * ratio, [origin.x, origin.y]);
       }
     }
   }

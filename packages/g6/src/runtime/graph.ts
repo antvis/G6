@@ -10,7 +10,7 @@ import {
   NodeUserModel,
   Specification,
 } from '../types';
-import { AnimateCfg, CameraAnimationOptions } from '../types/animate';
+import { CameraAnimationOptions } from '../types/animate';
 import { BehaviorObjectOptionsOf, BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';
 import { ComboModel } from '../types/combo';
 import { Padding } from '../types/common';
@@ -22,6 +22,7 @@ import { LayoutOptions } from '../types/layout';
 import { NodeModel, NodeModelData } from '../types/node';
 import { FitViewRules, GraphTransformOptions } from '../types/view';
 import { createCanvas } from '../util/canvas';
+import { formatPadding } from '../util/shape';
 import {
   DataController,
   ExtensionController,
@@ -206,6 +207,10 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     // TODO
   }
 
+  public getViewportCenter(): PointLike {
+    const { width, height } = this.canvas.getConfig();
+    return { x: width! / 2, y: height! / 2 };
+  }
   public async transform(
     options: GraphTransformOptions,
     effectTiming?: CameraAnimationOptions,
@@ -218,9 +223,9 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
   }
 
   /**
-   * Move the graph with a relative vector.
-   * @param dx x of the relative vector
-   * @param dy y of the relative vector
+   * Move the graph with a relative distance under viewport coordinates.
+   * @param dx x of the relative distance
+   * @param dy y of the relative distance
    * @param effectTiming animation configurations
    */
   public async translate(dx: number, dy: number, effectTiming?: CameraAnimationOptions) {
@@ -236,29 +241,28 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
   }
 
   /**
-   * Move the graph and align to a point.
-   * @param point position on the canvas to align
+   * Move the graph to destination under viewport coordinates.
+   * @param destination destination under viewport coordinates.
    * @param effectTiming animation configurations
    */
-  public async translateTo(point: PointLike, effectTiming?: CameraAnimationOptions) {
-    const [px, py] = this.canvas.getCamera().getPosition();
-    await this.translate(px - point.x, py - point.y, effectTiming);
+  public async translateTo({ x, y }: PointLike, effectTiming?: CameraAnimationOptions) {
+    const { x: cx, y: cy } = this.getViewportCenter();
+    await this.translate(cx - x, cy - y, effectTiming);
   }
 
   /**
    * Zoom the graph with a relative ratio.
    * @param ratio relative ratio to zoom
-   * @param origin zoom center
+   * @param origin origin under viewport coordinates.
    * @param effectTiming animation configurations
    */
   public async zoom(ratio: number, origin?: PointLike, effectTiming?: CameraAnimationOptions) {
-    const [x, y] = this.canvas.getCamera().getPosition();
     await this.transform(
       {
         zoom: {
           ratio,
         },
-        origin: origin || { x, y },
+        origin,
       },
       effectTiming,
     );
@@ -274,6 +278,12 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     await this.zoom(zoom / this.canvas.getCamera().getZoom(), origin, effectTiming);
   }
 
+  /**
+   * Rotate the graph with a relative angle.
+   * @param angle
+   * @param origin
+   * @param effectTiming
+   */
   public async rotate(angle: number, origin?: PointLike, effectTiming?: CameraAnimationOptions) {
     await this.transform(
       {
@@ -286,36 +296,90 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     );
   }
 
+  /**
+   * Rotate the graph to an absolute angle.
+   * @param angle
+   * @param origin
+   * @param effectTiming
+   */
   public async rotateTo(angle: number, origin?: PointLike, effectTiming?: CameraAnimationOptions) {
     await this.rotate(angle - this.canvas.getCamera().getRoll(), origin, effectTiming);
   }
 
   /**
    * Fit the graph content to the view.
-   * @param padding padding while fitting
-   * @param rules rules for fitting
-   * @param animateCfg animation configurations
-   * @returns
-   * @group View
+   * @param options.padding padding while fitting
+   * @param options.rules rules for fitting
+   * @param effectTiming animation configurations
    */
-  public fitView(padding?: Padding, rules?: FitViewRules, animateCfg?: AnimateCfg) {
-    // TODO
+  public async fitView(
+    options?: {
+      padding: Padding;
+      rules: FitViewRules;
+    },
+    effectTiming?: CameraAnimationOptions,
+  ) {
+    const { padding, rules } = options || {};
+    const [top, right, bottom, left] = padding ? formatPadding(padding) : [0, 0, 0, 0];
+    const { direction = 'both', ratioRule = 'min' } = rules || {};
+
+    // Get the bounds of the whole graph.
+    const {
+      center: [graphCenterX, graphCenterY],
+      halfExtents,
+    } = this.canvas.document.documentElement.getBounds();
+    const origin = this.canvas.canvas2Viewport({ x: graphCenterX, y: graphCenterY });
+    const { width: viewportWidth, height: viewportHeight } = this.canvas.getConfig();
+
+    const graphWidth = halfExtents[0] * 2;
+    const graphHeight = halfExtents[1] * 2;
+    const tlInCanvas = this.canvas.viewport2Canvas({ x: left, y: top });
+    const brInCanvas = this.canvas.viewport2Canvas({
+      x: viewportWidth! - right,
+      y: viewportHeight! - bottom,
+    });
+
+    const targetViewWidth = brInCanvas.x - tlInCanvas.x;
+    const targetViewHeight = brInCanvas.y - tlInCanvas.y;
+
+    const wRatio = targetViewWidth / graphWidth;
+    const hRatio = targetViewHeight / graphHeight;
+
+    let ratio: number;
+    if (direction === 'x') {
+      ratio = wRatio;
+    } else if (direction === 'y') {
+      ratio = hRatio;
+    } else {
+      ratio = ratioRule === 'max' ? Math.max(wRatio, hRatio) : Math.min(wRatio, hRatio);
+    }
+
+    await this.transform(
+      {
+        translate: {
+          dx: viewportWidth! / 2 - origin.x,
+          dy: viewportHeight! / 2 - origin.y,
+        },
+        zoom: {
+          ratio,
+        },
+      },
+      effectTiming,
+    );
   }
   /**
    * Fit the graph center to the view center.
    * @param effectTiming animation configurations
    */
   public async fitCenter(effectTiming?: CameraAnimationOptions) {
+    // Get the bounds of the whole graph.
     const {
       center: [graphCenterX, graphCenterY],
     } = this.canvas.document.documentElement.getBounds();
-    // const { width, height } = this.canvas.getConfig();
-    // const { x: canvasX, y: canvasY } = this.canvas.viewport2Canvas({
-    //   x: width! / 2,
-    //   y: height! / 2,
-    // });
-
-    await this.translateTo({ x: graphCenterX, y: graphCenterY }, effectTiming);
+    await this.translateTo(
+      this.canvas.canvas2Viewport({ x: graphCenterX, y: graphCenterY }),
+      effectTiming,
+    );
   }
   /**
    * Move the graph to make the item align the view center.
@@ -329,7 +393,10 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
       const {
         center: [itemCenterX, itemCenterY],
       } = item.group.getBounds();
-      await this.translateTo({ x: itemCenterX, y: itemCenterY }, effectTiming);
+      await this.translateTo(
+        this.canvas.canvas2Viewport({ x: itemCenterX, y: itemCenterY }),
+        effectTiming,
+      );
     }
   }
 

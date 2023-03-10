@@ -218,16 +218,22 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
     effectTiming?: CameraAnimationOptions,
   ) => Promise<void>;
   /**
+   * Return the center of viewport, e.g. for a 500 * 500 canvas, its center is [250, 250].
+   */
+  getViewportCenter: () => PointLike;
+  /**
    * Fit the graph content to the view.
-   * @param padding padding while fitting
-   * @param rules rules for fitting
+   * @param options.padding padding while fitting
+   * @param options.rules rules for fitting
    * @param effectTiming animation configurations
    * @returns
    * @group View
    */
   fitView: (
-    padding?: Padding,
-    rules?: FitViewRules,
+    options?: {
+      padding: Padding;
+      rules: FitViewRules;
+    },
     effectTiming?: CameraAnimationOptions,
   ) => Promise<void>;
   /**
