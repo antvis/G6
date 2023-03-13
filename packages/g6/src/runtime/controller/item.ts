@@ -84,7 +84,7 @@ export class ItemController {
     this.graph.hooks.render.tap(this.onRender.bind(this));
     this.graph.hooks.itemchange.tap(this.onChange.bind(this));
     this.graph.hooks.itemstatechange.tap(this.onItemStateChange.bind(this));
-    this.graph.hooks.transientupdate.tap(this.onTransientUdpate.bind(this));
+    this.graph.hooks.transientupdate.tap(this.onTransientUpdate.bind(this));
   }
 
   /**
@@ -300,7 +300,7 @@ export class ItemController {
     });
   }
 
-  private onTransientUdpate(param: { type: ITEM_TYPE | SHAPE_TYPE, id: ID, config: any, canvas: Canvas }) {
+  private onTransientUpdate(param: { type: ITEM_TYPE | SHAPE_TYPE, id: ID, config: any, canvas: Canvas }) {
     const { transientMap } = this;
     const { type, id, config = {}, canvas } = param;
     const { style, capture, action } = config;
@@ -309,7 +309,7 @@ export class ItemController {
       preObj.remove(true);
       return;
     }
-    
+
     if (type === 'node' || type === 'edge' || type === 'combo') {
       // TODO: clone the item with id and modify the style according to config
       // if (preItem) { update }

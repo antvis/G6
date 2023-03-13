@@ -127,7 +127,7 @@ export default abstract class Item implements IItem {
    * Maps (mapper will be function, value, or encode format) model to displayModel and find out the shapes to be update for incremental updating.
    * @param model inner model
    * @param diffData changes from graphCore changed event
-   * @param isReplace whether replace the whole data or partial udpate
+   * @param isReplace whether replace the whole data or partial update
    * @returns
    */
   public getDisplayModelAndChanges(
