@@ -125,7 +125,7 @@ export default class BrushSelect extends Behavior {
     }
   }
 
-  private isKeydown = (event: MouseEvent) => {
+  private isKeydown(event: MouseEvent) {
     const trigger = this.options.trigger;
     const keyMap: Record<Trigger, boolean> = {
       drag: true,
@@ -137,7 +137,7 @@ export default class BrushSelect extends Behavior {
     return keyMap[trigger];
   };
 
-  onMouseDown = (event: IG6GraphEvent) => {
+  public onMouseDown (event: IG6GraphEvent) {
     if (!this.options.shouldBegin(event)) return;
     const { itemId, canvas } = event;
     // should not begin at an item
@@ -159,7 +159,7 @@ export default class BrushSelect extends Behavior {
     // this.dragging = true;
   };
 
-  onMouseMove = (event: IG6GraphEvent) => {
+  public onMouseMove (event: IG6GraphEvent) {
     if (!this.mousedown) return;  // TODO: no need if the drag events are supported on graph, use dragging instead
     // if (!this.dragging) return;
     if (!this.isKeydown(event as any)) return;
@@ -168,18 +168,13 @@ export default class BrushSelect extends Behavior {
     this.brush = this.updateBrush(event);
   };
 
-  onMouseUp = (event: IG6GraphEvent) => {
+  public onMouseUp (event: IG6GraphEvent) {
     if (!this.dragging || !this.isKeydown(event as any)) {
       if (this.mousedown) this.clearStates();
       return;
     }
 
-    const { graph } = this;
-    graph.drawTransient(
-      'rect', 
-      BRUSH_SHAPE_ID,
-      { action: 'remove' }
-    );
+    this.removeBrush();
     this.brush = null;
     this.selectedIds = this.selectItems(event);
     this.dragging = false;
@@ -232,8 +227,9 @@ export default class BrushSelect extends Behavior {
   selectItems = (event: IG6GraphEvent) => {
     const { beginPoint, graph, options } = this;
     const { selectedState, itemTypes, eventName, selectSetMode, shouldUpdate, onSelect } = options;
-    const { canvas: currentPoint } = event;
-    let selectedIds = utils.rectSelector(graph, beginPoint, currentPoint, itemTypes.concat('node'));
+    const selector = this.getSelector();
+    const points = this.getPoints(event);
+    let selectedIds = selector(graph, points, itemTypes.concat('node'));
     let operateSetFunc = (a, b) => b;
     const currentNotEmpty = this.selectedIds.nodes.length || this.selectedIds.edges.length || this.selectedIds.combos.length
 
@@ -326,7 +322,26 @@ export default class BrushSelect extends Behavior {
     )
     return brush;
   }
+
+  removeBrush = () => {
+    const { graph } = this;
+    graph.drawTransient(
+      'rect', 
+      BRUSH_SHAPE_ID,
+      { action: 'remove' }
+    );
+  }
+
+  getSelector = () => {
+    return utils.rectSelector;
+  }
+
+  getPoints = (event: IG6GraphEvent) => {
+    const { canvas: point } = event;
+    return [this.beginPoint, point];
+  }
+
   destroy() {
-    this.graph.drawTransient('rect', BRUSH_SHAPE_ID, { action: 'remove' })
+    this.removeBrush();
   }
 };

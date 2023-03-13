@@ -3,6 +3,7 @@ import { IGraph } from "../../types";
 import { Point } from "../../types/common";
 import { ITEM_TYPE } from "../../types/item";
 import { getEdgesBetween } from '../../util/item';
+import { isPolygonsIntersect } from '../../util/shape';
 
 /**
  * Rect selector to find nodes/edge/combos which are in the area of the rect with diagonal points p1 and p2.
@@ -11,33 +12,29 @@ import { getEdgesBetween } from '../../util/item';
  * A combo is selected if the center of its bbox is inside the rect.
  */
 export default (graph: IGraph, points: Point[], itemTypes: ITEM_TYPE[]) => {
-  const [p1, p2] = points;
-  const left = Math.min(p1.x, p2.x);
-  const right = Math.max(p1.x, p2.x);
-  const top = Math.min(p1.y, p2.y);
-  const bottom = Math.max(p1.y, p2.y);
-  const selectedNodeIds: ID[] = [];
-  const selectedComboIds: ID[] = [];
-  let selectedEdgeIds: ID[] = [];
-
+  const lassoContour = points.map((point) => [
+    point.x,
+    point.y,
+  ]);
+  const selectedNodeIds = [];
+  let selectedEdgeIds = [];
+  const selectedComboIds = [];
   if (itemTypes.includes('node')) {
     graph.getAllNodesData().forEach((node) => {
       const { id } = node;
-      if (
-        graph.getItemVisible(id) && // hidden node is not selectable
-        isBBoxCenterInRect(graph, id, left, right, top, bottom)
-      ) {
+      if (!graph.getItemVisible(id)) return; // 隐藏节点不能被选中
+      if (isItemIntersecPolygon(graph, id, lassoContour)) {
         selectedNodeIds.push(id);
       }
     });
   }
-  
+
   if (itemTypes.includes('combo')) {
     graph.getAllCombosData().forEach((combo) => {
       const { id } = combo;
       if (
         graph.getItemVisible(id) && // hidden combo is not selectable
-        isBBoxCenterInRect(graph, id, left, right, top, bottom)
+        isItemIntersecPolygon(graph, id, lassoContour)
       ) {
         selectedComboIds.push(id);
       }
@@ -45,7 +42,7 @@ export default (graph: IGraph, points: Point[], itemTypes: ITEM_TYPE[]) => {
   }
 
   if (itemTypes.includes('edge')) {
-    // The edge is selected while both the source and target node are selected.
+    // 选中边，边的source和target都在选中的节点中时才选中
     selectedEdgeIds = getEdgesBetween(graph, selectedNodeIds.concat(selectedComboIds));
   }
 
@@ -55,14 +52,21 @@ export default (graph: IGraph, points: Point[], itemTypes: ITEM_TYPE[]) => {
     combos: selectedComboIds
   };
 }
-
-const isBBoxCenterInRect = (graph: IGraph, id: ID, left: number, right: number, top: number, bottom: number) => {
-  const bbox = graph.getRenderBBox(id);
-  if (!bbox) return false;
-  return (
-    bbox.center[0] >= left &&
-    bbox.center[0] <= right &&
-    bbox.center[1] >= top &&
-    bbox.center[1] <= bottom
-  );
-}
+const isItemIntersecPolygon = (graph: IGraph, id: ID, polyPoints: number[][]) => {
+  let shapePoints;
+  // TODO
+  // const shape = item.getKeyShape();
+  // if (item.get('type') === 'path') {
+  //   shapePoints = pathToPoints(shape.attr('path'));
+  // } else {
+    const shapeBBox = graph.getRenderBBox(id);
+    if (!shapeBBox) return false;
+    shapePoints = [
+      [shapeBBox.min[0], shapeBBox.min[1]],
+      [shapeBBox.max[0], shapeBBox.min[1]],
+      [shapeBBox.max[0], shapeBBox.max[1]],
+      [shapeBBox.min[0], shapeBBox.max[1]],
+    ];
+  // }
+  return isPolygonsIntersect(polyPoints, shapePoints);
+};

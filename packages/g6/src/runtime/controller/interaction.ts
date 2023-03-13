@@ -106,7 +106,7 @@ export class InteractionController {
     this.listenersMap[type] = {};
     Object.keys(events).forEach(eventName => {
       // Wrap the listener with error logging.
-      const listener = wrapListener(type, eventName, events[eventName]);
+      const listener = wrapListener(type, eventName, events[eventName].bind(behavior));
       this.graph.on(eventName, listener);
       this.listenersMap[type][eventName] = listener;
     });

@@ -1,5 +1,5 @@
 import { ID } from '@antv/graphlib';
-import { AABB } from '@antv/g';
+import { AABB, CircleStyleProps, RectStyleProps, EllipseStyleProps, PolygonStyleProps, LineStyleProps, PathStyleProps, PolylineStyleProps, TextStyleProps, ImageStyleProps } from '@antv/g';
 import { AnimateAttr } from './animate';
 import {
   ComboDisplayModel,
@@ -20,6 +20,8 @@ export interface ShapeStyle {
   height?: number;
   r?: number;
 }
+
+export type GShapeStyle = CircleStyleProps & RectStyleProps & EllipseStyleProps & PolygonStyleProps & LineStyleProps & PolylineStyleProps & TextStyleProps & ImageStyleProps & PathStyleProps;
 
 export interface Encode<T> {
   fields: string[];
@@ -49,7 +51,7 @@ export interface ShapesEncode {
     };
   };
 }
-export type SHAPE_TYPE = 'rect' | 'circle' | 'ellipse' | 'polygon' | 'image' | 'polyline' | 'line' | 'text';
+export type SHAPE_TYPE = 'rect' | 'circle' | 'ellipse' | 'polygon' | 'image' | 'polyline' | 'line' | 'path' | 'text';
 
 export type ITEM_TYPE = 'node' | 'edge' | 'combo';
 

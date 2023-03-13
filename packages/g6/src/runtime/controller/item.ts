@@ -305,7 +305,7 @@ export class ItemController {
     const { type, id, config = {}, canvas } = param;
     const { style, capture, action } = config;
     const preObj = transientMap[id];
-    if (!preObj?.destroyed && action === 'remove') {
+    if (preObj && !preObj?.destroyed && action === 'remove') {
       preObj.remove(true);
       return;
     }

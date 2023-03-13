@@ -3,6 +3,7 @@ import { Lib } from '../types/stdlib';
 import DragCanvas from './behavior/drag-canvas';
 import ClickSelect from "./behavior/click-select";
 import BrushSelect from './behavior/brush-select';
+import LassoSelect from './behavior/lasso-select';
 import { comboFromNode } from './data/comboFromNode';
 import { LineEdge } from './item/edge';
 import { CircleNode } from './item/node';
@@ -11,6 +12,7 @@ import LightTheme from './theme/light';
 import DarkTheme from './theme/dark';
 import SubjectThemeSolver from './themeSolver/subject';
 import rectSelector from './selector/rect';
+import lassoSelector from './selector/lasso';
 
 const stdLib = {
   transforms: {
@@ -29,6 +31,7 @@ const stdLib = {
     'drag-canvas': DragCanvas,
     'click-select': ClickSelect,
     'brush-select': BrushSelect,
+    'lasso-select': LassoSelect
   },
   plugins: {},
   nodes: {
@@ -52,7 +55,8 @@ const useLib: Lib = {
 };
 
 const utils = {
-  rectSelector
+  rectSelector,
+  lassoSelector
 }
 
 const registery = { useLib };

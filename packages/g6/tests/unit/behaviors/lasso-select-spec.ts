@@ -3,8 +3,8 @@ const container = document.createElement('div');
 document.querySelector('body').appendChild(container);
 
 
-describe('brush-select behavior with selectSetMode', () => {
-  it('brush-select with default selectSetMode: latest', (done) => {
+describe('lasso-select behavior with selectSetMode', () => {
+  it('lasso-select with default selectSetMode: latest', (done) => {
     let times = 0;
     const graph = new G6.Graph({
       container,
@@ -26,7 +26,7 @@ describe('brush-select behavior with selectSetMode', () => {
       modes: {
         default: [{
           key: 'x',
-          type: 'brush-select',
+          type: 'lasso-select',
           onSelect: (selectedIds) => {
             if (times === 0 || times === 2) {
               expect(selectedIds.nodes.length).toBe(1);
@@ -82,7 +82,8 @@ describe('brush-select behavior with selectSetMode', () => {
     graph.on('afterlayout', e => {
       graph.emit('canvas:pointerdown', { canvas: {x: 100, y: 50 }, shiftKey: true });
       graph.emit('canvas:pointermove', { canvas: { x: 200, y: 150 }, shiftKey: true });
-      graph.emit('canvas:pointerup', { canvas: { x: 200, y: 150 }, shiftKey: true });
+      graph.emit('canvas:pointermove', { canvas: { x: 200, y: 50 }, shiftKey: true });
+      graph.emit('canvas:pointerup', { canvas: { x: 200, y: 50 }, shiftKey: true });
       // expect in onSelect
       graph.emit('canvas:pointerdown', { canvas: {x: 100, y: 50 }, shiftKey: true });
       graph.emit('canvas:pointerup', { canvas: { x: 200, y: 150 }, shiftKey: true });
@@ -90,13 +91,16 @@ describe('brush-select behavior with selectSetMode', () => {
 
       times ++;
       graph.emit('canvas:pointerdown', { canvas: {x: 100, y: 50 }, shiftKey: true });
-      graph.emit('canvas:pointermove', { canvas: { x: 200, y: 150 }, shiftKey: true });
-      graph.emit('canvas:pointerup', { canvas: { x: 200, y: 250 }, shiftKey: true });
-      // // expect in onSelect
+      graph.emit('canvas:pointermove', { canvas: { x: 100, y: 250 }, shiftKey: true });
+      graph.emit('canvas:pointermove', { canvas: { x: 200, y: 250 }, shiftKey: true });
+      graph.emit('canvas:pointermove', { canvas: { x: 200, y: 50 }, shiftKey: true });
+      graph.emit('canvas:pointerup', { canvas: { x: 200, y: 50 }, shiftKey: true });
+      // expect in onSelect
 
       times ++;
       graph.emit('canvas:pointerdown', { canvas: {x: 100, y: 50 }, shiftKey: true });
       graph.emit('canvas:pointermove', { canvas: { x: 200, y: 150 }, shiftKey: true });
+      graph.emit('canvas:pointermove', { canvas: { x: 200, y: 50 }, shiftKey: true });
       graph.emit('canvas:pointerup', { canvas: { x: 200, y: 150 }, shiftKey: true });
       // expect in onSelect
 
@@ -105,7 +109,7 @@ describe('brush-select behavior with selectSetMode', () => {
     });
 
   });
-  it('brush-select with selectSetMode: diff', (done) => {
+  it('lasso-select with selectSetMode: diff', (done) => {
     let times = 0;
     const graph = new G6.Graph({
       container,
@@ -127,7 +131,7 @@ describe('brush-select behavior with selectSetMode', () => {
       modes: {
         default: [{
           key: 'x',
-          type: 'brush-select',
+          type: 'lasso-select',
           selectSetMode: 'diff',
           onSelect: (selectedIds) => {
             if (times === 0) {
@@ -183,8 +187,10 @@ describe('brush-select behavior with selectSetMode', () => {
     graph.on('afterlayout', e => {
       // select two nodes
       graph.emit('canvas:pointerdown', { canvas: {x: 100, y: 50 }, shiftKey: true });
+      graph.emit('canvas:pointermove', { canvas: { x: 100, y: 250 }, shiftKey: true });
       graph.emit('canvas:pointermove', { canvas: { x: 200, y: 150 }, shiftKey: true });
-      graph.emit('canvas:pointerup', { canvas: { x: 200, y: 250 }, shiftKey: true });
+      graph.emit('canvas:pointermove', { canvas: { x: 100, y: 50 }, shiftKey: true });
+      graph.emit('canvas:pointerup', { canvas: { x: 100, y: 250 }, shiftKey: true });
       // expect in onSelect
 
       // brush one of the selected nodes, the brushed one will be deselect
@@ -198,7 +204,7 @@ describe('brush-select behavior with selectSetMode', () => {
       done();
     });
   });
-  it('brush-select with selectSetMode: union', (done) => {
+  it('lasso-select with selectSetMode: union', (done) => {
     let times = 0;
     const graph = new G6.Graph({
       container,
@@ -220,7 +226,7 @@ describe('brush-select behavior with selectSetMode', () => {
       modes: {
         default: [{
           key: 'x',
-          type: 'brush-select',
+          type: 'lasso-select',
           selectSetMode: 'union',
           onSelect: (selectedIds) => {
             if (times === 0) {
@@ -272,7 +278,8 @@ describe('brush-select behavior with selectSetMode', () => {
     graph.on('afterlayout', e => {
       // select one nodes
       graph.emit('canvas:pointerdown', { canvas: {x: 100, y: 50 }, shiftKey: true });
-      graph.emit('canvas:pointermove', { canvas: { x: 200, y: 150 }, shiftKey: true });
+      graph.emit('canvas:pointermove', { canvas: {x: 100, y: 150 }, shiftKey: true });
+      graph.emit('canvas:pointermove', { canvas: {x: 200, y: 50 }, shiftKey: true });
       graph.emit('canvas:pointerup', { canvas: { x: 200, y: 150 }, shiftKey: true });
       // expect in onSelect
 
@@ -280,6 +287,7 @@ describe('brush-select behavior with selectSetMode', () => {
       times ++;
       graph.emit('canvas:pointerdown', { canvas: {x: 100, y: 150 }, shiftKey: true });
       graph.emit('canvas:pointermove', { canvas: { x: 200, y: 250 }, shiftKey: true });
+      graph.emit('canvas:pointermove', { canvas: { x: 100, y: 250 }, shiftKey: true });
       graph.emit('canvas:pointerup', { canvas: { x: 200, y: 250 }, shiftKey: true });
       // expect in onSelect
       graph.emit('canvas:pointerdown', { canvas: {x: 100, y: 150 }, shiftKey: true });
@@ -289,7 +297,7 @@ describe('brush-select behavior with selectSetMode', () => {
       done();
     });
   });
-  it('brush-select with selectSetMode: intersect', (done) => {
+  it('lasso-select with selectSetMode: intersect', (done) => {
     let times = 0;
     const graph = new G6.Graph({
       container,
@@ -311,7 +319,7 @@ describe('brush-select behavior with selectSetMode', () => {
       modes: {
         default: [{
           key: 'x',
-          type: 'brush-select',
+          type: 'lasso-select',
           selectSetMode: 'intersect',
           onSelect: (selectedIds) => {
             if (times === 0 || times === 3) {
@@ -384,6 +392,7 @@ describe('brush-select behavior with selectSetMode', () => {
       // select one nodes
       graph.emit('canvas:pointerdown', { canvas: {x: 100, y: 50 }, shiftKey: true });
       graph.emit('canvas:pointermove', { canvas: { x: 200, y: 150 }, shiftKey: true });
+      graph.emit('canvas:pointermove', { canvas: { x: 200, y: 50 }, shiftKey: true });
       graph.emit('canvas:pointerup', { canvas: { x: 200, y: 150 }, shiftKey: true });
       // expect in onSelect
 
@@ -391,18 +400,22 @@ describe('brush-select behavior with selectSetMode', () => {
       times ++;
       graph.emit('canvas:pointerdown', { canvas: {x: 100, y: 150 }, shiftKey: true });
       graph.emit('canvas:pointermove', { canvas: { x: 200, y: 250 }, shiftKey: true });
+      graph.emit('canvas:pointermove', { canvas: { x: 100, y: 250 }, shiftKey: true });
       graph.emit('canvas:pointerup', { canvas: { x: 200, y: 250 }, shiftKey: true });
 
       // brush all
       times ++;
       graph.emit('canvas:pointerdown', { canvas: {x: 100, y: 50 }, shiftKey: true });
+      graph.emit('canvas:pointermove', { canvas: { x: 100, y: 250 }, shiftKey: true });
       graph.emit('canvas:pointermove', { canvas: { x: 200, y: 250 }, shiftKey: true });
-      graph.emit('canvas:pointerup', { canvas: { x: 200, y: 250 }, shiftKey: true });
+      graph.emit('canvas:pointermove', { canvas: { x: 200, y: 50 }, shiftKey: true });
+      graph.emit('canvas:pointerup', { canvas: { x: 200, y: 50 }, shiftKey: true });
       
       // brush one of it
       times ++;
       graph.emit('canvas:pointerdown', { canvas: {x: 100, y: 150 }, shiftKey: true });
       graph.emit('canvas:pointermove', { canvas: { x: 200, y: 250 }, shiftKey: true });
+      graph.emit('canvas:pointermove', { canvas: { x: 100, y: 250 }, shiftKey: true });
       graph.emit('canvas:pointerup', { canvas: { x: 200, y: 250 }, shiftKey: true });
 
       graph.destroy();
@@ -412,8 +425,8 @@ describe('brush-select behavior with selectSetMode', () => {
 });
 
 
-describe('brush-select behavior with itemTypes', () => {
-  it('brush-select with itemTypes: [node]', (done) => {
+describe('lasso-select behavior with itemTypes', () => {
+  it('lasso-select with itemTypes: [node]', (done) => {
     let times = 0;
     const graph = new G6.Graph({
       container,
@@ -435,7 +448,7 @@ describe('brush-select behavior with itemTypes', () => {
       modes: {
         default: [{
           key: 'x',
-          type: 'brush-select',
+          type: 'lasso-select',
           itemTypes: ['node'],
           onSelect: (selectedIds) => {
             if (times === 0 || times === 2) {
@@ -492,7 +505,8 @@ describe('brush-select behavior with itemTypes', () => {
     graph.on('afterlayout', e => {
       graph.emit('canvas:pointerdown', { canvas: {x: 100, y: 50 }, shiftKey: true });
       graph.emit('canvas:pointermove', { canvas: { x: 200, y: 150 }, shiftKey: true });
-      graph.emit('canvas:pointerup', { canvas: { x: 200, y: 150 }, shiftKey: true });
+      graph.emit('canvas:pointermove', { canvas: { x: 100, y: 150 }, shiftKey: true });
+      graph.emit('canvas:pointerup', { canvas: { x: 100, y: 150 }, shiftKey: true });
       // expect in onSelect
       graph.emit('canvas:pointerdown', { canvas: {x: 100, y: 50 }, shiftKey: true });
       graph.emit('canvas:pointerup', { canvas: { x: 200, y: 150 }, shiftKey: true });
@@ -500,14 +514,16 @@ describe('brush-select behavior with itemTypes', () => {
 
       times ++;
       graph.emit('canvas:pointerdown', { canvas: {x: 100, y: 50 }, shiftKey: true });
-      graph.emit('canvas:pointermove', { canvas: { x: 200, y: 150 }, shiftKey: true });
-      graph.emit('canvas:pointerup', { canvas: { x: 200, y: 250 }, shiftKey: true });
-      // // expect in onSelect
+      graph.emit('canvas:pointermove', { canvas: { x: 100, y: 250 }, shiftKey: true });
+      graph.emit('canvas:pointermove', { canvas: { x: 200, y: 250 }, shiftKey: true });
+      graph.emit('canvas:pointerup', { canvas: { x: 200, y: 50 }, shiftKey: true });
+      // expect in onSelect
 
       times ++;
       graph.emit('canvas:pointerdown', { canvas: {x: 100, y: 50 }, shiftKey: true });
       graph.emit('canvas:pointermove', { canvas: { x: 200, y: 150 }, shiftKey: true });
-      graph.emit('canvas:pointerup', { canvas: { x: 200, y: 150 }, shiftKey: true });
+      graph.emit('canvas:pointermove', { canvas: { x: 100, y: 150 }, shiftKey: true });
+      graph.emit('canvas:pointerup', { canvas: { x: 100, y: 150 }, shiftKey: true });
       // expect in onSelect
 
       graph.destroy();
@@ -515,7 +531,7 @@ describe('brush-select behavior with itemTypes', () => {
     });
 
   });
-  it('brush-select with itemTypes: [edge]', (done) => {
+  it('lasso-select with itemTypes: [edge]', (done) => {
     const graph = new G6.Graph({
       container,
       width: 500,
@@ -536,7 +552,7 @@ describe('brush-select behavior with itemTypes', () => {
       modes: {
         default: [{
           key: 'x',
-          type: 'brush-select',
+          type: 'lasso-select',
           itemTypes: ['edge'],
           onSelect: (selectedIds) => {
             expect(selectedIds.nodes.length).toBe(0);
@@ -575,8 +591,10 @@ describe('brush-select behavior with itemTypes', () => {
 
     graph.on('afterlayout', e => {
       graph.emit('canvas:pointerdown', { canvas: {x: 100, y: 50 }, shiftKey: true });
-      graph.emit('canvas:pointermove', { canvas: { x: 200, y: 150 }, shiftKey: true });
-      graph.emit('canvas:pointerup', { canvas: { x: 200, y: 250 }, shiftKey: true });
+      graph.emit('canvas:pointermove', { canvas: { x: 100, y: 250 }, shiftKey: true });
+      graph.emit('canvas:pointermove', { canvas: { x: 200, y: 250 }, shiftKey: true });
+      graph.emit('canvas:pointermove', { canvas: { x: 200, y: 50 }, shiftKey: true });
+      graph.emit('canvas:pointerup', { canvas: { x: 200, y: 50 }, shiftKey: true });
       // expect in onSelect
       graph.emit('canvas:pointerdown', { canvas: {x: 100, y: 50 }, shiftKey: true });
       graph.emit('canvas:pointerup', { canvas: { x: 200, y: 150 }, shiftKey: true });
@@ -587,7 +605,7 @@ describe('brush-select behavior with itemTypes', () => {
     });
 
   });
-  it('brush-select with itemTypes: []', (done) => {
+  it('lasso-select with itemTypes: []', (done) => {
     const graph = new G6.Graph({
       container,
       width: 500,
@@ -608,7 +626,7 @@ describe('brush-select behavior with itemTypes', () => {
       modes: {
         default: [{
           key: 'x',
-          type: 'brush-select',
+          type: 'lasso-select',
           itemTypes: [],
           onSelect: (selectedIds) => {
             expect(selectedIds.nodes.length).toBe(0);
@@ -648,6 +666,7 @@ describe('brush-select behavior with itemTypes', () => {
     graph.on('afterlayout', e => {
       graph.emit('canvas:pointerdown', { canvas: {x: 100, y: 50 }, shiftKey: true });
       graph.emit('canvas:pointermove', { canvas: { x: 200, y: 150 }, shiftKey: true });
+      graph.emit('canvas:pointermove', { canvas: { x: 200, y: 50 }, shiftKey: true });
       graph.emit('canvas:pointerup', { canvas: { x: 200, y: 250 }, shiftKey: true });
       // expect in onSelect
       graph.emit('canvas:pointerdown', { canvas: {x: 100, y: 50 }, shiftKey: true });
@@ -661,8 +680,8 @@ describe('brush-select behavior with itemTypes', () => {
   });
 });
 
-describe('brush-select behavior with trigger', () => {
-  it('brush-select with trigger: drag', (done) => {
+describe('lasso-select behavior with trigger', () => {
+  it('lasso-select with trigger: drag', (done) => {
     let times = 0;
     const graph = new G6.Graph({
       container,
@@ -684,7 +703,7 @@ describe('brush-select behavior with trigger', () => {
       modes: {
         default: [{
           key: 'x',
-          type: 'brush-select',
+          type: 'lasso-select',
           trigger: 'drag',
           onSelect: (selectedIds) => {
             if (times === 0 || times === 2) {
@@ -741,7 +760,8 @@ describe('brush-select behavior with trigger', () => {
     graph.on('afterlayout', e => {
       graph.emit('canvas:pointerdown', { canvas: { x: 100, y: 50 } });
       graph.emit('canvas:pointermove', { canvas: { x: 200, y: 150 } });
-      graph.emit('canvas:pointerup', { canvas: { x: 200, y: 150 } });
+      graph.emit('canvas:pointermove', { canvas: { x: 200, y: 50 } });
+      graph.emit('canvas:pointerup', { canvas: { x: 200, y: 50 } });
       // expect in onSelect
       graph.emit('canvas:pointerdown', { canvas: {x: 100, y: 50 } });
       graph.emit('canvas:pointerup', { canvas: { x: 200, y: 150 } });
@@ -749,13 +769,16 @@ describe('brush-select behavior with trigger', () => {
 
       times ++;
       graph.emit('canvas:pointerdown', { canvas: {x: 100, y: 50 } });
-      graph.emit('canvas:pointermove', { canvas: { x: 200, y: 150 } });
-      graph.emit('canvas:pointerup', { canvas: { x: 200, y: 250 } });
+      graph.emit('canvas:pointermove', { canvas: { x: 100, y: 250 } });
+      graph.emit('canvas:pointermove', { canvas: { x: 200, y: 250 } });
+      graph.emit('canvas:pointermove', { canvas: { x: 200, y: 50 } });
+      graph.emit('canvas:pointerup', { canvas: { x: 200, y: 50 } });
       // expect in onSelect
 
       times ++;
       graph.emit('canvas:pointerdown', { canvas: {x: 100, y: 50 } });
       graph.emit('canvas:pointermove', { canvas: { x: 200, y: 150 } });
+      graph.emit('canvas:pointermove', { canvas: { x: 200, y: 50 } });
       graph.emit('canvas:pointerup', { canvas: { x: 200, y: 150 } });
       // expect in onSelect
 
@@ -764,7 +787,7 @@ describe('brush-select behavior with trigger', () => {
     });
 
   });
-  it('brush-select with trigger: ctrl', (done) => {
+  it('lasso-select with trigger: ctrl', (done) => {
     let times = 0;
     const graph = new G6.Graph({
       container,
@@ -786,7 +809,7 @@ describe('brush-select behavior with trigger', () => {
       modes: {
         default: [{
           key: 'x',
-          type: 'brush-select',
+          type: 'lasso-select',
           trigger: 'ctrl',
           onSelect: (selectedIds) => {
             if (times === 0 || times === 2) {
@@ -843,7 +866,8 @@ describe('brush-select behavior with trigger', () => {
     graph.on('afterlayout', e => {
       graph.emit('canvas:pointerdown', { canvas: { x: 100, y: 50 }, ctrlKey: true });
       graph.emit('canvas:pointermove', { canvas: { x: 200, y: 150 }, ctrlKey: true });
-      graph.emit('canvas:pointerup', { canvas: { x: 200, y: 150 }, ctrlKey: true });
+      graph.emit('canvas:pointermove', { canvas: { x: 200, y: 50 }, ctrlKey: true });
+      graph.emit('canvas:pointerup', { canvas: { x: 200, y: 50 }, ctrlKey: true });
       // expect in onSelect
       graph.emit('canvas:pointerdown', { canvas: {x: 100, y: 50 }, ctrlKey: true });
       graph.emit('canvas:pointerup', { canvas: { x: 200, y: 150 }, ctrlKey: true });
@@ -851,14 +875,17 @@ describe('brush-select behavior with trigger', () => {
 
       times ++;
       graph.emit('canvas:pointerdown', { canvas: {x: 100, y: 50 }, ctrlKey: true });
-      graph.emit('canvas:pointermove', { canvas: { x: 200, y: 150 }, ctrlKey: true });
-      graph.emit('canvas:pointerup', { canvas: { x: 200, y: 250 }, ctrlKey: true });
+      graph.emit('canvas:pointermove', { canvas: { x: 100, y: 250 }, ctrlKey: true });
+      graph.emit('canvas:pointermove', { canvas: { x: 200, y: 250 }, ctrlKey: true });
+      graph.emit('canvas:pointermove', { canvas: { x: 200, y: 50 }, ctrlKey: true });
+      graph.emit('canvas:pointerup', { canvas: { x: 200, y: 50 }, ctrlKey: true });
       // expect in onSelect
 
       times ++;
       graph.emit('canvas:pointerdown', { canvas: {x: 100, y: 50 }, ctrlKey: true });
       graph.emit('canvas:pointermove', { canvas: { x: 200, y: 150 }, ctrlKey: true });
-      graph.emit('canvas:pointerup', { canvas: { x: 200, y: 150 }, ctrlKey: true });
+      graph.emit('canvas:pointermove', { canvas: { x: 200, y: 50 }, ctrlKey: true });
+      graph.emit('canvas:pointerup', { canvas: { x: 200, y: 50 }, ctrlKey: true });
       // expect in onSelect
 
       graph.destroy();
@@ -868,8 +895,8 @@ describe('brush-select behavior with trigger', () => {
   });
 });
 
-describe('brush-select behavior with shouldBegin and shouldUpdate', () => {
-  it('brush-select with shouldBegin, shouldUpdate', (done) => {
+describe('lasso-select behavior with shouldBegin and shouldUpdate', () => {
+  it('lasso-select with shouldBegin, shouldUpdate', (done) => {
     let times = 0;
     const graph = new G6.Graph({
       container,
@@ -891,7 +918,7 @@ describe('brush-select behavior with shouldBegin and shouldUpdate', () => {
       modes: {
         default: [{
           key: 'x',
-          type: 'brush-select',
+          type: 'lasso-select',
           shouldBegin: (evt) => {
             const { canvas } = evt;
             if (canvas.x === 0 && canvas.y === 0) return false;
@@ -952,9 +979,10 @@ describe('brush-select behavior with shouldBegin and shouldUpdate', () => {
       graph.emit('canvas:pointerup', { canvas: { x: 200, y: 250 }, shiftKey: true })
 
       times ++;
-      graph.emit('canvas:pointerdown', { canvas: { x: 100, y: 50 }, shiftKey: true });
-      graph.emit('canvas:pointermove', { canvas: { x: 200, y: 150 }, shiftKey: true });
-      graph.emit('canvas:pointerup', { canvas: { x: 200, y: 250 }, shiftKey: true });
+      graph.emit('canvas:pointerdown', { canvas: { x: 100, y: 200 }, shiftKey: true });
+      graph.emit('canvas:pointermove', { canvas: { x: 200, y: 300 }, shiftKey: true });
+      graph.emit('canvas:pointermove', { canvas: { x: 200, y: 200 }, shiftKey: true });
+      graph.emit('canvas:pointerup', { canvas: { x: 200, y: 200 }, shiftKey: true });
 
       // expect in onSelect
       graph.emit('canvas:pointerdown', { canvas: {x: 0, y: 0 }, shiftKey: true });
@@ -976,8 +1004,8 @@ describe('brush-select behavior with shouldBegin and shouldUpdate', () => {
 });
 
 
-describe('brush-select behavior with brushStyle', () => {
-  it('brush-select with brushStyle', (done) => {
+describe('lasso-select behavior with brushStyle', () => {
+  it('lasso-select with brushStyle', (done) => {
     let times = 0;
     const graph = new G6.Graph({
       container,
@@ -999,7 +1027,7 @@ describe('brush-select behavior with brushStyle', () => {
       modes: {
         default: [{
           key: 'x',
-          type: 'brush-select',
+          type: 'lasso-select',
           brushStyle: {
             fill: '#f00',
             fillOpacity: 0.5
@@ -1025,8 +1053,10 @@ describe('brush-select behavior with brushStyle', () => {
     graph.on('afterlayout', e => {
       graph.emit('canvas:pointerdown', { canvas: { x: 0, y: 0 }, shiftKey: true });
       graph.emit('canvas:pointermove', { canvas: { x: 200, y: 150 }, shiftKey: true });
+      graph.emit('canvas:pointermove', { canvas: { x: 200, y: 50 }, shiftKey: true });
+      // console.log('root', graph.transientCanvas.getRoot())
       expect(graph.transientCanvas.getRoot().childNodes.length).toBe(1);
-      expect(graph.transientCanvas.getRoot().childNodes[0].config.id).toBe('g6-brush-select-brush-shape');
+      expect(graph.transientCanvas.getRoot().childNodes[0].config.id).toBe('g6-lasso-select-brush-shape');
       expect(graph.transientCanvas.getRoot().childNodes[0].style.fill).toBe('#f00');
       expect(graph.transientCanvas.getRoot().childNodes[0].style.fillOpacity).toBe(0.5);
       graph.emit('canvas:pointerup', { canvas: { x: 200, y: 150 }, shiftKey: true });
