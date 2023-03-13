@@ -69,6 +69,15 @@ export class DataController {
     }
   }
 
+  public findRelatedEdgeIds(nodeId: ID, direction: 'in' | 'out' | 'both' = 'both') {
+    return this.graphCore.getRelatedEdges(nodeId, direction);
+  }
+  public findNeighborNodeIds(nodeId: ID, direction: 'in' | 'out' | 'both' = 'both') {
+    if (direction === 'in') return this.graphCore.getAncestors(nodeId);
+    if (direction === 'out') return this.graphCore.getSuccessors(nodeId);
+    return this.graphCore.getNeighbors(nodeId);
+  }
+
   /**
    * Subscribe the lifecycle of graph.
    */

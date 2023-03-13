@@ -54,9 +54,4 @@ export default class Node extends Item {
     this.group.style.x = x;
     this.group.style.y = y;
   }
-
-  public getKeyBBox() {
-    const { keyShape } = this.shapeMap;
-    return keyShape?.getRenderBounds() || { center: [0, 0, 0] };
-  }
 }

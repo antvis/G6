@@ -1,4 +1,4 @@
-import { Group, DisplayObject } from '@antv/g';
+import { Group, DisplayObject, AABB } from '@antv/g';
 import { clone, isFunction } from '@antv/util';
 import { OTHER_SHAPES_FIELD_NAME, RESERVED_SHAPE_IDS } from '../constant';
 import { EdgeShapeMap } from '../types/edge';
@@ -405,6 +405,23 @@ export default abstract class Item implements IItem {
         current: this.states,
       }
     );
+  }
+
+  /**
+   * Get the rendering bouding box of the keyShape.
+   * @returns keyShape's rendering bounding box
+   */
+  public getKeyBBox(): AABB {
+    const { keyShape } = this.shapeMap;
+    return keyShape?.getRenderBounds() || { center: [0, 0, 0] } as AABB;
+  }
+
+  /**
+   * Get the rendering bouding box of the whole item.
+   * @returns item's rendering bounding box
+   */
+  public getBBox(): AABB {
+    return this.group.getRenderBounds();
   }
 }
 

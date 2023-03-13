@@ -1,4 +1,5 @@
 import { ID } from '@antv/graphlib';
+import { AABB } from '@antv/g';
 import { AnimateAttr } from './animate';
 import {
   ComboDisplayModel,
@@ -48,6 +49,7 @@ export interface ShapesEncode {
     };
   };
 }
+export type SHAPE_TYPE = 'rect' | 'circle' | 'ellipse' | 'polygon' | 'image' | 'polyline' | 'line' | 'text';
 
 export type ITEM_TYPE = 'node' | 'edge' | 'combo';
 
@@ -143,6 +145,10 @@ export interface IItem {
   }[];
   /** Set all the state to false. */
   clearStates: (states?: string[]) => void;
+  /** Get the rendering bounding box for the keyShape. */
+  getKeyBBox(): AABB;
+  /** Get the rendering bounding box for the whole item. */
+  getBBox(): AABB;
   /** Destroy the item. */
   destroy: () => void;
 }

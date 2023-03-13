@@ -1,4 +1,5 @@
 import { GraphChange, ID } from '@antv/graphlib';
+import { Group, AABB, DisplayObject, Canvas } from '@antv/g';
 import { ComboModel, IGraph } from '../../types';
 import registry from '../../stdlib';
 import { getExtension } from '../../util/extension';
@@ -8,11 +9,11 @@ import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeModelData } from '../../ty
 import Node from '../../item/node';
 import Edge from '../../item/edge';
 import Combo from '../../item/combo';
-import { Group } from '@antv/g';
-import { ItemShapeStyles, ITEM_TYPE } from '../../types/item';
-import { ComboDisplayModel, ComboEncode } from '../../types/combo';
 import { ThemeSpecification, ItemThemeSpecifications, ItemStyleSet } from '../../types/theme';
 import { isArray, isObject } from '@antv/util';
+import { ITEM_TYPE, SHAPE_TYPE } from '../../types/item';
+import { ComboDisplayModel, ComboEncode } from '../../types/combo';
+import { upsertShape } from '../../util/shape';
 
 /**
  * Manages and stores the node / edge / combo items.
@@ -52,6 +53,11 @@ export class ItemController {
   private nodeDataTypeSet: Set<string> = new Set();
   private edgeDataTypeSet: Set<string> = new Set();
 
+  // The G shapes or groups on transient map drawn by this controller
+  private transientMap: {
+    [id: string]: DisplayObject;
+  } = {};
+
   constructor(graph: IGraph<any, any>) {
     this.graph = graph;
     // get mapper for node / edge / combo
@@ -78,6 +84,7 @@ export class ItemController {
     this.graph.hooks.render.tap(this.onRender.bind(this));
     this.graph.hooks.itemchange.tap(this.onChange.bind(this));
     this.graph.hooks.itemstatechange.tap(this.onItemStateChange.bind(this));
+    this.graph.hooks.transientupdate.tap(this.onTransientUdpate.bind(this));
   }
 
   /**
@@ -293,6 +300,30 @@ export class ItemController {
     });
   }
 
+  private onTransientUdpate(param: { type: ITEM_TYPE | SHAPE_TYPE, id: ID, config: any, canvas: Canvas }) {
+    const { transientMap } = this;
+    const { type, id, config = {}, canvas } = param;
+    const { style, capture, action } = config;
+    const preObj = transientMap[id];
+    if (!preObj?.destroyed && action === 'remove') {
+      preObj.remove(true);
+      return;
+    }
+    
+    if (type === 'node' || type === 'edge' || type === 'combo') {
+      // TODO: clone the item with id and modify the style according to config
+      // if (preItem) { update }
+      return;
+    }
+
+    const shape = upsertShape(type, String(id), style, transientMap);
+    shape.style.pointerEvents = capture ? 'auto' : 'none';
+    canvas.getRoot().appendChild(shape);
+  }
+  public getTransient(id: string) {
+    return this.transientMap[id];
+  }
+
   /**
    * Create nodes with inner data to canvas.
    * @param models nodes' inner datas
@@ -381,10 +412,28 @@ export class ItemController {
   public getItemState(id: ID, state: string) {
     const item = this.itemMap[id];
     if (!item) {
-      console.warn(`Fail to item state, the item with id ${id} does not exist.`);
+      console.warn(`Fail to get item state, the item with id ${id} does not exist.`);
       return false;
     }
     return item.hasState(state);
+  }
+
+  public getItemBBox(id: ID, isKeyShape: boolean = false): AABB | false {
+    const item = this.itemMap[id];
+    if (!item) {
+      console.warn(`Fail to get item bbox, the item with id ${id} does not exist.`);
+      return false;
+    }
+    return isKeyShape ? item.getKeyBBox() : item.getBBox();
+  }
+
+  public getItemVisible(id: ID) {
+    const item = this.itemMap[id];
+    if (!item) {
+      console.warn(`Fail to get item visible, the item with id ${id} does not exist.`);
+      return false;
+    }
+    return item.isVisible();
   }
 }
 
