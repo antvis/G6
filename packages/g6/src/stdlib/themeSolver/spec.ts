@@ -4,7 +4,7 @@ import { mergeStyles } from '../../util/shape';
 import BaseThemeSolver, { ThemeSpecificationMap } from './base';
 
 interface SpecThemeSolverOptions {
-  base: 'light' | 'dark',
+  base: 'light' | 'dark';
   specification?: {
     node?: {
       dataTypeField?: string;
@@ -24,11 +24,11 @@ interface SpecThemeSolverOptions {
     canvas?: {
       [cssName: string]: unknown;
     }
-  }
+  };
 };
 export default class SpecThemeSolver extends BaseThemeSolver {
   protected specification: ThemeSpecification;
-  protected options: SpecThemeSolverOptions;
+  public options: SpecThemeSolverOptions;
 
   public solver(options: SpecThemeSolverOptions, themes: ThemeSpecificationMap): ThemeSpecification {
     const { base = 'light', specification } = options;

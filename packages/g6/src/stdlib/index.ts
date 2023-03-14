@@ -8,6 +8,7 @@ import { CircleNode } from './item/node';
 import SpecThemeSolver from './themeSolver/spec';
 import LightTheme from './theme/light';
 import DarkTheme from './theme/dark';
+import SubjectThemeSolver from './themeSolver/subject';
 
 const stdLib = {
   transforms: {
@@ -19,6 +20,7 @@ const stdLib = {
   },
   themeSolvers: {
     'spec': SpecThemeSolver,
+    'subject': SubjectThemeSolver,
   },
   layouts: layoutRegistry,
   behaviors: {

@@ -2,7 +2,6 @@ import { DEFAULT_SHAPE_STYLE, DEFAULT_TEXT_STYLE } from "../../constant";
 import { ThemeSpecification } from "../../types/theme";
 
 const subjectColor = 'rgb(95, 149, 255)';
-const backColor = 'rgb(255, 255, 255)';
 const textColor = 'rgb(0, 0, 0)';
 
 const activeFill = 'rgb(247, 250, 255)';
@@ -48,7 +47,7 @@ export default {
       },
       selected: {
         keyShape: {
-          fill: backColor,
+          fill: nodeMainFill,
           stroke: subjectColor,
           lineWidth: 4,
           shadowColor: subjectColor,
@@ -218,6 +217,6 @@ export default {
     }]
   },
   canvas: {
-    backgroundColor: '#fff'
+    backgroundColor: '#000'
   }
 } as ThemeSpecification;
