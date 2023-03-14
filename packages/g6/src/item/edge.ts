@@ -52,7 +52,7 @@ export default class Edge extends Item {
       y: targetBBox.center[1],
     };
     const shapeMap = this.renderExt.draw(
-      this.displayModel,
+      displayModel,
       sourcePoint,
       targetPoint,
       this.shapeMap,
