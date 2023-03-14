@@ -111,7 +111,11 @@ export default abstract class Item implements IItem {
       this.renderExt = new extension();
     }
     // 3. call element update fn from useLib
-    this.draw(this.displayModel, diffData);
+    if (this.states?.length) {
+      this.drawWithStates(this.states);
+    } else {
+      this.draw(this.displayModel, diffData);
+    }
     // 4. tag all the states with 'dirty', for state style regenerating when state changed
     this.stateDirtyMap = {}
     this.states.forEach(({ name }) => this.stateDirtyMap[name] = true);
@@ -353,26 +357,23 @@ export default abstract class Item implements IItem {
           }
           if (RESERVED_SHAPE_IDS.includes(shapeId)) {
             // reserved shapes, fieldName is shapeId
-            if (!displayModelData.hasOwnProperty(shapeId)) {
+            updateShapeChange({
+              innerModel: this.model,
+              mapper: mapper[shapeId],
+              dataChangedFields: undefined,
+              shapeConfig: stateStyles[shapeId],
+            });
+          } else if (shapeId === OTHER_SHAPES_FIELD_NAME && mapper[shapeId]) {
+            // other shapes
+            Object.keys(mapper[shapeId]).forEach((otherShapeId) => {
+              stateStyles[shapeId] = stateStyles[shapeId] || {};
+              stateStyles[shapeId][otherShapeId] = stateStyles[shapeId][otherShapeId] || {};
               updateShapeChange({
                 innerModel: this.model,
-                mapper: mapper[shapeId],
+                mapper: mapper[shapeId][otherShapeId],
                 dataChangedFields: undefined,
-                shapeConfig: stateStyles[shapeId],
+                shapeConfig: stateStyles[shapeId][otherShapeId],
               });
-            }
-          } else if (shapeId === OTHER_SHAPES_FIELD_NAME) {
-            // other shapes
-            Object.keys(mapper).forEach((otherShapeId) => {
-              if (!displayModelData[shapeId]?.hasOwnProperty(otherShapeId)) {
-                stateStyles[shapeId] = stateStyles[shapeId] || {};
-                updateShapeChange({
-                  innerModel: this.model,
-                  mapper: mapper[shapeId][otherShapeId],
-                  dataChangedFields: undefined,
-                  shapeConfig: stateStyles[shapeId],
-                });
-              }
             });
           }
         });

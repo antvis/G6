@@ -82,9 +82,9 @@ export class ItemController {
     // TODO: user need to config using node/edge/combo types from useLib to spec?
     const { node, edge, combo } = this.graph.getSpecification();
 
-    const nodeTypes = ['circle-node', 'custom-node']; // TODO: WIP
-    const edgeTypes = ['line-edge', 'custom-edge']; // TODO: WIP
-    const comboTypes = ['circle-combo', 'rect-combo']; // TODO: WIP
+    const nodeTypes = Object.keys(registry.useLib.nodes);
+    const edgeTypes = Object.keys(registry.useLib.edges);
+    const comboTypes = Object.keys(registry.useLib.combos);
     return {
       node: nodeTypes
         .map((config) => getExtension(config, registry.useLib, 'node'))
