@@ -103,8 +103,4 @@ export default class LassoSelect extends BrushSelect {
     }
     return path;
   };
-
-  destroy() {
-    this.graph.drawTransient('path', LASSO_SHAPE_ID, { action: 'remove' })
-  }
 };

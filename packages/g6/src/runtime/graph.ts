@@ -153,7 +153,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry> 
         behaviors: BehaviorOptionsOf<{}>[];
       }>({ name: 'behaviorchange' }),
       itemstatechange: new Hook<{ ids: ID[], state: string, value: boolean }>({ name: 'itemstatechange' }),
-      transientupdate: new Hook<{ type: ITEM_TYPE | SHAPE_TYPE, id: ID, config: { style: ShapeStyle, action: 'remove' | 'add' | 'update' | undefined}, canvas: Canvas }>({ name: 'transientupdate'}), // TODO
+      transientupdate: new Hook<{ type: ITEM_TYPE | SHAPE_TYPE, id: ID, config: { style: ShapeStyle, action: 'remove' | 'add' | 'update' | undefined }, canvas: Canvas }>({ name: 'transientupdate'}), // TODO
     };
   }
 

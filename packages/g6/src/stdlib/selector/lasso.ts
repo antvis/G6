@@ -22,7 +22,7 @@ export default (graph: IGraph, points: Point[], itemTypes: ITEM_TYPE[]) => {
   if (itemTypes.includes('node')) {
     graph.getAllNodesData().forEach((node) => {
       const { id } = node;
-      if (!graph.getItemVisible(id)) return; // 隐藏节点不能被选中
+      if (!graph.getItemVisible(id)) return; // hidden node is not selectable
       if (isItemIntersecPolygon(graph, id, lassoContour)) {
         selectedNodeIds.push(id);
       }
@@ -42,7 +42,7 @@ export default (graph: IGraph, points: Point[], itemTypes: ITEM_TYPE[]) => {
   }
 
   if (itemTypes.includes('edge')) {
-    // 选中边，边的source和target都在选中的节点中时才选中
+    // an edge is selected only if both the source and target nodes are selected
     selectedEdgeIds = getEdgesBetween(graph, selectedNodeIds.concat(selectedComboIds));
   }
 

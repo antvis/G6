@@ -11,7 +11,7 @@ import Edge from '../../item/edge';
 import Combo from '../../item/combo';
 import { ThemeSpecification, ItemThemeSpecifications, ItemStyleSet } from '../../types/theme';
 import { isArray, isObject } from '@antv/util';
-import { ITEM_TYPE, SHAPE_TYPE } from '../../types/item';
+import { ITEM_TYPE, SHAPE_TYPE, ShapeStyle } from '../../types/item';
 import { ComboDisplayModel, ComboEncode } from '../../types/combo';
 import { upsertShape } from '../../util/shape';
 
@@ -300,10 +300,19 @@ export class ItemController {
     });
   }
 
-  private onTransientUpdate(param: { type: ITEM_TYPE | SHAPE_TYPE, id: ID, config: any, canvas: Canvas }) {
+  private onTransientUpdate(param: {
+    type: ITEM_TYPE | SHAPE_TYPE,
+    id: ID,
+    config: {
+      style: ShapeStyle,
+      action: 'remove' | 'add' | 'update' | undefined,
+      [shapeConfig: string]: unknown,
+    },
+    canvas: Canvas
+  }) {
     const { transientMap } = this;
     const { type, id, config = {}, canvas } = param;
-    const { style, capture, action } = config;
+    const { style, capture, action } = config as any;
     const preObj = transientMap[id];
     if (preObj && !preObj?.destroyed && action === 'remove') {
       preObj.remove(true);
