@@ -2,7 +2,12 @@
 
 import { clone } from '@antv/util';
 import G6, { GraphData, IGraph } from '../../src/index';
+import { CircleNode } from '../../src/stdlib/item/node';
+import { LineEdge } from '../../src/stdlib/item/edge';
 import LightTheme from '../../src/stdlib/theme/light';
+import { extend } from '../../src/util/extend';
+import { upsertShape } from '../../src/util/shape';
+
 const container = document.createElement('div');
 document.querySelector('body').appendChild(container);
 
@@ -457,6 +462,118 @@ describe('theme', () => {
       graph.clearItemState('edge1');
       expect(edgeKeyShape1.style.stroke).toBe('#0f0');
       expect(edgeLabelShape1.style.fill).toBe('#0f0');
+      graph.destroy();
+      done();
+    });
+  });
+  it('theme on custom node and custom edge', (done) => {
+    class CustomNode extends CircleNode {
+      public defaultStyles = {
+        keyShape: {
+          r: 25,
+          x: 0,
+          y: 0,
+        },
+      }
+      public drawLabelShape(
+        model: NodeDisplayModel,
+        shapeMap: NodeShapeMap,
+        diffData?: { oldData: NodeModelData; newData: NodeModelData },
+      ) {
+        const extraShape = upsertShape(
+          'circle',
+          'extraShape',
+          {
+            r: 4,
+            fill: '#0f0',
+            x: -20,
+            y: 0,
+          },
+          shapeMap,
+        );
+        const { labelShape: labelStyle } = this.mergedStyles;
+        const labelShape = upsertShape(
+          'text',
+          'labelShape',
+          {
+            ...labelStyle,
+            text: model.id,
+          },
+          shapeMap,
+        );
+        return { labelShape, extraShape };
+      }
+    }
+    class CustomEdge extends LineEdge {
+      public afterDraw(
+        model: EdgeDisplayModel,
+        shapeMap: { [shapeId: string]: DisplayObject<any, any> },
+        shapesChanged?: string[],
+      ): { [otherShapeId: string]: DisplayObject } {
+        const { keyShape } = shapeMap;
+        const point = keyShape.getPoint(0.3);
+        return {
+          buShape: upsertShape(
+            'rect',
+            'buShape',
+            {
+              width: 6,
+              height: 6,
+              x: point.x,
+              y: point.y,
+              fill: '#0f0',
+            },
+            shapeMap,
+          ),
+        };
+      }
+    }
+    const CustomGraph = extend(G6.Graph, {
+      nodes: {
+        'theme-spec-custom-node': CustomNode
+      },
+      edges: {
+        'theme-spec-custom-edge': CustomEdge
+      }
+    });
+    graph = new CustomGraph({
+      container,
+      width: 500,
+      height: 500,
+      type: 'graph',
+      data,
+      layout: {
+        type: 'grid'
+      },
+      node: {
+        type: 'theme-spec-custom-node',
+        labelShape: {
+          text: {
+            fields: ['id'],
+            formatter: model => model.id
+          }
+        }
+      },
+      edge: {
+        type: 'theme-spec-custom-edge',
+        labelShape: {
+          text: {
+            fields: ['edt'],
+            formatter: model => model.data.edt
+          }
+        }
+      },
+    });
+    graph.on('afterlayout', () => {
+      // custom node's and edge's keyShape follow the light theme
+      const node = graph.itemController.itemMap['node1'];
+      const { keyShape: nodeKeyShape, labelShape: nodeLabelShape } = node.shapeMap;
+      expect(nodeKeyShape.style.fill).toBe(LightTheme.node.styles[0].default.keyShape.fill);
+      expect(nodeLabelShape.style.fontWeight).toBe(LightTheme.node.styles[0].default.labelShape.fontWeight);
+      const edge = graph.itemController.itemMap['edge1'];
+      const { keyShape: edgeKeyShape, labelShape: edgeLabelShape } = edge.shapeMap;
+      expect(edgeKeyShape.style.stroke).toBe(LightTheme.edge.styles[0].default.keyShape.stroke);
+      expect(edgeLabelShape.style.fontWeight).toBe(LightTheme.edge.styles[0].default.labelShape.fontWeight);
       graph.destroy();
       done();
     });

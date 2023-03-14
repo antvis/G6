@@ -159,6 +159,7 @@ const merge2Styles = (styleMap1: ItemShapeStyles, styleMap2: ItemShapeStyles) =>
   Object.keys(styleMap2).forEach(shapeId => {
     const style = styleMap2[shapeId];
     mergedStyle[shapeId] = mergedStyle[shapeId] || {};
+    if (!style) return;
     Object.keys(style).forEach(styleName => {
       const value = style[styleName];
       mergedStyle[shapeId][styleName] = value;

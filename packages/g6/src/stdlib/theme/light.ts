@@ -105,7 +105,7 @@ export default {
         labelShape: {
           ...DEFAULT_TEXT_STYLE,
           fill: textColor,
-          textAlign: 'center',
+          position: 'middle',
           textBaseline: 'middle',
         },
         iconShape: {
