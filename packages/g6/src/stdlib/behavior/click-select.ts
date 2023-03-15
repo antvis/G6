@@ -99,8 +99,8 @@ export default class ClickSelect extends Behavior {
     const state = this.options.selectedState;
     const multiple = this.isMultipleSelect(event as any);
     // FIXME: should use graph.getItemState() instead
-    const isSelectAction = this.graph.findIdByState(itemType, state).includes(itemId);
-    const action: 'select' | 'unselect' = isSelectAction ? 'unselect' : 'select';
+    const isSelectAction = !this.graph.findIdByState(itemType, state).includes(itemId);
+    const action: 'select' | 'unselect' = isSelectAction ? 'select' : 'unselect';
 
     // Select/Unselect item.
     if (this.options.shouldUpdate(event)) {

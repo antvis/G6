@@ -43,6 +43,8 @@ export const createCanvas = (
     canvasTag.style.width = `${width}px`;
     canvasTag.style.height = `${height}px`;
     canvasTag.style.position = 'fixed';
+    canvasTag.style.outline = 'none';
+    canvasTag.tabIndex = 1; // Enable keyboard events
     Object.assign(canvasTag.style, style);
     const containerDOM = isString(container) ? document.getElementById('container') : container;
     containerDOM!.appendChild(canvasTag);

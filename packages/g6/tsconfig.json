@@ -8,6 +8,7 @@
     "outDir": "lib",
     "jsx": "react",
     "importHelpers": true,
+    "downlevelIteration": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,

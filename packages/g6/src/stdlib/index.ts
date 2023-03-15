@@ -4,6 +4,7 @@ import DragCanvas from './behavior/drag-canvas';
 import ClickSelect from "./behavior/click-select";
 import BrushSelect from './behavior/brush-select';
 import LassoSelect from './behavior/lasso-select';
+import { DragNode } from "./behavior/drag-node";
 import { comboFromNode } from './data/comboFromNode';
 import { LineEdge } from './item/edge';
 import { CircleNode } from './item/node';
@@ -29,6 +30,7 @@ const stdLib = {
   layouts: layoutRegistry,
   behaviors: {
     'drag-canvas': DragCanvas,
+    'drag-node': DragNode,
     'click-select': ClickSelect,
     'brush-select': BrushSelect,
     'lasso-select': LassoSelect

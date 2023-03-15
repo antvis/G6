@@ -211,7 +211,7 @@ export class InteractionController {
 
   private initEvents = () => {
     Object.values(CANVAS_EVENT_TYPE).forEach(eventName => {
-      console.debug('Listen on canvas: ', eventName);
+      // console.debug('Listen on canvas: ', eventName);
       this.graph.canvas.document.addEventListener(eventName, this.handleCanvasEvent);
     });
     Object.values(DOM_EVENT_TYPE).forEach(eventName => {
@@ -220,7 +220,7 @@ export class InteractionController {
   }
 
   private handleCanvasEvent = (gEvent: Event) => {
-    const debug = gEvent.type.includes('over') || gEvent.type.includes('move') ? () => {} : console.debug;
+    // const debug = gEvent.type.includes('over') || gEvent.type.includes('move') ? () => {} : console.debug;
 
     // Find the Node/Edge/Combo group element.
     // const itemGroup = findItemGroup(gEvent.target as IElement);
@@ -259,7 +259,8 @@ export class InteractionController {
         this.handlePointerMove(event);
       }
       this.graph.emit(`canvas:${gEvent.type}`, event);
-      debug(`Canvas ${event.type} :`, event);
+      this.graph.emit(`${gEvent.type}`, event);
+      // debug(`Canvas ${event.type} :`, event);
       return;
     }
 
@@ -269,7 +270,8 @@ export class InteractionController {
         this.handlePointerMove(event);
       }
       this.graph.emit(`${itemType}:${gEvent.type}`, event);
-      debug(`Item ${event.type} :`, event);
+      this.graph.emit(`${gEvent.type}`, event);
+      // debug(`Item ${event.type} :`, event);
     }
   }
 
@@ -287,11 +289,11 @@ export class InteractionController {
           type: 'pointerleave',
           target: prevItemInfo.groupElement,
         });
-        console.debug(`${preType}:pointerleave`, {
-          ...event,
-          type: 'pointerleave',
-          target: prevItemInfo.groupElement,
-        });
+        // console.debug(`${preType}:pointerleave`, {
+        //   ...event,
+        //   type: 'pointerleave',
+        //   target: prevItemInfo.groupElement,
+        // });
       }
       if (curItemInfo) {
         const curType = curItemInfo.itemType;
@@ -300,11 +302,11 @@ export class InteractionController {
           type: 'pointerenter',
           target: curItemInfo.groupElement,
         });
-        console.debug(`${curType}:pointerenter`, {
-          ...event,
-          type: 'pointerenter',
-          target: curItemInfo.groupElement,
-        });
+        // console.debug(`${curType}:pointerenter`, {
+        //   ...event,
+        //   type: 'pointerenter',
+        //   target: curItemInfo.groupElement,
+        // });
       }
     }
     this.prevItemInfo = curItemInfo;

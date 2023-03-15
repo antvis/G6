@@ -42,7 +42,7 @@
     "prettier": "prettier -c --write \"**/*\"",
     "test": "jest",
     "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/theme-subject-spec.ts",
-    "test-behavior": "DEBUG_MODE=1 jest --watch ./tests/unit/click-select-spec.ts",
+    "test-behavior": "DEBUG_MODE=1 jest --watch ./tests/unit/drag-node-spec.ts",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
     "watch": "father build -w"
   },
