@@ -1,18 +1,17 @@
+import { AABB, Canvas, DisplayObject, Group } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
-import { Group, AABB, DisplayObject, Canvas } from '@antv/g';
-import { ComboModel, IGraph } from '../../types';
-import registry from '../../stdlib';
-import { getExtension } from '../../util/extension';
-import { GraphCore } from '../../types/data';
-import { NodeDisplayModel, NodeEncode, NodeModel, NodeModelData } from '../../types/node';
-import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeModelData } from '../../types/edge';
-import Node from '../../item/node';
-import Edge from '../../item/edge';
-import Combo from '../../item/combo';
-import { ThemeSpecification, ItemThemeSpecifications, ItemStyleSet } from '../../types/theme';
 import { isArray, isObject } from '@antv/util';
-import { ITEM_TYPE, SHAPE_TYPE, ShapeStyle } from '../../types/item';
+import Combo from '../../item/combo';
+import Edge from '../../item/edge';
+import Node from '../../item/node';
+import registry from '../../stdlib';
+import { ComboModel, IGraph } from '../../types';
 import { ComboDisplayModel, ComboEncode } from '../../types/combo';
+import { GraphCore } from '../../types/data';
+import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeModelData } from '../../types/edge';
+import { ITEM_TYPE, ShapeStyle, SHAPE_TYPE } from '../../types/item';
+import { ItemStyleSet, ItemThemeSpecifications, ThemeSpecification } from '../../types/theme';
+import { getExtension } from '../../util/extension';
 import { upsertShape } from '../../util/shape';
 
 /**
@@ -61,7 +60,7 @@ export class ItemController {
   constructor(graph: IGraph<any, any>) {
     this.graph = graph;
     // get mapper for node / edge / combo
-    const { node, edge, combo, nodeState, edgeState, comboState }  = graph.getSpecification();
+    const { node, edge, combo, nodeState, edgeState, comboState } = graph.getSpecification();
     this.nodeMapper = node;
     this.edgeMapper = edge;
     this.comboMapper = combo;
@@ -114,7 +113,7 @@ export class ItemController {
    * Listener of runtime's render hook.
    * @param param contains inner data stored in graphCore structure
    */
-  private onRender(param: { graphCore: GraphCore, theme: ThemeSpecification }) {
+  private onRender(param: { graphCore: GraphCore; theme: ThemeSpecification }) {
     const { graphCore, theme = {} } = param;
     const { graph } = this;
     // TODO: 0. clear groups on canvas, and create new groups
@@ -177,11 +176,17 @@ export class ItemController {
 
     // === 3. add nodes ===
     if (groupedChanges.NodeAdded.length) {
-      this.renderNodes(groupedChanges.NodeAdded.map((change) => change.value), nodeTheme);
+      this.renderNodes(
+        groupedChanges.NodeAdded.map((change) => change.value),
+        nodeTheme,
+      );
     }
     // === 4. add edges ===
     if (groupedChanges.EdgeAdded.length) {
-      this.renderEdges(groupedChanges.EdgeAdded.map((change) => change.value), edgeTheme);
+      this.renderEdges(
+        groupedChanges.EdgeAdded.map((change) => change.value),
+        edgeTheme,
+      );
     }
 
     // === 5. update nodes's data ===
@@ -209,7 +214,12 @@ export class ItemController {
         // update the theme if the dataType value is changed
         let themeStyles;
         if (previous[nodeDataTypeField] !== current[nodeDataTypeField]) {
-          themeStyles = getThemeStyles(this.nodeDataTypeSet, nodeDataTypeField, current[nodeDataTypeField], nodeTheme);
+          themeStyles = getThemeStyles(
+            this.nodeDataTypeSet,
+            nodeDataTypeField,
+            current[nodeDataTypeField],
+            nodeTheme,
+          );
         }
         const item = itemMap[id];
         const innerModel = graphCore.getNode(id);
@@ -247,7 +257,12 @@ export class ItemController {
         // update the theme if the dataType value is changed
         let themeStyles;
         if (previous[edgeDataTypeField] !== current[edgeDataTypeField]) {
-          themeStyles = getThemeStyles(this.edgeDataTypeSet, edgeDataTypeField, current[edgeDataTypeField], edgeTheme);
+          themeStyles = getThemeStyles(
+            this.edgeDataTypeSet,
+            edgeDataTypeField,
+            current[edgeDataTypeField],
+            edgeTheme,
+          );
         }
         const item = itemMap[id];
         const innerModel = graphCore.getEdge(id);
@@ -283,9 +298,9 @@ export class ItemController {
    *   value: state value
    * }
    */
-  private onItemStateChange(param: { ids: ID[], states: string[], value: boolean }) {
+  private onItemStateChange(param: { ids: ID[]; states: string[]; value: boolean }) {
     const { ids, states, value } = param;
-    ids.forEach(id => {
+    ids.forEach((id) => {
       const item = this.itemMap[id];
       if (!item) {
         console.warn(`Fail to set state for item ${id}, which is not exist.`);
@@ -295,20 +310,20 @@ export class ItemController {
         // clear all the states
         item.clearStates(states);
       } else {
-        states.forEach(state => item.setState(state, value));
+        states.forEach((state) => item.setState(state, value));
       }
     });
   }
 
   private onTransientUpdate(param: {
-    type: ITEM_TYPE | SHAPE_TYPE,
-    id: ID,
+    type: ITEM_TYPE | SHAPE_TYPE;
+    id: ID;
     config: {
-      style: ShapeStyle,
-      action: 'remove' | 'add' | 'update' | undefined,
-      [shapeConfig: string]: unknown,
-    },
-    canvas: Canvas
+      style: ShapeStyle;
+      action: 'remove' | 'add' | 'update' | undefined;
+      [shapeConfig: string]: unknown;
+    };
+    canvas: Canvas;
   }) {
     const { transientMap } = this;
     const { type, id, config = {}, canvas } = param;
@@ -345,7 +360,7 @@ export class ItemController {
       let dataType;
       if (dataTypeField) dataType = node.data[dataTypeField] as string;
       const themeStyle = getThemeStyles(nodeDataTypeSet, dataTypeField, dataType, nodeTheme);
-      
+
       this.itemMap[node.id] = new Node({
         model: node,
         renderExtensions: nodeExtensions,
@@ -405,7 +420,7 @@ export class ItemController {
    */
   public findIdByState(itemType: ITEM_TYPE, state: string, value: string | boolean = true) {
     const ids = [];
-    Object.values(this.itemMap).forEach(item => {
+    Object.values(this.itemMap).forEach((item) => {
       if (item.getType() !== itemType) return;
       if (item.hasState(state) === value) ids.push(item.getID());
     });
@@ -427,6 +442,10 @@ export class ItemController {
     return item.hasState(state);
   }
 
+  public getItemById(id: ID) {
+    return this.itemMap[id];
+  }
+
   public getItemBBox(id: ID, isKeyShape: boolean = false): AABB | false {
     const item = this.itemMap[id];
     if (!item) {
@@ -446,7 +465,12 @@ export class ItemController {
   }
 }
 
-const getThemeStyles = (dataTypeSet: Set<string>, dataTypeField: string, dataType: string, itemTheme: ItemThemeSpecifications): ItemStyleSet => {
+const getThemeStyles = (
+  dataTypeSet: Set<string>,
+  dataTypeField: string,
+  dataType: string,
+  itemTheme: ItemThemeSpecifications,
+): ItemStyleSet => {
   const { styles: themeStyles } = itemTheme;
   if (!dataTypeField) {
     // dataType field is not assigned
@@ -462,4 +486,4 @@ const getThemeStyles = (dataTypeSet: Set<string>, dataTypeField: string, dataTyp
     themeStyle = themeStyles[dataType] || themeStyles.others;
   }
   return themeStyle;
-}
+};

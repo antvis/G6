@@ -1,21 +1,24 @@
 import EventEmitter from '@antv/event-emitter';
-import { Canvas, AABB, DisplayObject } from '@antv/g';
+import { AABB, Canvas, DisplayObject, PointLike } from '@antv/g';
 import { ID } from '@antv/graphlib';
 import { Hooks } from '../types/hook';
-import { AnimateCfg } from './animate';
+import { CameraAnimationOptions } from './animate';
 import { BehaviorObjectOptionsOf, BehaviorOptionsOf, BehaviorRegistry } from './behavior';
 import { ComboModel, ComboUserModel } from './combo';
 import { Padding, Point } from './common';
-import { DataChangeType, GraphData } from './data';
+import { GraphData } from './data';
 import { EdgeModel, EdgeUserModel } from './edge';
 import { ITEM_TYPE, SHAPE_TYPE } from './item';
 import { LayoutOptions } from './layout';
 import { NodeModel, NodeUserModel } from './node';
 import { Specification } from './spec';
 import { ThemeRegistry } from './theme';
-import { FitViewRules, GraphAlignment } from './view';
+import { FitViewRules, GraphTransformOptions } from './view';
 
-export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry, T extends ThemeRegistry = ThemeRegistry> extends EventEmitter {
+export interface IGraph<
+  B extends BehaviorRegistry = BehaviorRegistry,
+  T extends ThemeRegistry = ThemeRegistry,
+> extends EventEmitter {
   hooks: Hooks;
   canvas: Canvas;
   destroyed: boolean;
@@ -182,63 +185,98 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry, T extends
    * Move the graph with a relative vector.
    * @param dx x of the relative vector
    * @param dy y of the relative vector
-   * @param animateCfg animation configurations
-   * @returns
-   * @group View
+   * @param effectTiming animation configurations
    */
-  move: (dx: number, dy: number, animateCfg?: AnimateCfg) => void;
+  translate: (dx: number, dy: number, effectTiming?: CameraAnimationOptions) => Promise<void>;
   /**
    * Move the graph and align to a point.
-   * @param x position on the canvas to align
-   * @param y position on the canvas to align
-   * @param alignment alignment of the graph content
-   * @param animateCfg animation configurations
-   * @returns
-   * @group View
+   * @param point position on the canvas to align
+   * @param effectTiming animation configurations
    */
-  moveTo: (x: number, y: number, alignment: GraphAlignment, animateCfg?: AnimateCfg) => void;
+  translateTo: (point: PointLike, effectTiming?: CameraAnimationOptions) => Promise<void>;
+  /**
+   * Return the current zoom level of camera.
+   * @returns current zoom
+   */
+  getZoom: () => number;
   /**
    * Zoom the graph with a relative ratio.
    * @param ratio relative ratio to zoom
    * @param center zoom center
-   * @param animateCfg animation configurations
-   * @returns
-   * @group View
+   * @param effectTiming animation configurations
    */
-  zoom: (ratio: number, center?: Point, animateCfg?: AnimateCfg) => void;
+  zoom: (ratio: number, center?: Point, effectTiming?: CameraAnimationOptions) => Promise<void>;
   /**
    * Zoom the graph to a specified ratio.
    * @param toRatio specified ratio
    * @param center zoom center
-   * @param animateCfg animation configurations
-   * @returns
-   * @group View
+   * @param effectTiming animation configurations
    */
-  zoomTo: (toRatio: number, center?: Point, animateCfg?: AnimateCfg) => void;
+  zoomTo: (toRatio: number, center?: Point, effectTiming?: CameraAnimationOptions) => Promise<void>;
+  /**
+   * Rotate the graph with a relative angle in clockwise.
+   * @param angle
+   * @param center
+   * @param effectTiming
+   */
+  rotate: (angle: number, center?: Point, effectTiming?: CameraAnimationOptions) => Promise<void>;
+  /**
+   * Rotate the graph to an absolute angle in clockwise.
+   * @param toAngle
+   * @param center
+   * @param effectTiming
+   */
+  rotateTo: (
+    toAngle: number,
+    center?: Point,
+    effectTiming?: CameraAnimationOptions,
+  ) => Promise<void>;
+
+  /**
+   * Transform the graph with a CSS-Transform-like syntax.
+   * @param options
+   * @param effectTiming
+   */
+  transform: (
+    options: GraphTransformOptions,
+    effectTiming?: CameraAnimationOptions,
+  ) => Promise<void>;
+  /**
+   * Stop the current transition of transform immediately.
+   */
+  stopTransformTransition: () => void;
+  /**
+   * Return the center of viewport, e.g. for a 500 * 500 canvas, its center is [250, 250].
+   */
+  getViewportCenter: () => PointLike;
   /**
    * Fit the graph content to the view.
-   * @param padding padding while fitting
-   * @param rules rules for fitting
-   * @param animateCfg animation configurations
+   * @param options.padding padding while fitting
+   * @param options.rules rules for fitting
+   * @param effectTiming animation configurations
    * @returns
    * @group View
    */
-  fitView: (padding?: Padding, rules?: FitViewRules, animateCfg?: AnimateCfg) => void;
+  fitView: (
+    options?: {
+      padding: Padding;
+      rules: FitViewRules;
+    },
+    effectTiming?: CameraAnimationOptions,
+  ) => Promise<void>;
   /**
    * Fit the graph center to the view center.
-   * @param animateCfg animation configurations
+   * @param effectTiming animation configurations
    * @returns
    * @group View
    */
-  fitCenter: (animateCfg?: AnimateCfg) => void;
+  fitCenter: (effectTiming?: CameraAnimationOptions) => Promise<void>;
   /**
    * Move the graph to make the item align the view center.
    * @param item node/edge/combo item or its id
-   * @param animateCfg animation configurations
-   * @returns
-   * @group View
+   * @param effectTiming animation configurations
    */
-  focusItem: (ids: ID | ID[], animateCfg?: AnimateCfg) => void;
+  focusItem: (id: ID | ID[], effectTiming?: CameraAnimationOptions) => Promise<void>;
 
   // ===== item operations =====
   /**

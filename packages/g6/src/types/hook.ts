@@ -1,11 +1,13 @@
 import { Canvas } from '@antv/g';
-import { DataChangeType, GraphCore, GraphData } from "./data";
-import { NodeModelData } from "./node";
-import { EdgeModelData } from "./edge";
-import { ITEM_TYPE, ShapeStyle, SHAPE_TYPE } from "./item";
-import { GraphChange, ID } from "@antv/graphlib";
-import { LayoutOptions } from "./layout";
-import { ThemeSpecification } from "./theme";
+import { GraphChange, ID } from '@antv/graphlib';
+import { CameraAnimationOptions } from './animate';
+import { DataChangeType, GraphCore, GraphData } from './data';
+import { EdgeModelData } from './edge';
+import { ITEM_TYPE, ShapeStyle, SHAPE_TYPE } from './item';
+import { LayoutOptions } from './layout';
+import { NodeModelData } from './node';
+import { ThemeSpecification } from './theme';
+import { GraphTransformOptions } from './view';
 
 export interface IHook<T> {
   name: string;
@@ -16,18 +18,23 @@ export interface IHook<T> {
   emitLinearAsync: (param: T) => Promise<void>;
 }
 
+export type ViewportChangeHookParams = {
+  transform: GraphTransformOptions;
+  effectTiming?: CameraAnimationOptions;
+};
+
 export interface Hooks {
   init: IHook<{
     canvases: {
-      background: Canvas,
-      main: Canvas,
-      transient: Canvas
-    }
+      background: Canvas;
+      main: Canvas;
+      transient: Canvas;
+    };
   }>;
   // data
   datachange: IHook<{
     type: DataChangeType;
-    data: GraphData
+    data: GraphData;
   }>;
   itemchange: IHook<{
     type: ITEM_TYPE;
@@ -35,7 +42,7 @@ export interface Hooks {
     graphCore: GraphCore;
     theme: ThemeSpecification;
   }>;
-  render: IHook<{ graphCore: GraphCore, theme: ThemeSpecification }>; // TODO: define param template
+  render: IHook<{ graphCore: GraphCore; theme: ThemeSpecification }>; // TODO: define param template
   layout: IHook<{ graphCore: GraphCore; options?: LayoutOptions }>; // TODO: define param template
   // 'updatelayout': IHook<any>; // TODO: define param template
   modechange: IHook<{ mode: string }>;
@@ -54,12 +61,12 @@ export interface Hooks {
     id: ID;
     canvas: Canvas;
     config: {
-      style: ShapeStyle,
-      action: 'remove' | 'add' | 'update' | undefined
+      style: ShapeStyle;
+      action: 'remove' | 'add' | 'update' | undefined;
     };
   }>;
   // TODO: define param template
-  // 'viewportchange': IHook<any>; // TODO: define param template
+  viewportchange: IHook<ViewportChangeHookParams>;
   // 'destroy': IHook<any>; // TODO: define param template
   // TODO: more timecycles here
 }

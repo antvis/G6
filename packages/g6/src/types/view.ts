@@ -4,4 +4,27 @@ export interface FitViewRules {
   ratioRule?: 'max' | 'min'; // Ratio rule to fit.
 }
 
-export type GraphAlignment = 'left-top' | 'right-top' | 'left-bottom' | 'right-bottom' | 'center' | [number, number];
+export type GraphAlignment =
+  | 'left-top'
+  | 'right-top'
+  | 'left-bottom'
+  | 'right-bottom'
+  | 'center'
+  | [number, number];
+
+export type GraphTransformOptions = {
+  translate?: {
+    dx: number;
+    dy: number;
+  };
+  rotate?: {
+    angle: number;
+  };
+  zoom?: {
+    ratio: number;
+  };
+  origin?: {
+    x: number;
+    y: number;
+  };
+};

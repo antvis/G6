@@ -140,7 +140,7 @@ export const formatPadding = (value, defaultArr = DEFAULT_LABEL_BG_PADDING) => {
 /**
  * Merge multiple shape style map including undefined value in incoming map.
  * @param styleMaps shapes' styles map array, the latter item in the array will be merged into the former
- * @returns 
+ * @returns
  */
 export const mergeStyles = (styleMaps: ItemShapeStyles[]) => {
   let currentResult = styleMaps[0];
@@ -148,29 +148,29 @@ export const mergeStyles = (styleMaps: ItemShapeStyles[]) => {
     if (i > 0) currentResult = merge2Styles(currentResult, styleMap);
   });
   return currentResult;
-}
+};
 
 /**
  * Merge two shape style map including undefined value in incoming map.
  * @param styleMap1 shapes' styles map as current map
  * @param styleMap2 shapes' styles map as incoming map
- * @returns 
+ * @returns
  */
 const merge2Styles = (styleMap1: ItemShapeStyles, styleMap2: ItemShapeStyles) => {
   if (!styleMap1) return clone(styleMap2);
   else if (!styleMap2) return clone(styleMap1);
   const mergedStyle = clone(styleMap1);
-  Object.keys(styleMap2).forEach(shapeId => {
+  Object.keys(styleMap2).forEach((shapeId) => {
     const style = styleMap2[shapeId];
     mergedStyle[shapeId] = mergedStyle[shapeId] || {};
     if (!style) return;
-    Object.keys(style).forEach(styleName => {
+    Object.keys(style).forEach((styleName) => {
       const value = style[styleName];
       mergedStyle[shapeId][styleName] = value;
     });
   });
   return mergedStyle;
-}
+};
 
 /**
  * Whether two polygons are intersected.
@@ -179,10 +179,10 @@ const merge2Styles = (styleMap1: ItemShapeStyles, styleMap2: ItemShapeStyles) =>
  */
 export const isPolygonsIntersect = (points1: number[][], points2: number[][]): boolean => {
   const getBBox = (points): Partial<AABB> => {
-    const xArr = points.map(p => p[0]);
-    const yArr = points.map(p => p[1]);
+    const xArr = points.map((p) => p[0]);
+    const yArr = points.map((p) => p[1]);
     return {
-      min: [Math.min.apply(null, xArr),  Math.min.apply(null, yArr), 0],
+      min: [Math.min.apply(null, xArr), Math.min.apply(null, yArr), 0],
       max: [Math.max.apply(null, xArr), Math.max.apply(null, yArr), 0],
     };
   };
@@ -235,7 +235,7 @@ export const isPolygonsIntersect = (points1: number[][], points2: number[][]): b
 
   let isIn = false;
   // 判定点是否在多边形内部，一旦有一个点在另一个多边形内，则返回
-  points2.forEach(point => {
+  points2.forEach((point) => {
     if (isPointInPolygon(points1, point[0], point[1])) {
       isIn = true;
       return false;
@@ -244,7 +244,7 @@ export const isPolygonsIntersect = (points1: number[][], points2: number[][]): b
   if (isIn) {
     return true;
   }
-  points1.forEach(point => {
+  points1.forEach((point) => {
     if (isPointInPolygon(points2, point[0], point[1])) {
       isIn = true;
       return false;
@@ -257,7 +257,7 @@ export const isPolygonsIntersect = (points1: number[][], points2: number[][]): b
   const lines1 = parseToLines(points1);
   const lines2 = parseToLines(points2);
   let isIntersect = false;
-  lines2.forEach(line => {
+  lines2.forEach((line) => {
     if (lineIntersectPolygon(lines1, line)) {
       isIntersect = true;
       return false;
@@ -276,7 +276,7 @@ export const intersectBBox = (box1: Partial<AABB>, box2: Partial<AABB>) => {
 };
 
 /**
- * Whether point is inside the polygon (ray algo) 
+ * Whether point is inside the polygon (ray algo)
  * @param points
  * @param x
  * @param y
@@ -320,7 +320,7 @@ export const isPointInPolygon = (points: number[][], x: number, y: number) => {
  * @param p1 begin of segment line
  * @param p2 end of segment line
  * @param q the point to be judged
- * @returns 
+ * @returns
  */
 const onSegment = (p1, p2, q) => {
   if (
@@ -333,11 +333,11 @@ const onSegment = (p1, p2, q) => {
     return true;
   }
   return false;
-}
+};
 
 const lineIntersectPolygon = (lines, line) => {
   let isIntersect = false;
-  lines.forEach(l => {
+  lines.forEach((l) => {
     if (getLineIntersect(l.from, l.to, line.from, line.to)) {
       isIntersect = true;
       return false;

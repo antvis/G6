@@ -1,5 +1,5 @@
 import EventEmitter from '@antv/event-emitter';
-import { Canvas, runtime, AABB, DisplayObject } from '@antv/g';
+import { AABB, Canvas, DisplayObject, PointLike, runtime } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
 import { isArray, isNil, isNumber, isObject, isString } from '@antv/util';
 import {
@@ -10,13 +10,13 @@ import {
   NodeUserModel,
   Specification,
 } from '../types';
-import { AnimateCfg } from '../types/animate';
+import { CameraAnimationOptions } from '../types/animate';
 import { BehaviorObjectOptionsOf, BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';
 import { ComboModel } from '../types/combo';
-import { Padding, Point } from '../types/common';
+import { Padding } from '../types/common';
 import { GraphCore } from '../types/data';
 import { EdgeModel, EdgeModelData } from '../types/edge';
-import { Hooks } from '../types/hook';
+import { Hooks, ViewportChangeHookParams } from '../types/hook';
 import { ITEM_TYPE, ShapeStyle, SHAPE_TYPE } from '../types/item';
 import {
   ImmediatelyInvokedLayoutOptions,
@@ -25,8 +25,9 @@ import {
 } from '../types/layout';
 import { NodeModel, NodeModelData } from '../types/node';
 import { ThemeRegistry, ThemeSpecification } from '../types/theme';
-import { FitViewRules, GraphAlignment } from '../types/view';
+import { FitViewRules, GraphTransformOptions } from '../types/view';
 import { createCanvas } from '../util/canvas';
+import { formatPadding } from '../util/shape';
 import {
   DataController,
   ExtensionController,
@@ -34,6 +35,7 @@ import {
   ItemController,
   LayoutController,
   ThemeController,
+  ViewportController,
 } from './controller';
 import Hook from './hooks';
 
@@ -42,7 +44,10 @@ import Hook from './hooks';
  */
 runtime.enableCSSParsing = false;
 
-export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry> extends EventEmitter implements IGraph<B, T> {
+export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
+  extends EventEmitter
+  implements IGraph<B, T>
+{
   public hooks: Hooks;
   // for nodes and edges, which will be separate into groups
   public canvas: Canvas;
@@ -58,6 +63,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry> 
   private dataController: DataController;
   private interactionController: InteractionController;
   private layoutController: LayoutController;
+  private viewportController: ViewportController;
   private itemController: ItemController;
   private extensionController: ExtensionController;
   private themeController: ThemeController;
@@ -65,9 +71,9 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry> 
   private defaultSpecification = {
     theme: {
       type: 'spec',
-      base: 'light'
-    }
-  }
+      base: 'light',
+    },
+  };
 
   constructor(spec: Specification<B, T>) {
     super();
@@ -82,8 +88,8 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry> 
       canvases: {
         background: this.backgroundCanvas,
         main: this.canvas,
-        transient: this.transientCanvas
-      }
+        transient: this.transientCanvas,
+      },
     });
 
     const { data } = spec;
@@ -102,6 +108,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry> 
     this.layoutController = new LayoutController(this);
     this.themeController = new ThemeController(this);
     this.itemController = new ItemController(this);
+    this.viewportController = new ViewportController(this);
     this.extensionController = new ExtensionController(this);
   }
 
@@ -132,10 +139,10 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry> 
     this.hooks = {
       init: new Hook<{
         canvases: {
-          background: Canvas,
-          main: Canvas,
-          transient: Canvas
-        }
+          background: Canvas;
+          main: Canvas;
+          transient: Canvas;
+        };
       }>({ name: 'init' }),
       datachange: new Hook<{ data: GraphData; type: 'replace' }>({ name: 'datachange' }),
       itemchange: new Hook<{
@@ -144,16 +151,24 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry> 
         graphCore: GraphCore;
         theme: ThemeSpecification;
       }>({ name: 'itemchange' }),
-      render: new Hook<{ graphCore: GraphCore, theme: ThemeSpecification; }>({ name: 'render' }),
+      render: new Hook<{ graphCore: GraphCore; theme: ThemeSpecification }>({ name: 'render' }),
       layout: new Hook<{ graphCore: GraphCore }>({ name: 'layout' }),
+      viewportchange: new Hook<ViewportChangeHookParams>({ name: 'viewport' }),
       modechange: new Hook<{ mode: string }>({ name: 'modechange' }),
       behaviorchange: new Hook<{
         action: 'update' | 'add' | 'remove';
         modes: string[];
         behaviors: BehaviorOptionsOf<{}>[];
       }>({ name: 'behaviorchange' }),
-      itemstatechange: new Hook<{ ids: ID[], state: string, value: boolean }>({ name: 'itemstatechange' }),
-      transientupdate: new Hook<{ type: ITEM_TYPE | SHAPE_TYPE, id: ID, config: { style: ShapeStyle, action: 'remove' | 'add' | 'update' | undefined }, canvas: Canvas }>({ name: 'transientupdate'}), // TODO
+      itemstatechange: new Hook<{ ids: ID[]; state: string; value: boolean }>({
+        name: 'itemstatechange',
+      }),
+      transientupdate: new Hook<{
+        type: ITEM_TYPE | SHAPE_TYPE;
+        id: ID;
+        config: { style: ShapeStyle; action: 'remove' | 'add' | 'update' | undefined };
+        canvas: Canvas;
+      }>({ name: 'transientupdate' }), // TODO
     };
   }
 
@@ -184,7 +199,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry> 
     const emitRender = async () => {
       this.hooks.render.emit({
         graphCore: this.dataController.graphCore,
-        theme: this.themeController.specification
+        theme: this.themeController.specification,
       });
       this.emit('afterrender');
 
@@ -211,7 +226,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry> 
     this.hooks.datachange.emit({ data, type });
     this.hooks.render.emit({
       graphCore: this.dataController.graphCore,
-      theme: this.themeController.specification
+      theme: this.themeController.specification,
     });
     this.emit('afterrender');
 
@@ -226,84 +241,223 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry> 
     // TODO
   }
 
-  /**
-   * Move the graph with a relative vector.
-   * @param dx x of the relative vector
-   * @param dy y of the relative vector
-   * @param animateCfg animation configurations
-   * @returns
-   * @group View
-   */
-  public move(dx: number, dy: number, animateCfg?: AnimateCfg) {
-    // TODO
+  public getViewportCenter(): PointLike {
+    const { width, height } = this.canvas.getConfig();
+    return { x: width! / 2, y: height! / 2 };
+  }
+  public async transform(
+    options: GraphTransformOptions,
+    effectTiming?: CameraAnimationOptions,
+  ): Promise<void> {
+    await this.hooks.viewportchange.emitLinearAsync({
+      transform: options,
+      effectTiming,
+    });
+    this.emit('viewportchange', options);
   }
 
   /**
-   * Move the graph and align to a point.
-   * @param x position on the canvas to align
-   * @param y position on the canvas to align
-   * @param alignment alignment of the graph content
-   * @param animateCfg animation configurations
-   * @returns
-   * @group View
+   * Stop the current transition of transform immediately.
    */
-  public moveTo(x: number, y: number, alignment: GraphAlignment, animateCfg?: AnimateCfg) {
-    // TODO
+  public stopTransformTransition() {
+    this.canvas.getCamera().cancelLandmarkAnimation();
+  }
+
+  /**
+   * Move the graph with a relative distance under viewport coordinates.
+   * @param dx x of the relative distance
+   * @param dy y of the relative distance
+   * @param effectTiming animation configurations
+   */
+  public async translate(dx: number, dy: number, effectTiming?: CameraAnimationOptions) {
+    await this.transform(
+      {
+        translate: {
+          dx,
+          dy,
+        },
+      },
+      effectTiming,
+    );
+  }
+
+  /**
+   * Move the graph to destination under viewport coordinates.
+   * @param destination destination under viewport coordinates.
+   * @param effectTiming animation configurations
+   */
+  public async translateTo({ x, y }: PointLike, effectTiming?: CameraAnimationOptions) {
+    const { x: cx, y: cy } = this.getViewportCenter();
+    await this.translate(cx - x, cy - y, effectTiming);
   }
 
   /**
    * Zoom the graph with a relative ratio.
    * @param ratio relative ratio to zoom
-   * @param center zoom center
-   * @param animateCfg animation configurations
-   * @returns
-   * @group View
+   * @param origin origin under viewport coordinates.
+   * @param effectTiming animation configurations
    */
-  public zoom(ratio: number, center?: Point, animateCfg?: AnimateCfg) {
-    // TODO
+  public async zoom(ratio: number, origin?: PointLike, effectTiming?: CameraAnimationOptions) {
+    await this.transform(
+      {
+        zoom: {
+          ratio,
+        },
+        origin,
+      },
+      effectTiming,
+    );
   }
 
   /**
    * Zoom the graph to a specified ratio.
-   * @param toRatio specified ratio
-   * @param center zoom center
-   * @param animateCfg animation configurations
-   * @returns
-   * @group View
+   * @param zoom specified ratio
+   * @param origin zoom center
+   * @param effectTiming animation configurations
    */
-  public zoomTo(toRatio: number, center?: Point, animateCfg?: AnimateCfg) {
-    // TODO
+  public async zoomTo(zoom: number, origin?: PointLike, effectTiming?: CameraAnimationOptions) {
+    await this.zoom(zoom / this.canvas.getCamera().getZoom(), origin, effectTiming);
+  }
+
+  /**
+   * Return the current zoom level of camera.
+   * @returns current zoom
+   */
+  public getZoom() {
+    return this.canvas.getCamera().getZoom();
+  }
+
+  /**
+   * Rotate the graph with a relative angle.
+   * @param angle
+   * @param origin
+   * @param effectTiming
+   */
+  public async rotate(angle: number, origin?: PointLike, effectTiming?: CameraAnimationOptions) {
+    await this.transform(
+      {
+        rotate: {
+          angle,
+        },
+        origin,
+      },
+      effectTiming,
+    );
+  }
+
+  /**
+   * Rotate the graph to an absolute angle.
+   * @param angle
+   * @param origin
+   * @param effectTiming
+   */
+  public async rotateTo(angle: number, origin?: PointLike, effectTiming?: CameraAnimationOptions) {
+    await this.rotate(angle - this.canvas.getCamera().getRoll(), origin, effectTiming);
   }
 
   /**
    * Fit the graph content to the view.
-   * @param padding padding while fitting
-   * @param rules rules for fitting
-   * @param animateCfg animation configurations
-   * @returns
-   * @group View
+   * @param options.padding padding while fitting
+   * @param options.rules rules for fitting
+   * @param effectTiming animation configurations
    */
-  public fitView(padding?: Padding, rules?: FitViewRules, animateCfg?: AnimateCfg) {
-    // TODO
+  public async fitView(
+    options?: {
+      padding: Padding;
+      rules: FitViewRules;
+    },
+    effectTiming?: CameraAnimationOptions,
+  ) {
+    const { padding, rules } = options || {};
+    const [top, right, bottom, left] = padding ? formatPadding(padding) : [0, 0, 0, 0];
+    const { direction = 'both', ratioRule = 'min' } = rules || {};
+
+    // Get the bounds of the whole graph.
+    const {
+      center: [graphCenterX, graphCenterY],
+      halfExtents,
+    } = this.canvas.document.documentElement.getBounds();
+    const origin = this.canvas.canvas2Viewport({ x: graphCenterX, y: graphCenterY });
+    const { width: viewportWidth, height: viewportHeight } = this.canvas.getConfig();
+
+    const graphWidth = halfExtents[0] * 2;
+    const graphHeight = halfExtents[1] * 2;
+    const tlInCanvas = this.canvas.viewport2Canvas({ x: left, y: top });
+    const brInCanvas = this.canvas.viewport2Canvas({
+      x: viewportWidth! - right,
+      y: viewportHeight! - bottom,
+    });
+
+    const targetViewWidth = brInCanvas.x - tlInCanvas.x;
+    const targetViewHeight = brInCanvas.y - tlInCanvas.y;
+
+    const wRatio = targetViewWidth / graphWidth;
+    const hRatio = targetViewHeight / graphHeight;
+
+    let ratio: number;
+    if (direction === 'x') {
+      ratio = wRatio;
+    } else if (direction === 'y') {
+      ratio = hRatio;
+    } else {
+      ratio = ratioRule === 'max' ? Math.max(wRatio, hRatio) : Math.min(wRatio, hRatio);
+    }
+
+    await this.transform(
+      {
+        translate: {
+          dx: viewportWidth! / 2 - origin.x,
+          dy: viewportHeight! / 2 - origin.y,
+        },
+        zoom: {
+          ratio,
+        },
+      },
+      effectTiming,
+    );
   }
   /**
    * Fit the graph center to the view center.
-   * @param animateCfg animation configurations
-   * @returns
-   * @group View
+   * @param effectTiming animation configurations
    */
-  public fitCenter(animateCfg?: AnimateCfg) {
-    // TODO
+  public async fitCenter(effectTiming?: CameraAnimationOptions) {
+    // Get the bounds of the whole graph.
+    const {
+      center: [graphCenterX, graphCenterY],
+    } = this.canvas.document.documentElement.getBounds();
+    await this.translateTo(
+      this.canvas.canvas2Viewport({ x: graphCenterX, y: graphCenterY }),
+      effectTiming,
+    );
   }
   /**
    * Move the graph to make the item align the view center.
    * @param item node/edge/combo item or its id
-   * @param animateCfg animation configurations
-   * @returns
-   * @group View
+   * @param effectTiming animation configurations
    */
-  public focusItem(ids: ID | ID[], animateCfg?: AnimateCfg) {
-    // TODO
+  public async focusItem(id: ID | ID[], effectTiming?: CameraAnimationOptions) {
+    let bounds: AABB | null = null;
+    for (const itemId of !isArray(id) ? [id] : id) {
+      const item = this.itemController.getItemById(itemId);
+      if (item) {
+        const itemBounds = item.group.getBounds();
+        if (!bounds) {
+          bounds = itemBounds;
+        } else {
+          bounds.add(itemBounds);
+        }
+      }
+    }
+
+    if (bounds) {
+      const {
+        center: [itemCenterX, itemCenterY],
+      } = bounds;
+      await this.translateTo(
+        this.canvas.canvas2Viewport({ x: itemCenterX, y: itemCenterY }),
+        effectTiming,
+      );
+    }
   }
 
   // ===== item operations =====
@@ -371,7 +525,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry> 
   public getRelatedEdgesData(nodeId: ID, direction: 'in' | 'out' | 'both' = 'both'): EdgeModel[] {
     return this.dataController.findRelatedEdgeIds(nodeId, direction);
   }
-   /**
+  /**
    * Get one-hop node ids from a start node.
    * @param nodeId id of the start node
    * @returns one-hop node ids
@@ -380,7 +534,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry> 
   public getNeighborNodesData(nodeId: ID, direction: 'in' | 'out' | 'both' = 'both'): NodeModel[] {
     return this.dataController.findNeighborNodeIds(nodeId, direction);
   }
-  
+
   /**
    * Find items which has the state.
    * @param itemType item type
@@ -430,7 +584,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry> 
         type: itemType,
         changes: graphCore.reduceChanges(event.changes),
         graphCore,
-        theme: specification
+        theme: specification,
       });
     });
 
@@ -466,7 +620,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry> 
         type: itemType,
         changes: event.changes,
         graphCore,
-        theme: specification
+        theme: specification,
       });
     });
     this.hooks.datachange.emit({
@@ -505,7 +659,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry> 
         type: itemType,
         changes: event.changes,
         graphCore,
-        theme: specification
+        theme: specification,
       });
     });
 
@@ -587,7 +741,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry> 
    * @returns rendering bounding box. returns false if the item is not exist
    * @group Item
    */
-  public getRenderBBox(id: ID | undefined): AABB | false{
+  public getRenderBBox(id: ID | undefined): AABB | false {
     if (!id) return this.canvas.getRoot().getRenderBounds();
     return this.itemController.getItemBBox(id);
   }
@@ -769,7 +923,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry> 
    * @returns upserted shape or group
    * @group Interaction
    */
-  public drawTransient(type: ITEM_TYPE | SHAPE_TYPE, id: ID, config: { action: 'remove' | 'add' | 'update' | undefined, style: ShapeStyle}): DisplayObject {
+  public drawTransient(
+    type: ITEM_TYPE | SHAPE_TYPE,
+    id: ID,
+    config: { action: 'remove' | 'add' | 'update' | undefined; style: ShapeStyle },
+  ): DisplayObject {
     this.hooks.transientupdate.emit({ type, id, config, canvas: this.transientCanvas });
     return this.itemController.getTransient(String(id));
   }
