@@ -1,5 +1,5 @@
 import EventEmitter from '@antv/event-emitter';
-import { Canvas, PointLike } from '@antv/g';
+import { AABB, Canvas, PointLike } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
 import { isArray, isNumber, isObject, isString } from '@antv/util';
 import {
@@ -223,6 +223,13 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
   }
 
   /**
+   * Stop the current transition of transform immediately.
+   */
+  public stopTransformTransition() {
+    this.canvas.getCamera().cancelLandmarkAnimation();
+  }
+
+  /**
    * Move the graph with a relative distance under viewport coordinates.
    * @param dx x of the relative distance
    * @param dy y of the relative distance
@@ -276,6 +283,14 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    */
   public async zoomTo(zoom: number, origin?: PointLike, effectTiming?: CameraAnimationOptions) {
     await this.zoom(zoom / this.canvas.getCamera().getZoom(), origin, effectTiming);
+  }
+
+  /**
+   * Return the current zoom level of camera.
+   * @returns current zoom
+   */
+  public getZoom() {
+    return this.canvas.getCamera().getZoom();
   }
 
   /**
@@ -386,13 +401,24 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * @param item node/edge/combo item or its id
    * @param effectTiming animation configurations
    */
-  public async focusItem(id: ID, effectTiming?: CameraAnimationOptions) {
-    const item = this.itemController.getItemById(id);
+  public async focusItem(id: ID | ID[], effectTiming?: CameraAnimationOptions) {
+    let bounds: AABB | null = null;
+    for (const itemId of !isArray(id) ? [id] : id) {
+      const item = this.itemController.getItemById(itemId);
+      if (item) {
+        const itemBounds = item.group.getBounds();
+        if (!bounds) {
+          bounds = itemBounds;
+        } else {
+          bounds.add(itemBounds);
+        }
+      }
+    }
 
-    if (item) {
+    if (bounds) {
       const {
         center: [itemCenterX, itemCenterY],
-      } = item.group.getBounds();
+      } = bounds;
       await this.translateTo(
         this.canvas.canvas2Viewport({ x: itemCenterX, y: itemCenterY }),
         effectTiming,

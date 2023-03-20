@@ -176,6 +176,11 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
    */
   translateTo: (point: PointLike, effectTiming?: CameraAnimationOptions) => Promise<void>;
   /**
+   * Return the current zoom level of camera.
+   * @returns current zoom
+   */
+  getZoom: () => number;
+  /**
    * Zoom the graph with a relative ratio.
    * @param ratio relative ratio to zoom
    * @param center zoom center
@@ -218,6 +223,10 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
     effectTiming?: CameraAnimationOptions,
   ) => Promise<void>;
   /**
+   * Stop the current transition of transform immediately.
+   */
+  stopTransformTransition: () => void;
+  /**
    * Return the center of viewport, e.g. for a 500 * 500 canvas, its center is [250, 250].
    */
   getViewportCenter: () => PointLike;
@@ -248,7 +257,7 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
    * @param item node/edge/combo item or its id
    * @param effectTiming animation configurations
    */
-  focusItem: (id: ID, effectTiming?: CameraAnimationOptions) => Promise<void>;
+  focusItem: (id: ID | ID[], effectTiming?: CameraAnimationOptions) => Promise<void>;
 
   // ===== item operations =====
   /**

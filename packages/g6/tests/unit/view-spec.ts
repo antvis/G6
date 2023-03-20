@@ -99,6 +99,7 @@ describe('viewport', () => {
         expect(graph.canvas.getCamera().getZoom()).toBe(0.5);
       });
       await graph.zoom(0.5, { x: 250, y: 250 });
+      expect(graph.getZoom()).toBe(0.5);
 
       graph.once('viewportchange', ({ zoom }) => {
         expect(zoom.ratio).toBe(2);
@@ -117,6 +118,7 @@ describe('viewport', () => {
         expect(y).toBeCloseTo(op.y);
       });
       await graph.zoomTo(1.2, { x: 450, y: 250 });
+      expect(graph.getZoom()).toBe(1.2);
 
       graph.destroy();
       done();
@@ -377,6 +379,43 @@ describe('viewport', () => {
     });
   });
 
+  it('should stop the current transition of transform correctly.', (done) => {
+    graph = new G6.Graph({
+      container,
+      width: 500,
+      height: 500,
+      type: 'graph',
+      data,
+      layout: {
+        type: 'circular',
+        center: [250, 250],
+        radius: 200,
+      },
+    });
+
+    graph.once('afterlayout', async () => {
+      graph.once('viewportchange', ({ translate }) => {
+        expect(translate.dx).toBe(-250);
+        expect(translate.dy).toBe(-250);
+      });
+      await graph.transform(
+        {
+          translate: {
+            dx: -250,
+            dy: -250,
+          },
+        },
+        {
+          duration: 2000,
+        },
+      );
+      graph.stopTransformTransition();
+
+      graph.destroy();
+      done();
+    });
+  });
+
   it('should fitCenter with transition correctly.', (done) => {
     graph = new G6.Graph({
       container,
@@ -478,7 +517,14 @@ describe('viewport', () => {
         expect(px).toBe(450);
         expect(py).toBe(250);
       });
-      graph.focusItem('Argentina');
+      await graph.focusItem('Argentina');
+
+      graph.once('viewportchange', () => {
+        const [px, py] = graph.canvas.getCamera().getPosition();
+        expect(px).toBeCloseTo(250);
+        expect(py).toBeCloseTo(250);
+      });
+      await graph.focusItem(nodesData.map((node) => node.id));
 
       graph.focusItem('Non existed node');
 
