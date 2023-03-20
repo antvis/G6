@@ -7,7 +7,7 @@ export class ExtensionController {
   public extensions = {};
   public graph: IGraph;
 
-  constructor(graph: IGraph<any>) {
+  constructor(graph: IGraph<any, any>) {
     this.graph = graph;
     // this.tap();
   }

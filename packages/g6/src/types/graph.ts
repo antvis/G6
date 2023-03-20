@@ -1,5 +1,5 @@
 import EventEmitter from '@antv/event-emitter';
-import { Canvas, PointLike } from '@antv/g';
+import { AABB, Canvas, DisplayObject, PointLike } from '@antv/g';
 import { ID } from '@antv/graphlib';
 import { Hooks } from '../types/hook';
 import { CameraAnimationOptions } from './animate';
@@ -8,13 +8,17 @@ import { ComboModel, ComboUserModel } from './combo';
 import { Padding, Point } from './common';
 import { GraphData } from './data';
 import { EdgeModel, EdgeUserModel } from './edge';
-import { ITEM_TYPE } from './item';
+import { ITEM_TYPE, SHAPE_TYPE } from './item';
 import { LayoutOptions } from './layout';
 import { NodeModel, NodeUserModel } from './node';
 import { Specification } from './spec';
+import { ThemeRegistry } from './theme';
 import { FitViewRules, GraphTransformOptions } from './view';
 
-export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends EventEmitter {
+export interface IGraph<
+  B extends BehaviorRegistry = BehaviorRegistry,
+  T extends ThemeRegistry = ThemeRegistry,
+> extends EventEmitter {
   hooks: Hooks;
   canvas: Canvas;
   destroyed: boolean;
@@ -29,35 +33,35 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
   /**
    * Update the specs(configurations).
    */
-  updateSpecification: (spec: Specification<B>) => void;
+  updateSpecification: (spec: Specification<B, T>) => void;
   /**
    * Get the copy of specs(configurations).
    * @returns graph specs
    */
-  getSpecification: () => Specification<B>;
+  getSpecification: () => Specification<B, T>;
 
   // ====== data operations ====
   /**
    * Find a node's inner data according to id or function.
-   * @param { string | Function} condition id or condition function
+   * @param { ID | Function} condition id or condition function
    * @returns result node's inner data
    * @group Data
    */
-  getNodeData: (condition: string | Function) => NodeModel | undefined;
+  getNodeData: (condition: ID | Function) => NodeModel | undefined;
   /**
    * Find an edge's inner data according to id or function.
-   * @param { string | Function} condition id or condition function
+   * @param { ID | Function} condition id or condition function
    * @returns result edge's inner data
    * @group Data
    */
-  getEdgeData: (condition: string | Function) => EdgeModel | undefined;
+  getEdgeData: (condition: ID | Function) => EdgeModel | undefined;
   /**
    * Find a combo's inner data according to id or function.
-   * @param { string | Function} condition id or condition function
+   * @param { ID | Function} condition id or condition function
    * @returns result combo's inner data
    * @group Data
    */
-  getComboData: (condition: string | Function) => ComboModel | undefined;
+  getComboData: (condition: ID | Function) => ComboModel | undefined;
   /**
    * Get all the nodes' inner data
    * @returns all nodes' inner data on the graph
@@ -76,6 +80,21 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
    * @group Data
    */
   getAllCombosData: () => ComboModel[];
+  /**
+   * Get one-hop edge ids from a start node.
+   * @param nodeId id of the start node
+   * @returns one-hop edge ids
+   * @group Data
+   */
+  getRelatedEdgesData: (nodeId: ID, direction?: 'in' | 'out' | 'both') => EdgeModel[];
+  /**
+   * Get one-hop node ids from a start node.
+   * @param nodeId id of the start node
+   * @returns one-hop node ids
+   * @group Data
+   */
+  getNeighborNodesData: (nodeId: ID, direction?: 'in' | 'out' | 'both') => NodeModel[];
+
   /**
    * Input data and render the graph.
    * If there is old data, diffs and changes it.
@@ -300,6 +319,20 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
    */
   clearItemState: (ids: ID | ID[], states?: string[]) => void;
 
+  /**
+   * Get the rendering bbox for a node / edge / combo, or the graph (when the id is not assigned).
+   * @param id the id for the node / edge / combo, undefined for the whole graph
+   * @returns rendering bounding box. returns false if the item is not exist
+   */
+  getRenderBBox: (id: ID | undefined) => AABB | false;
+
+  /**
+   * Get the visibility for a node / edge / combo.
+   * @param id the id for the node / edge / combo
+   * @returns visibility for the item, false for invisible or unexistence for the item
+   */
+  getItemVisible: (id: ID) => boolean;
+
   // ===== combo operations =====
   /**
    * Create a new combo with existing child nodes and combos.
@@ -365,4 +398,13 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
    * @group Interaction
    */
   updateBehavior: (behavior: BehaviorObjectOptionsOf<B>, mode?: string) => void;
+
+  /**
+   * Draw or update a G shape or group to the transient canvas.
+   * @param type shape type or item type
+   * @param id new shape id or updated shape id for a interation shape, node/edge/combo id for item interaction group drawing
+   * @returns upserted shape or group
+   * @group Interaction
+   */
+  drawTransient: (type: ITEM_TYPE | SHAPE_TYPE, id: ID, config: any) => DisplayObject;
 }

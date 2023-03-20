@@ -1,4 +1,5 @@
 import { ID } from '@antv/graphlib';
+import { AABB, CircleStyleProps, RectStyleProps, EllipseStyleProps, PolygonStyleProps, LineStyleProps, PathStyleProps, PolylineStyleProps, TextStyleProps, ImageStyleProps } from '@antv/g';
 import { AnimateAttr } from './animate';
 import {
   ComboDisplayModel,
@@ -19,6 +20,8 @@ export interface ShapeStyle {
   height?: number;
   r?: number;
 }
+
+export type GShapeStyle = CircleStyleProps & RectStyleProps & EllipseStyleProps & PolygonStyleProps & LineStyleProps & PolylineStyleProps & TextStyleProps & ImageStyleProps & PathStyleProps;
 
 export interface Encode<T> {
   fields: string[];
@@ -48,6 +51,7 @@ export interface ShapesEncode {
     };
   };
 }
+export type SHAPE_TYPE = 'rect' | 'circle' | 'ellipse' | 'polygon' | 'image' | 'polyline' | 'line' | 'path' | 'text';
 
 export type ITEM_TYPE = 'node' | 'edge' | 'combo';
 
@@ -67,6 +71,16 @@ export type State = {
   name: string;
   value: boolean | string;
 }
+
+
+/** Shape styles for an item. */
+export type ItemShapeStyles = {
+  keyShape?: ShapeStyle;
+  labelShape?: ShapeStyle;
+  iconShape?: ShapeStyle;
+  [shapeId: string]: ShapeStyle;
+}
+
 
 /**
  * Base item of node / edge / combo.
@@ -133,6 +147,10 @@ export interface IItem {
   }[];
   /** Set all the state to false. */
   clearStates: (states?: string[]) => void;
+  /** Get the rendering bounding box for the keyShape. */
+  getKeyBBox(): AABB;
+  /** Get the rendering bounding box for the whole item. */
+  getBBox(): AABB;
   /** Destroy the item. */
   destroy: () => void;
 }

@@ -25,7 +25,7 @@ export class DataController {
    */
   public graphCore: GraphCore;
 
-  constructor(graph: IGraph<any>) {
+  constructor(graph: IGraph<any, any>) {
     this.graph = graph;
     this.tap();
   }
@@ -67,6 +67,15 @@ export class DataController {
       default:
         return [];
     }
+  }
+
+  public findRelatedEdgeIds(nodeId: ID, direction: 'in' | 'out' | 'both' = 'both') {
+    return this.graphCore.getRelatedEdges(nodeId, direction);
+  }
+  public findNeighborNodeIds(nodeId: ID, direction: 'in' | 'out' | 'both' = 'both') {
+    if (direction === 'in') return this.graphCore.getAncestors(nodeId);
+    if (direction === 'out') return this.graphCore.getSuccessors(nodeId);
+    return this.graphCore.getNeighbors(nodeId);
   }
 
   /**

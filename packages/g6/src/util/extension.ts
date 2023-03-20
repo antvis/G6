@@ -19,3 +19,8 @@ export const getExtension = (config: string | Function | object, lib, cat: StdLi
   const ext = lib[catKey]?.[type];
   return ext;
 };
+
+export const getCatExtensions = (lib, cat: StdLibCategory) => {
+  const catKey = `${cat}s`;
+  return lib[catKey];
+}

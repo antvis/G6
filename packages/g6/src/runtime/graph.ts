@@ -1,7 +1,7 @@
 import EventEmitter from '@antv/event-emitter';
-import { AABB, Canvas, PointLike } from '@antv/g';
+import { AABB, Canvas, DisplayObject, PointLike, runtime } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
-import { isArray, isNumber, isObject, isString } from '@antv/util';
+import { isArray, isNil, isNumber, isObject, isString } from '@antv/util';
 import {
   ComboUserModel,
   EdgeUserModel,
@@ -17,9 +17,14 @@ import { Padding } from '../types/common';
 import { GraphCore } from '../types/data';
 import { EdgeModel, EdgeModelData } from '../types/edge';
 import { Hooks, ViewportChangeHookParams } from '../types/hook';
-import { ITEM_TYPE } from '../types/item';
-import { LayoutOptions } from '../types/layout';
+import { ITEM_TYPE, ShapeStyle, SHAPE_TYPE } from '../types/item';
+import {
+  ImmediatelyInvokedLayoutOptions,
+  LayoutOptions,
+  StandardLayoutOptions,
+} from '../types/layout';
 import { NodeModel, NodeModelData } from '../types/node';
+import { ThemeRegistry, ThemeSpecification } from '../types/theme';
 import { FitViewRules, GraphTransformOptions } from '../types/view';
 import { createCanvas } from '../util/canvas';
 import { formatPadding } from '../util/shape';
@@ -34,7 +39,15 @@ import {
 } from './controller';
 import Hook from './hooks';
 
-export default class Graph<B extends BehaviorRegistry> extends EventEmitter implements IGraph<B> {
+/**
+ * Disable CSS parsing for better performance.
+ */
+runtime.enableCSSParsing = false;
+
+export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
+  extends EventEmitter
+  implements IGraph<B, T>
+{
   public hooks: Hooks;
   // for nodes and edges, which will be separate into groups
   public canvas: Canvas;
@@ -46,7 +59,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
   private transientCanvas: Canvas;
   // the tag indicates all the three canvases are all ready
   private canvasReady: boolean;
-  private specification: Specification<B>;
+  private specification: Specification<B, T>;
   private dataController: DataController;
   private interactionController: InteractionController;
   private layoutController: LayoutController;
@@ -55,14 +68,29 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
   private extensionController: ExtensionController;
   private themeController: ThemeController;
 
-  constructor(spec: Specification<B>) {
+  private defaultSpecification = {
+    theme: {
+      type: 'spec',
+      base: 'light',
+    },
+  };
+
+  constructor(spec: Specification<B, T>) {
     super();
     // TODO: analyse cfg
 
-    this.specification = spec;
+    this.specification = Object.assign({}, this.defaultSpecification, spec);
     this.initHooks();
     this.initCanvas();
     this.initControllers();
+
+    this.hooks.init.emit({
+      canvases: {
+        background: this.backgroundCanvas,
+        main: this.canvas,
+        transient: this.transientCanvas,
+      },
+    });
 
     const { data } = spec;
     if (data) {
@@ -109,14 +137,21 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    */
   private initHooks() {
     this.hooks = {
-      init: new Hook<void>({ name: 'init' }),
+      init: new Hook<{
+        canvases: {
+          background: Canvas;
+          main: Canvas;
+          transient: Canvas;
+        };
+      }>({ name: 'init' }),
       datachange: new Hook<{ data: GraphData; type: 'replace' }>({ name: 'datachange' }),
       itemchange: new Hook<{
         type: ITEM_TYPE;
         changes: GraphChange<NodeModelData, EdgeModelData>[];
         graphCore: GraphCore;
+        theme: ThemeSpecification;
       }>({ name: 'itemchange' }),
-      render: new Hook<{ graphCore: GraphCore }>({ name: 'render' }),
+      render: new Hook<{ graphCore: GraphCore; theme: ThemeSpecification }>({ name: 'render' }),
       layout: new Hook<{ graphCore: GraphCore }>({ name: 'layout' }),
       viewportchange: new Hook<ViewportChangeHookParams>({ name: 'viewport' }),
       modechange: new Hook<{ mode: string }>({ name: 'modechange' }),
@@ -128,13 +163,19 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
       itemstatechange: new Hook<{ ids: ID[]; state: string; value: boolean }>({
         name: 'itemstatechange',
       }),
+      transientupdate: new Hook<{
+        type: ITEM_TYPE | SHAPE_TYPE;
+        id: ID;
+        config: { style: ShapeStyle; action: 'remove' | 'add' | 'update' | undefined };
+        canvas: Canvas;
+      }>({ name: 'transientupdate' }), // TODO
     };
   }
 
   /**
    * Update the specs(configurations).
    */
-  public updateSpecification(spec: Specification<B>) {
+  public updateSpecification(spec: Specification<B, T>) {
     // TODO
   }
 
@@ -142,7 +183,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * Get the copy of specs(configurations).
    * @returns graph specs
    */
-  public getSpecification(): Specification<B> {
+  public getSpecification(): Specification<B, T> {
     return this.specification;
   }
 
@@ -158,15 +199,11 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     const emitRender = async () => {
       this.hooks.render.emit({
         graphCore: this.dataController.graphCore,
+        theme: this.themeController.specification,
       });
       this.emit('afterrender');
 
-      // TODO: make read async?
-      await this.hooks.layout.emitLinearAsync({
-        graphCore: this.dataController.graphCore,
-      });
-
-      this.emit('afterlayout');
+      await this.layout();
     };
     if (this.canvasReady) {
       await emitRender();
@@ -189,14 +226,11 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     this.hooks.datachange.emit({ data, type });
     this.hooks.render.emit({
       graphCore: this.dataController.graphCore,
+      theme: this.themeController.specification,
     });
     this.emit('afterrender');
 
-    await this.hooks.layout.emitLinearAsync({
-      graphCore: this.dataController.graphCore,
-    });
-
-    this.emit('afterlayout');
+    await this.layout();
   }
 
   /**
@@ -483,6 +517,25 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     return this.dataController.findAllData('combo') as ComboModel[];
   }
   /**
+   * Get one-hop edge ids from a start node.
+   * @param nodeId id of the start node
+   * @returns one-hop edge ids
+   * @group Data
+   */
+  public getRelatedEdgesData(nodeId: ID, direction: 'in' | 'out' | 'both' = 'both'): EdgeModel[] {
+    return this.dataController.findRelatedEdgeIds(nodeId, direction);
+  }
+  /**
+   * Get one-hop node ids from a start node.
+   * @param nodeId id of the start node
+   * @returns one-hop node ids
+   * @group Data
+   */
+  public getNeighborNodesData(nodeId: ID, direction: 'in' | 'out' | 'both' = 'both'): NodeModel[] {
+    return this.dataController.findNeighborNodeIds(nodeId, direction);
+  }
+
+  /**
    * Find items which has the state.
    * @param itemType item type
    * @param state state name
@@ -525,11 +578,13 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     // data controller and item controller subscribe additem in order
 
     const { graphCore } = this.dataController;
+    const { specification } = this.themeController;
     graphCore.once('changed', (event) => {
       this.hooks.itemchange.emit({
         type: itemType,
         changes: graphCore.reduceChanges(event.changes),
         graphCore,
+        theme: specification,
       });
     });
 
@@ -557,6 +612,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     const idArr = isArray(ids) ? ids : [ids];
     const data = { nodes: [], edges: [], combos: [] };
     const { userGraphCore, graphCore } = this.dataController;
+    const { specification } = this.themeController;
     const getItem = itemType === 'edge' ? userGraphCore.getEdge : userGraphCore.getNode; // TODO: combo
     data[`${itemType}s`] = idArr.map((id) => getItem.bind(userGraphCore)(id));
     graphCore.once('changed', (event) => {
@@ -564,6 +620,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
         type: itemType,
         changes: event.changes,
         graphCore,
+        theme: specification,
       });
     });
     this.hooks.datachange.emit({
@@ -596,11 +653,13 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     data[`${itemType}s`] = modelArr;
 
     const { graphCore } = this.dataController;
+    const { specification } = this.themeController;
     graphCore.once('changed', (event) => {
       this.hooks.itemchange.emit({
         type: itemType,
         changes: event.changes,
         graphCore,
+        theme: specification,
       });
     });
 
@@ -676,6 +735,27 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     });
   }
 
+  /**
+   * Get the rendering bbox for a node / edge / combo, or the graph (when the id is not assigned).
+   * @param id the id for the node / edge / combo, undefined for the whole graph
+   * @returns rendering bounding box. returns false if the item is not exist
+   * @group Item
+   */
+  public getRenderBBox(id: ID | undefined): AABB | false {
+    if (!id) return this.canvas.getRoot().getRenderBounds();
+    return this.itemController.getItemBBox(id);
+  }
+
+  /**
+   * Get the visibility for a node / edge / combo.
+   * @param id the id for the node / edge / combo
+   * @returns visibility for the item, false for invisible or unexistence for the item
+   * @group Item
+   */
+  public getItemVisible(id: ID) {
+    return this.itemController.getItemVisible(id);
+  }
+
   // ===== combo operations =====
   /**
    * Create a new combo with existing child nodes and combos.
@@ -716,9 +796,39 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * Layout the graph (with current configurations if cfg is not assigned).
    */
   public async layout(options?: LayoutOptions) {
+    const { graphCore } = this.dataController;
+    const formattedOptions = {
+      ...this.getSpecification().layout,
+      ...options,
+    } as LayoutOptions;
+
+    const layoutUnset = !options && !this.getSpecification().layout;
+    if (layoutUnset) {
+      const nodes = graphCore.getAllNodes();
+      if (nodes.every((node) => isNil(node.data.x) && isNil(node.data.y))) {
+        // Use `grid` layout as default when x/y of each node is unset.
+        (formattedOptions as StandardLayoutOptions).type = 'grid';
+      } else {
+        // Use user-defined position(x/y default to 0).
+        (formattedOptions as ImmediatelyInvokedLayoutOptions).execute = async (graph) => {
+          const nodes = graph.getAllNodes();
+          return {
+            nodes: nodes.map((node) => ({
+              id: node.id,
+              data: {
+                x: Number(node.data.x) || 0,
+                y: Number(node.data.y) || 0,
+              },
+            })),
+            edges: [],
+          };
+        };
+      }
+    }
+
     await this.hooks.layout.emitLinearAsync({
-      graphCore: this.dataController.graphCore,
-      options,
+      graphCore,
+      options: formattedOptions,
     });
     this.emit('afterlayout');
   }
@@ -804,6 +914,22 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     //     this.specification.modes[mode][i] = behavior;
     //   }
     // });
+  }
+
+  /**
+   * Draw or update a G shape or group to the transient canvas.
+   * @param type shape type or item type
+   * @param id new shape id or updated shape id for a interation shape, node/edge/combo id for item interaction group drawing
+   * @returns upserted shape or group
+   * @group Interaction
+   */
+  public drawTransient(
+    type: ITEM_TYPE | SHAPE_TYPE,
+    id: ID,
+    config: { action: 'remove' | 'add' | 'update' | undefined; style: ShapeStyle },
+  ): DisplayObject {
+    this.hooks.transientupdate.emit({ type, id, config, canvas: this.transientCanvas });
+    return this.itemController.getTransient(String(id));
   }
 
   /**
