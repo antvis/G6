@@ -129,7 +129,7 @@ describe('edge item', () => {
         nodes: [
           {
             id: 'node1',
-            data: { x: 100, y: 100, keyShape: { opacity: 0.1 } },
+            data: { x: 100, y: 100 }, // , keyShape: { opacity: 0.1 }
           },
           {
             id: 'node2',
@@ -161,10 +161,10 @@ describe('edge item', () => {
       data: {
         labelShape: {
           text: 'edge-label',
-          position: 'middle',
           background: {
             radius: 10,
             padding,
+            fill: '#f00'
           },
         },
       },
@@ -172,7 +172,8 @@ describe('edge item', () => {
     const edgeItem = graph.itemController.itemMap['edge1'];
     expect(edgeItem.shapeMap.labelShape).not.toBe(undefined);
     expect(edgeItem.shapeMap.labelShape.attributes.text).toBe('edge-label');
-    expect(edgeItem.shapeMap.labelShape.attributes.fill).toBe('#000');
+    const fill = edgeItem.shapeMap.labelShape.attributes.fill
+    expect(fill === '#000' || fill === 'rgb(0, 0, 0)').toBe(true);
     expect(edgeItem.shapeMap.labelShape.attributes.transform).toBe('rotate(45)');
     expect(edgeItem.shapeMap.labelBgShape.attributes.transform).toBe('rotate(45)');
     let labelBounds = edgeItem.shapeMap.labelShape.getGeometryBounds();
@@ -535,10 +536,6 @@ describe('register node', () => {
           stroke: '#0f0',
         },
       }
-      constructor() {
-        super();
-        this.defaultStyles = Object.assign({}, this.baseDefaultStyles, this.defaultStyles);
-      }
       public drawLabelShape(
         model: NodeDisplayModel,
         shapeMap: NodeShapeMap,
@@ -697,10 +694,6 @@ describe('register node', () => {
           stroke: '#0f0',
           opacity: 0.6
         },
-      }
-      constructor() {
-        super();
-        this.defaultStyles = Object.assign({}, this.baseDefaultStyles, this.defaultStyles);
       }
       public drawKeyShape(model: NodeDisplayModel, shapeMap: NodeShapeMap, diffData?: { oldData: NodeModelData; newData: NodeModelData; }) {
         const keyShapeStyle = Object.assign({}, this.defaultStyles.keyShape, model.data.labelShape);
@@ -864,7 +857,7 @@ describe('state', () => {
       expect(graph.itemController.itemMap['node1'].shapeMap.keyShape.style.stroke).toBe('#0f0');
       graph.setItemState('node1', 'selected', false);
       expect(graph.findIdByState('node', 'selected').length).toBe(0);
-      expect(graph.itemController.itemMap['node1'].shapeMap.keyShape.style.lineWidth).toBe(0);
+      expect(graph.itemController.itemMap['node1'].shapeMap.keyShape.style.lineWidth).toBe(1);
 
       // set multiple nodes state
       graph.setItemState(['node1', 'node2'], 'selected', true);
@@ -876,10 +869,10 @@ describe('state', () => {
       graph.setItemState('node1', 'selected', false);
       expect(graph.findIdByState('node', 'selected').length).toBe(1);
       expect(graph.findIdByState('node', 'selected')[0]).toBe('node2');
-      expect(graph.itemController.itemMap['node1'].shapeMap.keyShape.style.lineWidth).toBe(0);
+      expect(graph.itemController.itemMap['node1'].shapeMap.keyShape.style.lineWidth).toBe(1);
       graph.setItemState(['node1', 'node2'], 'selected', false);
       expect(graph.findIdByState('node', 'selected').length).toBe(0);
-      expect(graph.itemController.itemMap['node2'].shapeMap.keyShape.style.lineWidth).toBe(0);
+      expect(graph.itemController.itemMap['node2'].shapeMap.keyShape.style.lineWidth).toBe(1);
 
       // // set multiple states
       graph.setItemState(['node1', 'node2'], ['selected', 'highlight'], true);
@@ -900,7 +893,7 @@ describe('state', () => {
       expect(graph.findIdByState('node', 'selected').length).toBe(0);
       expect(graph.findIdByState('node', 'highlight').length).toBe(0);
       expect(graph.itemController.itemMap['node1'].shapeMap.keyShape.style.r).toBe(15);
-      expect(graph.itemController.itemMap['node1'].shapeMap.keyShape.style.lineWidth).toBe(0);
+      expect(graph.itemController.itemMap['node1'].shapeMap.keyShape.style.lineWidth).toBe(1);
       expect(graph.itemController.itemMap['node1'].shapeMap.keyShape.style.opacity).toBe(1);
 
       graph.destroy();
@@ -968,7 +961,7 @@ describe('state', () => {
       expect(graph.itemController.itemMap['node1'].shapeMap.keyShape.style.stroke).toBe('#0f0');
       graph.setItemState('node1', 'selected', false);
       expect(graph.findIdByState('node', 'selected').length).toBe(0);
-      expect(graph.itemController.itemMap['node1'].shapeMap.keyShape.style.lineWidth).toBe(0);
+      expect(graph.itemController.itemMap['node1'].shapeMap.keyShape.style.lineWidth).toBe(1);
 
       // set multiple nodes state
       graph.setItemState(['node1', 'node2'], 'selected', true);
@@ -980,10 +973,10 @@ describe('state', () => {
       graph.setItemState('node1', 'selected', false);
       expect(graph.findIdByState('node', 'selected').length).toBe(1);
       expect(graph.findIdByState('node', 'selected')[0]).toBe('node2');
-      expect(graph.itemController.itemMap['node1'].shapeMap.keyShape.style.lineWidth).toBe(0);
+      expect(graph.itemController.itemMap['node1'].shapeMap.keyShape.style.lineWidth).toBe(1);
       graph.setItemState(['node1', 'node2'], 'selected', false);
       expect(graph.findIdByState('node', 'selected').length).toBe(0);
-      expect(graph.itemController.itemMap['node2'].shapeMap.keyShape.style.lineWidth).toBe(0);
+      expect(graph.itemController.itemMap['node2'].shapeMap.keyShape.style.lineWidth).toBe(1);
 
       // // set multiple states
       graph.setItemState(['node1', 'node2'], ['selected', 'highlight'], true);
@@ -1004,7 +997,7 @@ describe('state', () => {
       expect(graph.findIdByState('node', 'selected').length).toBe(0);
       expect(graph.findIdByState('node', 'highlight').length).toBe(0);
       expect(graph.itemController.itemMap['node1'].shapeMap.keyShape.style.r).toBe(15);
-      expect(graph.itemController.itemMap['node1'].shapeMap.keyShape.style.lineWidth).toBe(0);
+      expect(graph.itemController.itemMap['node1'].shapeMap.keyShape.style.lineWidth).toBe(1);
       expect(graph.itemController.itemMap['node1'].shapeMap.keyShape.style.opacity).toBe(1);
 
       graph.destroy();
@@ -1239,10 +1232,6 @@ describe('state', () => {
         lineWidth: 0,
         stroke: '#0f0',
       },
-    }
-    constructor() {
-      super();
-      this.defaultStyles = Object.assign({}, this.baseDefaultStyles, this.defaultStyles);
     }
     public drawLabelShape(
       model: NodeDisplayModel,

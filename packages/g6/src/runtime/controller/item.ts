@@ -9,8 +9,10 @@ import Node from '../../item/node';
 import Edge from '../../item/edge';
 import Combo from '../../item/combo';
 import { Group } from '@antv/g';
-import { ITEM_TYPE } from '../../types/item';
+import { ItemShapeStyles, ITEM_TYPE } from '../../types/item';
 import { ComboDisplayModel, ComboEncode } from '../../types/combo';
+import { ThemeSpecification, ItemThemeSpecifications, ItemStyleSet } from '../../types/theme';
+import { isArray, isObject } from '@antv/util';
 
 /**
  * Manages and stores the node / edge / combo items.
@@ -47,7 +49,10 @@ export class ItemController {
   private edgeGroup: Group;
   // TODO: combo? not a independent group
 
-  constructor(graph: IGraph<any>) {
+  private nodeDataTypeSet: Set<string> = new Set();
+  private edgeDataTypeSet: Set<string> = new Set();
+
+  constructor(graph: IGraph<any, any>) {
     this.graph = graph;
     // get mapper for node / edge / combo
     const { node, edge, combo, nodeState, edgeState, comboState }  = graph.getSpecification();
@@ -102,8 +107,8 @@ export class ItemController {
    * Listener of runtime's render hook.
    * @param param contains inner data stored in graphCore structure
    */
-  private onRender(param: { graphCore: GraphCore }) {
-    const { graphCore } = param;
+  private onRender(param: { graphCore: GraphCore, theme: ThemeSpecification }) {
+    const { graphCore, theme = {} } = param;
     const { graph } = this;
     // TODO: 0. clear groups on canvas, and create new groups
     graph.canvas.removeChildren();
@@ -119,8 +124,8 @@ export class ItemController {
     const edgeModels = graphCore.getAllEdges();
     // const combos = graphCore.getAllCombos();
 
-    this.renderNodes(nodeModels);
-    this.renderEdges(edgeModels);
+    this.renderNodes(nodeModels, theme.node);
+    this.renderEdges(edgeModels, theme.edge);
     // TODO: combo
   }
 
@@ -132,8 +137,9 @@ export class ItemController {
     type: ITEM_TYPE;
     changes: GraphChange<NodeModelData, EdgeModelData>[];
     graphCore: GraphCore;
+    theme: ThemeSpecification;
   }) {
-    const { changes, graphCore } = param;
+    const { changes, graphCore, theme = {} } = param;
     const groupedChanges = {
       NodeRemoved: [],
       EdgeRemoved: [],
@@ -159,13 +165,16 @@ export class ItemController {
         delete itemMap[id];
       }
     });
+
+    const { node: nodeTheme = {}, edge: edgeTheme = {} } = theme;
+
     // === 3. add nodes ===
     if (groupedChanges.NodeAdded.length) {
-      this.renderNodes(groupedChanges.NodeAdded.map((change) => change.value));
+      this.renderNodes(groupedChanges.NodeAdded.map((change) => change.value), nodeTheme);
     }
     // === 4. add edges ===
     if (groupedChanges.EdgeAdded.length) {
-      this.renderEdges(groupedChanges.EdgeAdded.map((change) => change.value));
+      this.renderEdges(groupedChanges.EdgeAdded.map((change) => change.value), edgeTheme);
     }
 
     // === 5. update nodes's data ===
@@ -186,12 +195,18 @@ export class ItemController {
           nodeUpdate[id].current[propertyName] = newValue;
         }
       });
+      const { dataTypeField: nodeDataTypeField } = nodeTheme;
       const edgeToUpdate = {};
       Object.keys(nodeUpdate).forEach((id) => {
         const { isReplace, previous, current } = nodeUpdate[id];
+        // update the theme if the dataType value is changed
+        let themeStyles;
+        if (previous[nodeDataTypeField] !== current[nodeDataTypeField]) {
+          themeStyles = getThemeStyles(this.nodeDataTypeSet, nodeDataTypeField, current[nodeDataTypeField], nodeTheme);
+        }
         const item = itemMap[id];
         const innerModel = graphCore.getNode(id);
-        item.update(innerModel, { previous, current }, isReplace);
+        item.update(innerModel, { previous, current }, isReplace, themeStyles);
         const relatedEdgeInnerModels = graphCore.getRelatedEdges(id);
         relatedEdgeInnerModels.forEach((edge) => (edgeToUpdate[edge.id] = edge));
       });
@@ -219,11 +234,17 @@ export class ItemController {
         }
       });
 
+      const { dataTypeField: edgeDataTypeField } = edgeTheme;
       Object.keys(edgeUpdate).forEach((id) => {
         const { isReplace, current, previous } = edgeUpdate[id];
+        // update the theme if the dataType value is changed
+        let themeStyles;
+        if (previous[edgeDataTypeField] !== current[edgeDataTypeField]) {
+          themeStyles = getThemeStyles(this.edgeDataTypeSet, edgeDataTypeField, current[edgeDataTypeField], edgeTheme);
+        }
         const item = itemMap[id];
         const innerModel = graphCore.getEdge(id);
-        item.update(innerModel, { current, previous }, isReplace);
+        item.update(innerModel, { current, previous }, isReplace, themeStyles);
       });
     }
 
@@ -276,16 +297,22 @@ export class ItemController {
    * Create nodes with inner data to canvas.
    * @param models nodes' inner datas
    */
-  private renderNodes(models: NodeModel[]) {
-    const { nodeExtensions, nodeGroup } = this;
+  private renderNodes(models: NodeModel[], nodeTheme: ItemThemeSpecifications = {}) {
+    const { nodeExtensions, nodeGroup, nodeDataTypeSet } = this;
+    const { dataTypeField } = nodeTheme;
     models.forEach((node) => {
-      // TODO: get mapper from theme controller which is analysed from graph spec;
+      // get the base styles from theme
+      let dataType;
+      if (dataTypeField) dataType = node.data[dataTypeField] as string;
+      const themeStyle = getThemeStyles(nodeDataTypeSet, dataTypeField, dataType, nodeTheme);
+      
       this.itemMap[node.id] = new Node({
         model: node,
         renderExtensions: nodeExtensions,
         containerGroup: nodeGroup,
         mapper: this.nodeMapper,
         stateMapper: this.nodeStateMapper,
+        themeStyles: themeStyle,
       });
     });
   }
@@ -294,8 +321,9 @@ export class ItemController {
    * Create edges with inner data to canvas.
    * @param models edges' inner datas
    */
-  private renderEdges(models: EdgeModel[]) {
-    const { edgeExtensions, edgeGroup, itemMap } = this;
+  private renderEdges(models: EdgeModel[], edgeTheme: ItemThemeSpecifications = {}) {
+    const { edgeExtensions, edgeGroup, itemMap, edgeDataTypeSet } = this;
+    const { dataTypeField } = edgeTheme;
     models.forEach((edge) => {
       const { source, target, id } = edge;
       const sourceItem = itemMap[source] as Node;
@@ -310,6 +338,11 @@ export class ItemController {
           `The source node ${source} is not exist in the graph for edge ${id}, please add the node first`,
         );
       }
+      // get the base styles from theme
+      let dataType;
+      if (dataTypeField) dataType = edge.data[dataTypeField] as string;
+      const themeStyle = getThemeStyles(edgeDataTypeSet, dataTypeField, dataType, edgeTheme);
+
       itemMap[id] = new Edge({
         model: edge,
         renderExtensions: edgeExtensions,
@@ -318,6 +351,7 @@ export class ItemController {
         stateMapper: this.edgeStateMapper,
         sourceItem,
         targetItem,
+        themeStyles: themeStyle,
       });
     });
   }
@@ -352,4 +386,22 @@ export class ItemController {
     }
     return item.hasState(state);
   }
+}
+
+const getThemeStyles = (dataTypeSet: Set<string>, dataTypeField: string, dataType: string, itemTheme: ItemThemeSpecifications): ItemStyleSet => {
+  const { styles: themeStyles } = itemTheme;
+  if (!dataTypeField) {
+    // dataType field is not assigned
+    return isArray(themeStyles) ? themeStyles[0] : Object.values(themeStyles)[0];
+  }
+  dataTypeSet.add(dataType as string);
+  let themeStyle;
+  if (isArray(themeStyles)) {
+    const themeStylesLength = themeStyles.length;
+    let idx = Array.from(dataTypeSet).indexOf(dataType);
+    themeStyle = themeStyles[idx % themeStylesLength];
+  } else if (isObject(themeStyles)) {
+    themeStyle = themeStyles[dataType] || themeStyles.others;
+  }
+  return themeStyle;
 }

@@ -1,8 +1,8 @@
 import { DisplayObject } from '@antv/g';
 import { NodeDisplayModel } from '../../../types';
-import { State } from '../../../types/item';
+import { ItemShapeStyles, State } from '../../../types/item';
 import { NodeModelData, NodeShapeMap } from '../../../types/node';
-import { mergeStyles, upsertShape } from '../../../util/shape';
+import { upsertShape } from '../../../util/shape';
 import { BaseNode } from './base';
 
 export class CircleNode extends BaseNode {
@@ -11,15 +11,13 @@ export class CircleNode extends BaseNode {
       r: 15,
       x: 0,
       y: 0,
-      fill: '#f00',
-      lineWidth: 0,
-      stroke: '#0f0',
     }
   };
-  constructor() {
-    super();
+  mergedStyles: ItemShapeStyles;
+  constructor(props) {
+    super(props);
     // suggest to merge default styles like this to avoid style value missing
-    this.defaultStyles = mergeStyles(this.baseDefaultStyles, this.defaultStyles);
+    // this.defaultStyles = mergeStyles([this.baseDefaultStyles, this.defaultStyles]);
   }
   public draw(
     model: NodeDisplayModel,
@@ -55,7 +53,6 @@ export class CircleNode extends BaseNode {
     diffData?: { previous: NodeModelData; current: NodeModelData },
     diffState?: { previous: State[], current: State[] }
   ): DisplayObject {
-    const shapeStyle = Object.assign({}, this.defaultStyles.keyShape, model.data?.keyShape);
-    return upsertShape('circle', 'keyShape', shapeStyle, shapeMap);
+    return upsertShape('circle', 'keyShape', this.mergedStyles.keyShape, shapeMap);
   }
 }

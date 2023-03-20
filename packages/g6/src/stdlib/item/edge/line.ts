@@ -12,14 +12,12 @@ export class LineEdge extends BaseEdge {
       y1: 0,
       x2: 0,
       y2: 0,
-      stroke: '#ccc',
-      lineWidth: 1,
     }
   }
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     // suggest to merge default styles like this to avoid style value missing
-    this.defaultStyles = mergeStyles(this.baseDefaultStyles, this.defaultStyles);
+    // this.defaultStyles = mergeStyles([this.baseDefaultStyles, this.defaultStyles]);
   }
   public draw(
     model: EdgeDisplayModel,
@@ -52,7 +50,7 @@ export class LineEdge extends BaseEdge {
     diffData?: { previous: EdgeModelData; current: EdgeModelData },
     diffState?: { previous: State[], current: State[] }
   ) {
-    const keyShapeStyle = Object.assign({}, this.defaultStyles.keyShape, model.data?.keyShape);
+    const { keyShape: keyShapeStyle } = this.mergedStyles;
     const keyShape = upsertShape(
       'line',
       'keyShape',

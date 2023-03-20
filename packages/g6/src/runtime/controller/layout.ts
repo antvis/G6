@@ -22,7 +22,7 @@ export class LayoutController {
   private currentAnimation: Animation | null;
   private animatedDisplayObject: DisplayObject;
 
-  constructor(graph: IGraph<any>) {
+  constructor(graph: IGraph<any, any>) {
     this.graph = graph;
     this.animatedDisplayObject = new DisplayObject({});
     this.tap();

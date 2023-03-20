@@ -12,9 +12,10 @@ import { ITEM_TYPE } from './item';
 import { LayoutOptions } from './layout';
 import { NodeModel, NodeUserModel } from './node';
 import { Specification } from './spec';
+import { ThemeRegistry } from './theme';
 import { FitViewRules, GraphAlignment } from './view';
 
-export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends EventEmitter {
+export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry, T extends ThemeRegistry = ThemeRegistry> extends EventEmitter {
   hooks: Hooks;
   canvas: Canvas;
   destroyed: boolean;
@@ -29,12 +30,12 @@ export interface IGraph<B extends BehaviorRegistry = BehaviorRegistry> extends E
   /**
    * Update the specs(configurations).
    */
-  updateSpecification: (spec: Specification<B>) => void;
+  updateSpecification: (spec: Specification<B, T>) => void;
   /**
    * Get the copy of specs(configurations).
    * @returns graph specs
    */
-  getSpecification: () => Specification<B>;
+  getSpecification: () => Specification<B, T>;
 
   // ====== data operations ====
   /**

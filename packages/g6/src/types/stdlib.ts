@@ -1,6 +1,6 @@
 import { BehaviorRegistry } from "./behavior";
 
-export type StdLibCategory = 'transform' | 'behavior' | 'layout' | 'node' | 'edge' | 'combo' | 'theme' | 'plugin';
+export type StdLibCategory = 'transform' | 'behavior' | 'layout' | 'node' | 'edge' | 'combo' | 'theme' | 'themeSolver' | 'plugin';
 
 export interface Lib {
   transforms?: object,

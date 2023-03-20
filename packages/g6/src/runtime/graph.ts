@@ -24,6 +24,7 @@ import {
   StandardLayoutOptions,
 } from '../types/layout';
 import { NodeModel, NodeModelData } from '../types/node';
+import { ThemeRegistry, ThemeSpecification } from '../types/theme';
 import { FitViewRules, GraphAlignment } from '../types/view';
 import { createCanvas } from '../util/canvas';
 import {
@@ -41,7 +42,7 @@ import Hook from './hooks';
  */
 runtime.enableCSSParsing = false;
 
-export default class Graph<B extends BehaviorRegistry> extends EventEmitter implements IGraph<B> {
+export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry> extends EventEmitter implements IGraph<B, T> {
   public hooks: Hooks;
   // for nodes and edges, which will be separate into groups
   public canvas: Canvas;
@@ -53,7 +54,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
   private transientCanvas: Canvas;
   // the tag indicates all the three canvases are all ready
   private canvasReady: boolean;
-  private specification: Specification<B>;
+  private specification: Specification<B, T>;
   private dataController: DataController;
   private interactionController: InteractionController;
   private layoutController: LayoutController;
@@ -61,14 +62,29 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
   private extensionController: ExtensionController;
   private themeController: ThemeController;
 
-  constructor(spec: Specification<B>) {
+  private defaultSpecification = {
+    theme: {
+      type: 'spec',
+      base: 'light'
+    }
+  }
+
+  constructor(spec: Specification<B, T>) {
     super();
     // TODO: analyse cfg
 
-    this.specification = spec;
+    this.specification = Object.assign({}, this.defaultSpecification, spec);
     this.initHooks();
     this.initCanvas();
     this.initControllers();
+
+    this.hooks.init.emit({
+      canvases: {
+        background: this.backgroundCanvas,
+        main: this.canvas,
+        transient: this.transientCanvas
+      }
+    });
 
     const { data } = spec;
     if (data) {
@@ -114,14 +130,21 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    */
   private initHooks() {
     this.hooks = {
-      init: new Hook<void>({ name: 'init' }),
+      init: new Hook<{
+        canvases: {
+          background: Canvas,
+          main: Canvas,
+          transient: Canvas
+        }
+      }>({ name: 'init' }),
       datachange: new Hook<{ data: GraphData; type: 'replace' }>({ name: 'datachange' }),
       itemchange: new Hook<{
         type: ITEM_TYPE;
         changes: GraphChange<NodeModelData, EdgeModelData>[];
         graphCore: GraphCore;
+        theme: ThemeSpecification;
       }>({ name: 'itemchange' }),
-      render: new Hook<{ graphCore: GraphCore }>({ name: 'render' }),
+      render: new Hook<{ graphCore: GraphCore, theme: ThemeSpecification; }>({ name: 'render' }),
       layout: new Hook<{ graphCore: GraphCore }>({ name: 'layout' }),
       modechange: new Hook<{ mode: string }>({ name: 'modechange' }),
       behaviorchange: new Hook<{
@@ -138,7 +161,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
   /**
    * Update the specs(configurations).
    */
-  public updateSpecification(spec: Specification<B>) {
+  public updateSpecification(spec: Specification<B, T>) {
     // TODO
   }
 
@@ -146,7 +169,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
    * Get the copy of specs(configurations).
    * @returns graph specs
    */
-  public getSpecification(): Specification<B> {
+  public getSpecification(): Specification<B, T> {
     return this.specification;
   }
 
@@ -162,6 +185,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     const emitRender = async () => {
       this.hooks.render.emit({
         graphCore: this.dataController.graphCore,
+        theme: this.themeController.specification
       });
       this.emit('afterrender');
 
@@ -188,6 +212,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     this.hooks.datachange.emit({ data, type });
     this.hooks.render.emit({
       graphCore: this.dataController.graphCore,
+      theme: this.themeController.specification
     });
     this.emit('afterrender');
 
@@ -381,11 +406,13 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     // data controller and item controller subscribe additem in order
 
     const { graphCore } = this.dataController;
+    const { specification } = this.themeController;
     graphCore.once('changed', (event) => {
       this.hooks.itemchange.emit({
         type: itemType,
         changes: graphCore.reduceChanges(event.changes),
         graphCore,
+        theme: specification
       });
     });
 
@@ -413,6 +440,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     const idArr = isArray(ids) ? ids : [ids];
     const data = { nodes: [], edges: [], combos: [] };
     const { userGraphCore, graphCore } = this.dataController;
+    const { specification } = this.themeController;
     const getItem = itemType === 'edge' ? userGraphCore.getEdge : userGraphCore.getNode; // TODO: combo
     data[`${itemType}s`] = idArr.map((id) => getItem.bind(userGraphCore)(id));
     graphCore.once('changed', (event) => {
@@ -420,6 +448,7 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
         type: itemType,
         changes: event.changes,
         graphCore,
+        theme: specification
       });
     });
     this.hooks.datachange.emit({
@@ -452,11 +481,13 @@ export default class Graph<B extends BehaviorRegistry> extends EventEmitter impl
     data[`${itemType}s`] = modelArr;
 
     const { graphCore } = this.dataController;
+    const { specification } = this.themeController;
     graphCore.once('changed', (event) => {
       this.hooks.itemchange.emit({
         type: itemType,
         changes: event.changes,
         graphCore,
+        theme: specification
       });
     });
 

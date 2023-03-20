@@ -1,8 +1,7 @@
 import { Group } from '@antv/g';
-import { ID } from '@antv/graphlib';
 import { EdgeDisplayModel, EdgeModel } from '../types';
 import { EdgeModelData } from '../types/edge';
-import { DisplayMapper, ITEM_TYPE, State } from '../types/item';
+import { DisplayMapper, ItemShapeStyles, ITEM_TYPE, State } from '../types/item';
 import { updateShapes } from '../util/shape';
 import Item from './item';
 import Node from './node';
@@ -17,6 +16,7 @@ interface IProps {
   };
   sourceItem: Node;
   targetItem: Node;
+  themeStyles: ItemShapeStyles;
 }
 
 export default class Edge extends Item {
@@ -51,6 +51,7 @@ export default class Edge extends Item {
       x: targetBBox.center[0],
       y: targetBBox.center[1],
     };
+    this.renderExt.mergeStyles(displayModel);
     const shapeMap = this.renderExt.draw(
       displayModel,
       sourcePoint,
