@@ -55,7 +55,7 @@ const DEFAULT_OPTIONS: ClickSelectOptions ={
   shouldUpdate: () => true,
 };
 
-export class ClickSelect extends Behavior {
+export default class ClickSelect extends Behavior {
   options: ClickSelectOptions;
 
   constructor(options: Partial<ClickSelectOptions>) {

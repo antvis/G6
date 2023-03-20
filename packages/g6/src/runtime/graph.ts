@@ -1,5 +1,5 @@
 import EventEmitter from '@antv/event-emitter';
-import { Canvas, runtime } from '@antv/g';
+import { Canvas, runtime, AABB, DisplayObject } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
 import { isArray, isNil, isNumber, isObject, isString } from '@antv/util';
 import {
@@ -17,7 +17,7 @@ import { Padding, Point } from '../types/common';
 import { GraphCore } from '../types/data';
 import { EdgeModel, EdgeModelData } from '../types/edge';
 import { Hooks } from '../types/hook';
-import { ITEM_TYPE } from '../types/item';
+import { ITEM_TYPE, ShapeStyle, SHAPE_TYPE } from '../types/item';
 import {
   ImmediatelyInvokedLayoutOptions,
   LayoutOptions,
@@ -152,9 +152,8 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry> 
         modes: string[];
         behaviors: BehaviorOptionsOf<{}>[];
       }>({ name: 'behaviorchange' }),
-      itemstatechange: new Hook<{ ids: ID[]; state: string; value: boolean }>({
-        name: 'itemstatechange',
-      }),
+      itemstatechange: new Hook<{ ids: ID[], state: string, value: boolean }>({ name: 'itemstatechange' }),
+      transientupdate: new Hook<{ type: ITEM_TYPE | SHAPE_TYPE, id: ID, config: { style: ShapeStyle, action: 'remove' | 'add' | 'update' | undefined }, canvas: Canvas }>({ name: 'transientupdate'}), // TODO
     };
   }
 
@@ -364,6 +363,25 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry> 
     return this.dataController.findAllData('combo') as ComboModel[];
   }
   /**
+   * Get one-hop edge ids from a start node.
+   * @param nodeId id of the start node
+   * @returns one-hop edge ids
+   * @group Data
+   */
+  public getRelatedEdgesData(nodeId: ID, direction: 'in' | 'out' | 'both' = 'both'): EdgeModel[] {
+    return this.dataController.findRelatedEdgeIds(nodeId, direction);
+  }
+   /**
+   * Get one-hop node ids from a start node.
+   * @param nodeId id of the start node
+   * @returns one-hop node ids
+   * @group Data
+   */
+  public getNeighborNodesData(nodeId: ID, direction: 'in' | 'out' | 'both' = 'both'): NodeModel[] {
+    return this.dataController.findNeighborNodeIds(nodeId, direction);
+  }
+  
+  /**
    * Find items which has the state.
    * @param itemType item type
    * @param state state name
@@ -563,6 +581,27 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry> 
     });
   }
 
+  /**
+   * Get the rendering bbox for a node / edge / combo, or the graph (when the id is not assigned).
+   * @param id the id for the node / edge / combo, undefined for the whole graph
+   * @returns rendering bounding box. returns false if the item is not exist
+   * @group Item
+   */
+  public getRenderBBox(id: ID | undefined): AABB | false{
+    if (!id) return this.canvas.getRoot().getRenderBounds();
+    return this.itemController.getItemBBox(id);
+  }
+
+  /**
+   * Get the visibility for a node / edge / combo.
+   * @param id the id for the node / edge / combo
+   * @returns visibility for the item, false for invisible or unexistence for the item
+   * @group Item
+   */
+  public getItemVisible(id: ID) {
+    return this.itemController.getItemVisible(id);
+  }
+
   // ===== combo operations =====
   /**
    * Create a new combo with existing child nodes and combos.
@@ -721,6 +760,18 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry> 
     //     this.specification.modes[mode][i] = behavior;
     //   }
     // });
+  }
+
+  /**
+   * Draw or update a G shape or group to the transient canvas.
+   * @param type shape type or item type
+   * @param id new shape id or updated shape id for a interation shape, node/edge/combo id for item interaction group drawing
+   * @returns upserted shape or group
+   * @group Interaction
+   */
+  public drawTransient(type: ITEM_TYPE | SHAPE_TYPE, id: ID, config: { action: 'remove' | 'add' | 'update' | undefined, style: ShapeStyle}): DisplayObject {
+    this.hooks.transientupdate.emit({ type, id, config, canvas: this.transientCanvas });
+    return this.itemController.getTransient(String(id));
   }
 
   /**

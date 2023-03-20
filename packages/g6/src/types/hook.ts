@@ -2,7 +2,7 @@ import { Canvas } from '@antv/g';
 import { DataChangeType, GraphCore, GraphData } from "./data";
 import { NodeModelData } from "./node";
 import { EdgeModelData } from "./edge";
-import { ITEM_TYPE } from "./item";
+import { ITEM_TYPE, ShapeStyle, SHAPE_TYPE } from "./item";
 import { GraphChange, ID } from "@antv/graphlib";
 import { LayoutOptions } from "./layout";
 import { ThemeSpecification } from "./theme";
@@ -45,10 +45,20 @@ export interface Hooks {
     behaviors: (string | { type: string; key: string })[];
   }>;
   itemstatechange: IHook<{
-    ids: ID[],
-    states?: string[],
-    value?: boolean
-  }>; // TODO: define param template
+    ids: ID[];
+    states?: string[];
+    value?: boolean;
+  }>;
+  transientupdate: IHook<{
+    type: ITEM_TYPE | SHAPE_TYPE;
+    id: ID;
+    canvas: Canvas;
+    config: {
+      style: ShapeStyle,
+      action: 'remove' | 'add' | 'update' | undefined
+    };
+  }>;
+  // TODO: define param template
   // 'viewportchange': IHook<any>; // TODO: define param template
   // 'destroy': IHook<any>; // TODO: define param template
   // TODO: more timecycles here
