@@ -48,6 +48,7 @@ export default {
   },
   getEvents(): { [key in G6Event]?: string } {
     return {
+      'combo:mousedown': 'onMouseDown',
       'combo:dragstart': 'onDragStart',
       'combo:drag': 'onDrag',
       'combo:dragend': 'onDragEnd',
@@ -73,6 +74,12 @@ export default {
       return false;
     }
     return true;
+  },
+  onMouseDown(evt: IG6GraphEvent) {
+    this.origin = {
+      x: evt.x,
+      y: evt.y,
+    };
   },
   onDragStart(evt: IG6GraphEvent) {
     const graph: IGraph = this.graph;
@@ -121,11 +128,6 @@ export default {
 
     this.point = {};
     this.originPoint = {};
-
-    this.origin = {
-      x: evt.x,
-      y: evt.y,
-    };
 
     this.currentItemChildCombos = [];
 
