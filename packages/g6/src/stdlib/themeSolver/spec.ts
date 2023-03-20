@@ -1,4 +1,4 @@
-import { isArray } from '_@antv_util@3.3.2@@antv/util';
+import { isArray } from '@antv/util';
 import { ItemStyleSets, ThemeSpecification } from '../../types/theme';
 import { mergeStyles } from '../../util/shape';
 import BaseThemeSolver, { ThemeSpecificationMap } from './base';
