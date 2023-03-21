@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { Point } from '@antv/g-base';
 import Hierarchy from '@antv/hierarchy';
-import { each, isObject, isString } from '@antv/util';
+import { each, isObject, isString, clone } from '@antv/util';
 import {
   GraphData,
   Item,
@@ -311,9 +311,38 @@ export default class TreeGraph extends Graph implements ITreeGraph {
    */
   public layout(fitView?: boolean) {
     const self = this;
-    const data: TreeGraphData = self.get('data');
+    let data: TreeGraphData = self.get('data');
     const layoutMethod = self.get('layoutMethod');
-    const layoutData = layoutMethod ? layoutMethod(data, self.get('layout')) : data;
+    const layoutConfig = self.get('layout');
+
+    let layoutData = data;
+    if (layoutConfig?.excludeInvisibles) {
+      data = clone(self.get('data'));
+      traverseTree<TreeGraphData>(data, subTree => {
+        const siblings = subTree.children;
+        if (!siblings?.length) return true;
+        for (let i = siblings.length - 1; i >= 0; i--) {
+          const node = this.findById(siblings[i].id);
+          let isHidden = node ? !node.isVisible() : siblings[i].visible === false;
+          if (isHidden) siblings.splice(i, 1);
+        }
+      });
+      layoutData = layoutMethod ? layoutMethod(data, self.get('layout')) : data;
+      traverseTree<TreeGraphData>(layoutData, subTree => {
+        const node = this.findDataById(subTree.id);
+        if (!node) return;
+        node.data = subTree.data;
+        node.x = subTree.x;
+        node.y = subTree.y;
+      });
+      layoutData = self.get('data');
+      traverseTree<TreeGraphData>(layoutData, subTree => {
+        if (!subTree.data) subTree.data = { ...subTree }
+      });
+    } else {
+      layoutData = layoutMethod ? layoutMethod(data, self.get('layout')) : data;
+    }
+    
 
     const animate: boolean = self.get('animate');
 

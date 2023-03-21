@@ -2,7 +2,9 @@
 
 ### 4.8.8
 
-- fix: preset layout with gpu layout;
+- feat: preset layout with gpu layout;
+- feat: tree graph layout with excludeInvisibles prop, closes: #4340;
+- fix: type problems, closes: #4301;
 
 ### 4.8.7
 

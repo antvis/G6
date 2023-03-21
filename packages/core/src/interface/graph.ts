@@ -291,12 +291,6 @@ export interface IAbstractGraph extends EventEmitter {
   priorityState: (item: Item | string, state: string) => void;
 
   /**
-   * 设置视图初始化数据
-   * @param {GraphData} data 初始化数据
-   */
-  data: (data?: GraphData | TreeGraphData) => void;
-
-  /**
    * 当源数据在外部发生变更时，根据新数据刷新视图。但是不刷新节点位置
    */
   refresh: () => void;
@@ -510,14 +504,6 @@ export interface IAbstractGraph extends EventEmitter {
    * @return {object} 元素实例
    */
   findAllByState: <T extends Item>(type: ITEM_TYPE, state: string, additionalFilter?: (item: Item) => boolean) => T[];
-
-  /**
-   * 更换布局配置项
-   * @param {object} cfg 新布局配置项
-   * 若 cfg 含有 type 字段或为 String 类型，且与现有布局方法不同，则更换布局
-   * 若 cfg 不包括 type ，则保持原有布局方法，仅更新布局配置项
-   */
-  updateLayout: (cfg: LayoutConfig, align?: 'center' | 'begin', canvasPoint?: IPoint, stack?: boolean) => void;
 
   /**
    * 重新以当前示例中配置的属性进行一次布局
