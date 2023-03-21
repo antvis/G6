@@ -5,6 +5,9 @@
 - feat: preset layout with gpu layout;
 - feat: tree graph layout with excludeInvisibles prop, closes: #4340;
 - fix: type problems, closes: #4301;
+- fix: donut type node with error type param isBig for its path;
+- fix: nested child combo being rendered under parent;
+- fix: starting node dragging when dragstart;
 
 ### 4.8.7
 
