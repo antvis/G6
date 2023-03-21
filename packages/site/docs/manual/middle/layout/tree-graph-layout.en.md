@@ -42,6 +42,7 @@ const graph = new G6.TreeGraph({
     direction: 'LR', // Layout direction is from the left to the right. Options: 'H' / 'V' / 'LR' / 'RL' / 'TB' / 'BT'
     nodeSep: 50, // The distance between nodes
     rankSep: 100, // The distance between adjacent levels
+    excludeInvisibles: true, // Whether to exclude the hidden nodes, *Supported by v4.8.8.* 
   },
 });
 ```

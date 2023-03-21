@@ -242,7 +242,7 @@ const drawFan = (group: IGroup, fanConfig: FanConfig): {
   // draw a path represents the whole circle, or the percentage is close to 1
   if (drawWhole || percent > 0.999) {
     arcEnd = [arcR, 0.0001]; // [arcR * cos(2 * PI), -arcR * sin(2 * PI)]
-    isBig = true;
+    isBig = 1;
   } else {
     const angle = percent * Math.PI * 2;
     endAngle = beginAngle + angle;

@@ -120,7 +120,7 @@ export default class LayoutController extends AbstractLayout {
 
       // 若用户指定开启 gpu，且当前浏览器支持 webgl，且该算法存在 GPU 版本（目前仅支持 fruchterman 和 gForce），使用 gpu 版本的布局
       if (layoutType && this.isGPU) {
-        if (!this.hasGPUVersion(layoutType)) {
+        if (!hasGPUVersion(layoutType)) {
           console.warn(
             `The '${layoutType}' layout does not support GPU calculation for now, it will run in CPU.`,
           );
@@ -234,41 +234,21 @@ export default class LayoutController extends AbstractLayout {
     const preLayoutTypes = this.destoryLayoutMethods();
 
     graph.emit('beforelayout');
+    let start = Promise.resolve();
 
     // 增量情况下（上一次的布局与当前布局一致），上一次有节点，使用 treakInit
     if (prevHasNodes && layoutType && preLayoutTypes?.length === 1 && preLayoutTypes[0] === layoutType) {
       this.tweakInit();
     } else {
       // 初始化位置，若配置了 preset，则使用 preset 的参数生成布局作为预布局，否则使用 grid
-      this.initPositions(layoutCfg.center, nodes);
+      start = this.initPositions(layoutCfg.center, nodes);
     }
     // init hidden nodes
-    this.initPositions(layoutCfg.center, hiddenNodes);
-
-    // 防止用户直接用 -gpu 结尾指定布局
-    if (layoutType && layoutType.split('-')[1] === 'gpu') {
-      layoutType = layoutType.split('-')[0];
-      layoutCfg.gpuEnabled = true;
-    }
+    const initHiddenPromise = this.initPositions(layoutCfg.center, hiddenNodes);
+    initHiddenPromise.then();
 
     // 若用户指定开启 gpu，且当前浏览器支持 webgl，且该算法存在 GPU 版本（目前仅支持 fruchterman 和 gForce），使用 gpu 版本的布局
-    let enableGPU = false;
-    if (layoutCfg.gpuEnabled) {
-      enableGPU = true;
-      // 打开下面语句将会导致 webworker 报找不到 window
-      if (!gpuDetector().webgl) {
-        console.warn(`Your browser does not support webGL or GPGPU. The layout will run in CPU.`);
-        enableGPU = false;
-      }
-    }
-    // the layout does not support GPU, will run in CPU
-    if (enableGPU && !this.hasGPUVersion(layoutType)) {
-      console.warn(
-        `The '${layoutType}' layout does not support GPU calculation for now, it will run in CPU.`,
-      );
-      enableGPU = false;
-    }
-    this.isGPU = enableGPU;
+    this.isGPU = getGPUEnabled(layoutCfg, layoutType);
 
     // 在 onAllLayoutEnd 中执行用户自定义 onLayoutEnd，触发 afterlayout、更新节点位置、fitView/fitCenter、触发 afterrender
     const { onLayoutEnd, layoutEndFormatted, adjust } = layoutCfg;
@@ -302,7 +282,6 @@ export default class LayoutController extends AbstractLayout {
       return true;
     }
 
-    let start = Promise.resolve();
     let hasLayout = false;
     if (layoutCfg.type) {
       hasLayout = true;
@@ -374,14 +353,25 @@ export default class LayoutController extends AbstractLayout {
     })
   }
 
-  public initWithPreset(): boolean {
-    const { layoutCfg, data } = this;
-    const { preset } = layoutCfg;
-    if (!preset?.type || !Layout[preset?.type]) return false;
-    const presetLayout = new Layout[preset?.type](preset);
-    presetLayout.layout(data);
-    delete layoutCfg.preset;
-    return true;
+  public initWithPreset(hasPresetCallback, noPresetCallback): Promise<void> {
+    return new Promise(async (resolve, reject)  => {
+      const { layoutCfg, data } = this;
+      const { preset } = layoutCfg;
+      if (!preset?.type || !Layout[preset?.type]) {
+        noPresetCallback?.();
+        resolve();
+        return false;
+      }
+      const isGPU = getGPUEnabled(preset, preset.type);
+      const layoutType = isGPU ? `${preset.type}-gpu` : preset.type;
+      const presetLayout = new Layout[layoutType](preset);
+      delete layoutCfg.preset;
+      presetLayout.init(data);
+      await presetLayout.execute();
+      hasPresetCallback?.();
+      resolve();
+      return true;
+    });
   }
 
   /**
@@ -636,10 +626,6 @@ export default class LayoutController extends AbstractLayout {
     });
   }
 
-  public hasGPUVersion(layoutName: string): boolean {
-    return GPU_LAYOUT_NAMES.includes(layoutName);
-  }
-
   public destroy() {
     this.destoryLayoutMethods();
     const { worker } = this;
@@ -703,4 +689,34 @@ function addLayoutOrder(data, order) {
   nodes.forEach(node => {
     node.layoutOrder = order;
   });
+}
+
+function hasGPUVersion(layoutName: string): boolean {
+  return GPU_LAYOUT_NAMES.includes(layoutName);
+}
+
+function getGPUEnabled(layoutCfg, layoutType) {
+  let type = layoutType;
+  // 防止用户直接用 -gpu 结尾指定布局
+  if (layoutType && layoutType.split('-')[1] === 'gpu') {
+    type = layoutType.split('-')[0];
+    layoutCfg.gpuEnabled = true;
+  }
+  let enableGPU = false;
+  if (layoutCfg.gpuEnabled) {
+    enableGPU = true;
+    // 打开下面语句将会导致 webworker 报找不到 window
+    if (!gpuDetector().webgl) {
+      console.warn(`Your browser does not support webGL or GPGPU. The layout will run in CPU.`);
+      enableGPU = false;
+    }
+  }
+  // the layout does not support GPU, will run in CPU
+  if (enableGPU && !hasGPUVersion(type)) {
+    console.warn(
+      `The '${type}' layout does not support GPU calculation for now, it will run in CPU.`,
+    );
+    enableGPU = false;
+  }
+  return enableGPU;
 }

@@ -1915,14 +1915,17 @@ describe('tree graph', () => {
     expect(item.getModel().y).not.toBe(undefined);
   });
 
-  it('collapse-expand', () => {
+  it('collapse-expand', (done) => {
     const item = graph.findById('SubTreeNode1');
     graph.emit('node:click', { item });
-    expect(item.getModel().collapsed).toBe(true);
     setTimeout(() => {
+      expect(item.getModel().collapsed).toBe(true);
       graph.emit('node:click', { item });
-      expect(item.getModel().collapsed).toBe(false);
-      graph.destroy();
+      setTimeout(() => {
+        expect(item.getModel().collapsed).toBe(false);
+        graph.destroy();
+        done();
+      }, 500);
     }, 500);
   });
 });
