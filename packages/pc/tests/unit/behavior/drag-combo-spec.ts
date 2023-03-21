@@ -309,6 +309,7 @@ describe('drag-combo', () => {
 
     expect(Math.abs(comboCBBox.width - 298) < 2).toBe(true);
 
+    graph.emit('combo:mousedown', { item: combo, x: 100, y: 100 });
     graph.emit('combo:dragstart', { item: combo, x: 100, y: 100 });
     graph.emit('combo:drag', { item: combo, x: 500, y: 100 });
 
