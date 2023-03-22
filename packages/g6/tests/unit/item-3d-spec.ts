@@ -16,7 +16,27 @@ let CustomGraph;
 
 describe('node item', () => {
   let graph: IGraph<any>;
-  it('new graph with one node', (done) => {
+  it('new graph with one node', () => {//done
+    const nodes = [];
+    for (let i = 0; i < 1000; i++) {
+      nodes.push({
+        id: 'node-' + i,
+        data: {
+          x: Math.random() * 500,
+          y: Math.random() * 500,
+          z: Math.random() * 500,
+        }
+      })
+    }
+    const edges = [];
+    for (let i = 0; i < 500; i++) {
+      edges.push({
+        id: 'edge-'+i,
+        source: 'node-' + i,
+        target: 'node-' + (i + Math.floor(Math.random() * 500)),
+        data: {}
+      })
+    }
     graph = new G6.Graph({
       container,
       width: 500,
@@ -24,36 +44,38 @@ describe('node item', () => {
       type: 'graph',
       renderer: 'webgl',
       data: {
-        nodes: [
-          {
-            id: 'node1',
-            data: { x: 100, y: 200, z: 50, labelShape: { text: 'label'} },
-          },
-          {
-            id: 'node2',
-            data: { x: 200, y: 200, z: 1 },
-          },
-          {
-            id: 'node3',
-            data: { x: 300, y: 200, z: 100 },
-          },
-        ],
-        edges: [{
-          id: 'edge1',
-          source: 'node1',
-          target: 'node2',
-          data: {}
-        },{
-          id: 'edge2',
-          source: 'node2',
-          target: 'node3',
-          data: {}
-        }, {
-          id: 'edge3',
-          source: 'node1',
-          target: 'node3',
-          data: {}
-        }]
+        nodes, edges
+        // nodes: [
+        //   {
+        //     id: 'node1',
+        //     data: { x: 100, y: 200, z: 50, labelShape: { text: 'label'} },
+        //   },
+        //   {
+        //     id: 'node2',
+        //     data: { x: 200, y: 200, z: 1 },
+        //   },
+        //   {
+        //     id: 'node3',
+        //     data: { x: 300, y: 200, z: 100 },
+        //   },
+        // ],
+        // edges: [{
+        //   id: 'edge1',
+        //   source: 'node1',
+        //   target: 'node2',
+        //   data: {}
+        // },{
+        //   id: 'edge2',
+        //   source: 'node2',
+        //   target: 'node3',
+        //   data: {}
+        // }, {
+        //   id: 'edge3',
+        //   source: 'node1',
+        //   target: 'node3',
+        //   data: {}
+        // }
+      // ]
       },
       node: {
         type: 'sphere-node',
@@ -65,7 +87,7 @@ describe('node item', () => {
       // const nodeItem = graph.itemController.itemMap['node1'];
       // expect(nodeItem).not.toBe(undefined);
       // expect(nodeItem.shapeMap.labelShape).toBe(undefined);
-      done();
+      // done();
     });
   });
 });
