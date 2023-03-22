@@ -52,6 +52,8 @@ graph.node(function (node) {
     labelCfg: {
       position: node.children && node.children.length > 0 ? 'left' : 'right',
     },
+    // 避免点击节点时，同时增加子树和收起节点，看起来行为奇怪
+    collapsed: node.children?.length ? false : true
   };
 });
 let i = 0;
@@ -67,9 +69,6 @@ graph.edge(function () {
 const data = {
   isRoot: true,
   id: 'Root',
-  style: {
-    fill: 'red',
-  },
   children: [
     {
       id: 'SubTreeNode1',
