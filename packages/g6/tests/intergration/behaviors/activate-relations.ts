@@ -35,7 +35,7 @@ export default () => {
       ],
     },
     modes: {
-      default: ['activate-relations'],
+      default: [{ type: 'activate-relations', trigger: 'click' }],
     },
   });
 };
