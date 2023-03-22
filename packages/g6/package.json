@@ -31,6 +31,7 @@
   "module": "es/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
+    "dev":"vite",
     "start": "father build --watch",
     "build": "npm run clean && father build",
     "ci": "npm run build && npm run coverage",
