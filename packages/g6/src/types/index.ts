@@ -1,3 +1,4 @@
+export type { ID } from '@antv/graphlib';
 export type { ComboDisplayModel, ComboModel, ComboUserModel, ICombo } from './combo';
 export type { GraphData } from './data';
 export type { EdgeDisplayModel, EdgeModel, EdgeUserModel, IEdge } from './edge';
