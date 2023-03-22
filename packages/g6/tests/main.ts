@@ -2,6 +2,7 @@ import * as graphs from './intergration/index';
 
 const SelectGraph = document.getElementById('select') as HTMLSelectElement;
 let firstKey;
+console.log('firstKey', firstKey);
 const Options = Object.keys(graphs).map((key, index) => {
   const option = document.createElement('option');
   if (index === 0) {
