@@ -2,6 +2,8 @@ import { Canvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Renderer as SVGRenderer } from '@antv/g-svg';
 import { Renderer as WebGLRenderer } from '@antv/g-webgl';
+import { Plugin as PluginControl } from '@antv/g-plugin-control';
+import { Plugin as Plugin3D } from '@antv/g-plugin-3d';
 import { isString } from '@antv/util';
 
 /**
@@ -23,18 +25,21 @@ export const createCanvas = (
   customCanvasTag = true,
   style: any = {},
 ) => {
-  let Renderer;
+  let renderer;
   switch (rendererType.toLowerCase()) {
     case 'svg':
-      Renderer = SVGRenderer;
+      renderer = new SVGRenderer();
       break;
     case 'webgl':
-      Renderer = WebGLRenderer;
+      renderer = new WebGLRenderer();
+      renderer.registerPlugin(new Plugin3D());
+      renderer.registerPlugin(new PluginControl());
       break;
     default:
-      Renderer = CanvasRenderer;
+      renderer = new CanvasRenderer();
       break;
   }
+
   if (typeof document !== 'undefined' && customCanvasTag) {
     const canvasTag = document.createElement('canvas');
     const dpr = pixelRatio || window.devicePixelRatio;
@@ -50,7 +55,7 @@ export const createCanvas = (
     return new Canvas({
       canvas: canvasTag,
       devicePixelRatio: pixelRatio,
-      renderer: new Renderer(),
+      renderer,
     });
   }
   return new Canvas({
@@ -58,6 +63,6 @@ export const createCanvas = (
     width,
     height,
     devicePixelRatio: pixelRatio,
-    renderer: new Renderer(),
+    renderer,
   });
 };

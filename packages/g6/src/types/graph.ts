@@ -15,6 +15,7 @@ import { EdgeModel, EdgeUserModel } from './edge';
 import { ITEM_TYPE, SHAPE_TYPE } from './item';
 import { LayoutOptions } from './layout';
 import { NodeModel, NodeUserModel } from './node';
+import { RendererName } from './render';
 import { Specification } from './spec';
 import { ThemeRegistry } from './theme';
 import { FitViewRules, GraphTransformOptions } from './view';
@@ -28,6 +29,7 @@ export interface IGraph<
   transientCanvas: Canvas;
   destroyed: boolean;
   container: HTMLElement;
+  rendererType: RendererName;
 
   // ===== graph instance ===
   /**

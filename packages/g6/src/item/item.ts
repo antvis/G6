@@ -52,8 +52,12 @@ export default abstract class Item implements IItem {
     [stateName: string]: ItemShapeStyles;
   };
 
+  private device: any; // for 3d
+
   // TODO: props type
-  constructor(props) {}
+  constructor(props) {
+    this.device = props.device;
+  }
 
   public init(props) {
     const {
@@ -79,6 +83,7 @@ export default abstract class Item implements IItem {
     this.themeStyles = themeStyles;
     this.renderExt = new RenderExtension({
       themeStyles: this.themeStyles.default,
+      device: this.device,
     });
   }
 
@@ -134,6 +139,7 @@ export default abstract class Item implements IItem {
       );
       this.renderExt = new RenderExtension({
         themeStyles: this.themeStyles.default,
+        device: this.device,
       });
     } else {
       this.renderExt.themeStyles = this.themeStyles.default;

@@ -48,6 +48,7 @@ const stdLib = {
   },
   nodes: {
     'circle-node': CircleNode,
+    'sphere-node': SphereNode,
   },
   edges: {
     'line-edge': LineEdge,
