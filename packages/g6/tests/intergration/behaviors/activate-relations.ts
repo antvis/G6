@@ -11,14 +11,15 @@ export default () => {
     },
     data: {
       nodes: [
-        { id: 'node1', data: { x: 100, y: 200 } },
-        { id: 'node2', data: { x: 200, y: 250 } },
-        { id: 'node3', data: { x: 200, y: 250 } },
+        { id: 'node1', data: {} },
+        { id: 'node2', data: {} },
+        { id: 'node3', data: {} },
+        { id: 'node4', data: {} },
       ],
       edges: [{ id: 'edge1', source: 'node1', target: 'node2', data: {} }],
     },
     modes: {
-      default: ['click-select'],
+      default: ['activate-relations'],
     },
   });
 };
