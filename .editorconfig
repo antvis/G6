@@ -1,20 +1,16 @@
-# EditorConfig is awesome: http://EditorConfig.org
-
-# top-most EditorConfig file
+# http://editorconfig.org
 root = true
 
-# Unix-style newlines with a newline ending every file
 [*]
+indent_style = space
+indent_size = 2
 end_of_line = lf
 charset = utf-8
-insert_final_newline = true
 trim_trailing_whitespace = true
-indent_style = space
-indent_size  = 2
-
-[Makefile]
-indent_style = tab
-indent_size  = 1
+insert_final_newline = true
 
 [*.md]
 trim_trailing_whitespace = false
+
+[Makefile]
+indent_style = tab
