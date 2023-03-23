@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6",
-  "version": "5.0.0",
+  "version": "5.0.0-beta.1",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",
@@ -22,12 +22,10 @@
   "license": "MIT",
   "author": "https://github.com/orgs/antvis/people",
   "files": [
-    "package.json",
+    "src",
     "es",
     "lib",
-    "dist",
-    "LICENSE",
-    "README.md"
+    "dist"
   ],
   "main": "lib/index.js",
   "module": "es/index.js",
