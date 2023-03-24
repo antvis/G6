@@ -46,7 +46,7 @@ const graph = new G6.Graph({
 
 The theory of the [Minimap](#minimap) is copy the graphics from the main graph onto the canvas of the minimap, which will lead to double rendering cost. To alleviate this problem, G6 provides another Image Minimap which is drawn by one `<img />` instead of canvas. But you have to provide the `graphImg` which is the url or base64 string of the main graph's screenshot image, and the image is controlled by yourself totally, which means you might need to update the image by calling `minimap.updateGraphImg` manually when the content of the main graph is changed.
 
-**预期效果**
+**Expected Effect**
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*v1svQLkEPrUAAAAAAAAAAABkARQnAQ' width=300 alt='img'/>
 
