@@ -1,25 +1,25 @@
-import { Graph } from "../../src/index";
+import { Graph } from '../../src/index';
 
-const container = document.createElement("div");
-document.querySelector("body").appendChild(container);
+const container = document.createElement('div');
+document.querySelector('body').appendChild(container);
 
 const createGraph = (plugins) => {
   return new Graph({
     container,
     width: 500,
     height: 500,
-    type: "graph",
+    type: 'graph',
     data: {
       nodes: [
-        { id: "node1", data: { x: 100, y: 200 } },
-        { id: "node2", data: { x: 200, y: 250 } },
+        { id: 'node1', data: { x: 100, y: 200 } },
+        { id: 'node2', data: { x: 200, y: 250 } },
       ],
-      edges: [{ id: "edge1", source: "node1", target: "node2", data: {} }],
+      edges: [{ id: 'edge1', source: 'node1', target: 'node2', data: {} }],
     },
     node: {
       labelShape: {
         text: {
-          fields: ["id"],
+          fields: ['id'],
           formatter: (model) => {
             return model.id;
           },
@@ -27,63 +27,63 @@ const createGraph = (plugins) => {
       },
     },
     modes: {
-      default: ["brush-select"],
+      default: ['brush-select'],
     },
     plugins,
   });
 };
 
-describe("plugin", () => {
-  test("minimap with string config", (done) => {
-    const graph = createGraph(["minimap"]);
-    graph.on("afterlayout", (e) => {
+describe('plugin', () => {
+  test('minimap with string config', (done) => {
+    const graph = createGraph(['minimap']);
+    graph.on('afterlayout', (e) => {
       const viewport = document.getElementsByClassName(
-        "g6-minimap-viewport"
+        'g6-minimap-viewport',
       )?.[0];
       expect(viewport).not.toBe(undefined);
       // setTimeout for: minimap viewport debounce update
       setTimeout(() => {
-        expect(viewport.style.left).toBe("0px");
-        expect(viewport.style.top).toBe("0px");
-        expect(viewport.style.width).toBe("200px");
-        expect(viewport.style.height).toBe("120px");
+        expect(viewport.style.left).toBe('0px');
+        expect(viewport.style.top).toBe('0px');
+        expect(viewport.style.width).toBe('200px');
+        expect(viewport.style.height).toBe('120px');
 
         graph.zoom(3);
         graph.translate(50, 250);
         // setTimeout for: 1. zoom an translate are async function; 2. minimap viewport debounce update
         setTimeout(() => {
-          expect(viewport.style.left).toBe("99.3658px");
-          expect(viewport.style.top).toBe("0px");
-          expect(viewport.style.width).toBe("100.634px");
-          expect(viewport.style.height).toBe("76.4581px");
+          expect(viewport.style.left).toBe('99.3658px');
+          expect(viewport.style.top).toBe('0px');
+          expect(viewport.style.width).toBe('100.634px');
+          expect(viewport.style.height).toBe('76.4581px');
 
-          graph.addData("node", [{ id: "node3", data: { x: 50, y: 150 } }]);
+          graph.addData('node', [{ id: 'node3', data: { x: 50, y: 150 } }]);
           setTimeout(() => {
-            expect(viewport.style.left).toBe("117.383px");
-            expect(viewport.style.top).toBe("0px");
-            expect(viewport.style.width).toBe("82.6175px");
-            expect(viewport.style.height).toBe("88.345px");
+            expect(viewport.style.left).toBe('117.383px');
+            expect(viewport.style.top).toBe('0px');
+            expect(viewport.style.width).toBe('82.6175px');
+            expect(viewport.style.height).toBe('88.345px');
 
-            graph.updateData("node", [
-              { id: "node3", data: { x: 150, y: 50 } },
+            graph.updateData('node', [
+              { id: 'node3', data: { x: 150, y: 50 } },
             ]);
 
             setTimeout(() => {
-              expect(viewport.style.left).toBe("99.7435px");
-              expect(viewport.style.top).toBe("28.3537px");
-              expect(viewport.style.width).toBe("100.257px");
-              expect(viewport.style.height).toBe("69.4723px");
+              expect(viewport.style.left).toBe('99.7435px');
+              expect(viewport.style.top).toBe('28.3537px');
+              expect(viewport.style.width).toBe('100.257px');
+              expect(viewport.style.height).toBe('69.4723px');
 
-              graph.removeData("node", "node3");
+              graph.removeData('node', 'node3');
               setTimeout(() => {
-                expect(viewport.style.left).toBe("99.3658px");
-                expect(viewport.style.top).toBe("0px");
-                expect(viewport.style.width).toBe("100.634px");
-                expect(viewport.style.height).toBe("76.4581px");
+                expect(viewport.style.left).toBe('99.3658px');
+                expect(viewport.style.top).toBe('0px');
+                expect(viewport.style.width).toBe('100.634px');
+                expect(viewport.style.height).toBe('76.4581px');
 
                 graph.destroy();
                 const viewport2 = document.getElementsByClassName(
-                  "g6-minimap-viewport"
+                  'g6-minimap-viewport',
                 )?.[0];
                 expect(viewport2).toBe(undefined);
                 done();
@@ -95,85 +95,85 @@ describe("plugin", () => {
     });
   });
 
-  test("minimap with object onfig and delegate type", (done) => {
+  test('minimap with object onfig and delegate type', (done) => {
     const graph = createGraph([
       {
-        key: "minimap1",
-        type: "minimap",
+        key: 'minimap1',
+        type: 'minimap',
         size: [300, 300],
-        mode: "delegate",
+        mode: 'delegate',
         delegateStyle: {
-          fill: "#f00",
+          fill: '#f00',
         },
       },
     ]);
 
-    graph.on("afterlayout", (e) => {
+    graph.on('afterlayout', (e) => {
       const viewport = document.getElementsByClassName(
-        "g6-minimap-viewport"
+        'g6-minimap-viewport',
       )?.[0];
       setTimeout(() => {
-        expect(viewport.style.width).toBe("300px");
-        expect(viewport.style.height).toBe("300px");
+        expect(viewport.style.width).toBe('300px');
+        expect(viewport.style.height).toBe('300px');
         const { plugin: minimap } =
-          graph.pluginController.pluginMap.get("minimap1");
+          graph.pluginController.pluginMap.get('minimap1');
         expect(minimap).not.toBe(undefined);
         const minimapCanvas = minimap.canvas;
         const minimapRootGroup = minimapCanvas.getRoot();
         expect(minimapRootGroup.children.length).toBe(3);
         const node1Delegate = minimapRootGroup.find(
-          (ele) => ele.id === "minimap-delegate-node1"
+          (ele) => ele.id === 'minimap-delegate-node1',
         );
-        expect(node1Delegate.nodeName).toBe("rect");
-        expect(node1Delegate.style.fill).toBe("#f00");
+        expect(node1Delegate.nodeName).toBe('rect');
+        expect(node1Delegate.style.fill).toBe('#f00');
         const node2Delegate = minimapRootGroup.find(
-          (ele) => ele.id === "minimap-delegate-node2"
+          (ele) => ele.id === 'minimap-delegate-node2',
         );
-        expect(node2Delegate.nodeName).toBe("rect");
-        expect(node2Delegate.style.fill).toBe("#f00");
+        expect(node2Delegate.nodeName).toBe('rect');
+        expect(node2Delegate.style.fill).toBe('#f00');
         graph.destroy();
         done();
       }, 100);
     });
   });
 
-  test("minimap with object onfig and keyShape type", (done) => {
+  test('minimap with object onfig and keyShape type', (done) => {
     const graph = createGraph([
       {
-        key: "minimap1",
-        type: "minimap",
-        mode: "keyShape",
+        key: 'minimap1',
+        type: 'minimap',
+        mode: 'keyShape',
         size: [200, 300],
       },
     ]);
 
-    graph.on("afterlayout", (e) => {
+    graph.on('afterlayout', (e) => {
       const viewport = document.getElementsByClassName(
-        "g6-minimap-viewport"
+        'g6-minimap-viewport',
       )?.[0];
       setTimeout(() => {
-        expect(viewport.style.width).toBe("200px");
-        expect(viewport.style.height).toBe("300px");
+        expect(viewport.style.width).toBe('200px');
+        expect(viewport.style.height).toBe('300px');
         const { plugin: minimap } =
-          graph.pluginController.pluginMap.get("minimap1");
+          graph.pluginController.pluginMap.get('minimap1');
         expect(minimap).not.toBe(undefined);
         const minimapCanvas = minimap.canvas;
         const minimapRootGroup = minimapCanvas.getRoot();
         expect(minimapRootGroup.children.length).toBe(3);
         const node1Delegate = minimapRootGroup.find(
-          (ele) => ele.id === "minimap-keyShape-node1"
+          (ele) => ele.id === 'minimap-keyShape-node1',
         );
-        expect(node1Delegate.nodeName).toBe("circle");
+        expect(node1Delegate.nodeName).toBe('circle');
         const node1KeyShape =
-          graph.itemController.itemMap["node1"].shapeMap["keyShape"];
+          graph.itemController.itemMap['node1'].shapeMap['keyShape'];
         expect(node1Delegate.style.fill).toBe(node1KeyShape.style.fill);
 
         const node2Delegate = minimapRootGroup.find(
-          (ele) => ele.id === "minimap-keyShape-node2"
+          (ele) => ele.id === 'minimap-keyShape-node2',
         );
-        expect(node2Delegate.nodeName).toBe("circle");
+        expect(node2Delegate.nodeName).toBe('circle');
         const node2KeyShape =
-          graph.itemController.itemMap["node2"].shapeMap["keyShape"];
+          graph.itemController.itemMap['node2'].shapeMap['keyShape'];
         expect(node2Delegate.style.fill).toBe(node2KeyShape.style.fill);
 
         graph.destroy();
@@ -183,39 +183,39 @@ describe("plugin", () => {
   });
 });
 
-describe("graph plugin related APIs", () => {
+describe('graph plugin related APIs', () => {
   let graph;
-  test("add plugins to graph", (done) => {
+  test('add plugins to graph', (done) => {
     graph = createGraph(undefined);
-    graph.on("afterlayout", () => {
+    graph.on('afterlayout', () => {
       let viewport = document.getElementsByClassName(
-        "g6-minimap-viewport"
+        'g6-minimap-viewport',
       )?.[0];
       expect(viewport).toBe(undefined);
-      graph.addPlugins("minimap");
+      graph.addPlugins('minimap');
 
       // setTimeout for minimap canvas ready
       setTimeout(() => {
-        viewport = document.getElementsByClassName("g6-minimap-viewport")?.[0];
+        viewport = document.getElementsByClassName('g6-minimap-viewport')?.[0];
         expect(viewport).not.toBe(undefined);
 
         graph.addPlugins([
           {
-            key: "minimap1",
-            type: "minimap",
-            mode: "delegate",
+            key: 'minimap1',
+            type: 'minimap',
+            mode: 'delegate',
           },
           {
-            key: "minimap2",
-            type: "minimap",
-            mode: "keyShape",
+            key: 'minimap2',
+            type: 'minimap',
+            mode: 'keyShape',
           },
         ]);
 
         // setTimeout for minimap canvas ready
         setTimeout(() => {
           const viewports = document.getElementsByClassName(
-            "g6-minimap-viewport"
+            'g6-minimap-viewport',
           );
           expect(viewports.length).toBe(3);
           done();
@@ -224,40 +224,40 @@ describe("graph plugin related APIs", () => {
     });
   });
 
-  test("update minimap", (done) => {
+  test('update minimap', (done) => {
     graph.updatePlugin({
-      key: "minimap2",
-      mode: "delegate",
+      key: 'minimap2',
+      mode: 'delegate',
       delegateStyle: {
-        fill: "#f00",
+        fill: '#f00',
       },
     });
 
     // setTimeout for minimap canvas ready
     setTimeout(() => {
-      const viewports = document.getElementsByClassName("g6-minimap-viewport");
+      const viewports = document.getElementsByClassName('g6-minimap-viewport');
       expect(viewports.length).toBe(3);
 
       const { plugin: minimap } =
-        graph.pluginController.pluginMap.get("minimap2");
+        graph.pluginController.pluginMap.get('minimap2');
       expect(minimap).not.toBe(undefined);
       const minimapCanvas = minimap.canvas;
       const minimapRootGroup = minimapCanvas.getRoot();
       const node1Delegate = minimapRootGroup.find(
-        (ele) => ele.id === "minimap-delegate-node1"
+        (ele) => ele.id === 'minimap-delegate-node1',
       );
-      expect(node1Delegate.nodeName).toBe("rect");
-      expect(node1Delegate.style.fill).toBe("#f00");
+      expect(node1Delegate.nodeName).toBe('rect');
+      expect(node1Delegate.style.fill).toBe('#f00');
 
       done();
     }, 100);
   });
 
-  test("remove minimap", (done) => {
-    graph.removePlugins(["minimap1", "minimap2"]);
+  test('remove minimap', (done) => {
+    graph.removePlugins(['minimap1', 'minimap2']);
     // setTimeout for minimap canvas ready
     setTimeout(() => {
-      const viewports = document.getElementsByClassName("g6-minimap-viewport");
+      const viewports = document.getElementsByClassName('g6-minimap-viewport');
       expect(viewports.length).toBe(1);
       graph.destroy();
       done();

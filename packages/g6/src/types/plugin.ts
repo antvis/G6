@@ -33,7 +33,7 @@ export abstract class Plugin {
 
   /**
    * 更新插件的配置
-   * @param options 
+   * @param options
    */
   public updateCfgs(options?: IPluginBaseConfig) {
     this.options = deepMix(this.options, options);
@@ -63,7 +63,7 @@ export abstract class Plugin {
   /**
    * 销毁方法，供子类复写
    */
-  public destroy() { }
+  public destroy() {}
 
   /**
    * 销毁插件

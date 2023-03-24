@@ -3,7 +3,11 @@ import { AABB, Canvas, DisplayObject, PointLike } from '@antv/g';
 import { ID } from '@antv/graphlib';
 import { Hooks } from '../types/hook';
 import { CameraAnimationOptions } from './animate';
-import { BehaviorObjectOptionsOf, BehaviorOptionsOf, BehaviorRegistry } from './behavior';
+import {
+  BehaviorObjectOptionsOf,
+  BehaviorOptionsOf,
+  BehaviorRegistry,
+} from './behavior';
 import { ComboModel, ComboUserModel } from './combo';
 import { Padding, Point } from './common';
 import { GraphData } from './data';
@@ -88,14 +92,20 @@ export interface IGraph<
    * @returns one-hop edge ids
    * @group Data
    */
-  getRelatedEdgesData: (nodeId: ID, direction?: 'in' | 'out' | 'both') => EdgeModel[];
+  getRelatedEdgesData: (
+    nodeId: ID,
+    direction?: 'in' | 'out' | 'both',
+  ) => EdgeModel[];
   /**
    * Get one-hop node ids from a start node.
    * @param nodeId id of the start node
    * @returns one-hop node ids
    * @group Data
    */
-  getNeighborNodesData: (nodeId: ID, direction?: 'in' | 'out' | 'both') => NodeModel[];
+  getNeighborNodesData: (
+    nodeId: ID,
+    direction?: 'in' | 'out' | 'both',
+  ) => NodeModel[];
 
   /**
    * Input data and render the graph.
@@ -151,7 +161,13 @@ export interface IGraph<
       | EdgeUserModel[]
       | ComboUserModel[],
     stack?: boolean,
-  ) => NodeModel | EdgeModel | ComboModel | NodeModel[] | EdgeModel[] | ComboModel[];
+  ) =>
+    | NodeModel
+    | EdgeModel
+    | ComboModel
+    | NodeModel[]
+    | EdgeModel[]
+    | ComboModel[];
   /**
    * Remove one or more node/edge/combo data from the graph.
    * @param item the item to be removed
@@ -179,7 +195,13 @@ export interface IGraph<
           | Partial<ComboUserModel>[]
         >,
     stack?: boolean,
-  ) => NodeModel | EdgeModel | ComboModel | NodeModel[] | EdgeModel[] | ComboModel[];
+  ) =>
+    | NodeModel
+    | EdgeModel
+    | ComboModel
+    | NodeModel[]
+    | EdgeModel[]
+    | ComboModel[];
 
   // ===== view operations =====
 
@@ -189,13 +211,20 @@ export interface IGraph<
    * @param dy y of the relative vector
    * @param effectTiming animation configurations
    */
-  translate: (dx: number, dy: number, effectTiming?: CameraAnimationOptions) => Promise<void>;
+  translate: (
+    dx: number,
+    dy: number,
+    effectTiming?: CameraAnimationOptions,
+  ) => Promise<void>;
   /**
    * Move the graph and align to a point.
    * @param point position on the canvas to align
    * @param effectTiming animation configurations
    */
-  translateTo: (point: PointLike, effectTiming?: CameraAnimationOptions) => Promise<void>;
+  translateTo: (
+    point: PointLike,
+    effectTiming?: CameraAnimationOptions,
+  ) => Promise<void>;
   /**
    * Return the current zoom level of camera.
    * @returns current zoom
@@ -207,21 +236,33 @@ export interface IGraph<
    * @param center zoom center
    * @param effectTiming animation configurations
    */
-  zoom: (ratio: number, center?: Point, effectTiming?: CameraAnimationOptions) => Promise<void>;
+  zoom: (
+    ratio: number,
+    center?: Point,
+    effectTiming?: CameraAnimationOptions,
+  ) => Promise<void>;
   /**
    * Zoom the graph to a specified ratio.
    * @param toRatio specified ratio
    * @param center zoom center
    * @param effectTiming animation configurations
    */
-  zoomTo: (toRatio: number, center?: Point, effectTiming?: CameraAnimationOptions) => Promise<void>;
+  zoomTo: (
+    toRatio: number,
+    center?: Point,
+    effectTiming?: CameraAnimationOptions,
+  ) => Promise<void>;
   /**
    * Rotate the graph with a relative angle in clockwise.
    * @param angle
    * @param center
    * @param effectTiming
    */
-  rotate: (angle: number, center?: Point, effectTiming?: CameraAnimationOptions) => Promise<void>;
+  rotate: (
+    angle: number,
+    center?: Point,
+    effectTiming?: CameraAnimationOptions,
+  ) => Promise<void>;
   /**
    * Rotate the graph to an absolute angle in clockwise.
    * @param toAngle
@@ -279,7 +320,10 @@ export interface IGraph<
    * @param effectTiming animation configurations
    * @group View
    */
-  focusItem: (id: ID | ID[], effectTiming?: CameraAnimationOptions) => Promise<void>;
+  focusItem: (
+    id: ID | ID[],
+    effectTiming?: CameraAnimationOptions,
+  ) => Promise<void>;
   /**
    * Get the size of the graph canvas.
    * @returns [width, height]
@@ -387,7 +431,11 @@ export interface IGraph<
    * @param childrenIds id array of children of the new combo
    * @group Combo
    */
-  createCombo: (combo: string | ComboUserModel, childrenIds: string[], stack?: boolean) => void;
+  createCombo: (
+    combo: string | ComboUserModel,
+    childrenIds: string[],
+    stack?: boolean,
+  ) => void;
   /**
    * dissolve combo
    * @param {String | ICombo} item combo item or id to be dissolve
@@ -428,7 +476,10 @@ export interface IGraph<
    * @param modes mode names
    * @returns
    */
-  addBehaviors: (behaviors: BehaviorOptionsOf<B>[], modes: string | string[]) => void;
+  addBehaviors: (
+    behaviors: BehaviorOptionsOf<B>[],
+    modes: string | string[],
+  ) => void;
   /**
    * Remove behavior(s) from mode(s).
    * @param behaviors behavior names or configs
@@ -453,24 +504,30 @@ export interface IGraph<
    * @returns upserted shape or group
    * @group Interaction
    */
-  drawTransient: (type: ITEM_TYPE | SHAPE_TYPE, id: ID, config: any) => DisplayObject;
+  drawTransient: (
+    type: ITEM_TYPE | SHAPE_TYPE,
+    id: ID,
+    config: any,
+  ) => DisplayObject;
 
   /**
    * Add plugin(s) to graph.
-   * @param pluginCfgs 
-   * @returns 
+   * @param pluginCfgs
+   * @returns
    * @group Plugin
    */
-  addPlugins: (pluginCfgs: {
-    key: string;
-    type: string;
-    [cfgName: string]: unknown;
-  }[]) => void;
+  addPlugins: (
+    pluginCfgs: {
+      key: string;
+      type: string;
+      [cfgName: string]: unknown;
+    }[],
+  ) => void;
 
   /**
    * Remove plugin(s) from graph.
-   * @param pluginCfgs 
-   * @returns 
+   * @param pluginCfgs
+   * @returns
    * @group Plugin
    */
   removePlugins: (pluginKeys: string[]) => void;
@@ -478,7 +535,7 @@ export interface IGraph<
   /**
    * Update one plugin of the graph.
    * @param pluginCfgs
-   * @returns 
+   * @returns
    * @group Plugin
    */
   updatePlugin: (pluginCfg: {

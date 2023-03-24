@@ -1,21 +1,21 @@
-import { Canvas, Group, Rect, DisplayObject } from "@antv/g";
-import { isString, isNil, each, debounce } from "@antv/util";
-import { createDom, modifyCSS } from "@antv/dom-util";
-import { IGraph } from "../../../types";
-import { ShapeStyle } from "../../../types/item";
-import { Plugin as Base, IPluginBaseConfig } from "../../../types/plugin";
-import { createCanvas } from "../../../util/canvas";
-import { IG6GraphEvent } from "../../../types/event";
+import { Canvas, Group, Rect, DisplayObject } from '@antv/g';
+import { isString, isNil, each, debounce } from '@antv/util';
+import { createDom, modifyCSS } from '@antv/dom-util';
+import { IGraph } from '../../../types';
+import { ShapeStyle } from '../../../types/item';
+import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
+import { createCanvas } from '../../../util/canvas';
+import { IG6GraphEvent } from '../../../types/event';
 
-const DEFAULT_MODE = "default";
-const KEYSHAPE_MODE = "keyShape";
-const DELEGATE_MODE = "delegate";
-const SVG = "svg";
+const DEFAULT_MODE = 'default';
+const KEYSHAPE_MODE = 'keyShape';
+const DELEGATE_MODE = 'delegate';
+const SVG = 'svg';
 
 interface MiniMapConfig extends IPluginBaseConfig {
   viewportClassName?: string;
   className?: string;
-  mode?: "default" | "keyShape" | "delegate";
+  mode?: 'default' | 'keyShape' | 'delegate';
   size?: number[];
   delegateStyle?: ShapeStyle;
   refresh?: boolean;
@@ -50,15 +50,15 @@ export default class Minimap extends Base {
   public getDefaultCfgs(): MiniMapConfig {
     return {
       container: null,
-      className: "g6-minimap",
-      viewportClassName: "g6-minimap-viewport",
+      className: 'g6-minimap',
+      viewportClassName: 'g6-minimap-viewport',
       // Minimap 中默认展示和主图一样的内容，KeyShape 只展示节点和边的 key shape 部分，delegate表示展示自定义的rect，用户可自定义样式
-      mode: "default",
+      mode: 'default',
       padding: 8,
       size: [200, 120],
       delegateStyle: {
-        fill: "#40a9ff",
-        stroke: "#096dd9",
+        fill: '#40a9ff',
+        stroke: '#096dd9',
       },
       refresh: true,
       hideEdge: false,
@@ -94,8 +94,8 @@ export default class Minimap extends Base {
     if (destroyed) return;
 
     const containerDOM = canvas.context.config.container;
-    const isFireFox = navigator.userAgent.toLowerCase().indexOf("firefox") > -1;
-    const isSafari = navigator.userAgent.toLowerCase().indexOf("safari") > -1;
+    const isFireFox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+    const isSafari = navigator.userAgent.toLowerCase().indexOf('safari') > -1;
     const viewport = createDom(`
       <div
         class=${viewportClassName}
@@ -116,7 +116,7 @@ export default class Minimap extends Base {
     // Whether in dragging status
     let dragging = false;
 
-    const dragstartevent = isSafari || isFireFox ? "mousedown" : "dragstart";
+    const dragstartevent = isSafari || isFireFox ? 'mousedown' : 'dragstart';
     viewport.addEventListener(
       dragstartevent,
       ((e: IG6GraphEvent) => {
@@ -126,10 +126,10 @@ export default class Minimap extends Base {
             "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' %3E%3Cpath /%3E%3C/svg%3E";
           (e as any).dataTransfer.setDragImage?.(img, 0, 0);
           try {
-            (e as any).dataTransfer.setData("text/html", "view-port-minimap");
+            (e as any).dataTransfer.setData('text/html', 'view-port-minimap');
           } catch {
             // support IE
-            (e as any).dataTransfer.setData("text", "view-port-minimap");
+            (e as any).dataTransfer.setData('text', 'view-port-minimap');
           }
         }
 
@@ -142,7 +142,7 @@ export default class Minimap extends Base {
         x = e.clientX;
         y = e.clientY;
       }).bind(this),
-      false
+      false,
     );
 
     const dragListener = (e: IG6GraphEvent) => {
@@ -180,29 +180,29 @@ export default class Minimap extends Base {
       y = e.clientY;
     };
     if (!isSafari && !isFireFox) {
-      viewport.addEventListener("drag", dragListener.bind(this), false);
+      viewport.addEventListener('drag', dragListener.bind(this), false);
     }
 
     const dragendListener = () => {
       dragging = false;
       this.options.refresh = true;
     };
-    const dragendevent = isSafari || isFireFox ? "mouseup" : "dragend";
+    const dragendevent = isSafari || isFireFox ? 'mouseup' : 'dragend';
     viewport.addEventListener(dragendevent, dragendListener.bind(this), false);
 
     const zoomListener = (evt) => {
       // TODO: zoom the graph and update viewport
     };
-    viewport.addEventListener("wheel", zoomListener, false);
+    viewport.addEventListener('wheel', zoomListener, false);
 
-    containerDOM.addEventListener("mouseleave", dragendListener.bind(this));
-    containerDOM.addEventListener("mouseup", dragendListener.bind(this));
+    containerDOM.addEventListener('mouseleave', dragendListener.bind(this));
+    containerDOM.addEventListener('mouseup', dragendListener.bind(this));
 
     if (isSafari || isFireFox) {
       containerDOM.addEventListener(
-        "mousemove",
+        'mousemove',
         dragListener.bind(this),
-        false
+        false,
       );
     }
 
@@ -293,7 +293,7 @@ export default class Minimap extends Base {
       clonedGroup = new Group();
       canvas.appendChild(clonedGroup);
       graphGroup.children.forEach((group) => {
-        if (group.id === "edge-group") return;
+        if (group.id === 'edge-group') return;
         clonedGroup.appendChild(group.cloneNode(true));
       });
     } else {
@@ -303,13 +303,13 @@ export default class Minimap extends Base {
   }
 
   private updateVisible(ele) {
-    if (!ele.isGroup() && !ele.get("visible")) {
+    if (!ele.isGroup() && !ele.get('visible')) {
       ele.hide();
     } else {
-      const children = ele.get("children");
+      const children = ele.get('children');
       if (!children || !children.length) return;
       children.forEach((child) => {
-        if (!child.get("visible")) child.hide();
+        if (!child.get('visible')) child.hide();
         this.updateVisible(child);
       });
     }
@@ -334,9 +334,9 @@ export default class Minimap extends Base {
     });
     const combos = graph!.getAllCombosData();
     if (combos && combos.length) {
-      let comboGroup = group.find((e) => e.id === "combo-group");
+      let comboGroup = group.find((e) => e.id === 'combo-group');
       if (!comboGroup) {
-        comboGroup = new Group({ id: "combo-group" });
+        comboGroup = new Group({ id: 'combo-group' });
         group.appendChild(comboGroup);
       }
       setTimeout(() => {
@@ -362,14 +362,14 @@ export default class Minimap extends Base {
     const { itemMap = {}, graph } = this;
     const graphNodeGroup = graph.canvas
       .getRoot()
-      .find((ele) => ele.id === "node-group");
+      .find((ele) => ele.id === 'node-group');
     if (!graphNodeGroup) return;
 
     let { minimapItem, graphItem } = itemMap[nodeModel.id] || {};
     if (!minimapItem || minimapItem.destroyed) {
       graphItem = graphNodeGroup
-        .find((ele) => ele.getAttribute("data-item-id") === nodeModel.id)
-        ?.find((ele) => ele.id === "keyShape");
+        .find((ele) => ele.getAttribute('data-item-id') === nodeModel.id)
+        ?.find((ele) => ele.id === 'keyShape');
       minimapItem = graphItem.cloneNode();
       minimapItem.id = `minimap-keyShape-${nodeModel.id}`;
       group.appendChild(minimapItem);
@@ -385,8 +385,8 @@ export default class Minimap extends Base {
     };
     minimapItem.toFront();
 
-    const shapeType = minimapItem.get("type");
-    if (shapeType === "rect" || shapeType === "image" || shapeType === "text") {
+    const shapeType = minimapItem.get('type');
+    if (shapeType === 'rect' || shapeType === 'image' || shapeType === 'text') {
       attrs.x = bbox.min[0];
       attrs.y = bbox.min[1];
     }
@@ -397,7 +397,7 @@ export default class Minimap extends Base {
     if (!graph.getItemVisible(nodeModel.id)) minimapItem.hide();
     else minimapItem.show();
     const zIndex = nodeModel.data.depth;
-    if (!isNaN(zIndex)) minimapItem.set("zIndex", zIndex);
+    if (!isNaN(zIndex)) minimapItem.set('zIndex', zIndex);
     this.itemMap = itemMap;
   }
 
@@ -422,9 +422,9 @@ export default class Minimap extends Base {
     const combos = graph!.getAllCombosData();
     if (combos && combos.length) {
       const comboGroup =
-        group.find((e) => e.get("name") === "comboGroup") ||
+        group.find((e) => e.get('name') === 'comboGroup') ||
         group.addGroup({
-          name: "comboGroup",
+          name: 'comboGroup',
         });
       setTimeout(() => {
         if (this.destroyed) return;
@@ -462,7 +462,7 @@ export default class Minimap extends Base {
     const { itemMap = {}, graph } = this;
     const graphEdgeGroup = graph.canvas
       .getRoot()
-      .find((ele) => ele.id === "edge-group");
+      .find((ele) => ele.id === 'edge-group');
     if (!graphEdgeGroup) return;
     let { minimapItem, graphItem } = itemMap[edgeModel.id] || {};
     if (minimapItem && !minimapItem.destroyed) {
@@ -470,8 +470,8 @@ export default class Minimap extends Base {
       minimapItem.style.path = path;
     } else {
       graphItem = graphEdgeGroup
-        .find((ele) => ele.getAttribute("data-item-id") === edgeModel.id)
-        ?.find((ele) => ele.id === "keyShape");
+        .find((ele) => ele.getAttribute('data-item-id') === edgeModel.id)
+        ?.find((ele) => ele.id === 'keyShape');
       minimapItem = graphItem.cloneNode();
       minimapItem.id = `minimap-keyShape-${edgeModel.id}`;
       group.appendChild(minimapItem);
@@ -493,15 +493,15 @@ export default class Minimap extends Base {
 
     const graphNodeGroup = graph.canvas
       .getRoot()
-      .find((ele) => ele.id === "node-group");
+      .find((ele) => ele.id === 'node-group');
     if (!graphNodeGroup) return;
 
     // 差量更新 minimap 上的一个节点，对应主图的 item
     let { minimapItem, graphItem } = itemMap[nodeModel.id] || {};
     if (!graphItem) {
       graphItem = graphNodeGroup
-        .find((ele) => ele.getAttribute("data-item-id") === nodeModel.id)
-        ?.find((ele) => ele.id === "keyShape");
+        .find((ele) => ele.getAttribute('data-item-id') === nodeModel.id)
+        ?.find((ele) => ele.id === 'keyShape');
     }
 
     const bbox = graphItem.getRenderBounds();
@@ -524,7 +524,7 @@ export default class Minimap extends Base {
       group.appendChild(minimapItem);
     } else {
       Object.keys(attrs).forEach(
-        (key) => (minimapItem.style[key] = attrs[key])
+        (key) => (minimapItem.style[key] = attrs[key]),
       );
     }
     minimapItem.toFront();
@@ -545,7 +545,7 @@ export default class Minimap extends Base {
       self.updateCanvas();
     },
     100,
-    false
+    false,
   );
 
   public init(graph: IGraph) {
@@ -562,7 +562,7 @@ export default class Minimap extends Base {
     const { size, className } = options;
     let parentNode = options.container;
     const container: HTMLDivElement = createDom(
-      `<div class='${className}' style='width: ${size[0]}px; height: ${size[1]}px; overflow: hidden;'></div>`
+      `<div class='${className}' style='width: ${size[0]}px; height: ${size[1]}px; overflow: hidden;'></div>`,
     );
 
     if (isString(parentNode)) {
@@ -584,18 +584,18 @@ export default class Minimap extends Base {
     this.container = container;
 
     const containerDOM = createDom(
-      '<div class="g6-minimap-container" style="position: relative;"></div>'
+      '<div class="g6-minimap-container" style="position: relative;"></div>',
     );
     container.appendChild(containerDOM);
-    containerDOM.addEventListener("dragenter", (e) => {
+    containerDOM.addEventListener('dragenter', (e) => {
       e.preventDefault();
     });
-    containerDOM.addEventListener("dragover", (e) => {
+    containerDOM.addEventListener('dragover', (e) => {
       e.preventDefault();
     });
 
     // TODO: graph.rendererType, pixelRatio from graph
-    this.canvas = createCanvas("canvas", containerDOM, size[0], size[1], 1);
+    this.canvas = createCanvas('canvas', containerDOM, size[0], size[1], 1);
 
     return this.canvas.ready;
   }
@@ -632,7 +632,7 @@ export default class Minimap extends Base {
     // Scale the graph to fit the size - padding of the minimap container
     const zoomRatio = Math.min(
       (size[0] - 2 * padding) / width,
-      (size[1] - 2 * padding) / height
+      (size[1] - 2 * padding) / height,
     );
     const zoomCenter = canvas.viewport2Canvas({ x: 0, y: 0 });
     canvas.getCamera().setFocalPoint(zoomCenter.x, zoomCenter.y);
