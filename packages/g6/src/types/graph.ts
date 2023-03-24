@@ -21,7 +21,9 @@ export interface IGraph<
 > extends EventEmitter {
   hooks: Hooks;
   canvas: Canvas;
+  transientCanvas: Canvas;
   destroyed: boolean;
+  container: HTMLElement;
 
   // ===== graph instance ===
   /**
@@ -275,8 +277,53 @@ export interface IGraph<
    * Move the graph to make the item align the view center.
    * @param item node/edge/combo item or its id
    * @param effectTiming animation configurations
+   * @group View
    */
   focusItem: (id: ID | ID[], effectTiming?: CameraAnimationOptions) => Promise<void>;
+  /**
+   * Get the size of the graph canvas.
+   * @returns [width, height]
+   * @group View
+   */
+  getSize: () => number[];
+  /**
+   * Set the size for the graph canvas.
+   * @param number[] [width, height]
+   * @group View
+   */
+  setSize: (size: number[]) => void;
+
+  /**
+   * Get the rendering coordinate according to the canvas dom (viewport) coordinate.
+   * @param Point rendering coordinate
+   * @returns canvas dom (viewport) coordinate
+   * @group View
+   */
+  getCanvasByViewport: (viewportPoint: Point) => Point;
+
+  /**
+   * Get the canvas dom (viewport) coordinate according to the rendering coordinate.
+   * @param Point canvas dom (viewport) coordinate
+   * @returns rendering coordinate
+   * @group View
+   */
+  getViewportByCanvas: (canvasPoint: Point) => Point;
+
+  /**
+   * Get the browser coordinate according to the rendering coordinate.
+   * @param Point rendering coordinate
+   * @returns browser coordinate
+   * @group View
+   */
+  getClientByCanvas: (canvasPoint: Point) => Point;
+
+  /**
+   * Get the rendering coordinate according to the browser coordinate.
+   * @param Point browser coordinate
+   * @returns rendering coordinate
+   * @group View
+   */
+  getCanvasByClient: (ClientPoint: Point) => Point;
 
   // ===== item operations =====
   /**
@@ -407,4 +454,5 @@ export interface IGraph<
    * @group Interaction
    */
   drawTransient: (type: ITEM_TYPE | SHAPE_TYPE, id: ID, config: any) => DisplayObject;
+
 }
