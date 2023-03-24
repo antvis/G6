@@ -13,7 +13,7 @@ export const isArrayOverlap = (arr1, arr2): boolean => {
  * @param a 
  * @param b 
  */
-export function diffSet<T>(a: T[], b: T[]): T[] {
+export function diffSet<T>(a: T[] = [], b: T[] = []): T[] {
   const valueMap: any = {};
   b.forEach(value => {
     if (typeof value === 'object') valueMap[JSON.stringify(value)] = true;

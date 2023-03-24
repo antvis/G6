@@ -1,6 +1,7 @@
 import { Canvas } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
 import { CameraAnimationOptions } from './animate';
+import { BehaviorOptionsOf } from './behavior';
 import { DataChangeType, GraphCore, GraphData } from './data';
 import { EdgeModelData } from './edge';
 import { ITEM_TYPE, ShapeStyle, SHAPE_TYPE } from './item';
@@ -49,7 +50,7 @@ export interface Hooks {
   behaviorchange: IHook<{
     action: 'update' | 'add' | 'remove';
     modes: string[];
-    behaviors: (string | { type: string; key: string })[];
+    behaviors: (string | BehaviorOptionsOf<{}>)[];
   }>;
   itemstatechange: IHook<{
     ids: ID[];
@@ -71,6 +72,7 @@ export interface Hooks {
   }>;
   // TODO: define param template
   viewportchange: IHook<ViewportChangeHookParams>;
+  plugininit: IHook<{}>,
   // 'destroy': IHook<any>; // TODO: define param template
   // TODO: more timecycles here
 }

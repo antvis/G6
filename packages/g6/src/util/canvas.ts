@@ -16,7 +16,7 @@ import { isString } from '@antv/util';
  */
 export const createCanvas = (
   rendererType: 'canvas' | 'svg' | 'webgl',
-  container: string | HTMLElement,
+  container: HTMLElement,
   width: number,
   height: number,
   pixelRatio?: number,
@@ -46,8 +46,7 @@ export const createCanvas = (
     canvasTag.style.outline = 'none';
     canvasTag.tabIndex = 1; // Enable keyboard events
     Object.assign(canvasTag.style, style);
-    const containerDOM = isString(container) ? document.getElementById('container') : container;
-    containerDOM!.appendChild(canvasTag);
+    container!.appendChild(canvasTag);
     return new Canvas({
       canvas: canvasTag,
       devicePixelRatio: pixelRatio,

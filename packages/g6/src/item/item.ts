@@ -139,7 +139,8 @@ export default abstract class Item implements IItem {
     typeChange?: boolean;
   } {
     const { mapper } = this;
-    const { current = innerModel.data, previous } = diffData || {};
+    const { data: innerModelData, ...otherFields } = innerModel
+    const { current = innerModelData, previous } = diffData || {};
 
     // === no mapper, displayModel = model ===
     if (!mapper) {
@@ -162,7 +163,7 @@ export default abstract class Item implements IItem {
     const dataChangedFields = isReplace
       ? undefined
       // ? Array.from(new Set(Object.keys(current).concat(Object.keys(previous)))) // all the fields for replacing all data
-      : Object.keys(current); // only fields in current data for partial updating
+      : Object.keys(current).concat(Object.keys(otherFields)); // only fields in current data for partial updating
 
     let typeChange = false;
     const { data, ...otherProps } = innerModel;

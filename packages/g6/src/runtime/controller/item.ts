@@ -484,8 +484,8 @@ export class ItemController {
    * @param value state value, true by default
    * @returns
    */
-  public findIdByState(itemType: ITEM_TYPE, state: string, value: string | boolean = true) {
-    const ids = [];
+  public findIdByState(itemType: ITEM_TYPE, state: string, value: string | boolean = true): ID[] {
+    const ids: ID[] = [];
     Object.values(this.itemMap).forEach((item) => {
       if (item.getType() !== itemType) return;
       if (item.hasState(state) === value) ids.push(item.getID());
