@@ -11,50 +11,33 @@
     "graph visualization",
     "relational data"
   ],
-  "homepage": "https://g6.antv.antgroup.com/",
-  "bugs": {
-    "url": "https://github.com/antvis/g6/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/antvis/g6"
-  },
-  "license": "MIT",
-  "author": "https://github.com/orgs/antvis/people",
   "files": [
     "src",
-    "es",
+    "esm",
     "lib",
     "dist"
   ],
   "main": "lib/index.js",
-  "module": "es/index.js",
+  "module": "esm/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "start": "father build --watch",
-    "build": "npm run clean && father build",
-    "ci": "npm run build && npm run coverage",
+    "build:umd": "rimraf ./dist && rollup -c && npm run size",
+    "build:cjs": "rimraf ./lib && tsc --module commonjs --outDir lib",
+    "build:esm": "rimraf ./esm && tsc --module ESNext --outDir esm",
+    "build": "run-p build:*",
+    "bundle-vis": "cross-env BUNDLE_VIS=1 run-p build:umd",
+    "prepublishOnly": "npm run ci",
+    "ci": "run-s lint test build",
     "clean": "rimraf es lib",
     "coverage": "jest --coverage",
     "doc": "rimraf apis && typedoc",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --format=pretty \"./\"",
     "lint:src": "eslint --ext .ts --format=pretty \"./src\"",
-    "prettier": "prettier -c --write \"**/*\"",
+    "fix": "prettier -c --write \"**/*\"",
     "test": "jest",
     "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/theme-subject-spec.ts",
-    "test-behavior": "DEBUG_MODE=1 jest --watch ./tests/unit/click-select-spec.ts",
-    "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
-    "watch": "father build -w"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged & npm run test"
-    }
-  },
-  "lint-staged": {
-    "**/*.{js,jsx,ts,tsx}": [
-      "npm run lint-staged:js"
-    ]
+    "test-behavior": "DEBUG_MODE=1 jest --watch ./tests/unit/click-select-spec.ts"
   },
   "dependencies": {
     "@ant-design/colors": "^7.0.0",
@@ -67,30 +50,64 @@
     "@antv/layout-gpu": "^1.0.0-alpha.3",
     "@antv/util": "~2.0.5",
     "color": "^4.2.3",
+    "tslib": "^2.5.0",
     "typedoc-plugin-markdown": "^3.14.0"
   },
   "devDependencies": {
-    "@types/jest": "^29.4.0",
+    "@types/jest": "^29.5.0",
     "@types/node": "13.11.1",
-    "@typescript-eslint/eslint-plugin": "^4.11.1",
+    "@typescript-eslint/eslint-plugin": "^4.18.0",
+    "@typescript-eslint/parser": "^4.18.0",
     "@umijs/fabric": "^2.0.0",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
-    "eslint": "^7.7.0",
-    "event-simulate": "~1.0.0",
+    "eslint": "^7.22.0",
+    "eslint-plugin-import": "^2.22.1",
     "father": "^2.29.1",
-    "husky": "^4.2.5",
     "jest": "^26.0.1",
     "jest-electron": "^0.1.7",
     "jest-extended": "^0.11.2",
-    "lint-staged": "^10.2.11",
-    "pre-commit": "^1.2.2",
-    "prettier": "^2.0.5",
+    "limit-size": "^0.1.4",
+    "lint-staged": "^10.5.4",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.2.1",
     "rimraf": "^3.0.0",
-    "stats-js": "^1.0.1",
+    "rollup": "^2.39.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-polyfill-node": "^0.8.0",
+    "rollup-plugin-typescript": "^1.0.1",
+    "rollup-plugin-uglify": "^6.0.4",
+    "rollup-plugin-visualizer": "^5.6.0",
     "ts-jest": "^24.1.0",
-    "ts-loader": "^7.0.3",
     "typedoc": "^0.23.24",
     "typescript": "^4.6.3"
-  }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "limit-size": [
+    {
+      "path": "dist/g6.min.js",
+      "limit": "750 Kb",
+      "gzip": true
+    },
+    {
+      "path": "dist/g6.min.js",
+      "limit": "2 Mb"
+    }
+  ],
+  "homepage": "https://g6.antv.antgroup.com/",
+  "bugs": {
+    "url": "https://github.com/antvis/g6/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/antvis/g6"
+  },
+  "license": "MIT",
+  "author": "https://github.com/orgs/antvis/people"
 }
