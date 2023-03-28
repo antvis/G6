@@ -11,12 +11,13 @@ const DELEGATE_SHAPE_ID = 'g6-drag-node-delegate-shape';
 // comboActiveState
 // comboStateStyles
 
-interface DragNodeOptions {
+export interface DragNodeOptions {
   /**
    * Whether to draw dragging nodes in transient layer.
+   * Ignored when enableDelegate is true.
    * Defaults to true.
    */
-  enableTransient: boolean;
+  enableTransient?: boolean;
   /**
    * Whether to use a virtual rect moved with the dragging mouse instead of the node.
    * Defaults to false.
@@ -42,6 +43,7 @@ interface DragNodeOptions {
   debounce?: number;
   /**
    * Whether to hide the related edges to avoid calculation while dragging nodes.
+   * Ignored when enableTransient or enableDelegate is true.
    * Defaults to false.
    */
   hideRelatedEdges?: boolean;
@@ -96,7 +98,14 @@ export class DragNode extends Behavior {
   }> = [];
 
   constructor(options: Partial<DragNodeOptions>) {
-    super(Object.assign({}, DEFAULT_OPTIONS, options));
+    const finalOptions = Object.assign({}, DEFAULT_OPTIONS, options);
+    if (finalOptions.enableDelegate) {
+      finalOptions.enableTransient = false;
+    }
+    if (finalOptions.enableDelegate || finalOptions.enableTransient) {
+      finalOptions.hideRelatedEdges = false;
+    }
+    super(finalOptions);
   }
 
   getEvents = () => {
@@ -279,7 +288,6 @@ export class DragNode extends Behavior {
 
   onPointerUp = (event: IG6GraphEvent) => {
     // If transient or delegate was enabled, move the real nodes.
-    // Then clear the transient items.
     if (this.options.enableTransient || this.options.enableDelegate) {
       // @ts-ignore FIXME: type
       const pointerEvent = event as PointerEvent;
@@ -288,14 +296,14 @@ export class DragNode extends Behavior {
       // @ts-ignore FIXME: Type
       const deltaY = pointerEvent.client.y - this.originY;
       this.moveNodes(deltaX, deltaY, false);
+    }
 
-      if (this.options.enableTransient) {
-        this.clearTransientItems();
-      }
+    if (this.options.enableTransient) {
+      this.clearTransientItems();
+    }
 
-      if (this.options.enableDelegate) {
-        this.clearDelegate();
-      }
+    if (this.options.enableDelegate) {
+      this.clearDelegate();
     }
 
     // Restore all hidden items.
@@ -317,8 +325,18 @@ export class DragNode extends Behavior {
     if (event.key !== 'Escape' && event.key !== 'Esc') {
       return;
     }
-    this.restoreHiddenItems();
     this.clearDelegate();
+    this.clearTransientItems();
+    this.restoreHiddenItems();
+
+    // Restore node positions.
+    if (!this.options.enableTransient && !this.options.enableDelegate) {
+      const positionChanges = this.originPositions.map(({ id, x, y}) => {
+        return { id, data: { x, y } };
+      });
+      this.graph.updateData('node', positionChanges)
+    }
+
     this.originPositions = [];
   };
 };
