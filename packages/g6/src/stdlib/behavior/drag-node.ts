@@ -1,5 +1,6 @@
 import { ID } from '@antv/graphlib';
 import { debounce } from '@antv/util';
+import { EdgeModel } from '../../types';
 import { Behavior } from '../../types/behavior';
 import { IG6GraphEvent } from '../../types/event';
 
@@ -11,6 +12,11 @@ const DELEGATE_SHAPE_ID = 'g6-drag-node-delegate-shape';
 // comboStateStyles
 
 interface DragNodeOptions {
+  /**
+   * Whether to draw dragging nodes in transient layer.
+   * Defaults to true.
+   */
+  enableTransient: boolean;
   /**
    * Whether to use a virtual rect moved with the dragging mouse instead of the node.
    * Defaults to false.
@@ -38,7 +44,7 @@ interface DragNodeOptions {
    * Whether to hide the related edges to avoid calculation while dragging nodes.
    * Defaults to false.
    */
-  hideRelatedEdge?: boolean;
+  hideRelatedEdges?: boolean;
   /**
    * The state name to be considered as "selected".
    * Defaults to "selected".
@@ -55,6 +61,7 @@ interface DragNodeOptions {
 }
 
 const DEFAULT_OPTIONS: Required<DragNodeOptions> = {
+  enableTransient: true,
   enableDelegate: false,
   delegateStyle: {
     fill: '#F3F9FF',
@@ -64,7 +71,7 @@ const DEFAULT_OPTIONS: Required<DragNodeOptions> = {
     lineDash: [5, 5],
   },
   debounce: 0,
-  hideRelatedEdge: false,
+  hideRelatedEdges: false,
   selectedState: 'selected',
   eventName: '',
   shouldBegin: () => true,
@@ -74,13 +81,14 @@ export class DragNode extends Behavior {
   options: DragNodeOptions;
 
   // Private states
+  private hiddenEdges: EdgeModel[] = [];
   private originX: number;
   private originY: number;
-  private hiddenEdgeIds: ID[] = [];
   private originPositions: Array<{
     id: ID;
     x: number;
     y: number;
+    // The following fields only have values when delegate is enabled.
     minX?: number;
     maxX?: number;
     minY?: number;
@@ -127,12 +135,32 @@ export class DragNode extends Behavior {
     });
 
     // Hide related edge.
-    if (this.options.hideRelatedEdge) {
+    if (this.options.hideRelatedEdges && !this.options.enableTransient) {
       // FIXME: Should use getRelatedEdges for better performance.
-      this.hiddenEdgeIds = this.graph.getAllEdgesData().filter(edge => {
+      this.hiddenEdges = this.graph.getAllEdgesData().filter(edge => {
         return (selectedNodeIds.includes(edge.source) || selectedNodeIds.includes(edge.target));
-      }).map(edge => edge.id);
-      this.graph.hideItem(this.hiddenEdgeIds);
+      });
+      this.graph.hideItem(this.hiddenEdges.map(edge => edge.id));
+    }
+
+    // Draw transient nodes and edges.
+    if (this.options.enableTransient) {
+      // FIXME: Should use getRelatedEdges for better performance.
+      this.hiddenEdges = this.graph.getAllEdgesData().filter(edge => {
+        return (selectedNodeIds.includes(edge.source) || selectedNodeIds.includes(edge.target));
+      });
+
+      // Draw transient edges and nodes.
+      this.hiddenEdges.forEach(edge => {
+        this.graph.drawTransient('edge', edge.id, {});
+      });
+      selectedNodeIds.forEach(nodeId => {
+        this.graph.drawTransient('node', nodeId, {});
+      });
+
+      // Hide original edges and nodes. They will be restored when pointerup.
+      this.graph.hideItem(selectedNodeIds);
+      this.graph.hideItem(this.hiddenEdges.map(edge => edge.id));
     }
 
     // Debounce moving.
@@ -163,11 +191,11 @@ export class DragNode extends Behavior {
     if (this.options.enableDelegate) {
       this.moveDelegate(deltaX, deltaY);
     } else {
-      this.debouncedMoveNodes(deltaX, deltaY);
+      this.debouncedMoveNodes(deltaX, deltaY, this.options.enableTransient);
     }
   }
 
-  moveNodes = (deltaX: number, deltaY: number) => {
+  moveNodes = (deltaX: number, deltaY: number, transient: boolean) => {
     const positionChanges = this.originPositions.map(({ id, x, y}) => {
       return {
         id,
@@ -177,10 +205,26 @@ export class DragNode extends Behavior {
         }
       };
     });
-    this.graph.updateData('node', positionChanges);
+    if (transient) {
+      // Move transient nodes
+      this.originPositions.forEach(({ id, x, y }) => {
+        this.graph.drawTransient('node', id, {
+          data: {
+            x: x + deltaX,
+            y: y + deltaY,
+          },
+        });
+      });
+      // Update transient edges.
+      this.hiddenEdges.forEach(edge => {
+        this.graph.drawTransient('edge', edge.id, {});
+      });
+    } else {
+      this.graph.updateData('node', positionChanges);
+    }
   };
 
-  debouncedMoveNodes = (deltaX: number, deltaY: number) => {
+  debouncedMoveNodes = (deltaX: number, deltaY: number, transient: boolean) => {
     // Should be overrided when drag start.
   };
 
@@ -212,27 +256,51 @@ export class DragNode extends Behavior {
     );
   };
 
-  restoreHiddenEdge = () => {
-    if (this.hiddenEdgeIds.length) {
-      this.graph.showItem(this.hiddenEdgeIds);
-      this.hiddenEdgeIds = [];
+  clearTransientItems = () => {
+    this.hiddenEdges.forEach(edge => {
+      this.graph.drawTransient('node', edge.source, { action: 'remove' });
+      this.graph.drawTransient('node', edge.target, { action: 'remove' });
+      this.graph.drawTransient('edge', edge.id, { action: 'remove' });
+    });
+    this.originPositions.forEach(({ id }) => {
+      this.graph.drawTransient('node', id, { action: 'remove' });
+    });
+  };
+
+  restoreHiddenItems = () => {
+    if (this.hiddenEdges.length) {
+      this.graph.showItem(this.hiddenEdges.map(edge => edge.id));
+      this.hiddenEdges = [];
+    }
+    if (this.options.enableTransient) {
+      this.graph.showItem(this.originPositions.map(position => position.id));
     }
   }
 
   onPointerUp = (event: IG6GraphEvent) => {
-    this.restoreHiddenEdge();
-
-    // Remove delegate and move nodes.
-    if (this.options.enableDelegate) {
-      this.clearDelegate();
+    // If transient or delegate was enabled, move the real nodes.
+    // Then clear the transient items.
+    if (this.options.enableTransient || this.options.enableDelegate) {
       // @ts-ignore FIXME: type
       const pointerEvent = event as PointerEvent;
       // @ts-ignore FIXME: Type
       const deltaX = pointerEvent.client.x - this.originX;
       // @ts-ignore FIXME: Type
       const deltaY = pointerEvent.client.y - this.originY;
-      this.moveNodes(deltaX, deltaY);
+      this.moveNodes(deltaX, deltaY, false);
+
+      if (this.options.enableTransient) {
+        this.clearTransientItems();
+      }
+
+      if (this.options.enableDelegate) {
+        this.clearDelegate();
+      }
     }
+
+    // Restore all hidden items.
+    // For all hideRelatedEdges, enableTransient and enableDelegate cases.
+    this.restoreHiddenItems();
 
     // Emit event.
     if (this.options.eventName) {
@@ -249,7 +317,7 @@ export class DragNode extends Behavior {
     if (event.key !== 'Escape' && event.key !== 'Esc') {
       return;
     }
-    this.restoreHiddenEdge();
+    this.restoreHiddenItems();
     this.clearDelegate();
     this.originPositions = [];
   };

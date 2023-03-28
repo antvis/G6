@@ -26,7 +26,7 @@ export default class Edge extends Item {
   // display data model
   public displayModel: EdgeDisplayModel;
   /** Set to different value in implements */
-  public type: ITEM_TYPE = 'edge';
+  public type: 'edge' = 'edge';
   public sourceItem: Node;
   public targetItem: Node;
 

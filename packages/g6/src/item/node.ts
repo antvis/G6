@@ -17,6 +17,8 @@ interface IProps {
   themeStyles: ItemShapeStyles;
 }
 export default class Node extends Item {
+  public type: 'node';
+
   constructor(props: IProps) {
     super(props);
     this.type = 'node';
@@ -44,7 +46,7 @@ export default class Node extends Item {
 
   public update(
     model: NodeModel,
-    diffData: { previous: NodeModelData; current: NodeModelData },
+    diffData?: { previous: NodeModelData; current: NodeModelData },
     isReplace?: boolean,
     themeStyles?: ItemStyleSet,
   ) {

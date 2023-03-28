@@ -163,6 +163,9 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       itemstatechange: new Hook<{ ids: ID[]; state: string; value: boolean }>({
         name: 'itemstatechange',
       }),
+      itemvisibilitychange: new Hook<{ ids: ID[], value: boolean }>({
+        name: 'itemvisibilitychange',
+      }),
       transientupdate: new Hook<{
         type: ITEM_TYPE | SHAPE_TYPE;
         id: ID;
@@ -200,6 +203,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       this.hooks.render.emit({
         graphCore: this.dataController.graphCore,
         theme: this.themeController.specification,
+        transientCanvas: this.transientCanvas,
       });
       this.emit('afterrender');
 
@@ -227,6 +231,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     this.hooks.render.emit({
       graphCore: this.dataController.graphCore,
       theme: this.themeController.specification,
+      transientCanvas: this.transientCanvas,
     });
     this.emit('afterrender');
 
@@ -680,7 +685,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @group Item
    */
   public showItem(ids: ID | ID[]) {
-    // TODO
+    const idArr = isArray(ids) ? ids : [ids];
+    this.hooks.itemvisibilitychange.emit({
+      ids: idArr as ID[],
+      value: true,
+    });
   }
   /**
    * Hide the item(s).
@@ -689,7 +698,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @group Item
    */
   public hideItem(ids: ID | ID[]) {
-    // TODO
+    const idArr = isArray(ids) ? ids : [ids];
+    this.hooks.itemvisibilitychange.emit({
+      ids: idArr as ID[],
+      value: false,
+    });
   }
   /**
    * Set state for the item.

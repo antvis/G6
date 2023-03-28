@@ -47,7 +47,7 @@ export default abstract class Item implements IItem {
   /** Cache the dirty tags for states when data changed, to re-map the state styles when state changed */
   private stateDirtyMap: { [stateName: string]: boolean } = {};
   private cacheStateStyles: { [stateName: string]: ItemShapeStyles } = {}
-  private themeStyles: {
+  public themeStyles: {
     default?: ItemShapeStyles;
     [stateName: string]: ItemShapeStyles;
   }
