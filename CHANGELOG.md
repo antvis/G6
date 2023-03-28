@@ -1,5 +1,9 @@
 # ChangeLog
 
+### 4.8.9
+
+- fix: type for draw function in elements, closes: #4395;
+
 ### 4.8.8
 
 - feat: preset layout with gpu layout;
