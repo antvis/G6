@@ -1,7 +1,7 @@
-import EventEmitter from '@antv/event-emitter';
-import { AABB, Canvas, DisplayObject, PointLike, runtime } from '@antv/g';
-import { GraphChange, ID } from '@antv/graphlib';
-import { isArray, isNil, isNumber, isObject, isString } from '@antv/util';
+import EventEmitter from "@antv/event-emitter";
+import { AABB, Canvas, DisplayObject, PointLike, runtime } from "@antv/g";
+import { GraphChange, ID } from "@antv/graphlib";
+import { isArray, isNil, isNumber, isObject, isString } from "@antv/util";
 import {
   ComboUserModel,
   EdgeUserModel,
@@ -9,25 +9,29 @@ import {
   IGraph,
   NodeUserModel,
   Specification,
-} from '../types';
-import { CameraAnimationOptions } from '../types/animate';
-import { BehaviorObjectOptionsOf, BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';
-import { ComboModel } from '../types/combo';
-import { Padding, Point } from '../types/common';
-import { DataChangeType, GraphCore } from '../types/data';
-import { EdgeModel, EdgeModelData } from '../types/edge';
-import { Hooks, ViewportChangeHookParams } from '../types/hook';
-import { ITEM_TYPE, ShapeStyle, SHAPE_TYPE } from '../types/item';
+} from "../types";
+import { CameraAnimationOptions } from "../types/animate";
+import {
+  BehaviorObjectOptionsOf,
+  BehaviorOptionsOf,
+  BehaviorRegistry,
+} from "../types/behavior";
+import { ComboModel } from "../types/combo";
+import { Padding, Point } from "../types/common";
+import { DataChangeType, GraphCore } from "../types/data";
+import { EdgeModel, EdgeModelData } from "../types/edge";
+import { Hooks, ViewportChangeHookParams } from "../types/hook";
+import { ITEM_TYPE, ShapeStyle, SHAPE_TYPE } from "../types/item";
 import {
   ImmediatelyInvokedLayoutOptions,
   LayoutOptions,
   StandardLayoutOptions,
-} from '../types/layout';
-import { NodeModel, NodeModelData } from '../types/node';
-import { ThemeRegistry, ThemeSpecification } from '../types/theme';
-import { FitViewRules, GraphTransformOptions } from '../types/view';
-import { createCanvas } from '../util/canvas';
-import { formatPadding } from '../util/shape';
+} from "../types/layout";
+import { NodeModel, NodeModelData } from "../types/node";
+import { ThemeRegistry, ThemeSpecification } from "../types/theme";
+import { FitViewRules, GraphTransformOptions } from "../types/view";
+import { createCanvas } from "../util/canvas";
+import { formatPadding } from "../util/shape";
 import {
   DataController,
   ExtensionController,
@@ -36,9 +40,9 @@ import {
   LayoutController,
   ThemeController,
   ViewportController,
-} from './controller';
-import { PluginController } from './controller/plugin';
-import Hook from './hooks';
+} from "./controller";
+import { PluginController } from "./controller/plugin";
+import Hook from "./hooks";
 
 /**
  * Disable CSS parsing for better performance.
@@ -74,8 +78,8 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
 
   private defaultSpecification = {
     theme: {
-      type: 'spec',
-      base: 'light',
+      type: "spec",
+      base: "light",
     },
   };
 
@@ -122,25 +126,51 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     let rendererType;
     let pixelRatio;
     if (renderer && !isString(renderer)) {
-      rendererType = renderer.type || 'canvas';
+      rendererType = renderer.type || "canvas";
       pixelRatio = renderer.pixelRatio;
     } else {
-      rendererType = renderer || 'canvas';
+      rendererType = renderer || "canvas";
     }
-    const containerDOM = isString(container) ? document.getElementById('container') : container;
+    const containerDOM = isString(container)
+      ? document.getElementById("container")
+      : container;
     if (!containerDOM) {
-      console.error(`Create graph failed. The container for graph ${containerDOM} is not exist.`);
+      console.error(
+        `Create graph failed. The container for graph ${containerDOM} is not exist.`
+      );
       this.destroy();
       return;
     }
     this.container = containerDOM;
-    this.backgroundCanvas = createCanvas(rendererType, containerDOM, width, height, pixelRatio);
-    this.canvas = createCanvas(rendererType, containerDOM, width, height, pixelRatio);
-    this.transientCanvas = createCanvas(rendererType, containerDOM, width, height, pixelRatio, true, {
-      pointerEvents: 'none',
-    });
+    this.backgroundCanvas = createCanvas(
+      rendererType,
+      containerDOM,
+      width,
+      height,
+      pixelRatio
+    );
+    this.canvas = createCanvas(
+      rendererType,
+      containerDOM,
+      width,
+      height,
+      pixelRatio
+    );
+    this.transientCanvas = createCanvas(
+      rendererType,
+      containerDOM,
+      width,
+      height,
+      pixelRatio,
+      true,
+      {
+        pointerEvents: "none",
+      }
+    );
     Promise.all(
-      [this.backgroundCanvas, this.canvas, this.transientCanvas].map((canvas) => canvas.ready),
+      [this.backgroundCanvas, this.canvas, this.transientCanvas].map(
+        (canvas) => canvas.ready
+      )
     ).then(() => (this.canvasReady = true));
   }
 
@@ -155,25 +185,33 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           main: Canvas;
           transient: Canvas;
         };
-      }>({ name: 'init' }),
-      datachange: new Hook<{ data: GraphData; type: DataChangeType }>({ name: 'datachange' }),
+      }>({ name: "init" }),
+      datachange: new Hook<{ data: GraphData; type: DataChangeType }>({
+        name: "datachange",
+      }),
       itemchange: new Hook<{
         type: ITEM_TYPE;
         changes: GraphChange<NodeModelData, EdgeModelData>[];
         graphCore: GraphCore;
         theme: ThemeSpecification;
-      }>({ name: 'itemchange' }),
-      render: new Hook<{ graphCore: GraphCore; theme: ThemeSpecification }>({ name: 'render' }),
-      layout: new Hook<{ graphCore: GraphCore }>({ name: 'layout' }),
-      viewportchange: new Hook<ViewportChangeHookParams>({ name: 'viewport' }),
-      modechange: new Hook<{ mode: string }>({ name: 'modechange' }),
+      }>({ name: "itemchange" }),
+      render: new Hook<{ graphCore: GraphCore; theme: ThemeSpecification }>({
+        name: "render",
+      }),
+      layout: new Hook<{ graphCore: GraphCore }>({ name: "layout" }),
+      viewportchange: new Hook<ViewportChangeHookParams>({ name: "viewport" }),
+      modechange: new Hook<{ mode: string }>({ name: "modechange" }),
       behaviorchange: new Hook<{
-        action: 'update' | 'add' | 'remove';
+        action: "update" | "add" | "remove";
         modes: string[];
         behaviors: (string | BehaviorOptionsOf<{}>)[];
-      }>({ name: 'behaviorchange' }),
-      itemstatechange: new Hook<{ ids: ID[]; states?: string[]; value?: boolean }>({
-        name: 'itemstatechange',
+      }>({ name: "behaviorchange" }),
+      itemstatechange: new Hook<{
+        ids: ID[];
+        states?: string[];
+        value?: boolean;
+      }>({
+        name: "itemstatechange",
       }),
       itemvisibilitychange: new Hook<{ ids: ID[], value: boolean }>({
         name: 'itemvisibilitychange',
@@ -181,13 +219,20 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       transientupdate: new Hook<{
         type: ITEM_TYPE | SHAPE_TYPE;
         id: ID;
-        config: { style: ShapeStyle; action: 'remove' | 'add' | 'update' | undefined };
+        config: {
+          style: ShapeStyle;
+          action: "remove" | "add" | "update" | undefined;
+        };
         canvas: Canvas;
-      }>({ name: 'transientupdate' }),
+      }>({ name: "transientupdate" }),
       pluginchange: new Hook<{
-        action: 'update' | 'add' | 'remove';
-        plugins: (string | { key: string, type: string, [cfgName: string]: unknown })[];
-      }>({ name: 'pluginchange' }),
+        action: "update" | "add" | "remove";
+        plugins: (
+          | string
+          | { key: string; type: string; [cfgName: string]: unknown }
+        )[];
+      }>({ name: "pluginchange" }),
+      destroy: new Hook<{}>({ name: "destroy" }),
     };
   }
 
@@ -214,14 +259,14 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @group Data
    */
   public async read(data: GraphData) {
-    this.hooks.datachange.emit({ data, type: 'replace' });
+    this.hooks.datachange.emit({ data, type: "replace" });
     const emitRender = async () => {
       this.hooks.render.emit({
         graphCore: this.dataController.graphCore,
         theme: this.themeController.specification,
         transientCanvas: this.transientCanvas,
       });
-      this.emit('afterrender');
+      this.emit("afterrender");
 
       await this.layout();
     };
@@ -229,7 +274,9 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       await emitRender();
     } else {
       await Promise.all(
-        [this.backgroundCanvas, this.canvas, this.transientCanvas].map((canvas) => canvas.ready),
+        [this.backgroundCanvas, this.canvas, this.transientCanvas].map(
+          (canvas) => canvas.ready
+        )
       );
       await emitRender();
     }
@@ -242,14 +289,17 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Data
    */
-  public async changeData(data: GraphData, type: 'replace' | 'mergeReplace' = 'mergeReplace') {
+  public async changeData(
+    data: GraphData,
+    type: "replace" | "mergeReplace" = "mergeReplace"
+  ) {
     this.hooks.datachange.emit({ data, type });
     this.hooks.render.emit({
       graphCore: this.dataController.graphCore,
       theme: this.themeController.specification,
       transientCanvas: this.transientCanvas,
     });
-    this.emit('afterrender');
+    this.emit("afterrender");
 
     await this.layout();
   }
@@ -268,13 +318,13 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
   public async transform(
     options: GraphTransformOptions,
-    effectTiming?: CameraAnimationOptions,
+    effectTiming?: CameraAnimationOptions
   ): Promise<void> {
     await this.hooks.viewportchange.emitLinearAsync({
       transform: options,
       effectTiming,
     });
-    this.emit('viewportchange', options);
+    this.emit("viewportchange", options);
   }
 
   /**
@@ -290,7 +340,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @param dy y of the relative distance
    * @param effectTiming animation configurations
    */
-  public async translate(dx: number, dy: number, effectTiming?: CameraAnimationOptions) {
+  public async translate(
+    dx: number,
+    dy: number,
+    effectTiming?: CameraAnimationOptions
+  ) {
     await this.transform(
       {
         translate: {
@@ -298,7 +352,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           dy,
         },
       },
-      effectTiming,
+      effectTiming
     );
   }
 
@@ -307,7 +361,10 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @param destination destination under viewport coordinates.
    * @param effectTiming animation configurations
    */
-  public async translateTo({ x, y }: PointLike, effectTiming?: CameraAnimationOptions) {
+  public async translateTo(
+    { x, y }: PointLike,
+    effectTiming?: CameraAnimationOptions
+  ) {
     const { x: cx, y: cy } = this.getViewportCenter();
     await this.translate(cx - x, cy - y, effectTiming);
   }
@@ -318,7 +375,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @param origin origin under viewport coordinates.
    * @param effectTiming animation configurations
    */
-  public async zoom(ratio: number, origin?: PointLike, effectTiming?: CameraAnimationOptions) {
+  public async zoom(
+    ratio: number,
+    origin?: PointLike,
+    effectTiming?: CameraAnimationOptions
+  ) {
     await this.transform(
       {
         zoom: {
@@ -326,7 +387,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         },
         origin,
       },
-      effectTiming,
+      effectTiming
     );
   }
 
@@ -336,8 +397,16 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @param origin zoom center
    * @param effectTiming animation configurations
    */
-  public async zoomTo(zoom: number, origin?: PointLike, effectTiming?: CameraAnimationOptions) {
-    await this.zoom(zoom / this.canvas.getCamera().getZoom(), origin, effectTiming);
+  public async zoomTo(
+    zoom: number,
+    origin?: PointLike,
+    effectTiming?: CameraAnimationOptions
+  ) {
+    await this.zoom(
+      zoom / this.canvas.getCamera().getZoom(),
+      origin,
+      effectTiming
+    );
   }
 
   /**
@@ -354,7 +423,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @param origin
    * @param effectTiming
    */
-  public async rotate(angle: number, origin?: PointLike, effectTiming?: CameraAnimationOptions) {
+  public async rotate(
+    angle: number,
+    origin?: PointLike,
+    effectTiming?: CameraAnimationOptions
+  ) {
     await this.transform(
       {
         rotate: {
@@ -362,7 +435,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         },
         origin,
       },
-      effectTiming,
+      effectTiming
     );
   }
 
@@ -372,8 +445,16 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @param origin
    * @param effectTiming
    */
-  public async rotateTo(angle: number, origin?: PointLike, effectTiming?: CameraAnimationOptions) {
-    await this.rotate(angle - this.canvas.getCamera().getRoll(), origin, effectTiming);
+  public async rotateTo(
+    angle: number,
+    origin?: PointLike,
+    effectTiming?: CameraAnimationOptions
+  ) {
+    await this.rotate(
+      angle - this.canvas.getCamera().getRoll(),
+      origin,
+      effectTiming
+    );
   }
 
   /**
@@ -387,19 +468,25 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       padding: Padding;
       rules: FitViewRules;
     },
-    effectTiming?: CameraAnimationOptions,
+    effectTiming?: CameraAnimationOptions
   ) {
     const { padding, rules } = options || {};
-    const [top, right, bottom, left] = padding ? formatPadding(padding) : [0, 0, 0, 0];
-    const { direction = 'both', ratioRule = 'min' } = rules || {};
+    const [top, right, bottom, left] = padding
+      ? formatPadding(padding)
+      : [0, 0, 0, 0];
+    const { direction = "both", ratioRule = "min" } = rules || {};
 
     // Get the bounds of the whole graph.
     const {
       center: [graphCenterX, graphCenterY],
       halfExtents,
     } = this.canvas.document.documentElement.getBounds();
-    const origin = this.canvas.canvas2Viewport({ x: graphCenterX, y: graphCenterY });
-    const { width: viewportWidth, height: viewportHeight } = this.canvas.getConfig();
+    const origin = this.canvas.canvas2Viewport({
+      x: graphCenterX,
+      y: graphCenterY,
+    });
+    const { width: viewportWidth, height: viewportHeight } =
+      this.canvas.getConfig();
 
     const graphWidth = halfExtents[0] * 2;
     const graphHeight = halfExtents[1] * 2;
@@ -416,12 +503,15 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     const hRatio = targetViewHeight / graphHeight;
 
     let ratio: number;
-    if (direction === 'x') {
+    if (direction === "x") {
       ratio = wRatio;
-    } else if (direction === 'y') {
+    } else if (direction === "y") {
       ratio = hRatio;
     } else {
-      ratio = ratioRule === 'max' ? Math.max(wRatio, hRatio) : Math.min(wRatio, hRatio);
+      ratio =
+        ratioRule === "max"
+          ? Math.max(wRatio, hRatio)
+          : Math.min(wRatio, hRatio);
     }
 
     await this.transform(
@@ -434,7 +524,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           ratio,
         },
       },
-      effectTiming,
+      effectTiming
     );
   }
   /**
@@ -448,7 +538,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     } = this.canvas.document.documentElement.getBounds();
     await this.translateTo(
       this.canvas.canvas2Viewport({ x: graphCenterX, y: graphCenterY }),
-      effectTiming,
+      effectTiming
     );
   }
   /**
@@ -476,11 +566,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       } = bounds;
       await this.translateTo(
         this.canvas.canvas2Viewport({ x: itemCenterX, y: itemCenterY }),
-        effectTiming,
+        effectTiming
       );
     }
   }
-  
+
   /**
    * Get the size of the graph canvas.
    * @returns [width, height]
@@ -498,7 +588,9 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public setSize(size: number[]) {
     if (!isArray(size) || size.length < 2) {
-      console.warn(`Failed to setSize. The parameter size: ${size} is invalid. It must be an array with 2 number elements.`);
+      console.warn(
+        `Failed to setSize. The parameter size: ${size} is invalid. It must be an array with 2 number elements.`
+      );
       return;
     }
     this.specification.width = size[0];
@@ -556,8 +648,9 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @group Data
    */
   public getNodeData(condition: ID | Function): NodeModel | undefined {
-    const conds = isString(condition) || isNumber(condition) ? [condition] : condition;
-    return this.dataController.findData('node', conds)?.[0] as NodeModel;
+    const conds =
+      isString(condition) || isNumber(condition) ? [condition] : condition;
+    return this.dataController.findData("node", conds)?.[0] as NodeModel;
   }
   /**
    * Find an edge's inner data according to id or function.
@@ -567,8 +660,10 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public getEdgeData(condition: ID | Function): EdgeModel | undefined {
     const conds =
-      isString(condition) || isNumber(condition) || isNumber(condition) ? [condition] : condition;
-    return this.dataController.findData('edge', conds)?.[0] as EdgeModel;
+      isString(condition) || isNumber(condition) || isNumber(condition)
+        ? [condition]
+        : condition;
+    return this.dataController.findData("edge", conds)?.[0] as EdgeModel;
   }
   /**
    * Find an combo's inner data according to id or function.
@@ -577,8 +672,9 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @group Data
    */
   public getComboData(condition: ID | Function): ComboModel | undefined {
-    const conds = isString(condition) || isNumber(condition) ? [condition] : condition;
-    return this.dataController.findData('combo', conds)?.[0] as ComboModel;
+    const conds =
+      isString(condition) || isNumber(condition) ? [condition] : condition;
+    return this.dataController.findData("combo", conds)?.[0] as ComboModel;
   }
   /**
    * Get all the nodes' inner data
@@ -586,7 +682,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @group Data
    */
   public getAllNodesData(): NodeModel[] {
-    return this.dataController.findAllData('node');
+    return this.dataController.findAllData("node");
   }
   /**
    * Get all the edges' inner data
@@ -594,7 +690,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @group Data
    */
   public getAllEdgesData(): EdgeModel[] {
-    return this.dataController.findAllData('edge') as EdgeModel[];
+    return this.dataController.findAllData("edge") as EdgeModel[];
   }
   /**
    * Get all the combos' inner data
@@ -602,7 +698,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @group Data
    */
   public getAllCombosData(): ComboModel[] {
-    return this.dataController.findAllData('combo') as ComboModel[];
+    return this.dataController.findAllData("combo") as ComboModel[];
   }
   /**
    * Get one-hop edge ids from a start node.
@@ -610,7 +706,10 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns one-hop edge ids
    * @group Data
    */
-  public getRelatedEdgesData(nodeId: ID, direction: 'in' | 'out' | 'both' = 'both'): EdgeModel[] {
+  public getRelatedEdgesData(
+    nodeId: ID,
+    direction: "in" | "out" | "both" = "both"
+  ): EdgeModel[] {
     return this.dataController.findRelatedEdgeIds(nodeId, direction);
   }
   /**
@@ -619,7 +718,10 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns one-hop node ids
    * @group Data
    */
-  public getNeighborNodesData(nodeId: ID, direction: 'in' | 'out' | 'both' = 'both'): NodeModel[] {
+  public getNeighborNodesData(
+    nodeId: ID,
+    direction: "in" | "out" | "both" = "both"
+  ): NodeModel[] {
     return this.dataController.findNeighborNodeIds(nodeId, direction);
   }
 
@@ -635,11 +737,12 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     itemType: ITEM_TYPE,
     state: string,
     value: string | boolean = true,
-    additionalFilter?: (item: NodeModel | EdgeModel | ComboModel) => boolean,
+    additionalFilter?: (item: NodeModel | EdgeModel | ComboModel) => boolean
   ): ID[] {
     let ids = this.itemController.findIdByState(itemType, state, value);
     if (additionalFilter) {
-      const getDataFunc = itemType === 'node' ? this.getNodeData : this.getEdgeData; // TODO: combo
+      const getDataFunc =
+        itemType === "node" ? this.getNodeData : this.getEdgeData; // TODO: combo
       ids = ids.filter((id) => additionalFilter(getDataFunc(id)));
     }
     return ids;
@@ -661,20 +764,26 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       | NodeUserModel[]
       | EdgeUserModel[]
       | ComboUserModel[],
-    stack?: boolean,
-  ): NodeModel | EdgeModel | ComboModel | NodeModel[] | EdgeModel[] | ComboModel[] {
+    stack?: boolean
+  ):
+    | NodeModel
+    | EdgeModel
+    | ComboModel
+    | NodeModel[]
+    | EdgeModel[]
+    | ComboModel[] {
     // data controller and item controller subscribe additem in order
 
     const { graphCore } = this.dataController;
     const { specification } = this.themeController;
-    graphCore.once('changed', (event) => {
+    graphCore.once("changed", (event) => {
       this.hooks.itemchange.emit({
         type: itemType,
         changes: graphCore.reduceChanges(event.changes),
         graphCore,
         theme: specification,
       });
-      this.emit('afteritemchange', { type: itemType, action: 'add', models });
+      this.emit("afteritemchange", { type: itemType, action: "add", models });
     });
 
     const modelArr = isArray(models) ? models : [models];
@@ -682,11 +791,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     data[`${itemType}s`] = modelArr;
     this.hooks.datachange.emit({
       data,
-      type: 'union',
+      type: "union",
     });
     const dataList = this.dataController.findData(
       itemType,
-      modelArr.map((model) => model.id),
+      modelArr.map((model) => model.id)
     );
     return isArray(models) ? dataList : dataList[0];
   }
@@ -702,20 +811,21 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     const data = { nodes: [], edges: [], combos: [] };
     const { userGraphCore, graphCore } = this.dataController;
     const { specification } = this.themeController;
-    const getItem = itemType === 'edge' ? userGraphCore.getEdge : userGraphCore.getNode; // TODO: combo
+    const getItem =
+      itemType === "edge" ? userGraphCore.getEdge : userGraphCore.getNode; // TODO: combo
     data[`${itemType}s`] = idArr.map((id) => getItem.bind(userGraphCore)(id));
-    graphCore.once('changed', (event) => {
+    graphCore.once("changed", (event) => {
       this.hooks.itemchange.emit({
         type: itemType,
         changes: event.changes,
         graphCore,
         theme: specification,
       });
-      this.emit('afteritemchange', { type: itemType, action: 'remove', ids });
+      this.emit("afteritemchange", { type: itemType, action: "remove", ids });
     });
     this.hooks.datachange.emit({
       data,
-      type: 'remove',
+      type: "remove",
     });
   }
   /**
@@ -736,31 +846,41 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           | Partial<EdgeUserModel>[]
           | Partial<ComboUserModel>[]
         >,
-    stack?: boolean,
-  ): NodeModel | EdgeModel | ComboModel | NodeModel[] | EdgeModel[] | ComboModel[] {
+    stack?: boolean
+  ):
+    | NodeModel
+    | EdgeModel
+    | ComboModel
+    | NodeModel[]
+    | EdgeModel[]
+    | ComboModel[] {
     const modelArr = isArray(models) ? models : [models];
     const data = { nodes: [], edges: [], combos: [] };
     data[`${itemType}s`] = modelArr;
 
     const { graphCore } = this.dataController;
     const { specification } = this.themeController;
-    graphCore.once('changed', (event) => {
+    graphCore.once("changed", (event) => {
       this.hooks.itemchange.emit({
         type: itemType,
         changes: event.changes,
         graphCore,
         theme: specification,
       });
-      this.emit('afteritemchange', { type: itemType, action: 'update', models });
+      this.emit("afteritemchange", {
+        type: itemType,
+        action: "update",
+        models,
+      });
     });
 
     this.hooks.datachange.emit({
       data,
-      type: 'update',
+      type: "update",
     });
     const dataList = this.dataController.findData(
       itemType,
-      modelArr.map((model) => model.id),
+      modelArr.map((model) => model.id)
     );
     return isArray(models) ? dataList : dataList[0];
   }
@@ -798,7 +918,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Item
    */
-  public setItemState(ids: ID | ID[], states: string | string[], value: boolean) {
+  public setItemState(
+    ids: ID | ID[],
+    states: string | string[],
+    value: boolean
+  ) {
     const idArr = isArray(ids) ? ids : [ids];
     const stateArr = isArray(states) ? states : [states];
     this.hooks.itemstatechange.emit({
@@ -806,7 +930,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       states: stateArr as string[],
       value,
     });
-    this.emit('afteritemstatechange', { ids, states, value });
+    this.emit("afteritemstatechange", { ids, states, value });
   }
   /**
    * Get the state value for an item.
@@ -833,7 +957,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       states,
       value: false,
     });
-    this.emit('afteritemstatechange', { ids, states, value: false });
+    this.emit("afteritemstatechange", { ids, states, value: false });
   }
 
   /**
@@ -864,7 +988,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @param childrenIds id array of children of the new combo
    * @group Combo
    */
-  public createCombo(combo: string | ComboUserModel, childrenIds: string[], stack?: boolean) {
+  public createCombo(
+    combo: string | ComboUserModel,
+    childrenIds: string[],
+    stack?: boolean
+  ) {
     // TODO
   }
   /**
@@ -908,10 +1036,12 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       const nodes = graphCore.getAllNodes();
       if (nodes.every((node) => isNil(node.data.x) && isNil(node.data.y))) {
         // Use `grid` layout as default when x/y of each node is unset.
-        (formattedOptions as StandardLayoutOptions).type = 'grid';
+        (formattedOptions as StandardLayoutOptions).type = "grid";
       } else {
         // Use user-defined position(x/y default to 0).
-        (formattedOptions as ImmediatelyInvokedLayoutOptions).execute = async (graph) => {
+        (formattedOptions as ImmediatelyInvokedLayoutOptions).execute = async (
+          graph
+        ) => {
           const nodes = graph.getAllNodes();
           return {
             nodes: nodes.map((node) => ({
@@ -931,7 +1061,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       graphCore,
       options: formattedOptions,
     });
-    this.emit('afterlayout');
+    this.emit("afterlayout");
   }
 
   /**
@@ -958,17 +1088,21 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Interaction
    */
-  public addBehaviors(behaviors: BehaviorOptionsOf<B>[], modes: string | string[]) {
+  public addBehaviors(
+    behaviors: BehaviorOptionsOf<B>[],
+    modes: string | string[]
+  ) {
     const modesArr = isArray(modes) ? modes : [modes];
     const behaviorsArr = isArray(behaviors) ? behaviors : [behaviors];
     this.hooks.behaviorchange.emit({
-      action: 'add',
+      action: "add",
       modes: modesArr,
       behaviors: behaviorsArr,
     });
     // update the graph specification
     modesArr.forEach((mode) => {
-      this.specification.modes[mode] = this.specification.modes[mode].concat(behaviorsArr);
+      this.specification.modes[mode] =
+        this.specification.modes[mode].concat(behaviorsArr);
     });
   }
   /**
@@ -981,7 +1115,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   public removeBehaviors(behaviorKeys: string[], modes: string | string[]) {
     const modesArr = isArray(modes) ? modes : [modes];
     this.hooks.behaviorchange.emit({
-      action: 'remove',
+      action: "remove",
       modes: modesArr,
       behaviors: behaviorKeys,
     });
@@ -989,9 +1123,10 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     modesArr.forEach((mode) => {
       behaviorKeys.forEach((key) => {
         const oldBehavior = this.specification.modes[mode].find(
-          (behavior) => isObject(behavior) && behavior.key === key,
+          (behavior) => isObject(behavior) && behavior.key === key
         );
-        const indexOfOldBehavior = this.specification.modes[mode].indexOf(oldBehavior);
+        const indexOfOldBehavior =
+          this.specification.modes[mode].indexOf(oldBehavior);
         this.specification.modes[mode].splice(indexOfOldBehavior, 1);
       });
     });
@@ -1006,7 +1141,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    */
   public updateBehavior(behavior: BehaviorObjectOptionsOf<B>, mode?: string) {
     this.hooks.behaviorchange.emit({
-      action: 'update',
+      action: "update",
       modes: [mode],
       behaviors: [behavior],
     });
@@ -1018,63 +1153,75 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     // });
   }
 
-
   /**
    * Add plugin(s) to graph.
-   * @param pluginCfgs 
-   * @returns 
+   * @param pluginCfgs
+   * @returns
    * @group Plugin
    */
   public addPlugins(
-    pluginCfgs: ({
-      key: string;
-      type: string;
-      [cfgName: string]: unknown; // TODO: configs from plugins
-    } | string)[]
+    pluginCfgs: (
+      | {
+          key: string;
+          type: string;
+          [cfgName: string]: unknown; // TODO: configs from plugins
+        }
+      | string
+    )[]
   ) {
     const pluginsArr = isArray(pluginCfgs) ? pluginCfgs : [pluginCfgs];
 
     // update the graph specification
     if (!this.specification.plugins) this.specification.plugins = [];
     const oldPlugins = this.specification.plugins;
-    const validPlugins: ({
-      key: string;
-      type: string;
-      [cfgName: string]: unknown; // TODO: configs from plugins
-    } | string)[] = [];
-    pluginsArr.forEach(config => {
-      const oldPlugin = oldPlugins.find(oldPlugin => {
-        if (typeof oldPlugin === 'string' || typeof config === 'string') return false;
+    const validPlugins: (
+      | {
+          key: string;
+          type: string;
+          [cfgName: string]: unknown; // TODO: configs from plugins
+        }
+      | string
+    )[] = [];
+    pluginsArr.forEach((config) => {
+      const oldPlugin = oldPlugins.find((oldPlugin) => {
+        if (typeof oldPlugin === "string" || typeof config === "string")
+          return false;
         return oldPlugin.key === config.key;
       });
       if (oldPlugin) {
-        console.warn(`Add plugin with key ${(config as any).key} failed, the key is duplicated to the existing plugins on the graph.`);
+        console.warn(
+          `Add plugin with key ${
+            (config as any).key
+          } failed, the key is duplicated to the existing plugins on the graph.`
+        );
         return;
       }
       validPlugins.push(config);
     });
     this.specification.plugins = oldPlugins.concat(validPlugins);
-    
+
     this.hooks.pluginchange.emit({
-      action: 'add',
+      action: "add",
       plugins: validPlugins,
     });
   }
-  
+
   /**
    * Remove plugin(s) from graph.
-   * @param pluginKeys 
-   * @returns 
+   * @param pluginKeys
+   * @returns
    * @group Plugin
    */
   public removePlugins(pluginKeys: string[]) {
     this.hooks.pluginchange.emit({
-      action: 'remove',
+      action: "remove",
       plugins: pluginKeys,
     });
     // update the graph specification
     const { plugins } = this.specification;
-    this.specification.plugins = plugins?.filter(plugin => !isObject(plugin.key) || !pluginKeys.includes(plugin.key));
+    this.specification.plugins = plugins?.filter(
+      (plugin) => !isObject(plugin.key) || !pluginKeys.includes(plugin.key)
+    );
   }
 
   /**
@@ -1083,37 +1230,46 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Interaction
    */
-  public updatePlugin(plugin: { key: string, type: string, [cfg: string]: unknown }) {
+  public updatePlugin(plugin: {
+    key: string;
+    type: string;
+    [cfg: string]: unknown;
+  }) {
     const { key } = plugin;
     if (!key) {
-      console.warn('Update plugin failed, the key for the plugin to be updated should be assign.');
+      console.warn(
+        "Update plugin failed, the key for the plugin to be updated should be assign."
+      );
       return;
     }
     const { plugins } = this.specification;
     if (!plugins) {
-      console.warn('Update plugin failed, the plugin to be updated does not exist.');
+      console.warn(
+        "Update plugin failed, the plugin to be updated does not exist."
+      );
       return;
     }
-    const oldPlugin = plugins?.find(p => {
-      if (typeof p === 'string') return p === key;
+    const oldPlugin = plugins?.find((p) => {
+      if (typeof p === "string") return p === key;
       return p.key === key;
     });
     if (!oldPlugin) {
-      console.warn('Update plugin failed, the key for the plugin to be updated should be assign.');
+      console.warn(
+        "Update plugin failed, the key for the plugin to be updated should be assign."
+      );
       return;
     }
     const idx = plugins.indexOf(oldPlugin);
     plugins[idx] = {
       ...oldPlugin,
       ...plugin,
-    }
-    
+    };
+
     this.hooks.pluginchange.emit({
-      action: 'update',
+      action: "update",
       plugins: [plugin],
     });
   }
-
 
   /**
    * Draw or update a G shape or group to the transient canvas.
@@ -1125,9 +1281,17 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   public drawTransient(
     type: ITEM_TYPE | SHAPE_TYPE,
     id: ID,
-    config: { action: 'remove' | 'add' | 'update' | undefined; style: ShapeStyle },
+    config: {
+      action: "remove" | "add" | "update" | undefined;
+      style: ShapeStyle;
+    }
   ): DisplayObject {
-    this.hooks.transientupdate.emit({ type, id, config, canvas: this.transientCanvas });
+    this.hooks.transientupdate.emit({
+      type,
+      id,
+      config,
+      canvas: this.transientCanvas,
+    });
     return this.itemController.getTransient(String(id));
   }
 
@@ -1140,6 +1304,8 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     this.canvas.destroy();
     this.backgroundCanvas.destroy();
     this.transientCanvas.destroy();
+
+    this.hooks.destroy.emit({});
 
     // TODO: destroy controllers and off the listeners
     // this.dataController.destroy();

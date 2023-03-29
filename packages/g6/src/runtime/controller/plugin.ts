@@ -1,8 +1,8 @@
-import { IGraph } from '../../types';
-import registry from '../../stdlib';
-import { getExtension } from '../../util/extension';
+import { IGraph } from "../../types";
+import registry from "../../stdlib";
+import { getExtension } from "../../util/extension";
 import { Plugin } from "../../types/plugin";
-import { IG6GraphEvent } from '../../types/event';
+import { IG6GraphEvent } from "../../types/event";
 
 type Listener = (event: IG6GraphEvent) => void;
 
@@ -10,16 +10,22 @@ type Listener = (event: IG6GraphEvent) => void;
  * Wraps the listener with error logging.
  * @returns a new listener with error logging.
  */
-const wrapListener = (type: string, eventName: string, listener: Listener): Listener => {
+const wrapListener = (
+  type: string,
+  eventName: string,
+  listener: Listener
+): Listener => {
   return (event: any) => {
     try {
       listener(event);
     } catch (error) {
-      console.error(`G6: Error occurred in "${eventName}" phase of the plugin "${type}"!`)
+      console.error(
+        `G6: Error occurred in "${eventName}" phase of the plugin "${type}"!`
+      );
       throw error;
     }
   };
-}
+};
 
 /**
  * Manages free plugin extensions and graph layout.
@@ -33,7 +39,7 @@ export class PluginController {
    * @example
    * { 'minimap': Minimap, 'tooltip': Tooltip }
    */
-  private pluginMap: Map<string, { type: string, plugin: Plugin }> = new Map();
+  private pluginMap: Map<string, { type: string; plugin: Plugin }> = new Map();
 
   /**
    * Listeners added by all current plugins.
@@ -55,6 +61,7 @@ export class PluginController {
   private tap() {
     this.graph.hooks.init.tap(this.onPluginInit.bind(this));
     this.graph.hooks.pluginchange.tap(this.onPluginChange.bind(this));
+    this.graph.hooks.destroy.tap(this.onDestroy.bind(this));
   }
 
   private onPluginInit() {
@@ -62,7 +69,7 @@ export class PluginController {
     this.pluginMap.clear();
     const { graph } = this;
     const pluginConfigs = graph.getSpecification().plugins || [];
-    pluginConfigs.forEach(config => {
+    pluginConfigs.forEach((config) => {
       this.initPlugin(config);
     });
 
@@ -76,10 +83,10 @@ export class PluginController {
 
   private initPlugin(config) {
     const { graph } = this;
-    const Plugin = getExtension(config, registry.useLib, 'plugin');
-    const options = typeof config === 'string' ? {} : config;
-    const type = typeof config === 'string' ? config : config.type;
-    const key = typeof config === 'string' ? config : config.key || type;
+    const Plugin = getExtension(config, registry.useLib, "plugin");
+    const options = typeof config === "string" ? {} : config;
+    const type = typeof config === "string" ? config : config.type;
+    const key = typeof config === "string" ? config : config.key || type;
     const plugin = new Plugin(options);
     plugin.init(graph);
     this.pluginMap.set(key, { type, plugin });
@@ -87,40 +94,41 @@ export class PluginController {
   }
 
   private onPluginChange(params: {
-    action: 'update' | 'add' | 'remove',
-    plugins: (string | { key: string, type: string, options: any })[],
+    action: "update" | "add" | "remove";
+    plugins: (string | { key: string; type: string; options: any })[];
   }) {
     const { action, plugins: pluginCfgs } = params;
-    if (action === 'add') {
-      pluginCfgs.forEach(config => {
+    if (action === "add") {
+      pluginCfgs.forEach((config) => {
         const { key, plugin } = this.initPlugin(config);
         this.addListeners(key, plugin);
       });
       return;
     }
 
-    if (action === 'remove') {
-      pluginCfgs.forEach(config => {
-        const key = typeof config === 'string' ? config : config.key || config.type;
+    if (action === "remove") {
+      pluginCfgs.forEach((config) => {
+        const key =
+          typeof config === "string" ? config : config.key || config.type;
         const item = this.pluginMap.get(key);
         if (!item) return;
         const { plugin } = item;
-        this.removeListeners(key, plugin);
+        this.removeListeners(key);
         plugin.destroy();
         this.pluginMap.delete(key);
       });
       return;
     }
 
-    if (action === 'update') {
-      pluginCfgs.forEach(config => {
-        if (typeof config === 'string') return;
+    if (action === "update") {
+      pluginCfgs.forEach((config) => {
+        if (typeof config === "string") return;
         const key = config.key || config.type;
         const item = this.pluginMap.get(key);
         if (!item) return;
         const { plugin } = item;
         plugin.updateCfgs(config);
-        this.removeListeners(key, plugin);
+        this.removeListeners(key);
         this.addListeners(key, plugin);
       });
       return;
@@ -130,24 +138,34 @@ export class PluginController {
   private addListeners = (key: string, plugin: Plugin) => {
     const events = plugin.getEvents();
     this.listenersMap[key] = {};
-    Object.keys(events).forEach(eventName => {
+    Object.keys(events).forEach((eventName) => {
       // Wrap the listener with error logging.
-      const listener = wrapListener(key, eventName, events[eventName].bind(plugin));
+      const listener = wrapListener(
+        key,
+        eventName,
+        events[eventName].bind(plugin)
+      );
       this.graph.on(eventName, listener);
       this.listenersMap[key][eventName] = listener;
     });
-  }
+  };
 
-  private removeListeners = (key: string, plugin: Plugin) => {
+  private removeListeners = (key: string) => {
     const listeners = this.listenersMap[key];
-    Object.keys(listeners).forEach(eventName => {
+    Object.keys(listeners).forEach((eventName) => {
       const listener = listeners[eventName];
       if (listener) {
         this.graph.off(eventName, listener);
       }
     });
+  };
+
+  private onDestroy() {
+    this.pluginMap.forEach((item) => {
+      const { plugin } = item;
+      plugin.destroy();
+    });
   }
 
-  destroy() {
-  }
+  destroy() {}
 }

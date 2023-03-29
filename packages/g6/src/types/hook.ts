@@ -1,14 +1,14 @@
-import { Canvas } from '@antv/g';
-import { GraphChange, ID } from '@antv/graphlib';
-import { CameraAnimationOptions } from './animate';
-import { BehaviorOptionsOf } from './behavior';
-import { DataChangeType, GraphCore, GraphData } from './data';
-import { EdgeModelData } from './edge';
-import { ITEM_TYPE, ShapeStyle, SHAPE_TYPE } from './item';
-import { LayoutOptions } from './layout';
-import { NodeModelData } from './node';
-import { ThemeSpecification } from './theme';
-import { GraphTransformOptions } from './view';
+import { Canvas } from "@antv/g";
+import { GraphChange, ID } from "@antv/graphlib";
+import { CameraAnimationOptions } from "./animate";
+import { BehaviorOptionsOf } from "./behavior";
+import { DataChangeType, GraphCore, GraphData } from "./data";
+import { EdgeModelData } from "./edge";
+import { ITEM_TYPE, ShapeStyle, SHAPE_TYPE } from "./item";
+import { LayoutOptions } from "./layout";
+import { NodeModelData } from "./node";
+import { ThemeSpecification } from "./theme";
+import { GraphTransformOptions } from "./view";
 
 export interface IHook<T> {
   name: string;
@@ -48,7 +48,7 @@ export interface Hooks {
   // 'updatelayout': IHook<any>; // TODO: define param template
   modechange: IHook<{ mode: string }>;
   behaviorchange: IHook<{
-    action: 'update' | 'add' | 'remove';
+    action: "update" | "add" | "remove";
     modes: string[];
     behaviors: (string | BehaviorOptionsOf<{}>)[];
   }>;
@@ -67,15 +67,18 @@ export interface Hooks {
     canvas: Canvas;
     config: {
       style: ShapeStyle;
-      action: 'remove' | 'add' | 'update' | undefined;
+      action: "remove" | "add" | "update" | undefined;
     };
   }>;
   // TODO: define param template
   viewportchange: IHook<ViewportChangeHookParams>;
   pluginchange: IHook<{
-    action: 'update' | 'add' | 'remove';
-    plugins: (string | { key: string, type: string, [cfgName: string]: unknown })[];
-  }>,
-  // 'destroy': IHook<any>; // TODO: define param template
+    action: "update" | "add" | "remove";
+    plugins: (
+      | string
+      | { key: string; type: string; [cfgName: string]: unknown }
+    )[];
+  }>;
+  destroy: IHook<{}>;
   // TODO: more timecycles here
 }
