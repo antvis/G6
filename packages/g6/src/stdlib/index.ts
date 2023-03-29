@@ -1,10 +1,10 @@
 import { registry as layoutRegistry } from '@antv/layout';
 import { Lib } from '../types/stdlib';
 import DragCanvas from './behavior/drag-canvas';
-import ClickSelect from "./behavior/click-select";
+import ClickSelect from './behavior/click-select';
 import BrushSelect from './behavior/brush-select';
 import LassoSelect from './behavior/lasso-select';
-import { DragNode } from "./behavior/drag-node";
+import { DragNode } from './behavior/drag-node';
 import { comboFromNode } from './data/comboFromNode';
 import { LineEdge } from './item/edge';
 import { CircleNode } from './item/node';
@@ -15,18 +15,19 @@ import SubjectThemeSolver from './themeSolver/subject';
 import rectSelector from './selector/rect';
 import lassoSelector from './selector/lasso';
 import Minimap from './plugin/minimap';
+import Legend from './plugin/legend';
 
 const stdLib = {
   transforms: {
     comboFromNode,
   },
   themes: {
-    'light': LightTheme,
-    'dark': DarkTheme
+    light: LightTheme,
+    dark: DarkTheme,
   },
   themeSolvers: {
-    'spec': SpecThemeSolver,
-    'subject': SubjectThemeSolver,
+    spec: SpecThemeSolver,
+    subject: SubjectThemeSolver,
   },
   layouts: layoutRegistry,
   behaviors: {
@@ -34,19 +35,20 @@ const stdLib = {
     'drag-node': DragNode,
     'click-select': ClickSelect,
     'brush-select': BrushSelect,
-    'lasso-select': LassoSelect
+    'lasso-select': LassoSelect,
   },
   plugins: {
-    'minimap': Minimap,
+    minimap: Minimap,
+    legend: Legend,
   },
   nodes: {
-    'circle-node': CircleNode
+    'circle-node': CircleNode,
   },
   edges: {
-    'line-edge': LineEdge
+    'line-edge': LineEdge,
   },
   combos: {},
-}
+};
 
 const useLib: Lib = {
   transforms: {},
@@ -61,8 +63,8 @@ const useLib: Lib = {
 
 const utils = {
   rectSelector,
-  lassoSelector
-}
+  lassoSelector,
+};
 
 const registery = { useLib };
 export default registery;

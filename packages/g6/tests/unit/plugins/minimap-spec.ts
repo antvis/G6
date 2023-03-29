@@ -1,4 +1,4 @@
-import { Graph } from '../../src/index';
+import { Graph } from '../../../src/index';
 
 const container = document.createElement('div');
 document.querySelector('body').appendChild(container);
