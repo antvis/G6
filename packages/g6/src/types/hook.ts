@@ -84,6 +84,5 @@ export interface Hooks {
     )[];
   }>;
   destroy: IHook<{}>;
-  // 'destroy': IHook<any>; // TODO: define param template
   // TODO: more timecycles here
 }
