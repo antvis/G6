@@ -1,4 +1,5 @@
 import { Group } from '@antv/g';
+import { clone } from '@antv/util';
 import { NodeModel } from '../types';
 import { DisplayMapper, ItemShapeStyles, State } from '../types/item';
 import { NodeDisplayModel, NodeModelData } from '../types/node';
@@ -55,5 +56,16 @@ export default class Node extends Item {
     const { x = 0, y = 0 } = data;
     this.group.style.x = x;
     this.group.style.y = y;
+  }
+
+  public clone(containerGroup: Group) {
+    return new Node({
+      model: clone(this.model),
+      renderExtensions: this.renderExtensions,
+      containerGroup,
+      mapper: this.mapper,
+      stateMapper: this.stateMapper,
+      themeStyles: clone(this.themeStyles),
+    });
   }
 }

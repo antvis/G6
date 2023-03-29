@@ -12,6 +12,7 @@ import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeModelData } from '../../ty
 import { ITEM_TYPE, ShapeStyle, SHAPE_TYPE } from '../../types/item';
 import { ItemStyleSet, ItemThemeSpecifications, ThemeSpecification } from '../../types/theme';
 import { getExtension } from '../../util/extension';
+import { upsertTransientItem } from '../../util/item';
 import { upsertShape } from '../../util/shape';
 
 /**
@@ -131,7 +132,8 @@ export class ItemController {
     this.nodeGroup = nodeGroup;
     this.edgeGroup = edgeGroup;
 
-    // Create transient groups.
+    // Also create transient groups on transient canvas.
+    transientCanvas.removeChildren();
     this.transientEdgeGroup = new Group({ id: 'edge-group' });
     this.transientNodeGroup = new Group({ id: 'node-group' });
     transientCanvas.appendChild(this.transientEdgeGroup);
@@ -343,43 +345,6 @@ export class ItemController {
     });
   }
 
-  /**
-   * Creates a new transient item or returns the existing one.
-   */
-  private createTransientItem(item: Node | Edge | Combo): Node | Edge | Combo {
-    let transientItem = this.transientItemMap[item.model.id];
-    if (transientItem) return transientItem;
-
-    if (item.type === 'node') {
-      const transientNode =  new Node({
-        model: clone(item.model),
-        renderExtensions: this.nodeExtensions,
-        containerGroup: this.transientNodeGroup,
-        mapper: this.nodeMapper,
-        stateMapper: this.nodeStateMapper,
-        themeStyles: item.themeStyles,
-      });
-      this.transientItemMap[item.model.id] = transientNode;
-      return transientNode;
-    } else if (item.type === 'edge') {
-      const transientEdge = new Edge({
-        model: clone(item.model),
-        renderExtensions: this.edgeExtensions,
-        containerGroup: this.transientEdgeGroup,
-        mapper: this.edgeMapper,
-        stateMapper: this.edgeStateMapper,
-        sourceItem: this.createTransientItem(item.sourceItem) as Node,
-        targetItem: this.createTransientItem(item.targetItem) as Node,
-        themeStyles: item.themeStyles,
-      });
-      this.transientItemMap[item.model.id] = transientEdge;
-      return transientEdge;
-    } else if (item.type === 'combo') {
-      // TODO: clone combo
-      return item;
-    }
-  }
-
   private onTransientUpdate(param: {
     type: ITEM_TYPE | SHAPE_TYPE;
     id: ID;
@@ -424,7 +389,12 @@ export class ItemController {
         console.warn(`Fail to draw transient item of ${id}, which is not exist.`);
         return;
       };
-      const transientItem = this.createTransientItem(item);
+      const transientItem = upsertTransientItem(
+        item,
+        this.transientNodeGroup,
+        this.transientEdgeGroup,
+        this.transientItemMap
+      );
       transientItem.update({
         ...transientItem.model,
         data: {
