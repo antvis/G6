@@ -42,7 +42,7 @@ export interface Hooks {
     graphCore: GraphCore;
     theme: ThemeSpecification;
   }>;
-  render: IHook<{ graphCore: GraphCore; theme: ThemeSpecification }>; // TODO: define param template
+  render: IHook<{ graphCore: GraphCore; theme: ThemeSpecification, transientCanvas: Canvas }>; // TODO: define param template
   layout: IHook<{ graphCore: GraphCore; options?: LayoutOptions }>; // TODO: define param template
   // 'updatelayout': IHook<any>; // TODO: define param template
   modechange: IHook<{ mode: string }>;
@@ -54,6 +54,10 @@ export interface Hooks {
   itemstatechange: IHook<{
     ids: ID[];
     states?: string[];
+    value?: boolean;
+  }>;
+  itemvisibilitychange: IHook<{
+    ids: ID[];
     value?: boolean;
   }>;
   transientupdate: IHook<{
