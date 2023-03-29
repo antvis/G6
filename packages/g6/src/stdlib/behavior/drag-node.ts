@@ -1,5 +1,5 @@
 import { ID } from '@antv/graphlib';
-import { debounce } from '@antv/util';
+import { debounce, uniq } from '@antv/util';
 import { EdgeModel } from '../../types';
 import { Behavior } from '../../types/behavior';
 import { IG6GraphEvent } from '../../types/event';
@@ -118,6 +118,13 @@ export class DragNode extends Behavior {
     };
   };
 
+  /** Given selected node ids, get their related visible edges. */
+  private getRelatedEdges(selectedNodeIds: ID[]) {
+    return uniq(selectedNodeIds.flatMap(nodeId => this.graph.getRelatedEdgesData(nodeId))).filter(edgeData => {
+      return this.graph.getItemVisible(edgeData.id);
+    });
+  }
+
   onPointerDown = (event: IG6GraphEvent) => {
     if (!this.options.shouldBegin(event)) return;
     const currentNodeId = event.itemId;
@@ -145,21 +152,14 @@ export class DragNode extends Behavior {
 
     // Hide related edge.
     if (this.options.hideRelatedEdges && !this.options.enableTransient) {
-      // FIXME: Should use getRelatedEdges for better performance.
-      this.hiddenEdges = this.graph.getAllEdgesData().filter(edge => {
-        return (selectedNodeIds.includes(edge.source) || selectedNodeIds.includes(edge.target));
-      });
+      this.hiddenEdges = this.getRelatedEdges(selectedNodeIds);
       this.graph.hideItem(this.hiddenEdges.map(edge => edge.id));
     }
 
     // Draw transient nodes and edges.
     if (this.options.enableTransient) {
-      // FIXME: Should use getRelatedEdges for better performance.
-      this.hiddenEdges = this.graph.getAllEdgesData().filter(edge => {
-        return (selectedNodeIds.includes(edge.source) || selectedNodeIds.includes(edge.target));
-      });
-
       // Draw transient edges and nodes.
+      this.hiddenEdges = this.getRelatedEdges(selectedNodeIds);
       this.hiddenEdges.forEach(edge => {
         this.graph.drawTransient('edge', edge.id, {});
       });

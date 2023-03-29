@@ -19,7 +19,8 @@ const createGraph = (dragNodeOptions: DragNodeOptions): IGraph => {
         { id: 'node3', data: { x: 200, y: 100, keyShape: { fill: "#00f" } } },
       ],
       edges: [
-        { id: 'edge1', source: 'node1', target: 'node2', data: { keyShape: { stroke: '#00f', lineWidth: 5 } } }
+        { id: 'edge1', source: 'node1', target: 'node2', data: { keyShape: { stroke: '#00f', lineWidth: 5 } } },
+        { id: 'edge2', source: 'node1', target: 'node3', data: { keyShape: { stroke: '#00f', lineWidth: 5 } } },
       ]
     },
     nodeState: {
@@ -78,6 +79,7 @@ describe('drag-node', () => {
   test('enableTransient: true', (done) => {
     const graph = createGraph({});
     graph.on('afterlayout', () => {
+      graph.hideItem('edge2');
       graph.emit('node:pointerdown', { itemId: 'node1', client: { x: 100, y: 200 } });
 
       // Should NOT update position while dragging.
@@ -86,6 +88,7 @@ describe('drag-node', () => {
       expect(graph.getNodeData('node1').data.y).toEqual(200);
       expect(graph.getItemVisible('node1')).toBe(false);
       expect(graph.getItemVisible('edge1')).toBe(false);
+      expect(graph.getItemVisible('edge2')).toBe(false);
       // @ts-ignore
       expect(graph.itemController.transientItemMap['node1'].model.data.x).toEqual(250);
       // @ts-ignore
@@ -97,6 +100,8 @@ describe('drag-node', () => {
       expect(graph.getNodeData('node1').data.y).toEqual(350);
       expect(graph.getItemVisible('node1')).toBe(true);
       expect(graph.getItemVisible('edge1')).toBe(true);
+      // edge2 should NOT be visible, because it's hidden before dragging.
+      expect(graph.getItemVisible('edge2')).toBe(false);
       // @ts-ignore
       expect(graph.itemController.transientItemMap).toEqual({});
 
@@ -204,7 +209,7 @@ describe('drag-node', () => {
     });
   });
 
-  test.only('abort dragging by press esc', (done) => {
+  test('abort dragging by press esc', (done) => {
     const graph = createGraph({
       enableTransient: false,
     });
