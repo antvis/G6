@@ -27,7 +27,7 @@ interface MiniMapConfig extends IPluginBaseConfig {
 export default class Minimap extends Base {
   private canvas: Canvas;
   /** The viewport DOM on the minimap. */
-  private viewport: HTMLElement;
+  private viewport: HTMLElement | undefined;
   /** Cache the mapping of graphics of nodes/edges/combos on main graph and minimap graph. */
   private itemMap: {
     [id: string]: {
@@ -70,6 +70,8 @@ export default class Minimap extends Base {
       afterupdateitem: this.handleUpdateCanvas,
       afteritemstatechange: this.handleUpdateCanvas,
       afterlayout: this.handleUpdateCanvas,
+      viewportchange: this.handleUpdateCanvas,
+      // TODO: afterzoom, aftertranslate
     };
   }
 
@@ -528,18 +530,18 @@ export default class Minimap extends Base {
   public init(graph: IGraph) {
     super.init(graph);
     this.initContainer();
+    this.updateCanvas();
   }
 
   /**
    * Init the DOM container for minimap.
    */
   public initContainer() {
-    const self = this;
-    const { graph, options } = self;
+    const { graph, options } = this;
     const { size, className } = options;
     let parentNode = options.container;
     const container: HTMLDivElement = createDom(
-      `<div class='${className}' style='width: ${size[0]}px; height: ${size[1]}px; overflow: hidden'></div>`,
+      `<div class='${className}' style='width: ${size[0]}px; height: ${size[1]}px; overflow: hidden;'></div>`,
     );
 
     if (isString(parentNode)) {
@@ -552,7 +554,14 @@ export default class Minimap extends Base {
       graph.container.appendChild(container);
     }
 
-    self.container = container;
+
+    if (this.container) {
+      this.container.remove();
+      this.viewport?.remove();
+      this.viewport = undefined;
+      this.canvas?.destroy();
+    }
+    this.container = container;
 
     const containerDOM = createDom(
       '<div class="g6-minimap-container" style="position: relative;"></div>',

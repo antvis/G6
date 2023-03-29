@@ -72,7 +72,10 @@ export interface Hooks {
   }>;
   // TODO: define param template
   viewportchange: IHook<ViewportChangeHookParams>;
-  plugininit: IHook<{}>,
+  pluginchange: IHook<{
+    action: 'update' | 'add' | 'remove';
+    plugins: (string | { key: string, type: string, [cfgName: string]: unknown })[];
+  }>,
   // 'destroy': IHook<any>; // TODO: define param template
   // TODO: more timecycles here
 }

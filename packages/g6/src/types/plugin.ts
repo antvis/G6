@@ -32,6 +32,15 @@ export abstract class Plugin {
   }
 
   /**
+   * 更新插件的配置
+   * @param options 
+   */
+  public updateCfgs(options?: IPluginBaseConfig) {
+    this.options = deepMix(this.options, options);
+    this.init(this.graph);
+  }
+
+  /**
    * 获取默认的插件配置
    */
   public getDefaultCfgs() {

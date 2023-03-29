@@ -5,7 +5,7 @@ document.querySelector('body').appendChild(container);
 
 // TODO
 describe('plugin', () => {
-  it('minimap', () => {
+  it('minimap with string config', () => {
     const graph = new G6.Graph({
       container,
       width: 500,
@@ -25,7 +25,6 @@ describe('plugin', () => {
           text: {
             fields: ['id'],
             formatter: (model) => {
-              console.log('idididid', model.id)
               return model.id
             }
           }
@@ -34,20 +33,14 @@ describe('plugin', () => {
       modes: {
         default: ['brush-select'],
       },
-      plugins: [{
-        type: 'minimap',
-        // hideEdge: true,
-        // mode: 'delegate',
-        // size: [300, 300]
-      }]
+      plugins: ['minimap']
     });
-    // graph.translate(150, 120)
-    graph.zoom(5);
-
-    // graph.on('afterlayout', e => {
-    //   graph.addData('node', [{ id: 'node3', data: { x: 50, y: 150 }}])
-    //   graph.updateData('node', [{ id: 'node3', data: { x: 150, y: 50 }}])
-    //   graph.removeData('node', 'node3')
-    // });
+    graph.on('afterlayout', e => {
+      graph.zoom(3);
+      graph.translate(50, 250);
+      // graph.addData('node', [{ id: 'node3', data: { x: 50, y: 150 }}])
+      // graph.updateData('node', [{ id: 'node3', data: { x: 150, y: 50 }}])
+      // graph.removeData('node', 'node3')
+    });
   });
 });

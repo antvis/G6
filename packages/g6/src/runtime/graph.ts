@@ -184,6 +184,10 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         config: { style: ShapeStyle; action: 'remove' | 'add' | 'update' | undefined };
         canvas: Canvas;
       }>({ name: 'transientupdate' }),
+      pluginchange: new Hook<{
+        action: 'update' | 'add' | 'remove';
+        plugins: (string | { key: string, type: string, [cfgName: string]: unknown })[];
+      }>({ name: 'pluginchange' }),
     };
   }
 
@@ -992,6 +996,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       });
     });
   }
+
   /**
    * Update a behavior on a mode.
    * @param behavior behavior configs, whose name indicates the behavior to be updated
@@ -1012,6 +1017,103 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     //   }
     // });
   }
+
+
+  /**
+   * Add plugin(s) to graph.
+   * @param pluginCfgs 
+   * @returns 
+   * @group Plugin
+   */
+  public addPlugins(
+    pluginCfgs: ({
+      key: string;
+      type: string;
+      [cfgName: string]: unknown; // TODO: configs from plugins
+    } | string)[]
+  ) {
+    const pluginsArr = isArray(pluginCfgs) ? pluginCfgs : [pluginCfgs];
+
+    // update the graph specification
+    if (!this.specification.plugins) this.specification.plugins = [];
+    const oldPlugins = this.specification.plugins;
+    const validPlugins: ({
+      key: string;
+      type: string;
+      [cfgName: string]: unknown; // TODO: configs from plugins
+    } | string)[] = [];
+    pluginsArr.forEach(config => {
+      const oldPlugin = oldPlugins.find(oldPlugin => {
+        if (typeof oldPlugin === 'string' || typeof config === 'string') return false;
+        return oldPlugin.key === config.key;
+      });
+      if (oldPlugin) {
+        console.warn(`Add plugin with key ${(config as any).key} failed, the key is duplicated to the existing plugins on the graph.`);
+        return;
+      }
+      validPlugins.push(config);
+    });
+    this.specification.plugins = oldPlugins.concat(validPlugins);
+    
+    this.hooks.pluginchange.emit({
+      action: 'add',
+      plugins: validPlugins,
+    });
+  }
+  
+  /**
+   * Remove plugin(s) from graph.
+   * @param pluginKeys 
+   * @returns 
+   * @group Plugin
+   */
+  public removePlugins(pluginKeys: string[]) {
+    this.hooks.pluginchange.emit({
+      action: 'remove',
+      plugins: pluginKeys,
+    });
+    // update the graph specification
+    const { plugins } = this.specification;
+    this.specification.plugins = plugins?.filter(plugin => !isObject(plugin.key) || !pluginKeys.includes(plugin.key));
+  }
+
+  /**
+   * Update a plugin of the graph.
+   * @param plugin plugin configs, whose key indicates the behavior to be updated
+   * @returns
+   * @group Interaction
+   */
+  public updatePlugin(plugin: { key: string, type: string, [cfg: string]: unknown }) {
+    const { key } = plugin;
+    if (!key) {
+      console.warn('Update plugin failed, the key for the plugin to be updated should be assign.');
+      return;
+    }
+    const { plugins } = this.specification;
+    if (!plugins) {
+      console.warn('Update plugin failed, the plugin to be updated does not exist.');
+      return;
+    }
+    const oldPlugin = plugins?.find(p => {
+      if (typeof p === 'string') return p === key;
+      return p.key === key;
+    });
+    if (!oldPlugin) {
+      console.warn('Update plugin failed, the key for the plugin to be updated should be assign.');
+      return;
+    }
+    const idx = plugins.indexOf(oldPlugin);
+    plugins[idx] = {
+      ...oldPlugin,
+      ...plugin,
+    }
+    
+    this.hooks.pluginchange.emit({
+      action: 'update',
+      plugins: [plugin],
+    });
+  }
+
 
   /**
    * Draw or update a G shape or group to the transient canvas.

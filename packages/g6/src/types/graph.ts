@@ -455,4 +455,35 @@ export interface IGraph<
    */
   drawTransient: (type: ITEM_TYPE | SHAPE_TYPE, id: ID, config: any) => DisplayObject;
 
+  /**
+   * Add plugin(s) to graph.
+   * @param pluginCfgs 
+   * @returns 
+   * @group Plugin
+   */
+  addPlugins: (pluginCfgs: {
+    key: string;
+    type: string;
+    [cfgName: string]: unknown;
+  }[]) => void;
+
+  /**
+   * Remove plugin(s) from graph.
+   * @param pluginCfgs 
+   * @returns 
+   * @group Plugin
+   */
+  removePlugins: (pluginKeys: string[]) => void;
+
+  /**
+   * Update one plugin of the graph.
+   * @param pluginCfgs
+   * @returns 
+   * @group Plugin
+   */
+  updatePlugin: (pluginCfg: {
+    key: string;
+    type: string;
+    [cfgName: string]: unknown;
+  }) => void;
 }

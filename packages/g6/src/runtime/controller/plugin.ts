@@ -33,7 +33,7 @@ export class PluginController {
    * @example
    * { 'minimap': Minimap, 'tooltip': Tooltip }
    */
-  private pluginMap: Map<string, Plugin> = new Map();
+  private pluginMap: Map<string, { type: string, plugin: Plugin }> = new Map();
 
   /**
    * Listeners added by all current plugins.
@@ -54,6 +54,7 @@ export class PluginController {
    */
   private tap() {
     this.graph.hooks.init.tap(this.onPluginInit.bind(this));
+    this.graph.hooks.pluginchange.tap(this.onPluginChange.bind(this));
   }
 
   private onPluginInit() {
@@ -62,29 +63,88 @@ export class PluginController {
     const { graph } = this;
     const pluginConfigs = graph.getSpecification().plugins || [];
     pluginConfigs.forEach(config => {
-      const Plugin = getExtension(config, registry.useLib, 'plugin');
-      const options = typeof config === 'string' ? {} : config;
-      const type = typeof config === 'string' ? config : (config as any).type;
-      const plugin = new Plugin(options);
-      plugin.init(graph);
-      this.pluginMap.set(type, plugin);
+      this.initPlugin(config);
     });
 
     // 2. Add listeners for each behavior.
     this.listenersMap = {};
-    this.pluginMap.forEach((plugin, type) => {
-      this.addListeners(type, plugin);
+    this.pluginMap.forEach((item, key) => {
+      const { plugin } = item;
+      this.addListeners(key, plugin);
     });
   }
 
-  private addListeners = (type: string, plugin: Plugin) => {
+  private initPlugin(config) {
+    const { graph } = this;
+    const Plugin = getExtension(config, registry.useLib, 'plugin');
+    const options = typeof config === 'string' ? {} : config;
+    const type = typeof config === 'string' ? config : config.type;
+    const key = typeof config === 'string' ? config : config.key || type;
+    const plugin = new Plugin(options);
+    plugin.init(graph);
+    this.pluginMap.set(key, { type, plugin });
+    return { key, type, plugin };
+  }
+
+  private onPluginChange(params: {
+    action: 'update' | 'add' | 'remove',
+    plugins: (string | { key: string, type: string, options: any })[],
+  }) {
+    const { action, plugins: pluginCfgs } = params;
+    if (action === 'add') {
+      pluginCfgs.forEach(config => {
+        const { key, plugin } = this.initPlugin(config);
+        this.addListeners(key, plugin);
+      });
+      return;
+    }
+
+    if (action === 'remove') {
+      pluginCfgs.forEach(config => {
+        const key = typeof config === 'string' ? config : config.key || config.type;
+        const item = this.pluginMap.get(key);
+        if (!item) return;
+        const { plugin } = item;
+        this.removeListeners(key, plugin);
+        plugin.destroy();
+        this.pluginMap.delete(key);
+      });
+      return;
+    }
+
+    if (action === 'update') {
+      pluginCfgs.forEach(config => {
+        if (typeof config === 'string') return;
+        const key = config.key || config.type;
+        const item = this.pluginMap.get(key);
+        if (!item) return;
+        const { plugin } = item;
+        plugin.updateCfgs(config);
+        this.removeListeners(key, plugin);
+        this.addListeners(key, plugin);
+      });
+      return;
+    }
+  }
+
+  private addListeners = (key: string, plugin: Plugin) => {
     const events = plugin.getEvents();
-    this.listenersMap[type] = {};
+    this.listenersMap[key] = {};
     Object.keys(events).forEach(eventName => {
       // Wrap the listener with error logging.
-      const listener = wrapListener(type, eventName, events[eventName].bind(plugin));
+      const listener = wrapListener(key, eventName, events[eventName].bind(plugin));
       this.graph.on(eventName, listener);
-      this.listenersMap[type][eventName] = listener;
+      this.listenersMap[key][eventName] = listener;
+    });
+  }
+
+  private removeListeners = (key: string, plugin: Plugin) => {
+    const listeners = this.listenersMap[key];
+    Object.keys(listeners).forEach(eventName => {
+      const listener = listeners[eventName];
+      if (listener) {
+        this.graph.off(eventName, listener);
+      }
     });
   }
 
