@@ -29,6 +29,8 @@ export const LayoutWorker = (
     // @ts-ignore
     layout.registerLayout('force', layout.ForceLayout);
     // @ts-ignore
+    layout.registerLayout('force2', layout.Force2Layout);
+    // @ts-ignore
     layout.registerLayout('circular', layout.CircularLayout);
     // @ts-ignore
     layout.registerLayout('dagre', layout.DagreLayout);

@@ -3,6 +3,7 @@
 ### 4.8.9
 
 - fix: type for draw function in elements, closes: #4395;
+- fix: force2 with webworker, closes: #4394;
 
 ### 4.8.8
 
