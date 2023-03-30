@@ -8,10 +8,6 @@ const container = document.createElement("div");
 container.id = "container";
 document.querySelector("body").appendChild(container);
 
-const container2 = document.createElement("div");
-container2.id = "container2";
-document.querySelector("body").appendChild(container2);
-
 const createGraph = (plugins) => {
   return new Graph({
     container,
@@ -20,10 +16,37 @@ const createGraph = (plugins) => {
     type: "graph",
     data: {
       nodes: [
-        { id: "node1", data: { x: 100, y: 200 } },
-        { id: "node2", data: { x: 200, y: 250 } },
+        { id: "node1", data: { x: 100, y: 200, nodeType: "a" } },
+        { id: "node2", data: { x: 200, y: 250, nodeType: "b" } },
+        { id: "node3", data: { x: 200, y: 350, nodeType: "b" } },
+        { id: "node4", data: { x: 300, y: 250, nodeType: "c" } },
       ],
-      edges: [{ id: "edge1", source: "node1", target: "node2", data: {} }],
+      edges: [
+        {
+          id: "edge1",
+          source: "node1",
+          target: "node2",
+          data: { edgeType: "e1" },
+        },
+        {
+          id: "edge2",
+          source: "node2",
+          target: "node3",
+          data: { edgeType: "e2" },
+        },
+        {
+          id: "edge3",
+          source: "node3",
+          target: "node4",
+          data: { edgeType: "e3" },
+        },
+        {
+          id: "edge4",
+          source: "node1",
+          target: "node4",
+          data: { edgeType: "e3" },
+        },
+      ],
     },
     node: {
       labelShape: {
@@ -43,82 +66,54 @@ const createGraph = (plugins) => {
 };
 describe("plugin", () => {
   test("legend with string config", () => {
-    const canvas = new Canvas({
-      container,
-      width: 1000,
-      height: 1000,
-      devicePixelRatio: 1,
-      renderer: new Renderer(),
-    });
-
-    const group = new Group({
-      style: {
-        zIndex: 1,
-        width: 810,
-        height: 350,
-      },
-    });
-
-    const createPageViews = (
-      count: number,
-      [w, h]: [number, number],
-      formatter = (str: any) => `page - ${str}`
-    ) => {
-      return new Array(count).fill(0).map((_, index) => {
-        const g = new Group();
-        const rect = new Rect({
-          style: {
-            width: w,
-            height: h,
-            stroke: "red",
-            fill: "#f7f7f7",
+    const graph = createGraph([
+      {
+        type: "legend",
+        size: "fit-content",
+        // orientation: "vertical",
+        node: {
+          enable: true,
+          padding: [20, 20],
+          title: "node-legend",
+          typeField: "nodeType",
+          rows: 1,
+          cols: 4,
+          labelStyle: {
+            spacing: 8,
+            fontSize: 20,
           },
-        });
-        rect.appendChild(
-          new Text({
-            style: {
-              text: formatter(index + 1),
-              x: w / 2,
-              y: h / 2,
-              textAlign: "center",
-            },
-          })
-        );
-        g.appendChild(rect);
-        return g;
-      });
-    };
-
-    const createNav = (args = {}, size = 5) => {
-      const nav = new Navigator({
-        style: {
-          pageWidth: 100,
-          pageHeight: 100,
-          loop: true,
-          ...args,
+          // markerStyle: {
+          //   shape: "circle",
+          //   size: (type) => {
+          //     return type === "a" ? 10 : 20;
+          //   },
+          //   color: (type) => {
+          //     return type === "a" ? "#f00" : "#0f0";
+          //   },
+          // },
         },
-      });
-      createPageViews(size, [100, 100]).forEach((page) => {
-        nav.getContainer().appendChild(page);
-      });
-      group.appendChild(nav);
-      return nav;
-    };
-
-    const nav1 = createNav({ x: 100, y: 100 });
-
-    canvas.appendChild(
-      new Rect({
-        style: {
-          width: 200,
-          height: 200,
-          fill: "red",
-          zIndex: 0,
+        edge: {
+          enable: true,
+          padding: [10, 20],
+          title: "edge-legend",
+          typeField: "edgeType",
+          // markerStyle: {
+          //   color: (type) => {
+          //     console.log("color", type === "e1" ? "#00f" : "#000");
+          //     switch (type) {
+          //       case "e1":
+          //         return "#00f";
+          //       case "e2":
+          //         return "#f0f";
+          //       case "e3":
+          //         return "#0ff";
+          //     }
+          //   },
+          // },
         },
-      })
-    );
-    console.log(nav1);
-    canvas.appendChild(group);
+      },
+    ]);
+    // graph.translate(0, -180);
   });
 });
 

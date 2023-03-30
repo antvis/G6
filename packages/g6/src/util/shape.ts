@@ -12,15 +12,15 @@ import {
   Image,
   Path,
   AABB,
-} from '@antv/g';
-import { clone, isArray, isNumber } from '@antv/util';
-import { DEFAULT_LABEL_BG_PADDING } from '../constant';
-import { Point } from '../types/common';
-import { EdgeShapeMap } from '../types/edge';
-import { GShapeStyle, SHAPE_TYPE, ItemShapeStyles } from '../types/item';
-import { NodeShapeMap } from '../types/node';
+} from "@antv/g";
+import { clone, isArray, isNumber } from "@antv/util";
+import { DEFAULT_LABEL_BG_PADDING } from "../constant";
+import { Point } from "../types/common";
+import { EdgeShapeMap } from "../types/edge";
+import { GShapeStyle, SHAPE_TYPE, ItemShapeStyles } from "../types/item";
+import { NodeShapeMap } from "../types/node";
 
-const shapeTagMap = {
+export const ShapeTagMap = {
   circle: Circle,
   rect: Rect,
   ellipse: Ellipse,
@@ -33,7 +33,7 @@ const shapeTagMap = {
 };
 
 const createShape = (type: SHAPE_TYPE, style: GShapeStyle, id: string) => {
-  const ShapeClass = shapeTagMap[type];
+  const ShapeClass = ShapeTagMap[type];
   return new ShapeClass({ style, id, autoUpdate: true });
 };
 
@@ -41,7 +41,7 @@ export const upsertShape = (
   type: SHAPE_TYPE,
   id: string,
   style: GShapeStyle,
-  shapeMap: { [shapeId: string]: DisplayObject },
+  shapeMap: { [shapeId: string]: DisplayObject }
 ): DisplayObject => {
   let shape = shapeMap[id];
   if (!shape) {
@@ -58,10 +58,13 @@ export const upsertShape = (
   return shape;
 };
 
-export const getGroupSucceedMap = (group: IElement, map?: { [id: string]: IElement }) => {
+export const getGroupSucceedMap = (
+  group: IElement,
+  map?: { [id: string]: IElement }
+) => {
   let useMap = map || {};
   group.children.forEach((child) => {
-    if (child.tagName === 'group') getGroupSucceedMap(child, useMap);
+    if (child.tagName === "group") getGroupSucceedMap(child, useMap);
     useMap[child.id] = child;
   });
   return useMap;
@@ -81,7 +84,7 @@ export const updateShapes = (
   newShapeMap: { [id: string]: DisplayObject },
   group: Group,
   removeDiff: boolean = true,
-  shouldUpdate: (id: string) => boolean = () => true,
+  shouldUpdate: (id: string) => boolean = () => true
 ): NodeShapeMap | EdgeShapeMap => {
   const tolalMap = {
     ...prevShapeMap,
@@ -156,7 +159,10 @@ export const mergeStyles = (styleMaps: ItemShapeStyles[]) => {
  * @param styleMap2 shapes' styles map as incoming map
  * @returns
  */
-const merge2Styles = (styleMap1: ItemShapeStyles, styleMap2: ItemShapeStyles) => {
+const merge2Styles = (
+  styleMap1: ItemShapeStyles,
+  styleMap2: ItemShapeStyles
+) => {
   if (!styleMap1) return clone(styleMap2);
   else if (!styleMap2) return clone(styleMap1);
   const mergedStyle = clone(styleMap1);
@@ -177,7 +183,10 @@ const merge2Styles = (styleMap1: ItemShapeStyles, styleMap2: ItemShapeStyles) =>
  * @param points1 vertex array of polygon1
  * @param points2 vertex array of polygon2
  */
-export const isPolygonsIntersect = (points1: number[][], points2: number[][]): boolean => {
+export const isPolygonsIntersect = (
+  points1: number[][],
+  points2: number[][]
+): boolean => {
   const getBBox = (points): Partial<AABB> => {
     const xArr = points.map((p) => p[0]);
     const yArr = points.map((p) => p[1]);
@@ -354,7 +363,12 @@ const lineIntersectPolygon = (lines, line) => {
  * @param  {Point}  p3 end of the second line
  * @return {Point}  the intersect point
  */
-export const getLineIntersect = (p0: Point, p1: Point, p2: Point, p3: Point): Point | null => {
+export const getLineIntersect = (
+  p0: Point,
+  p1: Point,
+  p2: Point,
+  p3: Point
+): Point | null => {
   const tolerance = 0.0001;
 
   const E: Point = {
@@ -393,4 +407,5 @@ export const getLineIntersect = (p0: Point, p1: Point, p2: Point, p3: Point): Po
  * @param   {number}       max    the max of the range
  * @return  {boolean}      bool   the result boolean
  */
-const isBetween = (value: number, min: number, max: number) => value >= min && value <= max;
+const isBetween = (value: number, min: number, max: number) =>
+  value >= min && value <= max;
