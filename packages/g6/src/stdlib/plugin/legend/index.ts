@@ -348,7 +348,7 @@ export default class Legend extends Base {
     ];
 
     // Creates the marker style for the legend based on the propsMarkerStyle or the style of the corresponding element on the graph.
-    let markerRelatedStyle: any = {};
+    const markerRelatedStyle: any = {};
     let getShape;
     if (!propsMarkerStyle) {
       // 使用图上对应元素的样式
