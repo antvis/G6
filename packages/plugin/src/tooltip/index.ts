@@ -257,6 +257,9 @@ export default class Tooltip extends Base {
 
     if (y + bbox.height + offsetY > height) {
       res.y -= bbox.height + offsetY;
+      if (res.y < 0) {
+        res.y = 0
+      }
     }
 
     modifyCSS(tooltip, {
