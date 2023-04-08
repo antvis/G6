@@ -393,7 +393,7 @@ export default class TimeBar extends Base {
         graph.getEdges().forEach(edge => currentEdgeExistMap[edge.getID()] = true);
 
         if (filterItemTypes.includes('node')) {
-          originNodes.forEach((node: any) => {
+          originNodes?.forEach((node: any) => {
             const date = +(getDate?.(node) || node.date);
             const hitRange = (date >= minDate && date <= maxDate) || shouldIgnore?.('node', node, { min: minDate, max: maxDate });
             const exist = currentNodeExistMap[node.id];

@@ -343,26 +343,31 @@ export default class TreeGraph extends Graph implements ITreeGraph {
     let layoutData = data;
     if (layoutConfig?.excludeInvisibles) {
       data = clone(self.get('data'));
+      const cacheChidMap = {}
       traverseTree<TreeGraphData>(data, subTree => {
         const siblings = subTree.children;
         if (!siblings?.length) return true;
         for (let i = siblings.length - 1; i >= 0; i--) {
           const node = this.findById(siblings[i].id);
-          let isHidden = node ? !node.isVisible() : siblings[i].visible === false;
-          if (isHidden) siblings.splice(i, 1);
+          const isHidden = node ? !node.isVisible() : siblings[i].visible === false;
+          if (isHidden) {
+            cacheChidMap[subTree.id] = cacheChidMap[subTree.id] || [];
+            cacheChidMap[subTree.id].push({
+              idx: i,
+              child: siblings.splice(i, 1)[0],
+            });
+          }
         }
       });
       layoutData = layoutMethod ? layoutMethod(data, self.get('layout')) : data;
       traverseTree<TreeGraphData>(layoutData, subTree => {
-        const node = this.findDataById(subTree.id);
-        if (!node) return;
-        node.data = subTree.data;
-        node.x = subTree.x;
-        node.y = subTree.y;
-      });
-      layoutData = self.get('data');
-      traverseTree<TreeGraphData>(layoutData, subTree => {
-        if (!subTree.data) subTree.data = { ...subTree }
+        const cachedItems = cacheChidMap[subTree.id];
+        if (cachedItems?.length) {
+          for (let i = cachedItems.length - 1; i >= 0; i --) {
+            const { idx, child } = cachedItems[i];
+            subTree.children.splice(idx, 0, child);
+          }
+        }
       });
     } else {
       layoutData = layoutMethod ? layoutMethod(data, self.get('layout')) : data;

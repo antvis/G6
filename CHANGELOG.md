@@ -4,6 +4,7 @@
 
 - fix: type for draw function in elements, closes: #4395;
 - fix: force2 with webworker, closes: #4394;
+- fix: excludeInvisibles with collapse-expand behavior problem;
 
 ### 4.8.8
 
