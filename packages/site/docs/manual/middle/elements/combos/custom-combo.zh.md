@@ -106,8 +106,8 @@ G6.registerCombo(
       const rect = group.addShape('rect', {
         attrs: {
           ...style,
-          x: -style.width / 2 - (cfg.padding[3] - cfg.padding[1]) / 2,
-          y: -style.height / 2 - (cfg.padding[0] - cfg.padding[2]) / 2,
+          x: -style.height / 2 - padding[0],
+          y:  -style.width / 2 - padding[3],
           width: style.width,
           height: style.height,
         },
