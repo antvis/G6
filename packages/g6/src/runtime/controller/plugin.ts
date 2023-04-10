@@ -1,8 +1,8 @@
-import { IGraph } from "../../types";
-import registry from "../../stdlib";
-import { getExtension } from "../../util/extension";
-import { Plugin } from "../../types/plugin";
-import { IG6GraphEvent } from "../../types/event";
+import { IGraph } from '../../types';
+import registry from '../../stdlib';
+import { getExtension } from '../../util/extension';
+import { Plugin } from '../../types/plugin';
+import { IG6GraphEvent } from '../../types/event';
 
 type Listener = (event: IG6GraphEvent) => void;
 
@@ -13,14 +13,14 @@ type Listener = (event: IG6GraphEvent) => void;
 const wrapListener = (
   type: string,
   eventName: string,
-  listener: Listener
+  listener: Listener,
 ): Listener => {
   return (event: any) => {
     try {
       listener(event);
     } catch (error) {
       console.error(
-        `G6: Error occurred in "${eventName}" phase of the plugin "${type}"!`
+        `G6: Error occurred in "${eventName}" phase of the plugin "${type}"!`,
       );
       throw error;
     }
@@ -83,10 +83,10 @@ export class PluginController {
 
   private initPlugin(config) {
     const { graph } = this;
-    const Plugin = getExtension(config, registry.useLib, "plugin");
-    const options = typeof config === "string" ? {} : config;
-    const type = typeof config === "string" ? config : config.type;
-    const key = typeof config === "string" ? config : config.key || type;
+    const Plugin = getExtension(config, registry.useLib, 'plugin');
+    const options = typeof config === 'string' ? {} : config;
+    const type = typeof config === 'string' ? config : config.type;
+    const key = typeof config === 'string' ? config : config.key || type;
     const plugin = new Plugin(options);
     plugin.init(graph);
     this.pluginMap.set(key, { type, plugin });
@@ -94,11 +94,11 @@ export class PluginController {
   }
 
   private onPluginChange(params: {
-    action: "update" | "add" | "remove";
+    action: 'update' | 'add' | 'remove';
     plugins: (string | { key: string; type: string; options: any })[];
   }) {
     const { action, plugins: pluginCfgs } = params;
-    if (action === "add") {
+    if (action === 'add') {
       pluginCfgs.forEach((config) => {
         const { key, plugin } = this.initPlugin(config);
         this.addListeners(key, plugin);
@@ -106,10 +106,10 @@ export class PluginController {
       return;
     }
 
-    if (action === "remove") {
+    if (action === 'remove') {
       pluginCfgs.forEach((config) => {
         const key =
-          typeof config === "string" ? config : config.key || config.type;
+          typeof config === 'string' ? config : config.key || config.type;
         const item = this.pluginMap.get(key);
         if (!item) return;
         const { plugin } = item;
@@ -120,9 +120,9 @@ export class PluginController {
       return;
     }
 
-    if (action === "update") {
+    if (action === 'update') {
       pluginCfgs.forEach((config) => {
-        if (typeof config === "string") return;
+        if (typeof config === 'string') return;
         const key = config.key || config.type;
         const item = this.pluginMap.get(key);
         if (!item) return;
@@ -143,7 +143,7 @@ export class PluginController {
       const listener = wrapListener(
         key,
         eventName,
-        events[eventName].bind(plugin)
+        events[eventName].bind(plugin),
       );
       this.graph.on(eventName, listener);
       this.listenersMap[key][eventName] = listener;
