@@ -682,6 +682,7 @@ export default class Minimap extends Base {
   }
 
   public destroy() {
+    super.destroy();
     this.canvas?.destroy();
     const container = this.container;
     if (container?.parentNode) container.parentNode.removeChild(container);

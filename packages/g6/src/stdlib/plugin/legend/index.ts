@@ -240,10 +240,12 @@ export default class Legend extends Base {
       });
     }
 
-    this.nodeLegend = this.upsertLegend('node');
-    this.edgeLegend = this.upsertLegend('edge');
-
-    this.updateLayout();
+    const promise = this.canvas.ready;
+    promise.then(() => {
+      this.nodeLegend = this.upsertLegend('node');
+      this.edgeLegend = this.upsertLegend('edge');
+      this.updateLayout();
+    });
   }
 
   /**
@@ -508,9 +510,10 @@ export default class Legend extends Base {
           0,
           -bbox.min[1] + firstItem.padding[0],
         ]);
-        const firstBottom =
-          firstItem.legend.childNodes[1].childNodes[0].childNodes[0].childNodes[1].getRenderBounds()
-            .max[1] + firstItem.padding[2];
+
+        const firstItemBounds =
+          firstItem.legend.childNodes[1].childNodes[0].childNodes[0].getRenderBounds();
+        const firstBottom = firstItemBounds.max[1] + firstItem.padding[2];
 
         secondItem.legend.translateLocal([0, firstBottom]);
       } else {
@@ -708,6 +711,7 @@ export default class Legend extends Base {
   }
 
   public destroy() {
+    super.destroy();
     this.canvas.destroy();
   }
 }

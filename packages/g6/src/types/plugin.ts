@@ -22,8 +22,8 @@ export abstract class Plugin {
   public graph: IGraph;
 
   /**
-   * 插件基类的构造函数
-   * @param cfgs 插件的配置项
+   * Constructor for the Plugin Base Class.
+   * @param options options for the plugin
    */
   constructor(options?: IPluginBaseConfig) {
     this.options = deepMix(this.getDefaultCfgs(), options);
@@ -32,7 +32,7 @@ export abstract class Plugin {
   }
 
   /**
-   * 更新插件的配置
+   * Update the options for the plugin.
    * @param options
    */
   public updateCfgs(options?: IPluginBaseConfig) {
@@ -41,35 +41,30 @@ export abstract class Plugin {
   }
 
   /**
-   * 获取默认的插件配置
+   * Get the defualt options of the plugin.
    */
   public getDefaultCfgs() {
     return {};
   }
 
   /**
-   * 初始化方法，供子类实现
+   * Init.
    */
   public init(graph: IGraph) {
     this.graph = graph;
   }
 
   /**
-   * 获取插件中的事件和事件处理方法，供子类实现
+   * Returns the key(graph event name) value(listener) map.
+   * Should be implemented by the plugin.
    */
   public getEvents() {
     return {};
   }
   /**
-   * 销毁方法，供子类复写
+   * Destroy method, should be implemented by the plugin.
    */
-  public destroy() {}
-
-  /**
-   * 销毁插件
-   */
-  public destroyPlugin() {
-    this.destroy();
+  public destroy() {
     const { graph } = this;
     const events = this.events;
     each(events, (v, k) => {
