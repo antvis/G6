@@ -1,12 +1,12 @@
-import { Category } from "@antv/gui";
-import { Canvas, DisplayObject, Circle, Line } from "@antv/g";
-import { isFunction, upperFirst } from "@antv/util";
-import { createDom } from "@antv/dom-util";
-import { ID } from "@antv/graphlib";
-import { IGraph } from "../../../types";
-import { Plugin as Base, IPluginBaseConfig } from "../../../types/plugin";
-import { createCanvas } from "../../../util/canvas";
-import { formatPadding, ShapeTagMap } from "../../../util/shape";
+import { Category } from '@antv/gui';
+import { Canvas, DisplayObject, Circle, Line } from '@antv/g';
+import { isFunction, upperFirst } from '@antv/util';
+import { createDom } from '@antv/dom-util';
+import { ID } from '@antv/graphlib';
+import { IGraph } from '../../../types';
+import { Plugin as Base, IPluginBaseConfig } from '../../../types/plugin';
+import { createCanvas } from '../../../util/canvas';
+import { formatPadding, ShapeTagMap } from '../../../util/shape';
 
 type ItemLegendConfig = {
   // whether show the item legend
@@ -46,9 +46,9 @@ interface LegendConfig extends IPluginBaseConfig {
   // className for the DOM wrapper, "g6-category-legend" by default
   className?: string;
   // size for the legend canvas
-  size?: "fit-content" | [number | "100%", number | "100%"];
+  size?: 'fit-content' | [number | '100%', number | '100%'];
   // orientation for the legend layout
-  orientation?: "horizontal" | "vertical";
+  orientation?: 'horizontal' | 'vertical';
   // Selected state name, triggered while clicking a legend item. Click will not take effect if selectedState is not assigned
   selectedState?: string;
   // Active state name, triggered while mouseenter a legend item. Mouseenter will not take effect if activeState is not assigned
@@ -66,7 +66,7 @@ export default class Legend extends Base {
   private edgeLegend: Category;
   private wrapper: HTMLDivElement;
   private canvas: Canvas;
-  private size: ("fit-content" | number)[];
+  private size: ('fit-content' | number)[];
   private selectedTypes: {
     node: Set<string>;
     edge: Set<string>;
@@ -99,10 +99,10 @@ export default class Legend extends Base {
   public getDefaultCfgs(): LegendConfig {
     return {
       container: null,
-      className: "g6-category-legend",
-      orientation: "horizontal",
-      selectedState: "selected",
-      activeState: "active",
+      className: 'g6-category-legend',
+      orientation: 'horizontal',
+      selectedState: 'selected',
+      activeState: 'active',
     };
   }
 
@@ -114,7 +114,7 @@ export default class Legend extends Base {
 
   public init(graph: IGraph) {
     super.init(graph);
-    const { size = "fit-content", orientation } = this.options;
+    const { size = 'fit-content', orientation } = this.options;
     const graphSize = graph.getSize();
     this.size = size;
     this.selectedTypes = {
@@ -138,23 +138,23 @@ export default class Legend extends Base {
       edge: {},
     };
     // If size is set to "fit-content", sets the size of the legend canvas to fit the content.
-    if (size === "fit-content") {
+    if (size === 'fit-content') {
       this.size = [
-        orientation === "horizontal" ? graphSize[0] : "fit-content",
-        orientation === "horizontal" ? "fit-content" : graphSize[1],
+        orientation === 'horizontal' ? graphSize[0] : 'fit-content',
+        orientation === 'horizontal' ? 'fit-content' : graphSize[1],
       ];
     }
     // If size is set to "100%", sets the size of the legend canvas to match the size of the graph.
-    if (size[0] === "100%") {
+    if (size[0] === '100%') {
       this.size[0] = graphSize[0];
-    } else if (typeof size[0] === "number") {
+    } else if (typeof size[0] === 'number') {
       // Otherwise, sets the size of the legend canvas to the specified size.
       this.size[0] = size[0];
     }
     // If size is set to "100%", sets the size of the legend canvas to match the size of the graph.
-    if (size[1] === "100%") {
+    if (size[1] === '100%') {
       this.size[1] = graphSize[1];
-    } else if (typeof size[1] === "number") {
+    } else if (typeof size[1] === 'number') {
       // Otherwise, sets the size of the legend canvas to the specified size.
       this.size[1] = size[1];
     }
@@ -173,23 +173,23 @@ export default class Legend extends Base {
     // If canvas does not exist, create it
     if (!this.canvas) {
       const canvasSize = [
-        size[0] === "fit-content" ? 0 : size[0],
-        size[1] === "fit-content" ? 0 : size[1],
+        size[0] === 'fit-content' ? 0 : size[0],
+        size[1] === 'fit-content' ? 0 : size[1],
       ];
       this.canvas = createCanvas(
-        "canvas",
+        'canvas',
         this.wrapper,
         canvasSize[0],
-        canvasSize[1]
+        canvasSize[1],
       );
       // Set canvas background color
       this.canvas.context.config.canvas.style.backgroundColor =
-        "rgba(255, 255, 255, 0.8)";
+        'rgba(255, 255, 255, 0.8)';
 
       // Add click event listener to canvas
-      this.canvas.addEventListener("click", (evt) => {
+      this.canvas.addEventListener('click', (evt) => {
         // If the click target is not canvas, return
-        if (evt.target?.nodeName !== "document") return;
+        if (evt.target?.nodeName !== 'document') return;
 
         // Clear relevant states on the graph
         const { graph, options } = this;
@@ -240,8 +240,8 @@ export default class Legend extends Base {
       });
     }
 
-    this.nodeLegend = this.upsertLegend("node");
-    this.edgeLegend = this.upsertLegend("edge");
+    this.nodeLegend = this.upsertLegend('node');
+    this.edgeLegend = this.upsertLegend('edge');
 
     this.updateLayout();
   }
@@ -255,7 +255,7 @@ export default class Legend extends Base {
     const { container: propContainer, className } = options;
     let container: any = propContainer;
     // If the container is a string, it will find the corresponding element in the document.
-    if (typeof propContainer === "string") {
+    if (typeof propContainer === 'string') {
       container = document.getElementById(propContainer);
     }
     // If the container is not found, it will use the graph's container.
@@ -264,11 +264,11 @@ export default class Legend extends Base {
     }
 
     const wrapperSize = [
-      size[0] === "fit-content" ? 0 : size[0],
-      size[1] === "fit-content" ? 0 : size[1],
+      size[0] === 'fit-content' ? 0 : size[0],
+      size[1] === 'fit-content' ? 0 : size[1],
     ];
     const wrapper = (HTMLDivElement = createDom(
-      `<div class='${className}' style='width: ${wrapperSize[0]}px; height: ${wrapperSize[1]}px; overflow: hidden;'></div>`
+      `<div class='${className}' style='width: ${wrapperSize[0]}px; height: ${wrapperSize[1]}px; overflow: hidden;'></div>`,
     ));
     container.appendChild(wrapper);
     return wrapper;
@@ -279,12 +279,12 @@ export default class Legend extends Base {
    * @param {string} itemType - The type of item for which the legend is being created (node or edge).
    * @returns {Category} - The created legend.
    */
-  private upsertLegend(itemType: "node" | "edge" = "node") {
+  private upsertLegend(itemType: 'node' | 'edge' = 'node') {
     const { graph, options, canvas } = this;
     const { node, edge, orientation } = options;
 
     // Checks if the legend is enabled for the given item type. If not, it returns.
-    const itemLegendConfig = itemType === "node" ? node : edge;
+    const itemLegendConfig = itemType === 'node' ? node : edge;
     if (!itemLegendConfig?.enable) return;
 
     // Extracts the necessary configuration options from the options object.
@@ -301,9 +301,9 @@ export default class Legend extends Base {
       markerStyle: propsMarkerStyle,
     } = itemLegendConfig;
     const defaultStyle = {
-      shape: itemType === "node" ? "circle" : "line",
+      shape: itemType === 'node' ? 'circle' : 'line',
       size: 10,
-      color: "#ccc",
+      color: '#ccc',
       fillOpacity: 0.3,
     };
 
@@ -318,7 +318,7 @@ export default class Legend extends Base {
 
     // Gets all the data for the given item type and extracts the unique types based on the typeField.
     const datas =
-      itemType === "node" ? graph.getAllNodesData() : graph.getAllEdgesData();
+      itemType === 'node' ? graph.getAllNodesData() : graph.getAllEdgesData();
     const typeSet = new Set<string>();
     const typeModelMap = {};
     datas.map((model) => {
@@ -337,14 +337,14 @@ export default class Legend extends Base {
     }));
 
     const markerStyleKeys = [
-      "fill",
-      "stroke",
-      "fillOpacity",
-      "opacity",
-      "lineWidth",
-      "shadow",
-      "shadowBlur",
-      "size",
+      'fill',
+      'stroke',
+      'fillOpacity',
+      'opacity',
+      'lineWidth',
+      'shadow',
+      'shadowBlur',
+      'size',
     ];
 
     // Creates the marker style for the legend based on the propsMarkerStyle or the style of the corresponding element on the graph.
@@ -364,9 +364,9 @@ export default class Legend extends Base {
       };
       types.forEach((type) => {
         const itemGroup = itemTypeGroup.find(
-          (ele) => ele.getAttribute("data-item-id") === typeModelMap[type].id
+          (ele) => ele.getAttribute('data-item-id') === typeModelMap[type].id,
         );
-        const keyShape = itemGroup.querySelector("#keyShape");
+        const keyShape = itemGroup.querySelector('#keyShape');
         typeStyleMap[type] = {
           shape: keyShape.nodeName,
           style: {
@@ -380,9 +380,9 @@ export default class Legend extends Base {
         markerRelatedStyle[`itemMarker${upperFirstLetter(key)}`] = (item) => {
           const { typeValue } = item;
           let markerStyleKey = key;
-          if (key === "size") {
-            if (typeStyleMap[typeValue].style.r) markerStyleKey = "r";
-            markerStyleKey = "width";
+          if (key === 'size') {
+            if (typeStyleMap[typeValue].style.r) markerStyleKey = 'r';
+            markerStyleKey = 'width';
           }
           return (
             typeStyleMap[typeValue].style[markerStyleKey] || defaultStyle[key]
@@ -402,13 +402,13 @@ export default class Legend extends Base {
       const { shape: markerShape, ...markerStyle } = Object.assign(
         {},
         defaultStyle,
-        propsMarkerStyle || {}
+        propsMarkerStyle || {},
       );
       getShape = this.getShapeConfig(itemType, markerShape);
       Object.keys(markerStyle).forEach((key) => {
         const styleValue = markerStyle[key];
         let value = styleValue;
-        if (typeof styleValue === "object") {
+        if (typeof styleValue === 'object') {
           value = (item) => {
             return (
               styleValue[item.typeValue] ||
@@ -419,11 +419,11 @@ export default class Legend extends Base {
         } else if (isFunction(styleValue)) {
           value = (item) => styleValue(item.typeValue);
         }
-        if (key === "color") {
-          markerRelatedStyle["itemMarkerFill"] =
-            markerRelatedStyle["itemMarkerFill"] || value;
-          markerRelatedStyle["itemMarkerStroke"] =
-            markerRelatedStyle["itemMarkerStroke"] || value;
+        if (key === 'color') {
+          markerRelatedStyle['itemMarkerFill'] =
+            markerRelatedStyle['itemMarkerFill'] || value;
+          markerRelatedStyle['itemMarkerStroke'] =
+            markerRelatedStyle['itemMarkerStroke'] || value;
         } else {
           markerRelatedStyle[`itemMarker${upperFirstLetter(key)}`] = value;
         }
@@ -436,7 +436,7 @@ export default class Legend extends Base {
         x: padding[3],
         y: padding[0],
         data: legendData,
-        layout: "flex",
+        layout: 'flex',
         orientation,
         gridRow: grid[0],
         gridCol: grid[1],
@@ -503,7 +503,7 @@ export default class Legend extends Base {
       const bbox = firstItem.legend.getRenderBounds();
 
       // Positions the legends based on their orientation and padding values.
-      if (orientation === "horizontal") {
+      if (orientation === 'horizontal') {
         firstItem.legend.translateLocal([
           0,
           -bbox.min[1] + firstItem.padding[0],
@@ -526,13 +526,13 @@ export default class Legend extends Base {
     }
 
     // If the size of the canvas is set to "fit-content", it resizes the canvas to fit the total bounding box of the legend.
-    if (size[0] === "fit-content" || size[1] === "fit-content") {
+    if (size[0] === 'fit-content' || size[1] === 'fit-content') {
       const totalBBox = this.canvas.getRoot().getRenderBounds();
       const canvasSize = [
-        size[0] === "fit-content"
+        size[0] === 'fit-content'
           ? totalBBox.max[0] - totalBBox.min[0]
           : size[0],
-        size[1] === "fit-content"
+        size[1] === 'fit-content'
           ? totalBBox.max[1] - totalBBox.min[1]
           : size[1],
       ];
@@ -549,17 +549,17 @@ export default class Legend extends Base {
    * @returns
    */
   private getShapeConfig(
-    itemType: "node" | "edge",
-    markerShape
+    itemType: 'node' | 'edge',
+    markerShape,
   ): (item: { typeValue: string }) => { Shape: DisplayObject; style: any } {
     const DefaultShape: typeof Circle | typeof Line =
-      itemType === "node" ? Circle : Line;
+      itemType === 'node' ? Circle : Line;
     const defaultStyle =
-      itemType === "node"
+      itemType === 'node'
         ? { r: 10, width: 20, height: 20, lineWidth: 1 }
         : { lineWidth: 4, x1: -10, y1: 0, x2: 10, y2: 0 };
 
-    if (typeof markerShape === "string") {
+    if (typeof markerShape === 'string') {
       // If markerShape is a string, it is used as a key to look up a shape in the ShapeTagMap object. If the key is not found, the DefaultShape is used.
       const Shape = ShapeTagMap[markerShape] || DefaultShape;
       return () => ({
@@ -570,7 +570,7 @@ export default class Legend extends Base {
       // If markerShape is an object, it is used to look up a shape configuration based on the item's typeValue property.
       return (item) => {
         const shapeConfig = markerShape[item.typeValue];
-        if (typeof shapeConfig === "string") {
+        if (typeof shapeConfig === 'string') {
           // If the configuration is a string, it is used as a key to look up a shape in the ShapeTagMap object. If the key is not found, the DefaultShape is used.
           const Shape = ShapeTagMap[shapeConfig];
           return {
@@ -604,14 +604,14 @@ export default class Legend extends Base {
     let grid = [rows, cols];
     const [graphWidth, graphHeight] = graph.getSize();
 
-    if (orientation === "horizontal") {
+    if (orientation === 'horizontal') {
       // If the orientation is horizontal, it checks if the first value in the size array is "fit-content" and sets the width to the graphWidth if it is.
-      if (size[0] === "fit-content") width = graphWidth;
-      if (size[1] === "fit-content") height = 50;
+      if (size[0] === 'fit-content') width = graphWidth;
+      if (size[1] === 'fit-content') height = 50;
     } else {
       // If the orientation is not horizontal, it checks if the first value in the size array is "fit-content" and sets the width to 50 if it is.
-      if (size[0] === "fit-content") width = 50;
-      if (size[1] === "fit-content") height = graphHeight;
+      if (size[0] === 'fit-content') width = 50;
+      if (size[1] === 'fit-content') height = graphHeight;
       // Swaps the values of rows and cols in the grid array.
       grid = [cols, rows];
     }
@@ -646,7 +646,7 @@ export default class Legend extends Base {
     activeIds.forEach((id) => this.activeIds[itemType].add(id));
 
     // Update legend style.
-    ele.querySelector(".legend-category-item-marker").style.lineWidth =
+    ele.querySelector('.legend-category-item-marker').style.lineWidth =
       this.styleCache[itemType][type].lineWidth + 2 || 4;
   }
 
@@ -666,10 +666,10 @@ export default class Legend extends Base {
     const { index } = ele.__data__;
     const type = types[index];
     if (this.selectedTypes[itemType].has(type)) {
-      ele.querySelector(".legend-category-item-marker").style.lineWidth =
+      ele.querySelector('.legend-category-item-marker').style.lineWidth =
         this.styleCache[itemType][type].lineWidth + 4 || 6;
     } else {
-      ele.querySelector(".legend-category-item-marker").style.lineWidth =
+      ele.querySelector('.legend-category-item-marker').style.lineWidth =
         this.styleCache[itemType][type].lineWidth || 1;
     }
     graph.setItemState(currentAtiveIds, activeState, false);
@@ -697,12 +697,12 @@ export default class Legend extends Base {
       this.selectedTypes[itemType].delete(type);
       ids.forEach((id) => this.selectedIds[itemType].delete(id));
       graph.setItemState(ids, selectedState, false);
-      ele.querySelector(".legend-category-item-marker").style.lineWidth = 4;
+      ele.querySelector('.legend-category-item-marker').style.lineWidth = 4;
     } else {
       this.selectedTypes[itemType].add(type);
       ids.forEach((id) => this.selectedIds[itemType].add(id));
       graph.setItemState(ids, selectedState, true);
-      ele.querySelector(".legend-category-item-marker").style.lineWidth =
+      ele.querySelector('.legend-category-item-marker').style.lineWidth =
         this.styleCache[itemType][type].lineWidth + 4 || 6;
     }
   }
@@ -718,6 +718,6 @@ export default class Legend extends Base {
  * @returns
  */
 const upperFirstLetter = (str: string) => {
-  if (!str) return "";
+  if (!str) return '';
   return `${str.substring(0, 1).toUpperCase()}${str.substring(1)}`;
 };
