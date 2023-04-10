@@ -45,8 +45,8 @@ interface LegendConfig extends IPluginBaseConfig {
   container?: HTMLDivElement | null;
   // className for the DOM wrapper, "g6-category-legend" by default
   className?: string;
-  // size for the legend canvas
-  size?: 'fit-content' | [number | '100%', number | '100%'];
+  // size for the legend canvas, 'fit-content', or an array of number(px) and string(percentage with %)
+  size?: 'fit-content' | [number | string, number | string];
   // orientation for the legend layout
   orientation?: 'horizontal' | 'vertical';
   // Selected state name, triggered while clicking a legend item. Click will not take effect if selectedState is not assigned
@@ -145,15 +145,17 @@ export default class Legend extends Base {
       ];
     }
     // If size is set to "100%", sets the size of the legend canvas to match the size of the graph.
-    if (size[0] === '100%') {
-      this.size[0] = graphSize[0];
+    if (size[0].includes('%')) {
+      const ratio = Number(size[0].replace('%')) / 100 || 1;
+      this.size[0] = graphSize[0] * ratio;
     } else if (typeof size[0] === 'number') {
       // Otherwise, sets the size of the legend canvas to the specified size.
       this.size[0] = size[0];
     }
     // If size is set to "100%", sets the size of the legend canvas to match the size of the graph.
     if (size[1] === '100%') {
-      this.size[1] = graphSize[1];
+      const ratio = Number(size[0].replace('%')) / 100 || 1;
+      this.size[1] = graphSize[1] * ratio;
     } else if (typeof size[1] === 'number') {
       // Otherwise, sets the size of the legend canvas to the specified size.
       this.size[1] = size[1];
@@ -356,7 +358,7 @@ export default class Legend extends Base {
       // 使用图上对应元素的样式
       const graphGroup = graph.canvas.getRoot();
       const itemTypeGroup =
-        graphGroup.find((ele) => ele.id === `${itemType}-group`) || graphGroup;
+        graphGroup.getElementById(`${itemType}-group`) || graphGroup;
       const typeStyleMap = {};
       const formatStyles = {
         x1: -10,
@@ -665,7 +667,7 @@ export default class Legend extends Base {
     const { activeState } = options;
     if (!activeState) return;
     this.activeType[typeField] = undefined;
-    const currentAtiveIds = graph.findIdByState(itemType, activeState, true);
+    const currentActiveIds = graph.findIdByState(itemType, activeState, true);
     const { index } = ele.__data__;
     const type = types[index];
     if (this.selectedTypes[itemType].has(type)) {
@@ -675,8 +677,8 @@ export default class Legend extends Base {
       ele.querySelector('.legend-category-item-marker').style.lineWidth =
         this.styleCache[itemType][type].lineWidth || 1;
     }
-    graph.setItemState(currentAtiveIds, activeState, false);
-    currentAtiveIds.forEach((id) => this.activeIds[itemType].delete(id));
+    graph.setItemState(currentActiveIds, activeState, false);
+    currentActiveIds.forEach((id) => this.activeIds[itemType].delete(id));
   }
 
   /**

@@ -302,19 +302,6 @@ export default class Minimap extends Base {
     }
   }
 
-  private updateVisible(ele) {
-    if (!ele.isGroup() && !ele.get('visible')) {
-      ele.hide();
-    } else {
-      const children = ele.get('children');
-      if (!children || !children.length) return;
-      children.forEach((child) => {
-        if (!child.get('visible')) child.hide();
-        this.updateVisible(child);
-      });
-    }
-  }
-
   /**
    * Only draw keyShapes on the minimap.
    */
@@ -594,8 +581,15 @@ export default class Minimap extends Base {
       e.preventDefault();
     });
 
-    // TODO: graph.rendererType, pixelRatio from graph
-    this.canvas = createCanvas('canvas', containerDOM, size[0], size[1], 1);
+    // TODO: graph.rendererType
+    const graphCanvas = graph.canvas;
+    this.canvas = createCanvas(
+      'canvas',
+      containerDOM,
+      size[0],
+      size[1],
+      graphCanvas.devicePixelRatio,
+    );
 
     return this.canvas.ready;
   }
