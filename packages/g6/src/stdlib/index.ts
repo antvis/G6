@@ -5,7 +5,7 @@ import BrushSelect from './behavior/brush-select';
 import ClickSelect from './behavior/click-select';
 import DragCanvas from './behavior/drag-canvas';
 import LassoSelect from './behavior/lasso-select';
-import { DragNode } from "./behavior/drag-node";
+import { DragNode } from './behavior/drag-node';
 import { comboFromNode } from './data/comboFromNode';
 import { LineEdge } from './item/edge';
 import { CircleNode } from './item/node';
@@ -16,6 +16,8 @@ import SubjectThemeSolver from './themeSolver/subject';
 
 import lassoSelector from './selector/lasso';
 import rectSelector from './selector/rect';
+import Minimap from './plugin/minimap';
+import Legend from './plugin/legend';
 
 const stdLib = {
   transforms: {
@@ -38,7 +40,10 @@ const stdLib = {
     'brush-select': BrushSelect,
     'lasso-select': LassoSelect,
   },
-  plugins: {},
+  plugins: {
+    minimap: Minimap,
+    legend: Legend,
+  },
   nodes: {
     'circle-node': CircleNode,
   },

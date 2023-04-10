@@ -73,10 +73,11 @@ export interface Specification<B extends BehaviorRegistry, T extends ThemeRegist
   animate?: AnimateCfg;
 
   /** free plugins */
-  plugins?: {
-    name: string;
-    options: any; // TODO: configs from plugins
-  }[];
+  plugins?: (string | {
+    key: string;
+    type: string;
+    [cfgName: string]: unknown; // TODO: configs from plugins
+  })[];
 
   /** theme */
   theme?: ThemeOptionsOf<T>;

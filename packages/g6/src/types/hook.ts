@@ -1,6 +1,7 @@
 import { Canvas } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
 import { CameraAnimationOptions } from './animate';
+import { BehaviorOptionsOf } from './behavior';
 import { DataChangeType, GraphCore, GraphData } from './data';
 import { EdgeModelData } from './edge';
 import { ITEM_TYPE, ShapeStyle, SHAPE_TYPE } from './item';
@@ -42,14 +43,18 @@ export interface Hooks {
     graphCore: GraphCore;
     theme: ThemeSpecification;
   }>;
-  render: IHook<{ graphCore: GraphCore; theme: ThemeSpecification, transientCanvas: Canvas }>; // TODO: define param template
+  render: IHook<{
+    graphCore: GraphCore;
+    theme: ThemeSpecification;
+    transientCanvas: Canvas;
+  }>; // TODO: define param template
   layout: IHook<{ graphCore: GraphCore; options?: LayoutOptions }>; // TODO: define param template
   // 'updatelayout': IHook<any>; // TODO: define param template
   modechange: IHook<{ mode: string }>;
   behaviorchange: IHook<{
     action: 'update' | 'add' | 'remove';
     modes: string[];
-    behaviors: (string | { type: string; key: string })[];
+    behaviors: (string | BehaviorOptionsOf<{}>)[];
   }>;
   itemstatechange: IHook<{
     ids: ID[];
@@ -71,6 +76,13 @@ export interface Hooks {
   }>;
   // TODO: define param template
   viewportchange: IHook<ViewportChangeHookParams>;
-  // 'destroy': IHook<any>; // TODO: define param template
+  pluginchange: IHook<{
+    action: 'update' | 'add' | 'remove';
+    plugins: (
+      | string
+      | { key: string; type: string; [cfgName: string]: unknown }
+    )[];
+  }>;
+  destroy: IHook<{}>;
   // TODO: more timecycles here
 }
