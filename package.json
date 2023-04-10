@@ -12,6 +12,8 @@
   "devDependencies": {
     "@commitlint/cli": "^17.5.0",
     "@commitlint/config-conventional": "^17.4.4",
-    "husky": "^8.0.3"
+    "husky": "^8.0.3",
+    "react-scripts": "3.1.2",
+    "vite": "^4.2.1"
   }
 }
