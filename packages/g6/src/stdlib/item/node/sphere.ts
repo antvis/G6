@@ -1,20 +1,20 @@
-import { DisplayObject } from '@antv/g';
-import { NodeDisplayModel } from '../../../types';
-import { ItemShapeStyles, State } from '../../../types/item';
-import { NodeModelData, NodeShapeMap } from '../../../types/node';
-import { BaseNode3D } from './base3d';
+import { DisplayObject } from "@antv/g";
+import { NodeDisplayModel } from "../../../types";
+import { ItemShapeStyles, State } from "../../../types/item";
+import { NodeModelData, NodeShapeMap } from "../../../types/node";
+import { BaseNode3D } from "./base3d";
 
 export class SphereNode extends BaseNode3D {
   override defaultStyles = {
     keyShape: {
-      r: 15,
+      r: 5,
       latitudeBands: 32,
       longitudeBands: 32,
       x: 0,
       y: 0,
       z: 0,
-      opacity: 0.6
-    }
+      opacity: 0.6,
+    },
   };
   mergedStyles: ItemShapeStyles;
   constructor(props) {
@@ -24,13 +24,12 @@ export class SphereNode extends BaseNode3D {
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
     diffData?: { previous: NodeModelData; current: NodeModelData },
-    diffState?: { previous: State[], current: State[] },
+    diffState?: { previous: State[]; current: State[] }
   ): NodeShapeMap {
     const { data = {} } = model;
     let shapes: NodeShapeMap = { keyShape: undefined };
 
     shapes.keyShape = this.drawKeyShape(model, shapeMap, diffData);
-    console.log('shapes.keyShape', shapes.keyShape)
     if (data.labelShape) {
       shapes = {
         ...shapes,
@@ -43,8 +42,8 @@ export class SphereNode extends BaseNode3D {
     if (data.otherShapes && this.drawOtherShapes) {
       shapes = {
         ...shapes,
-        ...this.drawOtherShapes(model, shapeMap, diffData)
-      }
+        ...this.drawOtherShapes(model, shapeMap, diffData),
+      };
     }
     return shapes;
   }
@@ -53,8 +52,13 @@ export class SphereNode extends BaseNode3D {
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
     diffData?: { previous: NodeModelData; current: NodeModelData },
-    diffState?: { previous: State[], current: State[] }
+    diffState?: { previous: State[]; current: State[] }
   ): DisplayObject {
-    return this.upsertShape('sphere', 'keyShape', this.mergedStyles.keyShape, shapeMap);
+    return this.upsertShape(
+      "sphere",
+      "keyShape",
+      this.mergedStyles.keyShape,
+      shapeMap
+    );
   }
 }

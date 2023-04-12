@@ -1,50 +1,57 @@
+import { DisplayObject } from "@antv/g";
+import { clone } from "@antv/util";
+import G6, {
+  EdgeDisplayModel,
+  Graph,
+  GraphData,
+  IGraph,
+  NodeDisplayModel,
+} from "../../src/index";
+import { LineEdge } from "../../src/stdlib/item/edge";
+import { CircleNode } from "../../src/stdlib/item/node";
+import { BaseNode } from "../../src/stdlib/item/node/base";
+import { NodeModelData, NodeShapeMap } from "../../src/types/node";
+import { extend } from "../../src/util/extend";
+import { upsertShape } from "../../src/util/shape";
 
-import { DisplayObject } from '@antv/g';
-import { clone } from '@antv/util';
-import G6, { EdgeDisplayModel, Graph, GraphData, IGraph, NodeDisplayModel } from '../../src/index';
-import { LineEdge } from '../../src/stdlib/item/edge';
-import { CircleNode } from '../../src/stdlib/item/node';
-import { BaseNode } from '../../src/stdlib/item/node/base';
-import { NodeModelData, NodeShapeMap } from '../../src/types/node';
-import { extend } from '../../src/util/extend';
-import { upsertShape } from '../../src/util/shape';
-
-const container = document.createElement('div');
-document.querySelector('body').appendChild(container);
+const container = document.createElement("div");
+document.querySelector("body").appendChild(container);
 
 let CustomGraph;
 
-describe('node item', () => {
+describe("node item", () => {
   let graph: IGraph<any>;
-  it('new graph with one node', () => {//done
+  it("new graph with one node", () => {
+    //done
     const nodes = [];
     for (let i = 0; i < 1000; i++) {
       nodes.push({
-        id: 'node-' + i,
+        id: "node-" + i,
         data: {
           x: Math.random() * 500,
           y: Math.random() * 500,
           z: Math.random() * 500,
-        }
-      })
+        },
+      });
     }
     const edges = [];
     for (let i = 0; i < 500; i++) {
       edges.push({
-        id: 'edge-'+i,
-        source: 'node-' + i,
-        target: 'node-' + (i + Math.floor(Math.random() * 500)),
-        data: {}
-      })
+        id: "edge-" + i,
+        source: "node-" + i,
+        target: "node-" + (i + Math.floor(Math.random() * 500)),
+        data: {},
+      });
     }
     graph = new G6.Graph({
       container,
       width: 500,
       height: 500,
-      type: 'graph',
-      renderer: 'webgl',
+      type: "graph",
+      renderer: "webgl",
       data: {
-        nodes, edges
+        nodes,
+        edges,
         // nodes: [
         //   {
         //     id: 'node1',
@@ -75,15 +82,15 @@ describe('node item', () => {
         //   target: 'node3',
         //   data: {}
         // }
-      // ]
+        // ]
       },
       node: {
-        type: 'sphere-node',
+        type: "sphere-node",
         // type: 'circle-node'
-      }
+      },
     });
 
-    graph.on('afterrender', () => {
+    graph.on("afterrender", () => {
       // const nodeItem = graph.itemController.itemMap['node1'];
       // expect(nodeItem).not.toBe(undefined);
       // expect(nodeItem.shapeMap.labelShape).toBe(undefined);

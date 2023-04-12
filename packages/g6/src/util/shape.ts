@@ -83,7 +83,7 @@ export const updateShapes = (
   prevShapeMap: { [id: string]: DisplayObject },
   newShapeMap: { [id: string]: DisplayObject },
   group: Group,
-  removeDiff = true,
+  removeDiff: boolean = true,
   shouldUpdate: (id: string) => boolean = () => true,
 ): NodeShapeMap | EdgeShapeMap => {
   const tolalMap = {
