@@ -205,6 +205,22 @@ export interface IGraph<
     | EdgeModel[]
     | ComboModel[];
 
+  /**
+   * Update one or more nodes' positions,
+   * do not update other styles which leads to better performance than updating positions by updateData.
+   * @param models new configurations with x and y for every node, which has id field to indicate the specific item
+   * @param {boolean} stack whether push this operation into graph's stack, true by default
+   * @group Data
+   */
+  updateNodePosition: (
+    models:
+      | Partial<NodeUserModel>
+      | Partial<
+          ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
+        >,
+    stack?: boolean,
+  ) => NodeModel | ComboModel | NodeModel[] | ComboModel[];
+
   // ===== view operations =====
 
   /**

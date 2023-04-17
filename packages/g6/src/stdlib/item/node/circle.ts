@@ -108,6 +108,7 @@ export class CircleNode extends BaseNode {
       'keyShape',
       this.mergedStyles.keyShape,
       shapeMap,
+      model,
     );
     if (isStyleAffectBBox('circle', updateStyles)) {
       this.boundsCache.keyShapeLocal = shape.getLocalBounds();

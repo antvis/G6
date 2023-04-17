@@ -651,6 +651,7 @@ describe('theme', () => {
             text: model.id,
           },
           shapeMap,
+          model,
         ).shape;
       }
       public drawOtherShapes(
@@ -669,6 +670,7 @@ describe('theme', () => {
               y: 0,
             },
             shapeMap,
+            model,
           ).shape,
         };
       }
@@ -693,6 +695,7 @@ describe('theme', () => {
               fill: '#0f0',
             },
             shapeMap,
+            model,
           ).shape,
         };
       }

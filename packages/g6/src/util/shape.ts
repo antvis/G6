@@ -16,14 +16,16 @@ import {
 import { clone, isArray, isNumber } from '@antv/util';
 import { DEFAULT_LABEL_BG_PADDING } from '../constant';
 import { Point } from '../types/common';
-import { EdgeShapeMap } from '../types/edge';
+import { EdgeDisplayModel, EdgeShapeMap } from '../types/edge';
 import {
   GShapeStyle,
   SHAPE_TYPE,
   ItemShapeStyles,
   ShapeStyle,
 } from '../types/item';
-import { NodeShapeMap } from '../types/node';
+import { NodeDisplayModel, NodeShapeMap } from '../types/node';
+import { ComboDisplayModel } from '../types';
+import { getShapeAnimateBeginStyles } from './animate';
 import { isArrayOverlap } from './array';
 import { isBetween } from './math';
 
@@ -39,41 +41,106 @@ export const ShapeTagMap = {
   path: Path,
 };
 
+const LINE_TYPES = ['line', 'polyline', 'path'];
+
 export const createShape = (
   type: SHAPE_TYPE,
   style: GShapeStyle,
   id: string,
 ) => {
   const ShapeClass = ShapeTagMap[type];
-  return new ShapeClass({ style, id });
+  const shape = new ShapeClass({ id, style });
+  if (LINE_TYPES.includes(type)) {
+    shape.style.increasedLineWidthForHitTesting = Math.max(
+      shape.style.lineWidth as number,
+      6,
+    );
+  }
+  return shape;
 };
 
+/**
+ * Collect the fields to be animated at the timing on shape with shapeId.
+ * @param animates animate configs
+ * @param timing
+ * @param shapeId
+ * @returns
+ */
+const findAnimateFields = (animates, timing, shapeId) => {
+  if (!animates?.[timing]) return [];
+  let animateFields = [];
+  animates[timing].forEach(({ fields, shapeId: animateShapeId }) => {
+    if (animateShapeId === shapeId)
+      animateFields = animateFields.concat(fields);
+  });
+  if (animateFields.includes(undefined)) {
+    // there is an animate on all styles
+    return [];
+  }
+  return animateFields;
+};
+
+/**
+ * Create (if does not exit in shapeMap) or update the shape according to the configurations.
+ * @param type shape's type
+ * @param id unique string to indicates the shape
+ * @param style style to be updated
+ * @param shapeMap the shape map of a node / edge / combo
+ * @param model data model of the node / edge / combo
+ * @returns
+ */
 export const upsertShape = (
   type: SHAPE_TYPE,
   id: string,
   style: GShapeStyle,
   shapeMap: { [shapeId: string]: DisplayObject },
+  model?: NodeDisplayModel | EdgeDisplayModel | ComboDisplayModel,
 ): {
   updateStyles: ShapeStyle;
   shape: DisplayObject;
 } => {
   let shape = shapeMap[id];
   let updateStyles = {};
+  const { animates } = model?.data || {};
   if (!shape) {
+    // create
     shape = createShape(type, style, id);
     updateStyles = style;
+    // find the animate styles, set them to be INIT_SHAPE_STYLES
+    const animateFields = findAnimateFields(animates, 'show', id);
+    const initShapeStyles = getShapeAnimateBeginStyles(shape);
+    animateFields.forEach((key) => {
+      shape.style[key] = initShapeStyles[key];
+    });
   } else if (shape.nodeName !== type) {
+    // remove and create for the shape changed type
     shape.remove();
     shape = createShape(type, style, id);
     updateStyles = style;
   } else {
     const oldStyles = shape.attributes;
-    Object.keys(style).forEach((key) => {
-      if (oldStyles[key] !== style[key]) {
-        updateStyles[key] = style[key];
-        shape.style[key] = style[key];
-      }
-    });
+    // update
+    if (!animates?.update) {
+      // update all the style directly when there are no animates for update timing
+      Object.keys(style).forEach((key) => {
+        if (oldStyles[key] !== style[key]) {
+          updateStyles[key] = style[key];
+          shape.style[key] = style[key];
+        }
+      });
+    } else {
+      // update the styles excludes the ones in the animate fields
+      const animateFields = findAnimateFields(animates, 'update', id);
+      if (!animateFields.length) return { shape, updateStyles };
+      Object.keys(style).forEach((key) => {
+        if (oldStyles[key] !== style[key]) {
+          updateStyles[key] = style[key];
+          if (!animateFields.includes(key)) {
+            shape.style[key] = style[key];
+          }
+        }
+      });
+    }
   }
   shapeMap[id] = shape;
   return { shape, updateStyles };
@@ -124,11 +191,15 @@ export const updateShapes = (
       if (prevShape !== newShape) {
         prevShape.remove();
       }
-      group.appendChild(newShape);
+      if (newShape.style.display !== 'none') {
+        group.appendChild(newShape);
+      }
     } else if (!prevShape && newShape) {
       // add newShapeMap - prevShapeMap
       finalShapeMap[id] = newShape;
-      group.appendChild(newShape);
+      if (newShape.style.display !== 'none') {
+        group.appendChild(newShape);
+      }
     } else if (prevShape && !newShape && removeDiff) {
       // remove prevShapeMap - newShapeMap
       delete finalShapeMap[id];

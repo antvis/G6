@@ -2,10 +2,11 @@ import { Group } from '@antv/g';
 import { clone } from '@antv/util';
 import { EdgeDisplayModel, EdgeModel, NodeModelData } from '../types';
 import { EdgeModelData } from '../types/edge';
-import { DisplayMapper, State } from '../types/item';
+import { DisplayMapper, ItemShapeStyles, State } from '../types/item';
 import { updateShapes } from '../util/shape';
 import Item from './item';
 import Node from './node';
+import { animateShapes } from '../util/animate';
 import { EdgeStyleSet } from 'types/theme';
 
 interface IProps {
@@ -45,6 +46,7 @@ export default class Edge extends Item {
     displayModel: EdgeDisplayModel,
     diffData?: { previous: EdgeModelData; current: EdgeModelData },
     diffState?: { previous: State[]; current: State[] },
+    onfinish: Function = () => {},
   ) {
     // get the end points
     const { x: sx, y: sy, z: sz } = this.sourceItem.model.data as NodeModelData;
@@ -52,6 +54,7 @@ export default class Edge extends Item {
     const sourcePoint = this.sourceItem.getAnchorPoint({ x: tx, y: ty, z: tz });
     const targetPoint = this.targetItem.getAnchorPoint({ x: sx, y: sy, z: sz });
     this.renderExt.mergeStyles(displayModel);
+    const firstRendering = !this.shapeMap?.keyShape;
     const shapeMap = this.renderExt.draw(
       displayModel,
       sourcePoint,
@@ -63,11 +66,32 @@ export default class Edge extends Item {
 
     // add shapes to group, and update shapeMap
     this.shapeMap = updateShapes(this.shapeMap, shapeMap, this.group);
-    const { haloShape, labelShape, labelBackgroundShape } = this.shapeMap;
+
+    // handle shape's and group's animate
+    const { animates } = displayModel.data;
+    const usingAnimates = { ...animates };
+    let targetStyles = this.renderExt.mergedStyles;
+    const { haloShape, labelShape } = this.shapeMap;
     haloShape?.toBack();
     labelShape?.toFront();
 
     super.draw(displayModel, diffData, diffState);
+
+    // terminate previous animations
+    this.stopAnimations();
+    const timing = firstRendering ? 'show' : 'update';
+    // handle shape's animate
+    if (usingAnimates[timing]?.length) {
+      this.animations = animateShapes(
+        usingAnimates,
+        targetStyles, // targetStylesMap
+        this.shapeMap, // shapeMap
+        this.group,
+        firstRendering ? 'show' : 'update',
+        this.changedStates,
+        () => onfinish(displayModel.id),
+      );
+    }
   }
 
   /**

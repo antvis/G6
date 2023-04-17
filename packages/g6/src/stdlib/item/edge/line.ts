@@ -93,6 +93,7 @@ export class LineEdge extends BaseEdge {
         isBillboard: true,
       },
       shapeMap,
+      model,
     ).shape;
   }
 }

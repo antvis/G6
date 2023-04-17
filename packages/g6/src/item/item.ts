@@ -1,4 +1,4 @@
-import { Group, DisplayObject, AABB } from '@antv/g';
+import { Group, DisplayObject, AABB, IAnimation } from '@antv/g';
 import { clone, isFunction } from '@antv/util';
 import { OTHER_SHAPES_FIELD_NAME, RESERVED_SHAPE_IDS } from '../constant';
 import { EdgeShapeMap } from '../types/edge';
@@ -18,6 +18,7 @@ import { isArrayOverlap } from '../util/array';
 import { mergeStyles, updateShapes } from '../util/shape';
 import { isEncode } from '../util/type';
 import { DEFAULT_MAPPER } from '../util/mapper';
+import { getShapeAnimateBeginStyles, animateShapes } from '../util/animate';
 
 export default abstract class Item implements IItem {
   public destroyed = false;
@@ -41,9 +42,12 @@ export default abstract class Item implements IItem {
   public shapeMap: NodeShapeMap | EdgeShapeMap = {
     keyShape: undefined,
   };
+  public afterDrawShapeMap = {};
   /** Set to different value in implements */
   public type: ITEM_TYPE;
   public renderExtensions: any; // TODO
+
+  public animations: IAnimation[];
 
   /** Cache the dirty tags for states when data changed, to re-map the state styles when state changed */
   private stateDirtyMap: { [stateName: string]: boolean } = {};
@@ -52,8 +56,9 @@ export default abstract class Item implements IItem {
     default?: ItemShapeStyles;
     [stateName: string]: ItemShapeStyles;
   };
-
   private device: any; // for 3d
+  /** Cache the chaging states which are not consomed by draw  */
+  public changedStates: string[];
 
   // TODO: props type
   constructor(props) {
@@ -92,13 +97,17 @@ export default abstract class Item implements IItem {
     displayModel: ItemDisplayModel,
     diffData?: { previous: ItemModelData; current: ItemModelData },
     diffState?: { previous: State[]; current: State[] },
+    onfinish: Function = () => {},
   ) {
     // call this.renderExt.draw in extend implementations
-    const afterDrawShapes =
-      this.renderExt.afterDraw?.(displayModel, this.shapeMap) || {};
+    this.afterDrawShapeMap =
+      this.renderExt.afterDraw?.(displayModel, {
+        ...this.shapeMap,
+        ...this.afterDrawShapeMap,
+      }) || {};
     this.shapeMap = updateShapes(
       this.shapeMap,
-      afterDrawShapes,
+      this.afterDrawShapeMap,
       this.group,
       false,
       (id) => {
@@ -111,6 +120,7 @@ export default abstract class Item implements IItem {
         return true;
       },
     );
+    this.changedStates = [];
   }
 
   public update(
@@ -118,6 +128,8 @@ export default abstract class Item implements IItem {
     diffData?: { previous: ItemModelData; current: ItemModelData },
     isReplace?: boolean,
     themeStyles?: NodeStyleSet | EdgeStyleSet,
+    onlyMove?: boolean,
+    onfinish?: Function,
   ) {
     // 1. merge model into this model
     this.model = model;
@@ -129,6 +141,11 @@ export default abstract class Item implements IItem {
       isReplace,
     );
     this.displayModel = displayModel;
+
+    if (onlyMove) {
+      this.updatePosition(displayModel, diffData, onfinish);
+      return;
+    }
 
     if (typeChange) {
       Object.values(this.shapeMap).forEach((child) => child.destroy());
@@ -147,14 +164,20 @@ export default abstract class Item implements IItem {
     }
     // 3. call element update fn from useLib
     if (this.states?.length) {
-      this.drawWithStates(this.states);
+      this.drawWithStates(this.states, onfinish);
     } else {
-      this.draw(this.displayModel, diffData);
+      this.draw(this.displayModel, diffData, undefined, onfinish);
     }
     // 4. tag all the states with 'dirty', for state style regenerating when state changed
     this.stateDirtyMap = {};
     this.states.forEach(({ name }) => (this.stateDirtyMap[name] = true));
   }
+
+  public updatePosition(
+    displayModel: ItemDisplayModel,
+    diffData?: { previous: ItemModelData; current: ItemModelData },
+    onfinish?: Function,
+  ) {}
 
   /**
    * Maps (mapper will be function, value, or encode format) model to displayModel and find out the shapes to be update for incremental updating.
@@ -203,8 +226,7 @@ export default abstract class Item implements IItem {
     // === fields' values in mapper are final value or Encode ===
     const dataChangedFields = isReplace
       ? undefined
-      : // ? Array.from(new Set(Object.keys(current).concat(Object.keys(previous)))) // all the fields for replacing all data
-        Object.keys(current).concat(Object.keys(otherFields)); // only fields in current data for partial updating
+      : Object.keys(current).concat(Object.keys(otherFields)); // only fields in current data for partial updating
 
     let typeChange = false;
     const { data, ...otherProps } = innerModel;
@@ -346,6 +368,7 @@ export default abstract class Item implements IItem {
       this.renderExt.setState(state, value, this.shapeMap);
       return;
     }
+    this.changedStates = [state];
     this.drawWithStates(previousStates);
   }
 
@@ -373,6 +396,7 @@ export default abstract class Item implements IItem {
       }));
     }
     this.states = newStates;
+    this.changedStates = changedStates.map((state) => state.name);
     // if the renderExt overwrote the setState, run the custom setState instead of the default
     if (this.renderExt.constructor.prototype.hasOwnProperty('setState')) {
       changedStates.forEach(({ name, value }) =>
@@ -392,12 +416,32 @@ export default abstract class Item implements IItem {
   }
 
   public destroy() {
-    // TODO: 1. stop animations
-    // 2. clear group and remove group
-    this.group.destroy();
-    this.model = null;
-    this.displayModel = null;
-    this.destroyed = true;
+    const func = () => {
+      this.group.destroy();
+      this.model = null;
+      this.displayModel = null;
+      this.destroyed = true;
+    };
+    // 1. stop animations, run exit animations
+    this.stopAnimations();
+    const { animates } = this.displayModel.data;
+    if (animates.exit?.length) {
+      this.animations = animateShapes(
+        animates,
+        {
+          keyShape: getShapeAnimateBeginStyles(this.shapeMap.keyShape),
+        }, // targetStylesMap
+        this.shapeMap, // shapeMap
+        this.group,
+        'exit',
+        [],
+        // 2. clear group and remove group
+        func,
+      );
+    } else {
+      // 2. clear group and remove group
+      func();
+    }
   }
 
   /**
@@ -405,7 +449,7 @@ export default abstract class Item implements IItem {
    * @param previousStates previous states
    * @returns
    */
-  private drawWithStates(previousStates: State[]) {
+  private drawWithStates(previousStates: State[], onfinish?: Function) {
     const { default: _, ...themeStateStyles } = this.themeStyles;
     const { data: displayModelData } = this.displayModel;
     let styles = {}; // merged styles
@@ -477,6 +521,7 @@ export default abstract class Item implements IItem {
         previous: previousStates,
         current: this.states,
       },
+      onfinish,
     );
   }
 
@@ -489,12 +534,28 @@ export default abstract class Item implements IItem {
     return keyShape?.getRenderBounds() || ({ center: [0, 0, 0] } as AABB);
   }
 
+  public getLocalKeyBBox(): AABB {
+    const { keyShape } = this.shapeMap;
+    return keyShape?.getLocalBounds() || ({ center: [0, 0, 0] } as AABB);
+  }
+
   /**
    * Get the rendering bouding box of the whole item.
    * @returns item's rendering bounding box
    */
   public getBBox(): AABB {
     return this.group.getRenderBounds();
+  }
+
+  public stopAnimations() {
+    this.animations?.forEach((animation) => {
+      const timing = animation.effect.getTiming();
+      if (animation.playState !== 'running') return;
+      animation.currentTime =
+        Number(timing.duration) + Number(timing.delay || 0);
+      animation.cancel();
+    });
+    this.animations = [];
   }
 }
 

@@ -260,6 +260,7 @@ describe('register node', () => {
             text: model.id,
           },
           shapeMap,
+          model,
         ).shape;
       }
       public drawOtherShapes(
@@ -278,6 +279,7 @@ describe('register node', () => {
               y: 0,
             },
             shapeMap,
+            model,
           ).shape,
         };
       }
@@ -302,6 +304,7 @@ describe('register node', () => {
               fill: '#0f0',
             },
             shapeMap,
+            model,
           ).shape,
         };
       }
@@ -421,8 +424,13 @@ describe('register node', () => {
           this.defaultStyles.keyShape,
           model.data.labelShape,
         );
-        return this.upsertShape('rect', 'keyShape', keyShapeStyle, shapeMap)
-          .shape;
+        return this.upsertShape(
+          'rect',
+          'keyShape',
+          keyShapeStyle,
+          shapeMap,
+          model,
+        ).shape;
       }
       public drawOtherShapes(
         model: NodeDisplayModel,
@@ -441,6 +449,7 @@ describe('register node', () => {
             lineWidth: 2,
           },
           shapeMap,
+          model,
         ).shape;
         return { testShape };
       }
@@ -845,6 +854,7 @@ describe('state', () => {
           text: model.id,
         },
         shapeMap,
+        model,
       ).shape;
     }
     public drawOtherShapes(
@@ -865,6 +875,7 @@ describe('state', () => {
           y: 0,
         },
         shapeMap,
+        model,
       ).shape;
       return { extraShape };
     }
@@ -890,6 +901,7 @@ describe('state', () => {
             ...model.data?.otherShapes?.buShape, // merged style from mappers and states
           },
           shapeMap,
+          model,
         ).shape,
       };
     }

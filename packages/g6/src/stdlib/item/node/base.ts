@@ -168,6 +168,7 @@ export abstract class BaseNode {
       'labelShape',
       style,
       shapeMap,
+      model,
     );
 
     if (isStyleAffectBBox('text', updateStyles)) {
@@ -215,8 +216,13 @@ export abstract class BaseNode {
       }
     }
 
-    return this.upsertShape('rect', 'labelBackgroundShape', bgStyle, shapeMap)
-      .shape;
+    return this.upsertShape(
+      'rect',
+      'labelBackgroundShape',
+      bgStyle,
+      shapeMap,
+      model,
+    ).shape;
   }
 
   public drawIconShape(
@@ -255,6 +261,7 @@ export abstract class BaseNode {
       'iconShape',
       shapeStyle as GShapeStyle,
       shapeMap,
+      model,
     ).shape;
   }
 
@@ -276,6 +283,7 @@ export abstract class BaseNode {
         isBillboard: true,
       },
       shapeMap,
+      model,
     ).shape;
   }
 
@@ -322,6 +330,7 @@ export abstract class BaseNode {
           ...style,
         } as GShapeStyle,
         shapeMap,
+        model,
       ).shape;
     });
     return shapes;
@@ -430,6 +439,7 @@ export abstract class BaseNode {
           zIndex: (zIndex as number) + 1,
         } as GShapeStyle,
         shapeMap,
+        model,
       ).shape;
       const bbox = shapes[id].getLocalBounds();
       const bgShapeId = `${position}BadgeBackgroundShape`;
@@ -452,6 +462,7 @@ export abstract class BaseNode {
           ...otherStyles,
         } as GShapeStyle,
         shapeMap,
+        model,
       ).shape;
     });
 
@@ -472,10 +483,17 @@ export abstract class BaseNode {
     id: string,
     style: ShapeStyle,
     shapeMap: { [shapeId: string]: DisplayObject },
+    model: NodeDisplayModel,
   ): {
     updateStyles: ShapeStyle;
     shape: DisplayObject;
   } {
-    return upsertShape(type as SHAPE_TYPE, id, style as GShapeStyle, shapeMap);
+    return upsertShape(
+      type as SHAPE_TYPE,
+      id,
+      style as GShapeStyle,
+      shapeMap,
+      model,
+    );
   }
 }

@@ -1,5 +1,6 @@
 import { AABB, Canvas, DisplayObject, Group } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
+import { isArray, isObject } from '@antv/util';
 import registry from '../../stdlib';
 import {
   ComboModel,
@@ -31,7 +32,6 @@ import {
   NodeStyleSet,
   EdgeStyleSet,
 } from '../../types/theme';
-import { isArray, isObject } from '@antv/util';
 import { DirectionalLight, AmbientLight } from '@antv/g-plugin-3d';
 
 /**
@@ -208,8 +208,9 @@ export class ItemController {
     changes: GraphChange<NodeModelData, EdgeModelData>[];
     graphCore: GraphCore;
     theme: ThemeSpecification;
+    action?: 'updateNodePosition';
   }) {
-    const { changes, graphCore, theme = {} } = param;
+    const { changes, graphCore, theme = {}, action } = param;
     const groupedChanges = {
       NodeRemoved: [],
       EdgeRemoved: [],
@@ -275,6 +276,7 @@ export class ItemController {
       });
       const { dataTypeField: nodeDataTypeField } = nodeTheme;
       const edgeToUpdate = {};
+      const edgeDependencies = {};
       Object.keys(nodeUpdate).forEach((id) => {
         const { isReplace, previous, current } = nodeUpdate[id];
         // update the theme if the dataType value is changed
@@ -290,13 +292,26 @@ export class ItemController {
             nodeTheme,
           );
         }
-        const item = itemMap[id];
+        const node = itemMap[id] as Node;
         const innerModel = graphCore.getNode(id);
-        item.update(innerModel, { previous, current }, isReplace, themeStyles);
-        const relatedEdgeInnerModels = graphCore.getRelatedEdges(id);
-        relatedEdgeInnerModels.forEach(
-          (edge) => (edgeToUpdate[edge.id] = edge),
+        const updateFinished = {
+          nodeId: id,
+          ready: false,
+        };
+        node.update(
+          innerModel,
+          { previous, current },
+          isReplace,
+          themeStyles,
+          action === 'updateNodePosition',
+          () => (updateFinished.ready = true), // call after updating finished
         );
+        const relatedEdgeInnerModels = graphCore.getRelatedEdges(id);
+        relatedEdgeInnerModels.forEach((edge) => {
+          edgeToUpdate[edge.id] = edge;
+          edgeDependencies[edge.id] = edgeDependencies[edge.id] || [];
+          edgeDependencies[edge.id].push(updateFinished);
+        });
       });
       Object.keys(edgeToUpdate).forEach((id) => {
         const item = itemMap[id] as Edge;

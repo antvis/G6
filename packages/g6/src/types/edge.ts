@@ -1,5 +1,6 @@
 import { DisplayObject } from '@antv/g';
 import { Edge as GEdge, PlainObject } from '@antv/graphlib';
+import { IAnimates } from './animate';
 import {
   BadgePosition,
   Encode,
@@ -98,6 +99,7 @@ export interface EdgeShapesEncode extends ShapesEncode {
 }
 export interface EdgeEncode extends EdgeShapesEncode {
   type?: string | Encode<string>;
+  animates?: IAnimates;
 }
 
 export interface EdgeShapeMap {

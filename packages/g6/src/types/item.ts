@@ -11,7 +11,7 @@ import {
   TextStyleProps,
   ImageStyleProps,
 } from '@antv/g';
-import { AnimateAttr } from './animate';
+import { IAnimates } from './animate';
 import {
   ComboDisplayModel,
   ComboEncode,
@@ -65,7 +65,7 @@ export interface Encode<T> {
 
 export interface ShapeAttrEncode {
   [shapeAttr: string]: unknown | Encode<unknown>;
-  animate?: AnimateAttr | Encode<AnimateAttr>;
+  animates?: IAnimates | Encode<IAnimates>;
 }
 
 export interface LabelBackground {
@@ -82,7 +82,7 @@ export interface ShapesEncode {
   otherShapes?: {
     [shapeId: string]: {
       [shapeAtrr: string]: unknown | Encode<unknown>;
-      animate: AnimateAttr | Encode<AnimateAttr>;
+      animates: IAnimates | Encode<IAnimates>;
     };
   };
 }
@@ -150,6 +150,7 @@ export type ItemShapeStyles = {
       }
   >;
   haloShape?: ShapeStyle;
+  animates?: IAnimates;
 };
 
 /**

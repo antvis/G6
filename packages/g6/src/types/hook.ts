@@ -42,6 +42,7 @@ export interface Hooks {
     changes: GraphChange<NodeModelData, EdgeModelData>[];
     graphCore: GraphCore;
     theme: ThemeSpecification;
+    action?: 'updateNodePosition';
   }>;
   render: IHook<{
     graphCore: GraphCore;

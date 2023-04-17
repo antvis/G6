@@ -1,6 +1,6 @@
 import { DisplayObject, Point } from '@antv/g';
 import { Node as GNode, PlainObject } from '@antv/graphlib';
-import { AnimateAttr } from './animate';
+import { IAnimates } from './animate';
 import {
   BadgePosition,
   Encode,
@@ -138,6 +138,7 @@ export interface NodeShapesEncode extends ShapesEncode {
 }
 export interface NodeEncode extends NodeShapesEncode {
   type?: string | Encode<string>;
+  animates?: IAnimates;
 }
 
 export interface NodeShapeMap {

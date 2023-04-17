@@ -6,6 +6,7 @@ import { DisplayMapper, State } from '../types/item';
 import { NodeDisplayModel, NodeModelData } from '../types/node';
 import { NodeStyleSet } from '../types/theme';
 import { updateShapes } from '../util/shape';
+import { animateShapes } from '../util/animate';
 import Item from './item';
 import {
   getCircleIntersectByPoint,
@@ -24,6 +25,7 @@ interface IProps {
   };
   themeStyles: NodeStyleSet;
   device?: any; // for 3d shapes
+  onfinish?: Function;
 }
 export default class Node extends Item {
   public type: 'node';
@@ -33,20 +35,25 @@ export default class Node extends Item {
     super(props);
     this.type = 'node';
     this.init(props);
-    this.draw(this.displayModel as NodeDisplayModel);
+    this.draw(
+      this.displayModel as NodeDisplayModel,
+      undefined,
+      undefined,
+      props.onfinish,
+    );
   }
   public draw(
     displayModel: NodeDisplayModel,
     diffData?: { previous: NodeModelData; current: NodeModelData },
     diffState?: { previous: State[]; current: State[] },
+    onfinish: Function = () => {},
   ) {
     const { group, renderExt, shapeMap: prevShapeMap, model } = this;
-    const { data } = displayModel;
-    const { x = 0, y = 0, z = 0 } = data;
-    group.setPosition(x as number, y as number, z as number);
+    renderExt.mergeStyles(displayModel);
     this.group.setAttribute('data-item-type', 'node');
     this.group.setAttribute('data-item-id', model.id);
-    renderExt.mergeStyles(displayModel);
+
+    const firstRendering = !this.shapeMap?.keyShape;
     const shapeMap = renderExt.draw(
       displayModel,
       this.shapeMap,
@@ -56,13 +63,36 @@ export default class Node extends Item {
 
     // add shapes to group, and update shapeMap
     this.shapeMap = updateShapes(prevShapeMap, shapeMap, group);
+
+    const { animates, x = 0, y = 0, z = 0 } = displayModel.data;
+    if (firstRendering) {
+      // first rendering, move the group
+      group.setPosition(x as number, y as number, z as number);
+    }
+
     const { haloShape, labelShape, labelBackgroundShape } = this.shapeMap;
     haloShape?.toBack();
     labelShape?.toFront();
     labelBackgroundShape?.toBack();
 
-    super.draw(displayModel, diffData, diffState);
+    super.draw(displayModel, diffData, diffState, onfinish);
     this.anchorPointsCache = undefined;
+
+    // terminate previous animations
+    this.stopAnimations();
+    // handle shape's and group's animate
+    this.animations = animateShapes(
+      animates,
+      {
+        ...renderExt.mergedStyles,
+        group: firstRendering ? undefined : { x, y },
+      }, // targetStylesMap
+      this.shapeMap, // shapeMap
+      group,
+      firstRendering ? 'show' : 'update',
+      this.changedStates,
+      () => onfinish(model.id),
+    );
   }
 
   public update(
@@ -70,12 +100,42 @@ export default class Node extends Item {
     diffData?: { previous: NodeModelData; current: NodeModelData },
     isReplace?: boolean,
     themeStyles?: NodeStyleSet,
+    onlyMove?: boolean,
+    onfinish?: Function,
   ) {
-    super.update(model, diffData, isReplace, themeStyles);
-    const { data } = this.displayModel;
-    const { x = 0, y = 0 } = data;
-    this.group.style.x = x;
-    this.group.style.y = y;
+    super.update(model, diffData, isReplace, themeStyles, onlyMove, onfinish);
+  }
+
+  /**
+   * Update the node's position,
+   * do not update other styles which leads to better performance than updating position by updateData.
+   */
+  public updatePosition(
+    displayModel: NodeDisplayModel,
+    diffData?: { previous: NodeModelData; current: NodeModelData },
+    onfinish: Function = () => {},
+  ) {
+    const { group } = this;
+    const { x = 0, y = 0, animates } = displayModel.data;
+    if (animates?.update) {
+      const groupAnimates = animates.update.filter(
+        ({ shapeId }) => !shapeId || shapeId === 'group',
+      );
+      if (groupAnimates.length) {
+        animateShapes(
+          { update: groupAnimates },
+          { group: { x, y } as { x: number; y: number } }, // targetStylesMap
+          this.shapeMap, // shapeMap
+          group,
+          'update',
+          [],
+          () => onfinish(displayModel.id),
+        );
+      }
+      return;
+    }
+    group.style.x = x;
+    group.style.y = y;
   }
 
   public clone(containerGroup: Group, onlyKeyShape?: boolean) {

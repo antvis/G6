@@ -257,7 +257,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * Update the specs(configurations).
    */
   public updateSpecification(spec: Specification<B, T>) {
-    // TODO
+    return Object.assign(this.specification, spec);
   }
 
   /**
@@ -794,6 +794,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     const { graphCore } = this.dataController;
     const { specification } = this.themeController;
     graphCore.once('changed', (event) => {
+      if (!event.changes.length) return;
       this.hooks.itemchange.emit({
         type: itemType,
         changes: graphCore.reduceChanges(event.changes),
@@ -832,6 +833,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       itemType === 'edge' ? userGraphCore.getEdge : userGraphCore.getNode; // TODO: combo
     data[`${itemType}s`] = idArr.map((id) => getItem.bind(userGraphCore)(id));
     graphCore.once('changed', (event) => {
+      if (!event.changes.length) return;
       this.hooks.itemchange.emit({
         type: itemType,
         changes: event.changes,
@@ -847,9 +849,9 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   }
   /**
    * Update one or more node/edge/combo data on the graph.
-   * @param {Item} item item or id
-   * @param {EdgeConfig | NodeConfig} cfg incremental updated configs
-   * @param {boolean} stack 本次操作是否入栈，默认为 true
+   * @param {ITEM_TYPE} itemType 'node' | 'edge' | 'combo'
+   * @param models new configurations for every node/edge/combo, which has id field to indicate the specific item
+   * @param {boolean} stack whether push this operation into graph's stack, true by default
    * @group Data
    */
   public updateData(
@@ -897,6 +899,54 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     });
     const dataList = this.dataController.findData(
       itemType,
+      modelArr.map((model) => model.id),
+    );
+    return isArray(models) ? dataList : dataList[0];
+  }
+
+  /**
+   * Update one or more nodes' positions,
+   * do not update other styles which leads to better performance than updating positions by updateData.
+   * @param models new configurations with x and y for every node, which has id field to indicate the specific item
+   * @param {boolean} stack whether push this operation into graph's stack, true by default
+   * @group Data
+   */
+  public updateNodePosition(
+    models:
+      | Partial<NodeUserModel>
+      | Partial<
+          ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
+        >,
+    stack?: boolean,
+  ) {
+    const modelArr = isArray(models) ? models : [models];
+    const { graphCore } = this.dataController;
+    const { specification } = this.themeController;
+    graphCore.once('changed', (event) => {
+      if (!event.changes.length) return;
+      this.hooks.itemchange.emit({
+        type: 'node',
+        changes: event.changes,
+        graphCore,
+        theme: specification,
+        action: 'updateNodePosition',
+      });
+      this.emit('afteritemchange', {
+        type: 'node',
+        action: 'updateNodePosition',
+        models,
+      });
+    });
+
+    this.hooks.datachange.emit({
+      data: {
+        nodes: modelArr as NodeUserModel[],
+        edges: [],
+      },
+      type: 'update',
+    });
+    const dataList = this.dataController.findData(
+      'node',
       modelArr.map((model) => model.id),
     );
     return isArray(models) ? dataList : dataList[0];

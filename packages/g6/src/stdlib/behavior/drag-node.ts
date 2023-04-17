@@ -245,7 +245,7 @@ export class DragNode extends Behavior {
         this.graph.drawTransient('edge', edge.id, {});
       });
     } else {
-      this.graph.updateData('node', positionChanges);
+      this.graph.updateNodePosition(positionChanges);
     }
   }
 
@@ -360,7 +360,7 @@ export class DragNode extends Behavior {
       const positionChanges = this.originPositions.map(({ id, x, y }) => {
         return { id, data: { x, y } };
       });
-      this.graph.updateData('node', positionChanges);
+      this.graph.updateNodePosition(positionChanges);
     }
 
     this.originPositions = [];

@@ -175,15 +175,7 @@ export class LayoutController {
   }
 
   private updateNodesPosition(positions: LayoutMapping) {
-    positions.nodes.forEach((node) => {
-      this.graph.updateData('node', {
-        id: node.id,
-        data: {
-          x: node.data.x,
-          y: node.data.y,
-        },
-      });
-    });
+    this.graph.updateNodePosition(positions.nodes);
   }
 
   /**

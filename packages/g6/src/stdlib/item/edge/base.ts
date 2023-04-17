@@ -188,6 +188,7 @@ export abstract class BaseEdge {
       'labelShape',
       style,
       shapeMap,
+      model,
     );
     if (isStyleAffectBBox('text', updateStyles)) {
       this.boundsCache.labelShapeGeometry = shape.getGeometryBounds();
@@ -250,6 +251,7 @@ export abstract class BaseEdge {
       'labelBackgroundShape',
       bgStyle,
       shapeMap,
+      model,
     );
     if (isStyleAffectBBox('rect', updateStyles)) {
       this.boundsCache.labelBackgroundShapeGeometry = shape.getGeometryBounds();
@@ -336,6 +338,7 @@ export abstract class BaseEdge {
       'iconShape',
       shapeStyle as GShapeStyle,
       shapeMap,
+      model,
     ).shape;
   }
 
@@ -357,6 +360,7 @@ export abstract class BaseEdge {
         isBillboard: true,
       },
       shapeMap,
+      model,
     ).shape;
   }
 
@@ -365,10 +369,11 @@ export abstract class BaseEdge {
     id: string,
     style: ShapeStyle,
     shapeMap: { [shapeId: string]: DisplayObject },
+    model: EdgeDisplayModel,
   ): {
     updateStyles: ShapeStyle;
     shape: DisplayObject;
   } {
-    return upsertShape(type, id, style as GShapeStyle, shapeMap);
+    return upsertShape(type, id, style as GShapeStyle, shapeMap, model);
   }
 }
