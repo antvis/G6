@@ -1,7 +1,7 @@
 import { DisplayObject } from '@antv/g';
 import { DEFAULT_LABEL_BG_PADDING, OTHER_SHAPES_FIELD_NAME, RESERVED_SHAPE_IDS } from '../../../constant';
 import { NodeDisplayModel } from '../../../types';
-import { ItemShapeStyles, ShapeStyle, State } from '../../../types/item';
+import { GShapeStyle, ItemShapeStyles, ShapeStyle, State } from '../../../types/item';
 import { NodeModelData, NodeShapeMap } from '../../../types/node';
 import {
   formatPadding,
@@ -120,8 +120,8 @@ export abstract class BaseNode {
         positionPreset.offsetY = 4;
         break;
     }
-    const offsetX = propsOffsetX === undefined ? positionPreset.offsetX : propsOffsetX;
-    const offsetY = propsOffsetY === undefined ? positionPreset.offsetY : propsOffsetY;
+    const offsetX = (propsOffsetX === undefined ? positionPreset.offsetX : propsOffsetX) as number;
+    const offsetY = (propsOffsetY === undefined ? positionPreset.offsetY : propsOffsetY) as number;
     positionPreset.x += offsetX;
     positionPreset.y += offsetY;
 
@@ -134,6 +134,8 @@ export abstract class BaseNode {
     const shapes = { labelShape };
     if (background) {
       const textBBox = labelShape.getGeometryBounds();
+      // TODO: update type define.
+      // @ts-ignore
       const { padding: propsPadding, ...backgroundStyle } = background;
       const padding = formatPadding(propsPadding, DEFAULT_LABEL_BG_PADDING);
       const bgStyle: any = {
@@ -180,7 +182,8 @@ export abstract class BaseNode {
       shapeStyle.textAlign = 'center';
       shapeStyle.textBaseline = 'middle';
     }
-    return upsertShape(iconShapeType, 'iconShape', shapeStyle, shapeMap);
+    // TODO: update type define.
+    return upsertShape(iconShapeType, 'iconShape', shapeStyle as unknown as GShapeStyle, shapeMap);
   }
 
   public drawOtherShapes(

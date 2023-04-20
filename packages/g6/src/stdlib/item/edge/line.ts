@@ -54,6 +54,8 @@ export class LineEdge extends BaseEdge {
     const keyShape = upsertShape(
       'line',
       'keyShape',
+      // TODO: update type define.
+      // @ts-ignore
       {
         ...keyShapeStyle,
         x1: sourcePoint.x,

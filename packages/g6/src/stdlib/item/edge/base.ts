@@ -7,7 +7,7 @@ import {
   EdgeModelData,
   EdgeShapeMap,
 } from '../../../types/edge';
-import { ItemShapeStyles, ShapeStyle, State } from '../../../types/item';
+import { GShapeStyle, ItemShapeStyles, ShapeStyle, State } from '../../../types/item';
 import {
   formatPadding,
   mergeStyles,
@@ -114,8 +114,8 @@ export abstract class BaseEdge {
     if (autoRotate) {
       const pointOffset = (keyShape as Line | Polyline).getPoint(positionPreset.pointRatio[1]);
       const angle = Math.atan((point.y - pointOffset.y) / (point.x - pointOffset.x)); // TODO: NaN
-      const offsetX = propsOffsetX === undefined ? positionPreset.offsetX : propsOffsetX;
-      const offsetY = propsOffsetY === undefined ? positionPreset.offsetY : propsOffsetY;
+      const offsetX = (propsOffsetX === undefined ? positionPreset.offsetX : propsOffsetX) as number;
+      const offsetY = (propsOffsetY === undefined ? positionPreset.offsetY : propsOffsetY) as number;
       // the projection is |offsetX| away from point, along the tangent line of the keyShape's path at point
       const projection = {
         x: point.x + offsetX * Math.cos(angle),
@@ -139,6 +139,8 @@ export abstract class BaseEdge {
     const shapes = { labelShape };
     if (background) {
       const textBBox = labelShape.getGeometryBounds();
+      // TODO: update type define.
+      // @ts-ignore
       const { padding: propsPadding, ...backgroundStyle } = background;
       const padding = formatPadding(propsPadding, DEFAULT_LABEL_BG_PADDING);
       const bgStyle = {
@@ -213,6 +215,7 @@ export abstract class BaseEdge {
       // TODO: rotate
     }
 
-    return upsertShape(iconShapeType, 'iconShape', shapeStyle, shapeMap);
+    // TODO: update type define.
+    return upsertShape(iconShapeType, 'iconShape', shapeStyle as unknown as GShapeStyle, shapeMap);
   }
 }

@@ -34,7 +34,7 @@ export const ShapeTagMap = {
 
 const createShape = (type: SHAPE_TYPE, style: GShapeStyle, id: string) => {
   const ShapeClass = ShapeTagMap[type];
-  return new ShapeClass({ style, id, autoUpdate: true });
+  return new ShapeClass({ style, id });
 };
 
 export const upsertShape = (

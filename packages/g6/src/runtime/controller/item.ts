@@ -5,7 +5,7 @@ import Combo from '../../item/combo';
 import Edge from '../../item/edge';
 import Node from '../../item/node';
 import registry from '../../stdlib';
-import { ComboModel, IGraph } from '../../types';
+import { ComboModel, IGraph, NodeModel, NodeDisplayModel, NodeEncode, NodeModelData } from '../../types';
 import { ComboDisplayModel, ComboEncode } from '../../types/combo';
 import { GraphCore } from '../../types/data';
 import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeModelData } from '../../types/edge';
@@ -374,8 +374,7 @@ export class ItemController {
       } else {
         const preObj = transientObjectMap[id];
         if (preObj && !preObj.destroyed) {
-          // @ts-ignore
-          preObj.remove(true);
+          preObj.destroy()
         }
         delete transientObjectMap[id];
         return;

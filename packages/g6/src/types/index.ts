@@ -10,5 +10,5 @@ export type {
   LayoutOptions,
   StandardLayoutOptions,
 } from './layout';
-export type { INode, NodeDisplayModel, NodeModel, NodeUserModel } from './node';
+export type { INode, NodeDisplayModel, NodeModel, NodeUserModel, NodeEncode, NodeModelData } from './node';
 export type { Specification } from './spec';

@@ -1,6 +1,6 @@
 import { DisplayObject } from '@antv/g';
 import { NodeDisplayModel } from '../../../types';
-import { ItemShapeStyles, State } from '../../../types/item';
+import { GShapeStyle, ItemShapeStyles, State } from '../../../types/item';
 import { NodeModelData, NodeShapeMap } from '../../../types/node';
 import { upsertShape } from '../../../util/shape';
 import { BaseNode } from './base';
@@ -53,6 +53,7 @@ export class CircleNode extends BaseNode {
     diffData?: { previous: NodeModelData; current: NodeModelData },
     diffState?: { previous: State[], current: State[] }
   ): DisplayObject {
-    return upsertShape('circle', 'keyShape', this.mergedStyles.keyShape, shapeMap);
+    // TODO: update type define.
+    return upsertShape('circle', 'keyShape', this.mergedStyles.keyShape as unknown as GShapeStyle, shapeMap);
   }
 }

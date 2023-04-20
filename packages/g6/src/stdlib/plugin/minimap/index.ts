@@ -1,3 +1,5 @@
+// TODO: update type define.
+// @ts-nocheck
 import { Canvas, Group, Rect, DisplayObject } from '@antv/g';
 import { isString, isNil, each, debounce } from '@antv/util';
 import { createDom, modifyCSS } from '@antv/dom-util';
@@ -93,7 +95,7 @@ export default class Minimap extends Base {
 
     if (destroyed) return;
 
-    const containerDOM = canvas.context.config.container;
+    const containerDOM = canvas.context.config.container as HTMLElement;
     const isFireFox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
     const isSafari = navigator.userAgent.toLowerCase().indexOf('safari') > -1;
     const viewport = createDom(`

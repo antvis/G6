@@ -1,4 +1,4 @@
-import { IElement } from '@antv/g';
+import { FederatedPointerEvent, IElement } from '@antv/g';
 import { IGraph } from "../../types";
 import { registery } from '../../stdlib';
 import { getExtension } from "../../util/extension";
@@ -219,7 +219,7 @@ export class InteractionController {
     });
   }
 
-  private handleCanvasEvent = (gEvent: Event) => {
+  private handleCanvasEvent = (gEvent: FederatedPointerEvent) => {
     // const debug = gEvent.type.includes('over') || gEvent.type.includes('move') ? () => {} : console.debug;
 
     // Find the Node/Edge/Combo group element.
@@ -235,7 +235,7 @@ export class InteractionController {
 
     // GEvent => G6Event
     const { itemType, itemId } = itemInfo;
-    const event: IG6GraphEvent = {
+    const event = {
       ...gEvent,
       itemType,
       itemId,
@@ -243,14 +243,14 @@ export class InteractionController {
       // Set currentTarget to this.graph instead of canvas.
       // Because we add listeners like this: `graph.on('node:click', listener)`.
       currentTarget: this.graph,
-    };
+    } as unknown as IG6GraphEvent;
 
     // Trigger a dblclick event.
     if (event.type === 'click' && (event as any as MouseEvent).detail === 2) {
       this.handleCanvasEvent({
         ...gEvent,
         type: 'dblclick',
-      });
+      } as FederatedPointerEvent);
     }
 
     // Canvas Events

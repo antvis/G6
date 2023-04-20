@@ -104,7 +104,7 @@ export default abstract class Item implements IItem {
     this.displayModel = displayModel;
 
     if (typeChange) {
-      Object.values(this.shapeMap).forEach(child => child.remove(true));
+      Object.values(this.shapeMap).forEach(child => child.destroy());
       this.shapeMap = { keyShape: undefined };
       const { type = this.type === 'node' ? 'circle-node' : 'line-edge' } = displayModel.data;
       const RenderExtension = this.renderExtensions.find((ext) => ext.type === type);
@@ -331,7 +331,7 @@ export default abstract class Item implements IItem {
   public destroy() {
     // TODO: 1. stop animations
     // 2. clear group and remove group
-    this.group.remove(true);
+    this.group.destroy()
     this.model = null;
     this.displayModel = null;
     this.destroyed = true;

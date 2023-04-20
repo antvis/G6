@@ -38,6 +38,7 @@
     "lint:src": "eslint --ext .ts --format=pretty \"./src\"",
     "fix": "prettier -c --write \"**/*\"",
     "test": "jest",
+    "size": "limit-size",
     "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/theme-subject-spec.ts",
     "test-behavior": "DEBUG_MODE=1 jest --watch ./tests/unit/click-select-spec.ts"
   },

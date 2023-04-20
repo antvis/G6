@@ -1,4 +1,5 @@
 import { BehaviorRegistry } from '../types/behavior';
+import { ThemeRegistry } from '../types/theme';
 import Graph from '../runtime/graph';
 import registry from '../stdlib';
 
@@ -10,14 +11,14 @@ import registry from '../stdlib';
  * @param extendLibrary custom libs to extend
  * @returns extended graph class
  */
-export const extend = <B1 extends BehaviorRegistry, B2 extends BehaviorRegistry>(
-  GraphClass: typeof Graph<B2>,
+export const extend = <B1 extends BehaviorRegistry, B2 extends BehaviorRegistry, T extends ThemeRegistry = ThemeRegistry>(
+  GraphClass: typeof Graph<B2, T>,
   extendLibrary: {
     behaviors?: B1;
     nodes?: any; // TODO
     edges?: any; // TODO
   },
-): typeof Graph<B1 & B2> => {
+): typeof Graph<B1 & B2, T> => {
   // merged the extendLibrary to useLib for global usage
   Object.keys(extendLibrary).forEach((cat) => {
     registry.useLib[cat] = Object.assign({}, registry.useLib[cat], extendLibrary[cat] || {});
