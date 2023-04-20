@@ -102,6 +102,8 @@ export type SHAPE_TYPE =
   | 'path'
   | 'text';
 
+export type SHAPE_TYPE_3D = 'sphere' | 'cube' | 'plane';
+
 export type ITEM_TYPE = 'node' | 'edge' | 'combo';
 
 export type ItemModelData = NodeModelData | EdgeModelData | ComboModelData;

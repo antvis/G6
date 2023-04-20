@@ -162,7 +162,7 @@ export class DragNode extends Behavior {
     });
 
     const enableTransient =
-      this.options.enableTransient && this.graph.rendererType !== 'webgl';
+      this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
 
     // Hide related edge.
     if (this.options.hideRelatedEdges && !enableTransient) {
@@ -215,7 +215,7 @@ export class DragNode extends Behavior {
       this.moveDelegate(deltaX, deltaY);
     } else {
       const enableTransient =
-        this.options.enableTransient && this.graph.rendererType !== 'webgl';
+        this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
       this.debouncedMoveNodes(deltaX, deltaY, enableTransient);
     }
   };
@@ -298,7 +298,7 @@ export class DragNode extends Behavior {
       this.hiddenEdges = [];
     }
     const enableTransient =
-      this.options.enableTransient && this.graph.rendererType !== 'webgl';
+      this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
     if (enableTransient) {
       this.graph.showItem(this.originPositions.map((position) => position.id));
     }
@@ -306,7 +306,7 @@ export class DragNode extends Behavior {
 
   onPointerUp = (event: IG6GraphEvent) => {
     const enableTransient =
-      this.options.enableTransient && this.graph.rendererType !== 'webgl';
+      this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
     // If transient or delegate was enabled, move the real nodes.
     if (enableTransient || this.options.enableDelegate) {
       // @ts-ignore FIXME: type
@@ -350,7 +350,7 @@ export class DragNode extends Behavior {
     this.restoreHiddenItems();
 
     const enableTransient =
-      this.options.enableTransient && this.graph.rendererType !== 'webgl';
+      this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
     // Restore node positions.
     if (!enableTransient && !this.options.enableDelegate) {
       const positionChanges = this.originPositions.map(({ id, x, y }) => {

@@ -32,7 +32,7 @@ describe('node item', () => {
       width: 500,
       height: 500,
       type: 'graph',
-      renderer: 'webgl',
+      renderer: 'webgl-3d',
       // renderer: 'canvas',
       modes: {
         default: [
@@ -47,8 +47,8 @@ describe('node item', () => {
         edges,
       },
       node: {
-        // type: 'sphere-node',
-        type: 'circle-node',
+        type: 'sphere-node',
+        // type: 'circle-node',
         keyShape: {
           opacity: 0.6,
           // materialType: 'basic',

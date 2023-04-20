@@ -32,7 +32,11 @@ export const ShapeTagMap = {
   path: Path,
 };
 
-const createShape = (type: SHAPE_TYPE, style: GShapeStyle, id: string) => {
+export const createShape = (
+  type: SHAPE_TYPE,
+  style: GShapeStyle,
+  id: string,
+) => {
   const ShapeClass = ShapeTagMap[type];
   return new ShapeClass({ style, id });
 };

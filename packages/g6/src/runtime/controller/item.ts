@@ -167,7 +167,7 @@ export class ItemController {
     transientCanvas.appendChild(this.transientNodeGroup);
 
     // 1. create lights for webgl 3d rendering
-    if (graph.rendererType === 'webgl') {
+    if (graph.rendererType === 'webgl-3d') {
       const ambientLight = new AmbientLight({
         style: {
           fill: 'white',
@@ -525,8 +525,9 @@ export class ItemController {
         stateMapper: this.nodeStateMapper,
         themeStyles: themeStyle,
         device:
-          graph.rendererType === 'webgl'
-            ? graph.canvas.context.deviceRendererPlugin.getDevice()
+          graph.rendererType === 'webgl-3d'
+            ? // TODO: G type
+              (graph.canvas.context as any).deviceRendererPlugin.getDevice()
             : undefined,
       });
     });

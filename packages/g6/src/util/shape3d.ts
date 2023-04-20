@@ -6,14 +6,17 @@ import {
   Mesh,
   MeshBasicMaterial,
   MeshPhongMaterial,
+  PlaneGeometry,
 } from '@antv/g-plugin-3d';
 import { EdgeShapeMap } from '../types/edge';
 import { NodeShapeMap } from '../types/node';
-import { GShapeStyle } from '../types/item';
+import { GShapeStyle, SHAPE_TYPE, SHAPE_TYPE_3D } from '../types/item';
+import { ShapeTagMap, createShape } from './shape';
 
 const GeometryTagMap = {
   sphere: SphereGeometry,
   cubic: CubeGeometry,
+  plane: PlaneGeometry,
 };
 
 // Share the same geometry & material between meshes.
@@ -25,11 +28,16 @@ const GEOMETRY_SIZE = 10;
 const GeometryCache: Record<string, ProceduralGeometry<any>> = {};
 
 export const createShape3D = (
-  type: string,
+  type: SHAPE_TYPE_3D | SHAPE_TYPE,
   style: GShapeStyle,
   id: string,
   device: any,
 ) => {
+  // It is not a 3d Shape but 2d.
+  if (!GeometryTagMap[type]) {
+    return createShape(type as SHAPE_TYPE, style, id);
+  }
+
   // materialType: 'phong' | 'basic', TODO: type
   const { materialType = 'phong', ...otherStyles } = style as any;
   let cachedGeometry = GeometryCache[type];
@@ -90,7 +98,7 @@ export const createShape3D = (
 };
 
 export const upsertShape3D = (
-  type: string,
+  type: SHAPE_TYPE_3D | SHAPE_TYPE,
   id: string,
   style: GShapeStyle,
   shapeMap: { [shapeId: string]: DisplayObject },
