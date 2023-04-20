@@ -193,10 +193,10 @@ export default class BrushSelect extends Behavior {
     this.mousedown = false;
   }
 
-  clearStates = (
+  public clearStates(
     clearIds: IDSet | undefined = undefined,
     restIds = undefined,
-  ) => {
+  ) {
     const { graph } = this;
     const { selectedState, eventName, onDeselect } = this.options;
 
@@ -239,9 +239,9 @@ export default class BrushSelect extends Behavior {
         });
       }
     }
-  };
+  }
 
-  selectItems = (event: IG6GraphEvent) => {
+  public selectItems(event: IG6GraphEvent) {
     const { graph, options } = this;
     const {
       selectedState,
@@ -341,9 +341,9 @@ export default class BrushSelect extends Behavior {
       });
     }
     return this.selectedIds;
-  };
+  }
 
-  createBrush = () => {
+  public createBrush() {
     const { graph, options } = this;
     const { brushStyle } = options;
     const brush = graph.drawTransient('rect', BRUSH_SHAPE_ID, {
@@ -351,9 +351,9 @@ export default class BrushSelect extends Behavior {
       capture: false,
     });
     return brush;
-  };
+  }
 
-  updateBrush = (event: IG6GraphEvent) => {
+  public updateBrush(event: IG6GraphEvent) {
     const { beginPoint, graph } = this;
     const endPoint = event.canvas;
     const brush = graph.drawTransient('rect', BRUSH_SHAPE_ID, {
@@ -365,21 +365,21 @@ export default class BrushSelect extends Behavior {
       },
     });
     return brush;
-  };
+  }
 
-  removeBrush = () => {
+  public removeBrush() {
     const { graph } = this;
     graph.drawTransient('rect', BRUSH_SHAPE_ID, { action: 'remove' });
-  };
+  }
 
-  getSelector = () => {
+  public getSelector() {
     return utils.rectSelector;
-  };
+  }
 
-  getPoints = (event: IG6GraphEvent) => {
+  public getPoints(event: IG6GraphEvent) {
     const { canvas: point } = event;
     return [this.beginPoint, point];
-  };
+  }
 
   destroy() {
     this.removeBrush();

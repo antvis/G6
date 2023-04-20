@@ -129,7 +129,7 @@ export class DragNode extends Behavior {
     });
   }
 
-  onPointerDown = (event: IG6GraphEvent) => {
+  public onPointerDown(event: IG6GraphEvent) {
     if (!this.options.shouldBegin(event)) return;
     const currentNodeId = event.itemId;
     let selectedNodeIds = this.graph.findIdByState(
@@ -197,9 +197,9 @@ export class DragNode extends Behavior {
     this.originX = event.client.x;
     // @ts-ignore FIXME: Type
     this.originY = event.client.y;
-  };
+  }
 
-  onPointerMove = (event: IG6GraphEvent) => {
+  public onPointerMove(event: IG6GraphEvent) {
     if (!this.originPositions.length) {
       return;
     }
@@ -218,9 +218,9 @@ export class DragNode extends Behavior {
         this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
       this.debouncedMoveNodes(deltaX, deltaY, enableTransient);
     }
-  };
+  }
 
-  moveNodes = (deltaX: number, deltaY: number, transient: boolean) => {
+  public moveNodes(deltaX: number, deltaY: number, transient: boolean) {
     const positionChanges = this.originPositions.map(({ id, x, y }) => {
       return {
         id,
@@ -247,13 +247,17 @@ export class DragNode extends Behavior {
     } else {
       this.graph.updateData('node', positionChanges);
     }
-  };
+  }
 
-  debouncedMoveNodes = (deltaX: number, deltaY: number, transient: boolean) => {
+  public debouncedMoveNodes(
+    deltaX: number,
+    deltaY: number,
+    transient: boolean,
+  ) {
     // Should be overrided when drag start.
-  };
+  }
 
-  moveDelegate = (deltaX: number, deltaY: number) => {
+  public moveDelegate(deltaX: number, deltaY: number) {
     const x1 = Math.min(
       ...this.originPositions.map((position) => position.minX),
     );
@@ -275,13 +279,13 @@ export class DragNode extends Behavior {
         ...this.options.delegateStyle,
       },
     });
-  };
+  }
 
-  clearDelegate = () => {
+  public clearDelegate() {
     this.graph.drawTransient('rect', DELEGATE_SHAPE_ID, { action: 'remove' });
-  };
+  }
 
-  clearTransientItems = () => {
+  public clearTransientItems() {
     this.hiddenEdges.forEach((edge) => {
       this.graph.drawTransient('node', edge.source, { action: 'remove' });
       this.graph.drawTransient('node', edge.target, { action: 'remove' });
@@ -290,9 +294,9 @@ export class DragNode extends Behavior {
     this.originPositions.forEach(({ id }) => {
       this.graph.drawTransient('node', id, { action: 'remove' });
     });
-  };
+  }
 
-  restoreHiddenItems = () => {
+  public restoreHiddenItems() {
     if (this.hiddenEdges.length) {
       this.graph.showItem(this.hiddenEdges.map((edge) => edge.id));
       this.hiddenEdges = [];
@@ -302,9 +306,9 @@ export class DragNode extends Behavior {
     if (enableTransient) {
       this.graph.showItem(this.originPositions.map((position) => position.id));
     }
-  };
+  }
 
-  onPointerUp = (event: IG6GraphEvent) => {
+  public onPointerUp(event: IG6GraphEvent) {
     const enableTransient =
       this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
     // If transient or delegate was enabled, move the real nodes.
@@ -339,9 +343,9 @@ export class DragNode extends Behavior {
 
     // Reset state.
     this.originPositions = [];
-  };
+  }
 
-  onKeydown = (event: KeyboardEvent) => {
+  public onKeydown(event: KeyboardEvent) {
     if (event.key !== 'Escape' && event.key !== 'Esc') {
       return;
     }
@@ -360,5 +364,5 @@ export class DragNode extends Behavior {
     }
 
     this.originPositions = [];
-  };
+  }
 }

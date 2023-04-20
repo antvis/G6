@@ -52,9 +52,9 @@ const DEFAULT_OPTIONS: Required<RotateCanvas3DOptions> = {
 export class RotateCanvas3D extends Behavior {
   options: RotateCanvas3DOptions;
 
-  private pointStartAt: Point;
-  private keydown: boolean;
-  private speedUpKeydown: boolean;
+  public pointStartAt: Point;
+  public keydown: boolean;
+  public speedUpKeydown: boolean;
 
   constructor(options: Partial<RotateCanvas3DOptions>) {
     const finalOptions = Object.assign({}, DEFAULT_OPTIONS, options);
@@ -87,7 +87,7 @@ export class RotateCanvas3D extends Behavior {
     };
   };
 
-  onPointerDown = (event) => {
+  public onPointerDown(event) {
     const { triggerOnItems, shouldBegin } = this.options;
     if ((event.itemId && !triggerOnItems) || !shouldBegin(event)) return;
     const { client } = event;
@@ -95,9 +95,9 @@ export class RotateCanvas3D extends Behavior {
       x: client.x,
       y: client.y,
     };
-  };
+  }
 
-  onPointerMove = (event) => {
+  public onPointerMove(event) {
     if (!this.pointStartAt) return;
     const { shouldBegin, secondaryKey } = this.options;
 
@@ -116,13 +116,13 @@ export class RotateCanvas3D extends Behavior {
       x: client.x,
       y: client.y,
     };
-  };
+  }
 
-  onPointerUp = (event) => {
+  public onPointerUp(event) {
     this.pointStartAt = undefined;
-  };
+  }
 
-  onKeydown = (event) => {
+  public onKeydown(event) {
     const { key } = event;
     const { trigger, secondaryKey, speedUpKey } = this.options;
     if (trigger === 'directionKeys') {
@@ -142,12 +142,12 @@ export class RotateCanvas3D extends Behavior {
     if (speedUpKey === key.toLowerCase()) {
       this.speedUpKeydown = true;
     }
-  };
+  }
 
-  onKeyup = (event) => {
+  public onKeyup(event) {
     const { key } = event;
     const { secondaryKey, speedUpKey } = this.options;
     if (secondaryKey === key.toLowerCase()) this.keydown = false;
     if (speedUpKey === key.toLowerCase()) this.speedUpKeydown = false;
-  };
+  }
 }

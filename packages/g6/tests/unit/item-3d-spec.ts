@@ -37,9 +37,11 @@ describe('node item', () => {
       modes: {
         default: [
           'click-select',
-          'rotate-canvas-3d',
+          'track-canvas-3d',
           'zoom-canvas-3d',
-          'drag-node',
+          // 'rotate-canvas-3d',
+          // 'zoom-canvas-3d',
+          // 'drag-node',
         ],
       },
       data: {

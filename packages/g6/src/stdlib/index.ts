@@ -21,6 +21,7 @@ import Legend from './plugin/legend';
 import ZoomCanvas from './behavior/zoom-canvas';
 import ZoomCanvas3D from './behavior/zoom-canvas-3d';
 import { RotateCanvas3D } from './behavior/rotate-canvas-3d';
+import TrackCanvas3D from './behavior/track-canvas-3d';
 
 const stdLib = {
   transforms: {
@@ -45,6 +46,7 @@ const stdLib = {
     'lasso-select': LassoSelect,
     'zoom-canvas-3d': ZoomCanvas3D,
     'rotate-canvas-3d': RotateCanvas3D,
+    'track-canvas-3d': TrackCanvas3D,
   },
   plugins: {
     minimap: Minimap,

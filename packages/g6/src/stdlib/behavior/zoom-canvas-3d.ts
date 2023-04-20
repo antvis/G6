@@ -56,6 +56,16 @@ export default class ZoomCanvas3D extends Behavior {
 
   constructor(options: Partial<ZoomCanvas3DOptions>) {
     const finalOptions = Object.assign({}, DEFAULT_OPTIONS, options);
+    if (!VALID_TRIGGERS.includes(finalOptions.trigger)) {
+      console.warn(
+        `The trigger ${
+          finalOptions.trigger
+        } is not valid for zoom-canvas-3d behavior, "wheel" will take effect instead. Only "${VALID_TRIGGERS.join(
+          '", "',
+        )}" are available.`,
+      );
+      finalOptions.trigger = 'wheel';
+    }
     super(finalOptions);
   }
 
@@ -73,7 +83,7 @@ export default class ZoomCanvas3D extends Behavior {
     };
   };
 
-  onWheel = (event) => {
+  public onWheel(event) {
     const { graph, options } = this;
     const {
       secondaryKey,
@@ -94,9 +104,9 @@ export default class ZoomCanvas3D extends Behavior {
         zoom: camera.getZoom(),
       });
     }
-  };
+  }
 
-  onKeydown = (event) => {
+  public onKeydown(event) {
     const { key } = event;
     const { trigger, secondaryKey } = this.options;
     if (trigger === 'upDownKeys') {
@@ -106,11 +116,11 @@ export default class ZoomCanvas3D extends Behavior {
     if (secondaryKey === key.toLowerCase()) {
       this.keydown = true;
     }
-  };
+  }
 
-  onKeyup = (event) => {
+  public onKeyup(event) {
     const { key } = event;
     const { secondaryKey } = this.options;
     if (secondaryKey === key.toLowerCase()) this.keydown = false;
-  };
+  }
 }

@@ -76,7 +76,7 @@ export default class ClickSelect extends Behavior {
     };
   };
 
-  private isMultipleSelect = (event: MouseEvent) => {
+  private isMultipleSelect(event: MouseEvent) {
     if (!this.options.multiple) return false;
     const key = this.options.trigger;
     const keyMap: Record<Trigger, boolean> = {
@@ -86,9 +86,9 @@ export default class ClickSelect extends Behavior {
       meta: event.metaKey,
     };
     return keyMap[this.options.trigger];
-  };
+  }
 
-  onClick = (event: IG6GraphEvent) => {
+  public onClick(event: IG6GraphEvent) {
     if (!this.options.shouldBegin(event)) return;
 
     // Will not be 'canvas' because this method is listened on node and edge click.
@@ -138,9 +138,9 @@ export default class ClickSelect extends Behavior {
         selectedComboIds,
       });
     }
-  };
+  }
 
-  onCanvasClick = (event: IG6GraphEvent) => {
+  public onCanvasClick(event: IG6GraphEvent) {
     if (!this.options.shouldBegin(event)) return;
 
     // Find current selected items.
@@ -168,5 +168,5 @@ export default class ClickSelect extends Behavior {
         selectedComboIds: [],
       });
     }
-  };
+  }
 }

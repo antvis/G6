@@ -45,22 +45,22 @@ export default class LassoSelect extends BrushSelect {
     this.points = [];
   };
 
-  getSelector = () => {
+  public getSelector() {
     return utils.lassoSelector;
-  };
+  }
 
-  getPoints = () => {
+  public getPoints() {
     return this.points;
-  };
+  }
 
-  createBrush = () => {
+  publiccreateBrush() {
     const { graph, options } = this;
     const { brushStyle } = options;
     return graph.drawTransient('path', LASSO_SHAPE_ID, {
       style: brushStyle,
       capture: false,
     });
-  };
+  }
 
   updateBrush = (event: IG6GraphEvent) => {
     const { graph } = this;

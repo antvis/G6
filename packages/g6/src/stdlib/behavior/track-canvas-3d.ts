@@ -1,9 +1,6 @@
-import { ID } from '@antv/graphlib';
-import { debounce, uniq } from '@antv/util';
-import { EdgeModel } from '../../types';
-import { Behavior } from '../../types/behavior';
 import { IG6GraphEvent } from '../../types/event';
-import { Point } from '../../types/common';
+import { RotateCanvas3D } from './rotate-canvas-3d';
+import { CameraType } from '@antv/g';
 
 // TODO: truck canvas
 
@@ -32,7 +29,7 @@ export interface TrackCanvas3DOptions {
 }
 
 const DEFAULT_OPTIONS: Required<TrackCanvas3DOptions> = {
-  trigger: 'drag',
+  trigger: 'directionKeys',
   secondaryKey: '',
   eventName: '',
   shouldBegin: () => true,
@@ -41,76 +38,67 @@ const DEFAULT_OPTIONS: Required<TrackCanvas3DOptions> = {
 /**
  * Translate the 3d canvas along the plane parallel to the screen.
  */
-export default class TrackCanvas3D extends Behavior {
+export default class TrackCanvas3D extends RotateCanvas3D {
   options: TrackCanvas3DOptions;
 
-  private pointerDownAt: Point;
-  private keydown: boolean;
+  private previousType: CameraType;
 
   constructor(options: Partial<TrackCanvas3DOptions>) {
     const finalOptions = Object.assign({}, DEFAULT_OPTIONS, options);
+    if (!VALID_TRIGGERS.includes(finalOptions.trigger)) {
+      console.warn(
+        `The trigger ${
+          finalOptions.trigger
+        } is not valid for track-canvas-3d behavior, "drag" will take effect instead. Only "${VALID_TRIGGERS.join(
+          '", "',
+        )}" are available.`,
+      );
+      finalOptions.trigger = 'drag';
+    }
     super(finalOptions);
   }
 
-  getEvents = () => {
-    return {
-      pointerdown: this.onPointerDown,
-      pointermove: this.onPointerMove,
-      pointerup: this.onPointerUp,
-      // FIXME: IG6Event -> keyboard event
-      keydown: this.onKeydown as any,
-    };
-  };
-
-  onPointerDown = (event) => {
-    if (event.itemId || !this.options.shouldBegin(event)) return;
-    const { canvas } = event;
-    this.pointerDownAt = {
-      x: canvas.x,
-      y: canvas.y,
-    };
-  };
-
-  onPointerMove = (event) => {
-    if (!this.pointerDownAt) return;
-    // TODO: move camera
-    const { canvas } = event;
-    const diff = {
-      x: canvas.x - this.pointerDownAt.x,
-      y: canvas.y - this.pointerDownAt.y,
-    };
+  private setTrackingCamera() {
     const { graph } = this;
-    const camera = graph.canvas.getCamera();
-    const currentPosition = camera.getPosition();
-    const zoom = 1.2; //camera.getZoom();
-    // TODO: track?? which api
-    // camera.track(-diff.x * zoom, -diff.y * zoom);
+    const camera: any = graph.canvas.getCamera();
+    this.previousType = camera.type;
+    graph.canvas.getCamera().setType(CameraType.TRACKING);
+  }
 
-    // const nextPosition = {
-    //   x: currentPosition[0] + diff.x,
-    //   y: currentPosition[1] + diff.y,
-    // };
-    // console.log(
-    //   'nextPosition',
-    //   nextPosition,
-    //   currentPosition,
-    //   canvas,
-    //   this.pointerDownAt,
-    // );
-    // camera.setPosition(nextPosition.x, nextPosition.y);
-    // camera.setFocalPoint(nextPosition.x, nextPosition.y);
+  private restoreCameraType() {
+    if (this.previousType !== undefined) {
+      const { graph } = this;
+      graph.canvas.getCamera().setType(this.previousType);
+    }
+  }
 
-    this.pointerDownAt = {
-      x: canvas.x,
-      y: canvas.y,
-    };
-  };
+  public onPointerDown(event) {
+    this.setTrackingCamera();
+    super.onPointerDown(event);
+  }
 
-  onPointerUp = (event) => {
-    this.pointerDownAt = undefined;
-  };
+  public onPointerUp(event) {
+    this.restoreCameraType();
+    super.onPointerUp(event);
+  }
 
-  onKeydown = (event) => {
-    // TODO: cache keydown
-  };
+  public onKeydown(event) {
+    const { trigger, secondaryKey } = this.options;
+    if (trigger === 'directionKeys') {
+      if (!secondaryKey || (secondaryKey && this.keydown)) {
+        this.setTrackingCamera();
+      }
+    }
+    super.onKeydown(event);
+  }
+
+  public onKeyup(event) {
+    const { trigger, secondaryKey } = this.options;
+    if (trigger === 'directionKeys') {
+      if (!secondaryKey || (secondaryKey && this.keydown)) {
+        this.restoreCameraType();
+      }
+    }
+    super.onKeyup(event);
+  }
 }
