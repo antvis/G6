@@ -1,5 +1,9 @@
 import { IGraph } from "../types";
 import { ID } from '@antv/graphlib';
+import Combo from '../item/combo';
+import Edge from '../item/edge';
+import Node from '../item/node';
+import { Group } from "@antv/g";
 
 /**
  * Find the edges whose source and target are both in the ids.
@@ -18,4 +22,28 @@ export const getEdgesBetween = (graph: IGraph, ids: ID[]): ID[] => {
     });
   });
   return Array.from(edgeIdSet);
+}
+
+export const upsertTransientItem = (
+  item: Node | Edge | Combo,
+  nodeGroup: Group,
+  edgeGroup: Group,
+  transientItemMap: Record<string, Node | Edge | Combo>,
+) => {
+  const transientItem = transientItemMap[item.model.id];
+  if (transientItem) {
+    return transientItem;
+  }
+  if (item.type === 'node') {
+    const transientNode = item.clone(nodeGroup);
+    transientItemMap[item.model.id] = transientNode;
+    return transientNode;
+  } else if (item.type === 'edge') {
+    const source = upsertTransientItem(item.sourceItem, nodeGroup, edgeGroup, transientItemMap) as Node;
+    const target = upsertTransientItem(item.targetItem, nodeGroup, edgeGroup, transientItemMap) as Node;
+    const transientEdge = item.clone(edgeGroup, source, target);
+    transientItemMap[item.model.id] = transientEdge;
+    return transientEdge;
+  }
+  // TODO: clone combo
 }

@@ -22,6 +22,7 @@ export class ViewportController {
 
   private async onViewportChange({ transform, effectTiming }: ViewportChangeHookParams) {
     const camera = this.graph.canvas.getCamera();
+    const transientCamera = this.graph.transientCanvas.getCamera();
     const { translate, rotate, zoom, origin = this.graph.getViewportCenter() } = transform;
     const currentZoom = camera.getZoom();
 
@@ -53,7 +54,13 @@ export class ViewportController {
       }
 
       const landmark = camera.createLandmark(`mark${landmarkCounter++}`, landmarkOptions);
+      const transientLandmark = transientCamera.createLandmark(`mark${landmarkCounter}`, landmarkOptions);
       return new Promise((resolve) => {
+        transientCamera.gotoLandmark(transientLandmark, {
+          duration: Number(duration),
+          easing,
+          easingFunction,
+        });
         camera.gotoLandmark(landmark, {
           duration: Number(duration),
           easing,
@@ -67,6 +74,7 @@ export class ViewportController {
       if (translate) {
         const { dx = 0, dy = 0 } = translate;
         camera.pan(-dx / currentZoom, -dy / currentZoom);
+        transientCamera.pan(-dx / currentZoom, -dy / currentZoom);
       }
 
       if (rotate) {
@@ -74,16 +82,22 @@ export class ViewportController {
         const [x, y] = camera.getPosition();
         if (origin) {
           camera.setPosition(origin.x, origin.y);
+          camera.setFocalPoint(origin.x, origin.y);
+          transientCamera.setPosition(origin.x, origin.y);
+          transientCamera.setFocalPoint(origin.x, origin.y);
         }
         camera.rotate(0, 0, angle);
+        transientCamera.rotate(0, 0, angle);
         if (origin) {
           camera.pan(x - origin.x, y - origin.y);
+          transientCamera.pan(x - origin.x, y - origin.y);
         }
       }
 
       if (zoom) {
         const { ratio } = zoom;
         camera.setZoomByViewportPoint(currentZoom * ratio, [origin.x, origin.y]);
+        transientCamera.setZoomByViewportPoint(currentZoom * ratio, [origin.x, origin.y]);
       }
     }
   }

@@ -1,4 +1,5 @@
 import { Group } from '@antv/g';
+import { clone } from '@antv/util';
 import { EdgeDisplayModel, EdgeModel } from '../types';
 import { EdgeModelData } from '../types/edge';
 import { DisplayMapper, ItemShapeStyles, ITEM_TYPE, State } from '../types/item';
@@ -26,7 +27,7 @@ export default class Edge extends Item {
   // display data model
   public displayModel: EdgeDisplayModel;
   /** Set to different value in implements */
-  public type: ITEM_TYPE = 'edge';
+  public type: 'edge' = 'edge';
   public sourceItem: Node;
   public targetItem: Node;
 
@@ -92,4 +93,17 @@ export default class Edge extends Item {
   // public update(model: EdgeModel) {
   //   super.update(model);
   // }
+
+  public clone(containerGroup: Group, sourceItem: Node, targetItem: Node) {
+    return new Edge({
+      model: clone(this.model),
+      renderExtensions: this.renderExtensions,
+      sourceItem,
+      targetItem,
+      containerGroup,
+      mapper: this.mapper,
+      stateMapper: this.stateMapper,
+      themeStyles: clone(this.themeStyles),
+    });
+  }
 }

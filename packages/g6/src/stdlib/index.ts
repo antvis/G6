@@ -1,47 +1,57 @@
 import { registry as layoutRegistry } from '@antv/layout';
 import { Lib } from '../types/stdlib';
-import DragCanvas from './behavior/drag-canvas';
-import ClickSelect from "./behavior/click-select";
+import ActivateRelations from './behavior/activate-relations';
 import BrushSelect from './behavior/brush-select';
+import ClickSelect from './behavior/click-select';
+import DragCanvas from './behavior/drag-canvas';
 import LassoSelect from './behavior/lasso-select';
+import { DragNode } from './behavior/drag-node';
 import { comboFromNode } from './data/comboFromNode';
 import { LineEdge } from './item/edge';
 import { CircleNode } from './item/node';
-import SpecThemeSolver from './themeSolver/spec';
-import LightTheme from './theme/light';
 import DarkTheme from './theme/dark';
+import LightTheme from './theme/light';
+import SpecThemeSolver from './themeSolver/spec';
 import SubjectThemeSolver from './themeSolver/subject';
-import rectSelector from './selector/rect';
+
 import lassoSelector from './selector/lasso';
+import rectSelector from './selector/rect';
+import Minimap from './plugin/minimap';
+import Legend from './plugin/legend';
 
 const stdLib = {
   transforms: {
     comboFromNode,
   },
   themes: {
-    'light': LightTheme,
-    'dark': DarkTheme
+    light: LightTheme,
+    dark: DarkTheme,
   },
   themeSolvers: {
-    'spec': SpecThemeSolver,
-    'subject': SubjectThemeSolver,
+    spec: SpecThemeSolver,
+    subject: SubjectThemeSolver,
   },
   layouts: layoutRegistry,
   behaviors: {
+    'activate-relations': ActivateRelations,
     'drag-canvas': DragCanvas,
+    'drag-node': DragNode,
     'click-select': ClickSelect,
     'brush-select': BrushSelect,
-    'lasso-select': LassoSelect
+    'lasso-select': LassoSelect,
   },
-  plugins: {},
+  plugins: {
+    minimap: Minimap,
+    legend: Legend,
+  },
   nodes: {
-    'circle-node': CircleNode
+    'circle-node': CircleNode,
   },
   edges: {
-    'line-edge': LineEdge
+    'line-edge': LineEdge,
   },
   combos: {},
-}
+};
 
 const useLib: Lib = {
   transforms: {},
@@ -56,8 +66,8 @@ const useLib: Lib = {
 
 const utils = {
   rectSelector,
-  lassoSelector
-}
+  lassoSelector,
+};
 
 const registery = { useLib };
 export default registery;

@@ -1,6 +1,6 @@
 import { AABB, Canvas, DisplayObject, Group } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
-import { isArray, isObject } from '@antv/util';
+import { isArray, isObject, clone } from '@antv/util';
 import Combo from '../../item/combo';
 import Edge from '../../item/edge';
 import Node from '../../item/node';
@@ -12,6 +12,7 @@ import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeModelData } from '../../ty
 import { ITEM_TYPE, ShapeStyle, SHAPE_TYPE } from '../../types/item';
 import { ItemStyleSet, ItemThemeSpecifications, ThemeSpecification } from '../../types/theme';
 import { getExtension } from '../../util/extension';
+import { upsertTransientItem } from '../../util/item';
 import { upsertShape } from '../../util/shape';
 
 /**
@@ -47,14 +48,19 @@ export class ItemController {
 
   private nodeGroup: Group;
   private edgeGroup: Group;
+  private transientNodeGroup: Group;
+  private transientEdgeGroup: Group;
   // TODO: combo? not a independent group
 
   private nodeDataTypeSet: Set<string> = new Set();
   private edgeDataTypeSet: Set<string> = new Set();
 
   // The G shapes or groups on transient map drawn by this controller
-  private transientMap: {
+  private transientObjectMap: {
     [id: string]: DisplayObject;
+  } = {};
+  private transientItemMap: {
+    [id: string]: Node | Edge | Combo;
   } = {};
 
   constructor(graph: IGraph<any, any>) {
@@ -83,6 +89,7 @@ export class ItemController {
     this.graph.hooks.render.tap(this.onRender.bind(this));
     this.graph.hooks.itemchange.tap(this.onChange.bind(this));
     this.graph.hooks.itemstatechange.tap(this.onItemStateChange.bind(this));
+    this.graph.hooks.itemvisibilitychange.tap(this.onItemVisibilityChange.bind(this));
     this.graph.hooks.transientupdate.tap(this.onTransientUpdate.bind(this));
   }
 
@@ -113,8 +120,8 @@ export class ItemController {
    * Listener of runtime's render hook.
    * @param param contains inner data stored in graphCore structure
    */
-  private onRender(param: { graphCore: GraphCore; theme: ThemeSpecification }) {
-    const { graphCore, theme = {} } = param;
+  private onRender(param: { graphCore: GraphCore; theme: ThemeSpecification, transientCanvas: Canvas }) {
+    const { graphCore, theme = {}, transientCanvas } = param;
     const { graph } = this;
     // TODO: 0. clear groups on canvas, and create new groups
     graph.canvas.removeChildren();
@@ -124,6 +131,13 @@ export class ItemController {
     graph.canvas.appendChild(nodeGroup);
     this.nodeGroup = nodeGroup;
     this.edgeGroup = edgeGroup;
+
+    // Also create transient groups on transient canvas.
+    transientCanvas.removeChildren();
+    this.transientEdgeGroup = new Group({ id: 'edge-group' });
+    this.transientNodeGroup = new Group({ id: 'node-group' });
+    transientCanvas.appendChild(this.transientEdgeGroup);
+    transientCanvas.appendChild(this.transientNodeGroup);
 
     // TODO: 1. create node / edge / combo items, classes from ../../item, and element drawing and updating fns from node/edge/comboExtensions
     const nodeModels = graphCore.getAllNodes();
@@ -315,37 +329,89 @@ export class ItemController {
     });
   }
 
+  private onItemVisibilityChange(param: { ids: ID[], value: boolean }) {
+    const { ids, value } = param;
+    ids.forEach(id => {
+      const item = this.itemMap[id];
+      if (!item) {
+        console.warn(`Fail to set visibility for item ${id}, which is not exist.`);
+        return;
+      }
+      if (value) {
+        item.show();
+      } else {
+        item.hide();
+      }
+    });
+  }
+
   private onTransientUpdate(param: {
     type: ITEM_TYPE | SHAPE_TYPE;
     id: ID;
     config: {
-      style: ShapeStyle;
+      style?: ShapeStyle;
+      // Data to be merged into the transient item.
+      data?: Record<string, any>,
       action: 'remove' | 'add' | 'update' | undefined;
       [shapeConfig: string]: unknown;
     };
     canvas: Canvas;
   }) {
-    const { transientMap } = this;
+    const { transientObjectMap } = this;
     const { type, id, config = {}, canvas } = param;
-    const { style, capture, action } = config as any;
-    const preObj = transientMap[id];
-    if (preObj && !preObj?.destroyed && action === 'remove') {
-      preObj.remove(true);
-      return;
+    const { style = {}, data = {}, capture, action } = config as any;
+    const isItemType = type === 'node' || type === 'edge' || type === 'combo';
+
+    // Removing
+    if (action === 'remove') {
+      if (isItemType) {
+        const transientItem = this.transientItemMap[id];
+        if (transientItem && !transientItem.destroyed) {
+          transientItem.destroy();
+        };
+        delete this.transientItemMap[id];
+        return;
+      } else {
+        const preObj = transientObjectMap[id];
+        if (preObj && !preObj.destroyed) {
+          // @ts-ignore
+          preObj.remove(true);
+        }
+        delete transientObjectMap[id];
+        return;
+      }
     }
 
-    if (type === 'node' || type === 'edge' || type === 'combo') {
-      // TODO: clone the item with id and modify the style according to config
-      // if (preItem) { update }
+    // Adding / Updating
+    if (isItemType) {
+      const item = this.itemMap[id];
+      if (!item) {
+        console.warn(`Fail to draw transient item of ${id}, which is not exist.`);
+        return;
+      };
+      const transientItem = upsertTransientItem(
+        item,
+        this.transientNodeGroup,
+        this.transientEdgeGroup,
+        this.transientItemMap
+      );
+      transientItem.update({
+        ...transientItem.model,
+        data: {
+          ...transientItem.model.data,
+          ...data,
+        },
+      });
       return;
+    } else {
+      const shape = upsertShape(type, String(id), style, transientObjectMap);
+      shape.style.pointerEvents = capture ? 'auto' : 'none';
+      canvas.getRoot().appendChild(shape);
     }
 
-    const shape = upsertShape(type, String(id), style, transientMap);
-    shape.style.pointerEvents = capture ? 'auto' : 'none';
-    canvas.getRoot().appendChild(shape);
   }
   public getTransient(id: string) {
-    return this.transientMap[id];
+    return this.transientObjectMap[id];
   }
 
   /**
@@ -418,8 +484,8 @@ export class ItemController {
    * @param value state value, true by default
    * @returns
    */
-  public findIdByState(itemType: ITEM_TYPE, state: string, value: string | boolean = true) {
-    const ids = [];
+  public findIdByState(itemType: ITEM_TYPE, state: string, value: string | boolean = true): ID[] {
+    const ids: ID[] = [];
     Object.values(this.itemMap).forEach((item) => {
       if (item.getType() !== itemType) return;
       if (item.hasState(state) === value) ids.push(item.getID());
@@ -487,3 +553,4 @@ const getThemeStyles = (
   }
   return themeStyle;
 };
+

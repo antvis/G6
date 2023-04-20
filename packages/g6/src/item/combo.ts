@@ -1,5 +1,5 @@
-import Node from "./node";
+import Item from "./item";
 
-export default class Combo extends Node {
-
+export default class Combo extends Item {
+  public type: 'combo';
 }

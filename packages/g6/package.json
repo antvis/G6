@@ -21,6 +21,7 @@
   "module": "esm/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
+    "dev": "vite",
     "start": "father build --watch",
     "build:umd": "rimraf ./dist && rollup -c && npm run size",
     "build:cjs": "rimraf ./lib && tsc --module commonjs --outDir lib",
@@ -33,6 +34,7 @@
     "coverage": "jest --coverage",
     "doc": "rimraf apis && typedoc",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --format=pretty \"./\"",
+    "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
     "lint:src": "eslint --ext .ts --format=pretty \"./src\"",
     "fix": "prettier -c --write \"**/*\"",
     "test": "jest",
@@ -41,13 +43,16 @@
   },
   "dependencies": {
     "@ant-design/colors": "^7.0.0",
+    "@antv/dom-util": "^2.0.4",
     "@antv/g": "^5.15.7",
     "@antv/g-canvas": "^1.9.28",
     "@antv/g-svg": "^1.8.36",
     "@antv/g-webgl": "^1.7.44",
     "@antv/graphlib": "^2.0.0",
+    "@antv/gui": "^0.5.0-alpha.16",
     "@antv/layout": "^1.0.0-alpha.17",
     "@antv/layout-gpu": "^1.0.0-alpha.3",
+    "@antv/matrix-util": "^3.0.4",
     "@antv/util": "~2.0.5",
     "color": "^4.2.3",
     "tslib": "^2.5.0",
@@ -80,7 +85,8 @@
     "rollup-plugin-visualizer": "^5.6.0",
     "ts-jest": "^24.1.0",
     "typedoc": "^0.23.24",
-    "typescript": "^4.6.3"
+    "typescript": "^4.6.3",
+    "vite": "^4.2.2"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
