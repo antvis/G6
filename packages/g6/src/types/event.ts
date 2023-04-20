@@ -1,5 +1,6 @@
-import { ID } from "@antv/graphlib";
-import { IGraph } from "./graph";
+import { FederatedPointerEvent } from '@antv/g';
+import { ID } from '@antv/graphlib';
+import { IGraph } from './graph';
 
 /** Event type enum */
 export enum CANVAS_EVENT_TYPE {
@@ -36,10 +37,11 @@ export enum DOM_EVENT_TYPE {
 /** Event type union */
 export type ICanvasEventType = `${CANVAS_EVENT_TYPE}`;
 
-export interface IG6GraphEvent extends Omit<Event, 'currentTarget'> {
+export interface IG6GraphEvent
+  extends Omit<FederatedPointerEvent, 'currentTarget'> {
   currentTarget: IGraph;
   itemType: 'node' | 'edge' | 'combo' | 'canvas';
   itemId: ID;
   /** Original event emitted by G */
   gEvent: Event;
-};
+}

@@ -1,15 +1,18 @@
-import { isFunction } from "util";
-import { StdLibCategory } from "../types/stdlib";
-
+import { isFunction } from 'util';
+import { StdLibCategory } from '../types/stdlib';
 
 /**
  * Get one extension from a (std)lib.
  * @param config extension's config
  * @param lib any lib
  * @param {StdLibCategory} cat category of the extension
- * @returns 
+ * @returns
  */
-export const getExtension = (config: string | Function | object, lib, cat: StdLibCategory) => {
+export const getExtension = (
+  config: string | Function | object,
+  lib,
+  cat: StdLibCategory,
+) => {
   const catKey = `${cat}s`;
   // TODO: whether keep function type config?
   if (isFunction(config)) {
@@ -23,4 +26,4 @@ export const getExtension = (config: string | Function | object, lib, cat: StdLi
 export const getCatExtensions = (lib, cat: StdLibCategory) => {
   const catKey = `${cat}s`;
   return lib[catKey];
-}
+};

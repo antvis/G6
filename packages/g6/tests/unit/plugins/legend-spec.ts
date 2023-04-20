@@ -1,7 +1,7 @@
-import { Graph } from '../../../src/index';
 import { Group, Text, Rect, Canvas } from '@antv/g';
 import { Category, grid, Navigator } from '@antv/gui';
 import { Renderer } from '@antv/g-canvas';
+import { Graph } from '../../../src/index';
 import { createCanvas } from '../../../src/util/canvas';
 
 const container = document.createElement('div');

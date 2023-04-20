@@ -20,7 +20,7 @@ export const createCanvas = (
   width: number,
   height: number,
   pixelRatio?: number,
-  customCanvasTag: boolean = true,
+  customCanvasTag = true,
   style: any = {},
 ) => {
   let Renderer;
@@ -58,6 +58,6 @@ export const createCanvas = (
     width,
     height,
     devicePixelRatio: pixelRatio,
-    renderer: new Renderer()
+    renderer: new Renderer(),
   });
-}
+};

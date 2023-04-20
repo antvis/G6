@@ -1,6 +1,6 @@
-import { ItemShapeStyles, ShapeStyle } from "./item";
+import { ItemShapeStyles, ShapeStyle } from './item';
 
-export interface ThemeOption { }
+export interface ThemeOption {}
 /**
  * Base behavior.
  * Two implementing ways: getSpec or getEvents
@@ -9,10 +9,10 @@ export abstract class Theme {
   protected options: ThemeOption = {};
   constructor(options: ThemeOption) {
     this.options = options;
-  };
+  }
   public updateConfig = (options: ThemeOption) => {
     this.options = Object.assign(this.options, options);
-  }
+  };
   abstract destroy(): void;
 }
 
@@ -27,16 +27,23 @@ export interface ThemeRegistry {
  * Type gymnastics, input registry table, output configure type.
  * @example ThemeOptionsOf<{ 'drag-node': typeof DragNodeBehavior }> // 'drag-node' | { type: 'drag-node', key?: 'ctrl' | 'shift' }
  */
-export type ThemeOptionsOf<T extends ThemeRegistry = {}> = Extract<keyof T, string> | {
-  [K in keyof T]: T[K] extends { new(options: infer O): any } ? O & { type: K, key: string } : never;
-}[Extract<keyof T, string>];
+export type ThemeOptionsOf<T extends ThemeRegistry = {}> =
+  | Extract<keyof T, string>
+  | {
+      [K in keyof T]: T[K] extends { new (options: infer O): any }
+        ? O & { type: K; key: string }
+        : never;
+    }[Extract<keyof T, string>];
 
 export type ThemeObjectOptionsOf<T extends ThemeRegistry = {}> = {
-  [K in keyof T]: T[K] extends { new(options: infer O): any } ? O & { type: K, key: string } : never;
+  [K in keyof T]: T[K] extends { new (options: infer O): any }
+    ? O & { type: K; key: string }
+    : never;
 }[Extract<keyof T, string>];
 
-
-export type ItemStyleSets = ItemStyleSet[] | { [dataTypeValue: string]: ItemStyleSet }
+export type ItemStyleSets =
+  | ItemStyleSet[]
+  | { [dataTypeValue: string]: ItemStyleSet };
 
 /** Default and stateStyle for an item */
 export type ItemStyleSet = {
@@ -47,9 +54,11 @@ export type ItemStyleSet = {
 export interface ItemThemeSpecifications {
   dataTypeField?: string;
   palette?: string[] | { [dataTypeValue: string]: string };
-  styles?: ItemStyleSet[] | {
-    [dataTypeValue: string]: ItemStyleSet
-  }
+  styles?:
+    | ItemStyleSet[]
+    | {
+        [dataTypeValue: string]: ItemStyleSet;
+      };
 }
 
 /**
@@ -61,5 +70,5 @@ export interface ThemeSpecification {
   combo?: ItemThemeSpecifications;
   canvas?: {
     [cssName: string]: unknown;
-  }
+  };
 }

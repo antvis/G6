@@ -6,7 +6,7 @@ export * from './types';
 /**
  * Extend the graph class with std lib
  */
-const Graph = extend(EmptyGraph<{}>, stdLib);
+const Graph = extend(EmptyGraph<{}, {}>, stdLib);
 
 export { Graph, stdLib };
 

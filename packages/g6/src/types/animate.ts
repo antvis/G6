@@ -51,5 +51,7 @@ export interface AnimateAttr {
   [param: string]: unknown;
 }
 
-export interface CameraAnimationOptions
-  extends Pick<IAnimationEffectTiming, 'duration' | 'easing' | 'easingFunction'> {}
+export type CameraAnimationOptions = Pick<
+  IAnimationEffectTiming,
+  'duration' | 'easing' | 'easingFunction'
+>;

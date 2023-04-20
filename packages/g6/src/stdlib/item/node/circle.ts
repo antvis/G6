@@ -1,6 +1,6 @@
 import { DisplayObject } from '@antv/g';
 import { NodeDisplayModel } from '../../../types';
-import { ItemShapeStyles, State } from '../../../types/item';
+import { GShapeStyle, ItemShapeStyles, State } from '../../../types/item';
 import { NodeModelData, NodeShapeMap } from '../../../types/node';
 import { upsertShape } from '../../../util/shape';
 import { BaseNode } from './base';
@@ -11,7 +11,7 @@ export class CircleNode extends BaseNode {
       r: 15,
       x: 0,
       y: 0,
-    }
+    },
   };
   mergedStyles: ItemShapeStyles;
   constructor(props) {
@@ -23,7 +23,7 @@ export class CircleNode extends BaseNode {
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
     diffData?: { previous: NodeModelData; current: NodeModelData },
-    diffState?: { previous: State[], current: State[] }
+    diffState?: { previous: State[]; current: State[] },
   ): NodeShapeMap {
     const { data = {} } = model;
     let shapes: NodeShapeMap = { keyShape: undefined };
@@ -41,8 +41,8 @@ export class CircleNode extends BaseNode {
     if (data.otherShapes && this.drawOtherShapes) {
       shapes = {
         ...shapes,
-        ...this.drawOtherShapes(model, shapeMap, diffData)
-      }
+        ...this.drawOtherShapes(model, shapeMap, diffData),
+      };
     }
     return shapes;
   }
@@ -51,8 +51,14 @@ export class CircleNode extends BaseNode {
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
     diffData?: { previous: NodeModelData; current: NodeModelData },
-    diffState?: { previous: State[], current: State[] }
+    diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
-    return upsertShape('circle', 'keyShape', this.mergedStyles.keyShape, shapeMap);
+    // TODO: update type define.
+    return upsertShape(
+      'circle',
+      'keyShape',
+      this.mergedStyles.keyShape as unknown as GShapeStyle,
+      shapeMap,
+    );
   }
 }

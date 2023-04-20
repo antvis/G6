@@ -111,16 +111,20 @@ export class DragNode extends Behavior {
   getEvents = () => {
     return {
       'node:pointerdown': this.onPointerDown,
-      'pointermove': this.onPointerMove,
-      'pointerup': this.onPointerUp,
+      pointermove: this.onPointerMove,
+      pointerup: this.onPointerUp,
       // FIXME: IG6Event -> keyboard event
-      'keydown': this.onKeydown as any,
+      keydown: this.onKeydown as any,
     };
   };
 
   /** Given selected node ids, get their related visible edges. */
   private getRelatedEdges(selectedNodeIds: ID[]) {
-    return uniq(selectedNodeIds.flatMap(nodeId => this.graph.getRelatedEdgesData(nodeId))).filter(edgeData => {
+    return uniq(
+      selectedNodeIds.flatMap((nodeId) =>
+        this.graph.getRelatedEdgesData(nodeId),
+      ),
+    ).filter((edgeData) => {
       return this.graph.getItemVisible(edgeData.id);
     });
   }
@@ -128,7 +132,11 @@ export class DragNode extends Behavior {
   onPointerDown = (event: IG6GraphEvent) => {
     if (!this.options.shouldBegin(event)) return;
     const currentNodeId = event.itemId;
-    let selectedNodeIds = this.graph.findIdByState('node', this.options.selectedState, true);
+    let selectedNodeIds = this.graph.findIdByState(
+      'node',
+      this.options.selectedState,
+      true,
+    );
 
     // If current node is selected, drag all the selected nodes together.
     // Otherwise drag current node.
@@ -136,8 +144,11 @@ export class DragNode extends Behavior {
       selectedNodeIds = [currentNodeId];
     }
 
-    this.originPositions = selectedNodeIds.map(id => {
-      const { x, y } = this.graph.getNodeData(id).data as { x: number, y: number };
+    this.originPositions = selectedNodeIds.map((id) => {
+      const { x, y } = this.graph.getNodeData(id).data as {
+        x: number;
+        y: number;
+      };
       // If delegate is enabled, record bbox together.
       if (this.options.enableDelegate) {
         const bbox = this.graph.getRenderBBox(id);
@@ -147,29 +158,29 @@ export class DragNode extends Behavior {
           return { id, x, y, minX, minY, maxX, maxY };
         }
       }
-      return { id, x, y};
+      return { id, x, y };
     });
 
     // Hide related edge.
     if (this.options.hideRelatedEdges && !this.options.enableTransient) {
       this.hiddenEdges = this.getRelatedEdges(selectedNodeIds);
-      this.graph.hideItem(this.hiddenEdges.map(edge => edge.id));
+      this.graph.hideItem(this.hiddenEdges.map((edge) => edge.id));
     }
 
     // Draw transient nodes and edges.
     if (this.options.enableTransient) {
       // Draw transient edges and nodes.
       this.hiddenEdges = this.getRelatedEdges(selectedNodeIds);
-      this.hiddenEdges.forEach(edge => {
+      this.hiddenEdges.forEach((edge) => {
         this.graph.drawTransient('edge', edge.id, {});
       });
-      selectedNodeIds.forEach(nodeId => {
+      selectedNodeIds.forEach((nodeId) => {
         this.graph.drawTransient('node', nodeId, {});
       });
 
       // Hide original edges and nodes. They will be restored when pointerup.
       this.graph.hideItem(selectedNodeIds);
-      this.graph.hideItem(this.hiddenEdges.map(edge => edge.id));
+      this.graph.hideItem(this.hiddenEdges.map((edge) => edge.id));
     }
 
     // Debounce moving.
@@ -202,16 +213,16 @@ export class DragNode extends Behavior {
     } else {
       this.debouncedMoveNodes(deltaX, deltaY, this.options.enableTransient);
     }
-  }
+  };
 
   moveNodes = (deltaX: number, deltaY: number, transient: boolean) => {
-    const positionChanges = this.originPositions.map(({ id, x, y}) => {
+    const positionChanges = this.originPositions.map(({ id, x, y }) => {
       return {
         id,
         data: {
           x: x + deltaX,
           y: y + deltaY,
-        }
+        },
       };
     });
     if (transient) {
@@ -225,7 +236,7 @@ export class DragNode extends Behavior {
         });
       });
       // Update transient edges.
-      this.hiddenEdges.forEach(edge => {
+      this.hiddenEdges.forEach((edge) => {
         this.graph.drawTransient('edge', edge.id, {});
       });
     } else {
@@ -238,35 +249,35 @@ export class DragNode extends Behavior {
   };
 
   moveDelegate = (deltaX: number, deltaY: number) => {
-    const x1 = Math.min(...this.originPositions.map(position => position.minX));
-    const y1 = Math.min(...this.originPositions.map(position => position.minY));
-    const x2 = Math.max(...this.originPositions.map(position => position.maxX));
-    const y2 = Math.max(...this.originPositions.map(position => position.maxY));
-    this.graph.drawTransient(
-      'rect',
-      DELEGATE_SHAPE_ID,
-      {
-        style: {
-          x: x1 + deltaX,
-          y: y1 + deltaY,
-          width: x2 - x1,
-          height: y2 - y1,
-          ...this.options.delegateStyle,
-        }
-      }
-    )
+    const x1 = Math.min(
+      ...this.originPositions.map((position) => position.minX),
+    );
+    const y1 = Math.min(
+      ...this.originPositions.map((position) => position.minY),
+    );
+    const x2 = Math.max(
+      ...this.originPositions.map((position) => position.maxX),
+    );
+    const y2 = Math.max(
+      ...this.originPositions.map((position) => position.maxY),
+    );
+    this.graph.drawTransient('rect', DELEGATE_SHAPE_ID, {
+      style: {
+        x: x1 + deltaX,
+        y: y1 + deltaY,
+        width: x2 - x1,
+        height: y2 - y1,
+        ...this.options.delegateStyle,
+      },
+    });
   };
 
   clearDelegate = () => {
-    this.graph.drawTransient(
-      'rect',
-      DELEGATE_SHAPE_ID,
-      { action: 'remove' }
-    );
+    this.graph.drawTransient('rect', DELEGATE_SHAPE_ID, { action: 'remove' });
   };
 
   clearTransientItems = () => {
-    this.hiddenEdges.forEach(edge => {
+    this.hiddenEdges.forEach((edge) => {
       this.graph.drawTransient('node', edge.source, { action: 'remove' });
       this.graph.drawTransient('node', edge.target, { action: 'remove' });
       this.graph.drawTransient('edge', edge.id, { action: 'remove' });
@@ -278,13 +289,13 @@ export class DragNode extends Behavior {
 
   restoreHiddenItems = () => {
     if (this.hiddenEdges.length) {
-      this.graph.showItem(this.hiddenEdges.map(edge => edge.id));
+      this.graph.showItem(this.hiddenEdges.map((edge) => edge.id));
       this.hiddenEdges = [];
     }
     if (this.options.enableTransient) {
-      this.graph.showItem(this.originPositions.map(position => position.id));
+      this.graph.showItem(this.originPositions.map((position) => position.id));
     }
-  }
+  };
 
   onPointerUp = (event: IG6GraphEvent) => {
     // If transient or delegate was enabled, move the real nodes.
@@ -313,7 +324,7 @@ export class DragNode extends Behavior {
     // Emit event.
     if (this.options.eventName) {
       this.graph.emit(this.options.eventName, {
-        itemIds: this.originPositions.map(position => position.id),
+        itemIds: this.originPositions.map((position) => position.id),
       });
     }
 
@@ -331,12 +342,12 @@ export class DragNode extends Behavior {
 
     // Restore node positions.
     if (!this.options.enableTransient && !this.options.enableDelegate) {
-      const positionChanges = this.originPositions.map(({ id, x, y}) => {
+      const positionChanges = this.originPositions.map(({ id, x, y }) => {
         return { id, data: { x, y } };
       });
-      this.graph.updateData('node', positionChanges)
+      this.graph.updateData('node', positionChanges);
     }
 
     this.originPositions = [];
   };
-};
+}

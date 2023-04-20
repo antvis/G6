@@ -1,3 +1,5 @@
+// TODO: update type define.
+// @ts-nocheck
 import { Canvas, Group, Rect, DisplayObject } from '@antv/g';
 import { isString, isNil, each, debounce } from '@antv/util';
 import { createDom, modifyCSS } from '@antv/dom-util';
@@ -93,7 +95,7 @@ export default class Minimap extends Base {
 
     if (destroyed) return;
 
-    const containerDOM = canvas.context.config.container;
+    const containerDOM = canvas.context.config.container as HTMLElement;
     const isFireFox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
     const isSafari = navigator.userAgent.toLowerCase().indexOf('safari') > -1;
     const viewport = createDom(`
@@ -171,11 +173,9 @@ export default class Minimap extends Base {
       }
 
       // Translate tht graph and update minimap viewport.
-      new Promise(async () => {
-        await graph!.translate((dx * zoom) / ratio, (dy * zoom) / ratio);
+      graph!.translate((dx * zoom) / ratio, (dy * zoom) / ratio).then(() => {
         this.updateViewport();
       });
-
       x = e.clientX;
       y = e.clientY;
     };
@@ -365,7 +365,7 @@ export default class Minimap extends Base {
     const bbox = graphItem.getRenderBounds();
     if (!bbox) return;
     const keyShapeStyle = graphItem.attributes;
-    let attrs: any = {
+    const attrs: any = {
       ...keyShapeStyle,
       cx: bbox.center[0],
       cy: bbox.center[1],
@@ -620,8 +620,8 @@ export default class Minimap extends Base {
 
     const minimapBBox = group.getRenderBounds();
     const graphBBox = graph.canvas.getRoot().getRenderBounds();
-    let width = graphBBox.max[0] - graphBBox.min[0];
-    let height = graphBBox.max[1] - graphBBox.min[1];
+    const width = graphBBox.max[0] - graphBBox.min[0];
+    const height = graphBBox.max[1] - graphBBox.min[1];
 
     // Scale the graph to fit the size - padding of the minimap container
     const zoomRatio = Math.min(

@@ -1,5 +1,11 @@
 import { Animation, DisplayObject, IAnimationEffectTiming } from '@antv/g';
-import { isLayoutWithIterations, Layout, LayoutMapping, OutNode, Supervisor } from '@antv/layout';
+import {
+  isLayoutWithIterations,
+  Layout,
+  LayoutMapping,
+  OutNode,
+  Supervisor,
+} from '@antv/layout';
 import { stdLib } from '../../stdlib';
 import {
   IGraph,
@@ -35,7 +41,10 @@ export class LayoutController {
     this.graph.hooks.layout.tap(this.onLayout.bind(this));
   }
 
-  private async onLayout(params: { graphCore: GraphCore; options: LayoutOptions }) {
+  private async onLayout(params: {
+    graphCore: GraphCore;
+    options: LayoutOptions;
+  }) {
     /**
      * The final calculated result.
      */
@@ -60,7 +69,10 @@ export class LayoutController {
       positions = await execute(graphCore, rest);
 
       if (animated) {
-        await this.animateLayoutWithoutIterations(positions, animationEffectTiming);
+        await this.animateLayoutWithoutIterations(
+          positions,
+          animationEffectTiming,
+        );
       }
     } else {
       const {
@@ -124,7 +136,10 @@ export class LayoutController {
           positions = await layout.execute(graphCore);
 
           if (animated) {
-            await this.animateLayoutWithoutIterations(positions, animationEffectTiming);
+            await this.animateLayoutWithoutIterations(
+              positions,
+              animationEffectTiming,
+            );
           }
         }
       }
@@ -213,18 +228,21 @@ export class LayoutController {
     // @see https://g.antv.antgroup.com/api/animation/waapi#%E5%B1%9E%E6%80%A7
     this.currentAnimation.onframe = (e) => {
       // @see https://g.antv.antgroup.com/api/animation/waapi#progress
-      const progress = (e.target as Animation).effect.getComputedTiming().progress as number;
-      const interpolatedNodesPosition = (initialPositions as OutNode[]).map(({ id, data }, i) => {
-        const { x: fromX = 0, y: fromY = 0 } = data;
-        const { x: toX, y: toY } = positions.nodes[i].data;
-        return {
-          id,
-          data: {
-            x: fromX + (toX - fromX) * progress,
-            y: fromY + (toY - fromY) * progress,
-          },
-        };
-      });
+      const progress = (e.target as Animation).effect.getComputedTiming()
+        .progress as number;
+      const interpolatedNodesPosition = (initialPositions as OutNode[]).map(
+        ({ id, data }, i) => {
+          const { x: fromX = 0, y: fromY = 0 } = data;
+          const { x: toX, y: toY } = positions.nodes[i].data;
+          return {
+            id,
+            data: {
+              x: fromX + (toX - fromX) * progress,
+              y: fromY + (toY - fromY) * progress,
+            },
+          };
+        },
+      );
 
       this.updateNodesPosition({
         nodes: interpolatedNodesPosition,

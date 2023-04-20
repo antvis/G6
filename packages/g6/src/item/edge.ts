@@ -2,7 +2,12 @@ import { Group } from '@antv/g';
 import { clone } from '@antv/util';
 import { EdgeDisplayModel, EdgeModel } from '../types';
 import { EdgeModelData } from '../types/edge';
-import { DisplayMapper, ItemShapeStyles, ITEM_TYPE, State } from '../types/item';
+import {
+  DisplayMapper,
+  ItemShapeStyles,
+  ITEM_TYPE,
+  State,
+} from '../types/item';
 import { updateShapes } from '../util/shape';
 import Item from './item';
 import Node from './node';
@@ -13,7 +18,7 @@ interface IProps {
   containerGroup: Group;
   mapper: DisplayMapper;
   stateMapper: {
-    [stateName: string]: DisplayMapper
+    [stateName: string]: DisplayMapper;
   };
   sourceItem: Node;
   targetItem: Node;
@@ -21,7 +26,7 @@ interface IProps {
 }
 
 export default class Edge extends Item {
-  public destroyed: boolean = false;
+  public destroyed = false;
   // inner data model
   public model: EdgeModel;
   // display data model
@@ -40,7 +45,11 @@ export default class Edge extends Item {
     this.targetItem = targetItem;
     this.draw(this.displayModel);
   }
-  public draw(displayModel: EdgeDisplayModel, diffData?: { previous: EdgeModelData; current: EdgeModelData }, diffState?: { previous: State[], current: State[] }) {
+  public draw(
+    displayModel: EdgeDisplayModel,
+    diffData?: { previous: EdgeModelData; current: EdgeModelData },
+    diffState?: { previous: State[]; current: State[] },
+  ) {
     // get the end points
     const sourceBBox = this.sourceItem.getKeyBBox();
     const targetBBox = this.targetItem.getKeyBBox();
@@ -59,7 +68,7 @@ export default class Edge extends Item {
       targetPoint,
       this.shapeMap,
       diffData,
-      diffState
+      diffState,
     );
 
     // add shapes to group, and update shapeMap

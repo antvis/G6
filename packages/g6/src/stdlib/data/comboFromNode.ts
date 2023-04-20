@@ -1,5 +1,4 @@
-
-import { GraphData } from "../../types";
+import { GraphData } from '../../types';
 
 /**
  * A demo, generates combo data from nodes
@@ -9,8 +8,8 @@ export const comboFromNode = (data: GraphData) => {
   const combos = [];
   const nodeMap = {};
   const comboMap = {};
-  nodes.forEach(node => nodeMap[node.id] = node);
-  nodes.forEach(node => {
+  nodes.forEach((node) => (nodeMap[node.id] = node));
+  nodes.forEach((node) => {
     const { parentId } = node.data || {};
     if (parentId) {
       if (nodeMap[parentId]) {
@@ -22,8 +21,8 @@ export const comboFromNode = (data: GraphData) => {
     }
   });
   return {
-    nodes: nodes.filter(node => !comboMap[node.id]),
+    nodes: nodes.filter((node) => !comboMap[node.id]),
     edges: data.edges,
-    combos
-  }
-}
+    combos,
+  };
+};

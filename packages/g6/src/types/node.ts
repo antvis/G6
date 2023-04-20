@@ -1,7 +1,14 @@
 import { DisplayObject } from '@antv/g';
 import { Node as GNode, PlainObject } from '@antv/graphlib';
 import { AnimateAttr } from './animate';
-import { Encode, IItem, LabelBackground, ShapeAttrEncode, ShapesEncode, ShapeStyle } from './item';
+import {
+  Encode,
+  IItem,
+  LabelBackground,
+  ShapeAttrEncode,
+  ShapesEncode,
+  ShapeStyle,
+} from './item';
 
 export type NodeLabelPosition = 'bottom' | 'center' | 'top' | 'left' | 'right';
 
@@ -74,4 +81,4 @@ export interface NodeShapeMap {
 }
 
 // TODO
-export interface INode extends IItem {}
+export type INode = IItem;

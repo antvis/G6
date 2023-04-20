@@ -1,10 +1,26 @@
 import { Node as GNode, PlainObject } from '@antv/graphlib';
-import { AnimateAttr } from "./animate";
-import { Padding } from "./common";
-import { Encode, IItem, LabelBackground, ShapeAttrEncode, ShapesEncode, ShapeStyle } from "./item";
-import { AnchorPoint } from "./node";
+import { AnimateAttr } from './animate';
+import { Padding } from './common';
+import {
+  Encode,
+  IItem,
+  LabelBackground,
+  ShapeAttrEncode,
+  ShapesEncode,
+  ShapeStyle,
+} from './item';
+import { AnchorPoint } from './node';
 
-export type ComboLabelPosition = 'bottom' | 'top' | 'left' | 'left-top' | 'right' | 'ouside-top' | 'outside-left' | 'outside-right' | 'outside-bottom';
+export type ComboLabelPosition =
+  | 'bottom'
+  | 'top'
+  | 'left'
+  | 'left-top'
+  | 'right'
+  | 'ouside-top'
+  | 'outside-left'
+  | 'outside-right'
+  | 'outside-bottom';
 
 /** User input data. */
 export interface ComboUserModelData extends PlainObject {
@@ -38,7 +54,6 @@ export interface ComboDisplayModelData extends ComboModelData {
   padding?: Padding;
 }
 
-
 /** User input model. */
 export type ComboUserModel = GNode<ComboUserModelData>;
 
@@ -48,9 +63,8 @@ export type ComboModel = GNode<ComboModelData>;
 /** Displayed model, only for drawing and not received by users. */
 export type ComboDisplayModel = GNode<ComboDisplayModelData>;
 
-
-
-interface ComboLabelShapeAttrEncode extends ShapeAttrEncode { // TODO: extends Text shape attr, import from G
+interface ComboLabelShapeAttrEncode extends ShapeAttrEncode {
+  // TODO: extends Text shape attr, import from G
   position?: ComboLabelPosition | Encode<ComboLabelPosition>;
   offsetX?: number | Encode<number>;
   offsetY?: number | Encode<number>;
@@ -67,6 +81,4 @@ export interface ComboEncode extends ComboShapesEncode {
 }
 
 // TODO
-export interface ICombo extends IItem {
-
-}
+export type ICombo = IItem;

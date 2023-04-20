@@ -185,6 +185,8 @@ export default class Legend extends Base {
         canvasSize[1],
       );
       // Set canvas background color
+      // TODO: update type define.
+      // @ts-ignore
       this.canvas.context.config.canvas.style.backgroundColor =
         'rgba(255, 255, 255, 0.8)';
 
@@ -469,6 +471,8 @@ export default class Legend extends Base {
       },
     });
 
+    // TODO: update type define.
+    // @ts-ignore
     canvas.appendChild(legend);
     return legend;
   }

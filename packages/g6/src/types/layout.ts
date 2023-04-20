@@ -68,7 +68,9 @@ export type StandardLayoutOptions =
       Animatable &
       Workerized;
 
-export type LayoutOptions = StandardLayoutOptions | ImmediatelyInvokedLayoutOptions;
+export type LayoutOptions =
+  | StandardLayoutOptions
+  | ImmediatelyInvokedLayoutOptions;
 
 export function isImmediatelyInvokedLayoutOptions(
   options: any,

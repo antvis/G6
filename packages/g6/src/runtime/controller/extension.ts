@@ -1,4 +1,4 @@
-import { IGraph } from "../../types";
+import { IGraph } from '../../types';
 
 /**
  * Free extensions(plugins) controller

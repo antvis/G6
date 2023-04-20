@@ -1,7 +1,7 @@
 import { ID } from '@antv/graphlib';
-import { IGraph } from "../../types";
-import { Point } from "../../types/common";
-import { ITEM_TYPE } from "../../types/item";
+import { IGraph } from '../../types';
+import { Point } from '../../types/common';
+import { ITEM_TYPE } from '../../types/item';
 import { getEdgesBetween } from '../../util/item';
 
 /**
@@ -31,7 +31,7 @@ export default (graph: IGraph, points: Point[], itemTypes: ITEM_TYPE[]) => {
       }
     });
   }
-  
+
   if (itemTypes.includes('combo')) {
     graph.getAllCombosData().forEach((combo) => {
       const { id } = combo;
@@ -46,17 +46,27 @@ export default (graph: IGraph, points: Point[], itemTypes: ITEM_TYPE[]) => {
 
   if (itemTypes.includes('edge')) {
     // The edge is selected while both the source and target node are selected.
-    selectedEdgeIds = getEdgesBetween(graph, selectedNodeIds.concat(selectedComboIds));
+    selectedEdgeIds = getEdgesBetween(
+      graph,
+      selectedNodeIds.concat(selectedComboIds),
+    );
   }
 
   return {
     nodes: selectedNodeIds,
     edges: selectedEdgeIds,
-    combos: selectedComboIds
+    combos: selectedComboIds,
   };
-}
+};
 
-const isBBoxCenterInRect = (graph: IGraph, id: ID, left: number, right: number, top: number, bottom: number) => {
+const isBBoxCenterInRect = (
+  graph: IGraph,
+  id: ID,
+  left: number,
+  right: number,
+  top: number,
+  bottom: number,
+) => {
   const bbox = graph.getRenderBBox(id);
   if (!bbox) return false;
   return (
@@ -65,4 +75,4 @@ const isBBoxCenterInRect = (graph: IGraph, id: ID, left: number, right: number, 
     bbox.center[1] >= top &&
     bbox.center[1] <= bottom
   );
-}
+};

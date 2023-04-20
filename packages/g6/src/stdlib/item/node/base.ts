@@ -1,13 +1,18 @@
 import { DisplayObject } from '@antv/g';
-import { DEFAULT_LABEL_BG_PADDING, OTHER_SHAPES_FIELD_NAME, RESERVED_SHAPE_IDS } from '../../../constant';
-import { NodeDisplayModel } from '../../../types';
-import { ItemShapeStyles, ShapeStyle, State } from '../../../types/item';
-import { NodeModelData, NodeShapeMap } from '../../../types/node';
 import {
-  formatPadding,
-  mergeStyles,
-  upsertShape,
-} from '../../../util/shape';
+  DEFAULT_LABEL_BG_PADDING,
+  OTHER_SHAPES_FIELD_NAME,
+  RESERVED_SHAPE_IDS,
+} from '../../../constant';
+import { NodeDisplayModel } from '../../../types';
+import {
+  GShapeStyle,
+  ItemShapeStyles,
+  ShapeStyle,
+  State,
+} from '../../../types/item';
+import { NodeModelData, NodeShapeMap } from '../../../types/node';
+import { formatPadding, mergeStyles, upsertShape } from '../../../util/shape';
 
 export abstract class BaseNode {
   type: string;
@@ -24,10 +29,14 @@ export abstract class BaseNode {
   public getMergedStyles(model: NodeDisplayModel) {
     const { data } = model;
     const dataStyles = {} as ItemShapeStyles;
-    Object.keys(data).forEach(fieldName => {
-      if (RESERVED_SHAPE_IDS.includes(fieldName)) dataStyles[fieldName] = data[fieldName] as ShapeStyle;
+    Object.keys(data).forEach((fieldName) => {
+      if (RESERVED_SHAPE_IDS.includes(fieldName))
+        dataStyles[fieldName] = data[fieldName] as ShapeStyle;
       else if (fieldName === OTHER_SHAPES_FIELD_NAME) {
-        Object.keys(data[fieldName]).forEach(otherShapeId => dataStyles[otherShapeId] = data[fieldName][otherShapeId]);
+        Object.keys(data[fieldName]).forEach(
+          (otherShapeId) =>
+            (dataStyles[otherShapeId] = data[fieldName][otherShapeId]),
+        );
       }
     });
     return mergeStyles([this.themeStyles, this.defaultStyles, dataStyles]);
@@ -36,7 +45,7 @@ export abstract class BaseNode {
     model: NodeDisplayModel,
     shapeMap: { [shapeId: string]: DisplayObject },
     diffData?: { previous: NodeModelData; current: NodeModelData },
-    diffState?: { previous: State[], current: State[] }
+    diffState?: { previous: State[]; current: State[] },
   ): {
     keyShape: DisplayObject;
     labelShape?: DisplayObject;
@@ -62,14 +71,14 @@ export abstract class BaseNode {
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
     diffData?: { previous: NodeModelData; current: NodeModelData },
-    diffState?: { previous: State[], current: State[] }
+    diffState?: { previous: State[]; current: State[] },
   ): DisplayObject;
 
   public drawLabelShape(
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
     diffData?: { previous: NodeModelData; current: NodeModelData },
-    diffState?: { oldState: State[], newState: State[] }
+    diffState?: { oldState: State[]; newState: State[] },
   ): {
     labelShape: DisplayObject;
     [id: string]: DisplayObject;
@@ -120,8 +129,12 @@ export abstract class BaseNode {
         positionPreset.offsetY = 4;
         break;
     }
-    const offsetX = propsOffsetX === undefined ? positionPreset.offsetX : propsOffsetX;
-    const offsetY = propsOffsetY === undefined ? positionPreset.offsetY : propsOffsetY;
+    const offsetX = (
+      propsOffsetX === undefined ? positionPreset.offsetX : propsOffsetX
+    ) as number;
+    const offsetY = (
+      propsOffsetY === undefined ? positionPreset.offsetY : propsOffsetY
+    ) as number;
     positionPreset.x += offsetX;
     positionPreset.y += offsetY;
 
@@ -134,6 +147,8 @@ export abstract class BaseNode {
     const shapes = { labelShape };
     if (background) {
       const textBBox = labelShape.getGeometryBounds();
+      // TODO: update type define.
+      // @ts-ignore
       const { padding: propsPadding, ...backgroundStyle } = background;
       const padding = formatPadding(propsPadding, DEFAULT_LABEL_BG_PADDING);
       const bgStyle: any = {
@@ -149,7 +164,9 @@ export abstract class BaseNode {
         bgStyle.transform = style.transform;
         bgStyle.transformOrigin = 'center';
         if (style.textAlign === 'left') {
-          bgStyle.transformOrigin = `${padding[3]} ${padding[0] + bgStyle.height / 2}`;
+          bgStyle.transformOrigin = `${padding[3]} ${
+            padding[0] + bgStyle.height / 2
+          }`;
         }
         if (style.textAlign === 'right') {
           bgStyle.transformOrigin = `${padding[3] + bgStyle.width} ${
@@ -158,7 +175,12 @@ export abstract class BaseNode {
         }
       }
 
-      shapes['labelBgShape'] = upsertShape('rect', 'labelBgShape', bgStyle, shapeMap);
+      shapes['labelBgShape'] = upsertShape(
+        'rect',
+        'labelBgShape',
+        bgStyle,
+        shapeMap,
+      );
     }
     return shapes;
   }
@@ -167,28 +189,36 @@ export abstract class BaseNode {
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
     diffData?: { previous: NodeModelData; current: NodeModelData },
-    diffState?: { oldState: State[], newState: State[] }
+    diffState?: { oldState: State[]; newState: State[] },
   ): DisplayObject {
     const { iconShape } = model.data || {};
     const { iconShape: shapeStyle } = this.mergedStyles;
     const iconShapeType = shapeStyle.text ? 'text' : 'image';
     if (iconShapeType === 'image') {
       const { width, height } = shapeStyle;
-      if (!iconShape.hasOwnProperty('x')) shapeStyle.x = -width / 2;
-      if (!iconShape.hasOwnProperty('y')) shapeStyle.y = -height / 2;
+      if (!Object.prototype.hasOwnProperty.call(iconShape, 'x'))
+        shapeStyle.x = -width / 2;
+      if (!Object.prototype.hasOwnProperty.call(iconShape, 'y'))
+        shapeStyle.y = -height / 2;
     } else {
       shapeStyle.textAlign = 'center';
       shapeStyle.textBaseline = 'middle';
     }
-    return upsertShape(iconShapeType, 'iconShape', shapeStyle, shapeMap);
+    // TODO: update type define.
+    return upsertShape(
+      iconShapeType,
+      'iconShape',
+      shapeStyle as unknown as GShapeStyle,
+      shapeMap,
+    );
   }
 
   public drawOtherShapes(
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
     diffData?: { previous: NodeModelData; current: NodeModelData },
-    diffState?: { previous: State[], current: State[] }
-  ): { [id: string]: DisplayObject; } {
-    return {}
+    diffState?: { previous: State[]; current: State[] },
+  ): { [id: string]: DisplayObject } {
+    return {};
   }
 }

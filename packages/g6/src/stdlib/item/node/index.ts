@@ -1,1 +1,1 @@
-export * from "./circle";
+export * from './circle';

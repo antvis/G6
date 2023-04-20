@@ -195,7 +195,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         graphCore: GraphCore;
         theme: ThemeSpecification;
       }>({ name: 'itemchange' }),
-      render: new Hook<{ graphCore: GraphCore; theme: ThemeSpecification }>({
+      render: new Hook<{
+        graphCore: GraphCore;
+        theme: ThemeSpecification;
+        transientCanvas: Canvas;
+      }>({
         name: 'render',
       }),
       layout: new Hook<{ graphCore: GraphCore }>({ name: 'layout' }),
@@ -569,75 +573,6 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         effectTiming,
       );
     }
-  }
-
-  /**
-   * Get the size of the graph canvas.
-   * @returns [width, height]
-   * @group View
-   */
-  public getSize(): number[] {
-    const { width = 500, height = 500 } = this.specification;
-    return [width, height];
-  }
-
-  /**
-   * Set the size for the graph canvas.
-   * @param number[] [width, height]
-   * @group View
-   */
-  public setSize(size: number[]) {
-    if (!isArray(size) || size.length < 2) {
-      console.warn(
-        `Failed to setSize. The parameter size: ${size} is invalid. It must be an array with 2 number elements.`,
-      );
-      return;
-    }
-    this.specification.width = size[0];
-    this.specification.height = size[1];
-    this.canvas.resize(size[0], size[1]);
-  }
-
-  /**
-   * Get the rendering coordinate according to the canvas dom (viewport) coordinate.
-   * @param Point rendering coordinate
-   * @returns canvas dom (viewport) coordinate
-   * @group View
-   */
-  public getCanvasByViewport(viewportPoint: Point): Point {
-    return this.canvas.viewport2Canvas(viewportPoint);
-  }
-
-  /**
-   * Get the canvas dom (viewport) coordinate according to the rendering coordinate.
-   * @param Point canvas dom (viewport) coordinate
-   * @returns rendering coordinate
-   * @group View
-   */
-  public getViewportByCanvas(canvasPoint: Point): Point {
-    return this.canvas.canvas2Viewport(canvasPoint);
-  }
-
-  /**
-   * Get the browser coordinate according to the rendering coordinate.
-   * @param Point rendering coordinate
-   * @returns browser coordinate
-   * @group View
-   */
-  public getClientByCanvas(canvasPoint: Point): Point {
-    const viewportPoint = this.canvas.canvas2Viewport(canvasPoint);
-    return this.canvas.viewport2Client(viewportPoint as any);
-  }
-
-  /**
-   * Get the rendering coordinate according to the browser coordinate.
-   * @param Point browser coordinate
-   * @returns rendering coordinate
-   * @group View
-   */
-  public getCanvasByClient(clientPoint: Point): Point {
-    const viewportPoint = this.canvas.client2Viewport(clientPoint);
-    return this.canvas.viewport2Canvas(viewportPoint as any);
   }
 
   /**
@@ -1166,6 +1101,8 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     this.hooks.behaviorchange.emit({
       action: 'add',
       modes: modesArr,
+      // TODO: update type define.
+      // @ts-ignore
       behaviors: behaviorsArr,
     });
     // update the graph specification
@@ -1212,6 +1149,8 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     this.hooks.behaviorchange.emit({
       action: 'update',
       modes: [mode],
+      // TODO: update type define.
+      // @ts-ignore
       behaviors: [behavior],
     });
     // no need to update specification since the corresponding part is the same object as the behavior's option
@@ -1288,9 +1227,10 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     });
     // update the graph specification
     const { plugins } = this.specification;
-    this.specification.plugins = plugins?.filter(
-      (plugin) => !isObject(plugin.key) || !pluginKeys.includes(plugin.key),
-    );
+    this.specification.plugins = plugins?.filter((plugin) => {
+      if (isObject(plugin)) return !pluginKeys.includes(plugin.key);
+      return !pluginKeys.includes(plugin);
+    });
   }
 
   /**
@@ -1330,6 +1270,8 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     }
     const idx = plugins.indexOf(oldPlugin);
     plugins[idx] = {
+      // TODO: update type define.
+      // @ts-ignore
       ...oldPlugin,
       ...plugin,
     };

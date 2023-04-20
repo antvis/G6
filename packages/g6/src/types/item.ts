@@ -1,5 +1,16 @@
 import { ID } from '@antv/graphlib';
-import { AABB, CircleStyleProps, RectStyleProps, EllipseStyleProps, PolygonStyleProps, LineStyleProps, PathStyleProps, PolylineStyleProps, TextStyleProps, ImageStyleProps } from '@antv/g';
+import {
+  AABB,
+  CircleStyleProps,
+  RectStyleProps,
+  EllipseStyleProps,
+  PolygonStyleProps,
+  LineStyleProps,
+  PathStyleProps,
+  PolylineStyleProps,
+  TextStyleProps,
+  ImageStyleProps,
+} from '@antv/g';
 import { AnimateAttr } from './animate';
 import {
   ComboDisplayModel,
@@ -8,8 +19,20 @@ import {
   ComboModelData,
   ComboUserModel,
 } from './combo';
-import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeModelData, EdgeUserModel } from './edge';
-import { NodeDisplayModel, NodeEncode, NodeModel, NodeModelData, NodeUserModel } from './node';
+import {
+  EdgeDisplayModel,
+  EdgeEncode,
+  EdgeModel,
+  EdgeModelData,
+  EdgeUserModel,
+} from './edge';
+import {
+  NodeDisplayModel,
+  NodeEncode,
+  NodeModel,
+  NodeModelData,
+  NodeUserModel,
+} from './node';
 
 export interface ShapeStyle {
   [shapeAttr: string]: unknown;
@@ -21,7 +44,15 @@ export interface ShapeStyle {
   r?: number;
 }
 
-export type GShapeStyle = CircleStyleProps & RectStyleProps & EllipseStyleProps & PolygonStyleProps & LineStyleProps & PolylineStyleProps & TextStyleProps & ImageStyleProps & PathStyleProps;
+export type GShapeStyle = CircleStyleProps &
+  RectStyleProps &
+  EllipseStyleProps &
+  PolygonStyleProps &
+  LineStyleProps &
+  PolylineStyleProps &
+  TextStyleProps &
+  ImageStyleProps &
+  PathStyleProps;
 
 export interface Encode<T> {
   fields: string[];
@@ -51,7 +82,16 @@ export interface ShapesEncode {
     };
   };
 }
-export type SHAPE_TYPE = 'rect' | 'circle' | 'ellipse' | 'polygon' | 'image' | 'polyline' | 'line' | 'path' | 'text';
+export type SHAPE_TYPE =
+  | 'rect'
+  | 'circle'
+  | 'ellipse'
+  | 'polygon'
+  | 'image'
+  | 'polyline'
+  | 'line'
+  | 'path'
+  | 'text';
 
 export type ITEM_TYPE = 'node' | 'edge' | 'combo';
 
@@ -59,7 +99,10 @@ export type ItemModelData = NodeModelData | EdgeModelData | ComboModelData;
 
 export type ItemModel = NodeModel | EdgeModel | ComboModel;
 
-export type ItemDisplayModel = NodeDisplayModel | EdgeDisplayModel | ComboDisplayModel;
+export type ItemDisplayModel =
+  | NodeDisplayModel
+  | EdgeDisplayModel
+  | ComboDisplayModel;
 
 export type DisplayMapper =
   | ((model: ItemModel) => ItemDisplayModel)
@@ -70,8 +113,7 @@ export type DisplayMapper =
 export type State = {
   name: string;
   value: boolean | string;
-}
-
+};
 
 /** Shape styles for an item. */
 export type ItemShapeStyles = {
@@ -79,8 +121,7 @@ export type ItemShapeStyles = {
   labelShape?: ShapeStyle;
   iconShape?: ShapeStyle;
   [shapeId: string]: ShapeStyle;
-}
-
+};
 
 /**
  * Base item of node / edge / combo.
@@ -115,7 +156,7 @@ export interface IItem {
   draw: (
     displayModel: ItemDisplayModel,
     diffData?: { previous: ItemModelData; current: ItemModelData },
-    diffState?: { previous: State[], current: State[] },
+    diffState?: { previous: State[]; current: State[] },
   ) => void;
   /**
    * Updates the shapes.
