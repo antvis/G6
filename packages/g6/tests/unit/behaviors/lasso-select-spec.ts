@@ -1234,7 +1234,6 @@ describe('lasso-select behavior with shouldBegin and shouldUpdate', () => {
     });
 
     graph.on('afterlayout', (e) => {
-      console.log('xxx');
       // shouldBegin false
       graph.emit('canvas:pointerdown', {
         canvas: { x: 0, y: 0 },

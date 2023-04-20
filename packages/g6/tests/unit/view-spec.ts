@@ -1,6 +1,5 @@
-import { Graph, Layout, LayoutMapping } from '@antv/layout';
 import { Circle } from '@antv/g';
-import G6, { IGraph, stdLib } from '../../src/index';
+import G6 from '../../src/index';
 import { data } from '../datasets/dataset1';
 const container = document.createElement('div');
 
@@ -8,7 +7,7 @@ document.querySelector('body')!.appendChild(container);
 
 describe('viewport', () => {
   let graph: any;
-  it.only('should translate viewport without animation correctly.', (done) => {
+  it('should translate viewport without animation correctly.', (done) => {
     graph = new G6.Graph({
       container,
       width: 500,
@@ -38,7 +37,7 @@ describe('viewport', () => {
     });
   });
 
-  it.only('should translate viewport with animation correctly.', (done) => {
+  it('should translate viewport with animation correctly.', (done) => {
     graph = new G6.Graph({
       container,
       width: 500,
@@ -78,7 +77,7 @@ describe('viewport', () => {
     });
   });
 
-  it.only('should zoom viewport without animation correctly.', (done) => {
+  it('should zoom viewport without animation correctly.', (done) => {
     graph = new G6.Graph({
       container,
       width: 500,
@@ -124,7 +123,7 @@ describe('viewport', () => {
     });
   });
 
-  it.only('should zoom viewport with animation correctly.', (done) => {
+  it('should zoom viewport with animation correctly.', (done) => {
     graph = new G6.Graph({
       container,
       width: 500,
@@ -201,7 +200,7 @@ describe('viewport', () => {
     });
   });
 
-  it.only('should rotate viewport correctly.', (done) => {
+  it('should rotate viewport correctly.', (done) => {
     graph = new G6.Graph({
       container,
       width: 500,
@@ -252,7 +251,7 @@ describe('viewport', () => {
     });
   });
 
-  it.only('should transform viewport without animation correctly.', (done) => {
+  it('should transform viewport without animation correctly.', (done) => {
     graph = new G6.Graph({
       container,
       width: 500,
@@ -378,7 +377,7 @@ describe('viewport', () => {
     });
   });
 
-  it.only('should stop the current transition of transform correctly.', (done) => {
+  it('should stop the current transition of transform correctly.', (done) => {
     graph = new G6.Graph({
       container,
       width: 500,
@@ -415,7 +414,7 @@ describe('viewport', () => {
     });
   });
 
-  it.only('should fitCenter with transition correctly.', (done) => {
+  it('should fitCenter with transition correctly.', (done) => {
     graph = new G6.Graph({
       container,
       width: 500,
@@ -463,7 +462,7 @@ describe('viewport', () => {
     });
   });
 
-  it.only('should focusItem with transition correctly.', (done) => {
+  it('should focusItem with transition correctly.', (done) => {
     graph = new G6.Graph({
       container,
       width: 500,
@@ -532,7 +531,7 @@ describe('viewport', () => {
     });
   });
 
-  it.only('should fitView with transition correctly.', (done) => {
+  it('should fitView with transition correctly.', (done) => {
     graph = new G6.Graph({
       container,
       width: 500,
