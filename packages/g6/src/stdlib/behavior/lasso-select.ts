@@ -26,7 +26,7 @@ export default class LassoSelect extends BrushSelect {
     this.points = [];
     this.removeBrush();
     super.onMouseDown(event);
-    this.points.push(this.beginPoint);
+    if (this.beginPoint) this.points.push(this.beginPoint);
   };
 
   public onMouseMove = (event: IG6GraphEvent) => {

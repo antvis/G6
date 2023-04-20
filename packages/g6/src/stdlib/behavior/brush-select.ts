@@ -181,6 +181,7 @@ export default class BrushSelect extends Behavior {
   }
 
   public onMouseUp(event: IG6GraphEvent) {
+    if (!this.mousedown) return;
     if (!this.isKeydown(event as any)) {
       this.clearStates();
     }
@@ -326,7 +327,11 @@ export default class BrushSelect extends Behavior {
         .forEach((id) => graph.setItemState(id, selectedState, true));
     }
     this.selectedIds = selectedIds;
-    onSelect?.(this.selectedIds);
+    const selectNotEmpty =
+      selectedIds.nodes.length ||
+      selectedIds.edges.length ||
+      selectedIds.combos.length;
+    if (selectNotEmpty) onSelect?.(this.selectedIds);
 
     // Emit an event.
     if (eventName) {

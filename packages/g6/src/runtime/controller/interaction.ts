@@ -82,12 +82,15 @@ export class InteractionController {
   };
 
   private initBehavior = (
-    config: string | { type: string },
+    config: string | { type: string; key: string },
   ): Behavior | null => {
-    const type = typeof config === 'string' ? config : (config as any).type;
-    if (this.behaviorMap.has(type)) {
+    const key =
+      typeof config === 'string'
+        ? config
+        : (config as any).key || (config as any).type;
+    if (this.behaviorMap.has(key)) {
       console.error(
-        `G6: Failed to add behavior "${type}"! It was already added.`,
+        `G6: Failed to add behavior with key or type "${key}"! It was already added.`,
       );
       return;
     }
@@ -98,41 +101,47 @@ export class InteractionController {
       const behavior = new BehaviorClass(options);
       behavior.graph = this.graph;
       if (behavior) {
-        this.behaviorMap.set(type, behavior);
+        this.behaviorMap.set(key, behavior);
       }
       return behavior;
     } catch (error) {
-      console.error(`G6: Failed to initialize behavior "${type}"!`, error);
+      console.error(
+        `G6: Failed to initialize behavior with key or type "${key}"!`,
+        error,
+      );
       return null;
     }
   };
 
-  private destroyBehavior = (type: string, behavior: Behavior) => {
+  private destroyBehavior = (key: string, behavior: Behavior) => {
     try {
       behavior.destroy();
     } catch (error) {
-      console.error(`G6: Failed to destroy behavior "${type}"!`, error);
+      console.error(
+        `G6: Failed to destroy behavior with key or type "${key}"!`,
+        error,
+      );
     }
   };
 
-  private addListeners = (type: string, behavior: Behavior) => {
+  private addListeners = (key: string, behavior: Behavior) => {
     const events = behavior.getEvents();
-    this.listenersMap[type] = {};
+    this.listenersMap[key] = {};
     Object.keys(events).forEach((eventName) => {
       // Wrap the listener with error logging.
       const listener = wrapListener(
-        type,
+        key,
         eventName,
         events[eventName].bind(behavior),
       );
       this.graph.on(eventName, listener);
-      this.listenersMap[type][eventName] = listener;
+      this.listenersMap[key][eventName] = listener;
     });
   };
 
-  private removeListeners = (type: string) => {
-    Object.keys(this.listenersMap[type] || {}).forEach((eventName) => {
-      const listener = this.listenersMap[type][eventName];
+  private removeListeners = (key: string) => {
+    Object.keys(this.listenersMap[key] || {}).forEach((eventName) => {
+      const listener = this.listenersMap[key][eventName];
       this.graph.off(eventName, listener);
     });
   };
@@ -156,9 +165,9 @@ export class InteractionController {
     this.mode = mode;
 
     // 1. Remove listeners && destroy current behaviors.
-    this.behaviorMap.forEach((behavior, type) => {
-      this.removeListeners(type);
-      this.destroyBehavior(type, behavior);
+    this.behaviorMap.forEach((behavior, key) => {
+      this.removeListeners(key);
+      this.destroyBehavior(key, behavior);
     });
 
     // 2. Initialize new behaviors.
@@ -170,8 +179,8 @@ export class InteractionController {
 
     // 3. Add listeners for each behavior.
     this.listenersMap = {};
-    this.behaviorMap.forEach((behavior, type) => {
-      this.addListeners(type, behavior);
+    this.behaviorMap.forEach((behavior, key) => {
+      this.addListeners(key, behavior);
     });
   };
 
@@ -182,7 +191,7 @@ export class InteractionController {
   private onBehaviorChange = (param: {
     action: 'update' | 'add' | 'remove';
     modes: string[];
-    behaviors: (string | { type: string })[];
+    behaviors: (string | { type: string; key: string })[];
   }) => {
     const { action, modes, behaviors } = param;
     modes.forEach((mode) => {
@@ -194,11 +203,13 @@ export class InteractionController {
 
       if (action === 'add') {
         behaviors.forEach((config) => {
-          const type =
-            typeof config === 'string' ? config : (config as any).type;
+          const key =
+            typeof config === 'string'
+              ? config
+              : (config as any).key || (config as any).type;
           const behavior = this.initBehavior(config);
           if (behavior) {
-            this.addListeners(type, behavior);
+            this.addListeners(key, behavior);
           }
         });
         return;
@@ -206,12 +217,14 @@ export class InteractionController {
 
       if (action === 'remove') {
         behaviors.forEach((config) => {
-          const type =
-            typeof config === 'string' ? config : (config as any).type;
-          const behavior = this.behaviorMap.get(type);
+          const key =
+            typeof config === 'string'
+              ? config
+              : (config as any).key || (config as any).type;
+          const behavior = this.behaviorMap.get(key);
           if (behavior) {
-            this.removeListeners(type);
-            this.destroyBehavior(type, behavior);
+            this.removeListeners(key);
+            this.destroyBehavior(key, behavior);
           }
         });
         return;
@@ -219,9 +232,11 @@ export class InteractionController {
 
       if (action === 'update') {
         behaviors.forEach((config) => {
-          const type =
-            typeof config === 'string' ? config : (config as any).type;
-          const behavior = this.behaviorMap.get(type);
+          const key =
+            typeof config === 'string'
+              ? config
+              : (config as any).key || (config as any).type;
+          const behavior = this.behaviorMap.get(key);
           if (behavior) {
             behavior.updateConfig(config);
           }

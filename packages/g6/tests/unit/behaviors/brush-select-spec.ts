@@ -1258,21 +1258,22 @@ describe('brush-select behavior with brushStyle', () => {
         canvas: { x: 200, y: 150 },
         shiftKey: true,
       });
-      expect(graph.transientCanvas.getRoot().childNodes.length).toBe(1);
-      expect(graph.transientCanvas.getRoot().childNodes[0].config.id).toBe(
+      // node group + edge group + brush
+      expect(graph.transientCanvas.getRoot().childNodes.length).toBe(3);
+      expect(graph.transientCanvas.getRoot().childNodes[2].config.id).toBe(
         'g6-brush-select-brush-shape',
       );
-      expect(graph.transientCanvas.getRoot().childNodes[0].style.fill).toBe(
+      expect(graph.transientCanvas.getRoot().childNodes[2].style.fill).toBe(
         '#f00',
       );
       expect(
-        graph.transientCanvas.getRoot().childNodes[0].style.fillOpacity,
+        graph.transientCanvas.getRoot().childNodes[2].style.fillOpacity,
       ).toBe(0.5);
       graph.emit('canvas:pointerup', {
         canvas: { x: 200, y: 150 },
         shiftKey: true,
       });
-      expect(graph.transientCanvas.getRoot().childNodes.length).toBe(0);
+      expect(graph.transientCanvas.getRoot().childNodes.length).toBe(2);
 
       // TODO: wait for correct removeBehaviors
       // graph.emit('canvas:pointerdown', { canvas: { x: 0, y: 0 }, shiftKey: true });
