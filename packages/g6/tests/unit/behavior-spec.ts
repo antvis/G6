@@ -1,9 +1,8 @@
-import G6 from '../../src/index'
+import G6 from '../../src/index';
 import { Behavior } from '../../src/types/behavior';
 import { extend } from '../../src/util/extend';
 const container = document.createElement('div');
 document.querySelector('body').appendChild(container);
-
 
 describe('behavior', () => {
   it('behavior in spec, add / remove / update a behavior in defualt mode', () => {
@@ -18,8 +17,9 @@ describe('behavior', () => {
             key: 'dragcanvaskey2',
             type: 'drag-canvas',
             assistKey: 'shift',
-          }]
-      }
+          },
+        ],
+      },
     });
     let graphSpec = graph.getSpecification();
     expect(graphSpec.modes.default[0]).toBe('drag-canvas');
@@ -30,11 +30,16 @@ describe('behavior', () => {
     // @ts-ignore
     expect(graphSpec.modes.default[1].assistKey).toBe('shift');
 
-    graph.addBehaviors([{
-      key: 'dragcanvaskey3',
-      type: 'drag-canvas',
-      assistKey: 'ctrl',
-    }], 'default');
+    graph.addBehaviors(
+      [
+        {
+          key: 'dragcanvaskey3',
+          type: 'drag-canvas',
+          assistKey: 'ctrl',
+        },
+      ],
+      'default',
+    );
     // graph.getSpecification() returns a copy, need to be called again to fetch the lastest
     graphSpec = graph.getSpecification();
     expect(graphSpec.modes.default.length).toBe(3);
@@ -50,29 +55,40 @@ describe('behavior', () => {
     expect(graphSpec.modes.default.length).toBe(1);
 
     // update failed since there is no key match
-    graph.updateBehavior({
-      key: 'no-exist',
-      type: 'drag-canvas',
-      assistKey: 'ctrl',
-    }, 'default');
+    graph.updateBehavior(
+      {
+        key: 'no-exist',
+        type: 'drag-canvas',
+        assistKey: 'ctrl',
+      },
+      'default',
+    );
     graphSpec = graph.getSpecification();
     expect(graphSpec.modes.default.length).toBe(1);
 
     // add and then update
-    graph.addBehaviors([{
-      key: 'newbehavior',
-      type: 'drag-canvas',
-      assistKey: 'ctrl',
-    }], 'default');
+    graph.addBehaviors(
+      [
+        {
+          key: 'newbehavior',
+          type: 'drag-canvas',
+          assistKey: 'ctrl',
+        },
+      ],
+      'default',
+    );
     graphSpec = graph.getSpecification();
     expect(graphSpec.modes.default.length).toBe(2);
     // @ts-ignore
     expect(graphSpec.modes.default[1].assistKey).toBe('ctrl');
-    graph.updateBehavior({
-      key: 'newbehavior',
-      type: 'drag-canvas',
-      assistKey: 'shift',
-    }, 'default');
+    graph.updateBehavior(
+      {
+        key: 'newbehavior',
+        type: 'drag-canvas',
+        assistKey: 'shift',
+      },
+      'default',
+    );
     graphSpec = graph.getSpecification();
     expect(graphSpec.modes.default.length).toBe(2);
     // @ts-ignore
@@ -80,39 +96,48 @@ describe('behavior', () => {
   });
   it('register behavior and extend G6', () => {
     class CustomBehavior extends Behavior {
-      constructor(options: { key: string, config: boolean, itemType?: 'node' | 'edge' | 'combo' }) {
+      constructor(options: {
+        key: string;
+        config: boolean;
+        itemType?: 'node' | 'edge' | 'combo';
+      }) {
         super(options);
       }
       public getSpec: undefined; // select getEvents way to implement
       public getEvents() {
-        return {}
+        return {};
       }
-      public destroy() { }
+      public destroy() {}
     }
     const CustomGraph = extend(G6.Graph, {
       behaviors: {
-        'custom-behavior': CustomBehavior
-      }
+        'custom-behavior': CustomBehavior,
+      },
     });
     const graph = new CustomGraph({
       container,
       type: 'graph',
       data: { nodes: [], edges: [] },
       modes: {
-        default: [{
-          type: 'drag-canvas',
-          key: 'b1',
-        }, {
-          type: 'custom-behavior',
-          config: true,
-          key: 'b2'
-        }],
-        mode2: [{
-          type: 'custom-behavior',
-          config: true,
-          key: 'b3'
-        }]
-      }
+        default: [
+          {
+            type: 'drag-canvas',
+            key: 'b1',
+          },
+          {
+            type: 'custom-behavior',
+            config: true,
+            key: 'b2',
+          },
+        ],
+        mode2: [
+          {
+            type: 'custom-behavior',
+            config: true,
+            key: 'b3',
+          },
+        ],
+      },
     });
     const spec = graph.getSpecification();
     expect(spec.modes.default.length).toBe(2);

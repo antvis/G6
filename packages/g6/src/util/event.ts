@@ -1,5 +1,5 @@
-import { IElement } from "@antv/g";
-import { ID } from "@antv/graphlib";
+import { IElement } from '@antv/g';
+import { ID } from '@antv/graphlib';
 
 export type ItemInfo = {
   itemType: 'canvas' | 'node' | 'edge' | 'combo';
@@ -31,4 +31,4 @@ export const getItemInfoFromElement = (element: IElement): ItemInfo | null => {
     itemId: parent.getAttribute('data-item-id'),
     groupElement: parent,
   };
-}
+};

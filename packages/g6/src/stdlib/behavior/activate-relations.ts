@@ -102,12 +102,22 @@ export default class ActivateRelations extends Behavior {
     if (!graph || graph.destroyed) return;
     if (!this.options.shouldBegin(e)) return;
 
-    const ids = graph.getNeighborNodesData(itemId, 'both').map((item) => item.id);
-    const edgeIds = graph.getRelatedEdgesData(itemId, 'both').map((item) => item.id);
+    const ids = graph
+      .getNeighborNodesData(itemId, 'both')
+      .map((item) => item.id);
+    const edgeIds = graph
+      .getRelatedEdgesData(itemId, 'both')
+      .map((item) => item.id);
     const nodeIds = [itemId, ...ids];
     /** 数据对比，处理得到最小改动的高亮和非高亮的数据 */
-    const { active: activeNodeIds, inactive: inactiveNodeIds } = compare(this.prevNodeIds, nodeIds);
-    const { active: activeEdgeIds, inactive: inactiveEdgeIds } = compare(this.prevEdgeIds, edgeIds);
+    const { active: activeNodeIds, inactive: inactiveNodeIds } = compare(
+      this.prevNodeIds,
+      nodeIds,
+    );
+    const { active: activeEdgeIds, inactive: inactiveEdgeIds } = compare(
+      this.prevEdgeIds,
+      edgeIds,
+    );
 
     /** 节点 */
     graph.setItemState(activeNodeIds, ACTIVE_STATE, true);

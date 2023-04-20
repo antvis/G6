@@ -14,45 +14,60 @@ const createGraph = (dragNodeOptions: DragNodeOptions): IGraph => {
     type: 'graph',
     data: {
       nodes: [
-        { id: 'node1', data: { x: 100, y: 200, keyShape: { fill: "#0f0" } } },
-        { id: 'node2', data: { x: 200, y: 250, keyShape: { fill: "#f00" } } },
-        { id: 'node3', data: { x: 200, y: 100, keyShape: { fill: "#00f" } } },
+        { id: 'node1', data: { x: 100, y: 200, keyShape: { fill: '#0f0' } } },
+        { id: 'node2', data: { x: 200, y: 250, keyShape: { fill: '#f00' } } },
+        { id: 'node3', data: { x: 200, y: 100, keyShape: { fill: '#00f' } } },
       ],
       edges: [
-        { id: 'edge1', source: 'node1', target: 'node2', data: { keyShape: { stroke: '#00f', lineWidth: 5 } } },
-        { id: 'edge2', source: 'node1', target: 'node3', data: { keyShape: { stroke: '#00f', lineWidth: 5 } } },
-      ]
+        {
+          id: 'edge1',
+          source: 'node1',
+          target: 'node2',
+          data: { keyShape: { stroke: '#00f', lineWidth: 5 } },
+        },
+        {
+          id: 'edge2',
+          source: 'node1',
+          target: 'node3',
+          data: { keyShape: { stroke: '#00f', lineWidth: 5 } },
+        },
+      ],
     },
     nodeState: {
       selected: {
         keyShape: {
           stroke: '#0f0',
-          lineWidth: 2
-        }
+          lineWidth: 2,
+        },
       },
       highlight: {
         keyShape: {
           stroke: '#00f',
           r: 30,
-          opacity: 0.5
-        }
-      }
+          opacity: 0.5,
+        },
+      },
     },
     modes: {
-      default: [{
-        type: 'drag-node',
-        key: '1',
-        ...dragNodeOptions,
-      }]
+      default: [
+        {
+          type: 'drag-node',
+          key: '1',
+          ...dragNodeOptions,
+        },
+      ],
     },
   });
-}
+};
 
 describe('drag-node', () => {
   test('move single node', (done) => {
     const graph = createGraph({});
     graph.on('afterlayout', () => {
-      graph.emit('node:pointerdown', { itemId: 'node1', client: { x: 100, y: 200 } });
+      graph.emit('node:pointerdown', {
+        itemId: 'node1',
+        client: { x: 100, y: 200 },
+      });
       graph.emit('pointermove', { client: { x: 250, y: 350 } });
       graph.emit('pointerup', { client: { x: 250, y: 350 } });
       expect(graph.getNodeData('node1').data.x).toEqual(250);
@@ -65,7 +80,10 @@ describe('drag-node', () => {
     const graph = createGraph({});
     graph.on('afterlayout', () => {
       graph.setItemState(['node1', 'node2'], 'selected', true);
-      graph.emit('node:pointerdown', { itemId: 'node1', client: { x: 100, y: 200 } });
+      graph.emit('node:pointerdown', {
+        itemId: 'node1',
+        client: { x: 100, y: 200 },
+      });
       graph.emit('pointermove', { client: { x: 250, y: 350 } });
       graph.emit('pointerup', { client: { x: 250, y: 350 } });
       expect(graph.getNodeData('node1').data.x).toEqual(250);
@@ -80,7 +98,10 @@ describe('drag-node', () => {
     const graph = createGraph({});
     graph.on('afterlayout', () => {
       graph.hideItem('edge2');
-      graph.emit('node:pointerdown', { itemId: 'node1', client: { x: 100, y: 200 } });
+      graph.emit('node:pointerdown', {
+        itemId: 'node1',
+        client: { x: 100, y: 200 },
+      });
 
       // Should NOT update position while dragging.
       graph.emit('pointermove', { client: { x: 250, y: 350 } });
@@ -90,9 +111,13 @@ describe('drag-node', () => {
       expect(graph.getItemVisible('edge1')).toBe(false);
       expect(graph.getItemVisible('edge2')).toBe(false);
       // @ts-ignore
-      expect(graph.itemController.transientItemMap['node1'].model.data.x).toEqual(250);
+      expect(
+        graph.itemController.transientItemMap['node1'].model.data.x,
+      ).toEqual(250);
       // @ts-ignore
-      expect(graph.itemController.transientItemMap['node1'].model.data.y).toEqual(350);
+      expect(
+        graph.itemController.transientItemMap['node1'].model.data.y,
+      ).toEqual(350);
 
       // Should update position when drag ends.
       graph.emit('pointerup', { client: { x: 250, y: 350 } });
@@ -114,7 +139,10 @@ describe('drag-node', () => {
       enableTransient: false,
     });
     graph.on('afterlayout', () => {
-      graph.emit('node:pointerdown', { itemId: 'node1', client: { x: 100, y: 200 } });
+      graph.emit('node:pointerdown', {
+        itemId: 'node1',
+        client: { x: 100, y: 200 },
+      });
 
       // Update positions immediately while dragging.
       graph.emit('pointermove', { client: { x: 250, y: 350 } });
@@ -138,7 +166,10 @@ describe('drag-node', () => {
       enableDelegate: true,
     });
     graph.on('afterlayout', () => {
-      graph.emit('node:pointerdown', { itemId: 'node1', client: { x: 100, y: 200 } });
+      graph.emit('node:pointerdown', {
+        itemId: 'node1',
+        client: { x: 100, y: 200 },
+      });
 
       // Should NOT update position while dragging.
       graph.emit('pointermove', { client: { x: 250, y: 350 } });
@@ -147,7 +178,9 @@ describe('drag-node', () => {
       expect(graph.getItemVisible('node1')).toBe(true);
       expect(graph.getItemVisible('edge1')).toBe(true);
       // @ts-ignore
-      expect(graph.itemController.transientObjectMap).toHaveProperty('g6-drag-node-delegate-shape');
+      expect(graph.itemController.transientObjectMap).toHaveProperty(
+        'g6-drag-node-delegate-shape',
+      );
 
       // Should update position when drag ends.
       graph.emit('pointerup', { client: { x: 250, y: 350 } });
@@ -169,7 +202,10 @@ describe('drag-node', () => {
     });
     graph.on('afterlayout', () => {
       // Hides related edges after pointerdown.
-      graph.emit('node:pointerdown', { itemId: 'node1', client: { x: 100, y: 200 } });
+      graph.emit('node:pointerdown', {
+        itemId: 'node1',
+        client: { x: 100, y: 200 },
+      });
       expect(graph.getItemVisible('edge1')).toBe(false);
 
       // Update positions immediately while dragging.
@@ -193,14 +229,17 @@ describe('drag-node', () => {
       enableTransient: false,
     });
     graph.on('afterlayout', async () => {
-      graph.emit('node:pointerdown', { itemId: 'node1', client: { x: 100, y: 200 } });
+      graph.emit('node:pointerdown', {
+        itemId: 'node1',
+        client: { x: 100, y: 200 },
+      });
 
       // Move nodes after 100ms.
       graph.emit('pointermove', { client: { x: 250, y: 350 } });
       expect(graph.getNodeData('node1').data.x).toEqual(100);
       expect(graph.getNodeData('node1').data.y).toEqual(200);
 
-      await new Promise(resolve => setTimeout(resolve, 120));
+      await new Promise((resolve) => setTimeout(resolve, 120));
       expect(graph.getNodeData('node1').data.x).toEqual(250);
       expect(graph.getNodeData('node1').data.y).toEqual(350);
 
@@ -214,7 +253,10 @@ describe('drag-node', () => {
       enableTransient: false,
     });
     graph.on('afterlayout', () => {
-      graph.emit('node:pointerdown', { itemId: 'node1', client: { x: 100, y: 200 } });
+      graph.emit('node:pointerdown', {
+        itemId: 'node1',
+        client: { x: 100, y: 200 },
+      });
       graph.emit('pointermove', { client: { x: 250, y: 350 } });
       graph.emit('keydown', { key: 'Esc' });
 

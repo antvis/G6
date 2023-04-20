@@ -1,9 +1,9 @@
 import { DisplayObject } from '@antv/g';
 import { ID } from '@antv/graphlib';
-import BrushSelect from './brush-select';
 import { IG6GraphEvent } from '../../types/event';
-import { utils } from '..'
+import { utils } from '..';
 import { Point } from '../../types/common';
+import BrushSelect from './brush-select';
 
 const ALLOWED_TRIGGERS = ['drag', 'shift', 'ctrl', 'alt', 'meta'] as const;
 const LASSO_SHAPE_ID = 'g6-lasso-select-brush-shape';
@@ -18,8 +18,8 @@ export default class LassoSelect extends BrushSelect {
   } = {
     nodes: [],
     edges: [],
-    combos: []
-  }
+    combos: [],
+  };
   points: Point[] = [];
 
   public onMouseDown = (event: IG6GraphEvent) => {
@@ -27,7 +27,7 @@ export default class LassoSelect extends BrushSelect {
     this.removeBrush();
     super.onMouseDown(event);
     this.points.push(this.beginPoint);
-  }
+  };
 
   public onMouseMove = (event: IG6GraphEvent) => {
     if (this.mousedown) {
@@ -35,7 +35,7 @@ export default class LassoSelect extends BrushSelect {
       this.points.push({ x: point.x, y: point.y });
     }
     super.onMouseMove(event);
-  }
+  };
 
   public onMouseUp = (event: IG6GraphEvent) => {
     const { canvas: point } = event;
@@ -43,50 +43,38 @@ export default class LassoSelect extends BrushSelect {
     super.onMouseUp(event);
     this.removeBrush();
     this.points = [];
-  }
+  };
 
   getSelector = () => {
     return utils.lassoSelector;
-  }
+  };
 
   getPoints = () => {
     return this.points;
-  }
+  };
 
   createBrush = () => {
     const { graph, options } = this;
     const { brushStyle } = options;
-    return graph.drawTransient(
-      'path',
-      LASSO_SHAPE_ID,
-      {
-        style: brushStyle,
-        capture: false,
-      }
-    );
+    return graph.drawTransient('path', LASSO_SHAPE_ID, {
+      style: brushStyle,
+      capture: false,
+    });
   };
 
   updateBrush = (event: IG6GraphEvent) => {
     const { graph } = this;
-    return graph.drawTransient(
-      'path',
-      LASSO_SHAPE_ID,
-      {
-        style: {
-          path: this.getLassoPath(),
-        }
-      }
-    )
-  }
+    return graph.drawTransient('path', LASSO_SHAPE_ID, {
+      style: {
+        path: this.getLassoPath(),
+      },
+    });
+  };
 
   removeBrush = () => {
     const { graph } = this;
-    graph.drawTransient(
-      'path', 
-      LASSO_SHAPE_ID,
-      { action: 'remove' }
-    );
-  }
+    graph.drawTransient('path', LASSO_SHAPE_ID, { action: 'remove' });
+  };
 
   getLassoPath = () => {
     const points: Point[] = this.points;
@@ -103,4 +91,4 @@ export default class LassoSelect extends BrushSelect {
     }
     return path;
   };
-};
+}

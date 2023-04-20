@@ -1,9 +1,13 @@
 import { FederatedPointerEvent, IElement } from '@antv/g';
-import { IGraph } from "../../types";
+import { IGraph } from '../../types';
 import { registery } from '../../stdlib';
-import { getExtension } from "../../util/extension";
-import { Behavior } from "../../types/behavior";
-import { CANVAS_EVENT_TYPE, DOM_EVENT_TYPE, IG6GraphEvent } from '../../types/event';
+import { getExtension } from '../../util/extension';
+import { Behavior } from '../../types/behavior';
+import {
+  CANVAS_EVENT_TYPE,
+  DOM_EVENT_TYPE,
+  IG6GraphEvent,
+} from '../../types/event';
 import { getItemInfoFromElement, ItemInfo } from '../../util/event';
 
 type Listener = (event: IG6GraphEvent) => void;
@@ -12,16 +16,22 @@ type Listener = (event: IG6GraphEvent) => void;
  * Wraps the listener with error logging.
  * @returns a new listener with error logging.
  */
-const wrapListener = (type: string, eventName: string, listener: Listener): Listener => {
+const wrapListener = (
+  type: string,
+  eventName: string,
+  listener: Listener,
+): Listener => {
   return (event: any) => {
     try {
       listener(event);
     } catch (error) {
-      console.error(`G6: Error occurred in "${eventName}" phase of the behavior "${type}"!`)
+      console.error(
+        `G6: Error occurred in "${eventName}" phase of the behavior "${type}"!`,
+      );
       throw error;
     }
   };
-}
+};
 
 /**
  * Manages the interaction extensions and graph modes;
@@ -63,18 +73,22 @@ export class InteractionController {
     this.onModeChange({ mode: 'default' });
     this.graph.hooks.modechange.tap(this.onModeChange);
     this.graph.hooks.behaviorchange.tap(this.onBehaviorChange);
-  }
+  };
 
   private validateMode = (mode: string): boolean => {
     if (mode === 'default') return true;
     const modes = this.graph.getSpecification().modes || {};
     return Object.keys(modes).includes(mode);
-  }
+  };
 
-  private initBehavior = (config: string | { type: string }): Behavior | null => {
+  private initBehavior = (
+    config: string | { type: string },
+  ): Behavior | null => {
     const type = typeof config === 'string' ? config : (config as any).type;
     if (this.behaviorMap.has(type)) {
-      console.error(`G6: Failed to add behavior "${type}"! It was already added.`);
+      console.error(
+        `G6: Failed to add behavior "${type}"! It was already added.`,
+      );
       return;
     }
     try {
@@ -91,7 +105,7 @@ export class InteractionController {
       console.error(`G6: Failed to initialize behavior "${type}"!`, error);
       return null;
     }
-  }
+  };
 
   private destroyBehavior = (type: string, behavior: Behavior) => {
     try {
@@ -99,25 +113,29 @@ export class InteractionController {
     } catch (error) {
       console.error(`G6: Failed to destroy behavior "${type}"!`, error);
     }
-  }
+  };
 
   private addListeners = (type: string, behavior: Behavior) => {
     const events = behavior.getEvents();
     this.listenersMap[type] = {};
-    Object.keys(events).forEach(eventName => {
+    Object.keys(events).forEach((eventName) => {
       // Wrap the listener with error logging.
-      const listener = wrapListener(type, eventName, events[eventName].bind(behavior));
+      const listener = wrapListener(
+        type,
+        eventName,
+        events[eventName].bind(behavior),
+      );
       this.graph.on(eventName, listener);
       this.listenersMap[type][eventName] = listener;
     });
-  }
+  };
 
   private removeListeners = (type: string) => {
-    Object.keys(this.listenersMap[type] || {}).forEach(eventName => {
+    Object.keys(this.listenersMap[type] || {}).forEach((eventName) => {
       const listener = this.listenersMap[type][eventName];
       this.graph.off(eventName, listener);
     });
-  }
+  };
 
   /**
    * Listener of graph's init hook. Add listeners from behaviors to graph.
@@ -146,7 +164,7 @@ export class InteractionController {
     // 2. Initialize new behaviors.
     this.behaviorMap.clear();
     const behaviorConfigs = this.graph.getSpecification().modes?.[mode] || [];
-    behaviorConfigs.forEach(config => {
+    behaviorConfigs.forEach((config) => {
       this.initBehavior(config);
     });
 
@@ -155,19 +173,19 @@ export class InteractionController {
     this.behaviorMap.forEach((behavior, type) => {
       this.addListeners(type, behavior);
     });
-  }
+  };
 
   /**
    * Listener of graph's behaviorchange hook. Update, add, or remove behaviors from modes.
    * @param param contains action, modes, and behaviors
    */
   private onBehaviorChange = (param: {
-    action: 'update' | 'add' | 'remove',
-    modes: string[],
-    behaviors: (string | { type: string })[],
+    action: 'update' | 'add' | 'remove';
+    modes: string[];
+    behaviors: (string | { type: string })[];
   }) => {
     const { action, modes, behaviors } = param;
-    modes.forEach(mode => {
+    modes.forEach((mode) => {
       // Do nothing if it's not the current mode.
       // Changes are recorded in `graph.specification`. They are applied in onModeChange.
       if (mode !== this.mode) {
@@ -175,8 +193,9 @@ export class InteractionController {
       }
 
       if (action === 'add') {
-        behaviors.forEach(config => {
-          const type = typeof config === 'string' ? config : (config as any).type;
+        behaviors.forEach((config) => {
+          const type =
+            typeof config === 'string' ? config : (config as any).type;
           const behavior = this.initBehavior(config);
           if (behavior) {
             this.addListeners(type, behavior);
@@ -186,8 +205,9 @@ export class InteractionController {
       }
 
       if (action === 'remove') {
-        behaviors.forEach(config => {
-          const type = typeof config === 'string' ? config : (config as any).type;
+        behaviors.forEach((config) => {
+          const type =
+            typeof config === 'string' ? config : (config as any).type;
           const behavior = this.behaviorMap.get(type);
           if (behavior) {
             this.removeListeners(type);
@@ -198,8 +218,9 @@ export class InteractionController {
       }
 
       if (action === 'update') {
-        behaviors.forEach(config => {
-          const type = typeof config === 'string' ? config : (config as any).type;
+        behaviors.forEach((config) => {
+          const type =
+            typeof config === 'string' ? config : (config as any).type;
           const behavior = this.behaviorMap.get(type);
           if (behavior) {
             behavior.updateConfig(config);
@@ -207,17 +228,23 @@ export class InteractionController {
         });
       }
     });
-  }
+  };
 
   private initEvents = () => {
-    Object.values(CANVAS_EVENT_TYPE).forEach(eventName => {
+    Object.values(CANVAS_EVENT_TYPE).forEach((eventName) => {
       // console.debug('Listen on canvas: ', eventName);
-      this.graph.canvas.document.addEventListener(eventName, this.handleCanvasEvent);
+      this.graph.canvas.document.addEventListener(
+        eventName,
+        this.handleCanvasEvent,
+      );
     });
-    Object.values(DOM_EVENT_TYPE).forEach(eventName => {
-      this.graph.canvas.getContextService().getDomElement().addEventListener(eventName, this.handleDOMEvent);
+    Object.values(DOM_EVENT_TYPE).forEach((eventName) => {
+      this.graph.canvas
+        .getContextService()
+        .getDomElement()
+        .addEventListener(eventName, this.handleDOMEvent);
     });
-  }
+  };
 
   private handleCanvasEvent = (gEvent: FederatedPointerEvent) => {
     // const debug = gEvent.type.includes('over') || gEvent.type.includes('move') ? () => {} : console.debug;
@@ -273,7 +300,7 @@ export class InteractionController {
       this.graph.emit(`${gEvent.type}`, event);
       // debug(`Item ${event.type} :`, event);
     }
-  }
+  };
 
   /**
    * Emit item's pointerleave/pointerenter events when pointer moves on the canvas.

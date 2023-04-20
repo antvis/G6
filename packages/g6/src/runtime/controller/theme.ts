@@ -1,7 +1,7 @@
-import registry from "../../stdlib";
-import { IGraph } from "../../types";
-import { ThemeSpecification } from "../../types/theme";
-import { getCatExtensions, getExtension } from "../../util/extension";
+import registry from '../../stdlib';
+import { IGraph } from '../../types';
+import { ThemeSpecification } from '../../types/theme';
+import { getCatExtensions, getExtension } from '../../util/extension';
 
 /**
  * Manages theme extensions for graph.
@@ -15,7 +15,7 @@ export class ThemeController {
   private solver;
   public specification: ThemeSpecification;
   private themes: {
-    [themeName: string]: ThemeSpecification
+    [themeName: string]: ThemeSpecification;
   };
 
   constructor(graph: IGraph<any, any>) {
@@ -37,7 +37,9 @@ export class ThemeController {
   private getExtension() {
     const { theme = {} } = this.graph.getSpecification();
     this.themeConfig = theme;
-    return theme ? getExtension(theme, registry.useLib, 'themeSolver') : undefined;
+    return theme
+      ? getExtension(theme, registry.useLib, 'themeSolver')
+      : undefined;
   }
 
   private getThemes() {
@@ -54,7 +56,7 @@ export class ThemeController {
       // apply canvas style in theme to the background canvas dom
       const { canvas } = this.specification;
       const dom = canvases.background.getContextService().getDomElement();
-      Object.keys(canvas).forEach(key => dom.style[key] = canvas[key]);
+      Object.keys(canvas).forEach((key) => (dom.style[key] = canvas[key]));
     }
   }
 }

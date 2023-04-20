@@ -4,9 +4,9 @@
 
 ## Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `B` | extends `BehaviorRegistry` |
+| Name | Type                       |
+| :--- | :------------------------- |
+| `B`  | extends `BehaviorRegistry` |
 
 ## Hierarchy
 
@@ -98,14 +98,14 @@
 
 #### Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `B` | extends `BehaviorRegistry` |
+| Name | Type                       |
+| :--- | :------------------------- |
+| `B`  | extends `BehaviorRegistry` |
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name   | Type                  |
+| :----- | :-------------------- |
 | `spec` | `Specification`<`B`\> |
 
 #### Overrides
@@ -130,7 +130,7 @@ IGraph.canvas
 
 [graph.ts:38](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L38)
 
-___
+---
 
 ### destroyed
 
@@ -144,7 +144,7 @@ IGraph.destroyed
 
 [graph.ts:40](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L40)
 
-___
+---
 
 ### hooks
 
@@ -168,10 +168,10 @@ Add behavior(s) to mode(s).
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name        | Type                        | Description               |
+| :---------- | :-------------------------- | :------------------------ |
 | `behaviors` | `BehaviorOptionsOf`<`B`\>[] | behavior names or configs |
-| `modes` | `string` \| `string`[] | mode names |
+| `modes`     | `string` \| `string`[]      | mode names                |
 
 #### Returns
 
@@ -185,7 +185,7 @@ IGraph.addBehaviors
 
 [graph.ts:576](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L576)
 
-___
+---
 
 ### removeBehaviors
 
@@ -195,10 +195,10 @@ Remove behavior(s) from mode(s).
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `behaviorKeys` | `string`[] | - |
-| `modes` | `string` \| `string`[] | mode names |
+| Name           | Type                   | Description |
+| :------------- | :--------------------- | :---------- |
+| `behaviorKeys` | `string`[]             | -           |
+| `modes`        | `string` \| `string`[] | mode names  |
 
 #### Returns
 
@@ -212,7 +212,7 @@ IGraph.removeBehaviors
 
 [graph.ts:596](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L596)
 
-___
+---
 
 ### setMode
 
@@ -222,9 +222,9 @@ Switch mode.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `mode` | `string` | mode name |
+| Name   | Type     | Description |
+| :----- | :------- | :---------- |
+| `mode` | `string` | mode name   |
 
 #### Returns
 
@@ -238,7 +238,7 @@ IGraph.setMode
 
 [graph.ts:565](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L565)
 
-___
+---
 
 ### updateBehavior
 
@@ -248,10 +248,10 @@ Update a behavior on a mode.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name       | Type                            | Description                                                       |
+| :--------- | :------------------------------ | :---------------------------------------------------------------- |
 | `behavior` | `BehaviorObjectOptionsOf`<`B`\> | behavior configs, whose name indicates the behavior to be updated |
-| `mode?` | `string` | mode name |
+| `mode?`    | `string`                        | mode name                                                         |
 
 #### Returns
 
@@ -275,11 +275,11 @@ Add one or more node/edge/combo data to the graph.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `itemType` | `ITEM_TYPE` | item type |
-| `models` | `EdgeUserModel` \| `NodeUserModel` \| `ComboUserModel` \| `NodeUserModel`[] \| `EdgeUserModel`[] \| `ComboUserModel`[] | - |
-| `stack?` | `boolean` | whether push this operation to stack |
+| Name       | Type                                                                                                                   | Description                          |
+| :--------- | :--------------------------------------------------------------------------------------------------------------------- | :----------------------------------- |
+| `itemType` | `ITEM_TYPE`                                                                                                            | item type                            |
+| `models`   | `EdgeUserModel` \| `NodeUserModel` \| `ComboUserModel` \| `NodeUserModel`[] \| `EdgeUserModel`[] \| `ComboUserModel`[] | -                                    |
+| `stack?`   | `boolean`                                                                                                              | whether push this operation to stack |
 
 #### Returns
 
@@ -295,7 +295,7 @@ IGraph.addData
 
 [graph.ts:350](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L350)
 
-___
+---
 
 ### changeData
 
@@ -305,10 +305,10 @@ Change graph data.
 
 #### Parameters
 
-| Name | Type | Default value | Description |
-| :------ | :------ | :------ | :------ |
-| `data` | `GraphData` | `undefined` | new data |
-| `type` | ``"replace"`` \| ``"mergeReplace"`` | `'mergeReplace'` | the way to change data, 'replace' means discard the old data and use the new one; 'mergeReplace' means merge the common part, remove (old - new), add (new - old) |
+| Name   | Type                            | Default value    | Description                                                                                                                                                       |
+| :----- | :------------------------------ | :--------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `data` | `GraphData`                     | `undefined`      | new data                                                                                                                                                          |
+| `type` | `"replace"` \| `"mergeReplace"` | `'mergeReplace'` | the way to change data, 'replace' means discard the old data and use the new one; 'mergeReplace' means merge the common part, remove (old - new), add (new - old) |
 
 #### Returns
 
@@ -322,7 +322,7 @@ IGraph.changeData
 
 [graph.ts:170](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L170)
 
-___
+---
 
 ### getAllCombosData
 
@@ -344,7 +344,7 @@ IGraph.getAllCombosData
 
 [graph.ts:319](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L319)
 
-___
+---
 
 ### getAllEdgesData
 
@@ -366,7 +366,7 @@ IGraph.getAllEdgesData
 
 [graph.ts:311](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L311)
 
-___
+---
 
 ### getAllNodesData
 
@@ -388,7 +388,7 @@ IGraph.getAllNodesData
 
 [graph.ts:303](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L303)
 
-___
+---
 
 ### getComboData
 
@@ -398,8 +398,8 @@ Find an combo's inner data according to id or function.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name        | Type               | Description              |
+| :---------- | :----------------- | :----------------------- |
 | `condition` | `Function` \| `ID` | id or condition function |
 
 #### Returns
@@ -416,7 +416,7 @@ IGraph.getComboData
 
 [graph.ts:294](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L294)
 
-___
+---
 
 ### getEdgeData
 
@@ -426,8 +426,8 @@ Find an edge's inner data according to id or function.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name        | Type               | Description              |
+| :---------- | :----------------- | :----------------------- |
 | `condition` | `Function` \| `ID` | id or condition function |
 
 #### Returns
@@ -444,7 +444,7 @@ IGraph.getEdgeData
 
 [graph.ts:283](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L283)
 
-___
+---
 
 ### getNodeData
 
@@ -454,8 +454,8 @@ Find a node's inner data according to id or function.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name        | Type               | Description              |
+| :---------- | :----------------- | :----------------------- |
 | `condition` | `Function` \| `ID` | id or condition function |
 
 #### Returns
@@ -472,7 +472,7 @@ IGraph.getNodeData
 
 [graph.ts:273](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L273)
 
-___
+---
 
 ### read
 
@@ -483,8 +483,8 @@ If there is old data, diffs and changes it.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name   | Type        |
+| :----- | :---------- |
 | `data` | `GraphData` |
 
 #### Returns
@@ -499,7 +499,7 @@ IGraph.read
 
 [graph.ts:146](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L146)
 
-___
+---
 
 ### removeData
 
@@ -509,11 +509,11 @@ Remove one or more node/edge/combo data from the graph.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `itemType` | `ITEM_TYPE` | - |
-| `ids` | `ID` \| `ID`[] | - |
-| `stack?` | `boolean` | whether push this operation to stack |
+| Name       | Type           | Description                          |
+| :--------- | :------------- | :----------------------------------- |
+| `itemType` | `ITEM_TYPE`    | -                                    |
+| `ids`      | `ID` \| `ID`[] | -                                    |
+| `stack?`   | `boolean`      | whether push this operation to stack |
 
 #### Returns
 
@@ -529,7 +529,7 @@ IGraph.removeData
 
 [graph.ts:392](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L392)
 
-___
+---
 
 ### updateData
 
@@ -539,11 +539,11 @@ Update one or more node/edge/combo data on the graph.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `itemType` | `ITEM_TYPE` | - |
-| `models` | `Partial`<`NodeUserModel`\> \| `Partial`<`EdgeUserModel`\> \| `Partial`<`ComboUserModel` \| `Partial`<`NodeUserModel`\>[] \| `Partial`<`EdgeUserModel`\>[] \| `Partial`<`ComboUserModel`\>[]\> | - |
-| `stack?` | `boolean` | 本次操作是否入栈，默认为 true |
+| Name       | Type                                                                                                                                                                                           | Description                   |
+| :--------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------- |
+| `itemType` | `ITEM_TYPE`                                                                                                                                                                                    | -                             |
+| `models`   | `Partial`<`NodeUserModel`\> \| `Partial`<`EdgeUserModel`\> \| `Partial`<`ComboUserModel` \| `Partial`<`NodeUserModel`\>[] \| `Partial`<`EdgeUserModel`\>[] \| `Partial`<`ComboUserModel`\>[]\> | -                             |
+| `stack?`   | `boolean`                                                                                                                                                                                      | 本次操作是否入栈，默认为 true |
 
 #### Returns
 
@@ -577,7 +577,7 @@ IGraph.clear
 
 [graph.ts:182](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L182)
 
-___
+---
 
 ### getSpecification
 
@@ -599,7 +599,7 @@ IGraph.getSpecification
 
 [graph.ts:135](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L135)
 
-___
+---
 
 ### updateSpecification
 
@@ -609,8 +609,8 @@ Update the specs(configurations).
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name   | Type                  |
+| :----- | :-------------------- |
 | `spec` | `Specification`<`B`\> |
 
 #### Returns
@@ -635,10 +635,10 @@ Clear all the states for item(s).
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `ids` | `ID` \| `ID`[] | the id(s) for the item(s) to be clear |
-| `states?` | `string`[] | the states' names, all the states wil be cleared if states is not assigned |
+| Name      | Type           | Description                                                                |
+| :-------- | :------------- | :------------------------------------------------------------------------- |
+| `ids`     | `ID` \| `ID`[] | the id(s) for the item(s) to be clear                                      |
+| `states?` | `string`[]     | the states' names, all the states wil be cleared if states is not assigned |
 
 #### Returns
 
@@ -652,7 +652,7 @@ IGraph.clearItemState
 
 [graph.ts:496](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L496)
 
-___
+---
 
 ### findIdByState
 
@@ -662,10 +662,10 @@ Find items which has the state.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `itemType` | `ITEM_TYPE` | item type |
-| `state` | `string` | state name |
+| Name                | Type                                                              | Description                |
+| :------------------ | :---------------------------------------------------------------- | :------------------------- |
+| `itemType`          | `ITEM_TYPE`                                                       | item type                  |
+| `state`             | `string`                                                          | state name                 |
 | `additionalFilter?` | (`item`: `EdgeModel` \| `NodeModel` \| `ComboModel`) => `boolean` | additional filter function |
 
 #### Returns
@@ -682,7 +682,7 @@ IGraph.findIdByState
 
 [graph.ts:330](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L330)
 
-___
+---
 
 ### hideItem
 
@@ -692,8 +692,8 @@ Hide the item(s).
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name  | Type           |
+| :---- | :------------- |
 | `ids` | `ID` \| `ID`[] |
 
 #### Returns
@@ -708,7 +708,7 @@ IGraph.hideItem
 
 [graph.ts:468](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L468)
 
-___
+---
 
 ### setItemState
 
@@ -718,11 +718,11 @@ Set state for the item.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `ids` | `ID` \| `ID`[] | - |
-| `states` | `string` \| `string`[] | - |
-| `value` | `boolean` | state value |
+| Name     | Type                   | Description |
+| :------- | :--------------------- | :---------- |
+| `ids`    | `ID` \| `ID`[]         | -           |
+| `states` | `string` \| `string`[] | -           |
+| `value`  | `boolean`              | state value |
 
 #### Returns
 
@@ -736,7 +736,7 @@ IGraph.setItemState
 
 [graph.ts:479](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L479)
 
-___
+---
 
 ### showItem
 
@@ -746,8 +746,8 @@ Show the item(s).
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name  | Type           |
+| :---- | :------------- |
 | `ids` | `ID` \| `ID`[] |
 
 #### Returns
@@ -772,10 +772,10 @@ Collapse a combo.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `comboId` | `ID` | combo id or item |
-| `stack?` | `boolean` | - |
+| Name      | Type      | Description      |
+| :-------- | :-------- | :--------------- |
+| `comboId` | `ID`      | combo id or item |
+| `stack?`  | `boolean` | -                |
 
 #### Returns
 
@@ -789,7 +789,7 @@ IGraph.collapseCombo
 
 [graph.ts:528](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L528)
 
-___
+---
 
 ### createCombo
 
@@ -799,11 +799,11 @@ Create a new combo with existing child nodes and combos.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `combo` | `string` \| `ComboUserModel` | combo ID or Combo model |
-| `childrenIds` | `string`[] | id array of children of the new combo |
-| `stack?` | `boolean` | - |
+| Name          | Type                         | Description                           |
+| :------------ | :--------------------------- | :------------------------------------ |
+| `combo`       | `string` \| `ComboUserModel` | combo ID or Combo model               |
+| `childrenIds` | `string`[]                   | id array of children of the new combo |
+| `stack?`      | `boolean`                    | -                                     |
 
 #### Returns
 
@@ -817,7 +817,7 @@ IGraph.createCombo
 
 [graph.ts:512](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L512)
 
-___
+---
 
 ### expandCombo
 
@@ -827,10 +827,10 @@ Expand a combo.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `comboId` | `ID` |
-| `stack?` | `boolean` |
+| Name      | Type      |
+| :-------- | :-------- |
+| `comboId` | `ID`      |
+| `stack?`  | `boolean` |
 
 #### Returns
 
@@ -844,7 +844,7 @@ IGraph.expandCombo
 
 [graph.ts:536](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L536)
 
-___
+---
 
 ### uncombo
 
@@ -854,10 +854,10 @@ dissolve combo
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `comboId` | `ID` |
-| `stack?` | `boolean` |
+| Name      | Type      |
+| :-------- | :-------- |
+| `comboId` | `ID`      |
+| `stack?`  | `boolean` |
 
 #### Returns
 
@@ -901,8 +901,8 @@ Fit the graph center to the view center.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name          | Type         | Description              |
+| :------------ | :----------- | :----------------------- |
 | `animateCfg?` | `AnimateCfg` | animation configurations |
 
 #### Returns
@@ -917,7 +917,7 @@ IGraph.fitCenter
 
 [graph.ts:252](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L252)
 
-___
+---
 
 ### fitView
 
@@ -927,11 +927,11 @@ Fit the graph content to the view.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `padding?` | `Padding` | padding while fitting |
-| `rules?` | `FitViewRules` | rules for fitting |
-| `animateCfg?` | `AnimateCfg` | animation configurations |
+| Name          | Type           | Description              |
+| :------------ | :------------- | :----------------------- |
+| `padding?`    | `Padding`      | padding while fitting    |
+| `rules?`      | `FitViewRules` | rules for fitting        |
+| `animateCfg?` | `AnimateCfg`   | animation configurations |
 
 #### Returns
 
@@ -945,7 +945,7 @@ IGraph.fitView
 
 [graph.ts:243](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L243)
 
-___
+---
 
 ### focusItem
 
@@ -955,10 +955,10 @@ Move the graph to make the item align the view center.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `ids` | `ID` \| `ID`[] | - |
-| `animateCfg?` | `AnimateCfg` | animation configurations |
+| Name          | Type           | Description              |
+| :------------ | :------------- | :----------------------- |
+| `ids`         | `ID` \| `ID`[] | -                        |
+| `animateCfg?` | `AnimateCfg`   | animation configurations |
 
 #### Returns
 
@@ -972,7 +972,7 @@ IGraph.focusItem
 
 [graph.ts:262](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L262)
 
-___
+---
 
 ### move
 
@@ -982,10 +982,10 @@ Move the graph with a relative vector.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `dx` | `number` | x of the relative vector |
-| `dy` | `number` | y of the relative vector |
+| Name          | Type         | Description              |
+| :------------ | :----------- | :----------------------- |
+| `dx`          | `number`     | x of the relative vector |
+| `dy`          | `number`     | y of the relative vector |
 | `animateCfg?` | `AnimateCfg` | animation configurations |
 
 #### Returns
@@ -1000,7 +1000,7 @@ IGraph.move
 
 [graph.ts:194](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L194)
 
-___
+---
 
 ### moveTo
 
@@ -1010,12 +1010,12 @@ Move the graph and align to a point.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `x` | `number` | position on the canvas to align |
-| `y` | `number` | position on the canvas to align |
-| `alignment` | `GraphAlignment` | alignment of the graph content |
-| `animateCfg?` | `AnimateCfg` | animation configurations |
+| Name          | Type             | Description                     |
+| :------------ | :--------------- | :------------------------------ |
+| `x`           | `number`         | position on the canvas to align |
+| `y`           | `number`         | position on the canvas to align |
+| `alignment`   | `GraphAlignment` | alignment of the graph content  |
+| `animateCfg?` | `AnimateCfg`     | animation configurations        |
 
 #### Returns
 
@@ -1029,7 +1029,7 @@ IGraph.moveTo
 
 [graph.ts:207](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L207)
 
-___
+---
 
 ### zoom
 
@@ -1039,10 +1039,10 @@ Zoom the graph with a relative ratio.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `ratio` | `number` | relative ratio to zoom |
-| `center?` | `Point` | zoom center |
+| Name          | Type         | Description              |
+| :------------ | :----------- | :----------------------- |
+| `ratio`       | `number`     | relative ratio to zoom   |
+| `center?`     | `Point`      | zoom center              |
 | `animateCfg?` | `AnimateCfg` | animation configurations |
 
 #### Returns
@@ -1057,7 +1057,7 @@ IGraph.zoom
 
 [graph.ts:219](https://github.com/antvis/G6/blob/abc619f898/packages/g6/src/runtime/graph.ts#L219)
 
-___
+---
 
 ### zoomTo
 
@@ -1067,10 +1067,10 @@ Zoom the graph to a specified ratio.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `toRatio` | `number` | specified ratio |
-| `center?` | `Point` | zoom center |
+| Name          | Type         | Description              |
+| :------------ | :----------- | :----------------------- |
+| `toRatio`     | `number`     | specified ratio          |
+| `center?`     | `Point`      | zoom center              |
 | `animateCfg?` | `AnimateCfg` | animation configurations |
 
 #### Returns
@@ -1095,12 +1095,12 @@ Layout the graph (with current configurations if cfg is not assigned).
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `cfg?` | `LayoutCommonConfig` | layout configurations. if assigned, the layout spec of the graph will be updated in the same time |
-| `align?` | `GraphAlignment` | align the result |
-| `canvasPoint?` | `Point` | align the result |
-| `stack?` | `boolean` | push it into stack |
+| Name           | Type                 | Description                                                                                       |
+| :------------- | :------------------- | :------------------------------------------------------------------------------------------------ |
+| `cfg?`         | `LayoutCommonConfig` | layout configurations. if assigned, the layout spec of the graph will be updated in the same time |
+| `align?`       | `GraphAlignment`     | align the result                                                                                  |
+| `canvasPoint?` | `Point`              | align the result                                                                                  |
+| `stack?`       | `boolean`            | push it into stack                                                                                |
 
 #### Returns
 

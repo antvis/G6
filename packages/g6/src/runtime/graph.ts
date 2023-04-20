@@ -195,7 +195,11 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         graphCore: GraphCore;
         theme: ThemeSpecification;
       }>({ name: 'itemchange' }),
-      render: new Hook<{ graphCore: GraphCore; theme: ThemeSpecification; transientCanvas: Canvas }>({
+      render: new Hook<{
+        graphCore: GraphCore;
+        theme: ThemeSpecification;
+        transientCanvas: Canvas;
+      }>({
         name: 'render',
       }),
       layout: new Hook<{ graphCore: GraphCore }>({ name: 'layout' }),
@@ -1223,12 +1227,10 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     });
     // update the graph specification
     const { plugins } = this.specification;
-    this.specification.plugins = plugins?.filter(
-      (plugin) => {
-        if (isObject(plugin)) return !pluginKeys.includes(plugin.key);
-        return !pluginKeys.includes(plugin);
-      }
-    );
+    this.specification.plugins = plugins?.filter((plugin) => {
+      if (isObject(plugin)) return !pluginKeys.includes(plugin.key);
+      return !pluginKeys.includes(plugin);
+    });
   }
 
   /**

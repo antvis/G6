@@ -11,7 +11,11 @@ import registry from '../stdlib';
  * @param extendLibrary custom libs to extend
  * @returns extended graph class
  */
-export const extend = <B1 extends BehaviorRegistry, B2 extends BehaviorRegistry, T extends ThemeRegistry = ThemeRegistry>(
+export const extend = <
+  B1 extends BehaviorRegistry,
+  B2 extends BehaviorRegistry,
+  T extends ThemeRegistry = ThemeRegistry,
+>(
   GraphClass: typeof Graph<B2, T>,
   extendLibrary: {
     behaviors?: B1;
@@ -21,7 +25,11 @@ export const extend = <B1 extends BehaviorRegistry, B2 extends BehaviorRegistry,
 ): typeof Graph<B1 & B2, T> => {
   // merged the extendLibrary to useLib for global usage
   Object.keys(extendLibrary).forEach((cat) => {
-    registry.useLib[cat] = Object.assign({}, registry.useLib[cat], extendLibrary[cat] || {});
+    registry.useLib[cat] = Object.assign(
+      {},
+      registry.useLib[cat],
+      extendLibrary[cat] || {},
+    );
     Object.keys(registry.useLib[cat]).forEach((type) => {
       const extension = registry.useLib[cat][type];
       extension.type = type;

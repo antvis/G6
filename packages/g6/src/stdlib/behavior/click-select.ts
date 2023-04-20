@@ -45,7 +45,7 @@ interface ClickSelectOptions {
   shouldUpdate: (event: IG6GraphEvent) => boolean;
 }
 
-const DEFAULT_OPTIONS: ClickSelectOptions ={
+const DEFAULT_OPTIONS: ClickSelectOptions = {
   multiple: true,
   trigger: 'shift',
   selectedState: 'selected',
@@ -62,7 +62,9 @@ export default class ClickSelect extends Behavior {
     super(Object.assign({}, DEFAULT_OPTIONS, options));
     // Validate options
     if (options.trigger && !ALLOWED_TRIGGERS.includes(options.trigger)) {
-      console.warn(`G6: Invalid trigger option "${options.trigger}" for click-select behavior!`);
+      console.warn(
+        `G6: Invalid trigger option "${options.trigger}" for click-select behavior!`,
+      );
       this.options.trigger = DEFAULT_OPTIONS.trigger;
     }
   }
@@ -71,8 +73,8 @@ export default class ClickSelect extends Behavior {
     return {
       'node:click': this.onClick,
       'canvas:click': this.onCanvasClick,
-    }
-  }
+    };
+  };
 
   private isMultipleSelect = (event: MouseEvent) => {
     if (!this.options.multiple) return false;
@@ -99,8 +101,12 @@ export default class ClickSelect extends Behavior {
     const state = this.options.selectedState;
     const multiple = this.isMultipleSelect(event as any);
     // FIXME: should use graph.getItemState() instead
-    const isSelectAction = !this.graph.findIdByState(itemType, state).includes(itemId);
-    const action: 'select' | 'unselect' = isSelectAction ? 'select' : 'unselect';
+    const isSelectAction = !this.graph
+      .findIdByState(itemType, state)
+      .includes(itemId);
+    const action: 'select' | 'unselect' = isSelectAction
+      ? 'select'
+      : 'unselect';
 
     // Select/Unselect item.
     if (this.options.shouldUpdate(event)) {
@@ -162,5 +168,5 @@ export default class ClickSelect extends Behavior {
         selectedComboIds: [],
       });
     }
-  }
-};
+  };
+}

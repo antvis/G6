@@ -1,7 +1,7 @@
 import { ID } from '@antv/graphlib';
-import { IGraph } from "../../types";
-import { Point } from "../../types/common";
-import { ITEM_TYPE } from "../../types/item";
+import { IGraph } from '../../types';
+import { Point } from '../../types/common';
+import { ITEM_TYPE } from '../../types/item';
 import { getEdgesBetween } from '../../util/item';
 import { isPolygonsIntersect } from '../../util/shape';
 
@@ -12,10 +12,7 @@ import { isPolygonsIntersect } from '../../util/shape';
  * A combo is selected if the center of its bbox is inside the rect.
  */
 export default (graph: IGraph, points: Point[], itemTypes: ITEM_TYPE[]) => {
-  const lassoContour = points.map((point) => [
-    point.x,
-    point.y,
-  ]);
+  const lassoContour = points.map((point) => [point.x, point.y]);
   const selectedNodeIds = [];
   let selectedEdgeIds = [];
   const selectedComboIds = [];
@@ -43,30 +40,36 @@ export default (graph: IGraph, points: Point[], itemTypes: ITEM_TYPE[]) => {
 
   if (itemTypes.includes('edge')) {
     // an edge is selected only if both the source and target nodes are selected
-    selectedEdgeIds = getEdgesBetween(graph, selectedNodeIds.concat(selectedComboIds));
+    selectedEdgeIds = getEdgesBetween(
+      graph,
+      selectedNodeIds.concat(selectedComboIds),
+    );
   }
 
   return {
     nodes: selectedNodeIds,
     edges: selectedEdgeIds,
-    combos: selectedComboIds
+    combos: selectedComboIds,
   };
-}
-const isItemIntersecPolygon = (graph: IGraph, id: ID, polyPoints: number[][]) => {
-  let shapePoints;
+};
+const isItemIntersecPolygon = (
+  graph: IGraph,
+  id: ID,
+  polyPoints: number[][],
+) => {
   // TODO
   // const shape = item.getKeyShape();
   // if (item.get('type') === 'path') {
   //   shapePoints = pathToPoints(shape.attr('path'));
   // } else {
-    const shapeBBox = graph.getRenderBBox(id);
-    if (!shapeBBox) return false;
-    shapePoints = [
-      [shapeBBox.min[0], shapeBBox.min[1]],
-      [shapeBBox.max[0], shapeBBox.min[1]],
-      [shapeBBox.max[0], shapeBBox.max[1]],
-      [shapeBBox.min[0], shapeBBox.max[1]],
-    ];
+  const shapeBBox = graph.getRenderBBox(id);
+  if (!shapeBBox) return false;
+  const shapePoints = [
+    [shapeBBox.min[0], shapeBBox.min[1]],
+    [shapeBBox.max[0], shapeBBox.min[1]],
+    [shapeBBox.max[0], shapeBBox.max[1]],
+    [shapeBBox.min[0], shapeBBox.max[1]],
+  ];
   // }
   return isPolygonsIntersect(polyPoints, shapePoints);
 };

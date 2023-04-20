@@ -13,7 +13,7 @@ interface IProps {
   containerGroup: Group;
   mapper: DisplayMapper;
   stateMapper: {
-    [stateName: string]: DisplayMapper
+    [stateName: string]: DisplayMapper;
   };
   themeStyles: ItemShapeStyles;
 }
@@ -26,7 +26,11 @@ export default class Node extends Item {
     this.init(props);
     this.draw(this.displayModel as NodeDisplayModel);
   }
-  public draw(displayModel: NodeDisplayModel, diffData?: { previous: NodeModelData; current: NodeModelData }, diffState?: { previous: State[], current: State[] }) {
+  public draw(
+    displayModel: NodeDisplayModel,
+    diffData?: { previous: NodeModelData; current: NodeModelData },
+    diffState?: { previous: State[]; current: State[] },
+  ) {
     const { group, renderExt, shapeMap: prevShapeMap, model } = this;
     const { data } = displayModel;
     const { x = 0, y = 0 } = data;
@@ -35,7 +39,12 @@ export default class Node extends Item {
     this.group.setAttribute('data-item-type', 'node');
     this.group.setAttribute('data-item-id', model.id);
     renderExt.mergeStyles(displayModel);
-    const shapeMap = renderExt.draw(displayModel, this.shapeMap, diffData, diffState);
+    const shapeMap = renderExt.draw(
+      displayModel,
+      this.shapeMap,
+      diffData,
+      diffState,
+    );
 
     // add shapes to group, and update shapeMap
     this.shapeMap = updateShapes(prevShapeMap, shapeMap, group);

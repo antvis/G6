@@ -5,12 +5,28 @@ import Combo from '../../item/combo';
 import Edge from '../../item/edge';
 import Node from '../../item/node';
 import registry from '../../stdlib';
-import { ComboModel, IGraph, NodeModel, NodeDisplayModel, NodeEncode, NodeModelData } from '../../types';
+import {
+  ComboModel,
+  IGraph,
+  NodeModel,
+  NodeDisplayModel,
+  NodeEncode,
+  NodeModelData,
+} from '../../types';
 import { ComboDisplayModel, ComboEncode } from '../../types/combo';
 import { GraphCore } from '../../types/data';
-import { EdgeDisplayModel, EdgeEncode, EdgeModel, EdgeModelData } from '../../types/edge';
+import {
+  EdgeDisplayModel,
+  EdgeEncode,
+  EdgeModel,
+  EdgeModelData,
+} from '../../types/edge';
 import { ITEM_TYPE, ShapeStyle, SHAPE_TYPE } from '../../types/item';
-import { ItemStyleSet, ItemThemeSpecifications, ThemeSpecification } from '../../types/theme';
+import {
+  ItemStyleSet,
+  ItemThemeSpecifications,
+  ThemeSpecification,
+} from '../../types/theme';
 import { getExtension } from '../../util/extension';
 import { upsertTransientItem } from '../../util/item';
 import { upsertShape } from '../../util/shape';
@@ -43,7 +59,9 @@ export class ItemController {
     [stateName: string]: ((data: EdgeModel) => EdgeDisplayModel) | EdgeEncode;
   };
   private comboStateMapper: {
-    [stateName: string]: ((data: ComboModel) => ComboDisplayModel) | ComboEncode;
+    [stateName: string]:
+      | ((data: ComboModel) => ComboDisplayModel)
+      | ComboEncode;
   };
 
   private nodeGroup: Group;
@@ -66,7 +84,8 @@ export class ItemController {
   constructor(graph: IGraph<any, any>) {
     this.graph = graph;
     // get mapper for node / edge / combo
-    const { node, edge, combo, nodeState, edgeState, comboState } = graph.getSpecification();
+    const { node, edge, combo, nodeState, edgeState, comboState } =
+      graph.getSpecification();
     this.nodeMapper = node;
     this.edgeMapper = edge;
     this.comboMapper = combo;
@@ -89,7 +108,9 @@ export class ItemController {
     this.graph.hooks.render.tap(this.onRender.bind(this));
     this.graph.hooks.itemchange.tap(this.onChange.bind(this));
     this.graph.hooks.itemstatechange.tap(this.onItemStateChange.bind(this));
-    this.graph.hooks.itemvisibilitychange.tap(this.onItemVisibilityChange.bind(this));
+    this.graph.hooks.itemvisibilitychange.tap(
+      this.onItemVisibilityChange.bind(this),
+    );
     this.graph.hooks.transientupdate.tap(this.onTransientUpdate.bind(this));
   }
 
@@ -120,7 +141,11 @@ export class ItemController {
    * Listener of runtime's render hook.
    * @param param contains inner data stored in graphCore structure
    */
-  private onRender(param: { graphCore: GraphCore; theme: ThemeSpecification, transientCanvas: Canvas }) {
+  private onRender(param: {
+    graphCore: GraphCore;
+    theme: ThemeSpecification;
+    transientCanvas: Canvas;
+  }) {
     const { graphCore, theme = {}, transientCanvas } = param;
     const { graph } = this;
     // TODO: 0. clear groups on canvas, and create new groups
@@ -177,14 +202,16 @@ export class ItemController {
     // change items according to the order of the keys in groupedChanges
 
     // === 1. remove edges; 2. remove nodes ===
-    groupedChanges.EdgeRemoved.concat(groupedChanges.NodeRemoved).forEach(({ value }) => {
-      const { id } = value;
-      const item = itemMap[id];
-      if (item) {
-        item.destroy();
-        delete itemMap[id];
-      }
-    });
+    groupedChanges.EdgeRemoved.concat(groupedChanges.NodeRemoved).forEach(
+      ({ value }) => {
+        const { id } = value;
+        const item = itemMap[id];
+        if (item) {
+          item.destroy();
+          delete itemMap[id];
+        }
+      },
+    );
 
     const { node: nodeTheme = {}, edge: edgeTheme = {} } = theme;
 
@@ -239,7 +266,9 @@ export class ItemController {
         const innerModel = graphCore.getNode(id);
         item.update(innerModel, { previous, current }, isReplace, themeStyles);
         const relatedEdgeInnerModels = graphCore.getRelatedEdges(id);
-        relatedEdgeInnerModels.forEach((edge) => (edgeToUpdate[edge.id] = edge));
+        relatedEdgeInnerModels.forEach(
+          (edge) => (edgeToUpdate[edge.id] = edge),
+        );
       });
       Object.keys(edgeToUpdate).forEach((id) => {
         const item = itemMap[id] as Edge;
@@ -297,8 +326,10 @@ export class ItemController {
       Object.keys(edgeUpdate).forEach((id) => {
         const { source, target } = edgeUpdate[id];
         const item = itemMap[id] as Edge;
-        if (source !== undefined) item.updateEnd('source', this.itemMap[source] as Node);
-        if (target !== undefined) item.updateEnd('target', this.itemMap[target] as Node);
+        if (source !== undefined)
+          item.updateEnd('source', this.itemMap[source] as Node);
+        if (target !== undefined)
+          item.updateEnd('target', this.itemMap[target] as Node);
       });
     }
   }
@@ -312,7 +343,11 @@ export class ItemController {
    *   value: state value
    * }
    */
-  private onItemStateChange(param: { ids: ID[]; states: string[]; value: boolean }) {
+  private onItemStateChange(param: {
+    ids: ID[];
+    states: string[];
+    value: boolean;
+  }) {
     const { ids, states, value } = param;
     ids.forEach((id) => {
       const item = this.itemMap[id];
@@ -329,12 +364,14 @@ export class ItemController {
     });
   }
 
-  private onItemVisibilityChange(param: { ids: ID[], value: boolean }) {
+  private onItemVisibilityChange(param: { ids: ID[]; value: boolean }) {
     const { ids, value } = param;
-    ids.forEach(id => {
+    ids.forEach((id) => {
       const item = this.itemMap[id];
       if (!item) {
-        console.warn(`Fail to set visibility for item ${id}, which is not exist.`);
+        console.warn(
+          `Fail to set visibility for item ${id}, which is not exist.`,
+        );
         return;
       }
       if (value) {
@@ -351,7 +388,7 @@ export class ItemController {
     config: {
       style?: ShapeStyle;
       // Data to be merged into the transient item.
-      data?: Record<string, any>,
+      data?: Record<string, any>;
       action: 'remove' | 'add' | 'update' | undefined;
       [shapeConfig: string]: unknown;
     };
@@ -368,13 +405,13 @@ export class ItemController {
         const transientItem = this.transientItemMap[id];
         if (transientItem && !transientItem.destroyed) {
           transientItem.destroy();
-        };
+        }
         delete this.transientItemMap[id];
         return;
       } else {
         const preObj = transientObjectMap[id];
         if (preObj && !preObj.destroyed) {
-          preObj.destroy()
+          preObj.destroy();
         }
         delete transientObjectMap[id];
         return;
@@ -385,14 +422,16 @@ export class ItemController {
     if (isItemType) {
       const item = this.itemMap[id];
       if (!item) {
-        console.warn(`Fail to draw transient item of ${id}, which is not exist.`);
+        console.warn(
+          `Fail to draw transient item of ${id}, which is not exist.`,
+        );
         return;
-      };
+      }
       const transientItem = upsertTransientItem(
         item,
         this.transientNodeGroup,
         this.transientEdgeGroup,
-        this.transientItemMap
+        this.transientItemMap,
       );
       transientItem.update({
         ...transientItem.model,
@@ -407,7 +446,6 @@ export class ItemController {
       shape.style.pointerEvents = capture ? 'auto' : 'none';
       canvas.getRoot().appendChild(shape);
     }
-
   }
   public getTransient(id: string) {
     return this.transientObjectMap[id];
@@ -417,14 +455,22 @@ export class ItemController {
    * Create nodes with inner data to canvas.
    * @param models nodes' inner datas
    */
-  private renderNodes(models: NodeModel[], nodeTheme: ItemThemeSpecifications = {}) {
+  private renderNodes(
+    models: NodeModel[],
+    nodeTheme: ItemThemeSpecifications = {},
+  ) {
     const { nodeExtensions, nodeGroup, nodeDataTypeSet } = this;
     const { dataTypeField } = nodeTheme;
     models.forEach((node) => {
       // get the base styles from theme
       let dataType;
       if (dataTypeField) dataType = node.data[dataTypeField] as string;
-      const themeStyle = getThemeStyles(nodeDataTypeSet, dataTypeField, dataType, nodeTheme);
+      const themeStyle = getThemeStyles(
+        nodeDataTypeSet,
+        dataTypeField,
+        dataType,
+        nodeTheme,
+      );
 
       this.itemMap[node.id] = new Node({
         model: node,
@@ -441,7 +487,10 @@ export class ItemController {
    * Create edges with inner data to canvas.
    * @param models edges' inner datas
    */
-  private renderEdges(models: EdgeModel[], edgeTheme: ItemThemeSpecifications = {}) {
+  private renderEdges(
+    models: EdgeModel[],
+    edgeTheme: ItemThemeSpecifications = {},
+  ) {
     const { edgeExtensions, edgeGroup, itemMap, edgeDataTypeSet } = this;
     const { dataTypeField } = edgeTheme;
     models.forEach((edge) => {
@@ -461,7 +510,12 @@ export class ItemController {
       // get the base styles from theme
       let dataType;
       if (dataTypeField) dataType = edge.data[dataTypeField] as string;
-      const themeStyle = getThemeStyles(edgeDataTypeSet, dataTypeField, dataType, edgeTheme);
+      const themeStyle = getThemeStyles(
+        edgeDataTypeSet,
+        dataTypeField,
+        dataType,
+        edgeTheme,
+      );
 
       itemMap[id] = new Edge({
         model: edge,
@@ -483,7 +537,11 @@ export class ItemController {
    * @param value state value, true by default
    * @returns
    */
-  public findIdByState(itemType: ITEM_TYPE, state: string, value: string | boolean = true): ID[] {
+  public findIdByState(
+    itemType: ITEM_TYPE,
+    state: string,
+    value: string | boolean = true,
+  ): ID[] {
     const ids: ID[] = [];
     Object.values(this.itemMap).forEach((item) => {
       if (item.getType() !== itemType) return;
@@ -501,7 +559,9 @@ export class ItemController {
   public getItemState(id: ID, state: string) {
     const item = this.itemMap[id];
     if (!item) {
-      console.warn(`Fail to get item state, the item with id ${id} does not exist.`);
+      console.warn(
+        `Fail to get item state, the item with id ${id} does not exist.`,
+      );
       return false;
     }
     return item.hasState(state);
@@ -511,10 +571,12 @@ export class ItemController {
     return this.itemMap[id];
   }
 
-  public getItemBBox(id: ID, isKeyShape: boolean = false): AABB | false {
+  public getItemBBox(id: ID, isKeyShape = false): AABB | false {
     const item = this.itemMap[id];
     if (!item) {
-      console.warn(`Fail to get item bbox, the item with id ${id} does not exist.`);
+      console.warn(
+        `Fail to get item bbox, the item with id ${id} does not exist.`,
+      );
       return false;
     }
     return isKeyShape ? item.getKeyBBox() : item.getBBox();
@@ -523,7 +585,9 @@ export class ItemController {
   public getItemVisible(id: ID) {
     const item = this.itemMap[id];
     if (!item) {
-      console.warn(`Fail to get item visible, the item with id ${id} does not exist.`);
+      console.warn(
+        `Fail to get item visible, the item with id ${id} does not exist.`,
+      );
       return false;
     }
     return item.isVisible();
@@ -539,17 +603,18 @@ const getThemeStyles = (
   const { styles: themeStyles } = itemTheme;
   if (!dataTypeField) {
     // dataType field is not assigned
-    return isArray(themeStyles) ? themeStyles[0] : Object.values(themeStyles)[0];
+    return isArray(themeStyles)
+      ? themeStyles[0]
+      : Object.values(themeStyles)[0];
   }
   dataTypeSet.add(dataType as string);
   let themeStyle;
   if (isArray(themeStyles)) {
     const themeStylesLength = themeStyles.length;
-    let idx = Array.from(dataTypeSet).indexOf(dataType);
+    const idx = Array.from(dataTypeSet).indexOf(dataType);
     themeStyle = themeStyles[idx % themeStylesLength];
   } else if (isObject(themeStyles)) {
     themeStyle = themeStyles[dataType] || themeStyles.others;
   }
   return themeStyle;
 };
-

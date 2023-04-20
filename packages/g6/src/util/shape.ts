@@ -12,13 +12,13 @@ import {
   Image,
   Path,
   AABB,
-} from "@antv/g";
-import { clone, isArray, isNumber } from "@antv/util";
-import { DEFAULT_LABEL_BG_PADDING } from "../constant";
-import { Point } from "../types/common";
-import { EdgeShapeMap } from "../types/edge";
-import { GShapeStyle, SHAPE_TYPE, ItemShapeStyles } from "../types/item";
-import { NodeShapeMap } from "../types/node";
+} from '@antv/g';
+import { clone, isArray, isNumber } from '@antv/util';
+import { DEFAULT_LABEL_BG_PADDING } from '../constant';
+import { Point } from '../types/common';
+import { EdgeShapeMap } from '../types/edge';
+import { GShapeStyle, SHAPE_TYPE, ItemShapeStyles } from '../types/item';
+import { NodeShapeMap } from '../types/node';
 
 export const ShapeTagMap = {
   circle: Circle,
@@ -41,7 +41,7 @@ export const upsertShape = (
   type: SHAPE_TYPE,
   id: string,
   style: GShapeStyle,
-  shapeMap: { [shapeId: string]: DisplayObject }
+  shapeMap: { [shapeId: string]: DisplayObject },
 ): DisplayObject => {
   let shape = shapeMap[id];
   if (!shape) {
@@ -60,11 +60,11 @@ export const upsertShape = (
 
 export const getGroupSucceedMap = (
   group: IElement,
-  map?: { [id: string]: IElement }
+  map?: { [id: string]: IElement },
 ) => {
-  let useMap = map || {};
+  const useMap = map || {};
   group.children.forEach((child) => {
-    if (child.tagName === "group") getGroupSucceedMap(child, useMap);
+    if (child.tagName === 'group') getGroupSucceedMap(child, useMap);
     useMap[child.id] = child;
   });
   return useMap;
@@ -83,8 +83,8 @@ export const updateShapes = (
   prevShapeMap: { [id: string]: DisplayObject },
   newShapeMap: { [id: string]: DisplayObject },
   group: Group,
-  removeDiff: boolean = true,
-  shouldUpdate: (id: string) => boolean = () => true
+  removeDiff = true,
+  shouldUpdate: (id: string) => boolean = () => true,
 ): NodeShapeMap | EdgeShapeMap => {
   const tolalMap = {
     ...prevShapeMap,
@@ -161,7 +161,7 @@ export const mergeStyles = (styleMaps: ItemShapeStyles[]) => {
  */
 const merge2Styles = (
   styleMap1: ItemShapeStyles,
-  styleMap2: ItemShapeStyles
+  styleMap2: ItemShapeStyles,
 ) => {
   if (!styleMap1) return clone(styleMap2);
   else if (!styleMap2) return clone(styleMap1);
@@ -185,7 +185,7 @@ const merge2Styles = (
  */
 export const isPolygonsIntersect = (
   points1: number[][],
-  points2: number[][]
+  points2: number[][],
 ): boolean => {
   const getBBox = (points): Partial<AABB> => {
     const xArr = points.map((p) => p[0]);
@@ -367,7 +367,7 @@ export const getLineIntersect = (
   p0: Point,
   p1: Point,
   p2: Point,
-  p3: Point
+  p3: Point,
 ): Point | null => {
   const tolerance = 0.0001;
 

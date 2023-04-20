@@ -1,6 +1,6 @@
-import { uniqueId } from "@antv/util";
-import { IG6GraphEvent } from "./event";
-import { IGraph } from "./graph";
+import { uniqueId } from '@antv/util';
+import { IG6GraphEvent } from './event';
+import { IGraph } from './graph';
 
 export interface BehaviorOption {
   key?: string;
@@ -14,14 +14,14 @@ export abstract class Behavior {
   options: any;
   constructor(options: any) {
     this.options = options;
-  };
+  }
   abstract getEvents(): {
     [eventName: string]: (event: IG6GraphEvent) => void;
   };
   updateConfig = (options: any) => {
     this.options = Object.assign(this.options, options);
-  }
-  destroy() {};
+  };
+  destroy() {}
 }
 
 /** Behavior registry table.
@@ -35,15 +35,21 @@ export interface BehaviorRegistry {
  * Type gymnastics, input registry table, output configure type.
  * @example BehaviorOptionsOf<{ 'drag-node': typeof DragNodeBehavior }> // 'drag-node' | { type: 'drag-node', key?: 'ctrl' | 'shift' }
  */
-export type BehaviorOptionsOf<B extends BehaviorRegistry = {}> = Extract<keyof B, string> | {
-  [K in keyof B]: B[K] extends { new(options: infer O): any } ? O & { type: K, key: string } : never;
-}[Extract<keyof B, string>];
+export type BehaviorOptionsOf<B extends BehaviorRegistry = {}> =
+  | Extract<keyof B, string>
+  | {
+      [K in keyof B]: B[K] extends { new (options: infer O): any }
+        ? O & { type: K; key: string }
+        : never;
+    }[Extract<keyof B, string>];
 
 export type BehaviorObjectOptionsOf<B extends BehaviorRegistry = {}> = {
-  [K in keyof B]: B[K] extends { new(options: infer O): any } ? O & { type: K, key: string } : never;
+  [K in keyof B]: B[K] extends { new (options: infer O): any }
+    ? O & { type: K; key: string }
+    : never;
 }[Extract<keyof B, string>];
 
 /**
  * TODO: interaction specification
  */
-export interface BehaviorSpecification { }
+export interface BehaviorSpecification {}

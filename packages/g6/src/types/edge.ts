@@ -1,14 +1,20 @@
 import { DisplayObject } from '@antv/g';
 import { Edge as GEdge, PlainObject } from '@antv/graphlib';
-import { AnimateAttr } from "./animate";
-import { Encode, IItem, LabelBackground, ShapeAttrEncode, ShapesEncode, ShapeStyle } from "./item";
+import { AnimateAttr } from './animate';
+import {
+  Encode,
+  IItem,
+  LabelBackground,
+  ShapeAttrEncode,
+  ShapesEncode,
+  ShapeStyle,
+} from './item';
 
-
-export interface EdgeUserModelData extends PlainObject { };
+export type EdgeUserModelData = PlainObject;
 export interface EdgeModelData extends EdgeUserModelData {
   visible?: boolean;
   label?: string;
-};
+}
 
 export interface EdgeLabelShapeStyle extends ShapeStyle {
   position?: EdgeLabelPosition;
@@ -22,11 +28,11 @@ export interface EdgeDisplayModelData extends EdgeModelData {
   labelShape?: EdgeLabelShapeStyle;
   iconShape?: ShapeStyle;
   otherShapes?: {
-    [shapeId: string]: ShapeStyle
+    [shapeId: string]: ShapeStyle;
   };
   sourceAnchor?: number;
   targetAnchor?: number;
-};
+}
 
 /** User input data. */
 export type EdgeUserModel = GEdge<EdgeUserModelData>;
@@ -36,7 +42,6 @@ export type EdgeModel = GEdge<EdgeModelData>;
 
 /** Displayed data, only for drawing and not received by users. */
 export type EdgeDisplayModel = GEdge<EdgeDisplayModelData>;
-
 
 export type EdgeLabelPosition = 'start' | 'middle' | 'end';
 interface EdgeLabelShapeAttrEncode extends ShapeAttrEncode {
@@ -57,13 +62,11 @@ export interface EdgeEncode extends EdgeShapesEncode {
 }
 
 export interface EdgeShapeMap {
-  keyShape: DisplayObject,
-  labelShape?: DisplayObject,
-  iconShape?: DisplayObject,
-  [otherShapeId: string]: DisplayObject
+  keyShape: DisplayObject;
+  labelShape?: DisplayObject;
+  iconShape?: DisplayObject;
+  [otherShapeId: string]: DisplayObject;
 }
 
 // TODO
-export interface IEdge extends IItem {
-
-}
+export type IEdge = IItem;

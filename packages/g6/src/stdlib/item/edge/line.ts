@@ -1,5 +1,9 @@
 import { Point } from '../../../types/common';
-import { EdgeDisplayModel, EdgeModelData, EdgeShapeMap } from '../../../types/edge';
+import {
+  EdgeDisplayModel,
+  EdgeModelData,
+  EdgeShapeMap,
+} from '../../../types/edge';
 import { State } from '../../../types/item';
 import { mergeStyles, upsertShape } from '../../../util/shape';
 import { BaseEdge } from './base';
@@ -12,8 +16,8 @@ export class LineEdge extends BaseEdge {
       y1: 0,
       x2: 0,
       y2: 0,
-    }
-  }
+    },
+  };
   constructor(props) {
     super(props);
     // suggest to merge default styles like this to avoid style value missing
@@ -25,18 +29,25 @@ export class LineEdge extends BaseEdge {
     targetPoint: Point,
     shapeMap: EdgeShapeMap,
     diffData?: { previous: EdgeModelData; current: EdgeModelData },
-    diffState?: { previous: State[], current: State[] }
+    diffState?: { previous: State[]; current: State[] },
   ): EdgeShapeMap {
     const { data = {} } = model;
 
     let shapes: EdgeShapeMap = { keyShape: undefined };
-    shapes.keyShape = this.drawKeyShape(model, sourcePoint, targetPoint, shapeMap, diffData);
+    shapes.keyShape = this.drawKeyShape(
+      model,
+      sourcePoint,
+      targetPoint,
+      shapeMap,
+      diffData,
+    );
     if (data.labelShape)
       shapes = {
         ...shapes,
         ...this.drawLabelShape(model, shapeMap, diffData),
       };
-    if (data.iconShape) shapes.iconShape = this.drawIconShape(model, shapeMap, diffData);
+    if (data.iconShape)
+      shapes.iconShape = this.drawIconShape(model, shapeMap, diffData);
 
     // TODO: other shapes
 
@@ -48,7 +59,7 @@ export class LineEdge extends BaseEdge {
     targetPoint: Point,
     shapeMap: EdgeShapeMap,
     diffData?: { previous: EdgeModelData; current: EdgeModelData },
-    diffState?: { previous: State[], current: State[] }
+    diffState?: { previous: State[]; current: State[] },
   ) {
     const { keyShape: keyShapeStyle } = this.mergedStyles;
     const keyShape = upsertShape(
