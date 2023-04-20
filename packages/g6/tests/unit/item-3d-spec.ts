@@ -1,25 +1,7 @@
-import { Circle, DisplayObject, CanvasEvent } from '@antv/g';
-import { clone } from '@antv/util';
-import G6, {
-  EdgeDisplayModel,
-  Graph,
-  GraphData,
-  IGraph,
-  NodeDisplayModel,
-} from '../../src/index';
-import { LineEdge } from '../../src/stdlib/item/edge';
-import { CircleNode } from '../../src/stdlib/item/node';
-import { BaseNode } from '../../src/stdlib/item/node/base';
-import { NodeModelData, NodeShapeMap } from '../../src/types/node';
-import { extend } from '../../src/util/extend';
-import { upsertShape } from '../../src/util/shape';
-import { CANVAS_EVENT_TYPE } from '../../src/types/event';
-import { createCanvas } from '../../src/util/canvas';
+import G6, { IGraph } from '../../src/index';
 
 const container = document.createElement('div');
 document.querySelector('body').appendChild(container);
-
-let CustomGraph;
 
 describe('node item', () => {
   let graph: IGraph<any>;
@@ -65,8 +47,8 @@ describe('node item', () => {
         edges,
       },
       node: {
-        type: 'sphere-node',
-        // type: 'circle-node',
+        // type: 'sphere-node',
+        type: 'circle-node',
         keyShape: {
           opacity: 0.6,
           // materialType: 'basic',

@@ -52,11 +52,10 @@ export class CircleNode extends BaseNode {
     diffData?: { previous: NodeModelData; current: NodeModelData },
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
-    // TODO: update type define.
-    return upsertShape(
+    return this.upsertShape(
       'circle',
       'keyShape',
-      this.mergedStyles.keyShape as unknown as GShapeStyle,
+      this.mergedStyles.keyShape,
       shapeMap,
     );
   }

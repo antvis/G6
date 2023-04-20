@@ -9,6 +9,7 @@ import {
 } from '@antv/g-plugin-3d';
 import { EdgeShapeMap } from '../types/edge';
 import { NodeShapeMap } from '../types/node';
+import { GShapeStyle } from '../types/item';
 
 const GeometryTagMap = {
   sphere: SphereGeometry,
@@ -25,12 +26,12 @@ const GeometryCache: Record<string, ProceduralGeometry<any>> = {};
 
 export const createShape3D = (
   type: string,
-  style: { [shapeAttr: string]: unknown },
+  style: GShapeStyle,
   id: string,
   device: any,
 ) => {
-  // materialType: 'phong' | 'basic',
-  const { materialType = 'phong', ...otherStyles } = style;
+  // materialType: 'phong' | 'basic', TODO: type
+  const { materialType = 'phong', ...otherStyles } = style as any;
   let cachedGeometry = GeometryCache[type];
   if (!cachedGeometry) {
     cachedGeometry = GeometryCache[type] = new GeometryTagMap[type](device, {
@@ -67,8 +68,23 @@ export const createShape3D = (
   });
 
   // Scale the shape to the correct size.
-  const scaling = ((style.r || style.radius) as number) / GEOMETRY_SIZE;
-  shape.scale(scaling);
+  switch (type) {
+    case 'cube':
+      shape.scale([
+        style.width / GEOMETRY_SIZE,
+        style.height / GEOMETRY_SIZE,
+        style.depth / GEOMETRY_SIZE,
+      ]);
+      break;
+    case 'plane':
+      shape.scale([style.width / GEOMETRY_SIZE, style.depth / GEOMETRY_SIZE]);
+      break;
+    case 'sphere':
+    default:
+      const scaling =
+        (((style as any).r || style.radius) as number) / GEOMETRY_SIZE;
+      shape.scale(scaling);
+  }
 
   return shape;
 };
@@ -76,7 +92,7 @@ export const createShape3D = (
 export const upsertShape3D = (
   type: string,
   id: string,
-  style: { [shapeAttr: string]: unknown },
+  style: GShapeStyle,
   shapeMap: { [shapeId: string]: DisplayObject },
   device: any,
 ): DisplayObject => {

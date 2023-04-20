@@ -1,13 +1,9 @@
 import { DisplayObject } from '@antv/g';
 import { DEFAULT_LABEL_BG_PADDING } from '../../../constant';
 import { NodeDisplayModel } from '../../../types';
-import { ItemShapeStyles, State } from '../../../types/item';
+import { GShapeStyle, ItemShapeStyles, State } from '../../../types/item';
 import { NodeModelData, NodeShapeMap } from '../../../types/node';
-import {
-  formatPadding,
-  mergeStyles,
-  upsertShape,
-} from '../../../util/shape';
+import { formatPadding, mergeStyles, upsertShape } from '../../../util/shape';
 import { upsertShape3D } from '../../../util/shape3d';
 import { BaseNode } from './base';
 
@@ -27,7 +23,7 @@ export abstract class BaseNode3D extends BaseNode {
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
     diffData?: { previous: NodeModelData; current: NodeModelData },
-    diffState?: { oldState: State[], newState: State[] }
+    diffState?: { oldState: State[]; newState: State[] },
   ): {
     labelShape: DisplayObject;
     [id: string]: DisplayObject;
@@ -78,8 +74,12 @@ export abstract class BaseNode3D extends BaseNode {
         positionPreset.offsetY = 4;
         break;
     }
-    const offsetX = propsOffsetX === undefined ? positionPreset.offsetX : propsOffsetX;
-    const offsetY = propsOffsetY === undefined ? positionPreset.offsetY : propsOffsetY;
+    const offsetX = (
+      propsOffsetX === undefined ? positionPreset.offsetX : propsOffsetX
+    ) as number;
+    const offsetY = (
+      propsOffsetY === undefined ? positionPreset.offsetY : propsOffsetY
+    ) as number;
     positionPreset.x += offsetX;
     positionPreset.y += offsetY;
 
@@ -92,6 +92,8 @@ export abstract class BaseNode3D extends BaseNode {
     const shapes = { labelShape };
     if (background) {
       const textBBox = labelShape.getGeometryBounds();
+      // TODO: update type define.
+      // @ts-ignore
       const { padding: propsPadding, ...backgroundStyle } = background;
       const padding = formatPadding(propsPadding, DEFAULT_LABEL_BG_PADDING);
       const bgStyle: any = {
@@ -107,7 +109,9 @@ export abstract class BaseNode3D extends BaseNode {
         bgStyle.transform = style.transform;
         bgStyle.transformOrigin = 'center';
         if (style.textAlign === 'left') {
-          bgStyle.transformOrigin = `${padding[3]} ${padding[0] + bgStyle.height / 2}`;
+          bgStyle.transformOrigin = `${padding[3]} ${
+            padding[0] + bgStyle.height / 2
+          }`;
         }
         if (style.textAlign === 'right') {
           bgStyle.transformOrigin = `${padding[3] + bgStyle.width} ${
@@ -116,7 +120,12 @@ export abstract class BaseNode3D extends BaseNode {
         }
       }
 
-      shapes['labelBgShape'] = upsertShape('rect', 'labelBgShape', bgStyle, shapeMap);
+      shapes['labelBgShape'] = upsertShape(
+        'rect',
+        'labelBgShape',
+        bgStyle,
+        shapeMap,
+      );
     }
     return shapes;
   }
@@ -126,7 +135,7 @@ export abstract class BaseNode3D extends BaseNode {
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
     diffData?: { previous: NodeModelData; current: NodeModelData },
-    diffState?: { oldState: State[], newState: State[] }
+    diffState?: { oldState: State[]; newState: State[] },
   ): DisplayObject {
     const { iconShape } = model.data || {};
     const { iconShape: shapeStyle } = this.mergedStyles;
@@ -139,7 +148,7 @@ export abstract class BaseNode3D extends BaseNode {
       shapeStyle.textAlign = 'center';
       shapeStyle.textBaseline = 'middle';
     }
-    return upsertShape(iconShapeType, 'iconShape', shapeStyle, shapeMap);
+    return this.upsertShape(iconShapeType, 'iconShape', shapeStyle, shapeMap);
   }
 
   // TODO: 3d shapes?
@@ -147,9 +156,9 @@ export abstract class BaseNode3D extends BaseNode {
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
     diffData?: { previous: NodeModelData; current: NodeModelData },
-    diffState?: { previous: State[], current: State[] }
-  ): { [id: string]: DisplayObject; } {
-    return {}
+    diffState?: { previous: State[]; current: State[] },
+  ): { [id: string]: DisplayObject } {
+    return {};
   }
 
   // TODO: 如何禁止重写？
@@ -159,6 +168,12 @@ export abstract class BaseNode3D extends BaseNode {
     style: { [shapeAttr: string]: unknown },
     shapeMap: { [shapeId: string]: DisplayObject },
   ): DisplayObject {
-    return upsertShape3D(type, id, style, shapeMap, this.device);
-  };
+    return upsertShape3D(
+      type,
+      id,
+      style as unknown as GShapeStyle,
+      shapeMap,
+      this.device,
+    );
+  }
 }

@@ -2,9 +2,7 @@ import { Canvas } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Renderer as SVGRenderer } from '@antv/g-svg';
 import { Renderer as WebGLRenderer } from '@antv/g-webgl';
-import { Plugin as PluginControl } from '@antv/g-plugin-control';
 import { Plugin as Plugin3D } from '@antv/g-plugin-3d';
-import { isString } from '@antv/util';
 
 /**
  * Create a canvas
@@ -33,7 +31,6 @@ export const createCanvas = (
     case 'webgl':
       renderer = new WebGLRenderer();
       renderer.registerPlugin(new Plugin3D());
-      // renderer.registerPlugin(new PluginControl());
       break;
     default:
       renderer = new CanvasRenderer();

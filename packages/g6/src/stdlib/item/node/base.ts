@@ -8,6 +8,7 @@ import { NodeDisplayModel } from '../../../types';
 import {
   GShapeStyle,
   ItemShapeStyles,
+  SHAPE_TYPE,
   ShapeStyle,
   State,
 } from '../../../types/item';
@@ -223,11 +224,12 @@ export abstract class BaseNode {
   }
 
   public upsertShape(
-    type: string,
+    type: SHAPE_TYPE,
     id: string,
     style: { [shapeAttr: string]: unknown },
     shapeMap: { [shapeId: string]: DisplayObject },
   ): DisplayObject {
-    return upsertShape(type, id, style, shapeMap);
-  };
+    // TODO: update type define.
+    return upsertShape(type, id, style as unknown as GShapeStyle, shapeMap);
+  }
 }

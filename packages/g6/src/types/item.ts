@@ -33,6 +33,12 @@ import {
   NodeModelData,
   NodeUserModel,
 } from './node';
+import {
+  CubeGeometryProps,
+  PlaneGeometryProps,
+  SphereGeometryProps,
+  TorusGeometryProps,
+} from '@antv/g-plugin-3d';
 
 export interface ShapeStyle {
   [shapeAttr: string]: unknown;
@@ -52,7 +58,10 @@ export type GShapeStyle = CircleStyleProps &
   PolylineStyleProps &
   TextStyleProps &
   ImageStyleProps &
-  PathStyleProps;
+  PathStyleProps &
+  SphereGeometryProps &
+  CubeGeometryProps &
+  PlaneGeometryProps;
 
 export interface Encode<T> {
   fields: string[];
