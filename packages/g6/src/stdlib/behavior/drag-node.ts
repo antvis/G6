@@ -161,14 +161,17 @@ export class DragNode extends Behavior {
       return { id, x, y };
     });
 
+    const enableTransient =
+      this.options.enableTransient && this.graph.rendererType !== 'webgl';
+
     // Hide related edge.
-    if (this.options.hideRelatedEdges && !this.options.enableTransient) {
+    if (this.options.hideRelatedEdges && !enableTransient) {
       this.hiddenEdges = this.getRelatedEdges(selectedNodeIds);
       this.graph.hideItem(this.hiddenEdges.map((edge) => edge.id));
     }
 
     // Draw transient nodes and edges.
-    if (this.options.enableTransient) {
+    if (enableTransient) {
       // Draw transient edges and nodes.
       this.hiddenEdges = this.getRelatedEdges(selectedNodeIds);
       this.hiddenEdges.forEach((edge) => {
@@ -211,7 +214,9 @@ export class DragNode extends Behavior {
     if (this.options.enableDelegate) {
       this.moveDelegate(deltaX, deltaY);
     } else {
-      this.debouncedMoveNodes(deltaX, deltaY, this.options.enableTransient);
+      const enableTransient =
+        this.options.enableTransient && this.graph.rendererType !== 'webgl';
+      this.debouncedMoveNodes(deltaX, deltaY, enableTransient);
     }
   };
 
@@ -292,14 +297,18 @@ export class DragNode extends Behavior {
       this.graph.showItem(this.hiddenEdges.map((edge) => edge.id));
       this.hiddenEdges = [];
     }
-    if (this.options.enableTransient) {
+    const enableTransient =
+      this.options.enableTransient && this.graph.rendererType !== 'webgl';
+    if (enableTransient) {
       this.graph.showItem(this.originPositions.map((position) => position.id));
     }
   };
 
   onPointerUp = (event: IG6GraphEvent) => {
+    const enableTransient =
+      this.options.enableTransient && this.graph.rendererType !== 'webgl';
     // If transient or delegate was enabled, move the real nodes.
-    if (this.options.enableTransient || this.options.enableDelegate) {
+    if (enableTransient || this.options.enableDelegate) {
       // @ts-ignore FIXME: type
       const pointerEvent = event as PointerEvent;
       // @ts-ignore FIXME: Type
@@ -309,7 +318,7 @@ export class DragNode extends Behavior {
       this.moveNodes(deltaX, deltaY, false);
     }
 
-    if (this.options.enableTransient) {
+    if (enableTransient) {
       this.clearTransientItems();
     }
 
@@ -340,8 +349,10 @@ export class DragNode extends Behavior {
     this.clearTransientItems();
     this.restoreHiddenItems();
 
+    const enableTransient =
+      this.options.enableTransient && this.graph.rendererType !== 'webgl';
     // Restore node positions.
-    if (!this.options.enableTransient && !this.options.enableDelegate) {
+    if (!enableTransient && !this.options.enableDelegate) {
       const positionChanges = this.originPositions.map(({ id, x, y }) => {
         return { id, data: { x, y } };
       });

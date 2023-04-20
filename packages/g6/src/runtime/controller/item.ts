@@ -170,15 +170,15 @@ export class ItemController {
     if (graph.rendererType === 'webgl') {
       const ambientLight = new AmbientLight({
         style: {
-          fill: '#ccc',
-          intensity: Math.PI,
+          fill: 'white',
+          intensity: Math.PI * 2,
         },
       });
       const light = new DirectionalLight({
         style: {
-          fill: '#ccc',
+          fill: 'white',
           direction: [-1, 0, 1],
-          intensity: Math.PI,
+          intensity: Math.PI * 0.7,
         },
       });
       graph.canvas.appendChild(ambientLight);
@@ -486,11 +486,11 @@ export class ItemController {
         });
       }
       return;
-    } else {
-      const shape = upsertShape(type, String(id), style, transientObjectMap);
-      shape.style.pointerEvents = capture ? 'auto' : 'none';
-      canvas.getRoot().appendChild(shape);
     }
+
+    const shape = upsertShape(type, String(id), style, transientObjectMap);
+    shape.style.pointerEvents = capture ? 'auto' : 'none';
+    canvas.getRoot().appendChild(shape);
   }
   public getTransient(id: string) {
     return this.transientObjectMap[id];

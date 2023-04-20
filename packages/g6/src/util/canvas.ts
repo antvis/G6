@@ -33,7 +33,7 @@ export const createCanvas = (
     case 'webgl':
       renderer = new WebGLRenderer();
       renderer.registerPlugin(new Plugin3D());
-      renderer.registerPlugin(new PluginControl());
+      // renderer.registerPlugin(new PluginControl());
       break;
     default:
       renderer = new CanvasRenderer();

@@ -1,4 +1,4 @@
-import { DisplayObject, Group } from "@antv/g";
+import { DisplayObject, Group } from '@antv/g';
 import {
   ProceduralGeometry,
   SphereGeometry,
@@ -6,9 +6,9 @@ import {
   Mesh,
   MeshBasicMaterial,
   MeshPhongMaterial,
-} from "@antv/g-plugin-3d";
-import { EdgeShapeMap } from "../types/edge";
-import { NodeShapeMap } from "../types/node";
+} from '@antv/g-plugin-3d';
+import { EdgeShapeMap } from '../types/edge';
+import { NodeShapeMap } from '../types/node';
 
 const GeometryTagMap = {
   sphere: SphereGeometry,
@@ -16,7 +16,10 @@ const GeometryTagMap = {
 };
 
 // Share the same geometry & material between meshes.
-let basicMaterial: MeshPhongMaterial;
+const basicMaterial: Record<
+  string,
+  MeshPhongMaterial | MeshBasicMaterial<any>
+> = {};
 const GEOMETRY_SIZE = 10;
 const GeometryCache: Record<string, ProceduralGeometry<any>> = {};
 
@@ -24,8 +27,10 @@ export const createShape3D = (
   type: string,
   style: { [shapeAttr: string]: unknown },
   id: string,
-  device: any
+  device: any,
 ) => {
+  // materialType: 'phong' | 'basic',
+  const { materialType = 'phong', ...otherStyles } = style;
   let cachedGeometry = GeometryCache[type];
   if (!cachedGeometry) {
     cachedGeometry = GeometryCache[type] = new GeometryTagMap[type](device, {
@@ -35,15 +40,28 @@ export const createShape3D = (
     });
   }
 
-  if (!basicMaterial) {
-    basicMaterial = new MeshPhongMaterial(device);
+  if (!basicMaterial[materialType as string]) {
+    switch (materialType) {
+      case 'basic':
+        basicMaterial[materialType as string] = new MeshBasicMaterial(device);
+        break;
+      case 'phong':
+      default:
+        const materialProps = {
+          shininess: 30,
+        };
+        basicMaterial[materialType as string] = new MeshPhongMaterial(
+          device,
+          materialProps,
+        );
+    }
   }
 
   const shape = new Mesh({
     style: {
-      ...style,
+      ...otherStyles,
       geometry: cachedGeometry,
-      material: basicMaterial,
+      material: basicMaterial[materialType as string],
     },
     id,
   });
@@ -60,7 +78,7 @@ export const upsertShape3D = (
   id: string,
   style: { [shapeAttr: string]: unknown },
   shapeMap: { [shapeId: string]: DisplayObject },
-  device: any
+  device: any,
 ): DisplayObject => {
   let shape = shapeMap[id];
   if (!shape) {
@@ -91,7 +109,7 @@ export const updateShapes3D = (
   newShapeMap: { [id: string]: DisplayObject },
   group: Group,
   removeDiff: boolean = true,
-  shouldUpdate: (id: string) => boolean = () => true
+  shouldUpdate: (id: string) => boolean = () => true,
 ): NodeShapeMap | EdgeShapeMap => {
   const tolalMap = {
     ...prevShapeMap,

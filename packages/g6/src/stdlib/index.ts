@@ -8,7 +8,7 @@ import LassoSelect from './behavior/lasso-select';
 import { DragNode } from './behavior/drag-node';
 import { comboFromNode } from './data/comboFromNode';
 import { LineEdge } from './item/edge';
-import { CircleNode } from './item/node';
+import { CircleNode, SphereNode } from './item/node';
 import DarkTheme from './theme/dark';
 import LightTheme from './theme/light';
 import SpecThemeSolver from './themeSolver/spec';
@@ -19,6 +19,8 @@ import rectSelector from './selector/rect';
 import Minimap from './plugin/minimap';
 import Legend from './plugin/legend';
 import ZoomCanvas from './behavior/zoom-canvas';
+import ZoomCanvas3D from './behavior/zoom-canvas-3d';
+import { RotateCanvas3D } from './behavior/rotate-canvas-3d';
 
 const stdLib = {
   transforms: {
@@ -41,6 +43,8 @@ const stdLib = {
     'click-select': ClickSelect,
     'brush-select': BrushSelect,
     'lasso-select': LassoSelect,
+    'zoom-canvas-3d': ZoomCanvas3D,
+    'rotate-canvas-3d': RotateCanvas3D,
   },
   plugins: {
     minimap: Minimap,

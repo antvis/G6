@@ -137,7 +137,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       this.rendererType = renderer || 'canvas';
     }
     const containerDOM = isString(container)
-      ? document.getElementById('container')
+      ? document.getElementById(container as string)
       : container;
     if (!containerDOM) {
       console.error(

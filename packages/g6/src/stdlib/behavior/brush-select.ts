@@ -149,7 +149,7 @@ export default class BrushSelect extends Behavior {
     if (!this.options.shouldBegin(event)) return;
     const { itemId, canvas } = event;
     // should not begin at an item
-    if (itemId && itemId !== 'CANVAS') return;
+    if (itemId) return;
 
     this.beginPoint = {
       x: canvas.x,

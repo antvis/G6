@@ -1,8 +1,8 @@
-import { DisplayObject } from "@antv/g";
-import { NodeDisplayModel } from "../../../types";
-import { ItemShapeStyles, State } from "../../../types/item";
-import { NodeModelData, NodeShapeMap } from "../../../types/node";
-import { BaseNode3D } from "./base3d";
+import { DisplayObject } from '@antv/g';
+import { NodeDisplayModel } from '../../../types';
+import { ItemShapeStyles, State } from '../../../types/item';
+import { NodeModelData, NodeShapeMap } from '../../../types/node';
+import { BaseNode3D } from './base3d';
 
 export class SphereNode extends BaseNode3D {
   override defaultStyles = {
@@ -13,7 +13,6 @@ export class SphereNode extends BaseNode3D {
       x: 0,
       y: 0,
       z: 0,
-      opacity: 0.6,
     },
   };
   mergedStyles: ItemShapeStyles;
@@ -24,7 +23,7 @@ export class SphereNode extends BaseNode3D {
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
     diffData?: { previous: NodeModelData; current: NodeModelData },
-    diffState?: { previous: State[]; current: State[] }
+    diffState?: { previous: State[]; current: State[] },
   ): NodeShapeMap {
     const { data = {} } = model;
     let shapes: NodeShapeMap = { keyShape: undefined };
@@ -52,13 +51,13 @@ export class SphereNode extends BaseNode3D {
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
     diffData?: { previous: NodeModelData; current: NodeModelData },
-    diffState?: { previous: State[]; current: State[] }
+    diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
     return this.upsertShape(
-      "sphere",
-      "keyShape",
+      'sphere',
+      'keyShape',
       this.mergedStyles.keyShape,
-      shapeMap
+      shapeMap,
     );
   }
 }
