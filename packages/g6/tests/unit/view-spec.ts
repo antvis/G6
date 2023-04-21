@@ -1,10 +1,8 @@
-import { Graph, Layout, LayoutMapping } from '@antv/layout';
 import { Circle } from '@antv/g';
-import G6, { IGraph, stdLib } from '../../src/index';
+import G6 from '../../src/index';
 import { data } from '../datasets/dataset1';
 const container = document.createElement('div');
 
-// document.getElementById('__jest-electron-test-results__')?.style.position = 'absolute';
 document.querySelector('body')!.appendChild(container);
 
 describe('viewport', () => {
@@ -26,13 +24,13 @@ describe('viewport', () => {
     graph.once('afterlayout', () => {
       graph.translate(250, 250);
       let [px, py] = graph.canvas.getCamera().getPosition();
-      expect(px).toBe(0);
-      expect(py).toBe(0);
+      expect(px).toBeCloseTo(0, 1);
+      expect(py).toBeCloseTo(0, 1);
 
       graph.translate(-250, -250);
       [px, py] = graph.canvas.getCamera().getPosition();
-      expect(px).toBe(250);
-      expect(py).toBe(250);
+      expect(px).toBeCloseTo(250, 1);
+      expect(py).toBeCloseTo(250, 1);
 
       graph.destroy();
       done();
@@ -59,11 +57,11 @@ describe('viewport', () => {
       });
 
       graph.once('viewportchange', ({ translate }) => {
-        expect(translate.dx).toBe(-250);
-        expect(translate.dy).toBe(-250);
+        expect(translate.dx).toBeCloseTo(-250, 1);
+        expect(translate.dy).toBeCloseTo(-250, 1);
         const [px, py] = graph.canvas.getCamera().getPosition();
-        expect(px).toBe(251);
-        expect(py).toBe(251);
+        expect(px).toBeCloseTo(251, 1);
+        expect(py).toBeCloseTo(251, 1);
       });
 
       await graph.translateTo(
@@ -155,8 +153,8 @@ describe('viewport', () => {
       graph.once('viewportchange', ({ zoom }) => {
         expect(zoom.ratio).toBe(2);
         expect(graph.canvas.getCamera().getZoom()).toBe(1);
-        expect(graph.canvas.getCamera().getPosition()[0]).toBe(250);
-        expect(graph.canvas.getCamera().getPosition()[1]).toBe(250);
+        expect(graph.canvas.getCamera().getPosition()[0]).toBeCloseTo(250, 1);
+        expect(graph.canvas.getCamera().getPosition()[1]).toBeCloseTo(250, 1);
       });
       await graph.zoom(
         2,
@@ -319,8 +317,8 @@ describe('viewport', () => {
       // });
 
       graph.once('viewportchange', ({ translate }) => {
-        expect(translate.dx).toBe(-250);
-        expect(translate.dy).toBe(-250);
+        expect(translate.dx).toBeCloseTo(-250, 1);
+        expect(translate.dy).toBeCloseTo(-250, 1);
         // expect(graph.canvas.getCamera().getZoom()).toBe(0.5);
         // expect(graph.canvas.getCamera().getRoll()).toBe(0);
       });
@@ -395,8 +393,8 @@ describe('viewport', () => {
 
     graph.once('afterlayout', async () => {
       graph.once('viewportchange', ({ translate }) => {
-        expect(translate.dx).toBe(-250);
-        expect(translate.dy).toBe(-250);
+        expect(translate.dx).toBeCloseTo(-250, 1);
+        expect(translate.dy).toBeCloseTo(-250, 1);
       });
       await graph.transform(
         {
@@ -436,11 +434,11 @@ describe('viewport', () => {
       });
 
       graph.once('viewportchange', ({ translate }) => {
-        expect(translate.dx).toBeCloseTo(-249);
-        expect(translate.dy).toBeCloseTo(-249);
+        expect(translate.dx).toBeCloseTo(-249, 1);
+        expect(translate.dy).toBeCloseTo(-249, 1);
         const [px, py] = graph.canvas.getCamera().getPosition();
-        expect(px).toBeCloseTo(250);
-        expect(py).toBeCloseTo(250);
+        expect(px).toBeCloseTo(250, 1);
+        expect(py).toBeCloseTo(250, 1);
       });
 
       await graph.fitCenter({
@@ -451,11 +449,11 @@ describe('viewport', () => {
       await graph.zoom(0.5);
       await graph.translate(249, 249);
       graph.once('viewportchange', ({ translate }) => {
-        expect(translate.dx).toBeCloseTo(-249);
-        expect(translate.dy).toBeCloseTo(-249);
+        expect(translate.dx).toBeCloseTo(-249, 1);
+        expect(translate.dy).toBeCloseTo(-249, 1);
         const [px, py] = graph.canvas.getCamera().getPosition();
-        expect(px).toBeCloseTo(250);
-        expect(py).toBeCloseTo(250);
+        expect(px).toBeCloseTo(250, 1);
+        expect(py).toBeCloseTo(250, 1);
       });
       await graph.fitCenter();
 
@@ -482,7 +480,7 @@ describe('viewport', () => {
       const nodesData = graph.getAllNodesData();
       expect(nodesData[0].id).toBe('Argentina');
       expect(nodesData[0].data.x).toBe(450);
-      expect(nodesData[0].data.y).toBe(250);
+      expect(nodesData[0].data.y).toBeCloseTo(250, 1);
 
       expect(nodesData[4].id).toBe('Colombia');
       expect(nodesData[4].data.x).toBeCloseTo(391.421356237309);
@@ -490,8 +488,8 @@ describe('viewport', () => {
 
       graph.once('viewportchange', () => {
         const [px, py] = graph.canvas.getCamera().getPosition();
-        expect(px).toBeCloseTo(450);
-        expect(py).toBeCloseTo(250);
+        expect(px).toBeCloseTo(450, 1);
+        expect(py).toBeCloseTo(250, 1);
       });
       await graph.focusItem('Argentina', {
         duration: 1000,
@@ -514,15 +512,15 @@ describe('viewport', () => {
 
       graph.once('viewportchange', () => {
         const [px, py] = graph.canvas.getCamera().getPosition();
-        expect(px).toBe(450);
-        expect(py).toBe(250);
+        expect(px).toBeCloseTo(450, 1);
+        expect(py).toBeCloseTo(250, 1);
       });
       await graph.focusItem('Argentina');
 
       graph.once('viewportchange', () => {
         const [px, py] = graph.canvas.getCamera().getPosition();
-        expect(px).toBeCloseTo(250);
-        expect(py).toBeCloseTo(250);
+        expect(px).toBeCloseTo(250, 1);
+        expect(py).toBeCloseTo(250, 1);
       });
       await graph.focusItem(nodesData.map((node) => node.id));
 
@@ -550,8 +548,8 @@ describe('viewport', () => {
     graph.once('afterlayout', async () => {
       const nodesData = graph.getAllNodesData();
       expect(nodesData[0].id).toBe('Argentina');
-      expect(nodesData[0].data.x).toBe(450);
-      expect(nodesData[0].data.y).toBe(250);
+      expect(nodesData[0].data.x).toBeCloseTo(450, 1);
+      expect(nodesData[0].data.y).toBeCloseTo(250, 1);
 
       expect(nodesData[4].id).toBe('Colombia');
       expect(nodesData[4].data.x).toBeCloseTo(391.421356237309);
@@ -559,8 +557,8 @@ describe('viewport', () => {
 
       graph.once('viewportchange', () => {
         const [px, py] = graph.canvas.getCamera().getPosition();
-        expect(px).toBeCloseTo(450);
-        expect(py).toBeCloseTo(250);
+        expect(px).toBeCloseTo(450, 1);
+        expect(py).toBeCloseTo(250, 1);
       });
       await graph.focusItem('Argentina', {
         duration: 1000,

@@ -815,7 +815,7 @@ describe('register node', () => {
       expect(node3.shapeMap.testShape).not.toBe(undefined);
       expect(node3.shapeMap.keyShape.nodeName).toBe('rect');
 
-      const node2 = graph.itemController.itemMap['node2'];
+      let node2 = graph.itemController.itemMap['node2'];
       expect(node2.shapeMap.testShape).toBe(undefined);
       expect(node2.shapeMap.keyShape.nodeName).toBe('circle');
 
@@ -826,7 +826,7 @@ describe('register node', () => {
           type: 'custom-node1',
         },
       });
-      const node2 = graph.itemController.itemMap['node2'];
+      node2 = graph.itemController.itemMap['node2'];
       expect(node2.shapeMap.testShape).not.toBe(undefined);
       expect(node2.shapeMap.keyShape.nodeName).toBe('rect');
 

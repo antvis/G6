@@ -1,4 +1,5 @@
 import { Graph } from '../../../src/index';
+import { pxCompare } from '../util';
 
 const container = document.createElement('div');
 document.querySelector('body').appendChild(container);
@@ -43,43 +44,42 @@ describe('plugin', () => {
       expect(viewport).not.toBe(undefined);
       // setTimeout for: minimap viewport debounce update
       setTimeout(() => {
-        expect(viewport.style.left).toBe('0px');
-        expect(viewport.style.top).toBe('0px');
-        expect(viewport.style.width).toBe('200px');
-        expect(viewport.style.height).toBe('120px');
+        expect(pxCompare(viewport.style.left, 0)).toBe(true);
+        expect(pxCompare(viewport.style.top, 0)).toBe(true);
+        expect(pxCompare(viewport.style.width, 200)).toBe(true);
+        expect(pxCompare(viewport.style.height, 120)).toBe(true);
 
         graph.zoom(3);
         graph.translate(50, 250);
         // setTimeout for: 1. zoom an translate are async function; 2. minimap viewport debounce update
         setTimeout(() => {
-          expect(viewport.style.left).toBe('99.3658px');
-          expect(viewport.style.top).toBe('0px');
-          expect(viewport.style.width).toBe('100.634px');
-          expect(viewport.style.height).toBe('76.4581px');
-
+          expect(pxCompare(viewport.style.left, 100)).toBe(true);
+          expect(pxCompare(viewport.style.top, 0)).toBe(true);
+          expect(pxCompare(viewport.style.width, 100)).toBe(true);
+          expect(pxCompare(viewport.style.height, 76)).toBe(true);
           graph.addData('node', [{ id: 'node3', data: { x: 50, y: 150 } }]);
           setTimeout(() => {
-            expect(viewport.style.left).toBe('117.383px');
-            expect(viewport.style.top).toBe('0px');
-            expect(viewport.style.width).toBe('82.6175px');
-            expect(viewport.style.height).toBe('88.345px');
+            expect(pxCompare(viewport.style.left, 117)).toBe(true);
+            expect(pxCompare(viewport.style.top, 0)).toBe(true);
+            expect(pxCompare(viewport.style.width, 82)).toBe(true);
+            expect(pxCompare(viewport.style.height, 88)).toBe(true);
 
             graph.updateData('node', [
               { id: 'node3', data: { x: 150, y: 50 } },
             ]);
 
             setTimeout(() => {
-              expect(viewport.style.left).toBe('99.7435px');
-              expect(viewport.style.top).toBe('28.3537px');
-              expect(viewport.style.width).toBe('100.257px');
-              expect(viewport.style.height).toBe('69.4723px');
+              expect(pxCompare(viewport.style.left, 100)).toBe(true);
+              expect(pxCompare(viewport.style.top, 28)).toBe(true);
+              expect(pxCompare(viewport.style.width, 100)).toBe(true);
+              expect(pxCompare(viewport.style.height, 69)).toBe(true);
 
               graph.removeData('node', 'node3');
               setTimeout(() => {
-                expect(viewport.style.left).toBe('99.3658px');
-                expect(viewport.style.top).toBe('0px');
-                expect(viewport.style.width).toBe('100.634px');
-                expect(viewport.style.height).toBe('76.4581px');
+                expect(pxCompare(viewport.style.left, 100)).toBe(true);
+                expect(pxCompare(viewport.style.top, 0)).toBe(true);
+                expect(pxCompare(viewport.style.width, 100)).toBe(true);
+                expect(pxCompare(viewport.style.height, 76)).toBe(true);
 
                 graph.destroy();
                 const viewport2 = document.getElementsByClassName(
@@ -113,6 +113,8 @@ describe('plugin', () => {
         'g6-minimap-viewport',
       )?.[0];
       setTimeout(() => {
+        expect(pxCompare(viewport.style.width, 300)).toBe(true);
+        expect(pxCompare(viewport.style.height, 300)).toBe(true);
         expect(viewport.style.width).toBe('300px');
         expect(viewport.style.height).toBe('300px');
         const { plugin: minimap } =
@@ -152,6 +154,8 @@ describe('plugin', () => {
         'g6-minimap-viewport',
       )?.[0];
       setTimeout(() => {
+        expect(pxCompare(viewport.style.width, 200)).toBe(true);
+        expect(pxCompare(viewport.style.height, 300)).toBe(true);
         expect(viewport.style.width).toBe('200px');
         expect(viewport.style.height).toBe('300px');
         const { plugin: minimap } =

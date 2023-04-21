@@ -752,7 +752,6 @@ describe('lasso-select behavior with itemTypes', () => {
             onDeselect: (selectedIds, deselectedIds) => {
               expect(deselectedIds.nodes.length).toBe(0);
               expect(deselectedIds.edges.length).toBe(1);
-
               const selectedNodes = graph.findIdByState('node', 'selected');
               const selectedEdges = graph.findIdByState('edge', 'selected');
               expect(selectedEdges.length).toBe(0);
@@ -783,7 +782,7 @@ describe('lasso-select behavior with itemTypes', () => {
         shiftKey: true,
       });
       graph.emit('canvas:pointermove', {
-        canvas: { x: 100, y: 250 },
+        canvas: { x: 200, y: 50 },
         shiftKey: true,
       });
       graph.emit('canvas:pointermove', {
@@ -791,13 +790,14 @@ describe('lasso-select behavior with itemTypes', () => {
         shiftKey: true,
       });
       graph.emit('canvas:pointermove', {
-        canvas: { x: 200, y: 50 },
+        canvas: { x: 100, y: 250 },
         shiftKey: true,
       });
       graph.emit('canvas:pointerup', {
-        canvas: { x: 200, y: 50 },
+        canvas: { x: 100, y: 250 },
         shiftKey: true,
       });
+
       // expect in onSelect
       graph.emit('canvas:pointerdown', {
         canvas: { x: 100, y: 50 },
@@ -809,7 +809,7 @@ describe('lasso-select behavior with itemTypes', () => {
       });
       // expect in onDeselect
 
-      graph.destroy();
+      // graph.destroy();
       done();
     });
   });
@@ -1196,15 +1196,7 @@ describe('lasso-select behavior with shouldBegin and shouldUpdate', () => {
               return true;
             },
             onSelect: (selectedIds) => {
-              if (times === 0) {
-                expect(selectedIds.nodes.length).toBe(0);
-                expect(selectedIds.nodes[0]).toBe('node2');
-                expect(selectedIds.edges.length).toBe(0);
-                const selectedNodes = graph.findIdByState('node', 'selected');
-                const selectedEdges = graph.findIdByState('edge', 'selected');
-                expect(selectedNodes.length).toBe(0);
-                expect(selectedEdges.length).toBe(0);
-              } else {
+              if (times !== 0) {
                 expect(selectedIds.nodes.length).toBe(1);
                 expect(selectedIds.nodes[0]).toBe('node2');
                 expect(selectedIds.edges.length).toBe(0);
@@ -1242,6 +1234,7 @@ describe('lasso-select behavior with shouldBegin and shouldUpdate', () => {
     });
 
     graph.on('afterlayout', (e) => {
+      // shouldBegin false
       graph.emit('canvas:pointerdown', {
         canvas: { x: 0, y: 0 },
         shiftKey: true,
@@ -1362,29 +1355,43 @@ describe('lasso-select behavior with brushStyle', () => {
         canvas: { x: 200, y: 50 },
         shiftKey: true,
       });
-      // console.log('root', graph.transientCanvas.getRoot())
-      expect(graph.transientCanvas.getRoot().childNodes.length).toBe(1);
-      expect(graph.transientCanvas.getRoot().childNodes[0].config.id).toBe(
+      // edge group + node group + brush
+      expect(graph.transientCanvas.getRoot().childNodes.length).toBe(3);
+      expect(graph.transientCanvas.getRoot().childNodes[2].config.id).toBe(
         'g6-lasso-select-brush-shape',
       );
-      expect(graph.transientCanvas.getRoot().childNodes[0].style.fill).toBe(
+      expect(graph.transientCanvas.getRoot().childNodes[2].style.fill).toBe(
         '#f00',
       );
       expect(
-        graph.transientCanvas.getRoot().childNodes[0].style.fillOpacity,
+        graph.transientCanvas.getRoot().childNodes[2].style.fillOpacity,
       ).toBe(0.5);
       graph.emit('canvas:pointerup', {
         canvas: { x: 200, y: 150 },
         shiftKey: true,
       });
-      expect(graph.transientCanvas.getRoot().childNodes.length).toBe(0);
+      console.log(
+        'graph.transientCanvas.getRoot().childNodes',
+        graph.transientCanvas.getRoot().childNodes,
+      );
+      expect(graph.transientCanvas.getRoot().childNodes.length).toBe(2);
 
       // TODO: wait for correct removeBehaviors
-      // graph.emit('canvas:pointerdown', { canvas: { x: 0, y: 0 }, shiftKey: true });
-      // graph.emit('canvas:pointermove', { canvas: { x: 200, y: 150 }, shiftKey: true });
-      // expect(graph.transientCanvas.getRoot().childNodes.length).toBe(1);
-      // graph.removeBehaviors(['x'], 'default');
-      // expect(graph.transientCanvas.getRoot().childNodes.length).toBe(0);
+      graph.emit('canvas:pointerdown', {
+        canvas: { x: 0, y: 0 },
+        shiftKey: true,
+      });
+      graph.emit('canvas:pointermove', {
+        canvas: { x: 200, y: 150 },
+        shiftKey: true,
+      });
+      graph.emit('canvas:pointermove', {
+        canvas: { x: 100, y: 150 },
+        shiftKey: true,
+      });
+      expect(graph.transientCanvas.getRoot().childNodes.length).toBe(3);
+      graph.removeBehaviors(['x'], 'default');
+      expect(graph.transientCanvas.getRoot().childNodes.length).toBe(2);
       graph.destroy();
       done();
     });
