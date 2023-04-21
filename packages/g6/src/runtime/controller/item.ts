@@ -78,7 +78,7 @@ export class ItemController {
     [id: string]: DisplayObject;
   } = {};
   private transientItemMap: {
-    [id: string]: Node | Edge | Combo;
+    [id: string]: Node | Edge | Combo | Group;
   } = {};
 
   constructor(graph: IGraph<any, any>) {
@@ -390,13 +390,20 @@ export class ItemController {
       // Data to be merged into the transient item.
       data?: Record<string, any>;
       action: 'remove' | 'add' | 'update' | undefined;
+      onlyDrawKeyShape?: boolean;
       [shapeConfig: string]: unknown;
     };
     canvas: Canvas;
   }) {
     const { transientObjectMap } = this;
     const { type, id, config = {}, canvas } = param;
-    const { style = {}, data = {}, capture, action } = config as any;
+    const {
+      style = {},
+      data = {},
+      capture,
+      action,
+      onlyDrawKeyShape,
+    } = config as any;
     const isItemType = type === 'node' || type === 'edge' || type === 'combo';
 
     // Removing
@@ -432,14 +439,29 @@ export class ItemController {
         this.transientNodeGroup,
         this.transientEdgeGroup,
         this.transientItemMap,
+        onlyDrawKeyShape,
       );
-      transientItem.update({
-        ...transientItem.model,
-        data: {
-          ...transientItem.model.data,
-          ...data,
-        },
-      });
+      if (onlyDrawKeyShape) {
+        // only update node positions to cloned node container(group)
+        if (
+          type === 'node' &&
+          data.hasOwnProperty('x') &&
+          data.hasOwnProperty('y')
+        ) {
+          const { x, y } = data;
+          (transientItem as Group).setPosition([x, y]);
+        }
+        // TODO: edge onlyDrawKeyShape?
+      } else {
+        const transItem = transientItem as Node | Edge | Combo;
+        transItem.update({
+          ...transItem.model,
+          data: {
+            ...transItem.model.data,
+            ...data,
+          },
+        });
+      }
       return;
     } else {
       const shape = upsertShape(type, String(id), style, transientObjectMap);

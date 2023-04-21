@@ -1295,6 +1295,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     config: {
       action: 'remove' | 'add' | 'update' | undefined;
       style: ShapeStyle;
+      onlyDrawKeyShape?: boolean;
     },
   ): DisplayObject {
     this.hooks.transientupdate.emit({
