@@ -81,6 +81,12 @@ export default class DragCanvas extends Behavior {
   }
 
   getEvents() {
+    if (this.options.trigger === 'directionKeys') {
+      return {
+        keydown: this.onKeydown,
+        keyup: this.onKeyup,
+      };
+    }
     return {
       pointerdown: this.onPointerDown,
       pointermove: this.onPointerMove,
