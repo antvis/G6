@@ -37,6 +37,15 @@ export interface ZoomCanvasOptions {
    * Whether allow the behavior happen on the current item.
    */
   shouldBegin?: (event: IG6GraphEvent) => boolean;
+
+  // TODO: fixSelectedItems, optimizeZoom
+  // fixSelectedItems: {
+  //   fixAll: false,
+  //   fixLineWidth: false,
+  //   fixLabel: false,
+  //   fixState: 'selected',
+  // },
+  // optimizeZoom: hide shapes when zoom ratio is smaller than optimizeZoom
 }
 
 const DEFAULT_OPTIONS: Required<ZoomCanvasOptions> = {
