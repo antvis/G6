@@ -11,25 +11,15 @@
     "graph visualization",
     "relational data"
   ],
-  "homepage": "https://g6.antv.antgroup.com/",
-  "bugs": {
-    "url": "https://github.com/antvis/g6/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/antvis/g6"
-  },
-  "license": "MIT",
-  "author": "https://github.com/orgs/antvis/people",
-  "main": "lib/index.js",
-  "module": "esm/index.js",
-  "types": "lib/index.d.ts",
   "files": [
     "src",
     "esm",
     "lib",
     "dist"
   ],
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "dev": "vite",
     "start": "father build --watch",
@@ -49,14 +39,7 @@
     "test": "jest",
     "size": "limit-size",
     "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/theme-subject-spec.ts",
-    "test-behavior": "DEBUG_MODE=1 jest --watch ./tests/unit/plugins/minimap-spec.ts"
-  },
-  "lint-staged": {
-    "*.{ts,tsx}": [
-      "eslint --fix",
-      "prettier --write",
-      "git add"
-    ]
+    "test-behavior": "DEBUG_MODE=1 jest --watch ./tests/unit/click-select-spec.ts"
   },
   "dependencies": {
     "@ant-design/colors": "^7.0.0",
@@ -105,6 +88,13 @@
     "typescript": "^4.6.3",
     "vite": "^4.2.2"
   },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ]
+  },
   "limit-size": [
     {
       "path": "dist/g6.min.js",
@@ -115,5 +105,15 @@
       "path": "dist/g6.min.js",
       "limit": "2 Mb"
     }
-  ]
+  ],
+  "homepage": "https://g6.antv.antgroup.com/",
+  "bugs": {
+    "url": "https://github.com/antvis/g6/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/antvis/g6"
+  },
+  "license": "MIT",
+  "author": "https://github.com/orgs/antvis/people"
 }
