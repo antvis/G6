@@ -1,5 +1,9 @@
 # ChangeLog
 
+### 4.8.10
+
+- fix: update layout from animate false to true;
+
 ### 4.8.9
 
 - fix: type for draw function in elements, closes: #4395;
