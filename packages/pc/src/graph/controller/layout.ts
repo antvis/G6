@@ -191,6 +191,16 @@ export default class LayoutController extends AbstractLayout {
         reslove();
       }
 
+      if (Util.isForce(layoutType)) {
+        const { onTick, animate } = layoutCfg;
+        const isDefaultAnimateLayout = animate === undefined && (layoutType === 'force' || layoutType === 'force2');
+        const tick = () => {
+          onTick?.();
+          if (animate || isDefaultAnimateLayout) graph.refreshPositions();
+        };
+        layoutCfg.tick = tick;
+      }
+
       const layoutData = this.filterLayoutData(this.data, layoutCfg);
       layoutMethod.init(layoutData);
       layoutMethod.updateCfg(layoutCfg);
