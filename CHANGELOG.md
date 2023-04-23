@@ -1,6 +1,6 @@
 # ChangeLog
 
-### 4.8.11
+### 4.8.11-beta.0
 
 - fix: position animations;
 
