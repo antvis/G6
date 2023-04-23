@@ -91,7 +91,7 @@ size: 200,
 ```
 
 | Name | Description | Type | Remark |
-| --- | --- | --- | --- | --- |
+| --- | --- | --- | --- |
 | **img** | **The URL addgress** | **String** | **special property for image node** |
 | size | The size of the node | Number | Array | When it is a number, the width and the height are the same |
 | label | The text of the label | String |  |
