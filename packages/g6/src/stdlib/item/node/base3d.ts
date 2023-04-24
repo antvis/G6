@@ -1,7 +1,13 @@
 import { DisplayObject } from '@antv/g';
 import { DEFAULT_LABEL_BG_PADDING } from '../../../constant';
 import { NodeDisplayModel } from '../../../types';
-import { GShapeStyle, ItemShapeStyles, State } from '../../../types/item';
+import {
+  GShapeStyle,
+  ItemShapeStyles,
+  SHAPE_TYPE,
+  SHAPE_TYPE_3D,
+  State,
+} from '../../../types/item';
 import { NodeModelData, NodeShapeMap } from '../../../types/node';
 import { formatPadding, mergeStyles, upsertShape } from '../../../util/shape';
 import { upsertShape3D } from '../../../util/shape3d';
@@ -163,7 +169,7 @@ export abstract class BaseNode3D extends BaseNode {
 
   // TODO: 如何禁止重写？
   public upsertShape(
-    type: string,
+    type: SHAPE_TYPE_3D | SHAPE_TYPE,
     id: string,
     style: { [shapeAttr: string]: unknown },
     shapeMap: { [shapeId: string]: DisplayObject },

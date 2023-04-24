@@ -9,6 +9,7 @@ import {
   GShapeStyle,
   ItemShapeStyles,
   SHAPE_TYPE,
+  SHAPE_TYPE_3D,
   ShapeStyle,
   State,
 } from '../../../types/item';
@@ -224,12 +225,17 @@ export abstract class BaseNode {
   }
 
   public upsertShape(
-    type: SHAPE_TYPE,
+    type: SHAPE_TYPE | SHAPE_TYPE_3D,
     id: string,
     style: { [shapeAttr: string]: unknown },
     shapeMap: { [shapeId: string]: DisplayObject },
   ): DisplayObject {
     // TODO: update type define.
-    return upsertShape(type, id, style as unknown as GShapeStyle, shapeMap);
+    return upsertShape(
+      type as SHAPE_TYPE,
+      id,
+      style as unknown as GShapeStyle,
+      shapeMap,
+    );
   }
 }

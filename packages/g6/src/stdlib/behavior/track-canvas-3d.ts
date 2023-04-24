@@ -1,5 +1,5 @@
 import { IG6GraphEvent } from '../../types/event';
-import { RotateCanvas3D } from './rotate-canvas-3d';
+import RotateCanvas3D from './rotate-canvas-3d';
 import { CameraType } from '@antv/g';
 
 // TODO: truck canvas

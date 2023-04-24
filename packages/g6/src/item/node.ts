@@ -35,7 +35,7 @@ export default class Node extends Item {
     const { group, renderExt, shapeMap: prevShapeMap, model } = this;
     const { data } = displayModel;
     const { x = 0, y = 0, z = 0 } = data;
-    group.setPosition(x, y, z);
+    group.setPosition(x as number, y as number, z as number);
     this.group.setAttribute('data-item-type', 'node');
     this.group.setAttribute('data-item-id', model.id);
     renderExt.mergeStyles(displayModel);
