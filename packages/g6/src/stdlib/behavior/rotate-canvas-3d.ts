@@ -49,7 +49,7 @@ const DEFAULT_OPTIONS: Required<RotateCanvas3DOptions> = {
 /**
  * Rotate the 3d canvas with the center of the graph.
  */
-export class RotateCanvas3D extends Behavior {
+export default class RotateCanvas3D extends Behavior {
   options: RotateCanvas3DOptions;
 
   public pointStartAt: Point;
