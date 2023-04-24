@@ -28,14 +28,15 @@ export const upsertTransientItem = (
   item: Node | Edge | Combo,
   nodeGroup: Group,
   edgeGroup: Group,
-  transientItemMap: Record<string, Node | Edge | Combo>,
+  transientItemMap: Record<string, Node | Edge | Combo | Group>,
+  onlyDrawKeyShape?: boolean,
 ) => {
   const transientItem = transientItemMap[item.model.id];
   if (transientItem) {
     return transientItem;
   }
   if (item.type === 'node') {
-    const transientNode = item.clone(nodeGroup);
+    const transientNode = item.clone(nodeGroup, onlyDrawKeyShape);
     transientItemMap[item.model.id] = transientNode;
     return transientNode;
   } else if (item.type === 'edge') {
@@ -44,12 +45,14 @@ export const upsertTransientItem = (
       nodeGroup,
       edgeGroup,
       transientItemMap,
+      onlyDrawKeyShape,
     ) as Node;
     const target = upsertTransientItem(
       item.targetItem,
       nodeGroup,
       edgeGroup,
       transientItemMap,
+      onlyDrawKeyShape,
     ) as Node;
     const transientEdge = item.clone(edgeGroup, source, target);
     transientItemMap[item.model.id] = transientEdge;

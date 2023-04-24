@@ -103,7 +103,19 @@ export default class Edge extends Item {
   //   super.update(model);
   // }
 
-  public clone(containerGroup: Group, sourceItem: Node, targetItem: Node) {
+  public clone(
+    containerGroup: Group,
+    sourceItem: Node,
+    targetItem: Node,
+    onlyKeyShape?: boolean,
+  ) {
+    if (onlyKeyShape) {
+      const clonedKeyShape = this.shapeMap.keyShape.cloneNode();
+      const clonedGroup = new Group();
+      clonedGroup.appendChild(clonedKeyShape);
+      containerGroup.appendChild(clonedGroup);
+      return clonedGroup;
+    }
     return new Edge({
       model: clone(this.model),
       renderExtensions: this.renderExtensions,

@@ -262,13 +262,13 @@ export default abstract class Item implements IItem {
 
   public show() {
     // TODO: utilize graphcore's view
-    this.group.style.visibility = 'visible';
+    this.group.show();
     this.visible = true;
   }
 
   public hide() {
     // TODO: utilize graphcore's view
-    this.group.style.visibility = 'hidden';
+    this.group.hide();
     this.visible = false;
   }
 

@@ -67,7 +67,16 @@ export default class Node extends Item {
     this.group.style.y = y;
   }
 
-  public clone(containerGroup: Group) {
+  public clone(containerGroup: Group, onlyKeyShape?: boolean) {
+    if (onlyKeyShape) {
+      const clonedKeyShape = this.shapeMap.keyShape.cloneNode();
+      const { x, y } = this.group.attributes;
+      const clonedGroup = new Group();
+      clonedGroup.setPosition([x, y]);
+      clonedGroup.appendChild(clonedKeyShape);
+      containerGroup.appendChild(clonedGroup);
+      return clonedGroup;
+    }
     return new Node({
       model: clone(this.model),
       renderExtensions: this.renderExtensions,

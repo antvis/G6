@@ -18,6 +18,7 @@ import lassoSelector from './selector/lasso';
 import rectSelector from './selector/rect';
 import Minimap from './plugin/minimap';
 import Legend from './plugin/legend';
+import ZoomCanvas from './behavior/zoom-canvas';
 
 const stdLib = {
   transforms: {
@@ -35,6 +36,7 @@ const stdLib = {
   behaviors: {
     'activate-relations': ActivateRelations,
     'drag-canvas': DragCanvas,
+    'zoom-canvas': ZoomCanvas,
     'drag-node': DragNode,
     'click-select': ClickSelect,
     'brush-select': BrushSelect,
