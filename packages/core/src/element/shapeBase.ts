@@ -263,6 +263,7 @@ export const shapeBase: ShapeOptions = {
       delete group['shapeMap'][labelClassName];
       if (labelBg) {
         group.removeChild(labelBg);
+        delete group['shapeMap'][labelBgClassname];
       }
     }
 
