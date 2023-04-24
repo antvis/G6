@@ -9,13 +9,14 @@ import Item from './item';
 
 interface IProps {
   model: NodeModel;
-  renderExtensions: any; // TODO: type
+  renderExtensions: any;
   containerGroup: Group;
   mapper: DisplayMapper;
   stateMapper: {
     [stateName: string]: DisplayMapper;
   };
   themeStyles: ItemShapeStyles;
+  device?: any; // for 3d shapes
 }
 export default class Node extends Item {
   public type: 'node';
@@ -33,9 +34,8 @@ export default class Node extends Item {
   ) {
     const { group, renderExt, shapeMap: prevShapeMap, model } = this;
     const { data } = displayModel;
-    const { x = 0, y = 0 } = data;
-    group.style.x = x;
-    group.style.y = y;
+    const { x = 0, y = 0, z = 0 } = data;
+    group.setPosition(x as number, y as number, z as number);
     this.group.setAttribute('data-item-type', 'node');
     this.group.setAttribute('data-item-id', model.id);
     renderExt.mergeStyles(displayModel);

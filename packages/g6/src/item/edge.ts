@@ -56,10 +56,12 @@ export default class Edge extends Item {
     const sourcePoint = {
       x: sourceBBox.center[0],
       y: sourceBBox.center[1],
+      z: sourceBBox.center[2],
     };
     const targetPoint = {
       x: targetBBox.center[0],
       y: targetBBox.center[1],
+      z: targetBBox.center[2],
     };
     this.renderExt.mergeStyles(displayModel);
     const shapeMap = this.renderExt.draw(

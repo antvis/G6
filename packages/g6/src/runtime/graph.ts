@@ -28,6 +28,7 @@ import {
   StandardLayoutOptions,
 } from '../types/layout';
 import { NodeModel, NodeModelData } from '../types/node';
+import { RendererName } from '../types/render';
 import { ThemeRegistry, ThemeSpecification } from '../types/theme';
 import { FitViewRules, GraphTransformOptions } from '../types/view';
 import { createCanvas } from '../util/canvas';
@@ -60,6 +61,8 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   public container: HTMLElement;
   // the tag to indicate whether the graph instance is destroyed
   public destroyed: boolean;
+  // the renderer type of current graph
+  public rendererType: RendererName;
   // for transient shapes for interactions, e.g. transient node and related edges while draging, delegates
   public transientCanvas: Canvas;
   // for background shapes, e.g. grid, pipe indices
@@ -123,16 +126,18 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
 
   private initCanvas() {
     const { renderer, container, width, height } = this.specification;
-    let rendererType;
     let pixelRatio;
     if (renderer && !isString(renderer)) {
-      rendererType = renderer.type || 'canvas';
+      // @ts-ignore
+      this.rendererType = renderer.type || 'canvas';
+      // @ts-ignore
       pixelRatio = renderer.pixelRatio;
     } else {
-      rendererType = renderer || 'canvas';
+      // @ts-ignore
+      this.rendererType = renderer || 'canvas';
     }
     const containerDOM = isString(container)
-      ? document.getElementById('container')
+      ? document.getElementById(container as string)
       : container;
     if (!containerDOM) {
       console.error(
@@ -142,25 +147,33 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       return;
     }
     this.container = containerDOM;
+    let size = [width, height];
+    if (size[0] === undefined) {
+      size[0] = containerDOM.scrollWidth;
+    }
+    if (size[1] === undefined) {
+      size[1] = containerDOM.scrollHeight;
+    }
+
     this.backgroundCanvas = createCanvas(
-      rendererType,
+      this.rendererType,
       containerDOM,
-      width,
-      height,
+      size[0],
+      size[1],
       pixelRatio,
     );
     this.canvas = createCanvas(
-      rendererType,
+      this.rendererType,
       containerDOM,
-      width,
-      height,
+      size[0],
+      size[1],
       pixelRatio,
     );
     this.transientCanvas = createCanvas(
-      rendererType,
+      this.rendererType,
       containerDOM,
-      width,
-      height,
+      size[0],
+      size[1],
       pixelRatio,
       true,
       {

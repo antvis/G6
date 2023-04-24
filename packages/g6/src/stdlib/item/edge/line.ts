@@ -5,7 +5,6 @@ import {
   EdgeShapeMap,
 } from '../../../types/edge';
 import { State } from '../../../types/item';
-import { mergeStyles, upsertShape } from '../../../util/shape';
 import { BaseEdge } from './base';
 
 export class LineEdge extends BaseEdge {
@@ -14,8 +13,10 @@ export class LineEdge extends BaseEdge {
     keyShape: {
       x1: 0,
       y1: 0,
+      z1: 0,
       x2: 0,
       y2: 0,
+      z2: 0,
     },
   };
   constructor(props) {
@@ -62,7 +63,7 @@ export class LineEdge extends BaseEdge {
     diffState?: { previous: State[]; current: State[] },
   ) {
     const { keyShape: keyShapeStyle } = this.mergedStyles;
-    const keyShape = upsertShape(
+    const keyShape = this.upsertShape(
       'line',
       'keyShape',
       // TODO: update type define.
@@ -71,8 +72,11 @@ export class LineEdge extends BaseEdge {
         ...keyShapeStyle,
         x1: sourcePoint.x,
         y1: sourcePoint.y,
+        z1: sourcePoint.z,
         x2: targetPoint.x,
         y2: targetPoint.y,
+        z2: targetPoint.z,
+        isBillboard: true,
       },
       shapeMap,
     );

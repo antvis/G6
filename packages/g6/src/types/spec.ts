@@ -29,7 +29,7 @@ import { BehaviorOptionsOf, BehaviorRegistry } from './behavior';
 import { LayoutOptions } from './layout';
 import { ThemeOptionsOf, ThemeRegistry } from './theme';
 
-type rendererName = 'canvas' | 'svg' | 'webgl';
+import { RendererName } from './render';
 
 export interface Specification<
   B extends BehaviorRegistry,
@@ -40,9 +40,9 @@ export interface Specification<
   width?: number;
   height?: number;
   renderer?:
-    | rendererName
+    | RendererName
     | {
-        type: rendererName;
+        type: RendererName;
         pixelRatio: number;
         headless: boolean;
       };

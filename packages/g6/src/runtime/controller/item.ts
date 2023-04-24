@@ -1,9 +1,5 @@
 import { AABB, Canvas, DisplayObject, Group } from '@antv/g';
 import { GraphChange, ID } from '@antv/graphlib';
-import { isArray, isObject, clone } from '@antv/util';
-import Combo from '../../item/combo';
-import Edge from '../../item/edge';
-import Node from '../../item/node';
 import registry from '../../stdlib';
 import {
   ComboModel,
@@ -21,15 +17,20 @@ import {
   EdgeModel,
   EdgeModelData,
 } from '../../types/edge';
-import { ITEM_TYPE, ShapeStyle, SHAPE_TYPE } from '../../types/item';
-import {
-  ItemStyleSet,
-  ItemThemeSpecifications,
-  ThemeSpecification,
-} from '../../types/theme';
+import Node from '../../item/node';
+import Edge from '../../item/edge';
+import Combo from '../../item/combo';
+import { upsertShape } from '../../util/shape';
 import { getExtension } from '../../util/extension';
 import { upsertTransientItem } from '../../util/item';
-import { upsertShape } from '../../util/shape';
+import { ITEM_TYPE, ShapeStyle, SHAPE_TYPE } from '../../types/item';
+import {
+  ThemeSpecification,
+  ItemThemeSpecifications,
+  ItemStyleSet,
+} from '../../types/theme';
+import { isArray, isObject } from '@antv/util';
+import { DirectionalLight, AmbientLight } from '@antv/g-plugin-3d';
 
 /**
  * Manages and stores the node / edge / combo items.
@@ -148,7 +149,8 @@ export class ItemController {
   }) {
     const { graphCore, theme = {}, transientCanvas } = param;
     const { graph } = this;
-    // TODO: 0. clear groups on canvas, and create new groups
+
+    // 0. clear groups on canvas, and create new groups
     graph.canvas.removeChildren();
     const edgeGroup = new Group({ id: 'edge-group' });
     const nodeGroup = new Group({ id: 'node-group' });
@@ -164,7 +166,28 @@ export class ItemController {
     transientCanvas.appendChild(this.transientEdgeGroup);
     transientCanvas.appendChild(this.transientNodeGroup);
 
-    // TODO: 1. create node / edge / combo items, classes from ../../item, and element drawing and updating fns from node/edge/comboExtensions
+    // 1. create lights for webgl 3d rendering
+    if (graph.rendererType === 'webgl-3d') {
+      const ambientLight = new AmbientLight({
+        style: {
+          fill: 'white',
+          intensity: Math.PI * 2,
+        },
+      });
+      const light = new DirectionalLight({
+        style: {
+          fill: 'white',
+          direction: [-1, 0, 1],
+          intensity: Math.PI * 0.7,
+        },
+      });
+      graph.canvas.appendChild(ambientLight);
+      graph.canvas.appendChild(light);
+      const { width, height } = graph.canvas.getConfig();
+      graph.canvas.getCamera().setPerspective(0.1, 1000, 45, width / height);
+    }
+
+    // 2. create node / edge / combo items, classes from ../../item, and element drawing and updating fns from node/edge/comboExtensions
     const nodeModels = graphCore.getAllNodes();
     const edgeModels = graphCore.getAllEdges();
     // const combos = graphCore.getAllCombos();
@@ -463,11 +486,11 @@ export class ItemController {
         });
       }
       return;
-    } else {
-      const shape = upsertShape(type, String(id), style, transientObjectMap);
-      shape.style.pointerEvents = capture ? 'auto' : 'none';
-      canvas.getRoot().appendChild(shape);
     }
+
+    const shape = upsertShape(type, String(id), style, transientObjectMap);
+    shape.style.pointerEvents = capture ? 'auto' : 'none';
+    canvas.getRoot().appendChild(shape);
   }
   public getTransient(id: string) {
     return this.transientObjectMap[id];
@@ -481,7 +504,7 @@ export class ItemController {
     models: NodeModel[],
     nodeTheme: ItemThemeSpecifications = {},
   ) {
-    const { nodeExtensions, nodeGroup, nodeDataTypeSet } = this;
+    const { nodeExtensions, nodeGroup, nodeDataTypeSet, graph } = this;
     const { dataTypeField } = nodeTheme;
     models.forEach((node) => {
       // get the base styles from theme
@@ -501,6 +524,11 @@ export class ItemController {
         mapper: this.nodeMapper,
         stateMapper: this.nodeStateMapper,
         themeStyles: themeStyle,
+        device:
+          graph.rendererType === 'webgl-3d'
+            ? // TODO: G type
+              (graph.canvas.context as any).deviceRendererPlugin.getDevice()
+            : undefined,
       });
     });
   }

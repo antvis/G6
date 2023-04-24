@@ -1,22 +1,23 @@
 import { DisplayObject } from '@antv/g';
 import { NodeDisplayModel } from '../../../types';
-import { GShapeStyle, ItemShapeStyles, State } from '../../../types/item';
+import { ItemShapeStyles, State } from '../../../types/item';
 import { NodeModelData, NodeShapeMap } from '../../../types/node';
-import { BaseNode } from './base';
+import { BaseNode3D } from './base3d';
 
-export class CircleNode extends BaseNode {
+export class SphereNode extends BaseNode3D {
   override defaultStyles = {
     keyShape: {
-      r: 15,
+      r: 5,
+      latitudeBands: 32,
+      longitudeBands: 32,
       x: 0,
       y: 0,
+      z: 0,
     },
   };
   mergedStyles: ItemShapeStyles;
   constructor(props) {
     super(props);
-    // suggest to merge default styles like this to avoid style value missing
-    // this.defaultStyles = mergeStyles([this.baseDefaultStyles, this.defaultStyles]);
   }
   public draw(
     model: NodeDisplayModel,
@@ -53,7 +54,7 @@ export class CircleNode extends BaseNode {
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
     return this.upsertShape(
-      'circle',
+      'sphere',
       'keyShape',
       this.mergedStyles.keyShape,
       shapeMap,

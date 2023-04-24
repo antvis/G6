@@ -14,6 +14,7 @@ import {
 import {
   GShapeStyle,
   ItemShapeStyles,
+  SHAPE_TYPE,
   ShapeStyle,
   State,
 } from '../../../types/item';
@@ -254,5 +255,15 @@ export abstract class BaseEdge {
       shapeStyle as unknown as GShapeStyle,
       shapeMap,
     );
+  }
+
+  public upsertShape(
+    type: SHAPE_TYPE,
+    id: string,
+    style: { [shapeAttr: string]: unknown },
+    shapeMap: { [shapeId: string]: DisplayObject },
+  ): DisplayObject {
+    // TODO: update type define.
+    return upsertShape(type, id, style as unknown as GShapeStyle, shapeMap);
   }
 }

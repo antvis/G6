@@ -1,81 +1,30 @@
 import { DisplayObject } from '@antv/g';
-import {
-  DEFAULT_LABEL_BG_PADDING,
-  OTHER_SHAPES_FIELD_NAME,
-  RESERVED_SHAPE_IDS,
-} from '../../../constant';
+import { DEFAULT_LABEL_BG_PADDING } from '../../../constant';
 import { NodeDisplayModel } from '../../../types';
 import {
   GShapeStyle,
   ItemShapeStyles,
   SHAPE_TYPE,
   SHAPE_TYPE_3D,
-  ShapeStyle,
   State,
 } from '../../../types/item';
 import { NodeModelData, NodeShapeMap } from '../../../types/node';
 import { formatPadding, mergeStyles, upsertShape } from '../../../util/shape';
+import { upsertShape3D } from '../../../util/shape3d';
+import { BaseNode } from './base';
 
-export abstract class BaseNode {
+export abstract class BaseNode3D extends BaseNode {
   type: string;
   defaultStyles: ItemShapeStyles;
   themeStyles: ItemShapeStyles;
   mergedStyles: ItemShapeStyles;
+  device: any; // for 3d renderer
   constructor(props) {
-    const { themeStyles } = props;
-    if (themeStyles) this.themeStyles = themeStyles;
+    super(props);
+    this.device = props.device;
   }
-  public mergeStyles(model: NodeDisplayModel) {
-    this.mergedStyles = this.getMergedStyles(model);
-  }
-  public getMergedStyles(model: NodeDisplayModel) {
-    const { data } = model;
-    const dataStyles = {} as ItemShapeStyles;
-    Object.keys(data).forEach((fieldName) => {
-      if (RESERVED_SHAPE_IDS.includes(fieldName))
-        dataStyles[fieldName] = data[fieldName] as ShapeStyle;
-      else if (fieldName === OTHER_SHAPES_FIELD_NAME) {
-        Object.keys(data[fieldName]).forEach(
-          (otherShapeId) =>
-            (dataStyles[otherShapeId] = data[fieldName][otherShapeId]),
-        );
-      }
-    });
-    return mergeStyles([this.themeStyles, this.defaultStyles, dataStyles]);
-  }
-  abstract draw(
-    model: NodeDisplayModel,
-    shapeMap: { [shapeId: string]: DisplayObject },
-    diffData?: { previous: NodeModelData; current: NodeModelData },
-    diffState?: { previous: State[]; current: State[] },
-  ): {
-    keyShape: DisplayObject;
-    labelShape?: DisplayObject;
-    iconShape?: DisplayObject;
-    [otherShapeId: string]: DisplayObject;
-  };
 
-  public afterDraw(
-    model: NodeDisplayModel,
-    shapeMap: { [shapeId: string]: DisplayObject },
-    shapesChanged?: string[],
-  ): { [otherShapeId: string]: DisplayObject } {
-    return {};
-  }
-  // shouldUpdate: (model: NodeDisplayModel, prevModel: NodeDisplayModel) => boolean = () => true;
-  public setState: (
-    name: string,
-    value: boolean,
-    shapeMap: { [shapeId: string]: DisplayObject },
-  ) => void;
-
-  abstract drawKeyShape(
-    model: NodeDisplayModel,
-    shapeMap: NodeShapeMap,
-    diffData?: { previous: NodeModelData; current: NodeModelData },
-    diffState?: { previous: State[]; current: State[] },
-  ): DisplayObject;
-
+  // TODO: 3d text - billboard 2d shape
   public drawLabelShape(
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
@@ -187,6 +136,7 @@ export abstract class BaseNode {
     return shapes;
   }
 
+  // TODO: 3d icon? - billboard image or text for alpha
   public drawIconShape(
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
@@ -198,23 +148,16 @@ export abstract class BaseNode {
     const iconShapeType = shapeStyle.text ? 'text' : 'image';
     if (iconShapeType === 'image') {
       const { width, height } = shapeStyle;
-      if (!Object.prototype.hasOwnProperty.call(iconShape, 'x'))
-        shapeStyle.x = -width / 2;
-      if (!Object.prototype.hasOwnProperty.call(iconShape, 'y'))
-        shapeStyle.y = -height / 2;
+      if (!iconShape.hasOwnProperty('x')) shapeStyle.x = -width / 2;
+      if (!iconShape.hasOwnProperty('y')) shapeStyle.y = -height / 2;
     } else {
       shapeStyle.textAlign = 'center';
       shapeStyle.textBaseline = 'middle';
     }
-    // TODO: update type define.
-    return upsertShape(
-      iconShapeType,
-      'iconShape',
-      shapeStyle as unknown as GShapeStyle,
-      shapeMap,
-    );
+    return this.upsertShape(iconShapeType, 'iconShape', shapeStyle, shapeMap);
   }
 
+  // TODO: 3d shapes?
   public drawOtherShapes(
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
@@ -224,18 +167,19 @@ export abstract class BaseNode {
     return {};
   }
 
+  // TODO: 如何禁止重写？
   public upsertShape(
-    type: SHAPE_TYPE | SHAPE_TYPE_3D,
+    type: SHAPE_TYPE_3D | SHAPE_TYPE,
     id: string,
     style: { [shapeAttr: string]: unknown },
     shapeMap: { [shapeId: string]: DisplayObject },
   ): DisplayObject {
-    // TODO: update type define.
-    return upsertShape(
-      type as SHAPE_TYPE,
+    return upsertShape3D(
+      type,
       id,
       style as unknown as GShapeStyle,
       shapeMap,
+      this.device,
     );
   }
 }

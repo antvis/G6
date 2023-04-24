@@ -32,7 +32,11 @@ export const ShapeTagMap = {
   path: Path,
 };
 
-const createShape = (type: SHAPE_TYPE, style: GShapeStyle, id: string) => {
+export const createShape = (
+  type: SHAPE_TYPE,
+  style: GShapeStyle,
+  id: string,
+) => {
   const ShapeClass = ShapeTagMap[type];
   return new ShapeClass({ style, id });
 };
@@ -83,7 +87,7 @@ export const updateShapes = (
   prevShapeMap: { [id: string]: DisplayObject },
   newShapeMap: { [id: string]: DisplayObject },
   group: Group,
-  removeDiff = true,
+  removeDiff: boolean = true,
   shouldUpdate: (id: string) => boolean = () => true,
 ): NodeShapeMap | EdgeShapeMap => {
   const tolalMap = {

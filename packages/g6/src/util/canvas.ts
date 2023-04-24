@@ -1,12 +1,13 @@
-import { Canvas } from '@antv/g';
+import { Canvas, CanvasLike } from '@antv/g';
 import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Renderer as SVGRenderer } from '@antv/g-svg';
 import { Renderer as WebGLRenderer } from '@antv/g-webgl';
-import { isString } from '@antv/util';
+import { Plugin as Plugin3D } from '@antv/g-plugin-3d';
+import { RendererName } from 'types/render';
 
 /**
  * Create a canvas
- * @param { 'canvas' | 'svg' | 'webgl' } rendererType
+ * @param {RendererName} rendererType
  * @param {string | HTMLElement} container
  * @param {number} width
  * @param {number} height
@@ -15,7 +16,7 @@ import { isString } from '@antv/util';
  * @returns
  */
 export const createCanvas = (
-  rendererType: 'canvas' | 'svg' | 'webgl',
+  rendererType: RendererName,
   container: HTMLElement,
   width: number,
   height: number,
@@ -23,18 +24,21 @@ export const createCanvas = (
   customCanvasTag = true,
   style: any = {},
 ) => {
-  let Renderer;
+  let renderer;
   switch (rendererType.toLowerCase()) {
     case 'svg':
-      Renderer = SVGRenderer;
+      renderer = new SVGRenderer();
       break;
+    case 'webgl-3d':
     case 'webgl':
-      Renderer = WebGLRenderer;
+      renderer = new WebGLRenderer();
+      renderer.registerPlugin(new Plugin3D());
       break;
     default:
-      Renderer = CanvasRenderer;
+      renderer = new CanvasRenderer();
       break;
   }
+
   if (typeof document !== 'undefined' && customCanvasTag) {
     const canvasTag = document.createElement('canvas');
     const dpr = pixelRatio || window.devicePixelRatio;
@@ -48,9 +52,9 @@ export const createCanvas = (
     Object.assign(canvasTag.style, style);
     container!.appendChild(canvasTag);
     return new Canvas({
-      canvas: canvasTag,
+      canvas: canvasTag as CanvasLike,
       devicePixelRatio: pixelRatio,
-      renderer: new Renderer(),
+      renderer,
     });
   }
   return new Canvas({
@@ -58,6 +62,6 @@ export const createCanvas = (
     width,
     height,
     devicePixelRatio: pixelRatio,
-    renderer: new Renderer(),
+    renderer,
   });
 };

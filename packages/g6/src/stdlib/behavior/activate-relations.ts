@@ -95,7 +95,7 @@ export default class ActivateRelations extends Behavior {
     };
   };
 
-  setAllItemStates = (e: IG6GraphEvent) => {
+  public setAllItemStates(e: IG6GraphEvent) {
     const { itemId } = e;
     const { graph } = this;
     const { activeState: ACTIVE_STATE } = this.options;
@@ -128,12 +128,12 @@ export default class ActivateRelations extends Behavior {
 
     this.prevNodeIds = nodeIds;
     this.prevEdgeIds = edgeIds;
-  };
-  clearActiveState = (e: any) => {
+  }
+  public clearActiveState(e: any) {
     const { activeState: ACTIVE_STATE } = this.options;
     this.graph.setItemState(this.prevNodeIds, ACTIVE_STATE, false);
     this.graph.setItemState(this.prevEdgeIds, ACTIVE_STATE, false);
     this.prevNodeIds = [];
     this.prevEdgeIds = [];
-  };
+  }
 }

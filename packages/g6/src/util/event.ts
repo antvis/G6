@@ -3,7 +3,7 @@ import { ID } from '@antv/graphlib';
 
 export type ItemInfo = {
   itemType: 'canvas' | 'node' | 'edge' | 'combo';
-  itemId: ID;
+  itemId: ID | undefined;
   groupElement: IElement;
 };
 
@@ -15,14 +15,14 @@ export const getItemInfoFromElement = (element: IElement): ItemInfo | null => {
   if (element.nodeName === 'document') {
     return {
       itemType: 'canvas',
-      itemId: 'CANVAS',
+      itemId: undefined,
       groupElement: element,
     };
   }
 
   let parent = element;
-  while (parent && !parent.getAttribute('data-item-type')) {
-    parent = element.parentElement;
+  while (parent && !parent.getAttribute?.('data-item-type')) {
+    parent = parent.parentElement;
   }
   if (!parent) return null;
 
