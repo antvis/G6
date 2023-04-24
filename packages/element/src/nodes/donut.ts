@@ -255,8 +255,7 @@ const drawFan = (group: IGroup, fanConfig: FanConfig): {
   const style = {
     path: [
       ['M', arcBegin[0], arcBegin[1]],
-      ['A', arcR, arcR, 0, isBig, 0, arcEnd[0], arcEnd[1]],
-      ['L', arcEnd[0], arcEnd[1]],
+      ['A', arcR, arcR, 0, isBig, 0, arcEnd[0], arcEnd[1]]
     ],
     stroke: config.color || updateShape?.attr('stroke') || defaultSubjectColors[fanIndex % defaultSubjectColors.length],
     lineWidth,
