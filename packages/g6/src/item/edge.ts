@@ -1,16 +1,12 @@
 import { Group } from '@antv/g';
 import { clone } from '@antv/util';
-import { EdgeDisplayModel, EdgeModel } from '../types';
+import { EdgeDisplayModel, EdgeModel, NodeModelData } from '../types';
 import { EdgeModelData } from '../types/edge';
-import {
-  DisplayMapper,
-  ItemShapeStyles,
-  ITEM_TYPE,
-  State,
-} from '../types/item';
+import { DisplayMapper, State } from '../types/item';
 import { updateShapes } from '../util/shape';
 import Item from './item';
 import Node from './node';
+import { EdgeStyleSet } from 'types/theme';
 
 interface IProps {
   model: EdgeModel;
@@ -22,7 +18,7 @@ interface IProps {
   };
   sourceItem: Node;
   targetItem: Node;
-  themeStyles: ItemShapeStyles;
+  themeStyles: EdgeStyleSet;
 }
 
 export default class Edge extends Item {
@@ -51,18 +47,10 @@ export default class Edge extends Item {
     diffState?: { previous: State[]; current: State[] },
   ) {
     // get the end points
-    const sourceBBox = this.sourceItem.getKeyBBox();
-    const targetBBox = this.targetItem.getKeyBBox();
-    const sourcePoint = {
-      x: sourceBBox.center[0],
-      y: sourceBBox.center[1],
-      z: sourceBBox.center[2],
-    };
-    const targetPoint = {
-      x: targetBBox.center[0],
-      y: targetBBox.center[1],
-      z: targetBBox.center[2],
-    };
+    const { x: sx, y: sy, z: sz } = this.sourceItem.model.data as NodeModelData;
+    const { x: tx, y: ty, z: tz } = this.targetItem.model.data as NodeModelData;
+    const sourcePoint = this.sourceItem.getAnchorPoint({ x: tx, y: ty, z: tz });
+    const targetPoint = this.targetItem.getAnchorPoint({ x: sx, y: sy, z: sz });
     this.renderExt.mergeStyles(displayModel);
     const shapeMap = this.renderExt.draw(
       displayModel,
@@ -75,8 +63,8 @@ export default class Edge extends Item {
 
     // add shapes to group, and update shapeMap
     this.shapeMap = updateShapes(this.shapeMap, shapeMap, this.group);
-
-    const { labelShape } = this.shapeMap;
+    const { haloShape, labelShape, labelBackgroundShape } = this.shapeMap;
+    haloShape?.toBack();
     labelShape?.toFront();
 
     super.draw(displayModel, diffData, diffState);

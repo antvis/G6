@@ -17,8 +17,15 @@ import { clone, isArray, isNumber } from '@antv/util';
 import { DEFAULT_LABEL_BG_PADDING } from '../constant';
 import { Point } from '../types/common';
 import { EdgeShapeMap } from '../types/edge';
-import { GShapeStyle, SHAPE_TYPE, ItemShapeStyles } from '../types/item';
+import {
+  GShapeStyle,
+  SHAPE_TYPE,
+  ItemShapeStyles,
+  ShapeStyle,
+} from '../types/item';
 import { NodeShapeMap } from '../types/node';
+import { isArrayOverlap } from './array';
+import { isBetween } from './math';
 
 export const ShapeTagMap = {
   circle: Circle,
@@ -46,20 +53,30 @@ export const upsertShape = (
   id: string,
   style: GShapeStyle,
   shapeMap: { [shapeId: string]: DisplayObject },
-): DisplayObject => {
+): {
+  updateStyles: ShapeStyle;
+  shape: DisplayObject;
+} => {
   let shape = shapeMap[id];
+  let updateStyles = {};
   if (!shape) {
     shape = createShape(type, style, id);
+    updateStyles = style;
   } else if (shape.nodeName !== type) {
     shape.remove();
     shape = createShape(type, style, id);
+    updateStyles = style;
   } else {
+    const oldStyles = shape.attributes;
     Object.keys(style).forEach((key) => {
-      shape.style[key] = style[key];
+      if (oldStyles[key] !== style[key]) {
+        updateStyles[key] = style[key];
+        shape.style[key] = style[key];
+      }
     });
   }
   shapeMap[id] = shape;
-  return shape;
+  return { shape, updateStyles };
 };
 
 export const getGroupSucceedMap = (
@@ -136,6 +153,8 @@ export const formatPadding = (value, defaultArr = DEFAULT_LABEL_BG_PADDING) => {
         return [value[0], value[0], value[0], value[0]];
       case 2:
         return value.concat(value);
+      case 3:
+        return value.concat([value[0]]);
       default:
         return value;
     }
@@ -167,8 +186,8 @@ const merge2Styles = (
   styleMap1: ItemShapeStyles,
   styleMap2: ItemShapeStyles,
 ) => {
-  if (!styleMap1) return clone(styleMap2);
-  else if (!styleMap2) return clone(styleMap1);
+  if (!styleMap1) return { ...styleMap2 };
+  else if (!styleMap2) return { ...styleMap1 };
   const mergedStyle = clone(styleMap1);
   Object.keys(styleMap2).forEach((shapeId) => {
     const style = styleMap2[shapeId];
@@ -404,12 +423,23 @@ export const getLineIntersect = (
   return null;
 };
 
+const FEILDS_AFFECT_BBOX = {
+  circle: ['r', 'lineWidth'],
+  rect: ['width', 'height', 'lineWidth'],
+  image: ['width', 'height', 'lineWidth'],
+  ellipse: ['rx', 'ry', 'lineWidth'],
+  text: ['fontSize', 'fontWeight'],
+  polygon: ['points', 'lineWidth'],
+  line: ['x1', 'x2', 'y1', 'y2', 'lineWidth'],
+  polyline: ['points', 'lineWidth'],
+  path: ['points', 'lineWidth'],
+};
 /**
- * Whether the value is begween the range of [min, max]
- * @param   {number}       value  the value to be judged
- * @param   {number}       min    the min of the range
- * @param   {number}       max    the max of the range
- * @return  {boolean}      bool   the result boolean
+ * Will the fields in style affect the bbox.
+ * @param type shape type
+ * @param style style object
+ * @returns
  */
-const isBetween = (value: number, min: number, max: number) =>
-  value >= min && value <= max;
+export const isStyleAffectBBox = (type: SHAPE_TYPE, style: ShapeStyle) => {
+  return isArrayOverlap(Object.keys(style), FEILDS_AFFECT_BBOX[type]);
+};

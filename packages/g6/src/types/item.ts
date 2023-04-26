@@ -40,16 +40,6 @@ import {
   TorusGeometryProps,
 } from '@antv/g-plugin-3d';
 
-export interface ShapeStyle {
-  [shapeAttr: string]: unknown;
-  animate?: AnimateAttr;
-  x?: number;
-  y?: number;
-  width?: number;
-  height?: number;
-  r?: number;
-}
-
 export type GShapeStyle = CircleStyleProps &
   RectStyleProps &
   EllipseStyleProps &
@@ -63,6 +53,11 @@ export type GShapeStyle = CircleStyleProps &
   CubeGeometryProps &
   PlaneGeometryProps;
 
+export type ShapeStyle = Partial<
+  GShapeStyle & {
+    animate?: AnimateAttr;
+  }
+>;
 export interface Encode<T> {
   fields: string[];
   formatter: (values: NodeUserModel | EdgeUserModel | ComboUserModel) => T;
@@ -82,8 +77,8 @@ export interface LabelBackground {
 }
 
 export interface ShapesEncode {
-  keyShape?: ShapeAttrEncode;
-  iconShape?: ShapeAttrEncode;
+  keyShape?: ShapeAttrEncode | Encode<ShapeStyle>;
+  iconShape?: ShapeAttrEncode | Encode<ShapeStyle>;
   otherShapes?: {
     [shapeId: string]: {
       [shapeAtrr: string]: unknown | Encode<unknown>;
@@ -126,12 +121,35 @@ export type State = {
   value: boolean | string;
 };
 
+export enum BadgePosition {
+  rightTop = 'rightTop',
+  right = 'right',
+  rightBottom = 'rightBottom',
+  bottomRight = 'bottomRight',
+  bottom = 'bottom',
+  bottomLeft = 'bottomLeft',
+  leftBottom = 'leftBottom',
+  left = 'left',
+  leftTop = 'leftTop',
+  topLeft = 'topLeft',
+  top = 'top',
+  topRight = 'topRight',
+}
+export type IBadgePosition = `${BadgePosition}`;
+
 /** Shape styles for an item. */
 export type ItemShapeStyles = {
+  // labelShape, labelBackgroundShape, badgeShapes,  overwrote by node / edge / combo
+  // anchorShapes, overwrote by node / combo
   keyShape?: ShapeStyle;
-  labelShape?: ShapeStyle;
-  iconShape?: ShapeStyle;
-  [shapeId: string]: ShapeStyle;
+  iconShape?: Partial<
+    TextStyleProps &
+      ImageStyleProps & {
+        offsetX?: number;
+        offsetY?: number;
+      }
+  >;
+  haloShape?: ShapeStyle;
 };
 
 /**

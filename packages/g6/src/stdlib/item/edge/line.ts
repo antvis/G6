@@ -1,3 +1,4 @@
+import { isStyleAffectBBox } from 'util/shape';
 import { Point } from '../../../types/common';
 import {
   EdgeDisplayModel,
@@ -35,6 +36,7 @@ export class LineEdge extends BaseEdge {
     const { data = {} } = model;
 
     let shapes: EdgeShapeMap = { keyShape: undefined };
+
     shapes.keyShape = this.drawKeyShape(
       model,
       sourcePoint,
@@ -42,13 +44,27 @@ export class LineEdge extends BaseEdge {
       shapeMap,
       diffData,
     );
-    if (data.labelShape)
-      shapes = {
-        ...shapes,
-        ...this.drawLabelShape(model, shapeMap, diffData),
-      };
-    if (data.iconShape)
+
+    if (data.haloShape) {
+      shapes.haloShape = this.drawHaloShape(model, shapeMap, diffData);
+    }
+
+    if (data.labelShape) {
+      shapes.labelShape = this.drawLabelShape(model, shapeMap, diffData);
+    }
+
+    // labelBackgroundShape
+    if (data.labelBackgroundShape) {
+      shapes.labelBackgroundShape = this.drawLabelBackgroundShape(
+        model,
+        shapeMap,
+        diffData,
+      );
+    }
+
+    if (data.iconShape) {
       shapes.iconShape = this.drawIconShape(model, shapeMap, diffData);
+    }
 
     // TODO: other shapes
 
@@ -63,11 +79,9 @@ export class LineEdge extends BaseEdge {
     diffState?: { previous: State[]; current: State[] },
   ) {
     const { keyShape: keyShapeStyle } = this.mergedStyles;
-    const keyShape = this.upsertShape(
+    return this.upsertShape(
       'line',
       'keyShape',
-      // TODO: update type define.
-      // @ts-ignore
       {
         ...keyShapeStyle,
         x1: sourcePoint.x,
@@ -79,7 +93,6 @@ export class LineEdge extends BaseEdge {
         isBillboard: true,
       },
       shapeMap,
-    );
-    return keyShape;
+    ).shape;
   }
 }

@@ -13,10 +13,11 @@ import {
   State,
 } from '../types/item';
 import { NodeShapeMap } from '../types/node';
-import { ItemStyleSet } from '../types/theme';
+import { EdgeStyleSet, NodeStyleSet } from '../types/theme';
 import { isArrayOverlap } from '../util/array';
 import { mergeStyles, updateShapes } from '../util/shape';
 import { isEncode } from '../util/type';
+import { DEFAULT_MAPPER } from 'util/mapper';
 
 export default abstract class Item implements IItem {
   public destroyed = false;
@@ -116,7 +117,7 @@ export default abstract class Item implements IItem {
     model: ItemModel,
     diffData?: { previous: ItemModelData; current: ItemModelData },
     isReplace?: boolean,
-    themeStyles?: ItemStyleSet,
+    themeStyles?: NodeStyleSet | EdgeStyleSet,
   ) {
     // 1. merge model into this model
     this.model = model;
@@ -170,26 +171,34 @@ export default abstract class Item implements IItem {
     model: ItemDisplayModel;
     typeChange?: boolean;
   } {
-    const { mapper } = this;
+    const { mapper, type } = this;
+    const defaultMapper = DEFAULT_MAPPER[type];
+
     const { data: innerModelData, ...otherFields } = innerModel;
     const { current = innerModelData, previous } = diffData || {};
 
     // === no mapper, displayModel = model ===
     if (!mapper) {
-      this.displayModel = innerModel; // TODO: need clone?
+      this.displayModel = defaultMapper(innerModel);
       // compare the previous data and current data to find shape changes
       let typeChange = false;
       if (current) {
         typeChange = Boolean(current.type);
       }
       return {
-        model: innerModel,
+        model: this.displayModel,
         typeChange,
       };
     }
 
     // === mapper is function, displayModel is mapper(model), cannot diff the displayModel, so all the shapes need to be updated ===
-    if (isFunction(mapper)) return { model: (mapper as Function)(innerModel) };
+    if (isFunction(mapper))
+      return {
+        model: {
+          ...defaultMapper(innerModel),
+          ...(mapper as Function)(innerModel),
+        },
+      };
 
     // === fields' values in mapper are final value or Encode ===
     const dataChangedFields = isReplace
@@ -199,20 +208,49 @@ export default abstract class Item implements IItem {
 
     let typeChange = false;
     const { data, ...otherProps } = innerModel;
-    const displayModelData = clone(data);
+    const displayModelData = defaultMapper(innerModel).data; //clone(data);
+    // const defaultMappedModel = defaultMapper(innerModel);
     Object.keys(mapper).forEach((fieldName) => {
-      const subMapper = mapper[fieldName];
-      if (RESERVED_SHAPE_IDS.includes(fieldName)) {
-        // reserved shapes, fieldName is shapeId
+      debugger;
+      let subMapper = mapper[fieldName];
+      const isReservedShapeId = RESERVED_SHAPE_IDS.includes(fieldName);
+      const isShapeId =
+        RESERVED_SHAPE_IDS.includes(fieldName) ||
+        fieldName === OTHER_SHAPES_FIELD_NAME;
+
+      if ((isShapeId && isEncode(subMapper)) || !isShapeId) {
+        // fields not about shape
         if (!displayModelData.hasOwnProperty(fieldName)) {
-          displayModelData[fieldName] = {};
-          updateShapeChange({
+          const { changed, value: mappedValue } = updateChange({
             innerModel,
-            mapper: subMapper,
+            mapper,
+            fieldName,
             dataChangedFields,
-            shapeConfig: displayModelData[fieldName],
           });
+          if (isShapeId) {
+            if (!mappedValue) return;
+            subMapper = mappedValue;
+          } else {
+            displayModelData[fieldName] = mappedValue;
+          }
+          if (changed && fieldName === 'type') typeChange = true;
+        } else if (
+          fieldName === 'type' &&
+          (!dataChangedFields || dataChangedFields.includes('type'))
+        ) {
+          typeChange = true;
         }
+      }
+
+      if (isReservedShapeId) {
+        // reserved shapes, fieldName is shapeId
+        displayModelData[fieldName] = displayModelData[fieldName] || {};
+        updateShapeChange({
+          innerModel,
+          mapper: subMapper,
+          dataChangedFields,
+          shapeConfig: displayModelData[fieldName],
+        });
       } else if (fieldName === OTHER_SHAPES_FIELD_NAME) {
         // other shapes
         displayModelData[fieldName] = displayModelData[fieldName] || {};
@@ -229,23 +267,6 @@ export default abstract class Item implements IItem {
             });
           }
         });
-      } else {
-        // fields not about shape
-        if (!displayModelData.hasOwnProperty(fieldName)) {
-          const { changed, value: mappedValue } = updateChange({
-            innerModel,
-            mapper,
-            fieldName,
-            dataChangedFields,
-          });
-          displayModelData[fieldName] = mappedValue;
-          if (changed && fieldName === 'type') typeChange = true;
-        } else if (
-          fieldName === 'type' &&
-          (!dataChangedFields || dataChangedFields.includes('type'))
-        ) {
-          typeChange = true;
-        }
       }
     });
     const displayModel = {

@@ -2,14 +2,15 @@ import { Node as GNode, PlainObject } from '@antv/graphlib';
 import { AnimateAttr } from './animate';
 import { Padding } from './common';
 import {
+  BadgePosition,
   Encode,
   IItem,
+  ItemShapeStyles,
   LabelBackground,
   ShapeAttrEncode,
   ShapesEncode,
   ShapeStyle,
 } from './item';
-import { AnchorPoint } from './node';
 
 export type ComboLabelPosition =
   | 'bottom'
@@ -32,27 +33,55 @@ export interface ComboUserModelData extends PlainObject {
 export interface ComboModelData extends ComboUserModelData {
   visible?: boolean;
   label?: string;
-}
-
-export interface ComboLabelShapeStyle extends ShapeStyle {
-  position?: ComboLabelPosition;
-  offsetX?: number;
-  offsetY?: number;
-  background?: LabelBackground;
-}
-
-/** Displayed data, only for drawing and not received by users. */
-export interface ComboDisplayModelData extends ComboModelData {
-  keyShape?: ShapeStyle;
-  labelShape?: ComboLabelShapeStyle;
-  iconShape?: ShapeStyle;
-  otherShapes?: {
-    [shapeId: string]: ShapeStyle;
-  };
-  anchorPoints?: AnchorPoint[];
+  anchorPoints?: number[][];
   fixSize?: number | number[];
   padding?: Padding;
 }
+
+export interface ComboShapeStyles extends ItemShapeStyles {
+  keyShape?: ShapeStyle & {
+    padding?: number | number[];
+  };
+  labelShape?: ShapeStyle & {
+    position?: ComboLabelPosition;
+    offsetX?: number;
+    offsetY?: number;
+  };
+  labelBackgroundShape?: ShapeStyle & {
+    padding?: number | number[];
+  };
+  // common badge styles
+  badgeShapes?: ShapeStyle & {
+    color?: string;
+    textColor?: string;
+    // individual styles and their position
+    [key: number]: ShapeStyle & {
+      position?: BadgePosition;
+      color?: string;
+      textColor?: string;
+    };
+  };
+  // common badge styles
+  anchorShapes?: ShapeStyle & {
+    color?: string;
+    textColor?: string;
+    size?: number;
+    offsetX?: number;
+    offsetY?: number;
+    // individual styles and their position
+    [key: number]: ShapeStyle & {
+      position?: BadgePosition;
+      color?: string;
+      textColor?: string;
+      size?: number;
+      offsetX?: number;
+      offsetY?: number;
+    };
+  };
+}
+
+/** Displayed data, only for drawing and not received by users. */
+export type ComboDisplayModelData = ComboModelData & ComboShapeStyles;
 
 /** User input model. */
 export type ComboUserModel = GNode<ComboUserModelData>;
@@ -72,7 +101,7 @@ interface ComboLabelShapeAttrEncode extends ShapeAttrEncode {
 }
 export interface ComboShapesEncode extends ShapesEncode {
   labelShape?: ComboLabelShapeAttrEncode;
-  anchorPoints?: AnchorPoint[] | Encode<AnchorPoint[]>;
+  anchorPoints?: number[][] | Encode<number[][]>;
   fixSize?: number | number[] | Encode<number | number[]>;
   padding?: Padding | Encode<Padding>;
 }

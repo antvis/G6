@@ -1,11 +1,18 @@
 import { Group } from '@antv/g';
 import { clone } from '@antv/util';
+import { Point } from '../types/common';
 import { NodeModel } from '../types';
-import { DisplayMapper, ItemShapeStyles, State } from '../types/item';
+import { DisplayMapper, State } from '../types/item';
 import { NodeDisplayModel, NodeModelData } from '../types/node';
-import { ItemStyleSet } from '../types/theme';
+import { NodeStyleSet } from '../types/theme';
 import { updateShapes } from '../util/shape';
 import Item from './item';
+import {
+  getCircleIntersectByPoint,
+  getEllipseIntersectByPoint,
+  getNearestPoint,
+  getRectIntersectByPoint,
+} from 'util/point';
 
 interface IProps {
   model: NodeModel;
@@ -15,11 +22,12 @@ interface IProps {
   stateMapper: {
     [stateName: string]: DisplayMapper;
   };
-  themeStyles: ItemShapeStyles;
+  themeStyles: NodeStyleSet;
   device?: any; // for 3d shapes
 }
 export default class Node extends Item {
   public type: 'node';
+  private anchorPointsCache: Point[];
 
   constructor(props: IProps) {
     super(props);
@@ -48,17 +56,20 @@ export default class Node extends Item {
 
     // add shapes to group, and update shapeMap
     this.shapeMap = updateShapes(prevShapeMap, shapeMap, group);
-
-    this.shapeMap.labelShape?.toFront();
+    const { haloShape, labelShape, labelBackgroundShape } = this.shapeMap;
+    haloShape?.toBack();
+    labelShape?.toFront();
+    labelBackgroundShape?.toBack();
 
     super.draw(displayModel, diffData, diffState);
+    this.anchorPointsCache = undefined;
   }
 
   public update(
     model: NodeModel,
     diffData?: { previous: NodeModelData; current: NodeModelData },
     isReplace?: boolean,
-    themeStyles?: ItemStyleSet,
+    themeStyles?: NodeStyleSet,
   ) {
     super.update(model, diffData, isReplace, themeStyles);
     const { data } = this.displayModel;
@@ -85,5 +96,84 @@ export default class Node extends Item {
       stateMapper: this.stateMapper,
       themeStyles: clone(this.themeStyles),
     });
+  }
+
+  public getAnchorPoint(point: Point) {
+    const { keyShape } = this.shapeMap;
+    const shapeType = keyShape.nodeName;
+    const { x, y, anchorPoints = [] } = this.model.data as NodeModelData;
+
+    let intersectPoint: Point | null;
+    switch (shapeType) {
+      case 'circle':
+        intersectPoint = getCircleIntersectByPoint(
+          {
+            x,
+            y,
+            r: keyShape.attributes.r,
+          },
+          point,
+        );
+        break;
+      case 'ellipse':
+        intersectPoint = getEllipseIntersectByPoint(
+          {
+            x,
+            y,
+            rx: keyShape.attributes.rx,
+            ry: keyShape.attributes.ry,
+          },
+          point,
+        );
+        break;
+      default:
+        const bbox =
+          this.renderExt.boundsCache?.keyShapeLocal ||
+          keyShape.getLocalBounds();
+        intersectPoint = getRectIntersectByPoint(
+          {
+            x: bbox.halfExtents[0],
+            y: bbox.halfExtents[1],
+            width: bbox.max[0] - bbox.min[0],
+            height: bbox.max[1] - bbox.min[1],
+          },
+          point,
+        );
+    }
+
+    let anchorPointsPositions = this.anchorPointsCache;
+    if (!anchorPointsPositions) {
+      const keyShapeBBox =
+        this.renderExt.boundsCache?.keyShapeLocal ||
+        this.shapeMap.keyShape.getLocalBounds();
+      const keyShapeWidth = keyShapeBBox.max[0] - keyShapeBBox.min[0];
+      const keyShapeHeight = keyShapeBBox.max[1] - keyShapeBBox.min[1];
+      anchorPointsPositions = anchorPoints.map((pointRatio) => {
+        const [xRatio, yRatio] = pointRatio;
+        return {
+          x: keyShapeWidth * (xRatio - 0.5) + x,
+          y: keyShapeHeight * (yRatio - 0.5) + y,
+        };
+      });
+      this.anchorPointsCache = anchorPointsPositions;
+    }
+
+    let linkPoint = intersectPoint;
+    // If the node has anchorPoints in the data, find the nearest anchor point.
+    if (anchorPoints.length) {
+      if (!linkPoint) {
+        // If the linkPoint is failed to calculate.
+        linkPoint = point;
+      }
+      linkPoint = getNearestPoint(
+        anchorPointsPositions,
+        linkPoint,
+      ).nearestPoint;
+    }
+    if (!linkPoint) {
+      // If the calculations above are all failed, return the data's position
+      return { x, y };
+    }
+    return linkPoint;
   }
 }

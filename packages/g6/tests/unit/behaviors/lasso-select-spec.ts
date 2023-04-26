@@ -1370,10 +1370,6 @@ describe('lasso-select behavior with brushStyle', () => {
         canvas: { x: 200, y: 150 },
         shiftKey: true,
       });
-      console.log(
-        'graph.transientCanvas.getRoot().childNodes',
-        graph.transientCanvas.getRoot().childNodes,
-      );
       expect(graph.transientCanvas.getRoot().childNodes.length).toBe(2);
 
       // TODO: wait for correct removeBehaviors

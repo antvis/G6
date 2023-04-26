@@ -1,7 +1,12 @@
 import { isArray } from '@antv/util';
-import { ItemStyleSets, ThemeSpecification } from '../../types/theme';
+import {
+  NodeStyleSets,
+  EdgeStyleSets,
+  ThemeSpecification,
+} from '../../types/theme';
 import { mergeStyles } from '../../util/shape';
 import BaseThemeSolver, { ThemeSpecificationMap } from './base';
+import { GraphData } from 'types';
 
 interface SpecThemeSolverOptions {
   base: 'light' | 'dark';
@@ -9,17 +14,17 @@ interface SpecThemeSolverOptions {
     node?: {
       dataTypeField?: string;
       palette: string[] | { [dataType: string]: string };
-      getStyleSets: (palette) => ItemStyleSets;
+      getStyleSets: (palette) => NodeStyleSets;
     };
     edge?: {
       dataTypeField?: string;
       palette: string[] | { [dataType: string]: string };
-      getStyleSets: (palette) => ItemStyleSets;
+      getStyleSets: (palette) => EdgeStyleSets;
     };
     combo?: {
       dataTypeField?: string;
       palette: string[] | { [dataType: string]: string };
-      getStyleSets: (palette) => ItemStyleSets;
+      getStyleSets: (palette) => NodeStyleSets;
     };
     canvas?: {
       [cssName: string]: unknown;
@@ -40,14 +45,28 @@ export default class SpecThemeSolver extends BaseThemeSolver {
     if (specification) {
       ['node', 'edge', 'combo'].forEach((itemType) => {
         if (!specification[itemType]) return;
-        const { palette, dataTypeField, getStyleSets } =
-          specification[itemType];
+        let {
+          palette = mergedSpec[itemType].palette,
+          dataTypeField,
+          getStyleSets,
+        } = specification[itemType];
+
+        if (dataTypeField && !getStyleSets) {
+          getStyleSets = (paletteProps) => {
+            return paletteProps.map((color) => ({
+              default: {
+                keyShape:
+                  itemType === 'edge' ? { stroke: color } : { fill: color },
+              },
+            }));
+          };
+        }
 
         // merge the custom part spec and the built-in spec
         const {
           styles: [baseStyles],
         } = baseSpec[itemType];
-        const incomingStyles = getStyleSets(palette);
+        const incomingStyles = getStyleSets?.(palette) || {};
         let mergedStyles;
         if (isArray(incomingStyles)) {
           mergedStyles = incomingStyles.map((incomingStyle) => {

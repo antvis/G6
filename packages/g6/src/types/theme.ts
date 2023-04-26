@@ -1,4 +1,6 @@
-import { ItemShapeStyles, ShapeStyle } from './item';
+import { ComboShapeStyles } from './combo';
+import { EdgeShapeStyles } from './edge';
+import { NodeShapeStyles } from './node';
 
 export interface ThemeOption {}
 /**
@@ -41,33 +43,53 @@ export type ThemeObjectOptionsOf<T extends ThemeRegistry = {}> = {
     : never;
 }[Extract<keyof T, string>];
 
-export type ItemStyleSets =
-  | ItemStyleSet[]
-  | { [dataTypeValue: string]: ItemStyleSet };
-
 /** Default and stateStyle for an item */
-export type ItemStyleSet = {
-  default?: ItemShapeStyles;
-  [stateName: string]: ItemShapeStyles;
+export type NodeStyleSet = {
+  default?: NodeShapeStyles;
+  seledted?: NodeShapeStyles;
+  [stateName: string]: NodeShapeStyles;
+};
+export type EdgeStyleSet = {
+  default?: EdgeShapeStyles;
+  [stateName: string]: EdgeShapeStyles;
+};
+export type ComboStyleSet = {
+  default?: ComboShapeStyles;
+  [stateName: string]: ComboShapeStyles;
 };
 
-export interface ItemThemeSpecifications {
+export type NodeStyleSets =
+  | NodeStyleSet[]
+  | { [dataTypeValue: string]: NodeStyleSet };
+export type EdgeStyleSets =
+  | EdgeStyleSet[]
+  | { [dataTypeValue: string]: EdgeStyleSet };
+export type ComboStyleSets =
+  | ComboStyleSet[]
+  | { [dataTypeValue: string]: ComboStyleSet };
+
+export interface NodeThemeSpecifications {
   dataTypeField?: string;
   palette?: string[] | { [dataTypeValue: string]: string };
-  styles?:
-    | ItemStyleSet[]
-    | {
-        [dataTypeValue: string]: ItemStyleSet;
-      };
+  styles?: NodeStyleSets;
 }
-
+export interface EdgeThemeSpecifications {
+  dataTypeField?: string;
+  palette?: string[] | { [dataTypeValue: string]: string };
+  styles?: EdgeStyleSets;
+}
+export interface ComboThemeSpecifications {
+  dataTypeField?: string;
+  palette?: string[] | { [dataTypeValue: string]: string };
+  styles?: ComboStyleSets;
+}
 /**
  * Theme specification
  */
 export interface ThemeSpecification {
-  node?: ItemThemeSpecifications;
-  edge?: ItemThemeSpecifications;
-  combo?: ItemThemeSpecifications;
+  node?: NodeThemeSpecifications;
+  edge?: EdgeThemeSpecifications;
+  combo?: ComboThemeSpecifications;
   canvas?: {
     [cssName: string]: unknown;
   };

@@ -13,15 +13,71 @@ document.querySelector('body').appendChild(container);
 
 const data: GraphData = {
   nodes: [
-    { id: 'node1', data: { x: 100, y: 200, dt: 'a' } },
-    { id: 'node2', data: { x: 200, y: 250, dt: 'b' } },
-    { id: 'node3', data: { x: 300, y: 200, dt: 'c' } },
-    { id: 'node4', data: { x: 300, y: 250 } },
+    {
+      id: 'node1',
+      data: {
+        x: 100,
+        y: 200,
+        dt: 'a',
+        labelBackgroundShape: {
+          radius: 8,
+        },
+      },
+    },
+    {
+      id: 'node2',
+      data: {
+        x: 200,
+        y: 250,
+        dt: 'b',
+        badges: [
+          {
+            type: 'icon',
+            text: 'a',
+            position: 'rightTop',
+          },
+        ],
+      },
+    },
+    {
+      id: 'node3',
+      data: {
+        x: 300,
+        y: 200,
+        dt: 'c',
+        labelBackgroundShape: {
+          radius: 8,
+        },
+      },
+    },
+    {
+      id: 'node4',
+      data: {
+        x: 300,
+        y: 250,
+        anchorPoints: [
+          [0.5, 0],
+          [0.5, 1],
+          [0, 0.5],
+          [1, 0.5],
+        ],
+      },
+    },
   ],
   edges: [
     { id: 'edge1', source: 'node1', target: 'node2', data: { edt: '1' } },
     { id: 'edge2', source: 'node1', target: 'node3', data: { edt: '2' } },
-    { id: 'edge3', source: 'node1', target: 'node4', data: {} },
+    {
+      id: 'edge3',
+      source: 'node1',
+      target: 'node4',
+      data: {
+        edt: 'xxx',
+        labelBackgroundShape: {
+          radius: 8,
+        },
+      },
+    },
   ],
 };
 
@@ -44,6 +100,21 @@ describe('theme', () => {
             formatter: (model) => model.id,
           },
         },
+        iconShape: {
+          img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+        },
+        anchorShapes: {
+          fields: ['anchorPoints'],
+          formatter: (model) => {
+            return model.data.anchorPoints?.map((point, i) => ({
+              position: point,
+            }));
+          },
+        },
+        badgeShapes: {
+          fields: ['badges'],
+          formatter: (model) => model.data.badges,
+        },
       },
       edge: {
         labelShape: {
@@ -58,6 +129,7 @@ describe('theme', () => {
       const node = graph.itemController.itemMap['node1'];
       const { keyShape: nodeKeyShape, labelShape: nodeLabelShape } =
         node.shapeMap;
+      expect(node.shapeMap.haloShape).toBe(undefined);
       expect(nodeKeyShape.style.fill).toBe(
         LightTheme.node.styles[0].default.keyShape.fill,
       );
@@ -67,6 +139,7 @@ describe('theme', () => {
       const edge = graph.itemController.itemMap['edge1'];
       const { keyShape: edgeKeyShape, labelShape: edgeLabelShape } =
         edge.shapeMap;
+      expect(edge.shapeMap.haloShape).toBe(undefined);
       expect(edgeKeyShape.style.stroke).toBe(
         LightTheme.edge.styles[0].default.keyShape.stroke,
       );
@@ -76,8 +149,12 @@ describe('theme', () => {
 
       // set state, should response with default theme state style
       graph.setItemState('node1', 'selected', true);
+      expect(node.shapeMap.haloShape).not.toBe(undefined);
+      expect(node.shapeMap.haloShape.style.lineWidth).not.toBe(
+        LightTheme.node.styles[0].selected.haloShape.lineWith,
+      );
       expect(nodeKeyShape.style.fill).toBe(
-        LightTheme.node.styles[0].selected.keyShape.fill,
+        LightTheme.node.styles[0].default.keyShape.fill, // no change
       );
       expect(nodeLabelShape.style.fontWeight).toBe(
         LightTheme.node.styles[0].selected.labelShape.fontWeight,
@@ -91,20 +168,31 @@ describe('theme', () => {
       );
 
       graph.setItemState('edge1', 'selected', true);
+      expect(edge.shapeMap.haloShape).not.toBe(undefined);
+      expect(edge.shapeMap.haloShape.style.lineWidth).not.toBe(
+        LightTheme.edge.styles[0].selected.haloShape.lineWith,
+      );
       expect(edgeKeyShape.style.stroke).toBe(
-        LightTheme.edge.styles[0].selected.keyShape.stroke,
+        LightTheme.edge.styles[0].default.keyShape.stroke, //  no change
       );
       expect(edgeKeyShape.style.lineWidth).toBe(
         LightTheme.edge.styles[0].selected.keyShape.lineWidth,
       );
-      console.log(
-        'xssx',
-        edgeLabelShape.style.fontWeight,
-        LightTheme.edge.styles[0].default.labelShape.fontWeight,
-      );
       expect(edgeLabelShape.style.fill).toBe(
         LightTheme.edge.styles[0].default.labelShape.fill,
-      ); // no change in theme def
+      );
+
+      const node4 = graph.itemController.itemMap['node4'];
+      expect(node4.shapeMap.anchorShape0).not.toBe(undefined);
+      expect(node4.shapeMap.anchorShape1).not.toBe(undefined);
+      expect(node4.shapeMap.anchorShape2).not.toBe(undefined);
+      expect(node4.shapeMap.anchorShape3).not.toBe(undefined);
+
+      graph.setItemState('node4', 'selected', true);
+      expect(node4.shapeMap.anchorShape0).not.toBe(undefined);
+      expect(node4.shapeMap.anchorShape1).not.toBe(undefined);
+      expect(node4.shapeMap.anchorShape2).not.toBe(undefined);
+      expect(node4.shapeMap.anchorShape3).not.toBe(undefined);
 
       graph.destroy();
       done();
@@ -271,17 +359,11 @@ describe('theme', () => {
 
       // node setState with state in builtin theme
       graph.setItemState('node1', 'selected', true);
-      expect(nodeKeyShape1.style.fill).toBe(
-        LightTheme.node.styles[0].selected.keyShape.fill,
-      );
       expect(nodeLabelShape1.style.fontWeight).toBe(
         LightTheme.node.styles[0].selected.labelShape.fontWeight,
       );
       // edge setState with state in builtin theme
       graph.setItemState('edge1', 'selected', true);
-      expect(edgeKeyShape1.style.stroke).toBe(
-        LightTheme.edge.styles[0].selected.keyShape.stroke,
-      );
       expect(edgeLabelShape1.style.fill).toBe('#0f0'); // not assigned in selected theme
       expect(edgeLabelShape1.style.fontWeight).toBe(
         LightTheme.edge.styles[0].selected.labelShape.fontWeight,
@@ -323,9 +405,6 @@ describe('theme', () => {
       // clear node's one state
       graph.clearItemState('node1', ['state2']);
       expect(nodeKeyShape1.style.fill).toBe('#ff0');
-      expect(nodeKeyShape1.style.stroke).toBe(
-        LightTheme.node.styles[0].default.keyShape.stroke,
-      );
       // clear edge's one state, state1 + state3 is kept
       graph.clearItemState('edge1', ['state2']);
       expect(edgeKeyShape1.style.stroke).toBe('#ff0');
@@ -483,17 +562,11 @@ describe('theme', () => {
 
       // node setState with state in builtin theme
       graph.setItemState('node1', 'selected', true);
-      expect(nodeKeyShape1.style.fill).toBe(
-        LightTheme.node.styles[0].selected.keyShape.fill,
-      );
       expect(nodeLabelShape1.style.fontWeight).toBe(
         LightTheme.node.styles[0].selected.labelShape.fontWeight,
       );
       // edge setState with state in builtin theme
       graph.setItemState('edge1', 'selected', true);
-      expect(edgeKeyShape1.style.stroke).toBe(
-        LightTheme.edge.styles[0].selected.keyShape.stroke,
-      );
       expect(edgeLabelShape1.style.fill).toBe('#0f0'); // not assigned in selected theme
       expect(edgeLabelShape1.style.fontWeight).toBe(
         LightTheme.edge.styles[0].selected.labelShape.fontWeight,
@@ -535,9 +608,6 @@ describe('theme', () => {
       // clear node's one state
       graph.clearItemState('node1', ['state2']);
       expect(nodeKeyShape1.style.fill).toBe('#ff0');
-      expect(nodeKeyShape1.style.stroke).toBe(
-        LightTheme.node.styles[0].default.keyShape.stroke,
-      );
 
       // clear edge's one state, state1 + state3 is kept
       graph.clearItemState('edge1', ['state2']);
@@ -572,19 +642,8 @@ describe('theme', () => {
         shapeMap: NodeShapeMap,
         diffData?: { oldData: NodeModelData; newData: NodeModelData },
       ) {
-        const extraShape = upsertShape(
-          'circle',
-          'extraShape',
-          {
-            r: 4,
-            fill: '#0f0',
-            x: -20,
-            y: 0,
-          },
-          shapeMap,
-        );
         const { labelShape: labelStyle } = this.mergedStyles;
-        const labelShape = upsertShape(
+        return this.upsertShape(
           'text',
           'labelShape',
           {
@@ -592,8 +651,26 @@ describe('theme', () => {
             text: model.id,
           },
           shapeMap,
-        );
-        return { labelShape, extraShape };
+        ).shape;
+      }
+      public drawOtherShapes(
+        model: NodeDisplayModel,
+        shapeMap: NodeShapeMap,
+        diffData?: { oldData: NodeModelData; newData: NodeModelData },
+      ) {
+        return {
+          extraShape: this.upsertShape(
+            'circle',
+            'extraShape',
+            {
+              r: 4,
+              fill: '#0f0',
+              x: -20,
+              y: 0,
+            },
+            shapeMap,
+          ).shape,
+        };
       }
     }
     class CustomEdge extends LineEdge {
@@ -605,7 +682,7 @@ describe('theme', () => {
         const { keyShape } = shapeMap;
         const point = keyShape.getPoint(0.3);
         return {
-          buShape: upsertShape(
+          buShape: this.upsertShape(
             'rect',
             'buShape',
             {
@@ -616,7 +693,7 @@ describe('theme', () => {
               fill: '#0f0',
             },
             shapeMap,
-          ),
+          ).shape,
         };
       }
     }
@@ -645,6 +722,7 @@ describe('theme', () => {
             formatter: (model) => model.id,
           },
         },
+        otherShapes: {},
       },
       edge: {
         type: 'theme-spec-custom-edge',

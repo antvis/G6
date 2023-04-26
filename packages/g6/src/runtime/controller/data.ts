@@ -551,7 +551,12 @@ const mergeOneLevelData = (
   const { data: prevData } = prevModel;
   const mergedData = {};
   Object.keys(newData).forEach((key) => {
-    if (isObject(prevData[key]) && isObject(newData[key])) {
+    if (isArray(prevData[key]) || isArray(newData[key])) {
+      mergedData[key] = newData[key];
+    } else if (
+      typeof prevData[key] === 'object' &&
+      typeof newData[key] === 'object'
+    ) {
       mergedData[key] = {
         ...(prevData[key] as object),
         ...(newData[key] as object),
