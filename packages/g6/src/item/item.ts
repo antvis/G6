@@ -17,7 +17,7 @@ import { EdgeStyleSet, NodeStyleSet } from '../types/theme';
 import { isArrayOverlap } from '../util/array';
 import { mergeStyles, updateShapes } from '../util/shape';
 import { isEncode } from '../util/type';
-import { DEFAULT_MAPPER } from 'util/mapper';
+import { DEFAULT_MAPPER } from '../util/mapper';
 
 export default abstract class Item implements IItem {
   public destroyed = false;
