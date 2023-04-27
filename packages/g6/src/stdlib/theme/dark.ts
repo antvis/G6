@@ -102,7 +102,7 @@ export default {
             ...DEFAULT_SHAPE_STYLE,
             lineWidth: 1,
             stroke: edgeMainStroke,
-            lineAppendWidth: 2,
+            increasedLineWidthForHitTesting: 2,
           },
           labelShape: {
             ...DEFAULT_TEXT_STYLE,

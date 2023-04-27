@@ -26,8 +26,10 @@ import { upsertTransientItem } from '../../util/item';
 import { ITEM_TYPE, ShapeStyle, SHAPE_TYPE } from '../../types/item';
 import {
   ThemeSpecification,
-  ItemThemeSpecifications,
-  ItemStyleSet,
+  NodeThemeSpecifications,
+  EdgeThemeSpecifications,
+  NodeStyleSet,
+  EdgeStyleSet,
 } from '../../types/theme';
 import { isArray, isObject } from '@antv/util';
 import { DirectionalLight, AmbientLight } from '@antv/g-plugin-3d';
@@ -277,7 +279,10 @@ export class ItemController {
         const { isReplace, previous, current } = nodeUpdate[id];
         // update the theme if the dataType value is changed
         let themeStyles;
-        if (previous[nodeDataTypeField] !== current[nodeDataTypeField]) {
+        if (
+          nodeDataTypeField &&
+          previous[nodeDataTypeField] !== current[nodeDataTypeField]
+        ) {
           themeStyles = getThemeStyles(
             this.nodeDataTypeSet,
             nodeDataTypeField,
@@ -488,7 +493,7 @@ export class ItemController {
       return;
     }
 
-    const shape = upsertShape(type, String(id), style, transientObjectMap);
+    const { shape } = upsertShape(type, String(id), style, transientObjectMap);
     shape.style.pointerEvents = capture ? 'auto' : 'none';
     canvas.getRoot().appendChild(shape);
   }
@@ -502,7 +507,7 @@ export class ItemController {
    */
   private renderNodes(
     models: NodeModel[],
-    nodeTheme: ItemThemeSpecifications = {},
+    nodeTheme: NodeThemeSpecifications = {},
   ) {
     const { nodeExtensions, nodeGroup, nodeDataTypeSet, graph } = this;
     const { dataTypeField } = nodeTheme;
@@ -523,7 +528,7 @@ export class ItemController {
         containerGroup: nodeGroup,
         mapper: this.nodeMapper,
         stateMapper: this.nodeStateMapper,
-        themeStyles: themeStyle,
+        themeStyles: themeStyle as NodeStyleSet,
         device:
           graph.rendererType === 'webgl-3d'
             ? // TODO: G type
@@ -539,7 +544,7 @@ export class ItemController {
    */
   private renderEdges(
     models: EdgeModel[],
-    edgeTheme: ItemThemeSpecifications = {},
+    edgeTheme: EdgeThemeSpecifications = {},
   ) {
     const { edgeExtensions, edgeGroup, itemMap, edgeDataTypeSet } = this;
     const { dataTypeField } = edgeTheme;
@@ -575,7 +580,7 @@ export class ItemController {
         stateMapper: this.edgeStateMapper,
         sourceItem,
         targetItem,
-        themeStyles: themeStyle,
+        themeStyles: themeStyle as EdgeStyleSet,
       });
     });
   }
@@ -648,8 +653,8 @@ const getThemeStyles = (
   dataTypeSet: Set<string>,
   dataTypeField: string,
   dataType: string,
-  itemTheme: ItemThemeSpecifications,
-): ItemStyleSet => {
+  itemTheme: NodeThemeSpecifications | EdgeThemeSpecifications,
+): NodeStyleSet | EdgeStyleSet => {
   const { styles: themeStyles } = itemTheme;
   if (!dataTypeField) {
     // dataType field is not assigned

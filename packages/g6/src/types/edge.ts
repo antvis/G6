@@ -1,38 +1,77 @@
 import { DisplayObject } from '@antv/g';
 import { Edge as GEdge, PlainObject } from '@antv/graphlib';
-import { AnimateAttr } from './animate';
 import {
+  BadgePosition,
   Encode,
   IItem,
+  ItemShapeStyles,
   LabelBackground,
   ShapeAttrEncode,
   ShapesEncode,
   ShapeStyle,
 } from './item';
 
-export type EdgeUserModelData = PlainObject;
-export interface EdgeModelData extends EdgeUserModelData {
-  visible?: boolean;
-  label?: string;
-}
-
-export interface EdgeLabelShapeStyle extends ShapeStyle {
-  position?: EdgeLabelPosition;
-  offsetX?: number;
-  offsetY?: number;
-  background?: LabelBackground;
-  autoRotate?: boolean;
-}
-export interface EdgeDisplayModelData extends EdgeModelData {
-  keyShape?: ShapeStyle;
-  labelShape?: EdgeLabelShapeStyle;
-  iconShape?: ShapeStyle;
-  otherShapes?: {
-    [shapeId: string]: ShapeStyle;
-  };
+export interface EdgeUserModelData extends PlainObject {
+  /**
+   * Anchor index to link to the source / target node.
+   */
   sourceAnchor?: number;
   targetAnchor?: number;
+  /**
+   * Edge type, e.g. 'line'.
+   */
+  type?: string;
+  /**
+   * Subject color for the keyShape and arrows.
+   * More styles should be configured in edge mapper.
+   */
+  color?: string;
+  /**
+   * The text to show on the edge.
+   * More styles should be configured in edge mapper.
+   */
+  label?: string;
+  /**
+   * Whether show the edge by default.
+   */
+  visible?: boolean;
+  /**
+   * The icon to show on the edge.
+   * More styles should be configured in edge mapper.
+   */
+  icon?: {
+    type: 'icon' | 'text';
+    text?: string;
+    img?: string;
+  };
+  /**
+   * The badges to show on the edge.
+   * More styles should be configured in edge mapper.
+   */
+  badge?: {
+    type: 'icon' | 'text';
+    text: string;
+  };
 }
+export interface EdgeModelData extends EdgeUserModelData {}
+
+export interface EdgeShapeStyles extends ItemShapeStyles {
+  labelShape?: ShapeStyle & {
+    position?: 'start' | 'middle' | 'end';
+    offsetX?: number;
+    offsetY?: number;
+    autoRotate?: boolean;
+  };
+  labelBackgroundShape?: ShapeStyle & {
+    padding?: number | number[];
+  };
+  badgeShape?: ShapeStyle & {
+    color?: string;
+    textColor?: string;
+  };
+}
+
+export type EdgeDisplayModelData = EdgeModelData & EdgeShapeStyles;
 
 /** User input data. */
 export type EdgeUserModel = GEdge<EdgeUserModelData>;
@@ -54,8 +93,8 @@ interface EdgeLabelShapeAttrEncode extends ShapeAttrEncode {
 
 export interface EdgeShapesEncode extends ShapesEncode {
   labelShape?: EdgeLabelShapeAttrEncode;
-  sourceAnchor?: number;
-  targetAnchor?: number;
+  labelBackgroundShape?: LabelBackground | Encode<LabelBackground>;
+  badgeShape?: ShapeAttrEncode | Encode<ShapeStyle>;
 }
 export interface EdgeEncode extends EdgeShapesEncode {
   type?: string | Encode<string>;

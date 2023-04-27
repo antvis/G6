@@ -1,4 +1,12 @@
-export const RESERVED_SHAPE_IDS = ['keyShape', 'labelShape', 'iconShape'];
+export const RESERVED_SHAPE_IDS = [
+  'keyShape',
+  'labelShape',
+  'labelBackgroundShape',
+  'iconShape',
+  'haloShape',
+  'anchorShapes',
+  'badgeShapes',
+];
 export const OTHER_SHAPES_FIELD_NAME = 'otherShapes';
 
 export const DEFAULT_LABEL_BG_PADDING = [4, 4, 4, 4];
@@ -9,6 +17,7 @@ export const DEFAULT_SHAPE_STYLE = {
   shadowColor: undefined,
   shadowBlur: 0,
   lineDash: undefined,
+  zIndex: 0,
 };
 /** Default text style to avoid shape value missing */
 export const DEFAULT_TEXT_STYLE = {

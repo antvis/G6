@@ -76,7 +76,6 @@ describe('node item', () => {
 
     graph.on('afterrender', (e) => {
       graph.on('node:click', (e) => {
-        console.log('nodeclick');
         graph.setItemState(e.itemId, 'selected', true);
       });
     });

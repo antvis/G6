@@ -10,7 +10,12 @@ import {
 } from '@antv/g-plugin-3d';
 import { EdgeShapeMap } from '../types/edge';
 import { NodeShapeMap } from '../types/node';
-import { GShapeStyle, SHAPE_TYPE, SHAPE_TYPE_3D } from '../types/item';
+import {
+  GShapeStyle,
+  SHAPE_TYPE,
+  SHAPE_TYPE_3D,
+  ShapeStyle,
+} from '../types/item';
 import { ShapeTagMap, createShape } from './shape';
 
 const GeometryTagMap = {
@@ -103,20 +108,30 @@ export const upsertShape3D = (
   style: GShapeStyle,
   shapeMap: { [shapeId: string]: DisplayObject },
   device: any,
-): DisplayObject => {
+): {
+  updateStyles: ShapeStyle;
+  shape: DisplayObject;
+} => {
   let shape = shapeMap[id];
+  let updateStyles = {};
   if (!shape) {
     shape = createShape3D(type, style, id, device);
+    updateStyles = style;
   } else if (shape.nodeName !== type) {
     shape.remove();
     shape = createShape3D(type, style, id, device);
+    updateStyles = style;
   } else {
+    const oldStyles = shape.attributes;
     Object.keys(style).forEach((key) => {
-      shape.style[key] = style[key];
+      if (oldStyles[key] !== style[key]) {
+        updateStyles[key] = style[key];
+        shape.style[key] = style[key];
+      }
     });
   }
   shapeMap[id] = shape;
-  return shape;
+  return { shape, updateStyles };
 };
 
 /**
