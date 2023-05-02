@@ -1,6 +1,7 @@
 // @ts-nocheck
 
 import { DisplayObject } from '@antv/g';
+import { clone } from '@antv/util';
 import G6, { EdgeDisplayModel, NodeDisplayModel } from '../../src/index';
 import { LineEdge } from '../../src/stdlib/item/edge';
 import { CircleNode } from '../../src/stdlib/item/node';
@@ -10,6 +11,27 @@ import { upsertShape } from '../../src/util/shape';
 
 const container = document.createElement('div');
 document.querySelector('body').appendChild(container);
+
+const data = {
+  nodes: [
+    {
+      id: 'node1',
+      data: { x: 100, y: 200, a: 'xxx' },
+    },
+    {
+      id: 'node2',
+      data: { x: 300, y: 200 },
+    },
+  ],
+  edges: [
+    {
+      id: 'edge1',
+      source: 'node1',
+      target: 'node2',
+      data: { keyShape: { stroke: '#000', lineWidth: 2 } },
+    },
+  ],
+};
 
 class CustomNode extends CircleNode {
   public defaultStyles = {
@@ -68,7 +90,6 @@ class CustomEdge extends LineEdge {
   ): { [otherShapeId: string]: DisplayObject } {
     const { keyShape } = shapeMap;
     const styles = this.mergedStyles.runningCircle;
-    const { keyShape } = shapeMap;
     return {
       runningCircle: upsertShape(
         'circle',
@@ -98,31 +119,13 @@ const CustomGraph = extend(G6.Graph, {
 });
 
 const createGraph = (props) => {
+  const clonedData = clone(data);
   return new CustomGraph({
     container,
     width: 500,
     height: 500,
     type: 'graph',
-    data: {
-      nodes: [
-        {
-          id: 'node1',
-          data: { x: 100, y: 200, a: 'xxx' },
-        },
-        {
-          id: 'node2',
-          data: { x: 300, y: 200 },
-        },
-      ],
-      edges: [
-        {
-          id: 'edge1',
-          source: 'node1',
-          target: 'node2',
-          data: { keyShape: { stroke: '#000', lineWidth: 2 } },
-        },
-      ],
-    },
+    data: clonedData,
     ...props,
   });
 };
@@ -244,7 +247,7 @@ describe('node show up animations', () => {
           }, 2500);
         }, 1500);
       });
-    }, 1000);
+    }, 500);
   });
 });
 
@@ -483,7 +486,7 @@ describe('node update animations', () => {
           }, 1000);
         }, 500);
       });
-    }, 1000);
+    }, 500);
   });
   it('state update in the same time', (done) => {
     const graph = createGraph({
@@ -1190,4 +1193,83 @@ describe('custom node animations', () => {
   });
 });
 
-// TODO: node position animates affects edges
+// node position animates affects edges
+describe('node update position with edges', () => {
+  it('node update position with edges', (done) => {
+    const graph = createGraph({
+      node: (innerModel) => {
+        const { x, y, keyShape = {} } = innerModel.data;
+        return {
+          ...innerModel,
+          data: {
+            x,
+            y,
+            animates: {
+              update: [
+                {
+                  fields: ['x'],
+                  duration: 500,
+                  order: 0,
+                },
+                {
+                  fields: ['y'],
+                  duration: 1000,
+                  order: 0,
+                },
+              ],
+            },
+          },
+        };
+      },
+      nodeState: {
+        selected: {
+          keyShape: {
+            lineWidth: 4,
+            fill: '#f00',
+          },
+        },
+      },
+    });
+    const oriData = clone(data);
+
+    graph.on('afterrender', () => {
+      const edge = graph.itemController.itemMap['edge1'];
+      let { keyShape: edgeKeyShape } = edge.shapeMap;
+      expect(edgeKeyShape.attributes.x1).toBe(oriData.nodes[0].data.x);
+      expect(edgeKeyShape.attributes.y1).toBe(oriData.nodes[0].data.y);
+      expect(edgeKeyShape.attributes.x2).toBe(oriData.nodes[1].data.x);
+      expect(edgeKeyShape.attributes.y2).toBe(oriData.nodes[1].data.y);
+      graph.updateData('node', {
+        id: 'node1',
+        data: {
+          x: 200,
+          y: 300,
+        },
+      });
+      graph.updateData('node', {
+        id: 'node2',
+        data: {
+          x: 100,
+          y: 100,
+        },
+      });
+      setTimeout(() => {
+        let node1 = graph.itemController.itemMap['node1'];
+        expect(node1.model.data.x).not.toBe(oriData.nodes[0].data.x);
+        let node2 = graph.itemController.itemMap['node2'];
+        expect(node2.model.data.x).not.toBe(oriData.nodes[1].data.x);
+        edgeKeyShape = edge.shapeMap.keyShape;
+        expect(edgeKeyShape.attributes.x1).not.toBe(oriData.nodes[0].data.x);
+        expect(edgeKeyShape.attributes.x2).not.toBe(oriData.nodes[1].data.x);
+        setTimeout(() => {
+          expect(node1.model.data.y).not.toBe(oriData.nodes[0].data.y);
+          expect(node2.model.data.y).not.toBe(oriData.nodes[1].data.y);
+          expect(edgeKeyShape.attributes.y1).not.toBe(oriData.nodes[0].data.y);
+          expect(edgeKeyShape.attributes.y2).not.toBe(oriData.nodes[1].data.y);
+          graph.destroy();
+          done();
+        }, 500);
+      }, 500);
+    });
+  });
+});

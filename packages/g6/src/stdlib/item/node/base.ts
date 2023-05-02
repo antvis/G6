@@ -11,6 +11,8 @@ import {
   SHAPE_TYPE_3D,
   ShapeStyle,
   State,
+  ZoomStrategy,
+  ZoomStrategyObj,
 } from '../../../types/item';
 import {
   NodeModelData,
@@ -18,25 +20,66 @@ import {
   NodeShapeStyles,
 } from '../../../types/node';
 import {
+  LOCAL_BOUNDS_DIRTY_FLAG_KEY,
   formatPadding,
-  isStyleAffectBBox,
   mergeStyles,
   upsertShape,
 } from '../../../util/shape';
+import { getWordWrapWidthByBox } from 'util/text';
+import { DEFAULT_ANIMATE_CFG, fadeIn, fadeOut } from 'util/animate';
+import { getZoomLevel } from 'util/zoom';
+import { AnimateCfg } from 'types/animate';
 
 export abstract class BaseNode {
   type: string;
   defaultStyles: NodeShapeStyles;
   themeStyles: NodeShapeStyles;
   mergedStyles: NodeShapeStyles;
+  zoomStrategy?: ZoomStrategyObj;
   boundsCache: {
     keyShapeLocal?: AABB;
     labelShapeLocal?: AABB;
   };
+  // cache the zoom level infomations
+  private zoomCache: {
+    // the id of shapes which are hidden by zoom changing.
+    hiddenShape: { [shapeId: string]: boolean };
+    // timeout timer for scaling shapes with to keep the visual size, simulates debounce in function.
+    balanceTimer: NodeJS.Timeout;
+    // the ratio to scale the shapes (e.g. labelShape, labelBackgroundShape) to keep to visual size while zooming.
+    balanceRatio: number;
+    // last responsed zoom ratio.
+    zoom: number;
+    // last responsed zoom level where the zoom ratio at. Zoom ratio 1 at level 0.
+    zoomLevel: number;
+    // shape ids in different zoom levels.
+    levelShapes: {
+      [level: string]: string[];
+    };
+    // wordWrapWidth of labelShape according to the maxWidth
+    wordWrapWidth: number;
+    // animate configurations for zoom level changing
+    animateConfig: AnimateCfg;
+  } = {
+    hiddenShape: {},
+    zoom: 1,
+    zoomLevel: 0,
+    balanceTimer: undefined,
+    balanceRatio: 1,
+    levelShapes: {},
+    wordWrapWidth: 32,
+    animateConfig: DEFAULT_ANIMATE_CFG.zoom,
+  };
+
   constructor(props) {
-    const { themeStyles } = props;
+    const { themeStyles, zoomStrategy } = props;
     if (themeStyles) this.themeStyles = themeStyles;
+    this.zoomStrategy = zoomStrategy;
     this.boundsCache = {};
+    this.zoomCache.animateConfig = {
+      ...DEFAULT_ANIMATE_CFG.zoom,
+      ...zoomStrategy?.animateCfg,
+    };
   }
   public mergeStyles(model: NodeDisplayModel) {
     this.mergedStyles = this.getMergedStyles(model);
@@ -46,11 +89,21 @@ export abstract class BaseNode {
     const dataStyles = {} as NodeShapeStyles;
     Object.keys(data).forEach((fieldName) => {
       if (RESERVED_SHAPE_IDS.includes(fieldName)) {
-        if (fieldName === 'BadgeShapes') {
-          Object.keys(data[fieldName]).forEach(
-            (badgeShapeId) =>
-              (dataStyles[badgeShapeId] = data[fieldName][badgeShapeId]),
-          );
+        if (fieldName === 'badgeShapes') {
+          Object.keys(data[fieldName]).forEach((idx) => {
+            const { position } = data[fieldName][idx];
+            dataStyles[`${position}BadgeShape`] = {
+              ...data[fieldName][idx],
+              tag: 'badgeShape',
+            };
+          });
+        } else if (fieldName === 'anchorShapes') {
+          Object.keys(data[fieldName]).forEach((idx) => {
+            dataStyles[`anchorShape${idx}`] = {
+              ...data[fieldName][idx],
+              tag: 'anchorShape',
+            };
+          });
         } else {
           dataStyles[fieldName] = data[fieldName] as ShapeStyle;
         }
@@ -61,7 +114,44 @@ export abstract class BaseNode {
         );
       }
     });
-    return mergeStyles([this.themeStyles, this.defaultStyles, dataStyles]);
+    const merged = mergeStyles([
+      this.themeStyles,
+      this.defaultStyles,
+      dataStyles,
+    ]) as NodeShapeStyles;
+    const padding = merged.labelBackgroundShape?.padding;
+    if (padding) {
+      merged.labelBackgroundShape.padding = formatPadding(padding);
+    }
+    return merged;
+  }
+  /**
+   * Call it after calling draw function to update cache about bounds and zoom levels.
+   */
+  public updateCache(shapeMap) {
+    ['keyShape', 'labelShape'].forEach((id) => {
+      const shape = shapeMap[id];
+      if (shape?.getAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY)) {
+        this.boundsCache[`${id}Local`] = shape.getLocalBounds();
+        shape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, false);
+      }
+    });
+
+    const { levelShapes } = this.zoomCache;
+    Object.keys(shapeMap).forEach((shapeId) => {
+      const { showLevel } = shapeMap[shapeId].attributes;
+      if (showLevel !== undefined) {
+        levelShapes[showLevel] = levelShapes[showLevel] || [];
+        levelShapes[showLevel].push(shapeId);
+      }
+    });
+
+    const { maxWidth = '200%' } = this.mergedStyles.labelShape || {};
+    this.zoomCache.wordWrapWidth = getWordWrapWidthByBox(
+      this.boundsCache.keyShapeLocal,
+      maxWidth,
+      1,
+    );
   }
   abstract draw(
     model: NodeDisplayModel,
@@ -100,20 +190,27 @@ export abstract class BaseNode {
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
     diffData?: { previous: NodeModelData; current: NodeModelData },
-    diffState?: { oldState: State[]; newState: State[] },
+    diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
     const { keyShape } = shapeMap;
     this.boundsCache.keyShapeLocal =
       this.boundsCache.keyShapeLocal || keyShape.getLocalBounds();
     const keyShapeBox = this.boundsCache.keyShapeLocal;
     const { labelShape: shapeStyle } = this.mergedStyles;
-
     const {
       position,
       offsetX: propsOffsetX,
       offsetY: propsOffsetY,
+      maxWidth,
       ...otherStyle
     } = shapeStyle;
+
+    const wordWrapWidth = getWordWrapWidthByBox(
+      keyShapeBox,
+      maxWidth,
+      this.zoomCache.zoom,
+    );
+
     const positionPreset = {
       x: keyShapeBox.center[0],
       y: keyShapeBox.max[1],
@@ -121,6 +218,7 @@ export abstract class BaseNode {
       textAlign: 'center',
       offsetX: 0,
       offsetY: 0,
+      wordWrapWidth,
     };
     switch (position) {
       case 'center':
@@ -136,14 +234,14 @@ export abstract class BaseNode {
         positionPreset.y = keyShapeBox.center[1];
         positionPreset.textAlign = 'right';
         positionPreset.textBaseline = 'middle';
-        positionPreset.offsetX = -4;
+        positionPreset.offsetX = -8;
         break;
       case 'right':
         positionPreset.x = keyShapeBox.max[0];
         positionPreset.y = keyShapeBox.center[1];
         positionPreset.textAlign = 'left';
         positionPreset.textBaseline = 'middle';
-        positionPreset.offsetX = 4;
+        positionPreset.offsetX = 8;
         break;
       default: // at bottom by default
         positionPreset.offsetY = 4;
@@ -163,18 +261,7 @@ export abstract class BaseNode {
       ...positionPreset,
       ...otherStyle,
     };
-    const { shape, updateStyles } = this.upsertShape(
-      'text',
-      'labelShape',
-      style,
-      shapeMap,
-      model,
-    );
-
-    if (isStyleAffectBBox('text', updateStyles)) {
-      this.boundsCache.labelShapeLocal = undefined;
-    }
-    return shape;
+    return this.upsertShape('text', 'labelShape', style, shapeMap, model);
   }
 
   public drawLabelBackgroundShape(
@@ -185,36 +272,29 @@ export abstract class BaseNode {
   ): DisplayObject {
     const { labelShape } = shapeMap;
     if (!labelShape || !model.data.labelShape) return;
-    this.boundsCache.labelShapeLocal =
-      this.boundsCache.labelShapeLocal || labelShape.getLocalBounds();
+    if (
+      !this.boundsCache.labelShapeLocal ||
+      labelShape.getAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY)
+    ) {
+      this.boundsCache.labelShapeLocal = labelShape.getLocalBounds();
+      labelShape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, false);
+    }
     const { labelShapeLocal: textBBox } = this.boundsCache;
 
-    const { padding: propsPadding, ...backgroundStyle } =
+    const { padding, ...backgroundStyle } =
       this.mergedStyles.labelBackgroundShape;
-    const padding = formatPadding(propsPadding, DEFAULT_LABEL_BG_PADDING);
+    const { balanceRatio = 1 } = this.zoomCache;
     const bgStyle: any = {
       fill: '#fff',
       ...backgroundStyle,
       x: textBBox.min[0] - padding[3],
-      y: textBBox.min[1] - padding[0],
+      y: textBBox.min[1] - padding[0] / balanceRatio,
       width: textBBox.max[0] - textBBox.min[0] + padding[1] + padding[3],
-      height: textBBox.max[1] - textBBox.min[1] + padding[0] + padding[2],
+      height:
+        textBBox.max[1] -
+        textBBox.min[1] +
+        (padding[0] + padding[2]) / balanceRatio,
     };
-    const labelShapeAttr = labelShape.attributes;
-    if (labelShapeAttr.transform) {
-      bgStyle.transform = labelShapeAttr.transform;
-      bgStyle.transformOrigin = 'center';
-      if (labelShapeAttr.textAlign === 'left') {
-        bgStyle.transformOrigin = `${padding[3]} ${
-          padding[0] + bgStyle.height / 2
-        }`;
-      }
-      if (labelShapeAttr.textAlign === 'right') {
-        bgStyle.transformOrigin = `${padding[3] + bgStyle.width} ${
-          padding[0] + bgStyle.height / 2
-        }`;
-      }
-    }
 
     return this.upsertShape(
       'rect',
@@ -222,14 +302,14 @@ export abstract class BaseNode {
       bgStyle,
       shapeMap,
       model,
-    ).shape;
+    );
   }
 
   public drawIconShape(
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
     diffData?: { previous: NodeModelData; current: NodeModelData },
-    diffState?: { oldState: State[]; newState: State[] },
+    diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
     const { iconShape: shapeStyle } = this.mergedStyles;
     const {
@@ -262,7 +342,7 @@ export abstract class BaseNode {
       shapeStyle as GShapeStyle,
       shapeMap,
       model,
-    ).shape;
+    );
   }
 
   public drawHaloShape(
@@ -284,7 +364,7 @@ export abstract class BaseNode {
       },
       shapeMap,
       model,
-    ).shape;
+    );
   }
 
   public drawAnchorShapes(
@@ -295,19 +375,12 @@ export abstract class BaseNode {
   ): {
     [shapeId: string]: DisplayObject;
   } {
-    const { anchorShapes: configs, keyShape: keyShapeStyle } =
+    const { anchorShapes: commonStyle, keyShape: keyShapeStyle } =
       this.mergedStyles;
-    const commonStyle = {};
-    const individualConfigs = [];
-    Object.keys(configs).forEach((key) => {
-      const value = configs[key];
-      if (typeof value === 'object' && value.position) {
-        individualConfigs.push(value);
-      } else {
-        commonStyle[key] = value;
-      }
-    });
 
+    const individualConfigs = Object.values(this.mergedStyles).filter(
+      (style) => style.tag === 'anchorShape',
+    );
     if (!individualConfigs.length) return;
     this.boundsCache.keyShapeLocal =
       this.boundsCache.keyShapeLocal || shapeMap.keyShape.getLocalBounds();
@@ -331,7 +404,7 @@ export abstract class BaseNode {
         } as GShapeStyle,
         shapeMap,
         model,
-      ).shape;
+      );
     });
     return shapes;
   }
@@ -344,18 +417,10 @@ export abstract class BaseNode {
   ): {
     [shapeId: string]: DisplayObject;
   } {
-    const configs = this.mergedStyles.badgeShapes;
-    const commonStyle = {};
-    const individualConfigs = [];
-    Object.keys(configs).forEach((key) => {
-      const value = configs[key];
-      if (typeof value === 'object' && value.position) {
-        individualConfigs.push(value);
-      } else {
-        commonStyle[key] = value;
-      }
-    });
-
+    const commonStyle = this.mergedStyles.badgeShapes;
+    const individualConfigs = Object.values(this.mergedStyles).filter(
+      (style) => style.tag === 'badgeShape',
+    );
     if (!individualConfigs.length) return {};
     this.boundsCache.keyShapeLocal =
       this.boundsCache.keyShapeLocal || shapeMap.keyShape.getLocalBounds();
@@ -440,7 +505,7 @@ export abstract class BaseNode {
         } as GShapeStyle,
         shapeMap,
         model,
-      ).shape;
+      );
       const bbox = shapes[id].getLocalBounds();
       const bgShapeId = `${position}BadgeBackgroundShape`;
       const bgWidth =
@@ -463,7 +528,7 @@ export abstract class BaseNode {
         } as GShapeStyle,
         shapeMap,
         model,
-      ).shape;
+      );
     });
 
     return shapes;
@@ -478,16 +543,110 @@ export abstract class BaseNode {
     return {};
   }
 
+  /**
+   * The listener for graph zooming.
+   * 1. show / hide some shapes while zoom level changed;
+   * 2. change the shapes' sizes to make them have same visual size while zooming, e.g. labelShape, labelBackgroundShape.
+   * @param shapeMap
+   * @param zoom
+   */
+  public onZoom = (shapeMap: NodeShapeMap, zoom: number) => {
+    this.balanceShapeSize(shapeMap, zoom);
+    // zoomLevel changed
+    if (!this.zoomStrategy) return;
+    const { levels } = this.zoomStrategy;
+    // last zoom ratio responsed by zoom changing, which might not equal to zoom.previous in props since the function is debounced.
+    const {
+      levelShapes,
+      hiddenShape,
+      animateConfig,
+      zoomLevel: previousLevel,
+    } = this.zoomCache;
+    const currentLevel = getZoomLevel(levels, zoom);
+    if (currentLevel < previousLevel) {
+      // zoomLevel changed, from higher to lower, hide something
+      levelShapes[currentLevel + 1]?.forEach((id) =>
+        fadeOut(id, shapeMap[id], hiddenShape, animateConfig),
+      );
+    } else if (currentLevel > previousLevel) {
+      // zoomLevel changed, from lower to higher, show something
+      levelShapes[String(currentLevel)]?.forEach((id) =>
+        fadeIn(
+          id,
+          shapeMap[id],
+          this.mergedStyles[id] ||
+            this.mergedStyles[id.replace('Background', '')],
+          hiddenShape,
+          animateConfig,
+        ),
+      );
+    }
+    this.zoomCache.zoomLevel = currentLevel;
+    this.zoomCache.zoom = zoom;
+  };
+
+  /**
+   * Update the shapes' sizes e.g. labelShape, labelBackgroundShape, to keep the visual size while zooming.
+   * @param shapeMap
+   * @param zoom
+   * @returns
+   */
+  private balanceShapeSize(shapeMap: NodeShapeMap, zoom: number) {
+    // balance the size for label, badges
+    const { labelShape, labelBackgroundShape } = shapeMap;
+    const balanceRatio = 1 / zoom || 1;
+    this.zoomCache.balanceRatio = balanceRatio;
+    const { labelShape: labelStyle } = this.mergedStyles;
+    const { position = 'bottom' } = labelStyle;
+    if (!labelShape) return;
+
+    if (position === 'bottom') labelShape.style.transformOrigin = '0';
+    else labelShape.style.transformOrigin = '';
+    labelShape.style.transform = `scale(${balanceRatio}, ${balanceRatio})`;
+    const wordWrapWidth = this.zoomCache.wordWrapWidth * zoom;
+    labelShape.style.wordWrapWidth = wordWrapWidth;
+
+    if (!labelBackgroundShape) return;
+
+    const { padding } = this.mergedStyles.labelBackgroundShape;
+    const { width, height } = labelBackgroundShape.attributes;
+    const [paddingTop, paddingRight, paddingBottom, paddingLeft] =
+      padding as number[];
+
+    switch (position) {
+      case 'top':
+        labelBackgroundShape.style.transformOrigin = `${
+          paddingLeft + (width - paddingLeft - paddingRight) / 2
+        } ${height - paddingBottom}`;
+        break;
+      case 'left':
+        labelBackgroundShape.style.transformOrigin = `${width - paddingRight} ${
+          paddingTop + (height - paddingTop - paddingBottom) / 2
+        }`;
+        break;
+      case 'right':
+        labelBackgroundShape.style.transformOrigin = `${paddingLeft} ${
+          paddingTop + (height - paddingTop - paddingBottom) / 2
+        }`;
+        break;
+      case 'bottom':
+      default:
+        labelBackgroundShape.style.transformOrigin = `${
+          paddingLeft + (width - paddingLeft - paddingRight) / 2
+        } ${paddingTop + (height - paddingTop - paddingBottom) / 2}`;
+    }
+    // only scale y-asix, to expand the text range while zoom-in
+    labelBackgroundShape.style.transform = `scale(1, ${balanceRatio})`;
+  }
+
   public upsertShape(
     type: SHAPE_TYPE | SHAPE_TYPE_3D,
     id: string,
     style: ShapeStyle,
-    shapeMap: { [shapeId: string]: DisplayObject },
+    shapeMap: NodeShapeMap,
     model: NodeDisplayModel,
-  ): {
-    updateStyles: ShapeStyle;
-    shape: DisplayObject;
-  } {
+  ): DisplayObject {
+    debugger;
     return upsertShape(
       type as SHAPE_TYPE,
       id,

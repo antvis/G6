@@ -1,4 +1,11 @@
-import { DisplayObject, Group, IAnimation } from '@antv/g';
+import {
+  DisplayObject,
+  Group,
+  IAnimation,
+  Line,
+  Path,
+  Polyline,
+} from '@antv/g';
 import {
   AnimateTiming,
   IAnimate,
@@ -54,7 +61,7 @@ export const getShapeAnimateBeginStyles = (shape) => {
 /**
  * Initial(timing = show) group animation start from GROUP_ANIMATE_STYLES[0], and end to GROUP_ANIMATE_STYLES[1].
  */
-const GROUP_ANIMATE_STYLES = [
+export const GROUP_ANIMATE_STYLES = [
   {
     opacity: 0,
     transform: 'scale(0)',
@@ -68,18 +75,31 @@ const GROUP_ANIMATE_STYLES = [
 /**
  * Default animate options for different timing.
  */
-const DEFAULT_ANIMATE_CFG = {
+export const DEFAULT_ANIMATE_CFG = {
+  buildIn: {
+    duration: 500,
+    easing: 'cubic-bezier(0.250, 0.460, 0.450, 0.940)',
+    iterations: 1,
+    delay: 1000,
+    fill: 'both',
+  },
   show: {
     duration: 500,
     easing: 'cubic-bezier(0.250, 0.460, 0.450, 0.940)',
     iterations: 1,
-    delay: 1500,
     fill: 'both',
   },
   update: {
     duration: 500,
     easing: 'cubic-bezier(0.250, 0.460, 0.450, 0.940)',
     iterations: 1,
+    fill: 'both',
+  },
+  zoom: {
+    duration: 200,
+    easing: 'linear',
+    iterations: 1,
+    delay: 0,
     fill: 'both',
   },
 };
@@ -115,10 +135,10 @@ const groupTimingAnimates = (
   const timingAnimateGroups = {};
   const isStateUpdate = segmentedTiming === 'stateUpdate';
   animates[isStateUpdate ? 'update' : segmentedTiming].forEach((item: any) => {
-    const { order = 0 } = item;
+    const { order = 0, states } = item;
     if (
       !isStateUpdate ||
-      (isStateUpdate && isArrayOverlap(item.states, changedStates))
+      (isStateUpdate && isArrayOverlap(states, changedStates))
     ) {
       timingAnimateGroups[order] = timingAnimateGroups[order] || [];
       timingAnimateGroups[order].push(item);
@@ -149,6 +169,7 @@ const runAnimateGroupOnShapes = (
   let maxDuration = -Infinity;
   let maxDurationIdx = -1;
   let hasCanceled = canceled;
+  const isOut = timing === 'buildOut' || timing === 'hide';
   const animations = timingAnimates.map((animate: any, i) => {
     const { fields, shapeId, order, states, ...animateCfg } = animate;
     const animateConfig = {
@@ -160,28 +181,53 @@ const runAnimateGroupOnShapes = (
     let animation;
     if (!shapeId || shapeId === 'group') {
       // animate on group
-      const usingFields = fields?.map((field) =>
-        field === 'size' ? 'transform' : field,
-      );
-      const targetStyle = targetStylesMap.group || GROUP_ANIMATE_STYLES[1];
+      const usingFields = [];
+      let hasOpacity = false;
+      fields?.forEach((field) => {
+        if (field === 'size') usingFields.push('transform');
+        else if (field !== 'opacity') usingFields.push(field);
+        else hasOpacity = true;
+      });
+      const targetStyle =
+        targetStylesMap.group || GROUP_ANIMATE_STYLES[isOut ? 0 : 1];
       if (hasCanceled) {
         Object.keys(targetStyle).forEach((key) => {
           group.style[key] = targetStyle[key];
         });
       } else {
-        animation = runAnimateOnShape(
-          group,
-          usingFields,
-          targetStyle,
-          GROUP_ANIMATE_STYLES[0],
-          animateConfig,
-        );
+        if (hasOpacity) {
+          // opacity on group, animate on all shapes
+          Object.keys(shapeMap).forEach((shapeId) => {
+            const { opacity: targetOpaicty = 1 } =
+              targetStylesMap[shapeId] ||
+              targetStylesMap.otherShapes?.[shapeId] ||
+              {};
+            animation = runAnimateOnShape(
+              shapeMap[shapeId],
+              ['opacity'],
+              { opacity: targetOpaicty },
+              getShapeAnimateBeginStyles(shapeMap[shapeId]),
+              animateConfig,
+            );
+          });
+        }
+        if (usingFields.length) {
+          animation = runAnimateOnShape(
+            group,
+            usingFields,
+            targetStyle,
+            GROUP_ANIMATE_STYLES[isOut ? 1 : 0],
+            animateConfig,
+          );
+        }
       }
     } else {
       const shape = shapeMap[shapeId];
       if (shape && shape.style.display !== 'none') {
         const targetStyle =
-          targetStylesMap[shapeId] || targetStylesMap.otherShapes[shapeId];
+          targetStylesMap[shapeId] ||
+          targetStylesMap.otherShapes?.[shapeId] ||
+          {};
         if (hasCanceled) {
           Object.keys(targetStyle).forEach((key) => {
             shape.style[key] = targetStyle[key];
@@ -240,13 +286,12 @@ const runAnimateOnShape = (
         : beginStyle[key];
       animateArr[1][key] = targetStyle[key];
       if (key === 'lineDash' && animateArr[1][key].includes('100%')) {
-        const totalLength = shape.getTotalLength();
+        const totalLength = (shape as Line | Polyline | Path).getTotalLength();
         replaceElements(animateArr[1][key], '100%', totalLength);
       }
     });
   }
   if (JSON.stringify(animateArr[0]) === JSON.stringify(animateArr[1])) return;
-  console.log('animateArr', shape, animateArr);
   return shape.animate(animateArr, animateConfig);
 };
 
@@ -265,8 +310,9 @@ export const animateShapes = (
   mergedStyles: ItemShapeStyles,
   shapeMap: { [shapeId: string]: DisplayObject },
   group: Group,
-  timing: AnimateTiming = 'show',
+  timing: AnimateTiming = 'buildIn',
   changedStates: string[] = [],
+  onAnimatesFrame: Function = () => {},
   onAnimatesEnd: Function = () => {},
 ): IAnimation[] => {
   if (!animates?.[timing]) {
@@ -299,14 +345,79 @@ export const animateShapes = (
       onfinish, // execute next order group
       () => (canceled = true),
       canceled,
-    );
+    ).filter(Boolean);
+    groupAnimations.forEach((animation) => {
+      animation.onframe = onAnimatesFrame;
+    });
     if (i === 0) {
       // collect the first group animations
-      animations = groupAnimations.filter(Boolean);
+      animations = groupAnimations;
     }
     i++;
   };
   onfinish();
   // only animations with order 0 will be returned
   return animations;
+};
+
+export const getAnimatesExcludePosition = (animates) => {
+  if (!animates.update) return animates;
+  const isGroupId = (id) => !id || id === 'group';
+  // const groupUpdateAnimates = animates.update.filter(
+  //   ({ shapeId }) => isGroupId(shapeId),
+  // );
+  const excludedAnimates = [];
+  animates.update.forEach((animate) => {
+    const { shapeId, fields } = animate;
+    if (!isGroupId(shapeId)) {
+      excludedAnimates.push(animate);
+      return;
+    }
+    const newFields = fields;
+    let isGroupPosition = false;
+    if (fields.includes('x')) {
+      const xFieldIdx = newFields.indexOf('x');
+      newFields.splice(xFieldIdx, 1);
+      isGroupPosition = true;
+    }
+    if (fields.includes('y')) {
+      const yFieldIdx = newFields.indexOf('y');
+      newFields.splice(yFieldIdx, 1);
+      isGroupPosition = true;
+    }
+
+    if (isGroupPosition) {
+      if (newFields.length !== 0) {
+        // group animation but not on x and y
+        excludedAnimates.push({
+          ...animate,
+          fields: newFields,
+        });
+      }
+    } else {
+      excludedAnimates.push(animate);
+    }
+  });
+
+  return {
+    ...animates,
+    update: excludedAnimates,
+  };
+};
+
+export const fadeIn = (id, shape, style, hiddenShape, animateConfig) => {
+  // omit inexist shape and the shape which is not hidden by zoom changing
+  if (!shape || !hiddenShape[id]) return;
+  shape.show();
+  const { opacity = 1 } = style;
+  shape.animate([{ opacity: 0 }, { opacity }], animateConfig);
+};
+
+export const fadeOut = (id, shape, hiddenShape, animateConfig) => {
+  if (!shape?.isVisible()) return;
+  hiddenShape[id] = true;
+  const { opacity = 1 } = shape.attributes;
+  if (opacity === 0) return;
+  const animation = shape.animate([{ opacity }, { opacity: 0 }], animateConfig);
+  animation.onfinish = () => shape.hide();
 };

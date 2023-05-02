@@ -20,6 +20,13 @@ import { Specification } from './spec';
 import { ThemeRegistry } from './theme';
 import { FitViewRules, GraphTransformOptions } from './view';
 
+// TODO: move into types/item.ts
+export interface ZoomLevels {
+  range: [number, number];
+  primary?: boolean;
+}
+[];
+
 export interface IGraph<
   B extends BehaviorRegistry = BehaviorRegistry,
   T extends ThemeRegistry = ThemeRegistry,
@@ -394,14 +401,14 @@ export interface IGraph<
    * @returns
    * @group Data
    */
-  showItem: (ids: ID | ID[]) => void;
+  showItem: (ids: ID | ID[], disableAniamte?: boolean) => void;
   /**
    * Hide the item(s).
    * @param ids the item id(s) to be hidden
    * @returns
    * @group Item
    */
-  hideItem: (ids: ID | ID[]) => void;
+  hideItem: (ids: ID | ID[], disableAniamte?: boolean) => void;
   /**
    * Set state for the item(s).
    * @param ids the id(s) for the item(s) to be set

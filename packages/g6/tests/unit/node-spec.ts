@@ -261,7 +261,7 @@ describe('register node', () => {
           },
           shapeMap,
           model,
-        ).shape;
+        );
       }
       public drawOtherShapes(
         model: NodeDisplayModel,
@@ -280,7 +280,7 @@ describe('register node', () => {
             },
             shapeMap,
             model,
-          ).shape,
+          ),
         };
       }
     }
@@ -305,7 +305,7 @@ describe('register node', () => {
             },
             shapeMap,
             model,
-          ).shape,
+          ),
         };
       }
     }
@@ -430,7 +430,7 @@ describe('register node', () => {
           keyShapeStyle,
           shapeMap,
           model,
-        ).shape;
+        );
       }
       public drawOtherShapes(
         model: NodeDisplayModel,
@@ -450,7 +450,7 @@ describe('register node', () => {
           },
           shapeMap,
           model,
-        ).shape;
+        );
         return { testShape };
       }
     }
@@ -855,7 +855,7 @@ describe('state', () => {
         },
         shapeMap,
         model,
-      ).shape;
+      );
     }
     public drawOtherShapes(
       model: NodeDisplayModel,
@@ -876,7 +876,7 @@ describe('state', () => {
         },
         shapeMap,
         model,
-      ).shape;
+      );
       return { extraShape };
     }
   }
@@ -902,7 +902,7 @@ describe('state', () => {
           },
           shapeMap,
           model,
-        ).shape,
+        ),
       };
     }
   }

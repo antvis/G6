@@ -22,6 +22,7 @@ import {
   SHAPE_TYPE,
   ItemShapeStyles,
   ShapeStyle,
+  SHAPE_TYPE_3D,
 } from '../types/item';
 import { NodeDisplayModel, NodeShapeMap } from '../types/node';
 import { ComboDisplayModel } from '../types';
@@ -42,6 +43,8 @@ export const ShapeTagMap = {
 };
 
 const LINE_TYPES = ['line', 'polyline', 'path'];
+
+export const LOCAL_BOUNDS_DIRTY_FLAG_KEY = 'data-item-local-bounds-dirty';
 
 export const createShape = (
   type: SHAPE_TYPE,
@@ -70,8 +73,15 @@ const findAnimateFields = (animates, timing, shapeId) => {
   if (!animates?.[timing]) return [];
   let animateFields = [];
   animates[timing].forEach(({ fields, shapeId: animateShapeId }) => {
-    if (animateShapeId === shapeId)
+    if (animateShapeId === shapeId) {
       animateFields = animateFields.concat(fields);
+    } else if (
+      (!animateShapeId || animateShapeId === 'group') &&
+      fields.includes('opacity')
+    ) {
+      // group opacity, all shapes animates with opacity
+      animateFields.push('opacity');
+    }
   });
   if (animateFields.includes(undefined)) {
     // there is an animate on all styles
@@ -95,32 +105,31 @@ export const upsertShape = (
   style: GShapeStyle,
   shapeMap: { [shapeId: string]: DisplayObject },
   model?: NodeDisplayModel | EdgeDisplayModel | ComboDisplayModel,
-): {
-  updateStyles: ShapeStyle;
-  shape: DisplayObject;
-} => {
+): DisplayObject => {
   let shape = shapeMap[id];
-  let updateStyles = {};
-  const { animates } = model?.data || {};
+  const { animates, disableAnimate } = model?.data || {};
   if (!shape) {
     // create
     shape = createShape(type, style, id);
-    updateStyles = style;
     // find the animate styles, set them to be INIT_SHAPE_STYLES
-    const animateFields = findAnimateFields(animates, 'show', id);
-    const initShapeStyles = getShapeAnimateBeginStyles(shape);
-    animateFields.forEach((key) => {
-      shape.style[key] = initShapeStyles[key];
-    });
+    if (!disableAnimate && animates) {
+      const animateFields = findAnimateFields(animates, 'buildIn', id);
+      const initShapeStyles = getShapeAnimateBeginStyles(shape);
+      animateFields.forEach((key) => {
+        shape.style[key] = initShapeStyles[key];
+      });
+    }
+    shape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, true);
   } else if (shape.nodeName !== type) {
     // remove and create for the shape changed type
     shape.remove();
     shape = createShape(type, style, id);
-    updateStyles = style;
+    shape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, true);
   } else {
+    const updateStyles = {};
     const oldStyles = shape.attributes;
     // update
-    if (!animates?.update) {
+    if (disableAnimate || !animates?.update) {
       // update all the style directly when there are no animates for update timing
       Object.keys(style).forEach((key) => {
         if (oldStyles[key] !== style[key]) {
@@ -131,7 +140,7 @@ export const upsertShape = (
     } else {
       // update the styles excludes the ones in the animate fields
       const animateFields = findAnimateFields(animates, 'update', id);
-      if (!animateFields.length) return { shape, updateStyles };
+      if (!animateFields.length) return shape;
       Object.keys(style).forEach((key) => {
         if (oldStyles[key] !== style[key]) {
           updateStyles[key] = style[key];
@@ -141,9 +150,12 @@ export const upsertShape = (
         }
       });
     }
+    if (isStyleAffectBBox(type, updateStyles)) {
+      shape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, true);
+    }
   }
   shapeMap[id] = shape;
-  return { shape, updateStyles };
+  return shape;
 };
 
 export const getGroupSucceedMap = (
@@ -499,11 +511,14 @@ const FEILDS_AFFECT_BBOX = {
   rect: ['width', 'height', 'lineWidth'],
   image: ['width', 'height', 'lineWidth'],
   ellipse: ['rx', 'ry', 'lineWidth'],
-  text: ['fontSize', 'fontWeight'],
+  text: ['fontSize', 'fontWeight', 'text', 'wordWrapWidth'],
   polygon: ['points', 'lineWidth'],
   line: ['x1', 'x2', 'y1', 'y2', 'lineWidth'],
   polyline: ['points', 'lineWidth'],
   path: ['points', 'lineWidth'],
+  sphere: ['radius'],
+  cube: ['width', 'height', 'depth'],
+  plane: ['width', 'depth'],
 };
 /**
  * Will the fields in style affect the bbox.
@@ -511,6 +526,9 @@ const FEILDS_AFFECT_BBOX = {
  * @param style style object
  * @returns
  */
-export const isStyleAffectBBox = (type: SHAPE_TYPE, style: ShapeStyle) => {
+export const isStyleAffectBBox = (
+  type: SHAPE_TYPE | SHAPE_TYPE_3D,
+  style: ShapeStyle,
+) => {
   return isArrayOverlap(Object.keys(style), FEILDS_AFFECT_BBOX[type]);
 };

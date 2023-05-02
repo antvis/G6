@@ -957,11 +957,12 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Item
    */
-  public showItem(ids: ID | ID[]) {
+  public showItem(ids: ID | ID[], disableAniamte?: boolean) {
     const idArr = isArray(ids) ? ids : [ids];
     this.hooks.itemvisibilitychange.emit({
       ids: idArr as ID[],
       value: true,
+      animate: !disableAniamte,
     });
   }
   /**
@@ -970,11 +971,12 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Item
    */
-  public hideItem(ids: ID | ID[]) {
+  public hideItem(ids: ID | ID[], disableAniamte?: boolean) {
     const idArr = isArray(ids) ? ids : [ids];
     this.hooks.itemvisibilitychange.emit({
       ids: idArr as ID[],
       value: false,
+      animate: !disableAniamte,
     });
   }
   /**

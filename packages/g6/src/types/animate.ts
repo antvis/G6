@@ -38,7 +38,7 @@ export interface AnimateCfg {
   resumeCallback?: () => void;
 }
 
-export type AnimateTiming = 'show' | 'exit' | 'update';
+export type AnimateTiming = 'buildIn' | 'buildOut' | 'show' | 'hide' | 'update';
 
 export interface IAnimate {
   // style fields to animate
@@ -59,8 +59,10 @@ export interface IStateAnimate extends IAnimate {
 }
 
 export interface IAnimates {
+  buildIn?: IAnimate[];
+  buildOut?: IAnimate[];
   show?: IAnimate[];
-  exit?: IAnimate[];
+  hide?: IAnimate[];
   update?: (IAnimate | IStateAnimate)[];
 }
 

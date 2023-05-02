@@ -1,8 +1,8 @@
 import { Group } from '@antv/g';
-import { clone } from '@antv/util';
+import { clone, throttle } from '@antv/util';
 import { EdgeDisplayModel, EdgeModel, NodeModelData } from '../types';
 import { EdgeModelData } from '../types/edge';
-import { DisplayMapper, ItemShapeStyles, State } from '../types/item';
+import { DisplayMapper, State, ZoomStrategyObj } from '../types/item';
 import { updateShapes } from '../util/shape';
 import Item from './item';
 import Node from './node';
@@ -19,7 +19,12 @@ interface IProps {
   };
   sourceItem: Node;
   targetItem: Node;
-  themeStyles: EdgeStyleSet;
+  zoom?: number;
+  theme: {
+    styles: EdgeStyleSet;
+    zoomStrategy: ZoomStrategyObj;
+  };
+  onframe?: Function;
 }
 
 export default class Edge extends Item {
@@ -55,6 +60,8 @@ export default class Edge extends Item {
     const targetPoint = this.targetItem.getAnchorPoint({ x: sx, y: sy, z: sz });
     this.renderExt.mergeStyles(displayModel);
     const firstRendering = !this.shapeMap?.keyShape;
+    this.renderExt.setSourcePoint(sourcePoint);
+    this.renderExt.setTargetPoint(targetPoint);
     const shapeMap = this.renderExt.draw(
       displayModel,
       sourcePoint,
@@ -68,7 +75,7 @@ export default class Edge extends Item {
     this.shapeMap = updateShapes(this.shapeMap, shapeMap, this.group);
 
     // handle shape's and group's animate
-    const { animates } = displayModel.data;
+    const { animates, disableAnimate } = displayModel.data;
     const usingAnimates = { ...animates };
     let targetStyles = this.renderExt.mergedStyles;
     const { haloShape, labelShape } = this.shapeMap;
@@ -76,19 +83,26 @@ export default class Edge extends Item {
     labelShape?.toFront();
 
     super.draw(displayModel, diffData, diffState);
+    this.renderExt.updateCache(this.shapeMap);
+
+    if (firstRendering) {
+      // update the transform
+      this.renderExt.onZoom(this.shapeMap, this.zoom);
+    }
 
     // terminate previous animations
     this.stopAnimations();
-    const timing = firstRendering ? 'show' : 'update';
+    const timing = firstRendering ? 'buildIn' : 'update';
     // handle shape's animate
-    if (usingAnimates[timing]?.length) {
+    if (!disableAnimate && usingAnimates[timing]?.length) {
       this.animations = animateShapes(
         usingAnimates,
         targetStyles, // targetStylesMap
         this.shapeMap, // shapeMap
         this.group,
-        firstRendering ? 'show' : 'update',
+        firstRendering ? 'buildIn' : 'update',
         this.changedStates,
+        this.animateFrameListener,
         () => onfinish(displayModel.id),
       );
     }
@@ -98,9 +112,16 @@ export default class Edge extends Item {
    * Sometimes no changes on edge data, but need to re-draw it
    * e.g. source and target nodes' position changed
    */
-  public forceUpdate() {
-    this.draw(this.displayModel);
-  }
+  public forceUpdate = throttle(
+    () => {
+      if (!this.destroyed) this.draw(this.displayModel);
+    },
+    16,
+    {
+      leading: true,
+      trailing: true,
+    },
+  );
 
   /**
    * Update end item for item and re-draw the edge
@@ -122,6 +143,7 @@ export default class Edge extends Item {
     sourceItem: Node,
     targetItem: Node,
     onlyKeyShape?: boolean,
+    disableAnimate?: boolean,
   ) {
     if (onlyKeyShape) {
       const clonedKeyShape = this.shapeMap.keyShape.cloneNode();
@@ -130,15 +152,21 @@ export default class Edge extends Item {
       containerGroup.appendChild(clonedGroup);
       return clonedGroup;
     }
+    const clonedModel = clone(this.model);
+    clonedModel.data.disableAnimate = disableAnimate;
     return new Edge({
-      model: clone(this.model),
+      model: clonedModel,
       renderExtensions: this.renderExtensions,
       sourceItem,
       targetItem,
       containerGroup,
       mapper: this.mapper,
       stateMapper: this.stateMapper,
-      themeStyles: clone(this.themeStyles),
+      zoom: this.zoom,
+      theme: {
+        styles: clone(this.themeStyles),
+        zoomStrategy: this.zoomStrategy,
+      },
     });
   }
 }

@@ -62,6 +62,8 @@ export interface EdgeShapeStyles extends ItemShapeStyles {
     offsetX?: number;
     offsetY?: number;
     autoRotate?: boolean;
+    // if it is a string, means the percentage of the keyShape, number means pixel
+    maxWidth?: string | number;
   };
   labelBackgroundShape?: ShapeStyle & {
     padding?: number | number[];

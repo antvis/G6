@@ -33,7 +33,7 @@ export abstract class BaseNode3D extends BaseNode {
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
     diffData?: { previous: NodeModelData; current: NodeModelData },
-    diffState?: { oldState: State[]; newState: State[] },
+    diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
     return super.drawLabelShape(model, shapeMap, diffData, diffState);
   }
@@ -43,7 +43,7 @@ export abstract class BaseNode3D extends BaseNode {
     model: NodeDisplayModel,
     shapeMap: NodeShapeMap,
     diffData?: { previous: NodeModelData; current: NodeModelData },
-    diffState?: { oldState: State[]; newState: State[] },
+    diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
     return super.drawIconShape(model, shapeMap, diffData, diffState);
   }
@@ -67,7 +67,7 @@ export abstract class BaseNode3D extends BaseNode {
         isBillboard: true,
       },
       shapeMap,
-    ).shape;
+    );
   }
 
   /**
@@ -116,10 +116,7 @@ export abstract class BaseNode3D extends BaseNode {
     id: string,
     style: ShapeStyle,
     shapeMap: { [shapeId: string]: DisplayObject },
-  ): {
-    shape: DisplayObject;
-    updateStyles: ShapeStyle;
-  } {
+  ): DisplayObject {
     return upsertShape3D(type, id, style as GShapeStyle, shapeMap, this.device);
   }
 }

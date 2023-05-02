@@ -1,5 +1,5 @@
 import { ID } from '@antv/graphlib';
-import { debounce, uniq } from '@antv/util';
+import { throttle, uniq } from '@antv/util';
 import { EdgeModel } from '../../types';
 import { Behavior } from '../../types/behavior';
 import { IG6GraphEvent } from '../../types/event';
@@ -37,10 +37,10 @@ export interface DragNodeOptions {
     [key: string]: unknown;
   };
   /**
-   * The time in milliseconds to debounce moving. Useful to avoid the frequent calculation.
+   * The time in milliseconds to throttle moving. Useful to avoid the frequent calculation.
    * Defaults to 0.
    */
-  debounce?: number;
+  throttle?: number;
   /**
    * Whether to hide the related edges to avoid calculation while dragging nodes.
    * Ignored when enableTransient or enableDelegate is true.
@@ -72,7 +72,7 @@ const DEFAULT_OPTIONS: Required<DragNodeOptions> = {
     strokeOpacity: 0.9,
     lineDash: [5, 5],
   },
-  debounce: 0,
+  throttle: 16,
   hideRelatedEdges: false,
   selectedState: 'selected',
   eventName: '',
@@ -167,7 +167,10 @@ export class DragNode extends Behavior {
     // Hide related edge.
     if (this.options.hideRelatedEdges && !enableTransient) {
       this.hiddenEdges = this.getRelatedEdges(selectedNodeIds);
-      this.graph.hideItem(this.hiddenEdges.map((edge) => edge.id));
+      this.graph.hideItem(
+        this.hiddenEdges.map((edge) => edge.id),
+        true,
+      );
     }
 
     // Draw transient nodes and edges.
@@ -182,15 +185,22 @@ export class DragNode extends Behavior {
       });
 
       // Hide original edges and nodes. They will be restored when pointerup.
-      this.graph.hideItem(selectedNodeIds);
-      this.graph.hideItem(this.hiddenEdges.map((edge) => edge.id));
+      this.graph.hideItem(selectedNodeIds, true);
+      this.graph.hideItem(
+        this.hiddenEdges.map((edge) => edge.id),
+        true,
+      );
     }
 
-    // Debounce moving.
-    if (this.options.debounce > 0) {
-      this.debouncedMoveNodes = debounce(this.moveNodes, this.options.debounce);
+    // Throttle moving.
+    if (this.options.throttle > 0) {
+      this.throttledMoveNodes = throttle(
+        this.moveNodes,
+        this.options.throttle,
+        { leading: true, trailing: true },
+      );
     } else {
-      this.debouncedMoveNodes = this.moveNodes;
+      this.throttledMoveNodes = this.moveNodes;
     }
 
     // @ts-ignore FIXME: Type
@@ -216,7 +226,7 @@ export class DragNode extends Behavior {
     } else {
       const enableTransient =
         this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
-      this.debouncedMoveNodes(deltaX, deltaY, enableTransient);
+      this.throttledMoveNodes(deltaX, deltaY, enableTransient);
     }
   }
 
@@ -249,13 +259,13 @@ export class DragNode extends Behavior {
     }
   }
 
-  public debouncedMoveNodes(
+  public throttledMoveNodes: Function = (
     deltaX: number,
     deltaY: number,
     transient: boolean,
-  ) {
+  ) => {
     // Should be overrided when drag start.
-  }
+  };
 
   public moveDelegate(deltaX: number, deltaY: number) {
     const x1 = Math.min(
@@ -298,13 +308,19 @@ export class DragNode extends Behavior {
 
   public restoreHiddenItems() {
     if (this.hiddenEdges.length) {
-      this.graph.showItem(this.hiddenEdges.map((edge) => edge.id));
+      this.graph.showItem(
+        this.hiddenEdges.map((edge) => edge.id),
+        true,
+      );
       this.hiddenEdges = [];
     }
     const enableTransient =
       this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
     if (enableTransient) {
-      this.graph.showItem(this.originPositions.map((position) => position.id));
+      this.graph.showItem(
+        this.originPositions.map((position) => position.id),
+        true,
+      );
     }
   }
 

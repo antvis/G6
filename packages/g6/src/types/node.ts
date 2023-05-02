@@ -78,6 +78,8 @@ export interface NodeShapeStyles extends ItemShapeStyles {
     position?: 'top' | 'bottom' | 'left' | 'right' | 'center';
     offsetX?: number;
     offsetY?: number;
+    // string means the percentage of the keyShape, number means pixel
+    maxWidth?: string | number;
   };
   labelBackgroundShape?: ShapeStyle & {
     padding?: number | number[];

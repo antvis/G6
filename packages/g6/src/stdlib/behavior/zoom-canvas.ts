@@ -49,7 +49,7 @@ export interface ZoomCanvasOptions {
 }
 
 const DEFAULT_OPTIONS: Required<ZoomCanvasOptions> = {
-  enableOptimize: true,
+  enableOptimize: false,
   zoomOnItems: false,
   sensitivity: 1,
   trigger: 'wheel',

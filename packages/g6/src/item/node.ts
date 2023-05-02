@@ -2,18 +2,23 @@ import { Group } from '@antv/g';
 import { clone } from '@antv/util';
 import { Point } from '../types/common';
 import { NodeModel } from '../types';
-import { DisplayMapper, State } from '../types/item';
+import {
+  DisplayMapper,
+  State,
+  ZoomStrategy,
+  ZoomStrategyObj,
+} from '../types/item';
 import { NodeDisplayModel, NodeModelData } from '../types/node';
 import { NodeStyleSet } from '../types/theme';
 import { updateShapes } from '../util/shape';
-import { animateShapes } from '../util/animate';
+import { animateShapes, getAnimatesExcludePosition } from '../util/animate';
 import Item from './item';
 import {
   getCircleIntersectByPoint,
   getEllipseIntersectByPoint,
   getNearestPoint,
   getRectIntersectByPoint,
-} from 'util/point';
+} from '../util/point';
 
 interface IProps {
   model: NodeModel;
@@ -23,8 +28,13 @@ interface IProps {
   stateMapper: {
     [stateName: string]: DisplayMapper;
   };
-  themeStyles: NodeStyleSet;
+  zoom?: number;
+  theme: {
+    styles: NodeStyleSet;
+    zoomStrategy: ZoomStrategyObj;
+  };
   device?: any; // for 3d shapes
+  onframe?: Function;
   onfinish?: Function;
 }
 export default class Node extends Item {
@@ -64,46 +74,59 @@ export default class Node extends Item {
     // add shapes to group, and update shapeMap
     this.shapeMap = updateShapes(prevShapeMap, shapeMap, group);
 
-    const { animates, x = 0, y = 0, z = 0 } = displayModel.data;
+    const { animates, disableAnimate, x = 0, y = 0, z = 0 } = displayModel.data;
     if (firstRendering) {
       // first rendering, move the group
-      group.setPosition(x as number, y as number, z as number);
+      group.style.x = x;
+      group.style.y = y;
+      group.style.z = z;
+    } else {
+      this.updatePosition(displayModel, diffData, onfinish);
     }
 
-    const { haloShape, labelShape, labelBackgroundShape } = this.shapeMap;
+    const { haloShape, labelBackgroundShape } = this.shapeMap;
     haloShape?.toBack();
-    labelShape?.toFront();
     labelBackgroundShape?.toBack();
 
     super.draw(displayModel, diffData, diffState, onfinish);
     this.anchorPointsCache = undefined;
+    renderExt.updateCache(this.shapeMap);
+
+    if (firstRendering) {
+      // update the transform
+      renderExt.onZoom(this.shapeMap, this.zoom);
+    }
 
     // terminate previous animations
     this.stopAnimations();
     // handle shape's and group's animate
-    this.animations = animateShapes(
-      animates,
-      {
-        ...renderExt.mergedStyles,
-        group: firstRendering ? undefined : { x, y },
-      }, // targetStylesMap
-      this.shapeMap, // shapeMap
-      group,
-      firstRendering ? 'show' : 'update',
-      this.changedStates,
-      () => onfinish(model.id),
-    );
+    if (!disableAnimate && animates) {
+      const animatesExcludePosition = getAnimatesExcludePosition(animates);
+      this.animations = animateShapes(
+        animatesExcludePosition, // animates
+        renderExt.mergedStyles, // targetStylesMap
+        this.shapeMap, // shapeMap
+        group,
+        firstRendering ? 'buildIn' : 'update',
+        this.changedStates,
+        this.animateFrameListener,
+        () => onfinish(model.id),
+      );
+    }
   }
 
   public update(
     model: NodeModel,
     diffData?: { previous: NodeModelData; current: NodeModelData },
     isReplace?: boolean,
-    themeStyles?: NodeStyleSet,
+    theme?: {
+      styles: NodeStyleSet;
+      zoomStrategy: ZoomStrategyObj;
+    },
     onlyMove?: boolean,
     onfinish?: Function,
   ) {
-    super.update(model, diffData, isReplace, themeStyles, onlyMove, onfinish);
+    super.update(model, diffData, isReplace, theme, onlyMove, onfinish);
   }
 
   /**
@@ -116,19 +139,22 @@ export default class Node extends Item {
     onfinish: Function = () => {},
   ) {
     const { group } = this;
-    const { x = 0, y = 0, animates } = displayModel.data;
-    if (animates?.update) {
+    const { x = 0, y = 0, z = 0, animates, disableAnimate } = displayModel.data;
+    if (!disableAnimate && animates?.update) {
       const groupAnimates = animates.update.filter(
-        ({ shapeId }) => !shapeId || shapeId === 'group',
+        ({ shapeId, fields }) =>
+          (!shapeId || shapeId === 'group') &&
+          (fields.includes('x') || fields.includes('y')),
       );
       if (groupAnimates.length) {
         animateShapes(
           { update: groupAnimates },
-          { group: { x, y } as { x: number; y: number } }, // targetStylesMap
+          { group: { x, y, z } } as any, // targetStylesMap
           this.shapeMap, // shapeMap
           group,
           'update',
           [],
+          this.animateFrameListener,
           () => onfinish(displayModel.id),
         );
       }
@@ -136,9 +162,14 @@ export default class Node extends Item {
     }
     group.style.x = x;
     group.style.y = y;
+    group.style.z = z;
   }
 
-  public clone(containerGroup: Group, onlyKeyShape?: boolean) {
+  public clone(
+    containerGroup: Group,
+    onlyKeyShape?: boolean,
+    disableAnimate?: boolean,
+  ) {
     if (onlyKeyShape) {
       const clonedKeyShape = this.shapeMap.keyShape.cloneNode();
       const { x, y } = this.group.attributes;
@@ -148,20 +179,28 @@ export default class Node extends Item {
       containerGroup.appendChild(clonedGroup);
       return clonedGroup;
     }
+    const clonedModel = clone(this.model);
+    clonedModel.data.disableAnimate = disableAnimate;
     return new Node({
-      model: clone(this.model),
+      model: clonedModel,
       renderExtensions: this.renderExtensions,
       containerGroup,
       mapper: this.mapper,
       stateMapper: this.stateMapper,
-      themeStyles: clone(this.themeStyles),
+      zoom: this.zoom,
+      theme: {
+        styles: clone(this.themeStyles),
+        zoomStrategy: this.zoomStrategy,
+      },
     });
   }
 
   public getAnchorPoint(point: Point) {
     const { keyShape } = this.shapeMap;
     const shapeType = keyShape.nodeName;
-    const { x, y, anchorPoints = [] } = this.model.data as NodeModelData;
+    const { x, y, z, anchorPoints = [] } = this.model.data as NodeModelData;
+
+    return { x, y, z };
 
     let intersectPoint: Point | null;
     switch (shapeType) {

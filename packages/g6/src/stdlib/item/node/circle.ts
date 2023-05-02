@@ -7,7 +7,6 @@ import {
   NodeShapeStyles,
 } from '../../../types/node';
 import { BaseNode } from './base';
-import { isStyleAffectBBox } from 'util/shape';
 
 export class CircleNode extends BaseNode {
   override defaultStyles = {
@@ -103,16 +102,12 @@ export class CircleNode extends BaseNode {
     diffData?: { previous: NodeModelData; current: NodeModelData },
     diffState?: { previous: State[]; current: State[] },
   ): DisplayObject {
-    const { shape, updateStyles } = this.upsertShape(
+    return this.upsertShape(
       'circle',
       'keyShape',
       this.mergedStyles.keyShape,
       shapeMap,
       model,
     );
-    if (isStyleAffectBBox('circle', updateStyles)) {
-      this.boundsCache.keyShapeLocal = shape.getLocalBounds();
-    }
-    return shape;
   }
 }

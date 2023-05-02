@@ -652,7 +652,7 @@ describe('theme', () => {
           },
           shapeMap,
           model,
-        ).shape;
+        );
       }
       public drawOtherShapes(
         model: NodeDisplayModel,
@@ -671,7 +671,7 @@ describe('theme', () => {
             },
             shapeMap,
             model,
-          ).shape,
+          ),
         };
       }
     }
@@ -696,7 +696,7 @@ describe('theme', () => {
             },
             shapeMap,
             model,
-          ).shape,
+          ),
         };
       }
     }

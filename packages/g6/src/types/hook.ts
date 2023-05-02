@@ -65,6 +65,7 @@ export interface Hooks {
   itemvisibilitychange: IHook<{
     ids: ID[];
     value?: boolean;
+    animate?: boolean;
   }>;
   transientupdate: IHook<{
     type: ITEM_TYPE | SHAPE_TYPE;
