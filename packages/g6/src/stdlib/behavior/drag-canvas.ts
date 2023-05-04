@@ -1,6 +1,6 @@
 import { ID, IG6GraphEvent } from 'types';
 import { Behavior } from '../../types/behavior';
-import { Point } from 'types/common';
+import { Point } from '../../types/common';
 
 const VALID_TRIGGERS = ['drag', 'directionKeys'];
 export interface DragCanvasOptions {

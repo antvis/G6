@@ -1,4 +1,4 @@
-import { NodeDisplayModelData } from 'types/node';
+import { NodeDisplayModelData } from '../types/node';
 
 /**
  * Default mapper to transform simple styles in inner data.

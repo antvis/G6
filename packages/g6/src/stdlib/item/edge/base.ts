@@ -1,5 +1,5 @@
 import { AABB, DisplayObject, Line, Polyline } from '@antv/g';
-import { debounce, isNumber, throttle } from '@antv/util';
+import { isNumber } from '@antv/util';
 import {
   DEFAULT_LABEL_BG_PADDING,
   OTHER_SHAPES_FIELD_NAME,
@@ -25,10 +25,10 @@ import {
   mergeStyles,
   upsertShape,
 } from '../../../util/shape';
-import { DEFAULT_ANIMATE_CFG, fadeIn, fadeOut } from 'util/animate';
-import { getWordWrapWidthByEnds } from 'util/text';
-import { AnimateCfg } from 'types/animate';
-import { getZoomLevel } from 'util/zoom';
+import { DEFAULT_ANIMATE_CFG, fadeIn, fadeOut } from '../../../util/animate';
+import { getWordWrapWidthByEnds } from '../../../util/text';
+import { AnimateCfg } from '../../../types/animate';
+import { getZoomLevel } from '../../../util/zoom';
 
 export abstract class BaseEdge {
   type: string;

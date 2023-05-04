@@ -38,8 +38,8 @@ import {
   EdgeStyleSet,
 } from '../../types/theme';
 import { DirectionalLight, AmbientLight } from '@antv/g-plugin-3d';
-import { ViewportChangeHookParams } from 'types/hook';
-import { formatZoomStrategy } from 'util/zoom';
+import { ViewportChangeHookParams } from '../../types/hook';
+import { formatZoomStrategy } from '../../util/zoom';
 
 /**
  * Manages and stores the node / edge / combo items.

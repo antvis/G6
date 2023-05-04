@@ -1,4 +1,4 @@
-import { ZoomStrategy, ZoomStrategyObj } from 'types/item';
+import { ZoomStrategy, ZoomStrategyObj } from '../types/item';
 
 /**
  * Format zoomStrategy to the pattern that ratio 1 (primary level) at level 0, and higher the ratio, higher the level.

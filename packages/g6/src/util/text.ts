@@ -1,6 +1,6 @@
 import { AABB } from '@antv/g';
 import { getEuclideanDistance } from '@antv/layout';
-import { Point } from 'types/common';
+import { Point } from '../types/common';
 
 /**
  * Get the proper wordWrapWidth for a labelShape according the the 'maxWidth' of keyShape.

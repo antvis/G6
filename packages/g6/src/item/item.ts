@@ -24,7 +24,7 @@ import {
   animateShapes,
   GROUP_ANIMATE_STYLES,
 } from '../util/animate';
-import { AnimateTiming, IAnimates } from 'types/animate';
+import { AnimateTiming, IAnimates } from '../types/animate';
 
 export default abstract class Item implements IItem {
   public destroyed = false;

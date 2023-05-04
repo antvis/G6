@@ -1,9 +1,5 @@
-import { AABB, DisplayObject, ImageStyleProps, TextStyleProps } from '@antv/g';
-import {
-  DEFAULT_LABEL_BG_PADDING,
-  OTHER_SHAPES_FIELD_NAME,
-  RESERVED_SHAPE_IDS,
-} from '../../../constant';
+import { AABB, DisplayObject } from '@antv/g';
+import { OTHER_SHAPES_FIELD_NAME, RESERVED_SHAPE_IDS } from '../../../constant';
 import { NodeDisplayModel } from '../../../types';
 import {
   GShapeStyle,
@@ -11,7 +7,6 @@ import {
   SHAPE_TYPE_3D,
   ShapeStyle,
   State,
-  ZoomStrategy,
   ZoomStrategyObj,
 } from '../../../types/item';
 import {
@@ -25,10 +20,10 @@ import {
   mergeStyles,
   upsertShape,
 } from '../../../util/shape';
-import { getWordWrapWidthByBox } from 'util/text';
-import { DEFAULT_ANIMATE_CFG, fadeIn, fadeOut } from 'util/animate';
-import { getZoomLevel } from 'util/zoom';
-import { AnimateCfg } from 'types/animate';
+import { getWordWrapWidthByBox } from '../../../util/text';
+import { DEFAULT_ANIMATE_CFG, fadeIn, fadeOut } from '../../../util/animate';
+import { getZoomLevel } from '../../../util/zoom';
+import { AnimateCfg } from '../../../types/animate';
 
 export abstract class BaseNode {
   type: string;
