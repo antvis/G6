@@ -7,7 +7,7 @@ import { updateShapes } from '../util/shape';
 import Item from './item';
 import Node from './node';
 import { animateShapes } from '../util/animate';
-import { EdgeStyleSet } from 'types/theme';
+import { EdgeStyleSet } from '../types/theme';
 
 interface IProps {
   model: EdgeModel;

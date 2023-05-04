@@ -147,7 +147,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
       return;
     }
     this.container = containerDOM;
-    let size = [width, height];
+    const size = [width, height];
     if (size[0] === undefined) {
       size[0] = containerDOM.scrollWidth;
     }

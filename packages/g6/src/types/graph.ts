@@ -20,13 +20,6 @@ import { Specification } from './spec';
 import { ThemeRegistry } from './theme';
 import { FitViewRules, GraphTransformOptions } from './view';
 
-// TODO: move into types/item.ts
-export interface ZoomLevels {
-  range: [number, number];
-  primary?: boolean;
-}
-[];
-
 export interface IGraph<
   B extends BehaviorRegistry = BehaviorRegistry,
   T extends ThemeRegistry = ThemeRegistry,

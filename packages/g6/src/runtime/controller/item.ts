@@ -28,7 +28,6 @@ import {
   ITEM_TYPE,
   ShapeStyle,
   SHAPE_TYPE,
-  ZoomStrategy,
   ZoomStrategyObj,
 } from '../../types/item';
 import {
@@ -91,8 +90,6 @@ export class ItemController {
   private transientItemMap: {
     [id: string]: Node | Edge | Combo | Group;
   } = {};
-
-  private zoom: number = 1;
 
   constructor(graph: IGraph<any, any>) {
     this.graph = graph;
@@ -287,7 +284,7 @@ export class ItemController {
       });
       const { dataTypeField: nodeDataTypeField } = nodeTheme;
       const edgeToUpdate = {};
-      let updateEdges = throttle(
+      const updateEdges = throttle(
         () => {
           Object.keys(edgeToUpdate).forEach((id) => {
             const item = itemMap[id] as Edge;
@@ -534,7 +531,6 @@ export class ItemController {
         // TODO: edge onlyDrawKeyShape?
       } else {
         const transItem = transientItem as Node | Edge | Combo;
-        debugger;
         transItem.update({
           ...transItem.model,
           data: {

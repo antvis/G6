@@ -646,7 +646,6 @@ export abstract class BaseNode {
     shapeMap: NodeShapeMap,
     model: NodeDisplayModel,
   ): DisplayObject {
-    debugger;
     return upsertShape(
       type as SHAPE_TYPE,
       id,

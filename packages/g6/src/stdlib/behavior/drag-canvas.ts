@@ -185,8 +185,8 @@ export default class DragCanvas extends Behavior {
     const { graph } = this;
     const { client } = event;
     const { eventName, direction } = this.options;
-    let diffX = client.x - this.pointerDownAt.x;
-    let diffY = client.y - this.pointerDownAt.y;
+    const diffX = client.x - this.pointerDownAt.x;
+    const diffY = client.y - this.pointerDownAt.y;
     if (direction === 'x' && !diffX) return;
     if (direction === 'y' && !diffY) return;
     if (direction === 'both' && !diffX && !diffY) return;
