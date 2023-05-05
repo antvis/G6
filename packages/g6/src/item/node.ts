@@ -12,7 +12,7 @@ import {
   getEllipseIntersectByPoint,
   getNearestPoint,
   getRectIntersectByPoint,
-} from 'util/point';
+} from '../util/point';
 
 interface IProps {
   model: NodeModel;

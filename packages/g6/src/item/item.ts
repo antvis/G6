@@ -211,7 +211,6 @@ export default abstract class Item implements IItem {
     const displayModelData = defaultMapper(innerModel).data; //clone(data);
     // const defaultMappedModel = defaultMapper(innerModel);
     Object.keys(mapper).forEach((fieldName) => {
-      debugger;
       let subMapper = mapper[fieldName];
       const isReservedShapeId = RESERVED_SHAPE_IDS.includes(fieldName);
       const isShapeId =

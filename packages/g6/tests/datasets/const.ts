@@ -1,6 +1,6 @@
-export const container = document.getElementById('container');
-export const width = document.getElementById('container').clientWidth;
-export const height = document.getElementById('container').clientHeight;
+export const container = document.getElementById('container')!;
+export const width = document.getElementById('container')!.clientWidth;
+export const height = document.getElementById('container')!.clientHeight;
 export const data = {
   nodes: [
     {

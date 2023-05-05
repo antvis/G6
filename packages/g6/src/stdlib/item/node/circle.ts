@@ -7,7 +7,7 @@ import {
   NodeShapeStyles,
 } from '../../../types/node';
 import { BaseNode } from './base';
-import { isStyleAffectBBox } from 'util/shape';
+import { isStyleAffectBBox } from '../../../util/shape';
 
 export class CircleNode extends BaseNode {
   override defaultStyles = {
