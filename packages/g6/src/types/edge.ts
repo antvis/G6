@@ -1,5 +1,6 @@
 import { DisplayObject } from '@antv/g';
 import { Edge as GEdge, PlainObject } from '@antv/graphlib';
+import { IAnimates } from './animate';
 import {
   BadgePosition,
   Encode,
@@ -61,6 +62,8 @@ export interface EdgeShapeStyles extends ItemShapeStyles {
     offsetX?: number;
     offsetY?: number;
     autoRotate?: boolean;
+    // if it is a string, means the percentage of the keyShape, number means pixel
+    maxWidth?: string | number;
   };
   labelBackgroundShape?: ShapeStyle & {
     padding?: number | number[];
@@ -98,6 +101,7 @@ export interface EdgeShapesEncode extends ShapesEncode {
 }
 export interface EdgeEncode extends EdgeShapesEncode {
   type?: string | Encode<string>;
+  animates?: IAnimates;
 }
 
 export interface EdgeShapeMap {

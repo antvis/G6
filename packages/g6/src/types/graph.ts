@@ -205,6 +205,22 @@ export interface IGraph<
     | EdgeModel[]
     | ComboModel[];
 
+  /**
+   * Update one or more nodes' positions,
+   * do not update other styles which leads to better performance than updating positions by updateData.
+   * @param models new configurations with x and y for every node, which has id field to indicate the specific item
+   * @param {boolean} stack whether push this operation into graph's stack, true by default
+   * @group Data
+   */
+  updateNodePosition: (
+    models:
+      | Partial<NodeUserModel>
+      | Partial<
+          ComboUserModel | Partial<NodeUserModel>[] | Partial<ComboUserModel>[]
+        >,
+    stack?: boolean,
+  ) => NodeModel | ComboModel | NodeModel[] | ComboModel[];
+
   // ===== view operations =====
 
   /**
@@ -378,14 +394,14 @@ export interface IGraph<
    * @returns
    * @group Data
    */
-  showItem: (ids: ID | ID[]) => void;
+  showItem: (ids: ID | ID[], disableAniamte?: boolean) => void;
   /**
    * Hide the item(s).
    * @param ids the item id(s) to be hidden
    * @returns
    * @group Item
    */
-  hideItem: (ids: ID | ID[]) => void;
+  hideItem: (ids: ID | ID[], disableAniamte?: boolean) => void;
   /**
    * Set state for the item(s).
    * @param ids the id(s) for the item(s) to be set

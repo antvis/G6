@@ -16,7 +16,11 @@ import {
   SHAPE_TYPE_3D,
   ShapeStyle,
 } from '../types/item';
-import { ShapeTagMap, createShape } from './shape';
+import {
+  LOCAL_BOUNDS_DIRTY_FLAG_KEY,
+  createShape,
+  isStyleAffectBBox,
+} from './shape';
 
 const GeometryTagMap = {
   sphere: SphereGeometry,
@@ -108,20 +112,17 @@ export const upsertShape3D = (
   style: GShapeStyle,
   shapeMap: { [shapeId: string]: DisplayObject },
   device: any,
-): {
-  updateStyles: ShapeStyle;
-  shape: DisplayObject;
-} => {
+): DisplayObject => {
   let shape = shapeMap[id];
-  let updateStyles = {};
   if (!shape) {
     shape = createShape3D(type, style, id, device);
-    updateStyles = style;
+    shape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, true);
   } else if (shape.nodeName !== type) {
     shape.remove();
     shape = createShape3D(type, style, id, device);
-    updateStyles = style;
+    shape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, true);
   } else {
+    const updateStyles = {};
     const oldStyles = shape.attributes;
     Object.keys(style).forEach((key) => {
       if (oldStyles[key] !== style[key]) {
@@ -129,9 +130,12 @@ export const upsertShape3D = (
         shape.style[key] = style[key];
       }
     });
+    if (isStyleAffectBBox(type, updateStyles)) {
+      shape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, true);
+    }
   }
   shapeMap[id] = shape;
-  return { shape, updateStyles };
+  return shape;
 };
 
 /**

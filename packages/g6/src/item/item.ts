@@ -1,5 +1,5 @@
-import { Group, DisplayObject, AABB } from '@antv/g';
-import { clone, isFunction } from '@antv/util';
+import { Group, DisplayObject, AABB, IAnimation } from '@antv/g';
+import { clone, isFunction, throttle } from '@antv/util';
 import { OTHER_SHAPES_FIELD_NAME, RESERVED_SHAPE_IDS } from '../constant';
 import { EdgeShapeMap } from '../types/edge';
 import {
@@ -11,6 +11,7 @@ import {
   ItemShapeStyles,
   ITEM_TYPE,
   State,
+  ZoomStrategyObj,
 } from '../types/item';
 import { NodeShapeMap } from '../types/node';
 import { EdgeStyleSet, NodeStyleSet } from '../types/theme';
@@ -18,48 +19,75 @@ import { isArrayOverlap } from '../util/array';
 import { mergeStyles, updateShapes } from '../util/shape';
 import { isEncode } from '../util/type';
 import { DEFAULT_MAPPER } from '../util/mapper';
+import {
+  getShapeAnimateBeginStyles,
+  animateShapes,
+  GROUP_ANIMATE_STYLES,
+} from '../util/animate';
+import { AnimateTiming, IAnimates } from '../types/animate';
 
 export default abstract class Item implements IItem {
   public destroyed = false;
-  // inner data model
+  /** Inner model. */
   public model: ItemModel;
-  // display data model
+  /** Display model, user will not touch it. */
   public displayModel: ItemDisplayModel;
+  /** The mapper configured at graph with field name 'node' / 'edge' / 'combo'. */
   public mapper: DisplayMapper;
+  /** The state sstyle mapper configured at traph with field name 'nodeState' / 'edgeState' / 'comboState'. */
   public stateMapper: {
     [stateName: string]: DisplayMapper;
   };
+  /** The graphic group for item drawing. */
   public group: Group;
+  /** The keyShape of the item. */
   public keyShape: DisplayObject;
-  // render extension for this item
+  /** render extension for this item. */
   public renderExt;
+  /** Visibility. */
   public visible = true;
+  /** The states on the item. */
   public states: {
     name: string;
     value: string | boolean;
   }[] = [];
+  /** The map caches the shapes of the item. The key is the shape id, the value is the g shape. */
   public shapeMap: NodeShapeMap | EdgeShapeMap = {
     keyShape: undefined,
   };
-  /** Set to different value in implements */
+  public afterDrawShapeMap = {};
+  /** Set to different value in implements. */
   public type: ITEM_TYPE;
   public renderExtensions: any; // TODO
+  /** Cache the animation instances to stop at next lifecycle. */
+  public animations: IAnimation[];
 
-  /** Cache the dirty tags for states when data changed, to re-map the state styles when state changed */
-  private stateDirtyMap: { [stateName: string]: boolean } = {};
-  private cacheStateStyles: { [stateName: string]: ItemShapeStyles } = {};
   public themeStyles: {
     default?: ItemShapeStyles;
     [stateName: string]: ItemShapeStyles;
   };
+  /** The zoom strategy to show and hide shapes according to their showLevel. */
+  public zoomStrategy: ZoomStrategyObj;
+  /** Last zoom ratio. */
+  public zoom: number;
+  /** Cache the chaging states which are not consomed by draw  */
+  public changedStates: string[];
+  /** The listener for the animations frames. */
+  public onframe: Function;
 
   private device: any; // for 3d
+  /** Cache the dirty tags for states when data changed, to re-map the state styles when state changed */
+  private stateDirtyMap: { [stateName: string]: boolean } = {};
+  private cacheStateStyles: { [stateName: string]: ItemShapeStyles } = {};
+  private cacheHiddenShape: { [shapeId: string]: boolean } = {};
 
   // TODO: props type
   constructor(props) {
     this.device = props.device;
+    this.onframe = props.onframe;
   }
 
+  /** Initiate the item. */
   public init(props) {
     const {
       model,
@@ -67,7 +95,8 @@ export default abstract class Item implements IItem {
       mapper,
       stateMapper,
       renderExtensions,
-      themeStyles = {},
+      zoom = 1,
+      theme = {},
     } = props;
     this.group = new Group();
     this.group.setAttribute('data-item-type', this.type);
@@ -75,30 +104,40 @@ export default abstract class Item implements IItem {
     containerGroup.appendChild(this.group);
     this.model = model;
     this.mapper = mapper;
+    this.zoom = zoom;
     this.stateMapper = stateMapper;
     this.displayModel = this.getDisplayModelAndChanges(model).model;
     this.renderExtensions = renderExtensions;
     const { type = this.type === 'node' ? 'circle-node' : 'line-edge' } =
       this.displayModel.data;
     const RenderExtension = renderExtensions.find((ext) => ext.type === type);
-    this.themeStyles = themeStyles;
+    this.themeStyles = theme.styles;
     this.renderExt = new RenderExtension({
       themeStyles: this.themeStyles.default,
+      zoomStrategy: theme.zoomStrategy,
       device: this.device,
     });
   }
 
+  /**
+   * Draws the shapes.
+   * @internal
+   * */
   public draw(
     displayModel: ItemDisplayModel,
     diffData?: { previous: ItemModelData; current: ItemModelData },
     diffState?: { previous: State[]; current: State[] },
+    onfinish: Function = () => {},
   ) {
     // call this.renderExt.draw in extend implementations
-    const afterDrawShapes =
-      this.renderExt.afterDraw?.(displayModel, this.shapeMap) || {};
+    this.afterDrawShapeMap =
+      this.renderExt.afterDraw?.(displayModel, {
+        ...this.shapeMap,
+        ...this.afterDrawShapeMap,
+      }) || {};
     this.shapeMap = updateShapes(
       this.shapeMap,
-      afterDrawShapes,
+      this.afterDrawShapeMap,
       this.group,
       false,
       (id) => {
@@ -111,17 +150,30 @@ export default abstract class Item implements IItem {
         return true;
       },
     );
+    this.changedStates = [];
   }
 
+  /**
+   * Updates the shapes.
+   * @internal
+   * */
   public update(
     model: ItemModel,
     diffData?: { previous: ItemModelData; current: ItemModelData },
     isReplace?: boolean,
-    themeStyles?: NodeStyleSet | EdgeStyleSet,
+    itemTheme?: {
+      styles: NodeStyleSet | EdgeStyleSet;
+      zoomStrategy: ZoomStrategyObj;
+    },
+    onlyMove?: boolean,
+    onfinish?: Function,
   ) {
     // 1. merge model into this model
     this.model = model;
-    if (themeStyles) this.themeStyles = themeStyles;
+    if (itemTheme) {
+      this.themeStyles = itemTheme.styles;
+      this.zoomStrategy = itemTheme.zoomStrategy;
+    }
     // 2. map new merged model to displayModel, keep prevModel and newModel for 3.
     const { model: displayModel, typeChange } = this.getDisplayModelAndChanges(
       this.model,
@@ -129,6 +181,11 @@ export default abstract class Item implements IItem {
       isReplace,
     );
     this.displayModel = displayModel;
+
+    if (onlyMove) {
+      this.updatePosition(displayModel, diffData, onfinish);
+      return;
+    }
 
     if (typeChange) {
       Object.values(this.shapeMap).forEach((child) => child.destroy());
@@ -140,21 +197,36 @@ export default abstract class Item implements IItem {
       );
       this.renderExt = new RenderExtension({
         themeStyles: this.themeStyles.default,
+        zoomStrategy: this.zoomStrategy,
         device: this.device,
       });
     } else {
       this.renderExt.themeStyles = this.themeStyles.default;
+      this.renderExt.zoomStrategy = this.zoomStrategy;
     }
     // 3. call element update fn from useLib
     if (this.states?.length) {
-      this.drawWithStates(this.states);
+      this.drawWithStates(this.states, onfinish);
     } else {
-      this.draw(this.displayModel, diffData);
+      this.draw(this.displayModel, diffData, undefined, onfinish);
     }
     // 4. tag all the states with 'dirty', for state style regenerating when state changed
     this.stateDirtyMap = {};
     this.states.forEach(({ name }) => (this.stateDirtyMap[name] = true));
   }
+
+  /**
+   * Update the group's position, e.g. node, combo.
+   * @param displayModel
+   * @param diffData
+   * @param onfinish
+   * @returns
+   */
+  public updatePosition(
+    displayModel: ItemDisplayModel,
+    diffData?: { previous: ItemModelData; current: ItemModelData },
+    onfinish?: Function,
+  ) {}
 
   /**
    * Maps (mapper will be function, value, or encode format) model to displayModel and find out the shapes to be update for incremental updating.
@@ -203,8 +275,7 @@ export default abstract class Item implements IItem {
     // === fields' values in mapper are final value or Encode ===
     const dataChangedFields = isReplace
       ? undefined
-      : // ? Array.from(new Set(Object.keys(current).concat(Object.keys(previous)))) // all the fields for replacing all data
-        Object.keys(current).concat(Object.keys(otherFields)); // only fields in current data for partial updating
+      : Object.keys(current).concat(Object.keys(otherFields)); // only fields in current data for partial updating
 
     let typeChange = false;
     const { data, ...otherProps } = innerModel;
@@ -286,28 +357,94 @@ export default abstract class Item implements IItem {
     return this.type;
   }
 
-  public show() {
+  /** Show the item. */
+  public show(animate: boolean = true) {
     // TODO: utilize graphcore's view
-    this.group.show();
+    this.stopAnimations();
+
+    const { animates = {} } = this.displayModel.data;
+    if (animate && animates.show?.length) {
+      const showAnimateFieldsMap: any = {};
+      Object.values(animates.show).forEach((animate) => {
+        const { shapeId = 'group' } = animate;
+        showAnimateFieldsMap[shapeId] = (
+          showAnimateFieldsMap[shapeId] || []
+        ).concat(animate.fields);
+      });
+      const targetStyleMap = {};
+      Object.keys(this.shapeMap).forEach((id) => {
+        const shape = this.shapeMap[id];
+        if (!this.cacheHiddenShape[id]) {
+          // set the animate fields to initial value
+          if (showAnimateFieldsMap[id]) {
+            targetStyleMap[id] = targetStyleMap[id] || {};
+            const beginStyle = getShapeAnimateBeginStyles(shape);
+            showAnimateFieldsMap[id].forEach((field) => {
+              if (beginStyle.hasOwnProperty(field)) {
+                targetStyleMap[id][field] = shape.style[field];
+                shape.style[field] = beginStyle[field];
+              }
+            });
+          }
+          shape.show();
+        }
+      });
+      if (showAnimateFieldsMap.group) {
+        showAnimateFieldsMap.group.forEach((field) => {
+          const usingField = field === 'size' ? 'transform' : field;
+          if (GROUP_ANIMATE_STYLES[0].hasOwnProperty(usingField)) {
+            this.group.style[usingField] = GROUP_ANIMATE_STYLES[0][usingField];
+          }
+        });
+      }
+
+      this.animations = this.runWithAnimates(animates, 'show', targetStyleMap);
+    } else {
+      Object.keys(this.shapeMap).forEach((id) => {
+        const shape = this.shapeMap[id];
+        if (!this.cacheHiddenShape[id]) shape.show();
+      });
+    }
+
     this.visible = true;
   }
 
-  public hide() {
+  /** Hides the item. */
+  public hide(animate: boolean = true) {
     // TODO: utilize graphcore's view
-    this.group.hide();
+    this.stopAnimations();
+    const func = () => {
+      Object.keys(this.shapeMap).forEach((id) => {
+        const shape = this.shapeMap[id];
+        if (this.visible && !shape.isVisible())
+          this.cacheHiddenShape[id] = true;
+        shape.hide();
+      });
+    };
+    const { animates = {} } = this.displayModel.data;
+    if (animate && animates.hide?.length) {
+      this.animations = this.runWithAnimates(animates, 'hide', undefined, func);
+    } else {
+      // 2. clear group and remove group
+      func();
+    }
+
     this.visible = false;
   }
 
+  /** Returns the visibility of the item. */
   public isVisible() {
     return this.visible;
   }
 
-  public toBack() {
-    this.group.toBack();
-  }
-
+  /** Puts the item to the front in its graphic group. */
   public toFront() {
     this.group.toFront();
+  }
+
+  /** Puts the item to the back in its graphic group. */
+  public toBack() {
+    this.group.toBack();
   }
 
   /**
@@ -345,6 +482,7 @@ export default abstract class Item implements IItem {
       this.renderExt.setState(state, value, this.shapeMap);
       return;
     }
+    this.changedStates = [state];
     this.drawWithStates(previousStates);
   }
 
@@ -372,6 +510,7 @@ export default abstract class Item implements IItem {
       }));
     }
     this.states = newStates;
+    this.changedStates = changedStates.map((state) => state.name);
     // if the renderExt overwrote the setState, run the custom setState instead of the default
     if (this.renderExt.constructor.prototype.hasOwnProperty('setState')) {
       changedStates.forEach(({ name, value }) =>
@@ -390,13 +529,40 @@ export default abstract class Item implements IItem {
     return this.states;
   }
 
-  public destroy() {
-    // TODO: 1. stop animations
-    // 2. clear group and remove group
-    this.group.destroy();
-    this.model = null;
-    this.displayModel = null;
-    this.destroyed = true;
+  /**
+   * Run some thing with animations, e.g. hide, show, destroy.
+   * @param animates
+   * @param timing
+   * @param targetStyleMap
+   * @param callback
+   * @returns
+   */
+  private runWithAnimates(
+    animates: IAnimates,
+    timing: AnimateTiming,
+    targetStyleMap: Object,
+    callback: Function = () => {},
+  ) {
+    let targetStyle = {};
+    if (!targetStyleMap) {
+      Object.keys(this.shapeMap).forEach((shapeId) => {
+        targetStyle[shapeId] = getShapeAnimateBeginStyles(
+          this.shapeMap[shapeId],
+        );
+      });
+    } else {
+      targetStyle = targetStyleMap;
+    }
+    return animateShapes(
+      animates,
+      targetStyle, // targetStylesMap
+      this.shapeMap, // shapeMap
+      this.group,
+      timing,
+      [],
+      () => {},
+      callback,
+    );
   }
 
   /**
@@ -404,7 +570,7 @@ export default abstract class Item implements IItem {
    * @param previousStates previous states
    * @returns
    */
-  private drawWithStates(previousStates: State[]) {
+  private drawWithStates(previousStates: State[], onfinish?: Function) {
     const { default: _, ...themeStateStyles } = this.themeStyles;
     const { data: displayModelData } = this.displayModel;
     let styles = {}; // merged styles
@@ -476,6 +642,7 @@ export default abstract class Item implements IItem {
         previous: previousStates,
         current: this.states,
       },
+      onfinish,
     );
   }
 
@@ -489,11 +656,80 @@ export default abstract class Item implements IItem {
   }
 
   /**
+   * Get the local bounding box for the keyShape.
+   * */
+  public getLocalKeyBBox(): AABB {
+    const { keyShape } = this.shapeMap;
+    return keyShape?.getLocalBounds() || ({ center: [0, 0, 0] } as AABB);
+  }
+
+  /**
    * Get the rendering bouding box of the whole item.
    * @returns item's rendering bounding box
    */
   public getBBox(): AABB {
     return this.group.getRenderBounds();
+  }
+
+  /**
+   * Stop all the animations on the item.
+   */
+  public stopAnimations() {
+    this.animations?.forEach((animation) => {
+      const timing = animation.effect.getTiming();
+      if (animation.playState !== 'running') return;
+      animation.currentTime =
+        Number(timing.duration) + Number(timing.delay || 0);
+      animation.cancel();
+    });
+    this.animations = [];
+  }
+
+  /**
+   * Animations' frame listemer.
+   */
+  public animateFrameListener = throttle(
+    (e) => {
+      this.onframe?.(e);
+    },
+    16,
+    {
+      trailing: true,
+      leading: true,
+    },
+  );
+
+  /**
+   * Call render extension's onZoom to response the graph zooming.
+   * @param zoom
+   */
+  public updateZoom(zoom) {
+    this.zoom = zoom;
+    this.renderExt.onZoom(this.shapeMap, zoom);
+  }
+
+  /** Destroy the item. */
+  public destroy() {
+    const func = () => {
+      this.group.destroy();
+      this.model = null;
+      this.displayModel = null;
+      this.destroyed = true;
+    };
+    // 1. stop animations, run buildOut animations
+    this.stopAnimations();
+    const { animates } = this.displayModel.data;
+    if (animates.buildOut?.length) {
+      this.animations = this.runWithAnimates(
+        animates,
+        'buildOut',
+        undefined,
+        func,
+      );
+    } else {
+      // 2. clear group and remove group
+      func();
+    }
   }
 }
 

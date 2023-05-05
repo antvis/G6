@@ -1,6 +1,6 @@
 import { ID, IG6GraphEvent } from 'types';
 import { Behavior } from '../../types/behavior';
-import { Point } from 'types/common';
+import { Point } from '../../types/common';
 
 const VALID_TRIGGERS = ['drag', 'directionKeys'];
 export interface DragCanvasOptions {
@@ -125,7 +125,7 @@ export default class DragCanvas extends Behavior {
         .getAllEdgesData()
         .map((edge) => edge.id)
         .filter((id) => graph.getItemVisible(id) === true);
-      graph.hideItem(this.hiddenEdgeIds);
+      graph.hideItem(this.hiddenEdgeIds, true);
       this.hiddenNodeIds = graph
         .getAllNodesData()
         .map((node) => node.id)
@@ -136,7 +136,7 @@ export default class DragCanvas extends Behavior {
           onlyDrawKeyShape: true,
         });
       });
-      graph.hideItem(this.hiddenNodeIds);
+      graph.hideItem(this.hiddenNodeIds, true);
     }
   }
 
@@ -185,8 +185,8 @@ export default class DragCanvas extends Behavior {
     const { graph } = this;
     const { client } = event;
     const { eventName, direction } = this.options;
-    let diffX = client.x - this.pointerDownAt.x;
-    let diffY = client.y - this.pointerDownAt.y;
+    const diffX = client.x - this.pointerDownAt.x;
+    const diffY = client.y - this.pointerDownAt.y;
     if (direction === 'x' && !diffX) return;
     if (direction === 'y' && !diffY) return;
     if (direction === 'both' && !diffX && !diffY) return;
@@ -215,13 +215,13 @@ export default class DragCanvas extends Behavior {
     const { graph } = this;
     if (this.options.enableOptimize) {
       if (this.hiddenEdgeIds) {
-        graph.showItem(this.hiddenEdgeIds);
+        graph.showItem(this.hiddenEdgeIds, true);
       }
       if (this.hiddenNodeIds) {
         this.hiddenNodeIds.forEach((id) => {
           this.graph.drawTransient('node', id, { action: 'remove' });
         });
-        graph.showItem(this.hiddenNodeIds);
+        graph.showItem(this.hiddenNodeIds, true);
       }
     }
   }

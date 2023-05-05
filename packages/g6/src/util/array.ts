@@ -46,3 +46,12 @@ export function intersectSet<T>(a: T[], b: T[]): T[] {
   });
   return result;
 }
+
+export function replaceElements(arr, target, replaceWith) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === target) {
+      arr[i] = replaceWith;
+    }
+  }
+  return arr;
+}

@@ -701,7 +701,7 @@ describe('state', () => {
         this.defaultStyles.labelShape,
         propsLabelStyle,
       );
-      const labelShape = this.upsertShape(
+      return this.upsertShape(
         'text',
         'labelShape',
         {
@@ -709,8 +709,7 @@ describe('state', () => {
           text: model.id,
         },
         shapeMap,
-      ).shape;
-      return labelShape;
+      );
     }
     public drawOtherShapes(
       model: NodeDisplayModel,
@@ -728,7 +727,7 @@ describe('state', () => {
             y: 0,
           },
           shapeMap,
-        ).shape,
+        ),
       };
     }
   }
@@ -753,7 +752,7 @@ describe('state', () => {
             ...model.data?.otherShapes?.buShape, // merged style from mappers and states
           },
           shapeMap,
-        ).shape,
+        ),
       };
     }
   }

@@ -52,8 +52,14 @@ export class DataController {
     condition: ID[] | Function,
   ): EdgeModel[] | NodeModel[] | ComboModel[] {
     const { graphCore } = this;
-    if (isString(condition) || isNumber(condition) || isArray(condition)) {
-      const ids = isArray(condition) ? condition : [condition];
+    const conditionType = typeof condition;
+    const conditionIsArray = isArray(condition);
+    if (
+      conditionType === 'string' ||
+      conditionType === 'number' ||
+      conditionIsArray
+    ) {
+      const ids = conditionIsArray ? condition : [condition];
       switch (type) {
         case 'node':
           return ids.map((id) =>
@@ -67,7 +73,7 @@ export class DataController {
           // TODO;
           return;
       }
-    } else if (isFunction(condition)) {
+    } else if (conditionType === 'function') {
       const getDatas =
         type === 'node' ? graphCore.getAllNodes : graphCore.getAllEdges;
       if (type === 'combo') {

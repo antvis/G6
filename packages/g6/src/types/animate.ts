@@ -2,11 +2,6 @@ import { IAnimationEffectTiming } from '@antv/g';
 
 export interface AnimateCfg {
   /**
-   * Whether enable animation.
-   * @type {boolean}
-   */
-  enable: boolean;
-  /**
    * Duration of one animation.
    * @type {number}
    */
@@ -22,10 +17,10 @@ export interface AnimateCfg {
    */
   delay?: number;
   /**
-   * Whether repeat.
-   * @type {boolean}
+   * Iteration number for the animation, Inifinity means repeat.
+   * @type {number | typeof Infinity}
    */
-  repeat?: boolean;
+  iterations?: number | typeof Infinity;
   /**
    * Called after the animation is finished.
    * @type {function}
@@ -43,12 +38,32 @@ export interface AnimateCfg {
   resumeCallback?: () => void;
 }
 
-export type AnimateWhen = 'show' | 'exit' | 'update' | 'last';
+export type AnimateTiming = 'buildIn' | 'buildOut' | 'show' | 'hide' | 'update';
 
-export interface AnimateAttr {
-  when: AnimateWhen;
-  type: string;
-  [param: string]: unknown;
+export interface IAnimate {
+  // style fields to animate
+  fields?: string[];
+  // shapeId for the animate, 'group' by default, means animation on whole graphics group
+  shapeId?: string;
+  // the order of the animate, 0 by dfault
+  order?: number;
+  // animate options
+  duration?: number;
+  interations?: number;
+  easing?: string;
+  delay?: number;
+}
+
+export interface IStateAnimate extends IAnimate {
+  states: string[];
+}
+
+export interface IAnimates {
+  buildIn?: IAnimate[];
+  buildOut?: IAnimate[];
+  show?: IAnimate[];
+  hide?: IAnimate[];
+  update?: (IAnimate | IStateAnimate)[];
 }
 
 export type CameraAnimationOptions = Pick<

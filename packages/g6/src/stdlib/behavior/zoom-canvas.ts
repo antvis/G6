@@ -1,6 +1,5 @@
 import { ID, IG6GraphEvent } from 'types';
 import { Behavior } from '../../types/behavior';
-import { Point } from 'types/common';
 
 const VALID_TRIGGERS = ['wheel', 'upDownKeys'];
 export interface ZoomCanvasOptions {
@@ -49,7 +48,7 @@ export interface ZoomCanvasOptions {
 }
 
 const DEFAULT_OPTIONS: Required<ZoomCanvasOptions> = {
-  enableOptimize: true,
+  enableOptimize: false,
   zoomOnItems: false,
   sensitivity: 1,
   trigger: 'wheel',

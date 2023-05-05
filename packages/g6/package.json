@@ -48,8 +48,8 @@
     "fix": "eslint ./src ./tests --fix && prettier ./src ./tests --write ",
     "test": "jest",
     "size": "limit-size",
-    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/behaviors/zoom-canvas-spec.ts",
-    "test-behavior": "DEBUG_MODE=1 jest --watch ./tests/unit/click-select-spec.ts"
+    "test-live": "DEBUG_MODE=1 jest --watch  ./tests/unit/show-animate-spec.ts",
+    "test-behavior": "DEBUG_MODE=1 jest --watch ./tests/unit/item-3d-spec.ts"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

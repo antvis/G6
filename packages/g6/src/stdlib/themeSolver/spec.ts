@@ -6,7 +6,6 @@ import {
 } from '../../types/theme';
 import { mergeStyles } from '../../util/shape';
 import BaseThemeSolver, { ThemeSpecificationMap } from './base';
-import { GraphData } from 'types';
 
 interface SpecThemeSolverOptions {
   base: 'light' | 'dark';
@@ -47,6 +46,7 @@ export default class SpecThemeSolver extends BaseThemeSolver {
         if (!specification[itemType]) return;
         let {
           palette = mergedSpec[itemType].palette,
+          zoomStrategy = mergedSpec[itemType].zoomStrategy,
           dataTypeField,
           getStyleSets,
         } = specification[itemType];
@@ -96,6 +96,7 @@ export default class SpecThemeSolver extends BaseThemeSolver {
         mergedSpec[itemType] = {
           dataTypeField,
           palette,
+          zoomStrategy,
           styles: mergedStyles,
         };
       });

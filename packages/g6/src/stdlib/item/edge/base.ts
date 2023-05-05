@@ -17,19 +17,27 @@ import {
   SHAPE_TYPE,
   ShapeStyle,
   State,
+  ZoomStrategyObj,
 } from '../../../types/item';
 import {
+  LOCAL_BOUNDS_DIRTY_FLAG_KEY,
   formatPadding,
-  isStyleAffectBBox,
   mergeStyles,
   upsertShape,
 } from '../../../util/shape';
+import { DEFAULT_ANIMATE_CFG, fadeIn, fadeOut } from '../../../util/animate';
+import { getWordWrapWidthByEnds } from '../../../util/text';
+import { AnimateCfg } from '../../../types/animate';
+import { getZoomLevel } from '../../../util/zoom';
 
 export abstract class BaseEdge {
   type: string;
   defaultStyles: EdgeShapeStyles = {};
   themeStyles: EdgeShapeStyles;
   mergedStyles: EdgeShapeStyles;
+  sourcePoint: Point;
+  targetPoint: Point;
+  zoomStrategy?: ZoomStrategyObj;
   labelPosition: {
     x: number;
     y: number;
@@ -39,11 +47,48 @@ export abstract class BaseEdge {
   boundsCache: {
     labelShapeGeometry?: AABB;
     labelBackgroundShapeGeometry?: AABB;
+    labelShapeTransform?: string;
+    labelBackgroundShapeTransform?: string;
+  };
+  // cache the zoom level infomations
+  private zoomCache: {
+    // the id of shapes which are hidden by zoom changing.
+    hiddenShape: { [shapeId: string]: boolean };
+    // timeout timer for scaling shapes with balanceRatio, simulates debounce in function.
+    balanceTimer: NodeJS.Timeout;
+    // the ratio to scale the size of shapes whose visual size should be kept, e.g. label and badges.
+    balanceRatio: number;
+    // last responsed zoom ratio.
+    zoom: number;
+    // last responsed zoom level where the zoom ratio at. Zoom ratio 1 at level 0.
+    zoomLevel: number;
+    // shape ids in different zoom levels.
+    levelShapes: {
+      [level: string]: string[];
+    };
+    // wordWrapWidth of labelShape according to the maxWidth
+    wordWrapWidth: number;
+    // animate configurations for zoom level changing
+    animateConfig: AnimateCfg;
+  } = {
+    hiddenShape: {},
+    balanceRatio: 1,
+    zoom: 1,
+    zoomLevel: 0,
+    balanceTimer: undefined,
+    levelShapes: {},
+    wordWrapWidth: 50,
+    animateConfig: DEFAULT_ANIMATE_CFG.zoom,
   };
   constructor(props) {
-    const { themeStyles } = props;
+    const { themeStyles, zoomStrategy } = props;
     if (themeStyles) this.themeStyles = themeStyles;
+    this.zoomStrategy = zoomStrategy;
     this.boundsCache = {};
+    this.zoomCache.animateConfig = {
+      ...DEFAULT_ANIMATE_CFG.zoom,
+      ...zoomStrategy?.animateCfg,
+    };
   }
   public mergeStyles(model: EdgeDisplayModel) {
     this.mergedStyles = this.getMergedStyles(model);
@@ -61,8 +106,56 @@ export abstract class BaseEdge {
         );
       }
     });
-    return mergeStyles([this.themeStyles, this.defaultStyles, dataStyles]);
+    const merged = mergeStyles([
+      this.themeStyles,
+      this.defaultStyles,
+      dataStyles,
+    ]) as EdgeShapeStyles;
+
+    const padding = merged.labelBackgroundShape?.padding;
+    if (padding) {
+      merged.labelBackgroundShape.padding = formatPadding(
+        padding,
+        DEFAULT_LABEL_BG_PADDING,
+      );
+    }
+    return merged;
   }
+
+  /**
+   * Call it after calling draw function to update cache about bounds and zoom levels.
+   */
+  public updateCache(shapeMap) {
+    ['labelShape', 'labelBackgroundShape'].forEach((id) => {
+      const shape = shapeMap[id];
+      if (shape?.getAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY)) {
+        this.boundsCache[`${id}Geometry`] = shape.getGeometryBounds();
+        this.boundsCache[`${id}Transform`] = shape.style.transform;
+        shape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, false);
+      }
+    });
+
+    const { levelShapes, zoom } = this.zoomCache;
+    Object.keys(shapeMap).forEach((shapeId) => {
+      const { showLevel } = shapeMap[shapeId].attributes;
+      if (showLevel !== undefined) {
+        levelShapes[showLevel] = levelShapes[showLevel] || [];
+        levelShapes[showLevel].push(shapeId);
+      }
+    });
+
+    const { maxWidth = '60%' } = this.mergedStyles.labelShape || {};
+    this.zoomCache.wordWrapWidth = getWordWrapWidthByEnds(
+      [this.sourcePoint, this.targetPoint],
+      maxWidth,
+      1,
+    );
+
+    this.zoomCache.zoom = 1;
+    this.zoomCache.zoomLevel = 0;
+    if (zoom !== 1) this.onZoom(shapeMap, zoom);
+  }
+
   abstract draw(
     model: EdgeDisplayModel,
     sourcePoint: Point,
@@ -104,6 +197,7 @@ export abstract class BaseEdge {
       offsetX: propsOffsetX,
       offsetY: propsOffsetY,
       autoRotate = true,
+      maxWidth,
       ...otherStyle
     } = shapeStyle;
 
@@ -177,22 +271,19 @@ export abstract class BaseEdge {
       ...positionStyle,
       isRevert,
     };
+    const wordWrapWidth = getWordWrapWidthByEnds(
+      [this.sourcePoint, this.targetPoint],
+      maxWidth,
+      this.zoomCache.zoom,
+    );
     const style = {
       ...this.defaultStyles.labelShape,
       textAlign: positionPreset.textAlign,
+      wordWrapWidth,
       ...positionStyle,
       ...otherStyle,
     };
-    const { shape, updateStyles } = this.upsertShape(
-      'text',
-      'labelShape',
-      style,
-      shapeMap,
-    );
-    if (isStyleAffectBBox('text', updateStyles)) {
-      this.boundsCache.labelShapeGeometry = shape.getGeometryBounds();
-    }
-    return shape;
+    return this.upsertShape('text', 'labelShape', style, shapeMap, model);
   }
 
   public drawLabelBackgroundShape(
@@ -210,17 +301,17 @@ export abstract class BaseEdge {
     const textBBox =
       this.boundsCache.labelShapeGeometry || labelShape.getGeometryBounds();
     const { x, y, transform, isRevert } = this.labelPosition;
-    const { padding: propsPadding, ...backgroundStyle } = labelBackgroundShape;
-    const padding = formatPadding(propsPadding, DEFAULT_LABEL_BG_PADDING);
+    const { padding, ...backgroundStyle } = labelBackgroundShape;
+    const { balanceRatio = 1 } = this.zoomCache;
     const textWidth = textBBox.max[0] - textBBox.min[0];
     const textHeight = textBBox.max[1] - textBBox.min[1];
     const bgStyle = {
       fill: '#fff',
       ...backgroundStyle,
       x: textBBox.min[0] - padding[3] + x,
-      y: textBBox.min[1] - padding[0] + y,
+      y: textBBox.min[1] - padding[0] / balanceRatio + y,
       width: textWidth + padding[1] + padding[3],
-      height: textHeight + padding[0] + padding[2],
+      height: textHeight + (padding[0] + padding[2]) / balanceRatio,
       transform: transform,
     };
     if (labelShapeStyle.position === 'start') {
@@ -245,16 +336,13 @@ export abstract class BaseEdge {
       }`;
     }
 
-    const { shape, updateStyles } = this.upsertShape(
+    return this.upsertShape(
       'rect',
       'labelBackgroundShape',
       bgStyle,
       shapeMap,
+      model,
     );
-    if (isStyleAffectBBox('rect', updateStyles)) {
-      this.boundsCache.labelBackgroundShapeGeometry = shape.getGeometryBounds();
-    }
-    return shape;
   }
 
   public drawIconShape(
@@ -336,7 +424,8 @@ export abstract class BaseEdge {
       'iconShape',
       shapeStyle as GShapeStyle,
       shapeMap,
-    ).shape;
+      model,
+    );
   }
 
   public drawHaloShape(
@@ -357,7 +446,99 @@ export abstract class BaseEdge {
         isBillboard: true,
       },
       shapeMap,
-    ).shape;
+      model,
+    );
+  }
+
+  /**
+   * The listener for graph zooming.
+   * 1. show / hide some shapes while zoom level changed;
+   * 2. change the shapes' sizes to make them have same visual size while zooming, e.g. labelShape, labelBackgroundShape.
+   * @param shapeMap
+   * @param zoom
+   */
+  public onZoom = (shapeMap: EdgeShapeMap, zoom: number) => {
+    // balance the size for label, badges
+    this.balanceShapeSize(shapeMap, zoom);
+
+    // zoomLevel changed
+    if (!this.zoomStrategy) return;
+    const { levels } = this.zoomStrategy;
+    const {
+      levelShapes,
+      hiddenShape,
+      animateConfig,
+      zoomLevel: previousLevel,
+    } = this.zoomCache;
+
+    // last zoom ratio responsed by zoom changing, which might not equal to zoom.previous in props since the function is debounced.
+    const currentLevel = getZoomLevel(levels, zoom);
+    if (currentLevel < previousLevel) {
+      // zoomLevel changed, from higher to lower, hide something
+      levelShapes[currentLevel + 1]?.forEach((id) =>
+        fadeOut(id, shapeMap[id], hiddenShape, animateConfig),
+      );
+    } else if (currentLevel > previousLevel) {
+      // zoomLevel changed, from lower to higher, show something
+      levelShapes[String(currentLevel)]?.forEach((id) =>
+        fadeIn(
+          id,
+          shapeMap[id],
+          this.mergedStyles[id] ||
+            this.mergedStyles[id.replace('Background', '')],
+          hiddenShape,
+          animateConfig,
+        ),
+      );
+    }
+
+    this.zoomCache.zoom = zoom;
+    this.zoomCache.zoomLevel = currentLevel;
+  };
+
+  /**
+   * Update the shapes' sizes e.g. labelShape, labelBackgroundShape, to keep the visual size while zooming.
+   * @param shapeMap
+   * @param zoom
+   * @returns
+   */
+  private balanceShapeSize(shapeMap, zoom) {
+    const { labelShape, labelBackgroundShape } = shapeMap;
+    const balanceRatio = 1 / zoom || 1;
+    this.zoomCache.balanceRatio = balanceRatio;
+    const { labelShape: labelStyle } = this.mergedStyles;
+    const { position = 'bottom' } = labelStyle;
+    if (!labelShape) return;
+
+    if (position === 'bottom') labelShape.style.transformOrigin = '0';
+    else labelShape.style.transformOrigin = '';
+
+    const oriTransform = this.boundsCache.labelShapeTransform;
+    labelShape.style.transform = `${oriTransform} scale(${balanceRatio}, ${balanceRatio})`;
+
+    const wordWrapWidth = this.zoomCache.wordWrapWidth * zoom;
+    labelShape.style.wordWrapWidth = wordWrapWidth;
+
+    if (!labelBackgroundShape) return;
+
+    const oriBgTransform = this.boundsCache.labelBackgroundShapeTransform;
+    labelBackgroundShape.style.transform = `${oriBgTransform} scale(1, ${balanceRatio})`;
+  }
+
+  /**
+   * Update the source point { x, y } for the edge. Called in item's draw func.
+   * @param point
+   */
+  public setSourcePoint(point: Point) {
+    this.sourcePoint = point;
+  }
+
+  /**
+   * Update the target point { x, y } for the edge. Called in item's draw func.
+   * @param point
+   */
+  public setTargetPoint(point: Point) {
+    this.targetPoint = point;
   }
 
   public upsertShape(
@@ -365,10 +546,8 @@ export abstract class BaseEdge {
     id: string,
     style: ShapeStyle,
     shapeMap: { [shapeId: string]: DisplayObject },
-  ): {
-    updateStyles: ShapeStyle;
-    shape: DisplayObject;
-  } {
-    return upsertShape(type, id, style as GShapeStyle, shapeMap);
+    model: EdgeDisplayModel,
+  ): DisplayObject {
+    return upsertShape(type, id, style as GShapeStyle, shapeMap, model);
   }
 }
