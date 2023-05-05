@@ -1,5 +1,5 @@
 import { Node as GNode, PlainObject } from '@antv/graphlib';
-import { AnimateAttr } from './animate';
+import { IAnimates } from './animate';
 import { Padding } from './common';
 import {
   BadgePosition,
@@ -107,6 +107,7 @@ export interface ComboShapesEncode extends ShapesEncode {
 }
 export interface ComboEncode extends ComboShapesEncode {
   type?: string | Encode<string>;
+  animates?: IAnimates;
 }
 
 // TODO

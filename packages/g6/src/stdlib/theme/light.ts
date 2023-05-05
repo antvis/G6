@@ -30,6 +30,18 @@ export default {
       '#5241A8',
       '#95CF21',
     ],
+    zoomStrategy: {
+      levels: [
+        { range: [0, 0.65] },
+        { range: [0.65, 0.8] },
+        { range: [0.8, 1.6], primary: true },
+        { range: [1.6, 2] },
+        { range: [2, Infinity] },
+      ],
+      animateCfg: {
+        duration: 200,
+      },
+    },
     styles: [
       {
         default: {
@@ -44,32 +56,40 @@ export default {
             ...DEFAULT_TEXT_STYLE,
             fill: '#000',
             position: 'bottom',
-            offsetY: 4,
             zIndex: 2,
+            showLevel: 0,
+            maxWidth: '200%',
+            textOverflow: 'ellipsis',
+            wordWrap: true,
+            maxLines: 1,
           },
           labelBackgroundShape: {
-            padding: [4, 4, 4, 4],
+            padding: [2, 4, 2, 4],
             lineWidth: 0,
             fill: '#fff',
             opacity: 0.75,
             zIndex: -1,
+            showLevel: 0,
           },
           iconShape: {
             ...DEFAULT_TEXT_STYLE,
             fill: '#fff',
             fontSize: 16,
             zIndex: 1,
+            showLevel: -1,
           },
           anchorShapes: {
             lineWidth: 1,
             stroke: 'rgba(0, 0, 0, 0.65)',
             zIndex: 2,
             r: 3,
+            showLevel: 0,
           },
           badgeShapes: {
             color: 'rgb(140, 140, 140)',
             textColor: '#fff',
-            zIndex: 2,
+            zIndex: 3,
+            showLevel: -1,
           },
         },
         selected: {
@@ -140,6 +160,18 @@ export default {
       '#A192E8',
       '#CEFB75',
     ],
+    zoomStrategy: {
+      levels: [
+        { range: [0, 0.65] },
+        { range: [0.65, 0.8] },
+        { range: [0.8, 1.6], primary: true },
+        { range: [1.6, 2] },
+        { range: [2, Infinity] },
+      ],
+      animateCfg: {
+        duration: 200,
+      },
+    },
     styles: [
       {
         default: {
@@ -155,6 +187,11 @@ export default {
             position: 'middle',
             textBaseline: 'middle',
             zIndex: 2,
+            textOverflow: 'ellipsis',
+            wordWrap: true,
+            maxLines: 1,
+            maxWidth: '60%',
+            showLevel: 0,
           },
           labelBackgroundShape: {
             padding: [4, 4, 4, 4],
@@ -162,6 +199,7 @@ export default {
             fill: '#fff',
             opacity: 0.75,
             zIndex: 1,
+            showLevel: 0,
           },
           iconShape: {
             ...DEFAULT_TEXT_STYLE,
@@ -169,6 +207,7 @@ export default {
             fontSize: 16,
             zIndex: 2,
             offsetX: -10,
+            showLevel: -1,
           },
         },
         selected: {
@@ -278,6 +317,6 @@ export default {
     ],
   },
   canvas: {
-    backgroundColor: '#fff',
+    backgroundColor: '#000',
   },
 } as ThemeSpecification;

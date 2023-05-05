@@ -42,6 +42,7 @@ export interface Hooks {
     changes: GraphChange<NodeModelData, EdgeModelData>[];
     graphCore: GraphCore;
     theme: ThemeSpecification;
+    action?: 'updateNodePosition';
   }>;
   render: IHook<{
     graphCore: GraphCore;
@@ -64,6 +65,7 @@ export interface Hooks {
   itemvisibilitychange: IHook<{
     ids: ID[];
     value?: boolean;
+    animate?: boolean;
   }>;
   transientupdate: IHook<{
     type: ITEM_TYPE | SHAPE_TYPE;

@@ -1,4 +1,3 @@
-import { isStyleAffectBBox } from 'util/shape';
 import { Point } from '../../../types/common';
 import {
   EdgeDisplayModel,
@@ -93,6 +92,7 @@ export class LineEdge extends BaseEdge {
         isBillboard: true,
       },
       shapeMap,
-    ).shape;
+      model,
+    );
   }
 }

@@ -8,7 +8,7 @@ describe('node item', () => {
   it('new graph with one node', () => {
     //done
     const nodes = [];
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 100; i++) {
       nodes.push({
         id: 'node-' + i,
         data: {
@@ -19,11 +19,11 @@ describe('node item', () => {
       });
     }
     const edges = [];
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 50; i++) {
       edges.push({
         id: 'edge1-' + i,
         source: 'node-' + i,
-        target: 'node-' + (i + Math.floor(Math.random() * 4)),
+        target: 'node-' + (i + Math.floor(Math.random() * 50)),
         data: {},
       });
     }
@@ -48,6 +48,13 @@ describe('node item', () => {
         nodes,
         edges,
       },
+      edge: {
+        type: 'line-edge',
+        keyShape: {
+          lineWidth: 2,
+          stroke: '#000',
+        },
+      },
       node: {
         type: 'sphere-node',
         // type: 'circle-node',
@@ -55,12 +62,12 @@ describe('node item', () => {
           opacity: 0.6,
           // materialType: 'basic',
         },
-        labelShape: {
-          text: 'node-label',
-        },
-        iconShape: {
-          img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
-        },
+        // labelShape: {
+        //   text: 'node-label',
+        // },
+        // iconShape: {
+        //   img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+        // },
       },
       nodeState: {
         selected: {

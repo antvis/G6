@@ -16,7 +16,7 @@ export const DEFAULT_SHAPE_STYLE = {
   fillOpacity: 1,
   shadowColor: undefined,
   shadowBlur: 0,
-  lineDash: undefined,
+  lineDash: ['100%', 0],
   zIndex: 0,
 };
 /** Default text style to avoid shape value missing */

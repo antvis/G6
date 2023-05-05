@@ -1,6 +1,6 @@
 import { DisplayObject, Point } from '@antv/g';
 import { Node as GNode, PlainObject } from '@antv/graphlib';
-import { AnimateAttr } from './animate';
+import { IAnimates } from './animate';
 import {
   BadgePosition,
   Encode,
@@ -78,6 +78,8 @@ export interface NodeShapeStyles extends ItemShapeStyles {
     position?: 'top' | 'bottom' | 'left' | 'right' | 'center';
     offsetX?: number;
     offsetY?: number;
+    // string means the percentage of the keyShape, number means pixel
+    maxWidth?: string | number;
   };
   labelBackgroundShape?: ShapeStyle & {
     padding?: number | number[];
@@ -138,6 +140,7 @@ export interface NodeShapesEncode extends ShapesEncode {
 }
 export interface NodeEncode extends NodeShapesEncode {
   type?: string | Encode<string>;
+  animates?: IAnimates;
 }
 
 export interface NodeShapeMap {

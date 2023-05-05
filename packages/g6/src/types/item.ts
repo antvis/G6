@@ -10,8 +10,11 @@ import {
   PolylineStyleProps,
   TextStyleProps,
   ImageStyleProps,
+  Group,
+  DisplayObject,
+  IAnimation,
 } from '@antv/g';
-import { AnimateAttr } from './animate';
+import { AnimateCfg, IAnimates } from './animate';
 import {
   ComboDisplayModel,
   ComboEncode,
@@ -24,6 +27,7 @@ import {
   EdgeEncode,
   EdgeModel,
   EdgeModelData,
+  EdgeShapeMap,
   EdgeUserModel,
 } from './edge';
 import {
@@ -31,6 +35,7 @@ import {
   NodeEncode,
   NodeModel,
   NodeModelData,
+  NodeShapeMap,
   NodeUserModel,
 } from './node';
 import {
@@ -55,7 +60,8 @@ export type GShapeStyle = CircleStyleProps &
 
 export type ShapeStyle = Partial<
   GShapeStyle & {
-    animate?: AnimateAttr;
+    animates?: IAnimates;
+    showLevel?: number;
   }
 >;
 export interface Encode<T> {
@@ -65,7 +71,7 @@ export interface Encode<T> {
 
 export interface ShapeAttrEncode {
   [shapeAttr: string]: unknown | Encode<unknown>;
-  animate?: AnimateAttr | Encode<AnimateAttr>;
+  animates?: IAnimates | Encode<IAnimates>;
 }
 
 export interface LabelBackground {
@@ -82,7 +88,7 @@ export interface ShapesEncode {
   otherShapes?: {
     [shapeId: string]: {
       [shapeAtrr: string]: unknown | Encode<unknown>;
-      animate: AnimateAttr | Encode<AnimateAttr>;
+      animates: IAnimates | Encode<IAnimates>;
     };
   };
 }
@@ -118,7 +124,7 @@ export type DisplayMapper =
 
 export type State = {
   name: string;
-  value: boolean | string;
+  value: boolean | string | number;
 };
 
 export enum BadgePosition {
@@ -147,10 +153,31 @@ export type ItemShapeStyles = {
       ImageStyleProps & {
         offsetX?: number;
         offsetY?: number;
+        showLevel?: number;
       }
   >;
   haloShape?: ShapeStyle;
+  group?: ShapeStyle;
+  otherShapes?: {
+    [shapeId: string]: ShapeStyle;
+  };
+  animates?: IAnimates;
 };
+
+export interface ZoomStrategy {
+  levels: {
+    range: [number, number];
+    primary: boolean;
+  }[];
+  animateCfg: AnimateCfg;
+}
+
+export interface ZoomStrategyObj {
+  levels: {
+    [levelIdx: number]: [number, number];
+  };
+  animateCfg: AnimateCfg;
+}
 
 /**
  * Base item of node / edge / combo.
@@ -159,25 +186,58 @@ export interface IItem {
   destroyed: boolean;
   /** Inner model. */
   model: ItemModel;
-  // /** Display model, user will not touch it. */
-  // displayModel: ItemDisplayModel;
-  // /** The graphic group for item drawing. */
-  // group: Group;
-  // /** Visibility. */
-  // visible: boolean;
-  // /** The states on the item. */
-  // states: {
-  //   name: string,
-  //   value: string | boolean
-  // }[];
-  // type: 'node' | 'edge' | 'combo';
+  /** Display model, user will not touch it. */
+  displayModel: ItemDisplayModel;
+  /** The style mapper configured at graph with field name 'node' / 'edge' / 'combo'. */
+  mapper: DisplayMapper;
+  /** The state sstyle mapper configured at traph with field name 'nodeState' / 'edgeState' / 'comboState'. */
+  stateMapper: {
+    [stateName: string]: DisplayMapper;
+  };
+  /** The graphic group for item drawing. */
+  group: Group;
+  /** The keyShape of the item. */
+  keyShape: DisplayObject;
+  /** render extension for this item. */
+  renderExt;
+  /** Visibility. */
+  visible: boolean;
+  /** The states on the item. */
+  states: {
+    name: string;
+    value: string | boolean;
+  }[];
+  /** The map caches the shapes of the item. The key is the shape id, the value is the g shape. */
+  shapeMap: NodeShapeMap | EdgeShapeMap;
+  afterDrawShapeMap: Object;
+  /** Item's type. Set to different value in implements. */
+  type: ITEM_TYPE;
+  /** Render extensions where could the renderExt be selected from according to the type. */
+  renderExtensions: any;
+  /** Cache the animation instances to stop at next lifecycle. */
+  animations: IAnimation[];
+  /** Theme styles to response the state changes. */
+  themeStyles: {
+    default?: ItemShapeStyles;
+    [stateName: string]: ItemShapeStyles;
+  };
+  /** The zoom strategy to show and hide shapes according to their showLevel. */
+  zoomStrategy: ZoomStrategyObj;
+  /** Last zoom ratio. */
+  zoom: number;
+  /** Cache the chaging states which are not consomed by draw  */
+  changedStates: string[];
+  /** The listener for the animations frames. */
+  onframe: Function;
 
   /** Gets the inner model.  */
   // getModel: () => ItemModel;
   /** Gets the id in model. */
   getID: () => ID;
   /** Gets the item's type. */
-  getType: () => 'node' | 'edge' | 'combo';
+  getType: () => ITEM_TYPE;
+  /** Initiate the item. */
+  init: (props) => void;
   /**
    * Draws the shapes.
    * @internal
@@ -196,16 +256,45 @@ export interface IItem {
     diffData: { previous: ItemModelData; current: ItemModelData },
     isUpdate?: boolean,
   ) => void;
+
+  /**
+   * Update the group's position, e.g. node, combo.
+   * @param displayModel
+   * @param diffData
+   * @param onfinish
+   * @returns
+   */
+  updatePosition: (
+    displayModel: ItemDisplayModel,
+    diffData?: { previous: ItemModelData; current: ItemModelData },
+    onfinish?: Function,
+  ) => void;
+
+  /**
+   * Maps (mapper will be function, value, or encode format) model to displayModel and find out the shapes to be update for incremental updating.
+   * @param model inner model
+   * @param diffData changes from graphCore changed event
+   * @param isReplace whether replace the whole data or partial update
+   * @returns
+   */
+  getDisplayModelAndChanges: (
+    innerModel: ItemModel,
+    diffData?: { previous: ItemModelData; current: ItemModelData },
+    isReplace?: boolean,
+  ) => {
+    model: ItemDisplayModel;
+    typeChange?: boolean;
+  };
+  /** Show the item. */
+  show: (animate: boolean) => void;
+  /** Hides the item. */
+  hide: (animate: boolean) => void;
+  /** Returns the visibility of the item. */
+  isVisible: () => boolean;
   /** Puts the item to the front in its graphic group. */
   toFront: () => void;
   /** Puts the item to the back in its graphic group. */
   toBack: () => void;
-  /** Showsthe item. */
-  show: () => void;
-  /** Hides the item. */
-  hide: () => void;
-  /** Returns the visibility of the item. */
-  isVisible: () => boolean;
   /** Sets a state value to the item. */
   setState: (state: string, value: string | boolean) => void;
   /** Returns the state if it is true/string. Returns false otherwise. */
@@ -218,9 +307,17 @@ export interface IItem {
   /** Set all the state to false. */
   clearStates: (states?: string[]) => void;
   /** Get the rendering bounding box for the keyShape. */
-  getKeyBBox(): AABB;
+  getKeyBBox: () => AABB;
+  /** Get the local bounding box for the keyShape. */
+  getLocalKeyBBox: () => AABB;
   /** Get the rendering bounding box for the whole item. */
-  getBBox(): AABB;
+  getBBox: () => AABB;
+  /** Stop all the animations on the item. */
+  stopAnimations: () => void;
+  /** Animations' frame listemer. */
+  animateFrameListener: Function;
+  /** Call render extension's onZoom to response the graph zooming. */
+  updateZoom: (zoom: number) => void;
   /** Destroy the item. */
   destroy: () => void;
 }

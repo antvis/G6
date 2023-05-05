@@ -1,5 +1,6 @@
 import { ComboShapeStyles } from './combo';
 import { EdgeShapeStyles } from './edge';
+import { ZoomStrategy } from './item';
 import { NodeShapeStyles } from './node';
 
 export interface ThemeOption {}
@@ -72,16 +73,19 @@ export interface NodeThemeSpecifications {
   dataTypeField?: string;
   palette?: string[] | { [dataTypeValue: string]: string };
   styles?: NodeStyleSets;
+  zoomStrategy?: ZoomStrategy;
 }
 export interface EdgeThemeSpecifications {
   dataTypeField?: string;
   palette?: string[] | { [dataTypeValue: string]: string };
   styles?: EdgeStyleSets;
+  zoomStrategy?: ZoomStrategy;
 }
 export interface ComboThemeSpecifications {
   dataTypeField?: string;
   palette?: string[] | { [dataTypeValue: string]: string };
   styles?: ComboStyleSets;
+  zoomStrategy?: ZoomStrategy;
 }
 /**
  * Theme specification

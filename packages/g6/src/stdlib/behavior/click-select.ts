@@ -72,6 +72,7 @@ export default class ClickSelect extends Behavior {
   getEvents = () => {
     return {
       'node:click': this.onClick,
+      'edge:click': this.onClick,
       'canvas:click': this.onCanvasClick,
     };
   };

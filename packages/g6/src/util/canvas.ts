@@ -3,7 +3,7 @@ import { Renderer as CanvasRenderer } from '@antv/g-canvas';
 import { Renderer as SVGRenderer } from '@antv/g-svg';
 import { Renderer as WebGLRenderer } from '@antv/g-webgl';
 import { Plugin as Plugin3D } from '@antv/g-plugin-3d';
-import { RendererName } from 'types/render';
+import { RendererName } from '../types/render';
 
 /**
  * Create a canvas

@@ -94,6 +94,6 @@ export class SphereNode extends BaseNode3D {
       'keyShape',
       this.mergedStyles.keyShape,
       shapeMap,
-    ).shape;
+    );
   }
 }
