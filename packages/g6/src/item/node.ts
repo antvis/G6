@@ -2,12 +2,7 @@ import { Group } from '@antv/g';
 import { clone } from '@antv/util';
 import { Point } from '../types/common';
 import { NodeModel } from '../types';
-import {
-  DisplayMapper,
-  State,
-  ZoomStrategy,
-  ZoomStrategyObj,
-} from '../types/item';
+import { DisplayMapper, State, ZoomStrategyObj } from '../types/item';
 import { NodeDisplayModel, NodeModelData } from '../types/node';
 import { NodeStyleSet } from '../types/theme';
 import { updateShapes } from '../util/shape';

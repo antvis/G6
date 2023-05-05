@@ -4,9 +4,9 @@ import { IAnimates } from './animate';
 import {
   BadgePosition,
   Encode,
+  IBadgePosition,
   IItem,
   ItemShapeStyles,
-  LabelBackground,
   ShapeAttrEncode,
   ShapesEncode,
   ShapeStyle,
@@ -90,7 +90,7 @@ export interface NodeShapeStyles extends ItemShapeStyles {
     textColor?: string;
     // individual styles and their position
     [key: number]: ShapeStyle & {
-      position?: BadgePosition;
+      position?: IBadgePosition;
       color?: string;
       textColor?: string;
     };
