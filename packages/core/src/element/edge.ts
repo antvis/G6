@@ -474,8 +474,8 @@ Shape.registerEdge(
         const { startPoint, endPoint } = cfg;
         if (cfg.curveOffset === undefined) cfg.curveOffset = this.curveOffset;
         if (cfg.curvePosition === undefined) cfg.curvePosition = this.curvePosition;
-        if (isArray(this.curveOffset)) cfg.curveOffset = cfg.curveOffset[0];
-        if (isArray(this.curvePosition)) cfg.curvePosition = cfg.curveOffset[0];
+        if (isArray(cfg.curveOffset)) cfg.curveOffset = cfg.curveOffset[0];
+        if (isArray(cfg.curvePosition)) cfg.curvePosition = cfg.curveOffset[0];
         const innerPoint = getControlPoint(
           startPoint as Point,
           endPoint as Point,
