@@ -34,7 +34,7 @@ export class LineEdge extends BaseEdge {
   ): EdgeShapeMap {
     const { data = {} } = model;
 
-    let shapes: EdgeShapeMap = { keyShape: undefined };
+    const shapes: EdgeShapeMap = { keyShape: undefined };
 
     shapes.keyShape = this.drawKeyShape(
       model,

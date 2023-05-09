@@ -220,7 +220,7 @@ export default class Node extends Item {
           point,
         );
         break;
-      default:
+      default: {
         const bbox =
           this.renderExt.boundsCache?.keyShapeLocal ||
           keyShape.getLocalBounds();
@@ -233,6 +233,7 @@ export default class Node extends Item {
           },
           point,
         );
+      }
     }
 
     let anchorPointsPositions = this.anchorPointsCache;

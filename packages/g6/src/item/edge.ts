@@ -77,7 +77,7 @@ export default class Edge extends Item {
     // handle shape's and group's animate
     const { animates, disableAnimate } = displayModel.data;
     const usingAnimates = { ...animates };
-    let targetStyles = this.renderExt.mergedStyles;
+    const targetStyles = this.renderExt.mergedStyles;
     const { haloShape, labelShape } = this.shapeMap;
     haloShape?.toBack();
     labelShape?.toFront();

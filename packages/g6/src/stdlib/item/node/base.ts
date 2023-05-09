@@ -451,7 +451,7 @@ export abstract class BaseNode {
 
       const bgHeight = size as number;
 
-      let pos = { x: 0, y: 0 };
+      const pos = { x: 0, y: 0 };
       switch (position) {
         case 'rightTop':
           pos.x = keyShapeBBox.max[0] - bgHeight / 2 + offsetX;
