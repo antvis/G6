@@ -50,6 +50,8 @@ export class ItemController {
   public edgeExtensions = [];
   public comboExtensions = [];
 
+  public zoom: number;
+
   /**
    * Node / edge / combo items map
    */
