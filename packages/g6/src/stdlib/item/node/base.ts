@@ -364,7 +364,6 @@ export abstract class BaseNode {
       {
         ...attributes,
         ...haloShapeStyle,
-        isBillboard: true,
       },
       shapeMap,
       model,

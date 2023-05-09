@@ -1935,7 +1935,7 @@ export default () => {
     width,
     height: 1200,
     type: 'graph',
-    // renderer: 'webgl',
+    renderer: 'webgl',
     data: { nodes, edges },
     modes: {
       default: [
