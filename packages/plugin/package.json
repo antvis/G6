@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6-plugin",
-  "version": "0.8.10",
+  "version": "0.8.11",
   "description": "G6 Plugin",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -13,7 +13,7 @@
     "lint:src": "eslint --ext .ts --format=pretty \"./src\"",
     "prettier": "prettier -c --write \"**/*\"",
     "test": "jest",
-    "test-live": "DEBUG_MODE=1 jest --watch ./tests/unit/snapline-spec.ts",
+    "test-live": "DEBUG_MODE=1 jest --watch ./tests/unit/timebar-spec.ts",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
     "watch": "father build -w"
   },
