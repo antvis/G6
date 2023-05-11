@@ -1,6 +1,6 @@
 {
   "name": "@antv/g6-core",
-  "version": "0.8.11-beta.0",
+  "version": "0.8.12",
   "description": "A Graph Visualization Framework in JavaScript",
   "keywords": [
     "antv",

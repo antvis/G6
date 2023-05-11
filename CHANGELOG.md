@@ -1,5 +1,9 @@
 # ChangeLog
 
+### 4.8.12
+
+- feat: timebar supports individual container DOM;
+
 ### 4.8.11-beta.0
 
 - fix: position animations;
