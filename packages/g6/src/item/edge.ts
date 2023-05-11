@@ -12,7 +12,6 @@ import { EdgeStyleSet } from '../types/theme';
 interface IProps {
   model: EdgeModel;
   renderExtensions: any; // TODO: type
-  device?: any; // for 3d shapes
   containerGroup: Group;
   mapper: DisplayMapper;
   stateMapper: {
