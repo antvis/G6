@@ -1,12 +1,8 @@
 import * as graphs from './intergration/index';
 
 const SelectGraph = document.getElementById('select') as HTMLSelectElement;
-let firstKey;
-const Options = Object.keys(graphs).map((key, index) => {
+const Options = Object.keys(graphs).map((key) => {
   const option = document.createElement('option');
-  if (index === 0) {
-    firstKey = key;
-  }
   option.value = key;
   option.textContent = key;
   return option;
@@ -22,5 +18,9 @@ SelectGraph.onchange = (e) => {
   container?.replaceChildren('');
   graphs[value]();
 };
+
 // 初始化
-graphs[firstKey]();
+const params = new URL(location.href).searchParams;
+const initialExampleName = params.get('name');
+SelectGraph.value = initialExampleName || Options[0].value;
+graphs[SelectGraph.value]();

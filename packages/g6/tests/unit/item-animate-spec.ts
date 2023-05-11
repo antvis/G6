@@ -1254,9 +1254,9 @@ describe('node update position with edges', () => {
         },
       });
       setTimeout(() => {
-        let node1 = graph.itemController.itemMap['node1'];
+        const node1 = graph.itemController.itemMap['node1'];
         expect(node1.model.data.x).not.toBe(oriData.nodes[0].data.x);
-        let node2 = graph.itemController.itemMap['node2'];
+        const node2 = graph.itemController.itemMap['node2'];
         expect(node2.model.data.x).not.toBe(oriData.nodes[1].data.x);
         edgeKeyShape = edge.shapeMap.keyShape;
         expect(edgeKeyShape.attributes.x1).not.toBe(oriData.nodes[0].data.x);

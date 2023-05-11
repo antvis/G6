@@ -2,6 +2,7 @@ import { AABB, DisplayObject } from '@antv/g';
 import { OTHER_SHAPES_FIELD_NAME, RESERVED_SHAPE_IDS } from '../../../constant';
 import { NodeDisplayModel } from '../../../types';
 import {
+  BadgePosition,
   GShapeStyle,
   SHAPE_TYPE,
   SHAPE_TYPE_3D,
@@ -85,10 +86,16 @@ export abstract class BaseNode {
     Object.keys(data).forEach((fieldName) => {
       if (RESERVED_SHAPE_IDS.includes(fieldName)) {
         if (fieldName === 'badgeShapes') {
-          Object.keys(data[fieldName]).forEach((idx) => {
-            const { position } = data[fieldName][idx];
+          dataStyles[fieldName] = {};
+          Object.keys(data[fieldName]).forEach((key) => {
+            if (isNaN(Number(key))) {
+              // key is not a number, it is a common style
+              dataStyles[fieldName][key] = data[fieldName][key];
+              return;
+            }
+            const { position } = data[fieldName][key];
             dataStyles[`${position}BadgeShape`] = {
-              ...data[fieldName][idx],
+              ...data[fieldName][key],
               tag: 'badgeShape',
             };
           });
@@ -124,13 +131,15 @@ export abstract class BaseNode {
    * Call it after calling draw function to update cache about bounds and zoom levels.
    */
   public updateCache(shapeMap) {
-    ['keyShape', 'labelShape'].forEach((id) => {
-      const shape = shapeMap[id];
-      if (shape?.getAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY)) {
-        this.boundsCache[`${id}Local`] = shape.getLocalBounds();
-        shape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, false);
-      }
-    });
+    ['keyShape', 'labelShape', 'rightBadgeShape']
+      .concat(Object.keys(BadgePosition).map((pos) => `${pos}BadgeShape`))
+      .forEach((id) => {
+        const shape = shapeMap[id];
+        if (shape?.getAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY)) {
+          this.boundsCache[`${id}Local`] = shape.getLocalBounds();
+          shape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, false);
+        }
+      });
 
     const { levelShapes } = this.zoomCache;
     Object.keys(shapeMap).forEach((shapeId) => {
@@ -355,7 +364,6 @@ export abstract class BaseNode {
       {
         ...attributes,
         ...haloShapeStyle,
-        isBillboard: true,
       },
       shapeMap,
       model,
@@ -443,7 +451,7 @@ export abstract class BaseNode {
 
       const bgHeight = size as number;
 
-      let pos = { x: 0, y: 0 };
+      const pos = { x: 0, y: 0 };
       switch (position) {
         case 'rightTop':
           pos.x = keyShapeBBox.max[0] - bgHeight / 2 + offsetX;
@@ -501,7 +509,10 @@ export abstract class BaseNode {
         shapeMap,
         model,
       );
-      const bbox = shapes[id].getLocalBounds();
+      this.boundsCache[`${id}Local`] =
+        this.boundsCache[`${id}Local`] || shapes[id].getLocalBounds();
+      const bbox = this.boundsCache[`${id}Local`];
+
       const bgShapeId = `${position}BadgeBackgroundShape`;
       const bgWidth =
         (text as string).length <= 1
@@ -515,7 +526,7 @@ export abstract class BaseNode {
           fill: color,
           height: bgHeight,
           width: bgWidth,
-          x: bbox.min[0] - 3, // begin at the border, minus half height
+          x: bbox.min[0] - 2, // begin at the border, minus half height
           y: bbox.min[1],
           radius: bgHeight / 2,
           zIndex,

@@ -44,12 +44,12 @@ export default class SpecThemeSolver extends BaseThemeSolver {
     if (specification) {
       ['node', 'edge', 'combo'].forEach((itemType) => {
         if (!specification[itemType]) return;
-        let {
+        const {
           palette = mergedSpec[itemType].palette,
           zoomStrategy = mergedSpec[itemType].zoomStrategy,
           dataTypeField,
-          getStyleSets,
         } = specification[itemType];
+        let { getStyleSets } = specification[itemType];
 
         if (dataTypeField && !getStyleSets) {
           getStyleSets = (paletteProps) => {

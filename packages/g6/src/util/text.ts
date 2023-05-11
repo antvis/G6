@@ -12,7 +12,7 @@ import { Point } from '../types/common';
 export const getWordWrapWidthByBox = (
   keyShapeBox: AABB,
   maxWidth: string | number,
-  zoom: number = 1,
+  zoom = 1,
 ) => {
   const keyShapeWidth = (keyShapeBox.max[0] - keyShapeBox.min[0]) * zoom;
   const wordWrapWidth = 2 * keyShapeWidth;
@@ -29,7 +29,7 @@ export const getWordWrapWidthByBox = (
 export const getWordWrapWidthByEnds = (
   points: Point[],
   maxWidth: string | number,
-  zoom: number = 1,
+  zoom = 1,
 ) => {
   const dist = getEuclideanDistance(points[0], points[1]) * zoom;
   return getWordWrapWidthWithBase(dist, maxWidth);
