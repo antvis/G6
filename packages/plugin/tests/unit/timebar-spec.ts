@@ -703,3 +703,81 @@ xdescribe('timebar filter edges', () => {
     // })
   });
 });
+
+describe('timebar dependent on graph container', ()=>{
+  const timebarContainer = document.createElement('div');
+  timebarContainer.id = 'time-bar-container';
+  // timebarContainer.style.position = 'absolute';
+  // timebarContainer.style.bottom = '400px';
+  document.body.appendChild(timebarContainer);
+
+  it('slice timebar', () => {
+    const timeBarData = [];
+
+    for (let i = 1; i < 60; i++) {
+      const month = i < 30 ? '01' : '02';
+      const day = i % 30 < 10 ? `0${i % 30}` : `${i % 30}`;
+      timeBarData.push({
+        date: parseInt(`2020${month}${day}`, 10),
+        value: Math.round(Math.random() * 300),
+      });
+    }
+    const intervalData = [];
+    for (let i = 0; i < 50; i++) {
+      intervalData.push({
+        date: i,
+        value: Math.round(Math.random() * 300),
+      });
+    }
+
+    const timeline = new TimeBar({
+      x: 0,
+      y: 0,
+      width: 500,
+      height: 150,
+      padding: 10,
+      type: 'trend',
+      container: timebarContainer,
+      putInGraphContainer: false,
+      trend: {
+        data: timeBarData,
+        isArea: true,
+        lineStyle: {
+          stroke: 'green',
+          lineWidth: 1,
+        },
+        interval: {
+          data: intervalData.map((d) => d.value),
+          style: {
+            fill: '#ccc',
+          },
+        },
+      },
+      slider: {
+        textStyle: {
+          fill: 'red',
+          fontSize: 16,
+        },
+      },
+    });
+
+    const graph = new G6.Graph({
+      container: div,
+      width: 500,
+      height: 300,
+      // renderer: 'svg',
+      plugins: [timeline],
+      modes: {
+        default: ['drag-node', 'zoom-canvas', 'drag-canvas'],
+      },
+      defaultEdge: {
+        style: {
+          lineAppendWidth: 20,
+        },
+      },
+    });
+
+    graph.data(data);
+    graph.render();
+  });
+})

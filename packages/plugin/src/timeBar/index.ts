@@ -85,6 +85,9 @@ interface TimeBarConfig extends IPluginBaseConfig {
   // 是否通过 changeData 来进行筛选，false 则使用 hideItem
   readonly changeData?: boolean;
 
+  /** 是否置于图容器当中 */
+  readonly putInGraphContainer?: boolean;
+
   // 当时间轴范围发生变化时的回调函数
   rangeChange?: (graph: IGraph, minValue: string, maxValue: string) => void;
 
@@ -133,7 +136,8 @@ export default class TimeBar extends Base {
       textStyle: {},
       filterEdge: false, // deprecate，由 filterItemTypes 替代
       filterItemTypes: ['node'],
-      containerCSS: {}
+      containerCSS: {},
+      putInGraphContainer: true
     };
   }
 
@@ -142,12 +146,10 @@ export default class TimeBar extends Base {
    */
   public initContainer() {
     const graph: IGraph = this.get('graph');
-    const { width, height } = this._cfgs;
+    const { width, height, putInGraphContainer } = this._cfgs;
     const className: string = this.get('className') || 'g6-component-timebar';
 
     let container: HTMLDivElement | null | string = this.get('container');
-
-    const graphContainer = this.get('graph').get('container');
 
     let timeBarContainer;
     if (!container) {
@@ -160,7 +162,10 @@ export default class TimeBar extends Base {
       timeBarContainer = container;
     }
 
-    graphContainer.appendChild(timeBarContainer);
+    if(putInGraphContainer){
+      const graphContainer = this.get('graph').get('container');
+      graphContainer.appendChild(timeBarContainer);
+    }
 
     this.set('timeBarContainer', timeBarContainer);
 
