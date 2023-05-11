@@ -358,7 +358,7 @@ export default abstract class Item implements IItem {
   }
 
   /** Show the item. */
-  public show(animate: boolean = true) {
+  public show(animate = true) {
     // TODO: utilize graphcore's view
     this.stopAnimations();
 
@@ -410,7 +410,7 @@ export default abstract class Item implements IItem {
   }
 
   /** Hides the item. */
-  public hide(animate: boolean = true) {
+  public hide(animate = true) {
     // TODO: utilize graphcore's view
     this.stopAnimations();
     const func = () => {

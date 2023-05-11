@@ -443,7 +443,6 @@ export abstract class BaseEdge {
       {
         ...attributes,
         ...haloShapeStyle,
-        isBillboard: true,
       },
       shapeMap,
       model,

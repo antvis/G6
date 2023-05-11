@@ -64,7 +64,7 @@ export const createShape3D = (
         basicMaterial[materialType as string] = new MeshBasicMaterial(device);
         break;
       case 'phong':
-      default:
+      default: {
         const materialProps = {
           shininess: 30,
         };
@@ -72,6 +72,7 @@ export const createShape3D = (
           device,
           materialProps,
         );
+      }
     }
   }
 
@@ -97,10 +98,11 @@ export const createShape3D = (
       shape.scale([style.width / GEOMETRY_SIZE, style.depth / GEOMETRY_SIZE]);
       break;
     case 'sphere':
-    default:
+    default: {
       const scaling =
         (((style as any).r || style.radius) as number) / GEOMETRY_SIZE;
       shape.scale(scaling);
+    }
   }
 
   return shape;
@@ -151,7 +153,7 @@ export const updateShapes3D = (
   prevShapeMap: { [id: string]: DisplayObject },
   newShapeMap: { [id: string]: DisplayObject },
   group: Group,
-  removeDiff: boolean = true,
+  removeDiff = true,
   shouldUpdate: (id: string) => boolean = () => true,
 ): NodeShapeMap | EdgeShapeMap => {
   const tolalMap = {
