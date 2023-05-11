@@ -22,6 +22,7 @@ export default async () => {
     layout: {
       type: 'fruchterman-wasm',
       threads,
+      dimensions: 2,
       maxIteration: 1000,
       minMovement: 0.4,
       distanceThresholdMode: 'mean',

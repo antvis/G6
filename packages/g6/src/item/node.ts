@@ -72,9 +72,7 @@ export default class Node extends Item {
     const { animates, disableAnimate, x = 0, y = 0, z = 0 } = displayModel.data;
     if (firstRendering) {
       // first rendering, move the group
-      group.style.x = x;
-      group.style.y = y;
-      group.style.z = z;
+      group.setLocalPosition(x, y, z);
     } else {
       this.updatePosition(displayModel, diffData, onfinish);
     }
@@ -155,9 +153,7 @@ export default class Node extends Item {
       }
       return;
     }
-    group.style.x = x;
-    group.style.y = y;
-    group.style.z = z;
+    group.setLocalPosition(x, y, z);
   }
 
   public clone(

@@ -22,6 +22,7 @@ import ZoomCanvas from './behavior/zoom-canvas';
 import ZoomCanvas3D from './behavior/zoom-canvas-3d';
 import RotateCanvas3D from './behavior/rotate-canvas-3d';
 import TrackCanvas3D from './behavior/track-canvas-3d';
+import OrbitCanvas3D from './behavior/orbit-canvas-3d';
 
 const stdLib = {
   transforms: {
@@ -47,6 +48,7 @@ const stdLib = {
     'zoom-canvas-3d': ZoomCanvas3D,
     'rotate-canvas-3d': RotateCanvas3D,
     'track-canvas-3d': TrackCanvas3D,
+    'orbit-canvas-3d': OrbitCanvas3D,
   },
   plugins: {
     minimap: Minimap,

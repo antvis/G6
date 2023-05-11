@@ -17,6 +17,7 @@ export class LineEdge extends BaseEdge {
       x2: 0,
       y2: 0,
       z2: 0,
+      isBillboard: true,
     },
   };
   constructor(props) {

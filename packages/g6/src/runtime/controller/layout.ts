@@ -175,6 +175,7 @@ export class LayoutController {
   }
 
   private updateNodesPosition(positions: LayoutMapping) {
+    debugger;
     this.graph.updateNodePosition(positions.nodes);
   }
 

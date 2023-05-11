@@ -1,3 +1,4 @@
+import { Camera } from '@antv/g';
 import { ID } from '@antv/graphlib';
 import { debounce, uniq } from '@antv/util';
 import { EdgeModel } from '../../types';
@@ -45,6 +46,8 @@ const DEFAULT_OPTIONS: Required<RotateCanvas3DOptions> = {
   triggerOnItems: false,
   shouldBegin: () => true,
 };
+
+const MOTION_FACTOR = 10;
 
 /**
  * Rotate the 3d canvas with the center of the graph.
@@ -111,7 +114,8 @@ export default class RotateCanvas3D extends Behavior {
     };
     const { graph } = this;
     const camera = graph.canvas.getCamera();
-    camera.pan(diff.x, diff.y);
+    this.rotate(camera, diff.x, diff.y);
+
     this.pointStartAt = {
       x: client.x,
       y: client.y,
@@ -149,5 +153,23 @@ export default class RotateCanvas3D extends Behavior {
     const { secondaryKey, speedUpKey } = this.options;
     if (secondaryKey === key.toLowerCase()) this.keydown = false;
     if (speedUpKey === key.toLowerCase()) this.speedUpKeydown = false;
+  }
+
+  private rotate(camera: Camera, rx: number, ry: number) {
+    const { width, height } = this.graph.canvas.getConfig();
+    const dx = 20.0 / height;
+    const dy = 20.0 / width;
+    let motionFactorX = MOTION_FACTOR;
+    let motionFactorY = MOTION_FACTOR;
+    if (rx * rx > 2 * ry * ry) {
+      motionFactorY *= 0.5;
+    } else if (ry * ry > 2 * rx * rx) {
+      motionFactorX *= 0.5;
+    }
+
+    const rotX = rx * dx * motionFactorX;
+    const rotY = ry * dy * motionFactorY;
+
+    camera.rotate(rotX, -rotY, 0);
   }
 }

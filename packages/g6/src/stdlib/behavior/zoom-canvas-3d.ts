@@ -96,6 +96,9 @@ export default class ZoomCanvas3D extends Behavior {
     if (!shouldBegin(event)) return;
     if (secondaryKey && !this.keydown) return;
     const camera = graph.canvas.getCamera();
+
+    console.log(event.deltaY);
+
     camera.dolly(event.deltaY * sensitivity);
 
     // Emit event.
