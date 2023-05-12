@@ -251,14 +251,24 @@ export const shapeBase: ShapeOptions = {
   },
 
   updateLabel(cfg: ModelConfig, item: Item, updateType?: UpdateType) {
+    const group = item.getContainer();
+    let { labelCfg = {} } = this.mergeStyle || this.getOptions({}, updateType) as ModelConfig || {};
+    const labelClassName = this.itemType + CLS_LABEL_SUFFIX;
+    const label = group['shapeMap'][labelClassName] || group.find(ele => ele.get('className') === labelClassName);
+    const labelBgClassname = this.itemType + CLS_LABEL_BG_SUFFIX;
+    let labelBg = group['shapeMap'][labelBgClassname] || group.find(ele => ele.get('className') === labelBgClassname);
+
+    if (label && cfg.label === undefined) {
+      group.removeChild(label);
+      delete group['shapeMap'][labelClassName];
+      if (labelBg) {
+        group.removeChild(labelBg);
+        delete group['shapeMap'][labelBgClassname];
+      }
+    }
+
     // 防止 cfg.label = "" 的情况
     if (cfg.label || cfg.label === '') {
-      const group = item.getContainer();
-      let { labelCfg = {} } = this.mergeStyle || this.getOptions({}, updateType) as ModelConfig || {};
-      const labelClassName = this.itemType + CLS_LABEL_SUFFIX;
-      const label = group['shapeMap'][labelClassName] || group.find(ele => ele.get('className') === labelClassName);
-      const labelBgClassname = this.itemType + CLS_LABEL_BG_SUFFIX;
-      let labelBg = group['shapeMap'][labelBgClassname] || group.find(ele => ele.get('className') === labelBgClassname);
       // 若传入的新配置中有 label，（用户没传入但原先有 label，label 也会有值）
       if (!label) {
         // 若原先不存在 label，则绘制一个新的 label
