@@ -93220,7 +93220,7 @@ clusteredData.clusters.forEach((cluster, i) => {
 
 const create2DGraph = () => {
   const graph = new G6.Graph({
-    container: container as HTMLElement,
+    container: container as HTMLcontainer,
     width,
     height: 1400,
     type: 'graph',
@@ -93324,7 +93324,7 @@ const create2DGraph = () => {
 
 const create3DGraph = () => {
   const graph = new G6.Graph({
-    container: container as HTMLElement,
+    container: container as HTMLcontainer,
     width,
     height: 1400,
     type: 'graph',
@@ -93347,7 +93347,20 @@ const create3DGraph = () => {
       ],
     },
 
-    data: { nodes: layoutNodes3D, edges },
+    data: {
+      nodes: layoutNodes3D.map((node) => {
+        return {
+          ...node,
+          data: {
+            ...node.data,
+            x: node.data.x * 2,
+            y: node.data.y * 2,
+            z: node.data.z * 2,
+          },
+        };
+      }),
+      edges,
+    },
     // @ts-ignore
     theme: {
       type: 'spec',
@@ -93363,7 +93376,8 @@ const create3DGraph = () => {
         data: {
           ...innerModel.data,
           keyShape: {
-            lineWidth: 0.5,
+            lineWidth: 0.3,
+            opacity: 0.4,
           },
           type: 'line-edge',
         },
@@ -93398,21 +93412,30 @@ const create3DGraph = () => {
     const rotX = rx * dx * motionFactorX;
     const rotY = ry * dy * motionFactorY;
 
-    camera.rotate(rotX, 0, 0);
+    camera.rotate(rotX, 0);
   };
 
   setTimeout(() => {
     const camera = graph.canvas.getCamera();
     const oripos = camera.getPosition();
     let k = 0;
+    let i = 0;
+    let timer;
     const tick = () => {
-      rotate(camera, 50, 50, graph);
       camera.setPosition([oripos[0], oripos[1], oripos[2] + k]);
-      requestAnimationFrame(tick);
-      k += 10;
+
+      const rdx =
+        i < 100 ? Math.min(i * 0.5, 20) : Math.min((200 - i) * 0.2, 20);
+      rotate(camera, rdx, rdx, graph);
+
+      timer = requestAnimationFrame(tick);
+      if (i > 200) cancelAnimationFrame(timer);
+
+      const param = i < 50 ? 3 : 0.5;
+      k += 50 * param;
+      i++;
     };
     tick();
-
   }, 1000);
 
   return graph;
@@ -93420,26 +93443,48 @@ const create3DGraph = () => {
 
 export default () => {
   console.log('nodesedges', nodes, edges);
-  let graph = create2DGraph();
-  // graph.on('canvas:click', (e) => {
-  //   console.log(JSON.stringify(graph.dataController.graphCore.getAllNodes()));
-  // });
 
   const btn = document.createElement('button');
-  btn.innerHTML = '切换为 3D';
+  btn.innerHTML = '全屏';
   btn.style.position = 'absolute';
   btn.style.top = '56px';
   btn.style.left = '16px';
   btn.style.zIndex = '100';
-  container.appendChild(btn);
+  document.body.appendChild(btn);
 
-  btn.addEventListener('click', (evt) => {
-    console.log('click');
-    const { rendererType } = graph;
+  btn.addEventListener('click', (e) => {
+    const requestMethod =
+      container.requestFullScreen ||
+      container.webkitRequestFullScreen ||
+      container.mozRequestFullScreen ||
+      container.msRequestFullScreen;
+    console.log('requestMethod', requestMethod);
+    if (requestMethod) {
+      // Native full screen.
+      requestMethod.call(container);
+    } else if (typeof window.ActiveXObject !== 'undefined') {
+      // Older IE.
+      var wscript = new ActiveXObject('WScript.Shell');
+      if (wscript !== null) {
+        wscript.SendKeys('{F11}');
+      }
+    }
+  });
+
+  let graph;
+  window.addEventListener('dblclick', () => {
+    const { rendererType } = graph || {};
     console.log('rendererType', rendererType);
     if (graph) graph.destroy();
-    if (rendererType === 'canvas') graph = create3DGraph();
-    if (rendererType === 'webgl-3d') graph = create2DGraph();
+    // if (rendererType === 'canvas') graph = create3DGraph();
+    if (!graph || rendererType === 'webgl-3d') {
+      graph = create2DGraph();
+
+      setTimeout(() => {
+        graph.destroy();
+        graph = create3DGraph();
+      }, 2000);
+    }
   });
 
   return graph;
