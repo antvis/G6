@@ -10,6 +10,7 @@ import layouts_fruchterman_gpu from './layouts/fruchterman-gpu';
 import layouts_force_3d from './layouts/force-3d';
 import layouts_force_wasm_3d from './layouts/force-wasm-3d';
 import performance from './performance/performance';
+import demo from './demo/demo';
 export {
   behaviors_activateRelations,
   layouts_circular,
@@ -23,4 +24,5 @@ export {
   behaviors_brush_select,
   behaviors_click_select,
   performance,
+  demo,
 };

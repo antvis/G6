@@ -60,6 +60,7 @@
   },
   "dependencies": {
     "@ant-design/colors": "^7.0.0",
+    "@antv/algorithm": "^0.1.25",
     "@antv/dom-util": "^2.0.4",
     "@antv/g": "^5.15.7",
     "@antv/g-canvas": "^1.9.28",
