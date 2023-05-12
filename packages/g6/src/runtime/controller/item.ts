@@ -196,7 +196,7 @@ export class ItemController {
       graph.canvas.appendChild(ambientLight);
       graph.canvas.appendChild(light);
       const { width, height } = graph.canvas.getConfig();
-      graph.canvas.getCamera().setPerspective(0.1, 5000, 45, width / height);
+      graph.canvas.getCamera().setPerspective(0.1, 50000, 45, width / height);
     }
 
     // 2. create node / edge / combo items, classes from ../../item, and element drawing and updating fns from node/edge/comboExtensions
