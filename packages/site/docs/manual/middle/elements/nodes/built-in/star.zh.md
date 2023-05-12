@@ -53,7 +53,7 @@ const data = {
 star 节点支持 [节点通用配置](/zh/docs/manual/middle/elements/nodes/default-node#节点的通用属性)，下表对部分属性进行解释：
 
 | 名称 | 含义 | 类型 | 备注 |
-| --- | --- | --- | --- | --- |
+| --- | --- | --- | --- |
 | size | 五角星的大小 | number | Array | size 表示外环的大小 |
 | **innerR** | **五角星内环大小** | **Number** | **默认为 size \* 3 / 8** |
 | style | 五角星的默认样式 | Object | Canvas 支持的属性 |

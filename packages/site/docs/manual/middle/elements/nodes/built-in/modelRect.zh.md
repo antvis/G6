@@ -59,7 +59,7 @@ const data = {
 modelRect 节点支持 [节点通用配置](/zh/docs/manual/middle/elements/nodes/default-node#节点的通用属性)，下表对部分属性进行解释。对于 Object 类型的配置项将在后面有详细讲解：
 
 | 名称 | 含义 | 类型 | 备注 |
-| --- | --- | --- | --- | --- |
+| --- | --- | --- | --- |
 | size | 卡片的大小 | Number | Array |  |
 | style | 卡片的默认样式 | Object | Canvas 支持的属性 |
 | label | 标签文本内容 | String |  |
