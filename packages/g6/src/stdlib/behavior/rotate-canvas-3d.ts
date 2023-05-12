@@ -1,4 +1,4 @@
-import { Camera } from '@antv/g';
+import { ICamera } from '@antv/g';
 import { ID } from '@antv/graphlib';
 import { debounce, uniq } from '@antv/util';
 import { EdgeModel } from '../../types';
@@ -155,7 +155,7 @@ export default class RotateCanvas3D extends Behavior {
     if (speedUpKey === key.toLowerCase()) this.speedUpKeydown = false;
   }
 
-  private rotate(camera: Camera, rx: number, ry: number) {
+  private rotate(camera: ICamera, rx: number, ry: number) {
     const { width, height } = this.graph.canvas.getConfig();
     const dx = 20.0 / height;
     const dy = 20.0 / width;
