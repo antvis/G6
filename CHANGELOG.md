@@ -1,5 +1,9 @@
 # ChangeLog
 
+### 4.8.13
+
+- fix: webpack dependency;
+
 ### 4.8.12
 
 - feat: timebar supports individual container DOM;
