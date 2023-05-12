@@ -7,6 +7,8 @@ import layouts_fruchterman_wasm from './layouts/fruchterman-wasm';
 import layouts_forceatlas2_wasm from './layouts/forceatlas2-wasm';
 import layouts_force_wasm from './layouts/force-wasm';
 import layouts_fruchterman_gpu from './layouts/fruchterman-gpu';
+import layouts_force_3d from './layouts/force-3d';
+import layouts_force_wasm_3d from './layouts/force-wasm-3d';
 import performance from './performance/performance';
 export {
   behaviors_activateRelations,
@@ -16,6 +18,8 @@ export {
   layouts_forceatlas2_wasm,
   layouts_force_wasm,
   layouts_fruchterman_gpu,
+  layouts_force_3d,
+  layouts_force_wasm_3d,
   behaviors_brush_select,
   behaviors_click_select,
   performance,

@@ -64,7 +64,6 @@ export abstract class BaseNode3D extends BaseNode {
       {
         ...attributes,
         ...haloShapeStyle,
-        isBillboard: true,
       },
       shapeMap,
     );

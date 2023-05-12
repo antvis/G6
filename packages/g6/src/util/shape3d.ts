@@ -28,13 +28,7 @@ const GeometryTagMap = {
   plane: PlaneGeometry,
 };
 
-// Share the same geometry & material between meshes.
-const basicMaterial: Record<
-  string,
-  MeshPhongMaterial | MeshBasicMaterial<any>
-> = {};
 const GEOMETRY_SIZE = 10;
-const GeometryCache: Record<string, ProceduralGeometry<any>> = {};
 
 export const createShape3D = (
   type: SHAPE_TYPE_3D | SHAPE_TYPE,
@@ -49,26 +43,39 @@ export const createShape3D = (
 
   // materialType: 'phong' | 'basic', TODO: type
   const { materialType = 'phong', ...otherStyles } = style as any;
-  let cachedGeometry = GeometryCache[type];
-  if (!cachedGeometry) {
-    cachedGeometry = GeometryCache[type] = new GeometryTagMap[type](device, {
-      radius: GEOMETRY_SIZE,
-      latitudeBands: 32,
-      longitudeBands: 32,
-    });
+  if (!device.GeometryCache) {
+    device.GeometryCache = {};
   }
 
-  if (!basicMaterial[materialType as string]) {
+  // Share the same geometry & material between meshes.
+  let cachedGeometry = device.GeometryCache[type];
+  if (!cachedGeometry) {
+    cachedGeometry = device.GeometryCache[type] = new GeometryTagMap[type](
+      device,
+      {
+        radius: GEOMETRY_SIZE,
+        latitudeBands: 32,
+        longitudeBands: 32,
+      },
+    );
+  }
+
+  if (!device.MaterialCache) {
+    device.MaterialCache = {};
+  }
+  if (!device.MaterialCache[materialType as string]) {
     switch (materialType) {
       case 'basic':
-        basicMaterial[materialType as string] = new MeshBasicMaterial(device);
+        device.MaterialCache[materialType as string] = new MeshBasicMaterial(
+          device,
+        );
         break;
       case 'phong':
       default: {
         const materialProps = {
           shininess: 30,
         };
-        basicMaterial[materialType as string] = new MeshPhongMaterial(
+        device.MaterialCache[materialType as string] = new MeshPhongMaterial(
           device,
           materialProps,
         );
@@ -80,7 +87,7 @@ export const createShape3D = (
     style: {
       ...otherStyles,
       geometry: cachedGeometry,
-      material: basicMaterial[materialType as string],
+      material: device.MaterialCache[materialType as string],
     },
     id,
   });

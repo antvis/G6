@@ -22,6 +22,7 @@ export default async () => {
     layout: {
       type: 'forceatlas2-wasm',
       threads,
+      dimensions: 2,
       maxIteration: 100,
       minMovement: 0.4,
       distanceThresholdMode: 'mean',

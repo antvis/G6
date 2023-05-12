@@ -18,6 +18,7 @@ export default async () => {
     layout: {
       type: 'force-wasm',
       threads,
+      dimensions: 2,
       maxIteration: 100,
       minMovement: 0.4,
       distanceThresholdMode: 'mean',
