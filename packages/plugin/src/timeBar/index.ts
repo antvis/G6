@@ -1,24 +1,24 @@
 /**
  * 基于 G 的时间轴组件
  */
+import { createDom, modifyCSS } from '@antv/dom-util';
+import { ICanvas } from '@antv/g-base';
 import { Canvas as GCanvas } from '@antv/g-canvas';
 import { Canvas as GSVGCanvas } from '@antv/g-svg';
-import { ICanvas } from '@antv/g-base';
-import { createDom, modifyCSS } from '@antv/dom-util';
-import Base, { IPluginBaseConfig } from '../base';
-import TrendTimeBar, { TickCfg, SliderOption } from './trendTimeBar';
-import TimeBarSlice, { TimeBarSliceOption } from './timeBarSlice';
-import { VALUE_CHANGE } from './constant';
 import {
   GraphData,
-  IG6GraphEvent,
-  TimeBarType,
   IAbstractGraph as IGraph,
+  IG6GraphEvent,
   ShapeStyle,
+  TimeBarType,
 } from '@antv/g6-core';
-import { Interval } from './trend';
-import { ControllerCfg } from './controllerBtn';
 import { isString, throttle } from '@antv/util';
+import Base, { IPluginBaseConfig } from '../base';
+import { VALUE_CHANGE } from './constant';
+import { ControllerCfg } from './controllerBtn';
+import TimeBarSlice, { TimeBarSliceOption } from './timeBarSlice';
+import { Interval } from './trend';
+import TrendTimeBar, { SliderOption, TickCfg } from './trendTimeBar';
 
 // simple 版本默认高度
 const DEFAULT_SIMPLE_HEIGHT = 4;
@@ -98,7 +98,11 @@ interface TimeBarConfig extends IPluginBaseConfig {
   getValue?: (d: any) => number;
 
   // 在过滤图元素时是否要忽略某些元素，范围 true，则忽略。否则按照正常过滤逻辑处理
-  shouldIgnore?: (itemType: 'node' | 'edge', model: any, dateRage: { min: number, max: number }) => boolean;
+  shouldIgnore?: (
+    itemType: 'node' | 'edge',
+    model: any,
+    dateRage: { min: number; max: number },
+  ) => boolean;
 }
 
 export default class TimeBar extends Base {
@@ -137,7 +141,7 @@ export default class TimeBar extends Base {
       filterEdge: false, // deprecate，由 filterItemTypes 替代
       filterItemTypes: ['node'],
       containerCSS: {},
-      putInGraphContainer: true
+      putInGraphContainer: true,
     };
   }
 
@@ -162,7 +166,7 @@ export default class TimeBar extends Base {
       timeBarContainer = container;
     }
 
-    if(putInGraphContainer){
+    if (putInGraphContainer) {
       const graphContainer = this.get('graph').get('container');
       graphContainer.appendChild(timeBarContainer);
     }
@@ -204,7 +208,7 @@ export default class TimeBar extends Base {
     const fontFamily =
       typeof window !== 'undefined'
         ? window.getComputedStyle(document.body, null).getPropertyValue('font-family') ||
-        'Arial, sans-serif'
+          'Arial, sans-serif'
         : 'Arial, sans-serif';
     this.set('fontFamily', fontFamily);
   }
@@ -273,7 +277,7 @@ export default class TimeBar extends Base {
         foregroundStyle,
         trendCfg: {
           ...other,
-          data: data.map((d) => (getValue?.(d) || d.value)),
+          data: data.map((d) => getValue?.(d) || d.value),
         },
         ...slider,
         tick: {
@@ -313,12 +317,14 @@ export default class TimeBar extends Base {
         timebarInstance.currentHandler = timebarInstance.maxHandlerShape;
         timebarInstance.changePlayStatus();
       }
-      document.removeEventListener('mouseup', handleMouseUp)
-    }
-    canvas.on('mousedown', e => {
-      if (e.target.get('name') === 'maxHandlerShape-handler' ||
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+    canvas.on('mousedown', (e) => {
+      if (
+        e.target.get('name') === 'maxHandlerShape-handler' ||
         e.target.get('name') === 'minHandlerShape-handler' ||
-        e.target === timebar.foregroundShape) {
+        e.target === timebar.foregroundShape
+      ) {
         document.addEventListener('mouseup', handleMouseUp);
       }
     });
@@ -388,19 +394,22 @@ export default class TimeBar extends Base {
       // 过滤不在 min 和 max 范围内的节点
       const getDate = this.get('getDate');
       const shouldIgnore = this.get('shouldIgnore');
-      const minDate = trendData[min].date, maxDate = trendData[max].date;
+      const minDate = trendData[min].date,
+        maxDate = trendData[max].date;
       if (changeData || changeData === undefined) {
         let originNodes = this.cacheGraphData.nodes;
         let originEdges = this.cacheGraphData.edges;
         const currentNodeExistMap = {};
         const currentEdgeExistMap = {};
-        graph.getNodes().forEach(node => currentNodeExistMap[node.getID()] = true);
-        graph.getEdges().forEach(edge => currentEdgeExistMap[edge.getID()] = true);
+        graph.getNodes().forEach((node) => (currentNodeExistMap[node.getID()] = true));
+        graph.getEdges().forEach((edge) => (currentEdgeExistMap[edge.getID()] = true));
 
         if (filterItemTypes.includes('node')) {
           originNodes?.forEach((node: any) => {
             const date = +(getDate?.(node) || node.date);
-            const hitRange = (date >= minDate && date <= maxDate) || shouldIgnore?.('node', node, { min: minDate, max: maxDate });
+            const hitRange =
+              (date >= minDate && date <= maxDate) ||
+              shouldIgnore?.('node', node, { min: minDate, max: maxDate });
             const exist = currentNodeExistMap[node.id];
             if (exist && !hitRange) {
               graph.removeItem(node.id);
@@ -412,7 +421,9 @@ export default class TimeBar extends Base {
           });
           // 过滤 source 或 target 不在 min 和 max 范围内的边
           originEdges?.forEach((edge) => {
-            const shouldShow = (currentNodeExistMap[edge.source] && currentNodeExistMap[edge.target]) || shouldIgnore?.('edge', edge, { min: minDate, max: maxDate });
+            const shouldShow =
+              (currentNodeExistMap[edge.source] && currentNodeExistMap[edge.target]) ||
+              shouldIgnore?.('edge', edge, { min: minDate, max: maxDate });
             const exist = !!graph.findById(edge.id);
             if (exist && !shouldShow) {
               graph.removeItem(edge.id);
@@ -429,7 +440,9 @@ export default class TimeBar extends Base {
         if (this.get('filterEdge') || filterItemTypes.includes('edge')) {
           originEdges?.filter((edge) => {
             const date = +(getDate?.(edge) || edge.date);
-            const hitRange = (date >= minDate && date <= maxDate) || shouldIgnore?.('edge', edge, { min: minDate, max: maxDate });
+            const hitRange =
+              (date >= minDate && date <= maxDate) ||
+              shouldIgnore?.('edge', edge, { min: minDate, max: maxDate });
             const endsExist = currentNodeExistMap[edge.source] && currentNodeExistMap[edge.target];
             const shouldShow = hitRange && endsExist;
             const exist = currentEdgeExistMap[edge.id];
@@ -444,7 +457,7 @@ export default class TimeBar extends Base {
         }
       } else {
         if (filterItemTypes.includes('node')) {
-          graph.getNodes().forEach(node => {
+          graph.getNodes().forEach((node) => {
             const model = node.getModel();
             if (shouldIgnore?.('node', model, { min: minDate, max: maxDate })) return;
             const date = +(getDate?.(model) || model.date);
@@ -456,9 +469,12 @@ export default class TimeBar extends Base {
           });
         }
         if (this.get('filterEdge') || filterItemTypes.includes('edge')) {
-          graph.getEdges().forEach(edge => {
+          graph.getEdges().forEach((edge) => {
             const model = edge.getModel();
-            if (shouldIgnore?.('edge', model, { min: trendData[min].date, max: trendData[max].date })) return;
+            if (
+              shouldIgnore?.('edge', model, { min: trendData[min].date, max: trendData[max].date })
+            )
+              return;
             const date = +(getDate?.(model) || model.date);
             if (date < trendData[min].date || date > trendData[max].date) {
               graph.hideItem(edge);
@@ -473,9 +489,9 @@ export default class TimeBar extends Base {
     }
   }
 
-  private afterrenderListener = e => this.filterData({});
+  private afterrenderListener = (e) => this.filterData({});
   private valueChangeListener = throttle(
-    e => this.filterData(e), // 不可简写，否则 filterData 中 this 指针不对
+    (e) => this.filterData(e), // 不可简写，否则 filterData 中 this 指针不对
     200,
     {
       trailing: true,
@@ -483,11 +499,11 @@ export default class TimeBar extends Base {
     },
   ) as any;
 
-  public changeData = e => {
+  public changeData = (e) => {
     const graph: IGraph = this.get('graph');
     this.cacheGraphData = graph.get('data');
     this.filterData({});
-  }
+  };
 
   private initEvent() {
     const graph: IGraph = this.get('graph');
@@ -496,10 +512,7 @@ export default class TimeBar extends Base {
     // 图渲染，触发时间轴筛选
     graph.on('afterrender', this.afterrenderListener);
     // 时间轴的值发生改变的事件，触发筛选
-    graph.on(
-      VALUE_CHANGE,
-      this.valueChangeListener
-    );
+    graph.on(VALUE_CHANGE, this.valueChangeListener);
   }
 
   public destroy() {
@@ -516,12 +529,15 @@ export default class TimeBar extends Base {
 
     const timeBarContainer = this.get('timeBarContainer');
     if (timeBarContainer) {
-      let container: HTMLDivElement | null = this.get('container');
+      let container: HTMLElement | null = this.get('container');
       if (!container) {
         container = this.get('graph').get('container');
       }
       if (isString(container)) {
-        container = document.getElementById(container) as HTMLDivElement;
+        container = document.getElementById(container) as HTMLElement;
+      }
+      if (container === timeBarContainer) {
+        container = container.parentElement;
       }
       container.removeChild(timeBarContainer);
     }

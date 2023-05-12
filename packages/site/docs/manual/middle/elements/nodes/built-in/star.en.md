@@ -54,7 +54,7 @@ const data = {
 The [Node Common Properties](/en/docs/manual/middle/elements/nodes/default-node/#common-property) are available for Star node, some special properties are shown below. The property with Object type will be described after the table:
 
 | Name | Description | Type | Remark |
-| --- | --- | --- | --- | --- |
+| --- | --- | --- | --- |
 | size | The size of the star | number | Array | `size` is the widht and the height of the minimum bounding box of the star |
 | **innerR** | **The inner radius of the star** | **Number** | **Equals to `size` \* 3 / 8 by default** |
 | style | The default style of star node | Object | Correspond to the styles in Canvas |
