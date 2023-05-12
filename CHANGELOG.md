@@ -3,6 +3,7 @@
 ### 4.8.12
 
 - feat: timebar supports individual container DOM;
+- fix: remove label if no longer present;
 
 ### 4.8.11-beta.0
 
