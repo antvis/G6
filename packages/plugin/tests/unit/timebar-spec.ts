@@ -48,7 +48,7 @@ const generateData = (nodeNum = 100) => {
     });
   }
   return data;
-}
+};
 
 const data = generateData();
 
@@ -76,8 +76,8 @@ describe('timeline filter edges', () => {
         isArea: true,
         areaStyle: {
           fill: '#08214E',
-          opacity: 0.3
-        }
+          opacity: 0.3,
+        },
       },
       tick: {
         data: timeBarData,
@@ -88,23 +88,23 @@ describe('timeline filter edges', () => {
           return `2020${month}${day}`;
         },
         tickLabelStyle: {
-          fill: '#000'
+          fill: '#000',
         },
         tickLineStyle: {
-          stroke: '#000'
-        }
+          stroke: '#000',
+        },
       },
       backgroundStyle: {
         fill: '#115EEB',
-        opacity: 0.3
+        opacity: 0.3,
       },
       foregroundStyle: {
         fill: '#000',
-        opacity: 0.25
+        opacity: 0.25,
       },
       textStyle: {
         fill: '#000',
-        fontWeight: 500
+        fontWeight: 500,
       },
       controllerCfg: {
         // scale: 0.7,
@@ -118,18 +118,18 @@ describe('timeline filter edges', () => {
         preBtnStyle: {
           fill: '#155EE1',
           stroke: '#155EE1',
-          opacity: 0.85
+          opacity: 0.85,
         },
         nextBtnStyle: {
           fill: '#155EE1',
           stroke: '#155EE1',
-          opacity: 0.85
+          opacity: 0.85,
         },
         playBtnStyle: {
           fill: '#155EE1',
           stroke: '#155EE1',
           opacity: 0.85,
-          fillOpacity: 0.2
+          fillOpacity: 0.2,
         },
         speedControllerStyle: {
           pointer: {
@@ -138,11 +138,11 @@ describe('timeline filter edges', () => {
           },
           scroller: {
             fill: '#155EE1',
-            stroke: '#155EE1'
+            stroke: '#155EE1',
           },
           text: {
             fill: '#000',
-            opacity: 0.65
+            opacity: 0.65,
           },
         },
         timeTypeControllerStyle: {
@@ -156,7 +156,7 @@ describe('timeline filter edges', () => {
           },
           text: {
             fill: '#000',
-            opacity: 0.65
+            opacity: 0.65,
           },
         },
       },
@@ -164,9 +164,9 @@ describe('timeline filter edges', () => {
         handlerStyle: {
           fill: '#497CD8',
           stroke: '#497CD8',
-          highLightFill: '#f00'
-        }
-      }
+          highLightFill: '#f00',
+        },
+      },
     });
     const graph = new G6.Graph({
       container: div,
@@ -396,7 +396,6 @@ describe('timeline play with timebar', () => {
   });
 
   it('simple timebar', () => {
-
     const data = {
       nodes: [],
       edges: [],
@@ -413,7 +412,7 @@ describe('timeline play with timebar', () => {
         properties: {
           date111: parseInt(`2020${month}${day}`, 10),
           value111: Math.round(Math.random() * 300),
-        }
+        },
       });
 
       data.edges.push({
@@ -424,7 +423,7 @@ describe('timeline play with timebar', () => {
         properties: {
           date111: parseInt(`2020${month}${day}`, 10),
           value111: Math.round(Math.random() * 300),
-        }
+        },
       });
     }
 
@@ -454,11 +453,13 @@ describe('timeline play with timebar', () => {
       padding: 10,
       type: 'simple',
       // filterEdge: true,
-      filterItemTypes: ['edge'], // 'node', 
-      getDate: d => { return d.properties.date111 },
+      filterItemTypes: ['edge'], // 'node',
+      getDate: (d) => {
+        return d.properties.date111;
+      },
       containerCSS: {
         position: 'absolute',
-        bottom: '50px'
+        bottom: '50px',
       },
       trend: {
         data: timeBarData,
@@ -503,9 +504,9 @@ describe('timeline play with timebar', () => {
       },
       tick: {
         tickLabelStyle: {
-          rotate: Math.PI / 4
-        }
-      }
+          rotate: Math.PI / 4,
+        },
+      },
       // loop: true
     });
     const graph = new G6.Graph({
@@ -704,7 +705,7 @@ xdescribe('timebar filter edges', () => {
   });
 });
 
-describe('timebar dependent on graph container', ()=>{
+describe('timebar dependent on graph container', () => {
   const timebarContainer = document.createElement('div');
   timebarContainer.id = 'time-bar-container';
   // timebarContainer.style.position = 'absolute';
@@ -779,5 +780,7 @@ describe('timebar dependent on graph container', ()=>{
 
     graph.data(data);
     graph.render();
+
+    graph.removePlugin(timeline);
   });
-})
+});
