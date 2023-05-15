@@ -93294,13 +93294,22 @@ const create2DGraph = (
   getNodeAnimates = getDefaultNodeAnimates,
   getEdgeAnimates = getDefaultEdgeAnimates,
   theme = defaultTheme,
+  zoomConfig = undefined,
+  rendererType = 'canvas',
 ) => {
   const graph = new G6.Graph({
     container: container as HTMLcontainer,
     width,
     height: 1400,
     type: 'graph',
+    renderer: rendererType,
     data: { nodes, edges },
+    // layout: {
+    //   type: 'force',
+    //   dimensions: 2,
+    //   minMovement: 2,
+    //   center: [width / 2, height / 2, 0],
+    // },
     modes: {
       default: [
         { type: 'zoom-canvas', zoomOnItems: true },
@@ -93319,10 +93328,10 @@ const create2DGraph = (
         ...innerModel,
         data: {
           ...innerModel.data,
-          keyShape: {
-            lineWidth: 2,
-            stroke: 'grey',
-          },
+          // keyShape: {
+          //   lineWidth: 2,
+          //   stroke: 'grey',
+          // },
           type: 'line-edge',
           animates: getEdgeAnimates(),
         },
@@ -93396,8 +93405,12 @@ const create2DGraph = (
   //     }
   //   });
   // });
-  // graph.zoom(0.25);
-  graph.zoom(0.15);
+
+  if (zoomConfig) {
+    graph.zoomTo(zoomConfig.zoom, zoomConfig.center);
+  } else {
+    graph.zoom(0.15);
+  }
   graph.canvas.context.config.canvas.style.transition = 'all 0.3s ease';
   return graph;
 };
@@ -93414,7 +93427,7 @@ const create3DGraph = () => {
     //   type: 'force',
     //   dimensions: 3,
     //   // iterations: 100,
-    //   minMovement: 3,
+    //   minMovement: 0.5,
     //   center: [width / 2, height / 2, 0],
     // },
     modes: {
@@ -93524,6 +93537,11 @@ const create3DGraph = () => {
 export default () => {
   console.log('nodesedges', nodes, edges);
 
+  let graph = create2DGraph();
+  graph.on('canvas:click', (e) => {
+    console.log('clicking ', e.canvas, e.client);
+  });
+
   const btn = document.createElement('button');
   btn.innerHTML = '全屏';
   btn.style.position = 'absolute';
@@ -93549,113 +93567,198 @@ export default () => {
     }
   });
 
-  const btnTheme1 = document.createElement('button');
-  btnTheme1.innerHTML = '蓝色主题';
-  btnTheme1.style.position = 'absolute';
-  btnTheme1.style.top = '14px';
-  btnTheme1.style.left = '420px';
-  btnTheme1.style.zIndex = '100';
-  document.body.appendChild(btnTheme1);
-  btnTheme1.addEventListener('click', (e) => {
-    const nodeAnimates = () => getDefaultNodeAnimates(1000);
-    const edgeAnimates = () => getDefaultEdgeAnimates(1000);
-    const theme = {
-      type: 'spec',
-      specification: {
-        canvas: {
-          backgroundColor: '#f3faff',
-        },
-        node: {
-          dataTypeField: 'cluster',
-          palette: [
-            '#bae0ff',
-            '#91caff',
-            '#69b1ff',
-            '#4096ff',
-            '#1677ff',
-            '#0958d9',
-            '#003eb3',
-            '#002c8c',
-            '#001d66',
-          ],
-        },
-      },
-    };
-    graph.destroy(() => {
-      graph.canvas.context.config.canvas.style.backgroundColor = '#f3faff';
-      setTimeout(() => {
-        graph = create2DGraph(nodeAnimates, edgeAnimates, theme);
-      }, 300);
-    });
+  const rendererSelect = document.createElement('select');
+  rendererSelect.style.position = 'absolute';
+  rendererSelect.style.top = '56px';
+  rendererSelect.style.left = '16px';
+  rendererSelect.style.zIndex = '100';
+  const option1 = document.createElement('option');
+  option1.innerHTML = 'Canvas';
+  const option2 = document.createElement('option');
+  option2.innerHTML = 'WebGL';
+  const option3 = document.createElement('option');
+  option3.innerHTML = 'WebGL-3D';
+  const option4 = document.createElement('option');
+  option4.innerHTML = 'SVG';
+  rendererSelect.appendChild(option1);
+  rendererSelect.appendChild(option2);
+  rendererSelect.appendChild(option3);
+  rendererSelect.appendChild(option4);
+  document.body.appendChild(rendererSelect);
+  rendererSelect.addEventListener('change', (e) => {
+    const type = e.target.value;
+    if (type.toLowerCase() === 'webgl-3d') {
+      graph.destroy(() => {
+        graph = create3DGraph();
+      });
+      return;
+    }
+    if (type.toLowerCase() === 'canvas') {
+      graph.destroy(() => {
+        graph = create2DGraph();
+      });
+      return;
+    }
+    if (type.toLowerCase() === 'webgl') {
+      graph.destroy(() => {
+        const currentZoom = graph.getZoom();
+        const position = graph.canvas.getCamera().getPosition();
+        const zoomOpt = {
+          zoom: currentZoom,
+          center: { x: position[0], y: position[1] },
+        };
+        graph = create2DGraph(
+          undefined,
+          undefined,
+          undefined,
+          zoomOpt,
+          'webgl',
+        );
+      });
+      return;
+    }
+    if (type.toLowerCase() === 'svg') {
+      // comming soon
+      // graph.destroy(() => {
+      //   const currentZoom = graph.getZoom();
+      //   const position = graph.canvas.getCamera().getPosition();
+      //   const zoomOpt = {
+      //     zoom: currentZoom,
+      //     center: { x: position[0], y: position[1] },
+      //   };
+      //   graph = create2DGraph(undefined, undefined, undefined, zoomOpt, 'svg');
+      // });
+      return;
+    }
+    // graph.changeRenderer(type.toLowerCase());
   });
 
-  const btnTheme2 = document.createElement('button');
-  btnTheme2.innerHTML = '橙色主题';
-  btnTheme2.style.position = 'absolute';
-  btnTheme2.style.top = '14px';
-  btnTheme2.style.left = '500px';
-  btnTheme2.style.zIndex = '100';
-  document.body.appendChild(btnTheme2);
-  btnTheme2.addEventListener('click', (e) => {
-    const nodeAnimates = () => getDefaultNodeAnimates(1000);
-    const edgeAnimates = () => getDefaultEdgeAnimates(1000);
-    const theme = {
-      type: 'spec',
-      specification: {
-        canvas: {
-          backgroundColor: '#fcf9f1',
-        },
-        node: {
-          dataTypeField: 'cluster',
-          palette: [
-            '#ffe7ba',
-            '#ffd591',
-            '#ffc069',
-            '#ffa940',
-            '#fa8c16',
-            '#d46b08',
-            '#ad4e00',
-            '#873800',
-            '#612500',
-          ],
-        },
-      },
-    };
+  const themeSelect = document.createElement('select');
+  themeSelect.style.position = 'absolute';
+  themeSelect.style.top = '86px';
+  themeSelect.style.left = '16px';
+  themeSelect.style.zIndex = '100';
+  const themeOption1 = document.createElement('option');
+  themeOption1.innerHTML = '暗色主题';
+  const themeOption2 = document.createElement('option');
+  themeOption2.innerHTML = '蓝色主题';
+  const themeOption3 = document.createElement('option');
+  themeOption3.innerHTML = '橙色主题';
+  themeSelect.appendChild(themeOption1);
+  themeSelect.appendChild(themeOption2);
+  themeSelect.appendChild(themeOption3);
+  document.body.appendChild(themeSelect);
+  themeSelect.addEventListener('change', (e) => {
+    const type = e.target.value;
+    console.log('typetype', type);
+
+    let nodeAnimates = () => getDefaultNodeAnimates(1000);
+    let edgeAnimates = () => getDefaultEdgeAnimates(1000);
+
+    const currentZoom = graph.getZoom();
+    const position = graph.canvas.getCamera().getPosition();
+
+    let theme;
+    let zoomOpt;
+    switch (type) {
+      case '暗色主题':
+        nodeAnimates = undefined;
+        edgeAnimates = undefined;
+        break;
+      case '蓝色主题':
+        zoomOpt = {
+          zoom: currentZoom,
+          center: { x: position[0], y: position[1] },
+        };
+        theme = {
+          type: 'spec',
+          specification: {
+            canvas: {
+              backgroundColor: '#f3faff',
+            },
+            node: {
+              dataTypeField: 'cluster',
+              palette: [
+                '#bae0ff',
+                '#91caff',
+                '#69b1ff',
+                '#4096ff',
+                '#1677ff',
+                '#0958d9',
+                '#003eb3',
+                '#002c8c',
+                '#001d66',
+              ],
+            },
+          },
+        };
+        break;
+      case '橙色主题':
+        zoomOpt = {
+          zoom: currentZoom,
+          center: { x: position[0], y: position[1] },
+        };
+        theme = {
+          type: 'spec',
+          specification: {
+            canvas: {
+              backgroundColor: '#fcf9f1',
+            },
+            node: {
+              dataTypeField: 'cluster',
+              palette: [
+                '#ffe7ba',
+                '#ffd591',
+                '#ffc069',
+                '#ffa940',
+                '#fa8c16',
+                '#d46b08',
+                '#ad4e00',
+                '#873800',
+                '#612500',
+              ],
+            },
+          },
+        };
+        break;
+    }
     graph.destroy(() => {
       graph.canvas.context.config.canvas.style.backgroundColor = '#fcf9f1';
       setTimeout(() => {
-        graph = create2DGraph(nodeAnimates, edgeAnimates, theme);
+        graph = create2DGraph(nodeAnimates, edgeAnimates, theme, zoomOpt);
       }, 300);
     });
   });
 
-  const btn3d = document.createElement('button');
-  btn3d.innerHTML = '3D';
-  btn3d.style.position = 'absolute';
-  btn3d.style.top = '14px';
-  btn3d.style.left = '580px';
-  btn3d.style.zIndex = '100';
-  document.body.appendChild(btn3d);
-  btn3d.addEventListener('click', (e) => {
-    graph.destroy(() => {
-      graph = create3DGraph();
-    });
+  const btnZoom = document.createElement('button');
+  btnZoom.innerHTML = '+';
+  btnZoom.style.position = 'absolute';
+  btnZoom.style.top = '114px';
+  btnZoom.style.left = '16px';
+  btnZoom.style.width = '24px';
+  btnZoom.style.zIndex = '100';
+  document.body.appendChild(btnZoom);
+  btnZoom.addEventListener('click', (e) => {
+    let toZoom = graph.getZoom() === 0.15 ? 0.17 : 0.25;
+    if (graph.getZoom() === 0.25) toZoom = 0.15;
+    graph.zoomTo(
+      toZoom, // toZoom / graph.getZoom(),
+      { x: 936, y: 112 },
+      { duration: 500 },
+    );
   });
-
-  const btn2d = document.createElement('button');
-  btn2d.innerHTML = '2D';
-  btn2d.style.position = 'absolute';
-  btn2d.style.top = '14px';
-  btn2d.style.left = '620px';
-  btn2d.style.zIndex = '100';
-  document.body.appendChild(btn2d);
-  btn2d.addEventListener('click', (e) => {
-    graph.destroy(() => {
-      graph = create2DGraph();
-    });
+  const btnZoomOut = document.createElement('button');
+  btnZoomOut.innerHTML = '-';
+  btnZoomOut.style.position = 'absolute';
+  btnZoomOut.style.top = '114px';
+  btnZoomOut.style.left = '39px';
+  btnZoomOut.style.width = '24px';
+  btnZoomOut.style.zIndex = '100';
+  document.body.appendChild(btnZoomOut);
+  btnZoomOut.addEventListener('click', (e) => {
+    let toZoom = graph.getZoom() === 0.25 ? 0.17 : 0.15;
+    graph.zoomTo(toZoom, { x: 936, y: 112 }, { duration: 500 });
   });
-
-  let graph = create2DGraph();
 
   return graph;
 };

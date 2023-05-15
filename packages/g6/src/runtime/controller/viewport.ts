@@ -58,6 +58,9 @@ export class ViewportController {
       if (zoom) {
         const { ratio } = zoom;
         landmarkOptions.zoom = currentZoom * ratio;
+        // FIXME: hack for camera animation
+        const [px, py, pz] = camera.getPosition();
+        landmarkOptions.position = [px, py, pz + 1];
       }
 
       if (rotate) {

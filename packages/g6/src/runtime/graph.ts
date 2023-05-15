@@ -31,7 +31,7 @@ import { NodeModel, NodeModelData } from '../types/node';
 import { RendererName } from '../types/render';
 import { ThemeRegistry, ThemeSpecification } from '../types/theme';
 import { FitViewRules, GraphTransformOptions } from '../types/view';
-import { createCanvas } from '../util/canvas';
+import { changeRenderer, createCanvas } from '../util/canvas';
 import { formatPadding } from '../util/shape';
 import {
   DataController,
@@ -185,6 +185,16 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
         (canvas) => canvas.ready,
       ),
     ).then(() => (this.canvasReady = true));
+  }
+
+  /**
+   * Change the renderer at runtime.
+   * @param type renderer name
+   * @returns
+   */
+  public changeRenderer(type) {
+    this.rendererType = type || 'canvas';
+    changeRenderer(this.rendererType, this.canvas);
   }
 
   /**

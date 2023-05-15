@@ -23,7 +23,7 @@ export const createCanvas = (
   pixelRatio?: number,
   customCanvasTag = true,
   style: any = {},
-) => {
+): Canvas => {
   let renderer;
   switch (rendererType.toLowerCase()) {
     case 'svg':
@@ -64,4 +64,32 @@ export const createCanvas = (
     devicePixelRatio: pixelRatio,
     renderer,
   });
+};
+
+/**
+ * Change renderer type for the canvas.
+ * @param rendererType renderer type
+ * @param canvas Canvas instance
+ * @returns
+ */
+export const changeRenderer = (
+  rendererType: RendererName,
+  canvas: Canvas,
+): Canvas => {
+  let renderer;
+  switch (rendererType.toLowerCase()) {
+    case 'svg':
+      renderer = new SVGRenderer();
+      break;
+    case 'webgl-3d':
+    case 'webgl':
+      renderer = new WebGLRenderer();
+      renderer.registerPlugin(new Plugin3D());
+      break;
+    default:
+      renderer = new CanvasRenderer();
+      break;
+  }
+  canvas.setRenderer(renderer);
+  return canvas;
 };

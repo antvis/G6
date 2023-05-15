@@ -47,6 +47,12 @@ export interface IGraph<
    * @returns graph specs
    */
   getSpecification: () => Specification<B, T>;
+  /**
+   * Change the renderer at runtime.
+   * @param type renderer name
+   * @returns
+   */
+  changeRenderer: (type: RendererName) => void;
 
   // ====== data operations ====
   /**
