@@ -719,7 +719,7 @@ export default abstract class Item implements IItem {
     // 1. stop animations, run buildOut animations
     this.stopAnimations();
     const { animates } = this.displayModel.data;
-    if (animates.buildOut?.length) {
+    if (animates?.buildOut?.length) {
       this.animations = this.runWithAnimates(
         animates,
         'buildOut',

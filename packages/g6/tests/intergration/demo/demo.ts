@@ -93191,6 +93191,7 @@ const nodes = data.nodes
     return {
       id: id as string,
       data: {
+        label: node.olabel,
         // x: node.x * 10 - 2700,
         // y: node.y * 10 - 3000,
         x: node.x * 10 - 3000,
@@ -93210,7 +93211,6 @@ const edges = data.edges.map((edge) => {
   };
 });
 const clusteredData = labelPropagation({ nodes, edges }, false);
-console.log('clusteredData', clusteredData);
 
 clusteredData.clusters.forEach((cluster, i) => {
   cluster.nodes.forEach((node) => {
@@ -93218,7 +93218,83 @@ clusteredData.clusters.forEach((cluster, i) => {
   });
 });
 
-const create2DGraph = () => {
+const degrees = {};
+edges.forEach((edge) => {
+  const { source, target } = edge;
+  degrees[source] = degrees[source] || 0;
+  degrees[target] = degrees[target] || 0;
+  degrees[source]++;
+  degrees[target]++;
+});
+
+const getDefaultNodeAnimates = (delay?: number) => ({
+  buildIn: [
+    {
+      fields: ['opacity'],
+      duration: 1000,
+      delay: delay === undefined ? 1000 + Math.random() * 1000 : delay,
+    },
+  ],
+  buildOut: [
+    {
+      fields: ['opacity'],
+      duration: 200,
+    },
+  ],
+  hide: [
+    {
+      fields: ['size'],
+      duration: 200,
+    },
+    {
+      fields: ['opacity'],
+      duration: 200,
+      shapeId: 'keyShape',
+    },
+    {
+      fields: ['opacity'],
+      duration: 200,
+      shapeId: 'labelShape',
+    },
+  ],
+  show: [
+    {
+      fields: ['size'],
+      duration: 200,
+    },
+    {
+      fields: ['opacity'],
+      duration: 200,
+      shapeId: 'keyShape',
+      order: 0,
+    },
+  ],
+});
+
+const getDefaultEdgeAnimates = (delay?: number) => ({
+  buildIn: [
+    {
+      fields: ['opacity'],
+      duration: 300,
+      delay: delay === undefined ? 1000 + Math.random() * 1000 : delay,
+    },
+  ],
+});
+
+const defaultTheme = {
+  type: 'spec',
+  specification: {
+    node: {
+      dataTypeField: 'cluster',
+    },
+  },
+};
+
+const create2DGraph = (
+  getNodeAnimates = getDefaultNodeAnimates,
+  getEdgeAnimates = getDefaultEdgeAnimates,
+  theme = defaultTheme,
+) => {
   const graph = new G6.Graph({
     container: container as HTMLcontainer,
     width,
@@ -93227,24 +93303,17 @@ const create2DGraph = () => {
     data: { nodes, edges },
     modes: {
       default: [
-        'zoom-canvas',
+        { type: 'zoom-canvas', zoomOnItems: true },
         // @ts-ignore
         {
           type: 'drag-canvas',
           scalableRange: 0.9,
+          enableOptimize: false,
         },
         'drag-node',
       ],
     },
-    // @ts-ignore
-    theme: {
-      type: 'spec',
-      specification: {
-        node: {
-          dataTypeField: 'cluster',
-        },
-      },
-    },
+    theme,
     edge: (innerModel) => {
       return {
         ...innerModel,
@@ -93255,15 +93324,7 @@ const create2DGraph = () => {
             stroke: 'grey',
           },
           type: 'line-edge',
-          animates: {
-            buildIn: [
-              {
-                fields: ['opacity'],
-                duration: 300,
-                delay: 1000 + Math.random() * 1000,
-              },
-            ],
-          },
+          animates: getEdgeAnimates(),
         },
       };
     },
@@ -93271,54 +93332,73 @@ const create2DGraph = () => {
       return {
         ...innerModel,
         data: {
+          animates: getNodeAnimates(),
           ...innerModel.data,
-          animates: {
-            buildIn: [
-              {
-                fields: ['opacity'],
-                duration: 1000,
-                delay: 1000 + Math.random() * 1000,
-              },
-            ],
-            hide: [
-              {
-                fields: ['size'],
-                duration: 200,
-              },
-              {
-                fields: ['opacity'],
-                duration: 200,
-                shapeId: 'keyShape',
-              },
-              {
-                fields: ['opacity'],
-                duration: 200,
-                shapeId: 'labelShape',
-              },
-            ],
-            show: [
-              {
-                fields: ['size'],
-                duration: 200,
-              },
-              {
-                fields: ['opacity'],
-                duration: 200,
-                shapeId: 'keyShape',
-                order: 0,
-              },
-            ],
-          },
-          // animate in shapes, unrelated to each other, excuted parallely
+          // zoomStrategy: {
+          //   levels: [
+          //     { range: [0, 0.2], primary: true },
+          //     { range: [0.2, 0.3] },
+          //     { range: [0.3, Infinity] },
+          //   ],
+          //   animateCfg: {
+          //     duration: 200,
+          //   },
+          // },
+          // zoomStrategy: {
+          //   levels: [
+          //     { range: [0, 0.8] },
+          //     { range: [0.8, 1.5] },
+          //     { range: [1.5, 2], primary: true },
+          //     { range: [2, Infinity] },
+          //   ],
+          //   animateCfg: {
+          //     duration: 200,
+          //   },
+          // },
+          labelShape:
+            degrees[innerModel.id] > 20
+              ? {
+                  text: innerModel.data.label,
+                  maxWidth: '400%',
+                  showLevel: -1,
+                  offsetY: 20,
+                }
+              : undefined,
+          labelBackgroundShape:
+            degrees[innerModel.id] > 20
+              ? {
+                  showLevel: -1,
+                }
+              : undefined,
+          iconShape:
+            degrees[innerModel.id] > 20
+              ? {
+                  img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+                  fontSize: 12 + degrees[innerModel.id] / 4,
+                  opacity: 0.8,
+                  showLevel: 0,
+                }
+              : undefined,
           keyShape: {
-            r: 12,
+            ...innerModel.data.keyShape,
+            r: 12 + degrees[innerModel.id] / 4,
           },
         },
       };
     },
   });
+  // graph.on('afterlayout', (e) => {
+  //   Object.keys(degrees).forEach((id) => {
+  //     // TODO: graph API for this
+  //     if (degrees[id] > 20) {
+  //       console.log('tofront', graph.itemController.itemMap[id]);
+  //       graph.itemController.itemMap[id].toFront();
+  //     }
+  //   });
+  // });
   // graph.zoom(0.25);
   graph.zoom(0.15);
+  graph.canvas.context.config.canvas.style.transition = 'all 0.3s ease';
   return graph;
 };
 
@@ -93447,18 +93527,16 @@ export default () => {
   const btn = document.createElement('button');
   btn.innerHTML = '全屏';
   btn.style.position = 'absolute';
-  btn.style.top = '56px';
-  btn.style.left = '16px';
+  btn.style.top = '14px';
+  btn.style.left = '373px';
   btn.style.zIndex = '100';
   document.body.appendChild(btn);
-
   btn.addEventListener('click', (e) => {
     const requestMethod =
       container.requestFullScreen ||
       container.webkitRequestFullScreen ||
       container.mozRequestFullScreen ||
       container.msRequestFullScreen;
-    console.log('requestMethod', requestMethod);
     if (requestMethod) {
       // Native full screen.
       requestMethod.call(container);
@@ -93471,21 +93549,113 @@ export default () => {
     }
   });
 
-  let graph;
-  window.addEventListener('dblclick', () => {
-    const { rendererType } = graph || {};
-    console.log('rendererType', rendererType);
-    if (graph) graph.destroy();
-    // if (rendererType === 'canvas') graph = create3DGraph();
-    if (!graph || rendererType === 'webgl-3d') {
-      graph = create2DGraph();
-
+  const btnTheme1 = document.createElement('button');
+  btnTheme1.innerHTML = '蓝色主题';
+  btnTheme1.style.position = 'absolute';
+  btnTheme1.style.top = '14px';
+  btnTheme1.style.left = '420px';
+  btnTheme1.style.zIndex = '100';
+  document.body.appendChild(btnTheme1);
+  btnTheme1.addEventListener('click', (e) => {
+    const nodeAnimates = () => getDefaultNodeAnimates(1000);
+    const edgeAnimates = () => getDefaultEdgeAnimates(1000);
+    const theme = {
+      type: 'spec',
+      specification: {
+        canvas: {
+          backgroundColor: '#f3faff',
+        },
+        node: {
+          dataTypeField: 'cluster',
+          palette: [
+            '#bae0ff',
+            '#91caff',
+            '#69b1ff',
+            '#4096ff',
+            '#1677ff',
+            '#0958d9',
+            '#003eb3',
+            '#002c8c',
+            '#001d66',
+          ],
+        },
+      },
+    };
+    graph.destroy(() => {
+      graph.canvas.context.config.canvas.style.backgroundColor = '#f3faff';
       setTimeout(() => {
-        graph.destroy();
-        graph = create3DGraph();
-      }, 2000);
-    }
+        graph = create2DGraph(nodeAnimates, edgeAnimates, theme);
+      }, 300);
+    });
   });
+
+  const btnTheme2 = document.createElement('button');
+  btnTheme2.innerHTML = '橙色主题';
+  btnTheme2.style.position = 'absolute';
+  btnTheme2.style.top = '14px';
+  btnTheme2.style.left = '500px';
+  btnTheme2.style.zIndex = '100';
+  document.body.appendChild(btnTheme2);
+  btnTheme2.addEventListener('click', (e) => {
+    const nodeAnimates = () => getDefaultNodeAnimates(1000);
+    const edgeAnimates = () => getDefaultEdgeAnimates(1000);
+    const theme = {
+      type: 'spec',
+      specification: {
+        canvas: {
+          backgroundColor: '#fcf9f1',
+        },
+        node: {
+          dataTypeField: 'cluster',
+          palette: [
+            '#ffe7ba',
+            '#ffd591',
+            '#ffc069',
+            '#ffa940',
+            '#fa8c16',
+            '#d46b08',
+            '#ad4e00',
+            '#873800',
+            '#612500',
+          ],
+        },
+      },
+    };
+    graph.destroy(() => {
+      graph.canvas.context.config.canvas.style.backgroundColor = '#fcf9f1';
+      setTimeout(() => {
+        graph = create2DGraph(nodeAnimates, edgeAnimates, theme);
+      }, 300);
+    });
+  });
+
+  const btn3d = document.createElement('button');
+  btn3d.innerHTML = '3D';
+  btn3d.style.position = 'absolute';
+  btn3d.style.top = '14px';
+  btn3d.style.left = '580px';
+  btn3d.style.zIndex = '100';
+  document.body.appendChild(btn3d);
+  btn3d.addEventListener('click', (e) => {
+    graph.destroy(() => {
+      graph = create3DGraph();
+    });
+  });
+
+  const btn2d = document.createElement('button');
+  btn2d.innerHTML = '2D';
+  btn2d.style.position = 'absolute';
+  btn2d.style.top = '14px';
+  btn2d.style.left = '620px';
+  btn2d.style.zIndex = '100';
+  document.body.appendChild(btn2d);
+  btn2d.addEventListener('click', (e) => {
+    graph.destroy(() => {
+      graph = create2DGraph();
+    });
+  });
+
+  let graph = create2DGraph();
 
   return graph;
 };

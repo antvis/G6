@@ -37,7 +37,7 @@ export interface IGraph<
    * @returns
    * @group Graph Instance
    */
-  destroy: () => void;
+  destroy: (callback?: Function) => void;
   /**
    * Update the specs(configurations).
    */

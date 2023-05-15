@@ -408,7 +408,9 @@ export const getAnimatesExcludePosition = (animates) => {
 export const fadeIn = (id, shape, style, hiddenShape, animateConfig) => {
   // omit inexist shape and the shape which is not hidden by zoom changing
   if (!shape || !hiddenShape[id]) return;
-  shape.show();
+  if (!shape?.isVisible()) shape.show();
+  const { opacity: oriOpacity = 1 } = shape.attributes;
+  if (oriOpacity === 1) return;
   const { opacity = 1 } = style;
   shape.animate([{ opacity: 0 }, { opacity }], animateConfig);
 };

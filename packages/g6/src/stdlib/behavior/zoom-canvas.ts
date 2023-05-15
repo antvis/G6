@@ -11,7 +11,7 @@ export interface ZoomCanvasOptions {
   /**
    * Whether allow trigger this behavior when wheeling start on nodes / edges / combos.
    */
-  zoomOnItems?: boolean;
+  triggerOnItems?: boolean;
   /**
    * The trigger for the behavior, 'wheel' by default. 'upDownKeys' means trigger this behavior by up / down keys on keyboard.
    */
@@ -49,7 +49,7 @@ export interface ZoomCanvasOptions {
 
 const DEFAULT_OPTIONS: Required<ZoomCanvasOptions> = {
   enableOptimize: false,
-  zoomOnItems: false,
+  triggerOnItems: true,
   sensitivity: 1,
   trigger: 'wheel',
   secondaryKey: '',
@@ -137,15 +137,20 @@ export default class ZoomCanvas extends Behavior {
 
   public onWheel(event) {
     const { graph, keydown } = this;
-    const { deltaY, canvas, itemId } = event;
-    const { eventName, sensitivity, secondaryKey, zoomOnItems, shouldBegin } =
-      this.options;
+    const { deltaY, client, itemId } = event;
+    const {
+      eventName,
+      sensitivity,
+      secondaryKey,
+      triggerOnItems,
+      shouldBegin,
+    } = this.options;
 
     // TODO: CANVAS
     const isOnItem = itemId && itemId !== 'CANVAS';
     if (
       (secondaryKey && !keydown) ||
-      (isOnItem && !zoomOnItems) ||
+      (isOnItem && !triggerOnItems) ||
       !shouldBegin(event)
     ) {
       this.endZoom();
@@ -161,7 +166,7 @@ export default class ZoomCanvas extends Behavior {
     if (deltaY < 0) zoomRatio = (100 + sensitivity) / 100;
     if (deltaY > 0) zoomRatio = 100 / (100 + sensitivity);
     // TODO: the zoom center is wrong?
-    graph.zoom(zoomRatio, { x: canvas.x, y: canvas.y });
+    graph.zoom(zoomRatio, { x: client.x, y: client.y });
 
     clearTimeout(this.zoomTimer);
     this.zoomTimer = setTimeout(() => {

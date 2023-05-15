@@ -54,8 +54,6 @@ export abstract class BaseEdge {
   private zoomCache: {
     // the id of shapes which are hidden by zoom changing.
     hiddenShape: { [shapeId: string]: boolean };
-    // timeout timer for scaling shapes with balanceRatio, simulates debounce in function.
-    balanceTimer: NodeJS.Timeout;
     // the ratio to scale the size of shapes whose visual size should be kept, e.g. label and badges.
     balanceRatio: number;
     // last responsed zoom ratio.
@@ -70,15 +68,17 @@ export abstract class BaseEdge {
     wordWrapWidth: number;
     // animate configurations for zoom level changing
     animateConfig: AnimateCfg;
+    // the tag of first rendering
+    firstRender: boolean;
   } = {
     hiddenShape: {},
     balanceRatio: 1,
     zoom: 1,
     zoomLevel: 0,
-    balanceTimer: undefined,
     levelShapes: {},
     wordWrapWidth: 50,
     animateConfig: DEFAULT_ANIMATE_CFG.zoom,
+    firstRender: true,
   };
   constructor(props) {
     const { themeStyles, zoomStrategy } = props;
@@ -467,32 +467,47 @@ export abstract class BaseEdge {
       levelShapes,
       hiddenShape,
       animateConfig,
+      firstRender = true,
       zoomLevel: previousLevel,
     } = this.zoomCache;
 
     // last zoom ratio responsed by zoom changing, which might not equal to zoom.previous in props since the function is debounced.
     const currentLevel = getZoomLevel(levels, zoom);
+    const levelNums = Object.keys(levelShapes).map(Number);
+    const maxLevel = Math.max(...levelNums);
+    const minLevel = Math.min(...levelNums);
     if (currentLevel < previousLevel) {
       // zoomLevel changed, from higher to lower, hide something
-      levelShapes[currentLevel + 1]?.forEach((id) =>
-        fadeOut(id, shapeMap[id], hiddenShape, animateConfig),
-      );
+      if (firstRender) {
+        for (let i = currentLevel + 1; i <= maxLevel; i++) {
+          levelShapes[String(i)]?.forEach((id) => shapeMap[id]?.hide());
+        }
+      } else {
+        for (let i = currentLevel + 1; i <= maxLevel; i++) {
+          levelShapes[String(i)]?.forEach((id) =>
+            fadeOut(id, shapeMap[id], hiddenShape, animateConfig),
+          );
+        }
+      }
     } else if (currentLevel > previousLevel) {
       // zoomLevel changed, from lower to higher, show something
-      levelShapes[String(currentLevel)]?.forEach((id) =>
-        fadeIn(
-          id,
-          shapeMap[id],
-          this.mergedStyles[id] ||
-            this.mergedStyles[id.replace('Background', '')],
-          hiddenShape,
-          animateConfig,
-        ),
-      );
+      for (let i = currentLevel; i >= minLevel; i--) {
+        levelShapes[String(i)]?.forEach((id) =>
+          fadeIn(
+            id,
+            shapeMap[id],
+            this.mergedStyles[id] ||
+              this.mergedStyles[id.replace('Background', '')],
+            hiddenShape,
+            animateConfig,
+          ),
+        );
+      }
     }
 
     this.zoomCache.zoom = zoom;
     this.zoomCache.zoomLevel = currentLevel;
+    this.zoomCache.firstRender = false;
   };
 
   /**

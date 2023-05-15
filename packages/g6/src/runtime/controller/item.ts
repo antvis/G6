@@ -125,6 +125,7 @@ export class ItemController {
     );
     this.graph.hooks.transientupdate.tap(this.onTransientUpdate.bind(this));
     this.graph.hooks.viewportchange.tap(this.onViewportChange.bind(this));
+    this.graph.hooks.destroy.tap(this.onDestroy.bind(this));
   }
 
   /**
@@ -460,6 +461,10 @@ export class ItemController {
     500,
     false,
   );
+
+  private onDestroy = () => {
+    Object.values(this.itemMap).forEach((item) => item.destroy());
+  };
 
   private onTransientUpdate(param: {
     type: ITEM_TYPE | SHAPE_TYPE;

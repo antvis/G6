@@ -42,7 +42,7 @@ const DEFAULT_OPTIONS: Required<ZoomCanvas3DOptions> = {
   secondaryKey: '',
   eventName: '',
   sensitivity: 1,
-  triggerOnItems: false,
+  triggerOnItems: true,
   shouldBegin: () => true,
 };
 
@@ -96,8 +96,6 @@ export default class ZoomCanvas3D extends Behavior {
     if (!shouldBegin(event)) return;
     if (secondaryKey && !this.keydown) return;
     const camera = graph.canvas.getCamera();
-
-    console.log(event.deltaY);
 
     camera.dolly(event.deltaY * sensitivity);
 

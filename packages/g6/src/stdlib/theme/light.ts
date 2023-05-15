@@ -32,16 +32,26 @@ export default {
     ],
     zoomStrategy: {
       levels: [
-        { range: [0, 0.65] },
-        { range: [0.65, 0.8] },
-        { range: [0.8, 1.6], primary: true },
-        { range: [1.6, 2] },
-        { range: [2, Infinity] },
+        { range: [0, 0.16] },
+        { range: [0.16, 0.2] },
+        { range: [0.2, Infinity], primary: true },
       ],
       animateCfg: {
-        duration: 200,
+        duration: 500,
       },
     },
+    // zoomStrategy: {
+    //   levels: [
+    //     { range: [0, 0.65] },
+    //     { range: [0.65, 0.8] },
+    //     { range: [0.8, 1.6], primary: true },
+    //     { range: [1.6, 2] },
+    //     { range: [2, Infinity] },
+    //   ],
+    //   animateCfg: {
+    //     duration: 200,
+    //   },
+    // },
     styles: [
       {
         default: {

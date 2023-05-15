@@ -40,8 +40,6 @@ export abstract class BaseNode {
   private zoomCache: {
     // the id of shapes which are hidden by zoom changing.
     hiddenShape: { [shapeId: string]: boolean };
-    // timeout timer for scaling shapes with to keep the visual size, simulates debounce in function.
-    balanceTimer: NodeJS.Timeout;
     // the ratio to scale the shapes (e.g. labelShape, labelBackgroundShape) to keep to visual size while zooming.
     balanceRatio: number;
     // last responsed zoom ratio.
@@ -56,15 +54,17 @@ export abstract class BaseNode {
     wordWrapWidth: number;
     // animate configurations for zoom level changing
     animateConfig: AnimateCfg;
+    // the tag of first rendering
+    firstRender: boolean;
   } = {
     hiddenShape: {},
     zoom: 1,
     zoomLevel: 0,
-    balanceTimer: undefined,
     balanceRatio: 1,
     levelShapes: {},
     wordWrapWidth: 32,
     animateConfig: DEFAULT_ANIMATE_CFG.zoom,
+    firstRender: true,
   };
 
   constructor(props) {
@@ -566,26 +566,45 @@ export abstract class BaseNode {
       levelShapes,
       hiddenShape,
       animateConfig,
+      firstRender = true,
       zoomLevel: previousLevel,
     } = this.zoomCache;
     const currentLevel = getZoomLevel(levels, zoom);
+    const levelNums = Object.keys(levelShapes).map(Number);
+    const maxLevel = Math.max(...levelNums);
+    const minLevel = Math.min(...levelNums);
     if (currentLevel < previousLevel) {
-      // zoomLevel changed, from higher to lower, hide something
-      levelShapes[currentLevel + 1]?.forEach((id) =>
-        fadeOut(id, shapeMap[id], hiddenShape, animateConfig),
-      );
+      if (firstRender) {
+        // zoomLevel changed, from higher to lower, hide something
+        for (let i = currentLevel + 1; i <= maxLevel; i++) {
+          levelShapes[String(i)]?.forEach((id) => {
+            if (!shapeMap[id]) return;
+            shapeMap[id].hide();
+            hiddenShape[id] = true;
+          });
+        }
+      } else {
+        // zoomLevel changed, from higher to lower, hide something
+        for (let i = currentLevel + 1; i <= maxLevel; i++) {
+          levelShapes[String(i)]?.forEach((id) =>
+            fadeOut(id, shapeMap[id], hiddenShape, animateConfig),
+          );
+        }
+      }
     } else if (currentLevel > previousLevel) {
       // zoomLevel changed, from lower to higher, show something
-      levelShapes[String(currentLevel)]?.forEach((id) =>
-        fadeIn(
-          id,
-          shapeMap[id],
-          this.mergedStyles[id] ||
-            this.mergedStyles[id.replace('Background', '')],
-          hiddenShape,
-          animateConfig,
-        ),
-      );
+      for (let i = currentLevel; i >= minLevel; i--) {
+        levelShapes[String(i)]?.forEach((id) =>
+          fadeIn(
+            id,
+            shapeMap[id],
+            this.mergedStyles[id] ||
+              this.mergedStyles[id.replace('Background', '')],
+            hiddenShape,
+            animateConfig,
+          ),
+        );
+      }
     }
     this.zoomCache.zoomLevel = currentLevel;
     this.zoomCache.zoom = zoom;
@@ -642,7 +661,7 @@ export abstract class BaseNode {
         } ${paddingTop + (height - paddingTop - paddingBottom) / 2}`;
     }
     // only scale y-asix, to expand the text range while zoom-in
-    labelBackgroundShape.style.transform = `scale(1, ${balanceRatio})`;
+    labelBackgroundShape.style.transform = `scale(${balanceRatio}, ${balanceRatio})`;
   }
 
   public upsertShape(
