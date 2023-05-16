@@ -13,10 +13,11 @@ export type GraphAlignment =
   | [number, number];
 
 export type GraphTransformOptions = {
-  translate?: {
+  translate?: Partial<{
     dx: number;
     dy: number;
-  };
+    dz: number;
+  }>;
   rotate?: {
     angle: number;
   };

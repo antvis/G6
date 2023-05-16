@@ -21,7 +21,7 @@ export interface IHook<T> {
 
 export type ViewportChangeHookParams = {
   transform: GraphTransformOptions;
-  effectTiming?: CameraAnimationOptions;
+  effectTiming?: Partial<CameraAnimationOptions>;
 };
 
 export interface Hooks {

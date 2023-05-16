@@ -66,7 +66,6 @@ export interface IAnimates {
   update?: (IAnimate | IStateAnimate)[];
 }
 
-export type CameraAnimationOptions = Pick<
-  IAnimationEffectTiming,
-  'duration' | 'easing' | 'easingFunction'
+export type CameraAnimationOptions = Partial<
+  Pick<IAnimationEffectTiming, 'duration' | 'easing' | 'easingFunction'>
 >;

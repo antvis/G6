@@ -93227,6 +93227,14 @@ edges.forEach((edge) => {
   degrees[target]++;
 });
 
+// nodes.forEach((node) => {
+//   node.data.x = undefined;
+//   node.data.y = undefined;
+//   node.data.z = undefined;
+// });
+
+export { edges, nodes, degrees };
+
 const getDefaultNodeAnimates = (delay?: number) => ({
   buildIn: [
     {
@@ -93417,7 +93425,7 @@ const create2DGraph = (
 
 const create3DGraph = () => {
   const graph = new G6.Graph({
-    container: container as HTMLcontainer,
+    container: container as HTMLDivElement,
     width,
     height: 1400,
     type: 'graph',
@@ -93615,6 +93623,7 @@ export default () => {
           'webgl',
         );
       });
+      // graph.changeRenderer('webgl');
       return;
     }
     if (type.toLowerCase() === 'svg') {

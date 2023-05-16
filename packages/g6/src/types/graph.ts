@@ -236,8 +236,11 @@ export interface IGraph<
    * @param effectTiming animation configurations
    */
   translate: (
-    dx: number,
-    dy: number,
+    distance: Partial<{
+      dx: number;
+      dy: number;
+      dz: number;
+    }>,
     effectTiming?: CameraAnimationOptions,
   ) => Promise<void>;
   /**

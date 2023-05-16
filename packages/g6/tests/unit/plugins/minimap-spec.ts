@@ -50,7 +50,7 @@ describe('plugin', () => {
         expect(pxCompare(viewport.style.height, 120)).toBe(true);
 
         graph.zoom(3);
-        graph.translate(50, 250);
+        graph.translate({ dx: 50, dy: 250 });
         // setTimeout for: 1. zoom an translate are async function; 2. minimap viewport debounce update
         setTimeout(() => {
           expect(pxCompare(viewport.style.left, 100)).toBe(true);

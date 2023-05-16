@@ -198,7 +198,7 @@ export default class DragCanvas extends Behavior {
     }
 
     const { dx, dy } = this.formatDisplacement(diffX, diffY);
-    graph.translate(dx, dy);
+    graph.translate({ dx, dy });
 
     this.pointerDownAt = { x: client.x, y: client.y };
 
@@ -262,7 +262,7 @@ export default class DragCanvas extends Behavior {
           dx,
           dy,
         );
-        graph.translate(formattedDx, formattedDy);
+        graph.translate({ dx: formattedDx, dy: formattedDy });
         if (eventName) {
           this.graph.emit(eventName, {
             translate: { dx: formattedDx, dy: formattedDy },

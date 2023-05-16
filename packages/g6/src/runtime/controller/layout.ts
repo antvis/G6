@@ -55,6 +55,8 @@ export class LayoutController {
 
     const { graphCore, options } = params;
 
+    this.graph.emit('startlayout');
+
     if (isImmediatelyInvokedLayoutOptions(options)) {
       const {
         animated = false,
@@ -144,6 +146,8 @@ export class LayoutController {
         }
       }
     }
+
+    this.graph.emit('endlayout');
 
     // Update nodes' positions.
     this.updateNodesPosition(positions);

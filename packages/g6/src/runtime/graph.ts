@@ -368,16 +368,16 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @param effectTiming animation configurations
    */
   public async translate(
-    dx: number,
-    dy: number,
+    distance: Partial<{
+      dx: number;
+      dy: number;
+      dz: number;
+    }>,
     effectTiming?: CameraAnimationOptions,
   ) {
     await this.transform(
       {
-        translate: {
-          dx,
-          dy,
-        },
+        translate: distance,
       },
       effectTiming,
     );
@@ -393,7 +393,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
     effectTiming?: CameraAnimationOptions,
   ) {
     const { x: cx, y: cy } = this.getViewportCenter();
-    await this.translate(cx - x, cy - y, effectTiming);
+    await this.translate({ dx: cx - x, dy: cy - y }, effectTiming);
   }
 
   /**
