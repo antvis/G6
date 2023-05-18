@@ -218,6 +218,7 @@ export abstract class BaseNode {
     const positionPreset = {
       x: keyShapeBox.center[0],
       y: keyShapeBox.max[1],
+      z: keyShapeBox.center[2],
       textBaseline: 'top',
       textAlign: 'center',
       offsetX: 0,

@@ -19,11 +19,27 @@ export default async () => {
   $containers.appendChild($container1);
   $containers.appendChild($container2);
   $container1.style.flex = '1';
+  $container1.style.position = 'relative';
   $container2.style.flex = '1';
+  $container2.style.position = 'relative';
 
   const $timer1 = document.createElement('div');
+  $timer1.style.cssText = `
+    font-size: 26px;
+    color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;`;
   $container1.appendChild($timer1);
   const $timer2 = document.createElement('div');
+  $timer2.style.cssText = `
+    font-size: 26px;
+    color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;`;
   $container2.appendChild($timer2);
 
   const data = await loadDataset(
@@ -32,7 +48,7 @@ export default async () => {
 
   const layoutOptions = {
     dimensions: 2,
-    maxIteration: 500,
+    maxIteration: 200,
     minMovement: 0.4,
     distanceThresholdMode: 'mean',
     height: HEIGHT,
@@ -47,7 +63,6 @@ export default async () => {
     damping: 0.9,
     maxSpeed: 1000,
     interval: 0.02,
-    preventOverlap: true,
   };
 
   // Force layout WASM
@@ -84,12 +99,9 @@ export default async () => {
     graph.on('endlayout', () => {
       clearInterval(timer);
 
-      graph.translate(
-        { dz: 100 },
-        {
-          duration: 1000,
-        },
-      );
+      graph.zoom(0.1, undefined, {
+        duration: 1000,
+      });
     });
   })();
 
@@ -121,12 +133,9 @@ export default async () => {
     graph.on('endlayout', () => {
       clearInterval(timer);
 
-      graph.translate(
-        { dz: 100 },
-        {
-          duration: 1000,
-        },
-      );
+      graph.zoom(0.1, undefined, {
+        duration: 1000,
+      });
     });
   })();
 };
