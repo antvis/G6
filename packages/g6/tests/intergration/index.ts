@@ -13,6 +13,7 @@ import performance from './performance/performance';
 import performance_layout from './performance/layout';
 import performance_layout_3d from './performance/layout-3d';
 import demo from './demo/demo';
+import demoFor4 from './demo/demoFor4';
 export {
   behaviors_activateRelations,
   layouts_circular,
@@ -29,4 +30,5 @@ export {
   performance_layout,
   performance_layout_3d,
   demo,
+  demoFor4,
 };

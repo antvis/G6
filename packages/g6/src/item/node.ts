@@ -172,7 +172,7 @@ export default class Node extends Item {
     }
     const clonedModel = clone(this.model);
     clonedModel.data.disableAnimate = disableAnimate;
-    return new Node({
+    const clonedNode = new Node({
       model: clonedModel,
       renderExtensions: this.renderExtensions,
       containerGroup,
@@ -184,6 +184,11 @@ export default class Node extends Item {
         zoomStrategy: this.zoomStrategy,
       },
     });
+    Object.keys(this.shapeMap).forEach((shapeId) => {
+      if (!this.shapeMap[shapeId].isVisible())
+        clonedNode.shapeMap[shapeId].hide();
+    });
+    return clonedNode;
   }
 
   public getAnchorPoint(point: Point) {

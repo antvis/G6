@@ -536,7 +536,7 @@ export abstract class BaseEdge {
     if (!labelBackgroundShape) return;
 
     const oriBgTransform = this.boundsCache.labelBackgroundShapeTransform;
-    labelBackgroundShape.style.transform = `${oriBgTransform} scale(1, ${balanceRatio})`;
+    labelBackgroundShape.style.transform = `${oriBgTransform} scale(${balanceRatio}, ${balanceRatio})`;
   }
 
   /**

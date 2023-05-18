@@ -154,7 +154,7 @@ export default class Edge extends Item {
     }
     const clonedModel = clone(this.model);
     clonedModel.data.disableAnimate = disableAnimate;
-    return new Edge({
+    const clonedEdge = new Edge({
       model: clonedModel,
       renderExtensions: this.renderExtensions,
       sourceItem,
@@ -168,5 +168,10 @@ export default class Edge extends Item {
         zoomStrategy: this.zoomStrategy,
       },
     });
+    Object.keys(this.shapeMap).forEach((shapeId) => {
+      if (!this.shapeMap[shapeId].isVisible())
+        clonedEdge.shapeMap[shapeId].hide();
+    });
+    return clonedEdge;
   }
 }

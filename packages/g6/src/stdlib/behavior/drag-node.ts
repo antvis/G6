@@ -204,9 +204,9 @@ export class DragNode extends Behavior {
     }
 
     // @ts-ignore FIXME: Type
-    this.originX = event.client.x;
+    this.originX = event.canvas.x;
     // @ts-ignore FIXME: Type
-    this.originY = event.client.y;
+    this.originY = event.canvas.y;
   }
 
   public onPointerMove(event: IG6GraphEvent) {
@@ -217,9 +217,9 @@ export class DragNode extends Behavior {
     // @ts-ignore FIXME: type
     const pointerEvent = event as PointerEvent;
     // @ts-ignore FIXME: Type
-    const deltaX = pointerEvent.client.x - this.originX;
+    const deltaX = pointerEvent.canvas.x - this.originX;
     // @ts-ignore FIXME: Type
-    const deltaY = pointerEvent.client.y - this.originY;
+    const deltaY = pointerEvent.canvas.y - this.originY;
 
     if (this.options.enableDelegate) {
       this.moveDelegate(deltaX, deltaY);
@@ -332,9 +332,9 @@ export class DragNode extends Behavior {
       // @ts-ignore FIXME: type
       const pointerEvent = event as PointerEvent;
       // @ts-ignore FIXME: Type
-      const deltaX = pointerEvent.client.x - this.originX;
+      const deltaX = pointerEvent.canvas.x - this.originX;
       // @ts-ignore FIXME: Type
-      const deltaY = pointerEvent.client.y - this.originY;
+      const deltaY = pointerEvent.canvas.y - this.originY;
       this.moveNodes(deltaX, deltaY, false);
     }
 

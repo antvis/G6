@@ -630,10 +630,7 @@ export default abstract class Item implements IItem {
       // displayModel
       {
         ...this.displayModel,
-        data: {
-          ...displayModelData,
-          ...styles,
-        },
+        data: mergeStyles([displayModelData, styles]),
       } as ItemDisplayModel,
       // diffData
       undefined,

@@ -1762,165 +1762,164 @@ let nodes = data.nodes.map((node) => {
   return node;
 });
 
-nodes = nodes
-  .concat(
-    nodes.map((node) => {
-      return {
-        ...node,
-        id: `${node.id}-2`,
-        data: {
-          ...node.data,
-          x: node.data.x + 500,
-        },
-      };
-    }),
-  )
-  .concat(
-    nodes.map((node) => {
-      return {
-        ...node,
-        id: `${node.id}-3`,
-        data: {
-          ...node.data,
-          x: node.data.x + 1000,
-        },
-      };
-    }),
-  )
-  .concat(
-    nodes.map((node) => {
-      return {
-        ...node,
-        id: `${node.id}-4`,
-        data: {
-          ...node.data,
-          x: node.data.x + 1500,
-        },
-      };
-    }),
-  )
-  .concat(
-    nodes.map((node) => {
-      return {
-        ...node,
-        id: `${node.id}-5`,
-        data: {
-          ...node.data,
-          y: node.data.y + 1000,
-        },
-      };
-    }),
-  )
-  .concat(
-    nodes.map((node) => {
-      return {
-        ...node,
-        id: `${node.id}-6`,
-        data: {
-          ...node.data,
-          x: node.data.x + 500,
-          y: node.data.y + 1000,
-        },
-      };
-    }),
-  )
-  .concat(
-    nodes.map((node) => {
-      return {
-        ...node,
-        id: `${node.id}-7`,
-        data: {
-          ...node.data,
-          x: node.data.x + 1000,
-          y: node.data.y + 1000,
-        },
-      };
-    }),
-  )
-  .concat(
-    nodes.map((node) => {
-      return {
-        ...node,
-        id: `${node.id}-8`,
-        data: {
-          ...node.data,
-          x: node.data.x + 1500,
-          y: node.data.y + 1000,
-        },
-      };
-    }),
-  );
-const edges = data.edges
-  .concat(
-    data.edges.map((edge) => {
-      return {
-        ...edge,
-        id: `${edge.id}-2`,
-        source: `${edge.source}-2`,
-        target: `${edge.target}-2`,
-      };
-    }),
-  )
-  .concat(
-    data.edges.map((edge) => {
-      return {
-        ...edge,
-        id: `${edge.id}-3`,
-        source: `${edge.source}-3`,
-        target: `${edge.target}-3`,
-      };
-    }),
-  )
-  .concat(
-    data.edges.map((edge) => {
-      return {
-        ...edge,
-        id: `${edge.id}-4`,
-        source: `${edge.source}-4`,
-        target: `${edge.target}-4`,
-      };
-    }),
-  )
-  .concat(
-    data.edges.map((edge) => {
-      return {
-        ...edge,
-        id: `${edge.id}-5`,
-        source: `${edge.source}-5`,
-        target: `${edge.target}-5`,
-      };
-    }),
-  )
-  .concat(
-    data.edges.map((edge) => {
-      return {
-        ...edge,
-        id: `${edge.id}-6`,
-        source: `${edge.source}-6`,
-        target: `${edge.target}-6`,
-      };
-    }),
-  )
-  .concat(
-    data.edges.map((edge) => {
-      return {
-        ...edge,
-        id: `${edge.id}-7`,
-        source: `${edge.source}-7`,
-        target: `${edge.target}-7`,
-      };
-    }),
-  )
-  .concat(
-    data.edges.map((edge) => {
-      return {
-        ...edge,
-        id: `${edge.id}-8`,
-        source: `${edge.source}-8`,
-        target: `${edge.target}-8`,
-      };
-    }),
-  );
+// nodes = nodes.concat(
+//   nodes.map((node) => {
+//     return {
+//       ...node,
+//       id: `${node.id}-2`,
+//       data: {
+//         ...node.data,
+//         x: node.data.x + 500,
+//       },
+//     };
+//   }),
+// );
+// .concat(
+//   nodes.map((node) => {
+//     return {
+//       ...node,
+//       id: `${node.id}-3`,
+//       data: {
+//         ...node.data,
+//         x: node.data.x + 1000,
+//       },
+//     };
+//   }),
+// );
+// .concat(
+//   nodes.map((node) => {
+//     return {
+//       ...node,
+//       id: `${node.id}-4`,
+//       data: {
+//         ...node.data,
+//         x: node.data.x + 1500,
+//       },
+//     };
+//   }),
+// )
+// .concat(
+//   nodes.map((node) => {
+//     return {
+//       ...node,
+//       id: `${node.id}-5`,
+//       data: {
+//         ...node.data,
+//         y: node.data.y + 1000,
+//       },
+//     };
+//   }),
+// )
+// .concat(
+//   nodes.map((node) => {
+//     return {
+//       ...node,
+//       id: `${node.id}-6`,
+//       data: {
+//         ...node.data,
+//         x: node.data.x + 500,
+//         y: node.data.y + 1000,
+//       },
+//     };
+//   }),
+// )
+// .concat(
+//   nodes.map((node) => {
+//     return {
+//       ...node,
+//       id: `${node.id}-7`,
+//       data: {
+//         ...node.data,
+//         x: node.data.x + 1000,
+//         y: node.data.y + 1000,
+//       },
+//     };
+//   }),
+// )
+// .concat(
+//   nodes.map((node) => {
+//     return {
+//       ...node,
+//       id: `${node.id}-8`,
+//       data: {
+//         ...node.data,
+//         x: node.data.x + 1500,
+//         y: node.data.y + 1000,
+//       },
+//     };
+//   }),
+// );
+const edges = data.edges;
+// const edges = data.edges.concat(
+//   data.edges.map((edge) => {
+//     return {
+//       ...edge,
+//       id: `${edge.id}-2`,
+//       source: `${edge.source}-2`,
+//       target: `${edge.target}-2`,
+//     };
+//   }),
+// );
+// .concat(
+//   data.edges.map((edge) => {
+//     return {
+//       ...edge,
+//       id: `${edge.id}-3`,
+//       source: `${edge.source}-3`,
+//       target: `${edge.target}-3`,
+//     };
+//   }),
+// )
+// .concat(
+//   data.edges.map((edge) => {
+//     return {
+//       ...edge,
+//       id: `${edge.id}-4`,
+//       source: `${edge.source}-4`,
+//       target: `${edge.target}-4`,
+//     };
+//   }),
+// )
+// .concat(
+//   data.edges.map((edge) => {
+//     return {
+//       ...edge,
+//       id: `${edge.id}-5`,
+//       source: `${edge.source}-5`,
+//       target: `${edge.target}-5`,
+//     };
+//   }),
+// )
+// .concat(
+//   data.edges.map((edge) => {
+//     return {
+//       ...edge,
+//       id: `${edge.id}-6`,
+//       source: `${edge.source}-6`,
+//       target: `${edge.target}-6`,
+//     };
+//   }),
+// )
+// .concat(
+//   data.edges.map((edge) => {
+//     return {
+//       ...edge,
+//       id: `${edge.id}-7`,
+//       source: `${edge.source}-7`,
+//       target: `${edge.target}-7`,
+//     };
+//   }),
+// )
+// .concat(
+//   data.edges.map((edge) => {
+//     return {
+//       ...edge,
+//       id: `${edge.id}-8`,
+//       source: `${edge.source}-8`,
+//       target: `${edge.target}-8`,
+//     };
+//   }),
+// );
 export default () => {
   console.log(
     'graphsize: #NODE:',
@@ -1937,15 +1936,21 @@ export default () => {
     type: 'graph',
     // renderer: 'webgl',
     data: { nodes, edges },
+    // layout: {
+    //   type: 'force',
+    //   linkDistance: 200,
+    //   preventOverlap: true,
+    // },
     modes: {
       default: [
         'zoom-canvas',
         // @ts-ignore
-        {
-          type: 'drag-canvas',
-          scalableRange: 0.9,
-        },
+        // {
+        //   type: 'drag-canvas',
+        //   scalableRange: 0.9,
+        // },
         'drag-node',
+        'brush-select',
       ],
     },
     // @ts-ignore
@@ -1963,15 +1968,15 @@ export default () => {
         data: {
           ...innerModel.data,
           labelShape: {
-            position: 'end',
+            // position: 'end',
             text: 'edge-label',
           },
           labelBackgroundShape: {
             fill: '#fff',
           },
-          iconShape: {
-            text: 'A',
-          },
+          // iconShape: {
+          //   text: 'A',
+          // },
           animates: {
             buildIn: [
               {

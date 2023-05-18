@@ -104,7 +104,7 @@ export default {
         },
         selected: {
           keyShape: {
-            stroke: nodeStroke,
+            stroke: '#000',
             lineWidth: 3,
           },
           labelShape: {
@@ -114,6 +114,7 @@ export default {
             stroke: haloStroke,
             opacity: 0.06,
             lineWidth: 20,
+            zIndex: -1,
           },
         },
         active: {

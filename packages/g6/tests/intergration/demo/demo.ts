@@ -7,6 +7,7 @@ import {
 import { container, height, width } from '../../datasets/const';
 import data from './data';
 import { labelPropagation } from '@antv/algorithm';
+import Stats from 'stats.js';
 
 const layoutNodes3D = [
   {
@@ -93312,22 +93313,12 @@ const create2DGraph = (
     type: 'graph',
     renderer: rendererType,
     data: { nodes, edges },
-    // layout: {
-    //   type: 'force',
-    //   dimensions: 2,
-    //   minMovement: 2,
-    //   center: [width / 2, height / 2, 0],
-    // },
     modes: {
       default: [
         { type: 'zoom-canvas', zoomOnItems: true },
-        // @ts-ignore
-        {
-          type: 'drag-canvas',
-          scalableRange: 0.9,
-          enableOptimize: false,
-        },
         'drag-node',
+        'drag-canvas',
+        // 'brush-select',
       ],
     },
     theme,
@@ -93336,10 +93327,6 @@ const create2DGraph = (
         ...innerModel,
         data: {
           ...innerModel.data,
-          // keyShape: {
-          //   lineWidth: 2,
-          //   stroke: 'grey',
-          // },
           type: 'line-edge',
           animates: getEdgeAnimates(),
         },
@@ -93668,17 +93655,16 @@ export default () => {
     const position = graph.canvas.getCamera().getPosition();
 
     let theme;
-    let zoomOpt;
+    let zoomOpt = {
+      zoom: currentZoom,
+      center: { x: position[0], y: position[1] },
+    };
     switch (type) {
       case '暗色主题':
         nodeAnimates = undefined;
         edgeAnimates = undefined;
         break;
       case '蓝色主题':
-        zoomOpt = {
-          zoom: currentZoom,
-          center: { x: position[0], y: position[1] },
-        };
         theme = {
           type: 'spec',
           specification: {
@@ -93703,10 +93689,6 @@ export default () => {
         };
         break;
       case '橙色主题':
-        zoomOpt = {
-          zoom: currentZoom,
-          center: { x: position[0], y: position[1] },
-        };
         theme = {
           type: 'spec',
           specification: {
@@ -93768,6 +93750,20 @@ export default () => {
     let toZoom = graph.getZoom() === 0.25 ? 0.17 : 0.15;
     graph.zoomTo(toZoom, { x: 936, y: 112 }, { duration: 500 });
   });
+
+  // // stats
+  // const stats = new Stats();
+  // stats.showPanel(0);
+  // const $stats = stats.dom;
+  // $stats.style.position = 'absolute';
+  // $stats.style.left = '0px';
+  // $stats.style.top = '0px';
+  // document.body.appendChild($stats);
+  // graph.canvas.addEventListener('afterrender', () => {
+  //   if (stats) {
+  //     stats.update();
+  //   }
+  // });
 
   return graph;
 };

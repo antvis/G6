@@ -48,7 +48,7 @@ export interface DragCanvasOptions {
 }
 
 const DEFAULT_OPTIONS: Required<DragCanvasOptions> = {
-  enableOptimize: true,
+  enableOptimize: false,
   dragOnItems: false,
   trigger: 'drag',
   direction: 'both',
