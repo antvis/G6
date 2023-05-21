@@ -1,5 +1,7 @@
+import { ID } from '@antv/graphlib';
 import { Behavior } from '../../types/behavior';
 import { IG6GraphEvent } from '../../types/event';
+import { Point } from '../../types/common';
 
 const ALLOWED_TRIGGERS = ['shift', 'ctrl', 'alt', 'meta'] as const;
 type Trigger = (typeof ALLOWED_TRIGGERS)[number];
@@ -49,7 +51,7 @@ const DEFAULT_OPTIONS: ClickSelectOptions = {
   multiple: true,
   trigger: 'shift',
   selectedState: 'selected',
-  itemTypes: ['node'],
+  itemTypes: ['node', 'edge'],
   eventName: '',
   shouldBegin: () => true,
   shouldUpdate: () => true,
@@ -57,6 +59,15 @@ const DEFAULT_OPTIONS: ClickSelectOptions = {
 
 export default class ClickSelect extends Behavior {
   options: ClickSelectOptions;
+  /**
+   * Cache the ids of items selected by this behavior
+   */
+  private selectedIds: ID[] = [];
+  /**
+   * Two flag to avoid onCanvasClick triggered while dragging canvas
+   */
+  private canvasPointerDown: Point | undefined = undefined;
+  private canvasPointerMove: boolean = false;
 
   constructor(options: Partial<ClickSelectOptions>) {
     super(Object.assign({}, DEFAULT_OPTIONS, options));
@@ -73,7 +84,9 @@ export default class ClickSelect extends Behavior {
     return {
       'node:click': this.onClick,
       'edge:click': this.onClick,
-      'canvas:click': this.onCanvasClick,
+      'canvas:pointerdown': this.onCanvasPointerDown,
+      'canvas:pointermove': this.onCanvasPointerMove,
+      'canvas:pointerup': this.onCanvasPointerUp,
     };
   };
 
@@ -111,17 +124,15 @@ export default class ClickSelect extends Behavior {
 
     // Select/Unselect item.
     if (this.options.shouldUpdate(event)) {
-      if (multiple) {
-        this.graph.setItemState(itemId, state, isSelectAction);
-      } else {
+      if (!multiple) {
         // Not multiple, clear all currently selected items
-        const selectedItemIds = [
-          ...this.graph.findIdByState('node', state),
-          ...this.graph.findIdByState('edge', state),
-          ...this.graph.findIdByState('combo', state),
-        ];
-        this.graph.setItemState(selectedItemIds, state, false);
-        this.graph.setItemState(itemId, state, isSelectAction);
+        this.graph.setItemState(this.selectedIds, state, false);
+      }
+      this.graph.setItemState(itemId, state, isSelectAction);
+      if (isSelectAction) {
+        this.selectedIds.push(itemId);
+      } else {
+        this.selectedIds.filter((id) => id !== itemId);
       }
     }
 
@@ -141,21 +152,38 @@ export default class ClickSelect extends Behavior {
     }
   }
 
+  public onCanvasPointerDown(event: IG6GraphEvent) {
+    this.canvasPointerDown = {
+      x: event.canvas.x,
+      y: event.canvas.y,
+    };
+    this.canvasPointerMove = false;
+  }
+  public onCanvasPointerMove(event: IG6GraphEvent) {
+    if (this.canvasPointerDown) {
+      const deltaX = Math.abs(this.canvasPointerDown.x - event.canvas.x);
+      const deltaY = Math.abs(this.canvasPointerDown.y - event.canvas.y);
+      if (deltaX > 1 || deltaY > 1) this.canvasPointerMove = true;
+    }
+  }
+
+  public onCanvasPointerUp(event: IG6GraphEvent) {
+    if (this.canvasPointerDown && !this.canvasPointerMove)
+      this.onCanvasClick(event);
+    this.canvasPointerDown = undefined;
+    this.canvasPointerMove = false;
+  }
+
   public onCanvasClick(event: IG6GraphEvent) {
     if (!this.options.shouldBegin(event)) return;
 
     // Find current selected items.
     const state = this.options.selectedState;
-    const selectedItemIds = [
-      ...this.graph.findIdByState('node', state),
-      ...this.graph.findIdByState('edge', state),
-      ...this.graph.findIdByState('combo', state),
-    ];
-    if (!selectedItemIds.length) return;
+    if (!this.selectedIds.length) return;
 
     // Unselect all items.
     if (this.options.shouldUpdate(event)) {
-      this.graph.setItemState(selectedItemIds, state, false);
+      this.graph.setItemState(this.selectedIds, state, false);
     }
 
     // Emit an event.

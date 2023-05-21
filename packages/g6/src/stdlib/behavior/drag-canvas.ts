@@ -25,18 +25,22 @@ export interface DragCanvasOptions {
    */
   secondaryKey?: string;
   /**
+   * The assistant secondary key on keyboard to prevent the behavior to be tiggered. 'shift' by default.
+   */
+  secondaryKeyToDisable?: string;
+  /**
    * The key on keyboard to speed up translating while pressing and drag-canvas by direction keys. The trigger should be 'directionKeys' for this option.
    */
   speedUpKey?: string;
   /**
    * The range of canvas to limit dragging, 0 by default, which means the graph cannot be dragged totally out of the view port range.
-   * If scalableRange > 0, the graph can be dragged out of the view port range.
+   * If scalableRange is number or a string without 'px', means it is a ratio of the graph content.
+   * If scalableRange is a string with 'px', it is regarded as pixels.
+   * If scalableRange > 0, the graph can be dragged out of the view port range
    * If scalableRange < 0, the range is smaller than the view port.
-   * If 0 < abs(scalableRange) < 1, it is regarded as a ratio of view port size.
-   * If abs(scalableRange) > 1, it is regarded as pixels.
    * Refer to https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IFfoS67_HssAAAAAAAAAAAAAARQnAQ
    */
-  scalableRange?: number;
+  scalableRange?: string | number;
   /**
    * The event name to trigger when drag end.
    */
@@ -53,8 +57,9 @@ const DEFAULT_OPTIONS: Required<DragCanvasOptions> = {
   trigger: 'drag',
   direction: 'both',
   secondaryKey: '',
+  secondaryKeyToDisable: 'shift',
   speedUpKey: '',
-  scalableRange: 0,
+  scalableRange: 0.8,
   eventName: '',
   shouldBegin: () => true,
 };
@@ -66,6 +71,7 @@ export default class DragCanvas extends Behavior {
   private dragging: boolean; // pointerdown + pointermove a distance
   private keydown: boolean;
   private speedupKeydown: boolean;
+  private disableKeydown: boolean;
   private hiddenEdgeIds: ID[];
   private hiddenNodeIds: ID[];
 
@@ -97,7 +103,10 @@ export default class DragCanvas extends Behavior {
   }
 
   public onPointerDown(event) {
-    const { secondaryKey, dragOnItems, shouldBegin } = this.options;
+    const { secondaryKey, secondaryKeyToDisable, dragOnItems, shouldBegin } =
+      this.options;
+    // diabled key is pressing
+    if (secondaryKeyToDisable && this.disableKeydown) return;
     // assistant key is not pressing
     if (secondaryKey && !this.keydown) return;
     // should not begin
@@ -145,12 +154,24 @@ export default class DragCanvas extends Behavior {
     const { scalableRange, direction } = this.options;
     const [width, height] = graph.getSize();
     const graphBBox = graph.canvas.getRoot().getRenderBounds();
-    let expandWidth = scalableRange;
-    let expandHeight = scalableRange;
-    // 若 scalableRange 是 0~1 的小数，则作为比例考虑
-    if (expandWidth < 1 && expandWidth > -1) {
-      expandWidth = width * expandWidth;
-      expandHeight = height * expandHeight;
+    let rangeNum = Number(scalableRange);
+    let isPixel;
+    if (typeof scalableRange === 'string') {
+      if (scalableRange.includes('px')) {
+        isPixel = scalableRange.includes('px');
+        rangeNum = Number(scalableRange.replace('px', ''));
+      }
+      if (scalableRange.includes('%')) {
+        rangeNum = Number(scalableRange.replace('%', '')) / 100;
+      }
+    }
+
+    let expandWidth = rangeNum;
+    let expandHeight = rangeNum;
+    // If it is not a string with 'px', regard as ratio
+    if (!isPixel) {
+      expandWidth = width * rangeNum;
+      expandHeight = height * rangeNum;
     }
     const leftTopClient = graph.getViewportByCanvas({
       x: graphBBox.min[0],
@@ -228,16 +249,26 @@ export default class DragCanvas extends Behavior {
 
   public onKeydown(event) {
     const { key } = event;
-    const { secondaryKey, trigger, speedUpKey, eventName, shouldBegin } =
-      this.options;
+    const {
+      secondaryKey,
+      secondaryKeyToDisable,
+      trigger,
+      speedUpKey,
+      eventName,
+      shouldBegin,
+    } = this.options;
     if (secondaryKey && secondaryKey === key.toLowerCase()) {
       this.keydown = true;
     }
     if (speedUpKey && speedUpKey === key.toLowerCase()) {
       this.speedupKeydown = true;
     }
+    if (secondaryKeyToDisable && secondaryKeyToDisable === key.toLowerCase()) {
+      this.disableKeydown = true;
+    }
     if (trigger === 'directionKeys') {
       if (secondaryKey && !this.keydown) return;
+      if (secondaryKeyToDisable && this.disableKeydown) return;
       if (!shouldBegin(event)) return;
       const { graph, speedupKeydown } = this;
       const speed = speedupKeydown ? 20 : 1;
@@ -274,12 +305,15 @@ export default class DragCanvas extends Behavior {
 
   public onKeyup(event) {
     const { key } = event;
-    const { secondaryKey, speedUpKey } = this.options;
+    const { secondaryKey, secondaryKeyToDisable, speedUpKey } = this.options;
     if (secondaryKey && secondaryKey === key.toLowerCase()) {
       this.keydown = false;
     }
     if (speedUpKey && speedUpKey === key.toLowerCase()) {
       this.speedupKeydown = false;
+    }
+    if (secondaryKeyToDisable && secondaryKeyToDisable === key.toLowerCase()) {
+      this.disableKeydown = false;
     }
   }
 }

@@ -150,8 +150,8 @@ export default class Node extends Item {
           this.animateFrameListener,
           () => onfinish(displayModel.id),
         );
+        return;
       }
-      return;
     }
     group.setLocalPosition(x, y, z);
   }

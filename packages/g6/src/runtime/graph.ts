@@ -1387,7 +1387,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Graph Instance
    */
-  public destroy(callback) {
+  public destroy(callback?: Function) {
     // TODO: call the destroy functions after items' buildOut animations finished
     setTimeout(() => {
       this.canvas.destroy();

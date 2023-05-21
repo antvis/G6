@@ -284,7 +284,8 @@ const runAnimateOnShape = (
       animateArr[0][key] = shape.attributes.hasOwnProperty(key)
         ? shape.style[key]
         : beginStyle[key];
-      animateArr[1][key] = targetStyle[key];
+      animateArr[1][key] =
+        targetStyle[key] === undefined ? animateArr[0][key] : targetStyle[key];
       if (key === 'lineDash' && animateArr[1][key].includes('100%')) {
         const totalLength = (shape as Line | Polyline | Path).getTotalLength();
         replaceElements(animateArr[1][key], '100%', totalLength);
@@ -408,7 +409,10 @@ export const getAnimatesExcludePosition = (animates) => {
 export const fadeIn = (id, shape, style, hiddenShape, animateConfig) => {
   // omit inexist shape and the shape which is not hidden by zoom changing
   if (!shape || !hiddenShape[id]) return;
-  if (!shape?.isVisible()) shape.show();
+  if (!shape?.isVisible()) {
+    shape.style.opacity = 0;
+    shape.show();
+  }
   const { opacity: oriOpacity = 1 } = shape.attributes;
   if (oriOpacity === 1) return;
   const { opacity = 1 } = style;

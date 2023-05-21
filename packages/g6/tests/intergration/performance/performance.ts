@@ -1,10 +1,12 @@
-import G6 from '../../../src/index';
 import {
-  BadgePosition,
-  IBadgePosition,
-  ShapeStyle,
-} from '../../../src/types/item';
-import { container, height, width } from '../../datasets/const';
+  ForceLayout,
+  FruchtermanLayout,
+  initThreads,
+  supportsThreads,
+} from '@antv/layout-wasm';
+import G6 from '../../../src/index';
+import { IBadgePosition } from '../../../src/types/item';
+import { container, width } from '../../datasets/const';
 const data = {
   nodes: [
     { id: 'Myriel', data: { x: 122.619579008568, y: -121.31805520154471 } },
@@ -1745,8 +1747,6 @@ const clusters = [
   ],
 ];
 let nodes = data.nodes.map((node) => {
-  node.data.x += 400;
-  node.data.y += 250;
   let nocluster = true;
   clusters.forEach((cluster, i) => {
     if (cluster.includes(node.id)) {
@@ -1759,6 +1759,11 @@ let nodes = data.nodes.map((node) => {
     // @ts-ignore
     node.data.cluster = 0;
   }
+  node.data.layout = {
+    id: node.id,
+    x: node.data.x,
+    y: node.data.y,
+  };
   return node;
 });
 
@@ -1920,37 +1925,52 @@ const edges = data.edges;
 //     };
 //   }),
 // );
-export default () => {
-  console.log(
-    'graphsize: #NODE:',
-    nodes.length,
-    ', #EDGE:',
-    edges.length,
-    '#SHAPES',
-    nodes.length * 10 + edges.length * 4,
-  );
-  return new G6.Graph({
+
+const degrees = {};
+edges.forEach((edge) => {
+  const { source, target } = edge;
+  degrees[source] = degrees[source] || 0;
+  degrees[target] = degrees[target] || 0;
+  degrees[source]++;
+  degrees[target]++;
+});
+
+const createGraph = async () => {
+  const supported = await supportsThreads();
+  const threads = await initThreads(supported);
+  G6.stdLib.layouts['force-wasm'] = ForceLayout;
+  G6.stdLib.layouts['fruchterman-wasm'] = FruchtermanLayout;
+  const graph = new G6.Graph({
     container: container as HTMLElement,
     width,
     height: 1200,
     type: 'graph',
     // renderer: 'webgl',
     data: { nodes, edges },
-    // layout: {
-    //   type: 'force',
-    //   linkDistance: 200,
-    //   preventOverlap: true,
-    // },
+    layout: {
+      type: 'force-wasm',
+      threads,
+      dimensions: 2,
+      maxIteration: 800,
+      minMovement: 0.4,
+      distanceThresholdMode: 'mean',
+      factor: 1,
+      gravity: 10,
+      linkDistance: 80,
+      edgeStrength: 200,
+      nodeStrength: 1000,
+      coulombDisScale: 0.005,
+      damping: 0.9,
+      maxSpeed: 1000,
+      interval: 0.02,
+    },
     modes: {
       default: [
         'zoom-canvas',
-        // @ts-ignore
-        // {
-        //   type: 'drag-canvas',
-        //   scalableRange: 0.9,
-        // },
+        'drag-canvas',
         'drag-node',
         'brush-select',
+        'click-select',
       ],
     },
     // @ts-ignore
@@ -1967,22 +1987,33 @@ export default () => {
         ...innerModel,
         data: {
           ...innerModel.data,
-          labelShape: {
-            // position: 'end',
-            text: 'edge-label',
+          keyShape: {
+            lineWidth: 0.5,
           },
-          labelBackgroundShape: {
-            fill: '#fff',
-          },
-          // iconShape: {
-          //   text: 'A',
-          // },
+          haloShape: {},
           animates: {
             buildIn: [
               {
                 fields: ['opacity'],
-                duration: 300,
+                shapeId: 'keyShape',
+                duration: 500,
                 delay: 1000,
+              },
+            ],
+            buildOut: [
+              {
+                fields: ['opacity'],
+                duration: 200,
+              },
+            ],
+            update: [
+              {
+                fields: ['lineWidth'],
+                shapeId: 'keyShape',
+              },
+              {
+                fields: ['opacity'], // 'r' error, 'lineWidth' has no effect
+                shapeId: 'haloShape',
               },
             ],
           },
@@ -1990,37 +2021,74 @@ export default () => {
       };
     },
     node: (innerModel) => {
-      const badgeShapes: (ShapeStyle & {
-        position?: IBadgePosition;
-        color?: string;
-        textColor?: string;
-      })[] = [
-        {
+      const degree = degrees[innerModel.id] || 0;
+      let labelShowLevel = 4;
+      if (degree > 20) labelShowLevel = -1;
+      else if (degree > 15) labelShowLevel = 0;
+      else if (degree > 10) labelShowLevel = 1;
+      else if (degree > 6) labelShowLevel = 2;
+      else if (degree > 3) labelShowLevel = 3;
+
+      let badgeShapes = {};
+
+      if (degree > 20) {
+        badgeShapes[0] = {
           text: '核心人员',
-          position: 'right',
+          position: 'right' as IBadgePosition,
           color: '#389e0d',
-        },
-        {
+          showLevel: labelShowLevel - 2,
+        };
+      }
+      if (degree > 15) {
+        badgeShapes[1] = {
           text: 'A',
-          position: 'rightTop',
+          position: 'rightTop' as IBadgePosition,
           color: '#d4380d',
-        },
-        {
+          showLevel: labelShowLevel - 1,
+        };
+      }
+      if (degree > 10) {
+        badgeShapes[2] = {
           text: 'B',
-          position: 'rightBottom',
-          color: '#ccc',
-        },
-      ];
+          position: 'rightBottom' as IBadgePosition,
+          color: '#aaa',
+          showLevel: labelShowLevel - 1,
+        };
+      }
+
       return {
         ...innerModel,
         data: {
           ...innerModel.data,
+          zoomStrategy: {
+            levels: [
+              { range: [0, 0.8] }, // -2
+              { range: [0.8, 0.9] }, // -1
+              { range: [0.9, 1], primary: true }, // 0
+              { range: [1, 1.1] }, // 1
+              { range: [1.1, 0.2] }, // 2
+              { range: [1.2, 1.3] }, // 3
+              { range: [1.3, 1.4] }, // 4
+              { range: [1.4, 1.5] }, // 5
+              { range: [1.5, Infinity] }, // 6
+            ],
+            animateCfg: {
+              duration: 500,
+            },
+          },
+
           animates: {
             buildIn: [
               {
                 fields: ['opacity'],
                 duration: 1000,
                 delay: 500 + Math.random() * 500,
+              },
+            ],
+            buildOut: [
+              {
+                fields: ['opacity'],
+                duration: 200,
               },
             ],
             hide: [
@@ -2051,40 +2119,112 @@ export default () => {
                 order: 0,
               },
             ],
+            update: [
+              {
+                fields: ['lineWidth', 'fill', 'r'],
+                shapeId: 'keyShape',
+              },
+              {
+                fields: ['fontSize'],
+                shapeId: 'iconShape',
+              },
+              {
+                fields: ['opacity'], // 'r' error, 'lineWidth' has no effect
+                shapeId: 'haloShape',
+              },
+            ],
           },
+          haloShape: {},
           // animate in shapes, unrelated to each other, excuted parallely
           keyShape: {
-            r: 15,
+            r: innerModel.data.size ? innerModel.data.size / 2 : 15,
           },
           iconShape: {
             img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
             fill: '#fff',
+            showLevel: labelShowLevel - 1,
+            fontSize: innerModel.data.size ? innerModel.data.size / 3 + 5 : 13,
           },
           labelShape: {
             text: innerModel.id,
             opacity: 0.8,
             maxWidth: '150%',
+            showLevel: labelShowLevel,
           },
-          labelBackgroundShape: {},
-          badgeShapes: {
-            0: {
-              text: '核心人员',
-              position: 'right' as IBadgePosition,
-              color: '#389e0d',
-            },
-            1: {
-              text: 'A',
-              position: 'rightTop' as IBadgePosition,
-              color: '#d4380d',
-            },
-            2: {
-              text: 'B',
-              position: 'rightBottom' as IBadgePosition,
-              color: '#aaa',
-            },
+          labelBackgroundShape: {
+            showLevel: labelShowLevel,
           },
+          badgeShapes,
         },
       };
     },
   });
+  graph.zoomTo(0.7);
+  return graph;
+};
+
+export default async () => {
+  console.log(
+    'graphsize: #NODE:',
+    nodes.length,
+    ', #EDGE:',
+    edges.length,
+    '#SHAPES',
+    nodes.length * 10 + edges.length * 4,
+  );
+  let graph = await createGraph();
+
+  const btnImportance = document.createElement('button');
+  btnImportance.innerHTML = '节点重要性分析';
+  btnImportance.style.position = 'absolute';
+  btnImportance.style.top = '164px';
+  btnImportance.style.left = '373px';
+  btnImportance.style.zIndex = '100';
+  document.body.appendChild(btnImportance);
+  btnImportance.addEventListener('click', (e) => {
+    graph.updateData(
+      'node',
+      nodes.map((node) => ({
+        id: node.id,
+        data: {
+          size: degrees[node.id] + 24,
+        },
+      })),
+    );
+  });
+
+  const btnColor = document.createElement('button');
+  btnColor.innerHTML = '更换颜色顺序';
+  btnColor.style.position = 'absolute';
+  btnColor.style.top = '164px';
+  btnColor.style.left = '573px';
+  btnColor.style.zIndex = '100';
+  document.body.appendChild(btnColor);
+  btnColor.addEventListener('click', (e) => {
+    graph.updateData(
+      'node',
+      nodes.map((node) => ({
+        id: node.id,
+        data: {
+          cluster: node.data.cluster + 1,
+        },
+      })),
+    );
+  });
+
+  const btnDestroy = document.createElement('button');
+  btnDestroy.innerHTML = '销毁图';
+  btnDestroy.style.position = 'absolute';
+  btnDestroy.style.top = '164px';
+  btnDestroy.style.left = '773px';
+  btnDestroy.style.zIndex = '100';
+  document.body.appendChild(btnDestroy);
+  btnDestroy.addEventListener('click', async (e) => {
+    if (graph.destroyed) {
+      graph = await createGraph();
+    } else {
+      graph.destroy();
+    }
+  });
+  return graph;
 };

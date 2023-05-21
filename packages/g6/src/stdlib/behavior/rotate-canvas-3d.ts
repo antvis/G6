@@ -1,7 +1,4 @@
 import { ICamera } from '@antv/g';
-import { ID } from '@antv/graphlib';
-import { debounce, uniq } from '@antv/util';
-import { EdgeModel } from '../../types';
 import { Behavior } from '../../types/behavior';
 import { IG6GraphEvent } from '../../types/event';
 import { Point } from '../../types/common';

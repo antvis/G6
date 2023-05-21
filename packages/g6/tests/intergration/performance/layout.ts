@@ -1,6 +1,7 @@
 import G6 from '../../../src/index';
 import { supportsThreads, initThreads, ForceLayout } from '@antv/layout-wasm';
 import { loadDataset } from '../../datasets/legacy-format';
+import { labelPropagation } from '@antv/algorithm';
 
 export default async () => {
   const $container = document.getElementById('container')!;
@@ -20,8 +21,10 @@ export default async () => {
   $containers.appendChild($container2);
   $container1.style.flex = '1';
   $container1.style.position = 'relative';
+  $container1.id = 'wasm';
   $container2.style.flex = '1';
   $container2.style.position = 'relative';
+  $container2.id = 'cpu';
 
   const $timer1 = document.createElement('div');
   $timer1.style.cssText = `
@@ -45,6 +48,61 @@ export default async () => {
   const data = await loadDataset(
     'https://gw.alipayobjects.com/os/basement_prod/da5a1b47-37d6-44d7-8d10-f3e046dabf82.json',
   );
+
+  const clusteredData = labelPropagation(data, false);
+  clusteredData.clusters.forEach((cluster, i) => {
+    cluster.nodes.forEach((node) => {
+      node.data.cluster = `c${i}`;
+    });
+  });
+  const degrees = {};
+  data.edges.forEach((edge) => {
+    const { source, target } = edge;
+    degrees[source] = degrees[source] || 0;
+    degrees[target] = degrees[target] || 0;
+    degrees[source]++;
+    degrees[target]++;
+  });
+
+  const configures = {
+    modes: {
+      default: ['zoom-canvas', 'drag-node'],
+    },
+    theme: {
+      type: 'spec',
+      specification: {
+        node: {
+          dataTypeField: 'cluster',
+        },
+      },
+    },
+    node: (innerModel) => {
+      return {
+        ...innerModel,
+        data: {
+          ...innerModel.data,
+          keyShape: {
+            ...innerModel.data.keyShape,
+            r: 12 + degrees[innerModel.id] / 4,
+          },
+        },
+      };
+    },
+    edge: (innerModel) => {
+      return {
+        ...innerModel,
+        data: {
+          ...innerModel.data,
+          type: 'line-edge',
+          keyShape: {
+            lineWidth: 1,
+            stroke: '#fff',
+            opacity: 1,
+          },
+        },
+      };
+    },
+  };
 
   const layoutOptions = {
     dimensions: 2,
@@ -83,7 +141,10 @@ export default async () => {
         type: 'force-wasm',
         threads,
         ...layoutOptions,
+        maxIteration: 400,
+        minMovement: 0.8,
       },
+      ...configures,
     });
 
     let timer;
@@ -98,7 +159,6 @@ export default async () => {
 
     graph.on('endlayout', () => {
       clearInterval(timer);
-
       graph.zoom(0.1, undefined, {
         duration: 1000,
       });
@@ -117,7 +177,10 @@ export default async () => {
         type: 'force',
         workerEnabled: true,
         ...layoutOptions,
+        maxIteration: 8000,
+        minMovement: 0.2,
       },
+      ...configures,
     });
 
     let timer;

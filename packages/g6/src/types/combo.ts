@@ -10,6 +10,7 @@ import {
   ShapeAttrEncode,
   ShapesEncode,
   ShapeStyle,
+  ZoomStrategy,
 } from './item';
 
 export type ComboLabelPosition =
@@ -46,6 +47,7 @@ export interface ComboShapeStyles extends ItemShapeStyles {
     position?: ComboLabelPosition;
     offsetX?: number;
     offsetY?: number;
+    offsetZ?: number;
   };
   labelBackgroundShape?: ShapeStyle & {
     padding?: number | number[];
@@ -68,6 +70,7 @@ export interface ComboShapeStyles extends ItemShapeStyles {
     size?: number;
     offsetX?: number;
     offsetY?: number;
+    offsetZ?: number;
     // individual styles and their position
     [key: number]: ShapeStyle & {
       position?: BadgePosition;
@@ -76,12 +79,14 @@ export interface ComboShapeStyles extends ItemShapeStyles {
       size?: number;
       offsetX?: number;
       offsetY?: number;
+      offsetZ?: number;
     };
   };
 }
 
 /** Displayed data, only for drawing and not received by users. */
-export type ComboDisplayModelData = ComboModelData & ComboShapeStyles;
+export type ComboDisplayModelData = ComboModelData &
+  ComboShapeStyles & { zoomStrategy?: ZoomStrategy };
 
 /** User input model. */
 export type ComboUserModel = GNode<ComboUserModelData>;
@@ -97,6 +102,7 @@ interface ComboLabelShapeAttrEncode extends ShapeAttrEncode {
   position?: ComboLabelPosition | Encode<ComboLabelPosition>;
   offsetX?: number | Encode<number>;
   offsetY?: number | Encode<number>;
+  offsetZ?: number | Encode<number>;
   background?: LabelBackground | Encode<LabelBackground>;
 }
 export interface ComboShapesEncode extends ShapesEncode {

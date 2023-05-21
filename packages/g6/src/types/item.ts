@@ -62,6 +62,7 @@ export type ShapeStyle = Partial<
   GShapeStyle & {
     animates?: IAnimates;
     showLevel?: number;
+    visible?: boolean;
   }
 >;
 export interface Encode<T> {

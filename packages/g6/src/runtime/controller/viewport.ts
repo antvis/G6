@@ -74,8 +74,6 @@ export class ViewportController {
         landmarkOptions,
       );
 
-      console.log(landmarkOptions);
-
       return new Promise((resolve) => {
         transientCamera.gotoLandmark(transientLandmark, {
           duration: Number(duration),

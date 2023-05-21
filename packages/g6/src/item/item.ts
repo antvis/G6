@@ -25,6 +25,7 @@ import {
   GROUP_ANIMATE_STYLES,
 } from '../util/animate';
 import { AnimateTiming, IAnimates } from '../types/animate';
+import { formatZoomStrategy } from '../util/zoom';
 
 export default abstract class Item implements IItem {
   public destroyed = false;
@@ -58,6 +59,8 @@ export default abstract class Item implements IItem {
   public afterDrawShapeMap = {};
   /** Set to different value in implements. */
   public type: ITEM_TYPE;
+  /** The flag of transient item. */
+  public transient: boolean = false;
   public renderExtensions: any; // TODO
   /** Cache the animation instances to stop at next lifecycle. */
   public animations: IAnimation[];
@@ -108,13 +111,18 @@ export default abstract class Item implements IItem {
     this.stateMapper = stateMapper;
     this.displayModel = this.getDisplayModelAndChanges(model).model;
     this.renderExtensions = renderExtensions;
-    const { type = this.type === 'node' ? 'circle-node' : 'line-edge' } =
-      this.displayModel.data;
+    const {
+      type = this.type === 'node' ? 'circle-node' : 'line-edge',
+      zoomStrategy: modelZoomStrategy,
+    } = this.displayModel.data;
     const RenderExtension = renderExtensions.find((ext) => ext.type === type);
     this.themeStyles = theme.styles;
+    const zoomStrategy = modelZoomStrategy
+      ? formatZoomStrategy(modelZoomStrategy)
+      : theme.zoomStrategy;
     this.renderExt = new RenderExtension({
       themeStyles: this.themeStyles.default,
-      zoomStrategy: theme.zoomStrategy,
+      zoomStrategy,
       device: this.device,
     });
   }
@@ -172,7 +180,6 @@ export default abstract class Item implements IItem {
     this.model = model;
     if (itemTheme) {
       this.themeStyles = itemTheme.styles;
-      this.zoomStrategy = itemTheme.zoomStrategy;
     }
     // 2. map new merged model to displayModel, keep prevModel and newModel for 3.
     const { model: displayModel, typeChange } = this.getDisplayModelAndChanges(
@@ -181,6 +188,10 @@ export default abstract class Item implements IItem {
       isReplace,
     );
     this.displayModel = displayModel;
+
+    this.zoomStrategy = displayModel.data.zoomStrategy
+      ? formatZoomStrategy(displayModel.data.zoomStrategy)
+      : itemTheme?.zoomStrategy || this.zoomStrategy;
 
     if (onlyMove) {
       this.updatePosition(displayModel, diffData, onfinish);
@@ -716,7 +727,7 @@ export default abstract class Item implements IItem {
     // 1. stop animations, run buildOut animations
     this.stopAnimations();
     const { animates } = this.displayModel.data;
-    if (animates?.buildOut?.length) {
+    if (animates?.buildOut?.length && !this.transient) {
       this.animations = this.runWithAnimates(
         animates,
         'buildOut',

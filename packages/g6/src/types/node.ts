@@ -10,6 +10,7 @@ import {
   ShapeAttrEncode,
   ShapesEncode,
   ShapeStyle,
+  ZoomStrategy,
 } from './item';
 
 export type NodeLabelPosition = 'bottom' | 'center' | 'top' | 'left' | 'right';
@@ -78,6 +79,7 @@ export interface NodeShapeStyles extends ItemShapeStyles {
     position?: 'top' | 'bottom' | 'left' | 'right' | 'center';
     offsetX?: number;
     offsetY?: number;
+    offsetZ?: number;
     // string means the percentage of the keyShape, number means pixel
     maxWidth?: string | number;
   };
@@ -102,6 +104,7 @@ export interface NodeShapeStyles extends ItemShapeStyles {
     size?: number;
     offsetX?: number;
     offsetY?: number;
+    offsetZ?: number;
     // individual styles and their position
     [key: number]: ShapeStyle & {
       position?: BadgePosition;
@@ -110,12 +113,14 @@ export interface NodeShapeStyles extends ItemShapeStyles {
       size?: number;
       offsetX?: number;
       offsetY?: number;
+      offsetZ?: number;
     };
   };
 }
 
 /** Data in display model. */
-export type NodeDisplayModelData = NodeModelData & NodeShapeStyles;
+export type NodeDisplayModelData = NodeModelData &
+  NodeShapeStyles & { zoomStrategy?: ZoomStrategy };
 
 /** User input model. */
 export type NodeUserModel = GNode<NodeUserModelData>;
@@ -131,6 +136,7 @@ interface NodeLabelShapeAttrEncode extends ShapeAttrEncode {
   position?: NodeLabelPosition | Encode<NodeLabelPosition>;
   offsetX?: number | Encode<number>;
   offsetY?: number | Encode<number>;
+  offsetZ?: number | Encode<number>;
 }
 export interface NodeShapesEncode extends ShapesEncode {
   labelShape?: NodeLabelShapeAttrEncode | Encode<ShapeStyle>;

@@ -436,11 +436,13 @@ export abstract class BaseEdge {
   ): DisplayObject {
     const { keyShape } = shapeMap;
     const { haloShape: haloShapeStyle } = this.mergedStyles;
+    if (haloShapeStyle.visible === false) return;
     const { nodeName, attributes } = keyShape;
     return this.upsertShape(
       nodeName as SHAPE_TYPE,
       'haloShape',
       {
+        stroke: attributes.stroke,
         ...attributes,
         ...haloShapeStyle,
       },

@@ -129,7 +129,9 @@ export const upsertShape = (
     const updateStyles = {};
     const oldStyles = shape.attributes;
     // update
-    if (disableAnimate || !animates?.update) {
+    // update the styles excludes the ones in the animate fields
+    const animateFields = findAnimateFields(animates, 'update', id);
+    if (disableAnimate || !animates?.update || !animateFields.length) {
       // update all the style directly when there are no animates for update timing
       Object.keys(style).forEach((key) => {
         if (oldStyles[key] !== style[key]) {
@@ -138,9 +140,6 @@ export const upsertShape = (
         }
       });
     } else {
-      // update the styles excludes the ones in the animate fields
-      const animateFields = findAnimateFields(animates, 'update', id);
-      if (!animateFields.length) return shape;
       Object.keys(style).forEach((key) => {
         if (oldStyles[key] !== style[key]) {
           updateStyles[key] = style[key];
@@ -531,4 +530,79 @@ export const isStyleAffectBBox = (
   style: ShapeStyle,
 ) => {
   return isArrayOverlap(Object.keys(style), FEILDS_AFFECT_BBOX[type]);
+};
+
+/**
+ * Estimate the width of the shape according to the given style.
+ * @param shape target shape
+ * @param style computed merged style
+ * @param bounds shape's local bounds
+ * @returns
+ */
+export const getShapeLocalBoundsByStyle = (
+  shape: DisplayObject,
+  style: ShapeStyle,
+  bbox?: AABB,
+): {
+  min: number[];
+  max: number[];
+  center: number[];
+} => {
+  const {
+    r,
+    rx,
+    ry,
+    width,
+    height,
+    depth = 0,
+    x1,
+    x2,
+    y1,
+    y2,
+    z1 = 0,
+    z2 = 0,
+  } = style;
+  switch (shape.nodeName) {
+    case 'circle':
+      const radius = Number(r);
+      return {
+        min: [-radius, -radius, 0],
+        max: [radius, radius, 0],
+        center: [0, 0, 0],
+      };
+    case 'sphere':
+      return {
+        min: [-r, -r, -r],
+        max: [r, r, r],
+        center: [0, 0, 0],
+      };
+    case 'image':
+    case 'rect':
+    case 'cube':
+    case 'plane':
+      return {
+        min: [-width / 2, -height / 2, -depth / 2],
+        max: [width / 2, height / 2, depth / 2],
+        center: [0, 0, 0],
+      };
+    case 'ellipse':
+      const radiusX = Number(rx);
+      const radiusY = Number(ry);
+      return {
+        min: [-radiusX, -radiusY, 0],
+        max: [radiusX, radiusY, 0],
+        center: [0, 0, 0],
+      };
+    case 'line':
+      return {
+        min: [x1, y1, z1],
+        max: [x2, y2, z2],
+        center: [(x1 + x2) / 2, (y1 + y2) / 2, (z1 + z2) / 2],
+      };
+    case 'text':
+    case 'polyline':
+    case 'path':
+    case 'polygon':
+      return bbox || shape.getLocalBounds();
+  }
 };
