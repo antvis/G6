@@ -13,7 +13,7 @@ body:
     validations:
       required: false
   - type: dropdown
-    id: issue_hunt_program
+    id: issue_hunt_difficulty
     attributes:
       label: Issue Difficulty
       options:
