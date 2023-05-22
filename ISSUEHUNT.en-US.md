@@ -6,7 +6,7 @@ The Issue Hunt Program is an incentive program proposed by AntV to encourage com
 
 ## How to Participate in Issue Hunt?
 
-1. Find an issue that interests you.
+1. Find an issue that interests you. (issue with 'IH: Reward/ reward' tag)
 2. Contribute code to the issue.
 3. Earn rewards.
 
@@ -31,15 +31,15 @@ The reward amounts for project maintainers are divided into three tiers:
 
 - **Low Difficulty**：`$0.5` - `$5`
   - Simple question replies, documentation modifications, issue resolutions, new feature development
-  - Workload within 2 hours
+  - Workload within 2 hours (Evaluated by the project maintainer)
 - **Medium Difficulty**：`$5` - `$10`
   - Requires some code modifications
-  - Workload within 1 day
+  - Workload within 2 day
 - **High Difficulty**：`$10` - `$50` (no upper limit in principle)
   - Requires extensive code modifications
   - Fixes critical and urgent issues
   - Complex new feature development
-  - Workload within 1 week
+  - Workload within 2 week
 
 ## Reward Distribution
 
@@ -56,8 +56,6 @@ Your claiming comment should include the following information (copy and edit th
 ```template
 
 ## Issue Claiming
-
-- [ ] I have read and agreed to AntV's [Contributor Agreement](), [Code of Conduct](), [Community Guidelines]().
 
 **Contributors**
 > For example: John Smith, Sarah Johnson

@@ -2,18 +2,18 @@ name: 'Issue Hunt 计划'
 description: 创建一个新的 issue，如果你的 issue 不符合规范，它将会被自动关闭。
 body:
   - type: checkboxes
-    id: issue_hunt_project
+    id: issue_hunt_program
     attributes:
       label: Issue Hunt 计划（可选）
       description: |
         Issue Hunt 计划是 AntV 为了鼓励社区贡献者参与到 AntV 项目中来，提出的一个激励计划。如果想了解更多，可以查看 [Issue Hunt 计划](https://github.com/antvis/G6/blob/master/ISSUEHUNT.md)
         通过 Issue Hunt 计划提出的 issue 与普通 issue 无异。普通 issue 也可加入 Issue Hunt 计划，但需要经过 AntV 团队审核。
       options:
-        - label: 这个 Issue 将参与 Issue Hunt 计划
+        - label: 我同意将这个 Issue 参与 Issue Hunt 计划
     validations:
       required: false
   - type: dropdown
-    id: issue_hunt_project
+    id: issue_hunt_program
     attributes:
       label: Issue 难度
       options:

@@ -2,18 +2,18 @@ name: 'Issue Hunt Program'
 description: Create a report to help us improve
 body:
   - type: checkboxes
-    id: issue_hunt_project
+    id: issue_hunt_program
     attributes:
       label: Issue Hunt Program (optional)
       description: |
-        The Issue Hunt Program is an incentive program proposed by AntV to encourage community contributors to participate in the AntV project. For more information, you can refer to the [Issue Hunt Program](https://github.com/antvis/G6/blob/master/ISSUEHUNT.en-US.md).
+        The Issue Hunt Program is an incentive program proposed by AntV to encourage community contributors to participate in the AntV program. For more information, you can refer to the [Issue Hunt Program](https://github.com/antvis/G6/blob/master/ISSUEHUNT.en-US.md).
         Issues submitted through the Issue Hunt Program are treated the same as regular issues. Regular issues can also be included in the Issue Hunt Program, but they need to be reviewed by the AntV team.
       options:
         - label: This issue will participate in the Issue Hunt Program
     validations:
       required: false
   - type: dropdown
-    id: issue_hunt_project
+    id: issue_hunt_program
     attributes:
       label: Issue Difficulty
       options:
@@ -27,7 +27,7 @@ body:
     attributes:
       label: Bounty
       description: | 
-        If you are not a project maintainer and are willing to offer a bounty for this issue, you can provide a bounty description here and provide the bounty amount on [IssueHunt](https://oss.issuehunt.io/r/antvis/G6/issues) after submitting the issue.
+        If you are not a program maintainer and are willing to offer a bounty for this issue, you can provide a bounty description here and provide the bounty amount on [IssueHunt](https://oss.issuehunt.io/r/antvis/G6/issues) after submitting the issue.
         The platform may charge a certain fee, which is unrelated to AntV.
       placeholder: |
         Example: I will pay $100 if you can resolve this issue within 24 hours.
