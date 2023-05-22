@@ -13,7 +13,7 @@ Issue Hunt 计划是 AntV 为了鼓励社区贡献者参与到 AntV 项目中来
 ## 如何找到你喜欢的 Issues?
 
 1. 从 [Issue Hunt](https://oss.issuehunt.io/r/antvis/G6/issues) 上找到你感兴趣的 issues
-2. 从 [GitHub](https://github.com/antvis/G6/issues?q=is%3Aopen+is%3Aissue+label%3A%22IH%3A+Reward%2F%E6%82%AC%E8%B5%8F%22) 上找到你喜欢的 issues
+2. 从 [GitHub](https://github.com/antvis/G6/issues?q=is%3Aopen+is%3Aissue+label%3AReward%2F%E6%82%AC%E8%B5%8F) 上找到你喜欢的 issues
 
 ## 为 Issues 设置悬赏
 

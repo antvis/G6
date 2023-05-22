@@ -13,7 +13,7 @@ The Issue Hunt Program is an incentive program proposed by AntV to encourage com
 ## How to Find Issues You Like?
 
 - Find issues that interest you on [Issue Hunt](https://oss.issuehunt.io/r/antvis/G6/issues)
-- Find issues you like on [GitHub](https://github.com/antvis/G6/issues?q=is%3Aopen+is%3Aissue+label%3A%22IH%3A+Reward%2F%E6%82%AC%E8%B5%8F%22)
+- Find issues you like on [GitHub](https://github.com/antvis/G6/issues?q=is%3Aopen+is%3Aissue+label%3AReward%2F%E6%82%AC%E8%B5%8F)
 
 ## Set Rewards for Issues
 
