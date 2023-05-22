@@ -6,7 +6,7 @@ Issue Hunt 计划是 AntV 为了鼓励社区贡献者参与到 AntV 项目中来
 
 ## 如何参与 Issue Hunt?
 
-1. 找到你感兴趣的 issue (带有 `IH: Reward/悬赏` 标签的 issue)
+1. 找到你感兴趣的 issue (带有 `Reward/悬赏` 标签的 issue)
 2. 为 issue 贡献代码
 3. 获得奖励
 
@@ -21,7 +21,7 @@ Issue Hunt 计划是 AntV 为了鼓励社区贡献者参与到 AntV 项目中来
 
 如果你是项目维护者，你可以在 Issue 上以 Label 的形式设置奖励金额，例如：
 
-`IH: Reward/悬赏`, `$10` 表示这个 Issue 的奖励金额为 10 美元。
+`Reward/悬赏`, `$10` 表示这个 Issue 的奖励金额为 10 美元。
 
 如果你是社区工作者，你可以到[Issue Hunt](https://oss.issuehunt.io/r/antvis/G6/issues)上为**你提出的**/**你希望尽快解决的** issue 进行悬赏。
 
@@ -51,7 +51,7 @@ Issue Hunt 计划是 AntV 为了鼓励社区贡献者参与到 AntV 项目中来
 
 ## 项目认领
 
-为了避免多人同时认领同一个 issue，你可以在被标记了 `IH: Reward/悬赏` 的 issue 下方留言，项目维护者会在 24 小时内回复你是否可以认领该 issue，并在 issue 上添加 `IH: Claimed/已认领` 标签。
+为了避免多人同时认领同一个 issue，你可以在被标记了 `Reward/悬赏` 的 issue 下方留言，项目维护者会在 24 小时内回复你是否可以认领该 issue，并在 issue 上添加 `Claimed/已认领` 标签。
 
 你的认领留言应包含以下信息(请复制后编辑回复)：
 

@@ -6,7 +6,7 @@ The Issue Hunt Program is an incentive program proposed by AntV to encourage com
 
 ## How to Participate in Issue Hunt?
 
-1. Find an issue that interests you. (issue with 'IH: Reward/ reward' tag)
+1. Find an issue that interests you. (issue with 'Reward/悬赏' tag)
 2. Contribute code to the issue.
 3. Earn rewards.
 
@@ -21,7 +21,7 @@ Both project maintainers and community contributors can set rewards for issues.
 
 If you are a project maintainer, you can set the reward amount for an issue by using a label. For example:
 
-`IH: Reward/悬赏`, `$10` means the reward amount for this issue is $10.
+`Reward/悬赏`, `$10` means the reward amount for this issue is $10.
 
 If you are a community contributor, you can reward the issue **you proposed** or the issue **you want to be resolved** on [Issue Hunt](https://oss.issuehunt.io/r/antvis/G6/issues).
 
@@ -51,7 +51,7 @@ If a reward is initiated by a project maintainer through GitHub, we will distrib
 
 ## Issue Claiming
 
-To avoid multiple people claiming the same issue simultaneously, you can leave a comment below an issue marked with IH: Reward/悬赏. The project maintainer will reply within 24 hours to confirm if you can claim the issue and add the IH: Claimed/已认领 label to the issue.
+To avoid multiple people claiming the same issue simultaneously, you can leave a comment below an issue marked with `Reward/悬赏`. The project maintainer will reply within 24 hours to confirm if you can claim the issue and add the `Claimed/已认领` label to the issue.
 
 Your claiming comment should include the following information (copy and edit the template to reply):
 

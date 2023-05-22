@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - name: Comment on Issue
-        if: ${{ github.event.label.name == 'IH: Reward/悬赏' }}
+        if: ${{ github.event.label.name == 'Reward/悬赏' }}
         uses: peter-evans/create-or-update-comment@v3
         with:
           issue-number: ${{ github.event.issue.number }}
