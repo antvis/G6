@@ -15,13 +15,15 @@ Issue Hunt 计划是 AntV 为了鼓励社区贡献者参与到 AntV 项目中来
 1. 从 [Issue Hunt](https://oss.issuehunt.io/r/antvis/G6/issues) 上找到你感兴趣的 issues
 2. 从 [GitHub](https://github.com/antvis/G6/issues?q=is%3Aopen+is%3Aissue+label%3A%22IH%3A+Reward%2F%E6%82%AC%E8%B5%8F%22) 上找到你喜欢的 issues
 
-## 激励机制
+## 为 Issues 设置悬赏
+
+项目维护者和社区人员都可以为 issue 设置悬赏。
 
 如果你是项目维护者，你可以在 Issue 上以 Label 的形式设置奖励金额，例如：
 
 `IH: Reward/悬赏`, `$10` 表示这个 Issue 的奖励金额为 10 美元。
 
-如果你是贡献者，你可以到[Issue Hunt](https://oss.issuehunt.io/r/antvis/G6/issues)上为你提出的/你希望尽快解决的 issue 进行悬赏。
+如果你是社区工作者，你可以到[Issue Hunt](https://oss.issuehunt.io/r/antvis/G6/issues)上为**你提出的**/**你希望尽快解决的** issue 进行悬赏。
 
 > ⚠️ Issue Hunt 平台可能会收取一定的手续费。
 

@@ -15,13 +15,15 @@ The Issue Hunt Program is an incentive program proposed by AntV to encourage com
 - Find issues that interest you on [Issue Hunt](https://oss.issuehunt.io/r/antvis/G6/issues)
 - Find issues you like on [GitHub](https://github.com/antvis/G6/issues?q=is%3Aopen+is%3Aissue+label%3A%22IH%3A+Reward%2F%E6%82%AC%E8%B5%8F%22)
 
-## Incentive Mechanism
+## Set Rewards for Issues
+
+Both project maintainers and community contributors can set rewards for issues.
 
 If you are a project maintainer, you can set the reward amount for an issue by using a label. For example:
 
 `IH: Reward/悬赏`, `$10` means the reward amount for this issue is $10.
 
-If you are a contributor, you can reward the issue you proposed or the issue you want to be resolved on [Issue Hunt](https://oss.issuehunt.io/r/antvis/G6/issues).
+If you are a community contributor, you can reward the issue **you proposed** or the issue **you want to be resolved** on [Issue Hunt](https://oss.issuehunt.io/r/antvis/G6/issues).
 
 > ⚠️ Issue Hunt platform may charge a certain fee.。
 
