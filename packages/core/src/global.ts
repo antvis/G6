@@ -64,7 +64,7 @@ const colorSet = {
 };
 
 export default {
-  version: '0.8.13',
+  version: '0.8.14',
   rootContainerClassName: 'root-container',
   nodeContainerClassName: 'node-container',
   edgeContainerClassName: 'edge-container',
