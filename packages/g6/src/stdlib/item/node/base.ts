@@ -8,7 +8,7 @@ import {
   SHAPE_TYPE_3D,
   ShapeStyle,
   State,
-  ZoomStrategyObj,
+  lodStrategyObj,
 } from '../../../types/item';
 import {
   NodeModelData,
@@ -32,7 +32,7 @@ export abstract class BaseNode {
   defaultStyles: NodeShapeStyles;
   themeStyles: NodeShapeStyles;
   mergedStyles: NodeShapeStyles;
-  zoomStrategy?: ZoomStrategyObj;
+  lodStrategy?: lodStrategyObj;
   boundsCache: {
     keyShapeLocal?: AABB;
     labelShapeLocal?: AABB;
@@ -69,13 +69,13 @@ export abstract class BaseNode {
   };
 
   constructor(props) {
-    const { themeStyles, zoomStrategy } = props;
+    const { themeStyles, lodStrategy } = props;
     if (themeStyles) this.themeStyles = themeStyles;
-    this.zoomStrategy = zoomStrategy;
+    this.lodStrategy = lodStrategy;
     this.boundsCache = {};
     this.zoomCache.animateConfig = {
       ...DEFAULT_ANIMATE_CFG.zoom,
-      ...zoomStrategy?.animateCfg,
+      ...lodStrategy?.animateCfg,
     };
   }
   public mergeStyles(model: NodeDisplayModel) {
@@ -145,19 +145,21 @@ export abstract class BaseNode {
 
     const { levelShapes } = this.zoomCache;
     Object.keys(shapeMap).forEach((shapeId) => {
-      const { showLevel } = shapeMap[shapeId].attributes;
-      if (showLevel !== undefined) {
-        levelShapes[showLevel] = levelShapes[showLevel] || [];
-        levelShapes[showLevel].push(shapeId);
+      const { lod } = shapeMap[shapeId].attributes;
+      if (lod !== undefined) {
+        levelShapes[lod] = levelShapes[lod] || [];
+        levelShapes[lod].push(shapeId);
       }
     });
 
-    const { maxWidth = '200%' } = this.mergedStyles.labelShape || {};
-    this.zoomCache.wordWrapWidth = getWordWrapWidthByBox(
-      this.boundsCache.keyShapeLocal,
-      maxWidth,
-      1,
-    );
+    if (shapeMap.labelShape) {
+      const { maxWidth = '200%' } = this.mergedStyles.labelShape || {};
+      this.zoomCache.wordWrapWidth = getWordWrapWidthByBox(
+        this.boundsCache.keyShapeLocal,
+        maxWidth,
+        1,
+      );
+    }
   }
   abstract draw(
     model: NodeDisplayModel,
@@ -376,8 +378,8 @@ export abstract class BaseNode {
       nodeName as SHAPE_TYPE,
       'haloShape',
       {
-        stroke: attributes.fill,
         ...attributes,
+        stroke: attributes.fill,
         ...haloShapeStyle,
       },
       shapeMap,
@@ -511,7 +513,6 @@ export abstract class BaseNode {
           break;
       }
 
-      if (model.id === 'Valjean') debugger;
       // a radius rect (as container) + a text / icon
       shapes[id] = this.upsertShape(
         'text',
@@ -578,8 +579,8 @@ export abstract class BaseNode {
    */
   public onZoom = (shapeMap: NodeShapeMap, zoom: number) => {
     // zoomLevel changed
-    if (this.zoomStrategy) {
-      const { levels } = this.zoomStrategy;
+    if (this.lodStrategy) {
+      const { levels } = this.lodStrategy;
       // last zoom ratio responsed by zoom changing, which might not equal to zoom.previous in props since the function is debounced.
       const {
         levelShapes,

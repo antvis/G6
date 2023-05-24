@@ -138,6 +138,7 @@ export abstract class BaseNode3D extends BaseNode {
       'haloShape',
       {
         ...attributes,
+        stroke: attributes.fill,
         ...haloShapeStyle,
       },
       shapeMap,

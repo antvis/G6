@@ -71,7 +71,7 @@ export default async () => {
             text: innerModel.id,
             fill: 'white',
             maxWidth: '400%',
-            showLevel: -1,
+            lod: -1,
             offsetY: 20,
             wordWrap: false, // FIXME: mesh.getBounds() returns an empty AABB
             isBillboard: true,

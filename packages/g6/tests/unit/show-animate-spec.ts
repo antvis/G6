@@ -1925,13 +1925,13 @@ describe('graph show up animations', () => {
           ...innerModel,
           data: {
             ...innerModel.data,
-            // zoomStrategy: {
+            // lodStrategy: {
             //   levels: [
-            //     { range: [0, 0.65] },
-            //     { range: [0.65, 0.8] },
-            //     { range: [0.8, 1.6], primary: true },
-            //     { range: [1.6, 2] },
-            //     { range: [2, Infinity] },
+            //     { zoomRange: [0, 0.65] },
+            //     { zoomRange: [0.65, 0.8] },
+            //     { zoomRange: [0.8, 1.6], primary: true },
+            //     { zoomRange: [1.6, 2] },
+            //     { zoomRange: [2, Infinity] },
             //   ],
             //   animateCfg: {
             //     duration: 200,
@@ -1986,13 +1986,13 @@ describe('graph show up animations', () => {
             x,
             y,
             // TODO: different for nodes, and config in theme
-            // zoomStrategy: {
+            // lodStrategy: {
             //   levels: [
-            //     { range: [0, 0.65] },
-            //     { range: [0.65, 0.8] },
-            //     { range: [0.8, 1.6], primary: true },
-            //     { range: [1.6, 2] },
-            //     { range: [2, Infinity] },
+            //     { zoomRange: [0, 0.65] },
+            //     { zoomRange: [0.65, 0.8] },
+            //     { zoomRange: [0.8, 1.6], primary: true },
+            //     { zoomRange: [1.6, 2] },
+            //     { zoomRange: [2, Infinity] },
             //   ],
             //   animateCfg: {
             //     duration: 200,
@@ -2071,13 +2071,13 @@ describe('graph show up animations', () => {
     //     default: ['zoom-canvas'],
     //   },
     //   node: d => {
-    //     zoomStrategy: {
+    //     lodStrategy: {
     //       levels: [
-    //         { range: [0, 0.65] },
-    //         { range: [0.65, 0.8] },
-    //         { range: [0.8, 1.6], primary: true },
-    //         { range: [1.6, 2] },
-    //         { range: [2, Infinity] },
+    //         { zoomRange: [0, 0.65] },
+    //         { zoomRange: [0.65, 0.8] },
+    //         { zoomRange: [0.8, 1.6], primary: true },
+    //         { zoomRange: [1.6, 2] },
+    //         { zoomRange: [2, Infinity] },
     //       ],
     //       animateCfg: {
     //         duration: 200,

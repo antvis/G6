@@ -2022,12 +2022,12 @@ const createGraph = async () => {
     },
     node: (innerModel) => {
       const degree = degrees[innerModel.id] || 0;
-      let labelShowLevel = 4;
-      if (degree > 20) labelShowLevel = -1;
-      else if (degree > 15) labelShowLevel = 0;
-      else if (degree > 10) labelShowLevel = 1;
-      else if (degree > 6) labelShowLevel = 2;
-      else if (degree > 3) labelShowLevel = 3;
+      let labelLod = 4;
+      if (degree > 20) labelLod = -1;
+      else if (degree > 15) labelLod = 0;
+      else if (degree > 10) labelLod = 1;
+      else if (degree > 6) labelLod = 2;
+      else if (degree > 3) labelLod = 3;
 
       let badgeShapes = {};
 
@@ -2036,7 +2036,7 @@ const createGraph = async () => {
           text: '核心人员',
           position: 'right' as IBadgePosition,
           color: '#389e0d',
-          showLevel: labelShowLevel - 2,
+          lod: labelLod - 2,
         };
       }
       if (degree > 15) {
@@ -2044,7 +2044,7 @@ const createGraph = async () => {
           text: 'A',
           position: 'rightTop' as IBadgePosition,
           color: '#d4380d',
-          showLevel: labelShowLevel - 1,
+          lod: labelLod - 1,
         };
       }
       if (degree > 10) {
@@ -2052,7 +2052,7 @@ const createGraph = async () => {
           text: 'B',
           position: 'rightBottom' as IBadgePosition,
           color: '#aaa',
-          showLevel: labelShowLevel - 1,
+          lod: labelLod - 1,
         };
       }
 
@@ -2060,17 +2060,17 @@ const createGraph = async () => {
         ...innerModel,
         data: {
           ...innerModel.data,
-          zoomStrategy: {
+          lodStrategy: {
             levels: [
-              { range: [0, 0.8] }, // -2
-              { range: [0.8, 0.9] }, // -1
-              { range: [0.9, 1], primary: true }, // 0
-              { range: [1, 1.1] }, // 1
-              { range: [1.1, 0.2] }, // 2
-              { range: [1.2, 1.3] }, // 3
-              { range: [1.3, 1.4] }, // 4
-              { range: [1.4, 1.5] }, // 5
-              { range: [1.5, Infinity] }, // 6
+              { zoomRange: [0, 0.8] }, // -2
+              { zoomRange: [0.8, 0.9] }, // -1
+              { zoomRange: [0.9, 1], primary: true }, // 0
+              { zoomRange: [1, 1.1] }, // 1
+              { zoomRange: [1.1, 0.2] }, // 2
+              { zoomRange: [1.2, 1.3] }, // 3
+              { zoomRange: [1.3, 1.4] }, // 4
+              { zoomRange: [1.4, 1.5] }, // 5
+              { zoomRange: [1.5, Infinity] }, // 6
             ],
             animateCfg: {
               duration: 500,
@@ -2142,17 +2142,17 @@ const createGraph = async () => {
           iconShape: {
             img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
             fill: '#fff',
-            showLevel: labelShowLevel - 1,
+            lod: labelLod - 1,
             fontSize: innerModel.data.size ? innerModel.data.size / 3 + 5 : 13,
           },
           labelShape: {
             text: innerModel.id,
             opacity: 0.8,
             maxWidth: '150%',
-            showLevel: labelShowLevel,
+            lod: labelLod,
           },
           labelBackgroundShape: {
-            showLevel: labelShowLevel,
+            lod: labelLod,
           },
           badgeShapes,
         },

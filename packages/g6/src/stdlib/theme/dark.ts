@@ -2,18 +2,16 @@ import { DEFAULT_SHAPE_STYLE, DEFAULT_TEXT_STYLE } from '../../constant';
 import { ThemeSpecification } from '../../types/theme';
 
 const subjectColor = 'rgb(34,126,255)';
-const textColor = 'rgba(0,0,0,0.85)';
+const textColor = 'rgba(255,255,255,0.85)';
 
 const nodeColor = 'rgb(34,126,255)';
 const edgeColor = 'rgb(153, 173, 209)';
 const comboFill = 'rgb(253, 253, 253)';
-const disabledFill = 'rgb(240, 240, 240)';
+const disabledFill = '#D0E4FF';
 
-const edgeMainStroke = 'rgb(153, 173, 209)';
-const edgeDisableStroke = 'rgb(217, 217, 217)';
-const edgeInactiveStroke = 'rgb(210, 218, 233)';
+const edgeMainStroke = '#637088';
 
-const nodeStroke = 'rgba(0,0,0,0.85)';
+const nodeStroke = '#D0E4FF';
 
 export default {
   node: {
@@ -29,13 +27,13 @@ export default {
       '#5241A8',
       '#95CF21',
     ],
-    zoomStrategy: {
+    lodStrategy: {
       levels: [
-        { range: [0, 0.65] },
-        { range: [0.65, 0.8] },
-        { range: [0.8, 1.6], primary: true },
-        { range: [1.6, 2] },
-        { range: [2, Infinity] },
+        { zoomRange: [0, 0.65] },
+        { zoomRange: [0.65, 0.8] },
+        { zoomRange: [0.8, 1.6], primary: true },
+        { zoomRange: [1.6, 2] },
+        { zoomRange: [2, Infinity] },
       ],
       animateCfg: {
         duration: 200,
@@ -53,10 +51,11 @@ export default {
           },
           labelShape: {
             ...DEFAULT_TEXT_STYLE,
-            fill: '#000',
+            fill: textColor,
+            opacity: 0.85,
             position: 'bottom',
             zIndex: 2,
-            showLevel: 0,
+            lod: 0,
             maxWidth: '200%',
             textOverflow: 'ellipsis',
             wordWrap: true,
@@ -65,30 +64,31 @@ export default {
           labelBackgroundShape: {
             padding: [2, 4, 2, 4],
             lineWidth: 0,
-            fill: '#fff',
+            fill: '#000',
             opacity: 0.75,
             zIndex: -1,
-            showLevel: 0,
+            lod: 0,
           },
           iconShape: {
             ...DEFAULT_TEXT_STYLE,
             fill: '#fff',
             fontSize: 16,
             zIndex: 1,
-            showLevel: -1,
+            lod: -1,
           },
           anchorShapes: {
             lineWidth: 1,
-            stroke: 'rgba(0, 0, 0, 0.65)',
+            stroke: nodeStroke,
+            fill: '#000',
             zIndex: 2,
             r: 3,
-            showLevel: 0,
+            lod: 0,
           },
           badgeShapes: {
             color: 'rgb(140, 140, 140)',
             textColor: '#fff',
             zIndex: 3,
-            showLevel: -1,
+            lod: -1,
           },
           haloShape: {
             visible: false,
@@ -96,14 +96,14 @@ export default {
         },
         selected: {
           keyShape: {
-            stroke: '#000',
+            stroke: nodeStroke,
             lineWidth: 3,
           },
           labelShape: {
             fontWeight: 700,
           },
           haloShape: {
-            opacity: 0.25,
+            opacity: 0.45,
             lineWidth: 20,
             zIndex: -1,
             visible: true,
@@ -135,13 +135,13 @@ export default {
         },
         inactive: {
           keyShape: {
-            opacity: 0.25,
+            opacity: 0.45,
           },
           labelShape: {
-            opacity: 0.25,
+            opacity: 0.45,
           },
           iconShape: {
-            opacity: 0.25,
+            opacity: 0.45,
           },
           haloShape: {
             visible: false,
@@ -172,13 +172,13 @@ export default {
       '#A192E8',
       '#CEFB75',
     ],
-    zoomStrategy: {
+    lodStrategy: {
       levels: [
-        { range: [0, 0.65] },
-        { range: [0.65, 0.8] },
-        { range: [0.8, 1.6], primary: true },
-        { range: [1.6, 2] },
-        { range: [2, Infinity] },
+        { zoomRange: [0, 0.65] },
+        { zoomRange: [0.65, 0.8] },
+        { zoomRange: [0.8, 1.6], primary: true },
+        { zoomRange: [1.6, 2] },
+        { zoomRange: [2, Infinity] },
       ],
       animateCfg: {
         duration: 200,
@@ -196,6 +196,7 @@ export default {
           labelShape: {
             ...DEFAULT_TEXT_STYLE,
             fill: textColor,
+            opacity: 0.85,
             position: 'middle',
             textBaseline: 'middle',
             zIndex: 2,
@@ -203,15 +204,15 @@ export default {
             wordWrap: true,
             maxLines: 1,
             maxWidth: '60%',
-            showLevel: 0,
+            lod: 0,
           },
           labelBackgroundShape: {
             padding: [4, 4, 4, 4],
             lineWidth: 0,
-            fill: '#fff',
+            fill: '#000',
             opacity: 0.75,
             zIndex: 1,
-            showLevel: 0,
+            lod: 0,
           },
           iconShape: {
             ...DEFAULT_TEXT_STYLE,
@@ -219,7 +220,7 @@ export default {
             fontSize: 16,
             zIndex: 2,
             offsetX: -10,
-            showLevel: -1,
+            lod: -1,
           },
         },
         selected: {
@@ -257,13 +258,15 @@ export default {
         },
         inactive: {
           keyShape: {
-            stroke: edgeInactiveStroke,
+            stroke: edgeMainStroke,
             lineWidth: 1,
+            opacity: 0.45,
           },
         },
         disable: {
           keyShape: {
-            stroke: edgeDisableStroke,
+            stroke: edgeMainStroke,
+            opacity: 0.08,
             lineWidth: 1,
           },
         },
@@ -322,7 +325,11 @@ export default {
         disable: {
           keyShape: {
             fill: disabledFill,
-            lineWidth: 1,
+            opacity: 0.25,
+          },
+          iconShape: {
+            fill: disabledFill,
+            opacity: 0.25,
           },
         },
       },

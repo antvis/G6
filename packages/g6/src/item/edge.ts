@@ -2,7 +2,7 @@ import { Group } from '@antv/g';
 import { clone, throttle } from '@antv/util';
 import { EdgeDisplayModel, EdgeModel, NodeModelData } from '../types';
 import { EdgeModelData } from '../types/edge';
-import { DisplayMapper, State, ZoomStrategyObj } from '../types/item';
+import { DisplayMapper, State, lodStrategyObj } from '../types/item';
 import { updateShapes } from '../util/shape';
 import Item from './item';
 import Node from './node';
@@ -22,7 +22,7 @@ interface IProps {
   zoom?: number;
   theme: {
     styles: EdgeStyleSet;
-    zoomStrategy: ZoomStrategyObj;
+    lodStrategy: lodStrategyObj;
   };
   onframe?: Function;
 }
@@ -165,7 +165,7 @@ export default class Edge extends Item {
       zoom: this.zoom,
       theme: {
         styles: clone(this.themeStyles),
-        zoomStrategy: this.zoomStrategy,
+        lodStrategy: this.lodStrategy,
       },
     });
     Object.keys(this.shapeMap).forEach((shapeId) => {

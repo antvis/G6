@@ -14,7 +14,7 @@ import {
   AABB,
 } from '@antv/g';
 import { clone, isArray, isNumber } from '@antv/util';
-import { DEFAULT_LABEL_BG_PADDING } from '../constant';
+import { DEFAULT_LABEL_BG_PADDING, RESERVED_SHAPE_IDS } from '../constant';
 import { Point } from '../types/common';
 import { EdgeDisplayModel, EdgeShapeMap } from '../types/edge';
 import {
@@ -29,6 +29,7 @@ import { ComboDisplayModel } from '../types';
 import { getShapeAnimateBeginStyles } from './animate';
 import { isArrayOverlap } from './array';
 import { isBetween } from './math';
+import { getZoomLevel } from './zoom';
 
 export const ShapeTagMap = {
   circle: Circle,
@@ -562,9 +563,9 @@ export const getShapeLocalBoundsByStyle = (
     z1 = 0,
     z2 = 0,
   } = style;
+  const radius = Number(r);
   switch (shape.nodeName) {
     case 'circle':
-      const radius = Number(r);
       return {
         min: [-radius, -radius, 0],
         max: [radius, radius, 0],
@@ -572,8 +573,8 @@ export const getShapeLocalBoundsByStyle = (
       };
     case 'sphere':
       return {
-        min: [-r, -r, -r],
-        max: [r, r, r],
+        min: [-radius, -radius, -radius],
+        max: [radius, radius, radius],
         center: [0, 0, 0],
       };
     case 'image':

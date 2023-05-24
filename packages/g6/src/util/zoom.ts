@@ -1,20 +1,18 @@
-import { ZoomStrategy, ZoomStrategyObj } from '../types/item';
+import { LodStrategy, lodStrategyObj } from '../types/item';
 
 /**
- * Format zoomStrategy to the pattern that ratio 1 (primary level) at level 0, and higher the ratio, higher the level.
- * @param zoomStrategy
+ * Format lodStrategy to the pattern that ratio 1 (primary level) at level 0, and higher the ratio, higher the level.
+ * @param lodStrategy
  * @returns
  */
-export const formatZoomStrategy = (
-  zoomStrategy: ZoomStrategy,
-): ZoomStrategyObj => {
-  const { levels, animateCfg } = zoomStrategy || {};
+export const formatLodStrategy = (lodStrategy: LodStrategy): lodStrategyObj => {
+  const { levels, animateCfg } = lodStrategy || {};
   if (!levels) return undefined;
   const primaryLevel = levels.find((level) => level.primary);
   const primaryIndex = levels.indexOf(primaryLevel);
   const formattedLevels = {};
   levels.forEach((level, i) => {
-    formattedLevels[i - primaryIndex] = level.range;
+    formattedLevels[i - primaryIndex] = level.zoomRange;
   });
   return {
     animateCfg,
@@ -34,8 +32,8 @@ export const getZoomLevel = (
 ) => {
   let level = 0;
   Object.keys(levels).forEach((idx) => {
-    const range = levels[idx];
-    if (zoom >= range[0] && zoom < range[1]) level = Number(idx);
+    const zoomRange = levels[idx];
+    if (zoom >= zoomRange[0] && zoom < zoomRange[1]) level = Number(idx);
   });
   return level;
 };

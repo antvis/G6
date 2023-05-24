@@ -10,7 +10,7 @@ import {
   ShapeAttrEncode,
   ShapesEncode,
   ShapeStyle,
-  ZoomStrategy,
+  LodStrategy,
 } from './item';
 
 export type NodeLabelPosition = 'bottom' | 'center' | 'top' | 'left' | 'right';
@@ -120,7 +120,7 @@ export interface NodeShapeStyles extends ItemShapeStyles {
 
 /** Data in display model. */
 export type NodeDisplayModelData = NodeModelData &
-  NodeShapeStyles & { zoomStrategy?: ZoomStrategy };
+  NodeShapeStyles & { lodStrategy?: LodStrategy };
 
 /** User input model. */
 export type NodeUserModel = GNode<NodeUserModelData>;

@@ -17,7 +17,7 @@ import {
   SHAPE_TYPE,
   ShapeStyle,
   State,
-  ZoomStrategyObj,
+  lodStrategyObj,
 } from '../../../types/item';
 import {
   LOCAL_BOUNDS_DIRTY_FLAG_KEY,
@@ -37,7 +37,7 @@ export abstract class BaseEdge {
   mergedStyles: EdgeShapeStyles;
   sourcePoint: Point;
   targetPoint: Point;
-  zoomStrategy?: ZoomStrategyObj;
+  lodStrategy?: lodStrategyObj;
   labelPosition: {
     x: number;
     y: number;
@@ -81,13 +81,13 @@ export abstract class BaseEdge {
     firstRender: true,
   };
   constructor(props) {
-    const { themeStyles, zoomStrategy } = props;
+    const { themeStyles, lodStrategy } = props;
     if (themeStyles) this.themeStyles = themeStyles;
-    this.zoomStrategy = zoomStrategy;
+    this.lodStrategy = lodStrategy;
     this.boundsCache = {};
     this.zoomCache.animateConfig = {
       ...DEFAULT_ANIMATE_CFG.zoom,
-      ...zoomStrategy?.animateCfg,
+      ...lodStrategy?.animateCfg,
     };
   }
   public mergeStyles(model: EdgeDisplayModel) {
@@ -137,10 +137,10 @@ export abstract class BaseEdge {
 
     const { levelShapes, zoom } = this.zoomCache;
     Object.keys(shapeMap).forEach((shapeId) => {
-      const { showLevel } = shapeMap[shapeId].attributes;
-      if (showLevel !== undefined) {
-        levelShapes[showLevel] = levelShapes[showLevel] || [];
-        levelShapes[showLevel].push(shapeId);
+      const { lod } = shapeMap[shapeId].attributes;
+      if (lod !== undefined) {
+        levelShapes[lod] = levelShapes[lod] || [];
+        levelShapes[lod].push(shapeId);
       }
     });
 
@@ -442,8 +442,8 @@ export abstract class BaseEdge {
       nodeName as SHAPE_TYPE,
       'haloShape',
       {
-        stroke: attributes.stroke,
         ...attributes,
+        stroke: attributes.stroke,
         ...haloShapeStyle,
       },
       shapeMap,
@@ -463,8 +463,8 @@ export abstract class BaseEdge {
     this.balanceShapeSize(shapeMap, zoom);
 
     // zoomLevel changed
-    if (!this.zoomStrategy) return;
-    const { levels } = this.zoomStrategy;
+    if (!this.lodStrategy) return;
+    const { levels } = this.lodStrategy;
     const {
       levelShapes,
       hiddenShape,

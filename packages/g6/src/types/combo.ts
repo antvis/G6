@@ -10,7 +10,7 @@ import {
   ShapeAttrEncode,
   ShapesEncode,
   ShapeStyle,
-  ZoomStrategy,
+  LodStrategy,
 } from './item';
 
 export type ComboLabelPosition =
@@ -86,7 +86,7 @@ export interface ComboShapeStyles extends ItemShapeStyles {
 
 /** Displayed data, only for drawing and not received by users. */
 export type ComboDisplayModelData = ComboModelData &
-  ComboShapeStyles & { zoomStrategy?: ZoomStrategy };
+  ComboShapeStyles & { lodStrategy?: LodStrategy };
 
 /** User input model. */
 export type ComboUserModel = GNode<ComboUserModelData>;

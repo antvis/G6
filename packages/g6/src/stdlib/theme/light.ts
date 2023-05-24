@@ -29,13 +29,13 @@ export default {
       '#5241A8',
       '#95CF21',
     ],
-    zoomStrategy: {
+    lodStrategy: {
       levels: [
-        { range: [0, 0.65] },
-        { range: [0.65, 0.8] },
-        { range: [0.8, 1.6], primary: true },
-        { range: [1.6, 2] },
-        { range: [2, Infinity] },
+        { zoomRange: [0, 0.65] },
+        { zoomRange: [0.65, 0.8] },
+        { zoomRange: [0.8, 1.6], primary: true },
+        { zoomRange: [1.6, 2] },
+        { zoomRange: [2, Infinity] },
       ],
       animateCfg: {
         duration: 200,
@@ -56,7 +56,7 @@ export default {
             fill: '#000',
             position: 'bottom',
             zIndex: 2,
-            showLevel: 0,
+            lod: 0,
             maxWidth: '200%',
             textOverflow: 'ellipsis',
             wordWrap: true,
@@ -68,27 +68,27 @@ export default {
             fill: '#fff',
             opacity: 0.75,
             zIndex: -1,
-            showLevel: 0,
+            lod: 0,
           },
           iconShape: {
             ...DEFAULT_TEXT_STYLE,
             fill: '#fff',
             fontSize: 16,
             zIndex: 1,
-            showLevel: -1,
+            lod: -1,
           },
           anchorShapes: {
             lineWidth: 1,
             stroke: 'rgba(0, 0, 0, 0.65)',
             zIndex: 2,
             r: 3,
-            showLevel: 0,
+            lod: 0,
           },
           badgeShapes: {
             color: 'rgb(140, 140, 140)',
             textColor: '#fff',
             zIndex: 3,
-            showLevel: -1,
+            lod: -1,
           },
           haloShape: {
             visible: false,
@@ -172,13 +172,13 @@ export default {
       '#A192E8',
       '#CEFB75',
     ],
-    zoomStrategy: {
+    lodStrategy: {
       levels: [
-        { range: [0, 0.65] },
-        { range: [0.65, 0.8] },
-        { range: [0.8, 1.6], primary: true },
-        { range: [1.6, 2] },
-        { range: [2, Infinity] },
+        { zoomRange: [0, 0.65] },
+        { zoomRange: [0.65, 0.8] },
+        { zoomRange: [0.8, 1.6], primary: true },
+        { zoomRange: [1.6, 2] },
+        { zoomRange: [2, Infinity] },
       ],
       animateCfg: {
         duration: 200,
@@ -203,7 +203,7 @@ export default {
             wordWrap: true,
             maxLines: 1,
             maxWidth: '60%',
-            showLevel: 0,
+            lod: 0,
           },
           labelBackgroundShape: {
             padding: [4, 4, 4, 4],
@@ -211,7 +211,7 @@ export default {
             fill: '#fff',
             opacity: 0.75,
             zIndex: 1,
-            showLevel: 0,
+            lod: 0,
           },
           iconShape: {
             ...DEFAULT_TEXT_STYLE,
@@ -219,7 +219,7 @@ export default {
             fontSize: 16,
             zIndex: 2,
             offsetX: -10,
-            showLevel: -1,
+            lod: -1,
           },
         },
         selected: {

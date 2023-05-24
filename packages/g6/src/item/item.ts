@@ -11,7 +11,7 @@ import {
   ItemShapeStyles,
   ITEM_TYPE,
   State,
-  ZoomStrategyObj,
+  lodStrategyObj,
 } from '../types/item';
 import { NodeShapeMap } from '../types/node';
 import { EdgeStyleSet, NodeStyleSet } from '../types/theme';
@@ -25,7 +25,7 @@ import {
   GROUP_ANIMATE_STYLES,
 } from '../util/animate';
 import { AnimateTiming, IAnimates } from '../types/animate';
-import { formatZoomStrategy } from '../util/zoom';
+import { formatLodStrategy } from '../util/zoom';
 
 export default abstract class Item implements IItem {
   public destroyed = false;
@@ -69,8 +69,8 @@ export default abstract class Item implements IItem {
     default?: ItemShapeStyles;
     [stateName: string]: ItemShapeStyles;
   };
-  /** The zoom strategy to show and hide shapes according to their showLevel. */
-  public zoomStrategy: ZoomStrategyObj;
+  /** The zoom strategy to show and hide shapes according to their lod. */
+  public lodStrategy: lodStrategyObj;
   /** Last zoom ratio. */
   public zoom: number;
   /** Cache the chaging states which are not consomed by draw  */
@@ -113,16 +113,16 @@ export default abstract class Item implements IItem {
     this.renderExtensions = renderExtensions;
     const {
       type = this.type === 'node' ? 'circle-node' : 'line-edge',
-      zoomStrategy: modelZoomStrategy,
+      lodStrategy: modelLodStrategy,
     } = this.displayModel.data;
     const RenderExtension = renderExtensions.find((ext) => ext.type === type);
     this.themeStyles = theme.styles;
-    const zoomStrategy = modelZoomStrategy
-      ? formatZoomStrategy(modelZoomStrategy)
-      : theme.zoomStrategy;
+    const lodStrategy = modelLodStrategy
+      ? formatLodStrategy(modelLodStrategy)
+      : theme.lodStrategy;
     this.renderExt = new RenderExtension({
       themeStyles: this.themeStyles.default,
-      zoomStrategy,
+      lodStrategy,
       device: this.device,
     });
   }
@@ -171,7 +171,7 @@ export default abstract class Item implements IItem {
     isReplace?: boolean,
     itemTheme?: {
       styles: NodeStyleSet | EdgeStyleSet;
-      zoomStrategy: ZoomStrategyObj;
+      lodStrategy: lodStrategyObj;
     },
     onlyMove?: boolean,
     onfinish?: Function,
@@ -189,9 +189,9 @@ export default abstract class Item implements IItem {
     );
     this.displayModel = displayModel;
 
-    this.zoomStrategy = displayModel.data.zoomStrategy
-      ? formatZoomStrategy(displayModel.data.zoomStrategy)
-      : itemTheme?.zoomStrategy || this.zoomStrategy;
+    this.lodStrategy = displayModel.data.lodStrategy
+      ? formatLodStrategy(displayModel.data.lodStrategy)
+      : itemTheme?.lodStrategy || this.lodStrategy;
 
     if (onlyMove) {
       this.updatePosition(displayModel, diffData, onfinish);
@@ -208,12 +208,12 @@ export default abstract class Item implements IItem {
       );
       this.renderExt = new RenderExtension({
         themeStyles: this.themeStyles.default,
-        zoomStrategy: this.zoomStrategy,
+        lodStrategy: this.lodStrategy,
         device: this.device,
       });
     } else {
       this.renderExt.themeStyles = this.themeStyles.default;
-      this.renderExt.zoomStrategy = this.zoomStrategy;
+      this.renderExt.lodStrategy = this.lodStrategy;
     }
     // 3. call element update fn from useLib
     if (this.states?.length) {

@@ -50,7 +50,7 @@ export interface ZoomCanvasOptions {
 const DEFAULT_OPTIONS: Required<ZoomCanvasOptions> = {
   enableOptimize: false,
   triggerOnItems: true,
-  sensitivity: 1,
+  sensitivity: 2,
   trigger: 'wheel',
   secondaryKey: '',
   speedUpKey: 'shift',
@@ -80,6 +80,17 @@ export default class ZoomCanvas extends Behavior {
   }
 
   getEvents() {
+    this.graph.canvas
+      .getContextService()
+      .getDomElement()
+      .addEventListener(
+        'wheel',
+        (e) => {
+          e.preventDefault();
+        },
+        { passive: false },
+      );
+
     if (this.options.trigger === 'upDownKeys') {
       return {
         keydown: this.onKeydown,

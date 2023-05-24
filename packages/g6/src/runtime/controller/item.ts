@@ -28,7 +28,7 @@ import {
   ITEM_TYPE,
   ShapeStyle,
   SHAPE_TYPE,
-  ZoomStrategyObj,
+  lodStrategyObj,
 } from '../../types/item';
 import {
   ThemeSpecification,
@@ -39,7 +39,7 @@ import {
 } from '../../types/theme';
 import { DirectionalLight, AmbientLight } from '@antv/g-plugin-3d';
 import { ViewportChangeHookParams } from '../../types/hook';
-import { formatZoomStrategy } from '../../util/zoom';
+import { formatLodStrategy } from '../../util/zoom';
 
 /**
  * Manages and stores the node / edge / combo items.
@@ -588,7 +588,7 @@ export class ItemController {
         zoom,
         theme: itemTheme as {
           styles: NodeStyleSet;
-          zoomStrategy: ZoomStrategyObj;
+          lodStrategy: lodStrategyObj;
         },
         device:
           graph.rendererType === 'webgl-3d'
@@ -645,7 +645,7 @@ export class ItemController {
         zoom,
         theme: itemTheme as {
           styles: EdgeStyleSet;
-          zoomStrategy: ZoomStrategyObj;
+          lodStrategy: lodStrategyObj;
         },
       });
     });
@@ -722,16 +722,16 @@ const getItemTheme = (
   itemTheme: NodeThemeSpecifications | EdgeThemeSpecifications,
 ): {
   styles: NodeStyleSet | EdgeStyleSet;
-  zoomStrategy: ZoomStrategyObj;
+  lodStrategy: lodStrategyObj;
 } => {
-  const { styles: themeStyles, zoomStrategy } = itemTheme;
-  const formattedZoomStrategy = formatZoomStrategy(zoomStrategy);
+  const { styles: themeStyles, lodStrategy } = itemTheme;
+  const formattedLodStrategy = formatLodStrategy(lodStrategy);
   if (!dataTypeField) {
     // dataType field is not assigned
     const styles = isArray(themeStyles)
       ? themeStyles[0]
       : Object.values(themeStyles)[0];
-    return { styles, zoomStrategy: formattedZoomStrategy };
+    return { styles, lodStrategy: formattedLodStrategy };
   }
   dataTypeSet.add(dataType as string);
   let themeStyle;
@@ -744,6 +744,6 @@ const getItemTheme = (
   }
   return {
     styles: themeStyle,
-    zoomStrategy: formattedZoomStrategy,
+    lodStrategy: formattedLodStrategy,
   };
 };

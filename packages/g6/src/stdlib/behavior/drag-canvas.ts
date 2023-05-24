@@ -36,6 +36,7 @@ export interface DragCanvasOptions {
    * The range of canvas to limit dragging, 0 by default, which means the graph cannot be dragged totally out of the view port range.
    * If scalableRange is number or a string without 'px', means it is a ratio of the graph content.
    * If scalableRange is a string with 'px', it is regarded as pixels.
+   * If scalableRange = 0, no constrains;
    * If scalableRange > 0, the graph can be dragged out of the view port range
    * If scalableRange < 0, the range is smaller than the view port.
    * Refer to https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*IFfoS67_HssAAAAAAAAAAAAAARQnAQ
@@ -59,7 +60,7 @@ const DEFAULT_OPTIONS: Required<DragCanvasOptions> = {
   secondaryKey: '',
   secondaryKeyToDisable: 'shift',
   speedUpKey: '',
-  scalableRange: 0.8,
+  scalableRange: 0,
   eventName: '',
   shouldBegin: () => true,
 };
@@ -165,6 +166,7 @@ export default class DragCanvas extends Behavior {
         rangeNum = Number(scalableRange.replace('%', '')) / 100;
       }
     }
+    if (rangeNum === 0) return { dx: diffX, dy: diffY };
 
     let expandWidth = rangeNum;
     let expandHeight = rangeNum;

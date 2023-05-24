@@ -61,7 +61,7 @@ export type GShapeStyle = CircleStyleProps &
 export type ShapeStyle = Partial<
   GShapeStyle & {
     animates?: IAnimates;
-    showLevel?: number;
+    lod?: number;
     visible?: boolean;
   }
 >;
@@ -154,7 +154,7 @@ export type ItemShapeStyles = {
       ImageStyleProps & {
         offsetX?: number;
         offsetY?: number;
-        showLevel?: number;
+        lod?: number;
       }
   >;
   haloShape?: ShapeStyle;
@@ -165,15 +165,15 @@ export type ItemShapeStyles = {
   animates?: IAnimates;
 };
 
-export interface ZoomStrategy {
+export interface LodStrategy {
   levels: {
-    range: [number, number];
+    zoomRange: [number, number];
     primary: boolean;
   }[];
   animateCfg: AnimateCfg;
 }
 
-export interface ZoomStrategyObj {
+export interface lodStrategyObj {
   levels: {
     [levelIdx: number]: [number, number];
   };
@@ -222,8 +222,8 @@ export interface IItem {
     default?: ItemShapeStyles;
     [stateName: string]: ItemShapeStyles;
   };
-  /** The zoom strategy to show and hide shapes according to their showLevel. */
-  zoomStrategy: ZoomStrategyObj;
+  /** The zoom strategy to show and hide shapes according to their lod. */
+  lodStrategy: lodStrategyObj;
   /** Last zoom ratio. */
   zoom: number;
   /** Cache the chaging states which are not consomed by draw  */

@@ -10,7 +10,7 @@ import {
   ShapeAttrEncode,
   ShapesEncode,
   ShapeStyle,
-  ZoomStrategy,
+  LodStrategy,
 } from './item';
 
 export interface EdgeUserModelData extends PlainObject {
@@ -77,7 +77,7 @@ export interface EdgeShapeStyles extends ItemShapeStyles {
 }
 
 export type EdgeDisplayModelData = EdgeModelData &
-  EdgeShapeStyles & { zoomStrategy?: ZoomStrategy };
+  EdgeShapeStyles & { lodStrategy?: LodStrategy };
 
 /** User input data. */
 export type EdgeUserModel = GEdge<EdgeUserModelData>;

@@ -46,7 +46,7 @@ export default class SpecThemeSolver extends BaseThemeSolver {
         if (!specification[itemType]) return;
         const {
           palette = mergedSpec[itemType].palette,
-          zoomStrategy = mergedSpec[itemType].zoomStrategy,
+          lodStrategy = mergedSpec[itemType].lodStrategy,
           dataTypeField,
         } = specification[itemType];
         let { getStyleSets } = specification[itemType];
@@ -96,7 +96,7 @@ export default class SpecThemeSolver extends BaseThemeSolver {
         mergedSpec[itemType] = {
           dataTypeField,
           palette,
-          zoomStrategy,
+          lodStrategy,
           styles: mergedStyles,
         };
       });

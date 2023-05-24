@@ -2,7 +2,7 @@ import { Group } from '@antv/g';
 import { clone } from '@antv/util';
 import { Point } from '../types/common';
 import { NodeModel } from '../types';
-import { DisplayMapper, State, ZoomStrategyObj } from '../types/item';
+import { DisplayMapper, State, lodStrategyObj } from '../types/item';
 import { NodeDisplayModel, NodeModelData } from '../types/node';
 import { NodeStyleSet } from '../types/theme';
 import { updateShapes } from '../util/shape';
@@ -26,7 +26,7 @@ interface IProps {
   zoom?: number;
   theme: {
     styles: NodeStyleSet;
-    zoomStrategy: ZoomStrategyObj;
+    lodStrategy: lodStrategyObj;
   };
   device?: any; // for 3d shapes
   onframe?: Function;
@@ -114,7 +114,7 @@ export default class Node extends Item {
     isReplace?: boolean,
     theme?: {
       styles: NodeStyleSet;
-      zoomStrategy: ZoomStrategyObj;
+      lodStrategy: lodStrategyObj;
     },
     onlyMove?: boolean,
     onfinish?: Function,
@@ -181,7 +181,7 @@ export default class Node extends Item {
       zoom: this.zoom,
       theme: {
         styles: clone(this.themeStyles),
-        zoomStrategy: this.zoomStrategy,
+        lodStrategy: this.lodStrategy,
       },
     });
     Object.keys(this.shapeMap).forEach((shapeId) => {
