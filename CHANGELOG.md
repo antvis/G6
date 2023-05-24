@@ -1,5 +1,9 @@
 # ChangeLog
 
+### 4.8.14
+
+- fix: upgrade layout for umd;
+
 ### 4.8.13
 
 - fix: webpack dependency;
