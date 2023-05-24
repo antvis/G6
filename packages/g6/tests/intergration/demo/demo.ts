@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { initThreads, supportsThreads } from '@antv/layout-wasm';
+import { initThreads, supportsThreads, ForceLayout } from '@antv/layout-wasm';
 import G6 from '../../../src/index';
 import { container, height, width } from '../../datasets/const';
 import data from './data';
@@ -8,38 +8,11 @@ import data3d from './data3d';
 import { labelPropagation } from '@antv/algorithm';
 // import Stats from 'stats.js';
 
-const clusteredData = labelPropagation(data, false);
-const clusteredData3D = labelPropagation(data3d, false);
-
-// for 性能测试
-data.nodes.forEach((node) => {
-  delete node.x;
-  delete node.y;
-  delete node.z;
-});
-
-clusteredData.clusters.forEach((cluster, i) => {
-  cluster.nodes.forEach((node) => {
-    node.data.cluster = `c${i}`;
-  });
-});
-clusteredData3D.clusters.forEach((cluster, i) => {
-  cluster.nodes.forEach((node) => {
-    node.data.cluster = `c${i}`;
-  });
-});
-
-const degrees = {};
-data.edges.forEach((edge) => {
-  const { source, target } = edge;
-  degrees[source] = degrees[source] || 0;
-  degrees[target] = degrees[target] || 0;
-  degrees[source]++;
-  degrees[target]++;
-});
-
-const { edges, nodes } = data;
-export { edges, nodes, degrees };
+let degrees = {};
+let dataFor2D = { nodes: [], edges: [] };
+let dataFor3D = { nodes: [], edges: [] };
+const { nodes, edges } = data;
+export { nodes, edges, degrees };
 
 const getDefaultNodeAnimates = (delay?: number) => ({
   buildIn: [
@@ -148,7 +121,7 @@ const create2DGraph = (
     height: 1400,
     type: 'graph',
     renderer: rendererType,
-    data,
+    data: dataFor2D,
     modes: {
       default: [
         { type: 'zoom-canvas', zoomOnItems: true },
@@ -242,6 +215,7 @@ const create2DGraph = (
 };
 
 const create3DGraph = async () => {
+  G6.stdLib.layouts['force-wasm'] = ForceLayout;
   const supported = await supportsThreads();
   const threads = await initThreads(supported);
   const graph = new G6.Graph({
@@ -249,35 +223,41 @@ const create3DGraph = async () => {
     width,
     height: 1400,
     type: 'graph',
-
     renderer: 'webgl-3d',
+    data: dataFor3D,
+    // layout: {
+    //   type: 'force-wasm',
+    //   threads,
+    //   dimensions: 2,
+    //   maxIteration: 100,
+    //   minMovement: 0.4,
+    //   distanceThresholdMode: 'mean',
+    //   height,
+    //   width,
+    //   center: [width / 2, height / 2],
+    //   factor: 1,
+    //   gravity: 10,
+    //   linkDistance: 200,
+    //   edgeStrength: 200,
+    //   nodeStrength: 1000,
+    //   coulombDisScale: 0.005,
+    //   damping: 0.9,
+    //   maxSpeed: 1000,
+    //   interval: 0.02,
+    // },
     layout: {
       type: 'force-wasm',
       threads,
-      dimensions: 2,
-      maxIteration: 100,
-      minMovement: 0.4,
-      distanceThresholdMode: 'mean',
+      dimensions: 3,
+      iterations: 300,
+      minMovement: 10,
       height,
       width,
-      center: [width / 2, height / 2],
-      factor: 1,
-      gravity: 10,
-      linkDistance: 200,
-      edgeStrength: 200,
-      nodeStrength: 1000,
-      coulombDisScale: 0.005,
-      damping: 0.9,
-      maxSpeed: 1000,
-      interval: 0.02,
+      linkDistance: 400,
+      edgeStrength: 100,
+      nodeStrength: 2000,
+      center: [width / 2, height / 2, 0],
     },
-    // layout: {
-    //   type: 'force',
-    //   dimensions: 3,
-    //   // iterations: 100,
-    //   minMovement: 0.5,
-    //   center: [width / 2, height / 2, 0],
-    // },
     modes: {
       default: [
         {
@@ -287,8 +267,6 @@ const create3DGraph = async () => {
         'zoom-canvas-3d',
       ],
     },
-
-    data: data3d,
     // @ts-ignore
     theme: {
       type: 'spec',
@@ -354,34 +332,36 @@ const create3DGraph = async () => {
     camera.rotate(rotX, 0);
   };
 
-  let timer;
-  setTimeout(() => {
-    const camera = graph.canvas.getCamera();
-    const oripos = camera.getPosition();
-    let k = 0;
-    let i = 0;
-    const tick = () => {
-      camera.setPosition([oripos[0], oripos[1], oripos[2] + k]);
+  graph.on('afterlayout', (e) => {
+    let timer;
+    setTimeout(() => {
+      const camera = graph.canvas.getCamera();
+      const oripos = camera.getPosition();
+      let k = 0;
+      let i = 0;
+      const tick = () => {
+        camera.setPosition([oripos[0], oripos[1], oripos[2] + k]);
 
-      const rdx =
-        i < 100 ? Math.min(i * 0.5, 20) : Math.min((200 - i) * 0.2, 20);
-      rotate(camera, rdx, rdx, graph);
+        const rdx =
+          i < 100 ? Math.min(i * 0.5, 20) : Math.min((200 - i) * 0.2, 20);
+        rotate(camera, rdx, rdx, graph);
 
-      timer = requestAnimationFrame(tick);
-      if (i > 200) cancelAnimationFrame(timer);
+        timer = requestAnimationFrame(tick);
+        if (i > 200) cancelAnimationFrame(timer);
 
-      const param = i < 50 ? 3 : 0.5;
-      k += 50 * param;
-      i++;
-    };
-    tick();
-  }, 1000);
+        const param = i < 50 ? 3 : 0.5;
+        k += 50 * param;
+        i++;
+      };
+      tick();
+    }, 1000);
 
-  graph.on('canvas:pointerdown', (e) => {
-    if (timer) cancelAnimationFrame(timer);
-  });
-  graph.on('wheel', (e) => {
-    if (timer) cancelAnimationFrame(timer);
+    graph.once('canvas:pointerdown', (e) => {
+      if (timer) cancelAnimationFrame(timer);
+    });
+    graph.once('wheel', (e) => {
+      if (timer) cancelAnimationFrame(timer);
+    });
   });
 
   return graph;
@@ -432,54 +412,6 @@ const addButtons = (graph) => {
   rendererSelect.appendChild(option3);
   rendererSelect.appendChild(option4);
   document.body.appendChild(rendererSelect);
-  rendererSelect.addEventListener('change', (e) => {
-    const type = e.target.value;
-    if (type.toLowerCase() === 'webgl-3d') {
-      graph.destroy(async () => {
-        graph = await create3DGraph();
-      });
-      return;
-    }
-    if (type.toLowerCase() === 'canvas') {
-      graph.destroy(() => {
-        graph = create2DGraph();
-      });
-      return;
-    }
-    if (type.toLowerCase() === 'webgl') {
-      graph.destroy(() => {
-        const currentZoom = graph.getZoom();
-        const position = graph.canvas.getCamera().getPosition();
-        const zoomOpt = {
-          zoom: currentZoom,
-          center: { x: position[0], y: position[1] },
-        };
-        graph = create2DGraph(
-          undefined,
-          undefined,
-          undefined,
-          zoomOpt,
-          'webgl',
-        );
-      });
-      // graph.changeRenderer('webgl');
-      return;
-    }
-    if (type.toLowerCase() === 'svg') {
-      // comming soon
-      // graph.destroy(() => {
-      //   const currentZoom = graph.getZoom();
-      //   const position = graph.canvas.getCamera().getPosition();
-      //   const zoomOpt = {
-      //     zoom: currentZoom,
-      //     center: { x: position[0], y: position[1] },
-      //   };
-      //   graph = create2DGraph(undefined, undefined, undefined, zoomOpt, 'svg');
-      // });
-      return;
-    }
-    // graph.changeRenderer(type.toLowerCase());
-  });
 
   const themeSelect = document.createElement('select');
   themeSelect.style.position = 'absolute';
@@ -499,114 +431,15 @@ const addButtons = (graph) => {
   themeSelect.appendChild(themeOption2);
   themeSelect.appendChild(themeOption3);
   document.body.appendChild(themeSelect);
-  themeSelect.addEventListener('change', (e) => {
-    const type = e.target.value;
 
-    let nodeAnimates = () => getDefaultNodeAnimates(1000);
-    let edgeAnimates = () => getDefaultEdgeAnimates(1000);
-
-    const currentZoom = graph.getZoom();
-    const position = graph.canvas.getCamera().getPosition();
-
-    let theme;
-    let zoomOpt = {
-      zoom: currentZoom,
-      center: { x: position[0], y: position[1] },
-    };
-    switch (type) {
-      case '亮色主题':
-        theme = {
-          type: 'spec',
-          base: 'light',
-        };
-        nodeAnimates = undefined;
-        edgeAnimates = undefined;
-        break;
-      case '暗色主题':
-        theme = {
-          type: 'spec',
-          base: 'dark',
-        };
-        nodeAnimates = undefined;
-        edgeAnimates = undefined;
-        break;
-      case '蓝色主题':
-        theme = {
-          type: 'spec',
-          specification: {
-            canvas: {
-              backgroundColor: '#f3faff',
-            },
-            node: {
-              dataTypeField: 'cluster',
-              palette: [
-                '#bae0ff',
-                '#91caff',
-                '#69b1ff',
-                '#4096ff',
-                '#1677ff',
-                '#0958d9',
-                '#003eb3',
-                '#002c8c',
-                '#001d66',
-              ],
-            },
-          },
-        };
-        break;
-      case '橙色主题':
-        theme = {
-          type: 'spec',
-          specification: {
-            canvas: {
-              backgroundColor: '#fcf9f1',
-            },
-            node: {
-              dataTypeField: 'cluster',
-              palette: [
-                '#ffe7ba',
-                '#ffd591',
-                '#ffc069',
-                '#ffa940',
-                '#fa8c16',
-                '#d46b08',
-                '#ad4e00',
-                '#873800',
-                '#612500',
-              ],
-            },
-          },
-        };
-        break;
-    }
-    graph.destroy(() => {
-      graph.canvas.context.config.canvas.style.backgroundColor = '#fcf9f1';
-      setTimeout(() => {
-        graph = create2DGraph(nodeAnimates, edgeAnimates, theme, zoomOpt);
-      }, 300);
-    });
-  });
-
-  const zoomLevels = [0.15, 0.16, 0.2, 0.3, 0.5, 0.8, 1.5, 2];
-  const btnZoom = document.createElement('button');
-  btnZoom.innerHTML = '+';
-  btnZoom.style.position = 'absolute';
-  btnZoom.style.top = '114px';
-  btnZoom.style.left = '16px';
-  btnZoom.style.width = '24px';
-  btnZoom.style.zIndex = '100';
-  document.body.appendChild(btnZoom);
-  btnZoom.addEventListener('click', (e) => {
-    let toZoom = 0.15;
-    const currentZoom = graph.getZoom();
-    for (let i = 0; i < zoomLevels.length - 1; i++) {
-      if (currentZoom <= zoomLevels[i]) {
-        toZoom = zoomLevels[i + 1];
-        break;
-      }
-    }
-    graph.zoomTo(toZoom, { x: 2194, y: -1347 }, { duration: 500 });
-  });
+  const btnZoomIn = document.createElement('button');
+  btnZoomIn.innerHTML = '+';
+  btnZoomIn.style.position = 'absolute';
+  btnZoomIn.style.top = '114px';
+  btnZoomIn.style.left = '16px';
+  btnZoomIn.style.width = '24px';
+  btnZoomIn.style.zIndex = '100';
+  document.body.appendChild(btnZoomIn);
   const btnZoomOut = document.createElement('button');
   btnZoomOut.innerHTML = '-';
   btnZoomOut.style.position = 'absolute';
@@ -615,23 +448,231 @@ const addButtons = (graph) => {
   btnZoomOut.style.width = '24px';
   btnZoomOut.style.zIndex = '100';
   document.body.appendChild(btnZoomOut);
-  btnZoomOut.addEventListener('click', (e) => {
-    let toZoom = 0.15;
-    const currentZoom = graph.getZoom();
+
+  return {
+    rendererSelect,
+    themeSelect,
+    zoomIn: btnZoomIn,
+    zoomOut: btnZoomOut,
+  };
+};
+
+const handleSwitchRenderer = (rendererName, graph) => {
+  let newGraph;
+  switch (rendererName) {
+    case 'webgl-3d':
+      graph.destroy(async () => {
+        newGraph = await create3DGraph();
+      });
+      return;
+    case 'canvas':
+      graph.destroy(() => {
+        newGraph = create2DGraph();
+      });
+      return;
+    case 'webgl':
+      graph.destroy(() => {
+        const currentZoom = graph.getZoom();
+        const position = graph.canvas.getCamera().getPosition();
+        const zoomOpt = {
+          zoom: currentZoom,
+          center: { x: position[0], y: position[1] },
+        };
+        newGraph = create2DGraph(
+          undefined,
+          undefined,
+          undefined,
+          zoomOpt,
+          'webgl',
+        );
+      });
+      // graph.changeRenderer('webgl');
+      return;
+    case 'svg':
+    // comming soon
+    // graph.destroy(() => {
+    //   const currentZoom = graph.getZoom();
+    //   const position = graph.canvas.getCamera().getPosition();
+    //   const zoomOpt = {
+    //     zoom: currentZoom,
+    //     center: { x: position[0], y: position[1] },
+    //   };
+    //   newGraph = create2DGraph(undefined, undefined, undefined, zoomOpt, 'svg');
+    // });
+    default:
+      return;
+  }
+  return newGraph;
+};
+
+const handleSwitchTheme = (themeType) => {
+  let nodeAnimates = () => getDefaultNodeAnimates(1000);
+  let edgeAnimates = () => getDefaultEdgeAnimates(1000);
+
+  const currentZoom = graph.getZoom();
+  const position = graph.canvas.getCamera().getPosition();
+
+  let theme;
+  let zoomOpt = {
+    zoom: currentZoom,
+    center: { x: position[0], y: position[1] },
+  };
+  switch (themeType) {
+    case '亮色主题':
+      theme = {
+        type: 'spec',
+        base: 'light',
+      };
+      nodeAnimates = undefined;
+      edgeAnimates = undefined;
+      break;
+    case '暗色主题':
+      theme = {
+        type: 'spec',
+        base: 'dark',
+      };
+      nodeAnimates = undefined;
+      edgeAnimates = undefined;
+      break;
+    case '蓝色主题':
+      theme = {
+        type: 'spec',
+        specification: {
+          canvas: {
+            backgroundColor: '#f3faff',
+          },
+          node: {
+            dataTypeField: 'cluster',
+            palette: [
+              '#bae0ff',
+              '#91caff',
+              '#69b1ff',
+              '#4096ff',
+              '#1677ff',
+              '#0958d9',
+              '#003eb3',
+              '#002c8c',
+              '#001d66',
+            ],
+          },
+        },
+      };
+      break;
+    case '橙色主题':
+      theme = {
+        type: 'spec',
+        specification: {
+          canvas: {
+            backgroundColor: '#fcf9f1',
+          },
+          node: {
+            dataTypeField: 'cluster',
+            palette: [
+              '#ffe7ba',
+              '#ffd591',
+              '#ffc069',
+              '#ffa940',
+              '#fa8c16',
+              '#d46b08',
+              '#ad4e00',
+              '#873800',
+              '#612500',
+            ],
+          },
+        },
+      };
+      break;
+  }
+  graph.destroy(() => {
+    graph.canvas.context.config.canvas.style.backgroundColor = '#fcf9f1';
+    setTimeout(() => {
+      graph = create2DGraph(nodeAnimates, edgeAnimates, theme, zoomOpt);
+    }, 300);
+  });
+};
+
+const zoomLevels = [0.15, 0.16, 0.2, 0.3, 0.5, 0.8, 1.5, 2];
+const handleZoom = (graph, isIn = true) => {
+  let toZoom = 0.15;
+  const currentZoom = graph.getZoom();
+  if (isIn) {
+    for (let i = 0; i < zoomLevels.length - 1; i++) {
+      if (currentZoom <= zoomLevels[i]) {
+        toZoom = zoomLevels[i + 1];
+        break;
+      }
+    }
+  } else {
     for (let i = zoomLevels.length - 1; i >= 1; i--) {
       if (currentZoom >= zoomLevels[i]) {
         toZoom = zoomLevels[i - 1];
         break;
       }
     }
-    graph.zoomTo(toZoom, { x: 2194, y: -1347 }, { duration: 500 });
+  }
+  graph.zoomTo(toZoom, { x: 2194, y: -1347 }, { duration: 500 });
+};
+
+const getDataFor2D = (inputData) => {
+  const clusteredData = labelPropagation(inputData, false);
+  clusteredData.clusters.forEach((cluster, i) => {
+    cluster.nodes.forEach((node) => {
+      node.data.cluster = `c${i}`;
+    });
   });
+  // for 性能测试
+  // data.nodes.forEach((node) => {
+  //   delete node.data.x;
+  //   delete node.data.y;
+  //   delete node.data.z;
+  // });
+  const degrees = {};
+  inputData.edges.forEach((edge) => {
+    const { source, target } = edge;
+    degrees[source] = degrees[source] || 0;
+    degrees[target] = degrees[target] || 0;
+    degrees[source]++;
+    degrees[target]++;
+  });
+
+  return { degrees, data };
+};
+
+const getDataFor3D = () => {
+  const clusteredData3D = labelPropagation(data3d, false);
+  clusteredData3D.clusters.forEach((cluster, i) => {
+    cluster.nodes.forEach((node) => {
+      node.data.cluster = `c${i}`;
+    });
+  });
+  data3d.nodes.forEach((node) => {
+    delete node.data.x;
+    delete node.data.y;
+    delete node.data.z;
+  });
+
+  return data;
 };
 
 export default () => {
-  let graph; // = create2DGraph();
+  const result2d = getDataFor2D(data);
+  degrees = result2d.degrees;
+  dataFor2D = result2d.data;
+  dataFor3D = getDataFor3D(data3d);
+  let graph = create2DGraph();
+  const { rendererSelect, themeSelect, zoomIn, zoomOut } = addButtons(graph);
 
-  // addButtons(graph);
+  rendererSelect.addEventListener('change', (e) => {
+    const type = e.target.value;
+    graph = handleSwitchRenderer(type.toLowerCase(), graph);
+    // graph.changeRenderer(type.toLowerCase());
+  });
+  themeSelect.addEventListener('change', (e) => {
+    const type = e.target.value;
+    handleSwitchTheme(type);
+  });
+  zoomIn.addEventListener('click', () => handleZoom(graph, true));
+  zoomOut.addEventListener('click', () => handleZoom(graph, false));
 
   // stats
   // const stats = new Stats();

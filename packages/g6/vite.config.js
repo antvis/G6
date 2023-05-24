@@ -16,6 +16,9 @@ export default defineConfig({
       // '@antv/layout',
       // '@antv/algorithm',
       // '@antv/layout-gpu',
+      // '@antv/g',
+      // '@antv/g-canvas',
+      // '@antv/g-webgl',
     ],
   },
   plugins: [

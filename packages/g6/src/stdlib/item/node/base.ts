@@ -152,7 +152,7 @@ export abstract class BaseNode {
       }
     });
 
-    if (shapeMap.labelShape) {
+    if (shapeMap.labelShape && this.boundsCache.keyShapeLocal) {
       const { maxWidth = '200%' } = this.mergedStyles.labelShape || {};
       this.zoomCache.wordWrapWidth = getWordWrapWidthByBox(
         this.boundsCache.keyShapeLocal,
