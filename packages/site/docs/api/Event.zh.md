@@ -156,6 +156,8 @@ graph.on(timingEventName, evt => {
 | --- | --- |
 | beforerender | 调用 `graph.render` / `graph.read` 方法之前触发 |
 | afterrender | 调用 `graph.render` / `graph.read` 方法之后触发 |
+| beforechangedata | 调用 `graph.changeData` 方法之前触发 |
+| afterchangedata | 调用 `graph.changeData` 方法之后触发 |
 | beforeadditem | 调用 `graph.add` / `graph.addItem` 方法之前触发 |
 | afteradditem | 调用 `graph.add` / `graph.addItem` 方法之后触发 |
 | beforeremoveitem | 调用 `graph.remove` / `graph.removeItem` 方法之前触发 |
