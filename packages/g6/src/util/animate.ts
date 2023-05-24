@@ -275,6 +275,7 @@ const runAnimateOnShape = (
   beginStyle: ShapeStyle,
   animateConfig,
 ) => {
+  if (!shape.isVisible()) return;
   let animateArr;
   if (!fields?.length) {
     animateArr = getStyleDiff(shape.attributes, targetStyle);

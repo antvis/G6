@@ -10,7 +10,13 @@ export default defineConfig({
     // @see https://github.com/vitejs/vite/issues/10839#issuecomment-1345193175
     // @see https://vitejs.dev/guide/dep-pre-bundling.html#customizing-the-behavior
     // @see https://vitejs.dev/config/dep-optimization-options.html#optimizedeps-exclude
-    exclude: ['@antv/layout-wasm'],
+    exclude: [
+      '@antv/layout-wasm',
+      // '@antv/gui',
+      // '@antv/layout',
+      // '@antv/algorithm',
+      // '@antv/layout-gpu',
+    ],
   },
   plugins: [
     {
