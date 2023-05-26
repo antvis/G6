@@ -12,7 +12,7 @@ module.exports = [
     input: 'src/index.ts',
     output: {
       file: 'dist/g6.min.js',
-      name: 'G6',
+      name: 'G6V5',
       format: 'umd',
       sourcemap: false,
     },
