@@ -444,32 +444,6 @@ export default defineConfig({
       ],
     },
     /** 新闻公告，优先选择配置的，如果没有配置则使用远程的！ */
-    news: [
-      {
-        type: {
-          zh: '推荐',
-          en: 'News',
-        },
-        title: {
-          zh: '图可视分析与搭建平台 GraphInsight 开源',
-          en: 'GraphInsight is opened source!',
-        },
-        date: '2022.11.22',
-        link: 'https://www.yuque.com/antv/blog/nyl5bkhdkicgm7v8',
-      },
-      {
-        type: {
-          zh: '推荐',
-          en: 'News',
-        },
-        title: {
-          zh: 'G6 5.0 插件机制与引擎性能蓄势待发',
-          en: 'G6 5.0: extension mechanism and better performance',
-        },
-        date: '2022.11.22',
-        link: 'https://www.yuque.com/antv/blog/fm6setn8p9m9lmh5',
-      },
-    ],
     /** 首页特性介绍 */
     features: [
       {
