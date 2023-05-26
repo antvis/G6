@@ -248,10 +248,10 @@ Update a behavior on a mode.
 
 #### Parameters
 
-| Name       | Type                            | Description                                                       |
-| :--------- | :------------------------------ | :---------------------------------------------------------------- |
-| `behavior` | `BehaviorObjectOptionsOf`<`B`\> | behavior configs, whose name indicates the behavior to be updated |
-| `mode?`    | `string`                        | mode name                                                         |
+| Name       | Type                      | Description                                                       |
+| :--------- | :------------------------ | :---------------------------------------------------------------- |
+| `behavior` | `BehaviorOptionsOf`<`B`\> | behavior configs, whose name indicates the behavior to be updated |
+| `mode?`    | `string`                  | mode name                                                         |
 
 #### Returns
 

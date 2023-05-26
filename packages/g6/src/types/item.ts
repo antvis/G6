@@ -168,7 +168,7 @@ export type ItemShapeStyles = {
 export interface LodStrategy {
   levels: {
     zoomRange: [number, number];
-    primary: boolean;
+    primary?: boolean;
   }[];
   animateCfg: AnimateCfg;
 }

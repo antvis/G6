@@ -1,3 +1,4 @@
+import BaseThemeSolver from 'stdlib/themeSolver/base';
 import { ComboShapeStyles } from './combo';
 import { EdgeShapeStyles } from './edge';
 import { LodStrategy } from './item';
@@ -9,21 +10,21 @@ export interface ThemeOption {}
  * Two implementing ways: getSpec or getEvents
  */
 export abstract class Theme {
-  protected options: ThemeOption = {};
-  constructor(options: ThemeOption) {
+  options: any = {};
+  constructor(options: any) {
     this.options = options;
   }
-  public updateConfig = (options: ThemeOption) => {
+  updateConfig = (options: any) => {
     this.options = Object.assign(this.options, options);
   };
-  abstract destroy(): void;
+  destroy() {}
 }
 
 /** Theme regisry table.
  * @example { 'drag-node': DragNodeBehavior, 'my-drag-node': MyDragNodeBehavior }
  */
 export interface ThemeRegistry {
-  [type: string]: typeof Theme;
+  [type: string]: typeof BaseThemeSolver;
 }
 
 /**
@@ -35,7 +36,7 @@ export type ThemeOptionsOf<T extends ThemeRegistry = {}> =
   | {
       [K in keyof T]: T[K] extends { new (options: infer O): any }
         ? O & { type: K; key: string }
-        : never;
+        : { type: K; key: string };
     }[Extract<keyof T, string>];
 
 export type ThemeObjectOptionsOf<T extends ThemeRegistry = {}> = {

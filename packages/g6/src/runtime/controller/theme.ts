@@ -29,6 +29,7 @@ export class ThemeController {
     this.extension = this.getExtension();
     this.themes = this.getThemes();
     this.graph.hooks.init.tap(this.onInit.bind(this));
+    this.graph.hooks.themechange.tap(this.onThemeChange.bind(this));
   }
 
   /**
@@ -58,5 +59,11 @@ export class ThemeController {
       const dom = canvases.background.getContextService().getDomElement();
       Object.keys(canvas).forEach((key) => (dom.style[key] = canvas[key]));
     }
+  }
+
+  private onThemeChange({ canvases }) {
+    if (!canvases) return;
+    this.extension = this.getExtension();
+    this.onInit({ canvases });
   }
 }

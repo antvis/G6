@@ -111,12 +111,11 @@ export default {
         },
         active: {
           keyShape: {
-            stroke: nodeStroke,
-            lineWidth: 2,
+            lineWidth: 0,
           },
           haloShape: {
             opacity: 0.25,
-            lineWidth: 4,
+            lineWidth: 20,
             zIndex: -1,
             visible: true,
           },

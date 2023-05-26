@@ -21,7 +21,7 @@ interface ClickSelectOptions {
   trigger: Trigger;
   /**
    * Item types to be able to select.
-   * Defaults to `["nodes"]`.
+   * Defaults to `["node"]`.
    * Should be an array of "node", "edge", or "combo".
    */
   itemTypes: Array<'node' | 'edge' | 'combo'>;

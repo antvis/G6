@@ -164,7 +164,7 @@ export default class Edge extends Item {
       stateMapper: this.stateMapper,
       zoom: this.zoom,
       theme: {
-        styles: clone(this.themeStyles),
+        styles: this.themeStyles,
         lodStrategy: this.lodStrategy,
       },
     });

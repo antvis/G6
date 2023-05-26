@@ -92,6 +92,9 @@ export const createShape3D = (
     id,
   });
 
+  // set origin for shape
+  shape.setOrigin(0, 0, 0);
+
   // Scale the shape to the correct size.
   switch (type) {
     case 'cube':

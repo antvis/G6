@@ -125,6 +125,7 @@ export class ItemController {
     );
     this.graph.hooks.transientupdate.tap(this.onTransientUpdate.bind(this));
     this.graph.hooks.viewportchange.tap(this.onViewportChange.bind(this));
+    this.graph.hooks.themechange.tap(this.onThemeChange.bind(this));
     this.graph.hooks.destroy.tap(this.onDestroy.bind(this));
   }
 
@@ -461,6 +462,37 @@ export class ItemController {
     500,
     false,
   );
+
+  private onThemeChange = ({ theme }) => {
+    if (!theme) return;
+    const { nodeDataTypeSet, edgeDataTypeSet } = this;
+    const { node: nodeTheme, edge: edgeTheme } = theme;
+    debugger;
+    Object.values(this.itemMap).forEach((item) => {
+      const itemTye = item.getType();
+      const usingTheme = itemTye === 'node' ? nodeTheme : edgeTheme;
+      const usingTypeSet =
+        itemTye === 'node' ? nodeDataTypeSet : edgeDataTypeSet;
+      const { dataTypeField } = usingTheme;
+      let dataType;
+      if (dataTypeField) dataType = item.model.data[dataTypeField] as string;
+      const itemTheme = getItemTheme(
+        usingTypeSet,
+        dataTypeField,
+        dataType,
+        usingTheme,
+      );
+      item.update(
+        item.model,
+        undefined,
+        false,
+        itemTheme as {
+          styles: NodeStyleSet;
+          lodStrategy: lodStrategyObj;
+        },
+      );
+    });
+  };
 
   private onDestroy = () => {
     Object.values(this.itemMap).forEach((item) => item.destroy());

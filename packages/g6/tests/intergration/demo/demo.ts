@@ -1,16 +1,18 @@
-// @ts-nocheck
-
 import { initThreads, supportsThreads, ForceLayout } from '@antv/layout-wasm';
-import G6 from '../../../src/index';
+import G6, { Graph, GraphData } from '../../../esm';
 import { container, height, width } from '../../datasets/const';
 import data from './data';
 import data3d from './data3d';
 import { labelPropagation } from '@antv/algorithm';
+import { RendererName } from '../../../src/types/render';
+import { Point } from '../../../src/types/common';
 // import Stats from 'stats.js';
 
+let graph: typeof Graph;
 let degrees = {};
-let dataFor2D = { nodes: [], edges: [] };
-let dataFor3D = { nodes: [], edges: [] };
+let dataFor2D: GraphData = { nodes: [], edges: [] };
+let dataFor3D: GraphData = { nodes: [], edges: [] };
+let colorSelects = [];
 const { nodes, edges } = data;
 export { nodes, edges, degrees };
 
@@ -99,6 +101,7 @@ const getDefaultEdgeAnimates = (delay?: number) => ({
 });
 
 const defaultTheme = {
+  // : ThemeOptionsOf<any>
   type: 'spec',
   base: 'light',
   specification: {
@@ -112,11 +115,11 @@ const create2DGraph = (
   getNodeAnimates = getDefaultNodeAnimates,
   getEdgeAnimates = getDefaultEdgeAnimates,
   theme = defaultTheme,
-  zoomConfig = undefined,
-  rendererType = 'canvas',
+  zoomConfig: { zoom: number; center: Point } | undefined = undefined,
+  rendererType: RendererName = 'canvas',
 ) => {
-  const graph = new G6.Graph({
-    container: container as HTMLcontainer,
+  const graph = new Graph({
+    container: container as HTMLElement,
     width,
     height: 1400,
     type: 'graph',
@@ -124,9 +127,10 @@ const create2DGraph = (
     data: dataFor2D,
     modes: {
       default: [
-        { type: 'zoom-canvas', zoomOnItems: true },
+        { type: 'zoom-canvas', key: '123', triggerOnItems: true },
         'drag-node',
         'drag-canvas',
+        'hover-activate',
         'brush-select',
         'click-select',
       ],
@@ -145,12 +149,12 @@ const create2DGraph = (
     // 节点配置
     node: (innerModel) => {
       const degree = degrees[innerModel.id] || 0;
-      let labelLod = 4;
-      if (degree > 40) labelLod = -1;
-      else if (degree > 20) labelLod = 0;
-      else if (degree > 10) labelLod = 1;
-      else if (degree > 5) labelLod = 2;
-      else if (degree > 2) labelLod = 3;
+      let labelLod = 3;
+      if (degree > 40) labelLod = -2;
+      else if (degree > 20) labelLod = -1;
+      else if (degree > 10) labelLod = 0;
+      else if (degree > 5) labelLod = 1;
+      else if (degree > 2) labelLod = 2;
       return {
         ...innerModel,
         data: {
@@ -163,31 +167,40 @@ const create2DGraph = (
               { zoomRange: [0.2, 0.3], primary: true }, // 0
               { zoomRange: [0.3, 0.5] }, // 1
               { zoomRange: [0.5, 0.8] }, // 2
-              { zoomRange: [0.8, 1] }, // 3
-              { zoomRange: [1, 1.2] }, // 4
-              { zoomRange: [1.2, 1.5] }, // 5
-              { zoomRange: [1.5, Infinity] }, // 6
+              { zoomRange: [0.8, 1.5] }, // 3
+              { zoomRange: [1.5, 1.8] }, // 4
+              { zoomRange: [1.8, 2] }, // 5
+              { zoomRange: [2, Infinity] }, // 6
             ],
             animateCfg: {
               duration: 500,
             },
           },
-          labelShape: degree !== 0 && {
-            text: innerModel.data.label,
-            maxWidth: '400%',
-            offsetY: 8,
-            lod: labelLod,
-          },
+          labelShape:
+            degree !== 0
+              ? {
+                  text: innerModel.data.label,
+                  maxWidth: '400%',
+                  offsetY: 8,
+                  lod: labelLod,
+                }
+              : undefined,
 
-          labelBackgroundShape: degree !== 0 && {
-            lod: labelLod,
-          },
-          iconShape: degree !== 0 && {
-            img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
-            fontSize: 12 + degree / 4,
-            opacity: 0.8,
-            lod: labelLod + 2,
-          },
+          labelBackgroundShape:
+            degree !== 0
+              ? {
+                  lod: labelLod,
+                }
+              : undefined,
+          iconShape:
+            degree !== 0
+              ? {
+                  img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
+                  fontSize: 12 + degree / 4,
+                  opacity: 0.8,
+                  lod: labelLod + 2,
+                }
+              : undefined,
           keyShape: {
             r: 12 + degree / 4,
           },
@@ -195,22 +208,12 @@ const create2DGraph = (
       };
     },
   });
-  // graph.on('afterlayout', (e) => {
-  //   Object.keys(degrees).forEach((id) => {
-  //     // TODO: graph API for this
-  //     if (degrees[id] > 20) {
-  //       console.log('tofront', graph.itemController.itemMap[id]);
-  //       graph.itemController.itemMap[id].toFront();
-  //     }
-  //   });
-  // });
 
   if (zoomConfig) {
     graph.zoomTo(zoomConfig.zoom, zoomConfig.center);
   } else {
     graph.zoom(0.15);
   }
-  graph.canvas.context.config.canvas.style.transition = 'all 0.3s ease';
   return graph;
 };
 
@@ -218,7 +221,7 @@ const create3DGraph = async () => {
   G6.stdLib.layouts['force-wasm'] = ForceLayout;
   const supported = await supportsThreads();
   const threads = await initThreads(supported);
-  const graph = new G6.Graph({
+  const newGraph = new Graph({
     container: container as HTMLDivElement,
     width,
     height: 1400,
@@ -229,35 +232,35 @@ const create3DGraph = async () => {
     //   type: 'force-wasm',
     //   threads,
     //   dimensions: 2,
-    //   maxIteration: 100,
-    //   minMovement: 0.4,
+    //   maxIteration: 5000,
+    //   minMovement: 0.1,
     //   distanceThresholdMode: 'mean',
     //   height,
     //   width,
     //   center: [width / 2, height / 2],
     //   factor: 1,
-    //   gravity: 10,
+    //   gravity: 5,
     //   linkDistance: 200,
     //   edgeStrength: 200,
     //   nodeStrength: 1000,
     //   coulombDisScale: 0.005,
     //   damping: 0.9,
-    //   maxSpeed: 1000,
+    //   maxSpeed: 2000,
     //   interval: 0.02,
     // },
-    layout: {
-      type: 'force-wasm',
-      threads,
-      dimensions: 3,
-      iterations: 300,
-      minMovement: 10,
-      height,
-      width,
-      linkDistance: 400,
-      edgeStrength: 100,
-      nodeStrength: 2000,
-      center: [width / 2, height / 2, 0],
-    },
+    // layout: {
+    //   type: 'force-wasm',
+    //   threads,
+    //   dimensions: 3,
+    //   iterations: 300,
+    //   minMovement: 10,
+    //   height,
+    //   width,
+    //   linkDistance: 200,
+    //   edgeStrength: 100,
+    //   nodeStrength: 2000,
+    //   center: [width / 2, height / 2, 0],
+    // },
     modes: {
       default: [
         {
@@ -267,9 +270,9 @@ const create3DGraph = async () => {
         'zoom-canvas-3d',
       ],
     },
-    // @ts-ignore
     theme: {
       type: 'spec',
+      base: 'dark',
       specification: {
         node: {
           dataTypeField: 'cluster',
@@ -332,47 +335,55 @@ const create3DGraph = async () => {
     camera.rotate(rotX, 0);
   };
 
-  graph.on('afterlayout', (e) => {
-    let timer;
-    setTimeout(() => {
-      const camera = graph.canvas.getCamera();
-      const oripos = camera.getPosition();
-      let k = 0;
-      let i = 0;
-      const tick = () => {
-        camera.setPosition([oripos[0], oripos[1], oripos[2] + k]);
-
-        const rdx =
-          i < 100 ? Math.min(i * 0.5, 20) : Math.min((200 - i) * 0.2, 20);
-        rotate(camera, rdx, rdx, graph);
-
-        timer = requestAnimationFrame(tick);
-        if (i > 200) cancelAnimationFrame(timer);
-
-        const param = i < 50 ? 3 : 0.5;
-        k += 50 * param;
-        i++;
-      };
-      tick();
-    }, 1000);
-
-    graph.once('canvas:pointerdown', (e) => {
-      if (timer) cancelAnimationFrame(timer);
-    });
-    graph.once('wheel', (e) => {
-      if (timer) cancelAnimationFrame(timer);
-    });
+  let timer;
+  setTimeout(() => {
+    const camera = newGraph.canvas.getCamera();
+    const oripos = camera.getPosition();
+    let k = 0;
+    let i = 0;
+    const tick = () => {
+      camera.setPosition([oripos[0], oripos[1], oripos[2] + k]);
+      const rdx =
+        i < 100 ? Math.min(i * 0.5, 20) : Math.min((200 - i) * 0.2, 20);
+      rotate(camera, rdx, rdx, newGraph);
+      timer = requestAnimationFrame(tick);
+      if (i > 200) cancelAnimationFrame(timer);
+      const param = i < 50 ? 3 : 0.5;
+      k += 50 * param;
+      i++;
+    };
+    tick();
+  }, 1000);
+  newGraph.once('canvas:pointerdown', (e) => {
+    if (timer) cancelAnimationFrame(timer);
   });
+  newGraph.once('wheel', (e) => {
+    if (timer) cancelAnimationFrame(timer);
+  });
+  // });
 
-  return graph;
+  return newGraph;
 };
 
-const addButtons = (graph) => {
+const generateColorSelect = (id, container) => {
+  const colorSelect = document.createElement('input');
+  colorSelect.style.width = '25px';
+  colorSelect.style.height = '25px';
+  colorSelect.style.border = '0';
+  colorSelect.style.background = 'rgba(0, 0, 0, 0)';
+  colorSelect.type = 'color';
+  colorSelect.id = `color-${id}`;
+  colorSelect.value = id === 'bg' ? '#ffffff' : '#cccccc';
+  container.appendChild(colorSelect);
+  return colorSelect;
+};
+
+const addButtons = () => {
   const btn = document.createElement('button');
   btn.innerHTML = '全屏';
   btn.style.position = 'absolute';
-  btn.style.top = '14px';
-  btn.style.left = '373px';
+  btn.style.top = '56px';
+  btn.style.left = '16px';
   btn.style.zIndex = '100';
   document.body.appendChild(btn);
   btn.addEventListener('click', (e) => {
@@ -393,11 +404,29 @@ const addButtons = (graph) => {
       }
     }
   });
+  const btnZoomIn = document.createElement('button');
+  btnZoomIn.innerHTML = '放大';
+  btnZoomIn.style.position = 'absolute';
+  btnZoomIn.style.top = '56px';
+  btnZoomIn.style.left = '62px';
+  btnZoomIn.style.width = '48px';
+  btnZoomIn.style.zIndex = '100';
+  document.body.appendChild(btnZoomIn);
+  const btnZoomOut = document.createElement('button');
+  btnZoomOut.innerHTML = '缩小';
+  btnZoomOut.style.position = 'absolute';
+  btnZoomOut.style.top = '56px';
+  btnZoomOut.style.left = '112px';
+  btnZoomOut.style.width = '48px';
+  btnZoomOut.style.zIndex = '100';
+  document.body.appendChild(btnZoomOut);
 
   const rendererSelect = document.createElement('select');
   rendererSelect.style.position = 'absolute';
-  rendererSelect.style.top = '56px';
+  rendererSelect.style.top = '86px';
   rendererSelect.style.left = '16px';
+  rendererSelect.style.width = '143px';
+  rendererSelect.style.height = '25px';
   rendererSelect.style.zIndex = '100';
   const option1 = document.createElement('option');
   option1.innerHTML = 'Canvas';
@@ -406,7 +435,8 @@ const addButtons = (graph) => {
   const option3 = document.createElement('option');
   option3.innerHTML = 'WebGL-3D';
   const option4 = document.createElement('option');
-  option4.innerHTML = 'SVG';
+  option4.innerHTML = 'SVG(coming soon)';
+  option4.disabled = true;
   rendererSelect.appendChild(option1);
   rendererSelect.appendChild(option2);
   rendererSelect.appendChild(option3);
@@ -415,8 +445,10 @@ const addButtons = (graph) => {
 
   const themeSelect = document.createElement('select');
   themeSelect.style.position = 'absolute';
-  themeSelect.style.top = '86px';
+  themeSelect.style.top = '116px';
   themeSelect.style.left = '16px';
+  themeSelect.style.width = '143px';
+  themeSelect.style.height = '25px';
   themeSelect.style.zIndex = '100';
   const themeOption0 = document.createElement('option');
   themeOption0.innerHTML = '亮色主题';
@@ -426,59 +458,127 @@ const addButtons = (graph) => {
   themeOption2.innerHTML = '蓝色主题';
   const themeOption3 = document.createElement('option');
   themeOption3.innerHTML = '橙色主题';
+  const themeOption4 = document.createElement('option');
+  themeOption4.innerHTML = '自定义';
   themeSelect.appendChild(themeOption0);
   themeSelect.appendChild(themeOption1);
   themeSelect.appendChild(themeOption2);
   themeSelect.appendChild(themeOption3);
+  themeSelect.appendChild(themeOption4);
   document.body.appendChild(themeSelect);
 
-  const btnZoomIn = document.createElement('button');
-  btnZoomIn.innerHTML = '+';
-  btnZoomIn.style.position = 'absolute';
-  btnZoomIn.style.top = '114px';
-  btnZoomIn.style.left = '16px';
-  btnZoomIn.style.width = '24px';
-  btnZoomIn.style.zIndex = '100';
-  document.body.appendChild(btnZoomIn);
-  const btnZoomOut = document.createElement('button');
-  btnZoomOut.innerHTML = '-';
-  btnZoomOut.style.position = 'absolute';
-  btnZoomOut.style.top = '114px';
-  btnZoomOut.style.left = '39px';
-  btnZoomOut.style.width = '24px';
-  btnZoomOut.style.zIndex = '100';
-  document.body.appendChild(btnZoomOut);
+  // 自定义色板
+  const customThemeSelect = document.createElement('div');
+  const paletteContainer = document.createElement('div');
+  paletteContainer.style.display = 'inline-flex';
+  customThemeSelect.appendChild(paletteContainer);
+
+  const addColorBtn = document.createElement('a');
+  addColorBtn.innerHTML = '+';
+  addColorBtn.style.margin = '4px';
+  addColorBtn.style.cursor = 'pointer';
+  addColorBtn.style.border = '1px dashed rgba(34, 126, 255, 0.5)';
+  addColorBtn.style.padding = '2px 8px';
+  addColorBtn.style.color = 'rgb(34, 126, 255)';
+  paletteContainer.appendChild(addColorBtn);
+  addColorBtn.addEventListener('click', (e) => {
+    colorSelects.push(
+      generateColorSelect(`${colorSelects.length}`, colorsContainer),
+    );
+  });
+
+  const colorsContainer = document.createElement('div');
+  colorsContainer.style.display = 'inline-flex';
+  colorsContainer.style.margin = '4px 0';
+  paletteContainer.appendChild(colorsContainer);
+  colorSelects = [generateColorSelect('0', colorsContainer)];
+
+  const removeColorBtn = document.createElement('a');
+  removeColorBtn.innerHTML = '-';
+  removeColorBtn.style.margin = '4px';
+  removeColorBtn.style.cursor = 'pointer';
+  removeColorBtn.style.border = '1px dashed rgba(34, 126, 255, 0.5)';
+  removeColorBtn.style.padding = '2px 10px';
+  removeColorBtn.style.color = 'rgb(34, 126, 255)';
+  paletteContainer.appendChild(removeColorBtn);
+  removeColorBtn.addEventListener('click', (e) => {
+    if (colorSelects.length <= 1) return;
+    const removingSelect = colorSelects.splice(colorSelects.length - 1, 1)[0];
+    removingSelect.remove();
+  });
+  const backgroundColorContainer = document.createElement('div');
+  backgroundColorContainer.style.margin = '8px 0';
+  const backgroundLabel = document.createElement('div');
+  backgroundLabel.innerHTML = '背景色：';
+  backgroundLabel.style.display = 'inline-flex';
+  backgroundLabel.style.fontSize = '14px';
+  backgroundColorContainer.appendChild(backgroundLabel);
+  const bgColorSelect = generateColorSelect('bg', colorsContainer);
+  backgroundColorContainer.appendChild(bgColorSelect);
+  bgColorSelect.style.display = 'inline-flex';
+  customThemeSelect.appendChild(backgroundColorContainer);
+
+  const customConfirmBtn = document.createElement('button');
+  customConfirmBtn.innerHTML = '应用';
+  customConfirmBtn.style.cursor = 'pointer';
+  customConfirmBtn.style.width = '109px';
+  customConfirmBtn.style.border = '0';
+  customConfirmBtn.style.backgroundColor = 'rgba(34, 126, 255, 0.5)';
+  customThemeSelect.appendChild(customConfirmBtn);
+  customConfirmBtn.addEventListener('click', (e) => {
+    graph.updateTheme({
+      type: 'spec',
+      specification: {
+        canvas: {
+          backgroundColor: bgColorSelect.value || '#fff',
+        },
+        node: {
+          dataTypeField: 'cluster',
+          palette: colorSelects.map((dom) => dom.value),
+        },
+      },
+    });
+  });
+
+  customThemeSelect.style.position = 'absolute';
+  customThemeSelect.style.display = 'none';
+  customThemeSelect.style.top = '146px';
+  customThemeSelect.style.left = '16px';
+  customThemeSelect.style.zIndex = '100';
+  customThemeSelect.style.padding = '8px';
+  customThemeSelect.style.backgroundColor = 'rgb(212, 230, 255)';
+  document.body.appendChild(customThemeSelect);
 
   return {
     rendererSelect,
     themeSelect,
+    customThemeSelect,
     zoomIn: btnZoomIn,
     zoomOut: btnZoomOut,
   };
 };
 
-const handleSwitchRenderer = (rendererName, graph) => {
-  let newGraph;
+const handleSwitchRenderer = (rendererName, oldgraph) => {
   switch (rendererName) {
     case 'webgl-3d':
-      graph.destroy(async () => {
-        newGraph = await create3DGraph();
+      oldgraph.destroy(async () => {
+        graph = await create3DGraph();
       });
-      return;
+      break;
     case 'canvas':
-      graph.destroy(() => {
-        newGraph = create2DGraph();
+      oldgraph.destroy(() => {
+        graph = create2DGraph();
       });
-      return;
+      break;
     case 'webgl':
-      graph.destroy(() => {
-        const currentZoom = graph.getZoom();
-        const position = graph.canvas.getCamera().getPosition();
+      oldgraph.destroy(() => {
+        const currentZoom = oldgraph.getZoom();
+        const position = oldgraph.canvas.getCamera().getPosition();
         const zoomOpt = {
           zoom: currentZoom,
           center: { x: position[0], y: position[1] },
         };
-        newGraph = create2DGraph(
+        graph = create2DGraph(
           undefined,
           undefined,
           undefined,
@@ -486,57 +586,32 @@ const handleSwitchRenderer = (rendererName, graph) => {
           'webgl',
         );
       });
-      // graph.changeRenderer('webgl');
-      return;
+      // oldgraph.changeRenderer('webgl');
+      break;
     case 'svg':
     // comming soon
-    // graph.destroy(() => {
-    //   const currentZoom = graph.getZoom();
-    //   const position = graph.canvas.getCamera().getPosition();
-    //   const zoomOpt = {
-    //     zoom: currentZoom,
-    //     center: { x: position[0], y: position[1] },
-    //   };
-    //   newGraph = create2DGraph(undefined, undefined, undefined, zoomOpt, 'svg');
-    // });
     default:
-      return;
+      break;
   }
-  return newGraph;
+  return graph;
 };
 
-const handleSwitchTheme = (themeType) => {
-  let nodeAnimates = () => getDefaultNodeAnimates(1000);
-  let edgeAnimates = () => getDefaultEdgeAnimates(1000);
-
-  const currentZoom = graph.getZoom();
-  const position = graph.canvas.getCamera().getPosition();
-
-  let theme;
-  let zoomOpt = {
-    zoom: currentZoom,
-    center: { x: position[0], y: position[1] },
-  };
+const handleSwitchTheme = (themeType, customThemeSelect) => {
+  customThemeSelect.style.display = 'none';
   switch (themeType) {
     case '亮色主题':
-      theme = {
+      graph.updateTheme(defaultTheme);
+      return;
+    case '暗色主题':
+      graph.updateTheme({
+        ...defaultTheme,
+        base: 'dark',
+      });
+      return;
+    case '蓝色主题':
+      graph.updateTheme({
         type: 'spec',
         base: 'light',
-      };
-      nodeAnimates = undefined;
-      edgeAnimates = undefined;
-      break;
-    case '暗色主题':
-      theme = {
-        type: 'spec',
-        base: 'dark',
-      };
-      nodeAnimates = undefined;
-      edgeAnimates = undefined;
-      break;
-    case '蓝色主题':
-      theme = {
-        type: 'spec',
         specification: {
           canvas: {
             backgroundColor: '#f3faff',
@@ -556,11 +631,12 @@ const handleSwitchTheme = (themeType) => {
             ],
           },
         },
-      };
-      break;
+      });
+      return;
     case '橙色主题':
-      theme = {
+      graph.updateTheme({
         type: 'spec',
+        base: 'light',
         specification: {
           canvas: {
             backgroundColor: '#fcf9f1',
@@ -580,15 +656,12 @@ const handleSwitchTheme = (themeType) => {
             ],
           },
         },
-      };
-      break;
+      });
+      return;
+    case '自定义':
+      customThemeSelect.style.display = 'block';
+      return;
   }
-  graph.destroy(() => {
-    graph.canvas.context.config.canvas.style.backgroundColor = '#fcf9f1';
-    setTimeout(() => {
-      graph = create2DGraph(nodeAnimates, edgeAnimates, theme, zoomOpt);
-    }, 300);
-  });
 };
 
 const zoomLevels = [0.15, 0.16, 0.2, 0.3, 0.5, 0.8, 1.5, 2];
@@ -634,24 +707,24 @@ const getDataFor2D = (inputData) => {
     degrees[source]++;
     degrees[target]++;
   });
-
-  return { degrees, data };
+  inputData.nodes.forEach((node) => delete node.data.z);
+  return { degrees, data: inputData };
 };
 
-const getDataFor3D = () => {
-  const clusteredData3D = labelPropagation(data3d, false);
+const getDataFor3D = (inputData) => {
+  const clusteredData3D = labelPropagation(inputData, false);
   clusteredData3D.clusters.forEach((cluster, i) => {
     cluster.nodes.forEach((node) => {
       node.data.cluster = `c${i}`;
     });
   });
-  data3d.nodes.forEach((node) => {
-    delete node.data.x;
-    delete node.data.y;
-    delete node.data.z;
-  });
+  // data3d.nodes.forEach((node) => {
+  //   delete node.data.x;
+  //   delete node.data.y;
+  //   delete node.data.z;
+  // });
 
-  return data;
+  return inputData;
 };
 
 export default () => {
@@ -659,17 +732,20 @@ export default () => {
   degrees = result2d.degrees;
   dataFor2D = result2d.data;
   dataFor3D = getDataFor3D(data3d);
-  let graph = create2DGraph();
-  const { rendererSelect, themeSelect, zoomIn, zoomOut } = addButtons(graph);
 
-  rendererSelect.addEventListener('change', (e) => {
+  graph = create2DGraph();
+  const { rendererSelect, themeSelect, customThemeSelect, zoomIn, zoomOut } =
+    addButtons();
+
+  rendererSelect.addEventListener('change', (e: any) => {
     const type = e.target.value;
-    graph = handleSwitchRenderer(type.toLowerCase(), graph);
+    console.log('changerenderer', graph);
+    handleSwitchRenderer(type.toLowerCase(), graph);
     // graph.changeRenderer(type.toLowerCase());
   });
-  themeSelect.addEventListener('change', (e) => {
+  themeSelect.addEventListener('change', (e: any) => {
     const type = e.target.value;
-    handleSwitchTheme(type);
+    handleSwitchTheme(type, customThemeSelect);
   });
   zoomIn.addEventListener('click', () => handleZoom(graph, true));
   zoomOut.addEventListener('click', () => handleZoom(graph, false));

@@ -75044,4 +75044,4 @@ export default {
     { id: 'edge-0.954878261489682', source: '5146', target: '8496', data: {} },
     { id: 'edge-0.6900880670764054', source: '5146', target: '8497', data: {} },
   ],
-};
+} as GraphData;

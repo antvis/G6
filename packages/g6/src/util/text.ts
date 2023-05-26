@@ -15,8 +15,7 @@ export const getWordWrapWidthByBox = (
   zoom = 1,
 ) => {
   const keyShapeWidth = (keyShapeBox.max[0] - keyShapeBox.min[0]) * zoom;
-  const wordWrapWidth = 2 * keyShapeWidth;
-  return getWordWrapWidthWithBase(wordWrapWidth, maxWidth);
+  return getWordWrapWidthWithBase(keyShapeWidth, maxWidth);
 };
 
 /**

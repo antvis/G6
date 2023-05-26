@@ -69,10 +69,12 @@ export abstract class BaseNode {
   };
 
   constructor(props) {
-    const { themeStyles, lodStrategy } = props;
+    const { themeStyles, lodStrategy, zoom } = props;
     if (themeStyles) this.themeStyles = themeStyles;
     this.lodStrategy = lodStrategy;
     this.boundsCache = {};
+    this.zoomCache.zoom = zoom;
+    this.zoomCache.balanceRatio = 1 / zoom;
     this.zoomCache.animateConfig = {
       ...DEFAULT_ANIMATE_CFG.zoom,
       ...lodStrategy?.animateCfg,
@@ -138,7 +140,10 @@ export abstract class BaseNode {
       .forEach((id) => {
         const shape = shapeMap[id];
         if (shape?.getAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY)) {
-          this.boundsCache[`${id}Local`] = shape.getLocalBounds();
+          this.boundsCache[`${id}Local`] =
+            id === 'labelShape'
+              ? shape.getGeometryBounds()
+              : shape.getLocalBounds();
           shape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, false);
         }
       });
@@ -219,7 +224,7 @@ export abstract class BaseNode {
     } = shapeStyle;
 
     const wordWrapWidth = getWordWrapWidthByBox(
-      keyShapeBox,
+      keyShapeBox as AABB,
       maxWidth,
       this.zoomCache.zoom,
     );
@@ -295,24 +300,33 @@ export abstract class BaseNode {
       !this.boundsCache.labelShapeLocal ||
       labelShape.getAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY)
     ) {
-      this.boundsCache.labelShapeLocal = labelShape.getLocalBounds();
+      this.boundsCache.labelShapeLocal = labelShape.getGeometryBounds();
       labelShape.setAttribute(LOCAL_BOUNDS_DIRTY_FLAG_KEY, false);
     }
+    // label's local bounds, will take scale into acount
     const { labelShapeLocal: textBBox } = this.boundsCache;
+    const labelWidth = Math.min(
+      textBBox.max[0] - textBBox.min[0],
+      labelShape.attributes.wordWrapWidth,
+    );
+    const height = textBBox.max[1] - textBBox.min[1];
+    const labelAspectRatio = labelWidth / (textBBox.max[1] - textBBox.min[1]);
+    const width = labelAspectRatio * height;
 
     const { padding, ...backgroundStyle } =
       this.mergedStyles.labelBackgroundShape;
-    const { balanceRatio = 1 } = this.zoomCache;
+    const y =
+      labelShape.attributes.y -
+      (labelShape.attributes.textBaseline === 'top'
+        ? padding[0]
+        : height / 2 + padding[0]);
     const bgStyle: any = {
       fill: '#fff',
       ...backgroundStyle,
-      x: textBBox.min[0] - padding[3],
-      y: textBBox.min[1] - padding[0] / balanceRatio,
-      width: textBBox.max[0] - textBBox.min[0] + padding[1] + padding[3],
-      height:
-        textBBox.max[1] -
-        textBBox.min[1] +
-        (padding[0] + padding[2]) / balanceRatio,
+      x: textBBox.center[0] - width / 2 - padding[3],
+      y,
+      width: width + padding[1] + padding[3],
+      height: height + padding[0] + padding[2],
     };
 
     return this.upsertShape(
@@ -653,7 +667,7 @@ export abstract class BaseNode {
     const wordWrapWidth = this.zoomCache.wordWrapWidth * zoom;
     labelShape.style.wordWrapWidth = wordWrapWidth;
 
-    if (!labelBackgroundShape) return;
+    if (!labelBackgroundShape || !labelBackgroundShape.isVisible()) return;
 
     const { padding } = this.mergedStyles.labelBackgroundShape;
     const { width, height } = labelBackgroundShape.attributes;
@@ -682,8 +696,16 @@ export abstract class BaseNode {
           paddingLeft + (width - paddingLeft - paddingRight) / 2
         } ${paddingTop + (height - paddingTop - paddingBottom) / 2}`;
     }
-    // only scale y-asix, to expand the text range while zoom-in
-    labelBackgroundShape.style.transform = `scale(${balanceRatio}, ${balanceRatio})`;
+
+    const labelBBox = labelShape.getGeometryBounds();
+    const labelWidth = Math.min(
+      labelBBox.max[0] - labelBBox.min[0],
+      this.zoomCache.wordWrapWidth,
+    );
+    const xAxistRatio =
+      ((labelWidth + paddingLeft + paddingRight) * balanceRatio) / width;
+
+    labelBackgroundShape.style.transform = `scale(${xAxistRatio}, ${balanceRatio})`;
   }
 
   public upsertShape(

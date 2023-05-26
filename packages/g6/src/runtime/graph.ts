@@ -11,11 +11,7 @@ import {
   Specification,
 } from '../types';
 import { CameraAnimationOptions } from '../types/animate';
-import {
-  BehaviorObjectOptionsOf,
-  BehaviorOptionsOf,
-  BehaviorRegistry,
-} from '../types/behavior';
+import { BehaviorOptionsOf, BehaviorRegistry } from '../types/behavior';
 import { ComboModel } from '../types/combo';
 import { Padding, Point } from '../types/common';
 import { DataChangeType, GraphCore } from '../types/data';
@@ -29,7 +25,11 @@ import {
 } from '../types/layout';
 import { NodeModel, NodeModelData } from '../types/node';
 import { RendererName } from '../types/render';
-import { ThemeRegistry, ThemeSpecification } from '../types/theme';
+import {
+  ThemeOptionsOf,
+  ThemeRegistry,
+  ThemeSpecification,
+} from '../types/theme';
 import { FitViewRules, GraphTransformOptions } from '../types/view';
 import { changeRenderer, createCanvas } from '../util/canvas';
 import { formatPadding } from '../util/shape';
@@ -259,6 +259,14 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
           | { key: string; type: string; [cfgName: string]: unknown }
         )[];
       }>({ name: 'pluginchange' }),
+      themechange: new Hook<{
+        theme: ThemeSpecification;
+        canvases: {
+          background: Canvas;
+          main: Canvas;
+          transient: Canvas;
+        };
+      }>({ name: 'init' }),
       destroy: new Hook<{}>({ name: 'destroy' }),
     };
   }
@@ -266,8 +274,28 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
   /**
    * Update the specs(configurations).
    */
-  public updateSpecification(spec: Specification<B, T>) {
+  public updateSpecification(spec: Specification<B, T>): Specification<B, T> {
     return Object.assign(this.specification, spec);
+  }
+
+  /**
+   * Update the theme specs (configurations).
+   */
+  public updateTheme(theme: ThemeOptionsOf<T>) {
+    this.specification.theme = theme;
+    // const { specification } = this.themeController;
+    // notifiying the themeController
+    this.hooks.themechange.emit({
+      canvases: {
+        background: this.backgroundCanvas,
+        main: this.canvas,
+        transient: this.transientCanvas,
+      },
+    });
+    // theme is formatted by themeController, notify the item controller to update the items
+    this.hooks.themechange.emit({
+      theme: this.themeController.specification,
+    });
   }
 
   /**
@@ -1220,7 +1248,7 @@ export default class Graph<B extends BehaviorRegistry, T extends ThemeRegistry>
    * @returns
    * @group Interaction
    */
-  public updateBehavior(behavior: BehaviorObjectOptionsOf<B>, mode?: string) {
+  public updateBehavior(behavior: BehaviorOptionsOf<B>, mode?: string) {
     this.hooks.behaviorchange.emit({
       action: 'update',
       modes: [mode],

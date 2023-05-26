@@ -80,7 +80,7 @@ const DEFAULT_OPTIONS: Required<DragNodeOptions> = {
   shouldBegin: () => true,
 };
 
-export class DragNode extends Behavior {
+export default class DragNode extends Behavior {
   options: DragNodeOptions;
 
   // Private states

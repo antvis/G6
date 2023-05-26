@@ -81,10 +81,12 @@ export abstract class BaseEdge {
     firstRender: true,
   };
   constructor(props) {
-    const { themeStyles, lodStrategy } = props;
+    const { themeStyles, lodStrategy, zoom } = props;
     if (themeStyles) this.themeStyles = themeStyles;
     this.lodStrategy = lodStrategy;
     this.boundsCache = {};
+    this.zoomCache.zoom = zoom;
+    this.zoomCache.balanceRatio = 1 / zoom;
     this.zoomCache.animateConfig = {
       ...DEFAULT_ANIMATE_CFG.zoom,
       ...lodStrategy?.animateCfg,

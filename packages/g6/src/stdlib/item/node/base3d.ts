@@ -1,10 +1,7 @@
 import { DisplayObject } from '@antv/g';
-import { DEFAULT_LABEL_BG_PADDING } from '../../../constant';
 import { NodeDisplayModel } from '../../../types';
 import {
-  BadgePosition,
   GShapeStyle,
-  ItemShapeStyles,
   SHAPE_TYPE,
   SHAPE_TYPE_3D,
   ShapeStyle,
@@ -17,12 +14,10 @@ import {
 } from '../../../types/node';
 import { upsertShape3D } from '../../../util/shape3d';
 import { BaseNode } from './base';
-import { LOCAL_BOUNDS_DIRTY_FLAG_KEY } from '../../../util/shape';
-import { getWordWrapWidthByBox } from '../../../util/text';
 
 export abstract class BaseNode3D extends BaseNode {
   type: string;
-  defaultStyles: ItemShapeStyles;
+  defaultStyles: NodeShapeStyles;
   themeStyles: NodeShapeStyles;
   mergedStyles: NodeShapeStyles;
   device: any; // for 3d renderer
@@ -109,7 +104,7 @@ export abstract class BaseNode3D extends BaseNode {
       ...positionPreset,
       ...otherStyle,
     };
-    return this.upsertShape('text', 'labelShape', style, shapeMap, model);
+    return this.upsertShape('text', 'labelShape', style, shapeMap);
   }
 
   // TODO: 3d icon? - billboard image or text for alpha

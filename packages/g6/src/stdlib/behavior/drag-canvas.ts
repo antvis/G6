@@ -88,6 +88,10 @@ export default class DragCanvas extends Behavior {
   }
 
   getEvents() {
+    if (typeof window !== 'undefined') {
+      window.addEventListener('keydown', this.onKeydown.bind(this));
+      window.addEventListener('keyup', this.onKeyup.bind(this));
+    }
     if (this.options.trigger === 'directionKeys') {
       return {
         keydown: this.onKeydown,
@@ -106,7 +110,7 @@ export default class DragCanvas extends Behavior {
   public onPointerDown(event) {
     const { secondaryKey, secondaryKeyToDisable, dragOnItems, shouldBegin } =
       this.options;
-    // diabled key is pressing
+    // disabled key is pressing
     if (secondaryKeyToDisable && this.disableKeydown) return;
     // assistant key is not pressing
     if (secondaryKey && !this.keydown) return;
@@ -205,9 +209,11 @@ export default class DragCanvas extends Behavior {
 
   public onPointerMove(event) {
     if (!this.pointerDownAt) return;
+    const { eventName, direction, secondaryKeyToDisable } = this.options;
+    // disabled key is pressing
+    if (secondaryKeyToDisable && this.disableKeydown) return;
     const { graph } = this;
     const { client } = event;
-    const { eventName, direction } = this.options;
     const diffX = client.x - this.pointerDownAt.x;
     const diffY = client.y - this.pointerDownAt.y;
     if (direction === 'x' && !diffX) return;
@@ -316,6 +322,12 @@ export default class DragCanvas extends Behavior {
     }
     if (secondaryKeyToDisable && secondaryKeyToDisable === key.toLowerCase()) {
       this.disableKeydown = false;
+    }
+  }
+  public destroy() {
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('keydown', this.onKeydown.bind(this));
+      window.removeEventListener('keyup', this.onKeyup.bind(this));
     }
   }
 }

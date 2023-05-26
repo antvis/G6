@@ -85,6 +85,14 @@ export interface Hooks {
       | { key: string; type: string; [cfgName: string]: unknown }
     )[];
   }>;
+  themechange: IHook<{
+    theme?: ThemeSpecification;
+    canvases?: {
+      background: Canvas;
+      main: Canvas;
+      transient: Canvas;
+    };
+  }>;
   destroy: IHook<{}>;
   // TODO: more timecycles here
 }

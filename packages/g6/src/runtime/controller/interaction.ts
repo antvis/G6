@@ -247,7 +247,6 @@ export class InteractionController {
 
   private initEvents = () => {
     Object.values(CANVAS_EVENT_TYPE).forEach((eventName) => {
-      // console.debug('Listen on canvas: ', eventName);
       this.graph.canvas.document.addEventListener(
         eventName,
         this.handleCanvasEvent,
@@ -262,13 +261,6 @@ export class InteractionController {
   };
 
   private handleCanvasEvent = (gEvent: FederatedPointerEvent) => {
-    // const debug = gEvent.type.includes('over') || gEvent.type.includes('move') ? () => {} : console.debug;
-
-    // Find the Node/Edge/Combo group element.
-    // const itemGroup = findItemGroup(gEvent.target as IElement);
-    // const itemType = itemGroup?.getAttribute('data-item-type') || 'canvas';
-    // const itemId = itemGroup?.getAttribute('data-item-id') || 'CANVAS';
-
     const itemInfo = getItemInfoFromElement(gEvent.target as IElement);
     if (!itemInfo) {
       // This event was triggered from an element which belongs to none of the nodes/edges/canvas.
@@ -313,7 +305,6 @@ export class InteractionController {
       }
       this.graph.emit(`${itemType}:${gEvent.type}`, event);
       this.graph.emit(`${gEvent.type}`, event);
-      // debug(`Item ${event.type} :`, event);
     }
   };
 
@@ -328,14 +319,11 @@ export class InteractionController {
         const preType = prevItemInfo.itemType;
         this.graph.emit(`${preType}:pointerleave`, {
           ...event,
+          itemId: prevItemInfo.itemId,
+          itemType: prevItemInfo.itemType,
           type: 'pointerleave',
           target: prevItemInfo.groupElement,
         });
-        // console.debug(`${preType}:pointerleave`, {
-        //   ...event,
-        //   type: 'pointerleave',
-        //   target: prevItemInfo.groupElement,
-        // });
       }
       if (curItemInfo) {
         const curType = curItemInfo.itemType;
@@ -344,11 +332,6 @@ export class InteractionController {
           type: 'pointerenter',
           target: curItemInfo.groupElement,
         });
-        // console.debug(`${curType}:pointerenter`, {
-        //   ...event,
-        //   type: 'pointerenter',
-        //   target: curItemInfo.groupElement,
-        // });
       }
     }
     this.prevItemInfo = curItemInfo;

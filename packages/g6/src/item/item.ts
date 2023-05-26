@@ -124,6 +124,7 @@ export default abstract class Item implements IItem {
       themeStyles: this.themeStyles.default,
       lodStrategy,
       device: this.device,
+      zoom: this.zoom,
     });
   }
 
@@ -210,6 +211,7 @@ export default abstract class Item implements IItem {
         themeStyles: this.themeStyles.default,
         lodStrategy: this.lodStrategy,
         device: this.device,
+        zoom: this.zoom,
       });
     } else {
       this.renderExt.themeStyles = this.themeStyles.default;

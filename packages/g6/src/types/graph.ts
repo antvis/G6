@@ -3,11 +3,7 @@ import { AABB, Canvas, DisplayObject, PointLike } from '@antv/g';
 import { ID } from '@antv/graphlib';
 import { Hooks } from '../types/hook';
 import { CameraAnimationOptions } from './animate';
-import {
-  BehaviorObjectOptionsOf,
-  BehaviorOptionsOf,
-  BehaviorRegistry,
-} from './behavior';
+import { BehaviorOptionsOf, BehaviorRegistry } from './behavior';
 import { ComboModel, ComboUserModel } from './combo';
 import { Padding, Point } from './common';
 import { GraphData } from './data';
@@ -17,7 +13,7 @@ import { LayoutOptions } from './layout';
 import { NodeModel, NodeUserModel } from './node';
 import { RendererName } from './render';
 import { Specification } from './spec';
-import { ThemeRegistry } from './theme';
+import { ThemeOptionsOf, ThemeRegistry } from './theme';
 import { FitViewRules, GraphTransformOptions } from './view';
 
 export interface IGraph<
@@ -39,9 +35,13 @@ export interface IGraph<
    */
   destroy: (callback?: Function) => void;
   /**
-   * Update the specs(configurations).
+   * Update the specs (configurations).
    */
-  updateSpecification: (spec: Specification<B, T>) => void;
+  updateSpecification: (spec: Specification<B, T>) => Specification<B, T>;
+  /**
+   * Update the theme specs (configurations).
+   */
+  updateTheme: (theme: ThemeOptionsOf<T>) => void;
   /**
    * Get the copy of specs(configurations).
    * @returns graph specs
@@ -522,7 +522,7 @@ export interface IGraph<
    * @returns
    * @group Interaction
    */
-  updateBehavior: (behavior: BehaviorObjectOptionsOf<B>, mode?: string) => void;
+  updateBehavior: (behavior: BehaviorOptionsOf<B>, mode?: string) => void;
 
   /**
    * Draw or update a G shape or group to the transient canvas.

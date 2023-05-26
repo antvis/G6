@@ -21,31 +21,31 @@ interface ActivateRelationsOptions {
    * Defaults to true.
    * If set to false, `trigger` options will be ignored.
    */
-  multiple: boolean;
+  multiple?: boolean;
   /**
    * The key to pressed with mouse click to apply multiple selection.
    * Defaults to `"click"`.
    * Could be "click", "mouseenter".
    */
-  trigger: Trigger;
+  trigger?: Trigger;
 
   /**
    *
    * Defaults to `"selected"`.
    *
    */
-  activeState: 'selected';
+  activeState?: 'selected';
 
   /**
    * Whether allow the behavior happen on the current item.
    */
-  shouldBegin: (event: IG6GraphEvent) => boolean;
+  shouldBegin?: (event: IG6GraphEvent) => boolean;
   /**
    * Whether to update item state.
    * If it returns false, you may probably listen to `eventName` and
    * manage states or data manually
    */
-  shouldUpdate: (event: IG6GraphEvent) => boolean;
+  shouldUpdate?: (event: IG6GraphEvent) => boolean;
 }
 
 const DEFAULT_OPTIONS: ActivateRelationsOptions = {
