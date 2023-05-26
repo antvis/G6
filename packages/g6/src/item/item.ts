@@ -60,7 +60,7 @@ export default abstract class Item implements IItem {
   /** Set to different value in implements. */
   public type: ITEM_TYPE;
   /** The flag of transient item. */
-  public transient: boolean = false;
+  public transient: Boolean = false;
   public renderExtensions: any; // TODO
   /** Cache the animation instances to stop at next lifecycle. */
   public animations: IAnimation[];

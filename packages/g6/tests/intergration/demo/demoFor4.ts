@@ -104,7 +104,7 @@ const create2DGraph = () => {
 };
 
 export default () => {
-  let graph = create2DGraph();
+  const graph = create2DGraph();
   // stats
   const stats = new Stats();
   stats.showPanel(0);

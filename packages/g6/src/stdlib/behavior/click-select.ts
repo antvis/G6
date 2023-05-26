@@ -67,7 +67,7 @@ export default class ClickSelect extends Behavior {
    * Two flag to avoid onCanvasClick triggered while dragging canvas
    */
   private canvasPointerDown: Point | undefined = undefined;
-  private canvasPointerMove: boolean = false;
+  private canvasPointerMove: Boolean = false;
 
   constructor(options: Partial<ClickSelectOptions>) {
     super(Object.assign({}, DEFAULT_OPTIONS, options));

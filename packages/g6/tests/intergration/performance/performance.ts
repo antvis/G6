@@ -1746,7 +1746,7 @@ const clusters = [
     'Brujon',
   ],
 ];
-let nodes = data.nodes.map((node) => {
+const nodes = data.nodes.map((node) => {
   let nocluster = true;
   clusters.forEach((cluster, i) => {
     if (cluster.includes(node.id)) {
@@ -1973,7 +1973,6 @@ const createGraph = async () => {
         'click-select',
       ],
     },
-    // @ts-ignore
     theme: {
       type: 'spec',
       specification: {
@@ -2029,7 +2028,7 @@ const createGraph = async () => {
       else if (degree > 6) labelLod = 2;
       else if (degree > 3) labelLod = 3;
 
-      let badgeShapes = {};
+      const badgeShapes = {};
 
       if (degree > 20) {
         badgeShapes[0] = {

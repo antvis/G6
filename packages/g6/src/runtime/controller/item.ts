@@ -467,7 +467,6 @@ export class ItemController {
     if (!theme) return;
     const { nodeDataTypeSet, edgeDataTypeSet } = this;
     const { node: nodeTheme, edge: edgeTheme } = theme;
-    debugger;
     Object.values(this.itemMap).forEach((item) => {
       const itemTye = item.getType();
       const usingTheme = itemTye === 'node' ? nodeTheme : edgeTheme;

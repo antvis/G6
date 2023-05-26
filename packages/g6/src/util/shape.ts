@@ -292,7 +292,7 @@ const merge2Styles = (
 export const isPolygonsIntersect = (
   points1: number[][],
   points2: number[][],
-): boolean => {
+): Boolean => {
   const getBBox = (points): Partial<AABB> => {
     const xArr = points.map((p) => p[0]);
     const yArr = points.map((p) => p[1]);
@@ -564,6 +564,8 @@ export const getShapeLocalBoundsByStyle = (
     z2 = 0,
   } = style;
   const radius = Number(r);
+  const radiusX = Number(rx);
+  const radiusY = Number(ry);
   switch (shape.nodeName) {
     case 'circle':
       return {
@@ -587,8 +589,6 @@ export const getShapeLocalBoundsByStyle = (
         center: [0, 0, 0],
       };
     case 'ellipse':
-      const radiusX = Number(rx);
-      const radiusY = Number(ry);
       return {
         min: [-radiusX, -radiusY, 0],
         max: [radiusX, radiusY, 0],

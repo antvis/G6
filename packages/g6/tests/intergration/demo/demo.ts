@@ -398,7 +398,7 @@ const addButtons = () => {
       requestMethod.call(canvasEl);
     } else if (typeof window.ActiveXObject !== 'undefined') {
       // Older IE.
-      var wscript = new ActiveXObject('WScript.Shell');
+      const wscript = new ActiveXObject('WScript.Shell');
       if (wscript !== null) {
         wscript.SendKeys('{F11}');
       }

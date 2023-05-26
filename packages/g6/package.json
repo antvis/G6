@@ -43,7 +43,7 @@
     "clean": "rimraf es lib",
     "coverage": "jest --coverage",
     "doc": "rimraf apis && typedoc",
-    "lint": "eslint ./src ./tests --quiet && prettier ./src ./tests --check",
+    "lint": "eslint ./src --quiet && prettier ./src --check",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx",
     "fix": "eslint ./src ./tests --fix && prettier ./src ./tests --write ",
     "test": "jest",

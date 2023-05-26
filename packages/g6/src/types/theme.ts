@@ -35,8 +35,8 @@ export type ThemeOptionsOf<T extends ThemeRegistry = {}> =
   | Extract<keyof T, string>
   | {
       [K in keyof T]: T[K] extends { new (options: infer O): any }
-        ? O & { type: K; key: string }
-        : { type: K; key: string };
+        ? O & { type: K }
+        : { type: K };
     }[Extract<keyof T, string>];
 
 export type ThemeObjectOptionsOf<T extends ThemeRegistry = {}> = {

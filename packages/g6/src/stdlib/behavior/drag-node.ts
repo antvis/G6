@@ -18,12 +18,12 @@ export interface DragNodeOptions {
    * Ignored when enableDelegate is true.
    * Defaults to true.
    */
-  enableTransient?: boolean;
+  enableTransient?: Boolean;
   /**
    * Whether to use a virtual rect moved with the dragging mouse instead of the node.
    * Defaults to false.
    */
-  enableDelegate?: boolean;
+  enableDelegate?: Boolean;
   /**
    * The drawing properties when the nodes are dragged.
    * Only used when enableDelegate is true.
@@ -47,7 +47,7 @@ export interface DragNodeOptions {
    * Ignored when enableTransient or enableDelegate is true.
    * Defaults to false.
    */
-  hideRelatedEdges?: boolean;
+  hideRelatedEdges?: Boolean;
   /**
    * The state name to be considered as "selected".
    * Defaults to "selected".
@@ -98,7 +98,7 @@ export default class DragNode extends Behavior {
     maxY?: number;
   }> = [];
   private pointerDown: Point | undefined = undefined;
-  private dragging: boolean = false;
+  private dragging: Boolean = false;
 
   constructor(options: Partial<DragNodeOptions>) {
     const finalOptions = Object.assign({}, DEFAULT_OPTIONS, options);
@@ -246,7 +246,7 @@ export default class DragNode extends Behavior {
     }
   }
 
-  public moveNodes(deltaX: number, deltaY: number, transient: boolean) {
+  public moveNodes(deltaX: number, deltaY: number, transient: Boolean) {
     const positionChanges = this.originPositions.map(({ id, x, y }) => {
       return {
         id,
@@ -278,7 +278,7 @@ export default class DragNode extends Behavior {
   public throttledMoveNodes: Function = (
     deltaX: number,
     deltaY: number,
-    transient: boolean,
+    transient: Boolean,
   ) => {
     // Should be overrided when drag start.
   };
