@@ -11,7 +11,7 @@ import {
 } from '@ant-design/icons';
 
 const isBrowser = typeof window !== 'undefined';
-const G6 = isBrowser ? require('@antv/g6') : null;
+const G6 = isBrowser ? window.g6 : null;
 const insertCss = isBrowser ? require('insert-css') : null;
 const modifyCSS = isBrowser ? require('@antv/dom-util/lib/modify-css').default : null;
 

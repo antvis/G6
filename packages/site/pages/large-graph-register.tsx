@@ -4,7 +4,7 @@ import isArray from '@antv/util/lib/is-array';
 import isNumber from '@antv/util/lib/is-number';
 
 const isBrowser = typeof window !== 'undefined';
-const G6 = isBrowser ? require('@antv/g6') : null;
+const G6 = isBrowser ? window.g6 : null;
 
 const duration = 2000;
 const animateOpacity = 0.6;
