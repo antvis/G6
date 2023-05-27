@@ -20,11 +20,11 @@ const lodStrategyLevels = [
   { zoomRange: [2, Infinity] }, // 6
 ]
 
-const V5LargeGraph = () => {
+const V5LargeGraph = (props) => {
+  const { language = 'zh' } = props;
 
   const container = React.useRef<HTMLDivElement>(null);
   const [graphInstance, setGraphInstance] = useState<typeof G6.Graph>(null);
-  const [originData, setOriginData] = useState({ nodes: [], edges: [] });
   const [graphData, setGraphData] = useState({ nodes: [], edges: [] });
   const [graphData3D, setGraphData3D] = useState({ nodes: [], edges: [] });
   const [degrees, setDegrees] = useState({});
@@ -38,7 +38,6 @@ const V5LargeGraph = () => {
       fetch('https://gw.alipayobjects.com/os/basement_prod/0b9730ff-0850-46ff-84d0-1d4afecd43e6.json')
         .then((res) => res.json())
         .then((originData) => {
-          setOriginData(originData);
           let data = formatData(originData);
           data = clusteringNodes(data);
           const nodeDegrees = getDegrees(data)
@@ -50,7 +49,7 @@ const V5LargeGraph = () => {
   }, []);
 
   const fetchData3D = (callback) => {
-    fetch('https://site-data-internet-site-dev-s09001617199.alipay.net/g6/eva-3d.json') // 'https://assets.antv.antgroup.com/g6/eva-3d.json'
+    fetch('https://assets.antv.antgroup.com/g6/eva-3d.json')
         .then((res) => res.json())
       .then((originData) => {
         let data = formatData(originData, true);
@@ -91,7 +90,6 @@ const V5LargeGraph = () => {
         setGraphInstance(graph);
       }
     }
-    console.log('graphInstance', graphInstance);
     if (graphInstance) {
       graphInstance.destroy(() => {
         func();
@@ -114,7 +112,7 @@ const V5LargeGraph = () => {
         ref={container}
         style={{ height: 'calc(100vh - 100px)', width: '100%' }}
       />
-      <V5Controller graph={graphInstance} zoomLevels={lodStrategyLevels} createGraph={handleCreateGraph} />
+      <V5Controller language={language} graph={graphInstance} zoomLevels={lodStrategyLevels} createGraph={handleCreateGraph} />
     </>
   );
 };

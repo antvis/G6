@@ -99,7 +99,7 @@ export const defaultTheme = {
   },
 };
 
-export const formatData = (data, is3D = false) => {
+export const formatData = (data, is3D = false, noPosition = false) => {
   const nodeIdSet = new Set();
   const nodes: any = [];
   data.nodes.forEach(node => {
@@ -114,10 +114,14 @@ export const formatData = (data, is3D = false) => {
         }
       }
       if (is3D) (formatNode.data as any).z = (node.z || node.data?.z);
+      if (noPosition) {
+        delete formatNode.data.x;
+        delete formatNode.data.y;
+        delete (formatNode.data as any).z;
+      }
       nodes.push(formatNode)
     }
   })
-  console.log('nodes', nodes, data.nodes)
   const edges = data.edges.map(edge => ({
     id: edge.id || `edge-${Math.random()}`,
     source: edge.source,
