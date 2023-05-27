@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { global } from './large-graph-register';
 
 const isBrowser = typeof window !== 'undefined';
-const G6 = isBrowser ? require('@antv/g6') : null;
+const G6 = isBrowser ? window.g6 : null;
 const insertCss = isBrowser ? require('insert-css') : null;
 
 if (isBrowser) {

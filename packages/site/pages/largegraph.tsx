@@ -6,7 +6,7 @@ import CanvasMenu from './canvas-menu';
 import LegendPanel from './legend-panel';
 
 const isBrowser = typeof window !== 'undefined';
-const G6 = isBrowser ? require('@antv/g6') : null;
+const G6 = isBrowser ? window.g6 : null; // require('@antv/g6')
 const insertCss = isBrowser ? require('insert-css') : null;
 
 let labelPropagation = null;
