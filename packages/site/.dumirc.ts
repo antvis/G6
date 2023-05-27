@@ -428,6 +428,13 @@ export default defineConfig({
       buttons: [
         {
           text: {
+            zh: 'V5 DEMO',
+            en: 'V5 DEMO',
+          },
+          link: `/g6v5`,
+        },
+        {
+          text: {
             zh: '图表示例',
             en: 'Examples',
           },

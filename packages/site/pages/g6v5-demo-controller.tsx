@@ -4,7 +4,7 @@ import { defaultTheme } from './g6v5-demo-utils';
 import './g6v5-demo.less'
 
 const V5Controller = (props) => {
-  const { graph, zoomLevels, createGraph } = props
+  const { language, graph, zoomLevels, createGraph } = props
   const [customThemeDisplay, setCustomThemeDisplay] = useState(false);
   const [customColors, setCustomColors] = useState<string[]>([]);
   const [customBgColor, setCustomBgColor] = useState('#ffffff');
@@ -182,47 +182,40 @@ const V5Controller = (props) => {
     });
   }
 
-  const { t, i18n } = useTranslation();
-
-  if (!i18n.language || i18n.language === 'zh') {
-    return (
-      <div className="v5-controller">
-        <div className='v5-buttons'>
-          <button className="v5-button" onClick={handleFullScreen}>全屏</button>
-          <button className="v5-button" onClick={() => handleZoom(true)}>放大</button>
-          <button className="v5-button" onClick={() => handleZoom(false)}>缩小</button>
-        </div>
-        <select className='v5-select' onChange={handleRendererChange}>
-          <option value="canvas">Canvas</option>
-          <option value="webgl">WebGL</option>
-          <option value="webgl-3d">WebGL-3D</option>
-          <option value="svg" disabled>SVG(coming soon)</option>
-        </select>
-        <select className='v5-select' onChange={handleThemeChange}>
-          <option value="light">亮色主题</option>
-          <option value="dark">暗色主题</option>
-          <option value="blue">蓝色主题</option>
-          <option value="yellow">黄色主题</option>
-          <option value="custom">自定义主题</option>
-        </select>
-        <div className='v5-custom-theme-wrapper' style={{display: customThemeDisplay ? 'block' : 'none'}}>
-          <div className='v5-custom-colors-wrapper'>
-            <a className='v5-custom-colors-btn' onClick={handleAddColor}>+</a>
-            {customColors.map((customColor, i) => <input type="color" className='v5-custom-color' value={customColor} onChange={(e) => handleColorChange(e, i)} />)}
-            <a className='v5-custom-colors-btn'onClick={handleRemoveColor}>-</a>
-          </div>
-          <div className='v5-custom-bg-color'>
-            背景色：
-            <input type="color" className='v5-custom-color v5-custom-bg-color' value={customBgColor} onChange={(e) => handleBgColorChange(e)} />
-          </div>
-          <button onClick={handleApplyCustomTheme} className='v5-custom-apply-btn'>应用</button>
-        </div>
-      </div>
-    );
-  }
+  const domWidth = language === 'zh' ? '135px' : '226px';
 
   return (
     <div className="v5-controller">
+      <div className='v5-buttons'>
+        <button className="v5-button" onClick={handleFullScreen}>{language === 'zh' ? '全屏': 'Fullscreen'}</button>
+        <button className="v5-button" onClick={() => handleZoom(true)}>{language === 'zh' ? '放大' : 'ZoomIn'}</button>
+        <button className="v5-button" onClick={() => handleZoom(false)}>{language === 'zh' ? '缩小' : 'ZoomOut'}</button>
+      </div>
+      <select className='v5-select' onChange={handleRendererChange} style={{ width: domWidth }}>
+        <option value="canvas">Canvas</option>
+        <option value="webgl">WebGL</option>
+        <option value="webgl-3d">WebGL-3D</option>
+        <option value="svg" disabled>SVG(coming soon)</option>
+      </select>
+      <select className='v5-select' onChange={handleThemeChange} style={{ width: domWidth }}>
+        <option value="light">{language === 'zh' ? '亮色主题' : 'Light Theme'}</option>
+        <option value="dark">{language === 'zh' ? '暗色主题' : 'Dark Theme'}</option>
+        <option value="blue">{language === 'zh' ? '蓝色主题' : 'Blue Theme'}</option>
+        <option value="yellow">{language === 'zh' ? '黄色主题' : 'Yellow Theme'}</option>
+        <option value="custom">{language === 'zh' ? '自定义主题' : 'Custom Theme'}</option>
+      </select>
+      <div className='v5-custom-theme-wrapper' style={{display: customThemeDisplay ? 'block' : 'none'}}>
+        <div className='v5-custom-colors-wrapper'>
+          <a className='v5-custom-colors-btn' onClick={handleAddColor}>+</a>
+          {customColors.map((customColor, i) => <input type="color" className='v5-custom-color' value={customColor} onChange={(e) => handleColorChange(e, i)} />)}
+          <a className='v5-custom-colors-btn'onClick={handleRemoveColor}>-</a>
+        </div>
+        <div className='v5-custom-bg-color'>
+          {language === 'zh' ? '背景色：': 'Background: ' }
+          <input type="color" className='v5-custom-color v5-custom-bg-color' value={customBgColor} onChange={(e) => handleBgColorChange(e)} />
+        </div>
+        <button onClick={handleApplyCustomTheme} className='v5-custom-apply-btn'>{language === 'zh' ? '应用' : 'Apply'}</button>
+      </div>
     </div>
   );
 };
