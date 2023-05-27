@@ -68,7 +68,7 @@ const V5Controller = (props) => {
       }
     }
     // { x: 2194, y: -1347 }
-    graph.zoom(zoomRatio, undefined); // , { duration: 500 }
+    graph.zoom(zoomRatio, undefined, { duration: 500 });
   };
 
   const handleRendererChange = (e) => {
@@ -112,7 +112,7 @@ const V5Controller = (props) => {
           },
         });
         return;
-      case 'yello':
+      case 'yellow':
         graph.updateTheme({
           type: 'spec',
           base: 'light',

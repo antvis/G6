@@ -108,15 +108,16 @@ export const formatData = (data, is3D = false) => {
       const formatNode = {
         id: node.id,
         data: {
-          label: node.olabel,
-          x: node.x * 10,
-          y: node.y * 10,
+          label: node.olabel || node.data?.label,
+          x: is3D ? node.data?.x : node.x * 10,
+          y: is3D ? node.data?.y : node.y * 10,
         }
       }
-      if (is3D) (formatNode.data as any).z = node.z * 10;
+      if (is3D) (formatNode.data as any).z = (node.z || node.data?.z);
       nodes.push(formatNode)
     }
   })
+  console.log('nodes', nodes, data.nodes)
   const edges = data.edges.map(edge => ({
     id: edge.id || `edge-${Math.random()}`,
     source: edge.source,

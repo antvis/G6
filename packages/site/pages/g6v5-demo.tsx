@@ -5,7 +5,6 @@ import { clusteringNodes, create2DGraph, create3DGraph, formatData, getDegrees }
 const isBrowser = typeof window !== 'undefined';
 const G6 = isBrowser ? window.g6v5 : null;
 
-let graph: typeof G6.Graph = null;
 let CANVAS_WIDTH = 800,
   CANVAS_HEIGHT = 800;
 
@@ -24,14 +23,14 @@ const lodStrategyLevels = [
 const V5LargeGraph = () => {
 
   const container = React.useRef<HTMLDivElement>(null);
-  const [graphInstance, setGraphInstance] = useState(null);
+  const [graphInstance, setGraphInstance] = useState<typeof G6.Graph>(null);
   const [originData, setOriginData] = useState({ nodes: [], edges: [] });
   const [graphData, setGraphData] = useState({ nodes: [], edges: [] });
   const [graphData3D, setGraphData3D] = useState({ nodes: [], edges: [] });
   const [degrees, setDegrees] = useState({});
 
   useEffect(() => {
-    if (!graph) {
+    if (!graphInstance) {
       if (container && container.current) {
         CANVAS_WIDTH = container.current.offsetWidth;
         CANVAS_HEIGHT = container.current.offsetHeight;
@@ -48,22 +47,39 @@ const V5LargeGraph = () => {
           setGraphData(data);
         });
     }
-  });
+  }, []);
+
+  const fetchData3D = (callback) => {
+    fetch('https://site-data-internet-site-dev-s09001617199.alipay.net/g6/eva-3d.json') // 'https://assets.antv.antgroup.com/g6/eva-3d.json'
+        .then((res) => res.json())
+      .then((originData) => {
+        let data = formatData(originData, true);
+        data = clusteringNodes(data);
+        setGraphData3D(data);
+        callback(data);
+      })
+  }
 
   const handleCreateGraph = (renderer, data = graphData, nodeDegrees = degrees) => {
+    const create3DFunc = async (data3d) => {
+      const graph = await create3DGraph({
+        container: container.current,
+        width: CANVAS_WIDTH,
+        height: CANVAS_HEIGHT,
+        data: data3d,
+        degrees: nodeDegrees,
+      });
+      setGraphInstance(graph);
+    }
     const func = () => {
       if (renderer === 'webgl-3d') {
-        const usingData = formatData(originData, true);
-        clusteringNodes(usingData);
-        graph = create3DGraph({
-          container: container.current,
-          width: CANVAS_WIDTH,
-          height: CANVAS_HEIGHT,
-          data,
-          degrees: nodeDegrees,
-        })
+        if (graphData3D?.nodes.length) {
+          create3DFunc(graphData3D);
+        } else {
+          fetchData3D(create3DFunc);
+        }
       } else {
-        graph = create2DGraph({
+        const graph = create2DGraph({
           renderer,
           container: container.current,
           width: CANVAS_WIDTH,
@@ -72,11 +88,12 @@ const V5LargeGraph = () => {
           degrees: nodeDegrees,
           lodStrategyLevels
         });
+        setGraphInstance(graph);
       }
-      setGraphInstance(graph);
     }
-    if (graph) {
-      graph.destroy(() => {
+    console.log('graphInstance', graphInstance);
+    if (graphInstance) {
+      graphInstance.destroy(() => {
         func();
       })
     } else {
