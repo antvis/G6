@@ -125,7 +125,7 @@ export default class ZoomCanvas3D extends Behavior {
     const camera = graph.canvas.getCamera();
     const sign = event.deltaY > 0 ? 1 : -1;
     const currentDistance = camera.getDistance();
-    let dolly =
+    const dolly =
       ((100 * sign * sensitivity) / currentDistance) *
       Math.sqrt(currentDistance);
     const toDistance = currentDistance + dolly;

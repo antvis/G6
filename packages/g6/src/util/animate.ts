@@ -331,7 +331,7 @@ export const animateShapes = (
   let i = 0;
   const groupKeys = Object.keys(timingAnimateGroups);
   if (!groupKeys.length) return;
-  let animations = [];
+  const animations = [];
   let canceled = false;
   const onfinish = () => {
     if (i >= groupKeys.length) {
