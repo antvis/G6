@@ -8,6 +8,7 @@ const V5Controller = (props) => {
   const [customThemeDisplay, setCustomThemeDisplay] = useState(false);
   const [customColors, setCustomColors] = useState<string[]>([]);
   const [customBgColor, setCustomBgColor] = useState('#ffffff');
+  const [currentTheme, setCurrentTheme] = useState(defaultTheme);
 
   const zoomLevelCenters = useMemo(() => {
     return zoomLevels.map(({ zoomRange }, i) => {
@@ -73,22 +74,23 @@ const V5Controller = (props) => {
 
   const handleRendererChange = (e) => {
     const rendererName = e.target.value;
-    createGraph(rendererName);
+    createGraph(rendererName, undefined, undefined, currentTheme);
   }
 
   const handleThemeChange = (e) => {
     const value = e.target.value;
     setCustomThemeDisplay(false);
+    let theme: any = defaultTheme;
     switch (value) {
       case 'light':
       case 'dark':
-        graph.updateTheme({
+        theme = {
           ...defaultTheme,
           base: value
-        });
-        return;
+        }
+        break;
       case 'blue':
-        graph.updateTheme({
+        theme ={
           type: 'spec',
           base: 'light',
           specification: {
@@ -110,10 +112,10 @@ const V5Controller = (props) => {
               ],
             },
           },
-        });
-        return;
+        }
+        break;
       case 'yellow':
-        graph.updateTheme({
+        theme = {
           type: 'spec',
           base: 'light',
           specification: {
@@ -135,13 +137,16 @@ const V5Controller = (props) => {
               ],
             },
           },
-        });
-        return;
+        };
+        break;
       case 'custom':
         setCustomThemeDisplay(true);
         setCustomColors(['#cccccc'])
+        setCurrentTheme(theme);
         return;
     }
+    graph.updateTheme(theme);
+    setCurrentTheme(theme);
   }
 
   const handleAddColor = () => {

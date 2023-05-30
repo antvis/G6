@@ -1,3 +1,22 @@
+.v5-loading-mask {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  top: 100px;
+  left: 0px;
+  .v5-loading {
+    text-align: center;
+    transform: translate(calc(50vw - 50%), calc(50vh - 300px));
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.65);
+    .v5-loading-img {
+      width: 100px;
+      margin: 16px;
+    }
+  }
+}
+
 .v5-controller {
   position: absolute;
   right: 16px;
