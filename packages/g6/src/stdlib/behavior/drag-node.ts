@@ -157,11 +157,15 @@ export default class DragNode extends Behavior {
 
       // If current node is selected, drag all the selected nodes together.
       // Otherwise drag current node.
-      if (!selectedNodeIds.includes(currentNodeId)) {
+      if (currentNodeId && !selectedNodeIds.includes(currentNodeId)) {
         selectedNodeIds = [currentNodeId];
       }
 
       this.originPositions = selectedNodeIds.map((id) => {
+        if (!this.graph.getNodeData(id)) {
+          console.log('node does not exist', id);
+          return;
+        }
         const { x, y } = this.graph.getNodeData(id).data as {
           x: number;
           y: number;

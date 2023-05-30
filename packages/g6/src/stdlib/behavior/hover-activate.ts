@@ -3,8 +3,6 @@ import { Behavior } from '../../types/behavior';
 import { IG6GraphEvent } from '../../types/event';
 import { ITEM_TYPE } from 'types/item';
 
-const DELEGATE_SHAPE_ID = 'g6-drag-node-delegate-shape';
-
 // TODO: Combo related features:
 // hover combo
 

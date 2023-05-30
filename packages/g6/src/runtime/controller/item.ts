@@ -289,8 +289,8 @@ export class ItemController {
       const { dataTypeField: nodeDataTypeField } = nodeTheme;
       const edgeToUpdate = {};
       const updateEdges = throttle(
-        () => {
-          Object.keys(edgeToUpdate).forEach((id) => {
+        (updateMap) => {
+          Object.keys(updateMap || edgeToUpdate).forEach((id) => {
             const item = itemMap[id] as Edge;
             if (item && !item.destroyed) item.forceUpdate();
           });
@@ -318,7 +318,15 @@ export class ItemController {
         }
         const node = itemMap[id] as Node;
         const innerModel = graphCore.getNode(id);
-        node.onframe = updateEdges;
+
+        const relatedEdgeInnerModels = graphCore.getRelatedEdges(id);
+        const nodeRelatedToUpdate = {};
+        relatedEdgeInnerModels.forEach((edge) => {
+          edgeToUpdate[edge.id] = edge;
+          nodeRelatedToUpdate[edge.id] = edge;
+        });
+
+        node.onframe = () => updateEdges(nodeRelatedToUpdate);
         node.update(
           innerModel,
           { previous, current },
@@ -330,10 +338,6 @@ export class ItemController {
             node.onframe = undefined;
           },
         );
-        const relatedEdgeInnerModels = graphCore.getRelatedEdges(id);
-        relatedEdgeInnerModels.forEach((edge) => {
-          edgeToUpdate[edge.id] = edge;
-        });
       });
       updateEdges();
     }

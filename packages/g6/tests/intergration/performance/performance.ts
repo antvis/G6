@@ -1971,6 +1971,7 @@ const createGraph = async () => {
         'drag-node',
         'brush-select',
         'click-select',
+        'hover-activate',
       ],
     },
     theme: {
@@ -2120,8 +2121,13 @@ const createGraph = async () => {
             ],
             update: [
               {
-                fields: ['lineWidth', 'fill', 'r'],
+                fields: ['fill', 'r'],
                 shapeId: 'keyShape',
+              },
+              {
+                fields: ['lineWidth'],
+                shapeId: 'keyShape',
+                duration: 100,
               },
               {
                 fields: ['fontSize'],

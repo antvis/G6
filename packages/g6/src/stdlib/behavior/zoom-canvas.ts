@@ -33,6 +33,14 @@ export interface ZoomCanvasOptions {
    */
   eventName?: string;
   /**
+   * The min value of zoom ratio to constrain the zoom-canvas-3d behavior
+   */
+  minZoom?: number;
+  /**
+   * The max value of zoom ratio to constrain the zoom-canvas-3d behavior
+   */
+  maxZoom?: number;
+  /**
    * Whether allow the behavior happen on the current item.
    */
   shouldBegin?: (event: IG6GraphEvent) => boolean;
@@ -55,6 +63,8 @@ const DEFAULT_OPTIONS: Required<ZoomCanvasOptions> = {
   secondaryKey: '',
   speedUpKey: 'shift',
   eventName: '',
+  minZoom: 0.00001,
+  maxZoom: 1000,
   shouldBegin: () => true,
 };
 
@@ -154,6 +164,8 @@ export default class ZoomCanvas extends Behavior {
       sensitivity,
       secondaryKey,
       triggerOnItems,
+      minZoom,
+      maxZoom,
       shouldBegin,
     } = this.options;
 
@@ -176,6 +188,9 @@ export default class ZoomCanvas extends Behavior {
     let zoomRatio = 1;
     if (deltaY < 0) zoomRatio = (100 + sensitivity) / 100;
     if (deltaY > 0) zoomRatio = 100 / (100 + sensitivity);
+    const zoomTo = zoomRatio * graph.getZoom();
+    if (minZoom && zoomTo < minZoom) return;
+    if (maxZoom && zoomTo > maxZoom) return;
     // TODO: the zoom center is wrong?
     graph.zoom(zoomRatio, { x: client.x, y: client.y });
 

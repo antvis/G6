@@ -23,6 +23,7 @@ import {
   getShapeAnimateBeginStyles,
   animateShapes,
   GROUP_ANIMATE_STYLES,
+  stopAnimate,
 } from '../util/animate';
 import { AnimateTiming, IAnimates } from '../types/animate';
 import { formatLodStrategy } from '../util/zoom';
@@ -685,13 +686,7 @@ export default abstract class Item implements IItem {
    * Stop all the animations on the item.
    */
   public stopAnimations() {
-    this.animations?.forEach((animation) => {
-      const timing = animation.effect.getTiming();
-      if (animation.playState !== 'running') return;
-      animation.currentTime =
-        Number(timing.duration) + Number(timing.delay || 0);
-      animation.cancel();
-    });
+    this.animations?.forEach(stopAnimate);
     this.animations = [];
   }
 

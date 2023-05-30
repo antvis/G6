@@ -1,5 +1,6 @@
 import { initThreads, supportsThreads, ForceLayout } from '@antv/layout-wasm';
-import G6, { Graph, GraphData } from '../../../esm';
+// import G6, { Graph, GraphData } from '../../../esm';
+import G6, { Graph, GraphData } from '../../../src';
 import { container, height, width } from '../../datasets/const';
 import data from './data';
 import data3d from './data3d';
@@ -32,8 +33,9 @@ const getDefaultNodeAnimates = (delay?: number) => ({
   ],
   update: [
     {
-      fields: ['lineWidth', 'fill', 'r'],
+      fields: ['fill', 'r', 'lineWidth'],
       shapeId: 'keyShape',
+      duration: 500,
     },
     {
       fields: ['fontSize'],
@@ -110,12 +112,12 @@ const defaultTheme = {
     },
   },
 };
+let currentTheme = defaultTheme;
 
 const create2DGraph = (
   getNodeAnimates = getDefaultNodeAnimates,
   getEdgeAnimates = getDefaultEdgeAnimates,
   theme = defaultTheme,
-  zoomConfig: { zoom: number; center: Point } | undefined = undefined,
   rendererType: RendererName = 'canvas',
 ) => {
   const graph = new Graph({
@@ -209,11 +211,7 @@ const create2DGraph = (
     },
   });
 
-  if (zoomConfig) {
-    graph.zoomTo(zoomConfig.zoom, zoomConfig.center);
-  } else {
-    graph.zoom(0.15);
-  }
+  graph.zoom(0.15);
   return graph;
 };
 
@@ -285,8 +283,9 @@ const create3DGraph = async () => {
         data: {
           ...innerModel.data,
           keyShape: {
-            lineWidth: 0.3,
-            opacity: 0.4,
+            lineWidth: 0.6,
+            opacity: 0.6,
+            stroke: '#fff',
           },
           type: 'line-edge',
         },
@@ -567,7 +566,7 @@ const handleSwitchRenderer = (rendererName, oldgraph) => {
       break;
     case 'canvas':
       oldgraph.destroy(() => {
-        graph = create2DGraph();
+        graph = create2DGraph(undefined, undefined, currentTheme);
       });
       break;
     case 'webgl':
@@ -578,13 +577,7 @@ const handleSwitchRenderer = (rendererName, oldgraph) => {
           zoom: currentZoom,
           center: { x: position[0], y: position[1] },
         };
-        graph = create2DGraph(
-          undefined,
-          undefined,
-          undefined,
-          zoomOpt,
-          'webgl',
-        );
+        graph = create2DGraph(undefined, undefined, currentTheme, 'webgl');
       });
       // oldgraph.changeRenderer('webgl');
       break;
@@ -600,16 +593,18 @@ const handleSwitchTheme = (themeType, customThemeSelect) => {
   customThemeSelect.style.display = 'none';
   switch (themeType) {
     case '亮色主题':
+      currentTheme = defaultTheme;
       graph.updateTheme(defaultTheme);
       return;
     case '暗色主题':
-      graph.updateTheme({
+      currentTheme = {
         ...defaultTheme,
         base: 'dark',
-      });
+      };
+      graph.updateTheme(currentTheme);
       return;
     case '蓝色主题':
-      graph.updateTheme({
+      currentTheme = {
         type: 'spec',
         base: 'light',
         specification: {
@@ -631,10 +626,11 @@ const handleSwitchTheme = (themeType, customThemeSelect) => {
             ],
           },
         },
-      });
+      };
+      graph.updateTheme(currentTheme);
       return;
     case '橙色主题':
-      graph.updateTheme({
+      currentTheme = {
         type: 'spec',
         base: 'light',
         specification: {
@@ -656,7 +652,8 @@ const handleSwitchTheme = (themeType, customThemeSelect) => {
             ],
           },
         },
-      });
+      };
+      graph.updateTheme(currentTheme);
       return;
     case '自定义':
       customThemeSelect.style.display = 'block';

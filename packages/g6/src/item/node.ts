@@ -74,6 +74,8 @@ export default class Node extends Item {
       // first rendering, move the group
       group.setLocalPosition(x, y, z);
     } else {
+      // terminate previous animations
+      this.stopAnimations();
       this.updatePosition(displayModel, diffData, onfinish);
     }
 
@@ -90,8 +92,6 @@ export default class Node extends Item {
       renderExt.onZoom(this.shapeMap, this.zoom);
     }
 
-    // terminate previous animations
-    this.stopAnimations();
     // handle shape's and group's animate
     if (!disableAnimate && animates) {
       const animatesExcludePosition = getAnimatesExcludePosition(animates);

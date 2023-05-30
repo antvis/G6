@@ -88,10 +88,11 @@ export default class Edge extends Item {
     if (firstRendering) {
       // update the transform
       this.renderExt.onZoom(this.shapeMap, this.zoom);
+    } else {
+      // terminate previous animations
+      this.stopAnimations();
     }
 
-    // terminate previous animations
-    this.stopAnimations();
     const timing = firstRendering ? 'buildIn' : 'update';
     // handle shape's animate
     if (!disableAnimate && usingAnimates[timing]?.length) {

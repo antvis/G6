@@ -32,6 +32,14 @@ export interface ZoomCanvas3DOptions {
    */
   eventName?: string;
   /**
+   * The min value of camera's dolly to constrain the zoom-canvas-3d behavior
+   */
+  minZoom?: number;
+  /**
+   * The max value of camera's dolly to constrain the zoom-canvas-3d behavior
+   */
+  maxZoom?: number;
+  /**
    * Whether allow the behavior happen on the current item.
    */
   shouldBegin?: (event: IG6GraphEvent) => boolean;
@@ -41,8 +49,10 @@ const DEFAULT_OPTIONS: Required<ZoomCanvas3DOptions> = {
   trigger: 'wheel',
   secondaryKey: '',
   eventName: '',
-  sensitivity: 1,
+  sensitivity: 10,
   triggerOnItems: true,
+  minZoom: 0.01,
+  maxZoom: 10,
   shouldBegin: () => true,
 };
 
@@ -70,6 +80,21 @@ export default class ZoomCanvas3D extends Behavior {
   }
 
   getEvents = () => {
+    this.graph.canvas
+      .getContextService()
+      .getDomElement()
+      .addEventListener(
+        'wheel',
+        (e) => {
+          e.preventDefault();
+        },
+        { passive: false },
+      );
+    // const { minZoom, maxZoom } = this.options;
+    // const camera = this.graph.canvas.getCamera();
+    // camera.setMinDistance(-minDistance);
+    // camera.setMaxDistance(maxDistance);
+
     if (this.options.trigger === 'wheel') {
       return {
         wheel: this.onWheel,
@@ -89,6 +114,8 @@ export default class ZoomCanvas3D extends Behavior {
       secondaryKey,
       triggerOnItems,
       eventName,
+      minZoom,
+      maxZoom,
       sensitivity = 1,
       shouldBegin,
     } = options;
@@ -96,8 +123,28 @@ export default class ZoomCanvas3D extends Behavior {
     if (!shouldBegin(event)) return;
     if (secondaryKey && !this.keydown) return;
     const camera = graph.canvas.getCamera();
+    const sign = event.deltaY > 0 ? 1 : -1;
+    const currentDistance = camera.getDistance();
+    let dolly =
+      ((100 * sign * sensitivity) / currentDistance) *
+      Math.sqrt(currentDistance);
+    const toDistance = currentDistance + dolly;
+    const cameraFrontOfFocalPoint = camera.getDistanceVector()[2] < 0;
 
-    camera.dolly(event.deltaY * sensitivity);
+    // zoom out constraint
+    if (
+      dolly > 0 &&
+      cameraFrontOfFocalPoint &&
+      toDistance > (1 / minZoom) * 200
+    ) {
+      return;
+    }
+    // zoom in constraint
+    if (dolly < 0 && !cameraFrontOfFocalPoint && toDistance > maxZoom * 200) {
+      return;
+    }
+
+    camera.dolly(dolly);
 
     // Emit event.
     if (eventName) {

@@ -350,11 +350,8 @@ export const animateShapes = (
     ).filter(Boolean);
     groupAnimations.forEach((animation) => {
       animation.onframe = onAnimatesFrame;
+      animations.push(animation);
     });
-    if (i === 0) {
-      // collect the first group animations
-      animations = groupAnimations;
-    }
     i++;
   };
   onfinish();
@@ -427,4 +424,14 @@ export const fadeOut = (id, shape, hiddenShape, animateConfig) => {
   if (opacity === 0) return;
   const animation = shape.animate([{ opacity }, { opacity: 0 }], animateConfig);
   animation.onfinish = () => shape.hide();
+};
+
+/**
+ * Make the animation to the end frame and clear it from the target shape.
+ * @param animation
+ */
+export const stopAnimate = (animation) => {
+  const timing = animation.effect.getTiming();
+  animation.currentTime = Number(timing.duration) + Number(timing.delay || 0);
+  animation.cancel();
 };
