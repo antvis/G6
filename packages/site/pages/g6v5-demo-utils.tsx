@@ -161,10 +161,8 @@ export const create2DGraph = (
   configs,
   getNodeAnimates = getDefaultNodeAnimates,
   getEdgeAnimates = getDefaultEdgeAnimates,
-  theme = defaultTheme,
-  zoomConfig = undefined,
 ) => {
-  const { data, width, height, container, degrees, lodStrategyLevels, renderer } = configs;
+  const { data, width, height, container, degrees, lodStrategyLevels, renderer, theme = defaultTheme } = configs;
   const graph = new G6.Graph({
     container: container as HTMLElement,
     width,
@@ -246,11 +244,7 @@ export const create2DGraph = (
     },
   });
 
-  if (zoomConfig) {
-    graph.zoomTo(zoomConfig.zoom, zoomConfig.center);
-  } else {
-    graph.zoom(0.15, { x: 0, y: 0});
-  }
+  graph.zoom(0.15, { x: 0, y: 0});
   return graph;
 };
 
@@ -286,19 +280,6 @@ export const create3DGraph = async (configs) => {
     //   maxSpeed: 2000,
     //   interval: 0.02,
     // },
-    // layout: {
-    //   type: 'force-wasm',
-    //   threads,
-    //   dimensions: 3,
-    //   iterations: 300,
-    //   minMovement: 10,
-    //   height,
-    //   width,
-    //   linkDistance: 200,
-    //   edgeStrength: 100,
-    //   nodeStrength: 2000,
-    //   center: [width / 2, height / 2, 0],
-    // },
     modes: {
       default: [
         {
@@ -323,8 +304,9 @@ export const create3DGraph = async (configs) => {
         data: {
           ...innerModel.data,
           keyShape: {
-            lineWidth: 0.3,
-            opacity: 0.4,
+            lineWidth: 0.6,
+            opacity: 0.6,
+            stroke: '#fff',
           },
           type: 'line-edge',
         },

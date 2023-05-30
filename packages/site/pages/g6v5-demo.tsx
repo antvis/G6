@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import V5Controller from './g6v5-demo-controller';
-import { clusteringNodes, create2DGraph, create3DGraph, formatData, getDegrees } from './g6v5-demo-utils';
+import { clusteringNodes, create2DGraph, create3DGraph, defaultTheme, formatData, getDegrees } from './g6v5-demo-utils';
 
 const isBrowser = typeof window !== 'undefined';
 const G6 = isBrowser ? window.g6v5 : null;
@@ -28,8 +28,10 @@ const V5LargeGraph = (props) => {
   const [graphData, setGraphData] = useState({ nodes: [], edges: [] });
   const [graphData3D, setGraphData3D] = useState({ nodes: [], edges: [] });
   const [degrees, setDegrees] = useState({});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     if (!graphInstance) {
       if (container && container.current) {
         CANVAS_WIDTH = container.current.offsetWidth;
@@ -59,7 +61,8 @@ const V5LargeGraph = (props) => {
       })
   }
 
-  const handleCreateGraph = (renderer, data = graphData, nodeDegrees = degrees) => {
+  const handleCreateGraph = (renderer, data = graphData, nodeDegrees = degrees, currentTheme = defaultTheme) => {
+    setLoading(true);
     const create3DFunc = async (data3d) => {
       const graph = await create3DGraph({
         container: container.current,
@@ -68,6 +71,7 @@ const V5LargeGraph = (props) => {
         data: data3d,
         degrees: nodeDegrees,
       });
+      graph.on('afterlayout', e => setLoading(false));
       setGraphInstance(graph);
     }
     const func = () => {
@@ -85,8 +89,10 @@ const V5LargeGraph = (props) => {
           height: CANVAS_HEIGHT,
           data,
           degrees: nodeDegrees,
-          lodStrategyLevels
+          lodStrategyLevels,
+          theme: currentTheme
         });
+        graph.on('afterlayout', e => setLoading(false));
         setGraphInstance(graph);
       }
     }
@@ -113,6 +119,12 @@ const V5LargeGraph = (props) => {
         style={{ height: 'calc(100vh - 100px)', width: '100%' }}
       />
       <V5Controller language={language} graph={graphInstance} zoomLevels={lodStrategyLevels} createGraph={handleCreateGraph} />
+      { loading ? <div className='v5-loading-mask'>
+          <div className='v5-loading'>
+          <img className='v5-loading-img' src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*atJHQYsFxogAAAAAAAAAAAAADmJ7AQ/original" />
+          <p className='v5-loading-txt'>数据加载中…</p>
+        </div>
+      </div> : ''}
     </>
   );
 };
