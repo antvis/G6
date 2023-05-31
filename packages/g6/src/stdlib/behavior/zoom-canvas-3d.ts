@@ -90,10 +90,6 @@ export default class ZoomCanvas3D extends Behavior {
         },
         { passive: false },
       );
-    // const { minZoom, maxZoom } = this.options;
-    // const camera = this.graph.canvas.getCamera();
-    // camera.setMinDistance(-minDistance);
-    // camera.setMaxDistance(maxDistance);
 
     if (this.options.trigger === 'wheel') {
       return {
