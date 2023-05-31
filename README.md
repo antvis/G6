@@ -44,13 +44,12 @@ $ npm install @antv/g6@5.0.0-alpha.4
 
 ## 使用 (5.0 Alpha)
 
-<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*M-MTRaLiZN0AAAAAAAAAAAAADmJ7AQ/original" width=437 height=148 alt='' />
-
 图配置 Specification 类型见：https://github.com/antvis/G6/blob/v5/packages/g6/src/types/spec.ts
 
 Graph API 见：https://github.com/antvis/G6/blob/2b44df189dd2e851447ba5a09541c372b49cd658/packages/g6/src/types/graph.ts#L23
 
-最简单的图：
+最简单的图 Demo：
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*M-MTRaLiZN0AAAAAAAAAAAAADmJ7AQ/original" width=437 height=178 alt='' />
 
 ```js
 import G6 from "@antv/g6";

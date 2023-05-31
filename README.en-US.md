@@ -62,6 +62,10 @@ The configuration specification of the graph can be refered to: https://github.c
 
 Graph API: https://github.com/antvis/G6/blob/2b44df189dd2e851447ba5a09541c372b49cd658/packages/g6/src/types/graph.ts#L23
 
+A simple graph demo:
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*M-MTRaLiZN0AAAAAAAAAAAAADmJ7AQ/original" width=437 height=178 alt='' />
+
 ```js
 import G6 from "@antv/g6";
 
