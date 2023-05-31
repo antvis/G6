@@ -30,6 +30,8 @@ Developers are able to build graph visualization **analysis** applications or gr
 
 ## Features (5.0 Alpha)
 
+- Extensionable: All the modules (seven types) are integrated as plugins;
+- Style and animation standards, supports level of details (see the graph below);
 - Beautiful Built-in Theme and cound be customized (see the graph below);
 - Layouts with Great Performance: More than 10 layout algorithms, supports GPU and Rust parallel computing, and custom layouts;
 - Steerable Interactions: More than 10 basic interaction behaviors ;
@@ -37,13 +39,25 @@ Developers are able to build graph visualization **analysis** applications or gr
 - Multiple renderers: Canvas, SVG, WebGL;
 - 3D Graph:
 
+The gif is not fully loaded, [Click Here to See the Original Image](https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*qPrmQrdV77gAAAAAAAAAAAAADmJ7AQ/original)
+
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*IUOnSbLisyoAAAAAAAAAAAAADmJ7AQ/original" width=600 height=334 alt='' />
 
-The gif is not fully loaded, [Click Here to See the Original Image](https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*qPrmQrdV77gAAAAAAAAAAAAADmJ7AQ/original)
+> 3D Graph
+
+The gif is not fully loaded, [Click Here to See the Original Image](https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*1BFvQ4r3P7UAAAAAAAAAAAAADmJ7AQ/original)
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*tPPGSokdSYsAAAAAAAAAAAAADmJ7AQ/original" width=600 height=367 alt='' />
 
-The gif is not fully loaded, [Click Here to See the Original Image](https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*1BFvQ4r3P7UAAAAAAAAAAAAADmJ7AQ/original)
+> Animations and Level of Details
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*QjJoSbD7GTwAAAAAAAAAAAAADmJ7AQ/original" width=800 height=226 alt='' />
+
+> Built-in Themes and Custom Themes
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*x7NTT5_baKYAAAAAAAAAAAAADmJ7AQ/original" width=400 height=218 alt='' />
+
+> Seven Types of Plugins
 
 - (TODO: migrate from v4) Abundant Built-in Items: Nodes and edges with free configurations;
 - (TODO: migrate from v4) Convenient Components: Outstanding ability and performance;
@@ -68,7 +82,9 @@ Graph API: https://github.com/antvis/G6/blob/2b44df189dd2e851447ba5a09541c372b49
 
 A simple graph demo:
 
-<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*M-MTRaLiZN0AAAAAAAAAAAAADmJ7AQ/original" width=437 height=178 alt='' />
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*M-MTRaLiZN0AAAAAAAAAAAAADmJ7AQ/original" width=437 height=138 alt='' />
+
+[![Edit compassionate-lalande-5lxm7](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/musing-matan-q255po?fontsize=14&hidenavigation=1&theme=dark)
 
 ```js
 import G6 from "@antv/g6";
@@ -135,8 +151,6 @@ const graph = new G6.Graph({
 });
 ```
 
-[![Edit compassionate-lalande-5lxm7](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/musing-matan-q255po?fontsize=14&hidenavigation=1&theme=dark)
-
 ## Development (5.0 Alpha)
 
 ```bash
@@ -167,6 +181,10 @@ The documents will be ready after the 5.0 version being stable.
 ## How to Contribute
 
 Please let us know what you are you going to help. Do check out [issues](https://github.com/antvis/g6/issues) for bug reports or suggestions first.
+
+### Issue Hunt
+
+Refer to the [Doc of Issue Hunt](https://github.com/antvis/G6/blob/v5-readme/ISSUEHUNT.en-US.md).
 
 ## License
 

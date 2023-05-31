@@ -20,20 +20,34 @@
 
 G6 作为一款专业的图可视化引擎，具有以下特性：
 
-- 样式、动画规范：规范元素样式，内置亮色、暗色主题，主题可自定义，动画易配置（见下图）；
+- 易扩展：七大插件化模块（见下图）；
+- 样式、动画规范，信息分层（见下图）；
+- 内置亮色、暗色主题，主题可自定义；动画易配置（见下图）；
 - 高性能布局：内置了 10+ 常用的图布局，支持 GPU、Rust 并行计算，支持自定义布局；
 - 可控的交互：内置 10+ 交互行为，支持自定义交互；
 - 友好的体验：根据用户需求分层梳理文档，支持 TypeScript 类型推断；
 - 运行时切换多渲染器：Canvas、SVG、WebGL；
 - 3D 大图：
 
+GIF 未完整加载，[点此看原图](https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*qPrmQrdV77gAAAAAAAAAAAAADmJ7AQ/original)
+
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*IUOnSbLisyoAAAAAAAAAAAAADmJ7AQ/original" width=600 height=334 alt='' />
 
-GIF 未完整加载，[点此看原图](https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*qPrmQrdV77gAAAAAAAAAAAAADmJ7AQ/original)
+> 3D 大图
+
+GIF 未完整加载，[点此看原图](https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*1BFvQ4r3P7UAAAAAAAAAAAAADmJ7AQ/original)
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*tPPGSokdSYsAAAAAAAAAAAAADmJ7AQ/original" width=600 height=367 alt='' />
 
-GIF 未完整加载，[点此看原图](https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*1BFvQ4r3P7UAAAAAAAAAAAAADmJ7AQ/original)
+> 动画规范与信息分层
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*QjJoSbD7GTwAAAAAAAAAAAAADmJ7AQ/original" width=800 height=226 alt='' />
+
+> 内置主题与自定义主题
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*x7NTT5_baKYAAAAAAAAAAAAADmJ7AQ/original" width=400 height=218 alt='' />
+
+> 七大插件化模块
 
 - （待迁移）丰富的元素：内置丰富的节点与边元素，自由配置，支持自定义；
 - （待迁移）便捷的组件：优化内置组件功能及性能；
@@ -53,7 +67,10 @@ $ npm install @antv/g6@5.0.0-alpha.4
 Graph API 见：https://github.com/antvis/G6/blob/2b44df189dd2e851447ba5a09541c372b49cd658/packages/g6/src/types/graph.ts#L23
 
 最简单的图 Demo：
-<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*M-MTRaLiZN0AAAAAAAAAAAAADmJ7AQ/original" width=437 height=178 alt='' />
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*M-MTRaLiZN0AAAAAAAAAAAAADmJ7AQ/original" width=437 height=138 alt='' />
+
+[![Edit compassionate-lalande-5lxm7](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/musing-matan-q255po?fontsize=14&hidenavigation=1&theme=dark)
 
 ```js
 import G6 from "@antv/g6";
@@ -120,8 +137,6 @@ const graph = new G6.Graph({
 });
 ```
 
-[![Edit compassionate-lalande-5lxm7](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/musing-matan-q255po?fontsize=14&hidenavigation=1&theme=dark)
-
 ## 开发 (5.0 Alpha)
 
 ```bash
@@ -152,6 +167,10 @@ DEBUG_MODE=1 npm test -- --watch ./tests/unit/node-spec
 ## 如何贡献
 
 请让我们知道您要解决或贡献什么，所以在贡献之前请先提交 [issues](https://github.com/antvis/g6/issues) 描述 bug 或建议。
+
+### 赏金猎人计划
+
+参见 [Issue Hunt 计划文档](https://github.com/antvis/G6/blob/v5-readme/ISSUEHUNT.md)。
 
 ## License
 
