@@ -9,6 +9,7 @@ export default abstract class BaseThemeSolver {
   protected options: ThemeSolverOptions;
   constructor(options: ThemeSolverOptions, themes: ThemeSpecificationMap) {
     this.specification = this.solver(options, themes);
+    this.options = options;
   }
   abstract solver(
     options: ThemeSolverOptions,

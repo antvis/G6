@@ -22,12 +22,12 @@ describe('viewport', () => {
     });
 
     graph.once('afterlayout', () => {
-      graph.translate(250, 250);
+      graph.translate({ dx: 250, dy: 250 });
       let [px, py] = graph.canvas.getCamera().getPosition();
       expect(px).toBeCloseTo(0, 1);
       expect(py).toBeCloseTo(0, 1);
 
-      graph.translate(-250, -250);
+      graph.translate({ dx: -250, dy: -250 });
       [px, py] = graph.canvas.getCamera().getPosition();
       expect(px).toBeCloseTo(250, 1);
       expect(py).toBeCloseTo(250, 1);
@@ -52,9 +52,12 @@ describe('viewport', () => {
     });
 
     graph.once('afterlayout', async () => {
-      await graph.translate(249, 249, {
-        duration: 1000,
-      });
+      await graph.translate(
+        { dx: 249, dy: 249 },
+        {
+          duration: 1000,
+        },
+      );
 
       graph.once('viewportchange', ({ translate }) => {
         expect(translate.dx).toBeCloseTo(-250, 1);
@@ -429,9 +432,12 @@ describe('viewport', () => {
     });
 
     graph.once('afterlayout', async () => {
-      await graph.translate(249, 249, {
-        duration: 1000,
-      });
+      await graph.translate(
+        { dx: 249, dy: 249 },
+        {
+          duration: 1000,
+        },
+      );
 
       graph.once('viewportchange', ({ translate }) => {
         expect(translate.dx).toBeCloseTo(-249, 1);
@@ -447,7 +453,7 @@ describe('viewport', () => {
       });
 
       await graph.zoom(0.5);
-      await graph.translate(249, 249);
+      await graph.translate({ dx: 249, dy: 249 });
       graph.once('viewportchange', ({ translate }) => {
         expect(translate.dx).toBeCloseTo(-249, 1);
         expect(translate.dy).toBeCloseTo(-249, 1);
@@ -577,10 +583,13 @@ describe('viewport', () => {
           easing: 'ease-in',
         },
       );
-      await graph.translate(100, 100, {
-        duration: 1000,
-        easing: 'ease-in',
-      });
+      await graph.translate(
+        { dx: 100, dy: 100 },
+        {
+          duration: 1000,
+          easing: 'ease-in',
+        },
+      );
       await graph.fitView(
         {
           padding: [150, 100],

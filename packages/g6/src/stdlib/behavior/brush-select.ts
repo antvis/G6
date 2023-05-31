@@ -123,13 +123,9 @@ export default class BrushSelect extends Behavior {
 
   getEvents = () => {
     return {
-      // 'dragstart': this.onMouseDown,
-      // 'drag': this.onMouseMove,
-      // 'dragend': this.onMouseUp,
-
-      'canvas:pointerdown': this.onMouseDown,
-      'canvas:pointermove': this.onMouseMove,
-      'canvas:pointerup': this.onMouseUp,
+      pointerdown: this.onMouseDown,
+      pointermove: this.onMouseMove,
+      pointerup: this.onMouseUp,
     };
   };
 
@@ -147,16 +143,19 @@ export default class BrushSelect extends Behavior {
 
   public onMouseDown(event: IG6GraphEvent) {
     if (!this.options.shouldBegin(event)) return;
-    const { itemId, canvas } = event;
-    // should not begin at an item
-    if (itemId) return;
+    const { itemId, itemType, canvas } = event;
+    // should not begin at node
+    if (itemId && itemType === 'node') return;
 
     this.beginPoint = {
       x: canvas.x,
       y: canvas.y,
     };
 
-    if (!this.isKeydown(event as any)) return;
+    if (!this.isKeydown(event as any)) {
+      this.clearStates();
+      return;
+    }
 
     const { brush } = this;
     if (!brush) {

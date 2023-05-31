@@ -11,7 +11,7 @@ import {
   ItemShapeStyles,
   ITEM_TYPE,
   State,
-  ZoomStrategyObj,
+  lodStrategyObj,
 } from '../types/item';
 import { NodeShapeMap } from '../types/node';
 import { EdgeStyleSet, NodeStyleSet } from '../types/theme';
@@ -23,8 +23,10 @@ import {
   getShapeAnimateBeginStyles,
   animateShapes,
   GROUP_ANIMATE_STYLES,
+  stopAnimate,
 } from '../util/animate';
 import { AnimateTiming, IAnimates } from '../types/animate';
+import { formatLodStrategy } from '../util/zoom';
 
 export default abstract class Item implements IItem {
   public destroyed = false;
@@ -58,6 +60,8 @@ export default abstract class Item implements IItem {
   public afterDrawShapeMap = {};
   /** Set to different value in implements. */
   public type: ITEM_TYPE;
+  /** The flag of transient item. */
+  public transient: Boolean = false;
   public renderExtensions: any; // TODO
   /** Cache the animation instances to stop at next lifecycle. */
   public animations: IAnimation[];
@@ -66,8 +70,8 @@ export default abstract class Item implements IItem {
     default?: ItemShapeStyles;
     [stateName: string]: ItemShapeStyles;
   };
-  /** The zoom strategy to show and hide shapes according to their showLevel. */
-  public zoomStrategy: ZoomStrategyObj;
+  /** The zoom strategy to show and hide shapes according to their lod. */
+  public lodStrategy: lodStrategyObj;
   /** Last zoom ratio. */
   public zoom: number;
   /** Cache the chaging states which are not consomed by draw  */
@@ -108,14 +112,20 @@ export default abstract class Item implements IItem {
     this.stateMapper = stateMapper;
     this.displayModel = this.getDisplayModelAndChanges(model).model;
     this.renderExtensions = renderExtensions;
-    const { type = this.type === 'node' ? 'circle-node' : 'line-edge' } =
-      this.displayModel.data;
+    const {
+      type = this.type === 'node' ? 'circle-node' : 'line-edge',
+      lodStrategy: modelLodStrategy,
+    } = this.displayModel.data;
     const RenderExtension = renderExtensions.find((ext) => ext.type === type);
     this.themeStyles = theme.styles;
+    const lodStrategy = modelLodStrategy
+      ? formatLodStrategy(modelLodStrategy)
+      : theme.lodStrategy;
     this.renderExt = new RenderExtension({
       themeStyles: this.themeStyles.default,
-      zoomStrategy: theme.zoomStrategy,
+      lodStrategy,
       device: this.device,
+      zoom: this.zoom,
     });
   }
 
@@ -163,7 +173,7 @@ export default abstract class Item implements IItem {
     isReplace?: boolean,
     itemTheme?: {
       styles: NodeStyleSet | EdgeStyleSet;
-      zoomStrategy: ZoomStrategyObj;
+      lodStrategy: lodStrategyObj;
     },
     onlyMove?: boolean,
     onfinish?: Function,
@@ -172,7 +182,6 @@ export default abstract class Item implements IItem {
     this.model = model;
     if (itemTheme) {
       this.themeStyles = itemTheme.styles;
-      this.zoomStrategy = itemTheme.zoomStrategy;
     }
     // 2. map new merged model to displayModel, keep prevModel and newModel for 3.
     const { model: displayModel, typeChange } = this.getDisplayModelAndChanges(
@@ -181,6 +190,10 @@ export default abstract class Item implements IItem {
       isReplace,
     );
     this.displayModel = displayModel;
+
+    this.lodStrategy = displayModel.data.lodStrategy
+      ? formatLodStrategy(displayModel.data.lodStrategy)
+      : itemTheme?.lodStrategy || this.lodStrategy;
 
     if (onlyMove) {
       this.updatePosition(displayModel, diffData, onfinish);
@@ -197,12 +210,13 @@ export default abstract class Item implements IItem {
       );
       this.renderExt = new RenderExtension({
         themeStyles: this.themeStyles.default,
-        zoomStrategy: this.zoomStrategy,
+        lodStrategy: this.lodStrategy,
         device: this.device,
+        zoom: this.zoom,
       });
     } else {
       this.renderExt.themeStyles = this.themeStyles.default;
-      this.renderExt.zoomStrategy = this.zoomStrategy;
+      this.renderExt.lodStrategy = this.lodStrategy;
     }
     // 3. call element update fn from useLib
     if (this.states?.length) {
@@ -630,10 +644,7 @@ export default abstract class Item implements IItem {
       // displayModel
       {
         ...this.displayModel,
-        data: {
-          ...displayModelData,
-          ...styles,
-        },
+        data: mergeStyles([displayModelData, styles]),
       } as ItemDisplayModel,
       // diffData
       undefined,
@@ -675,13 +686,7 @@ export default abstract class Item implements IItem {
    * Stop all the animations on the item.
    */
   public stopAnimations() {
-    this.animations?.forEach((animation) => {
-      const timing = animation.effect.getTiming();
-      if (animation.playState !== 'running') return;
-      animation.currentTime =
-        Number(timing.duration) + Number(timing.delay || 0);
-      animation.cancel();
-    });
+    this.animations?.forEach(stopAnimate);
     this.animations = [];
   }
 
@@ -719,7 +724,7 @@ export default abstract class Item implements IItem {
     // 1. stop animations, run buildOut animations
     this.stopAnimations();
     const { animates } = this.displayModel.data;
-    if (animates.buildOut?.length) {
+    if (animates?.buildOut?.length && !this.transient) {
       this.animations = this.runWithAnimates(
         animates,
         'buildOut',

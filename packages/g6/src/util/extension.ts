@@ -1,4 +1,4 @@
-import { isFunction } from 'util';
+import { isFunction } from '@antv/util';
 import { StdLibCategory } from '../types/stdlib';
 
 /**

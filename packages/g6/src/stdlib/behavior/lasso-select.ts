@@ -53,7 +53,7 @@ export default class LassoSelect extends BrushSelect {
     return this.points;
   }
 
-  publiccreateBrush() {
+  public createBrush() {
     const { graph, options } = this;
     const { brushStyle } = options;
     return graph.drawTransient('path', LASSO_SHAPE_ID, {

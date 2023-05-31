@@ -275,6 +275,7 @@ const runAnimateOnShape = (
   beginStyle: ShapeStyle,
   animateConfig,
 ) => {
+  if (!shape.isVisible()) return;
   let animateArr;
   if (!fields?.length) {
     animateArr = getStyleDiff(shape.attributes, targetStyle);
@@ -284,7 +285,8 @@ const runAnimateOnShape = (
       animateArr[0][key] = shape.attributes.hasOwnProperty(key)
         ? shape.style[key]
         : beginStyle[key];
-      animateArr[1][key] = targetStyle[key];
+      animateArr[1][key] =
+        targetStyle[key] === undefined ? animateArr[0][key] : targetStyle[key];
       if (key === 'lineDash' && animateArr[1][key].includes('100%')) {
         const totalLength = (shape as Line | Polyline | Path).getTotalLength();
         replaceElements(animateArr[1][key], '100%', totalLength);
@@ -329,7 +331,7 @@ export const animateShapes = (
   let i = 0;
   const groupKeys = Object.keys(timingAnimateGroups);
   if (!groupKeys.length) return;
-  let animations = [];
+  const animations = [];
   let canceled = false;
   const onfinish = () => {
     if (i >= groupKeys.length) {
@@ -348,11 +350,8 @@ export const animateShapes = (
     ).filter(Boolean);
     groupAnimations.forEach((animation) => {
       animation.onframe = onAnimatesFrame;
+      animations.push(animation);
     });
-    if (i === 0) {
-      // collect the first group animations
-      animations = groupAnimations;
-    }
     i++;
   };
   onfinish();
@@ -408,7 +407,12 @@ export const getAnimatesExcludePosition = (animates) => {
 export const fadeIn = (id, shape, style, hiddenShape, animateConfig) => {
   // omit inexist shape and the shape which is not hidden by zoom changing
   if (!shape || !hiddenShape[id]) return;
-  shape.show();
+  if (!shape?.isVisible()) {
+    shape.style.opacity = 0;
+    shape.show();
+  }
+  const { opacity: oriOpacity = 1 } = shape.attributes;
+  if (oriOpacity === 1) return;
   const { opacity = 1 } = style;
   shape.animate([{ opacity: 0 }, { opacity }], animateConfig);
 };
@@ -420,4 +424,14 @@ export const fadeOut = (id, shape, hiddenShape, animateConfig) => {
   if (opacity === 0) return;
   const animation = shape.animate([{ opacity }, { opacity: 0 }], animateConfig);
   animation.onfinish = () => shape.hide();
+};
+
+/**
+ * Make the animation to the end frame and clear it from the target shape.
+ * @param animation
+ */
+export const stopAnimate = (animation) => {
+  const timing = animation.effect.getTiming();
+  animation.currentTime = Number(timing.duration) + Number(timing.delay || 0);
+  animation.cancel();
 };

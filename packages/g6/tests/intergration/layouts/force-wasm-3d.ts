@@ -57,18 +57,27 @@ export default async () => {
         strokeOpacity: 0.6,
       },
     },
-    node: {
-      type: 'sphere-node',
-      keyShape: {
-        r: 10,
-        opacity: 0.6,
-      },
-      // labelShape: {
-      //   text: 'node-label',
-      // },
-      // iconShape: {
-      //   img: 'https://gw.alipayobjects.com/zos/basement_prod/012bcf4f-423b-4922-8c24-32a89f8c41ce.svg',
-      // },
+    node: (innerModel) => {
+      return {
+        ...innerModel,
+        data: {
+          ...innerModel.data,
+          type: 'sphere-node',
+          keyShape: {
+            r: 10,
+            opacity: 0.6,
+          },
+          labelShape: {
+            text: innerModel.id,
+            fill: 'white',
+            maxWidth: '400%',
+            lod: -1,
+            offsetY: 20,
+            wordWrap: false, // FIXME: mesh.getBounds() returns an empty AABB
+            isBillboard: true,
+          },
+        },
+      };
     },
     nodeState: {
       selected: {

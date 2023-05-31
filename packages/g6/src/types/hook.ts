@@ -21,7 +21,7 @@ export interface IHook<T> {
 
 export type ViewportChangeHookParams = {
   transform: GraphTransformOptions;
-  effectTiming?: CameraAnimationOptions;
+  effectTiming?: Partial<CameraAnimationOptions>;
 };
 
 export interface Hooks {
@@ -84,6 +84,14 @@ export interface Hooks {
       | string
       | { key: string; type: string; [cfgName: string]: unknown }
     )[];
+  }>;
+  themechange: IHook<{
+    theme?: ThemeSpecification;
+    canvases?: {
+      background: Canvas;
+      main: Canvas;
+      transient: Canvas;
+    };
   }>;
   destroy: IHook<{}>;
   // TODO: more timecycles here

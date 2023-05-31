@@ -14,7 +14,7 @@ import {
   AABB,
 } from '@antv/g';
 import { clone, isArray, isNumber } from '@antv/util';
-import { DEFAULT_LABEL_BG_PADDING } from '../constant';
+import { DEFAULT_LABEL_BG_PADDING, RESERVED_SHAPE_IDS } from '../constant';
 import { Point } from '../types/common';
 import { EdgeDisplayModel, EdgeShapeMap } from '../types/edge';
 import {
@@ -29,6 +29,7 @@ import { ComboDisplayModel } from '../types';
 import { getShapeAnimateBeginStyles } from './animate';
 import { isArrayOverlap } from './array';
 import { isBetween } from './math';
+import { getZoomLevel } from './zoom';
 
 export const ShapeTagMap = {
   circle: Circle,
@@ -129,7 +130,9 @@ export const upsertShape = (
     const updateStyles = {};
     const oldStyles = shape.attributes;
     // update
-    if (disableAnimate || !animates?.update) {
+    // update the styles excludes the ones in the animate fields
+    const animateFields = findAnimateFields(animates, 'update', id);
+    if (disableAnimate || !animates?.update || !animateFields.length) {
       // update all the style directly when there are no animates for update timing
       Object.keys(style).forEach((key) => {
         if (oldStyles[key] !== style[key]) {
@@ -138,9 +141,6 @@ export const upsertShape = (
         }
       });
     } else {
-      // update the styles excludes the ones in the animate fields
-      const animateFields = findAnimateFields(animates, 'update', id);
-      if (!animateFields.length) return shape;
       Object.keys(style).forEach((key) => {
         if (oldStyles[key] !== style[key]) {
           updateStyles[key] = style[key];
@@ -292,7 +292,7 @@ const merge2Styles = (
 export const isPolygonsIntersect = (
   points1: number[][],
   points2: number[][],
-): boolean => {
+): Boolean => {
   const getBBox = (points): Partial<AABB> => {
     const xArr = points.map((p) => p[0]);
     const yArr = points.map((p) => p[1]);
@@ -531,4 +531,79 @@ export const isStyleAffectBBox = (
   style: ShapeStyle,
 ) => {
   return isArrayOverlap(Object.keys(style), FEILDS_AFFECT_BBOX[type]);
+};
+
+/**
+ * Estimate the width of the shape according to the given style.
+ * @param shape target shape
+ * @param style computed merged style
+ * @param bounds shape's local bounds
+ * @returns
+ */
+export const getShapeLocalBoundsByStyle = (
+  shape: DisplayObject,
+  style: ShapeStyle,
+  bbox?: AABB,
+): {
+  min: number[];
+  max: number[];
+  center: number[];
+} => {
+  const {
+    r,
+    rx,
+    ry,
+    width,
+    height,
+    depth = 0,
+    x1,
+    x2,
+    y1,
+    y2,
+    z1 = 0,
+    z2 = 0,
+  } = style;
+  const radius = Number(r);
+  const radiusX = Number(rx);
+  const radiusY = Number(ry);
+  switch (shape.nodeName) {
+    case 'circle':
+      return {
+        min: [-radius, -radius, 0],
+        max: [radius, radius, 0],
+        center: [0, 0, 0],
+      };
+    case 'sphere':
+      return {
+        min: [-radius, -radius, -radius],
+        max: [radius, radius, radius],
+        center: [0, 0, 0],
+      };
+    case 'image':
+    case 'rect':
+    case 'cube':
+    case 'plane':
+      return {
+        min: [-width / 2, -height / 2, -depth / 2],
+        max: [width / 2, height / 2, depth / 2],
+        center: [0, 0, 0],
+      };
+    case 'ellipse':
+      return {
+        min: [-radiusX, -radiusY, 0],
+        max: [radiusX, radiusY, 0],
+        center: [0, 0, 0],
+      };
+    case 'line':
+      return {
+        min: [x1, y1, z1],
+        max: [x2, y2, z2],
+        center: [(x1 + x2) / 2, (y1 + y2) / 2, (z1 + z2) / 2],
+      };
+    case 'text':
+    case 'polyline':
+    case 'path':
+    case 'polygon':
+      return bbox || shape.getLocalBounds();
+  }
 };

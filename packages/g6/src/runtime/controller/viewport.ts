@@ -48,11 +48,11 @@ export class ViewportController {
       }> = {};
 
       if (translate) {
-        const { dx = 0, dy = 0 } = translate;
-        const [px, py] = camera.getPosition();
-        const [fx, fy] = camera.getFocalPoint();
-        landmarkOptions.position = [px - dx, py - dy];
-        landmarkOptions.focalPoint = [fx - dx, fy - dy];
+        const { dx = 0, dy = 0, dz = 0 } = translate;
+        const [px, py, pz] = camera.getPosition();
+        const [fx, fy, fz] = camera.getFocalPoint();
+        landmarkOptions.position = [px - dx, py - dy, pz - dz];
+        landmarkOptions.focalPoint = [fx - dx, fy - dy, fz - dz];
       }
 
       if (zoom) {
@@ -73,6 +73,7 @@ export class ViewportController {
         `mark${landmarkCounter}`,
         landmarkOptions,
       );
+
       return new Promise((resolve) => {
         transientCamera.gotoLandmark(transientLandmark, {
           duration: Number(duration),

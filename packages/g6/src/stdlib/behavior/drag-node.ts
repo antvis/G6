@@ -3,6 +3,7 @@ import { throttle, uniq } from '@antv/util';
 import { EdgeModel } from '../../types';
 import { Behavior } from '../../types/behavior';
 import { IG6GraphEvent } from '../../types/event';
+import { Point } from '../../types/common';
 
 const DELEGATE_SHAPE_ID = 'g6-drag-node-delegate-shape';
 
@@ -17,12 +18,12 @@ export interface DragNodeOptions {
    * Ignored when enableDelegate is true.
    * Defaults to true.
    */
-  enableTransient?: boolean;
+  enableTransient?: Boolean;
   /**
    * Whether to use a virtual rect moved with the dragging mouse instead of the node.
    * Defaults to false.
    */
-  enableDelegate?: boolean;
+  enableDelegate?: Boolean;
   /**
    * The drawing properties when the nodes are dragged.
    * Only used when enableDelegate is true.
@@ -46,7 +47,7 @@ export interface DragNodeOptions {
    * Ignored when enableTransient or enableDelegate is true.
    * Defaults to false.
    */
-  hideRelatedEdges?: boolean;
+  hideRelatedEdges?: Boolean;
   /**
    * The state name to be considered as "selected".
    * Defaults to "selected".
@@ -79,7 +80,7 @@ const DEFAULT_OPTIONS: Required<DragNodeOptions> = {
   shouldBegin: () => true,
 };
 
-export class DragNode extends Behavior {
+export default class DragNode extends Behavior {
   options: DragNodeOptions;
 
   // Private states
@@ -96,6 +97,8 @@ export class DragNode extends Behavior {
     minY?: number;
     maxY?: number;
   }> = [];
+  private pointerDown: Point | undefined = undefined;
+  private dragging: Boolean = false;
 
   constructor(options: Partial<DragNodeOptions>) {
     const finalOptions = Object.assign({}, DEFAULT_OPTIONS, options);
@@ -131,85 +134,102 @@ export class DragNode extends Behavior {
 
   public onPointerDown(event: IG6GraphEvent) {
     if (!this.options.shouldBegin(event)) return;
-    const currentNodeId = event.itemId;
-    let selectedNodeIds = this.graph.findIdByState(
-      'node',
-      this.options.selectedState,
-      true,
-    );
-
-    // If current node is selected, drag all the selected nodes together.
-    // Otherwise drag current node.
-    if (!selectedNodeIds.includes(currentNodeId)) {
-      selectedNodeIds = [currentNodeId];
-    }
-
-    this.originPositions = selectedNodeIds.map((id) => {
-      const { x, y } = this.graph.getNodeData(id).data as {
-        x: number;
-        y: number;
-      };
-      // If delegate is enabled, record bbox together.
-      if (this.options.enableDelegate) {
-        const bbox = this.graph.getRenderBBox(id);
-        if (bbox) {
-          const [minX, minY] = bbox.min;
-          const [maxX, maxY] = bbox.max;
-          return { id, x, y, minX, minY, maxX, maxY };
-        }
-      }
-      return { id, x, y };
-    });
-
-    const enableTransient =
-      this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
-
-    // Hide related edge.
-    if (this.options.hideRelatedEdges && !enableTransient) {
-      this.hiddenEdges = this.getRelatedEdges(selectedNodeIds);
-      this.graph.hideItem(
-        this.hiddenEdges.map((edge) => edge.id),
-        true,
-      );
-    }
-
-    // Draw transient nodes and edges.
-    if (enableTransient) {
-      // Draw transient edges and nodes.
-      this.hiddenEdges = this.getRelatedEdges(selectedNodeIds);
-      this.hiddenEdges.forEach((edge) => {
-        this.graph.drawTransient('edge', edge.id, {});
-      });
-      selectedNodeIds.forEach((nodeId) => {
-        this.graph.drawTransient('node', nodeId, {});
-      });
-
-      // Hide original edges and nodes. They will be restored when pointerup.
-      this.graph.hideItem(selectedNodeIds, true);
-      this.graph.hideItem(
-        this.hiddenEdges.map((edge) => edge.id),
-        true,
-      );
-    }
-
-    // Throttle moving.
-    if (this.options.throttle > 0) {
-      this.throttledMoveNodes = throttle(
-        this.moveNodes,
-        this.options.throttle,
-        { leading: true, trailing: true },
-      );
-    } else {
-      this.throttledMoveNodes = this.moveNodes;
-    }
-
-    // @ts-ignore FIXME: Type
-    this.originX = event.client.x;
-    // @ts-ignore FIXME: Type
-    this.originY = event.client.y;
+    this.pointerDown = { x: event.canvas.x, y: event.canvas.y };
+    this.dragging = false;
   }
 
   public onPointerMove(event: IG6GraphEvent) {
+    if (!this.pointerDown) return;
+
+    const beginDeltaX = Math.abs(this.pointerDown.x - event.canvas.x);
+    const beginDeltaY = Math.abs(this.pointerDown.y - event.canvas.y);
+    if (beginDeltaX < 1 && beginDeltaY < 1) return;
+
+    // pointerDown + first move = dragging
+    if (!this.dragging) {
+      this.dragging = true;
+      const currentNodeId = event.itemId;
+      let selectedNodeIds = this.graph.findIdByState(
+        'node',
+        this.options.selectedState,
+        true,
+      );
+
+      // If current node is selected, drag all the selected nodes together.
+      // Otherwise drag current node.
+      if (currentNodeId && !selectedNodeIds.includes(currentNodeId)) {
+        selectedNodeIds = [currentNodeId];
+      }
+
+      this.originPositions = selectedNodeIds.map((id) => {
+        if (!this.graph.getNodeData(id)) {
+          console.log('node does not exist', id);
+          return;
+        }
+        const { x, y } = this.graph.getNodeData(id).data as {
+          x: number;
+          y: number;
+        };
+        // If delegate is enabled, record bbox together.
+        if (this.options.enableDelegate) {
+          const bbox = this.graph.getRenderBBox(id);
+          if (bbox) {
+            const [minX, minY] = bbox.min;
+            const [maxX, maxY] = bbox.max;
+            return { id, x, y, minX, minY, maxX, maxY };
+          }
+        }
+        return { id, x, y };
+      });
+
+      const enableTransient =
+        this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
+
+      // Hide related edge.
+      if (this.options.hideRelatedEdges && !enableTransient) {
+        this.hiddenEdges = this.getRelatedEdges(selectedNodeIds);
+        this.graph.hideItem(
+          this.hiddenEdges.map((edge) => edge.id),
+          true,
+        );
+      }
+
+      // Draw transient nodes and edges.
+      if (enableTransient) {
+        // Draw transient edges and nodes.
+        this.hiddenEdges = this.getRelatedEdges(selectedNodeIds);
+        this.hiddenEdges.forEach((edge) => {
+          this.graph.drawTransient('edge', edge.id, {});
+        });
+        selectedNodeIds.forEach((nodeId) => {
+          this.graph.drawTransient('node', nodeId, {});
+        });
+
+        // Hide original edges and nodes. They will be restored when pointerup.
+        this.graph.hideItem(selectedNodeIds, true);
+        this.graph.hideItem(
+          this.hiddenEdges.map((edge) => edge.id),
+          true,
+        );
+      }
+
+      // Throttle moving.
+      if (this.options.throttle > 0) {
+        this.throttledMoveNodes = throttle(
+          this.moveNodes,
+          this.options.throttle,
+          { leading: true, trailing: true },
+        );
+      } else {
+        this.throttledMoveNodes = this.moveNodes;
+      }
+
+      // @ts-ignore FIXME: Type
+      this.originX = event.canvas.x;
+      // @ts-ignore FIXME: Type
+      this.originY = event.canvas.y;
+    }
+
     if (!this.originPositions.length) {
       return;
     }
@@ -217,9 +237,9 @@ export class DragNode extends Behavior {
     // @ts-ignore FIXME: type
     const pointerEvent = event as PointerEvent;
     // @ts-ignore FIXME: Type
-    const deltaX = pointerEvent.client.x - this.originX;
+    const deltaX = pointerEvent.canvas.x - this.originX;
     // @ts-ignore FIXME: Type
-    const deltaY = pointerEvent.client.y - this.originY;
+    const deltaY = pointerEvent.canvas.y - this.originY;
 
     if (this.options.enableDelegate) {
       this.moveDelegate(deltaX, deltaY);
@@ -230,7 +250,7 @@ export class DragNode extends Behavior {
     }
   }
 
-  public moveNodes(deltaX: number, deltaY: number, transient: boolean) {
+  public moveNodes(deltaX: number, deltaY: number, transient: Boolean) {
     const positionChanges = this.originPositions.map(({ id, x, y }) => {
       return {
         id,
@@ -262,7 +282,7 @@ export class DragNode extends Behavior {
   public throttledMoveNodes: Function = (
     deltaX: number,
     deltaY: number,
-    transient: boolean,
+    transient: Boolean,
   ) => {
     // Should be overrided when drag start.
   };
@@ -325,6 +345,8 @@ export class DragNode extends Behavior {
   }
 
   public onPointerUp(event: IG6GraphEvent) {
+    this.pointerDown = undefined;
+    this.dragging = false;
     const enableTransient =
       this.options.enableTransient && this.graph.rendererType !== 'webgl-3d';
     // If transient or delegate was enabled, move the real nodes.
@@ -332,9 +354,9 @@ export class DragNode extends Behavior {
       // @ts-ignore FIXME: type
       const pointerEvent = event as PointerEvent;
       // @ts-ignore FIXME: Type
-      const deltaX = pointerEvent.client.x - this.originX;
+      const deltaX = pointerEvent.canvas.x - this.originX;
       // @ts-ignore FIXME: Type
-      const deltaY = pointerEvent.client.y - this.originY;
+      const deltaY = pointerEvent.canvas.y - this.originY;
       this.moveNodes(deltaX, deltaY, false);
     }
 

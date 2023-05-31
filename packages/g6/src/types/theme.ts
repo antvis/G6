@@ -1,6 +1,7 @@
+import BaseThemeSolver from 'stdlib/themeSolver/base';
 import { ComboShapeStyles } from './combo';
 import { EdgeShapeStyles } from './edge';
-import { ZoomStrategy } from './item';
+import { LodStrategy } from './item';
 import { NodeShapeStyles } from './node';
 
 export interface ThemeOption {}
@@ -9,21 +10,21 @@ export interface ThemeOption {}
  * Two implementing ways: getSpec or getEvents
  */
 export abstract class Theme {
-  protected options: ThemeOption = {};
-  constructor(options: ThemeOption) {
+  options: any = {};
+  constructor(options: any) {
     this.options = options;
   }
-  public updateConfig = (options: ThemeOption) => {
+  updateConfig = (options: any) => {
     this.options = Object.assign(this.options, options);
   };
-  abstract destroy(): void;
+  destroy() {}
 }
 
 /** Theme regisry table.
  * @example { 'drag-node': DragNodeBehavior, 'my-drag-node': MyDragNodeBehavior }
  */
 export interface ThemeRegistry {
-  [type: string]: typeof Theme;
+  [type: string]: typeof BaseThemeSolver;
 }
 
 /**
@@ -34,8 +35,8 @@ export type ThemeOptionsOf<T extends ThemeRegistry = {}> =
   | Extract<keyof T, string>
   | {
       [K in keyof T]: T[K] extends { new (options: infer O): any }
-        ? O & { type: K; key: string }
-        : never;
+        ? O & { type: K }
+        : { type: K };
     }[Extract<keyof T, string>];
 
 export type ThemeObjectOptionsOf<T extends ThemeRegistry = {}> = {
@@ -73,19 +74,19 @@ export interface NodeThemeSpecifications {
   dataTypeField?: string;
   palette?: string[] | { [dataTypeValue: string]: string };
   styles?: NodeStyleSets;
-  zoomStrategy?: ZoomStrategy;
+  lodStrategy?: LodStrategy;
 }
 export interface EdgeThemeSpecifications {
   dataTypeField?: string;
   palette?: string[] | { [dataTypeValue: string]: string };
   styles?: EdgeStyleSets;
-  zoomStrategy?: ZoomStrategy;
+  lodStrategy?: LodStrategy;
 }
 export interface ComboThemeSpecifications {
   dataTypeField?: string;
   palette?: string[] | { [dataTypeValue: string]: string };
   styles?: ComboStyleSets;
-  zoomStrategy?: ZoomStrategy;
+  lodStrategy?: LodStrategy;
 }
 /**
  * Theme specification

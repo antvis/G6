@@ -2,7 +2,7 @@ import { Group } from '@antv/g';
 import { clone, throttle } from '@antv/util';
 import { EdgeDisplayModel, EdgeModel, NodeModelData } from '../types';
 import { EdgeModelData } from '../types/edge';
-import { DisplayMapper, State, ZoomStrategyObj } from '../types/item';
+import { DisplayMapper, State, lodStrategyObj } from '../types/item';
 import { updateShapes } from '../util/shape';
 import Item from './item';
 import Node from './node';
@@ -22,7 +22,7 @@ interface IProps {
   zoom?: number;
   theme: {
     styles: EdgeStyleSet;
-    zoomStrategy: ZoomStrategyObj;
+    lodStrategy: lodStrategyObj;
   };
   onframe?: Function;
 }
@@ -88,10 +88,11 @@ export default class Edge extends Item {
     if (firstRendering) {
       // update the transform
       this.renderExt.onZoom(this.shapeMap, this.zoom);
+    } else {
+      // terminate previous animations
+      this.stopAnimations();
     }
 
-    // terminate previous animations
-    this.stopAnimations();
     const timing = firstRendering ? 'buildIn' : 'update';
     // handle shape's animate
     if (!disableAnimate && usingAnimates[timing]?.length) {
@@ -154,7 +155,7 @@ export default class Edge extends Item {
     }
     const clonedModel = clone(this.model);
     clonedModel.data.disableAnimate = disableAnimate;
-    return new Edge({
+    const clonedEdge = new Edge({
       model: clonedModel,
       renderExtensions: this.renderExtensions,
       sourceItem,
@@ -164,9 +165,14 @@ export default class Edge extends Item {
       stateMapper: this.stateMapper,
       zoom: this.zoom,
       theme: {
-        styles: clone(this.themeStyles),
-        zoomStrategy: this.zoomStrategy,
+        styles: this.themeStyles,
+        lodStrategy: this.lodStrategy,
       },
     });
+    Object.keys(this.shapeMap).forEach((shapeId) => {
+      if (!this.shapeMap[shapeId].isVisible())
+        clonedEdge.shapeMap[shapeId].hide();
+    });
+    return clonedEdge;
   }
 }

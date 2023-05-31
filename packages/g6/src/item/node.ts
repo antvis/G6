@@ -2,7 +2,7 @@ import { Group } from '@antv/g';
 import { clone } from '@antv/util';
 import { Point } from '../types/common';
 import { NodeModel } from '../types';
-import { DisplayMapper, State, ZoomStrategyObj } from '../types/item';
+import { DisplayMapper, State, lodStrategyObj } from '../types/item';
 import { NodeDisplayModel, NodeModelData } from '../types/node';
 import { NodeStyleSet } from '../types/theme';
 import { updateShapes } from '../util/shape';
@@ -26,7 +26,7 @@ interface IProps {
   zoom?: number;
   theme: {
     styles: NodeStyleSet;
-    zoomStrategy: ZoomStrategyObj;
+    lodStrategy: lodStrategyObj;
   };
   device?: any; // for 3d shapes
   onframe?: Function;
@@ -74,6 +74,8 @@ export default class Node extends Item {
       // first rendering, move the group
       group.setLocalPosition(x, y, z);
     } else {
+      // terminate previous animations
+      this.stopAnimations();
       this.updatePosition(displayModel, diffData, onfinish);
     }
 
@@ -90,8 +92,6 @@ export default class Node extends Item {
       renderExt.onZoom(this.shapeMap, this.zoom);
     }
 
-    // terminate previous animations
-    this.stopAnimations();
     // handle shape's and group's animate
     if (!disableAnimate && animates) {
       const animatesExcludePosition = getAnimatesExcludePosition(animates);
@@ -114,7 +114,7 @@ export default class Node extends Item {
     isReplace?: boolean,
     theme?: {
       styles: NodeStyleSet;
-      zoomStrategy: ZoomStrategyObj;
+      lodStrategy: lodStrategyObj;
     },
     onlyMove?: boolean,
     onfinish?: Function,
@@ -150,8 +150,8 @@ export default class Node extends Item {
           this.animateFrameListener,
           () => onfinish(displayModel.id),
         );
+        return;
       }
-      return;
     }
     group.setLocalPosition(x, y, z);
   }
@@ -172,7 +172,7 @@ export default class Node extends Item {
     }
     const clonedModel = clone(this.model);
     clonedModel.data.disableAnimate = disableAnimate;
-    return new Node({
+    const clonedNode = new Node({
       model: clonedModel,
       renderExtensions: this.renderExtensions,
       containerGroup,
@@ -180,10 +180,15 @@ export default class Node extends Item {
       stateMapper: this.stateMapper,
       zoom: this.zoom,
       theme: {
-        styles: clone(this.themeStyles),
-        zoomStrategy: this.zoomStrategy,
+        styles: this.themeStyles,
+        lodStrategy: this.lodStrategy,
       },
     });
+    Object.keys(this.shapeMap).forEach((shapeId) => {
+      if (!this.shapeMap[shapeId].isVisible())
+        clonedNode.shapeMap[shapeId].hide();
+    });
+    return clonedNode;
   }
 
   public getAnchorPoint(point: Point) {

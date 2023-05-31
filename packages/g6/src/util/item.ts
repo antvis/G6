@@ -36,8 +36,9 @@ export const upsertTransientItem = (
     return transientItem;
   }
   if (item.type === 'node') {
-    const transientNode = item.clone(nodeGroup, onlyDrawKeyShape, true);
+    const transientNode = item.clone(nodeGroup, onlyDrawKeyShape, true) as Node;
     transientItemMap[item.model.id] = transientNode;
+    transientNode.transient = true;
     return transientNode;
   } else if (item.type === 'edge') {
     const source = upsertTransientItem(
@@ -60,7 +61,8 @@ export const upsertTransientItem = (
       target,
       undefined,
       true,
-    );
+    ) as Edge;
+    transientEdge.transient = true;
     transientItemMap[item.model.id] = transientEdge;
     return transientEdge;
   }

@@ -14,7 +14,6 @@ const edgeDisableStroke = 'rgb(217, 217, 217)';
 const edgeInactiveStroke = 'rgb(210, 218, 233)';
 
 const nodeStroke = 'rgba(0,0,0,0.85)';
-const haloStroke = 'rgb(0, 0, 0)';
 
 export default {
   node: {
@@ -30,13 +29,13 @@ export default {
       '#5241A8',
       '#95CF21',
     ],
-    zoomStrategy: {
+    lodStrategy: {
       levels: [
-        { range: [0, 0.65] },
-        { range: [0.65, 0.8] },
-        { range: [0.8, 1.6], primary: true },
-        { range: [1.6, 2] },
-        { range: [2, Infinity] },
+        { zoomRange: [0, 0.65] },
+        { zoomRange: [0.65, 0.8] },
+        { zoomRange: [0.8, 1.6], primary: true },
+        { zoomRange: [1.6, 2] },
+        { zoomRange: [2, Infinity] },
       ],
       animateCfg: {
         duration: 200,
@@ -57,7 +56,7 @@ export default {
             fill: '#000',
             position: 'bottom',
             zIndex: 2,
-            showLevel: 0,
+            lod: 0,
             maxWidth: '200%',
             textOverflow: 'ellipsis',
             wordWrap: true,
@@ -69,53 +68,56 @@ export default {
             fill: '#fff',
             opacity: 0.75,
             zIndex: -1,
-            showLevel: 0,
+            lod: 0,
           },
           iconShape: {
             ...DEFAULT_TEXT_STYLE,
             fill: '#fff',
             fontSize: 16,
             zIndex: 1,
-            showLevel: -1,
+            lod: -1,
           },
           anchorShapes: {
             lineWidth: 1,
             stroke: 'rgba(0, 0, 0, 0.65)',
             zIndex: 2,
             r: 3,
-            showLevel: 0,
+            lod: 0,
           },
           badgeShapes: {
             color: 'rgb(140, 140, 140)',
             textColor: '#fff',
             zIndex: 3,
-            showLevel: -1,
+            lod: -1,
+          },
+          haloShape: {
+            visible: false,
           },
         },
         selected: {
           keyShape: {
-            stroke: nodeStroke,
+            stroke: '#000',
             lineWidth: 3,
           },
           labelShape: {
-            fontWeight: 500,
+            fontWeight: 700,
           },
           haloShape: {
-            stroke: haloStroke,
-            opacity: 0.06,
+            opacity: 0.25,
             lineWidth: 20,
+            zIndex: -1,
+            visible: true,
           },
         },
         active: {
           keyShape: {
-            stroke: nodeStroke,
-            lineWidth: 2,
+            lineWidth: 0,
           },
           haloShape: {
-            stroke: haloStroke,
-            opacity: 0.06,
-            lineWidth: 4,
+            opacity: 0.25,
+            lineWidth: 20,
             zIndex: -1,
+            visible: true,
           },
         },
         highlight: {
@@ -124,7 +126,10 @@ export default {
             lineWidth: 3,
           },
           labelShape: {
-            fontWeight: 500,
+            fontWeight: 700,
+          },
+          haloShape: {
+            visible: false,
           },
         },
         inactive: {
@@ -137,11 +142,17 @@ export default {
           iconShape: {
             opacity: 0.25,
           },
+          haloShape: {
+            visible: false,
+          },
         },
         disable: {
           keyShape: {
             fill: disabledFill,
             lineWidth: 0,
+          },
+          haloShape: {
+            visible: false,
           },
         },
       },
@@ -160,13 +171,13 @@ export default {
       '#A192E8',
       '#CEFB75',
     ],
-    zoomStrategy: {
+    lodStrategy: {
       levels: [
-        { range: [0, 0.65] },
-        { range: [0.65, 0.8] },
-        { range: [0.8, 1.6], primary: true },
-        { range: [1.6, 2] },
-        { range: [2, Infinity] },
+        { zoomRange: [0, 0.65] },
+        { zoomRange: [0.65, 0.8] },
+        { zoomRange: [0.8, 1.6], primary: true },
+        { zoomRange: [1.6, 2] },
+        { zoomRange: [2, Infinity] },
       ],
       animateCfg: {
         duration: 200,
@@ -191,7 +202,7 @@ export default {
             wordWrap: true,
             maxLines: 1,
             maxWidth: '60%',
-            showLevel: 0,
+            lod: 0,
           },
           labelBackgroundShape: {
             padding: [4, 4, 4, 4],
@@ -199,7 +210,7 @@ export default {
             fill: '#fff',
             opacity: 0.75,
             zIndex: 1,
-            showLevel: 0,
+            lod: 0,
           },
           iconShape: {
             ...DEFAULT_TEXT_STYLE,
@@ -207,7 +218,7 @@ export default {
             fontSize: 16,
             zIndex: 2,
             offsetX: -10,
-            showLevel: -1,
+            lod: -1,
           },
         },
         selected: {
@@ -215,13 +226,13 @@ export default {
             lineWidth: 2,
           },
           labelShape: {
-            fontWeight: 500,
+            fontWeight: 700,
           },
           haloShape: {
-            stroke: haloStroke,
-            opacity: 0.06,
+            opacity: 0.25,
             lineWidth: 12,
             zIndex: -1,
+            visible: true,
           },
         },
         active: {
@@ -229,10 +240,10 @@ export default {
             lineWidth: 1,
           },
           haloShape: {
-            stroke: haloStroke,
-            opacity: 0.06,
+            opacity: 0.25,
             lineWidth: 12,
             zIndex: -1,
+            visible: true,
           },
         },
         highlight: {
@@ -240,7 +251,7 @@ export default {
             lineWidth: 2,
           },
           labelShape: {
-            fontWeight: 500,
+            fontWeight: 700,
           },
         },
         inactive: {
@@ -281,7 +292,7 @@ export default {
             lineWidth: 2,
           },
           labelShape: {
-            fontWeight: 500,
+            fontWeight: 700,
           },
         },
         active: {
@@ -297,7 +308,7 @@ export default {
             lineWidth: 2,
           },
           labelShape: {
-            fontWeight: 500,
+            fontWeight: 700,
           },
         },
         inactive: {
@@ -317,6 +328,6 @@ export default {
     ],
   },
   canvas: {
-    backgroundColor: '#000',
+    backgroundColor: '#fff',
   },
 } as ThemeSpecification;

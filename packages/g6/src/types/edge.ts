@@ -10,6 +10,7 @@ import {
   ShapeAttrEncode,
   ShapesEncode,
   ShapeStyle,
+  LodStrategy,
 } from './item';
 
 export interface EdgeUserModelData extends PlainObject {
@@ -61,6 +62,7 @@ export interface EdgeShapeStyles extends ItemShapeStyles {
     position?: 'start' | 'middle' | 'end';
     offsetX?: number;
     offsetY?: number;
+    offsetZ?: number;
     autoRotate?: boolean;
     // if it is a string, means the percentage of the keyShape, number means pixel
     maxWidth?: string | number;
@@ -74,7 +76,8 @@ export interface EdgeShapeStyles extends ItemShapeStyles {
   };
 }
 
-export type EdgeDisplayModelData = EdgeModelData & EdgeShapeStyles;
+export type EdgeDisplayModelData = EdgeModelData &
+  EdgeShapeStyles & { lodStrategy?: LodStrategy };
 
 /** User input data. */
 export type EdgeUserModel = GEdge<EdgeUserModelData>;
@@ -88,8 +91,9 @@ export type EdgeDisplayModel = GEdge<EdgeDisplayModelData>;
 export type EdgeLabelPosition = 'start' | 'middle' | 'end';
 interface EdgeLabelShapeAttrEncode extends ShapeAttrEncode {
   position?: EdgeLabelPosition | Encode<EdgeLabelPosition>;
-  offsetX: number | Encode<number>;
+  offsetX?: number | Encode<number>;
   offsetY?: number | Encode<number>;
+  offsetZ?: number | Encode<number>;
   background?: LabelBackground | Encode<LabelBackground>;
   autoRotate?: boolean | Encode<boolean>;
 }

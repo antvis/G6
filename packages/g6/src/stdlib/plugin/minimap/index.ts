@@ -173,9 +173,14 @@ export default class Minimap extends Base {
       }
 
       // Translate tht graph and update minimap viewport.
-      graph!.translate((dx * zoom) / ratio, (dy * zoom) / ratio).then(() => {
-        this.updateViewport();
-      });
+      graph!
+        .translate({
+          dx: (dx * zoom) / ratio,
+          dy: (dy * zoom) / ratio,
+        })
+        .then(() => {
+          this.updateViewport();
+        });
       x = e.clientX;
       y = e.clientY;
     };

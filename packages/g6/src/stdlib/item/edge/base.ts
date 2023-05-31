@@ -17,7 +17,7 @@ import {
   SHAPE_TYPE,
   ShapeStyle,
   State,
-  ZoomStrategyObj,
+  lodStrategyObj,
 } from '../../../types/item';
 import {
   LOCAL_BOUNDS_DIRTY_FLAG_KEY,
@@ -37,7 +37,7 @@ export abstract class BaseEdge {
   mergedStyles: EdgeShapeStyles;
   sourcePoint: Point;
   targetPoint: Point;
-  zoomStrategy?: ZoomStrategyObj;
+  lodStrategy?: lodStrategyObj;
   labelPosition: {
     x: number;
     y: number;
@@ -54,8 +54,6 @@ export abstract class BaseEdge {
   private zoomCache: {
     // the id of shapes which are hidden by zoom changing.
     hiddenShape: { [shapeId: string]: boolean };
-    // timeout timer for scaling shapes with balanceRatio, simulates debounce in function.
-    balanceTimer: NodeJS.Timeout;
     // the ratio to scale the size of shapes whose visual size should be kept, e.g. label and badges.
     balanceRatio: number;
     // last responsed zoom ratio.
@@ -70,24 +68,28 @@ export abstract class BaseEdge {
     wordWrapWidth: number;
     // animate configurations for zoom level changing
     animateConfig: AnimateCfg;
+    // the tag of first rendering
+    firstRender: boolean;
   } = {
     hiddenShape: {},
     balanceRatio: 1,
     zoom: 1,
     zoomLevel: 0,
-    balanceTimer: undefined,
     levelShapes: {},
     wordWrapWidth: 50,
     animateConfig: DEFAULT_ANIMATE_CFG.zoom,
+    firstRender: true,
   };
   constructor(props) {
-    const { themeStyles, zoomStrategy } = props;
+    const { themeStyles, lodStrategy, zoom } = props;
     if (themeStyles) this.themeStyles = themeStyles;
-    this.zoomStrategy = zoomStrategy;
+    this.lodStrategy = lodStrategy;
     this.boundsCache = {};
+    this.zoomCache.zoom = zoom;
+    this.zoomCache.balanceRatio = 1 / zoom;
     this.zoomCache.animateConfig = {
       ...DEFAULT_ANIMATE_CFG.zoom,
-      ...zoomStrategy?.animateCfg,
+      ...lodStrategy?.animateCfg,
     };
   }
   public mergeStyles(model: EdgeDisplayModel) {
@@ -137,10 +139,10 @@ export abstract class BaseEdge {
 
     const { levelShapes, zoom } = this.zoomCache;
     Object.keys(shapeMap).forEach((shapeId) => {
-      const { showLevel } = shapeMap[shapeId].attributes;
-      if (showLevel !== undefined) {
-        levelShapes[showLevel] = levelShapes[showLevel] || [];
-        levelShapes[showLevel].push(shapeId);
+      const { lod } = shapeMap[shapeId].attributes;
+      if (lod !== undefined) {
+        levelShapes[lod] = levelShapes[lod] || [];
+        levelShapes[lod].push(shapeId);
       }
     });
 
@@ -436,12 +438,14 @@ export abstract class BaseEdge {
   ): DisplayObject {
     const { keyShape } = shapeMap;
     const { haloShape: haloShapeStyle } = this.mergedStyles;
+    if (haloShapeStyle.visible === false) return;
     const { nodeName, attributes } = keyShape;
     return this.upsertShape(
       nodeName as SHAPE_TYPE,
       'haloShape',
       {
         ...attributes,
+        stroke: attributes.stroke,
         ...haloShapeStyle,
       },
       shapeMap,
@@ -461,38 +465,53 @@ export abstract class BaseEdge {
     this.balanceShapeSize(shapeMap, zoom);
 
     // zoomLevel changed
-    if (!this.zoomStrategy) return;
-    const { levels } = this.zoomStrategy;
+    if (!this.lodStrategy) return;
+    const { levels } = this.lodStrategy;
     const {
       levelShapes,
       hiddenShape,
       animateConfig,
+      firstRender = true,
       zoomLevel: previousLevel,
     } = this.zoomCache;
 
     // last zoom ratio responsed by zoom changing, which might not equal to zoom.previous in props since the function is debounced.
     const currentLevel = getZoomLevel(levels, zoom);
+    const levelNums = Object.keys(levelShapes).map(Number);
+    const maxLevel = Math.max(...levelNums);
+    const minLevel = Math.min(...levelNums);
     if (currentLevel < previousLevel) {
       // zoomLevel changed, from higher to lower, hide something
-      levelShapes[currentLevel + 1]?.forEach((id) =>
-        fadeOut(id, shapeMap[id], hiddenShape, animateConfig),
-      );
+      if (firstRender) {
+        for (let i = currentLevel + 1; i <= maxLevel; i++) {
+          levelShapes[String(i)]?.forEach((id) => shapeMap[id]?.hide());
+        }
+      } else {
+        for (let i = currentLevel + 1; i <= maxLevel; i++) {
+          levelShapes[String(i)]?.forEach((id) =>
+            fadeOut(id, shapeMap[id], hiddenShape, animateConfig),
+          );
+        }
+      }
     } else if (currentLevel > previousLevel) {
       // zoomLevel changed, from lower to higher, show something
-      levelShapes[String(currentLevel)]?.forEach((id) =>
-        fadeIn(
-          id,
-          shapeMap[id],
-          this.mergedStyles[id] ||
-            this.mergedStyles[id.replace('Background', '')],
-          hiddenShape,
-          animateConfig,
-        ),
-      );
+      for (let i = currentLevel; i >= minLevel; i--) {
+        levelShapes[String(i)]?.forEach((id) =>
+          fadeIn(
+            id,
+            shapeMap[id],
+            this.mergedStyles[id] ||
+              this.mergedStyles[id.replace('Background', '')],
+            hiddenShape,
+            animateConfig,
+          ),
+        );
+      }
     }
 
     this.zoomCache.zoom = zoom;
     this.zoomCache.zoomLevel = currentLevel;
+    this.zoomCache.firstRender = false;
   };
 
   /**
@@ -521,7 +540,7 @@ export abstract class BaseEdge {
     if (!labelBackgroundShape) return;
 
     const oriBgTransform = this.boundsCache.labelBackgroundShapeTransform;
-    labelBackgroundShape.style.transform = `${oriBgTransform} scale(1, ${balanceRatio})`;
+    labelBackgroundShape.style.transform = `${oriBgTransform} scale(${balanceRatio}, ${balanceRatio})`;
   }
 
   /**

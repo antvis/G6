@@ -39,15 +39,9 @@ export type BehaviorOptionsOf<B extends BehaviorRegistry = {}> =
   | Extract<keyof B, string>
   | {
       [K in keyof B]: B[K] extends { new (options: infer O): any }
-        ? O & { type: K; key: string }
-        : never;
+        ? { type: K; key: string } & O
+        : { type: K; key: string };
     }[Extract<keyof B, string>];
-
-export type BehaviorObjectOptionsOf<B extends BehaviorRegistry = {}> = {
-  [K in keyof B]: B[K] extends { new (options: infer O): any }
-    ? O & { type: K; key: string }
-    : never;
-}[Extract<keyof B, string>];
 
 /**
  * TODO: interaction specification

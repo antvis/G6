@@ -5,7 +5,7 @@ import BrushSelect from './behavior/brush-select';
 import ClickSelect from './behavior/click-select';
 import DragCanvas from './behavior/drag-canvas';
 import LassoSelect from './behavior/lasso-select';
-import { DragNode } from './behavior/drag-node';
+import DragNode from './behavior/drag-node';
 import { comboFromNode } from './data/comboFromNode';
 import { LineEdge } from './item/edge';
 import { CircleNode, SphereNode } from './item/node';
@@ -23,6 +23,7 @@ import ZoomCanvas3D from './behavior/zoom-canvas-3d';
 import RotateCanvas3D from './behavior/rotate-canvas-3d';
 import TrackCanvas3D from './behavior/track-canvas-3d';
 import OrbitCanvas3D from './behavior/orbit-canvas-3d';
+import { HoverActivate } from './behavior/hover-activate';
 
 const stdLib = {
   transforms: {
@@ -40,6 +41,7 @@ const stdLib = {
   behaviors: {
     'activate-relations': ActivateRelations,
     'drag-canvas': DragCanvas,
+    'hover-activate': HoverActivate,
     'zoom-canvas': ZoomCanvas,
     'drag-node': DragNode,
     'click-select': ClickSelect,

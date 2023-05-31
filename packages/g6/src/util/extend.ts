@@ -14,15 +14,17 @@ import registry from '../stdlib';
 export const extend = <
   B1 extends BehaviorRegistry,
   B2 extends BehaviorRegistry,
-  T extends ThemeRegistry = ThemeRegistry,
+  T1 extends ThemeRegistry,
+  T2 extends ThemeRegistry,
 >(
-  GraphClass: typeof Graph<B2, T>,
+  GraphClass: typeof Graph<B2, T2>,
   extendLibrary: {
     behaviors?: B1;
+    themeSolvers?: T1;
     nodes?: any; // TODO
     edges?: any; // TODO
   },
-): typeof Graph<B1 & B2, T> => {
+): typeof Graph<B1 & B2, T1 & T2> => {
   // merged the extendLibrary to useLib for global usage
   Object.keys(extendLibrary).forEach((cat) => {
     registry.useLib[cat] = Object.assign(

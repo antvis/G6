@@ -28,7 +28,7 @@ import {
   ITEM_TYPE,
   ShapeStyle,
   SHAPE_TYPE,
-  ZoomStrategyObj,
+  lodStrategyObj,
 } from '../../types/item';
 import {
   ThemeSpecification,
@@ -39,7 +39,7 @@ import {
 } from '../../types/theme';
 import { DirectionalLight, AmbientLight } from '@antv/g-plugin-3d';
 import { ViewportChangeHookParams } from '../../types/hook';
-import { formatZoomStrategy } from '../../util/zoom';
+import { formatLodStrategy } from '../../util/zoom';
 
 /**
  * Manages and stores the node / edge / combo items.
@@ -125,6 +125,8 @@ export class ItemController {
     );
     this.graph.hooks.transientupdate.tap(this.onTransientUpdate.bind(this));
     this.graph.hooks.viewportchange.tap(this.onViewportChange.bind(this));
+    this.graph.hooks.themechange.tap(this.onThemeChange.bind(this));
+    this.graph.hooks.destroy.tap(this.onDestroy.bind(this));
   }
 
   /**
@@ -196,7 +198,7 @@ export class ItemController {
       graph.canvas.appendChild(ambientLight);
       graph.canvas.appendChild(light);
       const { width, height } = graph.canvas.getConfig();
-      graph.canvas.getCamera().setPerspective(0.1, 5000, 45, width / height);
+      graph.canvas.getCamera().setPerspective(0.1, 50000, 45, width / height);
     }
 
     // 2. create node / edge / combo items, classes from ../../item, and element drawing and updating fns from node/edge/comboExtensions
@@ -287,8 +289,8 @@ export class ItemController {
       const { dataTypeField: nodeDataTypeField } = nodeTheme;
       const edgeToUpdate = {};
       const updateEdges = throttle(
-        () => {
-          Object.keys(edgeToUpdate).forEach((id) => {
+        (updateMap) => {
+          Object.keys(updateMap || edgeToUpdate).forEach((id) => {
             const item = itemMap[id] as Edge;
             if (item && !item.destroyed) item.forceUpdate();
           });
@@ -316,7 +318,15 @@ export class ItemController {
         }
         const node = itemMap[id] as Node;
         const innerModel = graphCore.getNode(id);
-        node.onframe = updateEdges;
+
+        const relatedEdgeInnerModels = graphCore.getRelatedEdges(id);
+        const nodeRelatedToUpdate = {};
+        relatedEdgeInnerModels.forEach((edge) => {
+          edgeToUpdate[edge.id] = edge;
+          nodeRelatedToUpdate[edge.id] = edge;
+        });
+
+        node.onframe = () => updateEdges(nodeRelatedToUpdate);
         node.update(
           innerModel,
           { previous, current },
@@ -328,10 +338,6 @@ export class ItemController {
             node.onframe = undefined;
           },
         );
-        const relatedEdgeInnerModels = graphCore.getRelatedEdges(id);
-        relatedEdgeInnerModels.forEach((edge) => {
-          edgeToUpdate[edge.id] = edge;
-        });
       });
       updateEdges();
     }
@@ -461,6 +467,40 @@ export class ItemController {
     false,
   );
 
+  private onThemeChange = ({ theme }) => {
+    if (!theme) return;
+    const { nodeDataTypeSet, edgeDataTypeSet } = this;
+    const { node: nodeTheme, edge: edgeTheme } = theme;
+    Object.values(this.itemMap).forEach((item) => {
+      const itemTye = item.getType();
+      const usingTheme = itemTye === 'node' ? nodeTheme : edgeTheme;
+      const usingTypeSet =
+        itemTye === 'node' ? nodeDataTypeSet : edgeDataTypeSet;
+      const { dataTypeField } = usingTheme;
+      let dataType;
+      if (dataTypeField) dataType = item.model.data[dataTypeField] as string;
+      const itemTheme = getItemTheme(
+        usingTypeSet,
+        dataTypeField,
+        dataType,
+        usingTheme,
+      );
+      item.update(
+        item.model,
+        undefined,
+        false,
+        itemTheme as {
+          styles: NodeStyleSet;
+          lodStrategy: lodStrategyObj;
+        },
+      );
+    });
+  };
+
+  private onDestroy = () => {
+    Object.values(this.itemMap).forEach((item) => item.destroy());
+  };
+
   private onTransientUpdate(param: {
     type: ITEM_TYPE | SHAPE_TYPE;
     id: ID;
@@ -583,7 +623,7 @@ export class ItemController {
         zoom,
         theme: itemTheme as {
           styles: NodeStyleSet;
-          zoomStrategy: ZoomStrategyObj;
+          lodStrategy: lodStrategyObj;
         },
         device:
           graph.rendererType === 'webgl-3d'
@@ -640,7 +680,7 @@ export class ItemController {
         zoom,
         theme: itemTheme as {
           styles: EdgeStyleSet;
-          zoomStrategy: ZoomStrategyObj;
+          lodStrategy: lodStrategyObj;
         },
       });
     });
@@ -717,16 +757,16 @@ const getItemTheme = (
   itemTheme: NodeThemeSpecifications | EdgeThemeSpecifications,
 ): {
   styles: NodeStyleSet | EdgeStyleSet;
-  zoomStrategy: ZoomStrategyObj;
+  lodStrategy: lodStrategyObj;
 } => {
-  const { styles: themeStyles, zoomStrategy } = itemTheme;
-  const formattedZoomStrategy = formatZoomStrategy(zoomStrategy);
+  const { styles: themeStyles, lodStrategy } = itemTheme;
+  const formattedLodStrategy = formatLodStrategy(lodStrategy);
   if (!dataTypeField) {
     // dataType field is not assigned
     const styles = isArray(themeStyles)
       ? themeStyles[0]
       : Object.values(themeStyles)[0];
-    return { styles, zoomStrategy: formattedZoomStrategy };
+    return { styles, lodStrategy: formattedLodStrategy };
   }
   dataTypeSet.add(dataType as string);
   let themeStyle;
@@ -739,6 +779,6 @@ const getItemTheme = (
   }
   return {
     styles: themeStyle,
-    zoomStrategy: formattedZoomStrategy,
+    lodStrategy: formattedLodStrategy,
   };
 };
