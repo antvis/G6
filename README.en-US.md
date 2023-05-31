@@ -2,7 +2,7 @@
 
 ![](https://user-images.githubusercontent.com/6113694/45008751-ea465300-b036-11e8-8e2a-166cbb338ce2.png)
 
-[![travis-ci](https://img.shields.io/travis/antvis/g6/master.svg)](https://travis-ci.org/antvis/g6) [![codecov](https://codecov.io/gh/antvis/G6/branch/master/graph/badge.svg)](https://codecov.io/gh/antvis/G6) ![typescript](https://img.shields.io/badge/language-typescript-red.svg) ![MIT](https://img.shields.io/badge/license-MIT-000000.svg) [![npm package](https://img.shields.io/npm/v/@antv/g6.svg)](https://www.npmjs.com/package/@antv/g6) [![NPM downloads](http://img.shields.io/npm/dm/@antv/g6.svg)](https://npmjs.org/package/@antv/g6) [![Percentage of issues still open](http://isitmaintained.com/badge/open/antvis/g6.svg)](http://isitmaintained.com/project/antvis/g6 'Percentage of issues still open')
+[![travis-ci](https://img.shields.io/travis/antvis/g6/master.svg)](https://travis-ci.org/antvis/g6) [![codecov](https://codecov.io/gh/antvis/G6/branch/master/graph/badge.svg)](https://codecov.io/gh/antvis/G6) ![typescript](https://img.shields.io/badge/language-typescript-red.svg) ![MIT](https://img.shields.io/badge/license-MIT-000000.svg) [![npm package](https://img.shields.io/npm/v/@antv/g6.svg)](https://www.npmjs.com/package/@antv/g6) [![NPM downloads](http://img.shields.io/npm/dm/@antv/g6.svg)](https://npmjs.org/package/@antv/g6) [![Percentage of issues still open](http://isitmaintained.com/badge/open/antvis/g6.svg)](http://isitmaintained.com/project/antvis/g6 "Percentage of issues still open")
 
 [中文 README](README.md)
 
@@ -40,15 +40,19 @@ G6 concentrates on the principle of 'good by default'. In addition, the custom m
 
 > Abundant Built-in Items
 
-## Installation
+## Installation (5.0 Alpha)
 
 ```bash
-$ npm install @antv/g6
+$ npm install @antv/g6@5.0.0-alpha.4
 ```
 
-## Usage
+## Usage (5.0 Alpha)
 
 <img src="https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*khbvSrptr0kAAAAAAAAAAABkARQnAQ" width=437 height=148 alt='' />
+
+The configuration specification of the graph can be refered to: https://github.com/antvis/G6/blob/v5/packages/g6/src/types/spec.ts
+
+Graph API: https://github.com/antvis/G6/blob/2b44df189dd2e851447ba5a09541c372b49cd658/packages/g6/src/types/graph.ts#L23
 
 ```js
 import G6 from '@antv/g6';
@@ -57,21 +61,28 @@ const data = {
   nodes: [
     {
       id: 'node1',
-      label: 'Circle1',
-      x: 150,
-      y: 150,
+      label: 'Node 1',
+      data: {
+        x: 150,
+        y: 150,
+      }
     },
     {
       id: 'node2',
-      label: 'Circle2',
-      x: 400,
-      y: 150,
+      label: 'Node 2',
+      data: {
+        x: 400,
+        y: 150,
+      }
     },
   ],
   edges: [
     {
+      id: 'edge1',
+      label: 'Edge 1',
       source: 'node1',
       target: 'node2',
+      data: {}
     },
   ],
 };
@@ -80,87 +91,60 @@ const graph = new G6.Graph({
   container: 'container',
   width: 500,
   height: 500,
-  defaultNode: {
+  data,
+  node: innerModel => {
+    ...innerModel,
     type: 'circle',
-    size: [100],
-    color: '#5B8FF9',
-    style: {
-      fill: '#9EC9FF',
-      lineWidth: 3,
-    },
-    labelCfg: {
-      style: {
-        fill: '#fff',
-        fontSize: 20,
+    data: {
+      ...innerModel.data,
+      labelShape: {
+        text: innerModel.label
       },
-    },
+    }
   },
-  defaultEdge: {
-    style: {
-      stroke: '#e2e2e2',
-    },
+  defaultEdge: innerModel => {
+    ...innerModel,
+    type: 'line',
+    data: {
+      labelShape: {
+        text: innerModel.label
+      },
+    }
   },
 });
-
-graph.data(data);
-graph.render();
 ```
 
 [![Edit compassionate-lalande-5lxm7](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/compassionate-lalande-5lxm7?fontsize=14&hidenavigation=1&theme=dark)
 
 For more information of the usage, please refer to [Getting Started](https://g6.antv.antgroup.com/en/manual/getting-started).
 
-## Development
+## Development (5.0 Alpha)
 
 ```bash
+# enter packages/g6 from root of project
+$ cd packages/g6
+
+# install dependencies
 $ npm install
 
-# lerna bootstrap for multiple packages
-$ npm run bootstrap
+# build
+$ npm run build
 
-# build the packages
-$ npm run build:all
-
-# if you wanna watch one of the packages, e.g. packages/core
-$ cd ./packages/core
-$ npm run watch
+# start the integration demos
+$ npm run dev
 
 # run test case
-$ npm test
+$ npm run test
 
 # run test case in watch mode
-npm test -- --watch ./tests/unit/algorithm/find-path-spec
-DEBUG_MODE=1 npm test -- --watch ./tests/unit/algorithm/find-path-spec
+npm test -- --watch ./tests/unit/node-spec
+DEBUG_MODE=1 npm test -- --watch ./tests/unit/node-spec
 ```
 
-## Documents
+## Documents (5.0 Alpha)
 
-- <a href='https://g6.antv.antgroup.com/en/manual/tutorial/preface' target='_blank'>Tutorial</a>
-- <a href='https://g6.antv.antgroup.com/en/manual/middle/overview' target='_blank'>Middle Guides</a>
-- <a href='https://g6.antv.antgroup.com/en/manual/advanced/coordinate-system' target='_blank'>Further Reading</a>
-- <a href='https://g6.antv.antgroup.com/en/api/graph' target='_blank'>API Reference</a>
+The documents will be ready after the 5.0 version being stable.
 
-## React project integration
-
-For React project integration, we have an independent product recommendation: [Graphin](https://graphin.antv.vision), which is a toolkit based on G6 and React, that focuses on relational visual analysis. It's simple, efficient, out of the box.
-
-At present, Graphin has good practices in business graph analysis projects. For details, see [《Who uses Graphin》](https://github.com/antvis/Graphin/issues/212)
-
-## G6 Communication Group
-
-Welcome to join the **G6 Communication Group** or **G6 Communication Group-2** (DingTalk groups). We also welcome the github issues.
-
-<p>
-  <a href="https://mdn.alipayobjects.com/mdn/huamei_qa8qxu/afts/img/A*yCTQR78ipZEAAAAAAAAAAAAADmJ7AQ" >
-    <img src='https://mdn.alipayobjects.com/mdn/huamei_qa8qxu/afts/img/A*yCTQR78ipZEAAAAAAAAAAAAADmJ7AQ' style='width:250px;display:inline-block;vertical-align:top;' alt='' />
-  </a>
-  <a href="https://mdn.alipayobjects.com/mdn/huamei_qa8qxu/afts/img/A*WVxyRpjxrEMAAAAAAAAAAAAADmJ7AQ" >
-    <img src='https://mdn.alipayobjects.com/mdn/huamei_qa8qxu/afts/img/A*WVxyRpjxrEMAAAAAAAAAAAAADmJ7AQ' style='width:250px;display:inline-block;vertical-align:top;' alt='' />
-  </a>
-  <a href="https://graphin.antv.vision/" >
-   <img src='https://camo.githubusercontent.com/5e6624abcdde991f9fd89fce4933ad133a48d8fb603d1852c670da329df73ef7/68747470733a2f2f67772e616c697061796f626a656374732e636f6d2f6d646e2f726d735f3430326331612f616674732f696d672f412a2d717a6f54704c672d3163414141414141414141414141414152516e4151' style='width:250px;display:inline-block;vertical-align: top;' alt='' />
-  </a>
-</p>
 ## How to Contribute
 
 Please let us know what you are you going to help. Do check out [issues](https://github.com/antvis/g6/issues) for bug reports or suggestions first.
