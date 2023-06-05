@@ -395,6 +395,7 @@ export abstract class BaseNode {
         ...attributes,
         stroke: attributes.fill,
         ...haloShapeStyle,
+        batchKey: 'halo',
       },
       shapeMap,
       model,
