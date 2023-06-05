@@ -1,3 +1,21 @@
+# 🔥🔥G6 5.0 发布会！直播！送塞尔达！就在今天！六月六！🔥🔥
+
+G6 5.0 & GG6VP 2.0 来了，就在 6 月 6 日，下午两点，多个渠道，线上直播！
+
+直播间大奖抽不停，塞尔达王国之泪卡带、amiibo、盲盒……
+
+在线尝鲜 DEMO：https://g6.antv.antgroup.com/g6v5
+
+微信扫描下面二维码，看预告片：
+
+<img width="400" alt="image" src="https://github.com/antvis/G6/assets/29593318/8a6a41e3-9666-4ea2-b135-48ceedb5d3b6">
+
+
+扫码预约直播：
+
+<img width="397" alt="image" src="https://github.com/antvis/G6/assets/29593318/a9d5f2e6-40de-4e21-bf81-ef3156e9f978">
+
+
 # G6：图分析引擎
 
 ![](https://user-images.githubusercontent.com/6113694/45008751-ea465300-b036-11e8-8e2a-166cbb338ce2.png)
