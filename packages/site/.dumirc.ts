@@ -1,8 +1,8 @@
-import fs from 'fs'
-import path from 'path'
-import { defineConfig } from 'dumi';
-import { repository, version } from './package.json';
 import { Extractor, ExtractorConfig } from '@microsoft/api-extractor';
+import { defineConfig } from 'dumi';
+import fs from 'fs';
+import path from 'path';
+import { repository, version } from './package.json';
 
 const getExtraLib = () => {
   try {
@@ -92,10 +92,10 @@ export default defineConfig({
         dropdownItems: [
           {
             name: {
-              zh: 'Graphinsight',
-              en: 'Graphinsight'
+              zh: 'G6VP',
+              en: 'G6VP'
             },
-            url: 'https://graphinsight.antgroup.com/#/workspace'
+            url: 'https://insight.antv.antgroup.com'
           },
           {
             name: {
