@@ -171,7 +171,7 @@ export default class Edge extends Item {
     });
     Object.keys(this.shapeMap).forEach((shapeId) => {
       if (!this.shapeMap[shapeId].isVisible())
-        clonedEdge.shapeMap[shapeId].hide();
+        clonedEdge.shapeMap[shapeId]?.hide();
     });
     return clonedEdge;
   }
