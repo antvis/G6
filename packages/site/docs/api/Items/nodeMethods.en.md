@@ -3,7 +3,7 @@ title: node.*
 order: 1
 ---
 
-Node inherits from item. The functions of Item are also available for Node. This document will only introduce the common functions for Node class. All the built-in nodes can be found in [Built-in Nodes Doc](/en/docs/manual/middle/elements/nodes/default-node) and [demo](/en/examples/item/defaultNodes), Custom Node can be found in [Custom Node Doc](/en/docs/manual/middle/elements/nodes/custom-node) and [demo](/en/examples/item/customNode).
+Node inherits from item. The functions of Item are also available for Node. This document will only introduce the common functions for Node class. All the built-in nodes can be found in [Built-in Nodes Doc](/en/docs/manual/middle/elements/nodes/default-node) and [demo](/en/examples/item/defaultNodes#circle), Custom Node can be found in [Custom Node Doc](/en/docs/manual/middle/elements/nodes/custom-node) and [demo](/en/examples/item/customNode/#card).
 
 ### node.lock()
 

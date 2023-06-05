@@ -3,7 +3,7 @@ title: Overview of Combos
 order: 0
 ---
 
-> Node Combo is a new feature for V3.5. The [node group](/en/docs/manual/middle/elements/shape/graphics-group) will be deprecated. We recommend to use Combo for node grouping. <a href='/en/examples/item/defaultCombos' target='_blank'>Demo</a>. <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AngFRpOo4SAAAAAAAAAAAABkARQnAQ' width=600 alt='img'/>
+> Node Combo is a new feature for V3.5. The [node group](/en/docs/manual/middle/elements/shape/graphics-group) will be deprecated. We recommend to use Combo for node grouping. <a href='/en/examples/net/comboLayout#comboCombined' target='_blank'>Demo</a>. <br /><img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*AngFRpOo4SAAAAAAAAAAAABkARQnAQ' width=600 alt='img'/>
 
 The built-in Combos in G6 include circle and rect types. <br /> <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*UwaHSKkwoVUAAAAAAAAAAABkARQnAQ' width='250' alt='img'/>
 
