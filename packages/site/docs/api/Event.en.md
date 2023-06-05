@@ -156,6 +156,8 @@ graph.on(timingEventName, evt => {
 | --- | --- |
 | beforerender | Emitted before `graph.render` / `graph.read` being called. |
 | afterrender | Emitted after `graph.render` / `graph.read` being called. |
+| beforechangedata | Emitted before `graph.changeData` being called. |
+| afterchangedata | Emitted after `graph.changeData` being called. |
 | beforeadditem | Emitted before `graph.add` / `graph.addItem` being called. |
 | afteradditem | Emitted after `graph.add` / `graph.addItem` being called. |
 | beforeremoveitem | Emitted before `graph.remove` / `graph.removeItem` being called. |
