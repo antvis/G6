@@ -484,6 +484,7 @@ graph.on('afteractivaterelations', (e) => {
   - `onDeselect(nodes)`：取消选中节点时的回调，参数 `nodes` 表示取消选中的节点；
   - `selectedState`：选中的状态，默认值为 `'selected'`；
   - `includeEdges`：框选过程中是否选中边，默认为 `true`，用户配置为 `false` 时，则不选中边；
+  - `includeCombos`：框选过程中是否选中 Combo，默认为 `false`，用户配置为 `true` 时，则可选中 Combo；
   - `trigger`：触发框选的动作，默认为 `'shift'`，即用户按住 Shift 键拖动就可以进行框选操作，可配置的的选项为: `'shift'`、`'ctrl' / 'control'`、`'alt'` 和 `'drag'` ，不区分大小写：
     - `'shift'`：按住 Shift 键进行拖动框选；
     - `'ctrl' / 'control'`：按住 Ctrl 键进行拖动框选；

@@ -1,0 +1,16 @@
+{
+  "title": {
+    "zh": "中文分类",
+    "en": "Category"
+  },
+  "demos": [
+    {
+      "filename": "customTreeLayout.js",
+      "title": {
+        "zh": "自定义树图布局",
+        "en": "Custom Tree Layout"
+      },
+      "screenshot": "https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*w1TnRbLkYVIAAAAAAAAAAAAADmJ7AQ/original"
+    }
+  ]
+}

@@ -1,5 +1,10 @@
 # ChangeLog
 
+### 4.8.15
+
+- fix: layout umd url with fixed version instead of latest version;
+- fix: combo animate is not activated with createCombo;
+
 ### 4.8.14
 
 - fix: upgrade layout for umd;

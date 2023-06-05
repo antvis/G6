@@ -1891,6 +1891,10 @@ export default abstract class AbstractGraph extends EventEmitter implements IAbs
     if (!comboItem.getModel().parentId && comboItem.getChildren().combos.length) {
       this.updateComboTree(comboItem, undefined, false);
     }
+
+    setTimeout(() => {
+      comboItem.set('animate', true);
+    }, 0);
   }
 
   /**
