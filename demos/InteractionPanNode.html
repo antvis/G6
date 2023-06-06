@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>交互-拖拽节点</title>
+</head>
+
+<body>
+  <div id="mountNode"></div>
+  <script src="../build/g6.js"></script>
+  <script>
+    const data = {
+      nodes: [{
+        id: 'node1',
+        x: 100,
+        y: 200
+      }, {
+        id: 'node2',
+        x: 300,
+        y: 200
+      }],
+      edges: [{
+        id: 'edge1',
+        target: 'node2',
+        source: 'node1'
+      }]
+    };
+    const graph = new G6.Graph({
+      container: 'mountNode',
+      fitView: 'cc',
+      height: window.innerHeight,
+    });
+    graph.read(data);
+    let node;
+    let dx;
+    let dy;
+    graph.on('node:dragstart', ev => {
+      const { item } = ev;
+      const model = item.getModel();
+      node = item;
+      dx = model.x - ev.x;
+      dy = model.y - ev.y;
+    });
+    graph.on('node:drag', ev => {
+      node && graph.update(node, {
+        x: ev.x + dx,
+        y: ev.y + dy
+      });
+    });
+    graph.on('node:dragend', ev => {
+      node = undefined;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+{
+  "roots": [{
+    "id": "root",
+    "name": "flare",
+    "children": [{
+      "name": "analytics",
+      "id": "analytics",
+      "children": [{
+        "name": "cluster",
+        "children": [{
+          "name": "AgglomerativeCluster"
+        }, {
+          "name": "CommunityStructure"
+        }, {
+          "name": "HierarchicalCluster"
+        }, {
+          "name": "MergeEdge"
+        }]
+      }, {
+        "name": "tree",
+        "children": [{
+          "name": "BetweennessCentrality"
+        }, {
+          "name": "LinkDistance"
+        }, {
+          "name": "MaxFlowMinCut"
+        }, {
+          "name": "ShortestPaths"
+        }, {
+          "name": "SpanningTree",
+          "id": "SpanningTree"
+        }]
+      }, {
+        "name": "optimization",
+        "id": "optimization",
+        "children": [{
+          "name": "AspectRatioBanker",
+          "id": "AspectRatioBanker"
+        }]
+      }]
+    }, {
+      "name": "animate",
+      "children": [{
+        "name": "Easing"
+      }, {
+        "name": "FunctionSequence"
+      }, {
+        "name": "interpolate",
+        "children": [{
+          "name": "ArrayInterpolator"
+        }, {
+          "name": "ColorInterpolator"
+        }, {
+          "name": "DateInterpolator"
+        }, {
+          "name": "Interpolator"
+        }, {
+          "name": "MatrixInterpolator"
+        }, {
+          "name": "NumberInterpolator"
+        }, {
+          "name": "ObjectInterpolator"
+        }, {
+          "name": "PointInterpolator"
+        }, {
+          "name": "RectangleInterpolator"
+        }]
+      }, {
+        "name": "ISchedulable"
+      }, {
+        "name": "Parallel"
+      }, {
+        "name": "Pause"
+      }, {
+        "name": "Scheduler"
+      }, {
+        "name": "Sequence"
+      }, {
+        "name": "Transition"
+      }, {
+        "name": "Transitioner"
+      }, {
+        "name": "TransitionEvent"
+      }, {
+        "name": "Tween"
+      }]
+    }]
+  }]
+}

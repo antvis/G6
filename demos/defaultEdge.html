@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>默认-边</title>
+</head>
+<body>
+<div id="mountNode"></div>
+<script src="../build/g6.js"></script>
+<script>
+const data = {
+  nodes: [{
+    id: 'node1',
+    x: 100,
+    y: 200,
+  },{
+    id: 'node2',
+    x: 300,
+    y: 200,
+  }],
+  edges: [{
+    source: 'node1',
+    target: 'node2',
+    label: '普通边'
+  },{
+    source: 'node1',
+    target: {
+      x: 100,
+      y: 50
+    },
+    label: '单向悬空边'
+  },{
+    source: {
+      x: 150,
+      y: 50
+    },
+    target: {
+      x: 150,
+      y: 100
+    },
+    label: '双向悬空边'
+  },{
+    source: 'node1',
+    target: {
+      x: 100,
+      y: 280,
+    },
+    style: {
+      endArrow: true
+    },
+    label: '箭头'
+  },{
+    source: 'node1',
+    target: {
+      x: 10,
+      y: 200,
+    },
+    sizesize: 4,
+    label: '粗细'
+  },{
+    source: 'node2',
+    target: {
+      x: 400,
+      y: 200,
+    },
+    color: 'red',
+    label: '颜色'
+  }]
+};
+const graph = new G6.Graph({
+  container: 'mountNode',
+  fitView: 'cc',
+  height: window.innerHeight
+});
+graph.read(data);
+
+</script>
+</body>
+</html>

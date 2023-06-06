@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>视口-缩放</title>
+</head>
+
+<body>
+  <button class="zoom" data-ratio="0.2">20%</button>
+  <button class="zoom" data-ratio="0.5">50%</button>
+  <button class="zoom" data-ratio="1">100%</button>
+  <button class="zoom" data-ratio="1.5">150%</button>
+  <button class="zoom" data-ratio="2">200%</button>
+  <div id="mountNode"></div>
+  <script src="../build/g6.js"></script>
+  <script>
+    const data = {
+      nodes: [{
+        id: 'node1',
+        x: 100,
+        y: 200
+      }, {
+        id: 'node2',
+        x: 300,
+        y: 200
+      }],
+      edges: [{
+        id: 'edge1',
+        target: 'node2',
+        source: 'node1'
+      }]
+    };
+    const graph = new G6.Graph({
+      container: 'mountNode',
+      fitView: 'cc',
+      height: window.innerHeight,
+    });
+    graph.read(data);
+
+    const buttons = document.getElementsByClassName('zoom');
+    for (let index = 0; index < buttons.length; index++) {
+      const button = buttons[index];
+      button.onclick = () => {
+        graph.zoom(Number(button.dataset.ratio));
+      };
+    }
+  </script>
+</body>
+</html>

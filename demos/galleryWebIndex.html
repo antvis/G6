@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>画廊-首页展示</title>
+</head>
+
+<body>
+  <div id="mountNode"></div>
+  <p>数据来源：http://sigmajs.org/assets/data/les-miserables.json</p>
+  <p>描述：数据含义暂时未知，用于艺术展示</p>
+  <script src="./assets/jquery-3.2.1.min.js"></script>
+  <script src="./assets/d3-4.13.0.min.js"></script>
+  <script src="./assets/d3-legend-2.25.6.min.js"></script>
+  <script src="../build/g6.js"></script>
+  <script src="../build/layoutCircle.js"></script>
+  <script src="../build/layoutDagre.js"></script>
+  <script src="../build/layoutGrid.js"></script>
+  <script src="../build/layoutArchimeddeanSpiral.js"></script>
+  <script src="../build/toolD3Mapper.js"></script>
+  <script src="../build/templateMaxSpanningForest.js"></script>
+  <script>
+    $.getJSON('./assets/data/g6-index.json', data => {
+      const Template = G6.Plugins['template.maxSpanningForest'];
+      const Mapper = G6.Plugins['tool.d3.mapper'];
+      const nodeSizeMapper = new Mapper('node', 'weight', 'size', [8, 20], {
+        legendCfg: null
+      });
+      const edgeSizeMapper = new Mapper('edge', 'weight', 'size', [1, 8], {
+        legendCfg: null
+      });
+      const nodeColorMapper = new Mapper('node', 'weight', 'color', ['#E0F5FF', '#BAE7FF', '#91D5FF', '#69C0FF', '#3DA0F2', '#1581E6', '#0860BF'], {
+        legendCfg: null
+      });
+      const template = new Template();
+      const graph = new G6.Graph({
+        id: 'mountNode',             // dom id
+        height: window.innerHeight,
+        plugins: [template, nodeSizeMapper, nodeColorMapper, edgeSizeMapper],
+        animate: true,
+      });
+      const force = template.layout;
+      const circle = new G6.Layouts['Circle']({
+        sort(a, b) {
+          return a.weight - b.weight;
+        }
+      });
+      const grid = new G6.Layouts['Grid']({
+        sort(a, b) {
+          return b.weight - a.weight;
+        }
+      });
+      const dagre = new G6.Layouts['Dagre']({
+        nodesep() {
+          return graph.getWidth() / 50;
+        },
+        ranksep() {
+          return graph.getHeight() / 25;
+        },
+        marginx() {
+          return graph.getWidth() / 8;
+        },
+        marginy() {
+          return graph.getHeight() / 8;
+        },
+        useEdgeControlPoint: false,
+      });
+      const spiral = new G6.Layouts['ArchimeddeanSpiral']({
+        sort(a, b) {
+          return b.weight - a.weight;
+        }
+      });
+      graph.edge({
+        style(model) {
+          return {
+            stroke: graph.find(model.target).getModel().color,
+            strokeOpacity: 0.8
+          };
+        }
+      });
+      graph.read(data);
+      setInterval(() => {
+        if (document.visibilityState === 'visible') {
+          let layouts = [circle, dagre, force, grid, spiral];
+          layouts = layouts.filter(layout => {
+            return layout !== graph.getLayout();
+          });
+          const layout = layouts[parseInt(layouts.length * Math.random())];
+          graph.changeLayout(layout);
+        }
+      }, 2000);
+    });
+  </script>
+</body>
+</html>

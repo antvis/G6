@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>自定义-继承</title>
+</head>
+<body>
+<div id="mountNode"></div>
+<script src="../build/g6.js"></script>
+<script>
+const data = {
+  nodes: [{
+    id: 'node1',
+    x: 50,
+    y: 50,
+    shape: 'rect'
+  }, {
+    id: 'node2',
+    x: 100,
+    y: 200,
+    shape: 'custom'
+  }]
+};
+
+G6.registerNode('rect', {
+  draw(item){
+    const group = item.getGraphicGroup();
+    this.drawText(item);
+    return group.addShape('rect', {
+      attrs: {
+        x: 100,
+        y: 100,
+        width: 100,
+        height: 100,
+        stroke: 'red'
+      }
+    });
+  },
+  drawText(item) {
+    const group = item.getGraphicGroup();
+    const text = this.getText();
+    group.addShape('text', {
+      attrs: {
+        x: 100,
+        y: 100,
+        fill: '#333',
+        text
+      }
+    });
+  },
+  getText() {
+    return '我是一个节点 rect';
+  }
+});
+
+G6.registerNode('custom', {
+  getText(){
+    return '我是一个自定义节点，\n继承于 rect';
+  }
+}, 'rect');
+
+const graph = new G6.Graph({
+  container: 'mountNode',  // 容器ID
+  fitView: 'cc',
+  height: window.innerHeight
+});
+graph.read(data);
+</script>
+</body>
+</html>

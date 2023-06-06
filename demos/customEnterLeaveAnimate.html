@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>自定义-出场入场动画</title>
+</head>
+<body>
+<div id="mountNode"></div>
+<script src="../build/g6.js"></script>
+<script>
+  const data = {
+    "nodes": [
+      {
+        "shape": "customNode",
+        "id": "node1",
+        x: 100,
+        y: 100
+      }
+    ],
+  };
+
+  G6.registerNode('customNode', {
+    // 自定义入场动画
+    enterAnimate(item) {
+      const group = item.getGraphicGroup();
+      const model = item.getModel();
+      const x = model.x;
+      const y = model.y;
+
+      group.transform([
+        [ 't', -x, -y ],
+        [ 's', 0.01, 0.01 ],
+        [ 't', x, y ],
+      ]);
+      !group.get('destroyed') && group.animate({
+        transform: [
+          [ 't', -x, -y ],
+          [ 's', 100, 100 ],
+          [ 't', x, y ],
+        ],
+      }, 450, 'easeBackOut');
+    },
+    // 自定义出场动画
+    leaveAnimate(item) {
+      const group = item.getGraphicGroup();
+      const model = item.getModel();
+      const x = model.x;
+      const y = model.y;
+      group && !group.get('destroyed') && group.animate({
+        transform: [
+          [ 't', -x, -y ],
+          [ 's', 0.01, 0.01 ],
+          [ 't', x, y ],
+        ],
+      }, 450, 'easeCircleOut', function() {
+        group.remove();
+      });
+    }
+  });
+
+  const graph = new G6.Graph({
+    container: 'mountNode',  // dom 容器 或 容器ID
+    fitView: 'cc',
+    height: window.innerHeight,
+    animate: true
+  });
+  graph.read(data);
+  setTimeout(()=>{
+    graph.remove("node1")
+  }, 800)
+</script>
+</body>
+</html>
