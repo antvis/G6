@@ -10,7 +10,6 @@ export default () => {
             {
                 id: 1,
                 data: {
-                    name: 'node1',
                     x: 100,
                     y: 100,
                     type: 'circle'
@@ -19,10 +18,9 @@ export default () => {
             {
                 id: 2,
                 data: {
-                    name: 'node2',
                     x: 200,
                     y: 100,
-                    type: 'rect'
+                    type: 'circle'
                 }
             },
         ],

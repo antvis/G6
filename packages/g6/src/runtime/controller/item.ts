@@ -317,6 +317,7 @@ export class ItemController {
           );
         }
         const node = itemMap[id] as Node;
+        //TODO: An error is throwed from this function 'getNode()'; msg: "Node not found for id: 1"
         const innerModel = graphCore.getNode(id);
 
         const relatedEdgeInnerModels = graphCore.getRelatedEdges(id);
