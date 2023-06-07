@@ -72,8 +72,8 @@ export class ItemController {
   };
   private comboStateMapper: {
     [stateName: string]:
-      | ((data: ComboModel) => ComboDisplayModel)
-      | ComboEncode;
+    | ((data: ComboModel) => ComboDisplayModel)
+    | ComboEncode;
   };
 
   private nodeGroup: Group;
@@ -317,10 +317,21 @@ export class ItemController {
           );
         }
         const node = itemMap[id] as Node;
-        //TODO: An error is throwed from this function 'getNode()'; msg: "Node not found for id: 1"
-        const innerModel = graphCore.getNode(id);
+        // 'id' variable is always string in here, but one in user data is number, possibly.        
+        let innerModel
+        try {
+          innerModel = graphCore.getNode(id);
+        } catch (e) {
+          innerModel = graphCore.getNode(Number(id))
+        }
 
-        const relatedEdgeInnerModels = graphCore.getRelatedEdges(id);
+        let relatedEdgeInnerModels;
+        try {
+          relatedEdgeInnerModels = graphCore.getRelatedEdges(id);
+        } catch (error) {
+          relatedEdgeInnerModels = graphCore.getRelatedEdges(Number(id));
+        }
+
         const nodeRelatedToUpdate = {};
         relatedEdgeInnerModels.forEach((edge) => {
           edgeToUpdate[edge.id] = edge;
@@ -629,7 +640,7 @@ export class ItemController {
         device:
           graph.rendererType === 'webgl-3d'
             ? // TODO: G type
-              (graph.canvas.context as any).deviceRendererPlugin.getDevice()
+            (graph.canvas.context as any).deviceRendererPlugin.getDevice()
             : undefined,
       });
     });
