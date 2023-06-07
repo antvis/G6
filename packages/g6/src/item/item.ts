@@ -112,8 +112,8 @@ export default abstract class Item implements IItem {
     this.stateMapper = stateMapper;
     this.displayModel = this.getDisplayModelAndChanges(model).model;
     this.renderExtensions = renderExtensions;
+    const type = this.type === 'node' ? 'circle-node' : 'line-edge';
     const {
-      type = this.type === 'node' ? 'circle-node' : 'line-edge',
       lodStrategy: modelLodStrategy,
     } = this.displayModel.data;
     const RenderExtension = renderExtensions.find((ext) => ext.type === type);
@@ -137,7 +137,7 @@ export default abstract class Item implements IItem {
     displayModel: ItemDisplayModel,
     diffData?: { previous: ItemModelData; current: ItemModelData },
     diffState?: { previous: State[]; current: State[] },
-    onfinish: Function = () => {},
+    onfinish: Function = () => { },
   ) {
     // call this.renderExt.draw in extend implementations
     this.afterDrawShapeMap =
@@ -240,7 +240,7 @@ export default abstract class Item implements IItem {
     displayModel: ItemDisplayModel,
     diffData?: { previous: ItemModelData; current: ItemModelData },
     onfinish?: Function,
-  ) {}
+  ) { }
 
   /**
    * Maps (mapper will be function, value, or encode format) model to displayModel and find out the shapes to be update for incremental updating.
@@ -555,7 +555,7 @@ export default abstract class Item implements IItem {
     animates: IAnimates,
     timing: AnimateTiming,
     targetStyleMap: Object,
-    callback: Function = () => {},
+    callback: Function = () => { },
   ) {
     let targetStyle = {};
     if (!targetStyleMap) {
@@ -574,7 +574,7 @@ export default abstract class Item implements IItem {
       this.group,
       timing,
       [],
-      () => {},
+      () => { },
       callback,
     );
   }
