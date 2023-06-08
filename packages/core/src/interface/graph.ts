@@ -640,7 +640,7 @@ export interface IAbstractGraph extends EventEmitter {
   /**
    * 移除指定的監聽函數
    */
-  off: <T = IG6GraphEvent>(eventName: G6Event, callback: (e: T) => void, once?: boolean) => this;
+  off: <T = IG6GraphEvent>(eventName?: G6Event, callback?: (e: T) => void, once?: boolean) => this;
 
 
   /**
