@@ -6,14 +6,20 @@ G6 5.0 & GG6VP 2.0 来了，就在 6 月 6 日，下午两点，多个渠道，�
 
 在线尝鲜 DEMO：https://g6.antv.antgroup.com/g6v5
 
-微信扫描下面二维码，看预告片：
+直播回顾：https://mp.weixin.qq.com/s/2hVjFX-oHRob634Cd6nr-w
 
-<img width="400" alt="image" src="https://github.com/antvis/G6/assets/29593318/8a6a41e3-9666-4ea2-b135-48ceedb5d3b6">
+精彩截图：
 
+GIF 未完整加载，[点此看原图](https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*qPrmQrdV77gAAAAAAAAAAAAADmJ7AQ/original)
 
-扫码预约直播：
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*IUOnSbLisyoAAAAAAAAAAAAADmJ7AQ/original" width=600 height=334 alt='' />
 
-<img width="397" alt="image" src="https://github.com/antvis/G6/assets/29593318/a9d5f2e6-40de-4e21-bf81-ef3156e9f978">
+> 3D 大图
+
+GIF 未完整加载，[点此看原图](https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*1BFvQ4r3P7UAAAAAAAAAAAAADmJ7AQ/original)
+
+<img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*tPPGSokdSYsAAAAAAAAAAAAADmJ7AQ/original" width=600 height=367 alt='' />
+
 
 
 # G6：图分析引擎
