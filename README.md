@@ -1,31 +1,33 @@
 # 🔥🔥G6 5.0 alpha 版本已发布，欢迎尝鲜！🔥🔥
 
-在线尝鲜 DEMO：https://g6.antv.antgroup.com/g6v5
+## **💻 在线尝鲜**
 
-直播回顾：
+[官网案例](https://g6.antv.antgroup.com/g6v5) | [Codesandbox](https://codesandbox.io/embed/musing-matan-q255po?fontsize=14&hidenavigation=1&theme=dark)
 
-- b 站： https://www.bilibili.com/video/BV16u4y1d7kv/?share_source=copy_web&vd_source=8b3a1125d63f0a33dbd2501181fd43bf
+## **📹 直播回顾**
 
-- 微信：https://mp.weixin.qq.com/s/2hVjFX-oHRob634Cd6nr-w
-
-
-在线 Codesandbox：
-[![Edit compassionate-lalande-5lxm7](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/musing-matan-q255po?fontsize=14&hidenavigation=1&theme=dark)
+[📺 B站](https://www.bilibili.com/video/BV16u4y1d7kv/?share_source=copy_web&vd_source=8b3a1125d63f0a33dbd2501181fd43bf) | [💬 微信](https://mp.weixin.qq.com/s/2hVjFX-oHRob634Cd6nr-w)
 
 
-精彩截图：
+## **🌌 精彩截图**
 
-GIF 未完整加载，[点此看原图](https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*qPrmQrdV77gAAAAAAAAAAAAADmJ7AQ/original)
+[查看大图](https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*qPrmQrdV77gAAAAAAAAAAAAADmJ7AQ/original)
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*IUOnSbLisyoAAAAAAAAAAAAADmJ7AQ/original" width=600 height=334 alt='' />
 
-> 3D 大图
+[查看大图](https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*1BFvQ4r3P7UAAAAAAAAAAAAADmJ7AQ/original)
 
-GIF 未完整加载，[点此看原图](https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*1BFvQ4r3P7UAAAAAAAAAAAAADmJ7AQ/original)
 
 <img src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*tPPGSokdSYsAAAAAAAAAAAAADmJ7AQ/original" width=600 height=367 alt='' />
 
+## 猎捕计划
 
+* 🎉 认领 Issue —— 在该 Issue 评论区回复
+* 🆗 解决 Issue —— 提交 PR，并根据管理员 CR 进行修改
+* ✅ 管理员确认完成，合并到主干分支
+* 💰 获得奖金 —— 管理员手动支付
+
+更多信息详见 [Issue Hunt](https://github.com/antvis/G6/blob/master/ISSUEHUNT.md)
 
 # G6：图分析引擎
 
