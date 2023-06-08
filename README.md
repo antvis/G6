@@ -2,7 +2,16 @@
 
 在线尝鲜 DEMO：https://g6.antv.antgroup.com/g6v5
 
-直播回顾：https://mp.weixin.qq.com/s/2hVjFX-oHRob634Cd6nr-w
+直播回顾：
+
+- b 站： https://www.bilibili.com/video/BV16u4y1d7kv/?share_source=copy_web&vd_source=8b3a1125d63f0a33dbd2501181fd43bf
+
+- 微信：https://mp.weixin.qq.com/s/2hVjFX-oHRob634Cd6nr-w
+
+
+在线 Codesandbox：
+[![Edit compassionate-lalande-5lxm7](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/embed/musing-matan-q255po?fontsize=14&hidenavigation=1&theme=dark)
+
 
 精彩截图：
 
