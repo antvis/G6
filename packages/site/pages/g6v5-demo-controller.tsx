@@ -196,15 +196,19 @@ const V5Controller = (props) => {
   return (
     <div className='v5-controller'>
       <div className='v5-buttons'>
-        <button className='v5-button' onClick={handleFullScreen}>
+        <button
+          className='v5-button'
+          onClick={handleFullScreen}
+          style={{ width: '100%', background: 'rgba(34,126,255,0.3)' }}
+        >
           {language === 'zh' ? '全屏' : 'Fullscreen'}
         </button>
-        <button className='v5-button' onClick={() => handleZoom(true)}>
+        {/* <button className='v5-button' onClick={() => handleZoom(true)}>
           {language === 'zh' ? '放大' : 'ZoomIn'}
         </button>
         <button className='v5-button' onClick={() => handleZoom(false)}>
           {language === 'zh' ? '缩小' : 'ZoomOut'}
-        </button>
+        </button> */}
       </div>
       <select
         className='v5-select'
