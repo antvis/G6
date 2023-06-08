@@ -72,8 +72,8 @@ export class ItemController {
   };
   private comboStateMapper: {
     [stateName: string]:
-      | ((data: ComboModel) => ComboDisplayModel)
-      | ComboEncode;
+    | ((data: ComboModel) => ComboDisplayModel)
+    | ComboEncode;
   };
 
   private nodeGroup: Group;
@@ -317,9 +317,18 @@ export class ItemController {
           );
         }
         const node = itemMap[id] as Node;
-        const innerModel = graphCore.getNode(id);
-
-        const relatedEdgeInnerModels = graphCore.getRelatedEdges(id);
+        let innerModel;
+        try {
+          innerModel = graphCore.getNode(id);
+        } catch (e) {
+          innerModel = graphCore.getNode(Number(id));
+        }
+        let relatedEdgeInnerModels;
+        try {
+          relatedEdgeInnerModels = graphCore.getRelatedEdges(id);
+        } catch (e) {
+          relatedEdgeInnerModels = graphCore.getRelatedEdges(Number(id));
+        }
         const nodeRelatedToUpdate = {};
         relatedEdgeInnerModels.forEach((edge) => {
           edgeToUpdate[edge.id] = edge;
@@ -628,7 +637,7 @@ export class ItemController {
         device:
           graph.rendererType === 'webgl-3d'
             ? // TODO: G type
-              (graph.canvas.context as any).deviceRendererPlugin.getDevice()
+            (graph.canvas.context as any).deviceRendererPlugin.getDevice()
             : undefined,
       });
     });
