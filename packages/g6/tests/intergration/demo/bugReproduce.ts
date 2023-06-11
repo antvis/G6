@@ -12,6 +12,11 @@ export default () => {
                 data: {
                     x: 100,
                     y: 100,
+                    badgeShapes: {
+                        tag: 'badgeShape',
+                        position: 'topRight', // Support ’topRight‘,’topLeft‘ and some other positions that contain uppercase ‘Right’ or ‘Left’.
+                        text: 'label'
+                    }
                 }
             },
             {
@@ -29,9 +34,6 @@ export default () => {
         height,
         data,
         type: 'graph',
-        layout: {
-            type: 'grid',
-        },
     });
 
 
