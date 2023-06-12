@@ -491,6 +491,7 @@ export abstract class BaseNode {
       const pos = { x: 0, y: 0 };
       switch (position) {
         case 'rightTop':
+        case 'topRight':
           pos.x = keyShapeBBox.max[0] - bgHeight / 2 + offsetX;
           pos.y = keyShapeBBox.min[1] + size / 4 + offsetY;
           break;
@@ -539,7 +540,7 @@ export abstract class BaseNode {
           x: pos.x,
           y: pos.y,
           ...otherStyles,
-          textAlign: position.includes('right') ? 'left' : 'right',
+          textAlign: position.toLowerCase().includes('right') ? 'left' : 'right',
           textBaseline: 'middle',
           zIndex: (zIndex as number) + 1,
         } as GShapeStyle,
