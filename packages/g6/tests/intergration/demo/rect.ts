@@ -1,17 +1,5 @@
-import G6, { NodeModel } from '../../../src/index';
-import { container, data, height, width } from '../../datasets/const';
-
-// type CustomNode = {
-//     [key: string]: number | string
-// };
-// type CustomEdge = {
-//     [key: string]: number | string | CustomNode
-// };
-// type CustomNodeModel = {
-//     id: string | number,
-//     data: CustomNode
-// }
-
+import G6 from '../../../src/index';
+import { container, height, width } from '../../datasets/const';
 
 export default () => {
     const data = {
