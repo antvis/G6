@@ -324,14 +324,16 @@ export abstract class BaseNode {
       width: width + padding[1] + padding[3],
       height: height + padding[0] + padding[2],
     };
-
-    return this.upsertShape(
+    const bgShape = this.upsertShape(
       'rect',
       'labelBackgroundShape',
       bgStyle,
       shapeMap,
       model,
     );
+    this.balanceShapeSize(shapeMap, this.zoomCache.zoom);
+
+    return bgShape;
   }
 
   public drawIconShape(
@@ -755,10 +757,10 @@ export abstract class BaseNode {
         } ${paddingTop + (height - paddingTop - paddingBottom) / 2}`;
     }
 
-    const labelBBox = labelShape.getLocalBounds();
+    const { labelShapeGeometry: labelBBox } = this.boundsCache;
     const labelWidth = labelBBox.max[0] - labelBBox.min[0];
     const xAxistRatio =
-      (labelWidth + (paddingLeft + paddingRight) * balanceRatio) / width;
+      (labelWidth * balanceRatio + paddingLeft + paddingRight) / width;
 
     labelBackgroundShape.style.transform = `scale(${xAxistRatio}, ${balanceRatio})`;
   }

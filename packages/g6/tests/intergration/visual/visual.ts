@@ -194,7 +194,9 @@ const createGraph = () => {
             opacity: 0.8,
             maxWidth: '150%',
           },
-          labelBackgroundShape: {},
+          labelBackgroundShape: {
+            fill: '#f00',
+          },
           badgeShapes,
         },
       };
