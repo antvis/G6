@@ -1,5 +1,9 @@
 # ChangeLog
 
+### 4.8.17
+
+- fix: scroll delta for old version of firefox;
+
 ### 4.8.16
 
 - fix: edge label is not draggable, closes: #4612;

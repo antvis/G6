@@ -166,7 +166,7 @@ export default {
     let zoom = graphZoom;
     // 兼容IE、Firefox及Chrome
     if (this.isFireFox) {
-      if (e.deltaY > 0 || e.deltaY < 0) {
+      if ((e.deltaY as number) > 0 || e.wheelDelta < 0) {
         ratio = 1 - DELTA * sensitivity;
       } else {
         ratio = 1 / (1 - DELTA * sensitivity);
