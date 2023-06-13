@@ -51,7 +51,6 @@ export default () => {
         },
         node: (nodeInnerModel: any) => {
             const { id, data } = nodeInnerModel;
-            // 返回值类型见下方 DisplayNodeModel 类型
             return {
                 id,
                 data: {
@@ -80,7 +79,7 @@ export default () => {
                     },
                     anchorShapes: [
                         {
-                            position: [0, 0.5], //设置的是width height 的百分比
+                            position: [0, 0.5],
                             r: 2,
                             fill: 'red'
                         },
