@@ -60,5 +60,6 @@
     "rimraf": "^3.0.2",
     "ts-jest": "^26.4.4",
     "@antv/g6": "^4.7.10"
-  }
+  },
+  "repository": "https://github.com/antvis/G6.git"
 }
