@@ -1,5 +1,11 @@
 # ChangeLog
 
+### 4.8.16
+
+- fix: edge label is not draggable, closes: #4612;
+- fix: error occurs while clicking back button on timebar when the slider is already on the start, closes: #4598;
+- docs: scrollNode demo drag node problem, closes: #4626;
+
 ### 4.8.15
 
 - fix: layout umd url with fixed version instead of latest version;

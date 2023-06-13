@@ -127,6 +127,8 @@ registerBehavior("dice-er-scroll", {
       wheel: "scorll",
       click: "click",
       "node:mousemove": "move",
+      "node:mousedown": "mousedown",
+      "node:mouseup": "mouseup"
     };
   },
   scorll(e) {
@@ -201,7 +203,14 @@ registerBehavior("dice-er-scroll", {
       setTimeout(() => graph.layout(), 100);
     }
   },
+  mousedown(e) {
+    this.mousedown = true;
+  },
+  mouseup(e) {
+    this.mousedown = false;
+  },
   move(e) {
+    if (this.mousedown) return;
     const name = e.shape.get("name");
     const item = e.item;
 

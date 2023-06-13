@@ -1,12 +1,14 @@
 import { G6Event, IG6GraphEvent } from '@antv/g6-core';
 import { ext } from '@antv/matrix-util';
 import { clone } from '@antv/util';
+import { getBrowserName } from '../util/browser';
 
 const { transform } = ext;
 const DELTA = 0.05;
 
 export default {
   getDefaultCfg(): object {
+    this.isFireFox = getBrowserName() === 'firefox';
     return {
       sensitivity: 2,
       minZoom: undefined,
@@ -163,10 +165,18 @@ export default {
     let ratio = graphZoom;
     let zoom = graphZoom;
     // 兼容IE、Firefox及Chrome
-    if (e.wheelDelta < 0) {
-      ratio = 1 - DELTA * sensitivity;
+    if (this.isFireFox) {
+      if (e.deltaY > 0 || e.deltaY < 0) {
+        ratio = 1 - DELTA * sensitivity;
+      } else {
+        ratio = 1 / (1 - DELTA * sensitivity);
+      }
     } else {
-      ratio = 1 / (1 - DELTA * sensitivity);
+      if (e.wheelDelta < 0) {
+        ratio = 1 - DELTA * sensitivity;
+      } else {
+        ratio = 1 / (1 - DELTA * sensitivity);
+      }
     }
     zoom = graphZoom * ratio;
     const minZoom = this.get('minZoom') || graph.get('minZoom');

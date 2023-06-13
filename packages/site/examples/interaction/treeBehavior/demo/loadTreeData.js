@@ -149,6 +149,7 @@ graph.on('node:click', function (evt) {
         },
       ],
     };
+    graph.updateItem(nodeId, { collapsed: true })
     graph.addChild(childData, nodeId);
     count++;
   }

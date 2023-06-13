@@ -804,7 +804,7 @@ console.log(allPath);
 // 期望输出值：[['A', 'D', 'F', 'E'], ['A', 'D', 'E'], ['A', 'E']]
 ```
 
-### getConnectedComponents
+### connectedComponent
 
 返回图中的连通分量。若为无向图，连通分量指图中的极大连通子图，连通子图中任何两个顶点之间通过路径相互连接；若为有向图，则返回所有强连通分量，强连通分量指有向图中的极大强连通子图，强连通子图中任何两个节点之间都存在一条可达到彼此的有向路径。
 
@@ -902,14 +902,14 @@ graph.data(data);
 graph.render();
 
 // 图中的连通分量
-const components = getConnectedComponents(data, false);
+const components = connectedComponent(data, false);
 components.forEach((component) => {
   console.log(component.map((node) => node.get('id')));
 });
 // 期望输出结果：['A', 'B', 'C', 'D', 'E', 'F'], ['G', 'H']
 
 // 有向图中的强连通分量
-const components2 = getConnectedComponents(data, true);
+const components2 = connectedComponent(data, true);
 components2.forEach((component) => {
   console.log(component.map((node) => node.get('id')));
 });

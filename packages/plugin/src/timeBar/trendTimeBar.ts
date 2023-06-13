@@ -817,10 +817,16 @@ export default class TrendTimeBar {
     if (this.start < 0) {
       this.start = 0;
     }
-
+    if (this.start > 1) {
+      this.start = 1;
+    }
     if (this.end > 1) {
       this.end = 1;
     }
+    if (this.end < 0) {
+      this.end = 0;
+    }
+
     const min = this.x + this.start * this.width;
     const max = this.x + this.end * this.width;
 

@@ -320,7 +320,8 @@ const singleEdge: ShapeOptions = {
     const label = group.addShape('text', {
       attrs: labelStyle,
       name: 'text-shape',
-      labelRelated: true
+      labelRelated: true,
+      draggable: true,
     });
     group['shapeMap']['text-shape'] = label;
     if (!isNaN(rotate) && rotate !== '') {

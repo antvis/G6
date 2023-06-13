@@ -20,4 +20,4 @@ Note:
 
 - TreeGraph layouts do not support Web-Worker;
 - Sub-Graph layout mechanism do not support Web-Worker;
-- Worker will visit the latest online version of @antv/layout. If your application cannot reach the online resource, download and save the [layout script](https://unpkg.com/@antv/layout@0.3.22/dist/layout.min.js), and put it on an address which is visitable for your application. And then config `workerScriptURL` with the address in `layout`.
+- Worker will visit the latest online version of @antv/layout. If your application cannot reach the online resource, download and save the [layout script](https://unpkg.com/@antv/layout@0.3.23/dist/layout.min.js), and put it on an address which is visitable for your application. And then config `workerScriptURL` with the address in `layout`.

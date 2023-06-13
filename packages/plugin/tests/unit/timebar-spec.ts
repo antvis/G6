@@ -705,11 +705,7 @@ xdescribe('timebar filter edges', () => {
   });
 });
 
-<<<<<<< HEAD
-describe('timebar dependent on graph container', ()=>{
-=======
 describe('timebar dependent on graph container', () => {
->>>>>>> 04062ceceb (fix: fix issue if set timebar in independent container on destroy (#4497))
   const timebarContainer = document.createElement('div');
   timebarContainer.id = 'time-bar-container';
   // timebarContainer.style.position = 'absolute';
@@ -784,12 +780,6 @@ describe('timebar dependent on graph container', () => {
 
     graph.data(data);
     graph.render();
-<<<<<<< HEAD
-  });
-})
-=======
-
     graph.removePlugin(timeline);
   });
 });
->>>>>>> 04062ceceb (fix: fix issue if set timebar in independent container on destroy (#4497))
