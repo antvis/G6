@@ -6,7 +6,7 @@ interface Event {
 }
 
 export const LayoutWorker = (
-  workerScriptURL: string = 'https://unpkg.com/@antv/layout@0.3.22/dist/layout.min.js',
+  workerScriptURL: string = 'https://unpkg.com/@antv/layout@0.3.23/dist/layout.min.js',
 ) => {
   function workerCode() {
     const LAYOUT_MESSAGE = {
