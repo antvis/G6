@@ -31,8 +31,6 @@ export class RectNode extends BaseNode {
         diffData?: { previous: NodeModelData; current: NodeModelData },
         diffState?: { previous: State[]; current: State[] },
     ): DisplayObject {
-        console.log(this.mergedStyles.keyShape);
-
         return this.upsertShape(
             'rect',
             'keyShape',
