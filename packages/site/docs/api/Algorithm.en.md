@@ -722,7 +722,7 @@ console.log(allPath);
 // Expected output: [['A', 'D', 'F', 'E'], ['A', 'D', 'E'], ['A', 'E']]
 ```
 
-### getConnectedComponents
+### connectedComponent
 
 Find the connect component of the graph. In the case of a directed graph, the strongly connected components are returned.
 
@@ -822,14 +822,14 @@ graph.data(data);
 graph.render();
 
 // Connected components
-const components = getConnectedComponents(data, false);
+const components = connectedComponent(data, false);
 components.forEach((component) => {
   console.log(component.map((node) => node.get('id')));
 });
 // Expected output: ['A', 'B', 'C', 'D', 'E', 'F'], ['G', 'H']
 
 // Strongly-connected components
-const components2 = getConnectedComponents(data, true);
+const components2 = connectedComponent(data, true);
 components2.forEach((component) => {
   console.log(component.map((node) => node.get('id')));
 });
