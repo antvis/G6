@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@antv/g6-site",
-  "version": "4.8.16",
+  "version": "4.8.17",
   "description": "G6 sites deployed on gh-pages",
   "keywords": [
     "antv",
@@ -38,7 +38,7 @@
     "@antv/algorithm": "^0.1.8",
     "@antv/chart-node-g6": "^0.0.3",
     "@antv/dumi-theme-antv": "^0.3.0-beta.5",
-    "@antv/g6": "^4.8.16",
+    "@antv/g6": "^4.8.17",
     "@antv/hierarchy": "^0.6.10",
     "@antv/g6-react-node": "^1.4.5",
     "@antv/layout-wasm": "^1.3.4",
@@ -46,7 +46,7 @@
     "@antv/vis-predict-engine": "^0.1.1",
     "@microsoft/api-extractor": "^7.33.6",
     "dumi": "^2.1.9",
-    "g6v5": "npm:@antv/g6@5.0.0-alpha.5",
+    "g6v5": "npm:@antv/g6@5.0.0-alpha.7",
     "insert-css": "^2.0.0",
     "react-i18next": "^11.1.0",
     "typedoc": "^0.17.6",

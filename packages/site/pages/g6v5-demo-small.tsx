@@ -133,7 +133,6 @@ const V5SmallGraph = (props) => {
           badgeShapes[0] = {
             text: '核心人员',
             position: 'right',
-            color: '#389e0d',
             lod: labelLod - 2,
           };
         }
@@ -141,7 +140,6 @@ const V5SmallGraph = (props) => {
           badgeShapes[1] = {
             text: 'A',
             position: 'rightTop',
-            color: '#d4380d',
             lod: labelLod - 1,
           };
         }
@@ -149,7 +147,6 @@ const V5SmallGraph = (props) => {
           badgeShapes[2] = {
             text: 'B',
             position: 'rightBottom',
-            color: '#aaa',
             lod: labelLod - 1,
           };
         }
