@@ -54,23 +54,19 @@ export class RectNode extends BaseNode {
         let shapes: NodeShapeMap = { keyShape: undefined };
 
         // keyShape
-        //Done
         shapes.keyShape = this.drawKeyShape(model, shapeMap, diffData);
 
         // labelShape
-        //Done
         if (data.labelShape) {
             shapes.labelShape = this.drawLabelShape(model, shapeMap, diffData);
         }
 
         // haloShape
-        //Done
         if (data.haloShape && this.drawHaloShape) {
             shapes.haloShape = this.drawHaloShape(model, shapeMap, diffData);
         }
 
         // labelBackgroundShape
-        //Done
         if (data.labelBackgroundShape) {
             shapes.labelBackgroundShape = this.drawLabelBackgroundShape(
                 model,
@@ -80,7 +76,6 @@ export class RectNode extends BaseNode {
         }
 
         // anchor shapes
-        //BUG
         if (data.anchorShapes) {
             const anchorShapes = this.drawAnchorShapes(
                 model,
@@ -95,13 +90,11 @@ export class RectNode extends BaseNode {
         }
 
         // iconShape
-        //Done
         if (data.iconShape) {
             shapes.iconShape = this.drawIconShape(model, shapeMap, diffData);
         }
 
         // badgeShape
-        //Done
         if (data.badgeShapes) {
             const badgeShapes = this.drawBadgeShapes(
                 model,
