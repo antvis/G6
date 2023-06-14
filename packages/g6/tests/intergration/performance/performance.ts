@@ -2034,24 +2034,21 @@ const createGraph = async () => {
       if (degree > 20) {
         badgeShapes[0] = {
           text: '核心人员',
-          position: 'right' as IBadgePosition,
-          color: '#389e0d',
+          position: 'rightBottom' as IBadgePosition,
           lod: labelLod - 2,
         };
       }
       if (degree > 15) {
         badgeShapes[1] = {
           text: 'A',
-          position: 'rightTop' as IBadgePosition,
-          color: '#d4380d',
+          position: 'right' as IBadgePosition,
           lod: labelLod - 1,
         };
       }
       if (degree > 10) {
         badgeShapes[2] = {
           text: 'B',
-          position: 'rightBottom' as IBadgePosition,
-          color: '#aaa',
+          position: 'rightTop' as IBadgePosition,
           lod: labelLod - 1,
         };
       }
