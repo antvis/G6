@@ -102,7 +102,7 @@ const graph = new G6.Graph({
 
 ### tooltip 节点提示框
 
-节点提示框可以用在边的详细信息的展示。当鼠标滑过节点时，显示一个浮层告知节点的详细信息。更多配置参见 [内置交互 tooltip](/zh/docs/manual/middle/states/default-behavior#tooltip)。
+节点提示框可以用在节点的详细信息的展示。当鼠标滑过节点时，显示一个浮层告知节点的详细信息。更多配置参见 [内置交互 tooltip](/zh/docs/manual/middle/states/default-behavior#tooltip)。
 
 **预期效果**
 
