@@ -22,6 +22,7 @@ import cubic_vertical_edge from './item/edge/cubic-vertical-edge';
 
 =======
 import bugReproduce from './demo/bugReproduce';
+import rect from './demo/rect';
 import visual from './visual/visual';
 >>>>>>> f2b9c6be18 (chore: upgrade styles for node (#4639))
 export {
@@ -48,6 +49,7 @@ export {
   cubic_vertical_edge,
 =======
   bugReproduce,
+  rect
   visual,
 >>>>>>> f2b9c6be18 (chore: upgrade styles for node (#4639))
 };
