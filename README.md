@@ -63,7 +63,7 @@ G6 作为一款专业的图可视化引擎，具有以下特性：
 
 除了默认好用、配置自由的内置功能，元素、交互、布局均具有高可扩展的自定义机制。
 
-<img src='https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*V0a9SoDnLHwAAAAAAAAAAAAADmJ7AQ/original' width=800 height=200 alt='' />
+<img src='https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*V0a9SoDnLHwAAAAAAAAAAAAADmJ7AQ/original' width=1000 alt='' />
 
 > 丰富的图元素
 
