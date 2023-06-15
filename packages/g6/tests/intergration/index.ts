@@ -49,7 +49,7 @@ export {
   cubic_vertical_edge,
 =======
   bugReproduce,
-  rect
+  rect,
   visual,
 >>>>>>> f2b9c6be18 (chore: upgrade styles for node (#4639))
 };
