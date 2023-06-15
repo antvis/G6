@@ -35,6 +35,6 @@ export {
   demo,
   demoFor4,
   bugReproduce,
-  rect
+  rect,
   visual,
 };
