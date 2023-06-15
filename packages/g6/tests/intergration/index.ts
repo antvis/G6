@@ -15,6 +15,7 @@ import performance_layout_3d from './performance/layout-3d';
 import demo from './demo/demo';
 import demoFor4 from './demo/demoFor4';
 import bugReproduce from './demo/bugReproduce';
+import rect from './demo/rect';
 import visual from './visual/visual';
 export {
   behaviors_activateRelations,
@@ -34,5 +35,6 @@ export {
   demo,
   demoFor4,
   bugReproduce,
+  rect
   visual,
 };
