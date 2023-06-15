@@ -41,7 +41,7 @@
 
 [G6](https://github.com/antvis/g6) 是一个图可视化引擎。它提供了图的绘制、布局、分析、交互、动画等图可视化的基础能力。旨在让关系变得透明，简单。让用户获得关系数据的 Insight。基于 G6，用户可以快速搭建自己的 **图分析** 或 **图编辑** 应用。
 
-<img src='https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*51f6TLwlwlgAAAAAAAAAAAAADmJ7AQ/original' width=550 alt='' />
+<img src='https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*_PJ5SZELwq0AAAAAAAAAAAAADmJ7AQ/original' width=550 alt='' />
 
 <img src='https://gw.alipayobjects.com/mdn/rms_f8c6a0/afts/img/A*zTjwQaXokeQAAAAAAAAAAABkARQnAQ' width=550 alt='' />
 
