@@ -378,7 +378,7 @@ export abstract class BaseEdge {
       shapeStyle.height = h;
     }
 
-    if (labelShapeProps) {
+    if (labelShape) {
       const referShape = labelBackgroundShape || labelShape;
       const referBounds =
         this.boundsCache.labelBackgroundShapeGeometry ||
