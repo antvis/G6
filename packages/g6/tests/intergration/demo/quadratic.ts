@@ -27,7 +27,7 @@ export default () => {
                 source: 1,
                 target: 2,
                 data: {
-                    type: 'quadratic'
+                    type: 'quadratic-edge'
                 }
             }
         ]
