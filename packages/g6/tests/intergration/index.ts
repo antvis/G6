@@ -14,6 +14,8 @@ import performance_layout from './performance/layout';
 import performance_layout_3d from './performance/layout-3d';
 import demo from './demo/demo';
 import demoFor4 from './demo/demoFor4';
+import line_edge from './item/edge/line-edge'
+
 export {
   behaviors_activateRelations,
   layouts_circular,
@@ -31,4 +33,5 @@ export {
   performance_layout_3d,
   demo,
   demoFor4,
+  line_edge
 };
